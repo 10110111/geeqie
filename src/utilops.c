@@ -1,6 +1,6 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
@@ -156,11 +156,33 @@ static void file_util_move_multiple(FileDataMult *fdm)
 			fdm->source_next = work->next;
 			}
 
-		if (isfile(fdm->dest) && !fdm->confirmed && !fdm->confirm_all && !fdm->skip)
+		if (fdm->dest && fdm->source && strcmp(fdm->dest, fdm->source) == 0)
+			{
+			ConfirmDialog *cd;
+			gchar *title;
+			gchar *text;
+			if (fdm->copy)
+				{
+				title = _("Source to copy matches destination");
+				text = g_strdup_printf(_("Unable to copy file:\n%s\nto itself."), fdm->dest);
+				}
+			else
+				{
+				title = _("Source to move matches destination");
+				text = g_strdup_printf(_("Unable to move file:\n%s\nto itself."), fdm->dest);
+				}
+			cd = confirm_dialog_new(title, text, file_util_move_multiple_cancel_cb, fdm);
+			confirm_dialog_add(cd, _("Continue"), file_util_move_multiple_skip_cb);
+			g_free(text);
+			return;
+			}
+		else if (isfile(fdm->dest) && !fdm->confirmed && !fdm->confirm_all && !fdm->skip)
 			{
 			ConfirmDialog *cd;
 			gchar *text = g_strdup_printf(_("Overwrite file:\n %s\n with:\b %s"), fdm->dest, fdm->source);
-			cd = confirm_dialog_new(_("Overwrite file"), text, file_util_move_multiple_cancel_cb, fdm);
+			cd = confirm_dialog_new_with_image(_("Overwrite file"), text,
+						fdm->dest, fdm->source,
+						file_util_move_multiple_cancel_cb, fdm);
 			confirm_dialog_add(cd, _("Skip"), file_util_move_multiple_skip_cb);
 			confirm_dialog_add(cd, _("Yes to all"), file_util_move_multiple_all_cb);
 			confirm_dialog_add(cd, _("Yes"), file_util_move_multiple_ok_cb);
@@ -255,11 +277,18 @@ static void file_util_move_single_cancel_cb(GtkWidget *widget, gpointer data)
 
 static void file_util_move_single(FileDataSingle *fds)
 {
-	if (isfile(fds->dest) && !fds->confirmed)
+	if (fds->dest && fds->source && strcmp(fds->dest, fds->source) == 0)
+		{
+		warning_dialog(_("Source matches destination"),
+			       _("Source and destination are the same, operation cancelled."));
+		}
+	else if (isfile(fds->dest) && !fds->confirmed)
 		{
 		ConfirmDialog *cd;
 		gchar *text = g_strdup_printf(_("Overwrite file:\n%s\n with:\n%s"), fds->dest, fds->source);
-		cd = confirm_dialog_new(_("Overwrite file"), text, file_util_move_single_cancel_cb, fds);
+		cd = confirm_dialog_new_with_image(_("Overwrite file"), text,
+						   fds->dest, fds->source,
+						   file_util_move_single_cancel_cb, fds);
 		confirm_dialog_add(cd, _("Overwrite"), file_util_move_single_ok_cb);
 		g_free(text);
 		return;
@@ -296,8 +325,9 @@ static void file_util_move_single(FileDataSingle *fds)
 			warning_dialog(title, text);
 			g_free(text);
 			}
-		file_data_single_free(fds);
 		}
+
+	file_data_single_free(fds);
 }
 
 /*
@@ -618,7 +648,9 @@ static void file_util_rename_multiple(FileDialog *fd)
 		{
 		ConfirmDialog *cd;
 		gchar *text = g_strdup_printf(_("Overwrite file:\n%s\nby renaming:\n%s"), fd->dest_path, fd->source_path);
-		cd = confirm_dialog_new(_("Overwrite file"), text, file_util_rename_multiple_cancel_cb, fd);
+		cd = confirm_dialog_new_with_image(_("Overwrite file"), text,
+						   fd->dest_path, fd->source_path,
+						   file_util_rename_multiple_cancel_cb, fd);
 		confirm_dialog_add(cd, _("Overwrite"), file_util_rename_multiple_ok_cb);
 		g_free(text);
 		gtk_widget_hide(fd->dialog);
@@ -799,8 +831,10 @@ static void file_util_rename_single(FileDataSingle *fds)
 	if (isfile(fds->dest) && !fds->confirmed)
 		{
 		ConfirmDialog *cd;
-		gchar *text = g_strdup_printf(_("Overwrite file:\n%s\nwith:\n%s"), fds->dest,fds->source);
-		cd = confirm_dialog_new(_("Overwrite file"), text, file_util_rename_single_cancel_cb, fds);
+		gchar *text = g_strdup_printf(_("Overwrite file:\n%s\nby renaming:\n%s"), fds->dest,fds->source);
+		cd = confirm_dialog_new_with_image(_("Overwrite file"), text,
+						   fds->dest, fds->source,
+						   file_util_rename_single_cancel_cb, fds);
 		confirm_dialog_add(cd, _("Overwrite"), file_util_rename_single_ok_cb);
 		g_free(text);
 		return;

@@ -1,6 +1,6 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
@@ -673,7 +673,7 @@ static void config_window_create(gint start_tab)
 	gtk_box_pack_start(GTK_BOX(vbox), button, TRUE, TRUE, 0);
 	gtk_widget_show (button);
 
-	sprintf(buf, _("GQview %s\n\nCopyright (c) 1999 by John Ellis\nhttp://gqview.netpedia.net\ngqview@email.com\n\nReleased under the GNU Public License"), VERSION);
+	sprintf(buf, _("GQview %s\n\nCopyright (c) 2000 by John Ellis\nhttp://gqview.sorceforge.net\nor http://gqview.netpedia.net\ngqview@email.com\n\nReleased under the GNU Public License"), VERSION);
 	label = gtk_label_new(buf);
 	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
 	gtk_widget_show (label);

@@ -1,6 +1,6 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
@@ -251,6 +251,7 @@ gchar *image_get_name();
 void image_change_to(gchar *path);
 void image_set_labels(GtkWidget *info, GtkWidget *zoom);
 GtkWidget *image_create();
+void image_to_root();
 
 /* filelist.c */
 void update_status_label(gchar *text);
@@ -281,6 +282,7 @@ void file_unselect_cb(GtkWidget *widget, gint row, gint col,
 		   GdkEvent *event, gpointer data);
 void file_clist_highlight_set();
 void file_clist_highlight_unset();
+void path_entry_tab_cb(gchar *newpath, gpointer data);
 void path_entry_cb(gchar *newdir, gpointer data);
 void interrupt_thumbs();
 void filelist_populate_clist();
@@ -342,12 +344,15 @@ gint maintain_thumbnail_dir(gchar *dir, gint recursive);
 /* slideshow.c */
 void slideshow_start();
 void slideshow_stop();
+void slideshow_next();
+void slideshow_prev();
 void slideshow_toggle();
 gint slideshow_is_running();
 
 /* img-view.c */
 void view_window_new(gchar *path);
 void view_window_active_edit(gint n);
+void view_window_active_to_root(gint n);
 void create_menu_view_popup();
 
 

@@ -1,6 +1,6 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
@@ -162,6 +162,7 @@ void save_options()
 	write_bool_option(f, "progressive_keyboard_scrolling", progressive_key_scrolling);
 	fprintf(f,"\n");
 
+	write_bool_option(f, "enable_thumbnails", thumbnails_enabled);
 	write_int_option(f, "thumbnail_width", thumb_max_width);
 	write_int_option(f, "thumbnail_height", thumb_max_height);
 	write_bool_option(f, "cache_thumbnails", enable_thumb_caching);
@@ -301,6 +302,8 @@ void load_options()
 		progressive_key_scrolling = read_bool_option(f, option,
 			"progressive_keyboard_scrolling", value, progressive_key_scrolling);
 
+		thumbnails_enabled = read_bool_option(f, option,
+			"enable_thumbnails", value, thumbnails_enabled);
 		thumb_max_width = read_int_option(f, option,
 			"thumbnail_width", value, thumb_max_width);
 		thumb_max_height = read_int_option(f, option,

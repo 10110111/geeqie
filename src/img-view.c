@@ -1,6 +1,6 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
@@ -209,6 +209,13 @@ void view_window_active_edit(gint n)
 	ImageWindow *imd = view_window_get_active();
 	if (!imd) return;
 	start_editor_from_file(n, image_area_get_path(imd));
+}
+
+void view_window_active_to_root(gint n)
+{
+	ImageWindow *imd = view_window_get_active();
+	if (!imd) return;
+	image_area_to_root(imd, (image_area_get_zoom(imd) == 0));
 }
 
 static void view_zoom_in_cb(GtkWidget *widget, gpointer data)

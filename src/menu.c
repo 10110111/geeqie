@@ -1,6 +1,6 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
@@ -18,7 +18,6 @@
 #include "icons/icon_config.xpm"
 #include "icons/icon_float.xpm"
 
-static void set_thumbnails(gint mode);
 
 static void add_menu_item(GtkWidget *menu, gchar *label, GtkAccelGroup *accel_group,
 				guint accel_key, guint accel_mods, GtkSignalFunc func, gpointer data);
@@ -132,6 +131,10 @@ static void full_screen_cb(GtkWidget *widget, gpointer data)
 	full_screen_toggle();
 }
 
+static void wallpaper_image_cb(GtkWidget *widget, gpointer data)
+{
+	image_to_root();
+}
 
 /*
  *-----------------------------------------------------------------------------
@@ -276,6 +279,12 @@ static void edit_view_cb(GtkWidget *widget, gpointer data)
 	view_window_active_edit(n);
 }
 
+static void wallpaper_view_cb(GtkWidget *widget, gpointer data)
+{
+	gint n = GPOINTER_TO_INT(data);
+	view_window_active_to_root(n);
+}
+
 static void popup_edit_list_cb(GtkWidget *widget, gpointer data)
 {
 	gint n = GPOINTER_TO_INT(data);
@@ -385,6 +394,8 @@ void update_edit_menus(GtkAccelGroup *accel_grp)
 	add_menu_item(menu, _("Options..."), accel_grp, 'O', GDK_CONTROL_MASK, config_cb, NULL);
 	add_menu_divider(menu);
 	add_menu_item(menu, _("Remove old thumbnails"), accel_grp, 'T', GDK_CONTROL_MASK, remove_thumb_cb, NULL);
+	add_menu_divider(menu);
+	add_menu_item(menu, _("Set as wallpaper"), accel_grp, 'W', GDK_CONTROL_MASK, wallpaper_image_cb, NULL);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_edit), menu);
 
 	/* file edit popup */
@@ -395,6 +406,8 @@ void update_edit_menus(GtkAccelGroup *accel_grp)
 	/* image edit popup */
 	menu = gtk_menu_new();
 	add_edit_items(menu, edit_image_cb, NULL);
+	add_menu_divider(menu);
+	add_menu_popup_item(menu, _("Set as wallpaper"), wallpaper_image_cb, NULL);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_image_edit), menu);
 
 	/* full screen edit popup */
@@ -405,6 +418,8 @@ void update_edit_menus(GtkAccelGroup *accel_grp)
 	/* view edit popup */
 	menu = gtk_menu_new();
 	add_edit_items(menu, edit_view_cb, NULL);
+	add_menu_divider(menu);
+	add_menu_popup_item(menu, _("Set as wallpaper"), wallpaper_view_cb, NULL);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_window_view_edit), menu);
 }
 
@@ -458,8 +473,9 @@ GtkWidget *create_menu_bar(GtkAccelGroup *accel_grp)
 	add_menu_item(menu, _("Fit image to window"), accel_grp, 'X', FALSE, zoom_fit_cb, NULL);
 	add_menu_divider(menu);
 
-	add_menu_item(menu, _("Full screen"), accel_grp, 'F', GDK_CONTROL_MASK, full_screen_cb, NULL);
+	add_menu_item(menu, _("Full screen"), accel_grp, 'V', FALSE, full_screen_cb, NULL);
 	thumb_menu_item = gtk_check_menu_item_new_with_label(_("Thumbnails"));
+	gtk_check_menu_item_set_state(GTK_CHECK_MENU_ITEM(thumb_menu_item), thumbnails_enabled);
 	gtk_widget_add_accelerator (thumb_menu_item, "activate", accel_grp, 'T', FALSE, GTK_ACCEL_VISIBLE);
 	gtk_signal_connect (GTK_OBJECT (thumb_menu_item), "activate",(GtkSignalFunc) thumb_menu_cb, thumb_menu_item);
 	gtk_menu_append(GTK_MENU(menu), thumb_menu_item);
@@ -638,6 +654,7 @@ GtkWidget *create_button_bar(GtkTooltips *tooltips)
 	hbox = gtk_hbox_new(FALSE, 0);
 
 	thumb_button = gtk_toggle_button_new ();
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(thumb_button), thumbnails_enabled);
 	gtk_signal_connect (GTK_OBJECT (thumb_button), "clicked",(GtkSignalFunc) thumb_button_cb, thumb_button);
 	gtk_box_pack_start (GTK_BOX (hbox), thumb_button, FALSE, FALSE, 0);
 	gtk_widget_show (thumb_button);

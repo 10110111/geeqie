@@ -1,6 +1,6 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
@@ -89,6 +89,9 @@ static gint full_screen_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 		case 'S': case 's':
 			slideshow_toggle();
 			break;
+		case 'V': case 'v':
+			full_screen_stop();
+			break;
 		}
 
 	if (event->state & GDK_CONTROL_MASK)
@@ -119,9 +122,6 @@ static gint full_screen_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 				break;
 			case '8':
 				n = 7;
-				break;
-			case 'F': case 'f':
-				full_screen_stop();
 				break;
 			case 'C': case 'c':
 				full_screen_stop();
@@ -285,6 +285,9 @@ void full_screen_stop()
 	gtk_widget_destroy(full_screen_window);
 	full_screen_window = NULL;
 
+	image_area_free(full_screen_image);
+	full_screen_image = NULL;
+
 	gtk_widget_show(mainwindow);
 }
 
@@ -357,5 +360,10 @@ GtkWidget *image_create()
 	image_area_set_button(main_image, 3, button3_cb, NULL);
 
 	return main_image->eventbox;
+}
+
+void image_to_root()
+{
+	image_area_to_root(main_image, (image_area_get_zoom(main_image) == 0));
 }
 

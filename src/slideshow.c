@@ -1,6 +1,6 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
@@ -9,6 +9,7 @@
 #include "gqview.h"
 
 static GList *slide_list = NULL;
+static GList *past_slide_list = NULL;
 static gchar *slide_img = NULL;
 static gchar *slide_path = NULL;
 static gint slide_count = 0;
@@ -22,6 +23,9 @@ static void slideshow_free_all()
 
 	g_list_free(slide_list);
 	slide_list = NULL;
+
+	g_list_free(past_slide_list);
+	past_slide_list = NULL;
 
 	g_free(slide_path);
 	slide_path = NULL;
@@ -88,6 +92,12 @@ static void slideshow_init_list()
 		g_list_free(slide_list);
 		}
 
+	if (past_slide_list)
+		{
+		g_list_free(past_slide_list);
+		past_slide_list = NULL;
+		}
+
 	if (slideshow_random)
 		{
 		slide_list = generate_random_list();
@@ -95,6 +105,26 @@ static void slideshow_init_list()
 	else
 		{
 		slide_list = generate_list();
+		}
+}
+
+static void slideshow_move_list(gint forward)
+{
+	if (forward)
+		{
+		if (slide_list)
+			{
+			past_slide_list = g_list_prepend (past_slide_list, slide_list->data);
+			slide_list = g_list_remove(slide_list, slide_list->data);
+			}
+		}
+	else
+		{
+		if (past_slide_list)
+			{
+			slide_list = g_list_prepend(slide_list, past_slide_list->data);
+			past_slide_list = g_list_remove(past_slide_list, past_slide_list->data);
+			}
 		}
 }
 
@@ -112,10 +142,51 @@ static gint slideshow_should_continue()
 	return TRUE;
 }
 
-static gint slideshow_loop_cb(gpointer data)
+static gint real_slideshow_prev()
 {
 	gint row;
 	gchar *buf;
+
+	if (!slide_active) return FALSE;
+	if (!past_slide_list || !past_slide_list->next) return TRUE;
+
+	if (!slideshow_should_continue())
+		{
+		slideshow_free_all();
+		slide_timeout_id = -1;
+		return FALSE;
+		}
+
+	slideshow_move_list(FALSE);
+
+	row = GPOINTER_TO_INT(past_slide_list->data);
+
+	g_free(slide_img);
+	slide_img = NULL;
+	buf = file_get_path(row);
+
+	if (slide_sel_list)
+		{
+		image_change_to(buf);
+		update_status_label(NULL);
+		}
+	else
+		{
+		file_image_change_to(row);
+		}
+
+	slide_img = buf;
+
+	return TRUE;
+}
+
+/* the return is TRUE if slideshow should continue */
+static gint real_slideshow_next()
+{
+	gint row;
+	gchar *buf;
+
+	if (!slide_active) return FALSE;
 
 	if (!slideshow_should_continue())
 		{
@@ -129,7 +200,7 @@ static gint slideshow_loop_cb(gpointer data)
 	g_free(slide_img);
 	slide_img = NULL;
 	buf = file_get_path(row);
-	slide_list = g_list_remove(slide_list, slide_list->data);
+	slideshow_move_list(TRUE);
 
 	if (!slide_list && slideshow_repeat)
 		{
@@ -158,6 +229,11 @@ static gint slideshow_loop_cb(gpointer data)
 	return TRUE;
 }
 
+static gint slideshow_loop_cb(gpointer data)
+{
+	return real_slideshow_next();
+}
+
 void slideshow_start()
 {
 	gint row;
@@ -178,7 +254,7 @@ void slideshow_start()
 	g_free(slide_img);
 	slide_img = NULL;
 	buf = file_get_path(row);
-	slide_list = g_list_remove(slide_list, slide_list->data);
+	slideshow_move_list(TRUE);
 
 	if (slide_sel_list)
 		{
@@ -206,6 +282,35 @@ void slideshow_stop()
 		slide_timeout_id = -1;
 		}
 	update_status_label(NULL);
+}
+
+static void slideshow_reset_timeout(gint reset)
+{
+	if (reset)
+		{
+		if (slide_timeout_id != -1) gtk_timeout_remove(slide_timeout_id);
+		slide_timeout_id = gtk_timeout_add(slideshow_delay * 1000, slideshow_loop_cb, NULL);
+		}
+	else
+		{
+		if (slide_timeout_id != -1)
+			{
+			gtk_timeout_remove(slide_timeout_id);
+			slide_timeout_id = -1;
+			}
+		}
+}
+
+void slideshow_next()
+{
+	if (!slide_active) return;
+	slideshow_reset_timeout(real_slideshow_next());
+}
+
+void slideshow_prev()
+{
+	if (!slide_active) return;
+	slideshow_reset_timeout(real_slideshow_prev());
 }
 
 void slideshow_toggle()

@@ -1,12 +1,13 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
  */
 
 #include "gqview.h"
+#include "image.h"
 
 static void warning_dialog_close(GtkWidget *w, gpointer data);
 static void warning_dialog_destroy(GtkWidget *w, GdkEvent *event, gpointer data);
@@ -127,18 +128,78 @@ ConfirmDialog *confirm_dialog_new(gchar *title, gchar *message, void (*cancel_cb
 	gtk_box_pack_start(GTK_BOX(vbox),label,FALSE,FALSE,0);
 	gtk_widget_show(label);
 
+	cd->util_hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), cd->util_hbox, TRUE, TRUE, 0);
+	gtk_widget_show(cd->util_hbox);
+
 	label = gtk_hseparator_new();
-	gtk_box_pack_start(GTK_BOX(vbox),label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 	gtk_widget_show(label);
 
 	cd->hbox = gtk_hbox_new(TRUE, 15);
-	gtk_container_add(GTK_CONTAINER(vbox),cd->hbox);
+	gtk_box_pack_start(GTK_BOX(vbox), cd->hbox, FALSE, FALSE, 0);
 	gtk_widget_show(cd->hbox);
 
 	gtk_widget_show(cd->dialog);
 
 	confirm_dialog_add(cd, _("Cancel"), cd->cancel_cb);
 	
+	return cd;
+}
+
+ConfirmDialog *confirm_dialog_new_with_image(gchar *title, gchar *message,
+					     gchar *img_path1, gchar *img_path2,
+					     void (*cancel_cb)(GtkWidget *, gpointer), gpointer data)
+{
+	ConfirmDialog *cd;
+	GtkWidget *vbox;
+	GtkWidget *label;
+	ImageWindow *image1;
+	ImageWindow *image2;
+
+	cd = confirm_dialog_new(title, message, cancel_cb, data);
+
+	gtk_widget_set_usize (cd->dialog, 600, 450);
+	gtk_window_set_policy (GTK_WINDOW(cd->dialog), FALSE, TRUE, FALSE);
+
+	gtk_box_set_homogeneous(GTK_BOX(cd->util_hbox), TRUE);
+
+	if (img_path1)
+		{
+		vbox = gtk_vbox_new(FALSE, 5);
+		gtk_box_pack_start(GTK_BOX(cd->util_hbox), vbox, TRUE, TRUE, 0);
+		gtk_widget_show(vbox);
+
+		image1 = image_area_new(NULL);
+		gtk_box_pack_start(GTK_BOX(vbox), image1->eventbox, TRUE, TRUE, 0);
+		image_area_set_image (image1, img_path1, ZOOM_RESET_ORIGINAL);
+		gtk_widget_show_all(image1->eventbox);
+		gtk_object_set_data_full(GTK_OBJECT(image1->eventbox), "image1", image1,
+					 (GtkDestroyNotify)image_area_free);
+
+		label = gtk_label_new(img_path1);
+		gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+		gtk_widget_show(label);
+		}
+
+	if (img_path2)
+		{
+		vbox = gtk_vbox_new(FALSE, 5);
+		gtk_box_pack_start(GTK_BOX(cd->util_hbox), vbox, TRUE, TRUE, 0);
+		gtk_widget_show(vbox);
+
+		image2 = image_area_new(NULL);
+		gtk_box_pack_start(GTK_BOX(vbox), image2->eventbox, TRUE, TRUE, 0);
+		image_area_set_image (image2, img_path2, ZOOM_RESET_ORIGINAL);
+		gtk_widget_show_all(image2->eventbox);
+		gtk_object_set_data_full(GTK_OBJECT(image2->eventbox), "image2", image2,
+					 (GtkDestroyNotify)image_area_free);
+
+		label = gtk_label_new(img_path2);
+		gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+		gtk_widget_show(label);
+		}
+
 	return cd;
 }
 

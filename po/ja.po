@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-09-27 03:05+0900\n"
+"POT-Creation-Date: 2000-04-06 19:03-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,371 +14,255 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: ENCODING\n"
 
-#: config.c:295
+#: src/config.c:303
 msgid "GQview configuration"
 msgstr "GQviewの設定"
 
-#: config.c:307
+#: src/config.c:315
 msgid "Ok"
 msgstr "Ok"
 
-#: config.c:312
-msgid "Save"
-msgstr "セーブ"
+#: src/config.c:320
+msgid "Apply"
+msgstr ""
 
-#: config.c:317 utildlg.c:140 utilops.c:401 utilops.c:697 utilops.c:923
+#: src/config.c:325 src/utildlg.c:145 src/utilops.c:444 src/utilops.c:754
+#: src/utilops.c:885 src/utilops.c:983
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: config.c:331
+#: src/config.c:339
 msgid "General"
 msgstr "一般"
 
-#: config.c:339
+#: src/config.c:347
 msgid "Initial directory"
 msgstr "初期ディレクトリ:"
 
-#: config.c:349
+#: src/config.c:357
 msgid "On startup, change to this directory:"
 msgstr "起動時にこのディレクトリへ移動する"
 
-#: config.c:361
+#: src/config.c:369
 msgid "Use current"
 msgstr "現在のディレクトリ"
 
-#: config.c:367
+#: src/config.c:375
 msgid "Confirm file delete"
 msgstr "削除時に確認"
 
-#: config.c:369
-msgid "Save settings on exit"
-msgstr "終了時に設定を保存する"
-
-#: config.c:371
+#: src/config.c:377
 msgid "Remember tool state (float/hidden)"
 msgstr "ツールバーの状態を保持(floatや非表示)"
 
-#: config.c:373
+#: src/config.c:379
 msgid "Remember window positions"
 msgstr "ウィンドウ位置を保持"
 
-#: config.c:375
+#: src/config.c:381
 msgid "Slide show"
 msgstr "スライドショウ:"
 
-#: config.c:388
+#: src/config.c:394
 msgid "Delay before image change (seconds):"
 msgstr "次のイメージまでの秒数"
 
-#: config.c:401
+#: src/config.c:407
 msgid "Random"
 msgstr "ランダム"
 
-#: config.c:403
+#: src/config.c:409
 msgid "Repeat"
 msgstr "繰り返す"
 
-#: config.c:410
+#: src/config.c:416
 msgid "Image"
 msgstr "イメージ"
 
-#: config.c:418
+#: src/config.c:424
 msgid "When new image is selected:"
 msgstr "あたらしいイメージが選択されたとき:"
 
-#: config.c:428
+#: src/config.c:434
 msgid "Zoom to original size"
 msgstr "オリジナルのサイズへ拡大"
 
-#: config.c:434 img-view.c:283 menu.c:464 menu.c:537 menu.c:578 menu.c:668
+#: src/config.c:440 src/img-view.c:290 src/menu.c:473 src/menu.c:547
+#: src/menu.c:587 src/menu.c:678
 msgid "Fit image to window"
 msgstr "ウィンドウにフィットさせる"
 
-#: config.c:440
+#: src/config.c:446
 msgid "Leave Zoom at previous setting"
 msgstr "直前のズームの設定を忘れる"
 
-#: config.c:447
+#: src/config.c:453
 msgid "Fit window to image when tools are hidden/floating"
 msgstr "ツールバーの状態変更時にイメージをウィンドウにフィットさせる"
 
-#: config.c:454
+#: src/config.c:460
 msgid "Limit size when auto-sizing window"
 msgstr "ウィンドウの自動調節の限界"
 
-#: config.c:464 menu.c:468
+#: src/config.c:470 src/menu.c:477
 msgid "Thumbnails"
 msgstr "サムネイル:"
 
-#: config.c:480
+#: src/config.c:486
 msgid "Size:"
 msgstr "サイズ"
 
-#: config.c:484
-msgid "48x48"
-msgstr ""
-
-#: config.c:490
-msgid "64x64"
-msgstr ""
-
-#: config.c:496
-msgid "85x64"
-msgstr ""
-
-#: config.c:502
-msgid "100x100"
-msgstr ""
-
-#: config.c:509
+#: src/config.c:515
 msgid "Cache thumbnails"
 msgstr "サムネイルをキャッシュする"
 
-#: config.c:511
+#: src/config.c:517
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr "xvpicsがある時に使用する(読み込みのみ)"
 
-#: config.c:514
+#: src/config.c:520
 msgid "Progressive keyboard scrolling"
 msgstr "キーボードによるスクロール"
 
-#: config.c:521
+#: src/config.c:527
 msgid "Filtering"
 msgstr "フィルタリング"
 
-#: config.c:530
+#: src/config.c:536
 msgid "Show entries that begin with a dot"
 msgstr "ドットファイルも表示する"
 
-#: config.c:532
+#: src/config.c:538
 msgid "Disable File Filtering"
 msgstr "フィルタリングしない"
 
-#: config.c:534
+#: src/config.c:540
 msgid "Include files of type:"
 msgstr "表示する拡張子:"
 
-#: config.c:552
-msgid "JPG / JPEG"
-msgstr ""
-
-#: config.c:554
-msgid "XPM"
-msgstr ""
-
-#: config.c:556
-msgid "TIF / TIFF"
-msgstr ""
-
-#: config.c:563
-msgid "GIF"
-msgstr ""
-
-#: config.c:565
-msgid "PNG"
-msgstr ""
-
-#: config.c:567
-msgid "PPM"
-msgstr ""
-
-#: config.c:574
-msgid "PGM"
-msgstr ""
-
-#: config.c:576
-msgid "PCX"
-msgstr ""
-
-#: config.c:578
-msgid "BMP"
-msgstr ""
-
-#: config.c:584
+#: src/config.c:590
 msgid "Custom file types:"
 msgstr "カスタムタイプ"
 
-#: config.c:597
+#: src/config.c:603
 msgid "format: [.foo;.bar]"
 msgstr "書式: [.foo;.bar]"
 
-#: config.c:606
+#: src/config.c:612
 msgid "External Editors"
 msgstr "外部エディタ"
 
-#: config.c:618
+#: src/config.c:624
 msgid "#"
 msgstr ""
 
-#: config.c:621
+#: src/config.c:627
 msgid "Menu name"
 msgstr "表示名"
 
-#: config.c:624
+#: src/config.c:630
 msgid "Command Line"
 msgstr "コマンド"
 
-#: config.c:654 menu.c:490
+#: src/config.c:660 src/menu.c:500
 msgid "About"
 msgstr ""
 
-#: config.c:670
+#: src/config.c:676
 #, c-format
 msgid ""
-"GQview %d.%d.%d\n"
+"GQview %s\n"
 "\n"
-"Copyright (c) 1999 by John Ellis\n"
-"http://gqview.netpedia.net\n"
+"Copyright (c) 2000 by John Ellis\n"
+"http://gqview.sorceforge.net\n"
+"or http://gqview.netpedia.net\n"
 "gqview@email.com\n"
 "\n"
 "Released under the GNU Public License"
 msgstr ""
 
-#: dnd.c:130
-#, c-format
-msgid "dropped: %s\n"
-msgstr ""
-
-#: filelist.c:51
+#: src/filelist.c:51
 msgid " Slideshow"
 msgstr "スライドショウ"
 
-#: filelist.c:55
+#: src/filelist.c:55
 #, c-format
 msgid "%d files (%d)%s"
 msgstr ""
 
-#: filelist.c:57
+#: src/filelist.c:57
 #, c-format
 msgid "%d files%s"
 msgstr ""
 
-#: filelist.c:221
-#, c-format
-msgid "s = %d\n"
-msgstr ""
-
-#: filelist.c:225
-#, c-format
-msgid "files selected = %d\n"
-msgstr ""
-
-#: filelist.c:466
-#, c-format
-msgid "row = %d, closest is %d\n"
-msgstr ""
-
-#: filelist.c:959
+#: src/filelist.c:1025
 msgid "Loading thumbs..."
 msgstr ""
 
-#: image.c:50
-#, c-format
-msgid "%d :%s%d"
-msgstr ""
-
-#: image.c:65
+#: src/image.c:66
 #, c-format
 msgid "( ? x ? ) %d bytes"
 msgstr ""
 
-#: image.c:67
+#: src/image.c:68
 #, c-format
 msgid "( %d x %d ) %d bytes"
 msgstr ""
 
-#: image.c:127
-#, c-format
-msgid "auto sized to %d x %d\n"
-msgstr ""
-
-#: image.c:282
-#, c-format
-msgid "recalc %d x %d @ %f\n"
-msgstr ""
-
-#: image.c:411
-#, c-format
-msgid "redrawn %d x %d\n"
-msgstr ""
-
-#: image.c:417
-msgid "redraw cancelled\n"
-msgstr ""
-
-#: image.c:494
-#, c-format
-msgid "sized %d x %d (%d x %d)\n"
-msgstr ""
-
-#: image.c:700
-msgid "GQview - "
-msgstr ""
-
-#: img-main.c:230
+#: src/img-main.c:231
 msgid "GQview full screen"
 msgstr "GQview フルスクリーン"
 
-#: img-view.c:153 window.c:82 window.c:418
-msgid "GQview"
-msgstr ""
-
-#: img-view.c:280 menu.c:461 menu.c:534 menu.c:574 menu.c:664
+#: src/img-view.c:287 src/menu.c:470 src/menu.c:544 src/menu.c:584
+#: src/menu.c:674
 msgid "Zoom in"
 msgstr "拡大"
 
-#: img-view.c:281 menu.c:462 menu.c:535 menu.c:576 menu.c:666
+#: src/img-view.c:288 src/menu.c:471 src/menu.c:545 src/menu.c:585
+#: src/menu.c:676
 msgid "Zoom out"
 msgstr "縮小"
 
-#: img-view.c:282 menu.c:463 menu.c:536 menu.c:577
+#: src/img-view.c:289 src/menu.c:472 src/menu.c:546 src/menu.c:586
 msgid "Zoom 1:1"
 msgstr "元のサイズ"
 
-#: img-view.c:286 menu.c:448 menu.c:509 menu.c:540 menu.c:581
+#. edit menu
+#: src/img-view.c:293 src/menu.c:457 src/menu.c:519 src/menu.c:550
+#: src/menu.c:590
 msgid "Edit"
 msgstr "編集"
 
-#: img-view.c:291 menu.c:437 menu.c:516 menu.c:547 menu.c:586
+#: src/img-view.c:298 src/menu.c:446 src/menu.c:526 src/menu.c:557
+#: src/menu.c:595
 msgid "Copy..."
 msgstr "コピー..."
 
-#: img-view.c:292 menu.c:438 menu.c:517 menu.c:548 menu.c:587
+#: src/img-view.c:299 src/menu.c:447 src/menu.c:527 src/menu.c:558
+#: src/menu.c:596
 msgid "Move..."
 msgstr "移動..."
 
-#: img-view.c:293 menu.c:439 menu.c:518 menu.c:549 menu.c:588
+#: src/img-view.c:300 src/menu.c:448 src/menu.c:528 src/menu.c:559
+#: src/menu.c:597
 msgid "Rename..."
 msgstr "名前の変更..."
 
-#: img-view.c:294 menu.c:440 menu.c:519 menu.c:550 menu.c:589
+#: src/img-view.c:301 src/menu.c:449 src/menu.c:529 src/menu.c:560
+#: src/menu.c:598
 msgid "Delete..."
 msgstr "削除..."
 
-#: img-view.c:297
+#: src/img-view.c:304
 msgid "Close window"
 msgstr "ウィンドウを閉じる"
 
-#: main.c:89
-#, c-format
-msgid "%s \"%s\" &"
-msgstr ""
-
-#: main.c:90 main.c:119
+#: src/main.c:90 src/main.c:119
 #, c-format
 msgid "GQview running: %s\n"
 msgstr ""
 
-#: main.c:300
-msgid "debugging output enabled\n"
-msgstr ""
-
-#: main.c:315
-#, c-format
-msgid "GQview version %d.%d.%d\n"
-msgstr ""
-
-#: main.c:316
+#: src/main.c:330
 msgid ""
 "Usage: gqview [options] [path]\n"
 "\n"
@@ -386,31 +270,45 @@ msgstr ""
 "使い方: gqview [オプション] [パス]\n"
 "\n"
 
-#: main.c:317
+#: src/main.c:331
 msgid "valid options are:\n"
 msgstr "オプション:\n"
 
-#: main.c:318
-msgid "  +t, +tools                 force show of tools\n"
+#: src/main.c:332
+#, fuzzy
+msgid "  +t, --with-tools           force show of tools\n"
 msgstr "  +t, +tools                 ツールバーを表示\n"
 
-#: main.c:319
-msgid "  -t, -tools                 force hide of tools\n"
+#: src/main.c:333
+#, fuzzy
+msgid "  -t, --without-tools        force hide of tools\n"
 msgstr "  -t, -tools                 ツールバーを非表示\n"
 
-#: main.c:320
-msgid "  -debug                     turn on debug output\n"
+#: src/main.c:334
+#, fuzzy
+msgid "  -f, --fullscreen           start in full screen mode\n"
+msgstr "  -t, -tools                 ツールバーを非表示\n"
+
+#: src/main.c:335
+#, fuzzy
+msgid "  -s, --slideshow            start in slideshow mode\n"
+msgstr "  -t, -tools                 ツールバーを非表示\n"
+
+#: src/main.c:336
+#, fuzzy
+msgid "  --debug                    turn on debug output\n"
 msgstr "  -debug                     デバッグ用の出力を有効にする\n"
 
-#: main.c:321
+#: src/main.c:337
+#, fuzzy
 msgid ""
-"  -help                      this message\n"
+"  -h, --help                 show this message\n"
 "\n"
 msgstr ""
 "  -help                      このメッセージを表示\n"
 "\n"
 
-#: main.c:326
+#: src/main.c:342
 #, c-format
 msgid ""
 "invalid or ignored: %s\n"
@@ -419,437 +317,548 @@ msgstr ""
 "%sは不明です。\n"
 "詳しくは `gqview -help` を実行してください。\n"
 
-#: main.c:353
+#: src/main.c:369
 msgid "The Gimp"
 msgstr ""
 
-#: main.c:356
+#: src/main.c:372
 msgid "Electric Eyes"
 msgstr ""
 
-#: main.c:359
+#: src/main.c:375
 msgid "XV"
 msgstr ""
 
-#: main.c:362
+#: src/main.c:378
 msgid "Xpaint"
 msgstr ""
 
-#: menu.c:369
+#: src/menu.c:373
 #, c-format
 msgid "in %s..."
 msgstr ""
 
-#: menu.c:371
+#: src/menu.c:375
 msgid "in (unknown)..."
 msgstr ""
 
-#: menu.c:390
+#: src/menu.c:394
 msgid "Options..."
 msgstr "オプション..."
 
-#: menu.c:391
-msgid "Save options"
-msgstr "設定を保存"
-
-#: menu.c:393
+#: src/menu.c:396
 msgid "Remove old thumbnails"
 msgstr "古いサムネイルを破棄"
 
-#: menu.c:431
+#: src/menu.c:398 src/menu.c:410 src/menu.c:422
+msgid "Set as wallpaper"
+msgstr ""
+
+#. file menu
+#: src/menu.c:440
 msgid "File"
 msgstr "ファイル"
 
-#: menu.c:435
+#: src/menu.c:444
 msgid "Create Dir..."
 msgstr "ディレクトリ作成..."
 
-#: menu.c:442
+#: src/menu.c:451
 msgid "Exit"
 msgstr "終了"
 
-#: menu.c:457
+#. view menu
+#: src/menu.c:466
 msgid "View"
 msgstr "ビュー"
 
-#: menu.c:467 menu.c:553
+#: src/menu.c:476 src/menu.c:563
 msgid "Full screen"
 msgstr "フルスクリーン"
 
-#: menu.c:469
-msgid "activate"
-msgstr ""
-
-#: menu.c:475
+#: src/menu.c:485
 msgid "Refresh Lists"
 msgstr "リストの更新"
 
-#: menu.c:476
+#: src/menu.c:486
 msgid "(Un)Float file list"
 msgstr "ファイルリストを(非)フロートにする"
 
-#: menu.c:477 menu.c:552
+#: src/menu.c:487 src/menu.c:562
 msgid "(Un)Hide file list"
 msgstr "ファイルリストを(非)表示にする"
 
-#: menu.c:480
+#: src/menu.c:490
 msgid "Toggle slideshow"
 msgstr "スライドショウ"
 
-#: menu.c:486
+#. help menu
+#: src/menu.c:496
 msgid "Help"
 msgstr "ヘルプ"
 
-#: menu.c:513 menu.c:544
+#: src/menu.c:523 src/menu.c:554
 msgid "View in new window"
 msgstr "新しいウィンドウでみる"
 
-#: menu.c:521
+#: src/menu.c:531
 msgid "Refresh"
 msgstr "更新"
 
-#: menu.c:592
+#: src/menu.c:601
 msgid "Exit full screen"
 msgstr "フルスクリーンをやめる"
 
-#: menu.c:651
+#: src/menu.c:661
 msgid "Create thumbnails"
 msgstr "サムネイル作成"
 
-#: menu.c:660
+#: src/menu.c:670
 msgid "Change to home directory"
 msgstr "ホームディレクトリへ移動"
 
-#: menu.c:662
+#: src/menu.c:672
 msgid "Refresh file list"
 msgstr "ファイルリストの更新"
 
-#: menu.c:670
+#: src/menu.c:680
 msgid "Set zoom 1:1"
 msgstr "元のサイズにする"
 
-#: menu.c:672
+#: src/menu.c:682
 msgid "Configure options"
 msgstr "オプション設定"
 
-#: menu.c:674
+#: src/menu.c:684
 msgid "Float Controls"
 msgstr "コントロールをフロート状態にする"
 
-#: tabcomp.c:388
-msgid "Tab completion error: entry != NULL\n"
+#: src/rcfile.c:132
+#, c-format
+msgid "error saving config file: %s\n"
 msgstr ""
 
-#: thumb.c:32
-#, c-format
-msgid "Gen thumbnail:%s\n"
-msgstr "サムネイル作成:%s\n"
-
-#: thumb.c:40
-msgid "XV thumbnail found, loaded\n"
-msgstr "XVのサムネイルを見つけたので、読み込みました\n"
-
-#: thumb.c:54
-#, c-format
-msgid "Found in cache:%s\n"
-msgstr "キャッシュを見つけました:%s\n"
-
-#: thumb.c:116
-#, c-format
-msgid "creating thumbnail dir:%s\n"
-msgstr "%sディレクトリのサムネイルを作成しています。\n"
-
-#: thumb.c:118 thumb.c:142
+#: src/thumb.c:127 src/thumb.c:151
 #, c-format
 msgid "create dir failed: %s\n"
 msgstr "%sディレクトリで失敗しました。\n"
 
-#: thumb.c:140
-#, c-format
-msgid "creating sub dir:%s\n"
-msgstr "サブディレクトリ%sのサムネイルを作成しています。\n"
-
-#: thumb.c:151
-#, c-format
-msgid "Saving thumb: %s\n"
-msgstr "サムネイル%sを保存しました。\n"
-
-#: thumb.c:186
-#, c-format
-msgid "maintainance check: %s\n"
-msgstr "%sをメンテナンスのためチェックしています。\n"
-
-#: thumb.c:222
-#, c-format
-msgid "Deleting thumb dir: %s\n"
-msgstr "%sディレクトリのサムネイルを削除しています。\n"
-
-#: thumb.c:224
+#: src/thumb.c:233
 #, c-format
 msgid "Unable to delete dir: %s\n"
 msgstr "%sディレクトリで削除に失敗。\n"
 
-#: thumb.c:238
-#, c-format
-msgid "Deleting thumb: %s\n"
-msgstr "サムネイル%sを削除しています。\n"
-
-#: thumb.c:240
+#: src/thumb.c:249
 #, c-format
 msgid "failed to delete:%s\n"
 msgstr "%sの削除に失敗\n"
 
-#: utildlg.c:67
+#: src/utildlg.c:68
 msgid "     Ok     "
 msgstr ""
 
-#: utilops.c:112 utilops.c:231
-msgid "copy"
-msgstr "コピー"
+#: src/utilops.c:166
+msgid "Source to copy matches destination"
+msgstr ""
 
-#: utilops.c:114 utilops.c:233
-msgid "move"
-msgstr "移動"
-
-#: utilops.c:168 utilops.c:262 utilops.c:595 utilops.c:776
-msgid "Overwrite file:\n"
-msgstr "ファイルの上書き:\n"
-
-#: utilops.c:168 utilops.c:262 utilops.c:776
+#: src/utilops.c:167
+#, fuzzy, c-format
 msgid ""
-"\n"
-" with:\n"
-msgstr ""
-"\n"
-"を...\n"
+"Unable to copy file:\n"
+"%s\n"
+"to itself."
+msgstr "ディレクトリの作成ができません。\n"
 
-#: utilops.c:169 utilops.c:263 utilops.c:596 utilops.c:777
-msgid "Overwrite file"
-msgstr "ファイルの上書き"
-
-#: utilops.c:170
-msgid "Skip"
-msgstr "スキップ"
-
-#: utilops.c:171
-msgid "Yes to all"
-msgstr "すべてはい"
-
-#: utilops.c:172
-msgid "Yes"
-msgstr "はい"
-
-#: utilops.c:202 utilops.c:285
-msgid "Error "
-msgstr "エラー"
-
-#: utilops.c:202
-msgid "ing file"
+#: src/utilops.c:171
+msgid "Source to move matches destination"
 msgstr ""
 
-#: utilops.c:203 utilops.c:286
-msgid "Unable to "
-msgstr ""
-
-#: utilops.c:203 utilops.c:286 utilops.c:397
-msgid " file:\n"
-msgstr ""
-
-#: utilops.c:203 utilops.c:286 utilops.c:606 utilops.c:786
+#: src/utilops.c:172
+#, fuzzy, c-format
 msgid ""
-"\n"
-" to:\n"
-msgstr ""
+"Unable to move file:\n"
+"%s\n"
+"to itself."
+msgstr "ディレクトリの作成ができません。\n"
 
-#: utilops.c:203
-msgid ""
-"\n"
-" during multiple file move."
-msgstr ""
-
-#: utilops.c:205 utilops.c:461
+#: src/utilops.c:175 src/utilops.c:231 src/utilops.c:516
 msgid "Continue"
 msgstr ""
 
-#: utilops.c:264 utilops.c:597 utilops.c:778
+#: src/utilops.c:182
+#, fuzzy, c-format
+msgid ""
+"Overwrite file:\n"
+" %s\n"
+" with:\b %s"
+msgstr "ファイルの上書き:\n"
+
+#: src/utilops.c:183 src/utilops.c:289 src/utilops.c:651 src/utilops.c:835
+msgid "Overwrite file"
+msgstr "ファイルの上書き"
+
+#: src/utilops.c:186
+msgid "Skip"
+msgstr "スキップ"
+
+#: src/utilops.c:187
+msgid "Yes to all"
+msgstr "すべてはい"
+
+#: src/utilops.c:188
+msgid "Yes"
+msgstr "はい"
+
+#: src/utilops.c:222 src/utilops.c:317
+msgid "Error copying file"
+msgstr ""
+
+#: src/utilops.c:223
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%sto:\n"
+"%s\n"
+" during multiple file copy."
+msgstr ""
+
+#: src/utilops.c:227 src/utilops.c:322
+msgid "Error moving file"
+msgstr ""
+
+#: src/utilops.c:228
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%sto:\n"
+"%s\n"
+" during multiple file move."
+msgstr ""
+
+#: src/utilops.c:282
+msgid "Source matches destination"
+msgstr ""
+
+#: src/utilops.c:283
+msgid "Source and destination are the same, operation cancelled."
+msgstr ""
+
+#: src/utilops.c:288
+#, fuzzy, c-format
+msgid ""
+"Overwrite file:\n"
+"%s\n"
+" with:\n"
+"%s"
+msgstr "ファイルの上書き:\n"
+
+#: src/utilops.c:292 src/utilops.c:654 src/utilops.c:838
 msgid "Overwrite"
 msgstr ""
 
-#: utilops.c:328
+#: src/utilops.c:318
+#, fuzzy, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr "ディレクトリの作成ができません。\n"
+
+#: src/utilops.c:323
+#, fuzzy, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr "ディレクトリの作成ができません。\n"
+
+#: src/utilops.c:367
 msgid "Invalid destination"
 msgstr ""
 
-#: utilops.c:328
+#: src/utilops.c:367
 msgid ""
 "When operating with multiple files, please select\n"
 " a directory, not file."
 msgstr ""
 
-#: utilops.c:330
+#: src/utilops.c:369
 msgid "Invalid directory"
 msgstr ""
 
-#: utilops.c:330
+#: src/utilops.c:369
 msgid "Please select an existing directory"
 msgstr ""
 
-#: utilops.c:387
+#: src/utilops.c:427
 msgid "GQview - copy"
 msgstr ""
 
-#: utilops.c:388
+#: src/utilops.c:428
 msgid "Copy"
 msgstr ""
 
-#: utilops.c:392
-msgid "GQview - move"
-msgstr ""
-
-#: utilops.c:393
-msgid "Move"
-msgstr ""
-
-#: utilops.c:397 utilops.c:399
+#: src/utilops.c:430
+#, c-format
 msgid ""
-"\n"
+"Copy file:\n"
+"%s\n"
 "to:"
 msgstr ""
 
-#: utilops.c:399
-msgid " multiple files from:\n"
-msgstr ""
-
-#: utilops.c:459 utilops.c:465 utilops.c:510
-msgid "Unable to delete file:\n"
-msgstr ""
-
-#: utilops.c:459
+#: src/utilops.c:432
+#, c-format
 msgid ""
-"\n"
-"Continue multiple delete operation?"
+"Copy multiple files from:\n"
+"%s\n"
+"to:"
 msgstr ""
 
-#: utilops.c:460 utilops.c:466
+#: src/utilops.c:436
+msgid "GQview - move"
+msgstr ""
+
+#: src/utilops.c:437
+msgid "Move"
+msgstr ""
+
+#: src/utilops.c:439
+#, c-format
+msgid ""
+"Move file:\n"
+"%s\n"
+"to:"
+msgstr ""
+
+#: src/utilops.c:441
+#, c-format
+msgid ""
+"Move multiple files from:\n"
+"%s\n"
+"to:"
+msgstr ""
+
+#: src/utilops.c:514
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+" %s\n"
+" Continue multiple delete operation?"
+msgstr ""
+
+#: src/utilops.c:515 src/utilops.c:521
 msgid "Delete failed"
 msgstr ""
 
-#: utilops.c:495
+#: src/utilops.c:520 src/utilops.c:565
+#, fuzzy, c-format
+msgid ""
+"Unable to delete file:\n"
+"%s"
+msgstr "%sディレクトリで削除に失敗。\n"
+
+#: src/utilops.c:550
 msgid "Delete files"
 msgstr ""
 
-#: utilops.c:495
+#: src/utilops.c:550
 msgid "About to delete multiple files..."
 msgstr ""
 
-#: utilops.c:496 utilops.c:541
+#: src/utilops.c:551 src/utilops.c:596
 msgid "Delete"
 msgstr ""
 
-#: utilops.c:511
+#: src/utilops.c:566
 msgid "File deletion failed"
 msgstr ""
 
-#: utilops.c:539
-msgid "About to delete the file:\n"
-msgstr ""
+#: src/utilops.c:594
+#, fuzzy, c-format
+msgid ""
+"About to delete the file:\n"
+" %s"
+msgstr "%sディレクトリで削除に失敗。\n"
 
-#: utilops.c:540
+#: src/utilops.c:595
 msgid "Delete file"
 msgstr ""
 
-#: utilops.c:595
+#: src/utilops.c:650 src/utilops.c:834
+#, fuzzy, c-format
 msgid ""
-"\n"
-" by renaming:\n"
-msgstr ""
+"Overwrite file:\n"
+"%s\n"
+"by renaming:\n"
+"%s"
+msgstr "ファイルの上書き:\n"
 
-#: utilops.c:606 utilops.c:786
-msgid "Unable to rename file:\n"
-msgstr ""
+#: src/utilops.c:663
+#, fuzzy, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+" to:\n"
+"%s"
+msgstr "ディレクトリの作成ができません。\n"
 
-#: utilops.c:607 utilops.c:787
+#: src/utilops.c:664 src/utilops.c:847
 msgid "Error renaming file"
 msgstr ""
 
-#: utilops.c:624
-#, c-format
-msgid "r=%d n=%d\n"
-msgstr ""
-
-#: utilops.c:640
-#, c-format
-msgid "closed by #%d\n"
-msgstr ""
-
-#: utilops.c:697 utilops.c:825
+#: src/utilops.c:754 src/utilops.c:885
 msgid "GQview - rename"
 msgstr ""
 
-#: utilops.c:697
+#: src/utilops.c:754
 msgid "Rename multiple files:"
 msgstr ""
 
-#: utilops.c:697
+#: src/utilops.c:754 src/utilops.c:885
 msgid "Rename"
 msgstr ""
 
-#: utilops.c:732
+#: src/utilops.c:790
 msgid "Rename:"
 msgstr ""
 
-#: utilops.c:741
+#: src/utilops.c:799
 msgid "to:"
 msgstr ""
 
-#: utilops.c:824
-msgid "Rename file:\n"
-msgstr ""
-
-#: utilops.c:824
+#: src/utilops.c:846
+#, fuzzy, c-format
 msgid ""
-"\n"
-" to:"
-msgstr ""
-
-#: utilops.c:868
-msgid "The path:\n"
-msgstr ""
-
-#: utilops.c:868
-msgid ""
-"\n"
-" already exists as a file."
-msgstr ""
-
-#: utilops.c:874
-msgid "The directory:\n"
-msgstr ""
-
-#: utilops.c:874
-msgid ""
-"\n"
-" already exists."
-msgstr ""
-
-#: utilops.c:882
-msgid "Unable to create directory:\n"
+"Unable to rename file:\n"
+"%s\n"
+"to:\n"
+"%s"
 msgstr "ディレクトリの作成ができません。\n"
 
-#: utilops.c:922
-msgid "Create directory in:\n"
-msgstr "ディレクトリ作成\n"
-
-#: utilops.c:922
+#: src/utilops.c:884
+#, c-format
 msgid ""
-"\n"
-" named:"
+"Rename file:\n"
+"%s\n"
+"to:"
 msgstr ""
 
-#: utilops.c:923
+#: src/utilops.c:928
+#, c-format
+msgid ""
+"The path:\n"
+"%s\n"
+"already exists as a file."
+msgstr ""
+
+#: src/utilops.c:929
+#, fuzzy
+msgid "Could not create directory"
+msgstr "ディレクトリの作成ができません。\n"
+
+#: src/utilops.c:934
+#, c-format
+msgid ""
+"The directory:\n"
+"%s\n"
+"already exists."
+msgstr ""
+
+#: src/utilops.c:935
+msgid "Directory exists"
+msgstr ""
+
+#: src/utilops.c:942
+#, fuzzy, c-format
+msgid ""
+"Unable to create directory:\n"
+"%s"
+msgstr "ディレクトリの作成ができません。\n"
+
+#: src/utilops.c:943
+#, fuzzy
+msgid "Error creating directory"
+msgstr "ディレクトリの作成ができません。\n"
+
+#: src/utilops.c:982
+#, fuzzy, c-format
+msgid ""
+"Create directory in:\n"
+"%s\n"
+"named:"
+msgstr "ディレクトリ作成\n"
+
+#: src/utilops.c:983
 msgid "GQview - new directory"
 msgstr "GQview - 新規ディレクトリ"
 
-#: utilops.c:923
+#: src/utilops.c:983
 msgid "Create"
 msgstr "作成"
 
+#: src/window.c:151
+#, fuzzy
+msgid "GQview Tools"
+msgstr "GQview フルスクリーン"
+
+#, fuzzy
+#~ msgid ""
+#~ "Overwrite file:\n"
+#~ "%s\n"
+#~ "with:\n"
+#~ "%s"
+#~ msgstr "ファイルの上書き:\n"
+
+#~ msgid "Save"
+#~ msgstr "セーブ"
+
+#~ msgid "Save settings on exit"
+#~ msgstr "終了時に設定を保存する"
+
+#~ msgid "Save options"
+#~ msgstr "設定を保存"
+
+#~ msgid "Gen thumbnail:%s\n"
+#~ msgstr "サムネイル作成:%s\n"
+
+#~ msgid "XV thumbnail found, loaded\n"
+#~ msgstr "XVのサムネイルを見つけたので、読み込みました\n"
+
+#~ msgid "Found in cache:%s\n"
+#~ msgstr "キャッシュを見つけました:%s\n"
+
+#~ msgid "creating thumbnail dir:%s\n"
+#~ msgstr "%sディレクトリのサムネイルを作成しています。\n"
+
+#~ msgid "creating sub dir:%s\n"
+#~ msgstr "サブディレクトリ%sのサムネイルを作成しています。\n"
+
+#~ msgid "Saving thumb: %s\n"
+#~ msgstr "サムネイル%sを保存しました。\n"
+
+#~ msgid "maintainance check: %s\n"
+#~ msgstr "%sをメンテナンスのためチェックしています。\n"
+
+#~ msgid "Deleting thumb dir: %s\n"
+#~ msgstr "%sディレクトリのサムネイルを削除しています。\n"
+
+#~ msgid "Deleting thumb: %s\n"
+#~ msgstr "サムネイル%sを削除しています。\n"
+
+#~ msgid "copy"
+#~ msgstr "コピー"
+
+#~ msgid "move"
+#~ msgstr "移動"
+
+#~ msgid ""
+#~ "\n"
+#~ " with:\n"
+#~ msgstr ""
+#~ "\n"
+#~ "を...\n"
+
+#~ msgid "Error "
+#~ msgstr "エラー"

@@ -1,6 +1,6 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
@@ -9,6 +9,7 @@
 #include "gqview.h"
 #include "image.h"
 #include "icons/img_unknown.xpm"
+#include <gdk/gdkx.h>
 
 static gchar *zoom_as_text(gint zoom, gfloat scale);
 static void set_zoom_label(GtkWidget *label, gint zoom, gfloat scale);
@@ -737,6 +738,7 @@ ImageWindow *image_area_new(GtkWidget *top_window)
 void image_area_free(ImageWindow *imd)
 {
 	g_free(imd->image_path);
+	g_free(imd->title);
 
 	if (imd->image_pixmap) gdk_imlib_free_pixmap(imd->image_pixmap);
 	if (imd->image_data) gdk_imlib_destroy_image(imd->image_data);
@@ -770,4 +772,41 @@ gint get_default_zoom(ImageWindow *imd)
 
 	return zoom;
 }
+
+/*
+ *-----------------------------------------------------------------------------
+ * image widget misc utils
+ *-----------------------------------------------------------------------------
+ */ 
+
+void image_area_to_root(ImageWindow *imd, gint scaled)
+{                                                                               
+	GdkVisual *gdkvisual;
+	GdkWindow *rootwindow;
+	GdkPixmap *pixmap;
+
+	if (!imd || !imd->image_data) return;
+
+
+	rootwindow = (GdkWindow *) &gdk_root_parent;	/* hmm, don't know, correct? */
+	gdkvisual = gdk_window_get_visual(rootwindow);
+	if (gdkvisual != gdk_imlib_get_visual()) return;
+
+	if (scaled)
+		{
+		gdk_imlib_render(imd->image_data, gdk_screen_width(), gdk_screen_height());
+		}
+	else
+		{
+		gdk_imlib_render(imd->image_data, imd->width, imd->height);
+		}
+
+	pixmap = gdk_imlib_move_image(imd->image_data);
+	gdk_window_set_back_pixmap(rootwindow, pixmap, FALSE);
+	gdk_window_clear(rootwindow);
+	gdk_imlib_free_pixmap(pixmap);
+
+	gdk_flush();
+}
+
 

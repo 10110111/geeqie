@@ -1,7 +1,7 @@
 AC_INIT(src/main.c)
 AM_CONFIG_HEADER(config.h)
 
-AM_INIT_AUTOMAKE(gqview, 0.7.0f)
+AM_INIT_AUTOMAKE(gqview, 0.8.0)
 
 AM_MAINTAINER_MODE
 
@@ -38,7 +38,7 @@ dnl locale location for po
 localedir='${prefix}/share/locale'
 AC_SUBST(localedir)
 
-ALL_LINGUAS="de ja pt_BR ru"
+ALL_LINGUAS="de ja pt_BR ru tr zh_TW.Big5"
 AM_GNU_GETTEXT
 
 AC_SUBST(CFLAGS)

@@ -1,3 +1,73 @@
+Thu Apr  6 19:03:04 2000  John Ellis  <johne@bellatlantic.net>
+
+	* README: Release 0.8.0.
+
+Wed Apr  5 11:35:52 2000  John Ellis  <johne@bellatlantic.net>
+
+	* filelist.c (rebuild_filter): Fix bug that hacked on the wrong string,
+	causing custom_filter to only have one entry max.
+	* utilops.c: Removed unused code, fix rename description.
+
+Wed Apr  5 11:19:31 2000  John Ellis  <johne@bellatlantic.net>
+
+	* filelist.c, gqview.h, window.c: File list now scrolls to display
+	the first file that matches the path entry box during tab completion.
+	The directory changes to follow the completion too.
+
+Wed Apr  5 10:30:51 2000  John Ellis  <johne@bellatlantic.net>
+
+	* filelist.c, gqview.h, main.c, menu.c, rcfile.c, slideshow.c: Added:
+	Save thumnbnail mode to rcfile; add command line option for slideshow,
+	rename other long options; make next/prev work properly during
+	slideshow.
+
+Tue Apr  4 15:00:15 2000  John Ellis  <johne@bellatlantic.net>
+
+	* po/zh_TW.Big5.po, configure.in: Added Traditional Chinese (Big5),
+	translation from Kam Tik <kamtik@hongkong.com>
+
+Tue Apr  4 13:20:43 2000  John Ellis  <johne@bellatlantic.net>
+
+	* *.[ch]: Update copyrights to 2000.
+	* configure.in: Bumper version to 0.8.0 ('bout time)
+	* README, TODO: Updates
+
+Tue Apr  4 12:21:27 2000  John Ellis  <johne@bellatlantic.net>
+
+	* image.c, img-main.c: Fix mem leaks.
+	* utildlg.[ch]: Added confirm_dialog_new_with_image() utility.
+	* utilops.c: Added display of source and dest images to overwrite
+	dialogs (uses above).
+	All this is derived from a patch by Gordon Messmer <yinyang@eburg.com>
+
+Tue Apr  4 10:44:22 2000  John Ellis  <johne@bellatlantic.net>
+
+	* main.c: Added full screen startup option (-f or -full), derived from
+	patch by Rami Lehti <Rami.Lehti@Finland.Sun.COM>
+
+Tue Apr  4 10:33:15 2000  John Ellis  <johne@bellatlantic.net>
+
+	* image.[ch], img-view.c, img-main.c, menu.c, gqview.h: Added ability
+	to set the root window wallpaper. (If zoom is fit to window, image is
+	scaled, otherwise tiled.
+	Derived from patch by ENTERforNone <enterfornone@bigpond.com>
+
+Tue Apr  4 09:45:08 2000  John Ellis  <johne@bellatlantic.net>
+
+	* img-main.c, menu.c: Changed full screen key to V. Derived from patch
+	by Martial MICHEL <martial@users.sourceforge.net>
+
+Tue Apr  4 09:32:14 2000  John Ellis  <johne@bellatlantic.net>
+
+	* fileops.c (get_current_dir): Fix problem when there is no read
+	permission for the current dir. Derived from patch by
+	Mathieu Dessus <mdessus@free.fr>
+
+ Apr  4 09:15:16 2000  John Ellis  <johne@bellatlantic.net>
+
+	* configure.in, po/tr.po: Added Turkish translation from
+	Fatih Demir <kabalak@gmx.net> 
+
 Thu Mar 16 17:04:24 2000  John Ellis  <johne@bellatlantic.net>
 
 	* pathsel.c, tabcomp.c: Fix memory leaks.

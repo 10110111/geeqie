@@ -1,6 +1,6 @@
 ###################################################################
-##                          GQview 0.7.0      (07/03/99)         ##
-##      This software is Copyright (C) 1999 by John Ellis.       ##
+##                          GQview 0.8.0      (04/06/2000)       ##
+##      This software is Copyright (C) 2000 by John Ellis.       ##
 ##  Use this software at your own risk. I am not responsible for ##
 ##        anything this software may do to your computer.        ##
 ## This software falls under the GNU Public License. Please read ##
@@ -9,12 +9,12 @@
 
 Author: John Ellis
 e-mail: gqview@email.com
-homepage: gqview.netpedia.net
-          www.geocities.com/SiliconValley/Haven/5235/ (mirror always up to date)
+homepage: gqview.sourceforge.net
+          gqview.netpedia.net (site just has a link back to above)
 
 ======== Requirements
 
-  GTK+-1.2.0: ftp://ftp.gtk.org/pub/gtk
+  GTK+-1.2.x: ftp://ftp.gtk.org/pub/gtk
   Imlib 1.9: ftp://ftp.labs.redhat.com/pub/imlib
 
 ======== Notes and changes for this release
@@ -24,15 +24,25 @@ homepage: gqview.netpedia.net
     > Now supports i18n, added translations: de ja pt_BR ru
     > Remove 'save settings on exit', they are now always saved.
     > Copy/move dialogs now include drop down history.
+    > Overwrite dialogs now display source and dest images.
+    > Full screen toggle is now 'V'.
+    > New command line options: -f or --fullscreen; -s or --slideshow; renamed
+      long option to use -- instead of -.
+    > New option 'set wallpaper' sets the root window to current image.
+      (Scales in 'fit to window mode', tiles in all others) (edit menus).
+    - Thumbnail mode is now remembered between runs.
+    - During slideshows, next/prev image changes (space/backspace) now follow
+      the slideshow progression.
     - Icons now update when size is configured.
     - When dragging files, and the action was a move, refresh the filelist.
+    - Directory changes, and the filelist scrolls to follow tab completion in
+      the main window.
     * Icons sizes are now properly remembered when the config dialog is opened
       then closed without re-selecting the size.
+    * Less memory leaks :)
 
   Notes:
-   known bug: When starting up with tools floating, then unfloat the tools and
-              attempt to do drag and drop, BOOM! endless loop of errors on
-              GTK+-1.2.3 (hint: could use a little help figuring this out)
+    bt_br.po is corrupt (my fault).
 
 ======== Installation
 
@@ -94,10 +104,13 @@ homepage: gqview.netpedia.net
     R                                  refresh list
     F                                  (Un)float file selection area
     H                                  (Un)hide file selection area
-    [Ctrl] = F                         Toggle full screen
+    V                                  Toggle full screen
     S                                  Toggle slide show
 
 ======== Thanks go to the following for fixes, additions, and patches:
+
+  Fâtih Demir <kabalak@gmx.net>
+      for Turkish translation
 
   Oleg Andrjushenko <oandr@itec.cn.ua>
       for Russian translation
@@ -113,6 +126,7 @@ homepage: gqview.netpedia.net
 
   Diederen Damien <D.Diederen@student.ulg.ac.be>
       for .xvpics thumbnail reading support.
+
 
 ========
 

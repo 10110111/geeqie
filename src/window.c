@@ -1,6 +1,6 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
@@ -354,6 +354,7 @@ static void create_tools(GtkAccelGroup *accel_grp, GtkTooltips *tooltips)
 
 	/* path entry */
 	tabcomp = tab_completion_new(&path_entry, mainwindow, NULL, path_entry_cb, NULL);
+	tab_completion_add_tab_func(path_entry, path_entry_tab_cb, NULL);
 	gtk_box_pack_start (GTK_BOX (tool_vbox), tabcomp, FALSE, FALSE, 0);
 	gtk_widget_show (tabcomp);
 

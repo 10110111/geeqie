@@ -1,6 +1,6 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
@@ -258,9 +258,12 @@ gint key_press_cb(GtkWidget *widget, GdkEventKey *event)
 
 /*
  *-----------------------------------------------------------------------------
- * command line parser (private)
+ * command line parser (private) hehe, who needs popt anyway?
  *-----------------------------------------------------------------------------
  */ 
+
+static gint startup_full_screen = FALSE;
+static gint startup_in_slideshow = FALSE;
 
 static void parse_command_line(int argc, char *argv[], gchar **path, gchar **file)
 {
@@ -294,31 +297,44 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 				*path = remove_level_from_path(cmd_all);
 				*file = g_strdup(cmd_all);
 				}
-			else if (strcmp(cmd_line, "-debug") == 0)
+			else if (strcmp(cmd_line, "--debug") == 0)
 				{
 				debug = TRUE;
 				printf("debugging output enabled\n");
 				}
 			else if (strcmp(cmd_line, "+t") == 0 ||
-				 strcmp(cmd_line, "+tools") == 0)
+				 strcmp(cmd_line, "--with-tools") == 0)
 				{
 				tools_float = FALSE;
 				tools_hidden = FALSE;
 				}
 			else if (strcmp(cmd_line, "-t") == 0 ||
-				 strcmp(cmd_line, "-tools") == 0)
+				 strcmp(cmd_line, "--without-tools") == 0)
 				{
 				tools_hidden = TRUE;
 				}
-			else if (strcmp(cmd_line, "-help") == 0)
+			else if (strcmp(cmd_line, "-f") == 0 ||
+				 strcmp(cmd_line, "--fullscreen") == 0)
+				{
+				startup_full_screen = TRUE;
+				}
+			else if (strcmp(cmd_line, "-s") == 0 ||
+				 strcmp(cmd_line, "--slideshow") == 0)
+				{
+				startup_in_slideshow = TRUE;
+				}
+			else if (strcmp(cmd_line, "-h") == 0 ||
+				 strcmp(cmd_line, "--help") == 0)
 				{
 				printf("GQview version %s\n", VERSION);
 				printf(_("Usage: gqview [options] [path]\n\n"));
 				printf(_("valid options are:\n"));
-				printf(_("  +t, +tools                 force show of tools\n"));
-				printf(_("  -t, -tools                 force hide of tools\n"));
-				printf(_("  -debug                     turn on debug output\n"));
-				printf(_("  -help                      this message\n\n"));
+				printf(_("  +t, --with-tools           force show of tools\n"));
+				printf(_("  -t, --without-tools        force hide of tools\n"));
+				printf(_("  -f, --fullscreen           start in full screen mode\n"));
+				printf(_("  -s, --slideshow            start in slideshow mode\n"));
+				printf(_("  --debug                    turn on debug output\n"));
+				printf(_("  -h, --help                 show this message\n\n"));
 				exit (0);
 				}
 			else 
@@ -428,6 +444,9 @@ int main (int argc, char *argv[])
 
 	g_free(cmd_path);
 	g_free(cmd_file);
+
+	if (startup_full_screen) full_screen_toggle();
+	if (startup_in_slideshow) slideshow_start();
 
 	gtk_main ();
 	return 0;

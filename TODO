@@ -1,39 +1,45 @@
 TODO key: d = done, w = work in progress, ? = possibly fixed, * = wt? - how?
-
-d>try gtk_container_remove instead of reparent, to try to fix dragging hang.
-d>After dragging files, check if they are now gone (moved).
- >Remember previous directory used in move/copy dialogs.
+          PB = can only be done after move to gdk_pixbuf
 
 Major:
 ----------------------------------------------
-d>Fix window resizing to start-up size when window is made smaller, then an
-  image is changed, or widget is 'operated'.
-d>Fix hang (endless gtk loop on drags in GTK+ 1.2.3) bah, in gdb its a pain,
-  breaking it within the error causes a stuck pointer grab :-/
-  HOW TO REPEAT:
-   enable 'save tool state'
-   set the tools to float
-   exit
-   restart
-   unfloat tools
-   try to do drag and drop -> BOOM!
-  UPDATE: I dunno, this still looks like a gtk bug?
+ >fix translation pt_BR.po file (corrupted)
 
 Minor:
 ----------------------------------------------
- >add a read-ahead buffer for next image, note that this will not be threaded.
- >add command line option to invoke full screen and slideshow on startup
+d>save thumbnail on/off setting.
+ >properly restore main window when coming back from full screen.
+   (position / maximized, etc.)
+d>make space/back follow schedule during random slideshow.
+ >add larger thumbnail option.
+ >save history lists for move/copy dialogs, etc.
+ >maybe show image in delete/rename/copy/move dialogs (should be simple now).
+ >add a read-ahead buffer for next image, note that this will not be threaded. (PB)
+  (gdk-pixbuf will allow it to be done in short idle calls, allowing interuption)
+ >generate thumbnails in idle calls, instead of creating a new main loop to seem
+  responsive.
  >make *'s const, where appropriate ()
- >make Escape cancel dialogs.
+ >make Escape key cancel dialogs.
 
- >add progress dialog when moving/copying/deleting multiple files.
+ >progress meter during load, or progressive load. (PB)
+ >add progress dialog when moving/copying/deleting multiple files. (PB)
  >.xbm file format not listed by default? .pnm, more?
 
  >ability to specify view window background color
- >show wait cursor during image load
+ >show wait cursor during image load (after update to PB, may not be as useful)
+
+ >reload should reload the image too. (PB) <-- reason: Imlib caching sometimes misses
+    modification times.
 
 Wishlist?:
 ----------------------------------------------
+ >recursive slide show (careful with implementation ,requires slideshow recode)
+d>scroll to first matching file during tab completion typing in main window.
+ >allow multiple columns when viewing thumbs and tools float. (multi column clist?)
+ >add bookmark type option.
+ >allow to sort files by date and size.
+ >add destination move file preset type locations bound to 1 - 0 keys. (like editors?)
+ >move to gdkpixbuf, when it is ready (1.0)
  >image list, like playlist in sound players
  >add vert drag bar
  >make *.jpg on command line show only jpg files, for ex.

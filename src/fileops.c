@@ -1,6 +1,6 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
@@ -126,7 +126,21 @@ int move_file(char *s, char *t)
 gchar *get_current_dir()
 {
 	char buf[512];
-	getcwd(buf, 510);
+	if (getcwd(buf, 510) == NULL)
+		{
+#ifdef __USE_GNU
+		char *dbuf;
+		gchar *ret;
+		dbuf = get_current_dir_name();
+		if (buf)
+			{
+			ret = g_strdup(dbuf);	/* don't mix free w/ g_free */
+			free(dbuf);
+			return (ret);
+			}
+#endif
+		return (g_strdup("."));		/* well, return something! broken? */
+		}
 	return g_strdup(buf);
 }
 

@@ -1,6 +1,6 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
@@ -124,7 +124,7 @@ void rebuild_file_filter()
 		{
 		gchar *buf = g_strdup(custom_filter);
 		gchar *pos_ptr_b;
-		gchar *pos_ptr_e = custom_filter;
+		gchar *pos_ptr_e = buf;
 		while(pos_ptr_e[0] != '\0')
 			{
 			pos_ptr_b = pos_ptr_e;
@@ -336,8 +336,17 @@ void file_image_change_to(gint row)
 
 void file_next_image()
 {
-	gint current = find_file_in_list(image_get_path());
-	gint total = file_count();
+	gint current;
+	gint total;
+
+	if (slideshow_is_running())
+		{
+		slideshow_next();
+		return;
+		}
+
+	current = find_file_in_list(image_get_path());
+	total = file_count();
 
 	if (current >= 0)
 		{
@@ -354,7 +363,15 @@ void file_next_image()
 
 void file_prev_image()
 {
-	gint current = find_file_in_list(image_get_path());
+	gint current;
+
+	if (slideshow_is_running())
+		{
+		slideshow_prev();
+		return;
+		}
+
+	current = find_file_in_list(image_get_path());
 
 	if (current >= 0)
 		{
@@ -704,6 +721,54 @@ void file_clist_highlight_unset()
  * path entry and history menu
  *-----------------------------------------------------------------------------
  */
+
+void path_entry_tab_cb(gchar *newdir, gpointer data)
+{
+	gchar *new_path;
+	gchar *buf;
+	gint found = FALSE;
+
+	new_path = g_strdup(newdir);
+	parse_out_relatives(new_path);
+	buf = remove_level_from_path(new_path);
+
+	if (buf && current_path && strcmp(buf, current_path) == 0)
+		{
+		GList *work;
+		gchar *part;
+
+		part = filename_from_path(new_path);
+		work = file_list;
+
+		while(part && work)
+			{
+			gchar *name = work->data;
+			work = work->next;
+
+			if (strncmp(part, name, strlen(part)) == 0)
+				{
+				gint row = g_list_index(file_list, name);
+				if (!gtk_clist_row_is_visible(GTK_CLIST(file_clist), row) != GTK_VISIBILITY_FULL)
+					{
+					gtk_clist_moveto(GTK_CLIST(file_clist), row, -1, 0.5, 0.0);
+					}
+				found = TRUE;
+				break;
+				}
+			}
+		}
+
+	if (!found && new_path && current_path &&
+	    strcmp(new_path, current_path) != 0 && isdir(new_path))
+		{
+		filelist_change_to(new_path);
+		/* we are doing tab completion, add '/' back */
+		gtk_entry_append_text(GTK_ENTRY(path_entry), "/");
+		}
+
+	g_free(buf);
+	g_free(new_path);
+}
 
 void path_entry_cb(gchar *newdir, gpointer data)
 {

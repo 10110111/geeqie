@@ -1,6 +1,6 @@
 /*
  * GQview image viewer
- * (C)1999 John Ellis
+ * (C)2000 John Ellis
  *
  * Author: John Ellis
  *
@@ -37,4 +37,8 @@ void image_area_set_zoom(ImageWindow *imd, gint zoom);
 
 /* get the default zoom for an image */
 gint get_default_zoom(ImageWindow *imd);
+
+/* set the root window to the current image */
+void image_area_to_root(ImageWindow *imd, gint scaled);
+
 
