@@ -1,21 +1,27 @@
 ## Process this file with automake to produce Makefile.in.
 
-SUBDIRS = src intl po
-DIST_SUBDIRS = src intl po
+SUBDIRS = src po doc
+DIST_SUBDIRS = src po doc
 
-EXTRA_DIST = \
-	gqview.desktop	\
-	gqview.png	\
-	gqview.spec.in
+man_MANS = gqview.1
 
-if HAVE_GNOME
-desktopdir = $(GNOME_DATADIR)/gnome/apps/Graphics
+readmedir = $(datadir)/doc/gqview-$(VERSION)
+readme_DATA = README COPYING ChangeLog TODO
+
+desktopdir = $(datadir)/applications
 desktop_DATA = gqview.desktop
 
-icondir = $(GNOME_DATADIR)/pixmaps
+icondir = $(datadir)/pixmaps
 icon_DATA = gqview.png
-endif
+
+EXTRA_DIST = \
+	$(readme_DATA)	\
+	$(desktop_DATA)	\
+	$(icon_DATA)	\
+	gqview.spec.in	\
+	gqview.1
 
 dist-hook: gqview.spec
 	cp $(top_builddir)/gqview.spec $(distdir)
+
 

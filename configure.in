@@ -1,13 +1,7 @@
 AC_INIT(src/main.c)
-AM_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADER(config.h)
 
-AM_INIT_AUTOMAKE(gqview, 0.8.1)
-
-dnl note to CVS users:
-CONFIGURE_IS_BROKEN_ON_PURPOSE( blah blah break me)
-dnl reason: This CVS is not used for GQview development, it was a test setup only.
-dnl         (If CVS goes public, it will be here, though)
-
+AM_INIT_AUTOMAKE(gqview, 1.5.9)
 
 AM_MAINTAINER_MODE
 
@@ -23,29 +17,22 @@ else
   prefix=$prefix
 fi
 
-AM_PATH_GTK(1.2.0,,AC_MSG_ERROR(GTK+ >= 1.2.0 not installed.))
-AM_PATH_GDK_IMLIB(1.9,,AC_MSG_ERROR(Imlib >= 1.9 not installed.))
+AM_PATH_GTK_2_0(2.4.0,,AC_MSG_ERROR(GTK+ >= 2.4.0 not installed.))
 
-dnl CHECK_GNOME
-  AC_PATH_PROG(GNOME_CONFIG,gnome-config,no)
-  AM_CONDITIONAL(HAVE_GNOME, test $GNOME_CONFIG != no)
-  if test "$GNOME_CONFIG" = no; then
-    AC_MSG_RESULT(GNOME icon and menu entry will NOT be installed)
-  else
-    AC_MSG_RESULT(will install a GNOME icon and menu entry)
-    AC_SUBST(GNOME_DATADIR)
-    GNOME_DATADIR="`$GNOME_CONFIG --datadir`"
-  fi
+AC_DEFINE_UNQUOTED(GQVIEW_HELPDIR, "$prefix/share/doc/gqview-$VERSION", [Location of documetation files])
+AC_DEFINE_UNQUOTED(GQVIEW_HTMLDIR, "$prefix/share/doc/gqview-$VERSION/html", [Location of html documentation])
 
-dnl utility conditional
-AM_CONDITIONAL(FALSE, test "x" = "y")
+dnl checks for functions
+AC_CHECK_FUNCS(strverscmp)
 
 dnl locale location for po
-localedir='${prefix}/share/locale'
+localedir='${datadir}/locale'
 AC_SUBST(localedir)
 
-ALL_LINGUAS="de es fr ja pt_BR ru sk tr zh_TW.Big5"
-AM_GNU_GETTEXT
+ALL_LINGUAS="ar bg cs da de es et fi fr hu id it ja nl no pl pt_BR ro ru sk sl sv th tr uk vi zh_CN.GB2312 zh_TW"
+GETTEXT_PACKAGE=$PACKAGE
+AC_SUBST(GETTEXT_PACKAGE)
+AM_GLIB_GNU_GETTEXT
 
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
@@ -53,9 +40,10 @@ AC_SUBST(LDFLAGS)
 
 AC_OUTPUT([
 Makefile
-gqview.spec
-intl/Makefile
-po/Makefile.in
 src/Makefile
 src/icons/Makefile
+po/Makefile.in
+doc/Makefile
+gqview.spec
 ])
+

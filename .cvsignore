@@ -20,3 +20,4 @@ INSTALL
 gqview.spec
 intl
 ABOUT-NLS
+depcomp

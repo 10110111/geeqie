@@ -1,32 +1,179 @@
 ###################################################################
-##                          GQview 0.8.1      (04/14/2000)       ##
-##      This software is Copyright (C) 2000 by John Ellis.       ##
-##  Use this software at your own risk. I am not responsible for ##
-##        anything this software may do to your computer.        ##
-## This software falls under the GNU Public License. Please read ##
-##              the COPYING file for more information            ##
+##                          GQview 1.5.9     (February 15, 2005) ##
+##                                                               ##
+##              Copyright (C) 1999 - 2005 John Ellis.            ##
+##                                                               ##
+##                      Use at your own risk!                    ##
+##                                                               ##
+##  This software released under the GNU General Public License. ##
+##       Please read the COPYING file for more information.      ##
 ###################################################################
 
-Author: John Ellis
-e-mail: gqview@email.com
-homepage: gqview.sourceforge.net
-          gqview.netpedia.net (site just has a link back to above)
+Author: John Ellis <johne@verizon.net>
+e-mail: gqview@users.sourceforge.net
+homepage: http://gqview.sourceforge.net
+
+
+  PREVIEW RELEASE!        PREVIEW RELEASE!        PREVIEW RELEASE!
+
+  The stable version at the time of this release is GQview 1.4.5
+
+  PREVIEW RELEASE!        PREVIEW RELEASE!        PREVIEW RELEASE!
+
+
+======== README contents:
+
+    * Requirements
+    * Notes and changes for this release
+    * Installation
+    * Description / Features
+    * Documentation (keyboard shortcuts)
+    * Editor command macros
+    * Additional comments
+    * Translation status
+    * Credits
 
 ======== Requirements
 
-  GTK+-1.2.x: ftp://ftp.gtk.org/pub/gtk
-  Imlib 1.9: ftp://ftp.labs.redhat.com/pub/imlib
+  GTK+ 2.4.x: ftp://ftp.gtk.org/pub/gtk
 
-======== Notes and changes for this release
+======== Notes and changes for this release            [section:release_notes]
 
-  Changes:
-    > New translations for es, fr, sk, and updated tr.
-    > Mouse wheel scrolls image, or optionally changes image
-      next or back. (Wheel must be mapped to buttons 4 and 5)
-    * Fix to include RPM spec file in source.
+  Changes since 1.5.8:
+
+    - Set default image for similarity in a search to the current image.
+    - Update Italian translation.
+    * Fix main window keyboard shortcuts for editor commands.
+    * Fix thumbnail memory leak in file list view.
+    * Fix searching by keywords to ignore case.
+    * Fix writing of image data to cache in search utility.
+
+  New features in 2.0 (since 1.4.5):
+
+    + Search utility.
+    + Ability to assign keywords and comments to an image.
+    + Printing, including proof sheets.
+    + Support for the Thumbnail Managing Standard, on by default.
+    + Fullscreen support for multihead configurations.
+    + Fullscreen can now delay showing next image until it is loaded.
+    + Image information now viewable in fullscreen (I key).
+    + Extensive user manual.
+    + Command line control of existing GQview process.
+    + Collections are now updated when moving or renaming a file.
+    - Shift + Click on an image will start mouse scrolling.
+    - Control + Arrows will jump to respective edges of image.
+    - Slideshow interval precision is now .1 second.
+    - Find duplicates by checksum now uses MD5 algorithm.
+    - Exif sidebar can now be customized.
+    - Sort manager now has symlink option.
+    - Sort manager can now add images to collections.
+    - Window maximization state now retained between sessions.
+    - Clean up all dialogs.
+    - Added hidden option scroll_reset_method (see docs chapter 10.7).
+    - Maintenance utility for caches and data used by GQview.
+    - Utility to create thumbnails ahead of time in one step.
+    - Now requires GTK+ >= 2.4
 
   Notes:
-    bt_br.po is corrupt (my fault).
+
+    For translation status list, see further below.
+
+    Version in perenthesis indicates first appearance of feature or change.
+
+    (1.5.6) The "shared thumbnail cache" is a proposal to unify the method
+    of storing thumbnails, so that they are compatible between different
+    applications. Using this option will allow GQview to share it's
+    thumbnails with, and use thumbnails from, other applications. Current
+    releases of GNOME (through nautilus and gthumb) and the gimp use this
+    new thumbnailing system. The latest draft of the thumbnail standard
+    is located on freedesktop.org in the standards section, and links to:
+
+      http://triq.net/~jens/thumbnail-spec/index.html
+
+    The shared thumbnail standard and GQview's classic mechanism can
+    not be used at the same time, enabling the "use shared thumbnail cache"
+    option will disable the use of classic thumbnails and use the new
+    shared thumbnails.
+
+    (1.5.6) Collections contained in $HOME/.gqview/collections are now
+    updated when moving or renaming files, even if the collection is not
+    open at the time.
+
+    (1.5.6) The new option to the keep the full screen window above other
+    windows is only available when using at least GTK+ 2.4.0
+
+    (1.5.5) Dialog buttons are now ordered as recommended by the GNOME HIG.
+    The GNOME Human Interface Guidelines live at:
+       http://developer.gnome.org/projects/gup/hig/
+    To restore the old button order you must be using GTK 2.6 and set
+    the "gtk-alternative-button-order" key to TRUE in the gtkrc file:
+       $HOME/.gtkrc-2.0
+    by changing or adding this line:
+       gtk-alternative-button-order = 1
+
+    (1.5.5) The dithering option is now a hidden option, to change it
+    please refer to section 10.7 of the manual (help -> contents).
+
+    (1.5.0) Keywords and comments can now be entered for a file. Two places
+    allow keyword and comment entry. The first is via the new image details
+    sidebar accessed with (Ctrl-K), and the second is a details tab in the
+    properties dialog. If multiple files are selected, two buttons are
+    available: One allows adding the keywords to the selected files, the
+    other replaces existing keywords with the new keywords.
+
+    Keyword and comment metadata is stored in $(HOME)/.gqview/metadata, and
+    mirrors the existing filesystem tree. Metadata filenames have a suffix
+    of .meta appended. If 'cache into .thumbnails' is enabled, metadata is
+    stored locally to the original file in a hidden subfolder ".metadata".
+    If write permissions do not allow local saving of metadata, GQview falls
+    back to the default $(HOME)/.gqview/metadata location.
+
+    (1.5.0) Search dialog (F3 key) types:
+       Path       searches files in the entered folder.
+       Comments   searches all file metadata stored in ~/.gqview/metadata.
+       Results    searches the current list of results, allowing refinement.
+
+    (1.3.6) Drag and drop has been significantly improved, with a few
+    changes. Button 1 will now initiate a drag, button 2 will still work
+    for this, the difference is button 2 will not change the selection.
+
+    (1.3.6) A middle button click will now toggle selection of clicked item.
+
+    (1.3.5) UTF-8 and filenames: GQview works fine if your filenames
+    correctly match the prefered locale encoding (LANG environment
+    variable), and prints errors on the console when they do not.
+
+    (1.3.3) Safe delete does not include undo, you will need to go to the
+    trash folder and retrieve the file(s) manually. The files can be viewed
+    by clicking the view button near the safe delete option in the preferences
+    window. Files moved to the trash folder are prefixed with a 6 digit
+    number. Lower numbers are older, and deleted (permanently) first when the
+    trash size limit is reached.
+
+    (1.3.2) New in 1.3.2 are sidebars for exif data display and a sort
+    manager. Exif (ctrl + E) should be self explanatory. The Sort manager is a
+    directory list that allows copying or moving the displayed image to that
+    destination with one click of the button - very helpful when visually
+    sorting many images into subdirectories. To edit, reorder, or remove items
+    in the sort list, use the right click menu. The keyboard can also be used
+    by moving the focus to the desired button, then pressing menu/ctrl+f10 key
+    to display the popup menu, or shift+up/shift+down keys to change the
+    button location in the list. Items can also be added to the list by
+    dragging a directory onto the list.
+
+  Code hackers:
+
+    If you plan on making any major changes to the code that will be offered
+    for inclusion to the main source, please contact me first - so that we
+    can avoid duplication of effort. A good example is porting any part of
+    GQview that uses deprecated widgets to GTK2 widgets, there are already
+    several such patches floating around. This is especially true if the
+    change is listed in the TODO!
+                                             -John ( johne@verizon.net )
+
+  Known bugs:
+
+    see the TODO file.
 
 ======== Installation
 
@@ -34,9 +181,20 @@ homepage: gqview.sourceforge.net
   General install: make install
   Removal: make uninstall
 
+    - To build an RPM binary:
+
+         on RedHat 6.x, 7.x use 'rpm -tb gqview-x.x.x.tar.gz'.
+         on RedHat 8 and 9 use 'rpmbuild -tb gqview-x.x.x.tar.gz'.
+         on other rpm distros, it depends on which version of rpm is used, if
+         the option fails with the rpm command, try rpmbuild.
+
+      Where the resulting package is placed is distribution specific, for
+      example in RedHat it is placed in /usr/src/redhat/RPMS/{architecture}/
+
 ======== Description / Features
 
   GQview is a graphics file viewer. Basic features:
+
     - Single click image viewing / navigation.
     - Zoom functions.
     - Thumbnails, with optional caching and .xvpics support.
@@ -45,87 +203,371 @@ homepage: gqview.sourceforge.net
     - Slideshow.
     - Full screen.
     - Ability to open images in external editors (configurable).
+    - Collections.
+    - Comparison of images to find duplicates by name, size, date,
+      dimensions, or image content similarity.
+    - EXIF support.
 
-======== Documentation (brief)
+======== Documentation (brief)                         [section:documentation]
 
   Keyboard commands:
-    [PageDown]                         next image
-    [PageUp]                           previous image
-    [Home]                             first image in list
-    [End]                              last image in list
+    [PageDown], [Keypad PageDown]      next image
+    [PageUp], [Keypad PageUp]          previous image
+    [Home], [Keypad Home]              first image in list
+    [End], [Keypad End]                last image in list
     [Tab]                              tab completion in path entry window
-    [Escape],                          cancel completion in path entry window
-    [Escape]                           stop generating thumbnails
+    [Escape]                           cancel completion in path entry window
 
   Keyboard commands valid when image has focus (image has black rectangle)
-    arrow keys                         pan image
+    arrow keys, [Keypad arrows]        pan image
     [Shift] - arrow keys               pan image faster
     [Space]                            next image
-    [Backspace]                        previous image
+    [Backspace] , B                    previous image
 
   File menu related:
-    [Ctrl] - N                         New directory
-    [Ctrl] - C                         Copy file
-    [Ctrl] - M                         Move file
-    [Ctrl] - R                         Rename file
-    [Ctrl] - D, [Delete]               Delete file
-    [Ctrl] - Q, Q                      Exit
+    [Ctrl] - N                         new window
+    C                                  new empty collection
+    O                                  open collection
+    D                                  open a Find Duplicates window
+    [Shift]- P                         open Print dialog
+    [Ctrl] - F                         new folder
+    [Ctrl] - C                         copy file
+    [Ctrl] - M                         move file
+    [Ctrl] - R                         rename file
+    [Ctrl] - D, [Delete]               delete file
+    [Ctrl] - W                         close window
+    [Ctrl] - Q                         exit GQview
 
   Edit menu related:
-    [Ctrl] - 1 .. 8                    run external editor
+    [Ctrl] - 1 .. 0                    run external editor
+    [Ctrl] - A                         select all files
+    [Ctrl] - [Shift] - A               unselect all files
+    [Ctrl] - P                         display image properties window
     [Ctrl] - O                         configure Options
-    [Ctrl] - S                         Save options
-    [Ctrl] - T                         Maintain thumbnails
+    ]                                  rotate image clockwise
+    [                                  rotate image counterclockwise
+    [Shift] - R                        rotate image 180 degrees
+    [Shift] - M                        mirror image (horizontal)
+    [Shift] - F                        flip image (verticle)
 
   View menu related:
-    +, =                               zoom in
-    -                                  zoom out
-    Z                                  zoom to original size
-    X                                  zoom to fit
-    T                                  toggle thumbnail display
+    +, =, [Keypad +]                   zoom in
+    -, [Keypad -]                      zoom out
+    Z, [Keypad /]                      zoom to original size
+    X, [Keypad *]                      zoom to fit within window
+    W                                  zoom to fit width of window
+    H                                  zoom to fit height of window
+    1, 2, 3, 4                         zoom to Nx (3 = 3x)
+    9, 8, 7                            zoom to -2, -3, -4, respectively
+    T                                  toggle thumbnails in list view
+    [Ctrl] - L                         display files as list view
+    [Ctrl] - I                         display files as icon view
+    [Ctrl] - T                         toggle tree view of directories
     R                                  refresh list
-    F                                  (Un)float file selection area
-    H                                  (Un)hide file selection area
-    V                                  Toggle full screen
-    S                                  Toggle slide show
+    L                                  (Un)float file selection area
+    [ctrl] - H                         (Un)hide file selection area
+    [Ctrl] - K                         toggle Keywords sidebar
+    [Ctrl] - E                         toggle EXIF sidebar
+    [Ctrl] - S                         toggle sort manager sidebar
+    F, V                               toggle full screen
+    S                                  toggle slide show
+    P                      	       (Un)pause slideshow
 
-======== Thanks go to the following:
+  Collection windows:
 
- Translations:
+    arrows, [Keypad arrows]            move selection
+    [Shift] + arrows                   select multiple images
+    [Ctrl] + arrows                    move without changing selection
+    [Space]                            select only image with focus
+    [Ctrl] + [Space]                   toggle selection of image with focus
+    [Home], [Keypad Home]              move focus to top of images
+    [End], [Keypad End]                move focus to end of images
+      (shift and ctrl work with Home, End, PageUp/Down as with arrows)
+    [Ctrl] - A                         select all images
+    [Ctrl] - [Shift] - A               unselect all images
 
-  "Sandokan" <cortex@nextra.sk>
-      for Slovak translation
+    [Delete], [Keypad Delete]          remove selected images from collection
+                                       (does not delete file)
+    [Ctrl] - L                         add images from main window file list
 
-  Rodrigo Sancho Senosiain <ruy_ikari@bigfoot.com>
-      for Spanish translation
+    [Ctrl] - T                         toggle display of icon filename text
 
-  Jean-pierre PEDRON <jppedron@club-internet.fr>
-      for French translation
+    N                                  sort collection by name
+    D                                  sort collection by date
+    B                                  sort collection by size (bytes)
+    P                                  sort collection by location (path)
+    I (*)                              sort collection by name numerically
+                                   (file1 file10 file2 -> file1 file2 file10)
 
-  F�tih Demir <kabalak@gmx.net>
-      for Turkish translation
+    [Enter], [Keypad Enter]            view image with focus in main window
+    V                                  view image with focus in new window
+    [Ctrl] - 1 .. 0                    open selected image(s) in editor
 
-  Kam Tik <kamtik@hongkong.com>
-      for Triditional Chinese (Big5) translation
+    S                                  save collection
+    [Ctrl] - S                         save collection as...
+    A                                  append to collection...
 
-  Oleg Andrjushenko <oandr@itec.cn.ua>
-      for Russian translation
+    [Ctrl] - C                         copy selected files...
+    [Ctrl] - M                         move selected files...
+    [Ctrl] - R                         rename selected files...
+    [Ctrl] - D                         delete selected files
 
-  Vitor Fernandes <vitor_fernandes@SoftHome.net>
-      for Brazilian Portuguese translation
+    [Ctrl] - P                         display image properties window
 
-  Shingo Akagaki <akagaki@ece.numazu-ct.ac.jp>a
-      for Japanese translation
+    [Ctrl] - W                         close window
 
-  Matthias Warkus <mawarkus@t-online.de>
-      for German translation.
+  Find Duplicates window:
+
+    [Ctrl] - A                         select all images
+    [Ctrl] - [Shift] - A               unselect all images
+    1                                  select group 1 duplicates
+    2                                  select group 2 duplicates
+
+    [Ctrl] - L                         add images from main window file list
+    C                                  add selected images to new collection
+
+    [Delete], [Keypad Delete]          remove selected images from list
+    [Ctrl] - [Delete]                  clear window
+
+    [Enter], [Keypad Enter]            view image with focus in main window
+    V                                  view image with focus in new window
+    [Ctrl] - 1 .. 0                    open selected image(s) in editor
+
+    [Ctrl] - C                         copy selected files...
+    [Ctrl] - M                         move selected files...
+    [Ctrl] - R                         rename selected files...
+    [Ctrl] - D                         delete selected files
+
+    [Ctrl] - P                         display image properties window
+
+    [Ctrl] - W                         close window
+
+  (*) This is a compile time option enabled when strverscmp is found.
+
+  Mouse image control:
+
+    Button 1                           view next image
+    Button 2                           view previous image
+    Button 3                           context menu
+
+    Button 1 drag                      scroll/pan image
+    Button 2 drag                      initiate drag and drop
+
+    Wheel up/down                      change to previous/next image
+    Wheel up/down + [Shift]            scroll image up/down
+    Wheel up/down + [Control]          zoom image in/out
+
+======== Editor command macros                               [section:editors]
+
+ Any one of the following filename markers may be used:
+
+    %f  Replaced with list of selected files, may occur once.
+    %p  Command is run once for each selected file, may occur multiple times.
+   none When neither %f or %p exist, list of files is appended to command.
+
+ Use of the following to display output window for the command:
+
+    %v  Display result of command in output window, must occur as first two
+        characters in the command.
+    %V  Like v above, but when used with %p, only displays output window for
+        multiple files. The output of a single file is suppressed.
+
+======== Additional comments:
+
+  Advanced options:
+    These options are not adjustable in the preferences window, to change
+    them edit $(HOME)/.gqview/gqviewrc while GQview is not running. An option
+    becomes 'advanced' when it is removed from the user's visibility, and
+    only remains so that those few users that really want it will not complain
+    about it's removal :)
+
+  lazy_image_sync: false
+    Set true to enable the old behavior of lazy image updates when changing
+    directories. (viewed image will remain until a new file is selected)
+
+  display_dialogs_under_mouse: false
+    Set true to force dialogs to display under the current mouse position,
+    note that this goes against the preference set for the window manager.
+
+======== Translation status:
+
+ (as of 1.5.8)
+
+   Please send po files/patches in gzipped form to ensure data integrity.
+
+Language     Comp (%)  Trans   Fuzzy Untrans  Warn
+--------------------------------------------------
+ar                67     448     149      70
+bg                64     427     166      74
+cs                58     387     186      94
+da                20     137     286     244
+de                56     375     185     107
+es                91     609      50       8
+et                30     203     283     181
+fi                58     387     189      91
+fr                91     609      50       8
+hu                55     373     186     108
+id                31     207     284     176
+it                99     664       2       1
+ja                78     523     117      27
+nl                58     387     186      94
+no                25     168     296     203
+pl                55     369     188     110
+pt_BR             25     168     296     203
+ro                58     387     188      92
+ru                99     664       2       1
+sk                58     387     189      91
+sl                23     154     302     211
+sv                99     664       2       1
+th                24     161     295     211
+tr                10      70     286     311
+uk                26     179     292     196
+vi                56     380     189      98
+zh_CN.GB2312      25     168     296     203
+zh_TW             55     368     186     113
+--------------------------------------------------
+
+
+======== Credits                                             [section:credits]
+
+
+  Translations:
+
+     Grzegorz Kowal <g_kowal@poczta.onet.pl>
+     Zbigniew Chyla <cyba@gnome.pl>
+     Emil Nowak <emil5@go2.pl>
+         for Polish translation
+
+     Christopher R. Gabriel <cgabriel@pluto.linux.it>
+     Di Maggio Salvatore <Salvatore.Dimaggio@bologna.marelli.it>
+     Costantino <inverness1ATvirgilio.it>
+         for Italian translation
+
+     Sandokan <cortex@nextra.sk>
+     Ivan Priesol <priesol@iris-sk.sk>
+         for Slovak translation
+
+     Rodrigo Sancho Senosiain <ruy_ikari@bigfoot.com>
+     Ariel Fermani <the_end@bbs.frc.utn.edu.ar>
+         for Spanish translation
+
+     Eric Lassauge <lassauge@users.sf.net>
+     Jean-Pierre Pedron <jppedron@club-internet.fr>
+     Pascal Bleser <pascal.bleser@atosorigin.com>
+     Nicolas Boos <nicolas.boos@wanadoo.fr>
+     Nicolas Bonifas <nicolas_bonifas@users.sf.net>
+         for French translation
+
+     Fâtih Demir <kabalak@gmx.net>
+         for Turkish translation
+
+     Kam Tik <kamtik@hongkong.com>
+     Abel Cheung <deaddog@deaddog.ws>
+     S.J. Luo <crystal@mickey.ee.nctu.edu.tw>
+         for Traditional Chinese (Big5) translation
+
+     Junichi Uekawa <dancer@debian.org>
+     Oleg Andrjushenko <oandr@itec.cn.ua>
+     Michael Bravo <mbravo@tag-ltd.spb.ru>
+     Sergey Pinaev <dfo@antex.ru>
+         for Russian translation
+
+     Guilherme M. Schroeder <slump@ieg.com.br>
+     Vitor Fernandes <vitor_fernandes@SoftHome.net>
+         for Brazilian Portuguese translation
+
+     Shingo Akagaki <akagaki@ece.numazu-ct.ac.jp>
+     Yuuki Ninomiya <gm@debian.or.jp>
+     Sato Satoru <ss@gnome.gr.jp>
+     Takeshi AIHANA <aihana@gnome.gr.jp>
+         for Japanese translation
+
+     Matthias Warkus <mawarkus@t-online.de>
+     Thomas Klausner <wiz@danbala.ifoer.tuwien.ac.at>
+     Danny Milosavljevic <danny_milo@yahoo.com>
+         for German translation
+
+     Matej Erman <matej.erman@guest.arnes.si>
+         for Slovene translation
+
+     MÃtyÃs Tibor <templar@tempi.scene.hu>
+     Koblinger Egmont <egmont@uhulinux.hu>
+     Sári Gábor <saga@externet.hu>
+         for Hungarian translation
+
+     Wu Yulun <migr@operamail.com>
+     Charles Wang <charlesw1234cn@yahoo.com.cn>
+         for simplified Chinese translation
+
+     H.J.Visser <H.J.Visser@harrie.mine.nu>
+     Tino Meinen <a.t.meinen@chello.nl>
+         for Dutch translation
+
+     Lauri Nurmi <lanurmi@iki.fi>
+         for Finnish translation
+
+     Ilmar Kerm <ikerm@hot.ee>
+         for Estonian translation
+
+     Volodymyr M. Lisivka <lvm@mystery.lviv.net>
+         for Ukrainian translation
+
+     Birger Langkjer <birger.langkjer@image.dk>
+         for Danish translation
+
+     Torgeir Ness Sundli <torgeir@mp3bil.no>
+         for Norwegian translation
+
+     Jan Raska <jan_raska@hotmail.com>
+     Michal Bukovjan <bukm@centrum.cz>
+         for Czech translation
+
+     Phanumas Thanyaboon <maskung@hotmail.com>
+         for Thai translation
+
+     Harald Ersch <hersch@romatsa.ro>
+         for Romanian translation
+
+     pclouds <pclouds@vnlinux.org>
+         for Vietnamese translation
+
+     Tedi Heriyanto <tedi_h@gmx.net>
+         for Indonesian translation
+
+     Vladimir Petrov <vladux@mail.bg>
+         for Bulgarian translation
+
+     Hans Öfverbeck <hans.ofverbeck@home.se>
+         for Swedish translation
+
+     Youssef Assad <youssef@devcabal.org>
+         for Arabic translation
 
  Fixes, additions, and patches:
 
-  Diederen Damien <D.Diederen@student.ulg.ac.be>
-      for .xvpics thumbnail reading support.
+     Eric Swalens
+     Quy Tonthat
+         for Exif support.
 
-  All those that I failed to list here.
+     Diederen Damien <D.Diederen@student.ulg.ac.be>
+         for .xvpics thumbnail reading support.
+
+     Nick Rusnov <nick@grawk.net>
+     Ryan Murray <rmurray@debian.org>
+         for man page.
+
+     Martin Pool <mbp@samba.org>
+         for sort by number, misc. improvements.
+
+     Jörg Mensmann <joerg.mensmann@gmx.de>
+         for Xinerama support patch.
+
+     Vadim Shliakhov
+         for miscellaneous fixes.
+
+
+     And...
+         Thanks to the users for finding GQview useful.
 
 
 ========

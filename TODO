@@ -1,48 +1,59 @@
-TODO key: d = done, w = work in progress, ? = possibly fixed, * = wt? - how?
-          PB = can only be done after move to gdk_pixbuf
+TODO key: d = done, w = work in progress, ? = possibly fixed
+          * = required before next release
 
-Major:
+Major (release blockers):
 ----------------------------------------------
- >NOW that gdk-pixbuf(0.7.0) does not require gnome-libs, the conversion to it
-  will start.
- >fix translation pt_BR.po file (corrupted)
+
+ must Fix for 2.0.0:
+ -------------------
+
+ > update translations: ( ) ( ) ( )
+
+ -------------
+
+ > document recent additions/changes:
+    (none currently)
+
 
 Minor:
 ----------------------------------------------
-d>save thumbnail on/off setting.
- >properly restore main window when coming back from full screen.
-   (position / maximized, etc.)
-d>make space/back follow schedule during random slideshow.
- >add larger thumbnail option.
- >save history lists for move/copy dialogs, etc.
- >maybe show image in delete/rename/copy/move dialogs (should be simple now).
- >add a read-ahead buffer for next image, note that this will not be threaded. (PB)
-  (gdk-pixbuf will allow it to be done in short idle calls, allowing interuption)
- >generate thumbnails in idle calls, instead of creating a new main loop to seem
-  responsive.
- >make *'s const, where appropriate ()
- >make Escape key cancel dialogs.
 
- >progress meter during load, or progressive load. (PB)
- >add progress dialog when moving/copying/deleting multiple files. (PB)
- >.xbm file format not listed by default? .pnm, more?
+ > when resizing/refreshing collection window, keep the same top left thumbnail visible
 
- >ability to specify view window background color
- >show wait cursor during image load (after update to PB, may not be as useful)
+ > add toolbar to: (UPDATE: these toolbars may not make it into 1.6)
+   > find dupes window (with button to open dialog to add new files/folders)
+   > collection window
+   > search window
 
- >reload should reload the image too. (PB) <-- reason: Imlib caching sometimes misses
-    modification times.
 
 Wishlist?:
 ----------------------------------------------
- >recursive slide show (careful with implementation ,requires slideshow recode)
-d>scroll to first matching file during tab completion typing in main window.
- >allow multiple columns when viewing thumbs and tools float. (multi column clist?)
- >add bookmark type option.
- >allow to sort files by date and size.
- >add destination move file preset type locations bound to 1 - 0 keys. (like editors?)
- >move to gdkpixbuf, when it is ready (1.0)
- >image list, like playlist in sound players
- >add vert drag bar
- >make *.jpg on command line show only jpg files, for ex.
+
+ > Initiating full screen from the command line should not
+   show main window until full screen is exited.
+
+ > add animated image support
+
+ > add gamma correction patch
+
+ > deleting a file should not discontinue slide show.
+
+ > add option to only preload max # of thumbnails (to conserve memory),
+   then release old/load new needed thumbnails on demand.
+
+ > printing (low priority):
+   > fix text postscript output by converting utf8 to a locale (better) understood by postscript...
+   > allow selection of background color... (for image files only?)...
+   > allow text color and font selection
+
+ > image comparison window (displays two or more images for comparison)
+
+ > add symlink option (in addition to the move/copy stuff.)
+
+ > allow slideshow transition effects (wipe/fade etc.)
+
+ > allow on the fly slideshow delay change with [,] and [.] (< and > too?)
+   > show change in overlay for image...
+   > account for changing of imd when toggling full screen...
+   > should change be only to current slideshow?
 
