@@ -100,6 +100,7 @@
 
 typedef enum {
 	LAYOUT_TIMELINE = 0,
+	LAYOUT_CALENDAR,
 	LAYOUT_FOLDERS_LINEAR,
 	LAYOUT_FOLDERS_FLOWER,
 	LAYOUT_GRID,
@@ -236,6 +237,8 @@ static GList *pan_window_list = NULL;
 
 static GList *pan_window_layout_list(const gchar *path, SortType sort, gint ascend);
 
+static GList *pan_layout_intersect(PanWindow *pw, gint x, gint y, gint width, gint height);
+
 static GtkWidget *pan_popup_menu(PanWindow *pw);
 static void pan_fullscreen_toggle(PanWindow *pw, gint force_off);
 static void pan_overlay_toggle(PanWindow *pw);
@@ -307,6 +310,34 @@ static gint date_compare(time_t a, time_t b, DateLengthType length)
 	if (length == DATE_LENGTH_DAY) return TRUE;
 
 	return (ta.tm_hour == tb.tm_hour);
+}
+
+static gint date_value(time_t d, DateLengthType length)
+{
+	struct tm td;
+
+	if (!localtime_r(&d, &td)) return -1;
+
+	switch (length)
+		{
+		case DATE_LENGTH_DAY:
+			return td.tm_mday;
+			break;
+		case DATE_LENGTH_WEEK:
+			return td.tm_wday;
+			break;
+		case DATE_LENGTH_MONTH:
+			return td.tm_mon + 1;
+			break;
+		case DATE_LENGTH_YEAR:
+			return td.tm_year + 1900;
+			break;
+		case DATE_LENGTH_EXACT:
+		default:
+			break;
+		}
+
+	return -1;
 }
 
 static gchar *date_value_string(time_t d, DateLengthType length)
@@ -1075,6 +1106,8 @@ static void pan_item_remove(PanWindow *pw, PanItem *pi)
 	if (!pi) return;
 
 	if (pw->click_pi == pi) pw->click_pi = NULL;
+	if (pw->queue_pi == pi)	pw->queue_pi = NULL;
+	pw->queue = g_list_remove(pw->queue, pi);
 
 	pw->list = g_list_remove(pw->list, pi);
 	image_area_changed(pw->imd, pi->x, pi->y, pi->width, pi->height);
@@ -1233,7 +1266,7 @@ static GList *pan_item_find_by_path(PanWindow *pw, ItemType type, const gchar *p
 	return g_list_reverse(list);
 }
 
-static PanItem *pan_item_find_by_coord(PanWindow *pw, ItemType type, gint x, gint y)
+static PanItem *pan_item_find_by_coord(PanWindow *pw, ItemType type, gint x, gint y, const gchar *key)
 {
 	GList *work;
 
@@ -1248,7 +1281,8 @@ static PanItem *pan_item_find_by_coord(PanWindow *pw, ItemType type, gint x, gin
 		pi = work->data;
 		if ((pi->type == type || type == ITEM_NONE) &&
 		     x >= pi->x && x < pi->x + pi->width &&
-		     y >= pi->y && y < pi->y + pi->height)
+		     y >= pi->y && y < pi->y + pi->height &&
+		    (!key || (pi->key && strcmp(pi->key, key) == 0)))
 			{
 			return pi;
 			}
@@ -1798,6 +1832,343 @@ static void pan_window_layout_compute_folders_linear(PanWindow *pw, const gchar 
 	if (height) *height = h;
 }
 
+/*
+ *-----------------------------------------------------------------------------
+ * calendar
+ *-----------------------------------------------------------------------------
+ */
+
+#define PAN_CAL_DAY_WIDTH 100
+#define PAN_CAL_DAY_HEIGHT 80
+#define PAN_CAL_DOT_SIZE 3
+#define PAN_CAL_DOT_GAP 2
+#define PAN_CAL_DOT_COLOR 0, 0, 0
+#define PAN_CAL_DOT_ALPHA 32
+
+static void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
+{
+	PanItem *pbox;
+	PanItem *pi;
+	GList *list;
+	GList *work;
+	gint x1, y1, x2, y2, x3, y3;
+	gint x, y, w, h;
+	gint grid;
+	gint column;
+	
+	while ((pi = pan_item_find_by_key(pw, ITEM_NONE, "day_bubble"))) pan_item_remove(pw, pi);
+
+	if (!pi_day || pi_day->type != ITEM_BOX ||
+	    !pi_day->key || strcmp(pi_day->key, "day") != 0) return;
+
+	list = pan_layout_intersect(pw, pi_day->x, pi_day->y, pi_day->width, pi_day->height);
+
+	work = list;
+	while (work)
+		{
+		PanItem *dot;
+		GList *node;
+
+		dot = work->data;
+		node = work;
+		work = work->next;
+
+		if (dot->type != ITEM_BOX || !dot->fd ||
+		    !dot->key || strcmp(dot->key, "dot") != 0)
+			{
+			list = g_list_delete_link(list, node);
+			}
+		}
+
+	if (!list) return;
+
+	grid = (gint)(sqrt(g_list_length(list)) + 0.5);
+
+	x = pi_day->x + pi_day->width + 4;
+	y = pi_day->y;
+
+#if 0
+	if (y + grid * (PAN_THUMB_SIZE + PAN_THUMB_GAP) + PAN_FOLDER_BOX_BORDER * 4 > pw->imd->image_height)
+		{
+		y = pw->imd->image_height - (grid * (PAN_THUMB_SIZE + PAN_THUMB_GAP) + PAN_FOLDER_BOX_BORDER * 4);
+		}
+#endif
+
+	pbox = pan_item_new_box(pw, NULL, x, y, PAN_FOLDER_BOX_BORDER, PAN_FOLDER_BOX_BORDER,
+				PAN_POPUP_BORDER,
+				PAN_POPUP_COLOR, PAN_POPUP_ALPHA,
+				PAN_POPUP_BORDER_COLOR, PAN_POPUP_ALPHA);
+	pan_item_set_key(pbox, "day_bubble");
+
+	pi = list->data;
+	if (pi->fd)
+		{
+		PanItem *plabel;
+		gchar *buf;
+
+		buf = date_value_string(pi->fd->date, DATE_LENGTH_WEEK);
+		plabel = pan_item_new_text(pw, x, y, buf, TEXT_ATTR_BOLD | TEXT_ATTR_HEADING,
+					   PAN_POPUP_TEXT_COLOR, 255);
+		pan_item_set_key(plabel, "day_bubble");
+		g_free(buf);
+
+		pan_item_size_by_item(pbox, plabel, 0);
+
+		y += plabel->height;
+		}
+
+	column = 0;
+
+	x += PAN_FOLDER_BOX_BORDER;
+	y += PAN_FOLDER_BOX_BORDER;
+
+	work = list;
+	while (work)
+		{
+		PanItem *dot;
+
+		dot = work->data;
+		work = work->next;
+
+		if (dot->fd)
+			{
+			PanItem *pimg;
+
+			pimg = pan_item_new_thumb(pw, file_data_new_simple(dot->fd->path), x, y);
+			pan_item_set_key(pimg, "day_bubble");
+
+			pan_item_size_by_item(pbox, pimg, PAN_FOLDER_BOX_BORDER);
+
+			column++;
+			if (column < grid)
+				{
+				x += pimg->width + PAN_THUMB_GAP;
+				}
+			else
+				{
+				column = 0;
+				x = pbox->x + PAN_FOLDER_BOX_BORDER;
+				y += pimg->height + PAN_THUMB_GAP;
+				}
+			}
+		}
+
+	x1 = pi_day->x + pi_day->width - 8;
+	y1 = pi_day->y + 8;
+	x2 = pbox->x + 1;
+	y2 = pbox->y + 36;
+	x3 = pbox->x + 1;
+	y3 = pbox->y + 12;
+	triangle_rect_region(x1, y1, x2, y2, x3, y3,
+			     &x, &y, &w, &h);
+
+	pi = pan_item_new_tri(pw, NULL, x, y, w, h,
+			      x1, y1, x2, y2, x3, y3,
+			      PAN_POPUP_COLOR, PAN_POPUP_ALPHA);
+	pan_item_tri_border(pi, BORDER_1 | BORDER_3, PAN_POPUP_BORDER_COLOR, PAN_POPUP_ALPHA);
+	pan_item_set_key(pi, "day_bubble");
+	pan_item_added(pw, pi);
+
+	pan_item_box_shadow(pbox, PAN_SHADOW_OFFSET * 2, PAN_SHADOW_FADE * 2);
+	pan_item_added(pw, pbox);
+}
+
+static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path, gint *width, gint *height)
+{
+	GList *list;
+	GList *work;
+	gint x, y;
+	time_t tc;
+	gint count;
+	gint day_max;
+	gint day_width;
+	gint day_height;
+	gint grid;
+	gint year = 0;
+	gint month = 0;
+	gint end_year = 0;
+	gint end_month = 0;
+
+	pw->cache_list = filelist_sort(pw->cache_list, SORT_TIME, TRUE);
+
+	list = pan_window_layout_list(path, SORT_NONE, TRUE);
+	list = filelist_sort(list, SORT_TIME, TRUE);
+
+	day_max = 0;
+	count = 0;
+	tc = 0;
+	work = list;
+	while (work)
+		{
+		FileData *fd;
+
+		fd = work->data;
+		work = work->next;
+
+		if (!date_compare(fd->date, tc, DATE_LENGTH_DAY))
+			{
+			count = 0;
+			tc = fd->date;
+			}
+		else
+			{
+			count++;
+			if (day_max < count) day_max = count;
+			}
+		}
+
+	printf("biggest day contains %d images\n", day_max);
+
+	grid = (gint)(sqrt((double)day_max) + 0.5) * (PAN_THUMB_SIZE + PAN_SHADOW_OFFSET * 2 + PAN_THUMB_GAP);
+	day_width = MAX(PAN_CAL_DAY_WIDTH, grid);
+	day_height = MAX(PAN_CAL_DAY_HEIGHT, grid);
+
+	if (list)
+		{
+		FileData *fd = list->data;
+
+		year = date_value(fd->date, DATE_LENGTH_YEAR);
+		month = date_value(fd->date, DATE_LENGTH_MONTH);
+		}
+
+	work = g_list_last(list);
+	if (work)
+		{
+		FileData *fd = work->data;
+		end_year = date_value(fd->date, DATE_LENGTH_YEAR);
+		end_month = date_value(fd->date, DATE_LENGTH_MONTH);
+		}
+
+	*width = PAN_FOLDER_BOX_BORDER * 2;
+	*height = PAN_FOLDER_BOX_BORDER * 2;
+
+	x = PAN_FOLDER_BOX_BORDER;
+	y = PAN_FOLDER_BOX_BORDER;
+
+	work = list;
+	while (work && (year < end_year || (year == end_year && month <= end_month)))
+		{
+		PanItem *pi_month;
+		PanItem *pi_text;
+		gint day;
+		gint days;
+		gint col;
+		gint row;
+		time_t dt;
+		gchar *buf;
+
+		dt = date_to_time((month == 12) ? year + 1 : year, (month == 12) ? 1 : month + 1, 1);
+		dt -= 60 * 60 * 24;
+		days = date_value(dt, DATE_LENGTH_DAY);
+		dt = date_to_time(year, month, 1);
+		col = date_value(dt, DATE_LENGTH_WEEK);
+		row = 1;
+
+		x = PAN_FOLDER_BOX_BORDER;
+
+		pi_month = pan_item_new_box(pw, NULL, x, y, PAN_CAL_DAY_WIDTH * 7, PAN_CAL_DAY_HEIGHT / 4,
+					    PAN_FOLDER_BOX_OUTLINE_THICKNESS,
+					    PAN_FOLDER_BOX_COLOR, PAN_FOLDER_BOX_ALPHA,
+					    PAN_FOLDER_BOX_OUTLINE_COLOR, PAN_FOLDER_BOX_OUTLINE_ALPHA);
+		buf = date_value_string(dt, DATE_LENGTH_MONTH);
+		pi_text = pan_item_new_text(pw, x, y, buf,
+					     TEXT_ATTR_BOLD | TEXT_ATTR_HEADING,
+					     PAN_TEXT_COLOR, 255);
+		g_free(buf);
+		pi_text->x = pi_month->x + (pi_month->width - pi_text->width) / 2;
+
+		pi_month->height = pi_text->y + pi_text->height - pi_month->y;
+
+		x = PAN_FOLDER_BOX_BORDER + col * PAN_CAL_DAY_WIDTH;
+		y = pi_month->y + pi_month->height + PAN_FOLDER_BOX_BORDER;
+
+		for (day = 1; day <= days; day++)
+			{
+			FileData *fd;
+			PanItem *pi_day;
+			gint dx, dy;
+			gint n = 0;
+
+			dt = date_to_time(year, month, day);
+
+			pi_day = pan_item_new_box(pw, NULL, x, y, PAN_CAL_DAY_WIDTH, PAN_CAL_DAY_HEIGHT,
+						  PAN_FOLDER_BOX_OUTLINE_THICKNESS,
+						  PAN_FOLDER_BOX_COLOR, PAN_FOLDER_BOX_ALPHA,
+						  PAN_FOLDER_BOX_OUTLINE_COLOR, PAN_FOLDER_BOX_OUTLINE_ALPHA);
+			pan_item_set_key(pi_day, "day");
+
+			dx = x + PAN_CAL_DOT_GAP * 2;
+			dy = y + PAN_CAL_DOT_GAP * 2;
+
+			fd = (work) ? work->data : NULL;
+			while (fd && date_compare(fd->date, dt, DATE_LENGTH_DAY))
+				{
+				PanItem *pi;
+
+				pi = pan_item_new_box(pw, fd, dx, dy, PAN_CAL_DOT_SIZE, PAN_CAL_DOT_SIZE,
+						      0,
+						      PAN_CAL_DOT_COLOR, PAN_CAL_DOT_ALPHA,
+						      0, 0, 0, 0);
+				pan_item_set_key(pi, "dot");
+
+				dx += PAN_CAL_DOT_SIZE + PAN_CAL_DOT_GAP;
+				if (dx + PAN_CAL_DOT_SIZE > pi_day->x + pi_day->width - PAN_CAL_DOT_GAP * 2)
+					{
+					dx = x + PAN_CAL_DOT_GAP * 2;
+					dy += PAN_CAL_DOT_SIZE + PAN_CAL_DOT_GAP;
+					}
+				if (dy + PAN_CAL_DOT_SIZE > pi_day->y + pi_day->height - PAN_CAL_DOT_GAP * 2)
+					{
+					/* must keep all dots within respective day even if it gets ugly */
+					dy = y + PAN_CAL_DOT_GAP * 2;
+					}
+
+				pi_day->color_a = MIN(PAN_FOLDER_BOX_ALPHA + 64 + n, 255);
+				n++;
+
+				work = work->next;
+				fd = (work) ? work->data : NULL;
+				}
+
+			buf = g_strdup_printf("%d", day);
+			pan_item_new_text(pw, x + 4, y + 4, buf, TEXT_ATTR_BOLD | TEXT_ATTR_HEADING,
+					  PAN_TEXT_COLOR, 255);
+			g_free(buf);
+
+
+			pan_item_size_coordinates(pi_day, PAN_FOLDER_BOX_BORDER, width, height);
+
+			col++;
+			if (col > 6)
+				{
+				col = 0;
+				row++;
+				x = PAN_FOLDER_BOX_BORDER;
+				y += PAN_CAL_DAY_HEIGHT;
+				}
+			else
+				{
+				x += PAN_CAL_DAY_WIDTH;
+				}
+			}
+
+		if (col > 0) y += PAN_CAL_DAY_HEIGHT;
+		y += PAN_FOLDER_BOX_BORDER * 2;
+
+		month ++;
+		if (month > 12)
+			{
+			year++;
+			month = 1;
+			}
+		}
+
+	*width += grid;
+	*height = MAX(*height, grid + PAN_FOLDER_BOX_BORDER * 2 * 2);
+
+	g_list_free(list);
+}
+
 static void pan_window_layout_compute_timeline(PanWindow *pw, const gchar *path, gint *width, gint *height)
 {
 	GList *list;
@@ -2025,6 +2396,9 @@ static void pan_window_layout_compute(PanWindow *pw, const gchar *path,
 		case LAYOUT_FOLDERS_FLOWER:
 			pan_window_layout_compute_folders_flower(pw, path, width, height, scroll_x, scroll_y);
 			break;
+		case LAYOUT_CALENDAR:
+			pan_window_layout_compute_calendar(pw, path, width, height);
+			break;
 		case LAYOUT_TIMELINE:
 			pan_window_layout_compute_timeline(pw, path, width, height);
 			break;
@@ -2173,6 +2547,13 @@ static gint pan_layout_queue_step(PanWindow *pw)
 	pi = pw->queue->data;
 	pw->queue = g_list_remove(pw->queue, pi);
 	pw->queue_pi = pi;
+
+	if (!pw->queue_pi->fd)
+		{
+		pw->queue_pi->queued = FALSE;
+		pw->queue_pi = NULL;
+		return TRUE;
+		}
 
 	image_loader_free(pw->il);
 	pw->il = NULL;
@@ -3442,7 +3823,12 @@ static void pan_search_activate_cb(const gchar *text, gpointer data)
 
 	if (pan_search_by_path(pw, text)) return;
 
-	if (pw->layout == LAYOUT_TIMELINE && pan_search_by_date(pw, text)) return;
+	if ((pw->layout == LAYOUT_TIMELINE ||
+	     pw->layout == LAYOUT_CALENDAR) &&
+	    pan_search_by_date(pw, text))
+		{
+		return;
+		}
 
 	if (pan_search_by_partial(pw, text)) return;
 
@@ -3483,18 +3869,28 @@ static void button_cb(ImageWindow *imd, gint button, guint32 time,
 	PanWindow *pw = data;
 	PanItem *pi = NULL;
 	GtkWidget *menu;
+	gint rx, ry;
 
+	rx = ry = 0;
 	if (pw->imd->scale)
 		{
-		pi = pan_item_find_by_coord(pw, (pw->size > LAYOUT_SIZE_THUMB_LARGE) ? ITEM_IMAGE : ITEM_THUMB,
-			    (gint)((double)(pw->imd->x_scroll + x - pw->imd->x_offset) / pw->imd->scale),
-			    (gint)((double)(pw->imd->y_scroll + y - pw->imd->y_offset) / pw->imd->scale));
+		rx = (double)(pw->imd->x_scroll + x - pw->imd->x_offset) / pw->imd->scale;
+		ry = (double)(pw->imd->y_scroll + y - pw->imd->y_offset) / pw->imd->scale;
 		}
+
+	pi = pan_item_find_by_coord(pw, (pw->size > LAYOUT_SIZE_THUMB_LARGE) ? ITEM_IMAGE : ITEM_THUMB,
+				    rx, ry, NULL);
 
 	switch (button)
 		{
 		case 1:
 			pan_info_update(pw, pi);
+
+			if (!pi && pw->layout == LAYOUT_CALENDAR)
+				{
+				pi = pan_item_find_by_coord(pw, ITEM_BOX, rx, ry, "day");
+				pan_calendar_update(pw, pi);
+				}
 			break;
 		case 2:
 			break;
@@ -3514,6 +3910,16 @@ static void scroll_cb(ImageWindow *imd, GdkScrollDirection direction, guint32 ti
 #if 0
 	PanWindow *pw = data;
 #endif
+	gint w, h;
+
+	w = imd->vis_width;
+	h = imd->vis_height;
+
+	if (!(state & GDK_SHIFT_MASK))
+		{
+		w /= 3;
+		h /= 3;
+		}
 
 	if (state & GDK_CONTROL_MASK)
 		{
@@ -3529,33 +3935,21 @@ static void scroll_cb(ImageWindow *imd, GdkScrollDirection direction, guint32 ti
 				break;
 			}
 		}
-	else if ( (state & GDK_SHIFT_MASK) != (mousewheel_scrolls))
-		{
-		switch (direction)
-			{
-			case GDK_SCROLL_UP:
-				image_scroll(imd, 0, -MOUSEWHEEL_SCROLL_SIZE);
-				break;
-			case GDK_SCROLL_DOWN:
-				image_scroll(imd, 0, MOUSEWHEEL_SCROLL_SIZE);
-				break;
-			case GDK_SCROLL_LEFT:
-				image_scroll(imd, -MOUSEWHEEL_SCROLL_SIZE, 0);
-				break;
-			case GDK_SCROLL_RIGHT:
-				image_scroll(imd, MOUSEWHEEL_SCROLL_SIZE, 0);
-				break;
-			default:
-				break;
-			}
-		}
 	else
 		{
 		switch (direction)
 			{
 			case GDK_SCROLL_UP:
+				image_scroll(imd, 0, -h);
 				break;
 			case GDK_SCROLL_DOWN:
+				image_scroll(imd, 0, h);
+				break;
+			case GDK_SCROLL_LEFT:
+				image_scroll(imd, -w, 0);
+				break;
+			case GDK_SCROLL_RIGHT:
+				image_scroll(imd, w, 0);
 				break;
 			default:
 				break;
@@ -3815,6 +4209,7 @@ static void pan_window_new_real(const gchar *path)
 
 	combo = gtk_combo_box_new_text();
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Timeline"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Calendar"));
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Folders"));
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Folders (flower)"));
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Grid"));
