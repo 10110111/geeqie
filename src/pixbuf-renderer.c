@@ -188,7 +188,7 @@ static gint pr_tile_is_visible(PixbufRenderer *pr, ImageTile *it);
 static void pr_queue_clear(PixbufRenderer *pr);
 static void pr_queue_merge(QueueData *parent, QueueData *qd);
 static void pr_queue(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
-		     gint clamp, ImageTileRenderType render, gint new_data);
+		     gint clamp, ImageTileRenderType render, gint new_data, gint only_existing);
 
 static void pr_redraw(PixbufRenderer *pr, gint new_data);
 
@@ -803,7 +803,7 @@ static void pr_overlay_queue_draw(PixbufRenderer *pr, OverlayData *od, gint hidd
 	pr_queue(pr, pr->x_scroll - pr->x_offset + x,
 		 pr->y_scroll - pr->y_offset + y,
 		 w, h,
-		 FALSE, TILE_RENDER_ALL, FALSE);
+		 FALSE, TILE_RENDER_ALL, FALSE, FALSE);
 
 	old_vis = od->visible;
 	if (hidden) od->visible = FALSE;
@@ -1803,7 +1803,7 @@ static void pr_tile_invalidate_region(PixbufRenderer *pr, gint x, gint y, gint w
 		}
 }
 
-static ImageTile *pr_tile_get(PixbufRenderer *pr, gint x, gint y)
+static ImageTile *pr_tile_get(PixbufRenderer *pr, gint x, gint y, gint only_existing)
 {
 	GList *work;
 
@@ -1822,6 +1822,8 @@ static ImageTile *pr_tile_get(PixbufRenderer *pr, gint x, gint y)
 
 		work = work->next;
 		}
+
+	if (only_existing) return NULL;
 
 	return pr_tile_add(pr, x, y);
 }
@@ -2211,7 +2213,7 @@ static gint pr_clamp_to_visible(PixbufRenderer *pr, gint *x, gint *y, gint *w, g
 }
 
 static gint pr_queue_to_tiles(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
-			      gint clamp, ImageTileRenderType render, gint new_data)
+			      gint clamp, ImageTileRenderType render, gint new_data, gint only_existing)
 {
 	gint i, j;
 	gint x1, x2;
@@ -2231,7 +2233,7 @@ static gint pr_queue_to_tiles(PixbufRenderer *pr, gint x, gint y, gint w, gint h
 			{
 			ImageTile *it;
 
-			it = pr_tile_get(pr, i, j);
+			it = pr_tile_get(pr, i, j, only_existing);
 			if (it)
 				{
 				QueueData *qd;
@@ -2290,7 +2292,7 @@ static gint pr_queue_to_tiles(PixbufRenderer *pr, gint x, gint y, gint w, gint h
 }
 
 static void pr_queue(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
-		     gint clamp, ImageTileRenderType render, gint new_data)
+		     gint clamp, ImageTileRenderType render, gint new_data, gint only_existing)
 {
 	gint nx, ny;
 
@@ -2302,7 +2304,7 @@ static void pr_queue(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
 	h = CLAMP(h, 0, pr->height - ny);
 	if (w < 1 || h < 1) return;
 
-	if (pr_queue_to_tiles(pr, nx, ny, w, h, clamp, render, new_data) &&
+	if (pr_queue_to_tiles(pr, nx, ny, w, h, clamp, render, new_data, only_existing) &&
 	    ((!pr->draw_queue && !pr->draw_queue_2pass) || pr->draw_idle_id == -1 || !pr->draw_idle_high))
 		{
 		if (pr->draw_idle_id != -1) g_source_remove(pr->draw_idle_id);
@@ -2315,7 +2317,7 @@ static void pr_queue(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
 static void pr_redraw(PixbufRenderer *pr, gint new_data)
 {
 	pr_queue_clear(pr);
-	pr_queue(pr, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, new_data);
+	pr_queue(pr, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, new_data, FALSE);
 }
 
 /*
@@ -2686,7 +2688,7 @@ static void pixbuf_renderer_paint(PixbufRenderer *pr, GdkRectangle *area)
 	pr_queue(pr, x, y,
 		 MIN((gint)area->width, pr->width - x),
 		 MIN((gint)area->height, pr->height - y),
-		 FALSE, TILE_RENDER_ALL, FALSE);
+		 FALSE, TILE_RENDER_ALL, FALSE, FALSE);
 }
 
 /*
@@ -2740,7 +2742,7 @@ void pixbuf_renderer_scroll(PixbufRenderer *pr, gint x, gint y)
 	if (w < 1 || h < 1)
 		{
 		/* scrolled completely to new material */
-		pr_queue(pr, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, FALSE);
+		pr_queue(pr, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, FALSE, FALSE);
 		return;
 		}
 	else
@@ -2794,14 +2796,14 @@ void pixbuf_renderer_scroll(PixbufRenderer *pr, gint x, gint y)
 			{
 			pr_queue(pr,
 				 x_off > 0 ? pr->x_scroll + (pr->vis_width - w) : pr->x_scroll, pr->y_scroll,
-				 w, pr->vis_height, TRUE, TILE_RENDER_ALL, FALSE);
+				 w, pr->vis_height, TRUE, TILE_RENDER_ALL, FALSE, FALSE);
 			}
 		if (h > 0)
 			{
 			/* FIXME, to optimize this, remove overlap */
 			pr_queue(pr,
 				 pr->x_scroll, y_off > 0 ? pr->y_scroll + (pr->vis_height - h) : pr->y_scroll,
-				 pr->vis_width, h, TRUE, TILE_RENDER_ALL, FALSE);
+				 pr->vis_width, h, TRUE, TILE_RENDER_ALL, FALSE, FALSE);
 			}
 		}
 }
@@ -3134,7 +3136,7 @@ void pixbuf_renderer_area_changed(PixbufRenderer *pr, gint x, gint y, gint width
 	x2 = (gint)ceil((double)(x + width) * pr->scale);
 	y2 = (gint)ceil((double)(y + height) * pr->scale);
 
-	pr_queue(pr, x1, y1, x2 - x1, y2 - y1, FALSE, TILE_RENDER_AREA, TRUE);
+	pr_queue(pr, x1, y1, x2 - x1, y2 - y1, FALSE, TILE_RENDER_AREA, TRUE, TRUE);
 }
 
 void pixbuf_renderer_zoom_adjust(PixbufRenderer *pr, gdouble increment)

@@ -1,3 +1,10 @@
+Tue Apr  5 05:09:29 2005  John Ellis  <johne@verizon.net>
+
+	* pixbuf-renderer.c: Add argument to pr_queue_to_tiles to only redraw
+	the parts of the image that have an existing tile, fixes slow loading
+	of images when zoomed in because it was generating a tile for even
+	off screen parts of the image.
+
 Mon Apr  4 12:07:05 2005  John Ellis  <johne@verizon.net>
 
 	* pan-view.c: Optimize pixbuf_draw_line, and use pixbuf_set_rect_fill
