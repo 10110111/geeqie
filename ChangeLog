@@ -1,3 +1,14 @@
+Sat Mar  5 16:23:32 2005  John Ellis  <johne@verizon.net>
+
+	* README: Updates.
+	* configure.in: Release 2.1.0
+
+Sat Mar  5 16:02:52 2005  John Ellis  <johne@verizon.net>
+
+	* main.c: Enable the beta message at startup.
+	* po/fr.po: Update French translation (from stable branch),
+	submitted by Eric Lassauge.
+
 Sat Mar  5 15:51:07 2005  John Ellis  <johne@verizon.net>
 
 	* pan-view.c: Make date search work in calendar view, plus calendar

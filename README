@@ -1,5 +1,5 @@
 ###################################################################
-##                          GQview 2.0.0     (February 26, 2005) ##
+##                          GQview 2.1.0         (March 5, 2005) ##
 ##                                                               ##
 ##              Copyright (C) 1999 - 2005 John Ellis.            ##
 ##                                                               ##
@@ -12,6 +12,16 @@
 Author: John Ellis <johne@verizon.net>
 e-mail: gqview@users.sourceforge.net
 homepage: http://gqview.sourceforge.net
+
+
+ BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA!
+
+ The 2.1.x series are all development releases, and as such may
+ contain incredible bugs. Only use if interested in the new features.
+
+ The stable release as of this writing is 2.0.0.
+
+ BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA!
 
 
 ======== README contents:
@@ -32,35 +42,16 @@ homepage: http://gqview.sourceforge.net
 
 ======== Notes and changes for this release            [section:release_notes]
 
-  New features in 2.0:
+  Changes:
 
-    + Search utility.
-    + Ability to assign keywords and comments to an image.
-    + Printing, including proof sheets.
-    + Support for the Thumbnail Managing Standard, on by default.
-    + Fullscreen support for multihead configurations.
-    + Fullscreen can now delay showing next image until it is loaded.
-    + Image information now viewable in fullscreen (I key).
-    + Extensive user manual.
-    + Command line control of existing GQview process.
-    + Collections are now updated when moving or renaming a file.
-    - Shift + Click on an image will start mouse scrolling.
-    - Control + Arrows will jump to respective edges of image.
-    - Slideshow interval precision is now .1 second.
-    - Find duplicates by checksum now uses MD5 algorithm.
-    - Exif sidebar can now be customized.
-    - Sort manager now has symlink option.
-    - Sort manager can now add images to collections.
-    - Window maximization state now retained between sessions.
-    - Clean up all dialogs.
-    - Added hidden option scroll_reset_method (see docs chapter 10.7).
-    - Maintenance utility for caches and data used by GQview.
-    - Utility to create thumbnails ahead of time in one step.
-    - Now requires GTK+ >= 2.4
-
-  Changes since 1.5.9:
-
-    - Update translations bg, es, it, ja, nl, pl, ru.
+    + Add Pan View window (name pending) for displaying images as a timeline,
+      calendar, folder tree, folder flower (name pending) and basic grid.
+      Keyboard shortcut for Pan View is Control + J (may change in future).
+    + Panning an image with the mouse while holding down the shift key will
+      increase speed.
+    + Add 'Fast jpeg thumbnailing' option, on by default.
+    - Demote xvpics support to a hidden option.
+    - Update French translation.
 
 
   Notes:

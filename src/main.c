@@ -1191,7 +1191,7 @@ int main (int argc, char *argv[])
 	/* setup random seed for random slideshow */
         srand(time(NULL));
 
-#if 0
+#if 1
 	printf("GQview %s, This is a beta release.\n", VERSION);
 #endif
 

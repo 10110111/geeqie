@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview-0.10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-26 14:33-0500\n"
+"POT-Creation-Date: 2005-03-05 16:24-0500\n"
 "PO-Revision-Date: fixme\n"
 "Last-Translator: Matej Erman <matej.erman@guest.arnes.si>\n"
 "Language-Team: slovene <sl@li.org>\n"
@@ -56,7 +56,7 @@ msgstr ""
 msgid "Keywords"
 msgstr ""
 
-#: src/bar_info.c:1006 src/info.c:716 src/print.c:2599
+#: src/bar_info.c:1006 src/info.c:716 src/pan-view.c:3542 src/print.c:2599
 #, fuzzy
 msgid "Filename:"
 msgstr "Preimenuj:"
@@ -114,7 +114,7 @@ msgstr "Normalno"
 msgid "Elements"
 msgstr ""
 
-#: src/bar_exif.c:428 src/preferences.c:1028
+#: src/bar_exif.c:428 src/preferences.c:1039
 msgid "Description"
 msgstr ""
 
@@ -184,7 +184,7 @@ msgstr "Ime"
 msgid "Sort Manager"
 msgstr "Razvr¹èeno po imenu"
 
-#: src/bar_sort.c:578 src/ui_pathsel.c:1095
+#: src/bar_sort.c:578 src/pan-view.c:4287 src/ui_pathsel.c:1095
 #, fuzzy
 msgid "Folders"
 msgstr "Polja"
@@ -263,7 +263,7 @@ msgstr "Predpomnilnik za miniature"
 msgid "S_tart"
 msgstr "Datum"
 
-#: src/cache_maint.c:842 src/preferences.c:1165
+#: src/cache_maint.c:842 src/preferences.c:1176
 #, fuzzy
 msgid "Folder:"
 msgstr "Polja"
@@ -324,7 +324,7 @@ msgid "GQview thumbnail cache"
 msgstr "GQview celozaslonsko"
 
 #: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
-#: src/preferences.c:1142 src/utilops.c:1505
+#: src/pan-view.c:4276 src/preferences.c:1153 src/utilops.c:1505
 #, fuzzy
 msgid "Location:"
 msgstr "Zbirke"
@@ -365,7 +365,7 @@ msgstr ""
 msgid "Remove orphaned keywords and comments."
 msgstr ""
 
-#: src/collect.c:349 src/image.c:1160 src/image-overlay.c:74
+#: src/collect.c:349 src/image.c:1674 src/image-overlay.c:74
 #: src/image-overlay.c:115
 msgid "Untitled"
 msgstr "Neimenovano"
@@ -455,7 +455,7 @@ msgstr "Prazna zbirka"
 msgid "The current collection is empty, save aborted."
 msgstr "Trenutna zbirka je prazna, shranjevanje je opu¹èeno."
 
-#: src/collect-table.c:164 src/layout_util.c:708
+#: src/collect-table.c:164 src/layout_util.c:716
 msgid "Empty"
 msgstr "Prazno"
 
@@ -476,14 +476,14 @@ msgid "Loading thumbs..."
 msgstr "Nalagam miniature..."
 
 #: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
-#: src/layout_util.c:751 src/search.c:969
+#: src/layout_util.c:759 src/search.c:969
 #, fuzzy
 msgid "_View"
 msgstr "/P_ogled"
 
 #: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1187
-#: src/layout_image.c:722 src/search.c:971 src/view_file_icon.c:283
-#: src/view_file_list.c:395
+#: src/layout_image.c:722 src/pan-view.c:4657 src/search.c:971
+#: src/view_file_icon.c:283 src/view_file_list.c:395
 #, fuzzy
 msgid "View in _new window"
 msgstr "Poglej v novem oknu"
@@ -510,37 +510,37 @@ msgid "Select none"
 msgstr "Izberi niè"
 
 #: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1185
-#: src/layout_image.c:719 src/layout_util.c:784 src/search.c:981
-#: src/view_file_icon.c:280 src/view_file_list.c:393
+#: src/layout_image.c:719 src/layout_util.c:793 src/pan-view.c:4654
+#: src/search.c:981 src/view_file_icon.c:280 src/view_file_list.c:393
 #, fuzzy
 msgid "_Properties"
 msgstr "/Uredi/_Mo¾nosti..."
 
 #: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1190
-#: src/layout_image.c:727 src/layout_util.c:762 src/search.c:988
-#: src/view_file_icon.c:287 src/view_file_list.c:399
+#: src/layout_image.c:727 src/layout_util.c:771 src/pan-view.c:4661
+#: src/search.c:988 src/view_file_icon.c:287 src/view_file_list.c:399
 #, fuzzy
 msgid "_Copy..."
 msgstr "Prepi¹i..."
 
 #: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1191
-#: src/layout_image.c:729 src/layout_util.c:763 src/search.c:990
-#: src/view_file_icon.c:289 src/view_file_list.c:401
+#: src/layout_image.c:729 src/layout_util.c:772 src/pan-view.c:4663
+#: src/search.c:990 src/view_file_icon.c:289 src/view_file_list.c:401
 #, fuzzy
 msgid "_Move..."
 msgstr "Premakni..."
 
 #: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1192
-#: src/layout_image.c:731 src/layout_util.c:764 src/search.c:992
-#: src/view_dir_list.c:415 src/view_dir_tree.c:505 src/view_file_icon.c:291
-#: src/view_file_list.c:403
+#: src/layout_image.c:731 src/layout_util.c:773 src/pan-view.c:4665
+#: src/search.c:992 src/view_dir_list.c:415 src/view_dir_tree.c:505
+#: src/view_file_icon.c:291 src/view_file_list.c:403
 #, fuzzy
 msgid "_Rename..."
 msgstr "Preimenuj..."
 
 #: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1193
-#: src/layout_image.c:733 src/layout_util.c:765 src/search.c:994
-#: src/view_file_icon.c:293 src/view_file_list.c:405
+#: src/layout_image.c:733 src/layout_util.c:774 src/pan-view.c:4667
+#: src/search.c:994 src/view_file_icon.c:293 src/view_file_list.c:405
 #, fuzzy
 msgid "_Delete..."
 msgstr "Zbri¹i..."
@@ -560,7 +560,7 @@ msgstr "Shrani zbirko"
 msgid "Save collection _as..."
 msgstr "Shrani zbirko kot..."
 
-#: src/collect-table.c:818 src/layout_util.c:759
+#: src/collect-table.c:818 src/layout_util.c:767
 #, fuzzy
 msgid "_Find duplicates..."
 msgstr "Najdi dvojnike..."
@@ -617,7 +617,7 @@ msgstr ""
 msgid "Reading checksums..."
 msgstr "Berem povzetke..."
 
-#: src/dupe.c:1455
+#: src/dupe.c:1455 src/pan-view.c:3170 src/pan-view.c:3186
 msgid "Reading dimensions..."
 msgstr "Berem mere..."
 
@@ -661,7 +661,7 @@ msgstr "Zapri okno"
 msgid "%d files (set 2)"
 msgstr "%d datotek %s"
 
-#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:947 src/print.c:3194
+#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:958 src/print.c:3194
 #: src/search.c:2754 src/view_file_list.c:1556
 msgid "Size"
 msgstr "Velikost"
@@ -713,7 +713,7 @@ msgstr "Primerjaj:"
 msgid "Compare by:"
 msgstr "Primerjaj:"
 
-#: src/dupe.c:3173 src/preferences.c:840 src/search.c:2770
+#: src/dupe.c:3173 src/preferences.c:846 src/search.c:2770
 msgid "Thumbnails"
 msgstr "Miniature"
 
@@ -1094,17 +1094,20 @@ msgstr ""
 msgid "Active monitor"
 msgstr ""
 
-#: src/img-view.c:1173 src/layout_image.c:706 src/layout_util.c:791
+#: src/img-view.c:1173 src/layout_image.c:706 src/layout_util.c:800
+#: src/pan-view.c:4643
 #, fuzzy
 msgid "Zoom _in"
 msgstr "Poveèaj"
 
-#: src/img-view.c:1174 src/layout_image.c:707 src/layout_util.c:792
+#: src/img-view.c:1174 src/layout_image.c:707 src/layout_util.c:801
+#: src/pan-view.c:4645
 #, fuzzy
 msgid "Zoom _out"
 msgstr "Pomanj¹aj"
 
-#: src/img-view.c:1175 src/layout_image.c:708 src/layout_util.c:793
+#: src/img-view.c:1175 src/layout_image.c:708 src/layout_util.c:802
+#: src/pan-view.c:4647
 #, fuzzy
 msgid "Zoom _1:1"
 msgstr "Poveèaj na 1:1"
@@ -1114,7 +1117,7 @@ msgstr "Poveèaj na 1:1"
 msgid "Fit image to _window"
 msgstr "Prilagodi sliko k oknu"
 
-#: src/img-view.c:1181 src/layout_image.c:715 src/layout_util.c:789
+#: src/img-view.c:1181 src/layout_image.c:715 src/layout_util.c:798
 #, fuzzy
 msgid "Set as _wallpaper"
 msgstr "Nastavi kot ozadje"
@@ -1140,17 +1143,17 @@ msgstr "Premor diaprojekcije"
 msgid "_Start slideshow"
 msgstr "Zaèni z diaprojekcijo"
 
-#: src/img-view.c:1221 src/layout_image.c:765
+#: src/img-view.c:1221 src/layout_image.c:765 src/pan-view.c:4674
 #, fuzzy
 msgid "Exit _full screen"
 msgstr "Izhod iz celega zaslona"
 
-#: src/img-view.c:1225 src/layout_image.c:761
+#: src/img-view.c:1225 src/layout_image.c:761 src/pan-view.c:4678
 #, fuzzy
 msgid "_Full screen"
 msgstr "Cel zaslon"
 
-#: src/img-view.c:1229 src/layout_util.c:766
+#: src/img-view.c:1229 src/layout_util.c:775 src/pan-view.c:4682
 #, fuzzy
 msgid "C_lose window"
 msgstr "Zapri okno"
@@ -1192,7 +1195,7 @@ msgstr ""
 msgid "Group:"
 msgstr ""
 
-#: src/info.c:374 src/preferences.c:821
+#: src/info.c:374 src/preferences.c:827
 msgid "General"
 msgstr "Splo¹no"
 
@@ -1261,7 +1264,7 @@ msgstr "Polja"
 msgid "Files"
 msgstr "Polja"
 
-#: src/layout_config.c:57 src/preferences.c:881 src/print.c:110
+#: src/layout_config.c:57 src/preferences.c:892 src/print.c:110
 msgid "Image"
 msgstr "Slika"
 
@@ -1274,247 +1277,252 @@ msgstr ""
 msgid "Hide file _list"
 msgstr "Skrij/prika¾i datoteèni seznam"
 
-#: src/layout_util.c:625 src/menu.c:74
+#: src/layout_util.c:633 src/menu.c:74
 #, c-format
 msgid "in %s..."
 msgstr "v %s..."
 
-#: src/layout_util.c:629 src/menu.c:76
+#: src/layout_util.c:637 src/menu.c:76
 msgid "in (unknown)..."
 msgstr "v (neznanem)..."
 
-#: src/layout_util.c:637
+#: src/layout_util.c:645
 #, fuzzy
 msgid "empty"
 msgstr "Prazno"
 
-#: src/layout_util.c:748
+#: src/layout_util.c:756
 #, fuzzy
 msgid "_File"
 msgstr "/_Datoteka"
 
-#: src/layout_util.c:749 src/menu.c:91
+#: src/layout_util.c:757 src/menu.c:91
 #, fuzzy
 msgid "_Edit"
 msgstr "/_Uredi"
 
-#: src/layout_util.c:750 src/menu.c:248
+#: src/layout_util.c:758 src/menu.c:248
 #, fuzzy
 msgid "_Adjust"
 msgstr "Prikroji"
 
-#: src/layout_util.c:752
+#: src/layout_util.c:760
 #, fuzzy
 msgid "_Help"
 msgstr "/_Pomoè"
 
-#: src/layout_util.c:754
+#: src/layout_util.c:762
 #, fuzzy
 msgid "New _window"
 msgstr "/Datoteka/Nova _zbirka"
 
-#: src/layout_util.c:755
+#: src/layout_util.c:763
 #, fuzzy
 msgid "_New collection"
 msgstr "Shrani zbirko"
 
-#: src/layout_util.c:756
+#: src/layout_util.c:764
 #, fuzzy
 msgid "_Open collection..."
 msgstr "Dodaj zbirko"
 
-#: src/layout_util.c:757
+#: src/layout_util.c:765
 #, fuzzy
 msgid "Open _recent"
 msgstr "/Datoteka/Odpri _nedavno"
 
-#: src/layout_util.c:758
+#: src/layout_util.c:766
 #, fuzzy
 msgid "_Search..."
 msgstr "Primerjam..."
 
-#: src/layout_util.c:760
+#: src/layout_util.c:768
+#, fuzzy
+msgid "Pan _view"
+msgstr " - GQview"
+
+#: src/layout_util.c:769
 #, fuzzy
 msgid "_Print..."
 msgstr "/Datoteka/Pr_eimenuj..."
 
-#: src/layout_util.c:761
+#: src/layout_util.c:770
 #, fuzzy
 msgid "N_ew folder..."
 msgstr " - GQview"
 
-#: src/layout_util.c:767
+#: src/layout_util.c:776
 #, fuzzy
 msgid "_Quit"
 msgstr "Kakovost"
 
-#: src/layout_util.c:779 src/menu.c:194
+#: src/layout_util.c:788 src/menu.c:194
 #, fuzzy
 msgid "_Rotate clockwise"
 msgstr "Obrni v smeri urinega kazalca"
 
-#: src/layout_util.c:780 src/menu.c:197
+#: src/layout_util.c:789 src/menu.c:197
 #, fuzzy
 msgid "Rotate _counterclockwise"
 msgstr "Obrni v nasprotni smeri urinega kazalca"
 
-#: src/layout_util.c:781
+#: src/layout_util.c:790
 #, fuzzy
 msgid "Rotate 1_80"
 msgstr "Obrni za 180"
 
-#: src/layout_util.c:782 src/menu.c:203
+#: src/layout_util.c:791 src/menu.c:203
 #, fuzzy
 msgid "_Mirror"
 msgstr "Zrcali"
 
-#: src/layout_util.c:783 src/menu.c:206
+#: src/layout_util.c:792 src/menu.c:206
 #, fuzzy
 msgid "_Flip"
 msgstr "Zasukaj"
 
-#: src/layout_util.c:785
+#: src/layout_util.c:794
 #, fuzzy
 msgid "Select _all"
 msgstr "Izberi vse"
 
-#: src/layout_util.c:786
+#: src/layout_util.c:795
 #, fuzzy
 msgid "Select _none"
 msgstr "Izberi niè"
 
-#: src/layout_util.c:787
+#: src/layout_util.c:796
 #, fuzzy
 msgid "P_references..."
 msgstr "/Uredi/_Mo¾nosti..."
 
-#: src/layout_util.c:788
-msgid "_Thumbnail maintenance..."
-msgstr ""
-
-#: src/layout_util.c:794
-#, fuzzy
-msgid "_Zoom to fit"
-msgstr "/Pogled/_Ustrezno poveèaj"
-
-#: src/layout_util.c:795
-#, fuzzy
-msgid "F_ull screen"
-msgstr "Cel zaslon"
-
-#: src/layout_util.c:796
-#, fuzzy
-msgid "_Hide file list"
-msgstr "Skrij/prika¾i datoteèni seznam"
-
 #: src/layout_util.c:797
-#, fuzzy
-msgid "Toggle _slideshow"
-msgstr "Ustavi diaprojekcijo"
-
-#: src/layout_util.c:798
-#, fuzzy
-msgid "_Refresh"
-msgstr "Osve¾i"
-
-#: src/layout_util.c:800
-#, fuzzy
-msgid "_Contents"
-msgstr "/Pomoè/_O programu"
-
-#: src/layout_util.c:801
-msgid "_Keyboard shortcuts"
-msgstr ""
-
-#: src/layout_util.c:802
-msgid "_Release notes"
+msgid "_Thumbnail maintenance..."
 msgstr ""
 
 #: src/layout_util.c:803
 #, fuzzy
+msgid "_Zoom to fit"
+msgstr "/Pogled/_Ustrezno poveèaj"
+
+#: src/layout_util.c:804
+#, fuzzy
+msgid "F_ull screen"
+msgstr "Cel zaslon"
+
+#: src/layout_util.c:805
+#, fuzzy
+msgid "_Hide file list"
+msgstr "Skrij/prika¾i datoteèni seznam"
+
+#: src/layout_util.c:806
+#, fuzzy
+msgid "Toggle _slideshow"
+msgstr "Ustavi diaprojekcijo"
+
+#: src/layout_util.c:807
+#, fuzzy
+msgid "_Refresh"
+msgstr "Osve¾i"
+
+#: src/layout_util.c:809
+#, fuzzy
+msgid "_Contents"
+msgstr "/Pomoè/_O programu"
+
+#: src/layout_util.c:810
+msgid "_Keyboard shortcuts"
+msgstr ""
+
+#: src/layout_util.c:811
+msgid "_Release notes"
+msgstr ""
+
+#: src/layout_util.c:812
+#, fuzzy
 msgid "_About"
 msgstr "O programu"
 
-#: src/layout_util.c:807
+#: src/layout_util.c:816
 #, fuzzy
 msgid "_Thumbnails"
 msgstr "Miniature"
 
-#: src/layout_util.c:808
+#: src/layout_util.c:817
 #, fuzzy
 msgid "Tr_ee"
 msgstr "/Pogled/sep3"
 
-#: src/layout_util.c:809
+#: src/layout_util.c:818
 #, fuzzy
 msgid "_Float file list"
 msgstr "/Pogled/(Ne)_plavajoèi datoteèni seznam"
 
-#: src/layout_util.c:810
+#: src/layout_util.c:819
 #, fuzzy
 msgid "Hide tool_bar"
 msgstr "/Pogled/tear1"
 
-#: src/layout_util.c:811
+#: src/layout_util.c:820
 #, fuzzy
 msgid "_Keywords"
 msgstr "Mere"
 
-#: src/layout_util.c:812
+#: src/layout_util.c:821
 #, fuzzy
 msgid "E_xif data"
 msgstr "/Pogled/_Osve¾i sezname"
 
-#: src/layout_util.c:813
+#: src/layout_util.c:822
 #, fuzzy
 msgid "Sort _manager"
 msgstr "Razvr¹èeno po imenu"
 
-#: src/layout_util.c:817
+#: src/layout_util.c:826
 #, fuzzy
 msgid "_List"
 msgstr "/Pogled/_Osve¾i sezname"
 
-#: src/layout_util.c:818
+#: src/layout_util.c:827
 #, fuzzy
 msgid "I_cons"
 msgstr "Mere"
 
-#: src/layout_util.c:1083
+#: src/layout_util.c:1093
 #, fuzzy
 msgid "Show thumbnails"
 msgstr "Predpomnilnik za miniature"
 
-#: src/layout_util.c:1085
+#: src/layout_util.c:1095
 #, fuzzy
 msgid "Change to home folder"
 msgstr "Poglej v domaèi imenik"
 
-#: src/layout_util.c:1087
+#: src/layout_util.c:1097
 msgid "Refresh file list"
 msgstr "Osve¾i datoteèni seznam"
 
-#: src/layout_util.c:1089
+#: src/layout_util.c:1099
 msgid "Zoom in"
 msgstr "Poveèaj"
 
-#: src/layout_util.c:1091
+#: src/layout_util.c:1101
 msgid "Zoom out"
 msgstr "Pomanj¹aj"
 
-#: src/layout_util.c:1093 src/preferences.c:910
+#: src/layout_util.c:1103 src/preferences.c:921
 msgid "Fit image to window"
 msgstr "Prilagodi sliko k oknu"
 
-#: src/layout_util.c:1095
+#: src/layout_util.c:1105
 msgid "Set zoom 1:1"
 msgstr "Nastavi poveèavo na 1:1"
 
-#: src/layout_util.c:1097
+#: src/layout_util.c:1107
 msgid "Configure options"
 msgstr "Nastavi mo¾nosti"
 
-#: src/layout_util.c:1099
+#: src/layout_util.c:1109
 msgid "Float Controls"
 msgstr "Plavajoèi krmilniki"
 
@@ -1756,365 +1764,501 @@ msgstr "Razvrsti"
 msgid "Rotate _180"
 msgstr "Obrni za 180"
 
-#: src/preferences.c:384
+#: src/pan-view.c:3109
+#, fuzzy, c-format
+msgid "%d images, %s"
+msgstr "%d slik"
+
+#: src/pan-view.c:3180 src/pan-view.c:3233
+#, fuzzy
+msgid "Sorting images..."
+msgstr "Primerjam..."
+
+#: src/pan-view.c:3552 src/pan-view.c:3879
+#, fuzzy
+msgid "Date:"
+msgstr "Datum"
+
+#: src/pan-view.c:3562 src/preferences.c:849 src/print.c:3201 src/print.c:3408
+msgid "Size:"
+msgstr "Velikost:"
+
+#: src/pan-view.c:3617
+msgid "path found"
+msgstr ""
+
+#: src/pan-view.c:3617
+#, fuzzy
+msgid "filename found"
+msgstr "Preimenuj:"
+
+#: src/pan-view.c:3665
+msgid "partial match"
+msgstr ""
+
+#: src/pan-view.c:3876 src/pan-view.c:3909
+msgid "no match"
+msgstr ""
+
+#: src/pan-view.c:4179 src/search.c:2140
+msgid "Folder not found"
+msgstr ""
+
+#: src/pan-view.c:4180
+msgid "The entered path is not a folder"
+msgstr ""
+
+#: src/pan-view.c:4285
+#, fuzzy
+msgid "Timeline"
+msgstr "Dvolinearno"
+
+#: src/pan-view.c:4286
+#, fuzzy
+msgid "Calendar"
+msgstr "Poèisti"
+
+#: src/pan-view.c:4288
+#, fuzzy
+msgid "Folders (flower)"
+msgstr "Polja"
+
+#: src/pan-view.c:4289
+msgid "Grid"
+msgstr ""
+
+#: src/pan-view.c:4298
+#, fuzzy
+msgid "Dots"
+msgstr "Xpaint"
+
+#: src/pan-view.c:4299
+#, fuzzy
+msgid "No Images"
+msgstr "Slika"
+
+#: src/pan-view.c:4300
+#, fuzzy
+msgid "Small Thumbnails"
+msgstr "Miniature"
+
+#: src/pan-view.c:4301
+#, fuzzy
+msgid "Normal Thumbnails"
+msgstr "Miniature"
+
+#: src/pan-view.c:4302
+#, fuzzy
+msgid "Large Thumbnails"
+msgstr "Ustvari miniature"
+
+#: src/pan-view.c:4303
+msgid "1:10 (10%)"
+msgstr ""
+
+#: src/pan-view.c:4304
+msgid "1:4 (25%)"
+msgstr ""
+
+#: src/pan-view.c:4305
+msgid "1:3 (33%)"
+msgstr ""
+
+#: src/pan-view.c:4306
+msgid "1:2 (50%)"
+msgstr ""
+
+#: src/pan-view.c:4307
+msgid "1:1 (100%)"
+msgstr ""
+
+#: src/pan-view.c:4358
+#, fuzzy
+msgid "Find:"
+msgstr "Filter:"
+
+#: src/pan-view.c:4409
+msgid "Find"
+msgstr ""
+
+#: src/pan-view.c:4470
+msgid "Pan View Performance"
+msgstr ""
+
+#: src/pan-view.c:4477
+msgid "Pan view performance may be poor."
+msgstr ""
+
+#: src/pan-view.c:4478
+msgid ""
+"To improve performance of thumbnails in the pan view the following options "
+"can be enabled. Note that both options must be enabled to notice a change in "
+"performance."
+msgstr ""
+
+#: src/pan-view.c:4486 src/preferences.c:852
+msgid "Cache thumbnails"
+msgstr "Predpomnilnik za miniature"
+
+#: src/pan-view.c:4488 src/preferences.c:858
+msgid "Use shared thumbnail cache"
+msgstr ""
+
+#: src/pan-view.c:4494
+msgid "Do not show this dialog again"
+msgstr ""
+
+#: src/preferences.c:390
 msgid "Nearest (worst, but fastest)"
 msgstr "Najblji¾je (najslab¹e a najhitrej¹e)"
 
-#: src/preferences.c:386
+#: src/preferences.c:392
 msgid "Tiles"
 msgstr "Polja"
 
-#: src/preferences.c:388
+#: src/preferences.c:394
 msgid "Bilinear"
 msgstr "Dvolinearno"
 
-#: src/preferences.c:390
+#: src/preferences.c:396
 msgid "Hyper (best, but slowest)"
 msgstr "Hiper (najbolj¹e a najpoèasnej¹e)"
 
-#: src/preferences.c:418
+#: src/preferences.c:424
 msgid "None"
 msgstr "Brez"
 
-#: src/preferences.c:419
+#: src/preferences.c:425
 msgid "Normal"
 msgstr "Normalno"
 
-#: src/preferences.c:420
+#: src/preferences.c:426
 msgid "Best"
 msgstr "Najbolj¹e"
 
-#: src/preferences.c:498 src/print.c:365
+#: src/preferences.c:504 src/print.c:365
 msgid "Custom"
 msgstr ""
 
-#: src/preferences.c:662 src/preferences.c:665
+#: src/preferences.c:668 src/preferences.c:671
 #, fuzzy
 msgid "Reset filters"
 msgstr "Zbri¹i datoteke"
 
-#: src/preferences.c:666
+#: src/preferences.c:672
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
 msgstr ""
 
-#: src/preferences.c:699 src/preferences.c:702
+#: src/preferences.c:705 src/preferences.c:708
 #, fuzzy
 msgid "Reset editors"
 msgstr "Zbri¹i datoteke"
 
-#: src/preferences.c:703
+#: src/preferences.c:709
 msgid ""
 "This will reset the edit commands to the defaults.\n"
 "Continue?"
 msgstr ""
 
-#: src/preferences.c:727 src/preferences.c:730
+#: src/preferences.c:733 src/preferences.c:736
 #, fuzzy
 msgid "Clear trash"
 msgstr "Poèisti predpomnilnik"
 
-#: src/preferences.c:731
+#: src/preferences.c:737
 msgid "This will remove the trash contents."
 msgstr ""
 
-#: src/preferences.c:770
+#: src/preferences.c:776
 #, fuzzy
 msgid "GQview Preferences"
 msgstr "GQview - preimenuj"
 
-#: src/preferences.c:824
+#: src/preferences.c:830
 msgid "Startup"
 msgstr ""
 
-#: src/preferences.c:826
+#: src/preferences.c:832
 #, fuzzy
 msgid "Change to folder:"
 msgstr "Poglej v domaèi imenik"
 
-#: src/preferences.c:837
+#: src/preferences.c:843
 msgid "Use current"
 msgstr "Uporabi trenutnega"
 
-#: src/preferences.c:843 src/print.c:3201 src/print.c:3408
-msgid "Size:"
-msgstr "Velikost:"
-
-#: src/preferences.c:844 src/preferences.c:890
+#: src/preferences.c:850 src/preferences.c:901
 msgid "Quality:"
 msgstr "Kakovost:"
 
-#: src/preferences.c:846
-msgid "Cache thumbnails"
-msgstr "Predpomnilnik za miniature"
-
-#: src/preferences.c:852
-msgid "Use shared thumbnail cache"
-msgstr ""
-
-#: src/preferences.c:858
+#: src/preferences.c:864
 #, fuzzy
 msgid "Cache thumbnails into .thumbnails"
 msgstr "Predpomnilnik za miniature"
 
-#: src/preferences.c:861
+#: src/preferences.c:868
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr "Uporabi xvpics miniature, ko so najdene (samo za branje)"
 
-#: src/preferences.c:864
+#: src/preferences.c:872
+msgid "Faster jpeg thumbnailing (may reduce quality)"
+msgstr ""
+
+#: src/preferences.c:875
 msgid "Slide show"
 msgstr "Diaprojekcija"
 
-#: src/preferences.c:867
+#: src/preferences.c:878
 #, fuzzy
 msgid "Delay between image change:"
 msgstr "Zamik med menjavo slik (sekund):"
 
-#: src/preferences.c:867
+#: src/preferences.c:878
 msgid "seconds"
 msgstr ""
 
-#: src/preferences.c:873
+#: src/preferences.c:884
 msgid "Random"
 msgstr "Nakljuèno"
 
-#: src/preferences.c:874
+#: src/preferences.c:885
 msgid "Repeat"
 msgstr "Ponavljanje"
 
-#: src/preferences.c:884
+#: src/preferences.c:895
 #, fuzzy
 msgid "Zoom"
 msgstr "Poveèaj"
 
-#: src/preferences.c:887
+#: src/preferences.c:898
 msgid "Dithering method:"
 msgstr "Naèin zameglevanja"
 
-#: src/preferences.c:892
+#: src/preferences.c:903
 msgid "Two pass zooming"
 msgstr ""
 
-#: src/preferences.c:895
+#: src/preferences.c:906
 #, fuzzy
 msgid "Allow enlargement of image for zoom to fit."
 msgstr "Poveèaj slike, da se ustrezno prilagodijo."
 
-#: src/preferences.c:899
+#: src/preferences.c:910
 msgid "Zoom increment:"
 msgstr "Veèanje poveèave"
 
-#: src/preferences.c:904
+#: src/preferences.c:915
 msgid "When new image is selected:"
 msgstr "Ko je oznaèena nova slika:"
 
-#: src/preferences.c:907
+#: src/preferences.c:918
 msgid "Zoom to original size"
 msgstr "Poveèaj na originalno velikost"
 
-#: src/preferences.c:913
+#: src/preferences.c:924
 msgid "Leave Zoom at previous setting"
 msgstr "Pusti poveèavo na prej¹njih nastavitvah"
 
-#: src/preferences.c:917
+#: src/preferences.c:928
 #, fuzzy
 msgid "Appearance"
 msgstr "Dodaj"
 
-#: src/preferences.c:919
+#: src/preferences.c:930
 msgid "Black background"
 msgstr ""
 
-#: src/preferences.c:922
+#: src/preferences.c:933
 #, fuzzy
 msgid "Convenience"
 msgstr "Nadaljuj"
 
-#: src/preferences.c:924
+#: src/preferences.c:935
 #, fuzzy
 msgid "Refresh on file change"
 msgstr "Osve¾i datoteèni seznam"
 
-#: src/preferences.c:926
+#: src/preferences.c:937
 msgid "Preload next image"
 msgstr "Prednalo¾i naslednjo sliko"
 
-#: src/preferences.c:928
+#: src/preferences.c:939
 msgid "Auto rotate image using Exif information"
 msgstr ""
 
-#: src/preferences.c:937
+#: src/preferences.c:948
 msgid "Windows"
 msgstr "Okna"
 
-#: src/preferences.c:940
+#: src/preferences.c:951
 #, fuzzy
 msgid "State"
 msgstr "Datum"
 
-#: src/preferences.c:942
+#: src/preferences.c:953
 msgid "Remember window positions"
 msgstr "Zapomni si polo¾aj okna"
 
-#: src/preferences.c:944
+#: src/preferences.c:955
 msgid "Remember tool state (float/hidden)"
 msgstr "Zapomni si polo¾aj orodja (plavajoèa/skrita)"
 
-#: src/preferences.c:949
+#: src/preferences.c:960
 msgid "Fit window to image when tools are hidden/floating"
 msgstr "Prilagodi sliko k oknu, ko so orodja skrita/plavajoèa"
 
-#: src/preferences.c:953
+#: src/preferences.c:964
 msgid "Limit size when auto-sizing window (%):"
 msgstr "Omeji velikost pri samodejnem prilagajanju okna (%):"
 
-#: src/preferences.c:960 src/print.c:3356 src/print.c:3363
+#: src/preferences.c:971 src/print.c:3356 src/print.c:3363
 msgid "Layout"
 msgstr ""
 
-#: src/preferences.c:973
+#: src/preferences.c:984
 msgid "Filtering"
 msgstr "Filtriranje"
 
-#: src/preferences.c:978
+#: src/preferences.c:989
 msgid "Show entries that begin with a dot"
 msgstr "Poka¾i vnose, ki se zaènejo s piko"
 
-#: src/preferences.c:980
+#: src/preferences.c:991
 msgid "Case sensitive sort"
 msgstr ""
 
-#: src/preferences.c:983
+#: src/preferences.c:994
 msgid "Disable File Filtering"
 msgstr "Onemogoèi filtritanje datotek"
 
-#: src/preferences.c:986
+#: src/preferences.c:997
 #, fuzzy
 msgid "File types"
 msgstr "Filter:"
 
-#: src/preferences.c:1008
+#: src/preferences.c:1019
 #, fuzzy
 msgid "Filter"
 msgstr "Filter:"
 
-#: src/preferences.c:1045 src/preferences.c:1109
+#: src/preferences.c:1056 src/preferences.c:1120
 msgid "Defaults"
 msgstr ""
 
-#: src/preferences.c:1066
+#: src/preferences.c:1077
 msgid "Editors"
 msgstr "Urejevalniki"
 
-#: src/preferences.c:1072
+#: src/preferences.c:1083
 msgid "#"
 msgstr "#"
 
-#: src/preferences.c:1075
+#: src/preferences.c:1086
 msgid "Menu name"
 msgstr "Ime v izbirniku"
 
-#: src/preferences.c:1125
+#: src/preferences.c:1136
 msgid "Advanced"
 msgstr ""
 
-#: src/preferences.c:1138
+#: src/preferences.c:1149
 #, fuzzy
 msgid "Full screen"
 msgstr "Cel zaslon"
 
-#: src/preferences.c:1146
+#: src/preferences.c:1157
 #, fuzzy
 msgid "Smooth image flip"
 msgstr "Slika"
 
-#: src/preferences.c:1148
+#: src/preferences.c:1159
 msgid "Disable screen saver"
 msgstr ""
 
-#: src/preferences.c:1151
+#: src/preferences.c:1162
 msgid "Delete"
 msgstr "Zbri¹i"
 
-#: src/preferences.c:1153
+#: src/preferences.c:1164
 msgid "Confirm file delete"
 msgstr "Potrditev brisanja datotek"
 
-#: src/preferences.c:1155
+#: src/preferences.c:1166
 msgid "Enable Delete key"
 msgstr "Omogoèi tipko delete"
 
-#: src/preferences.c:1158
+#: src/preferences.c:1169
 #, fuzzy
 msgid "Safe delete"
 msgstr "Potrditev brisanja datotek"
 
-#: src/preferences.c:1176
+#: src/preferences.c:1187
 #, fuzzy
 msgid "Maximum size:"
 msgstr "Polja"
 
-#: src/preferences.c:1176
+#: src/preferences.c:1187
 msgid "MB"
 msgstr ""
 
-#: src/preferences.c:1179
+#: src/preferences.c:1190
 msgid "View"
 msgstr "Pogled"
 
-#: src/preferences.c:1189
+#: src/preferences.c:1200
 msgid "Behavior"
 msgstr ""
 
-#: src/preferences.c:1191
+#: src/preferences.c:1202
 #, fuzzy
 msgid "Rectangular selection in icon view"
 msgstr "Pravokotni izbor"
 
-#: src/preferences.c:1194
+#: src/preferences.c:1205
 msgid "Descend folders in tree view"
 msgstr ""
 
-#: src/preferences.c:1197
+#: src/preferences.c:1208
 msgid "In place renaming"
 msgstr "Preimenovanje na mestu"
 
-#: src/preferences.c:1200
+#: src/preferences.c:1211
 msgid "Navigation"
 msgstr ""
 
-#: src/preferences.c:1202
+#: src/preferences.c:1213
 msgid "Progressive keyboard scrolling"
 msgstr "Napredno premikanje s tipkovnico"
 
-#: src/preferences.c:1204
+#: src/preferences.c:1215
 msgid "Mouse wheel scrolls image"
 msgstr "Mi¹kin kole¹èek za premikanje slike"
 
-#: src/preferences.c:1207
+#: src/preferences.c:1218
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/preferences.c:1209
+#: src/preferences.c:1220
 msgid "Store keywords and comments local to source images"
 msgstr ""
 
-#: src/preferences.c:1212
+#: src/preferences.c:1223
 #, fuzzy
 msgid "Custom similarity threshold:"
 msgstr "Izbrani datoteèni tipi:"
 
-#: src/preferences.c:1215
+#: src/preferences.c:1226
 msgid "Offscreen cache size (Mb per image):"
 msgstr "Velikost predpomnilnika za izvenzaslonski prikaz (Mb na sliko):"
 
-#: src/preferences.c:1291
+#: src/preferences.c:1302
 #, fuzzy
 msgid "About - GQview"
 msgstr " - GQview"
 
-#: src/preferences.c:1304
+#: src/preferences.c:1315
 #, fuzzy, c-format
 msgid ""
 "GQview %s\n"
@@ -2133,7 +2277,7 @@ msgstr ""
 "\n"
 "Objavljeno pod GNU javno licenco"
 
-#: src/preferences.c:1322
+#: src/preferences.c:1333
 #, fuzzy
 msgid "Credits..."
 msgstr "/Uredi/_Mo¾nosti..."
@@ -2543,10 +2687,6 @@ msgstr ""
 msgid "Please enter an existing file for image content."
 msgstr "Prosim izberite obstojeè imenik"
 
-#: src/search.c:2140
-msgid "Folder not found"
-msgstr ""
-
 #: src/search.c:2141
 #, fuzzy
 msgid "Please enter an existing folder to search."
@@ -2609,7 +2749,7 @@ msgstr "Podobnost"
 msgid "Rank"
 msgstr "Nakljuèno"
 
-#: src/thumb.c:378
+#: src/thumb.c:379
 msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
 msgstr ""
 "Nisem mogel nelo¾iti miniature v predpomnilniku, poskusil jo bom ponovno "
@@ -2752,12 +2892,12 @@ msgstr "Poka¾i skrite"
 msgid "Filter:"
 msgstr "Filter:"
 
-#: src/ui_tabcomp.c:840
+#: src/ui_tabcomp.c:861
 #, fuzzy
 msgid "Select path"
 msgstr "Izberi vse"
 
-#: src/ui_tabcomp.c:856
+#: src/ui_tabcomp.c:877
 #, fuzzy
 msgid "All files"
 msgstr "Vse datoteke"
@@ -3276,10 +3416,6 @@ msgstr ""
 "Napaèno ime datoteke:\n"
 "%s"
 
-#, fuzzy
-#~ msgid "Purge thumbnails"
-#~ msgstr "Ustvari miniature"
-
 #~ msgid "/File/tear1"
 #~ msgstr "/Datoteka/tear1"
 
@@ -3691,10 +3827,6 @@ msgstr ""
 
 #~ msgid "File named %s already exists."
 #~ msgstr "Datoteka z imenom %s ¾e obstaja."
-
-#, fuzzy
-#~ msgid "Date:"
-#~ msgstr "Datum"
 
 #, fuzzy
 #~ msgid "top"

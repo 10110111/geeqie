@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview-1.1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-26 14:33-0500\n"
+"POT-Creation-Date: 2005-03-05 16:24-0500\n"
 "PO-Revision-Date: 2002-02-25 20:55GMT\n"
 "Last-Translator: Phanumas Thanyaboon <maskung@hotmail.com>\n"
 "Language-Team: thai <th@li.org>\n"
@@ -57,7 +57,7 @@ msgstr ""
 msgid "Keywords"
 msgstr ""
 
-#: src/bar_info.c:1006 src/info.c:716 src/print.c:2599
+#: src/bar_info.c:1006 src/info.c:716 src/pan-view.c:3542 src/print.c:2599
 #, fuzzy
 msgid "Filename:"
 msgstr "เปลี่ยนชื่อ:"
@@ -115,7 +115,7 @@ msgstr "ธรรมดา"
 msgid "Elements"
 msgstr ""
 
-#: src/bar_exif.c:428 src/preferences.c:1028
+#: src/bar_exif.c:428 src/preferences.c:1039
 msgid "Description"
 msgstr ""
 
@@ -185,7 +185,7 @@ msgstr "ชื่อ"
 msgid "Sort Manager"
 msgstr "เรียงตามชื่อ"
 
-#: src/bar_sort.c:578 src/ui_pathsel.c:1095
+#: src/bar_sort.c:578 src/pan-view.c:4287 src/ui_pathsel.c:1095
 #, fuzzy
 msgid "Folders"
 msgstr "Tiles"
@@ -264,7 +264,7 @@ msgstr "แคชรูปเล็ก"
 msgid "S_tart"
 msgstr "วันที่"
 
-#: src/cache_maint.c:842 src/preferences.c:1165
+#: src/cache_maint.c:842 src/preferences.c:1176
 #, fuzzy
 msgid "Folder:"
 msgstr "Tiles"
@@ -324,7 +324,7 @@ msgid "GQview thumbnail cache"
 msgstr "GQview ดูภาพเต็มหน้าจอ"
 
 #: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
-#: src/preferences.c:1142 src/utilops.c:1505
+#: src/pan-view.c:4276 src/preferences.c:1153 src/utilops.c:1505
 msgid "Location:"
 msgstr ""
 
@@ -364,7 +364,7 @@ msgstr ""
 msgid "Remove orphaned keywords and comments."
 msgstr ""
 
-#: src/collect.c:349 src/image.c:1160 src/image-overlay.c:74
+#: src/collect.c:349 src/image.c:1674 src/image-overlay.c:74
 #: src/image-overlay.c:115
 msgid "Untitled"
 msgstr "ไม่มีชื่อ"
@@ -455,7 +455,7 @@ msgstr "collection ว่าง"
 msgid "The current collection is empty, save aborted."
 msgstr "collection ปัจจุบันว่าง,การบันทึกถูกยกเลิก"
 
-#: src/collect-table.c:164 src/layout_util.c:708
+#: src/collect-table.c:164 src/layout_util.c:716
 msgid "Empty"
 msgstr "ว่าง"
 
@@ -476,14 +476,14 @@ msgid "Loading thumbs..."
 msgstr "กำลังโหลดรูปเล็ก..."
 
 #: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
-#: src/layout_util.c:751 src/search.c:969
+#: src/layout_util.c:759 src/search.c:969
 #, fuzzy
 msgid "_View"
 msgstr "/ดู"
 
 #: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1187
-#: src/layout_image.c:722 src/search.c:971 src/view_file_icon.c:283
-#: src/view_file_list.c:395
+#: src/layout_image.c:722 src/pan-view.c:4657 src/search.c:971
+#: src/view_file_icon.c:283 src/view_file_list.c:395
 #, fuzzy
 msgid "View in _new window"
 msgstr "มองในหน้าต่างใหม่"
@@ -510,37 +510,37 @@ msgid "Select none"
 msgstr "ไม่เลือกสิ่งใด"
 
 #: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1185
-#: src/layout_image.c:719 src/layout_util.c:784 src/search.c:981
-#: src/view_file_icon.c:280 src/view_file_list.c:393
+#: src/layout_image.c:719 src/layout_util.c:793 src/pan-view.c:4654
+#: src/search.c:981 src/view_file_icon.c:280 src/view_file_list.c:393
 #, fuzzy
 msgid "_Properties"
 msgstr "/แกไข/ออพชัน..."
 
 #: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1190
-#: src/layout_image.c:727 src/layout_util.c:762 src/search.c:988
-#: src/view_file_icon.c:287 src/view_file_list.c:399
+#: src/layout_image.c:727 src/layout_util.c:771 src/pan-view.c:4661
+#: src/search.c:988 src/view_file_icon.c:287 src/view_file_list.c:399
 #, fuzzy
 msgid "_Copy..."
 msgstr "คัดลอก..."
 
 #: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1191
-#: src/layout_image.c:729 src/layout_util.c:763 src/search.c:990
-#: src/view_file_icon.c:289 src/view_file_list.c:401
+#: src/layout_image.c:729 src/layout_util.c:772 src/pan-view.c:4663
+#: src/search.c:990 src/view_file_icon.c:289 src/view_file_list.c:401
 #, fuzzy
 msgid "_Move..."
 msgstr "ย้าย..."
 
 #: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1192
-#: src/layout_image.c:731 src/layout_util.c:764 src/search.c:992
-#: src/view_dir_list.c:415 src/view_dir_tree.c:505 src/view_file_icon.c:291
-#: src/view_file_list.c:403
+#: src/layout_image.c:731 src/layout_util.c:773 src/pan-view.c:4665
+#: src/search.c:992 src/view_dir_list.c:415 src/view_dir_tree.c:505
+#: src/view_file_icon.c:291 src/view_file_list.c:403
 #, fuzzy
 msgid "_Rename..."
 msgstr "เปลี่ยนชื่อ..."
 
 #: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1193
-#: src/layout_image.c:733 src/layout_util.c:765 src/search.c:994
-#: src/view_file_icon.c:293 src/view_file_list.c:405
+#: src/layout_image.c:733 src/layout_util.c:774 src/pan-view.c:4667
+#: src/search.c:994 src/view_file_icon.c:293 src/view_file_list.c:405
 #, fuzzy
 msgid "_Delete..."
 msgstr "ลบ..."
@@ -560,7 +560,7 @@ msgstr "บันทึก collecion"
 msgid "Save collection _as..."
 msgstr "บันทึก collection เป็น..."
 
-#: src/collect-table.c:818 src/layout_util.c:759
+#: src/collect-table.c:818 src/layout_util.c:767
 #, fuzzy
 msgid "_Find duplicates..."
 msgstr "หาตัวซ้ำ..."
@@ -617,7 +617,7 @@ msgstr ""
 msgid "Reading checksums..."
 msgstr "กำลังอ่าน checksum..."
 
-#: src/dupe.c:1455
+#: src/dupe.c:1455 src/pan-view.c:3170 src/pan-view.c:3186
 msgid "Reading dimensions..."
 msgstr "กำลังอ่าน dimensions..."
 
@@ -661,7 +661,7 @@ msgstr "ปิดหน้าต่าง"
 msgid "%d files (set 2)"
 msgstr "%d แฟ้ม%s"
 
-#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:947 src/print.c:3194
+#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:958 src/print.c:3194
 #: src/search.c:2754 src/view_file_list.c:1556
 msgid "Size"
 msgstr "ขนาด"
@@ -712,7 +712,7 @@ msgstr "เปรียบเทียบกับ:"
 msgid "Compare by:"
 msgstr "เปรียบเทียบโดย"
 
-#: src/dupe.c:3173 src/preferences.c:840 src/search.c:2770
+#: src/dupe.c:3173 src/preferences.c:846 src/search.c:2770
 msgid "Thumbnails"
 msgstr "รูปเล็ก"
 
@@ -1093,17 +1093,20 @@ msgstr ""
 msgid "Active monitor"
 msgstr ""
 
-#: src/img-view.c:1173 src/layout_image.c:706 src/layout_util.c:791
+#: src/img-view.c:1173 src/layout_image.c:706 src/layout_util.c:800
+#: src/pan-view.c:4643
 #, fuzzy
 msgid "Zoom _in"
 msgstr "ซูมเข้า "
 
-#: src/img-view.c:1174 src/layout_image.c:707 src/layout_util.c:792
+#: src/img-view.c:1174 src/layout_image.c:707 src/layout_util.c:801
+#: src/pan-view.c:4645
 #, fuzzy
 msgid "Zoom _out"
 msgstr "ซูมออก"
 
-#: src/img-view.c:1175 src/layout_image.c:708 src/layout_util.c:793
+#: src/img-view.c:1175 src/layout_image.c:708 src/layout_util.c:802
+#: src/pan-view.c:4647
 #, fuzzy
 msgid "Zoom _1:1"
 msgstr "ซูม 1:1"
@@ -1113,7 +1116,7 @@ msgstr "ซูม 1:1"
 msgid "Fit image to _window"
 msgstr "ทำภาพให้พอดีหน้าต่าง"
 
-#: src/img-view.c:1181 src/layout_image.c:715 src/layout_util.c:789
+#: src/img-view.c:1181 src/layout_image.c:715 src/layout_util.c:798
 #, fuzzy
 msgid "Set as _wallpaper"
 msgstr "กำหนดเป็นวอลล์เปเปอร์"
@@ -1139,17 +1142,17 @@ msgstr "หยุดการดูไสลด์ชั่วคราว"
 msgid "_Start slideshow"
 msgstr "เริ่มต้นแสดงไสลด์"
 
-#: src/img-view.c:1221 src/layout_image.c:765
+#: src/img-view.c:1221 src/layout_image.c:765 src/pan-view.c:4674
 #, fuzzy
 msgid "Exit _full screen"
 msgstr "ออกจากโหมดเต็มจอภาพ"
 
-#: src/img-view.c:1225 src/layout_image.c:761
+#: src/img-view.c:1225 src/layout_image.c:761 src/pan-view.c:4678
 #, fuzzy
 msgid "_Full screen"
 msgstr "เต็มจอภาพ"
 
-#: src/img-view.c:1229 src/layout_util.c:766
+#: src/img-view.c:1229 src/layout_util.c:775 src/pan-view.c:4682
 #, fuzzy
 msgid "C_lose window"
 msgstr "ปิดหน้าต่าง"
@@ -1191,7 +1194,7 @@ msgstr ""
 msgid "Group:"
 msgstr ""
 
-#: src/info.c:374 src/preferences.c:821
+#: src/info.c:374 src/preferences.c:827
 msgid "General"
 msgstr "ทั่วไป"
 
@@ -1260,7 +1263,7 @@ msgstr "Tiles"
 msgid "Files"
 msgstr "Tiles"
 
-#: src/layout_config.c:57 src/preferences.c:881 src/print.c:110
+#: src/layout_config.c:57 src/preferences.c:892 src/print.c:110
 msgid "Image"
 msgstr "รูป"
 
@@ -1273,249 +1276,254 @@ msgstr ""
 msgid "Hide file _list"
 msgstr "(ไม่)ซ่อนรายการแฟ้ม"
 
-#: src/layout_util.c:625 src/menu.c:74
+#: src/layout_util.c:633 src/menu.c:74
 #, c-format
 msgid "in %s..."
 msgstr "ใน %s..."
 
-#: src/layout_util.c:629 src/menu.c:76
+#: src/layout_util.c:637 src/menu.c:76
 msgid "in (unknown)..."
 msgstr "ใน (ไม่รู้จัก)..."
 
-#: src/layout_util.c:637
+#: src/layout_util.c:645
 #, fuzzy
 msgid "empty"
 msgstr "ว่าง"
 
-#: src/layout_util.c:748
+#: src/layout_util.c:756
 #, fuzzy
 msgid "_File"
 msgstr "/แฟ้ม"
 
-#: src/layout_util.c:749 src/menu.c:91
+#: src/layout_util.c:757 src/menu.c:91
 #, fuzzy
 msgid "_Edit"
 msgstr "/แฟ้ม/แก้ไข"
 
-#: src/layout_util.c:750 src/menu.c:248
+#: src/layout_util.c:758 src/menu.c:248
 #, fuzzy
 msgid "_Adjust"
 msgstr "ปรับเปลี่ยน"
 
-#: src/layout_util.c:752
+#: src/layout_util.c:760
 #, fuzzy
 msgid "_Help"
 msgstr "/ช่วยเหลือ"
 
-#: src/layout_util.c:754
+#: src/layout_util.c:762
 #, fuzzy
 msgid "New _window"
 msgstr "/แฟ้ม/collection ใหม"
 
-#: src/layout_util.c:755
+#: src/layout_util.c:763
 #, fuzzy
 msgid "_New collection"
 msgstr "บันทึก collecion"
 
-#: src/layout_util.c:756
+#: src/layout_util.c:764
 #, fuzzy
 msgid "_Open collection..."
 msgstr "เปิด collection"
 
-#: src/layout_util.c:757
+#: src/layout_util.c:765
 #, fuzzy
 msgid "Open _recent"
 msgstr "/แฟ้ม/เปิดครั้งล่าสุด"
 
-#: src/layout_util.c:758
+#: src/layout_util.c:766
 #, fuzzy
 msgid "_Search..."
 msgstr "กำลังเปรียบเทียบ..."
 
-#: src/layout_util.c:760
+#: src/layout_util.c:768
+#, fuzzy
+msgid "Pan _view"
+msgstr "ช่วยเหลือ - GQview"
+
+#: src/layout_util.c:769
 #, fuzzy
 msgid "_Print..."
 msgstr "/แฟ้ม/เปลี่ยนชื่อ..."
 
-#: src/layout_util.c:761
+#: src/layout_util.c:770
 #, fuzzy
 msgid "N_ew folder..."
 msgstr "ช่วยเหลือ - GQview"
 
-#: src/layout_util.c:767
+#: src/layout_util.c:776
 #, fuzzy
 msgid "_Quit"
 msgstr "คุณภาพ"
 
-#: src/layout_util.c:779 src/menu.c:194
+#: src/layout_util.c:788 src/menu.c:194
 #, fuzzy
 msgid "_Rotate clockwise"
 msgstr "หมุนตามเข็มนาฬิกา"
 
-#: src/layout_util.c:780 src/menu.c:197
+#: src/layout_util.c:789 src/menu.c:197
 #, fuzzy
 msgid "Rotate _counterclockwise"
 msgstr "หมุนทวนเข็มนาฬิกา"
 
-#: src/layout_util.c:781
+#: src/layout_util.c:790
 #, fuzzy
 msgid "Rotate 1_80"
 msgstr "หมุน 180 องศา"
 
-#: src/layout_util.c:782 src/menu.c:203
+#: src/layout_util.c:791 src/menu.c:203
 #, fuzzy
 msgid "_Mirror"
 msgstr "กระจก"
 
-#: src/layout_util.c:783 src/menu.c:206
+#: src/layout_util.c:792 src/menu.c:206
 #, fuzzy
 msgid "_Flip"
 msgstr "พลิก"
 
-#: src/layout_util.c:785
+#: src/layout_util.c:794
 #, fuzzy
 msgid "Select _all"
 msgstr "เลือกทั้งหมด"
 
-#: src/layout_util.c:786
+#: src/layout_util.c:795
 #, fuzzy
 msgid "Select _none"
 msgstr "ไม่เลือกสิ่งใด"
 
-#: src/layout_util.c:787
+#: src/layout_util.c:796
 #, fuzzy
 msgid "P_references..."
 msgstr "/แกไข/ออพชัน..."
 
-#: src/layout_util.c:788
+#: src/layout_util.c:797
 msgid "_Thumbnail maintenance..."
 msgstr ""
 
-#: src/layout_util.c:794
+#: src/layout_util.c:803
 #, fuzzy
 msgid "_Zoom to fit"
 msgstr "/ดู/ซูมพอดีกรอบ"
 
-#: src/layout_util.c:795
+#: src/layout_util.c:804
 #, fuzzy
 msgid "F_ull screen"
 msgstr "เต็มจอภาพ"
 
-#: src/layout_util.c:796
+#: src/layout_util.c:805
 #, fuzzy
 msgid "_Hide file list"
 msgstr "(ไม่)ซ่อนรายการแฟ้ม"
 
-#: src/layout_util.c:797
+#: src/layout_util.c:806
 #, fuzzy
 msgid "Toggle _slideshow"
 msgstr "หยุดการดูไสลด์"
 
-#: src/layout_util.c:798
+#: src/layout_util.c:807
 #, fuzzy
 msgid "_Refresh"
 msgstr "รีเฟรช"
 
-#: src/layout_util.c:800
+#: src/layout_util.c:809
 #, fuzzy
 msgid "_Contents"
 msgstr "/ช่วยเหลือ/เกี่ยวกับ"
 
-#: src/layout_util.c:801
+#: src/layout_util.c:810
 #, fuzzy
 msgid "_Keyboard shortcuts"
 msgstr "/ช่วยเหลือ/คีย์ลัด"
 
-#: src/layout_util.c:802
+#: src/layout_util.c:811
 #, fuzzy
 msgid "_Release notes"
 msgstr "/ช่วยเหลือ/Release notes"
 
-#: src/layout_util.c:803
+#: src/layout_util.c:812
 #, fuzzy
 msgid "_About"
 msgstr "/ช่วยเหลือ/เกี่ยวกับ"
 
-#: src/layout_util.c:807
+#: src/layout_util.c:816
 #, fuzzy
 msgid "_Thumbnails"
 msgstr "รูปเล็ก"
 
-#: src/layout_util.c:808
+#: src/layout_util.c:817
 #, fuzzy
 msgid "Tr_ee"
 msgstr "/มุมมอง/sep3"
 
-#: src/layout_util.c:809
+#: src/layout_util.c:818
 #, fuzzy
 msgid "_Float file list"
 msgstr "/ดู/(ไม่)ลอยแฟ้มรายการ"
 
-#: src/layout_util.c:810
+#: src/layout_util.c:819
 #, fuzzy
 msgid "Hide tool_bar"
 msgstr "/ดู/tear1"
 
-#: src/layout_util.c:811
+#: src/layout_util.c:820
 #, fuzzy
 msgid "_Keywords"
 msgstr "/มุมมอง/sep3"
 
-#: src/layout_util.c:812
+#: src/layout_util.c:821
 #, fuzzy
 msgid "E_xif data"
 msgstr "/ดู/_รีเฟรชรายการ"
 
-#: src/layout_util.c:813
+#: src/layout_util.c:822
 #, fuzzy
 msgid "Sort _manager"
 msgstr "เรียงตามชื่อ"
 
-#: src/layout_util.c:817
+#: src/layout_util.c:826
 #, fuzzy
 msgid "_List"
 msgstr "/ดู/_รีเฟรชรายการ"
 
-#: src/layout_util.c:818
+#: src/layout_util.c:827
 #, fuzzy
 msgid "I_cons"
 msgstr "/มุมมอง/sep3"
 
-#: src/layout_util.c:1083
+#: src/layout_util.c:1093
 #, fuzzy
 msgid "Show thumbnails"
 msgstr "แคชรูปเล็ก"
 
-#: src/layout_util.c:1085
+#: src/layout_util.c:1095
 #, fuzzy
 msgid "Change to home folder"
 msgstr "เปลี่ยนไปยังโฮมไดเรคทอร"
 
-#: src/layout_util.c:1087
+#: src/layout_util.c:1097
 msgid "Refresh file list"
 msgstr "รีเฟรชรายการแฟ้ม"
 
-#: src/layout_util.c:1089
+#: src/layout_util.c:1099
 msgid "Zoom in"
 msgstr "ซูมเข้า "
 
-#: src/layout_util.c:1091
+#: src/layout_util.c:1101
 msgid "Zoom out"
 msgstr "ซูมออก"
 
-#: src/layout_util.c:1093 src/preferences.c:910
+#: src/layout_util.c:1103 src/preferences.c:921
 msgid "Fit image to window"
 msgstr "ทำภาพให้พอดีหน้าต่าง"
 
-#: src/layout_util.c:1095
+#: src/layout_util.c:1105
 msgid "Set zoom 1:1"
 msgstr "กำหนดซูม1:1"
 
-#: src/layout_util.c:1097
+#: src/layout_util.c:1107
 msgid "Configure options"
 msgstr "ปรับแต่งออพชั่น"
 
-#: src/layout_util.c:1099
+#: src/layout_util.c:1109
 msgid "Float Controls"
 msgstr "ควบคุมการลอย"
 
@@ -1763,364 +1771,499 @@ msgstr "เรียง"
 msgid "Rotate _180"
 msgstr "หมุน 180 องศา"
 
-#: src/preferences.c:384
+#: src/pan-view.c:3109
+#, fuzzy, c-format
+msgid "%d images, %s"
+msgstr "%d ภาพ"
+
+#: src/pan-view.c:3180 src/pan-view.c:3233
+#, fuzzy
+msgid "Sorting images..."
+msgstr "กำลังเปรียบเทียบ..."
+
+#: src/pan-view.c:3552 src/pan-view.c:3879
+#, fuzzy
+msgid "Date:"
+msgstr "วันที่"
+
+#: src/pan-view.c:3562 src/preferences.c:849 src/print.c:3201 src/print.c:3408
+msgid "Size:"
+msgstr "ขนาด:"
+
+#: src/pan-view.c:3617
+msgid "path found"
+msgstr ""
+
+#: src/pan-view.c:3617
+#, fuzzy
+msgid "filename found"
+msgstr "เปลี่ยนชื่อ:"
+
+#: src/pan-view.c:3665
+msgid "partial match"
+msgstr ""
+
+#: src/pan-view.c:3876 src/pan-view.c:3909
+msgid "no match"
+msgstr ""
+
+#: src/pan-view.c:4179 src/search.c:2140
+msgid "Folder not found"
+msgstr ""
+
+#: src/pan-view.c:4180
+msgid "The entered path is not a folder"
+msgstr ""
+
+#: src/pan-view.c:4285
+#, fuzzy
+msgid "Timeline"
+msgstr "Bilinear"
+
+#: src/pan-view.c:4286
+#, fuzzy
+msgid "Calendar"
+msgstr "ล้าง"
+
+#: src/pan-view.c:4288
+#, fuzzy
+msgid "Folders (flower)"
+msgstr "Tiles"
+
+#: src/pan-view.c:4289
+msgid "Grid"
+msgstr ""
+
+#: src/pan-view.c:4298
+msgid "Dots"
+msgstr ""
+
+#: src/pan-view.c:4299
+#, fuzzy
+msgid "No Images"
+msgstr "รูป"
+
+#: src/pan-view.c:4300
+#, fuzzy
+msgid "Small Thumbnails"
+msgstr "รูปเล็ก"
+
+#: src/pan-view.c:4301
+#, fuzzy
+msgid "Normal Thumbnails"
+msgstr "รูปเล็ก"
+
+#: src/pan-view.c:4302
+#, fuzzy
+msgid "Large Thumbnails"
+msgstr "ลบภาพเล็ก"
+
+#: src/pan-view.c:4303
+msgid "1:10 (10%)"
+msgstr ""
+
+#: src/pan-view.c:4304
+msgid "1:4 (25%)"
+msgstr ""
+
+#: src/pan-view.c:4305
+msgid "1:3 (33%)"
+msgstr ""
+
+#: src/pan-view.c:4306
+msgid "1:2 (50%)"
+msgstr ""
+
+#: src/pan-view.c:4307
+msgid "1:1 (100%)"
+msgstr ""
+
+#: src/pan-view.c:4358
+#, fuzzy
+msgid "Find:"
+msgstr "ฟิลเตอร์:"
+
+#: src/pan-view.c:4409
+msgid "Find"
+msgstr ""
+
+#: src/pan-view.c:4470
+msgid "Pan View Performance"
+msgstr ""
+
+#: src/pan-view.c:4477
+msgid "Pan view performance may be poor."
+msgstr ""
+
+#: src/pan-view.c:4478
+msgid ""
+"To improve performance of thumbnails in the pan view the following options "
+"can be enabled. Note that both options must be enabled to notice a change in "
+"performance."
+msgstr ""
+
+#: src/pan-view.c:4486 src/preferences.c:852
+msgid "Cache thumbnails"
+msgstr "แคชรูปเล็ก"
+
+#: src/pan-view.c:4488 src/preferences.c:858
+msgid "Use shared thumbnail cache"
+msgstr ""
+
+#: src/pan-view.c:4494
+msgid "Do not show this dialog again"
+msgstr ""
+
+#: src/preferences.c:390
 msgid "Nearest (worst, but fastest)"
 msgstr "Nearest (เลวที่สุด, แต่เร้วที่สุด)"
 
-#: src/preferences.c:386
+#: src/preferences.c:392
 msgid "Tiles"
 msgstr "Tiles"
 
-#: src/preferences.c:388
+#: src/preferences.c:394
 msgid "Bilinear"
 msgstr "Bilinear"
 
-#: src/preferences.c:390
+#: src/preferences.c:396
 msgid "Hyper (best, but slowest)"
 msgstr "Hyper (ดีที่สุด, แต่ช้าที่สุด)"
 
-#: src/preferences.c:418
+#: src/preferences.c:424
 msgid "None"
 msgstr "ไม่มี"
 
-#: src/preferences.c:419
+#: src/preferences.c:425
 msgid "Normal"
 msgstr "ธรรมดา"
 
-#: src/preferences.c:420
+#: src/preferences.c:426
 msgid "Best"
 msgstr "ดีที่สุด"
 
-#: src/preferences.c:498 src/print.c:365
+#: src/preferences.c:504 src/print.c:365
 msgid "Custom"
 msgstr ""
 
-#: src/preferences.c:662 src/preferences.c:665
+#: src/preferences.c:668 src/preferences.c:671
 #, fuzzy
 msgid "Reset filters"
 msgstr "ลบแฟ้ม"
 
-#: src/preferences.c:666
+#: src/preferences.c:672
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
 msgstr ""
 
-#: src/preferences.c:699 src/preferences.c:702
+#: src/preferences.c:705 src/preferences.c:708
 #, fuzzy
 msgid "Reset editors"
 msgstr "ลบแฟ้ม"
 
-#: src/preferences.c:703
+#: src/preferences.c:709
 msgid ""
 "This will reset the edit commands to the defaults.\n"
 "Continue?"
 msgstr ""
 
-#: src/preferences.c:727 src/preferences.c:730
+#: src/preferences.c:733 src/preferences.c:736
 #, fuzzy
 msgid "Clear trash"
 msgstr "ล้างแคช"
 
-#: src/preferences.c:731
+#: src/preferences.c:737
 msgid "This will remove the trash contents."
 msgstr ""
 
-#: src/preferences.c:770
+#: src/preferences.c:776
 #, fuzzy
 msgid "GQview Preferences"
 msgstr "GQview - เปลี่ยนชื่อ"
 
-#: src/preferences.c:824
+#: src/preferences.c:830
 msgid "Startup"
 msgstr ""
 
-#: src/preferences.c:826
+#: src/preferences.c:832
 #, fuzzy
 msgid "Change to folder:"
 msgstr "เปลี่ยนไปยังโฮมไดเรคทอร"
 
-#: src/preferences.c:837
+#: src/preferences.c:843
 msgid "Use current"
 msgstr "ใช้ขณะนี้"
 
-#: src/preferences.c:843 src/print.c:3201 src/print.c:3408
-msgid "Size:"
-msgstr "ขนาด:"
-
-#: src/preferences.c:844 src/preferences.c:890
+#: src/preferences.c:850 src/preferences.c:901
 msgid "Quality:"
 msgstr "คุณภาพ:"
 
-#: src/preferences.c:846
-msgid "Cache thumbnails"
-msgstr "แคชรูปเล็ก"
-
-#: src/preferences.c:852
-msgid "Use shared thumbnail cache"
-msgstr ""
-
-#: src/preferences.c:858
+#: src/preferences.c:864
 msgid "Cache thumbnails into .thumbnails"
 msgstr "แคชรูปเล็กสู่รูปเล็ก"
 
-#: src/preferences.c:861
+#: src/preferences.c:868
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr "ใช้ รูปเล็กของ xvpics เมื่อถูกพบ (อ่านอย่างเดียว)"
 
-#: src/preferences.c:864
+#: src/preferences.c:872
+msgid "Faster jpeg thumbnailing (may reduce quality)"
+msgstr ""
+
+#: src/preferences.c:875
 msgid "Slide show"
 msgstr "การแสดงไสลด์"
 
-#: src/preferences.c:867
+#: src/preferences.c:878
 #, fuzzy
 msgid "Delay between image change:"
 msgstr "หน่วงเวลาก่อนเปลี่ยนรูป (วินาที):"
 
-#: src/preferences.c:867
+#: src/preferences.c:878
 msgid "seconds"
 msgstr ""
 
-#: src/preferences.c:873
+#: src/preferences.c:884
 msgid "Random"
 msgstr "สุ่ม"
 
-#: src/preferences.c:874
+#: src/preferences.c:885
 msgid "Repeat"
 msgstr "ทำซ้ำ"
 
-#: src/preferences.c:884
+#: src/preferences.c:895
 #, fuzzy
 msgid "Zoom"
 msgstr "ซูมเข้า "
 
-#: src/preferences.c:887
+#: src/preferences.c:898
 msgid "Dithering method:"
 msgstr "ขั้นตอนวิธี Dithering:"
 
-#: src/preferences.c:892
+#: src/preferences.c:903
 msgid "Two pass zooming"
 msgstr ""
 
-#: src/preferences.c:895
+#: src/preferences.c:906
 #, fuzzy
 msgid "Allow enlargement of image for zoom to fit."
 msgstr "ขยายภาพเพื่อซูมพอดี"
 
-#: src/preferences.c:899
+#: src/preferences.c:910
 msgid "Zoom increment:"
 msgstr "เพิ่มการซูม"
 
-#: src/preferences.c:904
+#: src/preferences.c:915
 msgid "When new image is selected:"
 msgstr "เมื่อภาพใหม่ถูกเลือก:"
 
-#: src/preferences.c:907
+#: src/preferences.c:918
 msgid "Zoom to original size"
 msgstr "ซูมยังขนาดเริ่มต้น"
 
-#: src/preferences.c:913
+#: src/preferences.c:924
 msgid "Leave Zoom at previous setting"
 msgstr "ออกจากซูมไปค่าที่เซตไว้่ก่อนหน้า"
 
-#: src/preferences.c:917
+#: src/preferences.c:928
 #, fuzzy
 msgid "Appearance"
 msgstr "ต่อท้าย"
 
-#: src/preferences.c:919
+#: src/preferences.c:930
 msgid "Black background"
 msgstr ""
 
-#: src/preferences.c:922
+#: src/preferences.c:933
 #, fuzzy
 msgid "Convenience"
 msgstr "ดำเนินการต่อ"
 
-#: src/preferences.c:924
+#: src/preferences.c:935
 #, fuzzy
 msgid "Refresh on file change"
 msgstr "รีเฟรชรายการแฟ้ม"
 
-#: src/preferences.c:926
+#: src/preferences.c:937
 msgid "Preload next image"
 msgstr "โหลดล่วงหน้ารูปต่อไป"
 
-#: src/preferences.c:928
+#: src/preferences.c:939
 msgid "Auto rotate image using Exif information"
 msgstr ""
 
-#: src/preferences.c:937
+#: src/preferences.c:948
 msgid "Windows"
 msgstr "หน้าต่าง"
 
-#: src/preferences.c:940
+#: src/preferences.c:951
 #, fuzzy
 msgid "State"
 msgstr "วันที่"
 
-#: src/preferences.c:942
+#: src/preferences.c:953
 msgid "Remember window positions"
 msgstr "จำตำแหน่งหน้าต่าง"
 
-#: src/preferences.c:944
+#: src/preferences.c:955
 msgid "Remember tool state (float/hidden)"
 msgstr "จำสถานะเครื่องมือ (ลอย/ซ่อน)"
 
-#: src/preferences.c:949
+#: src/preferences.c:960
 msgid "Fit window to image when tools are hidden/floating"
 msgstr "กำหนดหน้าต่างเท่ารูปภาพเมื่อเครื่องมือถูกซ่อน/แสดง"
 
-#: src/preferences.c:953
+#: src/preferences.c:964
 msgid "Limit size when auto-sizing window (%):"
 msgstr "จำกัดขนาดเมื่อกำหนดขนาดหน้าต่างอัตโนมัติ (%)"
 
-#: src/preferences.c:960 src/print.c:3356 src/print.c:3363
+#: src/preferences.c:971 src/print.c:3356 src/print.c:3363
 msgid "Layout"
 msgstr ""
 
-#: src/preferences.c:973
+#: src/preferences.c:984
 msgid "Filtering"
 msgstr "การกรอง"
 
-#: src/preferences.c:978
+#: src/preferences.c:989
 msgid "Show entries that begin with a dot"
 msgstr "แสดงข้อมูลที่เริ่มต้นด้วยจุด"
 
-#: src/preferences.c:980
+#: src/preferences.c:991
 msgid "Case sensitive sort"
 msgstr ""
 
-#: src/preferences.c:983
+#: src/preferences.c:994
 msgid "Disable File Filtering"
 msgstr "ยกเลิกการกรองแฟ้ม"
 
-#: src/preferences.c:986
+#: src/preferences.c:997
 #, fuzzy
 msgid "File types"
 msgstr "ฟิลเตอร์:"
 
-#: src/preferences.c:1008
+#: src/preferences.c:1019
 #, fuzzy
 msgid "Filter"
 msgstr "ฟิลเตอร์:"
 
-#: src/preferences.c:1045 src/preferences.c:1109
+#: src/preferences.c:1056 src/preferences.c:1120
 msgid "Defaults"
 msgstr ""
 
-#: src/preferences.c:1066
+#: src/preferences.c:1077
 msgid "Editors"
 msgstr "อิดิเตอร์"
 
-#: src/preferences.c:1072
+#: src/preferences.c:1083
 msgid "#"
 msgstr ""
 
-#: src/preferences.c:1075
+#: src/preferences.c:1086
 msgid "Menu name"
 msgstr "เมนู ชื่อ"
 
-#: src/preferences.c:1125
+#: src/preferences.c:1136
 msgid "Advanced"
 msgstr ""
 
-#: src/preferences.c:1138
+#: src/preferences.c:1149
 #, fuzzy
 msgid "Full screen"
 msgstr "เต็มจอภาพ"
 
-#: src/preferences.c:1146
+#: src/preferences.c:1157
 #, fuzzy
 msgid "Smooth image flip"
 msgstr "รูป"
 
-#: src/preferences.c:1148
+#: src/preferences.c:1159
 msgid "Disable screen saver"
 msgstr ""
 
-#: src/preferences.c:1151
+#: src/preferences.c:1162
 msgid "Delete"
 msgstr "ลบ"
 
-#: src/preferences.c:1153
+#: src/preferences.c:1164
 msgid "Confirm file delete"
 msgstr "ยืนยันการลบ"
 
-#: src/preferences.c:1155
+#: src/preferences.c:1166
 msgid "Enable Delete key"
 msgstr "อนุญาตให้ใช้ปุ่ม Delete"
 
-#: src/preferences.c:1158
+#: src/preferences.c:1169
 #, fuzzy
 msgid "Safe delete"
 msgstr "ยืนยันการลบ"
 
-#: src/preferences.c:1176
+#: src/preferences.c:1187
 #, fuzzy
 msgid "Maximum size:"
 msgstr "Tiles"
 
-#: src/preferences.c:1176
+#: src/preferences.c:1187
 msgid "MB"
 msgstr ""
 
-#: src/preferences.c:1179
+#: src/preferences.c:1190
 msgid "View"
 msgstr "มอง"
 
-#: src/preferences.c:1189
+#: src/preferences.c:1200
 msgid "Behavior"
 msgstr ""
 
-#: src/preferences.c:1191
+#: src/preferences.c:1202
 #, fuzzy
 msgid "Rectangular selection in icon view"
 msgstr "การเลือกแบบสี่เหลี่ยม"
 
-#: src/preferences.c:1194
+#: src/preferences.c:1205
 msgid "Descend folders in tree view"
 msgstr ""
 
-#: src/preferences.c:1197
+#: src/preferences.c:1208
 msgid "In place renaming"
 msgstr "การเปลี่ยนชื่อแบบแทนที่"
 
-#: src/preferences.c:1200
+#: src/preferences.c:1211
 msgid "Navigation"
 msgstr ""
 
-#: src/preferences.c:1202
+#: src/preferences.c:1213
 msgid "Progressive keyboard scrolling"
 msgstr "ลักษณะคีย์บอร์ดใช้เลื่อนภาพ"
 
-#: src/preferences.c:1204
+#: src/preferences.c:1215
 msgid "Mouse wheel scrolls image"
 msgstr "เมาส์ลูกกลิ้งใช้เลื่อนภาพ"
 
-#: src/preferences.c:1207
+#: src/preferences.c:1218
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/preferences.c:1209
+#: src/preferences.c:1220
 msgid "Store keywords and comments local to source images"
 msgstr ""
 
-#: src/preferences.c:1212
+#: src/preferences.c:1223
 #, fuzzy
 msgid "Custom similarity threshold:"
 msgstr "แฟ้มไม่ระบุชนิด"
 
-#: src/preferences.c:1215
+#: src/preferences.c:1226
 msgid "Offscreen cache size (Mb per image):"
 msgstr ""
 
-#: src/preferences.c:1291
+#: src/preferences.c:1302
 #, fuzzy
 msgid "About - GQview"
 msgstr "ช่วยเหลือ - GQview"
 
-#: src/preferences.c:1304
+#: src/preferences.c:1315
 #, fuzzy, c-format
 msgid ""
 "GQview %s\n"
@@ -2139,7 +2282,7 @@ msgstr ""
 "\n"
 "Released ภายใต้ the GNU General Public License"
 
-#: src/preferences.c:1322
+#: src/preferences.c:1333
 #, fuzzy
 msgid "Credits..."
 msgstr "/แกไข/ออพชัน..."
@@ -2548,10 +2691,6 @@ msgstr ""
 msgid "Please enter an existing file for image content."
 msgstr "โปรดเลือกได้เรคทอรีที่มีอยู่แล้ว"
 
-#: src/search.c:2140
-msgid "Folder not found"
-msgstr ""
-
 #: src/search.c:2141
 #, fuzzy
 msgid "Please enter an existing folder to search."
@@ -2614,7 +2753,7 @@ msgstr "ความคล้ายกัน"
 msgid "Rank"
 msgstr "สุ่ม"
 
-#: src/thumb.c:378
+#: src/thumb.c:379
 msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
 msgstr "ภาพเล็กในแคชล้มเหลวระหว่างโหลด,กำลังพยามสร้างใหม่\n"
 
@@ -2755,12 +2894,12 @@ msgstr "แสดงสิ่งที่ซ่อน"
 msgid "Filter:"
 msgstr "ฟิลเตอร์:"
 
-#: src/ui_tabcomp.c:840
+#: src/ui_tabcomp.c:861
 #, fuzzy
 msgid "Select path"
 msgstr "เลือกทั้งหมด"
 
-#: src/ui_tabcomp.c:856
+#: src/ui_tabcomp.c:877
 #, fuzzy
 msgid "All files"
 msgstr "ทุกแฟ้ม"
@@ -3279,9 +3418,6 @@ msgstr ""
 "ชื่อแฟ้มไม่ถูกต้อง:\n"
 "%s"
 
-#~ msgid "Purge thumbnails"
-#~ msgstr "ลบภาพเล็ก"
-
 #~ msgid "/File/tear1"
 #~ msgstr "/แฟ้ม/tear1"
 
@@ -3685,10 +3821,6 @@ msgstr ""
 
 #~ msgid "File named %s already exists."
 #~ msgstr "แฟ้มชื่อ %s มีอยู่แล้ว"
-
-#, fuzzy
-#~ msgid "Date:"
-#~ msgstr "วันที่"
 
 #, fuzzy
 #~ msgid "top"
