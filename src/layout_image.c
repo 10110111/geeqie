@@ -84,7 +84,7 @@ static void layout_image_fullscreen_menu_pos_cb(GtkMenu *menu, gint *x, gint *y,
 
 	if (!lw->full_screen) return;
 
-	gdk_window_get_origin(lw->full_screen->imd->image->window, x, y);
+	gdk_window_get_origin(lw->full_screen->imd->pr->window, x, y);
 	popup_menu_position_clamp(menu, x, y, 0);
 }
 
@@ -778,7 +778,7 @@ static void layout_image_menu_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolean *
 {
 	LayoutWindow *lw = data;
 
-	gdk_window_get_origin(lw->image->image->window, x, y);
+	gdk_window_get_origin(lw->image->pr->window, x, y);
 	popup_menu_position_clamp(menu, x, y, 0);
 }
 
@@ -936,19 +936,19 @@ static void layout_image_dnd_end(GtkWidget *widget, GdkDragContext *context, gpo
 
 static void layout_image_dnd_init(LayoutWindow *lw)
 {
-	gtk_drag_source_set(lw->image->image, GDK_BUTTON2_MASK,
+	gtk_drag_source_set(lw->image->pr, GDK_BUTTON2_MASK,
 			    dnd_file_drag_types, dnd_file_drag_types_count,
 			    GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
-	g_signal_connect(G_OBJECT(lw->image->image), "drag_data_get",
+	g_signal_connect(G_OBJECT(lw->image->pr), "drag_data_get",
 			 G_CALLBACK(layout_image_dnd_get), lw);
-	g_signal_connect(G_OBJECT(lw->image->image), "drag_end",
+	g_signal_connect(G_OBJECT(lw->image->pr), "drag_end",
 			 G_CALLBACK(layout_image_dnd_end), lw);
 
-	gtk_drag_dest_set(lw->image->image,
+	gtk_drag_dest_set(lw->image->pr,
 			  GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_DROP,
 			  dnd_file_drop_types, dnd_file_drop_types_count,
                           GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
-	g_signal_connect(G_OBJECT(lw->image->image), "drag_data_received",
+	g_signal_connect(G_OBJECT(lw->image->pr), "drag_data_received",
 			 G_CALLBACK(layout_image_dnd_receive), lw);
 }
 

@@ -23,6 +23,7 @@
 #include "image-overlay.h"
 #include "info.h"
 #include "menu.h"
+#include "pixbuf-renderer.h"
 #include "slideshow.h"
 #include "utilops.h"
 #include "ui_bookmark.h"
@@ -317,7 +318,7 @@ static void view_window_menu_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolean *p
 	ImageWindow *imd;
 
 	imd = view_window_active_image(vw);
-	gdk_window_get_origin(imd->image->window, x, y);
+	gdk_window_get_origin(imd->pr->window, x, y);
 	popup_menu_position_clamp(menu, x, y, 0);
 }
 
@@ -852,13 +853,11 @@ static ViewWindow *real_view_window_new(const gchar *path, GList *list, Collecti
 
 	if (image_zoom_get(vw->imd) == 0.0)
 		{
-		w = vw->imd->image_width;
-		h = vw->imd->image_height;
+		pixbuf_renderer_get_image_size(PIXBUF_RENDERER(vw->imd->pr), &w, &h);
 		}
 	else
 		{
-		w = vw->imd->width;
-		h = vw->imd->height;
+		pixbuf_renderer_get_scaled_size(PIXBUF_RENDERER(vw->imd->pr), &w, &h);
 		}
 	if (limit_window_size)
 		{
@@ -875,7 +874,7 @@ static ViewWindow *real_view_window_new(const gchar *path, GList *list, Collecti
 	req_size.height = h;
 	gtk_widget_size_allocate(GTK_WIDGET(vw->window), &req_size);
 
-	gtk_widget_set_size_request(vw->imd->image, w, h);
+	gtk_widget_set_size_request(vw->imd->pr, w, h);
 
 	gtk_widget_show(vw->window);
 
@@ -1369,7 +1368,7 @@ static void view_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 	ViewWindow *vw = data;
 	ImageWindow *imd;
 
-	if (gtk_drag_get_source_widget(context) == vw->imd->image) return;
+	if (gtk_drag_get_source_widget(context) == vw->imd->pr) return;
 
 	imd = vw->imd;
 
@@ -1489,17 +1488,17 @@ static void view_window_dnd_init(ViewWindow *vw)
 
 	imd = vw->imd;
 
-	gtk_drag_source_set(imd->image, GDK_BUTTON2_MASK,
+	gtk_drag_source_set(imd->pr, GDK_BUTTON2_MASK,
 			    dnd_file_drag_types, dnd_file_drag_types_count,
 			    GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
-	g_signal_connect(G_OBJECT(imd->image), "drag_data_get",
+	g_signal_connect(G_OBJECT(imd->pr), "drag_data_get",
 			 G_CALLBACK(view_window_set_dnd_data), vw);
 
-	gtk_drag_dest_set(imd->image,
+	gtk_drag_dest_set(imd->pr,
 			  GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_DROP,
 			  dnd_file_drop_types, dnd_file_drop_types_count,
                           GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
-	g_signal_connect(G_OBJECT(imd->image), "drag_data_received",
+	g_signal_connect(G_OBJECT(imd->pr), "drag_data_received",
 			 G_CALLBACK(view_window_get_dnd_data), vw);
 }
 

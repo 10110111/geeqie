@@ -52,6 +52,8 @@ void image_change_from_collection(ImageWindow *imd, CollectionData *cd, CollectI
 CollectionData *image_get_collection(ImageWindow *imd, CollectInfo **info);
 void image_change_from_image(ImageWindow *imd, ImageWindow *source);
 
+GdkPixbuf *image_get_pixbuf(ImageWindow *imd);
+
 /* manipulation */
 void image_area_changed(ImageWindow *imd, gint x, gint y, gint width, gint height);
 void image_reload(ImageWindow *imd);

@@ -111,6 +111,8 @@ gqview_SOURCES = \
 	menu.h		\
 	pan-view.c	\
 	pan-view.h	\
+	pixbuf-renderer.c	\
+	pixbuf-renderer.h	\
 	pixbuf_util.c	\
 	pixbuf_util.h	\
 	preferences.c	\

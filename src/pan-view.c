@@ -18,11 +18,11 @@
 #include "editors.h"
 #include "filelist.h"
 #include "fullscreen.h"
-#include "image.h"
 #include "image-load.h"
 #include "img-view.h"
 #include "info.h"
 #include "menu.h"
+#include "pixbuf-renderer.h"
 #include "pixbuf_util.h"
 #include "thumb.h"
 #include "utilops.h"
@@ -180,8 +180,8 @@ typedef struct _PanWindow PanWindow;
 struct _PanWindow
 {
 	GtkWidget *window;
-	ImageWindow *imd;
-	ImageWindow *imd_normal;
+	PixbufRenderer *pr;
+	PixbufRenderer *pr_normal;
 	FullScreenData *fs;
 
 	GtkWidget *path_entry;
@@ -242,7 +242,6 @@ static GList *pan_layout_intersect(PanWindow *pw, gint x, gint y, gint width, gi
 
 static GtkWidget *pan_popup_menu(PanWindow *pw);
 static void pan_fullscreen_toggle(PanWindow *pw, gint force_off);
-static void pan_overlay_toggle(PanWindow *pw);
 
 static void pan_window_close(PanWindow *pw);
 
@@ -1079,7 +1078,7 @@ static PanItem *pan_item_new_text(PanWindow *pw, gint x, gint y, const gchar *te
 	pi->color_b = b;
 	pi->color_a = a;
 
-	pan_item_text_compute_size(pi, pw->imd->widget);
+	pan_item_text_compute_size(pi, (GtkWidget *)pw->pr);
 
 	pw->list = g_list_prepend(pw->list, pi);
 
@@ -1100,7 +1099,7 @@ static void pan_item_set_key(PanItem *pi, const gchar *key)
 static void pan_item_added(PanWindow *pw, PanItem *pi)
 {
 	if (!pi) return;
-	image_area_changed(pw->imd, pi->x, pi->y, pi->width, pi->height);
+	pixbuf_renderer_area_changed(pw->pr, pi->x, pi->y, pi->width, pi->height);
 }
 
 static void pan_item_remove(PanWindow *pw, PanItem *pi)
@@ -1113,7 +1112,7 @@ static void pan_item_remove(PanWindow *pw, PanItem *pi)
 	pw->queue = g_list_remove(pw->queue, pi);
 
 	pw->list = g_list_remove(pw->list, pi);
-	image_area_changed(pw->imd, pi->x, pi->y, pi->width, pi->height);
+	pixbuf_renderer_area_changed(pw->pr, pi->x, pi->y, pi->width, pi->height);
 	pan_item_free(pi);
 }
 
@@ -1272,9 +1271,6 @@ static GList *pan_item_find_by_path(PanWindow *pw, ItemType type, const gchar *p
 static PanItem *pan_item_find_by_coord(PanWindow *pw, ItemType type, gint x, gint y, const gchar *key)
 {
 	GList *work;
-
-	if (x < 0 || x >= pw->imd->image_width ||
-	    y < 0 || y >= pw->imd->image_height) return  NULL;
 
 	work = pw->list;
 	while (work)
@@ -1893,9 +1889,9 @@ static void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 	y = pi_day->y;
 
 #if 0
-	if (y + grid * (PAN_THUMB_SIZE + PAN_THUMB_GAP) + PAN_FOLDER_BOX_BORDER * 4 > pw->imd->image_height)
+	if (y + grid * (PAN_THUMB_SIZE + PAN_THUMB_GAP) + PAN_FOLDER_BOX_BORDER * 4 > pw->pr->image_height)
 		{
-		y = pw->imd->image_height - (grid * (PAN_THUMB_SIZE + PAN_THUMB_GAP) + PAN_FOLDER_BOX_BORDER * 4);
+		y = pw->pr->image_height - (grid * (PAN_THUMB_SIZE + PAN_THUMB_GAP) + PAN_FOLDER_BOX_BORDER * 4);
 		}
 #endif
 
@@ -2486,7 +2482,7 @@ static void pan_layout_queue_thumb_done_cb(ThumbLoader *tl, gpointer data)
 		pi->pixbuf = thumb_loader_get_pixbuf(tl, TRUE);
 
 		rc = pi->refcount;
-		image_area_changed(pw->imd, pi->x, pi->y, pi->width, pi->height);
+		pixbuf_renderer_area_changed(pw->pr, pi->x, pi->y, pi->width, pi->height);
 		pi->refcount = rc;
 		}
 
@@ -2527,7 +2523,7 @@ static void pan_layout_queue_image_done_cb(ImageLoader *il, gpointer data)
 			}
 
 		rc = pi->refcount;
-		image_area_changed(pw->imd, pi->x, pi->y, pi->width, pi->height);
+		pixbuf_renderer_area_changed(pw->pr, pi->x, pi->y, pi->width, pi->height);
 		pi->refcount = rc;
 		}
 
@@ -2557,7 +2553,7 @@ static void pan_layout_queue_image_area_cb(ImageLoader *il, guint x, guint y,
 			}
 
 		rc = pi->refcount;
-		image_area_changed(pw->imd, pi->x + x, pi->y + y, width, height);
+		pixbuf_renderer_area_changed(pw->pr, pi->x + x, pi->y + y, width, height);
 		pi->refcount = rc;
 		}
 }
@@ -2644,8 +2640,8 @@ static void pan_layout_queue(PanWindow *pw, PanItem *pi)
 	if (!pw->tl && !pw->il) while(pan_layout_queue_step(pw));
 }
 
-static gint pan_window_request_tile_cb(ImageWindow *imd, gint x, gint y, gint width, gint height,
-				       GdkPixbuf *pixbuf, gpointer data)
+static gint pan_window_request_tile_cb(PixbufRenderer *pr, gint x, gint y,
+				       gint width, gint height, GdkPixbuf *pixbuf, gpointer data)
 {
 	PanWindow *pw = data;
 	GList *list;
@@ -2959,8 +2955,8 @@ static gint pan_window_request_tile_cb(ImageWindow *imd, gint x, gint y, gint wi
 			{
 			PangoLayout *layout;
 
-			layout = pan_item_text_layout(pi, imd->image);
-			pixbuf_draw_layout(pixbuf, layout, imd->image,
+			layout = pan_item_text_layout(pi, (GtkWidget *)pr);
+			pixbuf_draw_layout(pixbuf, layout, (GtkWidget *)pr,
 					   pi->x - x + PAN_TEXT_BORDER_SIZE, pi->y - y + PAN_TEXT_BORDER_SIZE,
 					   pi->color_r, pi->color_g, pi->color_b, pi->color_a);
 			g_object_unref(G_OBJECT(layout));
@@ -2972,33 +2968,19 @@ static gint pan_window_request_tile_cb(ImageWindow *imd, gint x, gint y, gint wi
 		{
 		static gint count = 0;
 		PangoLayout *layout;
-		gint lx, ly;
-		gint lw, lh;
-		GdkPixmap *pixmap;
 		gchar *buf;
 
-		layout = gtk_widget_create_pango_layout(imd->image, NULL);
+		layout = gtk_widget_create_pango_layout((GtkWidget *)pr, NULL);
 
 		buf = g_strdup_printf("%d,%d\n(#%d)", x, y,
-				      (x / imd->source_tile_width) +
-				      (y / imd->source_tile_height * (imd->image_width/imd->source_tile_width + 1)));
+				      (x / pr->source_tile_width) +
+				      (y / pr->source_tile_height * (pr->image_width/pr->source_tile_width + 1)));
 		pango_layout_set_text(layout, buf, -1);
 		g_free(buf);
 
-		pango_layout_get_pixel_size(layout, &lw, &lh);
+		pixbuf_draw_layout(pixbuf, layout, (GtkWidget *)pr, 0, 0, 0, 0, 0, 255);
 
-		pixmap = gdk_pixmap_new(imd->widget->window, lw, lh, -1);
-		gdk_draw_rectangle(pixmap, imd->widget->style->black_gc, TRUE, 0, 0, lw, lh);
-		gdk_draw_layout(pixmap, imd->widget->style->white_gc, 0, 0, layout);
 		g_object_unref(G_OBJECT(layout));
-
-		lx = MAX(0, width / 2 - lw / 2);
-		ly = MAX(0, height / 2 - lh / 2);
-		lw = MIN(lw, width - lx);
-		lh = MIN(lh, height - ly);
-		gdk_pixbuf_get_from_drawable(pixbuf, pixmap, gdk_drawable_get_colormap(imd->image->window),
-					     0, 0, lx, ly, lw, lh);
-		g_object_unref(pixmap);
 
 		count++;
 		}
@@ -3006,8 +2988,8 @@ static gint pan_window_request_tile_cb(ImageWindow *imd, gint x, gint y, gint wi
 	return TRUE;
 }
 
-static void pan_window_dispose_tile_cb(ImageWindow *imd, gint x, gint y, gint width, gint height,
-				       GdkPixbuf *pixbuf, gpointer data)
+static void pan_window_dispose_tile_cb(PixbufRenderer *pr, gint x, gint y,
+				       gint width, gint height, GdkPixbuf *pixbuf, gpointer data)
 {
 	PanWindow *pw = data;
 	GList *list;
@@ -3112,11 +3094,13 @@ static void pan_window_message(PanWindow *pw, const gchar *text)
 	g_free(buf);
 }
 
-static ImageWindow *pan_window_active_image(PanWindow *pw)
+static PixbufRenderer *pan_window_active_image(PanWindow *pw)
 {
+#if 0
 	if (pw->fs) return pw->fs->imd;
+#endif
 
-	return pw->imd;
+	return pw->pr;
 }
 
 static void pan_window_zoom_limit(PanWindow *pw)
@@ -3149,7 +3133,7 @@ static void pan_window_zoom_limit(PanWindow *pw)
 			break;
 		}
 
-	image_zoom_set_limits(pw->imd, min, 32.0);
+	pixbuf_renderer_zoom_set_limits(pw->pr, min, 32.0);
 }
 
 static gint pan_window_layout_update_idle_cb(gpointer data)
@@ -3203,10 +3187,10 @@ static gint pan_window_layout_update_idle_cb(gpointer data)
 		{
 		gdouble align;
 
-		image_set_image_as_tiles(pw->imd, width, height,
-					 PAN_TILE_SIZE, PAN_TILE_SIZE, 8,
-					 pan_window_request_tile_cb,
-					 pan_window_dispose_tile_cb, pw, 1.0);
+		pixbuf_renderer_set_tiles(pw->pr, width, height,
+					  PAN_TILE_SIZE, PAN_TILE_SIZE, 10,
+					  pan_window_request_tile_cb,
+					  pan_window_dispose_tile_cb, pw, 1.0);
 
 		if (scroll_x == 0 && scroll_y == 0)
 			{
@@ -3216,7 +3200,7 @@ static gint pan_window_layout_update_idle_cb(gpointer data)
 			{
 			align = 0.5;
 			}
-		image_scroll_to_point(pw->imd, scroll_x, scroll_y, align, align);
+		pixbuf_renderer_scroll_to_point(pw->pr, scroll_x, scroll_y, align, align);
 		}
 
 	pan_window_message(pw, NULL);
@@ -3250,17 +3234,17 @@ static const gchar *pan_menu_click_path(PanWindow *pw)
 static void pan_window_menu_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer data)
 {
 	PanWindow *pw = data;
-	ImageWindow *imd;
+	PixbufRenderer *pr;
 
-	imd = pan_window_active_image(pw);
-	gdk_window_get_origin(imd->image->window, x, y);
+	pr = pan_window_active_image(pw);
+	gdk_window_get_origin(GTK_WIDGET(pr)->window, x, y);
 	popup_menu_position_clamp(menu, x, y, 0);
 }
 
 static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	PanWindow *pw = data;
-	ImageWindow *imd;
+	PixbufRenderer *pr;
 	const gchar *path;
 	gint stop_signal = FALSE;
 	GtkWidget *menu;
@@ -3268,10 +3252,10 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 	gint y = 0;
 	gint focused;
 
-	focused = (pw->fs || GTK_WIDGET_HAS_FOCUS(pw->imd->widget));
-
-	imd = pan_window_active_image(pw);
+	pr = pan_window_active_image(pw);
 	path = pan_menu_click_path(pw);
+
+	focused = (pw->fs || GTK_WIDGET_HAS_FOCUS(GTK_WIDGET(pr)));
 
 	if (focused)
 		{
@@ -3294,16 +3278,16 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 				stop_signal = TRUE;
 				break;
 			case GDK_Page_Up: case GDK_KP_Page_Up:
-				image_scroll(imd, 0, 0-imd->vis_height / 2);
+				pixbuf_renderer_scroll(pr, 0, 0 - pr->vis_height / 2);
 				break;
 			case GDK_Page_Down: case GDK_KP_Page_Down:
-				image_scroll(imd, 0, imd->vis_height / 2);
+				pixbuf_renderer_scroll(pr, 0, pr->vis_height / 2);
 				break;
 			case GDK_Home: case GDK_KP_Home:
-				image_scroll(imd, 0-imd->vis_width / 2, 0);
+				pixbuf_renderer_scroll(pr, 0 - pr->vis_width / 2, 0);
 				break;
 			case GDK_End: case GDK_KP_End:
-				image_scroll(imd, imd->vis_width / 2, 0);
+				pixbuf_renderer_scroll(pr, pr->vis_width / 2, 0);
 				break;
 			}
 		}
@@ -3312,31 +3296,31 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 	    switch (event->keyval)
 		{
 		case '+': case '=': case GDK_KP_Add:
-			image_zoom_adjust(imd, ZOOM_INCREMENT);
+			pixbuf_renderer_zoom_adjust(pr, ZOOM_INCREMENT);
 			break;
 		case '-': case GDK_KP_Subtract:
-			image_zoom_adjust(imd, -ZOOM_INCREMENT);
+			pixbuf_renderer_zoom_adjust(pr, -ZOOM_INCREMENT);
 			break;
 		case 'Z': case 'z': case GDK_KP_Divide: case '1':
-			image_zoom_set(imd, 1.0);
+			pixbuf_renderer_zoom_set(pr, 1.0);
 			break;
 		case '2':
-			image_zoom_set(imd, 2.0);
+			pixbuf_renderer_zoom_set(pr, 2.0);
 			break;
 		case '3':
-			image_zoom_set(imd, 3.0);
+			pixbuf_renderer_zoom_set(pr, 3.0);
 			break;
 		case '4':
-			image_zoom_set(imd, 4.0);
+			pixbuf_renderer_zoom_set(pr, 4.0);
 			break;
 		case '7':
-			image_zoom_set(imd, -4.0);
+			pixbuf_renderer_zoom_set(pr, -4.0);
 			break;
 		case '8':
-			image_zoom_set(imd, -3.0);
+			pixbuf_renderer_zoom_set(pr, -3.0);
 			break;
 		case '9':
-			image_zoom_set(imd, -2.0);
+			pixbuf_renderer_zoom_set(pr, -2.0);
 			break;
 		case 'F': case 'f':
 		case 'V': case 'v':
@@ -3344,7 +3328,9 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 			stop_signal = TRUE;
 			break;
 		case 'I': case 'i':
+#if 0
 			pan_overlay_toggle(pw);
+#endif
 			break;
 		case GDK_Delete: case GDK_KP_Delete:
 			break;
@@ -3418,16 +3404,16 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 				n = 9;
 				break;
 			case 'C': case 'c':
-				if (path) file_util_copy(path, NULL, NULL, imd->widget);
+				if (path) file_util_copy(path, NULL, NULL, GTK_WIDGET(pr));
 				break;
 			case 'M': case 'm':
-				if (path) file_util_move(path, NULL, NULL, imd->widget);
+				if (path) file_util_move(path, NULL, NULL, GTK_WIDGET(pr));
 				break;
 			case 'R': case 'r':
-				if (path) file_util_rename(path, NULL, imd->widget);
+				if (path) file_util_rename(path, NULL, GTK_WIDGET(pr));
 				break;
 			case 'D': case 'd':
-				if (path) file_util_delete(path, NULL, imd->widget);
+				if (path) file_util_delete(path, NULL, GTK_WIDGET(pr));
 				break;
 			case 'P': case 'p':
 				if (path) info_window_new(path, NULL);
@@ -3460,7 +3446,7 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 					}
 				else if (GTK_WIDGET_HAS_FOCUS(pw->search_entry))
 					{
-					gtk_widget_grab_focus(pw->imd->widget);
+					gtk_widget_grab_focus(GTK_WIDGET(pw->pr));
 					gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), FALSE);
 					stop_signal = TRUE;
 					}
@@ -3473,7 +3459,7 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 	if (x != 0 || y!= 0)
 		{
 		keyboard_scroll_calc(&x, &y, event);
-		image_scroll(imd, x, y);
+		pixbuf_renderer_scroll(pr, x, y);
 		}
 
 	return stop_signal;
@@ -3611,7 +3597,7 @@ static gint pan_search_by_path(PanWindow *pw, const gchar *path)
 		}
 
 	pan_info_update(pw, pi);
-	image_scroll_to_point(pw->imd, pi->x + pi->width / 2, pi->y + pi->height / 2, 0.5, 0.5);
+	pixbuf_renderer_scroll_to_point(pw->pr, pi->x + pi->width / 2, pi->y + pi->height / 2, 0.5, 0.5);
 
 	buf = g_strdup_printf("%s ( %d / %d )",
 			      (path[0] == '/') ? _("path found") : _("filename found"),
@@ -3659,7 +3645,7 @@ static gint pan_search_by_partial(PanWindow *pw, const gchar *text)
 		}
 
 	pan_info_update(pw, pi);
-	image_scroll_to_point(pw->imd, pi->x + pi->width / 2, pi->y + pi->height / 2, 0.5, 0.5);
+	pixbuf_renderer_scroll_to_point(pw->pr, pi->x + pi->width / 2, pi->y + pi->height / 2, 0.5, 0.5);
 
 	buf = g_strdup_printf("%s ( %d / %d )",
 			      _("partial match"),
@@ -3837,16 +3823,16 @@ static gint pan_search_by_date(PanWindow *pw, const gchar *text)
 		{
 		pan_info_update(pw, NULL);
 		pan_calendar_update(pw, pi);
-		image_scroll_to_point(pw->imd,
-				      pi->x + pi->width / 2,
-				      pi->y + pi->height / 2, 0.5, 0.5);
+		pixbuf_renderer_scroll_to_point(pw->pr,
+						pi->x + pi->width / 2,
+						pi->y + pi->height / 2, 0.5, 0.5);
 		}
 	else if (pi)
 		{
 		pan_info_update(pw, pi);
-		image_scroll_to_point(pw->imd,
-				      pi->x - PAN_FOLDER_BOX_BORDER * 5 / 2,
-				      pi->y, 0.0, 0.5);
+		pixbuf_renderer_scroll_to_point(pw->pr,
+						pi->x - PAN_FOLDER_BOX_BORDER * 5 / 2,
+						pi->y, 0.0, 0.5);
 		}
 
 	if (month > 0)
@@ -3937,8 +3923,7 @@ static void pan_search_toggle_cb(GtkWidget *button, gpointer data)
  *-----------------------------------------------------------------------------
  */ 
 
-static void button_cb(ImageWindow *imd, gint button, guint32 time,
-		      gdouble x, gdouble y, guint state, gpointer data)
+static void button_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer data)
 {
 	PanWindow *pw = data;
 	PanItem *pi = NULL;
@@ -3946,16 +3931,16 @@ static void button_cb(ImageWindow *imd, gint button, guint32 time,
 	gint rx, ry;
 
 	rx = ry = 0;
-	if (pw->imd->scale)
+	if (pr->scale)
 		{
-		rx = (double)(pw->imd->x_scroll + x - pw->imd->x_offset) / pw->imd->scale;
-		ry = (double)(pw->imd->y_scroll + y - pw->imd->y_offset) / pw->imd->scale;
+		rx = (double)(pr->x_scroll + event->x - pr->x_offset) / pr->scale;
+		ry = (double)(pr->y_scroll + event->y - pr->y_offset) / pr->scale;
 		}
 
 	pi = pan_item_find_by_coord(pw, (pw->size > LAYOUT_SIZE_THUMB_LARGE) ? ITEM_IMAGE : ITEM_THUMB,
 				    rx, ry, NULL);
 
-	switch (button)
+	switch (event->button)
 		{
 		case 1:
 			pan_info_update(pw, pi);
@@ -3971,39 +3956,40 @@ static void button_cb(ImageWindow *imd, gint button, guint32 time,
 		case 3:
 			pan_info_update(pw, pi);
 			menu = pan_popup_menu(pw);
-			gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, time);
+			gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, event->time);
 			break;
 		default:
 			break;
 		}
 }
 
-static void scroll_cb(ImageWindow *imd, GdkScrollDirection direction, guint32 time,
-		      gdouble x, gdouble y, guint state, gpointer data)
+static void scroll_cb(PixbufRenderer *pr, GdkEventScroll *event, gpointer data)
 {
 #if 0
 	PanWindow *pw = data;
 #endif
 	gint w, h;
 
-	w = imd->vis_width;
-	h = imd->vis_height;
+	w = pr->vis_width;
+	h = pr->vis_height;
 
-	if (!(state & GDK_SHIFT_MASK))
+	if (!(event->state & GDK_SHIFT_MASK))
 		{
 		w /= 3;
 		h /= 3;
 		}
 
-	if (state & GDK_CONTROL_MASK)
+	if (event->state & GDK_CONTROL_MASK)
 		{
-		switch (direction)
+		switch (event->direction)
 			{
 			case GDK_SCROLL_UP:
-				image_zoom_adjust_at_point(imd, ZOOM_INCREMENT, x, y);
+				pixbuf_renderer_zoom_adjust_at_point(pr, ZOOM_INCREMENT,
+								     (gint)event->x, (gint)event->y);
 				break;
 			case GDK_SCROLL_DOWN:
-				image_zoom_adjust_at_point(imd, -ZOOM_INCREMENT, x, y);
+				pixbuf_renderer_zoom_adjust_at_point(pr, -ZOOM_INCREMENT,
+								     (gint)event->x, (gint)event->y);
 				break;
 			default:
 				break;
@@ -4011,19 +3997,19 @@ static void scroll_cb(ImageWindow *imd, GdkScrollDirection direction, guint32 ti
 		}
 	else
 		{
-		switch (direction)
+		switch (event->direction)
 			{
 			case GDK_SCROLL_UP:
-				image_scroll(imd, 0, -h);
+				pixbuf_renderer_scroll(pr, 0, -h);
 				break;
 			case GDK_SCROLL_DOWN:
-				image_scroll(imd, 0, h);
+				pixbuf_renderer_scroll(pr, 0, h);
 				break;
 			case GDK_SCROLL_LEFT:
-				image_scroll(imd, -w, 0);
+				pixbuf_renderer_scroll(pr, -w, 0);
 				break;
 			case GDK_SCROLL_RIGHT:
-				image_scroll(imd, w, 0);
+				pixbuf_renderer_scroll(pr, w, 0);
 				break;
 			default:
 				break;
@@ -4031,18 +4017,22 @@ static void scroll_cb(ImageWindow *imd, GdkScrollDirection direction, guint32 ti
 		}
 }
 
-static void pan_image_set_buttons(PanWindow *pw, ImageWindow *imd)
+static void pan_image_set_buttons(PanWindow *pw, PixbufRenderer *pr)
 {
-	image_set_button_func(imd, button_cb, pw);
-	image_set_scroll_func(imd, scroll_cb, pw);
+	g_signal_connect(G_OBJECT(pr), "clicked",
+			 G_CALLBACK(button_cb), pw);
+	g_signal_connect(G_OBJECT(pr), "scroll_event",
+			 G_CALLBACK(scroll_cb), pw);
 }
 
+#if 0
 static void pan_fullscreen_stop_func(FullScreenData *fs, gpointer data)
 {
 	PanWindow *pw = data;
 
 	pw->fs = NULL;
 }
+#endif
 
 static void pan_fullscreen_toggle(PanWindow *pw, gint force_off)
 {
@@ -4051,10 +4041,12 @@ static void pan_fullscreen_toggle(PanWindow *pw, gint force_off)
 	if (pw->fs)
 		{
 		fullscreen_stop(pw->fs);
-		pw->imd = pw->imd_normal;
+		pw->pr = pw->pr_normal;
 		}
 	else
 		{
+		printf("FIXME: fullscreen\n");
+#if 0
 		pw->fs = fullscreen_start(pw->window, pw->imd, pan_fullscreen_stop_func, pw);
 
 		pan_image_set_buttons(pw, pw->fs->imd);
@@ -4062,62 +4054,52 @@ static void pan_fullscreen_toggle(PanWindow *pw, gint force_off)
 				 G_CALLBACK(pan_window_key_press_cb), pw);
 
 		pw->imd = pw->fs->imd;
-		}
-}
-
-static void pan_overlay_toggle(PanWindow *pw)
-{
-	ImageWindow *imd;
-
-	imd = pan_window_active_image(pw);
-#if 0
-	if (pw->overlay_id == -1)
-		{
-		pw->overlay_id = image_overlay_info_enable(imd);
-		}
-	else
-		{
-		image_overlay_info_disable(imd, pw->overlay_id);
-		pw->overlay_id = -1;
-		}
 #endif
+		}
 }
 
-static void pan_window_image_update_cb(ImageWindow *imd, gpointer data)
+static void pan_window_image_zoom_cb(PixbufRenderer *pr, gdouble zoom, gpointer data)
 {
 	PanWindow *pw = data;
 	gchar *text;
 
+#if 0
 	text = image_zoom_get_as_text(imd);
+#endif
+	text = g_strdup_printf("%.2f", zoom);
 	gtk_label_set_text(GTK_LABEL(pw->label_zoom), text);
 	g_free(text);
 }
 
-static void pan_window_image_scroll_notify_cb(ImageWindow *imd, gint x, gint y,
-					      gint width, gint height, gpointer data)
+static void pan_window_image_scroll_notify_cb(PixbufRenderer *pr, gpointer data)
 {
 	PanWindow *pw = data;
 	GtkAdjustment *adj;
+	GdkRectangle rect;
+	gint width, height;
+
+	pixbuf_renderer_get_visible_rect(pr, &rect);
+	pixbuf_renderer_get_image_size(pr, &width, &height);
 
 	adj = gtk_range_get_adjustment(GTK_RANGE(pw->scrollbar_h));
-	adj->page_size = (gdouble)imd->vis_width / imd->scale;
+	adj->page_size = (gdouble)rect.width;
 	adj->page_increment = adj->page_size / 2.0;
-	adj->step_increment = 48.0 / imd->scale;
+	adj->step_increment = 48.0 / pr->scale;
 	adj->lower = 0.0;
-	adj->upper = MAX((gdouble)width + adj->page_size, 1.0);
-	adj->value = (gdouble)x;
+	adj->upper = MAX((gdouble)width, 1.0);
+	adj->value = (gdouble)rect.x;
 
 	pref_signal_block_data(pw->scrollbar_h, pw);
 	gtk_adjustment_changed(adj);
 	pref_signal_unblock_data(pw->scrollbar_h, pw);
 
 	adj = gtk_range_get_adjustment(GTK_RANGE(pw->scrollbar_v));
-	adj->page_size = (gdouble)imd->vis_height / imd->scale;
+	adj->page_size = (gdouble)rect.height;
 	adj->page_increment = adj->page_size / 2.0;
-	adj->step_increment = 48.0 / imd->scale;
+	adj->step_increment = 48.0 / pr->scale;
 	adj->lower = 0.0;
-	adj->upper = MAX((gdouble)height + adj->page_size, 1.0);
-	adj->value = (gdouble)y;
+	adj->upper = MAX((gdouble)height, 1.0);
+	adj->value = (gdouble)rect.y;
 
 	pref_signal_block_data(pw->scrollbar_v, pw);
 	gtk_adjustment_changed(adj);
@@ -4131,11 +4113,11 @@ static void pan_window_scrollbar_h_value_cb(GtkRange *range, gpointer data)
 	PanWindow *pw = data;
 	gint x;
 
-	if (!pw->imd->scale) return;
+	if (!pw->pr->scale) return;
 
 	x = (gint)gtk_range_get_value(range);
 
-	image_scroll_to_point(pw->imd, x, (gint)((gdouble)pw->imd->y_scroll / pw->imd->scale), 0.0, 0.0);
+	pixbuf_renderer_scroll_to_point(pw->pr, x, (gint)((gdouble)pw->pr->y_scroll / pw->pr->scale), 0.0, 0.0);
 }
 
 static void pan_window_scrollbar_v_value_cb(GtkRange *range, gpointer data)
@@ -4143,11 +4125,11 @@ static void pan_window_scrollbar_v_value_cb(GtkRange *range, gpointer data)
 	PanWindow *pw = data;
 	gint y;
 
-	if (!pw->imd->scale) return;
+	if (!pw->pr->scale) return;
 
 	y = (gint)gtk_range_get_value(range);
 
-	image_scroll_to_point(pw->imd, (gint)((gdouble)pw->imd->x_scroll / pw->imd->scale), y, 0.0, 0.0);
+	pixbuf_renderer_scroll_to_point(pw->pr, (gint)((gdouble)pw->pr->x_scroll / pw->pr->scale), y, 0.0, 0.0);
 }
 
 static void pan_window_layout_change_cb(GtkWidget *combo, gpointer data)
@@ -4316,24 +4298,25 @@ static void pan_window_new_real(const gchar *path)
 	gtk_table_set_row_spacings(GTK_TABLE(table), 2);
 	gtk_table_set_col_spacings(GTK_TABLE(table), 2);
 
-	pw->imd = image_new(TRUE);
-	pw->imd_normal = pw->imd;
+	pw->pr = pixbuf_renderer_new();
+	pw->pr_normal = pw->pr;
 
-	if (black_window_background) image_background_set_black(pw->imd, TRUE);
-	image_set_update_func(pw->imd, pan_window_image_update_cb, pw);
+	if (black_window_background) pixbuf_renderer_set_black(pw->pr, TRUE);
 
-	image_set_scroll_notify_func(pw->imd, pan_window_image_scroll_notify_cb, pw);
+	g_object_set(G_OBJECT(pw->pr), "zoom_2pass", TRUE, NULL);
 
-#if 0
-	gtk_box_pack_start(GTK_BOX(vbox), pw->imd->widget, TRUE, TRUE, 0);
-#endif
-	gtk_table_attach(GTK_TABLE(table), pw->imd->widget, 0, 1, 0, 1,
+	g_signal_connect(G_OBJECT(pw->pr), "zoom",
+			 G_CALLBACK(pan_window_image_zoom_cb), pw);
+	g_signal_connect(G_OBJECT(pw->pr), "scroll_notify",
+			 G_CALLBACK(pan_window_image_scroll_notify_cb), pw);
+
+	gtk_table_attach(GTK_TABLE(table), GTK_WIDGET(pw->pr), 0, 1, 0, 1,
 			 GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
-	gtk_widget_show(pw->imd->widget);
+	gtk_widget_show(GTK_WIDGET(pw->pr));
 
 	pan_window_dnd_init(pw);
 
-	pan_image_set_buttons(pw, pw->imd);
+	pan_image_set_buttons(pw, pw->pr);
 
 	pw->scrollbar_h = gtk_hscrollbar_new(NULL);
 	g_signal_connect(G_OBJECT(pw->scrollbar_h), "value_changed",
@@ -4422,7 +4405,9 @@ static void pan_window_new_real(const gchar *path)
 
 	pan_window_layout_update_idle(pw);
 
-	gtk_widget_grab_focus(pw->imd->widget);
+#if 0
+	gtk_widget_grab_focus(GTK_WIDGET(pw->pr));
+#endif
 	gtk_widget_show(pw->window);
 
 	pan_window_list = g_list_append(pan_window_list, pw);
@@ -4563,21 +4548,21 @@ static void pan_zoom_in_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
 
-	image_zoom_adjust(pan_window_active_image(pw), ZOOM_INCREMENT);
+	pixbuf_renderer_zoom_adjust(pan_window_active_image(pw), ZOOM_INCREMENT);
 }
 
 static void pan_zoom_out_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
 
-	image_zoom_adjust(pan_window_active_image(pw), -ZOOM_INCREMENT);
+	pixbuf_renderer_zoom_adjust(pan_window_active_image(pw), -ZOOM_INCREMENT);
 }
 
 static void pan_zoom_1_1_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
 
-	image_zoom_set(pan_window_active_image(pw), 1.0);
+	pixbuf_renderer_zoom_set(pan_window_active_image(pw), 1.0);
 }
 
 static void pan_copy_cb(GtkWidget *widget, gpointer data)
@@ -4586,7 +4571,7 @@ static void pan_copy_cb(GtkWidget *widget, gpointer data)
 	const gchar *path;
 
 	path = pan_menu_click_path(pw);
-	if (path) file_util_copy(path, NULL, NULL, pw->imd->widget);
+	if (path) file_util_copy(path, NULL, NULL, GTK_WIDGET(pw->pr));
 }
 
 static void pan_move_cb(GtkWidget *widget, gpointer data)
@@ -4595,7 +4580,7 @@ static void pan_move_cb(GtkWidget *widget, gpointer data)
 	const gchar *path;
 
 	path = pan_menu_click_path(pw);
-	if (path) file_util_move(path, NULL, NULL, pw->imd->widget);
+	if (path) file_util_move(path, NULL, NULL, GTK_WIDGET(pw->pr));
 }
 
 static void pan_rename_cb(GtkWidget *widget, gpointer data)
@@ -4604,7 +4589,7 @@ static void pan_rename_cb(GtkWidget *widget, gpointer data)
 	const gchar *path;
 
 	path = pan_menu_click_path(pw);
-	if (path) file_util_rename(path, NULL, pw->imd->widget);
+	if (path) file_util_rename(path, NULL, GTK_WIDGET(pw->pr));
 }
 
 static void pan_delete_cb(GtkWidget *widget, gpointer data)
@@ -4613,7 +4598,7 @@ static void pan_delete_cb(GtkWidget *widget, gpointer data)
 	const gchar *path;
 
 	path = pan_menu_click_path(pw);
-	if (path) file_util_delete(path, NULL, pw->imd->widget);
+	if (path) file_util_delete(path, NULL, GTK_WIDGET(pw->pr));
 }
 
 static void pan_fullscreen_cb(GtkWidget *widget, gpointer data)
@@ -4696,11 +4681,8 @@ static void pan_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 				    guint time, gpointer data)
 {
 	PanWindow *pw = data;
-	ImageWindow *imd;
 
-	if (gtk_drag_get_source_widget(context) == pw->imd->image) return;
-
-	imd = pw->imd;
+	if (gtk_drag_get_source_widget(context) == GTK_WIDGET(pw->pr)) return;
 
 	if (info == TARGET_URI_LIST)
 		{
@@ -4765,21 +4747,21 @@ static void pan_window_set_dnd_data(GtkWidget *widget, GdkDragContext *context,
 
 static void pan_window_dnd_init(PanWindow *pw)
 {
-	ImageWindow *imd;
+	GtkWidget *widget;
 
-	imd = pw->imd;
+	widget = GTK_WIDGET(pw->pr);
 
-	gtk_drag_source_set(imd->image, GDK_BUTTON2_MASK,
+	gtk_drag_source_set(widget, GDK_BUTTON2_MASK,
 			    dnd_file_drag_types, dnd_file_drag_types_count,
 			    GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
-	g_signal_connect(G_OBJECT(imd->image), "drag_data_get",
+	g_signal_connect(G_OBJECT(widget), "drag_data_get",
 			 G_CALLBACK(pan_window_set_dnd_data), pw);
 
-	gtk_drag_dest_set(imd->image,
+	gtk_drag_dest_set(widget,
 			  GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_DROP,
 			  dnd_file_drop_types, dnd_file_drop_types_count,
                           GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
-	g_signal_connect(G_OBJECT(imd->image), "drag_data_received",
+	g_signal_connect(G_OBJECT(widget), "drag_data_received",
 			 G_CALLBACK(pan_window_get_dnd_data), pw);
 }
 

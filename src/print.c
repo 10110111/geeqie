@@ -614,7 +614,7 @@ static void print_window_layout_size(PrintWindow *pw)
 
 	sw = print_preview_unit(width);
 	sh = print_preview_unit(height);
-	pixbuf = pw->layout_image->pixbuf;
+	pixbuf = image_get_pixbuf(pw->layout_image);
 	if (!pixbuf ||
 	    gdk_pixbuf_get_width(pixbuf) != sw ||
 	    gdk_pixbuf_get_height(pixbuf) != sh)
@@ -1836,7 +1836,7 @@ static gint print_job_preview_page_text(PrintWindow *pw, const gchar *text, gdou
 static gint print_job_preview_init(PrintWindow *pw)
 {
 	if (pw->job_pixbuf) g_object_unref(pw->job_pixbuf);
-	pw->job_pixbuf = pw->layout_image->pixbuf;
+	pw->job_pixbuf = image_get_pixbuf(pw->layout_image);
 	g_object_ref(pw->job_pixbuf);
 
 	return print_job_preview_page_new(pw, pw->job_page);

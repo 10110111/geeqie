@@ -17,6 +17,7 @@
 #include "image.h"
 #include "img-view.h"
 #include "layout.h"
+#include "pixbuf-renderer.h"
 #include "pixbuf_util.h"
 
 
@@ -126,15 +127,14 @@ static GdkPixbuf *image_overlay_info_render(ImageWindow *imd)
 
 		if (imd->delay_flip &&
 		    imd->il && imd->il->pixbuf &&
-		    imd->pixbuf != imd->il->pixbuf)
+		    image_get_pixbuf(imd) != imd->il->pixbuf)
 			{
 			w = gdk_pixbuf_get_width(imd->il->pixbuf);
 			h = gdk_pixbuf_get_height(imd->il->pixbuf);
 			}
 		else
 			{
-			w = imd->image_width;
-			h = imd->image_height;
+			pixbuf_renderer_get_image_size(PIXBUF_RENDERER(imd->pr), &w, &h);
 			}
 
 		text = g_strdup_printf("%s(%d/%d) <b>%s</b>\n%d x %d - %s - %s", ct,
@@ -146,7 +146,7 @@ static GdkPixbuf *image_overlay_info_render(ImageWindow *imd)
 	g_free(ct);
 	g_free(name_escaped);
 
-	layout = gtk_widget_create_pango_layout(imd->image, NULL);
+	layout = gtk_widget_create_pango_layout(imd->pr, NULL);
 	pango_layout_set_markup(layout, text, -1);
 	g_free(text);
 
@@ -165,7 +165,7 @@ static GdkPixbuf *image_overlay_info_render(ImageWindow *imd)
 	pixbuf_pixel_set(pixbuf, 0, height - 1, 0, 0, 0, 0);
 	pixbuf_pixel_set(pixbuf, width - 1, height - 1, 0, 0, 0, 0);
 
-	pixbuf_draw_layout(pixbuf, layout, imd->image, 5, 5, 0, 0, 0, 255);
+	pixbuf_draw_layout(pixbuf, layout, imd->pr, 5, 5, 0, 0, 0, 255);
 
 	g_object_unref(G_OBJECT(layout));
 
@@ -189,8 +189,8 @@ static gint image_overlay_update_cb(gpointer data)
 	image_overlay_set(ou->imd, ou->id, pixbuf, IMAGE_OVERLAY_X, IMAGE_OVERLAY_Y);
 	g_object_unref(pixbuf);
 
-	g_object_set_data(G_OBJECT(ou->imd->image), IMAGE_OVERLAY_UPDATE_KEY, NULL);
-	g_signal_handler_disconnect(ou->imd->image, ou->destroy_id);
+	g_object_set_data(G_OBJECT(ou->imd->pr), IMAGE_OVERLAY_UPDATE_KEY, NULL);
+	g_signal_handler_disconnect(ou->imd->pr, ou->destroy_id);
 	g_free(ou);
 
 	return FALSE;
@@ -200,16 +200,16 @@ static void image_overlay_update_schedule(ImageWindow *imd, gint id)
 {
 	OverlayUpdate *ou;
 
-	ou = g_object_get_data(G_OBJECT(imd->image), IMAGE_OVERLAY_UPDATE_KEY);
+	ou = g_object_get_data(G_OBJECT(imd->pr), IMAGE_OVERLAY_UPDATE_KEY);
 	if (ou) return;
 
 	ou = g_new0(OverlayUpdate, 1);
 	ou->imd = imd;
 	ou->id = id;
 	ou->idle_id = g_idle_add_full(G_PRIORITY_HIGH, image_overlay_update_cb, ou, NULL);
-	ou->destroy_id = g_signal_connect(G_OBJECT(imd->image), "destroy",
+	ou->destroy_id = g_signal_connect(G_OBJECT(imd->pr), "destroy",
 					  G_CALLBACK(image_overlay_update_destroy_cb), ou);
-	g_object_set_data(G_OBJECT(imd->image), IMAGE_OVERLAY_UPDATE_KEY, ou);
+	g_object_set_data(G_OBJECT(imd->pr), IMAGE_OVERLAY_UPDATE_KEY, ou);
 }
 
 void image_overlay_update(ImageWindow *imd, gint id)

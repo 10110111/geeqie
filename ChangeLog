@@ -1,3 +1,53 @@
+Fri Mar 18 19:52:38 2005  John Ellis  <johne@verizon.net>
+
+	* pixbuf-renderer.c: Fix broken 2pass queueing so it merges a single
+	queue item for each tile, and now that a tile holds a queue pointer
+	there is no need to walk the tile list to find a possible merge victim.
+
+Thu Mar 17 19:23:56 2005  John Ellis  <johne@verizon.net>
+
+	* image.c, pixbuf-renderer.[ch]: More progress, and 2 pass zoom now
+	works again (mostly).
+
+Tue Mar 15 23:17:41 2005  John Ellis  <johne@verizon.net>
+
+	* image.[ch]: Start conversion to use of PixbufRenderer.
+	* pixbuf-renderer.[ch]: Additions and fixes for use by ImageWindow.
+	* fullscreen.c, image-overlay.c, img-view.c, info.c, layout.c,
+	layout_image.c, print.c: Changes for above ImageWindow conversion.
+	* typedefs.h: Remove unused ImageWindow variables.
+
+Mon Mar 14 20:45:50 2005  John Ellis  <johne@verizon.net>
+
+	* pan-view.c: Convert to using new PixbufRenderer.
+	* pixbuf-renderer.[ch]: Clean up and fixes.
+
+Sun Mar 13 10:21:35 2005  John Ellis  <johne@verizon.net>
+
+	* image.c (image_scroller_start): Unref scroller pixbuf after adding it
+	as an overlay to avoid leaking it.
+	* pixbuf-renderer.[ch]: All functions defined in header file are now
+	implemented.
+
+Fri Mar 11 17:05:36 2005  John Ellis  <johne@verizon.net>
+
+	* pixbuf-renderer.[ch]: Set up object properties and additional.
+
+Mar 10 19:22:18 2005  John Ellis  <johne@verizon.net>
+
+	* pixbuf-renderer.[ch]: FIx scrolling to use old method of gdk_draw and
+	not gdk_scroll, as scroll often invalidates the entire window (!). Also
+	merged in source tiles code from image.c.
+	* pan-view.c: Change picked up when testing PixbufRender zoom.
+
+Tue Mar  8 23:26:00 2005  John Ellis  <johne@verizon.net>
+
+	* pixbuf-renderer.[ch]: Start of turning image drawing portion of
+	ImageWindow into an actual GtkWidget.
+	* src/Makefile.am: Add pixbuf-renderer.[ch].
+	* pan-view.c: Added temporary hack button and callback for testing
+	PixbufRenderer widget.
+
 Sat Mar  5 16:23:32 2005  John Ellis  <johne@verizon.net>
 
 	* README: Updates.

@@ -159,7 +159,7 @@ static void fullscreen_image_update_cb(ImageWindow *imd, gpointer data)
 	FullScreenData *fs = data;
 
 	if (fs->imd->il &&
-	    fs->imd->pixbuf != fs->imd->il->pixbuf)
+	    fs->imd->il->pixbuf != image_get_pixbuf(fs->imd))
 		{
 		fullscreen_mouse_set_busy_idle(fs);
 		}
@@ -314,7 +314,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	gtk_widget_show(fs->window);
 
 	/* for hiding the mouse */
-	g_signal_connect(G_OBJECT(fs->imd->image), "motion_notify_event",
+	g_signal_connect(G_OBJECT(fs->imd->pr), "motion_notify_event",
 			   G_CALLBACK(fullscreen_mouse_moved), fs);
 	clear_mouse_cursor(fs->window, fs->cursor_state);
 

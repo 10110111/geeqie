@@ -17,6 +17,7 @@
 #include "layout_image.h"
 #include "layout_util.h"
 #include "menu.h"
+#include "pixbuf-renderer.h"
 #include "pixbuf_util.h"
 #include "view_dir_list.h"
 #include "view_dir_tree.h"
@@ -405,8 +406,11 @@ void layout_status_update_image(LayoutWindow *lw)
 		}
 	else
 		{
+		gint width, height;
+
+		pixbuf_renderer_get_image_size(PIXBUF_RENDERER(lw->image->pr), &width, &height);
 		text = g_strdup_printf(_("( %d x %d ) %s bytes"),
-				       lw->image->image_width, lw->image->image_height, b);
+				       width, height, b);
 		}
 
 	gtk_label_set_text(GTK_LABEL(lw->info_details), text);

@@ -4,9 +4,19 @@ TODO key: d = done, w = work in progress, ? = possibly fixed
 Major:
 ----------------------------------------------
 
+ > pixbuf-renderer.c:
+   > fix two pass render from corrupting it->qd pointer (need one pointer for each queue?).
+   > fix image_change_from_image (to do this need a pixbuf_renderer_move_image).
+   > fix broken zoom out drawing when using source tiles.
+
+ > image.c:
+   > need to keep a list of ImageWindows and provide function to sync options to each object.
+   > test and probably fix delay_flip.
+   > make this a g_object with signals for completed, changed, etc.
+
+
  > work on pan view:
    > Pick a better keyboard shortcut than Control + J :)
-  d> Add warning dialog that it will be slow if the standard thumbnail cache is not enabled.
    > Fix occasional redraw bugs when zoomed out.
    > Fix occasional odd requests for non-visible tiles when zoomed out (related to above?).
    > Fix slowness in image.c with huge grid size by changing use of pre-allocated tile array
@@ -15,19 +25,19 @@ Major:
   w> Fix search scrolling to try to center image and info popup.
    > Fix info popup location to opposing horizontal side when near edge of grid.
    > Find something to do with middle mouse clicks.
-  d> Set drag and drop data to clicked image.
-  d> Should the copy/move/rename/delete operations be available here?
-   > ^ and if so, should delete key actually work?
-  d> searching for same item more than once should step through all matches
+   > should delete key actually work?
    > search should highlight all matching images (with toggle?)
    > should non-thumbnail images have a drop shadow?
+   > uptimize pixbuf_draw_line (line endpoints should clip to draw region before draw loop)
 
    > time line view:
-    d> searching by date should scroll to proper alignment with year/month/day boundaries.
+     > allow use of file date or EXIF (embedded) date.
+     > allow horizontal _or_ vertical orientation.
 
    > calendar view:
     w> fix search. (UPDATE: still can not find day containing name/path/partial)
      > supports thumbnail size images only, should grey out actual size items in size menu or something...
+     > allow use of file date or EXIF (embedded) date.
 
    > grid view:
      > allow sorting by name, date, size, dimensions, etc.
@@ -35,10 +45,11 @@ Major:
    > flower view:
      > fix it :)
 
+   > under consideration:
+     > split view
+
  > the info dialog is not set as a transient of the calling window, this causes it to be behind
    a full screen window when 'stay above other windows' is enabled.
-
-d> use doubles instead of floats wherever possible
 
  -------------
 

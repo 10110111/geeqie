@@ -19,6 +19,7 @@
 #include "filelist.h"
 #include "image.h"
 #include "image-load.h"
+#include "pixbuf-renderer.h"
 #include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_misc.h"
@@ -208,16 +209,21 @@ static void info_tab_general_image(InfoData *id, gpointer data)
 	gchar *buf;
 	guint mem_size;
 	gint has_alpha;
+	GdkPixbuf *pixbuf;
+	gint width, height;
 
 	if (id->image->unknown) return;
 
-	buf = g_strdup_printf("%d x %d", id->image->image_width, id->image->image_height);
+	pixbuf_renderer_get_image_size(PIXBUF_RENDERER(id->image->pr), &width, &height);
+
+	buf = g_strdup_printf("%d x %d", width, height);
 	gtk_label_set_text(GTK_LABEL(tab->label_dimensions), buf);
 	g_free(buf);
 
-	if (id->image->pixbuf)
+	pixbuf = image_get_pixbuf(id->image);
+	if (pixbuf)
 		{
-		has_alpha = gdk_pixbuf_get_has_alpha(id->image->pixbuf);
+		has_alpha = gdk_pixbuf_get_has_alpha(pixbuf);
 		}
 	else
 		{
@@ -225,7 +231,7 @@ static void info_tab_general_image(InfoData *id, gpointer data)
 		}
 	gtk_label_set_text(GTK_LABEL(tab->label_transparent), has_alpha ? _("yes") : _("no"));
 
-	mem_size = id->image->image_width * id->image->image_height * ((has_alpha) ? 4 : 3);
+	mem_size = width * height * ((has_alpha) ? 4 : 3);
 	buf = text_from_size_abrev(mem_size);
 	gtk_label_set_text(GTK_LABEL(tab->label_image_size), buf);
 	g_free(buf);
@@ -512,18 +518,18 @@ static void info_window_dnd_init(InfoData *id)
 
 	imd = id->image;
 
-	gtk_drag_source_set(imd->image, GDK_BUTTON2_MASK,
+	gtk_drag_source_set(imd->pr, GDK_BUTTON2_MASK,
 			    dnd_file_drag_types, dnd_file_drag_types_count,
 			    GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
-	g_signal_connect(G_OBJECT(imd->image), "drag_data_get",
+	g_signal_connect(G_OBJECT(imd->pr), "drag_data_get",
 			 G_CALLBACK(info_window_dnd_data_set), id);
 
 #if 0
-	gtk_drag_dest_set(imd->image,
+	gtk_drag_dest_set(imd->pr,
 			  GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_DROP,
 			  dnd_file_drop_types, dnd_file_drop_types_count,
 			  GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
-	g_signal_connect(G_OBJECT(imd->image), "drag_data_received",
+	g_signal_connect(G_OBJECT(imd->pr), "drag_data_received",
 			 G_CALLBACK(info_window_dnd_data_get), id);
 #endif
 }

@@ -219,69 +219,22 @@ typedef void (* ImageTileDisposeFunc)(ImageWindow *imd, gint x, gint y,
 struct _ImageWindow
 {
 	GtkWidget *widget;	/* use this to add it and show it */
-	GtkWidget *image;
+	GtkWidget *pr;
+	GtkWidget *frame;
 
 	gchar *image_path;
 	const gchar *image_name;
 
-	gint image_width;	/* image actual dimensions (pixels) */
-	gint image_height;
-	GdkPixbuf *pixbuf;
 	gint64 size;		/* file size (bytes) */
 	time_t mtime;		/* file modified time stamp */
 	gint unknown;		/* failed to load image */
 
-	gint window_width;	/* allocated size of window (drawing area) */
-	gint window_height;
-
-	gint x_offset;		/* offset of image start (non-zero when image < window) */
-	gint y_offset;
-
-	gint vis_width;		/* dimensions of visible part of image */
-	gint vis_height;
-
-	gint width;		/* size of scaled image (result) */
-	gint height;
-
-	gint x_scroll;		/* scroll offset of image (into width, height to start drawing) */
-	gint y_scroll;
-
-	gdouble zoom_min;
-	gdouble zoom_max;
-	gdouble zoom;		/* zoom we want (0 is auto) */
-	gdouble scale;		/* zoom we got (should never be 0) */
-
-	gint tile_width;
-	gint tile_height;
-	gint tile_cols;		/* count of tile columns */
-	GList *tiles;		/* list of buffer tiles */
-	GList *tile_cache;	/* list of pixmap/pixbuf tile allocations */
-	gint tile_cache_size;	/* allocated size of pixmaps/pixbufs */
-	GList *draw_queue;	/* list of areas to redraw */
-
-	gint source_tiles_enabled;
-	gint source_tiles_cache_size;
-
-	GList *source_tiles;	/* list of active source tiles */
-	gint source_tile_width;
-	gint source_tile_height;
-
-	GList *draw_queue_2pass;/* list when 2 pass is enabled */
-
 	ImageLoader *il;
 
-	gint draw_idle_id;
-	gint draw_idle_high;	/* current idle_id has high priority */
-
-	gint in_drag;
-	gint drag_last_x;
-	gint drag_last_y;
-	gint drag_moved;
-
 	gint has_frame;
-	gint top_window_sync;	/* resize top_window when image dimensions change */
 
 	/* top level (not necessarily parent) window */
+	gint top_window_sync;	/* resize top_window when image dimensions change */
 	GtkWidget *top_window;	/* window that gets title, and window to resize when 'fitting' */
 	gchar *title;		/* window title to display left of file name */
 	gchar *title_right;	/* window title to display right of file name */
@@ -331,17 +284,6 @@ struct _ImageWindow
 	gint auto_refresh_interval;
 
 	gint delay_flip;
-
-	gint scroller_id;
-	gint scroller_overlay;
-	gint scroller_x;
-	gint scroller_y;
-	gint scroller_xpos;
-	gint scroller_ypos;
-	gint scroller_xinc;
-	gint scroller_yinc;
-
-	GList *overlay_list;
 };
 
 struct _FileData {
