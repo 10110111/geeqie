@@ -76,6 +76,13 @@ static void image_update_util(ImageWindow *imd)
 	if (imd->func_update) imd->func_update(imd, imd->data_update);
 }
 
+static void image_zoom_cb(PixbufRenderer *pr, gdouble zoom, gpointer data)
+{
+	ImageWindow *imd = data;
+
+	image_update_util(imd);
+}
+
 static void image_complete_util(ImageWindow *imd, gint preload)
 {
 	if (imd->il && image_get_pixbuf(imd) != image_loader_get_pixbuf(imd->il)) return;
@@ -86,6 +93,13 @@ static void image_complete_util(ImageWindow *imd, gint preload)
 
 	if (!preload) imd->completed = TRUE;
 	if (imd->func_complete) imd->func_complete(imd, preload, imd->data_complete);
+}
+
+static void image_render_complete_cb(PixbufRenderer *pr, gpointer data)
+{
+	ImageWindow *imd = data;
+
+	image_complete_util(imd, FALSE);
 }
 
 static void image_new_util(ImageWindow *imd)
@@ -539,6 +553,7 @@ static gint image_load_begin(ImageWindow *imd, const gchar *path)
 	if (imd->il) return FALSE;
 
 	imd->completed = FALSE;
+	g_object_set(G_OBJECT(imd->pr), "complete", FALSE, NULL);
 
 	if (image_post_buffer_get(imd))
 		{
@@ -1410,6 +1425,11 @@ ImageWindow *image_new(gint frame)
 
 	g_signal_connect(G_OBJECT(imd->pr), "destroy",
 			 G_CALLBACK(image_destroy_cb), imd);
+
+	g_signal_connect(G_OBJECT(imd->pr), "zoom",
+			 G_CALLBACK(image_zoom_cb), imd);
+	g_signal_connect(G_OBJECT(imd->pr), "render_complete",
+			 G_CALLBACK(image_render_complete_cb), imd);
 
 	return imd;
 }

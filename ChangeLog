@@ -1,3 +1,12 @@
+Fri Mar 25 22:39:30 2005  John Ellis  <johne@verizon.net>
+
+	* image.c: Connect to 'zoom' signal of pixbuf-renderer and notify
+	listener to update. Fix delay flip by listening for 'render_complete'.
+	* pixbuf-renderer.[ch]: Add complete property and and emit a
+	'render-complete' signal when changing complete back to TRUE.
+	* view_dir_tree.c (vdtree_row_expanded): Populate a folder node
+	whenever it is expanded.
+
 Wed Mar 23 00:22:28 2005  John Ellis  <johne@verizon.net>
 
 	* image.c (image_change_from_image): Fix and use pixbuf_renderer_move.

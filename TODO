@@ -11,8 +11,11 @@ Major:
 
  > image.c:
    > need to keep a list of ImageWindows and provide function to sync options to each object.
-   > test and probably fix delay_flip.
+  d> test and probably fix delay_flip.
+      > UPDATE: works as before (pre pixbuf-renderer), but should be fixed to provide a single redraw
+        by pre-rendering any scaled tiles that are visible before signaling 'render_complete'.
    > make this a g_object with signals for completed, changed, etc.
+   > fix region computation rounding when updating scaled image in 'area ready' signal.
 
 
  > work on pan view:
@@ -38,6 +41,7 @@ Major:
     w> fix search. (UPDATE: still can not find day containing name/path/partial)
      > supports thumbnail size images only, should grey out actual size items in size menu or something...
      > allow use of file date or EXIF (embedded) date.
+     > fix scrolling when 'day' popup appears outsize of canvas.
 
    > grid view:
      > allow sorting by name, date, size, dimensions, etc.
@@ -50,6 +54,9 @@ Major:
 
  > the info dialog is not set as a transient of the calling window, this causes it to be behind
    a full screen window when 'stay above other windows' is enabled.
+
+ > folder tree view shortcuts for expanding/collapsing leak through to the main
+   window (+,-,*,/, etc.), figure what behavior is desired and fix this.
 
  -------------
 

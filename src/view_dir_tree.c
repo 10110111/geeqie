@@ -1524,6 +1524,7 @@ static void vdtree_row_expanded(GtkTreeView *treeview, GtkTreeIter *iter, GtkTre
 {
 	ViewDirTree *vdt = data;
 
+	vdtree_populate_path_by_iter(vdt, iter, FALSE, NULL);
 	vdtree_icon_set_by_iter(vdt, iter, vdt->pf->open);
 }
 

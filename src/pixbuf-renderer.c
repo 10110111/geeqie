@@ -135,6 +135,7 @@ enum {
 	SIGNAL_ZOOM = 0,
 	SIGNAL_CLICKED,
 	SIGNAL_SCROLL_NOTIFY,
+	SIGNAL_RENDER_COMPLETE,
 	SIGNAL_COUNT
 };
 
@@ -149,6 +150,7 @@ enum {
 	PROP_SCROLL_RESET,
 	PROP_DELAY_FLIP,
 	PROP_LOADING,
+	PROP_COMPLETE,
 	PROP_CACHE_SIZE_DISPLAY,
 	PROP_CACHE_SIZE_TILES,
 	PROP_WINDOW_FIT,
@@ -172,6 +174,7 @@ static void pixbuf_renderer_get_property(GObject *object, guint prop_id,
 					 GValue *value, GParamSpec *pspec);
 static gint pixbuf_renderer_expose(GtkWidget *widget, GdkEventExpose *event);
 
+static void pr_render_complete_signal(PixbufRenderer *pr);
 
 static void pr_overlay_list_clear(PixbufRenderer *pr);
 static void pr_scroller_timer_set(PixbufRenderer *pr, gint start);
@@ -327,6 +330,14 @@ static void pixbuf_renderer_class_init(PixbufRendererClass *class)
 							     G_PARAM_READABLE | G_PARAM_WRITABLE));
 
 	g_object_class_install_property(gobject_class,
+					PROP_COMPLETE,
+					g_param_spec_boolean("complete",
+							     "Image rendering complete",
+							     NULL,
+							     FALSE,
+							     G_PARAM_READABLE | G_PARAM_WRITABLE));
+
+	g_object_class_install_property(gobject_class,
 					PROP_CACHE_SIZE_DISPLAY,
 					g_param_spec_uint("cache_display",
 							  "Display cache size MB",
@@ -397,6 +408,15 @@ static void pixbuf_renderer_class_init(PixbufRendererClass *class)
 			     G_OBJECT_CLASS_TYPE(gobject_class),
 			     G_SIGNAL_RUN_LAST,
 			     G_STRUCT_OFFSET(PixbufRendererClass, scroll_notify),
+			     NULL, NULL,
+			     g_cclosure_marshal_VOID__VOID,
+			     G_TYPE_NONE, 0);
+
+	signals[SIGNAL_RENDER_COMPLETE] = 
+		g_signal_new("render-complete",
+			     G_OBJECT_CLASS_TYPE(gobject_class),
+			     G_SIGNAL_RUN_LAST,
+			     G_STRUCT_OFFSET(PixbufRendererClass, render_complete),
 			     NULL, NULL,
 			     g_cclosure_marshal_VOID__VOID,
 			     G_TYPE_NONE, 0);
@@ -501,6 +521,9 @@ static void pixbuf_renderer_set_property(GObject *object, guint prop_id,
 		case PROP_LOADING:
 			pr->loading = g_value_get_boolean(value);
 			break;
+		case PROP_COMPLETE:
+			pr->complete = g_value_get_boolean(value);
+			break;
 		case PROP_CACHE_SIZE_DISPLAY:
 			pr->tile_cache_max = g_value_get_uint(value);
 			break;
@@ -557,6 +580,9 @@ static void pixbuf_renderer_get_property(GObject *object, guint prop_id,
 			break;
 		case PROP_LOADING:
 			g_value_set_boolean(value, pr->loading);
+			break;
+		case PROP_COMPLETE:
+			g_value_set_boolean(value, pr->complete);
 			break;
 		case PROP_CACHE_SIZE_DISPLAY:
 			g_value_set_uint(value, pr->tile_cache_max);
@@ -2010,9 +2036,7 @@ static gint pr_queue_draw_idle_cb(gpointer data)
 	    (!pr->draw_queue && !pr->draw_queue_2pass) ||
 	    pr->draw_idle_id == -1)
 		{
-#if 0
-		if (!pr->completed) image_complete_util(pr, FALSE);
-#endif
+		pr_render_complete_signal(pr);
 
 		pr->draw_idle_id = -1;
 		return FALSE;
@@ -2087,9 +2111,7 @@ static gint pr_queue_draw_idle_cb(gpointer data)
 
 	if (!pr->draw_queue && !pr->draw_queue_2pass)
 		{
-#if 0
-		if (!pr->completed) image_complete_util(pr, FALSE);
-#endif
+		pr_render_complete_signal(pr);
 
 		pr->draw_idle_id = -1;
 		return FALSE;
@@ -2311,14 +2333,23 @@ static void pr_zoom_signal(PixbufRenderer *pr)
 	g_signal_emit(pr, signals[SIGNAL_ZOOM], 0, pr->zoom);
 }
 
+static void pr_clicked_signal(PixbufRenderer *pr, GdkEventButton *bevent)
+{
+	g_signal_emit(pr, signals[SIGNAL_CLICKED], 0, bevent);
+}
+
 static void pr_scroll_notify_signal(PixbufRenderer *pr)
 {
 	g_signal_emit(pr, signals[SIGNAL_SCROLL_NOTIFY], 0);
 }
 
-static void pr_button_signal(PixbufRenderer *pr, GdkEventButton *bevent)
+static void pr_render_complete_signal(PixbufRenderer *pr)
 {
-	g_signal_emit(pr, signals[SIGNAL_CLICKED], 0, bevent);
+	if (!pr->complete)
+		{
+		g_signal_emit(pr, signals[SIGNAL_RENDER_COMPLETE], 0);
+		g_object_set(G_OBJECT(pr), "complete", TRUE, NULL);
+		}
 }
 
 /*
@@ -2859,7 +2890,7 @@ static gint pr_mouse_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointe
 			pr->drag_moved = 0;
 			break;
 		case 3:
-			pr_button_signal(pr, bevent);
+			pr_clicked_signal(pr, bevent);
 			break;
 		default:
 			break;
@@ -2901,7 +2932,7 @@ static gint pr_mouse_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpoin
 			}
 		else if (bevent->button == 1 || bevent->button == 2)
 			{
-			pr_button_signal(pr, bevent);
+			pr_clicked_signal(pr, bevent);
 			}
 		}
 

@@ -117,6 +117,7 @@ struct _PixbufRenderer
 
 	gboolean delay_flip;
 	gboolean loading;
+	gboolean complete;
 
 	gint scroller_id;
 	gint scroller_overlay;
@@ -137,6 +138,8 @@ struct _PixbufRendererClass
 	void (* zoom)		(PixbufRenderer *pr, gdouble zoom);
 	void (* clicked)	(PixbufRenderer *pr, GdkEventButton *event);
 	void (* scroll_notify)	(PixbufRenderer *pr);
+
+	void (* render_complete)(PixbufRenderer *pr);
 };
 
 
