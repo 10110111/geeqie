@@ -26,7 +26,8 @@ Major:
     d> searching by date should scroll to proper alignment with year/month/day boundaries.
 
    > calendar view:
-     > fix search.
+    w> fix search. (UPDATE: still can not find day containing name/path/partial)
+     > supports thumbnail size images only, should grey out actual size items in size menu or something...
 
    > grid view:
      > allow sorting by name, date, size, dimensions, etc.

@@ -1,3 +1,8 @@
+Sat Mar  5 15:51:07 2005  John Ellis  <johne@verizon.net>
+
+	* pan-view.c: Make date search work in calendar view, plus calendar
+	fixes. Make '/' search key refocus search entry.
+
 Fri Mar  4 21:53:03 2005  John Ellis  <johne@verizon.net>
 
 	* pan-view.c: Add calendar view. Make mouse wheel scroll.

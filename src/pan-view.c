@@ -221,6 +221,7 @@ struct _PanWindow
 	GList *queue;
 
 	PanItem *click_pi;
+	PanItem *search_pi;
 
 	gint idle_id;
 };
@@ -878,6 +879,7 @@ static void pan_window_items_free(PanWindow *pw)
 	pw->tl = NULL;
 
 	pw->click_pi = NULL;
+	pw->search_pi = NULL;
 }
 
 static PanItem *pan_item_new_thumb(PanWindow *pw, FileData *fd, gint x, gint y)
@@ -1107,6 +1109,7 @@ static void pan_item_remove(PanWindow *pw, PanItem *pi)
 
 	if (pw->click_pi == pi) pw->click_pi = NULL;
 	if (pw->queue_pi == pi)	pw->queue_pi = NULL;
+	if (pw->search_pi == pi) pw->search_pi = NULL;
 	pw->queue = g_list_remove(pw->queue, pi);
 
 	pw->list = g_list_remove(pw->list, pi);
@@ -1880,7 +1883,9 @@ static void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 			}
 		}
 
+#if 0
 	if (!list) return;
+#endif
 
 	grid = (gint)(sqrt(g_list_length(list)) + 0.5);
 
@@ -1900,13 +1905,12 @@ static void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 				PAN_POPUP_BORDER_COLOR, PAN_POPUP_ALPHA);
 	pan_item_set_key(pbox, "day_bubble");
 
-	pi = list->data;
-	if (pi->fd)
+	if (pi_day->fd)
 		{
 		PanItem *plabel;
 		gchar *buf;
 
-		buf = date_value_string(pi->fd->date, DATE_LENGTH_WEEK);
+		buf = date_value_string(pi_day->fd->date, DATE_LENGTH_WEEK);
 		plabel = pan_item_new_text(pw, x, y, buf, TEXT_ATTR_BOLD | TEXT_ATTR_HEADING,
 					   PAN_POPUP_TEXT_COLOR, 255);
 		pan_item_set_key(plabel, "day_bubble");
@@ -1917,38 +1921,41 @@ static void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 		y += plabel->height;
 		}
 
-	column = 0;
-
-	x += PAN_FOLDER_BOX_BORDER;
-	y += PAN_FOLDER_BOX_BORDER;
-
-	work = list;
-	while (work)
+	if (list)
 		{
-		PanItem *dot;
+		column = 0;
 
-		dot = work->data;
-		work = work->next;
+		x += PAN_FOLDER_BOX_BORDER;
+		y += PAN_FOLDER_BOX_BORDER;
 
-		if (dot->fd)
+		work = list;
+		while (work)
 			{
-			PanItem *pimg;
+			PanItem *dot;
 
-			pimg = pan_item_new_thumb(pw, file_data_new_simple(dot->fd->path), x, y);
-			pan_item_set_key(pimg, "day_bubble");
+			dot = work->data;
+			work = work->next;
 
-			pan_item_size_by_item(pbox, pimg, PAN_FOLDER_BOX_BORDER);
-
-			column++;
-			if (column < grid)
+			if (dot->fd)
 				{
-				x += pimg->width + PAN_THUMB_GAP;
-				}
-			else
-				{
-				column = 0;
-				x = pbox->x + PAN_FOLDER_BOX_BORDER;
-				y += pimg->height + PAN_THUMB_GAP;
+				PanItem *pimg;
+
+				pimg = pan_item_new_thumb(pw, file_data_new_simple(dot->fd->path), x, y);
+				pan_item_set_key(pimg, "day_bubble");
+
+				pan_item_size_by_item(pbox, pimg, PAN_FOLDER_BOX_BORDER);
+
+				column++;
+				if (column < grid)
+					{
+					x += PAN_THUMB_SIZE + PAN_THUMB_GAP;
+					}
+				else
+					{
+					column = 0;
+					x = pbox->x + PAN_FOLDER_BOX_BORDER;
+					y += PAN_THUMB_SIZE + PAN_THUMB_GAP;
+					}
 				}
 			}
 		}
@@ -1956,9 +1963,9 @@ static void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 	x1 = pi_day->x + pi_day->width - 8;
 	y1 = pi_day->y + 8;
 	x2 = pbox->x + 1;
-	y2 = pbox->y + 36;
+	y2 = pbox->y + MIN(42, pbox->height);
 	x3 = pbox->x + 1;
-	y3 = pbox->y + 12;
+	y3 = MAX(pbox->y, y2 - 30);
 	triangle_rect_region(x1, y1, x2, y2, x3, y3,
 			     &x, &y, &w, &h);
 
@@ -2091,7 +2098,12 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 
 			dt = date_to_time(year, month, day);
 
-			pi_day = pan_item_new_box(pw, NULL, x, y, PAN_CAL_DAY_WIDTH, PAN_CAL_DAY_HEIGHT,
+			fd = g_new0(FileData, 1);
+			/* path and name must be non NULL, so make them an invalid filename */
+			fd->path = g_strdup("//");
+			fd->name = path;
+			fd->date = dt;
+			pi_day = pan_item_new_box(pw, fd, x, y, PAN_CAL_DAY_WIDTH, PAN_CAL_DAY_HEIGHT,
 						  PAN_FOLDER_BOX_OUTLINE_THICKNESS,
 						  PAN_FOLDER_BOX_COLOR, PAN_FOLDER_BOX_ALPHA,
 						  PAN_FOLDER_BOX_OUTLINE_COLOR, PAN_FOLDER_BOX_OUTLINE_ALPHA);
@@ -2128,6 +2140,19 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 
 				work = work->next;
 				fd = (work) ? work->data : NULL;
+				}
+
+			if (n > 0)
+				{
+				PanItem *pi;
+
+				buf = g_strdup_printf("( %d )", n);
+				pi = pan_item_new_text(pw, x, y, buf, TEXT_ATTR_NONE,
+						       PAN_TEXT_COLOR, 255);
+				g_free(buf);
+
+				pi->x = pi_day->x + (pi_day->width - pi->width) / 2;
+				pi->y = pi_day->y + (pi_day->height - pi->height) / 2;
 				}
 
 			buf = g_strdup_printf("%d", day);
@@ -3044,18 +3069,39 @@ static void pan_window_message(PanWindow *pw, const gchar *text)
 		}
 
 	work = pw->list;
-	while (work)
+	if (pw->layout == LAYOUT_CALENDAR)
 		{
-		PanItem *pi;
-
-		pi = work->data;
-		work = work->next;
-
-		if (pi->fd &&
-		    (pi->type == ITEM_THUMB || pi->type == ITEM_IMAGE))
+		while (work)
 			{
-			size += pi->fd->size;
-			count++;
+			PanItem *pi;
+
+			pi = work->data;
+			work = work->next;
+
+			if (pi->fd &&
+			    pi->type == ITEM_BOX &&
+			    pi->key && strcmp(pi->key, "dot") == 0)
+				{
+				size += pi->fd->size;
+				count++;
+				}
+			}
+		}
+	else
+		{
+		while (work)
+			{
+			PanItem *pi;
+
+			pi = work->data;
+			work = work->next;
+
+			if (pi->fd &&
+			    (pi->type == ITEM_THUMB || pi->type == ITEM_IMAGE))
+				{
+				size += pi->fd->size;
+				count++;
+				}
 			}
 		}
 
@@ -3305,7 +3351,14 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 		case '/':
 			if (!pw->fs)
 				{
-				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), TRUE);
+				if (GTK_WIDGET_VISIBLE(pw->search_box))
+					{
+					gtk_widget_grab_focus(pw->search_entry);
+					}
+				else
+					{
+					gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), TRUE);
+					}
 				stop_signal = TRUE;
 				}
 			break;
@@ -3625,7 +3678,9 @@ static gint valid_date_separator(gchar c)
 	return (c == '/' || c == '-' || c == ' ' || c == '.' || c == ',');
 }
 
-static GList *pan_search_by_date_val(PanWindow *pw, ItemType type, gint year, gint month, gint day)
+static GList *pan_search_by_date_val(PanWindow *pw, ItemType type,
+				     gint year, gint month, gint day,
+				     const gchar *key)
 {
 	GList *list = NULL;
 	GList *work;
@@ -3638,7 +3693,8 @@ static GList *pan_search_by_date_val(PanWindow *pw, ItemType type, gint year, gi
 		pi = work->data;
 		work = work->prev;
 
-		if (pi->fd && (pi->type == type || type == ITEM_NONE))
+		if (pi->fd && (pi->type == type || type == ITEM_NONE) &&
+		    ((!key && !pi->key) || (key && pi->key && strcmp(key, pi->key) == 0)))
 			{
 			struct tm *tl;
 
@@ -3662,7 +3718,7 @@ static GList *pan_search_by_date_val(PanWindow *pw, ItemType type, gint year, gi
 static gint pan_search_by_date(PanWindow *pw, const gchar *text)
 {
 	PanItem *pi = NULL;
-	GList *list;
+	GList *list = NULL;
 	GList *found;
 	gint year;
 	gint month = -1;
@@ -3674,7 +3730,6 @@ static gint pan_search_by_date(PanWindow *pw, const gchar *text)
 	gchar *message;
 	gchar *buf;
 	gchar *buf_count;
-	ItemType type;
 
 	if (!text) return FALSE;
 
@@ -3750,12 +3805,21 @@ static gint pan_search_by_date(PanWindow *pw, const gchar *text)
 	t = date_to_time(year, month, day);
 	if (t < 0) return FALSE;
 
-	type = (pw->size > LAYOUT_SIZE_THUMB_LARGE) ? ITEM_IMAGE : ITEM_THUMB;
+	if (pw->layout == LAYOUT_CALENDAR)
+		{
+		list = pan_search_by_date_val(pw, ITEM_BOX, year, month, day, "day");
+		}
+	else
+		{
+		ItemType type;
 
-	list = pan_search_by_date_val(pw, type, year, month, day);
+		type = (pw->size > LAYOUT_SIZE_THUMB_LARGE) ? ITEM_IMAGE : ITEM_THUMB;
+		list = pan_search_by_date_val(pw, type, year, month, day, NULL);
+		}
+
 	if (list)
 		{
-		found = g_list_find(list, pw->click_pi);
+		found = g_list_find(list, pw->search_pi);
 		if (found && found->next)
 			{
 			found = found->next;
@@ -3767,7 +3831,17 @@ static gint pan_search_by_date(PanWindow *pw, const gchar *text)
 			}
 		}
 
-	if (pi)
+	pw->search_pi = pi;
+
+	if (pw->layout == LAYOUT_CALENDAR && pi && pi->type == ITEM_BOX)
+		{
+		pan_info_update(pw, NULL);
+		pan_calendar_update(pw, pi);
+		image_scroll_to_point(pw->imd,
+				      pi->x + pi->width / 2,
+				      pi->y + pi->height / 2, 0.5, 0.5);
+		}
+	else if (pi)
 		{
 		pan_info_update(pw, pi);
 		image_scroll_to_point(pw->imd,
