@@ -676,12 +676,15 @@ static gint util_clip_region(gint x, gint y, gint w, gint h,
 
 static gint pr_parent_window_sizable(PixbufRenderer *pr)
 {
+	GdkWindowState state;
+
 	if (!pr->parent_window) return FALSE;
 	if (!pr->window_fit) return FALSE;
 	if (!GTK_WIDGET(pr)->window) return FALSE;
-#if 0
-	if (window_maximized(pr->top_window)) return FALSE;
-#endif
+
+	if (!pr->parent_window->window) return FALSE;
+	state = gdk_window_get_state(pr->parent_window->window);
+	if (state & GDK_WINDOW_STATE_MAXIMIZED) return FALSE;
 
 	return TRUE;
 }
@@ -1249,7 +1252,7 @@ static gint pr_source_tile_visible(PixbufRenderer *pr, SourceTile *st)
 
 	return !((double)st->x * pr->scale > (double)x2 ||
 		 (double)(st->x + pr->source_tile_width) * pr->scale < (double)x1 ||
-		 (double)st->y * pr->scale > (double)x2 ||
+		 (double)st->y * pr->scale > (double)y2 ||
 		 (double)(st->y + pr->source_tile_height) * pr->scale < (double)y1);
 }
 
@@ -2430,7 +2433,9 @@ static gint pr_size_clamp(PixbufRenderer *pr)
 	return (old_vw != pr->vis_width || old_vh != pr->vis_height);
 }
 
-static gint pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom, gint force, gint new, gint invalidate)
+static gint pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
+			  gint force, gint new, gint invalidate,
+			  gint *redrawn)
 {
 	gint w, h;
 	gdouble scale;
@@ -2521,6 +2526,7 @@ static gint pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom, gint force, gint new
 		pr_tile_invalidate_all(pr);
 		pr_redraw(pr, TRUE);
 		}
+	if (redrawn) *redrawn = (invalidate || invalid);
 
 	return TRUE;
 }
@@ -2533,6 +2539,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 	gint old_cx, old_cy;
 	gint clamped;
 	gint sized;
+	gint redrawn = FALSE;
 
 	old_scale = pr->scale;
 	if (center_point)
@@ -2549,7 +2556,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 		old_cy = pr->y_scroll + pr->vis_height / 2;
 		}
 
-	if (!pr_zoom_clamp(pr, zoom, force, new, force)) return;
+	if (!pr_zoom_clamp(pr, zoom, force, new, force, &redrawn)) return;
 
 	clamped = pr_size_clamp(pr);
 	sized = pr_parent_window_resize(pr, pr->width, pr->height);
@@ -2600,7 +2607,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 	 * so redraw the window anyway :/
 	 */
 	if (sized || clamped) pr_border_clear(pr);
-	pr_redraw(pr, FALSE);
+	pr_redraw(pr, redrawn);
 
 	pr_zoom_signal(pr);
 	pr_update_signal(pr);
@@ -2613,7 +2620,7 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 	pr->window_width = new_width;
 	pr->window_height = new_height;
 
-	if (pr->zoom == 0.0) pr_zoom_clamp(pr, 0.0, TRUE, FALSE, FALSE);
+	if (pr->zoom == 0.0) pr_zoom_clamp(pr, 0.0, TRUE, FALSE, FALSE, NULL);
 
 	pr_size_clamp(pr);
 	pr_scroll_clamp(pr);

@@ -7,7 +7,8 @@ Major:
  > pixbuf-renderer.c:
   d> fix two pass render from corrupting it->qd pointer (need one pointer for each queue?).
   d> fix image_change_from_image (to do this need a pixbuf_renderer_move_image).
-   > fix broken zoom out drawing when using source tiles.
+  d> fix broken zoom out drawing when using source tiles.
+   > fix 2pass zoom when using source tiles and zoomed out (not always rendering second pass)
 
  > image.c:
   d> need to keep a list of ImageWindows and provide function to sync options to each object.
@@ -16,6 +17,8 @@ Major:
         by pre-rendering any scaled tiles that are visible before signaling 'render_complete'.
    > make this a g_object with signals for completed, changed, etc.
   d> fix region computation rounding when updating scaled image in 'area ready' signal.
+   > fix delay flip 'completed' signal (full screen busy cursor is not always turned off)
+   > fix slow loading of images when zoomed out - bug could be poor clamping to visible in PixbufRenderer.
 
 
  > work on pan view:

@@ -2965,9 +2965,9 @@ static gint pan_window_request_tile_cb(PixbufRenderer *pr, gint x, gint y,
 		}
 	g_list_free(list);
 
-	if (0)
+#if 0
+	if (x%512 == 0 && y%512 == 0)
 		{
-		static gint count = 0;
 		PangoLayout *layout;
 		gchar *buf;
 
@@ -2982,9 +2982,8 @@ static gint pan_window_request_tile_cb(PixbufRenderer *pr, gint x, gint y,
 		pixbuf_draw_layout(pixbuf, layout, (GtkWidget *)pr, 0, 0, 0, 0, 0, 255);
 
 		g_object_unref(G_OBJECT(layout));
-
-		count++;
 		}
+#endif
 
 	return TRUE;
 }
@@ -4047,10 +4046,7 @@ static void pan_window_image_zoom_cb(PixbufRenderer *pr, gdouble zoom, gpointer 
 	PanWindow *pw = data;
 	gchar *text;
 
-#if 0
-	text = image_zoom_get_as_text(imd);
-#endif
-	text = g_strdup_printf("%.2f", zoom);
+	text = image_zoom_get_as_text(pw->imd);
 	gtk_label_set_text(GTK_LABEL(pw->label_zoom), text);
 	g_free(text);
 }

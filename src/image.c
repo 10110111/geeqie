@@ -1347,6 +1347,8 @@ static void image_options_set(ImageWindow *imd)
 					"window_limit", limit_window_size,
 					"window_limit_value", max_window_size,
 					NULL);
+
+	pixbuf_renderer_set_parent((PixbufRenderer *)imd->pr, (GtkWindow *)imd->top_window);
 }
 
 void image_options_sync(void)
