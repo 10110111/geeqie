@@ -87,7 +87,10 @@ static gint thumb_max_width_c;
 static gint thumb_max_height_c;
 static gint enable_thumb_caching_c;
 static gint enable_thumb_dirs_c;
+static gint thumbnail_fast_c;
+#if 0
 static gint use_xvpics_thumbnails_c;
+#endif
 static gint thumbnail_spec_standard_c;
 static gint enable_metadata_dirs_c;
 static gint show_dot_files_c;
@@ -237,7 +240,10 @@ static void config_window_apply(void)
 	thumb_max_height = thumb_max_height_c;
 	enable_thumb_caching = enable_thumb_caching_c;
 	enable_thumb_dirs = enable_thumb_dirs_c;
+	thumbnail_fast = thumbnail_fast_c;
+#if 0
 	use_xvpics_thumbnails = use_xvpics_thumbnails_c;
+#endif
 	thumbnail_spec_standard = thumbnail_spec_standard_c;
 	enable_metadata_dirs = enable_metadata_dirs_c;
 	show_dot_files = show_dot_files_c;
@@ -855,11 +861,16 @@ static void config_window_create(void)
 	subgroup = pref_box_new(subgroup, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 	pref_checkbox_link_sensitivity_swap(button, subgroup);
 
-	button = pref_checkbox_new_int(subgroup, _("Cache thumbnails into .thumbnails"),
-				       enable_thumb_dirs, &enable_thumb_dirs_c);
+	pref_checkbox_new_int(subgroup, _("Cache thumbnails into .thumbnails"),
+			      enable_thumb_dirs, &enable_thumb_dirs_c);
 
-	button = pref_checkbox_new_int(subgroup, _("Use xvpics thumbnails when found (read only)"),
-				       use_xvpics_thumbnails, &use_xvpics_thumbnails_c);
+#if 0
+	pref_checkbox_new_int(subgroup, _("Use xvpics thumbnails when found (read only)"),
+			      use_xvpics_thumbnails, &use_xvpics_thumbnails_c);
+#endif
+
+	pref_checkbox_new_int(group, _("Faster jpeg thumbnailing (may reduce quality)"),
+			      thumbnail_fast, &thumbnail_fast_c);
 
 	group = pref_group_new(vbox, FALSE, _("Slide show"), GTK_ORIENTATION_VERTICAL);
 

@@ -442,7 +442,7 @@ static gint thumb_loader_std_scale_aspect(gint req_w, gint req_h, gint old_w, gi
 	return (*new_w != old_w || *new_h != old_h);
 }
 
-static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf)
+static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf, gint shrunk)
 {
 	GdkPixbuf *pixbuf_thumb = NULL;
 	GdkPixbuf *result;
@@ -452,7 +452,7 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf)
 	sh = gdk_pixbuf_get_height(pixbuf);
 
 	if (tl->cache_enable && !tl->cache_hit &&
-	    (sw >= THUMB_SIZE_NORMAL || sh >= THUMB_SIZE_NORMAL))
+	    (sw >= THUMB_SIZE_NORMAL || sh >= THUMB_SIZE_NORMAL || shrunk))
 		{
 		gint cache_w, cache_h;
 		gint thumb_w, thumb_h;
@@ -595,7 +595,7 @@ static void thumb_loader_std_done_cb(ImageLoader *il, gpointer data)
 
 	tl->cache_hit = (tl->thumb_path != NULL);
 
-	tl->pixbuf = thumb_loader_std_finish(tl, pixbuf);
+	tl->pixbuf = thumb_loader_std_finish(tl, pixbuf, il->shrunk);
 
 	if (tl->func_done) tl->func_done(tl, tl->data);
 }
@@ -635,18 +635,19 @@ static gint thumb_loader_std_setup(ThumbLoaderStd *tl, const gchar *path)
 {
 	tl->il = image_loader_new(path);
 
-#if 0
-	/* this will speed up jpegs by up to 3x in some cases */
-	if (tl->requested_width <= THUMB_SIZE_NORMAL &&
-	    tl->requested_height <= THUMB_SIZE_NORMAL)
+	if (thumbnail_fast)
 		{
-		image_loader_set_requested_size(tl->il, THUMB_SIZE_NORMAL, THUMB_SIZE_NORMAL);
+		/* this will speed up jpegs by up to 3x in some cases */
+		if (tl->requested_width <= THUMB_SIZE_NORMAL &&
+		    tl->requested_height <= THUMB_SIZE_NORMAL)
+			{
+			image_loader_set_requested_size(tl->il, THUMB_SIZE_NORMAL, THUMB_SIZE_NORMAL);
+			}
+		else
+			{
+			image_loader_set_requested_size(tl->il, THUMB_SIZE_LARGE, THUMB_SIZE_LARGE);
+			}
 		}
-	else
-		{
-		image_loader_set_requested_size(tl->il, THUMB_SIZE_LARGE, THUMB_SIZE_LARGE);
-		}
-#endif
 
 	image_loader_set_error_func(tl->il, thumb_loader_std_error_cb, tl);
 	if (tl->func_progress)

@@ -41,12 +41,14 @@
 
 #define PAN_TILE_SIZE 512
 
+#define PAN_THUMB_SIZE_DOTS 4
 #define PAN_THUMB_SIZE_NONE 24
 #define PAN_THUMB_SIZE_SMALL 64
 #define PAN_THUMB_SIZE_NORMAL 128
 #define PAN_THUMB_SIZE_LARGE 256
 #define PAN_THUMB_SIZE pw->thumb_size
 
+#define PAN_THUMB_GAP_DOTS 2
 #define PAN_THUMB_GAP_SMALL 14
 #define PAN_THUMB_GAP_NORMAL 30
 #define PAN_THUMB_GAP_LARGE 40
@@ -100,7 +102,8 @@ typedef enum {
 } LayoutType;
 
 typedef enum {
-	LAYOUT_SIZE_THUMB_NONE = 0,
+	LAYOUT_SIZE_THUMB_DOTS = 0,
+	LAYOUT_SIZE_THUMB_NONE,
 	LAYOUT_SIZE_THUMB_SMALL,
 	LAYOUT_SIZE_THUMB_NORMAL,
 	LAYOUT_SIZE_THUMB_LARGE,
@@ -1085,6 +1088,14 @@ static void pan_item_size_by_item(PanItem *pi, PanItem *child, gint border)
 		pi->height = child->y + child->height + border - pi->y;
 }
 
+static void pan_item_size_coordinates(PanItem *pi, gint border, gint *w, gint *h)
+{
+	if (!pi) return;
+
+	if (*w < pi->x + pi->width + border) *w = pi->x + pi->width + border;
+	if (*h < pi->y + pi->height + border) *h = pi->y + pi->height + border;
+}
+
 static void pan_item_image_find_size(PanWindow *pw, PanItem *pi, gint w, gint h)
 {
 	GList *work;
@@ -1292,7 +1303,6 @@ static void pan_window_layout_compute_grid(PanWindow *pw, const gchar *path, gin
 	GList *list;
 	GList *work;
 	gint x, y;
-	gint w, h;
 	gint grid_size;
 	gint next_y;
 
@@ -1310,8 +1320,8 @@ static void pan_window_layout_compute_grid(PanWindow *pw, const gchar *path, gin
 
 	next_y = 0;
 
-	w = PAN_THUMB_GAP * 2;
-	h = PAN_THUMB_GAP * 2;
+	*width = PAN_FOLDER_BOX_BORDER * 2;
+	*height = PAN_FOLDER_BOX_BORDER * 2;
 
 	x = PAN_THUMB_GAP;
 	y = PAN_THUMB_GAP;
@@ -1347,13 +1357,8 @@ static void pan_window_layout_compute_grid(PanWindow *pw, const gchar *path, gin
 				y += PAN_THUMB_SIZE + PAN_THUMB_GAP;
 				}
 			}
-
-		if (w < pi->x + pi->width + PAN_THUMB_GAP) w  = pi->x + pi->width + PAN_THUMB_GAP;
-		if (h < pi->y + pi->height + PAN_THUMB_GAP) h = pi->y + pi->height + PAN_THUMB_GAP;
+		pan_item_size_coordinates(pi, PAN_THUMB_GAP, width, height);
 		}
-
-	if (width) *width = w;
-	if (height) *height = h;
 
 	g_list_free(list);
 }
@@ -1696,7 +1701,7 @@ static void pan_window_layout_compute_folders_linear_path(PanWindow *pw, const g
 	f = filelist_sort(f, SORT_NAME, TRUE);
 	d = filelist_sort(d, SORT_NAME, TRUE);
 
-	*x = PAN_THUMB_GAP + ((*level) * (PAN_THUMB_GAP * 2));
+	*x = PAN_FOLDER_BOX_BORDER + ((*level) * MAX(PAN_FOLDER_BOX_BORDER, PAN_THUMB_GAP));
 
 	pi_box = pan_item_new_text(pw, *x, *y, path, TEXT_ATTR_NONE,
 				   PAN_TEXT_COLOR, 255);
@@ -1763,10 +1768,7 @@ static void pan_window_layout_compute_folders_linear_path(PanWindow *pw, const g
 	if (*y < pi_box->y + pi_box->height + PAN_FOLDER_BOX_BORDER)
 		*y = pi_box->y + pi_box->height + PAN_FOLDER_BOX_BORDER;
 
-	if (*width < pi_box->x + pi_box->width + PAN_FOLDER_BOX_BORDER)
-		*width  = pi_box->x + pi_box->width + PAN_FOLDER_BOX_BORDER;
-	if (*height < pi_box->y + pi_box->height + PAN_FOLDER_BOX_BORDER)
-		*height = pi_box->y + pi_box->height + PAN_FOLDER_BOX_BORDER;
+	pan_item_size_coordinates(pi_box, PAN_FOLDER_BOX_BORDER, width, height);
 }
 
 static void pan_window_layout_compute_folders_linear(PanWindow *pw, const gchar *path, gint *width, gint *height)
@@ -1792,7 +1794,6 @@ static void pan_window_layout_compute_timeline(PanWindow *pw, const gchar *path,
 	GList *list;
 	GList *work;
 	gint x, y;
-	gint w, h;
 	time_t tc;
 	gint total;
 	gint count;
@@ -1808,8 +1809,8 @@ static void pan_window_layout_compute_timeline(PanWindow *pw, const gchar *path,
 	list = pan_window_layout_list(path, SORT_NONE, TRUE);
 	list = filelist_sort(list, SORT_TIME, TRUE);
 
-	w = PAN_FOLDER_BOX_BORDER * 2;
-	h = PAN_FOLDER_BOX_BORDER * 2;
+	*width = PAN_FOLDER_BOX_BORDER * 2;
+	*height = PAN_FOLDER_BOX_BORDER * 2;
 
 	x = 0;
 	y = 0;
@@ -1921,23 +1922,6 @@ static void pan_window_layout_compute_timeline(PanWindow *pw, const gchar *path,
 
 		pan_item_size_by_item(pi_day, pi, PAN_FOLDER_BOX_BORDER);
 		pan_item_size_by_item(pi_month, pi_day, PAN_FOLDER_BOX_BORDER);
-#if 0
-		if (pi_day)
-			{
-			if (pi->x + pi->width + PAN_FOLDER_BOX_BORDER > pi_day->x + pi_day->width)
-				pi_day->width = pi->x + pi->width +  PAN_FOLDER_BOX_BORDER - pi_day->x;
-			if (pi->y + pi->height + PAN_FOLDER_BOX_BORDER > pi_day->y + pi_day->height)
-				pi_day->height = pi->y + pi->height +  PAN_FOLDER_BOX_BORDER - pi_day->y;
-			}
-
-		if (pi_month && pi_day)
-			{
-			if (pi_day->x + pi_day->width + PAN_FOLDER_BOX_BORDER > pi_month->x + pi_month->width)
-				pi_month->width = pi_day->x + pi_day->width +  PAN_FOLDER_BOX_BORDER - pi_month->x;
-			if (pi_day->y + pi_day->height + PAN_FOLDER_BOX_BORDER > pi_month->y + pi_month->height)
-				pi_month->height = pi_day->y + pi_day->height +  PAN_FOLDER_BOX_BORDER - pi_month->y;
-			}
-#endif
 
 		total--;
 		count++;
@@ -1958,15 +1942,8 @@ static void pan_window_layout_compute_timeline(PanWindow *pw, const gchar *path,
 				y = month_start;
 			}
 
-		if (w < pi->x + pi->width + PAN_THUMB_GAP) w  = pi->x + pi->width + PAN_THUMB_GAP;
-		if (h < pi->y + pi->height + PAN_THUMB_GAP) h = pi->y + pi->height + PAN_THUMB_GAP;
+		pan_item_size_coordinates(pi_month, PAN_FOLDER_BOX_BORDER, width, height);
 		}
-
-	w += PAN_FOLDER_BOX_BORDER;
-	h += PAN_FOLDER_BOX_BORDER;
-
-	if (width) *width = w;
-	if (height) *height = h;
 
 	g_list_free(list);
 }
@@ -1979,6 +1956,10 @@ static void pan_window_layout_compute(PanWindow *pw, const gchar *path,
 
 	switch (pw->size)
 		{
+		case LAYOUT_SIZE_THUMB_DOTS:
+			pw->thumb_size = PAN_THUMB_SIZE_DOTS;
+			pw->thumb_gap = PAN_THUMB_GAP_DOTS;
+			break;
 		case LAYOUT_SIZE_THUMB_NONE:
 			pw->thumb_size = PAN_THUMB_SIZE_NONE;
 			pw->thumb_gap = PAN_THUMB_GAP_SMALL;
@@ -2240,7 +2221,7 @@ static gint pan_layout_queue_step(PanWindow *pw)
 static void pan_layout_queue(PanWindow *pw, PanItem *pi)
 {
 	if (!pi || pi->queued || pi->pixbuf) return;
-	if (pw->size == LAYOUT_SIZE_THUMB_NONE) return;
+	if (pw->size <= LAYOUT_SIZE_THUMB_NONE) return;
 
 	pi->queued = TRUE;
 	pw->queue = g_list_prepend(pw->queue, pi);
@@ -2405,7 +2386,7 @@ static gint pan_window_request_tile_cb(ImageWindow *imd, gint x, gint y, gint wi
 				{
 				gint d;
 
-				d = (pw->size == LAYOUT_SIZE_THUMB_NONE) ? 2 : 8;
+				d = (pw->size <= LAYOUT_SIZE_THUMB_NONE) ? 2 : 8;
 				pixbuf_draw_rect_fill(pixbuf,
 						      rx - x, ry - y, rw, rh,
 						      PAN_SHADOW_COLOR,
@@ -2708,6 +2689,7 @@ static void pan_window_zoom_limit(PanWindow *pw)
 
 	switch (pw->size)
 		{
+		case LAYOUT_SIZE_THUMB_DOTS:
 		case LAYOUT_SIZE_THUMB_NONE:
 		case LAYOUT_SIZE_THUMB_SMALL:
 		case LAYOUT_SIZE_THUMB_NORMAL:
@@ -3762,6 +3744,7 @@ void pan_window_new(const gchar *path)
 	gtk_widget_show(combo);
 
 	combo = gtk_combo_box_new_text();
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Dots"));
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("No Images"));
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Small Thumbnails"));
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Normal Thumbnails"));
@@ -3850,7 +3833,7 @@ void pan_window_new(const gchar *path)
 	gtk_container_add(GTK_CONTAINER(frame), hbox);
 	gtk_widget_show(hbox);
 
-	pref_spacer(hbox, PREF_PAD_SPACE);
+	pref_spacer(hbox, 0);
 	pw->label_message = pref_label_new(hbox, "");
 
 	frame = gtk_frame_new(NULL);
@@ -4078,9 +4061,9 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
  */
 
 static void pan_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
-				     gint x, gint y,
-				     GtkSelectionData *selection_data, guint info,
-				     guint time, gpointer data)
+				    gint x, gint y,
+				    GtkSelectionData *selection_data, guint info,
+				    guint time, gpointer data)
 {
 	PanWindow *pw = data;
 	ImageWindow *imd;
@@ -4096,7 +4079,12 @@ static void pan_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 		list = uri_list_from_text(selection_data->data, TRUE);
 		if (list && isdir((gchar *)list->data))
 			{
-			printf("FIXME: change to this folder: %s\n", (gchar *)list->data);
+			gchar *path = list->data;
+
+			g_free(pw->path);
+			pw->path = g_strdup(path);
+
+			pan_window_layout_update_idle(pw);
 			}
 
 		path_list_free(list);
@@ -4104,10 +4092,45 @@ static void pan_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 }
 
 static void pan_window_set_dnd_data(GtkWidget *widget, GdkDragContext *context,
-				     GtkSelectionData *selection_data, guint info,
-				     guint time, gpointer data)
+				    GtkSelectionData *selection_data, guint info,
+				    guint time, gpointer data)
 {
-	printf("FIXME: set dnd data\n");
+	PanWindow *pw = data;
+	const gchar *path;
+
+	path = pan_menu_click_path(pw);
+	if (path)
+		{
+		gchar *text = NULL;
+		gint len;
+		gint plain_text;
+		GList *list;
+
+		switch (info)
+			{
+			case TARGET_URI_LIST:
+				plain_text = FALSE;
+				break;
+			case TARGET_TEXT_PLAIN:
+			default:
+				plain_text = TRUE;
+				break;
+			}
+		list = g_list_append(NULL, (gchar *)path);
+		text = uri_text_from_list(list, &len, plain_text);
+		g_list_free(list);
+		if (text)
+			{
+			gtk_selection_data_set (selection_data, selection_data->target,
+						8, text, len);
+			g_free(text);
+			}
+		}
+	else
+		{
+		gtk_selection_data_set (selection_data, selection_data->target,
+					8, NULL, 0);
+		}
 }
 
 static void pan_window_dnd_init(PanWindow *pw)

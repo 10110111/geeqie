@@ -12,18 +12,18 @@ Major:
    > Fix slowness in image.c with huge grid size by changing use of pre-allocated tile array
      to on-demand tile allocation (can this be implemented like source tiles?).
      OR: use an array so that we do not need to walk a GList of pre-allocated tile containers
-   > Fix search scrolling to try to center image and info popup.
+  w> Fix search scrolling to try to center image and info popup.
    > Fix info popup location to opposing horizontal side when near edge of grid.
    > Find something to do with middle mouse clicks.
-   > Set drag and drop data to clicked image.
-   > Should the copy/move/rename/delete operations be available here?
+  d> Set drag and drop data to clicked image.
+  d> Should the copy/move/rename/delete operations be available here?
    > ^ and if so, should delete key actually work?
    > searching for same item more than once should step through all matches
    > search should highlight all matching images
    > should non-thumbnail images have a drop shadow?
 
    > time line view:
-     > searching by date should scroll to proper alignment with year/month/day boundaries.
+    d> searching by date should scroll to proper alignment with year/month/day boundaries.
 
    > grid view:
      > allow sorting by name, date, size, dimensions, etc.
@@ -34,12 +34,16 @@ Major:
  > the info dialog is not set as a transient of the calling window, this causes it to be behind
    a full screen window when 'stay above other windows' is enabled.
 
+ > use doubles instead of floats wherever possible
+
  -------------
 
  > update translations: ( ) ( ) ( )
 
  > document recent additions/changes:
-    (none currently)
+   > Added 'Fast jpeg thumbnailing'.
+   > xvpics is now hidden option.
+   > Holding down shift will now scroll more when panning with mouse.
 
 
 Minor (non blockers):

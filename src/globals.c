@@ -57,6 +57,7 @@ gint thumb_max_height = 72;
 gint enable_thumb_caching = TRUE;
 gint enable_thumb_dirs = FALSE;
 gint use_xvpics_thumbnails = TRUE;
+gint thumbnail_fast = TRUE;
 gint thumbnail_spec_standard = TRUE;
 gint enable_metadata_dirs = FALSE;
 gint show_dot_files = FALSE;

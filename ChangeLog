@@ -1,3 +1,18 @@
+Thu Mar  3 01:16:23 2005  John Ellis  <johne@verizon.net>
+
+	* pan-view.c: Add 'dots' image size option, fix up border size at edge
+	of grid, and make drag and drop work to/from the window.
+
+Wed Mar  2 23:34:30 2005  John Ellis  <johne@verizon.net>
+
+	* globals.c, gqview.h, rcfile.c: Add thumbnail_fast option variable.
+	* image-load.c, typedefs.h: Add shrunk flag to determine if an image
+	was scaled down using image_loader_set_requested_size.
+	* image.c: Make panning with mouse scroll more when holding shift key.
+	* preferences.c: Add option for 'Fast jpeg thumbnailing' and disabled
+	xvpics option in the gui - now a hidden option.
+	* thumb.c, thumb_standard.c: Add support for thumbnail_fast option..
+
 Tue Mar  1 21:39:42 2005  John Ellis  <johne@verizon.net>
 
 	* image.[ch] (image_scroll_to_point): Add alignment for location of

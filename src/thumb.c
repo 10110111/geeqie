@@ -182,16 +182,16 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 		{
 		gint w, h;
 
-		if (((float)tl->max_w / pw) < ((float)tl->max_h / ph))
+		if (((double)tl->max_w / pw) < ((double)tl->max_h / ph))
 			{
 			w = tl->max_w;
-			h = (float)w / pw * ph;
+			h = (double)w / pw * ph;
 			if (h < 1) h = 1;
 			}
 		else
 			{
 			h = tl->max_h;
-			w = (float)h / ph * pw;
+			w = (double)h / ph * pw;
 			if (w < 1) w = 1;
 			}
 
@@ -202,7 +202,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 		{
 		tl->pixbuf = pixbuf;
 		gdk_pixbuf_ref(tl->pixbuf);
-		save = FALSE;
+		save = il->shrunk;
 		}
 
 	/* save it ? */
@@ -254,10 +254,11 @@ static void thumb_loader_setup(ThumbLoader *tl, gchar *path)
 	image_loader_free(tl->il);
 	tl->il = image_loader_new(path);
 
-#if 0
-	/* this will speed up jpegs by up to 3x in some cases */
-	image_loader_set_requested_size(tl->max_w, tl->max_h);
-#endif
+	if (thumbnail_fast)
+		{
+		/* this will speed up jpegs by up to 3x in some cases */
+		image_loader_set_requested_size(tl->il, tl->max_w, tl->max_h);
+		}
 
 	image_loader_set_error_func(tl->il, thumb_loader_error_cb, tl);
 	if (tl->func_progress) image_loader_set_percent_func(tl->il, thumb_loader_percent_cb, tl);

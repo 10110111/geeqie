@@ -102,6 +102,7 @@ static void image_loader_size_cb(GdkPixbufLoader *loader,
 			}
 		
 		gdk_pixbuf_loader_set_size(loader, nw, nh);
+		il->shrunk = TRUE;
 		}
 }
 
@@ -306,6 +307,8 @@ static gint image_loader_setup(ImageLoader *il)
 	g_signal_connect(G_OBJECT(il->loader), "size_prepared",
 			 G_CALLBACK(image_loader_size_cb), il);
 
+	il->shrunk = FALSE;
+
 	return image_loader_begin(il);
 }
 
@@ -333,6 +336,7 @@ ImageLoader *image_loader_new(const gchar *path)
 
 	il->requested_width = 0;
 	il->requested_height = 0;
+	il->shrunk = FALSE;
 
 	return il;
 }

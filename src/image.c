@@ -23,7 +23,10 @@
 #include <math.h>
 
 
+/* size to use when breaking up image pane for rendering */
 #define IMAGE_TILE_SIZE 512
+
+/* default min and max zoom */
 #define IMAGE_ZOOM_MIN -32.0
 #define IMAGE_ZOOM_MAX 32.0
 
@@ -41,6 +44,9 @@
 
 /* distance to drag mouse to disable image flip */
 #define IMAGE_DRAG_SCROLL_THRESHHOLD 4
+
+/* increase pan rate when holding down shift */
+#define IMAGE_PAN_SHIFT_MULTIPLIER 6
 
 /* alpha channel checkerboard background (same as gimp) */
 #define IMAGE_ALPHA_CHECK1 0x00999999
@@ -3001,6 +3007,7 @@ static void image_scroller_stop(ImageWindow *imd)
 static gint image_mouse_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	ImageWindow *imd = data;
+	gint accel;
 
 	if (imd->scroller_id != -1)
 		{
@@ -3019,8 +3026,18 @@ static gint image_mouse_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpo
 		widget_set_cursor (imd->image, GDK_FLEUR);
 		}
 
+	if (bevent->state & GDK_SHIFT_MASK)
+		{
+		accel = IMAGE_PAN_SHIFT_MULTIPLIER;
+		}
+	else
+		{
+		accel = 1;
+		}
+
 	/* do the scroll */
-	image_scroll_real(imd, imd->drag_last_x - bevent->x, imd->drag_last_y - bevent->y);
+	image_scroll_real(imd, (imd->drag_last_x - bevent->x) * accel,
+			       (imd->drag_last_y - bevent->y) * accel);
 
 	imd->drag_last_x = bevent->x;
 	imd->drag_last_y = bevent->y;
@@ -3078,13 +3095,16 @@ static gint image_mouse_release_cb(GtkWidget *widget, GdkEventButton *bevent, gp
 		widget_set_cursor(imd->image, -1);
 		}
 
-	if (bevent->button == 1 && (bevent->state & GDK_SHIFT_MASK))
+	if (imd->drag_moved < IMAGE_DRAG_SCROLL_THRESHHOLD)
 		{
-		image_scroller_start(imd, bevent->x, bevent->y);
-		}
-	else if (bevent->button == 1 || bevent->button == 2)
-		{
-		if (imd->drag_moved < IMAGE_DRAG_SCROLL_THRESHHOLD) image_button_do(imd, bevent);
+		if (bevent->button == 1 && (bevent->state & GDK_SHIFT_MASK))
+			{
+			image_scroller_start(imd, bevent->x, bevent->y);
+			}
+		else if (bevent->button == 1 || bevent->button == 2)
+			{
+			image_button_do(imd, bevent);
+			}
 		}
 
 	imd->in_drag = FALSE;

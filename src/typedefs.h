@@ -77,6 +77,7 @@ struct _ImageLoader
 
 	gint requested_width;
 	gint requested_height;
+	gint shrunk;
 
 	gint done;
 	gint idle_id;
