@@ -435,7 +435,11 @@ static void pixbuf_draw_triangle(GdkPixbuf *pb,
 	guchar *p_pix;
 	guchar *pp;
 	gint p_step;
-	gint i, j;
+	gdouble slope1, slope2;
+	gint slope1_x, slope1_y;
+	gint y;
+	gint t;
+	gint middle = FALSE;
 
 	if (!pb) return;
 
@@ -460,26 +464,68 @@ static void pixbuf_draw_triangle(GdkPixbuf *pb,
 	p_pix = gdk_pixbuf_get_pixels(pb);
 
 	p_step = (p_alpha) ? 4 : 3;
-	for (i = fy1; i < fy2; i++)
-		{
-		pp = p_pix + i * prs + (fx1 * p_step);
-		for (j = fx1; j < fx2; j++)
-			{
-			gint z1, z2;
 
-			z1 = (y1 - y2)*(j - x2) + (x2 - x1)*(i - y2);
-			z2 = (y2 - y3)*(j - x3) + (x3 - x2)*(i - y3);
-			if ((z1 ^ z2) >= 0)
-				{
-				z2 = (y3 - y1)*(j - x1) + (x1 - x3)*(i - y1);
-				if ((z1 ^ z2) >= 0)
-					{
-					pp[0] = (r * a + pp[0] * (256-a)) >> 8;
-					pp[1] = (g * a + pp[1] * (256-a)) >> 8;
-					pp[2] = (b * a + pp[2] * (256-a)) >> 8;
-					}
-				}
-			pp += p_step;
+	if (y1 > y2)
+		{
+		t = x1; x1 = x2; x2 = t;
+		t = y1; y1 = y2; y2 = t;
+		}
+	if (y2 > y3)
+		{
+		t = x2; x2 = x3; x3 = t;
+		t = y2; y2 = y3; y3 = t;
+		}
+	if (y1 > y2)
+		{
+		t = x1; x1 = x2; x2 = t;
+		t = y1; y1 = y2; y2 = t;
+		}
+
+	slope1 = (gdouble)(y2 - y1);
+	if (slope1) slope1 = (gdouble)(x2 - x1) / slope1;
+	slope1_x = x1;
+	slope1_y = y1;
+	slope2 = (gdouble)(y3 - y1);
+	if (slope2) slope2 = (gdouble)(x3 - x1) / slope2;
+
+	for (y = fy1; y < fy2; y++)
+		{
+		gint xa, xb;
+
+		if (!middle && y > y2)
+			{
+			slope1 = (gdouble)(y3 - y2);
+			if (slope1) slope1 = (gdouble)(x3 - x2) / slope1;
+			slope1_x = x2;
+			slope1_y = y2;
+
+			middle = TRUE;
+			}
+
+		xa = slope1_x + ((gdouble)slope1 * (y - slope1_y) + 0.5);
+		xb = x1 + ((gdouble)slope2 * (y - y1) + 0.5);
+
+		if (xa > xb)
+			{
+			t = xa; xa = xb; xb = t;
+			}
+
+		xa = CLAMP(xa, fx1, fx2);
+		xb = CLAMP(xb, fx1, fx2);
+
+		pp = p_pix + y * prs + xa * p_step;
+
+		while (xa < xb)
+			{
+			*pp = (r * a + *pp * (256-a)) >> 8;
+			pp++;
+			*pp = (g * a + *pp * (256-a)) >> 8;
+			pp++;
+			*pp = (b * a + *pp * (256-a)) >> 8;
+			pp++;
+			if (p_alpha) pp++;
+
+			xa++;
 			}
 		}
 }
@@ -495,14 +541,8 @@ static gint util_clip_line(gdouble clip_x, gdouble clip_y, gdouble clip_w, gdoub
 		{
 		gdouble t;
 
-		t = x1;
-		x1 = x2;
-		x2 = t;
-
-		t = y1;
-		y1 = y2;
-		y2 = t;
-
+		t = x1; x1 = x2; x2 = t;
+		t = y1; y1 = y2; y2 = t;
 		flip = TRUE;
 		}
 
@@ -559,14 +599,8 @@ static gint util_clip_line(gdouble clip_x, gdouble clip_y, gdouble clip_w, gdoub
 
 		if (y1 < clip_y || y2 > clip_y + clip_h) return FALSE;
 
-		t = x1;
-		x1 = x2;
-		x2 = t;
-
-		t = y1;
-		y1 = y2;
-		y2 = t;
-
+		t = x1; x1 = x2; x2 = t;
+		t = y1; y1 = y2; y2 = t;
 		flip = !flip;
 		}
 
@@ -3321,6 +3355,8 @@ static gint pan_window_layout_update_idle_cb(gpointer data)
 	if (width > 0 && height > 0)
 		{
 		gdouble align;
+
+		printf("Canvas size is %d x %d\n", width, height);
 
 		pixbuf_renderer_set_tiles(PIXBUF_RENDERER(pw->imd->pr), width, height,
 					  PAN_TILE_SIZE, PAN_TILE_SIZE, 10,

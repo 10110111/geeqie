@@ -34,7 +34,10 @@ Major:
    > should delete key actually work?
    > search should highlight all matching images (with toggle?)
    > should non-thumbnail images have a drop shadow?
-  d> uptimize pixbuf_draw_line (line endpoints should clip to draw region before draw loop)
+  d> optimize pixbuf_draw_line (line endpoints should clip to draw region before draw loop)
+  d> optimize pixbuf_draw_triangle
+   > does new pixbuf_draw_triangle contain line edge rounding error?
+   > move pixbuf_draw_* stuff into pixbuf_util.c
 
    > time line view:
      > allow use of file date or EXIF (embedded) date.

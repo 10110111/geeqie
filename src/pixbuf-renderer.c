@@ -1245,10 +1245,10 @@ static gint pr_source_tile_visible(PixbufRenderer *pr, SourceTile *st)
 
 	if (!st) return FALSE;
 
-	x1 = (pr->x_scroll / PR_TILE_SIZE) * PR_TILE_SIZE;
-	y1 = (pr->y_scroll / PR_TILE_SIZE) * PR_TILE_SIZE;
-	x2 = ((pr->x_scroll + pr->vis_width) / PR_TILE_SIZE) * PR_TILE_SIZE + PR_TILE_SIZE;
-	y2 = ((pr->y_scroll + pr->vis_height) / PR_TILE_SIZE) * PR_TILE_SIZE + PR_TILE_SIZE;
+	x1 = (pr->x_scroll / pr->tile_width) * pr->tile_width;
+	y1 = (pr->y_scroll / pr->tile_height) * pr->tile_height;
+	x2 = ((pr->x_scroll + pr->vis_width) / pr->tile_width) * pr->tile_width + pr->tile_width;
+	y2 = ((pr->y_scroll + pr->vis_height) / pr->tile_height) * pr->tile_height + pr->tile_height;
 
 	return !((double)st->x * pr->scale > (double)x2 ||
 		 (double)(st->x + pr->source_tile_width) * pr->scale < (double)x1 ||
@@ -1733,8 +1733,8 @@ static void pr_tile_free_space(PixbufRenderer *pr, guint space, ImageTile *it)
 		{
 		gint tiles;
 
-		tiles = (pr->vis_width / PR_TILE_SIZE + 1) * (pr->vis_width / PR_TILE_SIZE + 1);
-		tile_max = MAX(tiles * PR_TILE_SIZE * PR_TILE_SIZE * 3,
+		tiles = (pr->vis_width / pr->tile_width + 1) * (pr->vis_height / pr->tile_height + 1);
+		tile_max = MAX(tiles * pr->tile_width * pr->tile_height * 3,
 			       (gint)((double)pr->tile_cache_max * 1048576.0 * pr->scale));
 		}
 	else
@@ -2021,8 +2021,8 @@ static void pr_tile_expose(PixbufRenderer *pr, ImageTile *it,
 
 static gint pr_tile_is_visible(PixbufRenderer *pr, ImageTile *it)
 {
-	return (it->x + it->w >= pr->x_scroll && it->x <= pr->x_scroll + pr->window_width - pr->x_offset * 2 &&
-		it->y + it->h >= pr->y_scroll && it->y <= pr->y_scroll + pr->window_height - pr->y_offset * 2);
+	return (it->x + it->w >= pr->x_scroll && it->x < pr->x_scroll + pr->vis_width &&
+		it->y + it->h >= pr->y_scroll && it->y < pr->y_scroll + pr->vis_height);
 }
 
 /*
@@ -2233,7 +2233,12 @@ static gint pr_queue_to_tiles(PixbufRenderer *pr, gint x, gint y, gint w, gint h
 			{
 			ImageTile *it;
 
-			it = pr_tile_get(pr, i, j, only_existing);
+			it = pr_tile_get(pr, i, j,
+					 (only_existing &&
+					  i + pr->tile_width < pr->x_scroll &&
+					  i > pr->x_scroll + pr->vis_width &&
+					  j + pr->tile_height < pr->y_scroll &&
+					  j > pr->y_scroll +pr->vis_height));
 			if (it)
 				{
 				QueueData *qd;

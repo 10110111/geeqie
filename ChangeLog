@@ -1,3 +1,11 @@
+Wed Apr  6 02:43:40 2005  John Ellis  <johne@verizon.net>
+
+	* pan-view.c: Reimplement pixbuf_draw_triangle for efficiency.
+	* pixbuf-renderer.c: Fix pr_queue_to_tiles only_existing argument to
+	only have effect on tiles that not currently visible. Remove use of
+	hard coded PR_TILE_SIZE from tile size calculations, as it is only
+	supposed to be used as the default value.
+
 Tue Apr  5 05:09:29 2005  John Ellis  <johne@verizon.net>
 
 	* pixbuf-renderer.c: Add argument to pr_queue_to_tiles to only redraw
