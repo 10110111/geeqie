@@ -1,0 +1,1490 @@
+# ---------------------------------------------------------------------
+# Copyright (C) 1999 Free Software Foundation, Inc.
+# Fatih Demir <kabalak@gmx.net> , 1999.
+# ---------------------------------------------------------------------
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GQview  VERSION\n"
+"POT-Creation-Date: 2000-04-06 19:03-0400\n"
+"PO-Revision-Date: 1999-11-21 16:44+0200\n"
+"Last-Translator: Fatih Demir <kabalak@gmx.net>\n"
+"Language-Team: Turkish Gnome Translation Team <gnotrap@gmx.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-9\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/config.c:303
+msgid "GQview configuration"
+msgstr "GQView ayarlarý"
+
+#: src/config.c:315
+msgid "Ok"
+msgstr "Tamam"
+
+#: src/config.c:320
+msgid "Apply"
+msgstr "Uygula"
+
+#: src/config.c:325 src/utildlg.c:145 src/utilops.c:444 src/utilops.c:754
+#: src/utilops.c:885 src/utilops.c:983
+msgid "Cancel"
+msgstr "Vazgeç"
+
+#: src/config.c:339
+msgid "General"
+msgstr "Genel"
+
+#: src/config.c:347
+msgid "Initial directory"
+msgstr "Baþlangýç dizini"
+
+#: src/config.c:357
+msgid "On startup, change to this directory:"
+msgstr "Baþlarken bu dizine deðiþtir"
+
+#: src/config.c:369
+msgid "Use current"
+msgstr "Þu ankini kullan"
+
+#: src/config.c:375
+msgid "Confirm file delete"
+msgstr "Silmeyi onayla"
+
+#: src/config.c:377
+msgid "Remember tool state (float/hidden)"
+msgstr "Durumu unutma "
+
+#: src/config.c:379
+msgid "Remember window positions"
+msgstr "Pencere yerlerini aklýnda tut"
+
+#: src/config.c:381
+msgid "Slide show"
+msgstr "Resim þovu"
+
+#: src/config.c:394
+msgid "Delay before image change (seconds):"
+msgstr "Resim deðiþiminde kaç saniye beklensin :"
+
+#: src/config.c:407
+msgid "Random"
+msgstr "Tesadüfen"
+
+#: src/config.c:409
+msgid "Repeat"
+msgstr "Tekrarla"
+
+#: src/config.c:416
+msgid "Image"
+msgstr "Resim"
+
+#: src/config.c:424
+msgid "When new image is selected:"
+msgstr "Yeni bir resim seçildiyse"
+
+#: src/config.c:434
+msgid "Zoom to original size"
+msgstr "Orijinal boyuta getir"
+
+#: src/config.c:440 src/img-view.c:290 src/menu.c:473 src/menu.c:547
+#: src/menu.c:587 src/menu.c:678
+msgid "Fit image to window"
+msgstr "Pencerenin boyutuna ayarla"
+
+#: src/config.c:446
+msgid "Leave Zoom at previous setting"
+msgstr "Önceki büyütme/küçültme ayarlarýný geçerli say"
+
+#: src/config.c:453
+msgid "Fit window to image when tools are hidden/floating"
+msgstr "Çerezler gizli ya da dinamik çalýþýyorsa pencereyi resme göre ayarla"
+
+#: src/config.c:460
+msgid "Limit size when auto-sizing window"
+msgstr "Boyutu otomatik boyutlamada sýnýrla"
+
+#: src/config.c:470 src/menu.c:477
+msgid "Thumbnails"
+msgstr "Týrnaklar"
+
+#: src/config.c:486
+msgid "Size:"
+msgstr "Boy :"
+
+#: src/config.c:515
+msgid "Cache thumbnails"
+msgstr "Týrnaklarý arabellekte tut"
+
+#: src/config.c:517
+msgid "Use xvpics thumbnails when found (read only)"
+msgstr "xvpics týrnaklarýný bulunca onlarý kullan (salt-okunur)"
+
+#: src/config.c:520
+msgid "Progressive keyboard scrolling"
+msgstr "Geliþebilir klavye kaydýrmasý"
+
+#: src/config.c:527
+msgid "Filtering"
+msgstr "Filtralama"
+
+#: src/config.c:536
+msgid "Show entries that begin with a dot"
+msgstr "Bir noktayla baþlayan birimleri göster"
+
+#: src/config.c:538
+msgid "Disable File Filtering"
+msgstr "Dosya filtralarýný kapat"
+
+#: src/config.c:540
+msgid "Include files of type:"
+msgstr "Bu tip dosyalarý içer"
+
+#: src/config.c:590
+msgid "Custom file types:"
+msgstr "Benim dosya tiplerim :"
+
+#: src/config.c:603
+msgid "format: [.foo;.bar]"
+msgstr "þekil : [.foo;.bar]"
+
+#: src/config.c:612
+msgid "External Editors"
+msgstr "Dýþtan kullanýlacak editörler"
+
+#: src/config.c:624
+msgid "#"
+msgstr "#"
+
+#: src/config.c:627
+msgid "Menu name"
+msgstr "Mönü adý"
+
+#: src/config.c:630
+msgid "Command Line"
+msgstr "Komuta"
+
+#: src/config.c:660 src/menu.c:500
+msgid "About"
+msgstr "Hakkýnda"
+
+#: src/config.c:676
+#, fuzzy, c-format
+msgid ""
+"GQview %s\n"
+"\n"
+"Copyright (c) 2000 by John Ellis\n"
+"http://gqview.sorceforge.net\n"
+"or http://gqview.netpedia.net\n"
+"gqview@email.com\n"
+"\n"
+"Released under the GNU Public License"
+msgstr ""
+"GQview %s\n"
+"\n"
+"Telif hakký (c) 1999 John Ellis'den\n"
+"http://gqview.netpedia.net\n"
+"gqview@email.com\n"
+"\n"
+"GNU Public License'e göre açýklanmýþtýr"
+
+#: src/filelist.c:51
+msgid " Slideshow"
+msgstr "Resim þovu"
+
+#: src/filelist.c:55
+#, c-format
+msgid "%d files (%d)%s"
+msgstr "%d dosya (%d)%s"
+
+#: src/filelist.c:57
+#, c-format
+msgid "%d files%s"
+msgstr "%d dosya %s"
+
+#: src/filelist.c:1025
+msgid "Loading thumbs..."
+msgstr "Týrnaklarý yükliyorum .."
+
+#: src/image.c:66
+#, c-format
+msgid "( ? x ? ) %d bytes"
+msgstr "( ? x ? ) %d byte"
+
+#: src/image.c:68
+#, c-format
+msgid "( %d x %d ) %d bytes"
+msgstr "( %d x %d ) %d byte"
+
+#: src/img-main.c:231
+msgid "GQview full screen"
+msgstr "GQview tam ekran"
+
+#: src/img-view.c:287 src/menu.c:470 src/menu.c:544 src/menu.c:584
+#: src/menu.c:674
+msgid "Zoom in"
+msgstr "Büyült"
+
+#: src/img-view.c:288 src/menu.c:471 src/menu.c:545 src/menu.c:585
+#: src/menu.c:676
+msgid "Zoom out"
+msgstr "Küçült"
+
+#: src/img-view.c:289 src/menu.c:472 src/menu.c:546 src/menu.c:586
+msgid "Zoom 1:1"
+msgstr "1:1 göster"
+
+#. edit menu
+#: src/img-view.c:293 src/menu.c:457 src/menu.c:519 src/menu.c:550
+#: src/menu.c:590
+msgid "Edit"
+msgstr "Düzenle"
+
+#: src/img-view.c:298 src/menu.c:446 src/menu.c:526 src/menu.c:557
+#: src/menu.c:595
+msgid "Copy..."
+msgstr "Kopyala ..."
+
+#: src/img-view.c:299 src/menu.c:447 src/menu.c:527 src/menu.c:558
+#: src/menu.c:596
+msgid "Move..."
+msgstr "Taþý ..."
+
+#: src/img-view.c:300 src/menu.c:448 src/menu.c:528 src/menu.c:559
+#: src/menu.c:597
+msgid "Rename..."
+msgstr "Yeniden adlandýr .."
+
+#: src/img-view.c:301 src/menu.c:449 src/menu.c:529 src/menu.c:560
+#: src/menu.c:598
+msgid "Delete..."
+msgstr "Sil .."
+
+#: src/img-view.c:304
+msgid "Close window"
+msgstr "Pencereyi kapat"
+
+#: src/main.c:90 src/main.c:119
+#, c-format
+msgid "GQview running: %s\n"
+msgstr "GQview çalýþýyor : %s\n"
+
+#: src/main.c:330
+msgid ""
+"Usage: gqview [options] [path]\n"
+"\n"
+msgstr "Kullaným : gqview [seçenekler] [dizin]\n"
+
+#: src/main.c:331
+msgid "valid options are:\n"
+msgstr "geçerli opsiyonlar :\n"
+
+#: src/main.c:332
+#, fuzzy
+msgid "  +t, --with-tools           force show of tools\n"
+msgstr "  +t, +tools                 çerezleri zorunlu olarak göster\n"
+
+#: src/main.c:333
+#, fuzzy
+msgid "  -t, --without-tools        force hide of tools\n"
+msgstr "  -t, -tools                 çerezleri zorunlu olarak gizle\n"
+
+#: src/main.c:334
+#, fuzzy
+msgid "  -f, --fullscreen           start in full screen mode\n"
+msgstr "  -t, -tools                 çerezleri zorunlu olarak gizle\n"
+
+#: src/main.c:335
+#, fuzzy
+msgid "  -s, --slideshow            start in slideshow mode\n"
+msgstr "  -t, -tools                 çerezleri zorunlu olarak gizle\n"
+
+#: src/main.c:336
+#, fuzzy
+msgid "  --debug                    turn on debug output\n"
+msgstr "  -debug                     dýþa-atýmý aç\n"
+
+#: src/main.c:337
+#, fuzzy
+msgid ""
+"  -h, --help                 show this message\n"
+"\n"
+msgstr "  -help                      bu mesajý gösterir\n"
+
+#: src/main.c:342
+#, c-format
+msgid ""
+"invalid or ignored: %s\n"
+"Use -help for options\n"
+msgstr ""
+"%s geçersiz ya da dikkate alýnmýyor\n"
+"-help ile seçenekleri öðrenebilirsin\n"
+
+#: src/main.c:369
+msgid "The Gimp"
+msgstr "The Gimp"
+
+#: src/main.c:372
+msgid "Electric Eyes"
+msgstr "Electric Eyes"
+
+#: src/main.c:375
+msgid "XV"
+msgstr "XV"
+
+#: src/main.c:378
+msgid "Xpaint"
+msgstr "Xpaint"
+
+#: src/menu.c:373
+#, c-format
+msgid "in %s..."
+msgstr "%s'de"
+
+#: src/menu.c:375
+msgid "in (unknown)..."
+msgstr "(bennebileyimne)'de"
+
+#: src/menu.c:394
+msgid "Options..."
+msgstr "Seçenekler ..."
+
+#: src/menu.c:396
+msgid "Remove old thumbnails"
+msgstr "Eski týrnaklarý sil"
+
+#: src/menu.c:398 src/menu.c:410 src/menu.c:422
+msgid "Set as wallpaper"
+msgstr ""
+
+#. file menu
+#: src/menu.c:440
+msgid "File"
+msgstr "Dosya"
+
+#: src/menu.c:444
+msgid "Create Dir..."
+msgstr "Dizin yarat ..."
+
+#: src/menu.c:451
+msgid "Exit"
+msgstr "Çýk"
+
+#. view menu
+#: src/menu.c:466
+msgid "View"
+msgstr "Göster"
+
+#: src/menu.c:476 src/menu.c:563
+msgid "Full screen"
+msgstr "Tam ekran"
+
+#: src/menu.c:485
+msgid "Refresh Lists"
+msgstr "Listeleri yenile"
+
+#: src/menu.c:486
+msgid "(Un)Float file list"
+msgstr "Dosya listesini dinamik et/etme"
+
+#: src/menu.c:487 src/menu.c:562
+msgid "(Un)Hide file list"
+msgstr "Dosya listesini göster/gizle"
+
+#: src/menu.c:490
+msgid "Toggle slideshow"
+msgstr "Resim þovunu aç/kapat"
+
+#. help menu
+#: src/menu.c:496
+msgid "Help"
+msgstr "Yardým"
+
+#: src/menu.c:523 src/menu.c:554
+msgid "View in new window"
+msgstr "Yeni penerede göster"
+
+#: src/menu.c:531
+msgid "Refresh"
+msgstr "Yenile"
+
+#: src/menu.c:601
+msgid "Exit full screen"
+msgstr "Tam ekrandan çýk"
+
+#: src/menu.c:661
+msgid "Create thumbnails"
+msgstr "Týrnaklarý yarat"
+
+#: src/menu.c:670
+msgid "Change to home directory"
+msgstr "Ev dizinime geç"
+
+#: src/menu.c:672
+msgid "Refresh file list"
+msgstr "Dosya listesini yenile"
+
+#: src/menu.c:680
+msgid "Set zoom 1:1"
+msgstr "1:1 göster"
+
+#: src/menu.c:682
+msgid "Configure options"
+msgstr "Seçenekleri ayarla"
+
+#: src/menu.c:684
+msgid "Float Controls"
+msgstr "Dinamik ayarlamalar"
+
+#: src/rcfile.c:132
+#, c-format
+msgid "error saving config file: %s\n"
+msgstr "%s ayar dosyasýný kaydederken bir hata oluþtu\n"
+
+#: src/thumb.c:127 src/thumb.c:151
+#, c-format
+msgid "create dir failed: %s\n"
+msgstr "%s dizinini yaratamadým \n"
+
+#: src/thumb.c:233
+#, c-format
+msgid "Unable to delete dir: %s\n"
+msgstr "%s dizinini silemedim \n"
+
+#: src/thumb.c:249
+#, c-format
+msgid "failed to delete:%s\n"
+msgstr "%s'yi silemedim \n"
+
+#: src/utildlg.c:68
+msgid "     Ok     "
+msgstr "     Tamam"
+
+#: src/utilops.c:166
+msgid "Source to copy matches destination"
+msgstr ""
+
+#: src/utilops.c:167
+#, fuzzy, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to itself."
+msgstr ""
+"%s dosyasýný \n"
+"%s 'ye kopyalayamadým ,\n"
+"bir yerde \n"
+"bir hata oluþtu"
+
+#: src/utilops.c:171
+msgid "Source to move matches destination"
+msgstr ""
+
+#: src/utilops.c:172
+#, fuzzy, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to itself."
+msgstr ""
+"%s'yi %s'ye \n"
+"taþýyamadým\n"
+"( bir hata oluþtu ).\n"
+" "
+
+#: src/utilops.c:175 src/utilops.c:231 src/utilops.c:516
+msgid "Continue"
+msgstr "Devam et"
+
+#: src/utilops.c:182
+#, c-format
+msgid ""
+"Overwrite file:\n"
+" %s\n"
+" with:\b %s"
+msgstr ""
+"%s 'nin üstüne\n"
+" \b %s 'yi\n"
+" yaz"
+
+#: src/utilops.c:183 src/utilops.c:289 src/utilops.c:651 src/utilops.c:835
+msgid "Overwrite file"
+msgstr "Üstüne yaz"
+
+#: src/utilops.c:186
+msgid "Skip"
+msgstr "Atla"
+
+#: src/utilops.c:187
+msgid "Yes to all"
+msgstr "Hepsine evet"
+
+#: src/utilops.c:188
+msgid "Yes"
+msgstr "Evet"
+
+#: src/utilops.c:222 src/utilops.c:317
+msgid "Error copying file"
+msgstr "Kopyalarken hata oluþtu"
+
+#: src/utilops.c:223
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%sto:\n"
+"%s\n"
+" during multiple file copy."
+msgstr ""
+"%s dosyasý %s 'ye kopyalanýrken\n"
+"bir hata \n"
+"oluþtu.\n"
+" "
+
+#: src/utilops.c:227 src/utilops.c:322
+msgid "Error moving file"
+msgstr "Taþýrken bir hata oluþtu"
+
+#: src/utilops.c:228
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%sto:\n"
+"%s\n"
+" during multiple file move."
+msgstr ""
+"Çoklu taþýmada\n"
+"%s'yi %s'ye\n"
+"taþýyamadým.\n"
+" "
+
+#: src/utilops.c:282
+msgid "Source matches destination"
+msgstr ""
+
+#: src/utilops.c:283
+msgid "Source and destination are the same, operation cancelled."
+msgstr ""
+
+#: src/utilops.c:288
+#, c-format
+msgid ""
+"Overwrite file:\n"
+"%s\n"
+" with:\n"
+"%s"
+msgstr ""
+"%s dosyanýnýn\n"
+"üstüne \n"
+"%s 'yi\n"
+"yaz"
+
+#: src/utilops.c:292 src/utilops.c:654 src/utilops.c:838
+msgid "Overwrite"
+msgstr "Üstüne yaz"
+
+#: src/utilops.c:318
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"%s dosyasýný \n"
+"%s 'ye kopyalayamadým ,\n"
+"bir yerde \n"
+"bir hata oluþtu"
+
+#: src/utilops.c:323
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"%s'yi %s'ye \n"
+"taþýyamadým\n"
+"( bir hata oluþtu ).\n"
+" "
+
+#: src/utilops.c:367
+msgid "Invalid destination"
+msgstr "Geçersiz hedef"
+
+#: src/utilops.c:367
+msgid ""
+"When operating with multiple files, please select\n"
+" a directory, not file."
+msgstr ""
+"Çoklu bir eylem yaparken lütfen bir dosya deðil , bir\n"
+"dizin seçin ."
+
+#: src/utilops.c:369
+msgid "Invalid directory"
+msgstr "Geçersiz dizin"
+
+#: src/utilops.c:369
+msgid "Please select an existing directory"
+msgstr "Lütfen varolan bir dizini seç"
+
+#: src/utilops.c:427
+msgid "GQview - copy"
+msgstr "GQview - copy"
+
+#: src/utilops.c:428
+msgid "Copy"
+msgstr "Kopyala"
+
+#: src/utilops.c:430
+#, c-format
+msgid ""
+"Copy file:\n"
+"%s\n"
+"to:"
+msgstr ""
+"%s dosyasýný\n"
+"buraya\n"
+"gönder :"
+
+#: src/utilops.c:432
+#, c-format
+msgid ""
+"Copy multiple files from:\n"
+"%s\n"
+"to:"
+msgstr ""
+"Çoklu kopyalarken \n"
+"%s'den yola çýkýp\n"
+"buraya ulaþ :"
+
+#: src/utilops.c:436
+msgid "GQview - move"
+msgstr "GQview - move"
+
+#: src/utilops.c:437
+msgid "Move"
+msgstr "Taþý"
+
+#: src/utilops.c:439
+#, c-format
+msgid ""
+"Move file:\n"
+"%s\n"
+"to:"
+msgstr ""
+"%s dosyasýný\n"
+"buraya \n"
+"gönder :"
+
+#: src/utilops.c:441
+#, c-format
+msgid ""
+"Move multiple files from:\n"
+"%s\n"
+"to:"
+msgstr ""
+"Çoklu taþýrken\n"
+"%s'den yola çýkýp\n"
+"buraya ulaþ :"
+
+#: src/utilops.c:514
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+" %s\n"
+" Continue multiple delete operation?"
+msgstr ""
+"%s dosyasýný\n"
+" silemedim ,\n"
+" yine de öbür dosyalarý sileyim mi ?"
+
+#: src/utilops.c:515 src/utilops.c:521
+msgid "Delete failed"
+msgstr "Silerken bir hata oluþtu"
+
+#: src/utilops.c:520 src/utilops.c:565
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+"%s"
+msgstr ""
+"%s 'yi maalesef\n"
+"silemedim"
+
+#: src/utilops.c:550
+msgid "Delete files"
+msgstr "Dosyalarý sil"
+
+#: src/utilops.c:550
+msgid "About to delete multiple files..."
+msgstr "Dosyalarý silmek üzereyim ..."
+
+#: src/utilops.c:551 src/utilops.c:596
+msgid "Delete"
+msgstr "Sil"
+
+#: src/utilops.c:566
+msgid "File deletion failed"
+msgstr "Silerken bir hata oluþtu"
+
+#: src/utilops.c:594
+#, c-format
+msgid ""
+"About to delete the file:\n"
+" %s"
+msgstr ""
+"%s dosyasýný\n"
+"silmek üzereyim"
+
+#: src/utilops.c:595
+msgid "Delete file"
+msgstr "Dosyayý sil"
+
+#: src/utilops.c:650 src/utilops.c:834
+#, c-format
+msgid ""
+"Overwrite file:\n"
+"%s\n"
+"by renaming:\n"
+"%s"
+msgstr ""
+"%s'nin \n"
+"üstüne bunu yeniden\n"
+"adlandýrýrken yaz :\n"
+"%s"
+
+#: src/utilops.c:663
+#, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+" to:\n"
+"%s"
+msgstr ""
+"%s dosyasýný\n"
+"%s'ye adlandýrýrken\n"
+"maalesef bir hata\n"
+"oluþtu"
+
+#: src/utilops.c:664 src/utilops.c:847
+msgid "Error renaming file"
+msgstr "Yeniden adlandýrýrken bir hata oluþtu"
+
+#: src/utilops.c:754 src/utilops.c:885
+msgid "GQview - rename"
+msgstr "GQview - rename"
+
+#: src/utilops.c:754
+msgid "Rename multiple files:"
+msgstr "Çoklu yeniden adlandýr :"
+
+#: src/utilops.c:754 src/utilops.c:885
+msgid "Rename"
+msgstr "Yeniden adlandýr"
+
+#: src/utilops.c:790
+msgid "Rename:"
+msgstr "Yeniden adlandýr :"
+
+#: src/utilops.c:799
+msgid "to:"
+msgstr ""
+
+#: src/utilops.c:846
+#, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"%s'yi %s'ye yeniden\n"
+"adlandýramadým. \n"
+" \n"
+" "
+
+#: src/utilops.c:884
+#, c-format
+msgid ""
+"Rename file:\n"
+"%s\n"
+"to:"
+msgstr ""
+"%s'yi yeniden\n"
+"adlandýr :\n"
+" "
+
+#: src/utilops.c:928
+#, c-format
+msgid ""
+"The path:\n"
+"%s\n"
+"already exists as a file."
+msgstr ""
+"%s dizini \n"
+"zaten dosya halinde\n"
+"var ."
+
+#: src/utilops.c:929
+msgid "Could not create directory"
+msgstr "Dizini yaratamadým"
+
+#: src/utilops.c:934
+#, c-format
+msgid ""
+"The directory:\n"
+"%s\n"
+"already exists."
+msgstr ""
+
+#: src/utilops.c:935
+msgid "Directory exists"
+msgstr "Bu dizin zaten var"
+
+#: src/utilops.c:942
+#, c-format
+msgid ""
+"Unable to create directory:\n"
+"%s"
+msgstr ""
+"%s dizinini maalesef\n"
+"yaratamadým"
+
+#: src/utilops.c:943
+msgid "Error creating directory"
+msgstr "Dizini yaratýrken bir hata oluþtu"
+
+#: src/utilops.c:982
+#, c-format
+msgid ""
+"Create directory in:\n"
+"%s\n"
+"named:"
+msgstr ""
+"%s'de bir\n"
+"dizin yarat ve\n"
+"böyle adlandýr :"
+
+#: src/utilops.c:983
+msgid "GQview - new directory"
+msgstr "GQview - new directory"
+
+#: src/utilops.c:983
+msgid "Create"
+msgstr "Yarat"
+
+#: src/window.c:151
+msgid "GQview Tools"
+msgstr "GQview Çerezleri"
+
+#~ msgid ""
+#~ "Overwrite file:\n"
+#~ "%s\n"
+#~ "with:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "%s'nin üstüne \n"
+#~ "%s'yi yaz.\n"
+#~ "\n"
+#~ " "
+
+#~ msgid "Gen thumbnail:%s\n"
+#~ msgstr "%s 'in týrnaðýný yarat \n"
+
+#~ msgid "XV thumbnail found, loaded\n"
+#~ msgstr "XV'nin týrnaklarýný bulundu,yüklendi\n"
+
+#~ msgid ".png"
+#~ msgstr ".png"
+
+#~ msgid "Found in cache:%s\n"
+#~ msgstr "%s arabellek'te bulundu \n"
+
+#~ msgid "Thumbnail size may have changed, reloading:%s\n"
+#~ msgstr "%s týrnaklarýnýn boyutu deðiþmiþ olabilir,\n"
+
+#~ msgid "creating thumbnail dir:%s\n"
+#~ msgstr "%s týrnak dizinini yarat_iyorum \n"
+
+#~ msgid "creating sub dir:%s\n"
+#~ msgstr "%s altdizinini yaratýyorum\n"
+
+#~ msgid "Saving thumb: %s\n"
+#~ msgstr "%s týrnaðýný kaydediyorum \n"
+
+#~ msgid "maintainance check: %s\n"
+#~ msgstr "%s deneniyor ..\n"
+
+#~ msgid "."
+#~ msgstr "."
+
+#~ msgid ".."
+#~ msgstr ".."
+
+#~ msgid "/"
+#~ msgstr "/"
+
+#~ msgid "Deleting thumb dir: %s\n"
+#~ msgstr "%s týrnak dizinini siliyorum \n"
+
+#~ msgid "Deleting thumb: %s\n"
+#~ msgstr "%s týrnaðýný siliyorum \n"
+
+#~ msgid "rt"
+#~ msgstr "rt"
+
+#~ msgid "P7 332"
+#~ msgstr "P7 332"
+
+#~ msgid "%d %d %d"
+#~ msgstr "%d %d %d"
+
+#~ msgid "/.xvpics/"
+#~ msgstr "/.xvpics/"
+
+#~ msgid "clicked"
+#~ msgstr "clicked"
+
+#~ msgid "delete_event"
+#~ msgstr "delete_event"
+
+#~ msgid "config"
+#~ msgstr "config"
+
+#~ msgid "GQview"
+#~ msgstr "GQview"
+
+#~ msgid "value_changed"
+#~ msgstr "value_changed"
+
+#~ msgid "48x48"
+#~ msgstr "48x48"
+
+#~ msgid "64x64"
+#~ msgstr "64x64"
+
+#~ msgid "85x64"
+#~ msgstr "85x64"
+
+#~ msgid "100x100"
+#~ msgstr "100x100"
+
+#~ msgid "JPG / JPEG"
+#~ msgstr "JPG / JPEG"
+
+#~ msgid "XPM"
+#~ msgstr "XPM"
+
+#~ msgid "TIF / TIFF"
+#~ msgstr "TIF / TIFF"
+
+#~ msgid "GIF"
+#~ msgstr "GIF"
+
+#~ msgid "PNG"
+#~ msgstr "PNG"
+
+#~ msgid "PPM"
+#~ msgstr "PPM"
+
+#~ msgid "PGM"
+#~ msgstr "PGM"
+
+#~ msgid "PCX"
+#~ msgstr "PCX"
+
+#~ msgid "BMP"
+#~ msgstr "BMP"
+
+#~ msgid "%d"
+#~ msgstr "%d"
+
+#~ msgid "text/uri-list"
+#~ msgstr "text/uri-list"
+
+#~ msgid "text/plain"
+#~ msgstr "text/plain"
+
+#~ msgid "file:"
+#~ msgstr "dosya :"
+
+#~ msgid "dropped: %s\n"
+#~ msgstr "%s verildi \n"
+
+#~ msgid "\r\n"
+#~ msgstr "\r\n"
+
+#~ msgid "drag_data_get"
+#~ msgstr "drag_data_get"
+
+#~ msgid "drag_end"
+#~ msgstr "drag_end"
+
+#~ msgid "drag_data_received"
+#~ msgstr "drag_data_received"
+
+#~ msgid "drag_begin"
+#~ msgstr "drag_begin"
+
+#~ msgid ".jpg"
+#~ msgstr ".jpg"
+
+#~ msgid ".jpeg"
+#~ msgstr ".jpeg"
+
+#~ msgid ".xpm"
+#~ msgstr ".xpm"
+
+#~ msgid ".tif"
+#~ msgstr ".tif"
+
+#~ msgid ".tiff"
+#~ msgstr ".tiff"
+
+#~ msgid ".gif"
+#~ msgstr ".gif"
+
+#~ msgid ".ppm"
+#~ msgstr ".ppm"
+
+#~ msgid ".pgm"
+#~ msgstr ".pgm"
+
+#~ msgid ".pcx"
+#~ msgstr ".pcx"
+
+#~ msgid ".bmp"
+#~ msgstr ".bmp"
+
+#~ msgid "s = %d\n"
+#~ msgstr "s = %d\n"
+
+#~ msgid "files selected = %d\n"
+#~ msgstr "seçilen dosyalar : %d\n"
+
+#~ msgid "row = %d, closest is %d\n"
+#~ msgstr "sýra = %d , en yak#-iný %d idir \n"
+
+#~ msgid "/..."
+#~ msgstr "/..."
+
+#~ msgid "activate"
+#~ msgstr "geçerli say"
+
+#~ msgid "HOME"
+#~ msgstr "HOME"
+
+#~ msgid "rb"
+#~ msgstr "rb"
+
+#~ msgid "wb"
+#~ msgstr "wb"
+
+#~ msgid " "
+#~ msgstr " "
+
+#~ msgid " ~"
+#~ msgstr " ~"
+
+#~ msgid "%d :%s%d"
+#~ msgstr "%d :%s%d"
+
+#~ msgid "auto sized to %d x %d\n"
+#~ msgstr "otomatikman %d x %d 'ye ayarlandý\n"
+
+#~ msgid "recalc %d x %d @ %f\n"
+#~ msgstr "%d x %d %f'de yeniden hesapla\n"
+
+#~ msgid "redrawn %d x %d\n"
+#~ msgstr "%d x %d'yi yeniden göster\n"
+
+#~ msgid "redraw cancelled\n"
+#~ msgstr "yeniden göstermeden vazgeçildi\n"
+
+#~ msgid "sized %d x %d (%d x %d)\n"
+#~ msgstr "%d x %d (%d x %d)'a boyutlandýrýldý\n"
+
+#~ msgid "GQview - "
+#~ msgstr "GQview - "
+
+#~ msgid "motion_notify_event"
+#~ msgstr "motion_notify_event"
+
+#~ msgid "button_press_event"
+#~ msgstr "button_press_event"
+
+#~ msgid "button_release_event"
+#~ msgstr "button_release_event"
+
+#~ msgid "size_allocate"
+#~ msgstr "size_allocate"
+
+#~ msgid "configure_event"
+#~ msgstr "configure_event"
+
+#~ msgid "destroy_event"
+#~ msgstr "destroy_event"
+
+#~ msgid "key_press_event"
+#~ msgstr "key_press_event"
+
+#~ msgid "view_active"
+#~ msgstr "view_active"
+
+#~ msgid "view"
+#~ msgstr "view"
+
+#~ msgid "%s \"%s\" &"
+#~ msgstr "%s \"%s\" &"
+
+#~ msgid "\""
+#~ msgstr "\""
+
+#~ msgid "\" "
+#~ msgstr "\" "
+
+#~ msgid "&"
+#~ msgstr "&"
+
+#~ msgid "-debug"
+#~ msgstr "-debug"
+
+#~ msgid "debugging output enabled\n"
+#~ msgstr "dýþa-atýmý aç\n"
+
+#~ msgid "+t"
+#~ msgstr "+t"
+
+#~ msgid "+tools"
+#~ msgstr "+tools"
+
+#~ msgid "-t"
+#~ msgstr "-t"
+
+#~ msgid "-tools"
+#~ msgstr "-tools"
+
+#~ msgid "-help"
+#~ msgstr "-help"
+
+#~ msgid "GQview version %s\n"
+#~ msgstr "GQview nesili : %s \n"
+
+#~ msgid "gimp"
+#~ msgstr "gimp"
+
+#~ msgid "ee"
+#~ msgstr "ee"
+
+#~ msgid "xv"
+#~ msgstr "xv"
+
+#~ msgid "xpaint"
+#~ msgstr "xpaint"
+
+#~ msgid ".eim;"
+#~ msgstr ".eim;"
+
+#~ msgid "destination_data"
+#~ msgstr "destination_data"
+
+#~ msgid "select_row"
+#~ msgstr "select_row"
+
+#~ msgid "destroy"
+#~ msgstr "destroy"
+
+#~ msgid "%s: \"%s\"\n"
+#~ msgstr "%s: \"%s\"\n"
+
+#~ msgid "%s: \n"
+#~ msgstr "%s: \n"
+
+#~ msgid ""
+#~ "%s: %d\n"
+#~ "\n"
+#~ msgstr "%s: %d\n"
+
+#~ msgid "%s: "
+#~ msgstr "%s: "
+
+#~ msgid "true\n"
+#~ msgstr "true\n"
+
+#~ msgid "false\n"
+#~ msgstr "false\n"
+
+#~ msgid "\n"
+#~ msgstr "\n"
+
+#~ msgid "true"
+#~ msgstr "true"
+
+#~ msgid "w"
+#~ msgstr "w"
+
+#~ msgid ""
+#~ "######################################################################\n"
+#~ msgstr ""
+#~ "######################################################################\n"
+
+#~ msgid "#                         GQview config file         version %7s #\n"
+#~ msgstr ""
+#~ "#                         GQview config file         version %7s #\n"
+
+#~ msgid ""
+#~ "#                                                                    #\n"
+#~ msgstr ""
+#~ "#                                                                    #\n"
+
+#~ msgid ""
+#~ "#  Everything in this file can be changed in the option dialogs.     #\n"
+#~ msgstr ""
+#~ "#  Everything in this file can be changed in the option dialogs.     #\n"
+
+#~ msgid ""
+#~ "#      (so there should be no need to edit this file by hand)        #\n"
+#~ msgstr ""
+#~ "#      (so there should be no need to edit this file by hand)        #\n"
+
+#~ msgid ""
+#~ "##### General Options #####\n"
+#~ "\n"
+#~ msgstr "##### General Options #####\n"
+
+#~ msgid "enable_startup_path"
+#~ msgstr "enable_startup_path"
+
+#~ msgid "startup_path"
+#~ msgstr "startup_path"
+
+#~ msgid "zoom_mode: "
+#~ msgstr "zoom_mode: "
+
+#~ msgid "original\n"
+#~ msgstr "original\n"
+
+#~ msgid "fit\n"
+#~ msgstr "fit\n"
+
+#~ msgid "dont_change\n"
+#~ msgstr "dont_change\n"
+
+#~ msgid "fit_window_to_image"
+#~ msgstr "fit_window_to_image"
+
+#~ msgid "limit_window_size"
+#~ msgstr "limit_window_size"
+
+#~ msgid "max_window_size"
+#~ msgstr "max_window_size"
+
+#~ msgid "progressive_keyboard_scrolling"
+#~ msgstr "progressive_keyboard_scrolling"
+
+#~ msgid "thumbnail_width"
+#~ msgstr "thumbnail_width"
+
+#~ msgid "thumbnail_height"
+#~ msgstr "thumbnail_height"
+
+#~ msgid "cache_thumbnails"
+#~ msgstr "cache_thumbnails"
+
+#~ msgid "use_xvpics_thumbnails"
+#~ msgstr "use_xvpics_thumbnails"
+
+#~ msgid "confirm_delete"
+#~ msgstr "confirm_delete"
+
+#~ msgid "tools_float"
+#~ msgstr "tools_float"
+
+#~ msgid "tools_hidden"
+#~ msgstr "tools_hidden"
+
+#~ msgid "restore_tool_state"
+#~ msgstr "restore_tool_state"
+
+#~ msgid ""
+#~ "\n"
+#~ "##### Slideshow Options #####\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "##### Slideshow Options #####\n"
+
+#~ msgid "slideshow_delay"
+#~ msgstr "slideshow_delay"
+
+#~ msgid "slideshow_random"
+#~ msgstr "slideshow_random"
+
+#~ msgid "slideshow_repeat"
+#~ msgstr "slideshow_repeat"
+
+#~ msgid ""
+#~ "\n"
+#~ "##### Filtering Options #####\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "##### Filtering Options #####\n"
+
+#~ msgid "show_dotfiles"
+#~ msgstr "show_dotfiles"
+
+#~ msgid "disable_filtering"
+#~ msgstr "disable_filtering"
+
+#~ msgid "filter_ppm"
+#~ msgstr "filter_ppm"
+
+#~ msgid "filter_png"
+#~ msgstr "filter_png"
+
+#~ msgid "filter_jpg"
+#~ msgstr "filter_jpg"
+
+#~ msgid "filter_tif"
+#~ msgstr "filter_tif"
+
+#~ msgid "filter_pgm"
+#~ msgstr "filter_pgm"
+
+#~ msgid "filter_xpm"
+#~ msgstr "filter_xpm"
+
+#~ msgid "filter_gif"
+#~ msgstr "filter_gif"
+
+#~ msgid "filter_pcx"
+#~ msgstr "filter_pcx"
+
+#~ msgid "filter_bmp"
+#~ msgstr "filter_bmp"
+
+#~ msgid "custom_filter"
+#~ msgstr "custom_filter"
+
+#~ msgid ""
+#~ "\n"
+#~ "##### External Programs #####\n"
+#~ msgstr ""
+#~ "\n"
+#~ "##### External Programs #####\n"
+
+#~ msgid "# Maximum of 8 programs (external_1 through external 8)\n"
+#~ msgstr "# Maximum of 8 programs (external_1 through external 8)\n"
+
+#~ msgid ""
+#~ "# format: external_n: \"menu name\" \"command line\"\n"
+#~ "\n"
+#~ msgstr "# format: external_n: \"menu name\" \"command line\"\n"
+
+#~ msgid "external_%d: \""
+#~ msgstr "external_%d: \""
+
+#~ msgid "\" \""
+#~ msgstr "\" \""
+
+#~ msgid "\"\n"
+#~ msgstr "\"\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "##### Window Positions #####\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "##### Window Positions #####\n"
+
+#~ msgid "restore_window_positions"
+#~ msgstr "restore_window_positions"
+
+#~ msgid "main_window_x"
+#~ msgstr "main_window_x"
+
+#~ msgid "main_window_y"
+#~ msgstr "main_window_y"
+
+#~ msgid "main_window_width"
+#~ msgstr "main_window_width"
+
+#~ msgid "main_window_height"
+#~ msgstr "main_window_height"
+
+#~ msgid "float_window_x"
+#~ msgstr "float_window_x"
+
+#~ msgid "float_window_y"
+#~ msgstr "float_window_y"
+
+#~ msgid "float_window_width"
+#~ msgstr "float_window_width"
+
+#~ msgid "float_window_height"
+#~ msgstr "float_window_height"
+
+#~ msgid ""
+#~ "#                      end of GQview config file                     #\n"
+#~ msgstr ""
+#~ "#                      end of GQview config file                     #\n"
+
+#~ msgid "r"
+#~ msgstr "r"
+
+#~ msgid "zoom_mode"
+#~ msgstr "zoom_mode"
+
+#~ msgid "original"
+#~ msgstr "original"
+
+#~ msgid "fit"
+#~ msgstr "fit"
+
+#~ msgid "dont_change"
+#~ msgstr "dont_change"
+
+#~ msgid "external_"
+#~ msgstr "external_"
+
+#~ msgid "tab_completion_data"
+#~ msgstr "tab_completion_data"
+
+#~ msgid "Tab completion error: entry != NULL\n"
+#~ msgstr "Tab completion error: entry != NULL\n"
+
+#~ msgid "move_copy"
+#~ msgstr "move_copy"
+
+#~ msgid "r=%d n=%d\n"
+#~ msgstr "r=%d n=%d\n"
+
+#~ msgid "closed by #%d\n"
+#~ msgstr "#%d 'de kapandý \n"
+
+#~ msgid ":"
+#~ msgstr ":"
+
+#~ msgid "tools"
+#~ msgstr "çerezler"
+
+#~ msgid "draw"
+#~ msgstr "draw"
+
+#~ msgid "expose_event"
+#~ msgstr "expose_event"
+
+#~ msgid "unselect_row"
+#~ msgstr "unselect_row"
+
+#~ msgid "gqview"
+#~ msgstr "gqview"
+
+#~ msgid "focus_in_event"
+#~ msgstr "focus_in_event"
+
+#~ msgid "focus_out_event"
+#~ msgstr "focus_out_event"
