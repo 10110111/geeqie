@@ -8,7 +8,7 @@ Major:
   d> fix two pass render from corrupting it->qd pointer (need one pointer for each queue?).
   d> fix image_change_from_image (to do this need a pixbuf_renderer_move_image).
   d> fix broken zoom out drawing when using source tiles.
-   > fix 2pass zoom when using source tiles and zoomed out (not always rendering second pass)
+  d> fix 2pass zoom when using source tiles and zoomed out (not always rendering second pass)
 
  > image.c:
   d> need to keep a list of ImageWindows and provide function to sync options to each object.
@@ -23,9 +23,9 @@ Major:
 
  > work on pan view:
    > Pick a better keyboard shortcut than Control + J :)
-   > Fix occasional redraw bugs when zoomed out.
-   > Fix occasional odd requests for non-visible tiles when zoomed out (related to above?).
-   > Fix slowness in image.c with huge grid size by changing use of pre-allocated tile array
+  d> Fix occasional redraw bugs when zoomed out.
+  d> Fix occasional odd requests for non-visible tiles when zoomed out (related to above?).
+  d> Fix slowness in image.c with huge grid size by changing use of pre-allocated tile array
      to on-demand tile allocation (can this be implemented like source tiles?).
      OR: use an array so that we do not need to walk a GList of pre-allocated tile containers
   w> Fix search scrolling to try to center image and info popup.

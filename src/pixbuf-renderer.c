@@ -1766,7 +1766,7 @@ static void pr_tile_invalidate_all(PixbufRenderer *pr)
 		work = work->next;
 
 		it->render_done = TILE_RENDER_NONE;
-		it->render_todo = TILE_RENDER_NONE;
+		it->render_todo = TILE_RENDER_ALL;
 		it->blank = FALSE;
 
 		it->w = MIN(pr->tile_width, pr->width - it->x);
@@ -1798,7 +1798,7 @@ static void pr_tile_invalidate_region(PixbufRenderer *pr, gint x, gint y, gint w
 		    it->y < y2 && it->y + it->h > y1)
 			{
 			it->render_done = TILE_RENDER_NONE;
-			it->render_todo = TILE_RENDER_NONE;
+			it->render_todo = TILE_RENDER_ALL;
 			}
 		}
 }
@@ -2371,7 +2371,6 @@ static gint pr_scroll_clamp(PixbufRenderer *pr)
 		pr->x_scroll = 0;
 		pr->y_scroll = 0;
 
-		pr_scroll_notify_signal(pr);
 		return FALSE;
 		}
 
@@ -2395,8 +2394,6 @@ static gint pr_scroll_clamp(PixbufRenderer *pr)
 		{
 		pr->y_scroll = CLAMP(pr->y_scroll, 0, pr->height - pr->vis_height);
 		}
-
-	pr_scroll_notify_signal(pr);
 
 	return (old_xs != pr->x_scroll || old_ys != pr->y_scroll);
 }
@@ -2609,6 +2606,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 	if (sized || clamped) pr_border_clear(pr);
 	pr_redraw(pr, redrawn);
 
+	pr_scroll_notify_signal(pr);
 	pr_zoom_signal(pr);
 	pr_update_signal(pr);
 }
@@ -2665,6 +2663,7 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 	pr_tile_sync(pr, pr->width, pr->height, FALSE);
 #endif
 
+	pr_scroll_notify_signal(pr);
 	pr_update_signal(pr);
 }
 
@@ -2714,6 +2713,8 @@ void pixbuf_renderer_scroll(PixbufRenderer *pr, gint x, gint y)
 
 	pr_scroll_clamp(pr);
 	if (pr->x_scroll == old_x && pr->y_scroll == old_y) return;
+
+	pr_scroll_notify_signal(pr);
 
 	if (pr->overlay_list)
 		{
@@ -3097,7 +3098,7 @@ void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source)
 		pr->source_tiles = source->source_tiles;
 		source->source_tiles = NULL;
 
-		pr_zoom_sync(pr, pr->zoom, TRUE, FALSE, TRUE, FALSE, 0, 0);
+		pr_zoom_sync(pr, source->zoom, TRUE, FALSE, TRUE, FALSE, 0, 0);
 		pr_redraw(pr, TRUE);
 		}
 	else

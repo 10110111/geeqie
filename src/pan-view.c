@@ -4058,6 +4058,8 @@ static void pan_window_image_scroll_notify_cb(PixbufRenderer *pr, gpointer data)
 	GdkRectangle rect;
 	gint width, height;
 
+	if (pr->scale == 0.0) return;
+
 	pixbuf_renderer_get_visible_rect(pr, &rect);
 	pixbuf_renderer_get_image_size(pr, &width, &height);
 
@@ -4071,6 +4073,7 @@ static void pan_window_image_scroll_notify_cb(PixbufRenderer *pr, gpointer data)
 
 	pref_signal_block_data(pw->scrollbar_h, pw);
 	gtk_adjustment_changed(adj);
+	gtk_adjustment_value_changed(adj);
 	pref_signal_unblock_data(pw->scrollbar_h, pw);
 
 	adj = gtk_range_get_adjustment(GTK_RANGE(pw->scrollbar_v));
@@ -4083,9 +4086,8 @@ static void pan_window_image_scroll_notify_cb(PixbufRenderer *pr, gpointer data)
 
 	pref_signal_block_data(pw->scrollbar_v, pw);
 	gtk_adjustment_changed(adj);
+	gtk_adjustment_value_changed(adj);
 	pref_signal_unblock_data(pw->scrollbar_v, pw);
-
-//	printf("scrolled to %d,%d @ %d x %d\n", x, y, width, height);
 }
 
 static void pan_window_scrollbar_h_value_cb(GtkRange *range, gpointer data)

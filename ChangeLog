@@ -1,3 +1,14 @@
+Sun Apr  3 00:36:22 2005  John Ellis  <johne@verizon.net>
+
+	* image.c (image_options_set): Only enable PixbufRenderer 'window_fit'
+	when both the ImageWindow and global setting are both enabled.
+	* pan-view.c (pan_window_image_scroll_notify_cb): Add call to
+	gtk_adjustment_value_changed to fix performance hit when scrolling.
+	* pixbuf-renderer.c: Set tile render_todo flags to RENDER_ALL when
+	invalidating so that there is no chance it will be used with old data.
+	Only emit 'scroll-notify' signal when the value or range changes.
+	Fix copy of zoom value in pixbuf_renderer_move.
+
 Sat Apr  2 17:28:16 2005  John Ellis  <johne@verizon.net>
 
 	* image.c (image_options_set): Update PixbufRenderer parent window so

@@ -1343,7 +1343,7 @@ static void image_options_set(ImageWindow *imd)
 					"dither_quality", dither_quality,
 					"scroll_reset", scroll_reset_method,
 					"cache_display", tile_cache_max,
-					"window_fit", fit_window,
+					"window_fit", (imd->top_window_sync && fit_window),
 					"window_limit", limit_window_size,
 					"window_limit_value", max_window_size,
 					NULL);
