@@ -484,6 +484,128 @@ static void pixbuf_draw_triangle(GdkPixbuf *pb,
 		}
 }
 
+static gint util_clip_line(gdouble clip_x, gdouble clip_y, gdouble clip_w, gdouble clip_h,
+			   gdouble x1, gdouble y1, gdouble x2, gdouble y2,
+			   gdouble *rx1, gdouble *ry1, gdouble *rx2, gdouble *ry2)
+{
+	gint flip = FALSE;
+	gdouble d;
+
+	if (x1 > x2)
+		{
+		gdouble t;
+
+		t = x1;
+		x1 = x2;
+		x2 = t;
+
+		t = y1;
+		y1 = y2;
+		y2 = t;
+
+		flip = TRUE;
+		}
+
+	if (x2 < clip_x || x1 > clip_x + clip_w) return FALSE;
+
+	if (y1 < y2)
+		{
+		if (y2 < clip_y || y1 > clip_y + clip_h) return FALSE;
+		}
+	else
+		{
+		if (y1 < clip_y || y2 > clip_y + clip_h) return FALSE;
+		}
+
+#if 0
+	if (x1 >= clip_x && x2 <= clip_x + clip_w)
+		{
+		if (y1 < y2)
+			{
+			if (y1 >= clip_y && y2 <= clip_y + clip_h) return TRUE;
+			}
+		else
+			{
+			if (y2 >= clip_y && y1 <= clip_y + clip_h) return TRUE;
+			}
+		}
+#endif
+
+	d = x2 - x1;
+	if (d > 0.0)
+		{
+		gdouble slope;
+
+		slope = (y2 - y1) / d;
+		if (x1 < clip_x)
+			{
+			y1 = y1 + slope * (clip_x - x1);
+			x1 = clip_x;
+			}
+		if (x2 > clip_x + clip_w)
+			{
+			y2 = y2 + slope * (clip_x + clip_w - x2);
+			x2 = clip_x + clip_w;
+			}
+		}
+
+	if (y1 < y2)
+		{
+		if (y2 < clip_y || y1 > clip_y + clip_h) return FALSE;
+		}
+	else
+		{
+		gdouble t;
+
+		if (y1 < clip_y || y2 > clip_y + clip_h) return FALSE;
+
+		t = x1;
+		x1 = x2;
+		x2 = t;
+
+		t = y1;
+		y1 = y2;
+		y2 = t;
+
+		flip = !flip;
+		}
+
+	d = y2 - y1;
+	if (d > 0.0)
+		{
+		gdouble slope;
+
+		slope = (x2 - x1) / d;
+		if (y1 < clip_y)
+			{
+			x1 = x1 + slope * (clip_y - y1);
+			y1 = clip_y;
+			}
+		if (y2 > clip_y + clip_h)
+			{
+			x2 = x2 + slope * (clip_y + clip_h - y2);
+			y2 = clip_y + clip_h;
+			}
+		}
+
+	if (flip)
+		{
+		*rx1 = x2;
+		*ry1 = y2;
+		*rx2 = x1;
+		*ry2 = y1;
+		}
+	else
+		{
+		*rx1 = x1;
+		*ry1 = y1;
+		*rx2 = x2;
+		*ry2 = y2;
+		}
+
+	return TRUE;
+}
+
 static void pixbuf_draw_line(GdkPixbuf *pb,
 			     gint clip_x, gint clip_y, gint clip_w, gint clip_h,
 			     gint x1, gint y1, gint x2, gint y2,
@@ -492,16 +614,14 @@ static void pixbuf_draw_line(GdkPixbuf *pb,
 	gint p_alpha;
 	gint pw, ph, prs;
 	gint rx, ry, rw, rh;
-	gint fx1, fy1, fx2, fy2;
+	gdouble rx1, ry1, rx2, ry2;
 	guchar *p_pix;
 	guchar *pp;
 	gint p_step;
-	gint xd, yd;
-	gint xa, ya;
-	gdouble xstep, ystep;
-	gdouble i, j;
-	gint n, nt;
-	gint x, y;
+	gdouble slope;
+	gdouble x, y;
+	gint px, py;
+	gint cx1, cy1, cx2, cy2;
 
 	if (!pb) return;
 
@@ -511,24 +631,14 @@ static void pixbuf_draw_line(GdkPixbuf *pb,
 	if (!util_clip_region(0, 0, pw, ph,
 			      clip_x, clip_y, clip_w, clip_h,
 			      &rx, &ry, &rw, &rh)) return;
+	if (!util_clip_line((gdouble)rx, (gdouble)ry, (gdouble)rw, (gdouble)rh,
+			    (gdouble)x1, (gdouble)y1, (gdouble)x2, (gdouble)y2,
+			    &rx1, &ry1, &rx2, &ry2)) return;
 
-	fx1 = rx;
-	fy1 = ry;
-	fx2 = rx + rw;
-	fy2 = ry + rh;
-
-	xd = x2 - x1;
-	yd = y2 - y1;
-	xa = abs(xd);
-	ya = abs(yd);
-
-	if (xa == 0 && ya == 0) return;
-#if 0
-	nt = sqrt(xd * xd + yd * yd);
-#endif
-	nt = (xa > ya) ? xa : ya;
-	xstep = (double)xd / nt;
-	ystep = (double)yd / nt;
+	cx1 = rx;
+	cy1 = ry;
+	cx2 = rx + rw;
+	cy2 = ry + rh;
 
 	p_alpha = gdk_pixbuf_get_has_alpha(pb);
 	prs = gdk_pixbuf_get_rowstride(pb);
@@ -536,25 +646,59 @@ static void pixbuf_draw_line(GdkPixbuf *pb,
 
 	p_step = (p_alpha) ? 4 : 3;
 
-	i = (double)y1;
-	j = (double)x1;
-	for (n = 0; n < nt; n++)
+	if (fabs(rx2 - rx1) > fabs(ry2 - ry1))
 		{
-		x = (gint)(j + 0.5);
-		y = (gint)(i + 0.5);
-
-		if (x >= fx1 && x < fx2 &&
-		    y >= fy1 && y < fy2)
+		if (rx1 > rx2)
 			{
-			pp = p_pix + y * prs + x * p_step;
-			*pp = (r * a + *pp * (256-a)) >> 8;
-			pp++;
-			*pp = (g * a + *pp * (256-a)) >> 8;
-			pp++;
-			*pp = (b * a + *pp * (256-a)) >> 8;
+			gdouble t;
+			t = rx1; rx1 = rx2; rx2 = t;
+			t = ry1; ry1 = ry2; ry2 = t;
 			}
-		i += ystep;
-		j += xstep;
+
+		slope = rx2 - rx1;
+		if (slope != 0.0) slope = (ry2 - ry1) / slope;
+		for (x = rx1; x < rx2; x += 1.0)
+			{
+			px = (gint)(x + 0.5);
+			py = (gint)(ry1 + (x - rx1) * slope + 0.5);
+
+			if (px >=  cx1 && px < cx2 && py >= cy1 && py < cy2)
+				{
+				pp = p_pix + py * prs + px * p_step;
+				*pp = (r * a + *pp * (256-a)) >> 8;
+				pp++;
+				*pp = (g * a + *pp * (256-a)) >> 8;
+				pp++;
+				*pp = (b * a + *pp * (256-a)) >> 8;
+				}
+			}
+		}
+	else
+		{
+		if (ry1 > ry2)
+			{
+			gdouble t;
+			t = rx1; rx1 = rx2; rx2 = t;
+			t = ry1; ry1 = ry2; ry2 = t;
+			}
+
+		slope = ry2 - ry1;
+		if (slope != 0.0) slope = (rx2 - rx1) / slope;
+		for (y = ry1; y < ry2; y += 1.0)
+			{
+			px = (gint)(rx1 + (y - ry1) * slope + 0.5);
+			py = (gint)(y + 0.5);
+
+			if (px >=  cx1 && px < cx2 && py >= cy1 && py < cy2)
+				{
+				pp = p_pix + py * prs + px * p_step;
+				*pp = (r * a + *pp * (256-a)) >> 8;
+				pp++;
+				*pp = (g * a + *pp * (256-a)) >> 8;
+				pp++;
+				*pp = (b * a + *pp * (256-a)) >> 8;
+				}
+			}
 		}
 }
 
@@ -2649,9 +2793,9 @@ static gint pan_window_request_tile_cb(PixbufRenderer *pr, gint x, gint y,
 	GList *work;
 	gint i;
 
-	pixbuf_draw_rect_fill(pixbuf,
-			 0, 0, width, height,
-			 PAN_BACKGROUND_COLOR, 255);
+	pixbuf_set_rect_fill(pixbuf,
+			     0, 0, width, height,
+			     PAN_BACKGROUND_COLOR, 255);
 
 	for (i = (x / PAN_GRID_SIZE) * PAN_GRID_SIZE; i < x + width; i += PAN_GRID_SIZE)
 		{
