@@ -23,6 +23,7 @@
 #include "editors.h"
 #include "info.h"
 #include "layout_image.h"
+#include "pan-view.h"
 #include "pixbuf_util.h"
 #include "preferences.h"
 #include "print.h"
@@ -287,6 +288,13 @@ static void layout_menu_search_cb(GtkAction *action, gpointer data)
 static void layout_menu_dupes_cb(GtkAction *action, gpointer data)
 {
 	dupe_window_new(DUPE_MATCH_NAME);
+}
+
+static void layout_menu_pan_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	pan_window_new(layout_get_path(lw));
 }
 
 static void layout_menu_print_cb(GtkAction *action, gpointer data)
@@ -757,6 +765,7 @@ static GtkActionEntry menu_entries[] = {
   { "OpenRecent",	NULL,		N_("Open _recent") },
   { "Search",		GTK_STOCK_FIND,	N_("_Search..."),	"F3",		NULL,	CB(layout_menu_search_cb) },
   { "FindDupes",	GTK_STOCK_FIND,	N_("_Find duplicates..."),"D",		NULL,	CB(layout_menu_dupes_cb) },
+  { "PanView",		NULL,		N_("Pan _view"),	"<control>J",	NULL,	CB(layout_menu_pan_cb) },
   { "Print",		GTK_STOCK_PRINT,N_("_Print..."),	"<shift>P",	NULL,	CB(layout_menu_print_cb) },
   { "NewFolder",	NULL,		N_("N_ew folder..."),	"<control>F",	NULL,	CB(layout_menu_dir_cb) },
   { "Copy",		NULL,		N_("_Copy..."),		"<control>C",	NULL,	CB(layout_menu_copy_cb) },
@@ -831,6 +840,7 @@ static const char *menu_ui_description =
 "      <separator/>"
 "      <menuitem action='Search'/>"
 "      <menuitem action='FindDupes'/>"
+"      <menuitem action='PanView'/>"
 "      <separator/>"
 "      <menuitem action='Print'/>"
 "      <menuitem action='NewFolder'/>"

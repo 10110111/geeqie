@@ -210,6 +210,11 @@ struct _CollectWindow
 	CollectionData *cd;
 };
 
+typedef gint (* ImageTileRequestFunc)(ImageWindow *imd, gint x, gint y,
+				      gint width, gint height, GdkPixbuf *pixbuf, gpointer);
+typedef void (* ImageTileDisposeFunc)(ImageWindow *imd, gint x, gint y,
+				      gint width, gint height, GdkPixbuf *pixbuf, gpointer);
+
 struct _ImageWindow
 {
 	GtkWidget *widget;	/* use this to add it and show it */
@@ -240,6 +245,8 @@ struct _ImageWindow
 	gint x_scroll;		/* scroll offset of image (into width, height to start drawing) */
 	gint y_scroll;
 
+	gdouble zoom_min;
+	gdouble zoom_max;
 	gdouble zoom;		/* zoom we want (0 is auto) */
 	gdouble scale;		/* zoom we got (should never be 0) */
 
@@ -250,6 +257,13 @@ struct _ImageWindow
 	GList *tile_cache;	/* list of pixmap/pixbuf tile allocations */
 	gint tile_cache_size;	/* allocated size of pixmaps/pixbufs */
 	GList *draw_queue;	/* list of areas to redraw */
+
+	gint source_tiles_enabled;
+	gint source_tiles_cache_size;
+
+	GList *source_tiles;	/* list of active source tiles */
+	gint source_tile_width;
+	gint source_tile_height;
 
 	GList *draw_queue_2pass;/* list when 2 pass is enabled */
 
@@ -277,10 +291,13 @@ struct _ImageWindow
 	void (*func_update)(ImageWindow *, gpointer);
 	void (*func_complete)(ImageWindow *, gint preload, gpointer);
 	void (*func_new)(ImageWindow *, gpointer);
+	ImageTileRequestFunc func_tile_request;
+	ImageTileDisposeFunc func_tile_dispose;
 
 	gpointer data_update;
 	gpointer data_complete;
 	gpointer data_new;
+	gpointer data_tile;
 
 	/* button, scroll functions */
 	void (*func_button)(ImageWindow *, gint button,
@@ -290,6 +307,11 @@ struct _ImageWindow
 
 	gpointer data_button;
 	gpointer data_scroll;
+
+	/* scroll notification (for scroll bar implementation) */
+	void (*func_scroll_notify)(ImageWindow *, gint x, gint y, gint width, gint height, gpointer);
+
+	gpointer data_scroll_notify;
 
 	/* collection info */
 	CollectionData *collection;

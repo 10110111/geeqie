@@ -617,7 +617,7 @@ void pixbuf_draw_layout(GdkPixbuf *pixbuf, PangoLayout *layout, GtkWidget *widge
 	if (x + w > dw)	w = dw - x;
 	if (y + h > dh) h = dh - y;
 
-	pixbuf_copy_font(buffer, 0, 0,
+	pixbuf_copy_font(buffer, sx, sy,
 			 pixbuf, x, y, w, h,
 			 r, g, b, a);
 

@@ -1,3 +1,16 @@
+Tue Mar  1 11:32:26 2005  John Ellis  <johne@verizon.net>
+
+	* src/Makefile.am: Add pan-view.[ch]:
+	* image.[ch]: Add support for using a grid of tiles as soource image. Added
+	scroll_notify callback for when the viewable regionis scrolled. Added ability
+	to set min and max for the zoom range. Removed unnecessary
+	gtk_widget_size_request from image_size_sync. Added image_scroll_to_point.
+	* layout_util.c: Add menu item and callback for the new 'Pan view'.
+	* pixbuf_util.c (pixbuf_draw_layout): Fix for when offset is non-zero.
+	* typedefs.h: Add source tile stuff for ImageWindow.
+	* ui_tabcomp.c: Fix tab completion pop-up menu placement.
+	* pan-view.[ch]: New files for the pan view - 2.1 is officially started :)
+
 Sat Feb 26 14:42:42 2005  John Ellis  <johne@verizon.net>
 
 	* README: Updates.

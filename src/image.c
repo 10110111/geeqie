@@ -23,7 +23,7 @@
 #include <math.h>
 
 
-#define IMAGE_TILE_SIZE 128
+#define IMAGE_TILE_SIZE 512
 #define IMAGE_ZOOM_MIN -32.0
 #define IMAGE_ZOOM_MAX 32.0
 
@@ -119,6 +119,468 @@ struct _OverlayData
 	gint always;	/* hide temporarily when scrolling */
 };
 
+/* needed to be declared before the source_tile stuff */
+static void image_pixbuf_sync(ImageWindow *imd, gdouble zoom, gint blank, gint new);
+static void image_zoom_sync(ImageWindow *imd, gdouble zoom,
+                            gint force, gint blank, gint new,
+                            gint center_point, gint px, gint py);
+static void image_queue(ImageWindow *imd, gint x, gint y, gint w, gint h,
+			gint clamp, TileRenderType render, gint new_data);
+
+static gint util_clip_region(gint x, gint y, gint w, gint h,
+			     gint clip_x, gint clip_y, gint clip_w, gint clip_h,
+			     gint *rx, gint *ry, gint *rw, gint *rh);
+
+/*
+ *-------------------------------------------------------------------
+ * source tiles
+ *-------------------------------------------------------------------
+ */
+
+typedef struct _SourceTile SourceTile;
+struct _SourceTile
+{
+	gint x;
+	gint y;
+	GdkPixbuf *pixbuf;
+	gint blank;
+};
+
+static void source_tile_free(SourceTile *st)
+{
+	if (!st) return;
+
+	if (st->pixbuf) gdk_pixbuf_unref(st->pixbuf);
+	g_free(st);
+}
+
+static void source_tile_free_all(ImageWindow *imd)
+{
+	GList *work;
+
+	work = imd->source_tiles;
+	while (work)
+		{
+		SourceTile *st = work->data;
+		work = work->next;
+
+		source_tile_free(st);
+		}
+
+	g_list_free(imd->source_tiles);
+	imd->source_tiles = NULL;
+}
+
+static gint source_tile_visible(ImageWindow *imd, SourceTile *st)
+{
+	gint x, y, w, h;
+
+	if (!st) return FALSE;
+
+	x = (imd->x_scroll / IMAGE_TILE_SIZE) * IMAGE_TILE_SIZE;
+	y = (imd->y_scroll / IMAGE_TILE_SIZE) * IMAGE_TILE_SIZE;
+	w = ((imd->x_scroll + imd->vis_width) / IMAGE_TILE_SIZE) * IMAGE_TILE_SIZE + IMAGE_TILE_SIZE;
+	h = ((imd->y_scroll + imd->vis_height) / IMAGE_TILE_SIZE) * IMAGE_TILE_SIZE + IMAGE_TILE_SIZE;
+
+	return !((double)st->x * imd->scale < (double)x ||
+		 (double)(st->x + imd->source_tile_width) * imd->scale > (double)w ||
+		 (double)st->y * imd->scale < (double)y ||
+		 (double)(st->y + imd->source_tile_height) * imd->scale > (double)h);
+}
+
+static SourceTile *source_tile_new(ImageWindow *imd, gint x, gint y)
+{
+	SourceTile *st = NULL;
+	gint count;
+
+	if (imd->source_tiles_cache_size < 4) imd->source_tiles_cache_size = 4;
+
+	if (imd->source_tile_width < 1 || imd->source_tile_height < 1)
+		{
+		printf("warning: source tile size too small %d x %d\n", imd->source_tile_width, imd->source_tile_height);
+		return NULL;
+		}
+
+	count = g_list_length(imd->source_tiles);
+	if (count >= imd->source_tiles_cache_size)
+		{
+		GList *work;
+
+		work = g_list_last(imd->source_tiles);
+		while (work && count >= imd->source_tiles_cache_size)
+			{
+			SourceTile *needle;
+
+			needle = work->data;
+			work = work->prev;
+
+			if (!source_tile_visible(imd, needle))
+				{
+				imd->source_tiles = g_list_remove(imd->source_tiles, needle);
+
+				if (imd->func_tile_dispose)
+					{
+					if (debug) printf("tile dispose: %d x %d @ %d x %d\n",
+							 needle->x, needle->y, imd->x_scroll, imd->y_scroll);
+					imd->func_tile_dispose(imd, needle->x, needle->y,
+							       imd->source_tile_width, imd->source_tile_height,
+							       needle->pixbuf, imd->data_tile);
+					}
+
+				if (!st)
+					{
+					st = needle;
+					}
+				else
+					{
+					source_tile_free(needle);
+					}
+
+				count--;
+				}
+			else if (debug)
+				{
+				printf("we still think %d x %d is visble\n", needle->x, needle->y);
+				}
+			}
+
+		if (debug)
+			{
+			printf("cache count %d, max is %d\n", count, imd->source_tiles_cache_size);
+			}
+		}
+
+	if (!st)
+		{
+		st = g_new0(SourceTile, 1);
+		st->pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8,
+					    imd->source_tile_width, imd->source_tile_height);
+		}
+
+	st->x = (x / imd->source_tile_width) * imd->source_tile_width;
+	st->y = (y / imd->source_tile_height) * imd->source_tile_height;
+	st->blank = TRUE;
+
+	imd->source_tiles = g_list_prepend(imd->source_tiles, st);
+
+	if (debug)
+		{
+		printf("tile request: %d x %d\n", st->x, st->y);
+		if (!source_tile_visible(imd, st)) printf("tile request for invisible tile!\n");
+		}
+
+	return st;
+}
+
+static void image_tile_invalidate(ImageWindow *imd, gint x, gint y, gint w, gint h)
+{
+	gint i, j;
+	gint x1, x2;
+	gint y1, y2;
+	GList *work;
+
+	x1 = (gint)floor(x / imd->tile_width) * imd->tile_width;
+	x2 = (gint)ceil((x + w) / imd->tile_width) * imd->tile_width;
+
+	y1 = (gint)floor(y / imd->tile_height) * imd->tile_height;
+	y2 = (gint)ceil((y + h) / imd->tile_height) * imd->tile_height;
+
+	work = g_list_nth(imd->tiles, y1 / imd->tile_height * imd->tile_cols + (x1 / imd->tile_width));
+	for (j = y1; j <= y2; j += imd->tile_height)
+		{
+		GList *tmp;
+		tmp = work;
+		for (i = x1; i <= x2; i += imd->tile_width)
+			{
+			if (tmp)
+				{
+				ImageTile *it = tmp->data;
+
+				it->render_done = TILE_RENDER_NONE;
+				it->render_todo = TILE_RENDER_ALL;
+
+				tmp = tmp->next;
+				}
+			}
+		work = g_list_nth(work, imd->tile_cols);        /* step 1 row */
+		}
+}
+
+static SourceTile *source_tile_request(ImageWindow *imd, gint x, gint y)
+{
+	SourceTile *st;
+
+	st = source_tile_new(imd, x, y);
+
+	if (imd->func_tile_request &&
+	    imd->func_tile_request(imd, st->x, st->y,
+				   imd->source_tile_width, imd->source_tile_height, st->pixbuf, imd->data_tile))
+		{
+		st->blank = FALSE;
+		}
+#if 0
+	/* fixme: somehow invalidate the new st region */
+	image_queue(imd, st->x, st->y, imd->source_tile_width, imd->source_tile_height, FALSE, TILE_RENDER_AREA, TRUE);
+#endif
+	image_tile_invalidate(imd, st->x * imd->scale, st->y * imd->scale,
+			      imd->source_tile_width * imd->scale, imd->source_tile_height * imd->scale);
+
+	return st;
+}
+
+static SourceTile *source_tile_find(ImageWindow *imd, gint x, gint y)
+{
+	GList *work;
+
+	work = imd->source_tiles;
+	while (work)
+		{
+		SourceTile *st = work->data;
+
+		if (x >= st->x && x < st->x + imd->source_tile_width &&
+		    y >= st->y && y < st->y + imd->source_tile_height)
+			{
+			if (work != imd->source_tiles)
+				{
+				imd->source_tiles = g_list_remove_link(imd->source_tiles, work);
+				imd->source_tiles = g_list_concat(work, imd->source_tiles);
+				}
+			return st;
+			}
+
+		work = work->next;
+		}
+
+	return NULL;
+}
+
+static GList *source_tile_compute_region(ImageWindow *imd, gint x, gint y, gint w, gint h, gint request)
+{
+	gint x1, y1;
+	GList *list = NULL;
+	gint sx, sy;
+
+	if (x < 0) x = 0;
+	if (y < 0) y = 0;
+	if (w > imd->image_width) w = imd->image_width;
+	if (h > imd->image_height) h = imd->image_height;
+
+	sx = (x / imd->source_tile_width) * imd->source_tile_width;
+	sy = (y / imd->source_tile_height) * imd->source_tile_height;
+
+	for (x1 = sx; x1 < x + w; x1+= imd->source_tile_width)
+		{
+		for (y1 = sy; y1 < y + h; y1 += imd->source_tile_height)
+			{
+			SourceTile *st;
+
+			st = source_tile_find(imd, x1, y1);
+			if (!st && request) st = source_tile_request(imd, x1, y1);
+
+			if (st) list = g_list_prepend(list, st);
+			}
+		}
+
+	return g_list_reverse(list);
+}
+
+static void source_tile_changed(ImageWindow *imd, gint x, gint y, gint width, gint height)
+{
+	GList *work;
+
+	work = imd->source_tiles;
+	while (work)
+		{
+		SourceTile *st;
+		gint rx, ry, rw, rh;
+
+		st = work->data;
+		work = work->next;
+
+		if (util_clip_region(st->x, st->y, imd->source_tile_width, imd->source_tile_height,
+				     x, y, width, height,
+				     &rx, &ry, &rw, &rh))
+			{
+			GdkPixbuf *pixbuf;
+
+			pixbuf = gdk_pixbuf_new_subpixbuf(st->pixbuf, rx - st->x, ry - st->y, rw, rh);
+			if (imd->func_tile_request &&
+			    imd->func_tile_request(imd, rx, ry, rw, rh, pixbuf, imd->data_tile))
+				{
+				image_tile_invalidate(imd, rx * imd->scale, ry * imd->scale, rw * imd->scale, rh * imd->scale);
+				}
+			g_object_unref(pixbuf);
+			}
+		}
+}
+
+
+static gint source_tile_render(ImageWindow *imd, ImageTile *it,
+			       gint x, gint y, gint w, gint h,
+			       gint new_data, gint fast)
+{
+	GList *list;
+	GList *work;
+	gint draw = FALSE;
+
+	if (imd->zoom == 1.0 || imd->scale == 1.0)
+		{
+		list = source_tile_compute_region(imd, it->x + x, it->y + y, w, h, TRUE);
+		work = list;
+		while (work)
+			{
+			SourceTile *st;
+			gint rx, ry, rw, rh;
+
+			st = work->data;
+			work = work->next;
+
+			if (util_clip_region(st->x, st->y, imd->source_tile_width, imd->source_tile_height,
+					     it->x + x, it->y + y, w, h,
+					     &rx, &ry, &rw, &rh))
+				{
+				if (st->blank)
+					{
+					gdk_draw_rectangle(it->pixmap, imd->image->style->black_gc, TRUE,
+							   rx - st->x, ry - st->y, rw, rh);
+					}
+				else /* (imd->zoom == 1.0 || imd->scale == 1.0) */
+					{
+					gdk_draw_pixbuf(it->pixmap,
+							imd->image->style->fg_gc[GTK_WIDGET_STATE(imd->image)],
+							st->pixbuf,
+							rx - st->x, ry - st->y,
+							rx - it->x, ry - it->y,
+							rw, rh,
+							(GdkRgbDither)dither_quality, rx, ry);
+					}
+				}
+			}
+		}
+	else
+		{
+		double scale_x, scale_y;
+		gint sx, sy, sw, sh;
+
+		if (imd->image_width == 0 || imd->image_height == 0) return FALSE;
+		scale_x = (double)imd->width / imd->image_width;
+		scale_y = (double)imd->height / imd->image_height;
+
+		sx = (double)(it->x + x) / scale_x;
+		sy = (double)(it->y + y) / scale_y;
+		sw = (double)w / scale_x;
+		sh = (double)h / scale_y;
+
+		if (imd->width < IMAGE_MIN_SCALE_SIZE || imd->height < IMAGE_MIN_SCALE_SIZE) fast = TRUE;
+
+#if 0
+		/* draws red over draw region, to check for leaks (regions not filled) */
+		pixbuf_draw_rect(it->pixbuf, x, y, w, h, 255, 0, 0, 255, FALSE);
+#endif
+
+		list = source_tile_compute_region(imd, sx, sy, sw, sh, TRUE);
+		work = list;
+		while (work)
+			{
+			SourceTile *st;
+			gint rx, ry, rw, rh;
+			gint stx, sty, stw, sth;
+
+			st = work->data;
+			work = work->next;
+
+			stx = floor((double)st->x * scale_x);
+			sty = floor((double)st->y * scale_y);
+			stw = ceil ((double)(st->x + imd->source_tile_width) * scale_x) - stx;
+			sth = ceil ((double)(st->y + imd->source_tile_height) * scale_y) - sty;
+
+			if (util_clip_region(stx, sty, stw, sth,
+					     it->x + x, it->y + y, w, h,
+					     &rx, &ry, &rw, &rh))
+				{
+				if (st->blank)
+					{
+					gdk_draw_rectangle(it->pixmap, imd->image->style->black_gc, TRUE,
+					   rx - st->x, ry - st->y, rw, rh);
+					}
+				else
+					{
+					double offset_x;
+					double offset_y;
+
+					/* may need to use unfloored stx,sty values here */
+					offset_x = ((double)stx < (double)it->x) ?
+						    (double)stx - (double)it->x  : 0.0;
+					offset_y = ((double)sty < (double)it->y) ?
+						    (double)sty - (double)it->y  : 0.0;
+
+					gdk_pixbuf_scale(st->pixbuf, it->pixbuf, rx - it->x, ry - it->y, rw, rh,
+						 (double) 0.0 + rx - it->x + offset_x,
+						 (double) 0.0 + ry - it->y + offset_y,
+						 scale_x, scale_y,
+						 (fast) ? GDK_INTERP_NEAREST : (GdkInterpType)zoom_quality);
+					draw = TRUE;
+					}
+				}
+			}
+		}
+
+	g_list_free(list);
+
+	return draw;
+}
+
+static void image_source_tile_unset(ImageWindow *imd)
+{
+	source_tile_free_all(imd);
+
+	imd->source_tiles_enabled = FALSE;
+}
+
+void image_set_image_as_tiles(ImageWindow *imd, gint width, gint height,
+			      gint tile_width, gint tile_height, gint cache_size,
+			      ImageTileRequestFunc func_tile_request,
+			      ImageTileDisposeFunc func_tile_dispose,
+			      gpointer data,
+			      gdouble zoom)
+{
+	/* FIXME: unset any current image */
+	image_source_tile_unset(imd);
+
+	if (tile_width < 32 || tile_height < 32)
+		{
+		printf("warning: tile size too small %d x %d (min 32x32)\n", tile_width, tile_height);
+		return;
+		}
+	if (width < 32 || height < 32)
+		{
+		printf("warning: tile canvas too small %d x %d (min 32x32)\n", width, height);
+		return;
+		}
+	if (!func_tile_request)
+		{
+		printf("warning: tile request function is null\n");
+		}
+
+	printf("Setting source tiles to size %d x %d, grid is %d x %d\n", tile_width, tile_height, width, height);
+
+	if (cache_size < 4) cache_size = 4;
+
+	imd->source_tiles_enabled = TRUE;
+	imd->source_tiles_cache_size = cache_size;
+	imd->source_tile_width = tile_width;
+	imd->source_tile_height = tile_height;
+
+	imd->image_width = width;
+	imd->image_height = height;
+
+	imd->func_tile_request = func_tile_request;
+	imd->func_tile_dispose = func_tile_dispose;
+	imd->data_tile = data;
+
+	image_zoom_sync(imd, zoom, TRUE, FALSE, TRUE, FALSE, 0, 0);
+}
+
 
 static void image_queue_clear(ImageWindow *imd);
 
@@ -210,9 +672,25 @@ static void image_tile_cache_free(ImageWindow *imd, CacheData *cd)
 
 static void image_tile_cache_free_space(ImageWindow *imd, gint space, ImageTile *it)
 {
-	GList *work = g_list_last(imd->tile_cache);
+	GList *work;
+	gint tile_max;
 
-	while (work && imd->tile_cache_size > 0 && imd->tile_cache_size + space > tile_cache_max * 1048576)
+	work = g_list_last(imd->tile_cache);
+
+	if (imd->source_tiles_enabled && imd->scale < 1.0)
+		{
+		gint tiles;
+
+		tiles = (imd->vis_width / IMAGE_TILE_SIZE + 1) * (imd->vis_width / IMAGE_TILE_SIZE + 1);
+		tile_max = MAX(tiles * IMAGE_TILE_SIZE * IMAGE_TILE_SIZE * 3,
+			       (gint)((double)tile_cache_max * 1048576.0 * imd->scale));
+		}
+	else
+		{
+		tile_max = tile_cache_max * 1048576;
+		}
+
+	while (work && imd->tile_cache_size > 0 && imd->tile_cache_size + space > tile_max)
 		{
 		CacheData *cd = work->data;
 		work = work->prev;
@@ -252,16 +730,23 @@ static void image_tile_prepare(ImageWindow *imd, ImageTile *it)
 		image_tile_cache_add(imd, it, pixmap, NULL, size);
 		}
 	
-	if ((imd->zoom != 1.0 || gdk_pixbuf_get_has_alpha(imd->pixbuf)) &&
+	if ((imd->zoom != 1.0 || imd->source_tiles_enabled || (imd->pixbuf && gdk_pixbuf_get_has_alpha(imd->pixbuf)) ) &&
 	    !it->pixbuf)
 		{
 		GdkPixbuf *pixbuf;
 		guint size;
 
-		pixbuf = gdk_pixbuf_new(gdk_pixbuf_get_colorspace(imd->pixbuf),
-					gdk_pixbuf_get_has_alpha(imd->pixbuf),
-					gdk_pixbuf_get_bits_per_sample(imd->pixbuf),
-					imd->tile_width, imd->tile_height);
+		if (imd->pixbuf)
+			{
+			pixbuf = gdk_pixbuf_new(gdk_pixbuf_get_colorspace(imd->pixbuf),
+						gdk_pixbuf_get_has_alpha(imd->pixbuf),
+						gdk_pixbuf_get_bits_per_sample(imd->pixbuf),
+						imd->tile_width, imd->tile_height);
+			}
+		else
+			{
+			 pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, imd->tile_width, imd->tile_height);
+			}
 
 		size = gdk_pixbuf_get_rowstride(pixbuf) * imd->tile_height;
 		image_tile_cache_free_space(imd, size, it);
@@ -396,7 +881,7 @@ static void image_tile_render(ImageWindow *imd, ImageTile *it,
 	gint has_alpha;
 	gint draw = FALSE;
 
-	if (it->render_todo == TILE_RENDER_NONE && it->pixmap) return;
+	if (it->render_todo == TILE_RENDER_NONE && it->pixmap && !new_data) return;
 
 	if (it->render_done != TILE_RENDER_ALL)
 		{
@@ -417,7 +902,7 @@ static void image_tile_render(ImageWindow *imd, ImageTile *it,
 	if (new_data) it->blank = FALSE;
 
 	image_tile_prepare(imd, it);
-	has_alpha = gdk_pixbuf_get_has_alpha(imd->pixbuf);
+	has_alpha = (imd->pixbuf && gdk_pixbuf_get_has_alpha(imd->pixbuf));
 
 	/* FIXME checker colors for alpha should be configurable,
 	 * also should be drawn for blank = TRUE
@@ -428,6 +913,10 @@ static void image_tile_render(ImageWindow *imd, ImageTile *it,
 		/* no data, do fast rect fill */
 		gdk_draw_rectangle(it->pixmap, imd->image->style->black_gc, TRUE,
 				   0, 0, it->w, it->h);
+		}
+	else if (imd->source_tiles_enabled)
+		{
+		draw = source_tile_render(imd, it, x, y, w, h, new_data, fast);
 		}
 	else if (imd->zoom == 1.0 || imd->scale == 1.0)
 		{
@@ -536,7 +1025,7 @@ static gint image_queue_draw_idle_cb(gpointer data)
 	QueueData *qd;
 	gint fast;
 
-	if (!imd->pixbuf || (!imd->draw_queue && !imd->draw_queue_2pass) || imd->draw_idle_id == -1)
+	if ((!imd->pixbuf && !imd->source_tiles_enabled) || (!imd->draw_queue && !imd->draw_queue_2pass) || imd->draw_idle_id == -1)
 		{
 		if (!imd->completed) image_complete_util(imd, FALSE);
 
@@ -862,7 +1351,7 @@ static void image_border_draw(ImageWindow *imd, gint x, gint y, gint w, gint h)
 
 	if (!imd->image->window) return;
 
-	if (!imd->pixbuf)
+	if (!imd->pixbuf && !imd->source_tiles_enabled)
 		{
 		if (util_clip_region(x, y, w, h,
 			0, 0,
@@ -924,6 +1413,19 @@ static void image_border_clear(ImageWindow *imd)
 	image_border_draw(imd, 0, 0, imd->window_width, imd->window_height);
 }
 
+static void image_scroll_notify(ImageWindow *imd)
+{
+	if (imd->func_scroll_notify && imd->scale)
+		{
+		imd->func_scroll_notify(imd,
+					(gint)((gdouble)imd->x_scroll / imd->scale),
+					(gint)((gdouble)imd->y_scroll / imd->scale),
+					(gint)((gdouble)imd->image_width - imd->vis_width / imd->scale),
+					(gint)((gdouble)imd->image_height - imd->vis_height / imd->scale),
+					imd->data_scroll_notify);
+		}
+}
+
 static gint image_scroll_clamp(ImageWindow *imd)
 {
 	gint old_xs;
@@ -933,6 +1435,8 @@ static gint image_scroll_clamp(ImageWindow *imd)
 		{
 		imd->x_scroll = 0;
 		imd->y_scroll = 0;
+
+		image_scroll_notify(imd);
 		return FALSE;
 		}
 
@@ -957,6 +1461,8 @@ static gint image_scroll_clamp(ImageWindow *imd)
 		imd->y_scroll = CLAMP(imd->y_scroll, 0, imd->height - imd->vis_height);
 		}
 
+	image_scroll_notify(imd);
+
 	return (old_xs != imd->x_scroll || old_ys != imd->y_scroll);
 }
 
@@ -965,7 +1471,7 @@ static gint image_zoom_clamp(ImageWindow *imd, gdouble zoom, gint force, gint ne
 	gint w, h;
 	gdouble scale;
 
-	zoom = CLAMP(zoom, IMAGE_ZOOM_MIN, IMAGE_ZOOM_MAX);
+	zoom = CLAMP(zoom, imd->zoom_min, imd->zoom_max);
 
 	if (imd->zoom == zoom && !force) return FALSE;
 
@@ -1090,7 +1596,9 @@ static void image_size_sync(ImageWindow *imd, gint new_width, gint new_height)
 	image_size_clamp(imd);
 	image_scroll_clamp(imd);
 
+#if 0
 	gtk_widget_set_size_request(imd->image, imd->window_width, imd->window_height);
+#endif
 
 	/* ensure scroller remains visible */
 	if (imd->scroller_overlay != -1)
@@ -1211,7 +1719,7 @@ static void image_scroll_real(ImageWindow *imd, gint x, gint y)
 	gint x_off, y_off;
 	gint w, h;
 
-	if (!imd->pixbuf) return;
+	if (!imd->pixbuf && !imd->source_tiles_enabled) return;
 
 	old_x = imd->x_scroll;
 	old_y = imd->y_scroll;
@@ -1951,6 +2459,8 @@ static void image_reset(ImageWindow *imd)
 static void image_change_complete(ImageWindow *imd, gdouble zoom, gint new)
 {
 	gint sync = TRUE;
+
+	image_source_tile_unset(imd);
 
 	imd->zoom = zoom;	/* store the zoom, needed by the loader */
 
@@ -2696,6 +3206,14 @@ void image_set_scroll_func(ImageWindow *imd,
 	imd->data_scroll = data;
 }
 
+void image_set_scroll_notify_func(ImageWindow *imd,
+				  void (*func)(ImageWindow *imd, gint x, gint y, gint width, gint height, gpointer data),
+				  gpointer data)
+{
+	imd->func_scroll_notify = func;
+	imd->data_scroll_notify = data;
+}
+
 /* path, name */
 
 const gchar *image_get_path(ImageWindow *imd)
@@ -2726,11 +3244,15 @@ void image_change_path(ImageWindow *imd, const gchar *path, gdouble zoom)
 	if (imd->image_path == path ||
 	    (path && imd->image_path && !strcmp(path, imd->image_path)) ) return;
 
+	image_source_tile_unset(imd);
+
 	image_change_real(imd, path, NULL, NULL, zoom);
 }
 
 void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
 {
+	image_source_tile_unset(imd);
+
 	image_set_pixbuf(imd, pixbuf, zoom, TRUE);
 	image_new_util(imd);
 }
@@ -2738,6 +3260,8 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
 void image_change_from_collection(ImageWindow *imd, CollectionData *cd, CollectInfo *info, gdouble zoom)
 {
 	if (!cd || !info || !g_list_find(cd->list, info)) return;
+
+	image_source_tile_unset(imd);
 
 	image_change_real(imd, info->path, cd, info, zoom);
 }
@@ -2777,6 +3301,9 @@ static void image_loader_sync_data(ImageLoader *il, gpointer data)
 void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 {
 	if (imd == source) return;
+
+	imd->zoom_min = source->zoom_min;
+	imd->zoom_max = source->zoom_max;
 
 	imd->unknown = source->unknown;
 
@@ -2829,6 +3356,43 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	imd->x_scroll = source->x_scroll;
 	imd->y_scroll = source->y_scroll;
 
+	if (imd->source_tiles_enabled)
+		{
+		image_source_tile_unset(imd);
+		}
+
+	if (source->source_tiles_enabled)
+		{
+		imd->source_tiles_enabled = source->source_tiles_enabled;
+		imd->source_tiles_cache_size = source->source_tiles_cache_size;
+		imd->source_tiles = source->source_tiles;
+		imd->source_tile_width = source->source_tile_width;
+		imd->source_tile_height = source->source_tile_height;
+
+		source->source_tiles_enabled = FALSE;
+		source->source_tiles = NULL;
+
+		imd->func_tile_request = source->func_tile_request;
+		imd->func_tile_dispose = source->func_tile_dispose;
+		imd->data_tile = source->data_tile;
+
+		source->func_tile_request = NULL;
+		source->func_tile_dispose = NULL;
+		source->data_tile = NULL;
+
+		imd->image_width = source->image_width;
+		imd->image_height = source->image_height;
+
+		if (image_zoom_clamp(imd, source->zoom, TRUE, TRUE))
+			{
+			image_size_clamp(imd);
+			image_scroll_clamp(imd);
+			image_tile_sync(imd, imd->width, imd->height, FALSE);
+			image_redraw(imd, FALSE);
+			}
+		return;
+		}
+
 	image_scroll_clamp(imd);
 }
 
@@ -2843,11 +3407,18 @@ void image_area_changed(ImageWindow *imd, gint x, gint y, gint width, gint heigh
 	sw = (gint)ceil((double)width * imd->scale);
 	sh = (gint)ceil((double)height * imd->scale);
 
+	if (imd->source_tiles_enabled)
+		{
+		source_tile_changed(imd, x, y, width, height);
+		}
+
 	image_queue(imd, sx, sy, sw, sh, FALSE, TILE_RENDER_AREA, TRUE);
 }
 
 void image_reload(ImageWindow *imd)
 {
+	if (imd->source_tiles_enabled) return;
+
 	image_change_complete(imd, imd->zoom, FALSE);
 }
 
@@ -2856,8 +3427,20 @@ void image_scroll(ImageWindow *imd, gint x, gint y)
 	image_scroll_real(imd, x, y);
 }
 
+void image_scroll_to_point(ImageWindow *imd, gint x, gint y)
+{
+	gint px, py;
+
+	px = (gdouble)x * imd->scale - imd->x_scroll;
+	py = (gdouble)y * imd->scale - imd->y_scroll;
+
+	image_scroll(imd, px, py);
+}
+
 void image_alter(ImageWindow *imd, AlterType type)
 {
+	if (imd->source_tiles_enabled) return;
+
 	if (imd->il)
 		{
 		/* still loading, wait till done */
@@ -2923,6 +3506,16 @@ void image_zoom_adjust(ImageWindow *imd, gdouble increment)
 void image_zoom_adjust_at_point(ImageWindow *imd, gdouble increment, gint x, gint y)
 {
 	image_zoom_adjust_real(imd, increment, TRUE, x, y);
+}
+
+void image_zoom_set_limits(ImageWindow *imd, gdouble min, gdouble max)
+{
+	if (min > 1.0 || max < 1.0) return;
+	if (min < 1.0 && min > -1.0) return;
+	if (min < -200.0 || max > 200.0) return;
+
+	imd->zoom_min = min;
+	imd->zoom_max = max;
 }
 
 void image_zoom_set(ImageWindow *imd, gdouble zoom)
@@ -3029,6 +3622,8 @@ gdouble image_zoom_get_default(ImageWindow *imd, gint mode)
 
 void image_prebuffer_set(ImageWindow *imd, const gchar *path)
 {
+	if (imd->source_tiles_enabled) return;
+
 	if (path)
 		{
 		image_read_ahead_set(imd, path);
@@ -3063,6 +3658,7 @@ static gint image_auto_refresh_cb(gpointer data)
 void image_auto_refresh(ImageWindow *imd, gint interval)
 {
 	if (!imd) return;
+	if (imd->source_tiles_enabled) return;
 
 	if (imd->auto_refresh_id > -1)
 		{
@@ -3162,7 +3758,6 @@ void image_to_root_window(ImageWindow *imd, gint scaled)
 
 	if (!imd || !imd->pixbuf) return;
 
-
 	screen = gtk_widget_get_screen(imd->image);
 	rootwindow = gdk_screen_get_root_window(screen);
 	if (gdk_drawable_get_visual(rootwindow) != gdk_visual_get_system()) return;
@@ -3210,6 +3805,8 @@ static void image_free(ImageWindow *imd)
 
 	image_overlay_list_clear(imd);
 
+	source_tile_free_all(imd);
+
 	g_free(imd);
 }
 
@@ -3224,6 +3821,9 @@ ImageWindow *image_new(gint frame)
 	ImageWindow *imd;
 
 	imd = g_new0(ImageWindow, 1);
+
+	imd->zoom_min = IMAGE_ZOOM_MIN;
+	imd->zoom_max = IMAGE_ZOOM_MAX;
 	imd->zoom = 1.0;
 	imd->scale = 1.0;
 
@@ -3262,12 +3862,17 @@ ImageWindow *image_new(gint frame)
 
 	imd->func_update = NULL;
 	imd->func_complete = NULL;
+	imd->func_tile_request = NULL;
+	imd->func_tile_dispose = NULL;
 
 	imd->func_button = NULL;
 	imd->func_scroll = NULL;
 
 	imd->scroller_id = -1;
 	imd->scroller_overlay = -1;
+
+	imd->source_tiles_enabled = FALSE;
+	imd->source_tiles = NULL;
 
 	imd->image = gtk_drawing_area_new();
 	gtk_widget_set_double_buffered(imd->image, FALSE);

@@ -109,6 +109,8 @@ gqview_SOURCES = \
 	md5-util.h	\
 	menu.c		\
 	menu.h		\
+	pan-view.c	\
+	pan-view.h	\
 	pixbuf_util.c	\
 	pixbuf_util.h	\
 	preferences.c	\

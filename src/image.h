@@ -28,6 +28,9 @@ void image_set_button_func(ImageWindow *imd,
 void image_set_scroll_func(ImageWindow *imd,
 	void (*func)(ImageWindow *, GdkScrollDirection direction, guint32 time, gdouble x, gdouble y, guint state, gpointer),
         gpointer data);
+void image_set_scroll_notify_func(ImageWindow *imd,
+				  void (*func)(ImageWindow *imd, gint x, gint y, gint width, gint height, gpointer data),
+				  gpointer data);
 void image_set_complete_func(ImageWindow *imd,
 			     void (*func)(ImageWindow *, gint preload, gpointer),
 			     gpointer data);
@@ -53,11 +56,13 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source);
 void image_area_changed(ImageWindow *imd, gint x, gint y, gint width, gint height);
 void image_reload(ImageWindow *imd);
 void image_scroll(ImageWindow *imd, gint x, gint y);
+void image_scroll_to_point(ImageWindow *imd, gint x, gint y);
 void image_alter(ImageWindow *imd, AlterType type);
 
 /* zoom */
 void image_zoom_adjust(ImageWindow *imd, gdouble increment);
 void image_zoom_adjust_at_point(ImageWindow *imd, gdouble increment, gint x, gint y);
+void image_zoom_set_limits(ImageWindow *imd, gdouble min, gdouble max);
 void image_zoom_set(ImageWindow *imd, gdouble zoom);
 void image_zoom_set_fill_geometry(ImageWindow *imd, gint vertical);
 gdouble image_zoom_get(ImageWindow *imd);
@@ -90,6 +95,15 @@ gint image_overlay_add(ImageWindow *imd, GdkPixbuf *pixbuf, gint x, gint y,
 void image_overlay_set(ImageWindow *imd, gint id, GdkPixbuf *pixbuf, gint x, gint y);
 gint image_overlay_get(ImageWindow *imd, gint id, GdkPixbuf **pixbuf, gint *x, gint *y);
 void image_overlay_remove(ImageWindow *imd, gint id);
+
+
+
+void image_set_image_as_tiles(ImageWindow *imd, gint width, gint height,
+			      gint tile_width, gint tile_height, gint cache_size,
+			      ImageTileRequestFunc func_tile_request,
+			      ImageTileDisposeFunc func_tile_dispose,
+			      gpointer data,
+			      gdouble zoom);
 
 
 #endif

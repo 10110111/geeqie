@@ -241,19 +241,40 @@ static void tab_completion_popup_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolea
 	PangoRectangle strong_pos, weak_pos;
 	gint length;
 	gint xoffset, yoffset;
-							
+	GtkRequisition req;
+	GdkScreen *screen;
+	gint monitor_num;
+	GdkRectangle monitor;
 
 	gdk_window_get_origin(td->entry->window, x, y);
 
-	height = MIN(td->entry->requisition.height, td->entry->allocation.height);
-	*y += height;
+	screen = gtk_widget_get_screen(GTK_WIDGET(menu));
+	monitor_num = gdk_screen_get_monitor_at_window(screen, td->entry->window);
+	gdk_screen_get_monitor_geometry(screen, monitor_num, &monitor);
+
+	gtk_widget_size_request(GTK_WIDGET(menu), &req);
 
 	length = strlen(gtk_entry_get_text(GTK_ENTRY(td->entry)));
 	gtk_entry_get_layout_offsets(GTK_ENTRY(td->entry), &xoffset, &yoffset);
 
 	layout = gtk_entry_get_layout(GTK_ENTRY(td->entry));
 	pango_layout_get_cursor_pos(layout, length, &strong_pos, &weak_pos);
+
 	*x += strong_pos.x / PANGO_SCALE + xoffset;
+
+	height = MIN(td->entry->requisition.height, td->entry->allocation.height);
+
+	if (req.height > monitor.y + monitor.height - *y - height &&
+	    *y - monitor.y >  monitor.y + monitor.height - *y)
+		{
+		height = MIN(*y - monitor.y, req.height);
+		gtk_widget_set_size_request(GTK_WIDGET(menu), -1, height);
+		*y -= height;
+		}
+	else
+		{
+		*y += height;
+		}
 }
 
 static void tab_completion_popup_list(TabCompData *td, GList *list)

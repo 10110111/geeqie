@@ -1,15 +1,42 @@
 TODO key: d = done, w = work in progress, ? = possibly fixed
           * = required before next release
 
-Major (release blockers):
+Major:
 ----------------------------------------------
 
- must Fix for 2.0.0:
- -------------------
+ > work on pan view:
+   > Pick a better keyboard shortcut than Control + J :)
+   > Add warning dialog that it will be slow if the standard thumbnail cache is not enabled.
+   > Fix occasional redraw bugs when zoomed out.
+   > Fix occasional odd requests for non-visible tiles when zoomed out (related to above?).
+   > Fix slowness in image.c with huge grid size by changing use of pre-allocated tile array
+     to on-demand tile allocation (can this be implemented like source tiles?).
+     OR: use an array so that we do not need to walk a GList of pre-allocated tile containers
+   > Fix search scrolling to try to center image and info popup.
+   > Fix info popup location to opposing horizontal side when near edge of grid.
+   > Find something to do with middle mouse clicks.
+   > Set drag and drop data to clicked image.
+   > Should the copy/move/rename/delete operations be available here?
+   > ^ and if so, should delete key actually work?
+   > searching for same item more than once should step through all matches
+   > search should highlight all matching images
+   > should non-thumbnail images have a drop shadow?
 
-d> update translations: bg(x) es(x) it(x) ja(x) nl(x) pl(x) ru(x)
+   > time line view:
+     > searching by date should scroll to proper alignment with year/month/day boundaries.
+
+   > grid view:
+     > allow sorting by name, date, size, dimensions, etc.
+
+   > flower view:
+     > fix it :)
+
+ > the info dialog is not set as a transient of the calling window, this causes it to be behind
+   a full screen window when 'stay above other windows' is enabled.
 
  -------------
+
+ > update translations: ( ) ( ) ( )
 
  > document recent additions/changes:
     (none currently)
