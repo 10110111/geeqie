@@ -162,6 +162,10 @@ void pixbuf_renderer_set_tiles(PixbufRenderer *pr, gint width, gint height,
 			       gdouble zoom);
 gint pixbuf_renderer_get_tiles(PixbufRenderer *pr);
 
+/* move image data from source to pr, source is then set to NULL image */
+
+void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source);
+
 /* update region of existing image */
 
 void pixbuf_renderer_area_changed(PixbufRenderer *pr, gint x, gint y, gint width, gint height);

@@ -5,8 +5,8 @@ Major:
 ----------------------------------------------
 
  > pixbuf-renderer.c:
-   > fix two pass render from corrupting it->qd pointer (need one pointer for each queue?).
-   > fix image_change_from_image (to do this need a pixbuf_renderer_move_image).
+  d> fix two pass render from corrupting it->qd pointer (need one pointer for each queue?).
+  d> fix image_change_from_image (to do this need a pixbuf_renderer_move_image).
    > fix broken zoom out drawing when using source tiles.
 
  > image.c:

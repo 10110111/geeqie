@@ -947,7 +947,6 @@ CollectionData *image_get_collection(ImageWindow *imd, CollectInfo **info)
 	return NULL;
 }
 
-#if 0
 static void image_loader_sync_data(ImageLoader *il, gpointer data)
 {
 	/* change data for the callbacks directly */
@@ -957,23 +956,15 @@ static void image_loader_sync_data(ImageLoader *il, gpointer data)
 	il->data_done = data;
 	il->data_percent = data;
 }
-#endif
 
 /* this is more like a move function
- * it moves most data from source to imd, source does keep a ref on the pixbuf
+ * it moves most data from source to imd
  */
 void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 {
 	if (imd == source) return;
 
-	printf("FIXME: enable set from image\n");
-#if 0
-	imd->zoom_min = source->zoom_min;
-	imd->zoom_max = source->zoom_max;
-
 	imd->unknown = source->unknown;
-
-	image_set_pixbuf(imd, source->pixbuf, image_zoom_get(source), TRUE);
 
 	imd->collection = source->collection;
 	imd->collection_info = source->collection_info;
@@ -985,7 +976,7 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	image_loader_free(imd->il);
 	imd->il = NULL;
 
-	if (imd->pixbuf && source->il)
+	if (source->il)
 		{
 		imd->il = source->il;
 		source->il = NULL;
@@ -1019,48 +1010,7 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 
 	imd->completed = source->completed;
 
-	imd->x_scroll = source->x_scroll;
-	imd->y_scroll = source->y_scroll;
-
-	if (imd->source_tiles_enabled)
-		{
-		image_source_tile_unset(imd);
-		}
-
-	if (source->source_tiles_enabled)
-		{
-		imd->source_tiles_enabled = source->source_tiles_enabled;
-		imd->source_tiles_cache_size = source->source_tiles_cache_size;
-		imd->source_tiles = source->source_tiles;
-		imd->source_tile_width = source->source_tile_width;
-		imd->source_tile_height = source->source_tile_height;
-
-		source->source_tiles_enabled = FALSE;
-		source->source_tiles = NULL;
-
-		imd->func_tile_request = source->func_tile_request;
-		imd->func_tile_dispose = source->func_tile_dispose;
-		imd->data_tile = source->data_tile;
-
-		source->func_tile_request = NULL;
-		source->func_tile_dispose = NULL;
-		source->data_tile = NULL;
-
-		imd->image_width = source->image_width;
-		imd->image_height = source->image_height;
-
-		if (image_zoom_clamp(imd, source->zoom, TRUE, TRUE))
-			{
-			image_size_clamp(imd);
-			image_scroll_clamp(imd);
-			image_tile_sync(imd, imd->width, imd->height, FALSE);
-			image_redraw(imd, FALSE);
-			}
-		return;
-		}
-
-	image_scroll_clamp(imd);
-#endif
+	pixbuf_renderer_move(PIXBUF_RENDERER(imd->pr), PIXBUF_RENDERER(source->pr));
 }
 
 /* manipulation */

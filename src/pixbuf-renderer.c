@@ -3019,6 +3019,59 @@ GdkPixbuf *pixbuf_renderer_get_pixbuf(PixbufRenderer *pr)
 	return pr->pixbuf;
 }
 
+void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source)
+{
+	GObject *object;
+	PixbufRendererScrollResetType scroll_reset;
+
+	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
+	g_return_if_fail(IS_PIXBUF_RENDERER(source));
+
+	if (pr == source) return;
+
+	object = G_OBJECT(pr);
+
+	g_object_set(object, "zoom_min", source->zoom_min, NULL);
+	g_object_set(object, "zoom_max", source->zoom_max, NULL);
+	g_object_set(object, "loading", source->loading, NULL);
+
+	pr->x_scroll = source->x_scroll;
+	pr->y_scroll = source->y_scroll;
+
+	scroll_reset = pr->scroll_reset;
+	pr->scroll_reset = PR_SCROLL_RESET_NOCHANGE;
+
+	if (source->source_tiles_enabled)
+		{
+		pr_source_tile_unset(pr);
+
+		pr->source_tiles_enabled = source->source_tiles_enabled;
+		pr->source_tiles_cache_size = source->source_tiles_cache_size;
+		pr->source_tile_width = source->source_tile_width;
+		pr->source_tile_height = source->source_tile_height;
+		pr->image_width = source->image_width;
+		pr->image_height = source->image_height;
+
+		pr->func_tile_request = source->func_tile_request;
+		pr->func_tile_dispose = source->func_tile_dispose;
+		pr->func_tile_data = source->func_tile_data;
+
+		pr->source_tiles = source->source_tiles;
+		source->source_tiles = NULL;
+
+		pr_zoom_sync(pr, pr->zoom, TRUE, FALSE, TRUE, FALSE, 0, 0);
+		pr_redraw(pr, TRUE);
+		}
+	else
+		{
+		pixbuf_renderer_set_pixbuf(pr, source->pixbuf, source->zoom);
+		}
+
+	pr->scroll_reset = scroll_reset;
+
+	pixbuf_renderer_set_pixbuf(source, NULL, source->zoom);
+}
+
 void pixbuf_renderer_area_changed(PixbufRenderer *pr, gint x, gint y, gint width, gint height)
 {
 	gint sx, sy, sw, sh;

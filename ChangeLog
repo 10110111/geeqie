@@ -1,3 +1,10 @@
+Wed Mar 23 00:22:28 2005  John Ellis  <johne@verizon.net>
+
+	* image.c (image_change_from_image): Fix and use pixbuf_renderer_move.
+	* pan-view.c: Convert back to ImageWindow from PixbufRenderer, so that
+	focus and full screen work again.
+	* pixbuf-renderer.[ch] (pixbuf_renderer_move): Add this function.
+
 Fri Mar 18 19:52:38 2005  John Ellis  <johne@verizon.net>
 
 	* pixbuf-renderer.c: Fix broken 2pass queueing so it merges a single
