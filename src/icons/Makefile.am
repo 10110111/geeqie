@@ -1,12 +1,41 @@
+## GQview inline icons
+
+ICONS_INLINE = \
+	folder_closed.png	\
+	folder_locked.png	\
+	folder_open.png		\
+	folder_up.png		\
+	scroller.png		\
+	sheet_broken.png	\
+	gqview_logo.png
+
+ICONS_INLINE_PAIRS = \
+	folder_closed		$(srcdir)/folder_closed.png	\
+	folder_locked		$(srcdir)/folder_locked.png	\
+	folder_open		$(srcdir)/folder_open.png	\
+	folder_up		$(srcdir)/folder_up.png		\
+	icon_scroller		$(srcdir)/scroller.png		\
+	icon_broken		$(srcdir)/sheet_broken.png	\
+	gqview_logo		$(srcdir)/gqview_logo.png
+
+icons_inline.h: $(ICONS_INLINE)
+	gdk-pixbuf-csource --raw --extern --build-list $(ICONS_INLINE_PAIRS) > icons_inline.h
+
+noinst_DATA = icons_inline.h
+CLEANFILES = $(noinst_DATA)
+
+## end GQview specific icons
+
+
 EXTRA_DIST = \
-	icon_config.xpm		\
+	$(ICONS_INLINE)		\
+	collect.xpm		\
+	config.xpm		\
+	dialog.xpm		\
+	icon.xpm		\
 	icon_float.xpm		\
-	icon_home.xpm		\
-	icon_reload.xpm		\
 	icon_thumb.xpm		\
-	icon_zoom_fit.xpm	\
-	icon_zoom_in.xpm	\
-	icon_zoom_norm.xpm	\
-	icon_zoom_out.xpm	\
-	img_unknown.xpm
+	marker.xpm		\
+	tools.xpm		\
+	view.xpm
 

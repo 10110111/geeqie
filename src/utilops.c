@@ -1,12 +1,86 @@
 /*
- * GQview image viewer
- * (C)2000 John Ellis
+ * GQview
+ * (C) 2004 John Ellis
  *
  * Author: John Ellis
  *
+ * This software is released under the GNU General Public License (GNU GPL).
+ * Please read the included file COPYING for more information.
+ * This software comes with no warranty of any kind, use at your own risk!
  */
 
+
 #include "gqview.h"
+#include "utilops.h"
+
+
+#include "cache_maint.h"
+#include "collect.h"
+#include "dupe.h"
+#include "filelist.h"
+#include "image.h"
+#include "img-view.h"
+#include "layout.h"
+#include "search.h"
+#include "ui_bookmark.h"
+#include "ui_fileops.h"
+#include "ui_misc.h"
+#include "ui_tabcomp.h"
+
+
+/*
+ *--------------------------------------------------------------------------
+ * call these when names change, files move, deleted, etc.
+ * so that any open windows are also updated
+ *--------------------------------------------------------------------------
+ */
+
+void file_maint_renamed(const gchar *source, const gchar *dest)
+{
+	cache_maint_moved(source, dest);
+	collection_maint_renamed(source, dest);
+
+	layout_maint_renamed(source, dest);
+	view_window_maint_moved(source, dest);
+	dupe_maint_renamed(source, dest);
+	search_maint_renamed(source, dest);
+}
+
+/* under most cases ignore_list should be NULL */
+void file_maint_removed(const gchar *path, GList *ignore_list)
+{
+	layout_maint_removed(path, ignore_list);
+	view_window_maint_removed(path, ignore_list);
+	dupe_maint_removed(path);
+	search_maint_removed(path);
+
+	collection_maint_removed(path);
+	cache_maint_removed(path);
+}
+
+/* special case for correct main window behavior */
+void file_maint_moved(const gchar *source, const gchar *dest, GList *ignore_list)
+{
+	cache_maint_moved(source, dest);
+	collection_maint_renamed(source, dest);
+
+	layout_maint_moved(source, dest, ignore_list);
+	view_window_maint_moved(source, dest);
+	dupe_maint_renamed(source, dest);
+	search_maint_renamed(source, dest);
+}
+
+void file_maint_copied(const gchar *source, const gchar *dest)
+{
+	cache_maint_copied(source, dest);
+}
+
+/*
+ *--------------------------------------------------------------------------
+ * The file manipulation dialogs
+ *--------------------------------------------------------------------------
+ */
+
 
 enum {
 	DIALOG_NEW_DIR,
@@ -28,6 +102,16 @@ struct _FileDataMult
 	gchar *source;
 	gchar *dest;
 	gint copy;
+
+	gint rename;
+	gint rename_auto;
+	gint rename_all;
+
+	GtkWidget *rename_box;
+	GtkWidget *rename_entry;
+	GtkWidget *rename_auto_box;
+
+	GtkWidget *yes_all_button;
 };
 
 typedef struct _FileDataSingle FileDataSingle;
@@ -37,52 +121,184 @@ struct _FileDataSingle
 	gchar *source;
 	gchar *dest;
 	gint copy;
+
+	gint rename;
+	gint rename_auto;
+
+	GtkWidget *rename_box;
+	GtkWidget *rename_entry;
+	GtkWidget *rename_auto_box;
 };
 
-static FileDataMult *file_data_multiple_new(GList *source_list, gchar *dest, gint copy);
-static void file_data_multiple_free(FileDataMult *fdm);
-static void file_util_move_multiple(FileDataMult *fdm);
-static void file_util_move_multiple_ok_cb(GtkWidget *widget, gpointer data);
-static void file_util_move_multiple_all_cb(GtkWidget *widget, gpointer data);
-static void file_util_move_multiple_skip_cb(GtkWidget *widget, gpointer data);
-static void file_util_move_multiple_cancel_cb(GtkWidget *widget, gpointer data);
-static void file_util_move_multiple(FileDataMult *fdm);
+/*
+ *--------------------------------------------------------------------------
+ * Adds 1 or 2 images (if 2, side by side) to a GenericDialog
+ *--------------------------------------------------------------------------
+ */
 
-static FileDataSingle *file_data_single_new(gchar *source, gchar *dest, gint copy);
-static void file_data_single_free(FileDataSingle *fds);
-static void file_util_move_single_ok_cb(GtkWidget *widget, gpointer data);
-static void file_util_move_single(FileDataSingle *fds);
-static void file_util_move_single_cancel_cb(GtkWidget *widget, gpointer data);
-static void file_util_move_do(FileDialog *fd);
-static void file_util_move_check(FileDialog *fd);
-static void file_util_move_cb(GtkWidget *widget, gpointer data);
-static void file_util_move_enter_cb(gchar *path, gpointer data);
-static void file_util_move_completion_sync_cb(gchar *path, gpointer data);
-static void real_file_util_move(gchar *source_path, GList *source_list, gchar *dest_path, gint copy);
+#define DIALOG_DEF_IMAGE_DIM_X 200
+#define DIALOG_DEF_IMAGE_DIM_Y 150
 
-static void file_util_delete_multiple_ok_cb(GtkWidget *w, gpointer data);
-static void file_util_delete_multiple_cancel_cb(GtkWidget *w, gpointer data);
-static void file_util_delete_multiple(GList *source_list);
-static void file_util_delete_ok_cb(GtkWidget *w, gpointer data);
-static void file_util_delete_cancel_cb(GtkWidget *w, gpointer data);
-static void file_util_delete_single(gchar *path);
+static void generic_dialog_add_image(GenericDialog *gd, const gchar *path1, const gchar *header1,
+				     const gchar *path2, const gchar *header2,
+				     gint show_filename)
+{
+	ImageWindow *imd;
+	GtkWidget *hbox = NULL;
+	GtkWidget *vbox;
+	GtkWidget *label = NULL;
 
-static void file_util_rename_multiple_ok_cb(GtkWidget *w, gpointer data);
-static void file_util_rename_multiple_cancel_cb(GtkWidget *w, gpointer data);
-static void file_util_rename_multiple(FileDialog *fd);
-static void file_util_rename_multiple_cb(GtkWidget *w, gpointer data);
-static void file_util_rename_multiple_select_cb(GtkWidget *clist,
-		gint row, gint column, GdkEventButton *bevent, gpointer data);
-static void file_util_rename_multiple_do(GList *source_list);
+	if (path2)
+		{
+		hbox = pref_box_new(gd->vbox, TRUE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+		}
 
-static void file_util_rename_single_ok_cb(GtkWidget *w, gpointer data);
-static void file_util_rename_single_cancel_cb(GtkWidget *w, gpointer data);
-static void file_util_rename_single(FileDataSingle *fds);
-static void file_util_rename_single_cb(GtkWidget *w, gpointer data);
-static void file_util_rename_single_do(gchar *source_path);
+	/* image 1 */
 
-static void file_util_create_dir_do(gchar *source, gchar *path);
-static void file_util_create_dir_cb(GtkWidget *w, gpointer data);
+	vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
+	if (hbox)
+		{
+		GtkWidget *sep;
+
+		gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 0);
+
+		sep = gtk_vseparator_new();
+		gtk_box_pack_start(GTK_BOX(hbox), sep, FALSE, FALSE, 0);
+		gtk_widget_show(sep);
+		}
+	else
+		{
+		gtk_box_pack_start(GTK_BOX(gd->vbox), vbox, TRUE, TRUE, PREF_PAD_GAP);
+		}
+	gtk_widget_show(vbox);
+
+	if (header1)
+		{
+		GtkWidget *head;
+
+		head = pref_label_new(vbox, header1);
+		pref_label_bold(head, TRUE, FALSE);
+		gtk_misc_set_alignment(GTK_MISC(head), 0.0, 0.5);
+		}
+
+	imd = image_new(FALSE);
+	gtk_widget_set_size_request(imd->widget, DIALOG_DEF_IMAGE_DIM_X, DIALOG_DEF_IMAGE_DIM_Y);
+	gtk_box_pack_start(GTK_BOX(vbox), imd->widget, TRUE, TRUE, 0);
+	image_change_path(imd, path1, 0.0);
+	gtk_widget_show(imd->widget);
+
+	if (show_filename)
+		{
+		label = pref_label_new(vbox, (path1 == NULL) ? "" : filename_from_path(path1));
+		}
+
+	/* only the first image is stored (for use in gd_image_set) */
+	g_object_set_data(G_OBJECT(gd->dialog), "img_image", imd);
+	g_object_set_data(G_OBJECT(gd->dialog), "img_label", label);
+		
+
+	/* image 2 */
+
+	if (hbox && path2)
+		{
+		vbox = pref_box_new(hbox, TRUE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
+
+		if (header2)
+			{
+			GtkWidget *head;
+
+			head = pref_label_new(vbox, header2);
+			pref_label_bold(head, TRUE, FALSE);
+			gtk_misc_set_alignment(GTK_MISC(head), 0.0, 0.5);
+			}
+
+		imd = image_new(FALSE);
+		gtk_widget_set_size_request(imd->widget, DIALOG_DEF_IMAGE_DIM_X, DIALOG_DEF_IMAGE_DIM_Y);
+		gtk_box_pack_start(GTK_BOX(vbox), imd->widget, TRUE, TRUE, 0);
+		image_change_path(imd, path2, 0.0);
+		gtk_widget_show(imd->widget);
+
+		pref_label_new(vbox, filename_from_path(path2));
+		}
+}
+
+static void generic_dialog_image_set(GenericDialog *gd, const gchar *path)
+{
+	ImageWindow *imd;
+	GtkWidget *label;
+	
+	imd = g_object_get_data(G_OBJECT(gd->dialog), "img_image");
+	label = g_object_get_data(G_OBJECT(gd->dialog), "img_label");
+
+	if (!imd) return;
+
+	image_change_path(imd, path, 0.0);
+	if (label) gtk_label_set_text(GTK_LABEL(label), filename_from_path(path));
+}
+
+/*
+ *--------------------------------------------------------------------------
+ * Wrappers to aid in setting additional dialog properties (unde mouse, etc.)
+ *--------------------------------------------------------------------------
+ */
+
+GenericDialog *file_util_gen_dlg(const gchar *title,
+				 const gchar *wmclass, const gchar *wmsubclass,
+				 GtkWidget *parent, gint auto_close,
+				 void (*cancel_cb)(GenericDialog *, gpointer), gpointer data)
+{
+	GenericDialog *gd;
+
+	gd = generic_dialog_new(title, wmclass, wmsubclass, parent, auto_close, cancel_cb, data);
+	if (place_dialogs_under_mouse)
+		{
+		gtk_window_set_position(GTK_WINDOW(gd->dialog), GTK_WIN_POS_MOUSE);
+		}
+
+	return gd;
+}
+
+FileDialog *file_util_file_dlg(const gchar *title,
+			       const gchar *wmclass, const gchar *wmsubclass,
+			       GtkWidget *parent,
+			       void (*cancel_cb)(FileDialog *, gpointer), gpointer data)
+{
+	FileDialog *fd;
+
+	fd = file_dialog_new(title, wmclass, wmsubclass, parent, cancel_cb, data);
+	if (place_dialogs_under_mouse)
+		{
+		gtk_window_set_position(GTK_WINDOW(GENERIC_DIALOG(fd)->dialog), GTK_WIN_POS_MOUSE);
+		}
+
+	return fd;
+}
+
+/* this warning dialog is copied from SLIK's ui_utildg.c,
+ * because it does not have a mouse center option,
+ * and we must center it before show, implement it here.
+ */
+static void file_util_warning_dialog_ok_cb(GenericDialog *gd, gpointer data)
+{
+	/* no op */
+}
+
+GenericDialog *file_util_warning_dialog(const gchar *heading, const gchar *message,
+					const gchar *icon_stock_id, GtkWidget *parent)
+{
+	GenericDialog *gd;
+
+	gd = file_util_gen_dlg(heading, "GQview", "warning", parent, TRUE, NULL, NULL);
+	generic_dialog_add_message(gd, icon_stock_id, heading, message);
+	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, file_util_warning_dialog_ok_cb, TRUE);
+	if (place_dialogs_under_mouse)
+		{
+		gtk_window_set_position(GTK_WINDOW(gd->dialog), GTK_WIN_POS_MOUSE);
+		}
+	gtk_widget_show(gd->dialog);
+
+	return gd;
+}
 
 /*
  *--------------------------------------------------------------------------
@@ -94,7 +310,7 @@ static void file_util_create_dir_cb(GtkWidget *w, gpointer data);
  * Multi file move
  */
 
-static FileDataMult *file_data_multiple_new(GList *source_list, gchar *dest, gint copy)
+static FileDataMult *file_data_multiple_new(GList *source_list, const gchar *dest, gint copy)
 {
 	FileDataMult *fdm = g_new0(FileDataMult, 1);
 	fdm->confirm_all = FALSE;
@@ -111,131 +327,329 @@ static FileDataMult *file_data_multiple_new(GList *source_list, gchar *dest, gin
 
 static void file_data_multiple_free(FileDataMult *fdm)
 {
-	free_selected_list(fdm->source_list);
+	path_list_free(fdm->source_list);
 	g_free(fdm->dest_base);
 	g_free(fdm->dest);
 	g_free(fdm);
 }
 
-static void file_util_move_multiple_ok_cb(GtkWidget *widget, gpointer data)
+static void file_util_move_multiple(FileDataMult *fdm);
+
+static void file_util_move_multiple_ok_cb(GenericDialog *gd, gpointer data)
 {
 	FileDataMult *fdm = data;
+
 	fdm->confirmed = TRUE;
+
+	if (fdm->rename_auto)
+		{
+		gchar *buf;
+
+		buf = unique_filename_simple(fdm->dest);
+		if (buf)
+			{
+			g_free(fdm->dest);
+			fdm->dest = buf;
+			}
+		else
+			{
+			/* unique failed? well, return to the overwrite prompt :( */
+			fdm->confirmed = FALSE;
+			}
+		}
+	else if (fdm->rename)
+		{
+		const gchar *name;
+
+		name = gtk_entry_get_text(GTK_ENTRY(fdm->rename_entry));
+		if (strlen(name) == 0 ||
+		    strcmp(name, filename_from_path(fdm->source)) == 0)
+			{
+			fdm->confirmed = FALSE;
+			}
+		else
+			{
+			g_free(fdm->dest);
+			fdm->dest = concat_dir_and_file(fdm->dest_base, name);
+			fdm->confirmed = !isname(fdm->dest);
+			}
+		}
+
 	file_util_move_multiple(fdm);
 }
 
-static void file_util_move_multiple_all_cb(GtkWidget *widget, gpointer data)
+static void file_util_move_multiple_all_cb(GenericDialog *gd, gpointer data)
 {
 	FileDataMult *fdm = data;
+
+	fdm->confirm_all = TRUE;
+
+	if (fdm->rename_auto) fdm->rename_all = TRUE;
+
+	file_util_move_multiple(fdm);
+}
+
+static void file_util_move_multiple_skip_cb(GenericDialog *gd, gpointer data)
+{
+	FileDataMult *fdm = data;
+
+	fdm->skip = TRUE;
+	fdm->confirmed = TRUE;
+
+	file_util_move_multiple(fdm);
+}
+
+static void file_util_move_multiple_skip_all_cb(GenericDialog *gd, gpointer data)
+{
+	FileDataMult *fdm = data;
+
+	fdm->skip = TRUE;
 	fdm->confirm_all = TRUE;
 	file_util_move_multiple(fdm);
 }
 
-static void file_util_move_multiple_skip_cb(GtkWidget *widget, gpointer data)
+static void file_util_move_multiple_continue_cb(GenericDialog *gd, gpointer data)
 {
 	FileDataMult *fdm = data;
-	fdm->skip = TRUE;
+
+	fdm->confirmed = TRUE;
 	file_util_move_multiple(fdm);
 }
 
-static void file_util_move_multiple_cancel_cb(GtkWidget *widget, gpointer data)
+static void file_util_move_multiple_cancel_cb(GenericDialog *gd, gpointer data)
 {
 	FileDataMult *fdm = data;
+
 	file_data_multiple_free(fdm);
+}
+
+/* rename option */
+
+static void file_util_move_multiple_rename_auto_cb(GtkWidget *widget, gpointer data)
+{
+	GenericDialog *gd = data;
+	FileDataMult *fdm;
+
+	fdm = gd->data;
+
+	fdm->rename_auto = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	gtk_widget_set_sensitive(fdm->rename_box, !fdm->rename_auto);
+	gtk_widget_set_sensitive(fdm->rename_entry, (!fdm->rename_auto && fdm->rename));
+
+	if (fdm->rename_auto)
+		{
+		gchar *preview;
+
+		preview = unique_filename_simple(fdm->dest);
+		if (preview) gtk_entry_set_text(GTK_ENTRY(fdm->rename_entry), filename_from_path(preview));
+		g_free(preview);
+		}
+
+	gtk_widget_set_sensitive(fdm->yes_all_button, (fdm->rename_auto || !fdm->rename));
+}
+
+static void file_util_move_multiple_rename_cb(GtkWidget *widget, gpointer data)
+{
+	GenericDialog *gd = data;
+	FileDataMult *fdm;
+
+	fdm = gd->data;
+
+	fdm->rename = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	gtk_widget_set_sensitive(fdm->rename_entry, fdm->rename);
+	gtk_widget_set_sensitive(fdm->yes_all_button, !fdm->rename);
+
+	if (fdm->rename) gtk_widget_grab_focus(fdm->rename_entry);
+}
+
+static GenericDialog *file_util_move_multiple_confirm_dialog(FileDataMult *fdm)
+{
+	GenericDialog *gd;
+	GtkWidget *hbox;
+
+	gd = file_util_gen_dlg(_("Overwrite file"), "GQview", "dlg_confirm",
+				NULL, TRUE,
+				file_util_move_multiple_cancel_cb, fdm);
+
+	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION,
+				   _("Overwrite file?"),
+				   _("Replace existing file with new file."));
+	pref_spacer(gd->vbox, 0);
+
+	generic_dialog_add_button(gd, GTK_STOCK_YES, _("_Overwrite"), file_util_move_multiple_ok_cb, TRUE);
+	fdm->yes_all_button = generic_dialog_add_button(gd, NULL, _("Overwrite _all"),
+							file_util_move_multiple_all_cb, FALSE);
+	generic_dialog_add_button(gd, GTK_STOCK_GOTO_LAST, _("S_kip all"), file_util_move_multiple_skip_all_cb, FALSE);
+	generic_dialog_add_button(gd, GTK_STOCK_GO_FORWARD, _("_Skip"), file_util_move_multiple_skip_cb, FALSE);
+	generic_dialog_add_image(gd, fdm->dest, _("Existing file"), fdm->source, _("New file"), TRUE);
+
+	/* rename option */
+
+	fdm->rename = FALSE;
+	fdm->rename_all = FALSE;
+	fdm->rename_auto = FALSE;
+
+	hbox = pref_box_new(gd->vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_GAP);
+
+	fdm->rename_auto_box = gtk_check_button_new_with_label(_("Auto rename"));
+	g_signal_connect(G_OBJECT(fdm->rename_auto_box), "clicked",
+			 G_CALLBACK(file_util_move_multiple_rename_auto_cb), gd);
+	gtk_box_pack_start(GTK_BOX(hbox), fdm->rename_auto_box, FALSE, FALSE, 0);
+	gtk_widget_show(fdm->rename_auto_box);
+
+	hbox = pref_box_new(gd->vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_GAP);
+
+	fdm->rename_box = gtk_check_button_new_with_label(_("Rename"));
+	g_signal_connect(G_OBJECT(fdm->rename_box), "clicked",
+			 G_CALLBACK(file_util_move_multiple_rename_cb), gd);
+	gtk_box_pack_start(GTK_BOX(hbox), fdm->rename_box, FALSE, FALSE, 0);
+	gtk_widget_show(fdm->rename_box);
+
+	fdm->rename_entry = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(fdm->rename_entry), filename_from_path(fdm->dest));
+	gtk_widget_set_sensitive(fdm->rename_entry, FALSE);
+	gtk_box_pack_start(GTK_BOX(hbox), fdm->rename_entry, TRUE, TRUE, 0);
+	gtk_widget_show(fdm->rename_entry);
+
+	return gd;
 }
 
 static void file_util_move_multiple(FileDataMult *fdm)
 {
 	while (fdm->dest || fdm->source_next)
 		{
+		gint success = FALSE;
+		gint skip_file = FALSE;
+
 		if (!fdm->dest)
 			{
 			GList *work = fdm->source_next;
 			fdm->source = work->data;
-			fdm->dest = g_strconcat(fdm->dest_base, "/", filename_from_path(fdm->source), NULL);
+			fdm->dest = concat_dir_and_file(fdm->dest_base, filename_from_path(fdm->source));
 			fdm->source_next = work->next;
+			fdm->confirmed = FALSE;
 			}
 
 		if (fdm->dest && fdm->source && strcmp(fdm->dest, fdm->source) == 0)
 			{
-			ConfirmDialog *cd;
-			gchar *title;
-			gchar *text;
-			if (fdm->copy)
+			if (!fdm->confirmed)
 				{
-				title = _("Source to copy matches destination");
-				text = g_strdup_printf(_("Unable to copy file:\n%s\nto itself."), fdm->dest);
+				GenericDialog *gd;
+				const gchar *title;
+				gchar *text;
+
+				if (fdm->copy)
+					{
+					title = _("Source to copy matches destination");
+					text = g_strdup_printf(_("Unable to copy file:\n%s\nto itself."), fdm->dest);
+					}
+				else
+					{
+					title = _("Source to move matches destination");
+					text = g_strdup_printf(_("Unable to move file:\n%s\nto itself."), fdm->dest);
+					}
+
+				gd = file_util_gen_dlg(title, "GQview", "dlg_confirm",
+							NULL, TRUE,
+							file_util_move_multiple_cancel_cb, fdm);
+				generic_dialog_add_message(gd, GTK_STOCK_DIALOG_WARNING, title, text);
+				g_free(text);
+				generic_dialog_add_button(gd, GTK_STOCK_GO_FORWARD, _("Co_ntinue"),
+							 file_util_move_multiple_continue_cb, TRUE);
+
+				gtk_widget_show(gd->dialog);
+				return;
 				}
-			else
-				{
-				title = _("Source to move matches destination");
-				text = g_strdup_printf(_("Unable to move file:\n%s\nto itself."), fdm->dest);
-				}
-			cd = confirm_dialog_new(title, text, file_util_move_multiple_cancel_cb, fdm);
-			confirm_dialog_add(cd, _("Continue"), file_util_move_multiple_skip_cb);
-			g_free(text);
-			return;
+			skip_file = TRUE;
 			}
-		else if (isfile(fdm->dest) && !fdm->confirmed && !fdm->confirm_all && !fdm->skip)
+		else if (isfile(fdm->dest))
 			{
-			ConfirmDialog *cd;
-			gchar *text = g_strdup_printf(_("Overwrite file:\n %s\n with:\b %s"), fdm->dest, fdm->source);
-			cd = confirm_dialog_new_with_image(_("Overwrite file"), text,
-						fdm->dest, fdm->source,
-						file_util_move_multiple_cancel_cb, fdm);
-			confirm_dialog_add(cd, _("Skip"), file_util_move_multiple_skip_cb);
-			confirm_dialog_add(cd, _("Yes to all"), file_util_move_multiple_all_cb);
-			confirm_dialog_add(cd, _("Yes"), file_util_move_multiple_ok_cb);
-			g_free(text);
-			return;
+			if (!fdm->confirmed && !fdm->confirm_all)
+				{
+				GenericDialog *gd;
+
+				gd = file_util_move_multiple_confirm_dialog(fdm);
+				gtk_widget_show(gd->dialog);
+				return;
+				}
+			if (fdm->skip) skip_file = TRUE;
+			}
+
+		if (skip_file)
+			{
+			success = TRUE;
+			if (!fdm->confirm_all) fdm->skip = FALSE;
 			}
 		else
 			{
-			gint success = FALSE;
-			if (fdm->skip)
+			gint try = TRUE;
+
+			if (fdm->confirm_all && fdm->rename_all && isfile(fdm->dest))
 				{
-				success = TRUE;
-				fdm->skip = FALSE;
+				gchar *buf;
+				buf = unique_filename_simple(fdm->dest);
+				if (buf)
+					{
+					g_free(fdm->dest);
+					fdm->dest = buf;
+					}
+				else
+					{
+					try = FALSE;
+					}
 				}
-			else
+			if (try)
 				{
 				if (fdm->copy)
 					{
-					success = copy_file(fdm->source, fdm->dest);
+					if (copy_file(fdm->source, fdm->dest))
+						{
+						success = TRUE;
+						file_maint_copied(fdm->source, fdm->dest);
+						}
 					}
 				else
 					{
 					if (move_file(fdm->source, fdm->dest))
 						{
 						success = TRUE;
-						file_is_gone(fdm->source, fdm->source_list);
+						file_maint_moved(fdm->source, fdm->dest, fdm->source_list);
 						}
 					}
 				}
-			if (!success)
-				{
-				ConfirmDialog *cd;
-				gchar *title;
-				gchar *text;
-				if (fdm->copy)
-					{
-					title = _("Error copying file");
-					text = g_strdup_printf(_("Unable to copy file:\n%sto:\n%s\n during multiple file copy."), fdm->source, fdm->dest);
-					}
-				else
-					{
-					title = _("Error moving file");
-					text = g_strdup_printf(_("Unable to move file:\n%sto:\n%s\n during multiple file move."), fdm->source, fdm->dest);
-					}
-				cd = confirm_dialog_new(title, text, file_util_move_multiple_cancel_cb, fdm);
-				confirm_dialog_add(cd, _("Continue"), file_util_move_multiple_skip_cb);
-				g_free(text);
-				return;
-				}
-			fdm->confirmed = FALSE;
-			g_free(fdm->dest);
-			fdm->dest = NULL;
 			}
+
+		if (!success)
+			{
+			GenericDialog *gd;
+			const gchar *title;
+			gchar *text;
+
+			if (fdm->copy)
+				{
+				title = _("Error copying file");
+				text = g_strdup_printf(_("Unable to copy file:\n%s\nto:\n%s\nduring multiple file copy."), fdm->source, fdm->dest);
+				}
+			else
+				{
+				title = _("Error moving file");
+				text = g_strdup_printf(_("Unable to move file:\n%s\nto:\n%s\nduring multiple file move."), fdm->source, fdm->dest);
+				}
+			gd = file_util_gen_dlg(title, "GQview", "dlg_confirm",
+						NULL, TRUE,
+						file_util_move_multiple_cancel_cb, fdm);
+			generic_dialog_add_message(gd, GTK_STOCK_DIALOG_WARNING, title, text);
+			g_free(text);
+
+			generic_dialog_add_button(gd, GTK_STOCK_GO_FORWARD, _("Co_ntinue"),
+						  file_util_move_multiple_continue_cb, TRUE);
+			gtk_widget_show(gd->dialog);
+			}
+
+		g_free(fdm->dest);
+		fdm->dest = NULL;
+
+		if (!success) return;
 		}
 
 	file_data_multiple_free(fdm);
@@ -245,7 +659,7 @@ static void file_util_move_multiple(FileDataMult *fdm)
  * Single file move
  */
 
-static FileDataSingle *file_data_single_new(gchar *source, gchar *dest, gint copy)
+static FileDataSingle *file_data_single_new(const gchar *source, const gchar *dest, gint copy)
 {
 	FileDataSingle *fds = g_new0(FileDataSingle, 1);
 	fds->confirmed = FALSE;
@@ -262,35 +676,150 @@ static void file_data_single_free(FileDataSingle *fds)
 	g_free(fds);
 }
 
-static void file_util_move_single_ok_cb(GtkWidget *widget, gpointer data)
+static void file_util_move_single(FileDataSingle *fds);
+
+static void file_util_move_single_ok_cb(GenericDialog *gd, gpointer data)
 {
 	FileDataSingle *fds = data;
+
 	fds->confirmed = TRUE;
+
+	if (fds->rename_auto)
+		{
+		gchar *buf;
+
+		buf = unique_filename_simple(fds->dest);
+		if (buf)
+			{
+			g_free(fds->dest);
+			fds->dest = buf;
+			}
+		else
+			{
+			/* unique failed? well, return to the overwrite prompt :( */
+			fds->confirmed = FALSE;
+			}
+		}
+	else if (fds->rename)
+		{
+		const gchar *name;
+
+		name = gtk_entry_get_text(GTK_ENTRY(fds->rename_entry));
+		if (strlen(name) == 0 ||
+		    strcmp(name, filename_from_path(fds->source)) == 0)
+			{
+			fds->confirmed = FALSE;
+			}
+		else
+			{
+			gchar *base;
+
+			base = remove_level_from_path(fds->dest);
+			g_free(fds->dest);
+			fds->dest = concat_dir_and_file(base, name);
+			fds->confirmed = !isname(fds->dest);
+
+			g_free(base);
+			}
+		}
+
 	file_util_move_single(fds);
 }
 
-static void file_util_move_single_cancel_cb(GtkWidget *widget, gpointer data)
+static void file_util_move_single_cancel_cb(GenericDialog *gd, gpointer data)
 {
 	FileDataSingle *fds = data;
+
 	file_data_single_free(fds);
+}
+
+static void file_util_move_single_rename_auto_cb(GtkWidget *widget, gpointer data)
+{
+	GenericDialog *gd = data;
+	FileDataSingle *fds;
+
+	fds = gd->data;
+
+	fds->rename_auto = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	gtk_widget_set_sensitive(fds->rename_box, !fds->rename_auto);
+	gtk_widget_set_sensitive(fds->rename_entry, (!fds->rename_auto && fds->rename));
+
+	if (fds->rename_auto)
+		{
+		gchar *preview;
+
+		preview = unique_filename_simple(fds->dest);
+		if (preview) gtk_entry_set_text(GTK_ENTRY(fds->rename_entry), filename_from_path(preview));
+		g_free(preview);
+		}
+}
+
+static void file_util_move_single_rename_cb(GtkWidget *widget, gpointer data)
+{
+	GenericDialog *gd = data;
+	FileDataSingle *fds;
+
+	fds = gd->data;
+
+	fds->rename = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	gtk_widget_set_sensitive(fds->rename_entry, fds->rename);
+
+	if (fds->rename) gtk_widget_grab_focus(fds->rename_entry);
 }
 
 static void file_util_move_single(FileDataSingle *fds)
 {
 	if (fds->dest && fds->source && strcmp(fds->dest, fds->source) == 0)
 		{
-		warning_dialog(_("Source matches destination"),
-			       _("Source and destination are the same, operation cancelled."));
+		file_util_warning_dialog(_("Source matches destination"),
+					 _("Source and destination are the same, operation cancelled."),
+					 GTK_STOCK_DIALOG_INFO, NULL);
 		}
 	else if (isfile(fds->dest) && !fds->confirmed)
 		{
-		ConfirmDialog *cd;
-		gchar *text = g_strdup_printf(_("Overwrite file:\n%s\n with:\n%s"), fds->dest, fds->source);
-		cd = confirm_dialog_new_with_image(_("Overwrite file"), text,
-						   fds->dest, fds->source,
-						   file_util_move_single_cancel_cb, fds);
-		confirm_dialog_add(cd, _("Overwrite"), file_util_move_single_ok_cb);
-		g_free(text);
+		GenericDialog *gd;
+		GtkWidget *hbox;
+
+		gd = file_util_gen_dlg(_("Overwrite file"), "GQview", "dlg_confirm",
+					NULL, TRUE,
+					file_util_move_single_cancel_cb, fds);
+
+		generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION,
+					   _("Overwrite file?"),
+					   _("Replace existing file with new file."));
+		pref_spacer(gd->vbox, 0);
+
+		generic_dialog_add_button(gd, GTK_STOCK_OK, _("_Overwrite"), file_util_move_single_ok_cb, TRUE);
+		generic_dialog_add_image(gd, fds->dest, _("Existing file"), fds->source, _("New file"), TRUE);
+
+		/* rename option */
+
+		fds->rename = FALSE;
+		fds->rename_auto = FALSE;
+
+		hbox = pref_box_new(gd->vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_GAP);
+
+		fds->rename_auto_box = gtk_check_button_new_with_label(_("Auto rename"));
+		g_signal_connect(G_OBJECT(fds->rename_auto_box), "clicked",
+				 G_CALLBACK(file_util_move_single_rename_auto_cb), gd);
+		gtk_box_pack_start(GTK_BOX(hbox), fds->rename_auto_box, FALSE, FALSE, 0);
+		gtk_widget_show(fds->rename_auto_box);
+
+		hbox = pref_box_new(gd->vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_GAP);
+
+		fds->rename_box = gtk_check_button_new_with_label(_("Rename"));
+		g_signal_connect(G_OBJECT(fds->rename_box), "clicked",
+				 G_CALLBACK(file_util_move_single_rename_cb), gd);
+		gtk_box_pack_start(GTK_BOX(hbox), fds->rename_box, FALSE, FALSE, 0);
+		gtk_widget_show(fds->rename_box);
+
+		fds->rename_entry = gtk_entry_new();
+		gtk_entry_set_text(GTK_ENTRY(fds->rename_entry), filename_from_path(fds->dest));
+		gtk_widget_set_sensitive(fds->rename_entry, FALSE);
+		gtk_box_pack_start(GTK_BOX(hbox), fds->rename_entry, TRUE, TRUE, 0);
+		gtk_widget_show(fds->rename_entry);
+
+		gtk_widget_show(gd->dialog);
 		return;
 		}
 	else
@@ -298,14 +827,18 @@ static void file_util_move_single(FileDataSingle *fds)
 		gint success = FALSE;
 		if (fds->copy)
 			{
-			success = copy_file(fds->source, fds->dest);
+			if (copy_file(fds->source, fds->dest))
+				{
+				success = TRUE;
+				file_maint_copied(fds->source, fds->dest);
+				}
 			}
 		else
 			{
 			if (move_file(fds->source, fds->dest))
 				{
 				success = TRUE;
-				file_is_gone(fds->source, NULL);
+				file_maint_moved(fds->source, fds->dest, NULL);
 				}
 			}
 		if (!success)
@@ -322,7 +855,7 @@ static void file_util_move_single(FileDataSingle *fds)
 				title = _("Error moving file");
 				text = g_strdup_printf(_("Unable to move file:\n%s\nto:\n%s"), fds->source, fds->dest);
 				}
-			warning_dialog(title, text);
+			file_util_warning_dialog(title, text, GTK_STOCK_DIALOG_ERROR, NULL);
 			g_free(text);
 			}
 		}
@@ -336,7 +869,8 @@ static void file_util_move_single(FileDataSingle *fds)
 
 static void file_util_move_do(FileDialog *fd)
 {
-	tab_completion_append_to_history(fd->entry, fd->dest_path);
+	file_dialog_sync_history(fd, TRUE);
+
 	if (fd->multiple_files)
 		{
 		file_util_move_multiple(file_data_multiple_new(fd->source_list, fd->dest_path, fd->type));
@@ -346,62 +880,57 @@ static void file_util_move_do(FileDialog *fd)
 		{
 		if (isdir(fd->dest_path))
 			{
-			gchar *buf = g_strconcat(fd->dest_path, "/", filename_from_path(fd->source_path), NULL);
-			g_free(fd->dest_path);
-			fd->dest_path = buf;
+			gchar *buf = concat_dir_and_file(fd->dest_path, filename_from_path(fd->source_path));
+			gtk_entry_set_text(GTK_ENTRY(fd->entry), buf);
+			g_free(buf);
 			}
 		file_util_move_single(file_data_single_new(fd->source_path, fd->dest_path, fd->type));
 		}
 
-	generic_dialog_close(NULL, fd);
+	file_dialog_close(fd);
 }
 
 static void file_util_move_check(FileDialog *fd)
 {
-	g_free(fd->dest_path);
-	fd->dest_path = remove_trailing_slash(gtk_entry_get_text(GTK_ENTRY(fd->entry)));
-
 	if (fd->multiple_files && !isdir(fd->dest_path))
 		{
 		if (isfile(fd->dest_path))
-			warning_dialog(_("Invalid destination"), _("When operating with multiple files, please select\n a directory, not file."));
+			{
+			file_util_warning_dialog(_("Invalid destination"),
+						 _("When operating with multiple files, please select\na folder, not a file."),
+						 GTK_STOCK_DIALOG_INFO, NULL);
+			}
 		else
-			warning_dialog(_("Invalid directory"), _("Please select an existing directory"));
+			file_util_warning_dialog(_("Invalid folder"),
+						 _("Please select an existing folder."),
+						 GTK_STOCK_DIALOG_INFO, NULL);
 		return;
 		}
 
 	file_util_move_do(fd);
 }
 
-static void file_util_move_cb(GtkWidget *widget, gpointer data)
+static void file_util_move_cb(FileDialog *fd, gpointer data)
 {
-	FileDialog *fd = data;
 	file_util_move_check(fd);
 }
 
-static void file_util_move_enter_cb(gchar *path, gpointer data)
+static void file_util_move_cancel_cb(FileDialog *fd, gpointer data)
 {
-	FileDialog *fd = data;
-	file_util_move_check(fd);
+	file_dialog_close(fd);
 }
 
-static void file_util_move_completion_sync_cb(gchar *path, gpointer data)
-{
-	FileDialog *fd = data;
-	destination_widget_sync_to_entry(fd->entry);
-}
-
-static void real_file_util_move(gchar *source_path, GList *source_list, gchar *dest_path, gint copy)
+static void real_file_util_move(const gchar *source_path, GList *source_list,
+				const gchar *dest_path, gint copy, GtkWidget *parent)
 {
 	FileDialog *fd;
+	GtkWidget *label;
 	gchar *path = NULL;
 	gint multiple;
-	gchar *text;
-	gchar *title;
-	gchar *op_text;
-	GtkWidget *tabcomp;
-	GtkWidget *dest;
-	gchar *last_path;
+	const gchar *text;
+	const gchar *title;
+	const gchar *op_text;
+	const gchar *stock_id;
 
 	if (!source_path && !source_list) return;
 
@@ -417,74 +946,297 @@ static void real_file_util_move(gchar *source_path, GList *source_list, gchar *d
 	else
 		{
 		path = g_strdup(source_list->data);
-		free_selected_list(source_list);
+		path_list_free(source_list);
 		source_list = NULL;
 		multiple = FALSE;
 		}
 
 	if (copy)
 		{
-		title = _("GQview - copy");
-		op_text = _("Copy");
+		title = _("Copy - GQview");
+		op_text = _("_Copy");
 		if (path)
-			text = g_strdup_printf(_("Copy file:\n%s\nto:"), path);
+			{
+			text = _("Copy file");
+			}
 		else
-			text = g_strdup_printf(_("Copy multiple files from:\n%s\nto:"), dest_path);
+			{
+			text = _("Copy multiple files");
+			}
+		stock_id = GTK_STOCK_COPY;
 		}
 	else
 		{
-		title = _("GQview - move");
-		op_text = _("Move");
+		title = _("Move - GQview");
+		op_text = _("_Move");
 		if (path)
-			text = g_strdup_printf(_("Move file:\n%s\nto:"), path);
+			{
+			text = _("Move file");
+			}
 		else
-			text = g_strdup_printf(_("Move multiple files from:\n%s\nto:"), dest_path);
+			{
+			text = _("Move multiple files");
+			}
+		stock_id = GTK_STOCK_OK;
 		}
 
-	fd = generic_dialog_new(title, text, op_text, _("Cancel"),
-		file_util_move_cb, generic_dialog_close);
+	fd = file_util_file_dlg(title, "GQview", "dlg_copymove", parent,
+				file_util_move_cancel_cb, NULL);
+	generic_dialog_add_message(GENERIC_DIALOG(fd), NULL, text, NULL);
 
-	g_free(text);
+	if (path)
+		{
+		GtkWidget *box;
+
+		box = pref_box_new(GENERIC_DIALOG(fd)->vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+		pref_label_new(box, _("File name:"));
+		pref_label_new(box, filename_from_path(path));
+		}
+
+	label = pref_label_new(GENERIC_DIALOG(fd)->vbox, _("Choose the destination folder."));
+	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+	pref_spacer(GENERIC_DIALOG(fd)->vbox, 0);
+
+	file_dialog_add_button(fd, stock_id, op_text, file_util_move_cb, TRUE);
+
+	file_dialog_add_path_widgets(fd, NULL, dest_path, "move_copy", NULL, NULL);
 
 	fd->type = copy;
 	fd->source_path = path;
 	fd->source_list = source_list;
 	fd->multiple_files = multiple;
 
-	tabcomp = tab_completion_new_with_history(&fd->entry, fd->dialog, dest_path,
-					   "move_copy", 32, file_util_move_enter_cb, fd);
-	last_path = tab_completion_set_to_last_history(fd->entry);
-	if (last_path)
-		{
-		fd->dest_path = g_strdup(last_path);
-		}
-	else
-		{
-		fd->dest_path = g_strdup(dest_path);
-		}
-					   
-/*	tabcomp = tab_completion_new(&fd->entry, fd->dialog, fd->dest_path, file_util_move_enter_cb, fd);
-*/
-	gtk_box_pack_start(GTK_BOX(fd->vbox), tabcomp, FALSE, FALSE, 0);
-	gtk_widget_show(tabcomp);
-
-	gtk_widget_grab_focus(fd->entry);
-
-	dest = destination_widget_new(fd->dest_path, fd->entry);
-
-	tab_completion_add_tab_func(fd->entry, file_util_move_completion_sync_cb, fd);
-
-	gtk_box_pack_start(GTK_BOX(fd->vbox), dest, TRUE, TRUE, 0);
+	gtk_widget_show(GENERIC_DIALOG(fd)->dialog);
 }
 
-void file_util_move(gchar *source_path, GList *source_list, gchar *dest_path)
+void file_util_move(const gchar *source_path, GList *source_list, const gchar *dest_path, GtkWidget *parent)
 {
-	real_file_util_move(source_path, source_list, dest_path, FALSE);
+	real_file_util_move(source_path, source_list, dest_path, FALSE, parent);
 }
 
-void file_util_copy(gchar *source_path, GList *source_list, gchar *dest_path)
+void file_util_copy(const gchar *source_path, GList *source_list, const gchar *dest_path, GtkWidget *parent)
 {
-	real_file_util_move(source_path, source_list, dest_path, TRUE);
+	real_file_util_move(source_path, source_list, dest_path, TRUE, parent);
+}
+
+void file_util_move_simple(GList *list, const gchar *dest_path)
+{
+	if (!list) return;
+	if (!dest_path)
+		{
+		path_list_free(list);
+		return;
+		}
+
+	if (!list->next)
+		{
+		const gchar *source;
+		gchar *dest;
+
+		source = list->data;
+		dest = concat_dir_and_file(dest_path, filename_from_path(source));
+
+		file_util_move_single(file_data_single_new(source, dest, FALSE));
+		g_free(dest);
+		path_list_free(list);
+		return;
+		}
+
+	file_util_move_multiple(file_data_multiple_new(list, dest_path, FALSE));
+}
+
+void file_util_copy_simple(GList *list, const gchar *dest_path)
+{
+	if (!list) return;
+	if (!dest_path)
+		{
+		path_list_free(list);
+		return;
+		}
+
+	if (!list->next)
+		{
+		const gchar *source;
+		gchar *dest;
+
+		source = list->data;
+		dest = concat_dir_and_file(dest_path, filename_from_path(source));
+
+		file_util_move_single(file_data_single_new(source, dest, TRUE));
+		g_free(dest);
+		path_list_free(list);
+		return;
+		}
+
+	file_util_move_multiple(file_data_multiple_new(list, dest_path, TRUE));
+}
+
+/*
+ *--------------------------------------------------------------------------
+ * Safe Delete
+ *--------------------------------------------------------------------------
+ */
+
+static gint file_util_safe_number(gint64 free_space)
+{
+	gint n = 0;
+	gint64 total = 0;
+	GList *list;
+	GList *work;
+	gint sorted = FALSE;
+	gint warned = FALSE;
+
+	if (!filelist_read(safe_delete_path, &list, NULL)) return 0;
+
+	work = list;
+	while (work)
+		{
+		FileData *fd;
+		gint v;
+	       
+		fd = work->data;
+		work = work->next;
+
+		v = (gint)strtol(fd->name, NULL, 10);
+		if (v >= n) n = v + 1;
+
+		total += fd->size;
+		}
+
+	while (list &&
+	       (free_space < 0 || total + free_space > (gint64)safe_delete_size * 1048576) )
+		{
+		FileData *fd;
+
+		if (!sorted)
+			{
+			list = filelist_sort(list, SORT_NAME, TRUE);
+			sorted = TRUE;
+			}
+
+		fd = list->data;
+		list = g_list_remove(list, fd);
+
+		if (debug) printf("expunging from trash for space: %s\n", fd->name);
+		if (!unlink_file(fd->path) && !warned)
+			{
+			file_util_warning_dialog(_("Delete failed"),
+						 _("Unable to remove old file from trash folder"),
+						 GTK_STOCK_DIALOG_WARNING, NULL);
+			warned = TRUE;
+			}
+		total -= fd->size;
+		file_data_free(fd);
+		}
+
+	filelist_free(list);
+
+	return n;
+}
+
+void file_util_trash_clear(void)
+{
+	file_util_safe_number(-1);
+}
+
+static gchar *file_util_safe_dest(const gchar *path)
+{
+	gint n;
+
+	n = file_util_safe_number(filesize(path));
+	return g_strdup_printf("%s/%06d_%s", safe_delete_path, n, filename_from_path(path));
+}
+
+static void file_util_safe_del_toggle_cb(GtkWidget *button, gpointer data)
+{
+	safe_delete_enable = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button));
+}
+
+static void file_util_safe_del_close_cb(GtkWidget *dialog, gpointer data)
+{
+	GenericDialog **gd = data;
+
+	*gd = NULL;
+}
+
+static gint file_util_unlink(const gchar *path)
+{
+	static GenericDialog *gd = NULL;
+	gchar *result = NULL;
+	gint success = TRUE;
+
+	if (!isfile(path)) return FALSE;
+
+	if (!safe_delete_enable)
+		{
+		return unlink_file(path);
+		}
+
+	if (!isdir(safe_delete_path))
+		{
+		if (debug) printf("creating trash: %s\n", safe_delete_path);
+		if (!safe_delete_path || !mkdir_utf8(safe_delete_path, 0755))
+			{
+			result = _("Could not create folder");
+			success = FALSE;
+			}
+		}
+
+	if (success)
+		{
+		gchar *dest;
+
+		dest = file_util_safe_dest(path);
+		if (dest)
+			{
+			if (debug) printf("safe deleting %s to %s\n", path, dest);
+			success = move_file(path, dest);
+			}
+		else
+			{
+			success = FALSE;
+			}
+
+		if (!success && !access_file(path, W_OK))
+			{
+			result = _("Permission denied");
+			}
+		g_free(dest);
+		}
+
+	if (result && !gd)
+		{
+		GtkWidget *button;
+		gchar *buf;
+
+		buf = g_strdup_printf(_("Unable to access or create the trash folder.\n\"%s\""), safe_delete_path);
+		gd = file_util_warning_dialog(result, buf, GTK_STOCK_DIALOG_WARNING, NULL);
+		g_free(buf);
+
+		button = gtk_check_button_new_with_label(_("Turn off safe delete"));
+		g_signal_connect(G_OBJECT(button), "toggled",
+				 G_CALLBACK(file_util_safe_del_toggle_cb), NULL);
+		gtk_box_pack_start(GTK_BOX(gd->vbox), button, FALSE, FALSE, 0);
+		gtk_widget_show(button);
+
+		g_signal_connect(G_OBJECT(gd->dialog), "destroy",
+				 G_CALLBACK(file_util_safe_del_close_cb), &gd);
+		}
+
+	return success;
+}
+
+static void box_append_safe_delete_status(GenericDialog *gd)
+{
+	GtkWidget *label;
+	gchar *buf;
+
+	buf = g_strdup_printf(_("Safe delete: %s"), (safe_delete_enable) ? _("on") : _("off"));
+	label = pref_label_new(gd->vbox, buf);
+	g_free(buf);
+
+	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
+	gtk_widget_set_sensitive(label, FALSE);
 }
 
 /*
@@ -497,48 +1249,156 @@ void file_util_copy(gchar *source_path, GList *source_list, gchar *dest_path)
  * delete multiple files
  */
 
-static void file_util_delete_multiple_ok_cb(GtkWidget *w, gpointer data)
+static void file_util_delete_multiple_ok_cb(GenericDialog *gd, gpointer data);
+static void file_util_delete_multiple_cancel_cb(GenericDialog *gd, gpointer data);
+
+static void file_util_delete_multiple_ok_cb(GenericDialog *gd, gpointer data)
 {
 	GList *source_list = data;
 
-	while(source_list)
+	while (source_list)
 		{
 		gchar *path = source_list->data;
+
 		source_list = g_list_remove(source_list, path);
-		if (unlink (path) < 0)
+
+		if (!file_util_unlink(path))
 			{
-			ConfirmDialog *cd;
-			gchar *text;
 			if (source_list)
 				{
+				GenericDialog *d;
+				gchar *text;
+
+				d = file_util_gen_dlg(_("Delete failed"), "GQview", "dlg_confirm",
+						      NULL, TRUE,
+						      file_util_delete_multiple_cancel_cb, source_list);
+
 				text = g_strdup_printf(_("Unable to delete file:\n %s\n Continue multiple delete operation?"), path);
-				cd = confirm_dialog_new(_("Delete failed"), text, file_util_delete_multiple_cancel_cb, source_list);
-				confirm_dialog_add(cd, _("Continue"), file_util_delete_multiple_ok_cb);
+				generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, NULL, text);
+				g_free(text);
+
+				generic_dialog_add_button(d, GTK_STOCK_GO_FORWARD, _("Co_ntinue"),
+							  file_util_delete_multiple_ok_cb, TRUE);
+				gtk_widget_show(d->dialog);
 				}
 			else
 				{
+				gchar *text;
+				
 				text = g_strdup_printf(_("Unable to delete file:\n%s"), path);
-				warning_dialog(_("Delete failed"), text);
+				file_util_warning_dialog(_("Delete failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
+				g_free(text);
 				}
-			g_free(text);
 			g_free(path);
 			return;
 			}
 		else
 			{
-			file_is_gone(path, source_list);
+			file_maint_removed(path, source_list);
 			}
 		g_free(path);
 		}
 }
 
-static void file_util_delete_multiple_cancel_cb(GtkWidget *w, gpointer data)
+static void file_util_delete_multiple_cancel_cb(GenericDialog *gd, gpointer data)
 {
 	GList *source_list = data;
-	free_selected_list(source_list);
+
+	path_list_free(source_list);
 }
 
-static void file_util_delete_multiple(GList *source_list)
+static void file_util_delete_multiple_review_skip(GenericDialog *gd, gint next)
+{
+	GtkWidget *button_back;
+	GtkWidget *button_next;
+	GtkWidget *button_label;
+	GList *list;
+	GList *list_point;
+	const gchar *path;
+	gchar *buf;
+
+	list = gd->data;
+	button_back = g_object_get_data(G_OBJECT(gd->dialog), "button_back");
+	button_next = g_object_get_data(G_OBJECT(gd->dialog), "button_next");
+	button_label = g_object_get_data(G_OBJECT(gd->dialog), "button_label");
+	list_point = g_object_get_data(G_OBJECT(gd->dialog), "list_point");
+
+	if (!list || !button_label) return;
+
+	if (list_point)
+		{
+		if (next)
+			{
+			if (list_point->next) list_point = list_point->next;
+			}
+		else
+			{
+			if (list_point->prev) list_point = list_point->prev;
+			}
+		}
+	else
+		{
+		list_point = list;
+		}
+
+	if (!list_point) return;
+
+	path = list_point->data;
+	buf = g_strdup_printf(_("File %d of %d"),
+			      g_list_index(list, (gpointer)path) + 1,
+			      g_list_length(list));
+	gtk_label_set_text(GTK_LABEL(button_label), buf);
+	g_free(buf);
+
+	gtk_widget_set_sensitive(button_back, (list_point->prev != NULL) );
+	gtk_widget_set_sensitive(button_next, (list_point->next != NULL) );
+
+	generic_dialog_image_set(gd, path);
+
+	g_object_set_data(G_OBJECT(gd->dialog), "list_point", list_point);
+}
+
+static void file_util_delete_multiple_review_back(GtkWidget *button, gpointer data)
+{
+	GenericDialog *gd = data;
+
+	file_util_delete_multiple_review_skip(gd, FALSE);
+}
+
+static void file_util_delete_multiple_review_next(GtkWidget *button, gpointer data)
+{
+	GenericDialog *gd = data;
+
+	file_util_delete_multiple_review_skip(gd, TRUE);
+}
+
+static void file_util_delete_multiple_review_button_cb(ImageWindow *imd, gint button, guint32 time,
+						       gdouble x, gdouble y, guint state, gpointer data)
+{
+	if (button == 1)
+		{
+		file_util_delete_multiple_review_next(NULL, data);
+		}
+	else if (button == 2 || button == 3)
+		{
+		file_util_delete_multiple_review_back(NULL, data);
+		}
+}
+
+static void file_util_delete_multiple_review_scroll_cb(ImageWindow *imd, GdkScrollDirection direction, guint32 time,
+						       gdouble x, gdouble y, guint state, gpointer data)
+{
+	if (direction == GDK_SCROLL_UP)
+		{
+		file_util_delete_multiple_review_back(NULL, data);
+		}
+	else if (direction == GDK_SCROLL_DOWN)
+		{
+		file_util_delete_multiple_review_next(NULL, data);
+		}
+}
+
+static void file_util_delete_multiple(GList *source_list, GtkWidget *parent)
 {
 	if (!confirm_delete)
 		{
@@ -546,9 +1406,45 @@ static void file_util_delete_multiple(GList *source_list)
 		}
 	else
 		{
-		ConfirmDialog *cd;
-		cd = confirm_dialog_new(_("Delete files"), _("About to delete multiple files..."), file_util_delete_multiple_cancel_cb, source_list);
-		confirm_dialog_add(cd, _("Delete"), file_util_delete_multiple_ok_cb);
+		GenericDialog *gd;
+		GtkWidget *hbox;
+		GtkWidget *button;
+		GtkWidget *label;
+		ImageWindow *imd;
+		gchar *buf;
+
+		gd = file_util_gen_dlg(_("Delete files - GQview"),
+					"GQview", "dlg_confirm", parent, TRUE,
+					file_util_delete_multiple_cancel_cb, source_list);
+
+		generic_dialog_add_message(gd, NULL, _("Delete multiple files"), NULL);
+
+		generic_dialog_add_image(gd, NULL, NULL, NULL, NULL, TRUE);
+		imd = g_object_get_data(G_OBJECT(gd->dialog), "img_image");
+		image_set_button_func(imd, file_util_delete_multiple_review_button_cb, gd);
+		image_set_scroll_func(imd, file_util_delete_multiple_review_scroll_cb, gd);
+
+		hbox = pref_box_new(gd->vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
+
+		button = pref_button_new(hbox, GTK_STOCK_GO_BACK, NULL, TRUE,
+					 G_CALLBACK(file_util_delete_multiple_review_back), gd);
+		gtk_widget_set_sensitive(button, FALSE);
+		g_object_set_data(G_OBJECT(gd->dialog), "button_back", button);
+
+		button = pref_button_new(hbox, GTK_STOCK_GO_FORWARD, NULL, TRUE,
+					 G_CALLBACK(file_util_delete_multiple_review_next), gd);
+		g_object_set_data(G_OBJECT(gd->dialog), "button_next", button);
+
+		buf = g_strdup_printf(_("Review %d files"), g_list_length(source_list) );
+		label = pref_label_new(hbox, buf);
+		g_free(buf);
+		g_object_set_data(G_OBJECT(gd->dialog), "button_label", label);
+
+		box_append_safe_delete_status(gd);
+
+		generic_dialog_add_button(gd, GTK_STOCK_DELETE, NULL, file_util_delete_multiple_ok_cb, TRUE);
+
+		gtk_widget_show(gd->dialog);
 		}
 }
 
@@ -556,31 +1452,32 @@ static void file_util_delete_multiple(GList *source_list)
  * delete single file
  */
 
-static void file_util_delete_ok_cb(GtkWidget *w, gpointer data)
+static void file_util_delete_ok_cb(GenericDialog *gd, gpointer data)
 {
 	gchar *path = data;
 
-	if (unlink (path) < 0)
+	if (!file_util_unlink(path))
 		{
 		gchar *text = g_strdup_printf(_("Unable to delete file:\n%s"), path);
-		warning_dialog(_("File deletion failed"), text);
+		file_util_warning_dialog(_("File deletion failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
 		g_free(text);
 		}
 	else
 		{
-		file_is_gone(path, NULL);
+		file_maint_removed(path, NULL);
 		}
 
 	g_free(path);
 }
 
-static void file_util_delete_cancel_cb(GtkWidget *w, gpointer data)
+static void file_util_delete_cancel_cb(GenericDialog *gd, gpointer data)
 {
 	gchar *path = data;
+
 	g_free(path);
 }
 
-static void file_util_delete_single(gchar *path)
+static void file_util_delete_single(const gchar *path, GtkWidget *parent)
 {
 	gchar *buf = g_strdup(path);
 
@@ -590,30 +1487,53 @@ static void file_util_delete_single(gchar *path)
 		}
 	else
 		{
-		ConfirmDialog *cd;
-		gchar *text = g_strdup_printf(_("About to delete the file:\n %s"), buf);
-		cd = confirm_dialog_new(_("Delete file"), text, file_util_delete_cancel_cb, buf);
-		confirm_dialog_add(cd, _("Delete"), file_util_delete_ok_cb);
-		g_free(text);
+		GenericDialog *gd;
+		GtkWidget *table;
+		gchar *base;
+
+		gd = file_util_gen_dlg(_("Delete file - GQview"), "GQview", "dlg_confirm",
+					parent, TRUE,
+					file_util_delete_cancel_cb, buf);
+
+		generic_dialog_add_message(gd, NULL, _("Delete file?"), NULL);
+
+		table = pref_table_new(gd->vbox, 2, 2, FALSE, FALSE);
+
+		pref_table_label(table, 0, 0, _("File name:"), 1.0);
+		pref_table_label(table, 1, 0, filename_from_path(path), 0.0);
+
+		pref_table_label(table, 0, 1, _("Location:"), 1.0);
+
+		base = remove_level_from_path(path);
+		pref_table_label(table, 1, 1, base, 0.0);
+		g_free(base);
+
+		generic_dialog_add_image(gd, path, NULL, NULL, NULL, FALSE);
+
+		box_append_safe_delete_status(gd);
+
+		generic_dialog_add_button(gd, GTK_STOCK_DELETE, NULL, file_util_delete_ok_cb, TRUE);
+
+		gtk_widget_show(gd->dialog);
 		}
 }
 
-void file_util_delete(gchar *source_path, GList *source_list)
+void file_util_delete(const gchar *source_path, GList *source_list, GtkWidget *parent)
 {
 	if (!source_path && !source_list) return;
 
 	if (source_path)
 		{
-		file_util_delete_single(source_path);
+		file_util_delete_single(source_path, parent);
 		}
 	else if (!source_list->next)
 		{
-		file_util_delete_single(source_list->data);
-		free_selected_list(source_list);
+		file_util_delete_single(source_list->data, parent);
+		path_list_free(source_list);
 		}
 	else
 		{
-		file_util_delete_multiple(source_list);
+		file_util_delete_multiple(source_list, parent);
 		}
 }
 
@@ -627,90 +1547,292 @@ void file_util_delete(gchar *source_path, GList *source_list)
  * rename multiple files
  */
 
-static void file_util_rename_multiple_ok_cb(GtkWidget *w, gpointer data)
+enum {
+	RENAME_COLUMN_PATH = 0,
+	RENAME_COLUMN_NAME,
+	RENAME_COLUMN_PREVIEW,
+	RENAME_COLUMN_COUNT
+};
+
+typedef struct _RenameDataMult RenameDataMult;
+struct _RenameDataMult
 {
-	FileDialog *fd = data;
-	if (!GTK_WIDGET_VISIBLE(fd->dialog)) gtk_widget_show(fd->dialog);
-	fd->type = TRUE;
-	file_util_rename_multiple(fd);
+	FileDialog *fd;
+
+	gint rename_auto;
+
+	GtkWidget *listview;
+	GtkWidget *button_auto;
+
+	GtkWidget *rename_box;
+	GtkWidget *rename_label;
+	GtkWidget *rename_entry;
+
+	GtkWidget *auto_box;
+	GtkWidget *auto_entry_front;
+	GtkWidget *auto_spin_start;
+	GtkWidget *auto_spin_pad;
+	GtkWidget *auto_entry_end;
+
+	ImageWindow *imd;
+
+	gint update_idle_id;
+};
+
+static void file_util_rename_multiple(RenameDataMult *rd);
+
+static void file_util_rename_multiple_ok_cb(GenericDialog *gd, gpointer data)
+{
+	RenameDataMult *rd = data;
+	GtkWidget *dialog;
+
+	dialog = GENERIC_DIALOG(rd->fd)->dialog;
+	if (!GTK_WIDGET_VISIBLE(dialog)) gtk_widget_show(dialog);
+
+	rd->fd->type = TRUE;
+	file_util_rename_multiple(rd);
 }
 
-static void file_util_rename_multiple_cancel_cb(GtkWidget *w, gpointer data)
+static void file_util_rename_multiple_cancel_cb(GenericDialog *gd, gpointer data)
 {
-	FileDialog *fd = data;
-	if (!GTK_WIDGET_VISIBLE(fd->dialog)) gtk_widget_show(fd->dialog);
-	return;
+	RenameDataMult *rd = data;
+	GtkWidget *dialog;
+
+	dialog = GENERIC_DIALOG(rd->fd)->dialog;
+	if (!GTK_WIDGET_VISIBLE(dialog)) gtk_widget_show(dialog);
 }
 
-static void file_util_rename_multiple(FileDialog *fd)
+static gint file_util_rename_multiple_find_row(RenameDataMult *rd, const gchar *path, GtkTreeIter *iter)
 {
+	GtkTreeModel *store;
+	gint valid;
+	gint row = 0;
+
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(rd->listview));
+	valid = gtk_tree_model_get_iter_first(store, iter);
+	while (valid)
+		{
+		gchar *path_n;
+		gint ret;
+
+		gtk_tree_model_get(GTK_TREE_MODEL(store), iter, RENAME_COLUMN_PATH, &path_n, -1);
+		ret = (strcmp(path_n, path) == 0);
+		g_free(path_n);
+		if (ret) return row;
+
+		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), iter);
+		row++;
+		}
+
+	return -1;
+}
+
+static void file_util_rename_multiple(RenameDataMult *rd)
+{
+	FileDialog *fd;
+
+	fd = rd->fd;
+
 	if (isfile(fd->dest_path) && !fd->type)
 		{
-		ConfirmDialog *cd;
-		gchar *text = g_strdup_printf(_("Overwrite file:\n%s\nby renaming:\n%s"), fd->dest_path, fd->source_path);
-		cd = confirm_dialog_new_with_image(_("Overwrite file"), text,
-						   fd->dest_path, fd->source_path,
-						   file_util_rename_multiple_cancel_cb, fd);
-		confirm_dialog_add(cd, _("Overwrite"), file_util_rename_multiple_ok_cb);
-		g_free(text);
-		gtk_widget_hide(fd->dialog);
+		GenericDialog *gd;
+
+		gd = file_util_gen_dlg(_("Overwrite file"), "GQview", "dlg_confirm",
+					NULL, TRUE,
+					file_util_rename_multiple_cancel_cb, rd);
+
+		generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION,
+					   _("Overwrite file?"),
+					   _("Replace existing file by renaming new file."));
+		pref_spacer(gd->vbox, 0);
+
+		generic_dialog_add_button(gd, GTK_STOCK_OK, _("_Overwrite"), file_util_rename_multiple_ok_cb, TRUE);
+		generic_dialog_add_image(gd, fd->dest_path, _("Existing file"), fd->source_path, _("New file"), TRUE);
+
+		gtk_widget_hide(GENERIC_DIALOG(fd)->dialog);
+
+		gtk_widget_show(gd->dialog);
 		return;
 		}
 	else
 		{
-		if (rename (fd->source_path, fd->dest_path) < 0)
+		if (!rename_file(fd->source_path, fd->dest_path))
 			{
-			gchar *text = g_strdup_printf(_("Unable to rename file:\n%s\n to:\n%s"), filename_from_path(fd->source_path), filename_from_path(fd->dest_path));
-			warning_dialog(_("Error renaming file"), text);
+			gchar *text = g_strdup_printf(_("Unable to rename file:\n%s\n to:\n%s"),
+						      filename_from_path(fd->source_path),
+						      filename_from_path(fd->dest_path));
+			file_util_warning_dialog(_("Error renaming file"), text, GTK_STOCK_DIALOG_ERROR, NULL);
 			g_free(text);
 			}
 		else
 			{
+			GtkTreeModel *store;
+			GtkTreeIter iter;
+			GtkTreeIter next;
 			gint row;
-			gint n;
-			GtkWidget *clist;
-			gchar *path;
 
-			file_is_renamed(fd->source_path, fd->dest_path);
+			file_maint_renamed(fd->source_path, fd->dest_path);
 
-			clist = gtk_object_get_user_data(GTK_OBJECT(fd->entry));
-			path = gtk_object_get_user_data(GTK_OBJECT(clist));
-			row = gtk_clist_find_row_from_data(GTK_CLIST(clist), path);
+			store = gtk_tree_view_get_model(GTK_TREE_VIEW(rd->listview));
+			row = file_util_rename_multiple_find_row(rd, rd->fd->source_path, &iter);
 
-			n = g_list_length(GTK_CLIST(clist)->row_list);
-			if (debug) printf("r=%d n=%d\n", row, n);
-			if (n - 1 > row)
-				n = row;
-			else if (n > 1)
-				n = row - 1;
-			else
-				n = -1;
-
-			if (n >= 0)
+			if (row >= 0 &&
+			    (gtk_tree_model_iter_nth_child(store, &next, NULL, row + 1) ||
+			    (row > 0 && gtk_tree_model_iter_nth_child(store, &next, NULL, row - 1)) ) )
 				{
-				gtk_object_set_user_data(GTK_OBJECT(clist), NULL);
-				gtk_clist_remove(GTK_CLIST(clist), row);
-				gtk_clist_select_row(GTK_CLIST(clist), n, -1);
+				GtkTreeSelection *selection;
+
+				selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(rd->listview));
+				gtk_tree_selection_select_iter(selection, &next);
+				gtk_list_store_remove(GTK_LIST_STORE(store), &iter);
 				}
 			else
 				{
-				if (debug) printf("closed by #%d\n", n);
-				generic_dialog_close(NULL, fd);
+				if (debug) printf("closed by #%d\n", row);
+
+				file_dialog_close(rd->fd);
 				}
 			}
 		}
 }
 
-static void file_util_rename_multiple_cb(GtkWidget *w, gpointer data)
+static void file_util_rename_multiple_auto(RenameDataMult *rd)
 {
-	FileDialog *fd = data;
-	gchar *base;
-	gchar *name;
+	const gchar *front;
+	const gchar *end;
+	gint start_n;
+	gint padding;
+	gint n;
+	GtkTreeModel *store;
+	GtkTreeIter iter;
+	gint valid;
+	gint success;
 
-	name = gtk_entry_get_text(GTK_ENTRY(fd->entry));
+	history_combo_append_history(rd->auto_entry_front, NULL);
+	history_combo_append_history(rd->auto_entry_end, NULL);
+
+	front = gtk_entry_get_text(GTK_ENTRY(rd->auto_entry_front));
+	end = gtk_entry_get_text(GTK_ENTRY(rd->auto_entry_end));
+	start_n = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(rd->auto_spin_start));
+	padding = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(rd->auto_spin_pad));
+
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(rd->listview));
+
+	/* first check for name conflicts */
+	success = TRUE;
+	n = start_n;
+	valid = gtk_tree_model_get_iter_first(store, &iter);
+	while (valid && success)
+		{
+		gchar *dest;
+		gchar *base;
+		gchar *path;
+
+		gtk_tree_model_get(store, &iter, RENAME_COLUMN_PATH, &path, -1);
+
+		base = remove_level_from_path(path);
+		dest = g_strdup_printf("%s/%s%0*d%s", base, front, padding, n, end);
+		if (isname(dest)) success = FALSE;
+		g_free(dest);
+		g_free(base);
+		g_free(path);
+
+		n++;
+		valid = gtk_tree_model_iter_next(store, &iter);
+		}
+
+	if (!success)
+		{
+		file_util_warning_dialog(_("Auto rename"),
+			       _("Can not auto rename with the selected\nnumber set, one or more files exist that\nmatch the resulting name list.\n"),
+			       GTK_STOCK_DIALOG_WARNING, NULL);
+		return;
+		}
+
+	/* select the first iter, so that on fail the correct info is given to user */
+	if (gtk_tree_model_get_iter_first(store, &iter))
+		{
+		GtkTreeSelection *selection;
+
+		selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(rd->listview));
+		gtk_tree_selection_select_iter(selection, &iter);
+		}
+
+	/* now do it for real */
+	success = TRUE;
+	n = start_n;
+	while (success && gtk_tree_model_get_iter_first(store, &iter))
+		{
+		gchar *dest;
+		gchar *base;
+		gchar *path;
+
+		gtk_tree_model_get(store, &iter, RENAME_COLUMN_PATH, &path, -1);
+
+		base = remove_level_from_path(path);
+		dest = g_strdup_printf("%s/%s%0*d%s", base, front, padding, n, end);
+		if (!rename_file(path, dest))
+			{
+			success = FALSE;
+			}
+		else
+			{
+			file_maint_renamed(path, dest);
+			}
+
+		g_free(dest);
+		g_free(base);
+		g_free(path);
+
+		if (success)
+			{
+			gtk_list_store_remove(GTK_LIST_STORE(store), &iter);
+			if (gtk_tree_model_get_iter_first(store, &iter))
+				{
+				GtkTreeSelection *selection;
+
+				selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(rd->listview));
+				gtk_tree_selection_select_iter(selection, &iter);
+				}
+			}
+
+		n++;
+		}
+
+	if (!success)
+		{
+		gchar *buf;
+
+		n--;
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(rd->auto_spin_start), (float)n);
+
+		buf = g_strdup_printf(_("Failed to rename\n%s\nThe number was %d."), filename_from_path(rd->fd->source_path), n);
+		file_util_warning_dialog(_("Auto rename"), buf, GTK_STOCK_DIALOG_ERROR, NULL);
+		g_free(buf);
+
+		return;
+		}
+
+	file_dialog_close(rd->fd);
+}
+
+static void file_util_rename_multiple_cb(FileDialog *fd, gpointer data)
+{
+	RenameDataMult *rd = data;
+	gchar *base;
+	const gchar *name;
+
+	if (rd->rename_auto)
+		{
+		file_util_rename_multiple_auto(rd);
+		return;
+		}
+
+	name = gtk_entry_get_text(GTK_ENTRY(rd->rename_entry));
 	base = remove_level_from_path(fd->source_path);
+
 	g_free(fd->dest_path);
-	fd->dest_path = g_strconcat(base, "/", name, NULL);
+	fd->dest_path = concat_dir_and_file(base, name);
 	g_free(base);
 
 	if (strlen(name) == 0 || strcmp(fd->source_path, fd->dest_path) == 0)
@@ -719,108 +1841,338 @@ static void file_util_rename_multiple_cb(GtkWidget *w, gpointer data)
 		}
 
 	fd->type = FALSE;
-	file_util_rename_multiple(fd);
+	file_util_rename_multiple(rd);
 }
 
-static void file_util_rename_multiple_select_cb(GtkWidget *clist,
-		gint row, gint column, GdkEventButton *bevent, gpointer data)
+static void file_util_rename_multiple_close_cb(FileDialog *fd, gpointer data)
 {
-	FileDialog *fd = data;
+	RenameDataMult *rd = data;
+
+	file_dialog_close(rd->fd);
+}
+
+static gboolean file_util_rename_multiple_select_cb(GtkTreeSelection *selection, GtkTreeModel *store, GtkTreePath *tpath,
+						    gboolean path_currently_selected, gpointer data)
+{
+	RenameDataMult *rd = data;
+	GtkTreeIter iter;
+	const gchar *name;
+	gchar *path = NULL;
+
+	if (path_currently_selected ||
+	    !gtk_tree_model_get_iter(store, &iter, tpath)) return TRUE;
+	gtk_tree_model_get(store, &iter, RENAME_COLUMN_PATH, &path, -1);
+
+	g_free(rd->fd->source_path);
+	rd->fd->source_path = path;
+
+	name = filename_from_path(rd->fd->source_path);
+	gtk_label_set_text(GTK_LABEL(rd->rename_label), name);
+	gtk_entry_set_text(GTK_ENTRY(rd->rename_entry), name);
+
+	image_change_path(rd->imd, rd->fd->source_path, 0.0);
+
+	if (GTK_WIDGET_VISIBLE(rd->rename_box))
+		{
+		gtk_widget_grab_focus(rd->rename_entry);
+		}
+
+	return TRUE;
+}
+
+static void file_util_rename_multiple_preview_update(RenameDataMult *rd)
+{
+	GtkTreeModel *store;
+	GtkTreeIter iter;
+	const gchar *front;
+	const gchar *end;
+	gint valid;
+	gint start_n;
+	gint padding;
+	gint n;
+
+	front = gtk_entry_get_text(GTK_ENTRY(rd->auto_entry_front));
+	end = gtk_entry_get_text(GTK_ENTRY(rd->auto_entry_end));
+	start_n = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(rd->auto_spin_start));
+	padding = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(rd->auto_spin_pad));
+
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(rd->listview));
+	n = start_n;
+	valid = gtk_tree_model_get_iter_first(store, &iter);
+	while (valid)
+		{
+		gchar *dest;
+
+		dest = g_strdup_printf("%s%0*d%s", front, padding, n, end);
+		gtk_list_store_set(GTK_LIST_STORE(store), &iter, RENAME_COLUMN_PREVIEW, dest, -1);
+		g_free(dest);
+
+		n++;
+		valid = gtk_tree_model_iter_next(store, &iter);
+		}
+
+}
+
+static gboolean file_util_rename_multiple_idle_cb(gpointer data)
+{
+	RenameDataMult *rd = data;
+
+	file_util_rename_multiple_preview_update(rd);
+
+	rd->update_idle_id = -1;
+	return FALSE;
+}
+
+static void file_util_rename_multiple_preview_order_cb(GtkTreeModel *treemodel, GtkTreePath *tpath,
+						       GtkTreeIter *iter, gpointer data)
+{
+	RenameDataMult *rd = data;
+
+	if (rd->rename_auto && rd->update_idle_id == -1)
+		{
+		rd->update_idle_id = g_idle_add(file_util_rename_multiple_idle_cb, rd);
+		}
+}
+
+static void file_util_rename_multiple_preview_entry_cb(GtkWidget *entry, gpointer data)
+{
+	RenameDataMult *rd = data;
+	file_util_rename_multiple_preview_update(rd);
+}
+
+static void file_util_rename_multiple_preview_adj_cb(GtkWidget *spin, gpointer data)
+{
+	RenameDataMult *rd = data;
+	file_util_rename_multiple_preview_update(rd);
+}
+
+static void file_util_rename_mulitple_auto_toggle(GtkWidget *widget, gpointer data)
+{
+	RenameDataMult *rd = data;
+	GtkTreeViewColumn *column;
+
+	rd->rename_auto = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(rd->button_auto));
+
+	if (rd->rename_auto)
+		{
+		if (GTK_WIDGET_VISIBLE(rd->rename_box)) gtk_widget_hide(rd->rename_box);
+		if (!GTK_WIDGET_VISIBLE(rd->auto_box)) gtk_widget_show(rd->auto_box);
+		file_util_rename_multiple_preview_update(rd);
+		}
+	else
+		{
+		if (GTK_WIDGET_VISIBLE(rd->auto_box)) gtk_widget_hide(rd->auto_box);
+		if (!GTK_WIDGET_VISIBLE(rd->rename_box)) gtk_widget_show(rd->rename_box);
+		}
+
+	column = gtk_tree_view_get_column(GTK_TREE_VIEW(rd->listview), RENAME_COLUMN_PREVIEW - 1);
+	gtk_tree_view_column_set_visible(column, rd->rename_auto);
+}
+
+static GtkWidget *furm_simple_vlabel(GtkWidget *box, const gchar *text, gint expand)
+{
+	GtkWidget *vbox;
 	GtkWidget *label;
-	gchar *name;
-	gchar *path;
 
-	label = gtk_object_get_user_data(GTK_OBJECT(fd->dialog));
-	path = gtk_clist_get_row_data(GTK_CLIST(clist), row);
-	g_free(fd->source_path);
-	fd->source_path = g_strdup(path);
-	gtk_object_set_user_data(GTK_OBJECT(clist), path);
-	name = filename_from_path(fd->source_path);
+	vbox = gtk_vbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(box), vbox, expand, expand, 0);
+	gtk_widget_show(vbox);
 
-	gtk_label_set(GTK_LABEL(label), name);
-	gtk_entry_set_text(GTK_ENTRY(fd->entry), name);
+	label = gtk_label_new(text);
+	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+	gtk_widget_show(label);
 
-	gtk_widget_grab_focus(fd->entry);
+	return vbox;
 }
 
-static void file_util_rename_multiple_do(GList *source_list)
+static GtkTreeViewColumn *file_util_rename_multiple_add_column(RenameDataMult *rd, const gchar *text, gint n)
 {
-	FileDialog *fd;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *renderer;
+
+	column = gtk_tree_view_column_new();
+        gtk_tree_view_column_set_title(column, text);
+        gtk_tree_view_column_set_min_width(column, 4);
+        gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
+        renderer = gtk_cell_renderer_text_new();
+        gtk_tree_view_column_pack_start(column, renderer, TRUE);
+        gtk_tree_view_column_add_attribute(column, renderer, "text", n);
+        gtk_tree_view_append_column(GTK_TREE_VIEW(rd->listview), column);
+
+	return column;
+}
+
+static void file_util_rename_multiple_destroy_cb(GtkWidget *widget, gpointer data)
+{
+	RenameDataMult *rd = data;
+
+	if (rd->update_idle_id != -1) g_source_remove(rd->update_idle_id);
+
+	g_free(rd);
+}
+
+static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
+{
+	RenameDataMult *rd;
+	GtkWidget *pane;
 	GtkWidget *scrolled;
-	GtkWidget *clist;
-	GtkWidget *label;
+	GtkListStore *store;
+	GtkTreeSelection *selection;
+	GtkTreeViewColumn *column;
+	GtkWidget *hbox;
+	GtkWidget *vbox;
+	GtkWidget *box2;
+	GtkWidget *table;
+	GtkWidget *combo;
 	GList *work;
 
-	fd = generic_dialog_new(_("GQview - rename"), _("Rename multiple files:"), _("Rename"), _("Cancel"),
-		file_util_rename_multiple_cb, generic_dialog_close);
+	rd = g_new0(RenameDataMult, 1);
 
-	fd->source_path = g_strdup(source_list->data);
-	fd->dest_path = NULL;
+	rd->fd = file_util_file_dlg(_("Rename - GQview"),
+				    "GQview", "dlg_rename", parent,
+				    file_util_rename_multiple_close_cb, rd);
+	generic_dialog_add_message(GENERIC_DIALOG(rd->fd), NULL, _("Rename multiple files"), NULL);
+	file_dialog_add_button(rd->fd, GTK_STOCK_OK, _("_Rename"), file_util_rename_multiple_cb, TRUE);
 
+	rd->fd->source_path = g_strdup(source_list->data);
+	rd->fd->dest_path = NULL;
+
+	rd->update_idle_id = -1;
+
+	vbox = GENERIC_DIALOG(rd->fd)->vbox;
+
+	pane = gtk_hpaned_new();
+	gtk_box_pack_start(GTK_BOX(vbox), pane, TRUE, TRUE, 0);
+	gtk_widget_show(pane);
+	
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
-				GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-	gtk_box_pack_start(GTK_BOX(fd->vbox), scrolled, TRUE, TRUE, 0);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolled),
+				       GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+	gtk_paned_pack1(GTK_PANED(pane), scrolled, TRUE, TRUE);
 	gtk_widget_show(scrolled);
 
-	clist=gtk_clist_new (1);
-	gtk_clist_set_column_auto_resize(GTK_CLIST(clist), 0, TRUE);
-	gtk_signal_connect (GTK_OBJECT (clist), "select_row",(GtkSignalFunc) file_util_rename_multiple_select_cb, fd);
-	gtk_widget_set_usize(clist, 250, 150);
-	gtk_container_add (GTK_CONTAINER (scrolled), clist);
-	gtk_widget_show (clist);
+	store = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+	rd->listview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+	g_object_unref(store);
 
-	gtk_object_set_user_data(GTK_OBJECT(clist), source_list->data);
+	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(rd->listview), TRUE);
+	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(rd->listview), FALSE);
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(rd->listview));
+	gtk_tree_selection_set_mode(GTK_TREE_SELECTION(selection), GTK_SELECTION_SINGLE);
+	gtk_tree_selection_set_select_function(selection, file_util_rename_multiple_select_cb, rd, NULL);
+
+	file_util_rename_multiple_add_column(rd, _("Original Name"), RENAME_COLUMN_NAME);
+	column = file_util_rename_multiple_add_column(rd, _("Preview"), RENAME_COLUMN_PREVIEW);
+	gtk_tree_view_column_set_visible(column, FALSE);
+	
+	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(rd->listview), TRUE);
+	g_signal_connect(G_OBJECT(store), "row_changed",
+			 G_CALLBACK(file_util_rename_multiple_preview_order_cb), rd);
+	gtk_widget_set_size_request(rd->listview, 250, 150);
+
+	gtk_container_add(GTK_CONTAINER(scrolled), rd->listview);
+	gtk_widget_show(rd->listview);
 
 	work = source_list;
-	while(work)
+	while (work)
 		{
-		gint row;
-		gchar *buf[2];
-		buf[0] = filename_from_path(work->data);
-		buf[1] = NULL;
-		row = gtk_clist_append(GTK_CLIST(clist), buf);
-		gtk_clist_set_row_data_full(GTK_CLIST(clist), row,
-				work->data, (GtkDestroyNotify) g_free);
+		gchar *path = work->data;
+		GtkTreeIter iter;
+
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter, RENAME_COLUMN_PATH, path, RENAME_COLUMN_NAME, filename_from_path(path), -1);
+
 		work = work->next;
 		}
 
-	g_list_free(source_list);
+	path_list_free(source_list);
 
-	label = gtk_label_new(_("Rename:"));
-	gtk_box_pack_start(GTK_BOX(fd->vbox), label, FALSE, FALSE, 0);
-	gtk_widget_show(label);
+	rd->imd = image_new(TRUE);
+	gtk_widget_set_size_request(rd->imd->widget, DIALOG_DEF_IMAGE_DIM_X, DIALOG_DEF_IMAGE_DIM_Y);
+	gtk_paned_pack2(GTK_PANED(pane), rd->imd->widget, FALSE, TRUE);
+	gtk_widget_show(rd->imd->widget);
 
-	label = gtk_label_new(filename_from_path(fd->source_path));
-	gtk_box_pack_start(GTK_BOX(fd->vbox), label, FALSE, FALSE, 0);
-	gtk_widget_show(label);
-	gtk_object_set_user_data(GTK_OBJECT(fd->dialog), label);
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+	gtk_widget_show(hbox);
 
-	label = gtk_label_new(_("to:"));
-	gtk_box_pack_start(GTK_BOX(fd->vbox), label, FALSE, FALSE, 0);
-	gtk_widget_show(label);
+	rd->button_auto = gtk_check_button_new_with_label(_("Auto rename"));
+	g_signal_connect(G_OBJECT(rd->button_auto), "clicked",
+			 G_CALLBACK(file_util_rename_mulitple_auto_toggle), rd);
+	gtk_box_pack_end(GTK_BOX(hbox), rd->button_auto, FALSE, FALSE, 0);
+	gtk_widget_show(rd->button_auto);
 
-	fd->entry = gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(fd->entry), filename_from_path(fd->source_path));
-	gtk_box_pack_start(GTK_BOX(fd->vbox), fd->entry, FALSE, FALSE, 0);
-	gtk_widget_grab_focus(fd->entry);
-	gtk_widget_show(fd->entry);
+	rd->rename_box = pref_box_new(vbox, FALSE, GTK_ORIENTATION_VERTICAL, 0);
+	table = pref_table_new(rd->rename_box, 2, 2, FALSE, FALSE);
 
-	gtk_object_set_user_data(GTK_OBJECT(fd->entry), clist);
+	pref_table_label(table, 0, 0, _("Original name:"), 1.0);
+	rd->rename_label = pref_table_label(table, 1, 0, filename_from_path(rd->fd->source_path), 0.0);
+
+	pref_table_label(table, 0, 1, _("New name:"), 1.0);
+
+	rd->rename_entry = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(rd->rename_entry), filename_from_path(rd->fd->source_path));
+	gtk_table_attach(GTK_TABLE(table), rd->rename_entry, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, FALSE, 0, 0);
+	generic_dialog_attach_default(GENERIC_DIALOG(rd->fd), rd->rename_entry);
+	gtk_widget_grab_focus(rd->rename_entry);
+	gtk_widget_show(rd->rename_entry);
+
+	rd->auto_box = gtk_vbox_new(FALSE, PREF_PAD_GAP);
+	gtk_box_pack_start(GTK_BOX(vbox), rd->auto_box, FALSE, FALSE, 0);
+	/* do not show it here */
+
+	hbox = pref_box_new(rd->auto_box, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_GAP);
+
+	box2 = furm_simple_vlabel(hbox, _("Begin text"), TRUE);
+
+	combo = history_combo_new(&rd->auto_entry_front, "", "numerical_rename_prefix", -1);
+	g_signal_connect(G_OBJECT(rd->auto_entry_front), "changed",
+			 G_CALLBACK(file_util_rename_multiple_preview_entry_cb), rd);
+	gtk_box_pack_start(GTK_BOX(box2), combo, TRUE, TRUE, 0);
+	gtk_widget_show(combo);
+	
+	box2 = furm_simple_vlabel(hbox, _("Start #"), FALSE);
+
+	rd->auto_spin_start = pref_spin_new(box2, NULL, NULL,
+					    0.0, 1000000.0, 1.0, 0, 0.0,
+					    G_CALLBACK(file_util_rename_multiple_preview_adj_cb), rd);
+
+	box2 = furm_simple_vlabel(hbox, _("End text"), TRUE);
+
+	combo = history_combo_new(&rd->auto_entry_end, "", "numerical_rename_suffix", -1);
+	g_signal_connect(G_OBJECT(rd->auto_entry_end), "changed",
+			 G_CALLBACK(file_util_rename_multiple_preview_entry_cb), rd);
+	gtk_box_pack_start(GTK_BOX(box2), combo, TRUE, TRUE, 0);
+	gtk_widget_show(combo);
+
+	rd->auto_spin_pad = pref_spin_new(rd->auto_box, _("Padding:"), NULL,
+					  1.0, 8.0, 1.0, 0, 1.0,
+					  G_CALLBACK(file_util_rename_multiple_preview_adj_cb), rd);
+
+	image_change_path(rd->imd, rd->fd->source_path, 0.0);
+
+	g_signal_connect(G_OBJECT(GENERIC_DIALOG(rd->fd)->dialog), "destroy",
+			 G_CALLBACK(file_util_rename_multiple_destroy_cb), rd);
+
+	gtk_widget_show(GENERIC_DIALOG(rd->fd)->dialog);
 }
 
 /*
  * rename single file
  */
 
-static void file_util_rename_single_ok_cb(GtkWidget *w, gpointer data)
+static void file_util_rename_single(FileDataSingle *fds);
+
+static void file_util_rename_single_ok_cb(GenericDialog *gd, gpointer data)
 {
 	FileDataSingle *fds = data;
 	fds->confirmed = TRUE;
 	file_util_rename_single(fds);
 }
 
-static void file_util_rename_single_cancel_cb(GtkWidget *w, gpointer data)
+static void file_util_rename_single_cancel_cb(GenericDialog *gd, gpointer data)
 {
 	FileDataSingle *fds = data;
 	file_data_single_free(fds);
@@ -830,88 +2182,115 @@ static void file_util_rename_single(FileDataSingle *fds)
 {
 	if (isfile(fds->dest) && !fds->confirmed)
 		{
-		ConfirmDialog *cd;
-		gchar *text = g_strdup_printf(_("Overwrite file:\n%s\nby renaming:\n%s"), fds->dest,fds->source);
-		cd = confirm_dialog_new_with_image(_("Overwrite file"), text,
-						   fds->dest, fds->source,
-						   file_util_rename_single_cancel_cb, fds);
-		confirm_dialog_add(cd, _("Overwrite"), file_util_rename_single_ok_cb);
-		g_free(text);
+		GenericDialog *gd;
+
+		gd = file_util_gen_dlg(_("Overwrite file"), "GQview", "dlg_confirm",
+					NULL, TRUE,
+					file_util_rename_single_cancel_cb, fds);
+
+		generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION,
+					   _("Overwrite file?"),
+					   _("Replace existing file by renaming new file."));
+		pref_spacer(gd->vbox, 0);
+
+		generic_dialog_add_button(gd, GTK_STOCK_OK, _("_Overwrite"), file_util_rename_single_ok_cb, TRUE);
+		generic_dialog_add_image(gd, fds->dest, _("Existing file"), fds->source, _("New file"), TRUE);
+
+		gtk_widget_show(gd->dialog);
+
 		return;
 		}
 	else
 		{
-		if (rename (fds->source, fds->dest) < 0)
+		if (!rename_file(fds->source, fds->dest))
 			{
 			gchar *text = g_strdup_printf(_("Unable to rename file:\n%s\nto:\n%s"), filename_from_path(fds->source), filename_from_path(fds->dest));
-			warning_dialog(_("Error renaming file"), text);
+			file_util_warning_dialog(_("Error renaming file"), text, GTK_STOCK_DIALOG_ERROR, NULL);
 			g_free(text);
 			}
 		else
 			{
-			file_is_renamed(fds->source, fds->dest);
+			file_maint_renamed(fds->source, fds->dest);
 			}
 		}
 	file_data_single_free(fds);
 }
 
-static void file_util_rename_single_cb(GtkWidget *w, gpointer data)
+static void file_util_rename_single_cb(FileDialog *fd, gpointer data)
 {
-	FileDialog *fd = data;
-	gchar *name = gtk_entry_get_text(GTK_ENTRY(fd->entry));
-	gchar *buf = g_strconcat(fd->dest_path, "/", name, NULL);
+	const gchar *name;
+	gchar *path;
 
-	if (strlen(name) == 0 || strcmp(fd->source_path, buf) == 0)
+	name = gtk_entry_get_text(GTK_ENTRY(fd->entry));
+	path = concat_dir_and_file(fd->dest_path, name);
+
+	if (strlen(name) == 0 || strcmp(fd->source_path, path) == 0)
 		{
-		g_free(buf);
+		g_free(path);
 		return;
 		}
 
-	g_free(fd->dest_path);
-	fd->dest_path = buf;
+	file_util_rename_single(file_data_single_new(fd->source_path, path, fd->type));
 
-	file_util_rename_single(file_data_single_new(fd->source_path, fd->dest_path, fd->type));
-
-	generic_dialog_close(NULL, fd);
+	g_free(path);
+	file_dialog_close(fd);
 }
 
-static void file_util_rename_single_do(gchar *source_path)
+static void file_util_rename_single_close_cb(FileDialog *fd, gpointer data)
+{
+	file_dialog_close(fd);
+}
+
+static void file_util_rename_single_do(const gchar *source_path, GtkWidget *parent)
 {
 	FileDialog *fd;
-	gchar *text;
-	gchar *name = filename_from_path(source_path);
+	GtkWidget *table;
 
-	text = g_strdup_printf(_("Rename file:\n%s\nto:"), name);
-	fd = generic_dialog_new(_("GQview - rename"), text, _("Rename"), _("Cancel"),
-		file_util_rename_single_cb, generic_dialog_close);
-	g_free(text);
+	fd = file_util_file_dlg(_("Rename - GQview"), "GQview", "dlg_rename", parent,
+			     file_util_rename_single_close_cb, NULL);
+
+	generic_dialog_add_message(GENERIC_DIALOG(fd), NULL, _("Rename file"), NULL);
+	generic_dialog_add_image(GENERIC_DIALOG(fd), source_path, NULL, NULL, NULL, FALSE);
+
+	file_dialog_add_button(fd, GTK_STOCK_OK, _("_Rename"), file_util_rename_single_cb, TRUE);
 
 	fd->source_path = g_strdup(source_path);
 	fd->dest_path = remove_level_from_path(source_path);
 
+	table = pref_table_new(GENERIC_DIALOG(fd)->vbox, 2, 2, FALSE, FALSE);
+
+	pref_table_label(table, 0, 0, _("Original name:"), 1.0);
+	pref_table_label(table, 1, 0, filename_from_path(fd->source_path), 0.0);
+
+	pref_table_label(table, 0, 1, _("New name:"), 1.0);
+
 	fd->entry = gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(fd->entry), name);
-	gtk_box_pack_start(GTK_BOX(fd->vbox), fd->entry, FALSE, FALSE, 0);
+	gtk_table_attach(GTK_TABLE(table), fd->entry, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, FALSE, 0, 0);
+	gtk_entry_set_text(GTK_ENTRY(fd->entry), filename_from_path(fd->source_path));
+	gtk_editable_select_region(GTK_EDITABLE(fd->entry), 0, strlen(gtk_entry_get_text(GTK_ENTRY(fd->entry))));
+	generic_dialog_attach_default(GENERIC_DIALOG(fd), fd->entry);
 	gtk_widget_grab_focus(fd->entry);
 	gtk_widget_show(fd->entry);
+
+	gtk_widget_show(GENERIC_DIALOG(fd)->dialog);
 }
 
-void file_util_rename(gchar *source_path, GList *source_list)
+void file_util_rename(const gchar *source_path, GList *source_list, GtkWidget *parent)
 {
 	if (!source_path && !source_list) return;
 
 	if (source_path)
 		{
-		file_util_rename_single_do(source_path);
+		file_util_rename_single_do(source_path, parent);
 		}
 	else if (!source_list->next)
 		{
-		file_util_rename_single_do(source_list->data);
-		free_selected_list(source_list);
+		file_util_rename_single_do(source_list->data, parent);
+		path_list_free(source_list);
 		}
 	else
 		{
-		file_util_rename_multiple_do(source_list);
+		file_util_rename_multiple_do(source_list, parent);
 		}
 }
 
@@ -921,75 +2300,89 @@ void file_util_rename(gchar *source_path, GList *source_list)
  *--------------------------------------------------------------------------
  */
 
-static void file_util_create_dir_do(gchar *source, gchar *path)
+static void file_util_create_dir_do(const gchar *base, const gchar *name)
 {
-	if (isfile(path))
+	gchar *path;
+
+	path = concat_dir_and_file(base, name);
+
+	if (isdir(path))
 		{
-		gchar *text = g_strdup_printf(_("The path:\n%s\nalready exists as a file."), filename_from_path(path));
-		warning_dialog(_("Could not create directory"), text);
+		gchar *text = g_strdup_printf(_("The folder:\n%s\nalready exists."), name);
+		file_util_warning_dialog(_("Folder exists"), text, GTK_STOCK_DIALOG_INFO, NULL);
 		g_free(text);
 		}
-	else if (isdir(path))
+	else if (isname(path))
 		{
-		gchar *text = g_strdup_printf(_("The directory:\n%s\nalready exists."), filename_from_path(path));
-		warning_dialog(_("Directory exists"), text);
+		gchar *text = g_strdup_printf(_("The path:\n%s\nalready exists as a file."), name);
+		file_util_warning_dialog(_("Could not create folder"), text, GTK_STOCK_DIALOG_INFO, NULL);
 		g_free(text);
 		}
 	else
 		{
-		if (mkdir (path, 0755) < 0)
+		if (!mkdir_utf8(path, 0755))
 			{
-			gchar *text = g_strdup_printf(_("Unable to create directory:\n%s"), filename_from_path(path));
-			warning_dialog(_("Error creating directory"), text);
+			gchar *text = g_strdup_printf(_("Unable to create folder:\n%s"), name);
+			file_util_warning_dialog(_("Error creating folder"), text, GTK_STOCK_DIALOG_ERROR, NULL);
 			g_free(text);
 			}
-		else
-			{
-			if (strcmp(source, current_path) == 0)
-				{
-				gchar *buf = g_strdup(current_path);
-				filelist_change_to(buf);
-				g_free(buf);
-				}
-			}
 		}
+
+	g_free(path);
 }
 
-static void file_util_create_dir_cb(GtkWidget *w, gpointer data)
+static void file_util_create_dir_cb(FileDialog *fd, gpointer data)
 {
-	FileDialog *fd = data;
-	gchar *name = gtk_entry_get_text(GTK_ENTRY(fd->entry));
+	const gchar *name;
+
+	name = gtk_entry_get_text(GTK_ENTRY(fd->entry));
 
 	if (strlen(name) == 0) return;
 
-	g_free(fd->dest_path);
-	fd->dest_path = g_strconcat(fd->source_path, "/", name, NULL);
+	if (name[0] == '/')
+		{
+		gchar *buf;
+		buf  = remove_level_from_path(name);
+		file_util_create_dir_do(buf, filename_from_path(name));
+		g_free(buf);
+		}
+	else
+		{
+		file_util_create_dir_do(fd->dest_path, name);
+		}
 
-	file_util_create_dir_do(fd->source_path, fd->dest_path);
-
-	generic_dialog_close(NULL, fd);
+	file_dialog_close(fd);
 }
 
-void file_util_create_dir(gchar *path)
+static void file_util_create_dir_close_cb(FileDialog *fd, gpointer data)
+{
+	file_dialog_close(fd);
+}
+
+void file_util_create_dir(const gchar *path, GtkWidget *parent)
 {
 	FileDialog *fd;
 	gchar *text;
-	gchar *name;
 
 	if (!isdir(path)) return;
-	name = filename_from_path(path);
 
-	text = g_strdup_printf(_("Create directory in:\n%s\nnamed:"), path);
-	fd = generic_dialog_new(_("GQview - new directory"), text, _("Create"), _("Cancel"),
-		file_util_create_dir_cb, generic_dialog_close);
+	fd = file_util_file_dlg(_("New folder - GQview"), "GQview", "dlg_newdir", parent,
+			     file_util_create_dir_close_cb, NULL);
+
+	text = g_strdup_printf(_("Create folder in:\n%s\nnamed:"), path);
+	generic_dialog_add_message(GENERIC_DIALOG(fd), NULL, NULL, text);
 	g_free(text);
 
-	fd->source_path = g_strdup(path);
-	fd->dest_path = NULL;
+	file_dialog_add_button(fd, GTK_STOCK_OK, NULL, file_util_create_dir_cb, TRUE);
+
+	fd->dest_path = g_strdup(path);
 
 	fd->entry = gtk_entry_new();
-	gtk_box_pack_start(GTK_BOX(fd->vbox), fd->entry, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(GENERIC_DIALOG(fd)->vbox), fd->entry, FALSE, FALSE, 0);
+	generic_dialog_attach_default(GENERIC_DIALOG(fd), fd->entry);
 	gtk_widget_grab_focus(fd->entry);
 	gtk_widget_show(fd->entry);
+
+	gtk_widget_show(GENERIC_DIALOG(fd)->dialog);
 }
 

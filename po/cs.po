@@ -1,0 +1,3593 @@
+# gqview cs.po
+# Copyright (C) 2001 Free Software Foundation, Inc.
+# Jan Raska <jan_raska@hotmail.com>, 2001, 2004
+# Aktualizace Michal Bukovjan <bukm@centrum.cz>, 2002.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.3.9\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-02-15 08:13-0500\n"
+"PO-Revision-Date: 2004-02-10 08:31+0100\n"
+"Last-Translator: Jan Raska <jan_raska@hotmail.com>\n"
+"Language-Team: Czech <cs@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/bar_info.c:30
+msgid "Favorite"
+msgstr ""
+
+#: src/bar_info.c:31
+#, fuzzy
+msgid "Todo"
+msgstr "Nástroje"
+
+#: src/bar_info.c:32
+msgid "People"
+msgstr ""
+
+#: src/bar_info.c:33
+msgid "Places"
+msgstr ""
+
+#: src/bar_info.c:34
+msgid "Art"
+msgstr ""
+
+#: src/bar_info.c:35
+#, fuzzy
+msgid "Nature"
+msgstr "závìrkou"
+
+#: src/bar_info.c:36
+msgid "Possessions"
+msgstr ""
+
+#: src/bar_info.c:505
+msgid "Keyword Presets"
+msgstr ""
+
+#: src/bar_info.c:508
+msgid "Favorite keywords list"
+msgstr ""
+
+#: src/bar_info.c:992 src/info.c:166 src/search.c:2692
+msgid "Keywords"
+msgstr ""
+
+#: src/bar_info.c:1006 src/info.c:716 src/print.c:2599
+msgid "Filename:"
+msgstr "Název souboru:"
+
+#: src/bar_info.c:1007 src/info.c:360
+msgid "File date:"
+msgstr "Datum souboru:"
+
+#: src/bar_info.c:1027
+msgid "Keywords:"
+msgstr ""
+
+#: src/bar_info.c:1095
+#, fuzzy
+msgid "Comment:"
+msgstr "Porovnat s:"
+
+#: src/bar_info.c:1119
+msgid "Edit favorite keywords list."
+msgstr ""
+
+#: src/bar_info.c:1123
+msgid "Add keywords to selected files"
+msgstr ""
+
+#: src/bar_info.c:1126
+msgid "Add keywords to selected files, replacing the existing ones."
+msgstr ""
+
+#: src/bar_info.c:1130
+#, fuzzy
+msgid "Save comment now"
+msgstr "Ulo¾it sbírku"
+
+#: src/bar_exif.c:423
+msgid "Tag"
+msgstr "Znaèka"
+
+#: src/bar_exif.c:424 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
+#: src/search.c:2753 src/view_file_list.c:1555
+msgid "Name"
+msgstr "Název"
+
+#: src/bar_exif.c:425
+msgid "Value"
+msgstr "Hodnota"
+
+#: src/bar_exif.c:426
+msgid "Format"
+msgstr "Formát"
+
+#: src/bar_exif.c:427
+msgid "Elements"
+msgstr "Prvky"
+
+#: src/bar_exif.c:428 src/preferences.c:1028
+msgid "Description"
+msgstr "Popis"
+
+#: src/bar_exif.c:549 src/info.c:105
+msgid "Exif"
+msgstr "Exif"
+
+#: src/bar_exif.c:622
+msgid "Advanced view"
+msgstr "Roz¹íøený pohled"
+
+#: src/bar_sort.c:218
+#, fuzzy
+msgid "Unlink failed"
+msgstr "Chyba pøi odstraòování"
+
+#: src/bar_sort.c:298
+msgid "Link failed"
+msgstr ""
+
+#: src/bar_sort.c:435
+#, fuzzy, c-format
+msgid ""
+"The collection:\n"
+"%s\n"
+"already exists."
+msgstr ""
+"Adresáø:\n"
+"%s\n"
+"ji¾ existuje."
+
+#: src/bar_sort.c:436
+#, fuzzy
+msgid "Collection exists"
+msgstr "Prázdná sbírka"
+
+#: src/bar_sort.c:450 src/collect.c:1061 src/collect-dlg.c:84
+#, c-format
+msgid ""
+"Failed to save the collection:\n"
+"%s"
+msgstr ""
+"Selhalo ulo¾ení sbírky:\n"
+"%s"
+
+#: src/bar_sort.c:451 src/collect.c:1062 src/collect-dlg.c:85
+msgid "Save Failed"
+msgstr "Ulo¾ení selhalo"
+
+#: src/bar_sort.c:485 src/bar_sort.c:631
+msgid "Add Bookmark"
+msgstr "Pøidat zálo¾ku"
+
+#: src/bar_sort.c:489
+#, fuzzy
+msgid "Add Collection"
+msgstr "Sbírky"
+
+#: src/bar_sort.c:506 src/ui_bookmark.c:603
+msgid "Name:"
+msgstr "Název:"
+
+#: src/bar_sort.c:569
+msgid "Sort Manager"
+msgstr "Správce tøídìní"
+
+#: src/bar_sort.c:578 src/ui_pathsel.c:1095
+msgid "Folders"
+msgstr "Adresáøe"
+
+#: src/bar_sort.c:579 src/main.c:1066
+msgid "Collections"
+msgstr "Sbírky"
+
+#: src/bar_sort.c:586
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: src/bar_sort.c:593
+msgid "Move"
+msgstr "Pøesunout"
+
+#: src/bar_sort.c:600
+msgid "Link"
+msgstr ""
+
+#: src/bar_sort.c:610
+#, fuzzy
+msgid "Add image"
+msgstr "%d obrázkù"
+
+#: src/bar_sort.c:617
+#, fuzzy
+msgid "Add selection"
+msgstr "Zru¹it výbìr"
+
+#: src/bar_sort.c:634
+msgid "Undo last image"
+msgstr "Zpìt poslední obrázek"
+
+#: src/cache_maint.c:127 src/cache_maint.c:681 src/cache_maint.c:894
+#: src/editors.c:410
+msgid "done"
+msgstr "¾ádná"
+
+#: src/cache_maint.c:304
+#, fuzzy
+msgid "Removing old metadata..."
+msgstr "Naèítám údaje o podobnosti..."
+
+#: src/cache_maint.c:308
+#, fuzzy
+msgid "Clearing cached thumbnails..."
+msgstr "Odstraòuji náhledy..."
+
+#: src/cache_maint.c:312 src/cache_maint.c:1048
+#, fuzzy
+msgid "Removing old thumbnails..."
+msgstr "Èistím staré náhledy..."
+
+#: src/cache_maint.c:315 src/cache_maint.c:1051
+msgid "Maintenance"
+msgstr ""
+
+#: src/cache_maint.c:792 src/utilops.c:904
+#, fuzzy
+msgid "Invalid folder"
+msgstr "Neplatný název souboru"
+
+#: src/cache_maint.c:793
+msgid "The specified folder can not be found."
+msgstr ""
+
+#: src/cache_maint.c:821 src/cache_maint.c:835 src/cache_maint.c:1216
+#, fuzzy
+msgid "Create thumbnails"
+msgstr "Cache náhledù"
+
+#: src/cache_maint.c:829 src/cache_maint.c:1058
+#, fuzzy
+msgid "S_tart"
+msgstr "Poè. èíslo"
+
+#: src/cache_maint.c:842 src/preferences.c:1165
+msgid "Folder:"
+msgstr "Adresáø:"
+
+#: src/cache_maint.c:845
+#, fuzzy
+msgid "Select folder"
+msgstr "Zru¹it výbìr"
+
+#: src/cache_maint.c:849
+#, fuzzy
+msgid "Include subfolders"
+msgstr "Neplatný název souboru"
+
+#: src/cache_maint.c:850
+msgid "Store thumbnails local to source images"
+msgstr ""
+
+#: src/cache_maint.c:859 src/cache_maint.c:1067
+msgid "click start to begin"
+msgstr ""
+
+#: src/cache_maint.c:997 src/editors.c:549
+msgid "running..."
+msgstr "zpracovávám..."
+
+#: src/cache_maint.c:1043
+msgid "Clearing thumbnails..."
+msgstr "Odstraòuji náhledy..."
+
+#: src/cache_maint.c:1109 src/cache_maint.c:1112 src/cache_maint.c:1191
+#: src/cache_maint.c:1211
+msgid "Clear cache"
+msgstr "Vyèistit cache"
+
+#: src/cache_maint.c:1113
+msgid ""
+"This will remove all thumbnails that have\n"
+"been saved to disk, continue?"
+msgstr ""
+"Hodláte odstranit v¹echny náhledy, které máte\n"
+"na disku. Chcete pokraèovat?"
+
+#: src/cache_maint.c:1163
+#, fuzzy
+msgid "Cache Maintenance - GQview"
+msgstr "Vlastnosti obrázku - GQview"
+
+#: src/cache_maint.c:1173
+msgid "Cache and Data Maintenance"
+msgstr ""
+
+#: src/cache_maint.c:1177
+#, fuzzy
+msgid "GQview thumbnail cache"
+msgstr "GQview celá obrazovka"
+
+#: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
+#: src/preferences.c:1142 src/utilops.c:1505
+#, fuzzy
+msgid "Location:"
+msgstr "akce"
+
+#: src/cache_maint.c:1186 src/cache_maint.c:1206 src/cache_maint.c:1234
+#, fuzzy
+msgid "Clean up"
+msgstr "Vyèistit"
+
+#: src/cache_maint.c:1189 src/cache_maint.c:1209
+msgid "Remove orphaned or outdated thumbnails."
+msgstr ""
+
+#: src/cache_maint.c:1194 src/cache_maint.c:1214
+#, fuzzy
+msgid "Delete all cached thumbnails."
+msgstr "Cache náhledù"
+
+#: src/cache_maint.c:1197
+#, fuzzy
+msgid "Shared thumbnail cache"
+msgstr "Zobrazit náhledy"
+
+#: src/cache_maint.c:1220
+#, fuzzy
+msgid "Render"
+msgstr "Pøejmenovat"
+
+#: src/cache_maint.c:1223
+msgid "Render thumbnails for a specific folder."
+msgstr ""
+
+#: src/cache_maint.c:1225
+msgid "Metadata"
+msgstr ""
+
+#: src/cache_maint.c:1237
+msgid "Remove orphaned keywords and comments."
+msgstr ""
+
+#: src/collect.c:349 src/image.c:1160 src/image-overlay.c:74
+#: src/image-overlay.c:115
+msgid "Untitled"
+msgstr "Nepojmenovaný"
+
+#: src/collect.c:353
+#, c-format
+msgid "Untitled (%d)"
+msgstr "Nepojmenovaný (%d)"
+
+#: src/collect.c:980
+#, c-format
+msgid "%s - GQview Collection"
+msgstr "%s - Sbírka GQview"
+
+#: src/collect.c:1098 src/collect.c:1102
+msgid "Close collection"
+msgstr "Uzavøít sbírku"
+
+#: src/collect.c:1103
+msgid ""
+"Collection has been modified.\n"
+"Save first?"
+msgstr ""
+"Sbírka byla zmìnìna.\n"
+"Ulo¾it?"
+
+#: src/collect.c:1106
+msgid "_Discard"
+msgstr ""
+
+#: src/collect-dlg.c:58
+#, fuzzy, c-format
+msgid ""
+"Specified path:\n"
+"%s\n"
+"is a folder, collections are files"
+msgstr ""
+"Zadaná cesta:\n"
+"%s\n"
+"je adresáø, sbírky jsou soubory"
+
+#: src/collect-dlg.c:59
+msgid "Invalid filename"
+msgstr "Neplatný název souboru"
+
+#: src/collect-dlg.c:68
+msgid "Overwrite File"
+msgstr "Pøepsat soubor"
+
+#: src/collect-dlg.c:73
+#, fuzzy
+msgid "Overwrite existing file?"
+msgstr "Pøepsat soubor"
+
+#: src/collect-dlg.c:75 src/utilops.c:479 src/utilops.c:792 src/utilops.c:1649
+#: src/utilops.c:2196
+#, fuzzy
+msgid "_Overwrite"
+msgstr "Pøepsat"
+
+#: src/collect-dlg.c:169
+msgid "Save collection"
+msgstr "Ulo¾it sbírku"
+
+#: src/collect-dlg.c:176
+msgid "Open collection"
+msgstr "Otevøít sbírku"
+
+#: src/collect-dlg.c:184
+msgid "Append collection"
+msgstr "Pøipojit sbírku"
+
+#: src/collect-dlg.c:185
+#, fuzzy
+msgid "_Append"
+msgstr "Pøipojit"
+
+#: src/collect-dlg.c:203
+msgid "Collection Files"
+msgstr "Soubory sbírek"
+
+#: src/collect-dlg.c:221
+msgid "Collection empty"
+msgstr "Prázdná sbírka"
+
+#: src/collect-dlg.c:222
+msgid "The current collection is empty, save aborted."
+msgstr "Aktuální sbírka je prázdná, ulo¾ení pøeru¹eno."
+
+#: src/collect-table.c:164 src/layout_util.c:708
+msgid "Empty"
+msgstr "Prázdná"
+
+#: src/collect-table.c:168
+#, c-format
+msgid "%d images (%d)"
+msgstr "%d obrázkù (%d)"
+
+#: src/collect-table.c:172
+#, c-format
+msgid "%d images"
+msgstr "%d obrázkù"
+
+#: src/collect-table.c:186 src/dupe.c:1296 src/search.c:303
+#: src/view_file_icon.c:1772 src/view_file_icon.c:1887
+#: src/view_file_list.c:816 src/view_file_list.c:921
+msgid "Loading thumbs..."
+msgstr "Nahrávám náhledy..."
+
+#: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
+#: src/layout_util.c:751 src/search.c:969
+msgid "_View"
+msgstr "_Zobrazit"
+
+#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1187
+#: src/layout_image.c:722 src/search.c:971 src/view_file_icon.c:283
+#: src/view_file_list.c:395
+msgid "View in _new window"
+msgstr "_Zobrazit v novém oknì"
+
+#: src/collect-table.c:778 src/dupe.c:2219 src/dupe.c:2507 src/search.c:997
+msgid "Rem_ove"
+msgstr "O_dstranit"
+
+#: src/collect-table.c:781
+msgid "Append from file list"
+msgstr "Pøipojit ze seznamu souborù"
+
+#: src/collect-table.c:783
+msgid "Append from collection..."
+msgstr "Pøipojit ze sbírky..."
+
+#: src/collect-table.c:786 src/dupe.c:2192 src/dupe.c:2502 src/search.c:974
+msgid "Select all"
+msgstr "Vybrat v¹e"
+
+#: src/collect-table.c:788 src/dupe.c:2194 src/dupe.c:2504 src/search.c:976
+msgid "Select none"
+msgstr "Zru¹it výbìr"
+
+#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1185
+#: src/layout_image.c:719 src/layout_util.c:784 src/search.c:981
+#: src/view_file_icon.c:280 src/view_file_list.c:393
+msgid "_Properties"
+msgstr "Vlast_nosti"
+
+#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1190
+#: src/layout_image.c:727 src/layout_util.c:762 src/search.c:988
+#: src/view_file_icon.c:287 src/view_file_list.c:399
+msgid "_Copy..."
+msgstr "_Kopírovat..."
+
+#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1191
+#: src/layout_image.c:729 src/layout_util.c:763 src/search.c:990
+#: src/view_file_icon.c:289 src/view_file_list.c:401
+msgid "_Move..."
+msgstr "_Pøesunout..."
+
+#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1192
+#: src/layout_image.c:731 src/layout_util.c:764 src/search.c:992
+#: src/view_dir_list.c:415 src/view_dir_tree.c:505 src/view_file_icon.c:291
+#: src/view_file_list.c:403
+msgid "_Rename..."
+msgstr "Pøe_jmenovat..."
+
+#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1193
+#: src/layout_image.c:733 src/layout_util.c:765 src/search.c:994
+#: src/view_file_icon.c:293 src/view_file_list.c:405
+msgid "_Delete..."
+msgstr "O_dstranit..."
+
+#: src/collect-table.c:810 src/view_file_icon.c:309
+msgid "Show filename _text"
+msgstr "_Zobrazit název souboru"
+
+#: src/collect-table.c:813
+msgid "_Save collection"
+msgstr "_Ulo¾it sbírku"
+
+#: src/collect-table.c:815
+msgid "Save collection _as..."
+msgstr "Ulo¾it sbírku j_ako..."
+
+#: src/collect-table.c:818 src/layout_util.c:759
+msgid "_Find duplicates..."
+msgstr "Najít d_uplikáty..."
+
+#: src/collect-table.c:820 src/dupe.c:2207 src/search.c:985
+#, fuzzy
+msgid "Print..."
+msgstr "/File/Pøe_jmenovat..."
+
+#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1347
+#, fuzzy
+msgid "Dropped list includes folders."
+msgstr "Pøeta¾ený seznam obsahuje adresáøe."
+
+#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1349
+msgid "_Add contents"
+msgstr "_Pøidat obsah"
+
+#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1350
+msgid "Add contents _recursive"
+msgstr "Pøidat obsah _rekurzivnì"
+
+#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1351
+#, fuzzy
+msgid "_Skip folders"
+msgstr "Pøe_skoèit adresáøe"
+
+#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1353
+#: src/view_dir_list.c:222 src/view_dir_tree.c:314
+msgid "Cancel"
+msgstr "Zru¹it"
+
+#: src/dupe.c:96
+msgid "Drop files to compare them."
+msgstr "Pøetáhnìte zde soubory pro jejich porovnání."
+
+#: src/dupe.c:100
+#, c-format
+msgid "%d files"
+msgstr "souborù: %d"
+
+#: src/dupe.c:104
+#, c-format
+msgid "%d matches found in %d files"
+msgstr "Nalezeno %d shod v %d souborech."
+
+#: src/dupe.c:109
+msgid "[set 1]"
+msgstr "[nastavit 1]"
+
+#: src/dupe.c:1422
+msgid "Reading checksums..."
+msgstr "Naèítám kontrolní souèty..."
+
+#: src/dupe.c:1455
+msgid "Reading dimensions..."
+msgstr "Naèítám rozmìry..."
+
+#: src/dupe.c:1489
+msgid "Reading similarity data..."
+msgstr "Naèítám údaje o podobnosti..."
+
+#: src/dupe.c:1524 src/dupe.c:1555
+msgid "Comparing..."
+msgstr "Porovnávám..."
+
+#: src/dupe.c:1535
+msgid "Sorting..."
+msgstr "Tøídím..."
+
+#: src/dupe.c:2196
+msgid "Select group _1 duplicates"
+msgstr "Vybrat skupinu duplikátù _1"
+
+#: src/dupe.c:2198
+msgid "Select group _2 duplicates"
+msgstr "Vybrat skupinu duplikátù _2"
+
+#: src/dupe.c:2205 src/search.c:983
+msgid "Add to new collection"
+msgstr "Pøidat do nové sbírky"
+
+#: src/dupe.c:2221 src/dupe.c:2509 src/search.c:999
+msgid "C_lear"
+msgstr "_Vyèistit"
+
+#: src/dupe.c:2224 src/dupe.c:2512
+msgid "Close _window"
+msgstr "_Zavøít okno"
+
+#: src/dupe.c:2382
+#, c-format
+msgid "%d files (set 2)"
+msgstr "souborù: %d"
+
+#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:947 src/print.c:3194
+#: src/search.c:2754 src/view_file_list.c:1556
+msgid "Size"
+msgstr "Velikosti"
+
+#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:297 src/exif.c:419
+#: src/print.c:3192 src/search.c:2755 src/view_file_list.c:1557
+msgid "Date"
+msgstr "Data"
+
+#: src/dupe.c:2592 src/dupe.c:3119 src/print.c:3196 src/search.c:2756
+msgid "Dimensions"
+msgstr "Rozmìrù"
+
+#: src/dupe.c:2593
+msgid "Checksum"
+msgstr "Kontrolního souètu"
+
+#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1107
+msgid "Path"
+msgstr "Cesty"
+
+#: src/dupe.c:2595
+msgid "Similarity (high)"
+msgstr "Podobnosti (vysoké)"
+
+#: src/dupe.c:2596
+msgid "Similarity"
+msgstr "Podobnosti"
+
+#: src/dupe.c:2597
+msgid "Similarity (low)"
+msgstr "Podobnosti (malé)"
+
+#: src/dupe.c:2598
+msgid "Similarity (custom)"
+msgstr "Podobnosti (vlastní)"
+
+#: src/dupe.c:3080
+msgid "Find duplicates - GQview"
+msgstr "Najít duplikáty - GQview"
+
+#: src/dupe.c:3152
+msgid "Compare to:"
+msgstr "Porovnat s:"
+
+#: src/dupe.c:3165
+msgid "Compare by:"
+msgstr "Porovnat podle:"
+
+#: src/dupe.c:3173 src/preferences.c:840 src/search.c:2770
+msgid "Thumbnails"
+msgstr "Náhledy"
+
+#: src/dupe.c:3180
+msgid "Compare two file sets"
+msgstr "Porovnat dvì sady souborù"
+
+#: src/editors.c:50
+msgid "The Gimp"
+msgstr "The Gimp"
+
+#: src/editors.c:51
+msgid "XV"
+msgstr "XV"
+
+#: src/editors.c:52
+msgid "Xpaint"
+msgstr "Xpaint"
+
+#: src/editors.c:58
+msgid "Rotate jpeg clockwise"
+msgstr "Rotace jpeg vpravo"
+
+#: src/editors.c:59
+msgid "Rotate jpeg counterclockwise"
+msgstr "Rotace jpeg vlevo"
+
+#: src/editors.c:104
+msgid "stopping..."
+msgstr "Zastavuji..."
+
+#: src/editors.c:131
+msgid "Edit command results"
+msgstr "Upravit výsledky pøíkazu"
+
+#: src/editors.c:134
+#, c-format
+msgid "Output of %s"
+msgstr "Výstup z %s"
+
+#: src/editors.c:303
+#, c-format
+msgid ""
+"Failed to run command:\n"
+"%s\n"
+msgstr ""
+"Nelze provést pøíkaz:\n"
+"%s\n"
+
+#: src/editors.c:414
+msgid "stopped by user"
+msgstr "zastaveno u¾ivatelem"
+
+#: src/exif.c:112 src/exif.c:125 src/exif.c:139 src/exif.c:164 src/exif.c:606
+#: src/exif.c:1452 src/exif.c:1455 src/exif.c:1520
+msgid "unknown"
+msgstr "(neznámý)"
+
+#: src/exif.c:113
+msgid "top left"
+msgstr "nahoøe vlevo"
+
+#: src/exif.c:114
+msgid "top right"
+msgstr "nahoøe vpravo"
+
+#: src/exif.c:115
+msgid "bottom right"
+msgstr "dole vpravo"
+
+#: src/exif.c:116
+msgid "bottom left"
+msgstr "dole vlevo"
+
+#: src/exif.c:117
+msgid "left top"
+msgstr "vlevo nahoøe"
+
+#: src/exif.c:118
+msgid "right top"
+msgstr "vpravo nahoøe"
+
+#: src/exif.c:119
+msgid "right bottom"
+msgstr "vpravo dole"
+
+#: src/exif.c:120
+msgid "left bottom"
+msgstr "vlevo dole"
+
+#: src/exif.c:127
+msgid "inch"
+msgstr "palec"
+
+#
+# Konektory pro externí blesky: kolejnice typu Hot-shoe: komunikace s
+#: src/exif.c:128
+msgid "centimeter"
+msgstr "centimetr"
+
+#: src/exif.c:140
+msgid "average"
+msgstr "prùmìr"
+
+#: src/exif.c:141
+msgid "center weighted"
+msgstr "vyvá¾ení støedu"
+
+#: src/exif.c:142
+msgid "spot"
+msgstr "bodové"
+
+#: src/exif.c:143
+msgid "multi-spot"
+msgstr "více bodové"
+
+#: src/exif.c:144
+msgid "multi-segment"
+msgstr "více segmentové"
+
+#: src/exif.c:145
+msgid "partial"
+msgstr "èásteèné"
+
+#: src/exif.c:146 src/exif.c:184
+msgid "other"
+msgstr "ostatní"
+
+#: src/exif.c:151
+msgid "not defined"
+msgstr "nedefinováno"
+
+#: src/exif.c:152
+msgid "manual"
+msgstr "ruènì"
+
+#: src/exif.c:153
+msgid "normal"
+msgstr "normálnì"
+
+#: src/exif.c:154
+msgid "aperture"
+msgstr "závìrkou"
+
+#: src/exif.c:155
+msgid "shutter"
+msgstr "clonou"
+
+#: src/exif.c:156
+msgid "creative"
+msgstr "tvùrèí"
+
+#: src/exif.c:157
+msgid "action"
+msgstr "akce"
+
+#: src/exif.c:158
+msgid "portrait"
+msgstr "portrét"
+
+#: src/exif.c:159
+msgid "landscape"
+msgstr "krajina"
+
+#: src/exif.c:165
+msgid "daylight"
+msgstr "denní svìtlo"
+
+#: src/exif.c:166
+msgid "fluorescent"
+msgstr "záøivka"
+
+#: src/exif.c:167
+msgid "tungsten (incandescent)"
+msgstr "¾árovka"
+
+#: src/exif.c:168
+msgid "flash"
+msgstr "blesk"
+
+#: src/exif.c:189 src/exif.c:1475 src/info.c:226
+msgid "no"
+msgstr "ne"
+
+#. flash fired (bit 0)
+#: src/exif.c:190 src/exif.c:1475 src/info.c:226
+msgid "yes"
+msgstr "ano"
+
+#: src/exif.c:191
+msgid "yes, not detected by strobe"
+msgstr "ano, nedetekováno synchronizací"
+
+#: src/exif.c:192
+msgid "yes, detected by strobe"
+msgstr "ano, detekováno synchronizací"
+
+#: src/exif.c:289
+msgid "Image description"
+msgstr "Popis obrázku"
+
+#: src/exif.c:292
+msgid "Orientation"
+msgstr "Orientace"
+
+#: src/exif.c:303
+msgid "Copyright"
+msgstr "Autorská práva"
+
+#: src/exif.c:308
+msgid "Exposure program"
+msgstr "Expozice"
+
+#: src/exif.c:310 src/exif.c:346 src/exif.c:423
+msgid "ISO sensitivity"
+msgstr "Citlivost ISO"
+
+#: src/exif.c:313
+msgid "Date original"
+msgstr "Datum originálu"
+
+#: src/exif.c:314
+msgid "Date digitized"
+msgstr "Datum digitalizace"
+
+#: src/exif.c:317 src/exif.c:420
+msgid "Shutter speed"
+msgstr "Rychlost závìrky"
+
+#: src/exif.c:318 src/exif.c:421
+msgid "Aperture"
+msgstr "Clona"
+
+#: src/exif.c:320 src/exif.c:422
+msgid "Exposure bias"
+msgstr "Korekce expozice"
+
+#: src/exif.c:322 src/exif.c:425
+msgid "Subject distance"
+msgstr "Ostøení"
+
+#: src/exif.c:323
+msgid "Metering mode"
+msgstr "Mìøení svìtla"
+
+#: src/exif.c:324
+msgid "Light source"
+msgstr "Zdroj svìtla"
+
+#: src/exif.c:325 src/exif.c:426
+msgid "Flash"
+msgstr "Blesk"
+
+#: src/exif.c:326 src/exif.c:424
+msgid "Focal length"
+msgstr "Ohnisková vzdálenost"
+
+#. ExifImageWidth, ExifImageHeight can also be unsigned short
+#: src/exif.c:336
+msgid "Width"
+msgstr "©íøka"
+
+#: src/exif.c:337
+msgid "Height"
+msgstr "Délka"
+
+#: src/exif.c:418
+msgid "Camera"
+msgstr "Fotoaparát"
+
+#: src/exif.c:427
+msgid "Resolution"
+msgstr "Rozli¹ení"
+
+#: src/exif.c:1451
+msgid "infinity"
+msgstr "nekoneèno"
+
+#: src/exif.c:1479
+msgid "mode:"
+msgstr "re¾im:"
+
+#: src/exif.c:1483 src/utilops.c:1234
+msgid "on"
+msgstr "zapnuto"
+
+#: src/exif.c:1486 src/utilops.c:1234
+msgid "off"
+msgstr "vypnuto"
+
+#: src/exif.c:1489
+msgid "auto"
+msgstr "automatika"
+
+#: src/exif.c:1495
+msgid "not detected by strobe"
+msgstr "nedetekován synchronizací"
+
+#: src/exif.c:1496
+msgid "detected by strobe"
+msgstr "detekován synchronizací"
+
+#. we ignore flash function (bit 5)
+#. red-eye (bit 6)
+#: src/exif.c:1501
+msgid "red-eye reduction"
+msgstr "korekce èervených oèí"
+
+#: src/exif.c:1520
+msgid "dot"
+msgstr "bodù"
+
+#: src/filelist.c:513
+#, c-format
+msgid "%d bytes"
+msgstr "bajtù: %d"
+
+#: src/filelist.c:517
+#, c-format
+msgid "%.1f K"
+msgstr "%.1f K"
+
+#: src/filelist.c:521
+#, c-format
+msgid "%.1f MB"
+msgstr "%.1f MB"
+
+#: src/filelist.c:526
+#, c-format
+msgid "%.1f GB"
+msgstr "%.1f GB"
+
+#: src/fullscreen.c:267
+msgid "GQview full screen"
+msgstr "GQview celá obrazovka"
+
+#: src/fullscreen.c:397
+#, fuzzy
+msgid "Full size"
+msgstr "Velikost souboru:"
+
+#: src/fullscreen.c:402
+msgid "Monitor"
+msgstr ""
+
+#: src/fullscreen.c:407
+msgid "Screen"
+msgstr ""
+
+#: src/fullscreen.c:644
+#, fuzzy
+msgid "Stay above other windows"
+msgstr "Pøizpùsobit velikosti okna"
+
+#: src/fullscreen.c:651
+msgid "Determined by Window Manager"
+msgstr ""
+
+#: src/fullscreen.c:652
+msgid "Active screen"
+msgstr ""
+
+#: src/fullscreen.c:654
+msgid "Active monitor"
+msgstr ""
+
+#: src/img-view.c:1173 src/layout_image.c:706 src/layout_util.c:791
+msgid "Zoom _in"
+msgstr "Z_vìt¹it"
+
+#: src/img-view.c:1174 src/layout_image.c:707 src/layout_util.c:792
+msgid "Zoom _out"
+msgstr "Z_men¹it"
+
+#: src/img-view.c:1175 src/layout_image.c:708 src/layout_util.c:793
+msgid "Zoom _1:1"
+msgstr "Zobrazení _1:1"
+
+#: src/img-view.c:1176 src/layout_image.c:709
+msgid "Fit image to _window"
+msgstr "Pøizpùsobit do _okna"
+
+#: src/img-view.c:1181 src/layout_image.c:715 src/layout_util.c:789
+msgid "Set as _wallpaper"
+msgstr "Nastavit jako _pozadí"
+
+#: src/img-view.c:1199 src/layout_image.c:740
+msgid "_Stop slideshow"
+msgstr "Zastavit _slideshow"
+
+#: src/img-view.c:1202 src/layout_image.c:743
+msgid "Continue slides_how"
+msgstr "Pokraèovat ve _slideshow"
+
+#: src/img-view.c:1207 src/img-view.c:1215 src/layout_image.c:748
+#: src/layout_image.c:755
+msgid "Pause slides_how"
+msgstr "_Pozastavit slideshow"
+
+#: src/img-view.c:1213 src/layout_image.c:754
+msgid "_Start slideshow"
+msgstr "_Spustit slideshow"
+
+#: src/img-view.c:1221 src/layout_image.c:765
+msgid "Exit _full screen"
+msgstr "U_konèit zobrazení na celou obrazovku"
+
+#: src/img-view.c:1225 src/layout_image.c:761
+msgid "_Full screen"
+msgstr "Ce_lá obrazovka"
+
+#: src/img-view.c:1229 src/layout_util.c:766
+msgid "C_lose window"
+msgstr "_Zavøít okno"
+
+#: src/info.c:361
+msgid "File size:"
+msgstr "Velikost souboru:"
+
+#: src/info.c:363
+msgid "Dimensions:"
+msgstr "Rozmìry:"
+
+#: src/info.c:364
+msgid "Transparent:"
+msgstr "Transparentní:"
+
+#: src/info.c:365 src/print.c:3371
+msgid "Image size:"
+msgstr "Velikost obrázku:"
+
+#: src/info.c:367
+msgid "Compress ratio:"
+msgstr "Kompresní pomìr:"
+
+#: src/info.c:368
+#, fuzzy
+msgid "File type:"
+msgstr "Datum souboru:"
+
+#: src/info.c:370
+msgid "Owner:"
+msgstr "Vlastník:"
+
+#: src/info.c:371
+msgid "Group:"
+msgstr "Skupina:"
+
+#: src/info.c:374 src/preferences.c:821
+msgid "General"
+msgstr "V¹eobecné"
+
+#: src/info.c:455
+#, c-format
+msgid "Image %d of %d"
+msgstr "Obrázek %d z %d"
+
+#: src/info.c:678
+msgid "Image properties - GQview"
+msgstr "Vlastnosti obrázku - GQview"
+
+#: src/layout.c:271 src/view_file_icon.c:301 src/view_file_list.c:413
+msgid "Ascending"
+msgstr "Vzestupnì"
+
+#: src/layout.c:337
+msgid " Slideshow"
+msgstr " Slideshow"
+
+#: src/layout.c:341
+msgid " Paused"
+msgstr " Pozastavené"
+
+#: src/layout.c:358
+#, c-format
+msgid "%s, %d files (%s, %d)%s"
+msgstr "%s, souborù: %d (%s, %d)%s"
+
+#: src/layout.c:365
+#, c-format
+msgid "%s, %d files%s"
+msgstr "%s, souborù: %d %s"
+
+#: src/layout.c:370
+#, c-format
+msgid "%d files%s"
+msgstr "souborù: %d %s"
+
+#: src/layout.c:399
+#, c-format
+msgid "(no read permission) %s bytes"
+msgstr "(chybí právo ke ètení) %s bajtù"
+
+#: src/layout.c:403
+#, c-format
+msgid "( ? x ? ) %s bytes"
+msgstr "( ? x ?) %s bajtù"
+
+#: src/layout.c:408
+#, c-format
+msgid "( %d x %d ) %s bytes"
+msgstr "( %d x %d) %s bajtù"
+
+#: src/layout.c:1104
+msgid "GQview Tools"
+msgstr "Nástroje GQview"
+
+#: src/layout_config.c:57
+msgid "Tools"
+msgstr "Nástroje"
+
+#: src/layout_config.c:57 src/ui_pathsel.c:1175
+msgid "Files"
+msgstr "Soubory"
+
+#: src/layout_config.c:57 src/preferences.c:881 src/print.c:110
+msgid "Image"
+msgstr "Obrázek"
+
+#: src/layout_config.c:363
+msgid "(drag to change order)"
+msgstr "(poøadí zmìníte pøeta¾ením)"
+
+#: src/layout_image.c:770
+msgid "Hide file _list"
+msgstr "Sk_rýt seznam souborù"
+
+#: src/layout_util.c:625 src/menu.c:74
+#, c-format
+msgid "in %s..."
+msgstr "v %s..."
+
+#: src/layout_util.c:629 src/menu.c:76
+msgid "in (unknown)..."
+msgstr "v (neznámém)..."
+
+#: src/layout_util.c:637
+#, fuzzy
+msgid "empty"
+msgstr "Prázdná"
+
+#: src/layout_util.c:748
+#, fuzzy
+msgid "_File"
+msgstr "/_Soubor"
+
+#: src/layout_util.c:749 src/menu.c:91
+msgid "_Edit"
+msgstr "Úpr_avy"
+
+#: src/layout_util.c:750 src/menu.c:248
+msgid "_Adjust"
+msgstr "O_toèit"
+
+#: src/layout_util.c:752
+#, fuzzy
+msgid "_Help"
+msgstr "/Nápo_vìda"
+
+#: src/layout_util.c:754
+#, fuzzy
+msgid "New _window"
+msgstr "/Soubor/No_vé okno"
+
+#: src/layout_util.c:755
+#, fuzzy
+msgid "_New collection"
+msgstr "_Ulo¾it sbírku"
+
+#: src/layout_util.c:756
+#, fuzzy
+msgid "_Open collection..."
+msgstr "Otevøít sbírku"
+
+#: src/layout_util.c:757
+#, fuzzy
+msgid "Open _recent"
+msgstr "/Soubor/O_tevøít nedávné"
+
+#: src/layout_util.c:758
+#, fuzzy
+msgid "_Search..."
+msgstr "Tøídím..."
+
+#: src/layout_util.c:760
+#, fuzzy
+msgid "_Print..."
+msgstr "/File/Pøe_jmenovat..."
+
+#: src/layout_util.c:761
+#, fuzzy
+msgid "N_ew folder..."
+msgstr "_Nový adresáø..."
+
+#: src/layout_util.c:767
+#, fuzzy
+msgid "_Quit"
+msgstr "Kvalita"
+
+#: src/layout_util.c:779 src/menu.c:194
+msgid "_Rotate clockwise"
+msgstr "Rotace vp_ravo"
+
+#: src/layout_util.c:780 src/menu.c:197
+msgid "Rotate _counterclockwise"
+msgstr "Rotace v_levo"
+
+#: src/layout_util.c:781
+#, fuzzy
+msgid "Rotate 1_80"
+msgstr "Rotace o 1_80"
+
+#: src/layout_util.c:782 src/menu.c:203
+msgid "_Mirror"
+msgstr "_Zrcadlit"
+
+#: src/layout_util.c:783 src/menu.c:206
+msgid "_Flip"
+msgstr "Pøe_klopit"
+
+#: src/layout_util.c:785
+#, fuzzy
+msgid "Select _all"
+msgstr "Vybrat v¹e"
+
+#: src/layout_util.c:786
+#, fuzzy
+msgid "Select _none"
+msgstr "Zru¹it výbìr"
+
+#: src/layout_util.c:787
+#, fuzzy
+msgid "P_references..."
+msgstr "_Vlastnosti..."
+
+#: src/layout_util.c:788
+msgid "_Thumbnail maintenance..."
+msgstr ""
+
+#: src/layout_util.c:794
+#, fuzzy
+msgid "_Zoom to fit"
+msgstr "/Zobrazení/Do _okna"
+
+#: src/layout_util.c:795
+#, fuzzy
+msgid "F_ull screen"
+msgstr "Ce_lá obrazovka"
+
+#: src/layout_util.c:796
+#, fuzzy
+msgid "_Hide file list"
+msgstr "Sk_rýt seznam souborù"
+
+#: src/layout_util.c:797
+#, fuzzy
+msgid "Toggle _slideshow"
+msgstr "Zastavit _slideshow"
+
+#: src/layout_util.c:798
+#, fuzzy
+msgid "_Refresh"
+msgstr "_Obnovit"
+
+#: src/layout_util.c:800
+#, fuzzy
+msgid "_Contents"
+msgstr "/Nápovìda/_O programu"
+
+#: src/layout_util.c:801
+#, fuzzy
+msgid "_Keyboard shortcuts"
+msgstr "/Nápovìda/_Klávesové zkratky"
+
+#: src/layout_util.c:802
+#, fuzzy
+msgid "_Release notes"
+msgstr "/Nápovìda/_Poznámky k verzi"
+
+#: src/layout_util.c:803
+#, fuzzy
+msgid "_About"
+msgstr "/Nápovìda/_O programu"
+
+#: src/layout_util.c:807
+#, fuzzy
+msgid "_Thumbnails"
+msgstr "Náhledy"
+
+#: src/layout_util.c:808
+#, fuzzy
+msgid "Tr_ee"
+msgstr "/Zobrazení/S_trom"
+
+#: src/layout_util.c:809
+#, fuzzy
+msgid "_Float file list"
+msgstr "/Zobrazení/_Plovoucí seznam souborù"
+
+#: src/layout_util.c:810
+#, fuzzy
+msgid "Hide tool_bar"
+msgstr "/Zobrazení/Skrýt _nástrojovou li¹tu"
+
+#: src/layout_util.c:811
+#, fuzzy
+msgid "_Keywords"
+msgstr "/Zobrazení/I_kony"
+
+#: src/layout_util.c:812
+#, fuzzy
+msgid "E_xif data"
+msgstr "/Zobrazení/E_xif údaje"
+
+#: src/layout_util.c:813
+#, fuzzy
+msgid "Sort _manager"
+msgstr "Správce tøídìní"
+
+#: src/layout_util.c:817
+#, fuzzy
+msgid "_List"
+msgstr "/Zobrazení/S_eznam"
+
+#: src/layout_util.c:818
+#, fuzzy
+msgid "I_cons"
+msgstr "Ikona:"
+
+#: src/layout_util.c:1083
+msgid "Show thumbnails"
+msgstr "Zobrazit náhledy"
+
+#: src/layout_util.c:1085
+#, fuzzy
+msgid "Change to home folder"
+msgstr "Pøejít do domovského adresáø"
+
+#: src/layout_util.c:1087
+msgid "Refresh file list"
+msgstr "Obnovit seznam souborù"
+
+#: src/layout_util.c:1089
+msgid "Zoom in"
+msgstr "Zvìt¹it"
+
+#: src/layout_util.c:1091
+msgid "Zoom out"
+msgstr "Zmen¹it"
+
+#: src/layout_util.c:1093 src/preferences.c:910
+msgid "Fit image to window"
+msgstr "Pøizpùsobit velikosti okna"
+
+#: src/layout_util.c:1095
+msgid "Set zoom 1:1"
+msgstr "Nastavit zobrazení 1:1"
+
+#: src/layout_util.c:1097
+msgid "Configure options"
+msgstr "Nastavit volby"
+
+#: src/layout_util.c:1099
+msgid "Float Controls"
+msgstr "Plovoucí ovládání"
+
+#: src/main.c:266
+msgid "Help - GQview"
+msgstr "Nápovìda - GQview"
+
+#: src/main.c:489 src/main.c:1305
+msgid "Command line"
+msgstr "Pøíkazový øádek"
+
+#. short, long                  callback,               extra, prefer,description
+#: src/main.c:527
+#, fuzzy
+msgid "next image"
+msgstr "Pøedèítat dal¹í obrázek"
+
+#: src/main.c:528
+msgid "previous image"
+msgstr ""
+
+#: src/main.c:529
+#, fuzzy
+msgid "first image"
+msgstr "Zpìt poslední obrázek"
+
+#: src/main.c:530
+#, fuzzy
+msgid "last image"
+msgstr "Zpìt poslední obrázek"
+
+#: src/main.c:531
+#, fuzzy
+msgid "toggle full screen"
+msgstr "U_konèit zobrazení na celou obrazovku"
+
+#: src/main.c:532
+#, fuzzy
+msgid "start full screen"
+msgstr "U_konèit zobrazení na celou obrazovku"
+
+#: src/main.c:533
+#, fuzzy
+msgid "stop full screen"
+msgstr "U_konèit zobrazení na celou obrazovku"
+
+#: src/main.c:534
+#, fuzzy
+msgid "toggle slide show"
+msgstr "Zastavit _slideshow"
+
+#: src/main.c:535
+#, fuzzy
+msgid "start slide show"
+msgstr "_Spustit slideshow"
+
+#: src/main.c:536
+#, fuzzy
+msgid "stop slide show"
+msgstr "Zastavit _slideshow"
+
+#: src/main.c:537
+#, fuzzy
+msgid "start recursive slide show"
+msgstr "_Spustit slideshow"
+
+#: src/main.c:538
+msgid "set slide show delay in seconds"
+msgstr ""
+
+#: src/main.c:539
+msgid "show tools"
+msgstr ""
+
+#: src/main.c:540
+#, fuzzy
+msgid "hide tools"
+msgstr "Nástroje GQview"
+
+#: src/main.c:541
+msgid "quit"
+msgstr ""
+
+#: src/main.c:542
+#, fuzzy
+msgid "open file"
+msgstr "Pøejmenovat soubor:"
+
+#: src/main.c:543
+#, fuzzy
+msgid "open file in new window"
+msgstr "_Zobrazit v novém oknì"
+
+#: src/main.c:609
+msgid "Remote command list:\n"
+msgstr ""
+
+#: src/main.c:667
+msgid "Remote GQview not running, starting..."
+msgstr ""
+
+#: src/main.c:802
+msgid "Remote not available\n"
+msgstr ""
+
+#: src/main.c:944
+msgid ""
+"Usage: gqview [options] [path]\n"
+"\n"
+msgstr ""
+"Pou¾ití: gqview [volby] [cesta]\n"
+"\n"
+
+#: src/main.c:945
+msgid "valid options are:\n"
+msgstr "platné volby jsou:\n"
+
+#: src/main.c:946
+msgid "  +t, --with-tools           force show of tools\n"
+msgstr "  +t  --with-tools           zobrazit nástroje\n"
+
+#: src/main.c:947
+msgid "  -t, --without-tools        force hide of tools\n"
+msgstr "  -t, --without-tools        skrýt nástroje\n"
+
+#: src/main.c:948
+msgid "  -f, --fullscreen           start in full screen mode\n"
+msgstr "  -f, --fullscreen           zaèít v celoobrazovkovém re¾imu\n"
+
+#: src/main.c:949
+msgid "  -s, --slideshow            start in slideshow mode\n"
+msgstr "  -s, --slideshow            zaèít v slideshow re¾imu\n"
+
+#: src/main.c:950
+msgid "  -l, --list                 open collection window for command line\n"
+msgstr "  -l, --list                 otevøít okno sbírky do pøíkazové øádky\n"
+
+#: src/main.c:951
+#, fuzzy
+msgid "  -r, --remote               send following commands to open window\n"
+msgstr "  -l, --list                 otevøít okno sbírky do pøíkazové øádky\n"
+
+#: src/main.c:952
+msgid "  -rh,--remote-help          print remote command list\n"
+msgstr ""
+
+#: src/main.c:953
+msgid "  --debug                    turn on debug output\n"
+msgstr "  --debug                    povolit ladící výstup\n"
+
+#: src/main.c:954
+msgid "  -v, --version              print version info\n"
+msgstr "  -v, --version              vytisknout informace o verzi\n"
+
+#: src/main.c:955
+msgid ""
+"  -h, --help                 show this message\n"
+"\n"
+msgstr ""
+"  -h, --help                 zobrazit tuto zprávu\n"
+"\n"
+
+#: src/main.c:969
+#, c-format
+msgid ""
+"invalid or ignored: %s\n"
+"Use --help for options\n"
+msgstr ""
+"neplatný nebo ignorovaný: %s\n"
+"Pou¾ijte --help pro volby\n"
+
+#: src/main.c:1034
+#, c-format
+msgid "Creating GQview dir:%s\n"
+msgstr "Vytvoøit GQview adresáø:%s\n"
+
+#: src/main.c:1040
+#, c-format
+msgid "Could not create dir:%s\n"
+msgstr "Nelze vytvoøit adresáø:%s\n"
+
+#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1043
+msgid "Home"
+msgstr "Domù"
+
+#: src/main.c:1063 src/ui_bookmark.c:865
+msgid "Desktop"
+msgstr "Plocha"
+
+#: src/main.c:1152
+msgid "GQview - exit"
+msgstr "GQview - konec"
+
+#: src/main.c:1156
+#, fuzzy
+msgid "Quit GQview"
+msgstr "O programu - GQview"
+
+#: src/main.c:1156
+#, fuzzy
+msgid "Collections have been modified. Quit anyway?"
+msgstr ""
+"Sbírka byla zmìnìna.\n"
+"Opravdu skonèit?"
+
+#: src/menu.c:115
+msgid "Sort by size"
+msgstr "Tøídit podle velikosti"
+
+#: src/menu.c:118
+msgid "Sort by date"
+msgstr "Tøídit podle data"
+
+#: src/menu.c:121
+msgid "Unsorted"
+msgstr "Netøídìno"
+
+#: src/menu.c:124
+msgid "Sort by path"
+msgstr "Tøídit podle cesty"
+
+#: src/menu.c:127
+msgid "Sort by number"
+msgstr "Tøídit podle èísla"
+
+#: src/menu.c:131
+msgid "Sort by name"
+msgstr "Tøídit podle názvu"
+
+#: src/menu.c:175
+msgid "Sort"
+msgstr "Tøídit"
+
+#: src/menu.c:200
+msgid "Rotate _180"
+msgstr "Rotace o 1_80"
+
+#: src/preferences.c:384
+msgid "Nearest (worst, but fastest)"
+msgstr "Nejbli¾¹í (nejhor¹í, ale nejrychlej¹í)"
+
+#: src/preferences.c:386
+msgid "Tiles"
+msgstr "Dla¾dice"
+
+#: src/preferences.c:388
+msgid "Bilinear"
+msgstr "Bilineárnì"
+
+#: src/preferences.c:390
+msgid "Hyper (best, but slowest)"
+msgstr "Hyper (nejlep¹í, ale nejpomalej¹í)"
+
+#: src/preferences.c:418
+msgid "None"
+msgstr "®ádná"
+
+#: src/preferences.c:419
+msgid "Normal"
+msgstr "Normální"
+
+#: src/preferences.c:420
+msgid "Best"
+msgstr "Nejlep¹í"
+
+#: src/preferences.c:498 src/print.c:365
+#, fuzzy
+msgid "Custom"
+msgstr "automatika"
+
+#: src/preferences.c:662 src/preferences.c:665
+msgid "Reset filters"
+msgstr "Vynulovat filtry"
+
+#: src/preferences.c:666
+msgid ""
+"This will reset the file filters to the defaults.\n"
+"Continue?"
+msgstr ""
+"Hodláte obnovit filtry souborù na výchozí hodnoty.\n"
+"Chcete pokraèovat?"
+
+#: src/preferences.c:699 src/preferences.c:702
+msgid "Reset editors"
+msgstr "Obnovit editory"
+
+#: src/preferences.c:703
+msgid ""
+"This will reset the edit commands to the defaults.\n"
+"Continue?"
+msgstr ""
+"Hodláte nastavit editaèní pøíkazy na výchozí hodnoty.\n"
+"Chcete pokraèovat?"
+
+#: src/preferences.c:727 src/preferences.c:730
+msgid "Clear trash"
+msgstr "Vysypat ko¹"
+
+#: src/preferences.c:731
+msgid "This will remove the trash contents."
+msgstr "Toto odstraní obsah z ko¹e."
+
+#: src/preferences.c:770
+#, fuzzy
+msgid "GQview Preferences"
+msgstr "GQview - pøejmenování"
+
+#: src/preferences.c:824
+#, fuzzy
+msgid "Startup"
+msgstr "Poè. èíslo"
+
+#: src/preferences.c:826
+#, fuzzy
+msgid "Change to folder:"
+msgstr "Pøejít do domovského adresáø"
+
+#: src/preferences.c:837
+msgid "Use current"
+msgstr "Pou¾ít aktuální"
+
+#: src/preferences.c:843 src/print.c:3201 src/print.c:3408
+msgid "Size:"
+msgstr "Velikost:"
+
+#: src/preferences.c:844 src/preferences.c:890
+msgid "Quality:"
+msgstr "Kvalita:"
+
+#: src/preferences.c:846
+msgid "Cache thumbnails"
+msgstr "Cache náhledù"
+
+#: src/preferences.c:852
+msgid "Use shared thumbnail cache"
+msgstr ""
+
+#: src/preferences.c:858
+msgid "Cache thumbnails into .thumbnails"
+msgstr "Cache náhledù do souborù .thumbnails"
+
+#: src/preferences.c:861
+msgid "Use xvpics thumbnails when found (read only)"
+msgstr "Pou¾ít náhledy xvpics, pokud jsou nalezeny (jen pro ètení)"
+
+#: src/preferences.c:864
+msgid "Slide show"
+msgstr "Slideshow"
+
+#: src/preferences.c:867
+#, fuzzy
+msgid "Delay between image change:"
+msgstr "Poèkat mezi zmìnami obrázkù (v sekundách):"
+
+#: src/preferences.c:867
+msgid "seconds"
+msgstr ""
+
+#: src/preferences.c:873
+msgid "Random"
+msgstr "Náhodnì"
+
+#: src/preferences.c:874
+msgid "Repeat"
+msgstr "Opakovat"
+
+#: src/preferences.c:884
+#, fuzzy
+msgid "Zoom"
+msgstr "Zvìt¹it"
+
+#: src/preferences.c:887
+msgid "Dithering method:"
+msgstr "Metoda rozptylu:"
+
+#: src/preferences.c:892
+msgid "Two pass zooming"
+msgstr "Zvìt¹ení na dva prùchody"
+
+#: src/preferences.c:895
+msgid "Allow enlargement of image for zoom to fit."
+msgstr "Povolit zvìt¹ení obrázku na velikost okna."
+
+#: src/preferences.c:899
+msgid "Zoom increment:"
+msgstr "Krok zvìt¹ení:"
+
+#: src/preferences.c:904
+msgid "When new image is selected:"
+msgstr "Pokud je vybrán nový obrázek:"
+
+#: src/preferences.c:907
+msgid "Zoom to original size"
+msgstr "Zobrazit v pùvodní velikosti"
+
+#: src/preferences.c:913
+msgid "Leave Zoom at previous setting"
+msgstr "Ponechat zvìt¹ení na pøedchozím nastavení"
+
+#: src/preferences.c:917
+#, fuzzy
+msgid "Appearance"
+msgstr "Pøipojit"
+
+#: src/preferences.c:919
+msgid "Black background"
+msgstr "Èerné pozadí"
+
+#: src/preferences.c:922
+#, fuzzy
+msgid "Convenience"
+msgstr "Pokraèovat"
+
+#: src/preferences.c:924
+msgid "Refresh on file change"
+msgstr "Obnovit zmìnu v souboru"
+
+#: src/preferences.c:926
+msgid "Preload next image"
+msgstr "Pøedèítat dal¹í obrázek"
+
+#: src/preferences.c:928
+msgid "Auto rotate image using Exif information"
+msgstr "Automatické otoèení obrázku podle údaje z Exif"
+
+#: src/preferences.c:937
+msgid "Windows"
+msgstr "Okna"
+
+#: src/preferences.c:940
+#, fuzzy
+msgid "State"
+msgstr "Poè. èíslo"
+
+#: src/preferences.c:942
+msgid "Remember window positions"
+msgstr "Zapamatovat si pozice oken"
+
+#: src/preferences.c:944
+msgid "Remember tool state (float/hidden)"
+msgstr "Zapamatovat si stav nástrojù (plovoucí/skryté)"
+
+#: src/preferences.c:949
+msgid "Fit window to image when tools are hidden/floating"
+msgstr "Pøizpùsobit okno obrázku, pokud jsou nástroje skryté/plovoucí"
+
+#: src/preferences.c:953
+msgid "Limit size when auto-sizing window (%):"
+msgstr "Omezit velikost, pokud se okno automaticky pøizpùsobuje (%):"
+
+#: src/preferences.c:960 src/print.c:3356 src/print.c:3363
+msgid "Layout"
+msgstr "Rozvr¾ení"
+
+#: src/preferences.c:973
+msgid "Filtering"
+msgstr "Filtrování"
+
+#: src/preferences.c:978
+msgid "Show entries that begin with a dot"
+msgstr "Zobrazit polo¾ky zaèínající teèkou"
+
+#: src/preferences.c:980
+msgid "Case sensitive sort"
+msgstr "Pøi tøídìní rozli¹ovat velikost písmem"
+
+#: src/preferences.c:983
+msgid "Disable File Filtering"
+msgstr "Vypnout filtrování souborù"
+
+#: src/preferences.c:986
+#, fuzzy
+msgid "File types"
+msgstr "Datum souboru:"
+
+#: src/preferences.c:1008
+msgid "Filter"
+msgstr "Maska"
+
+#: src/preferences.c:1045 src/preferences.c:1109
+msgid "Defaults"
+msgstr "Výchozí"
+
+#: src/preferences.c:1066
+msgid "Editors"
+msgstr "Editory"
+
+#: src/preferences.c:1072
+msgid "#"
+msgstr "#"
+
+#: src/preferences.c:1075
+msgid "Menu name"
+msgstr "Název menu"
+
+#: src/preferences.c:1125
+msgid "Advanced"
+msgstr "Roz¹íøené"
+
+#: src/preferences.c:1138
+#, fuzzy
+msgid "Full screen"
+msgstr "Ce_lá obrazovka"
+
+#: src/preferences.c:1146
+#, fuzzy
+msgid "Smooth image flip"
+msgstr "Velikost obrázku:"
+
+#: src/preferences.c:1148
+msgid "Disable screen saver"
+msgstr ""
+
+#: src/preferences.c:1151
+msgid "Delete"
+msgstr "Odstranit"
+
+#: src/preferences.c:1153
+msgid "Confirm file delete"
+msgstr "Potvrdit odstranìní souboru"
+
+#: src/preferences.c:1155
+msgid "Enable Delete key"
+msgstr "Povolit klávesu Delete"
+
+#: src/preferences.c:1158
+msgid "Safe delete"
+msgstr "Bezpeèné mazání"
+
+#: src/preferences.c:1176
+#, fuzzy
+msgid "Maximum size:"
+msgstr "Maximální velikost (MB)"
+
+#: src/preferences.c:1176
+msgid "MB"
+msgstr ""
+
+#: src/preferences.c:1179
+msgid "View"
+msgstr "Zobrazení"
+
+#: src/preferences.c:1189
+msgid "Behavior"
+msgstr ""
+
+#: src/preferences.c:1191
+#, fuzzy
+msgid "Rectangular selection in icon view"
+msgstr "Obdélníkový výbìr "
+
+#: src/preferences.c:1194
+msgid "Descend folders in tree view"
+msgstr "Zobrazit adresáøe ve stromu"
+
+#: src/preferences.c:1197
+msgid "In place renaming"
+msgstr "Pøejmenovat na místì"
+
+#: src/preferences.c:1200
+#, fuzzy
+msgid "Navigation"
+msgstr "akce"
+
+#: src/preferences.c:1202
+msgid "Progressive keyboard scrolling"
+msgstr "Postupné posouvání klávesnicí"
+
+#: src/preferences.c:1204
+msgid "Mouse wheel scrolls image"
+msgstr "Koleèko my¹i posouvá obrázek"
+
+#: src/preferences.c:1207
+msgid "Miscellaneous"
+msgstr ""
+
+#: src/preferences.c:1209
+msgid "Store keywords and comments local to source images"
+msgstr ""
+
+#: src/preferences.c:1212
+msgid "Custom similarity threshold:"
+msgstr "U¾ivatelský práh podobnosti:"
+
+#: src/preferences.c:1215
+msgid "Offscreen cache size (Mb per image):"
+msgstr "Velikost mimoobrazovkové cache (MB na obrázek):"
+
+#: src/preferences.c:1291
+msgid "About - GQview"
+msgstr "O programu - GQview"
+
+#: src/preferences.c:1304
+#, c-format
+msgid ""
+"GQview %s\n"
+"\n"
+"Copyright (c) %s John Ellis\n"
+"website: %s\n"
+"email: %s\n"
+"\n"
+"Released under the GNU General Public License"
+msgstr ""
+"GQview %s\n"
+"\n"
+"Copyright (c) %s John Ellis\n"
+"web: %s\n"
+"email: %s\n"
+"\n"
+"©íøeno pod V¹eobecnou veøejnou licencí GNU"
+
+#: src/preferences.c:1322
+msgid "Credits..."
+msgstr "Kredity..."
+
+#: src/print.c:111
+#, fuzzy
+msgid "Selection"
+msgstr "Zru¹it výbìr"
+
+#: src/print.c:112
+msgid "All"
+msgstr ""
+
+#: src/print.c:123
+msgid "One image per page"
+msgstr ""
+
+#: src/print.c:124
+msgid "Proof sheet"
+msgstr ""
+
+#: src/print.c:137
+#, fuzzy
+msgid "Default printer"
+msgstr "Výchozí"
+
+#: src/print.c:138
+msgid "Custom printer"
+msgstr ""
+
+#: src/print.c:139
+msgid "PostScript file"
+msgstr ""
+
+#: src/print.c:140
+#, fuzzy
+msgid "Image file"
+msgstr "Velikost obrázku:"
+
+#: src/print.c:154
+msgid "jpeg, low quality"
+msgstr ""
+
+#: src/print.c:155
+msgid "jpeg, normal quality"
+msgstr ""
+
+#: src/print.c:156
+msgid "jpeg, high quality"
+msgstr ""
+
+#: src/print.c:350 src/print.c:3201
+#, fuzzy
+msgid "points"
+msgstr "Xpaint"
+
+#: src/print.c:351
+msgid "millimeters"
+msgstr ""
+
+#
+# Konektory pro externí blesky: kolejnice typu Hot-shoe: komunikace s
+#: src/print.c:352
+#, fuzzy
+msgid "centimeters"
+msgstr "centimetr"
+
+#: src/print.c:353
+#, fuzzy
+msgid "inches"
+msgstr "palec"
+
+#: src/print.c:354
+msgid "picas"
+msgstr ""
+
+#: src/print.c:359
+#, fuzzy
+msgid "Portrait"
+msgstr "portrét"
+
+#: src/print.c:360
+#, fuzzy
+msgid "Landscape"
+msgstr "krajina"
+
+#
+# Konektory pro externí blesky: kolejnice typu Hot-shoe: komunikace s
+#: src/print.c:366
+#, fuzzy
+msgid "Letter"
+msgstr "centimetr"
+
+#. in 8.5 x 11
+#: src/print.c:367
+msgid "Legal"
+msgstr ""
+
+#. in 8.5 x 14
+#: src/print.c:368
+msgid "Executive"
+msgstr ""
+
+#. in 7.25x 10.5
+#. mm 841 x 1189
+#. mm 594 x 841
+#. mm 420 x 594
+#. mm 297 x 420
+#. mm 210 x 297
+#. mm 148 x 210
+#. mm 105 x 148
+#. mm 353 x 500
+#. mm 250 x 353
+#. mm 176 x 250
+#. mm 125 x 176
+#: src/print.c:380
+msgid "Envelope #10"
+msgstr ""
+
+#. in 4.125 x 9.5
+#: src/print.c:381
+msgid "Envelope #9"
+msgstr ""
+
+#. in 3.875 x 8.875
+#: src/print.c:382
+msgid "Envelope C4"
+msgstr ""
+
+#. mm 229 x 324
+#: src/print.c:383
+msgid "Envelope C5"
+msgstr ""
+
+#. mm 162 x 229
+#: src/print.c:384
+msgid "Envelope C6"
+msgstr ""
+
+#. mm 114 x 162
+#: src/print.c:385
+msgid "Photo 6x4"
+msgstr ""
+
+#. in 6   x 4
+#: src/print.c:386
+msgid "Photo 8x10"
+msgstr ""
+
+#. in 8   x 10
+#: src/print.c:387
+msgid "Postcard"
+msgstr ""
+
+#. mm 100 x 148
+#: src/print.c:388
+msgid "Tabloid"
+msgstr ""
+
+#: src/print.c:544
+#, fuzzy, c-format
+msgid "page %d of %d"
+msgstr "Obrázek %d z %d"
+
+#: src/print.c:736 src/utilops.c:2067
+msgid "Preview"
+msgstr "Náhled"
+
+#: src/print.c:1044
+#, c-format
+msgid ""
+"Unable to open pipe for writing.\n"
+"\"%s\""
+msgstr ""
+
+#: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:424
+#: src/view_file_list.c:453
+#, c-format
+msgid "A file with name %s already exists."
+msgstr "Soubor se názvem %s ji¾ existuje."
+
+#: src/print.c:1074 src/print.c:1543
+#, c-format
+msgid "Failure writing to file %s"
+msgstr ""
+
+#: src/print.c:1128 src/print.c:1165 src/print.c:1201 src/print.c:1307
+#: src/print.c:1398 src/print.c:1429
+msgid "SIGPIPE error writing to printer."
+msgstr ""
+
+#: src/print.c:1964
+#, c-format
+msgid "Page %d"
+msgstr ""
+
+#: src/print.c:1986 src/print.c:1991
+#, fuzzy
+msgid "Printing error"
+msgstr "Maska"
+
+#: src/print.c:1990
+#, c-format
+msgid "An error occured printing to %s."
+msgstr ""
+
+#: src/print.c:1994
+#, fuzzy
+msgid "Details"
+msgstr "Výchozí"
+
+#: src/print.c:2587 src/print.c:3332
+#, fuzzy
+msgid "Print - GQview"
+msgstr "O programu - GQview"
+
+#: src/print.c:2591
+#, c-format
+msgid "Printing %d pages to %s."
+msgstr ""
+
+#: src/print.c:2691
+#, fuzzy
+msgid "Format:"
+msgstr "Formát"
+
+#: src/print.c:2766
+msgid "Units:"
+msgstr ""
+
+#: src/print.c:2810
+#, fuzzy
+msgid "Orientation:"
+msgstr "Orientace"
+
+#: src/print.c:2942
+#, fuzzy
+msgid "Destination:"
+msgstr "Popis"
+
+#: src/print.c:2990
+#, fuzzy
+msgid "<printer name>"
+msgstr "Název souboru:"
+
+#: src/print.c:3079
+#, fuzzy
+msgid "Unlimited"
+msgstr "Nepojmenovaný"
+
+#: src/print.c:3188
+msgid "Show"
+msgstr ""
+
+#: src/print.c:3199
+#, fuzzy
+msgid "Font"
+msgstr "zapnuto"
+
+#: src/print.c:3359
+#, fuzzy
+msgid "Source"
+msgstr "Tøídit"
+
+#: src/print.c:3375
+#, fuzzy
+msgid "Proof size:"
+msgstr "Velikost obrázku:"
+
+#: src/print.c:3391
+msgid "Text"
+msgstr ""
+
+#: src/print.c:3401
+#, fuzzy
+msgid "Paper"
+msgstr "závìrkou"
+
+#: src/print.c:3424
+msgid "Margins"
+msgstr ""
+
+#: src/print.c:3426
+msgid "Left:"
+msgstr ""
+
+#: src/print.c:3429
+#, fuzzy
+msgid "Right:"
+msgstr "Délka"
+
+#: src/print.c:3432
+#, fuzzy
+msgid "Top:"
+msgstr "Skupina:"
+
+#: src/print.c:3435
+#, fuzzy
+msgid "Bottom:"
+msgstr "na:"
+
+#: src/print.c:3444
+#, fuzzy
+msgid "Printer"
+msgstr "Maska"
+
+#: src/print.c:3450
+msgid "Custom printer:"
+msgstr ""
+
+#: src/print.c:3459
+#, fuzzy
+msgid "File:"
+msgstr "Maska:"
+
+#: src/print.c:3468
+#, fuzzy
+msgid "File format:"
+msgstr "Datum souboru:"
+
+#: src/print.c:3473
+msgid "DPI:"
+msgstr ""
+
+#: src/print.c:3481
+#, fuzzy
+msgid "Remember print settings"
+msgstr "Zapamatovat si pozice oken"
+
+#: src/rcfile.c:185
+#, c-format
+msgid "error saving config file: %s\n"
+msgstr "Chyba pøi ukládání souboru s nastavením: %s\n"
+
+#: src/search.c:200
+#, fuzzy
+msgid "folder"
+msgstr "Adresáø:"
+
+#: src/search.c:201
+#, fuzzy
+msgid "comments"
+msgstr "Prvky"
+
+#: src/search.c:202
+#, fuzzy
+msgid "results"
+msgstr "Výchozí"
+
+#: src/search.c:206
+#, fuzzy
+msgid "contains"
+msgstr "Pokraèovat"
+
+#: src/search.c:207
+msgid "is"
+msgstr ""
+
+#: src/search.c:211 src/search.c:218
+msgid "equal to"
+msgstr ""
+
+#: src/search.c:212
+msgid "less than"
+msgstr ""
+
+#: src/search.c:213
+msgid "greater than"
+msgstr ""
+
+#: src/search.c:214 src/search.c:221
+msgid "between"
+msgstr ""
+
+#: src/search.c:219
+msgid "before"
+msgstr ""
+
+#: src/search.c:220
+#, fuzzy
+msgid "after"
+msgstr "Data"
+
+#: src/search.c:225
+msgid "match all"
+msgstr ""
+
+#: src/search.c:226
+msgid "match any"
+msgstr ""
+
+#: src/search.c:227
+msgid "exclude"
+msgstr ""
+
+#: src/search.c:277
+#, fuzzy, c-format
+msgid "%s, %d files (%s, %d)"
+msgstr "%s, souborù: %d (%s, %d)%s"
+
+#: src/search.c:284
+#, fuzzy, c-format
+msgid "%s, %d files"
+msgstr "%s, souborù: %d %s"
+
+#: src/search.c:301
+#, fuzzy
+msgid "Searching..."
+msgstr "Tøídím..."
+
+#: src/search.c:2093
+msgid "File not found"
+msgstr ""
+
+#: src/search.c:2094
+#, fuzzy
+msgid "Please enter an existing file for image content."
+msgstr "Prosím vyberte existující adresáø"
+
+#: src/search.c:2140
+msgid "Folder not found"
+msgstr ""
+
+#: src/search.c:2141
+#, fuzzy
+msgid "Please enter an existing folder to search."
+msgstr "Prosím vyberte existující adresáø"
+
+#: src/search.c:2570
+#, fuzzy
+msgid "Image search - GQview"
+msgstr "Vlastnosti obrázku - GQview"
+
+#: src/search.c:2599
+#, fuzzy
+msgid "Search:"
+msgstr "Tøídím..."
+
+#: src/search.c:2613
+msgid "Recurse"
+msgstr ""
+
+#: src/search.c:2617
+#, fuzzy
+msgid "File name"
+msgstr "Název souboru:"
+
+#: src/search.c:2623
+msgid "Match case"
+msgstr ""
+
+#: src/search.c:2627
+#, fuzzy
+msgid "File size is"
+msgstr "Velikost souboru:"
+
+#: src/search.c:2634 src/search.c:2649 src/search.c:2667
+#, fuzzy
+msgid "and"
+msgstr "Náhodnì"
+
+#: src/search.c:2639
+#, fuzzy
+msgid "File date is"
+msgstr "Datum souboru:"
+
+#: src/search.c:2656
+#, fuzzy
+msgid "Image dimensions are"
+msgstr "Popis obrázku"
+
+#: src/search.c:2676
+#, fuzzy
+msgid "Image content is"
+msgstr "Pøidat obsah"
+
+#: src/search.c:2682
+#, fuzzy, no-c-format
+msgid "% similar to"
+msgstr "Podobnosti"
+
+#: src/search.c:2751
+#, fuzzy
+msgid "Rank"
+msgstr "Náhodnì"
+
+#: src/thumb.c:378
+msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
+msgstr ""
+"Selhalo naèítání náhledù obrázkù z cache, pokus o opìtovné vytvoøení.\n"
+
+#: src/ui_bookmark.c:148
+#, c-format
+msgid "Unable to write history lists to: %s\n"
+msgstr "Nelze zapsat historii do: %s\n"
+
+#: src/ui_bookmark.c:445 src/ui_bookmark.c:508
+msgid "New Bookmark"
+msgstr "Nová zálo¾ka"
+
+#: src/ui_bookmark.c:591 src/ui_bookmark.c:597
+msgid "Edit Bookmark"
+msgstr "Upravit zálo¾ky"
+
+#: src/ui_bookmark.c:612
+msgid "Path:"
+msgstr "Cesta:"
+
+#: src/ui_bookmark.c:621
+msgid "Icon:"
+msgstr "Ikona:"
+
+#: src/ui_bookmark.c:627
+#, fuzzy
+msgid "Select icon"
+msgstr "Zru¹it výbìr"
+
+#: src/ui_bookmark.c:718
+msgid "_Properties..."
+msgstr "_Vlastnosti..."
+
+#: src/ui_bookmark.c:720
+msgid "Move _up"
+msgstr "Pøesunout nahor_u"
+
+#: src/ui_bookmark.c:722
+msgid "Move _down"
+msgstr "Pøesunout _dolù"
+
+#: src/ui_bookmark.c:724
+msgid "_Remove"
+msgstr "O_dstranit"
+
+#: src/ui_help.c:111
+#, c-format
+msgid ""
+"Unable to load:\n"
+"%s"
+msgstr ""
+"Nelze naèíst:\n"
+"%s"
+
+#: src/ui_pathsel.c:430 src/view_dir_list.c:97 src/view_dir_tree.c:204
+#, c-format
+msgid "Failed to rename %s to %s."
+msgstr "Nelze pøejmenovat %s na %s."
+
+#: src/ui_pathsel.c:486 src/utilops.c:1288 src/utilops.c:1461
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+"%s"
+msgstr ""
+"Nelze odstranit soubor:\n"
+"%s"
+
+#: src/ui_pathsel.c:487 src/utilops.c:1462
+msgid "File deletion failed"
+msgstr "Odstranìní souboru selhalo"
+
+#: src/ui_pathsel.c:529 src/ui_pathsel.c:537
+msgid "Delete file"
+msgstr "Odstranit soubor"
+
+#: src/ui_pathsel.c:535
+#, c-format
+msgid ""
+"About to delete the file:\n"
+" %s"
+msgstr ""
+"Bude odstranìn soubor:\n"
+" %s"
+
+#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2035
+#: src/utilops.c:2255
+msgid "_Rename"
+msgstr "Pøe_jmenovat"
+
+#: src/ui_pathsel.c:628 src/ui_pathsel.c:638
+msgid "Add _Bookmark"
+msgstr "Pøid_at zálo¾ku"
+
+#: src/ui_pathsel.c:636
+msgid "_Delete"
+msgstr "O_dstranit"
+
+#: src/ui_pathsel.c:740 src/ui_pathsel.c:1045
+#, fuzzy
+msgid "New folder"
+msgstr "_Nový adresáø..."
+
+#: src/ui_pathsel.c:750 src/utilops.c:2325 src/view_dir_list.c:338
+#: src/view_dir_tree.c:434
+#, fuzzy, c-format
+msgid ""
+"Unable to create folder:\n"
+"%s"
+msgstr ""
+"Nelze vytvoøit nový adresáø:\n"
+"%s"
+
+#: src/ui_pathsel.c:751 src/utilops.c:2326 src/view_dir_list.c:339
+#: src/view_dir_tree.c:435
+#, fuzzy
+msgid "Error creating folder"
+msgstr "Chyba pøi vytváøení adresáøe"
+
+#: src/ui_pathsel.c:972
+msgid "All Files"
+msgstr "V¹echny soubory"
+
+#: src/ui_pathsel.c:1048
+msgid "Show hidden"
+msgstr "Zobrazit skryté"
+
+#: src/ui_pathsel.c:1132
+msgid "Filter:"
+msgstr "Maska:"
+
+#: src/ui_tabcomp.c:840
+#, fuzzy
+msgid "Select path"
+msgstr "Vybrat v¹e"
+
+#: src/ui_tabcomp.c:856
+#, fuzzy
+msgid "All files"
+msgstr "V¹echny soubory"
+
+#: src/utilops.c:470 src/utilops.c:783 src/utilops.c:1640 src/utilops.c:2187
+msgid "Overwrite file"
+msgstr "Pøepsat soubor"
+
+#: src/utilops.c:475 src/utilops.c:788 src/utilops.c:1645 src/utilops.c:2192
+#, fuzzy
+msgid "Overwrite file?"
+msgstr "Pøepsat soubor"
+
+#: src/utilops.c:476 src/utilops.c:789
+msgid "Replace existing file with new file."
+msgstr ""
+
+#: src/utilops.c:480
+#, fuzzy
+msgid "Overwrite _all"
+msgstr "Pøepsat soubor"
+
+#: src/utilops.c:482
+#, fuzzy
+msgid "S_kip all"
+msgstr "Pøeskoèit v¹echny"
+
+#: src/utilops.c:483
+#, fuzzy
+msgid "_Skip"
+msgstr "Pøeskoèit"
+
+#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+#, fuzzy
+msgid "Existing file"
+msgstr "Chyby pøi pøesunování souboru"
+
+#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+#, fuzzy
+msgid "New file"
+msgstr "_Nový adresáø..."
+
+#: src/utilops.c:494 src/utilops.c:802 src/utilops.c:1746 src/utilops.c:1810
+#: src/utilops.c:2101
+msgid "Auto rename"
+msgstr "Automaticky pøejmenovat"
+
+#: src/utilops.c:502 src/utilops.c:810
+msgid "Rename"
+msgstr "Pøejmenovat"
+
+#: src/utilops.c:543
+msgid "Source to copy matches destination"
+msgstr "Zdroj pro kopírování se shoduje s cílem."
+
+#: src/utilops.c:544
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to itself."
+msgstr ""
+"Nelze kopírovat soubor:\n"
+"%s\n"
+"na sebe sama."
+
+#: src/utilops.c:548
+msgid "Source to move matches destination"
+msgstr "Zdroj pro pøesun se shoduje s cílem."
+
+#: src/utilops.c:549
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to itself."
+msgstr ""
+"Nelze pøesunout soubor:\n"
+"%s\n"
+"na sebe sama."
+
+#: src/utilops.c:557 src/utilops.c:644 src/utilops.c:1280
+#, fuzzy
+msgid "Co_ntinue"
+msgstr "Pokraèovat"
+
+#: src/utilops.c:630 src/utilops.c:850
+msgid "Error copying file"
+msgstr "Chyba pøi kopírování souboru"
+
+#: src/utilops.c:631
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s\n"
+"during multiple file copy."
+msgstr ""
+"Nelze kopírovat soubor:\n"
+"%s\n"
+"do:\n"
+"%s\n"
+"bìhem vícenásobného kopírování souboru."
+
+#: src/utilops.c:635 src/utilops.c:855
+msgid "Error moving file"
+msgstr "Chyby pøi pøesunování souboru"
+
+#: src/utilops.c:636
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s\n"
+"during multiple file move."
+msgstr ""
+"Nelze pøesunout soubor:\n"
+"%s\n"
+"do:\n"
+"%s\n"
+"bìhem vícenásobného pøesunu souboru."
+
+#: src/utilops.c:774
+msgid "Source matches destination"
+msgstr "Zdroj je toto¾ný s cílem"
+
+#: src/utilops.c:775
+msgid "Source and destination are the same, operation cancelled."
+msgstr "Zdroj a cíl jsou toto¾né, operace stornována."
+
+#: src/utilops.c:851
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Nelze kopírovat soubor:\n"
+"%s\n"
+"do:\n"
+"%s"
+
+#: src/utilops.c:856
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Nelze pøesunout soubor:\n"
+"%s\n"
+"do:\n"
+"%s"
+
+#: src/utilops.c:899
+msgid "Invalid destination"
+msgstr "Neplatný cíl"
+
+#: src/utilops.c:900
+#, fuzzy
+msgid ""
+"When operating with multiple files, please select\n"
+"a folder, not a file."
+msgstr ""
+"Pokud pracujete s více soubory, vyberte prosím\n"
+"adresáø, nikoliv soubor."
+
+#: src/utilops.c:905
+#, fuzzy
+msgid "Please select an existing folder."
+msgstr "Prosím vyberte existující adresáø"
+
+#: src/utilops.c:956
+#, fuzzy
+msgid "Copy - GQview"
+msgstr "Nápovìda - GQview"
+
+#: src/utilops.c:957 src/view_dir_list.c:217 src/view_dir_tree.c:309
+msgid "_Copy"
+msgstr "_Kopírovat"
+
+#: src/utilops.c:960
+#, fuzzy
+msgid "Copy file"
+msgstr "Pøejmenovat soubor:"
+
+#: src/utilops.c:964
+#, fuzzy
+msgid "Copy multiple files"
+msgstr "Kopírovat více souborù do:"
+
+#: src/utilops.c:970
+#, fuzzy
+msgid "Move - GQview"
+msgstr "Nápovìda - GQview"
+
+#: src/utilops.c:971 src/view_dir_list.c:219 src/view_dir_tree.c:311
+msgid "_Move"
+msgstr "_Pøesunout"
+
+#: src/utilops.c:974
+#, fuzzy
+msgid "Move file"
+msgstr "Pøejmenovat soubor:"
+
+#: src/utilops.c:978
+#, fuzzy
+msgid "Move multiple files"
+msgstr "Pøesunout více souborù do:"
+
+#: src/utilops.c:992 src/utilops.c:1502
+#, fuzzy
+msgid "File name:"
+msgstr "Název souboru:"
+
+#: src/utilops.c:996
+#, fuzzy
+msgid "Choose the destination folder."
+msgstr "Zdroj je toto¾ný s cílem"
+
+#: src/utilops.c:1123 src/utilops.c:1272 src/utilops.c:1289
+msgid "Delete failed"
+msgstr "Chyba pøi odstraòování"
+
+#: src/utilops.c:1124
+msgid "Unable to remove old file from trash folder"
+msgstr "Nelze odstranit staré soubory z ko¹e"
+
+#: src/utilops.c:1180 src/utilops.c:2318
+#, fuzzy
+msgid "Could not create folder"
+msgstr "Nelze vytvoøit adresáø"
+
+#: src/utilops.c:1202
+msgid "Permission denied"
+msgstr "Pøístup odepøen"
+
+#: src/utilops.c:1212
+#, c-format
+msgid ""
+"Unable to access or create the trash folder.\n"
+"\"%s\""
+msgstr ""
+"Nelze vytvoøit nebo pou¾ít ko¹.\n"
+"\\\"%s\\\""
+
+#: src/utilops.c:1216
+msgid "Turn off safe delete"
+msgstr "Vypnout bezpeèné mazání"
+
+#: src/utilops.c:1234
+#, c-format
+msgid "Safe delete: %s"
+msgstr "Bezpeèné mazání: %s"
+
+#: src/utilops.c:1276
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+" %s\n"
+" Continue multiple delete operation?"
+msgstr ""
+"Nelze odstranit soubor:\n"
+" %s\n"
+" Pokraèovat ve vícenásobném odstranìní souborù?"
+
+#: src/utilops.c:1347
+#, c-format
+msgid "File %d of %d"
+msgstr "Soubor %d z %d"
+
+#: src/utilops.c:1416
+#, fuzzy
+msgid "Delete files - GQview"
+msgstr "Odstranit soubory"
+
+#: src/utilops.c:1420
+#, fuzzy
+msgid "Delete multiple files"
+msgstr "Pøejmenovat více souborù:"
+
+#: src/utilops.c:1438
+#, c-format
+msgid "Review %d files"
+msgstr "Ohodnoceno souborù: %d"
+
+#: src/utilops.c:1494
+#, fuzzy
+msgid "Delete file - GQview"
+msgstr "Odstranit soubor"
+
+#: src/utilops.c:1498
+#, fuzzy
+msgid "Delete file?"
+msgstr "Odstranit soubor"
+
+#: src/utilops.c:1646 src/utilops.c:2193
+msgid "Replace existing file by renaming new file."
+msgstr ""
+
+#: src/utilops.c:1661
+#, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+" to:\n"
+"%s"
+msgstr ""
+"Nelze pøejmenovat soubor:\n"
+"%s\n"
+" na:\n"
+"%s"
+
+#: src/utilops.c:1664 src/utilops.c:2208 src/view_file_list.c:448
+#: src/view_file_list.c:454 src/view_file_list.c:460
+msgid "Error renaming file"
+msgstr "Chyba pøi pøejmenování souboru"
+
+#: src/utilops.c:1747
+msgid ""
+"Can not auto rename with the selected\n"
+"number set, one or more files exist that\n"
+"match the resulting name list.\n"
+msgstr ""
+"Nelze automaticky pøejmenovat s tímto\n"
+"poèáteèním èíslem, existuje jeden nebo více\n"
+"souborù, jejich¾ názvy jsou obsa¾eny v\n"
+"cílovém seznamu názvù.\n"
+
+#: src/utilops.c:1809
+#, c-format
+msgid ""
+"Failed to rename\n"
+"%s\n"
+"The number was %d."
+msgstr ""
+"Nelze pøejmenovat\n"
+"%s\n"
+"Èíslo bylo %d."
+
+#: src/utilops.c:2031 src/utilops.c:2249
+#, fuzzy
+msgid "Rename - GQview"
+msgstr "Nápovìda - GQview"
+
+#: src/utilops.c:2034
+#, fuzzy
+msgid "Rename multiple files"
+msgstr "Pøejmenovat více souborù:"
+
+#: src/utilops.c:2066
+msgid "Original Name"
+msgstr "Pùvodní název"
+
+#: src/utilops.c:2110 src/utilops.c:2262
+#, fuzzy
+msgid "Original name:"
+msgstr "Pùvodní název"
+
+#: src/utilops.c:2113 src/utilops.c:2265
+#, fuzzy
+msgid "New name:"
+msgstr "Pøejmenovat:"
+
+#: src/utilops.c:2128
+msgid "Begin text"
+msgstr "Zaèátek textu"
+
+#: src/utilops.c:2136
+msgid "Start #"
+msgstr "Poè. èíslo"
+
+#: src/utilops.c:2142
+msgid "End text"
+msgstr "Konec textu"
+
+#: src/utilops.c:2150
+msgid "Padding:"
+msgstr "Doplnìní:"
+
+#: src/utilops.c:2207 src/view_file_list.c:459
+#, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Nelze pøejmenovat soubor:\n"
+"%s\n"
+"na:\n"
+"%s"
+
+#: src/utilops.c:2252
+#, fuzzy
+msgid "Rename file"
+msgstr "Pøejmenovat soubor:"
+
+#: src/utilops.c:2311
+#, fuzzy, c-format
+msgid ""
+"The folder:\n"
+"%s\n"
+"already exists."
+msgstr ""
+"Adresáø:\n"
+"%s\n"
+"ji¾ existuje."
+
+#: src/utilops.c:2312
+#, fuzzy
+msgid "Folder exists"
+msgstr "Adresáøe"
+
+#: src/utilops.c:2317
+#, c-format
+msgid ""
+"The path:\n"
+"%s\n"
+"already exists as a file."
+msgstr ""
+"Cesta:\n"
+"%s\n"
+"ji¾ existuje jako soubor."
+
+#: src/utilops.c:2369
+#, fuzzy
+msgid "New folder - GQview"
+msgstr "Nápovìda - GQview"
+
+#: src/utilops.c:2372
+#, fuzzy, c-format
+msgid ""
+"Create folder in:\n"
+"%s\n"
+"named:"
+msgstr ""
+"Vytvoøit adresáø v:\n"
+"%s\n"
+"s názvem:"
+
+#: src/view_dir_list.c:329 src/view_dir_tree.c:425
+msgid "new_folder"
+msgstr "nový_adresáø"
+
+#: src/view_dir_list.c:387 src/view_dir_tree.c:482
+msgid "_Up to parent"
+msgstr "O úroveò _vý¹e"
+
+#: src/view_dir_list.c:392 src/view_dir_tree.c:487
+msgid "_Slideshow"
+msgstr "_Slideshow"
+
+#: src/view_dir_list.c:394 src/view_dir_tree.c:489
+msgid "Slideshow recursive"
+msgstr "Slideshow rekurzivnì"
+
+#: src/view_dir_list.c:398 src/view_dir_tree.c:493
+msgid "Find _duplicates..."
+msgstr "Najít d_uplikáty..."
+
+#: src/view_dir_list.c:400 src/view_dir_tree.c:495
+msgid "Find duplicates recursive..."
+msgstr "Najít duplikáty rekurzivnì..."
+
+#: src/view_dir_list.c:407 src/view_dir_tree.c:502
+msgid "_New folder..."
+msgstr "_Nový adresáø..."
+
+#: src/view_dir_list.c:419 src/view_dir_tree.c:509
+msgid "View as _tree"
+msgstr "Zobrazit jako s_trom"
+
+#: src/view_dir_list.c:421 src/view_dir_tree.c:511 src/view_file_icon.c:311
+#: src/view_file_list.c:423
+msgid "Re_fresh"
+msgstr "_Obnovit"
+
+#: src/view_file_icon.c:304 src/view_file_list.c:416
+msgid "_Sort"
+msgstr "_Tøídit"
+
+#: src/view_file_icon.c:307 src/view_file_list.c:419
+msgid "View as _icons"
+msgstr "Zobrazit jako _ikony"
+
+#: src/view_file_list.c:421
+msgid "Show _thumbnails"
+msgstr "Zobrazit ná_hledy"
+
+#: src/view_file_list.c:447
+#, c-format
+msgid ""
+"Invalid file name:\n"
+"%s"
+msgstr ""
+"Neplatný název souboru:\n"
+"%s"
+
+#~ msgid "Purge thumbnails"
+#~ msgstr "Vyèistit náhledy"
+
+#~ msgid "/File/tear1"
+#~ msgstr "/Soubor/tear1"
+
+#~ msgid "/File/_New collection"
+#~ msgstr "/Soubor/_Nová sbírka"
+
+#~ msgid "/File/_Open collection..."
+#~ msgstr "/Soubor/_Otevøít sbírku..."
+
+#~ msgid "/File/sep1"
+#~ msgstr "/Soubor/sep1"
+
+#, fuzzy
+#~ msgid "/File/_Search..."
+#~ msgstr "/File/Pøe_jmenovat..."
+
+#~ msgid "/File/_Find duplicates..."
+#~ msgstr "/Soubor/Najít d_uplikáty..."
+
+#~ msgid "/File/sep2"
+#~ msgstr "/Soubor/sep2"
+
+#, fuzzy
+#~ msgid "/File/_Print..."
+#~ msgstr "/File/Pøe_jmenovat..."
+
+#~ msgid "/File/N_ew folder..."
+#~ msgstr "/Soubor/Nový _adresáø..."
+
+#~ msgid "/File/sep3"
+#~ msgstr "/Soubor/sep3"
+
+#~ msgid "/File/_Copy..."
+#~ msgstr "/Soubor/_Kopírovat..."
+
+#~ msgid "/File/_Move..."
+#~ msgstr "/File/_Pøesunout..."
+
+#~ msgid "/File/_Rename..."
+#~ msgstr "/File/Pøe_jmenovat..."
+
+#~ msgid "/File/_Delete..."
+#~ msgstr "/Soubor/O_dstranit..."
+
+#~ msgid "/File/sep4"
+#~ msgstr "/Soubor/sep4"
+
+#~ msgid "/File/C_lose window"
+#~ msgstr "/Soubor/_Zavøít okno"
+
+#, fuzzy
+#~ msgid "/File/_Quit"
+#~ msgstr "/Soubor/_Konec"
+
+#~ msgid "/_Edit"
+#~ msgstr "/Ú_pravy"
+
+#~ msgid "/Edit/tear1"
+#~ msgstr "/Úpravy/tear1"
+
+#~ msgid "/Edit/editor1"
+#~ msgstr "/Úpravy/editor1"
+
+#~ msgid "/Edit/editor2"
+#~ msgstr "/Úpravy/editor2"
+
+#~ msgid "/Edit/editor3"
+#~ msgstr "/Úpravy/editor3"
+
+#~ msgid "/Edit/editor4"
+#~ msgstr "/Úpravy/editor4"
+
+#~ msgid "/Edit/editor5"
+#~ msgstr "/Úpravy/editor5"
+
+#~ msgid "/Edit/editor6"
+#~ msgstr "/Úpravy/editor6"
+
+#~ msgid "/Edit/editor7"
+#~ msgstr "/Úpravy/editor7"
+
+#~ msgid "/Edit/editor8"
+#~ msgstr "/Úpravy/editor8"
+
+#~ msgid "/Edit/editor9"
+#~ msgstr "/Úpravy/editor9"
+
+#~ msgid "/Edit/editor0"
+#~ msgstr "/Úpravy/editor0"
+
+#~ msgid "/Edit/sep1"
+#~ msgstr "/Úpravy/sep1"
+
+#~ msgid "/Edit/_Adjust"
+#~ msgstr "/Úpravy/O_toèit"
+
+#~ msgid "/Edit/_Properties"
+#~ msgstr "/Úpravy/Vlast_nosti..."
+
+#~ msgid "/Edit/Adjust/tear1"
+#~ msgstr "/Úpravy/Otoèit/tear1"
+
+#~ msgid "/Edit/Adjust/_Rotate clockwise"
+#~ msgstr "/Úpravy/Otoèit/Otoèit vp_ravo"
+
+#~ msgid "/Edit/Adjust/Rotate _counterclockwise"
+#~ msgstr "/Úpravy/Otoèit/Otoèit v_levo"
+
+#~ msgid "/Edit/Adjust/Rotate 1_80"
+#~ msgstr "/Úpravy/Otoèit/Otoèit 1_80"
+
+#~ msgid "/Edit/Adjust/_Mirror"
+#~ msgstr "/Úpravy/Otoèit/_Zrcadlit"
+
+#~ msgid "/Edit/Adjust/_Flip"
+#~ msgstr "/Úpravy/Otoèit/Pøe_klopit"
+
+#~ msgid "/Edit/sep2"
+#~ msgstr "/Úpravy/sep2"
+
+#~ msgid "/Edit/Select _all"
+#~ msgstr "/Úpravy/Vybr_at v¹e"
+
+#~ msgid "/Edit/Select _none"
+#~ msgstr "/Úpravy/Z_ru¹it výbìr"
+
+#~ msgid "/Edit/sep3"
+#~ msgstr "/Úpravy/sep3"
+
+#~ msgid "/Edit/_Options..."
+#~ msgstr "/Úpravy/Nastav_ení..."
+
+#~ msgid "/Edit/sep4"
+#~ msgstr "/Úpravy/sep4"
+
+#~ msgid "/Edit/Set as _wallpaper"
+#~ msgstr "/Úpravy/Nastavit jako _pozadí"
+
+#~ msgid "/_View"
+#~ msgstr "/_Zobrazit"
+
+#~ msgid "/View/tear1"
+#~ msgstr "/Zobrazení/tear1"
+
+#~ msgid "/View/Zoom _in"
+#~ msgstr "/Zobrazení/Z_vìt¹it"
+
+#~ msgid "/View/Zoom _out"
+#~ msgstr "/Zobrazení/Z_men¹it"
+
+#~ msgid "/View/Zoom _1:1"
+#~ msgstr "/Zobrazení/Zobrazit _1:1"
+
+#~ msgid "/View/sep1"
+#~ msgstr "/Zobrazení/sep1"
+
+#~ msgid "/View/_Thumbnails"
+#~ msgstr "/Zobrazení/Ná_hledy"
+
+#~ msgid "/View/I_cons"
+#~ msgstr "/Zobrazení/I_kony"
+
+#~ msgid "/View/sep2"
+#~ msgstr "/Zobrazení/sep2"
+
+#~ msgid "/View/F_ull screen"
+#~ msgstr "/Zobrazení/Ce_lá obrazovka"
+
+#~ msgid "/View/sep3"
+#~ msgstr "/Zobrazení/sep3"
+
+#~ msgid "/View/_Hide file list"
+#~ msgstr "/Zobrazení/Sk_rýt seznam souborù"
+
+#~ msgid "/View/sep4"
+#~ msgstr "/Zobrazení/sep4"
+
+#~ msgid "/View/Sort _manager"
+#~ msgstr "/Zobrazení/Správce tøí_dìní"
+
+#~ msgid "/View/sep5"
+#~ msgstr "/Zobrazení/sep5"
+
+#~ msgid "/View/Toggle _slideshow"
+#~ msgstr "/Zobrazení/Pøepnout _slideshow"
+
+#~ msgid "/View/_Refresh Lists"
+#~ msgstr "/Zobrazení/O_bnovit seznamy"
+
+#~ msgid "/Help/tear1"
+#~ msgstr "/Nápovìda/tear1"
+
+#~ msgid "/Help/sep1"
+#~ msgstr "/Nápovìda/sep1"
+
+#~ msgid "GQview configuration"
+#~ msgstr "Nastavení programu GQview"
+
+#~ msgid "/Edit/_Remove old thumbnails"
+#~ msgstr "/Úpravy/O_dstranit staré náhledy"
+
+#, fuzzy
+#~ msgid "path"
+#~ msgstr "Cesty"
+
+#~ msgid "Save"
+#~ msgstr "Ulo¾it"
+
+#~ msgid "Close"
+#~ msgstr "Zavøít"
+
+#~ msgid ""
+#~ "Overwrite collection file:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Pøepsat soubor se sbírkou:\n"
+#~ "%s"
+
+#~ msgid "Save collection as:"
+#~ msgstr "Ulo¾it sbírku jako:"
+
+#~ msgid "Open collection from:"
+#~ msgstr "Otevøít sbírku z:"
+
+#~ msgid "Open"
+#~ msgstr "Otevøít"
+
+#~ msgid "Append collection from:"
+#~ msgstr "Pøipojit sbírku z:"
+
+#, fuzzy
+#~ msgid "exit"
+#~ msgstr "Konec"
+
+#~ msgid "Exit"
+#~ msgstr "Konec"
+
+#~ msgid "Ok"
+#~ msgstr "Ok"
+
+#, fuzzy
+#~ msgid "Initial folder"
+#~ msgstr "Neplatný název souboru"
+
+#, fuzzy
+#~ msgid "On startup, change to this folder:"
+#~ msgstr "Po startu pøejít do adresáøe:"
+
+#~ msgid "Zoom (scaling):"
+#~ msgstr "Zvìt¹ení (¹kálování):"
+
+#~ msgid "Place dialogs under mouse"
+#~ msgstr "Umístit dialog pod my¹"
+
+#~ msgid "Include files of type:"
+#~ msgstr "Zahrnout soubory typu:"
+
+#~ msgid "Remove"
+#~ msgstr "Odstranit"
+
+#~ msgid "Add"
+#~ msgstr "Pøidat"
+
+#~ msgid "Command Line"
+#~ msgstr "Pøíkazový øádek"
+
+#~ msgid "Help"
+#~ msgstr "Nápovìda"
+
+#, fuzzy
+#~ msgid "Full screen size:"
+#~ msgstr "Ce_lá obrazovka"
+
+#, fuzzy
+#~ msgid "Point size:"
+#~ msgstr "Velikost souboru:"
+
+#, fuzzy
+#~ msgid "Width:"
+#~ msgstr "©íøka"
+
+#, fuzzy
+#~ msgid "Height:"
+#~ msgstr "Délka"
+
+#~ msgid ""
+#~ "Overwrite file:\n"
+#~ " %s\n"
+#~ " with:\n"
+#~ " %s"
+#~ msgstr ""
+#~ "Pøepsat soubor:\n"
+#~ " %s\n"
+#~ " souborem:\n"
+#~ " %s"
+
+#~ msgid "Yes"
+#~ msgstr "Ano"
+
+#~ msgid "Yes to all"
+#~ msgstr "Ano pro v¹echny"
+
+#~ msgid ""
+#~ "Overwrite file:\n"
+#~ "%s\n"
+#~ " with:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Pøepsat soubor:\n"
+#~ "%s\n"
+#~ " souborem:\n"
+#~ "%s "
+
+#~ msgid ""
+#~ "Copy file:\n"
+#~ "%s\n"
+#~ "to:"
+#~ msgstr ""
+#~ "Kopírovat soubor:\n"
+#~ "%s\n"
+#~ "do:"
+
+#~ msgid ""
+#~ "Move file:\n"
+#~ "%s\n"
+#~ "to:"
+#~ msgstr ""
+#~ "Pøesunout soubor:\n"
+#~ "%s\n"
+#~ "do:"
+
+#~ msgid "About to delete multiple files..."
+#~ msgstr "Bude odstranìno více souborù..."
+
+#~ msgid ""
+#~ "Overwrite file:\n"
+#~ "%s\n"
+#~ "by renaming:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Pøepsat soubor:\n"
+#~ "%s\n"
+#~ "s pøejmenováním:\n"
+#~ "%s"
+
+#~ msgid "to:"
+#~ msgstr "na:"
+
+#~ msgid "Create"
+#~ msgstr "Vytvoøit"
+
+#~ msgid "Initial directory"
+#~ msgstr "Poèáteèní adresáø"
+
+#~ msgid "New Directory"
+#~ msgstr "Nový adresáø"
+
+#~ msgid ""
+#~ "Unable to create directory:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Nelze vytvoøit nový adresáø:\n"
+#~ "%s"
+
+#~ msgid "Error creating directory"
+#~ msgstr "Chyba pøi vytváøení adresáøe"
+
+#, fuzzy
+#~ msgid "Image details"
+#~ msgstr "Popis obrázku"
+
+#, fuzzy
+#~ msgid "/View/Image _details"
+#~ msgstr "/Zobrazení/Pøepnout _slideshow"
+
+#~ msgid "Add contents"
+#~ msgstr "Pøidat obsah"
+
+#~ msgid "Add contents recursive"
+#~ msgstr "Pøidat obsah rekurzivnì"
+
+#~ msgid "Skip directories"
+#~ msgstr "Pøeskoèit adresáøe"
+
+#~ msgid "Invalid directory"
+#~ msgstr "Neplatný adresáø"
+
+#~ msgid "GQview - copy"
+#~ msgstr "GQview - kopírování"
+
+#~ msgid "GQview - move"
+#~ msgstr "GQview - pøesun"
+
+#~ msgid "Directory exists"
+#~ msgstr "Adresáø existuje"
+
+#~ msgid "GQview - new directory"
+#~ msgstr "GQview - nový adresáø"
+
+#~ msgid "Misc."
+#~ msgstr "Ostatní"

@@ -17,6 +17,7 @@
 #  define dgettext(Domain,String) (String)
 #  define dcgettext(Domain,String,Type) (String)
 #  define bindtextdomain(Domain,Directory) (Domain) 
+#  define bind_textdomain_codeset(Domain,String) (Domain)
 #endif /* ENABLE_NLS */
 
-#endif /* __INTL_H__ */
+#endif

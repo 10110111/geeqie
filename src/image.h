@@ -1,44 +1,98 @@
 /*
- * GQview image viewer
- * (C)2000 John Ellis
+ * GQview
+ * (C) 2004 John Ellis
  *
  * Author: John Ellis
  *
+ * This software is released under the GNU General Public License (GNU GPL).
+ * Please read the included file COPYING for more information.
+ * This software comes with no warranty of any kind, use at your own risk!
  */
 
-ImageWindow *image_area_new(GtkWidget *top_window);
-void image_area_free(ImageWindow *imd);
 
-/* for attaching the top window for resizing */
-void image_area_set_topwindow(ImageWindow *imd, GtkWidget *window, gchar *title, gint show_zoom);
+#ifndef IMAGE_H
+#define IMAGE_H
 
-/* attach labels to be updated */
-void image_area_set_labels(ImageWindow *imd, GtkWidget *info, GtkWidget *zoom);
 
-/* set the current image to a different path */
-void image_area_set_path(ImageWindow *imd, gchar *newpath);
+ImageWindow *image_new(gint frame);
 
-/* attach handler functions for mouse buttons (1-3) */
-void image_area_set_button(ImageWindow *imd, gint button,
-	void (*func)(ImageWindow *, GdkEventButton *, gpointer), gpointer data);
+/* additional setup */
+void image_attach_window(ImageWindow *imd, GtkWidget *window,
+			 const gchar *title, const gchar *title_right, gint show_zoom);
+void image_set_update_func(ImageWindow *imd,
+			   void (*func)(ImageWindow *imd, gpointer data),
+			   gpointer data);
+void image_set_button_func(ImageWindow *imd,
+	void (*func)(ImageWindow *, gint button, guint32 time, gdouble x, gdouble y, guint state, gpointer),
+	gpointer data);
+void image_set_scroll_func(ImageWindow *imd,
+	void (*func)(ImageWindow *, GdkScrollDirection direction, guint32 time, gdouble x, gdouble y, guint state, gpointer),
+        gpointer data);
+void image_set_complete_func(ImageWindow *imd,
+			     void (*func)(ImageWindow *, gint preload, gpointer),
+			     gpointer data);
+void image_set_new_func(ImageWindow *imd,
+			void (*func)(ImageWindow *, gpointer),
+			gpointer data);
 
-/* get the current image's path, etc. */
-gchar *image_area_get_path(ImageWindow *imd);
-gchar *image_area_get_name(ImageWindow *imd);
+/* path, name */
+const gchar *image_get_path(ImageWindow *imd);
+const gchar *image_get_name(ImageWindow *imd);
 
-/* load a new image, or NULL sets to logo */
-void image_area_set_image(ImageWindow *imd, gchar *path, gint zoom);
+/* merely changes path string, does not change the image! */
+void image_set_path(ImageWindow *imd, const gchar *newpath);
 
-/* image manipulation */
-void image_area_scroll(ImageWindow *imd, gint x, gint y);
-gint image_area_get_zoom(ImageWindow *imd);
-void image_area_adjust_zoom(ImageWindow *imd, gint increment);
-void image_area_set_zoom(ImageWindow *imd, gint zoom);
+/* load a new image */
+void image_change_path(ImageWindow *imd, const gchar *path, gdouble zoom);
+void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom);
+void image_change_from_collection(ImageWindow *imd, CollectionData *cd, CollectInfo *info, gdouble zoom);
+CollectionData *image_get_collection(ImageWindow *imd, CollectInfo **info);
+void image_change_from_image(ImageWindow *imd, ImageWindow *source);
 
-/* get the default zoom for an image */
-gint get_default_zoom(ImageWindow *imd);
+/* manipulation */
+void image_area_changed(ImageWindow *imd, gint x, gint y, gint width, gint height);
+void image_reload(ImageWindow *imd);
+void image_scroll(ImageWindow *imd, gint x, gint y);
+void image_alter(ImageWindow *imd, AlterType type);
 
-/* set the root window to the current image */
-void image_area_to_root(ImageWindow *imd, gint scaled);
+/* zoom */
+void image_zoom_adjust(ImageWindow *imd, gdouble increment);
+void image_zoom_adjust_at_point(ImageWindow *imd, gdouble increment, gint x, gint y);
+void image_zoom_set(ImageWindow *imd, gdouble zoom);
+void image_zoom_set_fill_geometry(ImageWindow *imd, gint vertical);
+gdouble image_zoom_get(ImageWindow *imd);
+gdouble image_zoom_get_real(ImageWindow *imd);
+gchar *image_zoom_get_as_text(ImageWindow *imd);
+gdouble image_zoom_get_default(ImageWindow *imd, gint mode);
+
+/* read ahead, pass NULL to cancel */
+void image_prebuffer_set(ImageWindow *imd, const gchar *path);
+
+/* auto refresh, interval is 1/1000 sec, 0 uses default, -1 disables */
+void image_auto_refresh(ImageWindow *imd, gint interval);
+
+/* allow top window to be resized ? */
+void image_top_window_set_sync(ImageWindow *imd, gint allow_sync);
+
+/* background of image */
+void image_background_set_black(ImageWindow *imd, gint black);
+void image_background_set_color(ImageWindow *imd, GdkColor *color);
+
+/* set delayed page flipping */
+void image_set_delay_flip(ImageWindow *imd, gint delay);
+
+/* wallpaper util */
+void image_to_root_window(ImageWindow *imd, gint scaled);
+
+/* overlays */
+gint image_overlay_add(ImageWindow *imd, GdkPixbuf *pixbuf, gint x, gint y,
+		       gint relative, gint always);
+void image_overlay_set(ImageWindow *imd, gint id, GdkPixbuf *pixbuf, gint x, gint y);
+gint image_overlay_get(ImageWindow *imd, gint id, GdkPixbuf **pixbuf, gint *x, gint *y);
+void image_overlay_remove(ImageWindow *imd, gint id);
+
+
+#endif
+
 
 

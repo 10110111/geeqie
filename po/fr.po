@@ -1,313 +1,1580 @@
 # gqview fr.po file.
-# Copyright (C) 2000 Free Software Foundation, Inc.
-# Jean-pierre PEDRON <jppedron@club-internet.fr>, 2000.
+#
+# Last Translator :
+#  Éric Lassauge <lassauge@users.sourceforge.net>, 2001-2002, 2004-2005.
+# 
+# Created by Jean-Pierre Pedron <jppedron@club-internet.fr>, 2000.
+# Updated by Pascal Bleser <pascal.bleser@atosorigin.com>, 2003.
+# Updated by Nicolas Boos <nicolas.boos@wanadoo.fr>, 2003.
+# Updated by Nicolas Bonifas <nicolas_bonifas@users.sf.net>, 2003-2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gqview-0.8.0\n"
-"POT-Creation-Date: 2000-04-13 15:57-0400\n"
-"PO-Revision-Date: 2000-04-07 11:30+0100\n"
-"Last-Translator: Jean-pierre PEDRON <jppedron@club-internet.fr>\n"
-"Language-Team: french <jppedron@club-internet.fr>\n"
+"Project-Id-Version: gqview-1.5.6\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-02-15 08:13-0500\n"
+"PO-Revision-Date: 2005-01-10 11:36+0200\n"
+"Last-Translator: Éric Lassauge <lassauge@users.sourceforge.net>\n"
+"Language-Team: french\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso8859-1\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/config.c:307
-msgid "GQview configuration"
-msgstr "Configuration de GQview"
+#: src/bar_info.c:30
+msgid "Favorite"
+msgstr "Favoris"
 
-#: src/config.c:319
-msgid "Ok"
-msgstr "OK"
+#: src/bar_info.c:31
+msgid "Todo"
+msgstr "A faire"
 
-#: src/config.c:324
-msgid "Apply"
-msgstr "Appliquer"
+#: src/bar_info.c:32
+msgid "People"
+msgstr "Personnes"
 
-#: src/config.c:329 src/utildlg.c:145 src/utilops.c:444 src/utilops.c:754
-#: src/utilops.c:885 src/utilops.c:983
+#: src/bar_info.c:33
+msgid "Places"
+msgstr "Lieux"
+
+#: src/bar_info.c:34
+msgid "Art"
+msgstr "Art"
+
+#: src/bar_info.c:35
+msgid "Nature"
+msgstr "Nature"
+
+#: src/bar_info.c:36
+msgid "Possessions"
+msgstr "Objets"
+
+#: src/bar_info.c:505
+msgid "Keyword Presets"
+msgstr "Présélection de mots clés"
+
+#: src/bar_info.c:508
+msgid "Favorite keywords list"
+msgstr "Liste des mots clés favoris"
+
+#: src/bar_info.c:992 src/info.c:166 src/search.c:2692
+msgid "Keywords"
+msgstr "Mots clés"
+
+#: src/bar_info.c:1006 src/info.c:716 src/print.c:2599
+msgid "Filename:"
+msgstr "Nom du fichier :"
+
+#: src/bar_info.c:1007 src/info.c:360
+msgid "File date:"
+msgstr "Date du fichier :"
+
+#: src/bar_info.c:1027
+msgid "Keywords:"
+msgstr "Mots-clés :"
+
+#: src/bar_info.c:1095
+msgid "Comment:"
+msgstr "Commentaires :"
+
+#: src/bar_info.c:1119
+msgid "Edit favorite keywords list."
+msgstr "Editer la liste des mots clés favoris"
+
+#: src/bar_info.c:1123
+msgid "Add keywords to selected files"
+msgstr "Ajouter des mots clés aux fichiers sélectionnés"
+
+#: src/bar_info.c:1126
+msgid "Add keywords to selected files, replacing the existing ones."
+msgstr ""
+"Ajouter des mots clés aux fichiers sélectionnés, en remplacant ceux existants"
+
+#: src/bar_info.c:1130
+msgid "Save comment now"
+msgstr "Enregistrer les commentaires"
+
+#: src/bar_exif.c:423
+msgid "Tag"
+msgstr "Repère"
+
+#: src/bar_exif.c:424 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
+#: src/search.c:2753 src/view_file_list.c:1555
+msgid "Name"
+msgstr "Nom"
+
+#: src/bar_exif.c:425
+msgid "Value"
+msgstr "Valeur"
+
+#: src/bar_exif.c:426
+msgid "Format"
+msgstr "Format"
+
+#: src/bar_exif.c:427
+msgid "Elements"
+msgstr "Eléments"
+
+#: src/bar_exif.c:428 src/preferences.c:1028
+msgid "Description"
+msgstr "Description"
+
+#: src/bar_exif.c:549 src/info.c:105
+msgid "Exif"
+msgstr "Exif"
+
+#: src/bar_exif.c:622
+msgid "Advanced view"
+msgstr "Affichage avancé"
+
+#: src/bar_sort.c:218
+msgid "Unlink failed"
+msgstr "Echec de la suppression"
+
+#: src/bar_sort.c:298
+msgid "Link failed"
+msgstr "Echec du lien"
+
+#: src/bar_sort.c:435
+#, fuzzy, c-format
+msgid ""
+"The collection:\n"
+"%s\n"
+"already exists."
+msgstr ""
+"Le dossier :\n"
+"%s\n"
+"existe déjà."
+
+#: src/bar_sort.c:436
+#, fuzzy
+msgid "Collection exists"
+msgstr "Collection vide"
+
+#: src/bar_sort.c:450 src/collect.c:1061 src/collect-dlg.c:84
+#, c-format
+msgid ""
+"Failed to save the collection:\n"
+"%s"
+msgstr ""
+"Impossible d'enregistrer la collection :\n"
+"%s"
+
+#: src/bar_sort.c:451 src/collect.c:1062 src/collect-dlg.c:85
+msgid "Save Failed"
+msgstr "Erreur à l'enregistrement"
+
+#: src/bar_sort.c:485 src/bar_sort.c:631
+msgid "Add Bookmark"
+msgstr "Ajouter un signet"
+
+#: src/bar_sort.c:489
+#, fuzzy
+msgid "Add Collection"
+msgstr "Collections"
+
+#: src/bar_sort.c:506 src/ui_bookmark.c:603
+msgid "Name:"
+msgstr "Nom : "
+
+#: src/bar_sort.c:569
+msgid "Sort Manager"
+msgstr "Trier par nom"
+
+#: src/bar_sort.c:578 src/ui_pathsel.c:1095
+msgid "Folders"
+msgstr "Dossiers"
+
+#: src/bar_sort.c:579 src/main.c:1066
+msgid "Collections"
+msgstr "Collections"
+
+#: src/bar_sort.c:586
+msgid "Copy"
+msgstr "Copier"
+
+#: src/bar_sort.c:593
+msgid "Move"
+msgstr "Déplacer"
+
+#: src/bar_sort.c:600
+msgid "Link"
+msgstr "Lien"
+
+#: src/bar_sort.c:610
+#, fuzzy
+msgid "Add image"
+msgstr "%d images"
+
+#: src/bar_sort.c:617
+#, fuzzy
+msgid "Add selection"
+msgstr "Sélection"
+
+#: src/bar_sort.c:634
+msgid "Undo last image"
+msgstr "Annuler la dernière opération"
+
+#: src/cache_maint.c:127 src/cache_maint.c:681 src/cache_maint.c:894
+#: src/editors.c:410
+msgid "done"
+msgstr "fini"
+
+#: src/cache_maint.c:304
+#, fuzzy
+msgid "Removing old metadata..."
+msgstr "Lecture des données de similarité ..."
+
+#: src/cache_maint.c:308
+#, fuzzy
+msgid "Clearing cached thumbnails..."
+msgstr "Suppression des vignettes ..."
+
+#: src/cache_maint.c:312 src/cache_maint.c:1048
+#, fuzzy
+msgid "Removing old thumbnails..."
+msgstr "Purge des anciennes vignettes ..."
+
+#: src/cache_maint.c:315 src/cache_maint.c:1051
+msgid "Maintenance"
+msgstr ""
+
+#: src/cache_maint.c:792 src/utilops.c:904
+msgid "Invalid folder"
+msgstr "Nom de dossier invalide"
+
+#: src/cache_maint.c:793
+msgid "The specified folder can not be found."
+msgstr "Le dossier spécifiée est absent."
+
+#: src/cache_maint.c:821 src/cache_maint.c:835 src/cache_maint.c:1216
+msgid "Create thumbnails"
+msgstr "Créer les vignettes"
+
+#: src/cache_maint.c:829 src/cache_maint.c:1058
+msgid "S_tart"
+msgstr "Dé_but"
+
+#: src/cache_maint.c:842 src/preferences.c:1165
+msgid "Folder:"
+msgstr "Dossier :"
+
+#: src/cache_maint.c:845
+msgid "Select folder"
+msgstr "Sélectionner un dossier"
+
+#: src/cache_maint.c:849
+msgid "Include subfolders"
+msgstr "Inclure les sous-dossiers"
+
+#: src/cache_maint.c:850
+msgid "Store thumbnails local to source images"
+msgstr "Sauver les vignettes avec les images sources"
+
+#: src/cache_maint.c:859 src/cache_maint.c:1067
+msgid "click start to begin"
+msgstr "cliquer sur Début pour démarrer"
+
+#: src/cache_maint.c:997 src/editors.c:549
+msgid "running..."
+msgstr "en cours ..."
+
+#: src/cache_maint.c:1043
+msgid "Clearing thumbnails..."
+msgstr "Suppression des vignettes ..."
+
+#: src/cache_maint.c:1109 src/cache_maint.c:1112 src/cache_maint.c:1191
+#: src/cache_maint.c:1211
+msgid "Clear cache"
+msgstr "Vider le cache"
+
+#: src/cache_maint.c:1113
+msgid ""
+"This will remove all thumbnails that have\n"
+"been saved to disk, continue?"
+msgstr ""
+"Ceci va effacer toutes les vignettes\n"
+"présentes sur le disque, continuer ?"
+
+#: src/cache_maint.c:1163
+msgid "Cache Maintenance - GQview"
+msgstr "Maintenance du cache - GQview"
+
+#: src/cache_maint.c:1173
+msgid "Cache and Data Maintenance"
+msgstr "Maintenance des données et du cache"
+
+#: src/cache_maint.c:1177
+msgid "GQview thumbnail cache"
+msgstr "Cache GQview des vignettes"
+
+#: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
+#: src/preferences.c:1142 src/utilops.c:1505
+msgid "Location:"
+msgstr "Emplacement :"
+
+#: src/cache_maint.c:1186 src/cache_maint.c:1206 src/cache_maint.c:1234
+msgid "Clean up"
+msgstr "Nettoyage"
+
+#: src/cache_maint.c:1189 src/cache_maint.c:1209
+msgid "Remove orphaned or outdated thumbnails."
+msgstr "Eliminer les vignettes orphelines ou plus à jour."
+
+#: src/cache_maint.c:1194 src/cache_maint.c:1214
+msgid "Delete all cached thumbnails."
+msgstr "Effacer le contenu du cache des vignettes."
+
+#: src/cache_maint.c:1197
+msgid "Shared thumbnail cache"
+msgstr "Cache partagé des vignettes"
+
+#: src/cache_maint.c:1220
+msgid "Render"
+msgstr "Générer"
+
+#: src/cache_maint.c:1223
+msgid "Render thumbnails for a specific folder."
+msgstr "Générer les vignettes pour un dossier spécifique."
+
+#: src/cache_maint.c:1225
+msgid "Metadata"
+msgstr ""
+
+#: src/cache_maint.c:1237
+#, fuzzy
+msgid "Remove orphaned keywords and comments."
+msgstr "Eliminer les vignettes orphelines ou plus à jour."
+
+#: src/collect.c:349 src/image.c:1160 src/image-overlay.c:74
+#: src/image-overlay.c:115
+msgid "Untitled"
+msgstr "Sans_Titre"
+
+#: src/collect.c:353
+#, c-format
+msgid "Untitled (%d)"
+msgstr "Sans_Titre (%d)"
+
+#: src/collect.c:980
+#, c-format
+msgid "%s - GQview Collection"
+msgstr "%s - Collection GQview"
+
+#: src/collect.c:1098 src/collect.c:1102
+msgid "Close collection"
+msgstr "Fermer collection"
+
+#: src/collect.c:1103
+msgid ""
+"Collection has been modified.\n"
+"Save first?"
+msgstr ""
+"La collection a été modifiée.\n"
+"L'enregistrer avant ?"
+
+#: src/collect.c:1106
+msgid "_Discard"
+msgstr "_Élimine"
+
+#: src/collect-dlg.c:58
+#, c-format
+msgid ""
+"Specified path:\n"
+"%s\n"
+"is a folder, collections are files"
+msgstr ""
+"Le chemin spécifié :\n"
+"%s\n"
+"est un dossier, les collections sont des fichiers"
+
+#: src/collect-dlg.c:59
+msgid "Invalid filename"
+msgstr "Nom de fichier invalide"
+
+#: src/collect-dlg.c:68
+msgid "Overwrite File"
+msgstr "Écraser fichier"
+
+#: src/collect-dlg.c:73
+msgid "Overwrite existing file?"
+msgstr "Écraser le fichier existant ?"
+
+#: src/collect-dlg.c:75 src/utilops.c:479 src/utilops.c:792 src/utilops.c:1649
+#: src/utilops.c:2196
+msgid "_Overwrite"
+msgstr "_Écraser"
+
+#: src/collect-dlg.c:169
+msgid "Save collection"
+msgstr "Enregistrer collection"
+
+#: src/collect-dlg.c:176
+msgid "Open collection"
+msgstr "Ouvrir collection"
+
+#: src/collect-dlg.c:184
+msgid "Append collection"
+msgstr "Ajouter à la collection"
+
+#: src/collect-dlg.c:185
+msgid "_Append"
+msgstr "_Ajouter"
+
+#: src/collect-dlg.c:203
+msgid "Collection Files"
+msgstr "Fichiers de collection"
+
+#: src/collect-dlg.c:221
+msgid "Collection empty"
+msgstr "Collection vide"
+
+#: src/collect-dlg.c:222
+msgid "The current collection is empty, save aborted."
+msgstr "La collection courante est vide, enregistrement annulé."
+
+#: src/collect-table.c:164 src/layout_util.c:708
+msgid "Empty"
+msgstr "Vide"
+
+#: src/collect-table.c:168
+#, c-format
+msgid "%d images (%d)"
+msgstr "%d images (%d)"
+
+#: src/collect-table.c:172
+#, c-format
+msgid "%d images"
+msgstr "%d images"
+
+#: src/collect-table.c:186 src/dupe.c:1296 src/search.c:303
+#: src/view_file_icon.c:1772 src/view_file_icon.c:1887
+#: src/view_file_list.c:816 src/view_file_list.c:921
+msgid "Loading thumbs..."
+msgstr "Chargement des vignettes ..."
+
+#: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
+#: src/layout_util.c:751 src/search.c:969
+msgid "_View"
+msgstr "_Afficher"
+
+#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1187
+#: src/layout_image.c:722 src/search.c:971 src/view_file_icon.c:283
+#: src/view_file_list.c:395
+msgid "View in _new window"
+msgstr "Afficher dans une _nouvelle fenêtre"
+
+#: src/collect-table.c:778 src/dupe.c:2219 src/dupe.c:2507 src/search.c:997
+msgid "Rem_ove"
+msgstr "_Effacer"
+
+#: src/collect-table.c:781
+msgid "Append from file list"
+msgstr "Ajouter à partir de la liste des fichiers"
+
+#: src/collect-table.c:783
+msgid "Append from collection..."
+msgstr "Ajouter à partir de la collection ..."
+
+#: src/collect-table.c:786 src/dupe.c:2192 src/dupe.c:2502 src/search.c:974
+msgid "Select all"
+msgstr "Tout sélectionner"
+
+#: src/collect-table.c:788 src/dupe.c:2194 src/dupe.c:2504 src/search.c:976
+msgid "Select none"
+msgstr "Désélectionner"
+
+#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1185
+#: src/layout_image.c:719 src/layout_util.c:784 src/search.c:981
+#: src/view_file_icon.c:280 src/view_file_list.c:393
+msgid "_Properties"
+msgstr "_Propriétés"
+
+#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1190
+#: src/layout_image.c:727 src/layout_util.c:762 src/search.c:988
+#: src/view_file_icon.c:287 src/view_file_list.c:399
+msgid "_Copy..."
+msgstr "_Copier ..."
+
+#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1191
+#: src/layout_image.c:729 src/layout_util.c:763 src/search.c:990
+#: src/view_file_icon.c:289 src/view_file_list.c:401
+msgid "_Move..."
+msgstr "_Déplacer ..."
+
+#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1192
+#: src/layout_image.c:731 src/layout_util.c:764 src/search.c:992
+#: src/view_dir_list.c:415 src/view_dir_tree.c:505 src/view_file_icon.c:291
+#: src/view_file_list.c:403
+msgid "_Rename..."
+msgstr "_Renommer ..."
+
+#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1193
+#: src/layout_image.c:733 src/layout_util.c:765 src/search.c:994
+#: src/view_file_icon.c:293 src/view_file_list.c:405
+msgid "_Delete..."
+msgstr "_Supprimer ..."
+
+#: src/collect-table.c:810 src/view_file_icon.c:309
+msgid "Show filename _text"
+msgstr "Voir le _nom de fichier"
+
+#: src/collect-table.c:813
+msgid "_Save collection"
+msgstr "_Enregistrer collection"
+
+#: src/collect-table.c:815
+msgid "Save collection _as..."
+msgstr "Enregistrer collection _sous ..."
+
+#: src/collect-table.c:818 src/layout_util.c:759
+msgid "_Find duplicates..."
+msgstr "Rechercher les _fichiers en double ..."
+
+#: src/collect-table.c:820 src/dupe.c:2207 src/search.c:985
+msgid "Print..."
+msgstr "Imprimer ..."
+
+#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1347
+msgid "Dropped list includes folders."
+msgstr "La liste ajoutée inclus des dossiers."
+
+#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1349
+msgid "_Add contents"
+msgstr "_Ajouter le contenu"
+
+#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1350
+msgid "Add contents _recursive"
+msgstr "Ajouter le contenu _récursivement"
+
+#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1351
+msgid "_Skip folders"
+msgstr "Omettre les dossier_s"
+
+#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1353
+#: src/view_dir_list.c:222 src/view_dir_tree.c:314
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/config.c:343
-msgid "General"
-msgstr "Général"
+#: src/dupe.c:96
+msgid "Drop files to compare them."
+msgstr "Glisser des fichiers pour les comparer."
 
-#: src/config.c:351
-msgid "Initial directory"
-msgstr "Répertoire initial"
+#: src/dupe.c:100
+#, c-format
+msgid "%d files"
+msgstr "%d fichiers"
 
-#: src/config.c:361
-msgid "On startup, change to this directory:"
-msgstr "Au démarrage, aller dans ce répertoire : "
+#: src/dupe.c:104
+#, c-format
+msgid "%d matches found in %d files"
+msgstr "%d correspondances dans %d fichiers"
 
-#: src/config.c:373
-msgid "Use current"
-msgstr "Utiliser le répertoire actuel"
+#: src/dupe.c:109
+msgid "[set 1]"
+msgstr "[groupe 1]"
 
-#: src/config.c:379
-msgid "Confirm file delete"
-msgstr "Confirmer la supression des fichiers"
+#: src/dupe.c:1422
+msgid "Reading checksums..."
+msgstr "Lecture des sommes de contrôle ..."
 
-#: src/config.c:381
-msgid "Remember tool state (float/hidden)"
-msgstr "Conserver l'état des outils (flottant/caché)"
+#: src/dupe.c:1455
+msgid "Reading dimensions..."
+msgstr "Lecture des dimensions ..."
 
-#: src/config.c:383
-msgid "Remember window positions"
-msgstr "Conserver les positions de la fenêtre"
+#: src/dupe.c:1489
+msgid "Reading similarity data..."
+msgstr "Lecture des données de similarité ..."
 
-#: src/config.c:385
-msgid "Slide show"
-msgstr "Diaporama"
+#: src/dupe.c:1524 src/dupe.c:1555
+msgid "Comparing..."
+msgstr "Comparaison ..."
 
-#: src/config.c:398
-msgid "Delay before image change (seconds):"
-msgstr "Délai avant changement d'image (secondes) : "
+#: src/dupe.c:1535
+msgid "Sorting..."
+msgstr "Tri ..."
 
-#: src/config.c:411
-msgid "Random"
-msgstr "Aléatoire"
+#: src/dupe.c:2196
+msgid "Select group _1 duplicates"
+msgstr "Sélectionner les doubles du groupe _1"
 
-#: src/config.c:413
-msgid "Repeat"
-msgstr "Répéter"
+#: src/dupe.c:2198
+msgid "Select group _2 duplicates"
+msgstr "Sélectionner les doubles du groupe _2"
 
-#: src/config.c:420
-msgid "Image"
-msgstr "Image"
+#: src/dupe.c:2205 src/search.c:983
+msgid "Add to new collection"
+msgstr "Ajouter à la nouvelle collection"
 
-#: src/config.c:428
-msgid "When new image is selected:"
-msgstr "Quand une nouvelle image est sélectionnée : "
+#: src/dupe.c:2221 src/dupe.c:2509 src/search.c:999
+msgid "C_lear"
+msgstr "_Vider"
 
-#: src/config.c:438
-msgid "Zoom to original size"
-msgstr "Conserver sa taille initiale"
+#: src/dupe.c:2224 src/dupe.c:2512
+msgid "Close _window"
+msgstr "Fermer la _fenêtre"
 
-#: src/config.c:444 src/img-view.c:306 src/menu.c:473 src/menu.c:547
-#: src/menu.c:587 src/menu.c:678
-msgid "Fit image to window"
-msgstr "Mettre à la taille de la fenêtre"
+#: src/dupe.c:2382
+#, c-format
+msgid "%d files (set 2)"
+msgstr "%d fichiers (groupe 2)"
 
-#: src/config.c:450
-msgid "Leave Zoom at previous setting"
-msgstr "Garder la valeur initiale du zoom"
+#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:947 src/print.c:3194
+#: src/search.c:2754 src/view_file_list.c:1556
+msgid "Size"
+msgstr "Taille"
 
-#: src/config.c:457
-msgid "Fit window to image when tools are hidden/floating"
-msgstr ""
-"Mettre la fenêtre à la taille de l'image quand les outils sont "
-"cachés/flottants"
+#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:297 src/exif.c:419
+#: src/print.c:3192 src/search.c:2755 src/view_file_list.c:1557
+msgid "Date"
+msgstr "Date"
 
-#: src/config.c:464
-msgid "Limit size when auto-sizing window"
-msgstr "Limiter la taille quand la fenêtre est auto-dimensionnable"
+#: src/dupe.c:2592 src/dupe.c:3119 src/print.c:3196 src/search.c:2756
+msgid "Dimensions"
+msgstr "Dimensions"
 
-#: src/config.c:474 src/menu.c:477
+#: src/dupe.c:2593
+msgid "Checksum"
+msgstr "Somme de contrôle"
+
+#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1107
+msgid "Path"
+msgstr "Chemin"
+
+#: src/dupe.c:2595
+msgid "Similarity (high)"
+msgstr "Similarité (élevée)"
+
+#: src/dupe.c:2596
+msgid "Similarity"
+msgstr "Similarité"
+
+#: src/dupe.c:2597
+msgid "Similarity (low)"
+msgstr "Similarité (basse)"
+
+#: src/dupe.c:2598
+msgid "Similarity (custom)"
+msgstr "Similarité (spécifique)"
+
+#: src/dupe.c:3080
+msgid "Find duplicates - GQview"
+msgstr "Recherche des fichiers en double - GQview"
+
+#: src/dupe.c:3152
+msgid "Compare to:"
+msgstr "Comparer à :"
+
+#: src/dupe.c:3165
+msgid "Compare by:"
+msgstr "Comparer par :"
+
+#: src/dupe.c:3173 src/preferences.c:840 src/search.c:2770
 msgid "Thumbnails"
 msgstr "Vignettes"
 
-#: src/config.c:490
-msgid "Size:"
-msgstr "Taille : "
+#: src/dupe.c:3180
+msgid "Compare two file sets"
+msgstr "Comparer deux jeux de fichiers"
 
-#: src/config.c:519
-msgid "Cache thumbnails"
-msgstr "Cache vignettes"
+#: src/editors.c:50
+msgid "The Gimp"
+msgstr "The Gimp"
 
-#: src/config.c:521
-msgid "Use xvpics thumbnails when found (read only)"
-msgstr "Utiliser les vignettes xvpics si existantes (lecture seule)"
+#: src/editors.c:51
+msgid "XV"
+msgstr "XV"
 
-#: src/config.c:524
-msgid "Progressive keyboard scrolling"
-msgstr "Panoramique clavier progressif"
+#: src/editors.c:52
+msgid "Xpaint"
+msgstr "Xpaint"
 
-#: src/config.c:526
-msgid "Mouse wheel scrolls image"
-msgstr ""
+#: src/editors.c:58
+msgid "Rotate jpeg clockwise"
+msgstr "Rotation sens horaire"
 
-#: src/config.c:533
-msgid "Filtering"
-msgstr "Filtres"
+#: src/editors.c:59
+msgid "Rotate jpeg counterclockwise"
+msgstr "Rotation sens anti-horaire"
 
-#: src/config.c:542
-msgid "Show entries that begin with a dot"
-msgstr "Montrer les fichiers cachés"
+#: src/editors.c:104
+msgid "stopping..."
+msgstr "arrêt ..."
 
-#: src/config.c:544
-msgid "Disable File Filtering"
-msgstr "Désactiver les filtres de fichiers"
+#: src/editors.c:131
+msgid "Edit command results"
+msgstr "Voir le résultat de la commande"
 
-#: src/config.c:546
-msgid "Include files of type:"
-msgstr "Inclure les fichiers de type : "
+#: src/editors.c:134
+#, c-format
+msgid "Output of %s"
+msgstr "Sortie de %s"
 
-#: src/config.c:596
-msgid "Custom file types:"
-msgstr "Types de fichiers personnels"
-
-#: src/config.c:609
-msgid "format: [.foo;.bar]"
-msgstr "Format : [.foo;.bar]"
-
-#: src/config.c:618
-msgid "External Editors"
-msgstr "Editeurs externes"
-
-#: src/config.c:630
-msgid "#"
-msgstr "N°"
-
-#: src/config.c:633
-msgid "Menu name"
-msgstr "Nom"
-
-#: src/config.c:636
-msgid "Command Line"
-msgstr "Ligne de commande"
-
-#: src/config.c:666 src/menu.c:500
-msgid "About"
-msgstr "A Propos..."
-
-#: src/config.c:682
+#: src/editors.c:303
 #, c-format
 msgid ""
-"GQview %s\n"
-"\n"
-"Copyright (c) 2000 by John Ellis\n"
-"http://gqview.sorceforge.net\n"
-"or http://gqview.netpedia.net\n"
-"gqview@email.com\n"
-"\n"
-"Released under the GNU Public License"
+"Failed to run command:\n"
+"%s\n"
 msgstr ""
-"GQview %s\n"
-"\n"
-"Copyright (c) 2000 par John Ellis\n"
-"http://gqview.sorceforge.net\n"
-"ou http://gqview.netpedia.net\n"
-"gqview@email.com\n"
-"\n"
-"Distibué sous GNU Public License"
+"Impossible de charger :\n"
+"%s\n"
 
-#: src/filelist.c:51
+#: src/editors.c:414
+msgid "stopped by user"
+msgstr "arrêté par l'utilisateur"
+
+#: src/exif.c:112 src/exif.c:125 src/exif.c:139 src/exif.c:164 src/exif.c:606
+#: src/exif.c:1452 src/exif.c:1455 src/exif.c:1520
+msgid "unknown"
+msgstr "inconnu"
+
+#: src/exif.c:113
+msgid "top left"
+msgstr "haut gauche"
+
+#: src/exif.c:114
+msgid "top right"
+msgstr "haut droite"
+
+#: src/exif.c:115
+msgid "bottom right"
+msgstr "bas droite"
+
+#: src/exif.c:116
+msgid "bottom left"
+msgstr "bas gauche"
+
+#: src/exif.c:117
+msgid "left top"
+msgstr "gauche haut"
+
+#: src/exif.c:118
+msgid "right top"
+msgstr "droit haut"
+
+#: src/exif.c:119
+msgid "right bottom"
+msgstr "droit bas"
+
+#: src/exif.c:120
+msgid "left bottom"
+msgstr "gauche bas"
+
+#: src/exif.c:127
+msgid "inch"
+msgstr "pouces"
+
+#: src/exif.c:128
+msgid "centimeter"
+msgstr "centimètres"
+
+#: src/exif.c:140
+msgid "average"
+msgstr "moyenne"
+
+#: src/exif.c:141
+msgid "center weighted"
+msgstr "pondération moyenne"
+
+#: src/exif.c:142
+msgid "spot"
+msgstr "point"
+
+#: src/exif.c:143
+msgid "multi-spot"
+msgstr "plusieurs points"
+
+#: src/exif.c:144
+msgid "multi-segment"
+msgstr "plusieurs segments"
+
+#: src/exif.c:145
+msgid "partial"
+msgstr "partiel"
+
+#: src/exif.c:146 src/exif.c:184
+msgid "other"
+msgstr "autre"
+
+#: src/exif.c:151
+msgid "not defined"
+msgstr "indéfini"
+
+#: src/exif.c:152
+msgid "manual"
+msgstr "manuel"
+
+#: src/exif.c:153
+msgid "normal"
+msgstr "normal"
+
+#: src/exif.c:154
+msgid "aperture"
+msgstr "ouverture"
+
+#: src/exif.c:155
+msgid "shutter"
+msgstr "obturateur"
+
+#: src/exif.c:156
+msgid "creative"
+msgstr "créatif"
+
+#: src/exif.c:157
+msgid "action"
+msgstr "action"
+
+#: src/exif.c:158
+msgid "portrait"
+msgstr "portrait"
+
+#: src/exif.c:159
+msgid "landscape"
+msgstr "paysage"
+
+#: src/exif.c:165
+msgid "daylight"
+msgstr "lumière naturelle"
+
+#: src/exif.c:166
+msgid "fluorescent"
+msgstr "fluorescent"
+
+#: src/exif.c:167
+msgid "tungsten (incandescent)"
+msgstr "tungstène"
+
+#: src/exif.c:168
+msgid "flash"
+msgstr "Flash :"
+
+#: src/exif.c:189 src/exif.c:1475 src/info.c:226
+msgid "no"
+msgstr "non"
+
+#. flash fired (bit 0)
+#: src/exif.c:190 src/exif.c:1475 src/info.c:226
+msgid "yes"
+msgstr "oui"
+
+#: src/exif.c:191
+msgid "yes, not detected by strobe"
+msgstr "oui, mais non détecté"
+
+#: src/exif.c:192
+msgid "yes, detected by strobe"
+msgstr "oui, détecté"
+
+#: src/exif.c:289
+msgid "Image description"
+msgstr "Description de l'image"
+
+#: src/exif.c:292
+msgid "Orientation"
+msgstr "Orientation"
+
+#: src/exif.c:303
+msgid "Copyright"
+msgstr "Copyright"
+
+#: src/exif.c:308
+msgid "Exposure program"
+msgstr "Programme d'exposition"
+
+#: src/exif.c:310 src/exif.c:346 src/exif.c:423
+msgid "ISO sensitivity"
+msgstr "Sensibilité ISO"
+
+#: src/exif.c:313
+msgid "Date original"
+msgstr "Date de prise de vue"
+
+#: src/exif.c:314
+msgid "Date digitized"
+msgstr "Date de numérisation"
+
+#: src/exif.c:317 src/exif.c:420
+msgid "Shutter speed"
+msgstr "Vitesse d'obturation"
+
+#: src/exif.c:318 src/exif.c:421
+msgid "Aperture"
+msgstr "Ouverture"
+
+#: src/exif.c:320 src/exif.c:422
+msgid "Exposure bias"
+msgstr "Polarisation d'exposition"
+
+#: src/exif.c:322 src/exif.c:425
+msgid "Subject distance"
+msgstr "Distance du sujet"
+
+#: src/exif.c:323
+msgid "Metering mode"
+msgstr "Méthode de mesure"
+
+#: src/exif.c:324
+msgid "Light source"
+msgstr "Source de lumière"
+
+#: src/exif.c:325 src/exif.c:426
+msgid "Flash"
+msgstr "Flash"
+
+#: src/exif.c:326 src/exif.c:424
+msgid "Focal length"
+msgstr "Distance focale"
+
+#. ExifImageWidth, ExifImageHeight can also be unsigned short
+#: src/exif.c:336
+msgid "Width"
+msgstr "Largeur"
+
+#: src/exif.c:337
+msgid "Height"
+msgstr "Hauteur"
+
+#: src/exif.c:418
+msgid "Camera"
+msgstr "Appareil"
+
+#: src/exif.c:427
+msgid "Resolution"
+msgstr "Résolution"
+
+#: src/exif.c:1451
+msgid "infinity"
+msgstr "infini"
+
+#: src/exif.c:1479
+msgid "mode:"
+msgstr "mode :"
+
+#: src/exif.c:1483 src/utilops.c:1234
+msgid "on"
+msgstr "on"
+
+#: src/exif.c:1486 src/utilops.c:1234
+msgid "off"
+msgstr "off"
+
+#: src/exif.c:1489
+msgid "auto"
+msgstr "auto"
+
+#: src/exif.c:1495
+msgid "not detected by strobe"
+msgstr "non détecté"
+
+#: src/exif.c:1496
+msgid "detected by strobe"
+msgstr "détecté"
+
+#. we ignore flash function (bit 5)
+#. red-eye (bit 6)
+#: src/exif.c:1501
+msgid "red-eye reduction"
+msgstr "anti-yeux rouges"
+
+#: src/exif.c:1520
+msgid "dot"
+msgstr "point"
+
+# c-format
+#: src/filelist.c:513
+#, c-format
+msgid "%d bytes"
+msgstr "%d octets"
+
+#: src/filelist.c:517
+#, c-format
+msgid "%.1f K"
+msgstr "%.1f Ko"
+
+#: src/filelist.c:521
+#, c-format
+msgid "%.1f MB"
+msgstr "%.1f Mo"
+
+#: src/filelist.c:526
+#, c-format
+msgid "%.1f GB"
+msgstr "%.1f Go"
+
+#: src/fullscreen.c:267
+msgid "GQview full screen"
+msgstr "GQview plein écran"
+
+#: src/fullscreen.c:397
+msgid "Full size"
+msgstr "Pleine taille"
+
+#: src/fullscreen.c:402
+msgid "Monitor"
+msgstr "Moniteur"
+
+#: src/fullscreen.c:407
+msgid "Screen"
+msgstr "Écran"
+
+#: src/fullscreen.c:644
+msgid "Stay above other windows"
+msgstr "Rester au dessus des autres fenêtres"
+
+#: src/fullscreen.c:651
+msgid "Determined by Window Manager"
+msgstr ""
+
+#: src/fullscreen.c:652
+msgid "Active screen"
+msgstr "Écran actif"
+
+#: src/fullscreen.c:654
+msgid "Active monitor"
+msgstr "Moniteur actif"
+
+#: src/img-view.c:1173 src/layout_image.c:706 src/layout_util.c:791
+msgid "Zoom _in"
+msgstr "Zoom a_vant"
+
+#: src/img-view.c:1174 src/layout_image.c:707 src/layout_util.c:792
+msgid "Zoom _out"
+msgstr "Zoom a_rrière"
+
+#: src/img-view.c:1175 src/layout_image.c:708 src/layout_util.c:793
+msgid "Zoom _1:1"
+msgstr "Taille réelle (_1:1)"
+
+#: src/img-view.c:1176 src/layout_image.c:709
+msgid "Fit image to _window"
+msgstr "Mettre à la taille de la _fenêtre"
+
+#: src/img-view.c:1181 src/layout_image.c:715 src/layout_util.c:789
+msgid "Set as _wallpaper"
+msgstr "Utiliser comme _papier peint"
+
+#: src/img-view.c:1199 src/layout_image.c:740
+msgid "_Stop slideshow"
+msgstr "_Stopper le diaporama"
+
+#: src/img-view.c:1202 src/layout_image.c:743
+msgid "Continue slides_how"
+msgstr "Reprendre le _diaporama"
+
+#: src/img-view.c:1207 src/img-view.c:1215 src/layout_image.c:748
+#: src/layout_image.c:755
+msgid "Pause slides_how"
+msgstr "Suspendre le _diaporama"
+
+#: src/img-view.c:1213 src/layout_image.c:754
+msgid "_Start slideshow"
+msgstr "_Lancer le diaporama"
+
+#: src/img-view.c:1221 src/layout_image.c:765
+msgid "Exit _full screen"
+msgstr "Sortir du mode plein _écran"
+
+#: src/img-view.c:1225 src/layout_image.c:761
+msgid "_Full screen"
+msgstr "Plein _écran"
+
+#: src/img-view.c:1229 src/layout_util.c:766
+msgid "C_lose window"
+msgstr "Fermer _la fenêtre"
+
+#: src/info.c:361
+msgid "File size:"
+msgstr "Taille du fichier :"
+
+#: src/info.c:363
+msgid "Dimensions:"
+msgstr "Dimensions :"
+
+#: src/info.c:364
+msgid "Transparent:"
+msgstr "Transparence :"
+
+#: src/info.c:365 src/print.c:3371
+msgid "Image size:"
+msgstr "Taille de l'image :"
+
+#: src/info.c:367
+msgid "Compress ratio:"
+msgstr "Taux de compression :"
+
+#: src/info.c:368
+msgid "File type:"
+msgstr "Type de fichier :"
+
+#: src/info.c:370
+msgid "Owner:"
+msgstr "Propriétaire :"
+
+#: src/info.c:371
+msgid "Group:"
+msgstr "Groupe :"
+
+#: src/info.c:374 src/preferences.c:821
+msgid "General"
+msgstr "Général"
+
+#: src/info.c:455
+#, c-format
+msgid "Image %d of %d"
+msgstr "Image %d de %d"
+
+#: src/info.c:678
+msgid "Image properties - GQview"
+msgstr "Propriétés de l'image - GQview"
+
+#: src/layout.c:271 src/view_file_icon.c:301 src/view_file_list.c:413
+msgid "Ascending"
+msgstr "Croissant"
+
+#: src/layout.c:337
 msgid " Slideshow"
 msgstr " Diaporama"
 
-#: src/filelist.c:55
-#, c-format
-msgid "%d files (%d)%s"
-msgstr "%d fichiers (%d)%s"
+#: src/layout.c:341
+msgid " Paused"
+msgstr " En pause"
 
-#: src/filelist.c:57
+#: src/layout.c:358
+#, c-format
+msgid "%s, %d files (%s, %d)%s"
+msgstr "%s, %d fichiers (%s, %d)%s"
+
+#: src/layout.c:365
+#, c-format
+msgid "%s, %d files%s"
+msgstr "%s, %d fichiers%s"
+
+#: src/layout.c:370
 #, c-format
 msgid "%d files%s"
 msgstr "%d fichiers%s"
 
-#: src/filelist.c:1025
-msgid "Loading thumbs..."
-msgstr "Chargement des vignettes..."
-
-#: src/image.c:66
+#: src/layout.c:399
 #, c-format
-msgid "( ? x ? ) %d bytes"
-msgstr "( ? x ? ) %d octets"
+msgid "(no read permission) %s bytes"
+msgstr "(pas de permission en lecture) %s octets"
 
-#: src/image.c:68
+#: src/layout.c:403
 #, c-format
-msgid "( %d x %d ) %d bytes"
-msgstr "( %d x %d ) %d octets"
+msgid "( ? x ? ) %s bytes"
+msgstr "( ? x ? ) %s octets"
 
-#: src/img-main.c:247
-msgid "GQview full screen"
-msgstr "GQview plein écran"
+#: src/layout.c:408
+#, c-format
+msgid "( %d x %d ) %s bytes"
+msgstr "( %d x %d ) %s octets"
 
-#: src/img-view.c:303 src/menu.c:470 src/menu.c:544 src/menu.c:584
-#: src/menu.c:674
+#: src/layout.c:1104
+msgid "GQview Tools"
+msgstr "Outils GQview"
+
+#: src/layout_config.c:57
+msgid "Tools"
+msgstr "Outils"
+
+#: src/layout_config.c:57 src/ui_pathsel.c:1175
+msgid "Files"
+msgstr "Fichiers"
+
+#: src/layout_config.c:57 src/preferences.c:881 src/print.c:110
+msgid "Image"
+msgstr "Image"
+
+#: src/layout_config.c:363
+msgid "(drag to change order)"
+msgstr "(glisser pour changer l'ordre)"
+
+#: src/layout_image.c:770
+msgid "Hide file _list"
+msgstr "Masquer la _liste des fichiers"
+
+#: src/layout_util.c:625 src/menu.c:74
+#, c-format
+msgid "in %s..."
+msgstr "dans %s ..."
+
+#: src/layout_util.c:629 src/menu.c:76
+msgid "in (unknown)..."
+msgstr "dans (inconnu) ..."
+
+#: src/layout_util.c:637
+#, fuzzy
+msgid "empty"
+msgstr "Vide"
+
+#: src/layout_util.c:748
+#, fuzzy
+msgid "_File"
+msgstr "/_Fichier"
+
+#: src/layout_util.c:749 src/menu.c:91
+msgid "_Edit"
+msgstr "Édit_er"
+
+#: src/layout_util.c:750 src/menu.c:248
+msgid "_Adjust"
+msgstr "_Ajuster"
+
+#: src/layout_util.c:752
+#, fuzzy
+msgid "_Help"
+msgstr "/_Aide"
+
+#: src/layout_util.c:754
+#, fuzzy
+msgid "New _window"
+msgstr "/Fichier/_Nouvelle fenêtre"
+
+#: src/layout_util.c:755
+#, fuzzy
+msgid "_New collection"
+msgstr "_Enregistrer collection"
+
+#: src/layout_util.c:756
+#, fuzzy
+msgid "_Open collection..."
+msgstr "Ouvrir collection"
+
+#: src/layout_util.c:757
+#, fuzzy
+msgid "Open _recent"
+msgstr "/Fichier/Ouverts _récemment"
+
+#: src/layout_util.c:758
+#, fuzzy
+msgid "_Search..."
+msgstr "Recherche ..."
+
+#: src/layout_util.c:760
+#, fuzzy
+msgid "_Print..."
+msgstr "Imprimer ..."
+
+#: src/layout_util.c:761
+#, fuzzy
+msgid "N_ew folder..."
+msgstr "_Nouveau dossier ..."
+
+#: src/layout_util.c:767
+#, fuzzy
+msgid "_Quit"
+msgstr "quitter"
+
+#: src/layout_util.c:779 src/menu.c:194
+msgid "_Rotate clockwise"
+msgstr "_Rotation sens horaire"
+
+#: src/layout_util.c:780 src/menu.c:197
+msgid "Rotate _counterclockwise"
+msgstr "Rotation sens _anti-horaire"
+
+#: src/layout_util.c:781
+#, fuzzy
+msgid "Rotate 1_80"
+msgstr "Rotation de _180°"
+
+#: src/layout_util.c:782 src/menu.c:203
+msgid "_Mirror"
+msgstr "Retourne_ment horizontal"
+
+#: src/layout_util.c:783 src/menu.c:206
+msgid "_Flip"
+msgstr "Retournement _vertical"
+
+#: src/layout_util.c:785
+#, fuzzy
+msgid "Select _all"
+msgstr "Tout sélectionner"
+
+#: src/layout_util.c:786
+#, fuzzy
+msgid "Select _none"
+msgstr "Désélectionner"
+
+#: src/layout_util.c:787
+#, fuzzy
+msgid "P_references..."
+msgstr "_Propriétés ..."
+
+#: src/layout_util.c:788
+#, fuzzy
+msgid "_Thumbnail maintenance..."
+msgstr "/Éditer/Maintenance des _vignettes ..."
+
+#: src/layout_util.c:794
+#, fuzzy
+msgid "_Zoom to fit"
+msgstr "/Afficher/Taille de la fenê_tre"
+
+#: src/layout_util.c:795
+#, fuzzy
+msgid "F_ull screen"
+msgstr "Plein _écran"
+
+#: src/layout_util.c:796
+#, fuzzy
+msgid "_Hide file list"
+msgstr "Masquer la _liste des fichiers"
+
+#: src/layout_util.c:797
+#, fuzzy
+msgid "Toggle _slideshow"
+msgstr "stopper le diaporama"
+
+#: src/layout_util.c:798
+#, fuzzy
+msgid "_Refresh"
+msgstr "Ra_fraîchir"
+
+#: src/layout_util.c:800
+#, fuzzy
+msgid "_Contents"
+msgstr "/Aide/_Contenu"
+
+#: src/layout_util.c:801
+#, fuzzy
+msgid "_Keyboard shortcuts"
+msgstr "/Aide/_Raccourcis clavier"
+
+#: src/layout_util.c:802
+#, fuzzy
+msgid "_Release notes"
+msgstr "/Aide/_Notes pour cette version"
+
+#: src/layout_util.c:803
+#, fuzzy
+msgid "_About"
+msgstr "/Aide/À _propos"
+
+#: src/layout_util.c:807
+#, fuzzy
+msgid "_Thumbnails"
+msgstr "Vignettes"
+
+#: src/layout_util.c:808
+#, fuzzy
+msgid "Tr_ee"
+msgstr "/Afficher/Arbr_e"
+
+#: src/layout_util.c:809
+#, fuzzy
+msgid "_Float file list"
+msgstr "/Afficher/Liste des fichiers _flottante"
+
+#: src/layout_util.c:810
+#, fuzzy
+msgid "Hide tool_bar"
+msgstr "/Afficher/Masquer la _barre d'outils"
+
+#: src/layout_util.c:811
+#, fuzzy
+msgid "_Keywords"
+msgstr "Mots clés"
+
+#: src/layout_util.c:812
+#, fuzzy
+msgid "E_xif data"
+msgstr "/Afficher/Données E_xif"
+
+#: src/layout_util.c:813
+#, fuzzy
+msgid "Sort _manager"
+msgstr "Trier par nom"
+
+#: src/layout_util.c:817
+#, fuzzy
+msgid "_List"
+msgstr "/Afficher/_Liste"
+
+#: src/layout_util.c:818
+#, fuzzy
+msgid "I_cons"
+msgstr "Icône : "
+
+#: src/layout_util.c:1083
+msgid "Show thumbnails"
+msgstr "Montrer les vignettes"
+
+#: src/layout_util.c:1085
+msgid "Change to home folder"
+msgstr "Aller dans le dossier personnel"
+
+#: src/layout_util.c:1087
+msgid "Refresh file list"
+msgstr "Rafraîchir la liste des fichiers"
+
+#: src/layout_util.c:1089
 msgid "Zoom in"
 msgstr "Zoom avant"
 
-#: src/img-view.c:304 src/menu.c:471 src/menu.c:545 src/menu.c:585
-#: src/menu.c:676
+#: src/layout_util.c:1091
 msgid "Zoom out"
 msgstr "Zoom arrière"
 
-#: src/img-view.c:305 src/menu.c:472 src/menu.c:546 src/menu.c:586
-msgid "Zoom 1:1"
-msgstr "Taille initiale"
+#: src/layout_util.c:1093 src/preferences.c:910
+msgid "Fit image to window"
+msgstr "Mettre à la taille de la fenêtre"
 
-#. edit menu
-#: src/img-view.c:309 src/menu.c:457 src/menu.c:519 src/menu.c:550
-#: src/menu.c:590
-msgid "Edit"
-msgstr "Editer"
+#: src/layout_util.c:1095
+msgid "Set zoom 1:1"
+msgstr "Taille 1:1"
 
-#: src/img-view.c:314 src/menu.c:446 src/menu.c:526 src/menu.c:557
-#: src/menu.c:595
-msgid "Copy..."
-msgstr "Copier..."
+#: src/layout_util.c:1097
+msgid "Configure options"
+msgstr "Configuration"
 
-#: src/img-view.c:315 src/menu.c:447 src/menu.c:527 src/menu.c:558
-#: src/menu.c:596
-msgid "Move..."
-msgstr "Déplacer..."
+#: src/layout_util.c:1099
+msgid "Float Controls"
+msgstr "Outils flottants"
 
-#: src/img-view.c:316 src/menu.c:448 src/menu.c:528 src/menu.c:559
-#: src/menu.c:597
-msgid "Rename..."
-msgstr "Renommer..."
+#: src/main.c:266
+msgid "Help - GQview"
+msgstr "Aide - GQview"
 
-#: src/img-view.c:317 src/menu.c:449 src/menu.c:529 src/menu.c:560
-#: src/menu.c:598
-msgid "Delete..."
-msgstr "Effacer..."
+#: src/main.c:489 src/main.c:1305
+msgid "Command line"
+msgstr "Ligne de commande"
 
-#: src/img-view.c:320
-msgid "Close window"
-msgstr "Fermer"
+#. short, long                  callback,               extra, prefer,description
+#: src/main.c:527
+msgid "next image"
+msgstr "image suivante"
 
-#: src/main.c:90 src/main.c:119
-#, c-format
-msgid "GQview running: %s\n"
-msgstr "GQview tournant : %s\n"
+#: src/main.c:528
+msgid "previous image"
+msgstr "image précédente"
 
-#: src/main.c:330
+#: src/main.c:529
+msgid "first image"
+msgstr "première image"
+
+#: src/main.c:530
+msgid "last image"
+msgstr "dernière image"
+
+#: src/main.c:531
+msgid "toggle full screen"
+msgstr "Sortir du mode plein _écran"
+
+#: src/main.c:532
+msgid "start full screen"
+msgstr "Démarrer en mode plein _écran"
+
+#: src/main.c:533
+msgid "stop full screen"
+msgstr "Sortir du mode plein _écran"
+
+#: src/main.c:534
+msgid "toggle slide show"
+msgstr "stopper le diaporama"
+
+#: src/main.c:535
+msgid "start slide show"
+msgstr "lancer le diaporama"
+
+#: src/main.c:536
+msgid "stop slide show"
+msgstr "stopper le diaporama"
+
+#: src/main.c:537
+msgid "start recursive slide show"
+msgstr "lancer le diaporama récursif"
+
+#: src/main.c:538
+msgid "set slide show delay in seconds"
+msgstr "délais entre diapos en secondes"
+
+#: src/main.c:539
+msgid "show tools"
+msgstr "montrer les outils"
+
+#: src/main.c:540
+msgid "hide tools"
+msgstr "cacher les outils"
+
+#: src/main.c:541
+msgid "quit"
+msgstr "quitter"
+
+#: src/main.c:542
+msgid "open file"
+msgstr "ouvrir le fichier"
+
+#: src/main.c:543
+msgid "open file in new window"
+msgstr "ouvrir le fichier dans une nouvelle fenêtre"
+
+#: src/main.c:609
+msgid "Remote command list:\n"
+msgstr "Liste des commandes à distance :\n"
+
+#: src/main.c:667
+msgid "Remote GQview not running, starting..."
+msgstr "Pas de GQview distant, lancement ..."
+
+#: src/main.c:802
+msgid "Remote not available\n"
+msgstr "Commande à distance non disponible\n"
+
+#: src/main.c:944
 msgid ""
 "Usage: gqview [options] [path]\n"
 "\n"
 msgstr ""
-"Utilisation : gqview [options] [chemin]\n"
+"Utilisation: gqview [options] [chemin]\n"
 "\n"
 
-#: src/main.c:331
+#: src/main.c:945
 msgid "valid options are:\n"
-msgstr "les options valides sont :\n"
+msgstr "les options valides sont :\n"
 
-#: src/main.c:332
+#: src/main.c:946
 msgid "  +t, --with-tools           force show of tools\n"
 msgstr "  +t, --with-tools           force l'affichage des outils\n"
 
-#: src/main.c:333
+#: src/main.c:947
 msgid "  -t, --without-tools        force hide of tools\n"
 msgstr "  -t, --without-tools        masque les outils\n"
 
-#: src/main.c:334
+#: src/main.c:948
 msgid "  -f, --fullscreen           start in full screen mode\n"
 msgstr "  -f, --fullscreen           démarre en mode plein écran\n"
 
-#: src/main.c:335
+#: src/main.c:949
 msgid "  -s, --slideshow            start in slideshow mode\n"
 msgstr "  -s, --slideshow            démarre en mode diaporama\n"
 
-#: src/main.c:336
-msgid "  --debug                    turn on debug output\n"
-msgstr "  --debug                    valide les sorties de déboggage\n"
+#: src/main.c:950
+msgid "  -l, --list                 open collection window for command line\n"
+msgstr ""
+"  -l, --list                 ouvre une fenêtre de collection pour la ligne "
+"de commande\n"
 
-#: src/main.c:337
+#: src/main.c:951
+msgid "  -r, --remote               send following commands to open window\n"
+msgstr ""
+"  -r, --remote               lance la commande suivante pour ouvrir un "
+"fenêtre\n"
+"de commande\n"
+
+#: src/main.c:952
+msgid "  -rh,--remote-help          print remote command list\n"
+msgstr ""
+"  -rh,--remote-help          affiche la liste des commandes à distance\n"
+
+#: src/main.c:953
+msgid "  --debug                    turn on debug output\n"
+msgstr "  --debug                    valide les sorties de déboguage\n"
+
+#: src/main.c:954
+msgid "  -v, --version              print version info\n"
+msgstr "  -v, --version              affiche les infos de versions\n"
+
+#: src/main.c:955
 msgid ""
 "  -h, --help                 show this message\n"
 "\n"
@@ -315,276 +1582,1149 @@ msgstr ""
 "  -h, --help                 affiche ce message\n"
 "\n"
 
-#: src/main.c:342
+#: src/main.c:969
 #, c-format
 msgid ""
 "invalid or ignored: %s\n"
-"Use -help for options\n"
+"Use --help for options\n"
 msgstr ""
-"invalide ou ignoré: %s\n"
-"Utiliser -help pour connaître les options\n"
+"invalide ou ignoré : %s\n"
+"Utiliser --help pour connaître les options\n"
 
-#: src/main.c:369
-msgid "The Gimp"
-msgstr "Gimp"
-
-#: src/main.c:372
-msgid "Electric Eyes"
-msgstr "Electric Eyes"
-
-#: src/main.c:375
-msgid "XV"
-msgstr "XV"
-
-#: src/main.c:378
-msgid "Xpaint"
-msgstr "Xpaint"
-
-#: src/menu.c:373
+#: src/main.c:1034
 #, c-format
-msgid "in %s..."
-msgstr "Dans %s"
+msgid "Creating GQview dir:%s\n"
+msgstr "Création du dossier GQview : %s\n"
 
-#: src/menu.c:375
-msgid "in (unknown)..."
-msgstr "dans (inconnu)..."
+#: src/main.c:1040
+#, c-format
+msgid "Could not create dir:%s\n"
+msgstr "Impossible de créer le dossier : %s\n"
 
-#: src/menu.c:394
-msgid "Options..."
-msgstr "Préférences..."
+#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1043
+msgid "Home"
+msgstr "Rép. perso"
 
-#: src/menu.c:396
-msgid "Remove old thumbnails"
-msgstr "Détruire les anciennes vignettes"
+#: src/main.c:1063 src/ui_bookmark.c:865
+msgid "Desktop"
+msgstr "Bureau"
 
-#: src/menu.c:398 src/menu.c:410 src/menu.c:422
-msgid "Set as wallpaper"
-msgstr "Utiliser comme papier peint"
+#: src/main.c:1152
+msgid "GQview - exit"
+msgstr "GQview - sortir"
 
-#. file menu
-#: src/menu.c:440
-msgid "File"
-msgstr "Fichier"
+#: src/main.c:1156
+msgid "Quit GQview"
+msgstr "Quitter GQview"
 
-#: src/menu.c:444
-msgid "Create Dir..."
-msgstr "Créer un répertoire"
+#: src/main.c:1156
+msgid "Collections have been modified. Quit anyway?"
+msgstr ""
+"Des collections ont été modifiées.\n"
+"Quitter quand même ?"
 
-#: src/menu.c:451
-msgid "Exit"
-msgstr "Quitter"
+#: src/menu.c:115
+msgid "Sort by size"
+msgstr "Trier par taille"
 
-#. view menu
-#: src/menu.c:466
-msgid "View"
-msgstr "Afficher"
+#: src/menu.c:118
+msgid "Sort by date"
+msgstr "Trier par date"
 
-#: src/menu.c:476 src/menu.c:563
-msgid "Full screen"
-msgstr "Plein écran"
+#: src/menu.c:121
+msgid "Unsorted"
+msgstr "Non trié"
 
-#: src/menu.c:485
-msgid "Refresh Lists"
-msgstr "Rafraîchir les listes"
+#: src/menu.c:124
+msgid "Sort by path"
+msgstr "Trier par chemin"
 
-#: src/menu.c:486
-msgid "(Un)Float file list"
-msgstr "Liste des fichiers flottante"
+#: src/menu.c:127
+msgid "Sort by number"
+msgstr "Trier par valeur numérique"
 
-#: src/menu.c:487 src/menu.c:562
-msgid "(Un)Hide file list"
-msgstr "Cacher (montrer) la liste des fichiers"
+#: src/menu.c:131
+msgid "Sort by name"
+msgstr "Trier par nom"
 
-#: src/menu.c:490
-msgid "Toggle slideshow"
-msgstr "Lancer (arrêter) le diaporama"
+#: src/menu.c:175
+msgid "Sort"
+msgstr "Trier"
 
-#. help menu
-#: src/menu.c:496
-msgid "Help"
-msgstr "Aide"
+#: src/menu.c:200
+msgid "Rotate _180"
+msgstr "Rotation de _180°"
 
-#: src/menu.c:523 src/menu.c:554
-msgid "View in new window"
-msgstr "Voir dans une nouvelle fenêtre"
+#: src/preferences.c:384
+msgid "Nearest (worst, but fastest)"
+msgstr "Au plus près (moins bon, plus rapide)"
 
-#: src/menu.c:531
-msgid "Refresh"
-msgstr "Rafraîchir"
+#: src/preferences.c:386
+msgid "Tiles"
+msgstr "Tuiles"
 
-#: src/menu.c:601
-msgid "Exit full screen"
-msgstr "Sortir du mode plein écran"
+#: src/preferences.c:388
+msgid "Bilinear"
+msgstr "Bilénaire"
 
-#: src/menu.c:661
-msgid "Create thumbnails"
-msgstr "Afficher les vignettes"
+#: src/preferences.c:390
+msgid "Hyper (best, but slowest)"
+msgstr "Hyper (meilleur, plus lent)"
 
-#: src/menu.c:670
-msgid "Change to home directory"
-msgstr "Aller dans le répertoire HOME"
+#: src/preferences.c:418
+msgid "None"
+msgstr "Aucune"
 
-#: src/menu.c:672
-msgid "Refresh file list"
+#: src/preferences.c:419
+msgid "Normal"
+msgstr "Normale"
+
+#: src/preferences.c:420
+msgid "Best"
+msgstr "Meilleure"
+
+#: src/preferences.c:498 src/print.c:365
+msgid "Custom"
+msgstr "Spécifique"
+
+#: src/preferences.c:662 src/preferences.c:665
+msgid "Reset filters"
+msgstr "RAZ des filtres"
+
+#: src/preferences.c:666
+msgid ""
+"This will reset the file filters to the defaults.\n"
+"Continue?"
+msgstr ""
+"Ceci va remettre les filtres de fichiers à leur état par défaut.\n"
+"Continuer ?"
+
+#: src/preferences.c:699 src/preferences.c:702
+msgid "Reset editors"
+msgstr "RAZ des éditeurs"
+
+#: src/preferences.c:703
+msgid ""
+"This will reset the edit commands to the defaults.\n"
+"Continue?"
+msgstr ""
+"Ceci va remettre les commandes d'édition à leur état par défaut.\n"
+"Continuer ?"
+
+#: src/preferences.c:727 src/preferences.c:730
+msgid "Clear trash"
+msgstr "Vider la corbeille"
+
+#: src/preferences.c:731
+msgid "This will remove the trash contents."
+msgstr "Ceci va supprimer le contenu de la corbeille"
+
+#: src/preferences.c:770
+#, fuzzy
+msgid "GQview Preferences"
+msgstr "GQview plein écran"
+
+#: src/preferences.c:824
+msgid "Startup"
+msgstr "Début"
+
+#: src/preferences.c:826
+msgid "Change to folder:"
+msgstr "Aller dans le dossier :"
+
+#: src/preferences.c:837
+msgid "Use current"
+msgstr "Utiliser le dossier courant"
+
+#: src/preferences.c:843 src/print.c:3201 src/print.c:3408
+msgid "Size:"
+msgstr "Taille :"
+
+#: src/preferences.c:844 src/preferences.c:890
+msgid "Quality:"
+msgstr "Qualité :"
+
+#: src/preferences.c:846
+msgid "Cache thumbnails"
+msgstr "Mettre en cache les vignettes"
+
+#: src/preferences.c:852
+msgid "Use shared thumbnail cache"
+msgstr "Utiliser un cache vignettes partagé"
+
+#: src/preferences.c:858
+msgid "Cache thumbnails into .thumbnails"
+msgstr "Mettre en cache les vignettes dans .thumbnails"
+
+#: src/preferences.c:861
+msgid "Use xvpics thumbnails when found (read only)"
+msgstr "Utiliser les vignettes xvpics si existantes (lecture seule)"
+
+#: src/preferences.c:864
+msgid "Slide show"
+msgstr "Diaporama"
+
+#: src/preferences.c:867
+msgid "Delay between image change:"
+msgstr "Délai entre deux images :"
+
+#: src/preferences.c:867
+msgid "seconds"
+msgstr "secondes"
+
+#: src/preferences.c:873
+msgid "Random"
+msgstr "Aléatoire"
+
+#: src/preferences.c:874
+msgid "Repeat"
+msgstr "En boucle"
+
+#: src/preferences.c:884
+msgid "Zoom"
+msgstr "Zoom"
+
+#: src/preferences.c:887
+msgid "Dithering method:"
+msgstr "Méthode de dithering :"
+
+#: src/preferences.c:892
+msgid "Two pass zooming"
+msgstr "Zoom en 2 passes"
+
+#: src/preferences.c:895
+msgid "Allow enlargement of image for zoom to fit."
+msgstr "Aggrandir les images pour que le zoom convienne."
+
+#: src/preferences.c:899
+msgid "Zoom increment:"
+msgstr "Incrément de zoom :"
+
+#: src/preferences.c:904
+msgid "When new image is selected:"
+msgstr "Sélection d'une nouvelle image :"
+
+#: src/preferences.c:907
+msgid "Zoom to original size"
+msgstr "Zoom à sa taille d'origine"
+
+#: src/preferences.c:913
+msgid "Leave Zoom at previous setting"
+msgstr "Garder la valeur précédente du zoom"
+
+#: src/preferences.c:917
+msgid "Appearance"
+msgstr "Apparence"
+
+#: src/preferences.c:919
+msgid "Black background"
+msgstr "Arrière-plan noir"
+
+#: src/preferences.c:922
+msgid "Convenience"
+msgstr "Commodités"
+
+#: src/preferences.c:924
+msgid "Refresh on file change"
 msgstr "Rafraîchir la liste des fichiers"
 
-#: src/menu.c:680
-msgid "Set zoom 1:1"
-msgstr "Retour taille initiale"
+#: src/preferences.c:926
+msgid "Preload next image"
+msgstr "Précharger l'image suivante"
 
-#: src/menu.c:682
-msgid "Configure options"
-msgstr "Configuration"
+#: src/preferences.c:928
+msgid "Auto rotate image using Exif information"
+msgstr "Rotation automatique de l'image à l'aide des informations Exif"
 
-#: src/menu.c:684
-msgid "Float Controls"
-msgstr "Outils flottants"
+#: src/preferences.c:937
+msgid "Windows"
+msgstr "Fenêtres"
 
-#: src/rcfile.c:132
+#: src/preferences.c:940
+msgid "State"
+msgstr "État"
+
+#: src/preferences.c:942
+msgid "Remember window positions"
+msgstr "Conserver les positions de la fenêtre"
+
+#: src/preferences.c:944
+msgid "Remember tool state (float/hidden)"
+msgstr "Conserver l'état des outils (flottants/cachés)"
+
+#: src/preferences.c:949
+msgid "Fit window to image when tools are hidden/floating"
+msgstr ""
+"Mettre la fenêtre à la taille de l'image quand les outils sont cachés/"
+"flottants"
+
+#: src/preferences.c:953
+msgid "Limit size when auto-sizing window (%):"
+msgstr "Limiter la taille quand la fenêtre est auto-dimensionnable (%) :"
+
+#: src/preferences.c:960 src/print.c:3356 src/print.c:3363
+msgid "Layout"
+msgstr "Disposition"
+
+#: src/preferences.c:973
+msgid "Filtering"
+msgstr "Filtres"
+
+#: src/preferences.c:978
+msgid "Show entries that begin with a dot"
+msgstr "Montrer les fichiers cachés"
+
+#: src/preferences.c:980
+msgid "Case sensitive sort"
+msgstr "Tri sensible à la casse"
+
+#: src/preferences.c:983
+msgid "Disable File Filtering"
+msgstr "Désactiver les filtres de fichiers"
+
+#: src/preferences.c:986
+msgid "File types"
+msgstr "Type de fichier"
+
+#: src/preferences.c:1008
+msgid "Filter"
+msgstr "Filtre"
+
+#: src/preferences.c:1045 src/preferences.c:1109
+msgid "Defaults"
+msgstr "Configuration par défaut"
+
+#: src/preferences.c:1066
+msgid "Editors"
+msgstr "Éditeurs"
+
+#: src/preferences.c:1072
+msgid "#"
+msgstr "N°"
+
+#: src/preferences.c:1075
+msgid "Menu name"
+msgstr "Nom du menu"
+
+#: src/preferences.c:1125
+msgid "Advanced"
+msgstr "Avancé"
+
+#: src/preferences.c:1138
+msgid "Full screen"
+msgstr "Plein _écran"
+
+#: src/preferences.c:1146
+msgid "Smooth image flip"
+msgstr "Lisser le basculement d'image"
+
+#: src/preferences.c:1148
+msgid "Disable screen saver"
+msgstr "Inhiber l'économiseur d'écran"
+
+#: src/preferences.c:1151
+msgid "Delete"
+msgstr "Effacer"
+
+#: src/preferences.c:1153
+msgid "Confirm file delete"
+msgstr "Confirmer la suppression des fichiers"
+
+#: src/preferences.c:1155
+msgid "Enable Delete key"
+msgstr "Utiliser la touche [Suppr]"
+
+#: src/preferences.c:1158
+msgid "Safe delete"
+msgstr "Confirmer la suppression des fichiers"
+
+#: src/preferences.c:1176
+msgid "Maximum size:"
+msgstr "Taille maximum :"
+
+#: src/preferences.c:1176
+msgid "MB"
+msgstr "Mo"
+
+#: src/preferences.c:1179
+msgid "View"
+msgstr "Voir"
+
+#: src/preferences.c:1189
+msgid "Behavior"
+msgstr "Comportement"
+
+#: src/preferences.c:1191
+msgid "Rectangular selection in icon view"
+msgstr "Sélection rectangulaire dans la vue en icônes"
+
+#: src/preferences.c:1194
+msgid "Descend folders in tree view"
+msgstr "Parcourir les dossiers dans la vue arborescente"
+
+#: src/preferences.c:1197
+msgid "In place renaming"
+msgstr "Renommer en place"
+
+#: src/preferences.c:1200
+msgid "Navigation"
+msgstr "Navigation"
+
+#: src/preferences.c:1202
+msgid "Progressive keyboard scrolling"
+msgstr "Panoramique clavier progressif"
+
+#: src/preferences.c:1204
+msgid "Mouse wheel scrolls image"
+msgstr "Défilement des images avec la molette de la souris"
+
+#: src/preferences.c:1207
+msgid "Miscellaneous"
+msgstr "Divers"
+
+#: src/preferences.c:1209
+#, fuzzy
+msgid "Store keywords and comments local to source images"
+msgstr "Sauver les vignettes avec les images sources"
+
+#: src/preferences.c:1212
+msgid "Custom similarity threshold:"
+msgstr "Similarité spécifique :"
+
+#: src/preferences.c:1215
+msgid "Offscreen cache size (Mb per image):"
+msgstr "Taille du cache mémoire (Mo par image) :"
+
+#: src/preferences.c:1291
+msgid "About - GQview"
+msgstr "A propos - GQview"
+
+#: src/preferences.c:1304
+#, c-format
+msgid ""
+"GQview %s\n"
+"\n"
+"Copyright (c) %s John Ellis\n"
+"website: %s\n"
+"email: %s\n"
+"\n"
+"Released under the GNU General Public License"
+msgstr ""
+"GQview %s\n"
+"\n"
+"Copyright © %s par John Ellis\n"
+"Site web : %s\n"
+"Contact : %s\n"
+"\n"
+"Traduction : Éric Lassauge <lassauge@users.sourceforge.net>, 2001-2004\n"
+"\n"
+"Jean-Pierre Pedron <jppedron@club-internet.fr>, 2000\n"
+"Pascal Bleser <pascal.bleser@atosorigin.com>, 2003\n"
+"Nicolas Boos <nicolas.boos@wanadoo.fr>, 2003\n"
+"Nicolas Bonifas <nicolas.bonifas@free.fr>, 2003-2004\n"
+"\n"
+"Distribué sous GNU General Public License"
+
+#: src/preferences.c:1322
+msgid "Credits..."
+msgstr "Crédits ..."
+
+#: src/print.c:111
+msgid "Selection"
+msgstr "Sélection"
+
+#: src/print.c:112
+msgid "All"
+msgstr "Tout"
+
+#: src/print.c:123
+msgid "One image per page"
+msgstr "Une image/page"
+
+#: src/print.c:124
+msgid "Proof sheet"
+msgstr "Page de test"
+
+#: src/print.c:137
+msgid "Default printer"
+msgstr "Imprimante par défaut"
+
+#: src/print.c:138
+msgid "Custom printer"
+msgstr "Imprimante spécifique"
+
+#: src/print.c:139
+msgid "PostScript file"
+msgstr "Fichier Postscript"
+
+#: src/print.c:140
+msgid "Image file"
+msgstr "Fichier image"
+
+#: src/print.c:154
+msgid "jpeg, low quality"
+msgstr "JPEG, basse qualité"
+
+#: src/print.c:155
+msgid "jpeg, normal quality"
+msgstr "JPEG, qualité normale"
+
+#: src/print.c:156
+msgid "jpeg, high quality"
+msgstr "JPEG, haute qualité"
+
+#: src/print.c:350 src/print.c:3201
+msgid "points"
+msgstr "points"
+
+#: src/print.c:351
+msgid "millimeters"
+msgstr "millimètres"
+
+#: src/print.c:352
+msgid "centimeters"
+msgstr "centimètres"
+
+#: src/print.c:353
+msgid "inches"
+msgstr "pouces"
+
+#: src/print.c:354
+msgid "picas"
+msgstr ""
+
+#: src/print.c:359
+msgid "Portrait"
+msgstr "Portrait"
+
+#: src/print.c:360
+msgid "Landscape"
+msgstr "Paysage"
+
+#: src/print.c:366
+msgid "Letter"
+msgstr "Lettre"
+
+#. in 8.5 x 11
+#: src/print.c:367
+msgid "Legal"
+msgstr "Legal"
+
+#. in 8.5 x 14
+#: src/print.c:368
+msgid "Executive"
+msgstr "Executive"
+
+#. in 7.25x 10.5
+#. mm 841 x 1189
+#. mm 594 x 841
+#. mm 420 x 594
+#. mm 297 x 420
+#. mm 210 x 297
+#. mm 148 x 210
+#. mm 105 x 148
+#. mm 353 x 500
+#. mm 250 x 353
+#. mm 176 x 250
+#. mm 125 x 176
+#: src/print.c:380
+msgid "Envelope #10"
+msgstr "Enveloppe #10"
+
+#. in 4.125 x 9.5
+#: src/print.c:381
+msgid "Envelope #9"
+msgstr "Enveloppe #9"
+
+#. in 3.875 x 8.875
+#: src/print.c:382
+msgid "Envelope C4"
+msgstr "Enveloppe C4"
+
+#. mm 229 x 324
+#: src/print.c:383
+msgid "Envelope C5"
+msgstr "Enveloppe C5"
+
+#. mm 162 x 229
+#: src/print.c:384
+msgid "Envelope C6"
+msgstr "Enveloppe C6"
+
+#. mm 114 x 162
+#: src/print.c:385
+msgid "Photo 6x4"
+msgstr "Photo 6x4"
+
+#. in 6   x 4
+#: src/print.c:386
+msgid "Photo 8x10"
+msgstr "Photo 8x10"
+
+#. in 8   x 10
+#: src/print.c:387
+msgid "Postcard"
+msgstr "Carte postale"
+
+#. mm 100 x 148
+#: src/print.c:388
+msgid "Tabloid"
+msgstr "Tabloïd"
+
+#: src/print.c:544
+#, c-format
+msgid "page %d of %d"
+msgstr "page %d de %d"
+
+#: src/print.c:736 src/utilops.c:2067
+msgid "Preview"
+msgstr "Prévisualiser"
+
+#: src/print.c:1044
+#, c-format
+msgid ""
+"Unable to open pipe for writing.\n"
+"\"%s\""
+msgstr ""
+
+#: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:424
+#: src/view_file_list.c:453
+#, c-format
+msgid "A file with name %s already exists."
+msgstr "Un fichier portant le nom %s existe déjà."
+
+#: src/print.c:1074 src/print.c:1543
+#, c-format
+msgid "Failure writing to file %s"
+msgstr ""
+
+#: src/print.c:1128 src/print.c:1165 src/print.c:1201 src/print.c:1307
+#: src/print.c:1398 src/print.c:1429
+msgid "SIGPIPE error writing to printer."
+msgstr ""
+
+#: src/print.c:1964
+#, c-format
+msgid "Page %d"
+msgstr "Page %d"
+
+#: src/print.c:1986 src/print.c:1991
+#, fuzzy
+msgid "Printing error"
+msgstr "Imprimante"
+
+#: src/print.c:1990
+#, c-format
+msgid "An error occured printing to %s."
+msgstr ""
+
+#: src/print.c:1994
+#, fuzzy
+msgid "Details"
+msgstr "Configuration par défaut"
+
+#: src/print.c:2587 src/print.c:3332
+msgid "Print - GQview"
+msgstr "Impression - GQview"
+
+#: src/print.c:2591
+#, fuzzy, c-format
+msgid "Printing %d pages to %s."
+msgstr "Impression de %d pages vers %s ..."
+
+#: src/print.c:2691
+msgid "Format:"
+msgstr "Format :"
+
+#: src/print.c:2766
+msgid "Units:"
+msgstr "Unités :"
+
+#: src/print.c:2810
+msgid "Orientation:"
+msgstr "Orientation :"
+
+#: src/print.c:2942
+msgid "Destination:"
+msgstr "Destination :"
+
+#: src/print.c:2990
+#, fuzzy
+msgid "<printer name>"
+msgstr "Nom du fichier"
+
+#: src/print.c:3079
+msgid "Unlimited"
+msgstr "Sans limite"
+
+#: src/print.c:3188
+msgid "Show"
+msgstr "Montrer"
+
+#: src/print.c:3199
+msgid "Font"
+msgstr "Police"
+
+#: src/print.c:3359
+msgid "Source"
+msgstr "Source"
+
+#: src/print.c:3375
+msgid "Proof size:"
+msgstr "Taille de l'aperçu :"
+
+#: src/print.c:3391
+msgid "Text"
+msgstr "Texte"
+
+#: src/print.c:3401
+msgid "Paper"
+msgstr "Papier"
+
+#: src/print.c:3424
+msgid "Margins"
+msgstr "Marges"
+
+#: src/print.c:3426
+msgid "Left:"
+msgstr "Gauche :"
+
+#: src/print.c:3429
+msgid "Right:"
+msgstr "Droite :"
+
+#: src/print.c:3432
+msgid "Top:"
+msgstr "Haute :"
+
+#: src/print.c:3435
+msgid "Bottom:"
+msgstr "Basse :"
+
+#: src/print.c:3444
+msgid "Printer"
+msgstr "Imprimante"
+
+#: src/print.c:3450
+msgid "Custom printer:"
+msgstr "Imprimante spécifique :"
+
+#: src/print.c:3459
+msgid "File:"
+msgstr "Fichier :"
+
+#: src/print.c:3468
+msgid "File format:"
+msgstr "Format du fichier :"
+
+#: src/print.c:3473
+msgid "DPI:"
+msgstr "DPI :"
+
+#: src/print.c:3481
+#, fuzzy
+msgid "Remember print settings"
+msgstr "Conserver les positions de la fenêtre"
+
+#: src/rcfile.c:185
 #, c-format
 msgid "error saving config file: %s\n"
-msgstr "erreur dans la sauvegarde du fichier de configuration : %s\n"
+msgstr "erreur à la sauvegarde du fichier de configuration : %s\n"
 
-#: src/thumb.c:127 src/thumb.c:151
+#: src/search.c:200
+msgid "folder"
+msgstr "Dossier"
+
+#: src/search.c:201
+msgid "comments"
+msgstr "commentaires"
+
+#: src/search.c:202
+msgid "results"
+msgstr "résultats"
+
+#: src/search.c:206
+msgid "contains"
+msgstr "contient"
+
+#: src/search.c:207
+msgid "is"
+msgstr "est"
+
+#: src/search.c:211 src/search.c:218
+msgid "equal to"
+msgstr "égale(s) à"
+
+#: src/search.c:212
+msgid "less than"
+msgstr "moins que"
+
+#: src/search.c:213
+msgid "greater than"
+msgstr "plus qu"
+
+#: src/search.c:214 src/search.c:221
+msgid "between"
+msgstr "entre"
+
+#: src/search.c:219
+msgid "before"
+msgstr "avant"
+
+#: src/search.c:220
+msgid "after"
+msgstr "après"
+
+#: src/search.c:225
+msgid "match all"
+msgstr "correspondent à tous"
+
+#: src/search.c:226
+msgid "match any"
+msgstr "correspondent à"
+
+#: src/search.c:227
+msgid "exclude"
+msgstr "exclusent"
+
+#: src/search.c:277
 #, c-format
-msgid "create dir failed: %s\n"
-msgstr "échec lors de la création du répertoire : %s\n"
+msgid "%s, %d files (%s, %d)"
+msgstr "%s, %d fichiers (%s, %d)"
 
-#: src/thumb.c:233
+#: src/search.c:284
 #, c-format
-msgid "Unable to delete dir: %s\n"
-msgstr "Impossible de détruire le répertoire : %s\n"
+msgid "%s, %d files"
+msgstr "%s, %d fichiers"
 
-#: src/thumb.c:249
+#: src/search.c:301
+msgid "Searching..."
+msgstr "Recherche ..."
+
+#: src/search.c:2093
+msgid "File not found"
+msgstr "Fichier inexistant"
+
+#: src/search.c:2094
+msgid "Please enter an existing file for image content."
+msgstr "Sélectionner un fichier existant pour un contenu image."
+
+#: src/search.c:2140
+msgid "Folder not found"
+msgstr "Dossier inexistant"
+
+#: src/search.c:2141
+msgid "Please enter an existing folder to search."
+msgstr "Sélectionner un dossier existant pour la recherche."
+
+#: src/search.c:2570
+msgid "Image search - GQview"
+msgstr "Recherche d'image - GQview"
+
+#: src/search.c:2599
+msgid "Search:"
+msgstr "Recherche :"
+
+#: src/search.c:2613
+msgid "Recurse"
+msgstr "Récursivement"
+
+#: src/search.c:2617
+msgid "File name"
+msgstr "Nom du fichier"
+
+#: src/search.c:2623
+msgid "Match case"
+msgstr "Sensible à la casse"
+
+#: src/search.c:2627
+msgid "File size is"
+msgstr "Taille du fichier est"
+
+#: src/search.c:2634 src/search.c:2649 src/search.c:2667
+msgid "and"
+msgstr "et"
+
+#: src/search.c:2639
+msgid "File date is"
+msgstr "Date du fichier est"
+
+#: src/search.c:2656
+msgid "Image dimensions are"
+msgstr "Dimensions de l'image sont"
+
+#: src/search.c:2676
+msgid "Image content is"
+msgstr "Contenu de l'image est"
+
+#: src/search.c:2682
+#, no-c-format
+msgid "% similar to"
+msgstr "% similaire à"
+
+#: src/search.c:2751
+msgid "Rank"
+msgstr "Rang"
+
+#: src/thumb.c:378
+msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
+msgstr "Impossible de charger la vignette depuis le cache, regénération.\n"
+
+#: src/ui_bookmark.c:148
 #, c-format
-msgid "failed to delete:%s\n"
-msgstr "échec lors de la destruction : %s\n"
+msgid "Unable to write history lists to: %s\n"
+msgstr "Impossible d'écrire l'historique dans : %s\n"
 
-#: src/utildlg.c:68
-msgid "     Ok     "
-msgstr "     Ok     "
+#: src/ui_bookmark.c:445 src/ui_bookmark.c:508
+msgid "New Bookmark"
+msgstr "Nouveau signet"
 
-#: src/utilops.c:166
+#: src/ui_bookmark.c:591 src/ui_bookmark.c:597
+msgid "Edit Bookmark"
+msgstr "Modifier les signets"
+
+#: src/ui_bookmark.c:612
+msgid "Path:"
+msgstr "Chemin : "
+
+#: src/ui_bookmark.c:621
+msgid "Icon:"
+msgstr "Icône : "
+
+#: src/ui_bookmark.c:627
+msgid "Select icon"
+msgstr "Sélectionner icône"
+
+#: src/ui_bookmark.c:718
+msgid "_Properties..."
+msgstr "_Propriétés ..."
+
+#: src/ui_bookmark.c:720
+msgid "Move _up"
+msgstr "_Monter"
+
+#: src/ui_bookmark.c:722
+msgid "Move _down"
+msgstr "_Descendre"
+
+#: src/ui_bookmark.c:724
+msgid "_Remove"
+msgstr "Efface_r"
+
+#: src/ui_help.c:111
+#, c-format
+msgid ""
+"Unable to load:\n"
+"%s"
+msgstr ""
+"Impossible de lancer la commande :\n"
+"%s"
+
+#: src/ui_pathsel.c:430 src/view_dir_list.c:97 src/view_dir_tree.c:204
+#, c-format
+msgid "Failed to rename %s to %s."
+msgstr "Impossible de renommer le fichier %s en %s."
+
+#: src/ui_pathsel.c:486 src/utilops.c:1288 src/utilops.c:1461
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+"%s"
+msgstr ""
+"Impossible de supprimer le fichier :\n"
+"%s"
+
+#: src/ui_pathsel.c:487 src/utilops.c:1462
+msgid "File deletion failed"
+msgstr "La suppression du fichier a échoué"
+
+#: src/ui_pathsel.c:529 src/ui_pathsel.c:537
+msgid "Delete file"
+msgstr "Supprimer fichier"
+
+#: src/ui_pathsel.c:535
+#, c-format
+msgid ""
+"About to delete the file:\n"
+" %s"
+msgstr ""
+"Sur le point de supprimer le fichier :\n"
+" %s"
+
+#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2035
+#: src/utilops.c:2255
+msgid "_Rename"
+msgstr "_Renommer"
+
+#: src/ui_pathsel.c:628 src/ui_pathsel.c:638
+msgid "Add _Bookmark"
+msgstr "Ajouter un _signet"
+
+#: src/ui_pathsel.c:636
+msgid "_Delete"
+msgstr "_Effacer"
+
+#: src/ui_pathsel.c:740 src/ui_pathsel.c:1045
+msgid "New folder"
+msgstr "Nouveau dossier"
+
+#: src/ui_pathsel.c:750 src/utilops.c:2325 src/view_dir_list.c:338
+#: src/view_dir_tree.c:434
+#, c-format
+msgid ""
+"Unable to create folder:\n"
+"%s"
+msgstr ""
+"Impossible de créer le dossier :\n"
+"%s"
+
+#: src/ui_pathsel.c:751 src/utilops.c:2326 src/view_dir_list.c:339
+#: src/view_dir_tree.c:435
+msgid "Error creating folder"
+msgstr "Erreur pendant le création du dossier"
+
+#: src/ui_pathsel.c:972
+msgid "All Files"
+msgstr "Montrer tous les fichiers"
+
+#: src/ui_pathsel.c:1048
+msgid "Show hidden"
+msgstr "Montrer les fichiers cachés"
+
+#: src/ui_pathsel.c:1132
+msgid "Filter:"
+msgstr "Filtre :"
+
+#: src/ui_tabcomp.c:840
+msgid "Select path"
+msgstr "Sélectionner un chemin"
+
+#: src/ui_tabcomp.c:856
+msgid "All files"
+msgstr "Tous les fichiers"
+
+#: src/utilops.c:470 src/utilops.c:783 src/utilops.c:1640 src/utilops.c:2187
+msgid "Overwrite file"
+msgstr "Écraser fichier"
+
+#: src/utilops.c:475 src/utilops.c:788 src/utilops.c:1645 src/utilops.c:2192
+msgid "Overwrite file?"
+msgstr "Écraser fichier ?"
+
+#: src/utilops.c:476 src/utilops.c:789
+msgid "Replace existing file with new file."
+msgstr "Remplacer le fichier existant par un nouveau fichier."
+
+#: src/utilops.c:480
+msgid "Overwrite _all"
+msgstr "Écraser _tout"
+
+#: src/utilops.c:482
+msgid "S_kip all"
+msgstr "S_auter tout"
+
+#: src/utilops.c:483
+msgid "_Skip"
+msgstr "_Sauter"
+
+#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+msgid "Existing file"
+msgstr "Fichier existant"
+
+#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+msgid "New file"
+msgstr "Nouveau fichier"
+
+#: src/utilops.c:494 src/utilops.c:802 src/utilops.c:1746 src/utilops.c:1810
+#: src/utilops.c:2101
+msgid "Auto rename"
+msgstr "Renommage auto"
+
+#: src/utilops.c:502 src/utilops.c:810
+msgid "Rename"
+msgstr "Renommer"
+
+#: src/utilops.c:543
 msgid "Source to copy matches destination"
-msgstr "Source à copier à la destination coresspondante"
+msgstr "Le fichier source à copier est identique à la destination"
 
-#: src/utilops.c:167
+#: src/utilops.c:544
 #, c-format
 msgid ""
 "Unable to copy file:\n"
 "%s\n"
 "to itself."
 msgstr ""
-"Impossible de copier le fichier :\n"
+"Impossible de copier le fichier :\n"
 "%s\n"
 "sur lui-même."
 
-#: src/utilops.c:171
+#: src/utilops.c:548
 msgid "Source to move matches destination"
-msgstr "Source à déplacer à la destination coresspondante"
+msgstr "Le fichier source à déplacer est identique à la destination"
 
-#: src/utilops.c:172
+#: src/utilops.c:549
 #, c-format
 msgid ""
 "Unable to move file:\n"
 "%s\n"
 "to itself."
 msgstr ""
-"Impossible de déplacer le fichier :\n"
+"Impossible de déplacer le fichier :\n"
 "%s\n"
 "sur lui-même."
 
-#: src/utilops.c:175 src/utilops.c:231 src/utilops.c:516
-msgid "Continue"
-msgstr "Continuer"
+#: src/utilops.c:557 src/utilops.c:644 src/utilops.c:1280
+msgid "Co_ntinue"
+msgstr "Co_ntinuer"
 
-#: src/utilops.c:182
-#, c-format
-msgid ""
-"Overwrite file:\n"
-" %s\n"
-" with:\b %s"
-msgstr ""
-"Ecraser le fichier :\n"
-" %s\n"
-" avec :\b %s"
-
-#: src/utilops.c:183 src/utilops.c:289 src/utilops.c:651 src/utilops.c:835
-msgid "Overwrite file"
-msgstr "Ecraser fichier"
-
-#: src/utilops.c:186
-msgid "Skip"
-msgstr "Sauter"
-
-#: src/utilops.c:187
-msgid "Yes to all"
-msgstr "Oui pour tout"
-
-#: src/utilops.c:188
-msgid "Yes"
-msgstr "Oui"
-
-#: src/utilops.c:222 src/utilops.c:317
+#: src/utilops.c:630 src/utilops.c:850
 msgid "Error copying file"
 msgstr "Erreur pour la copie de fichier"
 
-#: src/utilops.c:223
+#: src/utilops.c:631
 #, c-format
 msgid ""
 "Unable to copy file:\n"
-"%sto:\n"
 "%s\n"
-" during multiple file copy."
+"to:\n"
+"%s\n"
+"during multiple file copy."
 msgstr ""
-"Impossible de copier le fichier :\n"
-"%sà:\n"
+"Impossible de copier le fichier :\n"
 "%s\n"
-" pendant la copie multiple."
+"vers :\n"
+"%s\n"
+"pendant la copie multiple."
 
-#: src/utilops.c:227 src/utilops.c:322
+#: src/utilops.c:635 src/utilops.c:855
 msgid "Error moving file"
 msgstr "Erreur pour le déplacement de fichier"
 
-#: src/utilops.c:228
+#: src/utilops.c:636
 #, c-format
 msgid ""
 "Unable to move file:\n"
-"%sto:\n"
 "%s\n"
-" during multiple file move."
+"to:\n"
+"%s\n"
+"during multiple file move."
 msgstr ""
-"Impossible de déplacer le fichier :\n"
-"%sà:\n"
+"Impossible de déplacer le fichier :\n"
 "%s\n"
-" pendant un déplacement multiple."
+"vers :\n"
+"%s\n"
+"pendant un déplacement multiple."
 
-#: src/utilops.c:282
+#: src/utilops.c:774
 msgid "Source matches destination"
-msgstr "La source correspond à la destination"
+msgstr "Le fichier source est identique à la destination"
 
-#: src/utilops.c:283
+#: src/utilops.c:775
 msgid "Source and destination are the same, operation cancelled."
 msgstr "Source et destination sont les mêmes, opération annulée."
 
-#: src/utilops.c:288
-#, c-format
-msgid ""
-"Overwrite file:\n"
-"%s\n"
-" with:\n"
-"%s"
-msgstr ""
-"Ecraser le fichier :\n"
-"%s\n"
-" avec :\n"
-"%s"
-
-#: src/utilops.c:292 src/utilops.c:654 src/utilops.c:838
-msgid "Overwrite"
-msgstr "Ecraser"
-
-#: src/utilops.c:318
+#: src/utilops.c:851
 #, c-format
 msgid ""
 "Unable to copy file:\n"
@@ -592,12 +2732,12 @@ msgid ""
 "to:\n"
 "%s"
 msgstr ""
-"Impossible de copier le fichier :\n"
+"Impossible de copier le fichier :\n"
 "%s\n"
-"sur :\n"
+"sur :\n"
 "%s"
 
-#: src/utilops.c:323
+#: src/utilops.c:856
 #, c-format
 msgid ""
 "Unable to move file:\n"
@@ -605,158 +2745,143 @@ msgid ""
 "to:\n"
 "%s"
 msgstr ""
-"Impossible de déplacer le fichier :\n"
+"Impossible de déplacer le fichier :\n"
 "%s\n"
-"vers :\n"
+"vers :\n"
 "%s"
 
-#: src/utilops.c:367
+#: src/utilops.c:899
 msgid "Invalid destination"
 msgstr "Destination invalide"
 
-#: src/utilops.c:367
+#: src/utilops.c:900
 msgid ""
 "When operating with multiple files, please select\n"
-" a directory, not file."
+"a folder, not a file."
 msgstr ""
-"Lors d'une operation avec des fichiers multiples, sélectionner\n"
-" un répertoire, non un fichier."
+"Lors d'une opération avec des fichiers multiples, sélectionner\n"
+"un dossier, non un fichier."
 
-#: src/utilops.c:369
-msgid "Invalid directory"
-msgstr "Répertoire invalide"
+#: src/utilops.c:905
+msgid "Please select an existing folder."
+msgstr "Sélectionner un dossier existant."
 
-#: src/utilops.c:369
-msgid "Please select an existing directory"
-msgstr "Sélectionner un répertoire existant"
+#: src/utilops.c:956
+msgid "Copy - GQview"
+msgstr "Copie - GQview"
 
-#: src/utilops.c:427
-msgid "GQview - copy"
-msgstr "GQview - copier"
+#: src/utilops.c:957 src/view_dir_list.c:217 src/view_dir_tree.c:309
+msgid "_Copy"
+msgstr "_Copier"
 
-#: src/utilops.c:428
-msgid "Copy"
-msgstr "Copier"
+#: src/utilops.c:960
+msgid "Copy file"
+msgstr "Copier le fichier"
 
-#: src/utilops.c:430
+#: src/utilops.c:964
+msgid "Copy multiple files"
+msgstr "Copier des fichiers multiples"
+
+#: src/utilops.c:970
+msgid "Move - GQview"
+msgstr "Déplacement - GQview"
+
+#: src/utilops.c:971 src/view_dir_list.c:219 src/view_dir_tree.c:311
+msgid "_Move"
+msgstr "_Déplacer"
+
+#: src/utilops.c:974
+msgid "Move file"
+msgstr "Déplacer le fichier"
+
+#: src/utilops.c:978
+msgid "Move multiple files"
+msgstr "Déplacer des fichiers multiples"
+
+#: src/utilops.c:992 src/utilops.c:1502
+msgid "File name:"
+msgstr "Nom du fichier :"
+
+#: src/utilops.c:996
+msgid "Choose the destination folder."
+msgstr "Choisir le dossier de destination."
+
+#: src/utilops.c:1123 src/utilops.c:1272 src/utilops.c:1289
+msgid "Delete failed"
+msgstr "Echec de la suppression"
+
+#: src/utilops.c:1124
+msgid "Unable to remove old file from trash folder"
+msgstr "Impossible de supprimer le fichier de la corbeille"
+
+#: src/utilops.c:1180 src/utilops.c:2318
+msgid "Could not create folder"
+msgstr "Impossible de créer le dossier"
+
+#: src/utilops.c:1202
+msgid "Permission denied"
+msgstr "Permission refusée"
+
+#: src/utilops.c:1212
 #, c-format
 msgid ""
-"Copy file:\n"
-"%s\n"
-"to:"
+"Unable to access or create the trash folder.\n"
+"\"%s\""
 msgstr ""
-"Copier fichier :\n"
-"%s\n"
-"vers :"
+"Impossible de créer ou d'accéder à la corbeille.\n"
+"«%s»"
 
-#: src/utilops.c:432
+#: src/utilops.c:1216
+msgid "Turn off safe delete"
+msgstr "Ne pas confirmer la suppression des fichiers"
+
+#: src/utilops.c:1234
 #, c-format
-msgid ""
-"Copy multiple files from:\n"
-"%s\n"
-"to:"
-msgstr ""
-"Copier des fichiers multiples de :\n"
-"%s\n"
-"vers :"
+msgid "Safe delete: %s"
+msgstr "Confirmer la suppression des fichiers : %s"
 
-#: src/utilops.c:436
-msgid "GQview - move"
-msgstr "GQview - déplacer"
-
-#: src/utilops.c:437
-msgid "Move"
-msgstr "Déplacer"
-
-#: src/utilops.c:439
-#, c-format
-msgid ""
-"Move file:\n"
-"%s\n"
-"to:"
-msgstr ""
-"Déplacer fichier :\n"
-"%s\n"
-"vers:"
-
-#: src/utilops.c:441
-#, c-format
-msgid ""
-"Move multiple files from:\n"
-"%s\n"
-"to:"
-msgstr ""
-"Déplacer des fichiers multiples de :\n"
-"%s\n"
-"vers :"
-
-#: src/utilops.c:514
+#: src/utilops.c:1276
 #, c-format
 msgid ""
 "Unable to delete file:\n"
 " %s\n"
 " Continue multiple delete operation?"
 msgstr ""
-"Impossible d'éffacer le fichier :\n"
+"Impossible de supprimer le fichier :\n"
 " %s\n"
-" Continuer l'opération d'effacement multiple ?"
+" Continuer l'opération de suppression multiple ?"
 
-#: src/utilops.c:515 src/utilops.c:521
-msgid "Delete failed"
-msgstr "Destruction annulée"
-
-#: src/utilops.c:520 src/utilops.c:565
+#: src/utilops.c:1347
 #, c-format
-msgid ""
-"Unable to delete file:\n"
-"%s"
-msgstr ""
-"Impossible de détruire ce fichier :\n"
-"%s"
+msgid "File %d of %d"
+msgstr "Fichier %d de %d"
 
-#: src/utilops.c:550
-msgid "Delete files"
-msgstr "Effacer les fichiers"
+#: src/utilops.c:1416
+msgid "Delete files - GQview"
+msgstr "Suppression de fichiers - GQview"
 
-#: src/utilops.c:550
-msgid "About to delete multiple files..."
-msgstr "A propos de la destruction de fichiers multiples"
+#: src/utilops.c:1420
+msgid "Delete multiple files"
+msgstr "Supprimer des fichiers multiples"
 
-#: src/utilops.c:551 src/utilops.c:596
-msgid "Delete"
-msgstr "Effacer"
-
-#: src/utilops.c:566
-msgid "File deletion failed"
-msgstr "Destruction du fichier annulée"
-
-#: src/utilops.c:594
+#: src/utilops.c:1438
 #, c-format
-msgid ""
-"About to delete the file:\n"
-" %s"
-msgstr ""
-"Confirmer l'effacement du fichier :\n"
-" %s"
+msgid "Review %d files"
+msgstr "Examiner %d fichiers"
 
-#: src/utilops.c:595
-msgid "Delete file"
-msgstr "Effacer fichier"
+#: src/utilops.c:1494
+msgid "Delete file - GQview"
+msgstr "Suppression de fichier - GQview"
 
-#: src/utilops.c:650 src/utilops.c:834
-#, c-format
-msgid ""
-"Overwrite file:\n"
-"%s\n"
-"by renaming:\n"
-"%s"
-msgstr ""
-"Ecraser le fichier :\n"
-"%s\n"
-"par renommage de :\n"
-"%s"
+#: src/utilops.c:1498
+msgid "Delete file?"
+msgstr "Supprimer fichier ?"
 
-#: src/utilops.c:663
+#: src/utilops.c:1646 src/utilops.c:2193
+msgid "Replace existing file by renaming new file."
+msgstr "Remplacer un fichier existant en renommant un nouveau fichier."
+
+#: src/utilops.c:1661
 #, c-format
 msgid ""
 "Unable to rename file:\n"
@@ -764,36 +2889,74 @@ msgid ""
 " to:\n"
 "%s"
 msgstr ""
-"Impossible de renommer le fichier :\n"
+"Impossible de renommer le fichier :\n"
 "%s\n"
-" vers :\n"
+" en :\n"
 "%s"
 
-#: src/utilops.c:664 src/utilops.c:847
+#: src/utilops.c:1664 src/utilops.c:2208 src/view_file_list.c:448
+#: src/view_file_list.c:454 src/view_file_list.c:460
 msgid "Error renaming file"
 msgstr "Erreur pour renommer le fichier"
 
-#: src/utilops.c:754 src/utilops.c:885
-msgid "GQview - rename"
-msgstr "GQview - renommer"
+#: src/utilops.c:1747
+msgid ""
+"Can not auto rename with the selected\n"
+"number set, one or more files exist that\n"
+"match the resulting name list.\n"
+msgstr ""
+"Impossible d'auto-renommer avec le jeu\n"
+"de nombres choisi, un ou plusieurs fichiers\n"
+"existent déjà par rapport à la liste de noms.\n"
 
-#: src/utilops.c:754
-msgid "Rename multiple files:"
+#: src/utilops.c:1809
+#, c-format
+msgid ""
+"Failed to rename\n"
+"%s\n"
+"The number was %d."
+msgstr ""
+"Impossible de renommer\n"
+"%s\n"
+"Le nombre était %d."
+
+#: src/utilops.c:2031 src/utilops.c:2249
+msgid "Rename - GQview"
+msgstr "Renommer - GQview"
+
+#: src/utilops.c:2034
+msgid "Rename multiple files"
 msgstr "Renommer des fichiers multiples"
 
-#: src/utilops.c:754 src/utilops.c:885
-msgid "Rename"
-msgstr "Renommer"
+#: src/utilops.c:2066
+msgid "Original Name"
+msgstr "Nom d'origine"
 
-#: src/utilops.c:790
-msgid "Rename:"
-msgstr "Renommer : "
+#: src/utilops.c:2110 src/utilops.c:2262
+msgid "Original name:"
+msgstr "Nom d'origine :"
 
-#: src/utilops.c:799
-msgid "to:"
-msgstr "vers :"
+#: src/utilops.c:2113 src/utilops.c:2265
+msgid "New name:"
+msgstr "Renommer :"
 
-#: src/utilops.c:846
+#: src/utilops.c:2128
+msgid "Begin text"
+msgstr "Texte de début"
+
+#: src/utilops.c:2136
+msgid "Start #"
+msgstr "N° début"
+
+#: src/utilops.c:2142
+msgid "End text"
+msgstr "Texte de fin"
+
+#: src/utilops.c:2150
+msgid "Padding:"
+msgstr "Bourrage :"
+
+#: src/utilops.c:2207 src/view_file_list.c:459
 #, c-format
 msgid ""
 "Unable to rename file:\n"
@@ -801,85 +2964,312 @@ msgid ""
 "to:\n"
 "%s"
 msgstr ""
-"Impossible de renommer le fichier :\n"
+"Impossible de renommer le fichier :\n"
 "%s\n"
-"en :\n"
+"en :\n"
 "%s"
 
-#: src/utilops.c:884
+#: src/utilops.c:2252
+msgid "Rename file"
+msgstr "Renommer le fichier"
+
+#: src/utilops.c:2311
 #, c-format
 msgid ""
-"Rename file:\n"
+"The folder:\n"
 "%s\n"
-"to:"
+"already exists."
 msgstr ""
-"Renommer le fichier :\n"
+"Le dossier :\n"
 "%s\n"
-"en :"
+"existe déjà."
 
-#: src/utilops.c:928
+#: src/utilops.c:2312
+msgid "Folder exists"
+msgstr "Dossiers existants"
+
+#: src/utilops.c:2317
 #, c-format
 msgid ""
 "The path:\n"
 "%s\n"
 "already exists as a file."
 msgstr ""
-"Le chemin :\n"
+"Le chemin :\n"
 "%s\n"
 "existe déjà comme fichier."
 
-#: src/utilops.c:929
-msgid "Could not create directory"
-msgstr "Impossible de créer le répertoire"
+#: src/utilops.c:2369
+msgid "New folder - GQview"
+msgstr "Nouveau dossier - GQview"
 
-#: src/utilops.c:934
+#: src/utilops.c:2372
 #, c-format
 msgid ""
-"The directory:\n"
-"%s\n"
-"already exists."
-msgstr ""
-"Le répertoire :\n"
-"%s\n"
-"existe déjà."
-
-#: src/utilops.c:935
-msgid "Directory exists"
-msgstr "Répertoire existant"
-
-#: src/utilops.c:942
-#, c-format
-msgid ""
-"Unable to create directory:\n"
-"%s"
-msgstr ""
-"Impossible de créer le répertoire :\n"
-"%s"
-
-#: src/utilops.c:943
-msgid "Error creating directory"
-msgstr "Erreur pendant le céation du répertoire"
-
-#: src/utilops.c:982
-#, c-format
-msgid ""
-"Create directory in:\n"
+"Create folder in:\n"
 "%s\n"
 "named:"
 msgstr ""
-"Créer un répertoire dans :\n"
+"Créer un dossier dans :\n"
 "%s\n"
 "\n"
-"Nom :"
+"nommé :"
 
-#: src/utilops.c:983
-msgid "GQview - new directory"
-msgstr "GQview - nouveau répertoire"
+#: src/view_dir_list.c:329 src/view_dir_tree.c:425
+msgid "new_folder"
+msgstr "nouveau_repertoire"
 
-#: src/utilops.c:983
-msgid "Create"
-msgstr "Créer"
+#: src/view_dir_list.c:387 src/view_dir_tree.c:482
+msgid "_Up to parent"
+msgstr "_Remonter"
 
-#: src/window.c:151
-msgid "GQview Tools"
-msgstr "Outils GQview"
+#: src/view_dir_list.c:392 src/view_dir_tree.c:487
+msgid "_Slideshow"
+msgstr "_Diaporama"
+
+#: src/view_dir_list.c:394 src/view_dir_tree.c:489
+msgid "Slideshow recursive"
+msgstr "Diaporama récursif"
+
+#: src/view_dir_list.c:398 src/view_dir_tree.c:493
+msgid "Find _duplicates..."
+msgstr "Rechercher les fichiers en _double ..."
+
+#: src/view_dir_list.c:400 src/view_dir_tree.c:495
+msgid "Find duplicates recursive..."
+msgstr "Rechercher récursivement les fichiers en double ..."
+
+#: src/view_dir_list.c:407 src/view_dir_tree.c:502
+msgid "_New folder..."
+msgstr "_Nouveau dossier ..."
+
+#: src/view_dir_list.c:419 src/view_dir_tree.c:509
+msgid "View as _tree"
+msgstr "_Voir sous forme d'arbre"
+
+#: src/view_dir_list.c:421 src/view_dir_tree.c:511 src/view_file_icon.c:311
+#: src/view_file_list.c:423
+msgid "Re_fresh"
+msgstr "Ra_fraîchir"
+
+#: src/view_file_icon.c:304 src/view_file_list.c:416
+msgid "_Sort"
+msgstr "_Trier"
+
+#: src/view_file_icon.c:307 src/view_file_list.c:419
+msgid "View as _icons"
+msgstr "Voir sous forme d'_icônes"
+
+#: src/view_file_list.c:421
+msgid "Show _thumbnails"
+msgstr "Montre les vigne_ttes"
+
+#: src/view_file_list.c:447
+#, c-format
+msgid ""
+"Invalid file name:\n"
+"%s"
+msgstr ""
+"Nom de fichier invalide :\n"
+"%s"
+
+#~ msgid "Purge thumbnails"
+#~ msgstr "Purge des vignettes"
+
+#~ msgid "/File/tear1"
+#~ msgstr "/Fichier/tear1"
+
+#~ msgid "/File/_New collection"
+#~ msgstr "/Fichier/_Nouvelle collection"
+
+#~ msgid "/File/_Open collection..."
+#~ msgstr "/Fichier/_Ouvrir collection ..."
+
+#~ msgid "/File/sep1"
+#~ msgstr "/Fichier/sep1"
+
+#~ msgid "/File/_Search..."
+#~ msgstr "/Fichier/_Rechercher ..."
+
+#~ msgid "/File/_Find duplicates..."
+#~ msgstr "/Fichier/Rechercher les fichiers en _double ..."
+
+#~ msgid "/File/sep2"
+#~ msgstr "/Fichier/sep2"
+
+#~ msgid "/File/_Print..."
+#~ msgstr "/Fichier/_Imprimer ..."
+
+#~ msgid "/File/N_ew folder..."
+#~ msgstr "/Fichier/Nouveau dossi_er ..."
+
+#~ msgid "/File/sep3"
+#~ msgstr "/Fichier/sep3"
+
+#~ msgid "/File/_Copy..."
+#~ msgstr "/Fichier/_Copier ..."
+
+#~ msgid "/File/_Move..."
+#~ msgstr "/Fichier/_Déplacer ..."
+
+#~ msgid "/File/_Rename..."
+#~ msgstr "/Fichier/_Renommer ..."
+
+#~ msgid "/File/_Delete..."
+#~ msgstr "/Fichier/_Effacer ..."
+
+#~ msgid "/File/sep4"
+#~ msgstr "/Fichier/sep4"
+
+#~ msgid "/File/C_lose window"
+#~ msgstr "/Fichier/Fermer _la fenêtre"
+
+#~ msgid "/File/_Quit"
+#~ msgstr "/Fichier/_Quitter"
+
+#~ msgid "/_Edit"
+#~ msgstr "/Édit_er"
+
+#~ msgid "/Edit/tear1"
+#~ msgstr "/Éditer/tear1"
+
+#~ msgid "/Edit/editor1"
+#~ msgstr "/Éditer/éditeur1"
+
+#~ msgid "/Edit/editor2"
+#~ msgstr "/Éditer/éditeur2"
+
+#~ msgid "/Edit/editor3"
+#~ msgstr "/Éditer/éditeur3"
+
+#~ msgid "/Edit/editor4"
+#~ msgstr "/Éditer/éditeur4"
+
+#~ msgid "/Edit/editor5"
+#~ msgstr "/Éditer/éditeur5"
+
+#~ msgid "/Edit/editor6"
+#~ msgstr "/Éditer/éditeur6"
+
+#~ msgid "/Edit/editor7"
+#~ msgstr "/Éditer/éditeur7"
+
+#~ msgid "/Edit/editor8"
+#~ msgstr "/Éditer/éditeur8"
+
+#~ msgid "/Edit/editor9"
+#~ msgstr "/Éditer/éditeur9"
+
+#~ msgid "/Edit/editor0"
+#~ msgstr "/Éditer/éditeur0"
+
+#~ msgid "/Edit/sep1"
+#~ msgstr "/Éditer/sep1"
+
+#~ msgid "/Edit/_Adjust"
+#~ msgstr "/Éditer/_Ajuster"
+
+#~ msgid "/Edit/_Properties"
+#~ msgstr "/Éditer/_Propriétés"
+
+#~ msgid "/Edit/Adjust/tear1"
+#~ msgstr "/Éditer/Ajuster/tear1"
+
+#~ msgid "/Edit/Adjust/_Rotate clockwise"
+#~ msgstr "/Éditer/Ajuster/_Rotation sens horaire"
+
+#~ msgid "/Edit/Adjust/Rotate _counterclockwise"
+#~ msgstr "/Éditer/Ajuster/Rotation sens _anti-horaire"
+
+#~ msgid "/Edit/Adjust/Rotate 1_80"
+#~ msgstr "/Éditer/Ajuster/Rotation de 1_80°"
+
+#~ msgid "/Edit/Adjust/_Mirror"
+#~ msgstr "/Éditer/Ajuster/Retournement _horizontal"
+
+#~ msgid "/Edit/Adjust/_Flip"
+#~ msgstr "/Éditer/Ajuster/Retournement _vertical"
+
+#~ msgid "/Edit/sep2"
+#~ msgstr "/Éditer/sep2"
+
+#~ msgid "/Edit/Select _all"
+#~ msgstr "/Éditer/_Tout sélectionner"
+
+#~ msgid "/Edit/Select _none"
+#~ msgstr "/Éditer/_Désélectionner"
+
+#~ msgid "/Edit/sep3"
+#~ msgstr "/Éditer/sep3"
+
+#~ msgid "/Edit/_Options..."
+#~ msgstr "/Éditer/_Préférences ..."
+
+#~ msgid "/Edit/sep4"
+#~ msgstr "/Éditer/sep4"
+
+#~ msgid "/Edit/Set as _wallpaper"
+#~ msgstr "/Éditer/Utiliser comme _papier peint"
+
+#~ msgid "/_View"
+#~ msgstr "/_Afficher"
+
+#~ msgid "/View/tear1"
+#~ msgstr "/Afficher/tear1"
+
+#~ msgid "/View/Zoom _in"
+#~ msgstr "/Afficher/Zoom a_vant"
+
+#~ msgid "/View/Zoom _out"
+#~ msgstr "/Afficher/Zoom a_rrière"
+
+#~ msgid "/View/Zoom _1:1"
+#~ msgstr "/Afficher/Taille réelle (_1:1)"
+
+#~ msgid "/View/sep1"
+#~ msgstr "/Afficher/sep1"
+
+#~ msgid "/View/_Thumbnails"
+#~ msgstr "/Afficher/Vigne_ttes"
+
+#~ msgid "/View/I_cons"
+#~ msgstr "/Affichier/I_cônes"
+
+#~ msgid "/View/sep2"
+#~ msgstr "/Afficher/sep2"
+
+#~ msgid "/View/F_ull screen"
+#~ msgstr "/Afficher/_Plein écran"
+
+#~ msgid "/View/sep3"
+#~ msgstr "/Afficher/sep3"
+
+#~ msgid "/View/_Hide file list"
+#~ msgstr "/Afficher/Masquer la liste des fic_hiers"
+
+#~ msgid "/View/sep4"
+#~ msgstr "/Afficher/sep4"
+
+#~ msgid "/View/_Keywords"
+#~ msgstr "/Afficher/Mots _clés"
+
+#~ msgid "/View/Sort _manager"
+#~ msgstr "/Afficher/Trier par no_m"
+
+#~ msgid "/View/sep5"
+#~ msgstr "/Afficher/sep5"
+
+#~ msgid "/View/Toggle _slideshow"
+#~ msgstr "/Afficher/(Dé_s)Activer le diaporama"
+
+#~ msgid "/View/_Refresh Lists"
+#~ msgstr "/Afficher/_Rafraîchir les listes"
+
+#~ msgid "/Help/tear1"
+#~ msgstr "/Aide/tear1"
+
+#~ msgid "/Help/sep1"
+#~ msgstr "/Aide/sep1"
+
+#~ msgid "GQview configuration"
+#~ msgstr "Configuration de GQview"

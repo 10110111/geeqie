@@ -1,64 +1,22 @@
 /*
- * GQview image viewer
- * (C)2000 John Ellis
+ * GQview
+ * (C) 2004 John Ellis
  *
  * Author: John Ellis
  *
+ * This software is released under the GNU General Public License (GNU GPL).
+ * Please read the included file COPYING for more information.
+ * This software comes with no warranty of any kind, use at your own risk!
  */
+
 
 #include "gqview.h"
+#include "filelist.h"
 
-static gint filelist_click_row = -1;
+#include "cache.h"
+#include "rcfile.h"
+#include "ui_fileops.h"
 
-static void update_progressbar(gfloat val);
-
-static gint file_is_hidden(gchar *name);
-static gint file_is_in_filter(gchar *name);
-static void add_to_filter(gchar *text, gint add);
-
-static gint sort_list_cb(void *a, void *b);
-static void filelist_read(gchar *path);
-
-static gint file_find_closest_unaccounted(gint row, gint count, GList *ignore_list);
-
-static void history_menu_select_cb(GtkWidget *widget, gpointer data);
-static gchar *truncate_hist_text(gchar *t, gint l);
-static void filelist_set_history(gchar *path);
-
-/*
- *-----------------------------------------------------------------------------
- * file status information (private)
- *-----------------------------------------------------------------------------
- */
-
-static void update_progressbar(gfloat val)
-{
-	gtk_progress_bar_update (GTK_PROGRESS_BAR(info_progress_bar), val);
-}
-
-void update_status_label(gchar *text)
-{
-	gchar *buf;
-	gint count;
-	gchar *ss = "";
-
-	if (text)
-		{
-		gtk_label_set(GTK_LABEL(info_status), text);
-		return;
-		}
-
-	if (slideshow_is_running()) ss = _(" Slideshow");
-
-	count = file_selection_count();
-	if (count > 0)
-		buf = g_strdup_printf(_("%d files (%d)%s"), file_count(), count, ss);
-	else
-		buf = g_strdup_printf(_("%d files%s"), file_count(), ss);
-
-	gtk_label_set(GTK_LABEL(info_status), buf);
-	g_free(buf);
-}
 
 /*
  *-----------------------------------------------------------------------------
@@ -66,19 +24,248 @@ void update_status_label(gchar *text)
  *-----------------------------------------------------------------------------
  */
 
-static gint file_is_hidden(gchar *name)
+static GList *filter_list = NULL;
+static GList *extension_list = NULL;
+
+gint ishidden(const gchar *name)
 {
 	if (name[0] != '.') return FALSE;
 	if (name[1] == '\0' || (name[1] == '.' && name[2] == '\0')) return FALSE;
 	return TRUE;
 }
 
-static gint file_is_in_filter(gchar *name)
+static FilterEntry *filter_entry_new(const gchar *key, const gchar *description,
+				     const gchar *extensions, gint enabled)
+{
+	FilterEntry *fe;
+
+	fe = g_new0(FilterEntry, 1);
+	fe->key = g_strdup(key);
+	fe->description = g_strdup(description);
+	fe->extensions = g_strdup(extensions);
+	fe->enabled = enabled;
+	
+	return fe;
+}
+
+static void filter_entry_free(FilterEntry *fe)
+{
+	if (!fe) return;
+
+	g_free(fe->key);
+	g_free(fe->description);
+	g_free(fe->extensions);
+	g_free(fe);
+}
+
+GList *filter_get_list(void)
+{
+	return filter_list;
+}
+
+void filter_remove_entry(FilterEntry *fe)
+{
+	if (!g_list_find(filter_list, fe)) return;
+
+	filter_list = g_list_remove(filter_list, fe);
+	filter_entry_free(fe);
+}
+
+static gint filter_key_exists(const gchar *key)
 {
 	GList *work;
-	if (!filename_filter || file_filter_disable) return TRUE;
 
-	work = filename_filter;
+	if (!key) return FALSE;
+
+	work = filter_list;
+	while (work)
+		{
+		FilterEntry *fe = work->data;
+		work = work->next;
+
+		if (strcmp(fe->key, key) == 0) return TRUE;
+		}
+
+	return FALSE;
+}
+
+void filter_add(const gchar *key, const gchar *description, const gchar *extensions, gint enabled)
+{
+	filter_list = g_list_append(filter_list, filter_entry_new(key, description, extensions, enabled));
+}
+
+void filter_add_unique(const gchar *description, const gchar *extensions, gint enabled)
+{
+	gchar *key;
+	gint n;
+
+	key = g_strdup("user0");
+	n = 1;
+	while (filter_key_exists(key))
+		{
+		g_free(key);
+		if (n > 999) return;
+		key = g_strdup_printf("user%d", n);
+		n++;
+		}
+
+	filter_add(key, description, extensions, enabled);
+	g_free(key);
+}
+
+static void filter_add_if_missing(const gchar *key, const gchar *description, const gchar *extensions, gint enabled)
+{
+	GList *work;
+
+	if (!key) return;
+
+	work = filter_list;
+	while (work)
+		{
+		FilterEntry *fe = work->data;
+		work = work->next;
+		if (fe->key && strcmp(fe->key, key) == 0) return;
+		}
+
+	filter_add(key, description, extensions, enabled);
+}
+
+void filter_reset(void)
+{
+	GList *work;
+
+	work = filter_list;
+	while (work)
+		{
+		FilterEntry *fe = work->data;
+		work = work->next;
+		filter_entry_free(fe);
+		}
+
+	g_list_free(filter_list);
+	filter_list = NULL;
+}
+
+void filter_add_defaults(void)
+{
+	GSList *list, *work;
+
+	list = gdk_pixbuf_get_formats();
+	work = list;
+	while (work)
+		{
+		GdkPixbufFormat *format;
+		gchar *name;
+		gchar *desc;
+		gchar **extensions;
+		GString *filter = NULL;
+		gint i;
+		
+		format = work->data;
+		work = work->next;
+
+		name = gdk_pixbuf_format_get_name(format);
+		desc = gdk_pixbuf_format_get_description(format);
+		extensions = gdk_pixbuf_format_get_extensions(format);
+
+		i = 0;
+		while (extensions[i])
+			{
+			if (!filter)
+				{
+				filter = g_string_new(".");
+				filter = g_string_append(filter, extensions[i]);
+				}
+			else
+				{
+				filter = g_string_append(filter, ";.");
+				filter = g_string_append(filter, extensions[i]);
+				}
+			i++;
+			}
+
+		if (debug) printf("loader reported [%s] [%s] [%s]\n", name, desc, filter->str);
+
+		filter_add_if_missing(name, desc, filter->str, TRUE);
+
+		g_free(name);
+		g_free(desc);
+		g_strfreev(extensions);
+		g_string_free(filter, TRUE);
+		}
+	g_slist_free(list);
+
+	/* add defaults even if gdk-pixbuf does not have them, but disabled */
+	filter_add_if_missing("jpeg", "JPEG group", ".jpg;.jpeg;.jpe", FALSE);
+	filter_add_if_missing("png", "Portable Network Graphic", ".png", FALSE);
+	filter_add_if_missing("tiff", "Tiff", ".tif;.tiff", FALSE);
+	filter_add_if_missing("pnm", "Packed Pixel formats", ".pbm;.pgm;.pnm;.ppm", FALSE);
+	filter_add_if_missing("gif", "Graphics Interchange Format", ".gif", FALSE);
+	filter_add_if_missing("xbm", "X bitmap", ".xbm", FALSE);
+	filter_add_if_missing("xpm", "X pixmap", ".xpm", FALSE);
+	filter_add_if_missing("bmp", "Bitmap", ".bmp", FALSE);
+	filter_add_if_missing("ico", "Icon file", ".ico;.cur", FALSE);
+	filter_add_if_missing("ras", "Raster", ".ras", FALSE);
+	filter_add_if_missing("svg", "Scalable Vector Graphics", ".svg", FALSE);
+}
+
+static GList *filter_to_list(const gchar *extensions)
+{
+	GList *list = NULL;
+	const gchar *p;
+
+	if (!extensions) return NULL;
+
+	p = extensions;
+	while (*p != '\0')
+		{
+		const gchar *b;
+		gint l = 0;
+
+		b = p;
+		while (*p != '\0' && *p != ';')
+			{
+			p++;
+			l++;
+			}
+		list = g_list_append(list, g_strndup(b, l));
+		if (*p == ';') p++;
+		}
+
+	return list;
+}
+
+void filter_rebuild(void)
+{
+	GList *work;
+
+	path_list_free(extension_list);
+	extension_list = NULL;
+
+	work = filter_list;
+	while (work)
+		{
+		FilterEntry *fe;
+
+		fe = work->data;
+		work = work->next;
+
+		if (fe->enabled)
+			{
+			GList *ext;
+
+			ext = filter_to_list(fe->extensions);
+			if (ext) extension_list = g_list_concat(extension_list, ext);
+			}
+		}
+}
+
+gint filter_name_exists(const gchar *name)
+{
+	GList *work;
+	if (!extension_list || file_filter_disable) return TRUE;
+
+	work = extension_list;
 	while (work)
 		{
 		gchar *filter = work->data;
@@ -94,1046 +281,464 @@ static gint file_is_in_filter(gchar *name)
 	return FALSE;
 }
 
-static void add_to_filter(gchar *text, gint add)
+void filter_write_list(FILE *f)
 {
-	if (add) filename_filter = g_list_append(filename_filter, g_strdup(text));
+	GList *work;
+
+	work = filter_list;
+	while (work)
+		{
+		FilterEntry *fe = work->data;
+		work = work->next;
+
+		fprintf(f, "filter_ext: \"%s%s\" \"%s\" \"%s\"\n", (fe->enabled) ? "" : "#",
+			fe->key, fe->extensions,
+			(fe->description) ? fe->description : "");
+		}
 }
 
-void rebuild_file_filter()
+void filter_parse(const gchar *text)
 {
-	if (filename_filter)
+	const gchar *p;
+	gchar *key;
+	gchar *ext;
+	gchar *desc;
+	gint enabled = TRUE;
+
+	if (!text || text[0] != '"') return;
+
+	key = quoted_value(text);
+	if (!key) return;
+
+	p = text;
+	p++;
+	while (*p != '"' && *p != '\0') p++;
+	if (*p != '"')
 		{
-		g_list_foreach(filename_filter,(GFunc)g_free,NULL);
-		g_list_free(filename_filter);
-		filename_filter = NULL;
+		g_free(key);
+		return;
+		}
+	p++;
+	while (*p != '"' && *p != '\0') p++;
+	if (*p != '"')
+		{
+		g_free(key);
+		return;
 		}
 
-	add_to_filter(".jpg", filter_include_jpg);
-	add_to_filter(".jpeg", filter_include_jpg);
-	add_to_filter(".xpm", filter_include_xpm);
-	add_to_filter(".tif", filter_include_tif);
-	add_to_filter(".tiff", filter_include_tif);
-	add_to_filter(".gif", filter_include_gif);
-	add_to_filter(".png", filter_include_png);
-	add_to_filter(".ppm", filter_include_ppm);
-	add_to_filter(".pgm", filter_include_pgm);
-	add_to_filter(".pcx", filter_include_pcx);
-	add_to_filter(".bmp", filter_include_bmp);
+	ext = quoted_value(p);
 
-	if (custom_filter)
+	p++;
+	while (*p != '"' && *p != '\0') p++;
+	if (*p == '"') p++;
+	while (*p != '"' && *p != '\0') p++;
+
+	if (*p == '"')
 		{
-		gchar *buf = g_strdup(custom_filter);
-		gchar *pos_ptr_b;
-		gchar *pos_ptr_e = buf;
-		while(pos_ptr_e[0] != '\0')
+		desc = quoted_value(p);
+		}
+	else
+		{
+		desc = NULL;
+		}
+
+	if (key && key[0] == '#')
+		{
+		gchar *tmp;
+		tmp = g_strdup(key + 1);
+		g_free(key);
+		key = tmp;
+
+		enabled = FALSE;
+		}
+
+	if (key && strlen(key) > 0 && ext) filter_add(key, desc, ext, enabled);
+
+	g_free(key);
+	g_free(ext);
+	g_free(desc);
+}
+
+GList *path_list_filter(GList *list, gint is_dir_list)
+{
+	GList *work;
+
+	if (!is_dir_list && file_filter_disable && show_dot_files) return list;
+
+	work = list;
+	while (work)
+		{
+		gchar *name = work->data;
+		const gchar *base;
+
+		base = filename_from_path(name);
+
+		if ((!show_dot_files && ishidden(base)) ||
+		    (!is_dir_list && !filter_name_exists(base)) ||
+		    (is_dir_list && base[0] == '.' && (strcmp(base, GQVIEW_CACHE_LOCAL_THUMB) == 0 ||
+						       strcmp(base, GQVIEW_CACHE_LOCAL_METADATA) == 0)) )
 			{
-			pos_ptr_b = pos_ptr_e;
-			while (pos_ptr_e[0] != ';' && pos_ptr_e[0] != '\0') pos_ptr_e++;
-			if (pos_ptr_e[0] == ';')
-				{
-				pos_ptr_e[0] = '\0';
-				pos_ptr_e++;
-				}
-			add_to_filter(pos_ptr_b, TRUE);
+			GList *link = work;
+			work = work->next;
+			list = g_list_remove_link(list, link);
+			g_free(name);
+			g_list_free(link);
 			}
-		g_free(buf);
+		else
+			{
+			work = work->next;
+			}
 		}
+
+	return list;
 }
 
 /*
  *-----------------------------------------------------------------------------
- * load file list (private)
+ * path list recursive
  *-----------------------------------------------------------------------------
  */
 
-static gint sort_list_cb(void *a, void *b)
+static gint path_list_sort_cb(gconstpointer a, gconstpointer b)
 {
-	return strcmp((gchar *)a, (gchar *)b);
+	return CASE_SORT((gchar *)a, (gchar *)b);
 }
 
-static void filelist_read(gchar *path)
+GList *path_list_sort(GList *list)
+{
+	return g_list_sort(list, path_list_sort_cb);
+}
+
+static void path_list_recursive_append(GList **list, GList *dirs)
+{
+	GList *work;
+
+	work = dirs;
+	while (work)
+		{
+		const gchar *path = work->data;
+		GList *f = NULL;
+		GList *d = NULL;
+
+		if (path_list(path, &f, &d))
+			{
+			f = path_list_filter(f, FALSE);
+			f = path_list_sort(f);
+			*list = g_list_concat(*list, f);
+
+			d = path_list_filter(d, TRUE);
+			d = path_list_sort(d);
+			path_list_recursive_append(list, d);
+			g_list_free(d);
+			}
+
+		work = work->next;
+		}
+}
+
+GList *path_list_recursive(const gchar *path)
+{
+	GList *list = NULL;
+	GList *d = NULL;
+
+	if (!path_list(path, &list, &d)) return NULL;
+	list = path_list_filter(list, FALSE);
+	list = path_list_sort(list);
+
+	d = path_list_filter(d, TRUE);
+	d = path_list_sort(d);
+	path_list_recursive_append(&list, d);
+	path_list_free(d);
+
+	return list;
+}
+
+/*
+ *-----------------------------------------------------------------------------
+ * text conversion utils
+ *-----------------------------------------------------------------------------
+ */
+
+gchar *text_from_size(gint64 size)
+{
+	gchar *a, *b;
+	gchar *s, *d;
+	gint l, n, i;
+
+	/* what I would like to use is printf("%'d", size)
+	 * BUT: not supported on every libc :(
+	 */
+	if (size > G_MAXUINT)
+		{
+		/* the %lld conversion is not valid in all libcs, so use a simple work-around */
+		a = g_strdup_printf("%d%09d", (guint)(size / 1000000000), (guint)(size % 1000000000));
+		}
+	else
+		{
+		a = g_strdup_printf("%d", (guint)size);
+		}
+	l = strlen(a);
+	n = (l - 1)/ 3;
+	if (n < 1) return a;
+
+	b = g_new(gchar, l + n + 1);
+
+	s = a;
+	d = b;
+	i = l - n * 3;
+	while (*s != '\0')
+		{
+		if (i < 1)
+			{
+			i = 3;
+			*d = ',';
+			d++;
+			}
+
+		*d = *s;
+		s++;
+		d++;
+		i--;
+		}
+	*d = '\0';
+
+	g_free(a);
+	return b;
+}
+
+gchar *text_from_size_abrev(gint64 size)
+{
+	if (size < (gint64)1024)
+		{
+		return g_strdup_printf(_("%d bytes"), (gint)size);
+		}
+	if (size < (gint64)1048576)
+		{
+		return g_strdup_printf(_("%.1f K"), (gfloat)size / 1024.0);
+		}
+	if (size < (gint64)1073741824)
+		{
+		return g_strdup_printf(_("%.1f MB"), (gfloat)size / 1048576.0);
+		}
+
+	/* to avoid overflowing the float, do division in two steps */
+	size /= 1048576.0;
+	return g_strdup_printf(_("%.1f GB"), (gfloat)size / 1024.0);
+}
+
+/* note: returned string is valid until next call to text_from_time() */
+const gchar *text_from_time(time_t t)
+{
+	static gchar *ret = NULL;
+	gchar buf[128];
+	gint buflen;
+	struct tm *btime;
+	GError *error = NULL;
+
+	btime = localtime(&t);
+
+	/* the %x warning about 2 digit years is not an error */
+	buflen = strftime(buf, sizeof(buf), "%x %H:%M", btime);
+	if (buflen < 1) return "";
+
+	g_free(ret);
+	ret = g_locale_to_utf8(buf, buflen, NULL, NULL, &error);
+	if (error)
+		{
+		printf("Error converting locale strftime to UTF-8: %s\n", error->message);
+		g_error_free(error);
+		return "";
+		}
+
+	return ret;
+}
+
+/*
+ *-----------------------------------------------------------------------------
+ * file info struct
+ *-----------------------------------------------------------------------------
+ */
+
+FileData *file_data_new(const gchar *path, struct stat *st)
+{
+	FileData *fd;
+
+	fd = g_new0(FileData, 1);
+	fd->path = path_to_utf8(path);
+	fd->name = filename_from_path(fd->path);
+	fd->size = st->st_size;
+	fd->date = st->st_mtime;
+	fd->pixbuf = NULL;
+
+	return fd;
+}
+
+FileData *file_data_new_simple(const gchar *path)
+{
+	FileData *fd;
+	struct stat st;
+
+	fd = g_new0(FileData, 1);
+	fd->path = g_strdup(path);
+	fd->name = filename_from_path(fd->path);
+
+	if (stat_utf8(fd->path, &st))
+		{
+		fd->size = st.st_size;
+		fd->date = st.st_mtime;
+		}
+
+	fd->pixbuf = NULL;
+
+	return fd;
+}
+
+void file_data_free(FileData *fd)
+{
+	g_free(fd->path);
+	if (fd->pixbuf) g_object_unref(fd->pixbuf);
+	g_free(fd);
+}
+
+/*
+ *-----------------------------------------------------------------------------
+ * load file list
+ *-----------------------------------------------------------------------------
+ */
+
+static SortType filelist_sort_method = SORT_NONE;
+static gint filelist_sort_ascend = TRUE;
+
+static gint sort_file_cb(void *a, void *b)
+{
+	FileData *fa = a;
+	FileData *fb = b;
+
+	if (!filelist_sort_ascend)
+		{
+		fa = b;
+		fb = a;
+		}
+
+	switch (filelist_sort_method)
+		{
+		case SORT_SIZE:
+			if (fa->size < fb->size) return -1;
+			if (fa->size > fb->size) return 1;
+			return 0;
+			break;
+		case SORT_TIME:
+			if (fa->date < fb->date) return -1;
+			if (fa->date > fb->date) return 1;
+			return 0;
+			break;
+#ifdef HAVE_STRVERSCMP
+		case SORT_NUMBER:
+			return strverscmp(fa->name, fb->name);
+			break;
+#endif
+		case SORT_NAME:
+		default:
+			return CASE_SORT(fa->name, fb->name);
+			break;
+		}
+}
+
+GList *filelist_sort(GList *list, SortType method, gint ascend)
+{
+	filelist_sort_method = method;
+	filelist_sort_ascend = ascend;
+	return g_list_sort(list, (GCompareFunc) sort_file_cb);
+}
+
+GList *filelist_insert_sort(GList *list, FileData *fd, SortType method, gint ascend)
+{
+	filelist_sort_method = method;
+	filelist_sort_ascend = ascend;
+	return g_list_insert_sorted(list, fd, (GCompareFunc) sort_file_cb);
+}
+
+gint filelist_read(const gchar *path, GList **files, GList **dirs)
 {
 	DIR *dp;
 	struct dirent *dir;
 	struct stat ent_sbuf;
+	gchar *pathl;
+	GList *dlist;
+	GList *flist;
 
-	if((dp = opendir(path))==NULL)
+	dlist = NULL;
+	flist = NULL;
+
+	pathl = path_from_utf8(path);
+	if (!pathl || (dp = opendir(pathl)) == NULL)
 		{
-		/* dir not found */
-		return;
+		g_free(pathl);
+		if (files) *files = NULL;
+		if (dirs) *dirs = NULL;
+		return FALSE;
 		}
-	
-	g_list_foreach(dir_list,(GFunc)g_free,NULL);
-	g_list_free(dir_list);
-	dir_list = NULL;
 
-	g_list_foreach(file_list,(GFunc)g_free,NULL);
-	g_list_free(file_list);
-	file_list = NULL;
+	/* root dir fix */
+	if (pathl[0] == '/' && pathl[1] == '\0')
+		{
+		g_free(pathl);
+		pathl = g_strdup("");
+		}
 
 	while ((dir = readdir(dp)) != NULL)
 		{
-		/* skips removed files */
-		if (dir->d_ino > 0)
+		gchar *name = dir->d_name;
+		if (show_dot_files || !ishidden(name))
 			{
-			gchar *name = dir->d_name;
-			if (show_dot_files || !file_is_hidden(name))
+			gchar *filepath = g_strconcat(pathl, "/", name, NULL);
+			if (stat(filepath, &ent_sbuf) >= 0)
 				{
-				gchar *filepath = g_strconcat(path, "/", name, NULL);
-				if (stat(filepath,&ent_sbuf) >= 0 && S_ISDIR(ent_sbuf.st_mode))
+				if (S_ISDIR(ent_sbuf.st_mode))
 					{
-					dir_list = g_list_prepend(dir_list, g_strdup(name));
+					/* we ignore the .thumbnails dir for cleanliness */
+					if ((dirs) &&
+					    !(name[0] == '.' && (name[1] == '\0' || (name[1] == '.' && name[2] == '\0'))) &&
+					    strcmp(name, GQVIEW_CACHE_LOCAL_THUMB) != 0 &&
+					    strcmp(name, GQVIEW_CACHE_LOCAL_METADATA) != 0)
+						{
+						dlist = g_list_prepend(dlist, file_data_new(filepath, &ent_sbuf));
+						}
 					}
 				else
 					{
-					if (file_is_in_filter(name))
-						file_list = g_list_prepend(file_list, g_strdup(name));
+					if ((files) && filter_name_exists(name))
+						{
+						flist = g_list_prepend(flist, file_data_new(filepath, &ent_sbuf));
+						}
 					}
-				g_free(filepath);
 				}
+			g_free(filepath);
 			}
 		}
 
 	closedir(dp);
 
-	dir_list = g_list_sort(dir_list, (GCompareFunc) sort_list_cb);
-	file_list = g_list_sort(file_list, (GCompareFunc) sort_list_cb);
+	g_free(pathl);
+
+	if (dirs) *dirs = dlist;
+	if (files) *files = flist;
+
+	return TRUE;
 }
 
-/*
- *-----------------------------------------------------------------------------
- * file list utilities to retrieve information (public)
- *-----------------------------------------------------------------------------
- */
-
-gint file_count()
+void filelist_free(GList *list)
 {
-	return g_list_length(file_list);
-}
+	GList *work;
 
-gint file_selection_count()
-{
-	gint count = 0;
-	GList *work = GTK_CLIST(file_clist)->selection;
-	while(work)
+	work = list;
+	while (work)
 		{
-		count++;
-		if (debug) printf("s = %d\n", GPOINTER_TO_INT(work->data));
+		file_data_free((FileData *)work->data);
 		work = work->next;
 		}
 
-	if (debug) printf("files selected = %d\n", count);
-
-	return count;
-}
-
-gint find_file_in_list(gchar *path)
-{
-	GList *work = file_list;
-	gchar *buf;
-	gchar *name;
-	gint count = -1;
-
-	if (!path) return -1;
-
-	buf = remove_level_from_path(path);
-	if (strcmp(buf, current_path) != 0)
-		{
-		g_free(buf);
-		return -1;
-		}
-	g_free(buf);
-
-	name = filename_from_path(path);
-	while(work)
-		{
-		count++;
-		if (strcmp(name, work->data) == 0) return count;
-		work = work->next;
-		}
-
-	return -1;
-}
-
-gchar *file_get_path(gint row)
-{
-	gchar *path = NULL;
-	gchar *name = gtk_clist_get_row_data(GTK_CLIST(file_clist), row);
-
-	if (name) path = g_strconcat(current_path, "/", name, NULL);
-
-	return path;
-}
-
-gint file_is_selected(gint row)
-{
-	GList *work = GTK_CLIST(file_clist)->selection;
-
-	while(work)
-		{
-		if (GPOINTER_TO_INT(work->data) == row) return TRUE;
-		work = work->next;
-		}
-
-	return FALSE;
-}
-
-/*
- *-----------------------------------------------------------------------------
- * utilities to retrieve list of selected files (public)
- *-----------------------------------------------------------------------------
- */
-
-GList *file_get_selected_list()
-{
-	GList *list = NULL;
-	GList *work = GTK_CLIST(file_clist)->selection;
-
-	while(work)
-		{
-		gchar *name = gtk_clist_get_row_data(GTK_CLIST(file_clist),
-			GPOINTER_TO_INT(work->data));
-		list = g_list_prepend(list, g_strconcat(current_path, "/", name, NULL));
-		work = work->next;
-		}
-
-	list = g_list_reverse(list);
-
-	return list;
-}
-
-void free_selected_list(GList *list)
-{
-	g_list_foreach(list, (GFunc)g_free, NULL);
 	g_list_free(list);
 }
 
-gint file_clicked_is_selected()
-{
-	return file_is_selected(filelist_click_row);
-}
 
-gchar *file_clicked_get_path()
-{
-	return file_get_path(filelist_click_row);
-}
-
-/*
- *-----------------------------------------------------------------------------
- * image change routines
- *-----------------------------------------------------------------------------
- */
-
-void file_image_change_to(gint row)
-{
-	gtk_clist_unselect_all(GTK_CLIST(file_clist));
-	gtk_clist_select_row(GTK_CLIST(file_clist), row, -1);
-	if (gtk_clist_row_is_visible(GTK_CLIST(file_clist), row) != GTK_VISIBILITY_FULL)
-		{
-		gtk_clist_moveto(GTK_CLIST(file_clist), row, -1, 0.5, 0.0);
-		}
-}
-
-void file_next_image()
-{
-	gint current;
-	gint total;
-
-	if (slideshow_is_running())
-		{
-		slideshow_next();
-		return;
-		}
-
-	current = find_file_in_list(image_get_path());
-	total = file_count();
-
-	if (current >= 0)
-		{
-		if (current < total - 1)
-			{
-			file_image_change_to(current + 1);
-			}
-		}
-	else
-		{
-		file_image_change_to(0);
-		}
-}
-
-void file_prev_image()
-{
-	gint current;
-
-	if (slideshow_is_running())
-		{
-		slideshow_prev();
-		return;
-		}
-
-	current = find_file_in_list(image_get_path());
-
-	if (current >= 0)
-		{
-		if (current > 0)
-			{
-			file_image_change_to(current - 1);
-			}
-		}
-	else
-		{
-		file_image_change_to(file_count() - 1);
-		}
-}
-
-void file_first_image()
-{
-	gint current = find_file_in_list(image_get_path());
-	if (current != 0 && file_count() > 0)
-		{
-		file_image_change_to(0);
-		}
-}
-
-void file_last_image()
-{
-	gint current = find_file_in_list(image_get_path());
-	gint count = file_count();
-	if (current != count - 1 && count > 0)
-		{
-		file_image_change_to(count - 1);
-		}
-}
-
-/*
- *-----------------------------------------------------------------------------
- * file delete/rename update routines
- *-----------------------------------------------------------------------------
- */
-
-static gint file_find_closest_unaccounted(gint row, gint count, GList *ignore_list)
-{
-	GList *list = NULL;
-	GList *work;
-	gint rev = row - 1;
-	row ++;
-
-	work = ignore_list;
-	while(work)
-		{
-		gint f = find_file_in_list(work->data);
-		if (f >= 0) list = g_list_append(list, GINT_TO_POINTER(f));
-		work = work->next;
-		}
-
-	while(list)
-		{
-		gint c = TRUE;
-		work = list;
-		while(work && c)
-			{
-			gpointer p = work->data;
-			work = work->next;
-			if (row == GPOINTER_TO_INT(p))
-				{
-				row++;
-				c = FALSE;
-				}
-			if (rev == GPOINTER_TO_INT(p))
-				{
-				rev--;
-				c = FALSE;
-				}
-			if (!c) list = g_list_remove(list, p);
-			}
-		if (c && list)
-			{
-			g_list_free(list);
-			list = NULL;
-			}
-		}
-	if (row > count - 1)
-		{
-		if (rev < 0)
-			return -1;
-		else
-			return rev;
-		}
-	else
-		{
-		return row;
-		}
-}
-
-void file_is_gone(gchar *path, GList *ignore_list)
-{
-	GList *list;
-	gchar *name;
-	gint row;
-	gint new_row = -1;
-	row = find_file_in_list(path);
-	if (row < 0) return;
-
-	if (file_is_selected(row) /* && file_selection_count() == 1 */)
-		{
-		gint n = file_count();
-		if (ignore_list)
-			{
-			new_row = file_find_closest_unaccounted(row, n, ignore_list);
-			if (debug) printf("row = %d, closest is %d\n", row, new_row);
-			}
-		else
-			{
-			if (row + 1 < n)
-				{
-				new_row = row + 1;
-				}
-			else if (row > 0)
-				{
-				new_row = row - 1;
-				}
-			}
-		gtk_clist_unselect_all(GTK_CLIST(file_clist));
-		if (new_row >= 0)
-			{
-			gtk_clist_select_row(GTK_CLIST(file_clist), new_row, -1);
-			file_image_change_to(new_row);
-			}
-		else
-			{
-			image_change_to(NULL);
-			}
-		}
-
-	gtk_clist_remove(GTK_CLIST(file_clist), row);
-	list = g_list_nth(file_list, row);
-	name = list->data;
-	file_list = g_list_remove(file_list, name);
-	g_free(name);
-	update_status_label(NULL);
-}
-
-void file_is_renamed(gchar *source, gchar *dest)
-{
-	gint row;
-	gchar *source_base;
-	gchar *dest_base;
-
-	if (image_get_path() && !strcmp(source, image_get_path()))
-		{
-		image_set_path(dest);
-		}
-
-	row = find_file_in_list(source);
-	if (row < 0) return;
-
-	source_base = remove_level_from_path(source);
-	dest_base = remove_level_from_path(dest);
-
-	if (strcmp(source_base, dest_base) == 0)
-		{
-		gchar *name;
-		gint n;
-		GList *work = g_list_nth(file_list, row);
-		name = work->data;
-		file_list = g_list_remove(file_list, name);
-		g_free(name);
-		name = g_strdup(filename_from_path(dest));
-		file_list = g_list_insert_sorted(file_list, name, (GCompareFunc) sort_list_cb);
-		n = g_list_index(file_list, name);
-
-		if (gtk_clist_get_cell_type(GTK_CLIST(file_clist), row, 0) != GTK_CELL_PIXTEXT)
-			{
-			gtk_clist_set_text (GTK_CLIST(file_clist), row, 0, name);
-			}
-		else
-			{
-			guint8 spacing = 0;
-			GdkPixmap *pixmap = NULL;
-			GdkBitmap *mask = NULL;
-			gtk_clist_get_pixtext(GTK_CLIST(file_clist), row, 0,
-				NULL, &spacing, &pixmap, &mask);
-			gtk_clist_set_pixtext(GTK_CLIST(file_clist), row, 0,
-				name, spacing, pixmap, mask);
-			}
-
-		gtk_clist_set_row_data(GTK_CLIST(file_clist), row, name);
-		gtk_clist_row_move(GTK_CLIST(file_clist), row, n);
-		}
-	else
-		{
-		GList *work = g_list_nth(file_list, row);
-		gchar *name = work->data;
-		file_list = g_list_remove(file_list, name);
-		gtk_clist_remove(GTK_CLIST(file_clist), row);
-		g_free(name);
-		update_status_label(NULL);
-		}
-
-	g_free(source_base);
-	g_free(dest_base);
-	
-}
-
-/*
- *-----------------------------------------------------------------------------
- * directory list callbacks
- *-----------------------------------------------------------------------------
- */
-
-void dir_select_cb(GtkWidget *widget, gint row, gint col,
-		   GdkEvent *event, gpointer data)
-{
-	gchar *name;
-	gchar *new_path;
-	name = gtk_clist_get_row_data (GTK_CLIST(dir_clist), row);
-	if (strcmp(name, ".") == 0)
-		{
-		new_path = g_strdup(current_path);
-		}
-	else if (strcmp(name, "..") == 0)
-		{
-		new_path = remove_level_from_path(current_path);
-		}
-	else
-		{
-		if (strcmp(current_path, "/") == 0)
-			new_path = g_strconcat(current_path, name, NULL);
-		else
-			new_path = g_strconcat(current_path, "/", name, NULL);
-		}
-	filelist_change_to(new_path);
-	g_free(new_path);
-}
-
-void dir_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
-{
-	gint row = -1;
-	gint col = -1;
-
-	gtk_clist_get_selection_info (GTK_CLIST (widget), bevent->x, bevent->y, &row, &col);
-
-	if (bevent->button == 2)
-		{
-		gtk_object_set_user_data(GTK_OBJECT(dir_clist), GINT_TO_POINTER(row));
-		}
-}
-
-/*
- *-----------------------------------------------------------------------------
- * file list callbacks
- *-----------------------------------------------------------------------------
- */
-
-void file_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
-{
-	gint row = -1;
-	gint col = -1;
-
-	gtk_clist_get_selection_info (GTK_CLIST (widget), bevent->x, bevent->y, &row, &col);
-	if (row == -1 || col == -1)
-		{
-		filelist_click_row = -1;
-		return;
-		}
-
-	filelist_click_row = row;
-
-	if (bevent->button == 3)
-		{
-		file_clist_highlight_set();
-		gtk_menu_popup (GTK_MENU(menu_file_popup), NULL, NULL, NULL, NULL,
-				bevent->button, bevent->time);
-		}
-}
-
-void file_select_cb(GtkWidget *widget, gint row, gint col,
-		   GdkEvent *event, gpointer data)
-{
-	gchar *name;
-	gchar *path;
-
-	if (file_selection_count() != 1)
-		{
-		update_status_label(NULL);
-		return;
-		}
-
-	name = gtk_clist_get_row_data(GTK_CLIST(file_clist), row);
-	path = g_strconcat(current_path, "/", name, NULL);
-	image_change_to(path);
-	update_status_label(NULL);
-	g_free(path);
-}
-
-void file_unselect_cb(GtkWidget *widget, gint row, gint col,
-		   GdkEvent *event, gpointer data)
-{
-#if 0
-	gchar *name;
-	gchar *path;
-
-	name = gtk_clist_get_row_data(GTK_CLIST(file_clist), row);
-	path = g_strconcat(current_path, "/", name, NULL);
-
-	if (strcmp(path, image_get_path()) == 0)
-		{
-		if (file_selection_count() > 0 && !file_is_selected(find_file_in_list(image_get_path())) )
-			{
-			gint new_row = GPOINTER_TO_INT(GTK_CLIST(file_clist)->selection->data);
-			gchar *new_name = gtk_clist_get_row_data(GTK_CLIST(file_clist), new_row);
-			gchar *new_path = g_strconcat(current_path, "/", new_name, NULL);
-			image_change_to(new_path);
-			g_free(new_path);
-			}
-		}
-	g_free(path);
-#endif
-	update_status_label(NULL);
-}
-
-/*
- *-----------------------------------------------------------------------------
- * file list highlight utils
- *-----------------------------------------------------------------------------
- */
-
-void file_clist_highlight_set()
-{
-	if (file_clicked_is_selected()) return;
-
-	gtk_clist_set_background(GTK_CLIST(file_clist), filelist_click_row,
-		&GTK_WIDGET (file_clist)->style->bg[GTK_STATE_PRELIGHT]);
-	gtk_clist_set_foreground(GTK_CLIST(file_clist), filelist_click_row,
-		&GTK_WIDGET (file_clist)->style->fg[GTK_STATE_PRELIGHT]);
-}
-
-void file_clist_highlight_unset()
-{
-	if (file_clicked_is_selected()) return;
-
-	gtk_clist_set_background(GTK_CLIST(file_clist), filelist_click_row, NULL);
-	gtk_clist_set_foreground(GTK_CLIST(file_clist), filelist_click_row, NULL);
-}
-
-/*
- *-----------------------------------------------------------------------------
- * path entry and history menu
- *-----------------------------------------------------------------------------
- */
-
-void path_entry_tab_cb(gchar *newdir, gpointer data)
-{
-	gchar *new_path;
-	gchar *buf;
-	gint found = FALSE;
-
-	new_path = g_strdup(newdir);
-	parse_out_relatives(new_path);
-	buf = remove_level_from_path(new_path);
-
-	if (buf && current_path && strcmp(buf, current_path) == 0)
-		{
-		GList *work;
-		gchar *part;
-
-		part = filename_from_path(new_path);
-		work = file_list;
-
-		while(part && work)
-			{
-			gchar *name = work->data;
-			work = work->next;
-
-			if (strncmp(part, name, strlen(part)) == 0)
-				{
-				gint row = g_list_index(file_list, name);
-				if (!gtk_clist_row_is_visible(GTK_CLIST(file_clist), row) != GTK_VISIBILITY_FULL)
-					{
-					gtk_clist_moveto(GTK_CLIST(file_clist), row, -1, 0.5, 0.0);
-					}
-				found = TRUE;
-				break;
-				}
-			}
-		}
-
-	if (!found && new_path && current_path &&
-	    strcmp(new_path, current_path) != 0 && isdir(new_path))
-		{
-		filelist_change_to(new_path);
-		/* we are doing tab completion, add '/' back */
-		gtk_entry_append_text(GTK_ENTRY(path_entry), "/");
-		}
-
-	g_free(buf);
-	g_free(new_path);
-}
-
-void path_entry_cb(gchar *newdir, gpointer data)
-{
-	gchar *new_path = g_strdup(newdir);
-	parse_out_relatives(new_path);
-	if (isdir(new_path))
-		filelist_change_to(new_path);
-	else if (isfile(new_path))
-		{
-		gchar *path = remove_level_from_path(new_path);
-		filelist_change_to(path);
-		g_free(path);
-		image_change_to(new_path);
-		}
-	g_free(new_path);
-}
-
-static void history_menu_select_cb(GtkWidget *widget, gpointer data)
-{
-	gchar *new_path = data;
-	filelist_change_to(new_path);
-}
-
-static gchar *truncate_hist_text(gchar *t, gint l)
-{
-	gchar *tp;
-	gchar *tbuf;
-	if (l >= strlen(t)) return g_strdup(t);
-	tp = t + strlen(t) - l;
-	while (tp[0] != '/' && tp < t + strlen(t)) tp++;
-                /* this checks to see if directory name is longer than l, if so
-                 * reset the length of name to l, it's better to have a partial
-                 * name than no name at all.
-		 */
-	if (tp >= t + strlen(t)) tp = t + strlen(t) - l;
-	tbuf = g_strconcat("/...", tp, NULL);
-	return tbuf;
-}
-
-static void filelist_set_history(gchar *path)
-{
-	static GList *history_list = NULL;
-	gchar *buf;
-	gchar *buf_ptr;
-	GtkWidget *menu;
-	GtkWidget *item;
-
-	if (!path) return;
-
-	gtk_entry_set_text(GTK_ENTRY(path_entry), current_path);
-
-	if (history_list)
-                {
-                g_list_foreach(history_list, (GFunc)g_free, NULL);
-                g_list_free(history_list);
-                history_list = NULL;
-                }
-
-	menu = gtk_menu_new();
-
-	buf = g_strdup(path);
-	buf_ptr = buf + strlen(buf) - 1 ;
-	while (buf_ptr > buf)
-		{
-		gchar *full_path;
-		gchar *truncated;
-		truncated = truncate_hist_text(buf, 32);
-
-		full_path = g_strdup(buf);
-		history_list = g_list_append(history_list, full_path);
-
-		item = gtk_menu_item_new_with_label (truncated);
-		gtk_signal_connect (GTK_OBJECT (item), "activate",
-			(GtkSignalFunc) history_menu_select_cb, full_path);
-
-		gtk_menu_append (GTK_MENU (menu), item);
-		gtk_widget_show (item);
-
-		g_free(truncated);
-
-		while (buf_ptr[0] != '/' && buf_ptr > buf) buf_ptr--;
-		buf_ptr[0] = '\0';
-		}
-	g_free(buf);
-
-	item = gtk_menu_item_new_with_label ("/");
-
-	gtk_signal_connect (GTK_OBJECT (item), "activate",
-		(GtkSignalFunc) history_menu_select_cb, "/");
-
-	gtk_menu_append (GTK_MENU (menu), item);
-	gtk_widget_show (item);
-
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(history_menu), menu);
-}
-
-/*
- *-----------------------------------------------------------------------------
- * list update routines (public)
- *-----------------------------------------------------------------------------
- */
-
-static gint thumbs_running = 0;
-
-void interrupt_thumbs()
-{
-        if (thumbs_running > 0) thumbs_running ++;
-}
-
-void filelist_populate_clist()
-{
-	GList *work;
-	gint width;
-	gint tmp_width;
-	gint row;
-	gchar *image_name = NULL;
-	gchar *buf;
-
-	gint row_p = 0;
-	gchar *text;
-	guint8 spacing;
-	GdkPixmap *nopixmap;
-	GdkBitmap *nomask;
-
-	interrupt_thumbs();
-
-	filelist_set_history(current_path);
-
-	gtk_clist_freeze (GTK_CLIST (dir_clist));
-	gtk_clist_clear (GTK_CLIST (dir_clist));
-
-	width = 0;
-	work = dir_list;
-	while(work)
-		{
-		gchar *buf[2];
-		buf[0] = work->data;
-		buf[1] = NULL;
-		row = gtk_clist_append(GTK_CLIST(dir_clist), buf);
-		gtk_clist_set_row_data (GTK_CLIST(dir_clist), row, work->data);
-		tmp_width = gdk_string_width(dir_clist->style->font, buf[0]);
-		if (tmp_width > width) width = tmp_width;
-		work = work->next;
-		}
-
-	gtk_clist_set_column_width(GTK_CLIST(dir_clist), 0, width);
-	gtk_clist_thaw(GTK_CLIST (dir_clist));
-
-	buf = remove_level_from_path(image_get_path());
-	if (buf && strcmp(buf, current_path) == 0)
-		{
-		image_name = image_get_name();
-		}
-	g_free(buf);
-
-	gtk_clist_freeze (GTK_CLIST (file_clist));
-
-	if (!thumbnails_enabled)
-		{
-		gtk_clist_set_row_height (GTK_CLIST(file_clist),
-			GTK_WIDGET(file_clist)->style->font->ascent +
-			GTK_WIDGET(file_clist)->style->font->descent + 1);
-		}
-	else
-		{
-		gtk_clist_set_row_height (GTK_CLIST(file_clist), thumb_max_height + 2);
-		maintain_thumbnail_dir(current_path, FALSE);
-		}
-
-	width = 0;
-	work = file_list;
-
-	while(work)
-		{
-		gint has_pixmap;
-		gint match;
-		gchar *name = work->data;
-		gint done = FALSE;
-
-		while (!done)
-			{
-			if (GTK_CLIST(file_clist)->rows > row_p)
-				{
-				if (gtk_clist_get_cell_type(GTK_CLIST(file_clist),row_p, 0) == GTK_CELL_PIXTEXT)
-					{
-					gtk_clist_get_pixtext(GTK_CLIST(file_clist), row_p, 0, &text, &spacing, &nopixmap, &nomask);
-					has_pixmap = TRUE;
-					}
-				else
-					{
-					gtk_clist_get_text(GTK_CLIST(file_clist), row_p, 0, &text);
-					has_pixmap = FALSE;
-					}
-				match = strcmp(name, text);
-				}
-			else
-				{
-				match = -1;
-				}
-
-			if (match < 0)
-				{
-				gchar *buf[2];
-				buf[0] = name;
-				buf[1] = NULL;
-				row = gtk_clist_insert(GTK_CLIST(file_clist), row_p, buf);
-				gtk_clist_set_row_data (GTK_CLIST(file_clist), row, name);
-				if (thumbnails_enabled)
-					gtk_clist_set_shift(GTK_CLIST(file_clist), row, 0, 0, 5 + thumb_max_width);
-				done = TRUE;
-				if (image_name && strcmp(name, image_name) == 0)
-					gtk_clist_select_row(GTK_CLIST(file_clist), row, 0);
-				}
-			else if (match > 0)
-				{
-				gtk_clist_remove(GTK_CLIST(file_clist), row_p);
-				}
-			else
-				{
-				if (thumbnails_enabled && !has_pixmap)
-					gtk_clist_set_shift(GTK_CLIST(file_clist), row_p, 0, 0, 5 + thumb_max_width);
-				if (!thumbnails_enabled/* && has_pixmap*/)
-					{
-					gtk_clist_set_text(GTK_CLIST(file_clist), row_p, 0, name);
-					gtk_clist_set_shift(GTK_CLIST(file_clist), row_p, 0, 0, 0);
-					}
-				gtk_clist_set_row_data (GTK_CLIST(file_clist), row_p, name);
-				done = TRUE;
-				}
-			}
-		row_p++;
-
-		if (thumbnails_enabled)
-			tmp_width = gdk_string_width(file_clist->style->font, name) + thumb_max_width + 5;
-		else
-			tmp_width = gdk_string_width(file_clist->style->font, name);
-		if (tmp_width > width) width = tmp_width;
-		work = work->next;
-		}
-
-	while (GTK_CLIST(file_clist)->rows > row_p)
-		gtk_clist_remove(GTK_CLIST(file_clist), row_p);
-
-	gtk_clist_set_column_width(GTK_CLIST(file_clist), 0, width);
-	gtk_clist_thaw(GTK_CLIST (file_clist));
-
-	if (thumbnails_enabled)
-		{
-		GList *done_list = NULL;
-		gint past_run;
-		gint finished = FALSE;
-		gint j;
-		gint count = 0;
-		update_status_label(_("Loading thumbs..."));
-
-		for (j = 0; j < GTK_CLIST(file_clist)->rows; j++)
-			{
-			done_list = g_list_prepend(done_list, GINT_TO_POINTER(FALSE));
-			}
-
-		/* load thumbs */
-
-		while (!finished && done_list)
-			{
-			gint p = -1;
-			gint r = -1;
-			gint c = -1;
-			gtk_clist_get_selection_info (GTK_CLIST(file_clist), 1, 1, &r, &c);
-			if (r != -1)
-				{
-				work = g_list_nth(done_list, r);
-				while (work)
-					{
-					if (gtk_clist_row_is_visible(GTK_CLIST(file_clist), r))
-						{
-						if (!GPOINTER_TO_INT(work->data))
-							{
-							work->data = GINT_TO_POINTER(TRUE);
-							p = r;
-							work = NULL;
-							}
-						else
-							{
-							r++;
-							work = work->next;
-							}
-						}
-					else
-						{
-						work = NULL;
-						}
-					}
-				}
-			if (p == -1)
-				{
-				work = done_list;
-				r = 0;
-				while(work && p == -1)
-					{
-					if (!GPOINTER_TO_INT(work->data))
-						{
-						p = r;
-						work->data = GINT_TO_POINTER(TRUE);
-						}
-					else
-						{
-						r++;
-						work = work->next;
-						if (!work) finished = TRUE;
-						}
-					}
-				}
-
-			count++;
-
-			if (!finished && gtk_clist_get_cell_type(GTK_CLIST(file_clist), p, 0) != GTK_CELL_PIXTEXT)
-				{
-				GdkPixmap *pixmap = NULL;
-				GdkBitmap *mask = NULL;
-				gchar *name;
-				gchar *path;
-
-				thumbs_running ++;
-				past_run = thumbs_running;
-				while(gtk_events_pending()) gtk_main_iteration();
-				if (thumbs_running > past_run)
-					{
-					thumbs_running -= 2;
-					update_progressbar(0.0);
-					update_status_label(NULL);
-					g_list_free(done_list);
-					return;
-					}
-				thumbs_running --;
-
-				name = gtk_clist_get_row_data(GTK_CLIST(file_clist), p);
-				path = g_strconcat (current_path, "/", name, NULL);
-				spacing = create_thumbnail(path, &pixmap, &mask);
-				g_free(path);
-				gtk_clist_set_pixtext (GTK_CLIST(file_clist), p, 0, name, spacing + 5, pixmap, mask);
-				gtk_clist_set_shift(GTK_CLIST(file_clist), p, 0, 0, 0);
-
-				update_progressbar((gfloat)(count) / GTK_CLIST(file_clist)->rows);
-				}
-			}
-		update_progressbar(0.0);
-		g_list_free(done_list);
-		}
-
-	update_status_label(NULL);
-}
-
-void filelist_refresh()
-{
-	filelist_read(current_path);
-	filelist_populate_clist();
-	filelist_click_row = -1;
-}
-
-void filelist_change_to(gchar *path)
-{
-	if (!isdir(path)) return;
-
-	g_free(current_path);
-	current_path = g_strdup(path);
-
-	filelist_refresh();
-}

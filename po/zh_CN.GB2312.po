@@ -1,0 +1,3721 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gqview 0.9.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-02-15 08:13-0500\n"
+"PO-Revision-Date: 2001-02-21 17:46+0800\n"
+"Last-Translator: Wu Yulun <migr@operamail.com>\n"
+"Language-Team: Chinese <i18n-chinese@egroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=gb2312\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/bar_info.c:30
+msgid "Favorite"
+msgstr ""
+
+#: src/bar_info.c:31
+#, fuzzy
+msgid "Todo"
+msgstr "平铺"
+
+#: src/bar_info.c:32
+msgid "People"
+msgstr ""
+
+#: src/bar_info.c:33
+msgid "Places"
+msgstr ""
+
+#: src/bar_info.c:34
+msgid "Art"
+msgstr ""
+
+#: src/bar_info.c:35
+#, fuzzy
+msgid "Nature"
+msgstr "日期"
+
+#: src/bar_info.c:36
+msgid "Possessions"
+msgstr ""
+
+#: src/bar_info.c:505
+msgid "Keyword Presets"
+msgstr ""
+
+#: src/bar_info.c:508
+msgid "Favorite keywords list"
+msgstr ""
+
+#: src/bar_info.c:992 src/info.c:166 src/search.c:2692
+msgid "Keywords"
+msgstr ""
+
+#: src/bar_info.c:1006 src/info.c:716 src/print.c:2599
+#, fuzzy
+msgid "Filename:"
+msgstr "重命名："
+
+#: src/bar_info.c:1007 src/info.c:360
+#, fuzzy
+msgid "File date:"
+msgstr "过滤器："
+
+#: src/bar_info.c:1027
+msgid "Keywords:"
+msgstr ""
+
+#: src/bar_info.c:1095
+#, fuzzy
+msgid "Comment:"
+msgstr "与之比较："
+
+#: src/bar_info.c:1119
+msgid "Edit favorite keywords list."
+msgstr ""
+
+#: src/bar_info.c:1123
+msgid "Add keywords to selected files"
+msgstr ""
+
+#: src/bar_info.c:1126
+msgid "Add keywords to selected files, replacing the existing ones."
+msgstr ""
+
+#: src/bar_info.c:1130
+#, fuzzy
+msgid "Save comment now"
+msgstr "保存图像集"
+
+#: src/bar_exif.c:423
+msgid "Tag"
+msgstr ""
+
+#: src/bar_exif.c:424 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
+#: src/search.c:2753 src/view_file_list.c:1555
+msgid "Name"
+msgstr "名称"
+
+#: src/bar_exif.c:425
+msgid "Value"
+msgstr ""
+
+#: src/bar_exif.c:426
+#, fuzzy
+msgid "Format"
+msgstr "普通"
+
+#: src/bar_exif.c:427
+msgid "Elements"
+msgstr ""
+
+#: src/bar_exif.c:428 src/preferences.c:1028
+msgid "Description"
+msgstr ""
+
+#: src/bar_exif.c:549 src/info.c:105
+#, fuzzy
+msgid "Exif"
+msgstr "退出"
+
+#: src/bar_exif.c:622
+msgid "Advanced view"
+msgstr ""
+
+#: src/bar_sort.c:218
+#, fuzzy
+msgid "Unlink failed"
+msgstr "删除失败"
+
+#: src/bar_sort.c:298
+msgid "Link failed"
+msgstr ""
+
+#: src/bar_sort.c:435
+#, fuzzy, c-format
+msgid ""
+"The collection:\n"
+"%s\n"
+"already exists."
+msgstr ""
+"目录：\n"
+"%s\n"
+"已存在。"
+
+#: src/bar_sort.c:436
+#, fuzzy
+msgid "Collection exists"
+msgstr "图像集为空"
+
+#: src/bar_sort.c:450 src/collect.c:1061 src/collect-dlg.c:84
+#, c-format
+msgid ""
+"Failed to save the collection:\n"
+"%s"
+msgstr ""
+"保存图像集失败：\n"
+"%s"
+
+#: src/bar_sort.c:451 src/collect.c:1062 src/collect-dlg.c:85
+msgid "Save Failed"
+msgstr "保存失败"
+
+#: src/bar_sort.c:485 src/bar_sort.c:631
+msgid "Add Bookmark"
+msgstr ""
+
+#: src/bar_sort.c:489
+#, fuzzy
+msgid "Add Collection"
+msgstr "图像集"
+
+#: src/bar_sort.c:506 src/ui_bookmark.c:603
+#, fuzzy
+msgid "Name:"
+msgstr "名称"
+
+#: src/bar_sort.c:569
+#, fuzzy
+msgid "Sort Manager"
+msgstr "按名称排序"
+
+#: src/bar_sort.c:578 src/ui_pathsel.c:1095
+#, fuzzy
+msgid "Folders"
+msgstr "平铺"
+
+#: src/bar_sort.c:579 src/main.c:1066
+msgid "Collections"
+msgstr "图像集"
+
+#: src/bar_sort.c:586
+msgid "Copy"
+msgstr "复制"
+
+#: src/bar_sort.c:593
+msgid "Move"
+msgstr "移动"
+
+#: src/bar_sort.c:600
+msgid "Link"
+msgstr ""
+
+#: src/bar_sort.c:610
+#, fuzzy
+msgid "Add image"
+msgstr "%d 图像"
+
+#: src/bar_sort.c:617
+#, fuzzy
+msgid "Add selection"
+msgstr "清除所有选择"
+
+#: src/bar_sort.c:634
+msgid "Undo last image"
+msgstr ""
+
+#: src/cache_maint.c:127 src/cache_maint.c:681 src/cache_maint.c:894
+#: src/editors.c:410
+#, fuzzy
+msgid "done"
+msgstr "无"
+
+#: src/cache_maint.c:304
+#, fuzzy
+msgid "Removing old metadata..."
+msgstr "正在读取相似性数据..."
+
+#: src/cache_maint.c:308
+#, fuzzy
+msgid "Clearing cached thumbnails..."
+msgstr "正在清除缩略图..."
+
+#: src/cache_maint.c:312 src/cache_maint.c:1048
+#, fuzzy
+msgid "Removing old thumbnails..."
+msgstr "正在清除旧的缩略图..."
+
+#: src/cache_maint.c:315 src/cache_maint.c:1051
+msgid "Maintenance"
+msgstr ""
+
+#: src/cache_maint.c:792 src/utilops.c:904
+#, fuzzy
+msgid "Invalid folder"
+msgstr "非法文件名"
+
+#: src/cache_maint.c:793
+msgid "The specified folder can not be found."
+msgstr ""
+
+#: src/cache_maint.c:821 src/cache_maint.c:835 src/cache_maint.c:1216
+#, fuzzy
+msgid "Create thumbnails"
+msgstr "缓存缩略图"
+
+#: src/cache_maint.c:829 src/cache_maint.c:1058
+#, fuzzy
+msgid "S_tart"
+msgstr "日期"
+
+#: src/cache_maint.c:842 src/preferences.c:1165
+#, fuzzy
+msgid "Folder:"
+msgstr "平铺"
+
+#: src/cache_maint.c:845
+#, fuzzy
+msgid "Select folder"
+msgstr "清除所有选择"
+
+#: src/cache_maint.c:849
+#, fuzzy
+msgid "Include subfolders"
+msgstr "非法文件名"
+
+#: src/cache_maint.c:850
+msgid "Store thumbnails local to source images"
+msgstr ""
+
+#: src/cache_maint.c:859 src/cache_maint.c:1067
+msgid "click start to begin"
+msgstr ""
+
+#: src/cache_maint.c:997 src/editors.c:549
+#, fuzzy
+msgid "running..."
+msgstr "正在比较..."
+
+#: src/cache_maint.c:1043
+msgid "Clearing thumbnails..."
+msgstr "正在清除缩略图..."
+
+#: src/cache_maint.c:1109 src/cache_maint.c:1112 src/cache_maint.c:1191
+#: src/cache_maint.c:1211
+msgid "Clear cache"
+msgstr "清除缓冲区"
+
+#: src/cache_maint.c:1113
+msgid ""
+"This will remove all thumbnails that have\n"
+"been saved to disk, continue?"
+msgstr ""
+"这将删除保存到磁盘上的\n"
+"所有缩略图，继续？"
+
+#: src/cache_maint.c:1163
+#, fuzzy
+msgid "Cache Maintenance - GQview"
+msgstr "求助 - GQview"
+
+#: src/cache_maint.c:1173
+msgid "Cache and Data Maintenance"
+msgstr ""
+
+#: src/cache_maint.c:1177
+#, fuzzy
+msgid "GQview thumbnail cache"
+msgstr "GQview 全屏"
+
+#: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
+#: src/preferences.c:1142 src/utilops.c:1505
+#, fuzzy
+msgid "Location:"
+msgstr "图像集"
+
+#: src/cache_maint.c:1186 src/cache_maint.c:1206 src/cache_maint.c:1234
+#, fuzzy
+msgid "Clean up"
+msgstr "清除"
+
+#: src/cache_maint.c:1189 src/cache_maint.c:1209
+msgid "Remove orphaned or outdated thumbnails."
+msgstr ""
+
+#: src/cache_maint.c:1194 src/cache_maint.c:1214
+#, fuzzy
+msgid "Delete all cached thumbnails."
+msgstr "缓存缩略图"
+
+#: src/cache_maint.c:1197
+#, fuzzy
+msgid "Shared thumbnail cache"
+msgstr "缓存缩略图"
+
+#: src/cache_maint.c:1220
+#, fuzzy
+msgid "Render"
+msgstr "重命名"
+
+#: src/cache_maint.c:1223
+msgid "Render thumbnails for a specific folder."
+msgstr ""
+
+#: src/cache_maint.c:1225
+msgid "Metadata"
+msgstr ""
+
+#: src/cache_maint.c:1237
+msgid "Remove orphaned keywords and comments."
+msgstr ""
+
+#: src/collect.c:349 src/image.c:1160 src/image-overlay.c:74
+#: src/image-overlay.c:115
+msgid "Untitled"
+msgstr "无标题"
+
+#: src/collect.c:353
+#, c-format
+msgid "Untitled (%d)"
+msgstr "无标题 (%d)"
+
+#: src/collect.c:980
+#, c-format
+msgid "%s - GQview Collection"
+msgstr "%s - GQview 图像集"
+
+#: src/collect.c:1098 src/collect.c:1102
+msgid "Close collection"
+msgstr "关闭图像集"
+
+#: src/collect.c:1103
+msgid ""
+"Collection has been modified.\n"
+"Save first?"
+msgstr ""
+"图像集已修改。\n"
+"首先保存它？"
+
+#: src/collect.c:1106
+msgid "_Discard"
+msgstr ""
+
+#: src/collect-dlg.c:58
+#, fuzzy, c-format
+msgid ""
+"Specified path:\n"
+"%s\n"
+"is a folder, collections are files"
+msgstr ""
+"指定路径：\n"
+"%s\n"
+"是个目录，但图像集是文件"
+
+#: src/collect-dlg.c:59
+msgid "Invalid filename"
+msgstr "非法文件名"
+
+#: src/collect-dlg.c:68
+msgid "Overwrite File"
+msgstr "覆盖文件"
+
+#: src/collect-dlg.c:73
+#, fuzzy
+msgid "Overwrite existing file?"
+msgstr "覆盖文件"
+
+#: src/collect-dlg.c:75 src/utilops.c:479 src/utilops.c:792 src/utilops.c:1649
+#: src/utilops.c:2196
+#, fuzzy
+msgid "_Overwrite"
+msgstr "覆盖"
+
+#: src/collect-dlg.c:169
+msgid "Save collection"
+msgstr "保存图像集"
+
+#: src/collect-dlg.c:176
+msgid "Open collection"
+msgstr "打开图像集"
+
+#: src/collect-dlg.c:184
+msgid "Append collection"
+msgstr "追加图像集"
+
+#: src/collect-dlg.c:185
+#, fuzzy
+msgid "_Append"
+msgstr "追加"
+
+#: src/collect-dlg.c:203
+msgid "Collection Files"
+msgstr "图像集文件"
+
+#: src/collect-dlg.c:221
+msgid "Collection empty"
+msgstr "图像集为空"
+
+#: src/collect-dlg.c:222
+msgid "The current collection is empty, save aborted."
+msgstr "当前图像集为空，放弃保存。"
+
+#: src/collect-table.c:164 src/layout_util.c:708
+msgid "Empty"
+msgstr "空"
+
+#: src/collect-table.c:168
+#, c-format
+msgid "%d images (%d)"
+msgstr "%d 图像 (%d)"
+
+#: src/collect-table.c:172
+#, c-format
+msgid "%d images"
+msgstr "%d 图像"
+
+#: src/collect-table.c:186 src/dupe.c:1296 src/search.c:303
+#: src/view_file_icon.c:1772 src/view_file_icon.c:1887
+#: src/view_file_list.c:816 src/view_file_list.c:921
+msgid "Loading thumbs..."
+msgstr "正在装入缩略图..."
+
+#: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
+#: src/layout_util.c:751 src/search.c:969
+#, fuzzy
+msgid "_View"
+msgstr "/查看(_V)"
+
+#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1187
+#: src/layout_image.c:722 src/search.c:971 src/view_file_icon.c:283
+#: src/view_file_list.c:395
+#, fuzzy
+msgid "View in _new window"
+msgstr "在新窗口中查看"
+
+#: src/collect-table.c:778 src/dupe.c:2219 src/dupe.c:2507 src/search.c:997
+#, fuzzy
+msgid "Rem_ove"
+msgstr "删除"
+
+#: src/collect-table.c:781
+msgid "Append from file list"
+msgstr "从文件列表中追加"
+
+#: src/collect-table.c:783
+msgid "Append from collection..."
+msgstr "从图像集中追加..."
+
+#: src/collect-table.c:786 src/dupe.c:2192 src/dupe.c:2502 src/search.c:974
+msgid "Select all"
+msgstr "全选"
+
+#: src/collect-table.c:788 src/dupe.c:2194 src/dupe.c:2504 src/search.c:976
+msgid "Select none"
+msgstr "清除所有选择"
+
+#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1185
+#: src/layout_image.c:719 src/layout_util.c:784 src/search.c:981
+#: src/view_file_icon.c:280 src/view_file_list.c:393
+#, fuzzy
+msgid "_Properties"
+msgstr "/编辑/选项(_O)..."
+
+#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1190
+#: src/layout_image.c:727 src/layout_util.c:762 src/search.c:988
+#: src/view_file_icon.c:287 src/view_file_list.c:399
+#, fuzzy
+msgid "_Copy..."
+msgstr "复制..."
+
+#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1191
+#: src/layout_image.c:729 src/layout_util.c:763 src/search.c:990
+#: src/view_file_icon.c:289 src/view_file_list.c:401
+#, fuzzy
+msgid "_Move..."
+msgstr "移动..."
+
+#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1192
+#: src/layout_image.c:731 src/layout_util.c:764 src/search.c:992
+#: src/view_dir_list.c:415 src/view_dir_tree.c:505 src/view_file_icon.c:291
+#: src/view_file_list.c:403
+#, fuzzy
+msgid "_Rename..."
+msgstr "重命名..."
+
+#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1193
+#: src/layout_image.c:733 src/layout_util.c:765 src/search.c:994
+#: src/view_file_icon.c:293 src/view_file_list.c:405
+#, fuzzy
+msgid "_Delete..."
+msgstr "删除..."
+
+#: src/collect-table.c:810 src/view_file_icon.c:309
+#, fuzzy
+msgid "Show filename _text"
+msgstr "显示隐藏文件"
+
+#: src/collect-table.c:813
+#, fuzzy
+msgid "_Save collection"
+msgstr "保存图像集"
+
+#: src/collect-table.c:815
+#, fuzzy
+msgid "Save collection _as..."
+msgstr "将图像集另存为..."
+
+#: src/collect-table.c:818 src/layout_util.c:759
+#, fuzzy
+msgid "_Find duplicates..."
+msgstr "寻找副本..."
+
+#: src/collect-table.c:820 src/dupe.c:2207 src/search.c:985
+#, fuzzy
+msgid "Print..."
+msgstr "/文件/重命名(_R)..."
+
+#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1347
+#, fuzzy
+msgid "Dropped list includes folders."
+msgstr "拖放列表含有目录。"
+
+#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1349
+#, fuzzy
+msgid "_Add contents"
+msgstr "添加内容"
+
+#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1350
+#, fuzzy
+msgid "Add contents _recursive"
+msgstr "递归添加内容"
+
+#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1351
+#, fuzzy
+msgid "_Skip folders"
+msgstr "忽略目录"
+
+#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1353
+#: src/view_dir_list.c:222 src/view_dir_tree.c:314
+msgid "Cancel"
+msgstr "取消"
+
+#: src/dupe.c:96
+msgid "Drop files to compare them."
+msgstr "拖放文件以比较它们。"
+
+#: src/dupe.c:100
+#, c-format
+msgid "%d files"
+msgstr "%d 文件"
+
+#: src/dupe.c:104
+#, c-format
+msgid "%d matches found in %d files"
+msgstr "在 %2$d 个文件中找到 %1$d 个匹配"
+
+#: src/dupe.c:109
+msgid "[set 1]"
+msgstr ""
+
+#: src/dupe.c:1422
+msgid "Reading checksums..."
+msgstr "正在读取校验和..."
+
+#: src/dupe.c:1455
+msgid "Reading dimensions..."
+msgstr "正在读取尺寸..."
+
+#: src/dupe.c:1489
+msgid "Reading similarity data..."
+msgstr "正在读取相似性数据..."
+
+#: src/dupe.c:1524 src/dupe.c:1555
+msgid "Comparing..."
+msgstr "正在比较..."
+
+#: src/dupe.c:1535
+#, fuzzy
+msgid "Sorting..."
+msgstr "正在比较..."
+
+#: src/dupe.c:2196
+msgid "Select group _1 duplicates"
+msgstr ""
+
+#: src/dupe.c:2198
+msgid "Select group _2 duplicates"
+msgstr ""
+
+#: src/dupe.c:2205 src/search.c:983
+msgid "Add to new collection"
+msgstr "添加到新图像集"
+
+#: src/dupe.c:2221 src/dupe.c:2509 src/search.c:999
+#, fuzzy
+msgid "C_lear"
+msgstr "清除"
+
+#: src/dupe.c:2224 src/dupe.c:2512
+#, fuzzy
+msgid "Close _window"
+msgstr "关闭窗口"
+
+#: src/dupe.c:2382
+#, fuzzy, c-format
+msgid "%d files (set 2)"
+msgstr "%d 文件%s"
+
+#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:947 src/print.c:3194
+#: src/search.c:2754 src/view_file_list.c:1556
+msgid "Size"
+msgstr "大小"
+
+#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:297 src/exif.c:419
+#: src/print.c:3192 src/search.c:2755 src/view_file_list.c:1557
+msgid "Date"
+msgstr "日期"
+
+#: src/dupe.c:2592 src/dupe.c:3119 src/print.c:3196 src/search.c:2756
+msgid "Dimensions"
+msgstr "尺寸"
+
+#: src/dupe.c:2593
+msgid "Checksum"
+msgstr "校验和"
+
+#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1107
+msgid "Path"
+msgstr "路径"
+
+#: src/dupe.c:2595
+msgid "Similarity (high)"
+msgstr "相似性 (高)"
+
+#: src/dupe.c:2596
+msgid "Similarity"
+msgstr "相似性"
+
+#: src/dupe.c:2597
+msgid "Similarity (low)"
+msgstr "相似性 (低)"
+
+#: src/dupe.c:2598
+#, fuzzy
+msgid "Similarity (custom)"
+msgstr "相似性 (低)"
+
+#: src/dupe.c:3080
+msgid "Find duplicates - GQview"
+msgstr "文件复制 - GQview"
+
+#: src/dupe.c:3152
+msgid "Compare to:"
+msgstr "与之比较："
+
+#: src/dupe.c:3165
+msgid "Compare by:"
+msgstr "依此比较："
+
+#: src/dupe.c:3173 src/preferences.c:840 src/search.c:2770
+msgid "Thumbnails"
+msgstr "缩略图"
+
+#: src/dupe.c:3180
+msgid "Compare two file sets"
+msgstr "比较两个文件集"
+
+#: src/editors.c:50
+msgid "The Gimp"
+msgstr "Gimp"
+
+#: src/editors.c:51
+msgid "XV"
+msgstr "XV"
+
+#: src/editors.c:52
+msgid "Xpaint"
+msgstr "Xpaint"
+
+#: src/editors.c:58
+#, fuzzy
+msgid "Rotate jpeg clockwise"
+msgstr "顺时针旋转"
+
+#: src/editors.c:59
+#, fuzzy
+msgid "Rotate jpeg counterclockwise"
+msgstr "逆时针旋转"
+
+#: src/editors.c:104
+#, fuzzy
+msgid "stopping..."
+msgstr "正在比较..."
+
+#: src/editors.c:131
+msgid "Edit command results"
+msgstr ""
+
+#: src/editors.c:134
+#, c-format
+msgid "Output of %s"
+msgstr ""
+
+#: src/editors.c:303
+#, fuzzy, c-format
+msgid ""
+"Failed to run command:\n"
+"%s\n"
+msgstr ""
+"无法装入：\n"
+"%s"
+
+#: src/editors.c:414
+#, fuzzy
+msgid "stopped by user"
+msgstr "按编号排序"
+
+#: src/exif.c:112 src/exif.c:125 src/exif.c:139 src/exif.c:164 src/exif.c:606
+#: src/exif.c:1452 src/exif.c:1455 src/exif.c:1520
+#, fuzzy
+msgid "unknown"
+msgstr "在 (未知)..."
+
+#: src/exif.c:113
+#, fuzzy
+msgid "top left"
+msgstr "删除"
+
+#: src/exif.c:114
+msgid "top right"
+msgstr ""
+
+#: src/exif.c:115
+msgid "bottom right"
+msgstr ""
+
+#: src/exif.c:116
+msgid "bottom left"
+msgstr ""
+
+#: src/exif.c:117
+#, fuzzy
+msgid "left top"
+msgstr "删除"
+
+#: src/exif.c:118
+msgid "right top"
+msgstr ""
+
+#: src/exif.c:119
+msgid "right bottom"
+msgstr ""
+
+#: src/exif.c:120
+msgid "left bottom"
+msgstr ""
+
+#: src/exif.c:127
+msgid "inch"
+msgstr ""
+
+#: src/exif.c:128
+msgid "centimeter"
+msgstr ""
+
+#: src/exif.c:140
+msgid "average"
+msgstr ""
+
+#: src/exif.c:141
+msgid "center weighted"
+msgstr ""
+
+#: src/exif.c:142
+msgid "spot"
+msgstr ""
+
+#: src/exif.c:143
+msgid "multi-spot"
+msgstr ""
+
+#: src/exif.c:144
+msgid "multi-segment"
+msgstr ""
+
+#: src/exif.c:145
+msgid "partial"
+msgstr ""
+
+#: src/exif.c:146 src/exif.c:184
+msgid "other"
+msgstr ""
+
+#: src/exif.c:151
+msgid "not defined"
+msgstr ""
+
+#: src/exif.c:152
+msgid "manual"
+msgstr ""
+
+#: src/exif.c:153
+#, fuzzy
+msgid "normal"
+msgstr "普通"
+
+#: src/exif.c:154
+msgid "aperture"
+msgstr ""
+
+#: src/exif.c:155
+msgid "shutter"
+msgstr ""
+
+#: src/exif.c:156
+#, fuzzy
+msgid "creative"
+msgstr "创建"
+
+#: src/exif.c:157
+msgid "action"
+msgstr ""
+
+#: src/exif.c:158
+msgid "portrait"
+msgstr ""
+
+#: src/exif.c:159
+msgid "landscape"
+msgstr ""
+
+#: src/exif.c:165
+msgid "daylight"
+msgstr ""
+
+#: src/exif.c:166
+msgid "fluorescent"
+msgstr ""
+
+#: src/exif.c:167
+msgid "tungsten (incandescent)"
+msgstr ""
+
+#: src/exif.c:168
+msgid "flash"
+msgstr ""
+
+#: src/exif.c:189 src/exif.c:1475 src/info.c:226
+msgid "no"
+msgstr ""
+
+#. flash fired (bit 0)
+#: src/exif.c:190 src/exif.c:1475 src/info.c:226
+#, fuzzy
+msgid "yes"
+msgstr "是"
+
+#: src/exif.c:191
+msgid "yes, not detected by strobe"
+msgstr ""
+
+#: src/exif.c:192
+msgid "yes, detected by strobe"
+msgstr ""
+
+#: src/exif.c:289
+#, fuzzy
+msgid "Image description"
+msgstr "无效的目标"
+
+#: src/exif.c:292
+#, fuzzy
+msgid "Orientation"
+msgstr "尺寸"
+
+#: src/exif.c:303
+#, fuzzy
+msgid "Copyright"
+msgstr "复制"
+
+#: src/exif.c:308
+msgid "Exposure program"
+msgstr ""
+
+#: src/exif.c:310 src/exif.c:346 src/exif.c:423
+msgid "ISO sensitivity"
+msgstr ""
+
+#: src/exif.c:313
+msgid "Date original"
+msgstr ""
+
+#: src/exif.c:314
+msgid "Date digitized"
+msgstr ""
+
+#: src/exif.c:317 src/exif.c:420
+msgid "Shutter speed"
+msgstr ""
+
+#: src/exif.c:318 src/exif.c:421
+msgid "Aperture"
+msgstr ""
+
+#: src/exif.c:320 src/exif.c:422
+msgid "Exposure bias"
+msgstr ""
+
+#: src/exif.c:322 src/exif.c:425
+msgid "Subject distance"
+msgstr ""
+
+#: src/exif.c:323
+#, fuzzy
+msgid "Metering mode"
+msgstr "抖动方法："
+
+#: src/exif.c:324
+msgid "Light source"
+msgstr ""
+
+#: src/exif.c:325 src/exif.c:426
+msgid "Flash"
+msgstr ""
+
+#: src/exif.c:326 src/exif.c:424
+msgid "Focal length"
+msgstr ""
+
+#. ExifImageWidth, ExifImageHeight can also be unsigned short
+#: src/exif.c:336
+msgid "Width"
+msgstr ""
+
+#: src/exif.c:337
+msgid "Height"
+msgstr ""
+
+#: src/exif.c:418
+msgid "Camera"
+msgstr ""
+
+#: src/exif.c:427
+msgid "Resolution"
+msgstr ""
+
+#: src/exif.c:1451
+msgid "infinity"
+msgstr ""
+
+#: src/exif.c:1479
+#, fuzzy
+msgid "mode:"
+msgstr "平铺"
+
+#: src/exif.c:1483 src/utilops.c:1234
+#, fuzzy
+msgid "on"
+msgstr "无"
+
+#: src/exif.c:1486 src/utilops.c:1234
+msgid "off"
+msgstr ""
+
+#: src/exif.c:1489
+msgid "auto"
+msgstr ""
+
+#: src/exif.c:1495
+msgid "not detected by strobe"
+msgstr ""
+
+#: src/exif.c:1496
+msgid "detected by strobe"
+msgstr ""
+
+#. we ignore flash function (bit 5)
+#. red-eye (bit 6)
+#: src/exif.c:1501
+msgid "red-eye reduction"
+msgstr ""
+
+#: src/exif.c:1520
+msgid "dot"
+msgstr ""
+
+#: src/filelist.c:513
+#, fuzzy, c-format
+msgid "%d bytes"
+msgstr "%d 文件"
+
+#: src/filelist.c:517
+#, c-format
+msgid "%.1f K"
+msgstr ""
+
+#: src/filelist.c:521
+#, c-format
+msgid "%.1f MB"
+msgstr ""
+
+#: src/filelist.c:526
+#, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#: src/fullscreen.c:267
+msgid "GQview full screen"
+msgstr "GQview 全屏"
+
+#: src/fullscreen.c:397
+#, fuzzy
+msgid "Full size"
+msgstr "平铺"
+
+#: src/fullscreen.c:402
+msgid "Monitor"
+msgstr ""
+
+#: src/fullscreen.c:407
+msgid "Screen"
+msgstr ""
+
+#: src/fullscreen.c:644
+#, fuzzy
+msgid "Stay above other windows"
+msgstr "将图像填满窗口"
+
+#: src/fullscreen.c:651
+msgid "Determined by Window Manager"
+msgstr ""
+
+#: src/fullscreen.c:652
+msgid "Active screen"
+msgstr ""
+
+#: src/fullscreen.c:654
+msgid "Active monitor"
+msgstr ""
+
+#: src/img-view.c:1173 src/layout_image.c:706 src/layout_util.c:791
+#, fuzzy
+msgid "Zoom _in"
+msgstr "放大"
+
+#: src/img-view.c:1174 src/layout_image.c:707 src/layout_util.c:792
+#, fuzzy
+msgid "Zoom _out"
+msgstr "缩小"
+
+#: src/img-view.c:1175 src/layout_image.c:708 src/layout_util.c:793
+#, fuzzy
+msgid "Zoom _1:1"
+msgstr "缩放到 1:1"
+
+#: src/img-view.c:1176 src/layout_image.c:709
+#, fuzzy
+msgid "Fit image to _window"
+msgstr "将图像填满窗口"
+
+#: src/img-view.c:1181 src/layout_image.c:715 src/layout_util.c:789
+#, fuzzy
+msgid "Set as _wallpaper"
+msgstr "设置为墙纸"
+
+#: src/img-view.c:1199 src/layout_image.c:740
+#, fuzzy
+msgid "_Stop slideshow"
+msgstr "停止播放幻灯片"
+
+#: src/img-view.c:1202 src/layout_image.c:743
+#, fuzzy
+msgid "Continue slides_how"
+msgstr "继续播放幻灯片"
+
+#: src/img-view.c:1207 src/img-view.c:1215 src/layout_image.c:748
+#: src/layout_image.c:755
+#, fuzzy
+msgid "Pause slides_how"
+msgstr "暂停播放幻灯片"
+
+#: src/img-view.c:1213 src/layout_image.c:754
+#, fuzzy
+msgid "_Start slideshow"
+msgstr "开始播放幻灯片"
+
+#: src/img-view.c:1221 src/layout_image.c:765
+#, fuzzy
+msgid "Exit _full screen"
+msgstr "退出全屏"
+
+#: src/img-view.c:1225 src/layout_image.c:761
+#, fuzzy
+msgid "_Full screen"
+msgstr "全屏"
+
+#: src/img-view.c:1229 src/layout_util.c:766
+#, fuzzy
+msgid "C_lose window"
+msgstr "关闭窗口"
+
+#: src/info.c:361
+#, fuzzy
+msgid "File size:"
+msgstr "平铺"
+
+#: src/info.c:363
+#, fuzzy
+msgid "Dimensions:"
+msgstr "尺寸"
+
+#: src/info.c:364
+msgid "Transparent:"
+msgstr ""
+
+#: src/info.c:365 src/print.c:3371
+#, fuzzy
+msgid "Image size:"
+msgstr "图像"
+
+#: src/info.c:367
+#, fuzzy
+msgid "Compress ratio:"
+msgstr "与之比较："
+
+#: src/info.c:368
+#, fuzzy
+msgid "File type:"
+msgstr "过滤器："
+
+#: src/info.c:370
+msgid "Owner:"
+msgstr ""
+
+#: src/info.c:371
+msgid "Group:"
+msgstr ""
+
+#: src/info.c:374 src/preferences.c:821
+msgid "General"
+msgstr "常规"
+
+#: src/info.c:455
+#, c-format
+msgid "Image %d of %d"
+msgstr ""
+
+#: src/info.c:678
+msgid "Image properties - GQview"
+msgstr ""
+
+#: src/layout.c:271 src/view_file_icon.c:301 src/view_file_list.c:413
+msgid "Ascending"
+msgstr "升序"
+
+#: src/layout.c:337
+msgid " Slideshow"
+msgstr " 幻灯片"
+
+#: src/layout.c:341
+msgid " Paused"
+msgstr " 已暂停"
+
+#: src/layout.c:358
+#, fuzzy, c-format
+msgid "%s, %d files (%s, %d)%s"
+msgstr "%d 文件 (%d)%s"
+
+#: src/layout.c:365
+#, fuzzy, c-format
+msgid "%s, %d files%s"
+msgstr "%d 文件%s"
+
+#: src/layout.c:370
+#, c-format
+msgid "%d files%s"
+msgstr "%d 文件%s"
+
+#: src/layout.c:399
+#, c-format
+msgid "(no read permission) %s bytes"
+msgstr ""
+
+#: src/layout.c:403
+#, c-format
+msgid "( ? x ? ) %s bytes"
+msgstr "( ? x ? ) %s 字节"
+
+#: src/layout.c:408
+#, c-format
+msgid "( %d x %d ) %s bytes"
+msgstr "( %d x %d ) %s 字节"
+
+#: src/layout.c:1104
+msgid "GQview Tools"
+msgstr "GQview 工具栏"
+
+#: src/layout_config.c:57
+#, fuzzy
+msgid "Tools"
+msgstr "平铺"
+
+#: src/layout_config.c:57 src/ui_pathsel.c:1175
+#, fuzzy
+msgid "Files"
+msgstr "平铺"
+
+#: src/layout_config.c:57 src/preferences.c:881 src/print.c:110
+msgid "Image"
+msgstr "图像"
+
+#: src/layout_config.c:363
+msgid "(drag to change order)"
+msgstr ""
+
+#: src/layout_image.c:770
+#, fuzzy
+msgid "Hide file _list"
+msgstr "(不)隐藏文件列表"
+
+#: src/layout_util.c:625 src/menu.c:74
+#, c-format
+msgid "in %s..."
+msgstr "在 %s..."
+
+#: src/layout_util.c:629 src/menu.c:76
+msgid "in (unknown)..."
+msgstr "在 (未知)..."
+
+#: src/layout_util.c:637
+#, fuzzy
+msgid "empty"
+msgstr "空"
+
+#: src/layout_util.c:748
+#, fuzzy
+msgid "_File"
+msgstr "/文件(_F)"
+
+#: src/layout_util.c:749 src/menu.c:91
+#, fuzzy
+msgid "_Edit"
+msgstr "/编辑(_E)"
+
+#: src/layout_util.c:750 src/menu.c:248
+#, fuzzy
+msgid "_Adjust"
+msgstr "调整"
+
+#: src/layout_util.c:752
+#, fuzzy
+msgid "_Help"
+msgstr "/求助(_H)"
+
+#: src/layout_util.c:754
+#, fuzzy
+msgid "New _window"
+msgstr "/文件/新图像集"
+
+#: src/layout_util.c:755
+#, fuzzy
+msgid "_New collection"
+msgstr "保存图像集"
+
+#: src/layout_util.c:756
+#, fuzzy
+msgid "_Open collection..."
+msgstr "打开图像集"
+
+#: src/layout_util.c:757
+#, fuzzy
+msgid "Open _recent"
+msgstr "/文件/打开近期访问内容(_R)"
+
+#: src/layout_util.c:758
+#, fuzzy
+msgid "_Search..."
+msgstr "正在比较..."
+
+#: src/layout_util.c:760
+#, fuzzy
+msgid "_Print..."
+msgstr "/文件/重命名(_R)..."
+
+#: src/layout_util.c:761
+#, fuzzy
+msgid "N_ew folder..."
+msgstr "求助 - GQview"
+
+#: src/layout_util.c:767
+#, fuzzy
+msgid "_Quit"
+msgstr "品质"
+
+#: src/layout_util.c:779 src/menu.c:194
+#, fuzzy
+msgid "_Rotate clockwise"
+msgstr "顺时针旋转"
+
+#: src/layout_util.c:780 src/menu.c:197
+#, fuzzy
+msgid "Rotate _counterclockwise"
+msgstr "逆时针旋转"
+
+#: src/layout_util.c:781
+#, fuzzy
+msgid "Rotate 1_80"
+msgstr "旋转 180 度"
+
+#: src/layout_util.c:782 src/menu.c:203
+#, fuzzy
+msgid "_Mirror"
+msgstr "镜像"
+
+#: src/layout_util.c:783 src/menu.c:206
+#, fuzzy
+msgid "_Flip"
+msgstr "翻转"
+
+#: src/layout_util.c:785
+#, fuzzy
+msgid "Select _all"
+msgstr "全选"
+
+#: src/layout_util.c:786
+#, fuzzy
+msgid "Select _none"
+msgstr "清除所有选择"
+
+#: src/layout_util.c:787
+#, fuzzy
+msgid "P_references..."
+msgstr "/编辑/选项(_O)..."
+
+#: src/layout_util.c:788
+msgid "_Thumbnail maintenance..."
+msgstr ""
+
+#: src/layout_util.c:794
+#, fuzzy
+msgid "_Zoom to fit"
+msgstr "/查看/缩放到适当大小(_Z)"
+
+#: src/layout_util.c:795
+#, fuzzy
+msgid "F_ull screen"
+msgstr "全屏"
+
+#: src/layout_util.c:796
+#, fuzzy
+msgid "_Hide file list"
+msgstr "(不)隐藏文件列表"
+
+#: src/layout_util.c:797
+#, fuzzy
+msgid "Toggle _slideshow"
+msgstr "停止播放幻灯片"
+
+#: src/layout_util.c:798
+#, fuzzy
+msgid "_Refresh"
+msgstr "刷新"
+
+#: src/layout_util.c:800
+#, fuzzy
+msgid "_Contents"
+msgstr "/求助/关于(_A)"
+
+#: src/layout_util.c:801
+#, fuzzy
+msgid "_Keyboard shortcuts"
+msgstr "/求助/键盘快捷键(_K)"
+
+#: src/layout_util.c:802
+#, fuzzy
+msgid "_Release notes"
+msgstr "/求助/发行说明(_R)"
+
+#: src/layout_util.c:803
+#, fuzzy
+msgid "_About"
+msgstr "关于"
+
+#: src/layout_util.c:807
+#, fuzzy
+msgid "_Thumbnails"
+msgstr "缩略图"
+
+#: src/layout_util.c:808
+#, fuzzy
+msgid "Tr_ee"
+msgstr "/查看/第三段"
+
+#: src/layout_util.c:809
+#, fuzzy
+msgid "_Float file list"
+msgstr "/查看/(不)浮动文件列表(_F)"
+
+#: src/layout_util.c:810
+#, fuzzy
+msgid "Hide tool_bar"
+msgstr "/查看/片段1"
+
+#: src/layout_util.c:811
+#, fuzzy
+msgid "_Keywords"
+msgstr "尺寸"
+
+#: src/layout_util.c:812
+#, fuzzy
+msgid "E_xif data"
+msgstr "/查看/更新列表(_R)"
+
+#: src/layout_util.c:813
+#, fuzzy
+msgid "Sort _manager"
+msgstr "按名称排序"
+
+#: src/layout_util.c:817
+#, fuzzy
+msgid "_List"
+msgstr "/查看/更新列表(_R)"
+
+#: src/layout_util.c:818
+#, fuzzy
+msgid "I_cons"
+msgstr "尺寸"
+
+#: src/layout_util.c:1083
+#, fuzzy
+msgid "Show thumbnails"
+msgstr "缓存缩略图"
+
+#: src/layout_util.c:1085
+#, fuzzy
+msgid "Change to home folder"
+msgstr "回到家目录"
+
+#: src/layout_util.c:1087
+msgid "Refresh file list"
+msgstr "刷新文件列表"
+
+#: src/layout_util.c:1089
+msgid "Zoom in"
+msgstr "放大"
+
+#: src/layout_util.c:1091
+msgid "Zoom out"
+msgstr "缩小"
+
+#: src/layout_util.c:1093 src/preferences.c:910
+msgid "Fit image to window"
+msgstr "将图像填满窗口"
+
+#: src/layout_util.c:1095
+msgid "Set zoom 1:1"
+msgstr "设置比例 1:1"
+
+#: src/layout_util.c:1097
+msgid "Configure options"
+msgstr "配置选项"
+
+#: src/layout_util.c:1099
+msgid "Float Controls"
+msgstr "浮动控制"
+
+#: src/main.c:266
+msgid "Help - GQview"
+msgstr "求助 - GQview"
+
+#: src/main.c:489 src/main.c:1305
+msgid "Command line"
+msgstr "命令行"
+
+#. short, long                  callback,               extra, prefer,description
+#: src/main.c:527
+#, fuzzy
+msgid "next image"
+msgstr "预先装入下一张图"
+
+#: src/main.c:528
+msgid "previous image"
+msgstr ""
+
+#: src/main.c:529
+#, fuzzy
+msgid "first image"
+msgstr "%d 图像"
+
+#: src/main.c:530
+#, fuzzy
+msgid "last image"
+msgstr "预先装入下一张图"
+
+#: src/main.c:531
+#, fuzzy
+msgid "toggle full screen"
+msgstr "退出全屏"
+
+#: src/main.c:532
+#, fuzzy
+msgid "start full screen"
+msgstr "退出全屏"
+
+#: src/main.c:533
+#, fuzzy
+msgid "stop full screen"
+msgstr "退出全屏"
+
+#: src/main.c:534
+#, fuzzy
+msgid "toggle slide show"
+msgstr "停止播放幻灯片"
+
+#: src/main.c:535
+#, fuzzy
+msgid "start slide show"
+msgstr "开始播放幻灯片"
+
+#: src/main.c:536
+#, fuzzy
+msgid "stop slide show"
+msgstr "停止播放幻灯片"
+
+#: src/main.c:537
+#, fuzzy
+msgid "start recursive slide show"
+msgstr "开始播放幻灯片"
+
+#: src/main.c:538
+msgid "set slide show delay in seconds"
+msgstr ""
+
+#: src/main.c:539
+msgid "show tools"
+msgstr ""
+
+#: src/main.c:540
+#, fuzzy
+msgid "hide tools"
+msgstr "GQview 工具栏"
+
+#: src/main.c:541
+msgid "quit"
+msgstr ""
+
+#: src/main.c:542
+#, fuzzy
+msgid "open file"
+msgstr ""
+"将文件：\n"
+"%s\n"
+"重命名为："
+
+#: src/main.c:543
+#, fuzzy
+msgid "open file in new window"
+msgstr "在新窗口中查看"
+
+#: src/main.c:609
+msgid "Remote command list:\n"
+msgstr ""
+
+#: src/main.c:667
+msgid "Remote GQview not running, starting..."
+msgstr ""
+
+#: src/main.c:802
+msgid "Remote not available\n"
+msgstr ""
+
+#: src/main.c:944
+msgid ""
+"Usage: gqview [options] [path]\n"
+"\n"
+msgstr ""
+"用法: gqview [选项] [路径]\n"
+"\n"
+
+#: src/main.c:945
+msgid "valid options are:\n"
+msgstr "有效的选项为：\n"
+
+#: src/main.c:946
+msgid "  +t, --with-tools           force show of tools\n"
+msgstr "  +t, --with-tools           强行显示工具\n"
+
+#: src/main.c:947
+msgid "  -t, --without-tools        force hide of tools\n"
+msgstr "  -t, --without-tools        强行隐藏工具\n"
+
+#: src/main.c:948
+msgid "  -f, --fullscreen           start in full screen mode\n"
+msgstr "  -f, --fullscreen           以全屏模式启动\n"
+
+#: src/main.c:949
+msgid "  -s, --slideshow            start in slideshow mode\n"
+msgstr "  -s, --slidehosw            以幻灯模式启动\n"
+
+#: src/main.c:950
+msgid "  -l, --list                 open collection window for command line\n"
+msgstr "  -l, --list                 为命令行开启图像集窗口\n"
+
+#: src/main.c:951
+#, fuzzy
+msgid "  -r, --remote               send following commands to open window\n"
+msgstr "  -l, --list                 为命令行开启图像集窗口\n"
+
+#: src/main.c:952
+msgid "  -rh,--remote-help          print remote command list\n"
+msgstr ""
+
+#: src/main.c:953
+msgid "  --debug                    turn on debug output\n"
+msgstr "  --debug                    打开调试信息输出\n"
+
+#: src/main.c:954
+msgid "  -v, --version              print version info\n"
+msgstr "  -v, --version              打印版本信息\n"
+
+#: src/main.c:955
+msgid ""
+"  -h, --help                 show this message\n"
+"\n"
+msgstr ""
+"  -h, --help                 显示该消息\n"
+"\n"
+
+#: src/main.c:969
+#, c-format
+msgid ""
+"invalid or ignored: %s\n"
+"Use --help for options\n"
+msgstr ""
+"无效或忽略：%s\n"
+"使用 --help 查看选项\n"
+
+#: src/main.c:1034
+#, c-format
+msgid "Creating GQview dir:%s\n"
+msgstr "正在创建 GQview 目录：%s\n"
+
+#: src/main.c:1040
+#, c-format
+msgid "Could not create dir:%s\n"
+msgstr "无法创建目录：%s\n"
+
+#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1043
+msgid "Home"
+msgstr "家"
+
+#: src/main.c:1063 src/ui_bookmark.c:865
+#, fuzzy
+msgid "Desktop"
+msgstr "到："
+
+#: src/main.c:1152
+msgid "GQview - exit"
+msgstr "GQview - 退出"
+
+#: src/main.c:1156
+#, fuzzy
+msgid "Quit GQview"
+msgstr "求助 - GQview"
+
+#: src/main.c:1156
+#, fuzzy
+msgid "Collections have been modified. Quit anyway?"
+msgstr ""
+"图像集已经被改变。\n"
+"强行退出？"
+
+#: src/menu.c:115
+#, fuzzy
+msgid "Sort by size"
+msgstr "按大小排序"
+
+#: src/menu.c:118
+#, fuzzy
+msgid "Sort by date"
+msgstr "按日期排序"
+
+#: src/menu.c:121
+msgid "Unsorted"
+msgstr "未排序"
+
+#: src/menu.c:124
+#, fuzzy
+msgid "Sort by path"
+msgstr "按路径排序"
+
+#: src/menu.c:127
+#, fuzzy
+msgid "Sort by number"
+msgstr "按编号排序"
+
+#: src/menu.c:131
+#, fuzzy
+msgid "Sort by name"
+msgstr "按名称排序"
+
+#: src/menu.c:175
+msgid "Sort"
+msgstr "排序"
+
+#: src/menu.c:200
+#, fuzzy
+msgid "Rotate _180"
+msgstr "旋转 180 度"
+
+#: src/preferences.c:384
+msgid "Nearest (worst, but fastest)"
+msgstr "最近 (最糟，但最快)"
+
+#: src/preferences.c:386
+msgid "Tiles"
+msgstr "平铺"
+
+#: src/preferences.c:388
+msgid "Bilinear"
+msgstr "双线性"
+
+#: src/preferences.c:390
+msgid "Hyper (best, but slowest)"
+msgstr "超级 (最好，但最慢)"
+
+#: src/preferences.c:418
+msgid "None"
+msgstr "无"
+
+#: src/preferences.c:419
+msgid "Normal"
+msgstr "普通"
+
+#: src/preferences.c:420
+msgid "Best"
+msgstr "最佳"
+
+#: src/preferences.c:498 src/print.c:365
+msgid "Custom"
+msgstr ""
+
+#: src/preferences.c:662 src/preferences.c:665
+#, fuzzy
+msgid "Reset filters"
+msgstr "删除文件"
+
+#: src/preferences.c:666
+msgid ""
+"This will reset the file filters to the defaults.\n"
+"Continue?"
+msgstr ""
+
+#: src/preferences.c:699 src/preferences.c:702
+#, fuzzy
+msgid "Reset editors"
+msgstr "删除文件"
+
+#: src/preferences.c:703
+msgid ""
+"This will reset the edit commands to the defaults.\n"
+"Continue?"
+msgstr ""
+
+#: src/preferences.c:727 src/preferences.c:730
+#, fuzzy
+msgid "Clear trash"
+msgstr "清除缓冲区"
+
+#: src/preferences.c:731
+msgid "This will remove the trash contents."
+msgstr ""
+
+#: src/preferences.c:770
+#, fuzzy
+msgid "GQview Preferences"
+msgstr "GQview - 重命名"
+
+#: src/preferences.c:824
+msgid "Startup"
+msgstr ""
+
+#: src/preferences.c:826
+#, fuzzy
+msgid "Change to folder:"
+msgstr "回到家目录"
+
+#: src/preferences.c:837
+msgid "Use current"
+msgstr "使用当前目录"
+
+#: src/preferences.c:843 src/print.c:3201 src/print.c:3408
+msgid "Size:"
+msgstr "大小："
+
+#: src/preferences.c:844 src/preferences.c:890
+msgid "Quality:"
+msgstr "品质："
+
+#: src/preferences.c:846
+msgid "Cache thumbnails"
+msgstr "缓存缩略图"
+
+#: src/preferences.c:852
+msgid "Use shared thumbnail cache"
+msgstr ""
+
+#: src/preferences.c:858
+msgid "Cache thumbnails into .thumbnails"
+msgstr "将缩略图缓存到 .thumbnails 中"
+
+#: src/preferences.c:861
+msgid "Use xvpics thumbnails when found (read only)"
+msgstr "如果找到xvpics缩略图即使用(只读)"
+
+#: src/preferences.c:864
+msgid "Slide show"
+msgstr "展示幻灯片"
+
+#: src/preferences.c:867
+#, fuzzy
+msgid "Delay between image change:"
+msgstr "图像改变时间间隔(秒)："
+
+#: src/preferences.c:867
+msgid "seconds"
+msgstr ""
+
+#: src/preferences.c:873
+msgid "Random"
+msgstr "随机"
+
+#: src/preferences.c:874
+msgid "Repeat"
+msgstr "重复"
+
+#: src/preferences.c:884
+#, fuzzy
+msgid "Zoom"
+msgstr "放大"
+
+#: src/preferences.c:887
+msgid "Dithering method:"
+msgstr "抖动方法："
+
+#: src/preferences.c:892
+msgid "Two pass zooming"
+msgstr ""
+
+#: src/preferences.c:895
+#, fuzzy
+msgid "Allow enlargement of image for zoom to fit."
+msgstr "为缩放扩展图像以便匹配。"
+
+#: src/preferences.c:899
+msgid "Zoom increment:"
+msgstr "缩放增量："
+
+#: src/preferences.c:904
+msgid "When new image is selected:"
+msgstr "当选择新图像时："
+
+#: src/preferences.c:907
+msgid "Zoom to original size"
+msgstr "缩放到原尺寸"
+
+#: src/preferences.c:913
+msgid "Leave Zoom at previous setting"
+msgstr "保留上一次的缩放设置"
+
+#: src/preferences.c:917
+#, fuzzy
+msgid "Appearance"
+msgstr "追加"
+
+#: src/preferences.c:919
+msgid "Black background"
+msgstr ""
+
+#: src/preferences.c:922
+#, fuzzy
+msgid "Convenience"
+msgstr "继续"
+
+#: src/preferences.c:924
+#, fuzzy
+msgid "Refresh on file change"
+msgstr "刷新文件列表"
+
+#: src/preferences.c:926
+msgid "Preload next image"
+msgstr "预先装入下一张图"
+
+#: src/preferences.c:928
+msgid "Auto rotate image using Exif information"
+msgstr ""
+
+#: src/preferences.c:937
+msgid "Windows"
+msgstr "窗口"
+
+#: src/preferences.c:940
+#, fuzzy
+msgid "State"
+msgstr "日期"
+
+#: src/preferences.c:942
+msgid "Remember window positions"
+msgstr "记住窗口位置"
+
+#: src/preferences.c:944
+msgid "Remember tool state (float/hidden)"
+msgstr "记住工具栏状态(浮动/隐藏)"
+
+#: src/preferences.c:949
+msgid "Fit window to image when tools are hidden/floating"
+msgstr "当工具档隐藏/浮动时,使窗口适应图像"
+
+#: src/preferences.c:953
+msgid "Limit size when auto-sizing window (%):"
+msgstr "自动改变窗口大小时限制尺寸 (%)："
+
+#: src/preferences.c:960 src/print.c:3356 src/print.c:3363
+msgid "Layout"
+msgstr ""
+
+#: src/preferences.c:973
+msgid "Filtering"
+msgstr "过滤"
+
+#: src/preferences.c:978
+msgid "Show entries that begin with a dot"
+msgstr "显示隐藏文件"
+
+#: src/preferences.c:980
+msgid "Case sensitive sort"
+msgstr ""
+
+#: src/preferences.c:983
+msgid "Disable File Filtering"
+msgstr "禁止文件过滤"
+
+#: src/preferences.c:986
+#, fuzzy
+msgid "File types"
+msgstr "过滤器："
+
+#: src/preferences.c:1008
+#, fuzzy
+msgid "Filter"
+msgstr "过滤器："
+
+#: src/preferences.c:1045 src/preferences.c:1109
+msgid "Defaults"
+msgstr ""
+
+#: src/preferences.c:1066
+msgid "Editors"
+msgstr "编辑器"
+
+#: src/preferences.c:1072
+msgid "#"
+msgstr "#"
+
+#: src/preferences.c:1075
+msgid "Menu name"
+msgstr "菜单名"
+
+#: src/preferences.c:1125
+msgid "Advanced"
+msgstr ""
+
+#: src/preferences.c:1138
+#, fuzzy
+msgid "Full screen"
+msgstr "全屏"
+
+#: src/preferences.c:1146
+#, fuzzy
+msgid "Smooth image flip"
+msgstr "图像"
+
+#: src/preferences.c:1148
+msgid "Disable screen saver"
+msgstr ""
+
+#: src/preferences.c:1151
+msgid "Delete"
+msgstr "删除"
+
+#: src/preferences.c:1153
+msgid "Confirm file delete"
+msgstr "确认删除文件"
+
+#: src/preferences.c:1155
+msgid "Enable Delete key"
+msgstr "启用删除键"
+
+#: src/preferences.c:1158
+#, fuzzy
+msgid "Safe delete"
+msgstr "确认删除文件"
+
+#: src/preferences.c:1176
+#, fuzzy
+msgid "Maximum size:"
+msgstr "平铺"
+
+#: src/preferences.c:1176
+msgid "MB"
+msgstr ""
+
+#: src/preferences.c:1179
+msgid "View"
+msgstr "查看"
+
+#: src/preferences.c:1189
+msgid "Behavior"
+msgstr ""
+
+#: src/preferences.c:1191
+#, fuzzy
+msgid "Rectangular selection in icon view"
+msgstr "正方形选择"
+
+#: src/preferences.c:1194
+msgid "Descend folders in tree view"
+msgstr ""
+
+#: src/preferences.c:1197
+msgid "In place renaming"
+msgstr "即时重命名"
+
+#: src/preferences.c:1200
+msgid "Navigation"
+msgstr ""
+
+#: src/preferences.c:1202
+msgid "Progressive keyboard scrolling"
+msgstr "累进键盘滚动"
+
+#: src/preferences.c:1204
+msgid "Mouse wheel scrolls image"
+msgstr "用鼠标轮滚动图像"
+
+#: src/preferences.c:1207
+msgid "Miscellaneous"
+msgstr ""
+
+#: src/preferences.c:1209
+msgid "Store keywords and comments local to source images"
+msgstr ""
+
+#: src/preferences.c:1212
+#, fuzzy
+msgid "Custom similarity threshold:"
+msgstr "定制文件类型："
+
+#: src/preferences.c:1215
+msgid "Offscreen cache size (Mb per image):"
+msgstr "非屏幕缓冲区大小 (每个图像的 Mb 数)："
+
+#: src/preferences.c:1291
+#, fuzzy
+msgid "About - GQview"
+msgstr "求助 - GQview"
+
+#: src/preferences.c:1304
+#, fuzzy, c-format
+msgid ""
+"GQview %s\n"
+"\n"
+"Copyright (c) %s John Ellis\n"
+"website: %s\n"
+"email: %s\n"
+"\n"
+"Released under the GNU General Public License"
+msgstr ""
+"GQview %s\n"
+"\n"
+"版权所有 (c) 2003 John Ellis\n"
+"http://gqview.sourceforge.net\n"
+"gqview@users.sourceforge.net\n"
+"\n"
+"按通用公共许可证发行"
+
+#: src/preferences.c:1322
+#, fuzzy
+msgid "Credits..."
+msgstr "/编辑/选项(_O)..."
+
+#: src/print.c:111
+#, fuzzy
+msgid "Selection"
+msgstr "清除所有选择"
+
+#: src/print.c:112
+msgid "All"
+msgstr ""
+
+#: src/print.c:123
+msgid "One image per page"
+msgstr ""
+
+#: src/print.c:124
+msgid "Proof sheet"
+msgstr ""
+
+#: src/print.c:137
+msgid "Default printer"
+msgstr ""
+
+#: src/print.c:138
+#, fuzzy
+msgid "Custom printer"
+msgstr "定制文件类型："
+
+#: src/print.c:139
+msgid "PostScript file"
+msgstr ""
+
+#: src/print.c:140
+#, fuzzy
+msgid "Image file"
+msgstr "图像"
+
+#: src/print.c:154
+msgid "jpeg, low quality"
+msgstr ""
+
+#: src/print.c:155
+msgid "jpeg, normal quality"
+msgstr ""
+
+#: src/print.c:156
+msgid "jpeg, high quality"
+msgstr ""
+
+#: src/print.c:350 src/print.c:3201
+#, fuzzy
+msgid "points"
+msgstr "Xpaint"
+
+#: src/print.c:351
+msgid "millimeters"
+msgstr ""
+
+#: src/print.c:352
+msgid "centimeters"
+msgstr ""
+
+#: src/print.c:353
+msgid "inches"
+msgstr ""
+
+#: src/print.c:354
+msgid "picas"
+msgstr ""
+
+#: src/print.c:359
+msgid "Portrait"
+msgstr ""
+
+#: src/print.c:360
+msgid "Landscape"
+msgstr ""
+
+#: src/print.c:366
+msgid "Letter"
+msgstr ""
+
+#. in 8.5 x 11
+#: src/print.c:367
+msgid "Legal"
+msgstr ""
+
+#. in 8.5 x 14
+#: src/print.c:368
+msgid "Executive"
+msgstr ""
+
+#. in 7.25x 10.5
+#. mm 841 x 1189
+#. mm 594 x 841
+#. mm 420 x 594
+#. mm 297 x 420
+#. mm 210 x 297
+#. mm 148 x 210
+#. mm 105 x 148
+#. mm 353 x 500
+#. mm 250 x 353
+#. mm 176 x 250
+#. mm 125 x 176
+#: src/print.c:380
+msgid "Envelope #10"
+msgstr ""
+
+#. in 4.125 x 9.5
+#: src/print.c:381
+msgid "Envelope #9"
+msgstr ""
+
+#. in 3.875 x 8.875
+#: src/print.c:382
+msgid "Envelope C4"
+msgstr ""
+
+#. mm 229 x 324
+#: src/print.c:383
+msgid "Envelope C5"
+msgstr ""
+
+#. mm 162 x 229
+#: src/print.c:384
+msgid "Envelope C6"
+msgstr ""
+
+#. mm 114 x 162
+#: src/print.c:385
+msgid "Photo 6x4"
+msgstr ""
+
+#. in 6   x 4
+#: src/print.c:386
+msgid "Photo 8x10"
+msgstr ""
+
+#. in 8   x 10
+#: src/print.c:387
+msgid "Postcard"
+msgstr ""
+
+#. mm 100 x 148
+#: src/print.c:388
+msgid "Tabloid"
+msgstr ""
+
+#: src/print.c:544
+#, c-format
+msgid "page %d of %d"
+msgstr ""
+
+#: src/print.c:736 src/utilops.c:2067
+msgid "Preview"
+msgstr ""
+
+#: src/print.c:1044
+#, c-format
+msgid ""
+"Unable to open pipe for writing.\n"
+"\"%s\""
+msgstr ""
+
+#: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:424
+#: src/view_file_list.c:453
+#, fuzzy, c-format
+msgid "A file with name %s already exists."
+msgstr "文件名 %s 已存在。"
+
+#: src/print.c:1074 src/print.c:1543
+#, c-format
+msgid "Failure writing to file %s"
+msgstr ""
+
+#: src/print.c:1128 src/print.c:1165 src/print.c:1201 src/print.c:1307
+#: src/print.c:1398 src/print.c:1429
+msgid "SIGPIPE error writing to printer."
+msgstr ""
+
+#: src/print.c:1964
+#, c-format
+msgid "Page %d"
+msgstr ""
+
+#: src/print.c:1986 src/print.c:1991
+#, fuzzy
+msgid "Printing error"
+msgstr "过滤器："
+
+#: src/print.c:1990
+#, c-format
+msgid "An error occured printing to %s."
+msgstr ""
+
+#: src/print.c:1994
+#, fuzzy
+msgid "Details"
+msgstr "删除文件"
+
+#: src/print.c:2587 src/print.c:3332
+#, fuzzy
+msgid "Print - GQview"
+msgstr "求助 - GQview"
+
+#: src/print.c:2591
+#, c-format
+msgid "Printing %d pages to %s."
+msgstr ""
+
+#: src/print.c:2691
+#, fuzzy
+msgid "Format:"
+msgstr "普通"
+
+#: src/print.c:2766
+msgid "Units:"
+msgstr ""
+
+#: src/print.c:2810
+#, fuzzy
+msgid "Orientation:"
+msgstr "尺寸"
+
+#: src/print.c:2942
+#, fuzzy
+msgid "Destination:"
+msgstr "无效的目标"
+
+#: src/print.c:2990
+#, fuzzy
+msgid "<printer name>"
+msgstr "重命名："
+
+#: src/print.c:3079
+#, fuzzy
+msgid "Unlimited"
+msgstr "无标题"
+
+#: src/print.c:3188
+msgid "Show"
+msgstr ""
+
+#: src/print.c:3199
+#, fuzzy
+msgid "Font"
+msgstr "无"
+
+#: src/print.c:3359
+#, fuzzy
+msgid "Source"
+msgstr "排序"
+
+#: src/print.c:3375
+#, fuzzy
+msgid "Proof size:"
+msgstr "图像"
+
+#: src/print.c:3391
+msgid "Text"
+msgstr ""
+
+#: src/print.c:3401
+#, fuzzy
+msgid "Paper"
+msgstr "过滤器："
+
+#: src/print.c:3424
+msgid "Margins"
+msgstr ""
+
+#: src/print.c:3426
+msgid "Left:"
+msgstr ""
+
+#: src/print.c:3429
+msgid "Right:"
+msgstr ""
+
+#: src/print.c:3432
+msgid "Top:"
+msgstr ""
+
+#: src/print.c:3435
+#, fuzzy
+msgid "Bottom:"
+msgstr "到："
+
+#: src/print.c:3444
+#, fuzzy
+msgid "Printer"
+msgstr "过滤器："
+
+#: src/print.c:3450
+#, fuzzy
+msgid "Custom printer:"
+msgstr "定制文件类型："
+
+#: src/print.c:3459
+#, fuzzy
+msgid "File:"
+msgstr "过滤器："
+
+#: src/print.c:3468
+#, fuzzy
+msgid "File format:"
+msgstr "过滤器："
+
+#: src/print.c:3473
+msgid "DPI:"
+msgstr ""
+
+#: src/print.c:3481
+#, fuzzy
+msgid "Remember print settings"
+msgstr "记住窗口位置"
+
+#: src/rcfile.c:185
+#, c-format
+msgid "error saving config file: %s\n"
+msgstr "保存配置文件出错：%s\n"
+
+#: src/search.c:200
+#, fuzzy
+msgid "folder"
+msgstr "平铺"
+
+#: src/search.c:201
+#, fuzzy
+msgid "comments"
+msgstr "添加内容"
+
+#: src/search.c:202
+msgid "results"
+msgstr ""
+
+#: src/search.c:206
+#, fuzzy
+msgid "contains"
+msgstr "继续"
+
+#: src/search.c:207
+msgid "is"
+msgstr ""
+
+#: src/search.c:211 src/search.c:218
+msgid "equal to"
+msgstr ""
+
+#: src/search.c:212
+msgid "less than"
+msgstr ""
+
+#: src/search.c:213
+#, fuzzy
+msgid "greater than"
+msgstr "创建缩略图"
+
+#: src/search.c:214 src/search.c:221
+msgid "between"
+msgstr ""
+
+#: src/search.c:219
+msgid "before"
+msgstr ""
+
+#: src/search.c:220
+#, fuzzy
+msgid "after"
+msgstr "过滤器："
+
+#: src/search.c:225
+msgid "match all"
+msgstr ""
+
+#: src/search.c:226
+msgid "match any"
+msgstr ""
+
+#: src/search.c:227
+msgid "exclude"
+msgstr ""
+
+#: src/search.c:277
+#, fuzzy, c-format
+msgid "%s, %d files (%s, %d)"
+msgstr "%d 文件 (%d)%s"
+
+#: src/search.c:284
+#, fuzzy, c-format
+msgid "%s, %d files"
+msgstr "%d 文件%s"
+
+#: src/search.c:301
+#, fuzzy
+msgid "Searching..."
+msgstr "正在比较..."
+
+#: src/search.c:2093
+msgid "File not found"
+msgstr ""
+
+#: src/search.c:2094
+#, fuzzy
+msgid "Please enter an existing file for image content."
+msgstr "请选择一个已存在的目录"
+
+#: src/search.c:2140
+msgid "Folder not found"
+msgstr ""
+
+#: src/search.c:2141
+#, fuzzy
+msgid "Please enter an existing folder to search."
+msgstr "请选择一个已存在的目录"
+
+#: src/search.c:2570
+msgid "Image search - GQview"
+msgstr ""
+
+#: src/search.c:2599
+#, fuzzy
+msgid "Search:"
+msgstr "正在比较..."
+
+#: src/search.c:2613
+msgid "Recurse"
+msgstr ""
+
+#: src/search.c:2617
+#, fuzzy
+msgid "File name"
+msgstr "重命名："
+
+#: src/search.c:2623
+msgid "Match case"
+msgstr ""
+
+#: src/search.c:2627
+#, fuzzy
+msgid "File size is"
+msgstr "平铺"
+
+#: src/search.c:2634 src/search.c:2649 src/search.c:2667
+#, fuzzy
+msgid "and"
+msgstr "随机"
+
+#: src/search.c:2639
+#, fuzzy
+msgid "File date is"
+msgstr "过滤器："
+
+#: src/search.c:2656
+#, fuzzy
+msgid "Image dimensions are"
+msgstr "无效的目标"
+
+#: src/search.c:2676
+#, fuzzy
+msgid "Image content is"
+msgstr "添加内容"
+
+#: src/search.c:2682
+#, fuzzy, no-c-format
+msgid "% similar to"
+msgstr "相似性"
+
+#: src/search.c:2751
+#, fuzzy
+msgid "Rank"
+msgstr "随机"
+
+#: src/thumb.c:378
+msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
+msgstr "装入缓冲的缩略图失败，正试图重建。\n"
+
+#: src/ui_bookmark.c:148
+#, c-format
+msgid "Unable to write history lists to: %s\n"
+msgstr "无法将历史列表写入：%s\n"
+
+#: src/ui_bookmark.c:445 src/ui_bookmark.c:508
+msgid "New Bookmark"
+msgstr ""
+
+#: src/ui_bookmark.c:591 src/ui_bookmark.c:597
+#, fuzzy
+msgid "Edit Bookmark"
+msgstr "编辑器"
+
+#: src/ui_bookmark.c:612
+#, fuzzy
+msgid "Path:"
+msgstr "路径"
+
+#: src/ui_bookmark.c:621
+msgid "Icon:"
+msgstr ""
+
+#: src/ui_bookmark.c:627
+#, fuzzy
+msgid "Select icon"
+msgstr "清除所有选择"
+
+#: src/ui_bookmark.c:718
+#, fuzzy
+msgid "_Properties..."
+msgstr "/编辑/选项(_O)..."
+
+#: src/ui_bookmark.c:720
+#, fuzzy
+msgid "Move _up"
+msgstr "移动"
+
+#: src/ui_bookmark.c:722
+#, fuzzy
+msgid "Move _down"
+msgstr "移动"
+
+#: src/ui_bookmark.c:724
+#, fuzzy
+msgid "_Remove"
+msgstr "删除"
+
+#: src/ui_help.c:111
+#, c-format
+msgid ""
+"Unable to load:\n"
+"%s"
+msgstr ""
+"无法装入：\n"
+"%s"
+
+#: src/ui_pathsel.c:430 src/view_dir_list.c:97 src/view_dir_tree.c:204
+#, c-format
+msgid "Failed to rename %s to %s."
+msgstr "将 %s 重命名为 %s 失败。"
+
+#: src/ui_pathsel.c:486 src/utilops.c:1288 src/utilops.c:1461
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+"%s"
+msgstr ""
+"无法删除文件：\n"
+"%s"
+
+#: src/ui_pathsel.c:487 src/utilops.c:1462
+msgid "File deletion failed"
+msgstr "文件删除失败"
+
+#: src/ui_pathsel.c:529 src/ui_pathsel.c:537
+msgid "Delete file"
+msgstr "删除文件"
+
+#: src/ui_pathsel.c:535
+#, c-format
+msgid ""
+"About to delete the file:\n"
+" %s"
+msgstr ""
+"将要删除文件：\n"
+" %s"
+
+#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2035
+#: src/utilops.c:2255
+#, fuzzy
+msgid "_Rename"
+msgstr "重命名"
+
+#: src/ui_pathsel.c:628 src/ui_pathsel.c:638
+#, fuzzy
+msgid "Add _Bookmark"
+msgstr "编辑器"
+
+#: src/ui_pathsel.c:636
+#, fuzzy
+msgid "_Delete"
+msgstr "删除"
+
+#: src/ui_pathsel.c:740 src/ui_pathsel.c:1045
+#, fuzzy
+msgid "New folder"
+msgstr "求助 - GQview"
+
+#: src/ui_pathsel.c:750 src/utilops.c:2325 src/view_dir_list.c:338
+#: src/view_dir_tree.c:434
+#, fuzzy, c-format
+msgid ""
+"Unable to create folder:\n"
+"%s"
+msgstr ""
+"无法创建目录：\n"
+"%s"
+
+#: src/ui_pathsel.c:751 src/utilops.c:2326 src/view_dir_list.c:339
+#: src/view_dir_tree.c:435
+#, fuzzy
+msgid "Error creating folder"
+msgstr "创建目录错误"
+
+#: src/ui_pathsel.c:972
+msgid "All Files"
+msgstr "所有文件"
+
+#: src/ui_pathsel.c:1048
+msgid "Show hidden"
+msgstr "显示隐藏文件"
+
+#: src/ui_pathsel.c:1132
+msgid "Filter:"
+msgstr "过滤器："
+
+#: src/ui_tabcomp.c:840
+#, fuzzy
+msgid "Select path"
+msgstr "全选"
+
+#: src/ui_tabcomp.c:856
+#, fuzzy
+msgid "All files"
+msgstr "所有文件"
+
+#: src/utilops.c:470 src/utilops.c:783 src/utilops.c:1640 src/utilops.c:2187
+msgid "Overwrite file"
+msgstr "覆盖文件"
+
+#: src/utilops.c:475 src/utilops.c:788 src/utilops.c:1645 src/utilops.c:2192
+#, fuzzy
+msgid "Overwrite file?"
+msgstr "覆盖文件"
+
+#: src/utilops.c:476 src/utilops.c:789
+msgid "Replace existing file with new file."
+msgstr ""
+
+#: src/utilops.c:480
+#, fuzzy
+msgid "Overwrite _all"
+msgstr "覆盖文件"
+
+#: src/utilops.c:482
+#, fuzzy
+msgid "S_kip all"
+msgstr "跳过"
+
+#: src/utilops.c:483
+#, fuzzy
+msgid "_Skip"
+msgstr "跳过"
+
+#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+#, fuzzy
+msgid "Existing file"
+msgstr "移动文件错误"
+
+#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+#, fuzzy
+msgid "New file"
+msgstr "求助 - GQview"
+
+#: src/utilops.c:494 src/utilops.c:802 src/utilops.c:1746 src/utilops.c:1810
+#: src/utilops.c:2101
+#, fuzzy
+msgid "Auto rename"
+msgstr "菜单名"
+
+#: src/utilops.c:502 src/utilops.c:810
+msgid "Rename"
+msgstr "重命名"
+
+#: src/utilops.c:543
+msgid "Source to copy matches destination"
+msgstr "复制的源与目标相同"
+
+#: src/utilops.c:544
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to itself."
+msgstr ""
+"无法将文件：\n"
+"%s\n"
+"复制到自身。"
+
+#: src/utilops.c:548
+msgid "Source to move matches destination"
+msgstr "移动的源与目标相同"
+
+#: src/utilops.c:549
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to itself."
+msgstr ""
+"无法将文件：\n"
+"%s\n"
+"移动到自身。"
+
+#: src/utilops.c:557 src/utilops.c:644 src/utilops.c:1280
+#, fuzzy
+msgid "Co_ntinue"
+msgstr "继续"
+
+#: src/utilops.c:630 src/utilops.c:850
+msgid "Error copying file"
+msgstr "复制文件错误"
+
+#: src/utilops.c:631
+#, fuzzy, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s\n"
+"during multiple file copy."
+msgstr ""
+"在多文件复制时，无法将：\n"
+"%s 复制到：\n"
+"%s\n"
+"。"
+
+#: src/utilops.c:635 src/utilops.c:855
+msgid "Error moving file"
+msgstr "移动文件错误"
+
+#: src/utilops.c:636
+#, fuzzy, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s\n"
+"during multiple file move."
+msgstr ""
+"在多文件移动时，无法将\n"
+"%s 移动到：\n"
+"%s\n"
+"。"
+
+#: src/utilops.c:774
+msgid "Source matches destination"
+msgstr "源与目标相同"
+
+#: src/utilops.c:775
+msgid "Source and destination are the same, operation cancelled."
+msgstr "源和目标相同，操作放弃。"
+
+#: src/utilops.c:851
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"无法将文件：\n"
+"%s\n"
+"复制到：\n"
+"%s"
+
+#: src/utilops.c:856
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"无法将文件：\n"
+"%s\n"
+"移动到：\n"
+"%s"
+
+#: src/utilops.c:899
+msgid "Invalid destination"
+msgstr "无效的目标"
+
+#: src/utilops.c:900
+#, fuzzy
+msgid ""
+"When operating with multiple files, please select\n"
+"a folder, not a file."
+msgstr ""
+"对于多文件操作，请选择目录，\n"
+"而不是文件。"
+
+#: src/utilops.c:905
+#, fuzzy
+msgid "Please select an existing folder."
+msgstr "请选择一个已存在的目录"
+
+#: src/utilops.c:956
+#, fuzzy
+msgid "Copy - GQview"
+msgstr "求助 - GQview"
+
+#: src/utilops.c:957 src/view_dir_list.c:217 src/view_dir_tree.c:309
+#, fuzzy
+msgid "_Copy"
+msgstr "复制"
+
+#: src/utilops.c:960
+#, fuzzy
+msgid "Copy file"
+msgstr ""
+"将文件：\n"
+"%s\n"
+"重命名为："
+
+#: src/utilops.c:964
+#, fuzzy
+msgid "Copy multiple files"
+msgstr "将多个文件复制到："
+
+#: src/utilops.c:970
+#, fuzzy
+msgid "Move - GQview"
+msgstr "求助 - GQview"
+
+#: src/utilops.c:971 src/view_dir_list.c:219 src/view_dir_tree.c:311
+#, fuzzy
+msgid "_Move"
+msgstr "移动"
+
+#: src/utilops.c:974
+#, fuzzy
+msgid "Move file"
+msgstr ""
+"将文件：\n"
+"%s\n"
+"重命名为："
+
+#: src/utilops.c:978
+#, fuzzy
+msgid "Move multiple files"
+msgstr "将多个文件移动到："
+
+#: src/utilops.c:992 src/utilops.c:1502
+#, fuzzy
+msgid "File name:"
+msgstr "重命名："
+
+#: src/utilops.c:996
+#, fuzzy
+msgid "Choose the destination folder."
+msgstr "源与目标相同"
+
+#: src/utilops.c:1123 src/utilops.c:1272 src/utilops.c:1289
+msgid "Delete failed"
+msgstr "删除失败"
+
+#: src/utilops.c:1124
+#, fuzzy
+msgid "Unable to remove old file from trash folder"
+msgstr ""
+"无法将文件：\n"
+"%s\n"
+"移动到自身。"
+
+#: src/utilops.c:1180 src/utilops.c:2318
+#, fuzzy
+msgid "Could not create folder"
+msgstr "无法创建目录"
+
+#: src/utilops.c:1202
+msgid "Permission denied"
+msgstr ""
+
+#: src/utilops.c:1212
+#, fuzzy, c-format
+msgid ""
+"Unable to access or create the trash folder.\n"
+"\"%s\""
+msgstr ""
+"无法创建目录：\n"
+"%s"
+
+#: src/utilops.c:1216
+#, fuzzy
+msgid "Turn off safe delete"
+msgstr "确认删除文件"
+
+#: src/utilops.c:1234
+#, fuzzy, c-format
+msgid "Safe delete: %s"
+msgstr "确认删除文件"
+
+#: src/utilops.c:1276
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+" %s\n"
+" Continue multiple delete operation?"
+msgstr ""
+"无法删除文件：\n"
+" %s\n"
+" 继续进行多文件删除操作？"
+
+#: src/utilops.c:1347
+#, c-format
+msgid "File %d of %d"
+msgstr ""
+
+#: src/utilops.c:1416
+#, fuzzy
+msgid "Delete files - GQview"
+msgstr "删除文件"
+
+#: src/utilops.c:1420
+#, fuzzy
+msgid "Delete multiple files"
+msgstr "重命名多个文件："
+
+#: src/utilops.c:1438
+#, fuzzy, c-format
+msgid "Review %d files"
+msgstr "%d 文件"
+
+#: src/utilops.c:1494
+#, fuzzy
+msgid "Delete file - GQview"
+msgstr "删除文件"
+
+#: src/utilops.c:1498
+#, fuzzy
+msgid "Delete file?"
+msgstr "删除文件"
+
+#: src/utilops.c:1646 src/utilops.c:2193
+msgid "Replace existing file by renaming new file."
+msgstr ""
+
+#: src/utilops.c:1661
+#, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+" to:\n"
+"%s"
+msgstr ""
+"无法将文件：\n"
+"%s\n"
+" 重命名为：\n"
+"%s"
+
+#: src/utilops.c:1664 src/utilops.c:2208 src/view_file_list.c:448
+#: src/view_file_list.c:454 src/view_file_list.c:460
+msgid "Error renaming file"
+msgstr "重命名文件错误"
+
+#: src/utilops.c:1747
+msgid ""
+"Can not auto rename with the selected\n"
+"number set, one or more files exist that\n"
+"match the resulting name list.\n"
+msgstr ""
+
+#: src/utilops.c:1809
+#, fuzzy, c-format
+msgid ""
+"Failed to rename\n"
+"%s\n"
+"The number was %d."
+msgstr "将 %s 重命名为 %s 失败。"
+
+#: src/utilops.c:2031 src/utilops.c:2249
+#, fuzzy
+msgid "Rename - GQview"
+msgstr "求助 - GQview"
+
+#: src/utilops.c:2034
+#, fuzzy
+msgid "Rename multiple files"
+msgstr "重命名多个文件："
+
+#: src/utilops.c:2066
+msgid "Original Name"
+msgstr ""
+
+#: src/utilops.c:2110 src/utilops.c:2262
+#, fuzzy
+msgid "Original name:"
+msgstr "重命名："
+
+#: src/utilops.c:2113 src/utilops.c:2265
+#, fuzzy
+msgid "New name:"
+msgstr "重命名："
+
+#: src/utilops.c:2128
+msgid "Begin text"
+msgstr ""
+
+#: src/utilops.c:2136
+msgid "Start #"
+msgstr ""
+
+#: src/utilops.c:2142
+msgid "End text"
+msgstr ""
+
+#: src/utilops.c:2150
+msgid "Padding:"
+msgstr ""
+
+#: src/utilops.c:2207 src/view_file_list.c:459
+#, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"无法将文件：\n"
+"%s\n"
+"重命名为：\n"
+"%s"
+
+#: src/utilops.c:2252
+#, fuzzy
+msgid "Rename file"
+msgstr ""
+"将文件：\n"
+"%s\n"
+"重命名为："
+
+#: src/utilops.c:2311
+#, fuzzy, c-format
+msgid ""
+"The folder:\n"
+"%s\n"
+"already exists."
+msgstr ""
+"目录：\n"
+"%s\n"
+"已存在。"
+
+#: src/utilops.c:2312
+#, fuzzy
+msgid "Folder exists"
+msgstr "平铺"
+
+#: src/utilops.c:2317
+#, c-format
+msgid ""
+"The path:\n"
+"%s\n"
+"already exists as a file."
+msgstr ""
+"路径：\n"
+"%s\n"
+"是一个已存在的文件。"
+
+#: src/utilops.c:2369
+#, fuzzy
+msgid "New folder - GQview"
+msgstr "求助 - GQview"
+
+#: src/utilops.c:2372
+#, fuzzy, c-format
+msgid ""
+"Create folder in:\n"
+"%s\n"
+"named:"
+msgstr ""
+"在\n"
+"%s\n"
+"创建目录，并命名为："
+
+#: src/view_dir_list.c:329 src/view_dir_tree.c:425
+msgid "new_folder"
+msgstr ""
+
+#: src/view_dir_list.c:387 src/view_dir_tree.c:482
+msgid "_Up to parent"
+msgstr ""
+
+#: src/view_dir_list.c:392 src/view_dir_tree.c:487
+#, fuzzy
+msgid "_Slideshow"
+msgstr "幻灯片"
+
+#: src/view_dir_list.c:394 src/view_dir_tree.c:489
+msgid "Slideshow recursive"
+msgstr "递归幻灯片"
+
+#: src/view_dir_list.c:398 src/view_dir_tree.c:493
+#, fuzzy
+msgid "Find _duplicates..."
+msgstr "寻找副本..."
+
+#: src/view_dir_list.c:400 src/view_dir_tree.c:495
+msgid "Find duplicates recursive..."
+msgstr "递归寻找副本..."
+
+#: src/view_dir_list.c:407 src/view_dir_tree.c:502
+msgid "_New folder..."
+msgstr ""
+
+#: src/view_dir_list.c:419 src/view_dir_tree.c:509
+#, fuzzy
+msgid "View as _tree"
+msgstr "/查看/全屏(_U)"
+
+#: src/view_dir_list.c:421 src/view_dir_tree.c:511 src/view_file_icon.c:311
+#: src/view_file_list.c:423
+#, fuzzy
+msgid "Re_fresh"
+msgstr "刷新"
+
+#: src/view_file_icon.c:304 src/view_file_list.c:416
+#, fuzzy
+msgid "_Sort"
+msgstr "排序"
+
+#: src/view_file_icon.c:307 src/view_file_list.c:419
+#, fuzzy
+msgid "View as _icons"
+msgstr "尺寸"
+
+#: src/view_file_list.c:421
+#, fuzzy
+msgid "Show _thumbnails"
+msgstr "缓存缩略图"
+
+#: src/view_file_list.c:447
+#, c-format
+msgid ""
+"Invalid file name:\n"
+"%s"
+msgstr ""
+"非法文件名：\n"
+"%s"
+
+#~ msgid "Purge thumbnails"
+#~ msgstr "清除缩略图"
+
+#~ msgid "/File/tear1"
+#~ msgstr "/文件/片段1"
+
+#~ msgid "/File/_New collection"
+#~ msgstr "/文件/新图像集"
+
+#~ msgid "/File/_Open collection..."
+#~ msgstr "/文件/打开图像集(_O)..."
+
+#~ msgid "/File/sep1"
+#~ msgstr "/文件/第一段"
+
+#, fuzzy
+#~ msgid "/File/_Search..."
+#~ msgstr "/文件/重命名(_R)..."
+
+#~ msgid "/File/_Find duplicates..."
+#~ msgstr "/文件/寻找副本(_F)..."
+
+#~ msgid "/File/sep2"
+#~ msgstr "/文件/第二段"
+
+#, fuzzy
+#~ msgid "/File/_Print..."
+#~ msgstr "/文件/重命名(_R)..."
+
+#, fuzzy
+#~ msgid "/File/N_ew folder..."
+#~ msgstr "/文件/删除(_D)..."
+
+#~ msgid "/File/sep3"
+#~ msgstr "/文件/第三段"
+
+#~ msgid "/File/_Copy..."
+#~ msgstr "/文件/复制(_C)..."
+
+#~ msgid "/File/_Move..."
+#~ msgstr "/文件/移动(_M)..."
+
+#~ msgid "/File/_Rename..."
+#~ msgstr "/文件/重命名(_R)..."
+
+#~ msgid "/File/_Delete..."
+#~ msgstr "/文件/删除(_D)..."
+
+#~ msgid "/File/sep4"
+#~ msgstr "/文件/第四段"
+
+#, fuzzy
+#~ msgid "/File/C_lose window"
+#~ msgstr "关闭窗口"
+
+#, fuzzy
+#~ msgid "/File/_Quit"
+#~ msgstr "/文件/退出(_X)"
+
+#~ msgid "/_Edit"
+#~ msgstr "/编辑(_E)"
+
+#~ msgid "/Edit/tear1"
+#~ msgstr "/编辑/片段1"
+
+#~ msgid "/Edit/editor1"
+#~ msgstr "/编辑/编辑器1"
+
+#~ msgid "/Edit/editor2"
+#~ msgstr "/编辑/编辑器2"
+
+#~ msgid "/Edit/editor3"
+#~ msgstr "/编辑/编辑器3"
+
+#~ msgid "/Edit/editor4"
+#~ msgstr "/编辑/编辑器4"
+
+#~ msgid "/Edit/editor5"
+#~ msgstr "/编辑/编辑器5"
+
+#~ msgid "/Edit/editor6"
+#~ msgstr "/编辑/编辑器6"
+
+#~ msgid "/Edit/editor7"
+#~ msgstr "/编辑/编辑器7"
+
+#~ msgid "/Edit/editor8"
+#~ msgstr "/编辑/编辑器8"
+
+#, fuzzy
+#~ msgid "/Edit/editor9"
+#~ msgstr "/编辑/编辑器1"
+
+#, fuzzy
+#~ msgid "/Edit/editor0"
+#~ msgstr "/编辑/编辑器1"
+
+#~ msgid "/Edit/sep1"
+#~ msgstr "/编辑/第一段"
+
+#~ msgid "/Edit/_Adjust"
+#~ msgstr "/编辑/调整(_A)"
+
+#, fuzzy
+#~ msgid "/Edit/_Properties"
+#~ msgstr "/编辑/选项(_O)..."
+
+#~ msgid "/Edit/Adjust/tear1"
+#~ msgstr "/编辑/调整/片段1"
+
+#~ msgid "/Edit/Adjust/_Rotate clockwise"
+#~ msgstr "/编辑/调整/顺时针旋转(_R)"
+
+#~ msgid "/Edit/Adjust/Rotate _counterclockwise"
+#~ msgstr "/编辑/调整/逆时针旋转(_C)"
+
+#~ msgid "/Edit/Adjust/Rotate 1_80"
+#~ msgstr "/编辑/调整/旋转 180 度"
+
+#~ msgid "/Edit/Adjust/_Mirror"
+#~ msgstr "/编辑/调整/镜像(_M)"
+
+#~ msgid "/Edit/Adjust/_Flip"
+#~ msgstr "/编辑/调整/翻转(_F)"
+
+#~ msgid "/Edit/sep2"
+#~ msgstr "/编辑/第二段"
+
+#~ msgid "/Edit/Select _all"
+#~ msgstr "/编辑/全选(_A)"
+
+#~ msgid "/Edit/Select _none"
+#~ msgstr "/编辑/清除所有选择(_N)"
+
+#~ msgid "/Edit/sep3"
+#~ msgstr "/编辑/第三段"
+
+#~ msgid "/Edit/_Options..."
+#~ msgstr "/编辑/选项(_O)..."
+
+#~ msgid "/Edit/sep4"
+#~ msgstr "/编辑/第四段"
+
+#~ msgid "/Edit/Set as _wallpaper"
+#~ msgstr "/编辑/设置为墙纸(_W)"
+
+#~ msgid "/_View"
+#~ msgstr "/查看(_V)"
+
+#~ msgid "/View/tear1"
+#~ msgstr "/查看/片段1"
+
+#~ msgid "/View/Zoom _in"
+#~ msgstr "/查看/放大(_I)"
+
+#~ msgid "/View/Zoom _out"
+#~ msgstr "/查看/缩小(_O)"
+
+#~ msgid "/View/Zoom _1:1"
+#~ msgstr "/查看/缩放到 1:1(_1)"
+
+#~ msgid "/View/sep1"
+#~ msgstr "/查看/第一段"
+
+#~ msgid "/View/_Thumbnails"
+#~ msgstr "/查看/缩略图(_T)"
+
+#~ msgid "/View/sep2"
+#~ msgstr "/查看/第二段"
+
+#~ msgid "/View/F_ull screen"
+#~ msgstr "/查看/全屏(_U)"
+
+#~ msgid "/View/sep3"
+#~ msgstr "/查看/第三段"
+
+#, fuzzy
+#~ msgid "/View/_Hide file list"
+#~ msgstr "/查看/(不)隐藏文件列表(_H)"
+
+#, fuzzy
+#~ msgid "/View/sep4"
+#~ msgstr "/查看/第一段"
+
+#, fuzzy
+#~ msgid "/View/Sort _manager"
+#~ msgstr "/查看/放大(_I)"
+
+#, fuzzy
+#~ msgid "/View/sep5"
+#~ msgstr "/查看/第一段"
+
+#~ msgid "/View/Toggle _slideshow"
+#~ msgstr "/查看/切换幻灯显示(_S)"
+
+#~ msgid "/View/_Refresh Lists"
+#~ msgstr "/查看/更新列表(_R)"
+
+#~ msgid "/Help/tear1"
+#~ msgstr "/求助/片段1"
+
+#~ msgid "/Help/sep1"
+#~ msgstr "/求助/第一段"
+
+#~ msgid "/Help/_About"
+#~ msgstr "/求助/关于(_A)"
+
+#~ msgid "GQview configuration"
+#~ msgstr "GQview 配置"
+
+#~ msgid "/Edit/_Remove old thumbnails"
+#~ msgstr "/编辑/删除原来的缩略图(_R)"
+
+#, fuzzy
+#~ msgid "path"
+#~ msgstr "路径"
+
+#~ msgid "Save"
+#~ msgstr "保存"
+
+#~ msgid "Close"
+#~ msgstr "关闭"
+
+#~ msgid ""
+#~ "Overwrite collection file:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "覆盖图像集文件：\n"
+#~ "%s"
+
+#~ msgid "Save collection as:"
+#~ msgstr "将图像集另存为："
+
+#~ msgid "Open collection from:"
+#~ msgstr "从此处打开图像集："
+
+#~ msgid "Open"
+#~ msgstr "打开"
+
+#~ msgid "Append collection from:"
+#~ msgstr "从此处追加图像集："
+
+#, fuzzy
+#~ msgid "exit"
+#~ msgstr "退出"
+
+#~ msgid "Exit"
+#~ msgstr "退出"
+
+#~ msgid "Ok"
+#~ msgstr "确定"
+
+#, fuzzy
+#~ msgid "Initial folder"
+#~ msgstr "非法文件名"
+
+#, fuzzy
+#~ msgid "On startup, change to this folder:"
+#~ msgstr "当启动时改变到此目录："
+
+#~ msgid "Zoom (scaling):"
+#~ msgstr "缩放："
+
+#~ msgid "Place dialogs under mouse"
+#~ msgstr "将对话框置于鼠标位置"
+
+#~ msgid "Include files of type:"
+#~ msgstr "包含文件类型："
+
+#~ msgid "Remove"
+#~ msgstr "删除"
+
+#~ msgid "Command Line"
+#~ msgstr "命令行"
+
+#, fuzzy
+#~ msgid "Help"
+#~ msgstr "/求助(_H)"
+
+#, fuzzy
+#~ msgid "Full screen size:"
+#~ msgstr "全屏"
+
+#, fuzzy
+#~ msgid "Point size:"
+#~ msgstr "平铺"
+
+#~ msgid ""
+#~ "Overwrite file:\n"
+#~ " %s\n"
+#~ " with:\n"
+#~ " %s"
+#~ msgstr ""
+#~ "覆盖文件：\n"
+#~ " %s\n"
+#~ " 以：\n"
+#~ " %s"
+
+#~ msgid "Yes"
+#~ msgstr "是"
+
+#~ msgid "Yes to all"
+#~ msgstr "全都是"
+
+#~ msgid ""
+#~ "Overwrite file:\n"
+#~ "%s\n"
+#~ " with:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "覆盖文件：\n"
+#~ " %s\n"
+#~ " 以：\n"
+#~ " %s"
+
+#~ msgid ""
+#~ "Copy file:\n"
+#~ "%s\n"
+#~ "to:"
+#~ msgstr ""
+#~ "将文件：\n"
+#~ "%s\n"
+#~ "到："
+
+#~ msgid ""
+#~ "Move file:\n"
+#~ "%s\n"
+#~ "to:"
+#~ msgstr ""
+#~ "将文件：\n"
+#~ "%s\n"
+#~ "移动到："
+
+#~ msgid "About to delete multiple files..."
+#~ msgstr "将要删除多个文件..."
+
+#~ msgid ""
+#~ "Overwrite file:\n"
+#~ "%s\n"
+#~ "by renaming:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "覆盖文件：\n"
+#~ "%s\n"
+#~ "更名为：\n"
+#~ "%s"
+
+#~ msgid "to:"
+#~ msgstr "到："
+
+#~ msgid "Create"
+#~ msgstr "创建"
+
+#~ msgid "Initial directory"
+#~ msgstr "初始目录"
+
+#~ msgid "New Directory"
+#~ msgstr "新建目录"
+
+#~ msgid ""
+#~ "Unable to create directory:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "无法创建目录：\n"
+#~ "%s"
+
+#~ msgid "Error creating directory"
+#~ msgstr "创建目录错误"
+
+#, fuzzy
+#~ msgid "Image details"
+#~ msgstr "无效的目标"
+
+#, fuzzy
+#~ msgid "/View/Image _details"
+#~ msgstr "/查看/切换幻灯显示(_S)"
+
+#~ msgid "Add contents"
+#~ msgstr "添加内容"
+
+#~ msgid "Add contents recursive"
+#~ msgstr "递归添加内容"
+
+#~ msgid "Skip directories"
+#~ msgstr "忽略目录"
+
+#~ msgid "Invalid directory"
+#~ msgstr "无效的目录"
+
+#~ msgid "GQview - copy"
+#~ msgstr "GQview - 复制"
+
+#~ msgid "GQview - move"
+#~ msgstr "GQview - 移动"
+
+#~ msgid "Directory exists"
+#~ msgstr "目录已存在"
+
+#~ msgid "GQview - new directory"
+#~ msgstr "GQview - 新建目录"
+
+#~ msgid "/File/Create _Dir..."
+#~ msgstr "/文件/创建目录(_D)..."
+
+#~ msgid "Edit"
+#~ msgstr "编辑"
+
+#~ msgid "Insert file drops at pointer location"
+#~ msgstr "在鼠标光标位置插入拖放文件"
+
+#~ msgid "File named %s already exists."
+#~ msgstr "名为 %s 的文件已存在。"
+
+#, fuzzy
+#~ msgid "Date:"
+#~ msgstr "日期"
+
+#, fuzzy
+#~ msgid "top"
+#~ msgstr "到："
+
+#~ msgid "GQview running: %s\n"
+#~ msgstr "GQview 运行：%s\n"
+
+#~ msgid "Electric Eyes"
+#~ msgstr "电眼"
+
+#~ msgid "Apply"
+#~ msgstr "应用"
+
+#~ msgid "format: [.foo;.bar]"
+#~ msgstr "格式：[.foo;.bar]"
+
+#~ msgid "Unable to delete dir: %s\n"
+#~ msgstr "无法删除目录: %s\n"
+
+#~ msgid "create dir failed: %s\n"
+#~ msgstr "创建目录失败: %s\n"
+
+#~ msgid "     Ok     "
+#~ msgstr "    确定    "
+
+#~ msgid "External Editors"
+#~ msgstr "内部编辑器"

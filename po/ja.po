@@ -1,868 +1,3479 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Free Software Foundation, Inc.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# gqview ja.po.
+# Copyright (C) 2000-2004 Free Software Foundation, Inc.
+# SATO Satoru <ss@gnome.gr.jp>, 2001
+# Junichi Uekawa <dancer@debian.org>, 2002
+# Takeshi Aihana <aihana@gnome.gr.jp>, 2000-2004.
+# , no-wrap
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-04-13 15:57-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: gqview 1.5.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-02-15 08:13-0500\n"
+"PO-Revision-Date: 2004-09-26 19:28+0900\n"
+"Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
+"Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: ENCODING\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 
-#: src/config.c:307
-msgid "GQview configuration"
-msgstr "GQview������"
+#: src/bar_info.c:30
+msgid "Favorite"
+msgstr "お気に入り"
 
-#: src/config.c:319
-msgid "Ok"
-msgstr "Ok"
+#: src/bar_info.c:31
+msgid "Todo"
+msgstr "ToDo"
 
-#: src/config.c:324
-msgid "Apply"
+#: src/bar_info.c:32
+msgid "People"
+msgstr "人々"
+
+#: src/bar_info.c:33
+msgid "Places"
+msgstr "場所"
+
+#: src/bar_info.c:34
+msgid "Art"
+msgstr "芸術"
+
+#: src/bar_info.c:35
+msgid "Nature"
+msgstr "自然"
+
+#: src/bar_info.c:36
+msgid "Possessions"
+msgstr "所有物"
+
+#: src/bar_info.c:505
+msgid "Keyword Presets"
+msgstr "デフォルトのキーワード一覧"
+
+#: src/bar_info.c:508
+#, fuzzy
+msgid "Favorite keywords list"
+msgstr "お気に入りのキーワード一覧です:"
+
+#: src/bar_info.c:992 src/info.c:166 src/search.c:2692
+msgid "Keywords"
+msgstr "キーワード"
+
+#: src/bar_info.c:1006 src/info.c:716 src/print.c:2599
+msgid "Filename:"
+msgstr "ファイル名:"
+
+#: src/bar_info.c:1007 src/info.c:360
+msgid "File date:"
+msgstr "タイムスタンプ:"
+
+#: src/bar_info.c:1027
+msgid "Keywords:"
+msgstr "キーワード:"
+
+#: src/bar_info.c:1095
+msgid "Comment:"
+msgstr "コメント:"
+
+#: src/bar_info.c:1119
+msgid "Edit favorite keywords list."
+msgstr "お気に入りのキーワードを編集します"
+
+#: src/bar_info.c:1123
+msgid "Add keywords to selected files"
+msgstr "キーワードを選択したファイルに追加します"
+
+#: src/bar_info.c:1126
+msgid "Add keywords to selected files, replacing the existing ones."
+msgstr "キーワードを選択したファイルに追加し、既存のファイルを置き換えます"
+
+#: src/bar_info.c:1130
+msgid "Save comment now"
+msgstr "今すぐコメントを保存します"
+
+#: src/bar_exif.c:423
+msgid "Tag"
+msgstr "タグ"
+
+#: src/bar_exif.c:424 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
+#: src/search.c:2753 src/view_file_list.c:1555
+msgid "Name"
+msgstr "名前"
+
+#: src/bar_exif.c:425
+msgid "Value"
+msgstr "値"
+
+#: src/bar_exif.c:426
+msgid "Format"
+msgstr "型"
+
+#: src/bar_exif.c:427
+msgid "Elements"
+msgstr "要素"
+
+#: src/bar_exif.c:428 src/preferences.c:1028
+msgid "Description"
+msgstr "説明"
+
+#: src/bar_exif.c:549 src/info.c:105
+msgid "Exif"
+msgstr "Exif"
+
+#: src/bar_exif.c:622
+msgid "Advanced view"
+msgstr "拡張表示にする"
+
+#: src/bar_sort.c:218
+msgid "Unlink failed"
+msgstr "削除に失敗しました"
+
+#: src/bar_sort.c:298
+msgid "Link failed"
+msgstr "リンクに失敗しました"
+
+#: src/bar_sort.c:435
+#, fuzzy, c-format
+msgid ""
+"The collection:\n"
+"%s\n"
+"already exists."
 msgstr ""
+"フォルダ:\n"
+"%s\n"
+"は既に存在しています。"
 
-#: src/config.c:329 src/utildlg.c:145 src/utilops.c:444 src/utilops.c:754
-#: src/utilops.c:885 src/utilops.c:983
-msgid "Cancel"
-msgstr "����󥻥�"
+#: src/bar_sort.c:436
+#, fuzzy
+msgid "Collection exists"
+msgstr "コレクションは空"
 
-#: src/config.c:343
-msgid "General"
-msgstr "����"
-
-#: src/config.c:351
-msgid "Initial directory"
-msgstr "����ǥ��쥯�ȥ�:"
-
-#: src/config.c:361
-msgid "On startup, change to this directory:"
-msgstr "��ư���ˤ��Υǥ��쥯�ȥ�ذ�ư����"
-
-#: src/config.c:373
-msgid "Use current"
-msgstr "���ߤΥǥ��쥯�ȥ�"
-
-#: src/config.c:379
-msgid "Confirm file delete"
-msgstr "������˳�ǧ"
-
-#: src/config.c:381
-msgid "Remember tool state (float/hidden)"
-msgstr "�ġ���С��ξ��֤��ݻ�(float����ɽ��)"
-
-#: src/config.c:383
-msgid "Remember window positions"
-msgstr "������ɥ����֤��ݻ�"
-
-#: src/config.c:385
-msgid "Slide show"
-msgstr "���饤�ɥ��祦:"
-
-#: src/config.c:398
-msgid "Delay before image change (seconds):"
-msgstr "���Υ��᡼���ޤǤ��ÿ�"
-
-#: src/config.c:411
-msgid "Random"
-msgstr "������"
-
-#: src/config.c:413
-msgid "Repeat"
-msgstr "�����֤�"
-
-#: src/config.c:420
-msgid "Image"
-msgstr "���᡼��"
-
-#: src/config.c:428
-msgid "When new image is selected:"
-msgstr "�����餷�����᡼�������򤵤줿�Ȥ�:"
-
-#: src/config.c:438
-msgid "Zoom to original size"
-msgstr "���ꥸ�ʥ�Υ������س���"
-
-#: src/config.c:444 src/img-view.c:306 src/menu.c:473 src/menu.c:547
-#: src/menu.c:587 src/menu.c:678
-msgid "Fit image to window"
-msgstr "������ɥ��˥ե��åȤ�����"
-
-#: src/config.c:450
-msgid "Leave Zoom at previous setting"
-msgstr "ľ���Υ�����������˺���"
-
-#: src/config.c:457
-msgid "Fit window to image when tools are hidden/floating"
-msgstr "�ġ���С��ξ����ѹ����˥��᡼���򥦥���ɥ��˥ե��åȤ�����"
-
-#: src/config.c:464
-msgid "Limit size when auto-sizing window"
-msgstr "������ɥ��μ�ưĴ��θ³�"
-
-#: src/config.c:474 src/menu.c:477
-msgid "Thumbnails"
-msgstr "����ͥ���:"
-
-#: src/config.c:490
-msgid "Size:"
-msgstr "������"
-
-#: src/config.c:519
-msgid "Cache thumbnails"
-msgstr "����ͥ���򥭥�å��夹��"
-
-#: src/config.c:521
-msgid "Use xvpics thumbnails when found (read only)"
-msgstr "xvpics��������˻��Ѥ���(�ɤ߹��ߤΤ�)"
-
-#: src/config.c:524
-msgid "Progressive keyboard scrolling"
-msgstr "�����ܡ��ɤˤ�륹��������"
-
-#: src/config.c:526
-msgid "Mouse wheel scrolls image"
-msgstr ""
-
-#: src/config.c:533
-msgid "Filtering"
-msgstr "�ե��륿���"
-
-#: src/config.c:542
-msgid "Show entries that begin with a dot"
-msgstr "�ɥåȥե������ɽ������"
-
-#: src/config.c:544
-msgid "Disable File Filtering"
-msgstr "�ե��륿��󥰤��ʤ�"
-
-#: src/config.c:546
-msgid "Include files of type:"
-msgstr "ɽ�������ĥ��:"
-
-#: src/config.c:596
-msgid "Custom file types:"
-msgstr "�������ॿ����"
-
-#: src/config.c:609
-msgid "format: [.foo;.bar]"
-msgstr "��: [.foo;.bar]"
-
-#: src/config.c:618
-msgid "External Editors"
-msgstr "�������ǥ���"
-
-#: src/config.c:630
-msgid "#"
-msgstr ""
-
-#: src/config.c:633
-msgid "Menu name"
-msgstr "ɽ��̾"
-
-#: src/config.c:636
-msgid "Command Line"
-msgstr "���ޥ��"
-
-#: src/config.c:666 src/menu.c:500
-msgid "About"
-msgstr ""
-
-#: src/config.c:682
+#: src/bar_sort.c:450 src/collect.c:1061 src/collect-dlg.c:84
 #, c-format
 msgid ""
-"GQview %s\n"
-"\n"
-"Copyright (c) 2000 by John Ellis\n"
-"http://gqview.sorceforge.net\n"
-"or http://gqview.netpedia.net\n"
-"gqview@email.com\n"
-"\n"
-"Released under the GNU Public License"
+"Failed to save the collection:\n"
+"%s"
+msgstr ""
+"コレクションの保存に失敗しました:\n"
+"%s"
+
+#: src/bar_sort.c:451 src/collect.c:1062 src/collect-dlg.c:85
+msgid "Save Failed"
+msgstr "保存に失敗しました"
+
+#: src/bar_sort.c:485 src/bar_sort.c:631
+msgid "Add Bookmark"
+msgstr "ブックマークへ追加します"
+
+#: src/bar_sort.c:489
+#, fuzzy
+msgid "Add Collection"
+msgstr "コレクション"
+
+#: src/bar_sort.c:506 src/ui_bookmark.c:603
+msgid "Name:"
+msgstr "名前:"
+
+#: src/bar_sort.c:569
+msgid "Sort Manager"
+msgstr "ソート・マネージャ"
+
+#: src/bar_sort.c:578 src/ui_pathsel.c:1095
+msgid "Folders"
+msgstr "フォルダ"
+
+#: src/bar_sort.c:579 src/main.c:1066
+msgid "Collections"
+msgstr "コレクション"
+
+#: src/bar_sort.c:586
+msgid "Copy"
+msgstr "コピーする"
+
+#: src/bar_sort.c:593
+msgid "Move"
+msgstr "移動する"
+
+#: src/bar_sort.c:600
+msgid "Link"
+msgstr "リンクを作成する"
+
+#: src/bar_sort.c:610
+#, fuzzy
+msgid "Add image"
+msgstr "%d 個の画像"
+
+#: src/bar_sort.c:617
+#, fuzzy
+msgid "Add selection"
+msgstr "選択した画像"
+
+#: src/bar_sort.c:634
+msgid "Undo last image"
+msgstr "最後の画像に戻します"
+
+#: src/cache_maint.c:127 src/cache_maint.c:681 src/cache_maint.c:894
+#: src/editors.c:410
+msgid "done"
+msgstr "完了"
+
+#: src/cache_maint.c:304
+#, fuzzy
+msgid "Removing old metadata..."
+msgstr "類似データの読み込み中..."
+
+#: src/cache_maint.c:308
+#, fuzzy
+msgid "Clearing cached thumbnails..."
+msgstr "サムネイルのクリア..."
+
+#: src/cache_maint.c:312 src/cache_maint.c:1048
+#, fuzzy
+msgid "Removing old thumbnails..."
+msgstr "古いサムネイルの削除..."
+
+#: src/cache_maint.c:315 src/cache_maint.c:1051
+msgid "Maintenance"
 msgstr ""
 
-#: src/filelist.c:51
-msgid " Slideshow"
-msgstr "���饤�ɥ��祦"
+#: src/cache_maint.c:792 src/utilops.c:904
+msgid "Invalid folder"
+msgstr "不正なフォルダ"
 
-#: src/filelist.c:55
+#: src/cache_maint.c:793
+msgid "The specified folder can not be found."
+msgstr ""
+
+#: src/cache_maint.c:821 src/cache_maint.c:835 src/cache_maint.c:1216
+#, fuzzy
+msgid "Create thumbnails"
+msgstr "サムネイルをキャッシュする"
+
+#: src/cache_maint.c:829 src/cache_maint.c:1058
+#, fuzzy
+msgid "S_tart"
+msgstr "開始 #"
+
+#: src/cache_maint.c:842 src/preferences.c:1165
+msgid "Folder:"
+msgstr "フォルダ:"
+
+#: src/cache_maint.c:845
+#, fuzzy
+msgid "Select folder"
+msgstr "選択取り消し"
+
+#: src/cache_maint.c:849
+#, fuzzy
+msgid "Include subfolders"
+msgstr "不正なフォルダ"
+
+#: src/cache_maint.c:850
+msgid "Store thumbnails local to source images"
+msgstr ""
+
+#: src/cache_maint.c:859 src/cache_maint.c:1067
+msgid "click start to begin"
+msgstr ""
+
+#: src/cache_maint.c:997 src/editors.c:549
+msgid "running..."
+msgstr "実行中..."
+
+#: src/cache_maint.c:1043
+msgid "Clearing thumbnails..."
+msgstr "サムネイルのクリア..."
+
+#: src/cache_maint.c:1109 src/cache_maint.c:1112 src/cache_maint.c:1191
+#: src/cache_maint.c:1211
+msgid "Clear cache"
+msgstr "キャッシュのクリア"
+
+#: src/cache_maint.c:1113
+msgid ""
+"This will remove all thumbnails that have\n"
+"been saved to disk, continue?"
+msgstr ""
+"ディスクに保存されたサムネイルは\n"
+"全て削除されます。よろしいですか？"
+
+#: src/cache_maint.c:1163
+#, fuzzy
+msgid "Cache Maintenance - GQview"
+msgstr "画像の検索 - GQview"
+
+#: src/cache_maint.c:1173
+msgid "Cache and Data Maintenance"
+msgstr ""
+
+#: src/cache_maint.c:1177
+#, fuzzy
+msgid "GQview thumbnail cache"
+msgstr "GQview フル・スクリーン"
+
+#: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
+#: src/preferences.c:1142 src/utilops.c:1505
+#, fuzzy
+msgid "Location:"
+msgstr "アクション"
+
+#: src/cache_maint.c:1186 src/cache_maint.c:1206 src/cache_maint.c:1234
+#, fuzzy
+msgid "Clean up"
+msgstr "クリア"
+
+#: src/cache_maint.c:1189 src/cache_maint.c:1209
+msgid "Remove orphaned or outdated thumbnails."
+msgstr ""
+
+#: src/cache_maint.c:1194 src/cache_maint.c:1214
+#, fuzzy
+msgid "Delete all cached thumbnails."
+msgstr "サムネイルをキャッシュする"
+
+#: src/cache_maint.c:1197
+#, fuzzy
+msgid "Shared thumbnail cache"
+msgstr "サムネイルの表示"
+
+#: src/cache_maint.c:1220
+#, fuzzy
+msgid "Render"
+msgstr "名前を変更する"
+
+#: src/cache_maint.c:1223
+msgid "Render thumbnails for a specific folder."
+msgstr ""
+
+#: src/cache_maint.c:1225
+msgid "Metadata"
+msgstr ""
+
+#: src/cache_maint.c:1237
+msgid "Remove orphaned keywords and comments."
+msgstr ""
+
+#: src/collect.c:349 src/image.c:1160 src/image-overlay.c:74
+#: src/image-overlay.c:115
+msgid "Untitled"
+msgstr "タイトルなし"
+
+#: src/collect.c:353
 #, c-format
-msgid "%d files (%d)%s"
+msgid "Untitled (%d)"
+msgstr "タイトルなし (%d)"
+
+#: src/collect.c:980
+#, c-format
+msgid "%s - GQview Collection"
+msgstr "%s - GQview コレクション"
+
+#: src/collect.c:1098 src/collect.c:1102
+msgid "Close collection"
+msgstr "コレクションを閉じる"
+
+#: src/collect.c:1103
+msgid ""
+"Collection has been modified.\n"
+"Save first?"
+msgstr ""
+"コレクションが変更されました。\n"
+"まず保存しますか？"
+
+#: src/collect.c:1106
+#, fuzzy
+msgid "_Discard"
+msgstr "絵はがき"
+
+#: src/collect-dlg.c:58
+#, fuzzy, c-format
+msgid ""
+"Specified path:\n"
+"%s\n"
+"is a folder, collections are files"
+msgstr ""
+"指定したパス:\n"
+"%s\n"
+"はフォルダです。コレクションはファイルの集まりです。"
+
+#: src/collect-dlg.c:59
+msgid "Invalid filename"
+msgstr "不正なファイル名"
+
+#: src/collect-dlg.c:68
+msgid "Overwrite File"
+msgstr "ファイルの上書き"
+
+#: src/collect-dlg.c:73
+#, fuzzy
+msgid "Overwrite existing file?"
+msgstr "ファイルの上書き"
+
+#: src/collect-dlg.c:75 src/utilops.c:479 src/utilops.c:792 src/utilops.c:1649
+#: src/utilops.c:2196
+#, fuzzy
+msgid "_Overwrite"
+msgstr "上書き"
+
+#: src/collect-dlg.c:169
+msgid "Save collection"
+msgstr "コレクションを保存"
+
+#: src/collect-dlg.c:176
+msgid "Open collection"
+msgstr "コレクションを開く"
+
+#: src/collect-dlg.c:184
+msgid "Append collection"
+msgstr "コレクションの追加"
+
+#: src/collect-dlg.c:185
+#, fuzzy
+msgid "_Append"
+msgstr "追加"
+
+#: src/collect-dlg.c:203
+msgid "Collection Files"
+msgstr "コレクション・ファイル"
+
+#: src/collect-dlg.c:221
+msgid "Collection empty"
+msgstr "コレクションは空"
+
+#: src/collect-dlg.c:222
+msgid "The current collection is empty, save aborted."
+msgstr "現在のコレクションは空です。保存を中止します。"
+
+#: src/collect-table.c:164 src/layout_util.c:708
+msgid "Empty"
+msgstr "空です"
+
+#: src/collect-table.c:168
+#, c-format
+msgid "%d images (%d)"
+msgstr "%d 個の画像 (%d)"
+
+#: src/collect-table.c:172
+#, c-format
+msgid "%d images"
+msgstr "%d 個の画像"
+
+#: src/collect-table.c:186 src/dupe.c:1296 src/search.c:303
+#: src/view_file_icon.c:1772 src/view_file_icon.c:1887
+#: src/view_file_list.c:816 src/view_file_list.c:921
+msgid "Loading thumbs..."
+msgstr "サムネイルを開く..."
+
+#: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
+#: src/layout_util.c:751 src/search.c:969
+msgid "_View"
+msgstr "表示(_V)"
+
+#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1187
+#: src/layout_image.c:722 src/search.c:971 src/view_file_icon.c:283
+#: src/view_file_list.c:395
+msgid "View in _new window"
+msgstr "新しいウィンドウで表示(_N)"
+
+#: src/collect-table.c:778 src/dupe.c:2219 src/dupe.c:2507 src/search.c:997
+msgid "Rem_ove"
+msgstr "削除(_O)"
+
+#: src/collect-table.c:781
+msgid "Append from file list"
+msgstr "ファイル一覧から追加"
+
+#: src/collect-table.c:783
+msgid "Append from collection..."
+msgstr "コレクションから追加..."
+
+#: src/collect-table.c:786 src/dupe.c:2192 src/dupe.c:2502 src/search.c:974
+msgid "Select all"
+msgstr "全て選択"
+
+#: src/collect-table.c:788 src/dupe.c:2194 src/dupe.c:2504 src/search.c:976
+msgid "Select none"
+msgstr "選択取り消し"
+
+#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1185
+#: src/layout_image.c:719 src/layout_util.c:784 src/search.c:981
+#: src/view_file_icon.c:280 src/view_file_list.c:393
+msgid "_Properties"
+msgstr "プロパティ(_P)"
+
+#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1190
+#: src/layout_image.c:727 src/layout_util.c:762 src/search.c:988
+#: src/view_file_icon.c:287 src/view_file_list.c:399
+msgid "_Copy..."
+msgstr "コピー(_C)..."
+
+#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1191
+#: src/layout_image.c:729 src/layout_util.c:763 src/search.c:990
+#: src/view_file_icon.c:289 src/view_file_list.c:401
+msgid "_Move..."
+msgstr "移動(_M)..."
+
+#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1192
+#: src/layout_image.c:731 src/layout_util.c:764 src/search.c:992
+#: src/view_dir_list.c:415 src/view_dir_tree.c:505 src/view_file_icon.c:291
+#: src/view_file_list.c:403
+msgid "_Rename..."
+msgstr "名前の変更(_R)..."
+
+#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1193
+#: src/layout_image.c:733 src/layout_util.c:765 src/search.c:994
+#: src/view_file_icon.c:293 src/view_file_list.c:405
+msgid "_Delete..."
+msgstr "削除(_D)..."
+
+#: src/collect-table.c:810 src/view_file_icon.c:309
+msgid "Show filename _text"
+msgstr "ファイル名表示(_T)"
+
+#: src/collect-table.c:813
+msgid "_Save collection"
+msgstr "コレクションの保存(_S)"
+
+#: src/collect-table.c:815
+msgid "Save collection _as..."
+msgstr "別名でコレクションの保存(_A)..."
+
+#: src/collect-table.c:818 src/layout_util.c:759
+msgid "_Find duplicates..."
+msgstr "複製の検索(_F)..."
+
+#: src/collect-table.c:820 src/dupe.c:2207 src/search.c:985
+#, fuzzy
+msgid "Print..."
+msgstr "/ファイル(_F)/印刷(_P)..."
+
+#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1347
+#, fuzzy
+msgid "Dropped list includes folders."
+msgstr "フォルダを含む一覧にドロップします。"
+
+#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1349
+msgid "_Add contents"
+msgstr "内容の追加(_A)"
+
+#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1350
+msgid "Add contents _recursive"
+msgstr "内容を再帰的に追加(_R)"
+
+#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1351
+#, fuzzy
+msgid "_Skip folders"
+msgstr "フォルダをスキップする(_S)"
+
+#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1353
+#: src/view_dir_list.c:222 src/view_dir_tree.c:314
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: src/dupe.c:96
+msgid "Drop files to compare them."
+msgstr "比較するためにファイルをドロップして下さい。"
+
+#: src/dupe.c:100
+#, c-format
+msgid "%d files"
+msgstr "%d 個のファイル"
+
+#: src/dupe.c:104
+#, c-format
+msgid "%d matches found in %d files"
+msgstr "%d 個が一致 (%d 個のファイル中)"
+
+#: src/dupe.c:109
+msgid "[set 1]"
+msgstr "[セット 1]"
+
+#: src/dupe.c:1422
+msgid "Reading checksums..."
+msgstr "チェックサムの読み込み中..."
+
+#: src/dupe.c:1455
+msgid "Reading dimensions..."
+msgstr "寸法を検出中..."
+
+#: src/dupe.c:1489
+msgid "Reading similarity data..."
+msgstr "類似データの読み込み中..."
+
+#: src/dupe.c:1524 src/dupe.c:1555
+msgid "Comparing..."
+msgstr "比較中..."
+
+#: src/dupe.c:1535
+msgid "Sorting..."
+msgstr "ソート中..."
+
+#: src/dupe.c:2196
+msgid "Select group _1 duplicates"
+msgstr "複製グループ１の選択(_1)"
+
+#: src/dupe.c:2198
+msgid "Select group _2 duplicates"
+msgstr "複製グループ２の選択(_2)"
+
+#: src/dupe.c:2205 src/search.c:983
+msgid "Add to new collection"
+msgstr "新しいコレクションの追加"
+
+#: src/dupe.c:2221 src/dupe.c:2509 src/search.c:999
+msgid "C_lear"
+msgstr "クリア(_L)"
+
+#: src/dupe.c:2224 src/dupe.c:2512
+msgid "Close _window"
+msgstr "ウィンドウを閉じる(_W)"
+
+#: src/dupe.c:2382
+#, c-format
+msgid "%d files (set 2)"
+msgstr "%d 個のファイル (セット２)"
+
+#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:947 src/print.c:3194
+#: src/search.c:2754 src/view_file_list.c:1556
+msgid "Size"
+msgstr "サイズ"
+
+#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:297 src/exif.c:419
+#: src/print.c:3192 src/search.c:2755 src/view_file_list.c:1557
+msgid "Date"
+msgstr "日付"
+
+#: src/dupe.c:2592 src/dupe.c:3119 src/print.c:3196 src/search.c:2756
+msgid "Dimensions"
+msgstr "寸法"
+
+#: src/dupe.c:2593
+msgid "Checksum"
+msgstr "チェックサム"
+
+#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1107
+msgid "Path"
+msgstr "パス"
+
+#: src/dupe.c:2595
+msgid "Similarity (high)"
+msgstr "類似性 (高い)"
+
+#: src/dupe.c:2596
+msgid "Similarity"
+msgstr "類似性"
+
+#: src/dupe.c:2597
+msgid "Similarity (low)"
+msgstr "類似性 (低い)"
+
+#: src/dupe.c:2598
+msgid "Similarity (custom)"
+msgstr "類似性 (カスタム)"
+
+#: src/dupe.c:3080
+msgid "Find duplicates - GQview"
+msgstr "複製の検索 - GQview"
+
+#: src/dupe.c:3152
+msgid "Compare to:"
+msgstr "比較する対象:"
+
+#: src/dupe.c:3165
+msgid "Compare by:"
+msgstr "比較する要素:"
+
+#: src/dupe.c:3173 src/preferences.c:840 src/search.c:2770
+msgid "Thumbnails"
+msgstr "サムネイル"
+
+#: src/dupe.c:3180
+msgid "Compare two file sets"
+msgstr "二つのファイルを比較する"
+
+#: src/editors.c:50
+msgid "The Gimp"
+msgstr "\"GIMP\""
+
+#: src/editors.c:51
+msgid "XV"
+msgstr "\"XV\""
+
+#: src/editors.c:52
+msgid "Xpaint"
+msgstr "\"X Paint\""
+
+#: src/editors.c:58
+msgid "Rotate jpeg clockwise"
+msgstr "\"時計回りにローテーションして (JPEG)\""
+
+#: src/editors.c:59
+msgid "Rotate jpeg counterclockwise"
+msgstr "\"反時計回りにローテーションして (JPEG)\""
+
+#: src/editors.c:104
+msgid "stopping..."
+msgstr "停止中..."
+
+#: src/editors.c:131
+msgid "Edit command results"
+msgstr "編集コマンドの結果"
+
+#: src/editors.c:134
+#, c-format
+msgid "Output of %s"
+msgstr "%s の出力"
+
+#: src/editors.c:303
+#, c-format
+msgid ""
+"Failed to run command:\n"
+"%s\n"
+msgstr ""
+"コマンドの実行に失敗しました:\n"
+"%s\n"
+
+#: src/editors.c:414
+msgid "stopped by user"
+msgstr "ユーザ割り込みで停止しました"
+
+#: src/exif.c:112 src/exif.c:125 src/exif.c:139 src/exif.c:164 src/exif.c:606
+#: src/exif.c:1452 src/exif.c:1455 src/exif.c:1520
+msgid "unknown"
+msgstr "不明"
+
+#: src/exif.c:113
+msgid "top left"
+msgstr "上左"
+
+#: src/exif.c:114
+msgid "top right"
+msgstr "上右"
+
+#: src/exif.c:115
+msgid "bottom right"
+msgstr "右下"
+
+#: src/exif.c:116
+msgid "bottom left"
+msgstr "左下"
+
+#: src/exif.c:117
+msgid "left top"
+msgstr "左上"
+
+#: src/exif.c:118
+msgid "right top"
+msgstr "右上"
+
+#: src/exif.c:119
+msgid "right bottom"
+msgstr "右下"
+
+#: src/exif.c:120
+msgid "left bottom"
+msgstr "左下"
+
+#: src/exif.c:127
+msgid "inch"
+msgstr "インチ"
+
+#: src/exif.c:128
+msgid "centimeter"
+msgstr "センチ"
+
+#: src/exif.c:140
+msgid "average"
+msgstr "平均"
+
+#: src/exif.c:141
+msgid "center weighted"
+msgstr "中央重心"
+
+#: src/exif.c:142
+msgid "spot"
+msgstr "スポット"
+
+#: src/exif.c:143
+msgid "multi-spot"
+msgstr "複数のスポット"
+
+#: src/exif.c:144
+msgid "multi-segment"
+msgstr "複数のセグメント"
+
+#: src/exif.c:145
+msgid "partial"
+msgstr "部分光"
+
+#: src/exif.c:146 src/exif.c:184
+msgid "other"
+msgstr "その他"
+
+#: src/exif.c:151
+msgid "not defined"
+msgstr "定義なし"
+
+#: src/exif.c:152
+msgid "manual"
+msgstr "手動"
+
+#: src/exif.c:153
+msgid "normal"
+msgstr "標準"
+
+#: src/exif.c:154
+msgid "aperture"
+msgstr "レンズ径"
+
+#: src/exif.c:155
+msgid "shutter"
+msgstr "シャッター"
+
+#: src/exif.c:156
+msgid "creative"
+msgstr "クリエイティブ"
+
+#: src/exif.c:157
+msgid "action"
+msgstr "アクション"
+
+#: src/exif.c:158
+msgid "portrait"
+msgstr "縦置き"
+
+#: src/exif.c:159
+msgid "landscape"
+msgstr "横置き"
+
+#: src/exif.c:165
+msgid "daylight"
+msgstr "日光"
+
+#: src/exif.c:166
+msgid "fluorescent"
+msgstr "fluorescent"
+
+#: src/exif.c:167
+msgid "tungsten (incandescent)"
+msgstr "タングステン (白熱灯)"
+
+#: src/exif.c:168
+msgid "flash"
+msgstr "フラッシュ"
+
+#: src/exif.c:189 src/exif.c:1475 src/info.c:226
+msgid "no"
+msgstr "いいえ"
+
+#. flash fired (bit 0)
+#: src/exif.c:190 src/exif.c:1475 src/info.c:226
+msgid "yes"
+msgstr "はい"
+
+#: src/exif.c:191
+msgid "yes, not detected by strobe"
+msgstr "はい (ストロボ未検出)"
+
+#: src/exif.c:192
+msgid "yes, detected by strobe"
+msgstr "はい (ストロボ検出)"
+
+#: src/exif.c:289
+msgid "Image description"
+msgstr "画像の説明"
+
+#: src/exif.c:292
+msgid "Orientation"
+msgstr "向き"
+
+#: src/exif.c:303
+msgid "Copyright"
+msgstr "ライセンス"
+
+#: src/exif.c:308
+msgid "Exposure program"
+msgstr "露出プログラム"
+
+#: src/exif.c:310 src/exif.c:346 src/exif.c:423
+msgid "ISO sensitivity"
+msgstr "ISO 感度"
+
+#: src/exif.c:313
+msgid "Date original"
+msgstr "オリジナルの日付"
+
+#: src/exif.c:314
+msgid "Date digitized"
+msgstr "データ化した日付"
+
+#: src/exif.c:317 src/exif.c:420
+msgid "Shutter speed"
+msgstr "シャッター・スピード"
+
+#: src/exif.c:318 src/exif.c:421
+msgid "Aperture"
+msgstr "レンズ径"
+
+#: src/exif.c:320 src/exif.c:422
+msgid "Exposure bias"
+msgstr "露出偏光"
+
+#: src/exif.c:322 src/exif.c:425
+msgid "Subject distance"
+msgstr "被写体の距離"
+
+#: src/exif.c:323
+msgid "Metering mode"
+msgstr "計測モード"
+
+#: src/exif.c:324
+msgid "Light source"
+msgstr "光源"
+
+#: src/exif.c:325 src/exif.c:426
+msgid "Flash"
+msgstr "フラッシュ"
+
+#: src/exif.c:326 src/exif.c:424
+msgid "Focal length"
+msgstr "焦点調節範囲"
+
+#. ExifImageWidth, ExifImageHeight can also be unsigned short
+#: src/exif.c:336
+msgid "Width"
+msgstr "幅"
+
+#: src/exif.c:337
+msgid "Height"
+msgstr "高さ"
+
+#: src/exif.c:418
+msgid "Camera"
+msgstr "カメラ"
+
+#: src/exif.c:427
+msgid "Resolution"
+msgstr "解像度"
+
+#: src/exif.c:1451
+msgid "infinity"
+msgstr "∞"
+
+#: src/exif.c:1479
+msgid "mode:"
+msgstr "モード:"
+
+#: src/exif.c:1483 src/utilops.c:1234
+msgid "on"
+msgstr "ON"
+
+#: src/exif.c:1486 src/utilops.c:1234
+msgid "off"
+msgstr "OFF"
+
+#: src/exif.c:1489
+msgid "auto"
+msgstr "自動"
+
+#: src/exif.c:1495
+msgid "not detected by strobe"
+msgstr "ストロボ未検出"
+
+#: src/exif.c:1496
+msgid "detected by strobe"
+msgstr "ストロボ検出"
+
+#. we ignore flash function (bit 5)
+#. red-eye (bit 6)
+#: src/exif.c:1501
+msgid "red-eye reduction"
+msgstr "赤目反射"
+
+#: src/exif.c:1520
+msgid "dot"
+msgstr "ドット"
+
+#: src/filelist.c:513
+#, c-format
+msgid "%d bytes"
+msgstr "%d バイト"
+
+#: src/filelist.c:517
+#, c-format
+msgid "%.1f K"
+msgstr "%.1f Kバイト"
+
+#: src/filelist.c:521
+#, c-format
+msgid "%.1f MB"
+msgstr "%.1f Mバイト"
+
+#: src/filelist.c:526
+#, c-format
+msgid "%.1f GB"
+msgstr "%.1f Gバイト"
+
+#: src/fullscreen.c:267
+msgid "GQview full screen"
+msgstr "GQview フル・スクリーン"
+
+#: src/fullscreen.c:397
+msgid "Full size"
+msgstr "フルサイズ"
+
+#: src/fullscreen.c:402
+msgid "Monitor"
+msgstr "モニタ"
+
+#: src/fullscreen.c:407
+msgid "Screen"
+msgstr "スクリーン"
+
+#: src/fullscreen.c:644
+#, fuzzy
+msgid "Stay above other windows"
+msgstr "ウィンドウにフィットさせます"
+
+#: src/fullscreen.c:651
+msgid "Determined by Window Manager"
 msgstr ""
 
-#: src/filelist.c:57
+#: src/fullscreen.c:652
+msgid "Active screen"
+msgstr "現在使用中のスクリーン"
+
+#: src/fullscreen.c:654
+msgid "Active monitor"
+msgstr "現在使用中のモニタ"
+
+#: src/img-view.c:1173 src/layout_image.c:706 src/layout_util.c:791
+msgid "Zoom _in"
+msgstr "拡大(_I)"
+
+#: src/img-view.c:1174 src/layout_image.c:707 src/layout_util.c:792
+msgid "Zoom _out"
+msgstr "縮小(_O)"
+
+#: src/img-view.c:1175 src/layout_image.c:708 src/layout_util.c:793
+msgid "Zoom _1:1"
+msgstr "元のサイズ(_1)"
+
+#: src/img-view.c:1176 src/layout_image.c:709
+msgid "Fit image to _window"
+msgstr "ウィンドウにフィットさせる(_W)"
+
+#: src/img-view.c:1181 src/layout_image.c:715 src/layout_util.c:789
+msgid "Set as _wallpaper"
+msgstr "壁紙として貼り付け(_W)"
+
+#: src/img-view.c:1199 src/layout_image.c:740
+msgid "_Stop slideshow"
+msgstr "スライドショーの停止(_S)"
+
+#: src/img-view.c:1202 src/layout_image.c:743
+msgid "Continue slides_how"
+msgstr "スライドショーの続行(_H)"
+
+#: src/img-view.c:1207 src/img-view.c:1215 src/layout_image.c:748
+#: src/layout_image.c:755
+msgid "Pause slides_how"
+msgstr "スライドショーの一時停止(_H)"
+
+#: src/img-view.c:1213 src/layout_image.c:754
+msgid "_Start slideshow"
+msgstr "スライドショーの開始(_S)"
+
+#: src/img-view.c:1221 src/layout_image.c:765
+msgid "Exit _full screen"
+msgstr "フル・スクリーン表示の終了(_F)"
+
+#: src/img-view.c:1225 src/layout_image.c:761
+msgid "_Full screen"
+msgstr "フル・スクリーン表示(_F)"
+
+#: src/img-view.c:1229 src/layout_util.c:766
+msgid "C_lose window"
+msgstr "ウィンドウを閉じる(_L)"
+
+#: src/info.c:361
+msgid "File size:"
+msgstr "サイズ:"
+
+#: src/info.c:363
+msgid "Dimensions:"
+msgstr "寸法:"
+
+#: src/info.c:364
+msgid "Transparent:"
+msgstr "透明:"
+
+#: src/info.c:365 src/print.c:3371
+msgid "Image size:"
+msgstr "画像サイズ:"
+
+#: src/info.c:367
+msgid "Compress ratio:"
+msgstr "圧縮率:"
+
+#: src/info.c:368
+#, fuzzy
+msgid "File type:"
+msgstr "タイムスタンプ:"
+
+#: src/info.c:370
+msgid "Owner:"
+msgstr "所有者:"
+
+#: src/info.c:371
+msgid "Group:"
+msgstr "グループ:"
+
+#: src/info.c:374 src/preferences.c:821
+msgid "General"
+msgstr "全般"
+
+#: src/info.c:455
+#, c-format
+msgid "Image %d of %d"
+msgstr "画像 %d / %d"
+
+#: src/info.c:678
+msgid "Image properties - GQview"
+msgstr "画像のプロパティ - GQview"
+
+#: src/layout.c:271 src/view_file_icon.c:301 src/view_file_list.c:413
+msgid "Ascending"
+msgstr "昇順にする"
+
+#: src/layout.c:337
+msgid " Slideshow"
+msgstr " スライドショー"
+
+#: src/layout.c:341
+msgid " Paused"
+msgstr " 一時停止"
+
+#: src/layout.c:358
+#, c-format
+msgid "%s, %d files (%s, %d)%s"
+msgstr "%s, %d 個のファイル (%s, %d)%s"
+
+#: src/layout.c:365
+#, c-format
+msgid "%s, %d files%s"
+msgstr "%s, %d 個のファイル%s"
+
+#: src/layout.c:370
 #, c-format
 msgid "%d files%s"
-msgstr ""
+msgstr "%d 個のファイル%s"
 
-#: src/filelist.c:1025
-msgid "Loading thumbs..."
-msgstr ""
-
-#: src/image.c:66
+#: src/layout.c:399
 #, c-format
-msgid "( ? x ? ) %d bytes"
-msgstr ""
+msgid "(no read permission) %s bytes"
+msgstr "(読み込み権限なし) %s バイト"
 
-#: src/image.c:68
+#: src/layout.c:403
 #, c-format
-msgid "( %d x %d ) %d bytes"
+msgid "( ? x ? ) %s bytes"
+msgstr "( ? x ? ) %s バイト"
+
+#: src/layout.c:408
+#, c-format
+msgid "( %d x %d ) %s bytes"
+msgstr "( %d x %d ) %s バイト"
+
+#: src/layout.c:1104
+msgid "GQview Tools"
+msgstr "GQview ツール"
+
+#: src/layout_config.c:57
+msgid "Tools"
+msgstr "ツール"
+
+#: src/layout_config.c:57 src/ui_pathsel.c:1175
+msgid "Files"
+msgstr "ファイル"
+
+#: src/layout_config.c:57 src/preferences.c:881 src/print.c:110
+msgid "Image"
+msgstr "画像"
+
+#: src/layout_config.c:363
+msgid "(drag to change order)"
+msgstr "(順番を変更する場合はここにドロップして下さい)"
+
+#: src/layout_image.c:770
+msgid "Hide file _list"
+msgstr "ファイル一覧を隠す(_L)"
+
+#: src/layout_util.c:625 src/menu.c:74
+#, c-format
+msgid "in %s..."
+msgstr "%s で開く..."
+
+#: src/layout_util.c:629 src/menu.c:76
+msgid "in (unknown)..."
+msgstr "(不明なツール)で開く..."
+
+#: src/layout_util.c:637
+#, fuzzy
+msgid "empty"
+msgstr "空です"
+
+#: src/layout_util.c:748
+#, fuzzy
+msgid "_File"
+msgstr "/ファイル(_F)"
+
+#: src/layout_util.c:749 src/menu.c:91
+msgid "_Edit"
+msgstr "編集(_E)"
+
+#: src/layout_util.c:750 src/menu.c:248
+msgid "_Adjust"
+msgstr "調整(_A)"
+
+#: src/layout_util.c:752
+#, fuzzy
+msgid "_Help"
+msgstr "/ヘルプ(_H)"
+
+#: src/layout_util.c:754
+#, fuzzy
+msgid "New _window"
+msgstr "/ファイル(_F)/新しいウィンドウ(_N)"
+
+#: src/layout_util.c:755
+#, fuzzy
+msgid "_New collection"
+msgstr "コレクションの保存(_S)"
+
+#: src/layout_util.c:756
+#, fuzzy
+msgid "_Open collection..."
+msgstr "コレクションを開く"
+
+#: src/layout_util.c:757
+#, fuzzy
+msgid "Open _recent"
+msgstr "/ファイル(_F)/最近の開いたファイル(_R)"
+
+#: src/layout_util.c:758
+#, fuzzy
+msgid "_Search..."
+msgstr "検索中..."
+
+#: src/layout_util.c:760
+#, fuzzy
+msgid "_Print..."
+msgstr "/ファイル(_F)/印刷(_P)..."
+
+#: src/layout_util.c:761
+#, fuzzy
+msgid "N_ew folder..."
+msgstr "新しいフォルダ(_N)..."
+
+#: src/layout_util.c:767
+#, fuzzy
+msgid "_Quit"
+msgstr "品質"
+
+#: src/layout_util.c:779 src/menu.c:194
+msgid "_Rotate clockwise"
+msgstr "時計回りにローテーション(_R)"
+
+#: src/layout_util.c:780 src/menu.c:197
+msgid "Rotate _counterclockwise"
+msgstr "反時計回りにローテーション(_C)"
+
+#: src/layout_util.c:781
+#, fuzzy
+msgid "Rotate 1_80"
+msgstr "180度ローテーション(_1)"
+
+#: src/layout_util.c:782 src/menu.c:203
+msgid "_Mirror"
+msgstr "ミラーリング(_M)"
+
+#: src/layout_util.c:783 src/menu.c:206
+msgid "_Flip"
+msgstr "折り返す(_F)"
+
+#: src/layout_util.c:785
+#, fuzzy
+msgid "Select _all"
+msgstr "全て選択"
+
+#: src/layout_util.c:786
+#, fuzzy
+msgid "Select _none"
+msgstr "選択取り消し"
+
+#: src/layout_util.c:787
+#, fuzzy
+msgid "P_references..."
+msgstr "プロパティ(_P)..."
+
+#: src/layout_util.c:788
+msgid "_Thumbnail maintenance..."
 msgstr ""
 
-#: src/img-main.c:247
-msgid "GQview full screen"
-msgstr "GQview �ե륹���꡼��"
+#: src/layout_util.c:794
+#, fuzzy
+msgid "_Zoom to fit"
+msgstr "/表示(_V)/ウィンドウにフィット(_Z)"
 
-#: src/img-view.c:303 src/menu.c:470 src/menu.c:544 src/menu.c:584
-#: src/menu.c:674
+#: src/layout_util.c:795
+#, fuzzy
+msgid "F_ull screen"
+msgstr "フル・スクリーン表示(_F)"
+
+#: src/layout_util.c:796
+#, fuzzy
+msgid "_Hide file list"
+msgstr "ファイル一覧を隠す(_L)"
+
+#: src/layout_util.c:797
+#, fuzzy
+msgid "Toggle _slideshow"
+msgstr "スライドショーの切り替え"
+
+#: src/layout_util.c:798
+#, fuzzy
+msgid "_Refresh"
+msgstr "更新(_F)"
+
+#: src/layout_util.c:800
+#, fuzzy
+msgid "_Contents"
+msgstr "/ヘルプ(_H)/目次(_C)"
+
+#: src/layout_util.c:801
+#, fuzzy
+msgid "_Keyboard shortcuts"
+msgstr "/ヘルプ(_H)/キー割り当て(_K)"
+
+#: src/layout_util.c:802
+#, fuzzy
+msgid "_Release notes"
+msgstr "/ヘルプ(_H)/リリースノート(_R)"
+
+#: src/layout_util.c:803
+#, fuzzy
+msgid "_About"
+msgstr "/ヘルプ(_H)/情報(_A)"
+
+#: src/layout_util.c:807
+#, fuzzy
+msgid "_Thumbnails"
+msgstr "サムネイル"
+
+#: src/layout_util.c:808
+#, fuzzy
+msgid "Tr_ee"
+msgstr "/表示(_V)/ツリー表示(_E)"
+
+#: src/layout_util.c:809
+#, fuzzy
+msgid "_Float file list"
+msgstr "/表示(_V)/一覧のフロート化(_F)"
+
+#: src/layout_util.c:810
+#, fuzzy
+msgid "Hide tool_bar"
+msgstr "/表示(_V)/ツールバーを隠す(_B)"
+
+#: src/layout_util.c:811
+#, fuzzy
+msgid "_Keywords"
+msgstr "キーワード"
+
+#: src/layout_util.c:812
+#, fuzzy
+msgid "E_xif data"
+msgstr "/表示(_V)/Exif データ(_X)"
+
+#: src/layout_util.c:813
+#, fuzzy
+msgid "Sort _manager"
+msgstr "ソート・マネージャ"
+
+#: src/layout_util.c:817
+#, fuzzy
+msgid "_List"
+msgstr "/表示(_V)/一覧表示(_L)"
+
+#: src/layout_util.c:818
+#, fuzzy
+msgid "I_cons"
+msgstr "アイコン:"
+
+#: src/layout_util.c:1083
+msgid "Show thumbnails"
+msgstr "サムネイルの表示"
+
+#: src/layout_util.c:1085
+#, fuzzy
+msgid "Change to home folder"
+msgstr "ホームへ移動します"
+
+#: src/layout_util.c:1087
+msgid "Refresh file list"
+msgstr "ファイル一覧を更新します"
+
+#: src/layout_util.c:1089
 msgid "Zoom in"
-msgstr "����"
+msgstr "拡大します"
 
-#: src/img-view.c:304 src/menu.c:471 src/menu.c:545 src/menu.c:585
-#: src/menu.c:676
+#: src/layout_util.c:1091
 msgid "Zoom out"
-msgstr "�̾�"
+msgstr "縮小します"
 
-#: src/img-view.c:305 src/menu.c:472 src/menu.c:546 src/menu.c:586
-msgid "Zoom 1:1"
-msgstr "���Υ�����"
+#: src/layout_util.c:1093 src/preferences.c:910
+msgid "Fit image to window"
+msgstr "ウィンドウにフィットさせます"
 
-#. edit menu
-#: src/img-view.c:309 src/menu.c:457 src/menu.c:519 src/menu.c:550
-#: src/menu.c:590
-msgid "Edit"
-msgstr "�Խ�"
+#: src/layout_util.c:1095
+msgid "Set zoom 1:1"
+msgstr "オリジナルのサイズにします"
 
-#: src/img-view.c:314 src/menu.c:446 src/menu.c:526 src/menu.c:557
-#: src/menu.c:595
-msgid "Copy..."
-msgstr "���ԡ�..."
+#: src/layout_util.c:1097
+msgid "Configure options"
+msgstr "オプションを設定します"
 
-#: src/img-view.c:315 src/menu.c:447 src/menu.c:527 src/menu.c:558
-#: src/menu.c:596
-msgid "Move..."
-msgstr "��ư..."
+#: src/layout_util.c:1099
+msgid "Float Controls"
+msgstr "コントロールのフロート状態を切り替えます"
 
-#: src/img-view.c:316 src/menu.c:448 src/menu.c:528 src/menu.c:559
-#: src/menu.c:597
-msgid "Rename..."
-msgstr "̾�����ѹ�..."
+#: src/main.c:266
+msgid "Help - GQview"
+msgstr "ヘルプ - GQview"
 
-#: src/img-view.c:317 src/menu.c:449 src/menu.c:529 src/menu.c:560
-#: src/menu.c:598
-msgid "Delete..."
-msgstr "���..."
+#: src/main.c:489 src/main.c:1305
+msgid "Command line"
+msgstr "コマンドライン"
 
-#: src/img-view.c:320
-msgid "Close window"
-msgstr "������ɥ����Ĥ���"
+#. short, long                  callback,               extra, prefer,description
+#: src/main.c:527
+msgid "next image"
+msgstr "次の画像へジャンプする"
 
-#: src/main.c:90 src/main.c:119
-#, c-format
-msgid "GQview running: %s\n"
+#: src/main.c:528
+msgid "previous image"
+msgstr "前の画像へジャンプする"
+
+#: src/main.c:529
+msgid "first image"
+msgstr "先頭の画像へジャンプする"
+
+#: src/main.c:530
+msgid "last image"
+msgstr "最後の画像へジャンプする"
+
+#: src/main.c:531
+msgid "toggle full screen"
+msgstr "フル・スクリーン表示の切り替え"
+
+#: src/main.c:532
+msgid "start full screen"
+msgstr "フル・スクリーン表示を開始する"
+
+#: src/main.c:533
+msgid "stop full screen"
+msgstr "フル・スクリーン表示を停止する"
+
+#: src/main.c:534
+msgid "toggle slide show"
+msgstr "スライドショーの切り替え"
+
+#: src/main.c:535
+msgid "start slide show"
+msgstr "スライドショーを開始する"
+
+#: src/main.c:536
+msgid "stop slide show"
+msgstr "スライドショーを停止する"
+
+#: src/main.c:537
+#, fuzzy
+msgid "start recursive slide show"
+msgstr "スライドショーを開始する"
+
+#: src/main.c:538
+msgid "set slide show delay in seconds"
+msgstr "スライドショーで画像を表示する間隔(秒)をセットする"
+
+#: src/main.c:539
+msgid "show tools"
+msgstr "ツールを表示する"
+
+#: src/main.c:540
+msgid "hide tools"
+msgstr "ツールを隠す"
+
+#: src/main.c:541
+msgid "quit"
 msgstr ""
 
-#: src/main.c:330
+#: src/main.c:542
+msgid "open file"
+msgstr "ファイルを開く"
+
+#: src/main.c:543
+msgid "open file in new window"
+msgstr "新しいウィンドウでファイルを開く"
+
+#: src/main.c:609
+msgid "Remote command list:\n"
+msgstr "リモート・コマンドの一覧:\n"
+
+#: src/main.c:667
+#, fuzzy
+msgid "Remote GQview not running, starting..."
+msgstr "リモート GQview が起動していません。起動します...\n"
+
+#: src/main.c:802
+msgid "Remote not available\n"
+msgstr "リモート機能は利用できません\n"
+
+#: src/main.c:944
 msgid ""
 "Usage: gqview [options] [path]\n"
 "\n"
 msgstr ""
-"�Ȥ���: gqview [���ץ����] [�ѥ�]\n"
+"用法: gqview [オプション] [パス]\n"
 "\n"
 
-#: src/main.c:331
+#: src/main.c:945
 msgid "valid options are:\n"
-msgstr "���ץ����:\n"
+msgstr "有効なオプション群:\n"
 
-#: src/main.c:332
-#, fuzzy
+#: src/main.c:946
 msgid "  +t, --with-tools           force show of tools\n"
-msgstr "  +t, +tools                 �ġ���С���ɽ��\n"
+msgstr "  +t, --with-tools           ツールバーを強制的に表示する\n"
 
-#: src/main.c:333
-#, fuzzy
+#: src/main.c:947
 msgid "  -t, --without-tools        force hide of tools\n"
-msgstr "  -t, -tools                 �ġ���С�����ɽ��\n"
+msgstr "  -t, --without-tools        ツールバーを強制的に消す\n"
 
-#: src/main.c:334
-#, fuzzy
+#: src/main.c:948
 msgid "  -f, --fullscreen           start in full screen mode\n"
-msgstr "  -t, -tools                 �ġ���С�����ɽ��\n"
+msgstr "  -f, --fullscreen           フル・スクリーン・モードで起動する\n"
 
-#: src/main.c:335
-#, fuzzy
+#: src/main.c:949
 msgid "  -s, --slideshow            start in slideshow mode\n"
-msgstr "  -t, -tools                 �ġ���С�����ɽ��\n"
+msgstr "  -s, --slideshow            スライドショー・モードで起動する\n"
 
-#: src/main.c:336
-#, fuzzy
+#: src/main.c:950
+msgid "  -l, --list                 open collection window for command line\n"
+msgstr ""
+"  -l, --list                 コマンドラインからコレクション・ウィンドウを開"
+"く\n"
+
+#: src/main.c:951
+msgid "  -r, --remote               send following commands to open window\n"
+msgstr "  -r, --remote               ウィンドウを開くコマンドを送信する\n"
+
+#: src/main.c:952
+msgid "  -rh,--remote-help          print remote command list\n"
+msgstr "  -rh,--remote-help          リモート・コマンドの一覧を表示する\n"
+
+#: src/main.c:953
 msgid "  --debug                    turn on debug output\n"
-msgstr "  -debug                     �ǥХå��Ѥν��Ϥ�ͭ���ˤ���\n"
+msgstr "  -debug                     デバッグ出力を有効にする\n"
 
-#: src/main.c:337
-#, fuzzy
+#: src/main.c:954
+msgid "  -v, --version              print version info\n"
+msgstr "  -v, --version              バージョン情報を表示する\n"
+
+#: src/main.c:955
 msgid ""
 "  -h, --help                 show this message\n"
 "\n"
-msgstr ""
-"  -help                      ���Υ�å�������ɽ��\n"
-"\n"
+msgstr "  -h, --help                 このメッセージを表示する\n"
 
-#: src/main.c:342
+#: src/main.c:969
 #, c-format
 msgid ""
 "invalid or ignored: %s\n"
-"Use -help for options\n"
+"Use --help for options\n"
 msgstr ""
-"%s�������Ǥ���\n"
-"�ܤ����� `gqview -help` ��¹Ԥ��Ƥ���������\n"
+"次のオプションを無視しました: %s\n"
+"利用可能なオプションについては '-help' を使って下さい\n"
 
-#: src/main.c:369
-msgid "The Gimp"
-msgstr ""
-
-#: src/main.c:372
-msgid "Electric Eyes"
-msgstr ""
-
-#: src/main.c:375
-msgid "XV"
-msgstr ""
-
-#: src/main.c:378
-msgid "Xpaint"
-msgstr ""
-
-#: src/menu.c:373
+#: src/main.c:1034
 #, c-format
-msgid "in %s..."
+msgid "Creating GQview dir:%s\n"
+msgstr "GQview フォルダの生成中: %s\n"
+
+#: src/main.c:1040
+#, c-format
+msgid "Could not create dir:%s\n"
+msgstr "フォルダを作成できませんでした: %s\n"
+
+#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1043
+msgid "Home"
+msgstr "ホーム"
+
+#: src/main.c:1063 src/ui_bookmark.c:865
+msgid "Desktop"
+msgstr "デスクトップ"
+
+#: src/main.c:1152
+msgid "GQview - exit"
+msgstr "GQview - 終了"
+
+#: src/main.c:1156
+#, fuzzy
+msgid "Quit GQview"
+msgstr "印刷 - GQview"
+
+#: src/main.c:1156
+#, fuzzy
+msgid "Collections have been modified. Quit anyway?"
+msgstr ""
+"コレクションが変更されました。\n"
+"とにかく終了しますか？"
+
+#: src/menu.c:115
+msgid "Sort by size"
+msgstr "サイズ順でソート"
+
+#: src/menu.c:118
+msgid "Sort by date"
+msgstr "日付順でソート"
+
+#: src/menu.c:121
+msgid "Unsorted"
+msgstr "並び替えない"
+
+#: src/menu.c:124
+msgid "Sort by path"
+msgstr "パス名順でソート"
+
+#: src/menu.c:127
+msgid "Sort by number"
+msgstr "番号順でソート"
+
+#: src/menu.c:131
+msgid "Sort by name"
+msgstr "名前順でソート"
+
+#: src/menu.c:175
+msgid "Sort"
+msgstr "ソート"
+
+#: src/menu.c:200
+msgid "Rotate _180"
+msgstr "180度ローテーション(_1)"
+
+#: src/preferences.c:384
+msgid "Nearest (worst, but fastest)"
+msgstr "簡易 (最低だが早い)"
+
+#: src/preferences.c:386
+msgid "Tiles"
+msgstr "タイル状"
+
+#: src/preferences.c:388
+msgid "Bilinear"
+msgstr "線形"
+
+#: src/preferences.c:390
+msgid "Hyper (best, but slowest)"
+msgstr "ハイパー (最適だが遅い)"
+
+#: src/preferences.c:418
+msgid "None"
+msgstr "なし"
+
+#: src/preferences.c:419
+msgid "Normal"
+msgstr "通常"
+
+#: src/preferences.c:420
+msgid "Best"
+msgstr "最適"
+
+#: src/preferences.c:498 src/print.c:365
+msgid "Custom"
+msgstr "カスタマイズ"
+
+#: src/preferences.c:662 src/preferences.c:665
+msgid "Reset filters"
+msgstr "フィルタのリセット"
+
+#: src/preferences.c:666
+msgid ""
+"This will reset the file filters to the defaults.\n"
+"Continue?"
+msgstr ""
+"ファイル・フィルタを初期値に戻します。\n"
+"続行しますか？"
+
+#: src/preferences.c:699 src/preferences.c:702
+msgid "Reset editors"
+msgstr "エディタのリセット"
+
+#: src/preferences.c:703
+msgid ""
+"This will reset the edit commands to the defaults.\n"
+"Continue?"
+msgstr ""
+"エディタ・コマンドをデフォルトに初期化します。\n"
+"続行しますか？"
+
+#: src/preferences.c:727 src/preferences.c:730
+msgid "Clear trash"
+msgstr "ゴミ箱のクリア"
+
+#: src/preferences.c:731
+msgid "This will remove the trash contents."
+msgstr "ゴミ箱にあるものを削除します"
+
+#: src/preferences.c:770
+#, fuzzy
+msgid "GQview Preferences"
+msgstr "GQview フル・スクリーン"
+
+#: src/preferences.c:824
+#, fuzzy
+msgid "Startup"
+msgstr "開始 #"
+
+#: src/preferences.c:826
+#, fuzzy
+msgid "Change to folder:"
+msgstr "ホームへ移動します"
+
+#: src/preferences.c:837
+msgid "Use current"
+msgstr "現在のフォルダ"
+
+#: src/preferences.c:843 src/print.c:3201 src/print.c:3408
+msgid "Size:"
+msgstr "サイズ:"
+
+#: src/preferences.c:844 src/preferences.c:890
+msgid "Quality:"
+msgstr "品質:"
+
+#: src/preferences.c:846
+msgid "Cache thumbnails"
+msgstr "サムネイルをキャッシュする"
+
+#: src/preferences.c:852
+msgid "Use shared thumbnail cache"
 msgstr ""
 
-#: src/menu.c:375
-msgid "in (unknown)..."
+#: src/preferences.c:858
+msgid "Cache thumbnails into .thumbnails"
+msgstr "サムネイルを .thumbnails にキャッシュする"
+
+#: src/preferences.c:861
+msgid "Use xvpics thumbnails when found (read only)"
+msgstr "xvpics がある場合それを使用する(読み込みのみ)"
+
+#: src/preferences.c:864
+msgid "Slide show"
+msgstr "スライドショー"
+
+#: src/preferences.c:867
+#, fuzzy
+msgid "Delay between image change:"
+msgstr "画像を表示する間隔(秒):"
+
+#: src/preferences.c:867
+msgid "seconds"
 msgstr ""
 
-#: src/menu.c:394
-msgid "Options..."
-msgstr "���ץ����..."
+#: src/preferences.c:873
+msgid "Random"
+msgstr "ランダム"
 
-#: src/menu.c:396
-msgid "Remove old thumbnails"
-msgstr "�Ť�����ͥ�����˴�"
+#: src/preferences.c:874
+msgid "Repeat"
+msgstr "繰り返し"
 
-#: src/menu.c:398 src/menu.c:410 src/menu.c:422
-msgid "Set as wallpaper"
-msgstr ""
+#: src/preferences.c:884
+#, fuzzy
+msgid "Zoom"
+msgstr "拡大します"
 
-#. file menu
-#: src/menu.c:440
-msgid "File"
-msgstr "�ե�����"
+#: src/preferences.c:887
+msgid "Dithering method:"
+msgstr "ディザ手法:"
 
-#: src/menu.c:444
-msgid "Create Dir..."
-msgstr "�ǥ��쥯�ȥ����..."
+#: src/preferences.c:892
+msgid "Two pass zooming"
+msgstr "2-パス方式でズームする"
 
-#: src/menu.c:451
-msgid "Exit"
-msgstr "��λ"
+#: src/preferences.c:895
+msgid "Allow enlargement of image for zoom to fit."
+msgstr "ズーム時にフィットするように画像を引き伸ばす"
 
-#. view menu
-#: src/menu.c:466
-msgid "View"
-msgstr "�ӥ塼"
+#: src/preferences.c:899
+msgid "Zoom increment:"
+msgstr "拡大率:"
 
-#: src/menu.c:476 src/menu.c:563
+#: src/preferences.c:904
+msgid "When new image is selected:"
+msgstr "新しい画像が選択された時:"
+
+#: src/preferences.c:907
+msgid "Zoom to original size"
+msgstr "オリジナルのサイズへ拡大する"
+
+#: src/preferences.c:913
+msgid "Leave Zoom at previous setting"
+msgstr "直前のズーム設定のままにする"
+
+#: src/preferences.c:917
+#, fuzzy
+msgid "Appearance"
+msgstr "追加"
+
+#: src/preferences.c:919
+msgid "Black background"
+msgstr "背景を黒にする"
+
+#: src/preferences.c:922
+#, fuzzy
+msgid "Convenience"
+msgstr "続行"
+
+#: src/preferences.c:924
+msgid "Refresh on file change"
+msgstr "ファイルを変更したら画面をリフレッシュする"
+
+#: src/preferences.c:926
+msgid "Preload next image"
+msgstr "次に表示する画像をプリロードする"
+
+#: src/preferences.c:928
+msgid "Auto rotate image using Exif information"
+msgstr "Exif 情報で画像を自動的に回転させる"
+
+#: src/preferences.c:937
+msgid "Windows"
+msgstr "ウィンドウ"
+
+#: src/preferences.c:940
+#, fuzzy
+msgid "State"
+msgstr "開始 #"
+
+#: src/preferences.c:942
+msgid "Remember window positions"
+msgstr "ウィンドウ位置を保持する"
+
+#: src/preferences.c:944
+msgid "Remember tool state (float/hidden)"
+msgstr "ツールバーの状態 (フロートや非表示) を保持する"
+
+#: src/preferences.c:949
+msgid "Fit window to image when tools are hidden/floating"
+msgstr "ツールバーの変更時に画像をウィンドウにフィットさせる"
+
+#: src/preferences.c:953
+msgid "Limit size when auto-sizing window (%):"
+msgstr "自動的に調整するウィンドウ・サイズの上限 (%):"
+
+#: src/preferences.c:960 src/print.c:3356 src/print.c:3363
+msgid "Layout"
+msgstr "配置"
+
+#: src/preferences.c:973
+msgid "Filtering"
+msgstr "フィルタリング"
+
+#: src/preferences.c:978
+msgid "Show entries that begin with a dot"
+msgstr "ドット・ファイル (.*) を表示する"
+
+#: src/preferences.c:980
+msgid "Case sensitive sort"
+msgstr "大・小文字で並べ替える"
+
+#: src/preferences.c:983
+msgid "Disable File Filtering"
+msgstr "フィルタリングしない"
+
+#: src/preferences.c:986
+#, fuzzy
+msgid "File types"
+msgstr "タイムスタンプ:"
+
+#: src/preferences.c:1008
+msgid "Filter"
+msgstr "フィルター"
+
+#: src/preferences.c:1045 src/preferences.c:1109
+msgid "Defaults"
+msgstr "初期値"
+
+#: src/preferences.c:1066
+msgid "Editors"
+msgstr "編集ツール"
+
+#: src/preferences.c:1072
+msgid "#"
+msgstr "番号"
+
+#: src/preferences.c:1075
+msgid "Menu name"
+msgstr "メニューの名前"
+
+#: src/preferences.c:1125
+msgid "Advanced"
+msgstr "拡張"
+
+#: src/preferences.c:1138
+#, fuzzy
 msgid "Full screen"
-msgstr "�ե륹���꡼��"
+msgstr "フル・スクリーン表示(_F)"
 
-#: src/menu.c:485
-msgid "Refresh Lists"
-msgstr "�ꥹ�Ȥι���"
+#: src/preferences.c:1146
+#, fuzzy
+msgid "Smooth image flip"
+msgstr "フル・スクリーン表示では画像をスムーズにめくる"
 
-#: src/menu.c:486
-msgid "(Un)Float file list"
-msgstr "�ե�����ꥹ�Ȥ�(��)�ե����Ȥˤ���"
+#: src/preferences.c:1148
+#, fuzzy
+msgid "Disable screen saver"
+msgstr "フル・スクリーン表示ではスクリーン・セーバーを無効にする"
 
-#: src/menu.c:487 src/menu.c:562
-msgid "(Un)Hide file list"
-msgstr "�ե�����ꥹ�Ȥ�(��)ɽ���ˤ���"
+#: src/preferences.c:1151
+msgid "Delete"
+msgstr "削除"
 
-#: src/menu.c:490
-msgid "Toggle slideshow"
-msgstr "���饤�ɥ��祦"
+#: src/preferences.c:1153
+msgid "Confirm file delete"
+msgstr "削除時に確認する"
 
-#. help menu
-#: src/menu.c:496
-msgid "Help"
-msgstr "�إ��"
+#: src/preferences.c:1155
+msgid "Enable Delete key"
+msgstr "[DEL] キーを有効にする"
 
-#: src/menu.c:523 src/menu.c:554
-msgid "View in new window"
-msgstr "������������ɥ��Ǥߤ�"
+#: src/preferences.c:1158
+msgid "Safe delete"
+msgstr "安全に削除する"
 
-#: src/menu.c:531
-msgid "Refresh"
-msgstr "����"
+#: src/preferences.c:1176
+#, fuzzy
+msgid "Maximum size:"
+msgstr "最大サイズ (MB)"
 
-#: src/menu.c:601
-msgid "Exit full screen"
-msgstr "�ե륹���꡼������"
+#: src/preferences.c:1176
+msgid "MB"
+msgstr ""
 
-#: src/menu.c:661
-msgid "Create thumbnails"
-msgstr "����ͥ������"
+#: src/preferences.c:1179
+msgid "View"
+msgstr "表示"
 
-#: src/menu.c:670
-msgid "Change to home directory"
-msgstr "�ۡ���ǥ��쥯�ȥ�ذ�ư"
+#: src/preferences.c:1189
+msgid "Behavior"
+msgstr ""
 
-#: src/menu.c:672
-msgid "Refresh file list"
-msgstr "�ե�����ꥹ�Ȥι���"
+#: src/preferences.c:1191
+#, fuzzy
+msgid "Rectangular selection in icon view"
+msgstr "矩形の選択範囲を指定する"
 
-#: src/menu.c:680
-msgid "Set zoom 1:1"
-msgstr "���Υ������ˤ���"
+#: src/preferences.c:1194
+msgid "Descend folders in tree view"
+msgstr "フォルダを降順でツリー表示する"
 
-#: src/menu.c:682
-msgid "Configure options"
-msgstr "���ץ��������"
+#: src/preferences.c:1197
+msgid "In place renaming"
+msgstr "名前を変更して配置する"
 
-#: src/menu.c:684
-msgid "Float Controls"
-msgstr "����ȥ������ե����Ⱦ��֤ˤ���"
+#: src/preferences.c:1200
+#, fuzzy
+msgid "Navigation"
+msgstr "アクション"
 
-#: src/rcfile.c:132
+#: src/preferences.c:1202
+msgid "Progressive keyboard scrolling"
+msgstr "キーボードによるスクロールを有効にする"
+
+#: src/preferences.c:1204
+msgid "Mouse wheel scrolls image"
+msgstr "ホイール・マウスで画像をスクロールする"
+
+#: src/preferences.c:1207
+msgid "Miscellaneous"
+msgstr ""
+
+#: src/preferences.c:1209
+msgid "Store keywords and comments local to source images"
+msgstr ""
+
+#: src/preferences.c:1212
+msgid "Custom similarity threshold:"
+msgstr "類似性のしきい値:"
+
+#: src/preferences.c:1215
+msgid "Offscreen cache size (Mb per image):"
+msgstr "オフスクリーンのキャッシュ・サイズ (Mバイト/画像):"
+
+#: src/preferences.c:1291
+msgid "About - GQview"
+msgstr "情報 - GQview"
+
+#: src/preferences.c:1304
+#, c-format
+msgid ""
+"GQview %s\n"
+"\n"
+"Copyright (c) %s John Ellis\n"
+"website: %s\n"
+"email: %s\n"
+"\n"
+"Released under the GNU General Public License"
+msgstr ""
+"GQview %s\n"
+"\n"
+"Copyright (C) %s John Ellis\n"
+"ウェブサイト: %s\n"
+"E-メール: %s\n"
+"\n"
+"GNU一般公有使用許諾契約書の下で公開されています。"
+
+#: src/preferences.c:1322
+msgid "Credits..."
+msgstr "クレジット..."
+
+#: src/print.c:111
+msgid "Selection"
+msgstr "選択した画像"
+
+#: src/print.c:112
+msgid "All"
+msgstr "全て"
+
+#: src/print.c:123
+msgid "One image per page"
+msgstr "１ページにつき１画像"
+
+#: src/print.c:124
+msgid "Proof sheet"
+msgstr "ためし刷り"
+
+#: src/print.c:137
+msgid "Default printer"
+msgstr "デフォルトのプリンタ"
+
+#: src/print.c:138
+msgid "Custom printer"
+msgstr "プリンタのカスタマイズ"
+
+#: src/print.c:139
+#, fuzzy
+msgid "PostScript file"
+msgstr "Postscript ファイル"
+
+#: src/print.c:140
+msgid "Image file"
+msgstr "画像ファイル"
+
+#: src/print.c:154
+msgid "jpeg, low quality"
+msgstr "JPEG (低品質)"
+
+#: src/print.c:155
+msgid "jpeg, normal quality"
+msgstr "JPEG (標準の品質)"
+
+#: src/print.c:156
+msgid "jpeg, high quality"
+msgstr "JPEG (高品質)"
+
+#: src/print.c:350 src/print.c:3201
+msgid "points"
+msgstr "ポイント"
+
+#: src/print.c:351
+msgid "millimeters"
+msgstr "ミリ"
+
+#: src/print.c:352
+msgid "centimeters"
+msgstr "センチ"
+
+#: src/print.c:353
+msgid "inches"
+msgstr "インチ"
+
+#: src/print.c:354
+msgid "picas"
+msgstr ""
+
+#: src/print.c:359
+msgid "Portrait"
+msgstr "縦置き"
+
+#: src/print.c:360
+msgid "Landscape"
+msgstr "横置き"
+
+#: src/print.c:366
+msgid "Letter"
+msgstr "レター"
+
+#. in 8.5 x 11
+#: src/print.c:367
+msgid "Legal"
+msgstr "リーガル"
+
+#. in 8.5 x 14
+#: src/print.c:368
+msgid "Executive"
+msgstr "エグゼクティブ"
+
+#. in 7.25x 10.5
+#. mm 841 x 1189
+#. mm 594 x 841
+#. mm 420 x 594
+#. mm 297 x 420
+#. mm 210 x 297
+#. mm 148 x 210
+#. mm 105 x 148
+#. mm 353 x 500
+#. mm 250 x 353
+#. mm 176 x 250
+#. mm 125 x 176
+#: src/print.c:380
+msgid "Envelope #10"
+msgstr "封筒 #10"
+
+#. in 4.125 x 9.5
+#: src/print.c:381
+msgid "Envelope #9"
+msgstr "封筒 #9"
+
+#. in 3.875 x 8.875
+#: src/print.c:382
+msgid "Envelope C4"
+msgstr "封筒 C4"
+
+#. mm 229 x 324
+#: src/print.c:383
+msgid "Envelope C5"
+msgstr "封筒 C5"
+
+#. mm 162 x 229
+#: src/print.c:384
+msgid "Envelope C6"
+msgstr "封筒 C6"
+
+#. mm 114 x 162
+#: src/print.c:385
+msgid "Photo 6x4"
+msgstr "写真 6x4"
+
+#. in 6   x 4
+#: src/print.c:386
+msgid "Photo 8x10"
+msgstr "写真 8x10"
+
+#. in 8   x 10
+#: src/print.c:387
+msgid "Postcard"
+msgstr "絵はがき"
+
+#. mm 100 x 148
+#: src/print.c:388
+msgid "Tabloid"
+msgstr "タブロイド"
+
+#: src/print.c:544
+#, c-format
+msgid "page %d of %d"
+msgstr "%d / %d ページ"
+
+#: src/print.c:736 src/utilops.c:2067
+msgid "Preview"
+msgstr "プレビュー"
+
+#: src/print.c:1044
+#, c-format
+msgid ""
+"Unable to open pipe for writing.\n"
+"\"%s\""
+msgstr ""
+
+#: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:424
+#: src/view_file_list.c:453
+#, c-format
+msgid "A file with name %s already exists."
+msgstr "ファイル名 %s は既に存在しています。"
+
+#: src/print.c:1074 src/print.c:1543
+#, c-format
+msgid "Failure writing to file %s"
+msgstr ""
+
+#: src/print.c:1128 src/print.c:1165 src/print.c:1201 src/print.c:1307
+#: src/print.c:1398 src/print.c:1429
+msgid "SIGPIPE error writing to printer."
+msgstr ""
+
+#: src/print.c:1964
+#, c-format
+msgid "Page %d"
+msgstr "%d ページ"
+
+#: src/print.c:1986 src/print.c:1991
+#, fuzzy
+msgid "Printing error"
+msgstr "プリンタ"
+
+#: src/print.c:1990
+#, c-format
+msgid "An error occured printing to %s."
+msgstr ""
+
+#: src/print.c:1994
+#, fuzzy
+msgid "Details"
+msgstr "初期値"
+
+#: src/print.c:2587 src/print.c:3332
+msgid "Print - GQview"
+msgstr "印刷 - GQview"
+
+#: src/print.c:2591
+#, fuzzy, c-format
+msgid "Printing %d pages to %s."
+msgstr "%d ページを %s へ出力中..."
+
+#: src/print.c:2691
+msgid "Format:"
+msgstr "書式:"
+
+#: src/print.c:2766
+msgid "Units:"
+msgstr "単位:"
+
+#: src/print.c:2810
+msgid "Orientation:"
+msgstr "向き:"
+
+#: src/print.c:2942
+msgid "Destination:"
+msgstr "印刷先:"
+
+#: src/print.c:2990
+#, fuzzy
+msgid "<printer name>"
+msgstr "ファイル名が"
+
+#: src/print.c:3079
+#, fuzzy
+msgid "Unlimited"
+msgstr "タイトルなし"
+
+#: src/print.c:3188
+msgid "Show"
+msgstr ""
+
+#: src/print.c:3199
+#, fuzzy
+msgid "Font"
+msgstr "ON"
+
+#: src/print.c:3359
+msgid "Source"
+msgstr "印刷するもの"
+
+#: src/print.c:3375
+#, fuzzy
+msgid "Proof size:"
+msgstr "ためし刷りのサイズ"
+
+#: src/print.c:3391
+msgid "Text"
+msgstr "テキスト"
+
+#: src/print.c:3401
+msgid "Paper"
+msgstr "用紙"
+
+#: src/print.c:3424
+#, fuzzy
+msgid "Margins"
+msgstr "マージン"
+
+#: src/print.c:3426
+msgid "Left:"
+msgstr "左:"
+
+#: src/print.c:3429
+msgid "Right:"
+msgstr "右:"
+
+#: src/print.c:3432
+msgid "Top:"
+msgstr "上:"
+
+#: src/print.c:3435
+msgid "Bottom:"
+msgstr "下:"
+
+#: src/print.c:3444
+msgid "Printer"
+msgstr "プリンタ"
+
+#: src/print.c:3450
+msgid "Custom printer:"
+msgstr "カスタムのプリンタ:"
+
+#: src/print.c:3459
+msgid "File:"
+msgstr "ファイル:"
+
+#: src/print.c:3468
+msgid "File format:"
+msgstr "ファイルの書式:"
+
+#: src/print.c:3473
+msgid "DPI:"
+msgstr ""
+
+#: src/print.c:3481
+#, fuzzy
+msgid "Remember print settings"
+msgstr "ウィンドウ位置を保持する"
+
+#: src/rcfile.c:185
 #, c-format
 msgid "error saving config file: %s\n"
-msgstr ""
+msgstr "設定ファイルの保存中にエラー: %s\n"
 
-#: src/thumb.c:127 src/thumb.c:151
+#: src/search.c:200
+#, fuzzy
+msgid "folder"
+msgstr "フォルダ:"
+
+#: src/search.c:201
+msgid "comments"
+msgstr "コメント"
+
+#: src/search.c:202
+msgid "results"
+msgstr "結果"
+
+#: src/search.c:206
+msgid "contains"
+msgstr "次を含む"
+
+#: src/search.c:207
+msgid "is"
+msgstr "次の文字列である"
+
+#: src/search.c:211 src/search.c:218
+msgid "equal to"
+msgstr "次と等しい"
+
+#: src/search.c:212
+msgid "less than"
+msgstr "次より小さい"
+
+#: src/search.c:213
+msgid "greater than"
+msgstr "次より大きい"
+
+#: src/search.c:214 src/search.c:221
+msgid "between"
+msgstr "次の間にある"
+
+#: src/search.c:219
+msgid "before"
+msgstr "次の前にある"
+
+#: src/search.c:220
+msgid "after"
+msgstr "次の後ろにある"
+
+#: src/search.c:225
+msgid "match all"
+msgstr "次と完全に一致する　"
+
+#: src/search.c:226
+msgid "match any"
+msgstr "次のいづれかと一致する"
+
+#: src/search.c:227
+msgid "exclude"
+msgstr "次を除く"
+
+#: src/search.c:277
 #, c-format
-msgid "create dir failed: %s\n"
-msgstr "%s�ǥ��쥯�ȥ�Ǽ��Ԥ��ޤ�����\n"
+msgid "%s, %d files (%s, %d)"
+msgstr "%s, %d 個のファイル (%s, %d)"
 
-#: src/thumb.c:233
+#: src/search.c:284
 #, c-format
-msgid "Unable to delete dir: %s\n"
-msgstr "%s�ǥ��쥯�ȥ�Ǻ���˼��ԡ�\n"
+msgid "%s, %d files"
+msgstr "%s, %d 個のファイル"
 
-#: src/thumb.c:249
+#: src/search.c:301
+msgid "Searching..."
+msgstr "検索中..."
+
+#: src/search.c:2093
+msgid "File not found"
+msgstr "ファイルはありません"
+
+#: src/search.c:2094
+msgid "Please enter an existing file for image content."
+msgstr "存在している画像ファイルを入力して下さい"
+
+#: src/search.c:2140
+msgid "Folder not found"
+msgstr "フォルダはありません"
+
+#: src/search.c:2141
+msgid "Please enter an existing folder to search."
+msgstr "存在しているフォルダを入力して下さい"
+
+#: src/search.c:2570
+msgid "Image search - GQview"
+msgstr "画像の検索 - GQview"
+
+#: src/search.c:2599
+#, fuzzy
+msgid "Search:"
+msgstr "検索する"
+
+#: src/search.c:2613
+msgid "Recurse"
+msgstr "再帰的に検索する"
+
+#: src/search.c:2617
+msgid "File name"
+msgstr "ファイル名が"
+
+#: src/search.c:2623
+msgid "Match case"
+msgstr "大/小文字を区別する"
+
+#: src/search.c:2627
+msgid "File size is"
+msgstr "ファイル・サイズが"
+
+#: src/search.c:2634 src/search.c:2649 src/search.c:2667
+msgid "and"
+msgstr "と"
+
+#: src/search.c:2639
+msgid "File date is"
+msgstr "タイムスタンプが"
+
+#: src/search.c:2656
+msgid "Image dimensions are"
+msgstr "画像の寸法が"
+
+#: src/search.c:2676
+msgid "Image content is"
+msgstr "画像の中身が"
+
+#: src/search.c:2682
+#, no-c-format
+msgid "% similar to"
+msgstr "% 次と類似する"
+
+#: src/search.c:2751
+msgid "Rank"
+msgstr "ランク"
+
+#: src/thumb.c:378
+msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
+msgstr ""
+"キャッシュにあるサムネイル画像のロードに失敗しました。再度作成して下さい。\n"
+
+#: src/ui_bookmark.c:148
 #, c-format
-msgid "failed to delete:%s\n"
-msgstr "%s�κ���˼���\n"
+msgid "Unable to write history lists to: %s\n"
+msgstr "履歴リストへ書き込めません: %s\n"
 
-#: src/utildlg.c:68
-msgid "     Ok     "
-msgstr ""
+#: src/ui_bookmark.c:445 src/ui_bookmark.c:508
+msgid "New Bookmark"
+msgstr "新しいブックマーク"
 
-#: src/utilops.c:166
-msgid "Source to copy matches destination"
-msgstr ""
+#: src/ui_bookmark.c:591 src/ui_bookmark.c:597
+msgid "Edit Bookmark"
+msgstr "ブックマークの編集"
 
-#: src/utilops.c:167
-#, fuzzy, c-format
+#: src/ui_bookmark.c:612
+msgid "Path:"
+msgstr "パス:"
+
+#: src/ui_bookmark.c:621
+msgid "Icon:"
+msgstr "アイコン:"
+
+#: src/ui_bookmark.c:627
+msgid "Select icon"
+msgstr "アイコンの選択"
+
+#: src/ui_bookmark.c:718
+msgid "_Properties..."
+msgstr "プロパティ(_P)..."
+
+#: src/ui_bookmark.c:720
+msgid "Move _up"
+msgstr "上へ移動(_U)"
+
+#: src/ui_bookmark.c:722
+msgid "Move _down"
+msgstr "下へ移動(_D)"
+
+#: src/ui_bookmark.c:724
+msgid "_Remove"
+msgstr "削除(_R)"
+
+#: src/ui_help.c:111
+#, c-format
 msgid ""
-"Unable to copy file:\n"
-"%s\n"
-"to itself."
-msgstr "�ǥ��쥯�ȥ�κ������Ǥ��ޤ���\n"
-
-#: src/utilops.c:171
-msgid "Source to move matches destination"
+"Unable to load:\n"
+"%s"
 msgstr ""
+"読み込めません:\n"
+"%s"
 
-#: src/utilops.c:172
-#, fuzzy, c-format
+#: src/ui_pathsel.c:430 src/view_dir_list.c:97 src/view_dir_tree.c:204
+#, c-format
+msgid "Failed to rename %s to %s."
+msgstr "%s から %s への名前変更に失敗しました。"
+
+#: src/ui_pathsel.c:486 src/utilops.c:1288 src/utilops.c:1461
+#, c-format
 msgid ""
-"Unable to move file:\n"
-"%s\n"
-"to itself."
-msgstr "�ǥ��쥯�ȥ�κ������Ǥ��ޤ���\n"
-
-#: src/utilops.c:175 src/utilops.c:231 src/utilops.c:516
-msgid "Continue"
+"Unable to delete file:\n"
+"%s"
 msgstr ""
+"ファイルの削除に失敗:\n"
+"%s"
 
-#: src/utilops.c:182
-#, fuzzy, c-format
+#: src/ui_pathsel.c:487 src/utilops.c:1462
+msgid "File deletion failed"
+msgstr "削除に失敗したファイル"
+
+#: src/ui_pathsel.c:529 src/ui_pathsel.c:537
+msgid "Delete file"
+msgstr "ファイルの削除"
+
+#: src/ui_pathsel.c:535
+#, c-format
 msgid ""
-"Overwrite file:\n"
-" %s\n"
-" with:\b %s"
-msgstr "�ե�����ξ��:\n"
+"About to delete the file:\n"
+" %s"
+msgstr ""
+"ファイルの削除について:\n"
+" %s"
 
-#: src/utilops.c:183 src/utilops.c:289 src/utilops.c:651 src/utilops.c:835
+#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2035
+#: src/utilops.c:2255
+msgid "_Rename"
+msgstr "名前の変更(_R)"
+
+#: src/ui_pathsel.c:628 src/ui_pathsel.c:638
+msgid "Add _Bookmark"
+msgstr "ブックマークへ追加(_B)"
+
+#: src/ui_pathsel.c:636
+msgid "_Delete"
+msgstr "削除(_D)"
+
+#: src/ui_pathsel.c:740 src/ui_pathsel.c:1045
+#, fuzzy
+msgid "New folder"
+msgstr "新しいフォルダ(_N)..."
+
+#: src/ui_pathsel.c:750 src/utilops.c:2325 src/view_dir_list.c:338
+#: src/view_dir_tree.c:434
+#, c-format
+msgid ""
+"Unable to create folder:\n"
+"%s"
+msgstr ""
+"フォルダを作成できません:\n"
+"%s"
+
+#: src/ui_pathsel.c:751 src/utilops.c:2326 src/view_dir_list.c:339
+#: src/view_dir_tree.c:435
+msgid "Error creating folder"
+msgstr "フォルダの作成中にエラー"
+
+#: src/ui_pathsel.c:972
+msgid "All Files"
+msgstr "全ファイル"
+
+#: src/ui_pathsel.c:1048
+msgid "Show hidden"
+msgstr "隠す"
+
+#: src/ui_pathsel.c:1132
+msgid "Filter:"
+msgstr "フィルター:"
+
+#: src/ui_tabcomp.c:840
+#, fuzzy
+msgid "Select path"
+msgstr "全て選択"
+
+#: src/ui_tabcomp.c:856
+#, fuzzy
+msgid "All files"
+msgstr "全ファイル"
+
+#: src/utilops.c:470 src/utilops.c:783 src/utilops.c:1640 src/utilops.c:2187
 msgid "Overwrite file"
-msgstr "�ե�����ξ��"
+msgstr "ファイルの上書き"
 
-#: src/utilops.c:186
-msgid "Skip"
-msgstr "�����å�"
+#: src/utilops.c:475 src/utilops.c:788 src/utilops.c:1645 src/utilops.c:2192
+#, fuzzy
+msgid "Overwrite file?"
+msgstr "ファイルの上書き"
 
-#: src/utilops.c:187
-msgid "Yes to all"
-msgstr "���٤ƤϤ�"
+#: src/utilops.c:476 src/utilops.c:789
+msgid "Replace existing file with new file."
+msgstr ""
 
-#: src/utilops.c:188
-msgid "Yes"
-msgstr "�Ϥ�"
+#: src/utilops.c:480
+#, fuzzy
+msgid "Overwrite _all"
+msgstr "ファイルの上書き"
 
-#: src/utilops.c:222 src/utilops.c:317
+#: src/utilops.c:482
+#, fuzzy
+msgid "S_kip all"
+msgstr "全てスキップ"
+
+#: src/utilops.c:483
+#, fuzzy
+msgid "_Skip"
+msgstr "スキップ"
+
+#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+#, fuzzy
+msgid "Existing file"
+msgstr "ファイルの移動中にエラー:"
+
+#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+#, fuzzy
+msgid "New file"
+msgstr "新しいフォルダ(_N)..."
+
+#: src/utilops.c:494 src/utilops.c:802 src/utilops.c:1746 src/utilops.c:1810
+#: src/utilops.c:2101
+msgid "Auto rename"
+msgstr "自動的に名前を変更する"
+
+#: src/utilops.c:502 src/utilops.c:810
+msgid "Rename"
+msgstr "名前を変更する"
+
+#: src/utilops.c:543
+msgid "Source to copy matches destination"
+msgstr "コピー元から一致するコピー先へ"
+
+#: src/utilops.c:544
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to itself."
+msgstr ""
+"ファイルのコピーに失敗:\n"
+"%s\n"
+"から自分自身へ"
+
+#: src/utilops.c:548
+msgid "Source to move matches destination"
+msgstr "移動元から一致する移動先へ"
+
+#: src/utilops.c:549
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to itself."
+msgstr ""
+"ファイルの移動に失敗:\n"
+"%s\n"
+"から自分自身へ。"
+
+#: src/utilops.c:557 src/utilops.c:644 src/utilops.c:1280
+#, fuzzy
+msgid "Co_ntinue"
+msgstr "続行"
+
+#: src/utilops.c:630 src/utilops.c:850
 msgid "Error copying file"
-msgstr ""
+msgstr "ファイルをコピーする際にエラー"
 
-#: src/utilops.c:223
+#: src/utilops.c:631
 #, c-format
 msgid ""
 "Unable to copy file:\n"
-"%sto:\n"
 "%s\n"
-" during multiple file copy."
+"to:\n"
+"%s\n"
+"during multiple file copy."
 msgstr ""
+"複数ファイルのコピーで\n"
+"ファイルをコピーできません:\n"
+"%s から:\n"
+"%s へ"
 
-#: src/utilops.c:227 src/utilops.c:322
+#: src/utilops.c:635 src/utilops.c:855
 msgid "Error moving file"
-msgstr ""
+msgstr "ファイルの移動中にエラー:"
 
-#: src/utilops.c:228
+#: src/utilops.c:636
 #, c-format
 msgid ""
 "Unable to move file:\n"
-"%sto:\n"
 "%s\n"
-" during multiple file move."
+"to:\n"
+"%s\n"
+"during multiple file move."
 msgstr ""
+"複数ファイルの移動で\n"
+"ファイルを移動できません:\n"
+"%s から\n"
+"%s へ"
 
-#: src/utilops.c:282
+#: src/utilops.c:774
 msgid "Source matches destination"
-msgstr ""
+msgstr "移動元が移動先に一致します"
 
-#: src/utilops.c:283
+#: src/utilops.c:775
 msgid "Source and destination are the same, operation cancelled."
-msgstr ""
+msgstr "移動元と移動先が同じです。この操作を取り消しました。"
 
-#: src/utilops.c:288
-#, fuzzy, c-format
-msgid ""
-"Overwrite file:\n"
-"%s\n"
-" with:\n"
-"%s"
-msgstr "�ե�����ξ��:\n"
-
-#: src/utilops.c:292 src/utilops.c:654 src/utilops.c:838
-msgid "Overwrite"
-msgstr ""
-
-#: src/utilops.c:318
-#, fuzzy, c-format
+#: src/utilops.c:851
+#, c-format
 msgid ""
 "Unable to copy file:\n"
 "%s\n"
 "to:\n"
 "%s"
-msgstr "�ǥ��쥯�ȥ�κ������Ǥ��ޤ���\n"
+msgstr ""
+"%s\n"
+"から\n"
+"%s へコピーしますか？"
 
-#: src/utilops.c:323
-#, fuzzy, c-format
+#: src/utilops.c:856
+#, c-format
 msgid ""
 "Unable to move file:\n"
 "%s\n"
 "to:\n"
 "%s"
-msgstr "�ǥ��쥯�ȥ�κ������Ǥ��ޤ���\n"
-
-#: src/utilops.c:367
-msgid "Invalid destination"
 msgstr ""
+"%s\n"
+"から\n"
+"%s へ移動できませんでした"
 
-#: src/utilops.c:367
+#: src/utilops.c:899
+msgid "Invalid destination"
+msgstr "不正な対象先"
+
+#: src/utilops.c:900
 msgid ""
 "When operating with multiple files, please select\n"
-" a directory, not file."
+"a folder, not a file."
 msgstr ""
+"複数のファイルに対する操作では、\n"
+"ファイルではなくフォルダを指定して下さい。"
 
-#: src/utilops.c:369
-msgid "Invalid directory"
-msgstr ""
+#: src/utilops.c:905
+msgid "Please select an existing folder."
+msgstr "存在しているフォルダを選択して下さい。"
 
-#: src/utilops.c:369
-msgid "Please select an existing directory"
-msgstr ""
+#: src/utilops.c:956
+msgid "Copy - GQview"
+msgstr "コピー - GQview"
 
-#: src/utilops.c:427
-msgid "GQview - copy"
-msgstr ""
+#: src/utilops.c:957 src/view_dir_list.c:217 src/view_dir_tree.c:309
+msgid "_Copy"
+msgstr "コピー(_C)"
 
-#: src/utilops.c:428
-msgid "Copy"
-msgstr ""
+#: src/utilops.c:960
+#, fuzzy
+msgid "Copy file"
+msgstr "ファイルを開く"
 
-#: src/utilops.c:430
+#: src/utilops.c:964
+#, fuzzy
+msgid "Copy multiple files"
+msgstr "複数のファイルのコピー先:"
+
+#: src/utilops.c:970
+msgid "Move - GQview"
+msgstr "移動 - GQview"
+
+#: src/utilops.c:971 src/view_dir_list.c:219 src/view_dir_tree.c:311
+msgid "_Move"
+msgstr "移動(_M)"
+
+#: src/utilops.c:974
+#, fuzzy
+msgid "Move file"
+msgstr "ファイルを開く"
+
+#: src/utilops.c:978
+#, fuzzy
+msgid "Move multiple files"
+msgstr "複数のファイルの移動先:"
+
+#: src/utilops.c:992 src/utilops.c:1502
+#, fuzzy
+msgid "File name:"
+msgstr "ファイル名が"
+
+#: src/utilops.c:996
+#, fuzzy
+msgid "Choose the destination folder."
+msgstr "移動元が移動先に一致します"
+
+#: src/utilops.c:1123 src/utilops.c:1272 src/utilops.c:1289
+msgid "Delete failed"
+msgstr "削除に失敗しました"
+
+#: src/utilops.c:1124
+msgid "Unable to remove old file from trash folder"
+msgstr "ゴミ箱から古いファイルを削除できません"
+
+#: src/utilops.c:1180 src/utilops.c:2318
+msgid "Could not create folder"
+msgstr "フォルダを作成できませんでした"
+
+#: src/utilops.c:1202
+msgid "Permission denied"
+msgstr "パーミッションが不正です"
+
+#: src/utilops.c:1212
 #, c-format
 msgid ""
-"Copy file:\n"
-"%s\n"
-"to:"
+"Unable to access or create the trash folder.\n"
+"\"%s\""
 msgstr ""
+"ゴミ箱にアクセスまたは作成できません。\n"
+"\"%s\""
 
-#: src/utilops.c:432
+#: src/utilops.c:1216
+msgid "Turn off safe delete"
+msgstr "安全な削除を無効にする"
+
+#: src/utilops.c:1234
 #, c-format
-msgid ""
-"Copy multiple files from:\n"
-"%s\n"
-"to:"
-msgstr ""
+msgid "Safe delete: %s"
+msgstr "安全に削除: %s"
 
-#: src/utilops.c:436
-msgid "GQview - move"
-msgstr ""
-
-#: src/utilops.c:437
-msgid "Move"
-msgstr ""
-
-#: src/utilops.c:439
-#, c-format
-msgid ""
-"Move file:\n"
-"%s\n"
-"to:"
-msgstr ""
-
-#: src/utilops.c:441
-#, c-format
-msgid ""
-"Move multiple files from:\n"
-"%s\n"
-"to:"
-msgstr ""
-
-#: src/utilops.c:514
+#: src/utilops.c:1276
 #, c-format
 msgid ""
 "Unable to delete file:\n"
 " %s\n"
 " Continue multiple delete operation?"
 msgstr ""
+"ファイルの削除に失敗:\n"
+" %s\n"
+"複数のファイルの削除を続行しますか?"
 
-#: src/utilops.c:515 src/utilops.c:521
-msgid "Delete failed"
+#: src/utilops.c:1347
+#, c-format
+msgid "File %d of %d"
+msgstr "ファイル %d / %d"
+
+#: src/utilops.c:1416
+msgid "Delete files - GQview"
+msgstr "ファイルの削除 - GQview"
+
+#: src/utilops.c:1420
+#, fuzzy
+msgid "Delete multiple files"
+msgstr "複数のファイル名の変更:"
+
+#: src/utilops.c:1438
+#, c-format
+msgid "Review %d files"
+msgstr "%d 個のファイルのレビュー"
+
+#: src/utilops.c:1494
+msgid "Delete file - GQview"
+msgstr "ファイルの削除 - GQview"
+
+#: src/utilops.c:1498
+#, fuzzy
+msgid "Delete file?"
+msgstr "ファイルの削除"
+
+#: src/utilops.c:1646 src/utilops.c:2193
+msgid "Replace existing file by renaming new file."
 msgstr ""
 
-#: src/utilops.c:520 src/utilops.c:565
-#, fuzzy, c-format
-msgid ""
-"Unable to delete file:\n"
-"%s"
-msgstr "%s�ǥ��쥯�ȥ�Ǻ���˼��ԡ�\n"
-
-#: src/utilops.c:550
-msgid "Delete files"
-msgstr ""
-
-#: src/utilops.c:550
-msgid "About to delete multiple files..."
-msgstr ""
-
-#: src/utilops.c:551 src/utilops.c:596
-msgid "Delete"
-msgstr ""
-
-#: src/utilops.c:566
-msgid "File deletion failed"
-msgstr ""
-
-#: src/utilops.c:594
-#, fuzzy, c-format
-msgid ""
-"About to delete the file:\n"
-" %s"
-msgstr "%s�ǥ��쥯�ȥ�Ǻ���˼��ԡ�\n"
-
-#: src/utilops.c:595
-msgid "Delete file"
-msgstr ""
-
-#: src/utilops.c:650 src/utilops.c:834
-#, fuzzy, c-format
-msgid ""
-"Overwrite file:\n"
-"%s\n"
-"by renaming:\n"
-"%s"
-msgstr "�ե�����ξ��:\n"
-
-#: src/utilops.c:663
-#, fuzzy, c-format
+#: src/utilops.c:1661
+#, c-format
 msgid ""
 "Unable to rename file:\n"
 "%s\n"
 " to:\n"
 "%s"
-msgstr "�ǥ��쥯�ȥ�κ������Ǥ��ޤ���\n"
+msgstr ""
+"ファイル名の変更に失敗:\n"
+"%s\n"
+"から\n"
+"%s へ"
 
-#: src/utilops.c:664 src/utilops.c:847
+#: src/utilops.c:1664 src/utilops.c:2208 src/view_file_list.c:448
+#: src/view_file_list.c:454 src/view_file_list.c:460
 msgid "Error renaming file"
-msgstr ""
+msgstr "ファイル名の変更でエラー"
 
-#: src/utilops.c:754 src/utilops.c:885
-msgid "GQview - rename"
+#: src/utilops.c:1747
+msgid ""
+"Can not auto rename with the selected\n"
+"number set, one or more files exist that\n"
+"match the resulting name list.\n"
 msgstr ""
+"指定した番号の並びで自動ファイル名変更は\n"
+"行えませんん。名前一覧に一致する\n"
+"ファイルが一つ以上あります。\n"
 
-#: src/utilops.c:754
-msgid "Rename multiple files:"
+#: src/utilops.c:1809
+#, c-format
+msgid ""
+"Failed to rename\n"
+"%s\n"
+"The number was %d."
 msgstr ""
+"%s の名前変更に\n"
+"失敗しました。\n"
+"番号は %d です。"
 
-#: src/utilops.c:754 src/utilops.c:885
-msgid "Rename"
-msgstr ""
+#: src/utilops.c:2031 src/utilops.c:2249
+msgid "Rename - GQview"
+msgstr "名前の変更 - GQview"
 
-#: src/utilops.c:790
-msgid "Rename:"
-msgstr ""
+#: src/utilops.c:2034
+#, fuzzy
+msgid "Rename multiple files"
+msgstr "複数のファイル名の変更:"
 
-#: src/utilops.c:799
-msgid "to:"
-msgstr ""
+#: src/utilops.c:2066
+msgid "Original Name"
+msgstr "オリジナルの名前"
 
-#: src/utilops.c:846
-#, fuzzy, c-format
+#: src/utilops.c:2110 src/utilops.c:2262
+#, fuzzy
+msgid "Original name:"
+msgstr "オリジナルの名前"
+
+#: src/utilops.c:2113 src/utilops.c:2265
+#, fuzzy
+msgid "New name:"
+msgstr "名前変更:"
+
+#: src/utilops.c:2128
+msgid "Begin text"
+msgstr "テキストの先頭"
+
+#: src/utilops.c:2136
+msgid "Start #"
+msgstr "開始 #"
+
+#: src/utilops.c:2142
+msgid "End text"
+msgstr "テキストの末尾"
+
+#: src/utilops.c:2150
+msgid "Padding:"
+msgstr "埋め込み:"
+
+#: src/utilops.c:2207 src/view_file_list.c:459
+#, c-format
 msgid ""
 "Unable to rename file:\n"
 "%s\n"
 "to:\n"
 "%s"
-msgstr "�ǥ��쥯�ȥ�κ������Ǥ��ޤ���\n"
+msgstr ""
+"ファイル名の変更不可:\n"
+"%s\n"
+"から\n"
+"%s へ"
 
-#: src/utilops.c:884
+#: src/utilops.c:2252
+#, fuzzy
+msgid "Rename file"
+msgstr "ファイル名の変更:"
+
+#: src/utilops.c:2311
 #, c-format
 msgid ""
-"Rename file:\n"
+"The folder:\n"
 "%s\n"
-"to:"
+"already exists."
 msgstr ""
+"フォルダ:\n"
+"%s\n"
+"は既に存在しています。"
 
-#: src/utilops.c:928
+#: src/utilops.c:2312
+msgid "Folder exists"
+msgstr "フォルダが存在しています"
+
+#: src/utilops.c:2317
 #, c-format
 msgid ""
 "The path:\n"
 "%s\n"
 "already exists as a file."
 msgstr ""
+"パス:\n"
+"%s\n"
+"はファイルとして既に存在しています。"
 
-#: src/utilops.c:929
-#, fuzzy
-msgid "Could not create directory"
-msgstr "�ǥ��쥯�ȥ�κ������Ǥ��ޤ���\n"
+#: src/utilops.c:2369
+msgid "New folder - GQview"
+msgstr "新しいフォルダ - GQview"
 
-#: src/utilops.c:934
+#: src/utilops.c:2372
 #, c-format
 msgid ""
-"The directory:\n"
-"%s\n"
-"already exists."
-msgstr ""
-
-#: src/utilops.c:935
-msgid "Directory exists"
-msgstr ""
-
-#: src/utilops.c:942
-#, fuzzy, c-format
-msgid ""
-"Unable to create directory:\n"
-"%s"
-msgstr "�ǥ��쥯�ȥ�κ������Ǥ��ޤ���\n"
-
-#: src/utilops.c:943
-#, fuzzy
-msgid "Error creating directory"
-msgstr "�ǥ��쥯�ȥ�κ������Ǥ��ޤ���\n"
-
-#: src/utilops.c:982
-#, fuzzy, c-format
-msgid ""
-"Create directory in:\n"
+"Create folder in:\n"
 "%s\n"
 "named:"
-msgstr "�ǥ��쥯�ȥ����\n"
+msgstr ""
+"次の名前を付けて\n"
+"フォルダの保存:\n"
+"%s"
 
-#: src/utilops.c:983
-msgid "GQview - new directory"
-msgstr "GQview - �����ǥ��쥯�ȥ�"
+#: src/view_dir_list.c:329 src/view_dir_tree.c:425
+msgid "new_folder"
+msgstr "new_folder"
 
-#: src/utilops.c:983
-msgid "Create"
-msgstr "����"
+#: src/view_dir_list.c:387 src/view_dir_tree.c:482
+msgid "_Up to parent"
+msgstr "上のフォルダへ(_U)"
 
-#: src/window.c:151
+#: src/view_dir_list.c:392 src/view_dir_tree.c:487
+msgid "_Slideshow"
+msgstr " スライドショー(_S)"
+
+#: src/view_dir_list.c:394 src/view_dir_tree.c:489
+msgid "Slideshow recursive"
+msgstr "逆順にスライドショー"
+
+#: src/view_dir_list.c:398 src/view_dir_tree.c:493
+msgid "Find _duplicates..."
+msgstr "複製の検索(_D)..."
+
+#: src/view_dir_list.c:400 src/view_dir_tree.c:495
+msgid "Find duplicates recursive..."
+msgstr "逆順に複製の検索..."
+
+#: src/view_dir_list.c:407 src/view_dir_tree.c:502
+msgid "_New folder..."
+msgstr "新しいフォルダ(_N)..."
+
+#: src/view_dir_list.c:419 src/view_dir_tree.c:509
+msgid "View as _tree"
+msgstr "ツリー表示(_T)"
+
+#: src/view_dir_list.c:421 src/view_dir_tree.c:511 src/view_file_icon.c:311
+#: src/view_file_list.c:423
+msgid "Re_fresh"
+msgstr "更新(_F)"
+
+#: src/view_file_icon.c:304 src/view_file_list.c:416
+msgid "_Sort"
+msgstr "ソート(_S)"
+
+#: src/view_file_icon.c:307 src/view_file_list.c:419
+msgid "View as _icons"
+msgstr "アイコン表示(_I)"
+
+#: src/view_file_list.c:421
+msgid "Show _thumbnails"
+msgstr "サムネイルの表示(_T)"
+
+#: src/view_file_list.c:447
+#, c-format
+msgid ""
+"Invalid file name:\n"
+"%s"
+msgstr ""
+"不正なファイル名:\n"
+"%s"
+
+#~ msgid "Purge thumbnails"
+#~ msgstr "サムネイルの削除"
+
+#~ msgid "/File/tear1"
+#~ msgstr "/ファイル(_F)/tear1"
+
+#~ msgid "/File/_New collection"
+#~ msgstr "/ファイル(_F)/新しいコレクション(_N)"
+
+#~ msgid "/File/_Open collection..."
+#~ msgstr "/ファイル(_F)/コレクションを開く(_O)..."
+
+#~ msgid "/File/sep1"
+#~ msgstr "/ファイル(_F)/sep1"
+
+#~ msgid "/File/_Search..."
+#~ msgstr "/ファイル(_F)/検索(_S)..."
+
+#~ msgid "/File/_Find duplicates..."
+#~ msgstr "/ファイル(_F)/複製の検索(_F)..."
+
+#~ msgid "/File/sep2"
+#~ msgstr "/ファイル(_F)/sep2"
+
+#~ msgid "/File/_Print..."
+#~ msgstr "/ファイル(_F)/印刷(_P)..."
+
+#~ msgid "/File/N_ew folder..."
+#~ msgstr "/ファイル(_F)/新しいフォルダ(_E)..."
+
+#~ msgid "/File/sep3"
+#~ msgstr "/ファイル(_F)/sep3"
+
+#~ msgid "/File/_Copy..."
+#~ msgstr "/ファイル(_F)/コピー(_C)..."
+
+#~ msgid "/File/_Move..."
+#~ msgstr "/ファイル(_F)/移動(_M)..."
+
+#~ msgid "/File/_Rename..."
+#~ msgstr "/ファイル(_F)/名前の変更(_R)..."
+
+#~ msgid "/File/_Delete..."
+#~ msgstr "/ファイル(_F)/削除(_D)..."
+
+#~ msgid "/File/sep4"
+#~ msgstr "/ファイル(_F)/sep4"
+
+#~ msgid "/File/C_lose window"
+#~ msgstr "/ファイル(_F)/ウィンドウを閉じる(_L)"
+
 #, fuzzy
-msgid "GQview Tools"
-msgstr "GQview �ե륹���꡼��"
+#~ msgid "/File/_Quit"
+#~ msgstr "/ファイル(_F)/終了(_X)"
+
+#~ msgid "/_Edit"
+#~ msgstr "/編集(_E)"
+
+#~ msgid "/Edit/tear1"
+#~ msgstr "/編集(_E)/tear1"
+
+#~ msgid "/Edit/editor1"
+#~ msgstr "/編集(_E)/editor1"
+
+#~ msgid "/Edit/editor2"
+#~ msgstr "/編集(_E)/editor2"
+
+#~ msgid "/Edit/editor3"
+#~ msgstr "/編集(_E)/editor3"
+
+#~ msgid "/Edit/editor4"
+#~ msgstr "/編集(_E)/editor4"
+
+#~ msgid "/Edit/editor5"
+#~ msgstr "/編集(_E)/editor5"
+
+#~ msgid "/Edit/editor6"
+#~ msgstr "/編集(_E)/editor6"
+
+#~ msgid "/Edit/editor7"
+#~ msgstr "/編集(_E)/editor7"
+
+#~ msgid "/Edit/editor8"
+#~ msgstr "/編集(_E)/editor8"
+
+#~ msgid "/Edit/editor9"
+#~ msgstr "/編集(_E)/editor9"
+
+#~ msgid "/Edit/editor0"
+#~ msgstr "/編集(_E)/editor0"
+
+#~ msgid "/Edit/sep1"
+#~ msgstr "/編集(_E)/sep1"
+
+#~ msgid "/Edit/_Adjust"
+#~ msgstr "/編集(_E)/調整(_A)"
+
+#~ msgid "/Edit/_Properties"
+#~ msgstr "/編集(_E)/プロパティ(_P)..."
+
+#~ msgid "/Edit/Adjust/tear1"
+#~ msgstr "/編集(_E)/調整(_A)/tear1"
+
+#~ msgid "/Edit/Adjust/_Rotate clockwise"
+#~ msgstr "/編集(_E)/調整(_A)/時計回りに回転(_R)"
+
+#~ msgid "/Edit/Adjust/Rotate _counterclockwise"
+#~ msgstr "/編集(_E)/調整(_A)/反時計回りに回転(_C)"
+
+#~ msgid "/Edit/Adjust/Rotate 1_80"
+#~ msgstr "/編集(_E)/調整(_A)/180度回転(_8)"
+
+#~ msgid "/Edit/Adjust/_Mirror"
+#~ msgstr "/編集(_E)/調整(_A)/ミラーリング(_M)"
+
+#~ msgid "/Edit/Adjust/_Flip"
+#~ msgstr "/編集(_E)/調整(_A)/折り返し(_F)"
+
+#~ msgid "/Edit/sep2"
+#~ msgstr "/編集(_E)/sep2"
+
+#~ msgid "/Edit/Select _all"
+#~ msgstr "/編集(_E)/全て選択(_A)"
+
+#~ msgid "/Edit/Select _none"
+#~ msgstr "/編集(_E)/選択解除(_N)"
+
+#~ msgid "/Edit/sep3"
+#~ msgstr "/編集(_E)/sep3"
+
+#~ msgid "/Edit/_Options..."
+#~ msgstr "/編集(_E)/オプション(_O)..."
+
+#~ msgid "/Edit/sep4"
+#~ msgstr "/編集(_E)/sep4"
+
+#~ msgid "/Edit/Set as _wallpaper"
+#~ msgstr "/編集(_E)/壁紙として貼り付け(_W)"
+
+#~ msgid "/_View"
+#~ msgstr "/表示(_V)"
+
+#~ msgid "/View/tear1"
+#~ msgstr "/表示(_V)/tear1"
+
+#~ msgid "/View/Zoom _in"
+#~ msgstr "/表示(_V)/拡大(_I)"
+
+#~ msgid "/View/Zoom _out"
+#~ msgstr "/表示(_V)/縮小(_O)"
+
+#~ msgid "/View/Zoom _1:1"
+#~ msgstr "/表示(_V)/1:1 サイズ(_1)"
+
+#~ msgid "/View/sep1"
+#~ msgstr "/表示(_V)/sep1"
+
+#~ msgid "/View/_Thumbnails"
+#~ msgstr "/表示(_V)/サムネイル表示(_T)"
+
+#~ msgid "/View/I_cons"
+#~ msgstr "/表示(_V)/アイコン表示(_C)"
+
+#~ msgid "/View/sep2"
+#~ msgstr "/表示(_V)/sep2"
+
+#~ msgid "/View/F_ull screen"
+#~ msgstr "/表示(_V)/フル・スクリーン表示(_U)"
+
+#~ msgid "/View/sep3"
+#~ msgstr "/表示(_V)/sep3"
+
+#~ msgid "/View/_Hide file list"
+#~ msgstr "/表示(_V)/一覧を隠す(_H)"
+
+#~ msgid "/View/sep4"
+#~ msgstr "/表示(_V)/sep4"
+
+#~ msgid "/View/_Keywords"
+#~ msgstr "/表示(_V)/キーワード(_K)"
+
+#~ msgid "/View/Sort _manager"
+#~ msgstr "/表示(_V)/ソート・マネージャ(_M)"
+
+#~ msgid "/View/sep5"
+#~ msgstr "/表示(_V)/sep5"
+
+#~ msgid "/View/Toggle _slideshow"
+#~ msgstr "/表示(_V)/スライドショーの切替え(_S)"
+
+#~ msgid "/View/_Refresh Lists"
+#~ msgstr "/表示(_V)/一覧の更新(_R)"
+
+#~ msgid "/Help/tear1"
+#~ msgstr "/ヘルプ(_H)/tear1"
+
+#~ msgid "/Help/sep1"
+#~ msgstr "/ヘルプ(_H)/sep1"
+
+#~ msgid "GQview configuration"
+#~ msgstr "GQview の設定"
+
+#~ msgid "/Edit/_Remove old thumbnails"
+#~ msgstr "/編集(_E)/古いサムネイルの削除(_R)"
+
+#~ msgid "path"
+#~ msgstr "パス"
+
+#~ msgid "Save"
+#~ msgstr "保存"
+
+#~ msgid "Close"
+#~ msgstr "閉じる"
+
+#~ msgid ""
+#~ "Overwrite collection file:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "コレクションファイルの上書き:\n"
+#~ "%s"
+
+#~ msgid "Save collection as:"
+#~ msgstr "コレクションを名前を付けて保存:"
+
+#~ msgid "Open collection from:"
+#~ msgstr "開くコレクションの場所:"
+
+#~ msgid "Open"
+#~ msgstr "開く"
+
+#~ msgid "Append collection from:"
+#~ msgstr "コレクションへの追加先:"
+
+#~ msgid "exit"
+#~ msgstr "終了する"
+
+#~ msgid "Exit"
+#~ msgstr "終了"
+
+#~ msgid "Ok"
+#~ msgstr "Ok"
 
 #, fuzzy
+#~ msgid "Initial folder"
+#~ msgstr "不正なフォルダ"
+
+#~ msgid "On startup, change to this folder:"
+#~ msgstr "起動時に次のフォルダに移動する:"
+
+#~ msgid "Zoom (scaling):"
+#~ msgstr "ズーム (スケーリング):"
+
+#~ msgid "Place dialogs under mouse"
+#~ msgstr "マウスの下にダイアログを配置する"
+
+#~ msgid "Include files of type:"
+#~ msgstr "表示する拡張子:"
+
+#~ msgid "Remove"
+#~ msgstr "削除"
+
+#~ msgid "Add"
+#~ msgstr "追加"
+
+#~ msgid "Command Line"
+#~ msgstr "コマンド"
+
+#~ msgid "Help"
+#~ msgstr "ヘルプ"
+
+#~ msgid "Full screen size:"
+#~ msgstr "フル・スクリーン表示のサイズ:"
+
+#~ msgid "Point size:"
+#~ msgstr "ポイントのサイズ:"
+
+#~ msgid "Width:"
+#~ msgstr "幅:"
+
+#~ msgid "Height:"
+#~ msgstr "高さ:"
+
+#~ msgid ""
+#~ "Overwrite file:\n"
+#~ " %s\n"
+#~ " with:\n"
+#~ " %s"
+#~ msgstr ""
+#~ "ファイルの上書き:\n"
+#~ "%s\n"
+#~ "を\n"
+#~ "%s で"
+
+#~ msgid "Yes"
+#~ msgstr "はい"
+
+#~ msgid "Yes to all"
+#~ msgstr "全てはい"
+
 #~ msgid ""
 #~ "Overwrite file:\n"
 #~ "%s\n"
-#~ "with:\n"
+#~ " with:\n"
 #~ "%s"
-#~ msgstr "�ե�����ξ��:\n"
-
-#~ msgid "Save"
-#~ msgstr "������"
-
-#~ msgid "Save settings on exit"
-#~ msgstr "��λ�����������¸����"
-
-#~ msgid "Save options"
-#~ msgstr "�������¸"
-
-#~ msgid "Gen thumbnail:%s\n"
-#~ msgstr "����ͥ������:%s\n"
-
-#~ msgid "XV thumbnail found, loaded\n"
-#~ msgstr "XV�Υ���ͥ���򸫤Ĥ����Τǡ��ɤ߹��ߤޤ���\n"
-
-#~ msgid "Found in cache:%s\n"
-#~ msgstr "����å���򸫤Ĥ��ޤ���:%s\n"
-
-#~ msgid "creating thumbnail dir:%s\n"
-#~ msgstr "%s�ǥ��쥯�ȥ�Υ���ͥ����������Ƥ��ޤ���\n"
-
-#~ msgid "creating sub dir:%s\n"
-#~ msgstr "���֥ǥ��쥯�ȥ�%s�Υ���ͥ����������Ƥ��ޤ���\n"
-
-#~ msgid "Saving thumb: %s\n"
-#~ msgstr "����ͥ���%s����¸���ޤ�����\n"
-
-#~ msgid "maintainance check: %s\n"
-#~ msgstr "%s����ƥʥ󥹤Τ�������å����Ƥ��ޤ���\n"
-
-#~ msgid "Deleting thumb dir: %s\n"
-#~ msgstr "%s�ǥ��쥯�ȥ�Υ���ͥ���������Ƥ��ޤ���\n"
-
-#~ msgid "Deleting thumb: %s\n"
-#~ msgstr "����ͥ���%s�������Ƥ��ޤ���\n"
-
-#~ msgid "copy"
-#~ msgstr "���ԡ�"
-
-#~ msgid "move"
-#~ msgstr "��ư"
+#~ msgstr ""
+#~ "%s\n"
+#~ "を\n"
+#~ "%s で上書きしますか？"
 
 #~ msgid ""
-#~ "\n"
-#~ " with:\n"
+#~ "Copy file:\n"
+#~ "%s\n"
+#~ "to:"
 #~ msgstr ""
-#~ "\n"
-#~ "��...\n"
+#~ "ファイルのコピー:\n"
+#~ "%s\n"
+#~ "から:"
 
-#~ msgid "Error "
-#~ msgstr "���顼"
+#~ msgid ""
+#~ "Move file:\n"
+#~ "%s\n"
+#~ "to:"
+#~ msgstr ""
+#~ "ファイルの移動:\n"
+#~ "%s\n"
+#~ "から"
+
+#~ msgid "About to delete multiple files..."
+#~ msgstr "複数のファイルの削除について..."
+
+#~ msgid ""
+#~ "Overwrite file:\n"
+#~ "%s\n"
+#~ "by renaming:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "ファイルの上書き:\n"
+#~ "%s\n"
+#~ "を名前を変えて:\n"
+#~ "%s"
+
+#~ msgid "to:"
+#~ msgstr "変更先:"
+
+#~ msgid "Create"
+#~ msgstr "作成"
+
+#~ msgid "Initial directory"
+#~ msgstr "初期フォルダ"
+
+#~ msgid "New Directory"
+#~ msgstr "新しいフォルダ"
+
+#~ msgid ""
+#~ "Unable to create directory:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "フォルダの作成に失敗:\n"
+#~ "%s"
+
+#~ msgid "Error creating directory"
+#~ msgstr "フォルダ作成中にエラー"

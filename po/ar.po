@@ -1,0 +1,3537 @@
+# translation of ar.po to 
+# translation of ar.po to
+# translation of ar.po to
+# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR John Ellis, 2004.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ar\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-02-15 08:13-0500\n"
+"PO-Revision-Date: 2004-10-19 16:58-0400\n"
+"Last-Translator: Youssef Assad\n"
+"Language-Team:  <youssef@devcabal.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.3\n"
+"X-Poedit-Language: Arabic\n"
+"X-Poedit-Country: EGYPT\n"
+
+#: src/bar_info.c:30
+msgid "Favorite"
+msgstr ""
+
+#: src/bar_info.c:31
+#, fuzzy
+msgid "Todo"
+msgstr "أدوات"
+
+#: src/bar_info.c:32
+msgid "People"
+msgstr ""
+
+#: src/bar_info.c:33
+msgid "Places"
+msgstr ""
+
+#: src/bar_info.c:34
+msgid "Art"
+msgstr ""
+
+#: src/bar_info.c:35
+#, fuzzy
+msgid "Nature"
+msgstr "بُؤرة"
+
+#: src/bar_info.c:36
+msgid "Possessions"
+msgstr ""
+
+#: src/bar_info.c:505
+#, fuzzy
+msgid "Keyword Presets"
+msgstr "الكلمات الدليلية"
+
+#: src/bar_info.c:508
+msgid "Favorite keywords list"
+msgstr ""
+
+#: src/bar_info.c:992 src/info.c:166 src/search.c:2692
+msgid "Keywords"
+msgstr "الكلمات الدليلية"
+
+#: src/bar_info.c:1006 src/info.c:716 src/print.c:2599
+msgid "Filename:"
+msgstr "إسم الملف:"
+
+#: src/bar_info.c:1007 src/info.c:360
+msgid "File date:"
+msgstr "تاريخ الملف"
+
+#: src/bar_info.c:1027
+msgid "Keywords:"
+msgstr "الكلمات الدليلية"
+
+#: src/bar_info.c:1095
+msgid "Comment:"
+msgstr "تعليق:"
+
+#: src/bar_info.c:1119
+msgid "Edit favorite keywords list."
+msgstr ""
+
+#: src/bar_info.c:1123
+msgid "Add keywords to selected files"
+msgstr "أضف الكلمات التحليلية الى الملف"
+
+#: src/bar_info.c:1126
+msgid "Add keywords to selected files, replacing the existing ones."
+msgstr "استبدل الكلمات التحليلية فى الملف"
+
+#: src/bar_info.c:1130
+msgid "Save comment now"
+msgstr "احفظ التعليق الآن"
+
+#: src/bar_exif.c:423
+msgid "Tag"
+msgstr "البطاقة"
+
+#: src/bar_exif.c:424 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
+#: src/search.c:2753 src/view_file_list.c:1555
+msgid "Name"
+msgstr "الاسم"
+
+#: src/bar_exif.c:425
+msgid "Value"
+msgstr "القيمة"
+
+#: src/bar_exif.c:426
+msgid "Format"
+msgstr "الصيغة"
+
+#: src/bar_exif.c:427
+msgid "Elements"
+msgstr "العناصر"
+
+#: src/bar_exif.c:428 src/preferences.c:1028
+msgid "Description"
+msgstr "الوصف"
+
+#: src/bar_exif.c:549 src/info.c:105
+msgid "Exif"
+msgstr "Exif"
+
+#: src/bar_exif.c:622
+msgid "Advanced view"
+msgstr "الواجهة المتطورة"
+
+#: src/bar_sort.c:218
+msgid "Unlink failed"
+msgstr "فشل حذف الوصل"
+
+#: src/bar_sort.c:298
+msgid "Link failed"
+msgstr "فشل الوصل"
+
+#: src/bar_sort.c:435
+#, fuzzy, c-format
+msgid ""
+"The collection:\n"
+"%s\n"
+"already exists."
+msgstr ""
+"هذا الدليل: \n"
+"%s \n"
+" موجود بالفعل."
+
+#: src/bar_sort.c:436
+#, fuzzy
+msgid "Collection exists"
+msgstr "المجموعة فارغة"
+
+#: src/bar_sort.c:450 src/collect.c:1061 src/collect-dlg.c:84
+#, c-format
+msgid ""
+"Failed to save the collection:\n"
+"%s"
+msgstr ""
+"فشل حفظ المجموعة:\n"
+"%s"
+
+#: src/bar_sort.c:451 src/collect.c:1062 src/collect-dlg.c:85
+msgid "Save Failed"
+msgstr "الحفظ فشل مع الأسف المطلق"
+
+#: src/bar_sort.c:485 src/bar_sort.c:631
+msgid "Add Bookmark"
+msgstr "أضف علامة"
+
+#: src/bar_sort.c:489
+#, fuzzy
+msgid "Add Collection"
+msgstr "مجاميع"
+
+#: src/bar_sort.c:506 src/ui_bookmark.c:603
+msgid "Name:"
+msgstr "الإسم:"
+
+#: src/bar_sort.c:569
+msgid "Sort Manager"
+msgstr "مدير الترتيب"
+
+#: src/bar_sort.c:578 src/ui_pathsel.c:1095
+msgid "Folders"
+msgstr "دﻻئل"
+
+#: src/bar_sort.c:579 src/main.c:1066
+msgid "Collections"
+msgstr "مجاميع"
+
+#: src/bar_sort.c:586
+msgid "Copy"
+msgstr "انسخ"
+
+#: src/bar_sort.c:593
+msgid "Move"
+msgstr "حرك"
+
+#: src/bar_sort.c:600
+msgid "Link"
+msgstr "وصل"
+
+#: src/bar_sort.c:610
+#, fuzzy
+msgid "Add image"
+msgstr "%d الصور"
+
+#: src/bar_sort.c:617
+#, fuzzy
+msgid "Add selection"
+msgstr "الغى الاختيار"
+
+#: src/bar_sort.c:634
+msgid "Undo last image"
+msgstr "الغاء الصورة الأخيرة"
+
+#: src/cache_maint.c:127 src/cache_maint.c:681 src/cache_maint.c:894
+#: src/editors.c:410
+msgid "done"
+msgstr "منتهى"
+
+#: src/cache_maint.c:304
+#, fuzzy
+msgid "Removing old metadata..."
+msgstr "تجرى الآن قراءة بيانات مدى التطابق"
+
+#: src/cache_maint.c:308
+#, fuzzy
+msgid "Clearing cached thumbnails..."
+msgstr "تنظيف النسخ المصغرة للصور"
+
+#: src/cache_maint.c:312 src/cache_maint.c:1048
+#, fuzzy
+msgid "Removing old thumbnails..."
+msgstr "حذف النسخ المصغرة للصور القديمة"
+
+#: src/cache_maint.c:315 src/cache_maint.c:1051
+msgid "Maintenance"
+msgstr ""
+
+#: src/cache_maint.c:792 src/utilops.c:904
+msgid "Invalid folder"
+msgstr "دليل خاطئ"
+
+#: src/cache_maint.c:793
+msgid "The specified folder can not be found."
+msgstr ""
+
+#: src/cache_maint.c:821 src/cache_maint.c:835 src/cache_maint.c:1216
+#, fuzzy
+msgid "Create thumbnails"
+msgstr "احتفظ بالنماذج المصغّرة للصور"
+
+#: src/cache_maint.c:829 src/cache_maint.c:1058
+#, fuzzy
+msgid "S_tart"
+msgstr "رقم البداية"
+
+#: src/cache_maint.c:842 src/preferences.c:1165
+msgid "Folder:"
+msgstr "دليل:"
+
+#: src/cache_maint.c:845
+#, fuzzy
+msgid "Select folder"
+msgstr "الغى الاختيار"
+
+#: src/cache_maint.c:849
+#, fuzzy
+msgid "Include subfolders"
+msgstr "دليل خاطئ"
+
+#: src/cache_maint.c:850
+msgid "Store thumbnails local to source images"
+msgstr ""
+
+#: src/cache_maint.c:859 src/cache_maint.c:1067
+msgid "click start to begin"
+msgstr ""
+
+#: src/cache_maint.c:997 src/editors.c:549
+msgid "running..."
+msgstr "يجرى..."
+
+#: src/cache_maint.c:1043
+msgid "Clearing thumbnails..."
+msgstr "تنظيف النسخ المصغرة للصور"
+
+#: src/cache_maint.c:1109 src/cache_maint.c:1112 src/cache_maint.c:1191
+#: src/cache_maint.c:1211
+msgid "Clear cache"
+msgstr "نظّف مخزون الملفات المؤقتة"
+
+#: src/cache_maint.c:1113
+msgid ""
+"This will remove all thumbnails that have\n"
+"been saved to disk, continue?"
+msgstr ""
+"هذا الأمر يحذف جميع النماذج المصغّرة من الصور المخزونة. \n"
+"هل تريد الإستمرار؟"
+
+#: src/cache_maint.c:1163
+#, fuzzy
+msgid "Cache Maintenance - GQview"
+msgstr "بحث الصور - GQview"
+
+#: src/cache_maint.c:1173
+msgid "Cache and Data Maintenance"
+msgstr ""
+
+#: src/cache_maint.c:1177
+#, fuzzy
+msgid "GQview thumbnail cache"
+msgstr "GQview شاشة كاملة"
+
+#: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
+#: src/preferences.c:1142 src/utilops.c:1505
+#, fuzzy
+msgid "Location:"
+msgstr "عمل"
+
+#: src/cache_maint.c:1186 src/cache_maint.c:1206 src/cache_maint.c:1234
+#, fuzzy
+msgid "Clean up"
+msgstr "امسح"
+
+#: src/cache_maint.c:1189 src/cache_maint.c:1209
+msgid "Remove orphaned or outdated thumbnails."
+msgstr ""
+
+#: src/cache_maint.c:1194 src/cache_maint.c:1214
+#, fuzzy
+msgid "Delete all cached thumbnails."
+msgstr "احتفظ بالنماذج المصغّرة للصور"
+
+#: src/cache_maint.c:1197
+#, fuzzy
+msgid "Shared thumbnail cache"
+msgstr "عرص النماذج المصغرة للصور"
+
+#: src/cache_maint.c:1220
+#, fuzzy
+msgid "Render"
+msgstr "عد التسمية "
+
+#: src/cache_maint.c:1223
+msgid "Render thumbnails for a specific folder."
+msgstr ""
+
+#: src/cache_maint.c:1225
+msgid "Metadata"
+msgstr ""
+
+#: src/cache_maint.c:1237
+msgid "Remove orphaned keywords and comments."
+msgstr ""
+
+#: src/collect.c:349 src/image.c:1160 src/image-overlay.c:74
+#: src/image-overlay.c:115
+msgid "Untitled"
+msgstr "بدون اسم"
+
+#: src/collect.c:353
+#, c-format
+msgid "Untitled (%d)"
+msgstr "بدون اسم (%d)"
+
+#: src/collect.c:980
+#, c-format
+msgid "%s - GQview Collection"
+msgstr "%s - GQview مجموعة"
+
+#: src/collect.c:1098 src/collect.c:1102
+msgid "Close collection"
+msgstr "اغلق المجموعة"
+
+#: src/collect.c:1103
+msgid ""
+"Collection has been modified.\n"
+"Save first?"
+msgstr ""
+"المجموعة قد تم تعديلها.\n"
+"هل تريد حفظها؟"
+
+#: src/collect.c:1106
+msgid "_Discard"
+msgstr ""
+
+#: src/collect-dlg.c:58
+#, fuzzy, c-format
+msgid ""
+"Specified path:\n"
+"%s\n"
+"is a folder, collections are files"
+msgstr ""
+"المكان المحدد:\n"
+"%s\n"
+"دليل. المجموعة ملف و ليست دليلا."
+
+#: src/collect-dlg.c:59
+msgid "Invalid filename"
+msgstr "اسم الملف غير سليم"
+
+#: src/collect-dlg.c:68
+msgid "Overwrite File"
+msgstr "احفظ الملف بدلا من الملف الاخر"
+
+#: src/collect-dlg.c:73
+#, fuzzy
+msgid "Overwrite existing file?"
+msgstr "حفظ الملف مكان الملف الموجود الحالى"
+
+#: src/collect-dlg.c:75 src/utilops.c:479 src/utilops.c:792 src/utilops.c:1649
+#: src/utilops.c:2196
+#, fuzzy
+msgid "_Overwrite"
+msgstr "احفظ الملف بدلا من الملف الاخر"
+
+#: src/collect-dlg.c:169
+msgid "Save collection"
+msgstr "احفظ المجموعة"
+
+#: src/collect-dlg.c:176
+msgid "Open collection"
+msgstr "افتح مجموعة"
+
+#: src/collect-dlg.c:184
+msgid "Append collection"
+msgstr "اضف للمجموعة"
+
+#: src/collect-dlg.c:185
+#, fuzzy
+msgid "_Append"
+msgstr "أضف"
+
+#: src/collect-dlg.c:203
+msgid "Collection Files"
+msgstr "ملفات المجموعة"
+
+#: src/collect-dlg.c:221
+msgid "Collection empty"
+msgstr "المجموعة فارغة"
+
+#: src/collect-dlg.c:222
+msgid "The current collection is empty, save aborted."
+msgstr "المجموعة فارغة. تم وقف عملية الحفظ."
+
+#: src/collect-table.c:164 src/layout_util.c:708
+msgid "Empty"
+msgstr "فارغ"
+
+#: src/collect-table.c:168
+#, c-format
+msgid "%d images (%d)"
+msgstr "%dالصور (%d)"
+
+#: src/collect-table.c:172
+#, c-format
+msgid "%d images"
+msgstr "%d الصور"
+
+#: src/collect-table.c:186 src/dupe.c:1296 src/search.c:303
+#: src/view_file_icon.c:1772 src/view_file_icon.c:1887
+#: src/view_file_list.c:816 src/view_file_list.c:921
+msgid "Loading thumbs..."
+msgstr "تحميل نماذج الصور المصغرة"
+
+#: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
+#: src/layout_util.c:751 src/search.c:969
+msgid "_View"
+msgstr "اعرض"
+
+#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1187
+#: src/layout_image.c:722 src/search.c:971 src/view_file_icon.c:283
+#: src/view_file_list.c:395
+msgid "View in _new window"
+msgstr "اعرض فى نافذة جديدة"
+
+#: src/collect-table.c:778 src/dupe.c:2219 src/dupe.c:2507 src/search.c:997
+msgid "Rem_ove"
+msgstr "احذف"
+
+#: src/collect-table.c:781
+msgid "Append from file list"
+msgstr "اضف من القائمة"
+
+#: src/collect-table.c:783
+msgid "Append from collection..."
+msgstr "اضف من المجموعة"
+
+#: src/collect-table.c:786 src/dupe.c:2192 src/dupe.c:2502 src/search.c:974
+msgid "Select all"
+msgstr "اختر الكل"
+
+#: src/collect-table.c:788 src/dupe.c:2194 src/dupe.c:2504 src/search.c:976
+msgid "Select none"
+msgstr "الغى الاختيار"
+
+#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1185
+#: src/layout_image.c:719 src/layout_util.c:784 src/search.c:981
+#: src/view_file_icon.c:280 src/view_file_list.c:393
+msgid "_Properties"
+msgstr "الخواص"
+
+#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1190
+#: src/layout_image.c:727 src/layout_util.c:762 src/search.c:988
+#: src/view_file_icon.c:287 src/view_file_list.c:399
+msgid "_Copy..."
+msgstr "إنسخ..."
+
+#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1191
+#: src/layout_image.c:729 src/layout_util.c:763 src/search.c:990
+#: src/view_file_icon.c:289 src/view_file_list.c:401
+msgid "_Move..."
+msgstr "حرك..."
+
+#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1192
+#: src/layout_image.c:731 src/layout_util.c:764 src/search.c:992
+#: src/view_dir_list.c:415 src/view_dir_tree.c:505 src/view_file_icon.c:291
+#: src/view_file_list.c:403
+msgid "_Rename..."
+msgstr "أعد تسمية..."
+
+#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1193
+#: src/layout_image.c:733 src/layout_util.c:765 src/search.c:994
+#: src/view_file_icon.c:293 src/view_file_list.c:405
+msgid "_Delete..."
+msgstr "إحذف..."
+
+#: src/collect-table.c:810 src/view_file_icon.c:309
+msgid "Show filename _text"
+msgstr "إعرض إسم الملف على هيئة نص"
+
+#: src/collect-table.c:813
+msgid "_Save collection"
+msgstr "إحفظ المجموعة"
+
+#: src/collect-table.c:815
+msgid "Save collection _as..."
+msgstr "إحفظ المجموعة بإسم..."
+
+#: src/collect-table.c:818 src/layout_util.c:759
+msgid "_Find duplicates..."
+msgstr "ابحث عن النسخ المطابقة..."
+
+#: src/collect-table.c:820 src/dupe.c:2207 src/search.c:985
+#, fuzzy
+msgid "Print..."
+msgstr "/ملف/إبحث..."
+
+#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1347
+#, fuzzy
+msgid "Dropped list includes folders."
+msgstr "القائمة المسقوطة تحوى أدلة"
+
+#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1349
+msgid "_Add contents"
+msgstr "أضف محتويات"
+
+#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1350
+msgid "Add contents _recursive"
+msgstr "أضف محتويات "
+
+#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1351
+#, fuzzy
+msgid "_Skip folders"
+msgstr "تجاهل الدلائل"
+
+#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1353
+#: src/view_dir_list.c:222 src/view_dir_tree.c:314
+msgid "Cancel"
+msgstr "الغى"
+
+#: src/dupe.c:96
+msgid "Drop files to compare them."
+msgstr "اسقط الملفات للمقارنة بينهم"
+
+#: src/dupe.c:100
+#, c-format
+msgid "%d files"
+msgstr "%d ملفات"
+
+#: src/dupe.c:104
+#, c-format
+msgid "%d matches found in %d files"
+msgstr "%d ملفات مطابقة وجدت فى %d ملفات"
+
+#: src/dupe.c:109
+msgid "[set 1]"
+msgstr "[المجموعة 1]"
+
+#: src/dupe.c:1422
+msgid "Reading checksums..."
+msgstr ""
+"تجرى الآن قراءة البصمة الخاصة  لفحص حدوث الأخطاء في الإرسال أو   التّخزين ..."
+
+#: src/dupe.c:1455
+msgid "Reading dimensions..."
+msgstr "تجرى الآن قراءة أبعاد الصورة"
+
+#: src/dupe.c:1489
+msgid "Reading similarity data..."
+msgstr "تجرى الآن قراءة بيانات مدى التطابق"
+
+#: src/dupe.c:1524 src/dupe.c:1555
+msgid "Comparing..."
+msgstr "تجرى الآن المقارنة..."
+
+#: src/dupe.c:1535
+msgid "Sorting..."
+msgstr "تجرى الآن عملية التصنيف..."
+
+#: src/dupe.c:2196
+msgid "Select group _1 duplicates"
+msgstr "إختر الملفات المطابقة من المجموعة الأولى"
+
+#: src/dupe.c:2198
+msgid "Select group _2 duplicates"
+msgstr "إختر الملفات المطابقة من المجموعة الثانية"
+
+#: src/dupe.c:2205 src/search.c:983
+msgid "Add to new collection"
+msgstr "أضف إلى مجموعة جديدة"
+
+#: src/dupe.c:2221 src/dupe.c:2509 src/search.c:999
+msgid "C_lear"
+msgstr "إمسح"
+
+#: src/dupe.c:2224 src/dupe.c:2512
+msgid "Close _window"
+msgstr "غغلق النافذة"
+
+#: src/dupe.c:2382
+#, c-format
+msgid "%d files (set 2)"
+msgstr "%d ( ملفات (المجموعة الثانية"
+
+#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:947 src/print.c:3194
+#: src/search.c:2754 src/view_file_list.c:1556
+msgid "Size"
+msgstr "الحجم"
+
+#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:297 src/exif.c:419
+#: src/print.c:3192 src/search.c:2755 src/view_file_list.c:1557
+msgid "Date"
+msgstr "التاريخ"
+
+#: src/dupe.c:2592 src/dupe.c:3119 src/print.c:3196 src/search.c:2756
+msgid "Dimensions"
+msgstr "الأبعاد"
+
+#: src/dupe.c:2593
+msgid "Checksum"
+msgstr " البصمة لفحص حدوث الأخطاء في الإرسال أو   التّخزين ..."
+
+#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1107
+msgid "Path"
+msgstr "المسار"
+
+#: src/dupe.c:2595
+msgid "Similarity (high)"
+msgstr "درجة تطابق (عالية)"
+
+#: src/dupe.c:2596
+msgid "Similarity"
+msgstr "درجة تطابق"
+
+#: src/dupe.c:2597
+msgid "Similarity (low)"
+msgstr "درجة تطابق (منخفضة)"
+
+#: src/dupe.c:2598
+msgid "Similarity (custom)"
+msgstr "درجة تطابق (حسب الطلب)"
+
+#: src/dupe.c:3080
+msgid "Find duplicates - GQview"
+msgstr "ابحث عن الملفات المطابقة - GQview"
+
+#: src/dupe.c:3152
+msgid "Compare to:"
+msgstr "قارن مع: "
+
+#: src/dupe.c:3165
+msgid "Compare by:"
+msgstr "قارن حسب:"
+
+#: src/dupe.c:3173 src/preferences.c:840 src/search.c:2770
+msgid "Thumbnails"
+msgstr "النسخ المصغرة للصور"
+
+#: src/dupe.c:3180
+msgid "Compare two file sets"
+msgstr "قارن بين مجموعتين من الصور"
+
+#: src/editors.c:50
+msgid "The Gimp"
+msgstr "The Gimp"
+
+#: src/editors.c:51
+msgid "XV"
+msgstr "XV"
+
+#: src/editors.c:52
+msgid "Xpaint"
+msgstr "Xpaint"
+
+#: src/editors.c:58
+msgid "Rotate jpeg clockwise"
+msgstr "در الjpeg بإتجاه عقرب الساعة "
+
+#: src/editors.c:59
+msgid "Rotate jpeg counterclockwise"
+msgstr "در الjpeg بعكس إتجاه عقرب الساعة "
+
+#: src/editors.c:104
+msgid "stopping..."
+msgstr "وقف..."
+
+#: src/editors.c:131
+msgid "Edit command results"
+msgstr "حرر الناتج من الأمر"
+
+#: src/editors.c:134
+#, c-format
+msgid "Output of %s"
+msgstr "الناتج من %s"
+
+#: src/editors.c:303
+#, c-format
+msgid ""
+"Failed to run command:\n"
+"%s\n"
+msgstr ""
+"فشل تنفيذ الأمر:\n"
+"%s\n"
+
+#: src/editors.c:414
+msgid "stopped by user"
+msgstr "انهاء بأمر المستخدم"
+
+#: src/exif.c:112 src/exif.c:125 src/exif.c:139 src/exif.c:164 src/exif.c:606
+#: src/exif.c:1452 src/exif.c:1455 src/exif.c:1520
+msgid "unknown"
+msgstr "غير معلوم"
+
+#: src/exif.c:113
+msgid "top left"
+msgstr "أعلى يسار"
+
+#: src/exif.c:114
+msgid "top right"
+msgstr "أعلى يمين"
+
+#: src/exif.c:115
+msgid "bottom right"
+msgstr "أسفل يمين"
+
+#: src/exif.c:116
+msgid "bottom left"
+msgstr "أسفل يسار"
+
+#: src/exif.c:117
+msgid "left top"
+msgstr "يسار أعلى"
+
+#: src/exif.c:118
+msgid "right top"
+msgstr "يمين أعلى"
+
+#: src/exif.c:119
+msgid "right bottom"
+msgstr "يمين أسفل"
+
+#: src/exif.c:120
+msgid "left bottom"
+msgstr "يسار أسفل"
+
+#: src/exif.c:127
+msgid "inch"
+msgstr "بوصة"
+
+#: src/exif.c:128
+msgid "centimeter"
+msgstr "سنتيمتر"
+
+#: src/exif.c:140
+msgid "average"
+msgstr "متوسط"
+
+#: src/exif.c:141
+msgid "center weighted"
+msgstr "موزون وسط"
+
+#: src/exif.c:142
+msgid "spot"
+msgstr "spot"
+
+#: src/exif.c:143
+msgid "multi-spot"
+msgstr "multi-spot"
+
+#: src/exif.c:144
+msgid "multi-segment"
+msgstr "multi-segment"
+
+#: src/exif.c:145
+msgid "partial"
+msgstr "partial"
+
+#: src/exif.c:146 src/exif.c:184
+msgid "other"
+msgstr "آخر"
+
+#: src/exif.c:151
+msgid "not defined"
+msgstr "غير معرّف"
+
+#: src/exif.c:152
+msgid "manual"
+msgstr "يدوى"
+
+#: src/exif.c:153
+msgid "normal"
+msgstr "عادى"
+
+#: src/exif.c:154
+msgid "aperture"
+msgstr "بُؤرة"
+
+#: src/exif.c:155
+msgid "shutter"
+msgstr "الدرفة"
+
+#: src/exif.c:156
+msgid "creative"
+msgstr "مبدع"
+
+#: src/exif.c:157
+msgid "action"
+msgstr "عمل"
+
+#: src/exif.c:158
+msgid "portrait"
+msgstr "صورة بالطول"
+
+#: src/exif.c:159
+msgid "landscape"
+msgstr "صورة بالعرض"
+
+#: src/exif.c:165
+msgid "daylight"
+msgstr "ضوء النهار"
+
+#: src/exif.c:166
+msgid "fluorescent"
+msgstr "إضاءة فلورسنت"
+
+#: src/exif.c:167
+msgid "tungsten (incandescent)"
+msgstr "tungsten (منير)"
+
+#: src/exif.c:168
+msgid "flash"
+msgstr "فلاش"
+
+#: src/exif.c:189 src/exif.c:1475 src/info.c:226
+msgid "no"
+msgstr "لا"
+
+#. flash fired (bit 0)
+#: src/exif.c:190 src/exif.c:1475 src/info.c:226
+msgid "yes"
+msgstr "نعم"
+
+#: src/exif.c:191
+msgid "yes, not detected by strobe"
+msgstr "نعم, غير مكتشف عن طريق  الستروب الومّاض"
+
+#: src/exif.c:192
+msgid "yes, detected by strobe"
+msgstr "نعم, مكتشف عن طريق  الستروب الومّاض"
+
+#: src/exif.c:289
+msgid "Image description"
+msgstr "وصف الصورة"
+
+#: src/exif.c:292
+msgid "Orientation"
+msgstr "التوجيه"
+
+#: src/exif.c:303
+msgid "Copyright"
+msgstr "حقوق الطبع و النشر"
+
+#: src/exif.c:308
+msgid "Exposure program"
+msgstr "برنامج التعرض"
+
+#: src/exif.c:310 src/exif.c:346 src/exif.c:423
+msgid "ISO sensitivity"
+msgstr "درجة الحساسية ISO"
+
+#: src/exif.c:313
+msgid "Date original"
+msgstr "تاريخ الأصل"
+
+#: src/exif.c:314
+msgid "Date digitized"
+msgstr "تارسخ الترقيم"
+
+#: src/exif.c:317 src/exif.c:420
+msgid "Shutter speed"
+msgstr "سرعة الدرفة"
+
+#: src/exif.c:318 src/exif.c:421
+msgid "Aperture"
+msgstr "بُؤرة"
+
+#: src/exif.c:320 src/exif.c:422
+msgid "Exposure bias"
+msgstr "تحيّز التعرّض"
+
+#: src/exif.c:322 src/exif.c:425
+msgid "Subject distance"
+msgstr "بعد الموضوع المصوّر عن الكاميرا"
+
+#: src/exif.c:323
+msgid "Metering mode"
+msgstr "نمط القياس"
+
+#: src/exif.c:324
+msgid "Light source"
+msgstr "مصدر الإضاءة"
+
+#: src/exif.c:325 src/exif.c:426
+msgid "Flash"
+msgstr "فلاش"
+
+#: src/exif.c:326 src/exif.c:424
+msgid "Focal length"
+msgstr "الطول ا لبؤرى"
+
+#. ExifImageWidth, ExifImageHeight can also be unsigned short
+#: src/exif.c:336
+msgid "Width"
+msgstr "العرض"
+
+#: src/exif.c:337
+msgid "Height"
+msgstr "الإرتفاع"
+
+#: src/exif.c:418
+msgid "Camera"
+msgstr "كاميرا"
+
+#: src/exif.c:427
+msgid "Resolution"
+msgstr "نقاء الصورة"
+
+#: src/exif.c:1451
+msgid "infinity"
+msgstr "اللانهاية"
+
+#: src/exif.c:1479
+msgid "mode:"
+msgstr "النمط:"
+
+#: src/exif.c:1483 src/utilops.c:1234
+msgid "on"
+msgstr "شغّال"
+
+#: src/exif.c:1486 src/utilops.c:1234
+msgid "off"
+msgstr "واقف"
+
+#: src/exif.c:1489
+msgid "auto"
+msgstr "آلى"
+
+#: src/exif.c:1495
+msgid "not detected by strobe"
+msgstr "غير مكتشف عن طريق  الستروب الومّاض"
+
+#: src/exif.c:1496
+msgid "detected by strobe"
+msgstr "مكتشف عن طريق  الستروب الومّاض"
+
+#. we ignore flash function (bit 5)
+#. red-eye (bit 6)
+#: src/exif.c:1501
+msgid "red-eye reduction"
+msgstr "معالجة إحمرار العيون"
+
+#: src/exif.c:1520
+msgid "dot"
+msgstr "نقطة"
+
+#: src/filelist.c:513
+#, c-format
+msgid "%d bytes"
+msgstr "%d بايت"
+
+#: src/filelist.c:517
+#, c-format
+msgid "%.1f K"
+msgstr "%.1f ك"
+
+#: src/filelist.c:521
+#, c-format
+msgid "%.1f MB"
+msgstr "%.1f  ميجابايت"
+
+#: src/filelist.c:526
+#, c-format
+msgid "%.1f GB"
+msgstr "%.1f  جيجابايت"
+
+#: src/fullscreen.c:267
+msgid "GQview full screen"
+msgstr "GQview شاشة كاملة"
+
+#: src/fullscreen.c:397
+msgid "Full size"
+msgstr "الحجم الكامل"
+
+#: src/fullscreen.c:402
+msgid "Monitor"
+msgstr "الشاشة"
+
+#: src/fullscreen.c:407
+msgid "Screen"
+msgstr "سطح الشاشة"
+
+#: src/fullscreen.c:644
+#, fuzzy
+msgid "Stay above other windows"
+msgstr "اجعل حجم الصورة مناسبة لحجم النافذة"
+
+#: src/fullscreen.c:651
+msgid "Determined by Window Manager"
+msgstr ""
+
+#: src/fullscreen.c:652
+msgid "Active screen"
+msgstr "سطح الشاشة الحالية"
+
+#: src/fullscreen.c:654
+msgid "Active monitor"
+msgstr "الشاشة الحالية"
+
+#: src/img-view.c:1173 src/layout_image.c:706 src/layout_util.c:791
+msgid "Zoom _in"
+msgstr "ضخّم"
+
+#: src/img-view.c:1174 src/layout_image.c:707 src/layout_util.c:792
+msgid "Zoom _out"
+msgstr "صغّر (عكس ضخّم)"
+
+#: src/img-view.c:1175 src/layout_image.c:708 src/layout_util.c:793
+msgid "Zoom _1:1"
+msgstr "اعرض الصورة بالحجم الفعلى"
+
+#: src/img-view.c:1176 src/layout_image.c:709
+msgid "Fit image to _window"
+msgstr "اعرض الصورة بالحجم المناسب لحجم النافذة"
+
+#: src/img-view.c:1181 src/layout_image.c:715 src/layout_util.c:789
+msgid "Set as _wallpaper"
+msgstr "استخدم الصورة كخلفية"
+
+#: src/img-view.c:1199 src/layout_image.c:740
+msgid "_Stop slideshow"
+msgstr "اوقف عرض الشرائح"
+
+#: src/img-view.c:1202 src/layout_image.c:743
+msgid "Continue slides_how"
+msgstr "استكمل عرض الشرائح"
+
+#: src/img-view.c:1207 src/img-view.c:1215 src/layout_image.c:748
+#: src/layout_image.c:755
+msgid "Pause slides_how"
+msgstr "ازقف عرض الشرائح مؤقتاًً"
+
+#: src/img-view.c:1213 src/layout_image.c:754
+msgid "_Start slideshow"
+msgstr "ابدأ عرض الشرائح"
+
+#: src/img-view.c:1221 src/layout_image.c:765
+msgid "Exit _full screen"
+msgstr "استخدم نافذة عادية للعرض"
+
+#: src/img-view.c:1225 src/layout_image.c:761
+msgid "_Full screen"
+msgstr "استخدم الشاشة كاملة للعرض"
+
+#: src/img-view.c:1229 src/layout_util.c:766
+msgid "C_lose window"
+msgstr "اغلق النافذة"
+
+#: src/info.c:361
+msgid "File size:"
+msgstr "حجم الملف: "
+
+#: src/info.c:363
+msgid "Dimensions:"
+msgstr "الأبعاد: "
+
+#: src/info.c:364
+msgid "Transparent:"
+msgstr "شفاف: "
+
+#: src/info.c:365 src/print.c:3371
+msgid "Image size:"
+msgstr "حجم الصورة: "
+
+#: src/info.c:367
+msgid "Compress ratio:"
+msgstr "نسبة الضغط: "
+
+#: src/info.c:368
+#, fuzzy
+msgid "File type:"
+msgstr "تاريخ الملف"
+
+#: src/info.c:370
+msgid "Owner:"
+msgstr "الصاحب:"
+
+#: src/info.c:371
+msgid "Group:"
+msgstr "المجموعة:"
+
+#: src/info.c:374 src/preferences.c:821
+msgid "General"
+msgstr "عام"
+
+#: src/info.c:455
+#, c-format
+msgid "Image %d of %d"
+msgstr "صورة %d من %d"
+
+#: src/info.c:678
+msgid "Image properties - GQview"
+msgstr "خواص الصورة - GQview"
+
+#: src/layout.c:271 src/view_file_icon.c:301 src/view_file_list.c:413
+msgid "Ascending"
+msgstr "صاعد"
+
+#: src/layout.c:337
+msgid " Slideshow"
+msgstr "عرض شرائح"
+
+#: src/layout.c:341
+msgid " Paused"
+msgstr "موقوف مؤقتا"
+
+#: src/layout.c:358
+#, c-format
+msgid "%s, %d files (%s, %d)%s"
+msgstr "%s, %d ملفات (%s, %d)%s"
+
+#: src/layout.c:365
+#, c-format
+msgid "%s, %d files%s"
+msgstr "%s, %d ملفات %s"
+
+#: src/layout.c:370
+#, c-format
+msgid "%d files%s"
+msgstr "%d ملفات %s"
+
+#: src/layout.c:399
+#, c-format
+msgid "(no read permission) %s bytes"
+msgstr "(غير مصرّح للقراءة) %s  بايتات"
+
+#: src/layout.c:403
+#, c-format
+msgid "( ? x ? ) %s bytes"
+msgstr "( ? x ? ) %s بايتات"
+
+#: src/layout.c:408
+#, c-format
+msgid "( %d x %d ) %s bytes"
+msgstr "( %d x %d ) %s بايتات"
+
+#: src/layout.c:1104
+msgid "GQview Tools"
+msgstr "GQview أدوات"
+
+#: src/layout_config.c:57
+msgid "Tools"
+msgstr "أدوات"
+
+#: src/layout_config.c:57 src/ui_pathsel.c:1175
+msgid "Files"
+msgstr "ملفات"
+
+#: src/layout_config.c:57 src/preferences.c:881 src/print.c:110
+msgid "Image"
+msgstr "صورة"
+
+#: src/layout_config.c:363
+msgid "(drag to change order)"
+msgstr "(جرّ لتغير الترتيب)"
+
+#: src/layout_image.c:770
+msgid "Hide file _list"
+msgstr "إخف قائمة الملفات"
+
+#: src/layout_util.c:625 src/menu.c:74
+#, c-format
+msgid "in %s..."
+msgstr "فى %s..."
+
+#: src/layout_util.c:629 src/menu.c:76
+msgid "in (unknown)..."
+msgstr "فى (مجهول)..."
+
+#: src/layout_util.c:637
+#, fuzzy
+msgid "empty"
+msgstr "فارغ"
+
+#: src/layout_util.c:748
+#, fuzzy
+msgid "_File"
+msgstr "/ملف"
+
+#: src/layout_util.c:749 src/menu.c:91
+msgid "_Edit"
+msgstr "حرر"
+
+#: src/layout_util.c:750 src/menu.c:248
+msgid "_Adjust"
+msgstr "عدّل"
+
+#: src/layout_util.c:752
+#, fuzzy
+msgid "_Help"
+msgstr "/مساعدة"
+
+#: src/layout_util.c:754
+#, fuzzy
+msgid "New _window"
+msgstr "/ملف/نافذة جديدة"
+
+#: src/layout_util.c:755
+#, fuzzy
+msgid "_New collection"
+msgstr "إحفظ المجموعة"
+
+#: src/layout_util.c:756
+#, fuzzy
+msgid "_Open collection..."
+msgstr "افتح مجموعة"
+
+#: src/layout_util.c:757
+#, fuzzy
+msgid "Open _recent"
+msgstr "/ملف/افتح ملف إستخدم مؤخرا"
+
+#: src/layout_util.c:758
+#, fuzzy
+msgid "_Search..."
+msgstr "جارى البحث..."
+
+#: src/layout_util.c:760
+#, fuzzy
+msgid "_Print..."
+msgstr "/ملف/إبحث..."
+
+#: src/layout_util.c:761
+#, fuzzy
+msgid "N_ew folder..."
+msgstr "دليل جديد..."
+
+#: src/layout_util.c:767
+#, fuzzy
+msgid "_Quit"
+msgstr "النقاء"
+
+#: src/layout_util.c:779 src/menu.c:194
+msgid "_Rotate clockwise"
+msgstr "در  بإتجاه عقرب الساعة"
+
+#: src/layout_util.c:780 src/menu.c:197
+msgid "Rotate _counterclockwise"
+msgstr "در عكس  إتجاه عقرب الساعة"
+
+#: src/layout_util.c:781
+#, fuzzy
+msgid "Rotate 1_80"
+msgstr "در 180 درجة"
+
+#: src/layout_util.c:782 src/menu.c:203
+msgid "_Mirror"
+msgstr "إعكس الصورة كالمرآه"
+
+#: src/layout_util.c:783 src/menu.c:206
+msgid "_Flip"
+msgstr "إعكس الصورة من أعلى إلى أسفل"
+
+#: src/layout_util.c:785
+#, fuzzy
+msgid "Select _all"
+msgstr "اختر الكل"
+
+#: src/layout_util.c:786
+#, fuzzy
+msgid "Select _none"
+msgstr "الغى الاختيار"
+
+#: src/layout_util.c:787
+#, fuzzy
+msgid "P_references..."
+msgstr "الخواص:"
+
+#: src/layout_util.c:788
+msgid "_Thumbnail maintenance..."
+msgstr ""
+
+#: src/layout_util.c:794
+#, fuzzy
+msgid "_Zoom to fit"
+msgstr "/اعرض/اعرض الصورة بالحجم المناسب لحجم النافذة"
+
+#: src/layout_util.c:795
+#, fuzzy
+msgid "F_ull screen"
+msgstr "استخدم الشاشة كاملة للعرض"
+
+#: src/layout_util.c:796
+#, fuzzy
+msgid "_Hide file list"
+msgstr "إخف قائمة الملفات"
+
+#: src/layout_util.c:797
+#, fuzzy
+msgid "Toggle _slideshow"
+msgstr "اوقف عرض الشرائح"
+
+#: src/layout_util.c:798
+#, fuzzy
+msgid "_Refresh"
+msgstr "انعش"
+
+#: src/layout_util.c:800
+#, fuzzy
+msgid "_Contents"
+msgstr "/مساعدة/عن"
+
+#: src/layout_util.c:801
+#, fuzzy
+msgid "_Keyboard shortcuts"
+msgstr "/مساعدة/إختصارات لوحة المفاتيح"
+
+#: src/layout_util.c:802
+#, fuzzy
+msgid "_Release notes"
+msgstr "/مساعدة/مذكرات الإصدارة"
+
+#: src/layout_util.c:803
+#, fuzzy
+msgid "_About"
+msgstr "/مساعدة/عن"
+
+#: src/layout_util.c:807
+#, fuzzy
+msgid "_Thumbnails"
+msgstr "النسخ المصغرة للصور"
+
+#: src/layout_util.c:808
+#, fuzzy
+msgid "Tr_ee"
+msgstr "/اعرض/شجرة"
+
+#: src/layout_util.c:809
+#, fuzzy
+msgid "_Float file list"
+msgstr "/اعرض/افصل شباك عرض الملفات فى نافذة مستقلة"
+
+#: src/layout_util.c:810
+#, fuzzy
+msgid "Hide tool_bar"
+msgstr "/اعرض/خبئ شريط الأدوات"
+
+#: src/layout_util.c:811
+#, fuzzy
+msgid "_Keywords"
+msgstr "الكلمات الدليلية"
+
+#: src/layout_util.c:812
+#, fuzzy
+msgid "E_xif data"
+msgstr "/اعرض/معلومات الEXIF"
+
+#: src/layout_util.c:813
+#, fuzzy
+msgid "Sort _manager"
+msgstr "مدير الترتيب"
+
+#: src/layout_util.c:817
+#, fuzzy
+msgid "_List"
+msgstr "/اعرض/عرض اسماء الملفات"
+
+#: src/layout_util.c:818
+#, fuzzy
+msgid "I_cons"
+msgstr "الأيقون:"
+
+#: src/layout_util.c:1083
+msgid "Show thumbnails"
+msgstr "عرص النماذج المصغرة للصور"
+
+#: src/layout_util.c:1085
+#, fuzzy
+msgid "Change to home folder"
+msgstr "اذهب إلى الدليل الرءيسى الخاص بالمستخدم"
+
+#: src/layout_util.c:1087
+msgid "Refresh file list"
+msgstr "انعش قائمة الملفات"
+
+#: src/layout_util.c:1089
+msgid "Zoom in"
+msgstr "ضخّم"
+
+#: src/layout_util.c:1091
+msgid "Zoom out"
+msgstr "صغّر (عكس ضخّم)"
+
+#: src/layout_util.c:1093 src/preferences.c:910
+msgid "Fit image to window"
+msgstr "اجعل حجم الصورة مناسبة لحجم النافذة"
+
+#: src/layout_util.c:1095
+msgid "Set zoom 1:1"
+msgstr "اعرض الصورة بالحجم الحقيقى"
+
+#: src/layout_util.c:1097
+msgid "Configure options"
+msgstr "الإعدادات"
+
+#: src/layout_util.c:1099
+msgid "Float Controls"
+msgstr "افصل الأدوات فى نافذة مستقلة"
+
+#: src/main.c:266
+msgid "Help - GQview"
+msgstr "مساعدة - GQview"
+
+#: src/main.c:489 src/main.c:1305
+msgid "Command line"
+msgstr "سطر الأوامر"
+
+#. short, long                  callback,               extra, prefer,description
+#: src/main.c:527
+#, fuzzy
+msgid "next image"
+msgstr "حمّل الصورة القادمة قبل عرضها"
+
+#: src/main.c:528
+msgid "previous image"
+msgstr ""
+
+#: src/main.c:529
+#, fuzzy
+msgid "first image"
+msgstr "الغاء الصورة الأخيرة"
+
+#: src/main.c:530
+#, fuzzy
+msgid "last image"
+msgstr "الغاء الصورة الأخيرة"
+
+#: src/main.c:531
+#, fuzzy
+msgid "toggle full screen"
+msgstr "استخدم نافذة عادية للعرض"
+
+#: src/main.c:532
+#, fuzzy
+msgid "start full screen"
+msgstr "استخدم نافذة عادية للعرض"
+
+#: src/main.c:533
+#, fuzzy
+msgid "stop full screen"
+msgstr "استخدم نافذة عادية للعرض"
+
+#: src/main.c:534
+#, fuzzy
+msgid "toggle slide show"
+msgstr "اوقف عرض الشرائح"
+
+#: src/main.c:535
+#, fuzzy
+msgid "start slide show"
+msgstr "ابدأ عرض الشرائح"
+
+#: src/main.c:536
+#, fuzzy
+msgid "stop slide show"
+msgstr "اوقف عرض الشرائح"
+
+#: src/main.c:537
+#, fuzzy
+msgid "start recursive slide show"
+msgstr "ابدأ عرض الشرائح"
+
+#: src/main.c:538
+msgid "set slide show delay in seconds"
+msgstr ""
+
+#: src/main.c:539
+msgid "show tools"
+msgstr ""
+
+#: src/main.c:540
+#, fuzzy
+msgid "hide tools"
+msgstr "GQview أدوات"
+
+#: src/main.c:541
+msgid "quit"
+msgstr ""
+
+#: src/main.c:542
+#, fuzzy
+msgid "open file"
+msgstr "عد تسمية الملف:"
+
+#: src/main.c:543
+#, fuzzy
+msgid "open file in new window"
+msgstr "اعرض فى نافذة جديدة"
+
+#: src/main.c:609
+msgid "Remote command list:\n"
+msgstr ""
+
+#: src/main.c:667
+msgid "Remote GQview not running, starting..."
+msgstr ""
+
+#: src/main.c:802
+msgid "Remote not available\n"
+msgstr ""
+
+#: src/main.c:944
+msgid ""
+"Usage: gqview [options] [path]\n"
+"\n"
+msgstr ""
+"استخدام: [مسار] [خيارات] \n"
+"\n"
+
+#: src/main.c:945
+msgid "valid options are:\n"
+msgstr "الخيارات المتاحة هى:\n"
+
+#: src/main.c:946
+msgid "  +t, --with-tools           force show of tools\n"
+msgstr "  +t, --with-tools           اعرض الأدوات بشكل إجبارى\n"
+
+#: src/main.c:947
+msgid "  -t, --without-tools        force hide of tools\n"
+msgstr "  -t, --without-tools        خبئ الأدوات بشكل إجبارى\n"
+
+#: src/main.c:948
+msgid "  -f, --fullscreen           start in full screen mode\n"
+msgstr "  -f, --fullscreen           إبدأ البرنامج ليمﻷ الشاشة كاملة\n"
+
+#: src/main.c:949
+msgid "  -s, --slideshow            start in slideshow mode\n"
+msgstr "  -s, --slideshow            ابدأ فى نمط عرض الشرائح\n"
+
+#: src/main.c:950
+msgid "  -l, --list                 open collection window for command line\n"
+msgstr "  -l, --list                 افتح نافذة مجموعة \n"
+
+#: src/main.c:951
+#, fuzzy
+msgid "  -r, --remote               send following commands to open window\n"
+msgstr "  -l, --list                 افتح نافذة مجموعة \n"
+
+#: src/main.c:952
+msgid "  -rh,--remote-help          print remote command list\n"
+msgstr ""
+
+#: src/main.c:953
+msgid "  --debug                    turn on debug output\n"
+msgstr "  --debug                    عرض البيانات التنقيحية\n"
+
+#: src/main.c:954
+msgid "  -v, --version              print version info\n"
+msgstr "  -v, --version              أذكر رقم الإصدارة\n"
+
+#: src/main.c:955
+msgid ""
+"  -h, --help                 show this message\n"
+"\n"
+msgstr ""
+"  -h, --help                 غعرض هذه الرسالة\n"
+"\n"
+
+#: src/main.c:969
+#, c-format
+msgid ""
+"invalid or ignored: %s\n"
+"Use --help for options\n"
+msgstr ""
+"خاطئ أو مهمل: %s\n"
+"استخدم --help لعرض الخيارات\n"
+
+#: src/main.c:1034
+#, c-format
+msgid "Creating GQview dir:%s\n"
+msgstr "انشاء دليل gqview الخاص: %s \n"
+
+#: src/main.c:1040
+#, c-format
+msgid "Could not create dir:%s\n"
+msgstr "فشل انشاء الدليل: %s \n"
+
+#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1043
+msgid "Home"
+msgstr "الدليل الرءيسى الخاص بالمستخدم"
+
+#: src/main.c:1063 src/ui_bookmark.c:865
+msgid "Desktop"
+msgstr "سطح مكتب الحاسب"
+
+#: src/main.c:1152
+msgid "GQview - exit"
+msgstr "GQview - خروج"
+
+#: src/main.c:1156
+#, fuzzy
+msgid "Quit GQview"
+msgstr "عن - GQview"
+
+#: src/main.c:1156
+#, fuzzy
+msgid "Collections have been modified. Quit anyway?"
+msgstr ""
+"لم يتم حفظ بعض المجاميع التى تغيرت.  \n"
+"هل تريد الخروج؟"
+
+#: src/menu.c:115
+msgid "Sort by size"
+msgstr "رتّب حسب حجم الملف"
+
+#: src/menu.c:118
+msgid "Sort by date"
+msgstr "رتّب حسب تاريخ الملف"
+
+#: src/menu.c:121
+msgid "Unsorted"
+msgstr "غير مرتّب"
+
+#: src/menu.c:124
+msgid "Sort by path"
+msgstr "رتّب حسب المسار"
+
+#: src/menu.c:127
+msgid "Sort by number"
+msgstr "رتّب حسب العدد"
+
+#: src/menu.c:131
+msgid "Sort by name"
+msgstr "رتّب حسب إسم الملف"
+
+#: src/menu.c:175
+msgid "Sort"
+msgstr "رتّب"
+
+#: src/menu.c:200
+msgid "Rotate _180"
+msgstr "در 180 درجة"
+
+#: src/preferences.c:384
+msgid "Nearest (worst, but fastest)"
+msgstr "الأقرب (أسوأ نقاء فى أسرع وقت)"
+
+#: src/preferences.c:386
+msgid "Tiles"
+msgstr "بلاط"
+
+#: src/preferences.c:388
+msgid "Bilinear"
+msgstr "ثنائيّ"
+
+#: src/preferences.c:390
+msgid "Hyper (best, but slowest)"
+msgstr "رائع (افضل نقاء مع أطول وقت)"
+
+#: src/preferences.c:418
+msgid "None"
+msgstr " لا شيئ "
+
+#: src/preferences.c:419
+msgid "Normal"
+msgstr "عادى"
+
+#: src/preferences.c:420
+msgid "Best"
+msgstr "الأفضل"
+
+#: src/preferences.c:498 src/print.c:365
+#, fuzzy
+msgid "Custom"
+msgstr "آلى"
+
+#: src/preferences.c:662 src/preferences.c:665
+msgid "Reset filters"
+msgstr "رد المرشحات إلى حالاتهم الإفتراضية"
+
+#: src/preferences.c:666
+msgid ""
+"This will reset the file filters to the defaults.\n"
+"Continue?"
+msgstr ""
+"هذا الأمر يرد المرشحات إلى حالاتهم الإفتراضية. \n"
+"هل تريد الإستمرار؟"
+
+#: src/preferences.c:699 src/preferences.c:702
+msgid "Reset editors"
+msgstr "ردّ المحرر إلى الحالة الإفتراضية"
+
+#: src/preferences.c:703
+msgid ""
+"This will reset the edit commands to the defaults.\n"
+"Continue?"
+msgstr ""
+"هذا الأمر يردّ المحرر إلى الحالة الإفتراضية. \n"
+"هل تريد الإستمرار؟"
+
+#: src/preferences.c:727 src/preferences.c:730
+msgid "Clear trash"
+msgstr "نظّف الملفات المحذوفة من سلّة المهملات"
+
+#: src/preferences.c:731
+msgid "This will remove the trash contents."
+msgstr "هذا الأمر ينظّف الملفات المحذوفة من سلّة المهملات"
+
+#: src/preferences.c:770
+#, fuzzy
+msgid "GQview Preferences"
+msgstr "GQview شاشة كاملة"
+
+#: src/preferences.c:824
+#, fuzzy
+msgid "Startup"
+msgstr "رقم البداية"
+
+#: src/preferences.c:826
+#, fuzzy
+msgid "Change to folder:"
+msgstr "اذهب إلى الدليل الرءيسى الخاص بالمستخدم"
+
+#: src/preferences.c:837
+msgid "Use current"
+msgstr "استخدم الحالى"
+
+#: src/preferences.c:843 src/print.c:3201 src/print.c:3408
+msgid "Size:"
+msgstr "الحجم:"
+
+#: src/preferences.c:844 src/preferences.c:890
+msgid "Quality:"
+msgstr "النقاء:"
+
+#: src/preferences.c:846
+msgid "Cache thumbnails"
+msgstr "احتفظ بالنماذج المصغّرة للصور"
+
+#: src/preferences.c:852
+msgid "Use shared thumbnail cache"
+msgstr ""
+
+#: src/preferences.c:858
+msgid "Cache thumbnails into .thumbnails"
+msgstr "احتفظ بالنماذج المصغّرة للصور فى .thumbnails"
+
+#: src/preferences.c:861
+msgid "Use xvpics thumbnails when found (read only)"
+msgstr "استخدم النماذج المصغّرة من برنامج xvpics إن وجد (قراءة فقط)"
+
+#: src/preferences.c:864
+msgid "Slide show"
+msgstr "عرض شرائح"
+
+#: src/preferences.c:867
+#, fuzzy
+msgid "Delay between image change:"
+msgstr "مدّة التأخيربين الصورة و الأخرى (ثوانى):"
+
+#: src/preferences.c:867
+msgid "seconds"
+msgstr ""
+
+#: src/preferences.c:873
+msgid "Random"
+msgstr "عشوائى"
+
+#: src/preferences.c:874
+msgid "Repeat"
+msgstr "كرّر"
+
+#: src/preferences.c:884
+#, fuzzy
+msgid "Zoom"
+msgstr "ضخّم"
+
+#: src/preferences.c:887
+msgid "Dithering method:"
+msgstr "نمط تربيك الصورة:"
+
+#: src/preferences.c:892
+msgid "Two pass zooming"
+msgstr "ضخّم (مرور مزدوج)"
+
+#: src/preferences.c:895
+msgid "Allow enlargement of image for zoom to fit."
+msgstr "اسمح بزيادة حجم الصورة عند اعطاء أمر التضخيم لملاءمة حجم النافذة"
+
+#: src/preferences.c:899
+msgid "Zoom increment:"
+msgstr "الدرجات التزايدية للتضخيم:"
+
+#: src/preferences.c:904
+msgid "When new image is selected:"
+msgstr "عند إختيار صورة جديدة:"
+
+#: src/preferences.c:907
+msgid "Zoom to original size"
+msgstr "اعرض الصورة بالحجم الحقيقى لها"
+
+#: src/preferences.c:913
+msgid "Leave Zoom at previous setting"
+msgstr "أترك خيار التضخيم كما كان من قبل"
+
+#: src/preferences.c:917
+#, fuzzy
+msgid "Appearance"
+msgstr "أضف"
+
+#: src/preferences.c:919
+msgid "Black background"
+msgstr "خلفية سوداء"
+
+#: src/preferences.c:922
+#, fuzzy
+msgid "Convenience"
+msgstr "استمرّ"
+
+#: src/preferences.c:924
+msgid "Refresh on file change"
+msgstr "أنعش عند تحميل صورة أخرى"
+
+#: src/preferences.c:926
+msgid "Preload next image"
+msgstr "حمّل الصورة القادمة قبل عرضها"
+
+#: src/preferences.c:928
+msgid "Auto rotate image using Exif information"
+msgstr "در الصورة تلقائيا بواسطة المعلومات التابعة لExif"
+
+#: src/preferences.c:937
+msgid "Windows"
+msgstr "نوافذ"
+
+#: src/preferences.c:940
+#, fuzzy
+msgid "State"
+msgstr "رقم البداية"
+
+#: src/preferences.c:942
+msgid "Remember window positions"
+msgstr "تذكر مواقع النوافذ"
+
+#: src/preferences.c:944
+msgid "Remember tool state (float/hidden)"
+msgstr "تذكر حالة الأدوات (منفصلة فى نافذة منفصلة أو مخفى)"
+
+#: src/preferences.c:949
+msgid "Fit window to image when tools are hidden/floating"
+msgstr ""
+"عدّل أبعاد النفذة لملاءمة حجم الصورة عندما تكون الأدوات منفصلة عن النافذة "
+"الرئيسية أو مخفاه"
+
+#: src/preferences.c:953
+msgid "Limit size when auto-sizing window (%):"
+msgstr "تحديد حجم النافذة عند تعديل أبعادها تلقائيا (%):"
+
+#: src/preferences.c:960 src/print.c:3356 src/print.c:3363
+msgid "Layout"
+msgstr "التخطيط"
+
+#: src/preferences.c:973
+msgid "Filtering"
+msgstr "الترشيح"
+
+#: src/preferences.c:978
+msgid "Show entries that begin with a dot"
+msgstr "عرض الدﻻئل و الملفات التى تبدأ بنقطة . "
+
+#: src/preferences.c:980
+msgid "Case sensitive sort"
+msgstr "ترتيب الملفات و الدلائل حسب أحجام حروف الإسم"
+
+#: src/preferences.c:983
+msgid "Disable File Filtering"
+msgstr "اعمل دون ترشيح الملفات"
+
+#: src/preferences.c:986
+#, fuzzy
+msgid "File types"
+msgstr "تاريخ الملف"
+
+#: src/preferences.c:1008
+msgid "Filter"
+msgstr "ترشيح"
+
+#: src/preferences.c:1045 src/preferences.c:1109
+msgid "Defaults"
+msgstr "الإفتراضات"
+
+#: src/preferences.c:1066
+msgid "Editors"
+msgstr "المحرّرون"
+
+#: src/preferences.c:1072
+msgid "#"
+msgstr "#"
+
+#: src/preferences.c:1075
+msgid "Menu name"
+msgstr "إسم القائمة"
+
+#: src/preferences.c:1125
+msgid "Advanced"
+msgstr "متطور"
+
+#: src/preferences.c:1138
+#, fuzzy
+msgid "Full screen"
+msgstr "استخدم الشاشة كاملة للعرض"
+
+#: src/preferences.c:1146
+#, fuzzy
+msgid "Smooth image flip"
+msgstr "حجم الصورة: "
+
+#: src/preferences.c:1148
+msgid "Disable screen saver"
+msgstr ""
+
+#: src/preferences.c:1151
+msgid "Delete"
+msgstr "غحذف"
+
+#: src/preferences.c:1153
+msgid "Confirm file delete"
+msgstr "أكّد حذف الملفات"
+
+#: src/preferences.c:1155
+msgid "Enable Delete key"
+msgstr "مكّن زر الDelete"
+
+#: src/preferences.c:1158
+msgid "Safe delete"
+msgstr "حذف آمن"
+
+#: src/preferences.c:1176
+#, fuzzy
+msgid "Maximum size:"
+msgstr "الحدّ الأعلى (ميجابايت):"
+
+#: src/preferences.c:1176
+msgid "MB"
+msgstr ""
+
+#: src/preferences.c:1179
+msgid "View"
+msgstr "عرض"
+
+#: src/preferences.c:1189
+msgid "Behavior"
+msgstr ""
+
+#: src/preferences.c:1191
+#, fuzzy
+msgid "Rectangular selection in icon view"
+msgstr "إختيار مستطيل"
+
+#: src/preferences.c:1194
+msgid "Descend folders in tree view"
+msgstr "الدخول فى الدﻻئل فى العرض الشجرى للملفات"
+
+#: src/preferences.c:1197
+msgid "In place renaming"
+msgstr "إعادة تسمية الملفات فى موضعها"
+
+#: src/preferences.c:1200
+#, fuzzy
+msgid "Navigation"
+msgstr "عمل"
+
+#: src/preferences.c:1202
+msgid "Progressive keyboard scrolling"
+msgstr "التحريك التقدمى للوحة المفاتيح"
+
+#: src/preferences.c:1204
+msgid "Mouse wheel scrolls image"
+msgstr "عجلة الفأرة تحرّك الصورة"
+
+#: src/preferences.c:1207
+msgid "Miscellaneous"
+msgstr ""
+
+#: src/preferences.c:1209
+msgid "Store keywords and comments local to source images"
+msgstr ""
+
+#: src/preferences.c:1212
+msgid "Custom similarity threshold:"
+msgstr "عتبة التطابق عند إستخدام بحث التطابق  حسب الطلب:"
+
+#: src/preferences.c:1215
+msgid "Offscreen cache size (Mb per image):"
+msgstr "حجم الذاكرة غير المرئية المخصصة للصور (ميجابايت للصورة):"
+
+#: src/preferences.c:1291
+msgid "About - GQview"
+msgstr "عن - GQview"
+
+#: src/preferences.c:1304
+#, c-format
+msgid ""
+"GQview %s\n"
+"\n"
+"Copyright (c) %s John Ellis\n"
+"website: %s\n"
+"email: %s\n"
+"\n"
+"Released under the GNU General Public License"
+msgstr ""
+"GQview %s\n"
+"\n"
+"حقوق الطبع و النشر (c) %s John Ellis\n"
+"الموقع: %s\n"
+"بريد إلكترونى: %s\n"
+"\n"
+"أصدرت تحت رخصة General Public License: GPL"
+
+#: src/preferences.c:1322
+msgid "Credits..."
+msgstr "أسماء من ساعدوا فى التنفيذ:"
+
+#: src/print.c:111
+#, fuzzy
+msgid "Selection"
+msgstr "الغى الاختيار"
+
+#: src/print.c:112
+msgid "All"
+msgstr ""
+
+#: src/print.c:123
+msgid "One image per page"
+msgstr ""
+
+#: src/print.c:124
+msgid "Proof sheet"
+msgstr ""
+
+#: src/print.c:137
+#, fuzzy
+msgid "Default printer"
+msgstr "الإفتراضات"
+
+#: src/print.c:138
+msgid "Custom printer"
+msgstr ""
+
+#: src/print.c:139
+msgid "PostScript file"
+msgstr ""
+
+#: src/print.c:140
+#, fuzzy
+msgid "Image file"
+msgstr "حجم الصورة: "
+
+#: src/print.c:154
+msgid "jpeg, low quality"
+msgstr ""
+
+#: src/print.c:155
+msgid "jpeg, normal quality"
+msgstr ""
+
+#: src/print.c:156
+msgid "jpeg, high quality"
+msgstr ""
+
+#: src/print.c:350 src/print.c:3201
+#, fuzzy
+msgid "points"
+msgstr "Xpaint"
+
+#: src/print.c:351
+msgid "millimeters"
+msgstr ""
+
+#: src/print.c:352
+#, fuzzy
+msgid "centimeters"
+msgstr "سنتيمتر"
+
+#: src/print.c:353
+#, fuzzy
+msgid "inches"
+msgstr "بوصة"
+
+#: src/print.c:354
+msgid "picas"
+msgstr ""
+
+#: src/print.c:359
+#, fuzzy
+msgid "Portrait"
+msgstr "صورة بالطول"
+
+#: src/print.c:360
+#, fuzzy
+msgid "Landscape"
+msgstr "صورة بالعرض"
+
+#: src/print.c:366
+#, fuzzy
+msgid "Letter"
+msgstr "سنتيمتر"
+
+#. in 8.5 x 11
+#: src/print.c:367
+msgid "Legal"
+msgstr ""
+
+#. in 8.5 x 14
+#: src/print.c:368
+msgid "Executive"
+msgstr ""
+
+#. in 7.25x 10.5
+#. mm 841 x 1189
+#. mm 594 x 841
+#. mm 420 x 594
+#. mm 297 x 420
+#. mm 210 x 297
+#. mm 148 x 210
+#. mm 105 x 148
+#. mm 353 x 500
+#. mm 250 x 353
+#. mm 176 x 250
+#. mm 125 x 176
+#: src/print.c:380
+msgid "Envelope #10"
+msgstr ""
+
+#. in 4.125 x 9.5
+#: src/print.c:381
+msgid "Envelope #9"
+msgstr ""
+
+#. in 3.875 x 8.875
+#: src/print.c:382
+msgid "Envelope C4"
+msgstr ""
+
+#. mm 229 x 324
+#: src/print.c:383
+msgid "Envelope C5"
+msgstr ""
+
+#. mm 162 x 229
+#: src/print.c:384
+msgid "Envelope C6"
+msgstr ""
+
+#. mm 114 x 162
+#: src/print.c:385
+msgid "Photo 6x4"
+msgstr ""
+
+#. in 6   x 4
+#: src/print.c:386
+msgid "Photo 8x10"
+msgstr ""
+
+#. in 8   x 10
+#: src/print.c:387
+msgid "Postcard"
+msgstr ""
+
+#. mm 100 x 148
+#: src/print.c:388
+msgid "Tabloid"
+msgstr ""
+
+#: src/print.c:544
+#, fuzzy, c-format
+msgid "page %d of %d"
+msgstr "صورة %d من %d"
+
+#: src/print.c:736 src/utilops.c:2067
+msgid "Preview"
+msgstr "العرض الأولي"
+
+#: src/print.c:1044
+#, c-format
+msgid ""
+"Unable to open pipe for writing.\n"
+"\"%s\""
+msgstr ""
+
+#: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:424
+#: src/view_file_list.c:453
+#, c-format
+msgid "A file with name %s already exists."
+msgstr "يوجد ملف بهذا الإسم %s"
+
+#: src/print.c:1074 src/print.c:1543
+#, c-format
+msgid "Failure writing to file %s"
+msgstr ""
+
+#: src/print.c:1128 src/print.c:1165 src/print.c:1201 src/print.c:1307
+#: src/print.c:1398 src/print.c:1429
+msgid "SIGPIPE error writing to printer."
+msgstr ""
+
+#: src/print.c:1964
+#, c-format
+msgid "Page %d"
+msgstr ""
+
+#: src/print.c:1986 src/print.c:1991
+#, fuzzy
+msgid "Printing error"
+msgstr "ترشيح"
+
+#: src/print.c:1990
+#, c-format
+msgid "An error occured printing to %s."
+msgstr ""
+
+#: src/print.c:1994
+msgid "Details"
+msgstr "التفاصيل"
+
+#: src/print.c:2587 src/print.c:3332
+#, fuzzy
+msgid "Print - GQview"
+msgstr "عن - GQview"
+
+#: src/print.c:2591
+#, c-format
+msgid "Printing %d pages to %s."
+msgstr ""
+
+#: src/print.c:2691
+#, fuzzy
+msgid "Format:"
+msgstr "الصيغة"
+
+#: src/print.c:2766
+msgid "Units:"
+msgstr ""
+
+#: src/print.c:2810
+#, fuzzy
+msgid "Orientation:"
+msgstr "التوجيه"
+
+#: src/print.c:2942
+#, fuzzy
+msgid "Destination:"
+msgstr "الوصف"
+
+#: src/print.c:2990
+#, fuzzy
+msgid "<printer name>"
+msgstr "إسم الملف"
+
+#: src/print.c:3079
+#, fuzzy
+msgid "Unlimited"
+msgstr "بدون اسم"
+
+#: src/print.c:3188
+msgid "Show"
+msgstr ""
+
+#: src/print.c:3199
+#, fuzzy
+msgid "Font"
+msgstr "شغّال"
+
+#: src/print.c:3359
+#, fuzzy
+msgid "Source"
+msgstr "رتّب"
+
+#: src/print.c:3375
+#, fuzzy
+msgid "Proof size:"
+msgstr "حجم الصورة: "
+
+#: src/print.c:3391
+msgid "Text"
+msgstr ""
+
+#: src/print.c:3401
+#, fuzzy
+msgid "Paper"
+msgstr "بُؤرة"
+
+#: src/print.c:3424
+msgid "Margins"
+msgstr ""
+
+#: src/print.c:3426
+msgid "Left:"
+msgstr ""
+
+#: src/print.c:3429
+#, fuzzy
+msgid "Right:"
+msgstr "الإرتفاع"
+
+#: src/print.c:3432
+#, fuzzy
+msgid "Top:"
+msgstr "المجموعة:"
+
+#: src/print.c:3435
+#, fuzzy
+msgid "Bottom:"
+msgstr "إلى:"
+
+#: src/print.c:3444
+#, fuzzy
+msgid "Printer"
+msgstr "ترشيح"
+
+#: src/print.c:3450
+msgid "Custom printer:"
+msgstr ""
+
+#: src/print.c:3459
+#, fuzzy
+msgid "File:"
+msgstr "ترشيح:"
+
+#: src/print.c:3468
+#, fuzzy
+msgid "File format:"
+msgstr "تاريخ الملف"
+
+#: src/print.c:3473
+msgid "DPI:"
+msgstr ""
+
+#: src/print.c:3481
+#, fuzzy
+msgid "Remember print settings"
+msgstr "تذكر مواقع النوافذ"
+
+#: src/rcfile.c:185
+#, c-format
+msgid "error saving config file: %s\n"
+msgstr "خطأ فى عملية حفظ ملف الإعدادات: %s \n"
+
+#: src/search.c:200
+#, fuzzy
+msgid "folder"
+msgstr "دليل:"
+
+#: src/search.c:201
+msgid "comments"
+msgstr "تعليقات"
+
+#: src/search.c:202
+msgid "results"
+msgstr "نتائج"
+
+#: src/search.c:206
+msgid "contains"
+msgstr "يحتوى على"
+
+#: src/search.c:207
+msgid "is"
+msgstr "هو"
+
+#: src/search.c:211 src/search.c:218
+msgid "equal to"
+msgstr "يساوى"
+
+#: src/search.c:212
+msgid "less than"
+msgstr "أقلّ من"
+
+#: src/search.c:213
+msgid "greater than"
+msgstr "أكثر من"
+
+#: src/search.c:214 src/search.c:221
+msgid "between"
+msgstr "ما بين"
+
+#: src/search.c:219
+msgid "before"
+msgstr "قبل"
+
+#: src/search.c:220
+msgid "after"
+msgstr "بعد"
+
+#: src/search.c:225
+msgid "match all"
+msgstr "وفّق مع كلّ الشروط"
+
+#: src/search.c:226
+msgid "match any"
+msgstr "وفّق مع أى من الشروط"
+
+#: src/search.c:227
+msgid "exclude"
+msgstr "إستثن"
+
+#: src/search.c:277
+#, c-format
+msgid "%s, %d files (%s, %d)"
+msgstr "%s, %d ملفات (%s, %d)"
+
+#: src/search.c:284
+#, c-format
+msgid "%s, %d files"
+msgstr "%s, %d ملفات"
+
+#: src/search.c:301
+msgid "Searching..."
+msgstr "جارى البحث..."
+
+#: src/search.c:2093
+msgid "File not found"
+msgstr "الملف لم يوجد"
+
+#: src/search.c:2094
+msgid "Please enter an existing file for image content."
+msgstr "أدخل ملف حالى للبحث:"
+
+#: src/search.c:2140
+msgid "Folder not found"
+msgstr "الدليل لم يوجد"
+
+#: src/search.c:2141
+msgid "Please enter an existing folder to search."
+msgstr "أدخل دليل حالى للبحث:"
+
+#: src/search.c:2570
+msgid "Image search - GQview"
+msgstr "بحث الصور - GQview"
+
+#: src/search.c:2599
+#, fuzzy
+msgid "Search:"
+msgstr "بحث"
+
+#: src/search.c:2613
+msgid "Recurse"
+msgstr "بحث تلقائى داخل كل الدلائل"
+
+#: src/search.c:2617
+msgid "File name"
+msgstr "إسم الملف"
+
+#: src/search.c:2623
+msgid "Match case"
+msgstr "وفّق حجم الحروف فى البحث"
+
+#: src/search.c:2627
+msgid "File size is"
+msgstr "حجم الملف"
+
+#: src/search.c:2634 src/search.c:2649 src/search.c:2667
+msgid "and"
+msgstr "و"
+
+#: src/search.c:2639
+msgid "File date is"
+msgstr "تاريخ الملف"
+
+#: src/search.c:2656
+msgid "Image dimensions are"
+msgstr "أبعاد الصورة"
+
+#: src/search.c:2676
+msgid "Image content is"
+msgstr "محتوى الصورة"
+
+#: src/search.c:2682
+#, no-c-format
+msgid "% similar to"
+msgstr "% مثل"
+
+#: src/search.c:2751
+msgid "Rank"
+msgstr "الرتبة"
+
+#: src/thumb.c:378
+msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
+msgstr ""
+"فشل فى تحميل النموذج المصغّر للصورة. يجرى الآن محاولة إعادة تكوين للملف. \n"
+
+#: src/ui_bookmark.c:148
+#, c-format
+msgid "Unable to write history lists to: %s\n"
+msgstr "فشل عملية حفظ قائمة تاريخ إستخدام البرنامج إلى %s \n"
+
+#: src/ui_bookmark.c:445 src/ui_bookmark.c:508
+msgid "New Bookmark"
+msgstr "مسار مفضّل جديد"
+
+#: src/ui_bookmark.c:591 src/ui_bookmark.c:597
+msgid "Edit Bookmark"
+msgstr "حرّر المسار المفضّل"
+
+#: src/ui_bookmark.c:612
+msgid "Path:"
+msgstr "المسار:"
+
+#: src/ui_bookmark.c:621
+msgid "Icon:"
+msgstr "الأيقون:"
+
+#: src/ui_bookmark.c:627
+#, fuzzy
+msgid "Select icon"
+msgstr "الغى الاختيار"
+
+#: src/ui_bookmark.c:718
+msgid "_Properties..."
+msgstr "الخواص:"
+
+#: src/ui_bookmark.c:720
+msgid "Move _up"
+msgstr "إلى أعلى"
+
+#: src/ui_bookmark.c:722
+msgid "Move _down"
+msgstr "غلى أسفل"
+
+#: src/ui_bookmark.c:724
+msgid "_Remove"
+msgstr "إحذف"
+
+#: src/ui_help.c:111
+#, c-format
+msgid ""
+"Unable to load:\n"
+"%s"
+msgstr ""
+"فشل تحميل: \n"
+"%s"
+
+#: src/ui_pathsel.c:430 src/view_dir_list.c:97 src/view_dir_tree.c:204
+#, c-format
+msgid "Failed to rename %s to %s."
+msgstr "فشل عملية إعادة تسمية الملف %s إلى %s."
+
+#: src/ui_pathsel.c:486 src/utilops.c:1288 src/utilops.c:1461
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+"%s"
+msgstr "فشل عملية حذف الملف %s."
+
+#: src/ui_pathsel.c:487 src/utilops.c:1462
+msgid "File deletion failed"
+msgstr "فشل حذف الملف"
+
+#: src/ui_pathsel.c:529 src/ui_pathsel.c:537
+msgid "Delete file"
+msgstr "غحذف الملف"
+
+#: src/ui_pathsel.c:535
+#, c-format
+msgid ""
+"About to delete the file:\n"
+" %s"
+msgstr ""
+"سيتم الآن حذف الملف: \n"
+"%s"
+
+#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2035
+#: src/utilops.c:2255
+msgid "_Rename"
+msgstr "عد تسمية"
+
+#: src/ui_pathsel.c:628 src/ui_pathsel.c:638
+msgid "Add _Bookmark"
+msgstr "ضف مسار مفضّل"
+
+#: src/ui_pathsel.c:636
+msgid "_Delete"
+msgstr "احذف"
+
+#: src/ui_pathsel.c:740 src/ui_pathsel.c:1045
+#, fuzzy
+msgid "New folder"
+msgstr "دليل جديد..."
+
+#: src/ui_pathsel.c:750 src/utilops.c:2325 src/view_dir_list.c:338
+#: src/view_dir_tree.c:434
+#, c-format
+msgid ""
+"Unable to create folder:\n"
+"%s"
+msgstr ""
+"فشل عملية إنشاء الدليل: \n"
+"%s"
+
+#: src/ui_pathsel.c:751 src/utilops.c:2326 src/view_dir_list.c:339
+#: src/view_dir_tree.c:435
+msgid "Error creating folder"
+msgstr "خطأ فى عملية إنشاء الدليل"
+
+#: src/ui_pathsel.c:972
+msgid "All Files"
+msgstr "جميع الملفات"
+
+#: src/ui_pathsel.c:1048
+msgid "Show hidden"
+msgstr "اعرض الملفات و الدﻻئل المخفية"
+
+#: src/ui_pathsel.c:1132
+msgid "Filter:"
+msgstr "ترشيح:"
+
+#: src/ui_tabcomp.c:840
+#, fuzzy
+msgid "Select path"
+msgstr "اختر الكل"
+
+#: src/ui_tabcomp.c:856
+#, fuzzy
+msgid "All files"
+msgstr "جميع الملفات"
+
+#: src/utilops.c:470 src/utilops.c:783 src/utilops.c:1640 src/utilops.c:2187
+msgid "Overwrite file"
+msgstr "حفظ الملف مكان الملف الموجود الحالى"
+
+#: src/utilops.c:475 src/utilops.c:788 src/utilops.c:1645 src/utilops.c:2192
+#, fuzzy
+msgid "Overwrite file?"
+msgstr "حفظ الملف مكان الملف الموجود الحالى"
+
+#: src/utilops.c:476 src/utilops.c:789
+msgid "Replace existing file with new file."
+msgstr ""
+
+#: src/utilops.c:480
+#, fuzzy
+msgid "Overwrite _all"
+msgstr "حفظ الملف مكان الملف الموجود الحالى"
+
+#: src/utilops.c:482
+#, fuzzy
+msgid "S_kip all"
+msgstr "استثنى الكل"
+
+#: src/utilops.c:483
+#, fuzzy
+msgid "_Skip"
+msgstr "استثنى"
+
+#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+#, fuzzy
+msgid "Existing file"
+msgstr "خطأ فى عملية نقل الملف من مكان إلى آخر."
+
+#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+#, fuzzy
+msgid "New file"
+msgstr "دليل جديد..."
+
+#: src/utilops.c:494 src/utilops.c:802 src/utilops.c:1746 src/utilops.c:1810
+#: src/utilops.c:2101
+msgid "Auto rename"
+msgstr "عد التسمية تلقائيا"
+
+#: src/utilops.c:502 src/utilops.c:810
+msgid "Rename"
+msgstr "عد التسمية "
+
+#: src/utilops.c:543
+msgid "Source to copy matches destination"
+msgstr "الملف الذى تريد نسخه هو نفس الملف الذى تنسخ إليه"
+
+#: src/utilops.c:544
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to itself."
+msgstr ""
+"فشل نسخ الملف:\n"
+"%s \n"
+"إلى نفسه"
+
+#: src/utilops.c:548
+msgid "Source to move matches destination"
+msgstr "الملف الذى تريد تحريكه هو نفس الملف الذى تحرّك إليه"
+
+#: src/utilops.c:549
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to itself."
+msgstr ""
+"فشل تحريك الملف:\n"
+"%s \n"
+"إلى نفسه"
+
+#: src/utilops.c:557 src/utilops.c:644 src/utilops.c:1280
+#, fuzzy
+msgid "Co_ntinue"
+msgstr "استمرّ"
+
+#: src/utilops.c:630 src/utilops.c:850
+msgid "Error copying file"
+msgstr "فشل نسخ الملف"
+
+#: src/utilops.c:631
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s\n"
+"during multiple file copy."
+msgstr ""
+"فشل عملية نسخ الملف:\n"
+"%s\n"
+"إلى:\n"
+"%s\n"
+"اثناء عملية نسخ متعدّدة."
+
+#: src/utilops.c:635 src/utilops.c:855
+msgid "Error moving file"
+msgstr "خطأ فى عملية نقل الملف من مكان إلى آخر."
+
+#: src/utilops.c:636
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s\n"
+"during multiple file move."
+msgstr ""
+"فشل عملية تحريك الملف:\n"
+"%s\n"
+"إلى:\n"
+"%s\n"
+"اثناء عملية تحريك متعدّدة."
+
+#: src/utilops.c:774
+msgid "Source matches destination"
+msgstr "الملف المصدر هو الملف المهدف"
+
+#: src/utilops.c:775
+msgid "Source and destination are the same, operation cancelled."
+msgstr "الملف المصدر هو الملف المهدف. تم إلغاء العملية."
+
+#: src/utilops.c:851
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"فشل عملية نسخ الملف:\n"
+"%s\n"
+"إلى:\n"
+"%s"
+
+#: src/utilops.c:856
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"فشل تحريك:\n"
+"%s\n"
+"إلى:\n"
+"%s"
+
+#: src/utilops.c:899
+msgid "Invalid destination"
+msgstr "مسار خاطئ"
+
+#: src/utilops.c:900
+msgid ""
+"When operating with multiple files, please select\n"
+"a folder, not a file."
+msgstr ""
+"عندما ترغب فى العمل مع عدة ملفات رجاء\n"
+"إختيار دليل و ليس ملف."
+
+#: src/utilops.c:905
+msgid "Please select an existing folder."
+msgstr "رجاء إختيار دليل صحيح و موجود."
+
+#: src/utilops.c:956
+msgid "Copy - GQview"
+msgstr "انسخ - GQview"
+
+#: src/utilops.c:957 src/view_dir_list.c:217 src/view_dir_tree.c:309
+msgid "_Copy"
+msgstr "انسخ"
+
+#: src/utilops.c:960
+#, fuzzy
+msgid "Copy file"
+msgstr "عد تسمية الملف:"
+
+#: src/utilops.c:964
+#, fuzzy
+msgid "Copy multiple files"
+msgstr "انسخ عدة ملفات إلى:"
+
+#: src/utilops.c:970
+msgid "Move - GQview"
+msgstr "حرّك - GQview"
+
+#: src/utilops.c:971 src/view_dir_list.c:219 src/view_dir_tree.c:311
+msgid "_Move"
+msgstr "حرّك"
+
+#: src/utilops.c:974
+#, fuzzy
+msgid "Move file"
+msgstr "عد تسمية الملف:"
+
+#: src/utilops.c:978
+#, fuzzy
+msgid "Move multiple files"
+msgstr "حرّك عدة ملفات إلى:"
+
+#: src/utilops.c:992 src/utilops.c:1502
+#, fuzzy
+msgid "File name:"
+msgstr "إسم الملف"
+
+#: src/utilops.c:996
+#, fuzzy
+msgid "Choose the destination folder."
+msgstr "الملف المصدر هو الملف المهدف"
+
+#: src/utilops.c:1123 src/utilops.c:1272 src/utilops.c:1289
+msgid "Delete failed"
+msgstr "فشل عملية الحذف"
+
+#: src/utilops.c:1124
+msgid "Unable to remove old file from trash folder"
+msgstr "فشل فى حذف ملف قديم من سلة المهملات"
+
+#: src/utilops.c:1180 src/utilops.c:2318
+msgid "Could not create folder"
+msgstr "فشل عملية إنشاء الدليل"
+
+#: src/utilops.c:1202
+msgid "Permission denied"
+msgstr "العملية غير مصرح بها"
+
+#: src/utilops.c:1212
+#, c-format
+msgid ""
+"Unable to access or create the trash folder.\n"
+"\"%s\""
+msgstr ""
+"فشل عملية إنشاء دليل سلّة المهملات\n"
+"\"%s\""
+
+#: src/utilops.c:1216
+msgid "Turn off safe delete"
+msgstr "إلغ خاصية الحذف الآمن"
+
+#: src/utilops.c:1234
+#, c-format
+msgid "Safe delete: %s"
+msgstr "حذف آمن: %s"
+
+#: src/utilops.c:1276
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+" %s\n"
+" Continue multiple delete operation?"
+msgstr ""
+"فشل عملية حذف الملف:\n"
+"%s\n"
+"هل ترغب فى الإستمرار فى عملية الحذف المتعدّدة؟"
+
+#: src/utilops.c:1347
+#, c-format
+msgid "File %d of %d"
+msgstr "ملف %d من %d"
+
+#: src/utilops.c:1416
+msgid "Delete files - GQview"
+msgstr "ملفات محذوفة - GQview"
+
+#: src/utilops.c:1420
+#, fuzzy
+msgid "Delete multiple files"
+msgstr "عد تسمية عدّة ملفات:"
+
+#: src/utilops.c:1438
+#, c-format
+msgid "Review %d files"
+msgstr "راجع %d ملفات"
+
+#: src/utilops.c:1494
+msgid "Delete file - GQview"
+msgstr "احذف الملف - GQview"
+
+#: src/utilops.c:1498
+#, fuzzy
+msgid "Delete file?"
+msgstr "غحذف الملف"
+
+#: src/utilops.c:1646 src/utilops.c:2193
+msgid "Replace existing file by renaming new file."
+msgstr ""
+
+#: src/utilops.c:1661
+#, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+" to:\n"
+"%s"
+msgstr ""
+"فشل عملية إعادة تسمية الملف:\n"
+"%s\n"
+"إلى:\n"
+"%s"
+
+#: src/utilops.c:1664 src/utilops.c:2208 src/view_file_list.c:448
+#: src/view_file_list.c:454 src/view_file_list.c:460
+msgid "Error renaming file"
+msgstr "خطأ فى عملية إعادة تسمية الملف"
+
+#: src/utilops.c:1747
+msgid ""
+"Can not auto rename with the selected\n"
+"number set, one or more files exist that\n"
+"match the resulting name list.\n"
+msgstr ""
+"فشل عملية إعادة التسمية التلقائية مع المجموعة \n"
+" المختارة. يوجد ملف أو أكثر يطابق إسمه \n"
+" إسماً فى القائمة الناتجة.\n"
+
+#: src/utilops.c:1809
+#, c-format
+msgid ""
+"Failed to rename\n"
+"%s\n"
+"The number was %d."
+msgstr ""
+"خطأ فى عملية إعادة تسمية\n"
+"%s\n"
+"الرقم هو %d."
+
+#: src/utilops.c:2031 src/utilops.c:2249
+msgid "Rename - GQview"
+msgstr "عد التسمية - GQview"
+
+#: src/utilops.c:2034
+#, fuzzy
+msgid "Rename multiple files"
+msgstr "عد تسمية عدّة ملفات:"
+
+#: src/utilops.c:2066
+msgid "Original Name"
+msgstr "الأسم الأصلى"
+
+#: src/utilops.c:2110 src/utilops.c:2262
+#, fuzzy
+msgid "Original name:"
+msgstr "الأسم الأصلى"
+
+#: src/utilops.c:2113 src/utilops.c:2265
+#, fuzzy
+msgid "New name:"
+msgstr "عد تسمية:"
+
+#: src/utilops.c:2128
+msgid "Begin text"
+msgstr "بداية الكتابة"
+
+#: src/utilops.c:2136
+msgid "Start #"
+msgstr "رقم البداية"
+
+#: src/utilops.c:2142
+msgid "End text"
+msgstr "نهاية الكتابة"
+
+#: src/utilops.c:2150
+msgid "Padding:"
+msgstr "التبطين:"
+
+#: src/utilops.c:2207 src/view_file_list.c:459
+#, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"خطأ فى عملية إعادة تسمية\n"
+"%s\n"
+"إلى:\n"
+" %s."
+
+#: src/utilops.c:2252
+#, fuzzy
+msgid "Rename file"
+msgstr "عد تسمية الملف:"
+
+#: src/utilops.c:2311
+#, c-format
+msgid ""
+"The folder:\n"
+"%s\n"
+"already exists."
+msgstr ""
+"هذا الدليل: \n"
+"%s \n"
+" موجود بالفعل."
+
+#: src/utilops.c:2312
+msgid "Folder exists"
+msgstr "هذا الدليل موجود بالفعل"
+
+#: src/utilops.c:2317
+#, c-format
+msgid ""
+"The path:\n"
+"%s\n"
+"already exists as a file."
+msgstr ""
+"هذا المسار: \n"
+"%s \n"
+"موجود فعلاً لكنه ملف."
+
+#: src/utilops.c:2369
+msgid "New folder - GQview"
+msgstr "دليل جديد - GQview"
+
+#: src/utilops.c:2372
+#, c-format
+msgid ""
+"Create folder in:\n"
+"%s\n"
+"named:"
+msgstr ""
+"تم إنشاء دليل فى: \n"
+"%s \n"
+"بإسم: "
+
+#: src/view_dir_list.c:329 src/view_dir_tree.c:425
+msgid "new_folder"
+msgstr "دليل جديد"
+
+#: src/view_dir_list.c:387 src/view_dir_tree.c:482
+msgid "_Up to parent"
+msgstr "غيّر المسار إلى الأعلى"
+
+#: src/view_dir_list.c:392 src/view_dir_tree.c:487
+msgid "_Slideshow"
+msgstr "عرض شرائح"
+
+#: src/view_dir_list.c:394 src/view_dir_tree.c:489
+msgid "Slideshow recursive"
+msgstr "عرض شرائح يشمل الدﻻئل المتواجدة تحت المسار المختار"
+
+#: src/view_dir_list.c:398 src/view_dir_tree.c:493
+msgid "Find _duplicates..."
+msgstr "ابحث عن الملفات المطابقة..."
+
+#: src/view_dir_list.c:400 src/view_dir_tree.c:495
+msgid "Find duplicates recursive..."
+msgstr ""
+"ابحث عن الملفات المطابقة بما يشمل الملفات التى هى بداخل الدﻻئل المتواجدة تحت "
+"المسار المختار"
+
+#: src/view_dir_list.c:407 src/view_dir_tree.c:502
+msgid "_New folder..."
+msgstr "دليل جديد..."
+
+#: src/view_dir_list.c:419 src/view_dir_tree.c:509
+msgid "View as _tree"
+msgstr "اعرض على هيئة شجرة"
+
+#: src/view_dir_list.c:421 src/view_dir_tree.c:511 src/view_file_icon.c:311
+#: src/view_file_list.c:423
+msgid "Re_fresh"
+msgstr "انعش"
+
+#: src/view_file_icon.c:304 src/view_file_list.c:416
+msgid "_Sort"
+msgstr "رتب"
+
+#: src/view_file_icon.c:307 src/view_file_list.c:419
+msgid "View as _icons"
+msgstr "اعرض فى هيئة أيقونات"
+
+#: src/view_file_list.c:421
+msgid "Show _thumbnails"
+msgstr "اعرض النماذج المصغّرة للصور"
+
+#: src/view_file_list.c:447
+#, c-format
+msgid ""
+"Invalid file name:\n"
+"%s"
+msgstr ""
+"إسم الملفّ خاطئ: \n"
+"%s"
+
+#~ msgid "Purge thumbnails"
+#~ msgstr "حذف النسخ المصغرة للصور"
+
+#~ msgid "/File/tear1"
+#~ msgstr "/ملف/اقطع"
+
+#~ msgid "/File/_New collection"
+#~ msgstr "/ملف/مجموعة جديدة"
+
+#~ msgid "/File/_Open collection..."
+#~ msgstr "/ملف/افتح مجموعة"
+
+#~ msgid "/File/sep1"
+#~ msgstr "/ملف/فاصل1"
+
+#~ msgid "/File/_Search..."
+#~ msgstr "/ملف/إبحث..."
+
+#~ msgid "/File/_Find duplicates..."
+#~ msgstr "/ملف/إبحث عن ملفات مطابقة..."
+
+#~ msgid "/File/sep2"
+#~ msgstr "/ملف/فاصل2"
+
+#, fuzzy
+#~ msgid "/File/_Print..."
+#~ msgstr "/ملف/إبحث..."
+
+#~ msgid "/File/N_ew folder..."
+#~ msgstr "/ملف/دليل جديد..."
+
+#~ msgid "/File/sep3"
+#~ msgstr "/ملف/فاصل3"
+
+#~ msgid "/File/_Copy..."
+#~ msgstr "/ملف/انسخ..."
+
+#~ msgid "/File/_Move..."
+#~ msgstr "/ملف/حرّك..."
+
+#~ msgid "/File/_Rename..."
+#~ msgstr "/ملف/اعد تسمية..."
+
+#~ msgid "/File/_Delete..."
+#~ msgstr "/ملف/احذف..."
+
+#~ msgid "/File/sep4"
+#~ msgstr "/ملف/فاصل4"
+
+#~ msgid "/File/C_lose window"
+#~ msgstr "/ملف/اغلق النافذة"
+
+#, fuzzy
+#~ msgid "/File/_Quit"
+#~ msgstr "/ملف/خروج"
+
+#~ msgid "/_Edit"
+#~ msgstr "/حرّر"
+
+#~ msgid "/Edit/tear1"
+#~ msgstr "/حرّر/اقطع1"
+
+#~ msgid "/Edit/editor1"
+#~ msgstr "/حرّر/محرّر1"
+
+#~ msgid "/Edit/editor2"
+#~ msgstr "/حرّر/محرّر2"
+
+#~ msgid "/Edit/editor3"
+#~ msgstr "/حرّر/محرّر3"
+
+#~ msgid "/Edit/editor4"
+#~ msgstr "/حرّر/محرّر4"
+
+#~ msgid "/Edit/editor5"
+#~ msgstr "/حرّر/محرّر5"
+
+#~ msgid "/Edit/editor6"
+#~ msgstr "/حرّر/محرّر6"
+
+#~ msgid "/Edit/editor7"
+#~ msgstr "/حرّر/محرّر7"
+
+#~ msgid "/Edit/editor8"
+#~ msgstr "/حرّر/محرّر8"
+
+#~ msgid "/Edit/editor9"
+#~ msgstr "/حرّر/محرّر9"
+
+#~ msgid "/Edit/editor0"
+#~ msgstr "/حرّر/محرّر0"
+
+#~ msgid "/Edit/sep1"
+#~ msgstr "/حرّر/فاصل1"
+
+#~ msgid "/Edit/_Adjust"
+#~ msgstr "/حرّر/عدّل"
+
+#~ msgid "/Edit/_Properties"
+#~ msgstr "/حرّر/خواص"
+
+#~ msgid "/Edit/Adjust/tear1"
+#~ msgstr "/حرّر/عدّل/اقطع1"
+
+#~ msgid "/Edit/Adjust/_Rotate clockwise"
+#~ msgstr "/حرّر/عدّل/دربإتجاه عقرب الساعة"
+
+#~ msgid "/Edit/Adjust/Rotate _counterclockwise"
+#~ msgstr "/حرّر/عدّل/دربعكس إتجاه عقرب الساعة"
+
+#~ msgid "/Edit/Adjust/Rotate 1_80"
+#~ msgstr "/حرّر/عدّل/در180 درجة"
+
+#~ msgid "/Edit/Adjust/_Mirror"
+#~ msgstr "/حرّر/عدّل/إعكس كالمرآه"
+
+#~ msgid "/Edit/Adjust/_Flip"
+#~ msgstr "/حرّر/عدّل/اعكس من اعلى إلى أسفل"
+
+#~ msgid "/Edit/sep2"
+#~ msgstr "/حرّر/فاصل2"
+
+#~ msgid "/Edit/Select _all"
+#~ msgstr "/حرّر/اختر الجميع"
+
+#~ msgid "/Edit/Select _none"
+#~ msgstr "/حرّر/ﻻ تختار شئ"
+
+#~ msgid "/Edit/sep3"
+#~ msgstr "/حرّر/فاصل3"
+
+#~ msgid "/Edit/_Options..."
+#~ msgstr "/حرّر/خيارات"
+
+#~ msgid "/Edit/sep4"
+#~ msgstr "/حرّر/فاصل4"
+
+#~ msgid "/Edit/Set as _wallpaper"
+#~ msgstr "/حرّر/استخدم الصورة كخلفية للكمبيوتر"
+
+#~ msgid "/_View"
+#~ msgstr "/اعرض"
+
+#~ msgid "/View/tear1"
+#~ msgstr "/اعرض/اقطع1"
+
+#~ msgid "/View/Zoom _in"
+#~ msgstr "/اعرض/ضخّم"
+
+#~ msgid "/View/Zoom _out"
+#~ msgstr "/اعرض/صغّر"
+
+#~ msgid "/View/Zoom _1:1"
+#~ msgstr "/اعرض/اعرض الصورة بالحجم الحقيقى"
+
+#~ msgid "/View/sep1"
+#~ msgstr "/اعرض/فاصل1"
+
+#~ msgid "/View/_Thumbnails"
+#~ msgstr "/اعرض/نماذج مصغّرة للصور"
+
+#~ msgid "/View/I_cons"
+#~ msgstr "/اعرض/أيقونات"
+
+#~ msgid "/View/sep2"
+#~ msgstr "/اعرض/فاصل2"
+
+#~ msgid "/View/F_ull screen"
+#~ msgstr "/اعرض/استخدم الشاشة كاملة لعرض الصور"
+
+#~ msgid "/View/sep3"
+#~ msgstr "/اعرض/فاصل3"
+
+#~ msgid "/View/_Hide file list"
+#~ msgstr "/اعرض/خبئ شباك عرض الملفات"
+
+#~ msgid "/View/sep4"
+#~ msgstr "/اعرض/فاصل4"
+
+#, fuzzy
+#~ msgid "/View/_Keywords"
+#~ msgstr "الكلمات الدليلية"
+
+#~ msgid "/View/Sort _manager"
+#~ msgstr "/اعرض/مدير الترتيب"
+
+#~ msgid "/View/sep5"
+#~ msgstr "/اعرض/فاصل5"
+
+#~ msgid "/View/Toggle _slideshow"
+#~ msgstr "/اعرض/شغّل أو اوقف عرض الشرائح"
+
+#~ msgid "/View/_Refresh Lists"
+#~ msgstr "/اعرض/أنعش عرض الملفات"
+
+#~ msgid "/Help/tear1"
+#~ msgstr "/مساعدة/اقطع1"
+
+#~ msgid "/Help/sep1"
+#~ msgstr "/مساعدة/فاصل1"
+
+#~ msgid "GQview configuration"
+#~ msgstr "إعداد GQview"
+
+#~ msgid "/Edit/_Remove old thumbnails"
+#~ msgstr "/حرّر/احذف النماذج القديمة المصغرة للصور"
+
+#~ msgid "path"
+#~ msgstr "المسار"
+
+#~ msgid "Save"
+#~ msgstr "احفظ"
+
+#~ msgid "Close"
+#~ msgstr "أغلق"
+
+#~ msgid ""
+#~ "Overwrite collection file:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "احفظ المجموعة مع الغاء القديم:\n"
+#~ "%s"
+
+#~ msgid "Save collection as:"
+#~ msgstr "احفظ المجموعة باسم:"
+
+#~ msgid "Open collection from:"
+#~ msgstr "افتح مجموعة من:"
+
+#~ msgid "Open"
+#~ msgstr "افتح"
+
+#~ msgid "Append collection from:"
+#~ msgstr "اضف للمجموعة من:"
+
+#, fuzzy
+#~ msgid "exit"
+#~ msgstr "خروج"
+
+#~ msgid "Exit"
+#~ msgstr "خروج"
+
+#~ msgid "Ok"
+#~ msgstr "موافق"
+
+#, fuzzy
+#~ msgid "Initial folder"
+#~ msgstr "دليل خاطئ"
+
+#, fuzzy
+#~ msgid "On startup, change to this folder:"
+#~ msgstr "اذهب إلى هذا الدليل عند بداية التشغيل:"
+
+#~ msgid "Zoom (scaling):"
+#~ msgstr "ضخّم (قياس):"
+
+#~ msgid "Place dialogs under mouse"
+#~ msgstr "وضع نوافذ الحوارات تحت الفأر:"
+
+#~ msgid "Include files of type:"
+#~ msgstr "أنواع الملفات المعمول بها:"
+
+#~ msgid "Remove"
+#~ msgstr "احذف"
+
+#~ msgid "Add"
+#~ msgstr "ضف"
+
+#~ msgid "Command Line"
+#~ msgstr "سطر الأوامر"
+
+#~ msgid "Help"
+#~ msgstr "مساعدة"
+
+#~ msgid "Full screen size:"
+#~ msgstr "حجم الشاشة الكاملة:"
+
+#, fuzzy
+#~ msgid "Point size:"
+#~ msgstr "حجم الملف: "
+
+#, fuzzy
+#~ msgid "Width:"
+#~ msgstr "العرض"
+
+#, fuzzy
+#~ msgid "Height:"
+#~ msgstr "الإرتفاع"
+
+#~ msgid ""
+#~ "Overwrite file:\n"
+#~ " %s\n"
+#~ " with:\n"
+#~ " %s"
+#~ msgstr ""
+#~ "حذف الملف: \n"
+#~ "%s\n"
+#~ "و حفظ الملف: \n"
+#~ "%s بدﻻ منه"
+
+#~ msgid "Yes"
+#~ msgstr "نعم"
+
+#~ msgid "Yes to all"
+#~ msgstr "نعم للجميع"
+
+#~ msgid ""
+#~ "Overwrite file:\n"
+#~ "%s\n"
+#~ " with:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "هل تريد حذف الملف:\n"
+#~ "%s\n"
+#~ "و إستبداله بالملف:\n"
+#~ "%s"
+
+#~ msgid ""
+#~ "Copy file:\n"
+#~ "%s\n"
+#~ "to:"
+#~ msgstr ""
+#~ "انسخ الملف:\n"
+#~ "%s\n"
+#~ "إلى:"
+
+#~ msgid ""
+#~ "Move file:\n"
+#~ "%s\n"
+#~ "to:"
+#~ msgstr ""
+#~ "حرّك الملف:\n"
+#~ "%s\n"
+#~ "إلى:"
+
+#~ msgid "About to delete multiple files..."
+#~ msgstr "سيتم الآن حذف عدّة ملفات..."
+
+#~ msgid ""
+#~ "Overwrite file:\n"
+#~ "%s\n"
+#~ "by renaming:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "هل تريد حذف الملف:\n"
+#~ "%s\n"
+#~ "عن طريق إعادة تسمية الملف:\n"
+#~ "%s"
+
+#~ msgid "to:"
+#~ msgstr "إلى:"
+
+#~ msgid "Create"
+#~ msgstr "انشئ"
+
+#~ msgid "Image details"
+#~ msgstr "تفاصيل الصورة"
+
+#~ msgid "/View/Image _details"
+#~ msgstr "/اعرض/تفاصيل الصورة"
+
+#~ msgid "Initial directory"
+#~ msgstr "الدليل المبدأى"
+
+#~ msgid "Full screen ignores window manager"
+#~ msgstr "تشغيل البرنامج فى الشاشة الكاملة تتجاهل مدير النوافذ"
+
+#~ msgid "New Directory"
+#~ msgstr "دليل جديد"
+
+#~ msgid ""
+#~ "Unable to create directory:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "فشل إنشاء الدليل: \n"
+#~ "%s"
+
+#~ msgid "Error creating directory"
+#~ msgstr "فشل إنشاء الدليل"
