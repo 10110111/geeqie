@@ -3427,12 +3427,20 @@ void image_scroll(ImageWindow *imd, gint x, gint y)
 	image_scroll_real(imd, x, y);
 }
 
-void image_scroll_to_point(ImageWindow *imd, gint x, gint y)
+void image_scroll_to_point(ImageWindow *imd, gint x, gint y,
+			   gdouble x_align, gdouble y_align)
 {
 	gint px, py;
+	gint ax, ay;
 
-	px = (gdouble)x * imd->scale - imd->x_scroll;
-	py = (gdouble)y * imd->scale - imd->y_scroll;
+	x_align = CLAMP(x_align, 0.0, 1.0);
+	y_align = CLAMP(y_align, 0.0, 1.0);
+
+	ax = (gdouble)imd->vis_width * x_align;
+	ay = (gdouble)imd->vis_height * y_align;
+
+	px = (gdouble)x * imd->scale - (imd->x_scroll + ax);
+	py = (gdouble)y * imd->scale - (imd->y_scroll + ay);
 
 	image_scroll(imd, px, py);
 }

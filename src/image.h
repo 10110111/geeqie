@@ -56,7 +56,8 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source);
 void image_area_changed(ImageWindow *imd, gint x, gint y, gint width, gint height);
 void image_reload(ImageWindow *imd);
 void image_scroll(ImageWindow *imd, gint x, gint y);
-void image_scroll_to_point(ImageWindow *imd, gint x, gint y);
+void image_scroll_to_point(ImageWindow *imd, gint x, gint y,
+			   gdouble x_align, gdouble y_align);
 void image_alter(ImageWindow *imd, AlterType type);
 
 /* zoom */

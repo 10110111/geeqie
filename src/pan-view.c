@@ -1674,8 +1674,8 @@ static void pan_window_layout_compute_folders_flower(PanWindow *pw, const gchar 
 	pi = pan_item_find_by_path(pw, ITEM_BOX, path, FALSE, FALSE);
 	if (pi)
 		{
-		*scroll_x = pi->x - PAN_FOLDER_BOX_BORDER;
-		*scroll_y = pi->y - PAN_FOLDER_BOX_BORDER;
+		*scroll_x = pi->x + pi->width / 2;
+		*scroll_y = pi->y + pi->height / 2;
 		}
 }
 
@@ -2783,11 +2783,22 @@ static gint pan_window_layout_update_idle_cb(gpointer data)
 
 	if (width > 0 && height > 0)
 		{
+		gdouble align;
+
 		image_set_image_as_tiles(pw->imd, width, height,
 					 PAN_TILE_SIZE, PAN_TILE_SIZE, 8,
 					 pan_window_request_tile_cb,
 					 pan_window_dispose_tile_cb, pw, 1.0);
-		image_scroll_to_point(pw->imd, scroll_x, scroll_y);
+
+		if (scroll_x == 0 && scroll_y == 0)
+			{
+			align = 0.0;
+			}
+		else
+			{
+			align = 0.5;
+			}
+		image_scroll_to_point(pw->imd, scroll_x, scroll_y, align, align);
 		}
 
 	pan_window_message(pw, NULL);
@@ -3161,7 +3172,7 @@ static gint pan_search_by_path(PanWindow *pw, const gchar *path)
 	if (!pi) return FALSE;
 
 	pan_info_update(pw, pi);
-	image_scroll_to_point(pw->imd, pi->x - PAN_THUMB_GAP, pi->y - PAN_THUMB_GAP);
+	image_scroll_to_point(pw->imd, pi->x + pi->width / 2, pi->y + pi->height / 2, 0.5, 0.5);
 
 	pan_search_status(pw, (path[0] == '/') ? _("path found") : _("filename found"));
 
@@ -3188,7 +3199,7 @@ static gint pan_search_by_partial(PanWindow *pw, const gchar *text)
 	if (!pi) return FALSE;
 
 	pan_info_update(pw, pi);
-	image_scroll_to_point(pw->imd, pi->x - PAN_THUMB_GAP, pi->y - PAN_THUMB_GAP);
+	image_scroll_to_point(pw->imd, pi->x + pi->width / 2, pi->y + pi->height / 2, 0.5, 0.5);
 
 	pan_search_status(pw, _("partial match"));
 
@@ -3200,7 +3211,7 @@ static gint valid_date_separator(gchar c)
 	return (c == '/' || c == '-' || c == ' ' || c == '.' || c == ',');
 }
 
-static PanItem *pan_search_by_date_val(PanWindow *pw, gint year, gint month, gint day)
+static PanItem *pan_search_by_date_val(PanWindow *pw, ItemType type, gint year, gint month, gint day)
 {
 	GList *work;
 
@@ -3212,7 +3223,7 @@ static PanItem *pan_search_by_date_val(PanWindow *pw, gint year, gint month, gin
 		pi = work->data;
 		work = work->prev;
 
-		if (pi->fd)
+		if (pi->fd && (pi->type == type || type == ITEM_NONE))
 			{
 			struct tm *tl;
 
@@ -3245,6 +3256,7 @@ static gint pan_search_by_date(PanWindow *pw, const gchar *text)
 	time_t t;
 	gchar *message;
 	gchar *buf;
+	ItemType type;
 
 	if (!text) return FALSE;
 
@@ -3320,11 +3332,15 @@ static gint pan_search_by_date(PanWindow *pw, const gchar *text)
 	t = date_to_time(year, month, day);
 	if (t < 0) return FALSE;
 
-	pi = pan_search_by_date_val(pw, year, month, day);
+	type = (pw->size > LAYOUT_SIZE_THUMB_LARGE) ? ITEM_IMAGE : ITEM_THUMB;
+
+	pi = pan_search_by_date_val(pw, type, year, month, day);
 	if (pi)
 		{
 		pan_info_update(pw, pi);
-		image_scroll_to_point(pw->imd, pi->x - PAN_THUMB_GAP, pi->y - PAN_THUMB_GAP);
+		image_scroll_to_point(pw->imd,
+				      pi->x - PAN_FOLDER_BOX_BORDER * 5 / 2,
+				      pi->y, 0.0, 0.5);
 		}
 
 	if (month > 0)
@@ -3587,7 +3603,7 @@ static void pan_window_scrollbar_h_value_cb(GtkRange *range, gpointer data)
 
 	x = (gint)gtk_range_get_value(range);
 
-	image_scroll_to_point(pw->imd, x, (gint)((gdouble)pw->imd->y_scroll / pw->imd->scale));
+	image_scroll_to_point(pw->imd, x, (gint)((gdouble)pw->imd->y_scroll / pw->imd->scale), 0.0, 0.0);
 }
 
 static void pan_window_scrollbar_v_value_cb(GtkRange *range, gpointer data)
@@ -3599,7 +3615,7 @@ static void pan_window_scrollbar_v_value_cb(GtkRange *range, gpointer data)
 
 	y = (gint)gtk_range_get_value(range);
 
-	image_scroll_to_point(pw->imd, (gint)((gdouble)pw->imd->x_scroll / pw->imd->scale), y);
+	image_scroll_to_point(pw->imd, (gint)((gdouble)pw->imd->x_scroll / pw->imd->scale), y, 0.0, 0.0);
 }
 
 static void pan_window_layout_change_cb(GtkWidget *combo, gpointer data)
