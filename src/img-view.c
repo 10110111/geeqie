@@ -127,6 +127,18 @@ static void button3_cb(ImageWindow *imd, GdkEventButton *bevent, gpointer data)
 		bevent->button, bevent->time);
 }
 
+static void button4_cb(ImageWindow *imd, GdkEventButton *bevent, gpointer data)
+{
+	if (mousewheel_scrolls)
+		image_area_scroll(imd, 0, -MOUSEWHEEL_SCROLL_SIZE);
+}
+
+static void button5_cb(ImageWindow *imd, GdkEventButton *bevent, gpointer data)
+{
+	if (mousewheel_scrolls)
+		image_area_scroll(imd, 0, MOUSEWHEEL_SCROLL_SIZE);
+}
+
 static gint view_window_delete_cb(GtkWidget *w, GdkEventAny *event, gpointer data)
 {
 	gtk_widget_destroy(w);
@@ -164,6 +176,10 @@ void view_window_new(gchar *path)
 	image_dnd_init(imd);
 
 	image_area_set_button(imd, 3, button3_cb, NULL);
+	/* for wheel mice */
+	image_area_set_button(imd, 4, button4_cb, NULL);
+	image_area_set_button(imd, 5, button5_cb, NULL);
+
 
 	gtk_signal_connect(GTK_OBJECT(window), "delete_event", (GtkSignalFunc) view_window_delete_cb, NULL);
 	gtk_signal_connect(GTK_OBJECT(window), "destroy_event", (GtkSignalFunc) view_window_destroy_cb, imd);

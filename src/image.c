@@ -606,6 +606,14 @@ static void image_area_mouse_pressed(GtkWidget *widget, GdkEventButton *bevent, 
 			if (imd->func_btn3)
 				imd->func_btn3(imd, bevent, imd->data_btn3);
 			break;
+		case 4:
+			if (imd->func_btn4)
+				imd->func_btn4(imd, bevent, imd->data_btn4);
+			break;
+		case 5:
+			if (imd->func_btn5)
+				imd->func_btn5(imd, bevent, imd->data_btn5);
+			break;
 		default:
 			break;
 		}
@@ -683,6 +691,14 @@ void image_area_set_button(ImageWindow *imd, gint button,
 		case 3:
 			imd->func_btn3 = func;
 			imd->data_btn3 = data;
+			break;
+		case 4:
+			imd->func_btn4 = func;
+			imd->data_btn4 = data;
+			break;
+		case 5:
+			imd->func_btn5 = func;
+			imd->data_btn5 = data;
 			break;
 		}
 }

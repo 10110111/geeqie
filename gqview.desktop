@@ -1,6 +1,8 @@
 [Desktop Entry]
 Name=GQview
+Name[tr]=GQview
 Comment=Image Viewer
+Comment[tr]=Resim göstericisi
 Exec=gqview
 Icon=gqview.png
 Terminal=0

@@ -37,6 +37,8 @@ static gint slideshow_delay_c;
 static gint slideshow_random_c;
 static gint slideshow_repeat_c;
 
+static gint mousewheel_scrolls_c;
+
 static GtkWidget *configwindow = NULL;
 static GtkWidget *startup_path_entry;
 static GtkWidget *custom_filter_entry;
@@ -217,6 +219,8 @@ static void config_window_apply()
 	slideshow_random = slideshow_random_c;
 	slideshow_repeat = slideshow_repeat_c;
 	slideshow_delay = slideshow_delay_c;
+
+	mousewheel_scrolls = mousewheel_scrolls_c;
 
 	if (refresh)
 		{
@@ -518,6 +522,8 @@ static void config_window_create(gint start_tab)
 
 	add_check_button(progressive_key_scrolling, &progressive_key_scrolling_c,
 			 _("Progressive keyboard scrolling"), vbox);
+	add_check_button(mousewheel_scrolls, &mousewheel_scrolls_c,
+			 _("Mouse wheel scrolls image"), vbox);
 
 	/* filtering tab */
 

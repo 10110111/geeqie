@@ -3,6 +3,8 @@ TODO key: d = done, w = work in progress, ? = possibly fixed, * = wt? - how?
 
 Major:
 ----------------------------------------------
+ >NOW that gdk-pixbuf(0.7.0) does not require gnome-libs, the conversion to it
+  will start.
  >fix translation pt_BR.po file (corrupted)
 
 Minor:

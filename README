@@ -1,5 +1,5 @@
 ###################################################################
-##                          GQview 0.8.0      (04/06/2000)       ##
+##                          GQview 0.8.1      (04/14/2000)       ##
 ##      This software is Copyright (C) 2000 by John Ellis.       ##
 ##  Use this software at your own risk. I am not responsible for ##
 ##        anything this software may do to your computer.        ##
@@ -20,26 +20,10 @@ homepage: gqview.sourceforge.net
 ======== Notes and changes for this release
 
   Changes:
-    > Now use autoconf/make, resulting in a configure script.
-    > Now supports i18n, added translations: de ja pt_BR ru
-    > Remove 'save settings on exit', they are now always saved.
-    > Copy/move dialogs now include drop down history.
-    > Overwrite dialogs now display source and dest images.
-    > Full screen toggle is now 'V'.
-    > New command line options: -f or --fullscreen; -s or --slideshow; renamed
-      long option to use -- instead of -.
-    > New option 'set wallpaper' sets the root window to current image.
-      (Scales in 'fit to window mode', tiles in all others) (edit menus).
-    - Thumbnail mode is now remembered between runs.
-    - During slideshows, next/prev image changes (space/backspace) now follow
-      the slideshow progression.
-    - Icons now update when size is configured.
-    - When dragging files, and the action was a move, refresh the filelist.
-    - Directory changes, and the filelist scrolls to follow tab completion in
-      the main window.
-    * Icons sizes are now properly remembered when the config dialog is opened
-      then closed without re-selecting the size.
-    * Less memory leaks :)
+    > New translations for es, fr, sk, and updated tr.
+    > Mouse wheel scrolls image, or optionally changes image
+      next or back. (Wheel must be mapped to buttons 4 and 5)
+    * Fix to include RPM spec file in source.
 
   Notes:
     bt_br.po is corrupt (my fault).
@@ -48,8 +32,6 @@ homepage: gqview.sourceforge.net
 
   Compilation: ./configure ; make
   General install: make install
-  GNOME install: make gnome-install is deprecated!, configure finds gnome for
-                 you now. 
   Removal: make uninstall
 
 ======== Description / Features
@@ -107,10 +89,24 @@ homepage: gqview.sourceforge.net
     V                                  Toggle full screen
     S                                  Toggle slide show
 
-======== Thanks go to the following for fixes, additions, and patches:
+======== Thanks go to the following:
+
+ Translations:
+
+  "Sandokan" <cortex@nextra.sk>
+      for Slovak translation
+
+  Rodrigo Sancho Senosiain <ruy_ikari@bigfoot.com>
+      for Spanish translation
+
+  Jean-pierre PEDRON <jppedron@club-internet.fr>
+      for French translation
 
   Fâtih Demir <kabalak@gmx.net>
       for Turkish translation
+
+  Kam Tik <kamtik@hongkong.com>
+      for Triditional Chinese (Big5) translation
 
   Oleg Andrjushenko <oandr@itec.cn.ua>
       for Russian translation
@@ -124,8 +120,12 @@ homepage: gqview.sourceforge.net
   Matthias Warkus <mawarkus@t-online.de>
       for German translation.
 
+ Fixes, additions, and patches:
+
   Diederen Damien <D.Diederen@student.ulg.ac.be>
       for .xvpics thumbnail reading support.
+
+  All those that I failed to list here.
 
 
 ========

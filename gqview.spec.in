@@ -47,6 +47,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %doc README COPYING TODO
 %{prefix}/bin/gqview
+%{prefix}/share/locale/*/*/*
 @HAVE_GNOME_TRUE@%{prefix}/share/gnome/apps/Graphics/gqview.desktop
 @HAVE_GNOME_TRUE@%{prefix}/share/pixmaps/gqview.png
 

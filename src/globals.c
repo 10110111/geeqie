@@ -113,6 +113,8 @@ gint slideshow_delay = 15;
 gint slideshow_random = FALSE;
 gint slideshow_repeat = FALSE;
 
+gint mousewheel_scrolls = TRUE;
+
 gint debug = FALSE;
 
 /* logo & misc images */

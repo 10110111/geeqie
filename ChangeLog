@@ -1,3 +1,35 @@
+Fri Apr 14 15:50:22 2000  John Ellis  <johne@bellatlantic.net>
+
+	* README: Updated.
+	* configure.in: release 0.8.1
+
+Thu Apr 13 10:50:43 2000  John Ellis  <johne@bellatlantic.net>
+
+	* config.c, globals.c, gqview.h, image.c, img-main.c, img-view.c: Added
+	support for mouse wheel (4,5) to scroll image or flip through images.
+
+Thu Apr 13 09:38:25 2000  John Ellis  <johne@bellatlantic.net>
+
+	* configure.in, po/sk.po: Added Slovak translation, submitted by
+         "Sandokan" <cortex@nextra.sk>
+
+Thu Apr 13 09:35:36 2000  John Ellis  <johne@bellatlantic.net>
+
+	* configure.in, po/es.po: Added Spanish translation, subbmitted by
+	Rodrigo Sancho Senosiain <ruy_ikari@bigfoot.com>
+
+Thu Apr 13 09:32:42 2000  John Ellis  <johne@bellatlantic.net>
+
+	* confgure.in, po/fr.po: Added French translation, submitted by
+         Jean-pierre PEDRON <jppedron@club-internet.fr>
+
+Thu Apr 13 09:28:04 2000  John Ellis  <johne@bellatlantic.net>
+
+	* Makefile.am, configure.in: Include gqview.spec in make distcheck so
+	that rpm -tb will work.
+	* po/tr.po, gqview.desktop: Update Turkish translation, from
+	Fatih Demir <kabalak@gmx.net>
+
 Thu Apr  6 19:03:04 2000  John Ellis  <johne@bellatlantic.net>
 
 	* README: Release 0.8.0.

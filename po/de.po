@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gqmpeg-0.6.3a\n"
-"POT-Creation-Date: 2000-04-06 19:03-0400\n"
+"POT-Creation-Date: 2000-04-13 15:57-0400\n"
 "PO-Revision-Date: 1999-08-15 23:47+02:00\n"
 "Last-Translator: Matthias Warkus <mawa@iname.com>\n"
 "Language-Team: Me and my monkey <mawa@iname.com>\n"
@@ -13,161 +13,165 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/config.c:303
+#: src/config.c:307
 msgid "GQview configuration"
 msgstr "GQview-Konfiguration"
 
-#: src/config.c:315
+#: src/config.c:319
 msgid "Ok"
 msgstr "OK"
 
-#: src/config.c:320
+#: src/config.c:324
 msgid "Apply"
 msgstr ""
 
-#: src/config.c:325 src/utildlg.c:145 src/utilops.c:444 src/utilops.c:754
+#: src/config.c:329 src/utildlg.c:145 src/utilops.c:444 src/utilops.c:754
 #: src/utilops.c:885 src/utilops.c:983
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/config.c:339
+#: src/config.c:343
 msgid "General"
 msgstr "Allgemein"
 
-#: src/config.c:347
+#: src/config.c:351
 msgid "Initial directory"
 msgstr "Anfängliches Verzeichnis"
 
-#: src/config.c:357
+#: src/config.c:361
 msgid "On startup, change to this directory:"
 msgstr "Beim Start in dieses Verzeichnis wechseln:"
 
-#: src/config.c:369
+#: src/config.c:373
 msgid "Use current"
 msgstr "Aktuelle benutzen"
 
-#: src/config.c:375
+#: src/config.c:379
 msgid "Confirm file delete"
 msgstr "Dateilöschung bestätigen"
 
-#: src/config.c:377
+#: src/config.c:381
 msgid "Remember tool state (float/hidden)"
 msgstr "An Werkzeugstatus erinnern (schwebend/verborgen)"
 
-#: src/config.c:379
+#: src/config.c:383
 msgid "Remember window positions"
 msgstr "An Fensterpositionen erinnern"
 
-#: src/config.c:381
+#: src/config.c:385
 msgid "Slide show"
 msgstr "Diavorführung"
 
-#: src/config.c:394
+#: src/config.c:398
 msgid "Delay before image change (seconds):"
 msgstr "Verzögerung vor Bildwechsel (Sekunden):"
 
-#: src/config.c:407
+#: src/config.c:411
 msgid "Random"
 msgstr "Zufall"
 
-#: src/config.c:409
+#: src/config.c:413
 msgid "Repeat"
 msgstr "Wiederholung"
 
-#: src/config.c:416
+#: src/config.c:420
 msgid "Image"
 msgstr "Bild"
 
-#: src/config.c:424
+#: src/config.c:428
 msgid "When new image is selected:"
 msgstr "Wenn neues Bild ausgewählt wird:"
 
-#: src/config.c:434
+#: src/config.c:438
 msgid "Zoom to original size"
 msgstr "Zu Ausgangsgröße zoomen"
 
-#: src/config.c:440 src/img-view.c:290 src/menu.c:473 src/menu.c:547
+#: src/config.c:444 src/img-view.c:306 src/menu.c:473 src/menu.c:547
 #: src/menu.c:587 src/menu.c:678
 msgid "Fit image to window"
 msgstr "Bild in Fenster einpassen"
 
-#: src/config.c:446
+#: src/config.c:450
 msgid "Leave Zoom at previous setting"
 msgstr "Zoom bei vorheriger Einstellung belassen"
 
-#: src/config.c:453
+#: src/config.c:457
 msgid "Fit window to image when tools are hidden/floating"
 msgstr "Bild in Fenster einpassen wenn Werkzeuge verborgen sind / schweben"
 
-#: src/config.c:460
+#: src/config.c:464
 msgid "Limit size when auto-sizing window"
 msgstr "Größe begrenzen bei der automatischen Fenstergrößenanpassung"
 
-#: src/config.c:470 src/menu.c:477
+#: src/config.c:474 src/menu.c:477
 msgid "Thumbnails"
 msgstr "Indexbilder"
 
-#: src/config.c:486
+#: src/config.c:490
 msgid "Size:"
 msgstr "Größe:"
 
-#: src/config.c:515
+#: src/config.c:519
 msgid "Cache thumbnails"
 msgstr "Indexbilder cachen"
 
-#: src/config.c:517
+#: src/config.c:521
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr "xvpics-Indexbilder benutzen, wenn gefunden (nur Lesezugriff)"
 
-#: src/config.c:520
+#: src/config.c:524
 msgid "Progressive keyboard scrolling"
 msgstr "Gleichmäßiges Tastaturrollen"
 
-#: src/config.c:527
+#: src/config.c:526
+msgid "Mouse wheel scrolls image"
+msgstr ""
+
+#: src/config.c:533
 msgid "Filtering"
 msgstr "Filtern"
 
-#: src/config.c:536
+#: src/config.c:542
 msgid "Show entries that begin with a dot"
 msgstr "Einträge zeigen, die mit einem Punkt beginnen"
 
-#: src/config.c:538
+#: src/config.c:544
 msgid "Disable File Filtering"
 msgstr "Dateifiltern abschalten"
 
-#: src/config.c:540
+#: src/config.c:546
 msgid "Include files of type:"
 msgstr "Dateien dieses Typ einschließen:"
 
-#: src/config.c:590
+#: src/config.c:596
 msgid "Custom file types:"
 msgstr "Selbstdefinierte Dateitypen::"
 
-#: src/config.c:603
+#: src/config.c:609
 msgid "format: [.foo;.bar]"
 msgstr "Format: [.foo;.bar]"
 
-#: src/config.c:612
+#: src/config.c:618
 msgid "External Editors"
 msgstr "Externe Editoren:"
 
-#: src/config.c:624
+#: src/config.c:630
 msgid "#"
 msgstr "Nr. "
 
-#: src/config.c:627
+#: src/config.c:633
 msgid "Menu name"
 msgstr "Menüname"
 
-#: src/config.c:630
+#: src/config.c:636
 msgid "Command Line"
 msgstr "Kommandozeile"
 
-#: src/config.c:660 src/menu.c:500
+#: src/config.c:666 src/menu.c:500
 msgid "About"
 msgstr "Info"
 
-#: src/config.c:676
+#: src/config.c:682
 #, fuzzy, c-format
 msgid ""
 "GQview %s\n"
@@ -215,51 +219,51 @@ msgstr "( ? x ? ) %d Bytes"
 msgid "( %d x %d ) %d bytes"
 msgstr "( %d x %d ) %d Bytes"
 
-#: src/img-main.c:231
+#: src/img-main.c:247
 msgid "GQview full screen"
 msgstr "GQview Vollbild"
 
-#: src/img-view.c:287 src/menu.c:470 src/menu.c:544 src/menu.c:584
+#: src/img-view.c:303 src/menu.c:470 src/menu.c:544 src/menu.c:584
 #: src/menu.c:674
 msgid "Zoom in"
 msgstr "Einzoomen"
 
-#: src/img-view.c:288 src/menu.c:471 src/menu.c:545 src/menu.c:585
+#: src/img-view.c:304 src/menu.c:471 src/menu.c:545 src/menu.c:585
 #: src/menu.c:676
 msgid "Zoom out"
 msgstr "Wegzoomen"
 
-#: src/img-view.c:289 src/menu.c:472 src/menu.c:546 src/menu.c:586
+#: src/img-view.c:305 src/menu.c:472 src/menu.c:546 src/menu.c:586
 msgid "Zoom 1:1"
 msgstr "Zoom 1:1"
 
 #. edit menu
-#: src/img-view.c:293 src/menu.c:457 src/menu.c:519 src/menu.c:550
+#: src/img-view.c:309 src/menu.c:457 src/menu.c:519 src/menu.c:550
 #: src/menu.c:590
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: src/img-view.c:298 src/menu.c:446 src/menu.c:526 src/menu.c:557
+#: src/img-view.c:314 src/menu.c:446 src/menu.c:526 src/menu.c:557
 #: src/menu.c:595
 msgid "Copy..."
 msgstr "Kopieren..."
 
-#: src/img-view.c:299 src/menu.c:447 src/menu.c:527 src/menu.c:558
+#: src/img-view.c:315 src/menu.c:447 src/menu.c:527 src/menu.c:558
 #: src/menu.c:596
 msgid "Move..."
 msgstr "Verschieben..."
 
-#: src/img-view.c:300 src/menu.c:448 src/menu.c:528 src/menu.c:559
+#: src/img-view.c:316 src/menu.c:448 src/menu.c:528 src/menu.c:559
 #: src/menu.c:597
 msgid "Rename..."
 msgstr "Umbenennen.."
 
-#: src/img-view.c:301 src/menu.c:449 src/menu.c:529 src/menu.c:560
+#: src/img-view.c:317 src/menu.c:449 src/menu.c:529 src/menu.c:560
 #: src/menu.c:598
 msgid "Delete..."
 msgstr "Löschen..."
 
-#: src/img-view.c:304
+#: src/img-view.c:320
 msgid "Close window"
 msgstr "Fenster schließen"
 

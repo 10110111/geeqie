@@ -175,6 +175,8 @@ void save_options()
 	write_bool_option(f, "tools_hidden", tools_hidden);
 	write_bool_option(f, "restore_tool_state", restore_tool);
 
+	write_bool_option(f, "mouse_wheel_scrolls", mousewheel_scrolls);
+
 	fprintf(f,"\n##### Slideshow Options #####\n\n");
 
 	write_int_option(f, "slideshow_delay", slideshow_delay);
@@ -322,6 +324,10 @@ void load_options()
 			"tools_hidden", value, tools_hidden);
 		restore_tool = read_bool_option(f, option,
 			"restore_tool_state", value, restore_tool);
+
+		mousewheel_scrolls = read_bool_option(f, option,
+			"mouse_wheel_scrolls", value, mousewheel_scrolls);
+
 
 		/* slideshow opitons */
 

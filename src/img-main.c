@@ -192,6 +192,22 @@ static void button3_cb(ImageWindow *imd, GdkEventButton *bevent, gpointer data)
 		}
 }
 
+static void button4_cb(ImageWindow *imd, GdkEventButton *bevent, gpointer data)
+{
+	if (mousewheel_scrolls)
+		image_area_scroll(imd, 0, -MOUSEWHEEL_SCROLL_SIZE);
+	else
+		file_prev_image();
+}
+
+static void button5_cb(ImageWindow *imd, GdkEventButton *bevent, gpointer data)
+{
+	if (mousewheel_scrolls)
+		image_area_scroll(imd, 0, MOUSEWHEEL_SCROLL_SIZE);
+	else
+		file_next_image();
+}
+
 /*
  *----------------------------------------------------------------------------
  * full screen functions
@@ -253,14 +269,12 @@ void full_screen_start()
 
 	image_area_set_image(full_screen_image, image_get_path(), image_area_get_zoom(normal_image));
 
-/*
-	if (!GTK_WIDGET_REALIZED(window)) gtk_widget_realize(window);
-	gdk_window_set_override_redirect(window->window, TRUE);
-*/
 	gtk_widget_show(window);
 	gdk_keyboard_grab(window->window, TRUE, GDK_CURRENT_TIME);
 
-	/* hide normal window */
+	/* hide normal window
+	 * FIXME: properly restore this window on show
+	 */
 	gtk_widget_hide(mainwindow);
 	image_area_set_image(normal_image, NULL, image_area_get_zoom(normal_image));
 
@@ -269,6 +283,9 @@ void full_screen_start()
 	image_area_set_button(full_screen_image, 1, button1_cb, NULL);
 	image_area_set_button(full_screen_image, 2, button2_cb, NULL);
 	image_area_set_button(full_screen_image, 3, button3_cb, NULL);
+	/* for wheel mice */
+	image_area_set_button(full_screen_image, 4, button4_cb, NULL);
+	image_area_set_button(full_screen_image, 5, button5_cb, NULL);
 
 	main_image = full_screen_image;
 }
@@ -289,6 +306,7 @@ void full_screen_stop()
 	full_screen_image = NULL;
 
 	gtk_widget_show(mainwindow);
+
 }
 
 void full_screen_toggle()
@@ -358,6 +376,9 @@ GtkWidget *image_create()
 	image_area_set_button(main_image, 1, button1_cb, NULL);
 	image_area_set_button(main_image, 2, button2_cb, NULL);
 	image_area_set_button(main_image, 3, button3_cb, NULL);
+	/* for wheel mice */
+	image_area_set_button(main_image, 4, button4_cb, NULL);
+	image_area_set_button(main_image, 5, button5_cb, NULL);
 
 	return main_image->eventbox;
 }

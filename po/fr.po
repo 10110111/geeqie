@@ -1,128 +1,129 @@
-# ---------------------------------------------------------------------
-# Copyright (C) 1999-2000 Free Software Foundation, Inc.
-# Fatih Demir <kabalak@gmx.net> , 1999-2000 .
-# ---------------------------------------------------------------------
-#, fuzzy
+# gqview fr.po file.
+# Copyright (C) 2000 Free Software Foundation, Inc.
+# Jean-pierre PEDRON <jppedron@club-internet.fr>, 2000.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: GQview  0.8.0\n"
+"Project-Id-Version: gqview-0.8.0\n"
 "POT-Creation-Date: 2000-04-13 15:57-0400\n"
-"PO-Revision-Date: 2000-04-07 17:09+0200\n"
-"Last-Translator: Fatih Demir <kabalak@gmx.net>\n"
-"Language-Team: Turkish Gnome Translation Team <gnotrap@gmx.net>\n"
+"PO-Revision-Date: 2000-04-07 11:30+0100\n"
+"Last-Translator: Jean-pierre PEDRON <jppedron@club-internet.fr>\n"
+"Language-Team: french <jppedron@club-internet.fr>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-9\n"
+"Content-Type: text/plain; charset=iso8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/config.c:307
 msgid "GQview configuration"
-msgstr "GQView ayarlarý"
+msgstr "Configuration de GQview"
 
 #: src/config.c:319
 msgid "Ok"
-msgstr "Tamam"
+msgstr "OK"
 
 #: src/config.c:324
 msgid "Apply"
-msgstr "Uygula"
+msgstr "Appliquer"
 
 #: src/config.c:329 src/utildlg.c:145 src/utilops.c:444 src/utilops.c:754
 #: src/utilops.c:885 src/utilops.c:983
 msgid "Cancel"
-msgstr "Vazgeç"
+msgstr "Annuler"
 
 #: src/config.c:343
 msgid "General"
-msgstr "Genel"
+msgstr "Général"
 
 #: src/config.c:351
 msgid "Initial directory"
-msgstr "Baþlangýç dizini"
+msgstr "Répertoire initial"
 
 #: src/config.c:361
 msgid "On startup, change to this directory:"
-msgstr "Baþlarken bu dizine deðiþtir"
+msgstr "Au démarrage, aller dans ce répertoire : "
 
 #: src/config.c:373
 msgid "Use current"
-msgstr "Þu ankini kullan"
+msgstr "Utiliser le répertoire actuel"
 
 #: src/config.c:379
 msgid "Confirm file delete"
-msgstr "Silmeyi onayla"
+msgstr "Confirmer la supression des fichiers"
 
 #: src/config.c:381
 msgid "Remember tool state (float/hidden)"
-msgstr "Durumu unutma "
+msgstr "Conserver l'état des outils (flottant/caché)"
 
 #: src/config.c:383
 msgid "Remember window positions"
-msgstr "Pencere yerlerini aklýnda tut"
+msgstr "Conserver les positions de la fenêtre"
 
 #: src/config.c:385
 msgid "Slide show"
-msgstr "Resim þovu"
+msgstr "Diaporama"
 
 #: src/config.c:398
 msgid "Delay before image change (seconds):"
-msgstr "Resim deðiþiminde kaç saniye beklensin :"
+msgstr "Délai avant changement d'image (secondes) : "
 
 #: src/config.c:411
 msgid "Random"
-msgstr "Tesadüfen"
+msgstr "Aléatoire"
 
 #: src/config.c:413
 msgid "Repeat"
-msgstr "Tekrarla"
+msgstr "Répéter"
 
 #: src/config.c:420
 msgid "Image"
-msgstr "Resim"
+msgstr "Image"
 
 #: src/config.c:428
 msgid "When new image is selected:"
-msgstr "Yeni bir resim seçildiyse"
+msgstr "Quand une nouvelle image est sélectionnée : "
 
 #: src/config.c:438
 msgid "Zoom to original size"
-msgstr "Orijinal boyuta getir"
+msgstr "Conserver sa taille initiale"
 
 #: src/config.c:444 src/img-view.c:306 src/menu.c:473 src/menu.c:547
 #: src/menu.c:587 src/menu.c:678
 msgid "Fit image to window"
-msgstr "Pencerenin boyutuna ayarla"
+msgstr "Mettre à la taille de la fenêtre"
 
 #: src/config.c:450
 msgid "Leave Zoom at previous setting"
-msgstr "Önceki büyütme/küçültme ayarlarýný geçerli say"
+msgstr "Garder la valeur initiale du zoom"
 
 #: src/config.c:457
 msgid "Fit window to image when tools are hidden/floating"
-msgstr "Çerezler gizli ya da dinamik çalýþýyorsa pencereyi resme göre ayarla"
+msgstr ""
+"Mettre la fenêtre à la taille de l'image quand les outils sont "
+"cachés/flottants"
 
 #: src/config.c:464
 msgid "Limit size when auto-sizing window"
-msgstr "Boyutu otomatik boyutlamada sýnýrla"
+msgstr "Limiter la taille quand la fenêtre est auto-dimensionnable"
 
 #: src/config.c:474 src/menu.c:477
 msgid "Thumbnails"
-msgstr "Týrnaklar"
+msgstr "Vignettes"
 
 #: src/config.c:490
 msgid "Size:"
-msgstr "Boy :"
+msgstr "Taille : "
 
 #: src/config.c:519
 msgid "Cache thumbnails"
-msgstr "Týrnaklarý arabellekte tut"
+msgstr "Cache vignettes"
 
 #: src/config.c:521
 msgid "Use xvpics thumbnails when found (read only)"
-msgstr "xvpics týrnaklarýný bulunca onlarý kullan (salt-okunur)"
+msgstr "Utiliser les vignettes xvpics si existantes (lecture seule)"
 
 #: src/config.c:524
 msgid "Progressive keyboard scrolling"
-msgstr "Geliþebilir klavye kaydýrmasý"
+msgstr "Panoramique clavier progressif"
 
 #: src/config.c:526
 msgid "Mouse wheel scrolls image"
@@ -130,50 +131,50 @@ msgstr ""
 
 #: src/config.c:533
 msgid "Filtering"
-msgstr "Filtralama"
+msgstr "Filtres"
 
 #: src/config.c:542
 msgid "Show entries that begin with a dot"
-msgstr "Bir noktayla baþlayan birimleri göster"
+msgstr "Montrer les fichiers cachés"
 
 #: src/config.c:544
 msgid "Disable File Filtering"
-msgstr "Dosya filtralarýný kapat"
+msgstr "Désactiver les filtres de fichiers"
 
 #: src/config.c:546
 msgid "Include files of type:"
-msgstr "Bu tip dosyalarý içer"
+msgstr "Inclure les fichiers de type : "
 
 #: src/config.c:596
 msgid "Custom file types:"
-msgstr "Benim dosya tiplerim :"
+msgstr "Types de fichiers personnels"
 
 #: src/config.c:609
 msgid "format: [.foo;.bar]"
-msgstr "þekil : [.foo;.bar]"
+msgstr "Format : [.foo;.bar]"
 
 #: src/config.c:618
 msgid "External Editors"
-msgstr "Dýþtan kullanýlacak editörler"
+msgstr "Editeurs externes"
 
 #: src/config.c:630
 msgid "#"
-msgstr "#"
+msgstr "N°"
 
 #: src/config.c:633
 msgid "Menu name"
-msgstr "Mönü adý"
+msgstr "Nom"
 
 #: src/config.c:636
 msgid "Command Line"
-msgstr "Komuta"
+msgstr "Ligne de commande"
 
 #: src/config.c:666 src/menu.c:500
 msgid "About"
-msgstr "Hakkýnda"
+msgstr "A Propos..."
 
 #: src/config.c:682
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "GQview %s\n"
 "\n"
@@ -186,136 +187,133 @@ msgid ""
 msgstr ""
 "GQview %s\n"
 "\n"
-"Telif hakký (c) 1999 John Ellis'den\n"
-"http://gqview.netpedia.net\n"
+"Copyright (c) 2000 par John Ellis\n"
+"http://gqview.sorceforge.net\n"
+"ou http://gqview.netpedia.net\n"
 "gqview@email.com\n"
 "\n"
-"GNU Public License'e göre açýklanmýþtýr"
+"Distibué sous GNU Public License"
 
 #: src/filelist.c:51
 msgid " Slideshow"
-msgstr "Resim þovu"
+msgstr " Diaporama"
 
 #: src/filelist.c:55
 #, c-format
 msgid "%d files (%d)%s"
-msgstr "%d dosya (%d)%s"
+msgstr "%d fichiers (%d)%s"
 
 #: src/filelist.c:57
 #, c-format
 msgid "%d files%s"
-msgstr "%d dosya %s"
+msgstr "%d fichiers%s"
 
 #: src/filelist.c:1025
 msgid "Loading thumbs..."
-msgstr "Týrnaklarý yükliyorum .."
+msgstr "Chargement des vignettes..."
 
 #: src/image.c:66
 #, c-format
 msgid "( ? x ? ) %d bytes"
-msgstr "( ? x ? ) %d byte"
+msgstr "( ? x ? ) %d octets"
 
 #: src/image.c:68
 #, c-format
 msgid "( %d x %d ) %d bytes"
-msgstr "( %d x %d ) %d byte"
+msgstr "( %d x %d ) %d octets"
 
 #: src/img-main.c:247
 msgid "GQview full screen"
-msgstr "GQview tam ekran"
+msgstr "GQview plein écran"
 
 #: src/img-view.c:303 src/menu.c:470 src/menu.c:544 src/menu.c:584
 #: src/menu.c:674
 msgid "Zoom in"
-msgstr "Büyült"
+msgstr "Zoom avant"
 
 #: src/img-view.c:304 src/menu.c:471 src/menu.c:545 src/menu.c:585
 #: src/menu.c:676
 msgid "Zoom out"
-msgstr "Küçült"
+msgstr "Zoom arrière"
 
 #: src/img-view.c:305 src/menu.c:472 src/menu.c:546 src/menu.c:586
 msgid "Zoom 1:1"
-msgstr "1:1 göster"
+msgstr "Taille initiale"
 
 #. edit menu
 #: src/img-view.c:309 src/menu.c:457 src/menu.c:519 src/menu.c:550
 #: src/menu.c:590
 msgid "Edit"
-msgstr "Düzenle"
+msgstr "Editer"
 
 #: src/img-view.c:314 src/menu.c:446 src/menu.c:526 src/menu.c:557
 #: src/menu.c:595
 msgid "Copy..."
-msgstr "Kopyala ..."
+msgstr "Copier..."
 
 #: src/img-view.c:315 src/menu.c:447 src/menu.c:527 src/menu.c:558
 #: src/menu.c:596
 msgid "Move..."
-msgstr "Taþý ..."
+msgstr "Déplacer..."
 
 #: src/img-view.c:316 src/menu.c:448 src/menu.c:528 src/menu.c:559
 #: src/menu.c:597
 msgid "Rename..."
-msgstr "Yeniden adlandýr .."
+msgstr "Renommer..."
 
 #: src/img-view.c:317 src/menu.c:449 src/menu.c:529 src/menu.c:560
 #: src/menu.c:598
 msgid "Delete..."
-msgstr "Sil .."
+msgstr "Effacer..."
 
 #: src/img-view.c:320
 msgid "Close window"
-msgstr "Pencereyi kapat"
+msgstr "Fermer"
 
 #: src/main.c:90 src/main.c:119
 #, c-format
 msgid "GQview running: %s\n"
-msgstr "GQview çalýþýyor : %s\n"
+msgstr "GQview tournant : %s\n"
 
 #: src/main.c:330
 msgid ""
 "Usage: gqview [options] [path]\n"
 "\n"
 msgstr ""
-"Kullaným : gqview [seçenekler] [dizin]\n"
+"Utilisation : gqview [options] [chemin]\n"
 "\n"
 
 #: src/main.c:331
 msgid "valid options are:\n"
-msgstr "geçerli opsiyonlar :\n"
+msgstr "les options valides sont :\n"
 
 #: src/main.c:332
-#, fuzzy
 msgid "  +t, --with-tools           force show of tools\n"
-msgstr "  +t, +tools                 çerezleri zorunlu olarak göster\n"
+msgstr "  +t, --with-tools           force l'affichage des outils\n"
 
 #: src/main.c:333
-#, fuzzy
 msgid "  -t, --without-tools        force hide of tools\n"
-msgstr "  -t, -tools                 çerezleri zorunlu olarak gizle\n"
+msgstr "  -t, --without-tools        masque les outils\n"
 
 #: src/main.c:334
-#, fuzzy
 msgid "  -f, --fullscreen           start in full screen mode\n"
-msgstr "  -t, -tools                 çerezleri zorunlu olarak gizle\n"
+msgstr "  -f, --fullscreen           démarre en mode plein écran\n"
 
 #: src/main.c:335
-#, fuzzy
 msgid "  -s, --slideshow            start in slideshow mode\n"
-msgstr "  -t, -tools                 çerezleri zorunlu olarak gizle\n"
+msgstr "  -s, --slideshow            démarre en mode diaporama\n"
 
 #: src/main.c:336
-#, fuzzy
 msgid "  --debug                    turn on debug output\n"
-msgstr "  -debug                     dýþa-atýmý aç\n"
+msgstr "  --debug                    valide les sorties de déboggage\n"
 
 #: src/main.c:337
-#, fuzzy
 msgid ""
 "  -h, --help                 show this message\n"
 "\n"
-msgstr "  -help                      bu mesajý gösterir\n"
+msgstr ""
+"  -h, --help                 affiche ce message\n"
+"\n"
 
 #: src/main.c:342
 #, c-format
@@ -323,12 +321,12 @@ msgid ""
 "invalid or ignored: %s\n"
 "Use -help for options\n"
 msgstr ""
-"%s geçersiz ya da dikkate alýnmýyor\n"
-"-help ile seçenekleri öðrenebilirsin\n"
+"invalide ou ignoré: %s\n"
+"Utiliser -help pour connaître les options\n"
 
 #: src/main.c:369
 msgid "The Gimp"
-msgstr "The Gimp"
+msgstr "Gimp"
 
 #: src/main.c:372
 msgid "Electric Eyes"
@@ -345,162 +343,160 @@ msgstr "Xpaint"
 #: src/menu.c:373
 #, c-format
 msgid "in %s..."
-msgstr "%s'de"
+msgstr "Dans %s"
 
 #: src/menu.c:375
 msgid "in (unknown)..."
-msgstr "(bennebileyimne)'de"
+msgstr "dans (inconnu)..."
 
 #: src/menu.c:394
 msgid "Options..."
-msgstr "Seçenekler ..."
+msgstr "Préférences..."
 
 #: src/menu.c:396
 msgid "Remove old thumbnails"
-msgstr "Eski týrnaklarý sil"
+msgstr "Détruire les anciennes vignettes"
 
 #: src/menu.c:398 src/menu.c:410 src/menu.c:422
 msgid "Set as wallpaper"
-msgstr "Ardalan yap"
+msgstr "Utiliser comme papier peint"
 
 #. file menu
 #: src/menu.c:440
 msgid "File"
-msgstr "Dosya"
+msgstr "Fichier"
 
 #: src/menu.c:444
 msgid "Create Dir..."
-msgstr "Dizin yarat ..."
+msgstr "Créer un répertoire"
 
 #: src/menu.c:451
 msgid "Exit"
-msgstr "Çýk"
+msgstr "Quitter"
 
 #. view menu
 #: src/menu.c:466
 msgid "View"
-msgstr "Göster"
+msgstr "Afficher"
 
 #: src/menu.c:476 src/menu.c:563
 msgid "Full screen"
-msgstr "Tam ekran"
+msgstr "Plein écran"
 
 #: src/menu.c:485
 msgid "Refresh Lists"
-msgstr "Listeleri yenile"
+msgstr "Rafraîchir les listes"
 
 #: src/menu.c:486
 msgid "(Un)Float file list"
-msgstr "Dosya listesini dinamik et/etme"
+msgstr "Liste des fichiers flottante"
 
 #: src/menu.c:487 src/menu.c:562
 msgid "(Un)Hide file list"
-msgstr "Dosya listesini göster/gizle"
+msgstr "Cacher (montrer) la liste des fichiers"
 
 #: src/menu.c:490
 msgid "Toggle slideshow"
-msgstr "Resim þovunu aç/kapat"
+msgstr "Lancer (arrêter) le diaporama"
 
 #. help menu
 #: src/menu.c:496
 msgid "Help"
-msgstr "Yardým"
+msgstr "Aide"
 
 #: src/menu.c:523 src/menu.c:554
 msgid "View in new window"
-msgstr "Yeni penerede göster"
+msgstr "Voir dans une nouvelle fenêtre"
 
 #: src/menu.c:531
 msgid "Refresh"
-msgstr "Yenile"
+msgstr "Rafraîchir"
 
 #: src/menu.c:601
 msgid "Exit full screen"
-msgstr "Tam ekrandan çýk"
+msgstr "Sortir du mode plein écran"
 
 #: src/menu.c:661
 msgid "Create thumbnails"
-msgstr "Týrnaklarý yarat"
+msgstr "Afficher les vignettes"
 
 #: src/menu.c:670
 msgid "Change to home directory"
-msgstr "Ev dizinime geç"
+msgstr "Aller dans le répertoire HOME"
 
 #: src/menu.c:672
 msgid "Refresh file list"
-msgstr "Dosya listesini yenile"
+msgstr "Rafraîchir la liste des fichiers"
 
 #: src/menu.c:680
 msgid "Set zoom 1:1"
-msgstr "1:1 göster"
+msgstr "Retour taille initiale"
 
 #: src/menu.c:682
 msgid "Configure options"
-msgstr "Seçenekleri ayarla"
+msgstr "Configuration"
 
 #: src/menu.c:684
 msgid "Float Controls"
-msgstr "Dinamik ayarlamalar"
+msgstr "Outils flottants"
 
 #: src/rcfile.c:132
 #, c-format
 msgid "error saving config file: %s\n"
-msgstr "%s ayar dosyasýný kaydederken bir hata oluþtu\n"
+msgstr "erreur dans la sauvegarde du fichier de configuration : %s\n"
 
 #: src/thumb.c:127 src/thumb.c:151
 #, c-format
 msgid "create dir failed: %s\n"
-msgstr "%s dizinini yaratamadým \n"
+msgstr "échec lors de la création du répertoire : %s\n"
 
 #: src/thumb.c:233
 #, c-format
 msgid "Unable to delete dir: %s\n"
-msgstr "%s dizinini silemedim \n"
+msgstr "Impossible de détruire le répertoire : %s\n"
 
 #: src/thumb.c:249
 #, c-format
 msgid "failed to delete:%s\n"
-msgstr "%s'yi silemedim \n"
+msgstr "échec lors de la destruction : %s\n"
 
 #: src/utildlg.c:68
 msgid "     Ok     "
-msgstr "     Tamam"
+msgstr "     Ok     "
 
 #: src/utilops.c:166
 msgid "Source to copy matches destination"
-msgstr "Kopyalanacak kaynak hedefle eþittir"
+msgstr "Source à copier à la destination coresspondante"
 
 #: src/utilops.c:167
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to copy file:\n"
 "%s\n"
 "to itself."
 msgstr ""
-"%s dosyasýný \n"
-"%s 'ye kopyalayamadým ,\n"
-"bir yerde \n"
-"bir hata oluþtu"
+"Impossible de copier le fichier :\n"
+"%s\n"
+"sur lui-même."
 
 #: src/utilops.c:171
 msgid "Source to move matches destination"
-msgstr "Taþýlacak kaynak hedefle eþittir"
+msgstr "Source à déplacer à la destination coresspondante"
 
 #: src/utilops.c:172
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to move file:\n"
 "%s\n"
 "to itself."
 msgstr ""
-"%s'yi %s'ye \n"
-"taþýyamadým\n"
-"( bir hata oluþtu ).\n"
-" "
+"Impossible de déplacer le fichier :\n"
+"%s\n"
+"sur lui-même."
 
 #: src/utilops.c:175 src/utilops.c:231 src/utilops.c:516
 msgid "Continue"
-msgstr "Devam et"
+msgstr "Continuer"
 
 #: src/utilops.c:182
 #, c-format
@@ -509,29 +505,29 @@ msgid ""
 " %s\n"
 " with:\b %s"
 msgstr ""
-"%s 'nin üstüne\n"
-" \b %s 'yi\n"
-" yaz"
+"Ecraser le fichier :\n"
+" %s\n"
+" avec :\b %s"
 
 #: src/utilops.c:183 src/utilops.c:289 src/utilops.c:651 src/utilops.c:835
 msgid "Overwrite file"
-msgstr "Üstüne yaz"
+msgstr "Ecraser fichier"
 
 #: src/utilops.c:186
 msgid "Skip"
-msgstr "Atla"
+msgstr "Sauter"
 
 #: src/utilops.c:187
 msgid "Yes to all"
-msgstr "Hepsine evet"
+msgstr "Oui pour tout"
 
 #: src/utilops.c:188
 msgid "Yes"
-msgstr "Evet"
+msgstr "Oui"
 
 #: src/utilops.c:222 src/utilops.c:317
 msgid "Error copying file"
-msgstr "Kopyalarken hata oluþtu"
+msgstr "Erreur pour la copie de fichier"
 
 #: src/utilops.c:223
 #, c-format
@@ -541,14 +537,14 @@ msgid ""
 "%s\n"
 " during multiple file copy."
 msgstr ""
-"%s dosyasý %s 'ye kopyalanýrken\n"
-"bir hata \n"
-"oluþtu.\n"
-" "
+"Impossible de copier le fichier :\n"
+"%sà:\n"
+"%s\n"
+" pendant la copie multiple."
 
 #: src/utilops.c:227 src/utilops.c:322
 msgid "Error moving file"
-msgstr "Taþýrken bir hata oluþtu"
+msgstr "Erreur pour le déplacement de fichier"
 
 #: src/utilops.c:228
 #, c-format
@@ -558,18 +554,18 @@ msgid ""
 "%s\n"
 " during multiple file move."
 msgstr ""
-"Çoklu taþýmada\n"
-"%s'yi %s'ye\n"
-"taþýyamadým.\n"
-" "
+"Impossible de déplacer le fichier :\n"
+"%sà:\n"
+"%s\n"
+" pendant un déplacement multiple."
 
 #: src/utilops.c:282
 msgid "Source matches destination"
-msgstr "Kaynak hedefle eþittir"
+msgstr "La source correspond à la destination"
 
 #: src/utilops.c:283
 msgid "Source and destination are the same, operation cancelled."
-msgstr "Kaynak ve hedef eþittir, iþlem durduruldu ."
+msgstr "Source et destination sont les mêmes, opération annulée."
 
 #: src/utilops.c:288
 #, c-format
@@ -579,14 +575,14 @@ msgid ""
 " with:\n"
 "%s"
 msgstr ""
-"%s dosyanýnýn\n"
-"üstüne \n"
-"%s 'yi\n"
-"yaz"
+"Ecraser le fichier :\n"
+"%s\n"
+" avec :\n"
+"%s"
 
 #: src/utilops.c:292 src/utilops.c:654 src/utilops.c:838
 msgid "Overwrite"
-msgstr "Üstüne yaz"
+msgstr "Ecraser"
 
 #: src/utilops.c:318
 #, c-format
@@ -596,10 +592,10 @@ msgid ""
 "to:\n"
 "%s"
 msgstr ""
-"%s dosyasýný \n"
-"%s 'ye kopyalayamadým ,\n"
-"bir yerde \n"
-"bir hata oluþtu"
+"Impossible de copier le fichier :\n"
+"%s\n"
+"sur :\n"
+"%s"
 
 #: src/utilops.c:323
 #, c-format
@@ -609,38 +605,38 @@ msgid ""
 "to:\n"
 "%s"
 msgstr ""
-"%s'yi %s'ye \n"
-"taþýyamadým\n"
-"( bir hata oluþtu ).\n"
-" "
+"Impossible de déplacer le fichier :\n"
+"%s\n"
+"vers :\n"
+"%s"
 
 #: src/utilops.c:367
 msgid "Invalid destination"
-msgstr "Geçersiz hedef"
+msgstr "Destination invalide"
 
 #: src/utilops.c:367
 msgid ""
 "When operating with multiple files, please select\n"
 " a directory, not file."
 msgstr ""
-"Çoklu bir eylem yaparken lütfen bir dosya deðil , bir\n"
-"dizin seçin ."
+"Lors d'une operation avec des fichiers multiples, sélectionner\n"
+" un répertoire, non un fichier."
 
 #: src/utilops.c:369
 msgid "Invalid directory"
-msgstr "Geçersiz dizin"
+msgstr "Répertoire invalide"
 
 #: src/utilops.c:369
 msgid "Please select an existing directory"
-msgstr "Lütfen varolan bir dizini seç"
+msgstr "Sélectionner un répertoire existant"
 
 #: src/utilops.c:427
 msgid "GQview - copy"
-msgstr "GQview - kopyala"
+msgstr "GQview - copier"
 
 #: src/utilops.c:428
 msgid "Copy"
-msgstr "Kopyala"
+msgstr "Copier"
 
 #: src/utilops.c:430
 #, c-format
@@ -649,9 +645,9 @@ msgid ""
 "%s\n"
 "to:"
 msgstr ""
-"%s dosyasýný\n"
-"buraya\n"
-"gönder :"
+"Copier fichier :\n"
+"%s\n"
+"vers :"
 
 #: src/utilops.c:432
 #, c-format
@@ -660,17 +656,17 @@ msgid ""
 "%s\n"
 "to:"
 msgstr ""
-"Çoklu kopyalarken \n"
-"%s'den yola çýkýp\n"
-"buraya ulaþ :"
+"Copier des fichiers multiples de :\n"
+"%s\n"
+"vers :"
 
 #: src/utilops.c:436
 msgid "GQview - move"
-msgstr "GQview - taþý"
+msgstr "GQview - déplacer"
 
 #: src/utilops.c:437
 msgid "Move"
-msgstr "Taþý"
+msgstr "Déplacer"
 
 #: src/utilops.c:439
 #, c-format
@@ -679,9 +675,9 @@ msgid ""
 "%s\n"
 "to:"
 msgstr ""
-"%s dosyasýný\n"
-"buraya \n"
-"gönder :"
+"Déplacer fichier :\n"
+"%s\n"
+"vers:"
 
 #: src/utilops.c:441
 #, c-format
@@ -690,9 +686,9 @@ msgid ""
 "%s\n"
 "to:"
 msgstr ""
-"Çoklu taþýrken\n"
-"%s'den yola çýkýp\n"
-"buraya ulaþ :"
+"Déplacer des fichiers multiples de :\n"
+"%s\n"
+"vers :"
 
 #: src/utilops.c:514
 #, c-format
@@ -701,13 +697,13 @@ msgid ""
 " %s\n"
 " Continue multiple delete operation?"
 msgstr ""
-"%s dosyasýný\n"
-" silemedim ,\n"
-" yine de öbür dosyalarý sileyim mi ?"
+"Impossible d'éffacer le fichier :\n"
+" %s\n"
+" Continuer l'opération d'effacement multiple ?"
 
 #: src/utilops.c:515 src/utilops.c:521
 msgid "Delete failed"
-msgstr "Silerken bir hata oluþtu"
+msgstr "Destruction annulée"
 
 #: src/utilops.c:520 src/utilops.c:565
 #, c-format
@@ -715,24 +711,24 @@ msgid ""
 "Unable to delete file:\n"
 "%s"
 msgstr ""
-"%s 'yi maalesef\n"
-"silemedim"
+"Impossible de détruire ce fichier :\n"
+"%s"
 
 #: src/utilops.c:550
 msgid "Delete files"
-msgstr "Dosyalarý sil"
+msgstr "Effacer les fichiers"
 
 #: src/utilops.c:550
 msgid "About to delete multiple files..."
-msgstr "Dosyalarý silmek üzereyim ..."
+msgstr "A propos de la destruction de fichiers multiples"
 
 #: src/utilops.c:551 src/utilops.c:596
 msgid "Delete"
-msgstr "Sil"
+msgstr "Effacer"
 
 #: src/utilops.c:566
 msgid "File deletion failed"
-msgstr "Silerken bir hata oluþtu"
+msgstr "Destruction du fichier annulée"
 
 #: src/utilops.c:594
 #, c-format
@@ -740,12 +736,12 @@ msgid ""
 "About to delete the file:\n"
 " %s"
 msgstr ""
-"%s dosyasýný\n"
-"silmek üzereyim"
+"Confirmer l'effacement du fichier :\n"
+" %s"
 
 #: src/utilops.c:595
 msgid "Delete file"
-msgstr "Dosyayý sil"
+msgstr "Effacer fichier"
 
 #: src/utilops.c:650 src/utilops.c:834
 #, c-format
@@ -755,9 +751,9 @@ msgid ""
 "by renaming:\n"
 "%s"
 msgstr ""
-"%s'nin \n"
-"üstüne bunu yeniden\n"
-"adlandýrýrken yaz :\n"
+"Ecraser le fichier :\n"
+"%s\n"
+"par renommage de :\n"
 "%s"
 
 #: src/utilops.c:663
@@ -768,34 +764,34 @@ msgid ""
 " to:\n"
 "%s"
 msgstr ""
-"%s dosyasýný\n"
-"%s'ye adlandýrýrken\n"
-"maalesef bir hata\n"
-"oluþtu"
+"Impossible de renommer le fichier :\n"
+"%s\n"
+" vers :\n"
+"%s"
 
 #: src/utilops.c:664 src/utilops.c:847
 msgid "Error renaming file"
-msgstr "Yeniden adlandýrýrken bir hata oluþtu"
+msgstr "Erreur pour renommer le fichier"
 
 #: src/utilops.c:754 src/utilops.c:885
 msgid "GQview - rename"
-msgstr "GQview - yeniden adlandýr"
+msgstr "GQview - renommer"
 
 #: src/utilops.c:754
 msgid "Rename multiple files:"
-msgstr "Çoklu yeniden adlandýr :"
+msgstr "Renommer des fichiers multiples"
 
 #: src/utilops.c:754 src/utilops.c:885
 msgid "Rename"
-msgstr "Yeniden adlandýr"
+msgstr "Renommer"
 
 #: src/utilops.c:790
 msgid "Rename:"
-msgstr "Yeniden adlandýr :"
+msgstr "Renommer : "
 
 #: src/utilops.c:799
 msgid "to:"
-msgstr ""
+msgstr "vers :"
 
 #: src/utilops.c:846
 #, c-format
@@ -805,10 +801,10 @@ msgid ""
 "to:\n"
 "%s"
 msgstr ""
-"%s'yi %s'ye yeniden\n"
-"adlandýramadým. \n"
-" \n"
-" "
+"Impossible de renommer le fichier :\n"
+"%s\n"
+"en :\n"
+"%s"
 
 #: src/utilops.c:884
 #, c-format
@@ -817,9 +813,9 @@ msgid ""
 "%s\n"
 "to:"
 msgstr ""
-"%s'yi yeniden\n"
-"adlandýr :\n"
-" "
+"Renommer le fichier :\n"
+"%s\n"
+"en :"
 
 #: src/utilops.c:928
 #, c-format
@@ -828,13 +824,13 @@ msgid ""
 "%s\n"
 "already exists as a file."
 msgstr ""
-"%s dizini \n"
-"zaten dosya halinde\n"
-"var ."
+"Le chemin :\n"
+"%s\n"
+"existe déjà comme fichier."
 
 #: src/utilops.c:929
 msgid "Could not create directory"
-msgstr "Dizini yaratamadým"
+msgstr "Impossible de créer le répertoire"
 
 #: src/utilops.c:934
 #, c-format
@@ -843,10 +839,13 @@ msgid ""
 "%s\n"
 "already exists."
 msgstr ""
+"Le répertoire :\n"
+"%s\n"
+"existe déjà."
 
 #: src/utilops.c:935
 msgid "Directory exists"
-msgstr "Bu dizin zaten var"
+msgstr "Répertoire existant"
 
 #: src/utilops.c:942
 #, c-format
@@ -854,12 +853,12 @@ msgid ""
 "Unable to create directory:\n"
 "%s"
 msgstr ""
-"%s dizinini maalesef\n"
-"yaratamadým"
+"Impossible de créer le répertoire :\n"
+"%s"
 
 #: src/utilops.c:943
 msgid "Error creating directory"
-msgstr "Dizini yaratýrken bir hata oluþtu"
+msgstr "Erreur pendant le céation du répertoire"
 
 #: src/utilops.c:982
 #, c-format
@@ -868,18 +867,19 @@ msgid ""
 "%s\n"
 "named:"
 msgstr ""
-"%s'de bir\n"
-"dizin yarat ve\n"
-"böyle adlandýr :"
+"Créer un répertoire dans :\n"
+"%s\n"
+"\n"
+"Nom :"
 
 #: src/utilops.c:983
 msgid "GQview - new directory"
-msgstr "GQview - yeni dizin"
+msgstr "GQview - nouveau répertoire"
 
 #: src/utilops.c:983
 msgid "Create"
-msgstr "Yarat"
+msgstr "Créer"
 
 #: src/window.c:151
 msgid "GQview Tools"
-msgstr "GQview Çerezleri"
+msgstr "Outils GQview"

@@ -50,6 +50,8 @@
 #define ZOOM_RESET_FIT_WINDOW 1
 #define ZOOM_RESET_NONE 2
 
+#define MOUSEWHEEL_SCROLL_SIZE 20
+
 typedef struct _ImageWindow ImageWindow;
 struct _ImageWindow
 {
@@ -94,10 +96,14 @@ struct _ImageWindow
 	void (*func_btn1)(ImageWindow *, GdkEventButton *, gpointer);
 	void (*func_btn2)(ImageWindow *, GdkEventButton *, gpointer);
 	void (*func_btn3)(ImageWindow *, GdkEventButton *, gpointer);
+	void (*func_btn4)(ImageWindow *, GdkEventButton *, gpointer);
+	void (*func_btn5)(ImageWindow *, GdkEventButton *, gpointer);
 
 	gpointer data_btn1;
 	gpointer data_btn2;
 	gpointer data_btn3;
+	gpointer data_btn4;
+	gpointer data_btn5;
 };
 
 /* image */
@@ -203,6 +209,8 @@ extern gint thumbnails_enabled;
 extern gint slideshow_delay;	/* in seconds */
 extern gint slideshow_random;
 extern gint slideshow_repeat;
+
+extern gint mousewheel_scrolls;
 
 extern gint debug;
 

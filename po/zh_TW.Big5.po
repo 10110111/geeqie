@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gqview 0.7.0\n"
-"POT-Creation-Date: 2000-04-06 19:03-0400\n"
+"POT-Creation-Date: 2000-04-13 15:57-0400\n"
 "PO-Revision-Date: 2000-01-19 17:46+0800\n"
 "Last-Translator: Kam Tik <kamtik@hongkong.com>\n"
 "Language-Team: Chinese <zh@li.org>\n"
@@ -12,161 +12,165 @@ msgstr ""
 "Content-Type: text/plain; charset=big5\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/config.c:303
+#: src/config.c:307
 msgid "GQview configuration"
 msgstr "GQview 設定"
 
-#: src/config.c:315
+#: src/config.c:319
 msgid "Ok"
 msgstr "好"
 
-#: src/config.c:320
+#: src/config.c:324
 msgid "Apply"
 msgstr ""
 
-#: src/config.c:325 src/utildlg.c:145 src/utilops.c:444 src/utilops.c:754
+#: src/config.c:329 src/utildlg.c:145 src/utilops.c:444 src/utilops.c:754
 #: src/utilops.c:885 src/utilops.c:983
 msgid "Cancel"
 msgstr "取消"
 
-#: src/config.c:339
+#: src/config.c:343
 msgid "General"
 msgstr "一般"
 
-#: src/config.c:347
+#: src/config.c:351
 msgid "Initial directory"
 msgstr "初始料資夾"
 
-#: src/config.c:357
+#: src/config.c:361
 msgid "On startup, change to this directory:"
 msgstr "當程式起動時, 改變至這個資料夾:"
 
-#: src/config.c:369
+#: src/config.c:373
 msgid "Use current"
 msgstr "用現行這個"
 
-#: src/config.c:375
+#: src/config.c:379
 msgid "Confirm file delete"
 msgstr "移除檔案確認"
 
-#: src/config.c:377
+#: src/config.c:381
 msgid "Remember tool state (float/hidden)"
 msgstr "記下工具狀態 (浮動/隱藏)"
 
-#: src/config.c:379
+#: src/config.c:383
 msgid "Remember window positions"
 msgstr "記下視窗位置"
 
-#: src/config.c:381
+#: src/config.c:385
 msgid "Slide show"
 msgstr "投影片"
 
-#: src/config.c:394
+#: src/config.c:398
 msgid "Delay before image change (seconds):"
 msgstr "在每次影像轉變前的停頓時間 (秒):"
 
-#: src/config.c:407
+#: src/config.c:411
 msgid "Random"
 msgstr "隨機"
 
-#: src/config.c:409
+#: src/config.c:413
 msgid "Repeat"
 msgstr "重複"
 
-#: src/config.c:416
+#: src/config.c:420
 msgid "Image"
 msgstr "影像"
 
-#: src/config.c:424
+#: src/config.c:428
 msgid "When new image is selected:"
 msgstr "當新影像被選取時:"
 
-#: src/config.c:434
+#: src/config.c:438
 msgid "Zoom to original size"
 msgstr "影像轉變到原來大小"
 
-#: src/config.c:440 src/img-view.c:290 src/menu.c:473 src/menu.c:547
+#: src/config.c:444 src/img-view.c:306 src/menu.c:473 src/menu.c:547
 #: src/menu.c:587 src/menu.c:678
 msgid "Fit image to window"
 msgstr "影像大小和視窗吻合"
 
-#: src/config.c:446
+#: src/config.c:450
 msgid "Leave Zoom at previous setting"
 msgstr "保留以往大小設定"
 
-#: src/config.c:453
+#: src/config.c:457
 msgid "Fit window to image when tools are hidden/floating"
 msgstr "當 隱藏/浮動 時令影像大小和視窗大小吻合"
 
-#: src/config.c:460
+#: src/config.c:464
 msgid "Limit size when auto-sizing window"
 msgstr "當自動改變視窗大小時限制大小"
 
-#: src/config.c:470 src/menu.c:477
+#: src/config.c:474 src/menu.c:477
 msgid "Thumbnails"
 msgstr "小圖示"
 
-#: src/config.c:486
+#: src/config.c:490
 msgid "Size:"
 msgstr "大小:"
 
-#: src/config.c:515
+#: src/config.c:519
 msgid "Cache thumbnails"
 msgstr "衝緩小圖示"
 
-#: src/config.c:517
+#: src/config.c:521
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr "用 xvpics 小圖示當找到時 (唯讀)"
 
-#: src/config.c:520
+#: src/config.c:524
 msgid "Progressive keyboard scrolling"
 msgstr "累進式鍵盤捲動影像"
 
-#: src/config.c:527
+#: src/config.c:526
+msgid "Mouse wheel scrolls image"
+msgstr ""
+
+#: src/config.c:533
 msgid "Filtering"
 msgstr "過濾器"
 
-#: src/config.c:536
+#: src/config.c:542
 msgid "Show entries that begin with a dot"
 msgstr "顯示以一點開始的檔案"
 
-#: src/config.c:538
+#: src/config.c:544
 msgid "Disable File Filtering"
 msgstr "關閉檔案過濾器"
 
-#: src/config.c:540
+#: src/config.c:546
 msgid "Include files of type:"
 msgstr "包括檔案種類:"
 
-#: src/config.c:590
+#: src/config.c:596
 msgid "Custom file types:"
 msgstr "自訂檔案類型"
 
-#: src/config.c:603
+#: src/config.c:609
 msgid "format: [.foo;.bar]"
 msgstr "格式: [.foo;.bar]"
 
-#: src/config.c:612
+#: src/config.c:618
 msgid "External Editors"
 msgstr "外掛式編輯程式"
 
-#: src/config.c:624
+#: src/config.c:630
 msgid "#"
 msgstr ""
 
-#: src/config.c:627
+#: src/config.c:633
 msgid "Menu name"
 msgstr "名稱"
 
-#: src/config.c:630
+#: src/config.c:636
 msgid "Command Line"
 msgstr "指令"
 
-#: src/config.c:660 src/menu.c:500
+#: src/config.c:666 src/menu.c:500
 msgid "About"
 msgstr "關於"
 
-#: src/config.c:676
+#: src/config.c:682
 #, c-format
 msgid ""
 "GQview %s\n"
@@ -208,51 +212,51 @@ msgstr "( ? x ? ) %d 位元組"
 msgid "( %d x %d ) %d bytes"
 msgstr "( %d x %d ) %d 位元組"
 
-#: src/img-main.c:231
+#: src/img-main.c:247
 msgid "GQview full screen"
 msgstr "GQview 全螢幕"
 
-#: src/img-view.c:287 src/menu.c:470 src/menu.c:544 src/menu.c:584
+#: src/img-view.c:303 src/menu.c:470 src/menu.c:544 src/menu.c:584
 #: src/menu.c:674
 msgid "Zoom in"
 msgstr "放大"
 
-#: src/img-view.c:288 src/menu.c:471 src/menu.c:545 src/menu.c:585
+#: src/img-view.c:304 src/menu.c:471 src/menu.c:545 src/menu.c:585
 #: src/menu.c:676
 msgid "Zoom out"
 msgstr "縮小"
 
-#: src/img-view.c:289 src/menu.c:472 src/menu.c:546 src/menu.c:586
+#: src/img-view.c:305 src/menu.c:472 src/menu.c:546 src/menu.c:586
 msgid "Zoom 1:1"
 msgstr "比例 1:1"
 
 #. edit menu
-#: src/img-view.c:293 src/menu.c:457 src/menu.c:519 src/menu.c:550
+#: src/img-view.c:309 src/menu.c:457 src/menu.c:519 src/menu.c:550
 #: src/menu.c:590
 msgid "Edit"
 msgstr "編輯"
 
-#: src/img-view.c:298 src/menu.c:446 src/menu.c:526 src/menu.c:557
+#: src/img-view.c:314 src/menu.c:446 src/menu.c:526 src/menu.c:557
 #: src/menu.c:595
 msgid "Copy..."
 msgstr "複製..."
 
-#: src/img-view.c:299 src/menu.c:447 src/menu.c:527 src/menu.c:558
+#: src/img-view.c:315 src/menu.c:447 src/menu.c:527 src/menu.c:558
 #: src/menu.c:596
 msgid "Move..."
 msgstr "移動..."
 
-#: src/img-view.c:300 src/menu.c:448 src/menu.c:528 src/menu.c:559
+#: src/img-view.c:316 src/menu.c:448 src/menu.c:528 src/menu.c:559
 #: src/menu.c:597
 msgid "Rename..."
 msgstr "更改名稱..."
 
-#: src/img-view.c:301 src/menu.c:449 src/menu.c:529 src/menu.c:560
+#: src/img-view.c:317 src/menu.c:449 src/menu.c:529 src/menu.c:560
 #: src/menu.c:598
 msgid "Delete..."
 msgstr "刪除..."
 
-#: src/img-view.c:304
+#: src/img-view.c:320
 msgid "Close window"
 msgstr "關閉視窗"
 
