@@ -1175,9 +1175,10 @@ static PanItem *pan_item_find_by_key(PanWindow *pw, ItemType type, const gchar *
 }
 
 /* when ignore_case and partial are TRUE, path should be converted to lower case */
-static PanItem *pan_item_find_by_path(PanWindow *pw, ItemType type, const gchar *path,
-				      gint ignore_case, gint partial)
+static GList *pan_item_find_by_path(PanWindow *pw, ItemType type, const gchar *path,
+				    gint ignore_case, gint partial)
 {
+	GList *list = NULL;
 	GList *work;
 
 	if (!path) return NULL;
@@ -1191,9 +1192,11 @@ static PanItem *pan_item_find_by_path(PanWindow *pw, ItemType type, const gchar 
 		pi = work->data;
 		if ((pi->type == type || type == ITEM_NONE) && pi->fd)
 			{
+			gint match = FALSE;
+
 			if (path[0] == '/')
 				{
-				if (pi->fd->path && strcmp(path, pi->fd->path) == 0) return pi;
+				if (pi->fd->path && strcmp(path, pi->fd->path) == 0) match = TRUE;
 				}
 			else if (pi->fd->name)
 				{
@@ -1202,32 +1205,32 @@ static PanItem *pan_item_find_by_path(PanWindow *pw, ItemType type, const gchar 
 					if (ignore_case)
 						{
 						gchar *haystack;
-						gint match;
 
 						haystack = g_utf8_strdown(pi->fd->name, -1);
 						match = (strstr(haystack, path) != NULL);
 						g_free(haystack);
-						if (match) return pi;
 						}
 					else
 						{
-						if (strstr(pi->fd->name, path)) return pi;
+						if (strstr(pi->fd->name, path)) match = TRUE;
 						}
 					}
 				else if (ignore_case)
 					{
-					if (strcasecmp(path, pi->fd->name) == 0) return pi;
+					if (strcasecmp(path, pi->fd->name) == 0) match = TRUE;
 					}
 				else
 					{
-					if (strcmp(path, pi->fd->name) == 0) return pi;
+					if (strcmp(path, pi->fd->name) == 0) match = TRUE;
 					}
 				}
+
+			if (match) list = g_list_prepend(list, pi);
 			}
 		work = work->prev;
 		}
 
-	return NULL;
+	return g_list_reverse(list);
 }
 
 static PanItem *pan_item_find_by_coord(PanWindow *pw, ItemType type, gint x, gint y)
@@ -1673,19 +1676,21 @@ static void pan_window_layout_compute_folders_flower(PanWindow *pw, const gchar 
 						     gint *scroll_x, gint *scroll_y)
 {
 	FlowerGroup *group;
-	PanItem *pi;
+	GList *list;
 
 	group = pan_window_layout_compute_folders_flower_path(pw, path, 0, 0);
 	pan_window_layout_compute_folder_flower_build(pw, group, NULL);
 
 	pan_window_Layout_compute_folders_flower_size(pw, width, height);
 
-	pi = pan_item_find_by_path(pw, ITEM_BOX, path, FALSE, FALSE);
-	if (pi)
+	list = pan_item_find_by_path(pw, ITEM_BOX, path, FALSE, FALSE);
+	if (list)
 		{
+		PanItem *pi = list->data;
 		*scroll_x = pi->x + pi->width / 2;
 		*scroll_y = pi->y + pi->height / 2;
 		}
+	g_list_free(list);
 }
 
 static void pan_window_layout_compute_folders_linear_path(PanWindow *pw, const gchar *path,
@@ -3150,17 +3155,38 @@ static void pan_search_status(PanWindow *pw, const gchar *text)
 static gint pan_search_by_path(PanWindow *pw, const gchar *path)
 {
 	PanItem *pi;
+	GList *list;
+	GList *found;
 	ItemType type;
+	gchar *buf;
 
 	type = (pw->size > LAYOUT_SIZE_THUMB_LARGE) ? ITEM_IMAGE : ITEM_THUMB;
 
-	pi = pan_item_find_by_path(pw, type, path, FALSE, FALSE);
-	if (!pi) return FALSE;
+	list = pan_item_find_by_path(pw, type, path, FALSE, FALSE);
+	if (!list) return FALSE;
+
+	found = g_list_find(list, pw->click_pi);
+	if (found && found->next)
+		{
+		found = found->next;
+		pi = found->data;
+		}
+	else
+		{
+		pi = list->data;
+		}
 
 	pan_info_update(pw, pi);
 	image_scroll_to_point(pw->imd, pi->x + pi->width / 2, pi->y + pi->height / 2, 0.5, 0.5);
 
-	pan_search_status(pw, (path[0] == '/') ? _("path found") : _("filename found"));
+	buf = g_strdup_printf("%s ( %d / %d )",
+			      (path[0] == '/') ? _("path found") : _("filename found"),
+			      g_list_index(list, pi) + 1,
+			      g_list_length(list));
+	pan_search_status(pw, buf);
+	g_free(buf);
+
+	g_list_free(list);
 
 	return TRUE;
 }
@@ -3168,26 +3194,47 @@ static gint pan_search_by_path(PanWindow *pw, const gchar *path)
 static gint pan_search_by_partial(PanWindow *pw, const gchar *text)
 {
 	PanItem *pi;
+	GList *list;
+	GList *found;
 	ItemType type;
+	gchar *buf;
 
 	type = (pw->size > LAYOUT_SIZE_THUMB_LARGE) ? ITEM_IMAGE : ITEM_THUMB;
 
-	pi = pan_item_find_by_path(pw, type, text, TRUE, FALSE);
-	if (!pi) pi = pan_item_find_by_path(pw, type, text, FALSE, TRUE);
-	if (!pi)
+	list = pan_item_find_by_path(pw, type, text, TRUE, FALSE);
+	if (!list) list = pan_item_find_by_path(pw, type, text, FALSE, TRUE);
+	if (!list)
 		{
 		gchar *needle;
 
 		needle = g_utf8_strdown(text, -1);
-		pi = pan_item_find_by_path(pw, type, needle, TRUE, TRUE);
+		list = pan_item_find_by_path(pw, type, needle, TRUE, TRUE);
 		g_free(needle);
 		}
-	if (!pi) return FALSE;
+	if (!list) return FALSE;
+
+	found = g_list_find(list, pw->click_pi);
+	if (found && found->next)
+		{
+		found = found->next;
+		pi = found->data;
+		}
+	else
+		{
+		pi = list->data;
+		}
 
 	pan_info_update(pw, pi);
 	image_scroll_to_point(pw->imd, pi->x + pi->width / 2, pi->y + pi->height / 2, 0.5, 0.5);
 
-	pan_search_status(pw, _("partial match"));
+	buf = g_strdup_printf("%s ( %d / %d )",
+			      _("partial match"),
+			      g_list_index(list, pi) + 1,
+			      g_list_length(list));
+	pan_search_status(pw, buf);
+	g_free(buf);
+
+	g_list_free(list);
 
 	return TRUE;
 }
@@ -3197,8 +3244,9 @@ static gint valid_date_separator(gchar c)
 	return (c == '/' || c == '-' || c == ' ' || c == '.' || c == ',');
 }
 
-static PanItem *pan_search_by_date_val(PanWindow *pw, ItemType type, gint year, gint month, gint day)
+static GList *pan_search_by_date_val(PanWindow *pw, ItemType type, gint year, gint month, gint day)
 {
+	GList *list = NULL;
 	GList *work;
 
 	work = g_list_last(pw->list);
@@ -3222,17 +3270,19 @@ static PanItem *pan_search_by_date_val(PanWindow *pw, ItemType type, gint year, 
 				if (match && month >= 0) match = (tl->tm_mon == month - 1);
 				if (match && day > 0) match = (tl->tm_mday == day);
 
-				if (match) return pi;
+				if (match) list = g_list_prepend(list, pi);
 				}
 			}
 		}
 
-	return NULL;
+	return g_list_reverse(list);
 }
 
 static gint pan_search_by_date(PanWindow *pw, const gchar *text)
 {
-	PanItem *pi;
+	PanItem *pi = NULL;
+	GList *list;
+	GList *found;
 	gint year;
 	gint month = -1;
 	gint day = -1;
@@ -3242,6 +3292,7 @@ static gint pan_search_by_date(PanWindow *pw, const gchar *text)
 	time_t t;
 	gchar *message;
 	gchar *buf;
+	gchar *buf_count;
 	ItemType type;
 
 	if (!text) return FALSE;
@@ -3320,7 +3371,21 @@ static gint pan_search_by_date(PanWindow *pw, const gchar *text)
 
 	type = (pw->size > LAYOUT_SIZE_THUMB_LARGE) ? ITEM_IMAGE : ITEM_THUMB;
 
-	pi = pan_search_by_date_val(pw, type, year, month, day);
+	list = pan_search_by_date_val(pw, type, year, month, day);
+	if (list)
+		{
+		found = g_list_find(list, pw->click_pi);
+		if (found && found->next)
+			{
+			found = found->next;
+			pi = found->data;
+			}
+		else
+			{
+			pi = list->data;
+			}
+		}
+
 	if (pi)
 		{
 		pan_info_update(pw, pi);
@@ -3344,12 +3409,25 @@ static gint pan_search_by_date(PanWindow *pw, const gchar *text)
 		{
 		buf = date_value_string(t, DATE_LENGTH_YEAR);
 		}
-	message = g_strdup_printf("%s%s%s%s %s",
-				  (pi) ? "" : "(", (pi) ? "" : _("no match"), (pi) ? "" : ") " ,
-				  _("Date:"), buf);
+
+	if (pi)
+		{
+		buf_count = g_strdup_printf("( %d / %d )",
+					    g_list_index(list, pi) + 1,
+					    g_list_length(list));
+		}
+	else
+		{
+		buf_count = g_strdup_printf("(%s)", _("no match"));
+		}
+
+	message = g_strdup_printf("%s %s %s", _("Date:"), buf, buf_count);
 	g_free(buf);
+	g_free(buf_count);
 	pan_search_status(pw, message);
 	g_free(message);
+
+	g_list_free(list);
 
 	return TRUE;
 }

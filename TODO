@@ -18,8 +18,8 @@ Major:
   d> Set drag and drop data to clicked image.
   d> Should the copy/move/rename/delete operations be available here?
    > ^ and if so, should delete key actually work?
-   > searching for same item more than once should step through all matches
-   > search should highlight all matching images
+  d> searching for same item more than once should step through all matches
+   > search should highlight all matching images (with toggle?)
    > should non-thumbnail images have a drop shadow?
 
    > time line view:
