@@ -1,6 +1,11 @@
 AC_INIT(src/main.c)
 AM_CONFIG_HEADER(config.h)
 
+dnl note to CVS users:
+CONFIGURE_IS_BROKEN_ON_PURPOSE()
+dnl reason: This CVS is not used for GQview development, it was a test setup only.
+dnl         (If CVS goes public, it will be here, though)
+
 AM_INIT_AUTOMAKE(gqview, 0.8.1)
 
 AM_MAINTAINER_MODE
