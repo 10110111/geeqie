@@ -1184,9 +1184,9 @@ int main (int argc, char *argv[])
 
 	/* setup locale, i18n */
 	gtk_set_locale();
-	bindtextdomain (PACKAGE, LOCALEDIR);
-	bind_textdomain_codeset (PACKAGE, "UTF-8");
-	textdomain (PACKAGE);
+	bindtextdomain(PACKAGE, GQVIEW_LOCALEDIR);
+	bind_textdomain_codeset(PACKAGE, "UTF-8");
+	textdomain(PACKAGE);
 
 	/* setup random seed for random slideshow */
         srand(time(NULL));

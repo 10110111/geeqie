@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GQview 1.5.6\n"
+"Project-Id-Version: GQview 1.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-15 08:13-0500\n"
-"PO-Revision-Date: 2005-01-17 00:37-0300\n"
+"POT-Creation-Date: 2005-02-26 14:33-0500\n"
+"PO-Revision-Date: 2005-02-16 13:27-0300\n"
 "Last-Translator: Ariel Fermani <the_end@bbs.frc.utn.edu.ar>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -132,20 +132,19 @@ msgid "Link failed"
 msgstr "Falló el enlazado"
 
 #: src/bar_sort.c:435
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The collection:\n"
 "%s\n"
 "already exists."
 msgstr ""
-"La carpeta:\n"
+"La colección:\n"
 "%s\n"
 "ya existe."
 
 #: src/bar_sort.c:436
-#, fuzzy
 msgid "Collection exists"
-msgstr "Colección vacía"
+msgstr "La colección existe"
 
 #: src/bar_sort.c:450 src/collect.c:1061 src/collect-dlg.c:84
 #, c-format
@@ -165,9 +164,8 @@ msgid "Add Bookmark"
 msgstr "Añadir marcador"
 
 #: src/bar_sort.c:489
-#, fuzzy
 msgid "Add Collection"
-msgstr "Colecciones"
+msgstr "Añadir colección"
 
 #: src/bar_sort.c:506 src/ui_bookmark.c:603
 msgid "Name:"
@@ -198,14 +196,12 @@ msgid "Link"
 msgstr "Enlazar"
 
 #: src/bar_sort.c:610
-#, fuzzy
 msgid "Add image"
-msgstr "%d imágenes"
+msgstr "Añadir imagen"
 
 #: src/bar_sort.c:617
-#, fuzzy
 msgid "Add selection"
-msgstr "Selección"
+msgstr "Añadir selección"
 
 #: src/bar_sort.c:634
 msgid "Undo last image"
@@ -217,23 +213,20 @@ msgid "done"
 msgstr "listo"
 
 #: src/cache_maint.c:304
-#, fuzzy
 msgid "Removing old metadata..."
-msgstr "Leyendo datos de similitud..."
+msgstr "Borrando metadatos viejos..."
 
 #: src/cache_maint.c:308
-#, fuzzy
 msgid "Clearing cached thumbnails..."
-msgstr "Borrando miniaturas..."
+msgstr "Borrando miniaturas en caché..."
 
 #: src/cache_maint.c:312 src/cache_maint.c:1048
-#, fuzzy
 msgid "Removing old thumbnails..."
-msgstr "Purgando miniaturas viejas..."
+msgstr "Borrando miniaturas viejas..."
 
 #: src/cache_maint.c:315 src/cache_maint.c:1051
 msgid "Maintenance"
-msgstr ""
+msgstr "Mantenimiento"
 
 #: src/cache_maint.c:792 src/utilops.c:904
 msgid "Invalid folder"
@@ -319,7 +312,7 @@ msgstr "Borrar miniaturas huérfanas o desactualizadas."
 
 #: src/cache_maint.c:1194 src/cache_maint.c:1214
 msgid "Delete all cached thumbnails."
-msgstr "Borrar todo el caché de miniaturas."
+msgstr "Borrar todas las miniaturas en caché."
 
 #: src/cache_maint.c:1197
 msgid "Shared thumbnail cache"
@@ -327,20 +320,19 @@ msgstr "Caché de miniaturas compartido"
 
 #: src/cache_maint.c:1220
 msgid "Render"
-msgstr "Renderizar"
+msgstr "Generar"
 
 #: src/cache_maint.c:1223
 msgid "Render thumbnails for a specific folder."
-msgstr "Renderizar miniaturas para una carpeta específica."
+msgstr "Generar miniaturas para una carpeta específica."
 
 #: src/cache_maint.c:1225
 msgid "Metadata"
-msgstr ""
+msgstr "Metadatos"
 
 #: src/cache_maint.c:1237
-#, fuzzy
 msgid "Remove orphaned keywords and comments."
-msgstr "Borrar miniaturas huérfanas o desactualizadas."
+msgstr "Borrar palabras clave y comentarios huérfanos."
 
 #: src/collect.c:349 src/image.c:1160 src/image-overlay.c:74
 #: src/image-overlay.c:115
@@ -382,7 +374,7 @@ msgid ""
 msgstr ""
 "Ruta especificada:\n"
 "%s\n"
-"es una carpeta, las colecciones son archivos"
+"es una carpeta, las colecciones son archivos."
 
 #: src/collect-dlg.c:59
 msgid "Invalid filename"
@@ -1018,7 +1010,7 @@ msgstr "Mantener encima de otras ventanas"
 
 #: src/fullscreen.c:651
 msgid "Determined by Window Manager"
-msgstr ""
+msgstr "Determinado por el administrador de ventanas"
 
 #: src/fullscreen.c:652
 msgid "Active screen"
@@ -1120,7 +1112,7 @@ msgstr "Imagen %d de %d"
 
 #: src/info.c:678
 msgid "Image properties - GQview"
-msgstr "Propiedades de la imagen - GQview"
+msgstr "Propiedades de imagen - GQview"
 
 #: src/layout.c:271 src/view_file_icon.c:301 src/view_file_list.c:413
 msgid "Ascending"
@@ -1166,7 +1158,7 @@ msgstr "( %d x %d ) %s bytes"
 
 #: src/layout.c:1104
 msgid "GQview Tools"
-msgstr "Herramientas GQView"
+msgstr "Herramientas GQview"
 
 #: src/layout_config.c:57
 msgid "Tools"
@@ -1198,14 +1190,12 @@ msgid "in (unknown)..."
 msgstr "en (desconocido)..."
 
 #: src/layout_util.c:637
-#, fuzzy
 msgid "empty"
-msgstr "Vacía"
+msgstr "vacío"
 
 #: src/layout_util.c:748
-#, fuzzy
 msgid "_File"
-msgstr "/_Archivo"
+msgstr "_Archivo"
 
 #: src/layout_util.c:749 src/menu.c:91
 msgid "_Edit"
@@ -1216,49 +1206,40 @@ msgid "_Adjust"
 msgstr "_Ajustar"
 
 #: src/layout_util.c:752
-#, fuzzy
 msgid "_Help"
-msgstr "/A_yuda"
+msgstr "A_yuda"
 
 #: src/layout_util.c:754
-#, fuzzy
 msgid "New _window"
-msgstr "/Archivo/_Nueva ventana"
+msgstr "_Nueva ventana"
 
 #: src/layout_util.c:755
-#, fuzzy
 msgid "_New collection"
-msgstr "_Guardar colección"
+msgstr "Nueva _colección"
 
 #: src/layout_util.c:756
-#, fuzzy
 msgid "_Open collection..."
-msgstr "Abrir colección"
+msgstr "Abrir c_olección..."
 
 #: src/layout_util.c:757
-#, fuzzy
 msgid "Open _recent"
-msgstr "/Archivo/Abrir r_eciente"
+msgstr "Abrir r_eciente"
 
 #: src/layout_util.c:758
-#, fuzzy
 msgid "_Search..."
-msgstr "Buscando..."
+msgstr "_Buscar..."
 
 #: src/layout_util.c:760
-#, fuzzy
 msgid "_Print..."
-msgstr "Imprimir..."
+msgstr "_Imprimir..."
 
 #: src/layout_util.c:761
-#, fuzzy
 msgid "N_ew folder..."
 msgstr "N_ueva carpeta..."
 
 #: src/layout_util.c:767
-#, fuzzy
 msgid "_Quit"
-msgstr "salir"
+msgstr "_Salir"
 
 #: src/layout_util.c:779 src/menu.c:194
 msgid "_Rotate clockwise"
@@ -1269,7 +1250,6 @@ msgid "Rotate _counterclockwise"
 msgstr "Rotar en sentido _antihorario"
 
 #: src/layout_util.c:781
-#, fuzzy
 msgid "Rotate 1_80"
 msgstr "Rotar _180°"
 
@@ -1282,114 +1262,92 @@ msgid "_Flip"
 msgstr "Reflejar _verticalmente"
 
 #: src/layout_util.c:785
-#, fuzzy
 msgid "Select _all"
-msgstr "Seleccionar todo"
+msgstr "Seleccionar _todo"
 
 #: src/layout_util.c:786
-#, fuzzy
 msgid "Select _none"
-msgstr "Seleccionar nada"
+msgstr "Seleccionar _nada"
 
 #: src/layout_util.c:787
-#, fuzzy
 msgid "P_references..."
-msgstr "_Propiedades..."
+msgstr "P_referencias..."
 
 #: src/layout_util.c:788
-#, fuzzy
 msgid "_Thumbnail maintenance..."
-msgstr "/Editar/_Mantenimiento de miniaturas..."
+msgstr "_Mantenimiento de miniaturas..."
 
 #: src/layout_util.c:794
-#, fuzzy
 msgid "_Zoom to fit"
-msgstr "/Ver/Zoom a_justado"
+msgstr "Zoom a_justado"
 
 #: src/layout_util.c:795
-#, fuzzy
 msgid "F_ull screen"
-msgstr "Pantalla completa"
+msgstr "_Pantalla completa"
 
 #: src/layout_util.c:796
-#, fuzzy
 msgid "_Hide file list"
-msgstr "Esconder _lista de archivos"
+msgstr "Esconder lista de arc_hivos"
 
 #: src/layout_util.c:797
-#, fuzzy
 msgid "Toggle _slideshow"
-msgstr "conmutar diapositivas"
+msgstr "Conmutar diapo_sitivas"
 
 #: src/layout_util.c:798
-#, fuzzy
 msgid "_Refresh"
-msgstr "_Actualizar"
+msgstr "Actualiza_r"
 
 #: src/layout_util.c:800
-#, fuzzy
 msgid "_Contents"
-msgstr "/Ayuda/_Contenidos..."
+msgstr "_Contenidos"
 
 #: src/layout_util.c:801
-#, fuzzy
 msgid "_Keyboard shortcuts"
-msgstr "/Ayuda/Atajos de _teclado"
+msgstr "Atajos de _teclado"
 
 #: src/layout_util.c:802
-#, fuzzy
 msgid "_Release notes"
-msgstr "/Ayuda/Notas de esta _versión"
+msgstr "Notas de esta _versión"
 
 #: src/layout_util.c:803
-#, fuzzy
 msgid "_About"
-msgstr "/Ayuda/_Acerca de..."
+msgstr "_Acerca de..."
 
 #: src/layout_util.c:807
-#, fuzzy
 msgid "_Thumbnails"
-msgstr "Miniaturas"
+msgstr "_Miniaturas"
 
 #: src/layout_util.c:808
-#, fuzzy
 msgid "Tr_ee"
-msgstr "/Ver/Ár_bol"
+msgstr "Ár_bol"
 
 #: src/layout_util.c:809
-#, fuzzy
 msgid "_Float file list"
-msgstr "/Ver/_Lista de archivos flotante"
+msgstr "_Lista de archivos flotante"
 
 #: src/layout_util.c:810
-#, fuzzy
 msgid "Hide tool_bar"
-msgstr "/Ver/Esconder _barra de herramientas"
+msgstr "Esconder _barra de herramientas"
 
 #: src/layout_util.c:811
-#, fuzzy
 msgid "_Keywords"
-msgstr "Palabras clave"
+msgstr "Palabras cla_ve"
 
 #: src/layout_util.c:812
-#, fuzzy
 msgid "E_xif data"
-msgstr "/Ver/Datos E_xif"
+msgstr "Datos E_xif"
 
 #: src/layout_util.c:813
-#, fuzzy
 msgid "Sort _manager"
-msgstr "Clasificador"
+msgstr "Clas_ificador"
 
 #: src/layout_util.c:817
-#, fuzzy
 msgid "_List"
-msgstr "/Ver/Lis_ta"
+msgstr "Lis_ta"
 
 #: src/layout_util.c:818
-#, fuzzy
 msgid "I_cons"
-msgstr "Ícono:"
+msgstr "Íco_nos"
 
 #: src/layout_util.c:1083
 msgid "Show thumbnails"
@@ -1547,14 +1505,14 @@ msgstr "  -s, --slideshow            comenzar en modo diapositivas\n"
 #: src/main.c:950
 msgid "  -l, --list                 open collection window for command line\n"
 msgstr ""
-"  -l, --list                 abrir ventana de colecciones para la línea de "
-"comandos\n"
+"  -l, --list                 abrir ventana de colecciones para la línea de\n"
+"                             comandos\n"
 
 #: src/main.c:951
 msgid "  -r, --remote               send following commands to open window\n"
 msgstr ""
-"  -r, --remote               enviar los comandos siguientes a la ventana "
-"abierta\n"
+"  -r, --remote               enviar los siguientes comandos a la ventana\n"
+"                             abierta\n"
 
 #: src/main.c:952
 msgid "  -rh,--remote-help          print remote command list\n"
@@ -1679,7 +1637,7 @@ msgstr "El mejor"
 
 #: src/preferences.c:498 src/print.c:365
 msgid "Custom"
-msgstr "Presonalizado"
+msgstr "Personalizado"
 
 #: src/preferences.c:662 src/preferences.c:665
 msgid "Reset filters"
@@ -1714,9 +1672,8 @@ msgid "This will remove the trash contents."
 msgstr "Esto borrará el contenido de la carpeta de basura."
 
 #: src/preferences.c:770
-#, fuzzy
 msgid "GQview Preferences"
-msgstr "GQview a pantalla completa"
+msgstr "Preferencias de GQview"
 
 #: src/preferences.c:824
 msgid "Startup"
@@ -1740,7 +1697,7 @@ msgstr "Calidad:"
 
 #: src/preferences.c:846
 msgid "Cache thumbnails"
-msgstr "Caché de miniaturas"
+msgstr "Hacer caché de miniaturas"
 
 #: src/preferences.c:852
 msgid "Use shared thumbnail cache"
@@ -1977,9 +1934,10 @@ msgid "Miscellaneous"
 msgstr "Misceláneos"
 
 #: src/preferences.c:1209
-#, fuzzy
 msgid "Store keywords and comments local to source images"
-msgstr "Almacenar miniaturas donde se encuentran las imágenes de origen"
+msgstr ""
+"Almacenar palabras clave y comentarios donde se encuentran las imágenes de "
+"origen"
 
 #: src/preferences.c:1212
 msgid "Custom similarity threshold:"
@@ -2078,7 +2036,7 @@ msgstr "pulgadas"
 
 #: src/print.c:354
 msgid "picas"
-msgstr ""
+msgstr "picas"
 
 #: src/print.c:359
 msgid "Portrait"
@@ -2173,6 +2131,8 @@ msgid ""
 "Unable to open pipe for writing.\n"
 "\"%s\""
 msgstr ""
+"No se pudo abrir la tubería para escribir.\n"
+"\"%s\""
 
 #: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:424
 #: src/view_file_list.c:453
@@ -2183,12 +2143,12 @@ msgstr "Ya existe un archivo con el nombre %s."
 #: src/print.c:1074 src/print.c:1543
 #, c-format
 msgid "Failure writing to file %s"
-msgstr ""
+msgstr "Fallo al escribir al archivo %s"
 
 #: src/print.c:1128 src/print.c:1165 src/print.c:1201 src/print.c:1307
 #: src/print.c:1398 src/print.c:1429
 msgid "SIGPIPE error writing to printer."
-msgstr ""
+msgstr "Error SIGPIPE al escribir a la impresora."
 
 #: src/print.c:1964
 #, c-format
@@ -2196,28 +2156,26 @@ msgid "Page %d"
 msgstr "Página %d"
 
 #: src/print.c:1986 src/print.c:1991
-#, fuzzy
 msgid "Printing error"
-msgstr "Impresora"
+msgstr "Error de impresión"
 
 #: src/print.c:1990
 #, c-format
 msgid "An error occured printing to %s."
-msgstr ""
+msgstr "Ha ocurrido un error al imprimir en %s."
 
 #: src/print.c:1994
-#, fuzzy
 msgid "Details"
-msgstr "Predeterminados"
+msgstr "Detalles"
 
 #: src/print.c:2587 src/print.c:3332
 msgid "Print - GQview"
 msgstr "Imprimir - GQview"
 
 #: src/print.c:2591
-#, fuzzy, c-format
+#, c-format
 msgid "Printing %d pages to %s."
-msgstr "Imprimiendo %d páginas en %s..."
+msgstr "Imprimiendo %d páginas en %s."
 
 #: src/print.c:2691
 msgid "Format:"
@@ -2236,9 +2194,8 @@ msgid "Destination:"
 msgstr "Destino:"
 
 #: src/print.c:2990
-#, fuzzy
 msgid "<printer name>"
-msgstr "Nombre del archivo"
+msgstr "<nombre de la impresora>"
 
 #: src/print.c:3079
 msgid "Unlimited"
@@ -2254,7 +2211,7 @@ msgstr "Fuente"
 
 #: src/print.c:3359
 msgid "Source"
-msgstr "Fuente"
+msgstr "Origen"
 
 #: src/print.c:3375
 msgid "Proof size:"
@@ -2309,9 +2266,8 @@ msgid "DPI:"
 msgstr "PPP:"
 
 #: src/print.c:3481
-#, fuzzy
 msgid "Remember print settings"
-msgstr "Recordar las posiciones de las ventanas"
+msgstr "Recordar la configuración de impresión"
 
 #: src/rcfile.c:185
 #, c-format
@@ -3062,204 +3018,3 @@ msgid ""
 msgstr ""
 "Nombre de archivo no válido:\n"
 "%s"
-
-#~ msgid "Purge thumbnails"
-#~ msgstr "Purgar miniaturas"
-
-#~ msgid "/File/tear1"
-#~ msgstr "/Archivo/tear1"
-
-#~ msgid "/File/_New collection"
-#~ msgstr "/Archivo/Nueva _colección"
-
-#~ msgid "/File/_Open collection..."
-#~ msgstr "/Archivo/Abrir c_olección..."
-
-#~ msgid "/File/sep1"
-#~ msgstr "/Archivo/sep1"
-
-#~ msgid "/File/_Search..."
-#~ msgstr "/Archivo/_Buscar..."
-
-#~ msgid "/File/_Find duplicates..."
-#~ msgstr "/Archivo/Buscar _duplicados..."
-
-#~ msgid "/File/sep2"
-#~ msgstr "/Archivo/sep2"
-
-#~ msgid "/File/_Print..."
-#~ msgstr "/Archivo/_Imprimir..."
-
-#~ msgid "/File/N_ew folder..."
-#~ msgstr "/Archivo/N_ueva carpeta..."
-
-#~ msgid "/File/sep3"
-#~ msgstr "/Archivo/sep3"
-
-#~ msgid "/File/_Copy..."
-#~ msgstr "/Archivo/Co_piar..."
-
-#~ msgid "/File/_Move..."
-#~ msgstr "/Archivo/_Mover..."
-
-#~ msgid "/File/_Rename..."
-#~ msgstr "/Archivo/_Renombrar..."
-
-#~ msgid "/File/_Delete..."
-#~ msgstr "/Archivo/_Borrar..."
-
-#~ msgid "/File/sep4"
-#~ msgstr "/Archivo/sep4"
-
-#~ msgid "/File/C_lose window"
-#~ msgstr "/Archivo/Cerrar _ventana"
-
-#~ msgid "/File/_Quit"
-#~ msgstr "/Archivo/_Salir"
-
-#~ msgid "/_Edit"
-#~ msgstr "/_Editar"
-
-#~ msgid "/Edit/tear1"
-#~ msgstr "/Editar/tear1"
-
-#~ msgid "/Edit/editor1"
-#~ msgstr "/Editar/editor1"
-
-#~ msgid "/Edit/editor2"
-#~ msgstr "/Editar/editor2"
-
-#~ msgid "/Edit/editor3"
-#~ msgstr "/Editar/editor3"
-
-#~ msgid "/Edit/editor4"
-#~ msgstr "/Editar/editor4"
-
-#~ msgid "/Edit/editor5"
-#~ msgstr "/Editar/editor5"
-
-#~ msgid "/Edit/editor6"
-#~ msgstr "/Editar/editor6"
-
-#~ msgid "/Edit/editor7"
-#~ msgstr "/Editar/editor7"
-
-#~ msgid "/Edit/editor8"
-#~ msgstr "/Editar/editor8"
-
-#~ msgid "/Edit/editor9"
-#~ msgstr "/Editar/editor9"
-
-#~ msgid "/Edit/editor0"
-#~ msgstr "/Editar/editor0"
-
-#~ msgid "/Edit/sep1"
-#~ msgstr "/Editar/sep1"
-
-#~ msgid "/Edit/_Adjust"
-#~ msgstr "/Editar/_Ajustar"
-
-#~ msgid "/Edit/_Properties"
-#~ msgstr "/Editar/_Propiedades..."
-
-#~ msgid "/Edit/Adjust/tear1"
-#~ msgstr "/Editar/Ajustar/tear1"
-
-#~ msgid "/Edit/Adjust/_Rotate clockwise"
-#~ msgstr "/Editar/Ajustar/_Rotar en sentido horario"
-
-#~ msgid "/Edit/Adjust/Rotate _counterclockwise"
-#~ msgstr "/Editar/Ajustar/Rotar en sentido _antihorario"
-
-#~ msgid "/Edit/Adjust/Rotate 1_80"
-#~ msgstr "/Editar/Ajustar/Rotar _180°"
-
-#~ msgid "/Edit/Adjust/_Mirror"
-#~ msgstr "/Editar/Ajustar/Reflejar _horizontalmente"
-
-#~ msgid "/Edit/Adjust/_Flip"
-#~ msgstr "/Editar/Ajustar/Reflejar _verticalmente"
-
-#~ msgid "/Edit/sep2"
-#~ msgstr "/Editar/sep2"
-
-#~ msgid "/Edit/Select _all"
-#~ msgstr "/Editar/Seleccionar _todo"
-
-#~ msgid "/Edit/Select _none"
-#~ msgstr "/Editar/Seleccionar _nada"
-
-#~ msgid "/Edit/sep3"
-#~ msgstr "/Editar/sep3"
-
-#~ msgid "/Edit/_Options..."
-#~ msgstr "/Editar/_Opciones..."
-
-#~ msgid "/Edit/sep4"
-#~ msgstr "/Editar/sep4"
-
-#~ msgid "/Edit/Set as _wallpaper"
-#~ msgstr "/Editar/_Establecer como fondo de escritorio"
-
-#~ msgid "/_View"
-#~ msgstr "/_Ver"
-
-#~ msgid "/View/tear1"
-#~ msgstr "/Ver/tear1"
-
-#~ msgid "/View/Zoom _in"
-#~ msgstr "/Ver/Zoom ac_ercar"
-
-#~ msgid "/View/Zoom _out"
-#~ msgstr "/Ver/Z_oom alejar"
-
-#~ msgid "/View/Zoom _1:1"
-#~ msgstr "/Ver/_Zoom 1:1"
-
-#~ msgid "/View/sep1"
-#~ msgstr "/Ver/sep1"
-
-#~ msgid "/View/_Thumbnails"
-#~ msgstr "/Ver/_Miniaturas"
-
-#~ msgid "/View/I_cons"
-#~ msgstr "/Ver/Íco_nos"
-
-#~ msgid "/View/sep2"
-#~ msgstr "/Ver/sep2"
-
-#~ msgid "/View/F_ull screen"
-#~ msgstr "/Ver/_Pantalla completa"
-
-#~ msgid "/View/sep3"
-#~ msgstr "/Ver/sep3"
-
-#~ msgid "/View/_Hide file list"
-#~ msgstr "/Ver/Esconder lista de arc_hivos"
-
-#~ msgid "/View/sep4"
-#~ msgstr "/Ver/sep4"
-
-#~ msgid "/View/_Keywords"
-#~ msgstr "/Ver/Palabras cla_ve"
-
-#~ msgid "/View/Sort _manager"
-#~ msgstr "/Ver/Clas_ificador"
-
-#~ msgid "/View/sep5"
-#~ msgstr "/Ver/sep5"
-
-#~ msgid "/View/Toggle _slideshow"
-#~ msgstr "/Ver/Conmutar diapo_sitivas"
-
-#~ msgid "/View/_Refresh Lists"
-#~ msgstr "/Ver/Actualiza_r lista"
-
-#~ msgid "/Help/tear1"
-#~ msgstr "/Ayuda/tear1"
-
-#~ msgid "/Help/sep1"
-#~ msgstr "/Ayuda/sep1"
-
-#~ msgid "GQview configuration"
-#~ msgstr "Configuración de GQview"

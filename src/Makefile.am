@@ -3,7 +3,6 @@ DIST_SUBDIRS = icons
 
 INCLUDES = -I$(srcdir) -I$(builddir)    \
 	-I$(top_srcdir) -I$(top_builddir)       \
-	-DLOCALEDIR=\""$(localedir)"\"		\
 	-I$(includedir) $(GTK_CFLAGS)
 
 module_SLIK = \

@@ -1,5 +1,5 @@
 ###################################################################
-##                          GQview 1.5.9     (February 15, 2005) ##
+##                          GQview 2.0.0     (February 26, 2005) ##
 ##                                                               ##
 ##              Copyright (C) 1999 - 2005 John Ellis.            ##
 ##                                                               ##
@@ -12,13 +12,6 @@
 Author: John Ellis <johne@verizon.net>
 e-mail: gqview@users.sourceforge.net
 homepage: http://gqview.sourceforge.net
-
-
-  PREVIEW RELEASE!        PREVIEW RELEASE!        PREVIEW RELEASE!
-
-  The stable version at the time of this release is GQview 1.4.5
-
-  PREVIEW RELEASE!        PREVIEW RELEASE!        PREVIEW RELEASE!
 
 
 ======== README contents:
@@ -39,16 +32,7 @@ homepage: http://gqview.sourceforge.net
 
 ======== Notes and changes for this release            [section:release_notes]
 
-  Changes since 1.5.8:
-
-    - Set default image for similarity in a search to the current image.
-    - Update Italian translation.
-    * Fix main window keyboard shortcuts for editor commands.
-    * Fix thumbnail memory leak in file list view.
-    * Fix searching by keywords to ignore case.
-    * Fix writing of image data to cache in search utility.
-
-  New features in 2.0 (since 1.4.5):
+  New features in 2.0:
 
     + Search utility.
     + Ability to assign keywords and comments to an image.
@@ -73,6 +57,11 @@ homepage: http://gqview.sourceforge.net
     - Maintenance utility for caches and data used by GQview.
     - Utility to create thumbnails ahead of time in one step.
     - Now requires GTK+ >= 2.4
+
+  Changes since 1.5.9:
+
+    - Update translations bg, es, it, ja, nl, pl, ru.
+
 
   Notes:
 
@@ -398,24 +387,24 @@ homepage: http://gqview.sourceforge.net
 Language     Comp (%)  Trans   Fuzzy Untrans  Warn
 --------------------------------------------------
 ar                67     448     149      70
-bg                64     427     166      74
+bg               100     667       0       0
 cs                58     387     186      94
 da                20     137     286     244
 de                56     375     185     107
-es                91     609      50       8
+es               100     667       0       0
 et                30     203     283     181
 fi                58     387     189      91
 fr                91     609      50       8
 hu                55     373     186     108
 id                31     207     284     176
-it                99     664       2       1
-ja                78     523     117      27
-nl                58     387     186      94
+it               100     667       0       0
+ja               100     667       0       0
+nl               100     667       0       0
 no                25     168     296     203
-pl                55     369     188     110
+pl                80     538      51      78
 pt_BR             25     168     296     203
 ro                58     387     188      92
-ru                99     664       2       1
+ru               100     667       0       0
 sk                58     387     189      91
 sl                23     154     302     211
 sv                99     664       2       1
@@ -428,6 +417,7 @@ zh_TW             55     368     186     113
 --------------------------------------------------
 
 
+
 ======== Credits                                             [section:credits]
 
 
@@ -436,6 +426,7 @@ zh_TW             55     368     186     113
      Grzegorz Kowal <g_kowal@poczta.onet.pl>
      Zbigniew Chyla <cyba@gnome.pl>
      Emil Nowak <emil5@go2.pl>
+     Wit Wilinski <wit.wilinski@gmail.com>
          for Polish translation
 
      Christopher R. Gabriel <cgabriel@pluto.linux.it>

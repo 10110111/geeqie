@@ -1,15 +1,16 @@
-# Bulgarian translation of gqview.
-# Copyright (C) 2004 John Ellis
-# This file is distributed under the same license as the gqview package.
-# Vladimir Petrov <vladux@mail.bg>, 2004.
+# Bulgarian translation of GQview.
+# Copyright (C) 2005 John Ellis
+# This file is distributed under the same license as the GQview package.
+# Vladimir Petrov <vladux@users.sourceforge.net>, 2005.
+# 
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: gqview 1.5.0patch\n"
+"Project-Id-Version: gqview 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-15 08:13-0500\n"
-"PO-Revision-Date: 2004-03-22 02:17+0200\n"
-"Last-Translator: Vladimir Petrov <vladux@mail.bg>\n"
+"POT-Creation-Date: 2005-02-26 14:33-0500\n"
+"PO-Revision-Date: 2005-02-26 16:13+0200\n"
+"Last-Translator: Владимир Петров <vladux@users.sourceforge.net>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,42 +18,39 @@ msgstr ""
 
 #: src/bar_info.c:30
 msgid "Favorite"
-msgstr ""
+msgstr "Предпочитани"
 
 #: src/bar_info.c:31
-#, fuzzy
 msgid "Todo"
-msgstr "Инструменти"
+msgstr "Задачи"
 
 #: src/bar_info.c:32
 msgid "People"
-msgstr ""
+msgstr "Хора"
 
 #: src/bar_info.c:33
 msgid "Places"
-msgstr ""
+msgstr "Места"
 
 #: src/bar_info.c:34
 msgid "Art"
-msgstr ""
+msgstr "Изкуство"
 
 #: src/bar_info.c:35
-#, fuzzy
 msgid "Nature"
-msgstr "бленда"
+msgstr "Природа"
 
 #: src/bar_info.c:36
 msgid "Possessions"
-msgstr ""
+msgstr "Имоти"
 
 #: src/bar_info.c:505
-#, fuzzy
 msgid "Keyword Presets"
-msgstr "Ключови думи"
+msgstr "Подготвени ключови думи"
 
 #: src/bar_info.c:508
 msgid "Favorite keywords list"
-msgstr ""
+msgstr "Списък от предпочитани ключови думи"
 
 #: src/bar_info.c:992 src/info.c:166 src/search.c:2692
 msgid "Keywords"
@@ -60,11 +58,11 @@ msgstr "Ключови думи"
 
 #: src/bar_info.c:1006 src/info.c:716 src/print.c:2599
 msgid "Filename:"
-msgstr "Име на файла:"
+msgstr "Име на файл:"
 
 #: src/bar_info.c:1007 src/info.c:360
 msgid "File date:"
-msgstr "Дата на файла:"
+msgstr "Дата на файл:"
 
 #: src/bar_info.c:1027
 msgid "Keywords:"
@@ -72,25 +70,25 @@ msgstr "Ключови думи:"
 
 #: src/bar_info.c:1095
 msgid "Comment:"
-msgstr "Коментари:"
+msgstr "Коментар:"
 
 #: src/bar_info.c:1119
 msgid "Edit favorite keywords list."
-msgstr ""
+msgstr "Редактиране на списък от предпочитани думи."
 
 #: src/bar_info.c:1123
 msgid "Add keywords to selected files"
-msgstr "Добавяне на ключовите думи към избраните файлове"
+msgstr "Добавяне на ключови думи към избраните файлове"
 
 #: src/bar_info.c:1126
 msgid "Add keywords to selected files, replacing the existing ones."
 msgstr ""
-"Добавяне на ключовите думи към избраните файлове, заменяйки досега "
+"Добавяне на ключови думи към избраните файлове, заменяйки досега "
 "съществуващите."
 
 #: src/bar_info.c:1130
 msgid "Save comment now"
-msgstr "Запазване на коментарите веднага"
+msgstr "Запазване на коментара веднага"
 
 #: src/bar_exif.c:423
 msgid "Tag"
@@ -123,31 +121,30 @@ msgstr "Exif"
 
 #: src/bar_exif.c:622
 msgid "Advanced view"
-msgstr "Подробен изглед"
+msgstr "Подробен преглед"
 
 #: src/bar_sort.c:218
 msgid "Unlink failed"
-msgstr "Неуспешно развръзване"
+msgstr "Неуспешно развързване"
 
 #: src/bar_sort.c:298
 msgid "Link failed"
 msgstr "Неуспешно свързване"
 
 #: src/bar_sort.c:435
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The collection:\n"
 "%s\n"
 "already exists."
 msgstr ""
-"Директорията:\n"
+"Колекцията:\n"
 "%s\n"
 "вече съществува."
 
 #: src/bar_sort.c:436
-#, fuzzy
 msgid "Collection exists"
-msgstr "Празна колекция"
+msgstr "Колекцията съществува"
 
 #: src/bar_sort.c:450 src/collect.c:1061 src/collect-dlg.c:84
 #, c-format
@@ -167,9 +164,8 @@ msgid "Add Bookmark"
 msgstr "Добавяне на отметка"
 
 #: src/bar_sort.c:489
-#, fuzzy
 msgid "Add Collection"
-msgstr "Колекции"
+msgstr "Добавяне на колекция"
 
 #: src/bar_sort.c:506 src/ui_bookmark.c:603
 msgid "Name:"
@@ -193,21 +189,19 @@ msgstr "Копиране"
 
 #: src/bar_sort.c:593
 msgid "Move"
-msgstr "Местене"
+msgstr "Преместване"
 
 #: src/bar_sort.c:600
 msgid "Link"
-msgstr "Свързване"
+msgstr "Връзка"
 
 #: src/bar_sort.c:610
-#, fuzzy
 msgid "Add image"
-msgstr "%d изображения"
+msgstr "Добавяне на изображение"
 
 #: src/bar_sort.c:617
-#, fuzzy
 msgid "Add selection"
-msgstr "Отказ от всички"
+msgstr "Добавяне на избрани"
 
 #: src/bar_sort.c:634
 msgid "Undo last image"
@@ -219,64 +213,56 @@ msgid "done"
 msgstr "извършено"
 
 #: src/cache_maint.c:304
-#, fuzzy
 msgid "Removing old metadata..."
-msgstr "Четене на данни за прилика..."
+msgstr "Премахване на стари мета-данни..."
 
 #: src/cache_maint.c:308
-#, fuzzy
 msgid "Clearing cached thumbnails..."
-msgstr "Изчистване на умалени изображения..."
+msgstr "Премахване на кеширани смалени изображения..."
 
 #: src/cache_maint.c:312 src/cache_maint.c:1048
-#, fuzzy
 msgid "Removing old thumbnails..."
-msgstr "Изчистване на стари умалени изображения..."
+msgstr "Премахване на стари смалени изображения..."
 
 #: src/cache_maint.c:315 src/cache_maint.c:1051
 msgid "Maintenance"
-msgstr ""
+msgstr "Поддръжка"
 
 #: src/cache_maint.c:792 src/utilops.c:904
-#, fuzzy
 msgid "Invalid folder"
-msgstr "Невалидно файлово име"
+msgstr "Невалидна папка"
 
 #: src/cache_maint.c:793
 msgid "The specified folder can not be found."
-msgstr ""
+msgstr "Указаната папка не може да бъде открита."
 
 #: src/cache_maint.c:821 src/cache_maint.c:835 src/cache_maint.c:1216
-#, fuzzy
 msgid "Create thumbnails"
-msgstr "Кеширане на умалени изображения"
+msgstr "Създаване на смалени изображения"
 
 #: src/cache_maint.c:829 src/cache_maint.c:1058
-#, fuzzy
 msgid "S_tart"
-msgstr "Начален номер"
+msgstr "_Стартиране"
 
 #: src/cache_maint.c:842 src/preferences.c:1165
 msgid "Folder:"
 msgstr "Папка:"
 
 #: src/cache_maint.c:845
-#, fuzzy
 msgid "Select folder"
-msgstr "Отказ от всички"
+msgstr "Избор на папка"
 
 #: src/cache_maint.c:849
-#, fuzzy
 msgid "Include subfolders"
-msgstr "Невалидно файлово име"
+msgstr "Включване на под-папки"
 
 #: src/cache_maint.c:850
 msgid "Store thumbnails local to source images"
-msgstr ""
+msgstr "Запазване на смалени изображения при оригиналните изображения"
 
 #: src/cache_maint.c:859 src/cache_maint.c:1067
 msgid "click start to begin"
-msgstr ""
+msgstr "щракни \"Стартиране\" за започване"
 
 #: src/cache_maint.c:997 src/editors.c:549
 msgid "running..."
@@ -284,81 +270,76 @@ msgstr "действа..."
 
 #: src/cache_maint.c:1043
 msgid "Clearing thumbnails..."
-msgstr "Изчистване на умалени изображения..."
+msgstr "Изчистване на смалени изображения..."
 
 #: src/cache_maint.c:1109 src/cache_maint.c:1112 src/cache_maint.c:1191
 #: src/cache_maint.c:1211
 msgid "Clear cache"
-msgstr "Изчистване на кеша"
+msgstr "Изчистване на кеш"
 
 #: src/cache_maint.c:1113
 msgid ""
 "This will remove all thumbnails that have\n"
 "been saved to disk, continue?"
 msgstr ""
-"Това ще премахне всички умалени изображения които\n"
+"Това ще премахне всички смалени изображения които\n"
 "са събрани на диска, продължаване?"
 
 #: src/cache_maint.c:1163
-#, fuzzy
 msgid "Cache Maintenance - GQview"
-msgstr "Търсене на изображения - GQview"
+msgstr "Поддръжка на кеш - GQview"
 
 #: src/cache_maint.c:1173
 msgid "Cache and Data Maintenance"
-msgstr ""
+msgstr "Поддръжка на кеш и данни"
 
 #: src/cache_maint.c:1177
-#, fuzzy
 msgid "GQview thumbnail cache"
-msgstr "GQview на цял екран"
+msgstr "Кеш със смалени изображения на GQview"
 
 #: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
 #: src/preferences.c:1142 src/utilops.c:1505
-#, fuzzy
 msgid "Location:"
-msgstr "действие"
+msgstr "Местоположение:"
 
 #: src/cache_maint.c:1186 src/cache_maint.c:1206 src/cache_maint.c:1234
-#, fuzzy
 msgid "Clean up"
 msgstr "Изчистване"
 
 #: src/cache_maint.c:1189 src/cache_maint.c:1209
 msgid "Remove orphaned or outdated thumbnails."
 msgstr ""
+"Премахване на остарели или такива без налични\n"
+"оригинали смалени изображения."
 
 #: src/cache_maint.c:1194 src/cache_maint.c:1214
-#, fuzzy
 msgid "Delete all cached thumbnails."
-msgstr "Кеширане на умалени изображения"
+msgstr "Изтриване на всички кеширани смалени изображения."
 
 #: src/cache_maint.c:1197
-#, fuzzy
 msgid "Shared thumbnail cache"
-msgstr "Показване на умалени изображения"
+msgstr "Споделен кеш със смалени изображения"
 
 #: src/cache_maint.c:1220
-#, fuzzy
 msgid "Render"
-msgstr "Преименуване"
+msgstr "Рендване"
 
 #: src/cache_maint.c:1223
 msgid "Render thumbnails for a specific folder."
-msgstr ""
+msgstr "Рендване на смалени изображения за определена папка."
 
 #: src/cache_maint.c:1225
 msgid "Metadata"
-msgstr ""
+msgstr "Мета-данни"
 
 #: src/cache_maint.c:1237
 msgid "Remove orphaned keywords and comments."
-msgstr ""
+msgstr "Премахване на ключови думи и коментари, които не дават резултат."
 
 #: src/collect.c:349 src/image.c:1160 src/image-overlay.c:74
 #: src/image-overlay.c:115
 msgid "Untitled"
-msgstr "Неозаглавена"
+msgstr "Без заглавие"
 
 #: src/collect.c:353
 #, c-format
@@ -384,18 +365,18 @@ msgstr ""
 
 #: src/collect.c:1106
 msgid "_Discard"
-msgstr ""
+msgstr "От_хвърляне"
 
 #: src/collect-dlg.c:58
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Specified path:\n"
 "%s\n"
 "is a folder, collections are files"
 msgstr ""
-"Посоченият път:\n"
+"Указаният път:\n"
 "%s\n"
-"е директория, колекциите са файлове"
+"е папка, колекциите са файлове"
 
 #: src/collect-dlg.c:59
 msgid "Invalid filename"
@@ -403,18 +384,16 @@ msgstr "Невалидно файлово име"
 
 #: src/collect-dlg.c:68
 msgid "Overwrite File"
-msgstr "Презаписване на файла"
+msgstr "Презаписване на файл"
 
 #: src/collect-dlg.c:73
-#, fuzzy
 msgid "Overwrite existing file?"
-msgstr "Презаписване на файла"
+msgstr "Презаписване на съществуващ файл?"
 
 #: src/collect-dlg.c:75 src/utilops.c:479 src/utilops.c:792 src/utilops.c:1649
 #: src/utilops.c:2196
-#, fuzzy
 msgid "_Overwrite"
-msgstr "Презаписване"
+msgstr "_Презаписване"
 
 #: src/collect-dlg.c:169
 msgid "Save collection"
@@ -426,16 +405,15 @@ msgstr "Отваряне на колекция"
 
 #: src/collect-dlg.c:184
 msgid "Append collection"
-msgstr "Прибавяне към колекция"
+msgstr "Добавяне към колекция"
 
 #: src/collect-dlg.c:185
-#, fuzzy
 msgid "_Append"
-msgstr "Прибавяне"
+msgstr "_Добавяне"
 
 #: src/collect-dlg.c:203
 msgid "Collection Files"
-msgstr "Файлове - Колекции"
+msgstr "Файлове-колекции"
 
 #: src/collect-dlg.c:221
 msgid "Collection empty"
@@ -447,7 +425,7 @@ msgstr "Текущата колекция е празна, запазванет�
 
 #: src/collect-table.c:164 src/layout_util.c:708
 msgid "Empty"
-msgstr "Празна"
+msgstr "Празно"
 
 #: src/collect-table.c:168
 #, c-format
@@ -463,7 +441,7 @@ msgstr "%d изображения"
 #: src/view_file_icon.c:1772 src/view_file_icon.c:1887
 #: src/view_file_list.c:816 src/view_file_list.c:921
 msgid "Loading thumbs..."
-msgstr "Зареждане на умалени..."
+msgstr "Зареждане на смалени..."
 
 #: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
 #: src/layout_util.c:751 src/search.c:969
@@ -490,17 +468,17 @@ msgstr "Добавяне от колекция..."
 
 #: src/collect-table.c:786 src/dupe.c:2192 src/dupe.c:2502 src/search.c:974
 msgid "Select all"
-msgstr "Избор на всички"
+msgstr "Маркиране на всички"
 
 #: src/collect-table.c:788 src/dupe.c:2194 src/dupe.c:2504 src/search.c:976
 msgid "Select none"
-msgstr "Отказ от всички"
+msgstr "Размаркиране на всички"
 
 #: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1185
 #: src/layout_image.c:719 src/layout_util.c:784 src/search.c:981
 #: src/view_file_icon.c:280 src/view_file_list.c:393
 msgid "_Properties"
-msgstr "Сво_йства"
+msgstr "_Свойства"
 
 #: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1190
 #: src/layout_image.c:727 src/layout_util.c:762 src/search.c:988
@@ -512,20 +490,20 @@ msgstr "_Копиране..."
 #: src/layout_image.c:729 src/layout_util.c:763 src/search.c:990
 #: src/view_file_icon.c:289 src/view_file_list.c:401
 msgid "_Move..."
-msgstr "_Местене..."
+msgstr "Пре_местване..."
 
 #: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1192
 #: src/layout_image.c:731 src/layout_util.c:764 src/search.c:992
 #: src/view_dir_list.c:415 src/view_dir_tree.c:505 src/view_file_icon.c:291
 #: src/view_file_list.c:403
 msgid "_Rename..."
-msgstr "_Преименуване..."
+msgstr "П_реименуване..."
 
 #: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1193
 #: src/layout_image.c:733 src/layout_util.c:765 src/search.c:994
 #: src/view_file_icon.c:293 src/view_file_list.c:405
 msgid "_Delete..."
-msgstr "_Изтриване..."
+msgstr "Изтриван_е..."
 
 #: src/collect-table.c:810 src/view_file_icon.c:309
 msgid "Show filename _text"
@@ -533,25 +511,23 @@ msgstr "Показване име на _файл"
 
 #: src/collect-table.c:813
 msgid "_Save collection"
-msgstr "Запазване на колек_цията"
+msgstr "Запазване на колек_ция"
 
 #: src/collect-table.c:815
 msgid "Save collection _as..."
-msgstr "Запазване на колекцията кат_о..."
+msgstr "Запазване на колекция кат_о..."
 
 #: src/collect-table.c:818 src/layout_util.c:759
 msgid "_Find duplicates..."
 msgstr "Откриване на _дубликати..."
 
 #: src/collect-table.c:820 src/dupe.c:2207 src/search.c:985
-#, fuzzy
 msgid "Print..."
-msgstr "/Файл/_Търсене..."
+msgstr "Печат..."
 
 #: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1347
-#, fuzzy
 msgid "Dropped list includes folders."
-msgstr "Пуснатият списък съдържа директории."
+msgstr "Пуснатият списък съдържа папки."
 
 #: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1349
 msgid "_Add contents"
@@ -562,9 +538,8 @@ msgid "Add contents _recursive"
 msgstr "_Рекурсивно добавяне на съдържанията им"
 
 #: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1351
-#, fuzzy
 msgid "_Skip folders"
-msgstr "_Пропускане на директориите"
+msgstr "_Пропускане на папки"
 
 #: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1353
 #: src/view_dir_list.c:222 src/view_dir_tree.c:314
@@ -623,11 +598,11 @@ msgstr "Добавяне към нова колекция"
 
 #: src/dupe.c:2221 src/dupe.c:2509 src/search.c:999
 msgid "C_lear"
-msgstr "_Изчистване"
+msgstr "Из_чистване"
 
 #: src/dupe.c:2224 src/dupe.c:2512
 msgid "Close _window"
-msgstr "_Затваряне на прозореца"
+msgstr "За_тваряне на прозореца"
 
 #: src/dupe.c:2382
 #, c-format
@@ -670,7 +645,7 @@ msgstr "Прилика (ниска)"
 
 #: src/dupe.c:2598
 msgid "Similarity (custom)"
-msgstr "Прилика (клиентска)"
+msgstr "Прилика (потребителска)"
 
 #: src/dupe.c:3080
 msgid "Find duplicates - GQview"
@@ -686,7 +661,7 @@ msgstr "Сравняване чрез:"
 
 #: src/dupe.c:3173 src/preferences.c:840 src/search.c:2770
 msgid "Thumbnails"
-msgstr "Умалени изображения"
+msgstr "Смалени изображения"
 
 #: src/dupe.c:3180
 msgid "Compare two file sets"
@@ -706,11 +681,11 @@ msgstr "Xpaint"
 
 #: src/editors.c:58
 msgid "Rotate jpeg clockwise"
-msgstr "Завъртане на JPEG по часовниковата стрелка"
+msgstr "завъртане на JPEG ↻"
 
 #: src/editors.c:59
 msgid "Rotate jpeg counterclockwise"
-msgstr "Завъртане на JPEG обратно на часовниковата стрелка"
+msgstr "завъртане на JPEG ↺"
 
 #: src/editors.c:104
 msgid "stopping..."
@@ -741,7 +716,7 @@ msgstr "спряно от потребител"
 #: src/exif.c:112 src/exif.c:125 src/exif.c:139 src/exif.c:164 src/exif.c:606
 #: src/exif.c:1452 src/exif.c:1455 src/exif.c:1520
 msgid "unknown"
-msgstr "неизвестно"
+msgstr "непознато"
 
 #: src/exif.c:113
 msgid "top left"
@@ -781,15 +756,15 @@ msgstr "инч"
 
 #: src/exif.c:128
 msgid "centimeter"
-msgstr "сантиметра"
+msgstr "сантиметър"
 
 #: src/exif.c:140
 msgid "average"
-msgstr "усреднено"
+msgstr "усредено"
 
 #: src/exif.c:141
 msgid "center weighted"
-msgstr "центрирано претеглено"
+msgstr "центрирано"
 
 #: src/exif.c:142
 msgid "spot"
@@ -821,7 +796,7 @@ msgstr "ръчна"
 
 #: src/exif.c:153
 msgid "normal"
-msgstr "обикновена"
+msgstr "нормална"
 
 #: src/exif.c:154
 msgid "aperture"
@@ -890,7 +865,7 @@ msgstr "Ориентация"
 
 #: src/exif.c:303
 msgid "Copyright"
-msgstr "Авторски права"
+msgstr "Авторско право"
 
 #: src/exif.c:308
 msgid "Exposure program"
@@ -959,7 +934,7 @@ msgstr "Разделителна способност"
 
 #: src/exif.c:1451
 msgid "infinity"
-msgstr "безкрайност"
+msgstr "∞"
 
 #: src/exif.c:1479
 msgid "mode:"
@@ -1003,7 +978,7 @@ msgstr "%d байта"
 #: src/filelist.c:517
 #, c-format
 msgid "%.1f K"
-msgstr "%.1f КБ"
+msgstr "%.1f K"
 
 #: src/filelist.c:521
 #, c-format
@@ -1020,34 +995,32 @@ msgid "GQview full screen"
 msgstr "GQview на цял екран"
 
 #: src/fullscreen.c:397
-#, fuzzy
 msgid "Full size"
-msgstr "Големина на файла:"
+msgstr "Пълна големина"
 
 #: src/fullscreen.c:402
 msgid "Monitor"
-msgstr ""
+msgstr "Монитор"
 
 #: src/fullscreen.c:407
 msgid "Screen"
-msgstr ""
+msgstr "Екран"
 
 #: src/fullscreen.c:644
-#, fuzzy
 msgid "Stay above other windows"
-msgstr "Вместване на изображението в прозореца"
+msgstr "Стоене над останалите прозорци"
 
 #: src/fullscreen.c:651
 msgid "Determined by Window Manager"
-msgstr ""
+msgstr "Определено от Мениджъра на прозорци"
 
 #: src/fullscreen.c:652
 msgid "Active screen"
-msgstr ""
+msgstr "Активен екран"
 
 #: src/fullscreen.c:654
 msgid "Active monitor"
-msgstr ""
+msgstr "Активен монитор"
 
 #: src/img-view.c:1173 src/layout_image.c:706 src/layout_util.c:791
 msgid "Zoom _in"
@@ -1055,7 +1028,7 @@ msgstr "_Увеличаване на мащаба"
 
 #: src/img-view.c:1174 src/layout_image.c:707 src/layout_util.c:792
 msgid "Zoom _out"
-msgstr "Н_амаляване на мащаба"
+msgstr "_Намаляване на мащаба"
 
 #: src/img-view.c:1175 src/layout_image.c:708 src/layout_util.c:793
 msgid "Zoom _1:1"
@@ -1063,7 +1036,7 @@ msgstr "Мащаб _1:1"
 
 #: src/img-view.c:1176 src/layout_image.c:709
 msgid "Fit image to _window"
-msgstr "Вместване на изображението в _прозореца"
+msgstr "Вместване на изображението в прозоре_ца"
 
 #: src/img-view.c:1181 src/layout_image.c:715 src/layout_util.c:789
 msgid "Set as _wallpaper"
@@ -1075,12 +1048,12 @@ msgstr "_Спиране на прожекция"
 
 #: src/img-view.c:1202 src/layout_image.c:743
 msgid "Continue slides_how"
-msgstr "_Продължаване на про_жекция"
+msgstr "Продължаване на про_жекция"
 
 #: src/img-view.c:1207 src/img-view.c:1215 src/layout_image.c:748
 #: src/layout_image.c:755
 msgid "Pause slides_how"
-msgstr "Пауза на про_жекция"
+msgstr "_Пауза на прожекция"
 
 #: src/img-view.c:1213 src/layout_image.c:754
 msgid "_Start slideshow"
@@ -1100,7 +1073,7 @@ msgstr "_Затваряне на прозореца"
 
 #: src/info.c:361
 msgid "File size:"
-msgstr "Големина на файла:"
+msgstr "Големина на файл:"
 
 #: src/info.c:363
 msgid "Dimensions:"
@@ -1108,24 +1081,23 @@ msgstr "Размери:"
 
 #: src/info.c:364
 msgid "Transparent:"
-msgstr "Прозиращ:"
+msgstr "Прозрачен:"
 
 #: src/info.c:365 src/print.c:3371
 msgid "Image size:"
-msgstr "Големина на изображението:"
+msgstr "Големина на изображение:"
 
 #: src/info.c:367
 msgid "Compress ratio:"
 msgstr "Съотношение на компресията:"
 
 #: src/info.c:368
-#, fuzzy
 msgid "File type:"
-msgstr "Дата на файла:"
+msgstr "Тип файл:"
 
 #: src/info.c:370
 msgid "Owner:"
-msgstr "Притежател:"
+msgstr "Собственик:"
 
 #: src/info.c:371
 msgid "Group:"
@@ -1133,7 +1105,7 @@ msgstr "Група:"
 
 #: src/info.c:374 src/preferences.c:821
 msgid "General"
-msgstr "Общи"
+msgstr "Основни"
 
 #: src/info.c:455
 #, c-format
@@ -1179,12 +1151,12 @@ msgstr "(няма право за четене) %s байта"
 #: src/layout.c:403
 #, c-format
 msgid "( ? x ? ) %s bytes"
-msgstr "( ? x ? ) %s байта"
+msgstr "( ? × ? ) %s байта"
 
 #: src/layout.c:408
 #, c-format
 msgid "( %d x %d ) %s bytes"
-msgstr "( %d x %d ) %s байта"
+msgstr "( %d × %d ) %s байта"
 
 #: src/layout.c:1104
 msgid "GQview Tools"
@@ -1208,7 +1180,7 @@ msgstr "(пренареждането се извършва чрез влаче�
 
 #: src/layout_image.c:770
 msgid "Hide file _list"
-msgstr "_Скриване на файлов списък"
+msgstr "Скриване на _файловия списък"
 
 #: src/layout_util.c:625 src/menu.c:74
 #, c-format
@@ -1220,14 +1192,12 @@ msgid "in (unknown)..."
 msgstr "в (непознат)..."
 
 #: src/layout_util.c:637
-#, fuzzy
 msgid "empty"
-msgstr "Празна"
+msgstr "празно"
 
 #: src/layout_util.c:748
-#, fuzzy
 msgid "_File"
-msgstr "/_Файл"
+msgstr "_Файл"
 
 #: src/layout_util.c:749 src/menu.c:91
 msgid "_Edit"
@@ -1238,62 +1208,52 @@ msgid "_Adjust"
 msgstr "На_гласяване"
 
 #: src/layout_util.c:752
-#, fuzzy
 msgid "_Help"
-msgstr "/_Помощ"
+msgstr "_Помощ"
 
 #: src/layout_util.c:754
-#, fuzzy
 msgid "New _window"
-msgstr "/Файл/Нов _прозорец"
+msgstr "Нов Прозоре_ц"
 
 #: src/layout_util.c:755
-#, fuzzy
 msgid "_New collection"
-msgstr "Запазване на колек_цията"
+msgstr "Нова колекци_я"
 
 #: src/layout_util.c:756
-#, fuzzy
 msgid "_Open collection..."
-msgstr "Отваряне на колекция"
+msgstr "_Отваряне на колекция..."
 
 #: src/layout_util.c:757
-#, fuzzy
 msgid "Open _recent"
-msgstr "/Файл/Отваряне на п_редишни"
+msgstr "Отваряне на преди_шни"
 
 #: src/layout_util.c:758
-#, fuzzy
 msgid "_Search..."
-msgstr "Претърсване..."
+msgstr "_Търсене..."
 
 #: src/layout_util.c:760
-#, fuzzy
 msgid "_Print..."
-msgstr "/Файл/_Търсене..."
+msgstr "_Печат..."
 
 #: src/layout_util.c:761
-#, fuzzy
 msgid "N_ew folder..."
 msgstr "_Нова папка..."
 
 #: src/layout_util.c:767
-#, fuzzy
 msgid "_Quit"
-msgstr "Качество"
+msgstr "_Изход"
 
 #: src/layout_util.c:779 src/menu.c:194
 msgid "_Rotate clockwise"
-msgstr "Завъртане _по часовниковата стрелка"
+msgstr "_Завъртане ↻"
 
 #: src/layout_util.c:780 src/menu.c:197
 msgid "Rotate _counterclockwise"
-msgstr "Завъртане _обратно на часовниковата стрелка"
+msgstr "Завъ_ртане ↺"
 
 #: src/layout_util.c:781
-#, fuzzy
 msgid "Rotate 1_80"
-msgstr "Завъртане на _180 градуса"
+msgstr "Завъртане·на·1_80°"
 
 #: src/layout_util.c:782 src/menu.c:203
 msgid "_Mirror"
@@ -1304,122 +1264,100 @@ msgid "_Flip"
 msgstr "О_бръщане"
 
 #: src/layout_util.c:785
-#, fuzzy
 msgid "Select _all"
-msgstr "Избор на всички"
+msgstr "_Маркиране на всичко"
 
 #: src/layout_util.c:786
-#, fuzzy
 msgid "Select _none"
-msgstr "Отказ от всички"
+msgstr "_Размаркиране на всичко"
 
 #: src/layout_util.c:787
-#, fuzzy
 msgid "P_references..."
-msgstr "Сво_йства..."
+msgstr "_Настройки..."
 
 #: src/layout_util.c:788
 msgid "_Thumbnail maintenance..."
-msgstr ""
+msgstr "_Поддръжка на смалени изображения..."
 
 #: src/layout_util.c:794
-#, fuzzy
 msgid "_Zoom to fit"
-msgstr "/Изглед/Увеличаване _до вместване"
+msgstr "_Мащабиране до побиране"
 
 #: src/layout_util.c:795
-#, fuzzy
 msgid "F_ull screen"
 msgstr "_Цял екран"
 
 #: src/layout_util.c:796
-#, fuzzy
 msgid "_Hide file list"
-msgstr "_Скриване на файлов списък"
+msgstr "Скриване на _файловия списък"
 
 #: src/layout_util.c:797
-#, fuzzy
 msgid "Toggle _slideshow"
-msgstr "_Спиране на прожекция"
+msgstr "Включване на _прожекция"
 
 #: src/layout_util.c:798
-#, fuzzy
 msgid "_Refresh"
-msgstr "_Опресняване"
+msgstr "Презаре_ждане"
 
 #: src/layout_util.c:800
-#, fuzzy
 msgid "_Contents"
-msgstr "/Помощ/_Относно"
+msgstr "_Съдържание"
 
 #: src/layout_util.c:801
-#, fuzzy
 msgid "_Keyboard shortcuts"
-msgstr "/Помощ/_Кратки клавиши"
+msgstr "Бързи _клавиши"
 
 #: src/layout_util.c:802
-#, fuzzy
 msgid "_Release notes"
-msgstr "/Помощ/_Бележки относно изданието"
+msgstr "_Бележки за изданието"
 
 #: src/layout_util.c:803
-#, fuzzy
 msgid "_About"
-msgstr "/Помощ/_Относно"
+msgstr "_Относно"
 
 #: src/layout_util.c:807
-#, fuzzy
 msgid "_Thumbnails"
-msgstr "Умалени изображения"
+msgstr "_Смалени изображения"
 
 #: src/layout_util.c:808
-#, fuzzy
 msgid "Tr_ee"
-msgstr "/Изглед/Д_ървовиден"
+msgstr "_Дървовиден"
 
 #: src/layout_util.c:809
-#, fuzzy
 msgid "_Float file list"
-msgstr "/Изглед/\"_Плаващ\" файлов списък"
+msgstr "_Отлепване файловия списък"
 
 #: src/layout_util.c:810
-#, fuzzy
 msgid "Hide tool_bar"
-msgstr "/Изглед/Скрита _лента с инструменти"
+msgstr "Скриване на _лентата с инструменти"
 
 #: src/layout_util.c:811
-#, fuzzy
 msgid "_Keywords"
-msgstr "Ключови думи"
+msgstr "Кл_ючови думи"
 
 #: src/layout_util.c:812
-#, fuzzy
 msgid "E_xif data"
-msgstr "/Изглед/Exif д_анни"
+msgstr "Exif д_анни"
 
 #: src/layout_util.c:813
-#, fuzzy
 msgid "Sort _manager"
-msgstr "Манипулатор за подреждане"
+msgstr "Манипулатор _за подреждане"
 
 #: src/layout_util.c:817
-#, fuzzy
 msgid "_List"
-msgstr "/Изглед/_Списък"
+msgstr "Списъ_к"
 
 #: src/layout_util.c:818
-#, fuzzy
 msgid "I_cons"
-msgstr "Икона:"
+msgstr "_Икони"
 
 #: src/layout_util.c:1083
 msgid "Show thumbnails"
-msgstr "Показване на умалени изображения"
+msgstr "Показване на смалени изображения"
 
 #: src/layout_util.c:1085
-#, fuzzy
 msgid "Change to home folder"
-msgstr "Преминаване в домашната директория"
+msgstr "Преминаване в домашната папка"
 
 #: src/layout_util.c:1087
 msgid "Refresh file list"
@@ -1427,11 +1365,11 @@ msgstr "Опресняване на файловия списък"
 
 #: src/layout_util.c:1089
 msgid "Zoom in"
-msgstr "Увеличаване на мащаба"
+msgstr "Увеличаване"
 
 #: src/layout_util.c:1091
 msgid "Zoom out"
-msgstr "Намаляване на мащаба"
+msgstr "Намаляване"
 
 #: src/layout_util.c:1093 src/preferences.c:910
 msgid "Fit image to window"
@@ -1459,103 +1397,92 @@ msgstr "Команден ред"
 
 #. short, long                  callback,               extra, prefer,description
 #: src/main.c:527
-#, fuzzy
 msgid "next image"
-msgstr "Презареждане на следващото изображение"
+msgstr "следващо изображение"
 
 #: src/main.c:528
 msgid "previous image"
-msgstr ""
+msgstr "предишно изображение"
 
 #: src/main.c:529
-#, fuzzy
 msgid "first image"
-msgstr "Отмяна за последното изображение"
+msgstr "първо изображение"
 
 #: src/main.c:530
-#, fuzzy
 msgid "last image"
-msgstr "Отмяна за последното изображение"
+msgstr "последно изображение"
 
 #: src/main.c:531
-#, fuzzy
 msgid "toggle full screen"
-msgstr "Излизане от _цял екран"
+msgstr "включване на цял екран"
 
 #: src/main.c:532
-#, fuzzy
 msgid "start full screen"
-msgstr "Излизане от _цял екран"
+msgstr "започване на цял екран"
 
 #: src/main.c:533
-#, fuzzy
 msgid "stop full screen"
-msgstr "Излизане от _цял екран"
+msgstr "спиране на цял екран"
 
 #: src/main.c:534
-#, fuzzy
 msgid "toggle slide show"
-msgstr "_Спиране на прожекция"
+msgstr "включване на прожекция"
 
 #: src/main.c:535
-#, fuzzy
 msgid "start slide show"
-msgstr "Започване на про_жекция"
+msgstr "започване на прожекция"
 
 #: src/main.c:536
-#, fuzzy
 msgid "stop slide show"
-msgstr "_Спиране на прожекция"
+msgstr "спиране на прожекция"
 
 #: src/main.c:537
-#, fuzzy
 msgid "start recursive slide show"
-msgstr "Започване на про_жекция"
+msgstr "започване на рекурсивна прожекция"
 
 #: src/main.c:538
 msgid "set slide show delay in seconds"
-msgstr ""
+msgstr "задаване на закъснение на прожекция в секунди"
 
 #: src/main.c:539
 msgid "show tools"
-msgstr ""
+msgstr "показване на инструменти"
 
 #: src/main.c:540
-#, fuzzy
 msgid "hide tools"
-msgstr "Инструменти на GQview"
+msgstr "скриване на инструменти"
 
 #: src/main.c:541
 msgid "quit"
-msgstr ""
+msgstr "напускане"
 
 #: src/main.c:542
-#, fuzzy
 msgid "open file"
-msgstr "Преименуване на файла:"
+msgstr "отваряне на файл"
 
 #: src/main.c:543
-#, fuzzy
 msgid "open file in new window"
-msgstr "Преглед в _нов прозорец"
+msgstr "отваряне на файл в нов прозорец"
 
 #: src/main.c:609
 msgid "Remote command list:\n"
-msgstr ""
+msgstr "Списък с дистанционни команди:\n"
 
 #: src/main.c:667
 msgid "Remote GQview not running, starting..."
-msgstr ""
+msgstr "Дистанционен GQview не работи, стартиране..."
 
 #: src/main.c:802
 msgid "Remote not available\n"
-msgstr ""
+msgstr "Дистанционният е недостъпен\n"
 
 #: src/main.c:944
 msgid ""
 "Usage: gqview [options] [path]\n"
 "\n"
-msgstr "Употреба: gqview [опции] [път]\n"
+msgstr ""
+"Употреба: gqview [опции] [път]\n"
+"\n"
 
 #: src/main.c:945
 msgid "valid options are:\n"
@@ -1584,19 +1511,20 @@ msgstr ""
 "ред\n"
 
 #: src/main.c:951
-#, fuzzy
 msgid "  -r, --remote               send following commands to open window\n"
 msgstr ""
-"  -l, --list                 отваряне на прозорец за колекции за командния "
-"ред\n"
+"  -r, --remote               изпращане на следните команди към отворен "
+"прозорец\n"
 
 #: src/main.c:952
 msgid "  -rh,--remote-help          print remote command list\n"
 msgstr ""
+"  -rh,--remote-help          показване на списъка дистанционни команди\n"
 
 #: src/main.c:953
 msgid "  --debug                    turn on debug output\n"
-msgstr "  --debug                    включване на изход за дебъг\n"
+msgstr ""
+"  --debug                    включване на изход за изчистване на грешки\n"
 
 #: src/main.c:954
 msgid "  -v, --version              print version info\n"
@@ -1617,7 +1545,7 @@ msgid ""
 "Use --help for options\n"
 msgstr ""
 "невалидно или пренебрегнато: %s\n"
-"Използвай --help за показване на опциите\n"
+"Използвайте --help за показване на опциите\n"
 
 #: src/main.c:1034
 #, c-format
@@ -1627,31 +1555,27 @@ msgstr "Създаване на директория на GQview:%s\n"
 #: src/main.c:1040
 #, c-format
 msgid "Could not create dir:%s\n"
-msgstr "Не може да бъде създадена директория:%s\n"
+msgstr "Не можа да бъде създадена директория:%s\n"
 
 #: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1043
 msgid "Home"
-msgstr "Домашна директория"
+msgstr "Домашна"
 
 #: src/main.c:1063 src/ui_bookmark.c:865
 msgid "Desktop"
-msgstr "Десктоп"
+msgstr "Работно пространство"
 
 #: src/main.c:1152
 msgid "GQview - exit"
 msgstr "GQview - изход"
 
 #: src/main.c:1156
-#, fuzzy
 msgid "Quit GQview"
-msgstr "Относно - GQview"
+msgstr "Напускане на GQview"
 
 #: src/main.c:1156
-#, fuzzy
 msgid "Collections have been modified. Quit anyway?"
-msgstr ""
-"Променяни са колекции.\n"
-"Изход все пак?"
+msgstr "Колекциите са променени. Излизане?"
 
 #: src/menu.c:115
 msgid "Sort by size"
@@ -1683,7 +1607,7 @@ msgstr "Подреждане"
 
 #: src/menu.c:200
 msgid "Rotate _180"
-msgstr "Завъртане на _180 градуса"
+msgstr "Завъртане на _180°"
 
 #: src/preferences.c:384
 msgid "Nearest (worst, but fastest)"
@@ -1691,11 +1615,11 @@ msgstr "Приблизително (най-лошото, но най-бързо)
 
 #: src/preferences.c:386
 msgid "Tiles"
-msgstr "Мозаично"
+msgstr "Плочки"
 
 #: src/preferences.c:388
 msgid "Bilinear"
-msgstr "Билинейно"
+msgstr "Би-линейно"
 
 #: src/preferences.c:390
 msgid "Hyper (best, but slowest)"
@@ -1703,7 +1627,7 @@ msgstr "Превъзходно (най-доброто, но най-бавно)"
 
 #: src/preferences.c:418
 msgid "None"
-msgstr "Няма"
+msgstr "Без"
 
 #: src/preferences.c:419
 msgid "Normal"
@@ -1714,13 +1638,12 @@ msgid "Best"
 msgstr "Най-добро"
 
 #: src/preferences.c:498 src/print.c:365
-#, fuzzy
 msgid "Custom"
-msgstr "автоматично"
+msgstr "Потребителско"
 
 #: src/preferences.c:662 src/preferences.c:665
 msgid "Reset filters"
-msgstr "Установяване на филтрите"
+msgstr "Установяване на филтрите по подразбиране"
 
 #: src/preferences.c:666
 msgid ""
@@ -1728,11 +1651,11 @@ msgid ""
 "Continue?"
 msgstr ""
 "Това ще установи настройките на филтрите по подразбиране.\n"
-"Продължение?"
+"Продължаване?"
 
 #: src/preferences.c:699 src/preferences.c:702
 msgid "Reset editors"
-msgstr "Установяване на редакторите"
+msgstr "Установяване на редакторите по подразбиране"
 
 #: src/preferences.c:703
 msgid ""
@@ -1740,7 +1663,7 @@ msgid ""
 "Continue?"
 msgstr ""
 "Това ще установи командите за редакторите по подразбиране.\n"
-"Продължение?"
+"Продължаване?"
 
 #: src/preferences.c:727 src/preferences.c:730
 msgid "Clear trash"
@@ -1751,19 +1674,16 @@ msgid "This will remove the trash contents."
 msgstr "Това ще премахне съдържанието на боклука."
 
 #: src/preferences.c:770
-#, fuzzy
 msgid "GQview Preferences"
-msgstr "GQview - преименуване"
+msgstr "GQview настройки"
 
 #: src/preferences.c:824
-#, fuzzy
 msgid "Startup"
-msgstr "Начален номер"
+msgstr "Стартиране"
 
 #: src/preferences.c:826
-#, fuzzy
 msgid "Change to folder:"
-msgstr "Преминаване в домашната директория"
+msgstr "Преминаване в директорията:"
 
 #: src/preferences.c:837
 msgid "Use current"
@@ -1779,33 +1699,32 @@ msgstr "Качество:"
 
 #: src/preferences.c:846
 msgid "Cache thumbnails"
-msgstr "Кеширане на умалени изображения"
+msgstr "Кеширане на смалени изображения"
 
 #: src/preferences.c:852
 msgid "Use shared thumbnail cache"
-msgstr ""
+msgstr "Използване на споделен кеш за смалени изображения"
 
 #: src/preferences.c:858
 msgid "Cache thumbnails into .thumbnails"
-msgstr "Кеширане на умалени изображения в .thumbnails"
+msgstr "Кеширане на смалени изображения в .thumbnails"
 
 #: src/preferences.c:861
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr ""
-"Използване на xvpics умалени изображения когато бъдат открити (само четене)"
+"Използване на xvpics смалени изображения когато бъдат открити (само четене)"
 
 #: src/preferences.c:864
 msgid "Slide show"
 msgstr "Прожекция"
 
 #: src/preferences.c:867
-#, fuzzy
 msgid "Delay between image change:"
-msgstr "Задържане до смяна на изображението (секунди):"
+msgstr "Закъснение между смените на изображения:"
 
 #: src/preferences.c:867
 msgid "seconds"
-msgstr ""
+msgstr "секунди"
 
 #: src/preferences.c:873
 msgid "Random"
@@ -1813,12 +1732,11 @@ msgstr "Произволно"
 
 #: src/preferences.c:874
 msgid "Repeat"
-msgstr "С повторение"
+msgstr "Повтаряне"
 
 #: src/preferences.c:884
-#, fuzzy
 msgid "Zoom"
-msgstr "Увеличаване на мащаба"
+msgstr "Мащаб"
 
 #: src/preferences.c:887
 msgid "Dithering method:"
@@ -1849,18 +1767,16 @@ msgid "Leave Zoom at previous setting"
 msgstr "Да се запази мащаба от предишната настройка"
 
 #: src/preferences.c:917
-#, fuzzy
 msgid "Appearance"
-msgstr "Прибавяне"
+msgstr "Външен вид"
 
 #: src/preferences.c:919
 msgid "Black background"
 msgstr "Черен фон"
 
 #: src/preferences.c:922
-#, fuzzy
 msgid "Convenience"
-msgstr "Продължение"
+msgstr "Удобство"
 
 #: src/preferences.c:924
 msgid "Refresh on file change"
@@ -1879,17 +1795,16 @@ msgid "Windows"
 msgstr "Прозорци"
 
 #: src/preferences.c:940
-#, fuzzy
 msgid "State"
-msgstr "Начален номер"
+msgstr "Състояние"
 
 #: src/preferences.c:942
 msgid "Remember window positions"
-msgstr "Помнене на положението на прозорците"
+msgstr "Запаметяване на положението на прозорците"
 
 #: src/preferences.c:944
 msgid "Remember tool state (float/hidden)"
-msgstr "Помнене на състоянието на инструментите (отделени/залепени)"
+msgstr "Запаметяване на състоянието на инструментите (отделени/залепени)"
 
 #: src/preferences.c:949
 msgid "Fit window to image when tools are hidden/floating"
@@ -1903,7 +1818,7 @@ msgstr "Ограничение на размера при автоматично
 
 #: src/preferences.c:960 src/print.c:3356 src/print.c:3363
 msgid "Layout"
-msgstr "Разположение"
+msgstr "Подредба"
 
 #: src/preferences.c:973
 msgid "Filtering"
@@ -1915,16 +1830,15 @@ msgstr "Показване на елементи които започват с 
 
 #: src/preferences.c:980
 msgid "Case sensitive sort"
-msgstr "Сортиране с чувствителност към регистъра"
+msgstr "Подреждане с чувствителност към регистъра"
 
 #: src/preferences.c:983
 msgid "Disable File Filtering"
 msgstr "Забрана за филтриране на файлове"
 
 #: src/preferences.c:986
-#, fuzzy
 msgid "File types"
-msgstr "Дата на файла:"
+msgstr "Типове файлове"
 
 #: src/preferences.c:1008
 msgid "Filter"
@@ -1932,7 +1846,7 @@ msgstr "Филтър"
 
 #: src/preferences.c:1045 src/preferences.c:1109
 msgid "Defaults"
-msgstr "По подразбиране"
+msgstr "Стандартни"
 
 #: src/preferences.c:1066
 msgid "Editors"
@@ -1948,21 +1862,19 @@ msgstr "Име на меню"
 
 #: src/preferences.c:1125
 msgid "Advanced"
-msgstr "За напреднали"
+msgstr "Допълнителни"
 
 #: src/preferences.c:1138
-#, fuzzy
 msgid "Full screen"
-msgstr "_Цял екран"
+msgstr "Цял екран"
 
 #: src/preferences.c:1146
-#, fuzzy
 msgid "Smooth image flip"
-msgstr "Големина на изображението:"
+msgstr "Плавно обръщане на изображения"
 
 #: src/preferences.c:1148
 msgid "Disable screen saver"
-msgstr ""
+msgstr "Забрана на екранния предпазител"
 
 #: src/preferences.c:1151
 msgid "Delete"
@@ -1970,7 +1882,7 @@ msgstr "Изтриване"
 
 #: src/preferences.c:1153
 msgid "Confirm file delete"
-msgstr "Подтвърждаване за изтриване на файл"
+msgstr "Потвърждаване за изтриване на файл"
 
 #: src/preferences.c:1155
 msgid "Enable Delete key"
@@ -1981,13 +1893,12 @@ msgid "Safe delete"
 msgstr "Безопасно изтриване"
 
 #: src/preferences.c:1176
-#, fuzzy
 msgid "Maximum size:"
-msgstr "Максимална големина (МБ)"
+msgstr "Максимална големина:"
 
 #: src/preferences.c:1176
 msgid "MB"
-msgstr ""
+msgstr "МБ"
 
 #: src/preferences.c:1179
 msgid "View"
@@ -1995,25 +1906,23 @@ msgstr "Преглед"
 
 #: src/preferences.c:1189
 msgid "Behavior"
-msgstr ""
+msgstr "Поведение"
 
 #: src/preferences.c:1191
-#, fuzzy
 msgid "Rectangular selection in icon view"
-msgstr "Правоъгълен избор"
+msgstr "Правоъгълно избиране в иконния преглед"
 
 #: src/preferences.c:1194
 msgid "Descend folders in tree view"
-msgstr "Спускане в папките в дървовидния изглед"
+msgstr "Спускане в папките в дървовидния преглед"
 
 #: src/preferences.c:1197
 msgid "In place renaming"
 msgstr "Преименуване на място"
 
 #: src/preferences.c:1200
-#, fuzzy
 msgid "Navigation"
-msgstr "действие"
+msgstr "Навигация"
 
 #: src/preferences.c:1202
 msgid "Progressive keyboard scrolling"
@@ -2025,19 +1934,19 @@ msgstr "Колелото на мишката плъзга изображение
 
 #: src/preferences.c:1207
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Други"
 
 #: src/preferences.c:1209
 msgid "Store keywords and comments local to source images"
-msgstr ""
+msgstr "Запазване на ключовите думи и коментарите при оригиналните изображения"
 
 #: src/preferences.c:1212
 msgid "Custom similarity threshold:"
-msgstr "Клиентски праг на приликата:"
+msgstr "Потребителски праг на прилика:"
 
 #: src/preferences.c:1215
 msgid "Offscreen cache size (Mb per image):"
-msgstr "Размер на извънекранния кеш (МБ за изображение):"
+msgstr "Размер на извън-екранния кеш (МБ за изображение):"
 
 #: src/preferences.c:1291
 msgid "About - GQview"
@@ -2056,7 +1965,7 @@ msgid ""
 msgstr ""
 "GQview %s\n"
 "\n"
-"Авторски права (c) %s John Ellis\n"
+"Авторски права © %s John Ellis\n"
 "уеб-страница: %s\n"
 "електронна поща: %s\n"
 "\n"
@@ -2067,99 +1976,90 @@ msgid "Credits..."
 msgstr "Заслуги..."
 
 #: src/print.c:111
-#, fuzzy
 msgid "Selection"
-msgstr "Отказ от всички"
+msgstr "Избор"
 
 #: src/print.c:112
 msgid "All"
-msgstr ""
+msgstr "Всички"
 
 #: src/print.c:123
 msgid "One image per page"
-msgstr ""
+msgstr "Едно изображение на страница"
 
 #: src/print.c:124
 msgid "Proof sheet"
-msgstr ""
+msgstr "Коректура"
 
 #: src/print.c:137
-#, fuzzy
 msgid "Default printer"
-msgstr "По подразбиране"
+msgstr "Стандартен принтер"
 
 #: src/print.c:138
 msgid "Custom printer"
-msgstr ""
+msgstr "Потребителски принтер"
 
 #: src/print.c:139
 msgid "PostScript file"
-msgstr ""
+msgstr "PostScript файл"
 
 #: src/print.c:140
-#, fuzzy
 msgid "Image file"
-msgstr "Големина на изображението:"
+msgstr "Графичен файл"
 
 #: src/print.c:154
 msgid "jpeg, low quality"
-msgstr ""
+msgstr "jpeg, ниско качество"
 
 #: src/print.c:155
 msgid "jpeg, normal quality"
-msgstr ""
+msgstr "jpeg, обикновено качество"
 
 #: src/print.c:156
 msgid "jpeg, high quality"
-msgstr ""
+msgstr "jpeg, високо качество"
 
 #: src/print.c:350 src/print.c:3201
-#, fuzzy
 msgid "points"
-msgstr "Xpaint"
+msgstr "точки"
 
 #: src/print.c:351
 msgid "millimeters"
-msgstr ""
+msgstr "милиметра"
 
 #: src/print.c:352
-#, fuzzy
 msgid "centimeters"
 msgstr "сантиметра"
 
 #: src/print.c:353
-#, fuzzy
 msgid "inches"
-msgstr "инч"
+msgstr "инча"
 
 #: src/print.c:354
 msgid "picas"
-msgstr ""
+msgstr "пики"
 
 #: src/print.c:359
-#, fuzzy
 msgid "Portrait"
-msgstr "портретна"
+msgstr "Портрет"
 
 #: src/print.c:360
-#, fuzzy
 msgid "Landscape"
-msgstr "пейзажна"
+msgstr "Пейзаж"
 
 #: src/print.c:366
-#, fuzzy
 msgid "Letter"
-msgstr "сантиметра"
+msgstr "Писмо"
 
 #. in 8.5 x 11
 #: src/print.c:367
 msgid "Legal"
-msgstr ""
+msgstr "Юридическо"
 
 #. in 8.5 x 14
 #: src/print.c:368
 msgid "Executive"
-msgstr ""
+msgstr "Изпълнително"
 
 #. in 7.25x 10.5
 #. mm 841 x 1189
@@ -2175,52 +2075,52 @@ msgstr ""
 #. mm 125 x 176
 #: src/print.c:380
 msgid "Envelope #10"
-msgstr ""
+msgstr "Плик #10"
 
 #. in 4.125 x 9.5
 #: src/print.c:381
 msgid "Envelope #9"
-msgstr ""
+msgstr "Плик #9"
 
 #. in 3.875 x 8.875
 #: src/print.c:382
 msgid "Envelope C4"
-msgstr ""
+msgstr "Плик C4"
 
 #. mm 229 x 324
 #: src/print.c:383
 msgid "Envelope C5"
-msgstr ""
+msgstr "Плик C5"
 
 #. mm 162 x 229
 #: src/print.c:384
 msgid "Envelope C6"
-msgstr ""
+msgstr "Плик C6"
 
 #. mm 114 x 162
 #: src/print.c:385
 msgid "Photo 6x4"
-msgstr ""
+msgstr "Снимка 6x4"
 
 #. in 6   x 4
 #: src/print.c:386
 msgid "Photo 8x10"
-msgstr ""
+msgstr "Снимка 8×10"
 
 #. in 8   x 10
 #: src/print.c:387
 msgid "Postcard"
-msgstr ""
+msgstr "Пощенска карта"
 
 #. mm 100 x 148
 #: src/print.c:388
 msgid "Tabloid"
-msgstr ""
+msgstr "Таблоид"
 
 #: src/print.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "page %d of %d"
-msgstr "Изображение %d от %d"
+msgstr "страница %d от %d"
 
 #: src/print.c:736 src/utilops.c:2067
 msgid "Preview"
@@ -2232,6 +2132,8 @@ msgid ""
 "Unable to open pipe for writing.\n"
 "\"%s\""
 msgstr ""
+"Не може да се отвори програмен канал за запис.\n"
+"\"%s\""
 
 #: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:424
 #: src/view_file_list.c:453
@@ -2242,149 +2144,131 @@ msgstr "Вече съществува файл с име %s."
 #: src/print.c:1074 src/print.c:1543
 #, c-format
 msgid "Failure writing to file %s"
-msgstr ""
+msgstr "Неуспешно записване на файла %s"
 
 #: src/print.c:1128 src/print.c:1165 src/print.c:1201 src/print.c:1307
 #: src/print.c:1398 src/print.c:1429
 msgid "SIGPIPE error writing to printer."
-msgstr ""
+msgstr "SIGPIPE грешка при запис към принтера."
 
 #: src/print.c:1964
 #, c-format
 msgid "Page %d"
-msgstr ""
+msgstr "Страница %d"
 
 #: src/print.c:1986 src/print.c:1991
-#, fuzzy
 msgid "Printing error"
-msgstr "Филтър"
+msgstr "Грешка при печатане"
 
 #: src/print.c:1990
 #, c-format
 msgid "An error occured printing to %s."
-msgstr ""
+msgstr "Възникна грешка при печатане с %s."
 
 #: src/print.c:1994
 msgid "Details"
 msgstr "Подробности"
 
 #: src/print.c:2587 src/print.c:3332
-#, fuzzy
 msgid "Print - GQview"
-msgstr "Относно - GQview"
+msgstr "Печат - GQview"
 
 #: src/print.c:2591
 #, c-format
 msgid "Printing %d pages to %s."
-msgstr ""
+msgstr "Разпечатване на %d страници с %s."
 
 #: src/print.c:2691
-#, fuzzy
 msgid "Format:"
-msgstr "Формат"
+msgstr "Формат:"
 
 #: src/print.c:2766
 msgid "Units:"
-msgstr ""
+msgstr "Единици:"
 
 #: src/print.c:2810
-#, fuzzy
 msgid "Orientation:"
-msgstr "Ориентация"
+msgstr "Ориентация:"
 
 #: src/print.c:2942
-#, fuzzy
 msgid "Destination:"
-msgstr "Описание"
+msgstr "Назначение:"
 
 #: src/print.c:2990
-#, fuzzy
 msgid "<printer name>"
-msgstr "Файлове"
+msgstr "<име на принтер>"
 
 #: src/print.c:3079
-#, fuzzy
 msgid "Unlimited"
-msgstr "Неозаглавена"
+msgstr "Неограничен"
 
 #: src/print.c:3188
 msgid "Show"
-msgstr ""
+msgstr "Показване"
 
 #: src/print.c:3199
-#, fuzzy
 msgid "Font"
-msgstr "включено"
+msgstr "Шрифт"
 
 #: src/print.c:3359
-#, fuzzy
 msgid "Source"
-msgstr "Подреждане"
+msgstr "Източник"
 
 #: src/print.c:3375
-#, fuzzy
 msgid "Proof size:"
-msgstr "Големина на изображението:"
+msgstr "Корекция на размера:"
 
 #: src/print.c:3391
 msgid "Text"
-msgstr ""
+msgstr "Текст"
 
 #: src/print.c:3401
-#, fuzzy
 msgid "Paper"
-msgstr "бленда"
+msgstr "Хартия"
 
 #: src/print.c:3424
 msgid "Margins"
-msgstr ""
+msgstr "Граници"
 
 #: src/print.c:3426
 msgid "Left:"
-msgstr ""
+msgstr "Ляво:"
 
 #: src/print.c:3429
-#, fuzzy
 msgid "Right:"
-msgstr "Височина"
+msgstr "Дясно:"
 
 #: src/print.c:3432
-#, fuzzy
 msgid "Top:"
-msgstr "Група:"
+msgstr "Горе:"
 
 #: src/print.c:3435
-#, fuzzy
 msgid "Bottom:"
-msgstr "на:"
+msgstr "Долу:"
 
 #: src/print.c:3444
-#, fuzzy
 msgid "Printer"
-msgstr "Филтър"
+msgstr "Принтер"
 
 #: src/print.c:3450
 msgid "Custom printer:"
-msgstr ""
+msgstr "Потребителски принтер:"
 
 #: src/print.c:3459
-#, fuzzy
 msgid "File:"
-msgstr "Филтър:"
+msgstr "Файл:"
 
 #: src/print.c:3468
-#, fuzzy
 msgid "File format:"
-msgstr "Дата на файла:"
+msgstr "Формат на файл:"
 
 #: src/print.c:3473
 msgid "DPI:"
-msgstr ""
+msgstr "DPI:"
 
 #: src/print.c:3481
-#, fuzzy
 msgid "Remember print settings"
-msgstr "Помнене на положението на прозорците"
+msgstr "Запаметяване на настройките на принтера"
 
 #: src/rcfile.c:185
 #, c-format
@@ -2392,9 +2276,8 @@ msgid "error saving config file: %s\n"
 msgstr "грешка при запазване на конфигурационен файл: %s\n"
 
 #: src/search.c:200
-#, fuzzy
 msgid "folder"
-msgstr "Папка:"
+msgstr "папката"
 
 #: src/search.c:201
 msgid "comments"
@@ -2406,11 +2289,11 @@ msgstr "резултатите"
 
 #: src/search.c:206
 msgid "contains"
-msgstr "чиито имена съдържат"
+msgstr "които съдържат"
 
 #: src/search.c:207
 msgid "is"
-msgstr "с име"
+msgstr "които са"
 
 #: src/search.c:211 src/search.c:218
 msgid "equal to"
@@ -2460,7 +2343,7 @@ msgstr "%s, %d файла"
 
 #: src/search.c:301
 msgid "Searching..."
-msgstr "Претърсване..."
+msgstr "Търсене..."
 
 #: src/search.c:2093
 msgid "File not found"
@@ -2468,7 +2351,7 @@ msgstr "Файлът не е открит"
 
 #: src/search.c:2094
 msgid "Please enter an existing file for image content."
-msgstr "Моля въведи съществуващ файл за съдържание на изображението."
+msgstr "Моля въведете съществуващ файл за съдържание на изображението."
 
 #: src/search.c:2140
 msgid "Folder not found"
@@ -2476,24 +2359,23 @@ msgstr "Папката не е открита"
 
 #: src/search.c:2141
 msgid "Please enter an existing folder to search."
-msgstr "Моля въведи съществуваща папка за претърсване."
+msgstr "Моля въведете съществуваща папка за претърсване."
 
 #: src/search.c:2570
 msgid "Image search - GQview"
 msgstr "Търсене на изображения - GQview"
 
 #: src/search.c:2599
-#, fuzzy
 msgid "Search:"
-msgstr "Претърсване на"
+msgstr "Търсене в:"
 
 #: src/search.c:2613
 msgid "Recurse"
-msgstr "рекурсивно"
+msgstr "Рекурсивно"
 
 #: src/search.c:2617
 msgid "File name"
-msgstr "Файлове"
+msgstr "Имена на файлове"
 
 #: src/search.c:2623
 msgid "Match case"
@@ -2501,7 +2383,7 @@ msgstr "отчитайки регистъра"
 
 #: src/search.c:2627
 msgid "File size is"
-msgstr "Файлове с големини"
+msgstr "Големини на файлове"
 
 #: src/search.c:2634 src/search.c:2649 src/search.c:2667
 msgid "and"
@@ -2509,7 +2391,7 @@ msgstr "и"
 
 #: src/search.c:2639
 msgid "File date is"
-msgstr "Файлове с дати"
+msgstr "Дати на файлове"
 
 #: src/search.c:2656
 msgid "Image dimensions are"
@@ -2520,9 +2402,9 @@ msgid "Image content is"
 msgstr "Изображения със съдържание"
 
 #: src/search.c:2682
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% similar to"
-msgstr "подобно на"
+msgstr "% подобно на"
 
 #: src/search.c:2751
 msgid "Rank"
@@ -2531,7 +2413,7 @@ msgstr "Класиране"
 #: src/thumb.c:378
 msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
 msgstr ""
-"Неуспешно зареждане на умалено изображение от кеша, опит за пресъздаване.\n"
+"Неуспешно зареждане на смалено изображение от кеша, опит за пресъздаване.\n"
 
 #: src/ui_bookmark.c:148
 #, c-format
@@ -2555,13 +2437,12 @@ msgid "Icon:"
 msgstr "Икона:"
 
 #: src/ui_bookmark.c:627
-#, fuzzy
 msgid "Select icon"
-msgstr "Отказ от всички"
+msgstr "Избор на икона"
 
 #: src/ui_bookmark.c:718
 msgid "_Properties..."
-msgstr "Сво_йства..."
+msgstr "_Свойства..."
 
 #: src/ui_bookmark.c:720
 msgid "Move _up"
@@ -2573,7 +2454,7 @@ msgstr "_Спускане"
 
 #: src/ui_bookmark.c:724
 msgid "_Remove"
-msgstr "_Махане"
+msgstr "_Премахване"
 
 #: src/ui_help.c:111
 #, c-format
@@ -2618,7 +2499,7 @@ msgstr ""
 #: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2035
 #: src/utilops.c:2255
 msgid "_Rename"
-msgstr "_Преименуване"
+msgstr "П_реименуване"
 
 #: src/ui_pathsel.c:628 src/ui_pathsel.c:638
 msgid "Add _Bookmark"
@@ -2629,25 +2510,23 @@ msgid "_Delete"
 msgstr "_Изтриване"
 
 #: src/ui_pathsel.c:740 src/ui_pathsel.c:1045
-#, fuzzy
 msgid "New folder"
-msgstr "_Нова папка..."
+msgstr "Нова папка"
 
 #: src/ui_pathsel.c:750 src/utilops.c:2325 src/view_dir_list.c:338
 #: src/view_dir_tree.c:434
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to create folder:\n"
 "%s"
 msgstr ""
-"Невъзможно е да бъде създадена директорията:\n"
+"Невъзможно е да бъде създадена папката:\n"
 "%s"
 
 #: src/ui_pathsel.c:751 src/utilops.c:2326 src/view_dir_list.c:339
 #: src/view_dir_tree.c:435
-#, fuzzy
 msgid "Error creating folder"
-msgstr "Грешка при създаването на директория"
+msgstr "Грешка при създаването на папка"
 
 #: src/ui_pathsel.c:972
 msgid "All Files"
@@ -2662,12 +2541,10 @@ msgid "Filter:"
 msgstr "Филтър:"
 
 #: src/ui_tabcomp.c:840
-#, fuzzy
 msgid "Select path"
-msgstr "Избор на всички"
+msgstr "Избор на път"
 
 #: src/ui_tabcomp.c:856
-#, fuzzy
 msgid "All files"
 msgstr "Всички файлове"
 
@@ -2676,38 +2553,32 @@ msgid "Overwrite file"
 msgstr "Презаписване на файла"
 
 #: src/utilops.c:475 src/utilops.c:788 src/utilops.c:1645 src/utilops.c:2192
-#, fuzzy
 msgid "Overwrite file?"
-msgstr "Презаписване на файла"
+msgstr "Презаписване на файла?"
 
 #: src/utilops.c:476 src/utilops.c:789
 msgid "Replace existing file with new file."
-msgstr ""
+msgstr "Заменяне на съществуващия файл с новия файл."
 
 #: src/utilops.c:480
-#, fuzzy
 msgid "Overwrite _all"
-msgstr "Презаписване на файла"
+msgstr "Презаписване на _всички"
 
 #: src/utilops.c:482
-#, fuzzy
 msgid "S_kip all"
-msgstr "Пропускане на всички"
+msgstr "Пропускане на _всички"
 
 #: src/utilops.c:483
-#, fuzzy
 msgid "_Skip"
-msgstr "Пропускане"
+msgstr "_Пропускане"
 
 #: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
-#, fuzzy
 msgid "Existing file"
-msgstr "Грешка при местене на файл"
+msgstr "Съществуващ файл"
 
 #: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
-#, fuzzy
 msgid "New file"
-msgstr "_Нова папка..."
+msgstr "Нов файл"
 
 #: src/utilops.c:494 src/utilops.c:802 src/utilops.c:1746 src/utilops.c:1810
 #: src/utilops.c:2101
@@ -2749,9 +2620,8 @@ msgstr ""
 "върху себе си."
 
 #: src/utilops.c:557 src/utilops.c:644 src/utilops.c:1280
-#, fuzzy
 msgid "Co_ntinue"
-msgstr "Продължение"
+msgstr "Продъл_жаване"
 
 #: src/utilops.c:630 src/utilops.c:850
 msgid "Error copying file"
@@ -2770,7 +2640,7 @@ msgstr ""
 "%s\n"
 "в:\n"
 "%s\n"
-"по време на копиране на група файлове."
+"по време на копиране на множество файлове."
 
 #: src/utilops.c:635 src/utilops.c:855
 msgid "Error moving file"
@@ -2787,9 +2657,9 @@ msgid ""
 msgstr ""
 "Невъзможно е да бъде преместен файлът:\n"
 "%s\n"
-"to:\n"
+"в:\n"
 "%s\n"
-"по време на местене на група файлове."
+"по време на преместване на множество файлове."
 
 #: src/utilops.c:774
 msgid "Source matches destination"
@@ -2830,66 +2700,56 @@ msgid "Invalid destination"
 msgstr "Невалидна цел"
 
 #: src/utilops.c:900
-#, fuzzy
 msgid ""
 "When operating with multiple files, please select\n"
 "a folder, not a file."
 msgstr ""
-"При действие с група файлове избирай\n"
-"директория, а не файл, моля."
+"При действие с множество файлове избирайте\n"
+"папка, а не файл."
 
 #: src/utilops.c:905
-#, fuzzy
 msgid "Please select an existing folder."
-msgstr "Моля избери съществуваща директория"
+msgstr "Моля изберете съществуваща папка."
 
 #: src/utilops.c:956
-#, fuzzy
 msgid "Copy - GQview"
-msgstr "Помощ - GQview"
+msgstr "Копиране - GQview"
 
 #: src/utilops.c:957 src/view_dir_list.c:217 src/view_dir_tree.c:309
 msgid "_Copy"
 msgstr "_Копиране"
 
 #: src/utilops.c:960
-#, fuzzy
 msgid "Copy file"
-msgstr "Преименуване на файла:"
+msgstr "Копиране на файл"
 
 #: src/utilops.c:964
-#, fuzzy
 msgid "Copy multiple files"
-msgstr "Копиране на група файлове в:"
+msgstr "Копиране на множество файлове"
 
 #: src/utilops.c:970
-#, fuzzy
 msgid "Move - GQview"
-msgstr "Помощ - GQview"
+msgstr "Преместване - GQview"
 
 #: src/utilops.c:971 src/view_dir_list.c:219 src/view_dir_tree.c:311
 msgid "_Move"
-msgstr "_Местене"
+msgstr "_Преместване"
 
 #: src/utilops.c:974
-#, fuzzy
 msgid "Move file"
-msgstr "Преименуване на файла:"
+msgstr "Преместване на файл"
 
 #: src/utilops.c:978
-#, fuzzy
 msgid "Move multiple files"
-msgstr "Местене на група файлове към:"
+msgstr "Преместване на множество файлове"
 
 #: src/utilops.c:992 src/utilops.c:1502
-#, fuzzy
 msgid "File name:"
-msgstr "Файлове"
+msgstr "Име на файл:"
 
 #: src/utilops.c:996
-#, fuzzy
 msgid "Choose the destination folder."
-msgstr "Източникът съвпада с целта"
+msgstr "Избор на папка-цел."
 
 #: src/utilops.c:1123 src/utilops.c:1272 src/utilops.c:1289
 msgid "Delete failed"
@@ -2897,16 +2757,15 @@ msgstr "Неуспешно изтриване"
 
 #: src/utilops.c:1124
 msgid "Unable to remove old file from trash folder"
-msgstr "Невъзможно е да бъде премахнат стар файл от директорията за боклук"
+msgstr "Невъзможно е да бъде премахнат стар файл от папката за боклук"
 
 #: src/utilops.c:1180 src/utilops.c:2318
-#, fuzzy
 msgid "Could not create folder"
-msgstr "Не може да бъде създадена директория"
+msgstr "Не може да бъде създадена папка"
 
 #: src/utilops.c:1202
 msgid "Permission denied"
-msgstr "Отказано право"
+msgstr "Достъпът е отказан"
 
 #: src/utilops.c:1212
 #, c-format
@@ -2914,7 +2773,7 @@ msgid ""
 "Unable to access or create the trash folder.\n"
 "\"%s\""
 msgstr ""
-"Невъзможен е достъпът или създаването на директория за боклук.\n"
+"Невъзможен е достъпът или създаването на папка за боклук.\n"
 "\"%s\""
 
 #: src/utilops.c:1216
@@ -2935,7 +2794,7 @@ msgid ""
 msgstr ""
 "Невъзможно е да бъде изтрит файлът:\n"
 " %s\n"
-" Продължение на изтриването на групата файлове?"
+" Продължаване на изтриването на множеството файлове?"
 
 #: src/utilops.c:1347
 #, c-format
@@ -2943,14 +2802,12 @@ msgid "File %d of %d"
 msgstr "Файл %d от %d"
 
 #: src/utilops.c:1416
-#, fuzzy
 msgid "Delete files - GQview"
-msgstr "Изтриване на файлове"
+msgstr "Изтриване на файлове - GQview"
 
 #: src/utilops.c:1420
-#, fuzzy
 msgid "Delete multiple files"
-msgstr "Преименуване на група файлове:"
+msgstr "Изтриване на множество файлове"
 
 #: src/utilops.c:1438
 #, c-format
@@ -2958,18 +2815,16 @@ msgid "Review %d files"
 msgstr "Преглед на %d файла"
 
 #: src/utilops.c:1494
-#, fuzzy
 msgid "Delete file - GQview"
-msgstr "Изтриване на файл"
+msgstr "Изтриване на файл - GQview"
 
 #: src/utilops.c:1498
-#, fuzzy
 msgid "Delete file?"
-msgstr "Изтриване на файл"
+msgstr "Изтриване?"
 
 #: src/utilops.c:1646 src/utilops.c:2193
 msgid "Replace existing file by renaming new file."
-msgstr ""
+msgstr "Замяна на съществуващ файл с ново-именуван файл."
 
 #: src/utilops.c:1661
 #, c-format
@@ -2995,9 +2850,9 @@ msgid ""
 "number set, one or more files exist that\n"
 "match the resulting name list.\n"
 msgstr ""
-"Не е възможно автоматично преименуване с ибрания \n"
+"Не е възможно автоматично преименуване с избрания \n"
 "набор числа, имената на един или повече файла съществуват \n"
-"така, че съвпадат с новополучения списък.\n"
+"така, че съвпадат с ново-получения списък.\n"
 
 #: src/utilops.c:1809
 #, c-format
@@ -3008,31 +2863,27 @@ msgid ""
 msgstr ""
 "Неуспешно преименуване на\n"
 "%s\n"
-"Числото бе %d."
+"Номерът беше %d."
 
 #: src/utilops.c:2031 src/utilops.c:2249
-#, fuzzy
 msgid "Rename - GQview"
-msgstr "Помощ - GQview"
+msgstr "Преименуване - GQview"
 
 #: src/utilops.c:2034
-#, fuzzy
 msgid "Rename multiple files"
-msgstr "Преименуване на група файлове:"
+msgstr "Преименуване на множество файлове"
 
 #: src/utilops.c:2066
 msgid "Original Name"
 msgstr "Първоначално име"
 
 #: src/utilops.c:2110 src/utilops.c:2262
-#, fuzzy
 msgid "Original name:"
-msgstr "Първоначално име"
+msgstr "Първоначално име:"
 
 #: src/utilops.c:2113 src/utilops.c:2265
-#, fuzzy
 msgid "New name:"
-msgstr "Преименуване:"
+msgstr "Ново име:"
 
 #: src/utilops.c:2128
 msgid "Begin text"
@@ -3064,25 +2915,23 @@ msgstr ""
 "%s"
 
 #: src/utilops.c:2252
-#, fuzzy
 msgid "Rename file"
-msgstr "Преименуване на файла:"
+msgstr "Преименуване на файл"
 
 #: src/utilops.c:2311
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The folder:\n"
 "%s\n"
 "already exists."
 msgstr ""
-"Директорията:\n"
+"Папката:\n"
 "%s\n"
 "вече съществува."
 
 #: src/utilops.c:2312
-#, fuzzy
 msgid "Folder exists"
-msgstr "Папки"
+msgstr "Папката съществува"
 
 #: src/utilops.c:2317
 #, c-format
@@ -3096,18 +2945,17 @@ msgstr ""
 "вече съществува като файл."
 
 #: src/utilops.c:2369
-#, fuzzy
 msgid "New folder - GQview"
-msgstr "Помощ - GQview"
+msgstr "Нова папка - GQview"
 
 #: src/utilops.c:2372
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Create folder in:\n"
 "%s\n"
 "named:"
 msgstr ""
-"Създаване на директория в:\n"
+"Създаване на папка в:\n"
 "%s\n"
 "с име:"
 
@@ -3141,12 +2989,12 @@ msgstr "_Нова папка..."
 
 #: src/view_dir_list.c:419 src/view_dir_tree.c:509
 msgid "View as _tree"
-msgstr "_Дървовиден изглед"
+msgstr "_Дървовиден преглед"
 
 #: src/view_dir_list.c:421 src/view_dir_tree.c:511 src/view_file_icon.c:311
 #: src/view_file_list.c:423
 msgid "Re_fresh"
-msgstr "_Опресняване"
+msgstr "Презаре_ждане"
 
 #: src/view_file_icon.c:304 src/view_file_list.c:416
 msgid "_Sort"
@@ -3154,11 +3002,11 @@ msgstr "_Подреждане"
 
 #: src/view_file_icon.c:307 src/view_file_list.c:419
 msgid "View as _icons"
-msgstr "Изглед като _икони"
+msgstr "Преглед като _икони"
 
 #: src/view_file_list.c:421
 msgid "Show _thumbnails"
-msgstr "Пока_зване на умалени изображения"
+msgstr "Пока_зване на смалени изображения"
 
 #: src/view_file_list.c:447
 #, c-format
@@ -3168,406 +3016,3 @@ msgid ""
 msgstr ""
 "Невалидно име на файл:\n"
 "%s"
-
-#~ msgid "Purge thumbnails"
-#~ msgstr "Изчистване на умалени изображения"
-
-#~ msgid "/File/tear1"
-#~ msgstr "/Файл/tear1"
-
-#~ msgid "/File/_New collection"
-#~ msgstr "/Файл/_Нова колекция"
-
-#~ msgid "/File/_Open collection..."
-#~ msgstr "/Файл/_Отваряне на колекция..."
-
-#~ msgid "/File/sep1"
-#~ msgstr "/Файл/sep1"
-
-#~ msgid "/File/_Search..."
-#~ msgstr "/Файл/_Търсене..."
-
-#~ msgid "/File/_Find duplicates..."
-#~ msgstr "/Файл/Откриване на _дубликати..."
-
-#~ msgid "/File/sep2"
-#~ msgstr "/Файл/sep2"
-
-#, fuzzy
-#~ msgid "/File/_Print..."
-#~ msgstr "/Файл/_Търсене..."
-
-#~ msgid "/File/N_ew folder..."
-#~ msgstr "/Файл/_Нова папка..."
-
-#~ msgid "/File/sep3"
-#~ msgstr "/Файл/sep3"
-
-#~ msgid "/File/_Copy..."
-#~ msgstr "/Файл/_Копиране..."
-
-#~ msgid "/File/_Move..."
-#~ msgstr "/Файл/_Местене..."
-
-#~ msgid "/File/_Rename..."
-#~ msgstr "/Файл/_Преименуване..."
-
-#~ msgid "/File/_Delete..."
-#~ msgstr "/Файл/_Изтриване..."
-
-#~ msgid "/File/sep4"
-#~ msgstr "/Файл/sep4"
-
-#~ msgid "/File/C_lose window"
-#~ msgstr "/Файл/_Затваряне на прозореца"
-
-#, fuzzy
-#~ msgid "/File/_Quit"
-#~ msgstr "/Файл/Из_ход"
-
-#~ msgid "/_Edit"
-#~ msgstr "/_Редактиране"
-
-#~ msgid "/Edit/tear1"
-#~ msgstr "/Редактиране/tear1"
-
-#~ msgid "/Edit/editor1"
-#~ msgstr "/Редактиране/editor1"
-
-#~ msgid "/Edit/editor2"
-#~ msgstr "/Редактиране/editor2"
-
-#~ msgid "/Edit/editor3"
-#~ msgstr "/Редактиране/editor3"
-
-#~ msgid "/Edit/editor4"
-#~ msgstr "/Редактиране/editor4"
-
-#~ msgid "/Edit/editor5"
-#~ msgstr "/Редактиране/editor5"
-
-#~ msgid "/Edit/editor6"
-#~ msgstr "/Редактиране/editor6"
-
-#~ msgid "/Edit/editor7"
-#~ msgstr "/Редактиране/editor7"
-
-#~ msgid "/Edit/editor8"
-#~ msgstr "/Редактиране/editor8"
-
-#~ msgid "/Edit/editor9"
-#~ msgstr "/Редактиране/editor1"
-
-#~ msgid "/Edit/editor0"
-#~ msgstr "/Редактиране/editor0"
-
-#~ msgid "/Edit/sep1"
-#~ msgstr "/Редактиране/sep1"
-
-#~ msgid "/Edit/_Adjust"
-#~ msgstr "/Редактиране/_Нагласяване"
-
-#~ msgid "/Edit/_Properties"
-#~ msgstr "/Редактиране/Сво_йства"
-
-#~ msgid "/Edit/Adjust/tear1"
-#~ msgstr "/Редактиране/Нагласяване/tear1"
-
-#~ msgid "/Edit/Adjust/_Rotate clockwise"
-#~ msgstr "/Редактиране/Нагласяване/Завъртане _по часовниковата стрелка"
-
-#~ msgid "/Edit/Adjust/Rotate _counterclockwise"
-#~ msgstr ""
-#~ "/Редактиране/Нагласяване/Завъртане _обратно на часовниковата стрелка"
-
-#~ msgid "/Edit/Adjust/Rotate 1_80"
-#~ msgstr "/Редактиране/Нагласяване/Завъртане на 1_80 градуса"
-
-#~ msgid "/Edit/Adjust/_Mirror"
-#~ msgstr "/Редактиране/Нагласяване/О_гледално"
-
-#~ msgid "/Edit/Adjust/_Flip"
-#~ msgstr "/Редактиране/Нагласяване/О_бръщане"
-
-#~ msgid "/Edit/sep2"
-#~ msgstr "/Редактиране/sep2"
-
-#~ msgid "/Edit/Select _all"
-#~ msgstr "/Редактиране/Избор на _всички"
-
-#~ msgid "/Edit/Select _none"
-#~ msgstr "/Редактиране/О_тказ от всички"
-
-#~ msgid "/Edit/sep3"
-#~ msgstr "/Редактиране/sep3"
-
-#~ msgid "/Edit/_Options..."
-#~ msgstr "/Редактиране/На_стройки..."
-
-#~ msgid "/Edit/sep4"
-#~ msgstr "/Редактиране/sep4"
-
-#~ msgid "/Edit/Set as _wallpaper"
-#~ msgstr "/Редактиране/Поставяне _като тапет"
-
-#~ msgid "/_View"
-#~ msgstr "/_Изглед"
-
-#~ msgid "/View/tear1"
-#~ msgstr "/Изглед/tear1"
-
-#~ msgid "/View/Zoom _in"
-#~ msgstr "/Изглед/_Увеличаване на мащаба"
-
-#~ msgid "/View/Zoom _out"
-#~ msgstr "/Изглед/_Намаляване на мащаба"
-
-#~ msgid "/View/Zoom _1:1"
-#~ msgstr "/Изглед/Мащаб _1:1"
-
-#~ msgid "/View/sep1"
-#~ msgstr "/Изглед/sep1"
-
-#~ msgid "/View/_Thumbnails"
-#~ msgstr "/Изглед/С у_малени изображения"
-
-#~ msgid "/View/I_cons"
-#~ msgstr "/Изглед/_Икони"
-
-#~ msgid "/View/sep2"
-#~ msgstr "/Изглед/sep2"
-
-#~ msgid "/View/F_ull screen"
-#~ msgstr "/Изглед/_Цял екран"
-
-#~ msgid "/View/sep3"
-#~ msgstr "/Изглед/sep"
-
-#~ msgid "/View/_Hide file list"
-#~ msgstr "/Изглед/Ск_рит файлов списък"
-
-#~ msgid "/View/sep4"
-#~ msgstr "/Изглед/sep4"
-
-#, fuzzy
-#~ msgid "/View/_Keywords"
-#~ msgstr "Ключови думи"
-
-#~ msgid "/View/Sort _manager"
-#~ msgstr "/Изглед/_Манипулатор за подреждане"
-
-#~ msgid "/View/sep5"
-#~ msgstr "/Изглед/sep1"
-
-#~ msgid "/View/Toggle _slideshow"
-#~ msgstr "/Изглед/Пускане на про_жекция"
-
-#~ msgid "/View/_Refresh Lists"
-#~ msgstr "/Изглед/Опресн_яване на списъците"
-
-#~ msgid "/Help/tear1"
-#~ msgstr "/Помощ/tear1"
-
-#~ msgid "/Help/sep1"
-#~ msgstr "/Помощ/sep1"
-
-#~ msgid "GQview configuration"
-#~ msgstr "Конфигурация на GQview"
-
-#~ msgid "/Edit/_Remove old thumbnails"
-#~ msgstr "/Редактиране/Пре_махване на стари умалени изображения"
-
-#~ msgid "path"
-#~ msgstr "пътя"
-
-#~ msgid "Save"
-#~ msgstr "Запазване"
-
-#~ msgid "Close"
-#~ msgstr "Затваряне"
-
-#~ msgid ""
-#~ "Overwrite collection file:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Презаписване на файла - колекция:\n"
-#~ "%s"
-
-#~ msgid "Save collection as:"
-#~ msgstr "Запазване на колекция като:"
-
-#~ msgid "Open collection from:"
-#~ msgstr "Отваряне на колекция от:"
-
-#~ msgid "Open"
-#~ msgstr "Отваряне"
-
-#~ msgid "Append collection from:"
-#~ msgstr "Прибавяне към колекция от:"
-
-#, fuzzy
-#~ msgid "exit"
-#~ msgstr "Изход"
-
-#~ msgid "Exit"
-#~ msgstr "Изход"
-
-#~ msgid "Ok"
-#~ msgstr "Да"
-
-#, fuzzy
-#~ msgid "Initial folder"
-#~ msgstr "Невалидно файлово име"
-
-#, fuzzy
-#~ msgid "On startup, change to this folder:"
-#~ msgstr "При стартиране директорията да бъде сменена с:"
-
-#~ msgid "Zoom (scaling):"
-#~ msgstr "Мащабиране:"
-
-#~ msgid "Place dialogs under mouse"
-#~ msgstr "Поставяне на диалозите под мишката"
-
-#~ msgid "Include files of type:"
-#~ msgstr "Включване на файлове от типа:"
-
-#~ msgid "Remove"
-#~ msgstr "Премахване"
-
-#~ msgid "Add"
-#~ msgstr "Добавяне"
-
-#~ msgid "Command Line"
-#~ msgstr "Команден ред"
-
-#~ msgid "Help"
-#~ msgstr "Помощ"
-
-#, fuzzy
-#~ msgid "Full screen size:"
-#~ msgstr "_Цял екран"
-
-#, fuzzy
-#~ msgid "Point size:"
-#~ msgstr "Големина на файла:"
-
-#, fuzzy
-#~ msgid "Width:"
-#~ msgstr "Ширина"
-
-#, fuzzy
-#~ msgid "Height:"
-#~ msgstr "Височина"
-
-#~ msgid ""
-#~ "Overwrite file:\n"
-#~ " %s\n"
-#~ " with:\n"
-#~ " %s"
-#~ msgstr ""
-#~ "Презаписване на файла:\n"
-#~ " %s\n"
-#~ " с:\n"
-#~ " %s"
-
-#~ msgid "Yes"
-#~ msgstr "Да"
-
-#~ msgid "Yes to all"
-#~ msgstr "Да, всички"
-
-#~ msgid ""
-#~ "Overwrite file:\n"
-#~ "%s\n"
-#~ " with:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Презаписване на файла:\n"
-#~ "%s\n"
-#~ " с:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Copy file:\n"
-#~ "%s\n"
-#~ "to:"
-#~ msgstr ""
-#~ "Копиране на файл:\n"
-#~ "%s\n"
-#~ "в:"
-
-#~ msgid ""
-#~ "Move file:\n"
-#~ "%s\n"
-#~ "to:"
-#~ msgstr ""
-#~ "Местене на файл:\n"
-#~ "%s\n"
-#~ "в:"
-
-#~ msgid "About to delete multiple files..."
-#~ msgstr "Относно изтриването на група файлове..."
-
-#~ msgid ""
-#~ "Overwrite file:\n"
-#~ "%s\n"
-#~ "by renaming:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Презаписване на файла:\n"
-#~ "%s\n"
-#~ "чрез преименуване на:\n"
-#~ "%s"
-
-#~ msgid "to:"
-#~ msgstr "на:"
-
-#~ msgid "Create"
-#~ msgstr "Създаване"
-
-#~ msgid "Initial directory"
-#~ msgstr "Начална директория"
-
-#~ msgid "New Directory"
-#~ msgstr "Нова директория"
-
-#~ msgid ""
-#~ "Unable to create directory:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Невъзможно е да бъде създадена директорията:\n"
-#~ "%s"
-
-#~ msgid "Error creating directory"
-#~ msgstr "Грешка при създаването на директория"
-
-#~ msgid "Image details"
-#~ msgstr "Подробности за изображението"
-
-#~ msgid "/View/Image _details"
-#~ msgstr "/Изглед/Подробности _за изображение"
-
-#~ msgid "Add contents"
-#~ msgstr "Добавяне на съдържанията им"
-
-#~ msgid "Add contents recursive"
-#~ msgstr "Рекурсивно добавяне на съдържанията им"
-
-#~ msgid "Skip directories"
-#~ msgstr "_Пропускане на директориите"
-
-#~ msgid "Invalid directory"
-#~ msgstr "Невалидна директория"
-
-#~ msgid "GQview - copy"
-#~ msgstr "GQview - копиране"
-
-#~ msgid "GQview - move"
-#~ msgstr "GQview - местене"
-
-#~ msgid "Directory exists"
-#~ msgstr "Директорията съществува"
-
-#~ msgid "GQview - new directory"
-#~ msgstr "GQview - нова директория"

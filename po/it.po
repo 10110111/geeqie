@@ -1,16 +1,15 @@
-# translation of it.po to Italiano
-# translation of gqview-1.5.8_it.po to Italiano
+# translation of gqview-1.5.9_it.po to Italiano
 # This file is distributed under the same license as the PACKAGE package.
 # Costantino <inverness1ATvirgilio.it>, 2005.
-# Costantino <inverness1ATvirgilio.it>, 2005.
+# Un ringraziamento per i preziosi suggerimenti a Marco Colombo <m.colomboATed.ac.uk>
 # Copyright (C) Christopher R. Gabriel <cgabriel@pluto.linux.it>, 2000 - 2001.
 # Costantino <inverness1ATvirgilio.it>, 2005.
 msgid ""
 msgstr ""
-"Project-Id-Version: gqview-1.5.8_it\n"
+"Project-Id-Version: gqview-1.5.9_it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-15 08:13-0500\n"
-"PO-Revision-Date: 2005-02-10 15:07+0100\n"
+"POT-Creation-Date: 2005-02-26 14:33-0500\n"
+"PO-Revision-Date: 2005-02-26 16:44+0100\n"
 "Last-Translator: Costantino <inverness1ATvirgilio.it>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +43,7 @@ msgstr "Natura"
 
 #: src/bar_info.c:36
 msgid "Possessions"
-msgstr "Possessi"
+msgstr "Oggetti"
 
 #: src/bar_info.c:505
 msgid "Keyword Presets"
@@ -119,7 +118,7 @@ msgstr "Descrizione"
 
 #: src/bar_exif.c:549 src/info.c:105
 msgid "Exif"
-msgstr "Exif "
+msgstr "Exif"
 
 #: src/bar_exif.c:622
 msgid "Advanced view"
@@ -175,7 +174,7 @@ msgstr "Nome:"
 
 #: src/bar_sort.c:569
 msgid "Sort Manager"
-msgstr "Amministratore di ordinamento"
+msgstr "Gestione degli ordinamenti"
 
 #: src/bar_sort.c:578 src/ui_pathsel.c:1095
 msgid "Folders"
@@ -207,7 +206,7 @@ msgstr "Aggiungi selezione"
 
 #: src/bar_sort.c:634
 msgid "Undo last image"
-msgstr "Annulla l'ultima immagine"
+msgstr "Ripristina l'ultima immagine"
 
 #: src/cache_maint.c:127 src/cache_maint.c:681 src/cache_maint.c:894
 #: src/editors.c:410
@@ -216,15 +215,15 @@ msgstr "fatto"
 
 #: src/cache_maint.c:304
 msgid "Removing old metadata..."
-msgstr "Sto rimuovendo i vecchi metadata..."
+msgstr "Sto rimuovendo i vecchi metadati..."
 
 #: src/cache_maint.c:308
 msgid "Clearing cached thumbnails..."
-msgstr "Sto cancellando le anteprime nella cache..."
+msgstr "Sto cancellando le miniature nella cache..."
 
 #: src/cache_maint.c:312 src/cache_maint.c:1048
 msgid "Removing old thumbnails..."
-msgstr "Sto rimuovendo le vecchie anteprime..."
+msgstr "Sto rimuovendo le vecchie miniature..."
 
 #: src/cache_maint.c:315 src/cache_maint.c:1051
 msgid "Maintenance"
@@ -240,7 +239,7 @@ msgstr "Non riesco a trovare la cartella specificata."
 
 #: src/cache_maint.c:821 src/cache_maint.c:835 src/cache_maint.c:1216
 msgid "Create thumbnails"
-msgstr "Crea anteprime"
+msgstr "Crea miniature"
 
 #: src/cache_maint.c:829 src/cache_maint.c:1058
 msgid "S_tart"
@@ -260,7 +259,7 @@ msgstr "Includi sottocartelle"
 
 #: src/cache_maint.c:850
 msgid "Store thumbnails local to source images"
-msgstr "Conserva le anteprime assieme alle immagini sorgenti"
+msgstr "Conserva le miniature assieme alle immagini sorgenti"
 
 #: src/cache_maint.c:859 src/cache_maint.c:1067
 msgid "click start to begin"
@@ -272,7 +271,7 @@ msgstr "in esecuzione..."
 
 #: src/cache_maint.c:1043
 msgid "Clearing thumbnails..."
-msgstr "Sto cancellando le anteprime..."
+msgstr "Sto cancellando le miniature..."
 
 #: src/cache_maint.c:1109 src/cache_maint.c:1112 src/cache_maint.c:1191
 #: src/cache_maint.c:1211
@@ -284,7 +283,7 @@ msgid ""
 "This will remove all thumbnails that have\n"
 "been saved to disk, continue?"
 msgstr ""
-"Questo rimuoverà tutte le anteprime\n"
+"Questo rimuoverà tutte le miniature\n"
 "che sono state salvate su disco. Continuo?"
 
 #: src/cache_maint.c:1163
@@ -297,7 +296,7 @@ msgstr "Manutenzione della cache e dei dati"
 
 #: src/cache_maint.c:1177
 msgid "GQview thumbnail cache"
-msgstr "Cache delle anteprime di GQview"
+msgstr "Cache delle miniature di GQview"
 
 #: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
 #: src/preferences.c:1142 src/utilops.c:1505
@@ -310,23 +309,23 @@ msgstr "Pulisci"
 
 #: src/cache_maint.c:1189 src/cache_maint.c:1209
 msgid "Remove orphaned or outdated thumbnails."
-msgstr "Rimuovi le anteprime orfane o datate."
+msgstr "Rimuovi le miniature orfane o datate."
 
 #: src/cache_maint.c:1194 src/cache_maint.c:1214
 msgid "Delete all cached thumbnails."
-msgstr "Cancella tutte le anteprime in cache."
+msgstr "Cancella tutte le miniature in cache."
 
 #: src/cache_maint.c:1197
 msgid "Shared thumbnail cache"
-msgstr "Condividi la cache delle anteprime"
+msgstr "Condividi la cache delle miniature"
 
 #: src/cache_maint.c:1220
 msgid "Render"
-msgstr "Renderizza"
+msgstr "Crea"
 
 #: src/cache_maint.c:1223
 msgid "Render thumbnails for a specific folder."
-msgstr "Renderizza le anteprime per una specifica cartella."
+msgstr "Crea le miniature per una specifica cartella."
 
 #: src/cache_maint.c:1225
 msgid "Metadata"
@@ -441,7 +440,7 @@ msgstr "%d immagini"
 #: src/view_file_icon.c:1772 src/view_file_icon.c:1887
 #: src/view_file_list.c:816 src/view_file_list.c:921
 msgid "Loading thumbs..."
-msgstr "Sto caricando le anteprime..."
+msgstr "Sto caricando le miniature..."
 
 #: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
 #: src/layout_util.c:751 src/search.c:969
@@ -503,7 +502,7 @@ msgstr "_Rinomina..."
 #: src/layout_image.c:733 src/layout_util.c:765 src/search.c:994
 #: src/view_file_icon.c:293 src/view_file_list.c:405
 msgid "_Delete..."
-msgstr "_Cancella..."
+msgstr "E_limina..."
 
 #: src/collect-table.c:810 src/view_file_icon.c:309
 msgid "Show filename _text"
@@ -539,12 +538,12 @@ msgstr "Aggiungi dei contenuti _ricorsivamente"
 
 #: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1351
 msgid "_Skip folders"
-msgstr "_Salta le cartelle"
+msgstr "_Ignora le cartelle"
 
 #: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1353
 #: src/view_dir_list.c:222 src/view_dir_tree.c:314
 msgid "Cancel"
-msgstr "Cancella"
+msgstr "Annulla"
 
 #: src/dupe.c:96
 msgid "Drop files to compare them."
@@ -598,7 +597,7 @@ msgstr "Aggiungi alla nuova collezione"
 
 #: src/dupe.c:2221 src/dupe.c:2509 src/search.c:999
 msgid "C_lear"
-msgstr "Cance_lla"
+msgstr "Pu_lisci"
 
 #: src/dupe.c:2224 src/dupe.c:2512
 msgid "Close _window"
@@ -661,7 +660,7 @@ msgstr "Confronta per:"
 
 #: src/dupe.c:3173 src/preferences.c:840 src/search.c:2770
 msgid "Thumbnails"
-msgstr "Anteprime"
+msgstr "Miniature"
 
 #: src/dupe.c:3180
 msgid "Compare two file sets"
@@ -669,15 +668,15 @@ msgstr "Confronta due gruppi di file"
 
 #: src/editors.c:50
 msgid "The Gimp"
-msgstr "The Gimp "
+msgstr "The Gimp"
 
 #: src/editors.c:51
 msgid "XV"
-msgstr "Xv "
+msgstr "Xv"
 
 #: src/editors.c:52
 msgid "Xpaint"
-msgstr "Xpaint "
+msgstr "Xpaint"
 
 #: src/editors.c:58
 msgid "Rotate jpeg clockwise"
@@ -772,7 +771,7 @@ msgstr "macchia"
 
 #: src/exif.c:143
 msgid "multi-spot"
-msgstr "multimacchia"
+msgstr "multispot"
 
 #: src/exif.c:144
 msgid "multi-segment"
@@ -926,7 +925,7 @@ msgstr "Altezza"
 
 #: src/exif.c:418
 msgid "Camera"
-msgstr "Camera "
+msgstr "Fotocamera"
 
 #: src/exif.c:427
 msgid "Resolution"
@@ -1024,15 +1023,15 @@ msgstr "Monitor attivo"
 
 #: src/img-view.c:1173 src/layout_image.c:706 src/layout_util.c:791
 msgid "Zoom _in"
-msgstr "_Ingrandisci"
+msgstr "In_grandisci"
 
 #: src/img-view.c:1174 src/layout_image.c:707 src/layout_util.c:792
 msgid "Zoom _out"
-msgstr "_Riduci"
+msgstr "Ri_duci"
 
 #: src/img-view.c:1175 src/layout_image.c:708 src/layout_util.c:793
 msgid "Zoom _1:1"
-msgstr "Scala _1:1"
+msgstr "Ingrandimento _1:1"
 
 #: src/img-view.c:1176 src/layout_image.c:709
 msgid "Fit image to _window"
@@ -1061,7 +1060,7 @@ msgstr "A_vvia la presentazione"
 
 #: src/img-view.c:1221 src/layout_image.c:765
 msgid "Exit _full screen"
-msgstr "_Termina la visione a schermo intero"
+msgstr "_Smetti la modalità a schermo intero"
 
 #: src/img-view.c:1225 src/layout_image.c:761
 msgid "_Full screen"
@@ -1069,7 +1068,7 @@ msgstr "Sc_hermo intero"
 
 #: src/img-view.c:1229 src/layout_util.c:766
 msgid "C_lose window"
-msgstr "_Chiudi la finestra"
+msgstr "Chi_udi la finestra"
 
 #: src/info.c:361
 msgid "File size:"
@@ -1225,7 +1224,7 @@ msgstr "Apri c_ollezione..."
 
 #: src/layout_util.c:757
 msgid "Open _recent"
-msgstr "Apri _recenti"
+msgstr "Apri recent_i"
 
 #: src/layout_util.c:758
 msgid "_Search..."
@@ -1241,7 +1240,7 @@ msgstr "N_uova cartella..."
 
 #: src/layout_util.c:767
 msgid "_Quit"
-msgstr "_Chiudi"
+msgstr "C_hiudi"
 
 #: src/layout_util.c:779 src/menu.c:194
 msgid "_Rotate clockwise"
@@ -1277,7 +1276,7 @@ msgstr "P_referenze..."
 
 #: src/layout_util.c:788
 msgid "_Thumbnail maintenance..."
-msgstr "_Manutenzione anteprime..."
+msgstr "_Manutenzione miniature..."
 
 #: src/layout_util.c:794
 msgid "_Zoom to fit"
@@ -1293,11 +1292,11 @@ msgstr "_Nascondi lista file"
 
 #: src/layout_util.c:797
 msgid "Toggle _slideshow"
-msgstr "Avvia/Ferma presentazione"
+msgstr "Avvia/Ferma pre_sentazione"
 
 #: src/layout_util.c:798
 msgid "_Refresh"
-msgstr "_Aggiorna"
+msgstr "Aggio_rna"
 
 #: src/layout_util.c:800
 msgid "_Contents"
@@ -1309,15 +1308,15 @@ msgstr "Scorciatoie da _tastiera"
 
 #: src/layout_util.c:802
 msgid "_Release notes"
-msgstr "Note sulla ve_rsione"
+msgstr "Note sulla ver_sione"
 
 #: src/layout_util.c:803
 msgid "_About"
-msgstr "_Riguardo"
+msgstr "_Informazioni"
 
 #: src/layout_util.c:807
 msgid "_Thumbnails"
-msgstr "_Anteprime"
+msgstr "An_teprime"
 
 #: src/layout_util.c:808
 msgid "Tr_ee"
@@ -1341,7 +1340,7 @@ msgstr "Dati E_xif"
 
 #: src/layout_util.c:813
 msgid "Sort _manager"
-msgstr "A_mministratore di ordinamento"
+msgstr "Ammini_stratore di ordinamento"
 
 #: src/layout_util.c:817
 msgid "_List"
@@ -1349,15 +1348,15 @@ msgstr "_Lista"
 
 #: src/layout_util.c:818
 msgid "I_cons"
-msgstr "I_cone"
+msgstr "_Icone"
 
 #: src/layout_util.c:1083
 msgid "Show thumbnails"
-msgstr "Mostra le anteprime"
+msgstr "Mostra le miniature"
 
 #: src/layout_util.c:1085
 msgid "Change to home folder"
-msgstr "Sposta nella cartella home"
+msgstr "Vai alla cartella home"
 
 #: src/layout_util.c:1087
 msgid "Refresh file list"
@@ -1377,7 +1376,7 @@ msgstr "Adatta l'immagine alla finestra"
 
 #: src/layout_util.c:1095
 msgid "Set zoom 1:1"
-msgstr "Imposta lo zoom ad 1:1"
+msgstr "Imposta l'ingrandimento ad 1:1"
 
 #: src/layout_util.c:1097
 msgid "Configure options"
@@ -1414,15 +1413,15 @@ msgstr "ultima immagine"
 
 #: src/main.c:531
 msgid "toggle full screen"
-msgstr "attiva/disattiva la visione a schermo intero"
+msgstr "attiva/disattiva la modalità a schermo intero"
 
 #: src/main.c:532
 msgid "start full screen"
-msgstr "avvia la visione a schermo intero"
+msgstr "avvia la modalità a schermo intero"
 
 #: src/main.c:533
 msgid "stop full screen"
-msgstr "termina la visione a schermo intero"
+msgstr "smetti la modalità a schermo intero"
 
 #: src/main.c:534
 msgid "toggle slide show"
@@ -1697,19 +1696,19 @@ msgstr "Qualità:"
 
 #: src/preferences.c:846
 msgid "Cache thumbnails"
-msgstr "Ricorda le anteprime"
+msgstr "Ricorda le miniature"
 
 #: src/preferences.c:852
 msgid "Use shared thumbnail cache"
-msgstr "Usa la cache condivisa delle anteprime"
+msgstr "Usa la cache condivisa delle miniature"
 
 #: src/preferences.c:858
 msgid "Cache thumbnails into .thumbnails"
-msgstr "Metti le anteprime in .thumbnails"
+msgstr "Metti le miniature in .thumbnails"
 
 #: src/preferences.c:861
 msgid "Use xvpics thumbnails when found (read only)"
-msgstr "Utilizza le anteprime Xvpic se esistono (sola lettura)"
+msgstr "Utilizza le miniature di Xvpic se esistono (sola lettura)"
 
 #: src/preferences.c:864
 msgid "Slide show"
@@ -1733,7 +1732,7 @@ msgstr "Ripeti"
 
 #: src/preferences.c:884
 msgid "Zoom"
-msgstr "Zoom"
+msgstr "Ingrandimento"
 
 #: src/preferences.c:887
 msgid "Dithering method:"
@@ -1741,7 +1740,7 @@ msgstr "Metodo di sfumatura:"
 
 #: src/preferences.c:892
 msgid "Two pass zooming"
-msgstr "Zoom in due passaggi"
+msgstr "Ingrandimento in due passaggi"
 
 #: src/preferences.c:895
 msgid "Allow enlargement of image for zoom to fit."
@@ -1749,7 +1748,7 @@ msgstr "Permetti l'espansione delle immagini per adattarle."
 
 #: src/preferences.c:899
 msgid "Zoom increment:"
-msgstr "Incremento dello zoom:"
+msgstr "Incremento dell'ingrandimento:"
 
 #: src/preferences.c:904
 msgid "When new image is selected:"
@@ -1757,11 +1756,11 @@ msgstr "Quando viene selezionata una nuova immagine:"
 
 #: src/preferences.c:907
 msgid "Zoom to original size"
-msgstr "Torna alla dimensione originale"
+msgstr "Ingrandisci alla dimensione originale"
 
 #: src/preferences.c:913
 msgid "Leave Zoom at previous setting"
-msgstr "Usa l'impostazione precedente dello zoom"
+msgstr "Usa l'impostazione precedente dell'ingrandimento"
 
 #: src/preferences.c:917
 msgid "Appearance"
@@ -1887,7 +1886,7 @@ msgstr "Abilita tasto Canc"
 
 #: src/preferences.c:1158
 msgid "Safe delete"
-msgstr "Cancellazione sicura"
+msgstr "Eliminazione sicura"
 
 #: src/preferences.c:1176
 msgid "Maximum size:"
@@ -2410,7 +2409,7 @@ msgstr "Rango"
 #: src/thumb.c:378
 msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
 msgstr ""
-"Non sono riuscito a caricare le anteprime nella cache: provo a ricrearle.\n"
+"Non sono riuscito a caricare le miniature dalla cache: provo a ricrearle.\n"
 
 #: src/ui_bookmark.c:148
 #, c-format
@@ -2776,12 +2775,12 @@ msgstr ""
 
 #: src/utilops.c:1216
 msgid "Turn off safe delete"
-msgstr "Disabilita la cancellazione sicura"
+msgstr "Disabilita l'eliminazione sicura"
 
 #: src/utilops.c:1234
 #, c-format
 msgid "Safe delete: %s"
-msgstr "Cancellazione sicura: %s"
+msgstr "Eliminazione sicura: %s"
 
 #: src/utilops.c:1276
 #, c-format
@@ -3004,7 +3003,7 @@ msgstr "Vedi come _icone"
 
 #: src/view_file_list.c:421
 msgid "Show _thumbnails"
-msgstr "Mostra le _anteprime"
+msgstr "Mostra le _miniature"
 
 #: src/view_file_list.c:447
 #, c-format

@@ -7,7 +7,7 @@ Major (release blockers):
  must Fix for 2.0.0:
  -------------------
 
- > update translations: ( ) ( ) ( )
+d> update translations: bg(x) es(x) it(x) ja(x) nl(x) pl(x) ru(x)
 
  -------------
 
@@ -15,10 +15,12 @@ Major (release blockers):
     (none currently)
 
 
-Minor:
+Minor (non blockers):
 ----------------------------------------------
 
  > when resizing/refreshing collection window, keep the same top left thumbnail visible
+
+ > do not lose slideshow when reworking window layout.
 
  > add toolbar to: (UPDATE: these toolbars may not make it into 1.6)
    > find dupes window (with button to open dialog to add new files/folders)

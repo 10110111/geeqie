@@ -1,7 +1,7 @@
 AC_INIT(src/main.c)
 AC_CONFIG_HEADER(config.h)
 
-AM_INIT_AUTOMAKE(gqview, 1.5.9)
+AM_INIT_AUTOMAKE(gqview, 2.0.0)
 
 AM_MAINTAINER_MODE
 
@@ -19,20 +19,17 @@ fi
 
 AM_PATH_GTK_2_0(2.4.0,,AC_MSG_ERROR(GTK+ >= 2.4.0 not installed.))
 
-AC_DEFINE_UNQUOTED(GQVIEW_HELPDIR, "$prefix/share/doc/gqview-$VERSION", [Location of documetation files])
+AC_DEFINE_UNQUOTED(GQVIEW_HELPDIR, "$prefix/share/doc/gqview-$VERSION", [Location of documentation files])
 AC_DEFINE_UNQUOTED(GQVIEW_HTMLDIR, "$prefix/share/doc/gqview-$VERSION/html", [Location of html documentation])
 
 dnl checks for functions
 AC_CHECK_FUNCS(strverscmp)
 
-dnl locale location for po
-localedir='${datadir}/locale'
-AC_SUBST(localedir)
-
 ALL_LINGUAS="ar bg cs da de es et fi fr hu id it ja nl no pl pt_BR ro ru sk sl sv th tr uk vi zh_CN.GB2312 zh_TW"
 GETTEXT_PACKAGE=$PACKAGE
 AC_SUBST(GETTEXT_PACKAGE)
 AM_GLIB_GNU_GETTEXT
+AM_GLIB_DEFINE_LOCALEDIR(GQVIEW_LOCALEDIR)
 
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)

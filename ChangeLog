@@ -1,3 +1,38 @@
+Sat Feb 26 14:42:42 2005  John Ellis  <johne@verizon.net>
+
+	* README: Updates.
+	* configure.in: Release 2.0.0
+
+Sat Feb 26 14:06:41 2005  John Ellis  <johne@verizon.net>
+
+	* po/bg.po: Update Bulgarian translation,
+	submitted by Vladimir Petrov.
+	* po/it.po: Update Italian translation,
+	submitted by Costantino, with additions from Marco Colombo.
+	* po/nl.po: Update Dutch translation,
+	submitted by Tino Meinen.
+	* po/pl.po: Update Polish translation,
+	submitted by Wit Wilinski.
+
+Fri Feb 25 11:10:19 2005  John Ellis  <johne@verizon.net>
+
+	* doc/11_1_command_line.html: Small fix.
+
+Wed Feb 23 20:19:38 2005  John Ellis  <johne@verizon.net>
+
+	* po/es.po: Update Spanish translation,
+	submitted by Ariel Fermani.
+	* po/it.po: Update Italian translation,
+	submitted by Costantino.
+	* po/ja.po: Update Japanese translation,
+	submitted by Takeshi Aihana.
+	* po/ru.po: Update Russian translation,
+	submitted by Sergey Pinaev.
+
+Wed Feb 23 09:02:49 2005  John Ellis  <johne@verizon.net>
+
+	* configure.in, src/Makefile.am, main.c: Clean up define for localedir.
+
 Tue Feb 15 07:35:50 2005  John Ellis  <johne@verizon.net>
 
 	* main.c: Disable startup beta message.

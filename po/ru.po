@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview-1.5.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-15 08:13-0500\n"
+"POT-Creation-Date: 2005-02-26 14:33-0500\n"
 "PO-Revision-Date: 2005-02-01 13:40+0400\n"
 "Last-Translator: Sergey Pinaev <dfo@antex.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -1932,9 +1932,9 @@ msgid "Miscellaneous"
 msgstr "Разное"
 
 #: src/preferences.c:1209
-#, fuzzy
 msgid "Store keywords and comments local to source images"
-msgstr "Сохранять иконки там же, где и исходные изображения"
+msgstr ""
+"Сохранять ключевые слова и комментарии там же, где и исходные изображения"
 
 #: src/preferences.c:1212
 msgid "Custom similarity threshold:"
@@ -2033,7 +2033,7 @@ msgstr "дюймы"
 
 #: src/print.c:354
 msgid "picas"
-msgstr ""
+msgstr "пики"
 
 #: src/print.c:359
 msgid "Portrait"
@@ -2191,9 +2191,8 @@ msgid "Destination:"
 msgstr "Назначение:"
 
 #: src/print.c:2990
-#, fuzzy
 msgid "<printer name>"
-msgstr "Имя файла"
+msgstr "<имя принтера>"
 
 #: src/print.c:3079
 msgid "Unlimited"
