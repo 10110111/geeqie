@@ -59,6 +59,30 @@ void pixbuf_draw_layout(GdkPixbuf *pixbuf, PangoLayout *layout, GtkWidget *widge
 			guint8 r, guint8 g, guint8 b, guint8 a);
 
 
+void pixbuf_draw_triangle(GdkPixbuf *pb,
+			  gint clip_x, gint clip_y, gint clip_w, gint clip_h,
+			  gint x1, gint y1, gint x2, gint y2, gint x3, gint y3,
+			  guint8 r, guint8 g, guint8 b, guint8 a);
+
+void pixbuf_draw_line(GdkPixbuf *pb,
+		      gint clip_x, gint clip_y, gint clip_w, gint clip_h,
+		      gint x1, gint y1, gint x2, gint y2,
+		      guint8 r, guint8 g, guint8 b, guint8 a);
+
+void pixbuf_draw_shadow(GdkPixbuf *pb,
+			gint clip_x, gint clip_y, gint clip_w, gint clip_h,
+			gint x, gint y, gint w, gint h, gint border,
+			guint8 r, guint8 g, guint8 b, guint8 a);
+
+/* clipping utils */
+
+gint util_clip_region(gint x, gint y, gint w, gint h,
+		      gint clip_x, gint clip_y, gint clip_w, gint clip_h,
+		      gint *rx, gint *ry, gint *rw, gint *rh);
+void util_clip_triangle(gint x1, gint y1, gint x2, gint y2, gint x3, gint y3,
+			gint *rx, gint *ry, gint *rw, gint *rh);
+
+
 #endif
 
 

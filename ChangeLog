@@ -1,3 +1,10 @@
+Wed Apr  6 06:41:25 2005  John Ellis  <johne@verizon.net>
+
+	* pan-view.c: Move pixbuf drawing into pixbuf_util.c.
+	* pixbuf-renderer.c: Rename util_clip_region to pr_clip_region to fix
+	namespace conflict with util in pixbuf_util.h.
+	* pixbuf_util.[ch]: Moved pixbuf drawing utils here from pan-view.c
+
 Wed Apr  6 02:43:40 2005  John Ellis  <johne@verizon.net>
 
 	* pan-view.c: Reimplement pixbuf_draw_triangle for efficiency.

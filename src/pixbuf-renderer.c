@@ -653,9 +653,9 @@ static gint pixmap_calc_size(GdkPixmap *pixmap)
 	return w * h * (d / 8);
 }
 
-static gint util_clip_region(gint x, gint y, gint w, gint h,
-			     gint clip_x, gint clip_y, gint clip_w, gint clip_h,
-			     gint *rx, gint *ry, gint *rw, gint *rh)
+static gint pr_clip_region(gint x, gint y, gint w, gint h,
+			   gint clip_x, gint clip_y, gint clip_w, gint clip_h,
+			   gint *rx, gint *ry, gint *rw, gint *rh)
 {
 	if (clip_x + clip_w <= x ||
 	    clip_x >= x + w ||
@@ -772,7 +772,7 @@ static void pr_overlay_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h)
 			if (py < 0) py = pr->window_height - ph + py;
 			}
 
-		if (util_clip_region(x, y, w, h, px, py, pw, ph, &rx, &ry, &rw, &rh))
+		if (pr_clip_region(x, y, w, h, px, py, pw, ph, &rx, &ry, &rw, &rh))
 			{
 			gdk_draw_pixbuf(box->window,
 					box->style->fg_gc[GTK_WIDGET_STATE(box)],
@@ -1103,10 +1103,10 @@ static void pr_border_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h)
 
 	if (!pr->pixbuf && !pr->source_tiles_enabled)
 		{
-		if (util_clip_region(x, y, w, h,
-			0, 0,
-			pr->window_width, pr->window_height,
-			&rx, &ry, &rw, &rh))
+		if (pr_clip_region(x, y, w, h,
+				   0, 0,
+				   pr->window_width, pr->window_height,
+				   &rx, &ry, &rw, &rh))
 			{
 			gdk_window_clear_area(box->window, rx, ry, rw, rh);
 			pr_overlay_draw(pr, rx, ry, rw, rh);
@@ -1117,19 +1117,19 @@ static void pr_border_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h)
 	if (pr->vis_width < pr->window_width)
 		{
 		if (pr->x_offset > 0 &&
-		    util_clip_region(x, y, w, h,
-			0, 0,
-			pr->x_offset, pr->window_height,
-			&rx, &ry, &rw, &rh))
+		    pr_clip_region(x, y, w, h,
+				   0, 0,
+				   pr->x_offset, pr->window_height,
+				   &rx, &ry, &rw, &rh))
 			{
 			gdk_window_clear_area(box->window, rx, ry, rw, rh);
 			pr_overlay_draw(pr, rx, ry, rw, rh);
 			}
 		if (pr->window_width - pr->vis_width - pr->x_offset > 0 &&
-		    util_clip_region(x, y, w, h,
-			pr->x_offset + pr->vis_width, 0,
-			pr->window_width - pr->vis_width - pr->x_offset, pr->window_height,
-			&rx, &ry, &rw, &rh))
+		    pr_clip_region(x, y, w, h,
+				   pr->x_offset + pr->vis_width, 0,
+				   pr->window_width - pr->vis_width - pr->x_offset, pr->window_height,
+				   &rx, &ry, &rw, &rh))
 			{
 			gdk_window_clear_area(box->window, rx, ry, rw, rh);
 			pr_overlay_draw(pr, rx, ry, rw, rh);
@@ -1138,19 +1138,19 @@ static void pr_border_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h)
 	if (pr->vis_height < pr->window_height)
 		{
 		if (pr->y_offset > 0 &&
-		    util_clip_region(x, y, w, h,
-			pr->x_offset, 0,
-			pr->vis_width, pr->y_offset,
-			&rx, &ry, &rw, &rh))
+		    pr_clip_region(x, y, w, h,
+				   pr->x_offset, 0,
+				   pr->vis_width, pr->y_offset,
+				   &rx, &ry, &rw, &rh))
 			{
 			gdk_window_clear_area(box->window, rx, ry, rw, rh);
 			pr_overlay_draw(pr, rx, ry, rw, rh);
 			}
 		if (pr->window_height - pr->vis_height - pr->y_offset > 0 &&
-		    util_clip_region(x, y, w, h,
-			pr->x_offset, pr->y_offset + pr->vis_height,
-			pr->vis_width, pr->window_height - pr->vis_height - pr->y_offset,
-			&rx, &ry, &rw, &rh))
+		    pr_clip_region(x, y, w, h,
+				   pr->x_offset, pr->y_offset + pr->vis_height,
+				   pr->vis_width, pr->window_height - pr->vis_height - pr->y_offset,
+				   &rx, &ry, &rw, &rh))
 			{
 			gdk_window_clear_area(box->window, rx, ry, rw, rh);
 			pr_overlay_draw(pr, rx, ry, rw, rh);
@@ -1408,9 +1408,9 @@ static void pr_source_tile_changed(PixbufRenderer *pr, gint x, gint y, gint widt
 		st = work->data;
 		work = work->next;
 
-		if (util_clip_region(st->x, st->y, pr->source_tile_width, pr->source_tile_height,
-				     x, y, width, height,
-				     &rx, &ry, &rw, &rh))
+		if (pr_clip_region(st->x, st->y, pr->source_tile_width, pr->source_tile_height,
+				   x, y, width, height,
+				   &rx, &ry, &rw, &rh))
 			{
 			GdkPixbuf *pixbuf;
 
@@ -1449,9 +1449,9 @@ static gint pr_source_tile_render(PixbufRenderer *pr, ImageTile *it,
 			st = work->data;
 			work = work->next;
 
-			if (util_clip_region(st->x, st->y, pr->source_tile_width, pr->source_tile_height,
-					     it->x + x, it->y + y, w, h,
-					     &rx, &ry, &rw, &rh))
+			if (pr_clip_region(st->x, st->y, pr->source_tile_width, pr->source_tile_height,
+					   it->x + x, it->y + y, w, h,
+					   &rx, &ry, &rw, &rh))
 				{
 				if (st->blank)
 					{
@@ -1508,9 +1508,9 @@ static gint pr_source_tile_render(PixbufRenderer *pr, ImageTile *it,
 			stw = ceil ((double)(st->x + pr->source_tile_width) * scale_x) - stx;
 			sth = ceil ((double)(st->y + pr->source_tile_height) * scale_y) - sty;
 
-			if (util_clip_region(stx, sty, stw, sth,
-					     it->x + x, it->y + y, w, h,
-					     &rx, &ry, &rw, &rh))
+			if (pr_clip_region(stx, sty, stw, sth,
+					   it->x + x, it->y + y, w, h,
+					   &rx, &ry, &rw, &rh))
 				{
 				if (st->blank)
 					{
