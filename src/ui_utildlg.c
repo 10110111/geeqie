@@ -197,6 +197,7 @@ GtkWidget *generic_dialog_add_message(GenericDialog *gd, const gchar *icon_stock
 		{
 		label = pref_label_new(vbox, text);
 		gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+		gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 		}
 
 	return vbox;

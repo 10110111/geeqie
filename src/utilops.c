@@ -1804,7 +1804,7 @@ static void file_util_rename_multiple_auto(RenameDataMult *rd)
 		gchar *buf;
 
 		n--;
-		gtk_spin_button_set_value(GTK_SPIN_BUTTON(rd->auto_spin_start), (float)n);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(rd->auto_spin_start), (gdouble)n);
 
 		buf = g_strdup_printf(_("Failed to rename\n%s\nThe number was %d."), filename_from_path(rd->fd->source_path), n);
 		file_util_warning_dialog(_("Auto rename"), buf, GTK_STOCK_DIALOG_ERROR, NULL);

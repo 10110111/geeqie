@@ -1,3 +1,12 @@
+Thu Mar  3 14:24:58 2005  John Ellis  <johne@verizon.net>
+
+	* filelist.c, info.c, preferences.c, utilops.c: Use doubles instead of
+	floats whenever possible.
+	* ui_utildlg.c (generic_dialog_add_message): Enable line wrap for
+	message body so specifying newlines is no longer needed.
+	* pan-view.c: Display info dialog when thumbnail caching settings are
+	not optimal.
+
 Thu Mar  3 01:16:23 2005  John Ellis  <johne@verizon.net>
 
 	* pan-view.c: Add 'dots' image size option, fix up border size at edge

@@ -94,6 +94,10 @@
 #define ZOOM_LABEL_WIDTH 64
 
 
+#define PAN_PREF_GROUP "pan_view_options"
+#define PAN_PREF_HIDE_WARNING "hide_performance_warning"
+
+
 typedef enum {
 	LAYOUT_TIMELINE = 0,
 	LAYOUT_FOLDERS_LINEAR,
@@ -3679,7 +3683,7 @@ static gint pan_window_delete_cb(GtkWidget *w, GdkEventAny *event, gpointer data
 	return TRUE;
 }
 
-void pan_window_new(const gchar *path)
+static void pan_window_new_real(const gchar *path)
 {
 	PanWindow *pw;
 	GtkWidget *vbox;
@@ -3879,13 +3883,92 @@ void pan_window_new(const gchar *path)
 
 /*
  *-----------------------------------------------------------------------------
+ * peformance warnings
+ *-----------------------------------------------------------------------------
+ */
+
+static void pan_warning_ok_cb(GenericDialog *gd, gpointer data)
+{
+	gchar *path = data;
+
+	generic_dialog_close(gd);
+
+	pan_window_new_real(path);
+	g_free(path);
+}
+
+static void pan_warning_hide_cb(GtkWidget *button, gpointer data)
+{
+	gint hide_dlg;
+
+	hide_dlg = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button));
+	pref_list_int_set(PAN_PREF_GROUP, PAN_PREF_HIDE_WARNING, hide_dlg);
+}
+
+static gint pan_warning(const gchar *path)
+{
+	GenericDialog *gd;
+	GtkWidget *box;
+	GtkWidget *group;
+	GtkWidget *button;
+	GtkWidget *ct_button;
+	gint hide_dlg;
+
+	if (enable_thumb_caching &&
+	    thumbnail_spec_standard) return FALSE;
+
+	if (!pref_list_int_get(PAN_PREF_GROUP, PAN_PREF_HIDE_WARNING, &hide_dlg)) hide_dlg = FALSE;
+	if (hide_dlg) return FALSE;
+
+	gd = generic_dialog_new(_("Pan View Performance"), "GQview", "pan_view_warning", NULL, FALSE,
+				NULL, NULL);
+	gd->data = g_strdup(path);
+	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL,
+				  pan_warning_ok_cb, TRUE);
+
+	box = generic_dialog_add_message(gd, GTK_STOCK_DIALOG_INFO,
+					 _("Pan view performance may be poor."),
+					 _("To improve performance of thumbnails in the pan view the"
+					   " following options can be enabled. Note that both options"
+					   " must be enabled to notice a change in performance."));
+
+	group = pref_box_new(box, FALSE, GTK_ORIENTATION_HORIZONTAL, 0);
+	pref_spacer(group, PREF_PAD_INDENT);
+	group = pref_box_new(group, TRUE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
+
+	ct_button = pref_checkbox_new_int(group, _("Cache thumbnails"),
+			  		  enable_thumb_caching, &enable_thumb_caching);
+	button = pref_checkbox_new_int(group, _("Use shared thumbnail cache"),
+				       thumbnail_spec_standard, &thumbnail_spec_standard);
+	pref_checkbox_link_sensitivity(ct_button, button);
+
+	pref_line(box, 0);
+
+	pref_checkbox_new(box, _("Do not show this dialog again"), hide_dlg,
+			  G_CALLBACK(pan_warning_hide_cb), NULL);
+
+	gtk_widget_show(gd->dialog);
+
+	return TRUE;
+}
+
+
+/*
+ *-----------------------------------------------------------------------------
  * public
  *-----------------------------------------------------------------------------
  */
 
+void pan_window_new(const gchar *path)
+{
+	if (pan_warning(path)) return;
+
+	pan_window_new_real(path);
+}
+
 /*
  *-----------------------------------------------------------------------------
- * view window menu routines and callbacks
+ * menus
  *-----------------------------------------------------------------------------
  */
 
@@ -4056,7 +4139,7 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 
 /*
  *-----------------------------------------------------------------------------
- * image drag and drop routines
+ * drag and drop
  *-----------------------------------------------------------------------------
  */
 

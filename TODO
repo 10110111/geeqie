@@ -6,7 +6,7 @@ Major:
 
  > work on pan view:
    > Pick a better keyboard shortcut than Control + J :)
-   > Add warning dialog that it will be slow if the standard thumbnail cache is not enabled.
+  d> Add warning dialog that it will be slow if the standard thumbnail cache is not enabled.
    > Fix occasional redraw bugs when zoomed out.
    > Fix occasional odd requests for non-visible tiles when zoomed out (related to above?).
    > Fix slowness in image.c with huge grid size by changing use of pre-allocated tile array
@@ -34,7 +34,7 @@ Major:
  > the info dialog is not set as a transient of the calling window, this causes it to be behind
    a full screen window when 'stay above other windows' is enabled.
 
- > use doubles instead of floats wherever possible
+d> use doubles instead of floats wherever possible
 
  -------------
 

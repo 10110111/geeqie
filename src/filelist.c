@@ -514,16 +514,16 @@ gchar *text_from_size_abrev(gint64 size)
 		}
 	if (size < (gint64)1048576)
 		{
-		return g_strdup_printf(_("%.1f K"), (gfloat)size / 1024.0);
+		return g_strdup_printf(_("%.1f K"), (double)size / 1024.0);
 		}
 	if (size < (gint64)1073741824)
 		{
-		return g_strdup_printf(_("%.1f MB"), (gfloat)size / 1048576.0);
+		return g_strdup_printf(_("%.1f MB"), (double)size / 1048576.0);
 		}
 
-	/* to avoid overflowing the float, do division in two steps */
-	size /= 1048576.0;
-	return g_strdup_printf(_("%.1f GB"), (gfloat)size / 1024.0);
+	/* to avoid overflowing the double, do division in two steps */
+	size /= 1048576;
+	return g_strdup_printf(_("%.1f GB"), (double)size / 1024.0);
 }
 
 /* note: returned string is valid until next call to text_from_time() */

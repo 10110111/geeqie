@@ -232,7 +232,7 @@ static void info_tab_general_image(InfoData *id, gpointer data)
 
 	if (!tab->compression_done && mem_size > 0)
 		{
-		buf = g_strdup_printf("%.1f%%", (float)tab->byte_size / mem_size * 100.0);
+		buf = g_strdup_printf("%.1f%%", (double)tab->byte_size / mem_size * 100.0);
 		gtk_label_set_text(GTK_LABEL(tab->label_compression), buf);
 		g_free(buf);
 
