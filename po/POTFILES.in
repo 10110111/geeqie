@@ -1,0 +1,16 @@
+./src/config.c
+./src/dnd.c
+./src/filelist.c
+./src/fileops.c
+./src/image.c
+./src/img-main.c
+./src/img-view.c
+./src/main.c
+./src/menu.c
+./src/pathsel.c
+./src/rcfile.c
+./src/tabcomp.c
+./src/thumb.c
+./src/utildlg.c
+./src/utilops.c
+./src/window.c

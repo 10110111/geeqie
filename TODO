@@ -1,0 +1,40 @@
+TODO key: d = done, w = work in progress, ? = possibly fixed, * = wt? - how?
+
+d>try gtk_container_remove instead of reparent, to try to fix dragging hang.
+d>After dragging files, check if they are now gone (moved).
+ >Remember previous directory used in move/copy dialogs.
+
+Major:
+----------------------------------------------
+d>Fix window resizing to start-up size when window is made smaller, then an
+  image is changed, or widget is 'operated'.
+d>Fix hang (endless gtk loop on drags in GTK+ 1.2.3) bah, in gdb its a pain,
+  breaking it within the error causes a stuck pointer grab :-/
+  HOW TO REPEAT:
+   enable 'save tool state'
+   set the tools to float
+   exit
+   restart
+   unfloat tools
+   try to do drag and drop -> BOOM!
+  UPDATE: I dunno, this still looks like a gtk bug?
+
+Minor:
+----------------------------------------------
+ >add a read-ahead buffer for next image, note that this will not be threaded.
+ >add command line option to invoke full screen and slideshow on startup
+ >make *'s const, where appropriate ()
+ >make Escape cancel dialogs.
+
+ >add progress dialog when moving/copying/deleting multiple files.
+ >.xbm file format not listed by default? .pnm, more?
+
+ >ability to specify view window background color
+ >show wait cursor during image load
+
+Wishlist?:
+----------------------------------------------
+ >image list, like playlist in sound players
+ >add vert drag bar
+ >make *.jpg on command line show only jpg files, for ex.
+

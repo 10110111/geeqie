@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=GQview
+Comment=Image Viewer
+Exec=gqview
+Icon=gqview.png
+Terminal=0
+Type=Application

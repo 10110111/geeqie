@@ -1,0 +1,852 @@
+# gqmpeg de.po file.
+# Copyright (C) 1999 John Ellis.
+# Matthias Warkus <mawa@iname.com>, 1999.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gqmpeg-0.6.3a\n"
+"POT-Creation-Date: 1999-08-21 14:22-0400\n"
+"PO-Revision-Date: 1999-08-15 23:47+02:00\n"
+"Last-Translator: Matthias Warkus <mawa@iname.com>\n"
+"Language-Team: Me and my monkey <mawa@iname.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/config.c:303
+msgid "GQview configuration"
+msgstr "GQview-Konfiguration"
+
+#: src/config.c:315
+msgid "Ok"
+msgstr "OK"
+
+#: src/config.c:320
+msgid "Apply"
+msgstr ""
+
+#: src/config.c:325 src/utildlg.c:140 src/utilops.c:414 src/utilops.c:722
+#: src/utilops.c:851 src/utilops.c:949
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: src/config.c:339
+msgid "General"
+msgstr "Allgemein"
+
+#: src/config.c:347
+msgid "Initial directory"
+msgstr "Anfängliches Verzeichnis"
+
+#: src/config.c:357
+msgid "On startup, change to this directory:"
+msgstr "Beim Start in dieses Verzeichnis wechseln:"
+
+#: src/config.c:369
+msgid "Use current"
+msgstr "Aktuelle benutzen"
+
+#: src/config.c:375
+msgid "Confirm file delete"
+msgstr "Dateilöschung bestätigen"
+
+#: src/config.c:377
+msgid "Remember tool state (float/hidden)"
+msgstr "An Werkzeugstatus erinnern (schwebend/verborgen)"
+
+#: src/config.c:379
+msgid "Remember window positions"
+msgstr "An Fensterpositionen erinnern"
+
+#: src/config.c:381
+msgid "Slide show"
+msgstr "Diavorführung"
+
+#: src/config.c:394
+msgid "Delay before image change (seconds):"
+msgstr "Verzögerung vor Bildwechsel (Sekunden):"
+
+#: src/config.c:407
+msgid "Random"
+msgstr "Zufall"
+
+#: src/config.c:409
+msgid "Repeat"
+msgstr "Wiederholung"
+
+#: src/config.c:416
+msgid "Image"
+msgstr "Bild"
+
+#: src/config.c:424
+msgid "When new image is selected:"
+msgstr "Wenn neues Bild ausgewählt wird:"
+
+#: src/config.c:434
+msgid "Zoom to original size"
+msgstr "Zu Ausgangsgröße zoomen"
+
+#: src/config.c:440 src/img-view.c:283 src/menu.c:458 src/menu.c:531
+#: src/menu.c:571 src/menu.c:661
+msgid "Fit image to window"
+msgstr "Bild in Fenster einpassen"
+
+#: src/config.c:446
+msgid "Leave Zoom at previous setting"
+msgstr "Zoom bei vorheriger Einstellung belassen"
+
+#: src/config.c:453
+msgid "Fit window to image when tools are hidden/floating"
+msgstr "Bild in Fenster einpassen wenn Werkzeuge verborgen sind / schweben"
+
+#: src/config.c:460
+msgid "Limit size when auto-sizing window"
+msgstr "Größe begrenzen bei der automatischen Fenstergrößenanpassung"
+
+#: src/config.c:470 src/menu.c:462
+msgid "Thumbnails"
+msgstr "Indexbilder"
+
+#: src/config.c:486
+msgid "Size:"
+msgstr "Größe:"
+
+#: src/config.c:515
+msgid "Cache thumbnails"
+msgstr "Indexbilder cachen"
+
+#: src/config.c:517
+msgid "Use xvpics thumbnails when found (read only)"
+msgstr "xvpics-Indexbilder benutzen, wenn gefunden (nur Lesezugriff)"
+
+#: src/config.c:520
+msgid "Progressive keyboard scrolling"
+msgstr "Gleichmäßiges Tastaturrollen"
+
+#: src/config.c:527
+msgid "Filtering"
+msgstr "Filtern"
+
+#: src/config.c:536
+msgid "Show entries that begin with a dot"
+msgstr "Einträge zeigen, die mit einem Punkt beginnen"
+
+#: src/config.c:538
+msgid "Disable File Filtering"
+msgstr "Dateifiltern abschalten"
+
+#: src/config.c:540
+msgid "Include files of type:"
+msgstr "Dateien dieses Typ einschließen:"
+
+#: src/config.c:590
+msgid "Custom file types:"
+msgstr "Selbstdefinierte Dateitypen::"
+
+#: src/config.c:603
+msgid "format: [.foo;.bar]"
+msgstr "Format: [.foo;.bar]"
+
+#: src/config.c:612
+msgid "External Editors"
+msgstr "Externe Editoren:"
+
+#: src/config.c:624
+msgid "#"
+msgstr "Nr. "
+
+#: src/config.c:627
+msgid "Menu name"
+msgstr "Menüname"
+
+#: src/config.c:630
+msgid "Command Line"
+msgstr "Kommandozeile"
+
+#: src/config.c:660 src/menu.c:484
+msgid "About"
+msgstr "Info"
+
+#: src/config.c:676
+#, c-format
+msgid ""
+"GQview %s\n"
+"\n"
+"Copyright (c) 1999 by John Ellis\n"
+"http://gqview.netpedia.net\n"
+"gqview@email.com\n"
+"\n"
+"Released under the GNU Public License"
+msgstr ""
+"QGview %s\n"
+"\n"
+"Copyright (C) 1999 by John Ellis\n"
+"http://gqview.netpedia.net\n"
+"gqview@email.com\n"
+"\n"
+"Freigegeben unter der GNU General Public License"
+
+#: src/filelist.c:51
+msgid " Slideshow"
+msgstr " Diavorführung"
+
+#: src/filelist.c:55
+#, c-format
+msgid "%d files (%d)%s"
+msgstr "%d Dateien (%d)%s"
+
+#: src/filelist.c:57
+#, c-format
+msgid "%d files%s"
+msgstr "%d Dateien%s"
+
+#: src/filelist.c:960
+msgid "Loading thumbs..."
+msgstr "Lade Indexbilder..."
+
+#: src/image.c:65
+#, c-format
+msgid "( ? x ? ) %d bytes"
+msgstr "( ? x ? ) %d Bytes"
+
+#: src/image.c:67
+#, c-format
+msgid "( %d x %d ) %d bytes"
+msgstr "( %d x %d ) %d Bytes"
+
+#: src/img-main.c:230
+msgid "GQview full screen"
+msgstr "GQview Vollbild"
+
+#: src/img-view.c:280 src/menu.c:455 src/menu.c:528 src/menu.c:568
+#: src/menu.c:657
+msgid "Zoom in"
+msgstr "Einzoomen"
+
+#: src/img-view.c:281 src/menu.c:456 src/menu.c:529 src/menu.c:569
+#: src/menu.c:659
+msgid "Zoom out"
+msgstr "Wegzoomen"
+
+#: src/img-view.c:282 src/menu.c:457 src/menu.c:530 src/menu.c:570
+msgid "Zoom 1:1"
+msgstr "Zoom 1:1"
+
+#. edit menu
+#: src/img-view.c:286 src/menu.c:442 src/menu.c:503 src/menu.c:534
+#: src/menu.c:574
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: src/img-view.c:291 src/menu.c:431 src/menu.c:510 src/menu.c:541
+#: src/menu.c:579
+msgid "Copy..."
+msgstr "Kopieren..."
+
+#: src/img-view.c:292 src/menu.c:432 src/menu.c:511 src/menu.c:542
+#: src/menu.c:580
+msgid "Move..."
+msgstr "Verschieben..."
+
+#: src/img-view.c:293 src/menu.c:433 src/menu.c:512 src/menu.c:543
+#: src/menu.c:581
+msgid "Rename..."
+msgstr "Umbenennen.."
+
+#: src/img-view.c:294 src/menu.c:434 src/menu.c:513 src/menu.c:544
+#: src/menu.c:582
+msgid "Delete..."
+msgstr "Löschen..."
+
+#: src/img-view.c:297
+msgid "Close window"
+msgstr "Fenster schließen"
+
+#: src/main.c:90 src/main.c:119
+#, c-format
+msgid "GQview running: %s\n"
+msgstr "GQview läuft: %s\n"
+
+#: src/main.c:316
+msgid ""
+"Usage: gqview [options] [path]\n"
+"\n"
+msgstr ""
+"Verwendung: gqview [optionen] [pfad]\n"
+"\n"
+
+#: src/main.c:317
+msgid "valid options are:\n"
+msgstr "Gültige Optionen sind:\n"
+
+#: src/main.c:318
+msgid "  +t, +tools                 force show of tools\n"
+msgstr "  +t, +tools                 Anzeige der Werkzeuge erzwingen\n"
+
+#: src/main.c:319
+msgid "  -t, -tools                 force hide of tools\n"
+msgstr "  -t, -tools                 Verbergen der Werkzeuge erzwingen\n"
+
+#: src/main.c:320
+msgid "  -debug                     turn on debug output\n"
+msgstr "  -debug                     Diagnoseausgabe einschalten\n"
+
+#: src/main.c:321
+msgid ""
+"  -help                      this message\n"
+"\n"
+msgstr ""
+"  -help                Diese Meldung\n"
+"\n"
+
+#: src/main.c:326
+#, c-format
+msgid ""
+"invalid or ignored: %s\n"
+"Use -help for options\n"
+msgstr ""
+"Ungültig oder ignoriert: %s\n"
+"Benutzen Sie -help für Optionen\n"
+
+#: src/main.c:353
+msgid "The Gimp"
+msgstr "The Gimp"
+
+#: src/main.c:356
+msgid "Electric Eyes"
+msgstr "Electric Eyes"
+
+#: src/main.c:359
+msgid "XV"
+msgstr "XV"
+
+#: src/main.c:362
+msgid "Xpaint"
+msgstr "Xpaint"
+
+#: src/menu.c:364
+#, c-format
+msgid "in %s..."
+msgstr "in %s..."
+
+#: src/menu.c:366
+msgid "in (unknown)..."
+msgstr "in (unbekannt)..."
+
+#: src/menu.c:385
+msgid "Options..."
+msgstr "Optionen..."
+
+#: src/menu.c:387
+msgid "Remove old thumbnails"
+msgstr "Alte Indexbilder entfernen"
+
+#. file menu
+#: src/menu.c:425
+msgid "File"
+msgstr "Datei"
+
+#: src/menu.c:429
+msgid "Create Dir..."
+msgstr "Verzeichnis anlegen..."
+
+#: src/menu.c:436
+msgid "Exit"
+msgstr "Beenden"
+
+#. view menu
+#: src/menu.c:451
+msgid "View"
+msgstr "Ansicht"
+
+#: src/menu.c:461 src/menu.c:547
+msgid "Full screen"
+msgstr "Vollbild"
+
+#: src/menu.c:469
+msgid "Refresh Lists"
+msgstr "Listen auffrischen"
+
+#: src/menu.c:470
+msgid "(Un)Float file list"
+msgstr "Dateiliste schweben lassen / einfangen"
+
+#: src/menu.c:471 src/menu.c:546
+msgid "(Un)Hide file list"
+msgstr "Dateiliste verbergen / hervorholen"
+
+#: src/menu.c:474
+msgid "Toggle slideshow"
+msgstr "Diavorführung an/aus"
+
+#. help menu
+#: src/menu.c:480
+msgid "Help"
+msgstr "Hilfe"
+
+#: src/menu.c:507 src/menu.c:538
+msgid "View in new window"
+msgstr "In neuem Fenster anzeigen"
+
+#: src/menu.c:515
+msgid "Refresh"
+msgstr "Auffrischen"
+
+#: src/menu.c:585
+msgid "Exit full screen"
+msgstr "Vollbild verlassen"
+
+#: src/menu.c:644
+msgid "Create thumbnails"
+msgstr "Indexbilder erzeugen"
+
+#: src/menu.c:653
+msgid "Change to home directory"
+msgstr "Ins Heimverzeichnis wechseln"
+
+#: src/menu.c:655
+msgid "Refresh file list"
+msgstr "Dateiliste auffrischen"
+
+#: src/menu.c:663
+msgid "Set zoom 1:1"
+msgstr "Zoom auf 1:1 setzen"
+
+#: src/menu.c:665
+msgid "Configure options"
+msgstr "Optionen konfigurieren"
+
+#: src/menu.c:667
+msgid "Float Controls"
+msgstr "Kontrollen schweben lassen"
+
+#: src/rcfile.c:132
+#, c-format
+msgid "error saving config file: %s\n"
+msgstr "Fehler beim Speichern von Konfigurationsdatei: %s\n"
+
+#: src/thumb.c:127 src/thumb.c:151
+#, c-format
+msgid "create dir failed: %s\n"
+msgstr "Anlegen von Verzeichnis fehlgeschlagen: %s\n"
+
+#: src/thumb.c:233
+#, c-format
+msgid "Unable to delete dir: %s\n"
+msgstr "Kann Verzeichnis nicht löschen: %s\n"
+
+#: src/thumb.c:249
+#, c-format
+msgid "failed to delete:%s\n"
+msgstr "Kann nicht löschen: %s\n"
+
+#: src/utildlg.c:67
+msgid "     Ok     "
+msgstr "     OK     "
+
+#: src/utilops.c:162
+#, fuzzy, c-format
+msgid ""
+"Overwrite file:\n"
+" %s\n"
+" with:\b %s"
+msgstr "Datei überschreiben:\n"
+
+#: src/utilops.c:163 src/utilops.c:262 src/utilops.c:621 src/utilops.c:803
+msgid "Overwrite file"
+msgstr "Datei überschreiben"
+
+#: src/utilops.c:164
+msgid "Skip"
+msgstr "Überspringen"
+
+#: src/utilops.c:165
+msgid "Yes to all"
+msgstr "Ja zu allen"
+
+#: src/utilops.c:166
+msgid "Yes"
+msgstr "Ja"
+
+#: src/utilops.c:200 src/utilops.c:288
+#, fuzzy
+msgid "Error copying file"
+msgstr "Fehler beim Umbenennen von Datei"
+
+#: src/utilops.c:201
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%sto:\n"
+"%s\n"
+" during multiple file copy."
+msgstr ""
+
+#: src/utilops.c:205 src/utilops.c:293
+#, fuzzy
+msgid "Error moving file"
+msgstr "Fehler beim Umbenennen von Datei"
+
+#: src/utilops.c:206
+#, fuzzy, c-format
+msgid ""
+"Unable to move file:\n"
+"%sto:\n"
+"%s\n"
+" during multiple file move."
+msgstr ""
+"\n"
+" während Verschieben mehrerer Dateien."
+
+#: src/utilops.c:209 src/utilops.c:486
+msgid "Continue"
+msgstr "Fortsetzen"
+
+#: src/utilops.c:261
+#, fuzzy, c-format
+msgid ""
+"Overwrite file:\n"
+"%s\n"
+" with:\n"
+"%s"
+msgstr "Datei überschreiben:\n"
+
+#: src/utilops.c:263 src/utilops.c:622 src/utilops.c:804
+msgid "Overwrite"
+msgstr "Überschreiben"
+
+#: src/utilops.c:289
+#, fuzzy, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr "Kann Datei nicht löschen:\n"
+
+#: src/utilops.c:294
+#, fuzzy, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr "Kann Datei nicht umbenennen:\n"
+
+#: src/utilops.c:337
+msgid "Invalid destination"
+msgstr "Ungültiges Ziel"
+
+#: src/utilops.c:337
+msgid ""
+"When operating with multiple files, please select\n"
+" a directory, not file."
+msgstr ""
+"Beim Umgang mit mehreren Dateien, bitte ein\n"
+" Verzeichnis, keine Datei wählen."
+
+#: src/utilops.c:339
+msgid "Invalid directory"
+msgstr "Ungültiges Verzeichnis"
+
+#: src/utilops.c:339
+msgid "Please select an existing directory"
+msgstr "Bitte wählen Sie ein existierendes Verzeichnis"
+
+#: src/utilops.c:397
+msgid "GQview - copy"
+msgstr "GQview - Kopieren"
+
+#: src/utilops.c:398
+msgid "Copy"
+msgstr "Kopieren"
+
+#: src/utilops.c:400
+#, c-format
+msgid ""
+"Copy file:\n"
+"%s\n"
+"to:"
+msgstr ""
+
+#: src/utilops.c:402
+#, fuzzy, c-format
+msgid ""
+"Copy multiple files from:\n"
+"%s\n"
+"to:"
+msgstr " mehrere Dateien von:\n"
+
+#: src/utilops.c:406
+msgid "GQview - move"
+msgstr "GQview - Verschieben"
+
+#: src/utilops.c:407
+msgid "Move"
+msgstr "Verschieben"
+
+#: src/utilops.c:409
+#, c-format
+msgid ""
+"Move file:\n"
+"%s\n"
+"to:"
+msgstr ""
+
+#: src/utilops.c:411
+#, fuzzy, c-format
+msgid ""
+"Move multiple files from:\n"
+"%s\n"
+"to:"
+msgstr " mehrere Dateien von:\n"
+
+#: src/utilops.c:484
+#, fuzzy, c-format
+msgid ""
+"Unable to delete file:\n"
+" %s\n"
+" Continue multiple delete operation?"
+msgstr ""
+"\n"
+"Mehrfaches Löschen fortsetzen?"
+
+#: src/utilops.c:485 src/utilops.c:491
+msgid "Delete failed"
+msgstr "Löschen fehlgeschlagen"
+
+#: src/utilops.c:490 src/utilops.c:535
+#, fuzzy, c-format
+msgid ""
+"Unable to delete file:\n"
+"%s"
+msgstr "Kann Datei nicht löschen:\n"
+
+#: src/utilops.c:520
+msgid "Delete files"
+msgstr "Dateien löschen"
+
+#: src/utilops.c:520
+msgid "About to delete multiple files..."
+msgstr "Werde mehrere Dateien löschen..."
+
+#: src/utilops.c:521 src/utilops.c:566
+msgid "Delete"
+msgstr "Löschen"
+
+#: src/utilops.c:536
+msgid "File deletion failed"
+msgstr "Dateilöschen fehlgeschlagen"
+
+#: src/utilops.c:564
+#, fuzzy, c-format
+msgid ""
+"About to delete the file:\n"
+" %s"
+msgstr "Werde Datei löschen:\n"
+
+#: src/utilops.c:565
+msgid "Delete file"
+msgstr "Datei löschen"
+
+#: src/utilops.c:620
+#, fuzzy, c-format
+msgid ""
+"Overwrite file:\n"
+"%s\n"
+"by renaming:\n"
+"%s"
+msgstr "Datei überschreiben:\n"
+
+#: src/utilops.c:631
+#, fuzzy, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+" to:\n"
+"%s"
+msgstr "Kann Datei nicht umbenennen:\n"
+
+#: src/utilops.c:632 src/utilops.c:813
+msgid "Error renaming file"
+msgstr "Fehler beim Umbenennen von Datei"
+
+#: src/utilops.c:722 src/utilops.c:851
+msgid "GQview - rename"
+msgstr "GQview - Umbenennen"
+
+#: src/utilops.c:722
+msgid "Rename multiple files:"
+msgstr "Mehrere Dateien umbenennen:"
+
+#: src/utilops.c:722 src/utilops.c:851
+msgid "Rename"
+msgstr "Umbenennen"
+
+#: src/utilops.c:758
+msgid "Rename:"
+msgstr "Umbenennen:"
+
+#: src/utilops.c:767
+msgid "to:"
+msgstr "in:"
+
+#: src/utilops.c:802
+#, fuzzy, c-format
+msgid ""
+"Overwrite file:\n"
+"%s\n"
+"with:\n"
+"%s"
+msgstr "Datei überschreiben:\n"
+
+#: src/utilops.c:812
+#, fuzzy, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr "Kann Datei nicht umbenennen:\n"
+
+#: src/utilops.c:850
+#, fuzzy, c-format
+msgid ""
+"Rename file:\n"
+"%s\n"
+"to:"
+msgstr "Datei umbenennen:\n"
+
+#: src/utilops.c:894
+#, fuzzy, c-format
+msgid ""
+"The path:\n"
+"%s\n"
+"already exists as a file."
+msgstr ""
+"\n"
+" existiert bereits als Datei."
+
+#: src/utilops.c:895
+msgid "Could not create directory"
+msgstr "Konnte Verzeichnis nicht anlegen"
+
+#: src/utilops.c:900
+#, fuzzy, c-format
+msgid ""
+"The directory:\n"
+"%s\n"
+"already exists."
+msgstr ""
+"\n"
+" existiert bereits"
+
+#: src/utilops.c:901
+msgid "Directory exists"
+msgstr "Verzeichnis existiert"
+
+#: src/utilops.c:908
+#, fuzzy, c-format
+msgid ""
+"Unable to create directory:\n"
+"%s"
+msgstr "Kann Verzeichnis nicht anlegen:\n"
+
+#: src/utilops.c:909
+msgid "Error creating directory"
+msgstr "Fehler beim Anlegen von Verzeichnis"
+
+#: src/utilops.c:948
+#, fuzzy, c-format
+msgid ""
+"Create directory in:\n"
+"%s\n"
+"named:"
+msgstr "Verzeichnis anlegen in:\n"
+
+#: src/utilops.c:949
+msgid "GQview - new directory"
+msgstr "GQview - Neues Verzeichnis"
+
+#: src/utilops.c:949
+msgid "Create"
+msgstr "Erzeugen"
+
+#: src/window.c:151
+msgid "GQview Tools"
+msgstr "GQview-Werkzeuge"
+
+#~ msgid "Save"
+#~ msgstr "Speichern"
+
+#~ msgid "Save settings on exit"
+#~ msgstr "Einstellungen beim Beenden speichern"
+
+#~ msgid "Save options"
+#~ msgstr "Optionen speichern..."
+
+#~ msgid "copy"
+#~ msgstr "Kopieren"
+
+#~ msgid "move"
+#~ msgstr "Verschieben"
+
+#~ msgid ""
+#~ "\n"
+#~ " with:\n"
+#~ msgstr ""
+#~ "\n"
+#~ " mit:\n"
+
+#~ msgid "Error "
+#~ msgstr "Fehler "
+
+#~ msgid "ing file"
+#~ msgstr "von Datei"
+
+#~ msgid "Unable to "
+#~ msgstr "Kann nicht "
+
+#~ msgid " file:\n"
+#~ msgstr " Datei:\n"
+
+#~ msgid ""
+#~ "\n"
+#~ " to:\n"
+#~ msgstr ""
+#~ "\n"
+#~ " nach:\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "to:"
+#~ msgstr ""
+#~ "\n"
+#~ "nach:"
+
+#~ msgid ""
+#~ "\n"
+#~ " by renaming:\n"
+#~ msgstr ""
+#~ "\n"
+#~ " beim Umbenennen:\n"
+
+#~ msgid ""
+#~ "\n"
+#~ " to:"
+#~ msgstr ""
+#~ "\n"
+#~ " in:"
+
+#~ msgid "The path:\n"
+#~ msgstr "Der Pfad:\n"
+
+#~ msgid "The directory:\n"
+#~ msgstr "Das Verzeichnis:\n"
+
+#~ msgid ""
+#~ "\n"
+#~ " named:"
+#~ msgstr ""
+#~ "\n"
+#~ " genannt:"

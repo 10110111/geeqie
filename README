@@ -1,0 +1,118 @@
+###################################################################
+##                          GQview 0.7.0      (07/03/99)         ##
+##      This software is Copyright (C) 1999 by John Ellis.       ##
+##  Use this software at your own risk. I am not responsible for ##
+##        anything this software may do to your computer.        ##
+## This software falls under the GNU Public License. Please read ##
+##              the COPYING file for more information            ##
+###################################################################
+
+Author: John Ellis
+e-mail: gqview@email.com
+homepage: gqview.netpedia.net
+          www.geocities.com/SiliconValley/Haven/5235/ (mirror always up to date)
+
+======== Requirements
+
+  GTK+-1.2.0: ftp://ftp.gtk.org/pub/gtk
+  Imlib 1.9: ftp://ftp.labs.redhat.com/pub/imlib
+
+======== Notes and changes for this release
+
+  Changes:
+    > Now use autoconf/make, resulting in a configure script.
+    > Now supports i18n, added translations: de ja pt_BR ru
+    > Remove 'save settings on exit', they are now always saved.
+    > Copy/move dialogs now include drop down history.
+    - Icons now update when size is configured.
+    - When dragging files, and the action was a move, refresh the filelist.
+    * Icons sizes are now properly remembered when the config dialog is opened
+      then closed without re-selecting the size.
+
+  Notes:
+   known bug: When starting up with tools floating, then unfloat the tools and
+              attempt to do drag and drop, BOOM! endless loop of errors on
+              GTK+-1.2.3 (hint: could use a little help figuring this out)
+
+======== Installation
+
+  Compilation: ./configure ; make
+  General install: make install
+  GNOME install: make gnome-install is deprecated!, configure finds gnome for
+                 you now. 
+  Removal: make uninstall
+
+======== Description / Features
+
+  GQview is a graphics file viewer. Basic features:
+    - Single click image viewing / navigation.
+    - Zoom functions.
+    - Thumbnails, with optional caching and .xvpics support.
+    - Multiple file selection for move, copy, delete, rename, drag and drop.
+    - Drag and drop.
+    - Slideshow.
+    - Full screen.
+    - Ability to open images in external editors (configurable).
+
+======== Documentation (brief)
+
+  Keyboard commands:
+    [PageDown]                         next image
+    [PageUp]                           previous image
+    [Home]                             first image in list
+    [End]                              last image in list
+    [Tab]                              tab completion in path entry window
+    [Escape],                          cancel completion in path entry window
+    [Escape]                           stop generating thumbnails
+
+  Keyboard commands valid when image has focus (image has black rectangle)
+    arrow keys                         pan image
+    [Shift] - arrow keys               pan image faster
+    [Space]                            next image
+    [Backspace]                        previous image
+
+  File menu related:
+    [Ctrl] - N                         New directory
+    [Ctrl] - C                         Copy file
+    [Ctrl] - M                         Move file
+    [Ctrl] - R                         Rename file
+    [Ctrl] - D, [Delete]               Delete file
+    [Ctrl] - Q, Q                      Exit
+
+  Edit menu related:
+    [Ctrl] - 1 .. 8                    run external editor
+    [Ctrl] - O                         configure Options
+    [Ctrl] - S                         Save options
+    [Ctrl] - T                         Maintain thumbnails
+
+  View menu related:
+    +, =                               zoom in
+    -                                  zoom out
+    Z                                  zoom to original size
+    X                                  zoom to fit
+    T                                  toggle thumbnail display
+    R                                  refresh list
+    F                                  (Un)float file selection area
+    H                                  (Un)hide file selection area
+    [Ctrl] = F                         Toggle full screen
+    S                                  Toggle slide show
+
+======== Thanks go to the following for fixes, additions, and patches:
+
+  Oleg Andrjushenko <oandr@itec.cn.ua>
+      for Russian translation
+
+  Vitor Fernandes <vitor_fernandes@SoftHome.net>
+      for Brazilian Portuguese translation
+
+  Shingo Akagaki <akagaki@ece.numazu-ct.ac.jp>a
+      for Japanese translation
+
+  Matthias Warkus <mawarkus@t-online.de>
+      for German translation.
+
+  Diederen Damien <D.Diederen@student.ulg.ac.be>
+      for .xvpics thumbnail reading support.
+
+========
+

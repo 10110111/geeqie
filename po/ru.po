@@ -1,0 +1,837 @@
+# gqview ru.po file. Russian locale definition for gqview.
+# Copyright (C) 1999 Free Software Foundation, Inc.
+# Oleg Andrjushenko <oandr@itec.cn.ua>, 1999.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gqview-0.7.0d\n"
+"POT-Creation-Date: 1999-09-09 09:09+0300\n"
+"PO-Revision-Date: 1999-09-09 09:09+0300\n"
+"Last-Translator: Oleg Andrjushenko <oandr@itec.cn.ua>\n"
+"Language-Team: It`s me <oandr@itec.cn.ua>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=koi8-r\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/config.c:303
+msgid "GQview configuration"
+msgstr "Конфигурация GQview"
+
+#: src/config.c:315
+msgid "Ok"
+msgstr "Ok"
+
+#: src/config.c:320
+msgid "Apply"
+msgstr "Применить"
+
+#: src/config.c:325 src/utildlg.c:140 src/utilops.c:414 src/utilops.c:722
+#: src/utilops.c:851 src/utilops.c:949
+msgid "Cancel"
+msgstr "Отмена"
+
+#: src/config.c:339
+msgid "General"
+msgstr "Общие"
+
+#: src/config.c:347
+msgid "Initial directory"
+msgstr "Исходный каталог"
+
+#: src/config.c:357
+msgid "On startup, change to this directory:"
+msgstr "При старте, изменить на каталог:"
+
+#: src/config.c:369
+msgid "Use current"
+msgstr "Использовать текущий"
+
+#: src/config.c:375
+msgid "Confirm file delete"
+msgstr "Подтверждать удаление файлов"
+
+#: src/config.c:377
+msgid "Remember tool state (float/hidden)"
+msgstr "Помнить расположение инструментов (свободное/прикрепленное)"
+
+#: src/config.c:379
+msgid "Remember window positions"
+msgstr "Помнить расположение окна"
+
+#: src/config.c:381
+msgid "Slide show"
+msgstr "Просмотр слайдов"
+
+#: src/config.c:394
+msgid "Delay before image change (seconds):"
+msgstr "Пауза перед сменой картинки (секуны):"
+
+#: src/config.c:407
+msgid "Random"
+msgstr "Случайно"
+
+#: src/config.c:409
+msgid "Repeat"
+msgstr "Повторять в цикле"
+
+#: src/config.c:416
+msgid "Image"
+msgstr "Изображение"
+
+#: src/config.c:424
+msgid "When new image is selected:"
+msgstr "При выборе нового изображения:"
+
+#: src/config.c:434
+msgid "Zoom to original size"
+msgstr "Маштабировать к размеру оригинала"
+
+#: src/config.c:440 src/img-view.c:283 src/menu.c:458 src/menu.c:531
+#: src/menu.c:571 src/menu.c:661
+msgid "Fit image to window"
+msgstr "К размеру окна"
+
+#: src/config.c:446
+msgid "Leave Zoom at previous setting"
+msgstr "Использовать последний заданный маштаб"
+
+#: src/config.c:453
+msgid "Fit window to image when tools are hidden/floating"
+msgstr ""
+"Подбирать размеры окна к изображению   \n"
+"когда инструменты прикрепленны/свободны"
+
+#: src/config.c:460
+msgid "Limit size when auto-sizing window"
+msgstr "Ограничить размер auto-размерного окна"
+
+#: src/config.c:470 src/menu.c:462
+msgid "Thumbnails"
+msgstr "Экскизы"
+
+#: src/config.c:486
+msgid "Size:"
+msgstr "Размер:"
+
+#: src/config.c:515
+msgid "Cache thumbnails"
+msgstr "Кэшировать экскизы"
+
+#: src/config.c:517
+msgid "Use xvpics thumbnails when found (read only)"
+msgstr "Использовать экскизы от xvpics, если найдены (только чтение)"
+
+#: src/config.c:520
+msgid "Progressive keyboard scrolling"
+msgstr ""
+
+#: src/config.c:527
+msgid "Filtering"
+msgstr "Фильтрация"
+
+#: src/config.c:536
+msgid "Show entries that begin with a dot"
+msgstr "Показывать файлы начинающиеся с точки"
+
+#: src/config.c:538
+msgid "Disable File Filtering"
+msgstr "Запретить Фильтрацию Файла"
+
+#: src/config.c:540
+msgid "Include files of type:"
+msgstr "Включать файлы типа:"
+
+#: src/config.c:590
+msgid "Custom file types:"
+msgstr "и/или свой тип файла:"
+
+#: src/config.c:603
+msgid "format: [.foo;.bar]"
+msgstr "формат: [.foo;.bar]"
+
+#: src/config.c:612
+msgid "External Editors"
+msgstr "Внешние Редакторы"
+
+#: src/config.c:624
+msgid "#"
+msgstr ""
+
+#: src/config.c:627
+msgid "Menu name"
+msgstr "Имя в меню"
+
+#: src/config.c:630
+msgid "Command Line"
+msgstr "Коммандная строка"
+
+#: src/config.c:660 src/menu.c:484
+msgid "About"
+msgstr "О программе..."
+
+#: src/config.c:676
+#, c-format
+msgid ""
+"GQview %s\n"
+"\n"
+"Copyright (c) 1999 by John Ellis\n"
+"http://gqview.netpedia.net\n"
+"gqview@email.com\n"
+"\n"
+"Released under the GNU Public License"
+msgstr ""
+
+#: src/filelist.c:51
+msgid " Slideshow"
+msgstr " Просмотр слайдов..."
+
+#: src/filelist.c:55
+#, c-format
+msgid "%d files (%d)%s"
+msgstr "%d файлов (%d)%s"
+
+#: src/filelist.c:57
+#, c-format
+msgid "%d files%s"
+msgstr "%d файлов%s"
+
+#: src/filelist.c:960
+msgid "Loading thumbs..."
+msgstr "Загрузка экскизов"
+
+#: src/image.c:65
+#, c-format
+msgid "( ? x ? ) %d bytes"
+msgstr "( ? x ? ) %d байт"
+
+#: src/image.c:67
+#, c-format
+msgid "( %d x %d ) %d bytes"
+msgstr "( %d x %d ) %d байт"
+
+#: src/img-main.c:231
+msgid "GQview full screen"
+msgstr "GQview на весь экран"
+
+#: src/img-view.c:280 src/menu.c:455 src/menu.c:528 src/menu.c:568
+#: src/menu.c:657
+msgid "Zoom in"
+msgstr "Масштаб +"
+
+#: src/img-view.c:281 src/menu.c:456 src/menu.c:529 src/menu.c:569
+#: src/menu.c:659
+msgid "Zoom out"
+msgstr "Масштаб -"
+
+#: src/img-view.c:282 src/menu.c:457 src/menu.c:530 src/menu.c:570
+msgid "Zoom 1:1"
+msgstr "Масштаб 1:1"
+
+#. edit menu
+#: src/img-view.c:286 src/menu.c:442 src/menu.c:503 src/menu.c:534
+#: src/menu.c:574
+msgid "Edit"
+msgstr "Правка"
+
+#: src/img-view.c:291 src/menu.c:431 src/menu.c:510 src/menu.c:541
+#: src/menu.c:579
+msgid "Copy..."
+msgstr "Копировать..."
+
+#: src/img-view.c:292 src/menu.c:432 src/menu.c:511 src/menu.c:542
+#: src/menu.c:580
+msgid "Move..."
+msgstr "Переместить..."
+
+#: src/img-view.c:293 src/menu.c:433 src/menu.c:512 src/menu.c:543
+#: src/menu.c:581
+msgid "Rename..."
+msgstr "Переименовать..."
+
+#: src/img-view.c:294 src/menu.c:434 src/menu.c:513 src/menu.c:544
+#: src/menu.c:582
+msgid "Delete..."
+msgstr "Удалить..."
+
+#: src/img-view.c:297
+msgid "Close window"
+msgstr "Закрыть окно"
+
+#: src/main.c:90 src/main.c:119
+#, c-format
+msgid "GQview running: %s\n"
+msgstr "GQview выполняет: %s\n"
+
+#: src/main.c:316
+msgid ""
+"Usage: gqview [options] [path]\n"
+"\n"
+msgstr ""
+"Использование: gqview [параметры] [путь]\n"
+"\n"
+
+#: src/main.c:317
+msgid "valid options are:\n"
+msgstr "допустимые параметры:\n"
+
+#: src/main.c:318
+msgid "  +t, +tools                 force show of tools\n"
+msgstr "  +t, +tools                 показывать окно инструментов\n"
+
+#: src/main.c:319
+msgid "  -t, -tools                 force hide of tools\n"
+msgstr "  -t, -tools                 спрятать окно инструментов\n"
+
+#: src/main.c:320
+msgid "  -debug                     turn on debug output\n"
+msgstr "  -debug                     выводить отладочную информацию\n"
+
+#: src/main.c:321
+msgid ""
+"  -help                      this message\n"
+"\n"
+msgstr ""
+"  -help                      показать ЭТО сообщение\n"
+"\n"
+
+#: src/main.c:326
+#, c-format
+msgid ""
+"invalid or ignored: %s\n"
+"Use -help for options\n"
+msgstr ""
+"неверный параметр: %s\n"
+"Наберите gqview -help для справки.\n"
+
+#: src/main.c:353
+msgid "The Gimp"
+msgstr ""
+
+#: src/main.c:356
+msgid "Electric Eyes"
+msgstr ""
+
+#: src/main.c:359
+msgid "XV"
+msgstr ""
+
+#: src/main.c:362
+msgid "Xpaint"
+msgstr ""
+
+#: src/menu.c:364
+#, c-format
+msgid "in %s..."
+msgstr "в %s..."
+
+#: src/menu.c:366
+msgid "in (unknown)..."
+msgstr "в (неизвестно)..."
+
+#: src/menu.c:385
+msgid "Options..."
+msgstr "Конфигурация..."
+
+#: src/menu.c:387
+msgid "Remove old thumbnails"
+msgstr "Удалить старые экскизы"
+
+#. file menu
+#: src/menu.c:425
+msgid "File"
+msgstr "Файл"
+
+#: src/menu.c:429
+msgid "Create Dir..."
+msgstr "Создать каталог..."
+
+#: src/menu.c:436
+msgid "Exit"
+msgstr "Выход"
+
+#. view menu
+#: src/menu.c:451
+msgid "View"
+msgstr "Просмотр"
+
+#: src/menu.c:461 src/menu.c:547
+msgid "Full screen"
+msgstr "На весь экран"
+
+#: src/menu.c:469
+msgid "Refresh Lists"
+msgstr "Обновить список файлов"
+
+#: src/menu.c:470
+msgid "(Un)Float file list"
+msgstr "(Не)Освободить инструменты"
+
+#: src/menu.c:471 src/menu.c:546
+msgid "(Un)Hide file list"
+msgstr "Нет/Да инструментам"
+
+#: src/menu.c:474
+msgid "Toggle slideshow"
+msgstr "Вкл/Выкл. просмотр слайдов"
+
+#. help menu
+#: src/menu.c:480
+msgid "Help"
+msgstr "Помощь"
+
+#: src/menu.c:507 src/menu.c:538
+msgid "View in new window"
+msgstr "Просмотр в новом окне"
+
+#: src/menu.c:515
+msgid "Refresh"
+msgstr "Обновить"
+
+#: src/menu.c:585
+msgid "Exit full screen"
+msgstr "Выйти из полного экрана"
+
+#: src/menu.c:644
+msgid "Create thumbnails"
+msgstr "Создать экскизы"
+
+#: src/menu.c:653
+msgid "Change to home directory"
+msgstr "Перейти в домашний каталог"
+
+#: src/menu.c:655
+msgid "Refresh file list"
+msgstr "Обновить список файлов"
+
+#: src/menu.c:663
+msgid "Set zoom 1:1"
+msgstr "Масштаб 1:1"
+
+#: src/menu.c:665
+msgid "Configure options"
+msgstr "Конфигурация"
+
+#: src/menu.c:667
+msgid "Float Controls"
+msgstr "прикрепить/свободить инструменты"
+
+#: src/rcfile.c:132
+#, c-format
+msgid "error saving config file: %s\n"
+msgstr "ошибка записи файла конфигурации: %s\n"
+
+#: src/thumb.c:127 src/thumb.c:151
+#, c-format
+msgid "create dir failed: %s\n"
+msgstr "создать каталог неудалось: %s\n"
+
+#: src/thumb.c:233
+#, c-format
+msgid "Unable to delete dir: %s\n"
+msgstr "Немогу удалить каталог: %s\n"
+
+#: src/thumb.c:249
+#, c-format
+msgid "failed to delete:%s\n"
+msgstr "неудалось удалить:%s\n"
+
+#: src/utildlg.c:67
+msgid "     Ok     "
+msgstr "     Ok     "
+
+#: src/utilops.c:162
+#, c-format
+msgid ""
+"Overwrite file:\n"
+" %s\n"
+" with:\b %s"
+msgstr ""
+"Файл с таким именем уже существует !\n"
+"Перезаписать файл ?:\n"
+" %s\n"
+" файлом:\b %s"
+
+#: src/utilops.c:163 src/utilops.c:262 src/utilops.c:621 src/utilops.c:803
+msgid "Overwrite file"
+msgstr "Перезаписать файл"
+
+#: src/utilops.c:164
+msgid "Skip"
+msgstr "Пропустить"
+
+#: src/utilops.c:165
+msgid "Yes to all"
+msgstr "Да для всех"
+
+#: src/utilops.c:166
+msgid "Yes"
+msgstr "Да"
+
+#: src/utilops.c:200 src/utilops.c:288
+msgid "Error copying file"
+msgstr "Ошибка копирования файла"
+
+#: src/utilops.c:201
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%sto:\n"
+"%s\n"
+" during multiple file copy."
+msgstr ""
+"Немогу скопировать файл:\n"
+"%s в:\n"
+"%s\n"
+" during multiple file copy."
+
+#: src/utilops.c:205 src/utilops.c:293
+msgid "Error moving file"
+msgstr "Ошибка перемещения файла"
+
+#: src/utilops.c:206
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%sto:\n"
+"%s\n"
+" during multiple file move."
+msgstr ""
+"Немогу переместить файл:\n"
+"%s в:\n"
+"%s\n"
+" during multiple file move."
+
+#: src/utilops.c:209 src/utilops.c:486
+msgid "Continue"
+msgstr "Продолжить"
+
+#: src/utilops.c:261
+#, c-format
+msgid ""
+"Overwrite file:\n"
+"%s\n"
+" with:\n"
+"%s"
+msgstr ""
+"Файл с таким именем уже существует !\n"
+"Презаписать файл ?:\n"
+"%s\n"
+" файлом:\n"
+"%s"
+
+#: src/utilops.c:263 src/utilops.c:622 src/utilops.c:804
+msgid "Overwrite"
+msgstr "Переписать"
+
+#: src/utilops.c:289
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Немогу скопировать файл:\n"
+"%s\n"
+"в:\n"
+"%s"
+
+#: src/utilops.c:294
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Немогу переместить файл:\n"
+"%s\n"
+"в:\n"
+"%s"
+
+#: src/utilops.c:337
+msgid "Invalid destination"
+msgstr "Неправильное назначение"
+
+#: src/utilops.c:337
+msgid ""
+"When operating with multiple files, please select\n"
+" a directory, not file."
+msgstr ""
+"Когда операция производится над несколькими файлами,\n"
+" пожалуйста задайте каталог, не файл."
+
+#: src/utilops.c:339
+msgid "Invalid directory"
+msgstr "Неправильный каталог"
+
+#: src/utilops.c:339
+msgid "Please select an existing directory"
+msgstr "Пожалуйста выберите существующий каталог"
+
+#: src/utilops.c:397
+msgid "GQview - copy"
+msgstr "GQview - копирование"
+
+#: src/utilops.c:398
+msgid "Copy"
+msgstr "Копировать"
+
+#: src/utilops.c:400
+#, c-format
+msgid ""
+"Copy file:\n"
+"%s\n"
+"to:"
+msgstr ""
+"Копировать файл:\n"
+"%s\n"
+"в:"
+
+#: src/utilops.c:402
+#, c-format
+msgid ""
+"Copy multiple files from:\n"
+"%s\n"
+"to:"
+msgstr ""
+"Копировать выделенные файлы из:\n"
+"%s\n"
+"в:"
+
+#: src/utilops.c:406
+msgid "GQview - move"
+msgstr "GQview - переместить"
+
+#: src/utilops.c:407
+msgid "Move"
+msgstr "Переместить"
+
+#: src/utilops.c:409
+#, c-format
+msgid ""
+"Move file:\n"
+"%s\n"
+"to:"
+msgstr ""
+"Переместить файл:\n"
+"%s\n"
+"в:"
+
+#: src/utilops.c:411
+#, c-format
+msgid ""
+"Move multiple files from:\n"
+"%s\n"
+"to:"
+msgstr ""
+"Переместить выделенные файлы из:\n"
+"%s\n"
+"в:"
+
+#: src/utilops.c:484
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+" %s\n"
+" Continue multiple delete operation?"
+msgstr ""
+"Невозможно удалить файл:\n"
+" %s\n"
+" Продолжать операцию удаления для оставшихся файлов ?"
+
+#: src/utilops.c:485 src/utilops.c:491
+msgid "Delete failed"
+msgstr "Удалить неудалось"
+
+#: src/utilops.c:490 src/utilops.c:535
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+"%s"
+msgstr ""
+"Немогу удалить файл:\n"
+"%s"
+
+#: src/utilops.c:520
+msgid "Delete files"
+msgstr "Удалить файлы"
+
+#: src/utilops.c:520
+msgid "About to delete multiple files..."
+msgstr "Вы хотите удалить отмеченные файлы ?"
+
+#: src/utilops.c:521 src/utilops.c:566
+msgid "Delete"
+msgstr "Удалить"
+
+#: src/utilops.c:536
+msgid "File deletion failed"
+msgstr "Удаление файла неудалось"
+
+#: src/utilops.c:564
+#, c-format
+msgid ""
+"About to delete the file:\n"
+" %s"
+msgstr ""
+"Хотите удалить файл ?:\n"
+" %s"
+
+#: src/utilops.c:565
+msgid "Delete file"
+msgstr "Удалить файл"
+
+#: src/utilops.c:620
+#, c-format
+msgid ""
+"Overwrite file:\n"
+"%s\n"
+"by renaming:\n"
+"%s"
+msgstr ""
+"Перезаписать файл:\n"
+"%s\n"
+"переименовав:\n"
+"%s"
+
+#: src/utilops.c:631
+#, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+" to:\n"
+"%s"
+msgstr ""
+"Немогу переименовать файл:\n"
+"%s\n"
+" в:\n"
+"%s"
+
+#: src/utilops.c:632 src/utilops.c:813
+msgid "Error renaming file"
+msgstr "Ошибка переименования файла"
+
+#: src/utilops.c:722 src/utilops.c:851
+msgid "GQview - rename"
+msgstr "GQview - переименовать"
+
+#: src/utilops.c:722
+msgid "Rename multiple files:"
+msgstr "Переименовать выделенные файлы:"
+
+#: src/utilops.c:722 src/utilops.c:851
+msgid "Rename"
+msgstr "Переименовать"
+
+#: src/utilops.c:758
+msgid "Rename:"
+msgstr "Переименовать:"
+
+#: src/utilops.c:767
+msgid "to:"
+msgstr "в:"
+
+#: src/utilops.c:802
+#, c-format
+msgid ""
+"Overwrite file:\n"
+"%s\n"
+"with:\n"
+"%s"
+msgstr ""
+"Файл уже существует !\n"
+"Перезаписать файл ?:\n"
+"%s\n"
+"файлом:\n"
+"%s"
+
+#: src/utilops.c:812
+#, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Немогу переименовать файл:\n"
+"%s\n"
+" в:\n"
+"%s"
+
+#: src/utilops.c:850
+#, c-format
+msgid ""
+"Rename file:\n"
+"%s\n"
+"to:"
+msgstr ""
+"Переименовать файл:\n"
+"%s\n"
+"в:"
+
+#: src/utilops.c:894
+#, c-format
+msgid ""
+"The path:\n"
+"%s\n"
+"already exists as a file."
+msgstr ""
+"Путь:\n"
+"%s\n"
+"уже существует как файл."
+
+#: src/utilops.c:895
+msgid "Could not create directory"
+msgstr "Немогу создать каталог"
+
+#: src/utilops.c:900
+#, c-format
+msgid ""
+"The directory:\n"
+"%s\n"
+"already exists."
+msgstr ""
+"Каталог:\n"
+"%s\n"
+"уже существует."
+
+#: src/utilops.c:901
+msgid "Directory exists"
+msgstr "Каталог существует"
+
+#: src/utilops.c:908
+#, c-format
+msgid ""
+"Unable to create directory:\n"
+"%s"
+msgstr ""
+"Немогу создать каталог:\n"
+"%s"
+
+#: src/utilops.c:909
+msgid "Error creating directory"
+msgstr "Ошибка создания каталога"
+
+#: src/utilops.c:948
+#, c-format
+msgid ""
+"Create directory in:\n"
+"%s\n"
+"named:"
+msgstr ""
+"Создать каталог в:\n"
+"%s\n"
+"с именем:"
+
+#: src/utilops.c:949
+msgid "GQview - new directory"
+msgstr "GQview - новый каталог"
+
+#: src/utilops.c:949
+msgid "Create"
+msgstr "Создать"
+
+#: src/window.c:151
+msgid "GQview Tools"
+msgstr "GQview Инструменты"

@@ -1,0 +1,375 @@
+Thu Mar 16 17:04:24 2000  John Ellis  <johne@bellatlantic.net>
+
+	* pathsel.c, tabcomp.c: Fix memory leaks.
+
+Fri Oct  1 17:17:21 1999  John Ellis  <johne@bellatlantic.net>
+
+	* po/ru.po: Added Russian translation
+	from Oleg Andrjushenko <oandr@itec.cn.ua>
+	* po/pt_BR.po: Added Brazilian Portuguese translation
+	from Vitor Fernandes <vitor_fernandes@SoftHome.net>
+	* po/ja/po: Added Japanese translation
+	from Shingo Akagaki <akagaki@ece.numazu-ct.ac.jp>
+	* configure.in: Updated ALL_LINGUAS.
+
+Mon Sep  6 06:25:38 1999  John Ellis  <johne@bellatlantic.net>
+
+	* image.c, img-main.c, img-view.c, window.c: Remove warnings for
+	gtk+-1.2.5-pre1. I think there are still realize issues with that
+	version of GTK+, however.
+
+Wed Aug 18 21:03:05 1999  John Ellis  <johne@bellatlantic.net>
+
+	* filelist.c: Fix reversal of calculating column width of the files
+	list for icons vs. no icons.
+	* pathsel.c, utilops.c: Set teh clist columns to autosize, so that
+	horizontal scrollbar is accurate (and usually not there ;)
+
+Wed Aug 18 20:35:07 1999  John Ellis  <johne@bellatlantic.net>
+
+	* gqview.h, tabcomp.c, utilops.c: Move and copy dialogs now have a
+	history. This was done by adding a combo widget option to the tab
+	completion routines.
+
+Wed Aug 18 17:37:48 1999  John Ellis  <johne@bellatlantic.net>
+
+	* config.c: Fix 'fall back to 48x48 icon size' bug.
+
+Mon Aug 16 13:25:29 1999  John Ellis  <johne@bellatlantic.net>
+
+	* po/de.po: Added german translation
+	by mawarkus@t-online.de (Matthias Warkus)
+	* configure.in (ALL_LINGUAS): Added de.
+
+Mon Aug 16 12:44:56 1999  John Ellis  <johne@bellatlantic.net>
+
+	* utilops.c: Make it easier for translators.
+
+Mon Aug 16 12:09:53 1999  John Ellis  <johne@bellatlantic.net>
+
+	* thumb.c: Regenerate thumbnails whent the preferred size changes.
+
+Mon Aug 16 11:56:29 1999  John Ellis  <johne@bellatlantic.net>
+
+	* config.c, globals.c, gqview.h, main.c, rcfile.c: Removed the
+	'save settings on exit' option and always save one exit, this was
+	leading to confusion as to why settings are not always saved.
+	* menus.: Removed the save settings menu line, no longer needed.
+
+Tue Aug 10 07:03:44 1999  John Ellis  <johne@bellatlantic.net>
+
+	* main.c(main): Use gtk_set_locale();
+	* window.c: Use gqview instead of main for wmhints.
+
+Tue Aug 10 06:55:48 1999  John Ellis  <johne@bellatlantic.net>
+
+	* filelist.c: Update the file count when files are removed.
+	* dnd.c: When a drag and drop results in a GDK_ACTION_MOVE, refresh
+	the lists to account for possibly deleted files.
+
+Fri Jul 23 17:09:02 1999  John Ellis  <johne@bellatlantic.net>
+
+	* window.c: Fix hang bug when dragging a file after starting with tools
+	floating, then unfloating the window. (don't use gtk_widget_reparent
+	for this).
+	* dnd.c: Properly add "\r\n" to the end of all files for URI types, now
+	all drags to Gimp 1.1.6 works.
+
+Tue Jul 20 20:37:03 1999  John Ellis  <johne@bellatlantic.net>
+
+	* configure.in, Makefile.am: Added localedir definition.
+	* src/main.c: Added locale and i18n initialization.
+
+Tue Jul 20 20:03:18 1999  John Ellis  <johne@bellatlantic.net>
+
+	* configure.in, Makefile.am, autogen.sh: Add gettext calls, simplify
+	gtk/imlib checks.
+	* po/POTFILES.in: Created for gettext.
+	* src/intl.h, gqmpeg.h, *.c: Added intl stuff, marked strings for
+	translation.
+
+Sat Jul 10 15:12:13 1999  John Ellis  <johne@bellatlantic.net>
+
+	* all files: Moved to autoconf and automake.
+
+Sat Jul  3 08:23:59 1999  John Ellis  <johne@bellatlantic.net>
+
+	* gqview.h, README, gqview.spec: Release 0.7.0
+
+Fri Jul  2 13:00:21 1999  John Ellis  <johne@bellatlantic.net>
+
+	* img-view.c: Added a 'close window' option to pop up dialog.
+
+Fri Jul  2 09:11:02 1999  John Ellis  <johne@bellatlantic.net>
+
+	* main.c (main): Fix so that window does not expand to image size when
+	strting up with an image (from command line).
+	* img-view.c (view_window_new): Follow the limit window size option,
+	if enabled.
+
+Thu Jul  1 20:13:31 1999  John Ellis  <johne@bellatlantic.net>
+
+	* main.c: Setup random seed, for better random slideshows.
+
+Sun Jun 27 15:17:10 1999  John Ellis  <johne@bellatlantic.net>
+
+	* img-main.c: Use black background for full screen.
+	* menu.c: Keep keyboard grab when full screen menu closes.
+
+Sun Jun 27 14:07:05 1999  John Ellis  <johne@bellatlantic.net>
+
+	* img-main.c: Keyboard now works with full screen.
+	* main.c: Drop out of full screen before exiting.
+
+Sun Jun 27 06:57:22 1999  John Ellis  <johne@bellatlantic.net>
+
+	* image.c: Fix image snapping to uppper left when resizing window.
+	* main.c: Increase progressive scrolling rate.
+
+Fri Jun 25 15:22:32 1999  John Ellis  <johne@bellatlantic.net>
+
+	* config.c, globals.c, gqview.h, img-view.c, main.c, rcfile.c: Added
+	progressive key scrolling option.
+
+Fri Jun 25 14:06:12 1999  John Ellis  <johne@bellatlantic.net>
+
+	* image.c, img-main.c, gqview.h: A few api changes with regard to image
+	auto-sizing and zooming.
+	* dnd.c: Made image dnd more generic to work with separate views.
+	* img-view.c: Added  dnd and keyboard support.
+
+Fri Jun 25 11:00:38 1999  John Ellis  <johne@bellatlantic.net>
+
+	* image.c, img-view.c, window.c: Fixups for window resizing and initial
+	size setting.
+
+Fri Jun 18 13:42:35 1999  John Ellis  <johne@bellatlantic.net>
+
+	* dnd.c, filelist.c, gqview.h, menu.c: Dragging and right clicking on
+	file list no longer displays image, but correctly, only displays
+	action/popup menu.
+	* globals.c, gqview.h, img-main.c, main.c, menu.c, window.c: Add full
+	screen option.
+
+Fri Jun 18 04:24:51 1999  John Ellis  <johne@bellatlantic.net>
+
+	* image.[ch], img-main.c, gqview.h: Beginnings of adding capability to
+	view images in a new window. ImageWindow functions are now completely
+	generic (save one spot).
+
+Wed Jun 16 03:47:36 1999  John Ellis  <johne@bellatlantic.net>
+
+	* slideshow.c, filelist.c: Make slideshow work correctly.
+	* config.c, rcfile.c: Add saving and adjustment of slide show options.
+
+Wed Jun 16 00:46:09 1999  John Ellis  <johne@bellatlantic.net>
+
+	* slideshow.c, globals.c, gqview.h: Begin slideshow ability.
+	* menu.c: Add 'Toggle slideshow' so view menu, may not stay here.
+	* filelist.c: Made a few functions needed for slideshow public.
+
+Tue Jun 15 19:21:26 1999  John Ellis  <johne@bellatlantic.net>
+
+	* filelist.c, pathsel.c, tabcomp.c: Small speed improvements in
+	handling (creating) GLists.
+
+Sat Jun 12 23:17:34 1999  John Ellis  <johne@bellatlantic.net>
+
+	* rcfile.c (load_options): Fix memory leak, patch submitted by
+	F. Petitjean <fpetitje@bureauveritas.com>
+
+Thu May 27 14:32:22 1999  John Ellis  <johne@bellatlantic.net>
+
+	* gqmpeg.h, README, gqmpeg.spec: Release 0.6.1
+
+Thu May 27 13:10:02 1999  John Ellis  <johne@bellatlantic.net>
+
+	* filelist.c: Generate thumbnails for visible files first. Thumbnails
+	are now kept when renaming.
+
+Thu May 27 11:54:09 1999  John Ellis  <johne@bellatlantic.net>
+
+	* pathsel.c: Merge improvements from gqmpeg version.
+	* tabcomp.c, tabcomp.xpm: ditto.
+	* utildlg.c: ditto.
+	* config.c, utilops.c, window.c: Use newer features of above.
+
+Thu May 27 11:44:00 1999  John Ellis  <johne@bellatlantic.net>
+
+	* filelist.c, image.c, gqmpeg.h: Properly update the image window when
+	viewed files are moved, renamed, or deleted.
+
+Thu May 27 11:01:31 1999  John Ellis  <johne@bellatlantic.net>
+
+	* main.c (main): Push correct visual and colormap to fix 8 but psuedo
+	color displays.
+
+Sun May 23 09:21:50 1999  John Ellis  <johne@bellatlantic.net>
+
+	* Makefile: Added static build target, some cleanup.
+
+Sat Apr 10 19:01:33 1999  John Ellis  <johne@bellatlantic.net>
+
+	* window.c(toolwindow_create): Use gtk_window_set_policy on toolwindow
+	so it can be resized smaller.
+
+0.6.0 (3-5-98)
+  > Major rewrite (60-70%), now requires gtk+-1.2.0
+  > Multiple file selection.
+  > Drag and drop.
+  > Better keyboard support.
+  > xvpics thumbnail support (read only), optional.
+  - Add command line options to force show and hide of tools.
+  * Fix tab completion bug.
+  * Fix gtk 1.2.0 related bugs.
+
+0.5.1 (12-8-98)
+  - Should compile now without editing the Makefile with any gtk through 1.1.5
+  * Fix file highlight bug when user tab completes to currently displayed dir.
+  * Fix for FreeBSD.
+
+0.5.0  (11-11-98)
+  > Add path entry window with tab completion.
+  > Add tab completion to all areas where a path can be typed.
+  > Add option to save window positions.
+  - Pressing '+' zooms image. Previously only '=' was bound, causing problems
+    for some keyboard layouts.
+  - Add border to floating tools window for better appearance on some WM's.
+
+0.4.3  (10-09-98)
+  * Fix bug when 'fit window to image' is on, tools float/hide, and the next
+    image selected has the same dimensions, it would not display.
+  * More fixes dealing with 'fit window to image'
+
+0.4.2  (10-07-98)
+  > Add 'fit window to image' option when tools float or hide.
+  > Add copy and move dialogs.
+  > Add option to hide the tools completely.
+  > Save settings on exit option added, and option to restore tool state.
+  - Pressing the [ESC] key will now stop loading of thumbnails.
+  - [CTRL] - M is now moves files, purging old thumbnails is now [CTRL] - T.
+  - Add save button to config dialog.
+  - New configuration tab: image, moved relevent options there.
+
+0.4.1  (9-11-98)
+  > Scrollbars removed, now you can pan the image by pressing and dragging the
+    mouse on the image. The arrow keys will pan too (use [Ctrl] to pan faster)
+  > The file selection area and status line can be 'floated' into a separate
+    window, this allows the image window to display more of the image.
+  > The file delete confirmation dialog can now be disabled in the options
+    window.
+  > The beginnings of keyboard support ( see the keyboard chart, above )
+  - Now if a thumbnail is older than it's parent image, the thumbnail is
+    recreated, so that changed images have their thumbnail properly updated.
+  - While loading thumbnails GQview is now responsive to commands, slowly, but
+    it works. You can now load images, delete files, etc. while the thumbnails
+    are being generated. The thumbnail generation can be interrupted too by
+    simply turning them off.
+  * The code that determines the user's HOME directory has been rewritten, now
+    hopefully users of nis will be happy. If the directory is not found or
+    cannot be determined, GQview exits semi-gracefully.
+  * Fixed some bugs here and there.
+
+0.4.0  (8-15-98)
+  > Thumbnail caching added ($HOME/.gqview_thmb).
+  - patch from Joshua Thomas Green applied for those that want to compile
+    with GTK 1.1.x (the development version), just uncomment one line in the
+    Makefile.
+  - patch from Joel Young applied to the .spec file of the RPM version.
+
+0.3.4  (7-30-98)
+  * Fixed problem loading files into external editors when a space was in the
+    pathname.
+
+0.3.3  (5-15-98)
+  - Changes to file listing code for speed improvement in large directories.
+  * Fixed a bug that would cause a thumbnail's height or width to be zero when
+    an image has a large aspect ratio.
+  * Fixed some memory leaks in the file listing code.
+  - Other small changes including source re-organization.
+  - Added a pixmap file to use as an icon (gqview.xpm).
+
+0.3.2  (5-7-98)
+  * Fixed a bug which made the first editor slot useless from config dialog.
+
+0.3.1  (5-4-98)
+  - Changed filelist code to properly implement Glist.
+  - Moved definitions of variables and #includes to better places.
+
+0.3.0  (4-24-98)
+  > New feature! Thumbnails displayed in the file list(us 't' to toggle).
+  > Thumbnails size can be selected (General Options).
+  > Rewrite (again) of the file list (to support adding/removing entries
+    without re-reading the entire directory listing, [still need to convert
+    the directory list, however]).
+  - minor display layout changes (to accomodate the progress bar).
+  - if a file format cannot be determined, a generic 'unknown image' picture
+    is displayed.
+  - added display for the number of files listed.
+  - added '-debug' command line option for debug output (preliminary)
+
+0.2.1  (4-8-98)
+  > Added a handle, now the file lists are sizeable.
+  - renamed menu item Exit to Quit.
+  - Added missing file includes that were exposed with GTK+ 0.99.10 release.
+
+0.2.0  (3-19-98)
+  > External editors can be specified in the configuration window (max 8).
+      Under the "external editors" tab.
+  - Popup menu for filelist (delete, rename, and edit).
+  - Filelist highlight now follows currently viewed image.
+  - A few minor fixes.
+
+0.1.1  (3-3-98)
+  > Updated code to compile with GTK+-0.99.4
+     (will not work with previous versions of GTK)
+  - Command line no longer requires a complete path to a file if it is in
+    the current working directory. (or must be relative to it)
+  - When moving to the next (or previous) image, the file list
+    scrolls to include the current image's name.
+
+0.1.0  (2-28-98)
+  > Added menu bar.
+  > Added keyboard shorcuts.
+  > Configuration can be saved (to .gqviewrc in user's home dir)
+  > Command line support. (specify startup directory or file to view)
+  > Can set startup directory in options window (can be disabled)
+  > Added custom filtering options to support more formats
+     (Imlib supports almost anything your system can read using
+      ImageMagick or Netpbm, if available).
+  > File operations: create directory, rename file, delete file.
+  > clicking mouse on image:
+      button one: next image
+      button two: previous image
+      button three: popup menu (zoom, file operations, edit image)
+  > Added option to load image into The Gimp.
+  - Fixed a bug in the history list truncating routine. (GQview would crash)
+  - Other minor improvements and fixes.
+
+0.0.3  (2-18-98)
+  > Source code clean up! The source code has been organized
+    and is now readable (some code still needs organizing, but
+    at least now the code can be followed).
+  > Makefile rewritten, it may still need editing for some systems.
+    The '-g' gcc option was removed for the released code, this makes
+    the binary about 1/3 smaller (it removes some debugging facilities)
+  - Fixed the transparency problem. This removes the garbage displayed
+    where an image is transparent, unfortunately for now it is set to purple.
+
+0.0.2  (2-14-98)
+  > Rewrote directory and file list handling, the lists
+    can now be of any length.
+  > Lists are now sorted.
+  > History list no longer expands out of control as the
+    directory path gets longer, entries are truncated at
+    32 characters and '/...' is prepended.
+  > Added configuration window, including:
+    - show or hide dot files
+    - select default zoom mode for new image
+    - disable file filtering
+    - choose file types to filter
+    - about tab for version and contact info
+
+0.0.1  (2-10-98)
+  > No history, first release!
+

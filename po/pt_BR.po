@@ -1,0 +1,798 @@
+# gqview pt_BR.po file.
+# Copyright (C) 1999 Vitor Fernandes.
+# Vitor Fernandes <vitor_fernandes@SoftHome.net>, 1999.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gqview-0.7.0c\n"
+"POT-Creation-Date: 1999-09-15 15:22-0300\n"
+"PO-Revision-Date: 1999-09-15 16:47-0300\n"
+"Last-Translator: Vitor Fernandes <vitor_fernandes@SoftHome.net>\n"
+"Language-Team: Vitor Fernandes <vitor_fernandes@SoftHome.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=3Diso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+
+#: src/config.c:303
+msgid "GQview configuration"
+msgstr "Configura=E7=E3o do GQview"
+
+#: src/config.c:315
+msgid "Ok"
+msgstr "Ok"
+
+#: src/config.c:320
+msgid "Apply"
+msgstr "Aplicar"
+
+#: src/config.c:325 src/utildlg.c:140 src/utilops.c:414 src/utilops.c:722
+#: src/utilops.c:851 src/utilops.c:949
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: src/config.c:339
+msgid "General"
+msgstr "Geral"
+
+#: src/config.c:347
+msgid "Initial directory"
+msgstr "Diret=F3rio inicial"
+
+#: src/config.c:357
+msgid "On startup, change to this directory:"
+msgstr "Na abertura, mude para esse diret=F3rio:"
+
+#: src/config.c:369
+msgid "Use current"
+msgstr "Use o atual"
+
+#: src/config.c:375
+msgid "Confirm file delete"
+msgstr "Confirmar exclus=E3o de arquivo"
+
+#: src/config.c:377
+msgid "Remember tool state (float/hidden)"
+msgstr "Lembrar estado da ferramenta (flutuante/escondida)"
+
+#: src/config.c:379
+msgid "Remember window positions"
+msgstr "Lembrar posi=E7=F5es da janela"
+
+#: src/config.c:381
+msgid "Slide show"
+msgstr "Show de slides"
+
+#: src/config.c:394
+msgid "Delay before image change (seconds):"
+msgstr "Demora antes de mudar imagem (segundos):"
+
+#: src/config.c:407
+msgid "Random"
+msgstr "Aleat=F3rio"
+
+#: src/config.c:409
+msgid "Repeat"
+msgstr "Repetir"
+
+#: src/config.c:416
+msgid "Image"
+msgstr "Imagem"
+
+#: src/config.c:424
+msgid "When new image is selected:"
+msgstr "Quando nova imagem =E9 selecionada:"
+
+#: src/config.c:434
+msgid "Zoom to original size"
+msgstr "Zoom para o tamanho original"
+
+#: src/config.c:440 src/img-view.c:283 src/menu.c:458 src/menu.c:531
+#: src/menu.c:571 src/menu.c:661
+msgid "Fit image to window"
+msgstr "Ajustar imagem =E0 janela"
+
+#: src/config.c:446
+msgid "Leave Zoom at previous setting"
+msgstr "Deixar o Zoom na configura=E7=E3o anterior"
+
+#: src/config.c:453
+msgid "Fit window to image when tools are hidden/floating"
+msgstr "Ajustar janela =E0 imagem quando as ferramentas estiverem escondidas/flutuando"
+
+#: src/config.c:460
+msgid "Limit size when auto-sizing window"
+msgstr "Limitar tamanho quando auto-dimensionando janela"
+
+#: src/config.c:470 src/menu.c:462
+msgid "Thumbnails"
+msgstr "Miniaturas"
+
+#: src/config.c:486
+msgid "Size:"
+msgstr "Tamanho:"
+
+#: src/config.c:515
+msgid "Cache thumbnails"
+msgstr "Manter miniaturas"
+
+#: src/config.c:517
+msgid "Use xvpics thumbnails when found (read only)"
+msgstr "Usar miniaturas xvpics quando encontradas (somente leitura)"
+
+#: src/config.c:520
+msgid "Progressive keyboard scrolling"
+msgstr "Rolagem de teclado progressiva"
+
+#: src/config.c:527
+msgid "Filtering"
+msgstr "Filtragem"
+
+#: src/config.c:536
+msgid "Show entries that begin with a dot"
+msgstr "Exibir entradas que iniciam com um ponto"
+
+#: src/config.c:538
+msgid "Disable File Filtering"
+msgstr "Desativar Filtragem de Arquivos"
+
+#: src/config.c:540
+msgid "Include files of type:"
+msgstr "Incluir arquivos do tipo:"
+
+#: src/config.c:590
+msgid "Custom file types:"
+msgstr "Tipos de arquivos personalizados:"
+
+#: src/config.c:603
+msgid "format: [.foo;.bar]"
+msgstr "formato: [.foo;.bar]"
+
+#: src/config.c:612
+msgid "External Editors"
+msgstr "Editores Externos"
+
+#: src/config.c:624
+msgid "#"
+msgstr "#"
+
+#: src/config.c:627
+msgid "Menu name"
+msgstr "Nome no menu"
+
+#: src/config.c:630
+msgid "Command Line"
+msgstr "Linha do comando"
+
+#: src/config.c:660 src/menu.c:484
+msgid "About"
+msgstr "Sobre"
+
+#: src/config.c:676
+msgid ""
+"GQview %s\n"
+"\n"
+"Copyright (c) 1999 by John Ellis\n"
+"http://gqview.netpedia.net\n"
+"gqview@email.com\n"
+"\n"
+"Released under the GNU Public License"
+msgstr ""
+"GQview %s\n"
+"\n"
+"Copyright (c) 1999 por John Ellis\n"
+"http://gqview.netpedia.net\n"
+"gqview@email.com\n"
+"\n"
+"Lan=E7ado sob a Licensa P=FAblica Geral GNU"
+
+#: src/filelist.c:51
+msgid " Slideshow"
+msgstr "Show de Slides"
+
+#: src/filelist.c:55
+msgid "%d files (%d)%s"
+msgstr "%d arquivos (%d)%s"
+
+#: src/filelist.c:57
+msgid "%d files%s"
+msgstr "%d arquivos%s"
+
+#: src/filelist.c:960
+msgid "Loading thumbs..."
+msgstr "Carregando mini..."
+
+#: src/image.c:65
+msgid "( ? x ? ) %d bytes"
+msgstr ""
+
+#: src/image.c:67
+msgid "( %d x %d ) %d bytes"
+msgstr ""
+
+#: src/img-main.c:230
+msgid "GQview full screen"
+msgstr "GQview tela cheia"
+
+#: src/img-view.c:280 src/menu.c:455 src/menu.c:528 src/menu.c:568
+#: src/menu.c:657
+msgid "Zoom in"
+msgstr "Mais Zoom"
+
+#: src/img-view.c:281 src/menu.c:456 src/menu.c:529 src/menu.c:569 src/menu.c:659
+msgid "Zoom out"
+msgstr "Menos Zoom"
+
+#: src/img-view.c:282 src/menu.c:457 src/menu.c:530 src/menu.c:570
+msgid "Zoom 1:1"
+msgstr ""
+
+#. edit menu
+#: src/img-view.c:286 src/menu.c:442 src/menu.c:503 src/menu.c:534 src/menu.c:574
+msgid "Edit"
+msgstr "Editar"
+
+#: src/img-view.c:291 src/menu.c:431 src/menu.c:510 src/menu.c:541 src/menu.c:579
+msgid "Copy..."
+msgstr "Copiar..."
+
+#: src/img-view.c:292 src/menu.c:432 src/menu.c:511 src/menu.c:542 src/menu.c:580
+msgid "Move..."
+msgstr "Mover..."
+
+#: src/img-view.c:293 src/menu.c:433 src/menu.c:512 src/menu.c:543 src/menu.c:581
+msgid "Rename..."
+msgstr "Renomear..."
+
+#: src/img-view.c:294 src/menu.c:434 src/menu.c:513 src/menu.c:544 src/menu.c:582
+msgid "Delete..."
+msgstr "Excluir..."
+
+#: src/img-view.c:297
+msgid "Close window"
+msgstr "Fechar janela"
+
+#: src/main.c:90 src/main.c:119
+msgid "GQview running: %s\n"
+msgstr "GQview rodando: %s\n"
+
+#: src/main.c:316
+msgid ""
+"Usage: gqview [options] [path]\n"
+"\n"
+msgstr ""
+"Uso: gqview [op=E7=F5es] [caminho]\n"
+"\n"
+
+#: src/main.c:317
+msgid "valid options are:\n"
+msgstr "op=E7=F5es v=E1lidas s=E3o:\n"
+
+#: src/main.c:318
+msgid "  +t, +tools                 force show of tools\n"
+msgstr "  +t, +tools			for=E7a a exibir as ferramentas\n"
+
+#: src/main.c:319
+msgid "  -t, -tools                 force hide of tools\n"
+msgstr "  -t, -tools			for=E7a a olcultar as ferramentas\n"
+
+#: src/main.c:320
+msgid "  -debug                     turn on debug output\n"
+msgstr "  -debug			ativa sa=EDda de debug\n"
+
+#: src/main.c:321
+msgid ""
+"  -help                      this message\n"
+"\n"
+msgstr ""
+"  -help                      		essa mensagem\n"
+"\n"
+#: src/main.c:326
+msgid ""
+"invalid or ignored: %s\n"
+"Use -help for options\n"
+msgstr ""
+"inv=E1lido ou ignorado: %s\n"
+"Use -help para op=E7=F5es\n"
+#: src/main.c:353
+msgid "The Gimp"
+msgstr ""
+
+#: src/main.c:356
+msgid "Electric Eyes"
+msgstr ""
+
+#: src/main.c:359
+msgid "XV"
+msgstr ""
+
+#: src/main.c:362
+msgid "Xpaint"
+msgstr ""
+
+#: src/menu.c:364
+msgid "in %s..."
+msgstr "em %s..."
+
+#: src/menu.c:366
+msgid "in (unknown)..."
+msgstr "em (desconhecido)..."
+
+#: src/menu.c:385
+msgid "Options..."
+msgstr "Op=E7=F5es..."
+
+#: src/menu.c:387
+msgid "Remove old thumbnails"
+msgstr "Remover miniaturas velhas"
+
+#. file menu
+#: src/menu.c:425
+msgid "File"
+msgstr "Arquivo"
+
+#: src/menu.c:429
+msgid "Create Dir..."
+msgstr "Criar diret=F3rio..."
+
+#: src/menu.c:436
+msgid "Exit"
+msgstr "Sair"
+
+#. view menu
+#: src/menu.c:451
+msgid "View"
+msgstr "Ver"
+
+#: src/menu.c:461 src/menu.c:547
+msgid "Full screen"
+msgstr "Tela cheia"
+
+#: src/menu.c:469
+msgid "Refresh Lists"
+msgstr "Atualizar Listas"
+
+#: src/menu.c:470
+msgid "(Un)Float file list"
+msgstr "(Des)Flutuar lista de arquivos"
+
+#: src/menu.c:471 src/menu.c:546
+msgid "(Un)Hide file list"
+msgstr "(Des)Esconder lista de arquivos"
+
+#: src/menu.c:474
+msgid "Toggle slideshow"
+msgstr "Alternar show de slides"
+
+#: src/menu.c:480
+msgid "Help"
+msgstr "Ajuda"
+
+#: src/menu.c:507 src/menu.c:538
+msgid "View in new window"
+msgstr "Ver em nova janela"
+
+#: src/menu.c:515
+msgid "Refresh"
+msgstr "Atualizar"
+
+#: src/menu.c:585
+msgid "Exit full screen"
+msgstr "Sair da tela cheia"
+
+#: src/menu.c:644
+msgid "Create thumbnails"
+msgstr "Criar miniaturas"
+
+#: src/menu.c:653
+msgid "Change to home directory"
+msgstr "Mudar para diret=F3rio pessoal"
+
+#: src/menu.c:655
+msgid "Refresh file list"
+msgstr "Atualizar lista de arquivos"
+
+#: src/menu.c:663
+msgid "Set zoom 1:1"
+msgstr "Deixar zoom em 1:1"
+
+#: src/menu.c:665
+msgid "Configure options"
+msgstr "Configurar op=E7=F5es"
+
+#: src/menu.c:667
+msgid "Float Controls"
+msgstr "Controles Flutuantes"
+
+#: src/rcfile.c:132
+msgid "error saving config file: %s\n"
+msgstr "erro salvando arquivo de configura=E7=E3o: %s\n"
+
+#: src/thumb.c:127 src/thumb.c:151
+msgid "create dir failed: %s\n"
+msgstr "falha ao criar diret=F3rio: %s\n"
+
+#: src/thumb.c:233
+msgid "Unable to delete dir: %s\n"
+msgstr "Incapaz de excluir diret=F3rio: %s\n"
+
+#: src/thumb.c:249
+msgid "failed to delete:%s\n"
+msgstr "falha ao excluir: %s\n"
+
+#: src/utildlg.c:67
+msgid "     Ok     "
+msgstr "     OK     "
+
+#: src/utilops.c:162
+msgid ""
+"Overwrite file:\n"
+" %s\n"
+" with:\b %s"
+msgstr ""
+"Sobescrever arquivo:\n"
+" %s\n"
+" com:\b %s"
+
+#: src/utilops.c:163 src/utilops.c:262 src/utilops.c:621 src/utilops.c:803
+msgid "Overwrite file"
+msgstr "Sobescrever arquivo"
+
+#: src/utilops.c:164
+msgid "Skip"
+msgstr "Saltar"
+
+#: src/utilops.c:165
+msgid "Yes to all"
+msgstr "Sim para todos"
+
+#: src/utilops.c:166
+msgid "Yes"
+msgstr "Sim"
+
+#: src/utilops.c:200 src/utilops.c:288
+msgid "Error copying file"
+msgstr "Erro copiando arquivo"
+
+#: src/utilops.c:201
+msgid ""
+"Unable to copy file:\n"
+"%sto:\n"
+"%s\n"
+" during multiple file copy."
+msgstr ""
+"Incapaz de copiar arquivo:\n"
+"%sto:\n"
+"%s\n"
+" durante c=F3pia m=FAltipla de arquivos."
+
+#: src/utilops.c:205 src/utilops.c:293
+msgid "Error moving file"
+msgstr "Erro movendo arquivo"
+
+#: src/utilops.c:206
+msgid ""
+"Unable to move file:\n"
+"%sto:\n"
+"%s\n"
+" during multiple file move."
+msgstr ""
+"Incapaz de mover arquivo:\n"
+"%sto:\n"
+"%s\n"
+" durante movimento m=FAltiplo de arquivos."
+
+#: src/utilops.c:209 src/utilops.c:486
+msgid "Continue"
+msgstr "Continuar"
+
+#: src/utilops.c:261
+msgid ""
+"Overwrite file:\n"
+"%s\n"
+" with:\n"
+"%s"
+msgstr ""
+"Sobescrever arquivo:\n"
+"%s\n"
+" com:\n"
+"%s"
+
+#: src/utilops.c:263 src/utilops.c:622 src/utilops.c:804
+msgid "Overwrite"
+msgstr "Sobescrever"
+
+#: src/utilops.c:289
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Incapaz de copiar arquivo:\n"
+"%s\n"
+"para:\n"
+"%s"
+
+#: src/utilops.c:294
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Incapaz de mover arquivo:\n"
+"%s\n"
+"para:\n"
+"%s"
+
+#: src/utilops.c:337
+msgid "Invalid destination"
+msgstr "Destino inv=E1lido"
+
+#: src/utilops.c:337
+msgid ""
+"When operating with multiple files, please select\n"
+" a directory, not file."
+msgstr ""
+"Quando operando com v=E1rios arquivos, por favor selecione\n"
+" um diret=F3rio, n=E3o arquivo."
+
+#: src/utilops.c:339
+msgid "Invalid directory"
+msgstr "Diret=F3rio inv=E1lido"
+
+#: src/utilops.c:339
+msgid "Please select an existing directory"
+msgstr "Por favor selecione um diret=F3rio existente"
+
+#: src/utilops.c:397
+msgid "GQview - copy"
+msgstr "GQview - copiar"
+
+#: src/utilops.c:398
+msgid "Copy"
+msgstr "Copiar"
+
+#: src/utilops.c:400
+msgid ""
+"Copy file:\n"
+"%s\n"
+"to:"
+msgstr ""
+"Copiar arquivo:\n"
+"%s\n"
+"para:"
+
+#: src/utilops.c:402
+msgid ""
+"Copy multiple files from:\n"
+"%s\n"
+"to:"
+msgstr ""
+"Copiar m=FAltiplos arquivos de:\n"
+"%s\n"
+"para:"
+
+#: src/utilops.c:406
+msgid "GQview - move"
+msgstr "GQview - mover"
+
+#: src/utilops.c:407
+msgid "Move"
+msgstr "Mover"
+
+#: src/utilops.c:409
+msgid ""
+"Move file:\n"
+"%s\n"
+"to:"
+msgstr ""
+"Mover arquivo:\n"
+"%s\n"
+"para:"
+
+#: src/utilops.c:411
+msgid ""
+"Move multiple files from:\n"
+"%s\n"
+"to:"
+msgstr ""
+"Mover m=FAltiplos arquivos de:\n"
+"%s\n"
+"para:"
+
+#: src/utilops.c:484
+msgid ""
+"Unable to delete file:\n"
+" %s\n"
+" Continue multiple delete operation?"
+msgstr ""
+"Incapaz de excluir arquivo:\n"
+" %s\n"
+" Continuar opera=E7=E3o de exclus=E3o multipla ?"
+
+#: src/utilops.c:485 src/utilops.c:491
+msgid "Delete failed"
+msgstr "Falha ao excluir"
+
+#: src/utilops.c:490 src/utilops.c:535
+msgid ""
+"Unable to delete file:\n"
+"%s"
+msgstr ""
+"Incapaz de excluir arquivo:\n"
+"%s"
+
+#: src/utilops.c:520
+msgid "Delete files"
+msgstr "Excluir arquivos"
+
+#: src/utilops.c:520
+msgid "About to delete multiple files..."
+msgstr "Prestes a excluir m=FAltiplos arquivos..."
+
+#: src/utilops.c:521 src/utilops.c:566
+msgid "Delete"
+msgstr "Excluir"
+
+#: src/utilops.c:536
+msgid "File deletion failed"
+msgstr "Exclus=E3o de arquivos falhou"
+
+#: src/utilops.c:564
+msgid ""
+"About to delete the file:\n"
+" %s"
+msgstr ""
+"Prestes a excluir o arquivo:\n"
+" %s"
+
+#: src/utilops.c:565
+msgid "Delete file"
+msgstr "Excluir arquivo"
+
+#: src/utilops.c:620
+msgid ""
+"Overwrite file:\n"
+"%s\n"
+"by renaming:\n"
+"%s"
+msgstr ""
+"Sobescrever arquivo:\n"
+"%s\n"
+"renomeando:\n"
+"%s"
+
+#: src/utilops.c:631
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+" to:\n"
+"%s"
+msgstr ""
+"Incapaz de renomear arquivo:\n"
+"%s\n"
+" para:\n"
+"%s"
+
+#: src/utilops.c:632 src/utilops.c:813
+msgid "Error renaming file"
+msgstr "Erro renomeando arquivo"
+
+#: src/utilops.c:722 src/utilops.c:851
+msgid "GQview - rename"
+msgstr "GQview - renomear"
+
+#: src/utilops.c:722
+msgid "Rename multiple files:"
+msgstr "Renomear m=FAltiplos arquivos:"
+
+#: src/utilops.c:722 src/utilops.c:851
+msgid "Rename"
+msgstr "Renomear"
+
+#: src/utilops.c:758
+msgid "Rename:"
+msgstr "Renomear:"
+
+#: src/utilops.c:767
+msgid "to:"
+msgstr "para:"
+
+#: src/utilops.c:802
+msgid ""
+"Overwrite file:\n"
+"%s\n"
+"with:\n"
+"%s"
+msgstr ""
+"Sobescrever arquivo:\n"
+"%s\n"
+"com:\n"
+"%s"
+
+#: src/utilops.c:812
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Incapaz de renomear arquivo:\n"
+"%s\n"
+"para:\n"
+"%s"
+
+#: src/utilops.c:850
+msgid ""
+"Rename file:\n"
+"%s\n"
+"to:"
+msgstr ""
+"Renomear arquivo:\n"
+"%s\n"
+"para:"
+
+#: src/utilops.c:894
+msgid ""
+"The path:\n"
+"%s\n"
+"already exists as a file."
+msgstr ""
+"O caminho:\n"
+"%s\n"
+"j=E1 existe como um arquivo."
+
+#: src/utilops.c:895
+msgid "Could not create directory"
+msgstr "N=E3o pude criar diret=F3rio"
+
+#: src/utilops.c:900
+msgid ""
+"The directory:\n"
+"%s\n"
+"already exists."
+msgstr ""
+"O diret=F3rio:\n"
+"%s\n"
+"j=E1 existe."
+
+#: src/utilops.c:901
+msgid "Directory exists"
+msgstr "Diret=F3rio existe"
+
+#: src/utilops.c:908
+msgid ""
+"Unable to create directory:\n"
+"%s"
+msgstr ""
+"Incapaz de criar diret=F3rio:\n"
+"%s"
+
+#: src/utilops.c:909
+msgid "Error creating directory"
+msgstr "Erro criando diret=F3rio"
+
+#: src/utilops.c:948
+msgid ""
+"Create directory in:\n"
+"%s\n"
+"named:"
+msgstr ""
+"Criar diret=F3rio em:\n"
+"%s\n"
+"chamado:"
+
+#: src/utilops.c:949
+msgid "GQview - new directory"
+msgstr "GQview - novo diret=F3rio"
+
+#: src/utilops.c:949
+msgid "Create"
+msgstr "Criar"
+
+#: src/window.c:151
+msgid "GQview Tools"
+msgstr "GQview Ferramentas"
+

@@ -1,0 +1,53 @@
+%define ver      @VERSION@
+%define rel      1
+%define prefix   /usr
+
+Summary: Graphics file browser utility.
+Name: gqview
+Version: %ver
+Release: %rel
+Copyright: GPL
+Group: Applications/Multimedia
+Source: http://gqview.netpedia.net/gqview-%{ver}.tar.gz
+BuildRoot: /var/tmp/%{name}-%{version}-root
+
+URL: http://gqview.netpedia.net/index.html
+
+Requires: gtk+ >= 1.2
+Requires: imlib >= 1.9
+
+%description
+GQview is a browser for graphics files.
+Offering single click viewing of your graphics files.
+Includes thumbnail view, zoom and filtering features.
+And external editor support.
+
+%prep
+%setup
+
+%build
+if [ ! -f configure ]; then
+  CFLAGS="$MYCFLAGS" ./autogen.sh $MYARCH_FLAGS --prefix=%prefix
+else
+  CFLAGS="$MYCFLAGS" ./configure $MYARCH_FLAGS --prefix=%prefix
+fi
+
+make
+
+%install
+rm -rf $RPM_BUILD_ROOT
+
+make GNOME_DATADIR=$RPM_BUILD_ROOT%{prefix}/share prefix=$RPM_BUILD_ROOT%{prefix} install
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-, root, root)
+
+%doc README COPYING TODO
+%{prefix}/bin/gqview
+@HAVE_GNOME_TRUE@%{prefix}/share/gnome/apps/Graphics/gqview.desktop
+@HAVE_GNOME_TRUE@%{prefix}/share/pixmaps/gqview.png
+
+

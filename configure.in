@@ -1,0 +1,55 @@
+AC_INIT(src/main.c)
+AM_CONFIG_HEADER(config.h)
+
+AM_INIT_AUTOMAKE(gqview, 0.7.0f)
+
+AM_MAINTAINER_MODE
+
+AC_ISC_POSIX
+AC_PROG_CC
+AC_STDC_HEADERS
+AC_ARG_PROGRAM
+
+dnl reasonable guesses for where stuff is installed
+if test "x$prefix" = "xNONE"; then
+  prefix="/usr/local"
+else
+  prefix=$prefix
+fi
+
+AM_PATH_GTK(1.2.0,,AC_MSG_ERROR(GTK+ >= 1.2.0 not installed.))
+AM_PATH_GDK_IMLIB(1.9,,AC_MSG_ERROR(Imlib >= 1.9 not installed.))
+
+dnl CHECK_GNOME
+  AC_PATH_PROG(GNOME_CONFIG,gnome-config,no)
+  AM_CONDITIONAL(HAVE_GNOME, test $GNOME_CONFIG != no)
+  if test "$GNOME_CONFIG" = no; then
+    AC_MSG_RESULT(GNOME icon and menu entry will NOT be installed)
+  else
+    AC_MSG_RESULT(will install a GNOME icon and menu entry)
+    AC_SUBST(GNOME_DATADIR)
+    GNOME_DATADIR="`$GNOME_CONFIG --datadir`"
+  fi
+
+dnl utility conditional
+AM_CONDITIONAL(FALSE, test "x" = "y")
+
+dnl locale location for po
+localedir='${prefix}/share/locale'
+AC_SUBST(localedir)
+
+ALL_LINGUAS="de ja pt_BR ru"
+AM_GNU_GETTEXT
+
+AC_SUBST(CFLAGS)
+AC_SUBST(CPPFLAGS)
+AC_SUBST(LDFLAGS)
+
+AC_OUTPUT([
+Makefile
+intl/Makefile
+po/Makefile.in
+gqview.spec
+src/Makefile
+src/icons/Makefile
+])
