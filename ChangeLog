@@ -8,6 +8,7 @@ Sat Apr  2 17:28:16 2005  John Ellis  <johne@verizon.net>
 	state. Fix pr_source_tile_visible() calculation which was using	the x
 	axis where it should be y. Add redrawn return value to pr_zoom_clamp()
 	and use that value in pr_zoom_sync() to pass pr_redraw correct args.
+	* gqview.1: Fix spelling of vertical in man page.
 
 Mon Mar 28 20:23:34 2005  John Ellis  <johne@verizon.net>
 
