@@ -39,6 +39,9 @@
 #define IMAGE_AUTO_REFRESH_TIME 3000
 
 
+static GList *image_list = NULL;
+
+
 /*
  *-------------------------------------------------------------------
  * 'signals'
@@ -1328,12 +1331,50 @@ void image_to_root_window(ImageWindow *imd, gint scaled)
 
 /*
  *-------------------------------------------------------------------
+ * prefs sync
+ *-------------------------------------------------------------------
+ */
+
+static void image_options_set(ImageWindow *imd)
+{
+	g_object_set(G_OBJECT(imd->pr), "zoom_quality", zoom_quality,
+					"zoom_2pass", two_pass_zoom,
+					"zoom_expand", zoom_to_fit_expands,
+					"dither_quality", dither_quality,
+					"scroll_reset", scroll_reset_method,
+					"cache_display", tile_cache_max,
+					"window_fit", fit_window,
+					"window_limit", limit_window_size,
+					"window_limit_value", max_window_size,
+					NULL);
+}
+
+void image_options_sync(void)
+{
+	GList *work;
+
+	work = image_list;
+	while (work)
+		{
+		ImageWindow *imd;
+
+		imd = work->data;
+		work = work->next;
+
+		image_options_set(imd);
+		}
+}
+
+/*
+ *-------------------------------------------------------------------
  * init / destroy
  *-------------------------------------------------------------------
  */
 
 static void image_free(ImageWindow *imd)
 {
+	image_list = g_list_remove(image_list, imd);
+
 	image_reset(imd);
 
 	image_read_ahead_cancel(imd);
@@ -1392,7 +1433,7 @@ ImageWindow *image_new(gint frame)
 
 	imd->pr = GTK_WIDGET(pixbuf_renderer_new());
 
-	g_object_set(G_OBJECT(imd->pr), "zoom_2pass", TRUE, NULL);
+	image_options_set(imd);
 
 	if (imd->has_frame)
 		{
@@ -1430,6 +1471,8 @@ ImageWindow *image_new(gint frame)
 			 G_CALLBACK(image_zoom_cb), imd);
 	g_signal_connect(G_OBJECT(imd->pr), "render_complete",
 			 G_CALLBACK(image_render_complete_cb), imd);
+
+	image_list = g_list_append(image_list, imd);
 
 	return imd;
 }

@@ -1,3 +1,9 @@
+Mon Mar 28 20:23:34 2005  John Ellis  <johne@verizon.net>
+
+	* image.[ch]: Add utility to sync image settings to user preferences.
+	* pixbuf-renderer.c: Fix rounding errors.
+	* preferences.c: Call image_options_sync() when applying changes.
+
 Fri Mar 25 22:39:30 2005  John Ellis  <johne@verizon.net>
 
 	* image.c: Connect to 'zoom' signal of pixbuf-renderer and notify

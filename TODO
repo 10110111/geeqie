@@ -10,12 +10,12 @@ Major:
    > fix broken zoom out drawing when using source tiles.
 
  > image.c:
-   > need to keep a list of ImageWindows and provide function to sync options to each object.
+  d> need to keep a list of ImageWindows and provide function to sync options to each object.
   d> test and probably fix delay_flip.
       > UPDATE: works as before (pre pixbuf-renderer), but should be fixed to provide a single redraw
         by pre-rendering any scaled tiles that are visible before signaling 'render_complete'.
    > make this a g_object with signals for completed, changed, etc.
-   > fix region computation rounding when updating scaled image in 'area ready' signal.
+  d> fix region computation rounding when updating scaled image in 'area ready' signal.
 
 
  > work on pan view:
@@ -60,7 +60,7 @@ Major:
 
  -------------
 
- > update translations: ( ) ( ) ( )
+ > update translations: it( ) ( ) ( )
 
  > document recent additions/changes:
    > Added 'Fast jpeg thumbnailing'.

@@ -108,6 +108,9 @@ void image_set_image_as_tiles(ImageWindow *imd, gint width, gint height,
 			      gpointer data,
 			      gdouble zoom);
 
+/* reset default options */
+void image_options_sync(void);
+
 
 #endif
 

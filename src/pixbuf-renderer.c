@@ -3105,7 +3105,7 @@ void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source)
 
 void pixbuf_renderer_area_changed(PixbufRenderer *pr, gint x, gint y, gint width, gint height)
 {
-	gint sx, sy, sw, sh;
+	gint x1, y1, x2, y2;
 
 	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
 
@@ -3121,12 +3121,12 @@ void pixbuf_renderer_area_changed(PixbufRenderer *pr, gint x, gint y, gint width
 		height += 2;
 		}
 
-	sx = (gint)floor((double)x * pr->scale);
-	sy = (gint)floor((double)y * pr->scale);
-	sw = (gint)ceil((double)width * pr->scale);
-	sh = (gint)ceil((double)height * pr->scale);
+	x1 = (gint)floor((double)x * pr->scale);
+	y1 = (gint)floor((double)y * pr->scale);
+	x2 = (gint)ceil((double)(x + width) * pr->scale);
+	y2 = (gint)ceil((double)(y + height) * pr->scale);
 
-	pr_queue(pr, sx, sy, sw, sh, FALSE, TILE_RENDER_AREA, TRUE);
+	pr_queue(pr, x1, y1, x2 - x1, y2 - y1, FALSE, TILE_RENDER_AREA, TRUE);
 }
 
 void pixbuf_renderer_zoom_adjust(PixbufRenderer *pr, gdouble increment)

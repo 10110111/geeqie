@@ -17,6 +17,7 @@
 #include "editors.h"
 #include "filelist.h"
 #include "fullscreen.h"
+#include "image.h"
 #include "img-view.h"
 #include "layout_config.h"
 #include "layout_util.h"
@@ -309,6 +310,8 @@ static void config_window_apply(void)
 		}
 
 	g_free(l_conf);
+
+	image_options_sync();
 
 	if (refresh)
 		{
