@@ -2235,10 +2235,10 @@ static gint pr_queue_to_tiles(PixbufRenderer *pr, gint x, gint y, gint w, gint h
 
 			it = pr_tile_get(pr, i, j,
 					 (only_existing &&
-					  i + pr->tile_width < pr->x_scroll &&
-					  i > pr->x_scroll + pr->vis_width &&
-					  j + pr->tile_height < pr->y_scroll &&
-					  j > pr->y_scroll +pr->vis_height));
+					  (i + pr->tile_width < pr->x_scroll ||
+					   i > pr->x_scroll + pr->vis_width ||
+					   j + pr->tile_height < pr->y_scroll ||
+					   j > pr->y_scroll + pr->vis_height)));
 			if (it)
 				{
 				QueueData *qd;

@@ -1,3 +1,8 @@
+Thu Apr  7 08:42:54 2005  John Ellis  <johne@verizon.net>
+
+	* pixbuf-renderer.c (pr_queue_to_tiles): Fix logic in test for
+	only_existing argument.
+
 Wed Apr  6 06:41:25 2005  John Ellis  <johne@verizon.net>
 
 	* pan-view.c: Move pixbuf drawing into pixbuf_util.c.
