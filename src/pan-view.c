@@ -209,6 +209,8 @@ struct _PanWindow
 	gint image_size;
 
 	GList *list;
+	GList *list_static;
+	GList *list_grid;
 
 	GList *cache_list;
 	GList *cache_todo;
@@ -225,6 +227,15 @@ struct _PanWindow
 	PanItem *search_pi;
 
 	gint idle_id;
+};
+
+typedef struct _PanGrid PanGrid;
+struct _PanGrid {
+	gint x;
+	gint y;
+	gint w;
+	gint h;
+	GList *list;
 };
 
 typedef struct _PanCacheData PanCacheData;
@@ -469,6 +480,135 @@ static gint pan_cache_step(PanWindow *pw)
 	return TRUE;
 }
 
+/*
+ *-----------------------------------------------------------------------------
+ * item grid
+ *-----------------------------------------------------------------------------
+ */
+
+static void pan_grid_clear(PanWindow *pw)
+{
+	GList *work;
+
+	work = pw->list_grid;
+	while (work)
+		{
+		PanGrid *pg;
+
+		pg = work->data;
+		work = work->next;
+
+		g_list_free(pg->list);
+		g_free(pg);
+		}
+
+	g_list_free(pw->list_grid);
+	pw->list_grid = NULL;
+
+	pw->list = g_list_concat(pw->list, pw->list_static);
+	pw->list_static = NULL;
+}
+
+static void pan_grid_build(PanWindow *pw, gint width, gint height, gint grid_size)
+{
+	GList *work;
+	gint col, row;
+	gint cw, ch;
+	gint l;
+	gdouble total;
+	gdouble s;
+	gdouble aw, ah;
+	gint i, j;
+
+	pan_grid_clear(pw);
+
+	l = g_list_length(pw->list);
+
+	if (l < 1) return;
+
+	total = (gdouble)width * (gdouble)height / (gdouble)l;
+	s = sqrt(total);
+
+	aw = (gdouble)width / s;
+	ah = (gdouble)height / s;
+
+	col = (gint)(sqrt((gdouble)l / grid_size) * width / height + 0.999);
+	col = CLAMP(col, 1, l / grid_size + 1);
+	row = (gint)((gdouble)l / grid_size / col);
+	if (row < 1) row = 1;
+
+	/* limit minimum size of grid so that a tile will always fit regardless of position */
+	cw = MAX((gint)ceil((gdouble)width / col), PAN_TILE_SIZE * 2);
+	ch = MAX((gint)ceil((gdouble)height / row), PAN_TILE_SIZE * 2);
+
+	row = row * 2 - 1;
+	col = col * 2 - 1;
+
+	printf("intersect speedup grid is %dx%d, based on %d average per grid\n", col, row, grid_size);
+
+	for (j = 0; j < row; j++)
+	    for (i = 0; i < col; i++)
+		{
+		if ((i + 1) * cw / 2 < width && (j + 1) * ch / 2 < height)
+			{
+			PanGrid *pg;
+
+			pg = g_new0(PanGrid, 1);
+			pg->x = i * cw / 2;
+			pg->y = j * ch / 2;
+			pg->w = cw;
+			pg->h = ch;
+			pg->list = NULL;
+
+			pw->list_grid = g_list_prepend(pw->list_grid, pg);
+
+			if (debug) printf("grid section: %d,%d (%dx%d)\n", pg->x, pg->y, pg->w, pg->h);
+			}
+		}
+
+	work = pw->list;
+	while (work)
+		{
+		PanItem *pi;
+		GList *grid;
+
+		pi = work->data;
+		work = work->next;
+
+		grid = pw->list_grid;
+		while (grid)
+			{
+			PanGrid *pg;
+			gint rx, ry, rw, rh;
+
+			pg = grid->data;
+			grid = grid->next;
+
+			if (util_clip_region(pi->x, pi->y, pi->width, pi->height,
+					     pg->x, pg->y, pg->w, pg->h,
+					     &rx, &ry, &rw, &rh))
+				{
+				pg->list = g_list_prepend(pg->list, pi);
+				}
+			}
+		}
+
+	work = pw->list_grid;
+	while (work)
+		{
+		PanGrid *pg;
+
+		pg = work->data;
+		work = work->next;
+
+		pg->list = g_list_reverse(pg->list);
+		}
+
+	pw->list_static = pw->list;
+	pw->list = NULL;
+}
+
+
 
 /*
  *-----------------------------------------------------------------------------
@@ -492,6 +632,8 @@ static void pan_item_free(PanItem *pi)
 static void pan_window_items_free(PanWindow *pw)
 {
 	GList *work;
+
+	pan_grid_clear(pw);
 
 	work = pw->list;
 	while (work)
@@ -843,21 +985,31 @@ static PanItem *pan_item_find_by_key(PanWindow *pw, ItemType type, const gchar *
 			}
 		work = work->prev;
 		}
+	work = g_list_last(pw->list_static);
+	while (work)
+		{
+		PanItem *pi;
+
+		pi = work->data;
+		if ((pi->type == type || type == ITEM_NONE) &&
+		     pi->key && strcmp(pi->key, key) == 0)
+			{
+			return pi;
+			}
+		work = work->prev;
+		}
 
 	return NULL;
 }
 
 /* when ignore_case and partial are TRUE, path should be converted to lower case */
-static GList *pan_item_find_by_path(PanWindow *pw, ItemType type, const gchar *path,
-				    gint ignore_case, gint partial)
+static GList *pan_item_find_by_path_l(GList *list, GList *search_list,
+				      ItemType type, const gchar *path,
+				      gint ignore_case, gint partial)
 {
-	GList *list = NULL;
 	GList *work;
 
-	if (!path) return NULL;
-	if (partial && path[0] == '/') return NULL;
-
-	work = g_list_last(pw->list);
+	work = g_list_last(search_list);
 	while (work)
 		{
 		PanItem *pi;
@@ -903,14 +1055,29 @@ static GList *pan_item_find_by_path(PanWindow *pw, ItemType type, const gchar *p
 		work = work->prev;
 		}
 
+	return list;
+}
+
+/* when ignore_case and partial are TRUE, path should be converted to lower case */
+static GList *pan_item_find_by_path(PanWindow *pw, ItemType type, const gchar *path,
+				    gint ignore_case, gint partial)
+{
+	GList *list = NULL;
+
+	if (!path) return NULL;
+	if (partial && path[0] == '/') return NULL;
+
+	list = pan_item_find_by_path_l(list, pw->list_static, type, path, ignore_case, partial);
+	list = pan_item_find_by_path_l(list, pw->list, type, path, ignore_case, partial);
+
 	return g_list_reverse(list);
 }
 
-static PanItem *pan_item_find_by_coord(PanWindow *pw, ItemType type, gint x, gint y, const gchar *key)
+static PanItem *pan_item_find_by_coord_l(GList *list, ItemType type, gint x, gint y, const gchar *key)
 {
 	GList *work;
 
-	work = pw->list;
+	work = list;
 	while (work)
 		{
 		PanItem *pi;
@@ -927,6 +1094,16 @@ static PanItem *pan_item_find_by_coord(PanWindow *pw, ItemType type, gint x, gin
 		}
 
 	return NULL;
+}
+
+static PanItem *pan_item_find_by_coord(PanWindow *pw, ItemType type, gint x, gint y, const gchar *key)
+{
+	PanItem *pi;
+
+	pi = pan_item_find_by_coord_l(pw->list, type, x, y, key);
+	if (pi) return pi;
+
+	return pan_item_find_by_coord_l(pw->list_static, type, x, y, key);
 }
 
 /*
@@ -2068,12 +2245,12 @@ static void pan_window_layout_compute(PanWindow *pw, const gchar *path,
 	printf("computed %d objects\n", g_list_length(pw->list));
 }
 
-static GList *pan_layout_intersect(PanWindow *pw, gint x, gint y, gint width, gint height)
+static GList *pan_layout_intersect_l(GList *list, GList *item_list,
+				     gint x, gint y, gint width, gint height)
 {
-	GList *list = NULL;
 	GList *work;
 
-	work = pw->list;
+	work = item_list;
 	while (work)
 		{
 		PanItem *pi;
@@ -2088,6 +2265,39 @@ static GList *pan_layout_intersect(PanWindow *pw, gint x, gint y, gint width, gi
 			{
 			list = g_list_prepend(list, pi);
 			}
+		}
+
+	return list;
+}
+
+static GList *pan_layout_intersect(PanWindow *pw, gint x, gint y, gint width, gint height)
+{
+	GList *list = NULL;
+	GList *grid;
+	PanGrid *pg = NULL;
+
+	grid = pw->list_grid;
+	while (grid && !pg)
+		{
+		pg = grid->data;
+		grid = grid->next;
+
+		if (x < pg->x || x + width > pg->x + pg->w ||
+		    y < pg->y || y + height > pg->y + pg->h)
+			{
+			pg = NULL;
+			}
+		}
+
+	list = pan_layout_intersect_l(list, pw->list, x, y, width, height);
+
+	if (pg)
+		{
+		list = pan_layout_intersect_l(list, pg->list, x, y, width, height);
+		}
+	else
+		{
+		list = pan_layout_intersect_l(list, pw->list_static, x, y, width, height);
 		}
 
 	return list;
@@ -2687,7 +2897,7 @@ static void pan_window_message(PanWindow *pw, const gchar *text)
 		return;
 		}
 
-	work = pw->list;
+	work = pw->list_static;
 	if (pw->layout == LAYOUT_CALENDAR)
 		{
 		while (work)
@@ -2816,6 +3026,8 @@ static gint pan_window_layout_update_idle_cb(gpointer data)
 		gdouble align;
 
 		printf("Canvas size is %d x %d\n", width, height);
+
+		pan_grid_build(pw, width, height, 1000);
 
 		pixbuf_renderer_set_tiles(PIXBUF_RENDERER(pw->imd->pr), width, height,
 					  PAN_TILE_SIZE, PAN_TILE_SIZE, 10,
@@ -3116,7 +3328,7 @@ static void pan_info_update(PanWindow *pw, PanItem *pi)
 
 	if (!pi) return;
 
-	printf("info set to %s\n", pi->fd->path);
+	if (debug) printf("info set to %s\n", pi->fd->path);
 
 	pbox = pan_item_new_box(pw, NULL, pi->x + pi->width + 4, pi->y, 10, 10,
 			     PAN_POPUP_BORDER,
@@ -3299,7 +3511,7 @@ static GList *pan_search_by_date_val(PanWindow *pw, ItemType type,
 	GList *list = NULL;
 	GList *work;
 
-	work = g_list_last(pw->list);
+	work = g_list_last(pw->list_static);
 	while (work)
 		{
 		PanItem *pi;
@@ -3856,7 +4068,10 @@ static void pan_window_new_real(const gchar *path)
 	pw->size = LAYOUT_SIZE_THUMB_NORMAL;
 	pw->thumb_size = PAN_THUMB_SIZE_NORMAL;
 	pw->thumb_gap = PAN_THUMB_GAP_NORMAL;
+
 	pw->list = NULL;
+	pw->list_static = NULL;
+	pw->list_grid = NULL;
 
 	pw->fs = NULL;
 	pw->overlay_id = -1;
