@@ -1,3 +1,11 @@
+Tue Apr 12 07:59:20 2005  John Ellis  <johne@verizon.net>
+
+	* pan-view.c: Use mostly neutral (gray) colors in the pan view to avoid
+	tainting user perspective of image hues.
+	* pixbuf-renderer.c (pixbuf_renderer_move): Free tile cache of source
+	to avoid wasteful memory allocation, this will reduce memory waste
+	when in full screen.
+
 Fri Apr  8 15:31:38 2005  John Ellis  <johne@verizon.net>
 
 	* pan-view.c: Optimize pan_layout_intersect by dividing object list

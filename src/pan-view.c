@@ -66,28 +66,55 @@
 #define PAN_OUTLINE_COLOR_2 64, 64, 64
 #define PAN_OUTLINE_ALPHA 180
 
-#define PAN_BACKGROUND_COLOR 255, 255, 230
+#define PAN_BACKGROUND_COLOR 150, 150, 150
 
-#define PAN_GRID_SIZE 10
+#define PAN_GRID_SIZE 60
 #define PAN_GRID_COLOR 0, 0, 0
 #define PAN_GRID_ALPHA 20
 
-#define PAN_FOLDER_BOX_COLOR 0, 0, 255
-#define PAN_FOLDER_BOX_ALPHA 10
+#define PAN_FOLDER_BOX_COLOR 255, 255, 255
+#define PAN_FOLDER_BOX_ALPHA 100
 #define PAN_FOLDER_BOX_BORDER 20
 
 #define PAN_FOLDER_BOX_OUTLINE_THICKNESS 4
-#define PAN_FOLDER_BOX_OUTLINE_COLOR 0, 0, 255
-#define PAN_FOLDER_BOX_OUTLINE_ALPHA 64
+#define PAN_FOLDER_BOX_OUTLINE_COLOR 0, 0, 0
+#define PAN_FOLDER_BOX_OUTLINE_ALPHA 128
 
 #define PAN_TEXT_BORDER_SIZE 4
 #define PAN_TEXT_COLOR 0, 0, 0
 
-#define PAN_POPUP_COLOR 255, 255, 220
+#define PAN_POPUP_COLOR 255, 255, 225
 #define PAN_POPUP_ALPHA 255
 #define PAN_POPUP_BORDER 1
 #define PAN_POPUP_BORDER_COLOR 0, 0, 0
 #define PAN_POPUP_TEXT_COLOR 0, 0, 0
+
+#define PAN_CAL_POPUP_COLOR 220, 220, 220
+#define PAN_CAL_POPUP_ALPHA 255
+#define PAN_CAL_POPUP_BORDER 1
+#define PAN_CAL_POPUP_BORDER_COLOR 0, 0, 0
+#define PAN_CAL_POPUP_TEXT_COLOR 0, 0, 0
+
+#define PAN_CAL_DAY_WIDTH 100
+#define PAN_CAL_DAY_HEIGHT 80
+
+#define PAN_CAL_DAY_COLOR 255, 255, 255
+#define PAN_CAL_DAY_ALPHA 220
+#define PAN_CAL_DAY_BORDER 2
+#define PAN_CAL_DAY_BORDER_COLOR 0, 0, 0
+#define PAN_CAL_DAY_TEXT_COLOR 0, 0, 0
+
+#define PAN_CAL_MONTH_COLOR 255, 255, 255
+#define PAN_CAL_MONTH_ALPHA 200
+#define PAN_CAL_MONTH_BORDER 4
+#define PAN_CAL_MONTH_BORDER_COLOR 0, 0, 0
+#define PAN_CAL_MONTH_TEXT_COLOR 0, 0, 0
+
+#define PAN_CAL_DOT_SIZE 3
+#define PAN_CAL_DOT_GAP 2
+#define PAN_CAL_DOT_COLOR 128, 128, 128
+#define PAN_CAL_DOT_ALPHA 128
+
 
 #define PAN_GROUP_MAX 16
 
@@ -1652,13 +1679,6 @@ static void pan_window_layout_compute_folders_linear(PanWindow *pw, const gchar 
  *-----------------------------------------------------------------------------
  */
 
-#define PAN_CAL_DAY_WIDTH 100
-#define PAN_CAL_DAY_HEIGHT 80
-#define PAN_CAL_DOT_SIZE 3
-#define PAN_CAL_DOT_GAP 2
-#define PAN_CAL_DOT_COLOR 0, 0, 0
-#define PAN_CAL_DOT_ALPHA 32
-
 static void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 {
 	PanItem *pbox;
@@ -1711,9 +1731,9 @@ static void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 #endif
 
 	pbox = pan_item_new_box(pw, NULL, x, y, PAN_FOLDER_BOX_BORDER, PAN_FOLDER_BOX_BORDER,
-				PAN_POPUP_BORDER,
-				PAN_POPUP_COLOR, PAN_POPUP_ALPHA,
-				PAN_POPUP_BORDER_COLOR, PAN_POPUP_ALPHA);
+				PAN_CAL_POPUP_BORDER,
+				PAN_CAL_POPUP_COLOR, PAN_CAL_POPUP_ALPHA,
+				PAN_CAL_POPUP_BORDER_COLOR, PAN_CAL_POPUP_ALPHA);
 	pan_item_set_key(pbox, "day_bubble");
 
 	if (pi_day->fd)
@@ -1723,7 +1743,7 @@ static void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 
 		buf = date_value_string(pi_day->fd->date, DATE_LENGTH_WEEK);
 		plabel = pan_item_new_text(pw, x, y, buf, TEXT_ATTR_BOLD | TEXT_ATTR_HEADING,
-					   PAN_POPUP_TEXT_COLOR, 255);
+					   PAN_CAL_POPUP_TEXT_COLOR, 255);
 		pan_item_set_key(plabel, "day_bubble");
 		g_free(buf);
 
@@ -1782,8 +1802,8 @@ static void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 
 	pi = pan_item_new_tri(pw, NULL, x, y, w, h,
 			      x1, y1, x2, y2, x3, y3,
-			      PAN_POPUP_COLOR, PAN_POPUP_ALPHA);
-	pan_item_tri_border(pi, BORDER_1 | BORDER_3, PAN_POPUP_BORDER_COLOR, PAN_POPUP_ALPHA);
+			      PAN_CAL_POPUP_COLOR, PAN_CAL_POPUP_ALPHA);
+	pan_item_tri_border(pi, BORDER_1 | BORDER_3, PAN_CAL_POPUP_BORDER_COLOR, PAN_CAL_POPUP_ALPHA);
 	pan_item_set_key(pi, "day_bubble");
 	pan_item_added(pw, pi);
 
@@ -1885,13 +1905,13 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 		x = PAN_FOLDER_BOX_BORDER;
 
 		pi_month = pan_item_new_box(pw, NULL, x, y, PAN_CAL_DAY_WIDTH * 7, PAN_CAL_DAY_HEIGHT / 4,
-					    PAN_FOLDER_BOX_OUTLINE_THICKNESS,
-					    PAN_FOLDER_BOX_COLOR, PAN_FOLDER_BOX_ALPHA,
-					    PAN_FOLDER_BOX_OUTLINE_COLOR, PAN_FOLDER_BOX_OUTLINE_ALPHA);
+					    PAN_CAL_MONTH_BORDER,
+					    PAN_CAL_MONTH_COLOR, PAN_CAL_MONTH_ALPHA,
+					    PAN_CAL_MONTH_BORDER_COLOR, PAN_CAL_MONTH_ALPHA);
 		buf = date_value_string(dt, DATE_LENGTH_MONTH);
 		pi_text = pan_item_new_text(pw, x, y, buf,
 					     TEXT_ATTR_BOLD | TEXT_ATTR_HEADING,
-					     PAN_TEXT_COLOR, 255);
+					     PAN_CAL_MONTH_TEXT_COLOR, 255);
 		g_free(buf);
 		pi_text->x = pi_month->x + (pi_month->width - pi_text->width) / 2;
 
@@ -1915,9 +1935,9 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 			fd->name = path;
 			fd->date = dt;
 			pi_day = pan_item_new_box(pw, fd, x, y, PAN_CAL_DAY_WIDTH, PAN_CAL_DAY_HEIGHT,
-						  PAN_FOLDER_BOX_OUTLINE_THICKNESS,
-						  PAN_FOLDER_BOX_COLOR, PAN_FOLDER_BOX_ALPHA,
-						  PAN_FOLDER_BOX_OUTLINE_COLOR, PAN_FOLDER_BOX_OUTLINE_ALPHA);
+						  PAN_CAL_DAY_BORDER,
+						  PAN_CAL_DAY_COLOR, PAN_CAL_DAY_ALPHA,
+						  PAN_CAL_DAY_BORDER_COLOR, PAN_CAL_DAY_ALPHA);
 			pan_item_set_key(pi_day, "day");
 
 			dx = x + PAN_CAL_DOT_GAP * 2;
@@ -1946,7 +1966,6 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 					dy = y + PAN_CAL_DOT_GAP * 2;
 					}
 
-				pi_day->color_a = MIN(PAN_FOLDER_BOX_ALPHA + 64 + n, 255);
 				n++;
 
 				work = work->next;
@@ -1957,9 +1976,12 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 				{
 				PanItem *pi;
 
+				pi_day->color_r = MAX(pi_day->color_r - 61 - n * 3, 80);
+				pi_day->color_g = pi_day->color_r;
+
 				buf = g_strdup_printf("( %d )", n);
 				pi = pan_item_new_text(pw, x, y, buf, TEXT_ATTR_NONE,
-						       PAN_TEXT_COLOR, 255);
+						       PAN_CAL_DAY_TEXT_COLOR, 255);
 				g_free(buf);
 
 				pi->x = pi_day->x + (pi_day->width - pi->width) / 2;
@@ -1968,7 +1990,7 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 
 			buf = g_strdup_printf("%d", day);
 			pan_item_new_text(pw, x + 4, y + 4, buf, TEXT_ATTR_BOLD | TEXT_ATTR_HEADING,
-					  PAN_TEXT_COLOR, 255);
+					  PAN_CAL_DAY_TEXT_COLOR, 255);
 			g_free(buf);
 
 

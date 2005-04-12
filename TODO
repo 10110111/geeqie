@@ -9,6 +9,8 @@ Major:
   d> fix image_change_from_image (to do this need a pixbuf_renderer_move_image).
   d> fix broken zoom out drawing when using source tiles.
   d> fix 2pass zoom when using source tiles and zoomed out (not always rendering second pass)
+  d> pixbuf_renderer_move should be clearing the tiles of the source image since they are no longer
+     valid and are then wasting memory (for example when full screen is active).
 
  > image.c:
   d> need to keep a list of ImageWindows and provide function to sync options to each object.
