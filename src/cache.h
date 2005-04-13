@@ -40,11 +40,13 @@ struct _CacheData
 	gchar *path;
 	gint width;
 	gint height;
+	time_t date;
 	long checksum;
 	guchar md5sum[16];
 	ImageSimilarityData *sim;
 
 	gint dimensions;
+	gint have_date;
 	gint have_checksum;
 	gint have_md5sum;
 	gint similarity;
@@ -60,6 +62,7 @@ gint cache_sim_data_save(CacheData *cd);
 CacheData *cache_sim_data_load(const gchar *path);
 
 void cache_sim_data_set_dimensions(CacheData *cd, gint w, gint h);
+void cache_sim_data_set_date(CacheData *cd, time_t date);
 void cache_sim_data_set_checksum(CacheData *cd, long checksum);
 void cache_sim_data_set_md5sum(CacheData *cd, guchar digest[16]);
 void cache_sim_data_set_similarity(CacheData *cd, ImageSimilarityData *sd);

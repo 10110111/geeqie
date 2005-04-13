@@ -5,31 +5,22 @@ Major:
 ----------------------------------------------
 
  > pixbuf-renderer.c:
-  d> fix two pass render from corrupting it->qd pointer (need one pointer for each queue?).
-  d> fix image_change_from_image (to do this need a pixbuf_renderer_move_image).
-  d> fix broken zoom out drawing when using source tiles.
-  d> fix 2pass zoom when using source tiles and zoomed out (not always rendering second pass)
-  d> pixbuf_renderer_move should be clearing the tiles of the source image since they are no longer
-     valid and are then wasting memory (for example when full screen is active).
+   > tile dispose order is slightly incorrect, furthest ones from current position should be dropped first
+
 
  > image.c:
-  d> need to keep a list of ImageWindows and provide function to sync options to each object.
   d> test and probably fix delay_flip.
       > UPDATE: works as before (pre pixbuf-renderer), but should be fixed to provide a single redraw
         by pre-rendering any scaled tiles that are visible before signaling 'render_complete'.
    > make this a g_object with signals for completed, changed, etc.
-  d> fix region computation rounding when updating scaled image in 'area ready' signal.
    > fix delay flip 'completed' signal (full screen busy cursor is not always turned off)
-  d> fix slow loading of images when zoomed out - bug could be poor clamping to visible in PixbufRenderer.
+
+ > cache-load.c:
+   > should honor enable_thumbnails setting
 
 
  > work on pan view:
    > Pick a better keyboard shortcut than Control + J :)
-  d> Fix occasional redraw bugs when zoomed out.
-  d> Fix occasional odd requests for non-visible tiles when zoomed out (related to above?).
-  d> Fix slowness in image.c with huge grid size by changing use of pre-allocated tile array
-     to on-demand tile allocation (can this be implemented like source tiles?).
-     OR: use an array so that we do not need to walk a GList of pre-allocated tile containers
   w> Fix search scrolling to try to center image and info popup.
    > Fix info popup location to opposing horizontal side when near edge of grid.
    > Find something to do with middle mouse clicks.
@@ -37,12 +28,16 @@ Major:
    > search should highlight all matching images (with toggle?)
    > should non-thumbnail images have a drop shadow?
   d> optimize pixbuf_draw_line (line endpoints should clip to draw region before draw loop)
+     > introduced bug (looks like clamp or rounding error)
   d> optimize pixbuf_draw_triangle
+     > introduced bug (round error?)
    > does new pixbuf_draw_triangle contain line edge rounding error?
-  d> move pixbuf_draw_* stuff into pixbuf_util.c
+   > check ref counting of image when redrawing after finish loading
+   > speed up sorting image.. stage when sorting/merging cache list
+
 
    > time line view:
-     > allow use of file date or EXIF (embedded) date.
+    w> allow use of file date or EXIF (embedded) date.
      > allow horizontal _or_ vertical orientation.
 
    > calendar view:

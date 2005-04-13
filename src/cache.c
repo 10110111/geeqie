@@ -27,6 +27,7 @@
  * SIMcache
  * #coment
  * Dimensions=[<width> x <height>]
+ * Date=[<value in time_t format, or -1 if no embedded date>]
  * Checksum=[<value>]
  * MD5sum=[<32 character ascii text digest>]
  * SimilarityGrid[32 x 32]=<3072 bytes of data (1024 pixels in RGB format, 1 pixel is 24bits)>
@@ -51,8 +52,7 @@ CacheData *cache_sim_data_new(void)
 	CacheData *cd;
 
 	cd = g_new0(CacheData, 1);
-	cd->dimensions = FALSE;
-	cd->similarity = FALSE;
+	cd->date = -1;
 
 	return cd;
 }
@@ -77,6 +77,15 @@ static gint cache_sim_write_dimensions(FILE *f, CacheData *cd)
 	if (!f || !cd || !cd->dimensions) return FALSE;
 
 	fprintf(f, "Dimensions=[%d x %d]\n", cd->width, cd->height);
+
+	return TRUE;
+}
+
+static gint cache_sim_write_date(FILE *f, CacheData *cd)
+{
+	if (!f || !cd || !cd->have_date) return FALSE;
+
+	fprintf(f, "Date=[%ld]\n", cd->date);
 
 	return TRUE;
 }
@@ -157,6 +166,7 @@ gint cache_sim_data_save(CacheData *cd)
 
 	fprintf(f, "SIMcache\n#%s %s\n", PACKAGE, VERSION);
 	cache_sim_write_dimensions(f, cd);
+	cache_sim_write_date(f, cd);
 	cache_sim_write_checksum(f, cd);
 	cache_sim_write_md5sum(f, cd);
 	cache_sim_write_similarity(f, cd);
@@ -227,6 +237,46 @@ static gint cache_sim_read_dimensions(FILE *f, char *buf, int s, CacheData *cd)
 		cd->width = w;
 		cd->height = h;
 		cd->dimensions = TRUE;
+
+		return TRUE;
+		}
+
+	return FALSE;
+}
+
+static gint cache_sim_read_date(FILE *f, char *buf, int s, CacheData *cd)
+{
+	if (!f || !buf || !cd) return FALSE;
+
+	if (s < 4 || strncmp("Date", buf, 4) != 0) return FALSE;
+
+	if (fseek(f, - s, SEEK_CUR) == 0)
+		{
+		char b;
+		char buf[1024];
+		gint p = 0;
+
+		b = 'X';
+		while (b != '[')
+			{
+			if (fread(&b, sizeof(b), 1, f) != 1) return FALSE;
+			}
+		while (b != ']' && p < 1023)
+			{
+			if (fread(&b, sizeof(b), 1, f) != 1) return FALSE;
+			buf[p] = b;
+			p++;
+			}
+
+		while (b != '\n')
+			{
+			if (fread(&b, sizeof(b), 1, f) != 1) break;
+			}
+
+		buf[p] = '\0';
+		cd->date = strtol(buf, NULL, 10);
+
+		cd->have_date = TRUE;
 
 		return TRUE;
 		}
@@ -414,6 +464,7 @@ CacheData *cache_sim_data_load(const gchar *path)
 			{
 			if (!cache_sim_read_comment(f, buf, s, cd) &&
 			    !cache_sim_read_dimensions(f, buf, s, cd) &&
+			    !cache_sim_read_date(f, buf, s, cd) &&
 			    !cache_sim_read_checksum(f, buf, s, cd) &&
 			    !cache_sim_read_md5sum(f, buf, s, cd) &&
 			    !cache_sim_read_similarity(f, buf, s, cd))
@@ -447,6 +498,14 @@ void cache_sim_data_set_dimensions(CacheData *cd, gint w, gint h)
 	cd->width = w;
 	cd->height = h;
 	cd->dimensions = TRUE;
+}
+
+void cache_sim_data_set_date(CacheData *cd, time_t date)
+{
+	if (!cd) return;
+
+	cd->date = date;
+	cd->have_date = TRUE;
 }
 
 void cache_sim_data_set_checksum(CacheData *cd, long checksum)

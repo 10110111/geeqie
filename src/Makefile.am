@@ -60,6 +60,8 @@ gqview_SOURCES = \
 	bar_sort.h	\
 	cache.c		\
 	cache.h		\
+	cache-loader.c	\
+	cache-loader.h	\
 	cache_maint.c	\
 	cache_maint.h	\
 	cellrenderericon.c	\
