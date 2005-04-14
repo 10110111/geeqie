@@ -3116,7 +3116,7 @@ void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source)
 	pr->scroll_reset = scroll_reset;
 
 	pixbuf_renderer_set_pixbuf(source, NULL, source->zoom);
-	pr_queue_clear(pr);
+	pr_queue_clear(source);
 	pr_tile_free_all(source);
 }
 

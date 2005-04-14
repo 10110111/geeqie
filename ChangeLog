@@ -1,3 +1,8 @@
+Thu Apr 14 04:49:57 2005  John Ellis  <johne@verizon.net>
+
+	* pixbuf-renderer.c (pixbuf_renderer_move): Clear the correct draw
+	queue (source). Fixes crash introduced by Apr 12 changes.
+
 Wed Apr 13 18:16:14 2005  John Ellis  <johne@verizon.net>
 
 	* cache-loader.[ch]: New utility to load cache-able data.
