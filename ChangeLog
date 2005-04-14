@@ -1,3 +1,10 @@
+Thu Apr 14 10:44:00 2005  John Ellis  <johne@verizon.net>
+
+	* cache.c (cache_sim_data_load): Fix to return CacheData if any data
+	type exists.
+	* pan-view.c: Fix slow merging of embedded dates into file list;
+	includes optimizing pan_cache_sync_date and plugging a memory leak.
+
 Thu Apr 14 04:49:57 2005  John Ellis  <johne@verizon.net>
 
 	* pixbuf-renderer.c (pixbuf_renderer_move): Clear the correct draw

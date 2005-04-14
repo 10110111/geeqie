@@ -31,9 +31,8 @@ Major:
      > introduced bug (looks like clamp or rounding error)
   d> optimize pixbuf_draw_triangle
      > introduced bug (round error?)
-   > does new pixbuf_draw_triangle contain line edge rounding error?
    > check ref counting of image when redrawing after finish loading
-   > speed up sorting image.. stage when sorting/merging cache list
+  d> speed up sorting image.. stage when sorting/merging cache list
 
 
    > time line view:

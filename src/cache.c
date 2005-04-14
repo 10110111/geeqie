@@ -476,7 +476,11 @@ CacheData *cache_sim_data_load(const gchar *path)
 
 	fclose(f);
 
-	if (!cd->dimensions && !cd->similarity)
+	if (!cd->dimensions &&
+	    !cd->have_date &&
+	    !cd->have_checksum &&
+	    !cd->have_md5sum &&
+	    !cd->similarity)
 		{
 		cache_sim_data_free(cd);
 		cd = NULL;

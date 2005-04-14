@@ -546,6 +546,7 @@ static gint pan_cache_step(PanWindow *pw)
 	return (pw->cache_cl == NULL);
 }
 
+/* This sync date function is optimized for lists with a common sort */
 static void pan_cache_sync_date(PanWindow *pw, GList *list)
 {
 	GList *haystack;
@@ -572,16 +573,13 @@ static void pan_cache_sync_date(PanWindow *pw, GList *list)
 			path = ((FileData *)pc)->path;
 			if (path && strcmp(path, fd->path) == 0)
 				{
-				GList *tmp;
-
 				if (pc->cd && pc->cd->have_date && pc->cd->date >= 0)
 					{
 					fd->date = pc->cd->date;
 					}
 
-				tmp = needle;
-				needle = needle->next;
-				haystack = g_list_delete_link(haystack, tmp);
+				haystack = g_list_delete_link(haystack, needle);
+				needle = NULL;
 				}
 			else
 				{
@@ -589,6 +587,8 @@ static void pan_cache_sync_date(PanWindow *pw, GList *list)
 				}
 			}
 		}
+
+	g_list_free(haystack);
 }
 
 /*
@@ -1911,16 +1911,17 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 	gint end_year = 0;
 	gint end_month = 0;
 
-	pw->cache_list = filelist_sort(pw->cache_list, SORT_TIME, TRUE);
-
 	list = pan_window_layout_list(path, SORT_NONE, TRUE);
-	list = filelist_sort(list, SORT_TIME, TRUE);
 
 	if (pw->cache_list && SORT_BY_EXIF_DATE)
 		{
+		pw->cache_list = filelist_sort(pw->cache_list, SORT_NAME, TRUE);
+		list = filelist_sort(list, SORT_NAME, TRUE);
 		pan_cache_sync_date(pw, list);
-		list = filelist_sort(list, SORT_TIME, TRUE);
 		}
+
+	pw->cache_list = filelist_sort(pw->cache_list, SORT_TIME, TRUE);
+	list = filelist_sort(list, SORT_TIME, TRUE);
 
 	day_max = 0;
 	count = 0;
@@ -2132,16 +2133,17 @@ static void pan_window_layout_compute_timeline(PanWindow *pw, const gchar *path,
 	gint x_width;
 	gint y_height;
 
-	pw->cache_list = filelist_sort(pw->cache_list, SORT_TIME, TRUE);
-
 	list = pan_window_layout_list(path, SORT_NONE, TRUE);
-	list = filelist_sort(list, SORT_TIME, TRUE);
 
 	if (pw->cache_list && SORT_BY_EXIF_DATE)
 		{
+		pw->cache_list = filelist_sort(pw->cache_list, SORT_NAME, TRUE);
+		list = filelist_sort(list, SORT_NAME, TRUE);
 		pan_cache_sync_date(pw, list);
-		list = filelist_sort(list, SORT_TIME, TRUE);
 		}
+
+	pw->cache_list = filelist_sort(pw->cache_list, SORT_TIME, TRUE);
+	list = filelist_sort(list, SORT_TIME, TRUE);
 
 	*width = PAN_FOLDER_BOX_BORDER * 2;
 	*height = PAN_FOLDER_BOX_BORDER * 2;
