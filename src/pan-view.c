@@ -238,6 +238,8 @@ struct _PanWindow
 	gint thumb_gap;
 	gint image_size;
 
+	gint ignore_symlinks;
+
 	GList *list;
 	GList *list_static;
 	GList *list_grid;
@@ -279,7 +281,8 @@ struct _PanCacheData {
 static GList *pan_window_list = NULL;
 
 
-static GList *pan_window_layout_list(const gchar *path, SortType sort, gint ascend);
+static GList *pan_window_layout_list(const gchar *path, SortType sort, gint ascend,
+				     gint ignore_symlinks);
 
 static GList *pan_layout_intersect(PanWindow *pw, gint x, gint y, gint width, gint height);
 
@@ -449,7 +452,7 @@ static void pan_cache_fill(PanWindow *pw, const gchar *path)
 
 	pan_cache_free(pw);
 
-	list = pan_window_layout_list(path, SORT_NAME, TRUE);
+	list = pan_window_layout_list(path, SORT_NAME, TRUE, pw->ignore_symlinks);
 	pw->cache_todo = g_list_reverse(list);
 
 	pw->cache_total = g_list_length(pw->cache_todo);
@@ -1223,7 +1226,82 @@ static PanItem *pan_item_find_by_coord(PanWindow *pw, ItemType type, gint x, gin
  *-----------------------------------------------------------------------------
  */
 
-static GList *pan_window_layout_list(const gchar *path, SortType sort, gint ascend)
+static gint islink_loop(const gchar *s)
+{
+	gchar *sl;
+	struct stat st;
+	gint ret = FALSE;
+
+	sl = path_from_utf8(s);
+
+	if (lstat(sl, &st) == 0 && S_ISLNK(st.st_mode))
+		{
+		gchar *buf;
+		gint l;
+
+		buf = g_malloc(st.st_size + 1);
+		l = readlink(sl, buf, st.st_size);
+		if (l == st.st_size)
+			{
+			buf[l] = '\0';
+
+			parse_out_relatives(buf);
+			l = strlen(buf);
+
+			parse_out_relatives(sl);
+
+			if (buf[0] == '/')
+				{
+				if (strncmp(sl, buf, l) == 0 &&
+				    (sl[l] == '\0' || sl[l] == '/' || l == 1)) ret = TRUE;
+				}
+			else
+				{
+				gchar *link_path;
+
+				link_path = concat_dir_and_file(sl, buf);
+				parse_out_relatives(link_path);
+
+				if (strncmp(sl, link_path, l) == 0 &&
+				    (sl[l] == '\0' || sl[l] == '/' || l == 1)) ret = TRUE;
+
+				g_free(link_path);
+				}
+			}
+
+		g_free(buf);
+		}
+
+	g_free(sl);
+
+	return ret;
+}
+
+static gint is_ignored(const gchar *s, gint ignore_symlinks)
+{
+	struct stat st;
+	const gchar *n;
+
+	if (!lstat_utf8(s, &st)) return TRUE;
+
+#if 0
+	/* normal filesystems have directories with some size or block allocation,
+	 * special filesystems (like linux /proc) set both to zero.
+	 * enable this check if you enable listing the root "/" folder
+	 */
+	if (st.st_size == 0 && st.st_blocks == 0) return TRUE;
+#endif
+
+	if (S_ISLNK(st.st_mode) && (ignore_symlinks || islink_loop(s))) return TRUE;
+
+	n = filename_from_path(s);
+	if (n && strcmp(n, GQVIEW_RC_DIR) == 0) return TRUE;
+
+	return FALSE;
+}
+
+static GList *pan_window_layout_list(const gchar *path, SortType sort, gint ascend,
+				     gint ignore_symlinks)
 {
 	GList *flist = NULL;
 	GList *dlist = NULL;
@@ -1246,7 +1324,8 @@ static GList *pan_window_layout_list(const gchar *path, SortType sort, gint asce
 		fd = folders->data;
 		folders = g_list_remove(folders, fd);
 
-		if (filelist_read(fd->path, &flist, &dlist))
+		if (!is_ignored(fd->path, ignore_symlinks) &&
+		    filelist_read(fd->path, &flist, &dlist))
 			{
 			if (sort != SORT_NONE)
 				{
@@ -1272,7 +1351,7 @@ static void pan_window_layout_compute_grid(PanWindow *pw, const gchar *path, gin
 	gint grid_size;
 	gint next_y;
 
-	list = pan_window_layout_list(path, SORT_NAME, TRUE);
+	list = pan_window_layout_list(path, SORT_NAME, TRUE, pw->ignore_symlinks);
 
 	grid_size = (gint)sqrt((double)g_list_length(list));
 	if (pw->size > LAYOUT_SIZE_THUMB_LARGE)
@@ -1600,8 +1679,6 @@ static FlowerGroup *pan_window_layout_compute_folders_flower_path(PanWindow *pw,
 		pan_item_size_by_item(pi_box, pi, PAN_FOLDER_BOX_BORDER);
 		}
 
-	g_list_free(f);
-
 	group = g_new0(FlowerGroup, 1);
 	group->items = pw->list;
 	pw->list = NULL;
@@ -1621,10 +1698,32 @@ static FlowerGroup *pan_window_layout_compute_folders_flower_path(PanWindow *pw,
 		fd = work->data;
 		work = work->next;
 
-		child = pan_window_layout_compute_folders_flower_path(pw, fd->path, 0, 0);
-		if (child) group->children = g_list_prepend(group->children, child);
+		if (!is_ignored(fd->path, pw->ignore_symlinks))
+			{
+			child = pan_window_layout_compute_folders_flower_path(pw, fd->path, 0, 0);
+			if (child) group->children = g_list_prepend(group->children, child);
+			}
 		}
 
+	if (!f && !group->children)
+		{
+		work = group->items;
+		while (work)
+			{
+			PanItem *pi;
+
+			pi = work->data;
+			work = work->next;
+
+			pan_item_free(pi);
+			}
+
+		g_list_free(group->items);
+		g_free(group);
+		group = NULL;
+		}
+
+	g_list_free(f);
 	filelist_free(d);
 
 	return group;
@@ -1723,10 +1822,13 @@ static void pan_window_layout_compute_folders_linear_path(PanWindow *pw, const g
 		fd = work->data;
 		work = work->next;
 
-		*level = *level + 1;
-		pan_window_layout_compute_folders_linear_path(pw, fd->path, x, y, level,
-							      pi_box, width, height);
-		*level = *level - 1;
+		if (!is_ignored(fd->path, pw->ignore_symlinks))
+			{
+			*level = *level + 1;
+			pan_window_layout_compute_folders_linear_path(pw, fd->path, x, y, level,
+								      pi_box, width, height);
+			*level = *level - 1;
+			}
 		}
 
 	filelist_free(d);
@@ -1911,7 +2013,7 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 	gint end_year = 0;
 	gint end_month = 0;
 
-	list = pan_window_layout_list(path, SORT_NONE, TRUE);
+	list = pan_window_layout_list(path, SORT_NONE, TRUE, pw->ignore_symlinks);
 
 	if (pw->cache_list && SORT_BY_EXIF_DATE)
 		{
@@ -2133,7 +2235,7 @@ static void pan_window_layout_compute_timeline(PanWindow *pw, const gchar *path,
 	gint x_width;
 	gint y_height;
 
-	list = pan_window_layout_list(path, SORT_NONE, TRUE);
+	list = pan_window_layout_list(path, SORT_NONE, TRUE, pw->ignore_symlinks);
 
 	if (pw->cache_list && SORT_BY_EXIF_DATE)
 		{
@@ -3062,6 +3164,16 @@ static void pan_window_message(PanWindow *pw, const gchar *text)
 	g_free(buf);
 }
 
+static void pan_warning_folder(const gchar *path, GtkWidget *parent)
+{
+	gchar *message;
+
+	message = g_strdup_printf(_("The pan view does not support the folder \"%s\"."), path);
+	warning_dialog(_("Folder not supported"), message,
+		      GTK_STOCK_DIALOG_INFO, parent);
+	g_free(message);
+}
+
 static void pan_window_zoom_limit(PanWindow *pw)
 {
 	gdouble min;
@@ -3188,6 +3300,22 @@ static void pan_window_layout_update(PanWindow *pw)
 {
 	pan_window_message(pw, _("Sorting images..."));
 	pan_window_layout_update_idle(pw);
+}
+
+static void pan_window_layout_set_path(PanWindow *pw, const gchar *path)
+{
+	if (!path) return;
+
+	if (strcmp(path, "/") == 0)
+		{
+		pan_warning_folder(path, pw->window);
+		return;
+		}
+
+	g_free(pw->path);
+	pw->path = g_strdup(path);
+
+	pan_window_layout_update(pw);
 }
 
 /*
@@ -4134,10 +4262,7 @@ static void pan_window_entry_activate_cb(const gchar *new_text, gpointer data)
 		{
 		tab_completion_append_to_history(pw->path_entry, path);
 
-		g_free(pw->path);
-		pw->path = g_strdup(path);
-
-		pan_window_layout_update(pw);
+		pan_window_layout_set_path(pw, path);
 		}
 
 	g_free(path);
@@ -4201,6 +4326,8 @@ static void pan_window_new_real(const gchar *path)
 	pw->size = LAYOUT_SIZE_THUMB_NORMAL;
 	pw->thumb_size = PAN_THUMB_SIZE_NORMAL;
 	pw->thumb_gap = PAN_THUMB_GAP_NORMAL;
+
+	pw->ignore_symlinks = TRUE;
 
 	pw->list = NULL;
 	pw->list_static = NULL;
@@ -4414,6 +4541,12 @@ static gint pan_warning(const gchar *path)
 	GtkWidget *button;
 	GtkWidget *ct_button;
 	gint hide_dlg;
+
+	if (path && strcmp(path, "/") == 0)
+		{
+		pan_warning_folder(path, NULL);
+		return TRUE;
+		}
 
 	if (enable_thumb_caching &&
 	    thumbnail_spec_standard) return FALSE;
@@ -4662,10 +4795,7 @@ static void pan_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 			{
 			gchar *path = list->data;
 
-			g_free(pw->path);
-			pw->path = g_strdup(path);
-
-			pan_window_layout_update(pw);
+			pan_window_layout_set_path(pw, path);
 			}
 
 		path_list_free(list);

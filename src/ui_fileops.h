@@ -31,9 +31,11 @@ gchar *path_from_utf8(const gchar *path);
 
 const gchar *homedir(void);
 gint stat_utf8(const gchar *s, struct stat *st);
+gint lstat_utf8(const gchar *s, struct stat *st);
 gint isname(const gchar *s);
 gint isfile(const gchar *s);
 gint isdir(const gchar *s);
+gint islink(const gchar *s);
 gint64 filesize(const gchar *s);
 time_t filetime(const gchar *s);
 gint filetime_set(const gchar *s, time_t tval);

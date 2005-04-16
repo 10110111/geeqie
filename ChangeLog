@@ -1,3 +1,15 @@
+Sat Apr 16 12:29:42 2005  John Ellis  <johne@verizon.net>
+
+	* pan-view.c: Add option to ignore symbolic links to folders when
+	creating file list (no gui control yet), and do not allow listing
+	the root folder as this introduces too many issues (for instance
+	how do we ignore special filesystems such as /proc using only stat
+	attributes?). Add fix to not show empty folders in the flower view.
+	* thumb_standard.c (thumb_loader_std_finish): Fix logic that caused
+	thumbnails to be saved for images with a size between normal and large
+	when using large thumbnails.
+	* ui_fileops.[ch]: Add utilities lstat_utf8 and islink.
+
 Thu Apr 14 10:44:00 2005  John Ellis  <johne@verizon.net>
 
 	* cache.c (cache_sim_data_load): Fix to return CacheData if any data

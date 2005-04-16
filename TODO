@@ -34,6 +34,9 @@ Major:
    > check ref counting of image when redrawing after finish loading
   d> speed up sorting image.. stage when sorting/merging cache list
 
+   > add control to toggle 'ignore folder symlinks'
+   > the folder tree should not have to be re-read when changing options
+     that do not effect the file list count/contents
 
    > time line view:
     w> allow use of file date or EXIF (embedded) date.
@@ -42,14 +45,14 @@ Major:
    > calendar view:
     w> fix search. (UPDATE: still can not find day containing name/path/partial)
      > supports thumbnail size images only, should grey out actual size items in size menu or something...
-     > allow use of file date or EXIF (embedded) date.
+    w> allow use of file date or EXIF (embedded) date.
      > fix scrolling when 'day' popup appears outsize of canvas.
 
    > grid view:
      > allow sorting by name, date, size, dimensions, etc.
 
    > flower view:
-     > fix it :)
+    d> do not show empty folders
 
    > under consideration:
      > split view

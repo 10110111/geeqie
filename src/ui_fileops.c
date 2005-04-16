@@ -197,6 +197,19 @@ gint stat_utf8(const gchar *s, struct stat *st)
 	return ret;
 }
 
+gint lstat_utf8(const gchar *s, struct stat *st)
+{
+	gchar *sl;
+	gint ret;
+
+	if (!s) return FALSE;
+	sl = path_from_utf8(s);
+	ret = (lstat(sl, st) == 0);
+	g_free(sl);
+
+	return ret;
+}
+
 gint isname(const gchar *s)
 {
 	struct stat st;
@@ -216,6 +229,13 @@ gint isdir(const gchar *s)
 	struct stat st;
    
 	return (stat_utf8(s ,&st) && S_ISDIR(st.st_mode));
+}
+
+gint islink(const gchar *s)
+{
+	struct stat st;
+   
+	return (lstat_utf8(s ,&st) && S_ISLNK(st.st_mode));
 }
 
 gint64 filesize(const gchar *s)
