@@ -7,7 +7,9 @@ ICONS_INLINE = \
 	folder_up.png		\
 	scroller.png		\
 	sheet_broken.png	\
-	gqview_logo.png
+	gqview_logo.png		\
+	icon_float.png		\
+	icon_thumb.png
 
 ICONS_INLINE_PAIRS = \
 	folder_closed		$(srcdir)/folder_closed.png	\
@@ -16,7 +18,9 @@ ICONS_INLINE_PAIRS = \
 	folder_up		$(srcdir)/folder_up.png		\
 	icon_scroller		$(srcdir)/scroller.png		\
 	icon_broken		$(srcdir)/sheet_broken.png	\
-	gqview_logo		$(srcdir)/gqview_logo.png
+	gqview_logo		$(srcdir)/gqview_logo.png	\
+	icon_float		$(srcdir)/icon_float.png	\
+	icon_thumb		$(srcdir)/icon_thumb.png
 
 icons_inline.h: $(ICONS_INLINE)
 	gdk-pixbuf-csource --raw --extern --build-list $(ICONS_INLINE_PAIRS) > icons_inline.h
@@ -33,8 +37,6 @@ EXTRA_DIST = \
 	config.xpm		\
 	dialog.xpm		\
 	icon.xpm		\
-	icon_float.xpm		\
-	icon_thumb.xpm		\
 	marker.xpm		\
 	tools.xpm		\
 	view.xpm

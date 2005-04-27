@@ -283,7 +283,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	gtk_window_set_geometry_hints(GTK_WINDOW(fs->window), fs->window, &geometry,
 				      GDK_HINT_MIN_SIZE | GDK_HINT_MAX_SIZE | GDK_HINT_BASE_SIZE |
 				      GDK_HINT_WIN_GRAVITY |
-				      GDK_HINT_USER_POS | GDK_HINT_USER_SIZE);
+				      GDK_HINT_USER_POS);
 
 	gtk_window_set_default_size(GTK_WINDOW(fs->window), w, h);
 	gtk_window_move(GTK_WINDOW(fs->window), x, y);

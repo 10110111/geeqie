@@ -98,6 +98,8 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_SCROLLER,	icon_scroller },
 	{ PIXBUF_INLINE_BROKEN,		icon_broken },
 	{ PIXBUF_INLINE_LOGO,		gqview_logo },
+	{ PIXBUF_INLINE_ICON_FLOAT,	icon_float },
+	{ PIXBUF_INLINE_ICON_THUMB,	icon_thumb },
 	{ NULL, NULL }
 };
 

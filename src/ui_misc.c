@@ -749,13 +749,37 @@ GtkWidget *pref_toolbar_new(GtkWidget *parent_box, GtkToolbarStyle style)
 	return tbar;
 }
 
-GtkWidget *pref_toolbar_button(GtkWidget *toolbar, const gchar *stock_id, const gchar *label,
+GtkWidget *pref_toolbar_button(GtkWidget *toolbar,
+			       const gchar *stock_id, const gchar *label, gint toggle,
 			       const gchar *description,
 			       GCallback func, gpointer data)
 {
 	GtkWidget *item;
 
-	item = GTK_WIDGET(gtk_tool_button_new_from_stock(stock_id));
+	if (toggle)
+		{
+		if (stock_id)
+			{
+			item = GTK_WIDGET(gtk_toggle_tool_button_new_from_stock(stock_id));
+			}
+		else
+			{
+			item = GTK_WIDGET(gtk_toggle_tool_button_new());
+			}
+		}
+	else
+		{
+		if (stock_id)
+			{
+			item = GTK_WIDGET(gtk_tool_button_new_from_stock(stock_id));
+			}
+		else
+			{
+			item = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
+			}
+		}
+	gtk_tool_button_set_use_underline(GTK_TOOL_BUTTON(item), TRUE);
+
 	if (label) gtk_tool_button_set_label(GTK_TOOL_BUTTON(item), label);
 
 	if (func) g_signal_connect(item, "clicked", func, data);
@@ -771,6 +795,18 @@ GtkWidget *pref_toolbar_button(GtkWidget *toolbar, const gchar *stock_id, const 
 		}
 
 	return item;
+}
+
+void pref_toolbar_button_set_icon(GtkWidget *button, GtkWidget *widget, const gchar *stock_id)
+{
+	if (widget)
+		{
+		gtk_tool_button_set_icon_widget(GTK_TOOL_BUTTON(button), widget);
+		}
+	else if (stock_id)
+		{
+		gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(button), stock_id);
+		}
 }
 
 GtkWidget *pref_toolbar_spacer(GtkWidget *toolbar)

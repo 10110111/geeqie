@@ -37,9 +37,6 @@
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
-#include "icons/icon_thumb.xpm"
-#include "icons/icon_float.xpm"
-
 
 #define MENU_EDIT_ACTION_OFFSET 16
 
@@ -470,17 +467,6 @@ static void layout_menu_list_cb(GtkRadioAction *action, GtkRadioAction *current,
 
 	layout_views_set(lw, lw->tree_view, (gtk_radio_action_get_current_value(action) == 1));
 }
-
-#if 0
-static void layout_menu_icon_cb(gpointer data, guint action, GtkWidget *widget)
-{
-	LayoutWindow *lw = data;
-
-	if (!GTK_CHECK_MENU_ITEM(widget)->active) return;
-
-	layout_views_set(lw, lw->tree_view, TRUE);
-}
-#endif
 
 static void layout_menu_tree_cb(GtkToggleAction *action, gpointer data)
 {
@@ -980,7 +966,7 @@ static void layout_button_thumb_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_thumb_set(lw, GTK_TOGGLE_BUTTON(widget)->active);
+	layout_thumb_set(lw, gtk_toggle_tool_button_get_active(GTK_TOGGLE_TOOL_BUTTON(widget)));
 }
 
 static void layout_button_home_cb(GtkWidget *widget, gpointer data)
@@ -1038,75 +1024,50 @@ static void layout_button_float_cb(GtkWidget *widget, gpointer data)
 	layout_tools_float_toggle(lw);
 }
 
-GtkWidget *layout_button(GtkWidget *box, gchar **pixmap_data, const gchar *stock_id, gint toggle,
-			 GtkTooltips *tooltips, const gchar *tip_text,
-			 GCallback func, gpointer data)
+static void layout_button_custom_icon(GtkWidget *button, const gchar *key)
 {
-	GtkWidget *button;
 	GtkWidget *icon;
+	GdkPixbuf *pixbuf;
 
-	if (toggle)
-		{
-		button = gtk_toggle_button_new();
-		}
-	else
-		{
-		button = gtk_button_new();
-		}
+	pixbuf = pixbuf_inline(key);
+	if (!pixbuf) return;
 
-	g_signal_connect(G_OBJECT(button), "clicked", func, data);
-	gtk_box_pack_start(GTK_BOX(box), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
-	gtk_tooltips_set_tip(tooltips, button, tip_text, NULL);
+	icon = gtk_image_new_from_pixbuf(pixbuf);
+	g_object_unref(pixbuf);
 
-	if (stock_id)
-		{
-		icon = gtk_image_new_from_stock(stock_id, GTK_ICON_SIZE_BUTTON);
-		}
-	else
-		{
-		GdkPixbuf *pixbuf;
-
-		pixbuf = gdk_pixbuf_new_from_xpm_data((const char **)pixmap_data);
-		icon = gtk_image_new_from_pixbuf(pixbuf);
-		gdk_pixbuf_unref(pixbuf);
-		}
-
-	gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-
-	gtk_container_add(GTK_CONTAINER(button), icon);
+	pref_toolbar_button_set_icon(button, icon, NULL);
 	gtk_widget_show(icon);
-
-	return button;
 }
 
 GtkWidget *layout_button_bar(LayoutWindow *lw)
 {
 	GtkWidget *box;
-	GtkTooltips *tooltips;
+	GtkWidget *button;
 
-	tooltips = lw->tooltips;
+	box =  pref_toolbar_new(NULL, GTK_TOOLBAR_ICONS);
 
-	box = gtk_hbox_new(FALSE, 0);
+	button = pref_toolbar_button(box, NULL, _("_Thumbnails"), TRUE,
+				     _("Show thumbnails"), G_CALLBACK(layout_button_thumb_cb), lw);
+	layout_button_custom_icon(button, PIXBUF_INLINE_ICON_THUMB);
+	lw->thumb_button = button;
 
-	lw->thumb_button = layout_button(box, (gchar **)icon_thumb_xpm, NULL, TRUE,
-		      tooltips, _("Show thumbnails"), G_CALLBACK(layout_button_thumb_cb), lw);
-	layout_button(box, NULL, GTK_STOCK_HOME, FALSE,
-		      tooltips, _("Change to home folder"), G_CALLBACK(layout_button_home_cb), lw);
-	layout_button(box, NULL, GTK_STOCK_REFRESH, FALSE,
-		      tooltips, _("Refresh file list"), G_CALLBACK(layout_button_refresh_cb), lw);
-	layout_button(box, NULL, GTK_STOCK_ZOOM_IN, FALSE,
-		      tooltips, _("Zoom in"), G_CALLBACK(layout_button_zoom_in_cb), lw);
-	layout_button(box, NULL, GTK_STOCK_ZOOM_OUT, FALSE,
-		      tooltips, _("Zoom out"), G_CALLBACK(layout_button_zoom_out_cb), lw);
-	layout_button(box, NULL, GTK_STOCK_ZOOM_FIT, FALSE,
-		      tooltips, _("Fit image to window"), G_CALLBACK(layout_button_zoom_fit_cb), lw);
-	layout_button(box, NULL, GTK_STOCK_ZOOM_100, FALSE,
-		      tooltips, _("Set zoom 1:1"), G_CALLBACK(layout_button_zoom_1_1_cb), lw);
-	layout_button(box, NULL, GTK_STOCK_PREFERENCES, FALSE,
-		      tooltips, _("Configure options"), G_CALLBACK(layout_button_config_cb), lw);
-	layout_button(box, (gchar **)icon_float_xpm, NULL, FALSE,
-		      tooltips, _("Float Controls"), G_CALLBACK(layout_button_float_cb), lw);
+	pref_toolbar_button(box, GTK_STOCK_HOME, NULL, FALSE,
+			    _("Change to home folder"), G_CALLBACK(layout_button_home_cb), lw);
+	pref_toolbar_button(box, GTK_STOCK_REFRESH, NULL, FALSE,
+			    _("Refresh file list"), G_CALLBACK(layout_button_refresh_cb), lw);
+	pref_toolbar_button(box, GTK_STOCK_ZOOM_IN, NULL, FALSE,
+			    _("Zoom in"), G_CALLBACK(layout_button_zoom_in_cb), lw);
+	pref_toolbar_button(box, GTK_STOCK_ZOOM_OUT, NULL, FALSE,
+			    _("Zoom out"), G_CALLBACK(layout_button_zoom_out_cb), lw);
+	pref_toolbar_button(box, GTK_STOCK_ZOOM_FIT, NULL, FALSE,
+			    _("Fit image to window"), G_CALLBACK(layout_button_zoom_fit_cb), lw);
+	pref_toolbar_button(box, GTK_STOCK_ZOOM_100, NULL, FALSE,
+			    _("Set zoom 1:1"), G_CALLBACK(layout_button_zoom_1_1_cb), lw);
+	pref_toolbar_button(box, GTK_STOCK_PREFERENCES, NULL, FALSE,
+			    _("Configure options"), G_CALLBACK(layout_button_config_cb), lw);
+	button = pref_toolbar_button(box, NULL, _("_Float"), FALSE,
+				     _("Float Controls"), G_CALLBACK(layout_button_float_cb), lw);
+	layout_button_custom_icon(button, PIXBUF_INLINE_ICON_FLOAT);
 
 	return box;
 }
@@ -1155,7 +1116,7 @@ void layout_util_sync_thumb(LayoutWindow *lw)
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->thumbs_enabled);
 	g_object_set(action, "sensitive", !lw->icon_view, NULL);
 
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(lw->thumb_button), lw->thumbs_enabled);
+	gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(lw->thumb_button), lw->thumbs_enabled);
 	gtk_widget_set_sensitive(lw->thumb_button, !lw->icon_view);
 }
 

@@ -31,10 +31,10 @@
 
 #include "icons/tools.xpm"
 
-#define MAINWINDOW_DEF_WIDTH 620
-#define MAINWINDOW_DEF_HEIGHT 400
+#define MAINWINDOW_DEF_WIDTH 700
+#define MAINWINDOW_DEF_HEIGHT 500
 
-#define MAIN_WINDOW_DIV_HPOS -1
+#define MAIN_WINDOW_DIV_HPOS 270
 #define MAIN_WINDOW_DIV_VPOS 200
 
 #define TOOLWINDOW_DEF_WIDTH 260
@@ -171,9 +171,6 @@ static GtkWidget *layout_tool_setup(LayoutWindow *lw)
 	GtkWidget *box;
 	GtkWidget *menu_bar;
 	GtkWidget *tabcomp;
-#if 0
-	GtkWidget *popwin;
-#endif
 
 	box = gtk_vbox_new(FALSE, 0);
 
@@ -191,9 +188,6 @@ static GtkWidget *layout_tool_setup(LayoutWindow *lw)
 	gtk_box_pack_start(GTK_BOX(box), tabcomp, FALSE, FALSE, 0);
 	gtk_widget_show(tabcomp);
 
-#if 0
-	popwin = gtk_widget_get_toplevel(GTK_COMBO(tabcomp)->list);
-#endif
 	g_signal_connect(G_OBJECT(lw->path_entry->parent), "changed",
 			 G_CALLBACK(layout_path_entry_changed_cb), lw);
 
@@ -1089,7 +1083,7 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 
 		if (save_window_positions)
 			{
-			hints = GDK_HINT_USER_POS | GDK_HINT_USER_SIZE;
+			hints = GDK_HINT_USER_POS;
 			}
 		else
 			{
@@ -1401,10 +1395,6 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	lw->info_details = NULL;
 	lw->info_zoom = NULL;
 
-#if 0
-	if (lw->menu_fact) g_object_unref(G_OBJECT(lw->menu_fact));
-	lw->menu_fact = NULL;
-#endif
 	if (lw->ui_manager) g_object_unref(lw->ui_manager);
 	lw->ui_manager = NULL;
 	lw->action_group = NULL;
@@ -1593,10 +1583,6 @@ void layout_free(LayoutWindow *lw)
 
 	layout_bars_close(lw);
 
-#if 0
-	if (lw->menu_fact) g_object_unref(G_OBJECT(lw->menu_fact));
-#endif
-	if (lw->tooltips) g_object_unref(G_OBJECT(lw->tooltips));
 	gtk_widget_destroy(lw->window);
 
 	g_free(lw->path);
@@ -1675,7 +1661,7 @@ LayoutWindow *layout_new(const gchar *path, gint popped, gint hidden)
 
 	if (save_window_positions)
 		{
-		hints = GDK_HINT_USER_POS | GDK_HINT_USER_SIZE;
+		hints = GDK_HINT_USER_POS;
 		}
 	else
 		{
@@ -1707,14 +1693,6 @@ LayoutWindow *layout_new(const gchar *path, gint popped, gint hidden)
 			 G_CALLBACK(layout_delete_cb), lw);
 
 	layout_keyboard_init(lw, lw->window);
-
-#if 0
-	gtk_widget_realize(lw->window);
-#endif
-
-	lw->tooltips = gtk_tooltips_new();
-	g_object_ref(G_OBJECT(lw->tooltips));
-	gtk_object_sink(GTK_OBJECT(lw->tooltips));
 
 	lw->main_box = gtk_vbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(lw->window), lw->main_box);

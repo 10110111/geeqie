@@ -28,6 +28,9 @@ GdkPixbuf *pixbuf_inline(const gchar *key);
 #define PIXBUF_INLINE_BROKEN		"broken"
 #define PIXBUF_INLINE_LOGO		"logo"
 
+#define PIXBUF_INLINE_ICON_FLOAT	"icon_float"
+#define PIXBUF_INLINE_ICON_THUMB	"icon_thumb"
+
 
 GdkPixbuf *pixbuf_copy_rotate_90(GdkPixbuf *src, gint counter_clockwise);
 GdkPixbuf *pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip);

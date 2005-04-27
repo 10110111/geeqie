@@ -57,6 +57,9 @@ Major:
    > under consideration:
      > split view
 
+d> fix window size hints not to use USER_SIZE as we do not use gtk_window_resize to set the hint's attribute, and
+   apparently GTK passes in unitialized values for this case (definite programming error, but also a GTK bug?).
+
  > the info dialog is not set as a transient of the calling window, this causes it to be behind
    a full screen window when 'stay above other windows' is enabled.
 

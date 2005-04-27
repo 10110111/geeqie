@@ -309,8 +309,6 @@ struct _LayoutWindow
 	GtkWidget *h_pane;
 	GtkWidget *v_pane;
 
-	GtkTooltips *tooltips;
-
 	/* menus, path selector */
 
 	GtkActionGroup *action_group;

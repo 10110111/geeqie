@@ -137,9 +137,11 @@ GtkWidget *pref_table_spin(GtkWidget *table, gint column, gint row,
 
 
 GtkWidget *pref_toolbar_new(GtkWidget *parent_box, GtkToolbarStyle style);
-GtkWidget *pref_toolbar_button(GtkWidget *toolbar, const gchar *stock_id, const gchar *label,
+GtkWidget *pref_toolbar_button(GtkWidget *toolbar,
+			       const gchar *stock_id, const gchar *label, gint toggle,
 			       const gchar *description,
 			       GCallback func, gpointer data);
+void pref_toolbar_button_set_icon(GtkWidget *button, GtkWidget *widget, const gchar *stock_id);
 GtkWidget *pref_toolbar_spacer(GtkWidget *toolbar);
 
 

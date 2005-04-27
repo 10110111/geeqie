@@ -1115,18 +1115,18 @@ GtkWidget *bar_info_new(const gchar *path, gint metadata_only, GtkWidget *boundi
 
 	tbar = pref_toolbar_new(bd->group_box, GTK_TOOLBAR_ICONS);
 
-	pref_toolbar_button(tbar, GTK_STOCK_INDEX, NULL,
+	pref_toolbar_button(tbar, GTK_STOCK_INDEX, NULL, FALSE,
 			_("Edit favorite keywords list."),
 			G_CALLBACK(bar_keyword_edit_cb), bd);
 	pref_toolbar_spacer(tbar);
-	bd->button_set_add = pref_toolbar_button(tbar, GTK_STOCK_ADD, NULL,
+	bd->button_set_add = pref_toolbar_button(tbar, GTK_STOCK_ADD, NULL, FALSE,
 			_("Add keywords to selected files"),
 			G_CALLBACK(bar_info_set_add), bd);
-	bd->button_set_replace = pref_toolbar_button(tbar, GTK_STOCK_CONVERT, NULL,
+	bd->button_set_replace = pref_toolbar_button(tbar, GTK_STOCK_CONVERT, NULL, FALSE,
 			_("Add keywords to selected files, replacing the existing ones."),
 			G_CALLBACK(bar_info_set_replace), bd);
 	pref_toolbar_spacer(tbar);
-	bd->button_save = pref_toolbar_button(tbar, GTK_STOCK_SAVE, NULL,
+	bd->button_save = pref_toolbar_button(tbar, GTK_STOCK_SAVE, NULL, FALSE,
 			_("Save comment now"),
 			G_CALLBACK(bar_info_save), bd);
 

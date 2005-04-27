@@ -545,7 +545,6 @@ static void bar_sort_destroy(GtkWidget *widget, gpointer data)
 GtkWidget *bar_sort_new(LayoutWindow *lw)
 {
 	SortData *sd;
-	GtkWidget *button;
 	GtkWidget *buttongrp;
 	GtkWidget *label;
 	GtkWidget *tbar;
@@ -583,43 +582,24 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 
 	sd->folder_group = pref_box_new(sd->vbox, FALSE, GTK_ORIENTATION_VERTICAL, 0);
 
-	buttongrp = gtk_radio_button_new_with_label(NULL, _("Copy"));
-	if (sd->action == BAR_SORT_COPY) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(buttongrp), TRUE);
-	g_signal_connect(G_OBJECT(buttongrp), "clicked",
-			 G_CALLBACK(bar_sort_set_copy_cb), sd);
-	gtk_box_pack_start(GTK_BOX(sd->folder_group), buttongrp, FALSE, FALSE, 0);
-	gtk_widget_show(buttongrp);
-
-	button = gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(buttongrp)), _("Move"));
-	if (sd->action == BAR_SORT_MOVE) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(bar_sort_set_move_cb), sd);
-	gtk_box_pack_start(GTK_BOX(sd->folder_group), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
-
-	button = gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(buttongrp)), _("Link"));
-
-	if (sd->action == BAR_SORT_LINK) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(bar_sort_set_link_cb), sd);
-	gtk_box_pack_start(GTK_BOX(sd->folder_group), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
+	buttongrp = pref_radiobutton_new(sd->folder_group, NULL,
+					 _("Copy"), (sd->action == BAR_SORT_COPY),
+					 G_CALLBACK(bar_sort_set_copy_cb), sd);
+	pref_radiobutton_new(sd->folder_group, buttongrp,
+			     _("Move"), (sd->action == BAR_SORT_MOVE),
+			     G_CALLBACK(bar_sort_set_move_cb), sd);
+	pref_radiobutton_new(sd->folder_group, buttongrp,
+			     _("Link"), (sd->action == BAR_SORT_LINK),
+			     G_CALLBACK(bar_sort_set_link_cb), sd);
 
 	sd->collection_group = pref_box_new(sd->vbox, FALSE, GTK_ORIENTATION_VERTICAL, 0);
 
-	buttongrp = gtk_radio_button_new_with_label(NULL, _("Add image"));
-	if (sd->selection == BAR_SORT_SELECTION_IMAGE) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(buttongrp), TRUE);
-	g_signal_connect(G_OBJECT(buttongrp), "clicked",
-			 G_CALLBACK(bar_sort_set_selection_image_cb), sd);
-	gtk_box_pack_start(GTK_BOX(sd->collection_group), buttongrp, FALSE, FALSE, 0);
-	gtk_widget_show(buttongrp);
-
-	button = gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(buttongrp)), _("Add selection"));
-	if (sd->selection == BAR_SORT_SELECTION_SELECTED) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(bar_sort_set_selection_selected_cb), sd);
-	gtk_box_pack_start(GTK_BOX(sd->collection_group), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
+	buttongrp = pref_radiobutton_new(sd->collection_group, NULL,
+					 _("Add image"), (sd->selection == BAR_SORT_SELECTION_IMAGE),
+					 G_CALLBACK(bar_sort_set_selection_image_cb), sd);
+	pref_radiobutton_new(sd->collection_group, buttongrp,
+			     _("Add selection"), (sd->selection == BAR_SORT_SELECTION_SELECTED),
+			     G_CALLBACK(bar_sort_set_selection_selected_cb), sd);
 
 	sd->bookmarks = bookmark_list_new(SORT_KEY_FOLDERS, bar_sort_bookmark_select, sd);
 	gtk_box_pack_start(GTK_BOX(sd->vbox), sd->bookmarks, TRUE, TRUE, 0);
@@ -627,10 +607,10 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 
 	tbar = pref_toolbar_new(sd->vbox, GTK_TOOLBAR_ICONS);
 
-	sd->add_button = pref_toolbar_button(tbar, GTK_STOCK_ADD, NULL,
+	sd->add_button = pref_toolbar_button(tbar, GTK_STOCK_ADD, NULL, FALSE,
 					     _("Add Bookmark"),
 					     G_CALLBACK(bar_sort_add_cb), sd);
-	sd->undo_button = pref_toolbar_button(tbar, GTK_STOCK_UNDO, NULL,
+	sd->undo_button = pref_toolbar_button(tbar, GTK_STOCK_UNDO, NULL, FALSE,
 					      _("Undo last image"),
 					      G_CALLBACK(bar_sort_undo_cb), sd);
 
