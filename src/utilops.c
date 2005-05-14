@@ -300,6 +300,26 @@ GenericDialog *file_util_warning_dialog(const gchar *heading, const gchar *messa
 	return gd;
 }
 
+static gint filename_base_length(const gchar *name)
+{
+	gint n;
+
+	if (!name) return 0;
+
+	n = strlen(name);
+
+	if (filter_name_exists(name))
+		{
+		const gchar *ext;
+
+		ext = extension_from_path(name);
+		if (ext) n -= strlen(ext);
+		}
+
+	return n;
+}
+
+
 /*
  *--------------------------------------------------------------------------
  * Move and Copy routines
@@ -459,7 +479,15 @@ static void file_util_move_multiple_rename_cb(GtkWidget *widget, gpointer data)
 	gtk_widget_set_sensitive(fdm->rename_entry, fdm->rename);
 	gtk_widget_set_sensitive(fdm->yes_all_button, !fdm->rename);
 
-	if (fdm->rename) gtk_widget_grab_focus(fdm->rename_entry);
+	if (fdm->rename)
+		{
+		const gchar *name;
+
+		gtk_widget_grab_focus(fdm->rename_entry);
+
+		name = gtk_entry_get_text(GTK_ENTRY(fdm->rename_entry));
+		gtk_editable_select_region(GTK_EDITABLE(fdm->rename_entry), 0, filename_base_length(name));
+		}
 }
 
 static GenericDialog *file_util_move_multiple_confirm_dialog(FileDataMult *fdm)
@@ -764,7 +792,15 @@ static void file_util_move_single_rename_cb(GtkWidget *widget, gpointer data)
 	fds->rename = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 	gtk_widget_set_sensitive(fds->rename_entry, fds->rename);
 
-	if (fds->rename) gtk_widget_grab_focus(fds->rename_entry);
+	if (fds->rename)
+		{
+		const gchar *name;
+
+		gtk_widget_grab_focus(fds->rename_entry);
+
+		name = gtk_entry_get_text(GTK_ENTRY(fds->rename_entry));
+		gtk_editable_select_region(GTK_EDITABLE(fds->rename_entry), 0, filename_base_length(name));
+		}
 }
 
 static void file_util_move_single(FileDataSingle *fds)
@@ -892,6 +928,11 @@ static void file_util_move_do(FileDialog *fd)
 
 static void file_util_move_check(FileDialog *fd)
 {
+	if (fd->dest_path && strcmp(fd->dest_path, "~") == 0)
+		{
+		gtk_entry_set_text(GTK_ENTRY(fd->entry), homedir());
+		}
+
 	if (fd->multiple_files && !isdir(fd->dest_path))
 		{
 		if (isfile(fd->dest_path))
@@ -904,6 +945,24 @@ static void file_util_move_check(FileDialog *fd)
 			file_util_warning_dialog(_("Invalid folder"),
 						 _("Please select an existing folder."),
 						 GTK_STOCK_DIALOG_INFO, NULL);
+		return;
+		}
+
+	if (!fd->dest_path || fd->dest_path[0] != '/')
+		{
+		if (fd->source_path)
+			{
+			gchar *base;
+			gchar *path;
+
+			base = remove_level_from_path(fd->source_path);
+			path = concat_dir_and_file(base, fd->dest_path);
+
+			gtk_entry_set_text(GTK_ENTRY(fd->entry), path);
+
+			g_free(path);
+			g_free(base);
+			}
 		return;
 		}
 
@@ -1875,6 +1934,7 @@ static gboolean file_util_rename_multiple_select_cb(GtkTreeSelection *selection,
 	if (GTK_WIDGET_VISIBLE(rd->rename_box))
 		{
 		gtk_widget_grab_focus(rd->rename_entry);
+		gtk_editable_select_region(GTK_EDITABLE(rd->rename_entry), 0, filename_base_length(name));
 		}
 
 	return TRUE;
@@ -2025,6 +2085,7 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 	GtkWidget *table;
 	GtkWidget *combo;
 	GList *work;
+	const gchar *name;
 
 	rd = g_new0(RenameDataMult, 1);
 
@@ -2113,10 +2174,13 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 	pref_table_label(table, 0, 1, _("New name:"), 1.0);
 
 	rd->rename_entry = gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(rd->rename_entry), filename_from_path(rd->fd->source_path));
 	gtk_table_attach(GTK_TABLE(table), rd->rename_entry, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, FALSE, 0, 0);
 	generic_dialog_attach_default(GENERIC_DIALOG(rd->fd), rd->rename_entry);
 	gtk_widget_grab_focus(rd->rename_entry);
+
+	name = filename_from_path(rd->fd->source_path);
+	gtk_entry_set_text(GTK_ENTRY(rd->rename_entry), name);
+	gtk_editable_select_region(GTK_EDITABLE(rd->rename_entry), 0, filename_base_length(name));
 	gtk_widget_show(rd->rename_entry);
 
 	rd->auto_box = gtk_vbox_new(FALSE, PREF_PAD_GAP);
@@ -2245,6 +2309,7 @@ static void file_util_rename_single_do(const gchar *source_path, GtkWidget *pare
 {
 	FileDialog *fd;
 	GtkWidget *table;
+	const gchar *name;
 
 	fd = file_util_file_dlg(_("Rename - GQview"), "GQview", "dlg_rename", parent,
 			     file_util_rename_single_close_cb, NULL);
@@ -2266,10 +2331,12 @@ static void file_util_rename_single_do(const gchar *source_path, GtkWidget *pare
 
 	fd->entry = gtk_entry_new();
 	gtk_table_attach(GTK_TABLE(table), fd->entry, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, FALSE, 0, 0);
-	gtk_entry_set_text(GTK_ENTRY(fd->entry), filename_from_path(fd->source_path));
-	gtk_editable_select_region(GTK_EDITABLE(fd->entry), 0, strlen(gtk_entry_get_text(GTK_ENTRY(fd->entry))));
 	generic_dialog_attach_default(GENERIC_DIALOG(fd), fd->entry);
 	gtk_widget_grab_focus(fd->entry);
+
+	name = filename_from_path(fd->source_path);
+	gtk_entry_set_text(GTK_ENTRY(fd->entry), name);
+	gtk_editable_select_region(GTK_EDITABLE(fd->entry), 0, filename_base_length(name));
 	gtk_widget_show(fd->entry);
 
 	gtk_widget_show(GENERIC_DIALOG(fd)->dialog);

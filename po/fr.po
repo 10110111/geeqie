@@ -1538,7 +1538,7 @@ msgstr "  --debug                    valide les sorties de déboguage\n"
 
 #: src/main.c:954
 msgid "  -v, --version              print version info\n"
-msgstr "  -v, --version              affiche les infos de versions\n"
+msgstr "  -v, --version              affiche les infos de version\n"
 
 #: src/main.c:955
 msgid ""
@@ -1776,7 +1776,7 @@ msgstr "Tuiles"
 
 #: src/preferences.c:394
 msgid "Bilinear"
-msgstr "Bilénaire"
+msgstr "Bilinéaire"
 
 #: src/preferences.c:396
 msgid "Hyper (best, but slowest)"
@@ -2038,7 +2038,7 @@ msgstr "Utiliser la touche [Suppr]"
 
 #: src/preferences.c:1169
 msgid "Safe delete"
-msgstr "Confirmer la suppression des fichiers"
+msgstr "Suppression récupérable"
 
 #: src/preferences.c:1187
 msgid "Maximum size:"

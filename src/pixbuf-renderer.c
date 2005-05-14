@@ -3081,6 +3081,8 @@ void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source)
 	g_object_set(object, "zoom_max", source->zoom_max, NULL);
 	g_object_set(object, "loading", source->loading, NULL);
 
+	pr->complete = source->complete;
+
 	pr->x_scroll = source->x_scroll;
 	pr->y_scroll = source->y_scroll;
 

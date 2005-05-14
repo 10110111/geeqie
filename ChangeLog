@@ -1,3 +1,17 @@
+Sat May 14 13:04:23 2005  John Ellis  <johne@verizon.net>
+
+	* po/cs.po: Update Czech translation,
+	submitted by Jan Raska <jan.raska@tiscali.cz>
+	* de.po, fr.po: Typo and spelling fixes.
+
+Sat May 14 12:23:19 2005  John Ellis  <johne@verizon.net>
+
+	* image.c, pixbuf-renderer.c: Fix sending of complete signal.
+	* ui_pathsel.c: Guard against strcmp of NULL dd->path, fixes crash.
+	* utilops.c: Additional validation for destination of copy/move
+	dialogs, and do not include extension when conveniently selecting
+	filename text in rename dialogs.
+
 Wed Apr 27 15:17:57 2005  John Ellis  <johne@verizon.net>
 
 	* bar_info.c, bar_sort.c: Update for new pref_toolbar_button args.

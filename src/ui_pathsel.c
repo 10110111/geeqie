@@ -165,7 +165,7 @@ static void dest_populate(Dest_Data *dd, const gchar *path)
 	GtkListStore *store;
 	gchar *pathl;
 
-	if(!path) return;
+	if (!path) return;
 
 	pathl = path_from_utf8(path);
 	dp = opendir(pathl);
@@ -860,11 +860,11 @@ static void dest_entry_changed_cb(GtkEditable *editable, gpointer data)
 	gchar *buf;
 
 	path = gtk_entry_get_text(GTK_ENTRY(dd->entry));
-	if (strcmp(path, dd->path) == 0) return;
+	if (dd->path && strcmp(path, dd->path) == 0) return;
 
 	buf = remove_level_from_path(path);
 
-	if (buf && strcmp(buf, dd->path) != 0)
+	if (buf && (!dd->path || strcmp(buf, dd->path) != 0))
 		{
 		gchar *tmp = remove_trailing_slash(path);
 		if (isdir(tmp))
@@ -1249,14 +1249,14 @@ void path_selection_sync_to_entry(GtkWidget *entry)
 
 	path = gtk_entry_get_text(GTK_ENTRY(entry));
 	
-	if (isdir(path) && strcmp(path, dd->path) != 0)
+	if (isdir(path) && (!dd->path || strcmp(path, dd->path) != 0))
 		{
 		dest_populate(dd, path);
 		}
 	else
 		{
 		gchar *buf = remove_level_from_path(path);
-		if (isdir(buf) && strcmp(buf, dd->path) != 0)
+		if (isdir(buf) && (!dd->path || strcmp(buf, dd->path) != 0))
 			{
 			dest_populate(dd, buf);
 			}

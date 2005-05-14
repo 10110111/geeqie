@@ -95,6 +95,8 @@ Wishlist?:
  > Initiating full screen from the command line should not
    show main window until full screen is exited.
 
+ > Add shortcut to jump to next folder within parent folder.
+
  > add animated image support
 
  > add gamma correction patch

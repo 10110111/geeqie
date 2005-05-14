@@ -458,6 +458,7 @@ static void image_load_done_cb(ImageLoader *il, gpointer data)
 	if (imd->delay_flip &&
 	    image_get_pixbuf(imd) != image_loader_get_pixbuf(imd->il))
 		{
+		g_object_set(G_OBJECT(imd->pr), "complete", FALSE, NULL);
 		image_change_pixbuf(imd, image_loader_get_pixbuf(imd->il), image_zoom_get(imd));
 		}
 

@@ -750,35 +750,35 @@ msgstr "unbekannt"
 
 #: src/exif.c:113
 msgid "top left"
-msgstr "Links oben"
+msgstr "oben links "
 
 #: src/exif.c:114
 msgid "top right"
-msgstr "Rechts oben"
+msgstr "oben rechts "
 
 #: src/exif.c:115
 msgid "bottom right"
-msgstr "Rechts unten"
+msgstr "unten rechts "
 
 #: src/exif.c:116
 msgid "bottom left"
-msgstr "Links unten"
+msgstr "unten links "
 
 #: src/exif.c:117
 msgid "left top"
-msgstr "Links oben"
+msgstr "links oben"
 
 #: src/exif.c:118
 msgid "right top"
-msgstr "Rechts oben"
+msgstr "rechts oben"
 
 #: src/exif.c:119
 msgid "right bottom"
-msgstr "Rechts unten"
+msgstr "rechts unten"
 
 #: src/exif.c:120
 msgid "left bottom"
-msgstr "Links unten"
+msgstr "links unten"
 
 #: src/exif.c:127
 msgid "inch"
@@ -3294,7 +3294,7 @@ msgstr "Finde Duplikate..."
 
 #: src/view_dir_list.c:400 src/view_dir_tree.c:495
 msgid "Find duplicates recursive..."
-msgstr "Finde Duplikate rekuriv..."
+msgstr "Finde Duplikate rekursiv..."
 
 #: src/view_dir_list.c:407 src/view_dir_tree.c:502
 msgid "_New folder..."
