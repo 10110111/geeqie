@@ -715,13 +715,13 @@ gint thumb_loader_std_start(ThumbLoaderStd *tl, const gchar *path)
 		{
 		gint found;
 
-		if (thumb_loader_std_fail_check(tl)) return FALSE;
-
 		tl->thumb_path = thumb_loader_std_cache_path(tl, FALSE, NULL, FALSE);
 		tl->thumb_path_local = FALSE;
 
 		found = isfile(tl->thumb_path);
 		if (found && thumb_loader_std_setup(tl, tl->thumb_path)) return TRUE;
+
+		if (thumb_loader_std_fail_check(tl)) return FALSE;
 
 		return thumb_loader_std_next_source(tl, found);
 		}

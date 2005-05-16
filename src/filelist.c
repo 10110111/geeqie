@@ -207,6 +207,11 @@ void filter_add_defaults(void)
 	filter_add_if_missing("ico", "Icon file", ".ico;.cur", FALSE);
 	filter_add_if_missing("ras", "Raster", ".ras", FALSE);
 	filter_add_if_missing("svg", "Scalable Vector Graphics", ".svg", FALSE);
+
+	/* These are the raw camera formats with embedded jpeg/exif.
+	 * (see format_raw.c)
+	 */
+	filter_add_if_missing("raf", "Fujifilm raw camera format", ".raf", TRUE);
 }
 
 static GList *filter_to_list(const gchar *extensions)

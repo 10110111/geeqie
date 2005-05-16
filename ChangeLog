@@ -1,3 +1,14 @@
+Sun May 15 21:40:26 2005  John Ellis  <johne@verizon.net>
+
+	* format_raw.[ch]: New files to parse image data and exif offsets for
+	the raw camera formats.
+	* exif.c, image-load.c: Add support calls to format_raw.c functions
+	above.
+	* filelist.c: Add Fujifilm raw file extension to known formats.
+	* thumb_standard.c (thumb_loader_std_start): Check for existing
+	thumbnail file before checking for a failure mark.
+	* src/Makefile.am: Add format_raw.[ch].
+
 Sat May 14 13:04:23 2005  John Ellis  <johne@verizon.net>
 
 	* po/cs.po: Update Czech translation,

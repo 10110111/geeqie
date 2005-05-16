@@ -13,6 +13,7 @@
 #include "gqview.h"
 #include "image-load.h"
 
+#include "format_raw.h"
 #include "ui_fileops.h"
 
 #include <fcntl.h>
@@ -210,6 +211,7 @@ static gint image_loader_begin(ImageLoader *il)
 {
 	guchar buf[IMAGE_LOADER_BUFFER_SIZE];
 	int b;
+	unsigned int offset = 0;
 
 	if (!il->loader || il->pixbuf) return FALSE;
 
@@ -221,7 +223,9 @@ static gint image_loader_begin(ImageLoader *il)
 		return FALSE;
 		}
 
-	if (gdk_pixbuf_loader_write(il->loader, buf, b, NULL))
+	format_raw_img_exif_offsets(il->load_fd, buf, b, &offset, NULL);
+
+	if (gdk_pixbuf_loader_write(il->loader, buf + offset, b - offset, NULL))
 		{
 		il->bytes_read += b;
 

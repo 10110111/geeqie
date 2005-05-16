@@ -70,6 +70,7 @@
 
 #include "exif.h"
 
+#include "format_raw.h"
 #include "ui_fileops.h"
 
 
@@ -437,18 +438,22 @@ ExifFormattedText ExifFormattedList[] = {
 
 #define BYTE_ORDER_INTEL	1
 #define BYTE_ORDER_MOTOROLA	2
-                                                                                                                          
+
+
 #define MARKER_UNKNOWN		0x00
 #define MARKER_SOI		0xD8
 #define MARKER_APP1		0xE1
 
-typedef struct {
+/* These data structs are packed to make sure the
+ * byte alignment matches the on-disk data format.
+ */
+typedef struct __attribute__((packed)) {
 	char		byte_order[2];
 	uint16_t	magic;
 	uint32_t	IFD_offset;
 } TIFFHeader;
  
-typedef struct {
+typedef struct __attribute__((packed)) {
 	uint16_t	tag;
 	uint16_t	format;
 	uint32_t	nb;
@@ -1077,6 +1082,16 @@ ExifData *exif_read(const gchar *path)
 	if ((res = parse_JPEG(exif, (unsigned char *)f, size)) == -2)
 		{
 		res = parse_TIFF(exif, (unsigned char *)f, size);
+		}
+
+	if (res != 0)
+		{
+		guint32 offset = 0;
+		
+		if (format_raw_img_exif_offsets(-1, f, size, NULL, &offset))
+			{
+			res = parse_TIFF(exif, (unsigned char*)f + offset, size - offset);
+			}
 		}
 
 	if (res != 0)
