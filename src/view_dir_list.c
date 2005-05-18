@@ -90,15 +90,7 @@ static gint vdlist_rename_row_cb(TreeEditData *td, const gchar *old, const gchar
 	new_path = concat_dir_and_file(base, new);
 	g_free(base);
 
-	if (!rename_file(old_path, new_path))
-		{
-		gchar *buf;
-
-		buf = g_strdup_printf(_("Failed to rename %s to %s."), old, new);
-		file_util_warning_dialog("Rename failed", buf, GTK_STOCK_DIALOG_ERROR, vdl->listview);
-		g_free(buf);
-		}
-	else
+	if (file_util_rename_dir(old_path, new_path, vdl->listview))
 		{
 		if (vdl->layout && strcmp(vdl->path, old_path) == 0)
 			{

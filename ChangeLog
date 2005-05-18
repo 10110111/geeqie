@@ -1,3 +1,12 @@
+Wed May 18 19:36:49 2005  John Ellis  <johne@verizon.net>
+
+	* utilops.[ch] (file_util_rename_dir): New utility to rename a folder,
+	does proper checking for existing folder to avoid clobbering an
+	existing folder.
+	* view_dir_list.c, view_dir_tree.c: Use new utility above when renaming
+	a folder to fix possible clobbering of an existing folder with the
+	same name as the requested name.
+
 Sun May 15 21:40:26 2005  John Ellis  <johne@verizon.net>
 
 	* format_raw.[ch]: New files to parse image data and exif offsets for

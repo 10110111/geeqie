@@ -2453,3 +2453,43 @@ void file_util_create_dir(const gchar *path, GtkWidget *parent)
 	gtk_widget_show(GENERIC_DIALOG(fd)->dialog);
 }
 
+gint file_util_rename_dir(const gchar *old_path, const gchar *new_path, GtkWidget *parent)
+{
+	const gchar *old_name;
+	const gchar *new_name;
+
+	if (!old_path || !new_path || !isdir(old_path)) return FALSE;
+
+	old_name = filename_from_path(old_path);
+	new_name = filename_from_path(new_path);
+
+	if (isdir(new_path))
+		{
+		gchar *text = g_strdup_printf(_("The folder:\n%s\nalready exists."), new_name);
+		file_util_warning_dialog(_("Folder exists"), text, GTK_STOCK_DIALOG_INFO, parent);
+		g_free(text);
+
+		return FALSE;
+		}
+
+	if (isname(new_path))
+		{
+		gchar *text = g_strdup_printf(_("The path:\n%s\nalready exists as a file."), new_name);
+		file_util_warning_dialog(_("Rename failed"), text, GTK_STOCK_DIALOG_INFO,parent);
+		g_free(text);
+
+		return FALSE;
+		}
+
+	if (!rename_file(old_path, new_path))
+		{
+		gchar *text = g_strdup_printf(_("Failed to rename %s to %s."), old_name, new_name);
+		file_util_warning_dialog("Rename failed", text, GTK_STOCK_DIALOG_ERROR, parent);
+		g_free(text);
+
+		return FALSE;
+		}
+
+	return TRUE;
+}
+

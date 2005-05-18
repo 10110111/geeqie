@@ -39,7 +39,9 @@ void file_util_delete(const gchar *source_path, GList *source_list, GtkWidget *p
 void file_util_move(const gchar *source_path, GList *source_list, const gchar *dest_path, GtkWidget *parent);
 void file_util_copy(const gchar *source_path, GList *source_list, const gchar *dest_path, GtkWidget *parent);
 void file_util_rename(const gchar *source_path, GList *source_list, GtkWidget *parent);
+
 void file_util_create_dir(const gchar *path, GtkWidget *parent);
+gint file_util_rename_dir(const gchar *old_path, const gchar *new_path, GtkWidget *parent);
 
 /* these avoid the location entry dialog, list must be files only and
  * dest_path must be a valid directory path
