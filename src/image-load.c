@@ -217,17 +217,23 @@ static gint image_loader_begin(ImageLoader *il)
 
 	b = read(il->load_fd, &buf, sizeof(buf));
 
+	if (b > 1 &&
+	    format_raw_img_exif_offsets_fd(il->load_fd, buf, b, &offset, NULL))
+		{
+		if (debug) printf("Raw file %s contains embedded image\n", il->path);
+
+		b = read(il->load_fd, &buf, sizeof(buf));
+		}
+
 	if (b < 1)
 		{
 		image_loader_stop(il);
 		return FALSE;
 		}
 
-	format_raw_img_exif_offsets(il->load_fd, buf, b, &offset, NULL);
-
-	if (gdk_pixbuf_loader_write(il->loader, buf + offset, b - offset, NULL))
+	if (gdk_pixbuf_loader_write(il->loader, buf, b, NULL))
 		{
-		il->bytes_read += b;
+		il->bytes_read += b + offset;
 
 		if (b < sizeof(buf))
 			{

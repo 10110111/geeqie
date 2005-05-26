@@ -13,8 +13,16 @@
 #ifndef __FORMAT_RAW_H
 #define __FORMAT_RAW_H
 
-gint format_raw_img_exif_offsets(int fd, const void *data, const guint len,
+
+typedef gint (* FormatRawParseFunc)(const void *data, const guint len,
+				    guint *image_offset, guint *exif_offset);
+
+
+gint format_raw_img_exif_offsets(const void *data, const guint len,
 				 guint *image_offset, guint *exif_offset);
+gint format_raw_img_exif_offsets_fd(int fd, const void *header_data, const guint header_len,
+				    guint *image_offset, guint *exif_offset);
+
 
 #endif
 

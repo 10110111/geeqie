@@ -1,3 +1,19 @@
+Thu May 26 13:57:19 2005  John Ellis  <johne@verizon.net>
+
+	* format_raw.[ch]: Move camera specific code to manufacturer specific
+	format_*.c files. Change code so that file descripter version is now a
+	separate functions that wraps the standard parser by using mmap.
+	* format_canon.[ch]: Moved Canon specific raw support here, removed
+	file descriptor versions of parser. This Canon raw file parser written
+	by Daniel M. German.
+	* format_fuji.[ch]: Move Fuji specific raw support here, parser written
+	by Lars Ellenberg.
+	* exif.c: Update for change to format_raw_img_exif_offsets.
+	* filelist.c: Add cr2 extension to Canon raw format list.
+	* image-load.c: Fixes for changes to format_raw_img_exif_offset_fd so
+	that buffer is refilled using new offset of file descriptor.
+	* src/Makefile.am: Add format_canon.[ch], format_fuji.[ch] to build.
+
 Wed May 18 19:36:49 2005  John Ellis  <johne@verizon.net>
 
 	* utilops.[ch] (file_util_rename_dir): New utility to rename a folder,

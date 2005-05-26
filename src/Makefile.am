@@ -84,6 +84,10 @@ gqview_SOURCES = \
 	exif.h		\
 	filelist.c	\
 	filelist.h	\
+	format_canon.c	\
+	format_canon.h	\
+	format_fuji.c	\
+	format_fuji.h	\
 	format_raw.c	\
 	format_raw.h	\
 	fullscreen.c	\

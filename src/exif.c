@@ -1088,7 +1088,7 @@ ExifData *exif_read(const gchar *path)
 		{
 		guint32 offset = 0;
 		
-		if (format_raw_img_exif_offsets(-1, f, size, NULL, &offset))
+		if (format_raw_img_exif_offsets(f, size, NULL, &offset))
 			{
 			res = parse_TIFF(exif, (unsigned char*)f + offset, size - offset);
 			}

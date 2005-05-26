@@ -14,9 +14,13 @@
 #  include "config.h"
 #endif
 
+
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
 
 #include <glib.h>
 
@@ -24,54 +28,59 @@
 
 #include "format_raw.h"
 
-static gint format_raw_test_canon(int fd, const void *data, const guint len,
-				  guint *image_offset, guint *exif_offset)
-{
-	return FALSE;
-}
+#include "format_canon.h"
+#include "format_fuji.h"
 
-static gint format_raw_test_fuji(int fd, const void *data, const guint len,
-				  guint *image_offset, guint *exif_offset)
+
+typedef struct _FormatEntry FormatEntry;
+struct _FormatEntry {
+	const void *header_pattern;
+	const guint header_length;
+	const gchar *description;
+	FormatRawParseFunc func_parse;
+};
+
+
+static FormatEntry format_list[] = {
+	FORMAT_RAW_CANON,
+	FORMAT_RAW_FUJI,
+	{ NULL, 0, NULL, NULL }
+};
+
+
+static FormatEntry *format_raw_find(const void *data, const guint len)
 {
-	if (len < 128 ||
-	    memcmp(data, "FUJIFILM", 8) != 0)
+	gint n;
+
+	n = 0;
+	while (format_list[n].header_pattern)
 		{
-		return FALSE;
+		if (format_list[n].header_length <= len &&
+		    memcmp(data, format_list[n].header_pattern, format_list[n].header_length) == 0)
+			{
+			return &format_list[n];
+			}
+		n++;
 		}
 
-	*image_offset = GUINT32_FROM_BE(*(guint32*)(data + 84));
-	*exif_offset = *image_offset + 12;
-printf("found a raw fuji file!\n");
-	return TRUE;
+	return NULL;
 }
 
-static gint format_raw_test_nikon(int fd, const void *data, const guint len,
-				  guint *image_offset, guint *exif_offset)
+static gint format_raw_parse(FormatEntry *entry,
+			     const void *data, const guint len,
+			     guint *image_offset, guint *exif_offset)
 {
-	return FALSE;
-}
-
-
-gint format_raw_img_exif_offsets(int fd, const void *data, const guint len,
-				 guint *image_offset, guint *exif_offset)
-{
-	guint32 io = 0;
-	guint32 eo = 0;
+	gint io = 0;
+	gint eo = 0;
 	gint found;
 
-	if (fd < 0 && !data) return FALSE;
-#if 0
-	if (len < 512) return FALSE;
-#endif
+	if (!entry || !entry->func_parse) return FALSE;
 
-	found = format_raw_test_canon(fd, data, len, &io, &eo) ||
-		format_raw_test_fuji (fd, data, len, &io, &eo) ||
-		format_raw_test_nikon(fd, data, len, &io, &eo);
+	found = entry->func_parse(data, len, &io, &eo);
 
 	if (!found ||
 	    io >= len - 4 ||
-	    eo >= len ||
-	    memcmp(data + io, "\xff\xd8\xff\xe1", 4) != 0)	/* jpeg marker */
+	    eo >= len)
 		{
 		return FALSE;
 		}
@@ -82,5 +91,69 @@ gint format_raw_img_exif_offsets(int fd, const void *data, const guint len,
 	return TRUE;
 }
 
+gint format_raw_img_exif_offsets(const void *data, const guint len,
+				 guint *image_offset, guint *exif_offset)
+{
+	FormatEntry *entry;
+
+	if (!data || len < 1) return FALSE;
+
+	entry = format_raw_find(data, len);
+
+	if (!entry || !entry->func_parse) return FALSE;
+
+	return format_raw_parse(entry, data, len, image_offset, exif_offset);
+}
+
+
+gint format_raw_img_exif_offsets_fd(int fd, const void *header_data, const guint header_len,
+				    guint *image_offset, guint *exif_offset)
+{
+	FormatEntry *entry;
+	void *map_data = NULL;
+	size_t map_len = 0;
+	struct stat st;
+	gint success;
+
+	if (!header_data || fd < 0) return FALSE;
+
+	entry = format_raw_find(header_data, header_len);
+
+	if (!entry || !entry->func_parse) return FALSE;
+
+	if (fstat(fd, &st) == -1)
+		{
+		printf("Failed to stat file %d\n", fd);
+		return FALSE;
+		}
+	map_len = st.st_size;
+	map_data = mmap(0, map_len, PROT_READ, MAP_PRIVATE, fd, 0);
+	if (map_data == MAP_FAILED)
+		{
+		printf("Failed to mmap of file %d\n", fd);
+		return FALSE;
+		}
+
+	success = format_raw_parse(entry, map_data, map_len, image_offset, exif_offset);
+
+	if (munmap(map_data, map_len) == -1)
+		{
+		printf("Failed to unmap file %d\n", fd);
+		}
+
+	if (success && image_offset)
+		{
+		if (lseek(fd, *image_offset, SEEK_SET) != *image_offset)
+			{
+			printf("Failed to seek to embedded image\n");
+
+			*image_offset = 0;
+			if (*exif_offset) *exif_offset = 0;
+			success = FALSE;
+			}
+		}
+
+	return success;
+}
 
 
