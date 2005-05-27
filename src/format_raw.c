@@ -70,8 +70,8 @@ static gint format_raw_parse(FormatEntry *entry,
 			     const void *data, const guint len,
 			     guint *image_offset, guint *exif_offset)
 {
-	gint io = 0;
-	gint eo = 0;
+	guint io = 0;
+	guint eo = 0;
 	gint found;
 
 	if (!entry || !entry->func_parse) return FALSE;
