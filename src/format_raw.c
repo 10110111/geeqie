@@ -130,7 +130,7 @@ gint format_raw_img_exif_offsets_fd(int fd, const void *header_data, const guint
 	map_data = mmap(0, map_len, PROT_READ, MAP_PRIVATE, fd, 0);
 	if (map_data == MAP_FAILED)
 		{
-		printf("Failed to mmap of file %d\n", fd);
+		printf("Failed to mmap file %d\n", fd);
 		return FALSE;
 		}
 

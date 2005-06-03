@@ -90,7 +90,7 @@ struct _ExifItem
 {
 	ExifFormatType format;
 	int tag;
-	ExifMarker *marker;
+	const ExifMarker *marker;
 	int elements;
 	gpointer data;
 	int data_len;
@@ -106,11 +106,15 @@ struct _ExifMarker
 	ExifTextList	*list;
 };
 
+#define EXIF_MARKER_LIST_END { 0x0000, EXIF_FORMAT_UNKNOWN, 0, NULL, NULL, NULL }
+
 struct _ExifTextList
 {
 	int value;
 	const char* description;
 };
+
+#define EXIF_TEXT_LIST_END { -1, NULL }
 
 
 typedef struct _ExifFormattedText ExifFormattedText;
@@ -186,6 +190,20 @@ const gchar *exif_get_description_by_key(const gchar *key);
 
 /* usually for debugging to stdout */
 void exif_write_data_list(ExifData *exif, FILE *f, gint human_readable_list);
+
+
+
+/* These funcs for use by makernote parsers only */
+
+ExifItem *exif_item_new(ExifFormatType format, unsigned int tag,
+			unsigned int elements, const ExifMarker *marker);
+void exif_item_copy_data(ExifItem *item, void *src, int len, ExifFormatType src_format, int byte_order);
+
+gint exif_parse_IFD_table(ExifData *exif,
+			  unsigned char *tiff, int offset,
+			  int size, int byte_order,
+			  const ExifMarker *list);
+
 
 
 #endif

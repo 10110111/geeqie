@@ -19,12 +19,19 @@
 #define __FORMAT_RAW_CANON_H
 
 
+#include "exif.h"
+
+
 gint format_raw_test_canon(const void *data, const guint len,
 			   guint *image_offset, guint *exif_offset);
 
 
 #define FORMAT_RAW_CANON { "II", 2, "Canon crw format", format_raw_test_canon }, \
 			 { "\x49\x49\x2a\00", 4, "Canon cr2 format", format_raw_test_canon }
+
+
+gint format_exif_makernote_canon_parse(ExifData *exif, unsigned char *tiff, int offset,
+				       int size, int byte_order);
 
 
 #endif

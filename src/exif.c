@@ -73,6 +73,8 @@
 #include "format_raw.h"
 #include "ui_fileops.h"
 
+/* makernote parsers */
+#include "format_canon.h"
 
 /*
  *-----------------------------------------------------------------------------
@@ -99,6 +101,7 @@ ExifFormatAttrib ExifFormatList[] = {
 
 /* tags that are special, or need special treatment */
 #define TAG_EXIFOFFSET          0x8769
+#define TAG_EXIFMAKERNOTE	0x927c
 
 
 /*
@@ -106,8 +109,6 @@ ExifFormatAttrib ExifFormatList[] = {
  * Data
  *-----------------------------------------------------------------------------
  */
-
-#define EXIF_TEXT_LIST_END { -1, NULL }
 
 static ExifTextList ExifOrientationList[] = {
 	{ EXIF_ORIENTATION_UNKNOWN,	N_("unknown") },
@@ -393,8 +394,7 @@ ExifMarker ExifKnownMarkersList[] = {
 { 0x9215, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"ExposureIndex",	NULL, NULL },
 { 0x9216, EXIF_FORMAT_BYTE_UNSIGNED, 4,		"TIFF/EPStandardID",	NULL, NULL },
 
-	/* end is marked by 0 tag */
-{ 0x0000, EXIF_FORMAT_UNKNOWN, 0, NULL, NULL, NULL }
+EXIF_MARKER_LIST_END
 };
 
 ExifMarker ExifUnknownMarkersList[] = {
@@ -461,9 +461,7 @@ typedef struct __attribute__((packed)) {
 } IFDEntry;
 
 
-static ExifMarker *exif_marker_from_tag(uint16_t tag);
-static int parse_IFD_table(ExifData *exif, unsigned char *tiff, int offset,
-			   int size, int byte_order);
+static const ExifMarker *exif_marker_from_tag(uint16_t tag, const ExifMarker *list);
 
 /*
  *-----------------------------------------------------------------------------
@@ -471,7 +469,8 @@ static int parse_IFD_table(ExifData *exif, unsigned char *tiff, int offset,
  *-----------------------------------------------------------------------------
  */
 
-static ExifItem *exif_item_new(ExifFormatType format, unsigned int tag, unsigned int elements, ExifMarker *marker)
+ExifItem *exif_item_new(ExifFormatType format, unsigned int tag,
+			unsigned int elements, const ExifMarker *marker)
 {
 	ExifItem *item;
 
@@ -714,17 +713,18 @@ static int goto_next_marker(unsigned char **f, int *size, int *marker)
  *-------------------------------------------------------------------
  */
 
-static ExifMarker *exif_marker_from_tag(uint16_t tag)
+static const ExifMarker *exif_marker_from_tag(uint16_t tag, const ExifMarker *list)
 {
-	static int len = sizeof(ExifKnownMarkersList)/sizeof(ExifMarker) - 1;
 	int i = 0;
 
-	while (i < len && ExifKnownMarkersList[i].tag != tag)
+	if (!list) return NULL;
+
+	while (list[i].tag != 0 && list[i].tag != tag)
 		{
 		i++;
 		}
 
-	return (i >= len ? NULL : &ExifKnownMarkersList[i]);
+	return (list[i].tag == 0 ? NULL : &list[i]);
 }
 
 static void rational_from_data(ExifRational *r, void *src, int byte_order)
@@ -733,7 +733,7 @@ static void rational_from_data(ExifRational *r, void *src, int byte_order)
 	r->den = swab_int32(*(uint32_t*)(src + sizeof(uint32_t)), byte_order);
 }
 
-static void exif_item_copy_data(ExifItem *item, void *src, int len, ExifFormatType src_format, int byte_order)
+void exif_item_copy_data(ExifItem *item, void *src, int len, ExifFormatType src_format, int byte_order)
 {
 	int bs;
 	int ne;
@@ -818,14 +818,15 @@ static void exif_item_copy_data(ExifItem *item, void *src, int len, ExifFormatTy
 		}
 }
 
-static int parse_IFD_entry(ExifData *exif, unsigned char *tiff, int offset,
-			   int size, int byte_order)
+static int exif_parse_IFD_entry(ExifData *exif, unsigned char *tiff, int offset,
+				int size, int byte_order,
+				const ExifMarker *list)
 {
 	IFDEntry *ent = (IFDEntry*)(tiff+offset);
 	uint32_t swabed_data;
 	void *data;
 	int data_len;
-	ExifMarker *marker;
+	const ExifMarker *marker;
 	ExifItem *item;
 
 	ent->tag = swab_int16(ent->tag, byte_order);
@@ -836,7 +837,7 @@ static int parse_IFD_entry(ExifData *exif, unsigned char *tiff, int offset,
 	/* Check tag type. If it does not match, either the format is wrong,
 	 * either it is a unknown tag; so it is not really an error.
 	 */
-	marker = exif_marker_from_tag(ent->tag);
+	marker = exif_marker_from_tag(ent->tag, list);
 	if (!marker)
 		{
 		if (ent->format > EXIF_FORMAT_DOUBLE)
@@ -901,16 +902,26 @@ static int parse_IFD_entry(ExifData *exif, unsigned char *tiff, int offset,
 	exif_item_copy_data(item, data, data_len, ent->format, byte_order);
 	exif->items = g_list_prepend(exif->items, item);
 
-	if (item->tag == TAG_EXIFOFFSET)
+	if (list == ExifKnownMarkersList)
 		{
-		parse_IFD_table(exif, tiff, swabed_data, size, byte_order);
+		switch (item->tag)
+			{
+			case TAG_EXIFOFFSET:
+				exif_parse_IFD_table(exif, tiff, swabed_data, size, byte_order, list);
+				break;
+			case TAG_EXIFMAKERNOTE:
+				format_exif_makernote_canon_parse(exif, tiff, swabed_data, size, byte_order);
+				break;
+			}
 		}
 
 	return 0;
 }
 
-static int parse_IFD_table(ExifData *exif, unsigned char *tiff, int offset,
-			   int size, int byte_order)
+int exif_parse_IFD_table(ExifData *exif,
+			 unsigned char *tiff, int offset,
+			 int size, int byte_order,
+			 const ExifMarker *list)
 {
 	int i, nb_entries;
 
@@ -924,7 +935,7 @@ static int parse_IFD_table(ExifData *exif, unsigned char *tiff, int offset,
 
 	for (i=0; i<nb_entries; ++i)
 		{
-		parse_IFD_entry(exif, tiff, offset+2+i*sizeof(IFDEntry), size, byte_order);
+		exif_parse_IFD_entry(exif, tiff, offset+2+i*sizeof(IFDEntry), size, byte_order, list);
 		}
 
 	return 0;
@@ -965,7 +976,7 @@ static int parse_TIFF(ExifData *exif, unsigned char *tiff, int size)
 
 	offset = swab_int32(((TIFFHeader*)tiff)->IFD_offset, byte_order);
 
-	return parse_IFD_table(exif, tiff, offset, size, byte_order);
+	return exif_parse_IFD_table(exif, tiff, offset, size, byte_order, ExifKnownMarkersList);
 }
 
 static int parse_JPEG(ExifData *exif, unsigned char *f, int size)
@@ -1132,7 +1143,7 @@ ExifItem *exif_get_item(ExifData *exif, const gchar *key)
 
 gchar *exif_item_get_data_as_text(ExifItem *item)
 {
-	ExifMarker *marker;
+	const ExifMarker *marker;
 	gpointer data;
 	GString *string;
 	gchar *text;
