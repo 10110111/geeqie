@@ -24,6 +24,8 @@
 
 #define EXIF_BAR_CUSTOM_COUNT 20
 
+#define BAR_EXIF_DATA_COLUMN_WIDTH 250
+
 static const gchar *bar_exif_key_list[] = {
 	"fCamera",
 	"fDateTime",
@@ -379,14 +381,24 @@ static void bar_exif_add_column_check(GtkWidget *listview, const gchar *title, g
 			 G_CALLBACK(bar_exif_row_toggled_cb), listview);
 }
 
-static void bar_exif_add_column(GtkWidget *listview, const gchar *title, gint n)
+static void bar_exif_add_column(GtkWidget *listview, const gchar *title, gint n, gint sizable)
 {
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, title);
-	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+
+	if (sizable)
+		{
+		gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
+		gtk_tree_view_column_set_fixed_width(column, BAR_EXIF_DATA_COLUMN_WIDTH);
+		gtk_tree_view_column_set_resizable(column, TRUE);
+		}
+	else
+		{
+		gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+		}
 
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, TRUE);
@@ -420,12 +432,12 @@ static void bar_exif_advanced_build_view(ExifBar *eb)
 
 	bar_exif_add_column_check(eb->listview, "", EXIF_ADVCOL_ENABLED);
 
-	bar_exif_add_column(eb->listview, _("Tag"), EXIF_ADVCOL_TAG);
-	bar_exif_add_column(eb->listview, _("Name"), EXIF_ADVCOL_NAME);
-	bar_exif_add_column(eb->listview, _("Value"), EXIF_ADVCOL_VALUE);
-	bar_exif_add_column(eb->listview, _("Format"), EXIF_ADVCOL_FORMAT);
-	bar_exif_add_column(eb->listview, _("Elements"), EXIF_ADVCOL_ELEMENTS);
-	bar_exif_add_column(eb->listview, _("Description"), EXIF_ADVCOL_DESCRIPTION);
+	bar_exif_add_column(eb->listview, _("Tag"), EXIF_ADVCOL_TAG, FALSE);
+	bar_exif_add_column(eb->listview, _("Name"), EXIF_ADVCOL_NAME, FALSE);
+	bar_exif_add_column(eb->listview, _("Value"), EXIF_ADVCOL_VALUE, TRUE);
+	bar_exif_add_column(eb->listview, _("Format"), EXIF_ADVCOL_FORMAT, FALSE);
+	bar_exif_add_column(eb->listview, _("Elements"), EXIF_ADVCOL_ELEMENTS, FALSE);
+	bar_exif_add_column(eb->listview, _("Description"), EXIF_ADVCOL_DESCRIPTION, FALSE);
 
 	eb->advanced_scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(eb->advanced_scrolled), GTK_SHADOW_IN);

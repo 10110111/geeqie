@@ -1,3 +1,10 @@
+Fri Jun  3 18:43:46 2005  John Ellis  <johne@verizon.net>
+
+	* bar_exif.c: Set a default size for the EXIF data column in the
+	advanced view, and allow resizing of that column to allow more data to
+	be visible when needed.
+	* format_canon.c: Fix data type for Canon MakerNote Serial Number.
+
 Fri Jun  3 01:49:20 2005  John Ellis  <johne@verizon.net>
 
 	* exif.[ch]: Export several parsing functions for use by the exif

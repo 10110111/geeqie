@@ -754,7 +754,7 @@ static ExifMarker CanonExifMarkersList[] = {
 	{ 7,	EXIF_FORMAT_STRING, -1,		"MkN.Canon.FirmwareVersion",	"Firmware version", NULL },
 	{ 8,	EXIF_FORMAT_LONG_UNSIGNED, 1,	"MkN.Canon.ImageNumber",	"Image number", NULL },
 	{ 9,	EXIF_FORMAT_STRING, -1,		"MkN.Canon.OwnerName",		"Owner name", NULL },
-	{ 12,	EXIF_FORMAT_BYTE_UNSIGNED, -1,	"MkN.Canon.SerialNumber",	"Camera serial number", NULL },
+	{ 12,	EXIF_FORMAT_LONG_UNSIGNED, -1,	"MkN.Canon.SerialNumber",	"Camera serial number", NULL },
 	{ 15,	EXIF_FORMAT_SHORT_UNSIGNED, -1,	"MkN.Canon.CustomFunctions",	NULL, NULL },
 	EXIF_MARKER_LIST_END
 };
@@ -785,6 +785,7 @@ static void canon_mknote_parse_settings(ExifData *exif,
 static void canon_mknote_parse_convert(ExifData *exif)
 {
 	gint value;
+	ExifItem *result;
 
 	/* seems we need more than only this value for distance */
 	if (exif_get_integer(exif, "MkN.Canon.SubjectDistance", &value))
@@ -802,16 +803,18 @@ static void canon_mknote_parse_convert(ExifData *exif)
 		exif->items = g_list_prepend(exif->items, item);
 		}
 
-	/* Serial Number untested */
-	if (exif_get_integer(exif, "MkN.Canon.SerialNumber", &value))
+	result = exif_get_item(exif, "MkN.Canon.SerialNumber");
+	if (result && result->format == EXIF_FORMAT_LONG_UNSIGNED && result->data_len == 4)
 		{
 		static ExifMarker marker= { 12, EXIF_FORMAT_STRING, -1,
 					    "SerialNumber", "Camera serial number", NULL };
 		ExifItem *item;
 		gchar *text;
 		gint l;
+		guint32 n;
 
-		text = g_strdup_printf("%04X%05d", value & 0xff00 >> 8, value & 0x00ff);
+		n = (guint32)result->data;
+		text = g_strdup_printf("%04X%05d", n & 0xffff0000 >> 8, n & 0x0000ffff);
 		l = strlen(text);
 		item = exif_item_new(marker.format, marker.tag, l, &marker);
 		memcpy(item->data, text, l);
