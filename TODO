@@ -88,6 +88,8 @@ Minor (non blockers):
    > collection window
    > search window
 
+ > clean up exif.c to be portable (don't assume sizeof(short)==2 and sizeof(long)==4)
+
 
 Wishlist?:
 ----------------------------------------------

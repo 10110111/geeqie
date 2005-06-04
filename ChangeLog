@@ -1,3 +1,8 @@
+Fri Jun  3 20:02:23 2005  John Ellis  <johne@verizon.net>
+
+	* format_canon.c (canon_mknote_parse_convert): For serial number
+	conversion, use the value of the data - not the value of the pointer.
+
 Fri Jun  3 18:43:46 2005  John Ellis  <johne@verizon.net>
 
 	* bar_exif.c: Set a default size for the EXIF data column in the

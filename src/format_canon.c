@@ -813,7 +813,7 @@ static void canon_mknote_parse_convert(ExifData *exif)
 		gint l;
 		guint32 n;
 
-		n = (guint32)result->data;
+		n = (guint32)((guint32 *)(result->data))[0];
 		text = g_strdup_printf("%04X%05d", n & 0xffff0000 >> 8, n & 0x0000ffff);
 		l = strlen(text);
 		item = exif_item_new(marker.format, marker.tag, l, &marker);
