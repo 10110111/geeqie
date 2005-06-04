@@ -60,6 +60,9 @@ homepage: http://gqview.sourceforge.net
 
     Version in perenthesis indicates first appearance of feature or change.
 
+    (2.1.1) Add support for viewing jpeg images and EXIF embedded within
+    raw files for Canon (.crw, .cr2) and Fujifilm (.raf).
+
     (1.5.6) The "shared thumbnail cache" is a proposal to unify the method
     of storing thumbnails, so that they are compatible between different
     applications. Using this option will allow GQview to share it's
@@ -529,7 +532,13 @@ zh_TW             55     368     186     113
 
      Eric Swalens
      Quy Tonthat
-         for Exif support.
+         for initial Exif support.
+
+     Daniel M. German <dmgerman at uvic.ca>
+         for Canon raw image support.
+
+     Lars Ellenberg
+         for Fujifilm raw image support.
 
      Diederen Damien <D.Diederen@student.ulg.ac.be>
          for .xvpics thumbnail reading support.

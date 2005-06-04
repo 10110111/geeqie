@@ -1,3 +1,14 @@
+Sat Jun  4 04:02:04 2005  John Ellis  <johne@verizon.net>
+
+	* README: Update credits.
+
+	Apply fix from Daniel M. German:
+
+	* format_canon.c (canon_read_int): Fixed error which caused a
+	segfault under OS X. It was a casting a number as a 32
+	bit, when it was 16. it works in little endian, but not in big
+	endian machines.
+	
 Fri Jun  3 20:02:23 2005  John Ellis  <johne@verizon.net>
 
 	* format_canon.c (canon_mknote_parse_convert): For serial number

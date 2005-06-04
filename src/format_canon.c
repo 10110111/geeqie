@@ -106,7 +106,7 @@ static int canon_read_int(unsigned int *offset, const void *data, int sizeInt, u
     *offset +=4;
     DEBUG_3("Read 4 bytes %d %x", *value, *value);
   } else {
-    *value = GUINT16_FROM_LE(*(guint32*)(data + *offset));
+    *value = GUINT16_FROM_LE(*(guint16*)(data + *offset));
     *offset +=2;
     DEBUG_3("Read 2 bytes %d %x", *value, *value);
   }
