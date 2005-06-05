@@ -49,13 +49,18 @@ typedef enum {
 	EXIF_FORMAT_DOUBLE		= 12
 } ExifFormatType;
 
+typedef enum {
+	EXIF_BYTE_ORDER_INTEL,
+	EXIF_BYTE_ORDER_MOTOROLA
+} ExifByteOrder;
+
 typedef struct _ExifFormatAttrib ExifFormatAttrib;
 struct _ExifFormatAttrib
 {
 	ExifFormatType type;
-	int size;
-	const char *short_name;
-	const char *description;
+	guint size;
+	const gchar *short_name;
+	const gchar *description;
 };
 
 /* the list of known tag data formats */
@@ -77,8 +82,8 @@ struct _ExifData
 typedef struct _ExifRational ExifRational;
 struct _ExifRational
 {
-	unsigned long int num;
-	unsigned long int den;
+	guint32 num;
+	guint32 den;
 };
 
 
@@ -89,20 +94,20 @@ typedef struct _ExifTextList ExifTextList;
 struct _ExifItem
 {
 	ExifFormatType format;
-	int tag;
+	guint tag;
 	const ExifMarker *marker;
-	int elements;
+	guint elements;
 	gpointer data;
-	int data_len;
+	guint data_len;
 };
 
 struct _ExifMarker
 {
-	int		tag;
+	guint		tag;
 	ExifFormatType	format;
-	int		components;
-	char		*key;
-	char		*description;
+	gint		components;
+	gchar		*key;
+	gchar		*description;
 	ExifTextList	*list;
 };
 
@@ -110,8 +115,8 @@ struct _ExifMarker
 
 struct _ExifTextList
 {
-	int value;
-	const char* description;
+	gint value;
+	const gchar* description;
 };
 
 #define EXIF_TEXT_LIST_END { -1, NULL }
@@ -120,8 +125,8 @@ struct _ExifTextList
 typedef struct _ExifFormattedText ExifFormattedText;
 struct _ExifFormattedText
 {
-	const char *key;
-	const char *description;
+	const gchar *key;
+	const gchar *description;
 };
 
 
@@ -195,15 +200,24 @@ void exif_write_data_list(ExifData *exif, FILE *f, gint human_readable_list);
 
 /* These funcs for use by makernote parsers only */
 
-ExifItem *exif_item_new(ExifFormatType format, unsigned int tag,
-			unsigned int elements, const ExifMarker *marker);
-void exif_item_copy_data(ExifItem *item, void *src, int len, ExifFormatType src_format, int byte_order);
+
+guint16 exif_byte_get_int16(unsigned char *f, ExifByteOrder bo);
+guint32 exif_byte_get_int32(unsigned char *f, ExifByteOrder bo);
+guint16 exif_byte_swab_int16(guint16 n, ExifByteOrder bo);
+guint32 exif_byte_swab_int32(guint32 n, ExifByteOrder bo);
+
+ExifItem *exif_item_new(ExifFormatType format, guint tag,
+			guint elements, const ExifMarker *marker);
+void exif_item_copy_data(ExifItem *item, void *src, guint len,
+			 ExifFormatType src_format, ExifByteOrder byte_order);
 
 gint exif_parse_IFD_table(ExifData *exif,
-			  unsigned char *tiff, int offset,
-			  int size, int byte_order,
+			  unsigned char *tiff, guint offset,
+			  guint size, ExifByteOrder byte_order,
 			  const ExifMarker *list);
 
+gint exif_parse_TIFF(ExifData *exif, unsigned char *tiff, guint size, ExifMarker *list);
 
 
 #endif
+

@@ -10,15 +10,25 @@
  * This software comes with no warranty of any kind, use at your own risk!
  */
 
-#ifndef __FORMAT_RAW_FUJI_H
-#define __FORMAT_RAW_FUJI_H
+#ifndef __FORMAT_FUJI_H
+#define __FORMAT_FUJI_H
 
 
-gint format_raw_test_fuji(const void *data, const guint len,
-			  guint *image_offset, guint *exif_offset);
+#include "exif.h"
 
 
-#define FORMAT_RAW_FUJI { "FUJIFILM", 8, "Fuji raw format", format_raw_test_fuji }
+gint format_fuji_raw(const void *data, const guint len,
+		     guint *image_offset, guint *exif_offset);
+
+
+#define FORMAT_RAW_FUJI { "FUJIFILM", 8, "Fuji raw format", format_fuji_raw }
+
+
+gint format_fuji_makernote(ExifData *exif, unsigned char *tiff, guint offset,
+			   guint size, ExifByteOrder byte_order);
+
+#define FORMAT_EXIF_FUJI { FORMAT_EXIF_MATCH_MAKERNOTE, "FUJIFILM", 8, format_fuji_makernote }
+
 
 
 #endif

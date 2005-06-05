@@ -251,8 +251,8 @@ return_only:
 }
 
 
-gint format_raw_test_canon(const void *data, const guint len,
-			   guint *image_offset, guint *exif_offset)
+gint format_canon_raw(const void *data, const guint len,
+		      guint *image_offset, guint *exif_offset)
 {
 
 
@@ -477,13 +477,6 @@ return_only:
  * EXIF Makernote for Canon
  *-----------------------------------------------------------------------------
  */
-
-typedef struct _CanonTag CanonTag;
-struct _CanonTag {
-	guint id;
-	const gchar *description;
-	ExifTextList *list;
-};
 
 static ExifTextList CanonSet1MacroMode[] = {
 	{ 1,	"macro" },
@@ -728,21 +721,27 @@ static ExifTextList CanonCustomShutterCurtainSync[] = {
 	EXIF_TEXT_LIST_END
 };
 
-static CanonTag CanonCustom[] = {
-	{ 1,	"Noise reduction",		CanonCustomEnable },
-/*	{ 2,	"Shutter/Auto Exposure Button Function", CanonCustomBTNShutter }, */
-	{ 3,	"Mirror lockup",		CanonCustomEnable },
-	{ 4,	"Tv/Av and exposure level",	CanonCustomExposureLevel },
-	{ 5,	"AF assist light",		CanonCustomEnableInvert },
-	{ 6,	"Shutter speed in Av mode",	CanonCustomAVShutterSpeed },
-/*	{ 7,	"Auto-Exposure bracketting sequence/auto cancellation",	CanonCustom }, */
-	{ 8,	"Shutter sync",			CanonCustomShutterCurtainSync },
-/*	{ 9,	"AF button function",		CanonCustom }, */
-	{ 10,	"Fill flash auto reduction",	CanonCustomEnableInvert },
-/*	{ 11,	"Menu button function",		CanonCustom }, */
-/*	{ 12,	"Set button function",		CanonCustom }, */
-	{ 13,	"Sensor cleaning",		CanonCustomEnable },
-	{ 0,    NULL, NULL }
+static ExifMarker CanonCustom[] = {
+{ 1,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Canon.NoiseReduction", "Noise reduction",	CanonCustomEnable },
+/*{ 2,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.BtnFuncShutter",
+						"Shutter/Auto exposure button function",CanonCustomBTNShutter }, */
+{ 3,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.MirrorLockup", "Mirror lockup",	CanonCustomEnable },
+{ 4,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.TvAvExposureLevel",
+							"Tv/Av and exposure level",	CanonCustomExposureLevel },
+{ 5,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.AFAssistLight", "AF assist light",	CanonCustomEnableInvert },
+{ 6,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.AvShutterSpeed",
+							"Shutter speed in Av mode",	CanonCustomAVShutterSpeed },
+/*{ 7,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.AutoBracket",
+				"Auto-Exposure bracketting sequence/auto cancellation",	CanonCustom }, */
+{ 8,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.ShutterSync", "Shutter sync",	CanonCustomShutterCurtainSync },
+/* { 9,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.BtnFuncAF",	"AF button function",	CanonCustom }, */
+{ 10,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.FillFlashReduction",
+							"Fill flash auto reduction",	CanonCustomEnableInvert },
+/*{ 11,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.BtnFuncMenu",
+							"Menu button function",		CanonCustom }, */
+/*{ 12,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.BtnFuncSet", "Set button function",	CanonCustom }, */
+{ 13,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.SensorCleaning", "Sensor cleaning",	CanonCustomEnable },
+EXIF_MARKER_LIST_END
 };
 
 #endif
@@ -760,7 +759,7 @@ static ExifMarker CanonExifMarkersList[] = {
 };
 
 static void canon_mknote_parse_settings(ExifData *exif,
-					guint16 *data, guint32 len, int byte_order,
+					guint16 *data, guint32 len, ExifByteOrder byte_order,
 					ExifMarker *list)
 {
 	gint i;
@@ -825,19 +824,12 @@ static void canon_mknote_parse_convert(ExifData *exif)
 }
 #endif
 
-gint format_exif_makernote_canon_parse(ExifData *exif, unsigned char *tiff, int offset,
-				       int size, int byte_order)
+gint format_canon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
+			    guint size, ExifByteOrder byte_order)
 {
 	ExifItem *item;
-	gchar *text;
-	gint found;
 
-	text = exif_get_data_as_text(exif, "Make");
-	found = (text && strncasecmp(text, "Canon", 5) == 0);
-	g_free(text);
-
-	if (!found ||
-	    exif_parse_IFD_table(exif, tiff, offset, size, byte_order, CanonExifMarkersList) != 0)
+	if (exif_parse_IFD_table(exif, tiff, offset, size, byte_order, CanonExifMarkersList) != 0)
 		{
 		return FALSE;
 		}

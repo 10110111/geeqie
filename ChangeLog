@@ -1,3 +1,15 @@
+Sat Jun  4 22:24:00 2005  John Ellis  <johne@verizon.net>
+
+	* exif.[ch]: Use glib provided data types and byte order functions for
+	consistency with rest of application. Made several more functions
+	available in the header. Use MakerNote parsing from format_raw.c.
+	* format_canon.[ch]: Changes to match exif.h and format_raw.h.
+	* format_fuji.[ch]: Add support for Fuji EXIF MakerNote.
+	* format_nikon.[ch]: New files, add support for Nikon EXIF MakerNote.
+	* format_raw.[ch]: Add EXIF MakerNote parser functions to gather all
+	camera formats here (similar to existing raw format list).
+	* src/Makefile.am: Add format_nikon.[ch].
+
 Sat Jun  4 04:02:04 2005  John Ellis  <johne@verizon.net>
 
 	* README: Update credits.

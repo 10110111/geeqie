@@ -14,14 +14,28 @@
 #define __FORMAT_RAW_H
 
 
+#include "exif.h"
+
+
 typedef gint (* FormatRawParseFunc)(const void *data, const guint len,
 				    guint *image_offset, guint *exif_offset);
-
 
 gint format_raw_img_exif_offsets(const void *data, const guint len,
 				 guint *image_offset, guint *exif_offset);
 gint format_raw_img_exif_offsets_fd(int fd, const void *header_data, const guint header_len,
 				    guint *image_offset, guint *exif_offset);
+
+
+typedef enum {
+	FORMAT_EXIF_MATCH_MAKE,
+	FORMAT_EXIF_MATCH_MAKERNOTE
+} FormatExifMatchType;
+
+typedef gint (* FormatExifParseFunc)(ExifData *exif, unsigned char *tiff, guint offset,
+				    guint size, ExifByteOrder byte_order);
+
+gint format_exif_makernote_parse(ExifData *exif, unsigned char *tiff, guint offset,
+				 guint size, ExifByteOrder byte_order);
 
 
 #endif

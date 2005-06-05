@@ -15,23 +15,25 @@
  *
  */
 
-#ifndef __FORMAT_RAW_CANON_H
-#define __FORMAT_RAW_CANON_H
+#ifndef __FORMAT_CANON_H
+#define __FORMAT_CANON_H
 
 
 #include "exif.h"
 
 
-gint format_raw_test_canon(const void *data, const guint len,
-			   guint *image_offset, guint *exif_offset);
+gint format_canon_raw(const void *data, const guint len,
+		      guint *image_offset, guint *exif_offset);
 
 
-#define FORMAT_RAW_CANON { "II", 2, "Canon crw format", format_raw_test_canon }, \
-			 { "\x49\x49\x2a\00", 4, "Canon cr2 format", format_raw_test_canon }
+#define FORMAT_RAW_CANON { "II", 2, "Canon crw format", format_canon_raw }, \
+			 { "\x49\x49\x2a\00", 4, "Canon cr2 format", format_canon_raw }
 
 
-gint format_exif_makernote_canon_parse(ExifData *exif, unsigned char *tiff, int offset,
-				       int size, int byte_order);
+gint format_canon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
+			    guint size, ExifByteOrder byte_order);
+
+#define FORMAT_EXIF_CANON { FORMAT_EXIF_MATCH_MAKE, "Canon", 5, format_canon_makernote }
 
 
 #endif
