@@ -435,7 +435,7 @@ static void path_list_recursive_append(GList **list, GList *dirs)
 			d = path_list_filter(d, TRUE);
 			d = path_list_sort(d);
 			path_list_recursive_append(list, d);
-			g_list_free(d);
+			path_list_free(d);
 			}
 
 		work = work->next;

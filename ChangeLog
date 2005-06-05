@@ -1,3 +1,8 @@
+Sun Jun  5 03:05:39 2005  John Ellis  <johne@verizon.net>
+
+	* filelist.c (path_list_recursive_append): Fix memory leak by using
+	correct function to free path list.
+
 Sat Jun  4 22:24:00 2005  John Ellis  <johne@verizon.net>
 
 	* exif.[ch]: Use glib provided data types and byte order functions for
