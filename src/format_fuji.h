@@ -27,7 +27,7 @@ gint format_fuji_raw(const void *data, const guint len,
 gint format_fuji_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 			   guint size, ExifByteOrder byte_order);
 
-#define FORMAT_EXIF_FUJI { FORMAT_EXIF_MATCH_MAKERNOTE, "FUJIFILM", 8, format_fuji_makernote }
+#define FORMAT_EXIF_FUJI { FORMAT_EXIF_MATCH_MAKERNOTE, "FUJIFILM", 8, "Fujifilm", format_fuji_makernote }
 
 
 

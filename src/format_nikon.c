@@ -2,6 +2,10 @@
  *  GQView
  *  (C) 2005 John Ellis
  *
+ *  Authors:
+ *    Raw NEF jpeg extraction based on nefextract.c by Joseph Heled,
+ *        in addition nefextract.c is based on dcraw by Dave Coffin.
+ *
  * This software is released under the GNU General Public License (GNU GPL).
  * Please read the included file COPYING for more information.
  * This software comes with no warranty of any kind, use at your own risk!
@@ -23,6 +27,188 @@
 #include "format_nikon.h"
 
 #include "exif.h"
+
+
+/*
+ *-----------------------------------------------------------------------------
+ * Raw NEF embedded jpeg extraction for Nikon
+ *-----------------------------------------------------------------------------
+ */
+
+static guint tiff_table(unsigned char *data, const guint len, guint offset, ExifByteOrder byte_order,
+			guint *image_offset, guint *jpeg_len);
+
+
+static void tiff_entry(unsigned char *data, const guint len, guint offset, ExifByteOrder byte_order,
+		       guint *image_offset, guint *image_length, guint *jpeg_start, guint *jpeg_len)
+{
+	static gint size[] = { 1,1,1,2,4,8,1,1,2,4,8,4,8 };
+	guint tag;
+	guint type;
+	guint count;
+	guint segment;
+
+	tag = exif_byte_get_int16(data + offset, byte_order);
+	type = exif_byte_get_int16(data + offset + 2, byte_order);
+	count = exif_byte_get_int32(data + offset + 4, byte_order);
+
+	if (type > 12) return;
+	if (count * size[type] > 4)
+		{
+		segment = exif_byte_get_int32(data + offset + 8, byte_order);
+		if (len < segment + count * size[type]) return;
+		}
+	else
+		{
+		segment = offset + 8;
+		}
+
+	if (tag == 0x14a &&
+	    type == EXIF_FORMAT_LONG_UNSIGNED)
+		{
+		/* sub IFD table */
+		gint i;
+
+		for (i = 0; i < count; i++)
+			{
+			guint subset;
+
+			subset = exif_byte_get_int32(data + segment + i * 4, byte_order);
+			tiff_table(data, len, subset, byte_order, image_offset, image_length);
+			}
+
+		}
+	else if (tag == 0x201)
+		{
+		/* jpeg data start offset */
+		*jpeg_start = exif_byte_get_int32(data + segment, byte_order);
+		}
+	else if (tag == 0x202)
+		{
+		/* jpeg data length */
+		*jpeg_len = exif_byte_get_int32(data + segment, byte_order);
+		}
+}
+
+static guint tiff_table(unsigned char *data, const guint len, guint offset, ExifByteOrder byte_order,
+			guint *image_offset, guint *image_length)
+{
+	guint count;
+	guint i;
+	guint jpeg_start = 0;
+	guint jpeg_len = 0;
+
+	if (len < offset + 2) return FALSE;
+
+	count = exif_byte_get_int16((unsigned char *)data + offset, byte_order);
+
+	if (len < offset + count * 12 + 4) return 0;
+	offset += 2;
+
+	for (i = 0; i < count; i++)
+		{
+		tiff_entry(data, len, offset + i * 12, byte_order,
+			   image_offset, image_length, &jpeg_start, &jpeg_len);
+		}
+
+	if (jpeg_start > 0 &&
+	    jpeg_len > *image_length)
+		{
+		*image_offset = jpeg_start;
+		*image_length = jpeg_len;
+		}
+
+	return exif_byte_get_int32((unsigned char *)data + offset + count * 12, byte_order);
+}
+
+/*
+ * Walk the first TIFF IFD table and check for existence of a "make" tag (0x10f) that
+ * identifies NIKON CORPORATION, so that we can abort quickly if it is not a raw NEF.
+ */
+static gint tiff_nikon_verify(unsigned char *data, const guint len, guint offset, ExifByteOrder byte_order)
+{
+	guint nb_entries;
+	guint i;
+
+	if (len < offset + 2) return FALSE;
+
+	nb_entries = exif_byte_get_int16(data + offset, byte_order);
+	offset += 2;
+	if (len < offset + nb_entries * 12 + 4) return FALSE;
+
+	for (i = 0; i < nb_entries; i++)
+		{
+		guint segment;
+
+		segment = offset + i * 12;
+		if (exif_byte_get_int16(data + segment, byte_order) == 0x10f &&
+		    exif_byte_get_int16(data + segment + 2, byte_order) == EXIF_FORMAT_STRING)
+			{
+			guint count;
+			guint make_text;
+
+			count = exif_byte_get_int32(data + segment + 4, byte_order);
+			make_text = exif_byte_get_int32(data + segment + 8, byte_order);
+
+			if (count >= 17 &&
+			    memcmp(data + make_text, "NIKON CORPORATION", 17) == 0)
+				{
+				return TRUE;
+				}
+
+			return FALSE;
+			}
+		}
+
+	return FALSE;
+}
+
+gint format_nikon_raw(const void *data, const guint len,
+		      guint *image_offset, guint *exif_offset)
+{
+	guint i_off = 0;
+	guint i_len = 0;
+	ExifByteOrder byte_order;
+	guint offset;
+
+	if (len < 8) return FALSE;
+
+	if (memcmp(data, "II", 2) == 0)
+		{
+		byte_order = EXIF_BYTE_ORDER_INTEL;
+		}
+	else if (memcmp(data, "MM", 2) == 0)
+		{
+		byte_order = EXIF_BYTE_ORDER_MOTOROLA;
+		}
+	else
+		{
+		return FALSE;
+		}
+
+	if (exif_byte_get_int16((unsigned char *)data + 2, byte_order) != 0x002A)
+		{
+		return FALSE;
+		}
+
+	offset = exif_byte_get_int32((unsigned char *)data + 4, byte_order);
+	if (!tiff_nikon_verify((unsigned char *)data, len, offset, byte_order)) return FALSE;
+
+	while (offset != 0)
+		{
+		guint next_offset = 0;
+		tiff_table((unsigned char *)data, len, offset, byte_order, &i_off, &i_len);
+		offset = next_offset;
+		}
+
+	if (i_off != 0)
+		{
+		if (image_offset) *image_offset = i_off;
+		return TRUE;
+		}
+
+	return FALSE;
+}
 
 
 /*

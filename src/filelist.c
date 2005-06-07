@@ -211,8 +211,9 @@ void filter_add_defaults(void)
 	/* These are the raw camera formats with embedded jpeg/exif.
 	 * (see format_raw.c)
 	 */
-	filter_add_if_missing("raf", "Fujifilm raw format", ".raf", TRUE);
 	filter_add_if_missing("crw", "Canon raw format", ".crw;.cr2", TRUE);
+	filter_add_if_missing("raf", "Fujifilm raw format", ".raf", TRUE);
+	filter_add_if_missing("nef", "Nikon raw format", ".nef", TRUE);
 }
 
 static GList *filter_to_list(const gchar *extensions)

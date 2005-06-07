@@ -33,6 +33,10 @@
 #include "format_nikon.h"
 
 
+/* so that debugging is honored */
+extern gint debug;
+
+
 typedef struct _FormatRawEntry FormatRawEntry;
 struct _FormatRawEntry {
 	const void *header_pattern;
@@ -44,6 +48,7 @@ struct _FormatRawEntry {
 static FormatRawEntry format_raw_list[] = {
 	FORMAT_RAW_CANON,
 	FORMAT_RAW_FUJI,
+	FORMAT_RAW_NIKON,
 	{ NULL, 0, NULL, NULL }
 };
 
@@ -53,6 +58,7 @@ struct _FormatExifEntry {
 	FormatExifMatchType header_type;
 	const void *header_pattern;
 	const guint header_length;
+	const gchar *description;
 	FormatExifParseFunc func_parse;
 };
 
@@ -91,6 +97,8 @@ static gint format_raw_parse(FormatRawEntry *entry,
 	gint found;
 
 	if (!entry || !entry->func_parse) return FALSE;
+
+	if (debug) printf("RAW using file parser for %s\n", entry->description);
 
 	found = entry->func_parse(data, len, &io, &eo);
 
@@ -218,6 +226,8 @@ gint format_exif_makernote_parse(ExifData *exif, unsigned char *tiff, guint offs
 	entry = format_exif_makernote_find(exif, tiff, offset, size);
 
 	if (!entry || !entry->func_parse) return FALSE;
+
+	if (debug) printf("EXIF using makernote parser for %s\n", entry->description);
 
 	return entry->func_parse(exif, tiff, offset, size, byte_order);
 }

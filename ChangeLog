@@ -1,3 +1,11 @@
+Tue Jun  7 03:47:03 2005  John Ellis  <johne@verizon.net>
+
+	* filelist.c (filter_add_defaults): Add Nikon file extension for nef.
+	* format_canon.[ch], format_fuji.[ch]: Add comment tile, and
+	description field for MakerNote parser.
+	* format_nikon.[ch]: Add support for jpegs embedded in Nikon nef files.
+	* format_raw.c: Add debug description output and Nikon raw parser hook.
+
 Sun Jun  5 03:05:39 2005  John Ellis  <johne@verizon.net>
 
 	* filelist.c (path_list_recursive_append): Fix memory leak by using

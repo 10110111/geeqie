@@ -13,12 +13,18 @@
 
 #include "exif.h"
 
+gint format_nikon_raw(const void *data, const guint len,
+		      guint *image_offset, guint *exif_offset);
+
+#define FORMAT_RAW_NIKON { "II\x2a\x00", 4, "Nikon tiff raw", format_nikon_raw }, \
+			 { "MM\x00\x2a", 4, "Nikon tiff raw", format_nikon_raw }
+
 
 gint format_nikon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 			    guint size, ExifByteOrder byte_order);
 
-#define FORMAT_EXIF_NIKON { FORMAT_EXIF_MATCH_MAKERNOTE, "Nikon\x00", 6, format_nikon_makernote }, \
-			  { FORMAT_EXIF_MATCH_MAKE,      "NIKON",     5, format_nikon_makernote }
+#define FORMAT_EXIF_NIKON { FORMAT_EXIF_MATCH_MAKERNOTE, "Nikon\x00", 6, "Nikon", format_nikon_makernote }, \
+			  { FORMAT_EXIF_MATCH_MAKE,      "NIKON",     5, "Nikon", format_nikon_makernote }
 
 
 #endif

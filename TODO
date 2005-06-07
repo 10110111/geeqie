@@ -18,6 +18,28 @@ Major:
  > cache-load.c:
    > should honor enable_thumbnails setting
 
+  ---
+
+ >raw + exif formats:
+
+   > rethink raw format header parser, apparently canon and nikon both use the TIFF file format,
+     so it is possible that the same magic header can be in both formats - it only works now
+     because Canon header list ignores Motorola alignment, which is what Nikon uses. Additionally
+     matching CRW format uses a magic "HEADCCDR" offset 6 bytes into the file, first two bytes are
+     similar to tiff for specifying byte alignment (II or MM), so the current code will also pick
+     up tiff files. Whatever happens here, we want to avoid mmap'ing the file until we are sure.
+
+   > make a generic tiff header and directory parser from the nikon parser for use by all raw
+     parsers that involve tiff.
+
+   > clean up canon parser (canon_read_int can be substituted with, or wrap exif_get_int16/32).
+
+   > support olympus MakerNote, investigate RAW
+   > support konica / minolta MakerNote, investigate RAW
+
+   > exif.c parser should not be using EXIF tags during tiff directory search for EXIF tag.
+
+  ---
 
  > work on pan view:
    > Pick a better keyboard shortcut than Control + J :)
@@ -57,6 +79,8 @@ Major:
    > under consideration:
      > split view
 
+  ---
+
 d> fix window size hints not to use USER_SIZE as we do not use gtk_window_resize to set the hint's attribute, and
    apparently GTK passes in unitialized values for this case (definite programming error, but also a GTK bug?).
 
@@ -87,9 +111,6 @@ Minor (non blockers):
    > find dupes window (with button to open dialog to add new files/folders)
    > collection window
    > search window
-
-d> clean up exif.c to be portable (don't assume sizeof(short)==2 and sizeof(long)==4)
-
 
 Wishlist?:
 ----------------------------------------------

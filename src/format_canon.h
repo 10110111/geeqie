@@ -33,7 +33,7 @@ gint format_canon_raw(const void *data, const guint len,
 gint format_canon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 			    guint size, ExifByteOrder byte_order);
 
-#define FORMAT_EXIF_CANON { FORMAT_EXIF_MATCH_MAKE, "Canon", 5, format_canon_makernote }
+#define FORMAT_EXIF_CANON { FORMAT_EXIF_MATCH_MAKE, "Canon", 5, "Canon", format_canon_makernote }
 
 
 #endif

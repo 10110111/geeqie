@@ -29,6 +29,13 @@
 #include "exif.h"
 
 
+/*
+ *-----------------------------------------------------------------------------
+ * Raw (RAF) embedded jpeg extraction for Fujifilm
+ *-----------------------------------------------------------------------------
+ */
+
+
 gint format_fuji_raw(const void *data, const guint len,
 		     guint *image_offset, guint *exif_offset)
 {
