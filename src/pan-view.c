@@ -125,8 +125,7 @@
 
 #define PAN_PREF_GROUP "pan_view_options"
 #define PAN_PREF_HIDE_WARNING "hide_performance_warning"
-
-#define SORT_BY_EXIF_DATE 1
+#define PAN_PREF_EXIF_DATE "use_exif_date"
 
 
 typedef enum {
@@ -226,6 +225,8 @@ struct _PanWindow
 	GtkWidget *search_button;
 	GtkWidget *search_button_arrow;
 
+	GtkWidget *date_button;
+
 	GtkWidget *scrollbar_h;
 	GtkWidget *scrollbar_v;
 
@@ -237,6 +238,7 @@ struct _PanWindow
 	gint thumb_size;
 	gint thumb_gap;
 	gint image_size;
+	gint exif_date_enable;
 
 	gint ignore_symlinks;
 
@@ -543,7 +545,7 @@ static gint pan_cache_step(PanWindow *pw)
 
 	load_mask = CACHE_LOADER_NONE;
 	if (pw->size > LAYOUT_SIZE_THUMB_LARGE) load_mask |= CACHE_LOADER_DIMENSIONS;
-	if (SORT_BY_EXIF_DATE) load_mask |= CACHE_LOADER_DATE;
+	if (pw->exif_date_enable) load_mask |= CACHE_LOADER_DATE;
 	pw->cache_cl = cache_loader_new(((FileData *)pc)->path, load_mask,
 					pan_cache_step_done_cb, pw);
 	return (pw->cache_cl == NULL);
@@ -2015,7 +2017,7 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 
 	list = pan_window_layout_list(path, SORT_NONE, TRUE, pw->ignore_symlinks);
 
-	if (pw->cache_list && SORT_BY_EXIF_DATE)
+	if (pw->cache_list && pw->exif_date_enable)
 		{
 		pw->cache_list = filelist_sort(pw->cache_list, SORT_NAME, TRUE);
 		list = filelist_sort(list, SORT_NAME, TRUE);
@@ -2237,7 +2239,7 @@ static void pan_window_layout_compute_timeline(PanWindow *pw, const gchar *path,
 
 	list = pan_window_layout_list(path, SORT_NONE, TRUE, pw->ignore_symlinks);
 
-	if (pw->cache_list && SORT_BY_EXIF_DATE)
+	if (pw->cache_list && pw->exif_date_enable)
 		{
 		pw->cache_list = filelist_sort(pw->cache_list, SORT_NAME, TRUE);
 		list = filelist_sort(list, SORT_NAME, TRUE);
@@ -3216,14 +3218,14 @@ static gint pan_window_layout_update_idle_cb(gpointer data)
 	gint scroll_y;
 
 	if (pw->size > LAYOUT_SIZE_THUMB_LARGE ||
-	    (SORT_BY_EXIF_DATE && (pw->layout == LAYOUT_TIMELINE || pw->layout == LAYOUT_CALENDAR)))
+	    (pw->exif_date_enable && (pw->layout == LAYOUT_TIMELINE || pw->layout == LAYOUT_CALENDAR)))
 		{
 		if (!pw->cache_list && !pw->cache_todo)
 			{
 			pan_cache_fill(pw, pw->path);
 			if (pw->cache_todo)
 				{
-				pan_window_message(pw, _("Reading dimensions..."));
+				pan_window_message(pw, _("Reading image data..."));
 				return TRUE;
 				}
 			}
@@ -3233,13 +3235,13 @@ static gint pan_window_layout_update_idle_cb(gpointer data)
 			pw->cache_tick++;
 			if (pw->cache_count == pw->cache_total)
 				{
-				pan_window_message(pw, _("Sorting images..."));
+				pan_window_message(pw, _("Sorting..."));
 				}
 			else if (pw->cache_tick > 9)
 				{
 				gchar *buf;
 
-				buf = g_strdup_printf("%s %d", _("Reading dimensions..."),
+				buf = g_strdup_printf("%s %d", _("Reading image data..."),
 						      pw->cache_total - pw->cache_count);
 				pan_window_message(pw, buf);
 				g_free(buf);
@@ -4244,6 +4246,16 @@ static void pan_window_layout_size_cb(GtkWidget *combo, gpointer data)
 	pan_window_layout_update(pw);
 }
 
+#if 0
+static void pan_window_date_toggle_cb(GtkWidget *button, gpointer data)
+{
+	PanWindow *pw = data;
+
+	pw->exif_date_enable = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button));
+	pan_window_layout_update(pw);
+}
+#endif
+
 static void pan_window_entry_activate_cb(const gchar *new_text, gpointer data)
 {
 	PanWindow *pw = data;
@@ -4283,6 +4295,8 @@ static void pan_window_entry_change_cb(GtkWidget *combo, gpointer data)
 static void pan_window_close(PanWindow *pw)
 {
 	pan_window_list = g_list_remove(pan_window_list, pw);
+
+	pref_list_int_set(PAN_PREF_GROUP, PAN_PREF_EXIF_DATE, pw->exif_date_enable);
 
 	if (pw->idle_id != -1)
 		{
@@ -4327,6 +4341,11 @@ static void pan_window_new_real(const gchar *path)
 	pw->thumb_size = PAN_THUMB_SIZE_NORMAL;
 	pw->thumb_gap = PAN_THUMB_GAP_NORMAL;
 
+	if (!pref_list_int_get(PAN_PREF_GROUP, PAN_PREF_EXIF_DATE, &pw->exif_date_enable))
+		{
+		pw->exif_date_enable = FALSE;
+		}
+
 	pw->ignore_symlinks = TRUE;
 
 	pw->list = NULL;
@@ -4358,7 +4377,7 @@ static void pan_window_new_real(const gchar *path)
 
 	pref_spacer(box, 0);
 	pref_label_new(box, _("Location:"));
-	combo = tab_completion_new_with_history(&pw->path_entry, path, "pan_view", -1,
+	combo = tab_completion_new_with_history(&pw->path_entry, path, "pan_view_path", -1,
 						pan_window_entry_activate_cb, pw);
 	g_signal_connect(G_OBJECT(pw->path_entry->parent), "changed",
 			 G_CALLBACK(pan_window_entry_change_cb), pw);
@@ -4477,6 +4496,11 @@ static void pan_window_new_real(const gchar *path)
 	pw->label_zoom = gtk_label_new("");
 	gtk_container_add(GTK_CONTAINER(frame), pw->label_zoom);
 	gtk_widget_show(pw->label_zoom);
+
+#if 0
+	pw->date_button = pref_checkbox_new(box, _("Use Exif date"), pw->exif_date_enable,
+					    G_CALLBACK(pan_window_date_toggle_cb), pw);
+#endif
 
 	pw->search_button = gtk_toggle_button_new();
 	gtk_button_set_relief(GTK_BUTTON(pw->search_button), GTK_RELIEF_NONE);
@@ -4703,6 +4727,14 @@ static void pan_delete_cb(GtkWidget *widget, gpointer data)
 	if (path) file_util_delete(path, NULL, pw->imd->widget);
 }
 
+static void pan_exif_date_toggle_cb(GtkWidget *widget, gpointer data)
+{
+	PanWindow *pw = data;
+
+	pw->exif_date_enable = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
+	pan_window_layout_update(pw);
+}
+
 static void pan_fullscreen_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
@@ -4753,6 +4785,11 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 				G_CALLBACK(pan_rename_cb), pw);
 	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
 				      G_CALLBACK(pan_delete_cb), pw);
+
+	menu_item_add_divider(menu);
+	item = menu_item_add_check(menu, _("Sort by E_xif date"), pw->exif_date_enable,
+				   G_CALLBACK(pan_exif_date_toggle_cb), pw);
+	gtk_widget_set_sensitive(item, (pw->layout == LAYOUT_TIMELINE || pw->layout == LAYOUT_CALENDAR));
 
 	menu_item_add_divider(menu);
 
