@@ -997,7 +997,7 @@ static gint exif_parse_JPEG(ExifData *exif, unsigned char *data, guint size, Exi
 
 	marker_size = jpeg_get_marker_size(data) - 2;
 		
-	if (marker_size < 6 || strncmp((char*)data + 4, "Exif\0\0", 6) != 0)
+	if (marker_size < 6 || memcmp(data + 4, "Exif\x00\x00", 6) != 0)
 		{
 		return -2;
 		}
