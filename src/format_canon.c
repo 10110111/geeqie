@@ -258,7 +258,7 @@ return_only:
 }
 
 
-gint format_canon_raw(const void *data, const guint len,
+gint format_canon_raw(unsigned char *data, const guint len,
 		      guint *image_offset, guint *exif_offset)
 {
 
@@ -494,6 +494,7 @@ static ExifTextList CanonSet1MacroMode[] = {
 static ExifTextList CanonSet1Quality[] = {
 	{ 2,	"normal" },
 	{ 3,	"fine" },
+	{ 4,	"raw" },
 	{ 5,	"superfine" },
 	EXIF_TEXT_LIST_END
 };
@@ -502,24 +503,24 @@ static ExifTextList CanonSet1FlashMode[] = {
 	{ 0,	"flash not fired" },
 	{ 1,	"auto" },
 	{ 2,	"on" },
-	{ 3,	"red eye reduction" },
-	{ 4,	"slow synchro" },
-	{ 5,	"auto with red eye reduction" },
-	{ 6,	"on with red eye reduction" },
+	{ 3,	"red-eye reduction" },
+	{ 4,	"slow sync" },
+	{ 5,	"red-eye reduction (auto)" },
+	{ 6,	"red-eye reduction (on)" },
 	{ 16,	"external flash" },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList CanonSet1DriveMode[] = {
-	{ 0,	"single or timer" },
+	{ 0,	"single" },
 	{ 1,	"continuous" },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList CanonSet1FocusMode[] = {
-	{ 0,	"one-shot" },
-	{ 1,	"AI servo" },
-	{ 2,	"AI focus" },
+	{ 0,	"one-shot AF" },
+	{ 1,	"AI servo AF" },
+	{ 2,	"AI focus AF" },
 	{ 3,	"manual" },
 	{ 4,	"single" },
 	{ 5,	"continuous" },
@@ -556,6 +557,7 @@ static ExifTextList CanonSet1DigitalZoom[] = {
 	{ 0,	"none" },
 	{ 1,	"2x" },
 	{ 2,	"4x" },
+	{ 3,	"other" },
 	EXIF_TEXT_LIST_END
 };
 
@@ -577,6 +579,8 @@ static ExifTextList CanonSet1ISOSpeed[] = {
 };
 
 static ExifTextList CanonSet1MeteringMode[] = {
+	{ 0,	"default" },
+	{ 1,	"spot" },
 	{ 3,	"evaluative" },
 	{ 4,	"partial" },
 	{ 5,	"center-weighted" },
@@ -586,17 +590,21 @@ static ExifTextList CanonSet1MeteringMode[] = {
 static ExifTextList CanonSet1FocusType[] = {
 	{ 0,	"manual" },
 	{ 1,	"auto" },
+	{ 2,	"auto" },
 	{ 3,	"macro" },
+	{ 7,	"infinity" },
 	{ 8,	"locked" },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList CanonSet1AutoFocusPoint[] = {
-	{ 12288,	"manual focus" },
-	{ 12289,	"auto" },
-	{ 12290,	"right" },
-	{ 12291,	"center" },
-	{ 12292,	"left" },
+	{ 0x2005,	"manual AF point selection" },
+	{ 0x3000,	"manual focus" },
+	{ 0x3001,	"auto" },
+	{ 0x3002,	"right" },
+	{ 0x3003,	"center" },
+	{ 0x3004,	"left" },
+	{ 0x4001,	"auto AF point selection" },
 	EXIF_TEXT_LIST_END
 };
 
@@ -655,12 +663,17 @@ EXIF_MARKER_LIST_END
 
 static ExifTextList CanonSet2WhiteBalance[] = {
 	{ 0,	"auto" },
-	{ 1,	"sunny" },
+	{ 1,	"daylight" },
 	{ 2,	"cloudy" },
 	{ 3,	"tungsten" },
-	{ 4,	"flourescent" },
+	{ 4,	"fluorescent" },
 	{ 5,	"flash" },
 	{ 6,	"custom" },
+	{ 7,	"black and white" },
+	{ 8,	"shade" },
+	{ 9,	"manual" },
+	{ 14,	"daylight fluorescent" },
+	{ 17,	"underwater" },
 	EXIF_TEXT_LIST_END
 };
 
@@ -766,7 +779,7 @@ static ExifMarker CanonExifMarkersList[] = {
 };
 
 static void canon_mknote_parse_settings(ExifData *exif,
-					guint16 *data, guint32 len, ExifByteOrder byte_order,
+					guint16 *data, guint32 len, ExifByteOrder bo,
 					ExifMarker *list)
 {
 	gint i;
@@ -779,7 +792,7 @@ static void canon_mknote_parse_settings(ExifData *exif,
 			ExifItem *item;
 
 			item = exif_item_new(EXIF_FORMAT_SHORT_UNSIGNED, list[i].tag, 1, &list[i]);
-			exif_item_copy_data(item, &data[list[i].tag], 1, EXIF_FORMAT_SHORT_UNSIGNED, byte_order);
+			exif_item_copy_data(item, &data[list[i].tag], 2, EXIF_FORMAT_SHORT_UNSIGNED, bo);
 			exif->items = g_list_prepend(exif->items, item);
 			}
 
@@ -832,11 +845,11 @@ static void canon_mknote_parse_convert(ExifData *exif)
 #endif
 
 gint format_canon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
-			    guint size, ExifByteOrder byte_order)
+			    guint size, ExifByteOrder bo)
 {
 	ExifItem *item;
 
-	if (exif_parse_IFD_table(exif, tiff, offset, size, byte_order, CanonExifMarkersList) != 0)
+	if (exif_parse_IFD_table(exif, tiff, offset, size, bo, 0, CanonExifMarkersList) != 0)
 		{
 		return FALSE;
 		}
@@ -844,13 +857,13 @@ gint format_canon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 	item = exif_get_item(exif, "MkN.Canon.Settings1");
 	if (item)
 		{
-		canon_mknote_parse_settings(exif, item->data, item->data_len, byte_order, CanonSet1);
+		canon_mknote_parse_settings(exif, item->data, item->data_len, bo, CanonSet1);
 		}
 
 	item = exif_get_item(exif, "MkN.Canon.Settings2");
 	if (item)
 		{
-		canon_mknote_parse_settings(exif, item->data, item->data_len, byte_order, CanonSet2);
+		canon_mknote_parse_settings(exif, item->data, item->data_len, bo, CanonSet2);
 		}
 
 #if 0

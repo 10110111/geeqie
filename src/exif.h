@@ -33,6 +33,8 @@
  *-----------------------------------------------------------------------------
  */
 
+#define EXIF_FORMAT_COUNT 13
+
 typedef enum {
 	EXIF_FORMAT_UNKNOWN		= 0,
 	EXIF_FORMAT_BYTE_UNSIGNED	= 1,
@@ -198,7 +200,15 @@ void exif_write_data_list(ExifData *exif, FILE *f, gint human_readable_list);
 
 
 
-/* These funcs for use by makernote parsers only */
+/* These funcs for use by makernote/tiff parsers only */
+
+#define EXIF_TIFF_MAX_LEVELS 4
+
+#define EXIF_TIFD_OFFSET_TAG 0
+#define EXIF_TIFD_OFFSET_FORMAT 2
+#define EXIF_TIFD_OFFSET_COUNT 4
+#define EXIF_TIFD_OFFSET_DATA 8
+#define EXIF_TIFD_SIZE 12
 
 
 guint16 exif_byte_get_int16(unsigned char *f, ExifByteOrder bo);
@@ -209,14 +219,17 @@ guint32 exif_byte_swab_int32(guint32 n, ExifByteOrder bo);
 ExifItem *exif_item_new(ExifFormatType format, guint tag,
 			guint elements, const ExifMarker *marker);
 void exif_item_copy_data(ExifItem *item, void *src, guint len,
-			 ExifFormatType src_format, ExifByteOrder byte_order);
+			 ExifFormatType src_format, ExifByteOrder bo);
 
 gint exif_parse_IFD_table(ExifData *exif,
 			  unsigned char *tiff, guint offset,
-			  guint size, ExifByteOrder byte_order,
+			  guint size, ExifByteOrder bo,
+			  gint level,
 			  const ExifMarker *list);
 
-gint exif_parse_TIFF(ExifData *exif, unsigned char *tiff, guint size, ExifMarker *list);
+gint exif_tiff_directory_offset(unsigned char *data, const guint len,
+				guint *offset, ExifByteOrder *bo);
+gint exif_tiff_parse(ExifData *exif, unsigned char *tiff, guint size, ExifMarker *list);
 
 
 #endif

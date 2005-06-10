@@ -17,15 +17,17 @@
 #include "exif.h"
 
 
-gint format_fuji_raw(const void *data, const guint len,
+gint format_fuji_raw(unsigned char *data, const guint len,
 		     guint *image_offset, guint *exif_offset);
 
 
-#define FORMAT_RAW_FUJI { "FUJIFILM", 8, "Fuji raw format", format_fuji_raw }
+#define FORMAT_RAW_FUJI { "raf", \
+			  FORMAT_RAW_MATCH_MAGIC, 0, "FUJIFILM", 8, \
+			  "Fuji raw", format_fuji_raw }
 
 
 gint format_fuji_makernote(ExifData *exif, unsigned char *tiff, guint offset,
-			   guint size, ExifByteOrder byte_order);
+			   guint size, ExifByteOrder bo);
 
 #define FORMAT_EXIF_FUJI { FORMAT_EXIF_MATCH_MAKERNOTE, "FUJIFILM", 8, "Fujifilm", format_fuji_makernote }
 

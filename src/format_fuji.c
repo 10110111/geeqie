@@ -36,7 +36,7 @@
  */
 
 
-gint format_fuji_raw(const void *data, const guint len,
+gint format_fuji_raw(unsigned char *data, const guint len,
 		     guint *image_offset, guint *exif_offset)
 {
 	guint io;
@@ -171,7 +171,7 @@ EXIF_MARKER_LIST_END
 
 
 gint format_fuji_makernote(ExifData *exif, unsigned char *tiff, guint offset,
-			   guint size, ExifByteOrder byte_order)
+			   guint size, ExifByteOrder bo)
 {
 	unsigned char *data;
 	guint ifdstart;
@@ -179,13 +179,18 @@ gint format_fuji_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 	if (offset + 8 + 4 >= size) return FALSE;
 
 	data = tiff + offset;
+
+	/* Fuji tag format starts with "FUJIFILM",
+	 * followed by 4 bytes indicating offset to IFD directory using Fuji tags,
+	 * byte order is always little endian (II).
+	 */
 	if (memcmp(data, "FUJIFILM", 8) != 0) return FALSE;
 
 	ifdstart = exif_byte_get_int32(data + 8, EXIF_BYTE_ORDER_INTEL);
 	if (offset + ifdstart >= size) return FALSE;
 
 	if (exif_parse_IFD_table(exif, tiff + offset, ifdstart, size - offset,
-				 EXIF_BYTE_ORDER_INTEL, FujiExifMarkersList) != 0)
+				 EXIF_BYTE_ORDER_INTEL, 0, FujiExifMarkersList) != 0)
 		{
 		return FALSE;
 		}

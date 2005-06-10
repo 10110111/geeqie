@@ -17,12 +17,18 @@
 #include "exif.h"
 
 
-typedef gint (* FormatRawParseFunc)(const void *data, const guint len,
+typedef enum {
+	FORMAT_RAW_MATCH_MAGIC,
+	FORMAT_RAW_MATCH_TIFF_MAKE
+} FormatRawMatchType;
+
+typedef gint (* FormatRawParseFunc)(unsigned char *data, const guint len,
 				    guint *image_offset, guint *exif_offset);
 
-gint format_raw_img_exif_offsets(const void *data, const guint len,
+gint format_raw_img_exif_offsets(unsigned char *data, const guint len,
 				 guint *image_offset, guint *exif_offset);
-gint format_raw_img_exif_offsets_fd(int fd, const void *header_data, const guint header_len,
+gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
+				    unsigned char *header_data, const guint header_len,
 				    guint *image_offset, guint *exif_offset);
 
 
@@ -32,10 +38,10 @@ typedef enum {
 } FormatExifMatchType;
 
 typedef gint (* FormatExifParseFunc)(ExifData *exif, unsigned char *tiff, guint offset,
-				    guint size, ExifByteOrder byte_order);
+				    guint size, ExifByteOrder bo);
 
 gint format_exif_makernote_parse(ExifData *exif, unsigned char *tiff, guint offset,
-				 guint size, ExifByteOrder byte_order);
+				 guint size, ExifByteOrder bo);
 
 
 #endif

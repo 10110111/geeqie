@@ -22,17 +22,16 @@ Major:
 
  >raw + exif formats:
 
-   > rethink raw format header parser, apparently canon and nikon both use the TIFF file format,
-     so it is possible that the same magic header can be in both formats - it only works now
-     because Canon header list ignores Motorola alignment, which is what Nikon uses. Additionally
-     matching CRW format uses a magic "HEADCCDR" offset 6 bytes into the file, first two bytes are
-     similar to tiff for specifying byte alignment (II or MM), so the current code will also pick
-     up tiff files. Whatever happens here, we want to avoid mmap'ing the file until we are sure.
+   > all thats left to do is possibly mmap the file so we have all the tiff data available when
+     looking for the make TIFF tag (0x10f) as it may not always fit within data available from
+     the first read() in image-load.c.
 
-   > make a generic tiff header and directory parser from the nikon parser for use by all raw
+  d> make a generic tiff header and directory parser from the nikon parser for use by all raw
      parsers that involve tiff.
 
-   > clean up canon parser (canon_read_int can be substituted with, or wrap exif_get_int16/32).
+   > clean up canon parser (there are now many convenience utils to simplify tiff header, etc.):
+      > canon_read_int can be substituted with, or wrap exif_get_int16/32.
+      > CR2 tiff code can now use exif_tiff_directory_offset.
 
    > support olympus MakerNote, investigate RAW
    > support konica / minolta MakerNote, investigate RAW

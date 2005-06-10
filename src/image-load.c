@@ -218,7 +218,7 @@ static gint image_loader_begin(ImageLoader *il)
 	b = read(il->load_fd, &buf, sizeof(buf));
 
 	if (b > 1 &&
-	    format_raw_img_exif_offsets_fd(il->load_fd, buf, b, &offset, NULL))
+	    format_raw_img_exif_offsets_fd(il->load_fd, il->path, buf, b, &offset, NULL))
 		{
 		if (debug) printf("Raw file %s contains embedded image\n", il->path);
 

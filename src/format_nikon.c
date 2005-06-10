@@ -35,36 +35,40 @@
  *-----------------------------------------------------------------------------
  */
 
-static guint tiff_table(unsigned char *data, const guint len, guint offset, ExifByteOrder byte_order,
-			guint *image_offset, guint *jpeg_len);
+static guint nikon_tiff_table(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+			      gint level,
+			      guint *image_offset, guint *jpeg_len);
 
 
-static void tiff_entry(unsigned char *data, const guint len, guint offset, ExifByteOrder byte_order,
-		       guint *image_offset, guint *image_length, guint *jpeg_start, guint *jpeg_len)
+static void nikon_tiff_entry(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+			     gint level,
+			     guint *image_offset, guint *image_length, guint *jpeg_start, guint *jpeg_len)
 {
-	static gint size[] = { 1,1,1,2,4,8,1,1,2,4,8,4,8 };
 	guint tag;
 	guint type;
 	guint count;
 	guint segment;
+	guint seg_len;
 
-	tag = exif_byte_get_int16(data + offset, byte_order);
-	type = exif_byte_get_int16(data + offset + 2, byte_order);
-	count = exif_byte_get_int32(data + offset + 4, byte_order);
+	tag = exif_byte_get_int16(data + offset + EXIF_TIFD_OFFSET_TAG, bo);
+	type = exif_byte_get_int16(data + offset + EXIF_TIFD_OFFSET_FORMAT, bo);
+	count = exif_byte_get_int32(data + offset + EXIF_TIFD_OFFSET_COUNT, bo);
 
-	if (type > 12) return;
-	if (count * size[type] > 4)
+	/* so far, we only care about tags with type long */
+	if (type != EXIF_FORMAT_LONG_UNSIGNED && type != EXIF_FORMAT_LONG) return;
+
+	seg_len = ExifFormatList[type].size * count;
+	if (seg_len > 4)
 		{
-		segment = exif_byte_get_int32(data + offset + 8, byte_order);
-		if (len < segment + count * size[type]) return;
+		segment = exif_byte_get_int32(data + offset + EXIF_TIFD_OFFSET_DATA, bo);
+		if (segment + seg_len > len) return;
 		}
 	else
 		{
-		segment = offset + 8;
+		segment = offset + EXIF_TIFD_OFFSET_DATA;
 		}
 
-	if (tag == 0x14a &&
-	    type == EXIF_FORMAT_LONG_UNSIGNED)
+	if (tag == 0x14a)
 		{
 		/* sub IFD table */
 		gint i;
@@ -73,42 +77,46 @@ static void tiff_entry(unsigned char *data, const guint len, guint offset, ExifB
 			{
 			guint subset;
 
-			subset = exif_byte_get_int32(data + segment + i * 4, byte_order);
-			tiff_table(data, len, subset, byte_order, image_offset, image_length);
+			subset = exif_byte_get_int32(data + segment + i * 4, bo);
+			nikon_tiff_table(data, len, subset, bo, level + 1, image_offset, image_length);
 			}
 
 		}
 	else if (tag == 0x201)
 		{
 		/* jpeg data start offset */
-		*jpeg_start = exif_byte_get_int32(data + segment, byte_order);
+		*jpeg_start = exif_byte_get_int32(data + segment, bo);
 		}
 	else if (tag == 0x202)
 		{
 		/* jpeg data length */
-		*jpeg_len = exif_byte_get_int32(data + segment, byte_order);
+		*jpeg_len = exif_byte_get_int32(data + segment, bo);
 		}
 }
 
-static guint tiff_table(unsigned char *data, const guint len, guint offset, ExifByteOrder byte_order,
-			guint *image_offset, guint *image_length)
+static guint nikon_tiff_table(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+			      gint level,
+			      guint *image_offset, guint *image_length)
 {
 	guint count;
 	guint i;
 	guint jpeg_start = 0;
 	guint jpeg_len = 0;
 
+	/* limit damage from infinite loops */
+	if (level > EXIF_TIFF_MAX_LEVELS) return 0;
+
 	if (len < offset + 2) return FALSE;
 
-	count = exif_byte_get_int16((unsigned char *)data + offset, byte_order);
+	count = exif_byte_get_int16(data + offset, bo);
 
-	if (len < offset + count * 12 + 4) return 0;
+	if (len < offset + count * EXIF_TIFD_SIZE + 4) return 0;
 	offset += 2;
 
 	for (i = 0; i < count; i++)
 		{
-		tiff_entry(data, len, offset + i * 12, byte_order,
-			   image_offset, image_length, &jpeg_start, &jpeg_len);
+		nikon_tiff_entry(data, len, offset + i * EXIF_TIFD_SIZE, bo, level,
+				 image_offset, image_length, &jpeg_start, &jpeg_len);
 		}
 
 	if (jpeg_start > 0 &&
@@ -118,87 +126,25 @@ static guint tiff_table(unsigned char *data, const guint len, guint offset, Exif
 		*image_length = jpeg_len;
 		}
 
-	return exif_byte_get_int32((unsigned char *)data + offset + count * 12, byte_order);
+	return exif_byte_get_int32(data + offset + count * EXIF_TIFD_SIZE, bo);
 }
 
-/*
- * Walk the first TIFF IFD table and check for existence of a "make" tag (0x10f) that
- * identifies NIKON CORPORATION, so that we can abort quickly if it is not a raw NEF.
- */
-static gint tiff_nikon_verify(unsigned char *data, const guint len, guint offset, ExifByteOrder byte_order)
-{
-	guint nb_entries;
-	guint i;
-
-	if (len < offset + 2) return FALSE;
-
-	nb_entries = exif_byte_get_int16(data + offset, byte_order);
-	offset += 2;
-	if (len < offset + nb_entries * 12 + 4) return FALSE;
-
-	for (i = 0; i < nb_entries; i++)
-		{
-		guint segment;
-
-		segment = offset + i * 12;
-		if (exif_byte_get_int16(data + segment, byte_order) == 0x10f &&
-		    exif_byte_get_int16(data + segment + 2, byte_order) == EXIF_FORMAT_STRING)
-			{
-			guint count;
-			guint make_text;
-
-			count = exif_byte_get_int32(data + segment + 4, byte_order);
-			make_text = exif_byte_get_int32(data + segment + 8, byte_order);
-
-			if (count >= 17 &&
-			    memcmp(data + make_text, "NIKON CORPORATION", 17) == 0)
-				{
-				return TRUE;
-				}
-
-			return FALSE;
-			}
-		}
-
-	return FALSE;
-}
-
-gint format_nikon_raw(const void *data, const guint len,
+gint format_nikon_raw(unsigned char *data, const guint len,
 		      guint *image_offset, guint *exif_offset)
 {
 	guint i_off = 0;
 	guint i_len = 0;
-	ExifByteOrder byte_order;
+	ExifByteOrder bo;
 	guint offset;
+	gint level;
 
-	if (len < 8) return FALSE;
+	if (!exif_tiff_directory_offset(data, len, &offset, &bo)) return FALSE;
 
-	if (memcmp(data, "II", 2) == 0)
+	level = 0;
+	while (offset && level < EXIF_TIFF_MAX_LEVELS)
 		{
-		byte_order = EXIF_BYTE_ORDER_INTEL;
-		}
-	else if (memcmp(data, "MM", 2) == 0)
-		{
-		byte_order = EXIF_BYTE_ORDER_MOTOROLA;
-		}
-	else
-		{
-		return FALSE;
-		}
-
-	if (exif_byte_get_int16((unsigned char *)data + 2, byte_order) != 0x002A)
-		{
-		return FALSE;
-		}
-
-	offset = exif_byte_get_int32((unsigned char *)data + 4, byte_order);
-	if (!tiff_nikon_verify((unsigned char *)data, len, offset, byte_order)) return FALSE;
-
-	while (offset != 0)
-		{
-		guint next_offset = 0;
-		tiff_table((unsigned char *)data, len, offset, byte_order, &i_off, &i_len);
-		offset = next_offset;
+		offset = nikon_tiff_table(data, len, offset, bo, 0, &i_off, &i_len);
+		level++;
 		}
 
 	if (i_off != 0)
@@ -391,30 +337,33 @@ EXIF_MARKER_LIST_END
 
 
 gint format_nikon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
-			    guint size, ExifByteOrder byte_order)
+			    guint size, ExifByteOrder bo)
 {
 	unsigned char *data;
 
 	if (offset + 8 + 4 >= size) return FALSE;
 
 	data = tiff + offset;
+
+	/* Nikon tag format 1 */
 	if (memcmp(data, "Nikon\x00\x01\x00", 8) == 0)
 		{
 		if (exif_parse_IFD_table(exif, tiff, offset + 8, size,
-					 byte_order, NikonExifMarkersList1) != 0)
+					 bo, 0, NikonExifMarkersList1) != 0)
 			{
 			return FALSE;
 			}
 		return TRUE;
 		}
 
+	/* Nikon tag format 2 uses Embedded tiff header */
 	if (memcmp(data, "Nikon\x00\x02\x00\x00\x00", 10) == 0 ||
 	    memcmp(data, "Nikon\x00\x02\x10\x00\x00", 10) == 0)
 		{
 		guint tiff_header;
 
 		tiff_header = offset + 10;
-		if (exif_parse_TIFF(exif, tiff + tiff_header, size - tiff_header,
+		if (exif_tiff_parse(exif, tiff + tiff_header, size - tiff_header,
 		    NikonExifMarkersList2) != 0)
 			{
 			return FALSE;
@@ -422,9 +371,9 @@ gint format_nikon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 		return TRUE;
 		}
 
-	/* fixme: support E990 and D1 */
+	/* Nikon tag format 3 uses format 2 tags without "Nikon" and tiff header */
 	if (exif_parse_IFD_table(exif, tiff, offset, size,
-				 byte_order, NikonExifMarkersList2) != 0)
+				 bo, 0, NikonExifMarkersList2) != 0)
 		{
 		return FALSE;
 		}
