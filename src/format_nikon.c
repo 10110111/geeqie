@@ -399,19 +399,18 @@ gint format_nikon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 		static ExifMarker marker = { 0x0088, EXIF_FORMAT_STRING, -1,
 					     "Nikon.AutoFocusPoint", "Auto focus point", NULL };
 		guchar *array = item->data;
-		const gchar *text;
+		gchar *text;
+		gint l;
 
 		text = exif_text_list_find_value(NikonAFPoint, (gint)array[1]);
-		if (text)
-			{
-			gint l;
+		l = strlen(text) + 1;
 
-			l = strlen(text) + 1;
-			item = exif_item_new(marker.format, marker.tag, l, &marker);
-			memcpy(item->data, text, l);
+		item = exif_item_new(marker.format, marker.tag, l, &marker);
+		memcpy(item->data, text, l);
 
-			exif->items = g_list_prepend(exif->items, item);
-			}
+		g_free(text);
+
+		exif->items = g_list_prepend(exif->items, item);
 		}
 
 	item = exif_get_item(exif, "Nikon.ISOSpeed");

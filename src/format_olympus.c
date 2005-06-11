@@ -211,8 +211,8 @@ gint format_olympus_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 		static ExifMarker marker = { 0x0200, EXIF_FORMAT_STRING, -1,
 					     "Olympus.ShootingMode", "Shooting mode", NULL };
 		guint32 *array = item->data;
-		const gchar *mode;
-		const gchar *pdir = NULL;
+		gchar *mode;
+		gchar *pdir = NULL;
 		gchar *text;
 		gint l;
 
@@ -222,13 +222,16 @@ gint format_olympus_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 			pdir = exif_text_list_find_value(OlympusPanoramaDirection, array[2]);
 			}
 
-		text = g_strdup_printf("%s%s%s, seq %d", (mode) ? mode : "unknown",
+		text = g_strdup_printf("%s%s%s, seq %d", mode,
 				       (pdir) ? " " : "", (pdir) ? pdir : "",
 				       array[1] + 1);
 		l = strlen(text) + 1;
 		item = exif_item_new(marker.format, marker.tag, l, &marker);
 		memcpy(item->data, text, l);
+
 		g_free(text);
+		g_free(pdir);
+		g_free(mode);
 
 		exif->items = g_list_prepend(exif->items, item);
 		}
@@ -239,8 +242,8 @@ gint format_olympus_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 		static ExifMarker marker = { 0x1015, EXIF_FORMAT_STRING, -1,
 					     "Olympus.WhiteBalance", "White balance", NULL };
 		guint16 *array = item->data;
-		const gchar *mode;
-		const gchar *color = NULL;
+		gchar *mode;
+		gchar *color = NULL;
 		gchar *text;
 		gint l;
 
@@ -250,12 +253,15 @@ gint format_olympus_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 			color = exif_text_list_find_value(OlympusWBColorTemp, array[1]);
 			}
 
-		text = g_strdup_printf("%s%s%s", (mode) ? mode : "unknown",
+		text = g_strdup_printf("%s%s%s", mode,
 				       (color) ? " " : "", (color) ? color : "");
 		l = strlen(text) + 1;
 		item = exif_item_new(marker.format, marker.tag, l, &marker);
 		memcpy(item->data, text, l);
+
 		g_free(text);
+		g_free(color);
+		g_free(mode);
 
 		exif->items = g_list_prepend(exif->items, item);
 		}

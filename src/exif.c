@@ -1493,7 +1493,7 @@ static gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *
 		if (!exif_get_integer(exif, "Flash", &n)) return NULL;
 
 		/* Exif 2.1 only defines first 3 bits */
-		if (n <= 0x07) return g_strdup(exif_text_list_find_value(ExifFlashList, n));
+		if (n <= 0x07) return exif_text_list_find_value(ExifFlashList, n);
 
 		/* must be Exif 2.2 */
 		string = g_string_new("");
