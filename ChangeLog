@@ -1,3 +1,17 @@
+Fri Jun 10 20:57:42 2005  John Ellis  <johne@verizon.net>
+
+	* exif.c (exif_parse_IFD_table): Fix offset count before testing
+	against buffer size.
+	* exif.h: Make exif_text_list_find_value available.
+	* format_canon.c: Fix copy's length when duping Canon.SerialNumber, and
+	adjust several text descriptions.
+	* format_fuji.c: Remove "MkN." text from tag names.
+	* format_nikon.c: Fix offset count before testing against buffer size,
+	and remove "MkN." text from tag names. Add several new tags.
+	* format_olympus.[ch]: New files for olympus makernote.
+	* format_raw.c: Add exif olympus hook.
+	* src/Makefile.am: Add format_olympus.[ch].
+
 Fri Jun 10 02:19:26 2005  John Ellis  <johne@verizon.net>
 
 	* pan-view.c: Add exif date sorting option to right click menu, and

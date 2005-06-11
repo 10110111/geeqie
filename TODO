@@ -33,8 +33,8 @@ Major:
       > canon_read_int can be substituted with, or wrap exif_get_int16/32.
       > CR2 tiff code can now use exif_tiff_directory_offset.
 
-   > support olympus MakerNote, investigate RAW
-   > support konica / minolta MakerNote, investigate RAW
+  d> support olympus MakerNote, investigate RAW (raw embedded jpeg appears to be tiny).
+   > support konica / minolta MakerNote, investigate RAW.
 
    > exif.c parser should not be using EXIF tags during tiff directory search for EXIF tag.
 

@@ -90,6 +90,8 @@ gqview_SOURCES = \
 	format_fuji.h	\
 	format_nikon.c	\
 	format_nikon.h	\
+	format_olympus.c	\
+	format_olympus.h	\
 	format_raw.c	\
 	format_raw.h	\
 	fullscreen.c	\

@@ -31,6 +31,7 @@
 #include "format_canon.h"
 #include "format_fuji.h"
 #include "format_nikon.h"
+#include "format_olympus.h"
 
 
 /* so that debugging is honored */
@@ -69,6 +70,7 @@ static FormatExifEntry format_exif_list[] = {
 	FORMAT_EXIF_CANON,
 	FORMAT_EXIF_FUJI,
 	FORMAT_EXIF_NIKON,
+	FORMAT_EXIF_OLYMPUS,
 	{ 0, NULL, 0, NULL }
 };
 

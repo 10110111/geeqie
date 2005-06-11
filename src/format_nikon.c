@@ -109,9 +109,8 @@ static guint nikon_tiff_table(unsigned char *data, const guint len, guint offset
 	if (len < offset + 2) return FALSE;
 
 	count = exif_byte_get_int16(data + offset, bo);
-
-	if (len < offset + count * EXIF_TIFD_SIZE + 4) return 0;
 	offset += 2;
+	if (len < offset + count * EXIF_TIFD_SIZE + 4) return 0;
 
 	for (i = 0; i < count; i++)
 		{
@@ -228,18 +227,17 @@ static ExifTextList NikonTag[]= {
 #endif
 
 static ExifMarker NikonExifMarkersList1[] = {
-{ 0x0002, EXIF_FORMAT_STRING, 6,		"MkN.Nikon.unknown",	NULL,		NULL },
-{ 0x0003, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Nikon.Quality",	"Quality",	NikonTagQuality },
-{ 0x0004, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Nikon.ColorMode",	"Color mode",	NikonTagColorMode },
-{ 0x0005, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Nikon.ImageAdjustment",
+{ 0x0002, EXIF_FORMAT_STRING, 6,		"Nikon.unknown",	NULL,		NULL },
+{ 0x0003, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Nikon.Quality",	"Quality",	NikonTagQuality },
+{ 0x0004, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Nikon.ColorMode",	"Color mode",	NikonTagColorMode },
+{ 0x0005, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Nikon.ImageAdjustment",
 								"Image adjustment",	NikonTagImgAdjust },
-{ 0x0006, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Nikon.ISOSensitivity",
+{ 0x0006, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Nikon.ISOSensitivity",
 								"ISO sensitivity",	NikonTagISOSensitivity },
-{ 0x0007, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Nikon.WhiteBalance",
-								"White balance",	NikonTagWhiteBalance },
-{ 0x0008, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"MkN.Nikon.Focus",	"Focus",	NULL },
-{ 0x000a, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"MkN.Nikon.DigitalZoom","Digital zoom", NULL },
-{ 0x000b, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Nikon.Converter",	"Converter",	NikonTagConverter },
+{ 0x0007, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Nikon.WhiteBalance",	"White balance",NikonTagWhiteBalance },
+{ 0x0008, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Nikon.Focus",		"Focus",	NULL },
+{ 0x000a, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Nikon.DigitalZoom",	"Digital zoom",	NULL },
+{ 0x000b, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Nikon.Converter",	"Converter",	NikonTagConverter },
 EXIF_MARKER_LIST_END
 };
 
@@ -264,8 +262,19 @@ static ExifTextList NikonTag2FlashComp[]= {
 	EXIF_TEXT_LIST_END
 };
 
+static ExifTextList NikonTag2LensType[]= {
+	{ 0,	"AF non D" },
+	{ 1,	"manual" },
+	{ 2,	"AF-D or AF-s" },
+	{ 6,	"AF-D G" },
+	{ 10,	"AF-D VR" },
+	EXIF_TEXT_LIST_END
+};
+
 static ExifTextList NikonTag2FlashUsed[]= {
 	{ 0,	"no" },
+	{ 4,	"unit unknown" },
+	{ 7,	"external" },
 	{ 9,	"yes" },
 	EXIF_TEXT_LIST_END
 };
@@ -283,56 +292,63 @@ static ExifTextList NikonTagi2Saturation[]= {
 #endif
 
 static ExifMarker NikonExifMarkersList2[] = {
-{ 0x0002, EXIF_FORMAT_SHORT_UNSIGNED, 2,	"MkN.Nikon.ISOSpeed",	"ISO speed",	NULL },
-{ 0x0003, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.ColorMode",	"Color mode",	NULL },
-{ 0x0004, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.Quality",	"Quality",	NULL },
-{ 0x0005, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.WhiteBalance",
-								"White balance",	NULL },
-{ 0x0006, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.Sharpening",	"Sharpening",	NULL },
-{ 0x0007, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.FocusMode",	"Focus mode",	NULL },
-{ 0x0008, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.FlashSetting",
-								"Flash setting",	NULL },
-{ 0x0009, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.AutoFlashMode","Auto flash mode",NULL },
-{ 0x000b, EXIF_FORMAT_SHORT, 1,			"MkN.Nikon.WhiteBalanceBias",
+{ 0x0002, EXIF_FORMAT_SHORT_UNSIGNED, 2,	"Nikon.ISOSpeed",	"ISO speed",	NULL },
+{ 0x0003, EXIF_FORMAT_STRING, -1,		"Nikon.ColorMode",	"Color mode",	NULL },
+{ 0x0004, EXIF_FORMAT_STRING, -1,		"Nikon.Quality",	"Quality",	NULL },
+{ 0x0005, EXIF_FORMAT_STRING, -1,		"Nikon.WhiteBalance",	"White balance",NULL },
+{ 0x0006, EXIF_FORMAT_STRING, -1,		"Nikon.Sharpening",	"Sharpening",	NULL },
+{ 0x0007, EXIF_FORMAT_STRING, -1,		"Nikon.FocusMode",	"Focus mode",	NULL },
+{ 0x0008, EXIF_FORMAT_STRING, -1,		"Nikon.FlashSetting",	"Flash setting",NULL },
+{ 0x0009, EXIF_FORMAT_STRING, -1,		"Nikon.AutoFlashMode","Auto flash mode",NULL },
+{ 0x000b, EXIF_FORMAT_SHORT, 1,			"Nikon.WhiteBalanceBias",
 							"White balance bias value",	NULL },
-/* { 0x000c, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Nikon.WhiteBalanceCoeff",
-						"White balance red/blue coefficents",	NULL }, */
-/* { 0x000f, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.ISOSelect",	"ISO selection",NULL }, */
-{ 0x0012, EXIF_FORMAT_UNDEFINED, 4,		"MkN.Nikon.FlashCompensation",
+/* { 0x000c, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Nikon.WhiteBalanceRB",
+						"White balance red/blue coefficients",	NULL }, */
+/* { 0x000f, EXIF_FORMAT_STRING, -1,		"Nikon.ISOSelect",	"ISO selection",NULL }, */
+{ 0x0012, EXIF_FORMAT_UNDEFINED, 4,		"Nikon.FlashCompensation",
 								"Flash compensation",	NikonTag2FlashComp },
-{ 0x0013, EXIF_FORMAT_SHORT_UNSIGNED, 2,	"MkN.Nikon.ISOSpeedRequest",
+{ 0x0013, EXIF_FORMAT_SHORT_UNSIGNED, 2,	"Nikon.ISOSpeedRequest",
 								"ISO speed requested",	NULL },
-{ 0x0016, EXIF_FORMAT_SHORT_UNSIGNED, 4,	"MkN.Nikon.CornerCoord",
+{ 0x0016, EXIF_FORMAT_SHORT_UNSIGNED, 4,	"Nikon.CornerCoord",
 								"Corner coordinates",	NULL },
-{ 0x0018, EXIF_FORMAT_UNDEFINED, 4,		"MkN.Nikon.FlashBracketCompensation",
+{ 0x0018, EXIF_FORMAT_UNDEFINED, 4,		"Nikon.FlashBracketCompensation",
 							"Flash bracket compensation",	NikonTag2FlashComp },
-{ 0x0019, EXIF_FORMAT_RATIONAL, 1,		"MkN.Nikon.AEBracketCompensation",
+{ 0x0019, EXIF_FORMAT_RATIONAL, 1,		"Nikon.AEBracketCompensation",
 							"AE bracket compensation",	NULL },
-{ 0x0080, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.ImageAdjustment",
+{ 0x0080, EXIF_FORMAT_STRING, -1,		"Nikon.ImageAdjustment",
 								"Image adjustment",	NULL },
-{ 0x0081, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.Contrast",	"Contrast",	NULL },
-{ 0x0082, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.AuxLens","Aux lens adapter", NULL },
-{ 0x0083, EXIF_FORMAT_BYTE_UNSIGNED, -1,	"MkN.Nikon.LensType",	"Lens type",	NULL },
-{ 0x0084, EXIF_FORMAT_RATIONAL_UNSIGNED, -1,	"MkN.Nikon.LensFocalLength",
+{ 0x0081, EXIF_FORMAT_STRING, -1,		"Nikon.Contrast",	"Contrast",	NULL },
+{ 0x0082, EXIF_FORMAT_STRING, -1,		"Nikon.AuxLens", "Aux lens adapter",	NULL },
+{ 0x0083, EXIF_FORMAT_BYTE_UNSIGNED, -1,	"Nikon.LensType",	"Lens type",	NikonTag2LensType },
+{ 0x0084, EXIF_FORMAT_RATIONAL_UNSIGNED, -1,	"Nikon.LensFocalLength",
 							"Lens min/max focal length and aperture", NULL },
-{ 0x0085, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Nikon.ManualFocusDistance",
+{ 0x0085, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Nikon.ManualFocusDistance",
 							"Manual focus distance", 	NULL },
-{ 0x0086, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Nikon.DigitalZoomFactor",
-							"Digital zoom facotr",		NULL },
-{ 0x0087, EXIF_FORMAT_BYTE_UNSIGNED, 1,		"MkN.Nikon.FlashUsed",	"Flash used",	NikonTag2FlashUsed },
-{ 0x0088, EXIF_FORMAT_UNDEFINED, -1,		"MkN.Nikon.AutoFocusArea", NULL,	NULL },
-/* { 0x0089, EXIF_FORMAT_SHORT_UNSIGNED, -1,	"MkN.Nikon.Bracket/ShootingMode", NULL,	NULL }, */
-{ 0x008d, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.ColorMode",	"Color mode",	NULL },
-{ 0x008f, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Nikon.SceneMode",	NULL,		NULL },
-{ 0x0090, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.LightingType", "Lighting type", NULL },
-{ 0x0092, EXIF_FORMAT_SHORT, 1,			"MkN.Nikon.HueAdjust",	"Hue adjustment", NULL },
-/* { 0x0094, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Nikon.Saturation",	"Saturation",	NikonTag2Saturation }, */
-{ 0x0095, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.NoiseReduction", "Noise reduction", NULL },
-{ 0x00a7, EXIF_FORMAT_LONG_UNSIGNED, 1,		"MkN.Nikon.ShutterCount", "Shutter release count", NULL },
-{ 0x00a9, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.ImageOptimization", "Image optimization", NULL },
-{ 0x00aa, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.Saturation", "Saturation",	NULL },
-{ 0x00ab, EXIF_FORMAT_STRING, -1,		"MkN.Nikon.DigitalVariProg", "Digital Vari-program", NULL },
+{ 0x0086, EXIF_FORMAT_RATIONAL, 1,		"Nikon.DigitalZoomFactor",
+							"Digital zoom factor",		NULL },
+{ 0x0087, EXIF_FORMAT_BYTE_UNSIGNED, 1,		"Nikon.FlashUsed",	"Flash used",	NikonTag2FlashUsed },
+{ 0x0088, EXIF_FORMAT_UNDEFINED, 4,		"Nikon.AutoFocusArea","Auto focus area",NULL },
+/* { 0x0089, EXIF_FORMAT_SHORT_UNSIGNED, -1,	"Nikon.Bracket/ShootingMode", NULL,	NULL }, */
+{ 0x008d, EXIF_FORMAT_STRING, -1,		"Nikon.ColorMode",	"Color mode",	NULL },
+{ 0x008f, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Nikon.SceneMode",	"Scene mode",	NULL },
+{ 0x0090, EXIF_FORMAT_STRING, -1,		"Nikon.LightingType",	"Lighting type",NULL },
+{ 0x0092, EXIF_FORMAT_SHORT, 1,			"Nikon.HueAdjust",	"Hue adjustment",NULL },
+/* { 0x0094, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Nikon.Saturation",	"Saturation",	NikonTag2Saturation }, */
+{ 0x0095, EXIF_FORMAT_STRING, -1,		"Nikon.NoiseReduction", "Noise reduction", NULL },
+{ 0x00a7, EXIF_FORMAT_LONG_UNSIGNED, 1,		"Nikon.ShutterCount", "Shutter release count", NULL },
+{ 0x00a9, EXIF_FORMAT_STRING, -1,		"Nikon.ImageOptimization", "Image optimization", NULL },
+{ 0x00aa, EXIF_FORMAT_STRING, -1,		"Nikon.Saturation", "Saturation",	NULL },
+{ 0x00ab, EXIF_FORMAT_STRING, -1,		"Nikon.DigitalVariProg", "Digital Vari-program", NULL },
 EXIF_MARKER_LIST_END
+};
+
+static ExifTextList NikonAFPoint[]= {
+	{ 0,	"center" },
+	{ 1,	"top" },
+	{ 2,	"bottom" },
+	{ 3,	"left" },
+	{ 4,	"right" },
+	EXIF_TEXT_LIST_END
 };
 
 
@@ -340,6 +356,7 @@ gint format_nikon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 			    guint size, ExifByteOrder bo)
 {
 	unsigned char *data;
+	ExifItem *item;
 
 	if (offset + 8 + 4 >= size) return FALSE;
 
@@ -368,16 +385,61 @@ gint format_nikon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 			{
 			return FALSE;
 			}
-		return TRUE;
 		}
-
 	/* Nikon tag format 3 uses format 2 tags without "Nikon" and tiff header */
-	if (exif_parse_IFD_table(exif, tiff, offset, size,
-				 bo, 0, NikonExifMarkersList2) != 0)
+	else if (exif_parse_IFD_table(exif, tiff, offset, size,
+				      bo, 0, NikonExifMarkersList2) != 0)
 		{
 		return FALSE;
 		}
 
-	return FALSE;
+	item = exif_get_item(exif, "Nikon.AutoFocusArea");
+	if (item && item->data_len == 4 * sizeof(guchar))
+		{
+		static ExifMarker marker = { 0x0088, EXIF_FORMAT_STRING, -1,
+					     "Nikon.AutoFocusPoint", "Auto focus point", NULL };
+		guchar *array = item->data;
+		const gchar *text;
+
+		text = exif_text_list_find_value(NikonAFPoint, (gint)array[1]);
+		if (text)
+			{
+			gint l;
+
+			l = strlen(text) + 1;
+			item = exif_item_new(marker.format, marker.tag, l, &marker);
+			memcpy(item->data, text, l);
+
+			exif->items = g_list_prepend(exif->items, item);
+			}
+		}
+
+	item = exif_get_item(exif, "Nikon.ISOSpeed");
+	if (item && item->data_len == 2 * 2)
+		{
+		static ExifMarker marker = { 0x0002, EXIF_FORMAT_SHORT_UNSIGNED, 1,
+					     "ISOSpeedRatings", "ISO speed", NULL };
+		ExifItem *shadow;
+
+		shadow = exif_item_new(marker.format, marker.tag, 1, &marker);
+		memcpy(shadow->data, item->data + 2, 2);
+
+		exif->items = g_list_prepend(exif->items, shadow);
+		}
+
+	item = exif_get_item(exif, "Nikon.WhiteBalance");
+	if (item && item->format == EXIF_FORMAT_STRING)
+		{
+		static ExifMarker marker = { 0x0005, EXIF_FORMAT_STRING, -1,
+					     "LightSource", "Light source", NULL };
+		ExifItem *shadow;
+
+		shadow = exif_item_new(marker.format, marker.tag, item->data_len, &marker);
+		memcpy(shadow->data, item->data, item->data_len);
+
+		exif->items = g_list_prepend(exif->items, shadow);
+		}
+
+	return TRUE;
 }
 

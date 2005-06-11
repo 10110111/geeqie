@@ -505,14 +505,14 @@ static ExifTextList CanonSet1FlashMode[] = {
 	{ 2,	"on" },
 	{ 3,	"red-eye reduction" },
 	{ 4,	"slow sync" },
-	{ 5,	"red-eye reduction (auto)" },
-	{ 6,	"red-eye reduction (on)" },
+	{ 5,	"auto + red-eye reduction" },
+	{ 6,	"on + red-eye reduction" },
 	{ 16,	"external flash" },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList CanonSet1DriveMode[] = {
-	{ 0,	"single" },
+	{ 0,	"single or timer" },
 	{ 1,	"continuous" },
 	EXIF_TEXT_LIST_END
 };
@@ -548,7 +548,7 @@ static ExifTextList CanonSet1ShootingMode[] = {
 	{ 8,	"portrait" },
 	{ 9,	"sports" },
 	{ 10,	"macro" },
-	{ 11,	"panoramic focus" },
+	{ 11,	"pan focus" },
 	EXIF_TEXT_LIST_END
 };
 
@@ -663,7 +663,7 @@ EXIF_MARKER_LIST_END
 
 static ExifTextList CanonSet2WhiteBalance[] = {
 	{ 0,	"auto" },
-	{ 1,	"daylight" },
+	{ 1,	"sunny" },
 	{ 2,	"cloudy" },
 	{ 3,	"tungsten" },
 	{ 4,	"fluorescent" },
@@ -834,7 +834,7 @@ static void canon_mknote_parse_convert(ExifData *exif)
 
 		n = (guint32)((guint32 *)(result->data))[0];
 		text = g_strdup_printf("%04X%05d", n & 0xffff0000 >> 8, n & 0x0000ffff);
-		l = strlen(text);
+		l = strlen(text) + 1;
 		item = exif_item_new(marker.format, marker.tag, l, &marker);
 		memcpy(item->data, text, l);
 		g_free(text);

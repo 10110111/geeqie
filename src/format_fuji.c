@@ -149,22 +149,22 @@ static ExifTextList FujiTag[]= {
 
 
 static ExifMarker FujiExifMarkersList[] = {
-{ 0x1000,	EXIF_FORMAT_STRING, 8,		"MkN.Fuji.Quality",	"Quality",	NULL },
-{ 0x1001,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Fuji.Sharpness",	"Sharpness",	FujiTagSharpness },
-{ 0x1002,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Fuji.WhiteBalance","White balance",FujiTagWhiteBalance },
-{ 0x1003,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Fuji.Color",	"Color",	FujiTagColorTone },
-{ 0x1004,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Fuji.Tone",	"Tone",		FujiTagColorTone },
-{ 0x1010,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Fuji.FlashMode",	"Flash mode",	FujiTagFlashMode },
-{ 0x1011,	EXIF_FORMAT_RATIONAL, 1,	"MkN.Fuji.FlashStrength", "Flash strength", NULL },
-{ 0x1020,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Fuji.Macro",	"Macro",	FujiTagOffOn },
-{ 0x1021,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Fuji.FocusMode",	"Focus mode",	FujiTagFocusMode },
-{ 0x1030,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Fuji.SlowSync",	"Slow synchro",	FujiTagOffOn },
-{ 0x1031,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Fuji.PictureMode",	"Picture mode",	FujiTagPictureMode },
-{ 0x1100,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Fuji.ContTake/Bracket",
+{ 0x1000,	EXIF_FORMAT_STRING, 8,		"Fuji.Quality",		"Quality",	NULL },
+{ 0x1001,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Fuji.Sharpness",	"Sharpness",	FujiTagSharpness },
+{ 0x1002,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Fuji.WhiteBalance",	"White balance",FujiTagWhiteBalance },
+{ 0x1003,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Fuji.Color",		"Color",	FujiTagColorTone },
+{ 0x1004,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Fuji.Tone",		"Tone",		FujiTagColorTone },
+{ 0x1010,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Fuji.FlashMode",	"Flash mode",	FujiTagFlashMode },
+{ 0x1011,	EXIF_FORMAT_RATIONAL, 1,	"Fuji.FlashStrength",	"Flash strength", NULL },
+{ 0x1020,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Fuji.Macro",		"Macro",	FujiTagOffOn },
+{ 0x1021,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Fuji.FocusMode",	"Focus mode",	FujiTagFocusMode },
+{ 0x1030,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Fuji.SlowSync",	"Slow synchro",	FujiTagOffOn },
+{ 0x1031,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Fuji.PictureMode",	"Picture mode",	FujiTagPictureMode },
+{ 0x1100,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Fuji.ContTake/Bracket",
 							"Continuous / Auto bracket",	FujiTagOffOn },
-{ 0x1300,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Fuji.BlurWarning",	"Blue warning",	FujiTagNoYes },
-{ 0x1301,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Fuji.FocusWarning","Focus warning",FujiTagNoYes },
-{ 0x1302,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Fuji.AEWarning",	"AE warning",	FujiTagNoYes },
+{ 0x1300,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Fuji.BlurWarning",	"Blue warning",	FujiTagNoYes },
+{ 0x1301,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Fuji.FocusWarning",	"Focus warning",FujiTagNoYes },
+{ 0x1302,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Fuji.AEWarning",	"AE warning",	FujiTagNoYes },
 EXIF_MARKER_LIST_END
 };
 

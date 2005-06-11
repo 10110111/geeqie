@@ -231,6 +231,8 @@ gint exif_tiff_directory_offset(unsigned char *data, const guint len,
 				guint *offset, ExifByteOrder *bo);
 gint exif_tiff_parse(ExifData *exif, unsigned char *tiff, guint size, ExifMarker *list);
 
+gchar *exif_text_list_find_value(ExifTextList *list, guint value);
+
 
 #endif
 

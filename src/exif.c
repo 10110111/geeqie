@@ -562,7 +562,7 @@ static GString *string_append_raw_bytes(GString *string, gpointer data, gint ne)
 	return string;
 }
 
-static gchar *text_list_find_value(ExifTextList *list, guint value)
+gchar *exif_text_list_find_value(ExifTextList *list, guint value)
 {
 	gchar *result = NULL;
 	gint i;
@@ -865,10 +865,10 @@ gint exif_parse_IFD_table(ExifData *exif,
 	if (size < offset + 2) return -1;
 
 	count = exif_byte_get_int16(tiff + offset, bo);
+	offset += 2;
 
 	/* Entries and next IFD offset must be readable */
 	if (size < offset + count * EXIF_TIFD_SIZE + 4) return -1;
-	offset += 2;
 
 	for (i = 0; i < count; i++)
 		{
@@ -1181,7 +1181,7 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 					val = (unsigned char)(((signed char *)data)[0]);
 					}
 
-				result = text_list_find_value(marker->list, (guint)val);
+				result = exif_text_list_find_value(marker->list, (guint)val);
 				string = g_string_append(string, result);
 				g_free(result);
 				}
@@ -1198,7 +1198,7 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 				{
 				gchar *result;
 
-				result = text_list_find_value(marker->list, ((unsigned short *)data)[0]);
+				result = exif_text_list_find_value(marker->list, ((unsigned short *)data)[0]);
 				string = g_string_append(string, result);
 				g_free(result);
 				}
@@ -1493,7 +1493,7 @@ static gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *
 		if (!exif_get_integer(exif, "Flash", &n)) return NULL;
 
 		/* Exif 2.1 only defines first 3 bits */
-		if (n <= 0x07) return g_strdup(text_list_find_value(ExifFlashList, n));
+		if (n <= 0x07) return g_strdup(exif_text_list_find_value(ExifFlashList, n));
 
 		/* must be Exif 2.2 */
 		string = g_string_new("");
