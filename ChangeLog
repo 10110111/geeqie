@@ -1,3 +1,10 @@
+Sun Jun 12 19:25:26 2005  John Ellis  <johne@verizon.net>
+
+	* format_canon.[ch]: Reimplement canon raw parser to use convenience
+	functions from exif.c, also separated parsers into one per file type.
+	For the cr2 format also verify compression type in tiff field 0x0103.
+	* format_raw.c: Add FIXME comment noting current shortcomings.
+
 Sat Jun 11 01:06:49 2005  John Ellis  <johne@verizon.net>
 
 	* exif.c, format_nikon.c, format_olympus.c: Fix memory leaks,

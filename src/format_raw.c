@@ -304,6 +304,10 @@ gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 		if (debug) printf("RAW file parser extension match\n");
 		}
 
+	/* FIXME:
+	 * when the target is a tiff file it should be mmaped prior to format_raw_find as
+	 * the make field data may not always be within header_data + header_len
+	 */ 
 	entry = format_raw_find(header_data, header_len);
 
 	if (!entry || !entry->func_parse) return FALSE;

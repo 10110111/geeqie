@@ -29,9 +29,9 @@ Major:
   d> make a generic tiff header and directory parser from the nikon parser for use by all raw
      parsers that involve tiff.
 
-   > clean up canon parser (there are now many convenience utils to simplify tiff header, etc.):
-      > canon_read_int can be substituted with, or wrap exif_get_int16/32.
-      > CR2 tiff code can now use exif_tiff_directory_offset.
+  d> clean up canon parser (there are now many convenience utils to simplify tiff header, etc.):
+     d> canon_read_int can be substituted with, or wrap exif_get_int16/32.
+     d> CR2 tiff code can now use exif_tiff_directory_offset.
 
   d> support olympus MakerNote, investigate RAW (raw embedded jpeg appears to be tiny).
    > support konica / minolta MakerNote, investigate RAW.

@@ -22,16 +22,18 @@
 #include "exif.h"
 
 
-gint format_canon_raw(unsigned char *data, const guint len,
-		      guint *image_offset, guint *exif_offset);
+gint format_canon_raw_crw(unsigned char *data, const guint len,
+			  guint *image_offset, guint *exif_offset);
 
+gint format_canon_raw_cr2(unsigned char *data, const guint len,
+			  guint *image_offset, guint *exif_offset);
 
 #define FORMAT_RAW_CANON { "crw", \
 			   FORMAT_RAW_MATCH_MAGIC,     6, "HEAPCCDR", 8, \
-			   "Canon crw", format_canon_raw }, \
+			   "Canon crw", format_canon_raw_crw }, \
 			 { "cr2", \
 			   FORMAT_RAW_MATCH_TIFF_MAKE, 0, "Canon", 5, \
-			   "Canon cr2", format_canon_raw }
+			   "Canon cr2", format_canon_raw_cr2 }
 
 
 gint format_canon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
