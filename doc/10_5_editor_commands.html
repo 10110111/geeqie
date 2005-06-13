@@ -5,7 +5,7 @@
 	<TITLE>Editor Options - GQview User Manual</TITLE>
 	<META NAME="GENERATOR" CONTENT="OpenOffice.org 1.1.3  (Linux)">
 	<META NAME="CREATED" CONTENT="20040805;23590500">
-	<META NAME="CHANGED" CONTENT="20050131;8430800">
+	<META NAME="CHANGED" CONTENT="20050613;17101000">
 </HEAD>
 <BODY LANG="en-US" DIR="LTR">
 <CENTER>
@@ -86,8 +86,9 @@ filenames onto the end of the command (the result will be the same as
 					<P ALIGN=CENTER>%v</P>
 				</TD>
 				<TD WIDTH=80%>
-					<P>Display the result of the command in an output window, must
-					occur as the first two characters.</P>
+					<P>Display the result of the command in an output window. Must
+					occur as the first two characters, or immediately after the &ldquo;%w&rdquo;
+					macro.</P>
 				</TD>
 			</TR>
 			<TR VALIGN=TOP>
@@ -98,6 +99,15 @@ filenames onto the end of the command (the result will be the same as
 					<P>Like %v above, but when used with %p, only displays output
 					window when multiple files are selected; The output of a single
 					file is suppressed.</P>
+				</TD>
+			</TR>
+			<TR VALIGN=TOP>
+				<TD WIDTH=20%>
+					<P ALIGN=CENTER>%w</P>
+				</TD>
+				<TD WIDTH=80%>
+					<P>Prevent full screen from deactivating when command is
+					executed. Must occur as the first two characters.</P>
 				</TD>
 			</TR>
 		</TABLE>

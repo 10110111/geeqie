@@ -217,7 +217,7 @@ static gint image_loader_begin(ImageLoader *il)
 
 	b = read(il->load_fd, &buf, sizeof(buf));
 
-	if (b > 1 &&
+	if (b > 0 &&
 	    format_raw_img_exif_offsets_fd(il->load_fd, il->path, buf, b, &offset, NULL))
 		{
 		if (debug) printf("Raw file %s contains embedded image\n", il->path);
@@ -231,65 +231,46 @@ static gint image_loader_begin(ImageLoader *il)
 		return FALSE;
 		}
 
-	if (gdk_pixbuf_loader_write(il->loader, buf, b, NULL))
-		{
-		il->bytes_read += b + offset;
-
-		if (b < sizeof(buf))
-			{
-			/* end of file already */
-
-			image_loader_stop(il);
-
-			if (!il->pixbuf) return FALSE;
-
-			image_loader_done_delay(il);
-			return TRUE;
-			}
-		else
-			{
-			/* larger file */
-
-			/* read until size is known */
-			while(il->loader && !gdk_pixbuf_loader_get_pixbuf(il->loader) && b > 0)
-				{
-				b = read(il->load_fd, &buf, sizeof(buf));
-				if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, buf, b, NULL)))
-					{
-					image_loader_stop(il);
-					return FALSE;
-					}
-				il->bytes_read += b;
-				}
-			if (!il->pixbuf) image_loader_sync_pixbuf(il);
-
-			if (il->bytes_read == il->bytes_total || b < sizeof(buf))
-				{
-				/* done, handle (broken) loaders that do not have pixbuf till close */
-				image_loader_stop(il);
-
-				if (!il->pixbuf) return FALSE;
-
-				image_loader_done_delay(il);
-				return TRUE;
-				}
-
-			if (!il->pixbuf)
-				{
-				image_loader_stop(il);
-				return FALSE;
-				}
-
-			/* finally, progressive loading :) */
-			il->idle_id = g_idle_add_full(il->idle_priority, image_loader_idle_cb, il, NULL);
-			return TRUE;
-			}
-		}
-	else
+	if (!gdk_pixbuf_loader_write(il->loader, buf, b, NULL))
 		{
 		image_loader_stop(il);
 		return FALSE;
 		}
+
+	il->bytes_read += b + offset;
+
+	/* read until size is known */
+	while (il->loader && !gdk_pixbuf_loader_get_pixbuf(il->loader) && b > 0)
+		{
+		b = read(il->load_fd, &buf, sizeof(buf));
+		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, buf, b, NULL)))
+			{
+			image_loader_stop(il);
+			return FALSE;
+			}
+		il->bytes_read += b;
+		}
+	if (!il->pixbuf) image_loader_sync_pixbuf(il);
+
+	if (il->bytes_read == il->bytes_total || b < 1)
+		{
+		/* done, handle (broken) loaders that do not have pixbuf till close */
+		image_loader_stop(il);
+
+		if (!il->pixbuf) return FALSE;
+
+		image_loader_done_delay(il);
+		return TRUE;
+		}
+
+	if (!il->pixbuf)
+		{
+		image_loader_stop(il);
+		return FALSE;
+		}
+
+	/* finally, progressive loading :) */
+	il->idle_id = g_idle_add_full(il->idle_priority, image_loader_idle_cb, il, NULL);
 
 	return TRUE;
 }

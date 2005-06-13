@@ -282,7 +282,10 @@ static gint layout_image_full_screen_key_press_cb(GtkWidget *widget, GdkEventKey
 			}
 		if (n != -1)
 			{
-			layout_image_full_screen_stop(lw);
+			if (!editor_window_flag_set(n))
+				{
+				layout_image_full_screen_stop(lw);
+				}
 			start_editor_from_file(n, layout_image_get_path(lw));
 			}
 		}
@@ -568,8 +571,10 @@ static void li_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
 	lw = submenu_item_get_data(widget);
 	n = GPOINTER_TO_INT(data);
 
-	layout_image_full_screen_stop(lw);
-
+	if (!editor_window_flag_set(n))
+		{
+		layout_image_full_screen_stop(lw);
+		}
 	start_editor_from_file(n, layout_image_get_path(lw));
 }
 

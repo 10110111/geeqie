@@ -1,21 +1,21 @@
-# translation of gqview-1.5.9_it.po to Italiano
+# translation of gqview-2.1.0_it.po to Italiano
 # This file is distributed under the same license as the PACKAGE package.
-# Costantino <inverness1ATvirgilio.it>, 2005.
 # Un ringraziamento per i preziosi suggerimenti a Marco Colombo <m.colomboATed.ac.uk>
+# Kostantino <inverness1ATvirgilio.it>, 2005.
 # Copyright (C) Christopher R. Gabriel <cgabriel@pluto.linux.it>, 2000 - 2001.
-# Costantino <inverness1ATvirgilio.it>, 2005.
+# Kostantino <inverness1ATvirgilio.it>, 2005.
 msgid ""
 msgstr ""
-"Project-Id-Version: gqview-1.5.9_it\n"
+"Project-Id-Version: gqview-2.1.0_it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-03-05 16:24-0500\n"
-"PO-Revision-Date: 2005-02-26 16:44+0100\n"
-"Last-Translator: Costantino <inverness1ATvirgilio.it>\n"
-"Language-Team: Italiano <it@li.org>\n"
+"PO-Revision-Date: 2005-03-11 17:26+0100\n"
+"Last-Translator: Kostantino <inverness1ATvirgilio.it>\n"
+"Language-Team: Italiano <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.3.1\n"
+"X-Generator: KBabel 1.9.1\n"
 
 #: src/bar_info.c:30
 msgid "Favorite"
@@ -1234,9 +1234,8 @@ msgid "_Search..."
 msgstr "C_erca..."
 
 #: src/layout_util.c:768
-#, fuzzy
 msgid "Pan _view"
-msgstr "Vista avanzata"
+msgstr "_Vista panoramica"
 
 #: src/layout_util.c:769
 msgid "_Print..."
@@ -1615,19 +1614,17 @@ msgid "Rotate _180"
 msgstr "Ruota di _180 gradi"
 
 #: src/pan-view.c:3109
-#, fuzzy, c-format
+#, c-format
 msgid "%d images, %s"
-msgstr "%d immagini"
+msgstr "%d immagini, %s"
 
 #: src/pan-view.c:3180 src/pan-view.c:3233
-#, fuzzy
 msgid "Sorting images..."
-msgstr "Sto ordinando..."
+msgstr "Sto ordinando le immagini..."
 
 #: src/pan-view.c:3552 src/pan-view.c:3879
-#, fuzzy
 msgid "Date:"
-msgstr "Data"
+msgstr "Data:"
 
 #: src/pan-view.c:3562 src/preferences.c:849 src/print.c:3201 src/print.c:3408
 msgid "Size:"
@@ -1635,21 +1632,19 @@ msgstr "Dimensione:"
 
 #: src/pan-view.c:3617
 msgid "path found"
-msgstr ""
+msgstr "il percorso è stato trovato"
 
 #: src/pan-view.c:3617
-#, fuzzy
 msgid "filename found"
-msgstr "Il file non è stato trovato"
+msgstr "Il file è stato trovato"
 
 #: src/pan-view.c:3665
-#, fuzzy
 msgid "partial match"
-msgstr "parziale"
+msgstr "corrispondenza parziale"
 
 #: src/pan-view.c:3876 src/pan-view.c:3909
 msgid "no match"
-msgstr ""
+msgstr "nessuna corrispondenza"
 
 #: src/pan-view.c:4179 src/search.c:2140
 msgid "Folder not found"
@@ -1657,88 +1652,79 @@ msgstr "La cartella non è stata trovata"
 
 #: src/pan-view.c:4180
 msgid "The entered path is not a folder"
-msgstr ""
+msgstr "Il percorso immesso non corrisponde ad una cartella"
 
 #: src/pan-view.c:4285
-#, fuzzy
 msgid "Timeline"
-msgstr "Bilineare"
+msgstr "Linea tempo"
 
 #: src/pan-view.c:4286
-#, fuzzy
 msgid "Calendar"
-msgstr "Pu_lisci"
+msgstr "Calendario"
 
 #: src/pan-view.c:4288
-#, fuzzy
 msgid "Folders (flower)"
-msgstr "Cartelle"
+msgstr "Cartelle (fiore)"
 
 #: src/pan-view.c:4289
 msgid "Grid"
-msgstr ""
+msgstr "Griglia"
 
 #: src/pan-view.c:4298
-#, fuzzy
 msgid "Dots"
-msgstr "punti"
+msgstr "Punti"
 
 #: src/pan-view.c:4299
-#, fuzzy
 msgid "No Images"
-msgstr "Immagine"
+msgstr "Nessuna immagine"
 
 #: src/pan-view.c:4300
-#, fuzzy
 msgid "Small Thumbnails"
-msgstr "Miniature"
+msgstr "Miniature Piccole"
 
 #: src/pan-view.c:4301
-#, fuzzy
 msgid "Normal Thumbnails"
-msgstr "Miniature"
+msgstr "Miniature Normali"
 
 #: src/pan-view.c:4302
-#, fuzzy
 msgid "Large Thumbnails"
-msgstr "Miniature"
+msgstr "Miniature Grandi"
 
 #: src/pan-view.c:4303
 msgid "1:10 (10%)"
-msgstr ""
+msgstr "1:10 (10%)"
 
 #: src/pan-view.c:4304
 msgid "1:4 (25%)"
-msgstr ""
+msgstr "1:4 (25%)"
 
 #: src/pan-view.c:4305
 msgid "1:3 (33%)"
-msgstr ""
+msgstr "1:3 (33%)"
 
 #: src/pan-view.c:4306
 msgid "1:2 (50%)"
-msgstr ""
+msgstr "1:2 (50%)"
 
 #: src/pan-view.c:4307
 msgid "1:1 (100%)"
-msgstr ""
+msgstr "1:1 (100%)"
 
 #: src/pan-view.c:4358
-#, fuzzy
 msgid "Find:"
-msgstr "File:"
+msgstr "Trova:"
 
 #: src/pan-view.c:4409
 msgid "Find"
-msgstr ""
+msgstr "Trova"
 
 #: src/pan-view.c:4470
 msgid "Pan View Performance"
-msgstr ""
+msgstr "Esecuzione Vista Panoramica"
 
 #: src/pan-view.c:4477
 msgid "Pan view performance may be poor."
-msgstr ""
+msgstr "L'esecuzione in vista panoramica può essere scadente."
 
 #: src/pan-view.c:4478
 msgid ""
@@ -1746,6 +1732,9 @@ msgid ""
 "can be enabled. Note that both options must be enabled to notice a change in "
 "performance."
 msgstr ""
+"Le opzioni seguenti possono essere abilitate per migliorare l'esecuzione delle miniature in modalità vista panoramica. "
+"Nota che, per rilevare una modifica nella resa, entrambe le opzioni "
+"devono essere abilitate."
 
 #: src/pan-view.c:4486 src/preferences.c:852
 msgid "Cache thumbnails"
@@ -1757,7 +1746,7 @@ msgstr "Usa la cache condivisa delle miniature"
 
 #: src/pan-view.c:4494
 msgid "Do not show this dialog again"
-msgstr ""
+msgstr "Non mostrare ancora questo"
 
 #: src/preferences.c:390
 msgid "Nearest (worst, but fastest)"
@@ -1853,7 +1842,7 @@ msgstr "Utilizza le miniature di Xvpic se esistono (sola lettura)"
 
 #: src/preferences.c:872
 msgid "Faster jpeg thumbnailing (may reduce quality)"
-msgstr ""
+msgstr "Miniaturizzazione JPEG veloce (potrebbe ridurre la qualità)"
 
 #: src/preferences.c:875
 msgid "Slide show"
@@ -2549,8 +2538,7 @@ msgstr "Rango"
 
 #: src/thumb.c:379
 msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
-msgstr ""
-"Non sono riuscito a caricare le miniature dalla cache: provo a ricrearle.\n"
+msgstr "Non sono riuscito a caricare le miniature dalla cache: provo a ricrearle.\n"
 
 #: src/ui_bookmark.c:148
 #, c-format
@@ -3154,3 +3142,4 @@ msgid ""
 msgstr ""
 "Il nome del file non è valido:\n"
 "%s"
+

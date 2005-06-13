@@ -351,9 +351,14 @@ homepage: http://gqview.sourceforge.net
  Use of the following to display output window for the command:
 
     %v  Display result of command in output window, must occur as first two
-        characters in the command.
+        characters in the command, or immediately after the "%w" macro.
     %V  Like v above, but when used with %p, only displays output window for
         multiple files. The output of a single file is suppressed.
+
+ Additional macros:
+
+    %w  Prevent full screen from deactivating when command is executed,
+        must occur as the first two characters.
 
 ======== Additional comments:
 

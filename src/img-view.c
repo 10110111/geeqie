@@ -528,7 +528,11 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 			}
 		if (n != -1)
 			{
-			view_fullscreen_toggle(vw, TRUE);
+			if (!editor_window_flag_set(n))
+				{
+				view_fullscreen_toggle(vw, TRUE);
+				}
+			imd = view_window_active_image(vw);
 			start_editor_from_file(n, image_get_path(imd));
 			}
 		}
@@ -1023,14 +1027,20 @@ static void view_new_window_cb(GtkWidget *widget, gpointer data)
 static void view_edit_cb(GtkWidget *widget, gpointer data)
 {
 	ViewWindow *vw;
+	ImageWindow *imd;
 	gint n;
 
 	vw = submenu_item_get_data(widget);
 	n = GPOINTER_TO_INT(data);
 	if (!vw) return;
 
-	view_fullscreen_toggle(vw, TRUE);
-	start_editor_from_file(n, image_get_path(vw->imd));
+	if (!editor_window_flag_set(n))
+		{
+		view_fullscreen_toggle(vw, TRUE);
+		}
+
+	imd = view_window_active_image(vw);
+	start_editor_from_file(n, image_get_path(imd));
 }
 
 static void view_alter_cb(GtkWidget *widget, gpointer data)

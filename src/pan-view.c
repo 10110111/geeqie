@@ -3523,7 +3523,10 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 			}
 		if (n != -1 && path)
 			{
-			pan_fullscreen_toggle(pw, TRUE);
+			if (!editor_window_flag_set(n))
+				{
+				pan_fullscreen_toggle(pw, TRUE);
+				}
 			start_editor_from_file(n, path);
 			stop_signal = TRUE;
 			}
@@ -4656,7 +4659,10 @@ static void pan_edit_cb(GtkWidget *widget, gpointer data)
 	path = pan_menu_click_path(pw);
 	if (path)
 		{
-		pan_fullscreen_toggle(pw, TRUE);
+		if (!editor_window_flag_set(n))
+			{
+			pan_fullscreen_toggle(pw, TRUE);
+			}
 		start_editor_from_file(n, path);
 		}
 }

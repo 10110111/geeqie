@@ -18,6 +18,8 @@ void editor_reset_defaults(void);
 void start_editor_from_file(gint n, const gchar *path);
 void start_editor_from_path_list(gint n, GList *list);
 
+gint editor_window_flag_set(gint n);
+
 
 #endif
 

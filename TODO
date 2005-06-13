@@ -91,7 +91,7 @@ d> fix window size hints not to use USER_SIZE as we do not use gtk_window_resize
 
  -------------
 
- > update translations: it( ) ( ) ( )
+d> update translations: it(x) ( ) ( )
 
  > document recent additions/changes:
    > Added 'Fast jpeg thumbnailing'.

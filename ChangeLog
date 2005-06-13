@@ -1,3 +1,16 @@
+Mon Jun 13 17:31:46 2005  John Ellis  <johne@verizon.net>
+
+	* editors.[ch]: Add "%w" macro to disable full screen deactivation when
+	running an editor command.
+	* img-view.c, layout_image.c, pan-view.c: Honor %w editor flag to
+	prevent exit of full screen.
+	* image-load.c (image_load_begin): Fix to not treat short reads as
+	end of file condition.
+	* README, doc/10_5_editor_commands.html: Document %w macro for editor
+	commands.
+	* po/it.po: Update Italian translation,
+	submitted by Kostantino <inverness1ATvirgilio.it>.
+
 Sun Jun 12 19:25:26 2005  John Ellis  <johne@verizon.net>
 
 	* format_canon.[ch]: Reimplement canon raw parser to use convenience

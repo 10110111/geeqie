@@ -464,10 +464,16 @@ static gint editor_line_break(const gchar *template, gchar **front, const gchar 
  *
  *  Only one of the macros %f or %p may be used in a given commmand.
  *
- *   %v   must be the first two characters in a command, causes a window to display
+ *   %v   must be the first two characters[1] in a command, causes a window to display
  *        showing the output of the command(s).
  *   %V   same as %v except in the case of %p only displays a window for multiple files,
  *        operating on a single file is suppresses the output dialog.
+ *
+ *   %w   must be first two characters in a command, presence will disable full screen
+ *        from exiting upon invocation.
+ *
+ *
+ * [1] Note: %v,%V may also be preceded by "%w".
  */
 static void editor_command_run(const gchar *template, const gchar *text, GList *list)
 {
@@ -477,6 +483,9 @@ static void editor_command_run(const gchar *template, const gchar *text, GList *
 	if (!template || template[0] == '\0') return;
 
 	for_each = (strstr(template, "%p") != NULL);
+
+	/* no window state change flag, skip */
+	if (strncmp(template, "%w", 2) == 0) template += 2;
 
 	if (strncmp(template, "%v", 2) == 0)
 		{
@@ -582,3 +591,14 @@ void start_editor_from_file(gint n, const gchar *path)
 	start_editor_from_path_list(n, list);
 	g_list_free(list);
 }
+
+gint editor_window_flag_set(gint n)
+{
+	if (n < 0 || n >= GQVIEW_EDITOR_SLOTS ||
+	    !editor_command[n] ||
+	    strlen(editor_command[n]) == 0) return TRUE;
+
+	return (strncmp(editor_command[n], "%w", 2) == 0);
+}
+
+
