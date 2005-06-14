@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-05 16:24-0500\n"
+"POT-Creation-Date: 2005-06-13 20:31-0400\n"
 "PO-Revision-Date: 2004-01-26 22:34+0700\n"
 "Last-Translator: pclouds <pclouds@vnlinux.org>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
@@ -52,15 +52,15 @@ msgstr ""
 msgid "Favorite keywords list"
 msgstr ""
 
-#: src/bar_info.c:992 src/info.c:166 src/search.c:2692
+#: src/bar_info.c:992 src/info.c:167 src/search.c:2692
 msgid "Keywords"
 msgstr ""
 
-#: src/bar_info.c:1006 src/info.c:716 src/pan-view.c:3542 src/print.c:2599
+#: src/bar_info.c:1006 src/info.c:722 src/pan-view.c:3630 src/print.c:2599
 msgid "Filename:"
 msgstr "Tên tập tin:"
 
-#: src/bar_info.c:1007 src/info.c:360
+#: src/bar_info.c:1007 src/info.c:366
 msgid "File date:"
 msgstr "Ngày:"
 
@@ -90,36 +90,36 @@ msgstr ""
 msgid "Save comment now"
 msgstr "Lưu tập ảnh"
 
-#: src/bar_exif.c:423
+#: src/bar_exif.c:435
 msgid "Tag"
 msgstr "Thẻ"
 
-#: src/bar_exif.c:424 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
+#: src/bar_exif.c:436 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
 #: src/search.c:2753 src/view_file_list.c:1555
 msgid "Name"
 msgstr "Tên"
 
-#: src/bar_exif.c:425
+#: src/bar_exif.c:437
 msgid "Value"
 msgstr "Giá trị"
 
-#: src/bar_exif.c:426
+#: src/bar_exif.c:438
 msgid "Format"
 msgstr "Dạng thức"
 
-#: src/bar_exif.c:427
+#: src/bar_exif.c:439
 msgid "Elements"
 msgstr "Phần tử"
 
-#: src/bar_exif.c:428 src/preferences.c:1039
+#: src/bar_exif.c:440 src/preferences.c:1042
 msgid "Description"
 msgstr "Mô tả"
 
-#: src/bar_exif.c:549 src/info.c:105
+#: src/bar_exif.c:561 src/info.c:106
 msgid "Exif"
 msgstr "Exif"
 
-#: src/bar_exif.c:622
+#: src/bar_exif.c:634
 msgid "Advanced view"
 msgstr "Xem nâng cao"
 
@@ -161,7 +161,7 @@ msgstr ""
 msgid "Save Failed"
 msgstr "Lỗi lưu"
 
-#: src/bar_sort.c:485 src/bar_sort.c:631
+#: src/bar_sort.c:485 src/bar_sort.c:611
 msgid "Add Bookmark"
 msgstr "Thêm Đánh dấu"
 
@@ -174,15 +174,15 @@ msgstr "Tập ảnh"
 msgid "Name:"
 msgstr "Tên:"
 
-#: src/bar_sort.c:569
+#: src/bar_sort.c:568
 msgid "Sort Manager"
 msgstr "Bộ quản lý Sắp xếp"
 
-#: src/bar_sort.c:578 src/pan-view.c:4287 src/ui_pathsel.c:1095
+#: src/bar_sort.c:577 src/pan-view.c:4393 src/ui_pathsel.c:1095
 msgid "Folders"
 msgstr "Tập tin"
 
-#: src/bar_sort.c:579 src/main.c:1066
+#: src/bar_sort.c:578 src/main.c:1066
 msgid "Collections"
 msgstr "Tập ảnh"
 
@@ -190,25 +190,25 @@ msgstr "Tập ảnh"
 msgid "Copy"
 msgstr "Sao chép"
 
-#: src/bar_sort.c:593
+#: src/bar_sort.c:589
 msgid "Move"
 msgstr "Di chuyển"
 
-#: src/bar_sort.c:600
+#: src/bar_sort.c:592
 msgid "Link"
 msgstr ""
 
-#: src/bar_sort.c:610
+#: src/bar_sort.c:598
 #, fuzzy
 msgid "Add image"
 msgstr "%d ảnh"
 
-#: src/bar_sort.c:617
+#: src/bar_sort.c:601
 #, fuzzy
 msgid "Add selection"
 msgstr "Bỏ chọn"
 
-#: src/bar_sort.c:634
+#: src/bar_sort.c:614
 msgid "Undo last image"
 msgstr "Phục hồi ảnh cuối"
 
@@ -236,7 +236,7 @@ msgstr "Đang xóa ảnh mẫu cũ..."
 msgid "Maintenance"
 msgstr ""
 
-#: src/cache_maint.c:792 src/utilops.c:904
+#: src/cache_maint.c:792 src/utilops.c:945
 #, fuzzy
 msgid "Invalid folder"
 msgstr "Tên tập tin không hợp lệ"
@@ -255,7 +255,7 @@ msgstr "Lưu lại ảnh mẫu"
 msgid "S_tart"
 msgstr "Số bắt đầu"
 
-#: src/cache_maint.c:842 src/preferences.c:1176
+#: src/cache_maint.c:842 src/preferences.c:1179
 msgid "Folder:"
 msgstr "Thư mục:"
 
@@ -277,7 +277,7 @@ msgstr ""
 msgid "click start to begin"
 msgstr ""
 
-#: src/cache_maint.c:997 src/editors.c:549
+#: src/cache_maint.c:997 src/editors.c:558
 msgid "running..."
 msgstr "đang chạy..."
 
@@ -313,7 +313,7 @@ msgid "GQview thumbnail cache"
 msgstr "GQview toàn màn hình"
 
 #: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
-#: src/pan-view.c:4276 src/preferences.c:1153 src/utilops.c:1505
+#: src/pan-view.c:4382 src/preferences.c:1156 src/utilops.c:1564
 #, fuzzy
 msgid "Location:"
 msgstr "hành động"
@@ -354,8 +354,8 @@ msgstr ""
 msgid "Remove orphaned keywords and comments."
 msgstr ""
 
-#: src/collect.c:349 src/image.c:1674 src/image-overlay.c:74
-#: src/image-overlay.c:115
+#: src/collect.c:349 src/image.c:134 src/image-overlay.c:75
+#: src/image-overlay.c:116
 msgid "Untitled"
 msgstr "Không tựa"
 
@@ -409,8 +409,8 @@ msgstr "Ghi đè tập tin"
 msgid "Overwrite existing file?"
 msgstr "Ghi đè tập tin"
 
-#: src/collect-dlg.c:75 src/utilops.c:479 src/utilops.c:792 src/utilops.c:1649
-#: src/utilops.c:2196
+#: src/collect-dlg.c:75 src/utilops.c:507 src/utilops.c:828 src/utilops.c:1708
+#: src/utilops.c:2260
 #, fuzzy
 msgid "_Overwrite"
 msgstr "Ghi đè"
@@ -444,7 +444,7 @@ msgstr "Tập ảnh rỗng"
 msgid "The current collection is empty, save aborted."
 msgstr "Tập ảnh hiện thời rỗng, ngừng lưu."
 
-#: src/collect-table.c:164 src/layout_util.c:716
+#: src/collect-table.c:164 src/layout_util.c:702
 msgid "Empty"
 msgstr "Rỗng"
 
@@ -465,12 +465,12 @@ msgid "Loading thumbs..."
 msgstr "Đang nạp ảnh mẫu..."
 
 #: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
-#: src/layout_util.c:759 src/search.c:969
+#: src/layout_util.c:745 src/search.c:969
 msgid "_View"
 msgstr "_Xem"
 
-#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1187
-#: src/layout_image.c:722 src/pan-view.c:4657 src/search.c:971
+#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1196
+#: src/layout_image.c:727 src/pan-view.c:4782 src/search.c:971
 #: src/view_file_icon.c:283 src/view_file_list.c:395
 msgid "View in _new window"
 msgstr "Xem trong cửa sổ mớ_i"
@@ -495,33 +495,33 @@ msgstr "Chọn tất cả"
 msgid "Select none"
 msgstr "Bỏ chọn"
 
-#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1185
-#: src/layout_image.c:719 src/layout_util.c:793 src/pan-view.c:4654
+#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1194
+#: src/layout_image.c:724 src/layout_util.c:779 src/pan-view.c:4779
 #: src/search.c:981 src/view_file_icon.c:280 src/view_file_list.c:393
 msgid "_Properties"
 msgstr "_Thuộc tính"
 
-#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1190
-#: src/layout_image.c:727 src/layout_util.c:771 src/pan-view.c:4661
+#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1199
+#: src/layout_image.c:732 src/layout_util.c:757 src/pan-view.c:4786
 #: src/search.c:988 src/view_file_icon.c:287 src/view_file_list.c:399
 msgid "_Copy..."
 msgstr "_Sao chép..."
 
-#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1191
-#: src/layout_image.c:729 src/layout_util.c:772 src/pan-view.c:4663
+#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1200
+#: src/layout_image.c:734 src/layout_util.c:758 src/pan-view.c:4788
 #: src/search.c:990 src/view_file_icon.c:289 src/view_file_list.c:401
 msgid "_Move..."
 msgstr "_Di chuyển..."
 
-#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1192
-#: src/layout_image.c:731 src/layout_util.c:773 src/pan-view.c:4665
-#: src/search.c:992 src/view_dir_list.c:415 src/view_dir_tree.c:505
+#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1201
+#: src/layout_image.c:736 src/layout_util.c:759 src/pan-view.c:4790
+#: src/search.c:992 src/view_dir_list.c:407 src/view_dir_tree.c:497
 #: src/view_file_icon.c:291 src/view_file_list.c:403
 msgid "_Rename..."
 msgstr "Đổi _tên..."
 
-#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1193
-#: src/layout_image.c:733 src/layout_util.c:774 src/pan-view.c:4667
+#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1202
+#: src/layout_image.c:738 src/layout_util.c:760 src/pan-view.c:4792
 #: src/search.c:994 src/view_file_icon.c:293 src/view_file_list.c:405
 msgid "_Delete..."
 msgstr "_Xóa..."
@@ -538,7 +538,7 @@ msgstr "Lư_u tập ảnh"
 msgid "Save collection _as..."
 msgstr "Lưu tập ảnh _là..."
 
-#: src/collect-table.c:818 src/layout_util.c:767
+#: src/collect-table.c:818 src/layout_util.c:753
 msgid "_Find duplicates..."
 msgstr "_Tìm trùng lặp..."
 
@@ -547,26 +547,26 @@ msgstr "_Tìm trùng lặp..."
 msgid "Print..."
 msgstr "/Tập tin/Đổi tê_n..."
 
-#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1347
+#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1356
 #, fuzzy
 msgid "Dropped list includes folders."
 msgstr "Danh sách đã thả xuống có cả thư mục."
 
-#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1349
+#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1358
 msgid "_Add contents"
 msgstr "_Thêm nội dung"
 
-#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1350
+#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1359
 msgid "Add contents _recursive"
 msgstr "Thêm nội dung đệ _quy"
 
-#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1351
+#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1360
 #, fuzzy
 msgid "_Skip folders"
 msgstr "_Bỏ qua thư mục"
 
-#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1353
-#: src/view_dir_list.c:222 src/view_dir_tree.c:314
+#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1362
+#: src/view_dir_list.c:214 src/view_dir_tree.c:306
 msgid "Cancel"
 msgstr "Hủy bỏ"
 
@@ -592,7 +592,7 @@ msgstr "[tập 1]"
 msgid "Reading checksums..."
 msgstr "Đang đọc checksum..."
 
-#: src/dupe.c:1455 src/pan-view.c:3170 src/pan-view.c:3186
+#: src/dupe.c:1455
 msgid "Reading dimensions..."
 msgstr "Đang đọc kích thước..."
 
@@ -604,7 +604,7 @@ msgstr "Đang đọc dữ liệu tương tự..."
 msgid "Comparing..."
 msgstr "Đang so sánh..."
 
-#: src/dupe.c:1535
+#: src/dupe.c:1535 src/pan-view.c:3238
 msgid "Sorting..."
 msgstr "Đang sắp..."
 
@@ -633,12 +633,12 @@ msgstr "Đón_g cửa sổ"
 msgid "%d files (set 2)"
 msgstr "%d tập tin (tập 2)"
 
-#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:958 src/print.c:3194
+#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:961 src/print.c:3194
 #: src/search.c:2754 src/view_file_list.c:1556
 msgid "Size"
 msgstr "Kích thước"
 
-#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:297 src/exif.c:419
+#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:296 src/exif.c:417
 #: src/print.c:3192 src/search.c:2755 src/view_file_list.c:1557
 msgid "Date"
 msgstr "Ngày"
@@ -683,7 +683,7 @@ msgstr "So sánh với:"
 msgid "Compare by:"
 msgstr "So sánh theo:"
 
-#: src/dupe.c:3173 src/preferences.c:846 src/search.c:2770
+#: src/dupe.c:3173 src/preferences.c:849 src/search.c:2770
 msgid "Thumbnails"
 msgstr "Ảnh mẫu"
 
@@ -737,279 +737,279 @@ msgstr ""
 msgid "stopped by user"
 msgstr "dừng bởi người dùng"
 
-#: src/exif.c:112 src/exif.c:125 src/exif.c:139 src/exif.c:164 src/exif.c:606
-#: src/exif.c:1452 src/exif.c:1455 src/exif.c:1520
+#: src/exif.c:111 src/exif.c:124 src/exif.c:138 src/exif.c:163 src/exif.c:576
+#: src/exif.c:1479 src/exif.c:1482 src/exif.c:1547
 msgid "unknown"
 msgstr "không biết"
 
-#: src/exif.c:113
+#: src/exif.c:112
 msgid "top left"
 msgstr "đỉnh trái"
 
-#: src/exif.c:114
+#: src/exif.c:113
 msgid "top right"
 msgstr "đỉnh phải"
 
-#: src/exif.c:115
+#: src/exif.c:114
 msgid "bottom right"
 msgstr "đáy phải"
 
-#: src/exif.c:116
+#: src/exif.c:115
 msgid "bottom left"
 msgstr "đáy trái"
 
-#: src/exif.c:117
+#: src/exif.c:116
 msgid "left top"
 msgstr "trái đỉnh"
 
-#: src/exif.c:118
+#: src/exif.c:117
 msgid "right top"
 msgstr "phải đỉnh"
 
-#: src/exif.c:119
+#: src/exif.c:118
 msgid "right bottom"
 msgstr "phải đáy"
 
-#: src/exif.c:120
+#: src/exif.c:119
 msgid "left bottom"
 msgstr "trái đáy"
 
-#: src/exif.c:127
+#: src/exif.c:126
 msgid "inch"
 msgstr "inch"
 
-#: src/exif.c:128
+#: src/exif.c:127
 msgid "centimeter"
 msgstr "centimét"
 
-#: src/exif.c:140
+#: src/exif.c:139
 msgid "average"
 msgstr "trung bình"
 
-#: src/exif.c:141
+#: src/exif.c:140
 msgid "center weighted"
 msgstr "trung tâm"
 
-#: src/exif.c:142
+#: src/exif.c:141
 msgid "spot"
 msgstr "chấm"
 
-#: src/exif.c:143
+#: src/exif.c:142
 msgid "multi-spot"
 msgstr "nhiều chấm"
 
-#: src/exif.c:144
+#: src/exif.c:143
 msgid "multi-segment"
 msgstr "nhiều đoạn"
 
-#: src/exif.c:145
+#: src/exif.c:144
 msgid "partial"
 msgstr "một phần"
 
-#: src/exif.c:146 src/exif.c:184
+#: src/exif.c:145 src/exif.c:183
 msgid "other"
 msgstr "khác"
 
-#: src/exif.c:151
+#: src/exif.c:150
 msgid "not defined"
 msgstr "chưa định nghĩa"
 
-#: src/exif.c:152
+#: src/exif.c:151
 msgid "manual"
 msgstr "thủ công"
 
-#: src/exif.c:153
+#: src/exif.c:152
 msgid "normal"
 msgstr "thường"
 
-#: src/exif.c:154
+#: src/exif.c:153
 msgid "aperture"
 msgstr "lỗ ống kính"
 
-#: src/exif.c:155
+#: src/exif.c:154
 msgid "shutter"
 msgstr "cửa sập"
 
-#: src/exif.c:156
+#: src/exif.c:155
 msgid "creative"
 msgstr "sáng tạo"
 
-#: src/exif.c:157
+#: src/exif.c:156
 msgid "action"
 msgstr "hành động"
 
-#: src/exif.c:158
+#: src/exif.c:157
 msgid "portrait"
 msgstr "ảnh đứng"
 
-#: src/exif.c:159
+#: src/exif.c:158
 msgid "landscape"
 msgstr "ảnh ngang"
 
-#: src/exif.c:165
+#: src/exif.c:164
 msgid "daylight"
 msgstr "ánh sáng ngày"
 
-#: src/exif.c:166
+#: src/exif.c:165
 msgid "fluorescent"
 msgstr "huỳnh quang"
 
-#: src/exif.c:167
+#: src/exif.c:166
 msgid "tungsten (incandescent)"
 msgstr "tungsten (nóng sáng)"
 
-#: src/exif.c:168
+#: src/exif.c:167
 msgid "flash"
 msgstr "flash"
 
-#: src/exif.c:189 src/exif.c:1475 src/info.c:226
+#: src/exif.c:188 src/exif.c:1502 src/info.c:232
 msgid "no"
 msgstr "không"
 
 #. flash fired (bit 0)
-#: src/exif.c:190 src/exif.c:1475 src/info.c:226
+#: src/exif.c:189 src/exif.c:1502 src/info.c:232
 msgid "yes"
 msgstr "có"
 
-#: src/exif.c:191
+#: src/exif.c:190
 msgid "yes, not detected by strobe"
 msgstr ""
 
-#: src/exif.c:192
+#: src/exif.c:191
 msgid "yes, detected by strobe"
 msgstr ""
 
-#: src/exif.c:289
+#: src/exif.c:288
 msgid "Image description"
 msgstr "Mô tả Ảnh"
 
-#: src/exif.c:292
+#: src/exif.c:291
 msgid "Orientation"
 msgstr "Hướng"
 
-#: src/exif.c:303
+#: src/exif.c:302
 msgid "Copyright"
 msgstr "Bản quyền"
 
-#: src/exif.c:308
+#: src/exif.c:307
 msgid "Exposure program"
 msgstr ""
 
-#: src/exif.c:310 src/exif.c:346 src/exif.c:423
+#: src/exif.c:309 src/exif.c:345 src/exif.c:421
 msgid "ISO sensitivity"
 msgstr "Nhạy cảm ISO"
 
-#: src/exif.c:313
+#: src/exif.c:312
 msgid "Date original"
 msgstr "Ngày gốc"
 
-#: src/exif.c:314
+#: src/exif.c:313
 msgid "Date digitized"
 msgstr "Ngày số hóa"
 
-#: src/exif.c:317 src/exif.c:420
+#: src/exif.c:316 src/exif.c:418
 msgid "Shutter speed"
 msgstr "Tốc độ cửa sập"
 
-#: src/exif.c:318 src/exif.c:421
+#: src/exif.c:317 src/exif.c:419
 msgid "Aperture"
 msgstr "Lỗ ống kính"
 
-#: src/exif.c:320 src/exif.c:422
+#: src/exif.c:319 src/exif.c:420
 msgid "Exposure bias"
 msgstr ""
 
-#: src/exif.c:322 src/exif.c:425
+#: src/exif.c:321 src/exif.c:423
 msgid "Subject distance"
 msgstr "Khoảng cách đối tượng"
 
-#: src/exif.c:323
+#: src/exif.c:322
 msgid "Metering mode"
 msgstr "Đơn vị đo"
 
-#: src/exif.c:324
+#: src/exif.c:323
 msgid "Light source"
 msgstr "Nguồn sáng"
 
-#: src/exif.c:325 src/exif.c:426
+#: src/exif.c:324 src/exif.c:424
 msgid "Flash"
 msgstr "Flash"
 
-#: src/exif.c:326 src/exif.c:424
+#: src/exif.c:325 src/exif.c:422
 msgid "Focal length"
 msgstr "Độ dài tiêu cự"
 
 #. ExifImageWidth, ExifImageHeight can also be unsigned short
-#: src/exif.c:336
+#: src/exif.c:335
 msgid "Width"
 msgstr "Rộng"
 
-#: src/exif.c:337
+#: src/exif.c:336
 msgid "Height"
 msgstr "Cao"
 
-#: src/exif.c:418
+#: src/exif.c:416
 msgid "Camera"
 msgstr "Camera"
 
-#: src/exif.c:427
+#: src/exif.c:425
 msgid "Resolution"
 msgstr "Độ phân giải"
 
-#: src/exif.c:1451
+#: src/exif.c:1478
 msgid "infinity"
 msgstr "vô cực"
 
-#: src/exif.c:1479
+#: src/exif.c:1506
 msgid "mode:"
 msgstr "kiểu:"
 
-#: src/exif.c:1483 src/utilops.c:1234
+#: src/exif.c:1510 src/utilops.c:1293
 msgid "on"
 msgstr "bật"
 
-#: src/exif.c:1486 src/utilops.c:1234
+#: src/exif.c:1513 src/utilops.c:1293
 msgid "off"
 msgstr "tắt"
 
-#: src/exif.c:1489
+#: src/exif.c:1516
 msgid "auto"
 msgstr "tự động"
 
-#: src/exif.c:1495
+#: src/exif.c:1522
 msgid "not detected by strobe"
 msgstr ""
 
-#: src/exif.c:1496
+#: src/exif.c:1523
 msgid "detected by strobe"
 msgstr ""
 
 #. we ignore flash function (bit 5)
 #. red-eye (bit 6)
-#: src/exif.c:1501
+#: src/exif.c:1528
 msgid "red-eye reduction"
 msgstr "giảm thiểu red-eye"
 
-#: src/exif.c:1520
+#: src/exif.c:1547
 msgid "dot"
 msgstr "chấm"
 
-#: src/filelist.c:513
+#: src/filelist.c:520
 #, c-format
 msgid "%d bytes"
 msgstr "%d byte"
 
-#: src/filelist.c:517
+#: src/filelist.c:524
 #, c-format
 msgid "%.1f K"
 msgstr "%.1f K"
 
-#: src/filelist.c:521
+#: src/filelist.c:528
 #, c-format
 msgid "%.1f MB"
 msgstr "%.1f MB"
 
-#: src/filelist.c:526
+#: src/filelist.c:533
 #, c-format
 msgid "%.1f GB"
 msgstr "%.1f GB"
@@ -1048,147 +1048,147 @@ msgstr ""
 msgid "Active monitor"
 msgstr ""
 
-#: src/img-view.c:1173 src/layout_image.c:706 src/layout_util.c:800
-#: src/pan-view.c:4643
+#: src/img-view.c:1182 src/layout_image.c:711 src/layout_util.c:786
+#: src/pan-view.c:4768
 msgid "Zoom _in"
 msgstr "Phóng _to"
 
-#: src/img-view.c:1174 src/layout_image.c:707 src/layout_util.c:801
-#: src/pan-view.c:4645
+#: src/img-view.c:1183 src/layout_image.c:712 src/layout_util.c:787
+#: src/pan-view.c:4770
 msgid "Zoom _out"
 msgstr "Thu _nhỏ"
 
-#: src/img-view.c:1175 src/layout_image.c:708 src/layout_util.c:802
-#: src/pan-view.c:4647
+#: src/img-view.c:1184 src/layout_image.c:713 src/layout_util.c:788
+#: src/pan-view.c:4772
 msgid "Zoom _1:1"
 msgstr "Phóng _1:1"
 
-#: src/img-view.c:1176 src/layout_image.c:709
+#: src/img-view.c:1185 src/layout_image.c:714
 msgid "Fit image to _window"
 msgstr "Phóng vừa _khít cửa sổ"
 
-#: src/img-view.c:1181 src/layout_image.c:715 src/layout_util.c:798
+#: src/img-view.c:1190 src/layout_image.c:720 src/layout_util.c:784
 msgid "Set as _wallpaper"
 msgstr "Đặt làm ảnh _nền"
 
-#: src/img-view.c:1199 src/layout_image.c:740
+#: src/img-view.c:1208 src/layout_image.c:745
 msgid "_Stop slideshow"
 msgstr "_Dừng trình diễn"
 
-#: src/img-view.c:1202 src/layout_image.c:743
+#: src/img-view.c:1211 src/layout_image.c:748
 msgid "Continue slides_how"
 msgstr "_Tiếp tục trình diễn"
 
-#: src/img-view.c:1207 src/img-view.c:1215 src/layout_image.c:748
-#: src/layout_image.c:755
+#: src/img-view.c:1216 src/img-view.c:1224 src/layout_image.c:753
+#: src/layout_image.c:760
 msgid "Pause slides_how"
 msgstr "_Tạm dừng trình diễn"
 
-#: src/img-view.c:1213 src/layout_image.c:754
+#: src/img-view.c:1222 src/layout_image.c:759
 msgid "_Start slideshow"
 msgstr "_Bắt đầu trình diễn"
 
-#: src/img-view.c:1221 src/layout_image.c:765 src/pan-view.c:4674
+#: src/img-view.c:1230 src/layout_image.c:770 src/pan-view.c:4804
 msgid "Exit _full screen"
 msgstr "_Thoát chế độ toàn màn hình"
 
-#: src/img-view.c:1225 src/layout_image.c:761 src/pan-view.c:4678
+#: src/img-view.c:1234 src/layout_image.c:766 src/pan-view.c:4808
 msgid "_Full screen"
 msgstr "_Toàn màn hình"
 
-#: src/img-view.c:1229 src/layout_util.c:775 src/pan-view.c:4682
+#: src/img-view.c:1238 src/layout_util.c:761 src/pan-view.c:4812
 msgid "C_lose window"
 msgstr "Đón_g cửa sổ"
 
-#: src/info.c:361
+#: src/info.c:367
 msgid "File size:"
 msgstr "Kích thước tập tin:"
 
-#: src/info.c:363
+#: src/info.c:369
 msgid "Dimensions:"
 msgstr "Cỡ ảnh:"
 
-#: src/info.c:364
+#: src/info.c:370
 msgid "Transparent:"
 msgstr "Trong suốt:"
 
-#: src/info.c:365 src/print.c:3371
+#: src/info.c:371 src/print.c:3371
 msgid "Image size:"
 msgstr "Kích thước ảnh:"
 
-#: src/info.c:367
+#: src/info.c:373
 msgid "Compress ratio:"
 msgstr "Tỷ lệ nén:"
 
-#: src/info.c:368
+#: src/info.c:374
 #, fuzzy
 msgid "File type:"
 msgstr "Ngày:"
 
-#: src/info.c:370
+#: src/info.c:376
 msgid "Owner:"
 msgstr "Chủ sở hữu:"
 
-#: src/info.c:371
+#: src/info.c:377
 msgid "Group:"
 msgstr "Nhóm:"
 
-#: src/info.c:374 src/preferences.c:827
+#: src/info.c:380 src/preferences.c:830
 msgid "General"
 msgstr "Chung"
 
-#: src/info.c:455
+#: src/info.c:461
 #, c-format
 msgid "Image %d of %d"
 msgstr "Ảnh %d trên %d"
 
-#: src/info.c:678
+#: src/info.c:684
 msgid "Image properties - GQview"
 msgstr "Thuộc tính ảnh - GQview"
 
-#: src/layout.c:271 src/view_file_icon.c:301 src/view_file_list.c:413
+#: src/layout.c:266 src/view_file_icon.c:301 src/view_file_list.c:413
 msgid "Ascending"
 msgstr "Xuôi"
 
-#: src/layout.c:337
+#: src/layout.c:332
 msgid " Slideshow"
 msgstr " Trình diễn"
 
-#: src/layout.c:341
+#: src/layout.c:336
 msgid " Paused"
 msgstr " Tạm dừng"
 
-#: src/layout.c:358
+#: src/layout.c:353
 #, c-format
 msgid "%s, %d files (%s, %d)%s"
 msgstr "%s, %d tập tin (%s, %d)%s"
 
-#: src/layout.c:365
+#: src/layout.c:360
 #, c-format
 msgid "%s, %d files%s"
 msgstr "%s, %d tập tin%s"
 
-#: src/layout.c:370
+#: src/layout.c:365
 #, c-format
 msgid "%d files%s"
 msgstr "%d tập tin%s"
 
-#: src/layout.c:399
+#: src/layout.c:394
 #, c-format
 msgid "(no read permission) %s bytes"
 msgstr "(không có quyền đọc) %s byte"
 
-#: src/layout.c:403
+#: src/layout.c:398
 #, c-format
 msgid "( ? x ? ) %s bytes"
 msgstr "( ? x ? ) %s byte"
 
-#: src/layout.c:408
+#: src/layout.c:406
 #, c-format
 msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s byte"
 
-#: src/layout.c:1104
+#: src/layout.c:1102
 msgid "GQview Tools"
 msgstr "Công cụ GQview"
 
@@ -1200,7 +1200,7 @@ msgstr "Công cụ"
 msgid "Files"
 msgstr "Tập tin"
 
-#: src/layout_config.c:57 src/preferences.c:892 src/print.c:110
+#: src/layout_config.c:57 src/preferences.c:895 src/print.c:110
 msgid "Image"
 msgstr "Ảnh"
 
@@ -1208,251 +1208,256 @@ msgstr "Ảnh"
 msgid "(drag to change order)"
 msgstr "(kéo để đổi thứ tự)"
 
-#: src/layout_image.c:770
+#: src/layout_image.c:775
 msgid "Hide file _list"
 msgstr "Ẩn _danh sách tập tin"
 
-#: src/layout_util.c:633 src/menu.c:74
+#: src/layout_util.c:619 src/menu.c:74
 #, c-format
 msgid "in %s..."
 msgstr "bằng %s..."
 
-#: src/layout_util.c:637 src/menu.c:76
+#: src/layout_util.c:623 src/menu.c:76
 msgid "in (unknown)..."
 msgstr "bằng (không biết)..."
 
-#: src/layout_util.c:645
+#: src/layout_util.c:631
 #, fuzzy
 msgid "empty"
 msgstr "Rỗng"
 
-#: src/layout_util.c:756
+#: src/layout_util.c:742
 #, fuzzy
 msgid "_File"
 msgstr "/_Tập tin"
 
-#: src/layout_util.c:757 src/menu.c:91
+#: src/layout_util.c:743 src/menu.c:91
 msgid "_Edit"
 msgstr "_Hiệu chỉnh"
 
-#: src/layout_util.c:758 src/menu.c:248
+#: src/layout_util.c:744 src/menu.c:248
 msgid "_Adjust"
 msgstr "Điều _chỉnh"
 
-#: src/layout_util.c:760
+#: src/layout_util.c:746
 #, fuzzy
 msgid "_Help"
 msgstr "/Trợ _giúp"
 
-#: src/layout_util.c:762
+#: src/layout_util.c:748
 #, fuzzy
 msgid "New _window"
 msgstr "/Tập tin/Tạo _cửa sổ mới"
 
-#: src/layout_util.c:763
+#: src/layout_util.c:749
 #, fuzzy
 msgid "_New collection"
 msgstr "Lư_u tập ảnh"
 
-#: src/layout_util.c:764
+#: src/layout_util.c:750
 #, fuzzy
 msgid "_Open collection..."
 msgstr "Mở tập ảnh"
 
-#: src/layout_util.c:765
+#: src/layout_util.c:751
 #, fuzzy
 msgid "Open _recent"
 msgstr "/Tập tin/Mở _gần đây"
 
-#: src/layout_util.c:766
+#: src/layout_util.c:752
 #, fuzzy
 msgid "_Search..."
 msgstr "Đang sắp..."
 
-#: src/layout_util.c:768
+#: src/layout_util.c:754
 #, fuzzy
 msgid "Pan _view"
 msgstr "Xem nâng cao"
 
-#: src/layout_util.c:769
+#: src/layout_util.c:755
 #, fuzzy
 msgid "_Print..."
 msgstr "/Tập tin/Đổi tê_n..."
 
-#: src/layout_util.c:770
+#: src/layout_util.c:756
 #, fuzzy
 msgid "N_ew folder..."
 msgstr "Tạo _thư mục mới..."
 
-#: src/layout_util.c:776
+#: src/layout_util.c:762
 #, fuzzy
 msgid "_Quit"
 msgstr "Chất lượng"
 
-#: src/layout_util.c:788 src/menu.c:194
+#: src/layout_util.c:774 src/menu.c:194
 msgid "_Rotate clockwise"
 msgstr "_Quay chiều thuận"
 
-#: src/layout_util.c:789 src/menu.c:197
+#: src/layout_util.c:775 src/menu.c:197
 msgid "Rotate _counterclockwise"
 msgstr "Quay chiều _nghịch"
 
-#: src/layout_util.c:790
+#: src/layout_util.c:776
 #, fuzzy
 msgid "Rotate 1_80"
 msgstr "Quay _180"
 
-#: src/layout_util.c:791 src/menu.c:203
+#: src/layout_util.c:777 src/menu.c:203
 msgid "_Mirror"
 msgstr "_Phản xạ"
 
-#: src/layout_util.c:792 src/menu.c:206
+#: src/layout_util.c:778 src/menu.c:206
 msgid "_Flip"
 msgstr "_Lật"
 
-#: src/layout_util.c:794
+#: src/layout_util.c:780
 #, fuzzy
 msgid "Select _all"
 msgstr "Chọn tất cả"
 
-#: src/layout_util.c:795
+#: src/layout_util.c:781
 #, fuzzy
 msgid "Select _none"
 msgstr "Bỏ chọn"
 
-#: src/layout_util.c:796
+#: src/layout_util.c:782
 #, fuzzy
 msgid "P_references..."
 msgstr "_Thuộc tính..."
 
-#: src/layout_util.c:797
+#: src/layout_util.c:783
 msgid "_Thumbnail maintenance..."
 msgstr ""
 
-#: src/layout_util.c:803
+#: src/layout_util.c:789
 #, fuzzy
 msgid "_Zoom to fit"
 msgstr "/Xem/Phóng vừa _khít"
 
-#: src/layout_util.c:804
+#: src/layout_util.c:790
 #, fuzzy
 msgid "F_ull screen"
 msgstr "_Toàn màn hình"
 
-#: src/layout_util.c:805
+#: src/layout_util.c:791
 #, fuzzy
 msgid "_Hide file list"
 msgstr "Ẩn _danh sách tập tin"
 
-#: src/layout_util.c:806
+#: src/layout_util.c:792
 #, fuzzy
 msgid "Toggle _slideshow"
 msgstr "_Dừng trình diễn"
 
-#: src/layout_util.c:807
+#: src/layout_util.c:793
 #, fuzzy
 msgid "_Refresh"
 msgstr "_Cập nhật"
 
-#: src/layout_util.c:809
+#: src/layout_util.c:795
 #, fuzzy
 msgid "_Contents"
 msgstr "/Trợ giúp/_Giới thiệu"
 
-#: src/layout_util.c:810
+#: src/layout_util.c:796
 #, fuzzy
 msgid "_Keyboard shortcuts"
 msgstr "/Trợ giúp/_Phím tắt"
 
-#: src/layout_util.c:811
+#: src/layout_util.c:797
 #, fuzzy
 msgid "_Release notes"
 msgstr "/Trợ giúp/_Ghi chú về phiên bản này"
 
-#: src/layout_util.c:812
+#: src/layout_util.c:798
 #, fuzzy
 msgid "_About"
 msgstr "Giới thiệu"
 
-#: src/layout_util.c:816
+#: src/layout_util.c:802 src/layout_util.c:1049
 #, fuzzy
 msgid "_Thumbnails"
 msgstr "Ảnh mẫu"
 
-#: src/layout_util.c:817
+#: src/layout_util.c:803
 #, fuzzy
 msgid "Tr_ee"
 msgstr "/Xem/_Cây"
 
-#: src/layout_util.c:818
+#: src/layout_util.c:804
 #, fuzzy
 msgid "_Float file list"
 msgstr "/Xem/Danh sách tập tin _rời"
 
-#: src/layout_util.c:819
+#: src/layout_util.c:805
 #, fuzzy
 msgid "Hide tool_bar"
 msgstr "/Xem/Ẩn thanh _công cụ"
 
-#: src/layout_util.c:820
+#: src/layout_util.c:806
 #, fuzzy
 msgid "_Keywords"
 msgstr "/Xem/Ả_nh"
 
-#: src/layout_util.c:821
+#: src/layout_util.c:807
 #, fuzzy
 msgid "E_xif data"
 msgstr "/Xem/Dữ liệu E_xif"
 
-#: src/layout_util.c:822
+#: src/layout_util.c:808
 #, fuzzy
 msgid "Sort _manager"
 msgstr "Bộ quản lý Sắp xếp"
 
-#: src/layout_util.c:826
+#: src/layout_util.c:812
 #, fuzzy
 msgid "_List"
 msgstr "/Xem/_Danh sách"
 
-#: src/layout_util.c:827
+#: src/layout_util.c:813
 #, fuzzy
 msgid "I_cons"
 msgstr "Biểu tượng:"
 
-#: src/layout_util.c:1093
+#: src/layout_util.c:1050
 msgid "Show thumbnails"
 msgstr "Hiện ảnh mẫu"
 
-#: src/layout_util.c:1095
+#: src/layout_util.c:1055
 #, fuzzy
 msgid "Change to home folder"
 msgstr "Về thư mục home"
 
-#: src/layout_util.c:1097
+#: src/layout_util.c:1057
 msgid "Refresh file list"
 msgstr "Cập nhật danh sách tập tin"
 
-#: src/layout_util.c:1099
+#: src/layout_util.c:1059
 msgid "Zoom in"
 msgstr "Phóng to"
 
-#: src/layout_util.c:1101
+#: src/layout_util.c:1061
 msgid "Zoom out"
 msgstr "Thu nhỏ"
 
-#: src/layout_util.c:1103 src/preferences.c:921
+#: src/layout_util.c:1063 src/preferences.c:924
 msgid "Fit image to window"
 msgstr "Phóng vừa khít cửa sổ"
 
-#: src/layout_util.c:1105
+#: src/layout_util.c:1065
 msgid "Set zoom 1:1"
 msgstr "Đặt tỷ lệ phóng 1:1"
 
-#: src/layout_util.c:1107
+#: src/layout_util.c:1067
 msgid "Configure options"
 msgstr "Cấu hình tùy chọn"
 
-#: src/layout_util.c:1109
+#: src/layout_util.c:1068
+#, fuzzy
+msgid "_Float"
+msgstr "Dạng thức"
+
+#: src/layout_util.c:1069
 msgid "Float Controls"
 msgstr "Điều khiển rời"
 
@@ -1690,188 +1695,212 @@ msgstr "Sắp xếp"
 msgid "Rotate _180"
 msgstr "Quay _180"
 
-#: src/pan-view.c:3109
+#: src/pan-view.c:3163
 #, fuzzy, c-format
 msgid "%d images, %s"
 msgstr "%d ảnh"
 
-#: src/pan-view.c:3180 src/pan-view.c:3233
+#: src/pan-view.c:3173
+#, c-format
+msgid "The pan view does not support the folder \"%s\"."
+msgstr ""
+
+#: src/pan-view.c:3174
+msgid "Folder not supported"
+msgstr ""
+
+#: src/pan-view.c:3228 src/pan-view.c:3244
+#, fuzzy
+msgid "Reading image data..."
+msgstr "Đang đọc dữ liệu tương tự..."
+
+#: src/pan-view.c:3303
 #, fuzzy
 msgid "Sorting images..."
 msgstr "Đang sắp..."
 
-#: src/pan-view.c:3552 src/pan-view.c:3879
+#: src/pan-view.c:3640 src/pan-view.c:3967
 msgid "Date:"
 msgstr "Ngày:"
 
-#: src/pan-view.c:3562 src/preferences.c:849 src/print.c:3201 src/print.c:3408
+#: src/pan-view.c:3650 src/preferences.c:852 src/print.c:3201 src/print.c:3408
 msgid "Size:"
 msgstr "Kích thước:"
 
-#: src/pan-view.c:3617
+#: src/pan-view.c:3705
 msgid "path found"
 msgstr ""
 
-#: src/pan-view.c:3617
+#: src/pan-view.c:3705
 #, fuzzy
 msgid "filename found"
 msgstr "Tên tập tin:"
 
-#: src/pan-view.c:3665
+#: src/pan-view.c:3753
 #, fuzzy
 msgid "partial match"
 msgstr "một phần"
 
-#: src/pan-view.c:3876 src/pan-view.c:3909
+#: src/pan-view.c:3964 src/pan-view.c:3997
 msgid "no match"
 msgstr ""
 
-#: src/pan-view.c:4179 src/search.c:2140
+#: src/pan-view.c:4272 src/search.c:2140
 msgid "Folder not found"
 msgstr ""
 
-#: src/pan-view.c:4180
+#: src/pan-view.c:4273
 msgid "The entered path is not a folder"
 msgstr ""
 
-#: src/pan-view.c:4285
+#: src/pan-view.c:4391
 #, fuzzy
 msgid "Timeline"
 msgstr "Song tuyến tính"
 
-#: src/pan-view.c:4286
+#: src/pan-view.c:4392
 #, fuzzy
 msgid "Calendar"
 msgstr "_Xóa"
 
-#: src/pan-view.c:4288
+#: src/pan-view.c:4394
 #, fuzzy
 msgid "Folders (flower)"
 msgstr "Tập tin"
 
-#: src/pan-view.c:4289
+#: src/pan-view.c:4395
 msgid "Grid"
 msgstr ""
 
-#: src/pan-view.c:4298
+#: src/pan-view.c:4404
 #, fuzzy
 msgid "Dots"
 msgstr "Xpaint"
 
-#: src/pan-view.c:4299
+#: src/pan-view.c:4405
 #, fuzzy
 msgid "No Images"
 msgstr "Ảnh"
 
-#: src/pan-view.c:4300
+#: src/pan-view.c:4406
 #, fuzzy
 msgid "Small Thumbnails"
 msgstr "Ảnh mẫu"
 
-#: src/pan-view.c:4301
+#: src/pan-view.c:4407
 #, fuzzy
 msgid "Normal Thumbnails"
 msgstr "Ảnh mẫu"
 
-#: src/pan-view.c:4302
+#: src/pan-view.c:4408
 #, fuzzy
 msgid "Large Thumbnails"
 msgstr "Xóa ảnh mẫu"
 
-#: src/pan-view.c:4303
+#: src/pan-view.c:4409
 msgid "1:10 (10%)"
 msgstr ""
 
-#: src/pan-view.c:4304
+#: src/pan-view.c:4410
 msgid "1:4 (25%)"
 msgstr ""
 
-#: src/pan-view.c:4305
+#: src/pan-view.c:4411
 msgid "1:3 (33%)"
 msgstr ""
 
-#: src/pan-view.c:4306
+#: src/pan-view.c:4412
 msgid "1:2 (50%)"
 msgstr ""
 
-#: src/pan-view.c:4307
+#: src/pan-view.c:4413
 msgid "1:1 (100%)"
 msgstr ""
 
-#: src/pan-view.c:4358
+#: src/pan-view.c:4461
 #, fuzzy
 msgid "Find:"
 msgstr "Bộ lọc:"
 
-#: src/pan-view.c:4409
+#: src/pan-view.c:4504
+#, fuzzy
+msgid "Use Exif date"
+msgstr "/Xem/Dữ liệu E_xif"
+
+#: src/pan-view.c:4517
 msgid "Find"
 msgstr ""
 
-#: src/pan-view.c:4470
+#: src/pan-view.c:4584
 msgid "Pan View Performance"
 msgstr ""
 
-#: src/pan-view.c:4477
+#: src/pan-view.c:4591
 msgid "Pan view performance may be poor."
 msgstr ""
 
-#: src/pan-view.c:4478
+#: src/pan-view.c:4592
 msgid ""
 "To improve performance of thumbnails in the pan view the following options "
 "can be enabled. Note that both options must be enabled to notice a change in "
 "performance."
 msgstr ""
 
-#: src/pan-view.c:4486 src/preferences.c:852
+#: src/pan-view.c:4600 src/preferences.c:855
 msgid "Cache thumbnails"
 msgstr "Lưu lại ảnh mẫu"
 
-#: src/pan-view.c:4488 src/preferences.c:858
+#: src/pan-view.c:4602 src/preferences.c:861
 msgid "Use shared thumbnail cache"
 msgstr ""
 
-#: src/pan-view.c:4494
+#: src/pan-view.c:4608
 msgid "Do not show this dialog again"
 msgstr ""
 
-#: src/preferences.c:390
+#: src/pan-view.c:4796
+#, fuzzy
+msgid "Sort by E_xif date"
+msgstr "Sắp theo ngày"
+
+#: src/preferences.c:393
 msgid "Nearest (worst, but fastest)"
 msgstr "Gần nhất (xấu nhất, nhanh nhất)"
 
-#: src/preferences.c:392
+#: src/preferences.c:395
 msgid "Tiles"
 msgstr "Lợp"
 
-#: src/preferences.c:394
+#: src/preferences.c:397
 msgid "Bilinear"
 msgstr "Song tuyến tính"
 
-#: src/preferences.c:396
+#: src/preferences.c:399
 msgid "Hyper (best, but slowest)"
 msgstr "Hyper (tốt nhất, chậm nhất)"
 
-#: src/preferences.c:424
+#: src/preferences.c:427
 msgid "None"
 msgstr "Không"
 
-#: src/preferences.c:425
+#: src/preferences.c:428
 msgid "Normal"
 msgstr "Thường"
 
-#: src/preferences.c:426
+#: src/preferences.c:429
 msgid "Best"
 msgstr "Tốt nhất"
 
-#: src/preferences.c:504 src/print.c:365
+#: src/preferences.c:507 src/print.c:365
 #, fuzzy
 msgid "Custom"
 msgstr "tự động"
 
-#: src/preferences.c:668 src/preferences.c:671
+#: src/preferences.c:671 src/preferences.c:674
 msgid "Reset filters"
 msgstr "Xóa bộ lọc"
 
-#: src/preferences.c:672
+#: src/preferences.c:675
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
@@ -1879,11 +1908,11 @@ msgstr ""
 "Hành động này sẽ đặt lại bộ lọc tập tin về mặc định.\n"
 "Bạn có muốn thực hiện không?"
 
-#: src/preferences.c:705 src/preferences.c:708
+#: src/preferences.c:708 src/preferences.c:711
 msgid "Reset editors"
 msgstr "Đặt lại trình soạn thảo"
 
-#: src/preferences.c:709
+#: src/preferences.c:712
 msgid ""
 "This will reset the edit commands to the defaults.\n"
 "Continue?"
@@ -1891,297 +1920,297 @@ msgstr ""
 "Hành động này sẽ đặt lại lệnh hiệu chỉnh về mặc định.\n"
 "Bạn có muốn thực hiện không?"
 
-#: src/preferences.c:733 src/preferences.c:736
+#: src/preferences.c:736 src/preferences.c:739
 msgid "Clear trash"
 msgstr "Đổ rác"
 
-#: src/preferences.c:737
+#: src/preferences.c:740
 msgid "This will remove the trash contents."
 msgstr "Hành động này sẽ loại bỏ những thứ có trong sọt rác."
 
-#: src/preferences.c:776
+#: src/preferences.c:779
 #, fuzzy
 msgid "GQview Preferences"
 msgstr "GQview - đổi tên"
 
-#: src/preferences.c:830
+#: src/preferences.c:833
 #, fuzzy
 msgid "Startup"
 msgstr "Số bắt đầu"
 
-#: src/preferences.c:832
+#: src/preferences.c:835
 #, fuzzy
 msgid "Change to folder:"
 msgstr "Về thư mục home"
 
-#: src/preferences.c:843
+#: src/preferences.c:846
 msgid "Use current"
 msgstr "Thư mục hiện tại"
 
-#: src/preferences.c:850 src/preferences.c:901
+#: src/preferences.c:853 src/preferences.c:904
 msgid "Quality:"
 msgstr "Chất lượng:"
 
-#: src/preferences.c:864
+#: src/preferences.c:867
 msgid "Cache thumbnails into .thumbnails"
 msgstr "Lưu ảnh mẫu vào .thumbnails"
 
-#: src/preferences.c:868
+#: src/preferences.c:871
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr "Dùng ảnh mẫu xvpics nếu có (chỉ đọc)"
 
-#: src/preferences.c:872
+#: src/preferences.c:875
 msgid "Faster jpeg thumbnailing (may reduce quality)"
 msgstr ""
 
-#: src/preferences.c:875
+#: src/preferences.c:878
 msgid "Slide show"
 msgstr "Xem trình diễn"
 
-#: src/preferences.c:878
+#: src/preferences.c:881
 #, fuzzy
 msgid "Delay between image change:"
 msgstr "Khoảng chờ (giây) trước khi đổi ảnh:"
 
-#: src/preferences.c:878
+#: src/preferences.c:881
 msgid "seconds"
 msgstr ""
 
-#: src/preferences.c:884
+#: src/preferences.c:887
 msgid "Random"
 msgstr "Ngẫu nhiên"
 
-#: src/preferences.c:885
+#: src/preferences.c:888
 msgid "Repeat"
 msgstr "Lặp lại"
 
-#: src/preferences.c:895
+#: src/preferences.c:898
 #, fuzzy
 msgid "Zoom"
 msgstr "Phóng to"
 
-#: src/preferences.c:898
+#: src/preferences.c:901
 msgid "Dithering method:"
 msgstr "Cách dither:"
 
-#: src/preferences.c:903
+#: src/preferences.c:906
 msgid "Two pass zooming"
 msgstr "Phóng to/thu nhỏ 2 pha"
 
-#: src/preferences.c:906
+#: src/preferences.c:909
 msgid "Allow enlargement of image for zoom to fit."
 msgstr "Cho phép phóng to ảnh để vừa khít"
 
-#: src/preferences.c:910
+#: src/preferences.c:913
 msgid "Zoom increment:"
 msgstr "Độ phóng:"
 
-#: src/preferences.c:915
+#: src/preferences.c:918
 msgid "When new image is selected:"
 msgstr "Khi ảnh mới được chọn:"
 
-#: src/preferences.c:918
+#: src/preferences.c:921
 msgid "Zoom to original size"
 msgstr "Phóng cỡ ảnh ban đầu"
 
-#: src/preferences.c:924
+#: src/preferences.c:927
 msgid "Leave Zoom at previous setting"
 msgstr "Dùng thiết lập sau trước đó"
 
-#: src/preferences.c:928
+#: src/preferences.c:931
 #, fuzzy
 msgid "Appearance"
 msgstr "Thêm vào"
 
-#: src/preferences.c:930
+#: src/preferences.c:933
 msgid "Black background"
 msgstr "Nền đen"
 
-#: src/preferences.c:933
+#: src/preferences.c:936
 #, fuzzy
 msgid "Convenience"
 msgstr "Tiếp tục"
 
-#: src/preferences.c:935
+#: src/preferences.c:938
 msgid "Refresh on file change"
 msgstr "Cập nhật khi tập tin thay đổi"
 
-#: src/preferences.c:937
+#: src/preferences.c:940
 msgid "Preload next image"
 msgstr "Nạp trước ảnh kế"
 
-#: src/preferences.c:939
+#: src/preferences.c:942
 msgid "Auto rotate image using Exif information"
 msgstr "Tự động quay ảnh dùng thông tin Exif"
 
-#: src/preferences.c:948
+#: src/preferences.c:951
 msgid "Windows"
 msgstr "Cửa sổ"
 
-#: src/preferences.c:951
+#: src/preferences.c:954
 #, fuzzy
 msgid "State"
 msgstr "Số bắt đầu"
 
-#: src/preferences.c:953
+#: src/preferences.c:956
 msgid "Remember window positions"
 msgstr "Nhớ vị trí cửa sổ"
 
-#: src/preferences.c:955
+#: src/preferences.c:958
 msgid "Remember tool state (float/hidden)"
 msgstr "Nhớ trạng thái cửa sổ (trôi nổi/ẩn)"
 
-#: src/preferences.c:960
+#: src/preferences.c:963
 msgid "Fit window to image when tools are hidden/floating"
 msgstr "Khít cửa sổ vừa ảnh khi ẩn/tách rời công cụ"
 
-#: src/preferences.c:964
+#: src/preferences.c:967
 msgid "Limit size when auto-sizing window (%):"
 msgstr "Kích thước giới hạn khi tự chỉnh cỡ cửa sổ (%):"
 
-#: src/preferences.c:971 src/print.c:3356 src/print.c:3363
+#: src/preferences.c:974 src/print.c:3356 src/print.c:3363
 msgid "Layout"
 msgstr "Bố trí"
 
-#: src/preferences.c:984
+#: src/preferences.c:987
 msgid "Filtering"
 msgstr "Lọc"
 
-#: src/preferences.c:989
+#: src/preferences.c:992
 msgid "Show entries that begin with a dot"
 msgstr "Hiện các tên bắt đầu bằng dấu chấm"
 
-#: src/preferences.c:991
+#: src/preferences.c:994
 msgid "Case sensitive sort"
 msgstr "Sắp phân biệt hoa/thường"
 
-#: src/preferences.c:994
+#: src/preferences.c:997
 msgid "Disable File Filtering"
 msgstr "Tắt lọc tập tin"
 
-#: src/preferences.c:997
+#: src/preferences.c:1000
 #, fuzzy
 msgid "File types"
 msgstr "Ngày:"
 
-#: src/preferences.c:1019
+#: src/preferences.c:1022
 msgid "Filter"
 msgstr "Bộ lọc"
 
-#: src/preferences.c:1056 src/preferences.c:1120
+#: src/preferences.c:1059 src/preferences.c:1123
 msgid "Defaults"
 msgstr "Mặc định"
 
-#: src/preferences.c:1077
+#: src/preferences.c:1080
 msgid "Editors"
 msgstr "Bộ hiệu chỉnh"
 
-#: src/preferences.c:1083
+#: src/preferences.c:1086
 msgid "#"
 msgstr "#"
 
-#: src/preferences.c:1086
+#: src/preferences.c:1089
 msgid "Menu name"
 msgstr "Tên menu"
 
-#: src/preferences.c:1136
+#: src/preferences.c:1139
 msgid "Advanced"
 msgstr "Nâng cao"
 
-#: src/preferences.c:1149
+#: src/preferences.c:1152
 #, fuzzy
 msgid "Full screen"
 msgstr "_Toàn màn hình"
 
-#: src/preferences.c:1157
+#: src/preferences.c:1160
 #, fuzzy
 msgid "Smooth image flip"
 msgstr "Kích thước ảnh:"
 
-#: src/preferences.c:1159
+#: src/preferences.c:1162
 msgid "Disable screen saver"
 msgstr ""
 
-#: src/preferences.c:1162
+#: src/preferences.c:1165
 msgid "Delete"
 msgstr "Xóa"
 
-#: src/preferences.c:1164
+#: src/preferences.c:1167
 msgid "Confirm file delete"
 msgstr "Xác nhận xóa tập tin"
 
-#: src/preferences.c:1166
+#: src/preferences.c:1169
 msgid "Enable Delete key"
 msgstr "Dùng phím Delete"
 
-#: src/preferences.c:1169
+#: src/preferences.c:1172
 msgid "Safe delete"
 msgstr "Xóa an toàn"
 
-#: src/preferences.c:1187
+#: src/preferences.c:1190
 #, fuzzy
 msgid "Maximum size:"
 msgstr "Kích thước tối đa (MB)"
 
-#: src/preferences.c:1187
+#: src/preferences.c:1190
 msgid "MB"
 msgstr ""
 
-#: src/preferences.c:1190
+#: src/preferences.c:1193
 msgid "View"
 msgstr "Xem"
 
-#: src/preferences.c:1200
+#: src/preferences.c:1203
 msgid "Behavior"
 msgstr ""
 
-#: src/preferences.c:1202
+#: src/preferences.c:1205
 #, fuzzy
 msgid "Rectangular selection in icon view"
 msgstr "Vùng chọn chữ nhật"
 
-#: src/preferences.c:1205
+#: src/preferences.c:1208
 msgid "Descend folders in tree view"
 msgstr "Thư mục con khi dùng cây"
 
-#: src/preferences.c:1208
+#: src/preferences.c:1211
 msgid "In place renaming"
 msgstr "Đổi tên tại chỗ"
 
-#: src/preferences.c:1211
+#: src/preferences.c:1214
 #, fuzzy
 msgid "Navigation"
 msgstr "hành động"
 
-#: src/preferences.c:1213
+#: src/preferences.c:1216
 msgid "Progressive keyboard scrolling"
 msgstr "Cuộn bàn phím lũy tiến"
 
-#: src/preferences.c:1215
+#: src/preferences.c:1218
 msgid "Mouse wheel scrolls image"
 msgstr "Dùng mouse wheel cuộn ảnh"
 
-#: src/preferences.c:1218
+#: src/preferences.c:1221
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/preferences.c:1220
+#: src/preferences.c:1223
 msgid "Store keywords and comments local to source images"
 msgstr ""
 
-#: src/preferences.c:1223
+#: src/preferences.c:1226
 msgid "Custom similarity threshold:"
 msgstr "Ngưỡng tương tự (tự chọn):"
 
-#: src/preferences.c:1226
+#: src/preferences.c:1229
 msgid "Offscreen cache size (Mb per image):"
 msgstr "Kích thước cache offscreen (Mb mỗi ảnh):"
 
-#: src/preferences.c:1302
+#: src/preferences.c:1305
 msgid "About - GQview"
 msgstr "Giới thiệu - GQview"
 
-#: src/preferences.c:1315
+#: src/preferences.c:1318
 #, c-format
 msgid ""
 "GQview %s\n"
@@ -2200,7 +2229,7 @@ msgstr ""
 "\n"
 "Phân phối theo giấy phép GNU GPL"
 
-#: src/preferences.c:1333
+#: src/preferences.c:1336
 msgid "Credits..."
 msgstr "Công lao..."
 
@@ -2361,7 +2390,7 @@ msgstr ""
 msgid "page %d of %d"
 msgstr "Ảnh %d trên %d"
 
-#: src/print.c:736 src/utilops.c:2067
+#: src/print.c:736 src/utilops.c:2128
 msgid "Preview"
 msgstr "Xem trước"
 
@@ -2736,12 +2765,12 @@ msgstr ""
 "Không thể nạp:\n"
 "%s"
 
-#: src/ui_pathsel.c:430 src/view_dir_list.c:97 src/view_dir_tree.c:204
+#: src/ui_pathsel.c:430 src/utilops.c:2486
 #, c-format
 msgid "Failed to rename %s to %s."
 msgstr "Lỗi đổi tên tập tin %s thành %s."
 
-#: src/ui_pathsel.c:486 src/utilops.c:1288 src/utilops.c:1461
+#: src/ui_pathsel.c:486 src/utilops.c:1347 src/utilops.c:1520
 #, c-format
 msgid ""
 "Unable to delete file:\n"
@@ -2750,7 +2779,7 @@ msgstr ""
 "Không thể xóa tập tin:\n"
 "%s"
 
-#: src/ui_pathsel.c:487 src/utilops.c:1462
+#: src/ui_pathsel.c:487 src/utilops.c:1521
 msgid "File deletion failed"
 msgstr "Lỗi xóa tập tin"
 
@@ -2767,8 +2796,8 @@ msgstr ""
 "Về việc xóa tập tin:\n"
 " %s"
 
-#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2035
-#: src/utilops.c:2255
+#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2096
+#: src/utilops.c:2320
 msgid "_Rename"
 msgstr "Đổi _tên"
 
@@ -2785,8 +2814,8 @@ msgstr "_Xóa"
 msgid "New folder"
 msgstr "Tạo _thư mục mới..."
 
-#: src/ui_pathsel.c:750 src/utilops.c:2325 src/view_dir_list.c:338
-#: src/view_dir_tree.c:434
+#: src/ui_pathsel.c:750 src/utilops.c:2392 src/view_dir_list.c:330
+#: src/view_dir_tree.c:426
 #, fuzzy, c-format
 msgid ""
 "Unable to create folder:\n"
@@ -2795,8 +2824,8 @@ msgstr ""
 "Không thể tạo thư mục:\n"
 "%s"
 
-#: src/ui_pathsel.c:751 src/utilops.c:2326 src/view_dir_list.c:339
-#: src/view_dir_tree.c:435
+#: src/ui_pathsel.c:751 src/utilops.c:2393 src/view_dir_list.c:331
+#: src/view_dir_tree.c:427
 #, fuzzy
 msgid "Error creating folder"
 msgstr "Lỗi tạo thư mục"
@@ -2823,58 +2852,58 @@ msgstr "Chọn tất cả"
 msgid "All files"
 msgstr "Mọi tập tin"
 
-#: src/utilops.c:470 src/utilops.c:783 src/utilops.c:1640 src/utilops.c:2187
+#: src/utilops.c:498 src/utilops.c:819 src/utilops.c:1699 src/utilops.c:2251
 msgid "Overwrite file"
 msgstr "Ghi đè tập tin"
 
-#: src/utilops.c:475 src/utilops.c:788 src/utilops.c:1645 src/utilops.c:2192
+#: src/utilops.c:503 src/utilops.c:824 src/utilops.c:1704 src/utilops.c:2256
 #, fuzzy
 msgid "Overwrite file?"
 msgstr "Ghi đè tập tin"
 
-#: src/utilops.c:476 src/utilops.c:789
+#: src/utilops.c:504 src/utilops.c:825
 msgid "Replace existing file with new file."
 msgstr ""
 
-#: src/utilops.c:480
+#: src/utilops.c:508
 #, fuzzy
 msgid "Overwrite _all"
 msgstr "Ghi đè tập tin"
 
-#: src/utilops.c:482
+#: src/utilops.c:510
 #, fuzzy
 msgid "S_kip all"
 msgstr "Bỏ qua tất cả"
 
-#: src/utilops.c:483
+#: src/utilops.c:511
 #, fuzzy
 msgid "_Skip"
 msgstr "Bỏ qua"
 
-#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+#: src/utilops.c:512 src/utilops.c:829 src/utilops.c:1709 src/utilops.c:2261
 #, fuzzy
 msgid "Existing file"
 msgstr "Lỗi di chuyển tập tin"
 
-#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+#: src/utilops.c:512 src/utilops.c:829 src/utilops.c:1709 src/utilops.c:2261
 #, fuzzy
 msgid "New file"
 msgstr "Tạo _thư mục mới..."
 
-#: src/utilops.c:494 src/utilops.c:802 src/utilops.c:1746 src/utilops.c:1810
-#: src/utilops.c:2101
+#: src/utilops.c:522 src/utilops.c:838 src/utilops.c:1805 src/utilops.c:1869
+#: src/utilops.c:2162
 msgid "Auto rename"
 msgstr "Tự động đổi tên"
 
-#: src/utilops.c:502 src/utilops.c:810
+#: src/utilops.c:530 src/utilops.c:846
 msgid "Rename"
 msgstr "Đổi tên"
 
-#: src/utilops.c:543
+#: src/utilops.c:571
 msgid "Source to copy matches destination"
 msgstr "Nguồn sao chép và đích trùng nhau"
 
-#: src/utilops.c:544
+#: src/utilops.c:572
 #, c-format
 msgid ""
 "Unable to copy file:\n"
@@ -2885,11 +2914,11 @@ msgstr ""
 "%s\n"
 "vào chính nó."
 
-#: src/utilops.c:548
+#: src/utilops.c:576
 msgid "Source to move matches destination"
 msgstr "Nguồn di duyển và đích trùng nhau"
 
-#: src/utilops.c:549
+#: src/utilops.c:577
 #, c-format
 msgid ""
 "Unable to move file:\n"
@@ -2900,16 +2929,16 @@ msgstr ""
 "%s\n"
 "vào chính nó."
 
-#: src/utilops.c:557 src/utilops.c:644 src/utilops.c:1280
+#: src/utilops.c:585 src/utilops.c:672 src/utilops.c:1339
 #, fuzzy
 msgid "Co_ntinue"
 msgstr "Tiếp tục"
 
-#: src/utilops.c:630 src/utilops.c:850
+#: src/utilops.c:658 src/utilops.c:886
 msgid "Error copying file"
 msgstr "Lỗi sao chép tập tin"
 
-#: src/utilops.c:631
+#: src/utilops.c:659
 #, c-format
 msgid ""
 "Unable to copy file:\n"
@@ -2924,11 +2953,11 @@ msgstr ""
 "%s\n"
 "trong lúc chép nhiều tập tin."
 
-#: src/utilops.c:635 src/utilops.c:855
+#: src/utilops.c:663 src/utilops.c:891
 msgid "Error moving file"
 msgstr "Lỗi di chuyển tập tin"
 
-#: src/utilops.c:636
+#: src/utilops.c:664
 #, c-format
 msgid ""
 "Unable to move file:\n"
@@ -2943,15 +2972,15 @@ msgstr ""
 "%s\n"
 "trong lúc di chuyển nhiều tập tin."
 
-#: src/utilops.c:774
+#: src/utilops.c:810
 msgid "Source matches destination"
 msgstr "Nguồn trùng với đích"
 
-#: src/utilops.c:775
+#: src/utilops.c:811
 msgid "Source and destination are the same, operation cancelled."
 msgstr "Nguồn và đích trùng nhau, thao tác bị hủy bỏ."
 
-#: src/utilops.c:851
+#: src/utilops.c:887
 #, c-format
 msgid ""
 "Unable to copy file:\n"
@@ -2964,7 +2993,7 @@ msgstr ""
 "tới:\n"
 "%s"
 
-#: src/utilops.c:856
+#: src/utilops.c:892
 #, c-format
 msgid ""
 "Unable to move file:\n"
@@ -2977,11 +3006,11 @@ msgstr ""
 "tới:\n"
 "%s"
 
-#: src/utilops.c:899
+#: src/utilops.c:940
 msgid "Invalid destination"
 msgstr "Đích không hợp lệ"
 
-#: src/utilops.c:900
+#: src/utilops.c:941
 #, fuzzy
 msgid ""
 "When operating with multiple files, please select\n"
@@ -2990,77 +3019,77 @@ msgstr ""
 "Khi muốn thực hiện thao tác này trên nhiều tập tin, vui\n"
 "lòng chọn thư mục thay vì chọn tập tin."
 
-#: src/utilops.c:905
+#: src/utilops.c:946
 #, fuzzy
 msgid "Please select an existing folder."
 msgstr "Vui lòng chọn một thư mục đã có"
 
-#: src/utilops.c:956
+#: src/utilops.c:1015
 #, fuzzy
 msgid "Copy - GQview"
 msgstr "Trợ giúp - GQview"
 
-#: src/utilops.c:957 src/view_dir_list.c:217 src/view_dir_tree.c:309
+#: src/utilops.c:1016 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
 msgstr "_Sao chép"
 
-#: src/utilops.c:960
+#: src/utilops.c:1019
 #, fuzzy
 msgid "Copy file"
 msgstr "Đổi tên tập tin:"
 
-#: src/utilops.c:964
+#: src/utilops.c:1023
 #, fuzzy
 msgid "Copy multiple files"
 msgstr "Chép nhiều tập tin tới:"
 
-#: src/utilops.c:970
+#: src/utilops.c:1029
 #, fuzzy
 msgid "Move - GQview"
 msgstr "Trợ giúp - GQview"
 
-#: src/utilops.c:971 src/view_dir_list.c:219 src/view_dir_tree.c:311
+#: src/utilops.c:1030 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
 msgstr "_Di chuyển"
 
-#: src/utilops.c:974
+#: src/utilops.c:1033
 #, fuzzy
 msgid "Move file"
 msgstr "Đổi tên tập tin:"
 
-#: src/utilops.c:978
+#: src/utilops.c:1037
 #, fuzzy
 msgid "Move multiple files"
 msgstr "Di chuyền nhiều tập tin tới:"
 
-#: src/utilops.c:992 src/utilops.c:1502
+#: src/utilops.c:1051 src/utilops.c:1561
 #, fuzzy
 msgid "File name:"
 msgstr "Tên tập tin:"
 
-#: src/utilops.c:996
+#: src/utilops.c:1055
 #, fuzzy
 msgid "Choose the destination folder."
 msgstr "Nguồn trùng với đích"
 
-#: src/utilops.c:1123 src/utilops.c:1272 src/utilops.c:1289
+#: src/utilops.c:1182 src/utilops.c:1331 src/utilops.c:1348
 msgid "Delete failed"
 msgstr "Lỗi xóa"
 
-#: src/utilops.c:1124
+#: src/utilops.c:1183
 msgid "Unable to remove old file from trash folder"
 msgstr "Không thể di chuyển tập tin cũ vào thư mục Sọt rác"
 
-#: src/utilops.c:1180 src/utilops.c:2318
+#: src/utilops.c:1239 src/utilops.c:2385
 #, fuzzy
 msgid "Could not create folder"
 msgstr "Không thể tạo thư mục"
 
-#: src/utilops.c:1202
+#: src/utilops.c:1261
 msgid "Permission denied"
 msgstr ""
 
-#: src/utilops.c:1212
+#: src/utilops.c:1271
 #, c-format
 msgid ""
 "Unable to access or create the trash folder.\n"
@@ -3069,16 +3098,16 @@ msgstr ""
 "Không thể truy cập hoặc tạo thư mục Sọt rác.\n"
 "\"%s\""
 
-#: src/utilops.c:1216
+#: src/utilops.c:1275
 msgid "Turn off safe delete"
 msgstr "Tắt Xóa an toàn"
 
-#: src/utilops.c:1234
+#: src/utilops.c:1293
 #, c-format
 msgid "Safe delete: %s"
 msgstr "Xóa an toàn: %s"
 
-#: src/utilops.c:1276
+#: src/utilops.c:1335
 #, c-format
 msgid ""
 "Unable to delete file:\n"
@@ -3089,41 +3118,41 @@ msgstr ""
 " %s\n"
 " Tiếp tục xóa tập tin khác chứ?"
 
-#: src/utilops.c:1347
+#: src/utilops.c:1406
 #, c-format
 msgid "File %d of %d"
 msgstr "Tập tin %d trên %d"
 
-#: src/utilops.c:1416
+#: src/utilops.c:1475
 #, fuzzy
 msgid "Delete files - GQview"
 msgstr "Xóa tập tin"
 
-#: src/utilops.c:1420
+#: src/utilops.c:1479
 #, fuzzy
 msgid "Delete multiple files"
 msgstr "Đổi tên nhiều tập tin:"
 
-#: src/utilops.c:1438
+#: src/utilops.c:1497
 #, c-format
 msgid "Review %d files"
 msgstr "Xem lại %d tập tin"
 
-#: src/utilops.c:1494
+#: src/utilops.c:1553
 #, fuzzy
 msgid "Delete file - GQview"
 msgstr "Xóa tập tin"
 
-#: src/utilops.c:1498
+#: src/utilops.c:1557
 #, fuzzy
 msgid "Delete file?"
 msgstr "Xóa tập tin"
 
-#: src/utilops.c:1646 src/utilops.c:2193
+#: src/utilops.c:1705 src/utilops.c:2257
 msgid "Replace existing file by renaming new file."
 msgstr ""
 
-#: src/utilops.c:1661
+#: src/utilops.c:1720
 #, c-format
 msgid ""
 "Unable to rename file:\n"
@@ -3136,12 +3165,12 @@ msgstr ""
 " thành:\n"
 "%s"
 
-#: src/utilops.c:1664 src/utilops.c:2208 src/view_file_list.c:448
+#: src/utilops.c:1723 src/utilops.c:2272 src/view_file_list.c:448
 #: src/view_file_list.c:454 src/view_file_list.c:460
 msgid "Error renaming file"
 msgstr "Lỗi đổi tên tập tin"
 
-#: src/utilops.c:1747
+#: src/utilops.c:1806
 msgid ""
 "Can not auto rename with the selected\n"
 "number set, one or more files exist that\n"
@@ -3151,7 +3180,7 @@ msgstr ""
 "chọn, có vài tập tin trùng với tên trong\n"
 "danh sách tên sau cùng.\n"
 
-#: src/utilops.c:1809
+#: src/utilops.c:1868
 #, c-format
 msgid ""
 "Failed to rename\n"
@@ -3162,47 +3191,47 @@ msgstr ""
 "%s\n"
 "Số là %d."
 
-#: src/utilops.c:2031 src/utilops.c:2249
+#: src/utilops.c:2092 src/utilops.c:2314
 #, fuzzy
 msgid "Rename - GQview"
 msgstr "Trợ giúp - GQview"
 
-#: src/utilops.c:2034
+#: src/utilops.c:2095
 #, fuzzy
 msgid "Rename multiple files"
 msgstr "Đổi tên nhiều tập tin:"
 
-#: src/utilops.c:2066
+#: src/utilops.c:2127
 msgid "Original Name"
 msgstr "Tên gốc"
 
-#: src/utilops.c:2110 src/utilops.c:2262
+#: src/utilops.c:2171 src/utilops.c:2327
 #, fuzzy
 msgid "Original name:"
 msgstr "Tên gốc"
 
-#: src/utilops.c:2113 src/utilops.c:2265
+#: src/utilops.c:2174 src/utilops.c:2330
 #, fuzzy
 msgid "New name:"
 msgstr "Đổi tên:"
 
-#: src/utilops.c:2128
+#: src/utilops.c:2192
 msgid "Begin text"
 msgstr "Chuỗi đầu"
 
-#: src/utilops.c:2136
+#: src/utilops.c:2200
 msgid "Start #"
 msgstr "Số bắt đầu"
 
-#: src/utilops.c:2142
+#: src/utilops.c:2206
 msgid "End text"
 msgstr "Chuỗi đuôi"
 
-#: src/utilops.c:2150
+#: src/utilops.c:2214
 msgid "Padding:"
 msgstr "Đệm:"
 
-#: src/utilops.c:2207 src/view_file_list.c:459
+#: src/utilops.c:2271 src/view_file_list.c:459
 #, c-format
 msgid ""
 "Unable to rename file:\n"
@@ -3215,12 +3244,12 @@ msgstr ""
 "thành:\n"
 "%s"
 
-#: src/utilops.c:2252
+#: src/utilops.c:2317
 #, fuzzy
 msgid "Rename file"
 msgstr "Đổi tên tập tin:"
 
-#: src/utilops.c:2311
+#: src/utilops.c:2378 src/utilops.c:2468
 #, fuzzy, c-format
 msgid ""
 "The folder:\n"
@@ -3231,12 +3260,12 @@ msgstr ""
 "%s\n"
 "đã có rồi."
 
-#: src/utilops.c:2312
+#: src/utilops.c:2379 src/utilops.c:2469
 #, fuzzy
 msgid "Folder exists"
 msgstr "Tập tin"
 
-#: src/utilops.c:2317
+#: src/utilops.c:2384 src/utilops.c:2477
 #, c-format
 msgid ""
 "The path:\n"
@@ -3247,12 +3276,12 @@ msgstr ""
 "%s\n"
 "là một tập tin."
 
-#: src/utilops.c:2369
+#: src/utilops.c:2436
 #, fuzzy
 msgid "New folder - GQview"
 msgstr "Trợ giúp - GQview"
 
-#: src/utilops.c:2372
+#: src/utilops.c:2439
 #, fuzzy, c-format
 msgid ""
 "Create folder in:\n"
@@ -3263,39 +3292,44 @@ msgstr ""
 "%s\n"
 "với tên:"
 
-#: src/view_dir_list.c:329 src/view_dir_tree.c:425
+#: src/utilops.c:2478
+#, fuzzy
+msgid "Rename failed"
+msgstr "Đổi tên tập tin:"
+
+#: src/view_dir_list.c:321 src/view_dir_tree.c:417
 msgid "new_folder"
 msgstr "new_folder"
 
-#: src/view_dir_list.c:387 src/view_dir_tree.c:482
+#: src/view_dir_list.c:379 src/view_dir_tree.c:474
 msgid "_Up to parent"
 msgstr "_Về thư mục cha"
 
-#: src/view_dir_list.c:392 src/view_dir_tree.c:487
+#: src/view_dir_list.c:384 src/view_dir_tree.c:479
 msgid "_Slideshow"
 msgstr "_Trình diễn"
 
-#: src/view_dir_list.c:394 src/view_dir_tree.c:489
+#: src/view_dir_list.c:386 src/view_dir_tree.c:481
 msgid "Slideshow recursive"
 msgstr "Trình diễn đệ quy"
 
-#: src/view_dir_list.c:398 src/view_dir_tree.c:493
+#: src/view_dir_list.c:390 src/view_dir_tree.c:485
 msgid "Find _duplicates..."
 msgstr "_Tìm trùng lặp..."
 
-#: src/view_dir_list.c:400 src/view_dir_tree.c:495
+#: src/view_dir_list.c:392 src/view_dir_tree.c:487
 msgid "Find duplicates recursive..."
 msgstr "Tìm lặp truy hồi..."
 
-#: src/view_dir_list.c:407 src/view_dir_tree.c:502
+#: src/view_dir_list.c:399 src/view_dir_tree.c:494
 msgid "_New folder..."
 msgstr "Tạo _thư mục mới..."
 
-#: src/view_dir_list.c:419 src/view_dir_tree.c:509
+#: src/view_dir_list.c:411 src/view_dir_tree.c:501
 msgid "View as _tree"
 msgstr "Xem dạng _cây"
 
-#: src/view_dir_list.c:421 src/view_dir_tree.c:511 src/view_file_icon.c:311
+#: src/view_dir_list.c:413 src/view_dir_tree.c:503 src/view_file_icon.c:311
 #: src/view_file_list.c:423
 msgid "Re_fresh"
 msgstr "_Cập nhật"

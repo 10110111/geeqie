@@ -1,5 +1,5 @@
 ###################################################################
-##                          GQview 2.1.0         (March 5, 2005) ##
+##                          GQview 2.1.1         (June 14, 2005) ##
 ##                                                               ##
 ##              Copyright (C) 1999 - 2005 John Ellis.            ##
 ##                                                               ##
@@ -44,14 +44,21 @@ homepage: http://gqview.sourceforge.net
 
   Changes:
 
-    + Add Pan View window (name pending) for displaying images as a timeline,
-      calendar, folder tree, folder flower (name pending) and basic grid.
-      Keyboard shortcut for Pan View is Control + J (may change in future).
-    + Panning an image with the mouse while holding down the shift key will
-      increase speed.
-    + Add 'Fast jpeg thumbnailing' option, on by default.
-    - Demote xvpics support to a hidden option.
-    - Update French translation.
+    + Add support for displaying embedded jpegs in raw format files.
+      Includes canon (cr2, crw), fuji (raf), and nikon (nef).
+    + Add Exif makernote support for canon, fuji, nikon, and olympus.
+    + Change image display into GTK widget, including small improvements.
+    - Improve pan view draw speed when displaying 1000's of images.
+    - Change pan view color scheme to use neutral (gray) colors.
+    - Add option to sort pan view by embedded (Exif) image date.
+    - Pan view now ignores recursive symbolic links.
+    - Add "%w" macro to editor commands to not deactivate full screen.
+    - Update translations cs, it. And add small fixes for de, fr.
+    * Fix occasional rounding error when updating image display.
+    * Fix renaming a folder to an existing folder from clobbering
+      the existing folder.
+    * Fix large thumbnail save logic.
+    * Fix a few memory leaks.
 
 
   Notes:
@@ -61,7 +68,10 @@ homepage: http://gqview.sourceforge.net
     Version in perenthesis indicates first appearance of feature or change.
 
     (2.1.1) Add support for viewing jpeg images and EXIF embedded within
-    raw files for Canon (.crw, .cr2) and Fujifilm (.raf).
+    raw files for Canon (.crw, .cr2) Fujifilm (.raf), and Nikon (.nef).
+    Note that not all cameras that support a raw format will necessarily
+    save a usable jpeg in the raw file (for example some Nikon cameras only
+    store a tiny thumbnail within the raw .nef file).
 
     (1.5.6) The "shared thumbnail cache" is a proposal to unify the method
     of storing thumbnails, so that they are compatible between different

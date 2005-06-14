@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GQview 1.3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-05 16:24-0500\n"
+"POT-Creation-Date: 2005-06-13 20:31-0400\n"
 "PO-Revision-Date: 2005-02-26 18:35+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -52,15 +52,15 @@ msgstr "Steekwoord voorinstellingen"
 msgid "Favorite keywords list"
 msgstr "Favoriete steekwoordenlijst"
 
-#: src/bar_info.c:992 src/info.c:166 src/search.c:2692
+#: src/bar_info.c:992 src/info.c:167 src/search.c:2692
 msgid "Keywords"
 msgstr "Steekwoorden"
 
-#: src/bar_info.c:1006 src/info.c:716 src/pan-view.c:3542 src/print.c:2599
+#: src/bar_info.c:1006 src/info.c:722 src/pan-view.c:3630 src/print.c:2599
 msgid "Filename:"
 msgstr "Bestandsnaam:"
 
-#: src/bar_info.c:1007 src/info.c:360
+#: src/bar_info.c:1007 src/info.c:366
 msgid "File date:"
 msgstr "Bestandsdatum:"
 
@@ -90,36 +90,36 @@ msgid "Save comment now"
 msgstr "Opmerking nu opslaan"
 
 # goede vertaling voor tag?
-#: src/bar_exif.c:423
+#: src/bar_exif.c:435
 msgid "Tag"
 msgstr "Tag"
 
-#: src/bar_exif.c:424 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
+#: src/bar_exif.c:436 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
 #: src/search.c:2753 src/view_file_list.c:1555
 msgid "Name"
 msgstr "Naam"
 
-#: src/bar_exif.c:425
+#: src/bar_exif.c:437
 msgid "Value"
 msgstr "Waarde"
 
-#: src/bar_exif.c:426
+#: src/bar_exif.c:438
 msgid "Format"
 msgstr "Formaat"
 
-#: src/bar_exif.c:427
+#: src/bar_exif.c:439
 msgid "Elements"
 msgstr "Elementen"
 
-#: src/bar_exif.c:428 src/preferences.c:1039
+#: src/bar_exif.c:440 src/preferences.c:1042
 msgid "Description"
 msgstr "Beschrijving"
 
-#: src/bar_exif.c:549 src/info.c:105
+#: src/bar_exif.c:561 src/info.c:106
 msgid "Exif"
 msgstr "Exif"
 
-#: src/bar_exif.c:622
+#: src/bar_exif.c:634
 msgid "Advanced view"
 msgstr "Geavanceerd"
 
@@ -159,7 +159,7 @@ msgstr ""
 msgid "Save Failed"
 msgstr "Opslaan mislukt"
 
-#: src/bar_sort.c:485 src/bar_sort.c:631
+#: src/bar_sort.c:485 src/bar_sort.c:611
 msgid "Add Bookmark"
 msgstr "Favoriet toevoegen"
 
@@ -171,15 +171,15 @@ msgstr "Collectie toevoegen"
 msgid "Name:"
 msgstr "Naam:"
 
-#: src/bar_sort.c:569
+#: src/bar_sort.c:568
 msgid "Sort Manager"
 msgstr "Archiefbeheer"
 
-#: src/bar_sort.c:578 src/pan-view.c:4287 src/ui_pathsel.c:1095
+#: src/bar_sort.c:577 src/pan-view.c:4393 src/ui_pathsel.c:1095
 msgid "Folders"
 msgstr "Mappen"
 
-#: src/bar_sort.c:579 src/main.c:1066
+#: src/bar_sort.c:578 src/main.c:1066
 msgid "Collections"
 msgstr "Collecties"
 
@@ -187,23 +187,23 @@ msgstr "Collecties"
 msgid "Copy"
 msgstr "Kopiëren"
 
-#: src/bar_sort.c:593
+#: src/bar_sort.c:589
 msgid "Move"
 msgstr "Verplaatsen"
 
-#: src/bar_sort.c:600
+#: src/bar_sort.c:592
 msgid "Link"
 msgstr "Link"
 
-#: src/bar_sort.c:610
+#: src/bar_sort.c:598
 msgid "Add image"
 msgstr "Afbeelding toevoegen"
 
-#: src/bar_sort.c:617
+#: src/bar_sort.c:601
 msgid "Add selection"
 msgstr "Selectie toevoegen"
 
-#: src/bar_sort.c:634
+#: src/bar_sort.c:614
 msgid "Undo last image"
 msgstr "Laatste afbeelding herstellen"
 
@@ -228,7 +228,7 @@ msgstr "Oude miniaturen worden verwijderd..."
 msgid "Maintenance"
 msgstr "Beheer"
 
-#: src/cache_maint.c:792 src/utilops.c:904
+#: src/cache_maint.c:792 src/utilops.c:945
 msgid "Invalid folder"
 msgstr "Ongeldige map"
 
@@ -244,7 +244,7 @@ msgstr "Miniaturen aanmaken"
 msgid "S_tart"
 msgstr "S_tarten"
 
-#: src/cache_maint.c:842 src/preferences.c:1176
+#: src/cache_maint.c:842 src/preferences.c:1179
 msgid "Folder:"
 msgstr "Map:"
 
@@ -264,7 +264,7 @@ msgstr "Miniaturen locaal bij de afbeeldingen opslaan"
 msgid "click start to begin"
 msgstr "klik start om te beginnen"
 
-#: src/cache_maint.c:997 src/editors.c:549
+#: src/cache_maint.c:997 src/editors.c:558
 msgid "running..."
 msgstr "vergelijken..."
 
@@ -298,7 +298,7 @@ msgid "GQview thumbnail cache"
 msgstr "GQview miniaturen cache"
 
 #: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
-#: src/pan-view.c:4276 src/preferences.c:1153 src/utilops.c:1505
+#: src/pan-view.c:4382 src/preferences.c:1156 src/utilops.c:1564
 msgid "Location:"
 msgstr "Locatie:"
 
@@ -335,8 +335,8 @@ msgstr "Metadata"
 msgid "Remove orphaned keywords and comments."
 msgstr "Steekwoorden en opmerkingen zonder bron, verwijderen."
 
-#: src/collect.c:349 src/image.c:1674 src/image-overlay.c:74
-#: src/image-overlay.c:115
+#: src/collect.c:349 src/image.c:134 src/image-overlay.c:75
+#: src/image-overlay.c:116
 msgid "Untitled"
 msgstr "Naamloos"
 
@@ -389,8 +389,8 @@ msgstr "Bestand overschrijven"
 msgid "Overwrite existing file?"
 msgstr "Huidige bestand overschrijven?"
 
-#: src/collect-dlg.c:75 src/utilops.c:479 src/utilops.c:792 src/utilops.c:1649
-#: src/utilops.c:2196
+#: src/collect-dlg.c:75 src/utilops.c:507 src/utilops.c:828 src/utilops.c:1708
+#: src/utilops.c:2260
 msgid "_Overwrite"
 msgstr "_Overschrijven"
 
@@ -422,7 +422,7 @@ msgstr "Collectie leeg"
 msgid "The current collection is empty, save aborted."
 msgstr "De huidige collectie is leeg, opslaan afgebroken."
 
-#: src/collect-table.c:164 src/layout_util.c:716
+#: src/collect-table.c:164 src/layout_util.c:702
 msgid "Empty"
 msgstr "Legen"
 
@@ -443,12 +443,12 @@ msgid "Loading thumbs..."
 msgstr "Miniaturen worden geladen..."
 
 #: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
-#: src/layout_util.c:759 src/search.c:969
+#: src/layout_util.c:745 src/search.c:969
 msgid "_View"
 msgstr "Beel_d"
 
-#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1187
-#: src/layout_image.c:722 src/pan-view.c:4657 src/search.c:971
+#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1196
+#: src/layout_image.c:727 src/pan-view.c:4782 src/search.c:971
 #: src/view_file_icon.c:283 src/view_file_list.c:395
 msgid "View in _new window"
 msgstr "Weergeven in _nieuw venster"
@@ -473,33 +473,33 @@ msgstr "Alles selecteren"
 msgid "Select none"
 msgstr "Niets selecteren"
 
-#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1185
-#: src/layout_image.c:719 src/layout_util.c:793 src/pan-view.c:4654
+#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1194
+#: src/layout_image.c:724 src/layout_util.c:779 src/pan-view.c:4779
 #: src/search.c:981 src/view_file_icon.c:280 src/view_file_list.c:393
 msgid "_Properties"
 msgstr "_Eigenschappen"
 
-#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1190
-#: src/layout_image.c:727 src/layout_util.c:771 src/pan-view.c:4661
+#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1199
+#: src/layout_image.c:732 src/layout_util.c:757 src/pan-view.c:4786
 #: src/search.c:988 src/view_file_icon.c:287 src/view_file_list.c:399
 msgid "_Copy..."
 msgstr "_Kopiëren..."
 
-#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1191
-#: src/layout_image.c:729 src/layout_util.c:772 src/pan-view.c:4663
+#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1200
+#: src/layout_image.c:734 src/layout_util.c:758 src/pan-view.c:4788
 #: src/search.c:990 src/view_file_icon.c:289 src/view_file_list.c:401
 msgid "_Move..."
 msgstr "Ver_plaatsen..."
 
-#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1192
-#: src/layout_image.c:731 src/layout_util.c:773 src/pan-view.c:4665
-#: src/search.c:992 src/view_dir_list.c:415 src/view_dir_tree.c:505
+#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1201
+#: src/layout_image.c:736 src/layout_util.c:759 src/pan-view.c:4790
+#: src/search.c:992 src/view_dir_list.c:407 src/view_dir_tree.c:497
 #: src/view_file_icon.c:291 src/view_file_list.c:403
 msgid "_Rename..."
 msgstr "_Hernoemen..."
 
-#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1193
-#: src/layout_image.c:733 src/layout_util.c:774 src/pan-view.c:4667
+#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1202
+#: src/layout_image.c:738 src/layout_util.c:760 src/pan-view.c:4792
 #: src/search.c:994 src/view_file_icon.c:293 src/view_file_list.c:405
 msgid "_Delete..."
 msgstr "_Verwijderen..."
@@ -516,7 +516,7 @@ msgstr "Collectie op_slaan"
 msgid "Save collection _as..."
 msgstr "Collectie opslaan _als..."
 
-#: src/collect-table.c:818 src/layout_util.c:767
+#: src/collect-table.c:818 src/layout_util.c:753
 msgid "_Find duplicates..."
 msgstr "_Dubbele zoeken..."
 
@@ -524,24 +524,24 @@ msgstr "_Dubbele zoeken..."
 msgid "Print..."
 msgstr "Afdrukken..."
 
-#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1347
+#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1356
 msgid "Dropped list includes folders."
 msgstr "De lijst bevat mappen."
 
-#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1349
+#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1358
 msgid "_Add contents"
 msgstr "Inhoud _toevoegen"
 
-#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1350
+#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1359
 msgid "Add contents _recursive"
 msgstr "Inhoud _recursief toevoegen"
 
-#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1351
+#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1360
 msgid "_Skip folders"
 msgstr "Mappen _overslaan"
 
-#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1353
-#: src/view_dir_list.c:222 src/view_dir_tree.c:314
+#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1362
+#: src/view_dir_list.c:214 src/view_dir_tree.c:306
 msgid "Cancel"
 msgstr "Annuleren"
 
@@ -567,7 +567,7 @@ msgstr "[set 1]"
 msgid "Reading checksums..."
 msgstr "Lezen van checksums..."
 
-#: src/dupe.c:1455 src/pan-view.c:3170 src/pan-view.c:3186
+#: src/dupe.c:1455
 msgid "Reading dimensions..."
 msgstr "Lezen van afmetingen..."
 
@@ -579,7 +579,7 @@ msgstr "Lezen van overeenkomsten..."
 msgid "Comparing..."
 msgstr "Vergelijken..."
 
-#: src/dupe.c:1535
+#: src/dupe.c:1535 src/pan-view.c:3238
 msgid "Sorting..."
 msgstr "Sorteren..."
 
@@ -608,12 +608,12 @@ msgstr "Venster sl_uiten"
 msgid "%d files (set 2)"
 msgstr "%d bestanden (set 2)"
 
-#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:958 src/print.c:3194
+#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:961 src/print.c:3194
 #: src/search.c:2754 src/view_file_list.c:1556
 msgid "Size"
 msgstr "Grootte"
 
-#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:297 src/exif.c:419
+#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:296 src/exif.c:417
 #: src/print.c:3192 src/search.c:2755 src/view_file_list.c:1557
 msgid "Date"
 msgstr "Datum"
@@ -658,7 +658,7 @@ msgstr "Vergelijken met:"
 msgid "Compare by:"
 msgstr "Vergelijken via:"
 
-#: src/dupe.c:3173 src/preferences.c:846 src/search.c:2770
+#: src/dupe.c:3173 src/preferences.c:849 src/search.c:2770
 msgid "Thumbnails"
 msgstr "Miniaturen"
 
@@ -712,280 +712,280 @@ msgstr ""
 msgid "stopped by user"
 msgstr "afgebroken door gebruiker"
 
-#: src/exif.c:112 src/exif.c:125 src/exif.c:139 src/exif.c:164 src/exif.c:606
-#: src/exif.c:1452 src/exif.c:1455 src/exif.c:1520
+#: src/exif.c:111 src/exif.c:124 src/exif.c:138 src/exif.c:163 src/exif.c:576
+#: src/exif.c:1479 src/exif.c:1482 src/exif.c:1547
 msgid "unknown"
 msgstr "onbekend"
 
-#: src/exif.c:113
+#: src/exif.c:112
 msgid "top left"
 msgstr "boven links"
 
-#: src/exif.c:114
+#: src/exif.c:113
 msgid "top right"
 msgstr "boven rechts"
 
-#: src/exif.c:115
+#: src/exif.c:114
 msgid "bottom right"
 msgstr "onder rechts"
 
-#: src/exif.c:116
+#: src/exif.c:115
 msgid "bottom left"
 msgstr "onder links"
 
-#: src/exif.c:117
+#: src/exif.c:116
 msgid "left top"
 msgstr "links boven"
 
-#: src/exif.c:118
+#: src/exif.c:117
 msgid "right top"
 msgstr "rechts boven"
 
-#: src/exif.c:119
+#: src/exif.c:118
 msgid "right bottom"
 msgstr "rechts onder"
 
-#: src/exif.c:120
+#: src/exif.c:119
 msgid "left bottom"
 msgstr "links onder"
 
-#: src/exif.c:127
+#: src/exif.c:126
 msgid "inch"
 msgstr "inch"
 
-#: src/exif.c:128
+#: src/exif.c:127
 msgid "centimeter"
 msgstr "centimeter"
 
-#: src/exif.c:140
+#: src/exif.c:139
 msgid "average"
 msgstr "gemiddeld"
 
-#: src/exif.c:141
+#: src/exif.c:140
 msgid "center weighted"
 msgstr "centrum gewogen"
 
 # onzeker
-#: src/exif.c:142
+#: src/exif.c:141
 msgid "spot"
 msgstr "focus"
 
-#: src/exif.c:143
+#: src/exif.c:142
 msgid "multi-spot"
 msgstr "multi-focus"
 
-#: src/exif.c:144
+#: src/exif.c:143
 msgid "multi-segment"
 msgstr "multi-segment"
 
-#: src/exif.c:145
+#: src/exif.c:144
 msgid "partial"
 msgstr "gedeeltelijk"
 
-#: src/exif.c:146 src/exif.c:184
+#: src/exif.c:145 src/exif.c:183
 msgid "other"
 msgstr "overige"
 
-#: src/exif.c:151
+#: src/exif.c:150
 msgid "not defined"
 msgstr "niet gedefinieerd"
 
-#: src/exif.c:152
+#: src/exif.c:151
 msgid "manual"
 msgstr "handmatig"
 
-#: src/exif.c:153
+#: src/exif.c:152
 msgid "normal"
 msgstr "normaal"
 
-#: src/exif.c:154
+#: src/exif.c:153
 msgid "aperture"
 msgstr "diafragma"
 
-#: src/exif.c:155
+#: src/exif.c:154
 msgid "shutter"
 msgstr "sluiter"
 
-#: src/exif.c:156
+#: src/exif.c:155
 msgid "creative"
 msgstr "creatief"
 
-#: src/exif.c:157
+#: src/exif.c:156
 msgid "action"
 msgstr "actie"
 
-#: src/exif.c:158
+#: src/exif.c:157
 msgid "portrait"
 msgstr "staand"
 
-#: src/exif.c:159
+#: src/exif.c:158
 msgid "landscape"
 msgstr "liggend"
 
-#: src/exif.c:165
+#: src/exif.c:164
 msgid "daylight"
 msgstr "daglicht"
 
-#: src/exif.c:166
+#: src/exif.c:165
 msgid "fluorescent"
 msgstr "fluorescent"
 
-#: src/exif.c:167
+#: src/exif.c:166
 msgid "tungsten (incandescent)"
 msgstr "tungsten (incandescent)"
 
-#: src/exif.c:168
+#: src/exif.c:167
 msgid "flash"
 msgstr "flits"
 
-#: src/exif.c:189 src/exif.c:1475 src/info.c:226
+#: src/exif.c:188 src/exif.c:1502 src/info.c:232
 msgid "no"
 msgstr "nee"
 
 #. flash fired (bit 0)
-#: src/exif.c:190 src/exif.c:1475 src/info.c:226
+#: src/exif.c:189 src/exif.c:1502 src/info.c:232
 msgid "yes"
 msgstr "ja"
 
-#: src/exif.c:191
+#: src/exif.c:190
 msgid "yes, not detected by strobe"
 msgstr "ja, niet ontdenkt met de strobe"
 
-#: src/exif.c:192
+#: src/exif.c:191
 msgid "yes, detected by strobe"
 msgstr "ja, ontdekt met de strobe"
 
-#: src/exif.c:289
+#: src/exif.c:288
 msgid "Image description"
 msgstr "Beschrijving"
 
-#: src/exif.c:292
+#: src/exif.c:291
 msgid "Orientation"
 msgstr "Oriëntatie"
 
-#: src/exif.c:303
+#: src/exif.c:302
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/exif.c:308
+#: src/exif.c:307
 msgid "Exposure program"
 msgstr "Belichtingstijd"
 
-#: src/exif.c:310 src/exif.c:346 src/exif.c:423
+#: src/exif.c:309 src/exif.c:345 src/exif.c:421
 msgid "ISO sensitivity"
 msgstr "ISO gevoeligheid"
 
-#: src/exif.c:313
+#: src/exif.c:312
 msgid "Date original"
 msgstr "Oorspronkelijke datum"
 
-#: src/exif.c:314
+#: src/exif.c:313
 msgid "Date digitized"
 msgstr "Gedigitaliseerde datum"
 
-#: src/exif.c:317 src/exif.c:420
+#: src/exif.c:316 src/exif.c:418
 msgid "Shutter speed"
 msgstr "Sluitertijd"
 
-#: src/exif.c:318 src/exif.c:421
+#: src/exif.c:317 src/exif.c:419
 msgid "Aperture"
 msgstr "Diafragma"
 
-#: src/exif.c:320 src/exif.c:422
+#: src/exif.c:319 src/exif.c:420
 msgid "Exposure bias"
 msgstr "Belichtingsafwijking"
 
-#: src/exif.c:322 src/exif.c:425
+#: src/exif.c:321 src/exif.c:423
 msgid "Subject distance"
 msgstr "Afstand voorwerp"
 
-#: src/exif.c:323
+#: src/exif.c:322
 msgid "Metering mode"
 msgstr "Afstandsmethode"
 
-#: src/exif.c:324
+#: src/exif.c:323
 msgid "Light source"
 msgstr "Lichtbron"
 
-#: src/exif.c:325 src/exif.c:426
+#: src/exif.c:324 src/exif.c:424
 msgid "Flash"
 msgstr "Flits"
 
-#: src/exif.c:326 src/exif.c:424
+#: src/exif.c:325 src/exif.c:422
 msgid "Focal length"
 msgstr "Brandpuntafstand"
 
 #. ExifImageWidth, ExifImageHeight can also be unsigned short
-#: src/exif.c:336
+#: src/exif.c:335
 msgid "Width"
 msgstr "Breedte"
 
-#: src/exif.c:337
+#: src/exif.c:336
 msgid "Height"
 msgstr "Hoogte"
 
-#: src/exif.c:418
+#: src/exif.c:416
 msgid "Camera"
 msgstr "Camera"
 
-#: src/exif.c:427
+#: src/exif.c:425
 msgid "Resolution"
 msgstr "Resolutie"
 
-#: src/exif.c:1451
+#: src/exif.c:1478
 msgid "infinity"
 msgstr "oneindig"
 
-#: src/exif.c:1479
+#: src/exif.c:1506
 msgid "mode:"
 msgstr "modus:"
 
-#: src/exif.c:1483 src/utilops.c:1234
+#: src/exif.c:1510 src/utilops.c:1293
 msgid "on"
 msgstr "aan"
 
-#: src/exif.c:1486 src/utilops.c:1234
+#: src/exif.c:1513 src/utilops.c:1293
 msgid "off"
 msgstr "uit"
 
-#: src/exif.c:1489
+#: src/exif.c:1516
 msgid "auto"
 msgstr "auto"
 
-#: src/exif.c:1495
+#: src/exif.c:1522
 msgid "not detected by strobe"
 msgstr "noet ontdekt met de strobe"
 
-#: src/exif.c:1496
+#: src/exif.c:1523
 msgid "detected by strobe"
 msgstr "ontdekt met de strobe"
 
 #. we ignore flash function (bit 5)
 #. red-eye (bit 6)
-#: src/exif.c:1501
+#: src/exif.c:1528
 msgid "red-eye reduction"
 msgstr "rode ogen reductie"
 
-#: src/exif.c:1520
+#: src/exif.c:1547
 msgid "dot"
 msgstr "dot"
 
-#: src/filelist.c:513
+#: src/filelist.c:520
 #, c-format
 msgid "%d bytes"
 msgstr "%d byte"
 
-#: src/filelist.c:517
+#: src/filelist.c:524
 #, c-format
 msgid "%.1f K"
 msgstr "%.1f K"
 
-#: src/filelist.c:521
+#: src/filelist.c:528
 #, c-format
 msgid "%.1f MB"
 msgstr "%.1f Mb"
 
-#: src/filelist.c:526
+#: src/filelist.c:533
 #, c-format
 msgid "%.1f GB"
 msgstr "%.1f Gb"
@@ -1022,147 +1022,147 @@ msgstr "Actieve scherm"
 msgid "Active monitor"
 msgstr "Actieve monitor"
 
-#: src/img-view.c:1173 src/layout_image.c:706 src/layout_util.c:800
-#: src/pan-view.c:4643
+#: src/img-view.c:1182 src/layout_image.c:711 src/layout_util.c:786
+#: src/pan-view.c:4768
 msgid "Zoom _in"
 msgstr "_Inzoomen"
 
-#: src/img-view.c:1174 src/layout_image.c:707 src/layout_util.c:801
-#: src/pan-view.c:4645
+#: src/img-view.c:1183 src/layout_image.c:712 src/layout_util.c:787
+#: src/pan-view.c:4770
 msgid "Zoom _out"
 msgstr "_Uitzoomen"
 
-#: src/img-view.c:1175 src/layout_image.c:708 src/layout_util.c:802
-#: src/pan-view.c:4647
+#: src/img-view.c:1184 src/layout_image.c:713 src/layout_util.c:788
+#: src/pan-view.c:4772
 msgid "Zoom _1:1"
 msgstr "_1:1 zoomen"
 
-#: src/img-view.c:1176 src/layout_image.c:709
+#: src/img-view.c:1185 src/layout_image.c:714
 msgid "Fit image to _window"
 msgstr "Afbeelding _passend maken"
 
-#: src/img-view.c:1181 src/layout_image.c:715 src/layout_util.c:798
+#: src/img-view.c:1190 src/layout_image.c:720 src/layout_util.c:784
 msgid "Set as _wallpaper"
 msgstr "Als achter_grond gebruiken"
 
-#: src/img-view.c:1199 src/layout_image.c:740
+#: src/img-view.c:1208 src/layout_image.c:745
 msgid "_Stop slideshow"
 msgstr "Diavoorstelling _stoppen"
 
 # de o zit naast de p
-#: src/img-view.c:1202 src/layout_image.c:743
+#: src/img-view.c:1211 src/layout_image.c:748
 msgid "Continue slides_how"
 msgstr "Diavoorstelling verv_olgen"
 
-#: src/img-view.c:1207 src/img-view.c:1215 src/layout_image.c:748
-#: src/layout_image.c:755
+#: src/img-view.c:1216 src/img-view.c:1224 src/layout_image.c:753
+#: src/layout_image.c:760
 msgid "Pause slides_how"
 msgstr "Diavoorstelling _pauzeren"
 
-#: src/img-view.c:1213 src/layout_image.c:754
+#: src/img-view.c:1222 src/layout_image.c:759
 msgid "_Start slideshow"
 msgstr "Diavoorstelling _starten"
 
-#: src/img-view.c:1221 src/layout_image.c:765 src/pan-view.c:4674
+#: src/img-view.c:1230 src/layout_image.c:770 src/pan-view.c:4804
 msgid "Exit _full screen"
 msgstr "_Volledig scherm verlaten"
 
-#: src/img-view.c:1225 src/layout_image.c:761 src/pan-view.c:4678
+#: src/img-view.c:1234 src/layout_image.c:766 src/pan-view.c:4808
 msgid "_Full screen"
 msgstr "_Volledig scherm"
 
-#: src/img-view.c:1229 src/layout_util.c:775 src/pan-view.c:4682
+#: src/img-view.c:1238 src/layout_util.c:761 src/pan-view.c:4812
 msgid "C_lose window"
 msgstr "Venster sl_uiten"
 
-#: src/info.c:361
+#: src/info.c:367
 msgid "File size:"
 msgstr "Bestandsgrootte:"
 
-#: src/info.c:363
+#: src/info.c:369
 msgid "Dimensions:"
 msgstr "Afmetingen:"
 
-#: src/info.c:364
+#: src/info.c:370
 msgid "Transparent:"
 msgstr "Doorzichtig:"
 
-#: src/info.c:365 src/print.c:3371
+#: src/info.c:371 src/print.c:3371
 msgid "Image size:"
 msgstr "Grootte afbeelding:"
 
-#: src/info.c:367
+#: src/info.c:373
 msgid "Compress ratio:"
 msgstr "Compressieverhouding:"
 
-#: src/info.c:368
+#: src/info.c:374
 msgid "File type:"
 msgstr "Bestandstype:"
 
-#: src/info.c:370
+#: src/info.c:376
 msgid "Owner:"
 msgstr "Eigenaar:"
 
-#: src/info.c:371
+#: src/info.c:377
 msgid "Group:"
 msgstr "Groep:"
 
-#: src/info.c:374 src/preferences.c:827
+#: src/info.c:380 src/preferences.c:830
 msgid "General"
 msgstr "Algemeen"
 
-#: src/info.c:455
+#: src/info.c:461
 #, c-format
 msgid "Image %d of %d"
 msgstr "Afbeelding %d van %d"
 
-#: src/info.c:678
+#: src/info.c:684
 msgid "Image properties - GQview"
 msgstr "Eigenschappen van afbeelding - GQview"
 
-#: src/layout.c:271 src/view_file_icon.c:301 src/view_file_list.c:413
+#: src/layout.c:266 src/view_file_icon.c:301 src/view_file_list.c:413
 msgid "Ascending"
 msgstr "Oplopend"
 
-#: src/layout.c:337
+#: src/layout.c:332
 msgid " Slideshow"
 msgstr " Diavoorstelling"
 
-#: src/layout.c:341
+#: src/layout.c:336
 msgid " Paused"
 msgstr " Gepauzeerd"
 
-#: src/layout.c:358
+#: src/layout.c:353
 #, c-format
 msgid "%s, %d files (%s, %d)%s"
 msgstr "%s, %d bestanden (%s, %d)%s"
 
-#: src/layout.c:365
+#: src/layout.c:360
 #, c-format
 msgid "%s, %d files%s"
 msgstr "%s, %d bestanden%s"
 
-#: src/layout.c:370
+#: src/layout.c:365
 #, c-format
 msgid "%d files%s"
 msgstr "%d bestanden%s"
 
-#: src/layout.c:399
+#: src/layout.c:394
 #, c-format
 msgid "(no read permission) %s bytes"
 msgstr "(geen schrijfpermissie) %s byte"
 
-#: src/layout.c:403
+#: src/layout.c:398
 #, c-format
 msgid "( ? x ? ) %s bytes"
 msgstr "( ? x ? ) %s byte"
 
-#: src/layout.c:408
+#: src/layout.c:406
 #, c-format
 msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s byte"
 
-#: src/layout.c:1104
+#: src/layout.c:1102
 msgid "GQview Tools"
 msgstr "GQview gereedschap"
 
@@ -1174,7 +1174,7 @@ msgstr "Gereedschap"
 msgid "Files"
 msgstr "Bestanden"
 
-#: src/layout_config.c:57 src/preferences.c:892 src/print.c:110
+#: src/layout_config.c:57 src/preferences.c:895 src/print.c:110
 msgid "Image"
 msgstr "Afbeelding"
 
@@ -1182,219 +1182,224 @@ msgstr "Afbeelding"
 msgid "(drag to change order)"
 msgstr "(slepen om de volgorde te veranderen)"
 
-#: src/layout_image.c:770
+#: src/layout_image.c:775
 msgid "Hide file _list"
 msgstr "Bestands_lijst verbergen"
 
-#: src/layout_util.c:633 src/menu.c:74
+#: src/layout_util.c:619 src/menu.c:74
 #, c-format
 msgid "in %s..."
 msgstr "in %s..."
 
-#: src/layout_util.c:637 src/menu.c:76
+#: src/layout_util.c:623 src/menu.c:76
 msgid "in (unknown)..."
 msgstr "in (onbekend)..."
 
 # legen
-#: src/layout_util.c:645
+#: src/layout_util.c:631
 msgid "empty"
 msgstr "leeg"
 
-#: src/layout_util.c:756
+#: src/layout_util.c:742
 msgid "_File"
 msgstr "_Bestand"
 
-#: src/layout_util.c:757 src/menu.c:91
+#: src/layout_util.c:743 src/menu.c:91
 msgid "_Edit"
 msgstr "Be_werken"
 
-#: src/layout_util.c:758 src/menu.c:248
+#: src/layout_util.c:744 src/menu.c:248
 msgid "_Adjust"
 msgstr "_Aanpassen"
 
-#: src/layout_util.c:760
+#: src/layout_util.c:746
 msgid "_Help"
 msgstr "_Hulp"
 
-#: src/layout_util.c:762
+#: src/layout_util.c:748
 msgid "New _window"
 msgstr "_Nieuw venster"
 
-#: src/layout_util.c:763
+#: src/layout_util.c:749
 msgid "_New collection"
 msgstr "Nieuwe _collectie"
 
-#: src/layout_util.c:764
+#: src/layout_util.c:750
 msgid "_Open collection..."
 msgstr "Collectie _openen"
 
-#: src/layout_util.c:765
+#: src/layout_util.c:751
 msgid "Open _recent"
 msgstr "_Recente openen"
 
-#: src/layout_util.c:766
+#: src/layout_util.c:752
 msgid "_Search..."
 msgstr "_Zoeken..."
 
-#: src/layout_util.c:768
+#: src/layout_util.c:754
 #, fuzzy
 msgid "Pan _view"
 msgstr "Geavanceerd"
 
-#: src/layout_util.c:769
+#: src/layout_util.c:755
 msgid "_Print..."
 msgstr "_Afdrukken..."
 
-#: src/layout_util.c:770
+#: src/layout_util.c:756
 msgid "N_ew folder..."
 msgstr "_Nieuwe map..."
 
-#: src/layout_util.c:776
+#: src/layout_util.c:762
 msgid "_Quit"
 msgstr "A_fsluiten"
 
-#: src/layout_util.c:788 src/menu.c:194
+#: src/layout_util.c:774 src/menu.c:194
 msgid "_Rotate clockwise"
 msgstr "_Klokgewijs draaien"
 
-#: src/layout_util.c:789 src/menu.c:197
+#: src/layout_util.c:775 src/menu.c:197
 msgid "Rotate _counterclockwise"
 msgstr "_Antiklokgewijs draaien"
 
-#: src/layout_util.c:790
+#: src/layout_util.c:776
 msgid "Rotate 1_80"
 msgstr "_180 draaien"
 
-#: src/layout_util.c:791 src/menu.c:203
+#: src/layout_util.c:777 src/menu.c:203
 msgid "_Mirror"
 msgstr "_Spiegelen"
 
-#: src/layout_util.c:792 src/menu.c:206
+#: src/layout_util.c:778 src/menu.c:206
 msgid "_Flip"
 msgstr "_Omdraaien"
 
-#: src/layout_util.c:794
+#: src/layout_util.c:780
 msgid "Select _all"
 msgstr "_Alles selecteren"
 
-#: src/layout_util.c:795
+#: src/layout_util.c:781
 msgid "Select _none"
 msgstr "_Niets selecteren"
 
-#: src/layout_util.c:796
+#: src/layout_util.c:782
 msgid "P_references..."
 msgstr "_Eigenschappen..."
 
-#: src/layout_util.c:797
+#: src/layout_util.c:783
 msgid "_Thumbnail maintenance..."
 msgstr "_Miniaturen beheer..."
 
-#: src/layout_util.c:803
+#: src/layout_util.c:789
 msgid "_Zoom to fit"
 msgstr "_Passend zoomen"
 
-#: src/layout_util.c:804
+#: src/layout_util.c:790
 msgid "F_ull screen"
 msgstr "_Volledig scherm"
 
-#: src/layout_util.c:805
+#: src/layout_util.c:791
 msgid "_Hide file list"
 msgstr "Bestands_lijst verbergen"
 
-#: src/layout_util.c:806
+#: src/layout_util.c:792
 msgid "Toggle _slideshow"
 msgstr "_Diavoorstelling aan/uit"
 
-#: src/layout_util.c:807
+#: src/layout_util.c:793
 msgid "_Refresh"
 msgstr "_Herladen"
 
-#: src/layout_util.c:809
+#: src/layout_util.c:795
 msgid "_Contents"
 msgstr "_Info"
 
-#: src/layout_util.c:810
+#: src/layout_util.c:796
 msgid "_Keyboard shortcuts"
 msgstr "_Sneltoetsen"
 
-#: src/layout_util.c:811
+#: src/layout_util.c:797
 msgid "_Release notes"
 msgstr "_Versie-informatie"
 
-#: src/layout_util.c:812
+#: src/layout_util.c:798
 msgid "_About"
 msgstr "In_fo"
 
-#: src/layout_util.c:816
+#: src/layout_util.c:802 src/layout_util.c:1049
 msgid "_Thumbnails"
 msgstr "_Miniaturen"
 
-#: src/layout_util.c:817
+#: src/layout_util.c:803
 msgid "Tr_ee"
 msgstr "_Boom"
 
-#: src/layout_util.c:818
+#: src/layout_util.c:804
 msgid "_Float file list"
 msgstr "Bestandslijst _zwevend"
 
-#: src/layout_util.c:819
+#: src/layout_util.c:805
 msgid "Hide tool_bar"
 msgstr "_Werkbalk verbergen"
 
 # P wordt al gebruikt voor _Passend zoomn
-#: src/layout_util.c:820
+#: src/layout_util.c:806
 msgid "_Keywords"
 msgstr "Steekwoorden"
 
-#: src/layout_util.c:821
+#: src/layout_util.c:807
 msgid "E_xif data"
 msgstr "E_xif-gegevens"
 
-#: src/layout_util.c:822
+#: src/layout_util.c:808
 msgid "Sort _manager"
 msgstr "_Sorteerbeheer"
 
-#: src/layout_util.c:826
+#: src/layout_util.c:812
 msgid "_List"
 msgstr "_Lijst"
 
-#: src/layout_util.c:827
+#: src/layout_util.c:813
 msgid "I_cons"
 msgstr "Pi_ctogrammen"
 
-#: src/layout_util.c:1093
+#: src/layout_util.c:1050
 msgid "Show thumbnails"
 msgstr "Miniaturen tonen"
 
-#: src/layout_util.c:1095
+#: src/layout_util.c:1055
 msgid "Change to home folder"
 msgstr "Naar de persoonlijke map gaan"
 
-#: src/layout_util.c:1097
+#: src/layout_util.c:1057
 msgid "Refresh file list"
 msgstr "Bestandslijst herladen"
 
-#: src/layout_util.c:1099
+#: src/layout_util.c:1059
 msgid "Zoom in"
 msgstr "Inzoomen"
 
-#: src/layout_util.c:1101
+#: src/layout_util.c:1061
 msgid "Zoom out"
 msgstr "Uitzoomen"
 
-#: src/layout_util.c:1103 src/preferences.c:921
+#: src/layout_util.c:1063 src/preferences.c:924
 msgid "Fit image to window"
 msgstr "Afbeelding passend maken"
 
-#: src/layout_util.c:1105
+#: src/layout_util.c:1065
 msgid "Set zoom 1:1"
 msgstr "1:1 zoomen"
 
-#: src/layout_util.c:1107
+#: src/layout_util.c:1067
 msgid "Configure options"
 msgstr "Configuratie-opties"
 
-#: src/layout_util.c:1109
+#: src/layout_util.c:1068
+#, fuzzy
+msgid "_Float"
+msgstr "Formaat"
+
+#: src/layout_util.c:1069
 msgid "Float Controls"
 msgstr "Bedieningsvenster loskoppelen"
 
@@ -1616,187 +1621,212 @@ msgstr "Sorteren"
 msgid "Rotate _180"
 msgstr "_180 draaien"
 
-#: src/pan-view.c:3109
+#: src/pan-view.c:3163
 #, fuzzy, c-format
 msgid "%d images, %s"
 msgstr "%d afbeeldingen"
 
-#: src/pan-view.c:3180 src/pan-view.c:3233
+#: src/pan-view.c:3173
+#, c-format
+msgid "The pan view does not support the folder \"%s\"."
+msgstr ""
+
+#: src/pan-view.c:3174
+#, fuzzy
+msgid "Folder not supported"
+msgstr "Map niet gevonden"
+
+#: src/pan-view.c:3228 src/pan-view.c:3244
+#, fuzzy
+msgid "Reading image data..."
+msgstr "Lezen van overeenkomsten..."
+
+#: src/pan-view.c:3303
 #, fuzzy
 msgid "Sorting images..."
 msgstr "Sorteren..."
 
-#: src/pan-view.c:3552 src/pan-view.c:3879
+#: src/pan-view.c:3640 src/pan-view.c:3967
 msgid "Date:"
 msgstr "Datum:"
 
-#: src/pan-view.c:3562 src/preferences.c:849 src/print.c:3201 src/print.c:3408
+#: src/pan-view.c:3650 src/preferences.c:852 src/print.c:3201 src/print.c:3408
 msgid "Size:"
 msgstr "Grootte:"
 
-#: src/pan-view.c:3617
+#: src/pan-view.c:3705
 msgid "path found"
 msgstr ""
 
-#: src/pan-view.c:3617
+#: src/pan-view.c:3705
 #, fuzzy
 msgid "filename found"
 msgstr "Bestand niet gevonden"
 
-#: src/pan-view.c:3665
+#: src/pan-view.c:3753
 #, fuzzy
 msgid "partial match"
 msgstr "gedeeltelijk"
 
-#: src/pan-view.c:3876 src/pan-view.c:3909
+#: src/pan-view.c:3964 src/pan-view.c:3997
 msgid "no match"
 msgstr ""
 
-#: src/pan-view.c:4179 src/search.c:2140
+#: src/pan-view.c:4272 src/search.c:2140
 msgid "Folder not found"
 msgstr "Map niet gevonden"
 
-#: src/pan-view.c:4180
+#: src/pan-view.c:4273
 msgid "The entered path is not a folder"
 msgstr ""
 
-#: src/pan-view.c:4285
+#: src/pan-view.c:4391
 #, fuzzy
 msgid "Timeline"
 msgstr "Bilinear"
 
-#: src/pan-view.c:4286
+#: src/pan-view.c:4392
 #, fuzzy
 msgid "Calendar"
 msgstr "_Wissen"
 
-#: src/pan-view.c:4288
+#: src/pan-view.c:4394
 #, fuzzy
 msgid "Folders (flower)"
 msgstr "Mappen"
 
-#: src/pan-view.c:4289
+#: src/pan-view.c:4395
 msgid "Grid"
 msgstr ""
 
-#: src/pan-view.c:4298
+#: src/pan-view.c:4404
 #, fuzzy
 msgid "Dots"
 msgstr "punten"
 
-#: src/pan-view.c:4299
+#: src/pan-view.c:4405
 #, fuzzy
 msgid "No Images"
 msgstr "Afbeelding"
 
-#: src/pan-view.c:4300
+#: src/pan-view.c:4406
 #, fuzzy
 msgid "Small Thumbnails"
 msgstr "Miniaturen"
 
-#: src/pan-view.c:4301
+#: src/pan-view.c:4407
 #, fuzzy
 msgid "Normal Thumbnails"
 msgstr "Miniaturen"
 
-#: src/pan-view.c:4302
+#: src/pan-view.c:4408
 #, fuzzy
 msgid "Large Thumbnails"
 msgstr "Miniaturen verwijderen"
 
-#: src/pan-view.c:4303
+#: src/pan-view.c:4409
 msgid "1:10 (10%)"
 msgstr ""
 
-#: src/pan-view.c:4304
+#: src/pan-view.c:4410
 msgid "1:4 (25%)"
 msgstr ""
 
-#: src/pan-view.c:4305
+#: src/pan-view.c:4411
 msgid "1:3 (33%)"
 msgstr ""
 
-#: src/pan-view.c:4306
+#: src/pan-view.c:4412
 msgid "1:2 (50%)"
 msgstr ""
 
-#: src/pan-view.c:4307
+#: src/pan-view.c:4413
 msgid "1:1 (100%)"
 msgstr ""
 
-#: src/pan-view.c:4358
+#: src/pan-view.c:4461
 #, fuzzy
 msgid "Find:"
 msgstr "Bestand:"
 
-#: src/pan-view.c:4409
+#: src/pan-view.c:4504
+#, fuzzy
+msgid "Use Exif date"
+msgstr "E_xif-gegevens"
+
+#: src/pan-view.c:4517
 msgid "Find"
 msgstr ""
 
-#: src/pan-view.c:4470
+#: src/pan-view.c:4584
 msgid "Pan View Performance"
 msgstr ""
 
-#: src/pan-view.c:4477
+#: src/pan-view.c:4591
 msgid "Pan view performance may be poor."
 msgstr ""
 
-#: src/pan-view.c:4478
+#: src/pan-view.c:4592
 msgid ""
 "To improve performance of thumbnails in the pan view the following options "
 "can be enabled. Note that both options must be enabled to notice a change in "
 "performance."
 msgstr ""
 
-#: src/pan-view.c:4486 src/preferences.c:852
+#: src/pan-view.c:4600 src/preferences.c:855
 msgid "Cache thumbnails"
 msgstr "Miniaturen 'cachen'"
 
-#: src/pan-view.c:4488 src/preferences.c:858
+#: src/pan-view.c:4602 src/preferences.c:861
 msgid "Use shared thumbnail cache"
 msgstr "Gedeelde miniaturen cache gebruiken"
 
-#: src/pan-view.c:4494
+#: src/pan-view.c:4608
 msgid "Do not show this dialog again"
 msgstr ""
 
-#: src/preferences.c:390
+#: src/pan-view.c:4796
+#, fuzzy
+msgid "Sort by E_xif date"
+msgstr "Op datum gesorteerd"
+
+#: src/preferences.c:393
 msgid "Nearest (worst, but fastest)"
 msgstr "Meest gelijkend (meest beroerd, maar snelst)"
 
-#: src/preferences.c:392
+#: src/preferences.c:395
 msgid "Tiles"
 msgstr "Tegels"
 
-#: src/preferences.c:394
+#: src/preferences.c:397
 msgid "Bilinear"
 msgstr "Bilinear"
 
-#: src/preferences.c:396
+#: src/preferences.c:399
 msgid "Hyper (best, but slowest)"
 msgstr "Hyper (beste, maar langzaamste)"
 
-#: src/preferences.c:424
+#: src/preferences.c:427
 msgid "None"
 msgstr "Geen"
 
-#: src/preferences.c:425
+#: src/preferences.c:428
 msgid "Normal"
 msgstr "Normaal"
 
-#: src/preferences.c:426
+#: src/preferences.c:429
 msgid "Best"
 msgstr "Beste"
 
-#: src/preferences.c:504 src/print.c:365
+#: src/preferences.c:507 src/print.c:365
 msgid "Custom"
 msgstr "Aangepast"
 
-#: src/preferences.c:668 src/preferences.c:671
+#: src/preferences.c:671 src/preferences.c:674
 msgid "Reset filters"
 msgstr "Filters resetten"
 
-#: src/preferences.c:672
+#: src/preferences.c:675
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
@@ -1804,11 +1834,11 @@ msgstr ""
 "Dit zal de oude waarden voor bestandsfilters terughalen.\n"
 "Doorgaan?"
 
-#: src/preferences.c:705 src/preferences.c:708
+#: src/preferences.c:708 src/preferences.c:711
 msgid "Reset editors"
 msgstr "Editors resetten"
 
-#: src/preferences.c:709
+#: src/preferences.c:712
 msgid ""
 "This will reset the edit commands to the defaults.\n"
 "Continue?"
@@ -1816,288 +1846,288 @@ msgstr ""
 "Dit zal de oude waarden voor de edit-opdrachten herstellen.\n"
 "Doorgaan?"
 
-#: src/preferences.c:733 src/preferences.c:736
+#: src/preferences.c:736 src/preferences.c:739
 msgid "Clear trash"
 msgstr "Prullenbak legen"
 
-#: src/preferences.c:737
+#: src/preferences.c:740
 msgid "This will remove the trash contents."
 msgstr "Hiermee zal de inhoud van de prullenbak verwijderd worden"
 
-#: src/preferences.c:776
+#: src/preferences.c:779
 msgid "GQview Preferences"
 msgstr "GQview - voorkeuren"
 
-#: src/preferences.c:830
+#: src/preferences.c:833
 msgid "Startup"
 msgstr "Opstarten"
 
-#: src/preferences.c:832
+#: src/preferences.c:835
 msgid "Change to folder:"
 msgstr "Ga naar map:"
 
-#: src/preferences.c:843
+#: src/preferences.c:846
 msgid "Use current"
 msgstr "Huidige gebruiken"
 
-#: src/preferences.c:850 src/preferences.c:901
+#: src/preferences.c:853 src/preferences.c:904
 msgid "Quality:"
 msgstr "Kwaliteit:"
 
-#: src/preferences.c:864
+#: src/preferences.c:867
 msgid "Cache thumbnails into .thumbnails"
 msgstr "Miniaturen 'cachen' in .thumbnails"
 
-#: src/preferences.c:868
+#: src/preferences.c:871
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr "xvpics-miniaturen gebruiken, indien gevonden (alleen lezen)"
 
-#: src/preferences.c:872
+#: src/preferences.c:875
 msgid "Faster jpeg thumbnailing (may reduce quality)"
 msgstr ""
 
-#: src/preferences.c:875
+#: src/preferences.c:878
 msgid "Slide show"
 msgstr "Diavoorstelling"
 
-#: src/preferences.c:878
+#: src/preferences.c:881
 msgid "Delay between image change:"
 msgstr "Afbeelding wisselingstijd:"
 
-#: src/preferences.c:878
+#: src/preferences.c:881
 msgid "seconds"
 msgstr "seconden"
 
-#: src/preferences.c:884
+#: src/preferences.c:887
 msgid "Random"
 msgstr "Willekeurig"
 
-#: src/preferences.c:885
+#: src/preferences.c:888
 msgid "Repeat"
 msgstr "Herhalen"
 
-#: src/preferences.c:895
+#: src/preferences.c:898
 msgid "Zoom"
 msgstr "Zoomen"
 
-#: src/preferences.c:898
+#: src/preferences.c:901
 msgid "Dithering method:"
 msgstr "Dithering methode:"
 
-#: src/preferences.c:903
+#: src/preferences.c:906
 msgid "Two pass zooming"
 msgstr "Zoomen in twee stappen"
 
-#: src/preferences.c:906
+#: src/preferences.c:909
 msgid "Allow enlargement of image for zoom to fit."
 msgstr "Afbeeldingen zoomen zodat ze in het venster passen"
 
-#: src/preferences.c:910
+#: src/preferences.c:913
 msgid "Zoom increment:"
 msgstr "Stapgrootte voor zoomen:"
 
-#: src/preferences.c:915
+#: src/preferences.c:918
 msgid "When new image is selected:"
 msgstr "Bij het tonen van de volgende afbeelding"
 
-#: src/preferences.c:918
+#: src/preferences.c:921
 msgid "Zoom to original size"
 msgstr "Op oorspronkelijke grootte tonen"
 
-#: src/preferences.c:924
+#: src/preferences.c:927
 msgid "Leave Zoom at previous setting"
 msgstr "Zoom-waarde niet veranderen"
 
-#: src/preferences.c:928
+#: src/preferences.c:931
 msgid "Appearance"
 msgstr "Weergave"
 
-#: src/preferences.c:930
+#: src/preferences.c:933
 msgid "Black background"
 msgstr "Zwarte achtergrond"
 
-#: src/preferences.c:933
+#: src/preferences.c:936
 msgid "Convenience"
 msgstr "Gebruiksvriendelijk"
 
-#: src/preferences.c:935
+#: src/preferences.c:938
 msgid "Refresh on file change"
 msgstr "Verversen bij aanpassing van bestand"
 
-#: src/preferences.c:937
+#: src/preferences.c:940
 msgid "Preload next image"
 msgstr "Alvast de volgende afbeelding laden"
 
-#: src/preferences.c:939
+#: src/preferences.c:942
 msgid "Auto rotate image using Exif information"
 msgstr "Afbeelding automatisch draaien afgaand op Exif info"
 
-#: src/preferences.c:948
+#: src/preferences.c:951
 msgid "Windows"
 msgstr "Vensters"
 
-#: src/preferences.c:951
+#: src/preferences.c:954
 msgid "State"
 msgstr "Toestand"
 
-#: src/preferences.c:953
+#: src/preferences.c:956
 msgid "Remember window positions"
 msgstr "Positie van vensters onthouden"
 
-#: src/preferences.c:955
+#: src/preferences.c:958
 msgid "Remember tool state (float/hidden)"
 msgstr "De werkbalk-toestand (zwevend/verborgen) onthouden"
 
-#: src/preferences.c:960
+#: src/preferences.c:963
 msgid "Fit window to image when tools are hidden/floating"
 msgstr "Venster aanpassen aan afbeelding als werkbalk zweeft/verborgen is"
 
-#: src/preferences.c:964
+#: src/preferences.c:967
 msgid "Limit size when auto-sizing window (%):"
 msgstr "Grootte beperken bij automatisch aanpassen van venster (%):"
 
-#: src/preferences.c:971 src/print.c:3356 src/print.c:3363
+#: src/preferences.c:974 src/print.c:3356 src/print.c:3363
 msgid "Layout"
 msgstr "Indeling"
 
-#: src/preferences.c:984
+#: src/preferences.c:987
 msgid "Filtering"
 msgstr "Filteren"
 
-#: src/preferences.c:989
+#: src/preferences.c:992
 msgid "Show entries that begin with a dot"
 msgstr "Mappen tonen die met een punt beginnen"
 
-#: src/preferences.c:991
+#: src/preferences.c:994
 msgid "Case sensitive sort"
 msgstr "Hoofdlettergevoelig"
 
-#: src/preferences.c:994
+#: src/preferences.c:997
 msgid "Disable File Filtering"
 msgstr "Bestandsfiltering uitschakelen"
 
-#: src/preferences.c:997
+#: src/preferences.c:1000
 msgid "File types"
 msgstr "Bestandstypes"
 
 # kolomkop voor de filters
-#: src/preferences.c:1019
+#: src/preferences.c:1022
 msgid "Filter"
 msgstr "Filter"
 
-#: src/preferences.c:1056 src/preferences.c:1120
+#: src/preferences.c:1059 src/preferences.c:1123
 msgid "Defaults"
 msgstr "Standaarden"
 
-#: src/preferences.c:1077
+#: src/preferences.c:1080
 msgid "Editors"
 msgstr "Editors"
 
-#: src/preferences.c:1083
+#: src/preferences.c:1086
 msgid "#"
 msgstr "#"
 
 # duidelijker zo
-#: src/preferences.c:1086
+#: src/preferences.c:1089
 msgid "Menu name"
 msgstr "Naam van programma"
 
 # dit is de titel van het tabblad
 # 'Extra' is niet de letterlijke vertaling maar wel een goede hier.
-#: src/preferences.c:1136
+#: src/preferences.c:1139
 msgid "Advanced"
 msgstr "Extra"
 
-#: src/preferences.c:1149
+#: src/preferences.c:1152
 msgid "Full screen"
 msgstr "_Volledig scherm"
 
-#: src/preferences.c:1157
+#: src/preferences.c:1160
 msgid "Smooth image flip"
 msgstr "Afbeeldingswisseling vloeiend"
 
-#: src/preferences.c:1159
+#: src/preferences.c:1162
 msgid "Disable screen saver"
 msgstr "Schermbeveiliging uit"
 
-#: src/preferences.c:1162
+#: src/preferences.c:1165
 msgid "Delete"
 msgstr "Verwijderen"
 
-#: src/preferences.c:1164
+#: src/preferences.c:1167
 msgid "Confirm file delete"
 msgstr "Verwijderen van bestand bevestigen"
 
-#: src/preferences.c:1166
+#: src/preferences.c:1169
 msgid "Enable Delete key"
 msgstr "Delete-toets verwijdert bestand"
 
-#: src/preferences.c:1169
+#: src/preferences.c:1172
 msgid "Safe delete"
 msgstr "Veilig verwijderen"
 
-#: src/preferences.c:1187
+#: src/preferences.c:1190
 msgid "Maximum size:"
 msgstr "Maximale grootte:"
 
-#: src/preferences.c:1187
+#: src/preferences.c:1190
 msgid "MB"
 msgstr "MB"
 
 # normale vertaling zou Beeld zijn, maar dit is in de preferences.
-#: src/preferences.c:1190
+#: src/preferences.c:1193
 msgid "View"
 msgstr "Weergeven"
 
-#: src/preferences.c:1200
+#: src/preferences.c:1203
 msgid "Behavior"
 msgstr "Gedrag"
 
-#: src/preferences.c:1202
+#: src/preferences.c:1205
 msgid "Rectangular selection in icon view"
 msgstr "Rechthoekige selectie bij pictogramweergave"
 
-#: src/preferences.c:1205
+#: src/preferences.c:1208
 msgid "Descend folders in tree view"
 msgstr "Mappen binnengaan in boom-weergave"
 
-#: src/preferences.c:1208
+#: src/preferences.c:1211
 msgid "In place renaming"
 msgstr "Snel hernoemen van bestanden"
 
-#: src/preferences.c:1211
+#: src/preferences.c:1214
 msgid "Navigation"
 msgstr "Navigatie"
 
-#: src/preferences.c:1213
+#: src/preferences.c:1216
 msgid "Progressive keyboard scrolling"
 msgstr "Versnelling bij het schuiven van afbeelding via toetsenbord"
 
-#: src/preferences.c:1215
+#: src/preferences.c:1218
 msgid "Mouse wheel scrolls image"
 msgstr "Muiswiel schuift afbeelding"
 
-#: src/preferences.c:1218
+#: src/preferences.c:1221
 msgid "Miscellaneous"
 msgstr "Overige"
 
-#: src/preferences.c:1220
+#: src/preferences.c:1223
 msgid "Store keywords and comments local to source images"
 msgstr "Steekwoorden en opmerkingen locaal bij de afbeeldingen opslaan"
 
-#: src/preferences.c:1223
+#: src/preferences.c:1226
 msgid "Custom similarity threshold:"
 msgstr "Aangepaste drempelwaarde voor overeenkomst:"
 
-#: src/preferences.c:1226
+#: src/preferences.c:1229
 msgid "Offscreen cache size (Mb per image):"
 msgstr "Offscreen cache grootte (Mb per afbeelding):"
 
-#: src/preferences.c:1302
+#: src/preferences.c:1305
 msgid "About - GQview"
 msgstr "Info - GQview"
 
-#: src/preferences.c:1315
+#: src/preferences.c:1318
 #, c-format
 msgid ""
 "GQview %s\n"
@@ -2116,7 +2146,7 @@ msgstr ""
 "\n"
 "Uitgegeven onder de GNU General Public License"
 
-#: src/preferences.c:1333
+#: src/preferences.c:1336
 msgid "Credits..."
 msgstr "Met dank aan..."
 
@@ -2267,7 +2297,7 @@ msgstr "Tabloid"
 msgid "page %d of %d"
 msgstr "pagina %d van %d"
 
-#: src/print.c:736 src/utilops.c:2067
+#: src/print.c:736 src/utilops.c:2128
 msgid "Preview"
 msgstr "Voorbeeld"
 
@@ -2611,12 +2641,12 @@ msgstr ""
 "Kan bestand: \n"
 "%s niet laden"
 
-#: src/ui_pathsel.c:430 src/view_dir_list.c:97 src/view_dir_tree.c:204
+#: src/ui_pathsel.c:430 src/utilops.c:2486
 #, c-format
 msgid "Failed to rename %s to %s."
 msgstr "Kon %s niet hernoemen tot %s."
 
-#: src/ui_pathsel.c:486 src/utilops.c:1288 src/utilops.c:1461
+#: src/ui_pathsel.c:486 src/utilops.c:1347 src/utilops.c:1520
 #, c-format
 msgid ""
 "Unable to delete file:\n"
@@ -2625,7 +2655,7 @@ msgstr ""
 "Kan het bestand: \n"
 "%s niet verwijderen"
 
-#: src/ui_pathsel.c:487 src/utilops.c:1462
+#: src/ui_pathsel.c:487 src/utilops.c:1521
 msgid "File deletion failed"
 msgstr "Verwijderen van bestand mislukt"
 
@@ -2642,8 +2672,8 @@ msgstr ""
 "Het bestand: %s\n"
 "zal worden verwijderd"
 
-#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2035
-#: src/utilops.c:2255
+#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2096
+#: src/utilops.c:2320
 msgid "_Rename"
 msgstr "_Hernoemen"
 
@@ -2659,8 +2689,8 @@ msgstr "_Verwijderen"
 msgid "New folder"
 msgstr "Nieuw map"
 
-#: src/ui_pathsel.c:750 src/utilops.c:2325 src/view_dir_list.c:338
-#: src/view_dir_tree.c:434
+#: src/ui_pathsel.c:750 src/utilops.c:2392 src/view_dir_list.c:330
+#: src/view_dir_tree.c:426
 #, c-format
 msgid ""
 "Unable to create folder:\n"
@@ -2669,8 +2699,8 @@ msgstr ""
 "Kan map:\n"
 "%s niet aanmaken"
 
-#: src/ui_pathsel.c:751 src/utilops.c:2326 src/view_dir_list.c:339
-#: src/view_dir_tree.c:435
+#: src/ui_pathsel.c:751 src/utilops.c:2393 src/view_dir_list.c:331
+#: src/view_dir_tree.c:427
 msgid "Error creating folder"
 msgstr "Fout bij het aanmaken van map"
 
@@ -2695,53 +2725,53 @@ msgstr "Pad selecteren"
 msgid "All files"
 msgstr "Alle bestanden"
 
-#: src/utilops.c:470 src/utilops.c:783 src/utilops.c:1640 src/utilops.c:2187
+#: src/utilops.c:498 src/utilops.c:819 src/utilops.c:1699 src/utilops.c:2251
 msgid "Overwrite file"
 msgstr "Overschrijf bestanden"
 
-#: src/utilops.c:475 src/utilops.c:788 src/utilops.c:1645 src/utilops.c:2192
+#: src/utilops.c:503 src/utilops.c:824 src/utilops.c:1704 src/utilops.c:2256
 msgid "Overwrite file?"
 msgstr "Bestand overschrijven?"
 
-#: src/utilops.c:476 src/utilops.c:789
+#: src/utilops.c:504 src/utilops.c:825
 msgid "Replace existing file with new file."
 msgstr "Huidige bestand vervangen door dit nieuwe bestand."
 
 # allen/alles
-#: src/utilops.c:480
+#: src/utilops.c:508
 msgid "Overwrite _all"
 msgstr "_Allen overschrijven"
 
-#: src/utilops.c:482
+#: src/utilops.c:510
 msgid "S_kip all"
 msgstr "Allen _overslaan"
 
-#: src/utilops.c:483
+#: src/utilops.c:511
 msgid "_Skip"
 msgstr "_Overslaan"
 
-#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+#: src/utilops.c:512 src/utilops.c:829 src/utilops.c:1709 src/utilops.c:2261
 msgid "Existing file"
 msgstr "Huidige bestand"
 
-#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+#: src/utilops.c:512 src/utilops.c:829 src/utilops.c:1709 src/utilops.c:2261
 msgid "New file"
 msgstr "Nieuw bestand"
 
-#: src/utilops.c:494 src/utilops.c:802 src/utilops.c:1746 src/utilops.c:1810
-#: src/utilops.c:2101
+#: src/utilops.c:522 src/utilops.c:838 src/utilops.c:1805 src/utilops.c:1869
+#: src/utilops.c:2162
 msgid "Auto rename"
 msgstr "Automatisch hernoemen"
 
-#: src/utilops.c:502 src/utilops.c:810
+#: src/utilops.c:530 src/utilops.c:846
 msgid "Rename"
 msgstr "Hernoemen"
 
-#: src/utilops.c:543
+#: src/utilops.c:571
 msgid "Source to copy matches destination"
 msgstr "Bron voor kopiëren is gelijk aan doel"
 
-#: src/utilops.c:544
+#: src/utilops.c:572
 #, c-format
 msgid ""
 "Unable to copy file:\n"
@@ -2752,11 +2782,11 @@ msgstr ""
 "%s\n"
 "niet naar zichzelf kopieren."
 
-#: src/utilops.c:548
+#: src/utilops.c:576
 msgid "Source to move matches destination"
 msgstr "Te verplaatsen bron is gelijk aan doel"
 
-#: src/utilops.c:549
+#: src/utilops.c:577
 #, c-format
 msgid ""
 "Unable to move file:\n"
@@ -2767,15 +2797,15 @@ msgstr ""
 "%s\n"
 "niet naar zichzelf verplaatsen."
 
-#: src/utilops.c:557 src/utilops.c:644 src/utilops.c:1280
+#: src/utilops.c:585 src/utilops.c:672 src/utilops.c:1339
 msgid "Co_ntinue"
 msgstr "_Doorgaan"
 
-#: src/utilops.c:630 src/utilops.c:850
+#: src/utilops.c:658 src/utilops.c:886
 msgid "Error copying file"
 msgstr "Fout bij kopieren bestand"
 
-#: src/utilops.c:631
+#: src/utilops.c:659
 #, c-format
 msgid ""
 "Unable to copy file:\n"
@@ -2790,11 +2820,11 @@ msgstr ""
 "%s\n"
 "tijdens het kopiëren van meerdere bestanden."
 
-#: src/utilops.c:635 src/utilops.c:855
+#: src/utilops.c:663 src/utilops.c:891
 msgid "Error moving file"
 msgstr "Fout bij het verplaatsen"
 
-#: src/utilops.c:636
+#: src/utilops.c:664
 #, c-format
 msgid ""
 "Unable to move file:\n"
@@ -2809,15 +2839,15 @@ msgstr ""
 "%s\n"
 "tijdens het verplaatsen van meerdere bestanden."
 
-#: src/utilops.c:774
+#: src/utilops.c:810
 msgid "Source matches destination"
 msgstr "Bron is gelijk aan doellocatie"
 
-#: src/utilops.c:775
+#: src/utilops.c:811
 msgid "Source and destination are the same, operation cancelled."
 msgstr "Bron is gelijk aan doellocatie, actie onderbroken"
 
-#: src/utilops.c:851
+#: src/utilops.c:887
 #, c-format
 msgid ""
 "Unable to copy file:\n"
@@ -2830,7 +2860,7 @@ msgstr ""
 "naar:\n"
 "%s"
 
-#: src/utilops.c:856
+#: src/utilops.c:892
 #, c-format
 msgid ""
 "Unable to move file:\n"
@@ -2843,11 +2873,11 @@ msgstr ""
 "naar:\n"
 "%s"
 
-#: src/utilops.c:899
+#: src/utilops.c:940
 msgid "Invalid destination"
 msgstr "Ongeldige doellocatie"
 
-#: src/utilops.c:900
+#: src/utilops.c:941
 msgid ""
 "When operating with multiple files, please select\n"
 "a folder, not a file."
@@ -2855,67 +2885,67 @@ msgstr ""
 "Bij het werken met meerdere bestanden moet u een map\n"
 "selecteren, geen bestand."
 
-#: src/utilops.c:905
+#: src/utilops.c:946
 msgid "Please select an existing folder."
 msgstr "Selecteer een bestaande map."
 
-#: src/utilops.c:956
+#: src/utilops.c:1015
 msgid "Copy - GQview"
 msgstr "Kopiëren - GQview"
 
-#: src/utilops.c:957 src/view_dir_list.c:217 src/view_dir_tree.c:309
+#: src/utilops.c:1016 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
 msgstr "_Kopiëren"
 
-#: src/utilops.c:960
+#: src/utilops.c:1019
 msgid "Copy file"
 msgstr "Bestand kopiëren"
 
-#: src/utilops.c:964
+#: src/utilops.c:1023
 msgid "Copy multiple files"
 msgstr "Meerdere bestanden kopiëren"
 
-#: src/utilops.c:970
+#: src/utilops.c:1029
 msgid "Move - GQview"
 msgstr "Verplaatsen - GQview"
 
-#: src/utilops.c:971 src/view_dir_list.c:219 src/view_dir_tree.c:311
+#: src/utilops.c:1030 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
 msgstr "_Verplaatsen"
 
-#: src/utilops.c:974
+#: src/utilops.c:1033
 msgid "Move file"
 msgstr "Bestand verplaatsen"
 
-#: src/utilops.c:978
+#: src/utilops.c:1037
 msgid "Move multiple files"
 msgstr "Meerdere bestanden verplaatsen"
 
-#: src/utilops.c:992 src/utilops.c:1502
+#: src/utilops.c:1051 src/utilops.c:1561
 msgid "File name:"
 msgstr "Bestandsnaam:"
 
-#: src/utilops.c:996
+#: src/utilops.c:1055
 msgid "Choose the destination folder."
 msgstr "Selecteer de doelmap."
 
-#: src/utilops.c:1123 src/utilops.c:1272 src/utilops.c:1289
+#: src/utilops.c:1182 src/utilops.c:1331 src/utilops.c:1348
 msgid "Delete failed"
 msgstr "Verwijderen mislukt"
 
-#: src/utilops.c:1124
+#: src/utilops.c:1183
 msgid "Unable to remove old file from trash folder"
 msgstr "Kan oud bestand niet uit de prullenbak verwijderen"
 
-#: src/utilops.c:1180 src/utilops.c:2318
+#: src/utilops.c:1239 src/utilops.c:2385
 msgid "Could not create folder"
 msgstr "Kon map niet aanmaken"
 
-#: src/utilops.c:1202
+#: src/utilops.c:1261
 msgid "Permission denied"
 msgstr "Toestemming geweigerd"
 
-#: src/utilops.c:1212
+#: src/utilops.c:1271
 #, c-format
 msgid ""
 "Unable to access or create the trash folder.\n"
@@ -2924,16 +2954,16 @@ msgstr ""
 "Kan de prullenbak-map niet benaderen of aanmaken.\n"
 "\"%s\""
 
-#: src/utilops.c:1216
+#: src/utilops.c:1275
 msgid "Turn off safe delete"
 msgstr "Veilig bestanden verwijdern uitzetten"
 
-#: src/utilops.c:1234
+#: src/utilops.c:1293
 #, c-format
 msgid "Safe delete: %s"
 msgstr "Veilig verwijderen: %s"
 
-#: src/utilops.c:1276
+#: src/utilops.c:1335
 #, c-format
 msgid ""
 "Unable to delete file:\n"
@@ -2944,37 +2974,37 @@ msgstr ""
 "%s niet verwijderen\n"
 "Wilt u verder gaan met het verwijderen van bestanden?"
 
-#: src/utilops.c:1347
+#: src/utilops.c:1406
 #, c-format
 msgid "File %d of %d"
 msgstr "Bestand %d van %d"
 
-#: src/utilops.c:1416
+#: src/utilops.c:1475
 msgid "Delete files - GQview"
 msgstr "Bestand verwijderen - GQview"
 
-#: src/utilops.c:1420
+#: src/utilops.c:1479
 msgid "Delete multiple files"
 msgstr "Meerdere bestanden verwijderen"
 
-#: src/utilops.c:1438
+#: src/utilops.c:1497
 #, c-format
 msgid "Review %d files"
 msgstr "%d bestanden herzien"
 
-#: src/utilops.c:1494
+#: src/utilops.c:1553
 msgid "Delete file - GQview"
 msgstr "Bestand verwijderen - GQview"
 
-#: src/utilops.c:1498
+#: src/utilops.c:1557
 msgid "Delete file?"
 msgstr "Bestand verwijderen?"
 
-#: src/utilops.c:1646 src/utilops.c:2193
+#: src/utilops.c:1705 src/utilops.c:2257
 msgid "Replace existing file by renaming new file."
 msgstr "Huidige bestand vervangen door het nieuwe bestand te hernoemen."
 
-#: src/utilops.c:1661
+#: src/utilops.c:1720
 #, c-format
 msgid ""
 "Unable to rename file:\n"
@@ -2987,12 +3017,12 @@ msgstr ""
 "niet hernoemen tot:\n"
 "%s"
 
-#: src/utilops.c:1664 src/utilops.c:2208 src/view_file_list.c:448
+#: src/utilops.c:1723 src/utilops.c:2272 src/view_file_list.c:448
 #: src/view_file_list.c:454 src/view_file_list.c:460
 msgid "Error renaming file"
 msgstr "Fout bij het hernoemen van bestand"
 
-#: src/utilops.c:1747
+#: src/utilops.c:1806
 msgid ""
 "Can not auto rename with the selected\n"
 "number set, one or more files exist that\n"
@@ -3002,7 +3032,7 @@ msgstr ""
 "nummers. Een of meer bestanden komen overeen\n"
 "met de resulterende bestandsnamen.\n"
 
-#: src/utilops.c:1809
+#: src/utilops.c:1868
 #, c-format
 msgid ""
 "Failed to rename\n"
@@ -3013,43 +3043,43 @@ msgstr ""
 "\n"
 "Het getal was %d."
 
-#: src/utilops.c:2031 src/utilops.c:2249
+#: src/utilops.c:2092 src/utilops.c:2314
 msgid "Rename - GQview"
 msgstr "Hernoemen - GQview"
 
-#: src/utilops.c:2034
+#: src/utilops.c:2095
 msgid "Rename multiple files"
 msgstr "Meerdere bestanden hernoemen"
 
-#: src/utilops.c:2066
+#: src/utilops.c:2127
 msgid "Original Name"
 msgstr "Oorspronkelijke naam"
 
-#: src/utilops.c:2110 src/utilops.c:2262
+#: src/utilops.c:2171 src/utilops.c:2327
 msgid "Original name:"
 msgstr "Oorspronkelijke naam:"
 
-#: src/utilops.c:2113 src/utilops.c:2265
+#: src/utilops.c:2174 src/utilops.c:2330
 msgid "New name:"
 msgstr "Nieuw naam:"
 
-#: src/utilops.c:2128
+#: src/utilops.c:2192
 msgid "Begin text"
 msgstr "Begintekst"
 
-#: src/utilops.c:2136
+#: src/utilops.c:2200
 msgid "Start #"
 msgstr "Start #"
 
-#: src/utilops.c:2142
+#: src/utilops.c:2206
 msgid "End text"
 msgstr "Eindtekst"
 
-#: src/utilops.c:2150
+#: src/utilops.c:2214
 msgid "Padding:"
 msgstr "Opvulling:"
 
-#: src/utilops.c:2207 src/view_file_list.c:459
+#: src/utilops.c:2271 src/view_file_list.c:459
 #, c-format
 msgid ""
 "Unable to rename file:\n"
@@ -3062,11 +3092,11 @@ msgstr ""
 "niet hernoemen tot:\n"
 "%s"
 
-#: src/utilops.c:2252
+#: src/utilops.c:2317
 msgid "Rename file"
 msgstr "Bestand hernoemen"
 
-#: src/utilops.c:2311
+#: src/utilops.c:2378 src/utilops.c:2468
 #, c-format
 msgid ""
 "The folder:\n"
@@ -3077,11 +3107,11 @@ msgstr ""
 "%s\n"
 "bestaat al."
 
-#: src/utilops.c:2312
+#: src/utilops.c:2379 src/utilops.c:2469
 msgid "Folder exists"
 msgstr "Map bestaat"
 
-#: src/utilops.c:2317
+#: src/utilops.c:2384 src/utilops.c:2477
 #, c-format
 msgid ""
 "The path:\n"
@@ -3092,11 +3122,11 @@ msgstr ""
 "%s\n"
 "bestaat al als bestand."
 
-#: src/utilops.c:2369
+#: src/utilops.c:2436
 msgid "New folder - GQview"
 msgstr "Nieuwe map - GQview"
 
-#: src/utilops.c:2372
+#: src/utilops.c:2439
 #, c-format
 msgid ""
 "Create folder in:\n"
@@ -3107,40 +3137,45 @@ msgstr ""
 "%s\n"
 "met de naam:"
 
-#: src/view_dir_list.c:329 src/view_dir_tree.c:425
+#: src/utilops.c:2478
+#, fuzzy
+msgid "Rename failed"
+msgstr "Bestand hernoemen"
+
+#: src/view_dir_list.c:321 src/view_dir_tree.c:417
 msgid "new_folder"
 msgstr "Nieuwe map"
 
-#: src/view_dir_list.c:387 src/view_dir_tree.c:482
+#: src/view_dir_list.c:379 src/view_dir_tree.c:474
 msgid "_Up to parent"
 msgstr "Naar _bovenliggende"
 
 # was eerst diashow
-#: src/view_dir_list.c:392 src/view_dir_tree.c:487
+#: src/view_dir_list.c:384 src/view_dir_tree.c:479
 msgid "_Slideshow"
 msgstr "_Diavoorstelling"
 
-#: src/view_dir_list.c:394 src/view_dir_tree.c:489
+#: src/view_dir_list.c:386 src/view_dir_tree.c:481
 msgid "Slideshow recursive"
 msgstr "Recursieve diavoorstelling"
 
-#: src/view_dir_list.c:398 src/view_dir_tree.c:493
+#: src/view_dir_list.c:390 src/view_dir_tree.c:485
 msgid "Find _duplicates..."
 msgstr "_Dubbele zoeken..."
 
-#: src/view_dir_list.c:400 src/view_dir_tree.c:495
+#: src/view_dir_list.c:392 src/view_dir_tree.c:487
 msgid "Find duplicates recursive..."
 msgstr "Recursief dubbele zoeken..."
 
-#: src/view_dir_list.c:407 src/view_dir_tree.c:502
+#: src/view_dir_list.c:399 src/view_dir_tree.c:494
 msgid "_New folder..."
 msgstr "_Nieuw map..."
 
-#: src/view_dir_list.c:419 src/view_dir_tree.c:509
+#: src/view_dir_list.c:411 src/view_dir_tree.c:501
 msgid "View as _tree"
 msgstr "Als _boom weergeven"
 
-#: src/view_dir_list.c:421 src/view_dir_tree.c:511 src/view_file_icon.c:311
+#: src/view_dir_list.c:413 src/view_dir_tree.c:503 src/view_file_icon.c:311
 #: src/view_file_list.c:423
 msgid "Re_fresh"
 msgstr "_Herladen"

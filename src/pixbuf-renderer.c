@@ -2620,12 +2620,19 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 
 static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 {
+	gint zoom_changed = FALSE;
+
 	if (pr->window_width == new_width && pr->window_height == new_height) return;
 
 	pr->window_width = new_width;
 	pr->window_height = new_height;
 
-	if (pr->zoom == 0.0) pr_zoom_clamp(pr, 0.0, TRUE, FALSE, FALSE, NULL);
+	if (pr->zoom == 0.0)
+		{
+		gdouble old_scale = pr->scale;
+		pr_zoom_clamp(pr, 0.0, TRUE, FALSE, FALSE, NULL);
+		zoom_changed = (old_scale != pr->scale);
+		}
 
 	pr_size_clamp(pr);
 	pr_scroll_clamp(pr);
@@ -2671,6 +2678,7 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 #endif
 
 	pr_scroll_notify_signal(pr);
+	if (zoom_changed) pr_zoom_signal(pr);
 	pr_update_signal(pr);
 }
 

@@ -42,6 +42,8 @@
 static GList *image_list = NULL;
 
 
+static void image_update_title(ImageWindow *imd);
+
 /*
  *-------------------------------------------------------------------
  * 'signals'
@@ -83,6 +85,7 @@ static void image_zoom_cb(PixbufRenderer *pr, gdouble zoom, gpointer data)
 {
 	ImageWindow *imd = data;
 
+	if (imd->title_show_zoom) image_update_title(imd);
 	image_update_util(imd);
 }
 

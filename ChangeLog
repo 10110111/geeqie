@@ -1,3 +1,12 @@
+Mon Jun 13 20:22:58 2005  John Ellis  <johne@verizon.net>
+
+	* image.c (image_zoom_cb): If needed, update window title when
+	zoom changes.
+	* pixbuf-renderer.c (pr_size_sync): Send zoom signal when new window
+	size results in a new scale value.
+	* README: Updates.
+	* configure.in: Release 2.1.1
+
 Mon Jun 13 17:31:46 2005  John Ellis  <johne@verizon.net>
 
 	* editors.[ch]: Add "%w" macro to disable full screen deactivation when

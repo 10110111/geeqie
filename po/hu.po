@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-05 16:24-0500\n"
+"POT-Creation-Date: 2005-06-13 20:31-0400\n"
 "PO-Revision-Date: 2004-02-22 17:20+0100\n"
 "Last-Translator: Sári Gábor <saga@externet.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -55,17 +55,17 @@ msgstr ""
 msgid "Favorite keywords list"
 msgstr ""
 
-#: src/bar_info.c:992 src/info.c:166 src/search.c:2692
+#: src/bar_info.c:992 src/info.c:167 src/search.c:2692
 msgid "Keywords"
 msgstr ""
 
 # src/utilops.c:980
-#: src/bar_info.c:1006 src/info.c:716 src/pan-view.c:3542 src/print.c:2599
+#: src/bar_info.c:1006 src/info.c:722 src/pan-view.c:3630 src/print.c:2599
 msgid "Filename:"
 msgstr "Fájlnév:"
 
 # src/ui_pathsel.c:799
-#: src/bar_info.c:1007 src/info.c:360
+#: src/bar_info.c:1007 src/info.c:366
 msgid "File date:"
 msgstr "Fájl dátuma:"
 
@@ -97,39 +97,39 @@ msgstr ""
 msgid "Save comment now"
 msgstr "Gyűjtemény mentése"
 
-#: src/bar_exif.c:423
+#: src/bar_exif.c:435
 msgid "Tag"
 msgstr "Címke"
 
 # src/dupe.c:1652 src/dupe.c:1941
-#: src/bar_exif.c:424 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
+#: src/bar_exif.c:436 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
 #: src/search.c:2753 src/view_file_list.c:1555
 msgid "Name"
 msgstr "Név"
 
-#: src/bar_exif.c:425
+#: src/bar_exif.c:437
 msgid "Value"
 msgstr "Érték"
 
 # src/preferences.c:401
-#: src/bar_exif.c:426
+#: src/bar_exif.c:438
 msgid "Format"
 msgstr "Formátum"
 
-#: src/bar_exif.c:427
+#: src/bar_exif.c:439
 msgid "Elements"
 msgstr "Elemek"
 
-#: src/bar_exif.c:428 src/preferences.c:1039
+#: src/bar_exif.c:440 src/preferences.c:1042
 msgid "Description"
 msgstr "Leírás"
 
 # src/main.c:622
-#: src/bar_exif.c:549 src/info.c:105
+#: src/bar_exif.c:561 src/info.c:106
 msgid "Exif"
 msgstr "Exif"
 
-#: src/bar_exif.c:622
+#: src/bar_exif.c:634
 msgid "Advanced view"
 msgstr "Haladó nézet"
 
@@ -176,7 +176,7 @@ msgstr ""
 msgid "Save Failed"
 msgstr "Sikertelen mentés"
 
-#: src/bar_sort.c:485 src/bar_sort.c:631
+#: src/bar_sort.c:485 src/bar_sort.c:611
 msgid "Add Bookmark"
 msgstr "Könyvjelző hozzáadása"
 
@@ -192,17 +192,17 @@ msgid "Name:"
 msgstr "Név:"
 
 # src/menu.c:526
-#: src/bar_sort.c:569
+#: src/bar_sort.c:568
 msgid "Sort Manager"
 msgstr "Rendezés kezelő"
 
 # src/menu.c:709
-#: src/bar_sort.c:578 src/pan-view.c:4287 src/ui_pathsel.c:1095
+#: src/bar_sort.c:577 src/pan-view.c:4393 src/ui_pathsel.c:1095
 msgid "Folders"
 msgstr "Könyvtárak"
 
 # src/preferences.c:897
-#: src/bar_sort.c:579 src/main.c:1066
+#: src/bar_sort.c:578 src/main.c:1066
 msgid "Collections"
 msgstr "Gyűjtemények"
 
@@ -212,27 +212,27 @@ msgid "Copy"
 msgstr "Másolás"
 
 # src/utilops.c:601
-#: src/bar_sort.c:593
+#: src/bar_sort.c:589
 msgid "Move"
 msgstr "Mozgatás"
 
-#: src/bar_sort.c:600
+#: src/bar_sort.c:592
 msgid "Link"
 msgstr ""
 
 # src/collect-table.c:86
-#: src/bar_sort.c:610
+#: src/bar_sort.c:598
 #, fuzzy
 msgid "Add image"
 msgstr "%d kép"
 
 # src/collect-table.c:628 src/dupe.c:1393 src/dupe.c:1565
-#: src/bar_sort.c:617
+#: src/bar_sort.c:601
 #, fuzzy
 msgid "Add selection"
 msgstr "Nincs kijelölés"
 
-#: src/bar_sort.c:634
+#: src/bar_sort.c:614
 msgid "Undo last image"
 msgstr "Legutóbbi kép visszavonása"
 
@@ -265,7 +265,7 @@ msgid "Maintenance"
 msgstr ""
 
 # src/collect-dlg.c:59
-#: src/cache_maint.c:792 src/utilops.c:904
+#: src/cache_maint.c:792 src/utilops.c:945
 #, fuzzy
 msgid "Invalid folder"
 msgstr "Érvénytelen fájlnév"
@@ -286,7 +286,7 @@ msgid "S_tart"
 msgstr "Kezdet #"
 
 # src/menu.c:709
-#: src/cache_maint.c:842 src/preferences.c:1176
+#: src/cache_maint.c:842 src/preferences.c:1179
 msgid "Folder:"
 msgstr "Könyvtár:"
 
@@ -311,7 +311,7 @@ msgid "click start to begin"
 msgstr ""
 
 # src/dupe.c:871 src/dupe.c:892
-#: src/cache_maint.c:997 src/editors.c:549
+#: src/cache_maint.c:997 src/editors.c:558
 msgid "running..."
 msgstr "fut..."
 
@@ -351,7 +351,7 @@ msgid "GQview thumbnail cache"
 msgstr "GQview teljes képernyő"
 
 #: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
-#: src/pan-view.c:4276 src/preferences.c:1153 src/utilops.c:1505
+#: src/pan-view.c:4382 src/preferences.c:1156 src/utilops.c:1564
 #, fuzzy
 msgid "Location:"
 msgstr "akció"
@@ -398,8 +398,8 @@ msgid "Remove orphaned keywords and comments."
 msgstr ""
 
 # src/collect.c:329 src/image.c:1058
-#: src/collect.c:349 src/image.c:1674 src/image-overlay.c:74
-#: src/image-overlay.c:115
+#: src/collect.c:349 src/image.c:134 src/image-overlay.c:75
+#: src/image-overlay.c:116
 msgid "Untitled"
 msgstr "Névtelen"
 
@@ -462,8 +462,8 @@ msgid "Overwrite existing file?"
 msgstr "Fájl felülírása"
 
 # src/collect-dlg.c:73 src/utilops.c:463 src/utilops.c:830 src/utilops.c:1036
-#: src/collect-dlg.c:75 src/utilops.c:479 src/utilops.c:792 src/utilops.c:1649
-#: src/utilops.c:2196
+#: src/collect-dlg.c:75 src/utilops.c:507 src/utilops.c:828 src/utilops.c:1708
+#: src/utilops.c:2260
 #, fuzzy
 msgid "_Overwrite"
 msgstr "Felülír"
@@ -505,7 +505,7 @@ msgid "The current collection is empty, save aborted."
 msgstr "A jelenlegi gyűjtemény üres, a mentés megszakítva."
 
 # src/collect-table.c:78 src/menu.c:684
-#: src/collect-table.c:164 src/layout_util.c:716
+#: src/collect-table.c:164 src/layout_util.c:702
 msgid "Empty"
 msgstr "Üres"
 
@@ -530,14 +530,14 @@ msgstr "Indexképek betöltése..."
 
 # src/menu.c:753
 #: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
-#: src/layout_util.c:759 src/search.c:969
+#: src/layout_util.c:745 src/search.c:969
 msgid "_View"
 msgstr "_Nézet"
 
 # src/collect-table.c:620 src/dupe.c:1388 src/dupe.c:1560 src/img-view.c:801
 # src/menu.c:906 src/menu.c:964
-#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1187
-#: src/layout_image.c:722 src/pan-view.c:4657 src/search.c:971
+#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1196
+#: src/layout_image.c:727 src/pan-view.c:4782 src/search.c:971
 #: src/view_file_icon.c:283 src/view_file_list.c:395
 msgid "View in _new window"
 msgstr "Nézet új _ablakban"
@@ -568,41 +568,41 @@ msgid "Select none"
 msgstr "Nincs kijelölés"
 
 # src/menu.c:748
-#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1185
-#: src/layout_image.c:719 src/layout_util.c:793 src/pan-view.c:4654
+#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1194
+#: src/layout_image.c:724 src/layout_util.c:779 src/pan-view.c:4779
 #: src/search.c:981 src/view_file_icon.c:280 src/view_file_list.c:393
 msgid "_Properties"
 msgstr "Tu_lajdonságok"
 
 # src/collect-table.c:633 src/dupe.c:1401 src/img-view.c:804 src/menu.c:910
 # src/menu.c:969
-#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1190
-#: src/layout_image.c:727 src/layout_util.c:771 src/pan-view.c:4661
+#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1199
+#: src/layout_image.c:732 src/layout_util.c:757 src/pan-view.c:4786
 #: src/search.c:988 src/view_file_icon.c:287 src/view_file_list.c:399
 msgid "_Copy..."
 msgstr "_Másolás..."
 
 # src/collect-table.c:634 src/dupe.c:1403 src/img-view.c:805 src/menu.c:912
 # src/menu.c:971
-#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1191
-#: src/layout_image.c:729 src/layout_util.c:772 src/pan-view.c:4663
+#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1200
+#: src/layout_image.c:734 src/layout_util.c:758 src/pan-view.c:4788
 #: src/search.c:990 src/view_file_icon.c:289 src/view_file_list.c:401
 msgid "_Move..."
 msgstr "M_ozgatás..."
 
 # src/collect-table.c:635 src/dupe.c:1405 src/img-view.c:806 src/menu.c:914
 # src/menu.c:973
-#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1192
-#: src/layout_image.c:731 src/layout_util.c:773 src/pan-view.c:4665
-#: src/search.c:992 src/view_dir_list.c:415 src/view_dir_tree.c:505
+#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1201
+#: src/layout_image.c:736 src/layout_util.c:759 src/pan-view.c:4790
+#: src/search.c:992 src/view_dir_list.c:407 src/view_dir_tree.c:497
 #: src/view_file_icon.c:291 src/view_file_list.c:403
 msgid "_Rename..."
 msgstr "Át_nevezés..."
 
 # src/collect-table.c:636 src/dupe.c:1407 src/img-view.c:807 src/menu.c:916
 # src/menu.c:975
-#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1193
-#: src/layout_image.c:733 src/layout_util.c:774 src/pan-view.c:4667
+#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1202
+#: src/layout_image.c:738 src/layout_util.c:760 src/pan-view.c:4792
 #: src/search.c:994 src/view_file_icon.c:293 src/view_file_list.c:405
 msgid "_Delete..."
 msgstr "_Törlés..."
@@ -623,7 +623,7 @@ msgid "Save collection _as..."
 msgstr "Gyűjtemény mentése min_t..."
 
 # src/collect-table.c:644 src/menu.c:885
-#: src/collect-table.c:818 src/layout_util.c:767
+#: src/collect-table.c:818 src/layout_util.c:753
 msgid "_Find duplicates..."
 msgstr "_Duplikációk keresése..."
 
@@ -634,31 +634,31 @@ msgid "Print..."
 msgstr "/Fájl/Át_nevezés..."
 
 # src/collect-table.c:1818 src/dupe.c:2170
-#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1347
+#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1356
 #, fuzzy
 msgid "Dropped list includes folders."
 msgstr "A ráhúzott lista könyvtárakat is tartalmaz."
 
 # src/collect-table.c:1820 src/dupe.c:2172
-#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1349
+#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1358
 msgid "_Add contents"
 msgstr "Hozzá_adás"
 
 # src/collect-table.c:1821 src/dupe.c:2173
-#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1350
+#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1359
 msgid "Add contents _recursive"
 msgstr "_Rekurzív hozzáadás"
 
 # src/collect-table.c:1822 src/dupe.c:2174
-#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1351
+#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1360
 #, fuzzy
 msgid "_Skip folders"
 msgstr "Könyvtárak kihagyá_sa"
 
 # src/collect-table.c:1824 src/dupe.c:2176 src/preferences.c:536
 # src/ui_utildlg.c:105
-#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1353
-#: src/view_dir_list.c:222 src/view_dir_tree.c:314
+#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1362
+#: src/view_dir_list.c:214 src/view_dir_tree.c:306
 msgid "Cancel"
 msgstr "Mégsem"
 
@@ -689,7 +689,7 @@ msgid "Reading checksums..."
 msgstr "Ellenőrző összegek olvasása..."
 
 # src/dupe.c:807
-#: src/dupe.c:1455 src/pan-view.c:3170 src/pan-view.c:3186
+#: src/dupe.c:1455
 msgid "Reading dimensions..."
 msgstr "Méretek beolvasása..."
 
@@ -704,7 +704,7 @@ msgid "Comparing..."
 msgstr "Összehasonlítás..."
 
 # src/dupe.c:871 src/dupe.c:892
-#: src/dupe.c:1535
+#: src/dupe.c:1535 src/pan-view.c:3238
 msgid "Sorting..."
 msgstr "Rendezés..."
 
@@ -738,13 +738,13 @@ msgid "%d files (set 2)"
 msgstr "%d fájl (2. halmaz)"
 
 # src/dupe.c:1653 src/dupe.c:1942
-#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:958 src/print.c:3194
+#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:961 src/print.c:3194
 #: src/search.c:2754 src/view_file_list.c:1556
 msgid "Size"
 msgstr "Méret"
 
 # src/dupe.c:1654 src/dupe.c:1943
-#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:297 src/exif.c:419
+#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:296 src/exif.c:417
 #: src/print.c:3192 src/search.c:2755 src/view_file_list.c:1557
 msgid "Date"
 msgstr "Dátum"
@@ -800,7 +800,7 @@ msgid "Compare by:"
 msgstr "Összehasonlítás ez alapján:"
 
 # src/dupe.c:2054 src/preferences.c:586
-#: src/dupe.c:3173 src/preferences.c:846 src/search.c:2770
+#: src/dupe.c:3173 src/preferences.c:849 src/search.c:2770
 msgid "Thumbnails"
 msgstr "Indexképek"
 
@@ -864,293 +864,293 @@ msgid "stopped by user"
 msgstr "leállítva"
 
 # src/menu.c:432 src/menu.c:461
-#: src/exif.c:112 src/exif.c:125 src/exif.c:139 src/exif.c:164 src/exif.c:606
-#: src/exif.c:1452 src/exif.c:1455 src/exif.c:1520
+#: src/exif.c:111 src/exif.c:124 src/exif.c:138 src/exif.c:163 src/exif.c:576
+#: src/exif.c:1479 src/exif.c:1482 src/exif.c:1547
 msgid "unknown"
 msgstr "ismeretlen"
 
 # src/ui_pathsel.c:402 src/ui_pathsel.c:461 src/utilops.c:711
 # src/utilops.c:764
-#: src/exif.c:113
+#: src/exif.c:112
 msgid "top left"
 msgstr "bal felső"
 
-#: src/exif.c:114
+#: src/exif.c:113
 msgid "top right"
 msgstr "jobb felső"
 
-#: src/exif.c:115
+#: src/exif.c:114
 msgid "bottom right"
 msgstr "jobb alsó"
 
-#: src/exif.c:116
+#: src/exif.c:115
 msgid "bottom left"
 msgstr "bal alsó"
 
 # src/ui_pathsel.c:402 src/ui_pathsel.c:461 src/utilops.c:711
 # src/utilops.c:764
-#: src/exif.c:117
+#: src/exif.c:116
 msgid "left top"
 msgstr "bal felső"
 
-#: src/exif.c:118
+#: src/exif.c:117
 msgid "right top"
 msgstr "jobb felső"
 
-#: src/exif.c:119
+#: src/exif.c:118
 msgid "right bottom"
 msgstr "jobb alsó"
 
-#: src/exif.c:120
+#: src/exif.c:119
 msgid "left bottom"
 msgstr "bal alsó"
 
-#: src/exif.c:127
+#: src/exif.c:126
 msgid "inch"
 msgstr "inch"
 
-#: src/exif.c:128
+#: src/exif.c:127
 msgid "centimeter"
 msgstr "centiméter"
 
-#: src/exif.c:140
+#: src/exif.c:139
 msgid "average"
 msgstr "átlag"
 
-#: src/exif.c:141
+#: src/exif.c:140
 msgid "center weighted"
 msgstr "súlypont"
 
-#: src/exif.c:142
+#: src/exif.c:141
 msgid "spot"
 msgstr ""
 
-#: src/exif.c:143
+#: src/exif.c:142
 msgid "multi-spot"
 msgstr ""
 
-#: src/exif.c:144
+#: src/exif.c:143
 msgid "multi-segment"
 msgstr ""
 
-#: src/exif.c:145
+#: src/exif.c:144
 msgid "partial"
 msgstr "részleges"
 
-#: src/exif.c:146 src/exif.c:184
+#: src/exif.c:145 src/exif.c:183
 msgid "other"
 msgstr "egyéb"
 
-#: src/exif.c:151
+#: src/exif.c:150
 msgid "not defined"
 msgstr "nem meghatározott"
 
-#: src/exif.c:152
+#: src/exif.c:151
 msgid "manual"
 msgstr "kézi"
 
 # src/preferences.c:401
-#: src/exif.c:153
+#: src/exif.c:152
 msgid "normal"
 msgstr "normál"
 
-#: src/exif.c:154
+#: src/exif.c:153
 msgid "aperture"
 msgstr "rekesz"
 
-#: src/exif.c:155
+#: src/exif.c:154
 msgid "shutter"
 msgstr "zár"
 
 # src/utilops.c:1216
-#: src/exif.c:156
+#: src/exif.c:155
 msgid "creative"
 msgstr ""
 
-#: src/exif.c:157
+#: src/exif.c:156
 msgid "action"
 msgstr "akció"
 
-#: src/exif.c:158
+#: src/exif.c:157
 msgid "portrait"
 msgstr "álló"
 
-#: src/exif.c:159
+#: src/exif.c:158
 msgid "landscape"
 msgstr "fekvő"
 
-#: src/exif.c:165
+#: src/exif.c:164
 msgid "daylight"
 msgstr "napfény"
 
-#: src/exif.c:166
+#: src/exif.c:165
 msgid "fluorescent"
 msgstr ""
 
-#: src/exif.c:167
+#: src/exif.c:166
 msgid "tungsten (incandescent)"
 msgstr ""
 
-#: src/exif.c:168
+#: src/exif.c:167
 msgid "flash"
 msgstr "villanófény"
 
-#: src/exif.c:189 src/exif.c:1475 src/info.c:226
+#: src/exif.c:188 src/exif.c:1502 src/info.c:232
 msgid "no"
 msgstr "nem"
 
 # src/utilops.c:343
 #. flash fired (bit 0)
-#: src/exif.c:190 src/exif.c:1475 src/info.c:226
+#: src/exif.c:189 src/exif.c:1502 src/info.c:232
 msgid "yes"
 msgstr "igen"
 
-#: src/exif.c:191
+#: src/exif.c:190
 msgid "yes, not detected by strobe"
 msgstr ""
 
-#: src/exif.c:192
+#: src/exif.c:191
 msgid "yes, detected by strobe"
 msgstr ""
 
 # src/utilops.c:539
-#: src/exif.c:289
+#: src/exif.c:288
 msgid "Image description"
 msgstr "Kép leírása"
 
 # src/dupe.c:1655 src/dupe.c:1944
-#: src/exif.c:292
+#: src/exif.c:291
 msgid "Orientation"
 msgstr "Helyzet"
 
 # src/utilops.c:592
-#: src/exif.c:303
+#: src/exif.c:302
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/exif.c:308
+#: src/exif.c:307
 msgid "Exposure program"
 msgstr ""
 
-#: src/exif.c:310 src/exif.c:346 src/exif.c:423
+#: src/exif.c:309 src/exif.c:345 src/exif.c:421
 msgid "ISO sensitivity"
 msgstr "ISO érzékenység"
 
-#: src/exif.c:313
+#: src/exif.c:312
 msgid "Date original"
 msgstr "Készítés időpontja"
 
-#: src/exif.c:314
+#: src/exif.c:313
 msgid "Date digitized"
 msgstr "Digitalizálás időpontja"
 
-#: src/exif.c:317 src/exif.c:420
+#: src/exif.c:316 src/exif.c:418
 msgid "Shutter speed"
 msgstr "Zársebesség"
 
-#: src/exif.c:318 src/exif.c:421
+#: src/exif.c:317 src/exif.c:419
 msgid "Aperture"
 msgstr "Rekesz"
 
-#: src/exif.c:320 src/exif.c:422
+#: src/exif.c:319 src/exif.c:420
 msgid "Exposure bias"
 msgstr ""
 
-#: src/exif.c:322 src/exif.c:425
+#: src/exif.c:321 src/exif.c:423
 msgid "Subject distance"
 msgstr "Tárgytávolság"
 
 # src/preferences.c:693
-#: src/exif.c:323
+#: src/exif.c:322
 msgid "Metering mode"
 msgstr "Mérési módszer"
 
-#: src/exif.c:324
+#: src/exif.c:323
 msgid "Light source"
 msgstr "Fényforrás"
 
-#: src/exif.c:325 src/exif.c:426
+#: src/exif.c:324 src/exif.c:424
 msgid "Flash"
 msgstr "Villanófény"
 
-#: src/exif.c:326 src/exif.c:424
+#: src/exif.c:325 src/exif.c:422
 msgid "Focal length"
 msgstr "Gyújtótávolság"
 
 #. ExifImageWidth, ExifImageHeight can also be unsigned short
-#: src/exif.c:336
+#: src/exif.c:335
 msgid "Width"
 msgstr "Szélesség"
 
-#: src/exif.c:337
+#: src/exif.c:336
 msgid "Height"
 msgstr "Magasság"
 
-#: src/exif.c:418
+#: src/exif.c:416
 msgid "Camera"
 msgstr "Kamera"
 
-#: src/exif.c:427
+#: src/exif.c:425
 msgid "Resolution"
 msgstr "Felbontás"
 
-#: src/exif.c:1451
+#: src/exif.c:1478
 msgid "infinity"
 msgstr "végtelen"
 
 # src/menu.c:709
-#: src/exif.c:1479
+#: src/exif.c:1506
 msgid "mode:"
 msgstr "mód:"
 
 # src/preferences.c:400
-#: src/exif.c:1483 src/utilops.c:1234
+#: src/exif.c:1510 src/utilops.c:1293
 msgid "on"
 msgstr "bekapcsolva"
 
-#: src/exif.c:1486 src/utilops.c:1234
+#: src/exif.c:1513 src/utilops.c:1293
 msgid "off"
 msgstr "kikapcsolva"
 
-#: src/exif.c:1489
+#: src/exif.c:1516
 msgid "auto"
 msgstr "automatikus"
 
-#: src/exif.c:1495
+#: src/exif.c:1522
 msgid "not detected by strobe"
 msgstr ""
 
-#: src/exif.c:1496
+#: src/exif.c:1523
 msgid "detected by strobe"
 msgstr ""
 
 #. we ignore flash function (bit 5)
 #. red-eye (bit 6)
-#: src/exif.c:1501
+#: src/exif.c:1528
 msgid "red-eye reduction"
 msgstr "a vörösszem effektus csökkentése"
 
-#: src/exif.c:1520
+#: src/exif.c:1547
 msgid "dot"
 msgstr "pont"
 
 # src/dupe.c:67 src/dupe.c:1449
-#: src/filelist.c:513
+#: src/filelist.c:520
 #, c-format
 msgid "%d bytes"
 msgstr "%d byte"
 
-#: src/filelist.c:517
+#: src/filelist.c:524
 #, c-format
 msgid "%.1f K"
 msgstr "%.1f K"
 
-#: src/filelist.c:521
+#: src/filelist.c:528
 #, c-format
 msgid "%.1f MB"
 msgstr "%.1f MB"
 
-#: src/filelist.c:526
+#: src/filelist.c:533
 #, c-format
 msgid "%.1f GB"
 msgstr "%.1f GB"
@@ -1193,173 +1193,173 @@ msgid "Active monitor"
 msgstr ""
 
 # src/img-view.c:789 src/menu.c:944 src/menu.c:1079
-#: src/img-view.c:1173 src/layout_image.c:706 src/layout_util.c:800
-#: src/pan-view.c:4643
+#: src/img-view.c:1182 src/layout_image.c:711 src/layout_util.c:786
+#: src/pan-view.c:4768
 msgid "Zoom _in"
 msgstr "Nagyítás"
 
 # src/img-view.c:790 src/menu.c:945 src/menu.c:1081
-#: src/img-view.c:1174 src/layout_image.c:707 src/layout_util.c:801
-#: src/pan-view.c:4645
+#: src/img-view.c:1183 src/layout_image.c:712 src/layout_util.c:787
+#: src/pan-view.c:4770
 msgid "Zoom _out"
 msgstr "Kicsinyítés"
 
 # src/img-view.c:791 src/menu.c:946
-#: src/img-view.c:1175 src/layout_image.c:708 src/layout_util.c:802
-#: src/pan-view.c:4647
+#: src/img-view.c:1184 src/layout_image.c:713 src/layout_util.c:788
+#: src/pan-view.c:4772
 msgid "Zoom _1:1"
 msgstr "_1:1 nézet"
 
 # src/img-view.c:792 src/menu.c:947 src/menu.c:1083 src/preferences.c:716
-#: src/img-view.c:1176 src/layout_image.c:709
+#: src/img-view.c:1185 src/layout_image.c:714
 msgid "Fit image to _window"
 msgstr "Ablakmérethez _igazítás"
 
 # src/img-view.c:797 src/menu.c:960
-#: src/img-view.c:1181 src/layout_image.c:715 src/layout_util.c:798
+#: src/img-view.c:1190 src/layout_image.c:720 src/layout_util.c:784
 msgid "Set as _wallpaper"
 msgstr "_Háttérként alkalmaz"
 
 # src/img-view.c:813 src/menu.c:982
-#: src/img-view.c:1199 src/layout_image.c:740
+#: src/img-view.c:1208 src/layout_image.c:745
 msgid "_Stop slideshow"
 msgstr "Diavetítés _leállítása"
 
 # src/img-view.c:816 src/menu.c:985
-#: src/img-view.c:1202 src/layout_image.c:743
+#: src/img-view.c:1211 src/layout_image.c:748
 msgid "Continue slides_how"
 msgstr "Diavetítés _folytatása"
 
 # src/img-view.c:820 src/img-view.c:827 src/menu.c:989 src/menu.c:995
-#: src/img-view.c:1207 src/img-view.c:1215 src/layout_image.c:748
-#: src/layout_image.c:755
+#: src/img-view.c:1216 src/img-view.c:1224 src/layout_image.c:753
+#: src/layout_image.c:760
 msgid "Pause slides_how"
 msgstr "Diavetítés s_zünet"
 
 # src/img-view.c:825 src/menu.c:994
-#: src/img-view.c:1213 src/layout_image.c:754
+#: src/img-view.c:1222 src/layout_image.c:759
 msgid "_Start slideshow"
 msgstr "_Diavetítés indítása"
 
 # src/img-view.c:833 src/menu.c:1005
-#: src/img-view.c:1221 src/layout_image.c:765 src/pan-view.c:4674
+#: src/img-view.c:1230 src/layout_image.c:770 src/pan-view.c:4804
 msgid "Exit _full screen"
 msgstr "_Kilépés a teljes képernyős nézetből"
 
 # src/img-view.c:837 src/menu.c:1001
-#: src/img-view.c:1225 src/layout_image.c:761 src/pan-view.c:4678
+#: src/img-view.c:1234 src/layout_image.c:766 src/pan-view.c:4808
 msgid "_Full screen"
 msgstr "Teljes ké_pernyő"
 
 # src/dupe.c:1415 src/dupe.c:1573 src/img-view.c:841
-#: src/img-view.c:1229 src/layout_util.c:775 src/pan-view.c:4682
+#: src/img-view.c:1238 src/layout_util.c:761 src/pan-view.c:4812
 msgid "C_lose window"
 msgstr "Ablak _bezárása"
 
 # src/menu.c:709
-#: src/info.c:361
+#: src/info.c:367
 msgid "File size:"
 msgstr "Fájlméret:"
 
 # src/dupe.c:1655 src/dupe.c:1944
-#: src/info.c:363
+#: src/info.c:369
 msgid "Dimensions:"
 msgstr "Méret:"
 
-#: src/info.c:364
+#: src/info.c:370
 msgid "Transparent:"
 msgstr "Átlátszó:"
 
 # src/preferences.c:676
-#: src/info.c:365 src/print.c:3371
+#: src/info.c:371 src/print.c:3371
 msgid "Image size:"
 msgstr "Kép mérete:"
 
 # src/dupe.c:1948
-#: src/info.c:367
+#: src/info.c:373
 msgid "Compress ratio:"
 msgstr "Tömörítési arány:"
 
 # src/ui_pathsel.c:799
-#: src/info.c:368
+#: src/info.c:374
 #, fuzzy
 msgid "File type:"
 msgstr "Fájl dátuma:"
 
-#: src/info.c:370
+#: src/info.c:376
 msgid "Owner:"
 msgstr "Tulajdonos:"
 
-#: src/info.c:371
+#: src/info.c:377
 msgid "Group:"
 msgstr "Csoport:"
 
 # src/preferences.c:551
-#: src/info.c:374 src/preferences.c:827
+#: src/info.c:380 src/preferences.c:830
 msgid "General"
 msgstr "Általános"
 
-#: src/info.c:455
+#: src/info.c:461
 #, c-format
 msgid "Image %d of %d"
 msgstr "%d. kép összesen %d közül"
 
-#: src/info.c:678
+#: src/info.c:684
 msgid "Image properties - GQview"
 msgstr "Kép tulajdonságai - GQview"
 
 # src/window.c:87
-#: src/layout.c:271 src/view_file_icon.c:301 src/view_file_list.c:413
+#: src/layout.c:266 src/view_file_icon.c:301 src/view_file_list.c:413
 msgid "Ascending"
 msgstr "Növekvő"
 
 # src/filelist.c:76
-#: src/layout.c:337
+#: src/layout.c:332
 msgid " Slideshow"
 msgstr " Diavetítés"
 
 # src/filelist.c:80
-#: src/layout.c:341
+#: src/layout.c:336
 msgid " Paused"
 msgstr " Szünet"
 
 # src/filelist.c:86
-#: src/layout.c:358
+#: src/layout.c:353
 #, c-format
 msgid "%s, %d files (%s, %d)%s"
 msgstr "%s, %d fájl (%s, %d)%s"
 
 # src/filelist.c:88
-#: src/layout.c:365
+#: src/layout.c:360
 #, c-format
 msgid "%s, %d files%s"
 msgstr "%s, %d fájl%s"
 
 # src/filelist.c:88
-#: src/layout.c:370
+#: src/layout.c:365
 #, c-format
 msgid "%d files%s"
 msgstr "%d fájl%s"
 
-#: src/layout.c:399
+#: src/layout.c:394
 #, c-format
 msgid "(no read permission) %s bytes"
 msgstr "(nincs olvasási jog) %s byte"
 
 # src/window.c:379
-#: src/layout.c:403
+#: src/layout.c:398
 #, c-format
 msgid "( ? x ? ) %s bytes"
 msgstr "( ? x ? ) %s byte"
 
 # src/window.c:383
-#: src/layout.c:408
+#: src/layout.c:406
 #, c-format
 msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s byte"
 
 # src/window.c:234
-#: src/layout.c:1104
+#: src/layout.c:1102
 msgid "GQview Tools"
 msgstr "GQview Eszközök"
 
@@ -1373,7 +1373,7 @@ msgid "Files"
 msgstr "Fájlok"
 
 # src/preferences.c:676
-#: src/layout_config.c:57 src/preferences.c:892 src/print.c:110
+#: src/layout_config.c:57 src/preferences.c:895 src/print.c:110
 msgid "Image"
 msgstr "A kép megjelenítése"
 
@@ -1382,299 +1382,305 @@ msgid "(drag to change order)"
 msgstr "(az átrendezés fogd és vidd módszerrel működik)"
 
 # src/menu.c:1010
-#: src/layout_image.c:770
+#: src/layout_image.c:775
 msgid "Hide file _list"
 msgstr "Fájllista _rejtése"
 
 # src/menu.c:430 src/menu.c:457
-#: src/layout_util.c:633 src/menu.c:74
+#: src/layout_util.c:619 src/menu.c:74
 #, c-format
 msgid "in %s..."
 msgstr "%s..."
 
 # src/menu.c:432 src/menu.c:461
-#: src/layout_util.c:637 src/menu.c:76
+#: src/layout_util.c:623 src/menu.c:76
 msgid "in (unknown)..."
 msgstr "(ismeretlen)..."
 
 # src/collect-table.c:78 src/menu.c:684
-#: src/layout_util.c:645
+#: src/layout_util.c:631
 #, fuzzy
 msgid "empty"
 msgstr "Üres"
 
 # src/menu.c:709
-#: src/layout_util.c:756
+#: src/layout_util.c:742
 #, fuzzy
 msgid "_File"
 msgstr "/_Fájl"
 
 # src/menu.c:726
-#: src/layout_util.c:757 src/menu.c:91
+#: src/layout_util.c:743 src/menu.c:91
 msgid "_Edit"
 msgstr "_Szerkesztés"
 
 # src/menu.c:626
-#: src/layout_util.c:758 src/menu.c:248
+#: src/layout_util.c:744 src/menu.c:248
 msgid "_Adjust"
 msgstr "I_gazítás"
 
 # src/menu.c:771
-#: src/layout_util.c:760
+#: src/layout_util.c:746
 #, fuzzy
 msgid "_Help"
 msgstr "/Sú_gó"
 
 # src/menu.c:711
-#: src/layout_util.c:762
+#: src/layout_util.c:748
 #, fuzzy
 msgid "New _window"
 msgstr "/Fájl/Új _ablak"
 
 # src/collect-dlg.c:165 src/collect-table.c:641
-#: src/layout_util.c:763
+#: src/layout_util.c:749
 #, fuzzy
 msgid "_New collection"
 msgstr "Gyűjtemény menté_se"
 
 # src/collect-dlg.c:172
-#: src/layout_util.c:764
+#: src/layout_util.c:750
 #, fuzzy
 msgid "_Open collection..."
 msgstr "Gyűjtemény megnyitása"
 
 # src/menu.c:713
-#: src/layout_util.c:765
+#: src/layout_util.c:751
 #, fuzzy
 msgid "Open _recent"
 msgstr "/Fájl/_Legutóbbi megnyitása"
 
 # src/dupe.c:871 src/dupe.c:892
-#: src/layout_util.c:766
+#: src/layout_util.c:752
 #, fuzzy
 msgid "_Search..."
 msgstr "Rendezés..."
 
-#: src/layout_util.c:768
+#: src/layout_util.c:754
 #, fuzzy
 msgid "Pan _view"
 msgstr "Haladó nézet"
 
 # src/menu.c:721
-#: src/layout_util.c:769
+#: src/layout_util.c:755
 #, fuzzy
 msgid "_Print..."
 msgstr "/Fájl/Át_nevezés..."
 
-#: src/layout_util.c:770
+#: src/layout_util.c:756
 #, fuzzy
 msgid "N_ew folder..."
 msgstr "Új mappa..."
 
 # src/preferences.c:684
-#: src/layout_util.c:776
+#: src/layout_util.c:762
 #, fuzzy
 msgid "_Quit"
 msgstr "Minőség"
 
 # src/menu.c:572
-#: src/layout_util.c:788 src/menu.c:194
+#: src/layout_util.c:774 src/menu.c:194
 msgid "_Rotate clockwise"
 msgstr "Forgatás _jobbra"
 
 # src/menu.c:575
-#: src/layout_util.c:789 src/menu.c:197
+#: src/layout_util.c:775 src/menu.c:197
 msgid "Rotate _counterclockwise"
 msgstr "Forgatás _balra"
 
 # src/menu.c:578
-#: src/layout_util.c:790
+#: src/layout_util.c:776
 #, fuzzy
 msgid "Rotate 1_80"
 msgstr "Forgatás 1_80 fokkal"
 
 # src/menu.c:581
-#: src/layout_util.c:791 src/menu.c:203
+#: src/layout_util.c:777 src/menu.c:203
 msgid "_Mirror"
 msgstr "Tükrözés _vízszintesen"
 
 # src/menu.c:584
-#: src/layout_util.c:792 src/menu.c:206
+#: src/layout_util.c:778 src/menu.c:206
 msgid "_Flip"
 msgstr "Tükrözés _függőlegesen"
 
 # src/collect-table.c:627 src/dupe.c:1391 src/dupe.c:1563
-#: src/layout_util.c:794
+#: src/layout_util.c:780
 #, fuzzy
 msgid "Select _all"
 msgstr "Mindet kijelölni"
 
 # src/collect-table.c:628 src/dupe.c:1393 src/dupe.c:1565
-#: src/layout_util.c:795
+#: src/layout_util.c:781
 #, fuzzy
 msgid "Select _none"
 msgstr "Nincs kijelölés"
 
 # src/menu.c:748
-#: src/layout_util.c:796
+#: src/layout_util.c:782
 #, fuzzy
 msgid "P_references..."
 msgstr "_Tulajdonságok..."
 
-#: src/layout_util.c:797
+#: src/layout_util.c:783
 msgid "_Thumbnail maintenance..."
 msgstr ""
 
 # src/menu.c:758
-#: src/layout_util.c:803
+#: src/layout_util.c:789
 #, fuzzy
 msgid "_Zoom to fit"
 msgstr "/Nézet/Ablakmérethez iga_zítás"
 
 # src/img-view.c:837 src/menu.c:1001
-#: src/layout_util.c:804
+#: src/layout_util.c:790
 #, fuzzy
 msgid "F_ull screen"
 msgstr "Teljes ké_pernyő"
 
 # src/menu.c:1010
-#: src/layout_util.c:805
+#: src/layout_util.c:791
 #, fuzzy
 msgid "_Hide file list"
 msgstr "Fájllista _rejtése"
 
 # src/img-view.c:813 src/menu.c:982
-#: src/layout_util.c:806
+#: src/layout_util.c:792
 #, fuzzy
 msgid "Toggle _slideshow"
 msgstr "Diavetítés _leállítása"
 
 # src/menu.c:891 src/menu.c:920
-#: src/layout_util.c:807
+#: src/layout_util.c:793
 #, fuzzy
 msgid "_Refresh"
 msgstr "_Frissítés"
 
 # src/menu.c:776
-#: src/layout_util.c:809
+#: src/layout_util.c:795
 #, fuzzy
 msgid "_Contents"
 msgstr "/Súgó/_Névjegy"
 
 # src/menu.c:773
-#: src/layout_util.c:810
+#: src/layout_util.c:796
 #, fuzzy
 msgid "_Keyboard shortcuts"
 msgstr "/Súgó/_Gyorsbillentyűk"
 
 # src/menu.c:774
-#: src/layout_util.c:811
+#: src/layout_util.c:797
 #, fuzzy
 msgid "_Release notes"
 msgstr "/Súgó/_Megjelenési jegyzetek"
 
 # src/menu.c:776
-#: src/layout_util.c:812
+#: src/layout_util.c:798
 #, fuzzy
 msgid "_About"
 msgstr "/Súgó/_Névjegy"
 
 # src/dupe.c:2054 src/preferences.c:586
-#: src/layout_util.c:816
+#: src/layout_util.c:802 src/layout_util.c:1049
 #, fuzzy
 msgid "_Thumbnails"
 msgstr "Indexképek"
 
 # src/menu.c:768
-#: src/layout_util.c:817
+#: src/layout_util.c:803
 #, fuzzy
 msgid "Tr_ee"
 msgstr "/Nézet/_Fa nézet"
 
 # src/menu.c:766
-#: src/layout_util.c:818
+#: src/layout_util.c:804
 #, fuzzy
 msgid "_Float file list"
 msgstr "/Nézet/Le_begő fájllista"
 
 # src/menu.c:754
-#: src/layout_util.c:819
+#: src/layout_util.c:805
 #, fuzzy
 msgid "Hide tool_bar"
 msgstr "/Nézet/Eszköztár elr_ejtése"
 
 # src/dupe.c:1655 src/dupe.c:1944
-#: src/layout_util.c:820
+#: src/layout_util.c:806
 #, fuzzy
 msgid "_Keywords"
 msgstr "/Nézet/I_konok"
 
 # src/menu.c:765
-#: src/layout_util.c:821
+#: src/layout_util.c:807
 #, fuzzy
 msgid "E_xif data"
 msgstr "/Nézet/E_xif adatok"
 
 # src/menu.c:526
-#: src/layout_util.c:822
+#: src/layout_util.c:808
 #, fuzzy
 msgid "Sort _manager"
 msgstr "Rendezés kezelő"
 
 # src/menu.c:765
-#: src/layout_util.c:826
+#: src/layout_util.c:812
 #, fuzzy
 msgid "_List"
 msgstr "/Nézet/_Lista"
 
-#: src/layout_util.c:827
+#: src/layout_util.c:813
 #, fuzzy
 msgid "I_cons"
 msgstr "Ikon:"
 
 # src/preferences.c:603
-#: src/layout_util.c:1093
+#: src/layout_util.c:1050
 msgid "Show thumbnails"
 msgstr "Indexképek megjelenítése"
 
 # src/menu.c:1075
-#: src/layout_util.c:1095
+#: src/layout_util.c:1055
 #, fuzzy
 msgid "Change to home folder"
 msgstr "Ugrás a saját könyvtárba"
 
 # src/menu.c:1077
-#: src/layout_util.c:1097
+#: src/layout_util.c:1057
 msgid "Refresh file list"
 msgstr "Fájllista frissítése"
 
 # src/img-view.c:789 src/menu.c:944 src/menu.c:1079
-#: src/layout_util.c:1099
+#: src/layout_util.c:1059
 msgid "Zoom in"
 msgstr "Nagyítás"
 
 # src/img-view.c:790 src/menu.c:945 src/menu.c:1081
-#: src/layout_util.c:1101
+#: src/layout_util.c:1061
 msgid "Zoom out"
 msgstr "Kicsinyítés"
 
 # src/img-view.c:792 src/menu.c:947 src/menu.c:1083 src/preferences.c:716
-#: src/layout_util.c:1103 src/preferences.c:921
+#: src/layout_util.c:1063 src/preferences.c:924
 msgid "Fit image to window"
 msgstr "Ablakmérethez igazítás"
 
 # src/menu.c:1085
-#: src/layout_util.c:1105
+#: src/layout_util.c:1065
 msgid "Set zoom 1:1"
 msgstr "1:1 méretarány"
 
 # src/menu.c:1087
-#: src/layout_util.c:1107
+#: src/layout_util.c:1067
 msgid "Configure options"
 msgstr "A GQview beállítása"
 
+# src/preferences.c:401
+#: src/layout_util.c:1068
+#, fuzzy
+msgid "_Float"
+msgstr "Formátum"
+
 # src/menu.c:1089
-#: src/layout_util.c:1109
+#: src/layout_util.c:1069
 msgid "Float Controls"
 msgstr "Külön eszköztár"
 
@@ -1958,146 +1964,167 @@ msgid "Rotate _180"
 msgstr "Forgatás 1_80 fokkal"
 
 # src/collect-table.c:86
-#: src/pan-view.c:3109
+#: src/pan-view.c:3163
 #, fuzzy, c-format
 msgid "%d images, %s"
 msgstr "%d kép"
 
+#: src/pan-view.c:3173
+#, c-format
+msgid "The pan view does not support the folder \"%s\"."
+msgstr ""
+
+#: src/pan-view.c:3174
+msgid "Folder not supported"
+msgstr ""
+
+# src/dupe.c:841
+#: src/pan-view.c:3228 src/pan-view.c:3244
+#, fuzzy
+msgid "Reading image data..."
+msgstr "Hasonlósági adat olvasása..."
+
 # src/dupe.c:871 src/dupe.c:892
-#: src/pan-view.c:3180 src/pan-view.c:3233
+#: src/pan-view.c:3303
 #, fuzzy
 msgid "Sorting images..."
 msgstr "Rendezés..."
 
 # src/dupe.c:1654 src/dupe.c:1943
-#: src/pan-view.c:3552 src/pan-view.c:3879
+#: src/pan-view.c:3640 src/pan-view.c:3967
 #, fuzzy
 msgid "Date:"
 msgstr "Dátum"
 
 # src/preferences.c:595
-#: src/pan-view.c:3562 src/preferences.c:849 src/print.c:3201 src/print.c:3408
+#: src/pan-view.c:3650 src/preferences.c:852 src/print.c:3201 src/print.c:3408
 msgid "Size:"
 msgstr "Méret:"
 
-#: src/pan-view.c:3617
+#: src/pan-view.c:3705
 msgid "path found"
 msgstr ""
 
 # src/utilops.c:980
-#: src/pan-view.c:3617
+#: src/pan-view.c:3705
 #, fuzzy
 msgid "filename found"
 msgstr "Fájlnév:"
 
-#: src/pan-view.c:3665
+#: src/pan-view.c:3753
 #, fuzzy
 msgid "partial match"
 msgstr "részleges"
 
-#: src/pan-view.c:3876 src/pan-view.c:3909
+#: src/pan-view.c:3964 src/pan-view.c:3997
 msgid "no match"
 msgstr ""
 
-#: src/pan-view.c:4179 src/search.c:2140
+#: src/pan-view.c:4272 src/search.c:2140
 msgid "Folder not found"
 msgstr ""
 
-#: src/pan-view.c:4180
+#: src/pan-view.c:4273
 msgid "The entered path is not a folder"
 msgstr ""
 
 # src/preferences.c:369
-#: src/pan-view.c:4285
+#: src/pan-view.c:4391
 #, fuzzy
 msgid "Timeline"
 msgstr "Bilineáris"
 
 # src/dupe.c:1412 src/dupe.c:1570
-#: src/pan-view.c:4286
+#: src/pan-view.c:4392
 #, fuzzy
 msgid "Calendar"
 msgstr "_Tisztítás"
 
 # src/menu.c:709
-#: src/pan-view.c:4288
+#: src/pan-view.c:4394
 #, fuzzy
 msgid "Folders (flower)"
 msgstr "Könyvtárak"
 
-#: src/pan-view.c:4289
+#: src/pan-view.c:4395
 msgid "Grid"
 msgstr ""
 
 # src/main.c:561
-#: src/pan-view.c:4298
+#: src/pan-view.c:4404
 #, fuzzy
 msgid "Dots"
 msgstr "Xpaint"
 
 # src/preferences.c:676
-#: src/pan-view.c:4299
+#: src/pan-view.c:4405
 #, fuzzy
 msgid "No Images"
 msgstr "A kép megjelenítése"
 
 # src/dupe.c:2054 src/preferences.c:586
-#: src/pan-view.c:4300
+#: src/pan-view.c:4406
 #, fuzzy
 msgid "Small Thumbnails"
 msgstr "Indexképek"
 
 # src/dupe.c:2054 src/preferences.c:586
-#: src/pan-view.c:4301
+#: src/pan-view.c:4407
 #, fuzzy
 msgid "Normal Thumbnails"
 msgstr "Indexképek"
 
 # src/cache_maint.c:252
-#: src/pan-view.c:4302
+#: src/pan-view.c:4408
 #, fuzzy
 msgid "Large Thumbnails"
 msgstr "Indexképek törlése"
 
-#: src/pan-view.c:4303
+#: src/pan-view.c:4409
 msgid "1:10 (10%)"
 msgstr ""
 
-#: src/pan-view.c:4304
+#: src/pan-view.c:4410
 msgid "1:4 (25%)"
 msgstr ""
 
-#: src/pan-view.c:4305
+#: src/pan-view.c:4411
 msgid "1:3 (33%)"
 msgstr ""
 
-#: src/pan-view.c:4306
+#: src/pan-view.c:4412
 msgid "1:2 (50%)"
 msgstr ""
 
-#: src/pan-view.c:4307
+#: src/pan-view.c:4413
 msgid "1:1 (100%)"
 msgstr ""
 
 # src/ui_pathsel.c:799
-#: src/pan-view.c:4358
+#: src/pan-view.c:4461
 #, fuzzy
 msgid "Find:"
 msgstr "Szűrő:"
 
-#: src/pan-view.c:4409
+# src/menu.c:765
+#: src/pan-view.c:4504
+#, fuzzy
+msgid "Use Exif date"
+msgstr "/Nézet/E_xif adatok"
+
+#: src/pan-view.c:4517
 msgid "Find"
 msgstr ""
 
-#: src/pan-view.c:4470
+#: src/pan-view.c:4584
 msgid "Pan View Performance"
 msgstr ""
 
-#: src/pan-view.c:4477
+#: src/pan-view.c:4591
 msgid "Pan view performance may be poor."
 msgstr ""
 
-#: src/pan-view.c:4478
+#: src/pan-view.c:4592
 msgid ""
 "To improve performance of thumbnails in the pan view the following options "
 "can be enabled. Note that both options must be enabled to notice a change in "
@@ -2105,64 +2132,70 @@ msgid ""
 msgstr ""
 
 # src/preferences.c:603
-#: src/pan-view.c:4486 src/preferences.c:852
+#: src/pan-view.c:4600 src/preferences.c:855
 msgid "Cache thumbnails"
 msgstr "Indexképek tárolása"
 
-#: src/pan-view.c:4488 src/preferences.c:858
+#: src/pan-view.c:4602 src/preferences.c:861
 msgid "Use shared thumbnail cache"
 msgstr ""
 
-#: src/pan-view.c:4494
+#: src/pan-view.c:4608
 msgid "Do not show this dialog again"
 msgstr ""
 
+# src/menu.c:513
+#: src/pan-view.c:4796
+#, fuzzy
+msgid "Sort by E_xif date"
+msgstr "Rendezés dátum szerint"
+
 # src/preferences.c:367
-#: src/preferences.c:390
+#: src/preferences.c:393
 msgid "Nearest (worst, but fastest)"
 msgstr "Hasonló (rossz minőség, de gyors)"
 
 # src/preferences.c:368
-#: src/preferences.c:392
+#: src/preferences.c:395
 msgid "Tiles"
 msgstr "Csempézve"
 
 # src/preferences.c:369
-#: src/preferences.c:394
+#: src/preferences.c:397
 msgid "Bilinear"
 msgstr "Bilineáris"
 
 # src/preferences.c:370
-#: src/preferences.c:396
+#: src/preferences.c:399
 msgid "Hyper (best, but slowest)"
 msgstr "Szuper (jó minőség, de lassú)"
 
 # src/preferences.c:400
-#: src/preferences.c:424
+#: src/preferences.c:427
 msgid "None"
 msgstr "Nincs"
 
 # src/preferences.c:401
-#: src/preferences.c:425
+#: src/preferences.c:428
 msgid "Normal"
 msgstr "Normál minőségű"
 
 # src/preferences.c:402
-#: src/preferences.c:426
+#: src/preferences.c:429
 msgid "Best"
 msgstr "A legjobb minőségű"
 
-#: src/preferences.c:504 src/print.c:365
+#: src/preferences.c:507 src/print.c:365
 #, fuzzy
 msgid "Custom"
 msgstr "automatikus"
 
 # src/utilops.c:707
-#: src/preferences.c:668 src/preferences.c:671
+#: src/preferences.c:671 src/preferences.c:674
 msgid "Reset filters"
 msgstr "Szűrők visszaállítása"
 
-#: src/preferences.c:672
+#: src/preferences.c:675
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
@@ -2171,11 +2204,11 @@ msgstr ""
 "Folytatod?"
 
 # src/utilops.c:707
-#: src/preferences.c:705 src/preferences.c:708
+#: src/preferences.c:708 src/preferences.c:711
 msgid "Reset editors"
 msgstr "Szerkesztők törlése"
 
-#: src/preferences.c:709
+#: src/preferences.c:712
 msgid ""
 "This will reset the edit commands to the defaults.\n"
 "Continue?"
@@ -2184,346 +2217,346 @@ msgstr ""
 "Folytatod?"
 
 # src/preferences.c:163 src/preferences.c:604
-#: src/preferences.c:733 src/preferences.c:736
+#: src/preferences.c:736 src/preferences.c:739
 msgid "Clear trash"
 msgstr "Kuka ürítése"
 
-#: src/preferences.c:737
+#: src/preferences.c:740
 msgid "This will remove the trash contents."
 msgstr "Ez eltávolítja a kukában lévő elemeket."
 
 # src/utilops.c:942 src/utilops.c:1091
-#: src/preferences.c:776
+#: src/preferences.c:779
 #, fuzzy
 msgid "GQview Preferences"
 msgstr "GQview - átnevezés"
 
-#: src/preferences.c:830
+#: src/preferences.c:833
 #, fuzzy
 msgid "Startup"
 msgstr "Kezdet #"
 
 # src/menu.c:1075
-#: src/preferences.c:832
+#: src/preferences.c:835
 #, fuzzy
 msgid "Change to folder:"
 msgstr "Ugrás a saját könyvtárba"
 
 # src/preferences.c:581
-#: src/preferences.c:843
+#: src/preferences.c:846
 msgid "Use current"
 msgstr "Jelenlegi könyvtár használata"
 
 # src/preferences.c:597
-#: src/preferences.c:850 src/preferences.c:901
+#: src/preferences.c:853 src/preferences.c:904
 msgid "Quality:"
 msgstr "Minőség:"
 
 # src/preferences.c:610
-#: src/preferences.c:864
+#: src/preferences.c:867
 msgid "Cache thumbnails into .thumbnails"
 msgstr "Indexképek tárolása a \".thumbnails\" könyvtár alatt"
 
 # src/preferences.c:613
-#: src/preferences.c:868
+#: src/preferences.c:871
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr "Használja az \"xvpics\" indexképeit (csak olvasás)"
 
-#: src/preferences.c:872
+#: src/preferences.c:875
 msgid "Faster jpeg thumbnailing (may reduce quality)"
 msgstr ""
 
 # src/preferences.c:615
-#: src/preferences.c:875
+#: src/preferences.c:878
 msgid "Slide show"
 msgstr "Diavetítés"
 
 # src/preferences.c:628
-#: src/preferences.c:878
+#: src/preferences.c:881
 #, fuzzy
 msgid "Delay between image change:"
 msgstr "Képváltási időköz (másodpercben):"
 
-#: src/preferences.c:878
+#: src/preferences.c:881
 msgid "seconds"
 msgstr ""
 
 # src/preferences.c:645
-#: src/preferences.c:884
+#: src/preferences.c:887
 msgid "Random"
 msgstr "Véletlen"
 
 # src/preferences.c:647
-#: src/preferences.c:885
+#: src/preferences.c:888
 msgid "Repeat"
 msgstr "Ismétlés"
 
 # src/img-view.c:789 src/menu.c:944 src/menu.c:1079
-#: src/preferences.c:895
+#: src/preferences.c:898
 #, fuzzy
 msgid "Zoom"
 msgstr "Nagyítás"
 
 # src/preferences.c:693
-#: src/preferences.c:898
+#: src/preferences.c:901
 msgid "Dithering method:"
 msgstr "Dithering módszer:"
 
-#: src/preferences.c:903
+#: src/preferences.c:906
 msgid "Two pass zooming"
 msgstr "Kétlépéses átméretezés"
 
-#: src/preferences.c:906
+#: src/preferences.c:909
 msgid "Allow enlargement of image for zoom to fit."
 msgstr "A kép nagyításának engedélyezése ablakmérethez igazításkor."
 
 # src/preferences.c:751
-#: src/preferences.c:910
+#: src/preferences.c:913
 msgid "Zoom increment:"
 msgstr "Nagyítási lépésköz:"
 
 # src/preferences.c:700
-#: src/preferences.c:915
+#: src/preferences.c:918
 msgid "When new image is selected:"
 msgstr "Új kép kiválasztásánál:"
 
 # src/preferences.c:710
-#: src/preferences.c:918
+#: src/preferences.c:921
 msgid "Zoom to original size"
 msgstr "Eredeti méret"
 
 # src/preferences.c:722
-#: src/preferences.c:924
+#: src/preferences.c:927
 msgid "Leave Zoom at previous setting"
 msgstr "Nagyítás az előző beállítás alapján"
 
 # src/collect-dlg.c:182
-#: src/preferences.c:928
+#: src/preferences.c:931
 #, fuzzy
 msgid "Appearance"
 msgstr "Hozzáfűzés"
 
-#: src/preferences.c:930
+#: src/preferences.c:933
 msgid "Black background"
 msgstr "Fekete háttér"
 
 # src/utilops.c:328 src/utilops.c:394 src/utilops.c:668
-#: src/preferences.c:933
+#: src/preferences.c:936
 #, fuzzy
 msgid "Convenience"
 msgstr "Folytatás"
 
 # src/menu.c:1077
-#: src/preferences.c:935
+#: src/preferences.c:938
 msgid "Refresh on file change"
 msgstr "Frissítés a fájl tartalmának változásakor"
 
 # src/preferences.c:660
-#: src/preferences.c:937
+#: src/preferences.c:940
 msgid "Preload next image"
 msgstr "Következő kép előtöltése"
 
-#: src/preferences.c:939
+#: src/preferences.c:942
 msgid "Auto rotate image using Exif information"
 msgstr "Képek automatikus forgatása az Exif infók alapján"
 
 # src/preferences.c:773
-#: src/preferences.c:948
+#: src/preferences.c:951
 msgid "Windows"
 msgstr "Ablakok"
 
-#: src/preferences.c:951
+#: src/preferences.c:954
 #, fuzzy
 msgid "State"
 msgstr "Kezdet #"
 
 # src/preferences.c:782
-#: src/preferences.c:953
+#: src/preferences.c:956
 msgid "Remember window positions"
 msgstr "Az ablak pozíciójának megjegyzése"
 
 # src/preferences.c:784
-#: src/preferences.c:955
+#: src/preferences.c:958
 msgid "Remember tool state (float/hidden)"
 msgstr "Az eszköztár állapotának (külön/rejtett) megjegyzése"
 
 # src/preferences.c:787
-#: src/preferences.c:960
+#: src/preferences.c:963
 msgid "Fit window to image when tools are hidden/floating"
 msgstr "A kép ablak méretűre nyújtása, ha az eszköztár külön/rejtett"
 
 # src/preferences.c:794
-#: src/preferences.c:964
+#: src/preferences.c:967
 msgid "Limit size when auto-sizing window (%):"
 msgstr "Méret korlátozása auto-méretezés esetén (%):"
 
-#: src/preferences.c:971 src/print.c:3356 src/print.c:3363
+#: src/preferences.c:974 src/print.c:3356 src/print.c:3363
 msgid "Layout"
 msgstr "Kinézet (Megjelenés)"
 
 # src/preferences.c:812
-#: src/preferences.c:984
+#: src/preferences.c:987
 msgid "Filtering"
 msgstr "Szűrés"
 
 # src/preferences.c:821
-#: src/preferences.c:989
+#: src/preferences.c:992
 msgid "Show entries that begin with a dot"
 msgstr "Rejtett fájlok mutatása"
 
-#: src/preferences.c:991
+#: src/preferences.c:994
 msgid "Case sensitive sort"
 msgstr "Kis/nagybetű különbözik"
 
 # src/preferences.c:823
-#: src/preferences.c:994
+#: src/preferences.c:997
 msgid "Disable File Filtering"
 msgstr "Fájl szűrés letiltása"
 
 # src/ui_pathsel.c:799
-#: src/preferences.c:997
+#: src/preferences.c:1000
 #, fuzzy
 msgid "File types"
 msgstr "Fájl dátuma:"
 
 # src/ui_pathsel.c:799
-#: src/preferences.c:1019
+#: src/preferences.c:1022
 msgid "Filter"
 msgstr "Szűrő"
 
-#: src/preferences.c:1056 src/preferences.c:1120
+#: src/preferences.c:1059 src/preferences.c:1123
 msgid "Defaults"
 msgstr "Alapértelmezések"
 
 # src/preferences.c:915
-#: src/preferences.c:1077
+#: src/preferences.c:1080
 msgid "Editors"
 msgstr "Szerkesztők"
 
 # src/preferences.c:927
-#: src/preferences.c:1083
+#: src/preferences.c:1086
 msgid "#"
 msgstr "#"
 
 # src/preferences.c:930
-#: src/preferences.c:1086
+#: src/preferences.c:1089
 msgid "Menu name"
 msgstr "Megjelenített név a menüben"
 
-#: src/preferences.c:1136
+#: src/preferences.c:1139
 msgid "Advanced"
 msgstr "Haladó"
 
 # src/img-view.c:837 src/menu.c:1001
-#: src/preferences.c:1149
+#: src/preferences.c:1152
 #, fuzzy
 msgid "Full screen"
 msgstr "Teljes ké_pernyő"
 
 # src/preferences.c:676
-#: src/preferences.c:1157
+#: src/preferences.c:1160
 #, fuzzy
 msgid "Smooth image flip"
 msgstr "Kép mérete:"
 
-#: src/preferences.c:1159
+#: src/preferences.c:1162
 msgid "Disable screen saver"
 msgstr ""
 
 # src/ui_pathsel.c:402 src/ui_pathsel.c:461 src/utilops.c:711
 # src/utilops.c:764
-#: src/preferences.c:1162
+#: src/preferences.c:1165
 msgid "Delete"
 msgstr "Törlés"
 
 # src/preferences.c:667
-#: src/preferences.c:1164
+#: src/preferences.c:1167
 msgid "Confirm file delete"
 msgstr "Fájl törlés megerősítése"
 
 # src/preferences.c:669
-#: src/preferences.c:1166
+#: src/preferences.c:1169
 msgid "Enable Delete key"
 msgstr "A \"Delete\" gomb engedélyezése"
 
 # src/preferences.c:667
-#: src/preferences.c:1169
+#: src/preferences.c:1172
 msgid "Safe delete"
 msgstr "Biztonságos törlés (mozgatás az alábbi könyvtárba)"
 
-#: src/preferences.c:1187
+#: src/preferences.c:1190
 #, fuzzy
 msgid "Maximum size:"
 msgstr "Maximális méret (MB)"
 
-#: src/preferences.c:1187
+#: src/preferences.c:1190
 msgid "MB"
 msgstr ""
 
 # src/collect-table.c:619 src/dupe.c:1386 src/dupe.c:1558
-#: src/preferences.c:1190
+#: src/preferences.c:1193
 msgid "View"
 msgstr "Nézet"
 
-#: src/preferences.c:1200
+#: src/preferences.c:1203
 msgid "Behavior"
 msgstr ""
 
 # src/preferences.c:906
-#: src/preferences.c:1202
+#: src/preferences.c:1205
 #, fuzzy
 msgid "Rectangular selection in icon view"
 msgstr "Derékszögű kijelölés"
 
-#: src/preferences.c:1205
+#: src/preferences.c:1208
 msgid "Descend folders in tree view"
 msgstr "Csökkenő mappák Fa nézetben"
 
 # src/preferences.c:658
-#: src/preferences.c:1208
+#: src/preferences.c:1211
 msgid "In place renaming"
 msgstr "Átnevezés helyben"
 
-#: src/preferences.c:1211
+#: src/preferences.c:1214
 #, fuzzy
 msgid "Navigation"
 msgstr "akció"
 
 # src/preferences.c:764
-#: src/preferences.c:1213
+#: src/preferences.c:1216
 msgid "Progressive keyboard scrolling"
 msgstr "Progresszív billentyű görgetés"
 
 # src/preferences.c:766
-#: src/preferences.c:1215
+#: src/preferences.c:1218
 msgid "Mouse wheel scrolls image"
 msgstr "Az egér görgője görgeti a képet"
 
-#: src/preferences.c:1218
+#: src/preferences.c:1221
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/preferences.c:1220
+#: src/preferences.c:1223
 msgid "Store keywords and comments local to source images"
 msgstr ""
 
 # src/preferences.c:875
-#: src/preferences.c:1223
+#: src/preferences.c:1226
 msgid "Custom similarity threshold:"
 msgstr "Egyéni hasonlósági küszöb:"
 
 # src/preferences.c:735
-#: src/preferences.c:1226
+#: src/preferences.c:1229
 msgid "Offscreen cache size (Mb per image):"
 msgstr "Képernyőn kívüli cache mérete (MB képenként):"
 
 # src/main.c:129
-#: src/preferences.c:1302
+#: src/preferences.c:1305
 msgid "About - GQview"
 msgstr "Névjegy - GQview"
 
 # src/preferences.c:1041
-#: src/preferences.c:1315
+#: src/preferences.c:1318
 #, c-format
 msgid ""
 "GQview %s\n"
@@ -2544,7 +2577,7 @@ msgstr ""
 "megfelelően"
 
 # src/menu.c:748
-#: src/preferences.c:1333
+#: src/preferences.c:1336
 msgid "Credits..."
 msgstr "Köszönet..."
 
@@ -2707,7 +2740,7 @@ msgstr ""
 msgid "page %d of %d"
 msgstr "%d. kép összesen %d közül"
 
-#: src/print.c:736 src/utilops.c:2067
+#: src/print.c:736 src/utilops.c:2128
 msgid "Preview"
 msgstr "Előnézet"
 
@@ -3126,13 +3159,13 @@ msgstr ""
 "%s"
 
 # src/ui_pathsel.c:313
-#: src/ui_pathsel.c:430 src/view_dir_list.c:97 src/view_dir_tree.c:204
+#: src/ui_pathsel.c:430 src/utilops.c:2486
 #, c-format
 msgid "Failed to rename %s to %s."
 msgstr "Hiba %s átnevezésekor %s névre."
 
 # src/ui_pathsel.c:343 src/utilops.c:675 src/utilops.c:727
-#: src/ui_pathsel.c:486 src/utilops.c:1288 src/utilops.c:1461
+#: src/ui_pathsel.c:486 src/utilops.c:1347 src/utilops.c:1520
 #, c-format
 msgid ""
 "Unable to delete file:\n"
@@ -3142,7 +3175,7 @@ msgstr ""
 "%s"
 
 # src/ui_pathsel.c:344 src/utilops.c:728
-#: src/ui_pathsel.c:487 src/utilops.c:1462
+#: src/ui_pathsel.c:487 src/utilops.c:1521
 msgid "File deletion failed"
 msgstr "Sikertelen fájltörlés"
 
@@ -3163,8 +3196,8 @@ msgstr ""
 
 # src/ui_pathsel.c:437 src/ui_pathsel.c:460 src/utilops.c:944
 # src/utilops.c:1095
-#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2035
-#: src/utilops.c:2255
+#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2096
+#: src/utilops.c:2320
 msgid "_Rename"
 msgstr "Átne_vezés"
 
@@ -3185,8 +3218,8 @@ msgid "New folder"
 msgstr "Új mappa..."
 
 # src/ui_pathsel.c:517 src/utilops.c:1158
-#: src/ui_pathsel.c:750 src/utilops.c:2325 src/view_dir_list.c:338
-#: src/view_dir_tree.c:434
+#: src/ui_pathsel.c:750 src/utilops.c:2392 src/view_dir_list.c:330
+#: src/view_dir_tree.c:426
 #, fuzzy, c-format
 msgid ""
 "Unable to create folder:\n"
@@ -3196,8 +3229,8 @@ msgstr ""
 "%s"
 
 # src/ui_pathsel.c:518 src/utilops.c:1159
-#: src/ui_pathsel.c:751 src/utilops.c:2326 src/view_dir_list.c:339
-#: src/view_dir_tree.c:435
+#: src/ui_pathsel.c:751 src/utilops.c:2393 src/view_dir_list.c:331
+#: src/view_dir_tree.c:427
 #, fuzzy
 msgid "Error creating folder"
 msgstr "Hiba a könyvtár létrehozásakor"
@@ -3230,68 +3263,68 @@ msgid "All files"
 msgstr "Minden fájl"
 
 # src/utilops.c:339 src/utilops.c:459 src/utilops.c:826 src/utilops.c:1032
-#: src/utilops.c:470 src/utilops.c:783 src/utilops.c:1640 src/utilops.c:2187
+#: src/utilops.c:498 src/utilops.c:819 src/utilops.c:1699 src/utilops.c:2251
 msgid "Overwrite file"
 msgstr "Fájl felülírása"
 
 # src/utilops.c:339 src/utilops.c:459 src/utilops.c:826 src/utilops.c:1032
-#: src/utilops.c:475 src/utilops.c:788 src/utilops.c:1645 src/utilops.c:2192
+#: src/utilops.c:503 src/utilops.c:824 src/utilops.c:1704 src/utilops.c:2256
 #, fuzzy
 msgid "Overwrite file?"
 msgstr "Fájl felülírása"
 
-#: src/utilops.c:476 src/utilops.c:789
+#: src/utilops.c:504 src/utilops.c:825
 msgid "Replace existing file with new file."
 msgstr ""
 
 # src/utilops.c:339 src/utilops.c:459 src/utilops.c:826 src/utilops.c:1032
-#: src/utilops.c:480
+#: src/utilops.c:508
 #, fuzzy
 msgid "Overwrite _all"
 msgstr "Fájl felülírása"
 
 # src/utilops.c:345
-#: src/utilops.c:482
+#: src/utilops.c:510
 #, fuzzy
 msgid "S_kip all"
 msgstr "Mindet kihagy"
 
 # src/utilops.c:345
-#: src/utilops.c:483
+#: src/utilops.c:511
 #, fuzzy
 msgid "_Skip"
 msgstr "Kihagy"
 
 # src/utilops.c:387 src/utilops.c:495
-#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+#: src/utilops.c:512 src/utilops.c:829 src/utilops.c:1709 src/utilops.c:2261
 #, fuzzy
 msgid "Existing file"
 msgstr "Hiba áthelyezés közben"
 
-#: src/utilops.c:484 src/utilops.c:793 src/utilops.c:1650 src/utilops.c:2197
+#: src/utilops.c:512 src/utilops.c:829 src/utilops.c:1709 src/utilops.c:2261
 #, fuzzy
 msgid "New file"
 msgstr "Új mappa..."
 
 # src/preferences.c:930
-#: src/utilops.c:494 src/utilops.c:802 src/utilops.c:1746 src/utilops.c:1810
-#: src/utilops.c:2101
+#: src/utilops.c:522 src/utilops.c:838 src/utilops.c:1805 src/utilops.c:1869
+#: src/utilops.c:2162
 msgid "Auto rename"
 msgstr "Automatikus átnevezés"
 
 # src/ui_pathsel.c:437 src/ui_pathsel.c:460 src/utilops.c:944
 # src/utilops.c:1095
-#: src/utilops.c:502 src/utilops.c:810
+#: src/utilops.c:530 src/utilops.c:846
 msgid "Rename"
 msgstr "Átnevezés"
 
 # src/utilops.c:316
-#: src/utilops.c:543
+#: src/utilops.c:571
 msgid "Source to copy matches destination"
 msgstr "A másolandó forrás egyezik a céllal"
 
 # src/utilops.c:317
-#: src/utilops.c:544
+#: src/utilops.c:572
 #, c-format
 msgid ""
 "Unable to copy file:\n"
@@ -3303,12 +3336,12 @@ msgstr ""
 "fájlt önmagába másolni."
 
 # src/utilops.c:321
-#: src/utilops.c:548
+#: src/utilops.c:576
 msgid "Source to move matches destination"
 msgstr "Az áthelyezendő forrás egyezik a céllal"
 
 # src/utilops.c:322
-#: src/utilops.c:549
+#: src/utilops.c:577
 #, c-format
 msgid ""
 "Unable to move file:\n"
@@ -3320,18 +3353,18 @@ msgstr ""
 "fájlt önmagára áthelyezni."
 
 # src/utilops.c:328 src/utilops.c:394 src/utilops.c:668
-#: src/utilops.c:557 src/utilops.c:644 src/utilops.c:1280
+#: src/utilops.c:585 src/utilops.c:672 src/utilops.c:1339
 #, fuzzy
 msgid "Co_ntinue"
 msgstr "Folytatás"
 
 # src/utilops.c:382 src/utilops.c:490
-#: src/utilops.c:630 src/utilops.c:850
+#: src/utilops.c:658 src/utilops.c:886
 msgid "Error copying file"
 msgstr "Hiba másolás közben"
 
 # src/utilops.c:383
-#: src/utilops.c:631
+#: src/utilops.c:659
 #, c-format
 msgid ""
 "Unable to copy file:\n"
@@ -3347,12 +3380,12 @@ msgstr ""
 "miközben több fájlt másol."
 
 # src/utilops.c:387 src/utilops.c:495
-#: src/utilops.c:635 src/utilops.c:855
+#: src/utilops.c:663 src/utilops.c:891
 msgid "Error moving file"
 msgstr "Hiba áthelyezés közben"
 
 # src/utilops.c:388
-#: src/utilops.c:636
+#: src/utilops.c:664
 #, c-format
 msgid ""
 "Unable to move file:\n"
@@ -3368,17 +3401,17 @@ msgstr ""
 "miközben több fájlt mozgat."
 
 # src/utilops.c:450
-#: src/utilops.c:774
+#: src/utilops.c:810
 msgid "Source matches destination"
 msgstr "A forrás egyezik a céllal"
 
 # src/utilops.c:451
-#: src/utilops.c:775
+#: src/utilops.c:811
 msgid "Source and destination are the same, operation cancelled."
 msgstr "Forrás és cél ugyanaz, művelet megszakítva."
 
 # src/utilops.c:491
-#: src/utilops.c:851
+#: src/utilops.c:887
 #, c-format
 msgid ""
 "Unable to copy file:\n"
@@ -3392,7 +3425,7 @@ msgstr ""
 "%s"
 
 # src/utilops.c:496
-#: src/utilops.c:856
+#: src/utilops.c:892
 #, c-format
 msgid ""
 "Unable to move file:\n"
@@ -3406,12 +3439,12 @@ msgstr ""
 "%s"
 
 # src/utilops.c:539
-#: src/utilops.c:899
+#: src/utilops.c:940
 msgid "Invalid destination"
 msgstr "Érvénytelen célkönyvtár"
 
 # src/utilops.c:540
-#: src/utilops.c:900
+#: src/utilops.c:941
 #, fuzzy
 msgid ""
 "When operating with multiple files, please select\n"
@@ -3421,91 +3454,91 @@ msgstr ""
 "egy könyvtárat, ne fájlt."
 
 # src/utilops.c:544
-#: src/utilops.c:905
+#: src/utilops.c:946
 #, fuzzy
 msgid "Please select an existing folder."
 msgstr "Kérlek válassz egy létező könyvtárat"
 
 # src/main.c:129
-#: src/utilops.c:956
+#: src/utilops.c:1015
 #, fuzzy
 msgid "Copy - GQview"
 msgstr "Segítség - GQview"
 
 # src/utilops.c:592
-#: src/utilops.c:957 src/view_dir_list.c:217 src/view_dir_tree.c:309
+#: src/utilops.c:1016 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
 msgstr "_Másolás"
 
 # src/utilops.c:1090
-#: src/utilops.c:960
+#: src/utilops.c:1019
 #, fuzzy
 msgid "Copy file"
 msgstr "Fájl átnevezése:"
 
 # src/utilops.c:596
-#: src/utilops.c:964
+#: src/utilops.c:1023
 #, fuzzy
 msgid "Copy multiple files"
 msgstr "Több fájl másolása ide:"
 
 # src/main.c:129
-#: src/utilops.c:970
+#: src/utilops.c:1029
 #, fuzzy
 msgid "Move - GQview"
 msgstr "Segítség - GQview"
 
 # src/utilops.c:601
-#: src/utilops.c:971 src/view_dir_list.c:219 src/view_dir_tree.c:311
+#: src/utilops.c:1030 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
 msgstr "M_ozgatás"
 
 # src/utilops.c:1090
-#: src/utilops.c:974
+#: src/utilops.c:1033
 #, fuzzy
 msgid "Move file"
 msgstr "Fájl átnevezése:"
 
 # src/utilops.c:605
-#: src/utilops.c:978
+#: src/utilops.c:1037
 #, fuzzy
 msgid "Move multiple files"
 msgstr "Több fájl áthelyezése ide:"
 
 # src/utilops.c:980
-#: src/utilops.c:992 src/utilops.c:1502
+#: src/utilops.c:1051 src/utilops.c:1561
 #, fuzzy
 msgid "File name:"
 msgstr "Fájlnév:"
 
 # src/utilops.c:450
-#: src/utilops.c:996
+#: src/utilops.c:1055
 #, fuzzy
 msgid "Choose the destination folder."
 msgstr "A forrás egyezik a céllal"
 
 # src/utilops.c:664 src/utilops.c:676
-#: src/utilops.c:1123 src/utilops.c:1272 src/utilops.c:1289
+#: src/utilops.c:1182 src/utilops.c:1331 src/utilops.c:1348
 msgid "Delete failed"
 msgstr "Hiba a törlésnél"
 
 # src/utilops.c:322
-#: src/utilops.c:1124
+#: src/utilops.c:1183
 msgid "Unable to remove old file from trash folder"
 msgstr "Nem lehet a régi fájlt törölni a kukából"
 
 # src/utilops.c:1151
-#: src/utilops.c:1180 src/utilops.c:2318
+#: src/utilops.c:1239 src/utilops.c:2385
 #, fuzzy
 msgid "Could not create folder"
 msgstr "Nem lehet könyvtárat létrehozni"
 
-#: src/utilops.c:1202
+#: src/utilops.c:1261
 msgid "Permission denied"
 msgstr "Hozzáférés megtagadva"
 
 # src/ui_pathsel.c:517 src/utilops.c:1158
-#: src/utilops.c:1212
+#: src/utilops.c:1271
 #, c-format
 msgid ""
 "Unable to access or create the trash folder.\n"
@@ -3515,18 +3548,18 @@ msgstr ""
 "\"%s\""
 
 # src/preferences.c:667
-#: src/utilops.c:1216
+#: src/utilops.c:1275
 msgid "Turn off safe delete"
 msgstr "Biztonságos törlés kikapcsolása"
 
 # src/preferences.c:667
-#: src/utilops.c:1234
+#: src/utilops.c:1293
 #, c-format
 msgid "Safe delete: %s"
 msgstr "Biztonságos törlés: %s"
 
 # src/utilops.c:663
-#: src/utilops.c:1276
+#: src/utilops.c:1335
 #, c-format
 msgid ""
 "Unable to delete file:\n"
@@ -3537,47 +3570,47 @@ msgstr ""
 " %s\n"
 " Folytatja a többi fájl törlését?"
 
-#: src/utilops.c:1347
+#: src/utilops.c:1406
 #, c-format
 msgid "File %d of %d"
 msgstr "%d. fájl %d közül"
 
 # src/utilops.c:707
-#: src/utilops.c:1416
+#: src/utilops.c:1475
 #, fuzzy
 msgid "Delete files - GQview"
 msgstr "Fájlok törlése"
 
 # src/utilops.c:942
-#: src/utilops.c:1420
+#: src/utilops.c:1479
 #, fuzzy
 msgid "Delete multiple files"
 msgstr "Több fájl átnevezése:"
 
 # src/dupe.c:67 src/dupe.c:1449
-#: src/utilops.c:1438
+#: src/utilops.c:1497
 #, c-format
 msgid "Review %d files"
 msgstr "%d fájl újranézése"
 
 # src/ui_pathsel.c:398 src/utilops.c:760
-#: src/utilops.c:1494
+#: src/utilops.c:1553
 #, fuzzy
 msgid "Delete file - GQview"
 msgstr "Fájl törlése"
 
 # src/ui_pathsel.c:398 src/utilops.c:760
-#: src/utilops.c:1498
+#: src/utilops.c:1557
 #, fuzzy
 msgid "Delete file?"
 msgstr "Fájl törlése"
 
-#: src/utilops.c:1646 src/utilops.c:2193
+#: src/utilops.c:1705 src/utilops.c:2257
 msgid "Replace existing file by renaming new file."
 msgstr ""
 
 # src/utilops.c:842
-#: src/utilops.c:1661
+#: src/utilops.c:1720
 #, c-format
 msgid ""
 "Unable to rename file:\n"
@@ -3592,12 +3625,12 @@ msgstr ""
 
 # src/filelist.c:811 src/filelist.c:817 src/filelist.c:823 src/utilops.c:845
 # src/utilops.c:1048
-#: src/utilops.c:1664 src/utilops.c:2208 src/view_file_list.c:448
+#: src/utilops.c:1723 src/utilops.c:2272 src/view_file_list.c:448
 #: src/view_file_list.c:454 src/view_file_list.c:460
 msgid "Error renaming file"
 msgstr "Nem lehet a fájlt átnevezni"
 
-#: src/utilops.c:1747
+#: src/utilops.c:1806
 msgid ""
 "Can not auto rename with the selected\n"
 "number set, one or more files exist that\n"
@@ -3608,7 +3641,7 @@ msgstr ""
 "a szükséges nevekkel.\n"
 
 # src/ui_pathsel.c:313
-#: src/utilops.c:1809
+#: src/utilops.c:1868
 #, c-format
 msgid ""
 "Failed to rename\n"
@@ -3620,50 +3653,50 @@ msgstr ""
 "A %d. sorszámnál"
 
 # src/main.c:129
-#: src/utilops.c:2031 src/utilops.c:2249
+#: src/utilops.c:2092 src/utilops.c:2314
 #, fuzzy
 msgid "Rename - GQview"
 msgstr "Segítség - GQview"
 
 # src/utilops.c:942
-#: src/utilops.c:2034
+#: src/utilops.c:2095
 #, fuzzy
 msgid "Rename multiple files"
 msgstr "Több fájl átnevezése:"
 
-#: src/utilops.c:2066
+#: src/utilops.c:2127
 msgid "Original Name"
 msgstr "Eredeti név"
 
-#: src/utilops.c:2110 src/utilops.c:2262
+#: src/utilops.c:2171 src/utilops.c:2327
 #, fuzzy
 msgid "Original name:"
 msgstr "Eredeti név"
 
 # src/utilops.c:980
-#: src/utilops.c:2113 src/utilops.c:2265
+#: src/utilops.c:2174 src/utilops.c:2330
 #, fuzzy
 msgid "New name:"
 msgstr "Átnevezés:"
 
-#: src/utilops.c:2128
+#: src/utilops.c:2192
 msgid "Begin text"
 msgstr "Kezdő szöveg"
 
-#: src/utilops.c:2136
+#: src/utilops.c:2200
 msgid "Start #"
 msgstr "Kezdet #"
 
-#: src/utilops.c:2142
+#: src/utilops.c:2206
 msgid "End text"
 msgstr "Záró szöveg"
 
-#: src/utilops.c:2150
+#: src/utilops.c:2214
 msgid "Padding:"
 msgstr "Számláló szélessége:"
 
 # src/filelist.c:822 src/utilops.c:1047
-#: src/utilops.c:2207 src/view_file_list.c:459
+#: src/utilops.c:2271 src/view_file_list.c:459
 #, c-format
 msgid ""
 "Unable to rename file:\n"
@@ -3677,13 +3710,13 @@ msgstr ""
 "%s"
 
 # src/utilops.c:1090
-#: src/utilops.c:2252
+#: src/utilops.c:2317
 #, fuzzy
 msgid "Rename file"
 msgstr "Fájl átnevezése:"
 
 # src/utilops.c:1144
-#: src/utilops.c:2311
+#: src/utilops.c:2378 src/utilops.c:2468
 #, fuzzy, c-format
 msgid ""
 "The folder:\n"
@@ -3695,13 +3728,13 @@ msgstr ""
 "már létezik."
 
 # src/menu.c:709
-#: src/utilops.c:2312
+#: src/utilops.c:2379 src/utilops.c:2469
 #, fuzzy
 msgid "Folder exists"
 msgstr "Könyvtárak"
 
 # src/utilops.c:1150
-#: src/utilops.c:2317
+#: src/utilops.c:2384 src/utilops.c:2477
 #, c-format
 msgid ""
 "The path:\n"
@@ -3713,13 +3746,13 @@ msgstr ""
 "már létezik mint fájl."
 
 # src/main.c:129
-#: src/utilops.c:2369
+#: src/utilops.c:2436
 #, fuzzy
 msgid "New folder - GQview"
 msgstr "Segítség - GQview"
 
 # src/utilops.c:1211
-#: src/utilops.c:2372
+#: src/utilops.c:2439
 #, fuzzy, c-format
 msgid ""
 "Create folder in:\n"
@@ -3730,45 +3763,51 @@ msgstr ""
 "%s könyvtárban\n"
 "ilyen néven:"
 
-#: src/view_dir_list.c:329 src/view_dir_tree.c:425
+# src/utilops.c:1090
+#: src/utilops.c:2478
+#, fuzzy
+msgid "Rename failed"
+msgstr "Fájl átnevezése:"
+
+#: src/view_dir_list.c:321 src/view_dir_tree.c:417
 msgid "new_folder"
 msgstr "új könyvtár"
 
-#: src/view_dir_list.c:387 src/view_dir_tree.c:482
+#: src/view_dir_list.c:379 src/view_dir_tree.c:474
 msgid "_Up to parent"
 msgstr "Feljebb egy szinttel"
 
 # src/menu.c:879
-#: src/view_dir_list.c:392 src/view_dir_tree.c:487
+#: src/view_dir_list.c:384 src/view_dir_tree.c:479
 msgid "_Slideshow"
 msgstr "_Diavetítés"
 
 # src/menu.c:881
-#: src/view_dir_list.c:394 src/view_dir_tree.c:489
+#: src/view_dir_list.c:386 src/view_dir_tree.c:481
 msgid "Slideshow recursive"
 msgstr "Diavetítés rekurzívan"
 
 # src/collect-table.c:644 src/menu.c:885
-#: src/view_dir_list.c:398 src/view_dir_tree.c:493
+#: src/view_dir_list.c:390 src/view_dir_tree.c:485
 msgid "Find _duplicates..."
 msgstr "_Duplikációk keresése..."
 
 # src/menu.c:887
-#: src/view_dir_list.c:400 src/view_dir_tree.c:495
+#: src/view_dir_list.c:392 src/view_dir_tree.c:487
 msgid "Find duplicates recursive..."
 msgstr "Duplikációk keresése rekurzívan..."
 
-#: src/view_dir_list.c:407 src/view_dir_tree.c:502
+#: src/view_dir_list.c:399 src/view_dir_tree.c:494
 msgid "_New folder..."
 msgstr "Új mappa..."
 
 # src/menu.c:761
-#: src/view_dir_list.c:419 src/view_dir_tree.c:509
+#: src/view_dir_list.c:411 src/view_dir_tree.c:501
 msgid "View as _tree"
 msgstr "Fa nézet"
 
 # src/menu.c:891 src/menu.c:920
-#: src/view_dir_list.c:421 src/view_dir_tree.c:511 src/view_file_icon.c:311
+#: src/view_dir_list.c:413 src/view_dir_tree.c:503 src/view_file_icon.c:311
 #: src/view_file_list.c:423
 msgid "Re_fresh"
 msgstr "_Frissítés"
