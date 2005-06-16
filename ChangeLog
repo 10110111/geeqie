@@ -1,3 +1,8 @@
+Thu Jun 16 01:21:43 2005  John Ellis  <johne@verizon.net>
+
+	* cache-loader.c (cache_loader_process): When converting Exif date
+	string to time_t, tell mktime DST is unknown (-1).
+
 Mon Jun 13 20:22:58 2005  John Ellis  <johne@verizon.net>
 
 	* image.c (image_zoom_cb): If needed, update window title when

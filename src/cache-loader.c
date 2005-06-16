@@ -138,6 +138,7 @@ static gboolean cache_loader_process(CacheLoader *cl)
 					{
 					t.tm_year -= 1900;
 					t.tm_mon -= 1;
+					t.tm_isdst = -1;
 					date = mktime(&t);
 					}
 				g_free(text);
