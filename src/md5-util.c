@@ -315,7 +315,7 @@ md5_transform (guint32 buf[4], const guint32 in[16])
  * the 16 bytes buffer @digest .
  **/
 void
-md5_get_digest (const gchar *buffer, gint buffer_size, guchar digest[16])
+md5_get_digest (const guchar *buffer, gint buffer_size, guchar digest[16])
 {	
 	MD5Context ctx;
 

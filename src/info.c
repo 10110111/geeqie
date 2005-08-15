@@ -507,7 +507,7 @@ static void info_window_dnd_data_set(GtkWidget *widget, GdkDragContext *context,
 		g_list_free(list);
 
 		gtk_selection_data_set(selection_data, selection_data->target,
-				       8, text, len);
+				       8, (guchar *)text, len);
 		g_free(text);
 		}
 }

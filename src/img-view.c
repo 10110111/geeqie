@@ -1392,7 +1392,7 @@ static void view_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 			{
 			GList *work;
 
-			list = uri_list_from_text(selection_data->data, TRUE);
+			list = uri_list_from_text((gchar *)selection_data->data, TRUE);
 
 			work = list;
 			while (work)
@@ -1481,7 +1481,7 @@ static void view_window_set_dnd_data(GtkWidget *widget, GdkDragContext *context,
 		if (text)
 			{
 			gtk_selection_data_set (selection_data, selection_data->target,
-						8, text, len);
+						8, (guchar *)text, len);
 			g_free(text);
 			}
 		}

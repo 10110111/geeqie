@@ -3354,7 +3354,7 @@ static void dupe_dnd_data_set(GtkWidget *widget, GdkDragContext *context,
 		}
 
 	if (uri_text) gtk_selection_data_set(selection_data, selection_data->target,
-					     8, uri_text, length);
+					     8, (guchar *)uri_text, length);
 	g_free(uri_text);
 }
 
@@ -3379,7 +3379,7 @@ static void dupe_dnd_data_get(GtkWidget *widget, GdkDragContext *context,
 			collection_from_dnd_data((gchar *)selection_data->data, &list, NULL);
 			break;
 		case TARGET_URI_LIST:
-			list = uri_list_from_text(selection_data->data, TRUE);
+			list = uri_list_from_text((gchar *)selection_data->data, TRUE);
 			work = list;
 			while(work)
 				{

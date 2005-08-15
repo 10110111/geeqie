@@ -899,7 +899,7 @@ static gint date_selection_popup_press_cb(GtkWidget *widget, GdkEventButton *eve
 
 static void date_selection_popup_sync(DateSelection *ds)
 {
-	gint day, month, year;
+	guint day, month, year;
 
 	gtk_calendar_get_date(GTK_CALENDAR(ds->calendar), &year, &month, &day);
 	date_selection_set(ds->box, day, month + 1, year);

@@ -4833,7 +4833,7 @@ static void pan_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 		{
 		GList *list;
 
-		list = uri_list_from_text(selection_data->data, TRUE);
+		list = uri_list_from_text((gchar *)selection_data->data, TRUE);
 		if (list && isdir((gchar *)list->data))
 			{
 			gchar *path = list->data;
@@ -4876,7 +4876,7 @@ static void pan_window_set_dnd_data(GtkWidget *widget, GdkDragContext *context,
 		if (text)
 			{
 			gtk_selection_data_set (selection_data, selection_data->target,
-						8, text, len);
+						8, (guchar *)text, len);
 			g_free(text);
 			}
 		}

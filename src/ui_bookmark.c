@@ -809,7 +809,7 @@ static void bookmark_drag_set_data(GtkWidget *button,
 	if (!uri_text) return;
 
 	gtk_selection_data_set(selection_data, selection_data->target,
-			       8, uri_text, length);
+			       8, (guchar *)uri_text, length);
 	g_free(uri_text);
 }
 
@@ -1003,7 +1003,7 @@ static void bookmark_dnd_get_data(GtkWidget *widget,
 		{
 		case TARGET_URI_LIST:
 		case TARGET_X_URL:
-			list = uri_list_from_text(selection_data->data, FALSE);
+			list = uri_list_from_text((gchar *)selection_data->data, FALSE);
 			break;
 		}
 

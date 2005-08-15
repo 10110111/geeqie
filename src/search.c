@@ -1371,7 +1371,7 @@ static void search_dnd_data_set(GtkWidget *widget, GdkDragContext *context,
 		}
 
 	if (uri_text) gtk_selection_data_set(selection_data, selection_data->target,
-					     8, uri_text, length);
+					     8, (guchar *)uri_text, length);
 	g_free(uri_text);
 }
 

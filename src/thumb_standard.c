@@ -153,7 +153,7 @@ static gchar *thumb_std_cache_path(const gchar *path, const gchar *uri, gint loc
 		cache_base = g_strconcat(homedir(), "/", THUMB_FOLDER, "/", cache_subfolder, NULL);
 		}
 
-	md5_get_digest(uri, strlen(uri), digest);
+	md5_get_digest((guchar *)uri, strlen(uri), digest);
 	md5_text = md5_digest_to_text(digest);
 
 	if (cache_base && md5_text)

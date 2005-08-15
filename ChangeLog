@@ -1,3 +1,11 @@
+Mon Aug 15 17:13:57 2005  John Ellis  <johne@verizon.net>
+
+	* collect-table.c, dupe.c, exif.c, img-view.c info.c, layout_image.c,
+	md5-util.[ch], pan-view.c, remote.c, search.c, thumb_standard.c,
+	ui_bookmark.c, ui_misc.c, ui_pathsel.c, view_dir_list.c,
+	view_dir_tree.c, view_file_icon.c, view_file_list.c: Fix signedness
+	warnings in gcc 4.0.
+
 Mon Aug 15 16:35:15 2005  John Ellis  <johne@verizon.net>
 
 	* view_dir_tree.c (vdtree_set_path): Do not force reading folder

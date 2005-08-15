@@ -973,10 +973,10 @@ static gint jpeg_goto_next_marker(unsigned char **data, gint *size, gint *marker
 }
 
 
-static gint exif_parse_JPEG(ExifData *exif, unsigned char *data, guint size, ExifMarker *list)
+static gint exif_parse_JPEG(ExifData *exif, unsigned char *data, gint size, ExifMarker *list)
 {
-	guint marker;
-	guint marker_size;
+	gint marker;
+	gint marker_size;
 
 	if (size < 4 || *data != 0xFF || *(data + 1) != MARKER_SOI)
 		{

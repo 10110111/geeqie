@@ -353,7 +353,7 @@ static void dest_dnd_set_data(GtkWidget *view,
 	if (!uri_text) return;
 
 	gtk_selection_data_set(selection_data, selection_data->target,
-			       8, uri_text, length);
+			       8, (guchar *)uri_text, length);
 	g_free(uri_text);
 }
 

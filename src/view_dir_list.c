@@ -481,7 +481,7 @@ static void vdlist_dnd_get(GtkWidget *widget, GdkDragContext *context,
 	if (text)
 		{
 		gtk_selection_data_set (selection_data, selection_data->target,
-				8, text, length);
+				8, (guchar *)text, length);
 		g_free(text);
 		}
 }
@@ -537,7 +537,7 @@ static void vdlist_dnd_drop_receive(GtkWidget *widget,
 		GList *list;
 		gint active;
 
-		list = uri_list_from_text(selection_data->data, TRUE);
+		list = uri_list_from_text((gchar *)selection_data->data, TRUE);
 		if (!list) return;
 
 		active = access_file(fd->path, W_OK | X_OK);

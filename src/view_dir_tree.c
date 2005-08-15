@@ -559,7 +559,7 @@ static void vdtree_dnd_get(GtkWidget *widget, GdkDragContext *context,
 	if (uri_text)
 		{
 		gtk_selection_data_set(selection_data, selection_data->target,
-				       8, uri_text, length);
+				       8, (guchar *)uri_text, length);
 		g_free(uri_text);
 		}
 }
@@ -613,7 +613,7 @@ static void vdtree_dnd_drop_receive(GtkWidget *widget,
 		GList *list;
 		gint active;
 
-		list = uri_list_from_text(selection_data->data, TRUE);
+		list = uri_list_from_text((gchar *)selection_data->data, TRUE);
 		if (!list) return;
 
 		active = access_file(fd->path, W_OK | X_OK);

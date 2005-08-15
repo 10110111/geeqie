@@ -2058,7 +2058,7 @@ static void collection_table_dnd_get(GtkWidget *widget, GdkDragContext *context,
 		}
 
 	gtk_selection_data_set(selection_data, selection_data->target,
-			       8, uri_text, total);
+			       8, (guchar *)uri_text, total);
 	g_free(uri_text);
 }
 
@@ -2075,7 +2075,7 @@ static void collection_table_dnd_receive(GtkWidget *widget, GdkDragContext *cont
 	CollectInfo *drop_info;
 	GList *work;
 
-	if (debug) printf(selection_data->data);
+	if (debug) printf("%s\n", selection_data->data);
 
 	collection_table_scroll(ct, FALSE);
 	collection_table_insert_marker(ct, NULL, FALSE);
@@ -2118,7 +2118,7 @@ static void collection_table_dnd_receive(GtkWidget *widget, GdkDragContext *cont
 				}
 			break;
 		case TARGET_URI_LIST:
-			list = uri_list_from_text(selection_data->data, TRUE);
+			list = uri_list_from_text((gchar *)selection_data->data, TRUE);
 			work = list;
 			while (work)
 				{

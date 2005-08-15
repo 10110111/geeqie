@@ -816,7 +816,7 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 
 		if (info == TARGET_URI_LIST)
 			{
-			list = uri_list_from_text(selection_data->data, TRUE);
+			list = uri_list_from_text((gchar *)selection_data->data, TRUE);
 			source = NULL;
 			info_list = NULL;
 			}
@@ -901,7 +901,7 @@ static void layout_image_dnd_get(GtkWidget *widget, GdkDragContext *context,
 		if (text)
 			{
 			gtk_selection_data_set (selection_data, selection_data->target,
-						8, text, len);
+						8, (guchar *)text, len);
 			g_free(text);
 			}
 		}

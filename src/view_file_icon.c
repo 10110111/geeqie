@@ -613,7 +613,7 @@ static void vficon_dnd_get(GtkWidget *widget, GdkDragContext *context,
 	if (debug) printf(uri_text);
 
 	gtk_selection_data_set(selection_data, selection_data->target,
-			       8, uri_text, total);
+			       8, (guchar *)uri_text, total);
 	g_free(uri_text);
 }
 
