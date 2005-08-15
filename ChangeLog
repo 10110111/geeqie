@@ -1,3 +1,9 @@
+Mon Aug 15 16:35:15 2005  John Ellis  <johne@verizon.net>
+
+	* view_dir_tree.c (vdtree_set_path): Do not force reading folder
+	contents, to allow the check for a changed timestamp do it's job.
+	* doc/10_options.html: Fix page link in docs.
+
 Thu Jun 16 01:21:43 2005  John Ellis  <johne@verizon.net>
 
 	* cache-loader.c (cache_loader_process): When converting Exif date

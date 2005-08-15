@@ -89,9 +89,13 @@ d> fix window size hints not to use USER_SIZE as we do not use gtk_window_resize
  > folder tree view shortcuts for expanding/collapsing leak through to the main
    window (+,-,*,/, etc.), figure what behavior is desired and fix this.
 
+  --- Doc updates:
+
+ > default edit commands not described.
+
  -------------
 
-d> update translations: it(x) ( ) ( )
+ > update translations: fr( ) it(x) pl( ) zh_TW( )
 
  > document recent additions/changes:
    > Added 'Fast jpeg thumbnailing'.

@@ -1292,7 +1292,7 @@ gint vdtree_set_path(ViewDirTree *vdt, const gchar *path)
 	g_free(vdt->path);
 	vdt->path = g_strdup(path);
 
-	fd = vdtree_populate_path(vdt, vdt->path, TRUE, TRUE);
+	fd = vdtree_populate_path(vdt, vdt->path, TRUE, FALSE);
 
 	if (!fd) return FALSE;
 
