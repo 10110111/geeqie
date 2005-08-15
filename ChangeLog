@@ -1,3 +1,9 @@
+Mon Aug 15 18:27:38 2005  John Ellis  <johne@verizon.net>
+
+	* cache.c: Make cache loader tolerant of unknown line values, so that
+	a cache written by newer/older versions of GQview does not result in
+	recreating data that is actually there.
+
 Mon Aug 15 17:13:57 2005  John Ellis  <johne@verizon.net>
 
 	* collect-table.c, dupe.c, exif.c, img-view.c info.c, layout_image.c,
