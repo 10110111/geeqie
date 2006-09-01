@@ -1613,15 +1613,21 @@ enum {
 	RENAME_COLUMN_COUNT
 };
 
+typedef enum {
+	RENAME_TYPE_MANUAL = 0,
+	RENAME_TYPE_FORMATTED,
+	RENAME_TYPE_AUTO
+} RenameType;
+
 typedef struct _RenameDataMult RenameDataMult;
 struct _RenameDataMult
 {
 	FileDialog *fd;
 
-	gint rename_auto;
+	RenameType rename_type;
 
 	GtkWidget *listview;
-	GtkWidget *button_auto;
+	GtkWidget *combo_type;
 
 	GtkWidget *rename_box;
 	GtkWidget *rename_label;
@@ -1632,6 +1638,10 @@ struct _RenameDataMult
 	GtkWidget *auto_spin_start;
 	GtkWidget *auto_spin_pad;
 	GtkWidget *auto_entry_end;
+
+	GtkWidget *format_box;
+	GtkWidget *format_entry;
+	GtkWidget *format_spin;
 
 	ImageWindow *imd;
 
@@ -1755,10 +1765,70 @@ static void file_util_rename_multiple(RenameDataMult *rd)
 		}
 }
 
+/* format: * = filename without extension, ## = number position, extension is kept */
+static gchar *file_util_rename_multiple_auto_format_name(const gchar *format, const gchar *name, gint n)
+{
+	gchar *new_name;
+	gchar *parsed;
+	const gchar *ext;
+	gchar *middle;
+	gchar *tmp;
+	gchar *pad_start;
+	gchar *pad_end;
+	gint padding;
+
+	if (!format || !name) return NULL;
+
+	tmp = g_strdup(format);
+	pad_start = strchr(tmp, '#');
+	if (pad_start)
+		{
+		pad_end = pad_start;
+		padding = 0;
+		while (*pad_end == '#')
+			{
+			pad_end++;
+			padding++;
+			}
+		*pad_start = '\0';
+
+		parsed = g_strdup_printf("%s%0*d%s", tmp, padding, n, pad_end);
+		g_free(tmp);
+		}
+	else
+		{
+		parsed = tmp;
+		}
+
+	ext = extension_from_path(name);
+
+	middle = strchr(parsed, '*');
+	if (middle)
+		{
+		gchar *base;
+
+		*middle = '\0';
+		middle++;
+
+		base = remove_extension_from_path(name);
+		new_name = g_strconcat(parsed, base, middle, ext, NULL);
+		g_free(base);
+		}
+	else
+		{
+		new_name = g_strconcat(parsed, ext, NULL);
+		}
+
+	g_free(parsed);
+
+	return new_name;
+}
+
 static void file_util_rename_multiple_auto(RenameDataMult *rd)
 {
 	const gchar *front;
 	const gchar *end;
+	const gchar *format;
 	gint start_n;
 	gint padding;
 	gint n;
@@ -1767,13 +1837,34 @@ static void file_util_rename_multiple_auto(RenameDataMult *rd)
 	gint valid;
 	gint success;
 
-	history_combo_append_history(rd->auto_entry_front, NULL);
-	history_combo_append_history(rd->auto_entry_end, NULL);
-
 	front = gtk_entry_get_text(GTK_ENTRY(rd->auto_entry_front));
 	end = gtk_entry_get_text(GTK_ENTRY(rd->auto_entry_end));
-	start_n = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(rd->auto_spin_start));
 	padding = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(rd->auto_spin_pad));
+
+	format = gtk_entry_get_text(GTK_ENTRY(rd->format_entry));
+
+	if (rd->rename_type == RENAME_TYPE_FORMATTED)
+		{
+		start_n = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(rd->format_spin));
+
+		if (!format ||
+		    (strchr(format, '*') == NULL && strchr(format, '#') == NULL))
+			{
+			file_util_warning_dialog(_("Auto rename"),
+			       _("Format must include at least one of the symbol characters '*' or '#'.\n"),
+			       GTK_STOCK_DIALOG_WARNING, NULL);
+			return;
+			}
+
+		history_combo_append_history(rd->format_entry, NULL);
+		}
+	else
+		{
+		start_n = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(rd->auto_spin_start));
+
+		history_combo_append_history(rd->auto_entry_front, NULL);
+		history_combo_append_history(rd->auto_entry_end, NULL);
+		}
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(rd->listview));
 
@@ -1788,10 +1879,23 @@ static void file_util_rename_multiple_auto(RenameDataMult *rd)
 		gchar *path;
 
 		gtk_tree_model_get(store, &iter, RENAME_COLUMN_PATH, &path, -1);
-
 		base = remove_level_from_path(path);
-		dest = g_strdup_printf("%s/%s%0*d%s", base, front, padding, n, end);
+
+		if (rd->rename_type == RENAME_TYPE_FORMATTED)
+			{
+			gchar *new_name;
+
+			new_name = file_util_rename_multiple_auto_format_name(format, filename_from_path(path), n);
+			dest = g_strconcat(base, "/", new_name, NULL);
+			g_free(new_name);
+			}
+		else
+			{
+			dest = g_strdup_printf("%s/%s%0*d%s", base, front, padding, n, end);
+			}
+
 		if (isname(dest)) success = FALSE;
+
 		g_free(dest);
 		g_free(base);
 		g_free(path);
@@ -1827,9 +1931,21 @@ static void file_util_rename_multiple_auto(RenameDataMult *rd)
 		gchar *path;
 
 		gtk_tree_model_get(store, &iter, RENAME_COLUMN_PATH, &path, -1);
-
 		base = remove_level_from_path(path);
-		dest = g_strdup_printf("%s/%s%0*d%s", base, front, padding, n, end);
+
+		if (rd->rename_type == RENAME_TYPE_FORMATTED)
+			{
+			gchar *new_name;
+
+			new_name = file_util_rename_multiple_auto_format_name(format, filename_from_path(path), n);
+			dest = g_strconcat(base, "/", new_name, NULL);
+			g_free(new_name);
+			}
+		else
+			{
+			dest = g_strdup_printf("%s/%s%0*d%s", base, front, padding, n, end);
+			}
+
 		if (!rename_file(path, dest))
 			{
 			success = FALSE;
@@ -1881,7 +1997,7 @@ static void file_util_rename_multiple_cb(FileDialog *fd, gpointer data)
 	gchar *base;
 	const gchar *name;
 
-	if (rd->rename_auto)
+	if (rd->rename_type != RENAME_TYPE_MANUAL)
 		{
 		file_util_rename_multiple_auto(rd);
 		return;
@@ -1946,6 +2062,7 @@ static void file_util_rename_multiple_preview_update(RenameDataMult *rd)
 	GtkTreeIter iter;
 	const gchar *front;
 	const gchar *end;
+	const gchar *format;
 	gint valid;
 	gint start_n;
 	gint padding;
@@ -1953,8 +2070,18 @@ static void file_util_rename_multiple_preview_update(RenameDataMult *rd)
 
 	front = gtk_entry_get_text(GTK_ENTRY(rd->auto_entry_front));
 	end = gtk_entry_get_text(GTK_ENTRY(rd->auto_entry_end));
-	start_n = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(rd->auto_spin_start));
 	padding = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(rd->auto_spin_pad));
+
+	format = gtk_entry_get_text(GTK_ENTRY(rd->format_entry));
+
+	if (rd->rename_type == RENAME_TYPE_FORMATTED)
+		{
+		start_n = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(rd->format_spin));
+		}
+	else
+		{
+		start_n = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(rd->auto_spin_start));
+		}
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(rd->listview));
 	n = start_n;
@@ -1963,7 +2090,18 @@ static void file_util_rename_multiple_preview_update(RenameDataMult *rd)
 		{
 		gchar *dest;
 
-		dest = g_strdup_printf("%s%0*d%s", front, padding, n, end);
+		if (rd->rename_type == RENAME_TYPE_FORMATTED)
+			{
+			gchar *path;
+	
+			gtk_tree_model_get(store, &iter, RENAME_COLUMN_PATH, &path, -1);
+			dest = file_util_rename_multiple_auto_format_name(format, filename_from_path(path), n);
+			g_free(path);
+			}
+		else
+			{
+			dest = g_strdup_printf("%s%0*d%s", front, padding, n, end);
+			}
 		gtk_list_store_set(GTK_LIST_STORE(store), &iter, RENAME_COLUMN_PREVIEW, dest, -1);
 		g_free(dest);
 
@@ -1988,7 +2126,7 @@ static void file_util_rename_multiple_preview_order_cb(GtkTreeModel *treemodel, 
 {
 	RenameDataMult *rd = data;
 
-	if (rd->rename_auto && rd->update_idle_id == -1)
+	if (rd->rename_type != RENAME_TYPE_MANUAL && rd->update_idle_id == -1)
 		{
 		rd->update_idle_id = g_idle_add(file_util_rename_multiple_idle_cb, rd);
 		}
@@ -2006,27 +2144,37 @@ static void file_util_rename_multiple_preview_adj_cb(GtkWidget *spin, gpointer d
 	file_util_rename_multiple_preview_update(rd);
 }
 
-static void file_util_rename_mulitple_auto_toggle(GtkWidget *widget, gpointer data)
+static void file_util_rename_multiple_auto_change(GtkWidget *widget, gpointer data)
 {
 	RenameDataMult *rd = data;
 	GtkTreeViewColumn *column;
 
-	rd->rename_auto = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(rd->button_auto));
+	rd->rename_type = gtk_combo_box_get_active(GTK_COMBO_BOX(rd->combo_type));
 
-	if (rd->rename_auto)
+	switch (rd->rename_type)
 		{
-		if (GTK_WIDGET_VISIBLE(rd->rename_box)) gtk_widget_hide(rd->rename_box);
-		if (!GTK_WIDGET_VISIBLE(rd->auto_box)) gtk_widget_show(rd->auto_box);
-		file_util_rename_multiple_preview_update(rd);
-		}
-	else
-		{
-		if (GTK_WIDGET_VISIBLE(rd->auto_box)) gtk_widget_hide(rd->auto_box);
-		if (!GTK_WIDGET_VISIBLE(rd->rename_box)) gtk_widget_show(rd->rename_box);
+		case RENAME_TYPE_FORMATTED:
+			if (GTK_WIDGET_VISIBLE(rd->rename_box)) gtk_widget_hide(rd->rename_box);
+			if (GTK_WIDGET_VISIBLE(rd->auto_box)) gtk_widget_hide(rd->auto_box);
+			if (!GTK_WIDGET_VISIBLE(rd->format_box)) gtk_widget_show(rd->format_box);
+			file_util_rename_multiple_preview_update(rd);
+			break;
+		case RENAME_TYPE_AUTO:
+			if (GTK_WIDGET_VISIBLE(rd->format_box)) gtk_widget_hide(rd->format_box);
+			if (GTK_WIDGET_VISIBLE(rd->rename_box)) gtk_widget_hide(rd->rename_box);
+			if (!GTK_WIDGET_VISIBLE(rd->auto_box)) gtk_widget_show(rd->auto_box);
+			file_util_rename_multiple_preview_update(rd);
+			break;
+		case RENAME_TYPE_MANUAL:
+		default:
+			if (GTK_WIDGET_VISIBLE(rd->format_box)) gtk_widget_hide(rd->format_box);
+			if (GTK_WIDGET_VISIBLE(rd->auto_box)) gtk_widget_hide(rd->auto_box);
+			if (!GTK_WIDGET_VISIBLE(rd->rename_box)) gtk_widget_show(rd->rename_box);
+			break;
 		}
 
 	column = gtk_tree_view_get_column(GTK_TREE_VIEW(rd->listview), RENAME_COLUMN_PREVIEW - 1);
-	gtk_tree_view_column_set_visible(column, rd->rename_auto);
+	gtk_tree_view_column_set_visible(column, (rd->rename_type != RENAME_TYPE_MANUAL));
 }
 
 static GtkWidget *furm_simple_vlabel(GtkWidget *box, const gchar *text, gint expand)
@@ -2098,6 +2246,8 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 	rd->fd->source_path = g_strdup(source_list->data);
 	rd->fd->dest_path = NULL;
 
+	rd->rename_type = RENAME_TYPE_MANUAL;
+
 	rd->update_idle_id = -1;
 
 	vbox = GENERIC_DIALOG(rd->fd)->vbox;
@@ -2159,11 +2309,18 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 	gtk_widget_show(hbox);
 
-	rd->button_auto = gtk_check_button_new_with_label(_("Auto rename"));
-	g_signal_connect(G_OBJECT(rd->button_auto), "clicked",
-			 G_CALLBACK(file_util_rename_mulitple_auto_toggle), rd);
-	gtk_box_pack_end(GTK_BOX(hbox), rd->button_auto, FALSE, FALSE, 0);
-	gtk_widget_show(rd->button_auto);
+	rd->combo_type = gtk_combo_box_new_text();
+
+	gtk_combo_box_append_text(GTK_COMBO_BOX(rd->combo_type), _("Manual rename"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(rd->combo_type), _("Formatted rename"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(rd->combo_type), _("Auto rename"));
+
+	gtk_combo_box_set_active(GTK_COMBO_BOX(rd->combo_type), rd->rename_type);
+
+	g_signal_connect(G_OBJECT(rd->combo_type), "changed",
+			 G_CALLBACK(file_util_rename_multiple_auto_change), rd);
+	gtk_box_pack_end(GTK_BOX(hbox), rd->combo_type, FALSE, FALSE, 0);
+	gtk_widget_show(rd->combo_type);
 
 	rd->rename_box = pref_box_new(vbox, FALSE, GTK_ORIENTATION_VERTICAL, 0);
 	table = pref_table_new(rd->rename_box, 2, 2, FALSE, FALSE);
@@ -2214,6 +2371,26 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 	rd->auto_spin_pad = pref_spin_new(rd->auto_box, _("Padding:"), NULL,
 					  1.0, 8.0, 1.0, 0, 1.0,
 					  G_CALLBACK(file_util_rename_multiple_preview_adj_cb), rd);
+
+	rd->format_box = gtk_vbox_new(FALSE, PREF_PAD_GAP);
+	gtk_box_pack_start(GTK_BOX(vbox), rd->format_box, FALSE, FALSE, 0);
+	/* do not show it here */
+
+	hbox = pref_box_new(rd->format_box, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_GAP);
+
+	box2 = furm_simple_vlabel(hbox, _("Format (* = original name, ## = numbers)"), TRUE);
+
+	combo = history_combo_new(&rd->format_entry, "", "auto_rename_format", -1);
+	g_signal_connect(G_OBJECT(rd->format_entry), "changed",
+			 G_CALLBACK(file_util_rename_multiple_preview_entry_cb), rd);
+	gtk_box_pack_start(GTK_BOX(box2), combo, TRUE, TRUE, 0);
+	gtk_widget_show(combo);
+	
+	box2 = furm_simple_vlabel(hbox, _("Start #"), FALSE);
+
+	rd->format_spin = pref_spin_new(box2, NULL, NULL,
+					0.0, 1000000.0, 1.0, 0, 0.0,
+					G_CALLBACK(file_util_rename_multiple_preview_adj_cb), rd);
 
 	image_change_path(rd->imd, rd->fd->source_path, 0.0);
 

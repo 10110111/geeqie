@@ -1118,7 +1118,7 @@ void thumb_std_maint_moved(const gchar *source, const gchar *dest)
 
 	if (thumb_std_maint_move_tail)
 		{
-		g_list_append(thumb_std_maint_move_tail, tm);
+		thumb_std_maint_move_tail = g_list_append(thumb_std_maint_move_tail, tm);
 		thumb_std_maint_move_tail = thumb_std_maint_move_tail->next;
 		}
 	else

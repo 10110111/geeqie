@@ -723,7 +723,7 @@ static void collect_manager_add_action(CollectManagerAction *action)
 
 	if (collection_manager_action_tail)
 		{
-		g_list_append(collection_manager_action_tail, action);
+		collection_manager_action_tail = g_list_append(collection_manager_action_tail, action);
 		collection_manager_action_tail = collection_manager_action_tail->next;
 		}
 	else

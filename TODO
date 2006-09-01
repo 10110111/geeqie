@@ -89,9 +89,14 @@ d> fix window size hints not to use USER_SIZE as we do not use gtk_window_resize
  > folder tree view shortcuts for expanding/collapsing leak through to the main
    window (+,-,*,/, etc.), figure what behavior is desired and fix this.
 
+d> add a formatted auto-rename option, such that simply typing new_file_name_*_### will result in
+   renaming to file with * replaced by original name without extension, and ### by ascending number,
+   and maintain extension.
+
   --- Doc updates:
 
  > default edit commands not described.
+ > add formatted rename option.
 
  -------------
 

@@ -1,3 +1,11 @@
+Fri Sep  1 02:12:45 2006  John Ellis  <johne@verizon.net>
+
+	* collect-io.c, thumb_standard.c: Do not ignore return value from
+	g_list_append as newer versions of gtk now set a warning flag.
+	* utilops.c: Add new auto rename option to enter formatted text, which
+	uses * and # characters to symbolize original filename and numerical
+	value (respectively) in new filenames.
+
 Mon Aug 15 18:27:38 2005  John Ellis  <johne@verizon.net>
 
 	* cache.c: Make cache loader tolerant of unknown line values, so that
