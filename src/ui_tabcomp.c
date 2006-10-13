@@ -1,6 +1,6 @@
 /*
  * (SLIK) SimpLIstic sKin functions
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -115,15 +115,11 @@ static void tab_completion_read_dir(TabCompData *td, const gchar *path)
                 }
         while ((dir = readdir(dp)) != NULL)
                 {
-                /* skips removed files */
-                if (dir->d_ino > 0)
-                        {
-			gchar *name = dir->d_name;
-			if (strcmp(name, ".") != 0 && strcmp(name, "..") != 0)
-				{
-				list = g_list_prepend(list, path_to_utf8(name));
-				}
-                        }
+		gchar *name = dir->d_name;
+		if (strcmp(name, ".") != 0 && strcmp(name, "..") != 0)
+			{
+			list = g_list_prepend(list, path_to_utf8(name));
+			}
 		}
         closedir(dp);
 

@@ -1,6 +1,6 @@
 /*
  * (SLIK) SimpLIstic sKin functions
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -533,36 +533,35 @@ gint path_list(const gchar *path, GList **files, GList **dirs)
 
 	while ((dir = readdir(dp)) != NULL)
 		{
-		/* skip removed files */
-		if (dir->d_ino > 0)
+		gchar *name = dir->d_name;
+		gchar *filepath = g_strconcat(pathl, "/", name, NULL);
+
+		if (stat(filepath, &ent_sbuf) >= 0)
 			{
-			gchar *name = dir->d_name;
-			gchar *filepath = g_strconcat(pathl, "/", name, NULL);
-			if (stat(filepath, &ent_sbuf) >= 0)
+			gchar *path8;
+			gchar *name8;
+
+			name8 = path_to_utf8(name);
+			path8 = g_strconcat(path, "/", name8, NULL);
+			g_free(name8);
+
+			if (dirs && S_ISDIR(ent_sbuf.st_mode) &&
+			    !(name[0] == '.' && (name[1] == '\0' || (name[1] == '.' && name[2] == '\0'))) )
 				{
-				gchar *path8;
-				gchar *name8;
-
-				name8 = path_to_utf8(name);
-				path8 = g_strconcat(path, "/", name8, NULL);
-				g_free(name8);
-
-				if (dirs && S_ISDIR(ent_sbuf.st_mode) &&
-				    !(name[0] == '.' && (name[1] == '\0' || (name[1] == '.' && name[2] == '\0'))) )
-					{
-					d_list = g_list_prepend(d_list, path8);
-					path8 = NULL;
-                       	                }
-                               	else if (files && S_ISREG(ent_sbuf.st_mode))
-					{
-					f_list = g_list_prepend(f_list, path8);
-					path8 = NULL;
-					}
-				g_free(path8);
+				d_list = g_list_prepend(d_list, path8);
+				path8 = NULL;
 				}
-			g_free(filepath);
+			else if (files && S_ISREG(ent_sbuf.st_mode))
+				{
+				f_list = g_list_prepend(f_list, path8);
+				path8 = NULL;
+				}
+			g_free(path8);
 			}
+
+		g_free(filepath);
 		}
+
 	closedir(dp);
 
 	g_free(pathl);

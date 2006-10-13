@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -95,8 +95,7 @@ static gint isempty(const gchar *path)
 		{
 		gchar *name = dir->d_name;
 
-		if (dir->d_ino > 0 &&
-		    !(name[0] == '.' && (name[1] == '\0' || (name[1] == '.' && name[2] == '\0'))) )
+		if (!(name[0] == '.' && (name[1] == '\0' || (name[1] == '.' && name[2] == '\0'))) )
 			{
 			closedir(dp);
 			return FALSE;

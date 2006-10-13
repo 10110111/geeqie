@@ -1,6 +1,6 @@
 /*
  * (SLIK) SimpLIstic sKin functions
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -177,8 +177,7 @@ static void dest_populate(Dest_Data *dd, const gchar *path)
 		}
 	while ((dir = readdir(dp)) != NULL)
 		{
-		/* skips removed files */
-		if (dir->d_ino > 0 && (dd->show_hidden || !is_hidden(dir->d_name)) )
+		if (dd->show_hidden || !is_hidden(dir->d_name))
 			{
 			gchar *name = dir->d_name;
 			gchar *filepath = g_strconcat(pathl, "/", name, NULL);
