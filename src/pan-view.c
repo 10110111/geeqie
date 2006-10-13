@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2005 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -4366,7 +4366,7 @@ static void pan_window_new_real(const gchar *path)
 	gtk_window_set_geometry_hints(GTK_WINDOW(pw->window), NULL, &geometry, GDK_HINT_MIN_SIZE);
 
 	gtk_window_set_resizable(GTK_WINDOW(pw->window), TRUE);
-	gtk_window_set_title (GTK_WINDOW(pw->window), "Pan View - GQview");
+	gtk_window_set_title (GTK_WINDOW(pw->window), _("Pan View - GQview"));
         gtk_window_set_wmclass(GTK_WINDOW(pw->window), "view", "GQview");
         gtk_container_set_border_width(GTK_CONTAINER(pw->window), 0);
 

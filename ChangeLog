@@ -1,3 +1,30 @@
+Fri Oct 13 05:22:43 2006  John Ellis  <johne@verizon.net>
+
+	* bar_sort.c, pan-view.c, preferences.c: Mark strings for translation,
+	plus punctuation fix.
+	* utilops.c: Change auto rename start number to default to 1.
+	* configure.in (ALL_LINGUAS): Add be, ca, ko translations.
+	* gqview.spec.in: Add Italian translation to RPM spec file,
+	submitted by HappyCactus <happycactus@people.it>.
+	* be.po: Add Belarusion translation,
+	submitted by Pavel Piatruk <berserker@neolocation.com>.
+	* ca.po: Add Catalan translation [merge from 2.0.2],
+	submitted by catux.org <mecatxis@ya.com>.
+	* de.po: Update German translation [merge from 2.0.2],
+	submitted by Ronny Steiner <Post@SIRSteiner.de>.
+	* fr.po: Update French translation,
+	submitted by Éric Lassauge <lassauge@users.sourceforge.net>.
+	* it.po: Update Italian translation,
+	submitted by Kostantino <ciclope10ATalice.it>.
+	* ko.po: Add Korean translation (mostly menus),
+	submitted by Hyun-Jin Moon <moonhyunjin@gmail.com>.
+	* pt_BR.po: Update Brazilian Portuguese translation,
+	submitted by Herval Ribeiro de AzevÃªdo <heraze@gmail.com>.
+	* sk.po: Update Slovak translation,
+	submitted by Mgr. Peter Tuharsky <tuharsky@misbb.sk>.
+	* zh_TW.po: Update Traditional Chinese translation,
+	submitted by S.J. Luo <crystal@mickey.ee.nctu.edu.tw>
+
 Fri Sep  1 02:12:45 2006  John Ellis  <johne@verizon.net>
 
 	* collect-io.c, thumb_standard.c: Do not ignore return value from

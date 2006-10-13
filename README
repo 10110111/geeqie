@@ -1,7 +1,7 @@
 ###################################################################
-##                          GQview 2.1.1         (June 14, 2005) ##
+##                          GQview 2.1.2      (October 14, 2006) ##
 ##                                                               ##
-##              Copyright (C) 1999 - 2005 John Ellis.            ##
+##              Copyright (C) 1999 - 2006 John Ellis.            ##
 ##                                                               ##
 ##                      Use at your own risk!                    ##
 ##                                                               ##
@@ -44,22 +44,14 @@ homepage: http://gqview.sourceforge.net
 
   Changes:
 
-    + Add support for displaying embedded jpegs in raw format files.
-      Includes canon (cr2, crw), fuji (raf), and nikon (nef).
-    + Add Exif makernote support for canon, fuji, nikon, and olympus.
-    + Change image display into GTK widget, including small improvements.
-    - Improve pan view draw speed when displaying 1000's of images.
-    - Change pan view color scheme to use neutral (gray) colors.
-    - Add option to sort pan view by embedded (Exif) image date.
-    - Pan view now ignores recursive symbolic links.
-    - Add "%w" macro to editor commands to not deactivate full screen.
-    - Update translations cs, it. And add small fixes for de, fr.
-    * Fix occasional rounding error when updating image display.
+    + Add more flexible auto-renaming option to rename dialog.
+    - Update translations de, fr, it, pt_BR, sk, zh_TW
+    - Add translations be, ca, ko
+    * Allow data cache reader to tolerate older/future features of GQview.
     * Fix renaming a folder to an existing folder from clobbering
       the existing folder.
-    * Fix large thumbnail save logic.
-    * Fix a few memory leaks.
-
+    * Exif timezone fix.
+    * Fix compile time warnings on newer gcc and gtk+.
 
   Notes:
 
@@ -389,42 +381,48 @@ homepage: http://gqview.sourceforge.net
 
 ======== Translation status:
 
- (as of 1.5.8)
+ (as of 2.1.2)
 
    Please send po files/patches in gzipped form to ensure data integrity.
 
+   Note: completion % in the chart below may not be quite correct when fuzzy
+         translations exist but do not appear in the source.
+         comp % = trans / (trans + fuzzy + untrans)
+
 Language     Comp (%)  Trans   Fuzzy Untrans  Warn
 --------------------------------------------------
-ar                67     448     149      70
-bg               100     667       0       0
-cs                58     387     186      94
-da                20     137     286     244
-de                56     375     185     107
-es               100     667       0       0
-et                30     203     283     181
-fi                58     387     189      91
-fr                91     609      50       8
-hu                55     373     186     108
-id                31     207     284     176
-it               100     667       0       0
-ja               100     667       0       0
-nl               100     667       0       0
-no                25     168     296     203
-pl                80     538      51      78
-pt_BR             25     168     296     203
-ro                58     387     188      92
-ru               100     667       0       0
-sk                58     387     189      91
-sl                23     154     302     211
-sv                99     664       2       1
-th                24     161     295     211
-tr                10      70     286     311
-uk                26     179     292     196
-vi                56     380     189      98
-zh_CN.GB2312      25     168     296     203
-zh_TW             55     368     186     113
+ar                62     448     175      89
+be                98     703       6       3
+bg                93     666      27      19
+ca                93     666      27      19
+cs                93     666      27      19
+da                19     138     309     265
+de                93     666      27      19
+es                93     666      27      19
+et                28     204     306     202
+fi                54     388     213     111
+fr                99     706       3       3
+hu                52     373     211     128
+id                29     208     307     197
+it                98     703       6       3
+ja                93     666      27      19
+ko                16     114       9     589
+nl                93     668      25      19
+no                23     169     319     224
+pl                75     537      77      98
+pt_BR             98     703       6       3
+ro                54     387     213     112
+ru                93     667      26      19
+sk                96     689       7      16
+sl                21     155     325     232
+sv                93     664      28      20
+th                22     161     317     234
+tr                 9      71     308     333
+uk                25     180     315     217
+vi                53     381     213     118
+zh_CN.GB2312      23     169     319     224
+zh_TW             97     694       6      12
 --------------------------------------------------
-
 
 
 ======== Credits                                             [section:credits]
@@ -445,6 +443,7 @@ zh_TW             55     368     186     113
 
      Sandokan <cortex@nextra.sk>
      Ivan Priesol <priesol@iris-sk.sk>
+     Mgr. Peter Tuharsky <tuharsky@misbb.sk>
          for Slovak translation
 
      Rodrigo Sancho Senosiain <ruy_ikari@bigfoot.com>
@@ -474,6 +473,7 @@ zh_TW             55     368     186     113
 
      Guilherme M. Schroeder <slump@ieg.com.br>
      Vitor Fernandes <vitor_fernandes@SoftHome.net>
+     Herval Ribeiro de Azevêdo <heraze@gmail.com>
          for Brazilian Portuguese translation
 
      Shingo Akagaki <akagaki@ece.numazu-ct.ac.jp>
@@ -485,6 +485,7 @@ zh_TW             55     368     186     113
      Matthias Warkus <mawarkus@t-online.de>
      Thomas Klausner <wiz@danbala.ifoer.tuwien.ac.at>
      Danny Milosavljevic <danny_milo@yahoo.com>
+     Ronny Steiner <Post@SIRSteiner.de>
          for German translation
 
      Matej Erman <matej.erman@guest.arnes.si>
@@ -542,6 +543,15 @@ zh_TW             55     368     186     113
 
      Youssef Assad <youssef@devcabal.org>
          for Arabic translation
+
+     catux.org <mecatxis@ya.com>
+         for Catalan translation
+
+     Hyun-Jin Moon <moonhyunjin@gmail.com
+         for Korean translation
+
+     Pavel Piatruk <berserker@neolocation.com>
+         for Belarusion translation
 
  Fixes, additions, and patches:
 

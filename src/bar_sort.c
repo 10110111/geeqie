@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -214,7 +214,7 @@ static void bar_sort_undo_folder(SortData *sd, GtkWidget *button)
 				{
 				gchar *buf;
 
-				buf = g_strdup_printf("Unable to remove symbolic link:\n%s", sd->undo_dest);
+				buf = g_strdup_printf(_("Unable to remove symbolic link:\n%s"), sd->undo_dest);
 				file_util_warning_dialog(_("Unlink failed"), buf, GTK_STOCK_DIALOG_ERROR, button);
 				g_free(buf);
 				}
@@ -294,7 +294,7 @@ static void bar_sort_bookmark_select_folder(SortData *sd, const gchar *source, c
 				{
 				gchar *buf;
 
-				buf = g_strdup_printf("Unable to create symbolic link:\n%s", dest_path);
+				buf = g_strdup_printf(_("Unable to create symbolic link:\n%s"), dest_path);
 				file_util_warning_dialog(_("Link failed"), buf, GTK_STOCK_DIALOG_ERROR, sd->bookmarks);
 
 				g_free(buf);

@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -2357,7 +2357,7 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 	box2 = furm_simple_vlabel(hbox, _("Start #"), FALSE);
 
 	rd->auto_spin_start = pref_spin_new(box2, NULL, NULL,
-					    0.0, 1000000.0, 1.0, 0, 0.0,
+					    1.0, 1000000.0, 1.0, 0, 0.0,
 					    G_CALLBACK(file_util_rename_multiple_preview_adj_cb), rd);
 
 	box2 = furm_simple_vlabel(hbox, _("End text"), TRUE);
@@ -2389,7 +2389,7 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 	box2 = furm_simple_vlabel(hbox, _("Start #"), FALSE);
 
 	rd->format_spin = pref_spin_new(box2, NULL, NULL,
-					0.0, 1000000.0, 1.0, 0, 0.0,
+					1.0, 1000000.0, 1.0, 0, 0.0,
 					G_CALLBACK(file_util_rename_multiple_preview_adj_cb), rd);
 
 	image_change_path(rd->imd, rd->fd->source_path, 0.0);

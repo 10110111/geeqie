@@ -1,25 +1,26 @@
-# translation of gqview-2.1.0_it.po to Italiano
+# translation of gqview-2.1.1_dev_it.po to italiano
 # This file is distributed under the same license as the PACKAGE package.
 # Un ringraziamento per i preziosi suggerimenti a Marco Colombo <m.colomboATed.ac.uk>
-# Kostantino <inverness1ATvirgilio.it>, 2005.
+# e anche a Happy Cactus <happycactusATpeople.it>
+# Kostantino <ciclope10ATalice.it>, 2006.
 # Copyright (C) Christopher R. Gabriel <cgabriel@pluto.linux.it>, 2000 - 2001.
-# Kostantino <inverness1ATvirgilio.it>, 2005.
+# Kostantino <ciclope10ATalice.it>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: gqview-2.1.0_it\n"
+"Project-Id-Version: gqview-2.1.1_dev_it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-13 20:31-0400\n"
-"PO-Revision-Date: 2005-03-11 17:26+0100\n"
-"Last-Translator: Kostantino <inverness1ATvirgilio.it>\n"
-"Language-Team: Italiano <tp@lists.linux.it>\n"
+"POT-Creation-Date: 2006-10-13 05:47-0400\n"
+"PO-Revision-Date: 2006-06-12 09:40+0200\n"
+"Last-Translator: Kostantino <ciclope10ATalice.it>\n"
+"Language-Team: italiano <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.9.1\n"
+"X-Generator: KBabel 1.10.2\n"
 
 #: src/bar_info.c:30
 msgid "Favorite"
-msgstr "Favorito"
+msgstr "Preferito"
 
 #: src/bar_info.c:31
 msgid "Todo"
@@ -47,27 +48,27 @@ msgstr "Oggetti"
 
 #: src/bar_info.c:505
 msgid "Keyword Presets"
-msgstr "Impostazioni delle parole chiavi"
+msgstr "Impostazioni delle parole chiave"
 
 #: src/bar_info.c:508
 msgid "Favorite keywords list"
-msgstr "Elenco delle parole chiavi favorite"
+msgstr "Elenco delle parole chiavi preferite"
 
 #: src/bar_info.c:992 src/info.c:167 src/search.c:2692
 msgid "Keywords"
-msgstr "Parole chiavi"
+msgstr "Parole chiave"
 
 #: src/bar_info.c:1006 src/info.c:722 src/pan-view.c:3630 src/print.c:2599
 msgid "Filename:"
-msgstr "Nome del file:"
+msgstr "Nome file:"
 
 #: src/bar_info.c:1007 src/info.c:366
 msgid "File date:"
-msgstr "Data del file:"
+msgstr "Data file:"
 
 #: src/bar_info.c:1027
 msgid "Keywords:"
-msgstr "Parole chiavi:"
+msgstr "Parole chiave:"
 
 #: src/bar_info.c:1095
 msgid "Comment:"
@@ -75,16 +76,16 @@ msgstr "Commento:"
 
 #: src/bar_info.c:1119
 msgid "Edit favorite keywords list."
-msgstr "Modifica la lista delle parole chiavi favorite."
+msgstr "Modifica la lista delle parole chiave preferite."
 
 #: src/bar_info.c:1123
 msgid "Add keywords to selected files"
-msgstr "Aggiungi delle parole chiavi ai file selezionati"
+msgstr "Aggiungi delle parole chiave ai file selezionati"
 
 #: src/bar_info.c:1126
 msgid "Add keywords to selected files, replacing the existing ones."
 msgstr ""
-"Aggiungi delle parole chiavi ai file selezionati e sostituisci quelle già "
+"Aggiungi delle parole chiave ai file selezionati sostituendo quelle già "
 "esistenti."
 
 #: src/bar_info.c:1130
@@ -96,7 +97,7 @@ msgid "Tag"
 msgstr "Etichetta"
 
 #: src/bar_exif.c:436 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
-#: src/search.c:2753 src/view_file_list.c:1555
+#: src/search.c:2753 src/view_file_list.c:1556
 msgid "Name"
 msgstr "Nome"
 
@@ -124,9 +125,29 @@ msgstr "Exif"
 msgid "Advanced view"
 msgstr "Vista avanzata"
 
+#: src/bar_sort.c:217
+#, fuzzy, c-format
+msgid ""
+"Unable to remove symbolic link:\n"
+"%s"
+msgstr ""
+"Non è possibile spostare il file:\n"
+"%s\n"
+"in:\n"
+"%s"
+
 #: src/bar_sort.c:218
 msgid "Unlink failed"
 msgstr "La disconnessione non è riuscita"
+
+#: src/bar_sort.c:297
+#, fuzzy, c-format
+msgid ""
+"Unable to create symbolic link:\n"
+"%s"
+msgstr ""
+"Non riesco a creare la cartella:\n"
+"%s"
 
 #: src/bar_sort.c:298
 msgid "Link failed"
@@ -174,7 +195,7 @@ msgstr "Nome:"
 
 #: src/bar_sort.c:568
 msgid "Sort Manager"
-msgstr "Gestione degli ordinamenti"
+msgstr "Gestore ordinamenti"
 
 #: src/bar_sort.c:577 src/pan-view.c:4393 src/ui_pathsel.c:1095
 msgid "Folders"
@@ -263,7 +284,7 @@ msgstr "Conserva le miniature assieme alle immagini sorgenti"
 
 #: src/cache_maint.c:859 src/cache_maint.c:1067
 msgid "click start to begin"
-msgstr "click per partire"
+msgstr "premi avvio per iniziare"
 
 #: src/cache_maint.c:997 src/editors.c:558
 msgid "running..."
@@ -321,11 +342,11 @@ msgstr "Condividi la cache delle miniature"
 
 #: src/cache_maint.c:1220
 msgid "Render"
-msgstr "Crea"
+msgstr "Render"
 
 #: src/cache_maint.c:1223
 msgid "Render thumbnails for a specific folder."
-msgstr "Crea le miniature per una specifica cartella."
+msgstr "Fa il render delle miniature per una specifica cartella."
 
 #: src/cache_maint.c:1225
 msgid "Metadata"
@@ -337,6 +358,7 @@ msgstr "Rimuovi le parole d'ordine orfane e i commenti."
 
 #: src/collect.c:349 src/image.c:134 src/image-overlay.c:75
 #: src/image-overlay.c:116
+#, c-format
 msgid "Untitled"
 msgstr "Senza titolo"
 
@@ -389,8 +411,8 @@ msgstr "Sovrascrivi file"
 msgid "Overwrite existing file?"
 msgstr "Sovrascrivo il file esistente?"
 
-#: src/collect-dlg.c:75 src/utilops.c:507 src/utilops.c:828 src/utilops.c:1708
-#: src/utilops.c:2260
+#: src/collect-dlg.c:75 src/utilops.c:507 src/utilops.c:828 src/utilops.c:1718
+#: src/utilops.c:2437
 msgid "_Overwrite"
 msgstr "S_ovrascrivi"
 
@@ -438,7 +460,7 @@ msgstr "%d immagini"
 
 #: src/collect-table.c:186 src/dupe.c:1296 src/search.c:303
 #: src/view_file_icon.c:1772 src/view_file_icon.c:1887
-#: src/view_file_list.c:816 src/view_file_list.c:921
+#: src/view_file_list.c:817 src/view_file_list.c:922
 msgid "Loading thumbs..."
 msgstr "Sto caricando le miniature..."
 
@@ -449,7 +471,7 @@ msgstr "_Vista"
 
 #: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1196
 #: src/layout_image.c:727 src/pan-view.c:4782 src/search.c:971
-#: src/view_file_icon.c:283 src/view_file_list.c:395
+#: src/view_file_icon.c:283 src/view_file_list.c:396
 msgid "View in _new window"
 msgstr "Visualizza in una _nuova finestra"
 
@@ -475,32 +497,32 @@ msgstr "Non selezionare nulla"
 
 #: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1194
 #: src/layout_image.c:724 src/layout_util.c:779 src/pan-view.c:4779
-#: src/search.c:981 src/view_file_icon.c:280 src/view_file_list.c:393
+#: src/search.c:981 src/view_file_icon.c:280 src/view_file_list.c:394
 msgid "_Properties"
 msgstr "_Proprietà"
 
 #: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1199
 #: src/layout_image.c:732 src/layout_util.c:757 src/pan-view.c:4786
-#: src/search.c:988 src/view_file_icon.c:287 src/view_file_list.c:399
+#: src/search.c:988 src/view_file_icon.c:287 src/view_file_list.c:400
 msgid "_Copy..."
 msgstr "_Copia..."
 
 #: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1200
 #: src/layout_image.c:734 src/layout_util.c:758 src/pan-view.c:4788
-#: src/search.c:990 src/view_file_icon.c:289 src/view_file_list.c:401
+#: src/search.c:990 src/view_file_icon.c:289 src/view_file_list.c:402
 msgid "_Move..."
 msgstr "_Muovi..."
 
 #: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1201
 #: src/layout_image.c:736 src/layout_util.c:759 src/pan-view.c:4790
 #: src/search.c:992 src/view_dir_list.c:407 src/view_dir_tree.c:497
-#: src/view_file_icon.c:291 src/view_file_list.c:403
+#: src/view_file_icon.c:291 src/view_file_list.c:404
 msgid "_Rename..."
 msgstr "_Rinomina..."
 
 #: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1202
 #: src/layout_image.c:738 src/layout_util.c:760 src/pan-view.c:4792
-#: src/search.c:994 src/view_file_icon.c:293 src/view_file_list.c:405
+#: src/search.c:994 src/view_file_icon.c:293 src/view_file_list.c:406
 msgid "_Delete..."
 msgstr "E_limina..."
 
@@ -609,12 +631,12 @@ msgid "%d files (set 2)"
 msgstr "%d file (gruppo 2)"
 
 #: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:961 src/print.c:3194
-#: src/search.c:2754 src/view_file_list.c:1556
+#: src/search.c:2754 src/view_file_list.c:1557
 msgid "Size"
 msgstr "Dimensione"
 
 #: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:296 src/exif.c:417
-#: src/print.c:3192 src/search.c:2755 src/view_file_list.c:1557
+#: src/print.c:3192 src/search.c:2755 src/view_file_list.c:1558
 msgid "Date"
 msgstr "Data"
 
@@ -1118,7 +1140,7 @@ msgstr "Immagine %d di %d"
 msgid "Image properties - GQview"
 msgstr "Proprietà dell'immagine - GQview"
 
-#: src/layout.c:266 src/view_file_icon.c:301 src/view_file_list.c:413
+#: src/layout.c:266 src/view_file_icon.c:301 src/view_file_list.c:414
 msgid "Ascending"
 msgstr "Ascendente"
 
@@ -1339,7 +1361,7 @@ msgstr "Nascondi la _barra degli strumenti"
 
 #: src/layout_util.c:806
 msgid "_Keywords"
-msgstr "_Parole chiavi"
+msgstr "_Parole chiave"
 
 #: src/layout_util.c:807
 msgid "E_xif data"
@@ -1347,7 +1369,7 @@ msgstr "Dati E_xif"
 
 #: src/layout_util.c:808
 msgid "Sort _manager"
-msgstr "Ammini_stratore di ordinamento"
+msgstr "Ge_stione ordinamento"
 
 #: src/layout_util.c:812
 msgid "_List"
@@ -1390,9 +1412,8 @@ msgid "Configure options"
 msgstr "Opzioni di configurazione"
 
 #: src/layout_util.c:1068
-#, fuzzy
 msgid "_Float"
-msgstr "Formato"
+msgstr "_Mobile"
 
 #: src/layout_util.c:1069
 msgid "Float Controls"
@@ -1501,11 +1522,13 @@ msgstr "sono opzioni valide:\n"
 
 #: src/main.c:946
 msgid "  +t, --with-tools           force show of tools\n"
-msgstr "  +t, --with-tools           visualizza gli strumenti\n"
+msgstr ""
+"  +t, --with-tools           forza la visualizzazione degli strumenti\n"
 
 #: src/main.c:947
 msgid "  -t, --without-tools        force hide of tools\n"
-msgstr "  -t, --without-tools        non visualizza gli strumenti\n"
+msgstr ""
+"  -t, --without-tools        forza la non visualizzazione degli strumenti\n"
 
 #: src/main.c:948
 msgid "  -f, --fullscreen           start in full screen mode\n"
@@ -1529,7 +1552,7 @@ msgstr ""
 
 #: src/main.c:952
 msgid "  -rh,--remote-help          print remote command list\n"
-msgstr "  -rh,--remote-help          stampa la lista remota dei comandi\n"
+msgstr "  -rh,--remote-help          stampa la lista dei comandi remoti\n"
 
 #: src/main.c:953
 msgid "  --debug                    turn on debug output\n"
@@ -1626,17 +1649,15 @@ msgstr "%d immagini, %s"
 #: src/pan-view.c:3173
 #, c-format
 msgid "The pan view does not support the folder \"%s\"."
-msgstr ""
+msgstr "La vista panoramica non supporta la cartella \"%s\"."
 
 #: src/pan-view.c:3174
-#, fuzzy
 msgid "Folder not supported"
-msgstr "La cartella non è stata trovata"
+msgstr "La cartella non è supportata"
 
 #: src/pan-view.c:3228 src/pan-view.c:3244
-#, fuzzy
 msgid "Reading image data..."
-msgstr "Sto leggendo i dati di somiglianza..."
+msgstr "Sto leggendo i dati dell'immagine..."
 
 #: src/pan-view.c:3303
 msgid "Sorting images..."
@@ -1674,9 +1695,14 @@ msgstr "La cartella non è stata trovata"
 msgid "The entered path is not a folder"
 msgstr "Il percorso immesso non corrisponde ad una cartella"
 
+#: src/pan-view.c:4369
+#, fuzzy
+msgid "Pan View - GQview"
+msgstr "Stampa - GQview"
+
 #: src/pan-view.c:4391
 msgid "Timeline"
-msgstr "Linea tempo"
+msgstr "Linea temporale"
 
 #: src/pan-view.c:4392
 msgid "Calendar"
@@ -1735,9 +1761,8 @@ msgid "Find:"
 msgstr "Trova:"
 
 #: src/pan-view.c:4504
-#, fuzzy
 msgid "Use Exif date"
-msgstr "Dati E_xif"
+msgstr "Usa la data Exif"
 
 #: src/pan-view.c:4517
 msgid "Find"
@@ -1763,7 +1788,7 @@ msgstr ""
 
 #: src/pan-view.c:4600 src/preferences.c:855
 msgid "Cache thumbnails"
-msgstr "Ricorda le miniature"
+msgstr "Ricorda miniature"
 
 #: src/pan-view.c:4602 src/preferences.c:861
 msgid "Use shared thumbnail cache"
@@ -1771,12 +1796,11 @@ msgstr "Usa la cache condivisa delle miniature"
 
 #: src/pan-view.c:4608
 msgid "Do not show this dialog again"
-msgstr "Non mostrare ancora questo"
+msgstr "Non mostrare ancora questo dialogo"
 
 #: src/pan-view.c:4796
-#, fuzzy
 msgid "Sort by E_xif date"
-msgstr "Ordina per data"
+msgstr "Ordina per data E_xif"
 
 #: src/preferences.c:393
 msgid "Nearest (worst, but fastest)"
@@ -1824,7 +1848,7 @@ msgstr ""
 
 #: src/preferences.c:708 src/preferences.c:711
 msgid "Reset editors"
-msgstr "Reimposta gli editori"
+msgstr "Reimposta gli editor"
 
 #: src/preferences.c:712
 msgid ""
@@ -1907,7 +1931,8 @@ msgid "Two pass zooming"
 msgstr "Ingrandimento in due passaggi"
 
 #: src/preferences.c:909
-msgid "Allow enlargement of image for zoom to fit."
+#, fuzzy
+msgid "Allow enlargement of image for zoom to fit"
 msgstr "Permetti l'espansione delle immagini per adattarle."
 
 #: src/preferences.c:913
@@ -2020,6 +2045,11 @@ msgstr "# "
 msgid "Menu name"
 msgstr "Nome menù"
 
+#: src/preferences.c:1092
+#, fuzzy
+msgid "Command Line"
+msgstr "Linea di comando"
+
 #: src/preferences.c:1139
 msgid "Advanced"
 msgstr "Avanzato"
@@ -2098,7 +2128,7 @@ msgstr "Varie"
 
 #: src/preferences.c:1223
 msgid "Store keywords and comments local to source images"
-msgstr "Conserva le parole chiavi e i commenti assieme alle immagini sorgenti"
+msgstr "Conserva le parole chiave e i commenti assieme alle immagini sorgenti"
 
 #: src/preferences.c:1226
 msgid "Custom similarity threshold:"
@@ -2282,7 +2312,7 @@ msgstr "Rotocalco"
 msgid "page %d of %d"
 msgstr "pagina %d di %d"
 
-#: src/print.c:736 src/utilops.c:2128
+#: src/print.c:736 src/utilops.c:2278
 msgid "Preview"
 msgstr "Anteprima"
 
@@ -2296,7 +2326,7 @@ msgstr ""
 "\"%s\""
 
 #: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:424
-#: src/view_file_list.c:453
+#: src/view_file_list.c:454
 #, c-format
 msgid "A file with name %s already exists."
 msgstr "Esiste già un file chiamato %s."
@@ -2621,7 +2651,7 @@ msgstr ""
 "Non riesco a caricare:\n"
 "%s"
 
-#: src/ui_pathsel.c:430 src/utilops.c:2486
+#: src/ui_pathsel.c:430 src/utilops.c:2663
 #, c-format
 msgid "Failed to rename %s to %s."
 msgstr "Non è possibile rinominare il file %s in %s."
@@ -2652,8 +2682,8 @@ msgstr ""
 "Riguardo il cancellare il file:\n"
 "%s"
 
-#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2096
-#: src/utilops.c:2320
+#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2244
+#: src/utilops.c:2497
 msgid "_Rename"
 msgstr "_Rinomina"
 
@@ -2669,7 +2699,7 @@ msgstr "_Cancella"
 msgid "New folder"
 msgstr "Nuova cartella"
 
-#: src/ui_pathsel.c:750 src/utilops.c:2392 src/view_dir_list.c:330
+#: src/ui_pathsel.c:750 src/utilops.c:2569 src/view_dir_list.c:330
 #: src/view_dir_tree.c:426
 #, c-format
 msgid ""
@@ -2679,7 +2709,7 @@ msgstr ""
 "Non riesco a creare la cartella:\n"
 "%s"
 
-#: src/ui_pathsel.c:751 src/utilops.c:2393 src/view_dir_list.c:331
+#: src/ui_pathsel.c:751 src/utilops.c:2570 src/view_dir_list.c:331
 #: src/view_dir_tree.c:427
 msgid "Error creating folder"
 msgstr "Si è verificato un errore creando la cartella"
@@ -2704,11 +2734,11 @@ msgstr "Seleziona percorso"
 msgid "All files"
 msgstr "Tutti i fili"
 
-#: src/utilops.c:498 src/utilops.c:819 src/utilops.c:1699 src/utilops.c:2251
+#: src/utilops.c:498 src/utilops.c:819 src/utilops.c:1709 src/utilops.c:2428
 msgid "Overwrite file"
 msgstr "Sovrascrivi i file"
 
-#: src/utilops.c:503 src/utilops.c:824 src/utilops.c:1704 src/utilops.c:2256
+#: src/utilops.c:503 src/utilops.c:824 src/utilops.c:1714 src/utilops.c:2433
 msgid "Overwrite file?"
 msgstr "Sovrascrivo il file?"
 
@@ -2728,16 +2758,16 @@ msgstr "S_alta tutto"
 msgid "_Skip"
 msgstr "_Salta"
 
-#: src/utilops.c:512 src/utilops.c:829 src/utilops.c:1709 src/utilops.c:2261
+#: src/utilops.c:512 src/utilops.c:829 src/utilops.c:1719 src/utilops.c:2438
 msgid "Existing file"
 msgstr "Il file esiste già"
 
-#: src/utilops.c:512 src/utilops.c:829 src/utilops.c:1709 src/utilops.c:2261
+#: src/utilops.c:512 src/utilops.c:829 src/utilops.c:1719 src/utilops.c:2438
 msgid "New file"
 msgstr "Nuovo file"
 
-#: src/utilops.c:522 src/utilops.c:838 src/utilops.c:1805 src/utilops.c:1869
-#: src/utilops.c:2162
+#: src/utilops.c:522 src/utilops.c:838 src/utilops.c:1853 src/utilops.c:1909
+#: src/utilops.c:1985 src/utilops.c:2316
 msgid "Auto rename"
 msgstr "Rinomina automaticamente"
 
@@ -2916,7 +2946,7 @@ msgstr "La cancellazione non è riuscita"
 msgid "Unable to remove old file from trash folder"
 msgstr "Non è possibile rimuovere i vecchi file dal cestino"
 
-#: src/utilops.c:1239 src/utilops.c:2385
+#: src/utilops.c:1239 src/utilops.c:2562
 msgid "Could not create folder"
 msgstr "Non riesco a creare la cartella"
 
@@ -2979,11 +3009,11 @@ msgstr "Cancella il file - GQview"
 msgid "Delete file?"
 msgstr "Cancella il file?"
 
-#: src/utilops.c:1705 src/utilops.c:2257
+#: src/utilops.c:1715 src/utilops.c:2434
 msgid "Replace existing file by renaming new file."
 msgstr "Sostituisci il file esistente rimominando il nuovo file."
 
-#: src/utilops.c:1720
+#: src/utilops.c:1730
 #, c-format
 msgid ""
 "Unable to rename file:\n"
@@ -2996,12 +3026,16 @@ msgstr ""
 "in:\n"
 "%s"
 
-#: src/utilops.c:1723 src/utilops.c:2272 src/view_file_list.c:448
-#: src/view_file_list.c:454 src/view_file_list.c:460
+#: src/utilops.c:1733 src/utilops.c:2449 src/view_file_list.c:449
+#: src/view_file_list.c:455 src/view_file_list.c:461
 msgid "Error renaming file"
 msgstr "Si è verificato un errore mentre rinominavo il file"
 
-#: src/utilops.c:1806
+#: src/utilops.c:1854
+msgid "Format must include at least one of the symbol characters '*' or '#'.\n"
+msgstr ""
+
+#: src/utilops.c:1910
 msgid ""
 "Can not auto rename with the selected\n"
 "number set, one or more files exist that\n"
@@ -3011,7 +3045,7 @@ msgstr ""
 "numero selezionato: esistono uno o più file che corrispondono\n"
 "al nome della lista risultante.\n"
 
-#: src/utilops.c:1868
+#: src/utilops.c:1984
 #, c-format
 msgid ""
 "Failed to rename\n"
@@ -3022,43 +3056,56 @@ msgstr ""
 "%s\n"
 "Il numero era %d."
 
-#: src/utilops.c:2092 src/utilops.c:2314
+#: src/utilops.c:2240 src/utilops.c:2491
 msgid "Rename - GQview"
 msgstr "Rinomina - GQview"
 
-#: src/utilops.c:2095
+#: src/utilops.c:2243
 msgid "Rename multiple files"
 msgstr "Rinomina file multipli"
 
-#: src/utilops.c:2127
+#: src/utilops.c:2277
 msgid "Original Name"
 msgstr "Nome originale"
 
-#: src/utilops.c:2171 src/utilops.c:2327
+#: src/utilops.c:2314
+#, fuzzy
+msgid "Manual rename"
+msgstr "Nome menù"
+
+#: src/utilops.c:2315
+msgid "Formatted rename"
+msgstr ""
+
+#: src/utilops.c:2328 src/utilops.c:2504
 msgid "Original name:"
 msgstr "Nome originale:"
 
-#: src/utilops.c:2174 src/utilops.c:2330
+#: src/utilops.c:2331 src/utilops.c:2507
 msgid "New name:"
 msgstr "Nuovo nome:"
 
-#: src/utilops.c:2192
+#: src/utilops.c:2349
 msgid "Begin text"
 msgstr "Inizio testo"
 
-#: src/utilops.c:2200
+#: src/utilops.c:2357 src/utilops.c:2389
 msgid "Start #"
 msgstr "Avvia #"
 
-#: src/utilops.c:2206
+#: src/utilops.c:2363
 msgid "End text"
 msgstr "Fine testo"
 
-#: src/utilops.c:2214
+#: src/utilops.c:2371
 msgid "Padding:"
 msgstr "Riempimento:"
 
-#: src/utilops.c:2271 src/view_file_list.c:459
+#: src/utilops.c:2381
+msgid "Format (* = original name, ## = numbers)"
+msgstr ""
+
+#: src/utilops.c:2448 src/view_file_list.c:460
 #, c-format
 msgid ""
 "Unable to rename file:\n"
@@ -3071,11 +3118,11 @@ msgstr ""
 "in:\n"
 "%s"
 
-#: src/utilops.c:2317
+#: src/utilops.c:2494
 msgid "Rename file"
 msgstr "Rinomina il file"
 
-#: src/utilops.c:2378 src/utilops.c:2468
+#: src/utilops.c:2555 src/utilops.c:2645
 #, c-format
 msgid ""
 "The folder:\n"
@@ -3086,11 +3133,11 @@ msgstr ""
 "%s\n"
 "esiste già."
 
-#: src/utilops.c:2379 src/utilops.c:2469
+#: src/utilops.c:2556 src/utilops.c:2646
 msgid "Folder exists"
 msgstr "La cartella esiste"
 
-#: src/utilops.c:2384 src/utilops.c:2477
+#: src/utilops.c:2561 src/utilops.c:2654
 #, c-format
 msgid ""
 "The path:\n"
@@ -3101,11 +3148,11 @@ msgstr ""
 "%s\n"
 "esiste già come file."
 
-#: src/utilops.c:2436
+#: src/utilops.c:2613
 msgid "New folder - GQview"
 msgstr "Nuova cartella - GQview"
 
-#: src/utilops.c:2439
+#: src/utilops.c:2616
 #, c-format
 msgid ""
 "Create folder in:\n"
@@ -3116,10 +3163,9 @@ msgstr ""
 "%s\n"
 "e chiamata:"
 
-#: src/utilops.c:2478
-#, fuzzy
+#: src/utilops.c:2655
 msgid "Rename failed"
-msgstr "Rinomina il file"
+msgstr "La rinominazione non è riuscita"
 
 #: src/view_dir_list.c:321 src/view_dir_tree.c:417
 msgid "new_folder"
@@ -3154,23 +3200,23 @@ msgid "View as _tree"
 msgstr "Vedi come _albero"
 
 #: src/view_dir_list.c:413 src/view_dir_tree.c:503 src/view_file_icon.c:311
-#: src/view_file_list.c:423
+#: src/view_file_list.c:424
 msgid "Re_fresh"
 msgstr "Ag_giorna"
 
-#: src/view_file_icon.c:304 src/view_file_list.c:416
+#: src/view_file_icon.c:304 src/view_file_list.c:417
 msgid "_Sort"
 msgstr "_Ordina"
 
-#: src/view_file_icon.c:307 src/view_file_list.c:419
+#: src/view_file_icon.c:307 src/view_file_list.c:420
 msgid "View as _icons"
 msgstr "Vedi come _icone"
 
-#: src/view_file_list.c:421
+#: src/view_file_list.c:422
 msgid "Show _thumbnails"
 msgstr "Mostra le _miniature"
 
-#: src/view_file_list.c:447
+#: src/view_file_list.c:448
 #, c-format
 msgid ""
 "Invalid file name:\n"
