@@ -2661,7 +2661,7 @@ gint file_util_rename_dir(const gchar *old_path, const gchar *new_path, GtkWidge
 	if (!rename_file(old_path, new_path))
 		{
 		gchar *text = g_strdup_printf(_("Failed to rename %s to %s."), old_name, new_name);
-		file_util_warning_dialog("Rename failed", text, GTK_STOCK_DIALOG_ERROR, parent);
+		file_util_warning_dialog(_("Rename failed"), text, GTK_STOCK_DIALOG_ERROR, parent);
 		g_free(text);
 
 		return FALSE;

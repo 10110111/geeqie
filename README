@@ -45,7 +45,7 @@ homepage: http://gqview.sourceforge.net
   Changes:
 
     + Add more flexible auto-renaming option to rename dialog.
-    - Update translations de, fr, it, pl, pt_BR, ru, sk, zh_TW
+    - Update translations de, fi, fr, it, pl, pt_BR, ru, sk, zh_TW
     - Add translations be, ca, ko
     * Allow data cache reader to tolerate older/future features of GQview.
     * Fix renaming a folder to an existing folder from clobbering
@@ -400,7 +400,7 @@ da                19     138     309     265
 de                93     666      27      19
 es                93     666      27      19
 et                28     204     306     202
-fi                54     388     213     111
+fi                93     668      25      19
 fr                99     706       3       3
 hu                52     373     211     128
 id                29     208     307     197

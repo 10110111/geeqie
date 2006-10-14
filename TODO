@@ -100,7 +100,7 @@ d> add a formatted auto-rename option, such that simply typing new_file_name_*_#
 
  -------------
 
-d> update translations: be(x) ca(x) de(x) fr(x) it(x) ko(x) pl(x) pt_BR(x) sk(x) zh_TW(x)
+d> update translations: be(x) ca(x) de(x) fi(x) fr(x) it(x) ko(x) pl(x) pt_BR(x) sk(x) zh_TW(x)
  > post-trans updates: fix ...zoom to fit. fuzzies, as all we did was remove the period
 
  > document recent additions/changes:
