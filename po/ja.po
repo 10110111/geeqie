@@ -1937,7 +1937,6 @@ msgid "Two pass zooming"
 msgstr "2-パス方式でズームする"
 
 #: src/preferences.c:909
-#, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
 msgstr "ズーム時にフィットするように画像を引き伸ばす"
 

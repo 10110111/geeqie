@@ -1923,7 +1923,6 @@ msgid "Two pass zooming"
 msgstr "Двухпраходнае маштабаванне"
 
 #: src/preferences.c:909
-#, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
 msgstr "Дазвол павелічэння выявы дзеля дапасоўкі памеру"
 

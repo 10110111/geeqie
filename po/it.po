@@ -1931,9 +1931,8 @@ msgid "Two pass zooming"
 msgstr "Ingrandimento in due passaggi"
 
 #: src/preferences.c:909
-#, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
-msgstr "Permetti l'espansione delle immagini per adattarle."
+msgstr "Permetti l'espansione delle immagini per adattarle"
 
 #: src/preferences.c:913
 msgid "Zoom increment:"

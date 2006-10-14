@@ -2028,7 +2028,6 @@ msgid "Two pass zooming"
 msgstr "ضخّم (مرور مزدوج)"
 
 #: src/preferences.c:909
-#, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
 msgstr "اسمح بزيادة حجم الصورة عند اعطاء أمر التضخيم لملاءمة حجم النافذة"
 

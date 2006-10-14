@@ -1948,9 +1948,8 @@ msgid "Two pass zooming"
 msgstr "Двупътно мащабиране"
 
 #: src/preferences.c:909
-#, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
-msgstr "Допускане на уголемяване на изображението при мащабиране до вместване."
+msgstr "Допускане на уголемяване на изображението при мащабиране до вместване"
 
 #: src/preferences.c:913
 msgid "Zoom increment:"

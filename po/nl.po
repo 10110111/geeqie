@@ -1945,7 +1945,6 @@ msgid "Two pass zooming"
 msgstr "Zoomen in twee stappen"
 
 #: src/preferences.c:909
-#, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
 msgstr "Afbeeldingen zoomen zodat ze in het venster passen"
 

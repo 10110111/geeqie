@@ -2272,7 +2272,6 @@ msgstr "二次處理縮放"
 
 # src/preferences.c:729
 #: src/preferences.c:909
-#, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
 msgstr "選用「圖像符合視窗尺寸」時，圖像可超過原來尺寸"
 

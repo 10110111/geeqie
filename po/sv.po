@@ -1941,9 +1941,8 @@ msgid "Two pass zooming"
 msgstr "Tvåstegszoomning"
 
 #: src/preferences.c:909
-#, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
-msgstr "Tillåt förstoring av bilder för att passa fönstret."
+msgstr "Tillåt förstoring av bilder för att passa fönstret"
 
 #: src/preferences.c:913
 msgid "Zoom increment:"

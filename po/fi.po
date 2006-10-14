@@ -2238,9 +2238,8 @@ msgstr "Kaksivaiheinen suhteutus"
 
 # src/preferences.c:729
 #: src/preferences.c:909
-#, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
-msgstr "Salli kuvan laajentaminen sen sovittamiseksi ikkunaan."
+msgstr "Salli kuvan laajentaminen sen sovittamiseksi ikkunaan"
 
 # src/preferences.c:751
 #: src/preferences.c:913

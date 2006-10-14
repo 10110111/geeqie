@@ -2031,7 +2031,6 @@ msgid "Two pass zooming"
 msgstr "Mãrire în doi paºi"
 
 #: src/preferences.c:909
-#, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
 msgstr "Mãreºte imaginea pânã la umplere"
 

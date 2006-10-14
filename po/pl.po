@@ -1913,9 +1913,8 @@ msgid "Two pass zooming"
 msgstr "Dwuetapowe powiększanie"
 
 #: src/preferences.c:909
-#, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
-msgstr "Rozciąganie obrazów przy powiększaniu, aby je dopasować."
+msgstr "Rozciąganie obrazów przy powiększaniu, aby je dopasować"
 
 #: src/preferences.c:913
 msgid "Zoom increment:"

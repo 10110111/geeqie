@@ -2024,7 +2024,6 @@ msgid "Two pass zooming"
 msgstr "Phóng to/thu nhỏ 2 pha"
 
 #: src/preferences.c:909
-#, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
 msgstr "Cho phép phóng to ảnh để vừa khít"
 

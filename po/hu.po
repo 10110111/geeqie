@@ -2336,9 +2336,8 @@ msgid "Two pass zooming"
 msgstr "Kétlépéses átméretezés"
 
 #: src/preferences.c:909
-#, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
-msgstr "A kép nagyításának engedélyezése ablakmérethez igazításkor."
+msgstr "A kép nagyításának engedélyezése ablakmérethez igazításkor"
 
 # src/preferences.c:751
 #: src/preferences.c:913

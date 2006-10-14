@@ -2241,9 +2241,8 @@ msgstr "Dvojpriechodová zmena mierky"
 
 # src/preferences.c:729
 #: src/preferences.c:909
-#, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
-msgstr "Povoli» zväè¹enie obrázku pre prispôsobenie veµkosti."
+msgstr "Povoli» zväè¹enie obrázku pre prispôsobenie veµkosti"
 
 # src/preferences.c:751
 #: src/preferences.c:913

@@ -1,3 +1,12 @@
+Sat Oct 14 05:44:40 2006  John Ellis  <johne@verizon.net>
+
+	* ar.po, be.po, bg.po, ca.po, cs.po, de.po, es.po, fi.po, hu.po,
+	it.po, ja.po, nl.po, pl.po, pt_BR.po, ro.po, ru.po, sk.po, sv.po,
+	vi.po, zh_TW.po: Fix punctuation of "Allow enlargement of image for
+	zoom to fit" translations, and unmark as fuzzy when only the change in
+	punctuation caused the fuzzy state.
+	* README: Updated po-stats list.
+
 Sat Oct 14 05:18:45 2006  John Ellis  <johne@verizon.net>
 
 	* utilops.c: Mark string for translation.
