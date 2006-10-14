@@ -1,10 +1,11 @@
 Summary: Graphics file browser utility.
 Summary(fr): Explorateur de fichiers graphiques
 Summary(es): Navegador de archivos gráficos
+Summary(it): Visualizzatore di archivi grafici
 Name: gqview
 Version: @VERSION@
 Release: 1
-Copyright: GPL
+License: GPL
 Group: Applications/Multimedia
 Source: http://prdownloads.sourceforge.net/gqview/gqview-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
@@ -30,6 +31,14 @@ GQview es un navegador de archivos gráficos.
 Ofrece visualizar sus archivos gráficos con sólo hacer un clic.
 Incluye visualización de miniaturas, zoom, filtros y soporte para
 editores externos.
+
+%description -l it
+GQView è un visualizzatore di archivi grafici.
+Offre la possibilità di visualizzare i tuoi files grafici grazie ad un singolo
+click.
+Include la rappresentazione tramite miniature e gli strumenti di zoom e
+filtraggio.
+Supporta anche l'uso di editor grafici esterni.
 
 %prep
 %setup

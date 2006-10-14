@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview-1.5.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-13 12:17-0400\n"
+"POT-Creation-Date: 2006-10-14 05:18-0400\n"
 "PO-Revision-Date: 2005-09-01 03:28+0400\n"
 "Last-Translator: Vitaly Lipatov <lav@altlinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -3174,7 +3174,7 @@ msgstr ""
 "%s\n"
 "с именем:"
 
-#: src/utilops.c:2655
+#: src/utilops.c:2655 src/utilops.c:2664
 #, fuzzy
 msgid "Rename failed"
 msgstr "Переименовать файл"

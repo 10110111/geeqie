@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview-0.10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-13 05:47-0400\n"
+"POT-Creation-Date: 2006-10-14 05:18-0400\n"
 "PO-Revision-Date: fixme\n"
 "Last-Translator: Matej Erman <matej.erman@guest.arnes.si>\n"
 "Language-Team: slovene <sl@li.org>\n"
@@ -204,7 +204,7 @@ msgstr "Ime"
 msgid "Sort Manager"
 msgstr "Razvr¹èeno po imenu"
 
-#: src/bar_sort.c:577 src/pan-view.c:4393 src/ui_pathsel.c:1095
+#: src/bar_sort.c:577 src/pan-view.c:4393 src/ui_pathsel.c:1094
 #, fuzzy
 msgid "Folders"
 msgstr "Polja"
@@ -239,89 +239,89 @@ msgstr "Izberi niè"
 msgid "Undo last image"
 msgstr ""
 
-#: src/cache_maint.c:127 src/cache_maint.c:681 src/cache_maint.c:894
+#: src/cache_maint.c:126 src/cache_maint.c:680 src/cache_maint.c:893
 #: src/editors.c:410
 #, fuzzy
 msgid "done"
 msgstr "Brez"
 
-#: src/cache_maint.c:304
+#: src/cache_maint.c:303
 #, fuzzy
 msgid "Removing old metadata..."
 msgstr "Berem podobnostne podatke..."
 
-#: src/cache_maint.c:308
+#: src/cache_maint.c:307
 #, fuzzy
 msgid "Clearing cached thumbnails..."
 msgstr "Nalagam miniature..."
 
-#: src/cache_maint.c:312 src/cache_maint.c:1048
+#: src/cache_maint.c:311 src/cache_maint.c:1047
 #, fuzzy
 msgid "Removing old thumbnails..."
 msgstr "Nalagam miniature..."
 
-#: src/cache_maint.c:315 src/cache_maint.c:1051
+#: src/cache_maint.c:314 src/cache_maint.c:1050
 msgid "Maintenance"
 msgstr ""
 
-#: src/cache_maint.c:792 src/utilops.c:945
+#: src/cache_maint.c:791 src/utilops.c:945
 #, fuzzy
 msgid "Invalid folder"
 msgstr "Napaèno ime datoteke"
 
-#: src/cache_maint.c:793
+#: src/cache_maint.c:792
 msgid "The specified folder can not be found."
 msgstr ""
 
-#: src/cache_maint.c:821 src/cache_maint.c:835 src/cache_maint.c:1216
+#: src/cache_maint.c:820 src/cache_maint.c:834 src/cache_maint.c:1215
 #, fuzzy
 msgid "Create thumbnails"
 msgstr "Predpomnilnik za miniature"
 
-#: src/cache_maint.c:829 src/cache_maint.c:1058
+#: src/cache_maint.c:828 src/cache_maint.c:1057
 #, fuzzy
 msgid "S_tart"
 msgstr "Datum"
 
-#: src/cache_maint.c:842 src/preferences.c:1179
+#: src/cache_maint.c:841 src/preferences.c:1179
 #, fuzzy
 msgid "Folder:"
 msgstr "Polja"
 
-#: src/cache_maint.c:845
+#: src/cache_maint.c:844
 #, fuzzy
 msgid "Select folder"
 msgstr "Izberi niè"
 
-#: src/cache_maint.c:849
+#: src/cache_maint.c:848
 #, fuzzy
 msgid "Include subfolders"
 msgstr "Napaèno ime datoteke"
 
-#: src/cache_maint.c:850
+#: src/cache_maint.c:849
 msgid "Store thumbnails local to source images"
 msgstr ""
 
-#: src/cache_maint.c:859 src/cache_maint.c:1067
+#: src/cache_maint.c:858 src/cache_maint.c:1066
 msgid "click start to begin"
 msgstr ""
 
-#: src/cache_maint.c:997 src/editors.c:558
+#: src/cache_maint.c:996 src/editors.c:558
 #, fuzzy
 msgid "running..."
 msgstr "Primerjam..."
 
-#: src/cache_maint.c:1043
+#: src/cache_maint.c:1042
 #, fuzzy
 msgid "Clearing thumbnails..."
 msgstr "Nalagam miniature..."
 
-#: src/cache_maint.c:1109 src/cache_maint.c:1112 src/cache_maint.c:1191
-#: src/cache_maint.c:1211
+#: src/cache_maint.c:1108 src/cache_maint.c:1111 src/cache_maint.c:1190
+#: src/cache_maint.c:1210
 msgid "Clear cache"
 msgstr "Poèisti predpomnilnik"
 
-#: src/cache_maint.c:1113
+#: src/cache_maint.c:1112
 msgid ""
 "This will remove all thumbnails that have\n"
 "been saved to disk, continue?"
@@ -329,59 +329,59 @@ msgstr ""
 "Vse miniature, ki so bile shranjene na disk\n"
 "bodo zbrisane, nadaljujem?"
 
-#: src/cache_maint.c:1163
+#: src/cache_maint.c:1162
 #, fuzzy
 msgid "Cache Maintenance - GQview"
 msgstr " - GQview"
 
-#: src/cache_maint.c:1173
+#: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
 msgstr ""
 
-#: src/cache_maint.c:1177
+#: src/cache_maint.c:1176
 #, fuzzy
 msgid "GQview thumbnail cache"
 msgstr "GQview celozaslonsko"
 
-#: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
+#: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:4382 src/preferences.c:1156 src/utilops.c:1564
 #, fuzzy
 msgid "Location:"
 msgstr "Zbirke"
 
-#: src/cache_maint.c:1186 src/cache_maint.c:1206 src/cache_maint.c:1234
+#: src/cache_maint.c:1185 src/cache_maint.c:1205 src/cache_maint.c:1233
 #, fuzzy
 msgid "Clean up"
 msgstr "Poèisti"
 
-#: src/cache_maint.c:1189 src/cache_maint.c:1209
+#: src/cache_maint.c:1188 src/cache_maint.c:1208
 msgid "Remove orphaned or outdated thumbnails."
 msgstr ""
 
-#: src/cache_maint.c:1194 src/cache_maint.c:1214
+#: src/cache_maint.c:1193 src/cache_maint.c:1213
 #, fuzzy
 msgid "Delete all cached thumbnails."
 msgstr "Predpomnilnik za miniature"
 
-#: src/cache_maint.c:1197
+#: src/cache_maint.c:1196
 #, fuzzy
 msgid "Shared thumbnail cache"
 msgstr "Predpomnilnik za miniature"
 
-#: src/cache_maint.c:1220
+#: src/cache_maint.c:1219
 #, fuzzy
 msgid "Render"
 msgstr "Preimenuj"
 
-#: src/cache_maint.c:1223
+#: src/cache_maint.c:1222
 msgid "Render thumbnails for a specific folder."
 msgstr ""
 
-#: src/cache_maint.c:1225
+#: src/cache_maint.c:1224
 msgid "Metadata"
 msgstr ""
 
-#: src/cache_maint.c:1237
+#: src/cache_maint.c:1236
 msgid "Remove orphaned keywords and comments."
 msgstr ""
 
@@ -700,7 +700,7 @@ msgstr "Mere"
 msgid "Checksum"
 msgstr "Povzetek"
 
-#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1107
+#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1106
 msgid "Path"
 msgstr "Pot"
 
@@ -1280,7 +1280,7 @@ msgstr "GQview orodja"
 msgid "Tools"
 msgstr "Polja"
 
-#: src/layout_config.c:57 src/ui_pathsel.c:1175
+#: src/layout_config.c:57 src/ui_pathsel.c:1174
 #, fuzzy
 msgid "Files"
 msgstr "Polja"
@@ -1729,7 +1729,7 @@ msgstr "Ustarjam GQview imenik: %s\n"
 msgid "Could not create dir:%s\n"
 msgstr "Ne morem ustvariti imenika: %s\n"
 
-#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1043
+#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1042
 msgid "Home"
 msgstr "Domov"
 
@@ -2503,7 +2503,7 @@ msgid ""
 "\"%s\""
 msgstr ""
 
-#: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:424
+#: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:423
 #: src/view_file_list.c:454
 #, fuzzy, c-format
 msgid "A file with name %s already exists."
@@ -2871,12 +2871,12 @@ msgstr ""
 "Ne morem zbrisati datoteke:\n"
 "%s"
 
-#: src/ui_pathsel.c:430 src/utilops.c:2663
+#: src/ui_pathsel.c:429 src/utilops.c:2663
 #, c-format
 msgid "Failed to rename %s to %s."
 msgstr "Neuspe¹no preimenovanje %s v %s."
 
-#: src/ui_pathsel.c:486 src/utilops.c:1347 src/utilops.c:1520
+#: src/ui_pathsel.c:485 src/utilops.c:1347 src/utilops.c:1520
 #, c-format
 msgid ""
 "Unable to delete file:\n"
@@ -2885,15 +2885,15 @@ msgstr ""
 "Ne morem zbrisati datoteke:\n"
 "%s"
 
-#: src/ui_pathsel.c:487 src/utilops.c:1521
+#: src/ui_pathsel.c:486 src/utilops.c:1521
 msgid "File deletion failed"
 msgstr "Brisanje datotek je bilo neuspe¹no"
 
-#: src/ui_pathsel.c:529 src/ui_pathsel.c:537
+#: src/ui_pathsel.c:528 src/ui_pathsel.c:536
 msgid "Delete file"
 msgstr "Zbri¹i datoteko"
 
-#: src/ui_pathsel.c:535
+#: src/ui_pathsel.c:534
 #, c-format
 msgid ""
 "About to delete the file:\n"
@@ -2902,28 +2902,28 @@ msgstr ""
 "O brisanju datoteke:\n"
 "%s"
 
-#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2244
+#: src/ui_pathsel.c:625 src/ui_pathsel.c:633 src/utilops.c:2244
 #: src/utilops.c:2497
 #, fuzzy
 msgid "_Rename"
 msgstr "Preimenuj"
 
-#: src/ui_pathsel.c:628 src/ui_pathsel.c:638
+#: src/ui_pathsel.c:627 src/ui_pathsel.c:637
 #, fuzzy
 msgid "Add _Bookmark"
 msgstr "Urejevalniki"
 
-#: src/ui_pathsel.c:636
+#: src/ui_pathsel.c:635
 #, fuzzy
 msgid "_Delete"
 msgstr "Zbri¹i"
 
-#: src/ui_pathsel.c:740 src/ui_pathsel.c:1045
+#: src/ui_pathsel.c:739 src/ui_pathsel.c:1044
 #, fuzzy
 msgid "New folder"
 msgstr " - GQview"
 
-#: src/ui_pathsel.c:750 src/utilops.c:2569 src/view_dir_list.c:330
+#: src/ui_pathsel.c:749 src/utilops.c:2569 src/view_dir_list.c:330
 #: src/view_dir_tree.c:426
 #, fuzzy, c-format
 msgid ""
@@ -2933,30 +2933,30 @@ msgstr ""
 "Ne morem usvariti imenika:\n"
 "%s"
 
-#: src/ui_pathsel.c:751 src/utilops.c:2570 src/view_dir_list.c:331
+#: src/ui_pathsel.c:750 src/utilops.c:2570 src/view_dir_list.c:331
 #: src/view_dir_tree.c:427
 #, fuzzy
 msgid "Error creating folder"
 msgstr "Napaka pri ustvarjanju imenika"
 
-#: src/ui_pathsel.c:972
+#: src/ui_pathsel.c:971
 msgid "All Files"
 msgstr "Vse datoteke"
 
-#: src/ui_pathsel.c:1048
+#: src/ui_pathsel.c:1047
 msgid "Show hidden"
 msgstr "Poka¾i skrite"
 
-#: src/ui_pathsel.c:1132
+#: src/ui_pathsel.c:1131
 msgid "Filter:"
 msgstr "Filter:"
 
-#: src/ui_tabcomp.c:861
+#: src/ui_tabcomp.c:857
 #, fuzzy
 msgid "Select path"
 msgstr "Izberi vse"
 
-#: src/ui_tabcomp.c:877
+#: src/ui_tabcomp.c:873
 #, fuzzy
 msgid "All files"
 msgstr "Vse datoteke"
@@ -3427,7 +3427,7 @@ msgstr ""
 "%s\n"
 "z imenom:"
 
-#: src/utilops.c:2655
+#: src/utilops.c:2655 src/utilops.c:2664
 #, fuzzy
 msgid "Rename failed"
 msgstr ""

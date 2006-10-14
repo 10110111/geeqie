@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview 2.1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-13 05:47-0400\n"
+"POT-Creation-Date: 2006-10-14 05:18-0400\n"
 "PO-Revision-Date: 2005-08-13 13:22+0800\n"
 "Last-Translator: S.J. Luo <crystal@mickey.ee.nctu.edu.tw>\n"
 "Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
@@ -211,7 +211,7 @@ msgid "Sort Manager"
 msgstr "排列管理員"
 
 # src/preferences.c:368
-#: src/bar_sort.c:577 src/pan-view.c:4393 src/ui_pathsel.c:1095
+#: src/bar_sort.c:577 src/pan-view.c:4393 src/ui_pathsel.c:1094
 msgid "Folders"
 msgstr "資料夾"
 
@@ -249,147 +249,147 @@ msgid "Undo last image"
 msgstr "回復最後影像"
 
 # src/preferences.c:400
-#: src/cache_maint.c:127 src/cache_maint.c:681 src/cache_maint.c:894
+#: src/cache_maint.c:126 src/cache_maint.c:680 src/cache_maint.c:893
 #: src/editors.c:410
 msgid "done"
 msgstr "完成"
 
 # src/dupe.c:841
-#: src/cache_maint.c:304
+#: src/cache_maint.c:303
 msgid "Removing old metadata..."
 msgstr "移除舊資訊..."
 
 # src/cache_maint.c:245
-#: src/cache_maint.c:308
+#: src/cache_maint.c:307
 msgid "Clearing cached thumbnails..."
 msgstr "正在清除預覽小圖的快取記憶..."
 
 # src/cache_maint.c:249
-#: src/cache_maint.c:312 src/cache_maint.c:1048
+#: src/cache_maint.c:311 src/cache_maint.c:1047
 msgid "Removing old thumbnails..."
 msgstr "正在清除舊的預覽小圖..."
 
-#: src/cache_maint.c:315 src/cache_maint.c:1051
+#: src/cache_maint.c:314 src/cache_maint.c:1050
 msgid "Maintenance"
 msgstr "操作"
 
 # src/collect-dlg.c:59
-#: src/cache_maint.c:792 src/utilops.c:945
+#: src/cache_maint.c:791 src/utilops.c:945
 msgid "Invalid folder"
 msgstr "資料夾無效"
 
-#: src/cache_maint.c:793
+#: src/cache_maint.c:792
 msgid "The specified folder can not be found."
 msgstr "找不到指定的資料夾."
 
 # src/preferences.c:603
-#: src/cache_maint.c:821 src/cache_maint.c:835 src/cache_maint.c:1216
+#: src/cache_maint.c:820 src/cache_maint.c:834 src/cache_maint.c:1215
 msgid "Create thumbnails"
 msgstr "產生預覽小圖"
 
-#: src/cache_maint.c:829 src/cache_maint.c:1058
+#: src/cache_maint.c:828 src/cache_maint.c:1057
 msgid "S_tart"
 msgstr "開始 (_T)"
 
 # src/preferences.c:368
-#: src/cache_maint.c:842 src/preferences.c:1179
+#: src/cache_maint.c:841 src/preferences.c:1179
 msgid "Folder:"
 msgstr "資料夾："
 
 # src/collect-table.c:628 src/dupe.c:1393 src/dupe.c:1565
-#: src/cache_maint.c:845
+#: src/cache_maint.c:844
 msgid "Select folder"
 msgstr "選擇資料夾"
 
 # src/collect-dlg.c:59
-#: src/cache_maint.c:849
+#: src/cache_maint.c:848
 msgid "Include subfolders"
 msgstr "包含子目錄"
 
-#: src/cache_maint.c:850
+#: src/cache_maint.c:849
 msgid "Store thumbnails local to source images"
 msgstr "將產生的預覽小圖存於影像檔所在的資料夾"
 
-#: src/cache_maint.c:859 src/cache_maint.c:1067
+#: src/cache_maint.c:858 src/cache_maint.c:1066
 msgid "click start to begin"
 msgstr "擊點開始以啟動作業"
 
 # src/dupe.c:871 src/dupe.c:892
-#: src/cache_maint.c:997 src/editors.c:558
+#: src/cache_maint.c:996 src/editors.c:558
 msgid "running..."
 msgstr "執行中..."
 
 # src/cache_maint.c:245
-#: src/cache_maint.c:1043
+#: src/cache_maint.c:1042
 msgid "Clearing thumbnails..."
 msgstr "正在清除預覽小圖..."
 
 # src/preferences.c:163 src/preferences.c:604
-#: src/cache_maint.c:1109 src/cache_maint.c:1112 src/cache_maint.c:1191
-#: src/cache_maint.c:1211
+#: src/cache_maint.c:1108 src/cache_maint.c:1111 src/cache_maint.c:1190
+#: src/cache_maint.c:1210
 msgid "Clear cache"
 msgstr "清除暫存記憶"
 
 # src/preferences.c:163
-#: src/cache_maint.c:1113
+#: src/cache_maint.c:1112
 msgid ""
 "This will remove all thumbnails that have\n"
 "been saved to disk, continue?"
 msgstr "所有儲存了的預覽小圖將會被清除，是否繼續？"
 
-#: src/cache_maint.c:1163
+#: src/cache_maint.c:1162
 msgid "Cache Maintenance - GQview"
 msgstr "快取維護 - GQview"
 
-#: src/cache_maint.c:1173
+#: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
 msgstr "快取以及資料操作"
 
 # src/fullscreen.c:117
-#: src/cache_maint.c:1177
+#: src/cache_maint.c:1176
 msgid "GQview thumbnail cache"
 msgstr "GQview 的預覽小圖快取"
 
 # src/preferences.c:897
-#: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
+#: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:4382 src/preferences.c:1156 src/utilops.c:1564
 msgid "Location:"
 msgstr "位置:"
 
 # src/dupe.c:1412 src/dupe.c:1570
-#: src/cache_maint.c:1186 src/cache_maint.c:1206 src/cache_maint.c:1234
+#: src/cache_maint.c:1185 src/cache_maint.c:1205 src/cache_maint.c:1233
 msgid "Clean up"
 msgstr "清除"
 
-#: src/cache_maint.c:1189 src/cache_maint.c:1209
+#: src/cache_maint.c:1188 src/cache_maint.c:1208
 msgid "Remove orphaned or outdated thumbnails."
 msgstr "移除不屬於任何影像或是過期的預覽小圖."
 
 # src/preferences.c:603
-#: src/cache_maint.c:1194 src/cache_maint.c:1214
+#: src/cache_maint.c:1193 src/cache_maint.c:1213
 msgid "Delete all cached thumbnails."
 msgstr "刪除所有緩衝區中的預覽小圖"
 
 # src/preferences.c:603
-#: src/cache_maint.c:1197
+#: src/cache_maint.c:1196
 msgid "Shared thumbnail cache"
 msgstr "已共享的預覽小圖緩衝區"
 
 # src/ui_pathsel.c:437 src/ui_pathsel.c:460 src/utilops.c:944
 # src/utilops.c:1095
-#: src/cache_maint.c:1220
+#: src/cache_maint.c:1219
 msgid "Render"
 msgstr "產生"
 
-#: src/cache_maint.c:1223
+#: src/cache_maint.c:1222
 msgid "Render thumbnails for a specific folder."
 msgstr "在指定資料夾產生預覽小圖."
 
-#: src/cache_maint.c:1225
+#: src/cache_maint.c:1224
 msgid "Metadata"
 msgstr "附屬資料"
 
-#: src/cache_maint.c:1237
+#: src/cache_maint.c:1236
 msgid "Remove orphaned keywords and comments."
 msgstr "移除不屬於任何圖像的關鍵字或註解."
 
@@ -751,7 +751,7 @@ msgid "Checksum"
 msgstr "加總值(Checksum)"
 
 # src/dupe.c:1657 src/dupe.c:1945
-#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1107
+#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1106
 msgid "Path"
 msgstr "路徑"
 
@@ -1370,7 +1370,7 @@ msgid "Tools"
 msgstr "工具"
 
 # src/preferences.c:368
-#: src/layout_config.c:57 src/ui_pathsel.c:1175
+#: src/layout_config.c:57 src/ui_pathsel.c:1174
 msgid "Files"
 msgstr "檔案"
 
@@ -1864,7 +1864,7 @@ msgid "Could not create dir:%s\n"
 msgstr "不能建立目錄：%s\n"
 
 # src/ui_pathsel.c:754
-#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1043
+#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1042
 msgid "Home"
 msgstr "主目錄"
 
@@ -2746,7 +2746,7 @@ msgstr ""
 "\"%s\""
 
 # src/ui_pathsel.c:307
-#: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:424
+#: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:423
 #: src/view_file_list.c:454
 #, c-format
 msgid "A file with name %s already exists."
@@ -3118,14 +3118,14 @@ msgstr ""
 "%s"
 
 # src/ui_pathsel.c:313
-#: src/ui_pathsel.c:430 src/utilops.c:2663
+#: src/ui_pathsel.c:429 src/utilops.c:2663
 #, c-format
 msgid "Failed to rename %s to %s."
 msgstr "不能更改檔案名稱 %s 至 %s。"
 
 # 
 # src/ui_pathsel.c:343 src/utilops.c:675 src/utilops.c:727
-#: src/ui_pathsel.c:486 src/utilops.c:1347 src/utilops.c:1520
+#: src/ui_pathsel.c:485 src/utilops.c:1347 src/utilops.c:1520
 #, c-format
 msgid ""
 "Unable to delete file:\n"
@@ -3135,19 +3135,19 @@ msgstr ""
 "%s"
 
 # src/ui_pathsel.c:344 src/utilops.c:728
-#: src/ui_pathsel.c:487 src/utilops.c:1521
+#: src/ui_pathsel.c:486 src/utilops.c:1521
 msgid "File deletion failed"
 msgstr "刪除檔案失敗"
 
 # 
 # src/ui_pathsel.c:398 src/utilops.c:760
-#: src/ui_pathsel.c:529 src/ui_pathsel.c:537
+#: src/ui_pathsel.c:528 src/ui_pathsel.c:536
 msgid "Delete file"
 msgstr "刪除檔案"
 
 # 
 # src/ui_pathsel.c:397 src/utilops.c:759
-#: src/ui_pathsel.c:535
+#: src/ui_pathsel.c:534
 #, c-format
 msgid ""
 "About to delete the file:\n"
@@ -3158,28 +3158,28 @@ msgstr ""
 
 # src/ui_pathsel.c:437 src/ui_pathsel.c:460 src/utilops.c:944
 # src/utilops.c:1095
-#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2244
+#: src/ui_pathsel.c:625 src/ui_pathsel.c:633 src/utilops.c:2244
 #: src/utilops.c:2497
 msgid "_Rename"
 msgstr "更改名稱(_R)"
 
 # src/preferences.c:915
-#: src/ui_pathsel.c:628 src/ui_pathsel.c:638
+#: src/ui_pathsel.c:627 src/ui_pathsel.c:637
 msgid "Add _Bookmark"
 msgstr "新增書籤(_B)"
 
 # src/ui_pathsel.c:402 src/ui_pathsel.c:461 src/utilops.c:711
 # src/utilops.c:764
-#: src/ui_pathsel.c:636
+#: src/ui_pathsel.c:635
 msgid "_Delete"
 msgstr "刪除(_D)"
 
-#: src/ui_pathsel.c:740 src/ui_pathsel.c:1045
+#: src/ui_pathsel.c:739 src/ui_pathsel.c:1044
 msgid "New folder"
 msgstr "新資料夾"
 
 # src/ui_pathsel.c:517 src/utilops.c:1158
-#: src/ui_pathsel.c:750 src/utilops.c:2569 src/view_dir_list.c:330
+#: src/ui_pathsel.c:749 src/utilops.c:2569 src/view_dir_list.c:330
 #: src/view_dir_tree.c:426
 #, c-format
 msgid ""
@@ -3190,36 +3190,36 @@ msgstr ""
 "%s"
 
 # src/ui_pathsel.c:518 src/utilops.c:1159
-#: src/ui_pathsel.c:751 src/utilops.c:2570 src/view_dir_list.c:331
+#: src/ui_pathsel.c:750 src/utilops.c:2570 src/view_dir_list.c:331
 #: src/view_dir_tree.c:427
 msgid "Error creating folder"
 msgstr "建立目錄發生錯誤"
 
 # 
 # src/ui_pathsel.c:697
-#: src/ui_pathsel.c:972
+#: src/ui_pathsel.c:971
 msgid "All Files"
 msgstr "所有檔案"
 
 # 
 # src/ui_pathsel.c:764
-#: src/ui_pathsel.c:1048
+#: src/ui_pathsel.c:1047
 msgid "Show hidden"
 msgstr "顯示隱藏檔案"
 
 # 
 # src/ui_pathsel.c:799
-#: src/ui_pathsel.c:1132
+#: src/ui_pathsel.c:1131
 msgid "Filter:"
 msgstr "過濾器："
 
 # src/collect-table.c:627 src/dupe.c:1391 src/dupe.c:1563
-#: src/ui_tabcomp.c:861
+#: src/ui_tabcomp.c:857
 msgid "Select path"
 msgstr "選取路徑"
 
 # src/ui_pathsel.c:697
-#: src/ui_tabcomp.c:877
+#: src/ui_tabcomp.c:873
 msgid "All files"
 msgstr "所有檔案"
 
@@ -3724,7 +3724,7 @@ msgstr ""
 "名為:"
 
 # src/utilops.c:1090
-#: src/utilops.c:2655
+#: src/utilops.c:2655 src/utilops.c:2664
 msgid "Rename failed"
 msgstr "更改檔名失敗"
 

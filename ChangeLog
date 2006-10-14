@@ -1,3 +1,9 @@
+Sat Oct 14 09:38:08 2006  John Ellis  <johne@verizon.net>
+
+	* po/*.po: Make distcheck touches these.
+	* gqview.spec.in: Fix to use License: instead of obselete Copyright:.
+	* configure.in: Release 2.1.2
+
 Sat Oct 14 08:26:38 2006  John Ellis  <johne@verizon.net>
 
 	* vi.po: Update Vietnamese translation,

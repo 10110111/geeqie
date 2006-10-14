@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GQview 1.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-13 05:47-0400\n"
+"POT-Creation-Date: 2006-10-14 05:18-0400\n"
 "PO-Revision-Date: 2005-02-16 13:27-0300\n"
 "Last-Translator: Ariel Fermani <the_end@bbs.frc.utn.edu.ar>\n"
 "Language-Team: \n"
@@ -195,7 +195,7 @@ msgstr "Nombre:"
 msgid "Sort Manager"
 msgstr "Clasificador"
 
-#: src/bar_sort.c:577 src/pan-view.c:4393 src/ui_pathsel.c:1095
+#: src/bar_sort.c:577 src/pan-view.c:4393 src/ui_pathsel.c:1094
 msgid "Folders"
 msgstr "Carpetas"
 
@@ -227,77 +227,77 @@ msgstr "Añadir selección"
 msgid "Undo last image"
 msgstr "Deshacer última imagen"
 
-#: src/cache_maint.c:127 src/cache_maint.c:681 src/cache_maint.c:894
+#: src/cache_maint.c:126 src/cache_maint.c:680 src/cache_maint.c:893
 #: src/editors.c:410
 msgid "done"
 msgstr "listo"
 
-#: src/cache_maint.c:304
+#: src/cache_maint.c:303
 msgid "Removing old metadata..."
 msgstr "Borrando metadatos viejos..."
 
-#: src/cache_maint.c:308
+#: src/cache_maint.c:307
 msgid "Clearing cached thumbnails..."
 msgstr "Borrando miniaturas en caché..."
 
-#: src/cache_maint.c:312 src/cache_maint.c:1048
+#: src/cache_maint.c:311 src/cache_maint.c:1047
 msgid "Removing old thumbnails..."
 msgstr "Borrando miniaturas viejas..."
 
-#: src/cache_maint.c:315 src/cache_maint.c:1051
+#: src/cache_maint.c:314 src/cache_maint.c:1050
 msgid "Maintenance"
 msgstr "Mantenimiento"
 
-#: src/cache_maint.c:792 src/utilops.c:945
+#: src/cache_maint.c:791 src/utilops.c:945
 msgid "Invalid folder"
 msgstr "Carpeta no válida"
 
-#: src/cache_maint.c:793
+#: src/cache_maint.c:792
 msgid "The specified folder can not be found."
 msgstr "La carpeta especificada no se puede encontrar."
 
-#: src/cache_maint.c:821 src/cache_maint.c:835 src/cache_maint.c:1216
+#: src/cache_maint.c:820 src/cache_maint.c:834 src/cache_maint.c:1215
 msgid "Create thumbnails"
 msgstr "Crear miniaturas"
 
-#: src/cache_maint.c:829 src/cache_maint.c:1058
+#: src/cache_maint.c:828 src/cache_maint.c:1057
 msgid "S_tart"
 msgstr "_Iniciar"
 
-#: src/cache_maint.c:842 src/preferences.c:1179
+#: src/cache_maint.c:841 src/preferences.c:1179
 msgid "Folder:"
 msgstr "Carpeta:"
 
-#: src/cache_maint.c:845
+#: src/cache_maint.c:844
 msgid "Select folder"
 msgstr "Seleccionar carpeta"
 
-#: src/cache_maint.c:849
+#: src/cache_maint.c:848
 msgid "Include subfolders"
 msgstr "Incluir subcarpetas"
 
-#: src/cache_maint.c:850
+#: src/cache_maint.c:849
 msgid "Store thumbnails local to source images"
 msgstr "Almacenar miniaturas donde se encuentran las imágenes de origen"
 
-#: src/cache_maint.c:859 src/cache_maint.c:1067
+#: src/cache_maint.c:858 src/cache_maint.c:1066
 msgid "click start to begin"
 msgstr "haga clic en Iniciar para comenzar"
 
-#: src/cache_maint.c:997 src/editors.c:558
+#: src/cache_maint.c:996 src/editors.c:558
 msgid "running..."
 msgstr "ejecutándose..."
 
-#: src/cache_maint.c:1043
+#: src/cache_maint.c:1042
 msgid "Clearing thumbnails..."
 msgstr "Borrando miniaturas..."
 
-#: src/cache_maint.c:1109 src/cache_maint.c:1112 src/cache_maint.c:1191
-#: src/cache_maint.c:1211
+#: src/cache_maint.c:1108 src/cache_maint.c:1111 src/cache_maint.c:1190
+#: src/cache_maint.c:1210
 msgid "Clear cache"
 msgstr "Borrar caché"
 
-#: src/cache_maint.c:1113
+#: src/cache_maint.c:1112
 msgid ""
 "This will remove all thumbnails that have\n"
 "been saved to disk, continue?"
@@ -305,52 +305,52 @@ msgstr ""
 "Esto borrará todas las miniaturas que\n"
 "fueron guardadas en el disco; ¿continuar?"
 
-#: src/cache_maint.c:1163
+#: src/cache_maint.c:1162
 msgid "Cache Maintenance - GQview"
 msgstr "Mantenimiento de caché - GQview"
 
-#: src/cache_maint.c:1173
+#: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
 msgstr "Mantenimiento de caché y datos"
 
-#: src/cache_maint.c:1177
+#: src/cache_maint.c:1176
 msgid "GQview thumbnail cache"
 msgstr "Caché de miniaturas de GQview"
 
-#: src/cache_maint.c:1179 src/cache_maint.c:1199 src/cache_maint.c:1227
+#: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:4382 src/preferences.c:1156 src/utilops.c:1564
 msgid "Location:"
 msgstr "Ubicación:"
 
-#: src/cache_maint.c:1186 src/cache_maint.c:1206 src/cache_maint.c:1234
+#: src/cache_maint.c:1185 src/cache_maint.c:1205 src/cache_maint.c:1233
 msgid "Clean up"
 msgstr "Limpiar"
 
-#: src/cache_maint.c:1189 src/cache_maint.c:1209
+#: src/cache_maint.c:1188 src/cache_maint.c:1208
 msgid "Remove orphaned or outdated thumbnails."
 msgstr "Borrar miniaturas huérfanas o desactualizadas."
 
-#: src/cache_maint.c:1194 src/cache_maint.c:1214
+#: src/cache_maint.c:1193 src/cache_maint.c:1213
 msgid "Delete all cached thumbnails."
 msgstr "Borrar todas las miniaturas en caché."
 
-#: src/cache_maint.c:1197
+#: src/cache_maint.c:1196
 msgid "Shared thumbnail cache"
 msgstr "Caché de miniaturas compartido"
 
-#: src/cache_maint.c:1220
+#: src/cache_maint.c:1219
 msgid "Render"
 msgstr "Generar"
 
-#: src/cache_maint.c:1223
+#: src/cache_maint.c:1222
 msgid "Render thumbnails for a specific folder."
 msgstr "Generar miniaturas para una carpeta específica."
 
-#: src/cache_maint.c:1225
+#: src/cache_maint.c:1224
 msgid "Metadata"
 msgstr "Metadatos"
 
-#: src/cache_maint.c:1237
+#: src/cache_maint.c:1236
 msgid "Remove orphaned keywords and comments."
 msgstr "Borrar palabras clave y comentarios huérfanos."
 
@@ -646,7 +646,7 @@ msgstr "Dimensiones"
 msgid "Checksum"
 msgstr "Suma de verificación"
 
-#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1107
+#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1106
 msgid "Path"
 msgstr "Ruta"
 
@@ -1188,7 +1188,7 @@ msgstr "Herramientas GQview"
 msgid "Tools"
 msgstr "Herramientas"
 
-#: src/layout_config.c:57 src/ui_pathsel.c:1175
+#: src/layout_config.c:57 src/ui_pathsel.c:1174
 msgid "Files"
 msgstr "Archivos"
 
@@ -1587,7 +1587,7 @@ msgstr "Creando directorio GQview: %s\n"
 msgid "Could not create dir:%s\n"
 msgstr "No se puede crear el directorio: %s\n"
 
-#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1043
+#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1042
 msgid "Home"
 msgstr "Carpeta de inicio"
 
@@ -2340,7 +2340,7 @@ msgstr ""
 "No se pudo abrir la tubería para escribir.\n"
 "\"%s\""
 
-#: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:424
+#: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:423
 #: src/view_file_list.c:454
 #, c-format
 msgid "A file with name %s already exists."
@@ -2668,12 +2668,12 @@ msgstr ""
 "No se pudo cargar:\n"
 "%s"
 
-#: src/ui_pathsel.c:430 src/utilops.c:2663
+#: src/ui_pathsel.c:429 src/utilops.c:2663
 #, c-format
 msgid "Failed to rename %s to %s."
 msgstr "Fallo al renombrar %s a %s."
 
-#: src/ui_pathsel.c:486 src/utilops.c:1347 src/utilops.c:1520
+#: src/ui_pathsel.c:485 src/utilops.c:1347 src/utilops.c:1520
 #, c-format
 msgid ""
 "Unable to delete file:\n"
@@ -2682,15 +2682,15 @@ msgstr ""
 "No se pudo borrar archivo:\n"
 "%s"
 
-#: src/ui_pathsel.c:487 src/utilops.c:1521
+#: src/ui_pathsel.c:486 src/utilops.c:1521
 msgid "File deletion failed"
 msgstr "Falló el borrado de archivo"
 
-#: src/ui_pathsel.c:529 src/ui_pathsel.c:537
+#: src/ui_pathsel.c:528 src/ui_pathsel.c:536
 msgid "Delete file"
 msgstr "Borrar archivo"
 
-#: src/ui_pathsel.c:535
+#: src/ui_pathsel.c:534
 #, c-format
 msgid ""
 "About to delete the file:\n"
@@ -2699,24 +2699,24 @@ msgstr ""
 "A punto de borrar el archivo:\n"
 "%s"
 
-#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2244
+#: src/ui_pathsel.c:625 src/ui_pathsel.c:633 src/utilops.c:2244
 #: src/utilops.c:2497
 msgid "_Rename"
 msgstr "_Renombrar"
 
-#: src/ui_pathsel.c:628 src/ui_pathsel.c:638
+#: src/ui_pathsel.c:627 src/ui_pathsel.c:637
 msgid "Add _Bookmark"
 msgstr "_Añadir marcador"
 
-#: src/ui_pathsel.c:636
+#: src/ui_pathsel.c:635
 msgid "_Delete"
 msgstr "_Borrar"
 
-#: src/ui_pathsel.c:740 src/ui_pathsel.c:1045
+#: src/ui_pathsel.c:739 src/ui_pathsel.c:1044
 msgid "New folder"
 msgstr "Nueva carpeta"
 
-#: src/ui_pathsel.c:750 src/utilops.c:2569 src/view_dir_list.c:330
+#: src/ui_pathsel.c:749 src/utilops.c:2569 src/view_dir_list.c:330
 #: src/view_dir_tree.c:426
 #, c-format
 msgid ""
@@ -2726,28 +2726,28 @@ msgstr ""
 "No se pudo crear carpeta:\n"
 "%s"
 
-#: src/ui_pathsel.c:751 src/utilops.c:2570 src/view_dir_list.c:331
+#: src/ui_pathsel.c:750 src/utilops.c:2570 src/view_dir_list.c:331
 #: src/view_dir_tree.c:427
 msgid "Error creating folder"
 msgstr "Error al crear carpeta"
 
-#: src/ui_pathsel.c:972
+#: src/ui_pathsel.c:971
 msgid "All Files"
 msgstr "Todos los archivos"
 
-#: src/ui_pathsel.c:1048
+#: src/ui_pathsel.c:1047
 msgid "Show hidden"
 msgstr "Mostrar ocultos"
 
-#: src/ui_pathsel.c:1132
+#: src/ui_pathsel.c:1131
 msgid "Filter:"
 msgstr "Filtro:"
 
-#: src/ui_tabcomp.c:861
+#: src/ui_tabcomp.c:857
 msgid "Select path"
 msgstr "Seleccionar ruta"
 
-#: src/ui_tabcomp.c:877
+#: src/ui_tabcomp.c:873
 msgid "All files"
 msgstr "Todos los archivos"
 
@@ -3180,7 +3180,7 @@ msgstr ""
 "%s\n"
 "de nombre:"
 
-#: src/utilops.c:2655
+#: src/utilops.c:2655 src/utilops.c:2664
 #, fuzzy
 msgid "Rename failed"
 msgstr "Renombrar archivo"
