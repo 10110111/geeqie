@@ -163,6 +163,7 @@ void pixbuf_renderer_set_tiles(PixbufRenderer *pr, gint width, gint height,
 			       PixbufRendererTileDisposeFunc func_dispose,
 			       gpointer user_data,
 			       gdouble zoom);
+void pixbuf_renderer_set_tiles_size(PixbufRenderer *pr, gint width, gint height);
 gint pixbuf_renderer_get_tiles(PixbufRenderer *pr);
 
 /* move image data from source to pr, source is then set to NULL image */

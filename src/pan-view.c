@@ -288,6 +288,8 @@ static GList *pan_window_layout_list(const gchar *path, SortType sort, gint asce
 
 static GList *pan_layout_intersect(PanWindow *pw, gint x, gint y, gint width, gint height);
 
+static void pan_layout_resize(PanWindow *pw, gint border);
+
 static void pan_window_layout_update_idle(PanWindow *pw);
 
 static GtkWidget *pan_popup_menu(PanWindow *pw);
@@ -1997,6 +1999,8 @@ static void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 
 	pan_item_box_shadow(pbox, PAN_SHADOW_OFFSET * 2, PAN_SHADOW_FADE * 2);
 	pan_item_added(pw, pbox);
+
+	pan_layout_resize(pw, 100);
 }
 
 static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path, gint *width, gint *height)
@@ -2526,6 +2530,46 @@ static GList *pan_layout_intersect(PanWindow *pw, gint x, gint y, gint width, gi
 		}
 
 	return list;
+}
+
+static void pan_layout_resize(PanWindow *pw, gint border)
+{
+	gint width = 0;
+	gint height = 0;
+	GList *work;
+	PixbufRenderer *pr;
+
+	work = pw->list;
+	while (work)
+		{
+		PanItem *pi;
+
+		pi = work->data;
+		work = work->next;
+
+		if (width < pi->x + pi->width) width = pi->x + pi->width;
+		if (height < pi->y + pi->height) height = pi->y + pi->height;
+		}
+	work = pw->list_static;
+	while (work)
+		{
+		PanItem *pi;
+
+		pi = work->data;
+		work = work->next;
+
+		if (width < pi->x + pi->width) width = pi->x + pi->width;
+		if (height < pi->y + pi->height) height = pi->y + pi->height;
+		}
+
+	width += border;
+	height += border;
+
+	pr = PIXBUF_RENDERER(pw->imd->pr);
+	if (width < pr->window_width) width = pr->window_width;
+	if (height < pr->window_width) height = pr->window_height;
+
+	pixbuf_renderer_set_tiles_size(PIXBUF_RENDERER(pw->imd->pr), width, height);
 }
 
 /*

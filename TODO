@@ -90,6 +90,8 @@ Major:
    > xvpics is now hidden option.
    > Holding down shift will now scroll more when panning with mouse.
 
+   > add blurb about moving images between collections with shift+drag
+
 
 Minor (non blockers):
 ----------------------------------------------

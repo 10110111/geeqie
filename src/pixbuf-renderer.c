@@ -1577,6 +1577,21 @@ void pixbuf_renderer_set_tiles(PixbufRenderer *pr, gint width, gint height,
 	pr_redraw(pr, TRUE);
 }
 
+void pixbuf_renderer_set_tiles_size(PixbufRenderer *pr, gint width, gint height)
+{
+	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
+	g_return_if_fail(width >= 32 && height > 32);
+
+	if (!pr->source_tiles_enabled) return;
+	if (pr->image_width == width && pr->image_height == height) return;
+
+	pr->image_width = width;
+	pr->image_height = height;
+
+	pr_zoom_sync(pr, pr->zoom, TRUE, FALSE, TRUE, FALSE, 0, 0);
+	pr_redraw(pr, TRUE);
+}
+
 gint pixbuf_renderer_get_tiles(PixbufRenderer *pr)
 {
 	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), FALSE);
