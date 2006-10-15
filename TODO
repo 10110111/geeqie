@@ -94,7 +94,7 @@ Major:
 Minor (non blockers):
 ----------------------------------------------
 
- > allow multiple command line dirs to work as expected
+d> allow multiple command line dirs to work as expected
    (ie contents of each are treated as given on command line)
 
  > allow editor commands to be interrupted (via SIGTERM?)

@@ -817,15 +817,15 @@ static gint startup_in_slideshow = FALSE;
 static gint startup_command_line_collection = FALSE;
 
 
-static void parse_command_line_add_file(const gchar *new_path, gchar **path, gchar **file,
+static void parse_command_line_add_file(const gchar *file_path, gchar **path, gchar **file,
 				        GList **list, GList **collection_list)
 {
 	gchar *path_parsed;
 
-	path_parsed = g_strdup(new_path);
+	path_parsed = g_strdup(file_path);
 	parse_out_relatives(path_parsed);
 
-	if (file_extension_match(new_path, ".gqv"))
+	if (file_extension_match(path_parsed, ".gqv"))
 		{
 		*collection_list = g_list_append(*collection_list, path_parsed);
 		}
@@ -833,8 +833,76 @@ static void parse_command_line_add_file(const gchar *new_path, gchar **path, gch
 		{
 		if (!*path) *path = remove_level_from_path(path_parsed);
 		if (!*file) *file = g_strdup(path_parsed);
-		*list = g_list_append(*list, path_parsed);
+		*list = g_list_prepend(*list, path_parsed);
 		}
+}
+
+static void parse_command_line_add_dir(const gchar *dir, gchar **path, gchar **file,
+				       GList **list)
+{
+	GList *files = NULL;
+	gchar *path_parsed;
+
+	path_parsed = g_strdup(dir);
+	parse_out_relatives(path_parsed);
+
+	if (path_list(path_parsed, &files, NULL))
+		{
+		GList *work;
+
+		files = path_list_filter(files, FALSE);
+		files = path_list_sort(files);
+
+		work = files;
+		while (work)
+			{
+			gchar *p;
+
+			p = work->data;
+			if (!*path) *path = remove_level_from_path(p);
+			if (!*file) *file = g_strdup(p);
+			*list = g_list_prepend(*list, p);
+
+			work = work->next;
+			}
+
+		g_list_free(files);
+		}
+
+	g_free(path_parsed);
+}
+
+static void parse_command_line_process_dir(const gchar *dir, gchar **path, gchar **file,
+					   GList **list, gchar **first_dir)
+{
+	
+	if (!*list && !*first_dir)
+		{
+		*first_dir = g_strdup(dir);
+		}
+	else
+		{
+		if (*first_dir)
+			{
+			parse_command_line_add_dir(*first_dir, path, file, list);
+			g_free(*first_dir);
+			*first_dir = NULL;
+			}
+		parse_command_line_add_dir(dir, path, file, list);
+		}
+}
+
+static void parse_command_line_process_file(const gchar *file_path, gchar **path, gchar **file,
+					    GList **list, GList **collection_list, gchar **first_dir)
+{
+	
+	if (*first_dir)
+		{
+		parse_command_line_add_dir(*first_dir, path, file, list);
+		g_free(*first_dir);
+		*first_dir = NULL;
+		}
+	parse_command_line_add_file(file_path, path, file, list, collection_list);
 }
 
 static void parse_command_line(int argc, char *argv[], gchar **path, gchar **file,
@@ -843,6 +911,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 	GList *list = NULL;
 	GList *remote_list = NULL;
 	gint remote_do = FALSE;
+	gchar *first_dir = NULL;
 
 	if (argc > 1)
 		{
@@ -854,21 +923,23 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 			const gchar *cmd_line = argv[i];
 			gchar *cmd_all = concat_dir_and_file(base_dir, cmd_line);
 
-			if (!*path && cmd_line[0] == '/' && isdir(cmd_line))
+			if (cmd_line[0] == '/' && isdir(cmd_line))
 				{
-				*path = g_strdup(cmd_line);
+				parse_command_line_process_dir(cmd_line, path, file, &list, &first_dir);
 				}
-			else if (!*path && isdir(cmd_all))
+			else if (isdir(cmd_all))
 				{
-				*path = g_strdup(cmd_all);
+				parse_command_line_process_dir(cmd_all, path, file, &list, &first_dir);
 				}
 			else if (cmd_line[0] == '/' && isfile(cmd_line))
 				{
-				parse_command_line_add_file(cmd_line, path, file, &list, collection_list);
+				parse_command_line_process_file(cmd_line, path, file,
+								&list, collection_list, &first_dir);
 				}
 			else if (isfile(cmd_all))
 				{
-				parse_command_line_add_file(cmd_all, path, file, &list, collection_list);
+				parse_command_line_process_file(cmd_all, path, file,
+								&list, collection_list, &first_dir);
 				}
 			else if (strcmp(cmd_line, "--debug") == 0)
 				{
@@ -978,6 +1049,15 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 		parse_out_relatives(*path);
 		parse_out_relatives(*file);
 		}
+
+	list = g_list_reverse(list);
+
+	if (!*path && first_dir)
+		{
+		*path = first_dir;
+		first_dir = NULL;
+		}
+	g_free(first_dir);
 
 	if (remote_do)
 		{

@@ -1,3 +1,8 @@
+Sun Oct 15 04:03:41 2006  John Ellis  <johne@verizon.net>
+
+	* main.c: Fix command line parser to work with any combination of files
+	and/or folders on the command line.
+
 Sun Oct 15 02:50:22 2006  John Ellis  <johne@verizon.net>
 
 	* eu.po: Add Basque translation,
