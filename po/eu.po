@@ -1,0 +1,3204 @@
+# translation of gqview-2.1.2-eu.po to librezale
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Piarres Beobide <pi@beobide.net>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: gqview-2.1.2-eu\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-10-14 05:18-0400\n"
+"PO-Revision-Date: 2006-10-14 23:08+0200\n"
+"Last-Translator: Piarres Beobide <pi@beobide.net>\n"
+"Language-Team: librezale <librezale@librezale.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: src/bar_info.c:30
+msgid "Favorite"
+msgstr "Gogokoa"
+
+#: src/bar_info.c:31
+msgid "Todo"
+msgstr "Dena"
+
+#: src/bar_info.c:32
+msgid "People"
+msgstr "Pertsonak"
+
+#: src/bar_info.c:33
+msgid "Places"
+msgstr "Lekuak"
+
+#: src/bar_info.c:34
+msgid "Art"
+msgstr "Artea"
+
+#: src/bar_info.c:35
+msgid "Nature"
+msgstr "Natura"
+
+#: src/bar_info.c:36
+msgid "Possessions"
+msgstr "Jabetzak"
+
+#: src/bar_info.c:505
+msgid "Keyword Presets"
+msgstr "Gako-hitz Aurrezarpenak"
+
+#: src/bar_info.c:508
+msgid "Favorite keywords list"
+msgstr "Gako-hitz gogoko zerrenda"
+
+#: src/bar_info.c:992 src/info.c:167 src/search.c:2692
+msgid "Keywords"
+msgstr "Gako-hitzak"
+
+#: src/bar_info.c:1006 src/info.c:722 src/pan-view.c:3630 src/print.c:2599
+msgid "Filename:"
+msgstr "Fitxategi-izena:"
+
+#: src/bar_info.c:1007 src/info.c:366
+msgid "File date:"
+msgstr "Fitxategia data:"
+
+#: src/bar_info.c:1027
+msgid "Keywords:"
+msgstr "Gako-hitzak:"
+
+#: src/bar_info.c:1095
+msgid "Comment:"
+msgstr "Iruzkina:"
+
+#: src/bar_info.c:1119
+msgid "Edit favorite keywords list."
+msgstr "Editatu gako-hitz gogokoen zerrenda."
+
+#: src/bar_info.c:1123
+msgid "Add keywords to selected files"
+msgstr "Gehitu gako-hitzak hautatutakoa fitxategietara"
+
+#: src/bar_info.c:1126
+msgid "Add keywords to selected files, replacing the existing ones."
+msgstr "Gehitu gako-hitzak hautatutakoa fitxategietara, daudenak ordezkatzen."
+
+#: src/bar_info.c:1130
+msgid "Save comment now"
+msgstr "Gorde iruzkina orain"
+
+#: src/bar_exif.c:435
+msgid "Tag"
+msgstr "Etiketa"
+
+#: src/bar_exif.c:436 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
+#: src/search.c:2753 src/view_file_list.c:1556
+msgid "Name"
+msgstr "Izena"
+
+#: src/bar_exif.c:437
+msgid "Value"
+msgstr "Balioa"
+
+#: src/bar_exif.c:438
+msgid "Format"
+msgstr "Formatua"
+
+#: src/bar_exif.c:439
+msgid "Elements"
+msgstr "Elementuak"
+
+#: src/bar_exif.c:440 src/preferences.c:1042
+msgid "Description"
+msgstr "Azalpena"
+
+#: src/bar_exif.c:561 src/info.c:106
+msgid "Exif"
+msgstr "Exif"
+
+#: src/bar_exif.c:634
+msgid "Advanced view"
+msgstr "Ikuspegi aurreratua"
+
+#: src/bar_sort.c:217
+#, c-format
+msgid ""
+"Unable to remove symbolic link:\n"
+"%s"
+msgstr ""
+"Ezin da lotura sinbolikoa ezabatu:\n"
+"%s"
+
+#: src/bar_sort.c:218
+msgid "Unlink failed"
+msgstr "Huts lotura kentzean"
+
+#: src/bar_sort.c:297
+#, c-format
+msgid ""
+"Unable to create symbolic link:\n"
+"%s"
+msgstr ""
+"Ezin da lotura sinbolikoa sortu:\n"
+"%s"
+
+#: src/bar_sort.c:298
+msgid "Link failed"
+msgstr "Loturak huts egin du"
+
+#: src/bar_sort.c:435
+#, c-format
+msgid ""
+"The collection:\n"
+"%s\n"
+"already exists."
+msgstr ""
+"Bilduma:\n"
+"%s\n"
+"badago dagoeneko."
+
+#: src/bar_sort.c:436
+msgid "Collection exists"
+msgstr "Bilduma badago"
+
+#: src/bar_sort.c:450 src/collect.c:1061 src/collect-dlg.c:84
+#, c-format
+msgid ""
+"Failed to save the collection:\n"
+"%s"
+msgstr ""
+"Huts bilduma gordetzerakoan:\n"
+"%s"
+
+#: src/bar_sort.c:451 src/collect.c:1062 src/collect-dlg.c:85
+msgid "Save Failed"
+msgstr "Gordetzean huts egin du"
+
+#: src/bar_sort.c:485 src/bar_sort.c:611
+msgid "Add Bookmark"
+msgstr "Laster-marka gehitu"
+
+#: src/bar_sort.c:489
+msgid "Add Collection"
+msgstr "Bilduma Gehitu"
+
+#: src/bar_sort.c:506 src/ui_bookmark.c:603
+msgid "Name:"
+msgstr "Izena:"
+
+#: src/bar_sort.c:568
+msgid "Sort Manager"
+msgstr "Ordenatze Kudeatzailea"
+
+#: src/bar_sort.c:577 src/pan-view.c:4393 src/ui_pathsel.c:1094
+msgid "Folders"
+msgstr "Karpetak"
+
+#: src/bar_sort.c:578 src/main.c:1066
+msgid "Collections"
+msgstr "Bildumak"
+
+#: src/bar_sort.c:586
+msgid "Copy"
+msgstr "Kopiatu"
+
+#: src/bar_sort.c:589
+msgid "Move"
+msgstr "Lekuz aldatu"
+
+#: src/bar_sort.c:592
+msgid "Link"
+msgstr "Lotura"
+
+#: src/bar_sort.c:598
+msgid "Add image"
+msgstr "Irudia gehitu"
+
+#: src/bar_sort.c:601
+msgid "Add selection"
+msgstr "Hautaketa gehitu"
+
+#: src/bar_sort.c:614
+msgid "Undo last image"
+msgstr "Azken irudia desegin"
+
+#: src/cache_maint.c:126 src/cache_maint.c:680 src/cache_maint.c:893
+#: src/editors.c:410
+msgid "done"
+msgstr "eginda"
+
+#: src/cache_maint.c:303
+msgid "Removing old metadata..."
+msgstr "Metadata zaharrak ezabatzen..."
+
+#: src/cache_maint.c:307
+msgid "Clearing cached thumbnails..."
+msgstr "Katxeko argazkitxoak garbitzen..."
+
+#: src/cache_maint.c:311 src/cache_maint.c:1047
+msgid "Removing old thumbnails..."
+msgstr "Argazkitxo zaharrak ezabatzen..."
+
+#: src/cache_maint.c:314 src/cache_maint.c:1050
+msgid "Maintenance"
+msgstr "Mantenua"
+
+#: src/cache_maint.c:791 src/utilops.c:945
+msgid "Invalid folder"
+msgstr "Karpeta baliogabea"
+
+#: src/cache_maint.c:792
+msgid "The specified folder can not be found."
+msgstr "Ezarritako karpeta ezin da aurkitu."
+
+#: src/cache_maint.c:820 src/cache_maint.c:834 src/cache_maint.c:1215
+msgid "Create thumbnails"
+msgstr "Argazkitxoak sortu"
+
+#: src/cache_maint.c:828 src/cache_maint.c:1057
+msgid "S_tart"
+msgstr "Ha_si"
+
+#: src/cache_maint.c:841 src/preferences.c:1179
+msgid "Folder:"
+msgstr "Karpeta:"
+
+#: src/cache_maint.c:844
+msgid "Select folder"
+msgstr "Hautatu karpeta"
+
+#: src/cache_maint.c:848
+msgid "Include subfolders"
+msgstr "Azpikarpetak barne"
+
+#: src/cache_maint.c:849
+msgid "Store thumbnails local to source images"
+msgstr "Jatorrizko irudien argazkitxo lokalak gorde"
+
+#: src/cache_maint.c:858 src/cache_maint.c:1066
+msgid "click start to begin"
+msgstr "hasi klikatu abiarazteko"
+
+#: src/cache_maint.c:996 src/editors.c:558
+msgid "running..."
+msgstr "martxan..."
+
+#: src/cache_maint.c:1042
+msgid "Clearing thumbnails..."
+msgstr "Argazkitxoak garbitzen..."
+
+#: src/cache_maint.c:1108 src/cache_maint.c:1111 src/cache_maint.c:1190
+#: src/cache_maint.c:1210
+msgid "Clear cache"
+msgstr "Katxea garbitu"
+
+#: src/cache_maint.c:1112
+msgid ""
+"This will remove all thumbnails that have\n"
+"been saved to disk, continue?"
+msgstr ""
+"Honek diskan dauden argazkitxo guztiak\n"
+"ezabatuko ditu, jarraitu?"
+
+#: src/cache_maint.c:1162
+msgid "Cache Maintenance - GQview"
+msgstr "Katxe Mantenua - GQview"
+
+#: src/cache_maint.c:1172
+msgid "Cache and Data Maintenance"
+msgstr "Katxe eta Data Mantenua"
+
+#: src/cache_maint.c:1176
+msgid "GQview thumbnail cache"
+msgstr "GQview argazkitxo katxea"
+
+#: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
+#: src/pan-view.c:4382 src/preferences.c:1156 src/utilops.c:1564
+msgid "Location:"
+msgstr "Kokalekua:"
+
+#: src/cache_maint.c:1185 src/cache_maint.c:1205 src/cache_maint.c:1233
+msgid "Clean up"
+msgstr "Garbitu"
+
+#: src/cache_maint.c:1188 src/cache_maint.c:1208
+msgid "Remove orphaned or outdated thumbnails."
+msgstr "Zaharkituriko edo umezurtz diren argazkitxoak ezabatu."
+
+#: src/cache_maint.c:1193 src/cache_maint.c:1213
+msgid "Delete all cached thumbnails."
+msgstr "Katxe argazkitxo guztiak ezabatu."
+
+#: src/cache_maint.c:1196
+msgid "Shared thumbnail cache"
+msgstr "Partekatutako argazkitxo katxea"
+
+#: src/cache_maint.c:1219
+msgid "Render"
+msgstr "Errendatu"
+
+#: src/cache_maint.c:1222
+msgid "Render thumbnails for a specific folder."
+msgstr "Karpeta baten argazkitxoak errendatu."
+
+#: src/cache_maint.c:1224
+msgid "Metadata"
+msgstr "Metadatuak"
+
+#: src/cache_maint.c:1236
+msgid "Remove orphaned keywords and comments."
+msgstr "Hitz-gako eta iruzkin umezurtzak ezabatu."
+
+#: src/collect.c:349 src/image.c:134 src/image-overlay.c:75
+#: src/image-overlay.c:116
+#, c-format
+msgid "Untitled"
+msgstr "Izengabea"
+
+#: src/collect.c:353
+#, c-format
+msgid "Untitled (%d)"
+msgstr "Izengabea (%d)"
+
+#: src/collect.c:980
+#, c-format
+msgid "%s - GQview Collection"
+msgstr "%s - GQview Bilduma"
+
+#: src/collect.c:1098 src/collect.c:1102
+msgid "Close collection"
+msgstr "Bilduma itxi"
+
+#: src/collect.c:1103
+msgid ""
+"Collection has been modified.\n"
+"Save first?"
+msgstr ""
+"Bilduma aldatua izan da.\n"
+"Gorde lehenengo?"
+
+#: src/collect.c:1106
+msgid "_Discard"
+msgstr "_Baztertu"
+
+#: src/collect-dlg.c:58
+#, c-format
+msgid ""
+"Specified path:\n"
+"%s\n"
+"is a folder, collections are files"
+msgstr ""
+"Ezarritako bidea:\n"
+"%s\n"
+"karpeta bat da, bildumak fitxategiak dira"
+
+#: src/collect-dlg.c:59
+msgid "Invalid filename"
+msgstr "Fitxategi-izen baliogabea"
+
+#: src/collect-dlg.c:68
+msgid "Overwrite File"
+msgstr "Fitxategia Gainidatzi"
+
+#: src/collect-dlg.c:73
+msgid "Overwrite existing file?"
+msgstr "Dagoen fitxategia gainidatzi?"
+
+#: src/collect-dlg.c:75 src/utilops.c:507 src/utilops.c:828 src/utilops.c:1718
+#: src/utilops.c:2437
+msgid "_Overwrite"
+msgstr "_Gainidatzi"
+
+#: src/collect-dlg.c:169
+msgid "Save collection"
+msgstr "Bilduma gorde"
+
+#: src/collect-dlg.c:176
+msgid "Open collection"
+msgstr "Bilduma ireki"
+
+#: src/collect-dlg.c:184
+msgid "Append collection"
+msgstr "Bilduma erantsi"
+
+#: src/collect-dlg.c:185
+msgid "_Append"
+msgstr "Er_antsi"
+
+#: src/collect-dlg.c:203
+msgid "Collection Files"
+msgstr "Bilduma Fitxategiak"
+
+#: src/collect-dlg.c:221
+msgid "Collection empty"
+msgstr "Bilduma hutsik"
+
+#: src/collect-dlg.c:222
+msgid "The current collection is empty, save aborted."
+msgstr "Bilduma hau hutsik dago, gordetzea uzten."
+
+#: src/collect-table.c:164 src/layout_util.c:702
+msgid "Empty"
+msgstr "Hutsik"
+
+#: src/collect-table.c:168
+#, c-format
+msgid "%d images (%d)"
+msgstr "%d irudi (%d)"
+
+#: src/collect-table.c:172
+#, c-format
+msgid "%d images"
+msgstr "%d irudi"
+
+#: src/collect-table.c:186 src/dupe.c:1296 src/search.c:303
+#: src/view_file_icon.c:1772 src/view_file_icon.c:1887
+#: src/view_file_list.c:817 src/view_file_list.c:922
+msgid "Loading thumbs..."
+msgstr "Argazkitxoak kargatzen..."
+
+#: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
+#: src/layout_util.c:745 src/search.c:969
+msgid "_View"
+msgstr "_Ikusi"
+
+#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1196
+#: src/layout_image.c:727 src/pan-view.c:4782 src/search.c:971
+#: src/view_file_icon.c:283 src/view_file_list.c:396
+msgid "View in _new window"
+msgstr "Leiho _berrian ikusi"
+
+#: src/collect-table.c:778 src/dupe.c:2219 src/dupe.c:2507 src/search.c:997
+msgid "Rem_ove"
+msgstr "Ken_du"
+
+#: src/collect-table.c:781
+msgid "Append from file list"
+msgstr "Fitxategi zerrendatik erantsi"
+
+#: src/collect-table.c:783
+msgid "Append from collection..."
+msgstr "Bildumatik erantsi..."
+
+#: src/collect-table.c:786 src/dupe.c:2192 src/dupe.c:2502 src/search.c:974
+msgid "Select all"
+msgstr "Hautatu dena"
+
+#: src/collect-table.c:788 src/dupe.c:2194 src/dupe.c:2504 src/search.c:976
+msgid "Select none"
+msgstr "Bat ere ez hautatu"
+
+#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1194
+#: src/layout_image.c:724 src/layout_util.c:779 src/pan-view.c:4779
+#: src/search.c:981 src/view_file_icon.c:280 src/view_file_list.c:394
+msgid "_Properties"
+msgstr "_Propietateak"
+
+#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1199
+#: src/layout_image.c:732 src/layout_util.c:757 src/pan-view.c:4786
+#: src/search.c:988 src/view_file_icon.c:287 src/view_file_list.c:400
+msgid "_Copy..."
+msgstr "K_opiatu..."
+
+#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1200
+#: src/layout_image.c:734 src/layout_util.c:758 src/pan-view.c:4788
+#: src/search.c:990 src/view_file_icon.c:289 src/view_file_list.c:402
+msgid "_Move..."
+msgstr "_Lekuz aldatu..."
+
+#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1201
+#: src/layout_image.c:736 src/layout_util.c:759 src/pan-view.c:4790
+#: src/search.c:992 src/view_dir_list.c:407 src/view_dir_tree.c:497
+#: src/view_file_icon.c:291 src/view_file_list.c:404
+msgid "_Rename..."
+msgstr "I_zena aldatu..."
+
+#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1202
+#: src/layout_image.c:738 src/layout_util.c:760 src/pan-view.c:4792
+#: src/search.c:994 src/view_file_icon.c:293 src/view_file_list.c:406
+msgid "_Delete..."
+msgstr "_Ezabatu..."
+
+#: src/collect-table.c:810 src/view_file_icon.c:309
+msgid "Show filename _text"
+msgstr "Erakutsi fitxategi-izen _testua"
+
+#: src/collect-table.c:813
+msgid "_Save collection"
+msgstr "Bilduma _gorde"
+
+#: src/collect-table.c:815
+msgid "Save collection _as..."
+msgstr "Gorde bilduma _horrela..."
+
+#: src/collect-table.c:818 src/layout_util.c:753
+msgid "_Find duplicates..."
+msgstr "Bikoi_ztuak bilatu..."
+
+#: src/collect-table.c:820 src/dupe.c:2207 src/search.c:985
+msgid "Print..."
+msgstr "Inprimatu..."
+
+#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1356
+msgid "Dropped list includes folders."
+msgstr "Mugitutako zerrendak karpetak ditu."
+
+#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1358
+msgid "_Add contents"
+msgstr "_Edukiak gehitu"
+
+#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1359
+msgid "Add contents _recursive"
+msgstr "Edukiak e_rrekurtsiboki gehitu"
+
+#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1360
+msgid "_Skip folders"
+msgstr "_Saltatu karpetak"
+
+#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1362
+#: src/view_dir_list.c:214 src/view_dir_tree.c:306
+msgid "Cancel"
+msgstr "Utzi"
+
+#: src/dupe.c:96
+msgid "Drop files to compare them."
+msgstr "Fitxategiak jaregin parekatzeko."
+
+#: src/dupe.c:100
+#, c-format
+msgid "%d files"
+msgstr "%d fitxategi"
+
+#: src/dupe.c:104
+#, c-format
+msgid "%d matches found in %d files"
+msgstr "%d emaitza aurkiturik %d fitxategietan"
+
+#: src/dupe.c:109
+msgid "[set 1]"
+msgstr "[1 sorta]"
+
+#: src/dupe.c:1422
+msgid "Reading checksums..."
+msgstr "Egiaztatpenak irakurtzen..."
+
+#: src/dupe.c:1455
+msgid "Reading dimensions..."
+msgstr "Dimentsioak irakurtzen..."
+
+#: src/dupe.c:1489
+msgid "Reading similarity data..."
+msgstr "Antzekotasun datuak irakurtzen..."
+
+#: src/dupe.c:1524 src/dupe.c:1555
+msgid "Comparing..."
+msgstr "Parekatzen..."
+
+#: src/dupe.c:1535 src/pan-view.c:3238
+msgid "Sorting..."
+msgstr "Ordenatzen..."
+
+#: src/dupe.c:2196
+msgid "Select group _1 duplicates"
+msgstr "_1 Taldearen bikoiztutakoak hautatu"
+
+#: src/dupe.c:2198
+msgid "Select group _2 duplicates"
+msgstr "_2 Taldearen bikoiztutakoak hautatu"
+
+#: src/dupe.c:2205 src/search.c:983
+msgid "Add to new collection"
+msgstr "Bilduma berria gehitu"
+
+#: src/dupe.c:2221 src/dupe.c:2509 src/search.c:999
+msgid "C_lear"
+msgstr "G_arbitu"
+
+#: src/dupe.c:2224 src/dupe.c:2512
+msgid "Close _window"
+msgstr "_Leiho itxi"
+
+#: src/dupe.c:2382
+#, c-format
+msgid "%d files (set 2)"
+msgstr "%d fitxategiak (2 sorta)"
+
+#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:961 src/print.c:3194
+#: src/search.c:2754 src/view_file_list.c:1557
+msgid "Size"
+msgstr "Tamaina"
+
+#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:296 src/exif.c:417
+#: src/print.c:3192 src/search.c:2755 src/view_file_list.c:1558
+msgid "Date"
+msgstr "Data"
+
+#: src/dupe.c:2592 src/dupe.c:3119 src/print.c:3196 src/search.c:2756
+msgid "Dimensions"
+msgstr "Neurriak"
+
+#: src/dupe.c:2593
+msgid "Checksum"
+msgstr "Egiaztapena"
+
+#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1106
+msgid "Path"
+msgstr "Bidea"
+
+#: src/dupe.c:2595
+msgid "Similarity (high)"
+msgstr "Antzekotasuna (handia)"
+
+#: src/dupe.c:2596
+msgid "Similarity"
+msgstr "Antzekotasuna"
+
+#: src/dupe.c:2597
+msgid "Similarity (low)"
+msgstr "Antzekotasuna (txikia)"
+
+#: src/dupe.c:2598
+msgid "Similarity (custom)"
+msgstr "Antzekotasuna (pertsonalizatua)"
+
+#: src/dupe.c:3080
+msgid "Find duplicates - GQview"
+msgstr "Bokiztuak bilatu - GQview"
+
+#: src/dupe.c:3152
+msgid "Compare to:"
+msgstr "Honekin parekatu:"
+
+#: src/dupe.c:3165
+msgid "Compare by:"
+msgstr "Honela parekatu:"
+
+#: src/dupe.c:3173 src/preferences.c:849 src/search.c:2770
+msgid "Thumbnails"
+msgstr "Argazkitxoak"
+
+#: src/dupe.c:3180
+msgid "Compare two file sets"
+msgstr "Bi fitxategi taldeak parekatu"
+
+#: src/editors.c:50
+msgid "The Gimp"
+msgstr "Gimp"
+
+#: src/editors.c:51
+msgid "XV"
+msgstr "XV"
+
+#: src/editors.c:52
+msgid "Xpaint"
+msgstr "Xpaint"
+
+#: src/editors.c:58
+msgid "Rotate jpeg clockwise"
+msgstr "Biratu jpeg eskubitaraka"
+
+#: src/editors.c:59
+msgid "Rotate jpeg counterclockwise"
+msgstr "Biratu jpeg ezkerretaraka"
+
+#: src/editors.c:104
+msgid "stopping..."
+msgstr "gelditzen..."
+
+#: src/editors.c:131
+msgid "Edit command results"
+msgstr "Edizio komando emaitzak"
+
+#: src/editors.c:134
+#, c-format
+msgid "Output of %s"
+msgstr "%s-ren irteera"
+
+#: src/editors.c:303
+#, c-format
+msgid ""
+"Failed to run command:\n"
+"%s\n"
+msgstr ""
+"Huts komandoa abiarazterakoan:\n"
+"%s\n"
+
+#: src/editors.c:414
+msgid "stopped by user"
+msgstr "erabiltzaileak geldituta"
+
+#: src/exif.c:111 src/exif.c:124 src/exif.c:138 src/exif.c:163 src/exif.c:576
+#: src/exif.c:1479 src/exif.c:1482 src/exif.c:1547
+msgid "unknown"
+msgstr "ezezaguna"
+
+#: src/exif.c:112
+msgid "top left"
+msgstr "goian ezkerrean"
+
+#: src/exif.c:113
+msgid "top right"
+msgstr "goian eskuinean"
+
+#: src/exif.c:114
+msgid "bottom right"
+msgstr "behean eskuinean"
+
+#: src/exif.c:115
+msgid "bottom left"
+msgstr "behean ezkerrean"
+
+#: src/exif.c:116
+msgid "left top"
+msgstr "ezkerrean goian"
+
+#: src/exif.c:117
+msgid "right top"
+msgstr "eskuinean goian"
+
+#: src/exif.c:118
+msgid "right bottom"
+msgstr "eskuinean behean"
+
+#: src/exif.c:119
+msgid "left bottom"
+msgstr "ezkerrean behean"
+
+#: src/exif.c:126
+msgid "inch"
+msgstr "hazbete"
+
+#: src/exif.c:127
+msgid "centimeter"
+msgstr "zentimetro"
+
+#: src/exif.c:139
+msgid "average"
+msgstr "batez bestekoa"
+
+#: src/exif.c:140
+msgid "center weighted"
+msgstr "erdian haztaturik"
+
+#: src/exif.c:141
+msgid "spot"
+msgstr "puntua"
+
+#: src/exif.c:142
+msgid "multi-spot"
+msgstr "puntu anitz"
+
+#: src/exif.c:143
+msgid "multi-segment"
+msgstr "segmentu-anitzekoa"
+
+#: src/exif.c:144
+msgid "partial"
+msgstr "partziala"
+
+#: src/exif.c:145 src/exif.c:183
+msgid "other"
+msgstr "bestelakoa"
+
+#: src/exif.c:150
+msgid "not defined"
+msgstr "ezarri gabe"
+
+#: src/exif.c:151
+msgid "manual"
+msgstr "eskuz"
+
+#: src/exif.c:152
+msgid "normal"
+msgstr "normala"
+
+#: src/exif.c:153
+msgid "aperture"
+msgstr "irekiera"
+
+#: src/exif.c:154
+msgid "shutter"
+msgstr "obturadorea"
+
+#: src/exif.c:155
+msgid "creative"
+msgstr "sortzaile"
+
+#: src/exif.c:156
+msgid "action"
+msgstr "ekintza"
+
+#: src/exif.c:157
+msgid "portrait"
+msgstr "erretratu"
+
+#: src/exif.c:158
+msgid "landscape"
+msgstr "paisaia"
+
+#: src/exif.c:164
+msgid "daylight"
+msgstr "egun-argiz"
+
+#: src/exif.c:165
+msgid "fluorescent"
+msgstr "fluoreszentea"
+
+#: src/exif.c:166
+msgid "tungsten (incandescent)"
+msgstr "tungstenioa (goritasun)"
+
+#: src/exif.c:167
+msgid "flash"
+msgstr "flash-a"
+
+#: src/exif.c:188 src/exif.c:1502 src/info.c:232
+msgid "no"
+msgstr "ez"
+
+#. flash fired (bit 0)
+#: src/exif.c:189 src/exif.c:1502 src/info.c:232
+msgid "yes"
+msgstr "bai"
+
+#: src/exif.c:190
+msgid "yes, not detected by strobe"
+msgstr "bai, ez da strobe bidez atzeman"
+
+#: src/exif.c:191
+msgid "yes, detected by strobe"
+msgstr "bai, estrobe bidez atzemanda"
+
+#: src/exif.c:288
+msgid "Image description"
+msgstr "Irudia azalpena"
+
+#: src/exif.c:291
+msgid "Orientation"
+msgstr "Orientazioa"
+
+#: src/exif.c:302
+msgid "Copyright"
+msgstr "Copyright-a"
+
+#: src/exif.c:307
+msgid "Exposure program"
+msgstr "Agerpen programa"
+
+#: src/exif.c:309 src/exif.c:345 src/exif.c:421
+msgid "ISO sensitivity"
+msgstr "ISO sentsibilitatea"
+
+#: src/exif.c:312
+msgid "Date original"
+msgstr "Jatorrizko data"
+
+#: src/exif.c:313
+msgid "Date digitized"
+msgstr "Digitalizazio data"
+
+#: src/exif.c:316 src/exif.c:418
+msgid "Shutter speed"
+msgstr "Obturadore abiadura"
+
+#: src/exif.c:317 src/exif.c:419
+msgid "Aperture"
+msgstr "Irekiera"
+
+#: src/exif.c:319 src/exif.c:420
+msgid "Exposure bias"
+msgstr "Agerpena alborapena"
+
+#: src/exif.c:321 src/exif.c:423
+msgid "Subject distance"
+msgstr "Elementu distantzia"
+
+#: src/exif.c:322
+msgid "Metering mode"
+msgstr "Neurtze modua"
+
+#: src/exif.c:323
+msgid "Light source"
+msgstr "Argi jatorria"
+
+#: src/exif.c:324 src/exif.c:424
+msgid "Flash"
+msgstr "Flash-a"
+
+#: src/exif.c:325 src/exif.c:422
+msgid "Focal length"
+msgstr "Fokuaren luzera"
+
+#. ExifImageWidth, ExifImageHeight can also be unsigned short
+#: src/exif.c:335
+msgid "Width"
+msgstr "Zabalera"
+
+#: src/exif.c:336
+msgid "Height"
+msgstr "Altuera"
+
+#: src/exif.c:416
+msgid "Camera"
+msgstr "Kamara"
+
+#: src/exif.c:425
+msgid "Resolution"
+msgstr "Bereizmena"
+
+#: src/exif.c:1478
+msgid "infinity"
+msgstr "infinitua"
+
+#: src/exif.c:1506
+msgid "mode:"
+msgstr "modua:"
+
+#: src/exif.c:1510 src/utilops.c:1293
+msgid "on"
+msgstr "aktibatuta"
+
+#: src/exif.c:1513 src/utilops.c:1293
+msgid "off"
+msgstr "desaktibatuta"
+
+#: src/exif.c:1516
+msgid "auto"
+msgstr "automatikoa"
+
+#: src/exif.c:1522
+msgid "not detected by strobe"
+msgstr "ez da estrobe bidez atzeman"
+
+#: src/exif.c:1523
+msgid "detected by strobe"
+msgstr "estrobe bidez atzemanda"
+
+#. we ignore flash function (bit 5)
+#. red-eye (bit 6)
+#: src/exif.c:1528
+msgid "red-eye reduction"
+msgstr "begi-gorri murrizketa"
+
+#: src/exif.c:1547
+msgid "dot"
+msgstr "puntu"
+
+#: src/filelist.c:520
+#, c-format
+msgid "%d bytes"
+msgstr "%d byte"
+
+#: src/filelist.c:524
+#, c-format
+msgid "%.1f K"
+msgstr "%.1f K"
+
+#: src/filelist.c:528
+#, c-format
+msgid "%.1f MB"
+msgstr "%.1f MB"
+
+#: src/filelist.c:533
+#, c-format
+msgid "%.1f GB"
+msgstr "%.1f GB"
+
+#: src/fullscreen.c:267
+msgid "GQview full screen"
+msgstr "GQview pantaila osoa"
+
+#: src/fullscreen.c:397
+msgid "Full size"
+msgstr "Tamaina osoa"
+
+#: src/fullscreen.c:402
+msgid "Monitor"
+msgstr "Monitorea"
+
+#: src/fullscreen.c:407
+msgid "Screen"
+msgstr "Pantaila"
+
+#: src/fullscreen.c:644
+msgid "Stay above other windows"
+msgstr "Beste leiho gainean mantendu"
+
+#: src/fullscreen.c:651
+msgid "Determined by Window Manager"
+msgstr "Leiho Kudeatzaileak Zehaztua"
+
+#: src/fullscreen.c:652
+msgid "Active screen"
+msgstr "Pantaila aktiboa"
+
+#: src/fullscreen.c:654
+msgid "Active monitor"
+msgstr "Monitore aktiboa"
+
+#: src/img-view.c:1182 src/layout_image.c:711 src/layout_util.c:786
+#: src/pan-view.c:4768
+msgid "Zoom _in"
+msgstr "Zooma _handiagotu"
+
+#: src/img-view.c:1183 src/layout_image.c:712 src/layout_util.c:787
+#: src/pan-view.c:4770
+msgid "Zoom _out"
+msgstr "Zooma _txikiagotu"
+
+#: src/img-view.c:1184 src/layout_image.c:713 src/layout_util.c:788
+#: src/pan-view.c:4772
+msgid "Zoom _1:1"
+msgstr "Zooma _1:1"
+
+#: src/img-view.c:1185 src/layout_image.c:714
+msgid "Fit image to _window"
+msgstr "Doitu irudia leiho tamainara"
+
+#: src/img-view.c:1190 src/layout_image.c:720 src/layout_util.c:784
+msgid "Set as _wallpaper"
+msgstr "Ida_zmahai atzealde bezala ezarri"
+
+#: src/img-view.c:1208 src/layout_image.c:745
+msgid "_Stop slideshow"
+msgstr "Aurkezpena _gelditu"
+
+#: src/img-view.c:1211 src/layout_image.c:748
+msgid "Continue slides_how"
+msgstr "Aurpezpena _jarraitu"
+
+#: src/img-view.c:1216 src/img-view.c:1224 src/layout_image.c:753
+#: src/layout_image.c:760
+msgid "Pause slides_how"
+msgstr "Aurkezpena _pausarazi"
+
+#: src/img-view.c:1222 src/layout_image.c:759
+msgid "_Start slideshow"
+msgstr "Aurkezpena _hasi"
+
+#: src/img-view.c:1230 src/layout_image.c:770 src/pan-view.c:4804
+msgid "Exit _full screen"
+msgstr "Irten _pantaila osotik"
+
+#: src/img-view.c:1234 src/layout_image.c:766 src/pan-view.c:4808
+msgid "_Full screen"
+msgstr "_Pantaila osoa"
+
+#: src/img-view.c:1238 src/layout_util.c:761 src/pan-view.c:4812
+msgid "C_lose window"
+msgstr "Leihoa it_xi"
+
+#: src/info.c:367
+msgid "File size:"
+msgstr "Fitxategi tamaina:"
+
+#: src/info.c:369
+msgid "Dimensions:"
+msgstr "Neurriak:"
+
+#: src/info.c:370
+msgid "Transparent:"
+msgstr "Gardena:"
+
+#: src/info.c:371 src/print.c:3371
+msgid "Image size:"
+msgstr "Irudi tamaina:"
+
+#: src/info.c:373
+msgid "Compress ratio:"
+msgstr "Konpresio erratioa:"
+
+#: src/info.c:374
+msgid "File type:"
+msgstr "Fitxategi mota:"
+
+#: src/info.c:376
+msgid "Owner:"
+msgstr "Jabea:"
+
+#: src/info.c:377
+msgid "Group:"
+msgstr "Taldea:"
+
+#: src/info.c:380 src/preferences.c:830
+msgid "General"
+msgstr "Orokorra"
+
+#: src/info.c:461
+#, c-format
+msgid "Image %d of %d"
+msgstr "%d Irudia %d-tik"
+
+#: src/info.c:684
+msgid "Image properties - GQview"
+msgstr "Irudi propietateak - GQview"
+
+#: src/layout.c:266 src/view_file_icon.c:301 src/view_file_list.c:414
+msgid "Ascending"
+msgstr "Gorantz"
+
+#: src/layout.c:332
+msgid " Slideshow"
+msgstr " Aurkezpena"
+
+#: src/layout.c:336
+msgid " Paused"
+msgstr " Pausarazita"
+
+#: src/layout.c:353
+#, c-format
+msgid "%s, %d files (%s, %d)%s"
+msgstr "%s, %d fitxategi (%s, %d)%s"
+
+#: src/layout.c:360
+#, c-format
+msgid "%s, %d files%s"
+msgstr "%s, %d fitxategi %s"
+
+#: src/layout.c:365
+#, c-format
+msgid "%d files%s"
+msgstr "%d fitxategi%s"
+
+#: src/layout.c:394
+#, c-format
+msgid "(no read permission) %s bytes"
+msgstr "(irakurketa baimenik ez) %s byte"
+
+#: src/layout.c:398
+#, c-format
+msgid "( ? x ? ) %s bytes"
+msgstr "( ? x ? ) %s byte"
+
+#: src/layout.c:406
+#, c-format
+msgid "( %d x %d ) %s bytes"
+msgstr "( %d x %d ) %s byte"
+
+#: src/layout.c:1102
+msgid "GQview Tools"
+msgstr "GQview Tresnak"
+
+#: src/layout_config.c:57
+msgid "Tools"
+msgstr "Tresnak"
+
+#: src/layout_config.c:57 src/ui_pathsel.c:1174
+msgid "Files"
+msgstr "Fitxategiak"
+
+#: src/layout_config.c:57 src/preferences.c:895 src/print.c:110
+msgid "Image"
+msgstr "Irudia"
+
+#: src/layout_config.c:363
+msgid "(drag to change order)"
+msgstr "(mugitu ordena aldatzeko)"
+
+#: src/layout_image.c:775
+msgid "Hide file _list"
+msgstr "Fitxategi _zerrenda ezkutatu"
+
+#: src/layout_util.c:619 src/menu.c:74
+#, c-format
+msgid "in %s..."
+msgstr "%s-en..."
+
+#: src/layout_util.c:623 src/menu.c:76
+msgid "in (unknown)..."
+msgstr "non (ezezaguna)..."
+
+#: src/layout_util.c:631
+msgid "empty"
+msgstr "hutsik"
+
+#: src/layout_util.c:742
+msgid "_File"
+msgstr "_Fitxategia"
+
+#: src/layout_util.c:743 src/menu.c:91
+msgid "_Edit"
+msgstr "_Editatu"
+
+#: src/layout_util.c:744 src/menu.c:248
+msgid "_Adjust"
+msgstr "_Doitu"
+
+#: src/layout_util.c:746
+msgid "_Help"
+msgstr "_Laguntza"
+
+#: src/layout_util.c:748
+msgid "New _window"
+msgstr "Lei_ho berria"
+
+#: src/layout_util.c:749
+msgid "_New collection"
+msgstr "Bildu_ma berria"
+
+#: src/layout_util.c:750
+msgid "_Open collection..."
+msgstr "Bilduma _ireki..."
+
+#: src/layout_util.c:751
+msgid "Open _recent"
+msgstr "_Azkenak ireki"
+
+#: src/layout_util.c:752
+msgid "_Search..."
+msgstr "_Bilatu..."
+
+#: src/layout_util.c:754
+msgid "Pan _view"
+msgstr "Pan _ikuspegia"
+
+#: src/layout_util.c:755
+msgid "_Print..."
+msgstr "In_primatu..."
+
+#: src/layout_util.c:756
+msgid "N_ew folder..."
+msgstr "Karpe_ta berria..."
+
+#: src/layout_util.c:762
+msgid "_Quit"
+msgstr "Irte_n"
+
+#: src/layout_util.c:774 src/menu.c:194
+msgid "_Rotate clockwise"
+msgstr "_Biratu eskuinetaraka"
+
+#: src/layout_util.c:775 src/menu.c:197
+msgid "Rotate _counterclockwise"
+msgstr "Biratu e_zkerretaraka"
+
+#: src/layout_util.c:776
+msgid "Rotate 1_80"
+msgstr "1_80 Biratu"
+
+#: src/layout_util.c:777 src/menu.c:203
+msgid "_Mirror"
+msgstr "Is_pilua"
+
+#: src/layout_util.c:778 src/menu.c:206
+msgid "_Flip"
+msgstr "_Irauli"
+
+#: src/layout_util.c:780
+msgid "Select _all"
+msgstr "_Hautatu denak"
+
+#: src/layout_util.c:781
+msgid "Select _none"
+msgstr "_Bat ere ez hautatu"
+
+#: src/layout_util.c:782
+msgid "P_references..."
+msgstr "H_obespenak..."
+
+#: src/layout_util.c:783
+msgid "_Thumbnail maintenance..."
+msgstr "Argazkit_xo mantenua..."
+
+#: src/layout_util.c:789
+msgid "_Zoom to fit"
+msgstr "Gerturatu _doitzeko"
+
+#: src/layout_util.c:790
+msgid "F_ull screen"
+msgstr "Pa_ntaila osoa"
+
+#: src/layout_util.c:791
+msgid "_Hide file list"
+msgstr "Fitxategi zerrenda _ezkutatu"
+
+#: src/layout_util.c:792
+msgid "Toggle _slideshow"
+msgstr "Aurkezpena _txandakatu"
+
+#: src/layout_util.c:793
+msgid "_Refresh"
+msgstr "_Freskatu"
+
+#: src/layout_util.c:795
+msgid "_Contents"
+msgstr "_Edukia"
+
+#: src/layout_util.c:796
+msgid "_Keyboard shortcuts"
+msgstr "_Teklatu laster-teklak"
+
+#: src/layout_util.c:797
+msgid "_Release notes"
+msgstr "_Bertsio oharrak"
+
+#: src/layout_util.c:798
+msgid "_About"
+msgstr "_Honi buruz"
+
+#: src/layout_util.c:802 src/layout_util.c:1049
+msgid "_Thumbnails"
+msgstr "_Argazkitxoak"
+
+#: src/layout_util.c:803
+msgid "Tr_ee"
+msgstr "Zu_haitza"
+
+#: src/layout_util.c:804
+msgid "_Float file list"
+msgstr "_Fitxategi zerrenda mugikorra"
+
+#: src/layout_util.c:805
+msgid "Hide tool_bar"
+msgstr "Tresna_barra ezkutatu"
+
+#: src/layout_util.c:806
+msgid "_Keywords"
+msgstr "_Gako-hitzak"
+
+#: src/layout_util.c:807
+msgid "E_xif data"
+msgstr "E_xif datuak"
+
+#: src/layout_util.c:808
+msgid "Sort _manager"
+msgstr "Ordenatze _kudeatzailea"
+
+#: src/layout_util.c:812
+msgid "_List"
+msgstr "_Zerrenda"
+
+#: src/layout_util.c:813
+msgid "I_cons"
+msgstr "I_konoak"
+
+#: src/layout_util.c:1050
+msgid "Show thumbnails"
+msgstr "Argazkitxoak erakutsi"
+
+#: src/layout_util.c:1055
+msgid "Change to home folder"
+msgstr "Etxe karpetara aldatu"
+
+#: src/layout_util.c:1057
+msgid "Refresh file list"
+msgstr "Fitxategi zerrenda freskatu"
+
+#: src/layout_util.c:1059
+msgid "Zoom in"
+msgstr "Zooma handiagotu"
+
+#: src/layout_util.c:1061
+msgid "Zoom out"
+msgstr "Zooma txikiagotu"
+
+#: src/layout_util.c:1063 src/preferences.c:924
+msgid "Fit image to window"
+msgstr "Doitu irudia leihora"
+
+#: src/layout_util.c:1065
+msgid "Set zoom 1:1"
+msgstr "1:1 Zooma ezarri"
+
+#: src/layout_util.c:1067
+msgid "Configure options"
+msgstr "Aukerak konfiguratu"
+
+#: src/layout_util.c:1068
+msgid "_Float"
+msgstr "_Mugikorra"
+
+#: src/layout_util.c:1069
+msgid "Float Controls"
+msgstr "Kontrol Mugikorrak"
+
+#: src/main.c:266
+msgid "Help - GQview"
+msgstr "Laguntza - GQview"
+
+#: src/main.c:489 src/main.c:1305
+msgid "Command line"
+msgstr "Komando-lerroa"
+
+#. short, long                  callback,               extra, prefer,description
+#: src/main.c:527
+msgid "next image"
+msgstr "hurrengo irudia"
+
+#: src/main.c:528
+msgid "previous image"
+msgstr "aurreko irudia"
+
+#: src/main.c:529
+msgid "first image"
+msgstr "lehen irudia"
+
+#: src/main.c:530
+msgid "last image"
+msgstr "azken irudia"
+
+#: src/main.c:531
+msgid "toggle full screen"
+msgstr "pantaila oso egoera txandakatu"
+
+#: src/main.c:532
+msgid "start full screen"
+msgstr "pantaila osoa gaitu"
+
+#: src/main.c:533
+msgid "stop full screen"
+msgstr "pantaila osoa ezgaitu"
+
+#: src/main.c:534
+msgid "toggle slide show"
+msgstr "aurkezpena txandakatu"
+
+#: src/main.c:535
+msgid "start slide show"
+msgstr "aurkezpena hasi"
+
+#: src/main.c:536
+msgid "stop slide show"
+msgstr "aurkezpena gelditu"
+
+#: src/main.c:537
+msgid "start recursive slide show"
+msgstr "aurkezpen errekurtsiboa hasi"
+
+#: src/main.c:538
+msgid "set slide show delay in seconds"
+msgstr "aurkezpen atzerapena ezarri segundutan"
+
+#: src/main.c:539
+msgid "show tools"
+msgstr "tresnak ikusi"
+
+#: src/main.c:540
+msgid "hide tools"
+msgstr "tresnak ezkutatu"
+
+#: src/main.c:541
+msgid "quit"
+msgstr "irten"
+
+#: src/main.c:542
+msgid "open file"
+msgstr "fitxategia ireki"
+
+#: src/main.c:543
+msgid "open file in new window"
+msgstr "ireki fitxategia leiho berrian"
+
+#: src/main.c:609
+msgid "Remote command list:\n"
+msgstr "Urrunekoa komando zerrenda:\n"
+
+#: src/main.c:667
+msgid "Remote GQview not running, starting..."
+msgstr "Urruneko GQview ez dago martxan, abiarazten..."
+
+#: src/main.c:802
+msgid "Remote not available\n"
+msgstr "Urrunekoa ez dago erabilgarri\n"
+
+#: src/main.c:944
+msgid ""
+"Usage: gqview [options] [path]\n"
+"\n"
+msgstr ""
+"Erabilera: gqview [aukerak] [bidea]\n"
+"\n"
+
+#: src/main.c:945
+msgid "valid options are:\n"
+msgstr "aukera erabilgarriak:\n"
+
+#: src/main.c:946
+msgid "  +t, --with-tools           force show of tools\n"
+msgstr "  +t, --with-tools           tresnak ikustea behartu\n"
+
+#: src/main.c:947
+msgid "  -t, --without-tools        force hide of tools\n"
+msgstr "  -t, --without-tools        tresnak ezkutatzea behartu\n"
+
+#: src/main.c:948
+msgid "  -f, --fullscreen           start in full screen mode\n"
+msgstr "  -f, --fullscreen           pantaila oso moduan abiarazi\n"
+
+#: src/main.c:949
+msgid "  -s, --slideshow            start in slideshow mode\n"
+msgstr "  -s, --slideshow            aurkezpen moduan abiarazi\n"
+
+#: src/main.c:950
+msgid "  -l, --list                 open collection window for command line\n"
+msgstr "  -l, --list                 bilduma leihoa komando lerrorako ireki\n"
+
+#: src/main.c:951
+msgid "  -r, --remote               send following commands to open window\n"
+msgstr "  -r, --remote               komando hauek irekirriko leihora bidali\n"
+
+#: src/main.c:952
+msgid "  -rh,--remote-help          print remote command list\n"
+msgstr "  -rh,--remote-help          urruneko koamndo zerrenda inprimatu\n"
+
+#: src/main.c:953
+msgid "  --debug                    turn on debug output\n"
+msgstr "  --debug                    arazpen irteeera irten\n"
+
+#: src/main.c:954
+msgid "  -v, --version              print version info\n"
+msgstr "  -v, --version              bertsio argibideak inprimatu\n"
+
+#: src/main.c:955
+msgid ""
+"  -h, --help                 show this message\n"
+"\n"
+msgstr ""
+"  -h, --help                 laguntza testu hau inprimatu\n"
+"\n"
+
+#: src/main.c:969
+#, c-format
+msgid ""
+"invalid or ignored: %s\n"
+"Use --help for options\n"
+msgstr ""
+"baliogabea edo ez ikusia: %s\n"
+"--help erabili aukerentzat\n"
+
+#: src/main.c:1034
+#, c-format
+msgid "Creating GQview dir:%s\n"
+msgstr "GQview direktorioa sortzen:%s\n"
+
+#: src/main.c:1040
+#, c-format
+msgid "Could not create dir:%s\n"
+msgstr "Ezin da direktorioa sortu:%s\n"
+
+#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1042
+msgid "Home"
+msgstr "Etxea"
+
+#: src/main.c:1063 src/ui_bookmark.c:865
+msgid "Desktop"
+msgstr "Mahaigaina"
+
+#: src/main.c:1152
+msgid "GQview - exit"
+msgstr "GQview - irten"
+
+#: src/main.c:1156
+msgid "Quit GQview"
+msgstr "GQview Utzi"
+
+#: src/main.c:1156
+msgid "Collections have been modified. Quit anyway?"
+msgstr "Bildumak aldatu egin dira. Irten hala ere?"
+
+#: src/menu.c:115
+msgid "Sort by size"
+msgstr "Tamainaz ordenatu"
+
+#: src/menu.c:118
+msgid "Sort by date"
+msgstr "Dataz ordenatu"
+
+#: src/menu.c:121
+msgid "Unsorted"
+msgstr "Ordenatu gabe"
+
+#: src/menu.c:124
+msgid "Sort by path"
+msgstr "Bidez ordenatu"
+
+#: src/menu.c:127
+msgid "Sort by number"
+msgstr "Zenbakiz ordenatu"
+
+#: src/menu.c:131
+msgid "Sort by name"
+msgstr "Izenez ordenatu"
+
+#: src/menu.c:175
+msgid "Sort"
+msgstr "Ordenatu"
+
+#: src/menu.c:200
+msgid "Rotate _180"
+msgstr "_180 Biratu"
+
+#: src/pan-view.c:3163
+#, c-format
+msgid "%d images, %s"
+msgstr "%d irudi, %s"
+
+#: src/pan-view.c:3173
+#, c-format
+msgid "The pan view does not support the folder \"%s\"."
+msgstr "Pan ikustatzaileak ez du \"%s\" karpeta onartzen."
+
+#: src/pan-view.c:3174
+msgid "Folder not supported"
+msgstr "Karpeta ez da onartzen"
+
+#: src/pan-view.c:3228 src/pan-view.c:3244
+msgid "Reading image data..."
+msgstr "Irudi datuak irakurtzen..."
+
+#: src/pan-view.c:3303
+msgid "Sorting images..."
+msgstr "Irudiak ordenatzen..."
+
+#: src/pan-view.c:3640 src/pan-view.c:3967
+msgid "Date:"
+msgstr "Data:"
+
+#: src/pan-view.c:3650 src/preferences.c:852 src/print.c:3201 src/print.c:3408
+msgid "Size:"
+msgstr "Tamaina:"
+
+#: src/pan-view.c:3705
+msgid "path found"
+msgstr "bidea aurkitua"
+
+#: src/pan-view.c:3705
+msgid "filename found"
+msgstr "fitxategi izena ez da aurkitu"
+
+#: src/pan-view.c:3753
+msgid "partial match"
+msgstr "parekatze partziala"
+
+#: src/pan-view.c:3964 src/pan-view.c:3997
+msgid "no match"
+msgstr "ez dago parekatzerik"
+
+#: src/pan-view.c:4272 src/search.c:2140
+msgid "Folder not found"
+msgstr "Karpeta ez da aurkitu"
+
+#: src/pan-view.c:4273
+msgid "The entered path is not a folder"
+msgstr "Idatzirako bidea ez da karpeta bat"
+
+#: src/pan-view.c:4369
+msgid "Pan View - GQview"
+msgstr "Ikusi"
+
+#: src/pan-view.c:4391
+msgid "Timeline"
+msgstr "Denbora-lerroa"
+
+#: src/pan-view.c:4392
+msgid "Calendar"
+msgstr "Egutegia"
+
+#: src/pan-view.c:4394
+msgid "Folders (flower)"
+msgstr "Karpetak (lorea)"
+
+#: src/pan-view.c:4395
+msgid "Grid"
+msgstr "Sareta"
+
+#: src/pan-view.c:4404
+msgid "Dots"
+msgstr "Puntuak"
+
+#: src/pan-view.c:4405
+msgid "No Images"
+msgstr "Irudirik ez"
+
+#: src/pan-view.c:4406
+msgid "Small Thumbnails"
+msgstr "Argazkitxo txikiak"
+
+#: src/pan-view.c:4407
+msgid "Normal Thumbnails"
+msgstr "Argazkitxo ertainak"
+
+#: src/pan-view.c:4408
+msgid "Large Thumbnails"
+msgstr "Argazkitxo handiak"
+
+#: src/pan-view.c:4409
+msgid "1:10 (10%)"
+msgstr "1:10 (%10)"
+
+#: src/pan-view.c:4410
+msgid "1:4 (25%)"
+msgstr "1:4 (%25)"
+
+#: src/pan-view.c:4411
+msgid "1:3 (33%)"
+msgstr "1:3 (%33)"
+
+#: src/pan-view.c:4412
+msgid "1:2 (50%)"
+msgstr "1:2 (%50)"
+
+#: src/pan-view.c:4413
+msgid "1:1 (100%)"
+msgstr "1:1 (%100)"
+
+#: src/pan-view.c:4461
+msgid "Find:"
+msgstr "Bilatu:"
+
+#: src/pan-view.c:4504
+msgid "Use Exif date"
+msgstr "Exif data erabili"
+
+#: src/pan-view.c:4517
+msgid "Find"
+msgstr "Bilatu"
+
+#: src/pan-view.c:4584
+msgid "Pan View Performance"
+msgstr "Pan Ikuspegi Errendimendua"
+
+#: src/pan-view.c:4591
+msgid "Pan view performance may be poor."
+msgstr "Pan ikuspegi errendimentua baxua izan liteke."
+
+#: src/pan-view.c:4592
+msgid ""
+"To improve performance of thumbnails in the pan view the following options "
+"can be enabled. Note that both options must be enabled to notice a change in "
+"performance."
+msgstr "Pan ikuspegian argazkintxo errendimentua hobetzeko aukera hauek gaitu daitezke. Kontutan izan biak gaitu behar direla aldaketa nabaritzeko."
+
+#: src/pan-view.c:4600 src/preferences.c:855
+msgid "Cache thumbnails"
+msgstr "Argazkitxoen katxea egin"
+
+#: src/pan-view.c:4602 src/preferences.c:861
+msgid "Use shared thumbnail cache"
+msgstr "Partekatutako argazkitxo katxea erabili"
+
+#: src/pan-view.c:4608
+msgid "Do not show this dialog again"
+msgstr "Ez erakutsi elkarrizketa-koadro hau aurrerantzean"
+
+#: src/pan-view.c:4796
+msgid "Sort by E_xif date"
+msgstr "E_xif data bidez ordenatu"
+
+#: src/preferences.c:393
+msgid "Nearest (worst, but fastest)"
+msgstr "Gertuen (okerro baina azkarrena)"
+
+#: src/preferences.c:395
+msgid "Tiles"
+msgstr "Mosaikoak"
+
+#: src/preferences.c:397
+msgid "Bilinear"
+msgstr "Bilineala"
+
+#: src/preferences.c:399
+msgid "Hyper (best, but slowest)"
+msgstr "Hiper (onena, baina geldoena)"
+
+#: src/preferences.c:427
+msgid "None"
+msgstr "Bat ere ez"
+
+#: src/preferences.c:428
+msgid "Normal"
+msgstr "Normala"
+
+#: src/preferences.c:429
+msgid "Best"
+msgstr "Onena"
+
+#: src/preferences.c:507 src/print.c:365
+msgid "Custom"
+msgstr "Pertsonalizatua"
+
+#: src/preferences.c:671 src/preferences.c:674
+msgid "Reset filters"
+msgstr "Iragazkiak berezarri"
+
+#: src/preferences.c:675
+msgid ""
+"This will reset the file filters to the defaults.\n"
+"Continue?"
+msgstr ""
+"Honek iragazkiak lehentsietara berezarriko ditu.\n"
+"Jarraitu?"
+
+#: src/preferences.c:708 src/preferences.c:711
+msgid "Reset editors"
+msgstr "Editoreak berezarri"
+
+#: src/preferences.c:712
+msgid ""
+"This will reset the edit commands to the defaults.\n"
+"Continue?"
+msgstr ""
+"Edizio komandoak lehenetsietara berezarri.\n"
+"Jarraitu?"
+
+#: src/preferences.c:736 src/preferences.c:739
+msgid "Clear trash"
+msgstr "Zakarrontzia hustu"
+
+#: src/preferences.c:740
+msgid "This will remove the trash contents."
+msgstr "Honek zakarrotziko edukia ezabatuko du."
+
+#: src/preferences.c:779
+msgid "GQview Preferences"
+msgstr "GQview Hobespenak"
+
+#: src/preferences.c:833
+msgid "Startup"
+msgstr "Abioa"
+
+#: src/preferences.c:835
+msgid "Change to folder:"
+msgstr "Karpeta honetara aldatu:"
+
+#: src/preferences.c:846
+msgid "Use current"
+msgstr "Erabili unekoa"
+
+#: src/preferences.c:853 src/preferences.c:904
+msgid "Quality:"
+msgstr "Kalitatea:"
+
+#: src/preferences.c:867
+msgid "Cache thumbnails into .thumbnails"
+msgstr "Argazkitxo katxeak .thumbnails fitxategietan egin"
+
+#: src/preferences.c:871
+msgid "Use xvpics thumbnails when found (read only)"
+msgstr "Xvpic argazkitxoa erabili aurkitzean (irakurketa bakarrik)"
+
+#: src/preferences.c:875
+msgid "Faster jpeg thumbnailing (may reduce quality)"
+msgstr "Jpeg argazkitxo egite azkarra (kalitatea gutxitzen du)"
+
+#: src/preferences.c:878
+msgid "Slide show"
+msgstr "Aurkezpena"
+
+#: src/preferences.c:881
+msgid "Delay between image change:"
+msgstr "Irudien arteko denbora tartea:"
+
+#: src/preferences.c:881
+msgid "seconds"
+msgstr "segundu"
+
+#: src/preferences.c:887
+msgid "Random"
+msgstr "Ausazkoa"
+
+#: src/preferences.c:888
+msgid "Repeat"
+msgstr "Errepikatu"
+
+#: src/preferences.c:898
+msgid "Zoom"
+msgstr "Zooma"
+
+#: src/preferences.c:901
+msgid "Dithering method:"
+msgstr "Bilbatze metodoa:"
+
+#: src/preferences.c:906
+msgid "Two pass zooming"
+msgstr "Bi pasatzeko zoom-a"
+
+#: src/preferences.c:909
+msgid "Allow enlargement of image for zoom to fit"
+msgstr "Onartu - - nori"
+
+#: src/preferences.c:913
+msgid "Zoom increment:"
+msgstr "Zoom handitzea:"
+
+#: src/preferences.c:918
+msgid "When new image is selected:"
+msgstr "Irudia aukeratzerakoan:"
+
+#: src/preferences.c:921
+msgid "Zoom to original size"
+msgstr "Zoom-a jatorrziko tamainan"
+
+#: src/preferences.c:927
+msgid "Leave Zoom at previous setting"
+msgstr "Zooma dagoen bezala utzi"
+
+#: src/preferences.c:931
+msgid "Appearance"
+msgstr "Itxura"
+
+#: src/preferences.c:933
+msgid "Black background"
+msgstr "Atzeko plano beltza"
+
+#: src/preferences.c:936
+msgid "Convenience"
+msgstr "Egokiera"
+
+#: src/preferences.c:938
+msgid "Refresh on file change"
+msgstr "Fitxategia aldatzerakoan freskatu"
+
+#: src/preferences.c:940
+msgid "Preload next image"
+msgstr "Hurrengo irudia aurrekargatu"
+
+#: src/preferences.c:942
+msgid "Auto rotate image using Exif information"
+msgstr "Exif argibideen arabera irudia automatikoki biratu"
+
+#: src/preferences.c:951
+msgid "Windows"
+msgstr "Leihoak"
+
+#: src/preferences.c:954
+msgid "State"
+msgstr "Egoera"
+
+#: src/preferences.c:956
+msgid "Remember window positions"
+msgstr "Leiho kokalekua gogoratu"
+
+#: src/preferences.c:958
+msgid "Remember tool state (float/hidden)"
+msgstr "Tresna egoera gogoratu (ezkutuan/mugikorra)"
+
+#: src/preferences.c:963
+msgid "Fit window to image when tools are hidden/floating"
+msgstr "Doitu leihoa irudira tresnak mugikorrak badira edo ezkutuan badaude"
+
+#: src/preferences.c:967
+msgid "Limit size when auto-sizing window (%):"
+msgstr "Mugatu tamaina leihoaren tamaina automatikoarekin (%):"
+
+#: src/preferences.c:974 src/print.c:3356 src/print.c:3363
+msgid "Layout"
+msgstr "Diseinua"
+
+#: src/preferences.c:987
+msgid "Filtering"
+msgstr "Iragazkiak"
+
+#: src/preferences.c:992
+msgid "Show entries that begin with a dot"
+msgstr "Puntu batez haste diren sarrerak erakutsi"
+
+#: src/preferences.c:994
+msgid "Case sensitive sort"
+msgstr "Larri/xeheak bereiziz ordenatu"
+
+#: src/preferences.c:997
+msgid "Disable File Filtering"
+msgstr "Fitxategi Iragaztea Ezgaitu"
+
+#: src/preferences.c:1000
+msgid "File types"
+msgstr "Fitxategi motak"
+
+#: src/preferences.c:1022
+msgid "Filter"
+msgstr "Iragazkia"
+
+#: src/preferences.c:1059 src/preferences.c:1123
+msgid "Defaults"
+msgstr "Lehenespenak"
+
+#: src/preferences.c:1080
+msgid "Editors"
+msgstr "Editoreak"
+
+#: src/preferences.c:1086
+msgid "#"
+msgstr "#"
+
+#: src/preferences.c:1089
+msgid "Menu name"
+msgstr "Menu izena"
+
+#: src/preferences.c:1092
+msgid "Command Line"
+msgstr "Komando-lerroa"
+
+#: src/preferences.c:1139
+msgid "Advanced"
+msgstr "Aurreratua"
+
+#: src/preferences.c:1152
+msgid "Full screen"
+msgstr "Pantaila osoa"
+
+#: src/preferences.c:1160
+msgid "Smooth image flip"
+msgstr "Irudi iraulketa leuna"
+
+#: src/preferences.c:1162
+msgid "Disable screen saver"
+msgstr "Pantaila babeslea ezgaitu"
+
+#: src/preferences.c:1165
+msgid "Delete"
+msgstr "Ezabatu"
+
+#: src/preferences.c:1167
+msgid "Confirm file delete"
+msgstr "Berretsi fitxategi ezabatzea"
+
+#: src/preferences.c:1169
+msgid "Enable Delete key"
+msgstr "Gaitu Ezabatu tekla"
+
+#: src/preferences.c:1172
+msgid "Safe delete"
+msgstr "Ezabatze ziurra"
+
+#: src/preferences.c:1190
+msgid "Maximum size:"
+msgstr "Gehienezko tamaina:"
+
+#: src/preferences.c:1190
+msgid "MB"
+msgstr "MB"
+
+#: src/preferences.c:1193
+msgid "View"
+msgstr "Ikusi"
+
+#: src/preferences.c:1203
+msgid "Behavior"
+msgstr "Portaera"
+
+#: src/preferences.c:1205
+msgid "Rectangular selection in icon view"
+msgstr "Hautapen karratua ikono ikuspegian"
+
+#: src/preferences.c:1208
+msgid "Descend folders in tree view"
+msgstr "Karpetak jesiten joan zuhaitz ikuspegian"
+
+#: src/preferences.c:1211
+msgid "In place renaming"
+msgstr "Geratzen den lekuan"
+
+#: src/preferences.c:1214
+msgid "Navigation"
+msgstr "Nabigazioa"
+
+#: src/preferences.c:1216
+msgid "Progressive keyboard scrolling"
+msgstr "Teklatu korritze progresiboa"
+
+#: src/preferences.c:1218
+msgid "Mouse wheel scrolls image"
+msgstr "Saguaren gurpilak irudia korritzen du"
+
+#: src/preferences.c:1221
+msgid "Miscellaneous"
+msgstr "Bestelakoak"
+
+#: src/preferences.c:1223
+msgid "Store keywords and comments local to source images"
+msgstr "Gako-hitz eta iruzkin lokalak jatorrizko irudietan gorde"
+
+#: src/preferences.c:1226
+msgid "Custom similarity threshold:"
+msgstr "Antzekotasun muga pertsonalizatua:"
+
+#: src/preferences.c:1229
+msgid "Offscreen cache size (Mb per image):"
+msgstr "Pantailaz kanpoko katxe tamaina (Mb argazki bakoitzeko):"
+
+#: src/preferences.c:1305
+msgid "About - GQview"
+msgstr "Honi buruz - GQview"
+
+#: src/preferences.c:1318
+#, c-format
+msgid ""
+"GQview %s\n"
+"\n"
+"Copyright (c) %s John Ellis\n"
+"website: %s\n"
+"email: %s\n"
+"\n"
+"Released under the GNU General Public License"
+msgstr ""
+"GQview %s\n"
+"\n"
+"Copyright-a (c) %s John Ellis\n"
+"webgunea: %s\n"
+"eposta: %s\n"
+"\n"
+"GNU Lizentzi Publiko Ororkorraz argitaraturik"
+
+#: src/preferences.c:1336
+msgid "Credits..."
+msgstr "Kredituak..."
+
+#: src/print.c:111
+msgid "Selection"
+msgstr "Hautapena"
+
+#: src/print.c:112
+msgid "All"
+msgstr "Denak"
+
+#: src/print.c:123
+msgid "One image per page"
+msgstr "Irudi bat orri bakoitzean"
+
+#: src/print.c:124
+msgid "Proof sheet"
+msgstr "Orri muga"
+
+#: src/print.c:137
+msgid "Default printer"
+msgstr "Inprimagailu lehenetsia"
+
+#: src/print.c:138
+msgid "Custom printer"
+msgstr "Pertsonalizatuko inprimagailua"
+
+#: src/print.c:139
+msgid "PostScript file"
+msgstr "PostScript fitxategia"
+
+#: src/print.c:140
+msgid "Image file"
+msgstr "Irudi fitxategia"
+
+#: src/print.c:154
+msgid "jpeg, low quality"
+msgstr "jpeg, kalitate txikia"
+
+#: src/print.c:155
+msgid "jpeg, normal quality"
+msgstr "jpeg, kalitate normala"
+
+#: src/print.c:156
+msgid "jpeg, high quality"
+msgstr "jpeg, kalitate handia"
+
+#: src/print.c:350 src/print.c:3201
+msgid "points"
+msgstr "puntuak"
+
+#: src/print.c:351
+msgid "millimeters"
+msgstr "milimetro"
+
+#: src/print.c:352
+msgid "centimeters"
+msgstr "zentimentro"
+
+#: src/print.c:353
+msgid "inches"
+msgstr "hazbete"
+
+#: src/print.c:354
+msgid "picas"
+msgstr "pika"
+
+#: src/print.c:359
+msgid "Portrait"
+msgstr "Bertikala"
+
+#: src/print.c:360
+msgid "Landscape"
+msgstr "Horizontala"
+
+#: src/print.c:366
+msgid "Letter"
+msgstr "Eskutitza"
+
+#. in 8.5 x 11
+#: src/print.c:367
+msgid "Legal"
+msgstr "Legala"
+
+#. in 8.5 x 14
+#: src/print.c:368
+msgid "Executive"
+msgstr "Exekutiboa"
+
+#. in 7.25x 10.5
+#. mm 841 x 1189
+#. mm 594 x 841
+#. mm 420 x 594
+#. mm 297 x 420
+#. mm 210 x 297
+#. mm 148 x 210
+#. mm 105 x 148
+#. mm 353 x 500
+#. mm 250 x 353
+#. mm 176 x 250
+#. mm 125 x 176
+#: src/print.c:380
+msgid "Envelope #10"
+msgstr "#10 Gutun-azala"
+
+#. in 4.125 x 9.5
+#: src/print.c:381
+msgid "Envelope #9"
+msgstr "#9 Gutun-azala"
+
+#. in 3.875 x 8.875
+#: src/print.c:382
+msgid "Envelope C4"
+msgstr "C4 Gutun-azala"
+
+#. mm 229 x 324
+#: src/print.c:383
+msgid "Envelope C5"
+msgstr "C5 Gutun-azala"
+
+#. mm 162 x 229
+#: src/print.c:384
+msgid "Envelope C6"
+msgstr "C6 Gutun-azala"
+
+#. mm 114 x 162
+#: src/print.c:385
+msgid "Photo 6x4"
+msgstr "6x4 Argazkia"
+
+#. in 6   x 4
+#: src/print.c:386
+msgid "Photo 8x10"
+msgstr "8x10 Argazkia"
+
+#. in 8   x 10
+#: src/print.c:387
+msgid "Postcard"
+msgstr "Postala"
+
+#. mm 100 x 148
+#: src/print.c:388
+msgid "Tabloid"
+msgstr "Tabloidea"
+
+#: src/print.c:544
+#, c-format
+msgid "page %d of %d"
+msgstr "%d orria %d orrialdetik"
+
+#: src/print.c:736 src/utilops.c:2278
+msgid "Preview"
+msgstr "Aurrebista"
+
+#: src/print.c:1044
+#, c-format
+msgid ""
+"Unable to open pipe for writing.\n"
+"\"%s\""
+msgstr ""
+"Ezin da tutua idazketarako ireki.\n"
+"\"%s\""
+
+#: src/print.c:1059 src/print.c:1488 src/ui_pathsel.c:423
+#: src/view_file_list.c:454
+#, c-format
+msgid "A file with name %s already exists."
+msgstr "%s izeneko fitxategi bat badago dagoeneko."
+
+#: src/print.c:1074 src/print.c:1543
+#, c-format
+msgid "Failure writing to file %s"
+msgstr "Huts %s fitxategian idaztrakoan"
+
+#: src/print.c:1128 src/print.c:1165 src/print.c:1201 src/print.c:1307
+#: src/print.c:1398 src/print.c:1429
+msgid "SIGPIPE error writing to printer."
+msgstr "SIGPIPE errorea inprimagailuan idazterakoan."
+
+#: src/print.c:1964
+#, c-format
+msgid "Page %d"
+msgstr "%d orrialdea"
+
+#: src/print.c:1986 src/print.c:1991
+msgid "Printing error"
+msgstr "Inprimatze errorea"
+
+#: src/print.c:1990
+#, c-format
+msgid "An error occured printing to %s."
+msgstr "%s-en inprimatzerakoan errore bat gertatu da."
+
+#: src/print.c:1994
+msgid "Details"
+msgstr "Xehetasunak"
+
+#: src/print.c:2587 src/print.c:3332
+msgid "Print - GQview"
+msgstr "Inprimatu - GQview"
+
+#: src/print.c:2591
+#, c-format
+msgid "Printing %d pages to %s."
+msgstr "%d orria inprimatzen %s orrialdetatik."
+
+#: src/print.c:2691
+msgid "Format:"
+msgstr "Formatua:"
+
+#: src/print.c:2766
+msgid "Units:"
+msgstr "Unitateak:"
+
+#: src/print.c:2810
+msgid "Orientation:"
+msgstr "Orientazioa:"
+
+#: src/print.c:2942
+msgid "Destination:"
+msgstr "Helburua:"
+
+#: src/print.c:2990
+msgid "<printer name>"
+msgstr "<inprimagailu izena>"
+
+#: src/print.c:3079
+msgid "Unlimited"
+msgstr "Mugagabea"
+
+#: src/print.c:3188
+msgid "Show"
+msgstr "Erakutsi"
+
+#: src/print.c:3199
+msgid "Font"
+msgstr "Letra-tipoa"
+
+#: src/print.c:3359
+msgid "Source"
+msgstr "Iturburua"
+
+#: src/print.c:3375
+msgid "Proof size:"
+msgstr "Muga tamaina:"
+
+#: src/print.c:3391
+msgid "Text"
+msgstr "Testua"
+
+#: src/print.c:3401
+msgid "Paper"
+msgstr "Papera"
+
+#: src/print.c:3424
+msgid "Margins"
+msgstr "Marjinak"
+
+#: src/print.c:3426
+msgid "Left:"
+msgstr "Ezkerrean:"
+
+#: src/print.c:3429
+msgid "Right:"
+msgstr "Eskuinean:"
+
+#: src/print.c:3432
+msgid "Top:"
+msgstr "Goian:"
+
+#: src/print.c:3435
+msgid "Bottom:"
+msgstr "Behean:"
+
+#: src/print.c:3444
+msgid "Printer"
+msgstr "Inprimagailua"
+
+#: src/print.c:3450
+msgid "Custom printer:"
+msgstr "Inprmagailu pertsonalizatua:"
+
+#: src/print.c:3459
+msgid "File:"
+msgstr "Fitxategia:"
+
+#: src/print.c:3468
+msgid "File format:"
+msgstr "Fitxategi formatua:"
+
+#: src/print.c:3473
+msgid "DPI:"
+msgstr "DPI:"
+
+#: src/print.c:3481
+msgid "Remember print settings"
+msgstr "Inprimatze ezarpenak gogoratu"
+
+#: src/rcfile.c:185
+#, c-format
+msgid "error saving config file: %s\n"
+msgstr "erreoa konfigurazio fitxategia gordetzerakoan: %s\n"
+
+#: src/search.c:200
+msgid "folder"
+msgstr "karpeta"
+
+#: src/search.c:201
+msgid "comments"
+msgstr "iruzkinak"
+
+#: src/search.c:202
+msgid "results"
+msgstr "emaitzak"
+
+#: src/search.c:206
+msgid "contains"
+msgstr "edukia"
+
+#: src/search.c:207
+msgid "is"
+msgstr " - "
+
+#: src/search.c:211 src/search.c:218
+msgid "equal to"
+msgstr "berdin"
+
+#: src/search.c:212
+msgid "less than"
+msgstr "txikiago"
+
+#: src/search.c:213
+msgid "greater than"
+msgstr "handiago"
+
+#: src/search.c:214 src/search.c:221
+msgid "between"
+msgstr "tartean"
+
+#: src/search.c:219
+msgid "before"
+msgstr "lehenago"
+
+#: src/search.c:220
+msgid "after"
+msgstr "geroago"
+
+#: src/search.c:225
+msgid "match all"
+msgstr "denak aurkitu"
+
+#: src/search.c:226
+msgid "match any"
+msgstr "edozein aurkitu"
+
+#: src/search.c:227
+msgid "exclude"
+msgstr "alboan utzi"
+
+#: src/search.c:277
+#, c-format
+msgid "%s, %d files (%s, %d)"
+msgstr "%s, %d fitxategiak (%s, %d)"
+
+#: src/search.c:284
+#, c-format
+msgid "%s, %d files"
+msgstr "%s, %d fitxategiak"
+
+#: src/search.c:301
+msgid "Searching..."
+msgstr "Bilatzen..."
+
+#: src/search.c:2093
+msgid "File not found"
+msgstr "Ez da fitxategia aurkitu"
+
+#: src/search.c:2094
+msgid "Please enter an existing file for image content."
+msgstr "Idatzi dagoen fitxategi bat irudi edukiarentzat."
+
+#: src/search.c:2141
+msgid "Please enter an existing folder to search."
+msgstr "Hauatatu karpeta bat bilaketarako."
+
+#: src/search.c:2570
+msgid "Image search - GQview"
+msgstr "Irudi bilaketa - GQview"
+
+#: src/search.c:2599
+msgid "Search:"
+msgstr "Bilatu:"
+
+#: src/search.c:2613
+msgid "Recurse"
+msgstr "Errekurtsiboa"
+
+#: src/search.c:2617
+msgid "File name"
+msgstr "Fitxategi izena"
+
+#: src/search.c:2623
+msgid "Match case"
+msgstr "Parekatze kasua"
+
+#: src/search.c:2627
+msgid "File size is"
+msgstr "Fitxategia tamaina"
+
+#: src/search.c:2634 src/search.c:2649 src/search.c:2667
+msgid "and"
+msgstr "eta"
+
+#: src/search.c:2639
+msgid "File date is"
+msgstr "Fitxategia data"
+
+#: src/search.c:2656
+msgid "Image dimensions are"
+msgstr "Irudi dimentsioak"
+
+#: src/search.c:2676
+msgid "Image content is"
+msgstr "Irudi edukia"
+
+#: src/search.c:2682
+#, no-c-format
+msgid "% similar to"
+msgstr "% antzekotasuna"
+
+#: src/search.c:2751
+msgid "Rank"
+msgstr "Sailkapena"
+
+#: src/thumb.c:379
+msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
+msgstr "Huts katxeko irudiaren argazkitxoa kargatzerakoan, birsortzen saiatzen.\n"
+
+#: src/ui_bookmark.c:148
+#, c-format
+msgid "Unable to write history lists to: %s\n"
+msgstr "Ezin da historioa zerrenda hemen idatzi: %s\n"
+
+#: src/ui_bookmark.c:445 src/ui_bookmark.c:508
+msgid "New Bookmark"
+msgstr "Laster-marka berria"
+
+#: src/ui_bookmark.c:591 src/ui_bookmark.c:597
+msgid "Edit Bookmark"
+msgstr "Laster-markak Editatu"
+
+#: src/ui_bookmark.c:612
+msgid "Path:"
+msgstr "Bidea:"
+
+#: src/ui_bookmark.c:621
+msgid "Icon:"
+msgstr "Ikonoa:"
+
+#: src/ui_bookmark.c:627
+msgid "Select icon"
+msgstr "Hautatu ikonoa"
+
+#: src/ui_bookmark.c:718
+msgid "_Properties..."
+msgstr "_Propietateak..."
+
+#: src/ui_bookmark.c:720
+msgid "Move _up"
+msgstr "Lekuz aldatu gora"
+
+#: src/ui_bookmark.c:722
+msgid "Move _down"
+msgstr "Lekuz aldatu behera"
+
+#: src/ui_bookmark.c:724
+msgid "_Remove"
+msgstr "_Kendu"
+
+#: src/ui_help.c:111
+#, c-format
+msgid ""
+"Unable to load:\n"
+"%s"
+msgstr ""
+"Ezin da kargatu:\n"
+"%s"
+
+#: src/ui_pathsel.c:429 src/utilops.c:2663
+#, c-format
+msgid "Failed to rename %s to %s."
+msgstr "Huts %s-tik %s-ra berrizentdatzerakoan."
+
+#: src/ui_pathsel.c:485 src/utilops.c:1347 src/utilops.c:1520
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+"%s"
+msgstr ""
+"Ezin da fitxategia ezabatu:\n"
+"%s"
+
+#: src/ui_pathsel.c:486 src/utilops.c:1521
+msgid "File deletion failed"
+msgstr "Huts fitxategia ezabatzean"
+
+#: src/ui_pathsel.c:528 src/ui_pathsel.c:536
+msgid "Delete file"
+msgstr "Fitxategia ezabatu"
+
+#: src/ui_pathsel.c:534
+#, c-format
+msgid ""
+"About to delete the file:\n"
+" %s"
+msgstr ""
+"Fitxategia ezabatzeari buruz:\n"
+"%s"
+
+#: src/ui_pathsel.c:625 src/ui_pathsel.c:633 src/utilops.c:2244
+#: src/utilops.c:2497
+msgid "_Rename"
+msgstr "Be_rrizendatu"
+
+#: src/ui_pathsel.c:627 src/ui_pathsel.c:637
+msgid "Add _Bookmark"
+msgstr "_Laster-marka Gehitu"
+
+#: src/ui_pathsel.c:635
+msgid "_Delete"
+msgstr "E_zabatu"
+
+#: src/ui_pathsel.c:739 src/ui_pathsel.c:1044
+msgid "New folder"
+msgstr "Karpeta berria"
+
+#: src/ui_pathsel.c:749 src/utilops.c:2569 src/view_dir_list.c:330
+#: src/view_dir_tree.c:426
+#, c-format
+msgid ""
+"Unable to create folder:\n"
+"%s"
+msgstr ""
+"Ezin da karpeta sortu:\n"
+"%s"
+
+#: src/ui_pathsel.c:750 src/utilops.c:2570 src/view_dir_list.c:331
+#: src/view_dir_tree.c:427
+msgid "Error creating folder"
+msgstr "Errorea karpeta sortzerakoan"
+
+#: src/ui_pathsel.c:971
+msgid "All Files"
+msgstr "Fitxategi denak"
+
+#: src/ui_pathsel.c:1047
+msgid "Show hidden"
+msgstr "Erakutsi ezkutukoak"
+
+#: src/ui_pathsel.c:1131
+msgid "Filter:"
+msgstr "Iragazkia:"
+
+#: src/ui_tabcomp.c:857
+msgid "Select path"
+msgstr "Bidea hautatu"
+
+#: src/ui_tabcomp.c:873
+msgid "All files"
+msgstr "Fitxategi guztiak"
+
+#: src/utilops.c:498 src/utilops.c:819 src/utilops.c:1709 src/utilops.c:2428
+msgid "Overwrite file"
+msgstr "Fitxategia gainidatzi"
+
+#: src/utilops.c:503 src/utilops.c:824 src/utilops.c:1714 src/utilops.c:2433
+msgid "Overwrite file?"
+msgstr "Fitxategia gainidatzi?"
+
+#: src/utilops.c:504 src/utilops.c:825
+msgid "Replace existing file with new file."
+msgstr "Dagoen fitxategia fitxategi berriaz ordeztu."
+
+#: src/utilops.c:508
+msgid "Overwrite _all"
+msgstr "Den_ak gainidatzi"
+
+#: src/utilops.c:510
+msgid "S_kip all"
+msgstr "Denak saltatu"
+
+#: src/utilops.c:511
+msgid "_Skip"
+msgstr "_Saltatu"
+
+#: src/utilops.c:512 src/utilops.c:829 src/utilops.c:1719 src/utilops.c:2438
+msgid "Existing file"
+msgstr "Dagoen fitxategia"
+
+#: src/utilops.c:512 src/utilops.c:829 src/utilops.c:1719 src/utilops.c:2438
+msgid "New file"
+msgstr "Fitxategi berria"
+
+#: src/utilops.c:522 src/utilops.c:838 src/utilops.c:1853 src/utilops.c:1909
+#: src/utilops.c:1985 src/utilops.c:2316
+msgid "Auto rename"
+msgstr "Berrizendaketa automatikoa"
+
+#: src/utilops.c:530 src/utilops.c:846
+msgid "Rename"
+msgstr "Berrizendatu"
+
+#: src/utilops.c:571
+msgid "Source to copy matches destination"
+msgstr "Kopiatze jatorria helbururaren berdina da"
+
+#: src/utilops.c:572
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to itself."
+msgstr ""
+"Ezin da fitxategia kopiatu:\n"
+"%s\n"
+"bere burura."
+
+#: src/utilops.c:576
+msgid "Source to move matches destination"
+msgstr "Mugitze jatorria helbururaren berdina da"
+
+#: src/utilops.c:577
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to itself."
+msgstr ""
+"Ezin da fitxategi mugitu:\\m"
+"%s\\m"
+"bere burura."
+
+#: src/utilops.c:585 src/utilops.c:672 src/utilops.c:1339
+msgid "Co_ntinue"
+msgstr "Jar_raitu"
+
+#: src/utilops.c:658 src/utilops.c:886
+msgid "Error copying file"
+msgstr "Errorea fitxategia kopiatzerakoan"
+
+#: src/utilops.c:659
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s\n"
+"during multiple file copy."
+msgstr ""
+"Ezin da fitxategia kopiatu:\n"
+"%s\n"
+"nora:\n"
+"%s\n"
+"kopiatze anitz batetan."
+
+#: src/utilops.c:663 src/utilops.c:891
+msgid "Error moving file"
+msgstr "Errorea fitxategia mugitzerkoan"
+
+#: src/utilops.c:664
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s\n"
+"during multiple file move."
+msgstr ""
+"Ezin da fitxategi hau mugitu:\n"
+"%s\n"
+"nora:\n"
+"%s\n"
+"fitxategi anitz mugitzerakoan."
+
+#: src/utilops.c:810
+msgid "Source matches destination"
+msgstr "Jatorria helburruaren berdina da"
+
+#: src/utilops.c:811
+msgid "Source and destination are the same, operation cancelled."
+msgstr "Jatorria eta helburua berdina da, alde batetara utzia."
+
+#: src/utilops.c:887
+#, c-format
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Ezin da fitxategia kopiatu:\n"
+"%s\n"
+"nora:\n"
+"%s"
+
+#: src/utilops.c:892
+#, c-format
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Ezin da fitxategia mugitu:\n"
+"%s\n"
+"nora:\\m"
+"%s"
+
+#: src/utilops.c:940
+msgid "Invalid destination"
+msgstr "Helburu baliogabea"
+
+#: src/utilops.c:941
+msgid ""
+"When operating with multiple files, please select\n"
+"a folder, not a file."
+msgstr ""
+"Fitxategi anitzekin lan egiterakoan karpeta bat\n"
+"hautatu ez fitxategi bat."
+
+#: src/utilops.c:946
+msgid "Please select an existing folder."
+msgstr "Mwsedez karpeta bat hautatu."
+
+#: src/utilops.c:1015
+msgid "Copy - GQview"
+msgstr "Kopiatu - GQview"
+
+#: src/utilops.c:1016 src/view_dir_list.c:209 src/view_dir_tree.c:301
+msgid "_Copy"
+msgstr "K_opiatu"
+
+#: src/utilops.c:1019
+msgid "Copy file"
+msgstr "Fitxategia kopiatu"
+
+#: src/utilops.c:1023
+msgid "Copy multiple files"
+msgstr "Fitxategi anitz kopiatu"
+
+#: src/utilops.c:1029
+msgid "Move - GQview"
+msgstr "Mugitu - GQview"
+
+#: src/utilops.c:1030 src/view_dir_list.c:211 src/view_dir_tree.c:303
+msgid "_Move"
+msgstr "_Mugitu"
+
+#: src/utilops.c:1033
+msgid "Move file"
+msgstr "Fitxategia mugitu"
+
+#: src/utilops.c:1037
+msgid "Move multiple files"
+msgstr "Fitxategi anitz mugitu"
+
+#: src/utilops.c:1051 src/utilops.c:1561
+msgid "File name:"
+msgstr "Fitxategi-izena:"
+
+#: src/utilops.c:1055
+msgid "Choose the destination folder."
+msgstr "Helburu karpeta aukeratu."
+
+#: src/utilops.c:1182 src/utilops.c:1331 src/utilops.c:1348
+msgid "Delete failed"
+msgstr "Huts ezabatzerakoan"
+
+#: src/utilops.c:1183
+msgid "Unable to remove old file from trash folder"
+msgstr "Ezin da fitxategi zaharra zakarrontzitik ezabatu"
+
+#: src/utilops.c:1239 src/utilops.c:2562
+msgid "Could not create folder"
+msgstr "Ezin da karpeta sortu"
+
+#: src/utilops.c:1261
+msgid "Permission denied"
+msgstr "Baimena ukatuta"
+
+#: src/utilops.c:1271
+#, c-format
+msgid ""
+"Unable to access or create the trash folder.\n"
+"\"%s\""
+msgstr ""
+"Ezin da zakarronitzi karpeta sortzeko sarrera eskuratu.\n"
+"\"%s\""
+
+#: src/utilops.c:1275
+msgid "Turn off safe delete"
+msgstr "Ezabatze ziurra ezgaitu"
+
+#: src/utilops.c:1293
+#, c-format
+msgid "Safe delete: %s"
+msgstr "Ezabatze ziurra: %s"
+
+#: src/utilops.c:1335
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+" %s\n"
+" Continue multiple delete operation?"
+msgstr ""
+"Ezin da fitxategia ezabaru:\n"
+"%s\n"
+"Ezabatze anitz ekintzarekin jarraitu?"
+
+#: src/utilops.c:1406
+#, c-format
+msgid "File %d of %d"
+msgstr "%d fitxategia %d-tik"
+
+#: src/utilops.c:1475
+msgid "Delete files - GQview"
+msgstr "Fitxategiak ezabatu - GQview"
+
+#: src/utilops.c:1479
+msgid "Delete multiple files"
+msgstr "Fitxategi anitz ezabatu"
+
+#: src/utilops.c:1497
+#, c-format
+msgid "Review %d files"
+msgstr "Berrikusi %d fitxategiak"
+
+#: src/utilops.c:1553
+msgid "Delete file - GQview"
+msgstr "Fitxategia ezabatu - GQview"
+
+#: src/utilops.c:1557
+msgid "Delete file?"
+msgstr "Fitxategia ezabatu?"
+
+#: src/utilops.c:1715 src/utilops.c:2434
+msgid "Replace existing file by renaming new file."
+msgstr "Dagoen fitxategia berriaz ordeztu."
+
+#: src/utilops.c:1730
+#, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+" to:\n"
+"%s"
+msgstr ""
+"Ezin da fitxategia berrizendatu:\\m"
+"%s\n"
+"nora:\n"
+"%s"
+
+#: src/utilops.c:1733 src/utilops.c:2449 src/view_file_list.c:449
+#: src/view_file_list.c:455 src/view_file_list.c:461
+msgid "Error renaming file"
+msgstr "Errorea fitxategia berrizendatzerakoan"
+
+#: src/utilops.c:1854
+msgid "Format must include at least one of the symbol characters '*' or '#'.\n"
+msgstr "Formatuan behintzat '*' edo '#'karaktere bat eduki behar du.\n"
+
+#: src/utilops.c:1910
+msgid ""
+"Can not auto rename with the selected\n"
+"number set, one or more files exist that\n"
+"match the resulting name list.\n"
+msgstr ""
+"Ezin da aukeratutako sorta zenbakiaz berrizendatu,\n"
+"dagoeneko badago fitxategi bat beintzat helburu\n"
+"izen zerrenda dagoena.\n"
+
+#: src/utilops.c:1984
+#, c-format
+msgid ""
+"Failed to rename\n"
+"%s\n"
+"The number was %d."
+msgstr ""
+"Huts berizendatzerakoan\n"
+"%s\n"
+"Zenbakia %d zen."
+
+#: src/utilops.c:2240 src/utilops.c:2491
+msgid "Rename - GQview"
+msgstr "Berizendatu - GQview"
+
+#: src/utilops.c:2243
+msgid "Rename multiple files"
+msgstr "Fitxategi anitz berrizendatu"
+
+#: src/utilops.c:2277
+msgid "Original Name"
+msgstr "Jatorrizko Izena"
+
+#: src/utilops.c:2314
+msgid "Manual rename"
+msgstr "Eskuzko berrizendaketa"
+
+#: src/utilops.c:2315
+msgid "Formatted rename"
+msgstr "Formatudun berrizendaketa"
+
+#: src/utilops.c:2328 src/utilops.c:2504
+msgid "Original name:"
+msgstr "Jaotrrizko izena:"
+
+#: src/utilops.c:2331 src/utilops.c:2507
+msgid "New name:"
+msgstr "Izen berria:"
+
+#: src/utilops.c:2349
+msgid "Begin text"
+msgstr "Hasiera testua"
+
+#: src/utilops.c:2357 src/utilops.c:2389
+msgid "Start #"
+msgstr "Hasi #"
+
+#: src/utilops.c:2363
+msgid "End text"
+msgstr "Amaiera testua"
+
+#: src/utilops.c:2371
+msgid "Padding:"
+msgstr "Betegarria:"
+
+#: src/utilops.c:2381
+msgid "Format (* = original name, ## = numbers)"
+msgstr "Formatua"
+
+#: src/utilops.c:2448 src/view_file_list.c:460
+#, c-format
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Ezin da fitxategi berrizendatu:\n"
+"%s-tik\n"
+"%s-ra"
+
+#: src/utilops.c:2494
+msgid "Rename file"
+msgstr "Fitxategia berrizendatu"
+
+#: src/utilops.c:2555 src/utilops.c:2645
+#, c-format
+msgid ""
+"The folder:\n"
+"%s\n"
+"already exists."
+msgstr ""
+"Karpeta hau:\n"
+"%s\n"
+"badago dagoeneko."
+
+#: src/utilops.c:2556 src/utilops.c:2646
+msgid "Folder exists"
+msgstr "Karpeta badago"
+
+#: src/utilops.c:2561 src/utilops.c:2654
+#, c-format
+msgid ""
+"The path:\n"
+"%s\n"
+"already exists as a file."
+msgstr ""
+"Bide hau:\n"
+"%s\n"
+"fitxategi bat da dagoeneko."
+
+#: src/utilops.c:2613
+msgid "New folder - GQview"
+msgstr "Karpeta berria - GQview"
+
+#: src/utilops.c:2616
+#, c-format
+msgid ""
+"Create folder in:\n"
+"%s\n"
+"named:"
+msgstr ""
+"Hemen karpeta bat sortu:\n"
+"%s\n"
+"izena:"
+
+#: src/utilops.c:2655 src/utilops.c:2664
+msgid "Rename failed"
+msgstr "Huts berrizendatzerakoan"
+
+#: src/view_dir_list.c:321 src/view_dir_tree.c:417
+msgid "new_folder"
+msgstr "_karpeta berria"
+
+#: src/view_dir_list.c:379 src/view_dir_tree.c:474
+msgid "_Up to parent"
+msgstr "_Gora"
+
+#: src/view_dir_list.c:384 src/view_dir_tree.c:479
+msgid "_Slideshow"
+msgstr "_Aurkezpena"
+
+#: src/view_dir_list.c:386 src/view_dir_tree.c:481
+msgid "Slideshow recursive"
+msgstr "Aurkezpen errekurtsiboa"
+
+#: src/view_dir_list.c:390 src/view_dir_tree.c:485
+msgid "Find _duplicates..."
+msgstr "Bikoi_ztuak bilatu..."
+
+#: src/view_dir_list.c:392 src/view_dir_tree.c:487
+msgid "Find duplicates recursive..."
+msgstr "Bikoiztuak errekurtsiboki bilatu..."
+
+#: src/view_dir_list.c:399 src/view_dir_tree.c:494
+msgid "_New folder..."
+msgstr "Ka_rpeta berria..."
+
+#: src/view_dir_list.c:411 src/view_dir_tree.c:501
+msgid "View as _tree"
+msgstr "Zu_haitza bezala ikusi"
+
+#: src/view_dir_list.c:413 src/view_dir_tree.c:503 src/view_file_icon.c:311
+#: src/view_file_list.c:424
+msgid "Re_fresh"
+msgstr "_Freskatu"
+
+#: src/view_file_icon.c:304 src/view_file_list.c:417
+msgid "_Sort"
+msgstr "_Ordenatu"
+
+#: src/view_file_icon.c:307 src/view_file_list.c:420
+msgid "View as _icons"
+msgstr "Ikonoak bezala _ikusi"
+
+#: src/view_file_list.c:422
+msgid "Show _thumbnails"
+msgstr "Ar_gazkitxoak bistarazi"
+
+#: src/view_file_list.c:448
+#, c-format
+msgid ""
+"Invalid file name:\n"
+"%s"
+msgstr ""
+"Fitxategi izen baliogabea:\n"
+"%s"
+

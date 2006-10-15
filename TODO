@@ -25,14 +25,6 @@ Major:
      looking for the make TIFF tag (0x10f) as it may not always fit within data available from
      the first read() in image-load.c.
 
-  d> make a generic tiff header and directory parser from the nikon parser for use by all raw
-     parsers that involve tiff.
-
-  d> clean up canon parser (there are now many convenience utils to simplify tiff header, etc.):
-     d> canon_read_int can be substituted with, or wrap exif_get_int16/32.
-     d> CR2 tiff code can now use exif_tiff_directory_offset.
-
-  d> support olympus MakerNote, investigate RAW (raw embedded jpeg appears to be tiny).
    > support konica / minolta MakerNote, investigate RAW.
 
    > exif.c parser should not be using EXIF tags during tiff directory search for EXIF tag.
@@ -52,7 +44,6 @@ Major:
   d> optimize pixbuf_draw_triangle
      > introduced bug (round error?)
    > check ref counting of image when redrawing after finish loading
-  d> speed up sorting image.. stage when sorting/merging cache list
 
    > add control to toggle 'ignore folder symlinks'
    > the folder tree should not have to be re-read when changing options
@@ -79,18 +70,11 @@ Major:
 
   ---
 
-d> fix window size hints not to use USER_SIZE as we do not use gtk_window_resize to set the hint's attribute, and
-   apparently GTK passes in unitialized values for this case (definite programming error, but also a GTK bug?).
-
  > the info dialog is not set as a transient of the calling window, this causes it to be behind
    a full screen window when 'stay above other windows' is enabled.
 
  > folder tree view shortcuts for expanding/collapsing leak through to the main
    window (+,-,*,/, etc.), figure what behavior is desired and fix this.
-
-d> add a formatted auto-rename option, such that simply typing new_file_name_*_### will result in
-   renaming to file with * replaced by original name without extension, and ### by ascending number,
-   and maintain extension.
 
   --- Doc updates:
 
@@ -99,8 +83,7 @@ d> add a formatted auto-rename option, such that simply typing new_file_name_*_#
 
  -------------
 
-d> update translations: be(x) ca(x) de(x) fi(x) fr(x) it(x) ko(x) pl(x) pt_BR(x) sk(x) zh_TW(x)
-d> post-trans updates: fix ...zoom to fit. fuzzies, as all we did was remove the period
+ > update translations: eu(x)
 
  > document recent additions/changes:
    > Added 'Fast jpeg thumbnailing'.
