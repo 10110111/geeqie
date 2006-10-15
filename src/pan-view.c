@@ -288,7 +288,7 @@ static GList *pan_window_layout_list(const gchar *path, SortType sort, gint asce
 
 static GList *pan_layout_intersect(PanWindow *pw, gint x, gint y, gint width, gint height);
 
-static void pan_layout_resize(PanWindow *pw, gint border);
+static void pan_layout_resize(PanWindow *pw);
 
 static void pan_window_layout_update_idle(PanWindow *pw);
 
@@ -1076,6 +1076,13 @@ static PanItem *pan_item_new_image(PanWindow *pw, FileData *fd, gint x, gint y, 
 	pi->fd = fd;
 	pi->x = x;
 	pi->y = y;
+
+	pi->color_a = 255;
+
+	pi->color2_r = 0;
+	pi->color2_g = 0;
+	pi->color2_b = 0;
+	pi->color2_a = PAN_SHADOW_ALPHA / 2;
 
 	pan_item_image_find_size(pw, pi, w, h);
 
@@ -2000,7 +2007,7 @@ static void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 	pan_item_box_shadow(pbox, PAN_SHADOW_OFFSET * 2, PAN_SHADOW_FADE * 2);
 	pan_item_added(pw, pbox);
 
-	pan_layout_resize(pw, 100);
+	pan_layout_resize(pw);
 }
 
 static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path, gint *width, gint *height)
@@ -2532,7 +2539,7 @@ static GList *pan_layout_intersect(PanWindow *pw, gint x, gint y, gint width, gi
 	return list;
 }
 
-static void pan_layout_resize(PanWindow *pw, gint border)
+static void pan_layout_resize(PanWindow *pw)
 {
 	gint width = 0;
 	gint height = 0;
@@ -2562,8 +2569,8 @@ static void pan_layout_resize(PanWindow *pw, gint border)
 		if (height < pi->y + pi->height) height = pi->y + pi->height;
 		}
 
-	width += border;
-	height += border;
+	width += PAN_FOLDER_BOX_BORDER * 2;
+	height += PAN_FOLDER_BOX_BORDER * 2;
 
 	pr = PIXBUF_RENDERER(pw->imd->pr);
 	if (width < pr->window_width) width = pr->window_width;
@@ -2749,7 +2756,11 @@ static gint pan_layout_queue_step(PanWindow *pw)
 static void pan_layout_queue(PanWindow *pw, PanItem *pi)
 {
 	if (!pi || pi->queued || pi->pixbuf) return;
-	if (pw->size <= LAYOUT_SIZE_THUMB_NONE) return;
+	if (pw->size <= LAYOUT_SIZE_THUMB_NONE &&
+	    (!pi->key || strcmp(pi->key, "info") != 0) )
+		{
+		return;
+		}
 
 	pi->queued = TRUE;
 	pw->queue = g_list_prepend(pw->queue, pi);
@@ -2935,13 +2946,13 @@ static gint pan_window_request_tile_cb(PixbufRenderer *pr, gint x, gint y,
 							     (double) pi->x - x,
 							     (double) pi->y - y,
 							     1.0, 1.0, GDK_INTERP_NEAREST,
-							     255);
+							     pi->color_a);
 					}
 				else
 					{
 					pixbuf_draw_rect_fill(pixbuf,
 							      rx - x, ry - y, rw, rh,
-							      PAN_SHADOW_COLOR, PAN_SHADOW_ALPHA / 2);
+							      pi->color2_r, pi->color2_g, pi->color2_b, pi->color2_a);
 					pan_layout_queue(pw, pi);
 					}
 				}
@@ -3704,6 +3715,29 @@ static void pan_info_update(PanWindow *pw, PanItem *pi)
 
 	pan_item_box_shadow(pbox, PAN_SHADOW_OFFSET * 2, PAN_SHADOW_FADE * 2);
 	pan_item_added(pw, pbox);
+
+	if (TRUE)
+		{
+		gint iw, ih;
+		if (image_load_dimensions(pi->fd->path, &iw, &ih))
+			{
+			pbox = pan_item_new_box(pw, NULL, pbox->x, pbox->y + pbox->height + 8, 10, 10,
+						PAN_POPUP_BORDER,
+						PAN_POPUP_COLOR, PAN_POPUP_ALPHA,
+						PAN_POPUP_BORDER_COLOR, PAN_POPUP_ALPHA);
+			pan_item_set_key(pbox, "info");
+
+			p = pan_item_new_image(pw, file_data_new_simple(pi->fd->path),
+					       pbox->x + 8, pbox->y + 8, iw, ih);
+			pan_item_set_key(p, "info");
+			pan_item_size_by_item(pbox, p, 8);
+
+			pan_item_box_shadow(pbox, PAN_SHADOW_OFFSET * 2, PAN_SHADOW_FADE * 2);
+			pan_item_added(pw, pbox);
+
+			pan_layout_resize(pw);
+			}
+		}
 }
 
 
@@ -4081,6 +4115,13 @@ static void button_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer data)
 		{
 		rx = (double)(pr->x_scroll + event->x - pr->x_offset) / pr->scale;
 		ry = (double)(pr->y_scroll + event->y - pr->y_offset) / pr->scale;
+		}
+
+	pi = pan_item_find_by_coord(pw, ITEM_BOX, rx, ry, "info");
+	if (pi && event->button == 1)
+		{
+		pan_info_update(pw, NULL);
+		return;
 		}
 
 	pi = pan_item_find_by_coord(pw, (pw->size > LAYOUT_SIZE_THUMB_LARGE) ? ITEM_IMAGE : ITEM_THUMB,
