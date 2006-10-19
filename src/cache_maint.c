@@ -995,19 +995,19 @@ static void cache_manager_standard_clean_start_cb(GenericDialog *gd, gpointer da
 
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(cd->progress), _("running..."));
 
-	path = g_strconcat(homedir(), "/", THUMB_FOLDER, "/", THUMB_FOLDER_NORMAL, NULL);
+	path = g_strconcat(homedir(), "/", THUMB_FOLDER_GLOBAL, "/", THUMB_FOLDER_NORMAL, NULL);
 	list = NULL;
 	path_list(path, &list, NULL);
 	cd->list = list;
 	g_free(path);
 
-	path = g_strconcat(homedir(), "/", THUMB_FOLDER, "/", THUMB_FOLDER_LARGE, NULL);
+	path = g_strconcat(homedir(), "/", THUMB_FOLDER_GLOBAL, "/", THUMB_FOLDER_LARGE, NULL);
 	list = NULL;
 	path_list(path, &list, NULL);
 	cd->list = g_list_concat(cd->list, list);
 	g_free(path);
 
-	path = g_strconcat(homedir(), "/", THUMB_FOLDER, "/", THUMB_FOLDER_FAIL, NULL);
+	path = g_strconcat(homedir(), "/", THUMB_FOLDER_GLOBAL, "/", THUMB_FOLDER_FAIL, NULL);
 	list = NULL;
 	path_list(path, &list, NULL);
 	cd->list = g_list_concat(cd->list, list);
@@ -1195,7 +1195,7 @@ void cache_manager_show(void)
 
 	group = pref_group_new(gd->vbox, FALSE, _("Shared thumbnail cache"), GTK_ORIENTATION_VERTICAL);
 
-	buf = g_strconcat(_("Location:"), " ", homedir(), "/", THUMB_FOLDER, NULL);
+	buf = g_strconcat(_("Location:"), " ", homedir(), "/", THUMB_FOLDER_GLOBAL, NULL);
 	label = pref_label_new(group, buf);
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
 	g_free(buf);

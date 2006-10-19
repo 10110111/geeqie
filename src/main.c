@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -1056,6 +1056,8 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 		{
 		*path = first_dir;
 		first_dir = NULL;
+
+		parse_out_relatives(*path);
 		}
 	g_free(first_dir);
 

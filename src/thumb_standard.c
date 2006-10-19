@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2005 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -145,12 +145,12 @@ static gchar *thumb_std_cache_path(const gchar *path, const gchar *uri, gint loc
 		gchar *base;
 
 		base = remove_level_from_path(path);
-		cache_base = g_strconcat(base, "/", THUMB_FOLDER, "/", cache_subfolder, NULL);
+		cache_base = g_strconcat(base, "/", THUMB_FOLDER_LOCAL, "/", cache_subfolder, NULL);
 		g_free(base);
 		}
 	else
 		{
-		cache_base = g_strconcat(homedir(), "/", THUMB_FOLDER, "/", cache_subfolder, NULL);
+		cache_base = g_strconcat(homedir(), "/", THUMB_FOLDER_GLOBAL, "/", cache_subfolder, NULL);
 		}
 
 	md5_get_digest((guchar *)uri, strlen(uri), digest);
@@ -169,16 +169,7 @@ static gchar *thumb_std_cache_path(const gchar *path, const gchar *uri, gint loc
 
 static gchar *thumb_loader_std_cache_path(ThumbLoaderStd *tl, gint local, GdkPixbuf *pixbuf, gint fail)
 {
-#if 0
-	gchar *result = NULL;
-	gchar *cache_base;
-#endif
 	const gchar *folder_size;
-#if 0
-	const gchar *uri;
-	gchar *md5_text;
-	guchar digest[16];
-#endif
 	gint w, h;
 
 	if (!tl->source_path || !tl->thumb_uri) return NULL;
@@ -210,35 +201,6 @@ static gchar *thumb_loader_std_cache_path(ThumbLoaderStd *tl, gint local, GdkPix
 	return thumb_std_cache_path(tl->source_path,
 				    (local) ?  tl->local_uri : tl->thumb_uri,
 				    local, folder_size);
-
-#if 0
-	if (local)
-		{
-		gchar *base;
-
-		base = remove_level_from_path(tl->source_path);
-		cache_base = g_strconcat(base, "/", THUMB_FOLDER, "/", folder_size, NULL);
-		g_free(base);
-		}
-	else
-		{
-		cache_base = g_strconcat(homedir(), "/", THUMB_FOLDER, "/", folder_size, NULL);
-		}
-
-	uri = (local) ? tl->local_uri : tl->thumb_uri;
-	md5_get_digest(uri, strlen(uri), digest);
-	md5_text = md5_digest_to_text(digest);
-
-	if (cache_base && md5_text)
-		{
-		result = g_strconcat(cache_base, "/", md5_text, THUMB_NAME_EXTENSION, NULL);
-		}
-
-	g_free(cache_base);
-	g_free(md5_text);
-
-	return result;
-#endif
 }
 
 static gint thumb_loader_std_fail_check(ThumbLoaderStd *tl)
@@ -700,7 +662,7 @@ gint thumb_loader_std_start(ThumbLoaderStd *tl, const gchar *path)
 	tl->source_size = st.st_size;
 	tl->source_mode = st.st_mode;
 
-	if (!thumb_cache) thumb_cache = g_strconcat(homedir(), "/", THUMB_FOLDER, NULL);
+	if (!thumb_cache) thumb_cache = g_strconcat(homedir(), "/", THUMB_FOLDER_GLOBAL, NULL);
 	if (strncmp(tl->source_path, thumb_cache, strlen(thumb_cache)) != 0)
 		{
 		gchar *pathl;

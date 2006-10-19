@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2005 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -14,7 +14,8 @@
 #define THUMB_STANDARD_H
 
 
-#define THUMB_FOLDER        ".thumbnails"
+#define THUMB_FOLDER_GLOBAL ".thumbnails"
+#define THUMB_FOLDER_LOCAL  ".thumblocal"
 #define THUMB_FOLDER_NORMAL "normal"
 #define THUMB_FOLDER_LARGE  "large"
 #define THUMB_FOLDER_FAIL   "fail/gqview-1.0"

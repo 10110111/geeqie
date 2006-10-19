@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -15,6 +15,7 @@
 
 #include "cache.h"
 #include "rcfile.h"
+#include "thumb_standard.h"
 #include "ui_fileops.h"
 
 
@@ -707,7 +708,8 @@ gint filelist_read(const gchar *path, GList **files, GList **dirs)
 					if ((dirs) &&
 					    !(name[0] == '.' && (name[1] == '\0' || (name[1] == '.' && name[2] == '\0'))) &&
 					    strcmp(name, GQVIEW_CACHE_LOCAL_THUMB) != 0 &&
-					    strcmp(name, GQVIEW_CACHE_LOCAL_METADATA) != 0)
+					    strcmp(name, GQVIEW_CACHE_LOCAL_METADATA) != 0 &&
+					    strcmp(name, THUMB_FOLDER_LOCAL) != 0)
 						{
 						dlist = g_list_prepend(dlist, file_data_new(filepath, &ent_sbuf));
 						}
