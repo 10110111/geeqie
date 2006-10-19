@@ -1177,3 +1177,50 @@ void pixbuf_draw_shadow(GdkPixbuf *pb,
 }
 
 
+/*
+ *-----------------------------------------------------------------------------
+ * pixbuf color alterations
+ *-----------------------------------------------------------------------------
+ */
+
+void pixbuf_desaturate_rect(GdkPixbuf *pb,
+			    gint x, gint y, gint w, gint h)
+{
+	gint p_alpha;
+	gint pw, ph, prs;
+	guchar *p_pix;
+	guchar *pp;
+	gint i, j;
+
+	if (!pb) return;
+
+	pw = gdk_pixbuf_get_width(pb);
+	ph = gdk_pixbuf_get_height(pb);
+
+	if (x < 0 || x + w > pw) return;
+	if (y < 0 || y + h > ph) return;
+
+	p_alpha = gdk_pixbuf_get_has_alpha(pb);
+	prs = gdk_pixbuf_get_rowstride(pb);
+	p_pix = gdk_pixbuf_get_pixels(pb);
+
+        for (i = 0; i < h; i++)
+		{
+		pp = p_pix + (y + i) * prs + (x * (p_alpha ? 4 : 3));
+		for (j = 0; j < w; j++)
+			{
+			guint8 grey;
+
+			grey = (pp[0] + pp[1] + pp[2]) / 3;
+			*pp = grey;
+			pp++;
+			*pp = grey;
+			pp++;
+			*pp = grey;
+			pp++;
+			if (p_alpha) pp++;
+			}
+		}
+}
+
+

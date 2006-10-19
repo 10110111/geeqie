@@ -29,7 +29,8 @@ typedef enum {
 	ALTER_ROTATE_90_CC,	/* counterclockwise */
 	ALTER_ROTATE_180,
 	ALTER_MIRROR,
-	ALTER_FLIP
+	ALTER_FLIP,
+	ALTER_DESATURATE
 } AlterType;
 
 typedef enum {

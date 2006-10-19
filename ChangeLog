@@ -1,3 +1,12 @@
+Thu Oct 19 15:20:51 2006  John Ellis  <johne@verizon.net>
+
+	* image.c, typedefs.h: Add ALTER_DESATURATE alteration type.
+	* img-view.c, layout_image.c, layout_util.c, menu.c: Allow to grayscale
+	the display of current image with [Shift]+[G] kyboard shortcut and
+	'adjust' submenu item.
+	* pixbuf_util.[ch] (pixbuf_desaturate_rect): Implement grayscale
+	function.
+
 Thu Oct 19 09:35:18 2006  John Ellis  <johne@verizon.net>
 
 	* layout.[ch] (layout_new_with_geometry): New function to create a

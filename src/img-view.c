@@ -413,7 +413,10 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 			image_zoom_set_fill_geometry(imd, TRUE);
 			break;
 		case 'R': case 'r':
-			image_reload(imd);
+			if (!event->state & GDK_SHIFT_MASK)
+				{
+				image_reload(imd);
+				}
 			break;
 		case 'S': case 's':
 			if (vw->ss)
@@ -550,6 +553,10 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 				break;
 			case 'F': case 'f':
 				image_alter(imd, ALTER_FLIP);
+				stop_signal = TRUE;
+				break;
+			case 'G': case 'g':
+				image_alter(imd, ALTER_DESATURATE);
 				stop_signal = TRUE;
 				break;
 			default:

@@ -206,6 +206,11 @@ static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp)
 			new = pixbuf_copy_mirror(pr->pixbuf, FALSE, TRUE);
 			y = pr->height - y;
 			break;
+		case ALTER_DESATURATE:
+			pixbuf_desaturate_rect(pr->pixbuf,
+					       0, 0,  pr->image_width, pr->image_height);
+			image_area_changed(imd, 0, 0, pr->image_width, pr->image_height);
+			break;
 		case ALTER_NONE:
 		default:
 			return;

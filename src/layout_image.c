@@ -203,7 +203,10 @@ static gint layout_image_full_screen_key_press_cb(GtkWidget *widget, GdkEventKey
 			stop_signal = TRUE;
 			break;
 		case 'R': case 'r':
-			layout_refresh(lw);
+			if (!(event->state & GDK_SHIFT_MASK))
+				{
+				layout_refresh(lw);
+				}
 			break;
 		case 'S': case 's':
 			layout_image_slideshow_toggle(lw);
@@ -303,6 +306,10 @@ static gint layout_image_full_screen_key_press_cb(GtkWidget *widget, GdkEventKey
 				break;
 			case 'F': case 'f':
 				layout_image_alter(lw, ALTER_FLIP);
+				stop_signal = TRUE;
+				break;
+			case 'G': case 'g':
+				layout_image_alter(lw, ALTER_DESATURATE);
 				stop_signal = TRUE;
 				break;
 			default:

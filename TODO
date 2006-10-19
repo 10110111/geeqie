@@ -90,6 +90,7 @@ Major:
    > xvpics is now hidden option.
    > Holding down shift will now scroll more when panning with mouse.
    > add --geometry command line option
+   > add [shift]+G grayscale alteration
 
    > add blurb about moving images between collections with shift+drag
 
@@ -106,6 +107,12 @@ d> allow multiple command line dirs to work as expected
  > when resizing/refreshing collection window, keep the same top left thumbnail visible
 
  > do not lose slideshow when reworking window layout.
+
+ > fix printing of transparent images to not use black for transparency (white or user settable).
+
+ > add [control]+G to display as greyscale
+
+ > fix comment field in keywords bar to a height of 2 or 3 text lines.
 
  > add toolbar to: (UPDATE: these toolbars may not make it into 1.6)
    > find dupes window (with button to open dialog to add new files/folders)

@@ -77,6 +77,10 @@ void pixbuf_draw_shadow(GdkPixbuf *pb,
 			gint x, gint y, gint w, gint h, gint border,
 			guint8 r, guint8 g, guint8 b, guint8 a);
 
+void pixbuf_desaturate_rect(GdkPixbuf *pb,
+			    gint x, gint y, gint w, gint h);
+
+
 /* clipping utils */
 
 gint util_clip_region(gint x, gint y, gint w, gint h,
