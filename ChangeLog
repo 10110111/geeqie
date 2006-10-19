@@ -2,8 +2,9 @@ Thu Oct 19 15:20:51 2006  John Ellis  <johne@verizon.net>
 
 	* image.c, typedefs.h: Add ALTER_DESATURATE alteration type.
 	* img-view.c, layout_image.c, layout_util.c, menu.c: Allow to grayscale
-	the display of current image with [Shift]+[G] kyboard shortcut and
-	'adjust' submenu item.
+	the display of current image with [Shift]+[G] keyboard shortcut and
+	'adjust' submenu item. Also fixed bug of [Shift]+[R] shortcut from also
+	activating refresh [R].
 	* pixbuf_util.[ch] (pixbuf_desaturate_rect): Implement grayscale
 	function.
 
