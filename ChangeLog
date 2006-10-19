@@ -1,3 +1,8 @@
+Thu Oct 19 07:42:38 2006  John Ellis  <johne@verizon.net>
+
+	* utilops.c: Fix minimum allowed auto-rename value to be zero again,
+	but keep the default at 1.
+
 Thu Oct 19 07:23:37 2006  John Ellis  <johne@verizon.net>
 
 	* cache_maint.c, thumb_standard.[ch]: Use .thumblocal when saving
