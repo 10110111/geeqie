@@ -906,7 +906,8 @@ static void parse_command_line_process_file(const gchar *file_path, gchar **path
 }
 
 static void parse_command_line(int argc, char *argv[], gchar **path, gchar **file,
-			       GList **cmd_list, GList **collection_list)
+			       GList **cmd_list, GList **collection_list,
+			       gchar **geometry)
 {
 	GList *list = NULL;
 	GList *remote_list = NULL;
@@ -977,6 +978,10 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 				{
 				startup_command_line_collection = TRUE;
 				}
+			else if (strncmp(cmd_line, "--geometry=", 11) == 0)
+				{
+				if (!*geometry) *geometry = g_strdup(cmd_line + 11);
+				}
 			else if (strcmp(cmd_line, "-r") == 0 ||
 				 strcmp(cmd_line, "--remote") == 0)
 				{
@@ -1019,6 +1024,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 				print_term(_("  -f, --fullscreen           start in full screen mode\n"));
 				print_term(_("  -s, --slideshow            start in slideshow mode\n"));
 				print_term(_("  -l, --list                 open collection window for command line\n"));
+				print_term(_("      --geometry=GEOMETRY    set main window location\n"));
 				print_term(_("  -r, --remote               send following commands to open window\n"));
 				print_term(_("  -rh,--remote-help          print remote command list\n"));
 				print_term(_("  --debug                    turn on debug output\n"));
@@ -1261,6 +1267,7 @@ int main (int argc, char *argv[])
 	GList *cmd_list = NULL;
 	GList *collection_list = NULL;
 	CollectionData *first_collection = NULL;
+	gchar *geometry = NULL;
 	gchar *buf;
 	gchar *bufl;
 
@@ -1281,7 +1288,7 @@ int main (int argc, char *argv[])
 	setup_default_options();
 	load_options();
 
-	parse_command_line(argc, argv, &cmd_path, &cmd_file, &cmd_list, &collection_list);
+	parse_command_line(argc, argv, &cmd_path, &cmd_file, &cmd_list, &collection_list, &geometry);
 
 	gtk_init (&argc, &argv);
 
@@ -1341,7 +1348,7 @@ int main (int argc, char *argv[])
 		path = get_current_dir();
 		}
 
-	lw = layout_new(NULL, tools_float, tools_hidden);
+	lw = layout_new_with_geometry(NULL, tools_float, tools_hidden, geometry);
 	layout_sort_set(lw, file_sort_method, file_sort_ascending);
 
 	if (collection_list && !startup_command_line_collection)
@@ -1428,6 +1435,7 @@ int main (int argc, char *argv[])
 			}
 		}
 
+	g_free(geometry);
 	g_free(cmd_path);
 	g_free(cmd_file);
 	path_list_free(cmd_list);

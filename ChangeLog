@@ -1,3 +1,9 @@
+Thu Oct 19 09:35:18 2006  John Ellis  <johne@verizon.net>
+
+	* layout.[ch] (layout_new_with_geometry): New function to create a
+	layout sized to an X geometry string.
+	* main.c: Add support for --geometry on the command line.
+
 Thu Oct 19 07:42:38 2006  John Ellis  <johne@verizon.net>
 
 	* utilops.c: Fix minimum allowed auto-rename value to be zero again,

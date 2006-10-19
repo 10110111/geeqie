@@ -1600,9 +1600,15 @@ static gint layout_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer dat
 
 LayoutWindow *layout_new(const gchar *path, gint popped, gint hidden)
 {
+	return layout_new_with_geometry(path, popped, hidden, NULL);
+}
+
+LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidden,
+				       const gchar *geometry)
+{
 	LayoutWindow *lw;
-	GdkGeometry geometry;
-	GdkWindowHints hints;
+	GdkGeometry hint;
+	GdkWindowHints hint_mask;
 
 	lw = g_new0(LayoutWindow, 1);
 
@@ -1661,19 +1667,19 @@ LayoutWindow *layout_new(const gchar *path, gint popped, gint hidden)
 
 	if (save_window_positions)
 		{
-		hints = GDK_HINT_USER_POS;
+		hint_mask = GDK_HINT_USER_POS;
 		}
 	else
 		{
-		hints = 0;
+		hint_mask = 0;
 		}
 
-	geometry.min_width = 32;
-	geometry.min_height = 32;
-	geometry.base_width = MAINWINDOW_DEF_WIDTH;
-	geometry.base_height = MAINWINDOW_DEF_HEIGHT;
-	gtk_window_set_geometry_hints(GTK_WINDOW(lw->window), NULL, &geometry,
-				      GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE | hints);
+	hint.min_width = 32;
+	hint.min_height = 32;
+	hint.base_width = 0;
+	hint.base_height = 0;
+	gtk_window_set_geometry_hints(GTK_WINDOW(lw->window), NULL, &hint,
+				      GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE | hint_mask);
 
 	if (save_window_positions)
 		{
@@ -1720,6 +1726,14 @@ LayoutWindow *layout_new(const gchar *path, gint popped, gint hidden)
 	/* set up the time stat timeout */
 	lw->last_time = 0;
 	lw->last_time_id = g_timeout_add(5000, layout_check_for_update_cb, lw);
+
+	if (geometry)
+		{
+		if (!gtk_window_parse_geometry(GTK_WINDOW(lw->window), geometry))
+			{
+			print_term(_("Invalid geometry\n"));
+			}
+		}
 
 	gtk_widget_show(lw->window);
 	layout_tools_hide(lw, lw->tools_hidden);

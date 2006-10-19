@@ -17,6 +17,8 @@ extern GList *layout_window_list;
 
 
 LayoutWindow *layout_new(const gchar *path, gint popped, gint hidden);
+LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidden,
+				       const gchar *geometry);
 
 void layout_close(LayoutWindow *lw);
 void layout_free(LayoutWindow *lw);
