@@ -1024,46 +1024,39 @@ static void collection_table_menu_pos_cb(GtkMenu *menu, gint *x, gint *y, gboole
 static gint collection_table_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	CollectTable *ct = data;
-	gint stop_signal = FALSE;
 	gint focus_row = 0;
 	gint focus_col = 0;
 	CollectInfo *info;
+	gint stop_signal;
 
+	stop_signal = TRUE;
 	switch (event->keyval)
 		{
 		case GDK_Left: case GDK_KP_Left:
 			focus_col = -1;
-			stop_signal = TRUE;
 			break;
 		case GDK_Right: case GDK_KP_Right:
 			focus_col = 1;
-			stop_signal = TRUE;
 			break;
 		case GDK_Up: case GDK_KP_Up:
 			focus_row = -1;
-			stop_signal = TRUE;
 			break;
 		case GDK_Down: case GDK_KP_Down:
 			focus_row = 1;
-			stop_signal = TRUE;
 			break;
 		case GDK_Page_Up: case GDK_KP_Page_Up:
 			focus_row = -page_height(ct);
-			stop_signal = TRUE;
 			break;
 		case GDK_Page_Down: case GDK_KP_Page_Down:
 			focus_row = page_height(ct);
-			stop_signal = TRUE;
 			break;
 		case GDK_Home: case GDK_KP_Home:
 			focus_row = -ct->focus_row;
 			focus_col = -ct->focus_column;
-			stop_signal = TRUE;
 			break;
 		case GDK_End: case GDK_KP_End:
 			focus_row = ct->rows - 1 - ct->focus_row;
 			focus_col = ct->columns - 1 - ct->focus_column;
-			stop_signal = TRUE;
 			break;
 		case GDK_space:
 			info = collection_table_find_data(ct, ct->focus_row, ct->focus_column, NULL);
@@ -1080,7 +1073,6 @@ static gint collection_table_press_key_cb(GtkWidget *widget, GdkEventKey *event,
 					collection_table_select(ct, info);
 					}
 				}
-			stop_signal = TRUE;
 			break;
 		case 'T': case 't':
 			if (event->state & GDK_CONTROL_MASK) collection_table_toggle_filenames(ct);
@@ -1095,9 +1087,9 @@ static gint collection_table_press_key_cb(GtkWidget *widget, GdkEventKey *event,
 
 			ct->popup = collection_table_popup_menu(ct, (info != NULL));
 			gtk_menu_popup(GTK_MENU(ct->popup), NULL, NULL, collection_table_menu_pos_cb, ct, 0, GDK_CURRENT_TIME);
-			stop_signal = TRUE;
 			break;
 		default:
+			stop_signal = FALSE;
 			break;
 		}
 
@@ -1139,7 +1131,9 @@ static gint collection_table_press_key_cb(GtkWidget *widget, GdkEventKey *event,
 
 	if (stop_signal)
 		{
+#if 0
 		g_signal_stop_emission_by_name(GTK_OBJECT(widget), "key_press_event");
+#endif
 		tip_unschedule(ct);
 		}
 

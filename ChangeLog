@@ -1,3 +1,9 @@
+Fri Oct 20 09:20:10 2006  John Ellis  <johne@verizon.net>
+
+	* collect-table.c, collect.c, dupe.c, pan-view.c, search.c,
+	view_file_icon.c: Keypress signal handler code clean-up round 2: the
+	remaining files. Make control and shift logic easier to follow.
+
 Fri Oct 20 08:00:08 2006  John Ellis  <johne@verizon.net>
 
 	* img-view.c, layout_image.c, layout_util.c: Keypress signal handler

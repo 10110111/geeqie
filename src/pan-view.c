@@ -3413,23 +3413,20 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 
 	if (focused)
 		{
+		stop_signal = TRUE;
 		switch (event->keyval)
 			{
 			case GDK_Left: case GDK_KP_Left:
 				x -= 1;
-				stop_signal = TRUE;
 				break;
 			case GDK_Right: case GDK_KP_Right:
 				x += 1;
-				stop_signal = TRUE;
 				break;
 			case GDK_Up: case GDK_KP_Up:
 				y -= 1;
-				stop_signal = TRUE;
 				break;
 			case GDK_Down: case GDK_KP_Down:
 				y += 1;
-				stop_signal = TRUE;
 				break;
 			case GDK_Page_Up: case GDK_KP_Page_Up:
 				pixbuf_renderer_scroll(pr, 0, 0 - pr->vis_height / 2);
@@ -3443,88 +3440,30 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 			case GDK_End: case GDK_KP_End:
 				pixbuf_renderer_scroll(pr, pr->vis_width / 2, 0);
 				break;
+			default:
+				stop_signal = FALSE;
+				break;
+			}
+
+		if (x != 0 || y!= 0)
+			{
+			if (event->state & GDK_SHIFT_MASK)
+				{
+				x *= 3;
+				y *= 3;
+				}
+			keyboard_scroll_calc(&x, &y, event);
+			pixbuf_renderer_scroll(pr, x, y);
 			}
 		}
 
-	if (focused && !(event->state & GDK_CONTROL_MASK) )
-	    switch (event->keyval)
-		{
-		case '+': case '=': case GDK_KP_Add:
-			pixbuf_renderer_zoom_adjust(pr, ZOOM_INCREMENT);
-			break;
-		case '-': case GDK_KP_Subtract:
-			pixbuf_renderer_zoom_adjust(pr, -ZOOM_INCREMENT);
-			break;
-		case 'Z': case 'z': case GDK_KP_Divide: case '1':
-			pixbuf_renderer_zoom_set(pr, 1.0);
-			break;
-		case '2':
-			pixbuf_renderer_zoom_set(pr, 2.0);
-			break;
-		case '3':
-			pixbuf_renderer_zoom_set(pr, 3.0);
-			break;
-		case '4':
-			pixbuf_renderer_zoom_set(pr, 4.0);
-			break;
-		case '7':
-			pixbuf_renderer_zoom_set(pr, -4.0);
-			break;
-		case '8':
-			pixbuf_renderer_zoom_set(pr, -3.0);
-			break;
-		case '9':
-			pixbuf_renderer_zoom_set(pr, -2.0);
-			break;
-		case 'F': case 'f':
-		case 'V': case 'v':
-			pan_fullscreen_toggle(pw, FALSE);
-			stop_signal = TRUE;
-			break;
-		case 'I': case 'i':
-#if 0
-			pan_overlay_toggle(pw);
-#endif
-			break;
-		case GDK_Delete: case GDK_KP_Delete:
-			break;
-		case '/':
-			if (!pw->fs)
-				{
-				if (GTK_WIDGET_VISIBLE(pw->search_box))
-					{
-					gtk_widget_grab_focus(pw->search_entry);
-					}
-				else
-					{
-					gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), TRUE);
-					}
-				stop_signal = TRUE;
-				}
-			break;
-		case GDK_Escape:
-			if (pw->fs)
-				{
-				pan_fullscreen_toggle(pw, TRUE);
-				stop_signal = TRUE;
-				}
-			else if (GTK_WIDGET_VISIBLE(pw->search_entry))
-				{
-				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), FALSE);
-				stop_signal = TRUE;
-				}
-			break;
-		case GDK_Menu:
-		case GDK_F10:
-			menu = pan_popup_menu(pw);
-			gtk_menu_popup(GTK_MENU(menu), NULL, NULL, pan_window_menu_pos_cb, pw, 0, GDK_CURRENT_TIME);
-			stop_signal = TRUE;
-			break;
-		}
+	if (stop_signal) return stop_signal;
 
 	if (event->state & GDK_CONTROL_MASK)
 		{
 		gint n = -1;
+
+		stop_signal = TRUE;
 		switch (event->keyval)
 			{
 			case '1':
@@ -3575,7 +3514,11 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 			case 'W': case 'w':
 				pan_window_close(pw);
 				break;
+			default:
+				stop_signal = FALSE;
+				break;
 			}
+
 		if (n != -1 && path)
 			{
 			if (!editor_window_flag_set(n))
@@ -3583,40 +3526,119 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 				pan_fullscreen_toggle(pw, TRUE);
 				}
 			start_editor_from_file(n, path);
-			stop_signal = TRUE;
 			}
 		}
-	else if (event->state & GDK_SHIFT_MASK)
+	else
 		{
-		x *= 3;
-		y *= 3;
-		}
-	else if (!focused)
-		{
-		switch (event->keyval)
+		if (focused)
 			{
-			case GDK_Escape:
-				if (pw->fs)
-					{
-					pan_fullscreen_toggle(pw, TRUE);
-					stop_signal = TRUE;
-					}
-				else if (GTK_WIDGET_HAS_FOCUS(pw->search_entry))
-					{
-					gtk_widget_grab_focus(GTK_WIDGET(pw->imd->widget));
-					gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), FALSE);
-					stop_signal = TRUE;
-					}
-			break;
-			default:
-				break;
+			stop_signal = TRUE;
+			switch (event->keyval)
+				{
+				case '+': case '=': case GDK_KP_Add:
+					pixbuf_renderer_zoom_adjust(pr, ZOOM_INCREMENT);
+					break;
+				case '-': case GDK_KP_Subtract:
+					pixbuf_renderer_zoom_adjust(pr, -ZOOM_INCREMENT);
+					break;
+				case 'Z': case 'z': case GDK_KP_Divide: case '1':
+					pixbuf_renderer_zoom_set(pr, 1.0);
+					break;
+				case '2':
+					pixbuf_renderer_zoom_set(pr, 2.0);
+					break;
+				case '3':
+					pixbuf_renderer_zoom_set(pr, 3.0);
+					break;
+				case '4':
+					pixbuf_renderer_zoom_set(pr, 4.0);
+					break;
+				case '7':
+					pixbuf_renderer_zoom_set(pr, -4.0);
+					break;
+				case '8':
+					pixbuf_renderer_zoom_set(pr, -3.0);
+					break;
+				case '9':
+					pixbuf_renderer_zoom_set(pr, -2.0);
+					break;
+				case 'F': case 'f':
+				case 'V': case 'v':
+					pan_fullscreen_toggle(pw, FALSE);
+					break;
+				case 'I': case 'i':
+#if 0
+					pan_overlay_toggle(pw);
+#endif
+					break;
+				case GDK_Delete: case GDK_KP_Delete:
+					break;
+				case '/':
+					if (!pw->fs)
+						{
+						if (GTK_WIDGET_VISIBLE(pw->search_box))
+							{
+							gtk_widget_grab_focus(pw->search_entry);
+							}
+						else
+							{
+							gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), TRUE);
+							}
+						}
+					else
+						{
+						stop_signal = FALSE;
+						}
+					break;
+				case GDK_Escape:
+					if (pw->fs)
+						{
+						pan_fullscreen_toggle(pw, TRUE);
+						}
+					else if (GTK_WIDGET_VISIBLE(pw->search_entry))
+						{
+						gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), FALSE);
+						}
+					else
+						{
+						stop_signal = FALSE;
+						}
+					break;
+				case GDK_Menu:
+				case GDK_F10:
+					menu = pan_popup_menu(pw);
+					gtk_menu_popup(GTK_MENU(menu), NULL, NULL, pan_window_menu_pos_cb, pw, 0, GDK_CURRENT_TIME);
+					break;
+				default:
+					stop_signal = FALSE;
+					break;
+				}
 			}
-		}
-
-	if (x != 0 || y!= 0)
-		{
-		keyboard_scroll_calc(&x, &y, event);
-		pixbuf_renderer_scroll(pr, x, y);
+		else
+			{
+			stop_signal = TRUE;
+			switch (event->keyval)
+				{
+				case GDK_Escape:
+					if (pw->fs)
+						{
+						pan_fullscreen_toggle(pw, TRUE);
+						}
+					else if (GTK_WIDGET_HAS_FOCUS(pw->search_entry))
+						{
+						gtk_widget_grab_focus(GTK_WIDGET(pw->imd->widget));
+						gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), FALSE);
+						}
+					else
+						{
+						stop_signal = FALSE;
+						}
+				break;
+				default:
+					stop_signal = FALSE;
+					break;
+				}
+			}
 		}
 
 	return stop_signal;

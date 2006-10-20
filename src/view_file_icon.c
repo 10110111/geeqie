@@ -1164,46 +1164,39 @@ static void vfi_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gboolean *push
 static gint vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	ViewFileIcon *vfi = data;
-	gint stop_signal = FALSE;
 	gint focus_row = 0;
 	gint focus_col = 0;
 	FileData *fd;
+	gint stop_signal;
 
+	stop_signal = TRUE;
 	switch (event->keyval)
 		{
 		case GDK_Left: case GDK_KP_Left:
 			focus_col = -1;
-			stop_signal = TRUE;
 			break;
 		case GDK_Right: case GDK_KP_Right:
 			focus_col = 1;
-			stop_signal = TRUE;
 			break;
 		case GDK_Up: case GDK_KP_Up:
 			focus_row = -1;
-			stop_signal = TRUE;
 			break;
 		case GDK_Down: case GDK_KP_Down:
 			focus_row = 1;
-			stop_signal = TRUE;
 			break;
 		case GDK_Page_Up: case GDK_KP_Page_Up:
 			focus_row = -page_height(vfi);
-			stop_signal = TRUE;
 			break;
 		case GDK_Page_Down: case GDK_KP_Page_Down:
 			focus_row = page_height(vfi);
-			stop_signal = TRUE;
 			break;
 		case GDK_Home: case GDK_KP_Home:
 			focus_row = -vfi->focus_row;
 			focus_col = -vfi->focus_column;
-			stop_signal = TRUE;
 			break;
 		case GDK_End: case GDK_KP_End:
 			focus_row = vfi->rows - 1 - vfi->focus_row;
 			focus_col = vfi->columns - 1 - vfi->focus_column;
-			stop_signal = TRUE;
 			break;
 		case GDK_space:
 			fd = vficon_find_data(vfi, vfi->focus_row, vfi->focus_column, NULL);
@@ -1232,7 +1225,6 @@ static gint vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 					vficon_send_layout_select(vfi, fd);
 					}
 				}
-			stop_signal = TRUE;
 			break;
 		case GDK_Menu:
 			fd = vficon_find_data(vfi, vfi->focus_row, vfi->focus_column, NULL);
@@ -1243,9 +1235,9 @@ static gint vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 
 			vfi->popup = vficon_pop_menu(vfi, (fd != NULL));
 			gtk_menu_popup(GTK_MENU(vfi->popup), NULL, NULL, vfi_menu_position_cb, vfi, 0, GDK_CURRENT_TIME);
-			stop_signal = TRUE;
 			break;
 		default:
+			stop_signal = FALSE;
 			break;
 		}
 
@@ -1289,7 +1281,9 @@ static gint vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 
 	if (stop_signal)
 		{
+#if 0
 		g_signal_stop_emission_by_name(GTK_OBJECT(widget), "key_press_event");
+#endif
 		tip_unschedule(vfi);
 		}
 

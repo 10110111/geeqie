@@ -2831,140 +2831,135 @@ static gint dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 		gint edit_val = -1;
 
 		if (!on_second)
-		    switch (event->keyval)
 			{
-			case '1':
-				edit_val = 0;
-				break;
-			case '2':
-				edit_val = 1;
-				break;
-			case '3':
-				edit_val = 2;
-				break;
-			case '4':
-				edit_val = 3;
-				break;
-			case '5':
-				edit_val = 4;
-				break;
-			case '6':
-				edit_val = 5;
-				break;
-			case '7':
-				edit_val = 6;
-				break;
-			case '8':
-				edit_val = 7;
-				break;
-			case '9':
-				edit_val = 8;
-				break;
-			case '0':
-				edit_val = 9;
-				break;
-			case 'C': case 'c':
-				stop_signal = TRUE;
-				file_util_copy(NULL, dupe_listview_get_selection(dw, listview), NULL, dw->window);
-				break;
-			case 'M': case 'm':
-				file_util_move(NULL, dupe_listview_get_selection(dw, listview), NULL, dw->window);
-				stop_signal = TRUE;
-				break;
-			case 'R': case 'r':
-				file_util_rename(NULL, dupe_listview_get_selection(dw, listview), dw->window);
-				stop_signal = TRUE;
-				break;
-			case 'D': case 'd':
-				file_util_delete(NULL, dupe_listview_get_selection(dw, listview), dw->window);
-				stop_signal = TRUE;
-				break;
-			case 'P': case 'p':
-				info_window_new(NULL, dupe_listview_get_selection(dw, listview));
-				stop_signal = TRUE;
-				break;
-			default:
-				break;
+			stop_signal = TRUE;
+			switch (event->keyval)
+				{
+				case '1':
+					edit_val = 0;
+					break;
+				case '2':
+					edit_val = 1;
+					break;
+				case '3':
+					edit_val = 2;
+					break;
+				case '4':
+					edit_val = 3;
+					break;
+				case '5':
+					edit_val = 4;
+					break;
+				case '6':
+					edit_val = 5;
+					break;
+				case '7':
+					edit_val = 6;
+					break;
+				case '8':
+					edit_val = 7;
+					break;
+				case '9':
+					edit_val = 8;
+					break;
+				case '0':
+					edit_val = 9;
+					break;
+				case 'C': case 'c':
+					file_util_copy(NULL, dupe_listview_get_selection(dw, listview),
+						       NULL, dw->window);
+					break;
+				case 'M': case 'm':
+					file_util_move(NULL, dupe_listview_get_selection(dw, listview),
+						       NULL, dw->window);
+					break;
+				case 'R': case 'r':
+					file_util_rename(NULL, dupe_listview_get_selection(dw, listview), dw->window);
+					break;
+				case 'D': case 'd':
+					file_util_delete(NULL, dupe_listview_get_selection(dw, listview), dw->window);
+					break;
+				case 'P': case 'p':
+					info_window_new(NULL, dupe_listview_get_selection(dw, listview));
+					break;
+				default:
+					stop_signal = FALSE;
+					break;
+				}
 			}
 
-		switch (event->keyval)
+		if (!stop_signal)
 			{
-			case 'A': case 'a':
-				if (event->state & GDK_SHIFT_MASK)
-					{
-					gtk_tree_selection_unselect_all(selection);
-					}
-				else
-					{
-					gtk_tree_selection_select_all(selection);
-					}
-				stop_signal = TRUE;
-				break;
-			case GDK_Delete: case GDK_KP_Delete:
-				if (on_second)
-					{
-					dupe_second_clear(dw);
-					dupe_window_recompare(dw);
-					}
-				else
-					{
-					dupe_window_clear(dw);
-					}
-				stop_signal = TRUE;
-				break;
-			case 'L': case 'l':
-				dupe_window_append_file_list(dw, FALSE);
-				stop_signal = TRUE;
-				break;
-			case 'T': case 't':
-				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dw->button_thumbs),
-					!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dw->button_thumbs)));
-				stop_signal = TRUE;
-				break;
-			case 'W': case 'w':
-				dupe_window_close(dw);
-				stop_signal = TRUE;
-				break;
-			default:
-				break;
+			stop_signal = TRUE;
+			switch (event->keyval)
+				{
+				case 'A': case 'a':
+					if (event->state & GDK_SHIFT_MASK)
+						{
+						gtk_tree_selection_unselect_all(selection);
+						}
+					else
+						{
+						gtk_tree_selection_select_all(selection);
+						}
+					break;
+				case GDK_Delete: case GDK_KP_Delete:
+					if (on_second)
+						{
+						dupe_second_clear(dw);
+						dupe_window_recompare(dw);
+						}
+					else
+						{
+						dupe_window_clear(dw);
+						}
+					break;
+				case 'L': case 'l':
+					dupe_window_append_file_list(dw, FALSE);
+					break;
+				case 'T': case 't':
+					gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dw->button_thumbs),
+						!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dw->button_thumbs)));
+					break;
+				case 'W': case 'w':
+					dupe_window_close(dw);
+					break;
+				default:
+					stop_signal = FALSE;
+					break;
+				}
 			}
 
 		if (edit_val >= 0)
 			{
 			dupe_window_edit_selected(dw, edit_val);
-			stop_signal = TRUE;
 			}
 		}
 	else
 		{
+		stop_signal = TRUE;
 		switch (event->keyval)
 			{
 			case GDK_Return: case GDK_KP_Enter:
 				dupe_menu_view(dw, di, listview, FALSE);
-				stop_signal = TRUE;
 				break;
 			case 'V': case 'v':
-				stop_signal = TRUE;
 				dupe_menu_view(dw, di, listview, TRUE);
 				break;
 			case GDK_Delete: case GDK_KP_Delete:
 				dupe_window_remove_selection(dw, listview);
-				stop_signal = TRUE;
 				break;
 			case 'C': case 'c':
 				if (!on_second)
 					{
 					dupe_window_collection_from_selection(dw);
-					stop_signal = TRUE;
 					}
 				break;
 			case '1':
 				dupe_listview_select_dupes(dw, TRUE);
-				stop_signal = TRUE;
 				break;
 			case '2':
 				dupe_listview_select_dupes(dw, FALSE);
-				stop_signal = TRUE;
 				break;
 			case GDK_Menu:
 			case GDK_F10:
@@ -2986,6 +2981,7 @@ static gint dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 					}
 				break;
 			default:
+				stop_signal = FALSE;
 				break;
 			}
 		}

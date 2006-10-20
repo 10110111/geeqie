@@ -1186,6 +1186,7 @@ static gint search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpo
 		{
 		gint edit_val = -1;
 
+		stop_signal = TRUE;
 		switch (event->keyval)
 			{
 			case '1':
@@ -1219,23 +1220,18 @@ static gint search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpo
 				edit_val = 9;
 				break;
 			case 'C': case 'c':
-				stop_signal = TRUE;
 				file_util_copy(NULL, search_result_selection_list(sd), NULL, widget);
 				break;
 			case 'M': case 'm':
-				stop_signal = TRUE;
 				file_util_move(NULL, search_result_selection_list(sd), NULL, widget);
 				break;
 			case 'R': case 'r':
-				stop_signal = TRUE;
 				file_util_rename(NULL, search_result_selection_list(sd), widget);
 				break;
 			case 'D': case 'd':
-				stop_signal = TRUE;
 				file_util_delete(NULL, search_result_selection_list(sd), widget);
 				break;
 			case 'P': case 'p':
-				stop_signal = TRUE;
 				info_window_new(NULL,  search_result_selection_list(sd));
 				break;
 			case 'A': case 'a':
@@ -1247,29 +1243,27 @@ static gint search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpo
 					{
 					gtk_tree_selection_select_all(selection);
 					}
-				stop_signal = TRUE;
 				break;
 			case GDK_Delete: case GDK_KP_Delete:
 				search_result_clear(sd);
-				stop_signal = TRUE;
 				break;
 			default:
+				stop_signal = FALSE;
 				break;
 			}
 
 		if (edit_val >= 0)
 			{
 			search_result_edit_selected(sd, edit_val);
-			stop_signal = TRUE;
 			}
 		}
 	else
 		{
+		stop_signal = TRUE;
 		switch (event->keyval)
 			{
 			case GDK_Return: case GDK_KP_Enter:
 				if (fd) layout_image_set_path(NULL, fd->path);
-				stop_signal = TRUE;
 				break;
 			case 'V': case 'v':
 				{
@@ -1278,16 +1272,13 @@ static gint search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpo
 				list = search_result_selection_list(sd);
 				view_window_new_from_list(list);
 				path_list_free(list);
-				stop_signal = TRUE;
 				}
 				break;
 			case GDK_Delete: case GDK_KP_Delete:
 				search_result_remove_selection(sd);
-				stop_signal = TRUE;
 				break;
 			case 'C': case 'c':
 				search_result_collection_from_selection(sd);
-				stop_signal = TRUE;
 				break;
 			case GDK_Menu:
 			case GDK_F10:
@@ -1298,10 +1289,10 @@ static gint search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpo
 				menu = search_result_menu(sd, (fd != NULL), (search_result_count(sd, NULL) > 0));
 				gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
 					       search_result_menu_pos_cb, sd, 0, GDK_CURRENT_TIME);
-				stop_signal = TRUE;
 				}
 				break;
 			default:
+				stop_signal = FALSE;
 				break;
 			}
 		}
@@ -1316,18 +1307,18 @@ static gint search_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpo
 
 	if (event->state & GDK_CONTROL_MASK)
 		{
+		stop_signal = TRUE;
 		switch (event->keyval)
 			{
 			case 'T': case 't':
 				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sd->button_thumbs),
 					!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(sd->button_thumbs)));
-				stop_signal = TRUE;
 				break;
 			case 'W': case 'w':
 				search_window_close(sd);
-				stop_signal = TRUE;
 				break;
 			default:
+				stop_signal = FALSE;
 				break;
 			}
 		}

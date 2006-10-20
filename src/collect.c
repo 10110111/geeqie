@@ -780,6 +780,7 @@ static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gp
 
 	if (event->state & GDK_CONTROL_MASK)
 		{
+		stop_signal = TRUE;
 		switch (event->keyval)
 			{
 			case '1':
@@ -821,7 +822,6 @@ static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gp
 					{
 					collection_table_select_all(cw->table);
 					}
-				stop_signal = TRUE;
 				break;
 			case 'L': case 'l':
 				list = layout_list(NULL);
@@ -830,53 +830,45 @@ static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gp
 					collection_table_add_path_list(cw->table, list);
 					path_list_free(list);
 					}
-				stop_signal = TRUE;
 				break;
 			case 'C': case 'c':
 				file_util_copy(NULL, collection_table_selection_get_list(cw->table), NULL, cw->window);
-				stop_signal = TRUE;
 				break;
 			case 'M': case 'm':
 				file_util_move(NULL, collection_table_selection_get_list(cw->table), NULL, cw->window);
-				stop_signal = TRUE;
 				break;
 			case 'R': case 'r':
 				file_util_rename(NULL, collection_table_selection_get_list(cw->table), cw->window);
-				stop_signal = TRUE;
 				break;
 			case 'D': case 'd':
 				file_util_delete(NULL, collection_table_selection_get_list(cw->table), cw->window);
-				stop_signal = TRUE;
 				break;
 			case 'P': case 'p':
 				info_window_new(NULL, collection_table_selection_get_list(cw->table));
-				stop_signal = TRUE;
 				break;
 			case 'S': case 's':
 				collection_dialog_save_as(NULL, cw->cd);
-				stop_signal = TRUE;
 				break;
 			case 'W': case 'w':
 				collection_window_close(cw);
-				stop_signal = TRUE;
 				break;
 			default:
+				stop_signal = FALSE;
 				break;
 			}
 		}
 	else
 		{
+		stop_signal = TRUE;
 		switch (event->keyval)
 			{
 			case GDK_Return: case GDK_KP_Enter:
 				layout_image_set_collection(NULL, cw->cd,
 					collection_table_get_focus_info(cw->table));
-				stop_signal = TRUE;
 				break;
 			case 'V': case 'v':
 				view_window_new_from_collection(cw->cd,
 					collection_table_get_focus_info(cw->table));
-				stop_signal = TRUE;
 				break;
 			case 'S': case 's':
 				if (!cw->cd->path)
@@ -887,36 +879,26 @@ static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gp
 					{
 					printf("failed saving to collection path: %s\n", cw->cd->path);
 					}
-				stop_signal = TRUE;
 				break;
 			case 'A': case 'a':
-				if (!(event->state & GDK_CONTROL_MASK))
-					{
-					collection_dialog_append(NULL, cw->cd);
-					stop_signal = TRUE;
-					}
+				collection_dialog_append(NULL, cw->cd);
 				break;
 			case 'N': case 'n':
 				collection_set_sort_method(cw->cd, SORT_NAME);
-				stop_signal = TRUE;
 				break;
 #ifdef HAVE_STRVERSCMP
 			case 'I': case 'i':
 				collection_set_sort_method(cw->cd, SORT_NUMBER);
-				stop_signal = TRUE;
 				break;
 #endif
 			case 'D': case 'd':
 				collection_set_sort_method(cw->cd, SORT_TIME);
-				stop_signal = TRUE;
 				break;
 			case 'B': case 'b':
 				collection_set_sort_method(cw->cd, SORT_SIZE);
-				stop_signal = TRUE;
 				break;
 			case 'P': case 'p':
 				collection_set_sort_method(cw->cd, SORT_PATH);
-				stop_signal = TRUE;
 				break;
 			case GDK_Delete: case GDK_KP_Delete:
 				list = g_list_copy(cw->table->selection);
@@ -929,9 +911,9 @@ static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gp
 					{
 					collection_remove_by_info(cw->cd, collection_table_get_focus_info(cw->table));
 					}
-				stop_signal = TRUE;
 				break;
 			default:
+				stop_signal = FALSE;
 				break;
 			}
 		}
@@ -941,7 +923,6 @@ static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gp
 		list = collection_table_selection_get_list(cw->table);
 		start_editor_from_path_list(edit_val, list);
 		path_list_free(list);
-		stop_signal = TRUE;
 		}
 
 	return stop_signal;
