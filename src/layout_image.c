@@ -99,138 +99,49 @@ static void layout_image_full_screen_menu_popup(LayoutWindow *lw)
 static gint layout_image_full_screen_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	LayoutWindow *lw = data;
-	gint stop_signal = FALSE;
+	gint stop_signal;
 	gint x = 0;
 	gint y = 0;
 
+	stop_signal = TRUE;
 	switch (event->keyval)
 		{
 		case GDK_Left: case GDK_KP_Left:
 			x -= 1;
-			stop_signal = TRUE;
 			break;
 		case GDK_Right: case GDK_KP_Right:
 			x += 1;
-			stop_signal = TRUE;
 			break;
 		case GDK_Up: case GDK_KP_Up:
 			y -= 1;
-			stop_signal = TRUE;
 			break;
 		case GDK_Down: case GDK_KP_Down:
 			y += 1;
-			stop_signal = TRUE;
+			break;
+		default:
+			stop_signal = FALSE;
 			break;
 		}
 
-	if ( !(event->state & GDK_CONTROL_MASK) )
-	    switch (event->keyval)
+	if (x != 0 || y!= 0)
 		{
-		case '+': case '=': case GDK_KP_Add:
-			layout_image_zoom_adjust(lw, get_zoom_increment());
-			break;
-		case '-': case GDK_KP_Subtract:
-			layout_image_zoom_adjust(lw, -get_zoom_increment());
-			break;
-		case 'X': case 'x': case GDK_KP_Multiply:
-			layout_image_zoom_set(lw, 0.0);
-			break;
-		case 'Z': case 'z': case GDK_KP_Divide:
-		case '1':
-			layout_image_zoom_set(lw, 1.0);
-			break;
-		case '2':
-			layout_image_zoom_set(lw, 2.0);
-			break;
-		case '3':
-			layout_image_zoom_set(lw, 3.0);
-			break;
-		case '4':
-			layout_image_zoom_set(lw, 4.0);
-			break;
-		case '7':
-			layout_image_zoom_set(lw, -4.0);
-			break;
-		case '8':
-			layout_image_zoom_set(lw, -3.0);
-			break;
-		case '9':
-			layout_image_zoom_set(lw, -2.0);
-			break;
-		case 'W': case 'w':
-			layout_image_zoom_set_fill_geometry(lw, FALSE);
-			break;
-		case 'H': case 'h':
-			layout_image_zoom_set_fill_geometry(lw, TRUE);
-			break;
-		case GDK_Page_Up: case GDK_KP_Page_Up:
-		case GDK_BackSpace:
-		case 'B': case 'b':
-			layout_image_prev(lw);
-			stop_signal = TRUE;
-			break;
-		case GDK_Page_Down: case GDK_KP_Page_Down:
-		case GDK_space:
-		case 'N': case 'n':
-			layout_image_next(lw);
-			stop_signal = TRUE;
-			break;
-		case GDK_Home: case GDK_KP_Home:
-			layout_image_first(lw);
-			stop_signal = TRUE;
-			break;
-		case GDK_End: case GDK_KP_End:
-			layout_image_last(lw);
-			stop_signal = TRUE;
-			break;
-		case ']':
-			layout_image_alter(lw, ALTER_ROTATE_90);
-			stop_signal = TRUE;
-			break;
-		case '[':
-			layout_image_alter(lw, ALTER_ROTATE_90_CC);
-			stop_signal = TRUE;
-			break;
-		case GDK_Delete: case GDK_KP_Delete:
-			if (enable_delete_key)
-				{
-				file_util_delete(layout_image_get_path(lw), NULL, widget);
-				stop_signal = TRUE;
-				}
-			break;
-		case GDK_Escape:
-			layout_image_full_screen_stop(lw);
-			stop_signal = TRUE;
-			break;
-		case 'R': case 'r':
-			if (!(event->state & GDK_SHIFT_MASK))
-				{
-				layout_refresh(lw);
-				}
-			break;
-		case 'S': case 's':
-			layout_image_slideshow_toggle(lw);
-			break;
-		case 'P': case 'p':
-			layout_image_slideshow_pause_toggle(lw);
-			break;
-		case 'F': case 'f':
-		case 'V': case 'v':
-			layout_image_full_screen_stop(lw);
-			break;
-		case GDK_Menu:
-		case GDK_F10:
-			layout_image_full_screen_menu_popup(lw);
-			stop_signal = TRUE;
-			break;
-		case 'I': case 'i':
-			layout_image_overlay_set(lw, !(lw->full_screen_overlay_on));
-			break;
+		if (event->state & GDK_SHIFT_MASK)
+			{
+			x *= 3;
+			y *= 3;
+			}
+
+		keyboard_scroll_calc(&x, &y, event);
+		layout_image_scroll(lw, x, y);
 		}
+
+	if (stop_signal) return stop_signal;
 
 	if (event->state & GDK_CONTROL_MASK)
 		{
 		gint n = -1;
+
+		stop_signal = TRUE;
 		switch (event->keyval)
 			{
 			case '1':
@@ -282,6 +193,9 @@ static gint layout_image_full_screen_key_press_cb(GtkWidget *widget, GdkEventKey
 				exit_gqview();
 				return FALSE;
 				break;
+			default:
+				stop_signal = FALSE;
+				break;
 			}
 		if (n != -1)
 			{
@@ -294,35 +208,123 @@ static gint layout_image_full_screen_key_press_cb(GtkWidget *widget, GdkEventKey
 		}
 	else if (event->state & GDK_SHIFT_MASK)
 		{
+		stop_signal = TRUE;
 		switch (event->keyval)
 			{
 			case 'R': case 'r':
 				layout_image_alter(lw, ALTER_ROTATE_180);
-				stop_signal = TRUE;
 				break;
 			case 'M': case 'm':
 				layout_image_alter(lw, ALTER_MIRROR);
-				stop_signal = TRUE;
 				break;
 			case 'F': case 'f':
 				layout_image_alter(lw, ALTER_FLIP);
-				stop_signal = TRUE;
 				break;
 			case 'G': case 'g':
 				layout_image_alter(lw, ALTER_DESATURATE);
-				stop_signal = TRUE;
 				break;
 			default:
+				stop_signal = FALSE;
 				break;
 			}
-		x *= 3;
-		y *= 3;
 		}
-
-	if (x != 0 || y!= 0)
+	else
 		{
-		keyboard_scroll_calc(&x, &y, event);
-		layout_image_scroll(lw, x, y);
+		stop_signal = TRUE;
+		switch (event->keyval)
+			{
+			case '+': case '=': case GDK_KP_Add:
+				layout_image_zoom_adjust(lw, get_zoom_increment());
+				break;
+			case '-': case GDK_KP_Subtract:
+				layout_image_zoom_adjust(lw, -get_zoom_increment());
+				break;
+			case 'X': case 'x': case GDK_KP_Multiply:
+				layout_image_zoom_set(lw, 0.0);
+				break;
+			case 'Z': case 'z': case GDK_KP_Divide:
+			case '1':
+				layout_image_zoom_set(lw, 1.0);
+				break;
+			case '2':
+				layout_image_zoom_set(lw, 2.0);
+				break;
+			case '3':
+				layout_image_zoom_set(lw, 3.0);
+				break;
+			case '4':
+				layout_image_zoom_set(lw, 4.0);
+				break;
+			case '7':
+				layout_image_zoom_set(lw, -4.0);
+				break;
+			case '8':
+				layout_image_zoom_set(lw, -3.0);
+				break;
+			case '9':
+				layout_image_zoom_set(lw, -2.0);
+				break;
+			case 'W': case 'w':
+				layout_image_zoom_set_fill_geometry(lw, FALSE);
+				break;
+			case 'H': case 'h':
+				layout_image_zoom_set_fill_geometry(lw, TRUE);
+				break;
+			case GDK_Page_Up: case GDK_KP_Page_Up:
+			case GDK_BackSpace:
+			case 'B': case 'b':
+				layout_image_prev(lw);
+				break;
+			case GDK_Page_Down: case GDK_KP_Page_Down:
+			case GDK_space:
+			case 'N': case 'n':
+				layout_image_next(lw);
+				break;
+			case GDK_Home: case GDK_KP_Home:
+				layout_image_first(lw);
+				break;
+			case GDK_End: case GDK_KP_End:
+				layout_image_last(lw);
+				break;
+			case ']':
+				layout_image_alter(lw, ALTER_ROTATE_90);
+				break;
+			case '[':
+				layout_image_alter(lw, ALTER_ROTATE_90_CC);
+				break;
+			case GDK_Delete: case GDK_KP_Delete:
+				if (enable_delete_key)
+					{
+					file_util_delete(layout_image_get_path(lw), NULL, widget);
+					}
+				break;
+			case GDK_Escape:
+				layout_image_full_screen_stop(lw);
+				break;
+			case 'R': case 'r':
+				layout_refresh(lw);
+				break;
+			case 'S': case 's':
+				layout_image_slideshow_toggle(lw);
+				break;
+			case 'P': case 'p':
+				layout_image_slideshow_pause_toggle(lw);
+				break;
+			case 'F': case 'f':
+			case 'V': case 'v':
+				layout_image_full_screen_stop(lw);
+				break;
+			case GDK_Menu:
+			case GDK_F10:
+				layout_image_full_screen_menu_popup(lw);
+				break;
+			case 'I': case 'i':
+				layout_image_overlay_set(lw, !(lw->full_screen_overlay_on));
+				break;
+			default:
+				stop_signal = FALSE;
+				break;
+			}
 		}
 
 	return stop_signal;
