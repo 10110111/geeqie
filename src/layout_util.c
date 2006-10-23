@@ -219,6 +219,7 @@ static gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 				layout_image_slideshow_pause_toggle(lw);
 				break;
 			case 'V': case 'v':
+			case GDK_F11:
 				if (!(event->state & GDK_MOD1_MASK)) layout_image_full_screen_toggle(lw);
 				break;
 			default:

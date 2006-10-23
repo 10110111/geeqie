@@ -3564,6 +3564,7 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 					break;
 				case 'F': case 'f':
 				case 'V': case 'v':
+				case GDK_F11:
 					pan_fullscreen_toggle(pw, FALSE);
 					break;
 				case 'I': case 'i':

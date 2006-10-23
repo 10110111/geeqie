@@ -312,6 +312,7 @@ static gint layout_image_full_screen_key_press_cb(GtkWidget *widget, GdkEventKey
 				break;
 			case 'F': case 'f':
 			case 'V': case 'v':
+			case GDK_F11:
 				layout_image_full_screen_stop(lw);
 				break;
 			case GDK_Menu:

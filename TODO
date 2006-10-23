@@ -91,6 +91,7 @@ Major:
    > Holding down shift will now scroll more when panning with mouse.
    > add --geometry command line option
    > add [shift]+G grayscale alteration
+   > add F11 for full screen toggle
 
    > add blurb about moving images between collections with shift+drag
 

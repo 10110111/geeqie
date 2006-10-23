@@ -533,6 +533,7 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 				break;
 			case 'F': case 'f':
 			case 'V': case 'v':
+			case GDK_F11:
 				view_fullscreen_toggle(vw, FALSE);
 				break;
 			case 'I': case 'i':
