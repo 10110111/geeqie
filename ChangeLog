@@ -1,3 +1,9 @@
+Wed Oct 25 15:17:38 2006  John Ellis  <johne@verizon.net>
+
+	* pixbuf-renderer.c (pixbuf_renderer_scroll): Fix long standing bug
+	where obstructed portions of an image were not always generating an
+	expose event when scrolling the image.
+
 Mon Oct 23 05:34:29 2006  John Ellis  <johne@verizon.net>
 
 	* img-view.c, layout_image.c, layout_util.c, pan-view.c: Make F11 also

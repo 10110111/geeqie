@@ -2008,6 +2008,12 @@ static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 				w, h,
 				pr->dither_quality, it->x + x, it->y + y);
 		}
+
+#if 0
+	/* enable this line for debugging the edges of tiles */
+	gdk_draw_rectangle(it->pixmap, box->style->white_gc,
+			   FALSE, 0, 0, it->w, it->h);
+#endif
 }
 
 
@@ -2779,6 +2785,7 @@ void pixbuf_renderer_scroll(PixbufRenderer *pr, gint x, gint y)
 		gint x2, y2;
 		GtkWidget *box;
 		GdkGC *gc;
+		GdkEvent *event;
 
 		if (x_off < 0)
 			{
@@ -2832,6 +2839,19 @@ void pixbuf_renderer_scroll(PixbufRenderer *pr, gint x, gint y)
 			pr_queue(pr,
 				 pr->x_scroll, y_off > 0 ? pr->y_scroll + (pr->vis_height - h) : pr->y_scroll,
 				 pr->vis_width, h, TRUE, TILE_RENDER_ALL, FALSE, FALSE);
+			}
+
+		/* process exposures here, "expose_event" seems to miss a few with obstructed windows */
+		while ((event = gdk_event_get_graphics_expose(box->window)) != NULL)
+			{
+			pixbuf_renderer_paint(pr, &event->expose.area);
+
+			if (event->expose.count == 0)
+				{
+				gdk_event_free(event);
+				break;
+				}
+			gdk_event_free(event);
 			}
 		}
 }
