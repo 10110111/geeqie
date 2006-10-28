@@ -558,7 +558,7 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 					}
 				else
 					{
-					gtk_widget_destroy(vw->window);
+					view_window_close(vw);
 					}
 				break;
 			case GDK_Menu:
@@ -767,15 +767,24 @@ static void view_slideshow_stop(ViewWindow *vw)
 	if (vw->ss) slideshow_free(vw->ss);
 }
 
-static void view_window_close(ViewWindow *vw)
+static void view_window_destroy_cb(GtkWidget *widget, gpointer data)
 {
+	ViewWindow *vw = data;
+
 	view_window_list = g_list_remove(view_window_list, vw);
 
 	view_slideshow_stop(vw);
-	view_fullscreen_toggle(vw, TRUE);
-	gtk_widget_destroy(vw->window);
+	fullscreen_stop(vw->fs);
+
 	path_list_free(vw->list);
 	g_free(vw);
+}
+
+static void view_window_close(ViewWindow *vw)
+{
+	view_slideshow_stop(vw);
+	view_fullscreen_toggle(vw, TRUE);
+	gtk_widget_destroy(vw->window);
 }
 
 static gint view_window_delete_cb(GtkWidget *w, GdkEventAny *event, gpointer data)
@@ -832,6 +841,8 @@ static ViewWindow *real_view_window_new(const gchar *path, GList *list, Collecti
 
 	view_image_set_buttons(vw, vw->imd);
 
+	g_signal_connect(G_OBJECT(vw->window), "destroy",
+			 G_CALLBACK(view_window_destroy_cb), vw);
 	g_signal_connect(G_OBJECT(vw->window), "delete_event",
 			 G_CALLBACK(view_window_delete_cb), vw);
 	g_signal_connect(G_OBJECT(vw->window), "key_press_event",

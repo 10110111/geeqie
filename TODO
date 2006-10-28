@@ -4,6 +4,10 @@ TODO key: d = done, w = work in progress, ? = possibly fixed
 Major:
 ----------------------------------------------
 
+ > figure out if crash when expanding a folder in the folder tree view then pessing "*" is a bug
+   GTK+ 2.10.4 (gdb shows it deep inside gtk, near gtk_tree_view_set_hover_selection()). This does not
+   happen on GTK+ 2.6.
+
  > pixbuf-renderer.c:
    > tile dispose order is slightly incorrect, furthest ones from current position should be dropped first
 
@@ -124,6 +128,9 @@ d> allow multiple command line dirs to work as expected
 
 Wishlist?:
 ----------------------------------------------
+
+ > Explore tabbed view option to main window, where 'view in new window' option results
+   in a new tab instead of window.
 
  > Initiating full screen from the command line should not
    show main window until full screen is exited.

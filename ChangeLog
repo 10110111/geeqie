@@ -1,3 +1,11 @@
+Sat Oct 28 14:41:10 2006  John Ellis  <johne@verizon.net>
+
+	* img-view.c: Use correct method to close the window using Escape key,
+	fixes bug #1231845. Also added more robust method to update window
+	list when a window is closed so this doesn't happen again.
+	* slideshow.c: Add sanity checks to exported functions to check for
+	NULL SlideShow pointers, to match rest of coding style.
+
 Fri Oct 27 19:45:32 2006  John Ellis  <johne@verizon.net>
 
 	* layout.c, ui_menu.c, ui_misc.c: Use g_object_ref_sink when
