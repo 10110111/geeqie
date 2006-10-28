@@ -99,6 +99,8 @@ Major:
 Minor (non blockers):
 ----------------------------------------------
 
+ > update icon used for window to the (not so) new icon
+
 d> allow multiple command line dirs to work as expected
    (ie contents of each are treated as given on command line)
 

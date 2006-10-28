@@ -1,3 +1,8 @@
+Fri Oct 27 19:45:32 2006  John Ellis  <johne@verizon.net>
+
+	* layout.c, ui_menu.c, ui_misc.c: Use g_object_ref_sink when
+	gtk_object_sink is not available as it is deprecated.
+
 Wed Oct 25 15:17:38 2006  John Ellis  <johne@verizon.net>
 
 	* pixbuf-renderer.c (pixbuf_renderer_scroll): Fix long standing bug

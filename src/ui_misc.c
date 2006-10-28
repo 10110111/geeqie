@@ -738,8 +738,17 @@ GtkWidget *pref_toolbar_new(GtkWidget *parent_box, GtkToolbarStyle style)
 		}
 
 	tips = gtk_tooltips_new();
+
+	/* take ownership of tooltips */
+#ifdef GTK_OBJECT_FLOATING
+	/* GTK+ < 2.10 */
 	g_object_ref(G_OBJECT(tips));
-        gtk_object_sink(GTK_OBJECT(tips));
+	gtk_object_sink(GTK_OBJECT(tips));
+#else
+	/* GTK+ >= 2.10 */
+	g_object_ref_sink(G_OBJECT(tips));
+#endif
+
 	g_object_set_data(G_OBJECT(tbar), "tooltips", tips);
 	g_signal_connect(G_OBJECT(tbar), "destroy",
 			 G_CALLBACK(pref_toolbar_destroy_cb), tips);
