@@ -1,3 +1,10 @@
+Tue Oct 31 18:06:42 2006  John Ellis  <johne@verizon.net>
+
+	* info.c: Increase default info window size to 600x400.
+	* po/be.po: Update Belarusian translation,
+	submitted by Pavel Piatruk <berserker@neolocation.com>.
+	* gqview.desktop: Add additional formats to MimeType list.
+
 Sat Oct 28 14:41:10 2006  John Ellis  <johne@verizon.net>
 
 	* img-view.c: Use correct method to close the window using Escape key,

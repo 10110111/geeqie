@@ -1,14 +1,14 @@
-# translation of be.po to belarusian
+# translation of gqview 2.1.2 to Belarusian
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 #
 # Pavel Piatruk <berserker@neolocation.com>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: gqview 2.1.1\n"
+"Project-Id-Version: gqview 2.1.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-14 05:18-0400\n"
-"PO-Revision-Date: 2006-09-01 03:48+0300\n"
+"PO-Revision-Date: 2006-10-19 01:30+0300\n"
 "Last-Translator: Pavel Piatruk <berserker@neolocation.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
 "MIME-Version: 1.0\n"
@@ -122,14 +122,12 @@ msgid "Advanced view"
 msgstr "Дадатковы прагляд"
 
 #: src/bar_sort.c:217
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to remove symbolic link:\n"
 "%s"
 msgstr ""
-"Немагчыма перамесціць файл:\n"
-"%s\n"
-"у:\n"
+"Немагчыма выдаліць сімвалічную спасылку:\n"
 "%s"
 
 #: src/bar_sort.c:218
@@ -137,12 +135,12 @@ msgid "Unlink failed"
 msgstr "Выдаленне спасылкі не атрымалася"
 
 #: src/bar_sort.c:297
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to create symbolic link:\n"
 "%s"
 msgstr ""
-"Немачыма стварыць тэчку:\n"
+"Немачыма стварыць сімвалічную спасылку:\n"
 "%s"
 
 #: src/bar_sort.c:298
@@ -1534,13 +1532,11 @@ msgstr "  -s, --slideshow            запуск у рэжыме паказу �
 
 #: src/main.c:950
 msgid "  -l, --list                 open collection window for command line\n"
-msgstr ""
-"  -l, --list                 адкрыць акно калекцыяў для каманднага радку\n"
+msgstr "  -l, --list                 адкрыць акно калекцыяў для каманднага радку\n"
 
 #: src/main.c:951
 msgid "  -r, --remote               send following commands to open window\n"
-msgstr ""
-"  -r, --remote               даслаць наступныя каманды да адкрытага акна\n"
+msgstr "  -r, --remote               даслаць наступныя каманды да адкрытага акна\n"
 
 #: src/main.c:952
 msgid "  -rh,--remote-help          print remote command list\n"
@@ -1688,9 +1684,8 @@ msgid "The entered path is not a folder"
 msgstr "Уведзены шлях не ёсць тэчкай"
 
 #: src/pan-view.c:4369
-#, fuzzy
 msgid "Pan View - GQview"
-msgstr "Друк - GQview"
+msgstr "Панарамны выгляд - GQview"
 
 #: src/pan-view.c:4391
 msgid "Timeline"
@@ -2035,7 +2030,6 @@ msgid "Menu name"
 msgstr "Назва меню"
 
 #: src/preferences.c:1092
-#, fuzzy
 msgid "Command Line"
 msgstr "Камандны радок"
 
@@ -3020,7 +3014,7 @@ msgstr "Памылка перайменавання файла"
 
 #: src/utilops.c:1854
 msgid "Format must include at least one of the symbol characters '*' or '#'.\n"
-msgstr ""
+msgstr "Фармат павінен уключаць прынамсі з сімвалаў '*' ці '#'.\n"
 
 #: src/utilops.c:1910
 msgid ""
@@ -3056,13 +3050,12 @@ msgid "Original Name"
 msgstr "Пачатковае імя"
 
 #: src/utilops.c:2314
-#, fuzzy
 msgid "Manual rename"
-msgstr "Назва меню"
+msgstr "Ручное перайменаванне"
 
 #: src/utilops.c:2315
 msgid "Formatted rename"
-msgstr ""
+msgstr "Фарматаванае перайменаванне"
 
 #: src/utilops.c:2328 src/utilops.c:2504
 msgid "Original name:"
@@ -3090,7 +3083,7 @@ msgstr "Запаўненне:"
 
 #: src/utilops.c:2381
 msgid "Format (* = original name, ## = numbers)"
-msgstr ""
+msgstr "Фармат (* = пачатковае імя, ## = нумары)"
 
 #: src/utilops.c:2448 src/view_file_list.c:460
 #, c-format
@@ -3211,3 +3204,4 @@ msgid ""
 msgstr ""
 "Несапраўднае імя файла:\n"
 "%s"
+

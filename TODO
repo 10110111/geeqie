@@ -4,9 +4,9 @@ TODO key: d = done, w = work in progress, ? = possibly fixed
 Major:
 ----------------------------------------------
 
- > figure out if crash when expanding a folder in the folder tree view then pessing "*" is a bug
-   GTK+ 2.10.4 (gdb shows it deep inside gtk, near gtk_tree_view_set_hover_selection()). This does not
-   happen on GTK+ 2.6.
+d> figure out if crash when expanding a folder in the folder tree view when pessing "*" is a bug in
+   GTK+ 2.10.4 (gdb shows it deep inside gtk). This does not happen on GTK+ 2.6.
+   (determined fault of GTK+, filed as GTK+ bug #366782.
 
  > pixbuf-renderer.c:
    > tile dispose order is slightly incorrect, furthest ones from current position should be dropped first
@@ -104,6 +104,11 @@ Minor (non blockers):
 ----------------------------------------------
 
  > update icon used for window to the (not so) new icon
+
+ > xv and xpaint are hardly used or even installed by any distro anymore - time
+   to remove these (and find alternates?) seems silly to only have gimp.
+
+d> update .desktop MimeType list to match Fedora's patch for missing formats
 
 d> allow multiple command line dirs to work as expected
    (ie contents of each are treated as given on command line)

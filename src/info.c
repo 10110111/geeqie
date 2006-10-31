@@ -31,8 +31,8 @@
 #define IMAGE_SIZE_W 200
 #define IMAGE_SIZE_H 200
 
-#define DEF_PROPERTY_WIDTH  510
-#define DEF_PROPERTY_HEIGHT 390
+#define DEF_PROPERTY_WIDTH  600
+#define DEF_PROPERTY_HEIGHT 400
 
 typedef struct _TabData TabData;
 struct _TabData
