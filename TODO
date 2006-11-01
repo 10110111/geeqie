@@ -103,7 +103,7 @@ d> figure out if crash when expanding a folder in the folder tree view when pess
 Minor (non blockers):
 ----------------------------------------------
 
- > update icon used for window to the (not so) new icon
+d> update icon used for window to the (not so) new icon
 
  > xv and xpaint are hardly used or even installed by any distro anymore - time
    to remove these (and find alternates?) seems silly to only have gimp.

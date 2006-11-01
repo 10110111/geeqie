@@ -97,9 +97,14 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_FOLDER_UP,	folder_up },
 	{ PIXBUF_INLINE_SCROLLER,	icon_scroller },
 	{ PIXBUF_INLINE_BROKEN,		icon_broken },
+	{ PIXBUF_INLINE_ICON,		gqview_icon },
 	{ PIXBUF_INLINE_LOGO,		gqview_logo },
 	{ PIXBUF_INLINE_ICON_FLOAT,	icon_float },
 	{ PIXBUF_INLINE_ICON_THUMB,	icon_thumb },
+	{ PIXBUF_INLINE_ICON_BOOK,	icon_book },
+	{ PIXBUF_INLINE_ICON_CONFIG,	icon_config },
+	{ PIXBUF_INLINE_ICON_TOOLS,	icon_tools },
+	{ PIXBUF_INLINE_ICON_VIEW,	icon_view },
 	{ NULL, NULL }
 };
 

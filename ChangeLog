@@ -1,3 +1,17 @@
+Wed Nov  1 11:39:48 2006  John Ellis  <johne@verizon.net>
+
+	* gqview.h, main.c (window_set_icon): Change to use inline pixbufs
+	instead of xpms.
+	* collect.c, img-view.c, layout.c, preferences.c: Use new icons.
+	* pixbuf_util.[ch]: Add new icons.
+	* icons/Makefile.am: Update generated inline pixbufs.
+	* icons/collect.xpm, icons/config.xpm, icons/icon.xpm, icons/tools.xpm,
+	icons/view.xpm: Remove old xpm icons.
+	* icons/gqview_icon.png, icons/icon_book.png, icons/icon_config.png,
+	icons/icon_tools.png, icons/icon_view.png: The new icons in png format.
+	* icons/svg/*.svg: Add svg sources for icons, they are not used or
+	anything, but this way I can not misplace them again.
+
 Tue Oct 31 18:06:42 2006  John Ellis  <johne@verizon.net>
 
 	* info.c: Increase default info window size to 600x400.

@@ -22,13 +22,13 @@
 #include "info.h"
 #include "layout.h"
 #include "layout_image.h"
+#include "pixbuf_util.h"
 #include "utilops.h"
 #include "ui_fileops.h"
 #include "ui_tree_edit.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
-#include "icons/collect.xpm"
 
 #define COLLECT_DEF_WIDTH 440
 #define COLLECT_DEF_HEIGHT 450
@@ -1151,7 +1151,7 @@ CollectWindow *collection_window_new(const gchar *path)
 	cw->cd = collection_new(path);
 
 	cw->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	window_set_icon(cw->window, (const gchar **)collect_xpm, NULL);
+	window_set_icon(cw->window, PIXBUF_INLINE_ICON_BOOK, NULL);
 
 	geometry.min_width = 32;
 	geometry.min_height = 32;

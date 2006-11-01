@@ -22,6 +22,7 @@
 #include "layout.h"
 #include "layout_image.h"
 #include "menu.h"
+#include "pixbuf_util.h"
 #include "preferences.h"
 #include "rcfile.h"
 #include "remote.h"
@@ -35,8 +36,6 @@
 #include "ui_utildlg.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
-
-#include "icons/icon.xpm"
 
 
 #include <math.h>
@@ -52,53 +51,25 @@ static CollectionData *gqview_command_collection = NULL;
  *-----------------------------------------------------------------------------
  */ 
 
-typedef struct _WindowIconData WindowIconData;
-struct _WindowIconData
+void window_set_icon(GtkWidget *window, const gchar *icon, const gchar *file)
 {
-	const char **icon;
-	gchar *path;
-};
+	if (!icon && !file) icon = PIXBUF_INLINE_ICON;
 
-static void window_set_icon_cb(GtkWidget *widget, gpointer data)
-{
-	WindowIconData *wid = data;
-	GdkPixbuf *pb;
-	GdkPixmap *pixmap;
-	GdkBitmap *mask;
-
-	if (wid->icon)
+	if (icon)
 		{
-		pb = gdk_pixbuf_new_from_xpm_data(wid->icon);
+		GdkPixbuf *pixbuf;
+
+		pixbuf = pixbuf_inline(icon);
+		if (pixbuf)
+			{
+			gtk_window_set_icon(GTK_WINDOW(window), pixbuf);
+			g_object_unref(pixbuf);
+			}
 		}
 	else
 		{
-		pb = gdk_pixbuf_new_from_file(wid->path, NULL);
+		gtk_window_set_icon_from_file(GTK_WINDOW(window), file, NULL);
 		}
-
-	g_free(wid->path);
-	g_free(wid);
-
-	if (!pb) return;
-
-	gdk_pixbuf_render_pixmap_and_mask(pb, &pixmap, &mask, 128);
-	gdk_pixbuf_unref(pb);
-
-	gdk_window_set_icon(widget->window, NULL, pixmap, mask);
-	/* apparently, gdk_window_set_icon does not ref the pixmap and mask, so don't unref it (leak?) */
-}
-
-void window_set_icon(GtkWidget *window, const char **icon, const gchar *file)
-{
-	WindowIconData *wid;
-
-	if (!icon && !file) icon = (const char **)icon_xpm;
-
-	wid = g_new0(WindowIconData, 1);
-	wid->icon = icon;
-	wid->path = g_strdup(file);
-
-	g_signal_connect(G_OBJECT(window), "realize",
-			 G_CALLBACK(window_set_icon_cb), wid);
 }
 
 gint window_maximized(GtkWidget *window)

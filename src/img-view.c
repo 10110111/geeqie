@@ -24,6 +24,7 @@
 #include "info.h"
 #include "menu.h"
 #include "pixbuf-renderer.h"
+#include "pixbuf_util.h"
 #include "slideshow.h"
 #include "utilops.h"
 #include "ui_bookmark.h"
@@ -31,8 +32,6 @@
 #include "ui_menu.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
-
-#include "icons/view.xpm"
 
 
 typedef struct _ViewWindow ViewWindow;
@@ -823,7 +822,7 @@ static ViewWindow *real_view_window_new(const gchar *path, GList *list, Collecti
         gtk_window_set_wmclass(GTK_WINDOW(vw->window), "view", "GQview");
         gtk_container_set_border_width(GTK_CONTAINER(vw->window), 0);
 
-	window_set_icon(vw->window, (const gchar **)view_xpm, NULL);
+	window_set_icon(vw->window, PIXBUF_INLINE_ICON_VIEW, NULL);
 
 	vw->imd = image_new(FALSE);
 

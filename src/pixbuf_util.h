@@ -26,10 +26,16 @@ GdkPixbuf *pixbuf_inline(const gchar *key);
 #define PIXBUF_INLINE_FOLDER_UP		"folder_up"
 #define PIXBUF_INLINE_SCROLLER		"scroller"
 #define PIXBUF_INLINE_BROKEN		"broken"
+#define PIXBUF_INLINE_ICON		"icon"
 #define PIXBUF_INLINE_LOGO		"logo"
 
 #define PIXBUF_INLINE_ICON_FLOAT	"icon_float"
 #define PIXBUF_INLINE_ICON_THUMB	"icon_thumb"
+
+#define PIXBUF_INLINE_ICON_BOOK		"icon_book"
+#define PIXBUF_INLINE_ICON_CONFIG	"icon_config"
+#define PIXBUF_INLINE_ICON_TOOLS	"icon_tools"
+#define PIXBUF_INLINE_ICON_VIEW		"icon_view"
 
 
 GdkPixbuf *pixbuf_copy_rotate_90(GdkPixbuf *src, gint counter_clockwise);

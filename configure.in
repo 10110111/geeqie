@@ -39,6 +39,7 @@ AC_OUTPUT([
 Makefile
 src/Makefile
 src/icons/Makefile
+src/icons/svg/Makefile
 po/Makefile.in
 doc/Makefile
 gqview.spec

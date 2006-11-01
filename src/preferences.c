@@ -29,8 +29,6 @@
 #include "ui_tabcomp.h"
 #include "ui_utildlg.h"
 
-#include "icons/config.xpm"
-
 #include <math.h>
 
 
@@ -780,7 +778,7 @@ static void config_window_create(void)
 	gtk_window_set_wmclass(GTK_WINDOW(configwindow), "config", "GQview");
 	gtk_container_set_border_width(GTK_CONTAINER(configwindow), PREF_PAD_BORDER);
 
-	window_set_icon(configwindow, (const gchar **)config_xpm, NULL);
+	window_set_icon(configwindow, PIXBUF_INLINE_ICON_CONFIG, NULL);
 
 	win_vbox = gtk_vbox_new(FALSE, PREF_PAD_SPACE);
 	gtk_container_add(GTK_CONTAINER(configwindow), win_vbox);

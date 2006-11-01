@@ -29,7 +29,6 @@
 #include "ui_misc.h"
 #include "ui_tabcomp.h"
 
-#include "icons/tools.xpm"
 
 #define MAINWINDOW_DEF_WIDTH 700
 #define MAINWINDOW_DEF_HEIGHT 500
@@ -1109,7 +1108,7 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
         	gtk_window_set_wmclass(GTK_WINDOW(lw->tools), "tools", "GQview");
         	gtk_container_set_border_width(GTK_CONTAINER(lw->tools), 0);
 
-		window_set_icon(lw->tools, (const gchar **)tools_xpm, NULL);
+		window_set_icon(lw->tools, PIXBUF_INLINE_ICON_TOOLS, NULL);
 
 		new_window = TRUE;
 		}
