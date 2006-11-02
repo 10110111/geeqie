@@ -1,3 +1,10 @@
+Thu Nov  2 06:46:14 2006  John Ellis  <johne@verizon.net>
+
+	* po/eo.po: Add Esperanto translation,
+	submitted by Antonio C. Codazzi <f_sophia@libero.it>.
+	* configure.in (ALL_LINGUAS): Add new translation.
+	* README: Update credits for above.
+
 Wed Nov  1 11:39:48 2006  John Ellis  <johne@verizon.net>
 
 	* gqview.h, main.c (window_set_icon): Change to use inline pixbufs

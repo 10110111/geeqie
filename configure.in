@@ -25,7 +25,7 @@ AC_DEFINE_UNQUOTED(GQVIEW_HTMLDIR, "$prefix/share/doc/gqview-$VERSION/html", [Lo
 dnl checks for functions
 AC_CHECK_FUNCS(strverscmp)
 
-ALL_LINGUAS="ar be bg ca cs da de es et eu fi fr hu id it ja ko nl no pl pt_BR ro ru sk sl sv th tr uk vi zh_CN.GB2312 zh_TW"
+ALL_LINGUAS="ar be bg ca cs da de eo es et eu fi fr hu id it ja ko nl no pl pt_BR ro ru sk sl sv th tr uk vi zh_CN.GB2312 zh_TW"
 GETTEXT_PACKAGE=$PACKAGE
 AC_SUBST(GETTEXT_PACKAGE)
 AM_GLIB_GNU_GETTEXT
