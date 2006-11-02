@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -23,6 +23,7 @@
 #include "layout.h"
 #include "layout_image.h"
 #include "pixbuf_util.h"
+#include "print.h"
 #include "utilops.h"
 #include "ui_fileops.h"
 #include "ui_tree_edit.h"
@@ -898,7 +899,21 @@ static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gp
 				collection_set_sort_method(cw->cd, SORT_SIZE);
 				break;
 			case 'P': case 'p':
-				collection_set_sort_method(cw->cd, SORT_PATH);
+				if (event->state & GDK_SHIFT_MASK)
+					{
+					CollectInfo *info;
+					const gchar *path;
+
+					info = collection_table_get_focus_info(cw->table);
+					path = (info) ? info->path : NULL;
+
+					print_window_new(path, collection_table_selection_get_list(cw->table),
+							 collection_list_to_path_list(cw->cd->list), cw->window);
+					}
+				else
+					{
+					collection_set_sort_method(cw->cd, SORT_PATH);
+					}
 				break;
 			case GDK_Delete: case GDK_KP_Delete:
 				list = g_list_copy(cw->table->selection);

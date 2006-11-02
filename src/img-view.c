@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -25,6 +25,7 @@
 #include "menu.h"
 #include "pixbuf-renderer.h"
 #include "pixbuf_util.h"
+#include "print.h"
 #include "slideshow.h"
 #include "utilops.h"
 #include "ui_bookmark.h"
@@ -451,6 +452,18 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 				break;
 			case 'G': case 'g':
 				image_alter(imd, ALTER_DESATURATE);
+				break;
+			case 'P': case 'p':
+				{
+				const gchar *path;
+
+				view_fullscreen_toggle(vw, TRUE);
+				imd = view_window_active_image(vw);
+				path = image_get_path(imd);
+				print_window_new(path,
+						 (path) ? g_list_append(NULL, g_strdup(path)) : NULL,
+						 path_list_copy(vw->list), vw->window);
+				}
 				break;
 			default:
 				stop_signal = FALSE;

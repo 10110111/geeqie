@@ -21,6 +21,7 @@
 #include "collect-dlg.h"
 #include "dupe.h"
 #include "editors.h"
+#include "img-view.h"
 #include "info.h"
 #include "layout_image.h"
 #include "pan-view.h"
@@ -118,20 +119,32 @@ static gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 			case GDK_Down: case GDK_KP_Down:
 				y += 1;
 				break;
-			case GDK_BackSpace:
-			case 'B': case 'b':
-				layout_image_prev(lw);
-				break;
-			case GDK_space:
-			case 'N': case 'n':
-				layout_image_next(lw);
-				break;
-			case GDK_Menu:
-				layout_image_menu_popup(lw);
-				break;
 			default:
 				stop_signal = FALSE;
 				break;
+			}
+
+		if (!stop_signal &&
+		    !(event->state & GDK_CONTROL_MASK))
+			{
+			stop_signal = TRUE;
+			switch (event->keyval)
+				{
+				case GDK_BackSpace:
+				case 'B': case 'b':
+					layout_image_prev(lw);
+					break;
+				case GDK_space:
+				case 'N': case 'n':
+					layout_image_next(lw);
+					break;
+				case GDK_Menu:
+					layout_image_menu_popup(lw);
+					break;
+				default:
+					stop_signal = FALSE;
+					break;
+				}
 			}
 		}
 
@@ -149,7 +162,20 @@ static gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 
 	if (stop_signal) return stop_signal;
 
-	if (!(event->state & GDK_CONTROL_MASK))
+	if (event->state & GDK_CONTROL_MASK)
+		{
+		stop_signal = TRUE;
+		switch (event->keyval)
+			{
+			case 'v' : case 'V':
+				view_window_new(layout_image_get_path(lw));
+				break;
+			default:
+				stop_signal = FALSE;
+				break;
+			}
+		}
+	else
 		{
 		stop_signal = TRUE;
 		switch (event->keyval)
@@ -216,11 +242,18 @@ static gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 #endif
 				break;
 			case 'P': case 'p':
-				layout_image_slideshow_pause_toggle(lw);
+				if (!event->state & GDK_SHIFT_MASK)
+					{
+					layout_image_slideshow_pause_toggle(lw);
+					}
+				else
+					{
+					stop_signal = FALSE;
+					}
 				break;
 			case 'V': case 'v':
 			case GDK_F11:
-				if (!(event->state & GDK_MOD1_MASK)) layout_image_full_screen_toggle(lw);
+				layout_image_full_screen_toggle(lw);
 				break;
 			default:
 				stop_signal = FALSE;
