@@ -1,3 +1,9 @@
+Thu Nov  2 14:38:54 2006  John Ellis  <johne@verizon.net>
+
+	* view_file_list.c: Fix slow re-sort when updating list by clearing the
+	list and adding items in the new order instead of simply moving them.
+	Fixes bug #1451200.
+
 Thu Nov  2 06:46:14 2006  John Ellis  <johne@verizon.net>
 
 	* po/eo.po: Add Esperanto translation,
