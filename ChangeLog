@@ -7,7 +7,7 @@ Fri Nov  3 11:40:48 2006  John Ellis  <johne@verizon.net>
 	image below the info popup optional (off by default).
 	* pixbuf-renderer.c (pr_source_tile_changed): Guard against
 	width/height less than 1.
-	* pibuf_util.c (pixbuf_draw_layout): Guard against width/height less
+	* pixbuf_util.c (pixbuf_draw_layout): Guard against width/height less
 	than 1.
 
 Thu Nov  2 17:51:31 2006  John Ellis  <johne@verizon.net>
