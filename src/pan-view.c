@@ -13,10 +13,12 @@
 #include "gqview.h"
 #include "pan-view.h"
 
+#include "bar_exif.h"
 #include "cache.h"
 #include "cache-loader.h"
 #include "dnd.h"
 #include "editors.h"
+#include "exif.h"
 #include "filelist.h"
 #include "fullscreen.h"
 #include "image.h"
@@ -123,9 +125,11 @@
 #define ZOOM_LABEL_WIDTH 64
 
 
-#define PAN_PREF_GROUP "pan_view_options"
-#define PAN_PREF_HIDE_WARNING "hide_performance_warning"
-#define PAN_PREF_EXIF_DATE "use_exif_date"
+#define PAN_PREF_GROUP		"pan_view_options"
+#define PAN_PREF_HIDE_WARNING	"hide_performance_warning"
+#define PAN_PREF_EXIF_DATE	"use_exif_date"
+#define PAN_PREF_INFO_IMAGE	"info_includes_image"
+#define PAN_PREF_INFO_EXIF	"info_includes_exif"
 
 
 typedef enum {
@@ -239,6 +243,9 @@ struct _PanWindow
 	gint thumb_gap;
 	gint image_size;
 	gint exif_date_enable;
+
+	gint info_includes_image;
+	gint info_includes_exif;
 
 	gint ignore_symlinks;
 
@@ -955,11 +962,12 @@ static void pan_item_text_compute_size(PanItem *pi, GtkWidget *widget)
 	pango_layout_get_pixel_size(layout, &pi->width, &pi->height);
 	g_object_unref(G_OBJECT(layout));
 
-	pi->width += PAN_TEXT_BORDER_SIZE * 2;
-	pi->height += PAN_TEXT_BORDER_SIZE * 2;
+	pi->width += pi->border * 2;
+	pi->height += pi->border * 2;
 }
 
 static PanItem *pan_item_new_text(PanWindow *pw, gint x, gint y, const gchar *text, TextAttrType attr,
+				  gint border,
 				  guint8 r, guint8 g, guint8 b, guint8 a)
 {
 	PanItem *pi;
@@ -975,6 +983,8 @@ static PanItem *pan_item_new_text(PanWindow *pw, gint x, gint y, const gchar *te
 	pi->color_g = g;
 	pi->color_b = b;
 	pi->color_a = a;
+
+	pi->border = border;
 
 	pan_item_text_compute_size(pi, pw->imd->pr);
 
@@ -1637,6 +1647,7 @@ static FlowerGroup *pan_window_layout_compute_folders_flower_path(PanWindow *pw,
 	d = filelist_sort(d, SORT_NAME, TRUE);
 
 	pi_box = pan_item_new_text(pw, x, y, path, TEXT_ATTR_NONE,
+				   PAN_TEXT_BORDER_SIZE,
 				   PAN_TEXT_COLOR, 255);
 
 	y += pi_box->height;
@@ -1782,6 +1793,7 @@ static void pan_window_layout_compute_folders_linear_path(PanWindow *pw, const g
 	*x = PAN_FOLDER_BOX_BORDER + ((*level) * MAX(PAN_FOLDER_BOX_BORDER, PAN_THUMB_GAP));
 
 	pi_box = pan_item_new_text(pw, *x, *y, path, TEXT_ATTR_NONE,
+				   PAN_TEXT_BORDER_SIZE,
 				   PAN_TEXT_COLOR, 255);
 
 	*y += pi_box->height;
@@ -1940,6 +1952,7 @@ static void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 
 		buf = date_value_string(pi_day->fd->date, DATE_LENGTH_WEEK);
 		plabel = pan_item_new_text(pw, x, y, buf, TEXT_ATTR_BOLD | TEXT_ATTR_HEADING,
+					   PAN_TEXT_BORDER_SIZE,
 					   PAN_CAL_POPUP_TEXT_COLOR, 255);
 		pan_item_set_key(plabel, "day_bubble");
 		g_free(buf);
@@ -2116,8 +2129,9 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 					    PAN_CAL_MONTH_BORDER_COLOR, PAN_CAL_MONTH_ALPHA);
 		buf = date_value_string(dt, DATE_LENGTH_MONTH);
 		pi_text = pan_item_new_text(pw, x, y, buf,
-					     TEXT_ATTR_BOLD | TEXT_ATTR_HEADING,
-					     PAN_CAL_MONTH_TEXT_COLOR, 255);
+					    TEXT_ATTR_BOLD | TEXT_ATTR_HEADING,
+					    PAN_TEXT_BORDER_SIZE,
+					    PAN_CAL_MONTH_TEXT_COLOR, 255);
 		g_free(buf);
 		pi_text->x = pi_month->x + (pi_month->width - pi_text->width) / 2;
 
@@ -2187,6 +2201,7 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 
 				buf = g_strdup_printf("( %d )", n);
 				pi = pan_item_new_text(pw, x, y, buf, TEXT_ATTR_NONE,
+						       PAN_TEXT_BORDER_SIZE,
 						       PAN_CAL_DAY_TEXT_COLOR, 255);
 				g_free(buf);
 
@@ -2196,6 +2211,7 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 
 			buf = g_strdup_printf("%d", day);
 			pan_item_new_text(pw, x + 4, y + 4, buf, TEXT_ATTR_BOLD | TEXT_ATTR_HEADING,
+					  PAN_TEXT_BORDER_SIZE,
 					  PAN_CAL_DAY_TEXT_COLOR, 255);
 			g_free(buf);
 
@@ -2304,6 +2320,7 @@ static void pan_window_layout_compute_timeline(PanWindow *pw, const gchar *path,
 				buf = date_value_string(fd->date, DATE_LENGTH_MONTH);
 				pi = pan_item_new_text(pw, x, y, buf,
 						       TEXT_ATTR_BOLD | TEXT_ATTR_HEADING,
+						       PAN_TEXT_BORDER_SIZE,
 						       PAN_TEXT_COLOR, 255);
 				g_free(buf);
 				y += pi->height;
@@ -2344,6 +2361,7 @@ static void pan_window_layout_compute_timeline(PanWindow *pw, const gchar *path,
 
 			buf = date_value_string(fd->date, DATE_LENGTH_WEEK);
 			pi = pan_item_new_text(pw, x, y, buf, TEXT_ATTR_NONE,
+					       PAN_TEXT_BORDER_SIZE,
 					       PAN_TEXT_COLOR, 255);
 			g_free(buf);
 
@@ -3085,7 +3103,7 @@ static gint pan_window_request_tile_cb(PixbufRenderer *pr, gint x, gint y,
 
 			layout = pan_item_text_layout(pi, (GtkWidget *)pr);
 			pixbuf_draw_layout(pixbuf, layout, (GtkWidget *)pr,
-					   pi->x - x + PAN_TEXT_BORDER_SIZE, pi->y - y + PAN_TEXT_BORDER_SIZE,
+					   pi->x - x + pi->border, pi->y - y + pi->border,
 					   pi->color_r, pi->color_g, pi->color_b, pi->color_a);
 			g_object_unref(G_OBJECT(layout));
 			}
@@ -3651,10 +3669,198 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
  *-----------------------------------------------------------------------------
  */
 
+typedef struct _PanTextAlignment PanTextAlignment;
+struct _PanTextAlignment {
+	PanWindow *pw;
+
+	GList *column1;
+	GList *column2;
+
+	gint x;
+	gint y;
+	gchar *key;
+};
+
+
+static PanTextAlignment *pan_text_alignment_new(PanWindow *pw, gint x, gint y, const gchar *key)
+{
+	PanTextAlignment *ta;
+
+	ta = g_new0(PanTextAlignment, 1);
+
+	ta->pw = pw;
+	ta->column1 = NULL;
+	ta->column2 = NULL;
+	ta->x = x;
+	ta->y = y;
+	ta->key = g_strdup(key);
+
+	return ta;
+}
+
+static PanItem *pan_text_alignment_add(PanTextAlignment *ta,
+				       const gchar *label, const gchar *text)
+{
+	PanItem *item;
+
+	if (label)
+		{
+		item = pan_item_new_text(ta->pw, ta->x, ta->y, label,
+					 TEXT_ATTR_BOLD, 0,
+					 PAN_POPUP_TEXT_COLOR, 255);
+		pan_item_set_key(item, ta->key);
+		}
+	else
+		{
+		item = NULL;
+		}
+	ta->column1 = g_list_append(ta->column1, item);
+
+	if (text)
+		{
+		item = pan_item_new_text(ta->pw, ta->x, ta->y, text,
+					 TEXT_ATTR_NONE, 0,
+					 PAN_POPUP_TEXT_COLOR, 255);
+		pan_item_set_key(item, ta->key);
+		}
+	else
+		{
+		item = NULL;
+		}
+	ta->column2 = g_list_append(ta->column2, item);
+
+	return item;
+}
+
+static void pan_text_alignment_calc(PanTextAlignment *ta, PanItem *box)
+{
+	gint cw1, cw2;
+	gint x, y;
+	GList *work1;
+	GList *work2;
+
+	cw1 = 0;
+	cw2 = 0;
+
+	work1 = ta->column1;
+	while (work1)
+		{
+		PanItem *p;
+
+		p = work1->data;
+		work1 = work1->next;
+
+		if (p && p->width > cw1) cw1 = p->width;
+		}
+
+	work2 = ta->column2;
+	while (work2)
+		{
+		PanItem *p;
+
+		p = work2->data;
+		work2 = work2->next;
+
+		if (p && p->width > cw2) cw2 = p->width;
+		}
+
+	x = ta->x;
+	y = ta->y;
+	work1 = ta->column1;
+	work2 = ta->column2;
+	while (work1 && work2)
+		{
+		PanItem *p1;
+		PanItem *p2;
+		gint height = 0;
+
+		p1 = work1->data;
+		p2 = work2->data;
+		work1 = work1->next;
+		work2 = work2->next;
+
+		if (p1)
+			{
+			p1->x = x;
+			p1->y = y;
+			pan_item_size_by_item(box, p1, PREF_PAD_BORDER);
+			height = p1->height;
+			}
+		if (p2)
+			{
+			p2->x = x + cw1 + PREF_PAD_SPACE;
+			p2->y = y;
+			pan_item_size_by_item(box, p2, PREF_PAD_BORDER);
+			if (height < p2->height) height = p2->height;
+			}
+
+		if (!p1 && !p2) height = PREF_PAD_GROUP;
+
+		y += height;
+		}
+}
+
+static void pan_text_alignment_free(PanTextAlignment *ta)
+{
+	if (!ta) return;
+
+	g_list_free(ta->column1);
+	g_list_free(ta->column2);
+	g_free(ta->key);
+	g_free(ta);
+}
+
+static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
+{
+	ExifData *exif;
+	GList *work;
+	gint i;
+
+	if (!fd) return;
+	exif = exif_read(fd->path);
+	if (!exif) return;
+
+	pan_text_alignment_add(ta, NULL, NULL);
+
+	for (i = 0; i < bar_exif_key_count; i++)
+		{
+		gchar *label;
+		gchar *text;
+
+		label = g_strdup_printf("%s:", exif_get_description_by_key(bar_exif_key_list[i]));
+		text = exif_get_data_as_text(exif, bar_exif_key_list[i]);
+		text = bar_exif_validate_text(text);
+		pan_text_alignment_add(ta, label, text);
+		g_free(label);
+		g_free(text);
+		}
+
+	work = g_list_last(history_list_get_by_key("exif_extras"));
+	if (work) pan_text_alignment_add(ta, "---", NULL);
+	while (work)
+		{
+		const gchar *name;
+		gchar *label;
+		gchar *text;
+
+		name = work->data;
+		work = work->prev;
+
+		label = g_strdup_printf("%s:", name);
+		text = exif_get_data_as_text(exif, name);
+		text = bar_exif_validate_text(text);
+		pan_text_alignment_add(ta, label, text);
+		g_free(label);
+		g_free(text);
+		}
+
+	exif_free(exif);
+}
+
 static void pan_info_update(PanWindow *pw, PanItem *pi)
 {
+	PanTextAlignment *ta;
 	PanItem *pbox;
-	PanItem *plabel;
 	PanItem *p;
 	gchar *buf;
 	gint x1, y1, x2, y2, x3, y3;
@@ -3704,42 +3910,26 @@ static void pan_info_update(PanWindow *pw, PanItem *pi)
 	pan_item_set_key(p, "info");
 	pan_item_added(pw, p);
 
-	plabel = pan_item_new_text(pw, pbox->x, pbox->y,
-				   _("Filename:"), TEXT_ATTR_BOLD,
-				   PAN_POPUP_TEXT_COLOR, 255);
-	pan_item_set_key(plabel, "info");
-	p = pan_item_new_text(pw, plabel->x + plabel->width, plabel->y,
-			      pi->fd->name, TEXT_ATTR_NONE,
-			      PAN_POPUP_TEXT_COLOR, 255);
-	pan_item_set_key(p, "info");
-	pan_item_size_by_item(pbox, p, 0);
+	ta = pan_text_alignment_new(pw, pbox->x + PREF_PAD_BORDER, pbox->y + PREF_PAD_BORDER, "info");
 
-	plabel = pan_item_new_text(pw, plabel->x, plabel->y + plabel->height,
-				   _("Date:"), TEXT_ATTR_BOLD,
-				   PAN_POPUP_TEXT_COLOR, 255);
-	pan_item_set_key(plabel, "info");
-	p = pan_item_new_text(pw, plabel->x + plabel->width, plabel->y,
-			      text_from_time(pi->fd->date), TEXT_ATTR_NONE,
-			      PAN_POPUP_TEXT_COLOR, 255);
-	pan_item_set_key(p, "info");
-	pan_item_size_by_item(pbox, p, 0);
-
-	plabel = pan_item_new_text(pw, plabel->x, plabel->y + plabel->height,
-				   _("Size:"), TEXT_ATTR_BOLD,
-				   PAN_POPUP_TEXT_COLOR, 255);
-	pan_item_set_key(plabel, "info");
+	pan_text_alignment_add(ta, _("Filename:"), pi->fd->name);
+	pan_text_alignment_add(ta, _("Date:"), text_from_time(pi->fd->date));
 	buf = text_from_size(pi->fd->size);
-	p = pan_item_new_text(pw, plabel->x + plabel->width, plabel->y,
-			      buf, TEXT_ATTR_NONE,
-			      PAN_POPUP_TEXT_COLOR, 255);
+	pan_text_alignment_add(ta, _("Size:"), buf);
 	g_free(buf);
-	pan_item_set_key(p, "info");
-	pan_item_size_by_item(pbox, p, 0);
+
+	if (pw->info_includes_exif)
+		{
+		pan_info_add_exif(ta, pi->fd);
+		}
+
+	pan_text_alignment_calc(ta, pbox);
+	pan_text_alignment_free(ta);
 
 	pan_item_box_shadow(pbox, PAN_SHADOW_OFFSET * 2, PAN_SHADOW_FADE * 2);
 	pan_item_added(pw, pbox);
 
-	if (TRUE)
+	if (pw->info_includes_image)
 		{
 		gint iw, ih;
 		if (image_load_dimensions(pi->fd->path, &iw, &ih))
@@ -3751,9 +3941,9 @@ static void pan_info_update(PanWindow *pw, PanItem *pi)
 			pan_item_set_key(pbox, "info");
 
 			p = pan_item_new_image(pw, file_data_new_simple(pi->fd->path),
-					       pbox->x + 8, pbox->y + 8, iw, ih);
+					       pbox->x + PREF_PAD_BORDER, pbox->y + PREF_PAD_BORDER, iw, ih);
 			pan_item_set_key(p, "info");
-			pan_item_size_by_item(pbox, p, 8);
+			pan_item_size_by_item(pbox, p, PREF_PAD_BORDER);
 
 			pan_item_box_shadow(pbox, PAN_SHADOW_OFFSET * 2, PAN_SHADOW_FADE * 2);
 			pan_item_added(pw, pbox);
@@ -4408,6 +4598,8 @@ static void pan_window_close(PanWindow *pw)
 	pan_window_list = g_list_remove(pan_window_list, pw);
 
 	pref_list_int_set(PAN_PREF_GROUP, PAN_PREF_EXIF_DATE, pw->exif_date_enable);
+	pref_list_int_set(PAN_PREF_GROUP, PAN_PREF_INFO_IMAGE, pw->info_includes_image);
+	pref_list_int_set(PAN_PREF_GROUP, PAN_PREF_INFO_EXIF, pw->info_includes_exif);
 
 	if (pw->idle_id != -1)
 		{
@@ -4455,6 +4647,14 @@ static void pan_window_new_real(const gchar *path)
 	if (!pref_list_int_get(PAN_PREF_GROUP, PAN_PREF_EXIF_DATE, &pw->exif_date_enable))
 		{
 		pw->exif_date_enable = FALSE;
+		}
+	if (!pref_list_int_get(PAN_PREF_GROUP, PAN_PREF_INFO_IMAGE, &pw->info_includes_image))
+		{
+		pw->info_includes_image = FALSE;
+		}
+	if (!pref_list_int_get(PAN_PREF_GROUP, PAN_PREF_INFO_EXIF, &pw->info_includes_exif))
+		{
+		pw->info_includes_exif = TRUE;
 		}
 
 	pw->ignore_symlinks = TRUE;
@@ -4849,6 +5049,22 @@ static void pan_exif_date_toggle_cb(GtkWidget *widget, gpointer data)
 	pan_window_layout_update(pw);
 }
 
+static void pan_info_toggle_exif_cb(GtkWidget *widget, gpointer data)
+{
+	PanWindow *pw = data;
+
+	pw->info_includes_exif = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
+	/* fixme: sync info now */
+}
+
+static void pan_info_toggle_image_cb(GtkWidget *widget, gpointer data)
+{
+	PanWindow *pw = data;
+
+	pw->info_includes_image = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
+	/* fixme: sync info now */
+}
+
 static void pan_fullscreen_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
@@ -4904,6 +5120,12 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 	item = menu_item_add_check(menu, _("Sort by E_xif date"), pw->exif_date_enable,
 				   G_CALLBACK(pan_exif_date_toggle_cb), pw);
 	gtk_widget_set_sensitive(item, (pw->layout == LAYOUT_TIMELINE || pw->layout == LAYOUT_CALENDAR));
+
+	menu_item_add_divider(menu);
+	menu_item_add_check(menu, _("Show EXIF information"), pw->info_includes_exif,
+			    G_CALLBACK(pan_info_toggle_exif_cb), pw);
+	menu_item_add_check(menu, _("Show full size image"), pw->info_includes_image,
+			    G_CALLBACK(pan_info_toggle_image_cb), pw);
 
 	menu_item_add_divider(menu);
 

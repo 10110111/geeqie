@@ -616,6 +616,8 @@ void pixbuf_draw_layout(GdkPixbuf *pixbuf, PangoLayout *layout, GtkWidget *widge
 	if (!widget || !widget->window) return;
 
 	pango_layout_get_pixel_size(layout, &w, &h);
+	if (w < 1 || h < 1) return;
+
 	pixmap = gdk_pixmap_new(widget->window, w, h, -1);
 
 	gc = gdk_gc_new(widget->window);

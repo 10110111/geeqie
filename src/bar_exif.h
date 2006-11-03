@@ -22,5 +22,13 @@ void bar_exif_set(GtkWidget *bar, const gchar *path);
 gint bar_exif_is_advanced(GtkWidget *bar);
 
 
+/* these are exposed for when duplication of the exif bar's text is needed */
+
+const gchar **bar_exif_key_list;
+const gint bar_exif_key_count;
+
+gchar *bar_exif_validate_text(gchar *text);
+
+
 #endif
 

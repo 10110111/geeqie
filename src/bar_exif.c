@@ -26,7 +26,7 @@
 
 #define BAR_EXIF_DATA_COLUMN_WIDTH 250
 
-static const gchar *bar_exif_key_list[] = {
+static const gchar *bar_exif_key_list_real[] = {
 	"fCamera",
 	"fDateTime",
 	"fShutterSpeed",
@@ -45,7 +45,8 @@ static const gchar *bar_exif_key_list[] = {
 	"Copyright"
 };
 
-#define bar_exif_key_count (sizeof(bar_exif_key_list) / sizeof(gchar *))
+const gchar **bar_exif_key_list = bar_exif_key_list_real;
+const gint bar_exif_key_count = (sizeof(bar_exif_key_list_real) / sizeof(gchar *));
 
 
 /*
@@ -134,7 +135,7 @@ enum {
 	EXIF_ADVCOL_COUNT
 };
 
-static gchar *bar_exif_validate_text(gchar *text)
+gchar *bar_exif_validate_text(gchar *text)
 {
 	if (text && !g_utf8_validate(text, strlen(text), NULL))
 		{

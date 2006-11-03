@@ -1,3 +1,15 @@
+Fri Nov  3 11:40:48 2006  John Ellis  <johne@verizon.net>
+
+	* bar_exif.[ch]: Make list of general exif tags available to rest of
+	application.
+	* pan-view.c: Add option to display exif information in info popup.
+	Clean up the info popup text alignment. Make displaying the full size
+	image below the info popup optional (off by default).
+	* pixbuf-renderer.c (pr_source_tile_changed): Guard against
+	width/height less than 1.
+	* pibuf_util.c (pixbuf_draw_layout): Guard against width/height less
+	than 1.
+
 Thu Nov  2 17:51:31 2006  John Ellis  <johne@verizon.net>
 
 	* collect.c, img-view.c: Make [Shift]+P printing shortcut work for

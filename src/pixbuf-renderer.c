@@ -1399,6 +1399,8 @@ static void pr_source_tile_changed(PixbufRenderer *pr, gint x, gint y, gint widt
 {
 	GList *work;
 
+	if (width < 1 || height < 1) return;
+
 	work = pr->source_tiles;
 	while (work)
 		{
