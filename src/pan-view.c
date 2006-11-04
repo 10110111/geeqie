@@ -302,6 +302,9 @@ static void pan_window_layout_update_idle(PanWindow *pw);
 static GtkWidget *pan_popup_menu(PanWindow *pw);
 static void pan_fullscreen_toggle(PanWindow *pw, gint force_off);
 
+static void pan_search_toggle_visible(PanWindow *pw, gint enable);
+static void pan_search_activate(PanWindow *pw);
+
 static void pan_window_close(PanWindow *pw);
 
 static void pan_window_dnd_init(PanWindow *pw);
@@ -3423,11 +3426,14 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 	gint x = 0;
 	gint y = 0;
 	gint focused;
+	gint on_entry;
 
 	pr = PIXBUF_RENDERER(pw->imd->pr);
 	path = pan_menu_click_path(pw);
 
 	focused = (pw->fs || GTK_WIDGET_HAS_FOCUS(GTK_WIDGET(pw->imd->widget)));
+	on_entry = (GTK_WIDGET_HAS_FOCUS(pw->path_entry) ||
+		    GTK_WIDGET_HAS_FOCUS(pw->search_entry));
 
 	if (focused)
 		{
@@ -3529,6 +3535,12 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 			case 'P': case 'p':
 				if (path) info_window_new(path, NULL);
 				break;
+			case 'F': case 'f':
+				pan_search_toggle_visible(pw, TRUE);
+				break;
+			case 'G': case 'g':
+				pan_search_activate(pw);
+				break;
 			case 'W': case 'w':
 				pan_window_close(pw);
 				break;
@@ -3548,7 +3560,27 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 		}
 	else
 		{
-		if (focused)
+		stop_signal = TRUE;
+		switch (event->keyval)
+			{
+			case GDK_Escape:
+				if (pw->fs)
+					{
+					pan_fullscreen_toggle(pw, TRUE);
+					}
+				else
+					{
+					pan_search_toggle_visible(pw, FALSE);
+					}
+				break;
+			default:
+				stop_signal = FALSE;
+				break;
+			}
+
+		if (stop_signal) return stop_signal;
+
+		if (!on_entry)
 			{
 			stop_signal = TRUE;
 			switch (event->keyval)
@@ -3592,67 +3624,15 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 					break;
 				case GDK_Delete: case GDK_KP_Delete:
 					break;
-				case '/':
-					if (!pw->fs)
-						{
-						if (GTK_WIDGET_VISIBLE(pw->search_box))
-							{
-							gtk_widget_grab_focus(pw->search_entry);
-							}
-						else
-							{
-							gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), TRUE);
-							}
-						}
-					else
-						{
-						stop_signal = FALSE;
-						}
-					break;
-				case GDK_Escape:
-					if (pw->fs)
-						{
-						pan_fullscreen_toggle(pw, TRUE);
-						}
-					else if (GTK_WIDGET_VISIBLE(pw->search_entry))
-						{
-						gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), FALSE);
-						}
-					else
-						{
-						stop_signal = FALSE;
-						}
-					break;
 				case GDK_Menu:
 				case GDK_F10:
 					menu = pan_popup_menu(pw);
-					gtk_menu_popup(GTK_MENU(menu), NULL, NULL, pan_window_menu_pos_cb, pw, 0, GDK_CURRENT_TIME);
+					gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
+						       pan_window_menu_pos_cb, pw, 0, GDK_CURRENT_TIME);
 					break;
-				default:
-					stop_signal = FALSE;
+				case '/':
+					pan_search_toggle_visible(pw, TRUE);
 					break;
-				}
-			}
-		else
-			{
-			stop_signal = TRUE;
-			switch (event->keyval)
-				{
-				case GDK_Escape:
-					if (pw->fs)
-						{
-						pan_fullscreen_toggle(pw, TRUE);
-						}
-					else if (GTK_WIDGET_HAS_FOCUS(pw->search_entry))
-						{
-						gtk_widget_grab_focus(GTK_WIDGET(pw->imd->widget));
-						gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), FALSE);
-						}
-					else
-						{
-						stop_signal = FALSE;
-						}
-				break;
 				default:
 					stop_signal = FALSE;
 					break;
@@ -3913,6 +3893,9 @@ static void pan_info_update(PanWindow *pw, PanItem *pi)
 	ta = pan_text_alignment_new(pw, pbox->x + PREF_PAD_BORDER, pbox->y + PREF_PAD_BORDER, "info");
 
 	pan_text_alignment_add(ta, _("Filename:"), pi->fd->name);
+	buf = remove_level_from_path(pi->fd->path);
+	pan_text_alignment_add(ta, _("Location:"), buf);
+	g_free(buf);
 	pan_text_alignment_add(ta, _("Date:"), text_from_time(pi->fd->date));
 	buf = text_from_size(pi->fd->size);
 	pan_text_alignment_add(ta, _("Size:"), buf);
@@ -4288,6 +4271,22 @@ static void pan_search_activate_cb(const gchar *text, gpointer data)
 	pan_search_status(pw, _("no match"));
 }
 
+static void pan_search_activate(PanWindow *pw)
+{
+	gchar *text;
+
+#if 0
+	if (!GTK_WIDGET_VISIBLE(pw->search_box))
+		{
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), TRUE);
+		}
+#endif
+
+	text = g_strdup(gtk_entry_get_text(GTK_ENTRY(pw->search_entry)));
+	pan_search_activate_cb(text, pw);
+	g_free(text);
+}
+
 static void pan_search_toggle_cb(GtkWidget *button, gpointer data)
 {
 	PanWindow *pw = data;
@@ -4306,6 +4305,34 @@ static void pan_search_toggle_cb(GtkWidget *button, gpointer data)
 		gtk_widget_show(pw->search_box);
 		gtk_arrow_set(GTK_ARROW(pw->search_button_arrow), GTK_ARROW_DOWN, GTK_SHADOW_NONE);
 		gtk_widget_grab_focus(pw->search_entry);
+		}
+}
+
+static void pan_search_toggle_visible(PanWindow *pw, gint enable)
+{
+	if (pw->fs) return;
+
+	if (enable)
+		{
+		if (GTK_WIDGET_VISIBLE(pw->search_box))
+			{
+			gtk_widget_grab_focus(pw->search_entry);
+			}
+		else
+			{
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), TRUE);
+			}
+		}
+	else
+		{
+		if (GTK_WIDGET_VISIBLE(pw->search_entry))
+			{
+			if (GTK_WIDGET_HAS_FOCUS(pw->search_entry))
+				{
+				gtk_widget_grab_focus(GTK_WIDGET(pw->imd->widget));
+				}
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), FALSE);
+			}
 		}
 }
 

@@ -61,7 +61,7 @@ d> figure out if crash when expanding a folder in the folder tree view when pess
     w> fix search. (UPDATE: still can not find day containing name/path/partial)
      > supports thumbnail size images only, should grey out actual size items in size menu or something...
     w> allow use of file date or EXIF (embedded) date.
-     > fix scrolling when 'day' popup appears outsize of canvas.
+    d> fix scrolling when 'day' popup appears outsize of canvas.
 
    > grid view:
      > allow sorting by name, date, size, dimensions, etc.
@@ -80,14 +80,9 @@ d> figure out if crash when expanding a folder in the folder tree view when pess
  > folder tree view shortcuts for expanding/collapsing leak through to the main
    window (+,-,*,/, etc.), figure what behavior is desired and fix this.
 
-  --- Doc updates:
-
- > default edit commands not described.
- > add formatted rename option.
-
  -------------
 
- > update translations: eu(x)
+ > update translations:
 
  > document recent additions/changes:
    > Added 'Fast jpeg thumbnailing'.
@@ -96,8 +91,16 @@ d> figure out if crash when expanding a folder in the folder tree view when pess
    > add --geometry command line option
    > add [shift]+G grayscale alteration
    > add F11 for full screen toggle
+   > default edit commands not described.
+   > add formatted rename option.
+   > [Control]+V now shows image in new window
+   > [Shift]+P print shortcut added to collection and img-view windows.
+     (fixme, forgot to add it to find dialog).
 
    > add blurb about moving images between collections with shift+drag
+
+   > start documenting the pan view, at least the basic options
+     and how search works/what's supported
 
 
 Minor (non blockers):
@@ -110,9 +113,6 @@ d> update icon used for window to the (not so) new icon
 
 d> update .desktop MimeType list to match Fedora's patch for missing formats
 
-d> allow multiple command line dirs to work as expected
-   (ie contents of each are treated as given on command line)
-
  > allow editor commands to be interrupted (via SIGTERM?)
  > fix hanging editor commands that await user input (how to handle, or even detect this?)
 
@@ -122,7 +122,7 @@ d> allow multiple command line dirs to work as expected
 
  > fix printing of transparent images to not use black for transparency (white or user settable).
 
- > add [control]+G to display as greyscale
+d> add [shift]+G to display as greyscale
 
  > fix comment field in keywords bar to a height of 2 or 3 text lines.
 

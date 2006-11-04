@@ -1,3 +1,9 @@
+Fri Nov  3 21:15:40 2006  John Ellis  <johne@verizon.net>
+
+	* pan-view.c: Fix shortcuts to work regardless of what has the focus.
+	Make [Control]+F (in addition to [/] show the find bar and [Control]+G
+	go to next match. Add folder location field to info popup.
+
 Fri Nov  3 11:40:48 2006  John Ellis  <johne@verizon.net>
 
 	* bar_exif.[ch]: Make list of general exif tags available to rest of
