@@ -1,3 +1,20 @@
+Sat Nov  4 17:14:47 2006  John Ellis  <johne@verizon.net>
+
+	* pan-view.c: Always recalculate canvas size when displaying popups.
+	* README: Updates.
+	* po/eo.po: Mark translation for 'Command Line' not fuzzy.
+	* configure.in: Release 2.1.4 (quick bug fix for pan view).
+
+Sat Nov  4 16:55:08 2006  John Ellis  <johne@verizon.net>
+
+	* pan-view.c: Only print things to console when debug is enabled.
+	* pixbuf-renderer.c: Fix pixbuf_renderer_set_tiles_size() so that
+	canvas will not treat scroll position as if a new image was set, this
+	fixes popups in the Pan View from causing a scroll to the top left or
+	center when scroll_reset_method is not set to 'no change'. Also clean
+	up pr_pixbuf_set() and pr_zoom_sync() arguments, some were unused or
+	always set TRUE as they were old cruft.
+
 Sat Nov  4 10:31:51 2006  John Ellis  <johne@verizon.net>
 
 	* README: Updates.

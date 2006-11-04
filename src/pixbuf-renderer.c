@@ -193,7 +193,7 @@ static void pr_queue(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
 static void pr_redraw(PixbufRenderer *pr, gint new_data);
 
 static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
-			 gint force, gint blank, gint new,
+			 gint force, gint new,
 			 gint center_point, gint px, gint py);
 
 static void pr_signals_connect(PixbufRenderer *pr);
@@ -1575,7 +1575,7 @@ void pixbuf_renderer_set_tiles(PixbufRenderer *pr, gint width, gint height,
 	pr->func_tile_dispose = func_dispose;
 	pr->func_tile_data = user_data;
 
-	pr_zoom_sync(pr, zoom, TRUE, FALSE, TRUE, FALSE, 0, 0);
+	pr_zoom_sync(pr, zoom, TRUE, TRUE, FALSE, 0, 0);
 	pr_redraw(pr, TRUE);
 }
 
@@ -1590,8 +1590,7 @@ void pixbuf_renderer_set_tiles_size(PixbufRenderer *pr, gint width, gint height)
 	pr->image_width = width;
 	pr->image_height = height;
 
-	pr_zoom_sync(pr, pr->zoom, TRUE, FALSE, TRUE, FALSE, 0, 0);
-	pr_redraw(pr, TRUE);
+	pr_zoom_sync(pr, pr->zoom, TRUE, FALSE, FALSE, 0, 0);
 }
 
 gint pixbuf_renderer_get_tiles(PixbufRenderer *pr)
@@ -1643,7 +1642,7 @@ static void pr_zoom_adjust_real(PixbufRenderer *pr, gdouble increment,
 			}
 		}
 
-	pr_zoom_sync(pr, zoom, FALSE, FALSE, FALSE, center_point, x, y);
+	pr_zoom_sync(pr, zoom, FALSE, FALSE, center_point, x, y);
 }
 
 /*
@@ -2559,7 +2558,7 @@ static gint pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
 }
 
 static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
-			 gint force, gint blank, gint new,
+			 gint force, gint new,
 			 gint center_point, gint px, gint py)
 {
 	gdouble old_scale;
@@ -2588,7 +2587,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 	clamped = pr_size_clamp(pr);
 	sized = pr_parent_window_resize(pr, pr->width, pr->height);
 
-	if (force)
+	if (force && new)
 		{
 		switch (pr->scroll_reset)
 			{
@@ -2624,10 +2623,6 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 		}
 
 	pr_scroll_clamp(pr);
-
-#if 0
-	pr_tile_sync(pr, blank);
-#endif
 
 	/* If the window was not sized, redraw the image - we know there will be no size/expose signal.
 	 * But even if a size is claimed, there is no guarantee that the window manager will allow it,
@@ -2695,10 +2690,6 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 		}
 
 	pr_border_clear(pr);
-
-#if 0
-	pr_tile_sync(pr, pr->width, pr->height, FALSE);
-#endif
 
 	pr_scroll_notify_signal(pr);
 	if (zoom_changed) pr_zoom_signal(pr);
@@ -3053,7 +3044,7 @@ static void pr_signals_connect(PixbufRenderer *pr)
  *-------------------------------------------------------------------
  */
 
-static void pr_pixbuf_sync(PixbufRenderer *pr, gdouble zoom, gint blank, gint new)
+static void pr_pixbuf_sync(PixbufRenderer *pr, gdouble zoom)
 {
 	if (!pr->pixbuf)
 		{
@@ -3080,16 +3071,16 @@ static void pr_pixbuf_sync(PixbufRenderer *pr, gdouble zoom, gint blank, gint ne
 	pr->image_width = gdk_pixbuf_get_width(pr->pixbuf);
 	pr->image_height = gdk_pixbuf_get_height(pr->pixbuf);
 
-	pr_zoom_sync(pr, zoom, TRUE, blank, new, FALSE, 0, 0);
+	pr_zoom_sync(pr, zoom, TRUE, TRUE, FALSE, 0, 0);
 }
 
-static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, gint new)
+static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom)
 {
 	if (pixbuf) g_object_ref(pixbuf);
 	if (pr->pixbuf) g_object_unref(pr->pixbuf);
 	pr->pixbuf = pixbuf;
 
-	pr_pixbuf_sync(pr, zoom, FALSE, new);
+	pr_pixbuf_sync(pr, zoom);
 }
 
 void pixbuf_renderer_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom)
@@ -3098,7 +3089,7 @@ void pixbuf_renderer_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble z
 
 	pr_source_tile_unset(pr);
 
-	pr_set_pixbuf(pr, pixbuf, zoom, TRUE);
+	pr_set_pixbuf(pr, pixbuf, zoom);
 
 	pr_update_signal(pr);
 }
@@ -3152,7 +3143,7 @@ void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source)
 		pr->source_tiles = source->source_tiles;
 		source->source_tiles = NULL;
 
-		pr_zoom_sync(pr, source->zoom, TRUE, FALSE, TRUE, FALSE, 0, 0);
+		pr_zoom_sync(pr, source->zoom, TRUE, TRUE, FALSE, 0, 0);
 		pr_redraw(pr, TRUE);
 		}
 	else
@@ -3211,7 +3202,7 @@ void pixbuf_renderer_zoom_set(PixbufRenderer *pr, gdouble zoom)
 {
 	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
 
-	pr_zoom_sync(pr, zoom, FALSE, FALSE, FALSE, FALSE, 0, 0);
+	pr_zoom_sync(pr, zoom, FALSE, FALSE, FALSE, 0, 0);
 }
 
 gdouble pixbuf_renderer_zoom_get(PixbufRenderer *pr)

@@ -1,5 +1,5 @@
 ###################################################################
-##                          GQview 2.1.3      (November 4, 2006) ##
+##                          GQview 2.1.4      (November 4, 2006) ##
 ##                                                               ##
 ##              Copyright (C) 1999 - 2006 John Ellis.            ##
 ##                                                               ##
@@ -44,6 +44,11 @@ homepage: http://gqview.sourceforge.net
 
   Changes:
 
+   2.1.4: (quick bug fix release)
+    * Fix Pan View scrolling to top left or center when the
+      canvas size is recalculated.
+
+   2.1.3:
     + Add translations eo, eu; updated translation be.
     + Add command to view image as grayscale with [Shift]+[G].
     - Make [F11] also toggle fullscreen.

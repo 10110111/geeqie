@@ -672,7 +672,7 @@ static void pan_grid_build(PanWindow *pw, gint width, gint height, gint grid_siz
 	row = row * 2 - 1;
 	col = col * 2 - 1;
 
-	printf("intersect speedup grid is %dx%d, based on %d average per grid\n", col, row, grid_size);
+	if (debug) printf("intersect speedup grid is %dx%d, based on %d average per grid\n", col, row, grid_size);
 
 	for (j = 0; j < row; j++)
 	    for (i = 0; i < col; i++)
@@ -2499,7 +2499,7 @@ static void pan_window_layout_compute(PanWindow *pw, const gchar *path,
 
 	pan_cache_free(pw);
 
-	printf("computed %d objects\n", g_list_length(pw->list));
+	if (debug) printf("computed %d objects\n", g_list_length(pw->list));
 }
 
 static GList *pan_layout_intersect_l(GList *list, GList *item_list,
@@ -3340,7 +3340,7 @@ static gint pan_window_layout_update_idle_cb(gpointer data)
 		{
 		gdouble align;
 
-		printf("Canvas size is %d x %d\n", width, height);
+		if (debug) printf("Canvas size is %d x %d\n", width, height);
 
 		pan_grid_build(pw, width, height, 1000);
 
@@ -3930,10 +3930,10 @@ static void pan_info_update(PanWindow *pw, PanItem *pi)
 
 			pan_item_box_shadow(pbox, PAN_SHADOW_OFFSET * 2, PAN_SHADOW_FADE * 2);
 			pan_item_added(pw, pbox);
-
-			pan_layout_resize(pw);
 			}
 		}
+
+	pan_layout_resize(pw);
 }
 
 
