@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-14 05:18-0400\n"
+"POT-Creation-Date: 2006-11-04 10:21-0500\n"
 "PO-Revision-Date: 2006-10-14 10:09+0700\n"
 "Last-Translator: pclouds <pclouds@vnlinux.org>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
@@ -50,11 +50,11 @@ msgstr "Từ khoá đặt trước"
 msgid "Favorite keywords list"
 msgstr "Danh sách từ khoá yêu thích"
 
-#: src/bar_info.c:992 src/info.c:167 src/search.c:2692
+#: src/bar_info.c:992 src/info.c:167 src/search.c:2683
 msgid "Keywords"
 msgstr "Từ khoá"
 
-#: src/bar_info.c:1006 src/info.c:722 src/pan-view.c:3630 src/print.c:2599
+#: src/bar_info.c:1006 src/info.c:722 src/pan-view.c:3895 src/print.c:2599
 msgid "Filename:"
 msgstr "Tên tập tin:"
 
@@ -86,36 +86,36 @@ msgstr "Thêm từ khoá vào tập tin được chọn, thay thế từ khoá t
 msgid "Save comment now"
 msgstr "Lưu ghi chú ngay"
 
-#: src/bar_exif.c:435
+#: src/bar_exif.c:436
 msgid "Tag"
 msgstr "Thẻ"
 
-#: src/bar_exif.c:436 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
-#: src/search.c:2753 src/view_file_list.c:1556
+#: src/bar_exif.c:437 src/dupe.c:2589 src/dupe.c:3112 src/print.c:3190
+#: src/search.c:2744 src/view_file_list.c:1653
 msgid "Name"
 msgstr "Tên"
 
-#: src/bar_exif.c:437
+#: src/bar_exif.c:438
 msgid "Value"
 msgstr "Giá trị"
 
-#: src/bar_exif.c:438
+#: src/bar_exif.c:439
 msgid "Format"
 msgstr "Dạng thức"
 
-#: src/bar_exif.c:439
+#: src/bar_exif.c:440
 msgid "Elements"
 msgstr "Phần tử"
 
-#: src/bar_exif.c:440 src/preferences.c:1042
+#: src/bar_exif.c:441 src/preferences.c:1040
 msgid "Description"
 msgstr "Mô tả"
 
-#: src/bar_exif.c:561 src/info.c:106
+#: src/bar_exif.c:562 src/info.c:106
 msgid "Exif"
 msgstr "Exif"
 
-#: src/bar_exif.c:634
+#: src/bar_exif.c:635
 msgid "Advanced view"
 msgstr "Xem nâng cao"
 
@@ -162,7 +162,7 @@ msgstr ""
 msgid "Collection exists"
 msgstr "Tập ảnh đã có"
 
-#: src/bar_sort.c:450 src/collect.c:1061 src/collect-dlg.c:84
+#: src/bar_sort.c:450 src/collect.c:1057 src/collect-dlg.c:84
 #, c-format
 msgid ""
 "Failed to save the collection:\n"
@@ -171,7 +171,7 @@ msgstr ""
 "Lỗi lưu tập ảnh:\n"
 "%s"
 
-#: src/bar_sort.c:451 src/collect.c:1062 src/collect-dlg.c:85
+#: src/bar_sort.c:451 src/collect.c:1058 src/collect-dlg.c:85
 msgid "Save Failed"
 msgstr "Lỗi lưu"
 
@@ -191,11 +191,11 @@ msgstr "Tên:"
 msgid "Sort Manager"
 msgstr "Bộ quản lý Sắp xếp"
 
-#: src/bar_sort.c:577 src/pan-view.c:4393 src/ui_pathsel.c:1094
+#: src/bar_sort.c:577 src/pan-view.c:4728 src/ui_pathsel.c:1094
 msgid "Folders"
 msgstr "Tập tin"
 
-#: src/bar_sort.c:578 src/main.c:1066
+#: src/bar_sort.c:578 src/main.c:1125
 msgid "Collections"
 msgstr "Tập ảnh"
 
@@ -260,7 +260,7 @@ msgstr "Tạo ảnh mẫu"
 msgid "S_tart"
 msgstr "_Bắt đầu"
 
-#: src/cache_maint.c:841 src/preferences.c:1179
+#: src/cache_maint.c:841 src/preferences.c:1177
 msgid "Folder:"
 msgstr "Thư mục:"
 
@@ -314,7 +314,8 @@ msgid "GQview thumbnail cache"
 msgstr "Cache ảnh mẫu GQview"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
-#: src/pan-view.c:4382 src/preferences.c:1156 src/utilops.c:1564
+#: src/pan-view.c:3897 src/pan-view.c:4717 src/preferences.c:1154
+#: src/utilops.c:1564
 msgid "Location:"
 msgstr "Vị trí:"
 
@@ -350,27 +351,27 @@ msgstr "Siêu dữ liệu"
 msgid "Remove orphaned keywords and comments."
 msgstr "Loại bỏ từ khoá và ghi chú vô thừa nhận."
 
-#: src/collect.c:349 src/image.c:134 src/image-overlay.c:75
+#: src/collect.c:350 src/image.c:134 src/image-overlay.c:75
 #: src/image-overlay.c:116
 #, c-format
 msgid "Untitled"
 msgstr "Không tựa"
 
-#: src/collect.c:353
+#: src/collect.c:354
 #, c-format
 msgid "Untitled (%d)"
 msgstr "Không tựa (%d)"
 
-#: src/collect.c:980
+#: src/collect.c:976
 #, c-format
 msgid "%s - GQview Collection"
 msgstr "%s - Tập ảnh GQview"
 
-#: src/collect.c:1098 src/collect.c:1102
+#: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
 msgstr "Đóng tập ảnh"
 
-#: src/collect.c:1103
+#: src/collect.c:1099
 msgid ""
 "Collection has been modified.\n"
 "Save first?"
@@ -378,7 +379,7 @@ msgstr ""
 "Tập ảnh đã thay đổi.\n"
 "Lưu trước chứ?"
 
-#: src/collect.c:1106
+#: src/collect.c:1102
 msgid "_Discard"
 msgstr "_Huỷ"
 
@@ -438,7 +439,7 @@ msgstr "Tập ảnh rỗng"
 msgid "The current collection is empty, save aborted."
 msgstr "Tập ảnh hiện thời rỗng, ngừng lưu."
 
-#: src/collect-table.c:164 src/layout_util.c:702
+#: src/collect-table.c:164 src/layout_util.c:734
 msgid "Empty"
 msgstr "Rỗng"
 
@@ -453,18 +454,18 @@ msgid "%d images"
 msgstr "%d ảnh"
 
 #: src/collect-table.c:186 src/dupe.c:1296 src/search.c:303
-#: src/view_file_icon.c:1772 src/view_file_icon.c:1887
-#: src/view_file_list.c:817 src/view_file_list.c:922
+#: src/view_file_icon.c:1766 src/view_file_icon.c:1881
+#: src/view_file_list.c:914 src/view_file_list.c:1019
 msgid "Loading thumbs..."
 msgstr "Đang nạp ảnh mẫu..."
 
 #: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
-#: src/layout_util.c:745 src/search.c:969
+#: src/layout_util.c:777 src/search.c:969
 msgid "_View"
 msgstr "_Xem"
 
-#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1196
-#: src/layout_image.c:727 src/pan-view.c:4782 src/search.c:971
+#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1227
+#: src/layout_image.c:737 src/pan-view.c:5133 src/search.c:971
 #: src/view_file_icon.c:283 src/view_file_list.c:396
 msgid "View in _new window"
 msgstr "Xem trong cửa sổ mớ_i"
@@ -489,33 +490,33 @@ msgstr "Chọn tất cả"
 msgid "Select none"
 msgstr "Bỏ chọn"
 
-#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1194
-#: src/layout_image.c:724 src/layout_util.c:779 src/pan-view.c:4779
+#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1225
+#: src/layout_image.c:734 src/layout_util.c:812 src/pan-view.c:5130
 #: src/search.c:981 src/view_file_icon.c:280 src/view_file_list.c:394
 msgid "_Properties"
 msgstr "_Thuộc tính"
 
-#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1199
-#: src/layout_image.c:732 src/layout_util.c:757 src/pan-view.c:4786
+#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1230
+#: src/layout_image.c:742 src/layout_util.c:789 src/pan-view.c:5137
 #: src/search.c:988 src/view_file_icon.c:287 src/view_file_list.c:400
 msgid "_Copy..."
 msgstr "_Sao chép..."
 
-#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1200
-#: src/layout_image.c:734 src/layout_util.c:758 src/pan-view.c:4788
+#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1231
+#: src/layout_image.c:744 src/layout_util.c:790 src/pan-view.c:5139
 #: src/search.c:990 src/view_file_icon.c:289 src/view_file_list.c:402
 msgid "_Move..."
 msgstr "_Di chuyển..."
 
-#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1201
-#: src/layout_image.c:736 src/layout_util.c:759 src/pan-view.c:4790
+#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1232
+#: src/layout_image.c:746 src/layout_util.c:791 src/pan-view.c:5141
 #: src/search.c:992 src/view_dir_list.c:407 src/view_dir_tree.c:497
 #: src/view_file_icon.c:291 src/view_file_list.c:404
 msgid "_Rename..."
 msgstr "Đổi _tên..."
 
-#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1202
-#: src/layout_image.c:738 src/layout_util.c:760 src/pan-view.c:4792
+#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1233
+#: src/layout_image.c:748 src/layout_util.c:792 src/pan-view.c:5143
 #: src/search.c:994 src/view_file_icon.c:293 src/view_file_list.c:406
 msgid "_Delete..."
 msgstr "_Xóa..."
@@ -532,7 +533,7 @@ msgstr "Lư_u tập ảnh"
 msgid "Save collection _as..."
 msgstr "Lưu tập ảnh _là..."
 
-#: src/collect-table.c:818 src/layout_util.c:753
+#: src/collect-table.c:818 src/layout_util.c:785
 msgid "_Find duplicates..."
 msgstr "_Tìm trùng lặp..."
 
@@ -540,23 +541,23 @@ msgstr "_Tìm trùng lặp..."
 msgid "Print..."
 msgstr "In..."
 
-#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1356
+#: src/collect-table.c:1972 src/dupe.c:3300 src/img-view.c:1387
 msgid "Dropped list includes folders."
 msgstr "Danh sách đã thả xuống có cả thư mục."
 
-#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1358
+#: src/collect-table.c:1974 src/dupe.c:3302 src/img-view.c:1389
 msgid "_Add contents"
 msgstr "_Thêm nội dung"
 
-#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1359
+#: src/collect-table.c:1976 src/dupe.c:3303 src/img-view.c:1390
 msgid "Add contents _recursive"
 msgstr "Thêm nội dung đệ _quy"
 
-#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1360
+#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1391
 msgid "_Skip folders"
 msgstr "_Bỏ qua thư mục"
 
-#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1362
+#: src/collect-table.c:1981 src/dupe.c:3306 src/img-view.c:1393
 #: src/view_dir_list.c:214 src/view_dir_tree.c:306
 msgid "Cancel"
 msgstr "Hủy bỏ"
@@ -595,7 +596,7 @@ msgstr "Đang đọc dữ liệu tương tự..."
 msgid "Comparing..."
 msgstr "Đang so sánh..."
 
-#: src/dupe.c:1535 src/pan-view.c:3238
+#: src/dupe.c:1535 src/pan-view.c:3314
 msgid "Sorting..."
 msgstr "Đang sắp..."
 
@@ -624,17 +625,17 @@ msgstr "Đón_g cửa sổ"
 msgid "%d files (set 2)"
 msgstr "%d tập tin (tập 2)"
 
-#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:961 src/print.c:3194
-#: src/search.c:2754 src/view_file_list.c:1557
+#: src/dupe.c:2590 src/dupe.c:3113 src/preferences.c:959 src/print.c:3194
+#: src/search.c:2745 src/view_file_list.c:1654
 msgid "Size"
 msgstr "Kích thước"
 
-#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:296 src/exif.c:417
-#: src/print.c:3192 src/search.c:2755 src/view_file_list.c:1558
+#: src/dupe.c:2591 src/dupe.c:3114 src/exif.c:296 src/exif.c:417
+#: src/print.c:3192 src/search.c:2746 src/view_file_list.c:1655
 msgid "Date"
 msgstr "Ngày"
 
-#: src/dupe.c:2592 src/dupe.c:3119 src/print.c:3196 src/search.c:2756
+#: src/dupe.c:2592 src/dupe.c:3115 src/print.c:3196 src/search.c:2747
 msgid "Dimensions"
 msgstr "Cỡ"
 
@@ -642,7 +643,7 @@ msgstr "Cỡ"
 msgid "Checksum"
 msgstr "Checksum"
 
-#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1106
+#: src/dupe.c:2594 src/dupe.c:3116 src/search.c:2748 src/ui_pathsel.c:1106
 msgid "Path"
 msgstr "Đường dẫn"
 
@@ -662,23 +663,23 @@ msgstr "Tương tự (thấp)"
 msgid "Similarity (custom)"
 msgstr "Tương tự (tự chọn)"
 
-#: src/dupe.c:3080
+#: src/dupe.c:3076
 msgid "Find duplicates - GQview"
 msgstr "Tìm trùng lặp - GQview"
 
-#: src/dupe.c:3152
+#: src/dupe.c:3148
 msgid "Compare to:"
 msgstr "So sánh với:"
 
-#: src/dupe.c:3165
+#: src/dupe.c:3161
 msgid "Compare by:"
 msgstr "So sánh theo:"
 
-#: src/dupe.c:3173 src/preferences.c:849 src/search.c:2770
+#: src/dupe.c:3169 src/preferences.c:847 src/search.c:2761
 msgid "Thumbnails"
 msgstr "Ảnh mẫu"
 
-#: src/dupe.c:3180
+#: src/dupe.c:3176
 msgid "Compare two file sets"
 msgstr "So sánh hai nhóm tập tin"
 
@@ -985,22 +986,22 @@ msgstr "giảm thiểu red-eye"
 msgid "dot"
 msgstr "chấm"
 
-#: src/filelist.c:520
+#: src/filelist.c:521
 #, c-format
 msgid "%d bytes"
 msgstr "%d byte"
 
-#: src/filelist.c:524
+#: src/filelist.c:525
 #, c-format
 msgid "%.1f K"
 msgstr "%.1f K"
 
-#: src/filelist.c:528
+#: src/filelist.c:529
 #, c-format
 msgid "%.1f MB"
 msgstr "%.1f MB"
 
-#: src/filelist.c:533
+#: src/filelist.c:534
 #, c-format
 msgid "%.1f GB"
 msgstr "%.1f GB"
@@ -1037,55 +1038,55 @@ msgstr "Screen hoạt động"
 msgid "Active monitor"
 msgstr "Màn hình hoạt động"
 
-#: src/img-view.c:1182 src/layout_image.c:711 src/layout_util.c:786
-#: src/pan-view.c:4768
+#: src/img-view.c:1213 src/layout_image.c:721 src/layout_util.c:819
+#: src/pan-view.c:5119
 msgid "Zoom _in"
 msgstr "Phóng _to"
 
-#: src/img-view.c:1183 src/layout_image.c:712 src/layout_util.c:787
-#: src/pan-view.c:4770
+#: src/img-view.c:1214 src/layout_image.c:722 src/layout_util.c:820
+#: src/pan-view.c:5121
 msgid "Zoom _out"
 msgstr "Thu _nhỏ"
 
-#: src/img-view.c:1184 src/layout_image.c:713 src/layout_util.c:788
-#: src/pan-view.c:4772
+#: src/img-view.c:1215 src/layout_image.c:723 src/layout_util.c:821
+#: src/pan-view.c:5123
 msgid "Zoom _1:1"
 msgstr "Phóng _1:1"
 
-#: src/img-view.c:1185 src/layout_image.c:714
+#: src/img-view.c:1216 src/layout_image.c:724
 msgid "Fit image to _window"
 msgstr "Phóng vừa _khít cửa sổ"
 
-#: src/img-view.c:1190 src/layout_image.c:720 src/layout_util.c:784
+#: src/img-view.c:1221 src/layout_image.c:730 src/layout_util.c:817
 msgid "Set as _wallpaper"
 msgstr "Đặt làm ảnh _nền"
 
-#: src/img-view.c:1208 src/layout_image.c:745
+#: src/img-view.c:1239 src/layout_image.c:755
 msgid "_Stop slideshow"
 msgstr "_Dừng trình diễn"
 
-#: src/img-view.c:1211 src/layout_image.c:748
+#: src/img-view.c:1242 src/layout_image.c:758
 msgid "Continue slides_how"
 msgstr "_Tiếp tục trình diễn"
 
-#: src/img-view.c:1216 src/img-view.c:1224 src/layout_image.c:753
-#: src/layout_image.c:760
+#: src/img-view.c:1247 src/img-view.c:1255 src/layout_image.c:763
+#: src/layout_image.c:770
 msgid "Pause slides_how"
 msgstr "_Tạm dừng trình diễn"
 
-#: src/img-view.c:1222 src/layout_image.c:759
+#: src/img-view.c:1253 src/layout_image.c:769
 msgid "_Start slideshow"
 msgstr "_Bắt đầu trình diễn"
 
-#: src/img-view.c:1230 src/layout_image.c:770 src/pan-view.c:4804
+#: src/img-view.c:1261 src/layout_image.c:780 src/pan-view.c:5161
 msgid "Exit _full screen"
 msgstr "_Thoát chế độ toàn màn hình"
 
-#: src/img-view.c:1234 src/layout_image.c:766 src/pan-view.c:4808
+#: src/img-view.c:1265 src/layout_image.c:776 src/pan-view.c:5165
 msgid "_Full screen"
 msgstr "_Toàn màn hình"
 
-#: src/img-view.c:1238 src/layout_util.c:761 src/pan-view.c:4812
+#: src/img-view.c:1269 src/layout_util.c:793 src/pan-view.c:5169
 msgid "C_lose window"
 msgstr "Đón_g cửa sổ"
 
@@ -1121,7 +1122,7 @@ msgstr "Chủ sở hữu:"
 msgid "Group:"
 msgstr "Nhóm:"
 
-#: src/info.c:380 src/preferences.c:830
+#: src/info.c:380 src/preferences.c:828
 msgid "General"
 msgstr "Chung"
 
@@ -1134,51 +1135,56 @@ msgstr "Ảnh %d trên %d"
 msgid "Image properties - GQview"
 msgstr "Thuộc tính ảnh - GQview"
 
-#: src/layout.c:266 src/view_file_icon.c:301 src/view_file_list.c:414
+#: src/layout.c:271 src/view_file_icon.c:301 src/view_file_list.c:414
 msgid "Ascending"
 msgstr "Xuôi"
 
-#: src/layout.c:332
+#: src/layout.c:337
 msgid " Slideshow"
 msgstr " Trình diễn"
 
-#: src/layout.c:336
+#: src/layout.c:341
 msgid " Paused"
 msgstr " Tạm dừng"
 
-#: src/layout.c:353
+#: src/layout.c:358
 #, c-format
 msgid "%s, %d files (%s, %d)%s"
 msgstr "%s, %d tập tin (%s, %d)%s"
 
-#: src/layout.c:360
+#: src/layout.c:365
 #, c-format
 msgid "%s, %d files%s"
 msgstr "%s, %d tập tin%s"
 
-#: src/layout.c:365
+#: src/layout.c:370
 #, c-format
 msgid "%d files%s"
 msgstr "%d tập tin%s"
 
-#: src/layout.c:394
+#: src/layout.c:399
 #, c-format
 msgid "(no read permission) %s bytes"
 msgstr "(không có quyền đọc) %s byte"
 
-#: src/layout.c:398
+#: src/layout.c:403
 #, c-format
 msgid "( ? x ? ) %s bytes"
 msgstr "( ? x ? ) %s byte"
 
-#: src/layout.c:406
+#: src/layout.c:411
 #, c-format
 msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s byte"
 
-#: src/layout.c:1102
+#: src/layout.c:1107
 msgid "GQview Tools"
 msgstr "Công cụ GQview"
+
+#: src/layout.c:1739
+#, fuzzy
+msgid "Invalid geometry\n"
+msgstr "Thư mục không hợp lệ"
 
 #: src/layout_config.c:57
 msgid "Tools"
@@ -1188,7 +1194,7 @@ msgstr "Công cụ"
 msgid "Files"
 msgstr "Tập tin"
 
-#: src/layout_config.c:57 src/preferences.c:895 src/print.c:110
+#: src/layout_config.c:57 src/preferences.c:893 src/print.c:110
 msgid "Image"
 msgstr "Ảnh"
 
@@ -1196,313 +1202,317 @@ msgstr "Ảnh"
 msgid "(drag to change order)"
 msgstr "(kéo để đổi thứ tự)"
 
-#: src/layout_image.c:775
+#: src/layout_image.c:785
 msgid "Hide file _list"
 msgstr "Ẩn _danh sách tập tin"
 
-#: src/layout_util.c:619 src/menu.c:74
+#: src/layout_util.c:651 src/menu.c:74
 #, c-format
 msgid "in %s..."
 msgstr "bằng %s..."
 
-#: src/layout_util.c:623 src/menu.c:76
+#: src/layout_util.c:655 src/menu.c:76
 msgid "in (unknown)..."
 msgstr "bằng (không biết)..."
 
-#: src/layout_util.c:631
+#: src/layout_util.c:663
 msgid "empty"
 msgstr "rỗng"
 
-#: src/layout_util.c:742
+#: src/layout_util.c:774
 msgid "_File"
 msgstr "_Tập tin"
 
-#: src/layout_util.c:743 src/menu.c:91
+#: src/layout_util.c:775 src/menu.c:91
 msgid "_Edit"
 msgstr "_Hiệu chỉnh"
 
-#: src/layout_util.c:744 src/menu.c:248
+#: src/layout_util.c:776 src/menu.c:252
 msgid "_Adjust"
 msgstr "Điều _chỉnh"
 
-#: src/layout_util.c:746
+#: src/layout_util.c:778
 msgid "_Help"
 msgstr "Trợ _giúp"
 
-#: src/layout_util.c:748
+#: src/layout_util.c:780
 msgid "New _window"
 msgstr "Tạo _cửa sổ mới"
 
-#: src/layout_util.c:749
+#: src/layout_util.c:781
 msgid "_New collection"
 msgstr "Tạo _tập ảnh mới"
 
-#: src/layout_util.c:750
+#: src/layout_util.c:782
 msgid "_Open collection..."
 msgstr "_Mở tập ảnh..."
 
-#: src/layout_util.c:751
+#: src/layout_util.c:783
 msgid "Open _recent"
 msgstr "Mở _gần đây"
 
-#: src/layout_util.c:752
+#: src/layout_util.c:784
 msgid "_Search..."
 msgstr "Tì_m..."
 
-#: src/layout_util.c:754
+#: src/layout_util.c:786
 msgid "Pan _view"
 msgstr "Khung xem _Pan"
 
-#: src/layout_util.c:755
+#: src/layout_util.c:787
 msgid "_Print..."
 msgstr "_In..."
 
-#: src/layout_util.c:756
+#: src/layout_util.c:788
 msgid "N_ew folder..."
 msgstr "Tạo _thư mục mới..."
 
-#: src/layout_util.c:762
+#: src/layout_util.c:794
 msgid "_Quit"
 msgstr "T_hoát"
 
-#: src/layout_util.c:774 src/menu.c:194
+#: src/layout_util.c:806 src/menu.c:194
 msgid "_Rotate clockwise"
 msgstr "_Quay chiều thuận"
 
-#: src/layout_util.c:775 src/menu.c:197
+#: src/layout_util.c:807 src/menu.c:197
 msgid "Rotate _counterclockwise"
 msgstr "Quay chiều _nghịch"
 
-#: src/layout_util.c:776
+#: src/layout_util.c:808
 msgid "Rotate 1_80"
 msgstr "Quay _180"
 
-#: src/layout_util.c:777 src/menu.c:203
+#: src/layout_util.c:809 src/menu.c:203
 msgid "_Mirror"
 msgstr "_Phản xạ"
 
-#: src/layout_util.c:778 src/menu.c:206
+#: src/layout_util.c:810 src/menu.c:206
 msgid "_Flip"
 msgstr "_Lật"
 
-#: src/layout_util.c:780
+#: src/layout_util.c:811 src/menu.c:209
+msgid "_Grayscale"
+msgstr ""
+
+#: src/layout_util.c:813
 msgid "Select _all"
 msgstr "Chọn tất _cả"
 
-#: src/layout_util.c:781
+#: src/layout_util.c:814
 msgid "Select _none"
 msgstr "_Bỏ chọn"
 
-#: src/layout_util.c:782
+#: src/layout_util.c:815
 msgid "P_references..."
 msgstr "_Tuỳ thích..."
 
-#: src/layout_util.c:783
+#: src/layout_util.c:816
 msgid "_Thumbnail maintenance..."
 msgstr "Bảo trì ả_nh mẫu..."
 
-#: src/layout_util.c:789
+#: src/layout_util.c:822
 msgid "_Zoom to fit"
 msgstr "Phóng vừa _khít"
 
-#: src/layout_util.c:790
+#: src/layout_util.c:823
 msgid "F_ull screen"
 msgstr "_Toàn màn hình"
 
-#: src/layout_util.c:791
+#: src/layout_util.c:824
 msgid "_Hide file list"
 msgstr "Ẩn _danh sách tập tin"
 
-#: src/layout_util.c:792
+#: src/layout_util.c:825
 msgid "Toggle _slideshow"
 msgstr "_Bật/Tắt trình diễn"
 
-#: src/layout_util.c:793
+#: src/layout_util.c:826
 msgid "_Refresh"
 msgstr "_Cập nhật"
 
-#: src/layout_util.c:795
+#: src/layout_util.c:828
 msgid "_Contents"
 msgstr "_Nội dung"
 
-#: src/layout_util.c:796
+#: src/layout_util.c:829
 msgid "_Keyboard shortcuts"
 msgstr "_Phím tắt"
 
-#: src/layout_util.c:797
+#: src/layout_util.c:830
 msgid "_Release notes"
 msgstr "_Ghi chú về phiên bản này"
 
-#: src/layout_util.c:798
+#: src/layout_util.c:831
 msgid "_About"
 msgstr "_Giới thiệu"
 
-#: src/layout_util.c:802 src/layout_util.c:1049
+#: src/layout_util.c:835 src/layout_util.c:1083
 msgid "_Thumbnails"
 msgstr "Ả_nh mẫu"
 
-#: src/layout_util.c:803
+#: src/layout_util.c:836
 msgid "Tr_ee"
 msgstr "_Cây"
 
-#: src/layout_util.c:804
+#: src/layout_util.c:837
 msgid "_Float file list"
 msgstr "Danh sách tập tin _rời"
 
-#: src/layout_util.c:805
+#: src/layout_util.c:838
 msgid "Hide tool_bar"
 msgstr "Ẩn thanh _công cụ"
 
-#: src/layout_util.c:806
+#: src/layout_util.c:839
 msgid "_Keywords"
 msgstr "_Từ khoá"
 
-#: src/layout_util.c:807
+#: src/layout_util.c:840
 msgid "E_xif data"
 msgstr "Dữ liệu E_xif"
 
-#: src/layout_util.c:808
+#: src/layout_util.c:841
 msgid "Sort _manager"
 msgstr "Bộ quản lý _sắp xếp"
 
-#: src/layout_util.c:812
+#: src/layout_util.c:845
 msgid "_List"
 msgstr "_Danh sách"
 
-#: src/layout_util.c:813
+#: src/layout_util.c:846
 msgid "I_cons"
 msgstr "_Biểu tượng:"
 
-#: src/layout_util.c:1050
+#: src/layout_util.c:1084
 msgid "Show thumbnails"
 msgstr "Hiện ảnh mẫu"
 
-#: src/layout_util.c:1055
+#: src/layout_util.c:1089
 msgid "Change to home folder"
 msgstr "Về thư mục cá nhân"
 
-#: src/layout_util.c:1057
+#: src/layout_util.c:1091
 msgid "Refresh file list"
 msgstr "Cập nhật danh sách tập tin"
 
-#: src/layout_util.c:1059
+#: src/layout_util.c:1093
 msgid "Zoom in"
 msgstr "Phóng to"
 
-#: src/layout_util.c:1061
+#: src/layout_util.c:1095
 msgid "Zoom out"
 msgstr "Thu nhỏ"
 
-#: src/layout_util.c:1063 src/preferences.c:924
+#: src/layout_util.c:1097 src/preferences.c:922
 msgid "Fit image to window"
 msgstr "Phóng vừa khít cửa sổ"
 
-#: src/layout_util.c:1065
+#: src/layout_util.c:1099
 msgid "Set zoom 1:1"
 msgstr "Đặt tỷ lệ phóng 1:1"
 
-#: src/layout_util.c:1067
+#: src/layout_util.c:1101
 msgid "Configure options"
 msgstr "Cấu hình tùy chọn"
 
-#: src/layout_util.c:1068
+#: src/layout_util.c:1102
 msgid "_Float"
 msgstr "_Trôi nổi"
 
-#: src/layout_util.c:1069
+#: src/layout_util.c:1103
 msgid "Float Controls"
 msgstr "Điều khiển rời"
 
-#: src/main.c:266
+#: src/main.c:237
 msgid "Help - GQview"
 msgstr "Trợ giúp - GQview"
 
-#: src/main.c:489 src/main.c:1305
+#: src/main.c:460 src/main.c:1365
 msgid "Command line"
 msgstr "Dòng lệnh"
 
 #. short, long                  callback,               extra, prefer,description
-#: src/main.c:527
+#: src/main.c:498
 msgid "next image"
 msgstr "ảnh kế"
 
-#: src/main.c:528
+#: src/main.c:499
 msgid "previous image"
 msgstr "ảnh trước"
 
-#: src/main.c:529
+#: src/main.c:500
 msgid "first image"
 msgstr "ảnh đầu"
 
-#: src/main.c:530
+#: src/main.c:501
 msgid "last image"
 msgstr "ảnh cuối"
 
-#: src/main.c:531
+#: src/main.c:502
 msgid "toggle full screen"
 msgstr "bật/tắt toàn màn hình"
 
-#: src/main.c:532
+#: src/main.c:503
 msgid "start full screen"
 msgstr "vào toàn màn hình"
 
-#: src/main.c:533
+#: src/main.c:504
 msgid "stop full screen"
 msgstr "thoát toàn màn hình"
 
-#: src/main.c:534
+#: src/main.c:505
 msgid "toggle slide show"
 msgstr "bật/tắt trình diễn"
 
-#: src/main.c:535
+#: src/main.c:506
 msgid "start slide show"
 msgstr "bắt đầu trình diễn"
 
-#: src/main.c:536
+#: src/main.c:507
 msgid "stop slide show"
 msgstr "dừng trình diễn"
 
-#: src/main.c:537
+#: src/main.c:508
 msgid "start recursive slide show"
 msgstr "bắt đầu trình diễn đệ quy"
 
-#: src/main.c:538
+#: src/main.c:509
 msgid "set slide show delay in seconds"
 msgstr "đặt khoảng chờ trình diễn theo giây"
 
-#: src/main.c:539
+#: src/main.c:510
 msgid "show tools"
 msgstr "hiện công cụ"
 
-#: src/main.c:540
+#: src/main.c:511
 msgid "hide tools"
 msgstr "ẩn công cụ"
 
-#: src/main.c:541
+#: src/main.c:512
 msgid "quit"
 msgstr "thoát"
 
-#: src/main.c:542
+#: src/main.c:513
 msgid "open file"
 msgstr "mở tập tin"
 
-#: src/main.c:543
+#: src/main.c:514
 msgid "open file in new window"
 msgstr "mở tập tin trong cửa sổ mới"
 
-#: src/main.c:609
+#: src/main.c:580
 msgid "Remote command list:\n"
 msgstr "Danh sách lệnh từ xa:\n"
 
-#: src/main.c:667
+#: src/main.c:638
 msgid "Remote GQview not running, starting..."
 msgstr "GQview ở xa chưa chạy, đang khởi động..."
 
-#: src/main.c:802
+#: src/main.c:773
 msgid "Remote not available\n"
 msgstr "GQview ở xa không sẵn sàng\n"
 
-#: src/main.c:944
+#: src/main.c:991
 msgid ""
 "Usage: gqview [options] [path]\n"
 "\n"
@@ -1510,47 +1520,51 @@ msgstr ""
 "Cách dùng: gqview [tùy chọn] [đường dẫn]\n"
 "\n"
 
-#: src/main.c:945
+#: src/main.c:992
 msgid "valid options are:\n"
 msgstr "tùy chọn hợp lệ là:\n"
 
-#: src/main.c:946
+#: src/main.c:993
 msgid "  +t, --with-tools           force show of tools\n"
 msgstr "  +t, --with-tools           buộc hiển thị công cụ\n"
 
-#: src/main.c:947
+#: src/main.c:994
 msgid "  -t, --without-tools        force hide of tools\n"
 msgstr "  -t, --without-tools        buộc ẩn công cụ\n"
 
-#: src/main.c:948
+#: src/main.c:995
 msgid "  -f, --fullscreen           start in full screen mode\n"
 msgstr "  -f, --fullscreen           chạy trong chế độ toàn màn hình\n"
 
-#: src/main.c:949
+#: src/main.c:996
 msgid "  -s, --slideshow            start in slideshow mode\n"
 msgstr "  -s, --slideshow            chạy trong chế độ trình diễn\n"
 
-#: src/main.c:950
+#: src/main.c:997
 msgid "  -l, --list                 open collection window for command line\n"
 msgstr "  -l, --list                 mở cửa sổ tập ảnh ở chế độ dòng lệnh\n"
 
-#: src/main.c:951
+#: src/main.c:998
+msgid "      --geometry=GEOMETRY    set main window location\n"
+msgstr ""
+
+#: src/main.c:999
 msgid "  -r, --remote               send following commands to open window\n"
 msgstr "  -r, --remote               gửi lệnh sau để mở cửa sổ\n"
 
-#: src/main.c:952
+#: src/main.c:1000
 msgid "  -rh,--remote-help          print remote command list\n"
 msgstr "  -rh,--remote-help          in danh sách lệnh ở xa\n"
 
-#: src/main.c:953
+#: src/main.c:1001
 msgid "  --debug                    turn on debug output\n"
 msgstr "  --debug                    xuất thông tin debug\n"
 
-#: src/main.c:954
+#: src/main.c:1002
 msgid "  -v, --version              print version info\n"
 msgstr "  -v, --version              in thông tin về phiên bản\n"
 
-#: src/main.c:955
+#: src/main.c:1003
 msgid ""
 "  -h, --help                 show this message\n"
 "\n"
@@ -1558,7 +1572,7 @@ msgstr ""
 "  -h, --help                 hiện thông báo này\n"
 "\n"
 
-#: src/main.c:969
+#: src/main.c:1017
 #, c-format
 msgid ""
 "invalid or ignored: %s\n"
@@ -1567,33 +1581,33 @@ msgstr ""
 "không hợp lệ hoặc bị bỏ qua: %s\n"
 "Dùng --help để biết các tùy chọn hợp lệ\n"
 
-#: src/main.c:1034
+#: src/main.c:1093
 #, c-format
 msgid "Creating GQview dir:%s\n"
 msgstr "Đang tạo thư mục GQview: %s\n"
 
-#: src/main.c:1040
+#: src/main.c:1099
 #, c-format
 msgid "Could not create dir:%s\n"
 msgstr "Không thể tạo thư mục: %s\n"
 
-#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1042
+#: src/main.c:1120 src/ui_bookmark.c:858 src/ui_pathsel.c:1042
 msgid "Home"
 msgstr "Nhà"
 
-#: src/main.c:1063 src/ui_bookmark.c:865
+#: src/main.c:1122 src/ui_bookmark.c:865
 msgid "Desktop"
 msgstr "Desktop"
 
-#: src/main.c:1152
+#: src/main.c:1211
 msgid "GQview - exit"
 msgstr "GQview - thoát"
 
-#: src/main.c:1156
+#: src/main.c:1215
 msgid "Quit GQview"
 msgstr "Thoát GQview"
 
-#: src/main.c:1156
+#: src/main.c:1215
 msgid "Collections have been modified. Quit anyway?"
 msgstr "Tập ảnh đã bị thay đổi. Vẫn thoát chứ?"
 
@@ -1629,142 +1643,142 @@ msgstr "Sắp xếp"
 msgid "Rotate _180"
 msgstr "Quay _180"
 
-#: src/pan-view.c:3163
+#: src/pan-view.c:3239
 #, c-format
 msgid "%d images, %s"
 msgstr "%d ảnh, %s"
 
-#: src/pan-view.c:3173
+#: src/pan-view.c:3249
 #, c-format
 msgid "The pan view does not support the folder \"%s\"."
 msgstr "Khung xem Pan không hỗ trợ thư mục \"%s\"."
 
-#: src/pan-view.c:3174
+#: src/pan-view.c:3250
 msgid "Folder not supported"
 msgstr "Thư mục không được hỗ trợ"
 
-#: src/pan-view.c:3228 src/pan-view.c:3244
+#: src/pan-view.c:3304 src/pan-view.c:3320
 msgid "Reading image data..."
 msgstr "Đang đọc dữ liệu ảnh..."
 
-#: src/pan-view.c:3303
+#: src/pan-view.c:3379
 msgid "Sorting images..."
 msgstr "Đang sắp ảnh..."
 
-#: src/pan-view.c:3640 src/pan-view.c:3967
+#: src/pan-view.c:3899 src/pan-view.c:4241
 msgid "Date:"
 msgstr "Ngày:"
 
-#: src/pan-view.c:3650 src/preferences.c:852 src/print.c:3201 src/print.c:3408
+#: src/pan-view.c:3901 src/preferences.c:850 src/print.c:3201 src/print.c:3408
 msgid "Size:"
 msgstr "Kích thước:"
 
-#: src/pan-view.c:3705
+#: src/pan-view.c:3979
 msgid "path found"
 msgstr "tìm ra đường dẫn"
 
-#: src/pan-view.c:3705
+#: src/pan-view.c:3979
 msgid "filename found"
 msgstr "không tìm được tên tập tin"
 
-#: src/pan-view.c:3753
+#: src/pan-view.c:4027
 msgid "partial match"
 msgstr "khớp một phần"
 
-#: src/pan-view.c:3964 src/pan-view.c:3997
+#: src/pan-view.c:4238 src/pan-view.c:4271
 msgid "no match"
 msgstr "không tìm ra"
 
-#: src/pan-view.c:4272 src/search.c:2140
+#: src/pan-view.c:4597 src/search.c:2131
 msgid "Folder not found"
 msgstr "Không tìm được thư mục"
 
-#: src/pan-view.c:4273
+#: src/pan-view.c:4598
 msgid "The entered path is not a folder"
 msgstr "Đường dẫn nhập vào không phải thư mục"
 
-#: src/pan-view.c:4369
+#: src/pan-view.c:4704
 #, fuzzy
 msgid "Pan View - GQview"
 msgstr "In - GQview"
 
-#: src/pan-view.c:4391
+#: src/pan-view.c:4726
 msgid "Timeline"
 msgstr "Trục thời gian"
 
-#: src/pan-view.c:4392
+#: src/pan-view.c:4727
 msgid "Calendar"
 msgstr "Xoá"
 
-#: src/pan-view.c:4394
+#: src/pan-view.c:4729
 msgid "Folders (flower)"
 msgstr "Thư mục (hoa)"
 
-#: src/pan-view.c:4395
+#: src/pan-view.c:4730
 msgid "Grid"
 msgstr "Lưới"
 
-#: src/pan-view.c:4404
+#: src/pan-view.c:4739
 msgid "Dots"
 msgstr "Chấm"
 
-#: src/pan-view.c:4405
+#: src/pan-view.c:4740
 msgid "No Images"
 msgstr "Không có ảnh"
 
-#: src/pan-view.c:4406
+#: src/pan-view.c:4741
 msgid "Small Thumbnails"
 msgstr "Ảnh mẫu nhỏ"
 
-#: src/pan-view.c:4407
+#: src/pan-view.c:4742
 msgid "Normal Thumbnails"
 msgstr "Ảnh mẫu thường"
 
-#: src/pan-view.c:4408
+#: src/pan-view.c:4743
 msgid "Large Thumbnails"
 msgstr "Ảnh mẫu lớn"
 
-#: src/pan-view.c:4409
+#: src/pan-view.c:4744
 msgid "1:10 (10%)"
 msgstr "1:10 (10%)"
 
-#: src/pan-view.c:4410
+#: src/pan-view.c:4745
 msgid "1:4 (25%)"
 msgstr "1:4 (25%)"
 
-#: src/pan-view.c:4411
+#: src/pan-view.c:4746
 msgid "1:3 (33%)"
 msgstr "1:3 (33%)"
 
-#: src/pan-view.c:4412
+#: src/pan-view.c:4747
 msgid "1:2 (50%)"
 msgstr "1:2 (50%)"
 
-#: src/pan-view.c:4413
+#: src/pan-view.c:4748
 msgid "1:1 (100%)"
 msgstr "1:1 (100%)"
 
-#: src/pan-view.c:4461
+#: src/pan-view.c:4796
 msgid "Find:"
 msgstr "Tìm:"
 
-#: src/pan-view.c:4504
+#: src/pan-view.c:4839
 msgid "Use Exif date"
 msgstr "Dùng ngày E_xif"
 
-#: src/pan-view.c:4517
+#: src/pan-view.c:4852
 msgid "Find"
 msgstr "Tìm"
 
-#: src/pan-view.c:4584
+#: src/pan-view.c:4919
 msgid "Pan View Performance"
 msgstr "Hiệu sưất Khung xem Pan"
 
-#: src/pan-view.c:4591
+#: src/pan-view.c:4926
 msgid "Pan view performance may be poor."
 msgstr "Hiệu suất Khung xem Pan có thể thấp."
 
-#: src/pan-view.c:4592
+#: src/pan-view.c:4927
 msgid ""
 "To improve performance of thumbnails in the pan view the following options "
 "can be enabled. Note that both options must be enabled to notice a change in "
@@ -1773,59 +1787,67 @@ msgstr ""
 "Để cải thiện hiệu suất khung xem Pan, có thể bật các tuỳ chọn sau đây. Chú ý "
 "rằng cả hai tuỳ chọn phải bật để thấy thay đổi về hiệu suất."
 
-#: src/pan-view.c:4600 src/preferences.c:855
+#: src/pan-view.c:4935 src/preferences.c:853
 msgid "Cache thumbnails"
 msgstr "Lưu lại ảnh mẫu"
 
-#: src/pan-view.c:4602 src/preferences.c:861
+#: src/pan-view.c:4937 src/preferences.c:859
 msgid "Use shared thumbnail cache"
 msgstr "Dùng cache ảnh mẫu chia sẻ"
 
-#: src/pan-view.c:4608
+#: src/pan-view.c:4943
 msgid "Do not show this dialog again"
 msgstr "Đừng hiện hộp thoại này lần nữa"
 
-#: src/pan-view.c:4796
+#: src/pan-view.c:5147
 msgid "Sort by E_xif date"
 msgstr "Sắp theo ngày E_xif"
 
-#: src/preferences.c:393
+#: src/pan-view.c:5152
+msgid "Show EXIF information"
+msgstr ""
+
+#: src/pan-view.c:5154
+msgid "Show full size image"
+msgstr ""
+
+#: src/preferences.c:391
 msgid "Nearest (worst, but fastest)"
 msgstr "Gần nhất (xấu nhất, nhanh nhất)"
 
-#: src/preferences.c:395
+#: src/preferences.c:393
 msgid "Tiles"
 msgstr "Lợp"
 
-#: src/preferences.c:397
+#: src/preferences.c:395
 msgid "Bilinear"
 msgstr "Song tuyến tính"
 
-#: src/preferences.c:399
+#: src/preferences.c:397
 msgid "Hyper (best, but slowest)"
 msgstr "Hyper (tốt nhất, chậm nhất)"
 
-#: src/preferences.c:427
+#: src/preferences.c:425
 msgid "None"
 msgstr "Không"
 
-#: src/preferences.c:428
+#: src/preferences.c:426
 msgid "Normal"
 msgstr "Thường"
 
-#: src/preferences.c:429
+#: src/preferences.c:427
 msgid "Best"
 msgstr "Tốt nhất"
 
-#: src/preferences.c:507 src/print.c:365
+#: src/preferences.c:505 src/print.c:365
 msgid "Custom"
 msgstr "Tự chọn"
 
-#: src/preferences.c:671 src/preferences.c:674
+#: src/preferences.c:669 src/preferences.c:672
 msgid "Reset filters"
 msgstr "Xóa bộ lọc"
 
-#: src/preferences.c:675
+#: src/preferences.c:673
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
@@ -1833,11 +1855,11 @@ msgstr ""
 "Hành động này sẽ đặt lại bộ lọc tập tin về mặc định.\n"
 "Bạn có muốn thực hiện không?"
 
-#: src/preferences.c:708 src/preferences.c:711
+#: src/preferences.c:706 src/preferences.c:709
 msgid "Reset editors"
 msgstr "Đặt lại trình soạn thảo"
 
-#: src/preferences.c:712
+#: src/preferences.c:710
 msgid ""
 "This will reset the edit commands to the defaults.\n"
 "Continue?"
@@ -1845,287 +1867,287 @@ msgstr ""
 "Hành động này sẽ đặt lại lệnh hiệu chỉnh về mặc định.\n"
 "Bạn có muốn thực hiện không?"
 
-#: src/preferences.c:736 src/preferences.c:739
+#: src/preferences.c:734 src/preferences.c:737
 msgid "Clear trash"
 msgstr "Đổ rác"
 
-#: src/preferences.c:740
+#: src/preferences.c:738
 msgid "This will remove the trash contents."
 msgstr "Hành động này sẽ loại bỏ những thứ có trong sọt rác."
 
-#: src/preferences.c:779
+#: src/preferences.c:777
 msgid "GQview Preferences"
 msgstr "Tuỳ thích GQview"
 
-#: src/preferences.c:833
+#: src/preferences.c:831
 msgid "Startup"
 msgstr "Khởi động"
 
-#: src/preferences.c:835
+#: src/preferences.c:833
 msgid "Change to folder:"
 msgstr "Về thư mục cá nhân:"
 
-#: src/preferences.c:846
+#: src/preferences.c:844
 msgid "Use current"
 msgstr "Thư mục hiện tại"
 
-#: src/preferences.c:853 src/preferences.c:904
+#: src/preferences.c:851 src/preferences.c:902
 msgid "Quality:"
 msgstr "Chất lượng:"
 
-#: src/preferences.c:867
+#: src/preferences.c:865
 msgid "Cache thumbnails into .thumbnails"
 msgstr "Lưu ảnh mẫu vào .thumbnails"
 
-#: src/preferences.c:871
+#: src/preferences.c:869
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr "Dùng ảnh mẫu xvpics nếu có (chỉ đọc)"
 
-#: src/preferences.c:875
+#: src/preferences.c:873
 msgid "Faster jpeg thumbnailing (may reduce quality)"
 msgstr "Tạo ảnh mẫu jpeg nhanh hơn (giảm chất lượng)"
 
-#: src/preferences.c:878
+#: src/preferences.c:876
 msgid "Slide show"
 msgstr "Xem trình diễn"
 
-#: src/preferences.c:881
+#: src/preferences.c:879
 msgid "Delay between image change:"
 msgstr "Khoảng chờ đổi ảnh:"
 
-#: src/preferences.c:881
+#: src/preferences.c:879
 msgid "seconds"
 msgstr "giây"
 
-#: src/preferences.c:887
+#: src/preferences.c:885
 msgid "Random"
 msgstr "Ngẫu nhiên"
 
-#: src/preferences.c:888
+#: src/preferences.c:886
 msgid "Repeat"
 msgstr "Lặp lại"
 
-#: src/preferences.c:898
+#: src/preferences.c:896
 msgid "Zoom"
 msgstr "Thu/Phóng"
 
-#: src/preferences.c:901
+#: src/preferences.c:899
 msgid "Dithering method:"
 msgstr "Cách dither:"
 
-#: src/preferences.c:906
+#: src/preferences.c:904
 msgid "Two pass zooming"
 msgstr "Phóng to/thu nhỏ 2 pha"
 
-#: src/preferences.c:909
+#: src/preferences.c:907
 msgid "Allow enlargement of image for zoom to fit"
 msgstr "Cho phép phóng to ảnh để vừa khít"
 
-#: src/preferences.c:913
+#: src/preferences.c:911
 msgid "Zoom increment:"
 msgstr "Độ phóng:"
 
-#: src/preferences.c:918
+#: src/preferences.c:916
 msgid "When new image is selected:"
 msgstr "Khi ảnh mới được chọn:"
 
-#: src/preferences.c:921
+#: src/preferences.c:919
 msgid "Zoom to original size"
 msgstr "Phóng cỡ ảnh ban đầu"
 
-#: src/preferences.c:927
+#: src/preferences.c:925
 msgid "Leave Zoom at previous setting"
 msgstr "Dùng thiết lập sau trước đó"
 
-#: src/preferences.c:931
+#: src/preferences.c:929
 msgid "Appearance"
 msgstr "Diện mạo"
 
-#: src/preferences.c:933
+#: src/preferences.c:931
 msgid "Black background"
 msgstr "Nền đen"
 
-#: src/preferences.c:936
+#: src/preferences.c:934
 msgid "Convenience"
 msgstr "Tiện dụng"
 
-#: src/preferences.c:938
+#: src/preferences.c:936
 msgid "Refresh on file change"
 msgstr "Cập nhật khi tập tin thay đổi"
 
-#: src/preferences.c:940
+#: src/preferences.c:938
 msgid "Preload next image"
 msgstr "Nạp trước ảnh kế"
 
-#: src/preferences.c:942
+#: src/preferences.c:940
 msgid "Auto rotate image using Exif information"
 msgstr "Tự động quay ảnh dùng thông tin Exif"
 
-#: src/preferences.c:951
+#: src/preferences.c:949
 msgid "Windows"
 msgstr "Cửa sổ"
 
-#: src/preferences.c:954
+#: src/preferences.c:952
 msgid "State"
 msgstr "Trạng thái"
 
-#: src/preferences.c:956
+#: src/preferences.c:954
 msgid "Remember window positions"
 msgstr "Nhớ vị trí cửa sổ"
 
-#: src/preferences.c:958
+#: src/preferences.c:956
 msgid "Remember tool state (float/hidden)"
 msgstr "Nhớ trạng thái cửa sổ (trôi nổi/ẩn)"
 
-#: src/preferences.c:963
+#: src/preferences.c:961
 msgid "Fit window to image when tools are hidden/floating"
 msgstr "Khít cửa sổ vừa ảnh khi ẩn/tách rời công cụ"
 
-#: src/preferences.c:967
+#: src/preferences.c:965
 msgid "Limit size when auto-sizing window (%):"
 msgstr "Kích thước giới hạn khi tự chỉnh cỡ cửa sổ (%):"
 
-#: src/preferences.c:974 src/print.c:3356 src/print.c:3363
+#: src/preferences.c:972 src/print.c:3356 src/print.c:3363
 msgid "Layout"
 msgstr "Bố trí"
 
-#: src/preferences.c:987
+#: src/preferences.c:985
 msgid "Filtering"
 msgstr "Lọc"
 
-#: src/preferences.c:992
+#: src/preferences.c:990
 msgid "Show entries that begin with a dot"
 msgstr "Hiện các tên bắt đầu bằng dấu chấm"
 
-#: src/preferences.c:994
+#: src/preferences.c:992
 msgid "Case sensitive sort"
 msgstr "Sắp phân biệt hoa/thường"
 
-#: src/preferences.c:997
+#: src/preferences.c:995
 msgid "Disable File Filtering"
 msgstr "Tắt lọc tập tin"
 
-#: src/preferences.c:1000
+#: src/preferences.c:998
 msgid "File types"
 msgstr "Loại tập tin"
 
-#: src/preferences.c:1022
+#: src/preferences.c:1020
 msgid "Filter"
 msgstr "Bộ lọc"
 
-#: src/preferences.c:1059 src/preferences.c:1123
+#: src/preferences.c:1057 src/preferences.c:1121
 msgid "Defaults"
 msgstr "Mặc định"
 
-#: src/preferences.c:1080
+#: src/preferences.c:1078
 msgid "Editors"
 msgstr "Bộ hiệu chỉnh"
 
-#: src/preferences.c:1086
+#: src/preferences.c:1084
 msgid "#"
 msgstr "#"
 
-#: src/preferences.c:1089
+#: src/preferences.c:1087
 msgid "Menu name"
 msgstr "Tên menu"
 
-#: src/preferences.c:1092
+#: src/preferences.c:1090
 msgid "Command Line"
 msgstr "Dòng lệnh"
 
-#: src/preferences.c:1139
+#: src/preferences.c:1137
 msgid "Advanced"
 msgstr "Nâng cao"
 
-#: src/preferences.c:1152
+#: src/preferences.c:1150
 msgid "Full screen"
 msgstr "Toàn màn hình"
 
-#: src/preferences.c:1160
+#: src/preferences.c:1158
 msgid "Smooth image flip"
 msgstr "Lật ảnh mượt"
 
-#: src/preferences.c:1162
+#: src/preferences.c:1160
 msgid "Disable screen saver"
 msgstr "Tắt trình bảo vệ màn hình"
 
-#: src/preferences.c:1165
+#: src/preferences.c:1163
 msgid "Delete"
 msgstr "Xóa"
 
-#: src/preferences.c:1167
+#: src/preferences.c:1165
 msgid "Confirm file delete"
 msgstr "Xác nhận xóa tập tin"
 
-#: src/preferences.c:1169
+#: src/preferences.c:1167
 msgid "Enable Delete key"
 msgstr "Dùng phím Delete"
 
-#: src/preferences.c:1172
+#: src/preferences.c:1170
 msgid "Safe delete"
 msgstr "Xóa an toàn"
 
-#: src/preferences.c:1190
+#: src/preferences.c:1188
 msgid "Maximum size:"
 msgstr "Kích thước tối đa"
 
-#: src/preferences.c:1190
+#: src/preferences.c:1188
 msgid "MB"
 msgstr "MB"
 
-#: src/preferences.c:1193
+#: src/preferences.c:1191
 msgid "View"
 msgstr "Xem"
 
-#: src/preferences.c:1203
+#: src/preferences.c:1201
 msgid "Behavior"
 msgstr "Hành vi"
 
-#: src/preferences.c:1205
+#: src/preferences.c:1203
 msgid "Rectangular selection in icon view"
 msgstr "Vùng chọn chữ nhật trong khung xem biểu tượng"
 
-#: src/preferences.c:1208
+#: src/preferences.c:1206
 msgid "Descend folders in tree view"
 msgstr "Thư mục con khi dùng cây"
 
-#: src/preferences.c:1211
+#: src/preferences.c:1209
 msgid "In place renaming"
 msgstr "Đổi tên tại chỗ"
 
-#: src/preferences.c:1214
+#: src/preferences.c:1212
 msgid "Navigation"
 msgstr "Duyệt"
 
-#: src/preferences.c:1216
+#: src/preferences.c:1214
 msgid "Progressive keyboard scrolling"
 msgstr "Cuộn bàn phím lũy tiến"
 
-#: src/preferences.c:1218
+#: src/preferences.c:1216
 msgid "Mouse wheel scrolls image"
 msgstr "Dùng mouse wheel cuộn ảnh"
 
-#: src/preferences.c:1221
+#: src/preferences.c:1219
 msgid "Miscellaneous"
 msgstr "Linh tinh"
 
-#: src/preferences.c:1223
+#: src/preferences.c:1221
 msgid "Store keywords and comments local to source images"
 msgstr "Lưu từ khoá và ghi chú vào ảnh gốc"
 
-#: src/preferences.c:1226
+#: src/preferences.c:1224
 msgid "Custom similarity threshold:"
 msgstr "Ngưỡng tương tự (tự chọn):"
 
-#: src/preferences.c:1229
+#: src/preferences.c:1227
 msgid "Offscreen cache size (Mb per image):"
 msgstr "Kích thước cache offscreen (Mb mỗi ảnh):"
 
-#: src/preferences.c:1305
+#: src/preferences.c:1303
 msgid "About - GQview"
 msgstr "Giới thiệu - GQview"
 
-#: src/preferences.c:1318
+#: src/preferences.c:1316
 #, c-format
 msgid ""
 "GQview %s\n"
@@ -2144,7 +2166,7 @@ msgstr ""
 "\n"
 "Phân phối theo giấy phép GNU GPL"
 
-#: src/preferences.c:1336
+#: src/preferences.c:1334
 msgid "Credits..."
 msgstr "Công lao..."
 
@@ -2518,64 +2540,64 @@ msgstr "%s, %d tập tin"
 msgid "Searching..."
 msgstr "Đang tìm..."
 
-#: src/search.c:2093
+#: src/search.c:2084
 msgid "File not found"
 msgstr "Không tìm được tập tin"
 
-#: src/search.c:2094
+#: src/search.c:2085
 msgid "Please enter an existing file for image content."
 msgstr "Vui lòng chọn một thư mục đã có cho nội dung ảnh."
 
-#: src/search.c:2141
+#: src/search.c:2132
 msgid "Please enter an existing folder to search."
 msgstr "Vui lòng chọn một thư mục đã có để tìm."
 
-#: src/search.c:2570
+#: src/search.c:2561
 msgid "Image search - GQview"
 msgstr "Tìm ảnh - GQview"
 
-#: src/search.c:2599
+#: src/search.c:2590
 msgid "Search:"
 msgstr "Tìm:"
 
-#: src/search.c:2613
+#: src/search.c:2604
 msgid "Recurse"
 msgstr "Đệ quy"
 
-#: src/search.c:2617
+#: src/search.c:2608
 msgid "File name"
 msgstr "Tên tập tin"
 
-#: src/search.c:2623
+#: src/search.c:2614
 msgid "Match case"
 msgstr "Khớp hoa/thường"
 
-#: src/search.c:2627
+#: src/search.c:2618
 msgid "File size is"
 msgstr "Kích thước tập tin là"
 
-#: src/search.c:2634 src/search.c:2649 src/search.c:2667
+#: src/search.c:2625 src/search.c:2640 src/search.c:2658
 msgid "and"
 msgstr "và"
 
-#: src/search.c:2639
+#: src/search.c:2630
 msgid "File date is"
 msgstr "Ngày của tập tin là"
 
-#: src/search.c:2656
+#: src/search.c:2647
 msgid "Image dimensions are"
 msgstr "Kích thước ảnh là"
 
-#: src/search.c:2676
+#: src/search.c:2667
 msgid "Image content is"
 msgstr "Nội dung ảnh là"
 
-#: src/search.c:2682
+#: src/search.c:2673
 #, no-c-format
 msgid "% similar to"
 msgstr "% tương tự như"
 
-#: src/search.c:2751
+#: src/search.c:2742
 msgid "Rank"
 msgstr "Hạng"
 

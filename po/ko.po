@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-14 05:18-0400\n"
+"POT-Creation-Date: 2006-11-04 10:21-0500\n"
 "PO-Revision-Date: 2006-01-29 01:15-0500\n"
 "Last-Translator: Hyun-Jin Moon <moonhyunjin@gmail.com>\n"
 "Language-Team: Korean\n"
@@ -54,11 +54,11 @@ msgstr ""
 msgid "Favorite keywords list"
 msgstr ""
 
-#: src/bar_info.c:992 src/info.c:167 src/search.c:2692
+#: src/bar_info.c:992 src/info.c:167 src/search.c:2683
 msgid "Keywords"
 msgstr "키워드"
 
-#: src/bar_info.c:1006 src/info.c:722 src/pan-view.c:3630 src/print.c:2599
+#: src/bar_info.c:1006 src/info.c:722 src/pan-view.c:3895 src/print.c:2599
 msgid "Filename:"
 msgstr "파일 이름:"
 
@@ -90,36 +90,36 @@ msgstr ""
 msgid "Save comment now"
 msgstr ""
 
-#: src/bar_exif.c:435
+#: src/bar_exif.c:436
 msgid "Tag"
 msgstr ""
 
-#: src/bar_exif.c:436 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
-#: src/search.c:2753 src/view_file_list.c:1556
+#: src/bar_exif.c:437 src/dupe.c:2589 src/dupe.c:3112 src/print.c:3190
+#: src/search.c:2744 src/view_file_list.c:1653
 msgid "Name"
 msgstr "이름"
 
-#: src/bar_exif.c:437
+#: src/bar_exif.c:438
 msgid "Value"
 msgstr ""
 
-#: src/bar_exif.c:438
+#: src/bar_exif.c:439
 msgid "Format"
 msgstr ""
 
-#: src/bar_exif.c:439
+#: src/bar_exif.c:440
 msgid "Elements"
 msgstr ""
 
-#: src/bar_exif.c:440 src/preferences.c:1042
+#: src/bar_exif.c:441 src/preferences.c:1040
 msgid "Description"
 msgstr ""
 
-#: src/bar_exif.c:561 src/info.c:106
+#: src/bar_exif.c:562 src/info.c:106
 msgid "Exif"
 msgstr ""
 
-#: src/bar_exif.c:634
+#: src/bar_exif.c:635
 msgid "Advanced view"
 msgstr ""
 
@@ -157,14 +157,14 @@ msgstr ""
 msgid "Collection exists"
 msgstr ""
 
-#: src/bar_sort.c:450 src/collect.c:1061 src/collect-dlg.c:84
+#: src/bar_sort.c:450 src/collect.c:1057 src/collect-dlg.c:84
 #, c-format
 msgid ""
 "Failed to save the collection:\n"
 "%s"
 msgstr ""
 
-#: src/bar_sort.c:451 src/collect.c:1062 src/collect-dlg.c:85
+#: src/bar_sort.c:451 src/collect.c:1058 src/collect-dlg.c:85
 msgid "Save Failed"
 msgstr ""
 
@@ -184,11 +184,11 @@ msgstr ""
 msgid "Sort Manager"
 msgstr ""
 
-#: src/bar_sort.c:577 src/pan-view.c:4393 src/ui_pathsel.c:1094
+#: src/bar_sort.c:577 src/pan-view.c:4728 src/ui_pathsel.c:1094
 msgid "Folders"
 msgstr ""
 
-#: src/bar_sort.c:578 src/main.c:1066
+#: src/bar_sort.c:578 src/main.c:1125
 msgid "Collections"
 msgstr ""
 
@@ -253,7 +253,7 @@ msgstr ""
 msgid "S_tart"
 msgstr "시작(_t)"
 
-#: src/cache_maint.c:841 src/preferences.c:1179
+#: src/cache_maint.c:841 src/preferences.c:1177
 msgid "Folder:"
 msgstr ""
 
@@ -305,7 +305,8 @@ msgid "GQview thumbnail cache"
 msgstr ""
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
-#: src/pan-view.c:4382 src/preferences.c:1156 src/utilops.c:1564
+#: src/pan-view.c:3897 src/pan-view.c:4717 src/preferences.c:1154
+#: src/utilops.c:1564
 msgid "Location:"
 msgstr ""
 
@@ -341,33 +342,33 @@ msgstr ""
 msgid "Remove orphaned keywords and comments."
 msgstr ""
 
-#: src/collect.c:349 src/image.c:134 src/image-overlay.c:75
+#: src/collect.c:350 src/image.c:134 src/image-overlay.c:75
 #: src/image-overlay.c:116
 #, c-format
 msgid "Untitled"
 msgstr ""
 
-#: src/collect.c:353
+#: src/collect.c:354
 #, c-format
 msgid "Untitled (%d)"
 msgstr ""
 
-#: src/collect.c:980
+#: src/collect.c:976
 #, c-format
 msgid "%s - GQview Collection"
 msgstr ""
 
-#: src/collect.c:1098 src/collect.c:1102
+#: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
 msgstr ""
 
-#: src/collect.c:1103
+#: src/collect.c:1099
 msgid ""
 "Collection has been modified.\n"
 "Save first?"
 msgstr ""
 
-#: src/collect.c:1106
+#: src/collect.c:1102
 msgid "_Discard"
 msgstr "버리기(_D)"
 
@@ -424,7 +425,7 @@ msgstr ""
 msgid "The current collection is empty, save aborted."
 msgstr ""
 
-#: src/collect-table.c:164 src/layout_util.c:702
+#: src/collect-table.c:164 src/layout_util.c:734
 msgid "Empty"
 msgstr ""
 
@@ -439,18 +440,18 @@ msgid "%d images"
 msgstr ""
 
 #: src/collect-table.c:186 src/dupe.c:1296 src/search.c:303
-#: src/view_file_icon.c:1772 src/view_file_icon.c:1887
-#: src/view_file_list.c:817 src/view_file_list.c:922
+#: src/view_file_icon.c:1766 src/view_file_icon.c:1881
+#: src/view_file_list.c:914 src/view_file_list.c:1019
 msgid "Loading thumbs..."
 msgstr ""
 
 #: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
-#: src/layout_util.c:745 src/search.c:969
+#: src/layout_util.c:777 src/search.c:969
 msgid "_View"
 msgstr "보기(_V)"
 
-#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1196
-#: src/layout_image.c:727 src/pan-view.c:4782 src/search.c:971
+#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1227
+#: src/layout_image.c:737 src/pan-view.c:5133 src/search.c:971
 #: src/view_file_icon.c:283 src/view_file_list.c:396
 msgid "View in _new window"
 msgstr ""
@@ -475,33 +476,33 @@ msgstr "전체 선택"
 msgid "Select none"
 msgstr "선택 해제"
 
-#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1194
-#: src/layout_image.c:724 src/layout_util.c:779 src/pan-view.c:4779
+#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1225
+#: src/layout_image.c:734 src/layout_util.c:812 src/pan-view.c:5130
 #: src/search.c:981 src/view_file_icon.c:280 src/view_file_list.c:394
 msgid "_Properties"
 msgstr "파일 정보(_P)"
 
-#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1199
-#: src/layout_image.c:732 src/layout_util.c:757 src/pan-view.c:4786
+#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1230
+#: src/layout_image.c:742 src/layout_util.c:789 src/pan-view.c:5137
 #: src/search.c:988 src/view_file_icon.c:287 src/view_file_list.c:400
 msgid "_Copy..."
 msgstr "복사(_C)"
 
-#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1200
-#: src/layout_image.c:734 src/layout_util.c:758 src/pan-view.c:4788
+#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1231
+#: src/layout_image.c:744 src/layout_util.c:790 src/pan-view.c:5139
 #: src/search.c:990 src/view_file_icon.c:289 src/view_file_list.c:402
 msgid "_Move..."
 msgstr "옮기기(_M)"
 
-#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1201
-#: src/layout_image.c:736 src/layout_util.c:759 src/pan-view.c:4790
+#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1232
+#: src/layout_image.c:746 src/layout_util.c:791 src/pan-view.c:5141
 #: src/search.c:992 src/view_dir_list.c:407 src/view_dir_tree.c:497
 #: src/view_file_icon.c:291 src/view_file_list.c:404
 msgid "_Rename..."
 msgstr "이름 바꾸기(_R)"
 
-#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1202
-#: src/layout_image.c:738 src/layout_util.c:760 src/pan-view.c:4792
+#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1233
+#: src/layout_image.c:748 src/layout_util.c:792 src/pan-view.c:5143
 #: src/search.c:994 src/view_file_icon.c:293 src/view_file_list.c:406
 msgid "_Delete..."
 msgstr "지우기(_D)"
@@ -518,7 +519,7 @@ msgstr "앨범 저장(_S)"
 msgid "Save collection _as..."
 msgstr "앨범 다른 이름으로 저장(_a)"
 
-#: src/collect-table.c:818 src/layout_util.c:753
+#: src/collect-table.c:818 src/layout_util.c:785
 msgid "_Find duplicates..."
 msgstr "중복 파일 찾기(_F)"
 
@@ -526,23 +527,23 @@ msgstr "중복 파일 찾기(_F)"
 msgid "Print..."
 msgstr "인쇄..."
 
-#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1356
+#: src/collect-table.c:1972 src/dupe.c:3300 src/img-view.c:1387
 msgid "Dropped list includes folders."
 msgstr ""
 
-#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1358
+#: src/collect-table.c:1974 src/dupe.c:3302 src/img-view.c:1389
 msgid "_Add contents"
 msgstr ""
 
-#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1359
+#: src/collect-table.c:1976 src/dupe.c:3303 src/img-view.c:1390
 msgid "Add contents _recursive"
 msgstr ""
 
-#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1360
+#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1391
 msgid "_Skip folders"
 msgstr ""
 
-#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1362
+#: src/collect-table.c:1981 src/dupe.c:3306 src/img-view.c:1393
 #: src/view_dir_list.c:214 src/view_dir_tree.c:306
 msgid "Cancel"
 msgstr ""
@@ -581,7 +582,7 @@ msgstr ""
 msgid "Comparing..."
 msgstr ""
 
-#: src/dupe.c:1535 src/pan-view.c:3238
+#: src/dupe.c:1535 src/pan-view.c:3314
 msgid "Sorting..."
 msgstr ""
 
@@ -610,17 +611,17 @@ msgstr "창 닫기"
 msgid "%d files (set 2)"
 msgstr ""
 
-#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:961 src/print.c:3194
-#: src/search.c:2754 src/view_file_list.c:1557
+#: src/dupe.c:2590 src/dupe.c:3113 src/preferences.c:959 src/print.c:3194
+#: src/search.c:2745 src/view_file_list.c:1654
 msgid "Size"
 msgstr ""
 
-#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:296 src/exif.c:417
-#: src/print.c:3192 src/search.c:2755 src/view_file_list.c:1558
+#: src/dupe.c:2591 src/dupe.c:3114 src/exif.c:296 src/exif.c:417
+#: src/print.c:3192 src/search.c:2746 src/view_file_list.c:1655
 msgid "Date"
 msgstr ""
 
-#: src/dupe.c:2592 src/dupe.c:3119 src/print.c:3196 src/search.c:2756
+#: src/dupe.c:2592 src/dupe.c:3115 src/print.c:3196 src/search.c:2747
 msgid "Dimensions"
 msgstr ""
 
@@ -628,7 +629,7 @@ msgstr ""
 msgid "Checksum"
 msgstr ""
 
-#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1106
+#: src/dupe.c:2594 src/dupe.c:3116 src/search.c:2748 src/ui_pathsel.c:1106
 msgid "Path"
 msgstr ""
 
@@ -648,23 +649,23 @@ msgstr ""
 msgid "Similarity (custom)"
 msgstr ""
 
-#: src/dupe.c:3080
+#: src/dupe.c:3076
 msgid "Find duplicates - GQview"
 msgstr ""
 
-#: src/dupe.c:3152
+#: src/dupe.c:3148
 msgid "Compare to:"
 msgstr ""
 
-#: src/dupe.c:3165
+#: src/dupe.c:3161
 msgid "Compare by:"
 msgstr ""
 
-#: src/dupe.c:3173 src/preferences.c:849 src/search.c:2770
+#: src/dupe.c:3169 src/preferences.c:847 src/search.c:2761
 msgid "Thumbnails"
 msgstr "썸네일"
 
-#: src/dupe.c:3180
+#: src/dupe.c:3176
 msgid "Compare two file sets"
 msgstr ""
 
@@ -969,22 +970,22 @@ msgstr ""
 msgid "dot"
 msgstr ""
 
-#: src/filelist.c:520
+#: src/filelist.c:521
 #, c-format
 msgid "%d bytes"
 msgstr ""
 
-#: src/filelist.c:524
+#: src/filelist.c:525
 #, c-format
 msgid "%.1f K"
 msgstr ""
 
-#: src/filelist.c:528
+#: src/filelist.c:529
 #, c-format
 msgid "%.1f MB"
 msgstr ""
 
-#: src/filelist.c:533
+#: src/filelist.c:534
 #, c-format
 msgid "%.1f GB"
 msgstr ""
@@ -1021,55 +1022,55 @@ msgstr ""
 msgid "Active monitor"
 msgstr ""
 
-#: src/img-view.c:1182 src/layout_image.c:711 src/layout_util.c:786
-#: src/pan-view.c:4768
+#: src/img-view.c:1213 src/layout_image.c:721 src/layout_util.c:819
+#: src/pan-view.c:5119
 msgid "Zoom _in"
 msgstr "확대(_i)"
 
-#: src/img-view.c:1183 src/layout_image.c:712 src/layout_util.c:787
-#: src/pan-view.c:4770
+#: src/img-view.c:1214 src/layout_image.c:722 src/layout_util.c:820
+#: src/pan-view.c:5121
 msgid "Zoom _out"
 msgstr "축소(_o)"
 
-#: src/img-view.c:1184 src/layout_image.c:713 src/layout_util.c:788
-#: src/pan-view.c:4772
+#: src/img-view.c:1215 src/layout_image.c:723 src/layout_util.c:821
+#: src/pan-view.c:5123
 msgid "Zoom _1:1"
 msgstr "실제크기로(_1)"
 
-#: src/img-view.c:1185 src/layout_image.c:714
+#: src/img-view.c:1216 src/layout_image.c:724
 msgid "Fit image to _window"
 msgstr ""
 
-#: src/img-view.c:1190 src/layout_image.c:720 src/layout_util.c:784
+#: src/img-view.c:1221 src/layout_image.c:730 src/layout_util.c:817
 msgid "Set as _wallpaper"
 msgstr "바탕화면으로 지정(_W)"
 
-#: src/img-view.c:1208 src/layout_image.c:745
+#: src/img-view.c:1239 src/layout_image.c:755
 msgid "_Stop slideshow"
 msgstr "슬라이드 쇼 멈춤(_S)"
 
-#: src/img-view.c:1211 src/layout_image.c:748
+#: src/img-view.c:1242 src/layout_image.c:758
 msgid "Continue slides_how"
 msgstr ""
 
-#: src/img-view.c:1216 src/img-view.c:1224 src/layout_image.c:753
-#: src/layout_image.c:760
+#: src/img-view.c:1247 src/img-view.c:1255 src/layout_image.c:763
+#: src/layout_image.c:770
 msgid "Pause slides_how"
 msgstr "슬라이드 쇼 일시정지(_h)"
 
-#: src/img-view.c:1222 src/layout_image.c:759
+#: src/img-view.c:1253 src/layout_image.c:769
 msgid "_Start slideshow"
 msgstr "슬라이드 쇼 시작(_S)"
 
-#: src/img-view.c:1230 src/layout_image.c:770 src/pan-view.c:4804
+#: src/img-view.c:1261 src/layout_image.c:780 src/pan-view.c:5161
 msgid "Exit _full screen"
 msgstr "전체 화면 끝내기(_f)"
 
-#: src/img-view.c:1234 src/layout_image.c:766 src/pan-view.c:4808
+#: src/img-view.c:1265 src/layout_image.c:776 src/pan-view.c:5165
 msgid "_Full screen"
 msgstr "전체화면(_F)"
 
-#: src/img-view.c:1238 src/layout_util.c:761 src/pan-view.c:4812
+#: src/img-view.c:1269 src/layout_util.c:793 src/pan-view.c:5169
 msgid "C_lose window"
 msgstr "창닫기(_C)"
 
@@ -1105,7 +1106,7 @@ msgstr ""
 msgid "Group:"
 msgstr ""
 
-#: src/info.c:380 src/preferences.c:830
+#: src/info.c:380 src/preferences.c:828
 msgid "General"
 msgstr ""
 
@@ -1118,51 +1119,58 @@ msgstr ""
 msgid "Image properties - GQview"
 msgstr ""
 
-#: src/layout.c:266 src/view_file_icon.c:301 src/view_file_list.c:414
+#: src/layout.c:271 src/view_file_icon.c:301 src/view_file_list.c:414
 msgid "Ascending"
 msgstr ""
 
-#: src/layout.c:332
+#: src/layout.c:337
 msgid " Slideshow"
 msgstr ""
 
-#: src/layout.c:336
+#: src/layout.c:341
 msgid " Paused"
 msgstr ""
 
-#: src/layout.c:353
+#: src/layout.c:358
 #, c-format
 msgid "%s, %d files (%s, %d)%s"
 msgstr ""
 
-#: src/layout.c:360
+#: src/layout.c:365
 #, c-format
 msgid "%s, %d files%s"
 msgstr ""
 
-#: src/layout.c:365
+#: src/layout.c:370
 #, c-format
 msgid "%d files%s"
 msgstr ""
 
-#: src/layout.c:394
+#: src/layout.c:399
 #, c-format
 msgid "(no read permission) %s bytes"
 msgstr ""
 
-#: src/layout.c:398
+#: src/layout.c:403
 #, c-format
 msgid "( ? x ? ) %s bytes"
 msgstr ""
 
-#: src/layout.c:406
+#: src/layout.c:411
 #, c-format
 msgid "( %d x %d ) %s bytes"
 msgstr ""
 
-#: src/layout.c:1102
+#: src/layout.c:1107
 msgid "GQview Tools"
 msgstr ""
+
+#: src/layout.c:1739
+#, fuzzy
+msgid "Invalid geometry\n"
+msgstr ""
+"잘못된 파일 이름:\n"
+"%s"
 
 #: src/layout_config.c:57
 msgid "Tools"
@@ -1172,7 +1180,7 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: src/layout_config.c:57 src/preferences.c:895 src/print.c:110
+#: src/layout_config.c:57 src/preferences.c:893 src/print.c:110
 msgid "Image"
 msgstr ""
 
@@ -1180,398 +1188,406 @@ msgstr ""
 msgid "(drag to change order)"
 msgstr ""
 
-#: src/layout_image.c:775
+#: src/layout_image.c:785
 msgid "Hide file _list"
 msgstr ""
 
-#: src/layout_util.c:619 src/menu.c:74
+#: src/layout_util.c:651 src/menu.c:74
 #, c-format
 msgid "in %s..."
 msgstr ""
 
-#: src/layout_util.c:623 src/menu.c:76
+#: src/layout_util.c:655 src/menu.c:76
 msgid "in (unknown)..."
 msgstr ""
 
-#: src/layout_util.c:631
+#: src/layout_util.c:663
 msgid "empty"
 msgstr ""
 
-#: src/layout_util.c:742
+#: src/layout_util.c:774
 msgid "_File"
 msgstr "파일(_F)"
 
-#: src/layout_util.c:743 src/menu.c:91
+#: src/layout_util.c:775 src/menu.c:91
 msgid "_Edit"
 msgstr "편집(_E)"
 
-#: src/layout_util.c:744 src/menu.c:248
+#: src/layout_util.c:776 src/menu.c:252
 msgid "_Adjust"
 msgstr "사진 돌리기(_A)"
 
-#: src/layout_util.c:746
+#: src/layout_util.c:778
 msgid "_Help"
 msgstr "도움말(_H)"
 
-#: src/layout_util.c:748
+#: src/layout_util.c:780
 msgid "New _window"
 msgstr "새 창열기(_w)"
 
-#: src/layout_util.c:749
+#: src/layout_util.c:781
 msgid "_New collection"
 msgstr "새 앨범(_N)"
 
-#: src/layout_util.c:750
+#: src/layout_util.c:782
 msgid "_Open collection..."
 msgstr "앨범 열기(_O)"
 
-#: src/layout_util.c:751
+#: src/layout_util.c:783
 msgid "Open _recent"
 msgstr "최근 파일 열기(_r)"
 
-#: src/layout_util.c:752
+#: src/layout_util.c:784
 msgid "_Search..."
 msgstr "찾기(_S)"
 
-#: src/layout_util.c:754
+#: src/layout_util.c:786
 msgid "Pan _view"
 msgstr ""
 
-#: src/layout_util.c:755
+#: src/layout_util.c:787
 msgid "_Print..."
 msgstr "인쇄(_P)"
 
-#: src/layout_util.c:756
+#: src/layout_util.c:788
 msgid "N_ew folder..."
 msgstr "새 폴더...(_e)"
 
-#: src/layout_util.c:762
+#: src/layout_util.c:794
 msgid "_Quit"
 msgstr "나가기(_Q)"
 
-#: src/layout_util.c:774 src/menu.c:194
+#: src/layout_util.c:806 src/menu.c:194
 msgid "_Rotate clockwise"
 msgstr "시계방향으로 돌리기"
 
-#: src/layout_util.c:775 src/menu.c:197
+#: src/layout_util.c:807 src/menu.c:197
 msgid "Rotate _counterclockwise"
 msgstr "반 시계방향으로·돌리기"
 
-#: src/layout_util.c:776
+#: src/layout_util.c:808
 msgid "Rotate 1_80"
 msgstr "반바퀴 돌리기"
 
-#: src/layout_util.c:777 src/menu.c:203
+#: src/layout_util.c:809 src/menu.c:203
 msgid "_Mirror"
 msgstr "좌우 뒤집기(_M)"
 
-#: src/layout_util.c:778 src/menu.c:206
+#: src/layout_util.c:810 src/menu.c:206
 msgid "_Flip"
 msgstr "위아래 뒤집기(_F)"
 
-#: src/layout_util.c:780
+#: src/layout_util.c:811 src/menu.c:209
+msgid "_Grayscale"
+msgstr ""
+
+#: src/layout_util.c:813
 msgid "Select _all"
 msgstr "전체 선택(_a)"
 
-#: src/layout_util.c:781
+#: src/layout_util.c:814
 msgid "Select _none"
 msgstr "선택 해제(_n)"
 
-#: src/layout_util.c:782
+#: src/layout_util.c:815
 msgid "P_references..."
 msgstr "환경 설정...(_r)"
 
-#: src/layout_util.c:783
+#: src/layout_util.c:816
 msgid "_Thumbnail maintenance..."
 msgstr "썸네일 관리(_T)"
 
-#: src/layout_util.c:789
+#: src/layout_util.c:822
 msgid "_Zoom to fit"
 msgstr "화면크기에 맞추기(_Z)"
 
-#: src/layout_util.c:790
+#: src/layout_util.c:823
 msgid "F_ull screen"
 msgstr "전체화면(_u)"
 
-#: src/layout_util.c:791
+#: src/layout_util.c:824
 msgid "_Hide file list"
 msgstr "파일 탐색기 여닫기(_H)"
 
-#: src/layout_util.c:792
+#: src/layout_util.c:825
 msgid "Toggle _slideshow"
 msgstr "슬라이드 쇼로 전환"
 
-#: src/layout_util.c:793
+#: src/layout_util.c:826
 msgid "_Refresh"
 msgstr "새로 고침(_R)"
 
-#: src/layout_util.c:795
+#: src/layout_util.c:828
 msgid "_Contents"
 msgstr "설명서(_C)"
 
-#: src/layout_util.c:796
+#: src/layout_util.c:829
 msgid "_Keyboard shortcuts"
 msgstr "단축키 설명(_K)"
 
-#: src/layout_util.c:797
+#: src/layout_util.c:830
 msgid "_Release notes"
 msgstr "개발 일지(_R)"
 
-#: src/layout_util.c:798
+#: src/layout_util.c:831
 msgid "_About"
 msgstr "이 프로그램은(_A)"
 
-#: src/layout_util.c:802 src/layout_util.c:1049
+#: src/layout_util.c:835 src/layout_util.c:1083
 msgid "_Thumbnails"
 msgstr "썸네일(_T)"
 
-#: src/layout_util.c:803
+#: src/layout_util.c:836
 msgid "Tr_ee"
 msgstr "디렉토리 트리(_e)"
 
-#: src/layout_util.c:804
+#: src/layout_util.c:837
 msgid "_Float file list"
 msgstr "파일 탐색기 분리(_F)"
 
-#: src/layout_util.c:805
+#: src/layout_util.c:838
 msgid "Hide tool_bar"
 msgstr "도구 바 숨김(_b)"
 
-#: src/layout_util.c:806
+#: src/layout_util.c:839
 msgid "_Keywords"
 msgstr "키워드(_K)"
 
-#: src/layout_util.c:807
+#: src/layout_util.c:840
 msgid "E_xif data"
 msgstr "Exif 정보(_x)"
 
-#: src/layout_util.c:808
+#: src/layout_util.c:841
 msgid "Sort _manager"
 msgstr "정렬 관리(_m)"
 
-#: src/layout_util.c:812
+#: src/layout_util.c:845
 msgid "_List"
 msgstr "목록으로(_L)"
 
-#: src/layout_util.c:813
+#: src/layout_util.c:846
 msgid "I_cons"
 msgstr "아이콘으로(_c)"
 
-#: src/layout_util.c:1050
+#: src/layout_util.c:1084
 msgid "Show thumbnails"
 msgstr ""
 
-#: src/layout_util.c:1055
+#: src/layout_util.c:1089
 msgid "Change to home folder"
 msgstr ""
 
-#: src/layout_util.c:1057
+#: src/layout_util.c:1091
 msgid "Refresh file list"
 msgstr ""
 
-#: src/layout_util.c:1059
+#: src/layout_util.c:1093
 msgid "Zoom in"
 msgstr "확대"
 
-#: src/layout_util.c:1061
+#: src/layout_util.c:1095
 msgid "Zoom out"
 msgstr "축소"
 
-#: src/layout_util.c:1063 src/preferences.c:924
+#: src/layout_util.c:1097 src/preferences.c:922
 msgid "Fit image to window"
 msgstr ""
 
-#: src/layout_util.c:1065
+#: src/layout_util.c:1099
 msgid "Set zoom 1:1"
 msgstr ""
 
-#: src/layout_util.c:1067
+#: src/layout_util.c:1101
 msgid "Configure options"
 msgstr ""
 
-#: src/layout_util.c:1068
+#: src/layout_util.c:1102
 msgid "_Float"
 msgstr ""
 
-#: src/layout_util.c:1069
+#: src/layout_util.c:1103
 msgid "Float Controls"
 msgstr ""
 
-#: src/main.c:266
+#: src/main.c:237
 msgid "Help - GQview"
 msgstr ""
 
-#: src/main.c:489 src/main.c:1305
+#: src/main.c:460 src/main.c:1365
 msgid "Command line"
 msgstr ""
 
 #. short, long                  callback,               extra, prefer,description
-#: src/main.c:527
+#: src/main.c:498
 msgid "next image"
 msgstr ""
 
-#: src/main.c:528
+#: src/main.c:499
 msgid "previous image"
 msgstr ""
 
-#: src/main.c:529
+#: src/main.c:500
 msgid "first image"
 msgstr ""
 
-#: src/main.c:530
+#: src/main.c:501
 msgid "last image"
 msgstr ""
 
-#: src/main.c:531
+#: src/main.c:502
 msgid "toggle full screen"
 msgstr "전체 화면으로 전환"
 
-#: src/main.c:532
+#: src/main.c:503
 msgid "start full screen"
 msgstr ""
 
-#: src/main.c:533
+#: src/main.c:504
 msgid "stop full screen"
 msgstr ""
 
-#: src/main.c:534
+#: src/main.c:505
 msgid "toggle slide show"
 msgstr "슬라이드 쇼로 전화"
 
-#: src/main.c:535
+#: src/main.c:506
 msgid "start slide show"
 msgstr ""
 
-#: src/main.c:536
+#: src/main.c:507
 msgid "stop slide show"
 msgstr ""
 
-#: src/main.c:537
+#: src/main.c:508
 msgid "start recursive slide show"
 msgstr ""
 
-#: src/main.c:538
+#: src/main.c:509
 msgid "set slide show delay in seconds"
 msgstr ""
 
-#: src/main.c:539
+#: src/main.c:510
 msgid "show tools"
 msgstr ""
 
-#: src/main.c:540
+#: src/main.c:511
 msgid "hide tools"
 msgstr ""
 
-#: src/main.c:541
+#: src/main.c:512
 msgid "quit"
 msgstr ""
 
-#: src/main.c:542
+#: src/main.c:513
 msgid "open file"
 msgstr ""
 
-#: src/main.c:543
+#: src/main.c:514
 msgid "open file in new window"
 msgstr ""
 
-#: src/main.c:609
+#: src/main.c:580
 msgid "Remote command list:\n"
 msgstr ""
 
-#: src/main.c:667
+#: src/main.c:638
 msgid "Remote GQview not running, starting..."
 msgstr ""
 
-#: src/main.c:802
+#: src/main.c:773
 msgid "Remote not available\n"
 msgstr ""
 
-#: src/main.c:944
+#: src/main.c:991
 msgid ""
 "Usage: gqview [options] [path]\n"
 "\n"
 msgstr ""
 
-#: src/main.c:945
+#: src/main.c:992
 msgid "valid options are:\n"
 msgstr ""
 
-#: src/main.c:946
+#: src/main.c:993
 msgid "  +t, --with-tools           force show of tools\n"
 msgstr ""
 
-#: src/main.c:947
+#: src/main.c:994
 msgid "  -t, --without-tools        force hide of tools\n"
 msgstr ""
 
-#: src/main.c:948
+#: src/main.c:995
 msgid "  -f, --fullscreen           start in full screen mode\n"
 msgstr ""
 
-#: src/main.c:949
+#: src/main.c:996
 msgid "  -s, --slideshow            start in slideshow mode\n"
 msgstr ""
 
-#: src/main.c:950
+#: src/main.c:997
 msgid "  -l, --list                 open collection window for command line\n"
 msgstr ""
 
-#: src/main.c:951
+#: src/main.c:998
+msgid "      --geometry=GEOMETRY    set main window location\n"
+msgstr ""
+
+#: src/main.c:999
 msgid "  -r, --remote               send following commands to open window\n"
 msgstr ""
 
-#: src/main.c:952
+#: src/main.c:1000
 msgid "  -rh,--remote-help          print remote command list\n"
 msgstr ""
 
-#: src/main.c:953
+#: src/main.c:1001
 msgid "  --debug                    turn on debug output\n"
 msgstr ""
 
-#: src/main.c:954
+#: src/main.c:1002
 msgid "  -v, --version              print version info\n"
 msgstr ""
 
-#: src/main.c:955
+#: src/main.c:1003
 msgid ""
 "  -h, --help                 show this message\n"
 "\n"
 msgstr ""
 
-#: src/main.c:969
+#: src/main.c:1017
 #, c-format
 msgid ""
 "invalid or ignored: %s\n"
 "Use --help for options\n"
 msgstr ""
 
-#: src/main.c:1034
+#: src/main.c:1093
 #, c-format
 msgid "Creating GQview dir:%s\n"
 msgstr ""
 
-#: src/main.c:1040
+#: src/main.c:1099
 #, c-format
 msgid "Could not create dir:%s\n"
 msgstr ""
 
-#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1042
+#: src/main.c:1120 src/ui_bookmark.c:858 src/ui_pathsel.c:1042
 msgid "Home"
 msgstr ""
 
-#: src/main.c:1063 src/ui_bookmark.c:865
+#: src/main.c:1122 src/ui_bookmark.c:865
 msgid "Desktop"
 msgstr ""
 
-#: src/main.c:1152
+#: src/main.c:1211
 msgid "GQview - exit"
 msgstr ""
 
-#: src/main.c:1156
+#: src/main.c:1215
 msgid "Quit GQview"
 msgstr ""
 
-#: src/main.c:1156
+#: src/main.c:1215
 msgid "Collections have been modified. Quit anyway?"
 msgstr ""
 
@@ -1607,504 +1623,512 @@ msgstr ""
 msgid "Rotate _180"
 msgstr ""
 
-#: src/pan-view.c:3163
+#: src/pan-view.c:3239
 #, c-format
 msgid "%d images, %s"
 msgstr ""
 
-#: src/pan-view.c:3173
+#: src/pan-view.c:3249
 #, c-format
 msgid "The pan view does not support the folder \"%s\"."
 msgstr ""
 
-#: src/pan-view.c:3174
+#: src/pan-view.c:3250
 msgid "Folder not supported"
 msgstr ""
 
-#: src/pan-view.c:3228 src/pan-view.c:3244
+#: src/pan-view.c:3304 src/pan-view.c:3320
 msgid "Reading image data..."
 msgstr ""
 
-#: src/pan-view.c:3303
+#: src/pan-view.c:3379
 #, fuzzy
 msgid "Sorting images..."
 msgstr "정렬 관리(_m)"
 
-#: src/pan-view.c:3640 src/pan-view.c:3967
+#: src/pan-view.c:3899 src/pan-view.c:4241
 #, fuzzy
 msgid "Date:"
 msgstr "경로:"
 
-#: src/pan-view.c:3650 src/preferences.c:852 src/print.c:3201 src/print.c:3408
+#: src/pan-view.c:3901 src/preferences.c:850 src/print.c:3201 src/print.c:3408
 msgid "Size:"
 msgstr ""
 
-#: src/pan-view.c:3705
+#: src/pan-view.c:3979
 msgid "path found"
 msgstr ""
 
-#: src/pan-view.c:3705
+#: src/pan-view.c:3979
 #, fuzzy
 msgid "filename found"
 msgstr "파일 이름:"
 
-#: src/pan-view.c:3753
+#: src/pan-view.c:4027
 msgid "partial match"
 msgstr ""
 
-#: src/pan-view.c:3964 src/pan-view.c:3997
+#: src/pan-view.c:4238 src/pan-view.c:4271
 msgid "no match"
 msgstr ""
 
-#: src/pan-view.c:4272 src/search.c:2140
+#: src/pan-view.c:4597 src/search.c:2131
 msgid "Folder not found"
 msgstr ""
 
-#: src/pan-view.c:4273
+#: src/pan-view.c:4598
 msgid "The entered path is not a folder"
 msgstr ""
 
-#: src/pan-view.c:4369
+#: src/pan-view.c:4704
 msgid "Pan View - GQview"
 msgstr ""
 
-#: src/pan-view.c:4391
+#: src/pan-view.c:4726
 msgid "Timeline"
 msgstr ""
 
-#: src/pan-view.c:4392
+#: src/pan-view.c:4727
 msgid "Calendar"
 msgstr ""
 
-#: src/pan-view.c:4394
+#: src/pan-view.c:4729
 msgid "Folders (flower)"
 msgstr ""
 
-#: src/pan-view.c:4395
+#: src/pan-view.c:4730
 msgid "Grid"
 msgstr ""
 
-#: src/pan-view.c:4404
+#: src/pan-view.c:4739
 msgid "Dots"
 msgstr ""
 
-#: src/pan-view.c:4405
+#: src/pan-view.c:4740
 msgid "No Images"
 msgstr ""
 
-#: src/pan-view.c:4406
+#: src/pan-view.c:4741
 #, fuzzy
 msgid "Small Thumbnails"
 msgstr "썸네일"
 
-#: src/pan-view.c:4407
+#: src/pan-view.c:4742
 #, fuzzy
 msgid "Normal Thumbnails"
 msgstr "썸네일"
 
-#: src/pan-view.c:4408
+#: src/pan-view.c:4743
 #, fuzzy
 msgid "Large Thumbnails"
 msgstr "썸네일"
 
-#: src/pan-view.c:4409
+#: src/pan-view.c:4744
 msgid "1:10 (10%)"
 msgstr ""
 
-#: src/pan-view.c:4410
+#: src/pan-view.c:4745
 msgid "1:4 (25%)"
 msgstr ""
 
-#: src/pan-view.c:4411
+#: src/pan-view.c:4746
 msgid "1:3 (33%)"
 msgstr ""
 
-#: src/pan-view.c:4412
+#: src/pan-view.c:4747
 msgid "1:2 (50%)"
 msgstr ""
 
-#: src/pan-view.c:4413
+#: src/pan-view.c:4748
 msgid "1:1 (100%)"
 msgstr ""
 
-#: src/pan-view.c:4461
+#: src/pan-view.c:4796
 msgid "Find:"
 msgstr ""
 
-#: src/pan-view.c:4504
+#: src/pan-view.c:4839
 #, fuzzy
 msgid "Use Exif date"
 msgstr "Exif 정보(_x)"
 
-#: src/pan-view.c:4517
+#: src/pan-view.c:4852
 msgid "Find"
 msgstr ""
 
-#: src/pan-view.c:4584
+#: src/pan-view.c:4919
 msgid "Pan View Performance"
 msgstr ""
 
-#: src/pan-view.c:4591
+#: src/pan-view.c:4926
 msgid "Pan view performance may be poor."
 msgstr ""
 
-#: src/pan-view.c:4592
+#: src/pan-view.c:4927
 msgid ""
 "To improve performance of thumbnails in the pan view the following options "
 "can be enabled. Note that both options must be enabled to notice a change in "
 "performance."
 msgstr ""
 
-#: src/pan-view.c:4600 src/preferences.c:855
+#: src/pan-view.c:4935 src/preferences.c:853
 msgid "Cache thumbnails"
 msgstr ""
 
-#: src/pan-view.c:4602 src/preferences.c:861
+#: src/pan-view.c:4937 src/preferences.c:859
 msgid "Use shared thumbnail cache"
 msgstr ""
 
-#: src/pan-view.c:4608
+#: src/pan-view.c:4943
 msgid "Do not show this dialog again"
 msgstr ""
 
-#: src/pan-view.c:4796
+#: src/pan-view.c:5147
 #, fuzzy
 msgid "Sort by E_xif date"
 msgstr "Exif 정보(_x)"
 
-#: src/preferences.c:393
+#: src/pan-view.c:5152
+msgid "Show EXIF information"
+msgstr ""
+
+#: src/pan-view.c:5154
+msgid "Show full size image"
+msgstr ""
+
+#: src/preferences.c:391
 msgid "Nearest (worst, but fastest)"
 msgstr ""
 
-#: src/preferences.c:395
+#: src/preferences.c:393
 msgid "Tiles"
 msgstr ""
 
-#: src/preferences.c:397
+#: src/preferences.c:395
 msgid "Bilinear"
 msgstr ""
 
-#: src/preferences.c:399
+#: src/preferences.c:397
 msgid "Hyper (best, but slowest)"
 msgstr ""
 
-#: src/preferences.c:427
+#: src/preferences.c:425
 msgid "None"
 msgstr ""
 
-#: src/preferences.c:428
+#: src/preferences.c:426
 msgid "Normal"
 msgstr ""
 
-#: src/preferences.c:429
+#: src/preferences.c:427
 msgid "Best"
 msgstr ""
 
-#: src/preferences.c:507 src/print.c:365
+#: src/preferences.c:505 src/print.c:365
 msgid "Custom"
 msgstr ""
 
-#: src/preferences.c:671 src/preferences.c:674
+#: src/preferences.c:669 src/preferences.c:672
 msgid "Reset filters"
 msgstr ""
 
-#: src/preferences.c:675
+#: src/preferences.c:673
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
 msgstr ""
 
-#: src/preferences.c:708 src/preferences.c:711
+#: src/preferences.c:706 src/preferences.c:709
 msgid "Reset editors"
 msgstr ""
 
-#: src/preferences.c:712
+#: src/preferences.c:710
 msgid ""
 "This will reset the edit commands to the defaults.\n"
 "Continue?"
 msgstr ""
 
-#: src/preferences.c:736 src/preferences.c:739
+#: src/preferences.c:734 src/preferences.c:737
 msgid "Clear trash"
 msgstr ""
 
-#: src/preferences.c:740
+#: src/preferences.c:738
 msgid "This will remove the trash contents."
 msgstr ""
 
-#: src/preferences.c:779
+#: src/preferences.c:777
 msgid "GQview Preferences"
 msgstr ""
 
-#: src/preferences.c:833
+#: src/preferences.c:831
 msgid "Startup"
 msgstr ""
 
-#: src/preferences.c:835
+#: src/preferences.c:833
 msgid "Change to folder:"
 msgstr ""
 
-#: src/preferences.c:846
+#: src/preferences.c:844
 msgid "Use current"
 msgstr ""
 
-#: src/preferences.c:853 src/preferences.c:904
+#: src/preferences.c:851 src/preferences.c:902
 msgid "Quality:"
 msgstr ""
 
-#: src/preferences.c:867
+#: src/preferences.c:865
 msgid "Cache thumbnails into .thumbnails"
 msgstr ""
 
-#: src/preferences.c:871
+#: src/preferences.c:869
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr ""
 
-#: src/preferences.c:875
+#: src/preferences.c:873
 msgid "Faster jpeg thumbnailing (may reduce quality)"
 msgstr ""
 
-#: src/preferences.c:878
+#: src/preferences.c:876
 msgid "Slide show"
 msgstr "슬라이드 쇼"
 
-#: src/preferences.c:881
+#: src/preferences.c:879
 msgid "Delay between image change:"
 msgstr ""
 
-#: src/preferences.c:881
+#: src/preferences.c:879
 msgid "seconds"
 msgstr ""
 
-#: src/preferences.c:887
+#: src/preferences.c:885
 msgid "Random"
 msgstr ""
 
-#: src/preferences.c:888
+#: src/preferences.c:886
 msgid "Repeat"
 msgstr "반복"
 
-#: src/preferences.c:898
+#: src/preferences.c:896
 msgid "Zoom"
 msgstr ""
 
-#: src/preferences.c:901
+#: src/preferences.c:899
 msgid "Dithering method:"
 msgstr ""
 
-#: src/preferences.c:906
+#: src/preferences.c:904
 msgid "Two pass zooming"
 msgstr ""
 
-#: src/preferences.c:909
+#: src/preferences.c:907
 msgid "Allow enlargement of image for zoom to fit"
 msgstr ""
 
-#: src/preferences.c:913
+#: src/preferences.c:911
 msgid "Zoom increment:"
 msgstr ""
 
-#: src/preferences.c:918
+#: src/preferences.c:916
 msgid "When new image is selected:"
 msgstr ""
 
-#: src/preferences.c:921
+#: src/preferences.c:919
 msgid "Zoom to original size"
 msgstr ""
 
-#: src/preferences.c:927
+#: src/preferences.c:925
 msgid "Leave Zoom at previous setting"
 msgstr ""
 
-#: src/preferences.c:931
+#: src/preferences.c:929
 msgid "Appearance"
 msgstr ""
 
-#: src/preferences.c:933
+#: src/preferences.c:931
 msgid "Black background"
 msgstr ""
 
-#: src/preferences.c:936
+#: src/preferences.c:934
 msgid "Convenience"
 msgstr ""
 
-#: src/preferences.c:938
+#: src/preferences.c:936
 msgid "Refresh on file change"
 msgstr ""
 
-#: src/preferences.c:940
+#: src/preferences.c:938
 msgid "Preload next image"
 msgstr ""
 
-#: src/preferences.c:942
+#: src/preferences.c:940
 msgid "Auto rotate image using Exif information"
 msgstr ""
 
-#: src/preferences.c:951
+#: src/preferences.c:949
 msgid "Windows"
 msgstr ""
 
-#: src/preferences.c:954
+#: src/preferences.c:952
 msgid "State"
 msgstr ""
 
-#: src/preferences.c:956
+#: src/preferences.c:954
 msgid "Remember window positions"
 msgstr ""
 
-#: src/preferences.c:958
+#: src/preferences.c:956
 msgid "Remember tool state (float/hidden)"
 msgstr ""
 
-#: src/preferences.c:963
+#: src/preferences.c:961
 msgid "Fit window to image when tools are hidden/floating"
 msgstr ""
 
-#: src/preferences.c:967
+#: src/preferences.c:965
 msgid "Limit size when auto-sizing window (%):"
 msgstr ""
 
-#: src/preferences.c:974 src/print.c:3356 src/print.c:3363
+#: src/preferences.c:972 src/print.c:3356 src/print.c:3363
 msgid "Layout"
 msgstr ""
 
-#: src/preferences.c:987
+#: src/preferences.c:985
 msgid "Filtering"
 msgstr ""
 
-#: src/preferences.c:992
+#: src/preferences.c:990
 msgid "Show entries that begin with a dot"
 msgstr ""
 
-#: src/preferences.c:994
+#: src/preferences.c:992
 msgid "Case sensitive sort"
 msgstr ""
 
-#: src/preferences.c:997
+#: src/preferences.c:995
 msgid "Disable File Filtering"
 msgstr ""
 
-#: src/preferences.c:1000
+#: src/preferences.c:998
 msgid "File types"
 msgstr ""
 
-#: src/preferences.c:1022
+#: src/preferences.c:1020
 msgid "Filter"
 msgstr "필터"
 
-#: src/preferences.c:1059 src/preferences.c:1123
+#: src/preferences.c:1057 src/preferences.c:1121
 msgid "Defaults"
 msgstr ""
 
-#: src/preferences.c:1080
+#: src/preferences.c:1078
 msgid "Editors"
 msgstr ""
 
-#: src/preferences.c:1086
+#: src/preferences.c:1084
 msgid "#"
 msgstr ""
 
-#: src/preferences.c:1089
+#: src/preferences.c:1087
 msgid "Menu name"
 msgstr ""
 
-#: src/preferences.c:1092
+#: src/preferences.c:1090
 msgid "Command Line"
 msgstr ""
 
-#: src/preferences.c:1139
+#: src/preferences.c:1137
 msgid "Advanced"
 msgstr ""
 
-#: src/preferences.c:1152
+#: src/preferences.c:1150
 msgid "Full screen"
 msgstr "전체 화면"
 
-#: src/preferences.c:1160
+#: src/preferences.c:1158
 msgid "Smooth image flip"
 msgstr ""
 
-#: src/preferences.c:1162
+#: src/preferences.c:1160
 msgid "Disable screen saver"
 msgstr ""
 
-#: src/preferences.c:1165
+#: src/preferences.c:1163
 msgid "Delete"
 msgstr "삭제"
 
-#: src/preferences.c:1167
+#: src/preferences.c:1165
 msgid "Confirm file delete"
 msgstr ""
 
-#: src/preferences.c:1169
+#: src/preferences.c:1167
 msgid "Enable Delete key"
 msgstr ""
 
-#: src/preferences.c:1172
+#: src/preferences.c:1170
 msgid "Safe delete"
 msgstr "안전하게 지우기"
 
-#: src/preferences.c:1190
+#: src/preferences.c:1188
 msgid "Maximum size:"
 msgstr "최대 크기:"
 
-#: src/preferences.c:1190
+#: src/preferences.c:1188
 msgid "MB"
 msgstr ""
 
-#: src/preferences.c:1193
+#: src/preferences.c:1191
 msgid "View"
 msgstr "보기"
 
-#: src/preferences.c:1203
+#: src/preferences.c:1201
 msgid "Behavior"
 msgstr ""
 
-#: src/preferences.c:1205
+#: src/preferences.c:1203
 msgid "Rectangular selection in icon view"
 msgstr ""
 
-#: src/preferences.c:1208
+#: src/preferences.c:1206
 msgid "Descend folders in tree view"
 msgstr ""
 
-#: src/preferences.c:1211
+#: src/preferences.c:1209
 msgid "In place renaming"
 msgstr ""
 
-#: src/preferences.c:1214
+#: src/preferences.c:1212
 msgid "Navigation"
 msgstr ""
 
-#: src/preferences.c:1216
+#: src/preferences.c:1214
 msgid "Progressive keyboard scrolling"
 msgstr ""
 
-#: src/preferences.c:1218
+#: src/preferences.c:1216
 msgid "Mouse wheel scrolls image"
 msgstr ""
 
-#: src/preferences.c:1221
+#: src/preferences.c:1219
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/preferences.c:1223
+#: src/preferences.c:1221
 msgid "Store keywords and comments local to source images"
 msgstr ""
 
-#: src/preferences.c:1226
+#: src/preferences.c:1224
 msgid "Custom similarity threshold:"
 msgstr ""
 
-#: src/preferences.c:1229
+#: src/preferences.c:1227
 msgid "Offscreen cache size (Mb per image):"
 msgstr ""
 
-#: src/preferences.c:1305
+#: src/preferences.c:1303
 msgid "About - GQview"
 msgstr ""
 
-#: src/preferences.c:1318
+#: src/preferences.c:1316
 #, c-format
 msgid ""
 "GQview %s\n"
@@ -2116,7 +2140,7 @@ msgid ""
 "Released under the GNU General Public License"
 msgstr ""
 
-#: src/preferences.c:1336
+#: src/preferences.c:1334
 msgid "Credits..."
 msgstr ""
 
@@ -2488,64 +2512,64 @@ msgstr ""
 msgid "Searching..."
 msgstr ""
 
-#: src/search.c:2093
+#: src/search.c:2084
 msgid "File not found"
 msgstr ""
 
-#: src/search.c:2094
+#: src/search.c:2085
 msgid "Please enter an existing file for image content."
 msgstr ""
 
-#: src/search.c:2141
+#: src/search.c:2132
 msgid "Please enter an existing folder to search."
 msgstr ""
 
-#: src/search.c:2570
+#: src/search.c:2561
 msgid "Image search - GQview"
 msgstr ""
 
-#: src/search.c:2599
+#: src/search.c:2590
 msgid "Search:"
 msgstr "찾기:"
 
-#: src/search.c:2613
+#: src/search.c:2604
 msgid "Recurse"
 msgstr ""
 
-#: src/search.c:2617
+#: src/search.c:2608
 msgid "File name"
 msgstr "파일 이름"
 
-#: src/search.c:2623
+#: src/search.c:2614
 msgid "Match case"
 msgstr ""
 
-#: src/search.c:2627
+#: src/search.c:2618
 msgid "File size is"
 msgstr ""
 
-#: src/search.c:2634 src/search.c:2649 src/search.c:2667
+#: src/search.c:2625 src/search.c:2640 src/search.c:2658
 msgid "and"
 msgstr ""
 
-#: src/search.c:2639
+#: src/search.c:2630
 msgid "File date is"
 msgstr ""
 
-#: src/search.c:2656
+#: src/search.c:2647
 msgid "Image dimensions are"
 msgstr ""
 
-#: src/search.c:2676
+#: src/search.c:2667
 msgid "Image content is"
 msgstr ""
 
-#: src/search.c:2682
+#: src/search.c:2673
 #, no-c-format
 msgid "% similar to"
 msgstr ""
 
-#: src/search.c:2751
+#: src/search.c:2742
 msgid "Rank"
 msgstr ""
 

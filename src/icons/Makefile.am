@@ -46,11 +46,5 @@ CLEANFILES = $(noinst_DATA)
 
 EXTRA_DIST = \
 	$(ICONS_INLINE)		\
-	collect.xpm		\
-	config.xpm		\
-	dialog.xpm		\
-	icon.xpm		\
-	marker.xpm		\
-	tools.xpm		\
-	view.xpm
+	marker.xpm
 

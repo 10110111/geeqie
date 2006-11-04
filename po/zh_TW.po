@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview 2.1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-14 05:18-0400\n"
+"POT-Creation-Date: 2006-11-04 10:21-0500\n"
 "PO-Revision-Date: 2005-08-13 13:22+0800\n"
 "Last-Translator: S.J. Luo <crystal@mickey.ee.nctu.edu.tw>\n"
 "Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
@@ -52,12 +52,12 @@ msgstr "預先設定關鍵字"
 msgid "Favorite keywords list"
 msgstr "最愛的關鍵字列表"
 
-#: src/bar_info.c:992 src/info.c:167 src/search.c:2692
+#: src/bar_info.c:992 src/info.c:167 src/search.c:2683
 msgid "Keywords"
 msgstr "關鍵字"
 
 # src/utilops.c:980
-#: src/bar_info.c:1006 src/info.c:722 src/pan-view.c:3630 src/print.c:2599
+#: src/bar_info.c:1006 src/info.c:722 src/pan-view.c:3895 src/print.c:2599
 msgid "Filename:"
 msgstr "檔案名稱："
 
@@ -92,39 +92,39 @@ msgstr "在選取的檔案中加入並取代現有的關鍵字"
 msgid "Save comment now"
 msgstr "儲存註解"
 
-#: src/bar_exif.c:435
+#: src/bar_exif.c:436
 msgid "Tag"
 msgstr "標籤"
 
 # src/dupe.c:1652 src/dupe.c:1941
-#: src/bar_exif.c:436 src/dupe.c:2589 src/dupe.c:3116 src/print.c:3190
-#: src/search.c:2753 src/view_file_list.c:1556
+#: src/bar_exif.c:437 src/dupe.c:2589 src/dupe.c:3112 src/print.c:3190
+#: src/search.c:2744 src/view_file_list.c:1653
 msgid "Name"
 msgstr "名稱"
 
-#: src/bar_exif.c:437
+#: src/bar_exif.c:438
 msgid "Value"
 msgstr "值"
 
 # src/preferences.c:401
-#: src/bar_exif.c:438
+#: src/bar_exif.c:439
 msgid "Format"
 msgstr "格式"
 
-#: src/bar_exif.c:439
+#: src/bar_exif.c:440
 msgid "Elements"
 msgstr "元素"
 
-#: src/bar_exif.c:440 src/preferences.c:1042
+#: src/bar_exif.c:441 src/preferences.c:1040
 msgid "Description"
 msgstr "描述"
 
 # src/main.c:622
-#: src/bar_exif.c:561 src/info.c:106
+#: src/bar_exif.c:562 src/info.c:106
 msgid "Exif"
 msgstr "Exif"
 
-#: src/bar_exif.c:634
+#: src/bar_exif.c:635
 msgid "Advanced view"
 msgstr "進階檢視"
 
@@ -177,7 +177,7 @@ msgid "Collection exists"
 msgstr "圖像集存在"
 
 # src/collect-dlg.c:82 src/collect.c:1011
-#: src/bar_sort.c:450 src/collect.c:1061 src/collect-dlg.c:84
+#: src/bar_sort.c:450 src/collect.c:1057 src/collect-dlg.c:84
 #, c-format
 msgid ""
 "Failed to save the collection:\n"
@@ -187,7 +187,7 @@ msgstr ""
 "%s"
 
 # src/collect-dlg.c:83 src/collect.c:1012
-#: src/bar_sort.c:451 src/collect.c:1062 src/collect-dlg.c:85
+#: src/bar_sort.c:451 src/collect.c:1058 src/collect-dlg.c:85
 msgid "Save Failed"
 msgstr "儲存失敗"
 
@@ -211,12 +211,12 @@ msgid "Sort Manager"
 msgstr "排列管理員"
 
 # src/preferences.c:368
-#: src/bar_sort.c:577 src/pan-view.c:4393 src/ui_pathsel.c:1094
+#: src/bar_sort.c:577 src/pan-view.c:4728 src/ui_pathsel.c:1094
 msgid "Folders"
 msgstr "資料夾"
 
 # src/preferences.c:897
-#: src/bar_sort.c:578 src/main.c:1066
+#: src/bar_sort.c:578 src/main.c:1125
 msgid "Collections"
 msgstr "圖像集"
 
@@ -292,7 +292,7 @@ msgid "S_tart"
 msgstr "開始 (_T)"
 
 # src/preferences.c:368
-#: src/cache_maint.c:841 src/preferences.c:1179
+#: src/cache_maint.c:841 src/preferences.c:1177
 msgid "Folder:"
 msgstr "資料夾："
 
@@ -352,7 +352,8 @@ msgstr "GQview 的預覽小圖快取"
 
 # src/preferences.c:897
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
-#: src/pan-view.c:4382 src/preferences.c:1156 src/utilops.c:1564
+#: src/pan-view.c:3897 src/pan-view.c:4717 src/preferences.c:1154
+#: src/utilops.c:1564
 msgid "Location:"
 msgstr "位置:"
 
@@ -394,31 +395,31 @@ msgid "Remove orphaned keywords and comments."
 msgstr "移除不屬於任何圖像的關鍵字或註解."
 
 # src/collect.c:329 src/image.c:1058
-#: src/collect.c:349 src/image.c:134 src/image-overlay.c:75
+#: src/collect.c:350 src/image.c:134 src/image-overlay.c:75
 #: src/image-overlay.c:116
 #, c-format
 msgid "Untitled"
 msgstr "無標題"
 
 # src/collect.c:333
-#: src/collect.c:353
+#: src/collect.c:354
 #, c-format
 msgid "Untitled (%d)"
 msgstr "無標題（%d）"
 
 # src/collect.c:930
-#: src/collect.c:980
+#: src/collect.c:976
 #, c-format
 msgid "%s - GQview Collection"
 msgstr "%s - GQview 圖像集"
 
 # src/collect.c:1048
-#: src/collect.c:1098 src/collect.c:1102
+#: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
 msgstr "關閉圖像集"
 
 # src/collect.c:1048
-#: src/collect.c:1103
+#: src/collect.c:1099
 msgid ""
 "Collection has been modified.\n"
 "Save first?"
@@ -426,7 +427,7 @@ msgstr ""
 "圖像集已被修改。\n"
 "是否先儲存？"
 
-#: src/collect.c:1106
+#: src/collect.c:1102
 msgid "_Discard"
 msgstr "丟棄(_D)"
 
@@ -499,7 +500,7 @@ msgid "The current collection is empty, save aborted."
 msgstr "現時的圖像集沒有圖像，不會儲存。"
 
 # src/collect-table.c:78 src/menu.c:684
-#: src/collect-table.c:164 src/layout_util.c:702
+#: src/collect-table.c:164 src/layout_util.c:734
 msgid "Empty"
 msgstr "空白"
 
@@ -517,21 +518,21 @@ msgstr "%d 個圖像"
 
 # src/collect-table.c:100 src/dupe.c:668 src/filelist.c:1811
 #: src/collect-table.c:186 src/dupe.c:1296 src/search.c:303
-#: src/view_file_icon.c:1772 src/view_file_icon.c:1887
-#: src/view_file_list.c:817 src/view_file_list.c:922
+#: src/view_file_icon.c:1766 src/view_file_icon.c:1881
+#: src/view_file_list.c:914 src/view_file_list.c:1019
 msgid "Loading thumbs..."
 msgstr "正在載入預覽小圖..."
 
 # src/menu.c:753
 #: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
-#: src/layout_util.c:745 src/search.c:969
+#: src/layout_util.c:777 src/search.c:969
 msgid "_View"
 msgstr "檢視(_V)"
 
 # src/collect-table.c:620 src/dupe.c:1388 src/dupe.c:1560 src/img-view.c:801
 # src/menu.c:906 src/menu.c:964
-#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1196
-#: src/layout_image.c:727 src/pan-view.c:4782 src/search.c:971
+#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1227
+#: src/layout_image.c:737 src/pan-view.c:5133 src/search.c:971
 #: src/view_file_icon.c:283 src/view_file_list.c:396
 msgid "View in _new window"
 msgstr "在新視窗中檢視(_N)"
@@ -562,32 +563,32 @@ msgid "Select none"
 msgstr "全部不選"
 
 # src/menu.c:748
-#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1194
-#: src/layout_image.c:724 src/layout_util.c:779 src/pan-view.c:4779
+#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1225
+#: src/layout_image.c:734 src/layout_util.c:812 src/pan-view.c:5130
 #: src/search.c:981 src/view_file_icon.c:280 src/view_file_list.c:394
 msgid "_Properties"
 msgstr "選項(_)..."
 
 # src/collect-table.c:633 src/dupe.c:1401 src/img-view.c:804 src/menu.c:910
 # src/menu.c:969
-#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1199
-#: src/layout_image.c:732 src/layout_util.c:757 src/pan-view.c:4786
+#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1230
+#: src/layout_image.c:742 src/layout_util.c:789 src/pan-view.c:5137
 #: src/search.c:988 src/view_file_icon.c:287 src/view_file_list.c:400
 msgid "_Copy..."
 msgstr "複製(_C)..."
 
 # src/collect-table.c:634 src/dupe.c:1403 src/img-view.c:805 src/menu.c:912
 # src/menu.c:971
-#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1200
-#: src/layout_image.c:734 src/layout_util.c:758 src/pan-view.c:4788
+#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1231
+#: src/layout_image.c:744 src/layout_util.c:790 src/pan-view.c:5139
 #: src/search.c:990 src/view_file_icon.c:289 src/view_file_list.c:402
 msgid "_Move..."
 msgstr "移動(_M)..."
 
 # src/collect-table.c:635 src/dupe.c:1405 src/img-view.c:806 src/menu.c:914
 # src/menu.c:973
-#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1201
-#: src/layout_image.c:736 src/layout_util.c:759 src/pan-view.c:4790
+#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1232
+#: src/layout_image.c:746 src/layout_util.c:791 src/pan-view.c:5141
 #: src/search.c:992 src/view_dir_list.c:407 src/view_dir_tree.c:497
 #: src/view_file_icon.c:291 src/view_file_list.c:404
 msgid "_Rename..."
@@ -595,8 +596,8 @@ msgstr "更改名稱(_R)..."
 
 # src/collect-table.c:636 src/dupe.c:1407 src/img-view.c:807 src/menu.c:916
 # src/menu.c:975
-#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1202
-#: src/layout_image.c:738 src/layout_util.c:760 src/pan-view.c:4792
+#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1233
+#: src/layout_image.c:748 src/layout_util.c:792 src/pan-view.c:5143
 #: src/search.c:994 src/view_file_icon.c:293 src/view_file_list.c:406
 msgid "_Delete..."
 msgstr "刪除(_D)..."
@@ -617,7 +618,7 @@ msgid "Save collection _as..."
 msgstr "另存圖像集為(_A)..."
 
 # src/collect-table.c:644 src/menu.c:885
-#: src/collect-table.c:818 src/layout_util.c:753
+#: src/collect-table.c:818 src/layout_util.c:785
 msgid "_Find duplicates..."
 msgstr "尋找重複檔案(_F)..."
 
@@ -627,28 +628,28 @@ msgid "Print..."
 msgstr "列印..."
 
 # src/collect-table.c:1818 src/dupe.c:2170
-#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1356
+#: src/collect-table.c:1972 src/dupe.c:3300 src/img-view.c:1387
 msgid "Dropped list includes folders."
 msgstr "拖到這裡的檔案包括目錄。"
 
 # src/collect-table.c:1820 src/dupe.c:2172
-#: src/collect-table.c:1980 src/dupe.c:3306 src/img-view.c:1358
+#: src/collect-table.c:1974 src/dupe.c:3302 src/img-view.c:1389
 msgid "_Add contents"
 msgstr "加入內容(_A)"
 
 # src/collect-table.c:1821 src/dupe.c:2173
-#: src/collect-table.c:1982 src/dupe.c:3307 src/img-view.c:1359
+#: src/collect-table.c:1976 src/dupe.c:3303 src/img-view.c:1390
 msgid "Add contents _recursive"
 msgstr "加入內容包含子目錄(_R)"
 
 # src/collect-table.c:1822 src/dupe.c:2174
-#: src/collect-table.c:1984 src/dupe.c:3308 src/img-view.c:1360
+#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1391
 msgid "_Skip folders"
 msgstr "跳過目錄(_S)"
 
 # src/collect-table.c:1824 src/dupe.c:2176 src/preferences.c:536
 # src/ui_utildlg.c:105
-#: src/collect-table.c:1987 src/dupe.c:3310 src/img-view.c:1362
+#: src/collect-table.c:1981 src/dupe.c:3306 src/img-view.c:1393
 #: src/view_dir_list.c:214 src/view_dir_tree.c:306
 msgid "Cancel"
 msgstr "取消"
@@ -695,7 +696,7 @@ msgid "Comparing..."
 msgstr "比較中..."
 
 # src/dupe.c:871 src/dupe.c:892
-#: src/dupe.c:1535 src/pan-view.c:3238
+#: src/dupe.c:1535 src/pan-view.c:3314
 msgid "Sorting..."
 msgstr "排序中..."
 
@@ -729,19 +730,19 @@ msgid "%d files (set 2)"
 msgstr "%d 個檔案 (群集 2)"
 
 # src/dupe.c:1653 src/dupe.c:1942
-#: src/dupe.c:2590 src/dupe.c:3117 src/preferences.c:961 src/print.c:3194
-#: src/search.c:2754 src/view_file_list.c:1557
+#: src/dupe.c:2590 src/dupe.c:3113 src/preferences.c:959 src/print.c:3194
+#: src/search.c:2745 src/view_file_list.c:1654
 msgid "Size"
 msgstr "檔案大小"
 
 # src/dupe.c:1654 src/dupe.c:1943
-#: src/dupe.c:2591 src/dupe.c:3118 src/exif.c:296 src/exif.c:417
-#: src/print.c:3192 src/search.c:2755 src/view_file_list.c:1558
+#: src/dupe.c:2591 src/dupe.c:3114 src/exif.c:296 src/exif.c:417
+#: src/print.c:3192 src/search.c:2746 src/view_file_list.c:1655
 msgid "Date"
 msgstr "日期"
 
 # src/dupe.c:1655 src/dupe.c:1944
-#: src/dupe.c:2592 src/dupe.c:3119 src/print.c:3196 src/search.c:2756
+#: src/dupe.c:2592 src/dupe.c:3115 src/print.c:3196 src/search.c:2747
 msgid "Dimensions"
 msgstr "圖像尺寸"
 
@@ -751,7 +752,7 @@ msgid "Checksum"
 msgstr "加總值(Checksum)"
 
 # src/dupe.c:1657 src/dupe.c:1945
-#: src/dupe.c:2594 src/dupe.c:3120 src/search.c:2757 src/ui_pathsel.c:1106
+#: src/dupe.c:2594 src/dupe.c:3116 src/search.c:2748 src/ui_pathsel.c:1106
 msgid "Path"
 msgstr "路徑"
 
@@ -776,29 +777,29 @@ msgid "Similarity (custom)"
 msgstr "類似度（自訂）"
 
 # src/dupe.c:1968
-#: src/dupe.c:3080
+#: src/dupe.c:3076
 msgid "Find duplicates - GQview"
 msgstr "尋找重複檔案 - GQview"
 
 # 
 # src/dupe.c:1948
-#: src/dupe.c:3152
+#: src/dupe.c:3148
 msgid "Compare to:"
 msgstr "和以下檔案比較："
 
 # 
 # src/dupe.c:2045
-#: src/dupe.c:3165
+#: src/dupe.c:3161
 msgid "Compare by:"
 msgstr "以下列方式比較："
 
 # src/dupe.c:2054 src/preferences.c:586
-#: src/dupe.c:3173 src/preferences.c:849 src/search.c:2770
+#: src/dupe.c:3169 src/preferences.c:847 src/search.c:2761
 msgid "Thumbnails"
 msgstr "預覽小圖"
 
 # src/dupe.c:2060
-#: src/dupe.c:3180
+#: src/dupe.c:3176
 msgid "Compare two file sets"
 msgstr "比較兩組檔案"
 
@@ -1134,22 +1135,22 @@ msgid "dot"
 msgstr "點"
 
 # src/dupe.c:67 src/dupe.c:1449
-#: src/filelist.c:520
+#: src/filelist.c:521
 #, c-format
 msgid "%d bytes"
 msgstr "%d bytes"
 
-#: src/filelist.c:524
+#: src/filelist.c:525
 #, c-format
 msgid "%.1f K"
 msgstr "%.1f K"
 
-#: src/filelist.c:528
+#: src/filelist.c:529
 #, c-format
 msgid "%.1f MB"
 msgstr "%.1f MB"
 
-#: src/filelist.c:533
+#: src/filelist.c:534
 #, c-format
 msgid "%.1f GB"
 msgstr "%.1f GB"
@@ -1191,66 +1192,66 @@ msgid "Active monitor"
 msgstr "作用中的顯示器"
 
 # src/img-view.c:789 src/menu.c:944 src/menu.c:1079
-#: src/img-view.c:1182 src/layout_image.c:711 src/layout_util.c:786
-#: src/pan-view.c:4768
+#: src/img-view.c:1213 src/layout_image.c:721 src/layout_util.c:819
+#: src/pan-view.c:5119
 msgid "Zoom _in"
 msgstr "拉近(_I)"
 
 # src/img-view.c:790 src/menu.c:945 src/menu.c:1081
-#: src/img-view.c:1183 src/layout_image.c:712 src/layout_util.c:787
-#: src/pan-view.c:4770
+#: src/img-view.c:1214 src/layout_image.c:722 src/layout_util.c:820
+#: src/pan-view.c:5121
 msgid "Zoom _out"
 msgstr "拉遠(_O)"
 
 # src/img-view.c:791 src/menu.c:946
-#: src/img-view.c:1184 src/layout_image.c:713 src/layout_util.c:788
-#: src/pan-view.c:4772
+#: src/img-view.c:1215 src/layout_image.c:723 src/layout_util.c:821
+#: src/pan-view.c:5123
 msgid "Zoom _1:1"
 msgstr "原來尺寸(_1)"
 
 # src/img-view.c:792 src/menu.c:947 src/menu.c:1083 src/preferences.c:716
-#: src/img-view.c:1185 src/layout_image.c:714
+#: src/img-view.c:1216 src/layout_image.c:724
 msgid "Fit image to _window"
 msgstr "影像符合視窗尺寸(_W)"
 
 # src/img-view.c:797 src/menu.c:960
-#: src/img-view.c:1190 src/layout_image.c:720 src/layout_util.c:784
+#: src/img-view.c:1221 src/layout_image.c:730 src/layout_util.c:817
 msgid "Set as _wallpaper"
 msgstr "設定為桌布(_W)"
 
 # src/img-view.c:813 src/menu.c:982
-#: src/img-view.c:1208 src/layout_image.c:745
+#: src/img-view.c:1239 src/layout_image.c:755
 msgid "_Stop slideshow"
 msgstr "關閉投影片(_S)"
 
 # src/img-view.c:816 src/menu.c:985
-#: src/img-view.c:1211 src/layout_image.c:748
+#: src/img-view.c:1242 src/layout_image.c:758
 msgid "Continue slides_how"
 msgstr "繼續投影片(_H)"
 
 # src/img-view.c:820 src/img-view.c:827 src/menu.c:989 src/menu.c:995
-#: src/img-view.c:1216 src/img-view.c:1224 src/layout_image.c:753
-#: src/layout_image.c:760
+#: src/img-view.c:1247 src/img-view.c:1255 src/layout_image.c:763
+#: src/layout_image.c:770
 msgid "Pause slides_how"
 msgstr "暫停投影片(_H)"
 
 # src/img-view.c:825 src/menu.c:994
-#: src/img-view.c:1222 src/layout_image.c:759
+#: src/img-view.c:1253 src/layout_image.c:769
 msgid "_Start slideshow"
 msgstr "啟動投影片(_S)"
 
 # src/img-view.c:833 src/menu.c:1005
-#: src/img-view.c:1230 src/layout_image.c:770 src/pan-view.c:4804
+#: src/img-view.c:1261 src/layout_image.c:780 src/pan-view.c:5161
 msgid "Exit _full screen"
 msgstr "離開全螢幕模式(_F)"
 
 # src/img-view.c:837 src/menu.c:1001
-#: src/img-view.c:1234 src/layout_image.c:766 src/pan-view.c:4808
+#: src/img-view.c:1265 src/layout_image.c:776 src/pan-view.c:5165
 msgid "_Full screen"
 msgstr "全螢幕(_F)"
 
 # src/dupe.c:1415 src/dupe.c:1573 src/img-view.c:841
-#: src/img-view.c:1238 src/layout_util.c:761 src/pan-view.c:4812
+#: src/img-view.c:1269 src/layout_util.c:793 src/pan-view.c:5169
 msgid "C_lose window"
 msgstr "關閉視窗(_L)"
 
@@ -1293,7 +1294,7 @@ msgstr "群組："
 
 # 
 # src/preferences.c:551
-#: src/info.c:380 src/preferences.c:830
+#: src/info.c:380 src/preferences.c:828
 msgid "General"
 msgstr "一般"
 
@@ -1307,62 +1308,68 @@ msgid "Image properties - GQview"
 msgstr "影像內容 - GQview"
 
 # src/window.c:87
-#: src/layout.c:266 src/view_file_icon.c:301 src/view_file_list.c:414
+#: src/layout.c:271 src/view_file_icon.c:301 src/view_file_list.c:414
 msgid "Ascending"
 msgstr "遞增"
 
 # 
 # src/filelist.c:76
-#: src/layout.c:332
+#: src/layout.c:337
 msgid " Slideshow"
 msgstr " 投影片"
 
 # 
 # src/filelist.c:80
-#: src/layout.c:336
+#: src/layout.c:341
 msgid " Paused"
 msgstr " 暫停"
 
 # src/filelist.c:86
-#: src/layout.c:353
+#: src/layout.c:358
 #, c-format
 msgid "%s, %d files (%s, %d)%s"
 msgstr "%s, %d 個檔案 (%s, %d)%s"
 
 # src/filelist.c:88
-#: src/layout.c:360
+#: src/layout.c:365
 #, c-format
 msgid "%s, %d files%s"
 msgstr "%s, %d 個檔案 %s"
 
 # src/filelist.c:88
-#: src/layout.c:365
+#: src/layout.c:370
 #, c-format
 msgid "%d files%s"
 msgstr "%d 個檔案%s"
 
-#: src/layout.c:394
+#: src/layout.c:399
 #, c-format
 msgid "(no read permission) %s bytes"
 msgstr "(無讀取權限) %s bytes"
 
 # 
 # src/window.c:379
-#: src/layout.c:398
+#: src/layout.c:403
 #, c-format
 msgid "( ? x ? ) %s bytes"
 msgstr "( ? x ? ) %s 位元組"
 
 # src/window.c:383
-#: src/layout.c:406
+#: src/layout.c:411
 #, c-format
 msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s 位元組"
 
 # src/window.c:234
-#: src/layout.c:1102
+#: src/layout.c:1107
 msgid "GQview Tools"
 msgstr "GQview 工具"
+
+# src/collect-dlg.c:59
+#: src/layout.c:1739
+#, fuzzy
+msgid "Invalid geometry\n"
+msgstr "資料夾無效"
 
 # src/preferences.c:368
 #: src/layout_config.c:57
@@ -1375,7 +1382,7 @@ msgid "Files"
 msgstr "檔案"
 
 # src/preferences.c:676
-#: src/layout_config.c:57 src/preferences.c:895 src/print.c:110
+#: src/layout_config.c:57 src/preferences.c:893 src/print.c:110
 msgid "Image"
 msgstr "影像"
 
@@ -1384,387 +1391,391 @@ msgid "(drag to change order)"
 msgstr "(以拖曳方式改變順序)"
 
 # src/menu.c:1010
-#: src/layout_image.c:775
+#: src/layout_image.c:785
 msgid "Hide file _list"
 msgstr "隱藏檔案列表(_L)"
 
 # 
 # src/menu.c:430 src/menu.c:457
-#: src/layout_util.c:619 src/menu.c:74
+#: src/layout_util.c:651 src/menu.c:74
 #, c-format
 msgid "in %s..."
 msgstr "使用 %s..."
 
 # src/menu.c:432 src/menu.c:461
-#: src/layout_util.c:623 src/menu.c:76
+#: src/layout_util.c:655 src/menu.c:76
 msgid "in (unknown)..."
 msgstr "使用（未知）..."
 
 # src/collect-table.c:78 src/menu.c:684
-#: src/layout_util.c:631
+#: src/layout_util.c:663
 msgid "empty"
 msgstr "空白"
 
 # src/menu.c:709
-#: src/layout_util.c:742
+#: src/layout_util.c:774
 msgid "_File"
 msgstr "檔案(_F)"
 
 # src/menu.c:726
-#: src/layout_util.c:743 src/menu.c:91
+#: src/layout_util.c:775 src/menu.c:91
 msgid "_Edit"
 msgstr "編輯(_E)"
 
 # src/menu.c:626
-#: src/layout_util.c:744 src/menu.c:248
+#: src/layout_util.c:776 src/menu.c:252
 msgid "_Adjust"
 msgstr "調整圖像(_A)"
 
 # src/menu.c:771
-#: src/layout_util.c:746
+#: src/layout_util.c:778
 msgid "_Help"
 msgstr "求助(_H)"
 
 # src/menu.c:711
-#: src/layout_util.c:748
+#: src/layout_util.c:780
 msgid "New _window"
 msgstr "新視窗(_W)"
 
 # src/collect-dlg.c:165 src/collect-table.c:641
-#: src/layout_util.c:749
+#: src/layout_util.c:781
 msgid "_New collection"
 msgstr "新圖像集(_N)"
 
 # src/collect-dlg.c:172
-#: src/layout_util.c:750
+#: src/layout_util.c:782
 msgid "_Open collection..."
 msgstr "開啟圖像集(_O)"
 
 # src/menu.c:713
-#: src/layout_util.c:751
+#: src/layout_util.c:783
 msgid "Open _recent"
 msgstr "開啟最近的檔案(_R)"
 
 # src/dupe.c:871 src/dupe.c:892
-#: src/layout_util.c:752
+#: src/layout_util.c:784
 msgid "_Search..."
 msgstr "搜尋(_S)"
 
-#: src/layout_util.c:754
+#: src/layout_util.c:786
 msgid "Pan _view"
 msgstr "多圖檢視(_V)"
 
 # src/menu.c:721
-#: src/layout_util.c:755
+#: src/layout_util.c:787
 msgid "_Print..."
 msgstr "印列(_P)..."
 
-#: src/layout_util.c:756
+#: src/layout_util.c:788
 msgid "N_ew folder..."
 msgstr "新資料夾(_E)..."
 
 # src/preferences.c:684
-#: src/layout_util.c:762
+#: src/layout_util.c:794
 msgid "_Quit"
 msgstr "結束退出(_Q)"
 
 # src/menu.c:572
-#: src/layout_util.c:774 src/menu.c:194
+#: src/layout_util.c:806 src/menu.c:194
 msgid "_Rotate clockwise"
 msgstr "順時針旋轉(_R)"
 
 # src/menu.c:575
-#: src/layout_util.c:775 src/menu.c:197
+#: src/layout_util.c:807 src/menu.c:197
 msgid "Rotate _counterclockwise"
 msgstr "逆時針旋轉(_C)"
 
 # src/menu.c:578
-#: src/layout_util.c:776
+#: src/layout_util.c:808
 msgid "Rotate 1_80"
 msgstr "旋轉 180 度(_8)"
 
 # src/menu.c:581
-#: src/layout_util.c:777 src/menu.c:203
+#: src/layout_util.c:809 src/menu.c:203
 msgid "_Mirror"
 msgstr "左右翻轉(_M)"
 
 # src/menu.c:584
-#: src/layout_util.c:778 src/menu.c:206
+#: src/layout_util.c:810 src/menu.c:206
 msgid "_Flip"
 msgstr "上下翻轉(_F)"
 
+#: src/layout_util.c:811 src/menu.c:209
+msgid "_Grayscale"
+msgstr ""
+
 # src/collect-table.c:627 src/dupe.c:1391 src/dupe.c:1563
-#: src/layout_util.c:780
+#: src/layout_util.c:813
 msgid "Select _all"
 msgstr "全部選取(_A)"
 
 # src/collect-table.c:628 src/dupe.c:1393 src/dupe.c:1565
-#: src/layout_util.c:781
+#: src/layout_util.c:814
 msgid "Select _none"
 msgstr "全部不選(_N)"
 
 # src/menu.c:748
-#: src/layout_util.c:782
+#: src/layout_util.c:815
 msgid "P_references..."
 msgstr "偏好設定(_R)..."
 
-#: src/layout_util.c:783
+#: src/layout_util.c:816
 msgid "_Thumbnail maintenance..."
 msgstr "操作預覽小圖(_T)..."
 
 # src/menu.c:758
-#: src/layout_util.c:789
+#: src/layout_util.c:822
 msgid "_Zoom to fit"
 msgstr "縮放至符合視窗尺寸(_Z)"
 
 # src/img-view.c:837 src/menu.c:1001
-#: src/layout_util.c:790
+#: src/layout_util.c:823
 msgid "F_ull screen"
 msgstr "全螢幕(_U)"
 
 # src/menu.c:1010
-#: src/layout_util.c:791
+#: src/layout_util.c:824
 msgid "_Hide file list"
 msgstr "隱藏檔案列表(_H)"
 
 # src/img-view.c:813 src/menu.c:982
-#: src/layout_util.c:792
+#: src/layout_util.c:825
 msgid "Toggle _slideshow"
 msgstr "印換投影片模式(_S)"
 
 # src/menu.c:891 src/menu.c:920
-#: src/layout_util.c:793
+#: src/layout_util.c:826
 msgid "_Refresh"
 msgstr "重新整理(_R)"
 
 # src/menu.c:776
-#: src/layout_util.c:795
+#: src/layout_util.c:828
 msgid "_Contents"
 msgstr "內容(_C)"
 
 # src/menu.c:773
-#: src/layout_util.c:796
+#: src/layout_util.c:829
 msgid "_Keyboard shortcuts"
 msgstr "捷徑鍵(_K)"
 
 # src/menu.c:774
-#: src/layout_util.c:797
+#: src/layout_util.c:830
 msgid "_Release notes"
 msgstr "發行須知(_R)"
 
 # src/menu.c:776
-#: src/layout_util.c:798
+#: src/layout_util.c:831
 msgid "_About"
 msgstr "關於(_A)"
 
 # src/dupe.c:2054 src/preferences.c:586
-#: src/layout_util.c:802 src/layout_util.c:1049
+#: src/layout_util.c:835 src/layout_util.c:1083
 msgid "_Thumbnails"
 msgstr "預覽小圖(_T)"
 
 # src/menu.c:768
-#: src/layout_util.c:803
+#: src/layout_util.c:836
 msgid "Tr_ee"
 msgstr "樹狀目錄(_E)"
 
 # src/menu.c:766
-#: src/layout_util.c:804
+#: src/layout_util.c:837
 msgid "_Float file list"
 msgstr "浮動檔案列表(_F)"
 
 # src/menu.c:754
-#: src/layout_util.c:805
+#: src/layout_util.c:838
 msgid "Hide tool_bar"
 msgstr "隱藏工具列(_B)"
 
 # src/dupe.c:1655 src/dupe.c:1944
-#: src/layout_util.c:806
+#: src/layout_util.c:839
 msgid "_Keywords"
 msgstr "關鍵字(_K)"
 
 # src/menu.c:765
-#: src/layout_util.c:807
+#: src/layout_util.c:840
 msgid "E_xif data"
 msgstr "Exif資料(_X)"
 
 # src/menu.c:526
-#: src/layout_util.c:808
+#: src/layout_util.c:841
 msgid "Sort _manager"
 msgstr "排列管理員(_M)"
 
 # src/menu.c:765
-#: src/layout_util.c:812
+#: src/layout_util.c:845
 msgid "_List"
 msgstr "清單模式(_L)"
 
-#: src/layout_util.c:813
+#: src/layout_util.c:846
 msgid "I_cons"
 msgstr "小圖示(_C)"
 
 # src/preferences.c:603
-#: src/layout_util.c:1050
+#: src/layout_util.c:1084
 msgid "Show thumbnails"
 msgstr "顯示預覽小圖"
 
 # src/menu.c:1075
-#: src/layout_util.c:1055
+#: src/layout_util.c:1089
 msgid "Change to home folder"
 msgstr "回到家目錄"
 
 # 
 # src/menu.c:1077
-#: src/layout_util.c:1057
+#: src/layout_util.c:1091
 msgid "Refresh file list"
 msgstr "重新整理檔案列表"
 
 # src/img-view.c:789 src/menu.c:944 src/menu.c:1079
-#: src/layout_util.c:1059
+#: src/layout_util.c:1093
 msgid "Zoom in"
 msgstr "拉近"
 
 # 
 # src/img-view.c:790 src/menu.c:945 src/menu.c:1081
-#: src/layout_util.c:1061
+#: src/layout_util.c:1095
 msgid "Zoom out"
 msgstr "拉遠"
 
 # 
 # src/img-view.c:792 src/menu.c:947 src/menu.c:1083 src/preferences.c:716
-#: src/layout_util.c:1063 src/preferences.c:924
+#: src/layout_util.c:1097 src/preferences.c:922
 msgid "Fit image to window"
 msgstr "圖像符合視窗尺寸"
 
 # 
 # src/menu.c:1085
-#: src/layout_util.c:1065
+#: src/layout_util.c:1099
 msgid "Set zoom 1:1"
 msgstr "設為原來尺寸"
 
 # 
 # src/menu.c:1087
-#: src/layout_util.c:1067
+#: src/layout_util.c:1101
 msgid "Configure options"
 msgstr "設定選項"
 
 # src/preferences.c:401
-#: src/layout_util.c:1068
+#: src/layout_util.c:1102
 msgid "_Float"
 msgstr "浮動工具列(_F)"
 
 # 
 # src/menu.c:1089
-#: src/layout_util.c:1069
+#: src/layout_util.c:1103
 msgid "Float Controls"
 msgstr "浮動控制視窗"
 
 # src/main.c:129
-#: src/main.c:266
+#: src/main.c:237
 msgid "Help - GQview"
 msgstr "求助 - GQview"
 
 # 
 # src/main.c:743
-#: src/main.c:489 src/main.c:1305
+#: src/main.c:460 src/main.c:1365
 msgid "Command line"
 msgstr "指令列"
 
 # src/preferences.c:660
 #  short, long                  callback,               extra, prefer,description
 #. short, long                  callback,               extra, prefer,description
-#: src/main.c:527
+#: src/main.c:498
 msgid "next image"
 msgstr "下個圖像"
 
-#: src/main.c:528
+#: src/main.c:499
 msgid "previous image"
 msgstr "前一個影像"
 
-#: src/main.c:529
+#: src/main.c:500
 msgid "first image"
 msgstr "第一個影像"
 
-#: src/main.c:530
+#: src/main.c:501
 msgid "last image"
 msgstr "最後影像"
 
 # src/img-view.c:833 src/menu.c:1005
-#: src/main.c:531
+#: src/main.c:502
 msgid "toggle full screen"
 msgstr "切換全螢幕模式"
 
 # src/img-view.c:833 src/menu.c:1005
-#: src/main.c:532
+#: src/main.c:503
 msgid "start full screen"
 msgstr "開始全螢幕模式"
 
 # src/img-view.c:833 src/menu.c:1005
-#: src/main.c:533
+#: src/main.c:504
 msgid "stop full screen"
 msgstr "停止全螢幕模式"
 
 # src/img-view.c:813 src/menu.c:982
-#: src/main.c:534
+#: src/main.c:505
 msgid "toggle slide show"
 msgstr "換投影片模式"
 
 # src/img-view.c:825 src/menu.c:994
-#: src/main.c:535
+#: src/main.c:506
 msgid "start slide show"
 msgstr "開始投影片模式"
 
 # src/img-view.c:813 src/menu.c:982
-#: src/main.c:536
+#: src/main.c:507
 msgid "stop slide show"
 msgstr "停止投影片模式"
 
 # src/img-view.c:825 src/menu.c:994
-#: src/main.c:537
+#: src/main.c:508
 msgid "start recursive slide show"
 msgstr "開始遞迴投影片模式"
 
-#: src/main.c:538
+#: src/main.c:509
 msgid "set slide show delay in seconds"
 msgstr "設定投影片放映延遲秒數"
 
-#: src/main.c:539
+#: src/main.c:510
 msgid "show tools"
 msgstr "顯示工具"
 
 # src/window.c:234
-#: src/main.c:540
+#: src/main.c:511
 msgid "hide tools"
 msgstr "隱藏工具"
 
-#: src/main.c:541
+#: src/main.c:512
 msgid "quit"
 msgstr "結束退出"
 
 # src/utilops.c:1090
-#: src/main.c:542
+#: src/main.c:513
 msgid "open file"
 msgstr "開啟檔案"
 
 # src/collect-table.c:620 src/dupe.c:1388 src/dupe.c:1560 src/img-view.c:801
 # src/menu.c:906 src/menu.c:964
-#: src/main.c:543
+#: src/main.c:514
 msgid "open file in new window"
 msgstr "在新視窗中開啟"
 
-#: src/main.c:609
+#: src/main.c:580
 msgid "Remote command list:\n"
 msgstr "遠端命令列表:\n"
 
-#: src/main.c:667
+#: src/main.c:638
 msgid "Remote GQview not running, starting..."
 msgstr "遠端的 GQview 尚未執行, 啟動中..."
 
-#: src/main.c:802
+#: src/main.c:773
 msgid "Remote not available\n"
 msgstr "遠端無法連接上\n"
 
 # 
 # src/main.c:457
-#: src/main.c:944
+#: src/main.c:991
 msgid ""
 "Usage: gqview [options] [path]\n"
 "\n"
@@ -1774,63 +1785,67 @@ msgstr ""
 
 # 
 # src/main.c:458
-#: src/main.c:945
+#: src/main.c:992
 msgid "valid options are:\n"
 msgstr "有效之選項為：\n"
 
 # 
 # src/main.c:459
-#: src/main.c:946
+#: src/main.c:993
 msgid "  +t, --with-tools           force show of tools\n"
 msgstr "  +t, --with-tools           強行顯示工具\n"
 
 # src/main.c:460
-#: src/main.c:947
+#: src/main.c:994
 msgid "  -t, --without-tools        force hide of tools\n"
 msgstr "  -t, --without-tools        強行隱藏工具\n"
 
 # 
 # src/main.c:461
-#: src/main.c:948
+#: src/main.c:995
 msgid "  -f, --fullscreen           start in full screen mode\n"
 msgstr "  -f, --fullscreen           啟始時進入全螢幕模式\n"
 
 # 
 # src/main.c:462
-#: src/main.c:949
+#: src/main.c:996
 msgid "  -s, --slideshow            start in slideshow mode\n"
 msgstr "  -s, --slideshow            啟始時進入投影片模式\n"
 
 # 
 # src/main.c:463
-#: src/main.c:950
+#: src/main.c:997
 msgid "  -l, --list                 open collection window for command line\n"
 msgstr "  -l, --list                 在指令列開啟圖像集視窗\n"
 
+#: src/main.c:998
+msgid "      --geometry=GEOMETRY    set main window location\n"
+msgstr ""
+
 # src/main.c:463
-#: src/main.c:951
+#: src/main.c:999
 msgid "  -r, --remote               send following commands to open window\n"
 msgstr ""
 
-#: src/main.c:952
+#: src/main.c:1000
 msgid "  -rh,--remote-help          print remote command list\n"
 msgstr "-rh,--remote-help        列出遠端命令列表\n"
 
 # 
 # src/main.c:464
-#: src/main.c:953
+#: src/main.c:1001
 msgid "  --debug                    turn on debug output\n"
 msgstr "  --debug                    啟動偵錯輸出\n"
 
 # 
 # src/main.c:465
-#: src/main.c:954
+#: src/main.c:1002
 msgid "  -v, --version              print version info\n"
 msgstr "  -v, --version              列印版本資訊\n"
 
 # 
 # src/main.c:466
-#: src/main.c:955
+#: src/main.c:1003
 msgid ""
 "  -h, --help                 show this message\n"
 "\n"
@@ -1840,7 +1855,7 @@ msgstr ""
 
 # 
 # src/main.c:471
-#: src/main.c:969
+#: src/main.c:1017
 #, c-format
 msgid ""
 "invalid or ignored: %s\n"
@@ -1851,41 +1866,41 @@ msgstr ""
 
 # 
 # src/main.c:533
-#: src/main.c:1034
+#: src/main.c:1093
 #, c-format
 msgid "Creating GQview dir:%s\n"
 msgstr "正在建立 GQview 目錄：%s\n"
 
 # 
 # src/main.c:536
-#: src/main.c:1040
+#: src/main.c:1099
 #, c-format
 msgid "Could not create dir:%s\n"
 msgstr "不能建立目錄：%s\n"
 
 # src/ui_pathsel.c:754
-#: src/main.c:1061 src/ui_bookmark.c:858 src/ui_pathsel.c:1042
+#: src/main.c:1120 src/ui_bookmark.c:858 src/ui_pathsel.c:1042
 msgid "Home"
 msgstr "主目錄"
 
 # src/utilops.c:989
-#: src/main.c:1063 src/ui_bookmark.c:865
+#: src/main.c:1122 src/ui_bookmark.c:865
 msgid "Desktop"
 msgstr "桌面："
 
 # 
 # src/main.c:619
-#: src/main.c:1152
+#: src/main.c:1211
 msgid "GQview - exit"
 msgstr "GQview - 離開"
 
 # src/img-view.c:559 src/window.c:533
-#: src/main.c:1156
+#: src/main.c:1215
 msgid "Quit GQview"
 msgstr "結束 GQview"
 
 # src/main.c:619
-#: src/main.c:1156
+#: src/main.c:1215
 msgid "Collections have been modified. Quit anyway?"
 msgstr ""
 "圖像集已被修改.\n"
@@ -1933,159 +1948,159 @@ msgid "Rotate _180"
 msgstr "旋轉 180 度(_1)"
 
 # src/collect-table.c:86
-#: src/pan-view.c:3163
+#: src/pan-view.c:3239
 #, c-format
 msgid "%d images, %s"
 msgstr "%d 個圖像, %s"
 
-#: src/pan-view.c:3173
+#: src/pan-view.c:3249
 #, c-format
 msgid "The pan view does not support the folder \"%s\"."
 msgstr "多圖檢視不支援以下資料夾 \"%s\"."
 
-#: src/pan-view.c:3174
+#: src/pan-view.c:3250
 msgid "Folder not supported"
 msgstr "資料夾不支援"
 
 # src/dupe.c:841
-#: src/pan-view.c:3228 src/pan-view.c:3244
+#: src/pan-view.c:3304 src/pan-view.c:3320
 msgid "Reading image data..."
 msgstr "正在讀取影像資料..."
 
 # src/dupe.c:871 src/dupe.c:892
-#: src/pan-view.c:3303
+#: src/pan-view.c:3379
 msgid "Sorting images..."
 msgstr "排序影像中..."
 
 # src/dupe.c:1654 src/dupe.c:1943
-#: src/pan-view.c:3640 src/pan-view.c:3967
+#: src/pan-view.c:3899 src/pan-view.c:4241
 msgid "Date:"
 msgstr "日期:"
 
 # 
 # src/preferences.c:595
-#: src/pan-view.c:3650 src/preferences.c:852 src/print.c:3201 src/print.c:3408
+#: src/pan-view.c:3901 src/preferences.c:850 src/print.c:3201 src/print.c:3408
 msgid "Size:"
 msgstr "大小："
 
-#: src/pan-view.c:3705
+#: src/pan-view.c:3979
 msgid "path found"
 msgstr "找到的路徑"
 
 # src/utilops.c:980
-#: src/pan-view.c:3705
+#: src/pan-view.c:3979
 msgid "filename found"
 msgstr "找到的檔案:"
 
-#: src/pan-view.c:3753
+#: src/pan-view.c:4027
 msgid "partial match"
 msgstr "部份符合"
 
-#: src/pan-view.c:3964 src/pan-view.c:3997
+#: src/pan-view.c:4238 src/pan-view.c:4271
 msgid "no match"
 msgstr "沒有符合"
 
-#: src/pan-view.c:4272 src/search.c:2140
+#: src/pan-view.c:4597 src/search.c:2131
 msgid "Folder not found"
 msgstr "找不到資料夾"
 
-#: src/pan-view.c:4273
+#: src/pan-view.c:4598
 msgid "The entered path is not a folder"
 msgstr "輸入的路徑不是一個資料夾"
 
 # src/img-view.c:559 src/window.c:533
-#: src/pan-view.c:4369
+#: src/pan-view.c:4704
 #, fuzzy
 msgid "Pan View - GQview"
 msgstr "列印 - GQview"
 
 # src/preferences.c:369
-#: src/pan-view.c:4391
+#: src/pan-view.c:4726
 msgid "Timeline"
 msgstr "時間線"
 
 # src/dupe.c:1412 src/dupe.c:1570
-#: src/pan-view.c:4392
+#: src/pan-view.c:4727
 msgid "Calendar"
 msgstr "日曆"
 
 # src/preferences.c:368
-#: src/pan-view.c:4394
+#: src/pan-view.c:4729
 msgid "Folders (flower)"
 msgstr "資料夾 (花)"
 
-#: src/pan-view.c:4395
+#: src/pan-view.c:4730
 msgid "Grid"
 msgstr "格點"
 
 # src/main.c:561
-#: src/pan-view.c:4404
+#: src/pan-view.c:4739
 msgid "Dots"
 msgstr "點"
 
 # src/preferences.c:676
-#: src/pan-view.c:4405
+#: src/pan-view.c:4740
 msgid "No Images"
 msgstr "沒有影像"
 
 # src/dupe.c:2054 src/preferences.c:586
-#: src/pan-view.c:4406
+#: src/pan-view.c:4741
 msgid "Small Thumbnails"
 msgstr "小尺寸預覽小圖"
 
 # src/dupe.c:2054 src/preferences.c:586
-#: src/pan-view.c:4407
+#: src/pan-view.c:4742
 msgid "Normal Thumbnails"
 msgstr "中等尺寸預覽小圖"
 
 # src/cache_maint.c:252
-#: src/pan-view.c:4408
+#: src/pan-view.c:4743
 msgid "Large Thumbnails"
 msgstr "大尺寸預覽小圖"
 
-#: src/pan-view.c:4409
+#: src/pan-view.c:4744
 msgid "1:10 (10%)"
 msgstr "1:10 (10%)"
 
-#: src/pan-view.c:4410
+#: src/pan-view.c:4745
 msgid "1:4 (25%)"
 msgstr "1:4 (25%)"
 
-#: src/pan-view.c:4411
+#: src/pan-view.c:4746
 msgid "1:3 (33%)"
 msgstr "1:3 (33%)"
 
-#: src/pan-view.c:4412
+#: src/pan-view.c:4747
 msgid "1:2 (50%)"
 msgstr "1:2 (50%)"
 
-#: src/pan-view.c:4413
+#: src/pan-view.c:4748
 msgid "1:1 (100%)"
 msgstr "1:1 (100%)"
 
 # src/ui_pathsel.c:799
-#: src/pan-view.c:4461
+#: src/pan-view.c:4796
 msgid "Find:"
 msgstr "搜尋:"
 
 # src/menu.c:765
-#: src/pan-view.c:4504
+#: src/pan-view.c:4839
 msgid "Use Exif date"
 msgstr "使用 Exif 日期"
 
-#: src/pan-view.c:4517
+#: src/pan-view.c:4852
 msgid "Find"
 msgstr "尋找"
 
-#: src/pan-view.c:4584
+#: src/pan-view.c:4919
 msgid "Pan View Performance"
 msgstr "多圖檢視效能"
 
-#: src/pan-view.c:4591
+#: src/pan-view.c:4926
 msgid "Pan view performance may be poor."
 msgstr "多圖檢視效能可能很差."
 
-#: src/pan-view.c:4592
+#: src/pan-view.c:4927
 msgid ""
 "To improve performance of thumbnails in the pan view the following options "
 "can be enabled. Note that both options must be enabled to notice a change in "
@@ -2093,73 +2108,81 @@ msgid ""
 msgstr "開啟以下幾個選項可增進多圖檢視的效能..."
 
 # src/preferences.c:603
-#: src/pan-view.c:4600 src/preferences.c:855
+#: src/pan-view.c:4935 src/preferences.c:853
 msgid "Cache thumbnails"
 msgstr "將預覽小圖儲存在緩衝區"
 
-#: src/pan-view.c:4602 src/preferences.c:861
+#: src/pan-view.c:4937 src/preferences.c:859
 msgid "Use shared thumbnail cache"
 msgstr "使用共享的預覽小圖快取區"
 
-#: src/pan-view.c:4608
+#: src/pan-view.c:4943
 msgid "Do not show this dialog again"
 msgstr "不再顯示此對話框"
 
 # src/menu.c:513
-#: src/pan-view.c:4796
+#: src/pan-view.c:5147
 msgid "Sort by E_xif date"
 msgstr "根據 Exif 日期排列(_X)"
 
+#: src/pan-view.c:5152
+msgid "Show EXIF information"
+msgstr ""
+
+#: src/pan-view.c:5154
+msgid "Show full size image"
+msgstr ""
+
 # 
 # src/preferences.c:367
-#: src/preferences.c:393
+#: src/preferences.c:391
 msgid "Nearest (worst, but fastest)"
 msgstr "最近點（品質最差但最快）"
 
 # src/preferences.c:368
-#: src/preferences.c:395
+#: src/preferences.c:393
 msgid "Tiles"
 msgstr "區域"
 
 # 
 # src/preferences.c:369
-#: src/preferences.c:397
+#: src/preferences.c:395
 msgid "Bilinear"
 msgstr "雙線性"
 
 # 
 # src/preferences.c:370
-#: src/preferences.c:399
+#: src/preferences.c:397
 msgid "Hyper (best, but slowest)"
 msgstr "雙曲線（品質最好但最慢）"
 
 # 
 # src/preferences.c:400
-#: src/preferences.c:427
+#: src/preferences.c:425
 msgid "None"
 msgstr "沒有"
 
 # 
 # src/preferences.c:401
-#: src/preferences.c:428
+#: src/preferences.c:426
 msgid "Normal"
 msgstr "正常"
 
 # src/preferences.c:402
-#: src/preferences.c:429
+#: src/preferences.c:427
 msgid "Best"
 msgstr "最好"
 
-#: src/preferences.c:507 src/print.c:365
+#: src/preferences.c:505 src/print.c:365
 msgid "Custom"
 msgstr "自訂"
 
 # src/utilops.c:707
-#: src/preferences.c:671 src/preferences.c:674
+#: src/preferences.c:669 src/preferences.c:672
 msgid "Reset filters"
 msgstr "重設過濾器"
 
-#: src/preferences.c:675
+#: src/preferences.c:673
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
@@ -2168,11 +2191,11 @@ msgstr ""
 "是否繼續?"
 
 # src/utilops.c:707
-#: src/preferences.c:708 src/preferences.c:711
+#: src/preferences.c:706 src/preferences.c:709
 msgid "Reset editors"
 msgstr "重設編輯器"
 
-#: src/preferences.c:712
+#: src/preferences.c:710
 msgid ""
 "This will reset the edit commands to the defaults.\n"
 "Continue?"
@@ -2181,362 +2204,362 @@ msgstr ""
 "是否繼續?"
 
 # src/preferences.c:163 src/preferences.c:604
-#: src/preferences.c:736 src/preferences.c:739
+#: src/preferences.c:734 src/preferences.c:737
 msgid "Clear trash"
 msgstr "清除垃圾桶"
 
-#: src/preferences.c:740
+#: src/preferences.c:738
 msgid "This will remove the trash contents."
 msgstr "這樣將會移除垃圾桶中的內容。"
 
 # src/utilops.c:942 src/utilops.c:1091
-#: src/preferences.c:779
+#: src/preferences.c:777
 msgid "GQview Preferences"
 msgstr "GQview 偏好設定"
 
-#: src/preferences.c:833
+#: src/preferences.c:831
 msgid "Startup"
 msgstr "啟動"
 
 # src/menu.c:1075
-#: src/preferences.c:835
+#: src/preferences.c:833
 msgid "Change to folder:"
 msgstr "更換至目錄:"
 
 # 
 # src/preferences.c:581
-#: src/preferences.c:846
+#: src/preferences.c:844
 msgid "Use current"
 msgstr "用這個目錄"
 
 # 
 # src/preferences.c:597
-#: src/preferences.c:853 src/preferences.c:904
+#: src/preferences.c:851 src/preferences.c:902
 msgid "Quality:"
 msgstr "品質："
 
 # src/preferences.c:610
-#: src/preferences.c:867
+#: src/preferences.c:865
 msgid "Cache thumbnails into .thumbnails"
 msgstr "將預覽小圖儲存在 .thumbnails"
 
 # src/preferences.c:613
-#: src/preferences.c:871
+#: src/preferences.c:869
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr "當找到 xvpics 預覽小圖時使用它（唯讀）"
 
-#: src/preferences.c:875
+#: src/preferences.c:873
 msgid "Faster jpeg thumbnailing (may reduce quality)"
 msgstr "快速產生 jpeg 預覽小圖 (可能降低品質)"
 
 # 
 # src/preferences.c:615
-#: src/preferences.c:878
+#: src/preferences.c:876
 msgid "Slide show"
 msgstr "投影片"
 
 # src/preferences.c:628
-#: src/preferences.c:881
+#: src/preferences.c:879
 msgid "Delay between image change:"
 msgstr "每次變換圖像前的停頓秒數:"
 
-#: src/preferences.c:881
+#: src/preferences.c:879
 msgid "seconds"
 msgstr "秒"
 
 # 
 # src/preferences.c:645
-#: src/preferences.c:887
+#: src/preferences.c:885
 msgid "Random"
 msgstr "隨機"
 
 # 
 # src/preferences.c:647
-#: src/preferences.c:888
+#: src/preferences.c:886
 msgid "Repeat"
 msgstr "重複"
 
 # src/img-view.c:789 src/menu.c:944 src/menu.c:1079
-#: src/preferences.c:898
+#: src/preferences.c:896
 msgid "Zoom"
 msgstr "縮放"
 
 # src/preferences.c:693
-#: src/preferences.c:901
+#: src/preferences.c:899
 msgid "Dithering method:"
 msgstr "擬色(Dither)方法："
 
-#: src/preferences.c:906
+#: src/preferences.c:904
 msgid "Two pass zooming"
 msgstr "二次處理縮放"
 
 # src/preferences.c:729
-#: src/preferences.c:909
+#: src/preferences.c:907
 msgid "Allow enlargement of image for zoom to fit"
 msgstr "選用「圖像符合視窗尺寸」時，圖像可超過原來尺寸"
 
 # 
 # src/preferences.c:751
-#: src/preferences.c:913
+#: src/preferences.c:911
 msgid "Zoom increment:"
 msgstr "每步縮放比例："
 
 # 
 # src/preferences.c:700
-#: src/preferences.c:918
+#: src/preferences.c:916
 msgid "When new image is selected:"
 msgstr "當選擇新圖像時："
 
 # 
 # src/preferences.c:710
-#: src/preferences.c:921
+#: src/preferences.c:919
 msgid "Zoom to original size"
 msgstr "圖像變回原來尺寸"
 
 # 
 # src/preferences.c:722
-#: src/preferences.c:927
+#: src/preferences.c:925
 msgid "Leave Zoom at previous setting"
 msgstr "保留已儲存的縮放設定"
 
 # src/collect-dlg.c:182
-#: src/preferences.c:931
+#: src/preferences.c:929
 msgid "Appearance"
 msgstr "外觀"
 
-#: src/preferences.c:933
+#: src/preferences.c:931
 msgid "Black background"
 msgstr "黑色背景"
 
 # src/utilops.c:328 src/utilops.c:394 src/utilops.c:668
-#: src/preferences.c:936
+#: src/preferences.c:934
 msgid "Convenience"
 msgstr "方便性"
 
 # src/menu.c:1077
-#: src/preferences.c:938
+#: src/preferences.c:936
 msgid "Refresh on file change"
 msgstr "檔案改變時，重新整理檔案列表"
 
 # 
 # src/preferences.c:660
-#: src/preferences.c:940
+#: src/preferences.c:938
 msgid "Preload next image"
 msgstr "預先載入下個圖像"
 
-#: src/preferences.c:942
+#: src/preferences.c:940
 msgid "Auto rotate image using Exif information"
 msgstr "以 Exif 資訊決定自動旋轉"
 
 # src/preferences.c:773
-#: src/preferences.c:951
+#: src/preferences.c:949
 msgid "Windows"
 msgstr "視窗"
 
-#: src/preferences.c:954
+#: src/preferences.c:952
 msgid "State"
 msgstr "狀態"
 
 # src/preferences.c:782
-#: src/preferences.c:956
+#: src/preferences.c:954
 msgid "Remember window positions"
 msgstr "記下視窗位置"
 
 # 
 # src/preferences.c:784
-#: src/preferences.c:958
+#: src/preferences.c:956
 msgid "Remember tool state (float/hidden)"
 msgstr "記下工具狀態（浮動/隱藏）"
 
 # 
 # src/preferences.c:787
-#: src/preferences.c:963
+#: src/preferences.c:961
 msgid "Fit window to image when tools are hidden/floating"
 msgstr "當工具隱藏/浮動時令圖像符合視窗尺寸"
 
 # src/preferences.c:794
-#: src/preferences.c:967
+#: src/preferences.c:965
 msgid "Limit size when auto-sizing window (%):"
 msgstr "自動調整視窗大小時不超過 (%)"
 
-#: src/preferences.c:974 src/print.c:3356 src/print.c:3363
+#: src/preferences.c:972 src/print.c:3356 src/print.c:3363
 msgid "Layout"
 msgstr "佈局"
 
 # 
 # src/preferences.c:812
-#: src/preferences.c:987
+#: src/preferences.c:985
 msgid "Filtering"
 msgstr "檔案過濾"
 
 # src/preferences.c:821
-#: src/preferences.c:992
+#: src/preferences.c:990
 msgid "Show entries that begin with a dot"
 msgstr "顯示以 '.' 開始的檔案"
 
-#: src/preferences.c:994
+#: src/preferences.c:992
 msgid "Case sensitive sort"
 msgstr "排序時考慮大小寫"
 
 # src/preferences.c:823
-#: src/preferences.c:997
+#: src/preferences.c:995
 msgid "Disable File Filtering"
 msgstr "關閉檔案過濾器"
 
 # src/ui_pathsel.c:799
-#: src/preferences.c:1000
+#: src/preferences.c:998
 msgid "File types"
 msgstr "檔案型式"
 
 # src/ui_pathsel.c:799
-#: src/preferences.c:1022
+#: src/preferences.c:1020
 msgid "Filter"
 msgstr "過濾器："
 
-#: src/preferences.c:1059 src/preferences.c:1123
+#: src/preferences.c:1057 src/preferences.c:1121
 msgid "Defaults"
 msgstr "還原預設值"
 
 # 
 # src/preferences.c:915
-#: src/preferences.c:1080
+#: src/preferences.c:1078
 msgid "Editors"
 msgstr "編輯器"
 
 # src/preferences.c:927
-#: src/preferences.c:1086
+#: src/preferences.c:1084
 msgid "#"
 msgstr "數目"
 
 # 
 # src/preferences.c:930
-#: src/preferences.c:1089
+#: src/preferences.c:1087
 msgid "Menu name"
 msgstr "名稱"
 
 # 
 # src/main.c:743
-#: src/preferences.c:1092
+#: src/preferences.c:1090
 #, fuzzy
 msgid "Command Line"
 msgstr "指令列"
 
-#: src/preferences.c:1139
+#: src/preferences.c:1137
 msgid "Advanced"
 msgstr "進階選項"
 
 # src/img-view.c:837 src/menu.c:1001
-#: src/preferences.c:1152
+#: src/preferences.c:1150
 msgid "Full screen"
 msgstr "全螢幕"
 
 # src/preferences.c:676
-#: src/preferences.c:1160
+#: src/preferences.c:1158
 msgid "Smooth image flip"
 msgstr "平順的切換影像"
 
-#: src/preferences.c:1162
+#: src/preferences.c:1160
 msgid "Disable screen saver"
 msgstr "關閉螢幕保護程式"
 
 # 
 # src/ui_pathsel.c:402 src/ui_pathsel.c:461 src/utilops.c:711
 # src/utilops.c:764
-#: src/preferences.c:1165
+#: src/preferences.c:1163
 msgid "Delete"
 msgstr "刪除"
 
 # 
 # src/preferences.c:667
-#: src/preferences.c:1167
+#: src/preferences.c:1165
 msgid "Confirm file delete"
 msgstr "確認刪除檔案"
 
 # 
 # src/preferences.c:669
-#: src/preferences.c:1169
+#: src/preferences.c:1167
 msgid "Enable Delete key"
 msgstr "可使用刪除鍵"
 
 # src/preferences.c:667
-#: src/preferences.c:1172
+#: src/preferences.c:1170
 msgid "Safe delete"
 msgstr "安全刪除"
 
-#: src/preferences.c:1190
+#: src/preferences.c:1188
 msgid "Maximum size:"
 msgstr "最大尺寸:"
 
-#: src/preferences.c:1190
+#: src/preferences.c:1188
 msgid "MB"
 msgstr "MB"
 
 # 
 # src/collect-table.c:619 src/dupe.c:1386 src/dupe.c:1558
-#: src/preferences.c:1193
+#: src/preferences.c:1191
 msgid "View"
 msgstr "檢視"
 
-#: src/preferences.c:1203
+#: src/preferences.c:1201
 msgid "Behavior"
 msgstr "行為"
 
 # src/preferences.c:906
-#: src/preferences.c:1205
+#: src/preferences.c:1203
 msgid "Rectangular selection in icon view"
 msgstr "以方框方式選擇圖示"
 
-#: src/preferences.c:1208
+#: src/preferences.c:1206
 msgid "Descend folders in tree view"
 msgstr "在樹狀檢視中顯示下層資料夾"
 
 # src/preferences.c:658
-#: src/preferences.c:1211
+#: src/preferences.c:1209
 msgid "In place renaming"
 msgstr "即時更改名稱"
 
-#: src/preferences.c:1214
+#: src/preferences.c:1212
 msgid "Navigation"
 msgstr "瀏覽"
 
 # 
 # src/preferences.c:764
-#: src/preferences.c:1216
+#: src/preferences.c:1214
 msgid "Progressive keyboard scrolling"
 msgstr "鍵盤連續捲動圖像"
 
 # 
 # src/preferences.c:766
-#: src/preferences.c:1218
+#: src/preferences.c:1216
 msgid "Mouse wheel scrolls image"
 msgstr "滑鼠滾軸可捲動圖像"
 
-#: src/preferences.c:1221
+#: src/preferences.c:1219
 msgid "Miscellaneous"
 msgstr "雜項"
 
-#: src/preferences.c:1223
+#: src/preferences.c:1221
 msgid "Store keywords and comments local to source images"
 msgstr "將關鍵字及註解存放於影像檔所在的目錄"
 
 # src/preferences.c:875
-#: src/preferences.c:1226
+#: src/preferences.c:1224
 msgid "Custom similarity threshold:"
 msgstr "自訂相似度臨界值："
 
 # 
 # src/preferences.c:735
-#: src/preferences.c:1229
+#: src/preferences.c:1227
 msgid "Offscreen cache size (Mb per image):"
 msgstr "緩衝區大小（每個圖像佔多少 Mb）："
 
 # src/img-view.c:559 src/window.c:533
-#: src/preferences.c:1305
+#: src/preferences.c:1303
 msgid "About - GQview"
 msgstr "關於 - GQview"
 
 # src/preferences.c:1041
-#: src/preferences.c:1318
+#: src/preferences.c:1316
 #, c-format
 msgid ""
 "GQview %s\n"
@@ -2556,7 +2579,7 @@ msgstr ""
 "以 GPL 使用條款發佈"
 
 # src/menu.c:748
-#: src/preferences.c:1336
+#: src/preferences.c:1334
 msgid "Credits..."
 msgstr "鳴謝..."
 
@@ -2979,75 +3002,75 @@ msgstr "%s, %d 個檔案"
 msgid "Searching..."
 msgstr "搜尋中..."
 
-#: src/search.c:2093
+#: src/search.c:2084
 msgid "File not found"
 msgstr "找不到檔案"
 
 # src/utilops.c:544
-#: src/search.c:2094
+#: src/search.c:2085
 msgid "Please enter an existing file for image content."
 msgstr ""
 
 # src/utilops.c:544
-#: src/search.c:2141
+#: src/search.c:2132
 msgid "Please enter an existing folder to search."
 msgstr ""
 
-#: src/search.c:2570
+#: src/search.c:2561
 msgid "Image search - GQview"
 msgstr "影像搜尋 - GQview"
 
 # src/dupe.c:871 src/dupe.c:892
-#: src/search.c:2599
+#: src/search.c:2590
 msgid "Search:"
 msgstr "搜尋:"
 
-#: src/search.c:2613
+#: src/search.c:2604
 msgid "Recurse"
 msgstr ""
 
 # src/utilops.c:980
-#: src/search.c:2617
+#: src/search.c:2608
 msgid "File name"
 msgstr "檔案名稱"
 
-#: src/search.c:2623
+#: src/search.c:2614
 msgid "Match case"
 msgstr "符合大小寫"
 
 # src/preferences.c:368
-#: src/search.c:2627
+#: src/search.c:2618
 msgid "File size is"
 msgstr "檔案大小為"
 
 # src/preferences.c:645
-#: src/search.c:2634 src/search.c:2649 src/search.c:2667
+#: src/search.c:2625 src/search.c:2640 src/search.c:2658
 msgid "and"
 msgstr "且包含"
 
 # src/ui_pathsel.c:799
-#: src/search.c:2639
+#: src/search.c:2630
 msgid "File date is"
 msgstr "檔案日期為"
 
 # src/utilops.c:539
-#: src/search.c:2656
+#: src/search.c:2647
 msgid "Image dimensions are"
 msgstr "影像尺寸為"
 
 # src/collect-table.c:1820 src/dupe.c:2172
-#: src/search.c:2676
+#: src/search.c:2667
 msgid "Image content is"
 msgstr "影像內容"
 
 # src/dupe.c:1659
-#: src/search.c:2682
+#: src/search.c:2673
 #, no-c-format
 msgid "% similar to"
 msgstr "% 相似於"
 
 # src/preferences.c:645
-#: src/search.c:2751
+#: src/search.c:2742
 msgid "Rank"
 msgstr "符合度"
 

@@ -1,3 +1,9 @@
+Sat Nov  4 10:31:51 2006  John Ellis  <johne@verizon.net>
+
+	* README: Updates.
+	* icons/Makefile.am: Remove icon files that no longer exist.
+	* configure.in: Release 2.1.3
+
 Fri Nov  3 21:15:40 2006  John Ellis  <johne@verizon.net>
 
 	* pan-view.c: Fix shortcuts to work regardless of what has the focus.

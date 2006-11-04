@@ -1,5 +1,5 @@
 ###################################################################
-##                          GQview 2.1.2      (October 14, 2006) ##
+##                          GQview 2.1.3      (November 4, 2006) ##
 ##                                                               ##
 ##              Copyright (C) 1999 - 2006 John Ellis.            ##
 ##                                                               ##
@@ -44,14 +44,31 @@ homepage: http://gqview.sourceforge.net
 
   Changes:
 
-    + Add more flexible auto-renaming option to rename dialog.
-    - Update translations de, fi, fr, it, pl, pt_BR, ru, sk, vi,zh_TW
-    - Add translations be, ca, ko
-    * Allow data cache reader to tolerate older/future features of GQview.
-    * Fix renaming a folder to an existing folder from clobbering
-      the existing folder.
-    * Exif timezone fix.
-    * Fix compile time warnings on newer gcc and gtk+.
+    + Add translations eo, eu; updated translation be.
+    + Add command to view image as grayscale with [Shift]+[G].
+    - Make [F11] also toggle fullscreen.
+    - Make [Shift]+[P] show print dialog in additional places.
+    - Make [Control]+[V] display current image in a new window.
+    - Use new window icons, and include original svg images with source.
+    - Add --geometry command line option.
+    - In Pan View, make [Control]+[F] show search bar,
+      and [Control]+[G] repeat last search.
+    - Add Pan View option to display EXIF data with info popup.
+    - Add Pan View option to display full size image with info popup.
+    * Fix Pan View inability to scroll to popups that are offscreen.
+    * Fix Pan View shortcuts to work regardless of widget focus.
+    * Fix command line parsing when given multiple folders.
+    * Use correct folder name (.thumblocal) to store local thumbnails
+      as described in the freedesktop thumbnail managing standard.
+    * Fix auto rename utility to allow counting from zero.
+    * Fix [Shift]+[R] from also activating refresh when in fullscreen.
+    * Fix [Shift]+[F] from also deactivating fullscreen, then crashing.
+    * Fix long standing bug of partially obscured window not properly
+      redrawing when panning the image.
+    * Fix using [Escape] key to close image windows from eventually
+      leading to crash.
+    * Fix very slow re-sort in the file list.
+    * Fix warning when attempting to draw zero length string onto pixbuf.
 
   Notes:
 
@@ -234,6 +251,7 @@ homepage: http://gqview.sourceforge.net
     [Shift] - R                        rotate image 180 degrees
     [Shift] - M                        mirror image (horizontal)
     [Shift] - F                        flip image (verticle)
+    [Shift] - G                        grayscale image
 
   View menu related:
     +, =, [Keypad +]                   zoom in
@@ -257,6 +275,7 @@ homepage: http://gqview.sourceforge.net
     F, V                               toggle full screen
     S                                  toggle slide show
     P                      	       (Un)pause slideshow
+    [Ctrl] - V                         display current image in new window
 
   Collection windows:
 
@@ -292,6 +311,8 @@ homepage: http://gqview.sourceforge.net
     [Ctrl] - S                         save collection as...
     A                                  append to collection...
 
+    [Shift] - P                        print selected images...
+
     [Ctrl] - C                         copy selected files...
     [Ctrl] - M                         move selected files...
     [Ctrl] - R                         rename selected files...
@@ -326,6 +347,11 @@ homepage: http://gqview.sourceforge.net
     [Ctrl] - P                         display image properties window
 
     [Ctrl] - W                         close window
+
+  Pan View:
+
+    [Ctrl] - F, /                      show search bar
+    [Ctrl] - G                         repeat previous search
 
   (*) This is a compile time option enabled when strverscmp is found.
 
@@ -381,7 +407,7 @@ homepage: http://gqview.sourceforge.net
 
 ======== Translation status:
 
- (as of 2.1.2)
+ (as of 2.1.3)
 
    Please send po files/patches in gzipped form to ensure data integrity.
 
@@ -391,37 +417,39 @@ homepage: http://gqview.sourceforge.net
 
 Language     Comp (%)  Trans   Fuzzy Untrans  Warn
 --------------------------------------------------
-ar                63     449     174      89
-be                98     704       5       3
-bg                93     667      26      19
-ca                93     667      26      19
-cs                93     667      26      19
-da                19     138     309     265
-de                93     667      26      19
-es                93     667      26      19
-et                28     204     306     202
-fi                93     669      24      19
-fr                99     706       3       3
-hu                52     374     210     128
-id                29     208     307     197
-it                98     704       5       3
-ja                93     667      26      19
-ko                16     114       9     589
-nl                93     669      24      19
-no                23     169     319     224
-pl                88     631       5      76
-pt_BR             98     704       5       3
-ro                54     388     212     112
-ru                93     667      26      19
-sk                96     690       6      16
-sl                21     155     325     232
-sv                93     665      27      20
-th                22     161     317     234
-tr                 9      71     308     333
-uk                25     180     315     217
-vi                99     705       4       3
-zh_CN.GB2312      23     169     319     224
-zh_TW             97     695       5      12
+ar                62     449     175      93
+be                99     712       1       4
+bg                93     667      27      23
+ca                93     667      27      23
+cs                93     667      27      23
+da                19     138     310     269
+de                93     667      27      23
+eo                98     707       6       4
+es                93     667      27      23
+et                28     204     307     206
+eu                99     712       1       4
+fi                93     669      25      23
+fr                98     706       4       7
+hu                52     374     211     132
+id                29     208     308     201
+it                98     704       6       7
+ja                93     667      27      23
+ko                15     114      10     593
+nl                93     669      25      23
+no                23     169     320     228
+pl                88     631       6      80
+pt_BR             98     704       6       7
+ro                54     388     213     116
+ru                93     667      27      23
+sk                96     690       7      20
+sl                21     155     326     236
+sv                92     665      28      24
+th                22     161     318     238
+tr                 9      71     309     337
+uk                25     180     316     221
+vi                98     705       5       7
+zh_CN.GB2312      23     169     320     228
+zh_TW             96     695       6      16
 --------------------------------------------------
 
 
