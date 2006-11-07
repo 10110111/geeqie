@@ -48,8 +48,9 @@ gint format_fuji_raw(unsigned char *data, const guint len,
 		return FALSE;
 		}
 
+	/* offset to jpeg is embedded at bytes 84-87 */
 	io = GUINT32_FROM_BE(*(guint32*)(data + 84));
-	eo = *image_offset + 12;
+	if (io + 4 > len) return FALSE;
 
 	/* verify jpeg marker */
 	if (memcmp(data + io, "\xff\xd8\xff\xe1", 4) != 0)
@@ -57,10 +58,11 @@ gint format_fuji_raw(unsigned char *data, const guint len,
 		return FALSE;
 		}
 
+	/* Exif is stored in the jpeg, so use the same offset */
+	eo=io;
+
 	if (image_offset) *image_offset = io;
 	if (exif_offset) *exif_offset = eo;
-
-	printf("raw Fuji format file\n");
 
 	return TRUE;
 }

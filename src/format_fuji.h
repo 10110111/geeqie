@@ -23,6 +23,7 @@ gint format_fuji_raw(unsigned char *data, const guint len,
 
 #define FORMAT_RAW_FUJI { "raf", \
 			  FORMAT_RAW_MATCH_MAGIC, 0, "FUJIFILM", 8, \
+			  FORMAT_RAW_EXIF_JPEG, NULL, \
 			  "Fuji raw", format_fuji_raw }
 
 

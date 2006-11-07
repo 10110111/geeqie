@@ -1098,11 +1098,37 @@ ExifData *exif_read(const gchar *path)
 
 	if (res != 0)
 		{
+		FormatRawExifType exif_type;
+		FormatRawExifParseFunc exif_parse_func;
 		guint32 offset = 0;
-		
-		if (format_raw_img_exif_offsets(f, size, NULL, &offset))
+
+		exif_type = format_raw_exif_offset(f, size, &offset, &exif_parse_func);
+		switch (exif_type)
 			{
-			res = exif_tiff_parse(exif, (unsigned char*)f + offset, size - offset, ExifKnownMarkersList);
+			case FORMAT_RAW_EXIF_NONE:
+			default:
+				break;
+			case FORMAT_RAW_EXIF_TIFF:
+				res = exif_tiff_parse(exif, (unsigned char*)f + offset, size - offset,
+						      ExifKnownMarkersList);
+				break;
+			case FORMAT_RAW_EXIF_JPEG:
+				res = exif_parse_JPEG(exif, (unsigned char*)f + offset, size - offset,
+						      ExifKnownMarkersList);
+				break;
+			case FORMAT_RAW_EXIF_IFD_II:
+			case FORMAT_RAW_EXIF_IFD_MM:
+				res = exif_parse_IFD_table(exif, (unsigned char*)f, offset, size - offset,
+							   (exif_type == FORMAT_RAW_EXIF_IFD_II) ?
+								EXIF_BYTE_ORDER_INTEL : EXIF_BYTE_ORDER_MOTOROLA,
+							   0, ExifKnownMarkersList);
+				break;
+			case FORMAT_RAW_EXIF_PROPRIETARY:
+				if (exif_parse_func)
+					{
+					res = exif_parse_func((unsigned char*)f + offset, size - offset, exif);
+					}
+				break;
 			}
 		}
 

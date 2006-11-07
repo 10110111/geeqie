@@ -33,6 +33,11 @@ d> figure out if crash when expanding a folder in the folder tree view when pess
 
    > exif.c parser should not be using EXIF tags during tiff directory search for EXIF tag.
 
+   > fix parsers to properly indicate which offsets are valid
+     instead of making one zero if the other is found, this leads to making
+     the file loader parse an entire file even if we found no jpeg but did find an exif segment.
+     (simply set non-found offsets to file length?)
+
   ---
 
  > work on pan view:

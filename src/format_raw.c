@@ -1,6 +1,6 @@
 /*
  *  GQView
- *  (C) 2005 John Ellis
+ *  (C) 2006 John Ellis
  *
  *  Authors:
  *    Original version 2005 Lars Ellenberg, base on dcraw by David coffin.
@@ -45,15 +45,22 @@ struct _FormatRawEntry {
 	const guint magic_offset;
 	const void *magic_pattern;
 	const guint magic_length;
+	const FormatRawExifType exif_type;
+	FormatRawExifParseFunc exif_func;
 	const gchar *description;
 	FormatRawParseFunc func_parse;
 };
 
 static FormatRawEntry format_raw_list[] = {
+#if DEBUG_RAW_TIFF
+	FORMAT_RAW_DEBUG_TIFF,
+#endif
 	FORMAT_RAW_CANON,
 	FORMAT_RAW_FUJI,
 	FORMAT_RAW_NIKON,
-	{ NULL, 0, 0, NULL, 0, NULL, NULL }
+	FORMAT_RAW_OLYMPUS,
+	FORMAT_RAW_PENTAX,
+	{ NULL, 0, 0, NULL, 0, 0, NULL, NULL, NULL }
 };
 
 
@@ -265,6 +272,28 @@ gint format_raw_img_exif_offsets(unsigned char *data, const guint len,
 }
 
 
+FormatRawExifType format_raw_exif_offset(unsigned char *data, const guint len, guint *exif_offset,
+					 FormatRawExifParseFunc *exif_parse_func)
+{
+	FormatRawEntry *entry;
+
+	if (!data || len < 1) return FALSE;
+
+	entry = format_raw_find(data, len);
+
+	if (!entry || !entry->func_parse) return FALSE;
+
+	if (!format_raw_parse(entry, data, len, NULL, exif_offset)) return FORMAT_RAW_EXIF_NONE;
+
+	if (entry->exif_type == FORMAT_RAW_EXIF_PROPRIETARY && exif_parse_func)
+		{
+		*exif_parse_func = entry->exif_func;
+		}
+
+	return entry->exif_type;
+}
+
+
 gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 				    unsigned char *header_data, const guint header_len,
 				    guint *image_offset, guint *exif_offset)
@@ -398,5 +427,136 @@ gint format_exif_makernote_parse(ExifData *exif, unsigned char *tiff, guint offs
 
 	return entry->func_parse(exif, tiff, offset, size, bo);
 }
+
+/*
+ *-----------------------------------------------------------------------------
+ * Basic TIFF debugger, prints all IFD entries within tiff file
+ *-----------------------------------------------------------------------------
+ */
+#if DEBUG_RAW_TIFF
+
+static guint format_debug_tiff_table(unsigned char *data, const guint len, guint offset,
+				     ExifByteOrder bo, gint level);
+
+static void format_debug_tiff_entry(unsigned char *data, const guint len, guint offset,
+				    ExifByteOrder bo, gint level)
+{
+	guint tag;
+	guint type;
+	guint count;
+	guint segment;
+	guint seg_len;
+
+	tag = exif_byte_get_int16(data + offset + EXIF_TIFD_OFFSET_TAG, bo);
+	type = exif_byte_get_int16(data + offset + EXIF_TIFD_OFFSET_FORMAT, bo);
+	count = exif_byte_get_int32(data + offset + EXIF_TIFD_OFFSET_COUNT, bo);
+
+	seg_len = ExifFormatList[type].size * count;
+	if (seg_len > 4)
+		{
+		segment = exif_byte_get_int32(data + offset + EXIF_TIFD_OFFSET_DATA, bo);
+		if (segment + seg_len > len) return;
+		}
+	else
+		{
+		segment = offset + EXIF_TIFD_OFFSET_DATA;
+		}
+
+	printf("%*stag:0x%04X (%05d), type:%2d %9s, len:%6d [%02X %02X %02X %02X] @ offset:%d\n",
+		level, "", tag, tag, type,
+		(type < EXIF_FORMAT_COUNT) ? ExifFormatList[type].short_name : "???", count,
+		data[segment], data[segment + 1], data[segment + 2], data[segment + 3], segment);
+
+	if (tag == 0x8769 || tag == 0x14a)
+		{
+		gint i;
+
+		printf("%*s~~~ found %s table\n", level, "", (tag == 0x14a) ? "subIFD" : "EXIF" );
+
+		for (i = 0; i < count; i++)
+			{
+			guint subset;
+
+			subset = exif_byte_get_int32(data + segment + i * 4, bo);
+			format_debug_tiff_table(data, len, subset, bo, level + 1);
+			}
+		}
+	else if (tag == 0x201 && (type == EXIF_FORMAT_LONG_UNSIGNED || type == EXIF_FORMAT_LONG))
+		{
+		guint subset = exif_byte_get_int32(data + segment, bo);
+		printf("%*s~~~ found jpeg data at offset %d\n", level, "", subset);
+		}
+	else if (tag == 0x202 && (type == EXIF_FORMAT_LONG_UNSIGNED || type == EXIF_FORMAT_LONG))
+		{
+		guint subset = exif_byte_get_int32(data + segment, bo);
+		printf("%*s~~~ found jpeg data length of %d\n", level, "", subset);
+		}
+}
+
+static guint format_debug_tiff_table(unsigned char *data, const guint len, guint offset,
+				     ExifByteOrder bo, gint level)
+{
+	guint count;
+	guint i;
+
+	if (level > EXIF_TIFF_MAX_LEVELS) return 0;
+
+	if (len < offset + 2) return FALSE;
+
+	count = exif_byte_get_int16(data + offset, bo);
+	offset += 2;
+	if (len < offset + count * EXIF_TIFD_SIZE + 4) return 0;
+
+	printf("%*s== tiff table #%d has %d entries ==\n", level, "", level, count);
+
+	for (i = 0; i < count; i++)
+		{
+		format_debug_tiff_entry(data, len, offset + i * EXIF_TIFD_SIZE, bo, level);
+		}
+
+	printf("%*s----------- end of #%d ------------\n", level, "", level);
+
+	return exif_byte_get_int32(data + offset + count * EXIF_TIFD_SIZE, bo);
+}
+
+gint format_debug_tiff_raw(unsigned char *data, const guint len,
+			   guint *image_offset, guint *exif_offset)
+{
+	ExifByteOrder bo;
+	gint level;
+	guint offset;
+
+	if (len < 8) return FALSE;
+
+	/* for debugging, we are more relaxed as to magic header */
+	if (memcmp(data, "II", 2) == 0)
+		{
+		bo = EXIF_BYTE_ORDER_INTEL;
+		}
+	else if (memcmp(data, "MM", 2) == 0)
+		{
+		bo = EXIF_BYTE_ORDER_MOTOROLA;
+		}
+	else
+		{
+		return FALSE;
+		}
+
+	printf("*** debug parsing tiff\n");
+
+	offset = exif_byte_get_int32(data + 4, bo);
+	level = 0;
+	while (offset && level < EXIF_TIFF_MAX_LEVELS)
+		{
+		offset = format_debug_tiff_table(data, len, offset, bo, 0);
+		level++;
+		}
+
+	printf("*** end\n");
+
+	/* we are debugging, not trying to return any data */
+	return FALSE;
+}
+#endif
 
 

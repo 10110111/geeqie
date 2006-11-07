@@ -18,7 +18,16 @@ gint format_nikon_raw(unsigned char *data, const guint len,
 
 #define FORMAT_RAW_NIKON { "nef", \
 			   FORMAT_RAW_MATCH_TIFF_MAKE, 0, "NIKON CORPORATION", 17, \
+			   FORMAT_RAW_EXIF_TIFF, NULL, \
 			   "Nikon raw", format_nikon_raw }
+
+/* If your format is basically just TIFF with an embedded jpeg,
+ * then avoid duplicating code and just stick it here and use the existing nikon parse.
+ */
+#define FORMAT_RAW_PENTAX { "pef", \
+			    FORMAT_RAW_MATCH_MAGIC, 242, "PENTAX Corporation", 18, \
+			    FORMAT_RAW_EXIF_TIFF, NULL, \
+			    "Pentax raw", format_nikon_raw }
 
 
 gint format_nikon_makernote(ExifData *exif, unsigned char *tiff, guint offset,

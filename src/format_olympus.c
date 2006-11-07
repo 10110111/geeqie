@@ -28,6 +28,115 @@
 
 /*
  *-----------------------------------------------------------------------------
+ * Raw ORF embedded jpeg extraction for Olympus
+ *-----------------------------------------------------------------------------
+ */
+
+static guint olympus_tiff_table(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+				gint level,
+				guint *image_offset, guint *exif_offset);
+
+
+static void olympus_tiff_entry(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+			       gint level,
+			       guint *image_offset, guint *exif_offset)
+{
+	guint tag;
+	guint type;
+	guint count;
+	guint segment;
+	guint seg_len;
+
+	tag = exif_byte_get_int16(data + offset + EXIF_TIFD_OFFSET_TAG, bo);
+	type = exif_byte_get_int16(data + offset + EXIF_TIFD_OFFSET_FORMAT, bo);
+	count = exif_byte_get_int32(data + offset + EXIF_TIFD_OFFSET_COUNT, bo);
+
+	/* so far, we only care about tags with type long */
+	if (type != EXIF_FORMAT_LONG_UNSIGNED && type != EXIF_FORMAT_LONG) return;
+
+	seg_len = ExifFormatList[type].size * count;
+	if (seg_len > 4)
+		{
+		segment = exif_byte_get_int32(data + offset + EXIF_TIFD_OFFSET_DATA, bo);
+		if (segment + seg_len > len) return;
+		}
+	else
+		{
+		segment = offset + EXIF_TIFD_OFFSET_DATA;
+		}
+
+	if (tag == 0x201)
+		{
+		/* start of embedded jpeg, not all olympus cameras embed a jpeg */
+		*image_offset = exif_byte_get_int32(data + segment, bo);
+		}
+
+	if (tag == 0x8769)
+		{
+		/* This is the Exif info */
+		*exif_offset = exif_byte_get_int32(data + segment, bo);
+		}
+}
+
+static guint olympus_tiff_table(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+				gint level,
+				guint *image_offset, guint *exif_offset)
+{
+	guint count;
+	guint i;
+
+	if (level > EXIF_TIFF_MAX_LEVELS) return 0;
+
+	if (len < offset + 2) return FALSE;
+
+	count = exif_byte_get_int16(data + offset, bo);
+	offset += 2;
+	if (len < offset + count * EXIF_TIFD_SIZE + 4) return 0;
+
+	for (i = 0; i < count; i++)
+		{
+		olympus_tiff_entry(data, len, offset + i * EXIF_TIFD_SIZE, bo, level,
+				   image_offset, exif_offset);
+		}
+
+	return exif_byte_get_int32(data + offset + count * EXIF_TIFD_SIZE, bo);
+}
+
+gint format_olympus_raw(unsigned char *data, const guint len,
+			guint *image_offset, guint *exif_offset)
+{
+	guint i_off = 0;
+	guint e_off = 0;
+	guint offset;
+	gint level;
+
+	if (len < 8) return FALSE;
+
+	/* these are in tiff file format with a different magick header */
+	if (memcmp(data, "IIR", 3) != 0) return FALSE;
+
+	offset = exif_byte_get_int32(data + 4, EXIF_BYTE_ORDER_INTEL);
+
+	level = 0;
+	while (offset && level < EXIF_TIFF_MAX_LEVELS)
+		{
+		offset = olympus_tiff_table(data, len, offset, EXIF_BYTE_ORDER_INTEL, 0, &i_off, &e_off);
+		level++;
+		}
+
+	if (i_off != 0 || e_off != 0)
+		{
+		if (image_offset) *image_offset = i_off;
+		if (exif_offset) *exif_offset = e_off;
+		return TRUE;
+		}
+
+	return FALSE;
+}
+
+
+/*
+ *-----------------------------------------------------------------------------
  * EXIF Makernote for Olympus
  *-----------------------------------------------------------------------------
  */

@@ -215,6 +215,8 @@ void filter_add_defaults(void)
 	filter_add_if_missing("crw", "Canon raw format", ".crw;.cr2", TRUE);
 	filter_add_if_missing("raf", "Fujifilm raw format", ".raf", TRUE);
 	filter_add_if_missing("nef", "Nikon raw format", ".nef", TRUE);
+	filter_add_if_missing("orf", "Olympus raw format", ".orf", TRUE);
+	filter_add_if_missing("pef", "Pentax raw format", ".pef", TRUE);
 }
 
 static GList *filter_to_list(const gchar *extensions)

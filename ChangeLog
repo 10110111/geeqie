@@ -1,3 +1,19 @@
+Tue Nov  7 15:35:59 2006  John Ellis  <johne@verizon.net>
+
+	* exif.c: Use new format_raw_exif_offset() function to find Exif in
+	raw files.
+	* filelist.c: Add orf and pef to displayed file types.
+	* format_canon.h, format_fuji.h: Update to new #define format.
+	* format_fuji.c: Use same offset for Exif as the jpeg image as the
+	Exif is always embedded in the jpeg and assuming offset of 12 is
+	just broken.
+	* format_nikon.h: Update to new #define format, and add pentax here
+	as finding the jpeg will be same code.
+	* format_olympus.[ch]: Support Olympus raw files with embedded jpegs,
+	not all raw files will have a jpeg, but all appear to have Exif tags.
+	* format_raw.[ch]: Add new camera types, and add a debugging facility
+	to easily list all tags within tiff files (see format_raw.h to enable).
+
 Mon Nov  6 20:53:22 2006  John Ellis  <johne@verizon.net>
 
 	* format_olympus.c: Fix olympus makernote tag types to match image
