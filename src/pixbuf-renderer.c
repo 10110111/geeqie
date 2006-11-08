@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2005 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -122,13 +122,13 @@ struct _OverlayData
 	gint id;
 
 	GdkPixbuf *pixbuf;
+	GdkWindow *window;
 
 	gint x;
 	gint y;
 	gint relative;	/* x,y coordinates are relative, negative values start bottom right */
 
-	gint visible;
-	gint always;	/* hide temporarily when scrolling */
+	gint always;	/* hide temporarily when scrolling (not yet implemented) */
 };
 
 enum {
@@ -611,7 +611,22 @@ static gint pixbuf_renderer_expose(GtkWidget *widget, GdkEventExpose *event)
 		{
 		if (!GTK_WIDGET_NO_WINDOW(widget))
 			{
-			pixbuf_renderer_paint(PIXBUF_RENDERER(widget), &event->area);
+			if (event->window != widget->window)
+				{
+				GdkRectangle area;
+
+				gdk_window_get_position(event->window, &area.x, &area.y);
+
+				area.x += event->area.x;
+				area.y += event->area.y;
+				area.width = event->area.width;
+				area.height = event->area.height;
+				pixbuf_renderer_paint(PIXBUF_RENDERER(widget), &area);
+				}
+			else
+				{
+				pixbuf_renderer_paint(PIXBUF_RENDERER(widget), &event->area);
+				}
 			}
 		}
 
@@ -742,7 +757,30 @@ GtkWindow *pixbuf_renderer_get_parent(PixbufRenderer *pr)
  *-------------------------------------------------------------------
  */
 
-static void pr_overlay_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h)
+static void pr_overlay_get_position(PixbufRenderer *pr, OverlayData *od,
+				    gint *x, gint *y, gint *w, gint *h)
+{
+	gint px, py, pw, ph;
+
+	pw = gdk_pixbuf_get_width(od->pixbuf);
+	ph = gdk_pixbuf_get_height(od->pixbuf);
+	px = od->x;
+	py = od->y;
+
+	if (od->relative)
+		{
+		if (px < 0) px = pr->window_width - pw + px;
+		if (py < 0) py = pr->window_height - ph + py;
+		}
+
+	if (x) *x = px;
+	if (y) *y = py;
+	if (w) *w = pw;
+	if (h) *h = ph;
+}
+
+static void pr_overlay_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
+			    ImageTile *it)
 {
 	GtkWidget *box;
 	GList *work;
@@ -759,56 +797,75 @@ static void pr_overlay_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h)
 		od = work->data;
 		work = work->next;
 
-		if (!od->visible) continue;
-
-		pw = gdk_pixbuf_get_width(od->pixbuf);
-		ph = gdk_pixbuf_get_height(od->pixbuf);
-		px = od->x;
-		py = od->y;
-
-	        if (od->relative)
-			{
-			if (px < 0) px = pr->window_width - pw + px;
-			if (py < 0) py = pr->window_height - ph + py;
-			}
-
+		pr_overlay_get_position(pr, od, &px, &py, &pw, &ph);
 		if (pr_clip_region(x, y, w, h, px, py, pw, ph, &rx, &ry, &rw, &rh))
 			{
-			gdk_draw_pixbuf(box->window,
-					box->style->fg_gc[GTK_WIDGET_STATE(box)],
-					od->pixbuf,
-					rx - px, ry - py,
-					rx, ry, rw, rh,
-					pr->dither_quality, rx, ry);
+			if (!pr->overlay_buffer)
+				{
+				pr->overlay_buffer = gdk_pixmap_new(((GtkWidget *)pr)->window, pr->tile_width, pr->tile_height, -1);
+				}
+
+			if (it)
+				{
+				gdk_draw_drawable(pr->overlay_buffer, box->style->fg_gc[GTK_WIDGET_STATE(box)],
+						  it->pixmap,
+						  rx - (pr->x_offset + (it->x - pr->x_scroll)),
+						  ry - (pr->y_offset + (it->y - pr->y_scroll)),
+						  0, 0, rw, rh);
+				gdk_draw_pixbuf(pr->overlay_buffer,
+						box->style->fg_gc[GTK_WIDGET_STATE(box)],
+						od->pixbuf,
+						rx - px, ry - py,
+						0, 0, rw, rh,
+						pr->dither_quality, rx, ry);
+				gdk_draw_drawable(od->window, box->style->fg_gc[GTK_WIDGET_STATE(box)],
+						  pr->overlay_buffer,
+						  0, 0,
+						  rx - px, ry - py, rw, rh);
+				}
+			else
+				{
+				/* no ImageTile means region may be larger than our scratch buffer */
+				gint sx, sy;
+
+				for (sx = rx; sx < rx + rw; sx += pr->tile_width)
+				    for(sy = ry; sy < ry + rh; sy += pr->tile_height)
+					{
+					gint sw, sh;
+
+					sw = MIN(rx + rw - sx, pr->tile_width);
+					sh = MIN(ry + rh - sy, pr->tile_height);
+
+					gdk_draw_rectangle(pr->overlay_buffer,
+							   box->style->bg_gc[GTK_WIDGET_STATE(box)], TRUE,
+							   0, 0, sw, sh);
+					gdk_draw_pixbuf(pr->overlay_buffer,
+							box->style->fg_gc[GTK_WIDGET_STATE(box)],
+							od->pixbuf,
+							sx - px, sy - py,
+							0, 0, sw, sh,
+							pr->dither_quality, sx, sy);
+					gdk_draw_drawable(od->window, box->style->fg_gc[GTK_WIDGET_STATE(box)],
+							  pr->overlay_buffer,
+							  0, 0,
+							  sx - px, sy - py, sw, sh);
+					}
+				}
 			}
 		}
 }
 
-static void pr_overlay_queue_draw(PixbufRenderer *pr, OverlayData *od, gint hidden)
+static void pr_overlay_queue_draw(PixbufRenderer *pr, OverlayData *od)
 {
 	gint x, y, w, h;
-	gint old_vis;
 
-	w = gdk_pixbuf_get_width(od->pixbuf);
-	h = gdk_pixbuf_get_height(od->pixbuf);
-	x = od->x;
-	y = od->y;
-
-	if (od->relative)
-		{
-		if (x < 0) x = pr->window_width - w + x;
-		if (y < 0) y = pr->window_height - h + y;
-		}
-
+	pr_overlay_get_position(pr, od, &x, &y, &w, &h);
 	pr_queue(pr, pr->x_scroll - pr->x_offset + x,
 		 pr->y_scroll - pr->y_offset + y,
 		 w, h,
 		 FALSE, TILE_RENDER_ALL, FALSE, FALSE);
 
-	old_vis = od->visible;
-	if (hidden) od->visible = FALSE;
 	pr_border_draw(pr, x, y, w, h);
-	od->visible = old_vis;
 }
 
 static void pr_overlay_queue_all(PixbufRenderer *pr)
@@ -821,7 +878,27 @@ static void pr_overlay_queue_all(PixbufRenderer *pr)
 		OverlayData *od = work->data;
 		work = work->next;
 
-		pr_overlay_queue_draw(pr, od, FALSE);
+		pr_overlay_queue_draw(pr, od);
+		}
+}
+
+static void pr_overlay_update_sizes(PixbufRenderer *pr)
+{
+	GList *work;
+
+	work = pr->overlay_list;
+	while (work)
+		{
+		OverlayData *od = work->data;
+		work = work->next;
+
+		if (od->relative && od->window)
+			{
+			gint x, y, w, h;
+
+			pr_overlay_get_position(pr, od, &x, &y, &w, &h);
+			gdk_window_move_resize(od->window, x, y, w, h);
+			}
 		}
 }
 
@@ -846,6 +923,9 @@ gint pixbuf_renderer_overlay_add(PixbufRenderer *pr, GdkPixbuf *pixbuf, gint x, 
 {
 	OverlayData *od;
 	gint id;
+	gint px, py, pw, ph;
+	GdkWindowAttr attributes;
+	gint attributes_mask;
 
 	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), -1);
 	g_return_val_if_fail(pixbuf != NULL, -1);
@@ -860,12 +940,25 @@ gint pixbuf_renderer_overlay_add(PixbufRenderer *pr, GdkPixbuf *pixbuf, gint x, 
 	od->x = x;
 	od->y = y;
 	od->relative = relative;
-	od->visible = TRUE;
 	od->always = always;
+
+	pr_overlay_get_position(pr, od, &px, &py, &pw, &ph);
+
+	attributes.window_type = GDK_WINDOW_CHILD;
+	attributes.wclass = GDK_INPUT_OUTPUT;
+	attributes.width = pw;
+	attributes.height = ph;
+	attributes.event_mask = GDK_EXPOSURE_MASK;
+	attributes_mask = 0;
+
+	od->window = gdk_window_new(GTK_WIDGET(pr)->window, &attributes, attributes_mask);
+	gdk_window_set_user_data (od->window, pr);
+	gdk_window_move(od->window, px, py);
+	gdk_window_show(od->window);
 
 	pr->overlay_list = g_list_append(pr->overlay_list, od);
 
-	pr_overlay_queue_draw(pr, od, FALSE);
+	pr_overlay_queue_draw(pr, od);
 
 	return od->id;
 }
@@ -875,7 +968,14 @@ static void pr_overlay_free(PixbufRenderer *pr, OverlayData *od)
 	pr->overlay_list = g_list_remove(pr->overlay_list, od);
 
 	if (od->pixbuf) g_object_unref(G_OBJECT(od->pixbuf));
+	if (od->window) gdk_window_destroy(od->window);
 	g_free(od);
+
+	if (!pr->overlay_list && pr->overlay_buffer)
+		{
+		g_object_unref(pr->overlay_buffer);
+		pr->overlay_buffer = NULL;
+		}
 }
 
 static void pr_overlay_list_clear(PixbufRenderer *pr)
@@ -900,7 +1000,7 @@ void pixbuf_renderer_overlay_set(PixbufRenderer *pr, gint id, GdkPixbuf *pixbuf,
 
 	if (pixbuf)
 		{
-		pr_overlay_queue_draw(pr, od, TRUE);
+		gint px, py, pw, ph;
 
 		g_object_ref(G_OBJECT(pixbuf));
 		g_object_unref(G_OBJECT(od->pixbuf));
@@ -909,11 +1009,13 @@ void pixbuf_renderer_overlay_set(PixbufRenderer *pr, gint id, GdkPixbuf *pixbuf,
 		od->x = x;
 		od->y = y;
 
-		pr_overlay_queue_draw(pr, od, FALSE);
+		pr_overlay_queue_draw(pr, od);
+		pr_overlay_get_position(pr, od, &px, &py, &pw, &ph);
+		gdk_window_move_resize(od->window, px, py, pw, ph);
 		}
 	else
 		{
-		pr_overlay_queue_draw(pr, od, TRUE);
+		pr_overlay_queue_draw(pr, od);
 		pr_overlay_free(pr, od);
 		}
 }
@@ -1109,7 +1211,7 @@ static void pr_border_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h)
 				   &rx, &ry, &rw, &rh))
 			{
 			gdk_window_clear_area(box->window, rx, ry, rw, rh);
-			pr_overlay_draw(pr, rx, ry, rw, rh);
+			pr_overlay_draw(pr, rx, ry, rw, rh, NULL);
 			}
 		return;
 		}
@@ -1123,7 +1225,7 @@ static void pr_border_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h)
 				   &rx, &ry, &rw, &rh))
 			{
 			gdk_window_clear_area(box->window, rx, ry, rw, rh);
-			pr_overlay_draw(pr, rx, ry, rw, rh);
+			pr_overlay_draw(pr, rx, ry, rw, rh, NULL);
 			}
 		if (pr->window_width - pr->vis_width - pr->x_offset > 0 &&
 		    pr_clip_region(x, y, w, h,
@@ -1132,7 +1234,7 @@ static void pr_border_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h)
 				   &rx, &ry, &rw, &rh))
 			{
 			gdk_window_clear_area(box->window, rx, ry, rw, rh);
-			pr_overlay_draw(pr, rx, ry, rw, rh);
+			pr_overlay_draw(pr, rx, ry, rw, rh, NULL);
 			}
 		}
 	if (pr->vis_height < pr->window_height)
@@ -1144,7 +1246,7 @@ static void pr_border_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h)
 				   &rx, &ry, &rw, &rh))
 			{
 			gdk_window_clear_area(box->window, rx, ry, rw, rh);
-			pr_overlay_draw(pr, rx, ry, rw, rh);
+			pr_overlay_draw(pr, rx, ry, rw, rh, NULL);
 			}
 		if (pr->window_height - pr->vis_height - pr->y_offset > 0 &&
 		    pr_clip_region(x, y, w, h,
@@ -1153,7 +1255,7 @@ static void pr_border_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h)
 				   &rx, &ry, &rw, &rh))
 			{
 			gdk_window_clear_area(box->window, rx, ry, rw, rh);
-			pr_overlay_draw(pr, rx, ry, rw, rh);
+			pr_overlay_draw(pr, rx, ry, rw, rh, NULL);
 			}
 		}
 }
@@ -2036,7 +2138,8 @@ static void pr_tile_expose(PixbufRenderer *pr, ImageTile *it,
 		{
 		pr_overlay_draw(pr, pr->x_offset + (it->x - pr->x_scroll) + x,
 				pr->y_offset + (it->y - pr->y_scroll) + y,
-				w, h);
+				w, h,
+				it);
 		}
 }
 
@@ -2655,6 +2758,8 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 	pr_size_clamp(pr);
 	pr_scroll_clamp(pr);
 
+	pr_overlay_update_sizes(pr);
+
 	/* ensure scroller remains visible */
 	if (pr->scroller_overlay != -1)
 		{
@@ -2744,21 +2849,6 @@ void pixbuf_renderer_scroll(PixbufRenderer *pr, gint x, gint y)
 	if (pr->x_scroll == old_x && pr->y_scroll == old_y) return;
 
 	pr_scroll_notify_signal(pr);
-
-	if (pr->overlay_list)
-		{
-		gint new_x, new_y;
-
-		new_x = pr->x_scroll;
-		new_y = pr->y_scroll;
-		pr->x_scroll = old_x;
-		pr->y_scroll = old_y;
-
-		pr_overlay_queue_all(pr);
-
-		pr->x_scroll = new_x;
-		pr->y_scroll = new_y;
-		}
 
 	x_off = pr->x_scroll - old_x;
 	y_off = pr->y_scroll - old_y;
@@ -3060,7 +3150,7 @@ static void pr_pixbuf_sync(PixbufRenderer *pr, gdouble zoom)
 		if (GTK_WIDGET_REALIZED(box))
 			{
 			gdk_window_clear(box->window);
-			pr_overlay_draw(pr, 0, 0, pr->window_width, pr->window_height);
+			pr_overlay_draw(pr, 0, 0, pr->window_width, pr->window_height, NULL);
 			}
 
 		pr_update_signal(pr);

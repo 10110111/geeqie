@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2005 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -128,7 +128,8 @@ struct _PixbufRenderer
 	gint scroller_xinc;
 	gint scroller_yinc;
 
-	GList *overlay_list;	
+	GList *overlay_list;
+	GdkPixmap *overlay_buffer;
 };
 
 struct _PixbufRendererClass
