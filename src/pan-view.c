@@ -128,7 +128,7 @@
 #define PAN_PREF_GROUP		"pan_view_options"
 #define PAN_PREF_HIDE_WARNING	"hide_performance_warning"
 #define PAN_PREF_EXIF_DATE	"use_exif_date"
-#define PAN_PREF_INFO_IMAGE	"info_includes_image"
+#define PAN_PREF_INFO_IMAGE	"info_image_size"
 #define PAN_PREF_INFO_EXIF	"info_includes_exif"
 
 
@@ -244,7 +244,7 @@ struct _PanWindow
 	gint image_size;
 	gint exif_date_enable;
 
-	gint info_includes_image;
+	gint info_image_size;
 	gint info_includes_exif;
 
 	gint ignore_symlinks;
@@ -2077,7 +2077,7 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 			}
 		}
 
-	printf("biggest day contains %d images\n", day_max);
+	if (debug) printf("biggest day contains %d images\n", day_max);
 
 	grid = (gint)(sqrt((double)day_max) + 0.5) * (PAN_THUMB_SIZE + PAN_SHADOW_OFFSET * 2 + PAN_THUMB_GAP);
 	day_width = MAX(PAN_CAL_DAY_WIDTH, grid);
@@ -2117,8 +2117,22 @@ static void pan_window_layout_compute_calendar(PanWindow *pw, const gchar *path,
 		time_t dt;
 		gchar *buf;
 
+		/* figure last second of this month */
 		dt = date_to_time((month == 12) ? year + 1 : year, (month == 12) ? 1 : month + 1, 1);
 		dt -= 60 * 60 * 24;
+
+		/* anything to show this month? */
+		if (!date_compare(((FileData *)(work->data))->date, dt, DATE_LENGTH_MONTH))
+			{
+			month ++;
+			if (month > 12)
+				{
+				year++;
+				month = 1;
+				}
+			continue;
+			}
+
 		days = date_value(dt, DATE_LENGTH_DAY);
 		dt = date_to_time(year, month, 1);
 		col = date_value(dt, DATE_LENGTH_WEEK);
@@ -3317,8 +3331,8 @@ static gint pan_window_layout_update_idle_cb(gpointer data)
 				{
 				gchar *buf;
 
-				buf = g_strdup_printf("%s %d", _("Reading image data..."),
-						      pw->cache_total - pw->cache_count);
+				buf = g_strdup_printf("%s %d / %d", _("Reading image data..."),
+						      pw->cache_count, pw->cache_total);
 				pan_window_message(pw, buf);
 				g_free(buf);
 
@@ -3912,11 +3926,35 @@ static void pan_info_update(PanWindow *pw, PanItem *pi)
 	pan_item_box_shadow(pbox, PAN_SHADOW_OFFSET * 2, PAN_SHADOW_FADE * 2);
 	pan_item_added(pw, pbox);
 
-	if (pw->info_includes_image)
+	if (pw->info_image_size > LAYOUT_SIZE_THUMB_NONE)
 		{
 		gint iw, ih;
 		if (image_load_dimensions(pi->fd->path, &iw, &ih))
 			{
+			gint scale = 25;
+
+			switch (pw->info_image_size)
+				{
+				case LAYOUT_SIZE_10:
+					scale = 10;
+					break;
+				case LAYOUT_SIZE_25:
+					scale = 25;
+					break;
+				case LAYOUT_SIZE_33:
+					scale = 33;
+					break;
+				case LAYOUT_SIZE_50:
+					scale = 50;
+					break;
+				case LAYOUT_SIZE_100:
+					scale = 100;
+					break;
+				}
+
+			iw = MAX(1, iw * scale / 100);
+			ih = MAX(1, ih * scale / 100);
+
 			pbox = pan_item_new_box(pw, NULL, pbox->x, pbox->y + pbox->height + 8, 10, 10,
 						PAN_POPUP_BORDER,
 						PAN_POPUP_COLOR, PAN_POPUP_ALPHA,
@@ -4625,7 +4663,7 @@ static void pan_window_close(PanWindow *pw)
 	pan_window_list = g_list_remove(pan_window_list, pw);
 
 	pref_list_int_set(PAN_PREF_GROUP, PAN_PREF_EXIF_DATE, pw->exif_date_enable);
-	pref_list_int_set(PAN_PREF_GROUP, PAN_PREF_INFO_IMAGE, pw->info_includes_image);
+	pref_list_int_set(PAN_PREF_GROUP, PAN_PREF_INFO_IMAGE, pw->info_image_size);
 	pref_list_int_set(PAN_PREF_GROUP, PAN_PREF_INFO_EXIF, pw->info_includes_exif);
 
 	if (pw->idle_id != -1)
@@ -4675,9 +4713,9 @@ static void pan_window_new_real(const gchar *path)
 		{
 		pw->exif_date_enable = FALSE;
 		}
-	if (!pref_list_int_get(PAN_PREF_GROUP, PAN_PREF_INFO_IMAGE, &pw->info_includes_image))
+	if (!pref_list_int_get(PAN_PREF_GROUP, PAN_PREF_INFO_IMAGE, &pw->info_image_size))
 		{
-		pw->info_includes_image = FALSE;
+		pw->info_image_size = LAYOUT_SIZE_THUMB_NONE;
 		}
 	if (!pref_list_int_get(PAN_PREF_GROUP, PAN_PREF_INFO_EXIF, &pw->info_includes_exif))
 		{
@@ -4968,6 +5006,9 @@ void pan_window_new(const gchar *path)
  *-----------------------------------------------------------------------------
  */
 
+#define INFO_IMAGE_SIZE_KEY "image_size_data"
+
+
 static void pan_new_window_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
@@ -5088,7 +5129,7 @@ static void pan_info_toggle_image_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
 
-	pw->info_includes_image = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
+	pw->info_image_size = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), INFO_IMAGE_SIZE_KEY));
 	/* fixme: sync info now */
 }
 
@@ -5109,6 +5150,7 @@ static void pan_close_cb(GtkWidget *widget, gpointer data)
 static GtkWidget *pan_popup_menu(PanWindow *pw)
 {
 	GtkWidget *menu;
+	GtkWidget *submenu;
 	GtkWidget *item;
 	gint active;
 
@@ -5149,10 +5191,38 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 	gtk_widget_set_sensitive(item, (pw->layout == LAYOUT_TIMELINE || pw->layout == LAYOUT_CALENDAR));
 
 	menu_item_add_divider(menu);
-	menu_item_add_check(menu, _("Show EXIF information"), pw->info_includes_exif,
+
+	menu_item_add_check(menu, _("_Show Exif information"), pw->info_includes_exif,
 			    G_CALLBACK(pan_info_toggle_exif_cb), pw);
-	menu_item_add_check(menu, _("Show full size image"), pw->info_includes_image,
-			    G_CALLBACK(pan_info_toggle_image_cb), pw);
+	item = menu_item_add(menu, _("Show im_age"), NULL, NULL);
+        submenu = gtk_menu_new();
+        gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
+
+	item = menu_item_add_check(submenu, _("_None"), (pw->info_image_size == LAYOUT_SIZE_THUMB_NONE),
+				   G_CALLBACK(pan_info_toggle_image_cb), pw);
+	g_object_set_data(G_OBJECT(item), INFO_IMAGE_SIZE_KEY, GINT_TO_POINTER(LAYOUT_SIZE_THUMB_NONE));
+
+	item = menu_item_add_check(submenu, _("_Full size"), (pw->info_image_size == LAYOUT_SIZE_100),
+				   G_CALLBACK(pan_info_toggle_image_cb), pw);
+	g_object_set_data(G_OBJECT(item), INFO_IMAGE_SIZE_KEY, GINT_TO_POINTER(LAYOUT_SIZE_100));
+
+	item = menu_item_add_check(submenu, _("1:2 (50%)"), (pw->info_image_size == LAYOUT_SIZE_50),
+				   G_CALLBACK(pan_info_toggle_image_cb), pw);
+	g_object_set_data(G_OBJECT(item), INFO_IMAGE_SIZE_KEY, GINT_TO_POINTER(LAYOUT_SIZE_50));
+
+	item = menu_item_add_check(submenu, _("1:3 (33%)"), (pw->info_image_size == LAYOUT_SIZE_33),
+				   G_CALLBACK(pan_info_toggle_image_cb), pw);
+	g_object_set_data(G_OBJECT(item), INFO_IMAGE_SIZE_KEY, GINT_TO_POINTER(LAYOUT_SIZE_33));
+
+	item = menu_item_add_check(submenu, _("1:4 (25%)"), (pw->info_image_size == LAYOUT_SIZE_25),
+				   G_CALLBACK(pan_info_toggle_image_cb), pw);
+	g_object_set_data(G_OBJECT(item), INFO_IMAGE_SIZE_KEY, GINT_TO_POINTER(LAYOUT_SIZE_25));
+
+	item = menu_item_add_check(submenu, _("1:10 (10%)"), (pw->info_image_size == LAYOUT_SIZE_10),
+				   G_CALLBACK(pan_info_toggle_image_cb), pw);
+	g_object_set_data(G_OBJECT(item), INFO_IMAGE_SIZE_KEY, GINT_TO_POINTER(LAYOUT_SIZE_10));
+	
+	
 
 	menu_item_add_divider(menu);
 
