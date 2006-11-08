@@ -1,3 +1,8 @@
+Wed Nov  8 11:36:58 2006  John Ellis  <johne@verizon.net>
+
+	* format_nikon.h: For the pentax test, use tiff make instead of a magic
+	string that can move location.
+
 Tue Nov  7 19:54:44 2006  John Ellis  <johne@verizon.net>
 
 	* pan-view.c: For calendar view only show months that contain an image.

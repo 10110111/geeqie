@@ -25,7 +25,7 @@ gint format_nikon_raw(unsigned char *data, const guint len,
  * then avoid duplicating code and just stick it here and use the existing nikon parse.
  */
 #define FORMAT_RAW_PENTAX { "pef", \
-			    FORMAT_RAW_MATCH_MAGIC, 242, "PENTAX Corporation", 18, \
+			    FORMAT_RAW_MATCH_TIFF_MAKE, 0, "PENTAX Corporation", 18, \
 			    FORMAT_RAW_EXIF_TIFF, NULL, \
 			    "Pentax raw", format_nikon_raw }
 
