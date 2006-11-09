@@ -1,3 +1,13 @@
+Thu Nov  9 17:43:06 2006  John Ellis  <johne@verizon.net>
+
+	* pan-view.c: Break this monstrosity of code into smaller files.
+	* pan-calendar.c, pan-folder.c, pan-grid.c, pan-timeline.c: Move the
+	layout types into their own files (for now flower is with folder tree).
+	* pan-item.c: PanItem creation, drawing, actions, and maintenance.
+	* pan-types.h: Defines, data types, function prototypes.
+	* pan-util.c: Various utilities.
+	* src/Makefile.am: Add new files above.
+
 Wed Nov  8 16:59:14 2006  John Ellis  <johne@verizon.net>
 
 	* pixbuf-renderer.[ch]: Give image overlays their own child GdkWindow,

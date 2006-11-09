@@ -121,6 +121,13 @@ gqview_SOURCES = \
 	md5-util.h	\
 	menu.c		\
 	menu.h		\
+	pan-calendar.c	\
+	pan-folder.c	\
+	pan-grid.c	\
+	pan-item.c	\
+	pan-timeline.c	\
+	pan-types.h	\
+	pan-util.c	\
 	pan-view.c	\
 	pan-view.h	\
 	pixbuf-renderer.c	\
