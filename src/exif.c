@@ -600,7 +600,7 @@ guint32 exif_byte_get_int32(unsigned char *f, ExifByteOrder bo)
 		return GUINT32_FROM_BE(*(guint32*)f);
 }
 
-guint16 exif_byte_swab_int16(guint16 n, ExifByteOrder bo)
+guint16 exif_byte_put_int16(guint16 n, ExifByteOrder bo)
 {
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 	if (bo == EXIF_BYTE_ORDER_MOTOROLA)
@@ -612,7 +612,7 @@ guint16 exif_byte_swab_int16(guint16 n, ExifByteOrder bo)
 		return n;
 }
 
-guint32 exif_byte_swab_int32(guint32 n, ExifByteOrder bo)
+guint32 exif_byte_put_int32(guint32 n, ExifByteOrder bo)
 {
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 	if (bo == EXIF_BYTE_ORDER_MOTOROLA)

@@ -1,3 +1,8 @@
+Thu Nov  9 20:27:47 2006  John Ellis  <johne@verizon.net>
+
+	* exif.[ch]: Rename exif_byte_swab..() to exif_byte_put..() as that is
+	more in line with their counterparts of exif_byte_get..()
+
 Thu Nov  9 17:43:06 2006  John Ellis  <johne@verizon.net>
 
 	* pan-view.c: Break this monstrosity of code into smaller files.
