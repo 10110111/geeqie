@@ -1,3 +1,8 @@
+Fri Nov 10 18:11:54 2006  John Ellis  <johne@verizon.net>
+
+	* image.c: Fix up initial scroll offset into image when auto rotated
+	by exif info, and keep same center point when rotating otherwise.
+
 Fri Nov 10 16:11:28 2006  John Ellis  <johne@verizon.net>
 
 	* format_fuji.c (format_fuji_raw): Use exif_byte_get_int32() to get

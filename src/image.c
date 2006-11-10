@@ -163,7 +163,7 @@ static void image_update_title(ImageWindow *imd)
  *-------------------------------------------------------------------
  */
 
-static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp)
+static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp, gint exif_rotated)
 {
 	PixbufRenderer *pr;
 	GdkPixbuf *new = NULL;
@@ -222,14 +222,35 @@ static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp)
 	pixbuf_renderer_set_pixbuf(pr, new, pr->zoom);
 	g_object_unref(new);
 
-	if (clamp && pr->zoom != 0.0)
+	if (clamp && pr->zoom != 0.0 && pr->scale != 0.0)
 		{
-		pixbuf_renderer_scroll(pr, x - (pr->vis_width / 2), y - (pr->vis_height / 2));
+		if (exif_rotated)
+			{
+			switch (pr->scroll_reset)
+				{
+				case PR_SCROLL_RESET_NOCHANGE:
+					break;
+				case PR_SCROLL_RESET_CENTER:
+					x = (gint)((gdouble)pr->image_width / 2.0 * pr->scale);
+					y = (gint)((gdouble)pr->image_height / 2.0 * pr->scale);
+					break;
+				case PR_SCROLL_RESET_TOPLEFT:
+				default:
+					x = 0;
+					y = 0;
+					break;
+				}
+			}
+		pixbuf_renderer_scroll_to_point(pr, (gint)((gdouble)x / pr->scale),
+						    (gint)((gdouble)y / pr->scale),
+						    0.50, 0.50);
 		}
 }
 
 static void image_post_process(ImageWindow *imd, gint clamp)
 {
+	gint exif_rotated = FALSE;
+
 	if (exif_rotate_enable && image_get_pixbuf(imd))
 		{
 		ExifData *ed;
@@ -256,14 +277,17 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 				case EXIF_ORIENTATION_TOP_RIGHT:
 					/* mirrored */
 					imd->delay_alter_type = ALTER_MIRROR;
+					exif_rotated = TRUE;
 					break;
 				case EXIF_ORIENTATION_BOTTOM_RIGHT:
 					/* upside down */
 					imd->delay_alter_type = ALTER_ROTATE_180;
+					exif_rotated = TRUE;
 					break;
 				case EXIF_ORIENTATION_BOTTOM_LEFT:
 					/* flipped */
 					imd->delay_alter_type = ALTER_FLIP;
+					exif_rotated = TRUE;
 					break;
 				case EXIF_ORIENTATION_LEFT_TOP:
 					/* not implemented -- too wacky to fix in one step */
@@ -271,6 +295,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 				case EXIF_ORIENTATION_RIGHT_TOP:
 					/* rotated -90 (270) */
 					imd->delay_alter_type = ALTER_ROTATE_90;
+					exif_rotated = TRUE;
 					break;
 				case EXIF_ORIENTATION_RIGHT_BOTTOM:
 					/* not implemented -- too wacky to fix in one step */
@@ -278,6 +303,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 				case EXIF_ORIENTATION_LEFT_BOTTOM:
 					/* rotated 90 */
 					imd->delay_alter_type = ALTER_ROTATE_90_CC;
+					exif_rotated = TRUE;
 					break;
 				default:
 					/* The other values are out of range */
@@ -289,7 +315,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 
 	if (imd->delay_alter_type != ALTER_NONE)
 		{
-		image_alter_real(imd, imd->delay_alter_type, clamp);
+		image_alter_real(imd, imd->delay_alter_type, clamp, exif_rotated);
 		}
 }
 
@@ -1076,7 +1102,7 @@ void image_alter(ImageWindow *imd, AlterType type)
 		return;
 		}
 
-	image_alter_real(imd, type, TRUE);
+	image_alter_real(imd, type, TRUE, FALSE);
 }
 
 void image_zoom_adjust(ImageWindow *imd, gdouble increment)
