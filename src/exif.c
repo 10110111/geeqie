@@ -1,6 +1,6 @@
 /*
  *  GQView
- *  (C) 2004 John Ellis
+ *  (C) 2006 John Ellis
  *
  *  Authors:
  *    Support for Exif file format, originally written by Eric Swalens.    
@@ -580,7 +580,7 @@ gchar *exif_text_list_find_value(ExifTextList *list, guint value)
 
 /*
  *-------------------------------------------------------------------
- * byte size utils
+ * byte order utils
  *-------------------------------------------------------------------
  */
 
