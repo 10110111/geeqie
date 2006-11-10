@@ -49,7 +49,7 @@ gint format_fuji_raw(unsigned char *data, const guint len,
 		}
 
 	/* offset to jpeg is embedded at bytes 84-87 */
-	io = GUINT32_FROM_BE(*(guint32*)(data + 84));
+	io = exif_byte_get_int32(data + 84, EXIF_BYTE_ORDER_MOTOROLA);
 	if (io + 4 > len) return FALSE;
 
 	/* verify jpeg marker */
