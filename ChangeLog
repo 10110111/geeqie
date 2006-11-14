@@ -1,3 +1,7 @@
+Tue Nov 14 15:36:14 2006  John Ellis  <johne@verizon.net>
+
+	* exif.[ch]: Fix memory alignment issues, bug #1593252.
+
 Fri Nov 10 18:11:54 2006  John Ellis  <johne@verizon.net>
 
 	* image.c: Fix up initial scroll offset into image when auto rotated

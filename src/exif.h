@@ -213,8 +213,8 @@ void exif_write_data_list(ExifData *exif, FILE *f, gint human_readable_list);
 
 guint16 exif_byte_get_int16(unsigned char *f, ExifByteOrder bo);
 guint32 exif_byte_get_int32(unsigned char *f, ExifByteOrder bo);
-guint16 exif_byte_put_int16(guint16 n, ExifByteOrder bo);
-guint32 exif_byte_put_int32(guint32 n, ExifByteOrder bo);
+void exif_byte_put_int16(unsigned char *f, guint16 n, ExifByteOrder bo);
+void exif_byte_put_int32(unsigned char *f, guint32 n, ExifByteOrder bo);
 
 ExifItem *exif_item_new(ExifFormatType format, guint tag,
 			guint elements, const ExifMarker *marker);

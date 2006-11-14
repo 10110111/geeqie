@@ -584,45 +584,64 @@ gchar *exif_text_list_find_value(ExifTextList *list, guint value)
  *-------------------------------------------------------------------
  */
 
+/* note: the align_buf is used to avoid alignment issues (on sparc) */
+
 guint16 exif_byte_get_int16(unsigned char *f, ExifByteOrder bo)
 {
+	guint16 align_buf;
+
+	memcpy(&align_buf, f, sizeof(guint16));
+
 	if (bo == EXIF_BYTE_ORDER_INTEL)
-		return GUINT16_FROM_LE(*(guint16*)f);
+		return GUINT16_FROM_LE(align_buf);
 	else
-		return GUINT16_FROM_BE(*(guint16*)f);
+		return GUINT16_FROM_BE(align_buf);
 }
 
 guint32 exif_byte_get_int32(unsigned char *f, ExifByteOrder bo)
 {
+	guint32 align_buf;
+
+	memcpy(&align_buf, f, sizeof(guint32));
+
 	if (bo == EXIF_BYTE_ORDER_INTEL)
-		return GUINT32_FROM_LE(*(guint32*)f);
+		return GUINT32_FROM_LE(align_buf);
 	else
-		return GUINT32_FROM_BE(*(guint32*)f);
+		return GUINT32_FROM_BE(align_buf);
 }
 
-guint16 exif_byte_put_int16(guint16 n, ExifByteOrder bo)
+void exif_byte_put_int16(unsigned char *f, guint16 n, ExifByteOrder bo)
 {
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-	if (bo == EXIF_BYTE_ORDER_MOTOROLA)
-#else
+	guint16 align_buf;
+
 	if (bo == EXIF_BYTE_ORDER_INTEL)
-#endif
-		return GUINT16_SWAP_LE_BE(n);
+		{
+		align_buf = GUINT16_TO_LE(n);
+		}
 	else
-		return n;
+		{
+		align_buf = GUINT16_TO_BE(n);
+		}
+
+	memcpy(f, &align_buf, sizeof(guint16));
 }
 
-guint32 exif_byte_put_int32(guint32 n, ExifByteOrder bo)
+void exif_byte_put_int32(unsigned char *f, guint32 n, ExifByteOrder bo)
 {
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-	if (bo == EXIF_BYTE_ORDER_MOTOROLA)
-#else
+	guint32 align_buf;
+
 	if (bo == EXIF_BYTE_ORDER_INTEL)
-#endif
-		return GUINT32_SWAP_LE_BE(n);
+		{
+		align_buf = GUINT32_TO_LE(n);
+		}
 	else
-		return n;
+		{
+		align_buf = GUINT32_TO_BE(n);
+		}
+
+	memcpy(f, &align_buf, sizeof(guint32));
 }
+
 
 /*
  *-------------------------------------------------------------------
@@ -1224,21 +1243,21 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 				{
 				gchar *result;
 
-				result = exif_text_list_find_value(marker->list, ((unsigned short *)data)[0]);
+				result = exif_text_list_find_value(marker->list, ((guint16 *)data)[0]);
 				string = g_string_append(string, result);
 				g_free(result);
 				}
 			else for (i = 0; i < ne; i++)
 				{
 				g_string_append_printf(string, "%s%hd", (i > 0) ? ", " : "",
-							((unsigned short *)data)[i]);
+							((guint16 *)data)[i]);
 				}
 			break;
 		case EXIF_FORMAT_LONG_UNSIGNED:
 			for (i = 0; i < ne; i++)
 				{
 				g_string_append_printf(string, "%s%ld", (i > 0) ? ", " : "",
-							((unsigned long *)data)[i]);
+							(unsigned long int)((guint32 *)data)[i]);
 				}
 			break;
 		case EXIF_FORMAT_RATIONAL_UNSIGNED:
@@ -1255,14 +1274,14 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 			for (i = 0; i < ne; i++)
 				{
 				g_string_append_printf(string, "%s%hd", (i > 0) ? ", " : "",
-							((short *)data)[i]);
+							((gint16 *)data)[i]);
 				}
 			break;
 		case EXIF_FORMAT_LONG:
 			for (i = 0; i < ne; i++)
 				{
 				g_string_append_printf(string, "%s%ld", (i > 0) ? ", " : "",
-							((long *)data)[i]);
+							(long int)((gint32 *)data)[i]);
 				}
 			break;
 		case EXIF_FORMAT_RATIONAL:
@@ -1304,20 +1323,20 @@ gint exif_item_get_integer(ExifItem *item, gint *value)
 	switch (item->format)
 		{
 		case EXIF_FORMAT_SHORT:
-			*value = (gint)(((short *)(item->data))[0]);
+			*value = (gint)(((gint16 *)(item->data))[0]);
 			return TRUE;
 			break;
 		case EXIF_FORMAT_SHORT_UNSIGNED:
-			*value = (gint)(((unsigned short *)(item->data))[0]);
+			*value = (gint)(((guint16 *)(item->data))[0]);
 			return TRUE;
 			break;
 		case EXIF_FORMAT_LONG:
-			*value = (gint)(((long *)(item->data))[0]);
+			*value = (gint)(((gint32 *)(item->data))[0]);
 			return TRUE;
 			break;
 		case EXIF_FORMAT_LONG_UNSIGNED:
 			/* FIXME: overflow possible */
-			*value = (gint)(((unsigned long *)(item->data))[0]);
+			*value = (gint)(((guint32 *)(item->data))[0]);
 			return TRUE;
 		default:
 			/* all other type return FALSE */
