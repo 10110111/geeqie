@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -64,6 +64,7 @@ struct _IconData
 {
 	FileData fd;
 	SelectionType selected;
+	gint row;
 };
 
 
@@ -85,6 +86,7 @@ static gint iconlist_read(const gchar *path, GList **list)
 
 		memcpy(id, fd, sizeof(FileData));
 		id->selected = SELECTION_NONE;
+		id->row = -1;
 
 		work->data = id;
 		g_free(fd);
@@ -1555,6 +1557,11 @@ static void vficon_populate(ViewFileIcon *vfi, gint resize, gint keep_position)
 		list = vficon_add_row(vfi, &iter);
 		while (work && list)
 			{
+			FileData *fd;
+
+			fd = work->data;
+			ICON_DATA(fd)->row = row;
+
 			list->data = work->data;
 			list = list->next;
 			work = work->next;
@@ -1636,21 +1643,22 @@ static void vficon_sync(ViewFileIcon *vfi)
 		while (list)
 			{
 			FileData *fd;
+
 			if (work)
 				{
 				fd = work->data;
 				work = work->next;
 				c++;
+
+				ICON_DATA(fd)->row = r;
 				}
 			else
 				{
 				fd = NULL;
 				}
-			if (list)
-				{
-				list->data = fd;
-				list = list->next;
-				}
+
+			list->data = fd;
+			list = list->next;
 			}
 		}
 
@@ -2398,7 +2406,7 @@ gint vficon_maint_renamed(ViewFileIcon *vfi, const gchar *source, const gchar *d
 
 		vfi->list = filelist_insert_sort(vfi->list, fd, vfi->sort_method, vfi->sort_ascend);
 
-		vficon_sync(vfi);
+		vficon_sync_idle(vfi);
 		ret = TRUE;
 		}
 	else
@@ -2508,13 +2516,15 @@ gint vficon_maint_removed(ViewFileIcon *vfi, const gchar *path, GList *ignore_li
 
 	/* Thumb loader check */
 	if (fd == vfi->thumbs_fd) vfi->thumbs_fd = NULL;
+	if (vfi->thumbs_count > 0) vfi->thumbs_count--;
 
 	if (vfi->prev_selection == fd) vfi->prev_selection = NULL;
 	if (vfi->click_fd == fd) vfi->click_fd = NULL;
 
 	/* remove pointer to this fd from grid */
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vfi->listview));
-	if (gtk_tree_model_iter_nth_child(store, &iter, NULL, row / vfi->columns))
+	if (ICON_DATA(fd)->row >= 0 &&
+	    gtk_tree_model_iter_nth_child(store, &iter, NULL, ICON_DATA(fd)->row))
 		{
 		GList *list;
 

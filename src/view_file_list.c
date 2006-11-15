@@ -1886,6 +1886,7 @@ gint vflist_maint_removed(ViewFileList *vfl, const gchar *path, GList *ignore_li
 
 	/* thumbnail loader check */
 	if (fd == vfl->thumbs_filedata) vfl->thumbs_filedata = NULL;
+	if (vfl->thumbs_count > 0) vfl->thumbs_count--;
 
 	vfl->list = g_list_remove(vfl->list, fd);
 	file_data_free(fd);

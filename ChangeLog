@@ -1,3 +1,13 @@
+Wed Nov 15 02:05:27 2006  John Ellis  <johne@verizon.net>
+
+	* view_file_icon.c: Fix odd crash when removing files, it seems the
+	high priority idle sync is no longer called before the treeview tries
+	to redraw itself, so fix the cleanup of removed pointers so that they
+	are always valid or NULL (I wonder if the priorities used by
+	GtkTreeView have changed in newer versions of GTK?).
+	* view_file_list.c: Fix progress bar warning when files are removed
+	before thumbnail generation is finished.
+
 Tue Nov 14 15:36:14 2006  John Ellis  <johne@verizon.net>
 
 	* exif.[ch]: Fix memory alignment issues, bug #1593252.
