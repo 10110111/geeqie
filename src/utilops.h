@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -48,6 +48,9 @@ gint file_util_rename_dir(const gchar *old_path, const gchar *new_path, GtkWidge
 */
 void file_util_move_simple(GList *list, const gchar *dest_path);
 void file_util_copy_simple(GList *list, const gchar *dest_path);
+
+
+void file_util_delete_dir(const gchar *path, GtkWidget *parent);
 
 
 #endif

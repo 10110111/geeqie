@@ -14,6 +14,7 @@
 #include "utilops.h"
 
 
+#include "cache.h"
 #include "cache_maint.h"
 #include "collect.h"
 #include "dupe.h"
@@ -22,6 +23,7 @@
 #include "img-view.h"
 #include "layout.h"
 #include "search.h"
+#include "thumb_standard.h"
 #include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_misc.h"
@@ -139,7 +141,8 @@ struct _FileDataSingle
 #define DIALOG_DEF_IMAGE_DIM_X 200
 #define DIALOG_DEF_IMAGE_DIM_Y 150
 
-static void generic_dialog_add_image(GenericDialog *gd, const gchar *path1, const gchar *header1,
+static void generic_dialog_add_image(GenericDialog *gd, GtkWidget *box,
+				     const gchar *path1, const gchar *header1,
 				     const gchar *path2, const gchar *header2,
 				     gint show_filename)
 {
@@ -148,9 +151,11 @@ static void generic_dialog_add_image(GenericDialog *gd, const gchar *path1, cons
 	GtkWidget *vbox;
 	GtkWidget *label = NULL;
 
+	if (!box) box = gd->vbox;
+
 	if (path2)
 		{
-		hbox = pref_box_new(gd->vbox, TRUE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+		hbox = pref_box_new(box, TRUE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 		}
 
 	/* image 1 */
@@ -168,7 +173,7 @@ static void generic_dialog_add_image(GenericDialog *gd, const gchar *path1, cons
 		}
 	else
 		{
-		gtk_box_pack_start(GTK_BOX(gd->vbox), vbox, TRUE, TRUE, PREF_PAD_GAP);
+		gtk_box_pack_start(GTK_BOX(box), vbox, TRUE, TRUE, PREF_PAD_GAP);
 		}
 	gtk_widget_show(vbox);
 
@@ -182,6 +187,7 @@ static void generic_dialog_add_image(GenericDialog *gd, const gchar *path1, cons
 		}
 
 	imd = image_new(FALSE);
+	g_object_set(G_OBJECT(imd->pr), "zoom_expand", FALSE, NULL);
 	gtk_widget_set_size_request(imd->widget, DIALOG_DEF_IMAGE_DIM_X, DIALOG_DEF_IMAGE_DIM_Y);
 	gtk_box_pack_start(GTK_BOX(vbox), imd->widget, TRUE, TRUE, 0);
 	image_change_path(imd, path1, 0.0);
@@ -213,6 +219,7 @@ static void generic_dialog_add_image(GenericDialog *gd, const gchar *path1, cons
 			}
 
 		imd = image_new(FALSE);
+		g_object_set(G_OBJECT(imd->pr), "zoom_expand", FALSE, NULL);
 		gtk_widget_set_size_request(imd->widget, DIALOG_DEF_IMAGE_DIM_X, DIALOG_DEF_IMAGE_DIM_Y);
 		gtk_box_pack_start(GTK_BOX(vbox), imd->widget, TRUE, TRUE, 0);
 		image_change_path(imd, path2, 0.0);
@@ -509,7 +516,7 @@ static GenericDialog *file_util_move_multiple_confirm_dialog(FileDataMult *fdm)
 							file_util_move_multiple_all_cb, FALSE);
 	generic_dialog_add_button(gd, GTK_STOCK_GOTO_LAST, _("S_kip all"), file_util_move_multiple_skip_all_cb, FALSE);
 	generic_dialog_add_button(gd, GTK_STOCK_GO_FORWARD, _("_Skip"), file_util_move_multiple_skip_cb, FALSE);
-	generic_dialog_add_image(gd, fdm->dest, _("Existing file"), fdm->source, _("New file"), TRUE);
+	generic_dialog_add_image(gd, NULL, fdm->dest, _("Existing file"), fdm->source, _("New file"), TRUE);
 
 	/* rename option */
 
@@ -826,7 +833,7 @@ static void file_util_move_single(FileDataSingle *fds)
 		pref_spacer(gd->vbox, 0);
 
 		generic_dialog_add_button(gd, GTK_STOCK_OK, _("_Overwrite"), file_util_move_single_ok_cb, TRUE);
-		generic_dialog_add_image(gd, fds->dest, _("Existing file"), fds->source, _("New file"), TRUE);
+		generic_dialog_add_image(gd, NULL, fds->dest, _("Existing file"), fds->source, _("New file"), TRUE);
 
 		/* rename option */
 
@@ -1478,7 +1485,7 @@ static void file_util_delete_multiple(GList *source_list, GtkWidget *parent)
 
 		generic_dialog_add_message(gd, NULL, _("Delete multiple files"), NULL);
 
-		generic_dialog_add_image(gd, NULL, NULL, NULL, NULL, TRUE);
+		generic_dialog_add_image(gd, NULL, NULL, NULL, NULL, NULL, TRUE);
 		imd = g_object_get_data(G_OBJECT(gd->dialog), "img_image");
 		image_set_button_func(imd, file_util_delete_multiple_review_button_cb, gd);
 		image_set_scroll_func(imd, file_util_delete_multiple_review_scroll_cb, gd);
@@ -1567,7 +1574,7 @@ static void file_util_delete_single(const gchar *path, GtkWidget *parent)
 		pref_table_label(table, 1, 1, base, 0.0);
 		g_free(base);
 
-		generic_dialog_add_image(gd, path, NULL, NULL, NULL, FALSE);
+		generic_dialog_add_image(gd, NULL, path, NULL, NULL, NULL, FALSE);
 
 		box_append_safe_delete_status(gd);
 
@@ -1716,7 +1723,9 @@ static void file_util_rename_multiple(RenameDataMult *rd)
 		pref_spacer(gd->vbox, 0);
 
 		generic_dialog_add_button(gd, GTK_STOCK_OK, _("_Overwrite"), file_util_rename_multiple_ok_cb, TRUE);
-		generic_dialog_add_image(gd, fd->dest_path, _("Existing file"), fd->source_path, _("New file"), TRUE);
+		generic_dialog_add_image(gd, NULL,
+					 fd->dest_path, _("Existing file"),
+					 fd->source_path, _("New file"), TRUE);
 
 		gtk_widget_hide(GENERIC_DIALOG(fd)->dialog);
 
@@ -2301,6 +2310,7 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 	path_list_free(source_list);
 
 	rd->imd = image_new(TRUE);
+	g_object_set(G_OBJECT(rd->imd->pr), "zoom_expand", FALSE, NULL);
 	gtk_widget_set_size_request(rd->imd->widget, DIALOG_DEF_IMAGE_DIM_X, DIALOG_DEF_IMAGE_DIM_Y);
 	gtk_paned_pack2(GTK_PANED(pane), rd->imd->widget, FALSE, TRUE);
 	gtk_widget_show(rd->imd->widget);
@@ -2435,7 +2445,9 @@ static void file_util_rename_single(FileDataSingle *fds)
 		pref_spacer(gd->vbox, 0);
 
 		generic_dialog_add_button(gd, GTK_STOCK_OK, _("_Overwrite"), file_util_rename_single_ok_cb, TRUE);
-		generic_dialog_add_image(gd, fds->dest, _("Existing file"), fds->source, _("New file"), TRUE);
+		generic_dialog_add_image(gd, NULL,
+					 fds->dest, _("Existing file"),
+					 fds->source, _("New file"), TRUE);
 
 		gtk_widget_show(gd->dialog);
 
@@ -2492,7 +2504,7 @@ static void file_util_rename_single_do(const gchar *source_path, GtkWidget *pare
 			     file_util_rename_single_close_cb, NULL);
 
 	generic_dialog_add_message(GENERIC_DIALOG(fd), NULL, _("Rename file"), NULL);
-	generic_dialog_add_image(GENERIC_DIALOG(fd), source_path, NULL, NULL, NULL, FALSE);
+	generic_dialog_add_image(GENERIC_DIALOG(fd), NULL, source_path, NULL, NULL, NULL, FALSE);
 
 	file_dialog_add_button(fd, GTK_STOCK_OK, _("_Rename"), file_util_rename_single_cb, TRUE);
 
@@ -2668,5 +2680,451 @@ gint file_util_rename_dir(const gchar *old_path, const gchar *new_path, GtkWidge
 		}
 
 	return TRUE;
+}
+
+/*
+ *--------------------------------------------------------------------------
+ * Delete directory routines
+ *--------------------------------------------------------------------------
+ */
+
+/* The plan is to eventually make all of utilops.c
+ * use UtilityData and UtilityType.
+ * And clean up the above mess someday.
+ */
+
+typedef enum {
+	UTILITY_TYPE_NONE = 0,
+	UTILITY_TYPE_COPY,
+	UTILITY_TYPE_MOVE,
+	UTILITY_TYPE_RENAME,
+	UTILITY_TYPE_DELETE,
+	UTILITY_TYPE_DELETE_LINK,
+	UTILITY_TYPE_DELETE_FOLDER
+} UtilityType;
+
+typedef struct _UtilityData UtilityData;
+struct _UtilityData {
+	UtilityType type;
+	gchar *source_path;
+	GList *dlist;
+	GList *flist;
+
+	GenericDialog *gd;
+};
+
+#define UTILITY_LIST_MIN_WIDTH  250
+#define UTILITY_LIST_MIN_HEIGHT 150
+
+/* thumbnail spec has a max depth of 4 (.thumb??/fail/appname/??.png) */
+#define UTILITY_DELETE_MAX_DEPTH 5
+
+
+static void file_util_data_free(UtilityData *ud)
+{
+	if (!ud) return;
+
+	g_free(ud->source_path);
+	path_list_free(ud->dlist);
+	path_list_free(ud->flist);
+
+	if (ud->gd) generic_dialog_close(ud->gd);
+
+	g_free(ud);
+}
+
+static GtkTreeViewColumn *file_util_dialog_add_list_column(GtkWidget *view, const gchar *text, gint n)
+{
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *renderer;
+
+	column = gtk_tree_view_column_new();
+	gtk_tree_view_column_set_title(column, text);
+	gtk_tree_view_column_set_min_width(column, 4);
+	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
+	renderer = gtk_cell_renderer_text_new();
+	gtk_tree_view_column_pack_start(column, renderer, TRUE);
+	gtk_tree_view_column_add_attribute(column, renderer, "text", n);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
+
+	return column;
+}
+
+static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gint full_paths)
+{
+	GtkWidget *scrolled;
+	GtkWidget *view;
+	GtkListStore *store;
+
+	scrolled = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolled),
+				       GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+	gtk_box_pack_start(GTK_BOX(box), scrolled, TRUE, TRUE, 0);
+	gtk_widget_show(scrolled);
+
+	store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
+	view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+	g_object_unref(store);
+
+	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), TRUE);
+	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(view), FALSE);
+
+	if (full_paths)
+		{
+		file_util_dialog_add_list_column(view, _("Location"), 0);
+		}
+	else
+		{
+		file_util_dialog_add_list_column(view, _("Name"), 1);
+		}
+
+	gtk_widget_set_size_request(view, UTILITY_LIST_MIN_WIDTH, UTILITY_LIST_MIN_HEIGHT);
+	gtk_container_add(GTK_CONTAINER(scrolled), view);
+	gtk_widget_show(view);
+
+	while (list)
+		{
+		gchar *path = list->data;
+		GtkTreeIter iter;
+
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter, 0, path,
+						 1, filename_from_path(path), -1);
+
+		list = list->next;
+		}
+
+	return view;
+}
+
+static gboolean file_util_delete_dir_preview_cb(GtkTreeSelection *selection, GtkTreeModel *store,
+						GtkTreePath *tpath, gboolean path_currently_selected,
+						gpointer data)
+{
+	UtilityData *ud = data;
+	GtkTreeIter iter;
+	gchar *path = NULL;
+
+	if (path_currently_selected ||
+	    !gtk_tree_model_get_iter(store, &iter, tpath)) return TRUE;
+
+	gtk_tree_model_get(store, &iter, 0, &path, -1);
+	generic_dialog_image_set(ud->gd, path);
+	g_free(path);
+
+	return TRUE;
+}
+
+static void file_util_delete_dir_cancel_cb(GenericDialog *gd, gpointer data)
+{
+	UtilityData *ud = data;
+
+	ud->gd = NULL;
+	file_util_data_free(ud);
+}
+
+static gchar *file_util_delete_dir_empty_path(const gchar *path, gint real_content, gint level)
+{
+	GList *dlist = NULL;
+	GList *flist = NULL;
+	GList *work;
+	gchar *fail = NULL;
+
+	if (debug) printf("deltree into: %s\n", path);
+
+	level++;
+	if (level > UTILITY_DELETE_MAX_DEPTH)
+		{
+		printf("folder recursion depth past %d, giving up\n", UTILITY_DELETE_MAX_DEPTH);
+		return g_strdup(path);
+		}
+
+	if (!path_list_lstat(path, &flist, &dlist)) return g_strdup(path);
+
+	work = dlist;
+	while (work && !fail)
+		{
+		gchar *name;
+
+		name = work->data;
+		work = work->next;
+
+		fail = file_util_delete_dir_empty_path(name, real_content, level);
+		}
+
+	work = flist;
+	while (work && !fail)
+		{
+		gchar *name;
+
+		name = work->data;
+		work = work->next;
+
+		if (debug) printf("deltree child: %s\n", name);
+
+		if (real_content && !islink(name))
+			{
+			if (!file_util_unlink(name)) fail = g_strdup(name);
+			}
+		else
+			{
+			if (!unlink_file(name)) fail = g_strdup(name);
+			}
+		}
+
+	path_list_free(dlist);
+	path_list_free(flist);
+
+	if (!fail && !rmdir_utf8(path))
+		{
+		fail = g_strdup(path);
+		}
+
+	if (debug) printf("deltree done: %s\n", path);
+
+	return fail;
+}
+
+static void file_util_delete_dir_ok_cb(GenericDialog *gd, gpointer data)
+{
+	UtilityData *ud = data;
+
+	ud->gd = NULL;
+
+	if (ud->type == UTILITY_TYPE_DELETE_LINK)
+		{
+		if (!unlink_file(ud->source_path))
+			{
+			gchar *text;
+
+			text = g_strdup_printf("Unable to remove symbolic link:\n %s", ud->source_path);
+			file_util_warning_dialog(_("Delete failed"), text,
+						 GTK_STOCK_DIALOG_ERROR, NULL);
+			g_free(text);
+			}
+		}
+	else
+		{
+		gchar *fail = NULL;
+		GList *work;
+
+		work = ud->dlist;
+		while (work && !fail)
+			{
+			gchar *path;
+
+			path = work->data;
+			work = work->next;
+
+			fail = file_util_delete_dir_empty_path(path, FALSE, 0);
+			}
+
+		work = ud->flist;
+		while (work && !fail)
+			{
+			gchar *path;
+
+			path = work->data;
+			work = work->next;
+
+			if (debug) printf("deltree unlink: %s\n", path);
+
+			if (islink(path))
+				{
+				if (!unlink_file(path)) fail = g_strdup(path);
+				}
+			else
+				{
+				if (!file_util_unlink(path)) fail = g_strdup(path);
+				}
+			}
+
+		if (!fail)
+			{
+			if (!rmdir_utf8(ud->source_path)) fail = g_strdup(ud->source_path);
+			}
+
+		if (fail)
+			{
+			gchar *text;
+
+			text = g_strdup_printf(_("Unable to delete folder:\n\n%s"), ud->source_path);
+			gd = file_util_warning_dialog(_("Delete failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
+			g_free(text);
+
+			if (strcmp(fail, ud->source_path) != 0)
+				{
+				pref_spacer(gd->vbox, PREF_PAD_GROUP);
+				text = g_strdup_printf(_("Removal of folder contents failed at this file:\n\n%s"),
+							fail);
+				pref_label_new(gd->vbox, text);
+				g_free(text);
+				}
+
+			g_free(fail);
+			}
+		}
+
+	file_util_data_free(ud);
+}
+
+static GList *file_util_delete_dir_remaining_folders(GList *dlist)
+{
+	GList *rlist = NULL;
+
+	while (dlist)
+		{
+		gchar *path;
+		const gchar *name;
+
+		path = dlist->data;
+		dlist = dlist->next;
+
+		name = filename_from_path(path);
+		if (!name ||
+		    (strcmp(name, THUMB_FOLDER_GLOBAL) != 0 &&
+		     strcmp(name, THUMB_FOLDER_LOCAL) != 0 &&
+		     strcmp(name, GQVIEW_CACHE_LOCAL_METADATA) != 0) )
+			{
+			rlist = g_list_prepend(rlist, path);
+			}
+		}
+
+	return g_list_reverse(rlist);
+}
+
+void file_util_delete_dir(const gchar *path, GtkWidget *parent)
+{
+	GList *dlist = NULL;
+	GList *flist = NULL;
+	GList *rlist;
+
+	if (!isdir(path)) return;
+
+	if (islink(path))
+		{
+		UtilityData *ud;
+		gchar *text;
+
+		ud = g_new0(UtilityData, 1);
+		ud->type = UTILITY_TYPE_DELETE_LINK;
+		ud->source_path = g_strdup(path);
+		ud->dlist = NULL;
+		ud->flist = NULL;
+
+		ud->gd = file_util_gen_dlg(_("Delete folder"), "GQview", "dlg_confirm",
+					   parent, TRUE,
+					   file_util_delete_dir_cancel_cb, ud);
+
+		text = g_strdup_printf(_("This will delete the symbolic link:\n\n%s\n\n"
+					 "The folder this link points to will not be deleted."),
+					path);
+		generic_dialog_add_message(ud->gd, GTK_STOCK_DIALOG_QUESTION,
+					   _("Delete symbolic link to folder?"),
+					   text);
+		g_free(text);
+
+		generic_dialog_add_button(ud->gd, GTK_STOCK_DELETE, NULL, file_util_delete_dir_ok_cb, TRUE);
+
+		gtk_widget_show(ud->gd->dialog);
+
+		return;
+		}
+
+	if (!access_file(path, W_OK | X_OK))
+		{
+		gchar *text;
+
+		text = g_strdup_printf(_("Unable to remove folder %s\n"
+					 "Permissions do not allow writing to the folder."), path);
+		file_util_warning_dialog(_("Delete failed"), text, GTK_STOCK_DIALOG_ERROR, parent);
+		g_free(text);
+
+		return;
+		}
+
+	if (!path_list_lstat(path, &flist, &dlist))
+		{
+		gchar *text;
+
+		text = g_strdup_printf(_("Unable to list contents of folder %s"), path);
+		file_util_warning_dialog(_("Delete failed"), text, GTK_STOCK_DIALOG_ERROR, parent);
+		g_free(text);
+
+		return;
+		}
+
+	rlist = file_util_delete_dir_remaining_folders(dlist);
+	if (rlist)
+		{
+		GenericDialog *gd;
+		GtkWidget *box;
+		gchar *text;
+
+		gd = file_util_gen_dlg(_("Folder contains subfolders"), "GQview", "dlg_warning",
+					parent, TRUE, NULL, NULL);
+		generic_dialog_add_button(gd, GTK_STOCK_CLOSE, NULL, NULL, TRUE);
+
+		text = g_strdup_printf(_("Unable to delete the folder:\n\n%s\n\n"
+					 "This folder contains subfolders which must be moved before it can be deleted."),
+					path);
+		box = generic_dialog_add_message(gd, GTK_STOCK_DIALOG_WARNING,
+						 _("Folder contains subfolders"),
+						 text);
+		g_free(text);
+
+		box = pref_group_new(box, TRUE, _("Subfolders:"), GTK_ORIENTATION_VERTICAL);
+
+		rlist = path_list_sort(rlist);
+		file_util_dialog_add_list(box, rlist, FALSE);
+
+		gtk_widget_show(gd->dialog);
+		}
+	else
+		{
+		UtilityData *ud;
+		GtkWidget *box;
+		GtkWidget *view;
+		GtkTreeSelection *selection;
+		gchar *text;
+
+		ud = g_new0(UtilityData, 1);
+		ud->type = UTILITY_TYPE_DELETE_FOLDER;
+		ud->source_path = g_strdup(path);
+		ud->dlist = dlist;
+		dlist = NULL;
+		ud->flist = path_list_sort(flist);
+		flist = NULL;
+
+		ud->gd = file_util_gen_dlg(_("Delete folder"), "GQview", "dlg_confirm",
+					   parent, TRUE, file_util_delete_dir_cancel_cb, ud);
+		generic_dialog_add_button(ud->gd, GTK_STOCK_DELETE, NULL, file_util_delete_dir_ok_cb, TRUE);
+
+		text = g_strdup_printf(_("This will delete the folder:\n\n%s\n\n"
+					 "The contents of this folder will also be deleted."),
+					path);
+		box = generic_dialog_add_message(ud->gd, GTK_STOCK_DIALOG_QUESTION,
+						 _("Delete folder?"),
+						 text);
+		g_free(text);
+
+		box = pref_group_new(box, TRUE, _("Contents:"), GTK_ORIENTATION_HORIZONTAL);
+
+		view = file_util_dialog_add_list(box, ud->flist, FALSE);
+		selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
+		gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+		gtk_tree_selection_set_select_function(selection, file_util_delete_dir_preview_cb, ud, NULL);
+
+		generic_dialog_add_image(ud->gd, box, NULL, NULL, NULL, NULL, FALSE);
+
+		box_append_safe_delete_status(ud->gd);
+
+		gtk_widget_show(ud->gd->dialog);
+		}
+
+	g_list_free(rlist);
+	path_list_free(dlist);
+	path_list_free(flist);
 }
 

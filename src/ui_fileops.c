@@ -504,11 +504,11 @@ gchar *get_current_dir(void)
 	return path8;
 }
 
-gint path_list(const gchar *path, GList **files, GList **dirs)
+static gint path_list_real(const gchar *path, GList **files, GList **dirs,
+			   gint follow_links)
 {
 	DIR *dp;
 	struct dirent *dir;
-	struct stat ent_sbuf;
 	GList *f_list = NULL;
 	GList *d_list = NULL;
 	gchar *pathl;
@@ -533,10 +533,24 @@ gint path_list(const gchar *path, GList **files, GList **dirs)
 
 	while ((dir = readdir(dp)) != NULL)
 		{
-		gchar *name = dir->d_name;
-		gchar *filepath = g_strconcat(pathl, "/", name, NULL);
+		struct stat st_buf;
+		gchar *name;
+		gchar *filepath;
+		gint result;
 
-		if (stat(filepath, &ent_sbuf) >= 0)
+		name = dir->d_name;
+		filepath = g_strconcat(pathl, "/", name, NULL);
+
+		if (follow_links)
+			{
+			result = stat(filepath, &st_buf);
+			}
+		else
+			{
+			result = lstat(filepath, &st_buf);
+			}
+
+		if (result == 0)
 			{
 			gchar *path8;
 			gchar *name8;
@@ -545,13 +559,14 @@ gint path_list(const gchar *path, GList **files, GList **dirs)
 			path8 = g_strconcat(path, "/", name8, NULL);
 			g_free(name8);
 
-			if (dirs && S_ISDIR(ent_sbuf.st_mode) &&
+			if (dirs && S_ISDIR(st_buf.st_mode) &&
 			    !(name[0] == '.' && (name[1] == '\0' || (name[1] == '.' && name[2] == '\0'))) )
 				{
 				d_list = g_list_prepend(d_list, path8);
 				path8 = NULL;
 				}
-			else if (files && S_ISREG(ent_sbuf.st_mode))
+			else if (files &&
+				 (S_ISREG(st_buf.st_mode) || (!follow_links && S_ISLNK(st_buf.st_mode))) )
 				{
 				f_list = g_list_prepend(f_list, path8);
 				path8 = NULL;
@@ -570,6 +585,16 @@ gint path_list(const gchar *path, GList **files, GList **dirs)
 	if (files) *files = g_list_reverse(f_list);
 
 	return TRUE;
+}
+
+gint path_list(const gchar *path, GList **files, GList **dirs)
+{
+	return path_list_real(path, files, dirs, TRUE);
+}
+
+gint path_list_lstat(const gchar *path, GList **files, GList **dirs)
+{
+	return path_list_real(path, files, dirs, FALSE);
 }
 
 void path_list_free(GList *list)

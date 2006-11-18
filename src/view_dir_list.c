@@ -351,6 +351,14 @@ static void vdlist_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 	vdlist_rename_by_row(vdl, vdl->click_fd);
 }
 
+static void vdlist_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
+{
+	ViewDirList *vdl = data;
+
+	if (!vdl->click_fd) return;
+	file_util_delete_dir(vdl->click_fd->path, vdl->widget);
+}
+
 static void vdlist_pop_menu_tree_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDirList *vdl = data;
@@ -406,6 +414,8 @@ static GtkWidget *vdlist_pop_menu(ViewDirList *vdl, FileData *fd)
 		  access_file(fd->path, W_OK | X_OK));
 	menu_item_add_sensitive(menu, _("_Rename..."), active,
 				G_CALLBACK(vdlist_pop_menu_rename_cb), vdl);
+	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
+				      G_CALLBACK(vdlist_pop_menu_delete_cb), vdl);
 
 	menu_item_add_divider(menu);
 	menu_item_add_check(menu, _("View as _tree"), FALSE,

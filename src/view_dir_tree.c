@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -446,6 +446,14 @@ static void vdtree_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 	vdtree_rename_by_data(vdt, vdt->click_fd);
 }
 
+static void vdtree_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
+{
+	ViewDirTree *vdt = data;
+
+	if (!vdt->click_fd) return;
+	file_util_delete_dir(vdt->click_fd->path, vdt->widget);
+}
+
 static void vdtree_pop_menu_tree_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDirTree *vdt = data;
@@ -464,8 +472,17 @@ static GtkWidget *vdtree_pop_menu(ViewDirTree *vdt, FileData *fd)
 {
 	GtkWidget *menu;
 	gint active;
+	gint parent_active = FALSE;
 
 	active = (fd != NULL);
+	if (fd)
+		{
+		gchar *parent;
+
+		parent = remove_level_from_path(fd->path);
+		parent_active = access_file(parent, W_OK | X_OK);
+		g_free(parent);
+		}
 
 	menu = popup_menu_short_lived();
 	g_signal_connect(G_OBJECT(menu), "destroy",
@@ -494,8 +511,10 @@ static GtkWidget *vdtree_pop_menu(ViewDirTree *vdt, FileData *fd)
 	menu_item_add_sensitive(menu, _("_New folder..."), active,
 				G_CALLBACK(vdtree_pop_menu_new_cb), vdt);
 
-	menu_item_add_sensitive(menu, _("_Rename..."), active,
+	menu_item_add_sensitive(menu, _("_Rename..."), parent_active,
 				G_CALLBACK(vdtree_pop_menu_rename_cb), vdt);
+	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, parent_active,
+				      G_CALLBACK(vdtree_pop_menu_delete_cb), vdt);
 
 	menu_item_add_divider(menu);
 	menu_item_add_check(menu, _("View as _tree"), TRUE,

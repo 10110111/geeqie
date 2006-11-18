@@ -1,3 +1,12 @@
+Fri Nov 17 19:06:19 2006  John Ellis  <johne@verizon.net>
+
+	* ui_fileops.[ch]: Add path_list_lstat() to obtain a path listing that
+	does not follow symbolic links.
+	* utilops.[ch]: Add file_util_delete_dir(), and support functions.
+	* view_dir_list.c: Add delete to folder popup menu.
+	* view_dir_tree.c: Add delete to folder popup menu, and set rename and
+	delete sensitive only when parent folder is writable.
+
 Wed Nov 15 02:05:27 2006  John Ellis  <johne@verizon.net>
 
 	* view_file_icon.c: Fix odd crash when removing files, it seems the

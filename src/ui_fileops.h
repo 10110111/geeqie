@@ -54,6 +54,7 @@ gchar *get_current_dir(void);
  * the lists with path_list_free()
  */
 gint path_list(const gchar *path, GList **files, GList **dirs);
+gint path_list_lstat(const gchar *path, GList **files, GList **dirs);
 void path_list_free(GList *list);
 GList *path_list_copy(GList *list);
 
