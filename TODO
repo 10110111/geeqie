@@ -21,6 +21,10 @@ d> figure out if crash when expanding a folder in the folder tree view when pess
  > cache-load.c:
    > should honor enable_thumbnails setting
 
+ > color profiles:
+   > support profiles embedded in images
+   > add support in img-view.c
+
   ---
 
  >raw + exif formats:
@@ -101,6 +105,7 @@ d> figure out if crash when expanding a folder in the folder tree view when pess
    > [Control]+V now shows image in new window
    > [Shift]+P print shortcut added to collection and img-view windows.
      (fixme, forgot to add it to find dialog).
+   > add color profile page
 
    > add blurb about moving images between collections with shift+drag
 
@@ -112,6 +117,8 @@ Minor (non blockers):
 ----------------------------------------------
 
 d> update icon used for window to the (not so) new icon
+
+ > fix gtk_table_attach use to not use FALSE for fill vertical arg.
 
  > xv and xpaint are hardly used or even installed by any distro anymore - time
    to remove these (and find alternates?) seems silly to only have gimp.

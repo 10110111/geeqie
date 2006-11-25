@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -22,6 +22,15 @@ void layout_image_set_index(LayoutWindow *lw, gint index);
 void layout_image_set_collection(LayoutWindow *lw, CollectionData *cd, CollectInfo *info);
 
 void layout_image_refresh(LayoutWindow *lw);
+
+void layout_image_color_profile_set(LayoutWindow *lw,
+				    gint input_type, gint screen_type,
+				    gint use_image);
+gint layout_image_color_profile_get(LayoutWindow *lw,
+				    gint *input_type, gint *screen_type,
+				    gint *use_image);
+void layout_image_color_profile_set_use(LayoutWindow *lw, gint enable);
+gint layout_image_color_profile_get_use(LayoutWindow *lw);
 
 
 const gchar *layout_image_get_path(LayoutWindow *lw);

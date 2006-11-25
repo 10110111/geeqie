@@ -135,19 +135,25 @@ gchar *sort_type_get_text(SortType method)
 	return "";
 }
 
-static void submenu_add_sort_item(GtkWidget *menu, GCallback func, SortType type,
-				  gint show_current, SortType show_type)
+static GtkWidget *submenu_add_sort_item(GtkWidget *menu, GtkWidget *parent,
+					GCallback func, SortType type,
+					gint show_current, SortType show_type)
 {
+	GtkWidget *item;
+
 	if (show_current)
 		{
-		menu_item_add_check(menu, sort_type_get_text(type), (type == show_type),
-				    func, GINT_TO_POINTER((gint)type));
+		item = menu_item_add_radio(menu, parent,
+					   sort_type_get_text(type), (type == show_type),
+					   func, GINT_TO_POINTER((gint)type));
 		}
 	else
 		{
-		menu_item_add(menu, sort_type_get_text(type),
-			      func, GINT_TO_POINTER((gint)type));
+		item = menu_item_add(menu, sort_type_get_text(type),
+			 	     func, GINT_TO_POINTER((gint)type));
 		}
+
+	return item;
 }
 
 GtkWidget *submenu_add_sort(GtkWidget *menu, GCallback func, gpointer data,
@@ -155,18 +161,19 @@ GtkWidget *submenu_add_sort(GtkWidget *menu, GCallback func, gpointer data,
 			    gint show_current, SortType type)
 {
 	GtkWidget *submenu;
+	GtkWidget *parent;
 
 	submenu = gtk_menu_new();
 	g_object_set_data(G_OBJECT(submenu), "submenu_data", data);
 
-	submenu_add_sort_item(submenu, func, SORT_NAME, show_current, type);
+	parent = submenu_add_sort_item(submenu, NULL, func, SORT_NAME, show_current, type);
 #ifdef HAVE_STRVERSCMP
-	submenu_add_sort_item(submenu, func, SORT_NUMBER, show_current, type);
+	submenu_add_sort_item(submenu, parent, func, SORT_NUMBER, show_current, type);
 #endif
-	submenu_add_sort_item(submenu, func, SORT_TIME, show_current, type);
-	submenu_add_sort_item(submenu, func, SORT_SIZE, show_current, type);
-	if (include_path) submenu_add_sort_item(submenu, func, SORT_PATH, show_current, type);
-	if (include_none) submenu_add_sort_item(submenu, func, SORT_NONE, show_current, type);
+	submenu_add_sort_item(submenu, parent, func, SORT_TIME, show_current, type);
+	submenu_add_sort_item(submenu, parent, func, SORT_SIZE, show_current, type);
+	if (include_path) submenu_add_sort_item(submenu, parent, func, SORT_PATH, show_current, type);
+	if (include_none) submenu_add_sort_item(submenu, parent, func, SORT_NONE, show_current, type);
 
 	if (menu)
 		{

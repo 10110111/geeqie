@@ -24,6 +24,9 @@ GtkWidget *menu_item_add_stock_sensitive(GtkWidget *menu, const gchar *label, co
 					 GCallback func, gpointer data);
 GtkWidget *menu_item_add_check(GtkWidget *menu, const gchar *label, gint active,
 			       GCallback func, gpointer data);
+GtkWidget *menu_item_add_radio(GtkWidget *menu, GtkWidget *parent,
+			       const gchar *label, gint active,
+			       GCallback func, gpointer data);
 void menu_item_add_divider(GtkWidget *menu);
 
 /* use to avoid mnemonics, for example filenames */

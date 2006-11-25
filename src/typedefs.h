@@ -42,6 +42,17 @@ typedef enum {
 } LayoutLocation;
 
 
+typedef enum {
+	IMAGE_STATE_NONE	= 0,
+	IMAGE_STATE_IMAGE	= 1 << 0,
+	IMAGE_STATE_LOADING	= 1 << 1,
+	IMAGE_STATE_ERROR	= 1 << 2,
+	IMAGE_STATE_COLOR_ADJ	= 1 << 3,
+	IMAGE_STATE_ROTATE_AUTO	= 1 << 4,
+	IMAGE_STATE_ROTATE_USER	= 1 << 5,
+	IMAGE_STATE_DELAY_FLIP	= 1 << 6
+} ImageState;
+
 typedef struct _ImageLoader ImageLoader;
 typedef struct _ThumbLoader ThumbLoader;
 
@@ -242,6 +253,7 @@ struct _ImageWindow
 	gint title_show_zoom;	/* option to include zoom in window title */
 
 	gint completed;
+	ImageState state;	/* mask of IMAGE_STATE_* flags about current image */
 
 	void (*func_update)(ImageWindow *, gpointer);
 	void (*func_complete)(ImageWindow *, gint preload, gpointer);
@@ -272,6 +284,13 @@ struct _ImageWindow
 	CollectionData *collection;
 	CollectInfo *collection_info;
 
+	/* color profiles */
+	gint color_profile_enable;
+	gint color_profile_input;
+	gint color_profile_screen;
+	gint color_profile_use_image;
+	gpointer *cm;
+
 	AlterType delay_alter_type;
 
 	ImageLoader *read_ahead_il;
@@ -280,6 +299,7 @@ struct _ImageWindow
 
 	GdkPixbuf *prev_pixbuf;
 	gchar *prev_path;
+	gint prev_color_row;
 
 	gint auto_refresh_id;
 	gint auto_refresh_interval;
@@ -366,6 +386,7 @@ struct _LayoutWindow
 	GtkWidget *info_box;
 	GtkWidget *info_progress_bar;
 	GtkWidget *info_sort;
+	GtkWidget *info_color;
 	GtkWidget *info_status;
 	GtkWidget *info_details;
 	GtkWidget *info_zoom;

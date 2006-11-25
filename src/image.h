@@ -86,6 +86,16 @@ void image_top_window_set_sync(ImageWindow *imd, gint allow_sync);
 void image_background_set_black(ImageWindow *imd, gint black);
 void image_background_set_color(ImageWindow *imd, GdkColor *color);
 
+/* color profiles */
+void image_color_profile_set(ImageWindow *imd,
+			     gint input_type, gint screen_type,
+			     gint use_embedded);
+gint image_color_profile_get(ImageWindow *imd,
+			     gint *input_type, gint *screen_type,
+			     gint *use_image);
+void image_color_profile_set_use(ImageWindow *imd, gint enable);
+gint image_color_profile_get_use(ImageWindow *imd);
+
 /* set delayed page flipping */
 void image_set_delay_flip(ImageWindow *imd, gint delay);
 

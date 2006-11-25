@@ -1,3 +1,21 @@
+Fri Nov 24 21:37:01 2006  John Ellis  <johne@verizon.net>
+
+	* configure.in: Add test for lcms (little cms).
+	* Makefile.am: Add color-man.[ch]:
+	* color-man.[ch]: New files for color management support.
+	* globals.c, gqview.h, main.c, rcfile.c, typedefs.h: Add color profile
+	variables and option saving.
+	* image.[ch]: Add color profile functions.
+	* layout.c, layout_image.[ch]: Add color profile icon, popup menu, and
+	fix sort menu to use radio buttons.
+	* menu.c: Use radio buttons for sort menu when appropriate.
+	* preferences.c: Add color profile options to preferences.
+	* ui_menu.[ch]: Add menu_item_add_radio() for radio item menus.
+	* ui_misc.c: Fix gtk_table_attach() arg for vertical expansion.
+	* view_file_icon.c, view_file_list.c: Check for active state in sort
+	menu callbacks.
+	* README: Add info about lcms, and how to disable.
+
 Fri Nov 17 19:06:19 2006  John Ellis  <johne@verizon.net>
 
 	* ui_fileops.[ch]: Add path_list_lstat() to obtain a path listing that

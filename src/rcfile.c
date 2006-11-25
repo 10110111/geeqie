@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -305,6 +305,32 @@ void save_options(void)
 	write_bool_option(f, "disable_filtering", file_filter_disable);
 	filter_write_list(f);
 
+	fprintf(f,"\n##### Color Profiles #####\n\n");
+
+#ifndef HAVE_LCMS
+	fprintf(f,"# NOTICE: GQview was not built with support for color profiles,\n"
+		  "#         color profile options will have no effect.\n\n");
+#endif
+
+	write_bool_option(f, "color_profile_enabled", color_profile_enabled);
+	write_bool_option(f, "color_profile_use_image", color_profile_use_image);
+	write_int_option(f, "color_profile_input_type", color_profile_input_type);
+	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
+		{
+		gchar *buf;
+
+		buf = g_strdup_printf("color_profile_input_file_%d", i + 1);
+		write_char_option(f, buf, color_profile_input_file[i]);
+		g_free(buf);
+
+		buf = g_strdup_printf("color_profile_input_name_%d", i + 1);
+		write_char_option(f, buf, color_profile_input_name[i]);
+		g_free(buf);
+		}
+	fprintf(f,"\n");
+	write_int_option(f, "color_profile_screen_type", color_profile_screen_type);
+	write_char_option(f, "color_profile_screen_file_1", color_profile_screen_file);
+
 	fprintf(f,"\n##### External Programs #####\n");
 	fprintf(f,"# Maximum of 10 programs (external_1 through external_10)\n");
 	fprintf(f,"# format: external_n: \"menu name\" \"command line\"\n\n");
@@ -554,6 +580,39 @@ void load_options(void)
 			{
 			filter_parse(value_all);
 			}
+
+		/* Color Profiles */
+
+		color_profile_enabled = read_bool_option(f, option,
+			"color_profile_enabled", value, color_profile_enabled);
+		color_profile_use_image = read_bool_option(f, option,
+			"color_profile_use_image", value, color_profile_use_image);
+		color_profile_input_type = read_int_option(f, option,
+			"color_profile_input_type", value, color_profile_input_type);
+
+		if (strncasecmp(option, "color_profile_input_file_", 25) == 0)
+                        {
+                        i = strtol(option + 25, NULL, 0) - 1;
+			if (i >= 0 && i < COLOR_PROFILE_INPUTS)
+				{
+				color_profile_input_file[i] = read_char_option(f, option,
+					option, value, color_profile_input_file[i]);
+				}
+			}
+		if (strncasecmp(option, "color_profile_input_name_", 25) == 0)
+                        {
+                        i = strtol(option + 25, NULL, 0) - 1;
+			if (i >= 0 && i < COLOR_PROFILE_INPUTS)
+				{
+				color_profile_input_name[i] = read_char_option(f, option,
+					option, value, color_profile_input_name[i]);
+				}
+			}
+
+		color_profile_screen_type = read_int_option(f, option,
+			"color_profile_screen_type", value, color_profile_screen_type);
+		color_profile_screen_file = read_char_option(f, option,
+			"color_profile_screen_file_1", value, color_profile_screen_file);
 
 		/* External Programs */
 

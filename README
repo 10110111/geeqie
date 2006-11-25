@@ -38,7 +38,12 @@ homepage: http://gqview.sourceforge.net
 
 ======== Requirements
 
-  GTK+ 2.4.x: ftp://ftp.gtk.org/pub/gtk
+  Required libraries:
+    GTK+ 2.4.x: ftp://ftp.gtk.org/pub/gtk
+
+  Optional libraries:
+    lcms, for color management support: http://www.littlecms.com
+        (disable with configure option: '--without-lcms')
 
 ======== Notes and changes for this release            [section:release_notes]
 
@@ -80,6 +85,10 @@ homepage: http://gqview.sourceforge.net
     For translation status list, see further below.
 
     Version in perenthesis indicates first appearance of feature or change.
+
+    (2.1.5) Add support for color profiles when lcms is installed. To
+    disable color profiles and use of lcms, run configure
+    with '--without-lcms'.
 
     (2.1.1) Add support for viewing jpeg images and EXIF embedded within
     raw files for Canon (.crw, .cr2) Fujifilm (.raf), and Nikon (.nef).

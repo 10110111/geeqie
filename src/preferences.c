@@ -138,6 +138,10 @@ static gint tree_descend_subdirs_c;
 static gint update_on_time_change_c;
 static gint exif_rotate_enable_c;
 
+static GtkWidget *color_profile_input_file_entry[COLOR_PROFILE_INPUTS];
+static GtkWidget *color_profile_input_name_entry[COLOR_PROFILE_INPUTS];
+static GtkWidget *color_profile_screen_file_entry;
+
 
 /*
  *-----------------------------------------------------------------------------
@@ -288,6 +292,25 @@ static void config_window_apply(void)
 
 	tree_descend_subdirs = tree_descend_subdirs_c;
 
+#ifdef HAVE_LCMS
+	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
+		{
+		g_free(color_profile_input_name[i]);
+		color_profile_input_name[i] = NULL;
+		buf = gtk_entry_get_text(GTK_ENTRY(color_profile_input_name_entry[i]));
+		if (buf && strlen(buf) > 0) color_profile_input_name[i] = g_strdup(buf);
+
+		g_free(color_profile_input_file[i]);
+		color_profile_input_file[i] = NULL;
+		buf = gtk_entry_get_text(GTK_ENTRY(color_profile_input_file_entry[i]));
+		if (buf && strlen(buf) > 0) color_profile_input_file[i] = g_strdup(buf);
+		}
+	g_free(color_profile_screen_file);
+	color_profile_screen_file = NULL;
+	buf = gtk_entry_get_text(GTK_ENTRY(color_profile_screen_file_entry));
+	if (buf && strlen(buf) > 0) color_profile_screen_file = g_strdup(buf);
+#endif
+
 	l_conf = layout_config_get(layout_widget, &new_style);
 
 	if (new_style != layout_style ||
@@ -403,7 +426,7 @@ static void add_quality_menu(GtkWidget *table, gint column, gint row, const gcha
 			 G_CALLBACK(quality_menu_cb), option_c);
 
 	gtk_table_attach(GTK_TABLE(table), combo, column + 1, column + 2, row, row + 1,
-			 GTK_EXPAND | GTK_FILL, FALSE, 0, 0);
+			 GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_widget_show(combo);
 }
 
@@ -514,7 +537,7 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 			 G_CALLBACK(thumb_size_menu_cb), NULL);
 
 	gtk_table_attach(GTK_TABLE(table), combo, column + 1, column + 2, row, row + 1,
-			 GTK_EXPAND | GTK_FILL, FALSE, 0, 0);
+			 GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_widget_show(combo);
 }
 
@@ -1103,7 +1126,7 @@ static void config_window_create(void)
 		gtk_widget_set_size_request(editor_name_entry[i],80,-1);
 		if (editor_name[i]) gtk_entry_set_text(GTK_ENTRY(editor_name_entry[i]),editor_name[i]);
 		gtk_table_attach(GTK_TABLE (table),editor_name_entry[i],1,2,i+1,i+2,
-				 GTK_FILL | GTK_EXPAND, FALSE, 0, 0);
+				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
 		gtk_widget_show(editor_name_entry[i]);
 
 		editor_command_entry[i] = gtk_entry_new();
@@ -1112,7 +1135,7 @@ static void config_window_create(void)
 		tab_completion_add_to_entry(editor_command_entry[i], NULL, NULL);
 		if (editor_command[i]) gtk_entry_set_text(GTK_ENTRY(editor_command_entry[i]), editor_command[i]);
 		gtk_table_attach(GTK_TABLE (table),editor_command_entry[i],2,3,i+1,i+2,
-				 GTK_FILL | GTK_EXPAND, FALSE, 0, 0);
+				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
 		gtk_widget_show(editor_command_entry[i]);
 		}
 
@@ -1226,6 +1249,60 @@ static void config_window_create(void)
 
 	pref_spin_new_int(group, _("Offscreen cache size (Mb per image):"), NULL,
 			  0, 128, 1, tile_cache_max, &tile_cache_max_c);
+
+	group =  pref_group_new(vbox, FALSE, _("Color profiles"), GTK_ORIENTATION_VERTICAL);
+#ifndef HAVE_LCMS
+	gtk_widget_set_sensitive(pref_group_parent(group), FALSE);
+#endif
+
+	table = pref_table_new(group, 3, COLOR_PROFILE_INPUTS + 2, FALSE, FALSE);
+	gtk_table_set_col_spacings(GTK_TABLE(table), PREF_PAD_GAP);
+
+	label = pref_table_label(table, 0, 0, _("Type"), 0.0);
+	pref_label_bold(label, TRUE, FALSE);
+
+	label = pref_table_label(table, 1, 0, _("Menu name"), 0.0);
+	pref_label_bold(label, TRUE, FALSE);
+
+	label = pref_table_label(table, 2, 0, _("File"), 0.0);
+	pref_label_bold(label, TRUE, FALSE);
+
+	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
+		{
+		GtkWidget *entry;
+		gchar *buf;
+
+		buf = g_strdup_printf("Input %d:", i + 1);
+		pref_table_label(table, 0, i + 1, buf, 1.0);
+		g_free(buf);
+
+		entry = gtk_entry_new();
+		gtk_entry_set_max_length(GTK_ENTRY(entry), EDITOR_NAME_MAX_LENGTH);
+		gtk_widget_set_size_request(editor_name_entry[i], 30, -1);
+		if (color_profile_input_name[i]) gtk_entry_set_text(GTK_ENTRY(entry), color_profile_input_name[i]);
+		gtk_table_attach(GTK_TABLE(table), entry, 1, 2, i + 1, i + 2,
+				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
+		gtk_widget_show(entry);
+		color_profile_input_name_entry[i] = entry;
+
+		tabcomp = tab_completion_new(&entry, color_profile_input_file[i], NULL, NULL);
+		tab_completion_add_select_button(entry, _("Select color profile"), FALSE);
+		gtk_widget_set_size_request(entry, 160, -1);
+		gtk_table_attach(GTK_TABLE(table), tabcomp, 2, 3, i + 1, i + 2,
+				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
+		gtk_widget_show(tabcomp);
+		color_profile_input_file_entry[i] = entry;
+		}
+
+	pref_table_label(table, 0, COLOR_PROFILE_INPUTS + 1, _("Screen:"), 1.0);
+	tabcomp = tab_completion_new(&color_profile_screen_file_entry,
+				     color_profile_screen_file, NULL, NULL);
+	tab_completion_add_select_button(color_profile_screen_file_entry, _("Select color profile"), FALSE);
+	gtk_widget_set_size_request(color_profile_screen_file_entry, 160, -1);
+	gtk_table_attach(GTK_TABLE(table), tabcomp, 2, 3,
+			 COLOR_PROFILE_INPUTS + 1, COLOR_PROFILE_INPUTS + 2,
+			 GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_widget_show(tabcomp);
 
 	gtk_widget_show(notebook);
 

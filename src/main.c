@@ -1127,6 +1127,12 @@ static void setup_default_options(void)
 
 	g_free(safe_delete_path);
 	safe_delete_path = concat_dir_and_file(homedir(), GQVIEW_RC_DIR_TRASH);
+
+	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
+		{
+		color_profile_input_file[i] = NULL;
+		color_profile_input_name[i] = NULL;
+		}
 }
 
 static void exit_gqview_final(void)
@@ -1160,6 +1166,11 @@ static void exit_gqview_final(void)
 				  &float_window_w, &float_window_h, &float_window_divider);
 	layout_tools_float_get(NULL, &tools_float, &tools_hidden);
 	toolbar_hidden = layout_toolbar_hidden(NULL);
+
+	color_profile_enabled = layout_image_color_profile_get_use(NULL);
+	layout_image_color_profile_get(NULL,
+				       &color_profile_input_type, &color_profile_screen_type,
+				       &color_profile_use_image);
 
 	save_options();
 	keys_save();

@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -1140,6 +1140,46 @@ void layout_image_refresh(LayoutWindow *lw)
 	image_reload(lw->image);
 }
 
+void layout_image_color_profile_set(LayoutWindow *lw,
+				    gint input_type, gint screen_type,
+				    gint use_image)
+{
+	if (!layout_valid(&lw)) return;
+
+	image_color_profile_set(lw->image, input_type, screen_type, use_image);
+}
+
+gint layout_image_color_profile_get(LayoutWindow *lw,
+				    gint *input_type, gint *screen_type,
+				    gint *use_image)
+{
+	if (!layout_valid(&lw)) return FALSE;
+
+	return image_color_profile_get(lw->image, input_type, screen_type, use_image);
+}
+
+void layout_image_color_profile_set_use(LayoutWindow *lw, gint enable)
+{
+	if (!layout_valid(&lw)) return;
+
+	image_color_profile_set_use(lw->image, enable);
+
+	if (lw->info_color)
+		{
+#ifndef HAVE_LCMS
+		enable = FALSE;
+#endif
+		gtk_widget_set_sensitive(GTK_BIN(lw->info_color)->child, enable);
+		}
+}
+
+gint layout_image_color_profile_get_use(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return FALSE;
+
+	return image_color_profile_get_use(lw->image);
+}
+
 /*
  *----------------------------------------------------------------------------
  * list walkers
@@ -1393,6 +1433,11 @@ GtkWidget *layout_image_new(LayoutWindow *lw, const gchar *path)
 		image_attach_window(lw->image, lw->window, NULL, "GQview", FALSE);
 
 		image_auto_refresh(lw->image, 0);
+
+		image_color_profile_set(lw->image,
+					color_profile_input_type, color_profile_screen_type,
+					color_profile_use_image);
+		image_color_profile_set_use(lw->image, color_profile_enabled);
 		}
 
 	return lw->image->widget;

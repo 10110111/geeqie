@@ -74,6 +74,8 @@ gqview_SOURCES = \
 	collect-io.h	\
 	collect-table.c	\
 	collect-table.h	\
+	color-man.c	\
+	color-man.h	\
 	dnd.c		\
 	dnd.h		\
 	dupe.c		\
@@ -164,7 +166,7 @@ gqview_SOURCES = \
 	view_file_icon.c	\
 	view_file_icon.h
 
-gqview_LDADD = $(GTK_LIBS) $(INTLLIBS)
+gqview_LDADD = $(GTK_LIBS) $(INTLLIBS) $(LCMS_LIBS)
 
 EXTRA_DIST = \
 	$(extra_SLIK)

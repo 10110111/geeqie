@@ -117,3 +117,13 @@ gint lazy_image_sync = FALSE;
 gint update_on_time_change = TRUE;
 gint exif_rotate_enable = FALSE;
 
+/* color profiles */
+gint color_profile_enabled = FALSE;
+gint color_profile_input_type = 0;
+gchar *color_profile_input_file[COLOR_PROFILE_INPUTS];
+gchar *color_profile_input_name[COLOR_PROFILE_INPUTS];
+gint color_profile_screen_type = 0;
+gchar *color_profile_screen_file = NULL;
+gint color_profile_use_image = TRUE;
+
+

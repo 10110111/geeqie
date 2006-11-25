@@ -79,6 +79,8 @@
 
 #define GQVIEW_EDITOR_SLOTS 10
 
+#define COLOR_PROFILE_INPUTS 4
+
 /*
  *----------------------------------------------------------------------------
  * globals
@@ -193,6 +195,14 @@ extern gint tree_descend_subdirs;
 extern gint lazy_image_sync;
 extern gint update_on_time_change;
 extern gint exif_rotate_enable;
+
+extern gint color_profile_enabled;
+extern gint color_profile_input_type;
+extern gchar *color_profile_input_file[];
+extern gchar *color_profile_input_name[];
+extern gint color_profile_screen_type;
+extern gchar *color_profile_screen_file;
+extern gint color_profile_use_image;
 
 /*
  *----------------------------------------------------------------------------

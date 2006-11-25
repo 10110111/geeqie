@@ -306,6 +306,8 @@ static void vflist_pop_menu_sort_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFileList *vfl;
 	SortType type;
+
+	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) return;
 	
 	vfl = submenu_item_get_data(widget);
 	if (!vfl) return;

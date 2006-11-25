@@ -16,6 +16,7 @@
 
 #include "image-load.h"
 #include "collect.h"
+#include "color-man.h"
 #include "exif.h"
 #include "pixbuf-renderer.h"
 #include "pixbuf_util.h"
@@ -43,6 +44,7 @@ static GList *image_list = NULL;
 
 
 static void image_update_title(ImageWindow *imd);
+static void image_post_process(ImageWindow *imd, gint clamp);
 
 /*
  *-------------------------------------------------------------------
@@ -247,9 +249,94 @@ static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp, gint 
 		}
 }
 
+static void image_post_process_color_cb(ColorMan *cm, ColorManReturnType type, gpointer data)
+{
+	ImageWindow *imd = data;
+
+	color_man_free((ColorMan *)imd->cm);
+	imd->cm = NULL;
+	imd->state |= IMAGE_STATE_COLOR_ADJ;
+
+	if (type != COLOR_RETURN_IMAGE_CHANGED)
+		{
+		image_post_process(imd, FALSE);
+		}
+}
+
+static gint image_post_process_color(ImageWindow *imd, gint start_row)
+{
+	ColorMan *cm;
+	ColorManProfileType input_type;
+	ColorManProfileType screen_type;
+	const gchar *input_file;
+	const gchar *screen_file;
+
+	if (imd->cm) return FALSE;
+
+	if (imd->color_profile_input >= 1 &&
+	    imd->color_profile_input <= COLOR_PROFILE_INPUTS)
+		{
+		gint n;
+
+		n = imd->color_profile_input - 1;
+		if (!color_profile_input_file[n]) return FALSE;
+
+		input_type = COLOR_PROFILE_FILE;
+		input_file = color_profile_input_file[n];
+		}
+	else if (imd->color_profile_input == 0)
+		{
+		input_type = COLOR_PROFILE_SRGB;
+		input_file = NULL;
+		}
+	else
+		{
+		return FALSE;
+		}
+
+	if (imd->color_profile_screen == 1 &&
+	    color_profile_screen_file)
+		{
+		screen_type = COLOR_PROFILE_FILE;
+		screen_file = color_profile_screen_file;
+		}
+	else if (imd->color_profile_screen == 0)
+		{
+		screen_type = COLOR_PROFILE_SRGB;
+		screen_file = NULL;
+		}
+	else
+		{
+		return FALSE;
+		}
+
+	cm = color_man_new(imd,
+			   input_type, input_file,
+			   screen_type, screen_file,
+			   image_post_process_color_cb, imd);
+	if (cm)
+		{
+		if (start_row > 0) cm->row = start_row;
+
+		imd->cm = (gpointer)cm;
+		return TRUE;
+		}
+
+	return FALSE;
+}
+
 static void image_post_process(ImageWindow *imd, gint clamp)
 {
 	gint exif_rotated = FALSE;
+
+	if (imd->color_profile_enable &&
+	    !(imd->state & IMAGE_STATE_COLOR_ADJ))
+		{
+		if (image_post_process_color(imd, 0)) return;
+
+		/* fixme: note error to user */
+		imd->state |= IMAGE_STATE_COLOR_ADJ;
+		}
 
 	if (exif_rotate_enable && image_get_pixbuf(imd))
 		{
@@ -405,7 +492,7 @@ static void image_read_ahead_set(ImageWindow *imd, const gchar *path)
  *-------------------------------------------------------------------
  */
 
-static void image_post_buffer_set(ImageWindow *imd, const gchar *path, GdkPixbuf *pixbuf)
+static void image_post_buffer_set(ImageWindow *imd, const gchar *path, GdkPixbuf *pixbuf, gint color_row)
 {
 	g_free(imd->prev_path);
 	if (imd->prev_pixbuf) g_object_unref(imd->prev_pixbuf);
@@ -416,11 +503,13 @@ static void image_post_buffer_set(ImageWindow *imd, const gchar *path, GdkPixbuf
 			
 		g_object_ref(pixbuf);
 		imd->prev_pixbuf = pixbuf;
+		imd->prev_color_row = color_row;
 		}
 	else
 		{
 		imd->prev_path = NULL;
 		imd->prev_pixbuf = NULL;
+		imd->prev_color_row = -1;
 		}
 
 	if (debug) printf("post buffer set: %s\n", path);
@@ -434,6 +523,10 @@ static gint image_post_buffer_get(ImageWindow *imd)
 	    imd->image_path && imd->prev_path && strcmp(imd->image_path, imd->prev_path) == 0)
 		{
 		image_change_pixbuf(imd, imd->prev_pixbuf, image_zoom_get(imd));
+		if (imd->prev_color_row >= 0)
+			{
+			image_post_process_color(imd, imd->prev_color_row);
+			}
 		success = TRUE;
 		}
 	else
@@ -656,7 +749,12 @@ static void image_reset(ImageWindow *imd)
 	image_loader_free(imd->il);
 	imd->il = NULL;
 
+	color_man_free((ColorMan *)imd->cm);
+	imd->cm = NULL;
+
 	imd->delay_alter_type = ALTER_NONE;
+
+	imd->state = IMAGE_STATE_NONE;
 }
 
 /*
@@ -723,6 +821,7 @@ static void image_change_real(ImageWindow *imd, const gchar *path,
 	GdkPixbuf *prev_pixbuf = NULL;
 	gchar *prev_path = NULL;
 	gint prev_clear = FALSE;
+	gint prev_color_row = -1;
 
 	imd->collection = cd;
 	imd->collection_info = info;
@@ -741,6 +840,14 @@ static void image_change_real(ImageWindow *imd, const gchar *path,
 			prev_path = g_strdup(imd->image_path);
 			prev_pixbuf = pixbuf;
 			g_object_ref(prev_pixbuf);
+
+			if (imd->cm)
+				{
+				ColorMan *cm;
+
+				cm = (ColorMan *)imd->cm;
+				prev_color_row = cm->row;
+				}
 			}
 		}
 
@@ -752,13 +859,13 @@ static void image_change_real(ImageWindow *imd, const gchar *path,
 
 	if (prev_pixbuf)
 		{
-		image_post_buffer_set(imd, prev_path, prev_pixbuf);
+		image_post_buffer_set(imd, prev_path, prev_pixbuf, prev_color_row);
 		g_free(prev_path);
 		g_object_unref(prev_pixbuf);
 		}
 	else if (prev_clear)
 		{
-		image_post_buffer_set(imd, NULL, NULL);
+		image_post_buffer_set(imd, NULL, NULL, -1);
 		}
 
 	image_update_title(imd);
@@ -1040,6 +1147,24 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 		source->delay_alter_type = ALTER_NONE;
 		}
 
+	imd->color_profile_enable = source->color_profile_enable;
+	imd->color_profile_input = source->color_profile_input;
+	imd->color_profile_screen = source->color_profile_screen;
+	imd->color_profile_use_image = source->color_profile_use_image;
+	color_man_free((ColorMan *)imd->cm);
+	imd->cm = NULL;
+	if (source->cm)
+		{
+		ColorMan *cm;
+
+		imd->cm = source->cm;
+		source->cm = NULL;
+
+		cm = (ColorMan *)imd->cm;
+		cm->imd = imd;
+		cm->func_done_data = imd;
+		}
+
 	image_loader_free(imd->read_ahead_il);
 	imd->read_ahead_il = source->read_ahead_il;
 	source->read_ahead_il = NULL;
@@ -1056,12 +1181,16 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	if (imd->prev_pixbuf) g_object_unref(imd->prev_pixbuf);
 	imd->prev_pixbuf = source->prev_pixbuf;
 	source->prev_pixbuf = NULL;
+	imd->prev_color_row = source->prev_color_row;
+	source->prev_color_row = -1;
 
 	g_free(imd->prev_path);
 	imd->prev_path = source->prev_path;
 	source->prev_path = NULL;
 
 	imd->completed = source->completed;
+	imd->state = source->state;
+	source->state = IMAGE_STATE_NONE;
 
 	pixbuf_renderer_move(PIXBUF_RENDERER(imd->pr), PIXBUF_RENDERER(source->pr));
 }
@@ -1095,7 +1224,7 @@ void image_alter(ImageWindow *imd, AlterType type)
 {
 	if (pixbuf_renderer_get_tiles((PixbufRenderer *)imd->pr)) return;
 
-	if (imd->il)
+	if (imd->il || imd->cm)
 		{
 		/* still loading, wait till done */
 		imd->delay_alter_type = type;
@@ -1304,6 +1433,52 @@ void image_background_set_color(ImageWindow *imd, GdkColor *color)
 	pixbuf_renderer_set_color((PixbufRenderer *)imd->pr, color);
 }
 
+void image_color_profile_set(ImageWindow *imd,
+			     gint input_type, gint screen_type,
+			     gint use_image)
+{
+	if (!imd) return;
+
+	if (input_type < 0 || input_type > COLOR_PROFILE_INPUTS ||
+	    screen_type < 0 || screen_type > 1)
+		{
+		return;
+		}
+
+	imd->color_profile_input = input_type;
+	imd->color_profile_screen = screen_type;
+	imd->color_profile_use_image = use_image;
+}
+
+gint image_color_profile_get(ImageWindow *imd,
+			     gint *input_type, gint *screen_type,
+			     gint *use_image)
+{
+	if (!imd) return FALSE;
+
+	if (input_type) *input_type = imd->color_profile_input;
+	if (screen_type) *screen_type = imd->color_profile_screen;
+	if (use_image) *use_image = imd->color_profile_use_image;
+
+	return TRUE;
+}
+
+void image_color_profile_set_use(ImageWindow *imd, gint enable)
+{
+	if (!imd) return;
+
+	if (imd->color_profile_enable == enable) return;
+
+	imd->color_profile_enable = enable;
+}
+
+gint image_color_profile_get_use(ImageWindow *imd)
+{
+	if (!imd) return FALSE;
+
+	return imd->color_profile_enable;
+}
+
 void image_set_delay_flip(ImageWindow *imd, gint delay)
 {
 	if (!imd ||
@@ -1415,7 +1590,7 @@ static void image_free(ImageWindow *imd)
 	image_reset(imd);
 
 	image_read_ahead_cancel(imd);
-	image_post_buffer_set(imd, NULL, NULL);
+	image_post_buffer_set(imd, NULL, NULL, -1);
 	image_auto_refresh(imd, -1);
 
 	g_free(imd->image_path);
@@ -1454,6 +1629,12 @@ ImageWindow *image_new(gint frame)
 	imd->read_ahead_path = NULL;
 
 	imd->completed = FALSE;
+	imd->state = IMAGE_STATE_NONE;
+
+	imd->color_profile_enable = FALSE;
+	imd->color_profile_input = 0;
+	imd->color_profile_screen = 0;
+	imd->color_profile_use_image = FALSE;
 
 	imd->auto_refresh_id = -1;
 	imd->auto_refresh_interval = -1;
