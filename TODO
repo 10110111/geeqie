@@ -22,7 +22,8 @@ d> figure out if crash when expanding a folder in the folder tree view when pess
    > should honor enable_thumbnails setting
 
  > color profiles:
-   > support profiles embedded in images
+  d> support profiles embedded in images
+   > check if clamp arg is handled correct in post_process_*()
    > add support in img-view.c
 
   ---

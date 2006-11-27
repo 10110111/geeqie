@@ -1,3 +1,15 @@
+Mon Nov 27 01:23:23 2006  John Ellis  <johne@verizon.net>
+
+	* bar_exif.c, cache-loader.c, pan-view.c: Pass new arg for exif_read().
+	* color-man.[ch]: Add color_man_new_embedded for using in-memory color
+	profiles.
+	* exif.[ch]: Add support for extracting color profiles embedded in jpeg
+	and tiff images. This resulted in a rewrite of the jpeg parser; both
+	to allow searching for any marker type, and to make the code readable.
+	* format_raw.c: Add color profile tag to the debug code.
+	* image.c, layout.c: Use embedded color profiles when found and
+	enabled, also add toggle for the option in color profile menu.
+
 Fri Nov 24 21:37:01 2006  John Ellis  <johne@verizon.net>
 
 	* configure.in: Add test for lcms (little cms).

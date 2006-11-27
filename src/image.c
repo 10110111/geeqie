@@ -165,15 +165,17 @@ static void image_update_title(ImageWindow *imd)
  *-------------------------------------------------------------------
  */
 
-static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp, gint exif_rotated)
+static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp)
 {
 	PixbufRenderer *pr;
 	GdkPixbuf *new = NULL;
+	gint exif_rotate;
 	gint x, y;
 	gint t;
 
 	pr = (PixbufRenderer *)imd->pr;
 
+	exif_rotate = (imd->delay_alter_type != ALTER_NONE && (imd->state & IMAGE_STATE_ROTATE_AUTO));
 	imd->delay_alter_type = ALTER_NONE;
 
 	if (!pr->pixbuf) return;
@@ -226,7 +228,7 @@ static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp, gint 
 
 	if (clamp && pr->zoom != 0.0 && pr->scale != 0.0)
 		{
-		if (exif_rotated)
+		if (exif_rotate)
 			{
 			switch (pr->scroll_reset)
 				{
@@ -249,6 +251,14 @@ static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp, gint 
 		}
 }
 
+static void image_post_process_alter(ImageWindow *imd, gint clamp)
+{
+	if (imd->delay_alter_type != ALTER_NONE)
+		{
+		image_alter_real(imd, imd->delay_alter_type, clamp);
+		}
+}
+
 static void image_post_process_color_cb(ColorMan *cm, ColorManReturnType type, gpointer data)
 {
 	ImageWindow *imd = data;
@@ -259,17 +269,18 @@ static void image_post_process_color_cb(ColorMan *cm, ColorManReturnType type, g
 
 	if (type != COLOR_RETURN_IMAGE_CHANGED)
 		{
-		image_post_process(imd, FALSE);
+		image_post_process_alter(imd, FALSE);
 		}
 }
 
-static gint image_post_process_color(ImageWindow *imd, gint start_row)
+static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData *exif)
 {
 	ColorMan *cm;
 	ColorManProfileType input_type;
 	ColorManProfileType screen_type;
 	const gchar *input_file;
 	const gchar *screen_file;
+	ExifItem *item = NULL;
 
 	if (imd->cm) return FALSE;
 
@@ -310,10 +321,27 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row)
 		return FALSE;
 		}
 
-	cm = color_man_new(imd,
-			   input_type, input_file,
-			   screen_type, screen_file,
-			   image_post_process_color_cb, imd);
+	if (imd->color_profile_use_image && exif)
+		{
+		item = exif_get_item(exif, "ColorProfile");
+		}
+	if (item && item->format == EXIF_FORMAT_UNDEFINED)
+		{
+		if (debug) printf("Found embedded color profile\n");
+
+		cm = color_man_new_embedded(imd,
+					    item->data, item->data_len,
+					    screen_type, screen_file,
+					    image_post_process_color_cb, imd);
+		}
+	else
+		{
+		cm = color_man_new(imd,
+				   input_type, input_file,
+				   screen_type, screen_file,
+				   image_post_process_color_cb, imd);
+		}
+
 	if (cm)
 		{
 		if (start_row > 0) cm->row = start_row;
@@ -327,25 +355,24 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row)
 
 static void image_post_process(ImageWindow *imd, gint clamp)
 {
-	gint exif_rotated = FALSE;
+	ExifData *exif = NULL;
 
-	if (imd->color_profile_enable &&
-	    !(imd->state & IMAGE_STATE_COLOR_ADJ))
+	if (!image_get_pixbuf(imd)) return;
+
+	if (exif_rotate_enable ||
+	    (imd->color_profile_enable && imd->color_profile_use_image) )
 		{
-		if (image_post_process_color(imd, 0)) return;
-
-		/* fixme: note error to user */
-		imd->state |= IMAGE_STATE_COLOR_ADJ;
+		exif = exif_read(imd->image_path, (imd->color_profile_enable && imd->color_profile_use_image));
 		}
 
-	if (exif_rotate_enable && image_get_pixbuf(imd))
+	if (exif_rotate_enable && exif)
 		{
-		ExifData *ed;
 		gint orientation;
 
-		ed = exif_read(imd->image_path);
-		if (ed && exif_get_integer(ed, "Orientation", &orientation))
+		if (exif_get_integer(exif, "Orientation", &orientation))
 			{
+			gint rotate = TRUE;
+
 			/* see http://jpegclub.org/exif_orientation.html 
 			  1        2       3      4         5            6           7          8
 
@@ -355,55 +382,62 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 			88          88      88  88
 			88          88  888888  888888
 			*/
-
 			switch (orientation)
 				{
 				case EXIF_ORIENTATION_TOP_LEFT:
 					/* normal -- nothing to do */
+					rotate = FALSE;
 					break;
 				case EXIF_ORIENTATION_TOP_RIGHT:
 					/* mirrored */
 					imd->delay_alter_type = ALTER_MIRROR;
-					exif_rotated = TRUE;
 					break;
 				case EXIF_ORIENTATION_BOTTOM_RIGHT:
 					/* upside down */
 					imd->delay_alter_type = ALTER_ROTATE_180;
-					exif_rotated = TRUE;
 					break;
 				case EXIF_ORIENTATION_BOTTOM_LEFT:
 					/* flipped */
 					imd->delay_alter_type = ALTER_FLIP;
-					exif_rotated = TRUE;
 					break;
 				case EXIF_ORIENTATION_LEFT_TOP:
 					/* not implemented -- too wacky to fix in one step */
+					rotate = FALSE;
 					break;
 				case EXIF_ORIENTATION_RIGHT_TOP:
 					/* rotated -90 (270) */
 					imd->delay_alter_type = ALTER_ROTATE_90;
-					exif_rotated = TRUE;
 					break;
 				case EXIF_ORIENTATION_RIGHT_BOTTOM:
 					/* not implemented -- too wacky to fix in one step */
+					rotate = FALSE;
 					break;
 				case EXIF_ORIENTATION_LEFT_BOTTOM:
 					/* rotated 90 */
 					imd->delay_alter_type = ALTER_ROTATE_90_CC;
-					exif_rotated = TRUE;
 					break;
 				default:
 					/* The other values are out of range */
+					rotate = FALSE;
 					break;
 				}
+
+			if (rotate) imd->state |= IMAGE_STATE_COLOR_ADJ;
 			}
-		exif_free(ed);
 		}
 
-	if (imd->delay_alter_type != ALTER_NONE)
+	if (imd->color_profile_enable)
 		{
-		image_alter_real(imd, imd->delay_alter_type, clamp, exif_rotated);
+		if (!image_post_process_color(imd, 0, exif))
+			{
+			/* fixme: note error to user */
+			imd->state |= IMAGE_STATE_COLOR_ADJ;
+			}
 		}
+
+	if (!imd->cm) image_post_process_alter(imd, clamp);
+
+	exif_free(exif);
 }
 
 /*
@@ -525,7 +559,11 @@ static gint image_post_buffer_get(ImageWindow *imd)
 		image_change_pixbuf(imd, imd->prev_pixbuf, image_zoom_get(imd));
 		if (imd->prev_color_row >= 0)
 			{
-			image_post_process_color(imd, imd->prev_color_row);
+			ExifData *exif = NULL;
+
+			if (imd->color_profile_use_image) exif = exif_read(imd->image_path, TRUE);
+			image_post_process_color(imd, imd->prev_color_row, exif);
+			exif_free(exif);
 			}
 		success = TRUE;
 		}
@@ -1228,10 +1266,16 @@ void image_alter(ImageWindow *imd, AlterType type)
 		{
 		/* still loading, wait till done */
 		imd->delay_alter_type = type;
+		imd->state |= IMAGE_STATE_ROTATE_USER;
+
+		if (imd->cm && (imd->state & IMAGE_STATE_ROTATE_AUTO))
+			{
+			imd->state &= ~IMAGE_STATE_ROTATE_AUTO;
+			}
 		return;
 		}
 
-	image_alter_real(imd, type, TRUE, FALSE);
+	image_alter_real(imd, type, TRUE);
 }
 
 void image_zoom_adjust(ImageWindow *imd, gdouble increment)

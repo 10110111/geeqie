@@ -1,6 +1,6 @@
 /*
  *  GQView
- *  (C) 2004 John Ellis
+ *  (C) 2006 John Ellis
  *
  *  Authors:
  *    Support for Exif file format, originally written by Eric Swalens.    
@@ -176,7 +176,7 @@ extern ExifFormattedText ExifFormattedList[];
  *-----------------------------------------------------------------------------
  */
 
-ExifData *exif_read(const gchar *path);
+ExifData *exif_read(const gchar *path, gint parse_color_profile);
 void exif_free(ExifData *exif);
 
 gchar *exif_get_data_as_text(ExifData *exif, const gchar *key);

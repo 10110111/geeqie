@@ -171,7 +171,7 @@ static void bar_exif_update(ExifBar *eb)
 	ExifData *exif;
 	gint len, i;
 
-	exif = exif_read(eb->path);
+	exif = exif_read(eb->path, FALSE);
 
 	if (!exif)
 		{

@@ -316,6 +316,16 @@ static void layout_color_menu_enable_cb(GtkWidget *widget, gpointer data)
 	layout_image_refresh(lw);
 }
 
+static void layout_color_menu_use_image_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint input, screen, use_image;
+
+	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
+	layout_image_color_profile_set(lw, input, screen, !use_image);
+	layout_image_refresh(lw);
+}
+
 #define COLOR_MENU_KEY "color_menu_key"
 
 static void layout_color_menu_input_cb(GtkWidget *widget, gpointer data)
@@ -401,6 +411,10 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 			    G_CALLBACK(layout_color_menu_enable_cb), lw);
 
 	menu_item_add_divider(menu);
+
+	item = menu_item_add_check(menu, _("Use profile from _image"), use_image,
+			    G_CALLBACK(layout_color_menu_use_image_cb), lw);
+	gtk_widget_set_sensitive(item, active);
 
 	front = g_strdup_printf(_("Input _%d:"), 0);
 	buf = g_strdup_printf("%s %s", front, "sRGB");

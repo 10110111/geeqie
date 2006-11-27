@@ -481,6 +481,10 @@ static void format_debug_tiff_entry(unsigned char *data, const guint len, guint 
 			format_debug_tiff_table(data, len, subset, bo, level + 1);
 			}
 		}
+	else if (tag == 0x8773 && type == EXIF_FORMAT_UNDEFINED)
+		{
+		printf("%*s~~~ found ICC color profile at offset %d, length %d\n", level, "", segment, seg_len);
+		}
 	else if (tag == 0x201 && (type == EXIF_FORMAT_LONG_UNSIGNED || type == EXIF_FORMAT_LONG))
 		{
 		guint subset = exif_byte_get_int32(data + segment, bo);

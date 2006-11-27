@@ -123,7 +123,7 @@ static gboolean cache_loader_process(CacheLoader *cl)
 		time_t date = -1;
 		ExifData *exif;
 
-		exif = exif_read(cl->path);
+		exif = exif_read(cl->path, FALSE);
 		if (exif)
 			{
 			gchar *text;

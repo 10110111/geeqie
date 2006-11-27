@@ -17,6 +17,7 @@ typedef enum {
 	COLOR_PROFILE_NONE = 0,
 	COLOR_PROFILE_FILE,
 	COLOR_PROFILE_SRGB,
+	COLOR_PROFILE_MEM
 } ColorManProfileType;
 
 typedef enum {
@@ -47,6 +48,10 @@ ColorMan *color_man_new(ImageWindow *imd,
 			ColorManProfileType input_type, const gchar *input_file,
 			ColorManProfileType screen_type, const gchar *screen_file,
 			ColorManDoneFunc done_func, gpointer done_data);
+ColorMan *color_man_new_embedded(ImageWindow *imd,
+				 unsigned char *input_data, guint input_data_len,
+				 ColorManProfileType screen_type, const gchar *screen_file,
+				 ColorManDoneFunc done_func, gpointer done_data);
 void color_man_free(ColorMan *cm);
 
 void color_man_update(void);
