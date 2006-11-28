@@ -1,3 +1,9 @@
+Tue Nov 28 13:17:18 2006  John Ellis  <johne@verizon.net>
+
+	* image.c: When resuming a previous color adjustment, set the display
+	to update incrementally to avoid user confusion of why half of image
+	is color adjusted.
+
 Tue Nov 28 11:54:30 2006  John Ellis  <johne@verizon.net>
 
 	* color-man.[ch]: Allow color manager to work with GdkPixbufs not

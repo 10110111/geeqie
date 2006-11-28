@@ -364,7 +364,11 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 
 	if (cm)
 		{
-		if (start_row > 0) cm->row = start_row;
+		if (start_row > 0)
+			{
+			cm->row = start_row;
+			cm->incremental_sync = TRUE;
+			}
 
 		imd->cm = (gpointer)cm;
 		return TRUE;
