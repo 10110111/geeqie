@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2005 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -45,6 +45,7 @@ static GList *image_list = NULL;
 
 static void image_update_title(ImageWindow *imd);
 static void image_post_process(ImageWindow *imd, gint clamp);
+static void image_read_ahead_start(ImageWindow *imd);
 
 /*
  *-------------------------------------------------------------------
@@ -263,14 +264,19 @@ static void image_post_process_color_cb(ColorMan *cm, ColorManReturnType type, g
 {
 	ImageWindow *imd = data;
 
-	color_man_free((ColorMan *)imd->cm);
+	color_man_free(cm);
+	if (type == COLOR_RETURN_IMAGE_CHANGED)
+		{
+		if (cm == imd->cm) imd->cm = NULL;
+		return;
+		}
+
 	imd->cm = NULL;
 	imd->state |= IMAGE_STATE_COLOR_ADJ;
 
-	if (type != COLOR_RETURN_IMAGE_CHANGED)
-		{
-		image_post_process_alter(imd, FALSE);
-		}
+	image_post_process_alter(imd, FALSE);
+
+	image_read_ahead_start(imd);
 }
 
 static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData *exif)
@@ -324,19 +330,33 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 	if (imd->color_profile_use_image && exif)
 		{
 		item = exif_get_item(exif, "ColorProfile");
+		if (!item)
+			{
+			gint cs;
+
+			/* ColorSpace == 1 specifies sRGB per EXIF 2.2 */
+			if (exif_get_integer(exif, "ColorSpace", &cs) &&
+			    cs == 1)
+				{
+				input_type = COLOR_PROFILE_SRGB;
+				input_file = NULL;
+
+				if (debug) printf("Found EXIF ColorSpace of sRGB\n");
+				}
+			}
 		}
 	if (item && item->format == EXIF_FORMAT_UNDEFINED)
 		{
 		if (debug) printf("Found embedded color profile\n");
 
-		cm = color_man_new_embedded(imd,
+		cm = color_man_new_embedded(imd, NULL,
 					    item->data, item->data_len,
 					    screen_type, screen_file,
 					    image_post_process_color_cb, imd);
 		}
 	else
 		{
-		cm = color_man_new(imd,
+		cm = color_man_new(imd, NULL,
 				   input_type, input_file,
 				   screen_type, screen_file,
 				   image_post_process_color_cb, imd);
@@ -493,7 +513,7 @@ static void image_read_ahead_start(ImageWindow *imd)
 	if (!imd->read_ahead_path || imd->read_ahead_il || imd->read_ahead_pixbuf) return;
 
 	/* still loading ?, do later */
-	if (imd->il) return;
+	if (imd->il || imd->cm) return;
 
 	if (debug) printf("read ahead started for :%s\n", imd->read_ahead_path);
 

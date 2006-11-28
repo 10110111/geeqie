@@ -2341,7 +2341,7 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 	pref_table_label(table, 0, 1, _("New name:"), 1.0);
 
 	rd->rename_entry = gtk_entry_new();
-	gtk_table_attach(GTK_TABLE(table), rd->rename_entry, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, FALSE, 0, 0);
+	gtk_table_attach(GTK_TABLE(table), rd->rename_entry, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	generic_dialog_attach_default(GENERIC_DIALOG(rd->fd), rd->rename_entry);
 	gtk_widget_grab_focus(rd->rename_entry);
 
@@ -2519,7 +2519,7 @@ static void file_util_rename_single_do(const gchar *source_path, GtkWidget *pare
 	pref_table_label(table, 0, 1, _("New name:"), 1.0);
 
 	fd->entry = gtk_entry_new();
-	gtk_table_attach(GTK_TABLE(table), fd->entry, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, FALSE, 0, 0);
+	gtk_table_attach(GTK_TABLE(table), fd->entry, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	generic_dialog_attach_default(GENERIC_DIALOG(fd), fd->entry);
 	gtk_widget_grab_focus(fd->entry);
 

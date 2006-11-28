@@ -1,3 +1,16 @@
+Tue Nov 28 11:54:30 2006  John Ellis  <johne@verizon.net>
+
+	* color-man.[ch]: Allow color manager to work with GdkPixbufs not
+	linked to an ImageWindow. Fix missing embedded dummy function when
+	compiling without color profile support.
+	* image.c: When embedded color profiles is enabled and EXIF ColorSpace
+	is set to 1 use sRGB color profile for the image. Also fixed order of
+	starting the image read-ahead when color profiles are in use.
+	* typedefs.h (ImageWindow): Use gpointer definition correctly so that
+	cm is a pointer and not a pointer to a pointer.
+	* utilops.c: Pass 0 to vertical fill arg of gtk_table_attach() instead
+	of FALSE.
+
 Mon Nov 27 01:23:23 2006  John Ellis  <johne@verizon.net>
 
 	* bar_exif.c, cache-loader.c, pan-view.c: Pass new arg for exif_read().

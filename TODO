@@ -23,7 +23,7 @@ d> figure out if crash when expanding a folder in the folder tree view when pess
 
  > color profiles:
   d> support profiles embedded in images
-   > check if clamp arg is handled correct in post_process_*()
+  d> check if clamp arg is handled correct in post_process_*()
    > add support in img-view.c
 
   ---
@@ -117,14 +117,10 @@ d> figure out if crash when expanding a folder in the folder tree view when pess
 Minor (non blockers):
 ----------------------------------------------
 
-d> update icon used for window to the (not so) new icon
-
  > fix gtk_table_attach use to not use FALSE for fill vertical arg.
 
  > xv and xpaint are hardly used or even installed by any distro anymore - time
    to remove these (and find alternates?) seems silly to only have gimp.
-
-d> update .desktop MimeType list to match Fedora's patch for missing formats
 
  > allow editor commands to be interrupted (via SIGTERM?)
  > fix hanging editor commands that await user input (how to handle, or even detect this?)
@@ -134,8 +130,6 @@ d> update .desktop MimeType list to match Fedora's patch for missing formats
  > do not lose slideshow when reworking window layout.
 
  > fix printing of transparent images to not use black for transparency (white or user settable).
-
-d> add [shift]+G to display as greyscale
 
  > fix comment field in keywords bar to a height of 2 or 3 text lines.
 
@@ -152,8 +146,6 @@ Wishlist?:
 
  > Initiating full screen from the command line should not
    show main window until full screen is exited.
-
-d> add --geometry suipport
 
  > Add shortcut to jump to next folder within parent folder.
 

@@ -33,6 +33,7 @@ typedef void (* ColorManDoneFunc)(ColorMan *cm, ColorManReturnType success, gpoi
 struct _ColorMan {
 	ImageWindow *imd;
 	GdkPixbuf *pixbuf;
+	gint incremental_sync;
 	gint row;
 
 	gpointer profile;
@@ -44,11 +45,11 @@ struct _ColorMan {
 };
 
 
-ColorMan *color_man_new(ImageWindow *imd,
+ColorMan *color_man_new(ImageWindow *imd, GdkPixbuf *pixbuf,
 			ColorManProfileType input_type, const gchar *input_file,
 			ColorManProfileType screen_type, const gchar *screen_file,
 			ColorManDoneFunc done_func, gpointer done_data);
-ColorMan *color_man_new_embedded(ImageWindow *imd,
+ColorMan *color_man_new_embedded(ImageWindow *imd, GdkPixbuf *pixbuf,
 				 unsigned char *input_data, guint input_data_len,
 				 ColorManProfileType screen_type, const gchar *screen_file,
 				 ColorManDoneFunc done_func, gpointer done_data);

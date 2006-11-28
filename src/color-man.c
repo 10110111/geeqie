@@ -302,7 +302,7 @@ static void color_man_correct_region(ColorMan *cm, gint x, gint y, gint w, gint 
 		cmsDoTransform(cc->transform, pbuf, pbuf, w);
 		}
 
-	image_area_changed(cm->imd, x, y, w, h);
+	if (cm->incremental_sync && cm->imd) image_area_changed(cm->imd, x, y, w, h);
 }
 
 static gint color_man_idle_cb(gpointer data)
@@ -311,7 +311,8 @@ static gint color_man_idle_cb(gpointer data)
 	gint width, height;
 	gint rh;
 
-	if (cm->pixbuf != image_get_pixbuf(cm->imd))
+	if (cm->imd &&
+	    cm->pixbuf != image_get_pixbuf(cm->imd))
 		{
 		cm->idle_id = -1;
 		color_man_done(cm, COLOR_RETURN_IMAGE_CHANGED);
@@ -323,6 +324,11 @@ static gint color_man_idle_cb(gpointer data)
 
 	if (cm->row > height)
 		{
+		if (!cm->incremental_sync && cm->imd)
+			{
+			image_area_changed(cm->imd, 0, 0, width, height);
+			}
+
 		cm->idle_id = -1;
 		color_man_done(cm, COLOR_RETURN_SUCCESS);
 		return FALSE;
@@ -335,24 +341,24 @@ static gint color_man_idle_cb(gpointer data)
 	return TRUE;
 }
 
-static ColorMan *color_man_new_real(ImageWindow *imd,
+static ColorMan *color_man_new_real(ImageWindow *imd, GdkPixbuf *pixbuf,
 				    ColorManProfileType input_type, const gchar *input_file,
 				    unsigned char *input_data, guint input_data_len,
 				    ColorManProfileType screen_type, const gchar *screen_file,
 				    ColorManDoneFunc done_func, gpointer done_data)
 {
 	ColorMan *cm;
-	GdkPixbuf *pixbuf;
 	gint has_alpha;
 
-	if (!imd) return NULL;
-
-	pixbuf = image_get_pixbuf(imd);
+	if (imd) pixbuf = image_get_pixbuf(imd);
 	if (!pixbuf) return NULL;
 
 	cm = g_new0(ColorMan, 1);
 	cm->imd = imd;
 	cm->pixbuf = pixbuf;
+	g_object_ref(cm->pixbuf);
+
+	cm->incremental_sync = FALSE;
 	cm->row = 0;
 	cm->idle_id = -1;
 
@@ -373,23 +379,23 @@ static ColorMan *color_man_new_real(ImageWindow *imd,
 	return cm;
 }
 
-ColorMan *color_man_new(ImageWindow *imd,
+ColorMan *color_man_new(ImageWindow *imd, GdkPixbuf *pixbuf,
 			ColorManProfileType input_type, const gchar *input_file,
 			ColorManProfileType screen_type, const gchar *screen_file,
 			ColorManDoneFunc done_func, gpointer done_data)
 {
-	return color_man_new_real(imd,
+	return color_man_new_real(imd, pixbuf,
 				  input_type, input_file, NULL, 0,
 				  screen_type, screen_file,
 				  done_func, done_data);
 }
 
-ColorMan *color_man_new_embedded(ImageWindow *imd,
+ColorMan *color_man_new_embedded(ImageWindow *imd, GdkPixbuf *pixbuf,
 				 unsigned char *input_data, guint input_data_len,
 				 ColorManProfileType screen_type, const gchar *screen_file,
 				 ColorManDoneFunc done_func, gpointer done_data)
 {
-	return color_man_new_real(imd,
+	return color_man_new_real(imd, pixbuf,
 				  COLOR_PROFILE_MEM, NULL, input_data, input_data_len,
 				  screen_type, screen_file,
 				  done_func, done_data);
@@ -400,6 +406,7 @@ void color_man_free(ColorMan *cm)
 	if (!cm) return;
 
 	if (cm->idle_id != -1) g_source_remove(cm->idle_id);
+	if (cm->pixbuf) g_object_unref(cm->pixbuf);
 
 	color_man_cache_unref(cm->profile);
 
@@ -415,10 +422,19 @@ void color_man_update(void)
 /*** color support not enabled ***/
 
 
-ColorMan *color_man_new(ImageWindow *imd,
+ColorMan *color_man_new(ImageWindow *imd, GdkPixbuf *pixbuf,
 			ColorManProfileType input_type, const gchar *input_file,
 			ColorManProfileType screen_type, const gchar *screen_file,
 			ColorManDoneFunc don_func, gpointer done_data)
+{
+	/* no op */
+	return NULL;
+}
+
+ColorMan *color_man_new_embedded(ImageWindow *imd, GdkPixbuf *pixbuf,
+				 unsigned char *input_data, guint input_data_len,
+				 ColorManProfileType screen_type, const gchar *screen_file,
+				 ColorManDoneFunc done_func, gpointer done_data)
 {
 	/* no op */
 	return NULL;

@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -289,7 +289,7 @@ struct _ImageWindow
 	gint color_profile_input;
 	gint color_profile_screen;
 	gint color_profile_use_image;
-	gpointer *cm;
+	gpointer cm;
 
 	AlterType delay_alter_type;
 
