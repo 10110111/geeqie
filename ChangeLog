@@ -1,3 +1,12 @@
+Wed Nov 29 14:28:30 2006  John Ellis  <johne@verizon.net>
+
+	* image-overlay.[ch]: Rewrite most of the information overlay code to
+	be more flexible and easily extended.
+	* image.[ch], typedefs.h: Remove image_new_func, and replace it with
+	image_state_func callback which is much more informative.
+	* img-view.c, layout.c, layout_image.c: Updates for new image overlay
+	function names.
+
 Tue Nov 28 13:17:18 2006  John Ellis  <johne@verizon.net>
 
 	* image.c: When resuming a previous color adjustment, set the display

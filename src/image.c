@@ -111,9 +111,23 @@ static void image_render_complete_cb(PixbufRenderer *pr, gpointer data)
 	image_complete_util(imd, FALSE);
 }
 
-static void image_new_util(ImageWindow *imd)
+static void image_state_set(ImageWindow *imd, ImageState state)
 {
-	if (imd->func_new) imd->func_new(imd, imd->data_new);
+	if (state == IMAGE_STATE_NONE)
+		{
+		imd->state = state;
+		}
+	else
+		{
+		imd->state |= state;
+		}
+	if (imd->func_state) imd->func_state(imd, state, imd->data_state);
+}
+
+static void image_state_unset(ImageWindow *imd, ImageState state)
+{
+	imd->state &= ~state;
+	if (imd->func_state) imd->func_state(imd, state, imd->data_state);
 }
 
 /*
@@ -272,7 +286,7 @@ static void image_post_process_color_cb(ColorMan *cm, ColorManReturnType type, g
 		}
 
 	imd->cm = NULL;
-	imd->state |= IMAGE_STATE_COLOR_ADJ;
+	image_state_set(imd, IMAGE_STATE_COLOR_ADJ);
 
 	image_post_process_alter(imd, FALSE);
 
@@ -446,7 +460,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 					break;
 				}
 
-			if (rotate) imd->state |= IMAGE_STATE_COLOR_ADJ;
+			if (rotate) image_state_set(imd, IMAGE_STATE_COLOR_ADJ);
 			}
 		}
 
@@ -455,7 +469,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 		if (!image_post_process_color(imd, 0, exif))
 			{
 			/* fixme: note error to user */
-			imd->state |= IMAGE_STATE_COLOR_ADJ;
+			image_state_set(imd, IMAGE_STATE_COLOR_ADJ);
 			}
 		}
 
@@ -643,6 +657,7 @@ static void image_load_done_cb(ImageLoader *il, gpointer data)
 	if (debug) printf ("image done\n");
 
 	g_object_set(G_OBJECT(imd->pr), "loading", FALSE, NULL);
+	image_state_unset(imd, IMAGE_STATE_LOADING);
 
 	if (imd->delay_flip &&
 	    image_get_pixbuf(imd) != image_loader_get_pixbuf(imd->il))
@@ -714,6 +729,7 @@ static gint image_read_ahead_check(ImageWindow *imd)
 		imd->il->func_done = image_load_done_cb;
 
 		g_object_set(G_OBJECT(imd->pr), "loading", TRUE, NULL);
+		image_state_set(imd, IMAGE_STATE_LOADING);
 
 		if (!imd->delay_flip)
 			{
@@ -791,6 +807,8 @@ static gint image_load_begin(ImageWindow *imd, const gchar *path)
 		return FALSE;
 		}
 
+	image_state_set(imd, IMAGE_STATE_LOADING);
+
 #ifdef IMAGE_THROTTLE_LARGER_IMAGES
 	image_load_buffer_throttle(imd->il);
 #endif
@@ -816,7 +834,7 @@ static void image_reset(ImageWindow *imd)
 
 	imd->delay_alter_type = ALTER_NONE;
 
-	imd->state = IMAGE_STATE_NONE;
+	image_state_set(imd, IMAGE_STATE_NONE);
 }
 
 /*
@@ -931,7 +949,7 @@ static void image_change_real(ImageWindow *imd, const gchar *path,
 		}
 
 	image_update_title(imd);
-	image_new_util(imd);
+	image_state_set(imd, IMAGE_STATE_IMAGE);
 }
 
 /*
@@ -1059,19 +1077,19 @@ void image_set_update_func(ImageWindow *imd,
 }
 
 void image_set_complete_func(ImageWindow *imd,
-			     void (*func)(ImageWindow *, gint preload, gpointer),
+			     void (*func)(ImageWindow *imd, gint preload, gpointer data),
 			     gpointer data)
 {
 	imd->func_complete = func;
 	imd->data_complete = data;
 }
 
-void image_set_new_func(ImageWindow *imd,
-			void (*func)(ImageWindow *, gpointer),
+void image_set_state_func(ImageWindow *imd,
+			void (*func)(ImageWindow *imd, ImageState state, gpointer data),
 			gpointer data)
 {
-	imd->func_new = func;
-	imd->data_new = data;
+	imd->func_state = func;
+	imd->data_state = data;
 }
 
 
@@ -1119,7 +1137,7 @@ void image_set_path(ImageWindow *imd, const gchar *newpath)
 	imd->image_name = filename_from_path(imd->image_path);
 
 	image_update_title(imd);
-	image_new_util(imd);
+	image_state_set(imd, IMAGE_STATE_IMAGE);
 }
 
 /* load a new image */
@@ -1140,7 +1158,7 @@ GdkPixbuf *image_get_pixbuf(ImageWindow *imd)
 void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
 {
 	pixbuf_renderer_set_pixbuf((PixbufRenderer *)imd->pr, pixbuf, zoom);
-	image_new_util(imd);
+	image_state_set(imd, IMAGE_STATE_IMAGE);
 }
 
 void image_change_from_collection(ImageWindow *imd, CollectionData *cd, CollectInfo *info, gdouble zoom)
@@ -1290,11 +1308,11 @@ void image_alter(ImageWindow *imd, AlterType type)
 		{
 		/* still loading, wait till done */
 		imd->delay_alter_type = type;
-		imd->state |= IMAGE_STATE_ROTATE_USER;
+		image_state_set(imd, IMAGE_STATE_ROTATE_USER);
 
 		if (imd->cm && (imd->state & IMAGE_STATE_ROTATE_AUTO))
 			{
-			imd->state &= ~IMAGE_STATE_ROTATE_AUTO;
+			image_state_unset(imd, IMAGE_STATE_ROTATE_AUTO);
 			}
 		return;
 		}

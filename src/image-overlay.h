@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -13,10 +13,10 @@
 #define IMAGE_OVERLAY_H
 
 
-gint image_overlay_info_enable(ImageWindow *imd);
-void image_overlay_info_disable(ImageWindow *imd, gint id);
+void image_osd_set(ImageWindow *imd, gint info, gint status);
+gint image_osd_get(ImageWindow *imd, gint *info, gint *status);
 
-void image_overlay_update(ImageWindow *imd, gint id);
+void image_osd_update(ImageWindow *imd);
 
 
 #endif

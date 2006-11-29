@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -27,21 +27,31 @@
  *----------------------------------------------------------------------------
  */
 
-typedef struct _OverlayUpdate OverlayUpdate;
-struct _OverlayUpdate {
+typedef struct _OverlayStateData OverlayStateData;
+struct _OverlayStateData {
 	ImageWindow *imd;
-	gint id;
+	ImageState changed_states;
+
+	gint show_info;
+	gint show_status;
+
+	gint ovl_info;
+	gint ovl_color;
+	gint ovl_rotate;
+	gint ovl_end;
+
 	gint idle_id;
+	gint timer_id;
 	gulong destroy_id;
 };
 
-#define IMAGE_OVERLAY_UPDATE_KEY "image-overlay-update"
+#define OSD_DATA "overlay-data"
 
-#define IMAGE_OVERLAY_X 10
-#define IMAGE_OVERLAY_Y -10
+#define OSD_INFO_X 10
+#define OSD_INFO_Y -10
 
 
-static GdkPixbuf *image_overlay_info_render(ImageWindow *imd)
+static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 {
 	GdkPixbuf *pixbuf;
 	gint width, height;
@@ -172,77 +182,175 @@ static GdkPixbuf *image_overlay_info_render(ImageWindow *imd)
 	return pixbuf;
 }
 
-static void image_overlay_update_destroy_cb(GtkWidget *widget, gpointer data)
+static void image_osd_ovl_reset(OverlayStateData *osd, gint *id)
 {
-	OverlayUpdate *ou = data;
-
-	g_source_remove(ou->idle_id);
-	g_free(ou);
+	if (*id)
+		{
+		image_overlay_remove(osd->imd, *id);
+		*id = 0;
+		}
 }
 
-static gint image_overlay_update_cb(gpointer data)
+static gint image_osd_update_cb(gpointer data)
 {
-	OverlayUpdate *ou = data;
-	GdkPixbuf *pixbuf;
+	OverlayStateData *osd = data;
 
-	pixbuf = image_overlay_info_render(ou->imd);
-	image_overlay_set(ou->imd, ou->id, pixbuf, IMAGE_OVERLAY_X, IMAGE_OVERLAY_Y);
-	g_object_unref(pixbuf);
+	if (osd->show_info)
+		{
+		if (osd->changed_states & IMAGE_STATE_IMAGE)
+			{
+			GdkPixbuf *pixbuf;
 
-	g_object_set_data(G_OBJECT(ou->imd->pr), IMAGE_OVERLAY_UPDATE_KEY, NULL);
-	g_signal_handler_disconnect(ou->imd->pr, ou->destroy_id);
-	g_free(ou);
+			pixbuf = image_osd_info_render(osd->imd);
+			if (osd->ovl_info == 0)
+				{
+				osd->ovl_info = image_overlay_add(osd->imd, pixbuf,
+								  OSD_INFO_X, OSD_INFO_Y, TRUE, FALSE);
+				}
+			else
+				{
+				image_overlay_set(osd->imd, osd->ovl_info, pixbuf, OSD_INFO_X, OSD_INFO_Y);
+				}
+			g_object_unref(pixbuf);
+			}
+		}
+	else
+		{
+		image_osd_ovl_reset(osd, & osd->ovl_info);
+		}
 
+	if (osd->show_status)
+		{
+		}
+	else
+		{
+		image_osd_ovl_reset(osd, & osd->ovl_color);
+		image_osd_ovl_reset(osd, & osd->ovl_rotate);
+		image_osd_ovl_reset(osd, & osd->ovl_end);
+		}
+
+	osd->idle_id = -1;
 	return FALSE;
 }
 
-static void image_overlay_update_schedule(ImageWindow *imd, gint id)
+static void image_osd_update_schedule(OverlayStateData *osd, gint force)
 {
-	OverlayUpdate *ou;
+	if (force) osd->changed_states |= IMAGE_STATE_IMAGE;
 
-	ou = g_object_get_data(G_OBJECT(imd->pr), IMAGE_OVERLAY_UPDATE_KEY);
-	if (ou) return;
-
-	ou = g_new0(OverlayUpdate, 1);
-	ou->imd = imd;
-	ou->id = id;
-	ou->idle_id = g_idle_add_full(G_PRIORITY_HIGH, image_overlay_update_cb, ou, NULL);
-	ou->destroy_id = g_signal_connect(G_OBJECT(imd->pr), "destroy",
-					  G_CALLBACK(image_overlay_update_destroy_cb), ou);
-	g_object_set_data(G_OBJECT(imd->pr), IMAGE_OVERLAY_UPDATE_KEY, ou);
+	if (osd->idle_id == -1)
+		{
+		osd->idle_id = g_idle_add_full(G_PRIORITY_HIGH, image_osd_update_cb, osd, NULL);
+		}
 }
 
-void image_overlay_update(ImageWindow *imd, gint id)
+void image_osd_update(ImageWindow *imd)
 {
-	if (id < 0) return;
-	image_overlay_update_schedule(imd, id);
+	OverlayStateData *osd;
+
+	if (!imd) return;
+
+	osd = g_object_get_data(G_OBJECT(imd->pr), "IMAGE_OVERLAY_DATA");
+	if (!osd) return;
+
+	image_osd_update_schedule(osd, TRUE);
 }
 
-static void image_overlay_upate_cb(ImageWindow *imd, gpointer data)
+static void image_osd_state_cb(ImageWindow *imd, ImageState state, gpointer data)
 {
-	gint id;
+	OverlayStateData *osd = data;
 
-	id = GPOINTER_TO_INT(data);
-	image_overlay_update_schedule(imd, id);
+	osd->changed_states |= state;
+	image_osd_update_schedule(osd, FALSE);
 }
 
-gint image_overlay_info_enable(ImageWindow *imd)
+static void image_osd_free(OverlayStateData *osd)
 {
-	gint id;
-	GdkPixbuf *pixbuf;
+	if (!osd) return;
 
-	pixbuf = image_overlay_info_render(imd);
-	id = image_overlay_add(imd, pixbuf, IMAGE_OVERLAY_X, IMAGE_OVERLAY_Y, TRUE, FALSE);
-	g_object_unref(pixbuf);
+	if (osd->idle_id != -1) g_source_remove(osd->idle_id);
 
-	image_set_new_func(imd, image_overlay_upate_cb, GINT_TO_POINTER(id));
+	if (osd->imd)
+		{
+		g_object_set_data(G_OBJECT(osd->imd->pr), "IMAGE_OVERLAY_DATA", NULL);
+		g_signal_handler_disconnect(osd->imd->pr, osd->destroy_id);
 
-	return id;
+		image_set_state_func(osd->imd, NULL, NULL);
+		image_overlay_remove(osd->imd, osd->ovl_info);
+		}
+
+	g_free(osd);
 }
 
-void image_overlay_info_disable(ImageWindow *imd, gint id)
+static void image_osd_remove(ImageWindow *imd)
 {
-	image_set_new_func(imd, NULL, NULL);
-	image_overlay_remove(imd, id);
+	OverlayStateData *osd;
+
+	osd = g_object_get_data(G_OBJECT(imd->pr), "IMAGE_OVERLAY_DATA");
+	image_osd_free(osd);
+}
+
+static void image_osd_destroy_cb(GtkWidget *widget, gpointer data)
+{
+	OverlayStateData *osd = data;
+
+	osd->imd = NULL;
+	image_osd_free(osd);
+}
+
+static void image_osd_enable(ImageWindow *imd, gint info, gint status)
+{
+	OverlayStateData *osd;
+
+	osd = g_object_get_data(G_OBJECT(imd->pr), "IMAGE_OVERLAY_DATA");
+	if (!osd)
+		{
+		osd = g_new0(OverlayStateData, 1);
+		osd->imd = imd;
+		osd->idle_id = -1;
+		osd->timer_id = -1;
+
+		osd->destroy_id = g_signal_connect(G_OBJECT(imd->pr), "destroy",
+						   G_CALLBACK(image_osd_destroy_cb), osd);
+		g_object_set_data(G_OBJECT(imd->pr), "IMAGE_OVERLAY_DATA", osd);
+
+		image_set_state_func(osd->imd, image_osd_state_cb, osd);
+		}
+
+	if (osd->show_info != info ||
+	    osd->show_status != status)
+		{
+		osd->show_info = info;
+		osd->show_status = status;
+
+		image_osd_update_schedule(osd, TRUE);
+		}
+}
+
+void image_osd_set(ImageWindow *imd, gint info, gint status)
+{
+	if (!imd) return;
+
+	if (!info && !status)
+		{
+		image_osd_remove(imd);
+		return;
+		}
+
+	image_osd_enable(imd, info, status);
+}
+
+gint image_osd_get(ImageWindow *imd, gint *info, gint *status)
+{
+	OverlayStateData *osd;
+
+	if (!imd) return FALSE;
+
+	osd = g_object_get_data(G_OBJECT(imd->pr), "IMAGE_OVERLAY_DATA");
+	if (!osd) return FALSE;
+
+	if (info) *info = osd->show_info;
+	if (status) *status = osd->show_status;
+
+	return TRUE;
 }
 

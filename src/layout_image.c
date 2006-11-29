@@ -49,27 +49,14 @@ static void layout_image_overlay_set(LayoutWindow *lw, gint enable)
 
 	if (!lw->full_screen) return;
 
-	if (enable)
-		{
-		if (lw->full_screen_overlay_id == -1)
-			{
-			lw->full_screen_overlay_id = image_overlay_info_enable(lw->image);
-			}
-		}
-	else
-		{
-		if (lw->full_screen_overlay_id != -1)
-			{
-			image_overlay_info_disable(lw->image, lw->full_screen_overlay_id);
-			lw->full_screen_overlay_id = -1;
-			}
-		}
+	image_osd_set(lw->image, enable, enable);
 }
 
 void layout_image_overlay_update(LayoutWindow *lw)
 {
 	if (!lw || !lw->full_screen) return;
-	if (lw->full_screen_overlay_id != -1) image_overlay_update(lw->image, lw->full_screen_overlay_id);
+
+	image_osd_update(lw->image);
 }
 
 /*
@@ -344,7 +331,6 @@ static void layout_image_full_screen_stop_func(FullScreenData *fs, gpointer data
 		}
 
 	lw->full_screen = NULL;
-	lw->full_screen_overlay_id = -1;
 }
 
 void layout_image_full_screen_start(LayoutWindow *lw)

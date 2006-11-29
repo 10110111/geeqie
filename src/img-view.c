@@ -45,8 +45,6 @@ struct _ViewWindow
 
 	GList *list;
 	GList *list_pointer;
-
-	gint overlay_id;
 };
 
 
@@ -689,13 +687,18 @@ static void view_fullscreen_stop_func(FullScreenData *fs, gpointer data)
 
 static void view_fullscreen_toggle(ViewWindow *vw, gint force_off)
 {
+	gint info, status;
+
 	if (force_off && !vw->fs) return;
 
 	if (vw->fs)
 		{
-		fullscreen_stop(vw->fs);
+		if (image_osd_get(vw->fs->imd, &info, &status))
+			{
+			image_osd_set(vw->imd, info, status);
+			}
 
-		if (vw->overlay_id != -1) vw->overlay_id = image_overlay_info_enable(vw->imd);
+		fullscreen_stop(vw->fs);
 		}
 	else
 		{
@@ -707,10 +710,10 @@ static void view_fullscreen_toggle(ViewWindow *vw, gint force_off)
 
 		if (vw->ss) vw->ss->imd = vw->fs->imd;
 
-		if (vw->overlay_id != -1)
+		if (image_osd_get(vw->imd, &info, &status))
 			{
-			image_overlay_info_disable(vw->imd, vw->overlay_id);
-			vw->overlay_id = image_overlay_info_enable(vw->fs->imd);
+			image_osd_set(vw->imd, FALSE, FALSE);
+			image_osd_set(vw->fs->imd, info, status);
 			}
 		}
 }
@@ -721,14 +724,13 @@ static void view_overlay_toggle(ViewWindow *vw)
 
 	imd = view_window_active_image(vw);
 
-	if (vw->overlay_id == -1)
+	if (!image_osd_get(imd, NULL, NULL))
 		{
-		vw->overlay_id = image_overlay_info_enable(imd);
+		image_osd_set(imd, TRUE, TRUE);
 		}
 	else
 		{
-		image_overlay_info_disable(imd, vw->overlay_id);
-		vw->overlay_id = -1;
+		image_osd_set(imd, FALSE, FALSE);
 		}
 }
 
@@ -821,8 +823,6 @@ static ViewWindow *real_view_window_new(const gchar *path, GList *list, Collecti
 	vw->ss = NULL;
 	vw->list = NULL;
 	vw->list_pointer = NULL;
-
-	vw->overlay_id = -1;
 
 	vw->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
@@ -1627,7 +1627,7 @@ static void view_real_removed(ViewWindow *vw, const gchar *path, GList *ignore_l
 			}
 		}
 
-	if (vw->overlay_id != -1) image_overlay_update(imd, vw->overlay_id);
+	image_osd_update(imd);
 }
 
 static void view_real_moved(ViewWindow *vw, const gchar *source, const gchar *dest)

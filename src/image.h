@@ -32,11 +32,11 @@ void image_set_scroll_notify_func(ImageWindow *imd,
 				  void (*func)(ImageWindow *imd, gint x, gint y, gint width, gint height, gpointer data),
 				  gpointer data);
 void image_set_complete_func(ImageWindow *imd,
-			     void (*func)(ImageWindow *, gint preload, gpointer),
+			     void (*func)(ImageWindow *imd, gint preload, gpointer data),
 			     gpointer data);
-void image_set_new_func(ImageWindow *imd,
-			void (*func)(ImageWindow *, gpointer),
-			gpointer data);
+void image_set_state_func(ImageWindow *imd,
+			  void (*func)(ImageWindow *imd, ImageState state, gpointer data),
+			  gpointer data);
 
 /* path, name */
 const gchar *image_get_path(ImageWindow *imd);

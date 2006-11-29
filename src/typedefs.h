@@ -255,15 +255,15 @@ struct _ImageWindow
 	gint completed;
 	ImageState state;	/* mask of IMAGE_STATE_* flags about current image */
 
-	void (*func_update)(ImageWindow *, gpointer);
-	void (*func_complete)(ImageWindow *, gint preload, gpointer);
-	void (*func_new)(ImageWindow *, gpointer);
+	void (*func_update)(ImageWindow *imd, gpointer data);
+	void (*func_complete)(ImageWindow *imd, gint preload, gpointer data);
+	void (*func_state)(ImageWindow *imd, ImageState state, gpointer data);
 	ImageTileRequestFunc func_tile_request;
 	ImageTileDisposeFunc func_tile_dispose;
 
 	gpointer data_update;
 	gpointer data_complete;
-	gpointer data_new;
+	gpointer data_state;
 	gpointer data_tile;
 
 	/* button, scroll functions */
@@ -398,7 +398,6 @@ struct _LayoutWindow
 	/* full screen */
 
 	FullScreenData *full_screen;
-	gint full_screen_overlay_id;
 	gint full_screen_overlay_on;
 
 	/* dividers */

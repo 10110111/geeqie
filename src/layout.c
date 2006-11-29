@@ -1832,7 +1832,6 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 	lw->bar_exif_size = -1;
 	lw->bar_exif_advanced = FALSE;
 
-	lw->full_screen_overlay_id = -1;
 	lw->full_screen_overlay_on = FALSE;
 
 	/* default layout */
