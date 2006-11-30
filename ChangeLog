@@ -1,3 +1,9 @@
+Wed Nov 29 22:53:03 2006  John Ellis  <johne@verizon.net>
+
+	* image-overlay.[ch]: Prepare for icon notification display, and fix
+	info overlay image index when on last image of slideshow.
+	* img-view.c: Fix image index when on last image of slideshow.
+
 Wed Nov 29 14:28:30 2006  John Ellis  <johne@verizon.net>
 
 	* image-overlay.[ch]: Rewrite most of the information overlay code to

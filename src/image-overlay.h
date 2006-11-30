@@ -12,11 +12,23 @@
 #ifndef IMAGE_OVERLAY_H
 #define IMAGE_OVERLAY_H
 
+typedef enum {
+	IMAGE_OSD_NONE = 0,
+	IMAGE_OSD_ROTATE_USER,
+	IMAGE_OSD_ROTATE_AUTO,
+	IMAGE_OSD_COLOR,
+	IMAGE_OSD_FIRST,
+	IMAGE_OSD_LAST,
+	IMAGE_OSD_COUNT
+} ImageOSDFlag;
+
 
 void image_osd_set(ImageWindow *imd, gint info, gint status);
 gint image_osd_get(ImageWindow *imd, gint *info, gint *status);
 
 void image_osd_update(ImageWindow *imd);
+
+void image_osd_icon(ImageWindow *imd, ImageOSDFlag flag, gint duration);
 
 
 #endif

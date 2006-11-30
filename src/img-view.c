@@ -216,6 +216,7 @@ static void view_list_step(ViewWindow *vw, gint next)
 		work = work->prev;
 		if (work) work_ahead = work->prev;
 		}
+
 	if (!work) return;
 
 	vw->list_pointer = work;
@@ -747,8 +748,28 @@ static void view_slideshow_prev(ViewWindow *vw)
 static void view_slideshow_stop_func(SlideShowData *fs, gpointer data)
 {
 	ViewWindow *vw = data;
+	GList *work;
+	const gchar *path;
 
 	vw->ss = NULL;
+
+	work = vw->list;
+	path = image_get_path(view_window_active_image(vw));
+	while (work)
+		{
+		gchar *temp;
+
+		temp = work->data;
+		if (strcmp(path, temp) == 0)
+			{
+			vw->list_pointer = work;
+			work = NULL;
+			}
+		else
+			{
+			work = work->next;
+			}
+		}
 }
 
 static void view_slideshow_start(ViewWindow *vw)
@@ -1015,9 +1036,13 @@ gint view_window_find_image(ImageWindow *imd, gint *index, gint *total)
 			if (vw->ss)
 				{
 				gint n;
+				gint t;
+
 				n = g_list_length(vw->ss->list_done);
+				t = n + g_list_length(vw->ss->list);
+				if (n == 0) n = t;
 				if (index) *index = n - 1;
-				if (total) *total = n + g_list_length(vw->ss->list);
+				if (total) *total = t;
 				}
 			else
 				{
