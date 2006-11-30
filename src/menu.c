@@ -150,7 +150,7 @@ static GtkWidget *submenu_add_sort_item(GtkWidget *menu, GtkWidget *parent,
 	else
 		{
 		item = menu_item_add(menu, sort_type_get_text(type),
-			 	     func, GINT_TO_POINTER((gint)type));
+				     func, GINT_TO_POINTER((gint)type));
 		}
 
 	return item;
