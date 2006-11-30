@@ -1,3 +1,8 @@
+Thu Nov 30 09:55:42 2006  John Ellis  <johne@verizon.net>
+
+	* slideshow.c (real_slideshow_start): Fix memory leak when unable to
+	begin a slideshow.
+
 Wed Nov 29 22:53:03 2006  John Ellis  <johne@verizon.net>
 
 	* image-overlay.[ch]: Prepare for icon notification display, and fix

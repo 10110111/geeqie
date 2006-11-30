@@ -336,11 +336,9 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 
 	ss->from_selection = FALSE;
 
-	ss->stop_func = stop_func;
-	ss->stop_data = stop_data;
+	ss->stop_func = NULL;
 
 	ss->timeout_id = -1;
-
 	ss->paused = FALSE;
 
 	if (ss->path_list)
@@ -382,9 +380,13 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 	if (slideshow_step(ss, TRUE))
 		{
 		slideshow_timer_reset(ss, TRUE);
+
+		ss->stop_func = stop_func;
+		ss->stop_data = stop_data;
 		}
 	else
 		{
+		slideshow_free(ss);
 		ss = NULL;
 		}
 

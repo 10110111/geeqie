@@ -117,7 +117,9 @@ d> figure out if crash when expanding a folder in the folder tree view when pess
 Minor (non blockers):
 ----------------------------------------------
 
- > fix gtk_table_attach use to not use FALSE for fill vertical arg.
+d> fix memory leak in real_slideshow_start() when slideshow_step fails.
+
+d> fix gtk_table_attach use to not use FALSE for fill vertical arg.
 
  > xv and xpaint are hardly used or even installed by any distro anymore - time
    to remove these (and find alternates?) seems silly to only have gimp.
