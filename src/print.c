@@ -67,6 +67,10 @@
 #define PRINT_PS_DPI_MIN 150.0
 /* method to use when scaling down image data */
 #define PRINT_PS_MAX_INTERP GDK_INTERP_BILINEAR
+/* color to use as mask when printing transparent images */
+#define PRINT_PS_MASK_R 255
+#define PRINT_PS_MASK_G 255
+#define PRINT_PS_MASK_B 255
 
 /* padding between objects */
 #define PRINT_TEXT_PADDING 3.0
@@ -1232,6 +1236,7 @@ static gint print_job_ps_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
 	gint i, j;
 	gint c;
 	guchar *p;
+	guchar bps_buf[3];
 	gint ret;
 
 	if (!pixbuf) return TRUE;
@@ -1280,7 +1285,17 @@ static gint print_job_ps_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
 		p = pix + j * rowstride;
 		for (i = 0; i < sw; i++)
 			{
-			print_job_ps_page_image_pixel(f, p);
+			if (bps == 3)
+				{
+				print_job_ps_page_image_pixel(f, p);
+				}
+			else
+				{
+				bps_buf[0] = (p[0] * p[3] + PRINT_PS_MASK_R * (256 - p[3])) >> 8;
+				bps_buf[1] = (p[1] * p[3] + PRINT_PS_MASK_G * (256 - p[3])) >> 8;
+				bps_buf[2] = (p[2] * p[3] + PRINT_PS_MASK_B * (256 - p[3])) >> 8;
+				print_job_ps_page_image_pixel(f, bps_buf);
+				}
 			p+=bps;
 			c++;
 			if (c > 11)

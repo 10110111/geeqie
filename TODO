@@ -131,7 +131,7 @@ d> fix gtk_table_attach use to not use FALSE for fill vertical arg.
 
  > do not lose slideshow when reworking window layout.
 
- > fix printing of transparent images to not use black for transparency (white or user settable).
+d> fix printing of transparent images to not use black for transparency (white or user settable).
 
  > fix comment field in keywords bar to a height of 2 or 3 text lines.
 
