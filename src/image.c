@@ -264,6 +264,8 @@ static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp)
 						    (gint)((gdouble)y / pr->scale),
 						    0.50, 0.50);
 		}
+
+	if (exif_rotate) image_state_set(imd, IMAGE_STATE_ROTATE_AUTO);
 }
 
 static void image_post_process_alter(ImageWindow *imd, gint clamp)
@@ -460,7 +462,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 					break;
 				}
 
-			if (rotate) image_state_set(imd, IMAGE_STATE_COLOR_ADJ);
+			if (rotate) image_state_set(imd, IMAGE_STATE_ROTATE_AUTO);
 			}
 		}
 

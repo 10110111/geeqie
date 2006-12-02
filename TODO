@@ -140,6 +140,9 @@ d> fix printing of transparent images to not use black for transparency (white o
    > collection window
    > search window
 
+ > make wallpaper setting have a dialog to allow choosing tile, scale, center and then
+   also choose desktop environment (or detect it somehow?)
+
 Wishlist?:
 ----------------------------------------------
 

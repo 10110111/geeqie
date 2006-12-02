@@ -255,6 +255,9 @@ static gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 			case GDK_F11:
 				layout_image_full_screen_toggle(lw);
 				break;
+			case 'I': case 'i':
+				layout_image_overlay_toggle(lw);
+				break;
 			default:
 				stop_signal = FALSE;
 				break;

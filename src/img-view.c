@@ -688,15 +688,13 @@ static void view_fullscreen_stop_func(FullScreenData *fs, gpointer data)
 
 static void view_fullscreen_toggle(ViewWindow *vw, gint force_off)
 {
-	gint info, status;
-
 	if (force_off && !vw->fs) return;
 
 	if (vw->fs)
 		{
-		if (image_osd_get(vw->fs->imd, &info, &status))
+		if (image_osd_get(vw->fs->imd, NULL, NULL))
 			{
-			image_osd_set(vw->imd, info, status);
+			image_osd_set(vw->imd, TRUE, TRUE);
 			}
 
 		fullscreen_stop(vw->fs);
@@ -711,10 +709,10 @@ static void view_fullscreen_toggle(ViewWindow *vw, gint force_off)
 
 		if (vw->ss) vw->ss->imd = vw->fs->imd;
 
-		if (image_osd_get(vw->imd, &info, &status))
+		if (image_osd_get(vw->imd, NULL, NULL))
 			{
 			image_osd_set(vw->imd, FALSE, FALSE);
-			image_osd_set(vw->fs->imd, info, status);
+			image_osd_set(vw->fs->imd, TRUE, TRUE);
 			}
 		}
 }
@@ -728,6 +726,7 @@ static void view_overlay_toggle(ViewWindow *vw)
 	if (!image_osd_get(imd, NULL, NULL))
 		{
 		image_osd_set(imd, TRUE, TRUE);
+		image_osd_icon(imd, IMAGE_OSD_ICON, -1);
 		}
 	else
 		{

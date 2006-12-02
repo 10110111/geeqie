@@ -1,3 +1,16 @@
+Sat Dec  2 16:44:48 2006  John Ellis  <johne@verizon.net>
+
+	* image-overlay.[ch]: More work on osd icons.
+	* image.c: Use correct flag when setting auto rotation state, and set
+	the state again after the rotation so that osd can update.
+	* img-view.c: Show osd icon when overlay is enabled.
+	* layout.c, layout_image.[ch]: Enable overlay regardless of the
+	full screen state, only difference now is that image description text
+	is only shown when in full screen but icons will always appear.
+	* layout_util.c: Make I key toggle overlay from windowed mode too.
+	* typedefs.h (LayoutWindow): Remove no longer used 
+	full_screen_overlay_on.
+
 Fri Dec  1 14:27:55 2006  John Ellis  <johne@verizon.net>
 
 	* print.c (print_job_ps_page_image): Use a white mask when printing

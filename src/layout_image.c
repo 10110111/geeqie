@@ -43,18 +43,22 @@ static void layout_image_set_buttons(LayoutWindow *lw);
  *----------------------------------------------------------------------------
  */
 
-static void layout_image_overlay_set(LayoutWindow *lw, gint enable)
+void layout_image_overlay_toggle(LayoutWindow *lw)
 {
-	lw->full_screen_overlay_on = enable;
-
-	if (!lw->full_screen) return;
-
-	image_osd_set(lw->image, enable, enable);
+	if (image_osd_get(lw->image, NULL, NULL))
+		{
+		image_osd_set(lw->image, FALSE, FALSE);
+		}
+	else
+		{
+		image_osd_set(lw->image, (lw->full_screen != NULL), TRUE);
+		image_osd_icon(lw->image, IMAGE_OSD_ICON, -1);
+		}
 }
 
 void layout_image_overlay_update(LayoutWindow *lw)
 {
-	if (!lw || !lw->full_screen) return;
+	if (!lw) return;
 
 	image_osd_update(lw->image);
 }
@@ -307,7 +311,7 @@ static gint layout_image_full_screen_key_press_cb(GtkWidget *widget, GdkEventKey
 				layout_image_full_screen_menu_popup(lw);
 				break;
 			case 'I': case 'i':
-				layout_image_overlay_set(lw, !(lw->full_screen_overlay_on));
+				layout_image_overlay_toggle(lw);
 				break;
 			default:
 				stop_signal = FALSE;
@@ -360,7 +364,11 @@ void layout_image_full_screen_start(LayoutWindow *lw)
 	if (lw->tools) gtk_widget_set_sensitive(lw->tools, FALSE);
 #endif
 
-	layout_image_overlay_set(lw, lw->full_screen_overlay_on);
+	if (image_osd_get(lw->full_screen->normal_imd, NULL, NULL))
+		{
+		image_osd_set(lw->image, TRUE, TRUE);
+		image_osd_set(lw->full_screen->normal_imd, FALSE, FALSE);
+		}
 }
 
 void layout_image_full_screen_stop(LayoutWindow *lw)
@@ -368,6 +376,10 @@ void layout_image_full_screen_stop(LayoutWindow *lw)
 	if (!layout_valid(&lw)) return;
 	if (!lw->full_screen) return;
 
+	if (image_osd_get(lw->image, NULL, NULL))
+		{
+		image_osd_set(lw->full_screen->normal_imd, FALSE, TRUE);
+		}
 	fullscreen_stop(lw->full_screen);
 
 #if 0
@@ -1191,7 +1203,14 @@ void layout_image_next(LayoutWindow *lw)
 	if (cd && info)
 		{
 		info = collection_next_by_info(cd, info);
-		if (info) layout_image_set_collection_real(lw, cd, info, TRUE);
+		if (info)
+			{
+			layout_image_set_collection_real(lw, cd, info, TRUE);
+			}
+		else
+			{
+			image_osd_icon(lw->image, IMAGE_OSD_LAST, -1);
+			}
 		return;
 		}
 
@@ -1202,6 +1221,10 @@ void layout_image_next(LayoutWindow *lw)
 		if (current < layout_list_count(lw, NULL) - 1)
 			{
 			layout_image_set_index(lw, current + 1);
+			}
+		else
+			{
+			image_osd_icon(lw->image, IMAGE_OSD_LAST, -1);
 			}
 		}
 	else
@@ -1229,7 +1252,14 @@ void layout_image_prev(LayoutWindow *lw)
 	if (cd && info)
 		{
 		info = collection_prev_by_info(cd, info);
-		if (info) layout_image_set_collection_real(lw, cd, info, FALSE);
+		if (info)
+			{
+			layout_image_set_collection_real(lw, cd, info, FALSE);
+			}
+		else
+			{
+			image_osd_icon(lw->image, IMAGE_OSD_FIRST, -1);
+			}
 		return;
 		}
 
@@ -1240,6 +1270,10 @@ void layout_image_prev(LayoutWindow *lw)
 		if (current > 0)
 			{
 			layout_image_set_index(lw, current - 1);
+			}
+		else
+			{
+			image_osd_icon(lw->image, IMAGE_OSD_FIRST, -1);
 			}
 		}
 	else

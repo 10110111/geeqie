@@ -48,19 +48,21 @@ struct _OverlayStateData {
 
 typedef struct _OSDIcon OSDIcon;
 struct _OSDIcon {
-	gint x;
+	gint reset;	/* reset on new image */
+	gint x;		/* x, y offset */
 	gint y;
-	gchar *key;
+	gchar *key;	/* inline pixbuf */
 };
 
 static OSDIcon osd_icons[] = {
-	{ 0, -10, PIXBUF_INLINE_ICON },
-	{ -10, -10, "IMAGE_OSD_ROTATE_USER" },
-	{ -10, -10, "IMAGE_OSD_ROTATE_AUTO" },
-	{ -40, -10, "IMAGE_OSD_COLOR" },
-	{ -70, -10, "IMAGE_OSD_FIRST" },
-	{ -70, -10, "IMAGE_OSD_LAST" },
-	{ 0, 0, NULL }
+	{  TRUE,   0,   0, NULL },			/* none */
+	{  TRUE, -10, -10, NULL },			/* auto rotated */
+	{  TRUE, -10, -10, NULL },			/* user rotated */
+	{  TRUE, -40, -10, NULL },			/* color embedded */
+	{  TRUE, -70, -10, NULL },			/* first image */
+	{  TRUE, -70, -10, NULL },			/* last image */
+	{ FALSE, -70, -10, NULL },			/* osd enabled */
+	{ FALSE, 0, 0, NULL }
 };
 
 #define OSD_DATA "overlay-data"
@@ -214,30 +216,52 @@ static GdkPixbuf *image_osd_icon_pixbuf(ImageOSDFlag flag)
 	if (!icons) icons = g_new0(GdkPixbuf *, IMAGE_OSD_COUNT);
 	if (icons[flag]) return icons[flag];
 
-	icon = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 24, 24);
-	pixbuf_set_rect_fill(icon, 1, 1, 22, 22, 255, 255, 255, 200);
-	pixbuf_set_rect(icon, 0, 0, 24, 24, 0, 0, 0, 128, 1, 1, 1, 1);
-	switch (flag)
+	if (osd_icons[flag].key)
 		{
-		case IMAGE_OSD_COLOR:
-			pixbuf_set_rect_fill(icon, 3, 3, 18, 6, 200, 0, 0, 255);
-			pixbuf_set_rect_fill(icon, 3, 9, 18, 6, 0, 200, 0, 255);
-			pixbuf_set_rect_fill(icon, 3, 15, 18, 6, 0, 0, 200, 255);
-			break;
-		case IMAGE_OSD_FIRST:
-			pixbuf_set_rect(icon, 3, 3, 18, 18, 0, 0, 0, 200, 3, 3, 3, 0);
-			pixbuf_draw_triangle(icon, 6, 5, 12, 6,
-					     12, 5, 18, 11, 6, 11,
-					     0, 0, 0, 255);
-			break;
-		case IMAGE_OSD_LAST:
-			pixbuf_set_rect(icon, 3, 3, 18, 18, 0, 0, 0, 200, 3, 3, 0, 3);
-			pixbuf_draw_triangle(icon, 6, 12, 12, 6,
-					     12, 18, 6, 12, 18, 12,
-					     0, 0, 0, 255);
-			break;
-		default:
-			break;
+		icon = pixbuf_inline(osd_icons[flag].key);
+		}
+
+	if (!icon)
+		{
+		icon = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 24, 24);
+		pixbuf_set_rect_fill(icon, 1, 1, 22, 22, 255, 255, 255, 200);
+		pixbuf_set_rect(icon, 0, 0, 24, 24, 0, 0, 0, 128, 1, 1, 1, 1);
+		switch (flag)
+			{
+			case IMAGE_OSD_ROTATE_AUTO:
+				pixbuf_set_rect(icon, 3, 8, 11, 12,
+						0, 0, 0, 255,
+						3, 0, 3, 0);
+				pixbuf_draw_triangle(icon, 14, 3, 6, 12,
+						     20, 9, 14, 15, 14, 3,
+						     0, 0, 0, 255);
+				break;
+			case IMAGE_OSD_ROTATE_USER:
+				break;
+			case IMAGE_OSD_COLOR:
+				pixbuf_set_rect_fill(icon, 3, 3, 18, 6, 200, 0, 0, 255);
+				pixbuf_set_rect_fill(icon, 3, 9, 18, 6, 0, 200, 0, 255);
+				pixbuf_set_rect_fill(icon, 3, 15, 18, 6, 0, 0, 200, 255);
+				break;
+			case IMAGE_OSD_FIRST:
+				pixbuf_set_rect(icon, 3, 3, 18, 18, 0, 0, 0, 200, 3, 3, 3, 0);
+				pixbuf_draw_triangle(icon, 6, 5, 12, 6,
+						     12, 5, 18, 11, 6, 11,
+						     0, 0, 0, 255);
+				break;
+			case IMAGE_OSD_LAST:
+				pixbuf_set_rect(icon, 3, 3, 18, 18, 0, 0, 0, 200, 3, 3, 0, 3);
+				pixbuf_draw_triangle(icon, 6, 12, 12, 6,
+						     12, 18, 6, 12, 18, 12,
+						     0, 0, 0, 255);
+				break;
+			case IMAGE_OSD_ICON:
+				pixbuf_set_rect_fill(icon, 11, 3, 3, 12, 0, 0, 0, 255);
+				pixbuf_set_rect_fill(icon, 11, 17, 3, 3, 0, 0, 0, 255);
+				break;
+			default:
+				break;
+			}
 		}
 
 	icons[flag] = icon;
@@ -306,12 +330,29 @@ static gint image_osd_update_cb(gpointer data)
 
 		if (osd->changed_states & IMAGE_STATE_IMAGE)
 			{
-			for (i = 0; i < IMAGE_OSD_COUNT; i++) osd->icon_time[i] = 0;
+			for (i = 0; i < IMAGE_OSD_COUNT; i++)
+				{
+				if (osd_icons[i].reset)	osd->icon_time[i] = 0;
+				}
 			}
 
 		if (osd->changed_states & IMAGE_STATE_COLOR_ADJ)
 			{
 			osd->icon_time[IMAGE_OSD_COLOR] = IMAGE_OSD_DEFAULT_DURATION + 1;
+			image_osd_timer_schedule(osd);
+			}
+
+		if (osd->changed_states & IMAGE_STATE_ROTATE_AUTO)
+			{
+			gint n = 0;
+
+			if (osd->imd->state & IMAGE_STATE_ROTATE_AUTO)
+				{
+				n = 1;
+				if (!osd->imd->cm) n += IMAGE_OSD_DEFAULT_DURATION;
+				}
+
+			osd->icon_time[IMAGE_OSD_ROTATE_AUTO] = n;
 			image_osd_timer_schedule(osd);
 			}
 

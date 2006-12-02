@@ -68,6 +68,7 @@ gint layout_image_slideshow_pause_toggle(LayoutWindow *lw);
 gint layout_image_slideshow_paused(LayoutWindow *lw);
 
 
+void layout_image_overlay_toggle(LayoutWindow *lw);
 void layout_image_overlay_update(LayoutWindow *lw);
 
 

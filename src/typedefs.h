@@ -398,7 +398,6 @@ struct _LayoutWindow
 	/* full screen */
 
 	FullScreenData *full_screen;
-	gint full_screen_overlay_on;
 
 	/* dividers */
 
