@@ -976,16 +976,12 @@ static void vdtree_add_by_data(ViewDirTree *vdt, FileData *fd, GtkTreeIter *pare
 {
 	GtkTreeStore *store;
 	GtkTreeIter child;
-	GList *list;
 	NodeData *nd;
 	GdkPixbuf *pixbuf;
 	NodeData *end;
 	GtkTreeIter empty;
 
 	if (!fd) return;
-
-	list = parts_list(fd->path);
-	if (!list) return;
 
 	if (access_file(fd->path, R_OK | X_OK))
 		{
