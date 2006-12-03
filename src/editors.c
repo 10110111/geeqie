@@ -1,6 +1,6 @@
 /*
  * GQview
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  *
  * Author: John Ellis
  *
@@ -321,6 +321,33 @@ static gint editor_verbose_start(EditorVerboseData *vd, gchar *command)
 	return TRUE;
 }
 
+static gchar *editor_command_path_parse(const gchar *path)
+{
+	GString *string;
+	gchar *pathl;
+	const gchar *p;
+
+	string = g_string_new("");
+	p = path;
+	while (*p != '\0')
+		{
+		/* must escape \, ", `, and $ to avoid problems,
+		 * we assume system shell supports bash-like escaping
+		 */
+		if (strchr("\\\"`$", *p) != NULL)
+			{
+			string = g_string_append_c(string, '\\');
+			}
+		string = g_string_append_c(string, *p);
+		p++;
+		}
+
+	pathl = path_from_utf8(string->str);
+	g_string_free(string, TRUE);
+
+	return pathl;
+}
+
 static gint editor_command_one(const gchar *template, const gchar *path, EditorVerboseData *vd)
 {
 	GString *result = NULL;
@@ -335,7 +362,7 @@ static gint editor_command_one(const gchar *template, const gchar *path, EditorV
 	current_path = getcwd(path_buffer, sizeof(path_buffer));
 
 	result = g_string_new("");
-	pathl = path_from_utf8(path);
+	pathl = editor_command_path_parse(path);
 
 	ptr = template;
 	while ( (found = strstr(ptr, "%p")) )
@@ -536,7 +563,7 @@ static void editor_command_run(const gchar *template, const gchar *text, GList *
 
 			if (work != list) g_string_append_c(result, ' ');
 			result = g_string_append_c(result, '"');
-			pathl = path_from_utf8(path);
+			pathl = editor_command_path_parse(path);
 			result = g_string_append(result, pathl);
 			g_free(pathl);
 			result = g_string_append_c(result, '"');

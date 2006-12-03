@@ -1,3 +1,8 @@
+Sat Dec  2 20:15:22 2006  John Ellis  <johne@verizon.net>
+
+	* editors.c: Escape the 4 characters [ "`$\ ] in filenames passed
+	to the system shell. Assumes bash-like escaping syntax for "sh -c".
+
 Sat Dec  2 16:44:48 2006  John Ellis  <johne@verizon.net>
 
 	* image-overlay.[ch]: More work on osd icons.
