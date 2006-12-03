@@ -1,3 +1,8 @@
+Sat Dec  2 20:47:12 2006  John Ellis  <johne@verizon.net>
+
+	* README: Updates.
+	* configure.in: Release 2.1.5
+
 Sat Dec  2 20:15:22 2006  John Ellis  <johne@verizon.net>
 
 	* editors.c: Escape the 4 characters [ "`$\ ] in filenames passed
