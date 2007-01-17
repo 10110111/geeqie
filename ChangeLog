@@ -1,3 +1,7 @@
+Wed Jan 17 16:50:39 2007  John Ellis  <johne@verizon.net>
+
+	* README: Fix credits for Belarusian translation.
+
 Sun Dec  3 12:58:06 2006  John Ellis  <johne@verizon.net>
 
 	* view_dir_tree.c (vdtree_add_by_data): Plug memory leak, in fact
