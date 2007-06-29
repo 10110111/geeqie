@@ -82,6 +82,7 @@ void layout_tools_hide_toggle(LayoutWindow *lw);
 void layout_toolbar_toggle(LayoutWindow *lw);
 gint layout_toolbar_hidden(LayoutWindow *lw);
 
+void layout_split_change(LayoutWindow *lw, ImageSplitMode mode);
 
 void layout_maint_renamed(const gchar *source, const gchar *dest);
 void layout_maint_removed(const gchar *path, GList *ignore_list);

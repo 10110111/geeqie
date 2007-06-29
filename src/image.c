@@ -1277,6 +1277,38 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	pixbuf_renderer_move(PIXBUF_RENDERER(imd->pr), PIXBUF_RENDERER(source->pr));
 }
 
+void image_sync_scroll_from_image_absolute(ImageWindow *imd, ImageWindow *source)
+{
+	gint src_width, src_height, dst_width, dst_height;
+	gint src_x, src_y;
+	gfloat dst_x, dst_y;
+	GdkRectangle src_rect;
+	GdkRectangle dst_rect;
+	gfloat dst_scale = pixbuf_renderer_zoom_get_scale(PIXBUF_RENDERER(imd->pr));
+	
+	pixbuf_renderer_get_virtual_rect(PIXBUF_RENDERER(source->pr), &src_rect);
+	pixbuf_renderer_get_scaled_size(PIXBUF_RENDERER(source->pr), &src_width, &src_height);
+	pixbuf_renderer_get_virtual_rect(PIXBUF_RENDERER(imd->pr), &dst_rect);
+	pixbuf_renderer_get_scaled_size(PIXBUF_RENDERER(imd->pr), &dst_width, &dst_height);
+
+	src_x = src_rect.x + src_rect.width / 2;
+	src_y = src_rect.y + src_rect.height / 2;
+
+	dst_x = (gfloat)src_x * dst_width / src_width - dst_rect.width / 2;
+	dst_y = (gfloat)src_y * dst_height / src_height - dst_rect.height / 2;
+
+	
+
+	image_scroll_to_point(imd, dst_x / dst_scale, dst_y / dst_scale, 0, 0);
+}
+
+void image_sync_zoom_from_image(ImageWindow *imd, ImageWindow *source)
+{
+	image_zoom_set(imd, image_zoom_get(source));
+}
+
+
+
 /* manipulation */
 
 void image_area_changed(ImageWindow *imd, gint x, gint y, gint width, gint height)
@@ -1627,6 +1659,24 @@ void image_to_root_window(ImageWindow *imd, gint scaled)
 	gdk_flush();
 }
 
+void image_select(ImageWindow *imd, gboolean select)
+{
+	if (imd->has_frame)
+		{
+		if (select)
+			{
+			gtk_frame_set_shadow_type(GTK_FRAME(imd->inner_frame), GTK_SHADOW_IN);
+			gtk_frame_set_shadow_type(GTK_FRAME(imd->widget), GTK_SHADOW_OUT);
+			}
+		else
+			{
+			gtk_frame_set_shadow_type(GTK_FRAME(imd->inner_frame), GTK_SHADOW_NONE);
+			gtk_frame_set_shadow_type(GTK_FRAME(imd->widget), GTK_SHADOW_IN);
+			}
+		}
+}
+
+
 /*
  *-------------------------------------------------------------------
  * prefs sync
@@ -1743,9 +1793,18 @@ ImageWindow *image_new(gint frame)
 
 	if (imd->has_frame)
 		{
+		imd->inner_frame = gtk_frame_new(NULL);
+		gtk_frame_set_shadow_type(GTK_FRAME(imd->inner_frame), GTK_SHADOW_NONE);
+		gtk_container_add(GTK_CONTAINER(imd->inner_frame), imd->pr);
+		
+		
 		imd->widget = gtk_frame_new(NULL);
 		gtk_frame_set_shadow_type(GTK_FRAME(imd->widget), GTK_SHADOW_IN);
-		gtk_container_add(GTK_CONTAINER(imd->widget), imd->pr);
+		gtk_container_add(GTK_CONTAINER(imd->widget), imd->inner_frame);
+
+		gtk_container_set_border_width (GTK_CONTAINER (imd->inner_frame), 1);
+
+		gtk_widget_show(imd->inner_frame);
 		gtk_widget_show(imd->pr);
 
 		GTK_WIDGET_SET_FLAGS(imd->widget, GTK_CAN_FOCUS);

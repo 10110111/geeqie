@@ -703,6 +703,43 @@ static void li_pop_menu_hide_cb(GtkWidget *widget, gpointer data)
 	layout_tools_hide_toggle(lw);
 }
 
+static void li_pop_menu_split_none_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw = data;
+	layout_split_change(lw, SPLIT_NONE);
+}
+
+static void li_pop_menu_split_hor_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw = data;
+	layout_split_change(lw, SPLIT_HOR);
+}
+
+static void li_pop_menu_split_vert_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw = data;
+	layout_split_change(lw, SPLIT_VERT);
+}
+
+static void li_pop_menu_split_quad_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw = data;
+	layout_split_change(lw, SPLIT_QUAD);
+}
+
+static void li_pop_menu_connect_scroll_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw = data;
+	lw->connect_scroll = !lw->connect_scroll;
+}
+
+static void li_pop_menu_connect_zoom_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw = data;
+	lw->connect_zoom = !lw->connect_zoom;
+}
+
+
 static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 {
 	GtkWidget *menu;
@@ -721,6 +758,18 @@ static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 	menu_item_add_stock(menu, _("Zoom _1:1"), GTK_STOCK_ZOOM_100, G_CALLBACK(li_pop_menu_zoom_1_1_cb), lw);
 	menu_item_add_stock(menu, _("Fit image to _window"), GTK_STOCK_ZOOM_FIT, G_CALLBACK(li_pop_menu_zoom_fit_cb), lw);
 	menu_item_add_divider(menu);
+	if (!fullscreen)
+		{
+		menu_item_add(menu, _("No split"), G_CALLBACK(li_pop_menu_split_none_cb), lw);
+		menu_item_add(menu, _("Split horizontaly"), G_CALLBACK(li_pop_menu_split_hor_cb), lw);
+		menu_item_add(menu, _("Split verticaly"), G_CALLBACK(li_pop_menu_split_vert_cb), lw);
+		menu_item_add(menu, _("Split quad"), G_CALLBACK(li_pop_menu_split_quad_cb), lw);
+		menu_item_add_check(menu, _("Connected scroll"), lw->connect_scroll,
+				   G_CALLBACK(li_pop_menu_connect_scroll_cb), lw);
+		menu_item_add_check(menu, _("Connected zoom"), lw->connect_zoom,
+				   G_CALLBACK(li_pop_menu_connect_zoom_cb), lw);
+		menu_item_add_divider(menu);
+		}
 
 	submenu = submenu_add_edit(menu, &item, G_CALLBACK(li_pop_menu_edit_cb), lw);
 	if (!path) gtk_widget_set_sensitive(item, FALSE);
@@ -815,6 +864,20 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 				     guint time, gpointer data)
 {
 	LayoutWindow *lw = data;
+	gint i;
+	
+	
+	for (i=0; i < MAX_SPLIT_IMAGES; i++) 
+		{
+		if (lw->split_images[i] && lw->split_images[i]->pr == widget)
+			break;
+		}
+	if (i < MAX_SPLIT_IMAGES)
+		{
+		printf("dnd image activate %d\n", i);
+		layout_image_activate(lw, i);
+		}
+
 
 	if (info == TARGET_URI_LIST || info == TARGET_APP_COLLECTION_MEMBER)
 		{
@@ -883,8 +946,21 @@ static void layout_image_dnd_get(GtkWidget *widget, GdkDragContext *context,
 {
 	LayoutWindow *lw = data;
 	const gchar *path;
-
-	path = layout_image_get_path(lw);
+	gint i;
+	
+	
+	for (i=0; i < MAX_SPLIT_IMAGES; i++) 
+		{
+		if (lw->split_images[i] && lw->split_images[i]->pr == widget)
+			break;
+		}
+	if (i < MAX_SPLIT_IMAGES)
+		{
+		printf("dnd get from %d\n", i);
+		path = image_get_path(lw->split_images[i]);
+		}
+	else
+		path = layout_image_get_path(lw);
 
 	if (path)
 		{
@@ -947,21 +1023,23 @@ static void layout_image_dnd_end(GtkWidget *widget, GdkDragContext *context, gpo
 		}
 }
 
-static void layout_image_dnd_init(LayoutWindow *lw)
+static void layout_image_dnd_init(LayoutWindow *lw, gint i)
 {
-	gtk_drag_source_set(lw->image->pr, GDK_BUTTON2_MASK,
+	ImageWindow *imd = lw->split_images[i];
+
+	gtk_drag_source_set(imd->pr, GDK_BUTTON2_MASK,
 			    dnd_file_drag_types, dnd_file_drag_types_count,
 			    GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
-	g_signal_connect(G_OBJECT(lw->image->pr), "drag_data_get",
+	g_signal_connect(G_OBJECT(imd->pr), "drag_data_get",
 			 G_CALLBACK(layout_image_dnd_get), lw);
-	g_signal_connect(G_OBJECT(lw->image->pr), "drag_end",
+	g_signal_connect(G_OBJECT(imd->pr), "drag_end",
 			 G_CALLBACK(layout_image_dnd_end), lw);
 
-	gtk_drag_dest_set(lw->image->pr,
+	gtk_drag_dest_set(imd->pr,
 			  GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_DROP,
 			  dnd_file_drop_types, dnd_file_drop_types_count,
                           GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
-	g_signal_connect(G_OBJECT(lw->image->pr), "drag_data_received",
+	g_signal_connect(G_OBJECT(imd->pr), "drag_data_received",
 			 G_CALLBACK(layout_image_dnd_receive), lw);
 }
 
@@ -1065,14 +1143,14 @@ void layout_image_set_with_ahead(LayoutWindow *lw, const gchar *path, const gcha
 {
 	if (!layout_valid(&lw)) return;
 
-	if (path)
+/*	if (path)
 		{
 		const gchar *old_path;
 
 		old_path = layout_image_get_path(lw);
 		if (old_path && strcmp(path, old_path) == 0) return;
 		}
-
+*/
 	layout_image_set_path(lw, path);
 	if (enable_read_ahead) image_prebuffer_set(lw->image, read_ahead_path);
 }
@@ -1340,6 +1418,23 @@ void layout_image_last(LayoutWindow *lw)
  *----------------------------------------------------------------------------
  */
 
+static gint image_idx(LayoutWindow *lw, ImageWindow *imd)
+{
+	gint i;
+	
+	for (i=0; i < MAX_SPLIT_IMAGES; i++) 
+		{
+		if (lw->split_images[i] == imd)
+			break;
+		}
+	if (i < MAX_SPLIT_IMAGES)
+		{
+		return i;
+		}
+	return -1;
+}
+
+
 static void layout_image_button_cb(ImageWindow *imd, gint button, guint32 time,
 				   gdouble x, gdouble y, guint state, gpointer data)
 {
@@ -1371,6 +1466,15 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkScrollDirection directio
 				   gdouble x, gdouble y, guint state, gpointer data)
 {
 	LayoutWindow *lw = data;
+
+	gint i = image_idx(lw, imd);
+	
+	if (i != -1)
+		{
+		printf("image activate scroll %d\n", i);
+		layout_image_activate(lw, i);
+		}
+
 
 	if (state & GDK_CONTROL_MASK)
 		{
@@ -1422,10 +1526,53 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkScrollDirection directio
 		}
 }
 
+static void layout_image_scroll_notify_cb(ImageWindow *imd, gint x, gint y, gint width, gint height, gpointer data)
+{
+	gint i;
+	printf("scroll cb %d %d %d %d\n", x,y,width, height);
+	LayoutWindow *lw = data;
+
+
+	for (i=0; i < MAX_SPLIT_IMAGES; i++)
+		{
+		if (lw->split_images[i] && lw->split_images[i] != imd)
+//			if (lw->connect_zoom)
+//				image_sync_zoom_from_image(lw->split_images[i], imd);
+			if (lw->connect_scroll)
+				image_sync_scroll_from_image_absolute(lw->split_images[i], imd);
+		}
+}
+
+static gint layout_image_mouse_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+{
+
+	printf("mouse press\n");
+
+}
+
+static void layout_image_button_inactive_cb(ImageWindow *imd, gint button, guint32 time,
+				   gdouble x, gdouble y, guint state, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint i = image_idx(lw, imd);
+	
+	if (i != -1)
+		{
+		printf("image activate %d\n", i);
+		layout_image_activate(lw, i);
+		}
+}
+
 static void layout_image_set_buttons(LayoutWindow *lw)
 {
 	image_set_button_func(lw->image, layout_image_button_cb, lw);
 	image_set_scroll_func(lw->image, layout_image_scroll_cb, lw);
+}
+
+static void layout_image_set_buttons_inactive(LayoutWindow *lw, gint i)
+{
+	image_set_button_func(lw->split_images[i], layout_image_button_inactive_cb, lw);
+	image_set_scroll_func(lw->split_images[i], layout_image_scroll_cb, lw);
 }
 
 /*
@@ -1440,28 +1587,246 @@ static void layout_image_update_cb(ImageWindow *imd, gpointer data)
 	layout_status_update_image(lw);
 }
 
-GtkWidget *layout_image_new(LayoutWindow *lw, const gchar *path)
+GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 {
-	if (!lw->image) 
+	if (!lw->split_images[i]) 
 		{
-		lw->image = image_new( (!lw->tools_float && !lw->tools_hidden) );
-		if (black_window_background) image_background_set_black(lw->image, TRUE);
-		image_set_update_func(lw->image, layout_image_update_cb, lw);
-		layout_image_set_buttons(lw);
-		layout_image_dnd_init(lw);
+		lw->split_images[i] = image_new(TRUE);
 
-		image_attach_window(lw->image, lw->window, NULL, "GQview", FALSE);
+		gtk_widget_ref(lw->split_images[i]->widget);
+
+		g_signal_connect(G_OBJECT(lw->split_images[i]->widget), "button_press_event",
+                         G_CALLBACK(layout_image_mouse_press_cb), lw);
+
+
+		if (black_window_background) image_background_set_black(lw->split_images[i], TRUE);
 
 		image_auto_refresh(lw->image, 0);
 
+		layout_image_dnd_init(lw, i);
 		image_color_profile_set(lw->image,
 					color_profile_input_type, color_profile_screen_type,
 					color_profile_use_image);
 		image_color_profile_set_use(lw->image, color_profile_enabled);
 		}
 
-	return lw->image->widget;
+	return lw->split_images[i]->widget;
 }
+
+void layout_image_deactivate(LayoutWindow *lw, gint i)
+{
+
+	if (!lw->split_images[i]) return;
+	image_set_update_func(lw->split_images[i], NULL, NULL);
+	layout_image_set_buttons_inactive(lw, i);
+	image_set_scroll_notify_func(lw->split_images[i], NULL, NULL);
+
+	image_attach_window(lw->split_images[i], NULL, NULL, NULL, FALSE);
+	image_select(lw->split_images[i], FALSE);
+}
+
+
+void layout_image_activate(LayoutWindow *lw, gint i)
+{
+	const gchar *path;
+
+	gchar *base;
+	gint row;
+	gint j;
+	
+	if (!lw->split_images[i]) return;
+
+	/* deactivate currently active */
+	if (lw->active_split_image != i)
+		layout_image_deactivate(lw, lw->active_split_image);
+
+	lw->image = lw->split_images[i];
+	lw->active_split_image = i;
+	
+	image_set_update_func(lw->image, layout_image_update_cb, lw);
+	layout_image_set_buttons(lw);
+	image_set_scroll_notify_func(lw->image, layout_image_scroll_notify_cb, lw);
+
+	image_attach_window(lw->image, lw->window, NULL, "GQview", FALSE);
+
+	image_select(lw->split_images[i], TRUE);
+
+	path = image_get_path(lw->image);
+
+        if (path)
+		{
+//		layout_list_sync_path(lw, path);
+		layout_set_path(lw, path);
+		}
+}
+
+
+GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
+{
+	gint i;
+	
+	if (!lw->split_images[0])
+		{
+		layout_image_new(lw, 0);
+		layout_image_activate(lw, 0);
+		}
+		
+	for (i=1; i < MAX_SPLIT_IMAGES; i++)
+		{
+		if (lw->split_images[i])
+			{
+			gtk_widget_unref(lw->split_images[i]->widget);
+			lw->split_images[i] = NULL;
+			}
+		}
+		
+        if (!lw->image || lw->active_split_image != 0)
+		{
+		layout_image_activate(lw, 0);
+		}
+	
+	lw->split_mode = SPLIT_NONE;
+	
+	lw->split_image_widget = lw->split_images[0]->widget;
+			
+	return lw->split_image_widget;
+
+}
+
+GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
+{
+	GtkWidget *paned;
+	gint i;
+	
+	if (!lw->split_images[0])
+		{
+		layout_image_new(lw, 0);
+		layout_image_activate(lw, 0);
+		}
+
+	if (!lw->split_images[1])
+		{
+		layout_image_new(lw, 1);
+		if (lw->image)
+			image_change_path(lw->split_images[1], 
+				image_get_path(lw->image), image_zoom_get_real(lw->image));
+		layout_image_deactivate(lw, 1);
+		}
+
+	
+	for (i=2; i < MAX_SPLIT_IMAGES; i++)
+		{
+		if (lw->split_images[i])
+			{
+			gtk_widget_unref(lw->split_images[i]->widget);
+			lw->split_images[i] = NULL;
+			}
+		}
+
+        if (!lw->image || lw->active_split_image < 0 || lw->active_split_image > 1)
+		{
+		layout_image_activate(lw, 0);
+		}
+
+	if (horizontal)
+		paned = gtk_hpaned_new ();
+	else
+		paned = gtk_vpaned_new ();
+
+	gtk_paned_pack1 (GTK_PANED (paned), lw->split_images[0]->widget, TRUE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (paned), lw->split_images[1]->widget, TRUE, TRUE);
+	
+	gtk_widget_show (lw->split_images[0]->widget);
+	gtk_widget_show (lw->split_images[1]->widget);
+	
+
+	lw->split_mode = horizontal ? SPLIT_HOR : SPLIT_VERT;
+	lw->split_image_widget = paned;
+			
+	return lw->split_image_widget;
+
+}
+
+GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
+{
+	GtkWidget *hpaned;
+	GtkWidget *vpaned1;
+	GtkWidget *vpaned2;
+	gint i;
+	
+	if (!lw->split_images[0])
+		{
+		layout_image_new(lw, 0);
+		layout_image_activate(lw, 0);
+		}
+
+	for (i=1; i < 4; i++)
+		if (!lw->split_images[i])
+			{
+			layout_image_new(lw, i);
+			if (lw->image)
+				image_change_path(lw->split_images[i], 
+					image_get_path(lw->image), image_zoom_get_real(lw->image));
+			layout_image_deactivate(lw, i);
+			}
+
+	for (i=4; i < MAX_SPLIT_IMAGES; i++)
+		{
+		if (lw->split_images[i])
+			{
+			gtk_widget_unref(lw->split_images[i]->widget);
+			lw->split_images[i] = NULL;
+			}
+		}
+
+        if (!lw->image || lw->active_split_image < 0 || lw->active_split_image > 3)
+		{
+		layout_image_activate(lw, 0);
+		}
+
+	hpaned = gtk_hpaned_new ();
+	vpaned1 = gtk_vpaned_new ();
+	vpaned2 = gtk_vpaned_new ();
+
+	gtk_paned_pack1 (GTK_PANED (vpaned1), lw->split_images[0]->widget, TRUE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (vpaned1), lw->split_images[2]->widget, TRUE, TRUE);
+
+	gtk_paned_pack1 (GTK_PANED (vpaned2), lw->split_images[1]->widget, TRUE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (vpaned2), lw->split_images[3]->widget, TRUE, TRUE);
+
+	gtk_paned_pack1 (GTK_PANED (hpaned), vpaned1, TRUE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (hpaned), vpaned2, TRUE, TRUE);
+
+	
+	for (i=0; i < 4; i++)
+		gtk_widget_show (lw->split_images[i]->widget);
+	gtk_widget_show (vpaned1);
+	gtk_widget_show (vpaned2);
+	
+
+	lw->split_mode = SPLIT_QUAD;
+	lw->split_image_widget = hpaned;
+			
+	return lw->split_image_widget;
+
+}
+
+GtkWidget *layout_image_setup_split(LayoutWindow *lw, ImageSplitMode mode)
+{
+	switch (mode)
+		{
+		case SPLIT_HOR: 
+			return layout_image_setup_split_hv(lw, TRUE);
+		case SPLIT_VERT:
+			return layout_image_setup_split_hv(lw, FALSE);
+		case SPLIT_QUAD:
+			return layout_image_setup_split_quad(lw);
+		case SPLIT_NONE:
+		default:
+			return layout_image_setup_split_none(lw);
+		}
+}
+
 
 /*
  *-----------------------------------------------------------------------------

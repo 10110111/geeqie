@@ -38,6 +38,8 @@ void image_set_state_func(ImageWindow *imd,
 			  void (*func)(ImageWindow *imd, ImageState state, gpointer data),
 			  gpointer data);
 
+void image_select(ImageWindow *imd, gboolean select);
+
 /* path, name */
 const gchar *image_get_path(ImageWindow *imd);
 const gchar *image_get_name(ImageWindow *imd);
@@ -54,6 +56,9 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source);
 
 GdkPixbuf *image_get_pixbuf(ImageWindow *imd);
 
+
+void image_sync_scroll_from_image_absolute(ImageWindow *imd, ImageWindow *source);
+void image_sync_zoom_from_image(ImageWindow *imd, ImageWindow *source);
 /* manipulation */
 void image_area_changed(ImageWindow *imd, gint x, gint y, gint width, gint height);
 void image_reload(ImageWindow *imd);

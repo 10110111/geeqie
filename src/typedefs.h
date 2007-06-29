@@ -53,6 +53,15 @@ typedef enum {
 	IMAGE_STATE_DELAY_FLIP	= 1 << 6
 } ImageState;
 
+typedef enum {
+	SPLIT_NONE = 0,
+	SPLIT_VERT,
+	SPLIT_HOR,
+	SPLIT_QUAD,
+} ImageSplitMode;
+
+#define MAX_SPLIT_IMAGES 4
+
 typedef struct _ImageLoader ImageLoader;
 typedef struct _ThumbLoader ThumbLoader;
 
@@ -233,6 +242,7 @@ struct _ImageWindow
 	GtkWidget *widget;	/* use this to add it and show it */
 	GtkWidget *pr;
 	GtkWidget *frame;
+	GtkWidget *inner_frame;
 
 	gchar *image_path;
 	const gchar *image_name;
@@ -343,6 +353,14 @@ struct _LayoutWindow
 
 	ImageWindow *image;
 
+	ImageWindow *split_images[MAX_SPLIT_IMAGES];
+        ImageSplitMode split_mode;
+	gint active_split_image;
+
+        GtkWidget *split_image_widget;
+	
+	gint connect_zoom, connect_scroll;
+	
 	/* tools window (float) */
 
 	GtkWidget *tools;

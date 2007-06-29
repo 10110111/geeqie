@@ -13,7 +13,11 @@
 #define LAYOUT_IMAGE_H
 
 
-GtkWidget *layout_image_new(LayoutWindow *lw, const gchar *path);
+GtkWidget *layout_image_new(LayoutWindow *lw, gint i);
+void layout_image_activate(LayoutWindow *lw, gint i);
+GtkWidget *layout_image_setup_split_none(LayoutWindow *lw);
+GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal);
+GtkWidget *layout_image_setup_split(LayoutWindow *lw, ImageSplitMode mode);
 
 void layout_image_set_path(LayoutWindow *lw, const gchar *path);
 void layout_image_set_with_ahead(LayoutWindow *lw, const gchar *path, const gchar *read_ahead_path);

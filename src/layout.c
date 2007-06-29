@@ -1432,6 +1432,28 @@ static void layout_grid_compute(LayoutWindow *lw,
 		}
 }
 
+void layout_split_change(LayoutWindow *lw, ImageSplitMode mode)
+{
+	GtkWidget *image;
+	gint i;
+	for (i=0; i < MAX_SPLIT_IMAGES; i++)
+		{
+		if (lw->split_images[i])
+			{
+			gtk_widget_hide(lw->split_images[i]->widget);
+			if (lw->split_images[i]->widget->parent != lw->utility_box) 
+				gtk_container_remove(GTK_CONTAINER(lw->split_images[i]->widget->parent), lw->split_images[i]->widget);
+			}
+		}
+	gtk_container_remove(GTK_CONTAINER(lw->utility_box), lw->split_image_widget);
+
+	image = layout_image_setup_split(lw, mode);
+
+	gtk_box_pack_start(GTK_BOX(lw->utility_box), image, TRUE, TRUE, 0);
+	gtk_box_reorder_child(GTK_BOX(lw->utility_box), image, 0);
+	gtk_widget_show(image);
+}
+
 static void layout_grid_setup(LayoutWindow *lw)
 {
 	gint priority_location;
@@ -1452,7 +1474,9 @@ static void layout_grid_setup(LayoutWindow *lw)
 
 	priority_location = layout_grid_compass(lw);
 
-	image = layout_image_new(lw, NULL);
+	image = layout_image_setup_split(lw, lw->split_mode);
+	
+	
 	tools = layout_tools_new(lw);
 	files = layout_list_new(lw);
 
@@ -1538,7 +1562,7 @@ static void layout_grid_setup(LayoutWindow *lw)
 void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 {
 	gchar *path;
-	ImageWindow *old_image;
+	gint i;
 
 	if (!layout_valid(&lw)) return;
 
@@ -1564,7 +1588,6 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 
 	path = lw->path;
 	lw->path = NULL;
-	old_image = lw->image;
 	lw->image = NULL;
 	lw->utility_box = NULL;
 
@@ -1572,9 +1595,14 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 
 	/* clear it all */
 
-	gtk_widget_hide(old_image->widget);
-	gtk_widget_ref(old_image->widget);
-	gtk_container_remove(GTK_CONTAINER(old_image->widget->parent), old_image->widget);
+	for (i=0; i < MAX_SPLIT_IMAGES; i++)
+		{
+		if (lw->split_images[i])
+			{
+			gtk_widget_hide(lw->split_images[i]->widget);
+			gtk_container_remove(GTK_CONTAINER(lw->split_images[i]->widget->parent), lw->split_images[i]->widget);
+			}
+		}
 
 	lw->h_pane = NULL;
 	lw->v_pane = NULL;
@@ -1616,20 +1644,18 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 
 	/* sync */
 
-	if (image_get_path(old_image))
+	if (image_get_path(lw->image))
 		{
-		layout_set_path(lw, image_get_path(old_image));
+		layout_set_path(lw, image_get_path(lw->image));
 		}
 	else
 		{
 		layout_set_path(lw, path);
 		}
-	image_change_from_image(lw->image, old_image);
 	image_top_window_set_sync(lw->image, (lw->tools_float || lw->tools_hidden));
 
 	/* clean up */
 
-	gtk_widget_unref(old_image->widget);
 	g_free(path);
 }
 
