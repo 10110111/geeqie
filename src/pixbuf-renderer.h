@@ -141,6 +141,7 @@ struct _PixbufRendererClass
 	void (* scroll_notify)	(PixbufRenderer *pr);
 
 	void (* render_complete)(PixbufRenderer *pr);
+	void (* drag)		(PixbufRenderer *pr, GdkEventButton *event);
 };
 
 

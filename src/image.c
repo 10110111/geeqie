@@ -64,6 +64,19 @@ static void image_click_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer d
 		}
 }
 
+static void image_drag_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer data)
+{
+	ImageWindow *imd = data;
+
+	if (imd->func_drag)
+		{
+		imd->func_drag(imd, event->button, event->time,
+				 event->x, event->y, event->state,
+				 event->x - pr->drag_last_x, event->y - pr->drag_last_y,
+				 imd->data_button);
+		}
+}
+
 static void image_scroll_notify_cb(PixbufRenderer *pr, gpointer data)
 {
 	ImageWindow *imd = data;
@@ -1103,6 +1116,14 @@ void image_set_button_func(ImageWindow *imd,
 	imd->data_button = data;
 }
 
+void image_set_drag_func(ImageWindow *imd,
+			   void (*func)(ImageWindow *, gint button, guint32 time, gdouble x, gdouble y, guint state, gdouble dx, gdouble dy, gpointer),
+			   gpointer data)
+{
+	imd->func_drag = func;
+	imd->data_drag = data;
+}
+
 void image_set_scroll_func(ImageWindow *imd,
 			   void (*func)(ImageWindow *, GdkScrollDirection direction, guint32 time, gdouble x, gdouble y, guint state, gpointer),
 			   gpointer data)
@@ -1836,6 +1857,8 @@ ImageWindow *image_new(gint frame)
 			 G_CALLBACK(image_zoom_cb), imd);
 	g_signal_connect(G_OBJECT(imd->pr), "render_complete",
 			 G_CALLBACK(image_render_complete_cb), imd);
+	g_signal_connect(G_OBJECT(imd->pr), "drag",
+			 G_CALLBACK(image_drag_cb), imd);
 
 	image_list = g_list_append(image_list, imd);
 

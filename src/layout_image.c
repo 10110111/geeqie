@@ -1526,10 +1526,10 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkScrollDirection directio
 		}
 }
 
-static void layout_image_scroll_notify_cb(ImageWindow *imd, gint x, gint y, gint width, gint height, gpointer data)
+static void layout_image_drag_cb(ImageWindow *imd, gint button, guint32 time,
+				 gdouble x, gdouble y, guint state, gdouble dx, gdouble dy, gpointer data)
 {
 	gint i;
-	printf("scroll cb %d %d %d %d\n", x,y,width, height);
 	LayoutWindow *lw = data;
 
 
@@ -1554,6 +1554,7 @@ static void layout_image_button_inactive_cb(ImageWindow *imd, gint button, guint
 				   gdouble x, gdouble y, guint state, gpointer data)
 {
 	LayoutWindow *lw = data;
+	GtkWidget *menu;
 	gint i = image_idx(lw, imd);
 	
 	if (i != -1)
@@ -1561,7 +1562,47 @@ static void layout_image_button_inactive_cb(ImageWindow *imd, gint button, guint
 		printf("image activate %d\n", i);
 		layout_image_activate(lw, i);
 		}
+
+	switch (button)
+		{
+		case 3:
+			menu = layout_image_pop_menu(lw);
+			if (imd == lw->image)
+				{
+				g_object_set_data(G_OBJECT(menu), "click_parent", imd->widget);
+				}
+			gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, time);
+			break;
+		default:
+			break;
+		}
+
 }
+
+static void layout_image_drag_inactive_cb(ImageWindow *imd, gint button, guint32 time,
+				 gdouble x, gdouble y, guint state, gdouble dx, gdouble dy, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	gint i = image_idx(lw, imd);
+	
+	if (i != -1)
+		{
+		printf("image activate %d\n", i);
+		layout_image_activate(lw, i);
+		}
+
+
+	for (i=0; i < MAX_SPLIT_IMAGES; i++)
+		{
+		if (lw->split_images[i] && lw->split_images[i] != imd)
+//			if (lw->connect_zoom)
+//				image_sync_zoom_from_image(lw->split_images[i], imd);
+			if (lw->connect_scroll)
+				image_sync_scroll_from_image_absolute(lw->split_images[i], imd);
+		}
+}
+
 
 static void layout_image_set_buttons(LayoutWindow *lw)
 {
@@ -1619,7 +1660,7 @@ void layout_image_deactivate(LayoutWindow *lw, gint i)
 	if (!lw->split_images[i]) return;
 	image_set_update_func(lw->split_images[i], NULL, NULL);
 	layout_image_set_buttons_inactive(lw, i);
-	image_set_scroll_notify_func(lw->split_images[i], NULL, NULL);
+	image_set_drag_func(lw->image, layout_image_drag_inactive_cb, lw);
 
 	image_attach_window(lw->split_images[i], NULL, NULL, NULL, FALSE);
 	image_select(lw->split_images[i], FALSE);
@@ -1645,7 +1686,7 @@ void layout_image_activate(LayoutWindow *lw, gint i)
 	
 	image_set_update_func(lw->image, layout_image_update_cb, lw);
 	layout_image_set_buttons(lw);
-	image_set_scroll_notify_func(lw->image, layout_image_scroll_notify_cb, lw);
+	image_set_drag_func(lw->image, layout_image_drag_cb, lw);
 
 	image_attach_window(lw->image, lw->window, NULL, "GQview", FALSE);
 

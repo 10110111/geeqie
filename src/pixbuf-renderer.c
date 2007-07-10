@@ -136,6 +136,7 @@ enum {
 	SIGNAL_CLICKED,
 	SIGNAL_SCROLL_NOTIFY,
 	SIGNAL_RENDER_COMPLETE,
+	SIGNAL_DRAG,
 	SIGNAL_COUNT
 };
 
@@ -420,6 +421,16 @@ static void pixbuf_renderer_class_init(PixbufRendererClass *class)
 			     NULL, NULL,
 			     g_cclosure_marshal_VOID__VOID,
 			     G_TYPE_NONE, 0);
+
+	signals[SIGNAL_DRAG] = 
+		g_signal_new("drag",
+			     G_OBJECT_CLASS_TYPE(gobject_class),
+			     G_SIGNAL_RUN_LAST,
+			     G_STRUCT_OFFSET(PixbufRendererClass, drag),
+			     NULL, NULL,
+			     g_cclosure_marshal_VOID__BOXED,
+			     G_TYPE_NONE, 1,
+			     GDK_TYPE_EVENT);
 }
 
 static void pixbuf_renderer_init(PixbufRenderer *pr)
@@ -2487,6 +2498,11 @@ static void pr_render_complete_signal(PixbufRenderer *pr)
 		}
 }
 
+static void pr_drag_signal(PixbufRenderer *pr, GdkEventButton *bevent)
+{
+	g_signal_emit(pr, signals[SIGNAL_DRAG], 0, bevent);
+}
+
 /*
  *-------------------------------------------------------------------
  * sync and clamp
@@ -2999,6 +3015,8 @@ static gint pr_mouse_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpoint
 	/* do the scroll */
 	pixbuf_renderer_scroll(pr, (pr->drag_last_x - bevent->x) * accel,
 			       (pr->drag_last_y - bevent->y) * accel);
+
+	pr_drag_signal(pr, bevent);
 
 	pr->drag_last_x = bevent->x;
 	pr->drag_last_y = bevent->y;

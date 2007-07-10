@@ -25,6 +25,9 @@ void image_set_update_func(ImageWindow *imd,
 void image_set_button_func(ImageWindow *imd,
 	void (*func)(ImageWindow *, gint button, guint32 time, gdouble x, gdouble y, guint state, gpointer),
 	gpointer data);
+void image_set_drag_func(ImageWindow *imd,
+	void (*func)(ImageWindow *, gint button, guint32 time, gdouble x, gdouble y, guint state, gdouble dx, gdouble dy, gpointer),
+	gpointer data);
 void image_set_scroll_func(ImageWindow *imd,
 	void (*func)(ImageWindow *, GdkScrollDirection direction, guint32 time, gdouble x, gdouble y, guint state, gpointer),
         gpointer data);

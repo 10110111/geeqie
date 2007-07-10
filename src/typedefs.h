@@ -279,10 +279,13 @@ struct _ImageWindow
 	/* button, scroll functions */
 	void (*func_button)(ImageWindow *, gint button,
 			    guint32 time, gdouble x, gdouble y, guint state, gpointer);
+	void (*func_drag)(ImageWindow *, gint button,
+			    guint32 time, gdouble x, gdouble y, guint state, gdouble dx, gdouble dy,gpointer);
 	void (*func_scroll)(ImageWindow *, GdkScrollDirection direction,
 			    guint32 time, gdouble x, gdouble y, guint state, gpointer);
 
 	gpointer data_button;
+	gpointer data_drag;
 	gpointer data_scroll;
 
 	/* scroll notification (for scroll bar implementation) */
