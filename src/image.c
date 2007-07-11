@@ -67,12 +67,16 @@ static void image_click_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer d
 static void image_drag_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer data)
 {
 	ImageWindow *imd = data;
+	gint width, height;
 
+	printf("drag_cb %p\n", imd->func_drag);
+	pixbuf_renderer_get_scaled_size(pr, &width, &height);
+	
 	if (imd->func_drag)
 		{
 		imd->func_drag(imd, event->button, event->time,
 				 event->x, event->y, event->state,
-				 event->x - pr->drag_last_x, event->y - pr->drag_last_y,
+				 (gfloat)(pr->drag_last_x - event->x) / width, (gfloat)(pr->drag_last_y - event->y) / height,
 				 imd->data_button);
 		}
 }
@@ -1298,30 +1302,36 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	pixbuf_renderer_move(PIXBUF_RENDERER(imd->pr), PIXBUF_RENDERER(source->pr));
 }
 
-void image_sync_scroll_from_image_absolute(ImageWindow *imd, ImageWindow *source)
+void image_get_scroll_center(ImageWindow *imd, gfloat *x, gfloat *y)
 {
-	gint src_width, src_height, dst_width, dst_height;
+	gint src_width, src_height;
 	gint src_x, src_y;
-	gfloat dst_x, dst_y;
 	GdkRectangle src_rect;
-	GdkRectangle dst_rect;
-	gfloat dst_scale = pixbuf_renderer_zoom_get_scale(PIXBUF_RENDERER(imd->pr));
 	
-	pixbuf_renderer_get_virtual_rect(PIXBUF_RENDERER(source->pr), &src_rect);
-	pixbuf_renderer_get_scaled_size(PIXBUF_RENDERER(source->pr), &src_width, &src_height);
-	pixbuf_renderer_get_virtual_rect(PIXBUF_RENDERER(imd->pr), &dst_rect);
-	pixbuf_renderer_get_scaled_size(PIXBUF_RENDERER(imd->pr), &dst_width, &dst_height);
+	pixbuf_renderer_get_virtual_rect(PIXBUF_RENDERER(imd->pr), &src_rect);
+	pixbuf_renderer_get_scaled_size(PIXBUF_RENDERER(imd->pr), &src_width, &src_height);
 
 	src_x = src_rect.x + src_rect.width / 2;
 	src_y = src_rect.y + src_rect.height / 2;
 
-	dst_x = (gfloat)src_x * dst_width / src_width - dst_rect.width / 2;
-	dst_y = (gfloat)src_y * dst_height / src_height - dst_rect.height / 2;
-
-	
-
-	image_scroll_to_point(imd, dst_x / dst_scale, dst_y / dst_scale, 0, 0);
+	*x = (gfloat)src_x / src_width;
+	*y = (gfloat)src_y / src_height;
 }
+
+void image_set_scroll_center(ImageWindow *imd, gfloat x, gfloat y)
+{
+	gint dst_width, dst_height;
+	gfloat dst_x, dst_y;
+	gfloat dst_scale = pixbuf_renderer_zoom_get_scale(PIXBUF_RENDERER(imd->pr));
+	
+	pixbuf_renderer_get_scaled_size(PIXBUF_RENDERER(imd->pr), &dst_width, &dst_height);
+
+	dst_x = x * dst_width;
+	dst_y = y * dst_height;
+
+	image_scroll_to_point(imd, dst_x / dst_scale, dst_y / dst_scale, 0.5, 0.5);
+}
+
 
 void image_sync_zoom_from_image(ImageWindow *imd, ImageWindow *source)
 {

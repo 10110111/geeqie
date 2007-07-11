@@ -60,7 +60,9 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source);
 GdkPixbuf *image_get_pixbuf(ImageWindow *imd);
 
 
-void image_sync_scroll_from_image_absolute(ImageWindow *imd, ImageWindow *source);
+void image_get_scroll_center(ImageWindow *imd, gfloat *x, gfloat *y);
+void image_set_scroll_center(ImageWindow *imd, gfloat x, gfloat y);
+
 void image_sync_zoom_from_image(ImageWindow *imd, ImageWindow *source);
 /* manipulation */
 void image_area_changed(ImageWindow *imd, gint x, gint y, gint width, gint height);

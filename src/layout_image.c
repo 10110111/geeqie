@@ -1130,9 +1130,14 @@ gint layout_image_get_index(LayoutWindow *lw)
 
 void layout_image_set_path(LayoutWindow *lw, const gchar *path)
 {
+	gfloat sx, sy;
 	if (!layout_valid(&lw)) return;
 
+	image_get_scroll_center(lw->image, &sx, &sy);
+
 	image_change_path(lw->image, path, image_zoom_get_default(lw->image, zoom_mode));
+
+	image_set_scroll_center(lw->image, sx, sy);
 
 	layout_list_sync_path(lw, path);
 	layout_image_slideshow_continue_check(lw);
@@ -1536,10 +1541,21 @@ static void layout_image_drag_cb(ImageWindow *imd, gint button, guint32 time,
 	for (i=0; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i] && lw->split_images[i] != imd)
-//			if (lw->connect_zoom)
-//				image_sync_zoom_from_image(lw->split_images[i], imd);
-			if (lw->connect_scroll)
-				image_sync_scroll_from_image_absolute(lw->split_images[i], imd);
+			if (lw->connect_scroll) 
+				{
+				gfloat sx, sy;
+				if (!(state & GDK_CONTROL_MASK))
+					{
+					image_get_scroll_center(imd, &sx, &sy);
+					}
+				else 
+					{
+					image_get_scroll_center(lw->split_images[i], &sx, &sy);
+					sx += dx;
+					sy += dy;
+					}
+				image_set_scroll_center(lw->split_images[i], sx, sy);
+				}
 		}
 }
 
@@ -1586,6 +1602,7 @@ static void layout_image_drag_inactive_cb(ImageWindow *imd, gint button, guint32
 
 	gint i = image_idx(lw, imd);
 	
+	printf("drag inacive\n");
 	if (i != -1)
 		{
 		printf("image activate %d\n", i);
@@ -1593,14 +1610,8 @@ static void layout_image_drag_inactive_cb(ImageWindow *imd, gint button, guint32
 		}
 
 
-	for (i=0; i < MAX_SPLIT_IMAGES; i++)
-		{
-		if (lw->split_images[i] && lw->split_images[i] != imd)
-//			if (lw->connect_zoom)
-//				image_sync_zoom_from_image(lw->split_images[i], imd);
-			if (lw->connect_scroll)
-				image_sync_scroll_from_image_absolute(lw->split_images[i], imd);
-		}
+	/* continue as with active image */
+	layout_image_drag_cb(imd, button, time, x, y, state, dx, dy, data);
 }
 
 
@@ -1660,7 +1671,7 @@ void layout_image_deactivate(LayoutWindow *lw, gint i)
 	if (!lw->split_images[i]) return;
 	image_set_update_func(lw->split_images[i], NULL, NULL);
 	layout_image_set_buttons_inactive(lw, i);
-	image_set_drag_func(lw->image, layout_image_drag_inactive_cb, lw);
+	image_set_drag_func(lw->split_images[i], layout_image_drag_inactive_cb, lw);
 
 	image_attach_window(lw->split_images[i], NULL, NULL, NULL, FALSE);
 	image_select(lw->split_images[i], FALSE);
