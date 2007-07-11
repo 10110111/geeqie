@@ -548,27 +548,27 @@ static void li_pop_menu_zoom_in_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	image_zoom_adjust(lw->image, get_zoom_increment());
+	layout_image_zoom_adjust(lw, get_zoom_increment());
 }
 
 static void li_pop_menu_zoom_out_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
-	image_zoom_adjust(lw->image, -get_zoom_increment());
+	layout_image_zoom_adjust(lw, -get_zoom_increment());
 }
 
 static void li_pop_menu_zoom_1_1_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	image_zoom_set(lw->image, 1.0);
+	layout_image_zoom_set(lw, 1.0);
 }
 
 static void li_pop_menu_zoom_fit_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	image_zoom_set(lw->image, 0.0);
+	layout_image_zoom_set(lw, 0.0);
 }
 
 static void li_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
@@ -1070,16 +1070,30 @@ void layout_image_scroll(LayoutWindow *lw, gint x, gint y)
 
 void layout_image_zoom_adjust(LayoutWindow *lw, gdouble increment)
 {
+	gint i;
 	if (!layout_valid(&lw)) return;
 
 	image_zoom_adjust(lw->image, increment);
+
+	for (i=0; i < MAX_SPLIT_IMAGES; i++)
+		{
+		if (lw->split_images[i] && lw->split_images[i] != lw->image && lw->connect_zoom) 
+			image_zoom_adjust(lw->split_images[i], increment); ;
+		}
 }
 
 void layout_image_zoom_set(LayoutWindow *lw, gdouble zoom)
 {
+	gint i;
 	if (!layout_valid(&lw)) return;
 
 	image_zoom_set(lw->image, zoom);
+
+	for (i=0; i < MAX_SPLIT_IMAGES; i++)
+		{
+		if (lw->split_images[i] && lw->split_images[i] != lw->image && lw->connect_zoom) 
+			image_zoom_set(lw->split_images[i], zoom);
+		}
 }
 
 void layout_image_zoom_set_fill_geometry(LayoutWindow *lw, gint vertical)
