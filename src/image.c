@@ -69,7 +69,6 @@ static void image_drag_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer da
 	ImageWindow *imd = data;
 	gint width, height;
 
-	printf("drag_cb %p\n", imd->func_drag);
 	pixbuf_renderer_get_scaled_size(pr, &width, &height);
 	
 	if (imd->func_drag)
@@ -1302,44 +1301,6 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	pixbuf_renderer_move(PIXBUF_RENDERER(imd->pr), PIXBUF_RENDERER(source->pr));
 }
 
-void image_get_scroll_center(ImageWindow *imd, gfloat *x, gfloat *y)
-{
-	gint src_width, src_height;
-	gint src_x, src_y;
-	GdkRectangle src_rect;
-	
-	pixbuf_renderer_get_virtual_rect(PIXBUF_RENDERER(imd->pr), &src_rect);
-	pixbuf_renderer_get_scaled_size(PIXBUF_RENDERER(imd->pr), &src_width, &src_height);
-
-	src_x = src_rect.x + src_rect.width / 2;
-	src_y = src_rect.y + src_rect.height / 2;
-
-	*x = (gfloat)src_x / src_width;
-	*y = (gfloat)src_y / src_height;
-}
-
-void image_set_scroll_center(ImageWindow *imd, gfloat x, gfloat y)
-{
-	gint dst_width, dst_height;
-	gfloat dst_x, dst_y;
-	gfloat dst_scale = pixbuf_renderer_zoom_get_scale(PIXBUF_RENDERER(imd->pr));
-	
-	pixbuf_renderer_get_scaled_size(PIXBUF_RENDERER(imd->pr), &dst_width, &dst_height);
-
-	dst_x = x * dst_width;
-	dst_y = y * dst_height;
-
-	image_scroll_to_point(imd, dst_x / dst_scale, dst_y / dst_scale, 0.5, 0.5);
-}
-
-
-void image_sync_zoom_from_image(ImageWindow *imd, ImageWindow *source)
-{
-	image_zoom_set(imd, image_zoom_get(source));
-}
-
-
-
 /* manipulation */
 
 void image_area_changed(ImageWindow *imd, gint x, gint y, gint width, gint height)
@@ -1364,6 +1325,18 @@ void image_scroll_to_point(ImageWindow *imd, gint x, gint y,
 {
 	pixbuf_renderer_scroll_to_point((PixbufRenderer *)imd->pr, x, y, x_align, y_align);
 }
+
+void image_get_scroll_center(ImageWindow *imd, gdouble *x, gdouble *y)
+{
+	pixbuf_renderer_get_scroll_center(PIXBUF_RENDERER(imd->pr), x, y);
+}
+
+void image_set_scroll_center(ImageWindow *imd, gdouble x, gdouble y)
+{
+	pixbuf_renderer_set_scroll_center(PIXBUF_RENDERER(imd->pr), x, y);
+}
+
+
 
 void image_alter(ImageWindow *imd, AlterType type)
 {

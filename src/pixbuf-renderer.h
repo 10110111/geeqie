@@ -62,6 +62,9 @@ struct _PixbufRenderer
 	gint x_scroll;		/* scroll offset of image (into width, height to start drawing) */
 	gint y_scroll;
 
+	gdouble subpixel_x_scroll; /* subpixel scroll alignment, used to prevent acumulation of rounding errors */
+	gdouble subpixel_y_scroll;
+
 	gdouble zoom_min;
 	gdouble zoom_max;
 	gdouble zoom;		/* zoom we want (0 is auto) */
@@ -182,6 +185,8 @@ void pixbuf_renderer_scroll(PixbufRenderer *pr, gint x, gint y);
 void pixbuf_renderer_scroll_to_point(PixbufRenderer *pr, gint x, gint y,
 				     gdouble x_align, gdouble y_align);
 
+void pixbuf_renderer_get_scroll_center(PixbufRenderer *pr, gdouble *x, gdouble *y);
+void pixbuf_renderer_set_scroll_center(PixbufRenderer *pr, gdouble x, gdouble y);
 /* zoom */
 
 void pixbuf_renderer_zoom_adjust(PixbufRenderer *pr, gdouble increment);

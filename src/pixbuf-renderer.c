@@ -2973,6 +2973,33 @@ void pixbuf_renderer_scroll_to_point(PixbufRenderer *pr, gint x, gint y,
 	pixbuf_renderer_scroll(pr, px, py);
 }
 
+/* get or set coordinates of viewport center in the image, in range 0.0 - 1.0 */
+
+void pixbuf_renderer_get_scroll_center(PixbufRenderer *pr, gdouble *x, gdouble *y)
+{
+	gint src_x, src_y;
+	
+	src_x = pr->x_scroll + pr->vis_width / 2;
+	src_y = pr->y_scroll + pr->vis_height / 2;
+
+	*x = (gdouble)src_x / pr->width;
+	*y = (gdouble)src_y / pr->height;
+}
+
+void pixbuf_renderer_set_scroll_center(PixbufRenderer *pr, gdouble x, gdouble y)
+{
+	gdouble dst_x, dst_y;
+
+	dst_x = x * pr->width  - pr->vis_width  / 2 - pr->x_scroll + CLAMP(pr->subpixel_x_scroll, -1.0, 1.0);
+	dst_y = y * pr->height - pr->vis_height / 2 - pr->y_scroll + CLAMP(pr->subpixel_y_scroll, -1.0, 1.0);
+
+	pr->subpixel_x_scroll = dst_x - (int)dst_x;
+	pr->subpixel_y_scroll = dst_y - (int)dst_y;
+	
+	pixbuf_renderer_scroll(pr, (int)dst_x, (int)dst_y);
+}
+
+
 /*
  *-------------------------------------------------------------------
  * mouse

@@ -1144,7 +1144,7 @@ gint layout_image_get_index(LayoutWindow *lw)
 
 void layout_image_set_path(LayoutWindow *lw, const gchar *path)
 {
-	gfloat sx, sy;
+	gdouble sx, sy;
 	if (!layout_valid(&lw)) return;
 
 	image_get_scroll_center(lw->image, &sx, &sy);
@@ -1557,8 +1557,8 @@ static void layout_image_drag_cb(ImageWindow *imd, gint button, guint32 time,
 		if (lw->split_images[i] && lw->split_images[i] != imd)
 			if (lw->connect_scroll) 
 				{
-				gfloat sx, sy;
-				if (!(state & GDK_CONTROL_MASK))
+				gdouble sx, sy;
+				if (state & GDK_CONTROL_MASK)
 					{
 					image_get_scroll_center(imd, &sx, &sy);
 					}
@@ -1573,13 +1573,6 @@ static void layout_image_drag_cb(ImageWindow *imd, gint button, guint32 time,
 		}
 }
 
-static gint layout_image_mouse_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
-{
-
-	printf("mouse press\n");
-
-}
-
 static void layout_image_button_inactive_cb(ImageWindow *imd, gint button, guint32 time,
 				   gdouble x, gdouble y, guint state, gpointer data)
 {
@@ -1589,7 +1582,6 @@ static void layout_image_button_inactive_cb(ImageWindow *imd, gint button, guint
 	
 	if (i != -1)
 		{
-		printf("image activate %d\n", i);
 		layout_image_activate(lw, i);
 		}
 
@@ -1616,10 +1608,8 @@ static void layout_image_drag_inactive_cb(ImageWindow *imd, gint button, guint32
 
 	gint i = image_idx(lw, imd);
 	
-	printf("drag inacive\n");
 	if (i != -1)
 		{
-		printf("image activate %d\n", i);
 		layout_image_activate(lw, i);
 		}
 
@@ -1660,10 +1650,6 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 		lw->split_images[i] = image_new(TRUE);
 
 		gtk_widget_ref(lw->split_images[i]->widget);
-
-		g_signal_connect(G_OBJECT(lw->split_images[i]->widget), "button_press_event",
-                         G_CALLBACK(layout_image_mouse_press_cb), lw);
-
 
 		if (black_window_background) image_background_set_black(lw->split_images[i], TRUE);
 

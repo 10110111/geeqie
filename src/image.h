@@ -59,17 +59,14 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source);
 
 GdkPixbuf *image_get_pixbuf(ImageWindow *imd);
 
-
-void image_get_scroll_center(ImageWindow *imd, gfloat *x, gfloat *y);
-void image_set_scroll_center(ImageWindow *imd, gfloat x, gfloat y);
-
-void image_sync_zoom_from_image(ImageWindow *imd, ImageWindow *source);
 /* manipulation */
 void image_area_changed(ImageWindow *imd, gint x, gint y, gint width, gint height);
 void image_reload(ImageWindow *imd);
 void image_scroll(ImageWindow *imd, gint x, gint y);
 void image_scroll_to_point(ImageWindow *imd, gint x, gint y,
 			   gdouble x_align, gdouble y_align);
+void image_get_scroll_center(ImageWindow *imd, gdouble *x, gdouble *y);
+void image_set_scroll_center(ImageWindow *imd, gdouble x, gdouble y);
 void image_alter(ImageWindow *imd, AlterType type);
 
 /* zoom */
