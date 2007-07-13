@@ -88,8 +88,9 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	gint n, t;
 	CollectionData *cd;
 	CollectInfo *info;
-	gchar *ct;
-
+    gchar *ct;
+    int i;
+    
 	name = image_get_name(imd);
 	if (name)
 		{
@@ -177,11 +178,16 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 				       n, t, name_escaped,
 				       w, h,
 				       text_from_time(imd->mtime), size);
-		}
+
+        
+
+        }
 	g_free(size);
 	g_free(ct);
 	g_free(name_escaped);
-
+    for (i=0; i < FILEDATA_MARKS_SIZE; i++) {
+        
+    
 	layout = gtk_widget_create_pango_layout(imd->pr, NULL);
 	pango_layout_set_markup(layout, text, -1);
 	g_free(text);

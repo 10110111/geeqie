@@ -30,6 +30,7 @@ gint vflist_set_path(ViewFileList *vfl, const gchar *path);
 gint vflist_refresh(ViewFileList *vfl);
 
 void vflist_thumb_set(ViewFileList *vfl, gint enable);
+void vflist_marks_set(ViewFileList *vfl, gint enable);
 void vflist_sort_set(ViewFileList *vfl, SortType type, gint ascend);
 
 FileData *vflist_index_get_data(ViewFileList *vfl, gint row);

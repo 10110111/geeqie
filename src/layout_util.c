@@ -496,6 +496,13 @@ static void layout_menu_thumb_cb(GtkToggleAction *action, gpointer data)
 	layout_thumb_set(lw, gtk_toggle_action_get_active(action));
 }
 
+static void layout_menu_marks_cb(GtkToggleAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_marks_set(lw, gtk_toggle_action_get_active(action));
+}
+
 static void layout_menu_list_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -836,6 +843,7 @@ static GtkActionEntry menu_entries[] = {
 
 static GtkToggleActionEntry menu_toggle_entries[] = {
   { "Thumbnails",	NULL,		N_("_Thumbnails"),	"T",		NULL,	CB(layout_menu_thumb_cb) },
+  { "Marks",        NULL,		N_("_Marks"),	"M",		NULL,	CB(layout_menu_marks_cb) },  
   { "FolderTree",	NULL,		N_("Tr_ee"),		"<control>T",	NULL,	CB(layout_menu_tree_cb) },
   { "FloatTools",	NULL,		N_("_Float file list"),	"L",		NULL,	CB(layout_menu_float_cb) },
   { "HideToolbar",	NULL,		N_("Hide tool_bar"),	NULL,		NULL,	CB(layout_menu_toolbar_cb) },
@@ -913,6 +921,7 @@ static const char *menu_ui_description =
 "      <menuitem action='ZoomFit'/>"
 "      <separator/>"
 "      <menuitem action='Thumbnails'/>"
+"      <menuitem action='Marks'/>"
 "      <menuitem action='ViewList'/>"
 "      <menuitem action='ViewIcons'/>"
 "      <separator/>"

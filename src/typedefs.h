@@ -320,12 +320,14 @@ struct _ImageWindow
 	gint delay_flip;
 };
 
+#define FILEDATA_MARKS_SIZE 10
+
 struct _FileData {
 	gchar *path;
 	const gchar *name;
 	gint64 size;
 	time_t date;
-
+    gboolean marks[FILEDATA_MARKS_SIZE];
 	GdkPixbuf *pixbuf;
 };
 
@@ -379,7 +381,8 @@ struct _LayoutWindow
 
 	GtkWidget *thumb_button;
 	gint thumbs_enabled;
-
+    gint marks_enabled;
+    
 	/* dir view */
 
 	LayoutLocation dir_location;
@@ -515,7 +518,8 @@ struct _ViewFileList
 	FileData *select_fd;
 
 	gint thumbs_enabled;
-
+    gint marks_enabled;
+    
 	/* thumb updates */
 	gint thumbs_running;
 	gint thumbs_count;

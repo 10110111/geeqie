@@ -766,6 +766,11 @@ static void layout_list_sync_thumb(LayoutWindow *lw)
 	if (lw->vfl) vflist_thumb_set(lw->vfl, lw->thumbs_enabled);
 }
 
+static void layout_list_sync_marks(LayoutWindow *lw)
+{
+	if (lw->vfl) vflist_marks_set(lw->vfl, lw->marks_enabled);
+}
+
 static void layout_list_scroll_to_subpart(LayoutWindow *lw, const gchar *needle)
 {
 	if (!lw) return;
@@ -1040,6 +1045,19 @@ void layout_thumb_set(LayoutWindow *lw, gint enable)
 
 	layout_util_sync_thumb(lw);
 	layout_list_sync_thumb(lw);
+}
+
+void layout_marks_set(LayoutWindow *lw, gint enable)
+{
+	if (!layout_valid(&lw)) return;
+
+	if (lw->marks_enabled == enable) return;
+
+	lw->marks_enabled = enable;
+
+    //	layout_util_sync_marks(lw);
+    layout_list_sync_marks(lw);
+    
 }
 
 gint layout_thumb_get(LayoutWindow *lw)

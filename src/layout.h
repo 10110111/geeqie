@@ -53,6 +53,8 @@ void layout_refresh(LayoutWindow *lw);
 void layout_thumb_set(LayoutWindow *lw, gint enable);
 gint layout_thumb_get(LayoutWindow *lw);
 
+void layout_marks_set(LayoutWindow *lw, gint enable);
+
 void layout_sort_set(LayoutWindow *lw, SortType type, gint ascend);
 gint layout_sort_get(LayoutWindow *lw, SortType *type, gint *ascend);
 
