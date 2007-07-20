@@ -83,7 +83,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	PangoLayout *layout;
 	const gchar *name;
 	gchar *name_escaped;
-	gchar *text;
+	gchar *text, *text2;
 	gchar *size;
 	gint n, t;
 	CollectionData *cd;
@@ -185,13 +185,24 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	g_free(size);
 	g_free(ct);
 	g_free(name_escaped);
-    for (i=0; i < FILEDATA_MARKS_SIZE; i++) {
-        
-    
-	layout = gtk_widget_create_pango_layout(imd->pr, NULL);
-	pango_layout_set_markup(layout, text, -1);
-	g_free(text);
 
+	{
+        
+        GString *buf = g_string_sized_new(FILEDATA_MARKS_SIZE * 2);
+        
+        for (i=0; i < FILEDATA_MARKS_SIZE; i++) {
+            
+            g_string_append_printf(buf, " %c", 'a'+i);
+        }
+        text2 = g_strdup_printf("%s\n%s", text, buf->str);
+        
+    }
+        
+	layout = gtk_widget_create_pango_layout(imd->pr, NULL);
+	pango_layout_set_markup(layout, text2, -1);
+	g_free(text2);
+    g_free(text);
+    
 	pango_layout_get_pixel_size(layout, &width, &height);
 
 	width += 10;
