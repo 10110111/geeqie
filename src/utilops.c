@@ -1233,6 +1233,11 @@ static gint file_util_unlink(const gchar *path)
 
 	if (!isfile(path)) return FALSE;
 
+	if (editor_command[CMD_DELETE])
+		{
+		return start_editor_from_file(CMD_DELETE, path);
+		}
+
 	if (!safe_delete_enable)
 		{
 		return unlink_file(path);

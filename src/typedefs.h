@@ -13,6 +13,14 @@
 #ifndef TYPEDEFS_H
 #define TYPEDEFS_H
 
+typedef enum {
+	CMD_COPY = GQVIEW_EDITOR_GENERIC_SLOTS,
+	CMD_MOVE,
+	CMD_RENAME,
+	CMD_DELETE,
+	CMD_FOLDER,
+	GQVIEW_EDITOR_SLOTS
+} SpecialEditor;
 
 typedef enum {
 	SORT_NONE,

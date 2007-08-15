@@ -53,7 +53,6 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 
-#include "typedefs.h"
 
 /*
  *----------------------------------------------------------------------------
@@ -77,9 +76,11 @@
 
 #define MOUSEWHEEL_SCROLL_SIZE 20
 
-#define GQVIEW_EDITOR_SLOTS 10
+#define GQVIEW_EDITOR_GENERIC_SLOTS 10
 
 #define COLOR_PROFILE_INPUTS 4
+
+#include "typedefs.h"
 
 /*
  *----------------------------------------------------------------------------

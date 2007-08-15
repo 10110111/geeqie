@@ -199,10 +199,13 @@ static void config_window_apply(void)
 
 	for(i = 0; i < GQVIEW_EDITOR_SLOTS; i++)
 		{
-		g_free(editor_name[i]);
-		editor_name[i] = NULL;
-		buf = gtk_entry_get_text(GTK_ENTRY(editor_name_entry[i]));
-		if (buf && strlen(buf) > 0) editor_name[i] = g_strdup(buf);
+		if (i < GQVIEW_EDITOR_GENERIC_SLOTS)
+			{
+			g_free(editor_name[i]);
+			editor_name[i] = NULL;
+			buf = gtk_entry_get_text(GTK_ENTRY(editor_name_entry[i]));
+			if (buf && strlen(buf) > 0) editor_name[i] = g_strdup(buf);
+			}
 
 		g_free(editor_command[i]);
 		editor_command[i] = NULL;
@@ -715,7 +718,8 @@ static void editor_default_ok_cb(GenericDialog *gd, gpointer data)
 
 	for (i = 0; i < GQVIEW_EDITOR_SLOTS; i++)
 		{
-		gtk_entry_set_text(GTK_ENTRY(editor_name_entry[i]),
+		if (i < GQVIEW_EDITOR_GENERIC_SLOTS)
+			gtk_entry_set_text(GTK_ENTRY(editor_name_entry[i]),
 				   (editor_name[i]) ? editor_name[i] : "");
 		gtk_entry_set_text(GTK_ENTRY(editor_command_entry[i]),
 				   (editor_command[i]) ? editor_command[i] : "");
@@ -1117,14 +1121,22 @@ static void config_window_create(void)
 		{
 		gchar *buf;
 
-		buf = g_strdup_printf("%d", i+1);
-		pref_table_label(table, 0, i+1, buf, 1.0);
-		g_free(buf);
 
-		editor_name_entry[i] = gtk_entry_new();
-		gtk_entry_set_max_length(GTK_ENTRY(editor_name_entry[i]), EDITOR_NAME_MAX_LENGTH);
-		gtk_widget_set_size_request(editor_name_entry[i],80,-1);
-		if (editor_name[i]) gtk_entry_set_text(GTK_ENTRY(editor_name_entry[i]),editor_name[i]);
+		if (i < GQVIEW_EDITOR_GENERIC_SLOTS)
+			{
+			buf = g_strdup_printf("%d", i+1);
+			pref_table_label(table, 0, i+1, buf, 1.0);
+			g_free(buf);
+			editor_name_entry[i] = gtk_entry_new();
+			gtk_entry_set_max_length(GTK_ENTRY(editor_name_entry[i]), EDITOR_NAME_MAX_LENGTH);
+			gtk_widget_set_size_request(editor_name_entry[i],80,-1);
+			if (editor_name[i]) gtk_entry_set_text(GTK_ENTRY(editor_name_entry[i]),editor_name[i]);
+			}
+		else
+			{
+			editor_name_entry[i] = gtk_label_new(editor_name[i]);
+			}
+		
 		gtk_table_attach(GTK_TABLE (table),editor_name_entry[i],1,2,i+1,i+2,
 				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
 		gtk_widget_show(editor_name_entry[i]);

@@ -46,7 +46,7 @@ struct _EditorVerboseData {
 };
 
 
-static gchar *editor_slot_defaults[] = {
+static gchar *editor_slot_defaults[GQVIEW_EDITOR_SLOTS * 2] = {
 	N_("The Gimp"), "gimp-remote -n %f",
 	N_("XV"), "xv %f",
 	N_("Xpaint"), "xpaint %f",
@@ -57,9 +57,13 @@ static gchar *editor_slot_defaults[] = {
 	NULL, NULL,
 	N_("Rotate jpeg clockwise"), "%vif jpegtran -rotate 90 -copy all -outfile %p_tmp %p; then mv %p_tmp %p;else rm %p_tmp;fi",
 	N_("Rotate jpeg counterclockwise"), "%vif jpegtran -rotate 270 -copy all -outfile %p_tmp %p; then mv %p_tmp %p;else rm %p_tmp;fi",
-	NULL, NULL
+	/* special slots */
+	"External Copy command", NULL,
+	"External Move command", NULL,
+	"External Rename command", NULL,
+	"External Delete command", NULL,
+	"External New Folder command", NULL
 };
-
 
 static void editor_verbose_window_progress(EditorVerboseData *vd, const gchar *text);
 static gint editor_command_next(EditorVerboseData *vd);
@@ -502,10 +506,11 @@ static gint editor_line_break(const gchar *template, gchar **front, const gchar 
  *
  * [1] Note: %v,%V may also be preceded by "%w".
  */
-static void editor_command_run(const gchar *template, const gchar *text, GList *list)
+static gint editor_command_run(const gchar *template, const gchar *text, GList *list)
 {
 	gint verbose = FALSE;
 	gint for_each = FALSE;
+	gint ret = TRUE;
 
 	if (!template || template[0] == '\0') return;
 
@@ -587,36 +592,44 @@ static void editor_command_run(const gchar *template, const gchar *text, GList *
 			}
 		else
 			{
-			system(result->str);
+			int status = system(result->str);
+			/* FIXME: consistent return values */
+			if (!WIFEXITED(status) || WEXITSTATUS(status))
+				ret = FALSE;
 			}
 
 		g_free(front);
 		g_string_free(result, TRUE);
 		}
+	return ret;
 }
 
-void start_editor_from_path_list(gint n, GList *list)
+gint start_editor_from_path_list(gint n, GList *list)
 {
 	gchar *command;
+	gint ret;
 
 	if (n < 0 || n >= GQVIEW_EDITOR_SLOTS || !list ||
 	    !editor_command[n] ||
-	    strlen(editor_command[n]) == 0) return;
+	    strlen(editor_command[n]) == 0) return FALSE;
 
 	command = g_locale_from_utf8(editor_command[n], -1, NULL, NULL, NULL);
-	editor_command_run(command, editor_name[n], list);
+	ret = editor_command_run(command, editor_name[n], list);
 	g_free(command);
+	return ret;
 }
 
-void start_editor_from_file(gint n, const gchar *path)
+gint start_editor_from_file(gint n, const gchar *path)
 {
 	GList *list;
+	gint ret;
 
-	if (!path) return;
+	if (!path) return FALSE;
 
 	list = g_list_append(NULL, (gchar *)path);
-	start_editor_from_path_list(n, list);
+	ret = start_editor_from_path_list(n, list);
 	g_list_free(list);
+	return ret;
 }
 
 gint editor_window_flag_set(gint n)
