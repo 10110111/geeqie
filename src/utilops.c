@@ -1233,10 +1233,6 @@ static gint file_util_unlink(const gchar *path)
 
 	if (!isfile(path)) return FALSE;
 
-	if (editor_command[CMD_DELETE])
-		{
-		return start_editor_from_file(CMD_DELETE, path);
-		}
 
 	if (!safe_delete_enable)
 		{
@@ -1326,6 +1322,26 @@ static void file_util_delete_multiple_cancel_cb(GenericDialog *gd, gpointer data
 static void file_util_delete_multiple_ok_cb(GenericDialog *gd, gpointer data)
 {
 	GList *source_list = data;
+
+	if (editor_command[CMD_DELETE])
+		{
+		if (!start_editor_from_path_list(CMD_DELETE, source_list))
+			{
+			file_util_warning_dialog(_("File deletion failed"), _("Unable to delete files by external command\n"), GTK_STOCK_DIALOG_ERROR, NULL);
+			}
+		else
+			{
+			while (source_list)
+				{
+				gchar *path = source_list->data;
+				source_list = g_list_remove(source_list, path);
+				file_maint_removed(path, source_list);
+				g_free(path);
+				}
+			}
+		return;
+		}
+
 
 	while (source_list)
 		{
@@ -1527,7 +1543,20 @@ static void file_util_delete_ok_cb(GenericDialog *gd, gpointer data)
 {
 	gchar *path = data;
 
-	if (!file_util_unlink(path))
+	if (editor_command[CMD_DELETE])
+		{
+		if (!start_editor_from_file(CMD_DELETE, path))
+			{
+			gchar *text = g_strdup_printf(_("Unable to delete file by external command:\n%s"), path);
+			file_util_warning_dialog(_("File deletion failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
+			g_free(text);
+			}
+		else
+			{
+			file_maint_removed(path, NULL);
+			}
+		}
+	else if (!file_util_unlink(path))
 		{
 		gchar *text = g_strdup_printf(_("Unable to delete file:\n%s"), path);
 		file_util_warning_dialog(_("File deletion failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);

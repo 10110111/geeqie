@@ -396,7 +396,7 @@ static gint editor_command_one(const gchar *template, const gchar *path, EditorV
 		}
 	else
 		{
-		ret = system(result->str);
+		ret = !system(result->str);
 		}
 
 	if (path_change) chdir(current_path);
@@ -450,7 +450,7 @@ static gint editor_command_next(EditorVerboseData *vd)
 	return FALSE;
 }
 
-static void editor_command_start(const gchar *template, const gchar *text, GList *list)
+static gint editor_command_start(const gchar *template, const gchar *text, GList *list)
 {
 	EditorVerboseData *vd;
 
@@ -458,7 +458,7 @@ static void editor_command_start(const gchar *template, const gchar *text, GList
 	vd->list = path_list_copy(list);
 	vd->total = g_list_length(list);
 
-	editor_command_next(vd);
+	return editor_command_next(vd);
 }
 
 static gint editor_line_break(const gchar *template, gchar **front, const gchar **end)
@@ -544,7 +544,7 @@ static gint editor_command_run(const gchar *template, const gchar *text, GList *
 			while (work)
 				{
 				gchar *path = work->data;
-				editor_command_one(template, path, NULL);
+				ret = editor_command_one(template, path, NULL);
 				work = work->next;
 				}
 			}
@@ -588,14 +588,11 @@ static gint editor_command_run(const gchar *template, const gchar *text, GList *
 
 			vd = editor_verbose_window(template, text);
 			editor_verbose_window_progress(vd, _("running..."));
-			editor_verbose_start(vd, result->str);
+			ret = editor_verbose_start(vd, result->str);
 			}
 		else
 			{
-			int status = system(result->str);
-			/* FIXME: consistent return values */
-			if (!WIFEXITED(status) || WEXITSTATUS(status))
-				ret = FALSE;
+			ret = !system(result->str);
 			}
 
 		g_free(front);
