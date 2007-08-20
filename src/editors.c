@@ -58,11 +58,20 @@ static gchar *editor_slot_defaults[GQVIEW_EDITOR_SLOTS * 2] = {
 	N_("Rotate jpeg clockwise"), "%vif jpegtran -rotate 90 -copy all -outfile %p_tmp %p; then mv %p_tmp %p;else rm %p_tmp;fi",
 	N_("Rotate jpeg counterclockwise"), "%vif jpegtran -rotate 270 -copy all -outfile %p_tmp %p; then mv %p_tmp %p;else rm %p_tmp;fi",
 	/* special slots */
+#if 1
+	/* for testing */
+	"External Copy command", "%vset -x;cp %f",
+	"External Move command", "%vset -x;mv %f",
+	"External Rename command", "%vset -x;mv %f",
+	"External Delete command", "%vset -x;rm %f",
+	"External New Folder command", NULL
+#else
 	"External Copy command", NULL,
 	"External Move command", NULL,
 	"External Rename command", NULL,
 	"External Delete command", NULL,
 	"External New Folder command", NULL
+#endif
 };
 
 static void editor_verbose_window_progress(EditorVerboseData *vd, const gchar *text);
@@ -624,6 +633,21 @@ gint start_editor_from_file(gint n, const gchar *path)
 	if (!path) return FALSE;
 
 	list = g_list_append(NULL, (gchar *)path);
+	ret = start_editor_from_path_list(n, list);
+	g_list_free(list);
+	return ret;
+}
+
+gint start_editor_from_pair(gint n, const gchar *source, const gchar *target)
+{
+	GList *list;
+	gint ret;
+
+	if (!source) return FALSE;
+	if (!target) return FALSE;
+
+	list = g_list_append(NULL, (gchar *)source);
+	list = g_list_append(list, (gchar *)target);
 	ret = start_editor_from_path_list(n, list);
 	g_list_free(list);
 	return ret;

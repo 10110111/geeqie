@@ -333,6 +333,28 @@ static gint filename_base_length(const gchar *name)
  *--------------------------------------------------------------------------
  */
 
+static gint copy_file_ext(const gchar *s, const gchar *t)
+{
+	if (editor_command[CMD_COPY])
+		return start_editor_from_pair(CMD_COPY, s, t);
+	return copy_file(s, t);
+}
+
+static gint move_file_ext(const gchar *s, const gchar *t)
+{
+	if (editor_command[CMD_MOVE])
+		return start_editor_from_pair(CMD_MOVE, s, t);
+	return move_file(s, t);
+}
+
+static gint rename_file_ext(const gchar *s, const gchar *t)
+{
+	if (editor_command[CMD_RENAME])
+		return start_editor_from_pair(CMD_RENAME, s, t);
+	return rename_file(s, t);
+}
+
+
 /*
  * Multi file move
  */
@@ -637,7 +659,7 @@ static void file_util_move_multiple(FileDataMult *fdm)
 				{
 				if (fdm->copy)
 					{
-					if (copy_file(fdm->source, fdm->dest))
+					if (copy_file_ext(fdm->source, fdm->dest))
 						{
 						success = TRUE;
 						file_maint_copied(fdm->source, fdm->dest);
@@ -645,7 +667,7 @@ static void file_util_move_multiple(FileDataMult *fdm)
 					}
 				else
 					{
-					if (move_file(fdm->source, fdm->dest))
+					if (move_file_ext(fdm->source, fdm->dest))
 						{
 						success = TRUE;
 						file_maint_moved(fdm->source, fdm->dest, fdm->source_list);
@@ -870,7 +892,7 @@ static void file_util_move_single(FileDataSingle *fds)
 		gint success = FALSE;
 		if (fds->copy)
 			{
-			if (copy_file(fds->source, fds->dest))
+			if (copy_file_ext(fds->source, fds->dest))
 				{
 				success = TRUE;
 				file_maint_copied(fds->source, fds->dest);
@@ -878,7 +900,7 @@ static void file_util_move_single(FileDataSingle *fds)
 			}
 		else
 			{
-			if (move_file(fds->source, fds->dest))
+			if (move_file_ext(fds->source, fds->dest))
 				{
 				success = TRUE;
 				file_maint_moved(fds->source, fds->dest, NULL);
@@ -1768,7 +1790,7 @@ static void file_util_rename_multiple(RenameDataMult *rd)
 		}
 	else
 		{
-		if (!rename_file(fd->source_path, fd->dest_path))
+		if (!rename_file_ext(fd->source_path, fd->dest_path))
 			{
 			gchar *text = g_strdup_printf(_("Unable to rename file:\n%s\n to:\n%s"),
 						      filename_from_path(fd->source_path),
@@ -1989,7 +2011,7 @@ static void file_util_rename_multiple_auto(RenameDataMult *rd)
 			dest = g_strdup_printf("%s/%s%0*d%s", base, front, padding, n, end);
 			}
 
-		if (!rename_file(path, dest))
+		if (!rename_file_ext(path, dest))
 			{
 			success = FALSE;
 			}
@@ -2489,7 +2511,7 @@ static void file_util_rename_single(FileDataSingle *fds)
 		}
 	else
 		{
-		if (!rename_file(fds->source, fds->dest))
+		if (!rename_file_ext(fds->source, fds->dest))
 			{
 			gchar *text = g_strdup_printf(_("Unable to rename file:\n%s\nto:\n%s"), filename_from_path(fds->source), filename_from_path(fds->dest));
 			file_util_warning_dialog(_("Error renaming file"), text, GTK_STOCK_DIALOG_ERROR, NULL);
@@ -2704,7 +2726,7 @@ gint file_util_rename_dir(const gchar *old_path, const gchar *new_path, GtkWidge
 		return FALSE;
 		}
 
-	if (!rename_file(old_path, new_path))
+	if (!rename_file_ext(old_path, new_path))
 		{
 		gchar *text = g_strdup_printf(_("Failed to rename %s to %s."), old_name, new_name);
 		file_util_warning_dialog(_("Rename failed"), text, GTK_STOCK_DIALOG_ERROR, parent);
