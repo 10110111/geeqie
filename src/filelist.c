@@ -568,6 +568,9 @@ const gchar *text_from_time(time_t t)
  * file info struct
  *-----------------------------------------------------------------------------
  */
+SidecarFileData *sidecar_file_data_new_from_file_data(const FileData *fd);
+void sidecar_file_data_free(SidecarFileData *fd);
+
 
 FileData *file_data_new(const gchar *path, struct stat *st)
 {
@@ -576,38 +579,154 @@ FileData *file_data_new(const gchar *path, struct stat *st)
 	fd = g_new0(FileData, 1);
 	fd->path = path_to_utf8(path);
 	fd->name = filename_from_path(fd->path);
+	fd->extension = extension_from_path(fd->path);
+
 	fd->size = st->st_size;
 	fd->date = st->st_mtime;
 	fd->pixbuf = NULL;
-
+	fd->sidecar_files = NULL;
 	return fd;
 }
 
 FileData *file_data_new_simple(const gchar *path)
 {
-	FileData *fd;
 	struct stat st;
 
-	fd = g_new0(FileData, 1);
-	fd->path = g_strdup(path);
-	fd->name = filename_from_path(fd->path);
-
-	if (stat_utf8(fd->path, &st))
+	if (!stat(path, &st))
 		{
-		fd->size = st.st_size;
-		fd->date = st.st_mtime;
+		st.st_size = 0;
+		st.st_mtime = 0;
 		}
 
-	fd->pixbuf = NULL;
+	return file_data_new(path, &st);
+}
+
+FileData *file_data_add_sidecar_file(FileData *target, SidecarFileData *sfd)
+{
+	target->sidecar_files = g_list_append(target->sidecar_files, sfd);
+	return target;
+}
+
+FileData *file_data_merge_sidecar_files(FileData *target, FileData *source)
+{
+	SidecarFileData *sfd;
+	
+	sfd = sidecar_file_data_new_from_file_data(source);
+	file_data_add_sidecar_file(target, sfd);
+	
+	target->sidecar_files = g_list_concat(target->sidecar_files, source->sidecar_files);
+	source->sidecar_files = NULL;
+	
+	file_data_free(source);
+	return target;
+}
+
+
+void file_data_free(FileData *fd)
+{
+	GList *work;
+	g_free(fd->path);
+	if (fd->pixbuf) g_object_unref(fd->pixbuf);
+
+	work = fd->sidecar_files;
+	while (work)
+		{
+		sidecar_file_data_free((SidecarFileData *)work->data);
+		work = work->next;
+		}
+
+	g_list_free(fd->sidecar_files);
+	
+	g_free(fd);
+}
+
+/* compare name without extension */
+gint file_data_compare_name_without_ext(FileData *fd1, FileData *fd2)
+{
+	size_t len1 = fd1->extension - fd1->name;
+	size_t len2 = fd2->extension - fd2->name;
+
+	if (len1 < len2) return -1;
+	if (len1 > len2) return 1;
+	
+	return strncmp(fd1->name, fd2->name, len1);
+}
+
+/*
+ *-----------------------------------------------------------------------------
+ * sidecar file info struct
+ *-----------------------------------------------------------------------------
+ */
+
+SidecarFileData *sidecar_file_data_new(const gchar *path, struct stat *st)
+{
+	SidecarFileData *fd;
+
+	fd = g_new0(SidecarFileData, 1);
+	fd->path = path_to_utf8(path);
+	fd->name = filename_from_path(fd->path);
+	fd->extension = extension_from_path(fd->path);
+    
+	fd->size = st->st_size;
+	fd->date = st->st_mtime;
 
 	return fd;
 }
 
-void file_data_free(FileData *fd)
+SidecarFileData *sidecar_file_data_new_simple(const gchar *path)
+{
+	struct stat st;
+
+	if (!stat(path, &st))
+		{
+		st.st_size = 0;
+		st.st_mtime = 0;
+		}
+
+	return sidecar_file_data_new(path, &st);
+}
+
+SidecarFileData *sidecar_file_data_new_from_file_data(const FileData *fd)
+{
+	SidecarFileData *sfd;
+
+	sfd = g_new0(SidecarFileData, 1);
+	sfd->path = g_strdup(fd->path);
+	sfd->name = filename_from_path(sfd->path);;
+	sfd->extension = extension_from_path(sfd->path);
+    
+	sfd->size = fd->size;
+	sfd->date = fd->date;
+
+	return sfd;
+}
+
+
+void sidecar_file_data_free(SidecarFileData *fd)
 {
 	g_free(fd->path);
-	if (fd->pixbuf) g_object_unref(fd->pixbuf);
 	g_free(fd);
+}
+
+gint sidecar_file_priority(const gchar *path)
+{
+	const char *extension = extension_from_path(path);
+	
+	printf("prio %s >%s<\n", path, extension);
+	
+	if (strcmp(extension, ".cr2") == 0) return 1;
+	if (strcmp(extension, ".crw") == 0) return 2;
+	if (strcmp(extension, ".nef") == 0) return 3;
+	if (strcmp(extension, ".raw") == 0) return 4;
+
+	if (strcmp(extension, ".jpg") == 0) return 1001;
+
+	if (strcmp(extension, ".vaw") == 0) return 2001;
+	if (strcmp(extension, ".mp3") == 0) return 2002;
+
+	if (strcmp(extension, ".xmp") == 0) return 3002;
+	
+	return 0;
 }
 
 /*
@@ -668,6 +787,7 @@ GList *filelist_insert_sort(GList *list, FileData *fd, SortType method, gint asc
 	return g_list_insert_sorted(list, fd, (GCompareFunc) sort_file_cb);
 }
 
+
 gint filelist_read(const gchar *path, GList **files, GList **dirs)
 {
 	DIR *dp;
@@ -720,7 +840,37 @@ gint filelist_read(const gchar *path, GList **files, GList **dirs)
 					{
 					if ((files) && filter_name_exists(name))
 						{
-						flist = g_list_prepend(flist, file_data_new(filepath, &ent_sbuf));
+						FileData *fd = file_data_new(filepath, &ent_sbuf);
+						
+						GList *same = g_list_find_custom(flist, fd, file_data_compare_name_without_ext);
+						
+						int p1 = 0; 
+						int p2 = 0; 
+						FileData *samefd = NULL;
+						
+						if (same)
+							{
+							samefd = (FileData *) same->data;
+							p1 = sidecar_file_priority(samefd->name);
+							p2 = sidecar_file_priority(fd->name);
+							printf("same %s %s %d %d\n", fd->name, samefd->name, p2, p1);
+							}
+								
+						if (p1 && p2)
+							{
+							if (p1 < p2)
+								{
+								file_data_merge_sidecar_files(samefd, fd);
+								}
+							else 
+								{
+								file_data_merge_sidecar_files(fd, samefd);
+								flist = g_list_delete_link(flist, same);
+								flist = g_list_prepend(flist, fd);
+								}
+							}
+						else
+							flist = g_list_prepend(flist, fd);
 						}
 					}
 				}
