@@ -435,7 +435,7 @@ static void gr_file_load(const gchar *text, gpointer data)
 
 static void gr_file_view(const gchar *text, gpointer data)
 {
-	view_window_new(text);
+	view_window_new(file_data_new_simple(text));
 }
 
 static void gr_list_clear(const gchar *text, gpointer data)
@@ -466,7 +466,7 @@ static void gr_list_add(const gchar *text, gpointer data)
 		new = (!collection_get_first(gqview_command_collection));
 		}
 
-	if (collection_add(gqview_command_collection, text, FALSE) && new)
+	if (collection_add(gqview_command_collection, file_data_new_simple(text), FALSE) && new)
 		{
 		layout_image_set_collection(NULL, gqview_command_collection,
 					    collection_get_first(gqview_command_collection));
@@ -1380,7 +1380,7 @@ int main (int argc, char *argv[])
 		work = cmd_list;
 		while (work)
 			{
-			collection_add(cd, (gchar *)work->data, FALSE);
+			collection_add(cd, file_data_new_simple((gchar *)work->data), FALSE);
 			work = work->next;
 			}
 

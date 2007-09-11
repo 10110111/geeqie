@@ -28,6 +28,7 @@
 
 #include <gdk/gdkkeysyms.h> /* for key values */
 
+#include "gqview.h"
 #include "ui_pathsel.h"
 
 #include "ui_bookmark.h"

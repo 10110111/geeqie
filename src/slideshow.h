@@ -30,7 +30,7 @@ gint slideshow_should_continue(SlideShowData *ss);
 void slideshow_next(SlideShowData *ss);
 void slideshow_prev(SlideShowData *ss);
 
-SlideShowData *slideshow_start_from_path_list(ImageWindow *imd, GList *list,
+SlideShowData *slideshow_start_from_filelist(ImageWindow *imd, GList *list,
 					      void (*stop_func)(SlideShowData *, gpointer), gpointer stop_data);
 SlideShowData *slideshow_start_from_collection(ImageWindow *imd, CollectionData *cd,
 					       void (*stop_func)(SlideShowData *, gpointer), gpointer stop_data,

@@ -22,6 +22,8 @@
 #include "pixbuf_util.h"
 #include "ui_fileops.h"
 
+#include "filelist.h"
+
 #include <math.h>
 
 
@@ -113,7 +115,7 @@ static void image_complete_util(ImageWindow *imd, gint preload)
 	if (imd->il && image_get_pixbuf(imd) != image_loader_get_pixbuf(imd->il)) return;
 
 	if (debug) printf("image load completed \"%s\" (%s)\n",
-			  (preload) ? imd->read_ahead_path : imd->image_path,
+			  (preload) ? imd->read_ahead_fd->path : imd->image_fd->path,
 			  (preload) ? "preload" : "current");
 
 	if (!preload) imd->completed = TRUE;
@@ -177,10 +179,10 @@ static void image_update_title(ImageWindow *imd)
 
 	title = g_strdup_printf("%s%s%s%s%s%s",
 		imd->title ? imd->title : "",
-		imd->image_name ? imd->image_name : "",
+		imd->image_fd ? imd->image_fd->name : "",
 		zoom ? zoom : "",
 		collection ? collection : "",
-		imd->image_name ? " - " : "",
+		imd->image_fd ? " - " : "",
 		imd->title_right ? imd->title_right : "");
 
 	gtk_window_set_title(GTK_WINDOW(imd->top_window), title);
@@ -418,7 +420,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 	if (exif_rotate_enable ||
 	    (imd->color_profile_enable && imd->color_profile_use_image) )
 		{
-		exif = exif_read(imd->image_path, (imd->color_profile_enable && imd->color_profile_use_image));
+		exif = exif_read(imd->image_fd, (imd->color_profile_enable && imd->color_profile_use_image));
 		}
 
 	if (exif_rotate_enable && exif)
@@ -504,7 +506,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 
 static void image_read_ahead_cancel(ImageWindow *imd)
 {
-	if (debug) printf("read ahead cancelled for :%s\n", imd->read_ahead_path);
+	if (debug) printf("read ahead cancelled for :%s\n", imd->read_ahead_fd->path);
 
 	image_loader_free(imd->read_ahead_il);
 	imd->read_ahead_il = NULL;
@@ -512,15 +514,15 @@ static void image_read_ahead_cancel(ImageWindow *imd)
 	if (imd->read_ahead_pixbuf) g_object_unref(imd->read_ahead_pixbuf);
 	imd->read_ahead_pixbuf = NULL;
 
-	g_free(imd->read_ahead_path);
-	imd->read_ahead_path = NULL;
+	file_data_unref(imd->read_ahead_fd);
+	imd->read_ahead_fd = NULL;
 }
 
 static void image_read_ahead_done_cb(ImageLoader *il, gpointer data)
 {
 	ImageWindow *imd = data;
 
-	if (debug) printf("read ahead done for :%s\n", imd->read_ahead_path);
+	if (debug) printf("read ahead done for :%s\n", imd->read_ahead_fd->path);
 
 	imd->read_ahead_pixbuf = image_loader_get_pixbuf(imd->read_ahead_il);
 	if (imd->read_ahead_pixbuf)
@@ -546,14 +548,14 @@ static void image_read_ahead_error_cb(ImageLoader *il, gpointer data)
 static void image_read_ahead_start(ImageWindow *imd)
 {
 	/* already started ? */
-	if (!imd->read_ahead_path || imd->read_ahead_il || imd->read_ahead_pixbuf) return;
+	if (!imd->read_ahead_fd || imd->read_ahead_il || imd->read_ahead_pixbuf) return;
 
 	/* still loading ?, do later */
 	if (imd->il || imd->cm) return;
 
-	if (debug) printf("read ahead started for :%s\n", imd->read_ahead_path);
+	if (debug) printf("read ahead started for :%s\n", imd->read_ahead_fd->path);
 
-	imd->read_ahead_il = image_loader_new(imd->read_ahead_path);
+	imd->read_ahead_il = image_loader_new(imd->read_ahead_fd);
 
 	image_loader_set_error_func(imd->read_ahead_il, image_read_ahead_error_cb, imd);
 	if (!image_loader_start(imd->read_ahead_il, image_read_ahead_done_cb, imd))
@@ -563,15 +565,15 @@ static void image_read_ahead_start(ImageWindow *imd)
 		}
 }
 
-static void image_read_ahead_set(ImageWindow *imd, const gchar *path)
+static void image_read_ahead_set(ImageWindow *imd, FileData *fd)
 {
-	if (imd->read_ahead_path && path && strcmp(imd->read_ahead_path, path) == 0) return;
+	if (imd->read_ahead_fd && fd && imd->read_ahead_fd == fd) return;
 
 	image_read_ahead_cancel(imd);
 
-	imd->read_ahead_path = g_strdup(path);
+	imd->read_ahead_fd = file_data_ref(fd);
 
-	if (debug) printf("read ahead set to :%s\n", imd->read_ahead_path);
+	if (debug) printf("read ahead set to :%s\n", imd->read_ahead_fd->path);
 
 	image_read_ahead_start(imd);
 }
@@ -582,14 +584,14 @@ static void image_read_ahead_set(ImageWindow *imd, const gchar *path)
  *-------------------------------------------------------------------
  */
 
-static void image_post_buffer_set(ImageWindow *imd, const gchar *path, GdkPixbuf *pixbuf, gint color_row)
+static void image_post_buffer_set(ImageWindow *imd, FileData *fd, GdkPixbuf *pixbuf, gint color_row)
 {
-	g_free(imd->prev_path);
+	file_data_unref(imd->prev_fd);
 	if (imd->prev_pixbuf) g_object_unref(imd->prev_pixbuf);
 
-	if (path && pixbuf)
+	if (fd && pixbuf)
 		{
-		imd->prev_path = g_strdup(path);
+		imd->prev_fd = file_data_ref(fd);
 			
 		g_object_ref(pixbuf);
 		imd->prev_pixbuf = pixbuf;
@@ -597,12 +599,12 @@ static void image_post_buffer_set(ImageWindow *imd, const gchar *path, GdkPixbuf
 		}
 	else
 		{
-		imd->prev_path = NULL;
+		imd->prev_fd = NULL;
 		imd->prev_pixbuf = NULL;
 		imd->prev_color_row = -1;
 		}
 
-	if (debug) printf("post buffer set: %s\n", path);
+	if (debug) printf("post buffer set: %s\n", fd->path);
 }
 
 static gint image_post_buffer_get(ImageWindow *imd)
@@ -610,14 +612,14 @@ static gint image_post_buffer_get(ImageWindow *imd)
 	gint success;
 
 	if (imd->prev_pixbuf &&
-	    imd->image_path && imd->prev_path && strcmp(imd->image_path, imd->prev_path) == 0)
+	    imd->image_fd && imd->prev_fd && imd->image_fd == imd->prev_fd)
 		{
 		image_change_pixbuf(imd, imd->prev_pixbuf, image_zoom_get(imd));
 		if (imd->prev_color_row >= 0)
 			{
 			ExifData *exif = NULL;
 
-			if (imd->color_profile_use_image) exif = exif_read(imd->image_path, TRUE);
+			if (imd->color_profile_use_image) exif = exif_read(imd->image_fd, TRUE);
 			image_post_process_color(imd, imd->prev_color_row, exif);
 			exif_free(exif);
 			}
@@ -631,8 +633,8 @@ static gint image_post_buffer_get(ImageWindow *imd)
 	if (imd->prev_pixbuf) g_object_unref(imd->prev_pixbuf);
 	imd->prev_pixbuf = NULL;
 
-	g_free(imd->prev_path);
-	imd->prev_path = NULL;
+	file_data_unref(imd->prev_fd);
+	imd->prev_fd = NULL;
 
 	return success;
 }
@@ -720,10 +722,10 @@ static void image_load_buffer_throttle(ImageLoader *il)
 
 static gint image_read_ahead_check(ImageWindow *imd)
 {
-	if (!imd->read_ahead_path) return FALSE;
+	if (!imd->read_ahead_fd) return FALSE;
 	if (imd->il) return FALSE;
 
-	if (!imd->image_path || strcmp(imd->read_ahead_path, imd->image_path) != 0)
+	if (!imd->image_fd || imd->read_ahead_fd != imd->image_fd)
 		{
 		image_read_ahead_cancel(imd);
 		return FALSE;
@@ -773,7 +775,7 @@ static gint image_read_ahead_check(ImageWindow *imd)
 	return FALSE;
 }
 
-static gint image_load_begin(ImageWindow *imd, const gchar *path)
+static gint image_load_begin(ImageWindow *imd, FileData *fd)
 {
 	if (debug) printf ("image begin \n");
 
@@ -784,13 +786,13 @@ static gint image_load_begin(ImageWindow *imd, const gchar *path)
 
 	if (image_post_buffer_get(imd))
 		{
-		if (debug) printf("from post buffer: %s\n", imd->image_path);
+		if (debug) printf("from post buffer: %s\n", imd->image_fd->path);
 		return TRUE;
 		}
 
 	if (image_read_ahead_check(imd))
 		{
-		if (debug) printf("from read ahead buffer: %s\n", imd->image_path);
+		if (debug) printf("from read ahead buffer: %s\n", imd->image_fd->path);
 		return TRUE;
 		}
 
@@ -805,7 +807,7 @@ static gint image_load_begin(ImageWindow *imd, const gchar *path)
 
 	g_object_set(G_OBJECT(imd->pr), "loading", TRUE, NULL);
 
-	imd->il = image_loader_new(path);
+	imd->il = image_loader_new(fd);
 
 	image_loader_set_area_ready_func(imd->il, image_load_area_cb, imd);
 	image_loader_set_error_func(imd->il, image_load_error_cb, imd);
@@ -865,14 +867,14 @@ static void image_change_complete(ImageWindow *imd, gdouble zoom, gint new)
 {
 	image_reset(imd);
 
-	if (imd->image_path && isfile(imd->image_path))
+	if (imd->image_fd && isfile(imd->image_fd->path))
 		{
 		PixbufRenderer *pr;
 
 		pr = PIXBUF_RENDERER(imd->pr);
 		pr->zoom = zoom;	/* store the zoom, needed by the loader */
 
-		if (image_load_begin(imd, imd->image_path))
+		if (image_load_begin(imd, imd->image_fd))
 			{
 			imd->unknown = FALSE;
 			}
@@ -886,19 +888,19 @@ static void image_change_complete(ImageWindow *imd, gdouble zoom, gint new)
 
 			imd->unknown = TRUE;
 			}
-		imd->size = filesize(imd->image_path);
-		imd->mtime = filetime(imd->image_path);
+		imd->size = filesize(imd->image_fd->path);
+		imd->mtime = filetime(imd->image_fd->path);
 		}
 	else
 		{
-		if (imd->image_path)
+		if (imd->image_fd)
 			{
 			GdkPixbuf *pixbuf;
 
 			pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
 			image_change_pixbuf(imd, pixbuf, zoom);
 			g_object_unref(pixbuf);
-			imd->mtime = filetime(imd->image_path);
+			imd->mtime = filetime(imd->image_fd->path);
 			}
 		else
 			{
@@ -912,12 +914,12 @@ static void image_change_complete(ImageWindow *imd, gdouble zoom, gint new)
 	image_update_util(imd);
 }
 
-static void image_change_real(ImageWindow *imd, const gchar *path,
+static void image_change_real(ImageWindow *imd, FileData *fd,
 			      CollectionData *cd, CollectInfo *info, gdouble zoom)
 {
 	GdkPixbuf *pixbuf;
 	GdkPixbuf *prev_pixbuf = NULL;
-	gchar *prev_path = NULL;
+	FileData *prev_fd = NULL;
 	gint prev_clear = FALSE;
 	gint prev_color_row = -1;
 
@@ -926,7 +928,7 @@ static void image_change_real(ImageWindow *imd, const gchar *path,
 
 	pixbuf = image_get_pixbuf(imd);
 
-	if (enable_read_ahead && imd->image_path && pixbuf)
+	if (enable_read_ahead && imd->image_fd && pixbuf)
 		{
 		if (imd->il)
 			{
@@ -935,7 +937,7 @@ static void image_change_real(ImageWindow *imd, const gchar *path,
 			}
 		else
 			{
-			prev_path = g_strdup(imd->image_path);
+			prev_fd = file_data_ref(imd->image_fd);
 			prev_pixbuf = pixbuf;
 			g_object_ref(prev_pixbuf);
 
@@ -949,16 +951,15 @@ static void image_change_real(ImageWindow *imd, const gchar *path,
 			}
 		}
 
-	g_free(imd->image_path);
-	imd->image_path = g_strdup(path);
-	imd->image_name = filename_from_path(imd->image_path);
+	file_data_unref(imd->image_fd);
+	imd->image_fd = file_data_ref(fd);
 
 	image_change_complete(imd, zoom, TRUE);
 
 	if (prev_pixbuf)
 		{
-		image_post_buffer_set(imd, prev_path, prev_pixbuf, prev_color_row);
-		g_free(prev_path);
+		image_post_buffer_set(imd, prev_fd, prev_pixbuf, prev_color_row);
+		file_data_unref(prev_fd);
 		g_object_unref(prev_pixbuf);
 		}
 	else if (prev_clear)
@@ -1147,20 +1148,26 @@ void image_set_scroll_notify_func(ImageWindow *imd,
 
 const gchar *image_get_path(ImageWindow *imd)
 {
-	return imd->image_path;
+	if (imd->image_fd == NULL) return NULL;
+	return imd->image_fd->path;
 }
 
 const gchar *image_get_name(ImageWindow *imd)
 {
-	return imd->image_name;
+	if (imd->image_fd == NULL) return NULL;
+	return imd->image_fd->name;
+}
+
+FileData *image_get_fd(ImageWindow *imd)
+{
+	return imd->image_fd;
 }
 
 /* merely changes path string, does not change the image! */
-void image_set_path(ImageWindow *imd, const gchar *newpath)
+void image_set_fd(ImageWindow *imd, FileData *fd)
 {
-	g_free(imd->image_path);
-	imd->image_path = g_strdup(newpath);
-	imd->image_name = filename_from_path(imd->image_path);
+	file_data_unref(imd->image_fd);
+	imd->image_fd = file_data_ref(fd);
 
 	image_update_title(imd);
 	image_state_set(imd, IMAGE_STATE_IMAGE);
@@ -1168,12 +1175,11 @@ void image_set_path(ImageWindow *imd, const gchar *newpath)
 
 /* load a new image */
 
-void image_change_path(ImageWindow *imd, const gchar *path, gdouble zoom)
+void image_change_fd(ImageWindow *imd, FileData *fd, gdouble zoom)
 {
-	if (imd->image_path == path ||
-	    (path && imd->image_path && !strcmp(path, imd->image_path)) ) return;
+	if (imd->image_fd == fd) return;
 
-	image_change_real(imd, path, NULL, NULL, zoom);
+	image_change_real(imd, fd, NULL, NULL, zoom);
 }
 
 GdkPixbuf *image_get_pixbuf(ImageWindow *imd)
@@ -1191,7 +1197,7 @@ void image_change_from_collection(ImageWindow *imd, CollectionData *cd, CollectI
 {
 	if (!cd || !info || !g_list_find(cd->list, info)) return;
 
-	image_change_real(imd, info->path, cd, info, zoom);
+	image_change_real(imd, info->fd, cd, info, zoom);
 }
 
 CollectionData *image_get_collection(ImageWindow *imd, CollectInfo **info)
@@ -1237,7 +1243,7 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	imd->size = source->size;
 	imd->mtime = source->mtime;
 
-	image_set_path(imd, image_get_path(source));
+	image_set_fd(imd, image_get_fd(source));
 
 	image_loader_free(imd->il);
 	imd->il = NULL;
@@ -1280,9 +1286,9 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	imd->read_ahead_pixbuf = source->read_ahead_pixbuf;
 	source->read_ahead_pixbuf = NULL;
 
-	g_free(imd->read_ahead_path);
-	imd->read_ahead_path = source->read_ahead_path;
-	source->read_ahead_path = NULL;
+	file_data_unref(imd->read_ahead_fd);
+	imd->read_ahead_fd = source->read_ahead_fd;
+	source->read_ahead_fd = NULL;
 
 	if (imd->prev_pixbuf) g_object_unref(imd->prev_pixbuf);
 	imd->prev_pixbuf = source->prev_pixbuf;
@@ -1290,9 +1296,9 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	imd->prev_color_row = source->prev_color_row;
 	source->prev_color_row = -1;
 
-	g_free(imd->prev_path);
-	imd->prev_path = source->prev_path;
-	source->prev_path = NULL;
+	file_data_unref(imd->prev_fd);
+	imd->prev_fd = source->prev_fd;
+	source->prev_fd = NULL;
 
 	imd->completed = source->completed;
 	imd->state = source->state;
@@ -1485,13 +1491,13 @@ gdouble image_zoom_get_default(ImageWindow *imd, gint mode)
 
 /* read ahead */
 
-void image_prebuffer_set(ImageWindow *imd, const gchar *path)
+void image_prebuffer_set(ImageWindow *imd, FileData *fd)
 {
 	if (pixbuf_renderer_get_tiles((PixbufRenderer *)imd->pr)) return;
 
-	if (path)
+	if (fd)
 		{
-		image_read_ahead_set(imd, path);
+		image_read_ahead_set(imd, fd);
 		}
 	else
 		{
@@ -1505,10 +1511,10 @@ static gint image_auto_refresh_cb(gpointer data)
 	time_t newtime;
 	
 	if (!imd || !image_get_pixbuf(imd) ||
-	    imd->il || !imd->image_path ||
+	    imd->il || !imd->image_fd ||
 	    !update_on_time_change) return TRUE;
 
-	newtime = filetime(imd->image_path);
+	newtime = filetime(imd->image_fd->path);
 	if (newtime > 0 && newtime != imd->mtime)
 		{
 		imd->mtime = newtime;
@@ -1735,7 +1741,7 @@ static void image_free(ImageWindow *imd)
 	image_post_buffer_set(imd, NULL, NULL, -1);
 	image_auto_refresh(imd, -1);
 
-	g_free(imd->image_path);
+	file_data_unref(imd->image_fd);
 	g_free(imd->title);
 	g_free(imd->title_right);
 
@@ -1768,7 +1774,7 @@ ImageWindow *image_new(gint frame)
 
 	imd->read_ahead_il = NULL;
 	imd->read_ahead_pixbuf = NULL;
-	imd->read_ahead_path = NULL;
+	imd->read_ahead_fd = NULL;
 
 	imd->completed = FALSE;
 	imd->state = IMAGE_STATE_NONE;

@@ -82,7 +82,7 @@ static gint bar_sort_action_state = BAR_SORT_COPY;
 static gint bar_sort_selection_state = BAR_SORT_SELECTION_IMAGE;
 
 
-static void bar_sort_undo_set(SortData *sd, GList *src_list, const gchar *src, const gchar *dest);
+static void bar_sort_undo_set(SortData *sd, GList *src_list, FileData *src, const gchar *dest);
 static void bar_sort_add_close(SortData *sd);
 
 
@@ -122,7 +122,7 @@ static void bar_sort_collection_list_build(GtkWidget *bookmarks)
 		g_free(name);
 		}
 
-	path_list_free(list);
+	string_list_free(list);
 }
 
 static void bar_sort_mode_sync(SortData *sd, SortModeType mode)
@@ -170,13 +170,13 @@ static void bar_sort_mode_cb(GtkWidget *combo, gpointer data)
 }
 
 /* this takes control of src_list */
-static void bar_sort_undo_set(SortData *sd, GList *src_list, const gchar *src, const gchar *dest)
+static void bar_sort_undo_set(SortData *sd, GList *src_list, FileData *src, const gchar *dest)
 {
-	path_list_free(sd->undo_src_list);
-	sd->undo_src_list = src_list;
+	string_list_free(sd->undo_src_list);
+	sd->undo_src_list = filelist_to_path_list(src_list);
 
 	g_free(sd->undo_src);
-	sd->undo_src = g_strdup(src);
+	sd->undo_src = src ? g_strdup(src->path) : NULL;
 	g_free(sd->undo_dest);
 	sd->undo_dest = g_strdup(dest);
 
@@ -200,14 +200,14 @@ static void bar_sort_undo_folder(SortData *sd, GtkWidget *button)
 			GList *list;
 			gchar *src_dir;
 
-			list = g_list_append(NULL, g_strdup(sd->undo_dest));
+			list = g_list_append(NULL, file_data_new_simple(sd->undo_dest));
 			src_dir = remove_level_from_path(sd->undo_src);
 			file_util_move_simple(list, src_dir);
 			g_free(src_dir);
 			}
 			break;
 		case BAR_SORT_COPY:
-			file_util_delete(sd->undo_dest, NULL, button);
+			file_util_delete(file_data_new_simple(sd->undo_dest), NULL, button);
 			break;
 		case BAR_SORT_LINK:
 			if (!unlink_file(sd->undo_dest))
@@ -225,7 +225,7 @@ static void bar_sort_undo_folder(SortData *sd, GtkWidget *button)
 
 	if (isfile(sd->undo_src))
 		{
-		layout_image_set_path(sd->lw, sd->undo_src);
+		layout_image_set_fd(sd->lw, file_data_new_simple(sd->undo_src));
 		}
 
 	bar_sort_undo_set(sd, NULL, NULL, NULL);
@@ -242,7 +242,7 @@ static void bar_sort_undo_collection(SortData *sd)
 
 		source = work->data;
 		work = work->next;
-		collect_manager_remove(source, sd->undo_dest);
+		collect_manager_remove(file_data_new_simple(source), sd->undo_dest);
 		}
 
 	bar_sort_undo_set(sd, NULL, NULL, NULL);
@@ -262,17 +262,17 @@ static void bar_sort_undo_cb(GtkWidget *button, gpointer data)
 		}
 }
 
-static void bar_sort_bookmark_select_folder(SortData *sd, const gchar *source, const gchar *path)
+static void bar_sort_bookmark_select_folder(SortData *sd, FileData *source, const gchar *path)
 {
 	GList *list;
 	gchar *dest_path;
 
 	if (!isdir(path)) return;
 
-	dest_path = concat_dir_and_file(path, filename_from_path(source));
+	dest_path = concat_dir_and_file(path, source->name);
 	bar_sort_undo_set(sd, NULL, source, dest_path);
 
-	list = g_list_append(NULL, g_strdup(source));
+	list = g_list_append(NULL, file_data_ref(source));
 
 	switch (sd->action)
 		{
@@ -286,7 +286,7 @@ static void bar_sort_bookmark_select_folder(SortData *sd, const gchar *source, c
 			list = NULL;
 			break;
 		case BAR_SORT_LINK:
-			if (symlink_utf8(source, dest_path))
+			if (symlink_utf8(source->path, dest_path))
 				{
 				layout_image_next(sd->lw);
 				}
@@ -306,14 +306,14 @@ static void bar_sort_bookmark_select_folder(SortData *sd, const gchar *source, c
 	g_free(dest_path);
 }
 
-static void bar_sort_bookmark_select_collection(SortData *sd, const gchar *source, const gchar *path)
+static void bar_sort_bookmark_select_collection(SortData *sd, FileData *source, const gchar *path)
 {
 	GList *list = NULL;
 
 	switch (sd->selection)
 		{
 		case BAR_SORT_SELECTION_IMAGE:
-			list = g_list_append(NULL, g_strdup(source));
+			list = g_list_append(NULL, file_data_ref(source));
 			break;
 		case BAR_SORT_SELECTION_SELECTED:
 			list = layout_selection_list(sd->lw);
@@ -330,20 +330,20 @@ static void bar_sort_bookmark_select_collection(SortData *sd, const gchar *sourc
 
 	while (list)
 		{
-		gchar *image_path;
+		FileData *image_fd;
 
-		image_path = list->data;
+		image_fd = list->data;
 		list = list->next;
-		collect_manager_add(image_path, path);
+		collect_manager_add(image_fd, path);
 		}
 }
 
 static void bar_sort_bookmark_select(const gchar *path, gpointer data)
 {
 	SortData *sd = data;
-	const gchar *source;
+	FileData *source;
 
-	source = layout_image_get_path(sd->lw);
+	source = layout_image_get_fd(sd->lw);
 	if (!path || !source) return;
 
 	if (sd->mode == BAR_SORT_MODE_FOLDER)

@@ -17,8 +17,8 @@
 void search_new(const gchar *path, const gchar *example_file);
 
 
-void search_maint_renamed(const gchar *source, const gchar *dest);
-void search_maint_removed(const gchar *path);
+void search_maint_renamed(FileData *fd);
+void search_maint_removed(FileData *fd);
 
 
 #endif

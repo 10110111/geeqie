@@ -43,11 +43,12 @@ GList *vficon_selection_get_list_by_index(ViewFileIcon *vfi);
 void vficon_select_all(ViewFileIcon *vfi);
 void vficon_select_none(ViewFileIcon *vfi);
 void vficon_select_by_path(ViewFileIcon *vfi, const gchar *path);
+void vficon_select_by_fd(ViewFileIcon *vfi, FileData *fd);
 
 
-gint vficon_maint_renamed(ViewFileIcon *vfi, const gchar *source, const gchar *dest);
-gint vficon_maint_removed(ViewFileIcon *vfi, const gchar *path, GList *ignore_list);
-gint vficon_maint_moved(ViewFileIcon *vfi, const gchar *source, const gchar *dest, GList *ignore_list);
+gint vficon_maint_renamed(ViewFileIcon *vfi, FileData *fd);
+gint vficon_maint_removed(ViewFileIcon *vfi, FileData *fd, GList *ignore_list);
+gint vficon_maint_moved(ViewFileIcon *vfi, FileData *fd, GList *ignore_list);
 
 
 #endif

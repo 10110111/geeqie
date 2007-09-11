@@ -244,7 +244,7 @@ GList *pan_list_tree(const gchar *path, SortType sort, gint ascend,
 			folders = g_list_concat(dlist, folders);
 			}
 
-		file_data_free(fd);
+		file_data_unref(fd);
 		}
 
 	return result;

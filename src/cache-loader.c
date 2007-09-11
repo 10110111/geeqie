@@ -11,7 +11,9 @@
 
 #include "gqview.h"
 #include "cache-loader.h"
+#include "cache.h"
 
+#include "filelist.h"
 #include "exif.h"
 #include "md5-util.h"
 #include "ui_fileops.h"
@@ -44,7 +46,7 @@ static gboolean cache_loader_process(CacheLoader *cl)
 
 		if (!cl->il && !cl->error)
 			{
-			cl->il = image_loader_new(cl->path);
+			cl->il = image_loader_new(cl->fd);
 			image_loader_set_error_func(cl->il, cache_loader_error_cb, cl);
 			if (image_loader_start(cl->il, cache_loader_done_cb, cl))
 				{
@@ -90,7 +92,7 @@ static gboolean cache_loader_process(CacheLoader *cl)
 		 !cl->cd->dimensions)
 		{
 		if (!cl->error &&
-		    image_load_dimensions(cl->path, &cl->cd->width, &cl->cd->height))
+		    image_load_dimensions(cl->fd, &cl->cd->width, &cl->cd->height))
 			{
 			cl->cd->dimensions = TRUE;
 			cl->done_mask |= CACHE_LOADER_DIMENSIONS;
@@ -105,7 +107,7 @@ static gboolean cache_loader_process(CacheLoader *cl)
 	else if (cl->todo_mask & CACHE_LOADER_MD5SUM &&
 		 !cl->cd->have_md5sum)
 		{
-		if (md5_get_digest_from_file_utf8(cl->path, cl->cd->md5sum))
+		if (md5_get_digest_from_file_utf8(cl->fd->path, cl->cd->md5sum))
 			{
 			cl->cd->have_md5sum = TRUE;
 			cl->done_mask |= CACHE_LOADER_MD5SUM;
@@ -123,7 +125,7 @@ static gboolean cache_loader_process(CacheLoader *cl)
 		time_t date = -1;
 		ExifData *exif;
 
-		exif = exif_read(cl->path, FALSE);
+		exif = exif_read(cl->fd, FALSE);
 		if (exif)
 			{
 			gchar *text;
@@ -161,14 +163,14 @@ static gboolean cache_loader_process(CacheLoader *cl)
 			gchar *base;
 			mode_t mode = 0755;
 
-			base = cache_get_location(CACHE_TYPE_SIM, cl->path, FALSE, &mode);
+			base = cache_get_location(CACHE_TYPE_SIM, cl->fd->path, FALSE, &mode);
 			if (cache_ensure_dir_exists(base, mode))
 				{
 				g_free(cl->cd->path);
-				cl->cd->path = cache_get_location(CACHE_TYPE_SIM, cl->path, TRUE, NULL);
+				cl->cd->path = cache_get_location(CACHE_TYPE_SIM, cl->fd->path, TRUE, NULL);
 				if (cache_sim_data_save(cl->cd))
 					{
-					filetime_set(cl->cd->path, filetime(cl->path));
+					filetime_set(cl->cd->path, filetime(cl->fd->path));
 					}
 				}
 			g_free(base);
@@ -194,22 +196,22 @@ static gboolean cache_loader_idle_cb(gpointer data)
 	return cache_loader_process(cl);
 }
 
-CacheLoader *cache_loader_new(const gchar *path, CacheDataType load_mask,
+CacheLoader *cache_loader_new(FileData *fd, CacheDataType load_mask,
 			      CacheLoaderDoneFunc done_func, gpointer done_data)
 {
 	CacheLoader *cl;
 	gchar *found;
 
-	if (!path || !isfile(path)) return NULL;
+	if (!fd || !isfile(fd->path)) return NULL;
 
 	cl = g_new0(CacheLoader, 1);
-	cl->path = g_strdup(path);
+	cl->fd = file_data_ref(fd);
 
 	cl->done_func = done_func;
 	cl->done_data = done_data;
 
-	found = cache_find_location(CACHE_TYPE_SIM, path);
-	if (found && filetime(found) == filetime(path))
+	found = cache_find_location(CACHE_TYPE_SIM, cl->fd->path);
+	if (found && filetime(found) == filetime(cl->fd->path))
 		{
 		cl->cd = cache_sim_data_load(found);
 		}
@@ -241,7 +243,7 @@ void cache_loader_free(CacheLoader *cl)
 	image_loader_free(cl->il);
 	cache_sim_data_free(cl->cd);
 
-	g_free(cl->path);
+	file_data_unref(cl->fd);
 	g_free(cl);
 }
 

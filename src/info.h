@@ -22,7 +22,7 @@ struct _InfoData
 
 	GList *list;
 
-	const gchar *path;
+	FileData *fd;
 
 	GtkWidget *notebook;
 	GtkWidget *name_entry;
@@ -37,7 +37,7 @@ struct _InfoData
 };
 
 
-void info_window_new(const gchar *path, GList *list);
+void info_window_new(FileData *fd, GList *list);
 
 GtkWidget *table_add_line(GtkWidget *table, gint x, gint y,
 			  const gchar *description, const gchar *text);

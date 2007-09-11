@@ -37,12 +37,7 @@ struct _DupeItem
 	CollectionData *collection;	/* NULL if from DupeWindow->files */
 	CollectInfo *info;
 
-	gchar *path;
-	const gchar *name;		/* we store the pointer into path for the name,
-					 * so that we only need to calculate this once,
-					 * which significantly speeds up comparing names */
-	gint64 size;
-	time_t date;
+	FileData *fd;
 
 	long checksum;
 	gchar *md5sum;
@@ -123,8 +118,8 @@ void dupe_window_close(DupeWindow *dw);
 void dupe_window_add_collection(DupeWindow *dw, CollectionData *collection);
 void dupe_window_add_files(DupeWindow *dw, GList *list, gint recurse);
 
-void dupe_maint_removed(const gchar *path);
-void dupe_maint_renamed(const gchar *source, const gchar *dest);
+void dupe_maint_removed(FileData *fd);
+void dupe_maint_renamed(FileData *fd);
 
 
 /* cell max with/height hack utility */

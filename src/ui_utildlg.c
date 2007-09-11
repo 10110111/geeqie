@@ -22,6 +22,7 @@
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
+#include "gqview.h"
 #include "ui_utildlg.h"
 
 #include "ui_fileops.h"
@@ -322,13 +323,13 @@ GenericDialog *warning_dialog(const gchar *heading, const gchar *text,
  *-----------------------------------------------------------------------------
  */ 
 
-void file_dialog_close(FileDialog *fd)
+void file_dialog_close(FileDialog *fdlg)
 {
-	g_free(fd->source_path);
-	g_free(fd->dest_path);
-	if (fd->source_list) path_list_free(fd->source_list);
+	file_data_unref(fdlg->source_fd);
+	g_free(fdlg->dest_path);
+	if (fdlg->source_list) filelist_free(fdlg->source_list);
 
-	generic_dialog_close(GENERIC_DIALOG(fd));
+	generic_dialog_close(GENERIC_DIALOG(fdlg));
 }
 
 FileDialog *file_dialog_new(const gchar *title,
@@ -336,29 +337,29 @@ FileDialog *file_dialog_new(const gchar *title,
 			    GtkWidget *parent,
 			    void (*cancel_cb)(FileDialog *, gpointer), gpointer data)
 {
-	FileDialog *fd = NULL;
+	FileDialog *fdlg = NULL;
 
-	fd = g_new0(FileDialog, 1);
+	fdlg = g_new0(FileDialog, 1);
 
-	generic_dialog_setup(GENERIC_DIALOG(fd), title,
+	generic_dialog_setup(GENERIC_DIALOG(fdlg), title,
 			     wmclass, wmsubclass, parent, FALSE,
 			     (void *)cancel_cb, data);
 
-	return fd;
+	return fdlg;
 }
 
-GtkWidget *file_dialog_add_button(FileDialog *fd, const gchar *stock_id, const gchar *text,
+GtkWidget *file_dialog_add_button(FileDialog *fdlg, const gchar *stock_id, const gchar *text,
 				  void (*func_cb)(FileDialog *, gpointer), gint is_default)
 {
-	return generic_dialog_add_button(GENERIC_DIALOG(fd), stock_id, text,
+	return generic_dialog_add_button(GENERIC_DIALOG(fdlg), stock_id, text,
 					 (void *)func_cb, is_default);
 }
 
 static void file_dialog_entry_cb(GtkWidget *widget, gpointer data)
 {
-	FileDialog *fd = data;
-	g_free(fd->dest_path);
-	fd->dest_path = remove_trailing_slash(gtk_entry_get_text(GTK_ENTRY(fd->entry)));
+	FileDialog *fdlg = data;
+	g_free(fdlg->dest_path);
+	fdlg->dest_path = remove_trailing_slash(gtk_entry_get_text(GTK_ENTRY(fdlg->entry)));
 }
 
 static void file_dialog_entry_enter_cb(const gchar *path, gpointer data)
@@ -370,84 +371,84 @@ static void file_dialog_entry_enter_cb(const gchar *path, gpointer data)
 	if (gd->default_cb) gd->default_cb(gd, gd->data);
 }
 
-void file_dialog_add_path_widgets(FileDialog *fd, const gchar *default_path, const gchar *path,
+void file_dialog_add_path_widgets(FileDialog *fdlg, const gchar *default_path, const gchar *path,
 				  const gchar *history_key, const gchar *filter, const gchar *filter_desc)
 {
 	GtkWidget *tabcomp;
 	GtkWidget *list;
 
-	if (fd->entry) return;
+	if (fdlg->entry) return;
 
-	tabcomp = tab_completion_new_with_history(&fd->entry, NULL,
-		  history_key, -1, file_dialog_entry_enter_cb, fd);
-	gtk_box_pack_end(GTK_BOX(GENERIC_DIALOG(fd)->vbox), tabcomp, FALSE, FALSE, 0);
-	generic_dialog_attach_default(GENERIC_DIALOG(fd), fd->entry);
+	tabcomp = tab_completion_new_with_history(&fdlg->entry, NULL,
+		  history_key, -1, file_dialog_entry_enter_cb, fdlg);
+	gtk_box_pack_end(GTK_BOX(GENERIC_DIALOG(fdlg)->vbox), tabcomp, FALSE, FALSE, 0);
+	generic_dialog_attach_default(GENERIC_DIALOG(fdlg), fdlg->entry);
 	gtk_widget_show(tabcomp);
 
 	if (path && path[0] == '/')
 		{
-		fd->dest_path = g_strdup(path);
+		fdlg->dest_path = g_strdup(path);
 		}
 	else
 		{
 		const gchar *base;
 
-		base = tab_completion_set_to_last_history(fd->entry);
+		base = tab_completion_set_to_last_history(fdlg->entry);
 
 		if (!base) base = default_path;
 		if (!base) base = homedir();
 
 		if (path)
 			{
-			fd->dest_path = concat_dir_and_file(base, path);
+			fdlg->dest_path = concat_dir_and_file(base, path);
 			}
 		else
 			{
-			fd->dest_path = g_strdup(base);
+			fdlg->dest_path = g_strdup(base);
 			}
 		}
 
-	list = path_selection_new_with_files(fd->entry, fd->dest_path, filter, filter_desc);
-	path_selection_add_select_func(fd->entry, file_dialog_entry_enter_cb, fd);
-	gtk_box_pack_end(GTK_BOX(GENERIC_DIALOG(fd)->vbox), list, TRUE, TRUE, 0);
+	list = path_selection_new_with_files(fdlg->entry, fdlg->dest_path, filter, filter_desc);
+	path_selection_add_select_func(fdlg->entry, file_dialog_entry_enter_cb, fdlg);
+	gtk_box_pack_end(GTK_BOX(GENERIC_DIALOG(fdlg)->vbox), list, TRUE, TRUE, 0);
 	gtk_widget_show(list);
 
-	gtk_widget_grab_focus(fd->entry);
-	if (fd->dest_path)
+	gtk_widget_grab_focus(fdlg->entry);
+	if (fdlg->dest_path)
 		{
-		gtk_entry_set_text(GTK_ENTRY(fd->entry), fd->dest_path);
-		gtk_editable_set_position(GTK_EDITABLE(fd->entry), strlen(fd->dest_path));
+		gtk_entry_set_text(GTK_ENTRY(fdlg->entry), fdlg->dest_path);
+		gtk_editable_set_position(GTK_EDITABLE(fdlg->entry), strlen(fdlg->dest_path));
 		}
 
-	g_signal_connect(G_OBJECT(fd->entry), "changed",
-			 G_CALLBACK(file_dialog_entry_cb), fd);
+	g_signal_connect(G_OBJECT(fdlg->entry), "changed",
+			 G_CALLBACK(file_dialog_entry_cb), fdlg);
 }
 
-void file_dialog_add_filter(FileDialog *fd, const gchar *filter, const gchar *filter_desc, gint set)
+void file_dialog_add_filter(FileDialog *fdlg, const gchar *filter, const gchar *filter_desc, gint set)
 {
-	if (!fd->entry) return;
-	path_selection_add_filter(fd->entry, filter, filter_desc, set);
+	if (!fdlg->entry) return;
+	path_selection_add_filter(fdlg->entry, filter, filter_desc, set);
 }
 
-void file_dialog_clear_filter(FileDialog *fd)
+void file_dialog_clear_filter(FileDialog *fdlg)
 {
-	if (!fd->entry) return;
-	path_selection_clear_filter(fd->entry);
+	if (!fdlg->entry) return;
+	path_selection_clear_filter(fdlg->entry);
 }
 
-void file_dialog_sync_history(FileDialog *fd, gint dir_only)
+void file_dialog_sync_history(FileDialog *fdlg, gint dir_only)
 {
-	if (!fd->dest_path) return;
+	if (!fdlg->dest_path) return;
 
 	if (!dir_only ||
-	    (dir_only && isdir(fd->dest_path)) )
+	    (dir_only && isdir(fdlg->dest_path)) )
 		{
-		tab_completion_append_to_history(fd->entry, fd->dest_path);
+		tab_completion_append_to_history(fdlg->entry, fdlg->dest_path);
 		}
 	else
 		{
-		gchar *buf = remove_level_from_path(fd->dest_path);
-		tab_completion_append_to_history(fd->entry, buf);
+		gchar *buf = remove_level_from_path(fdlg->dest_path);
+		tab_completion_append_to_history(fdlg->entry, buf);
 		g_free(buf);
 		}
 }

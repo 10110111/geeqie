@@ -142,7 +142,7 @@ void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 				{
 				PanItem *pimg;
 
-				pimg = pan_item_thumb_new(pw, file_data_new_simple(dot->fd->path), x, y);
+				pimg = pan_item_thumb_new(pw, file_data_ref(dot->fd), x, y);
 				pan_item_set_key(pimg, "day_bubble");
 
 				pan_item_size_by_item(pbox, pimg, PAN_BOX_BORDER);
@@ -204,12 +204,12 @@ void pan_calendar_compute(PanWindow *pw, const gchar *path, gint *width, gint *h
 
 	if (pw->cache_list && pw->exif_date_enable)
 		{
-		pw->cache_list = filelist_sort(pw->cache_list, SORT_NAME, TRUE);
+		pw->cache_list = pan_cache_sort(pw->cache_list, SORT_NAME, TRUE);
 		list = filelist_sort(list, SORT_NAME, TRUE);
 		pan_cache_sync_date(pw, list);
 		}
 
-	pw->cache_list = filelist_sort(pw->cache_list, SORT_TIME, TRUE);
+	pw->cache_list = pan_cache_sort(pw->cache_list, SORT_TIME, TRUE);
 	list = filelist_sort(list, SORT_TIME, TRUE);
 
 	day_max = 0;

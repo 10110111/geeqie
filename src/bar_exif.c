@@ -16,6 +16,7 @@
 #include "exif.h"
 #include "ui_bookmark.h"
 #include "ui_misc.h"
+#include "filelist.h"
 
 #include <math.h>
 
@@ -119,7 +120,7 @@ struct _ExifBar
 	GtkWidget *custom_name[EXIF_BAR_CUSTOM_COUNT];
 	GtkWidget *custom_value[EXIF_BAR_CUSTOM_COUNT];
 
-	gchar *path;
+	FileData *fd;
 
 	gint allow_search;
 };
@@ -171,7 +172,7 @@ static void bar_exif_update(ExifBar *eb)
 	ExifData *exif;
 	gint len, i;
 
-	exif = exif_read(eb->path, FALSE);
+	exif = exif_read(eb->fd, FALSE);
 
 	if (!exif)
 		{
@@ -310,7 +311,7 @@ static void bar_exif_clear(ExifBar *eb)
 		}
 }
 
-void bar_exif_set(GtkWidget *bar, const gchar *path)
+void bar_exif_set(GtkWidget *bar, FileData *fd)
 {
 	ExifBar *eb;
 
@@ -318,8 +319,8 @@ void bar_exif_set(GtkWidget *bar, const gchar *path)
 	if (!eb) return;
 
 	/* store this, advanced view toggle needs to reload data */
-	g_free(eb->path);
-	eb->path = g_strdup(path);
+	file_data_unref(eb->fd);
+	eb->fd = file_data_ref(fd);
 
 	bar_exif_clear(eb);
 	bar_exif_update(eb);
@@ -520,11 +521,11 @@ static void bar_exif_destroy(GtkWidget *widget, gpointer data)
 	ExifBar *eb = data;
 
 	g_free(eb->labels);
-	g_free(eb->path);
+	file_data_unref(eb->fd);
 	g_free(eb);
 }
 
-GtkWidget *bar_exif_new(gint show_title, const gchar *path, gint advanced, GtkWidget *bounding_widget)
+GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget *bounding_widget)
 {
 	ExifBar *eb;
 	GtkWidget *table;
@@ -652,7 +653,7 @@ GtkWidget *bar_exif_new(gint show_title, const gchar *path, gint advanced, GtkWi
 		gtk_widget_show(eb->scrolled);
 		}
 
-	eb->path = g_strdup(path);
+	eb->fd = file_data_ref(fd);
 	bar_exif_update(eb);
 
 	return eb->vbox;

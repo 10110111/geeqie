@@ -33,12 +33,12 @@ void pan_timeline_compute(PanWindow *pw, const gchar *path, gint *width, gint *h
 
 	if (pw->cache_list && pw->exif_date_enable)
 		{
-		pw->cache_list = filelist_sort(pw->cache_list, SORT_NAME, TRUE);
+		pw->cache_list = pan_cache_sort(pw->cache_list, SORT_NAME, TRUE);
 		list = filelist_sort(list, SORT_NAME, TRUE);
 		pan_cache_sync_date(pw, list);
 		}
 
-	pw->cache_list = filelist_sort(pw->cache_list, SORT_TIME, TRUE);
+	pw->cache_list = pan_cache_sort(pw->cache_list, SORT_TIME, TRUE);
 	list = filelist_sort(list, SORT_TIME, TRUE);
 
 	*width = PAN_BOX_BORDER * 2;

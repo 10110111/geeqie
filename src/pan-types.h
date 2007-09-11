@@ -239,7 +239,7 @@ struct _PanGrid {
 
 typedef struct _PanCacheData PanCacheData;
 struct _PanCacheData {
-	FileData fd;
+	FileData *fd;
 	CacheData *cd;
 };
 
@@ -251,7 +251,7 @@ void pan_layout_resize(PanWindow *pw);
 
 void pan_cache_sync_date(PanWindow *pw, GList *list);
 
-
+GList *pan_cache_sort(GList *list, SortType method, gint ascend);
 /* pan-item.c */
 
 void pan_item_free(PanItem *pi);

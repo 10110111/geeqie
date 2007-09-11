@@ -60,9 +60,9 @@ static gchar *editor_slot_defaults[GQVIEW_EDITOR_SLOTS * 2] = {
 	/* special slots */
 #if 1
 	/* for testing */
-	"External Copy command", "%vset -x;cp %f",
-	"External Move command", "%vset -x;mv %f",
-	"External Rename command", "%vset -x;mv %f",
+	"External Copy command", "%vset -x;cp %p %t",
+	"External Move command", "%vset -x;mv %p %t",
+	"External Rename command", "%vset -x;mv %p %t",
 	"External Delete command", "%vset -x;rm %f",
 	"External New Folder command", NULL
 #else
@@ -110,7 +110,7 @@ static void editor_verbose_window_stop(GenericDialog *gd, gpointer data)
 {
 	EditorVerboseData *vd = data;
 
-	path_list_free(vd->list);
+	filelist_free(vd->list);
 	vd->list = NULL;
 
 	vd->count = 0;
@@ -334,14 +334,31 @@ static gint editor_verbose_start(EditorVerboseData *vd, gchar *command)
 	return TRUE;
 }
 
-static gchar *editor_command_path_parse(const gchar *path)
+typedef enum {
+	PATH_FILE,
+	PATH_TARGET
+} PathType;
+
+
+static gchar *editor_command_path_parse(const FileData *fd, PathType type)
 {
 	GString *string;
 	gchar *pathl;
 	const gchar *p;
 
 	string = g_string_new("");
-	p = path;
+	
+	if (type == PATH_FILE)
+		{
+		p = fd->path;
+		}
+	else if (type == PATH_TARGET)
+		{
+		if (fd->change && fd->change->dest)
+			p = fd->change->dest;
+		else
+			p = "";
+		}
 	while (*p != '\0')
 		{
 		/* must escape \, ", `, and $ to avoid problems,
@@ -361,10 +378,10 @@ static gchar *editor_command_path_parse(const gchar *path)
 	return pathl;
 }
 
-static gint editor_command_one(const gchar *template, const gchar *path, EditorVerboseData *vd)
+static gint editor_command_one(const gchar *template, const FileData *fd, EditorVerboseData *vd)
 {
 	GString *result = NULL;
-	gchar *pathl;
+	gchar *pathl, *targetl;
 	gchar *found;
 	const gchar *ptr;
 	gchar path_buffer[512];
@@ -375,16 +392,32 @@ static gint editor_command_one(const gchar *template, const gchar *path, EditorV
 	current_path = getcwd(path_buffer, sizeof(path_buffer));
 
 	result = g_string_new("");
-	pathl = editor_command_path_parse(path);
+	pathl = editor_command_path_parse(fd, PATH_FILE);
+	targetl = editor_command_path_parse(fd, PATH_TARGET);
 
 	ptr = template;
-	while ( (found = strstr(ptr, "%p")) )
+	while ( (found = strstr(ptr, "%")) )
 		{
 		result = g_string_append_len(result, ptr, found - ptr);
 		ptr = found + 2;
-		result = g_string_append_c(result, '"');
-		result = g_string_append(result, pathl);
-		result = g_string_append_c(result, '"');
+		switch (found[1])
+			{
+			case 'p':
+				result = g_string_append_c(result, '"');
+				result = g_string_append(result, pathl);
+				result = g_string_append_c(result, '"');
+				break;
+			case 't':
+				result = g_string_append_c(result, '"');
+				result = g_string_append(result, targetl);
+				result = g_string_append_c(result, '"');
+				break;
+			case '%':
+				result = g_string_append_c(result, '%');
+				break;
+			default:
+				break;
+			}
 		}
 	result = g_string_append(result, ptr);
 
@@ -393,7 +426,7 @@ static gint editor_command_one(const gchar *template, const gchar *path, EditorV
 	if (current_path)
 		{
 		gchar *base;
-		base = remove_level_from_path(path);
+		base = remove_level_from_path(fd->path);
 		if (chdir(base) == 0) path_change = TRUE;
 		g_free(base);
 		}
@@ -412,6 +445,7 @@ static gint editor_command_one(const gchar *template, const gchar *path, EditorV
 
 	g_string_free(result, TRUE);
 	g_free(pathl);
+	g_free(targetl);
 
 	return ret;
 }
@@ -424,24 +458,24 @@ static gint editor_command_next(EditorVerboseData *vd)
 
 	while (vd->list)
 		{
-		gchar *path;
+		FileData *fd;
 		gint success;
 
-		path = vd->list->data;
-		vd->list = g_list_remove(vd->list, path);
+		fd = vd->list->data;
+		vd->list = g_list_remove(vd->list, fd);
 
-		editor_verbose_window_progress(vd, path);
+		editor_verbose_window_progress(vd, fd->path);
 
 		vd->count++;
-		success = editor_command_one(vd->command_template, path, vd);
+		success = editor_command_one(vd->command_template, fd, vd);
 		if (success)
 			{
 			gtk_widget_set_sensitive(vd->button_stop, (vd->list != NULL) );
-			editor_verbose_window_fill(vd, path, strlen(path));
+			editor_verbose_window_fill(vd, fd->path, strlen(fd->path));
 			editor_verbose_window_fill(vd, "\n", 1);
 			}
 
-		g_free(path);
+		file_data_unref(fd);
 		if (success) return TRUE;
 		}
 
@@ -464,7 +498,7 @@ static gint editor_command_start(const gchar *template, const gchar *text, GList
 	EditorVerboseData *vd;
 
 	vd = editor_verbose_window(template, text);
-	vd->list = path_list_copy(list);
+	vd->list = filelist_copy(list);
 	vd->total = g_list_length(list);
 
 	return editor_command_next(vd);
@@ -552,8 +586,8 @@ static gint editor_command_run(const gchar *template, const gchar *text, GList *
 			work = list;
 			while (work)
 				{
-				gchar *path = work->data;
-				ret = editor_command_one(template, path, NULL);
+				FileData *fd = work->data;
+				ret = editor_command_one(template, fd, NULL);
 				work = work->next;
 				}
 			}
@@ -572,12 +606,12 @@ static gint editor_command_run(const gchar *template, const gchar *text, GList *
 		work = list;
 		while (work)
 			{
-			gchar *path = work->data;
+			FileData *fd = work->data;
 			gchar *pathl;
 
 			if (work != list) g_string_append_c(result, ' ');
 			result = g_string_append_c(result, '"');
-			pathl = editor_command_path_parse(path);
+			pathl = editor_command_path_parse(fd, PATH_FILE);
 			result = g_string_append(result, pathl);
 			g_free(pathl);
 			result = g_string_append_c(result, '"');
@@ -610,7 +644,7 @@ static gint editor_command_run(const gchar *template, const gchar *text, GList *
 	return ret;
 }
 
-gint start_editor_from_path_list(gint n, GList *list)
+gint start_editor_from_filelist(gint n, GList *list)
 {
 	gchar *command;
 	gint ret;
@@ -625,15 +659,15 @@ gint start_editor_from_path_list(gint n, GList *list)
 	return ret;
 }
 
-gint start_editor_from_file(gint n, const gchar *path)
+gint start_editor_from_file(gint n, FileData *fd)
 {
 	GList *list;
 	gint ret;
 
-	if (!path) return FALSE;
+	if (!fd) return FALSE;
 
-	list = g_list_append(NULL, (gchar *)path);
-	ret = start_editor_from_path_list(n, list);
+	list = g_list_append(NULL, fd);
+	ret = start_editor_from_filelist(n, list);
 	g_list_free(list);
 	return ret;
 }
@@ -648,7 +682,7 @@ gint start_editor_from_pair(gint n, const gchar *source, const gchar *target)
 
 	list = g_list_append(NULL, (gchar *)source);
 	list = g_list_append(list, (gchar *)target);
-	ret = start_editor_from_path_list(n, list);
+	ret = start_editor_from_filelist(n, list);
 	g_list_free(list);
 	return ret;
 }

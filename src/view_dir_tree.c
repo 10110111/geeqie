@@ -197,7 +197,7 @@ static gint vdtree_rename_row_cb(TreeEditData *td, const gchar *old, const gchar
 	new_path = concat_dir_and_file(base, new);
 	g_free(base);
 
-	if (file_util_rename_dir(old_path, new_path, vdt->treeview))
+	if (file_util_rename_dir(nd->fd, new_path, vdt->treeview))
 		{
 		vdtree_populate_path(vdt, new_path, TRUE, TRUE);
 
@@ -234,7 +234,7 @@ static void vdtree_node_free(NodeData *nd)
 {
 	if (!nd) return;
 
-	file_data_free(nd->fd);
+	file_data_unref(nd->fd);
 	g_free(nd);
 }
 
@@ -247,7 +247,7 @@ static void vdtree_popup_destroy_cb(GtkWidget *widget, gpointer data)
 	vdt->popup = NULL;
 
 	vdtree_color_set(vdt, vdt->drop_fd, FALSE);
-	path_list_free(vdt->drop_list);
+	filelist_free(vdt->drop_list);
 	vdt->drop_list = NULL;
 	vdt->drop_fd = NULL;
 }
@@ -338,14 +338,12 @@ static void vdtree_pop_menu_slide_cb(GtkWidget *widget, gpointer data)
 	if (!vdt->layout) return;
 
 	if (!vdt->click_fd) return;
-	path = g_strdup(vdt->click_fd->path);
+	path = vdt->click_fd->path;
 
 	layout_set_path(vdt->layout, path);
 	layout_select_none(vdt->layout);
 	layout_image_slideshow_stop(vdt->layout);
 	layout_image_slideshow_start(vdt->layout);
-
-	g_free(path);
 }
 
 static void vdtree_pop_menu_slide_rec_cb(GtkWidget *widget, gpointer data)
@@ -357,39 +355,35 @@ static void vdtree_pop_menu_slide_rec_cb(GtkWidget *widget, gpointer data)
 	if (!vdt->layout) return;
 
 	if (!vdt->click_fd) return;
-	path = g_strdup(vdt->click_fd->path);
+	path = vdt->click_fd->path;
 
-	list = path_list_recursive(path);
+	list = filelist_recursive(path);
 
 	layout_image_slideshow_stop(vdt->layout);
 	layout_image_slideshow_start_from_list(vdt->layout, list);
-
-	g_free(path);
 }
 
 static void vdtree_pop_menu_dupe(ViewDirTree *vdt, gint recursive)
 {
 	DupeWindow *dw;
-	const gchar *path;
 	GList *list = NULL;
 
 	if (!vdt->click_fd) return;
-	path = vdt->click_fd->path;
 
 	if (recursive)
 		{
-		list = g_list_append(list, g_strdup(path));
+		list = g_list_append(list, file_data_ref(vdt->click_fd));
 		}
 	else
 		{
-		path_list(path, &list, NULL);
-		list = path_list_filter(list, FALSE);
+		filelist_read(vdt->click_fd->path, &list, NULL);
+		list = filelist_filter(list, FALSE);
 		}
 
 	dw = dupe_window_new(DUPE_MATCH_NAME);
 	dupe_window_add_files(dw, list, recursive);
 
-	path_list_free(list);
+	filelist_free(list);
 }
 
 static void vdtree_pop_menu_dupe_cb(GtkWidget *widget, gpointer data)
@@ -451,7 +445,7 @@ static void vdtree_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
 	ViewDirTree *vdt = data;
 
 	if (!vdt->click_fd) return;
-	file_util_delete_dir(vdt->click_fd->path, vdt->widget);
+	file_util_delete_dir(vdt->click_fd, vdt->widget);
 }
 
 static void vdtree_pop_menu_tree_cb(GtkWidget *widget, gpointer data)
@@ -563,14 +557,13 @@ static void vdtree_dnd_get(GtkWidget *widget, GdkDragContext *context,
 	gint length = 0;
 
 	if (!vdt->click_fd) return;
-	path = vdt->click_fd->path;
 
 	switch (info)
 		{
 		case TARGET_URI_LIST:
 		case TARGET_TEXT_PLAIN:
-			list = g_list_prepend(NULL, path);
-			uri_text = uri_text_from_list(list, &length, (info == TARGET_TEXT_PLAIN));
+			list = g_list_prepend(NULL, vdt->click_fd);
+			uri_text = uri_text_from_filelist(list, &length, (info == TARGET_TEXT_PLAIN));
 			g_list_free(list);
 			break;
 		}
@@ -632,7 +625,7 @@ static void vdtree_dnd_drop_receive(GtkWidget *widget,
 		GList *list;
 		gint active;
 
-		list = uri_list_from_text((gchar *)selection_data->data, TRUE);
+		list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
 		if (!list) return;
 
 		active = access_file(fd->path, W_OK | X_OK);
@@ -929,7 +922,7 @@ static void vdtree_row_deleted_cb(GtkTreeModel *tree_model, GtkTreePath *tpath, 
 
 	if (!nd) return;
 
-	file_data_free(nd->fd);
+	file_data_unref(nd->fd);
 	g_free(nd);
 }
 #endif
@@ -1007,9 +1000,7 @@ static void vdtree_add_by_data(ViewDirTree *vdt, FileData *fd, GtkTreeIter *pare
 	/* all nodes are created with an "empty" node, so that the expander is shown
 	 * this is removed when the child is populated */
 	end = g_new0(NodeData, 1);
-	end->fd = g_new0(FileData, 1);
-	end->fd->path = g_strdup("");
-	end->fd->name = end->fd->path;
+	end->fd = file_data_new_simple("");
 	end->expanded = TRUE;
 
 	gtk_tree_store_append(store, &empty, &child);
@@ -1093,7 +1084,7 @@ static gint vdtree_populate_path_by_iter(ViewDirTree *vdt, GtkTreeIter *iter, gi
 
 			if (stat_utf8(name8, &sbuf))
 				{
-				list = g_list_prepend(list, file_data_new(namel, &sbuf));
+				list = g_list_prepend(list, file_data_new_local(namel, &sbuf));
 				}
 
 			g_free(namel);
@@ -1122,7 +1113,7 @@ static gint vdtree_populate_path_by_iter(ViewDirTree *vdt, GtkTreeIter *iter, gi
 
 		if (strcmp(fd->name, ".") == 0 || strcmp(fd->name, "..") == 0)
 			{
-			file_data_free(fd);
+			file_data_unref(fd);
 			}
 		else
 			{
@@ -1139,7 +1130,7 @@ static gint vdtree_populate_path_by_iter(ViewDirTree *vdt, GtkTreeIter *iter, gi
 					cnd->fd->date = fd->date;
 					}
 
-				file_data_free(fd);
+				file_data_unref(fd);
 				}
 			else
 				{
@@ -1564,11 +1555,8 @@ static void vdtree_setup_root(ViewDirTree *vdt)
 	const gchar *path = "/";
 	FileData *fd;
 
-	fd = g_new0(FileData, 1);
-	fd->path = g_strdup(path);
-	fd->name = fd->path;
-	fd->size = 0;
-	fd->date = filetime(path);
+
+	fd = file_data_new_simple(path);
 	vdtree_add_by_data(vdt, fd, NULL);
 
 	vdtree_expand_by_data(vdt, fd, TRUE);
@@ -1648,7 +1636,7 @@ static void vdtree_destroy_cb(GtkWidget *widget, gpointer data)
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
 	gtk_tree_model_foreach(store, vdtree_destroy_node_cb, vdt);
 
-	path_list_free(vdt->drop_list);
+	filelist_free(vdt->drop_list);
 
 	folder_icons_free(vdt->pf);
 

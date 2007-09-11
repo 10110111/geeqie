@@ -180,7 +180,7 @@ struct _PrintWindow
 {
 	GenericDialog *dialog;
 
-	gchar *source_path;
+	FileData *source_fd;
 	GList *source_selection;
 	GList *source_list;
 
@@ -654,7 +654,7 @@ static gint print_layout_page_count(PrintWindow *pw)
 			break;
 		case PRINT_SOURCE_IMAGE:
 		default:
-			images = (pw->source_path) ? 1 : 0;
+			images = (pw->source_fd) ? 1 : 0;
 			break;
 		}
 
@@ -2030,7 +2030,7 @@ static gint print_job_text_image(PrintWindow *pw, const gchar *path,
 	if (pw->text_fields == 0) return TRUE;
 
 	string = g_string_new("");
-	path = pw->job_loader->path;
+	path = pw->job_loader->fd->path;
 
 	if (pw->text_fields & TEXT_INFO_FILENAME)
 		{
@@ -2048,7 +2048,7 @@ static gint print_job_text_image(PrintWindow *pw, const gchar *path,
 		{
 		if (newline)  g_string_append(string, "\n");
 		if (space) g_string_append(string, " - ");
-		g_string_append(string, text_from_time(filetime(pw->job_loader->path)));
+		g_string_append(string, text_from_time(filetime(pw->job_loader->fd->path)));
 		newline = proof;
 		space = !proof;
 		}
@@ -2058,7 +2058,7 @@ static gint print_job_text_image(PrintWindow *pw, const gchar *path,
 
 		if (newline)  g_string_append(string, "\n");
 		if (space) g_string_append(string, " - ");
-		size = text_from_size_abrev(filesize(pw->job_loader->path));
+		size = text_from_size_abrev(filesize(pw->job_loader->fd->path));
 		g_string_append(string, size);
 		g_free(size);
 		}
@@ -2139,7 +2139,7 @@ static void print_job_render_image_loader_done(ImageLoader *il, gpointer data)
 		y = y + h + PRINT_TEXT_PADDING;
 
 		success = (success &&
-			   print_job_text_image(pw, pw->job_loader->path, x, y, dw, sw, sh, FALSE));
+			   print_job_text_image(pw, pw->job_loader->fd->path, x, y, dw, sw, sh, FALSE));
 		}
 
 	image_loader_free(pw->job_loader);
@@ -2173,28 +2173,28 @@ static void print_job_render_image_loader_done(ImageLoader *il, gpointer data)
 
 static gint print_job_render_image(PrintWindow *pw)
 {
-	gchar *path = NULL;
+	FileData *fd = NULL;
 
 	switch (pw->source)
 		{
 		case PRINT_SOURCE_SELECTION:
-			path = g_list_nth_data(pw->source_selection, pw->job_page);
+			fd = g_list_nth_data(pw->source_selection, pw->job_page);
 			break;
 		case PRINT_SOURCE_ALL:
-			path = g_list_nth_data(pw->source_list, pw->job_page);
+			fd = g_list_nth_data(pw->source_list, pw->job_page);
 			break;
 		case PRINT_SOURCE_IMAGE:
 		default:
-			if (pw->job_page == 0) path = pw->source_path;
+			if (pw->job_page == 0) fd = pw->source_fd;
 			break;
 		}
 
 	image_loader_free(pw->job_loader);
 	pw->job_loader = NULL;
 
-	if (!path) return FALSE;
+	if (!fd) return FALSE;
 
-	pw->job_loader = image_loader_new(path);
+	pw->job_loader = image_loader_new(fd);
 	if (!image_loader_start(pw->job_loader, print_job_render_image_loader_done, pw))
 		{
 		image_loader_free(pw->job_loader);
@@ -2260,7 +2260,7 @@ static void print_job_render_proof_loader_done(ImageLoader *il, gpointer data)
 	y = y + icon_h + (pw->proof_height - icon_h) / 2 + PRINT_TEXT_PADDING;
 
 	success = (success && 
-		   print_job_text_image(pw, pw->job_loader->path, x, y, icon_w + PRINT_PROOF_MARGIN * 2, w, h, TRUE));
+		   print_job_text_image(pw, pw->job_loader->fd->path, x, y, icon_w + PRINT_PROOF_MARGIN * 2, w, h, TRUE));
 
 	if (!success)
 		{
@@ -2323,24 +2323,24 @@ static void print_job_render_proof_loader_done(ImageLoader *il, gpointer data)
 
 static gint print_job_render_proof(PrintWindow *pw)
 {
-	gchar *path = NULL;
+	FileData *fd = NULL;
 
 	if (pw->proof_columns < 1 || pw->proof_rows < 1) return FALSE;
 
 	if (!pw->proof_point && pw->proof_position == 0 && pw->source == PRINT_SOURCE_IMAGE)
 		{
-		path = pw->source_path;
+		fd = pw->source_fd;
 		}
 	else if (pw->proof_point &&
 		 pw->proof_position < pw->proof_columns * pw->proof_rows)
 		{
-		path = pw->proof_point->data;
+		fd = pw->proof_point->data;
 		}
 
-	if (!path) return FALSE;
+	if (!fd) return FALSE;
 
 	image_loader_free(pw->job_loader);
-	pw->job_loader = image_loader_new(path);
+	pw->job_loader = image_loader_new(fd);
 	if (!image_loader_start(pw->job_loader, print_job_render_proof_loader_done, pw))
 		{
 		image_loader_free(pw->job_loader);
@@ -2989,7 +2989,7 @@ static void print_custom_entry_set(PrintWindow *pw, GtkWidget *combo)
 		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), buf);
 		g_free(buf);
 		}
-	path_list_free(list);
+	string_list_free(list);
 
 	if (pref_list_string_get(PRINT_PREF_GROUP, PRINT_PREF_PRINTERC, &text))
 		{
@@ -3239,9 +3239,9 @@ static void print_window_close(PrintWindow *pw)
 
 	print_job_close(pw, FALSE);
 
-	g_free(pw->source_path);
-	path_list_free(pw->source_selection);
-	path_list_free(pw->source_list);
+	file_data_unref(pw->source_fd);
+	filelist_free(pw->source_selection);
+	filelist_free(pw->source_list);
 
 	g_free(pw->output_path);
 	g_free(pw->output_custom);
@@ -3295,7 +3295,7 @@ static gdouble print_pref_double(const gchar *key, gdouble fallback)
 	return fallback;
 }
 
-void print_window_new(const gchar *path, GList *selection, GList *list, GtkWidget *parent)
+void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *parent)
 {
 	PrintWindow *pw;
 	GdkGeometry geometry;
@@ -3308,7 +3308,7 @@ void print_window_new(const gchar *path, GList *selection, GList *list, GtkWidge
 
 	pw = g_new0(PrintWindow, 1);
 
-	pw->source_path = g_strdup(path);
+	pw->source_fd = file_data_ref(fd);
 	pw->source_selection = selection;
 	pw->source_list = list;
 

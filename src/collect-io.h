@@ -32,11 +32,11 @@ gint collection_load_only_geometry(CollectionData *cd, const gchar *path);
  *   deletes file when newpath == NULL
  *   adds file when oldpath == NULL
  */
-void collect_manager_moved(const gchar *oldpath, const gchar *newpath);
+void collect_manager_moved(FileData *fd);
 
 /* add or removing from a specific collection */
-void collect_manager_add(const gchar *path, const gchar *collection);
-void collect_manager_remove(const gchar *path, const gchar *collection);
+void collect_manager_add(FileData *fd, const gchar *collection);
+void collect_manager_remove(FileData *fd, const gchar *collection);
 
 /* commit pending operations to disk */
 void collect_manager_flush(void);

@@ -130,13 +130,13 @@ static void vflist_dnd_get(GtkWidget *widget, GdkDragContext *context,
 		}
 	else
 		{
-		list = g_list_append(NULL, g_strdup(vfl->click_fd->path));
+		list = g_list_append(NULL, file_data_ref(vfl->click_fd));
 		}
 
 	if (!list) return;
 
-	uri_text = uri_text_from_list(list, &total, (info == TARGET_TEXT_PLAIN));
-	path_list_free(list);
+	uri_text = uri_text_from_filelist(list, &total, (info == TARGET_TEXT_PLAIN));
+	filelist_free(list);
 
 	if (debug) printf(uri_text);
 
@@ -205,7 +205,7 @@ static GList *vflist_pop_menu_file_list(ViewFileList *vfl)
 		return vflist_selection_get_list(vfl);
 		}
 
-	return g_list_append(NULL, g_strdup(vfl->click_fd->path));
+	return g_list_append(NULL, file_data_ref(vfl->click_fd));
 }
 
 static void vflist_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
@@ -220,8 +220,8 @@ static void vflist_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
 	if (!vfl) return;
 
 	list = vflist_pop_menu_file_list(vfl);
-	start_editor_from_path_list(n, list);
-	path_list_free(list);
+	start_editor_from_filelist(n, list);
+	filelist_free(list);
 }
 
 static void vflist_pop_menu_info_cb(GtkWidget *widget, gpointer data)
@@ -241,14 +241,11 @@ static void vflist_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 
 		list = vflist_selection_get_list(vfl);
 		view_window_new_from_list(list);
-		path_list_free(list);
+		filelist_free(list);
 		}
 	else
 		{
-		const gchar *path;
-		
-		path = vfl->click_fd->path;
-		view_window_new(path);
+		view_window_new(vfl->click_fd);
 		}
 }
 
@@ -278,7 +275,7 @@ static void vflist_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 		GtkTreeModel *store;
 		GtkTreeIter iter;
 
-		path_list_free(list);
+		filelist_free(list);
 
 		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vfl->listview));
 		if (vflist_find_row(vfl, vfl->click_fd, &iter) >= 0)
@@ -459,17 +456,23 @@ static gint vflist_row_rename_cb(TreeEditData *td, const gchar *old, const gchar
 		file_util_warning_dialog(_("Error renaming file"), text, GTK_STOCK_DIALOG_ERROR, vfl->listview);
 		g_free(text);
 		}
-	else if (!rename_file(old_path, new_path))
+	else 
 		{
-		gchar *text = g_strdup_printf(_("Unable to rename file:\n%s\nto:\n%s"), old, new);
-		file_util_warning_dialog(_("Error renaming file"), text, GTK_STOCK_DIALOG_ERROR, vfl->listview);
-		g_free(text);
-		}
-	else
-		{
-		file_maint_renamed(old_path, new_path);
-		}
+		gint row = vflist_index_by_path(vfl, old_path);
+		if (row >= 0) 
+			{
+			GList *work = g_list_nth(vfl->list, row);
+			FileData *fd = work->data;
+			file_data_change_info_new(old_path, new_path, fd);
+			if (!rename_file_ext(fd))
+				{
+				gchar *text = g_strdup_printf(_("Unable to rename file:\n%s\nto:\n%s"), old, new);
+				file_util_warning_dialog(_("Error renaming file"), text, GTK_STOCK_DIALOG_ERROR, vfl->listview);
+				g_free(text);
+				}
+			}
 
+		}
 	g_free(old_path);
 	g_free(new_path);
 
@@ -658,10 +661,10 @@ static gint vflist_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointe
 
 static void vflist_select_image(ViewFileList *vfl, gint row)
 {
-	const gchar *path;
-	const gchar *read_ahead_path = NULL;
+	FileData *path;
+	FileData *read_ahead_fd = NULL;
 
-	path = vflist_index_get_path(vfl, row);
+	path = vflist_index_get_data(vfl, row);
 	if (!path) return;
 
 	if (path && enable_read_ahead)
@@ -680,10 +683,10 @@ static void vflist_select_image(ViewFileList *vfl, gint row)
 			{
 			fd = NULL;
 			}
-		if (fd) read_ahead_path = fd->path;
+		if (fd) read_ahead_fd = fd;
 		}
 
-	layout_image_set_with_ahead(vfl->layout, path, read_ahead_path);
+	layout_image_set_with_ahead(vfl->layout, path, read_ahead_fd);
 }
 
 static gint vflist_select_idle_cb(gpointer data)
@@ -1118,7 +1121,7 @@ GList *vflist_get_list(ViewFileList *vfl)
 		FileData *fd = work->data;
 		work = work->next;
 
-		list = g_list_prepend(list, g_strdup(fd->path));
+		list = g_list_prepend(list, file_data_ref(fd));
 		}
 
 	return g_list_reverse(list);
@@ -1225,7 +1228,7 @@ GList *vflist_selection_get_list(ViewFileList *vfl)
 		gtk_tree_model_get_iter(store, &iter, tpath);
 		gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &fd, -1);
 
-		list = g_list_prepend(list, g_strdup(fd->path));
+		list = g_list_prepend(list, file_data_ref(fd));
 
 		work = work->next;
 		}
@@ -1286,9 +1289,16 @@ void vflist_select_none(ViewFileList *vfl)
 void vflist_select_by_path(ViewFileList *vfl, const gchar *path)
 {
 	FileData *fd;
-	GtkTreeIter iter;
 
 	if (vflist_row_by_path(vfl, path, &fd) < 0) return;
+
+	vflist_select_by_fd(vfl, fd);
+}
+
+void vflist_select_by_fd(ViewFileList *vfl, FileData *fd)
+{
+	GtkTreeIter iter;
+
 	if (vflist_find_row(vfl, fd, &iter) < 0) return;
 
 	tree_view_row_make_visible(GTK_TREE_VIEW(vfl->listview), &iter, TRUE);
@@ -1865,23 +1875,20 @@ static gint vflist_maint_find_closest(ViewFileList *vfl, gint row, gint count, G
 		}
 }
 
-gint vflist_maint_renamed(ViewFileList *vfl, const gchar *source, const gchar *dest)
+gint vflist_maint_renamed(ViewFileList *vfl, FileData *fd)
 {
 	gint ret = FALSE;
 	gint row;
 	gchar *source_base;
 	gchar *dest_base;
 	GList *work;
-	FileData *fd;
 
-	row = vflist_index_by_path(vfl, source);
+	row = g_list_index(vfl->list, fd);
 	if (row < 0) return FALSE;
 
-	source_base = remove_level_from_path(source);
-	dest_base = remove_level_from_path(dest);
+	source_base = remove_level_from_path(fd->change->source);
+	dest_base = remove_level_from_path(fd->change->dest);
 
-	work = g_list_nth(vfl->list, row);
-	fd = work->data;
 
 	if (strcmp(source_base, dest_base) == 0)
 		{
@@ -1894,10 +1901,6 @@ gint vflist_maint_renamed(ViewFileList *vfl, const gchar *source, const gchar *d
 		old_row = g_list_index(vfl->list, fd);
 
 		vfl->list = g_list_remove(vfl->list, fd);
-		g_free(fd->path);
-
-		fd->path = g_strdup(dest);
-		fd->name = filename_from_path(fd->path);
 
 		vfl->list = filelist_insert_sort(vfl->list, fd, vfl->sort_method, vfl->sort_ascend);
 		n = g_list_index(vfl->list, fd);
@@ -1922,7 +1925,7 @@ gint vflist_maint_renamed(ViewFileList *vfl, const gchar *source, const gchar *d
 		}
 	else
 		{
-		ret = vflist_maint_removed(vfl, source, NULL);
+		ret = vflist_maint_removed(vfl, fd, NULL);
 		}
 
 	g_free(source_base);
@@ -1931,15 +1934,14 @@ gint vflist_maint_renamed(ViewFileList *vfl, const gchar *source, const gchar *d
 	return ret;
 }
 
-gint vflist_maint_removed(ViewFileList *vfl, const gchar *path, GList *ignore_list)
+gint vflist_maint_removed(ViewFileList *vfl, FileData *fd, GList *ignore_list)
 {
 	GtkTreeIter iter;
 	GList *list;
-	FileData *fd;
 	gint row;
 	gint new_row = -1;
 
-	row = vflist_index_by_path(vfl, path);
+	row = g_list_index(vfl->list, fd);
 	if (row < 0) return FALSE;
 
 	if (vflist_index_is_selected(vfl, row) &&
@@ -1994,25 +1996,25 @@ gint vflist_maint_removed(ViewFileList *vfl, const gchar *path, GList *ignore_li
 	if (vfl->thumbs_count > 0) vfl->thumbs_count--;
 
 	vfl->list = g_list_remove(vfl->list, fd);
-	file_data_free(fd);
+	file_data_unref(fd);
 
 	vflist_send_update(vfl);
 
 	return TRUE;
 }
 
-gint vflist_maint_moved(ViewFileList *vfl, const gchar *source, const gchar *dest, GList *ignore_list)
+gint vflist_maint_moved(ViewFileList *vfl, FileData *fd, GList *ignore_list)
 {
 	gint ret = FALSE;
 	gchar *buf;
 
-	if (!source || !vfl->path) return FALSE;
+	if (!fd->change->source || !vfl->path) return FALSE;
 
-	buf = remove_level_from_path(source);
+	buf = remove_level_from_path(fd->change->source);
 
 	if (strcmp(buf, vfl->path) == 0)
 		{
-		ret = vflist_maint_removed(vfl, source, ignore_list);
+		ret = vflist_maint_removed(vfl, fd, ignore_list);
 		}
 
 	g_free(buf);

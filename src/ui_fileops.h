@@ -51,12 +51,14 @@ gint rename_file(const gchar *s, const gchar *t);
 gchar *get_current_dir(void);
 
 /* return True on success, it is up to you to free
- * the lists with path_list_free()
+ * the lists with string_list_free()
  */
 gint path_list(const gchar *path, GList **files, GList **dirs);
 gint path_list_lstat(const gchar *path, GList **files, GList **dirs);
-void path_list_free(GList *list);
-GList *path_list_copy(GList *list);
+void string_list_free(GList *list);
+#define path_list_free string_list_free
+GList *string_list_copy(GList *list);
+#define path_list_copy string_list_copy
 
 long checksum_simple(const gchar *path);
 

@@ -53,16 +53,14 @@ static void collection_window_close(CollectWindow *cw);
  *-------------------------------------------------------------------
  */
 
-CollectInfo *collection_info_new(const gchar *path, struct stat *st, GdkPixbuf *pixbuf)
+CollectInfo *collection_info_new(FileData *fd, struct stat *st, GdkPixbuf *pixbuf)
 {
 	CollectInfo *ci;
 
-	if (!path) return NULL;
+	if (!fd) return NULL;
 
 	ci = g_new0(CollectInfo, 1);
-	ci->path = g_strdup(path);
-	ci->size = st->st_size;
-	ci->date = st->st_mtime;
+	ci->fd = file_data_ref(fd);
 
 	ci->pixbuf = pixbuf;
 	if (ci->pixbuf) g_object_ref(ci->pixbuf);
@@ -80,7 +78,7 @@ void collection_info_free(CollectInfo *ci)
 {
 	if (!ci) return;
 
-	g_free(ci->path);
+	file_data_unref(ci->fd);
 	collection_info_free_thumb(ci);
 	g_free(ci);
 }
@@ -101,7 +99,7 @@ gint collection_info_load_thumb(CollectInfo *ci)
 	printf("collection_info_load_thumb not implemented!\n(because an instant thumb loader not implemented)");
 	return FALSE;
 #if 0	
-	if (create_thumbnail(ci->path, &ci->pixmap, &ci->mask) < 0) return FALSE;
+	if (create_thumbnail(ci->fd->path, &ci->pixmap, &ci->mask) < 0) return FALSE;
 
 	if (ci->pixmap) gdk_pixmap_ref(ci->pixmap);
 	if (ci->mask) gdk_bitmap_ref(ci->mask);
@@ -136,26 +134,26 @@ static gint collection_list_sort_cb(gconstpointer a, gconstpointer b)
 			return 0;
 			break;
 		case SORT_SIZE:
-			if (cia->size < cib->size) return -1;
-			if (cia->size > cib->size) return 1;
+			if (cia->fd->size < cib->fd->size) return -1;
+			if (cia->fd->size > cib->fd->size) return 1;
 			return 0;
 			break;
 		case SORT_TIME:
-			if (cia->date < cib->date) return -1;
-			if (cia->date > cib->date) return 1;
+			if (cia->fd->date < cib->fd->date) return -1;
+			if (cia->fd->date > cib->fd->date) return 1;
 			return 0;
 			break;
 		case SORT_PATH:
-			return CASE_SORT(cia->path, cib->path);
+			return CASE_SORT(cia->fd->path, cib->fd->path);
 			break;
 #ifdef HAVE_STRVERSCMP
 		case SORT_NUMBER:
-			return strverscmp(filename_from_path(cia->path), filename_from_path(cib->path));
+			return strverscmp(cia->fd->name, cib->fd->name);
 			break;
 #endif
 		case SORT_NAME:
 		default:
-			return CASE_SORT(filename_from_path(cia->path), filename_from_path(cib->path));
+			return CASE_SORT(cia->fd->name, cib->fd->name);
 			break;
 		}
 
@@ -218,7 +216,7 @@ CollectInfo *collection_list_find(GList *list, const gchar *path)
 	while(work)
 		{
 		CollectInfo *ci = work->data;
-		if (strcmp(ci->path, path) == 0) return ci;
+		if (strcmp(ci->fd->path, path) == 0) return ci;
 		work = work->next;
 		}
 
@@ -233,7 +231,7 @@ static GList *collection_list_find_link(GList *list, gchar *path)
 	while(work)
 		{
 		CollectInfo *ci = work->data;
-		if (strcmp(ci->path, path) == 0) return work;
+		if (strcmp(ci->fd->path, path) == 0) return work;
 		work = work->next;
 		}
 
@@ -248,7 +246,7 @@ static gint collection_list_find_index(GList *list, gchar *path)
 	while(work)
 		{
 		CollectInfo *ci = work->data;
-		if (strcmp(ci->path, path) == 0) return c;
+		if (strcmp(ci->fd->path, path) == 0) return c;
 		work = work->next;
 		c++;
 		}
@@ -257,20 +255,20 @@ static gint collection_list_find_index(GList *list, gchar *path)
 }
 #endif
 
-GList *collection_list_to_path_list(GList *list)
+GList *collection_list_to_filelist(GList *list)
 {
-	GList *pathlist = NULL;
+	GList *filelist = NULL;
 	GList *work = list;
 
 	while (work)
 		{
 		CollectInfo *info = work->data;
-		pathlist = g_list_prepend(pathlist, g_strdup(info->path));
+		filelist = g_list_prepend(filelist, file_data_ref(info->fd));
 		work = work->next;
 		}
 
-	pathlist = g_list_reverse(pathlist);
-	return pathlist;
+	filelist = g_list_reverse(filelist);
+	return filelist;
 }
 
 CollectWindow *collection_window_find(CollectionData *cd)
@@ -444,7 +442,7 @@ CollectionData *collection_from_dnd_data(const gchar *data, GList **list, GList 
 			n = (gint)strtol(data + b, NULL, 10);
 
 			info = g_list_nth_data(cd->list, n);
-			if (info && list) work = g_list_append(work, g_strdup(info->path));
+			if (info && list) work = g_list_append(work, file_data_ref(info->fd));
 			if (info && info_list) infol = g_list_append(infol, info);
 
 			while (data[e] == '\n') e++;
@@ -512,7 +510,7 @@ gchar *collection_info_list_to_dnd_data(CollectionData *cd, GList *list, gint *l
 
 	ptr[0] = '\0';
 
-	path_list_free(temp);
+	string_list_free(temp);
 
 	*length = total;
 
@@ -588,14 +586,14 @@ void collection_set_update_info_func(CollectionData *cd,
 	cd->info_updated_data = data;
 }
 
-gint collection_add_check(CollectionData *cd, const gchar *path, gint sorted, gint must_exist)
+gint collection_add_check(CollectionData *cd, FileData *fd, gint sorted, gint must_exist)
 {
 	struct stat st;
 	gint valid;
 
 	if (must_exist)
 		{
-		valid = (stat_utf8(path, &st) && !S_ISDIR(st.st_mode));
+		valid = (stat_utf8(fd->path, &st) && !S_ISDIR(st.st_mode));
 		}
 	else
 		{
@@ -607,7 +605,7 @@ gint collection_add_check(CollectionData *cd, const gchar *path, gint sorted, gi
 	if (valid)
 		{
 		CollectInfo *ci;
-		ci = collection_info_new(path, &st, NULL);
+		ci = collection_info_new(fd, &st, NULL);
 		cd->list = collection_list_add(cd->list, ci, sorted ? cd->sort_method : SORT_NONE);
 		cd->changed = TRUE;
 
@@ -624,21 +622,21 @@ gint collection_add_check(CollectionData *cd, const gchar *path, gint sorted, gi
 	return valid;
 }
 
-gint collection_add(CollectionData *cd, const gchar *path, gint sorted)
+gint collection_add(CollectionData *cd, FileData *fd, gint sorted)
 {
-	return collection_add_check(cd, path, sorted, TRUE);
+	return collection_add_check(cd, fd, sorted, TRUE);
 }
 
-gint collection_insert(CollectionData *cd, const gchar *path, CollectInfo *insert_ci, gint sorted)
+gint collection_insert(CollectionData *cd, FileData *fd, CollectInfo *insert_ci, gint sorted)
 {
 	struct stat st;
 
-	if (!insert_ci) return collection_add(cd, path, sorted);
+	if (!insert_ci) return collection_add(cd, fd, sorted);
 
-	if (stat_utf8(path, &st) >= 0 && !S_ISDIR(st.st_mode))
+	if (stat_utf8(fd->path, &st) >= 0 && !S_ISDIR(st.st_mode))
 		{
 		CollectInfo *ci;
-		ci = collection_info_new(path, &st, NULL);
+		ci = collection_info_new(fd, &st, NULL);
 		cd->list = collection_list_insert(cd->list, ci, insert_ci, sorted ? cd->sort_method : SORT_NONE);
 		cd->changed = TRUE;
 
@@ -650,11 +648,11 @@ gint collection_insert(CollectionData *cd, const gchar *path, CollectInfo *inser
 	return FALSE;
 }
 
-gint collection_remove(CollectionData *cd, const gchar *path)
+gint collection_remove(CollectionData *cd, FileData *fd)
 {
 	CollectInfo *ci;
 
-	ci = collection_list_find(cd->list, path);
+	ci = collection_list_find(cd->list, fd->path);
 
 	if (!ci) return FALSE;
 
@@ -702,16 +700,17 @@ void collection_remove_by_info_list(CollectionData *cd, GList *list)
 	collection_window_refresh(collection_window_find(cd));
 }
 
-gint collection_rename(CollectionData *cd, const gchar *source, const gchar *dest)
+gint collection_rename(CollectionData *cd, FileData *fd)
 {
 	CollectInfo *ci;
-
+	const gchar *source = fd->change->source;
+	const gchar *dest = fd->change->dest;
 	ci = collection_list_find(cd->list, source);
 
 	if (!ci) return FALSE;
 
-	g_free(ci->path);
-	ci->path = g_strdup(dest);
+//	g_free(ci->path);
+//	ci->path = g_strdup(dest); FIXME
 	cd->changed = TRUE;
 
 	collection_window_update(collection_window_find(cd), ci);
@@ -730,7 +729,7 @@ void collection_update_geometry(CollectionData *cd)
  *-------------------------------------------------------------------
  */
 
-void collection_maint_removed(const gchar *path)
+void collection_maint_removed(FileData *fd)
 {
 	GList *work;
 
@@ -740,17 +739,17 @@ void collection_maint_removed(const gchar *path)
 		CollectionData *cd = work->data;
 		work = work->next;
 
-		while(collection_remove(cd, path));
+		while(collection_remove(cd, fd));
 		}
 #if 0
 	/* Do we really need to do this? removed files are
 	 * automatically ignored when loading a collection.
 	 */
-	collect_manager_moved(path, NULL);
+	collect_manager_moved(fd, NULL);
 #endif
 }
 
-void collection_maint_renamed(const gchar *source, const gchar *dest)
+void collection_maint_renamed(FileData *fd)
 {
 	GList *work;
 
@@ -760,10 +759,10 @@ void collection_maint_renamed(const gchar *source, const gchar *dest)
 		CollectionData *cd = work->data;
 		work = work->next;
 
-		while(collection_rename(cd, source, dest));
+		while(collection_rename(cd, fd));
 		}
 
-	collect_manager_moved(source, dest);
+	collect_manager_moved(fd);
 }
 
 /*
@@ -828,8 +827,8 @@ static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gp
 				list = layout_list(NULL);
 				if (list)
 					{
-					collection_table_add_path_list(cw->table, list);
-					path_list_free(list);
+					collection_table_add_filelist(cw->table, list);
+					filelist_free(list);
 					}
 				break;
 			case 'C': case 'c':
@@ -902,13 +901,11 @@ static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gp
 				if (event->state & GDK_SHIFT_MASK)
 					{
 					CollectInfo *info;
-					const gchar *path;
 
 					info = collection_table_get_focus_info(cw->table);
-					path = (info) ? info->path : NULL;
 
-					print_window_new(path, collection_table_selection_get_list(cw->table),
-							 collection_list_to_path_list(cw->cd->list), cw->window);
+					print_window_new(info->fd, collection_table_selection_get_list(cw->table),
+							 collection_list_to_filelist(cw->cd->list), cw->window);
 					}
 				else
 					{
@@ -936,8 +933,8 @@ static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gp
 	if (edit_val != -1)
 		{
 		list = collection_table_selection_get_list(cw->table);
-		start_editor_from_path_list(edit_val, list);
-		path_list_free(list);
+		start_editor_from_filelist(edit_val, list);
+		filelist_free(list);
 		}
 
 	return stop_signal;

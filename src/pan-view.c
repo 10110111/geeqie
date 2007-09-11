@@ -196,7 +196,7 @@ static gint pan_queue_step(PanWindow *pw)
 
 	if (pi->type == PAN_ITEM_IMAGE)
 		{
-		pw->il = image_loader_new(pi->fd->path);
+		pw->il = image_loader_new(pi->fd);
 
 		if (pw->size != PAN_IMAGE_SIZE_100)
 			{
@@ -520,6 +520,18 @@ static void pan_window_zoom_limit(PanWindow *pw)
  *-----------------------------------------------------------------------------
  */
 
+static gint pan_cache_sort_file_cb(void *a, void *b)
+{
+	PanCacheData *pca = a;
+	PanCacheData *pcb = b;
+	return filelist_sort_compare_filedata(pca->fd, pcb->fd);
+}
+GList *pan_cache_sort(GList *list, SortType method, gint ascend)
+{
+	return filelist_sort_full(list, method, ascend, (GCompareFunc) pan_cache_sort_file_cb);
+}
+
+
 static void pan_cache_free(PanWindow *pw)
 {
 	GList *work;
@@ -533,7 +545,8 @@ static void pan_cache_free(PanWindow *pw)
 		work = work->next;
 
 		cache_sim_data_free(pc->cd);
-		file_data_free((FileData *)pc);
+		file_data_unref(pc->fd);
+		g_free(pc);
 		}
 
 	g_list_free(pw->cache_list);
@@ -612,7 +625,7 @@ static gint pan_cache_step(PanWindow *pw)
 
 	if (!cd->dimensions)
 		{
-		cd->dimensions = image_load_dimensions(fd->path, &cd->width, &cd->height);
+		cd->dimensions = image_load_dimensions(fd, &cd->width, &cd->height);
 		if (enable_thumb_caching &&
 		    cd->dimensions)
 			{
@@ -636,8 +649,7 @@ static gint pan_cache_step(PanWindow *pw)
 		}
 #endif
 	pc = g_new0(PanCacheData, 1);
-	memcpy(pc, fd, sizeof(FileData));
-	g_free(fd);
+	pc->fd = file_data_ref(fd);
 
 	pc->cd = NULL;
 
@@ -648,7 +660,7 @@ static gint pan_cache_step(PanWindow *pw)
 	load_mask = CACHE_LOADER_NONE;
 	if (pw->size > PAN_IMAGE_SIZE_THUMB_LARGE) load_mask |= CACHE_LOADER_DIMENSIONS;
 	if (pw->exif_date_enable) load_mask |= CACHE_LOADER_DATE;
-	pw->cache_cl = cache_loader_new(((FileData *)pc)->path, load_mask,
+	pw->cache_cl = cache_loader_new(pc->fd, load_mask,
 					pan_cache_step_done_cb, pw);
 	return (pw->cache_cl == NULL);
 }
@@ -677,8 +689,7 @@ void pan_cache_sync_date(PanWindow *pw, GList *list)
 			gchar *path;
 
 			pc = needle->data;
-			path = ((FileData *)pc)->path;
-			if (path && strcmp(path, fd->path) == 0)
+			if (pc->fd == fd)
 				{
 				if (pc->cd && pc->cd->have_date && pc->cd->date >= 0)
 					{
@@ -1169,9 +1180,9 @@ static void pan_layout_set_path(PanWindow *pw, const gchar *path)
  *-----------------------------------------------------------------------------
  */
 
-static const gchar *pan_menu_click_path(PanWindow *pw)
+FileData *pan_menu_click_fd(PanWindow *pw)
 {
-	if (pw->click_pi && pw->click_pi->fd) return pw->click_pi->fd->path;
+	if (pw->click_pi && pw->click_pi->fd) return pw->click_pi->fd;
 	return NULL;
 }
 
@@ -1187,7 +1198,7 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 {
 	PanWindow *pw = data;
 	PixbufRenderer *pr;
-	const gchar *path;
+	FileData *fd;
 	gint stop_signal = FALSE;
 	GtkWidget *menu;
 	gint x = 0;
@@ -1196,7 +1207,7 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 	gint on_entry;
 
 	pr = PIXBUF_RENDERER(pw->imd->pr);
-	path = pan_menu_click_path(pw);
+	fd = pan_menu_click_fd(pw);
 
 	focused = (pw->fs || GTK_WIDGET_HAS_FOCUS(GTK_WIDGET(pw->imd->widget)));
 	on_entry = (GTK_WIDGET_HAS_FOCUS(pw->path_entry) ||
@@ -1288,19 +1299,19 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 				n = 9;
 				break;
 			case 'C': case 'c':
-				if (path) file_util_copy(path, NULL, NULL, GTK_WIDGET(pr));
+				if (fd) file_util_copy(fd, NULL, NULL, GTK_WIDGET(pr));
 				break;
 			case 'M': case 'm':
-				if (path) file_util_move(path, NULL, NULL, GTK_WIDGET(pr));
+				if (fd) file_util_move(fd, NULL, NULL, GTK_WIDGET(pr));
 				break;
 			case 'R': case 'r':
-				if (path) file_util_rename(path, NULL, GTK_WIDGET(pr));
+				if (fd) file_util_rename(fd, NULL, GTK_WIDGET(pr));
 				break;
 			case 'D': case 'd':
-				if (path) file_util_delete(path, NULL, GTK_WIDGET(pr));
+				if (fd) file_util_delete(fd, NULL, GTK_WIDGET(pr));
 				break;
 			case 'P': case 'p':
-				if (path) info_window_new(path, NULL);
+				if (fd) info_window_new(fd, NULL);
 				break;
 			case 'F': case 'f':
 				pan_search_toggle_visible(pw, TRUE);
@@ -1316,13 +1327,13 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 				break;
 			}
 
-		if (n != -1 && path)
+		if (n != -1 && fd)
 			{
 			if (!editor_window_flag_set(n))
 				{
 				pan_fullscreen_toggle(pw, TRUE);
 				}
-			start_editor_from_file(n, path);
+			start_editor_from_file(n, fd);
 			}
 		}
 	else
@@ -1423,7 +1434,7 @@ static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 	gint i;
 
 	if (!fd) return;
-	exif = exif_read(fd->path, FALSE);
+	exif = exif_read(fd, FALSE);
 	if (!exif) return;
 
 	pan_text_alignment_add(ta, NULL, NULL);
@@ -1541,7 +1552,7 @@ static void pan_info_update(PanWindow *pw, PanItem *pi)
 	if (pw->info_image_size > PAN_IMAGE_SIZE_THUMB_NONE)
 		{
 		gint iw, ih;
-		if (image_load_dimensions(pi->fd->path, &iw, &ih))
+		if (image_load_dimensions(pi->fd, &iw, &ih))
 			{
 			gint scale = 25;
 
@@ -2625,44 +2636,44 @@ void pan_window_new(const gchar *path)
 static void pan_new_window_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
-	const gchar *path;
+	FileData *fd;
 
-	path = pan_menu_click_path(pw);
-	if (path)
+	fd = pan_menu_click_fd(pw);
+	if (fd)
 		{
 		pan_fullscreen_toggle(pw, TRUE);
-		view_window_new(path);
+		view_window_new(fd);
 		}
 }
 
 static void pan_edit_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw;
-	const gchar *path;
+	FileData *fd;
 	gint n;
 
 	pw = submenu_item_get_data(widget);
 	n = GPOINTER_TO_INT(data);
 	if (!pw) return;
 
-	path = pan_menu_click_path(pw);
-	if (path)
+	fd = pan_menu_click_fd(pw);
+	if (fd)
 		{
 		if (!editor_window_flag_set(n))
 			{
 			pan_fullscreen_toggle(pw, TRUE);
 			}
-		start_editor_from_file(n, path);
+		start_editor_from_file(n, fd);
 		}
 }
 
 static void pan_info_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
-	const gchar *path;
+	FileData *fd;
 
-	path = pan_menu_click_path(pw);
-	if (path) info_window_new(path, NULL);
+	fd = pan_menu_click_fd(pw);
+	if (fd) info_window_new(fd, NULL);
 }
 
 static void pan_zoom_in_cb(GtkWidget *widget, gpointer data)
@@ -2689,37 +2700,37 @@ static void pan_zoom_1_1_cb(GtkWidget *widget, gpointer data)
 static void pan_copy_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
-	const gchar *path;
+	FileData *fd;
 
-	path = pan_menu_click_path(pw);
-	if (path) file_util_copy(path, NULL, NULL, pw->imd->widget);
+	fd = pan_menu_click_fd(pw);
+	if (fd) file_util_copy(fd, NULL, NULL, pw->imd->widget);
 }
 
 static void pan_move_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
-	const gchar *path;
+	FileData *fd;
 
-	path = pan_menu_click_path(pw);
-	if (path) file_util_move(path, NULL, NULL, pw->imd->widget);
+	fd = pan_menu_click_fd(pw);
+	if (fd) file_util_move(fd, NULL, NULL, pw->imd->widget);
 }
 
 static void pan_rename_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
-	const gchar *path;
+	FileData *fd;
 
-	path = pan_menu_click_path(pw);
-	if (path) file_util_rename(path, NULL, pw->imd->widget);
+	fd = pan_menu_click_fd(pw);
+	if (fd) file_util_rename(fd, NULL, pw->imd->widget);
 }
 
 static void pan_delete_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
-	const gchar *path;
+	FileData *fd;
 
-	path = pan_menu_click_path(pw);
-	if (path) file_util_delete(path, NULL, pw->imd->widget);
+	fd = pan_menu_click_fd(pw);
+	if (fd) file_util_delete(fd, NULL, pw->imd->widget);
 }
 
 static void pan_exif_date_toggle_cb(GtkWidget *widget, gpointer data)
@@ -2874,15 +2885,15 @@ static void pan_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 		{
 		GList *list;
 
-		list = uri_list_from_text((gchar *)selection_data->data, TRUE);
-		if (list && isdir((gchar *)list->data))
+		list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
+		if (list && isdir(((FileData *)list->data)->path))
 			{
-			gchar *path = list->data;
+			FileData *fd = list->data;
 
-			pan_layout_set_path(pw, path);
+			pan_layout_set_path(pw, fd->path);
 			}
 
-		path_list_free(list);
+		filelist_free(list);
 		}
 }
 
@@ -2891,10 +2902,10 @@ static void pan_window_set_dnd_data(GtkWidget *widget, GdkDragContext *context,
 				    guint time, gpointer data)
 {
 	PanWindow *pw = data;
-	const gchar *path;
+	FileData *fd;
 
-	path = pan_menu_click_path(pw);
-	if (path)
+	fd = pan_menu_click_fd(pw);
+	if (fd)
 		{
 		gchar *text = NULL;
 		gint len;
@@ -2911,8 +2922,8 @@ static void pan_window_set_dnd_data(GtkWidget *widget, GdkDragContext *context,
 				plain_text = TRUE;
 				break;
 			}
-		list = g_list_append(NULL, (gchar *)path);
-		text = uri_text_from_list(list, &len, plain_text);
+		list = g_list_append(NULL, fd);
+		text = uri_text_from_filelist(list, &len, plain_text);
 		g_list_free(list);
 		if (text)
 			{

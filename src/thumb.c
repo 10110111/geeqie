@@ -252,7 +252,7 @@ static void thumb_loader_delay_done(ThumbLoader *tl)
 static void thumb_loader_setup(ThumbLoader *tl, gchar *path)
 {
 	image_loader_free(tl->il);
-	tl->il = image_loader_new(path);
+	tl->il = image_loader_new(file_data_new_simple(path));
 
 	if (thumbnail_fast)
 		{

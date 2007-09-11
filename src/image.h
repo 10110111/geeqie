@@ -46,12 +46,13 @@ void image_select(ImageWindow *imd, gboolean select);
 /* path, name */
 const gchar *image_get_path(ImageWindow *imd);
 const gchar *image_get_name(ImageWindow *imd);
+FileData *image_get_fd(ImageWindow *imd);
 
 /* merely changes path string, does not change the image! */
-void image_set_path(ImageWindow *imd, const gchar *newpath);
+void image_set_fd(ImageWindow *imd, FileData *fd);
 
 /* load a new image */
-void image_change_path(ImageWindow *imd, const gchar *path, gdouble zoom);
+void image_change_fd(ImageWindow *imd, FileData *fd, gdouble zoom);
 void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom);
 void image_change_from_collection(ImageWindow *imd, CollectionData *cd, CollectInfo *info, gdouble zoom);
 CollectionData *image_get_collection(ImageWindow *imd, CollectInfo **info);
@@ -81,7 +82,7 @@ gchar *image_zoom_get_as_text(ImageWindow *imd);
 gdouble image_zoom_get_default(ImageWindow *imd, gint mode);
 
 /* read ahead, pass NULL to cancel */
-void image_prebuffer_set(ImageWindow *imd, const gchar *path);
+void image_prebuffer_set(ImageWindow *imd, FileData *fd);
 
 /* auto refresh, interval is 1/1000 sec, 0 uses default, -1 disables */
 void image_auto_refresh(ImageWindow *imd, gint interval);

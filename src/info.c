@@ -73,18 +73,18 @@ GtkWidget *table_add_line(GtkWidget *table, gint x, gint y,
 static void info_tab_exif_image(InfoData *id, gpointer data)
 {
 	GtkWidget *bar = data;
-	const gchar *path;
+	FileData *fd;
 
 	if (id->image->unknown)
 		{
-		path = NULL;
+		fd = NULL;
 		}
 	else
        		{
-		path = id->image->image_path;
+		fd = id->image->image_fd;
 		}
 
-	bar_exif_set(bar, path);
+	bar_exif_set(bar, fd);
 }
 
 static void info_tab_exif_sync(InfoData *id, gpointer data)
@@ -140,7 +140,7 @@ static void info_tab_meta_sync(InfoData *id, gpointer data)
 {
 	InfoTabMeta *tab = data;
 
-	bar_info_set(tab->bar_info, id->path);
+	bar_info_set(tab->bar_info, id->fd);
 }
 
 static GList *info_tab_meta_list_cb(gpointer data)
@@ -280,7 +280,7 @@ static void info_tab_general_sync_perm(InfoTabGeneral *tab, InfoData *id)
 {
 	struct stat st;
 
-	if (!stat_utf8(id->path, &st))
+	if (!stat_utf8(id->fd->path, &st))
 		{
 		gtk_label_set_text(GTK_LABEL(tab->label_user), "");
 		gtk_label_set_text(GTK_LABEL(tab->label_group), "");
@@ -324,9 +324,9 @@ static void info_tab_general_sync(InfoData *id, gpointer data)
 	InfoTabGeneral *tab = data;
 	gchar *buf;
 
-	gtk_label_set_text(GTK_LABEL(tab->label_file_time), text_from_time(filetime(id->path)));
+	gtk_label_set_text(GTK_LABEL(tab->label_file_time), text_from_time(id->fd->date));
 
-	tab->byte_size = filesize(id->path);
+	tab->byte_size = id->fd->size;
 
 	buf = text_from_size(tab->byte_size);
 	gtk_label_set_text(GTK_LABEL(tab->label_file_size), buf);
@@ -448,18 +448,18 @@ static void info_tabs_init(InfoData *id)
  *-------------------------------------------------------------------
  */
 
-static void info_window_sync(InfoData *id, const gchar *path)
+static void info_window_sync(InfoData *id, FileData *fd)
 {
 
-	if (!path) return;
+	if (!fd) return;
 
-	gtk_entry_set_text(GTK_ENTRY(id->name_entry), filename_from_path(path));
+	gtk_entry_set_text(GTK_ENTRY(id->name_entry), fd->name);
 
 	if (id->label_count)
 		{
 		gchar *buf;
 		buf = g_strdup_printf(_("Image %d of %d"),
-				      g_list_index(id->list, (gpointer)path) + 1,
+				      g_list_index(id->list, (gpointer)fd->path) + 1,
 				      g_list_length(id->list));
 		gtk_label_set_text(GTK_LABEL(id->label_count), buf);
 		g_free(buf);
@@ -468,7 +468,7 @@ static void info_window_sync(InfoData *id, const gchar *path)
 	info_tabs_sync(id, FALSE);
 
 	id->updated = FALSE;
-	image_change_path(id->image, path, 0.0);
+	image_change_fd(id->image, fd, 0.0);
 }
 
 /*
@@ -482,10 +482,10 @@ static void info_window_dnd_data_set(GtkWidget *widget, GdkDragContext *context,
 				     guint time, gpointer data)
 {
 	InfoData *id = data;
-	const gchar *path;
+	FileData *fd;
 
-	path = image_get_path(id->image);
-	if (path)
+	fd = image_get_fd(id->image);
+	if (fd)
 		{
 		gchar *text;
 		gint len;
@@ -502,8 +502,8 @@ static void info_window_dnd_data_set(GtkWidget *widget, GdkDragContext *context,
 				plain_text = TRUE;
 				break;
 			}
-		list = g_list_append(NULL, (gchar *)path);
-		text = uri_text_from_list(list, &len, plain_text);
+		list = g_list_append(NULL, fd);
+		text = uri_text_from_filelist(list, &len, plain_text);
 		g_list_free(list);
 
 		gtk_selection_data_set(selection_data, selection_data->target,
@@ -565,13 +565,13 @@ static void info_window_back_cb(GtkWidget *widget, gpointer data)
 	InfoData *id = data;
 	GList *work;
 
-	work = g_list_find(id->list, (gpointer)id->path);
+	work = g_list_find(id->list, (gpointer)id->fd);
 	if (!work || !work->prev) return;
 
 	work = work->prev;
-	id->path = work->data;
+	id->fd = work->data;
 
-	info_window_sync(id, id->path);
+	info_window_sync(id, id->fd);
 
 	gtk_widget_set_sensitive(id->button_back, (work->prev != NULL));
 	gtk_widget_set_sensitive(id->button_next, TRUE);
@@ -582,13 +582,13 @@ static void info_window_next_cb(GtkWidget *widget, gpointer data)
 	InfoData *id = data;
 	GList *work;
 
-	work = g_list_find(id->list, (gpointer)id->path);
+	work = g_list_find(id->list, (gpointer)id->fd);
 	if (!work || !work->next) return;
 
 	work = work->next;
-	id->path = work->data;
+	id->fd = work->data;
 
-	info_window_sync(id, id->path);
+	info_window_sync(id, id->fd);
 
 	gtk_widget_set_sensitive(id->button_next, (work->next != NULL));
 	gtk_widget_set_sensitive(id->button_back, TRUE);
@@ -649,11 +649,11 @@ static void info_window_destroy_cb(GtkWidget *widget, gpointer data)
 	InfoData *id = data;
 
 	info_tabs_free(id);
-	path_list_free(id->list);
+	filelist_free(id->list);
 	g_free(id);
 }
 
-void info_window_new(const gchar *path, GList *list)
+void info_window_new(FileData *fd, GList *list)
 {
 	InfoData *id;
 	GtkWidget *main_vbox;
@@ -663,17 +663,17 @@ void info_window_new(const gchar *path, GList *list)
 	GtkWidget *label;
 	GdkGeometry geometry;
 
-	if (!path && !list) return;
+	if (!fd && !list) return;
 
 	if (!list)
 		{
-		list = g_list_append(NULL, g_strdup(path));
+		list = g_list_append(NULL, file_data_ref(fd));
 		}
 
 	id = g_new0(InfoData, 1);
 
 	id->list = list;
-	id->path = (gchar *)id->list->data;
+	id->fd = (FileData *)id->list->data;
 	id->updated = FALSE;
 
 	id->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -760,7 +760,7 @@ void info_window_new(const gchar *path, GList *list)
 
 	/* fill it */
 
-	info_window_sync(id, id->path);
+	info_window_sync(id, id->fd);
 
 	/* finish */
 

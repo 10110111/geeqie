@@ -12,6 +12,7 @@
 
 #include "gqview.h"
 #include "image-load.h"
+#include "filelist.h"
 
 #include "format_raw.h"
 #include "ui_fileops.h"
@@ -24,6 +25,13 @@
 
 /* the number of bytes to read per idle call (define x IMAGE_LOADER_BUFFER_SIZE) */
 #define IMAGE_LOADER_BUFFER_DEFAULT_COUNT 1
+
+static const gchar *image_loader_path(ImageLoader *il)
+{
+	if (il->fd)
+		return il->fd->path;
+	return il->path;
+}
 
 static void image_loader_sync_pixbuf(ImageLoader *il)
 {
@@ -161,7 +169,7 @@ static void image_loader_error(ImageLoader *il)
 {
 	image_loader_stop(il);
 
-	if (debug) printf("pixbuf_loader reported load error for: %s\n", il->path);
+	if (debug) printf("pixbuf_loader reported load error for: %s\n", image_loader_path(il));
 
 	if (il->func_error) il->func_error(il, il->data_error);
 }
@@ -218,9 +226,9 @@ static gint image_loader_begin(ImageLoader *il)
 	b = read(il->load_fd, &buf, sizeof(buf));
 
 	if (b > 0 &&
-	    format_raw_img_exif_offsets_fd(il->load_fd, il->path, buf, b, &offset, NULL))
+	    format_raw_img_exif_offsets_fd(il->load_fd, image_loader_path(il), buf, b, &offset, NULL))
 		{
-		if (debug) printf("Raw file %s contains embedded image\n", il->path);
+		if (debug) printf("Raw file %s contains embedded image\n", image_loader_path(il));
 
 		b = read(il->load_fd, &buf, sizeof(buf));
 		}
@@ -282,7 +290,7 @@ static gint image_loader_setup(ImageLoader *il)
 
 	if (!il || il->load_fd != -1 || il->loader) return FALSE;
 
-	pathl = path_from_utf8(il->path);
+	pathl = path_from_utf8(image_loader_path(il));
 	il->load_fd = open(pathl, O_RDONLY | O_NONBLOCK);
 	g_free(pathl);
 	if (il->load_fd == -1) return FALSE;
@@ -303,13 +311,14 @@ static gint image_loader_setup(ImageLoader *il)
 	return image_loader_begin(il);
 }
 
-ImageLoader *image_loader_new(const gchar *path)
+static ImageLoader *image_loader_new_real(FileData *fd, const gchar *path)
 {
 	ImageLoader *il;
 
-	if (!path) return NULL;
+	if (!fd && !path) return NULL;
 
 	il = g_new0(ImageLoader, 1);
+	if (fd) il->fd = file_data_ref(fd);
 	if (path) il->path = g_strdup(path);
 	il->pixbuf = NULL;
 	il->idle_id = -1;
@@ -332,6 +341,16 @@ ImageLoader *image_loader_new(const gchar *path)
 	return il;
 }
 
+ImageLoader *image_loader_new(FileData *fd)
+{
+	return image_loader_new_real(fd, NULL);
+}
+
+ImageLoader *image_loader_new_from_path(const gchar *path)
+{
+	return image_loader_new_real(NULL, path);
+}
+
 void image_loader_free(ImageLoader *il)
 {
 	if (!il) return;
@@ -339,7 +358,8 @@ void image_loader_free(ImageLoader *il)
 	image_loader_stop(il);
 	if (il->idle_done_id != -1) g_source_remove(il->idle_done_id);
 	if (il->pixbuf) gdk_pixbuf_unref(il->pixbuf);
-	g_free(il->path);
+	if (il->fd) file_data_unref(il->fd);
+	if (il->path) g_free(il->path);
 	g_free(il);
 }
 
@@ -428,7 +448,7 @@ gint image_loader_start(ImageLoader *il, void (*func_done)(ImageLoader *, gpoint
 {
 	if (!il) return FALSE;
 
-	if (!il->path) return FALSE;
+	if (!image_loader_path(il)) return FALSE;
 
 	il->func_done = func_done;
 	il->data_done = data_done;
@@ -450,12 +470,12 @@ gint image_loader_get_is_done(ImageLoader *il)
 	return il->done;
 }
 
-gint image_load_dimensions(const gchar *path, gint *width, gint *height)
+gint image_load_dimensions(FileData *fd, gint *width, gint *height)
 {
 	ImageLoader *il;
 	gint success;
 
-	il = image_loader_new(path);
+	il = image_loader_new(fd);
 
 	success = image_loader_start(il, NULL, NULL);
 

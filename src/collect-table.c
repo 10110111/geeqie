@@ -418,12 +418,12 @@ static void collection_table_select_region_util(CollectTable *ct, CollectInfo *s
 
 GList *collection_table_selection_get_list(CollectTable *ct)
 {
-	return collection_list_to_path_list(ct->selection);
+	return collection_list_to_filelist(ct->selection);
 }
 
 static GList *collection_table_get_list(CollectTable *ct)
 {
-	return collection_list_to_path_list(ct->cd->list);
+	return collection_list_to_filelist(ct->cd->list);
 }
 
 /*
@@ -448,7 +448,7 @@ static void tip_show(CollectTable *ct)
 	gtk_window_set_resizable(GTK_WINDOW(ct->tip_window), FALSE);
 	gtk_container_set_border_width(GTK_CONTAINER(ct->tip_window), 2);
 
-	label = gtk_label_new(filename_from_path(ct->tip_info->path));
+	label = gtk_label_new(ct->tip_info->fd->name);
 
 	g_object_set_data(G_OBJECT(ct->tip_window), "tip_label", label);
 	gtk_container_add(GTK_CONTAINER(ct->tip_window), label);
@@ -526,7 +526,7 @@ static void tip_update(CollectTable *ct, CollectInfo *info)
 				}
 
 			label = g_object_get_data(G_OBJECT(ct->tip_window), "tip_label");
-			gtk_label_set_text(GTK_LABEL(label), filename_from_path(ct->tip_info->path));
+			gtk_label_set_text(GTK_LABEL(label), ct->tip_info->fd->name);
 			}
 		}
 	else
@@ -573,7 +573,7 @@ static GList *collection_table_popup_file_list(CollectTable *ct)
 		return collection_table_selection_get_list(ct);
 		}
 
-	return g_list_append(NULL, g_strdup(ct->click_info->path));
+	return g_list_append(NULL, g_strdup(ct->click_info->fd->path));
 }
 
 static void collection_table_popup_edit_cb(GtkWidget *widget, gpointer data)
@@ -590,8 +590,8 @@ static void collection_table_popup_edit_cb(GtkWidget *widget, gpointer data)
 	list = collection_table_popup_file_list(ct);
 	if (list)
 		{
-		start_editor_from_path_list(n, list);
-		path_list_free(list);
+		start_editor_from_filelist(n, list);
+		filelist_free(list);
 		}
 }
 
@@ -709,8 +709,8 @@ static void collection_table_popup_add_filelist_cb(GtkWidget *widget, gpointer d
 
 	if (list)
 		{
-		collection_table_add_path_list(ct, list);
-		path_list_free(list);
+		collection_table_add_filelist(ct, list);
+		filelist_free(list);
 		}
 }
 
@@ -733,11 +733,11 @@ static void collection_table_popup_find_dupes_cb(GtkWidget *widget, gpointer dat
 static void collection_table_popup_print_cb(GtkWidget *widget, gpointer data)
 {
 	CollectTable *ct = data;
-	const gchar *path;
+	FileData *fd;
 
-	path = (ct->click_info) ? ct->click_info->path : NULL;
+	fd = (ct->click_info) ? ct->click_info->fd : NULL;
 
-	print_window_new(path, collection_table_selection_get_list(ct), collection_table_get_list(ct), ct->listview);
+	print_window_new(fd, collection_table_selection_get_list(ct), collection_table_get_list(ct), ct->listview);
 }
 
 static void collection_table_popup_show_names_cb(GtkWidget *widget, gpointer data)
@@ -1737,7 +1737,7 @@ static void collection_table_sync_idle(CollectTable *ct)
 		}
 }
 
-void collection_table_add_path_list(CollectTable *ct, GList *list)
+void collection_table_add_filelist(CollectTable *ct, GList *list)
 {
 	GList *work;
 
@@ -1746,12 +1746,12 @@ void collection_table_add_path_list(CollectTable *ct, GList *list)
 	work = list;
 	while (work)
 		{
-		collection_add(ct->cd, (gchar *)work->data, FALSE);
+		collection_add(ct->cd, (FileData *)work->data, FALSE);
 		work = work->next;
 		}
 }
 
-static void collection_table_insert_path_list(CollectTable *ct, GList *list, CollectInfo *insert_info)
+static void collection_table_insert_filelist(CollectTable *ct, GList *list, CollectInfo *insert_info)
 {
 	GList *work;
 
@@ -1760,7 +1760,7 @@ static void collection_table_insert_path_list(CollectTable *ct, GList *list, Col
 	work = list;
 	while (work)
 		{
-		collection_insert(ct->cd, (gchar *)work->data, insert_info, FALSE);
+		collection_insert(ct->cd, (FileData *)work->data, insert_info, FALSE);
 		work = work->next;
 		}
 
@@ -1904,26 +1904,26 @@ static void collection_table_add_dir_recursive(CollectTable *ct, gchar *path, gi
 	GList *d = NULL;
 	GList *f = NULL;
 
-	if (path_list(path, &f, recursive ? &d : NULL))
+	if (filelist_read(path, &f, recursive ? &d : NULL))
 		{
 		GList *work;
 
-		f = path_list_filter(f, FALSE);
-		d = path_list_filter(d, TRUE);
+		f = filelist_filter(f, FALSE);
+		d = filelist_filter(d, TRUE);
 
-		f = path_list_sort(f);
-		d = path_list_sort(d);
+		f = filelist_sort_path(f);
+		d = filelist_sort_path(d);
 
-		collection_table_insert_path_list(ct, f, ct->marker_info);
+		collection_table_insert_filelist(ct, f, ct->marker_info);
 
 		work = g_list_last(d);
 		while (work)
 			{
-			collection_table_add_dir_recursive(ct, (gchar *)work->data, TRUE);
+			collection_table_add_dir_recursive(ct, ((FileData *)work->data)->path, TRUE);
 			work = work->prev;
 			}
-		path_list_free(f);
-		path_list_free(d);
+		filelist_free(f);
+		filelist_free(d);
 		}
 }
 
@@ -1932,11 +1932,11 @@ static void confirm_dir_list_do(CollectTable *ct, GList *list, gint recursive)
 	GList *work = list;
 	while (work)
 		{
-		gchar *path = work->data;
+		FileData *fd = work->data;
 		work = work->next;
-		if (isdir(path)) collection_table_add_dir_recursive(ct, path, recursive);
+		if (isdir(fd->path)) collection_table_add_dir_recursive(ct, fd->path, recursive);
 		}
-	collection_table_insert_path_list(ct, list, ct->marker_info);
+	collection_table_insert_filelist(ct, list, ct->marker_info);
 }
 
 
@@ -1958,7 +1958,7 @@ static void confirm_dir_list_skip(GtkWidget *widget, gpointer data)
 {
 	CollectTable *ct = data;
 
-	collection_table_insert_path_list(ct, ct->drop_list, ct->marker_info);
+	collection_table_insert_filelist(ct, ct->drop_list, ct->marker_info);
 }
 
 static GtkWidget *collection_table_drop_menu(CollectTable *ct)
@@ -2040,14 +2040,12 @@ static void collection_table_dnd_get(GtkWidget *widget, GdkDragContext *context,
 				}
 			else
 				{
-				const gchar *path = ct->click_info->path;
-
-				list = g_list_append(NULL, g_strdup(path));
+				list = g_list_append(NULL, file_data_ref(ct->click_info->fd));
 				}
 			if (!list) return;
 
-			uri_text = uri_text_from_list(list, &total, (info == TARGET_TEXT_PLAIN));
-			path_list_free(list);
+			uri_text = uri_text_from_filelist(list, &total, (info == TARGET_TEXT_PLAIN));
+			filelist_free(list);
 			break;
 		}
 
@@ -2088,7 +2086,7 @@ static void collection_table_dnd_receive(GtkWidget *widget, GdkDragContext *cont
 					gint col = -1;
 
 					/* it is a move within a collection */
-					path_list_free(list);
+					filelist_free(list);
 					list = NULL;
 
 					if (!drop_info)
@@ -2112,11 +2110,12 @@ static void collection_table_dnd_receive(GtkWidget *widget, GdkDragContext *cont
 				}
 			break;
 		case TARGET_URI_LIST:
-			list = uri_list_from_text((gchar *)selection_data->data, TRUE);
+			list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
 			work = list;
 			while (work)
 				{
-				if (isdir((gchar *)work->data))
+				FileData *fd = work->data;
+				if (isdir(fd->path))
 					{
 					GtkWidget *menu;
 
@@ -2136,8 +2135,8 @@ static void collection_table_dnd_receive(GtkWidget *widget, GdkDragContext *cont
 
 	if (list)
 		{
-		collection_table_insert_path_list(ct, list, drop_info);
-		path_list_free(list);
+		collection_table_insert_filelist(ct, list, drop_info);
+		filelist_free(list);
 		}
 }
 
@@ -2263,7 +2262,7 @@ static void collection_table_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCel
 		if (info)
 			{
 			g_object_set(cell,	"pixbuf", info->pixbuf,
-						"text", filename_from_path(info->path),
+						"text", info->fd->name,
 						"cell-background-gdk", &color_bg,
 						"cell-background-set", TRUE,
 						"foreground-gdk", &color_fg,

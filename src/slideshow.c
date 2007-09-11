@@ -14,6 +14,7 @@
 #include "collect.h"
 #include "image.h"
 #include "slideshow.h"
+#include "filelist.h"
 
 #include "layout.h"
 #include "layout_image.h"
@@ -31,14 +32,14 @@ void slideshow_free(SlideShowData *ss)
 
 	if (ss->stop_func) ss->stop_func(ss, ss->stop_data);
 
-	if (ss->path_list) path_list_free(ss->path_list);
+	if (ss->filelist) filelist_free(ss->filelist);
 	if (ss->cd) collection_unref(ss->cd);
 	g_free(ss->layout_path);
 
 	g_list_free(ss->list);
 	g_list_free(ss->list_done);
 
-	g_free(ss->slide_path);
+	file_data_unref(ss->slide_fd);
 
 	g_free(ss);
 }
@@ -117,17 +118,17 @@ static void slideshow_list_init(SlideShowData *ss, gint start_index)
 
 gint slideshow_should_continue(SlideShowData *ss)
 {
-	const gchar *imd_path;
+	FileData *imd_fd;
 	const gchar *path;
 
 	if (!ss) return FALSE;
 
-	imd_path = image_get_path(ss->imd);
+	imd_fd = image_get_fd(ss->imd);
 
-	if ( ((imd_path == NULL) != (ss->slide_path == NULL)) ||
-	    (imd_path && ss->slide_path && strcmp(imd_path, ss->slide_path) != 0) ) return FALSE;
+	if ( ((imd_fd == NULL) != (ss->slide_fd == NULL)) ||
+	    (imd_fd && ss->slide_fd && imd_fd != ss->slide_fd) ) return FALSE;
 
-	if (ss->path_list) return TRUE;
+	if (ss->filelist) return TRUE;
 
 	if (ss->cd)
 		{
@@ -176,30 +177,30 @@ static gint slideshow_step(SlideShowData *ss, gint forward)
 		row = GPOINTER_TO_INT(ss->list_done->data);
 		}
 
-	g_free(ss->slide_path);
-	ss->slide_path = NULL;
+	file_data_unref(ss->slide_fd);
+	ss->slide_fd = NULL;
 
-	if (ss->path_list)
+	if (ss->filelist)
 		{
-		ss->slide_path = g_strdup(g_list_nth_data(ss->path_list, row));
-		image_change_path(ss->imd, ss->slide_path, image_zoom_get_default(ss->imd, zoom_mode));
+		ss->slide_fd = file_data_ref((FileData *)g_list_nth_data(ss->filelist, row));
+		image_change_fd(ss->imd, ss->slide_fd, image_zoom_get_default(ss->imd, zoom_mode));
 		}
 	else if (ss->cd)
 		{
 		CollectInfo *info;
 
 		info = g_list_nth_data(ss->cd->list, row);
-		ss->slide_path = g_strdup(info->path);
+		ss->slide_fd = file_data_ref(info->fd);
 
 		image_change_from_collection(ss->imd, ss->cd, info, image_zoom_get_default(ss->imd, zoom_mode));
 		}
 	else
 		{
-		ss->slide_path = g_strdup(layout_list_get_path(ss->layout, row));
+		ss->slide_fd = file_data_ref(layout_list_get_fd(ss->layout, row));
 
 		if (ss->from_selection)
 			{
-			image_change_path(ss->imd, ss->slide_path, image_zoom_get_default(ss->imd, zoom_mode));
+			image_change_fd(ss->imd, ss->slide_fd, image_zoom_get_default(ss->imd, zoom_mode));
 			layout_status_update_info(ss->layout, NULL);
 			}
 		else
@@ -234,19 +235,19 @@ static gint slideshow_step(SlideShowData *ss, gint forward)
 			r = GPOINTER_TO_INT(ss->list_done->next->data);
 			}
 
-		if (ss->path_list)
+		if (ss->filelist)
 			{
-			image_prebuffer_set(ss->imd, g_list_nth_data(ss->path_list, r));
+			image_prebuffer_set(ss->imd, g_list_nth_data(ss->filelist, r));
 			}
 		else if (ss->cd)
 			{
 			CollectInfo *info;
 			info = g_list_nth_data(ss->cd->list, r);
-			if (info) image_prebuffer_set(ss->imd, info->path);
+			if (info) image_prebuffer_set(ss->imd, info->fd);
 			}
 		else if (ss->from_selection)
 			{
-			image_prebuffer_set(ss->imd, layout_list_get_path(ss->layout, r));
+			image_prebuffer_set(ss->imd, layout_list_get_fd(ss->layout, r));
 			}
 		}
 
@@ -313,20 +314,20 @@ void slideshow_prev(SlideShowData *ss)
 }
 
 static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
-					   GList *path_list, gint start_point,
+					   GList *filelist, gint start_point,
 					   CollectionData *cd, CollectInfo *start_info,
 					   void (*stop_func)(SlideShowData *, gpointer), gpointer stop_data)
 {
 	SlideShowData *ss;
 	gint start_index = -1;
 
-	if (!path_list && !cd && layout_list_count(lw, NULL) < 1) return NULL;
+	if (!filelist && !cd && layout_list_count(lw, NULL) < 1) return NULL;
 
 	ss = g_new0(SlideShowData, 1);
 
 	ss->imd = imd;
 
-	ss->path_list = path_list;
+	ss->filelist = filelist;
 	ss->cd = cd;
 	ss->layout = lw;
 	ss->layout_path = NULL;
@@ -341,9 +342,9 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 	ss->timeout_id = -1;
 	ss->paused = FALSE;
 
-	if (ss->path_list)
+	if (ss->filelist)
 		{
-		ss->slide_count = g_list_length(ss->path_list);
+		ss->slide_count = g_list_length(ss->filelist);
 		}
 	else if (ss->cd)
 		{
@@ -376,7 +377,7 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 
 	slideshow_list_init(ss, start_index);
 
-	ss->slide_path = g_strdup(image_get_path(ss->imd));
+	ss->slide_fd = file_data_ref(image_get_fd(ss->imd));
 	if (slideshow_step(ss, TRUE))
 		{
 		slideshow_timer_reset(ss, TRUE);
@@ -393,7 +394,7 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 	return ss;
 }
 
-SlideShowData *slideshow_start_from_path_list(ImageWindow *imd, GList *list,
+SlideShowData *slideshow_start_from_filelist(ImageWindow *imd, GList *list,
 					      void (*stop_func)(SlideShowData *, gpointer), gpointer stop_data)
 {
 	return real_slideshow_start(imd, NULL, list, -1, NULL, NULL, stop_func, stop_data);

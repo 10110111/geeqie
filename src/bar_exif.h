@@ -14,10 +14,10 @@
 #define BAR_EXIF_H
 
 
-GtkWidget *bar_exif_new(gint show_title, const gchar *path, gint advanced, GtkWidget *bounding_widget);
+GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget *bounding_widget);
 void bar_exif_close(GtkWidget *bar);
 
-void bar_exif_set(GtkWidget *bar, const gchar *path);
+void bar_exif_set(GtkWidget *bar, FileData *fd);
 
 gint bar_exif_is_advanced(GtkWidget *bar);
 

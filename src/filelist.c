@@ -571,34 +571,96 @@ const gchar *text_from_time(time_t t)
 SidecarFileData *sidecar_file_data_new_from_file_data(const FileData *fd);
 void sidecar_file_data_free(SidecarFileData *fd);
 
+static void file_data_set_path(FileData *fd, const gchar *path)
+{
 
-FileData *file_data_new(const gchar *path, struct stat *st)
+	if (strcmp(path, "/") == 0)
+		{
+		fd->path = g_strdup(path);
+		fd->name = fd->path;
+		fd->extension = fd->name + 1;
+		return;
+		}
+
+	fd->path = g_strdup(path);
+	fd->name = filename_from_path(fd->path);
+
+	if (strcmp(fd->name, "..") == 0)
+		{
+		gchar *dir = remove_level_from_path(path); 
+		g_free(fd->path);
+		fd->path = remove_level_from_path(dir);
+		g_free(dir);
+		fd->name = "..";
+		fd->extension = fd->name + 2;
+		return;		
+		}
+	else if (strcmp(fd->name, ".") == 0)
+		{
+		g_free(fd->path);
+		fd->path = remove_level_from_path(path);
+		fd->name = ".";
+		fd->extension = fd->name + 1;
+		return;
+		}
+
+	fd->extension = extension_from_path(fd->path);
+}
+
+static GHashTable *file_data_pool = NULL;
+
+FileData *file_data_new(const gchar *path_utf8, struct stat *st)
 {
 	FileData *fd;
 
+	printf("file_data_new: '%s'\n", path_utf8);
+	
+	if (!file_data_pool)
+		file_data_pool = g_hash_table_new (g_str_hash, g_str_equal);
+	
+	fd = g_hash_table_lookup(file_data_pool, path_utf8);
+	if (fd)
+		{
+		printf("file_data_pool hit: '%s'\n", fd->path);
+		return file_data_ref(fd);
+		}
+	
 	fd = g_new0(FileData, 1);
-	fd->path = path_to_utf8(path);
-	fd->name = filename_from_path(fd->path);
-	fd->extension = extension_from_path(fd->path);
 
+	file_data_set_path(fd, path_utf8);
+	
+	fd->original_path = g_strdup(path_utf8);
 	fd->size = st->st_size;
 	fd->date = st->st_mtime;
 	fd->pixbuf = NULL;
 	fd->sidecar_files = NULL;
+	fd->ref = 1;
+	fd->magick = 0x12345678;
+	
+	g_hash_table_insert(file_data_pool, fd->original_path, fd);
+	
 	return fd;
 }
 
-FileData *file_data_new_simple(const gchar *path)
+FileData *file_data_new_local(const gchar *path, struct stat *st)
+{
+	gchar *path_utf8 = path_to_utf8(path);
+	FileData *ret = file_data_new(path_utf8, st);
+	g_free(path_utf8);
+	return ret;
+}
+
+FileData *file_data_new_simple(const gchar *path_utf8)
 {
 	struct stat st;
 
-	if (!stat(path, &st))
+	if (!stat_utf8(path_utf8, &st))
 		{
 		st.st_size = 0;
 		st.st_mtime = 0;
 		}
 
-	return file_data_new(path, &st);
+	return file_data_new(path_utf8, &st);
 }
 
 FileData *file_data_add_sidecar_file(FileData *target, SidecarFileData *sfd)
@@ -625,7 +687,14 @@ FileData *file_data_merge_sidecar_files(FileData *target, FileData *source)
 void file_data_free(FileData *fd)
 {
 	GList *work;
+
+	g_assert(fd->magick == 0x12345678);
+	g_assert(fd->ref == 0 || fd->ref == 1);
+	
+	g_hash_table_remove(file_data_pool, fd->original_path);
+
 	g_free(fd->path);
+	g_free(fd->original_path);
 	if (fd->pixbuf) g_object_unref(fd->pixbuf);
 
 	work = fd->sidecar_files;
@@ -636,8 +705,27 @@ void file_data_free(FileData *fd)
 		}
 
 	g_list_free(fd->sidecar_files);
-	
+
+	file_data_change_info_free(NULL, fd);	
 	g_free(fd);
+}
+
+FileData *file_data_ref(FileData *fd)
+{
+	if (fd == NULL) return NULL;
+
+//	return g_memdup(fd, sizeof(FileData));
+	g_assert(fd->magick == 0x12345678);
+	fd->ref++;
+	return fd;
+}
+void file_data_unref(FileData *fd)
+{
+	if (fd == NULL) return;
+	g_assert(fd->magick == 0x12345678);
+	fd->ref--;
+	if (fd->ref == 0)
+		file_data_free(fd);
 }
 
 /* compare name without extension */
@@ -652,6 +740,53 @@ gint file_data_compare_name_without_ext(FileData *fd1, FileData *fd2)
 	return strncmp(fd1->name, fd2->name, len1);
 }
 
+FileData *file_data_do_change(FileData *fd)
+{
+	g_assert(fd->change);
+	g_free(fd->path);
+	g_hash_table_remove(file_data_pool, fd->original_path);
+	g_free(fd->original_path);
+	file_data_set_path(fd, fd->change->dest);
+	fd->original_path = g_strdup(fd->change->dest);
+	g_hash_table_insert(file_data_pool, fd->original_path, fd);
+
+}
+
+FileDataChangeInfo *file_data_change_info_new(const gchar *src, const gchar *dest, FileData *fd)
+{
+	FileDataChangeInfo *fdci = g_new0(FileDataChangeInfo, 1);
+
+	if (src)
+		fdci->source = g_strdup(src);
+	if (dest)
+		fdci->dest = g_strdup(dest);
+		
+	if (fd)
+		{
+		if (fd->change)
+			file_data_change_info_free(fd->change, NULL);
+		fd->change = fdci;
+		}
+	return fdci;
+}
+
+void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd)
+{
+	if (!fdci && fd)
+		fdci = fd->change;
+	
+	if (!fdci)
+		return;
+	
+	g_free(fdci->source);
+	g_free(fdci->dest);
+	
+	g_free(fdci);
+	
+	if (fd)
+		fd->change = NULL;
+}
+	
 /*
  *-----------------------------------------------------------------------------
  * sidecar file info struct
@@ -738,15 +873,14 @@ gint sidecar_file_priority(const gchar *path)
 static SortType filelist_sort_method = SORT_NONE;
 static gint filelist_sort_ascend = TRUE;
 
-static gint sort_file_cb(void *a, void *b)
-{
-	FileData *fa = a;
-	FileData *fb = b;
 
+gint filelist_sort_compare_filedata(FileData *fa, FileData *fb)
+{
 	if (!filelist_sort_ascend)
 		{
-		fa = b;
-		fb = a;
+		FileData *tmp = fa;
+		fa = fb;
+		fb = tmp;
 		}
 
 	switch (filelist_sort_method)
@@ -773,22 +907,37 @@ static gint sort_file_cb(void *a, void *b)
 		}
 }
 
-GList *filelist_sort(GList *list, SortType method, gint ascend)
+static gint filelist_sort_file_cb(void *a, void *b)
+{
+	return filelist_sort_compare_filedata(a, b);
+}
+
+GList *filelist_sort_full(GList *list, SortType method, gint ascend, GCompareFunc cb)
 {
 	filelist_sort_method = method;
 	filelist_sort_ascend = ascend;
-	return g_list_sort(list, (GCompareFunc) sort_file_cb);
+	return g_list_sort(list, cb);
+}
+
+GList *filelist_insert_sort_full(GList *list, void *data, SortType method, gint ascend, GCompareFunc cb)
+{
+	filelist_sort_method = method;
+	filelist_sort_ascend = ascend;
+	return g_list_insert_sorted(list, data, cb);
+}
+
+GList *filelist_sort(GList *list, SortType method, gint ascend)
+{
+	return filelist_sort_full(list, method, ascend, (GCompareFunc) filelist_sort_file_cb);
 }
 
 GList *filelist_insert_sort(GList *list, FileData *fd, SortType method, gint ascend)
 {
-	filelist_sort_method = method;
-	filelist_sort_ascend = ascend;
-	return g_list_insert_sorted(list, fd, (GCompareFunc) sort_file_cb);
+	return filelist_insert_sort_full(list, fd, method, ascend, (GCompareFunc) filelist_sort_file_cb);
 }
 
 
-gint filelist_read(const gchar *path, GList **files, GList **dirs)
+static gint filelist_read_real(const gchar *path, GList **files, GList **dirs, gint follow_symlinks)
 {
 	DIR *dp;
 	struct dirent *dir;
@@ -822,7 +971,9 @@ gint filelist_read(const gchar *path, GList **files, GList **dirs)
 		if (show_dot_files || !ishidden(name))
 			{
 			gchar *filepath = g_strconcat(pathl, "/", name, NULL);
-			if (stat(filepath, &ent_sbuf) >= 0)
+			if ((follow_symlinks ? 
+				stat(filepath, &ent_sbuf) :
+				lstat(filepath, &ent_sbuf)) >= 0)
 				{
 				if (S_ISDIR(ent_sbuf.st_mode))
 					{
@@ -833,16 +984,16 @@ gint filelist_read(const gchar *path, GList **files, GList **dirs)
 					    strcmp(name, GQVIEW_CACHE_LOCAL_METADATA) != 0 &&
 					    strcmp(name, THUMB_FOLDER_LOCAL) != 0)
 						{
-						dlist = g_list_prepend(dlist, file_data_new(filepath, &ent_sbuf));
+						dlist = g_list_prepend(dlist, file_data_new_local(filepath, &ent_sbuf));
 						}
 					}
 				else
 					{
 					if ((files) && filter_name_exists(name))
 						{
-						FileData *fd = file_data_new(filepath, &ent_sbuf);
+						FileData *fd = file_data_new_local(filepath, &ent_sbuf);
 						
-						GList *same = g_list_find_custom(flist, fd, file_data_compare_name_without_ext);
+						GList *same = g_list_find_custom(flist, fd, (GCompareFunc) file_data_compare_name_without_ext);
 						
 						int p1 = 0; 
 						int p2 = 0; 
@@ -888,6 +1039,16 @@ gint filelist_read(const gchar *path, GList **files, GList **dirs)
 	return TRUE;
 }
 
+gint filelist_read(const gchar *path, GList **files, GList **dirs)
+{
+	return filelist_read_real(path, files, dirs, TRUE);
+}
+
+gint filelist_read_lstat(const gchar *path, GList **files, GList **dirs)
+{
+	return filelist_read_real(path, files, dirs, FALSE);
+}
+
 void filelist_free(GList *list)
 {
 	GList *work;
@@ -895,7 +1056,7 @@ void filelist_free(GList *list)
 	work = list;
 	while (work)
 		{
-		file_data_free((FileData *)work->data);
+		file_data_unref((FileData *)work->data);
 		work = work->next;
 		}
 
@@ -903,3 +1064,152 @@ void filelist_free(GList *list)
 }
 
 
+GList *filelist_copy(GList *list)
+{
+	GList *new_list = NULL;
+	GList *work;
+
+	work = list;
+	while (work)
+		{
+		FileData *fd;
+ 
+		fd = work->data;
+		work = work->next;
+ 
+		new_list = g_list_prepend(new_list, file_data_ref(fd));
+		}
+ 
+	return g_list_reverse(new_list);
+}
+
+GList *filelist_from_path_list(GList *list)
+{
+	GList *new_list = NULL;
+	GList *work;
+
+	work = list;
+	while (work)
+		{
+		gchar *path;
+ 
+		path = work->data;
+		work = work->next;
+ 
+		new_list = g_list_prepend(new_list, file_data_new_simple(path));
+		}
+ 
+	return g_list_reverse(new_list);
+}
+
+GList *filelist_to_path_list(GList *list)
+{
+	GList *new_list = NULL;
+	GList *work;
+
+	work = list;
+	while (work)
+		{
+		FileData *fd;
+ 
+		fd = work->data;
+		work = work->next;
+ 
+		new_list = g_list_prepend(new_list, g_strdup(fd->path));
+		}
+ 
+	return g_list_reverse(new_list);
+}
+
+GList *filelist_filter(GList *list, gint is_dir_list)
+{
+	GList *work;
+
+	if (!is_dir_list && file_filter_disable && show_dot_files) return list;
+
+	work = list;
+	while (work)
+		{
+		FileData *fd = (FileData *)(work->data);
+		const gchar *name = fd->name;
+
+		if ((!show_dot_files && ishidden(name)) ||
+		    (!is_dir_list && !filter_name_exists(name)) ||
+		    (is_dir_list && name[0] == '.' && (strcmp(name, GQVIEW_CACHE_LOCAL_THUMB) == 0 ||
+						       strcmp(name, GQVIEW_CACHE_LOCAL_METADATA) == 0)) )
+			{
+			GList *link = work;
+			work = work->next;
+			list = g_list_remove_link(list, link);
+			file_data_unref(fd);
+			g_list_free(link);
+			}
+		else
+			{
+			work = work->next;
+			}
+		}
+
+	return list;
+}
+
+/*
+ *-----------------------------------------------------------------------------
+ * filelist recursive
+ *-----------------------------------------------------------------------------
+ */
+
+static gint filelist_sort_path_cb(gconstpointer a, gconstpointer b)
+{
+	return CASE_SORT(((FileData *)a)->path, ((FileData *)b)->path);
+}
+
+GList *filelist_sort_path(GList *list)
+{
+	return g_list_sort(list, filelist_sort_path_cb);
+}
+
+static void filelist_recursive_append(GList **list, GList *dirs)
+{
+	GList *work;
+
+	work = dirs;
+	while (work)
+		{
+		FileData *fd = (FileData *)(work->data);
+		const gchar *path = fd->path;
+		GList *f = NULL;
+		GList *d = NULL;
+
+		if (filelist_read(path, &f, &d))
+			{
+			f = filelist_filter(f, FALSE);
+			f = filelist_sort_path(f);
+			*list = g_list_concat(*list, f);
+
+			d = filelist_filter(d, TRUE);
+			d = filelist_sort_path(d);
+			filelist_recursive_append(list, d);
+			filelist_free(d);
+			}
+
+		work = work->next;
+		}
+}
+
+GList *filelist_recursive(const gchar *path)
+{
+	GList *list = NULL;
+	GList *d = NULL;
+
+	if (!filelist_read(path, &list, &d)) return NULL;
+	list = filelist_filter(list, FALSE);
+	list = filelist_sort_path(list);
+
+	d = filelist_filter(d, TRUE);
+	d = filelist_sort_path(d);
+	filelist_recursive_append(&list, d);
+	filelist_free(d);
+
+	return list;
+}

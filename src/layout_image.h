@@ -19,8 +19,8 @@ GtkWidget *layout_image_setup_split_none(LayoutWindow *lw);
 GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal);
 GtkWidget *layout_image_setup_split(LayoutWindow *lw, ImageSplitMode mode);
 
-void layout_image_set_path(LayoutWindow *lw, const gchar *path);
-void layout_image_set_with_ahead(LayoutWindow *lw, const gchar *path, const gchar *read_ahead_path);
+void layout_image_set_fd(LayoutWindow *lw, FileData *fd);
+void layout_image_set_with_ahead(LayoutWindow *lw, FileData *fd, FileData *read_ahead_fd);
 
 void layout_image_set_index(LayoutWindow *lw, gint index);
 void layout_image_set_collection(LayoutWindow *lw, CollectionData *cd, CollectInfo *info);
@@ -39,6 +39,7 @@ gint layout_image_color_profile_get_use(LayoutWindow *lw);
 
 const gchar *layout_image_get_path(LayoutWindow *lw);
 const gchar *layout_image_get_name(LayoutWindow *lw);
+FileData *layout_image_get_fd(LayoutWindow *lw);
 CollectionData *layout_image_get_collection(LayoutWindow *lw, CollectInfo **info);
 gint layout_image_get_index(LayoutWindow *lw);
 
@@ -76,9 +77,9 @@ void layout_image_overlay_toggle(LayoutWindow *lw);
 void layout_image_overlay_update(LayoutWindow *lw);
 
 
-void layout_image_maint_renamed(LayoutWindow *lw, const gchar *source, const gchar *dest);
-void layout_image_maint_removed(LayoutWindow *lw, const gchar *path);
-void layout_image_maint_moved(LayoutWindow *lw, const gchar *source, const gchar *dest);
+void layout_image_maint_renamed(LayoutWindow *lw, FileData *fd);
+void layout_image_maint_removed(LayoutWindow *lw, FileData *fd);
+void layout_image_maint_moved(LayoutWindow *lw, FileData *fd);
 
 
 #endif

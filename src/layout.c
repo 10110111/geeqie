@@ -810,6 +810,16 @@ const gchar *layout_list_get_path(LayoutWindow *lw, gint index)
 	return NULL;
 }
 
+FileData *layout_list_get_fd(LayoutWindow *lw, gint index)
+{
+	if (!layout_valid(&lw)) return NULL;
+
+	if (lw->vfl) return vflist_index_get_data(lw->vfl, index);
+	if (lw->vfi) return vficon_index_get_data(lw->vfi, index);
+
+	return NULL;
+}
+
 gint layout_list_get_index(LayoutWindow *lw, const gchar *path)
 {
 	if (!layout_valid(&lw)) return -1;
@@ -820,12 +830,12 @@ gint layout_list_get_index(LayoutWindow *lw, const gchar *path)
 	return -1;
 }
 
-void layout_list_sync_path(LayoutWindow *lw, const gchar *path)
+void layout_list_sync_fd(LayoutWindow *lw, FileData *fd)
 {
 	if (!layout_valid(&lw)) return;
 
-	if (lw->vfl) vflist_select_by_path(lw->vfl, path);
-	if (lw->vfi) vficon_select_by_path(lw->vfi, path);
+	if (lw->vfl) vflist_select_by_fd(lw->vfl, fd);
+	if (lw->vfi) vficon_select_by_fd(lw->vfi, fd);
 }
 
 static void layout_list_sync_sort(LayoutWindow *lw)
@@ -842,10 +852,10 @@ GList *layout_selection_list(LayoutWindow *lw)
 
 	if (layout_image_get_collection(lw, NULL))
 		{
-		const gchar *path;
+		FileData *fd;
 
-		path = layout_image_get_path(lw);
-		if (path) return g_list_append(NULL, g_strdup(path));
+		fd = layout_image_get_fd(lw);
+		if (fd) return g_list_append(NULL, file_data_ref(fd));
 		return NULL;
 		}
 
@@ -970,7 +980,7 @@ gint layout_set_path(LayoutWindow *lw, const gchar *path)
 			}
 		else
 			{
-			layout_image_set_path(lw, path);
+			layout_image_set_fd(lw, file_data_new_simple(path));
 			}
 		}
 	else if (!lazy_image_sync)
@@ -2002,43 +2012,43 @@ static void layout_real_time_update(LayoutWindow *lw)
 	if (lw->path) lw->last_time = filetime(lw->path);
 }
 
-static void layout_real_renamed(LayoutWindow *lw, const gchar *source, const gchar *dest)
+static void layout_real_renamed(LayoutWindow *lw, FileData *fd)
 {
 	gint update = FALSE;
 
-	if (lw->image) layout_image_maint_renamed(lw, source, dest);
+	if (lw->image) layout_image_maint_renamed(lw, fd);
 
-	if (lw->vfl) update |= vflist_maint_renamed(lw->vfl, source, dest);
-	if (lw->vfi) update |= vficon_maint_renamed(lw->vfi, source, dest);
+	if (lw->vfl) update |= vflist_maint_renamed(lw->vfl, fd);
+	if (lw->vfi) update |= vficon_maint_renamed(lw->vfi, fd);
 
 	if (update) layout_real_time_update(lw);
 }
 
-static void layout_real_removed(LayoutWindow *lw, const gchar *path, GList *ignore_list)
+static void layout_real_removed(LayoutWindow *lw, FileData *fd, GList *ignore_list)
 {
 	gint update = FALSE;
 
-	if (lw->image) layout_image_maint_removed(lw, path);
+	if (lw->image) layout_image_maint_removed(lw, fd);
 
-	if (lw->vfl) update |= vflist_maint_removed(lw->vfl, path, ignore_list);
-	if (lw->vfi) update |= vficon_maint_removed(lw->vfi, path, ignore_list);
+	if (lw->vfl) update |= vflist_maint_removed(lw->vfl, fd, ignore_list);
+	if (lw->vfi) update |= vficon_maint_removed(lw->vfi, fd, ignore_list);
 
 	if (update) layout_real_time_update(lw);
 }
 
-static void layout_real_moved(LayoutWindow *lw, const gchar *source, const gchar *dest, GList *ignore_list)
+static void layout_real_moved(LayoutWindow *lw, FileData *fd, GList *ignore_list)
 {
 	gint update = FALSE;
 
-	if (lw->image) layout_image_maint_moved(lw, source, dest);
+	if (lw->image) layout_image_maint_moved(lw, fd);
 
-	if (lw->vfl) update |= vflist_maint_moved(lw->vfl, source, dest, ignore_list);
-	if (lw->vfi) update |= vficon_maint_moved(lw->vfi, source, dest, ignore_list);
+	if (lw->vfl) update |= vflist_maint_moved(lw->vfl, fd, ignore_list);
+	if (lw->vfi) update |= vficon_maint_moved(lw->vfi, fd, ignore_list);
 
 	if (update) layout_real_time_update(lw);
 }
 
-void layout_maint_renamed(const gchar *source, const gchar *dest)
+void layout_maint_renamed(FileData *fd)
 {
 	GList *work = layout_window_list;
 	while (work)
@@ -2046,11 +2056,11 @@ void layout_maint_renamed(const gchar *source, const gchar *dest)
 		LayoutWindow *lw = work->data;
 		work = work->next;
 
-		layout_real_renamed(lw, source, dest);
+		layout_real_renamed(lw, fd);
 		}
 }
 
-void layout_maint_removed(const gchar *path, GList *ignore_list)
+void layout_maint_removed(FileData *fd, GList *ignore_list)
 {
 	GList *work = layout_window_list;
 	while (work)
@@ -2058,11 +2068,11 @@ void layout_maint_removed(const gchar *path, GList *ignore_list)
 		LayoutWindow *lw = work->data;
 		work = work->next;
 
-		layout_real_removed(lw, path, ignore_list);
+		layout_real_removed(lw, fd, ignore_list);
 		}
 }
 
-void layout_maint_moved(const gchar *source, const gchar *dest, GList *ignore_list)
+void layout_maint_moved(FileData *fd, GList *ignore_list)
 {
 	GList *work = layout_window_list;
 	while (work)
@@ -2070,6 +2080,6 @@ void layout_maint_moved(const gchar *source, const gchar *dest, GList *ignore_li
 		LayoutWindow *lw = work->data;
 		work = work->next;
 
-		layout_real_moved(lw, source, dest, ignore_list);
+		layout_real_moved(lw, fd, ignore_list);
 		}
 }

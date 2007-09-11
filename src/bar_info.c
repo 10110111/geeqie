@@ -47,7 +47,7 @@ static void bar_info_keyword_update_all(void);
  *-------------------------------------------------------------------
  */
 
-gint comment_write(const gchar *path, GList *keywords, const gchar *comment)
+gint comment_write(gchar *path, GList *keywords, const gchar *comment)
 {
 	FILE *f;
 
@@ -76,7 +76,7 @@ gint comment_write(const gchar *path, GList *keywords, const gchar *comment)
 	return TRUE;
 }
 
-gint comment_cache_write(const gchar *path, GList *keywords, const gchar *comment)
+gint comment_cache_write(FileData *fd, GList *keywords, const gchar *comment)
 {
 	gchar *comment_path;
 	gint success = FALSE;
@@ -84,7 +84,7 @@ gint comment_cache_write(const gchar *path, GList *keywords, const gchar *commen
 	/* If an existing metadata file exists, we will try writing to
 	 * it's location regardless of the user's preference.
 	 */
-	comment_path = cache_find_location(CACHE_TYPE_METADATA, path);
+	comment_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
 	if (comment_path && !access_file(comment_path, W_OK))
 		{
 		g_free(comment_path);
@@ -96,10 +96,10 @@ gint comment_cache_write(const gchar *path, GList *keywords, const gchar *commen
 		gchar *comment_dir;
 		mode_t mode = 0755;
 
-		comment_dir = cache_get_location(CACHE_TYPE_METADATA, path, FALSE, &mode);
+		comment_dir = cache_get_location(CACHE_TYPE_METADATA, fd->path, FALSE, &mode);
 		if (cache_ensure_dir_exists(comment_dir, mode))
 			{
-			comment_path = g_strconcat(comment_dir, "/", filename_from_path(path),
+			comment_path = g_strconcat(comment_dir, "/", fd->name,
 						   GQVIEW_CACHE_EXT_METADATA, NULL);
 			}
 		g_free(comment_dir);
@@ -122,7 +122,7 @@ gint comment_cache_write(const gchar *path, GList *keywords, const gchar *commen
 	return success;
 }
 
-gint comment_read(const gchar *path, GList **keywords, gchar **comment)
+gint comment_read(gchar *path, GList **keywords, gchar **comment)
 {
 	FILE *f;
 	gchar s_buf[1024];
@@ -184,13 +184,14 @@ gint comment_read(const gchar *path, GList **keywords, gchar **comment)
 	return TRUE;
 }
 
-gint comment_cache_read(const gchar *path, GList **keywords, gchar **comment)
+gint comment_cache_read(FileData *fd, GList **keywords, gchar **comment)
 {
 	gchar *comment_path;
 	gchar *comment_pathl;
 	gint success = FALSE;
+	if (!fd) return FALSE;
 
-	comment_path = cache_find_location(CACHE_TYPE_METADATA, path);
+	comment_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
 	if (!comment_path) return FALSE;
 
 	comment_pathl = path_from_utf8(comment_path);
@@ -283,13 +284,13 @@ void keyword_list_push(GtkWidget *textview, GList *list)
 		}
 }
 
-static void metadata_set_keywords(const gchar *path, GList *list, gint add)
+static void metadata_set_keywords(FileData *fd, GList *list, gint add)
 {
 	gchar *comment = NULL;
 	GList *keywords = NULL;
 	GList *save_list = NULL;
 
-	comment_cache_read(path, &keywords, &comment);
+	comment_cache_read(fd, &keywords, &comment);
 
 	if (add)
 		{
@@ -322,9 +323,9 @@ static void metadata_set_keywords(const gchar *path, GList *list, gint add)
 		save_list = list;
 		}
 
-	comment_cache_write(path, save_list, comment);
+	comment_cache_write(fd, save_list, comment);
 
-	path_list_free(keywords);
+	string_list_free(keywords);
 	g_free(comment);
 }
 
@@ -601,7 +602,7 @@ struct _BarInfoData
 	GtkWidget *button_set_add;
 	GtkWidget *button_set_replace;
 
-	gchar *path;
+	FileData *fd;
 
 	gint changed;
 	gint save_timeout_id;
@@ -619,14 +620,14 @@ static void bar_info_write(BarInfoData *bd)
 	GList *list;
 	gchar *comment;
 
-	if (!bd->path) return;
+	if (!bd->fd) return;
 
 	list = keyword_list_pull(bd->keyword_view);
 	comment = comment_pull(bd->comment_view);
 
-	comment_cache_write(bd->path, list, comment);
+	comment_cache_write(bd->fd, list, comment);
 
-	path_list_free(list);
+	string_list_free(list);
 	g_free(comment);
 
 	bd->changed = FALSE;
@@ -725,7 +726,7 @@ static void bar_info_keyword_update_all(void)
 
 		keywords = keyword_list_pull(bd->keyword_view);
 		bar_keyword_list_sync(bd, keywords);
-		path_list_free(keywords);
+		string_list_free(keywords);
 		}
 }
 
@@ -736,14 +737,14 @@ static void bar_info_update(BarInfoData *bd)
 
 	if (bd->label_file_name)
 		{
-		gtk_label_set_text(GTK_LABEL(bd->label_file_name), (bd->path) ? filename_from_path(bd->path) : "");
+		gtk_label_set_text(GTK_LABEL(bd->label_file_name), (bd->fd) ? bd->fd->name : "");
 		}
 	if (bd->label_file_time)
 		{
-		gtk_label_set_text(GTK_LABEL(bd->label_file_time), (bd->path) ? text_from_time(filetime(bd->path)) : "");
+		gtk_label_set_text(GTK_LABEL(bd->label_file_time), (bd->fd) ? text_from_time(bd->fd->date) : "");
 		}
 
-	if (comment_cache_read(bd->path, &keywords, &comment))
+	if (comment_cache_read(bd->fd, &keywords, &comment))
 		{
 		keyword_list_push(bd->keyword_view, keywords);
 		gtk_text_buffer_set_text(gtk_text_view_get_buffer(GTK_TEXT_VIEW(bd->comment_view)),
@@ -751,7 +752,7 @@ static void bar_info_update(BarInfoData *bd)
 
 		bar_keyword_list_sync(bd, keywords);
 
-		path_list_free(keywords);
+		string_list_free(keywords);
 		g_free(comment);
 		}
 	else
@@ -766,10 +767,10 @@ static void bar_info_update(BarInfoData *bd)
 	bd->changed = FALSE;
 	gtk_widget_set_sensitive(bd->button_save, FALSE);
 
-	gtk_widget_set_sensitive(bd->group_box, (bd->path != NULL));
+	gtk_widget_set_sensitive(bd->group_box, (bd->fd != NULL));
 }
 
-void bar_info_set(GtkWidget *bar, const gchar *path)
+void bar_info_set(GtkWidget *bar, FileData *fd)
 {
 	BarInfoData *bd;
 
@@ -778,25 +779,25 @@ void bar_info_set(GtkWidget *bar, const gchar *path)
 
 	if (bd->changed) bar_info_write(bd);
 
-	g_free(bd->path);
-	bd->path = g_strdup(path);
+	file_data_unref(bd->fd);
+	bd->fd = file_data_ref(fd);
 
 	bar_info_update(bd);
 }
 
-void bar_info_maint_renamed(GtkWidget *bar, const gchar *path)
+void bar_info_maint_renamed(GtkWidget *bar, FileData *fd)
 {
 	BarInfoData *bd;
 
 	bd = g_object_get_data(G_OBJECT(bar), "bar_info_data");
 	if (!bd) return;
 
-	g_free(bd->path);
-	bd->path = g_strdup(path);
+	file_data_unref(bd->fd);
+	bd->fd = file_data_ref(fd);
 
 	if (bd->label_file_name)
 		{
-		gtk_label_set_text(GTK_LABEL(bd->label_file_name), (bd->path) ? filename_from_path(bd->path) : "");
+		gtk_label_set_text(GTK_LABEL(bd->label_file_name), (bd->fd) ? bd->fd->name : "");
 		}
 }
 
@@ -849,7 +850,7 @@ static void bar_info_keyword_set(BarInfoData *bd, const gchar *keyword, gint act
 		keyword_list_push(bd->keyword_view, list);
 		}
 
-	path_list_free(list);
+	string_list_free(list);
 }
 
 static void bar_info_keyword_toggle(GtkCellRendererToggle *toggle, const gchar *path, gpointer data)
@@ -899,14 +900,14 @@ static void bar_info_set_selection(BarInfoData *bd, gint add)
 	work = list;
 	while (work)
 		{
-		const gchar *path = work->data;
+		FileData *fd = work->data;
 		work = work->next;
 
-		metadata_set_keywords(path, keywords, add);
+		metadata_set_keywords(fd, keywords, add);
 		}
 
-	path_list_free(list);
-	path_list_free(keywords);
+	filelist_free(list);
+	string_list_free(keywords);
 }
 
 static void bar_info_set_add(GtkWidget *button, gpointer data)
@@ -952,12 +953,12 @@ static void bar_info_destroy(GtkWidget *widget, gpointer data)
 
 	bar_list = g_list_remove(bar_list, bd);
 
-	g_free(bd->path);
+	file_data_unref(bd->fd);
 
 	g_free(bd);
 }
 
-GtkWidget *bar_info_new(const gchar *path, gint metadata_only, GtkWidget *bounding_widget)
+GtkWidget *bar_info_new(FileData *fd, gint metadata_only, GtkWidget *bounding_widget)
 {
 	BarInfoData *bd;
 	GtkWidget *box;
@@ -1132,7 +1133,7 @@ GtkWidget *bar_info_new(const gchar *path, gint metadata_only, GtkWidget *boundi
 
 	bd->save_timeout_id = -1;
 
-	bd->path = g_strdup(path);
+	bd->fd = file_data_ref(fd);
 	bar_info_update(bd);
 
 	bar_info_selection(bd->vbox, 0);

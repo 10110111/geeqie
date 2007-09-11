@@ -47,11 +47,12 @@ GList *vflist_selection_get_list_by_index(ViewFileList *vfl);
 void vflist_select_all(ViewFileList *vfl);
 void vflist_select_none(ViewFileList *vfl);
 void vflist_select_by_path(ViewFileList *vfl, const gchar *path);
+void vflist_select_by_fd(ViewFileList *vfl, FileData *fd);
 
 
-gint vflist_maint_renamed(ViewFileList *vfl, const gchar *source, const gchar *dest);
-gint vflist_maint_removed(ViewFileList *vfl, const gchar *path, GList *ignore_list);
-gint vflist_maint_moved(ViewFileList *vfl, const gchar *source, const gchar *dest, GList *ignore_list);
+gint vflist_maint_renamed(ViewFileList *vfl, FileData *fd);
+gint vflist_maint_removed(ViewFileList *vfl, FileData *fd, GList *ignore_list);
+gint vflist_maint_moved(ViewFileList *vfl, FileData *fd, GList *ignore_list);
 
 
 #endif

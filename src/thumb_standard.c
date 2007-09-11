@@ -542,7 +542,7 @@ static void thumb_loader_std_done_cb(ImageLoader *il, gpointer data)
 	if (debug)
 		{
 		printf("thumb image done: %s\n", tl->source_path);
-		printf("            from: %s\n", tl->il->path);
+		printf("            from: %s\n", tl->il->fd->path);
 		}
 
 	pixbuf = image_loader_get_pixbuf(tl->il);
@@ -582,7 +582,7 @@ static void thumb_loader_std_error_cb(ImageLoader *il, gpointer data)
 	if (debug)
 		{
 		printf("thumb image error: %s\n", tl->source_path);
-		printf("             from: %s\n", tl->il->path);
+		printf("             from: %s\n", tl->il->fd->path);
 		}
 
 	if (thumb_loader_std_next_source(tl, TRUE)) return;
@@ -601,7 +601,7 @@ static void thumb_loader_std_progress_cb(ImageLoader *il, gdouble percent, gpoin
 
 static gint thumb_loader_std_setup(ThumbLoaderStd *tl, const gchar *path)
 {
-	tl->il = image_loader_new(path);
+	tl->il = image_loader_new_from_path(path);
 
 	if (thumbnail_fast)
 		{

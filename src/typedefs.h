@@ -82,6 +82,7 @@ typedef struct _ImageWindow ImageWindow;
 
 typedef struct _FileData FileData;
 typedef struct _SidecarFileData SidecarFileData;
+typedef struct _FileDataChangeInfo FileDataChangeInfo;
 
 typedef struct _LayoutWindow LayoutWindow;
 typedef struct _ViewDirList ViewDirList;
@@ -98,6 +99,7 @@ typedef struct _PixmapFolders PixmapFolders;
 struct _ImageLoader
 {
 	GdkPixbuf *pixbuf;
+	FileData *fd;
 	gchar *path;
 
 	gint bytes_read;
@@ -157,10 +159,7 @@ struct _ThumbLoader
 
 struct _CollectInfo
 {
-	gchar *path;
-	gint64 size;
-	time_t date;
-
+	FileData *fd;
 	GdkPixbuf *pixbuf;
 	gint flag_mask;
 };
@@ -253,8 +252,7 @@ struct _ImageWindow
 	GtkWidget *frame;
 	GtkWidget *inner_frame;
 
-	gchar *image_path;
-	const gchar *image_name;
+	FileData *image_fd;
 
 	gint64 size;		/* file size (bytes) */
 	time_t mtime;		/* file modified time stamp */
@@ -317,10 +315,10 @@ struct _ImageWindow
 
 	ImageLoader *read_ahead_il;
 	GdkPixbuf *read_ahead_pixbuf;
-	gchar *read_ahead_path;
+	FileData *read_ahead_fd;
 
 	GdkPixbuf *prev_pixbuf;
-	gchar *prev_path;
+	FileData *prev_fd;
 	gint prev_color_row;
 
 	gint auto_refresh_id;
@@ -340,9 +338,15 @@ struct _SidecarFileData {
 	time_t date;
 };
 
+struct _FileDataChangeInfo {
+	gchar *source;
+	gchar *dest;
+};
 
 struct _FileData {
+	gint magick;
 	gint type;
+	gchar *original_path; /* key to file_data_pool hash table */
 	gchar *path;
 	const gchar *name;
 	const gchar *extension;
@@ -350,8 +354,9 @@ struct _FileData {
 	time_t date;
 	gboolean marks[FILEDATA_MARKS_SIZE];
 	GList *sidecar_files;
-	gchar *target; /* for rename, move ... */
+	FileDataChangeInfo *change; /* for rename, move ... */
 	GdkPixbuf *pixbuf;
+	gint ref;
 };
 
 struct _LayoutWindow
@@ -541,7 +546,7 @@ struct _ViewFileList
 	FileData *select_fd;
 
 	gint thumbs_enabled;
-    gint marks_enabled;
+	gint marks_enabled;
     
 	/* thumb updates */
 	gint thumbs_running;
@@ -562,6 +567,8 @@ struct _ViewFileList
 	GtkWidget *popup;
 };
 
+struct _IconData;
+
 struct _ViewFileIcon
 {
 	GtkWidget *widget;
@@ -576,15 +583,15 @@ struct _ViewFileIcon
 	gint rows;
 
 	GList *selection;
-	FileData *prev_selection;
+	struct _IconData *prev_selection;
 
 	GtkWidget *tip_window;
 	gint tip_delay_id;
-	FileData *tip_fd;
+	struct _IconData *tip_id;
 
-	FileData *click_fd;
+	struct _IconData *click_id;
 
-	FileData *focus_fd;
+	struct _IconData *focus_id;
 	gint focus_row;
 	gint focus_column;
 
@@ -619,7 +626,7 @@ struct _SlideShowData
 {
 	ImageWindow *imd;
 
-	GList *path_list;
+	GList *filelist;
 	CollectionData *cd;
 	gchar *layout_path;
 	LayoutWindow *layout;
@@ -627,7 +634,7 @@ struct _SlideShowData
 	GList *list;
 	GList *list_done;
 
-	gchar *slide_path;
+	FileData *slide_fd;
 
 	gint slide_count;
 	gint timeout_id;

@@ -32,7 +32,7 @@ typedef enum {
 } CacheDataType;
 
 struct _CacheLoader {
-	gchar *path;
+	FileData *fd;
 	CacheData *cd;
 
 	CacheDataType todo_mask;
@@ -48,7 +48,7 @@ struct _CacheLoader {
 };
 
 
-CacheLoader *cache_loader_new(const gchar *path, CacheDataType load_mask,
+CacheLoader *cache_loader_new(FileData *fd, CacheDataType load_mask,
 			      CacheLoaderDoneFunc done_func, gpointer done_data);
 
 void cache_loader_free(CacheLoader *cl);

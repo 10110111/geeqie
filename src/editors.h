@@ -15,9 +15,8 @@
 
 
 void editor_reset_defaults(void);
-gint start_editor_from_file(gint n, const gchar *path);
-gint start_editor_from_path_list(gint n, GList *list);
-gint start_editor_from_pair(gint n, const gchar *source, const gchar *target);
+gint start_editor_from_file(gint n, FileData *fd);
+gint start_editor_from_file_list(gint n, GList *list);
 
 gint editor_window_flag_set(gint n);
 

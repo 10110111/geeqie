@@ -19,9 +19,9 @@ void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent);
 gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear);
 gint cache_maintain_dir(const gchar *dir, gint recursive, gint clear);
 
-void cache_maint_moved(const gchar *src, const gchar *dest);
-void cache_maint_removed(const gchar *source);
-void cache_maint_copied(const gchar *src, const gchar *dest);
+void cache_maint_moved(FileData *fd);
+void cache_maint_removed(FileData *fd);
+void cache_maint_copied(FileData *fd);
 
 
 void cache_manager_gqview_clear_confirm(GtkWidget *parent);

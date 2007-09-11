@@ -25,7 +25,7 @@ void pan_item_free(PanItem *pi)
 	if (!pi) return;
 
 	if (pi->pixbuf) g_object_unref(pi->pixbuf);
-	if (pi->fd) file_data_free(pi->fd);
+	if (pi->fd) file_data_unref(pi->fd);
 	g_free(pi->text);
 	g_free(pi->key);
 	g_free(pi->data);
@@ -607,22 +607,20 @@ static void pan_item_image_find_size(PanWindow *pw, PanItem *pi, gint w, gint h)
 	while (work)
 		{
 		PanCacheData *pc;
-		gchar *path;
 
 		pc = work->data;
 		work = work->next;
 
-		path = ((FileData *)pc)->path;
-
 		if (pc->cd && pc->cd->dimensions &&
-		    path && strcmp(path, pi->fd->path) == 0)
+		    pc->fd && pc->fd == pi->fd)
 			{
 			pi->width = MAX(1, pc->cd->width * pw->image_size / 100);
 			pi->height = MAX(1, pc->cd->height * pw->image_size / 100);
 
 			pw->cache_list = g_list_remove(pw->cache_list, pc);
 			cache_sim_data_free(pc->cd);
-			file_data_free((FileData *)pc);
+			file_data_unref(pc->fd);
+			g_free(pc);
 			return;
 			}
 		}

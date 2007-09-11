@@ -38,8 +38,9 @@ void layout_status_update_all(LayoutWindow *lw);
 GList *layout_list(LayoutWindow *lw);
 gint layout_list_count(LayoutWindow *lw, gint64 *bytes);
 const gchar *layout_list_get_path(LayoutWindow *lw, gint index);
+FileData *layout_list_get_fd(LayoutWindow *lw, gint index);
 gint layout_list_get_index(LayoutWindow *lw, const gchar *path);
-void layout_list_sync_path(LayoutWindow *lw, const gchar *path);
+void layout_list_sync_fd(LayoutWindow *lw, FileData *fd);
 
 GList *layout_selection_list(LayoutWindow *lw);
 /* return list of pointers to int for selection */
@@ -86,9 +87,9 @@ gint layout_toolbar_hidden(LayoutWindow *lw);
 
 void layout_split_change(LayoutWindow *lw, ImageSplitMode mode);
 
-void layout_maint_renamed(const gchar *source, const gchar *dest);
-void layout_maint_removed(const gchar *path, GList *ignore_list);
-void layout_maint_moved(const gchar *source, const gchar *dest, GList *ignore_list);
+void layout_maint_renamed(FileData *fd);
+void layout_maint_removed(FileData *fd, GList *ignore_list);
+void layout_maint_moved(FileData *fd, GList *ignore_list);
 
 
 #endif

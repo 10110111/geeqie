@@ -500,10 +500,12 @@ static void cache_file_move(const gchar *src, const gchar *dest)
 		}
 }
 
-void cache_maint_moved(const gchar *src, const gchar *dest)
+void cache_maint_moved(FileData *fd)
 {
 	gchar *base;
 	mode_t mode = 0755;
+	const gchar *src = fd->change->source;
+	const gchar *dest = fd->change->dest;
 
 	if (!src || !dest) return;
 
@@ -556,40 +558,40 @@ static void cache_file_remove(const gchar *path)
 		}
 }
 
-void cache_maint_removed(const gchar *source)
+void cache_maint_removed(FileData *fd)
 {
 	gchar *buf;
 
-	buf = cache_find_location(CACHE_TYPE_THUMB, source);
+	buf = cache_find_location(CACHE_TYPE_THUMB, fd->path);
 	cache_file_remove(buf);
 	g_free(buf);
 
-	buf = cache_find_location(CACHE_TYPE_SIM, source);
+	buf = cache_find_location(CACHE_TYPE_SIM, fd->path);
 	cache_file_remove(buf);
 	g_free(buf);
 
-	buf = cache_find_location(CACHE_TYPE_METADATA, source);
+	buf = cache_find_location(CACHE_TYPE_METADATA, fd->path);
 	cache_file_remove(buf);
 	g_free(buf);
 
-	if (enable_thumb_caching && thumbnail_spec_standard) thumb_std_maint_removed(source);
+	if (enable_thumb_caching && thumbnail_spec_standard) thumb_std_maint_removed(fd->path);
 }
 
-void cache_maint_copied(const gchar *src, const gchar *dest)
+void cache_maint_copied(FileData *fd)
 {
 	gchar *dest_base;
 	gchar *src_cache;
 	mode_t mode = 0755;
 
-	src_cache = cache_find_location(CACHE_TYPE_METADATA, src);
+	src_cache = cache_find_location(CACHE_TYPE_METADATA, fd->change->source);
 	if (!src_cache) return;
 
-	dest_base = cache_get_location(CACHE_TYPE_METADATA, dest, FALSE, &mode);
+	dest_base = cache_get_location(CACHE_TYPE_METADATA, fd->change->dest, FALSE, &mode);
 	if (cache_ensure_dir_exists(dest_base, mode))
 		{
 		gchar *path;
                                                                                                                     
-		path = cache_get_location(CACHE_TYPE_METADATA, dest, TRUE, NULL);
+		path = cache_get_location(CACHE_TYPE_METADATA, fd->change->dest, TRUE, NULL);
 		if (!copy_file(src_cache, path))
 			{
 			if (debug) printf("failed to copy metadata %s to %s\n", src_cache, path);

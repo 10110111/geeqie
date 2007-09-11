@@ -43,7 +43,7 @@ struct _FileDialog
 	gint type;
 	gint multiple_files;
 
-	gchar *source_path;
+	FileData *source_fd;
 	GList *source_list;
 
 	gchar *dest_path;

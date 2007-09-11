@@ -14,7 +14,10 @@
 #define IMAGE_LOAD_H
 
 
-ImageLoader *image_loader_new(const gchar *path);
+ImageLoader *image_loader_new(FileData *fd);
+
+/* we don't want full FileData for thumbnails */
+ImageLoader *image_loader_new_from_path(const gchar *path);
 void image_loader_free(ImageLoader *il);
 
 void image_loader_set_area_ready_func(ImageLoader *il,
@@ -48,7 +51,7 @@ gchar *image_loader_get_format(ImageLoader *il);
 gdouble image_loader_get_percent(ImageLoader *il);
 gint image_loader_get_is_done(ImageLoader *il);
 
-gint image_load_dimensions(const gchar *path, gint *width, gint *height);
+gint image_load_dimensions(FileData *fd, gint *width, gint *height);
 
 #endif
 

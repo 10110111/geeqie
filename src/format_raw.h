@@ -13,7 +13,6 @@
 #ifndef __FORMAT_RAW_H
 #define __FORMAT_RAW_H
 
-
 #include "exif.h"
 
 

@@ -90,7 +90,7 @@ static gint vdlist_rename_row_cb(TreeEditData *td, const gchar *old, const gchar
 	new_path = concat_dir_and_file(base, new);
 	g_free(base);
 
-	if (file_util_rename_dir(old_path, new_path, vdl->listview))
+	if (file_util_rename_dir(fd, new_path, vdl->listview))
 		{
 		if (vdl->layout && strcmp(vdl->path, old_path) == 0)
 			{
@@ -265,7 +265,7 @@ static void vdlist_pop_menu_slide_rec_cb(GtkWidget *widget, gpointer data)
 
 	path = g_strdup(vdl->click_fd->path);
 
-	list = path_list_recursive(path);
+	list = filelist_recursive(path);
 
 	layout_image_slideshow_stop(vdl->layout);
 	layout_image_slideshow_start_from_list(vdl->layout, list);
@@ -280,22 +280,21 @@ static void vdlist_pop_menu_dupe(ViewDirList *vdl, gint recursive)
 	GList *list = NULL;
 
 	if (!vdl->click_fd) return;
-	path = vdl->click_fd->path;
 
 	if (recursive)
 		{
-		list = g_list_append(list, g_strdup(path));
+		list = g_list_append(list, file_data_ref(vdl->click_fd));
 		}
 	else
 		{
-		path_list(path, &list, NULL);
-		list = path_list_filter(list, FALSE);
+		filelist_read(vdl->click_fd->path, &list, NULL);
+		list = filelist_filter(list, FALSE);
 		}
 
 	dw = dupe_window_new(DUPE_MATCH_NAME);
 	dupe_window_add_files(dw, list, recursive);
 
-	path_list_free(list);
+	filelist_free(list);
 }
 
 static void vdlist_pop_menu_dupe_cb(GtkWidget *widget, gpointer data)
@@ -356,7 +355,7 @@ static void vdlist_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
 	ViewDirList *vdl = data;
 
 	if (!vdl->click_fd) return;
-	file_util_delete_dir(vdl->click_fd->path, vdl->widget);
+	file_util_delete_dir(vdl->click_fd, vdl->widget);
 }
 
 static void vdlist_pop_menu_tree_cb(GtkWidget *widget, gpointer data)
@@ -435,7 +434,7 @@ static void vdlist_popup_destroy_cb(GtkWidget *widget, gpointer data)
 	vdl->popup = NULL;
 
 	vdlist_color_set(vdl, vdl->drop_fd, FALSE);
-	path_list_free(vdl->drop_list);
+	filelist_free(vdl->drop_list);
 	vdl->drop_list = NULL;
 	vdl->drop_fd = NULL;
 }
@@ -477,14 +476,13 @@ static void vdlist_dnd_get(GtkWidget *widget, GdkDragContext *context,
 	gint length = 0;
 
 	if (!vdl->click_fd) return;
-	path = vdl->click_fd->path;
 
 	switch (info)
 		{
 		case TARGET_URI_LIST:
 		case TARGET_TEXT_PLAIN:
-			list = g_list_prepend(NULL, path);
-			text = uri_text_from_list(list, &length, (info == TARGET_TEXT_PLAIN));
+			list = g_list_prepend(NULL, vdl->click_fd);
+			text = uri_text_from_filelist(list, &length, (info == TARGET_TEXT_PLAIN));
 			g_list_free(list);
 			break;
 		}
@@ -547,7 +545,7 @@ static void vdlist_dnd_drop_receive(GtkWidget *widget,
 		GList *list;
 		gint active;
 
-		list = uri_list_from_text((gchar *)selection_data->data, TRUE);
+		list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
 		if (!list) return;
 
 		active = access_file(fd->path, W_OK | X_OK);
@@ -818,6 +816,7 @@ gint vdlist_set_path(ViewDirList *vdl, const gchar *path)
 	gint ret;
 	FileData *fd;
 	gchar *old_path = NULL;
+	gchar *filepath;
 
 	if (!path) return FALSE;
 	if (vdl->path && strcmp(path, vdl->path) == 0) return TRUE;
@@ -848,16 +847,15 @@ gint vdlist_set_path(ViewDirList *vdl, const gchar *path)
 
 	if (strcmp(vdl->path, "/") != 0)
 		{
-		fd = g_new0(FileData, 1);
-		fd->path = remove_level_from_path(vdl->path);
-		fd->name = "..";
+		filepath = g_strconcat(vdl->path, "/", "..", NULL); 
+		fd = file_data_new_simple(filepath);
 		vdl->list = g_list_prepend(vdl->list, fd);
+		g_free(filepath);
 		}
-
-	fd = g_new0(FileData, 1);
-	fd->path = g_strdup(vdl->path);
-	fd->name = ".";
+	filepath = g_strconcat(vdl->path, "/", ".", NULL); 
+	fd = file_data_new_simple(filepath);
 	vdl->list = g_list_prepend(vdl->list, fd);
+	g_free(filepath);
 
 	vdlist_populate(vdl);
 
@@ -1070,7 +1068,7 @@ static void vdlist_destroy_cb(GtkWidget *widget, gpointer data)
 	vdlist_dnd_drop_scroll_cancel(vdl);
 	widget_auto_scroll_stop(vdl->listview);
 
-	path_list_free(vdl->drop_list);
+	filelist_free(vdl->drop_list);
 
 	folder_icons_free(vdl->pf);
 

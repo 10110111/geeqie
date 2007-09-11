@@ -168,7 +168,7 @@ static gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 		switch (event->keyval)
 			{
 			case 'v' : case 'V':
-				view_window_new(layout_image_get_path(lw));
+				view_window_new(layout_image_get_fd(lw));
 				break;
 			default:
 				stop_signal = FALSE;
@@ -326,7 +326,7 @@ static void layout_menu_print_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	print_window_new(layout_image_get_path(lw), layout_selection_list(lw), layout_list(lw), lw->window);
+	print_window_new(layout_image_get_fd(lw), layout_selection_list(lw), layout_list(lw), lw->window);
 }
 
 static void layout_menu_dir_cb(GtkAction *action, gpointer data)
@@ -422,12 +422,12 @@ static void layout_menu_info_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 	GList *list;
-	const gchar *path = NULL;
+	FileData *fd = NULL;
 
 	list = layout_selection_list(lw);
-	if (!list) path = layout_image_get_path(lw);
+	if (!list) fd = layout_image_get_fd(lw);
 
-	info_window_new(path, list);
+	info_window_new(fd, list);
 }
 
 static void layout_menu_select_all_cb(GtkAction *action, gpointer data)
@@ -630,8 +630,8 @@ static void layout_menu_edit_cb(GtkAction *action, gpointer data)
 	n = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "edit_index"));
 
 	list = layout_selection_list(lw);
-	start_editor_from_path_list(n, list);
-	path_list_free(list);
+	start_editor_from_filelist(n, list);
+	filelist_free(list);
 }
 
 static void layout_menu_edit_update(LayoutWindow *lw)
@@ -1239,7 +1239,7 @@ static void layout_bar_info_new(LayoutWindow *lw)
 {
 	if (!lw->utility_box) return;
                                                                                                                     
-	lw->bar_info = bar_info_new(layout_image_get_path(lw), FALSE, lw->utility_box);
+	lw->bar_info = bar_info_new(layout_image_get_fd(lw), FALSE, lw->utility_box);
 	bar_info_set_selection_func(lw->bar_info, layout_bar_info_list_cb, lw);
 	bar_info_selection(lw->bar_info, layout_selection_count(lw, NULL) - 1);
 	bar_info_size_request(lw->bar_info, SIDEBAR_WIDTH * 3 / 4);
@@ -1277,7 +1277,7 @@ static void layout_bar_info_new_image(LayoutWindow *lw)
 {
 	if (!lw->bar_info || !lw->bar_info_enabled) return;
 
-	bar_info_set(lw->bar_info, layout_image_get_path(lw));
+	bar_info_set(lw->bar_info, layout_image_get_fd(lw));
 }
 
 static void layout_bar_info_new_selection(LayoutWindow *lw, gint count)
@@ -1291,7 +1291,7 @@ static void layout_bar_info_maint_renamed(LayoutWindow *lw)
 {
 	if (!lw->bar_info || !lw->bar_info_enabled) return;
 
-	bar_info_maint_renamed(lw->bar_info, layout_image_get_path(lw));
+	bar_info_maint_renamed(lw->bar_info, layout_image_get_fd(lw));
 }
 
 static void layout_bar_exif_destroyed(GtkWidget *widget, gpointer data)
@@ -1326,7 +1326,7 @@ static void layout_bar_exif_new(LayoutWindow *lw)
 {
 	if (!lw->utility_box) return;
 
-	lw->bar_exif = bar_exif_new(TRUE, layout_image_get_path(lw),
+	lw->bar_exif = bar_exif_new(TRUE, layout_image_get_fd(lw),
 				    lw->bar_exif_advanced, lw->utility_box);
 	g_signal_connect(G_OBJECT(lw->bar_exif), "destroy",
 			 G_CALLBACK(layout_bar_exif_destroyed), lw);
@@ -1367,7 +1367,7 @@ static void layout_bar_exif_new_image(LayoutWindow *lw)
 {
 	if (!lw->bar_exif || !lw->bar_exif_enabled) return;
 
-	bar_exif_set(lw->bar_exif, layout_image_get_path(lw));
+	bar_exif_set(lw->bar_exif, layout_image_get_fd(lw));
 }
 
 static void layout_bar_sort_destroyed(GtkWidget *widget, gpointer data)

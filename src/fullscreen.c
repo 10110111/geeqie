@@ -327,7 +327,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 #ifdef HIDE_WINDOW_IN_FULLSCREEN
 	gtk_widget_hide(fs->normal_window);
 #endif
-	image_change_path(fs->normal_imd, NULL, image_zoom_get(fs->normal_imd));
+	image_change_fd(fs->normal_imd, NULL, image_zoom_get(fs->normal_imd));
 
 	return fs;
 }

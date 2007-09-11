@@ -22,6 +22,9 @@
 
 #include <gdk/gdkkeysyms.h> /* for key values */
 
+#include "gqview.h"
+#include "filelist.h"
+
 #include "ui_bookmark.h"
 
 #include "ui_fileops.h"
@@ -1020,7 +1023,7 @@ static void bookmark_dnd_get_data(GtkWidget *widget,
 		work = work->next;
 		}
 
-	path_list_free(list);
+	string_list_free(list);
 
 	bookmark_populate_all(bm->key);
 }
@@ -1444,6 +1447,14 @@ GList *uri_list_from_text(gchar *data, gint files_only)
 	return list;
 }
 
+GList *uri_filelist_from_text(gchar *data, gint files_only)
+{
+	GList *path_list = uri_list_from_text(data, files_only);
+	GList *filelist = filelist_from_path_list(path_list);
+	string_list_free(path_list);
+	return filelist;
+}
+
 gchar *uri_text_from_list(GList *list, gint *len, gint plain_text)
 {
 	gchar *uri_text = NULL;
@@ -1490,5 +1501,13 @@ gchar *uri_text_from_list(GList *list, gint *len, gint plain_text)
 	g_string_free(string, FALSE);
 
 	return uri_text;
+}
+
+gchar *uri_text_from_filelist(GList *list, gint *len, gint plain_text)
+{
+	GList *path_list = filelist_to_path_list(list);
+	gchar *ret = uri_text_from_list(path_list, len, plain_text);
+	string_list_free(path_list);
+	return ret;
 }
 

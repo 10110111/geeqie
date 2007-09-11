@@ -67,6 +67,7 @@
 
 #include "intl.h"
 
+#include "gqview.h"
 #include "exif.h"
 
 #include "format_raw.h"
@@ -1181,16 +1182,16 @@ void exif_free(ExifData *exif)
 	g_free(exif);
 }
 
-ExifData *exif_read(const gchar *path, gint parse_color_profile)
+ExifData *exif_read(FileData *fd, gint parse_color_profile)
 {
 	ExifData *exif;
 	void *f;
 	int size, res;
 	gchar *pathl;
 
-	if (!path) return NULL;
+	if (!fd) return NULL;
 
-	pathl = path_from_utf8(path);
+	pathl = path_from_utf8(fd->path);
 	if (map_file(pathl, &f, &size) == -1)
 		{
 		g_free(pathl);
