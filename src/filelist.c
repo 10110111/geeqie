@@ -679,7 +679,7 @@ FileData *file_data_merge_sidecar_files(FileData *target, FileData *source)
 	target->sidecar_files = g_list_concat(target->sidecar_files, source->sidecar_files);
 	source->sidecar_files = NULL;
 	
-	file_data_free(source);
+	file_data_unref(source);
 	return target;
 }
 
@@ -786,6 +786,9 @@ void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd)
 	if (fd)
 		fd->change = NULL;
 }
+
+
+
 	
 /*
  *-----------------------------------------------------------------------------
@@ -862,6 +865,24 @@ gint sidecar_file_priority(const gchar *path)
 	if (strcmp(extension, ".xmp") == 0) return 3002;
 	
 	return 0;
+}
+
+gchar *sidecar_file_data_list_to_string(FileData *fd)
+{
+	GList *work;
+	GString *result = g_string_new("");
+
+	work = fd->sidecar_files;
+	while (work)
+		{
+		SidecarFileData *sfd = work->data;
+		result = g_string_append(result, "+ ");
+		result = g_string_append(result, sfd->extension);
+		work = work->next;
+		if (work) result = g_string_append_c(result, ' ');
+		}
+
+	return g_string_free(result, FALSE);
 }
 
 /*

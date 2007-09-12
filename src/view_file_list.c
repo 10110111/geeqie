@@ -35,10 +35,12 @@ enum {
 	FILE_COLUMN_POINTER = 0,
 	FILE_COLUMN_THUMB,
 	FILE_COLUMN_NAME,
+	FILE_COLUMN_SIDECARS,
 	FILE_COLUMN_SIZE,
 	FILE_COLUMN_DATE,
 	FILE_COLUMN_COLOR,
-    FILE_COLUMN_MARKS,
+	FILE_COLUMN_MARKS,
+	FILE_COLUMN_MARKS_LAST = FILE_COLUMN_MARKS + FILEDATA_MARKS_SIZE - 1,
 	FILE_COLUMN_COUNT
 };
 
@@ -839,21 +841,25 @@ void vflist_sort_set(ViewFileList *vfl, SortType type, gint ascend)
 		{
 		FileData *fd;
 		gchar *size;
-        int i;
-        
+		gchar *sidecars;
+		int i;
+    		
 		fd = work->data;
+		sidecars = sidecar_file_data_list_to_string(fd);
 		size = text_from_size(fd->size);
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter, FILE_COLUMN_POINTER, fd,
 						 FILE_COLUMN_THUMB, (vfl->thumbs_enabled) ? fd->pixbuf : NULL,
 						 FILE_COLUMN_NAME, fd->name,
+						 FILE_COLUMN_SIDECARS, sidecars,
 						 FILE_COLUMN_SIZE, size,
 						 FILE_COLUMN_DATE, text_from_time(fd->date),
 						 FILE_COLUMN_COLOR, FALSE, -1);
-        for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
-            gtk_list_store_set(store, &iter, FILE_COLUMN_MARKS + i, fd->marks[i], -1);
+		for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
+			gtk_list_store_set(store, &iter, FILE_COLUMN_MARKS + i, fd->marks[i], -1);
             
-        g_free(size);
+		g_free(size);
+		g_free(sidecars);
 
 		if (select_list && select_list->data == fd)
 			{
@@ -1406,8 +1412,11 @@ static void vflist_populate_view(ViewFileList *vfl)
 				{
 				GtkTreeIter new;
 				gchar *size;
+				gchar *sidecars;
 
 				size = text_from_size(fd->size);
+				sidecars = sidecar_file_data_list_to_string(fd);
+				
 				if (valid)
 					{
 					gtk_list_store_insert_before(store, &new, &iter);
@@ -1419,13 +1428,15 @@ static void vflist_populate_view(ViewFileList *vfl)
 				gtk_list_store_set(store, &new, FILE_COLUMN_POINTER, fd,
 								FILE_COLUMN_THUMB, (thumbs) ? fd->pixbuf : NULL,
 								FILE_COLUMN_NAME, fd->name,
+								FILE_COLUMN_SIDECARS, sidecars,
 								FILE_COLUMN_SIZE, size,
 								FILE_COLUMN_DATE, text_from_time(fd->date),
 								FILE_COLUMN_COLOR, FALSE, -1);
-                for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
-                    gtk_list_store_set(store, &new, FILE_COLUMN_MARKS + i, fd->marks[i], -1);
+				for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
+					gtk_list_store_set(store, &new, FILE_COLUMN_MARKS + i, fd->marks[i], -1);
 
-                g_free(size);
+				g_free(size);
+				g_free(sidecars);
 
 				done = TRUE;
 				}
@@ -1717,20 +1728,21 @@ ViewFileList *vflist_new(const gchar *path, gint thumbs)
 	g_signal_connect(G_OBJECT(vfl->widget), "destroy",
 			 G_CALLBACK(vflist_destroy_cb), vfl);
 
-    flist_types = g_new(GType, FILE_COLUMN_MARKS + FILEDATA_MARKS_SIZE);
-    flist_types[0] = G_TYPE_POINTER;
-    flist_types[1] = GDK_TYPE_PIXBUF;
-    flist_types[2] = G_TYPE_STRING;
-    flist_types[3] = G_TYPE_STRING;
-    flist_types[4] = G_TYPE_STRING;
-    flist_types[5] = G_TYPE_BOOLEAN;
-    for (i = FILE_COLUMN_MARKS; i < FILE_COLUMN_MARKS + FILEDATA_MARKS_SIZE; i++)
-        flist_types[i] = G_TYPE_BOOLEAN;
+	flist_types = g_new(GType, FILE_COLUMN_COUNT);
+	flist_types[FILE_COLUMN_POINTER] = G_TYPE_POINTER;
+	flist_types[FILE_COLUMN_THUMB] = GDK_TYPE_PIXBUF;
+	flist_types[FILE_COLUMN_NAME] = G_TYPE_STRING;
+	flist_types[FILE_COLUMN_SIDECARS] = G_TYPE_STRING;
+	flist_types[FILE_COLUMN_SIZE] = G_TYPE_STRING;
+	flist_types[FILE_COLUMN_DATE] = G_TYPE_STRING;
+	flist_types[FILE_COLUMN_COLOR] = G_TYPE_BOOLEAN;
+	for (i = FILE_COLUMN_MARKS; i < FILE_COLUMN_MARKS + FILEDATA_MARKS_SIZE; i++)
+		flist_types[i] = G_TYPE_BOOLEAN;
 
-    store = gtk_list_store_newv(FILE_COLUMN_MARKS + FILEDATA_MARKS_SIZE, flist_types);
-    g_free(flist_types);
+	store = gtk_list_store_newv(FILE_COLUMN_COUNT, flist_types);
+	g_free(flist_types);
                                
-    vfl->listview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+	vfl->listview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
 	g_object_unref(store);
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vfl->listview));
@@ -1742,13 +1754,15 @@ ViewFileList *vflist_new(const gchar *path, gint thumbs)
 
 	vflist_listview_add_column(vfl, FILE_COLUMN_THUMB, "", TRUE, FALSE, FALSE);
 	vflist_listview_add_column(vfl, FILE_COLUMN_NAME, _("Name"), FALSE, FALSE, FALSE);
+	vflist_listview_add_column(vfl, FILE_COLUMN_SIDECARS, _("sidecars"), FALSE, FALSE, FALSE);
 	vflist_listview_add_column(vfl, FILE_COLUMN_SIZE, _("Size"), FALSE, TRUE, FALSE);
 	vflist_listview_add_column(vfl, FILE_COLUMN_DATE, _("Date"), FALSE, TRUE, TRUE);
 
-    for(i = 0; i < FILEDATA_MARKS_SIZE;i++)
-        vflist_listview_add_column_toggle(vfl, i + FILE_COLUMN_MARKS, "");
+	for(i = 0; i < FILEDATA_MARKS_SIZE;i++)
+    		vflist_listview_add_column_toggle(vfl, i + FILE_COLUMN_MARKS, "");
+
             
-    g_signal_connect(G_OBJECT(vfl->listview), "key_press_event",
+	g_signal_connect(G_OBJECT(vfl->listview), "key_press_event",
 			 G_CALLBACK(vflist_press_key_cb), vfl);
 
 	gtk_container_add (GTK_CONTAINER(vfl->widget), vfl->listview);
