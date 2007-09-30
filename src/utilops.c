@@ -28,6 +28,7 @@
 #include "ui_fileops.h"
 #include "ui_misc.h"
 #include "ui_tabcomp.h"
+#include "editors.h"
 
 /*
  *--------------------------------------------------------------------------
@@ -333,35 +334,89 @@ static gint filename_base_length(const gchar *name)
  *--------------------------------------------------------------------------
  */
 
+static gint copy_file_ext_cb(gpointer ed, gint flags, GList *list, gpointer data)
+{
+	if ((flags & EDITOR_ERROR_MASK) && !(flags & EDITOR_ERROR_SKIPPED))
+		{
+		FileData *fd = list->data;
+		gchar *title = _("Error copying file");
+		gchar *text = g_strdup_printf(_("%s\nUnable to copy file:\n%s\nto:\n%s"), editor_get_error_str(flags), fd->name, fd->change->dest); 
+		file_util_warning_dialog(title, text, GTK_STOCK_DIALOG_ERROR, NULL);
+		g_free(text);
+		}
+	while (list)
+		{
+		FileData *fd = list->data;
+		if (!(flags & EDITOR_ERROR_MASK))
+			file_maint_copied(fd);
+		file_data_change_info_free(NULL, fd);
+		list = list->next;
+		}
+	return EDITOR_CB_CONTINUE;
+}
+
+
 gint copy_file_ext(FileData *fd)
 {
-	gint ret;
+	gint ok;
 	g_assert(fd->change);
 	if (editor_command[CMD_COPY])
-		ret = start_editor_from_file(CMD_COPY, fd);
+		{
+		ok = !start_editor_from_file_full(CMD_COPY, fd, copy_file_ext_cb, NULL);
+		if (ok) return ok; /* that's all for now, let's continue in callback */
+		}
 	else
-		ret = copy_file(fd->change->source, fd->change->dest);
+		ok = copy_file(fd->change->source, fd->change->dest);
 
-	if (ret)
+	if (ok)
 		{
 		file_maint_copied(fd);
 		}
 
 	file_data_change_info_free(NULL, fd);
 		
-	return ret;
+	return ok;
 }
+
+static gint move_file_ext_cb(gpointer ed, gint flags, GList *list, gpointer data)
+{
+	if ((flags & EDITOR_ERROR_MASK) && !(flags & EDITOR_ERROR_SKIPPED))
+		{
+		FileData *fd = list->data;
+		gchar *title = _("Error moving file");
+		gchar *text = g_strdup_printf(_("%s\nUnable to move file:\n%s\nto:\n%s"), editor_get_error_str(flags), fd->name, fd->change->dest); 
+		file_util_warning_dialog(title, text, GTK_STOCK_DIALOG_ERROR, NULL);
+		g_free(text);
+		}
+	while (list)
+		{
+		FileData *fd = list->data;
+		if (!(flags & EDITOR_ERROR_MASK))
+			{
+			file_data_do_change(fd);
+			file_maint_moved(fd, NULL);
+			}
+		file_data_change_info_free(NULL, fd);
+		list = list->next;
+		}
+	return EDITOR_CB_CONTINUE;
+
+}
+
 
 gint move_file_ext(FileData *fd)
 {
-	gint ret;
+	gint ok;
 	g_assert(fd->change);
 	if (editor_command[CMD_MOVE])
-		ret = start_editor_from_file(CMD_MOVE, fd);
+		{
+		ok = !start_editor_from_file_full(CMD_MOVE, fd, move_file_ext_cb, NULL); 
+		if (ok) return ok; /* that's all for now, let's continue in callback */ 
+		}
 	else
-		ret = move_file(fd->change->source, fd->change->dest);
+		ok = move_file(fd->change->source, fd->change->dest);
 
-	if (ret)
+	if (ok)
 		{
 		file_data_do_change(fd);
 		file_maint_moved(fd, NULL);
@@ -369,19 +424,46 @@ gint move_file_ext(FileData *fd)
 
 	file_data_change_info_free(NULL, fd);
 		
-	return ret;
+	return ok;
+}
+
+static gint rename_file_ext_cb(gpointer ed, gint flags, GList *list, gpointer data)
+{
+	if ((flags & EDITOR_ERROR_MASK) && !(flags & EDITOR_ERROR_SKIPPED))
+		{
+		FileData *fd = list->data;
+		gchar *title = _("Error renaming file");
+		gchar *text = g_strdup_printf(_("%s\nUnable to rename file:\n%s\nto:\n%s"), editor_get_error_str(flags), fd->name, fd->change->dest); 
+		file_util_warning_dialog(title, text, GTK_STOCK_DIALOG_ERROR, NULL);
+		g_free(text);
+		}
+	while (list)
+		{
+		FileData *fd = list->data;
+		if (!(flags & EDITOR_ERROR_MASK))
+			{
+			file_data_do_change(fd);
+			file_maint_renamed(fd);
+			}
+		file_data_change_info_free(NULL, fd);
+		list = list->next;
+		}
+	return EDITOR_CB_CONTINUE;
 }
 
 gint rename_file_ext(FileData *fd)
 {
-	gint ret;
+	gint ok;
 	g_assert(fd->change);
 	if (editor_command[CMD_RENAME])
-		ret = start_editor_from_file(CMD_RENAME, fd);
+		{
+		ok = !start_editor_from_file_full(CMD_RENAME, fd, rename_file_ext_cb, NULL);
+		if (ok) return ok; /* that's all for now, let's continue in callback */
+		}
 	else
-		ret = rename_file(fd->change->source, fd->change->dest);
+		ok = rename_file(fd->change->source, fd->change->dest);
 			
-	if (ret)
+	if (ok)
 		{
 		file_data_do_change(fd);
 		file_maint_renamed(fd);
@@ -389,7 +471,7 @@ gint rename_file_ext(FileData *fd)
 		
 	file_data_change_info_free(NULL, fd);
 		
-	return ret;
+	return ok;
 }
 
 
@@ -1386,26 +1468,81 @@ static void box_append_safe_delete_status(GenericDialog *gd)
 static void file_util_delete_multiple_ok_cb(GenericDialog *gd, gpointer data);
 static void file_util_delete_multiple_cancel_cb(GenericDialog *gd, gpointer data);
 
+static void file_util_delete_ext_ok_cb(GenericDialog *gd, gpointer data)
+{
+	editor_resume(data);
+}
+
+static void file_util_delete_ext_cancel_cb(GenericDialog *gd, gpointer data)
+{
+	editor_skip(data);
+}
+
+
+static gint file_util_delete_ext_cb(gpointer resume_data, gint flags, GList *list, gpointer data)
+{
+	gint ret = EDITOR_CB_CONTINUE;
+	if ((flags & EDITOR_ERROR_MASK) && !(flags & EDITOR_ERROR_SKIPPED))
+		{
+			GString *msg = g_string_new(editor_get_error_str(flags));
+			g_string_append(msg,_("\nUnable to delete file by external command:\n")); 
+			GenericDialog *d;
+			while (list)
+				{
+				FileData *fd = list->data;
+				
+				g_string_append(msg, fd->path);
+				g_string_append(msg, "\n");
+				list = list->next;
+				}
+			if (resume_data)
+				{
+				g_string_append(msg, _("\n Continue multiple delete operation?"));
+				d = file_util_gen_dlg(_("Delete failed"), "GQview", "dlg_confirm",
+						      NULL, TRUE,
+						      file_util_delete_ext_cancel_cb, resume_data);
+
+				generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, NULL, msg->str);
+
+				generic_dialog_add_button(d, GTK_STOCK_GO_FORWARD, _("Co_ntinue"),
+							  file_util_delete_ext_ok_cb, TRUE);
+				gtk_widget_show(d->dialog);
+				ret = EDITOR_CB_SUSPEND;
+				}
+			else
+				{
+				file_util_warning_dialog(_("Delete failed"), msg->str, GTK_STOCK_DIALOG_ERROR, NULL);
+				}
+			g_string_free(msg, TRUE);
+		}
+	
+	if (!(flags & EDITOR_ERROR_MASK))
+		{
+		/* files were successfully deleted, call the maint functions */
+		while (list)
+			{
+			FileData *fd = list->data;
+			file_maint_removed(fd, list);
+			list = list->next;
+			}
+		}
+	return ret;
+}
+
 static void file_util_delete_multiple_ok_cb(GenericDialog *gd, gpointer data)
 {
 	GList *source_list = data;
 
 	if (editor_command[CMD_DELETE])
 		{
-		if (!start_editor_from_filelist(CMD_DELETE, source_list))
+		gint flags;
+		if ((flags = start_editor_from_filelist_full(CMD_DELETE, source_list, file_util_delete_ext_cb, NULL)))
 			{
-			file_util_warning_dialog(_("File deletion failed"), _("Unable to delete files by external command\n"), GTK_STOCK_DIALOG_ERROR, NULL);
+			gchar *text = g_strdup_printf(_("%s\nUnable to delete files by external command.\n"), editor_get_error_str(flags)); 
+			file_util_warning_dialog(_("File deletion failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
+			g_free(text);
 			}
-		else
-			{
-			while (source_list)
-				{
-				FileData *fd = source_list->data;
-				source_list = g_list_remove(source_list, fd);
-				file_maint_removed(fd, source_list);
-				file_data_unref(fd);
-				}
-			}
+		filelist_free(source_list);
 		return;
 		}
 
@@ -1612,15 +1749,12 @@ static void file_util_delete_ok_cb(GenericDialog *gd, gpointer data)
 
 	if (editor_command[CMD_DELETE])
 		{
-		if (!start_editor_from_file(CMD_DELETE, fd))
+		gint flags;
+		if ((flags = start_editor_from_file_full(CMD_DELETE, fd, file_util_delete_ext_cb, NULL)))
 			{
-			gchar *text = g_strdup_printf(_("Unable to delete file by external command:\n%s"), fd->path);
+			gchar *text = g_strdup_printf(_("%s\nUnable to delete file by external command:\n%s"), editor_get_error_str(flags), fd->path);
 			file_util_warning_dialog(_("File deletion failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
 			g_free(text);
-			}
-		else
-			{
-			file_maint_removed(fd, NULL);
 			}
 		}
 	else if (!file_util_unlink(fd))

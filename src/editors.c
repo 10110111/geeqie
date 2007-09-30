@@ -18,31 +18,40 @@
 #include "ui_spinner.h"
 #include "ui_utildlg.h"
 
+#include "filelist.h"
+
 #include <errno.h>
 
 
 #define EDITOR_WINDOW_WIDTH 500
 #define EDITOR_WINDOW_HEIGHT 300
 
-#define COMMAND_SHELL "sh"
+#define COMMAND_SHELL "/bin/sh"
 #define COMMAND_OPT  "-c"
 
 
 typedef struct _EditorVerboseData EditorVerboseData;
 struct _EditorVerboseData {
-	int fd;
-
 	GenericDialog *gd;
 	GtkWidget *button_close;
 	GtkWidget *button_stop;
 	GtkWidget *text;
 	GtkWidget *progress;
 	GtkWidget *spinner;
-	gint count;
-	gint total;
+};
 
+typedef struct _EditorData EditorData;
+struct _EditorData {
+	gint flags;
+	GPid pid;
 	gchar *command_template;
 	GList *list;
+	gint count;
+	gint total;
+	gboolean stopping;
+	EditorVerboseData *vd;
+	EditorCallback callback;
+	gpointer data;
 };
 
 
@@ -60,9 +69,9 @@ static gchar *editor_slot_defaults[GQVIEW_EDITOR_SLOTS * 2] = {
 	/* special slots */
 #if 1
 	/* for testing */
-	"External Copy command", "%vset -x;cp %p %t",
-	"External Move command", "%vset -x;mv %p %t",
-	"External Rename command", "%vset -x;mv %p %t",
+	"External Copy command", "%vset -x;cp %p %d",
+	"External Move command", "%vset -x;mv %p %d",
+	"External Rename command", "%vset -x;mv %p %d",
 	"External Delete command", "%vset -x;rm %f",
 	"External New Folder command", NULL
 #else
@@ -74,9 +83,10 @@ static gchar *editor_slot_defaults[GQVIEW_EDITOR_SLOTS * 2] = {
 #endif
 };
 
-static void editor_verbose_window_progress(EditorVerboseData *vd, const gchar *text);
-static gint editor_command_next(EditorVerboseData *vd);
-
+static void editor_verbose_window_progress(EditorData *ed, const gchar *text);
+static gint editor_command_next_start(EditorData *ed);
+static gint editor_command_next_finish(EditorData *ed, gint status);
+static gint editor_command_done(EditorData *ed);
 
 /*
  *-----------------------------------------------------------------------------
@@ -97,24 +107,35 @@ void editor_reset_defaults(void)
 		}
 }
 
+static void editor_verbose_data_free(EditorData *ed)
+{
+	if (!ed->vd) return;
+	g_free(ed->vd);
+	ed->vd = NULL;
+}
+
+static void editor_data_free(EditorData *ed)
+{
+	editor_verbose_data_free(ed);
+	g_free(ed->command_template);
+	g_free(ed);
+}
+
 static void editor_verbose_window_close(GenericDialog *gd, gpointer data)
 {
-	EditorVerboseData *vd = data;
+	EditorData *ed = data;
 
 	generic_dialog_close(gd);
-	g_free(vd->command_template);
-	g_free(vd);
+	editor_verbose_data_free(ed);
+	if (ed->pid == -1) editor_data_free(ed); /* the process has already terminated */
 }
 
 static void editor_verbose_window_stop(GenericDialog *gd, gpointer data)
 {
-	EditorVerboseData *vd = data;
-
-	filelist_free(vd->list);
-	vd->list = NULL;
-
-	vd->count = 0;
-	editor_verbose_window_progress(vd, _("stopping..."));
+	EditorData *ed = data;
+	ed->stopping = TRUE;
+	ed->count = 0;
+	editor_verbose_window_progress(ed, _("stopping..."));
 }
 
 static void editor_verbose_window_enable_close(EditorVerboseData *vd)
@@ -126,7 +147,7 @@ static void editor_verbose_window_enable_close(EditorVerboseData *vd)
 	gtk_widget_set_sensitive(vd->button_close, TRUE);
 }
 
-static EditorVerboseData *editor_verbose_window(const gchar *template, const gchar *text)
+static EditorVerboseData *editor_verbose_window(EditorData *ed, const gchar *text)
 {
 	EditorVerboseData *vd;
 	GtkWidget *scrolled;
@@ -135,15 +156,9 @@ static EditorVerboseData *editor_verbose_window(const gchar *template, const gch
 
 	vd = g_new0(EditorVerboseData, 1);
 
-	vd->list = NULL;
-	vd->command_template = g_strdup(template);
-	vd->total = 0;
-	vd->count = 0;
-	vd->fd = -1;
-
 	vd->gd = file_util_gen_dlg(_("Edit command results"), "GQview", "editor_results",
 				   NULL, FALSE,
-				   NULL, vd);
+				   NULL, ed);
 	buf = g_strdup_printf(_("Output of %s"), text);
 	generic_dialog_add_message(vd->gd, NULL, buf, NULL);
 	g_free(buf);
@@ -182,6 +197,7 @@ static EditorVerboseData *editor_verbose_window(const gchar *template, const gch
 	
 	gtk_widget_show(vd->gd->dialog);
 
+	ed->vd = vd;
 	return vd;
 }
 
@@ -195,152 +211,65 @@ static void editor_verbose_window_fill(EditorVerboseData *vd, gchar *text, gint 
 	gtk_text_buffer_insert(buffer, &iter, text, len);
 }
 
-static void editor_verbose_window_progress(EditorVerboseData *vd, const gchar *text)
+static void editor_verbose_window_progress(EditorData *ed, const gchar *text)
 {
-	if (vd->total)
+	if (!ed->vd) return;
+
+	if (ed->total)
 		{
-		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(vd->progress), (double)vd->count / vd->total);
+		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(ed->vd->progress), (double)ed->count / ed->total);
 		}
 
-	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(vd->progress), (text) ? text : "");
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(ed->vd->progress), (text) ? text : "");
 }
 
 static gboolean editor_verbose_io_cb(GIOChannel *source, GIOCondition condition, gpointer data)
 {
-	EditorVerboseData *vd = data;
+	EditorData *ed = data;
 	gchar buf[512];
 	gsize count;
 
-	switch (condition)
+	if (condition & G_IO_IN)
 		{
-		case G_IO_IN:
-			while (g_io_channel_read_chars(source, buf, sizeof(buf), &count, NULL) == G_IO_STATUS_NORMAL)
+		while (g_io_channel_read_chars(source, buf, sizeof(buf), &count, NULL) == G_IO_STATUS_NORMAL)
+			{
+			if (!g_utf8_validate(buf, count, NULL))
 				{
-				if (!g_utf8_validate(buf, count, NULL))
+				gchar *utf8;
+				utf8 = g_locale_to_utf8(buf, count, NULL, NULL, NULL);
+				if (utf8)
 					{
-					gchar *utf8;
-					utf8 = g_locale_to_utf8(buf, count, NULL, NULL, NULL);
-					if (utf8)
-						{
-						editor_verbose_window_fill(vd, utf8, -1);
-						g_free(utf8);
-						}
-					else
-						{
-						editor_verbose_window_fill(vd, "GQview: Error converting text to valid utf8\n", -1);
-						}
+					editor_verbose_window_fill(ed->vd, utf8, -1);
+					g_free(utf8);
 					}
 				else
 					{
-					editor_verbose_window_fill(vd, buf, count);
+					editor_verbose_window_fill(ed->vd, "GQview: Error converting text to valid utf8\n", -1);
 					}
 				}
-			break;
-		case G_IO_ERR:
-			printf("Error reading from command\n");
-		case G_IO_HUP:
-			if (debug) printf("Editor command HUP\n");
-		default:
-			while (g_source_remove_by_user_data(vd));
-			close(vd->fd);
-			vd->fd = -1;
-			editor_command_next(vd);
-			return FALSE;
-			break;
+			else
+				{
+				editor_verbose_window_fill(ed->vd, buf, count);
+				}
+			}
 		}
 
-	return TRUE;
-}
-
-static int command_pipe(char *command)
-{
-	char *args[4];
-	int fpipe[2];
-	pid_t fpid;
-
-	args[0] = COMMAND_SHELL;
-	args[1] = COMMAND_OPT;
-	args[2] = command;
-	args[3] = NULL;
-
-	if (pipe(fpipe) < 0)
+	if (condition & (G_IO_ERR | G_IO_HUP))
 		{
-		printf("pipe setup failed: %s\n", strerror(errno));
-		return -1;
-		}
-
-	fpid = fork();
-	if (fpid < 0)
-		{
-		/* fork failed */
-		printf("fork failed: %s\n", strerror(errno));
-		}
-	else if (fpid == 0)
-		{
-		/* child */
-		gchar *msg;
-
-		dup2(fpipe[1], 1);
-		dup2(fpipe[1], 2);
-		close(fpipe[0]);
-
-		execvp(args[0], args);
-
-		msg = g_strdup_printf("Unable to exec command:\n%s\n\n%s\n", command, strerror(errno));
-		write(1, msg, strlen(msg));
-
-		_exit(1);
-		}
-	else
-		{
-		/* parent */
-		fcntl(fpipe[0], F_SETFL, O_NONBLOCK);
-		close(fpipe[1]);
-
-		return fpipe[0];
-		}
-
-	return -1;
-}
-
-static gint editor_verbose_start(EditorVerboseData *vd, gchar *command)
-	{
-	GIOChannel *channel;
-	int fd;
-
-	fd = command_pipe(command);
-	if (fd < 0)
-		{
-		gchar *buf;
-
-		buf = g_strdup_printf(_("Failed to run command:\n%s\n"), command);
-		editor_verbose_window_fill(vd, buf, strlen(buf));
-		g_free(buf);
-
+		g_io_channel_shutdown(source, TRUE, NULL);
 		return FALSE;
 		}
-
-	vd->fd = fd;
-	channel = g_io_channel_unix_new(fd);
-
-	g_io_add_watch_full(channel, G_PRIORITY_DEFAULT, G_IO_IN,
-			    editor_verbose_io_cb, vd, NULL);
-	g_io_add_watch_full(channel, G_PRIORITY_DEFAULT, G_IO_ERR,
-			    editor_verbose_io_cb, vd, NULL);
-	g_io_add_watch_full(channel, G_PRIORITY_DEFAULT, G_IO_HUP,
-			    editor_verbose_io_cb, vd, NULL);
-	g_io_channel_unref(channel);
 
 	return TRUE;
 }
 
 typedef enum {
 	PATH_FILE,
-	PATH_TARGET
+	PATH_DEST
 } PathType;
 
 
-static gchar *editor_command_path_parse(const FileData *fd, PathType type)
+static gchar *editor_command_path_parse(const FileData *fd, PathType type, const gchar *extensions)
 {
 	GString *string;
 	gchar *pathl;
@@ -352,7 +281,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type)
 		{
 		p = fd->path;
 		}
-	else if (type == PATH_TARGET)
+	else if (type == PATH_DEST)
 		{
 		if (fd->change && fd->change->dest)
 			p = fd->change->dest;
@@ -378,149 +307,6 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type)
 	return pathl;
 }
 
-static gint editor_command_one(const gchar *template, const FileData *fd, EditorVerboseData *vd)
-{
-	GString *result = NULL;
-	gchar *pathl, *targetl;
-	gchar *found;
-	const gchar *ptr;
-	gchar path_buffer[512];
-	gchar *current_path;
-	gint path_change = FALSE;
-	gint ret;
-
-	current_path = getcwd(path_buffer, sizeof(path_buffer));
-
-	result = g_string_new("");
-	pathl = editor_command_path_parse(fd, PATH_FILE);
-	targetl = editor_command_path_parse(fd, PATH_TARGET);
-
-	ptr = template;
-	while ( (found = strstr(ptr, "%")) )
-		{
-		result = g_string_append_len(result, ptr, found - ptr);
-		ptr = found + 2;
-		switch (found[1])
-			{
-			case 'p':
-				result = g_string_append_c(result, '"');
-				result = g_string_append(result, pathl);
-				result = g_string_append_c(result, '"');
-				break;
-			case 't':
-				result = g_string_append_c(result, '"');
-				result = g_string_append(result, targetl);
-				result = g_string_append_c(result, '"');
-				break;
-			case '%':
-				result = g_string_append_c(result, '%');
-				break;
-			default:
-				break;
-			}
-		}
-	result = g_string_append(result, ptr);
-
-	if (debug) printf("system command: %s\n", result->str);
-
-	if (current_path)
-		{
-		gchar *base;
-		base = remove_level_from_path(fd->path);
-		if (chdir(base) == 0) path_change = TRUE;
-		g_free(base);
-		}
-
-	if (vd)
-		{
-		result = g_string_append(result, " 2>&1");
-		ret = editor_verbose_start(vd, result->str);
-		}
-	else
-		{
-		ret = !system(result->str);
-		}
-
-	if (path_change) chdir(current_path);
-
-	g_string_free(result, TRUE);
-	g_free(pathl);
-	g_free(targetl);
-
-	return ret;
-}
-
-static gint editor_command_next(EditorVerboseData *vd)
-{
-	const gchar *text;
-
-	editor_verbose_window_fill(vd, "\n", 1);
-
-	while (vd->list)
-		{
-		FileData *fd;
-		gint success;
-
-		fd = vd->list->data;
-		vd->list = g_list_remove(vd->list, fd);
-
-		editor_verbose_window_progress(vd, fd->path);
-
-		vd->count++;
-		success = editor_command_one(vd->command_template, fd, vd);
-		if (success)
-			{
-			gtk_widget_set_sensitive(vd->button_stop, (vd->list != NULL) );
-			editor_verbose_window_fill(vd, fd->path, strlen(fd->path));
-			editor_verbose_window_fill(vd, "\n", 1);
-			}
-
-		file_data_unref(fd);
-		if (success) return TRUE;
-		}
-
-	if (vd->count == vd->total)
-		{
-		text = _("done");
-		}
-	else
-		{
-		text = _("stopped by user");
-		}
-	vd->count = 0;
-	editor_verbose_window_progress(vd, text);
-	editor_verbose_window_enable_close(vd);
-	return FALSE;
-}
-
-static gint editor_command_start(const gchar *template, const gchar *text, GList *list)
-{
-	EditorVerboseData *vd;
-
-	vd = editor_verbose_window(template, text);
-	vd->list = filelist_copy(list);
-	vd->total = g_list_length(list);
-
-	return editor_command_next(vd);
-}
-
-static gint editor_line_break(const gchar *template, gchar **front, const gchar **end)
-{
-	gchar *found;
-
-	*front = g_strdup(template);
-	found = strstr(*front, "%f");
-
-	if (found)
-		{
-		*found = '\0';
-		*end = found + 2;
-		return TRUE;
-		}
-
-	*end = "";
-	return FALSE;
-}
 
 /*
  * The supported macros for editor commands:
@@ -549,142 +335,453 @@ static gint editor_line_break(const gchar *template, gchar **front, const gchar 
  *
  * [1] Note: %v,%V may also be preceded by "%w".
  */
-static gint editor_command_run(const gchar *template, const gchar *text, GList *list)
+
+
+gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 {
-	gint verbose = FALSE;
-	gint for_each = FALSE;
-	gint ret = TRUE;
+	gint flags = 0;
+	const gchar *p = template;
+	GString *result = NULL;
+	gchar *extensions = NULL;
+	GList *work;
 
-	if (!template || template[0] == '\0') return;
+	if (output)
+		result = g_string_new("");
 
-	for_each = (strstr(template, "%p") != NULL);
-
-	/* no window state change flag, skip */
-	if (strncmp(template, "%w", 2) == 0) template += 2;
-
-	if (strncmp(template, "%v", 2) == 0)
+	if (!template || template[0] == '\0') 
 		{
-		template += 2;
-		verbose = TRUE;
-		}
-	else if (strncmp(template, "%V", 2) == 0)
-		{
-		template += 2;
-		if (!for_each || list->next) verbose = TRUE;
+		flags |= EDITOR_ERROR_EMPTY;
+		goto err;
 		}
 
-	if (for_each)
+	
+	/* global flags */
+	while (*p == '%')
 		{
-		if (verbose)
+		switch (*++p)
 			{
-			editor_command_start(template, text, list);
+			case 'w':
+				flags |= EDITOR_KEEP_FS;
+				p++;
+				break;
+			case 'v':
+				flags |= EDITOR_VERBOSE;
+				p++;
+				break;
+			case 'V':
+				flags |= EDITOR_VERBOSE_MULTI;
+				p++;
+				break;
 			}
-		else
+		}
+	
+	/* command */
+	
+	while (*p)
+		{
+		if (*p != '%')
 			{
-			GList *work;
+			if (output) result = g_string_append_c(result, *p);
+			}
+		else /* *p == '%' */
+			{
+			extensions = NULL;
+			gchar *pathl = NULL;
 
-			work = list;
-			while (work)
+			p++;
+			
+			/* for example "%f" or "%{crw,raw,cr2}f" */
+			if (*p == '{')
 				{
-				FileData *fd = work->data;
-				ret = editor_command_one(template, fd, NULL);
-				work = work->next;
+				p++;
+				gchar *end = strchr(p, '}');
+				if (!end)
+					{
+					flags |= EDITOR_ERROR_SYNTAX;
+					goto err;
+					}
+				
+				extensions = g_strndup(p, end - p);
+				p = end + 1;
+				}
+			
+			switch (*p) 
+				{
+				case 'd':
+					flags |= EDITOR_DEST;
+				case 'p':
+					flags |= EDITOR_FOR_EACH;
+					if (flags & EDITOR_SINGLE_COMMAND)
+						{
+						flags |= EDITOR_ERROR_INCOMPATIBLE;
+						goto err;
+						}
+					if (output)
+						{
+						/* use the first file from the list */
+						if (!list || !list->data) 
+							{
+							flags |= EDITOR_ERROR_NO_FILE;
+							goto err;
+							}
+						pathl = editor_command_path_parse((FileData *)list->data, (*p == 'd') ? PATH_DEST : PATH_FILE, extensions);
+						if (!pathl) 
+							{
+							flags |= EDITOR_ERROR_NO_FILE;
+							goto err;
+							}
+						result = g_string_append_c(result, '"');
+						result = g_string_append(result, pathl);
+						g_free(pathl);
+						result = g_string_append_c(result, '"');
+						}
+					break;	
+
+				case 'f':
+					flags |= EDITOR_SINGLE_COMMAND;
+					if (flags & (EDITOR_FOR_EACH | EDITOR_DEST))
+						{
+						flags |= EDITOR_ERROR_INCOMPATIBLE;
+						goto err;
+						}
+
+					if (output)
+						{
+						/* use whole list */
+						GList *work = list;
+						gboolean ok = FALSE;
+						while (work)
+							{
+							FileData *fd = work->data;
+							pathl = editor_command_path_parse(fd, PATH_FILE, extensions);
+
+							if (pathl)
+								{
+								ok = TRUE;
+								if (work != list) g_string_append_c(result, ' ');
+								result = g_string_append_c(result, '"');
+								result = g_string_append(result, pathl);
+								g_free(pathl);
+								result = g_string_append_c(result, '"');
+								}
+							work = work->next;
+							}
+						if (!ok) 
+							{
+							flags |= EDITOR_ERROR_NO_FILE;
+							goto err;
+							}
+						}
+					break;	
+				default:
+					flags |= EDITOR_ERROR_SYNTAX;
+					goto err;
+				}
+			if (extensions) g_free(extensions);
+			extensions = NULL;
+			}
+		p++;
+		}
+
+	if (output) *output = g_string_free(result, FALSE);
+	return flags;
+
+			
+err:
+	if (output) 
+		{
+		g_string_free(result, TRUE);
+		*output = NULL;
+		}
+	if (extensions) g_free(extensions);
+	return flags;
+}
+
+static void editor_child_exit_cb (GPid pid, gint status, gpointer data)
+{
+	EditorData *ed = data;
+	g_spawn_close_pid(pid);
+	ed->pid = -1;
+	
+	editor_command_next_finish(ed, status);
+}
+
+
+static gint editor_command_one(const gchar *template, GList *list, EditorData *ed)
+{
+	gchar *command;
+	gchar *working_directory;
+	FileData *fd = list->data;
+	gchar *args[4];
+	GPid pid;
+        gint standard_output;
+        gint standard_error;
+	gboolean ok;
+
+
+	ed->pid = -1;
+
+	working_directory = remove_level_from_path(fd->path);
+	
+	ed->flags = editor_command_parse(template, list, &command);
+
+	ok = !(ed->flags & EDITOR_ERROR_MASK);
+
+
+	args[0] = COMMAND_SHELL;
+	args[1] = COMMAND_OPT;
+	args[2] = command;
+	args[3] = NULL;
+	
+	if (ok)
+		{
+		ok = g_spawn_async_with_pipes(working_directory, args, NULL, 
+				      G_SPAWN_DO_NOT_REAP_CHILD, /* GSpawnFlags */
+                                      NULL, NULL,
+                                      &pid, 
+				      NULL, 
+				      ed->vd ? &standard_output : NULL, 
+				      ed->vd ? &standard_error : NULL, 
+				      NULL);
+		
+		if (!ok) ed->flags |= EDITOR_ERROR_CANT_EXEC;
+		}
+
+	if (ok) 
+		{
+		g_child_watch_add(pid, editor_child_exit_cb, ed);
+		ed->pid = pid;
+		}
+	
+	
+	if (ed->vd)
+		{
+
+		if (!ok)
+			{
+			gchar *buf;
+
+			buf = g_strdup_printf(_("Failed to run command:\n%s\n"), command);
+			editor_verbose_window_fill(ed->vd, buf, strlen(buf));
+			g_free(buf);
+
+			}
+		else 
+			{
+		
+			GIOChannel *channel_output;
+			GIOChannel *channel_error;
+			channel_output = g_io_channel_unix_new(standard_output);
+			g_io_channel_set_flags(channel_output, G_IO_FLAG_NONBLOCK, NULL);
+
+			g_io_add_watch_full(channel_output, G_PRIORITY_HIGH, G_IO_IN | G_IO_ERR | G_IO_HUP,
+					    editor_verbose_io_cb, ed, NULL);
+			g_io_channel_unref(channel_output);
+
+			channel_error = g_io_channel_unix_new(standard_error);
+			g_io_channel_set_flags(channel_error, G_IO_FLAG_NONBLOCK, NULL);
+
+			g_io_add_watch_full(channel_error, G_PRIORITY_HIGH, G_IO_IN | G_IO_ERR | G_IO_HUP,
+					    editor_verbose_io_cb, ed, NULL);
+			g_io_channel_unref(channel_error);
+			}
+		}
+	
+
+	
+	g_free(command);
+	g_free(working_directory);
+
+	return ed->flags & EDITOR_ERROR_MASK;
+}
+
+static gint editor_command_next_start(EditorData *ed)
+{
+
+	if (ed->vd) editor_verbose_window_fill(ed->vd, "\n", 1);
+
+	if (ed->list && ed->count < ed->total)
+		{
+		FileData *fd;
+		gint error;
+
+		fd = ed->list->data;
+
+		if (ed->vd)
+			{
+			editor_verbose_window_progress(ed, (ed->flags & EDITOR_FOR_EACH) ? fd->path : _("running..."));
+			}
+		ed->count++;
+
+		error = editor_command_one(ed->command_template, ed->list, ed);
+		if (!error && ed->vd)
+			{
+			gtk_widget_set_sensitive(ed->vd->button_stop, (ed->list != NULL) );
+			if (ed->flags & EDITOR_FOR_EACH)
+				{
+				editor_verbose_window_fill(ed->vd, fd->path, strlen(fd->path));
+				editor_verbose_window_fill(ed->vd, "\n", 1);
 				}
 			}
+
+		if (!error) 
+			return 0;
+		else
+			/* command was not started, call the finish immediately */
+			return editor_command_next_finish(ed, 0);
+		}
+	
+	/* everything is done */
+	editor_command_done(ed);
+
+}
+
+static gint editor_command_next_finish(EditorData *ed, gint status)
+{
+	gint cont = ed->stopping ? EDITOR_CB_SKIP : EDITOR_CB_CONTINUE;
+
+	if (status)
+		ed->flags |= EDITOR_ERROR_STATUS;
+
+	if (ed->flags & EDITOR_FOR_EACH)
+		{
+		/* handle the first element from the list */
+		GList *fd_element = ed->list;
+		ed->list = g_list_remove_link(ed->list, fd_element);
+		if (ed->callback)
+			cont = ed->callback(ed->list ? ed : NULL, ed->flags, fd_element, ed->data);
+		filelist_free(fd_element);
 		}
 	else
 		{
-		gchar *front;
-		const gchar *end;
-		GList *work;
-		GString *result = NULL;
-		gint parser_match;
+		/* handle whole list */
+		if (ed->callback)
+			cont = ed->callback(NULL, ed->flags, ed->list, ed->data);
+		filelist_free(ed->list);
+		ed->list = NULL;
+		}
 
-		parser_match = editor_line_break(template, &front, &end);
-		result = g_string_new((parser_match) ? "" : " ");
+	if (cont == EDITOR_CB_SUSPEND)
+		return ed->flags & EDITOR_ERROR_MASK;
+	else if (cont == EDITOR_CB_SKIP)
+		return editor_command_done(ed);
+	else
+		return editor_command_next_start(ed);
 
-		work = list;
-		while (work)
+}
+
+static gint editor_command_done(EditorData *ed)
+{
+	gint flags;
+	const gchar *text;
+
+	if (ed->vd)
+		{
+		if (ed->count == ed->total)
 			{
-			FileData *fd = work->data;
-			gchar *pathl;
-
-			if (work != list) g_string_append_c(result, ' ');
-			result = g_string_append_c(result, '"');
-			pathl = editor_command_path_parse(fd, PATH_FILE);
-			result = g_string_append(result, pathl);
-			g_free(pathl);
-			result = g_string_append_c(result, '"');
-			work = work->next;
-			}
-
-		result = g_string_prepend(result, front);
-		result = g_string_append(result, end);
-		if (verbose) result = g_string_append(result, " 2>&1 ");
-		result = g_string_append(result, "&");
-
-		if (debug) printf("system command: %s\n", result->str);
-
-		if (verbose)
-			{
-			EditorVerboseData *vd;
-
-			vd = editor_verbose_window(template, text);
-			editor_verbose_window_progress(vd, _("running..."));
-			ret = editor_verbose_start(vd, result->str);
+			text = _("done");
 			}
 		else
 			{
-			ret = !system(result->str);
+			text = _("stopped by user");
 			}
-
-		g_free(front);
-		g_string_free(result, TRUE);
+		editor_verbose_window_progress(ed, text);
+		editor_verbose_window_enable_close(ed->vd);
 		}
-	return ret;
+
+	/* free the not-handled items */
+	if (ed->list)
+		{
+		ed->flags |= EDITOR_ERROR_SKIPPED;
+		if (ed->callback) ed->callback(NULL, ed->flags, ed->list, ed->data);
+		filelist_free(ed->list);
+		ed->list = NULL;
+		}
+
+	ed->count = 0;
+
+	flags = ed->flags & EDITOR_ERROR_MASK;
+
+	if (!ed->vd) editor_data_free(ed);
+
+	return flags;
 }
 
-gint start_editor_from_filelist(gint n, GList *list)
+void editor_resume(gpointer ed)
+{
+	editor_command_next_start(ed);
+}
+void editor_skip(gpointer ed)
+{
+	editor_command_done(ed);	
+}
+
+static gint editor_command_start(const gchar *template, const gchar *text, GList *list, EditorCallback cb, gpointer data)
+{
+	EditorData *ed;
+	gint flags = editor_command_parse(template, NULL, NULL);
+	
+	if (flags & EDITOR_ERROR_MASK) return flags & EDITOR_ERROR_MASK;
+
+	ed = g_new0(EditorData, 1);
+	ed->list = filelist_copy(list);
+	ed->flags = flags;
+	ed->command_template = g_strdup(template);
+	ed->total = (flags & EDITOR_SINGLE_COMMAND) ? 1 : g_list_length(list);
+	ed->count = 0;
+	ed->stopping = FALSE;
+	ed->callback = cb;
+	ed->data =  data;
+	
+	if ((flags & EDITOR_VERBOSE_MULTI) && list && list->next)
+		flags |= EDITOR_VERBOSE;
+	
+	
+	if (flags & EDITOR_VERBOSE)
+		editor_verbose_window(ed, text);
+		
+	editor_command_next_start(ed); 
+	/* errors from editor_command_next_start will be handled via callback */
+	return flags & EDITOR_ERROR_MASK;
+}
+
+gint start_editor_from_filelist_full(gint n, GList *list, EditorCallback cb, gpointer data)
 {
 	gchar *command;
-	gint ret;
+	gint error;
 
 	if (n < 0 || n >= GQVIEW_EDITOR_SLOTS || !list ||
 	    !editor_command[n] ||
 	    strlen(editor_command[n]) == 0) return FALSE;
 
 	command = g_locale_from_utf8(editor_command[n], -1, NULL, NULL, NULL);
-	ret = editor_command_run(command, editor_name[n], list);
+	error = editor_command_start(command, editor_name[n], list, cb, data);
 	g_free(command);
-	return ret;
+	return error;
 }
 
-gint start_editor_from_file(gint n, FileData *fd)
+gint start_editor_from_filelist(gint n, GList *list)
+{
+	return start_editor_from_filelist_full(n, list,  NULL, NULL);
+}
+
+
+gint start_editor_from_file_full(gint n, FileData *fd, EditorCallback cb, gpointer data)
 {
 	GList *list;
-	gint ret;
+	gint error;
 
 	if (!fd) return FALSE;
 
 	list = g_list_append(NULL, fd);
-	ret = start_editor_from_filelist(n, list);
+	error = start_editor_from_filelist_full(n, list, cb, data);
 	g_list_free(list);
-	return ret;
+	return error;
 }
 
-gint start_editor_from_pair(gint n, const gchar *source, const gchar *target)
+gint start_editor_from_file(gint n, FileData *fd)
 {
-	GList *list;
-	gint ret;
-
-	if (!source) return FALSE;
-	if (!target) return FALSE;
-
-	list = g_list_append(NULL, (gchar *)source);
-	list = g_list_append(list, (gchar *)target);
-	ret = start_editor_from_filelist(n, list);
-	g_list_free(list);
-	return ret;
+	return start_editor_from_file_full(n, fd, NULL, NULL);
 }
 
 gint editor_window_flag_set(gint n)
@@ -693,7 +790,18 @@ gint editor_window_flag_set(gint n)
 	    !editor_command[n] ||
 	    strlen(editor_command[n]) == 0) return TRUE;
 
-	return (strncmp(editor_command[n], "%w", 2) == 0);
+	return (editor_command_parse(editor_command[n], NULL, NULL) & EDITOR_KEEP_FS);
 }
 
 
+const gchar *editor_get_error_str(gint flags)
+{
+	if (flags & EDITOR_ERROR_EMPTY) return _("Editor template is empty.");
+	if (flags & EDITOR_ERROR_SYNTAX) return _("Editor template has incorrect syntax.");
+	if (flags & EDITOR_ERROR_INCOMPATIBLE) return _("Editor template uses incompatible macros.");
+	if (flags & EDITOR_ERROR_NO_FILE) return _("Can't find matching file type.");
+	if (flags & EDITOR_ERROR_CANT_EXEC) return _("Can't execute external editor.");
+	if (flags & EDITOR_ERROR_STATUS) return _("External editor returned error status.");
+	if (flags & EDITOR_ERROR_SKIPPED) return _("File was skipped.");
+	return _("Unknown error.");
+}
