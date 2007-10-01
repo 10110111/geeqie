@@ -81,7 +81,6 @@ typedef struct _CollectWindow CollectWindow;
 typedef struct _ImageWindow ImageWindow;
 
 typedef struct _FileData FileData;
-typedef struct _SidecarFileData SidecarFileData;
 typedef struct _FileDataChangeInfo FileDataChangeInfo;
 
 typedef struct _LayoutWindow LayoutWindow;
@@ -329,15 +328,6 @@ struct _ImageWindow
 
 #define FILEDATA_MARKS_SIZE 10
 
-struct _SidecarFileData {
-	gint type;
-	gchar *path;
-	const gchar *name;
-	const gchar *extension;
-	gint64 size;
-	time_t date;
-};
-
 struct _FileDataChangeInfo {
 	gchar *source;
 	gchar *dest;
@@ -354,6 +344,7 @@ struct _FileData {
 	time_t date;
 	gboolean marks[FILEDATA_MARKS_SIZE];
 	GList *sidecar_files;
+	FileData *parent; /* parent file if this is a sidecar file, NULL otherwise */
 	FileDataChangeInfo *change; /* for rename, move ... */
 	GdkPixbuf *pixbuf;
 	gint ref;

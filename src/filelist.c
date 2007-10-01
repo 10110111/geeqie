@@ -568,8 +568,6 @@ const gchar *text_from_time(time_t t)
  * file info struct
  *-----------------------------------------------------------------------------
  */
-SidecarFileData *sidecar_file_data_new_from_file_data(const FileData *fd);
-void sidecar_file_data_free(SidecarFileData *fd);
 
 static void file_data_set_path(FileData *fd, const gchar *path)
 {
@@ -663,23 +661,29 @@ FileData *file_data_new_simple(const gchar *path_utf8)
 	return file_data_new(path_utf8, &st);
 }
 
-FileData *file_data_add_sidecar_file(FileData *target, SidecarFileData *sfd)
+FileData *file_data_add_sidecar_file(FileData *target, FileData *sfd)
 {
-	target->sidecar_files = g_list_append(target->sidecar_files, sfd);
+	target->sidecar_files = g_list_append(target->sidecar_files, file_data_ref(sfd));
+	sfd->parent = target;
 	return target;
 }
 
 FileData *file_data_merge_sidecar_files(FileData *target, FileData *source)
 {
-	SidecarFileData *sfd;
+	GList *work;
+	file_data_add_sidecar_file(target, source);
 	
-	sfd = sidecar_file_data_new_from_file_data(source);
-	file_data_add_sidecar_file(target, sfd);
-	
+	work = source->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+		sfd->parent = target;
+		work = work->next;
+		}
+
 	target->sidecar_files = g_list_concat(target->sidecar_files, source->sidecar_files);
 	source->sidecar_files = NULL;
 	
-	file_data_unref(source);
 	return target;
 }
 
@@ -700,11 +704,11 @@ void file_data_free(FileData *fd)
 	work = fd->sidecar_files;
 	while (work)
 		{
-		sidecar_file_data_free((SidecarFileData *)work->data);
+		FileData *sfd = work->data;
+		sfd->parent = NULL;
 		work = work->next;
 		}
-
-	g_list_free(fd->sidecar_files);
+	filelist_free(fd->sidecar_files);
 
 	file_data_change_info_free(NULL, fd);	
 	g_free(fd);
@@ -796,55 +800,6 @@ void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd)
  *-----------------------------------------------------------------------------
  */
 
-SidecarFileData *sidecar_file_data_new(const gchar *path, struct stat *st)
-{
-	SidecarFileData *fd;
-
-	fd = g_new0(SidecarFileData, 1);
-	fd->path = path_to_utf8(path);
-	fd->name = filename_from_path(fd->path);
-	fd->extension = extension_from_path(fd->path);
-    
-	fd->size = st->st_size;
-	fd->date = st->st_mtime;
-
-	return fd;
-}
-
-SidecarFileData *sidecar_file_data_new_simple(const gchar *path)
-{
-	struct stat st;
-
-	if (!stat(path, &st))
-		{
-		st.st_size = 0;
-		st.st_mtime = 0;
-		}
-
-	return sidecar_file_data_new(path, &st);
-}
-
-SidecarFileData *sidecar_file_data_new_from_file_data(const FileData *fd)
-{
-	SidecarFileData *sfd;
-
-	sfd = g_new0(SidecarFileData, 1);
-	sfd->path = g_strdup(fd->path);
-	sfd->name = filename_from_path(sfd->path);;
-	sfd->extension = extension_from_path(sfd->path);
-    
-	sfd->size = fd->size;
-	sfd->date = fd->date;
-
-	return sfd;
-}
-
-
-void sidecar_file_data_free(SidecarFileData *fd)
-{
-	g_free(fd->path);
-	g_free(fd);
-}
 
 gint sidecar_file_priority(const gchar *path)
 {
@@ -852,12 +807,13 @@ gint sidecar_file_priority(const gchar *path)
 	
 	printf("prio %s >%s<\n", path, extension);
 	
-	if (strcmp(extension, ".cr2") == 0) return 1;
-	if (strcmp(extension, ".crw") == 0) return 2;
-	if (strcmp(extension, ".nef") == 0) return 3;
-	if (strcmp(extension, ".raw") == 0) return 4;
+	if (strcmp(extension, ".jpg") == 0) return 1;
 
-	if (strcmp(extension, ".jpg") == 0) return 1001;
+	if (strcmp(extension, ".cr2") == 0) return 1001;
+	if (strcmp(extension, ".crw") == 0) return 1002;
+	if (strcmp(extension, ".nef") == 0) return 1003;
+	if (strcmp(extension, ".raw") == 0) return 1004;
+
 
 	if (strcmp(extension, ".vaw") == 0) return 2001;
 	if (strcmp(extension, ".mp3") == 0) return 2002;
@@ -875,7 +831,7 @@ gchar *sidecar_file_data_list_to_string(FileData *fd)
 	work = fd->sidecar_files;
 	while (work)
 		{
-		SidecarFileData *sfd = work->data;
+		FileData *sfd = work->data;
 		result = g_string_append(result, "+ ");
 		result = g_string_append(result, sfd->extension);
 		work = work->next;
