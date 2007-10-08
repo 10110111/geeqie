@@ -465,8 +465,8 @@ static gint vflist_row_rename_cb(TreeEditData *td, const gchar *old, const gchar
 			{
 			GList *work = g_list_nth(vfl->list, row);
 			FileData *fd = work->data;
-			file_data_change_info_new(old_path, new_path, fd);
-			if (!rename_file_ext(fd))
+			
+			if (!file_data_add_change_info(fd, FILEDATA_CHANGE_RENAME, old_path, new_path) || !rename_file_ext(fd))
 				{
 				gchar *text = g_strdup_printf(_("Unable to rename file:\n%s\nto:\n%s"), old, new);
 				file_util_warning_dialog(_("Error renaming file"), text, GTK_STOCK_DIALOG_ERROR, vfl->listview);

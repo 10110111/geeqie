@@ -777,17 +777,18 @@ static void file_util_move_multiple(FileDataMult *fdm)
 				}
 			if (try)
 				{
-				file_data_change_info_new(fdm->source_fd->path, fdm->dest, fdm->source_fd);
 				if (fdm->copy)
 					{
-					if (copy_file_ext(fdm->source_fd))
+					if (file_data_add_change_info(fdm->source_fd, FILEDATA_CHANGE_COPY, fdm->source_fd->path, fdm->dest) &&
+					    copy_file_ext(fdm->source_fd))
 						{
 						success = TRUE;
 						}
 					}
 				else
 					{
-					if (move_file_ext(fdm->source_fd))
+					if (file_data_add_change_info(fdm->source_fd, FILEDATA_CHANGE_MOVE, fdm->source_fd->path, fdm->dest) &&
+					    move_file_ext(fdm->source_fd))
 						{
 						success = TRUE;
 						}
@@ -1018,17 +1019,18 @@ static void file_util_move_single(FileDataSingle *fds)
 	else
 		{
 		gint success = FALSE;
-		file_data_change_info_new(fds->source_fd->path, fds->dest, fds->source_fd);
 		if (fds->copy)
 			{
-			if (copy_file_ext(fds->source_fd))
+			if (file_data_add_change_info(fds->source_fd, FILEDATA_CHANGE_COPY, fds->source_fd->path, fds->dest) &&
+			    copy_file_ext(fds->source_fd))
 				{
 				success = TRUE;
 				}
 			}
 		else
 			{
-			if (move_file_ext(fds->source_fd))
+			if (file_data_add_change_info(fds->source_fd, FILEDATA_CHANGE_MOVE, fds->source_fd->path, fds->dest) &&
+			    move_file_ext(fds->source_fd))
 				{
 				success = TRUE;
 				}
@@ -1516,13 +1518,17 @@ static gint file_util_delete_ext_cb(gpointer resume_data, gint flags, GList *lis
 			g_string_free(msg, TRUE);
 		}
 	
-	if (!(flags & EDITOR_ERROR_MASK))
+	
 		{
-		/* files were successfully deleted, call the maint functions */
 		while (list)
 			{
 			FileData *fd = list->data;
-			file_maint_removed(fd, list);
+			if (flags & EDITOR_ERROR_MASK)
+				/* an error occured -> no change -> delete change info */
+				file_data_change_info_free(NULL, fd); 
+			else
+				/* files were successfully deleted, call the maint functions and keep the change info forever */
+				file_maint_removed(fd, list);
 			list = list->next;
 			}
 		}
@@ -1532,16 +1538,42 @@ static gint file_util_delete_ext_cb(gpointer resume_data, gint flags, GList *lis
 static void file_util_delete_multiple_ok_cb(GenericDialog *gd, gpointer data)
 {
 	GList *source_list = data;
+	GList *work = source_list;
+	gboolean ok = TRUE;
+
+	while (work)
+		{
+		FileData *fd = work->data;
+		if (fd->change) ok = FALSE; /* another operation in progress */
+		work = work->next;
+		}
+
+	if (!ok)
+		{
+		file_util_warning_dialog(_("File deletion failed"), _("Another operation in progress.\n"), GTK_STOCK_DIALOG_ERROR, NULL);
+		filelist_free(source_list);
+		return;
+		}
+
 
 	if (editor_command[CMD_DELETE])
 		{
 		gint flags;
+		work = source_list;
+		while (work)
+			{
+			FileData *fd = work->data;
+			file_data_add_change_info(fd, FILEDATA_CHANGE_DELETE, NULL, NULL);
+			work = work->next;
+			}
+		
 		if ((flags = start_editor_from_filelist_full(CMD_DELETE, source_list, file_util_delete_ext_cb, NULL)))
 			{
 			gchar *text = g_strdup_printf(_("%s\nUnable to delete files by external command.\n"), editor_get_error_str(flags)); 
 			file_util_warning_dialog(_("File deletion failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
 			g_free(text);
 			}
+		
 		filelist_free(source_list);
 		return;
 		}
@@ -1747,6 +1779,14 @@ static void file_util_delete_ok_cb(GenericDialog *gd, gpointer data)
 {
 	FileData *fd = data;
 
+	if (!file_data_add_change_info(fd, FILEDATA_CHANGE_DELETE, NULL, NULL))
+		{
+		file_util_warning_dialog(_("File deletion failed"), _("Another operation in progress.\n"), GTK_STOCK_DIALOG_ERROR, NULL);
+		file_data_unref(fd);
+		return;
+		}
+
+
 	if (editor_command[CMD_DELETE])
 		{
 		gint flags;
@@ -1755,6 +1795,7 @@ static void file_util_delete_ok_cb(GenericDialog *gd, gpointer data)
 			gchar *text = g_strdup_printf(_("%s\nUnable to delete file by external command:\n%s"), editor_get_error_str(flags), fd->path);
 			file_util_warning_dialog(_("File deletion failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
 			g_free(text);
+			file_data_change_info_free(NULL, fd);
 			}
 		}
 	else if (!file_util_unlink(fd))
@@ -1762,6 +1803,7 @@ static void file_util_delete_ok_cb(GenericDialog *gd, gpointer data)
 		gchar *text = g_strdup_printf(_("Unable to delete file:\n%s"), fd->path);
 		file_util_warning_dialog(_("File deletion failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
 		g_free(text);
+		file_data_change_info_free(NULL, fd);
 		}
 	else
 		{
@@ -1968,8 +2010,8 @@ static void file_util_rename_multiple(RenameDataMult *rd)
 		}
 	else
 		{
-		file_data_change_info_new(fdlg->source_fd->path, fdlg->dest_path, fdlg->source_fd);
-		if (!rename_file_ext(fdlg->source_fd))
+		if (!file_data_add_change_info(fdlg->source_fd, FILEDATA_CHANGE_RENAME, fdlg->source_fd->path, fdlg->dest_path) ||
+		    !rename_file_ext(fdlg->source_fd))
 			{
 			gchar *text = g_strdup_printf(_("Unable to rename file:\n%s\n to:\n%s"),
 						      fdlg->source_fd->name,
@@ -2188,8 +2230,8 @@ static void file_util_rename_multiple_auto(RenameDataMult *rd)
 			dest = g_strdup_printf("%s/%s%0*d%s", base, front, padding, n, end);
 			}
 			
-		file_data_change_info_new(fd->path, dest, fd);
-		if (!rename_file_ext(fd))
+		if (!file_data_add_change_info(fd, FILEDATA_CHANGE_RENAME, fd->path, dest) ||
+		    !rename_file_ext(fd))
 			{
 			success = FALSE;
 			}
@@ -2690,8 +2732,8 @@ static void file_util_rename_single(FileDataSingle *fds)
 		file_util_do_move_list(list, FALSE, TRUE);
 		filelist_free(list);
 */
-		file_data_change_info_new(fds->source_fd->path, fds->dest, fds->source_fd);
-		if (!rename_file_ext(fds->source_fd))
+		if (!file_data_add_change_info(fds->source_fd, FILEDATA_CHANGE_RENAME, fds->source_fd->path, fds->dest) ||
+		    !rename_file_ext(fds->source_fd))
 			{
 			gchar *text = g_strdup_printf(_("Unable to rename file:\n%s\nto:\n%s"), fds->source_fd->name, filename_from_path(fds->dest));
 			file_util_warning_dialog(_("Error renaming file"), text, GTK_STOCK_DIALOG_ERROR, NULL);
@@ -2902,8 +2944,8 @@ gint file_util_rename_dir(FileData *old_fd, const gchar *new_path, GtkWidget *pa
 
 		return FALSE;
 		}
-	file_data_change_info_new(old_fd->path, new_path, old_fd);
-	if (!rename_file_ext(old_fd))
+	if (!file_data_add_change_info(old_fd, FILEDATA_CHANGE_RENAME, old_fd->path, new_path) ||
+	    !rename_file_ext(old_fd))
 		{
 		gchar *text = g_strdup_printf(_("Failed to rename %s to %s."), old_name, new_name);
 		file_util_warning_dialog(_("Rename failed"), text, GTK_STOCK_DIALOG_ERROR, parent);

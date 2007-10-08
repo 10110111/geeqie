@@ -756,22 +756,27 @@ FileData *file_data_do_change(FileData *fd)
 
 }
 
-FileDataChangeInfo *file_data_change_info_new(const gchar *src, const gchar *dest, FileData *fd)
+gboolean file_data_add_change_info(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest)
 {
-	FileDataChangeInfo *fdci = g_new0(FileDataChangeInfo, 1);
+
+	FileDataChangeInfo *fdci;
+	
+	if (fd->change) return FALSE;
+	
+	fdci = g_new0(FileDataChangeInfo, 1);
+
+	fdci->type = type;
 
 	if (src)
 		fdci->source = g_strdup(src);
+	else
+		fdci->source = g_strdup(fd->path);
+		
 	if (dest)
 		fdci->dest = g_strdup(dest);
 		
-	if (fd)
-		{
-		if (fd->change)
-			file_data_change_info_free(fd->change, NULL);
-		fd->change = fdci;
-		}
-	return fdci;
+	fd->change = fdci;
+	return TRUE;
 }
 
 void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd)

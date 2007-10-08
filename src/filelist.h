@@ -60,7 +60,7 @@ FileData *file_data_ref(FileData *fd);
 void file_data_unref(FileData *fd);
 
 FileData *file_data_do_change(FileData *fd);
-FileDataChangeInfo *file_data_change_info_new(const gchar *src, const gchar *dest, FileData *fd);
+gboolean file_data_add_change_info(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest);
 void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd);
 
 gchar *sidecar_file_data_list_to_string(FileData *fd);

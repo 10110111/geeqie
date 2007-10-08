@@ -68,6 +68,14 @@ typedef enum {
 	SPLIT_QUAD,
 } ImageSplitMode;
 
+typedef enum {
+	FILEDATA_CHANGE_DELETE,
+	FILEDATA_CHANGE_MOVE,
+	FILEDATA_CHANGE_RENAME,
+	FILEDATA_CHANGE_COPY
+} FileDataChangeType;
+
+
 #define MAX_SPLIT_IMAGES 4
 
 typedef struct _ImageLoader ImageLoader;
@@ -329,6 +337,7 @@ struct _ImageWindow
 #define FILEDATA_MARKS_SIZE 10
 
 struct _FileDataChangeInfo {
+	FileDataChangeType type;
 	gchar *source;
 	gchar *dest;
 };
