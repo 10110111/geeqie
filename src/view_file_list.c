@@ -665,27 +665,26 @@ static void vflist_select_image(ViewFileList *vfl, FileData *sel_fd)
 {
 	FileData *read_ahead_fd = NULL;
 	gint row;
+	FileData *cur_fd;
 	if (!sel_fd) return;
+	
+	cur_fd = layout_image_get_fd(vfl->layout);
+	if (sel_fd == cur_fd) return; /* no change */
+	
 	row = g_list_index(vfl->list, sel_fd);
 	// FIXME sidecar data
 
 	if (sel_fd && enable_read_ahead && row >= 0)
 		{
-		FileData *fd;
-		if (row > vflist_index_by_path(vfl, layout_image_get_path(vfl->layout)) &&
+		if (row > g_list_index(vfl->list, cur_fd) &&
 		    row + 1 < vflist_count(vfl, NULL))
 			{
-			fd = vflist_index_get_data(vfl, row + 1);
+			read_ahead_fd = vflist_index_get_data(vfl, row + 1);
 			}
 		else if (row > 0)
 			{
-			fd = vflist_index_get_data(vfl, row - 1);
+			read_ahead_fd = vflist_index_get_data(vfl, row - 1);
 			}
-		else
-			{
-			fd = NULL;
-			}
-		if (fd) read_ahead_fd = fd;
 		}
 
 	layout_image_set_with_ahead(vfl->layout, sel_fd, read_ahead_fd);

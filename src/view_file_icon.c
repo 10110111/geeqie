@@ -370,35 +370,33 @@ static void vficon_send_update(ViewFileIcon *vfi)
 static void vficon_send_layout_select(ViewFileIcon *vfi, IconData *id)
 {
 	FileData *read_ahead_fd = NULL;
-	FileData *fd;
+	FileData *sel_fd;
+	FileData *cur_fd;
 
-	if (!vfi->layout || !id) return;
+	if (!vfi->layout || !id || !id->fd) return;
 
-	fd = id->fd;
-	 
+	sel_fd = id->fd;
+	
+	cur_fd = layout_image_get_fd(vfi->layout);
+	if (sel_fd == cur_fd) return; /* no change */
+	
 	if (enable_read_ahead)
 		{
-		FileData *fd_n;
 		gint row;
 
 		row = g_list_index(vfi->list, id);
-		if (row > vficon_index_by_path(vfi, layout_image_get_path(vfi->layout)) &&
+		if (row > vficon_index_by_fd(vfi, cur_fd) &&
 		    row + 1 < vficon_count(vfi, NULL))
 			{
-			fd_n = vficon_index_get_data(vfi, row + 1);
+			read_ahead_fd = vficon_index_get_data(vfi, row + 1);
 			}
 		else if (row > 0)
 			{
-			fd_n = vficon_index_get_data(vfi, row - 1);
+			read_ahead_fd = vficon_index_get_data(vfi, row - 1);
 			}
-		else
-			{
-			fd_n = NULL;
-			}
-		if (fd_n) read_ahead_fd = fd_n;
 		}
 
-	layout_image_set_with_ahead(vfi->layout, fd, read_ahead_fd);
+	layout_image_set_with_ahead(vfi->layout, sel_fd, read_ahead_fd);
 }
 
 static void vficon_toggle_filenames(ViewFileIcon *vfi)

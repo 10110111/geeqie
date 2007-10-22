@@ -1167,7 +1167,9 @@ void layout_image_set_with_ahead(LayoutWindow *lw, FileData *fd, FileData *read_
 {
 	if (!layout_valid(&lw)) return;
 
-/*	if (path)
+/*
+This should be handled at the caller: in vflist_select_image
+	if (path)
 		{
 		const gchar *old_path;
 
