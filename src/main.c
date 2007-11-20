@@ -1297,6 +1297,8 @@ int main (int argc, char *argv[])
 	keys_load();
 	filter_add_defaults();
 	filter_rebuild();
+	
+	sidecar_ext_add_defaults();
 
 	buf = g_strconcat(homedir(), "/", GQVIEW_RC_DIR, "/accels", NULL);
 	bufl = path_from_utf8(buf);

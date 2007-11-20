@@ -27,6 +27,7 @@
 
 static GList *filter_list = NULL;
 static GList *extension_list = NULL;
+static GList *sidecar_ext_list = NULL;
 
 gint ishidden(const gchar *name)
 {
@@ -403,6 +404,63 @@ GList *path_list_filter(GList *list, gint is_dir_list)
 	return list;
 }
 
+
+/*
+ *-----------------------------------------------------------------------------
+ * sidecar extension list
+ *-----------------------------------------------------------------------------
+ */
+
+static GList *sidecar_ext_get_list(void)
+{
+	return sidecar_ext_list;
+}
+
+void sidecar_ext_parse(const gchar *text)
+{
+	GList *work;
+	gchar *value;
+
+	work = sidecar_ext_list;
+	while (work)
+		{
+		gchar *ext = work->data;
+		work = work->next;
+		g_free(ext);
+		}
+	g_list_free(sidecar_ext_list);
+	sidecar_ext_list = NULL;
+	
+	value = quoted_value(text);
+
+	if (value == NULL) return;
+
+	sidecar_ext_list = filter_to_list(value);
+	
+	g_free(value);
+}
+
+void sidecar_ext_write(FILE *f)
+{
+	GList *work;
+	fprintf(f, "\nsidecar_ext: \"");
+	
+	work = sidecar_ext_list;
+	while (work)
+		{
+		gchar *ext = work->data;
+		work = work->next;
+		fprintf(f, "%s%s", ext, work ? ";" : "");
+		}
+	fprintf(f, "\"\n");
+
+}
+
+void sidecar_ext_add_defaults()
+{
+	sidecar_ext_parse("\".jpg;.cr2;.nef;.crw\"");
+}
+
 /*
  *-----------------------------------------------------------------------------
  * path list recursive
@@ -569,6 +627,9 @@ const gchar *text_from_time(time_t t)
  *-----------------------------------------------------------------------------
  */
 
+FileData *file_data_merge_sidecar_files(FileData *target, FileData *source);
+
+
 static void file_data_set_path(FileData *fd, const gchar *path)
 {
 
@@ -603,15 +664,17 @@ static void file_data_set_path(FileData *fd, const gchar *path)
 		}
 
 	fd->extension = extension_from_path(fd->path);
+	if (fd->extension == NULL) 
+		fd->extension = fd->name + strlen(fd->name);
 }
 
 static GHashTable *file_data_pool = NULL;
 
-FileData *file_data_new(const gchar *path_utf8, struct stat *st)
+static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean check_sidecars)
 {
 	FileData *fd;
 
-	printf("file_data_new: '%s'\n", path_utf8);
+	printf("file_data_new: '%s' %d\n", path_utf8, check_sidecars);
 	
 	if (!file_data_pool)
 		file_data_pool = g_hash_table_new (g_str_hash, g_str_equal);
@@ -637,13 +700,59 @@ FileData *file_data_new(const gchar *path_utf8, struct stat *st)
 	
 	g_hash_table_insert(file_data_pool, fd->original_path, fd);
 	
+	if (check_sidecars && sidecar_file_priority(fd->extension)) 
+		{
+		int i = 0;
+		int base_len = fd->extension - fd->path;
+		GString *fname = g_string_new_len(fd->path, base_len);
+		FileData *parent_fd = NULL;
+		GList *work = sidecar_ext_get_list();
+		while (work) 
+			{
+			/* check for possible sidecar files;
+			   the sidecar files created here are referenced only via fd->sidecar_files or fd->parent,
+			   they have fd->ref set to 0 and file_data unref must chack and free them all together
+			   (using fd->ref would cause loops and leaks)
+			*/
+			   
+			FileData *new_fd;
+			
+			gchar *ext = work->data;
+			work = work->next;
+			
+			if (strcmp(ext, fd->extension) == 0)
+				{
+				new_fd = fd; /* processing the original file */
+				}
+			else
+				{
+				struct stat nst;
+				g_string_truncate(fname, base_len);
+				g_string_append(fname, ext);
+			
+				if (!stat_utf8(fname->str, &nst))
+					continue;
+					 
+				new_fd = file_data_new(fname->str, &nst, FALSE);
+				new_fd->ref--; /* do not use ref here */
+				}
+				
+			if (!parent_fd)
+				parent_fd = new_fd; /* parent is the one with the highest prio, found first */
+			else
+				file_data_merge_sidecar_files(parent_fd, new_fd);
+			
+			}
+		g_string_free(fname, TRUE);
+		}
+	
 	return fd;
 }
 
-FileData *file_data_new_local(const gchar *path, struct stat *st)
+static FileData *file_data_new_local(const gchar *path, struct stat *st, gboolean check_sidecars)
 {
 	gchar *path_utf8 = path_to_utf8(path);
-	FileData *ret = file_data_new(path_utf8, st);
+	FileData *ret = file_data_new(path_utf8, st, check_sidecars);
 	g_free(path_utf8);
 	return ret;
 }
@@ -658,12 +767,12 @@ FileData *file_data_new_simple(const gchar *path_utf8)
 		st.st_mtime = 0;
 		}
 
-	return file_data_new(path_utf8, &st);
+	return file_data_new(path_utf8, &st, TRUE);
 }
 
 FileData *file_data_add_sidecar_file(FileData *target, FileData *sfd)
 {
-	target->sidecar_files = g_list_append(target->sidecar_files, file_data_ref(sfd));
+	target->sidecar_files = g_list_append(target->sidecar_files, sfd);
 	sfd->parent = target;
 	return target;
 }
@@ -687,33 +796,6 @@ FileData *file_data_merge_sidecar_files(FileData *target, FileData *source)
 	return target;
 }
 
-
-void file_data_free(FileData *fd)
-{
-	GList *work;
-
-	g_assert(fd->magick == 0x12345678);
-	g_assert(fd->ref == 0 || fd->ref == 1);
-	
-	g_hash_table_remove(file_data_pool, fd->original_path);
-
-	g_free(fd->path);
-	g_free(fd->original_path);
-	if (fd->pixbuf) g_object_unref(fd->pixbuf);
-
-	work = fd->sidecar_files;
-	while (work)
-		{
-		FileData *sfd = work->data;
-		sfd->parent = NULL;
-		work = work->next;
-		}
-	filelist_free(fd->sidecar_files);
-
-	file_data_change_info_free(NULL, fd);	
-	g_free(fd);
-}
-
 FileData *file_data_ref(FileData *fd)
 {
 	if (fd == NULL) return NULL;
@@ -723,13 +805,67 @@ FileData *file_data_ref(FileData *fd)
 	fd->ref++;
 	return fd;
 }
+
+static void file_data_free(FileData *fd)
+{
+	g_assert(fd->magick == 0x12345678);
+	g_assert(fd->ref == 0);
+	
+	g_hash_table_remove(file_data_pool, fd->original_path);
+
+	g_free(fd->path);
+	g_free(fd->original_path);
+	if (fd->pixbuf) g_object_unref(fd->pixbuf);
+
+
+	g_assert(fd->sidecar_files == NULL); /* sidecar files must be freed before calling this */
+
+	file_data_change_info_free(NULL, fd);	
+	g_free(fd);
+}
+
 void file_data_unref(FileData *fd)
 {
 	if (fd == NULL) return;
 	g_assert(fd->magick == 0x12345678);
+	printf("file_data_unref: '%s'\n", fd->path);
 	fd->ref--;
 	if (fd->ref == 0)
-		file_data_free(fd);
+		{
+		FileData *parent = fd->parent ? fd->parent : fd;
+		
+		GList *work;
+	
+		if (parent->ref > 0)
+			return;
+		
+		work = parent->sidecar_files;
+		while (work)
+			{
+			FileData *sfd = work->data;
+			if (sfd->ref > 0)
+				return;
+			work = work->next;
+			}
+		
+		/* none of parent/children is referenced, we can free everything */
+		
+		printf("file_data_unref: '%s', parent '%s'\n", fd->path, parent->path);
+		
+		work = parent->sidecar_files;
+		while (work)
+			{
+			FileData *sfd = work->data;
+			file_data_free(sfd);
+			work = work->next;
+			}
+		
+		g_list_free(parent->sidecar_files);
+		parent->sidecar_files = NULL;
+		
+		file_data_free(parent);
+		
+		}
 }
 
 /* compare name without extension */
@@ -746,6 +882,7 @@ gint file_data_compare_name_without_ext(FileData *fd1, FileData *fd2)
 
 FileData *file_data_do_change(FileData *fd)
 {
+//FIXME sidecars
 	g_assert(fd->change);
 	g_free(fd->path);
 	g_hash_table_remove(file_data_pool, fd->original_path);
@@ -806,25 +943,23 @@ void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd)
  */
 
 
+
 gint sidecar_file_priority(const gchar *path)
 {
 	const char *extension = extension_from_path(path);
+	int i = 1;
+	GList *work;
+	if (extension == NULL)
+		return 0;
 	
-	printf("prio %s >%s<\n", path, extension);
+	work = sidecar_ext_get_list();
 	
-	if (strcmp(extension, ".jpg") == 0) return 1;
-
-	if (strcmp(extension, ".cr2") == 0) return 1001;
-	if (strcmp(extension, ".crw") == 0) return 1002;
-	if (strcmp(extension, ".nef") == 0) return 1003;
-	if (strcmp(extension, ".raw") == 0) return 1004;
-
-
-	if (strcmp(extension, ".vaw") == 0) return 2001;
-	if (strcmp(extension, ".mp3") == 0) return 2002;
-
-	if (strcmp(extension, ".xmp") == 0) return 3002;
-	
+	while (work) {
+		gchar *ext = work->data;
+		work = work->next;
+		if (strcmp(extension, ext) == 0) return i;
+		i++;
+	}	
 	return 0;
 }
 
@@ -966,42 +1101,17 @@ static gint filelist_read_real(const gchar *path, GList **files, GList **dirs, g
 					    strcmp(name, GQVIEW_CACHE_LOCAL_METADATA) != 0 &&
 					    strcmp(name, THUMB_FOLDER_LOCAL) != 0)
 						{
-						dlist = g_list_prepend(dlist, file_data_new_local(filepath, &ent_sbuf));
+						dlist = g_list_prepend(dlist, file_data_new_local(filepath, &ent_sbuf, FALSE));
 						}
 					}
 				else
 					{
 					if ((files) && filter_name_exists(name))
 						{
-						FileData *fd = file_data_new_local(filepath, &ent_sbuf);
+						FileData *fd = file_data_new_local(filepath, &ent_sbuf, TRUE);
 						
-						GList *same = g_list_find_custom(flist, fd, (GCompareFunc) file_data_compare_name_without_ext);
-						
-						int p1 = 0; 
-						int p2 = 0; 
-						FileData *samefd = NULL;
-						
-						if (same)
-							{
-							samefd = (FileData *) same->data;
-							p1 = sidecar_file_priority(samefd->name);
-							p2 = sidecar_file_priority(fd->name);
-							printf("same %s %s %d %d\n", fd->name, samefd->name, p2, p1);
-							}
-								
-						if (p1 && p2)
-							{
-							if (p1 < p2)
-								{
-								file_data_merge_sidecar_files(samefd, fd);
-								}
-							else 
-								{
-								file_data_merge_sidecar_files(fd, samefd);
-								flist = g_list_delete_link(flist, same);
-								flist = g_list_prepend(flist, fd);
-								}
-							}
+						if (fd->parent)
+							file_data_unref(fd);						
 						else
 							flist = g_list_prepend(flist, fd);
 						}

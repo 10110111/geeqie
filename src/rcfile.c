@@ -304,6 +304,8 @@ void save_options(void)
 	write_bool_option(f, "show_dotfiles", show_dot_files);
 	write_bool_option(f, "disable_filtering", file_filter_disable);
 	filter_write_list(f);
+	
+	sidecar_ext_write(f);
 
 	fprintf(f,"\n##### Color Profiles #####\n\n");
 
@@ -581,6 +583,11 @@ void load_options(void)
 			filter_parse(value_all);
 			}
 
+		if (strcasecmp(option, "sidecar_ext") == 0)
+			{
+			sidecar_ext_parse(value_all);
+			}
+		
 		/* Color Profiles */
 
 		color_profile_enabled = read_bool_option(f, option,

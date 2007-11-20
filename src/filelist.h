@@ -37,6 +37,10 @@ gint filter_name_exists(const gchar *name);
 void filter_write_list(FILE *f);
 void filter_parse(const gchar *text);
 
+void sidecar_ext_parse(const gchar *text);
+void sidecar_ext_write(FILE *f);
+void sidecar_ext_add_defaults();
+
 gint ishidden(const gchar *name);
 
 
@@ -49,13 +53,9 @@ gchar *text_from_size(gint64 size);
 gchar *text_from_size_abrev(gint64 size);
 const gchar *text_from_time(time_t t);
 
-/* this expects a locale encoded path */
-FileData *file_data_new_local(const gchar *path, struct stat *st);
-/* this expects a utf-8 path */
-FileData *file_data_new(const gchar *path_utf8, struct stat *st);
 /* this expects a utf-8 path */
 FileData *file_data_new_simple(const gchar *path_utf8);
-void file_data_free(FileData *fd);
+
 FileData *file_data_ref(FileData *fd);
 void file_data_unref(FileData *fd);
 

@@ -1080,14 +1080,12 @@ static gint vdtree_populate_path_by_iter(ViewDirTree *vdt, GtkTreeIter *iter, gi
 
 			while (target_path[n] != '\0' && target_path[n] != '/') n++;
 			name8 = g_strndup(target_path, n);
-			namel = path_from_utf8(name8);
 
 			if (stat_utf8(name8, &sbuf))
 				{
-				list = g_list_prepend(list, file_data_new_local(namel, &sbuf));
+				list = g_list_prepend(list, file_data_new_simple(name8));
 				}
 
-			g_free(namel);
 			g_free(name8);
 			}
 		}
