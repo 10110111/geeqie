@@ -668,6 +668,7 @@ static void file_data_set_path(FileData *fd, const gchar *path)
 		fd->extension = fd->name + strlen(fd->name);
 }
 
+static void file_data_check_sidecars(FileData *fd);
 static GHashTable *file_data_pool = NULL;
 
 static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean check_sidecars)
@@ -701,53 +702,55 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	g_hash_table_insert(file_data_pool, fd->original_path, fd);
 	
 	if (check_sidecars && sidecar_file_priority(fd->extension)) 
-		{
-		int i = 0;
-		int base_len = fd->extension - fd->path;
-		GString *fname = g_string_new_len(fd->path, base_len);
-		FileData *parent_fd = NULL;
-		GList *work = sidecar_ext_get_list();
-		while (work) 
-			{
-			/* check for possible sidecar files;
-			   the sidecar files created here are referenced only via fd->sidecar_files or fd->parent,
-			   they have fd->ref set to 0 and file_data unref must chack and free them all together
-			   (using fd->ref would cause loops and leaks)
-			*/
-			   
-			FileData *new_fd;
-			
-			gchar *ext = work->data;
-			work = work->next;
-			
-			if (strcmp(ext, fd->extension) == 0)
-				{
-				new_fd = fd; /* processing the original file */
-				}
-			else
-				{
-				struct stat nst;
-				g_string_truncate(fname, base_len);
-				g_string_append(fname, ext);
-			
-				if (!stat_utf8(fname->str, &nst))
-					continue;
-					 
-				new_fd = file_data_new(fname->str, &nst, FALSE);
-				new_fd->ref--; /* do not use ref here */
-				}
-				
-			if (!parent_fd)
-				parent_fd = new_fd; /* parent is the one with the highest prio, found first */
-			else
-				file_data_merge_sidecar_files(parent_fd, new_fd);
-			
-			}
-		g_string_free(fname, TRUE);
-		}
-	
+		file_data_check_sidecars(fd);
 	return fd;
 }
+
+static void file_data_check_sidecars(FileData *fd)
+{
+	int i = 0;
+	int base_len = fd->extension - fd->path;
+	GString *fname = g_string_new_len(fd->path, base_len);
+	FileData *parent_fd = NULL;
+	GList *work = sidecar_ext_get_list();
+	while (work) 
+		{
+		/* check for possible sidecar files;
+		   the sidecar files created here are referenced only via fd->sidecar_files or fd->parent,
+		   they have fd->ref set to 0 and file_data unref must chack and free them all together
+		   (using fd->ref would cause loops and leaks)
+		*/
+		   
+		FileData *new_fd;
+		
+		gchar *ext = work->data;
+		work = work->next;
+		
+		if (strcmp(ext, fd->extension) == 0)
+			{
+			new_fd = fd; /* processing the original file */
+			}
+		else
+			{
+			struct stat nst;
+			g_string_truncate(fname, base_len);
+			g_string_append(fname, ext);
+		
+			if (!stat_utf8(fname->str, &nst))
+				continue;
+				 
+			new_fd = file_data_new(fname->str, &nst, FALSE);
+			new_fd->ref--; /* do not use ref here */
+			}
+			
+		if (!parent_fd)
+			parent_fd = new_fd; /* parent is the one with the highest prio, found first */
+		else
+			file_data_merge_sidecar_files(parent_fd, new_fd);
+		}
+	g_string_free(fname, TRUE);
+}
+
 
 static FileData *file_data_new_local(const gchar *path, struct stat *st, gboolean check_sidecars)
 {
@@ -772,8 +775,9 @@ FileData *file_data_new_simple(const gchar *path_utf8)
 
 FileData *file_data_add_sidecar_file(FileData *target, FileData *sfd)
 {
-	target->sidecar_files = g_list_append(target->sidecar_files, sfd);
 	sfd->parent = target;
+	if(!g_list_find(target->sidecar_files, sfd))
+		target->sidecar_files = g_list_prepend(target->sidecar_files, sfd);
 	return target;
 }
 
@@ -786,11 +790,11 @@ FileData *file_data_merge_sidecar_files(FileData *target, FileData *source)
 	while (work)
 		{
 		FileData *sfd = work->data;
-		sfd->parent = target;
+		file_data_add_sidecar_file(target, sfd);
 		work = work->next;
 		}
 
-	target->sidecar_files = g_list_concat(target->sidecar_files, source->sidecar_files);
+	g_list_free(source->sidecar_files);
 	source->sidecar_files = NULL;
 	
 	return target;
