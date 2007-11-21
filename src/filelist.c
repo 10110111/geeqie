@@ -220,7 +220,7 @@ void filter_add_defaults(void)
 	filter_add_if_missing("pef", "Pentax raw format", ".pef", TRUE);
 }
 
-static GList *filter_to_list(const gchar *extensions)
+GList *filter_to_list(const gchar *extensions)
 {
 	GList *list = NULL;
 	const gchar *p;

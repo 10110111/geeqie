@@ -31,6 +31,7 @@ void filter_add_unique(const gchar *description, const gchar *extensions, gint e
 void filter_add_defaults(void);
 void filter_reset(void);
 void filter_rebuild(void);
+GList *filter_to_list(const gchar *extensions);
 
 gint filter_name_exists(const gchar *name);
 

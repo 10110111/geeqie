@@ -56,16 +56,16 @@ struct _EditorData {
 
 
 static gchar *editor_slot_defaults[GQVIEW_EDITOR_SLOTS * 2] = {
-	N_("The Gimp"), "gimp-remote -n %f",
+	N_("The Gimp"), "gimp-remote -n %{.cr2;.crw;.nef;.raw;*}f",
 	N_("XV"), "xv %f",
 	N_("Xpaint"), "xpaint %f",
+	N_("UFraw"), "ufraw %{.cr2;.crw;.nef;.raw}p",
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
-	NULL, NULL,
-	N_("Rotate jpeg clockwise"), "%vif jpegtran -rotate 90 -copy all -outfile %p_tmp %p; then mv %p_tmp %p;else rm %p_tmp;fi",
-	N_("Rotate jpeg counterclockwise"), "%vif jpegtran -rotate 270 -copy all -outfile %p_tmp %p; then mv %p_tmp %p;else rm %p_tmp;fi",
+	N_("Rotate jpeg clockwise"), "%vif jpegtran -rotate 90 -copy all -outfile %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p; then mv %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p;else rm %{.jpg;.jpeg}p_tmp;fi",
+	N_("Rotate jpeg counterclockwise"), "%vif jpegtran -rotate 270 -copy all -outfile %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p; then mv %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p;else rm %{.jpg;.jpeg}p_tmp;fi",
 	/* special slots */
 #if 1
 	/* for testing */
@@ -273,13 +273,49 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 {
 	GString *string;
 	gchar *pathl;
-	const gchar *p;
+	const gchar *p = NULL;
 
 	string = g_string_new("");
 	
 	if (type == PATH_FILE)
 		{
-		p = fd->path;
+		GList *ext_list = filter_to_list(extensions);
+		GList *work = ext_list;
+		
+		if (!work)
+			p = fd->path;
+		else
+			{
+			while(work)
+				{
+				gchar *ext = work->data;
+				work = work->next;
+				
+				if (strcmp(ext, "*") == 0 || 
+				    strcasecmp(ext, fd->extension) == 0)
+					{
+					p = fd->path;
+					break;
+					}
+				
+				GList *work2 = fd->sidecar_files;
+				
+				while(work2)
+					{
+					FileData *sfd = work2->data;
+					work2 = work2->next;
+					
+					if (strcasecmp(ext, sfd->extension) == 0)
+						{
+						p = sfd->path;
+						break;
+						}
+					}
+				if (p) break;
+				}
+			string_list_free(ext_list);
+			if (!p) return NULL;
+			}
 		}
 	else if (type == PATH_DEST)
 		{
@@ -390,7 +426,7 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 
 			p++;
 			
-			/* for example "%f" or "%{crw,raw,cr2}f" */
+			/* for example "%f" or "%{.crw;.raw;.cr2}f" */
 			if (*p == '{')
 				{
 				p++;
@@ -561,7 +597,7 @@ static gint editor_command_one(const gchar *template, GList *list, EditorData *e
 			{
 			gchar *buf;
 
-			buf = g_strdup_printf(_("Failed to run command:\n%s\n"), command);
+			buf = g_strdup_printf(_("Failed to run command:\n%s\n"), template);
 			editor_verbose_window_fill(ed->vd, buf, strlen(buf));
 			g_free(buf);
 
