@@ -1058,6 +1058,24 @@ GList *filelist_insert_sort(GList *list, FileData *fd, SortType method, gint asc
 }
 
 
+static GList *filelist_filter_out_sidecars(GList *flist)
+{
+	GList *work = flist;
+	GList *flist_filtered = NULL;
+	
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		if (fd->parent) /* remove fd's that are children */
+			file_data_unref(fd);						
+		else
+			flist_filtered = g_list_prepend(flist_filtered, fd);
+		}
+	g_list_free(flist);
+	return flist_filtered;
+}
+
 static gint filelist_read_real(const gchar *path, GList **files, GList **dirs, gint follow_symlinks)
 {
 	DIR *dp;
@@ -1112,12 +1130,7 @@ static gint filelist_read_real(const gchar *path, GList **files, GList **dirs, g
 					{
 					if ((files) && filter_name_exists(name))
 						{
-						FileData *fd = file_data_new_local(filepath, &ent_sbuf, TRUE);
-						
-						if (fd->parent)
-							file_data_unref(fd);						
-						else
-							flist = g_list_prepend(flist, fd);
+						flist = g_list_prepend(flist, file_data_new_local(filepath, &ent_sbuf, TRUE));
 						}
 					}
 				}
@@ -1128,6 +1141,8 @@ static gint filelist_read_real(const gchar *path, GList **files, GList **dirs, g
 	closedir(dp);
 
 	g_free(pathl);
+
+	flist = filelist_filter_out_sidecars(flist);
 
 	if (dirs) *dirs = dlist;
 	if (files) *files = flist;
