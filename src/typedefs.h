@@ -334,7 +334,7 @@ struct _ImageWindow
 	gint delay_flip;
 };
 
-#define FILEDATA_MARKS_SIZE 10
+#define FILEDATA_MARKS_SIZE 6
 
 struct _FileDataChangeInfo {
 	FileDataChangeType type;
