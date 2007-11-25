@@ -369,6 +369,31 @@ static void vflist_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 	vflist_refresh(vfl);
 }
 
+static void vflist_pop_menu_sel_mark_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFileList *vfl = data;
+	vflist_select_marked(vfl, vfl->active_mark);
+}
+
+static void vflist_pop_menu_set_mark_sel_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFileList *vfl = data;
+	vflist_mark_selected(vfl, vfl->active_mark, 1);
+}
+
+static void vflist_pop_menu_res_mark_sel_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFileList *vfl = data;
+	vflist_mark_selected(vfl, vfl->active_mark, 0);
+}
+
+static void vflist_pop_menu_toggle_mark_sel_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFileList *vfl = data;
+	vflist_mark_selected(vfl, vfl->active_mark, -1);
+}
+
+
 static void vflist_popup_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFileList *vfl = data;
@@ -377,7 +402,8 @@ static void vflist_popup_destroy_cb(GtkWidget *widget, gpointer data)
 	vfl->popup = NULL;
 }
 
-static GtkWidget *vflist_pop_menu(ViewFileList *vfl, FileData *fd)
+
+static GtkWidget *vflist_pop_menu(ViewFileList *vfl, FileData *fd, gint col_idx)
 {
 	GtkWidget *menu;
 	GtkWidget *item;
@@ -390,6 +416,36 @@ static GtkWidget *vflist_pop_menu(ViewFileList *vfl, FileData *fd)
 	menu = popup_menu_short_lived();
 	g_signal_connect(G_OBJECT(menu), "destroy",
 			 G_CALLBACK(vflist_popup_destroy_cb), vfl);
+
+	if (col_idx >= FILE_COLUMN_MARKS && col_idx <= FILE_COLUMN_MARKS_LAST)
+		{
+		gint mark = col_idx - FILE_COLUMN_MARKS;
+		gchar *str_set_mark = g_strdup_printf(_("_Set mark %d"), mark + 1);
+		gchar *str_res_mark = g_strdup_printf(_("_Reset mark %d"), mark + 1);
+		gchar *str_toggle_mark = g_strdup_printf(_("_Toggle mark %d"), mark + 1);
+		gchar *str_sel_mark = g_strdup_printf(_("_Select mark %d"), mark + 1);
+		
+		
+		vfl->active_mark = mark;
+		menu_item_add_sensitive(menu, str_set_mark, active,
+                            		G_CALLBACK(vflist_pop_menu_set_mark_sel_cb), vfl);
+       
+		menu_item_add_sensitive(menu, str_res_mark, active,
+                            		G_CALLBACK(vflist_pop_menu_res_mark_sel_cb), vfl);
+       
+		menu_item_add_sensitive(menu, str_toggle_mark, active,
+                            		G_CALLBACK(vflist_pop_menu_toggle_mark_sel_cb), vfl);
+       
+		menu_item_add_sensitive(menu, str_sel_mark, active,
+                            		G_CALLBACK(vflist_pop_menu_sel_mark_cb), vfl);
+       
+		menu_item_add_divider(menu);
+		
+		g_free(str_set_mark);
+		g_free(str_res_mark);
+		g_free(str_toggle_mark);
+		g_free(str_sel_mark);
+		}
 
 	submenu_add_edit(menu, &item, G_CALLBACK(vflist_pop_menu_edit_cb), vfl);
 	gtk_widget_set_sensitive(item, active);
@@ -521,7 +577,7 @@ static gint vflist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 		vfl->click_fd = NULL;
 		}
 
-	vfl->popup = vflist_pop_menu(vfl, vfl->click_fd);
+	vfl->popup = vflist_pop_menu(vfl, vfl->click_fd, 0);
 	gtk_menu_popup(GTK_MENU(vfl->popup), NULL, NULL, vflist_menu_position_cb, vfl, 0, GDK_CURRENT_TIME);
 
 	return TRUE;
@@ -534,7 +590,7 @@ static gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 	GtkTreeIter iter;
 	FileData *fd = NULL;
 	GtkTreeViewColumn *column;
-	gint col_idx;
+	gint col_idx = 0;
     
 	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget), bevent->x, bevent->y,
 					  &tpath, &column, NULL, NULL))
@@ -560,7 +616,7 @@ static gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 
 	if (bevent->button == 3)
 		{
-		vfl->popup = vflist_pop_menu(vfl, vfl->click_fd);
+		vfl->popup = vflist_pop_menu(vfl, vfl->click_fd, col_idx);
 		gtk_menu_popup(GTK_MENU(vfl->popup), NULL, NULL, NULL, NULL,
 				bevent->button, bevent->time);
 		return TRUE;
@@ -1366,6 +1422,67 @@ void vflist_select_by_fd(ViewFileList *vfl, FileData *fd)
 		}
 }
 
+void vflist_select_marked(ViewFileList *vfl, gint mark)
+{
+	GtkTreeModel *store;
+	GtkTreeIter iter;
+	GtkTreeSelection *selection;
+	gint valid;
+	
+	g_assert(mark >= 0 && mark < FILEDATA_MARKS_SIZE);
+
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vfl->listview));
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vfl->listview));
+	gtk_tree_selection_unselect_all(selection);
+	
+	valid = gtk_tree_model_get_iter_first(store, &iter);
+	while (valid)
+		{
+		FileData *fd;
+		gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, FILE_COLUMN_POINTER, &fd, -1);
+		
+		if (fd->marks[mark])
+			gtk_tree_selection_select_iter(selection, &iter);
+
+		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter);
+		}
+
+}
+
+void vflist_mark_selected(ViewFileList *vfl, gint mark, gint value)
+{
+	GtkTreeModel *store;
+	GtkTreeSelection *selection;
+	GList *slist;
+	GList *work;
+
+	g_assert(mark >= 0 && mark < FILEDATA_MARKS_SIZE);
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vfl->listview));
+	slist = gtk_tree_selection_get_selected_rows(selection, &store);
+	work = slist;
+	while (work)
+		{
+		GtkTreePath *tpath = work->data;
+		FileData *fd;
+		GtkTreeIter iter;
+
+		gtk_tree_model_get_iter(store, &iter, tpath);
+		gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &fd, -1);
+		
+		if (value == -1)
+			fd->marks[mark] = !fd->marks[mark];
+		else
+			fd->marks[mark] = value;
+			
+		gtk_tree_store_set(GTK_TREE_STORE(store), &iter, FILE_COLUMN_MARKS + mark, fd->marks[mark], -1); 
+
+		work = work->next;
+		}
+	g_list_foreach(slist, (GFunc)gtk_tree_path_free, NULL);
+	g_list_free(slist);
+}
+
 /*
  *-----------------------------------------------------------------------------
  * core (population)
@@ -1643,7 +1760,7 @@ static void vflist_listview_mark_toggled(GtkCellRendererToggle *cell, gchar *pat
 	g_assert(col_idx >= FILE_COLUMN_MARKS && col_idx <= FILE_COLUMN_MARKS_LAST);
     
 	gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, FILE_COLUMN_POINTER, &fd, col_idx, &mark, -1);
-	mark ^= 1;
+	mark = !mark;
 	fd->marks[col_idx - FILE_COLUMN_MARKS] = mark;
         
 	gtk_tree_store_set(store, &iter, col_idx, mark, -1);

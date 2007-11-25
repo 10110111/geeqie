@@ -547,6 +547,7 @@ struct _ViewFileList
 
 	gint thumbs_enabled;
 	gint marks_enabled;
+	gint active_mark;
     
 	/* thumb updates */
 	gint thumbs_running;
