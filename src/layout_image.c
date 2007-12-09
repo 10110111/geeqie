@@ -1708,7 +1708,13 @@ void layout_image_activate(LayoutWindow *lw, gint i)
 
 	image_attach_window(lw->image, lw->window, NULL, "GQview", FALSE);
 
-	image_select(lw->split_images[i], TRUE);
+	/* do not hilight selected image in SPLIT_NONE */
+	/* maybe the image should be selected always and hilight should be controled by
+	   another image option */
+	if (lw->split_mode != SPLIT_NONE)
+		image_select(lw->split_images[i], TRUE);
+	else
+		image_select(lw->split_images[i], FALSE);
 
 	fd = image_get_fd(lw->image);
 
@@ -1724,6 +1730,8 @@ GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
 {
 	gint i;
 	
+	lw->split_mode = SPLIT_NONE;
+
 	if (!lw->split_images[0])
 		{
 		layout_image_new(lw, 0);
@@ -1738,13 +1746,8 @@ GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
 			lw->split_images[i] = NULL;
 			}
 		}
-		
-        if (!lw->image || lw->active_split_image != 0)
-		{
-		layout_image_activate(lw, 0);
-		}
-	
-	lw->split_mode = SPLIT_NONE;
+
+	layout_image_activate(lw, 0);
 	
 	lw->split_image_widget = lw->split_images[0]->widget;
 			
@@ -1756,11 +1759,12 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 {
 	GtkWidget *paned;
 	gint i;
+
+	lw->split_mode = horizontal ? SPLIT_HOR : SPLIT_VERT;
 	
 	if (!lw->split_images[0])
 		{
 		layout_image_new(lw, 0);
-		layout_image_activate(lw, 0);
 		}
 
 	if (!lw->split_images[1])
@@ -1770,6 +1774,7 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 			image_change_fd(lw->split_images[1], 
 				image_get_fd(lw->image), image_zoom_get_real(lw->image));
 		layout_image_deactivate(lw, 1);
+		layout_image_activate(lw, 0);
 		}
 
 	
@@ -1799,7 +1804,6 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 	gtk_widget_show (lw->split_images[1]->widget);
 	
 
-	lw->split_mode = horizontal ? SPLIT_HOR : SPLIT_VERT;
 	lw->split_image_widget = paned;
 			
 	return lw->split_image_widget;
@@ -1813,9 +1817,15 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 	GtkWidget *vpaned2;
 	gint i;
 	
+	lw->split_mode = SPLIT_QUAD;
+
 	if (!lw->split_images[0])
 		{
 		layout_image_new(lw, 0);
+		}
+
+	if (!lw->split_images[1])
+		{
 		layout_image_activate(lw, 0);
 		}
 
@@ -1863,7 +1873,6 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 	gtk_widget_show (vpaned2);
 	
 
-	lw->split_mode = SPLIT_QUAD;
 	lw->split_image_widget = hpaned;
 			
 	return lw->split_image_widget;
