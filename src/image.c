@@ -1673,16 +1673,13 @@ void image_select(ImageWindow *imd, gboolean select)
 {
 	if (imd->has_frame)
 		{
-		if (select)
+		if (select) 
 			{
-			gtk_frame_set_shadow_type(GTK_FRAME(imd->inner_frame), GTK_SHADOW_IN);
-			gtk_frame_set_shadow_type(GTK_FRAME(imd->widget), GTK_SHADOW_OUT);
+			gtk_widget_set_state(imd->inner_frame, GTK_STATE_SELECTED);
+			gtk_widget_set_state(imd->pr, GTK_STATE_NORMAL); /* do not propagate */
 			}
 		else
-			{
-			gtk_frame_set_shadow_type(GTK_FRAME(imd->inner_frame), GTK_SHADOW_NONE);
-			gtk_frame_set_shadow_type(GTK_FRAME(imd->widget), GTK_SHADOW_IN);
-			}
+			gtk_widget_set_state(imd->inner_frame, GTK_STATE_NORMAL);
 		}
 }
 
@@ -1754,6 +1751,23 @@ static void image_destroy_cb(GtkObject *widget, gpointer data)
 	image_free(imd);
 }
 
+gboolean selectable_frame_expose_cb (GtkWidget *widget, GdkEventExpose *event, gpointer data)
+{
+	gtk_paint_flat_box(widget->style,
+                           widget->window,
+                    	   widget->state,
+			   GTK_FRAME (widget)->shadow_type,
+                           NULL,
+                           widget,
+                           NULL,
+		    	   widget->allocation.x, widget->allocation.y, 
+		    	   widget->allocation.width, widget->allocation.height); 
+ 
+ 
+	return FALSE;
+}
+
+
 ImageWindow *image_new(gint frame)
 {
 	ImageWindow *imd;
@@ -1816,6 +1830,11 @@ ImageWindow *image_new(gint frame)
 
 		gtk_widget_show(imd->inner_frame);
 		gtk_widget_show(imd->pr);
+		g_signal_connect (G_OBJECT (imd->inner_frame), "expose_event",  
+                    G_CALLBACK (selectable_frame_expose_cb), NULL);
+
+//		g_signal_connect (G_OBJECT (imd->widget), "expose_event",  
+//                    G_CALLBACK (selectable_frame_expose_cb), NULL);
 
 		GTK_WIDGET_SET_FLAGS(imd->widget, GTK_CAN_FOCUS);
 		g_signal_connect(G_OBJECT(imd->widget), "focus_in_event",
