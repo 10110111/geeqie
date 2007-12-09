@@ -1771,8 +1771,13 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 		{
 		layout_image_new(lw, 1);
 		if (lw->image)
+			{
+			gdouble sx, sy;
 			image_change_fd(lw->split_images[1], 
-				image_get_fd(lw->image), image_zoom_get_real(lw->image));
+				image_get_fd(lw->image), image_zoom_get(lw->image));
+			image_get_scroll_center(lw->image, &sx, &sy);
+			image_set_scroll_center(lw->split_images[1], sx, sy);
+			}
 		layout_image_deactivate(lw, 1);
 		layout_image_activate(lw, 0);
 		}
@@ -1834,8 +1839,13 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 			{
 			layout_image_new(lw, i);
 			if (lw->image)
+				{
+				gdouble sx, sy;
 				image_change_fd(lw->split_images[i], 
-					image_get_fd(lw->image), image_zoom_get_real(lw->image));
+					image_get_fd(lw->image), image_zoom_get(lw->image));
+				image_get_scroll_center(lw->image, &sx, &sy);
+				image_set_scroll_center(lw->split_images[i], sx, sy);
+				}
 			layout_image_deactivate(lw, i);
 			}
 
