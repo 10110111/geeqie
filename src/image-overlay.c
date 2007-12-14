@@ -187,21 +187,21 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	g_free(name_escaped);
 
 	{
+		GString *buf = g_string_sized_new(FILEDATA_MARKS_SIZE * 2);
+		FileData *fd = image_get_fd(imd);
         
-        GString *buf = g_string_sized_new(FILEDATA_MARKS_SIZE * 2);
-        
-        for (i=0; i < FILEDATA_MARKS_SIZE; i++) {
-            
-            g_string_append_printf(buf, " %c", 'a'+i);
-        }
-        text2 = g_strdup_printf("%s\n%s", text, buf->str);
-        
-    }
+		for (i=0; i < FILEDATA_MARKS_SIZE; i++) 
+			{
+			
+			g_string_append_printf(buf, fd->marks[i] ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + i);
+    			}
+    		text2 = g_strdup_printf("%s\n%s", text, buf->str);
+	}
         
 	layout = gtk_widget_create_pango_layout(imd->pr, NULL);
 	pango_layout_set_markup(layout, text2, -1);
 	g_free(text2);
-    g_free(text);
+	g_free(text);
     
 	pango_layout_get_pixel_size(layout, &width, &height);
 
