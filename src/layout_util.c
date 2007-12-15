@@ -489,6 +489,29 @@ static void layout_menu_zoom_fit_cb(GtkAction *action, gpointer data)
 	layout_image_zoom_set(lw, 0.0);
 }
 
+static void layout_menu_split_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
+{
+	LayoutWindow *lw = data;
+	ImageSplitMode mode = gtk_radio_action_get_current_value(action);
+	
+	if (mode == lw->split_mode) mode = 0; /* toggle back */
+
+	layout_split_change(lw, mode);
+}
+
+static void layout_menu_connect_scroll_cb(GtkToggleAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	lw->connect_scroll = gtk_toggle_action_get_active(action);
+}
+
+static void layout_menu_connect_zoom_cb(GtkToggleAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	lw->connect_zoom = gtk_toggle_action_get_active(action);
+}
+
+
 static void layout_menu_thumb_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -785,6 +808,7 @@ static GtkActionEntry menu_entries[] = {
   { "EditMenu",		NULL,		N_("_Edit") },
   { "AdjustMenu",	NULL,		N_("_Adjust") },
   { "ViewMenu",		NULL,		N_("_View") },
+  { "SplitMenu",	NULL,		N_("_Split") },
   { "HelpMenu",		NULL,		N_("_Help") },
 
   { "NewWindow",	GTK_STOCK_NEW,	N_("New _window"),	NULL,		NULL,	CB(layout_menu_new_window_cb) },
@@ -830,6 +854,9 @@ static GtkActionEntry menu_entries[] = {
   { "ZoomOut",	GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),	"minus",	NULL,	CB(layout_menu_zoom_out_cb) },
   { "Zoom100",	GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),	"Z",		NULL,	CB(layout_menu_zoom_1_1_cb) },
   { "ZoomFit",	GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),	"X",		NULL,	CB(layout_menu_zoom_fit_cb) },
+
+
+
   { "FullScreen",	NULL,		N_("F_ull screen"),	"F",		NULL,	CB(layout_menu_fullscreen_cb) },
   { "HideTools",	NULL,		N_("_Hide file list"),	"<control>H",	NULL,	CB(layout_menu_hide_cb) },
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb) },
@@ -843,18 +870,27 @@ static GtkActionEntry menu_entries[] = {
 
 static GtkToggleActionEntry menu_toggle_entries[] = {
   { "Thumbnails",	NULL,		N_("_Thumbnails"),	"T",		NULL,	CB(layout_menu_thumb_cb) },
-  { "Marks",        NULL,		N_("_Marks"),	"M",		NULL,	CB(layout_menu_marks_cb) },  
+  { "Marks",        	NULL,		N_("_Marks"),		"M",		NULL,	CB(layout_menu_marks_cb) },  
   { "FolderTree",	NULL,		N_("Tr_ee"),		"<control>T",	NULL,	CB(layout_menu_tree_cb) },
   { "FloatTools",	NULL,		N_("_Float file list"),	"L",		NULL,	CB(layout_menu_float_cb) },
   { "HideToolbar",	NULL,		N_("Hide tool_bar"),	NULL,		NULL,	CB(layout_menu_toolbar_cb) },
   { "SBarKeywords",	NULL,		N_("_Keywords"),	"<control>K",	NULL,	CB(layout_menu_bar_info_cb) },
   { "SBarExif",		NULL,		N_("E_xif data"),	"<control>E",	NULL,	CB(layout_menu_bar_exif_cb) },
-  { "SBarSort",		NULL,		N_("Sort _manager"),	"<control>S",	NULL,	CB(layout_menu_bar_sort_cb) }
+  { "SBarSort",		NULL,		N_("Sort _manager"),	"<control>S",	NULL,	CB(layout_menu_bar_sort_cb) },
+  { "ConnectScroll",	NULL,		N_("Connected scroll"),	"<control>U",	NULL,	CB(layout_menu_connect_scroll_cb) },
+  { "ConnectZoom",	NULL,		N_("Connected zoom"),	"<control>Y",	NULL,	CB(layout_menu_connect_zoom_cb) }
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
   { "ViewList",		NULL,		N_("_List"),		"<control>L",	NULL,	0 },
   { "ViewIcons",	NULL,		N_("I_cons"),		"<control>I",	NULL,	1 }
+};
+
+static GtkRadioActionEntry menu_split_radio_entries[] = {
+  { "SplitHorizontal",	NULL,		N_("Horizontal"),	"E",		NULL,	SPLIT_HOR },
+  { "SplitVertical",	NULL,		N_("Vertical"),		"U",		NULL,	SPLIT_VERT },
+  { "SplitQuad",	NULL,		N_("Quad"),		"Q",		NULL,	SPLIT_QUAD },
+  { "SplitSingle",	NULL,		N_("Single"),		"Y",		NULL,	SPLIT_NONE }
 };
 
 #undef CB
@@ -920,6 +956,15 @@ static const char *menu_ui_description =
 "      <menuitem action='Zoom100'/>"
 "      <menuitem action='ZoomFit'/>"
 "      <separator/>"
+"      <menu action='SplitMenu'>"
+"        <menuitem action='SplitHorizontal'/>"
+"        <menuitem action='SplitVertical'/>"
+"        <menuitem action='SplitQuad'/>"
+"        <menuitem action='SplitSingle'/>"
+"      </menu>"
+"      <menuitem action='ConnectScroll'/>"
+"      <menuitem action='ConnectZoom'/>"
+"      <separator/>"
 "      <menuitem action='Thumbnails'/>"
 "      <menuitem action='Marks'/>"
 "      <menuitem action='ViewList'/>"
@@ -972,6 +1017,9 @@ void layout_actions_setup(LayoutWindow *lw)
 	gtk_action_group_add_radio_actions(lw->action_group,
 					   menu_radio_entries, G_N_ELEMENTS(menu_radio_entries),
 					   0, G_CALLBACK(layout_menu_list_cb), lw);
+	gtk_action_group_add_radio_actions(lw->action_group,
+					   menu_split_radio_entries, G_N_ELEMENTS(menu_split_radio_entries),
+					   0, G_CALLBACK(layout_menu_split_cb), lw);
 
 	lw->ui_manager = gtk_ui_manager_new();
 	gtk_ui_manager_set_add_tearoffs(lw->ui_manager, TRUE);

@@ -703,43 +703,6 @@ static void li_pop_menu_hide_cb(GtkWidget *widget, gpointer data)
 	layout_tools_hide_toggle(lw);
 }
 
-static void li_pop_menu_split_none_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-	layout_split_change(lw, SPLIT_NONE);
-}
-
-static void li_pop_menu_split_hor_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-	layout_split_change(lw, SPLIT_HOR);
-}
-
-static void li_pop_menu_split_vert_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-	layout_split_change(lw, SPLIT_VERT);
-}
-
-static void li_pop_menu_split_quad_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-	layout_split_change(lw, SPLIT_QUAD);
-}
-
-static void li_pop_menu_connect_scroll_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-	lw->connect_scroll = !lw->connect_scroll;
-}
-
-static void li_pop_menu_connect_zoom_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-	lw->connect_zoom = !lw->connect_zoom;
-}
-
-
 static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 {
 	GtkWidget *menu;
@@ -758,18 +721,6 @@ static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 	menu_item_add_stock(menu, _("Zoom _1:1"), GTK_STOCK_ZOOM_100, G_CALLBACK(li_pop_menu_zoom_1_1_cb), lw);
 	menu_item_add_stock(menu, _("Fit image to _window"), GTK_STOCK_ZOOM_FIT, G_CALLBACK(li_pop_menu_zoom_fit_cb), lw);
 	menu_item_add_divider(menu);
-	if (!fullscreen)
-		{
-		menu_item_add(menu, _("No split"), G_CALLBACK(li_pop_menu_split_none_cb), lw);
-		menu_item_add(menu, _("Split horizontaly"), G_CALLBACK(li_pop_menu_split_hor_cb), lw);
-		menu_item_add(menu, _("Split verticaly"), G_CALLBACK(li_pop_menu_split_vert_cb), lw);
-		menu_item_add(menu, _("Split quad"), G_CALLBACK(li_pop_menu_split_quad_cb), lw);
-		menu_item_add_check(menu, _("Connected scroll"), lw->connect_scroll,
-				   G_CALLBACK(li_pop_menu_connect_scroll_cb), lw);
-		menu_item_add_check(menu, _("Connected zoom"), lw->connect_zoom,
-				   G_CALLBACK(li_pop_menu_connect_zoom_cb), lw);
-		menu_item_add_divider(menu);
-		}
 
 	submenu = submenu_add_edit(menu, &item, G_CALLBACK(li_pop_menu_edit_cb), lw);
 	if (!path) gtk_widget_set_sensitive(item, FALSE);
@@ -1797,10 +1748,11 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 		layout_image_activate(lw, 0);
 		}
 
+	/* horizontal split means vpaned and vice versa */
 	if (horizontal)
-		paned = gtk_hpaned_new ();
-	else
 		paned = gtk_vpaned_new ();
+	else
+		paned = gtk_hpaned_new ();
 
 	gtk_paned_pack1 (GTK_PANED (paned), lw->split_images[0]->widget, TRUE, TRUE);
 	gtk_paned_pack2 (GTK_PANED (paned), lw->split_images[1]->widget, TRUE, TRUE);
