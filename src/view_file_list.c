@@ -109,6 +109,28 @@ static void vflist_move_cursor(ViewFileList *vfl, GtkTreeIter *iter)
 	gtk_tree_path_free(tpath);
 }
 
+
+static gint vflist_column_idx(ViewFileList *vfl, gint store_idx)
+{
+	GList *columns, *work;
+	gint i = 0;
+
+	columns = gtk_tree_view_get_columns(GTK_TREE_VIEW(vfl->listview));
+	work = columns;
+	while (work)
+		{
+		GtkTreeViewColumn *column = work->data;
+		if (store_idx == GPOINTER_TO_INT(g_object_get_data (G_OBJECT(column), "column_store_idx")))
+			break;
+		work = work->next;
+		i++;
+		}
+    
+	g_list_free(columns);
+	return i;
+}
+
+
 /*
  *-----------------------------------------------------------------------------
  * dnd
@@ -286,7 +308,7 @@ static void vflist_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 
 			tpath = gtk_tree_model_get_path(store, &iter);
 			tree_edit_by_path(GTK_TREE_VIEW(vfl->listview), tpath,
-					  FILE_COLUMN_NAME -1, vfl->click_fd->name,
+					  vflist_column_idx(vfl, FILE_COLUMN_NAME), vfl->click_fd->name,
 					  vflist_row_rename_cb, vfl);
 			gtk_tree_path_free(tpath);
 			}
