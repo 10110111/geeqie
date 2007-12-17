@@ -130,14 +130,6 @@ static gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 			stop_signal = TRUE;
 			switch (event->keyval)
 				{
-				case GDK_BackSpace:
-				case 'B': case 'b':
-					layout_image_prev(lw);
-					break;
-				case GDK_space:
-				case 'N': case 'n':
-					layout_image_next(lw);
-					break;
 				case GDK_Menu:
 					layout_image_menu_popup(lw);
 					break;
@@ -164,16 +156,7 @@ static gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 
 	if (event->state & GDK_CONTROL_MASK)
 		{
-		stop_signal = TRUE;
-		switch (event->keyval)
-			{
-			case 'v' : case 'V':
-				view_window_new(layout_image_get_fd(lw));
-				break;
-			default:
-				stop_signal = FALSE;
-				break;
-			}
+		stop_signal = FALSE;
 		}
 	else
 		{
@@ -190,44 +173,13 @@ static gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 				layout_image_zoom_set(lw, 0.0);
 				break;
 			case GDK_KP_Divide:
-			case '1':
 				layout_image_zoom_set(lw, 1.0);
-				break;
-			case '2':
-				layout_image_zoom_set(lw, 2.0);
-				break;
-			case '3':
-				layout_image_zoom_set(lw, 3.0);
-				break;
-			case '4':
-				layout_image_zoom_set(lw, 4.0);
-				break;
-			case '7':
-				layout_image_zoom_set(lw, -4.0);
-				break;
-			case '8':
-				layout_image_zoom_set(lw, -3.0);
-				break;
-			case '9':
-				layout_image_zoom_set(lw, -2.0);
-				break;
-			case 'W': case 'w':
-				layout_image_zoom_set_fill_geometry(lw, FALSE);
-				break;
-			case 'H': case 'h':
-				layout_image_zoom_set_fill_geometry(lw, TRUE);
 				break;
 			case GDK_Page_Up: case GDK_KP_Page_Up:
 				layout_image_prev(lw);
 				break;
 			case GDK_Page_Down: case GDK_KP_Page_Down:
 				layout_image_next(lw);
-				break;
-			case GDK_Home: case GDK_KP_Home:
-				layout_image_first(lw);
-				break;
-			case GDK_End: case GDK_KP_End:
-				layout_image_last(lw);
 				break;
 			case GDK_Delete: case GDK_KP_Delete:
 				if (enable_delete_key)
@@ -254,9 +206,6 @@ static gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 			case 'V': case 'v':
 			case GDK_F11:
 				layout_image_full_screen_toggle(lw);
-				break;
-			case 'I': case 'i':
-				layout_image_overlay_toggle(lw);
 				break;
 			default:
 				stop_signal = FALSE;
@@ -489,6 +438,62 @@ static void layout_menu_zoom_fit_cb(GtkAction *action, gpointer data)
 	layout_image_zoom_set(lw, 0.0);
 }
 
+static void layout_menu_zoom_fit_hor_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set_fill_geometry(lw, TRUE);
+}
+
+static void layout_menu_zoom_fit_vert_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set_fill_geometry(lw, FALSE);
+}
+
+static void layout_menu_zoom_2_1_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set(lw, 2.0);
+}
+
+static void layout_menu_zoom_3_1_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set(lw, 3.0);
+}
+static void layout_menu_zoom_4_1_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set(lw, 4.0);
+}
+
+static void layout_menu_zoom_1_2_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set(lw, -2.0);
+}
+
+static void layout_menu_zoom_1_3_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set(lw, -3.0);
+}
+
+static void layout_menu_zoom_1_4_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set(lw, -4.0);
+}
+
+
 static void layout_menu_split_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -540,11 +545,25 @@ static void layout_menu_tree_cb(GtkToggleAction *action, gpointer data)
 	layout_views_set(lw, gtk_toggle_action_get_active(action), lw->icon_view);
 }
 
+static void layout_menu_view_in_new_window_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	view_window_new(layout_image_get_fd(lw));
+}
+
 static void layout_menu_fullscreen_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
 	layout_image_full_screen_toggle(lw);
+}
+
+static void layout_menu_overlay_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_overlay_toggle(lw);
 }
 
 static void layout_menu_refresh_cb(GtkAction *action, gpointer data)
@@ -637,6 +656,37 @@ static void layout_menu_about_cb(GtkAction *action, gpointer data)
 {
 	show_about_window();
 }
+
+/*
+ *-----------------------------------------------------------------------------
+ * go menu
+ *-----------------------------------------------------------------------------
+ */ 
+
+static void layout_menu_image_first_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	layout_image_first(lw);
+}
+
+static void layout_menu_image_prev_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	layout_image_prev(lw);
+}
+
+static void layout_menu_image_next_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	layout_image_next(lw);
+}
+
+static void layout_menu_image_last_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	layout_image_last(lw);
+}
+
 
 /*
  *-----------------------------------------------------------------------------
@@ -805,11 +855,19 @@ void layout_recent_add_path(const gchar *path)
 
 static GtkActionEntry menu_entries[] = {
   { "FileMenu",		NULL,		N_("_File") },
+  { "GoMenu",		NULL,		N_("_Go") },
   { "EditMenu",		NULL,		N_("_Edit") },
   { "AdjustMenu",	NULL,		N_("_Adjust") },
   { "ViewMenu",		NULL,		N_("_View") },
+  { "ZoomMenu",		NULL,		N_("_Zoom") },
   { "SplitMenu",	NULL,		N_("_Split") },
   { "HelpMenu",		NULL,		N_("_Help") },
+
+  { "FirstImage",	GTK_STOCK_GOTO_TOP,	N_("_First Image"),	"Home",		NULL,	CB(layout_menu_image_first_cb) },
+  { "PrevImage",	GTK_STOCK_GO_UP,   	N_("_Previous Image"),	"BackSpace",	NULL,	CB(layout_menu_image_prev_cb) },
+  { "NextImage",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),	"space",	NULL,	CB(layout_menu_image_next_cb) },
+  { "LastImage",	GTK_STOCK_GOTO_BOTTOM,	N_("_Last Image"),	"End",		NULL,	CB(layout_menu_image_last_cb) },
+
 
   { "NewWindow",	GTK_STOCK_NEW,	N_("New _window"),	NULL,		NULL,	CB(layout_menu_new_window_cb) },
   { "NewCollection",	GTK_STOCK_INDEX,N_("_New collection"),	"C",		NULL,	CB(layout_menu_new_cb) },
@@ -854,10 +912,20 @@ static GtkActionEntry menu_entries[] = {
   { "ZoomOut",	GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),	"minus",	NULL,	CB(layout_menu_zoom_out_cb) },
   { "Zoom100",	GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),	"Z",		NULL,	CB(layout_menu_zoom_1_1_cb) },
   { "ZoomFit",	GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),	"X",		NULL,	CB(layout_menu_zoom_fit_cb) },
+  { "ZoomFillHor",	NULL,		N_("Fit _Horizontally"),"H",		NULL,	CB(layout_menu_zoom_fit_hor_cb) },
+  { "ZoomFillVert",	NULL,		N_("Fit _Vorizontally"),"W",		NULL,	CB(layout_menu_zoom_fit_vert_cb) },
+  { "Zoom200",	        NULL,		N_("Zoom _2:1"),	NULL,		NULL,	CB(layout_menu_zoom_2_1_cb) },
+  { "Zoom300",	        NULL,		N_("Zoom _3:1"),	NULL,		NULL,	CB(layout_menu_zoom_3_1_cb) },
+  { "Zoom400",		NULL,		N_("Zoom _4:1"),	NULL,		NULL,	CB(layout_menu_zoom_4_1_cb) },
+  { "Zoom50",		NULL,		N_("Zoom 1:2"),		NULL,		NULL,	CB(layout_menu_zoom_1_2_cb) },
+  { "Zoom33",		NULL,		N_("Zoom 1:3"),		NULL,		NULL,	CB(layout_menu_zoom_1_3_cb) },
+  { "Zoom25",		NULL,		N_("Zoom 1:4"),		NULL,		NULL,	CB(layout_menu_zoom_1_4_cb) },
 
 
+  { "ViewInNewWindow",	NULL,		N_("_View in new window"),	"<control>V",		NULL,	CB(layout_menu_view_in_new_window_cb) },
 
   { "FullScreen",	NULL,		N_("F_ull screen"),	"F",		NULL,	CB(layout_menu_fullscreen_cb) },
+  { "ImageOverlay",	NULL,		N_("_Image Overlay"),	"I",		NULL,	CB(layout_menu_overlay_cb) },
   { "HideTools",	NULL,		N_("_Hide file list"),	"<control>H",	NULL,	CB(layout_menu_hide_cb) },
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb) },
   { "Refresh",	GTK_STOCK_REFRESH,	N_("_Refresh"),		"R",		NULL,	CB(layout_menu_refresh_cb) },
@@ -919,6 +987,12 @@ static const char *menu_ui_description =
 "      <menuitem action='CloseWindow'/>"
 "      <menuitem action='Quit'/>"
 "    </menu>"
+"    <menu action='GoMenu'>"
+"      <menuitem action='FirstImage'/>"
+"      <menuitem action='PrevImage'/>"
+"      <menuitem action='NextImage'/>"
+"      <menuitem action='LastImage'/>"
+"    </menu>"
 "    <menu action='EditMenu'>"
 "      <menuitem action='Editor0'/>"
 "      <menuitem action='Editor1'/>"
@@ -950,11 +1024,22 @@ static const char *menu_ui_description =
 "      <menuitem action='Wallpaper'/>"
 "    </menu>"
 "    <menu action='ViewMenu'>"
+"      <menuitem action='ViewInNewWindow'/>"
 "      <separator/>"
-"      <menuitem action='ZoomIn'/>"
-"      <menuitem action='ZoomOut'/>"
-"      <menuitem action='Zoom100'/>"
-"      <menuitem action='ZoomFit'/>"
+"      <menu action='ZoomMenu'>"
+"        <menuitem action='ZoomIn'/>"
+"        <menuitem action='ZoomOut'/>"
+"        <menuitem action='ZoomFit'/>"
+"        <menuitem action='ZoomFillHor'/>"
+"        <menuitem action='ZoomFillVert'/>"
+"        <menuitem action='Zoom100'/>"
+"        <menuitem action='Zoom200'/>"
+"        <menuitem action='Zoom300'/>"
+"        <menuitem action='Zoom400'/>"
+"        <menuitem action='Zoom50'/>"
+"        <menuitem action='Zoom33'/>"
+"        <menuitem action='Zoom25'/>"
+"      </menu>"
 "      <separator/>"
 "      <menu action='SplitMenu'>"
 "        <menuitem action='SplitHorizontal'/>"
@@ -965,12 +1050,14 @@ static const char *menu_ui_description =
 "      <menuitem action='ConnectScroll'/>"
 "      <menuitem action='ConnectZoom'/>"
 "      <separator/>"
-"      <menuitem action='Thumbnails'/>"
 "      <menuitem action='Marks'/>"
+"      <separator/>"
+"      <menuitem action='Thumbnails'/>"
 "      <menuitem action='ViewList'/>"
 "      <menuitem action='ViewIcons'/>"
 "      <separator/>"
 "      <menuitem action='FolderTree'/>"
+"      <menuitem action='ImageOverlay'/>"
 "      <menuitem action='FullScreen'/>"
 "      <separator/>"
 "      <menuitem action='FloatTools'/>"
