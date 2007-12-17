@@ -257,7 +257,6 @@ struct _ImageWindow
 	GtkWidget *widget;	/* use this to add it and show it */
 	GtkWidget *pr;
 	GtkWidget *frame;
-	GtkWidget *inner_frame;
 
 	FileData *image_fd;
 
