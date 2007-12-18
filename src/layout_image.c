@@ -87,6 +87,10 @@ static void layout_image_full_screen_menu_popup(LayoutWindow *lw)
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, layout_image_fullscreen_menu_pos_cb, lw, 0, GDK_CURRENT_TIME);
 }
 
+#if 0
+/* this is handled by layout_key_press_cb */
+
+
 static gint layout_image_full_screen_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -322,6 +326,8 @@ static gint layout_image_full_screen_key_press_cb(GtkWidget *widget, GdkEventKey
 	return stop_signal;
 }
 
+#endif
+
 static void layout_image_full_screen_stop_func(FullScreenData *fs, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -357,8 +363,9 @@ void layout_image_full_screen_start(LayoutWindow *lw)
 	layout_image_set_buttons(lw);
 
 	g_signal_connect(G_OBJECT(lw->full_screen->window), "key_press_event",
-			 G_CALLBACK(layout_image_full_screen_key_press_cb), lw);
+			 G_CALLBACK(layout_key_press_cb), lw);
 
+	layout_actions_add_window(lw, lw->full_screen->window);
 #if 0
 	gtk_widget_set_sensitive(lw->window, FALSE);
 	if (lw->tools) gtk_widget_set_sensitive(lw->tools, FALSE);

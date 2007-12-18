@@ -16,6 +16,7 @@
 
 #include "layout.h"
 
+gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
 
 void layout_util_sync_thumb(LayoutWindow *lw);
 void layout_util_sync(LayoutWindow *lw);
