@@ -49,6 +49,9 @@ void vflist_select_none(ViewFileList *vfl);
 void vflist_select_by_path(ViewFileList *vfl, const gchar *path);
 void vflist_select_by_fd(ViewFileList *vfl, FileData *fd);
 
+void vflist_mark_to_selection(ViewFileList *vfl, gint mark, MarkToSelectionMode mode);
+void vflist_selection_to_mark(ViewFileList *vfl, gint mark, SelectionToMarkMode mode);
+
 void vflist_select_marked(ViewFileList *vfl, gint mark);
 void vflist_mark_selected(ViewFileList *vfl, gint mark, gint value);
 

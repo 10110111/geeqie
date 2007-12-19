@@ -75,6 +75,19 @@ typedef enum {
 	FILEDATA_CHANGE_COPY
 } FileDataChangeType;
 
+typedef enum {
+	MTS_MODE_MINUS,
+	MTS_MODE_SET,
+	MTS_MODE_OR,
+	MTS_MODE_AND
+} MarkToSelectionMode;
+
+typedef enum {
+	STM_MODE_RESET,
+	STM_MODE_SET,
+	STM_MODE_TOGGLE
+} SelectionToMarkMode;
+
 
 #define MAX_SPLIT_IMAGES 4
 
