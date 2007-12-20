@@ -668,6 +668,18 @@ static void file_data_set_path(FileData *fd, const gchar *path)
 		fd->extension = fd->name + strlen(fd->name);
 }
 
+static void file_data_check_update(FileData *fd, struct stat *st)
+{
+	if (fd->size != st->st_size ||
+	    fd->date != st->st_mtime)
+		{
+		fd->size = st->st_size;
+		fd->date = st->st_mtime;
+		if (fd->pixbuf) g_object_unref(fd->pixbuf);
+		fd->pixbuf = NULL;
+		}
+}
+
 static void file_data_check_sidecars(FileData *fd);
 static GHashTable *file_data_pool = NULL;
 
@@ -683,6 +695,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	fd = g_hash_table_lookup(file_data_pool, path_utf8);
 	if (fd)
 		{
+		file_data_check_update(fd, st);
 		printf("file_data_pool hit: '%s'\n", fd->path);
 		return file_data_ref(fd);
 		}
