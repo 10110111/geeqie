@@ -410,19 +410,6 @@ static void layout_menu_info_cb(GtkAction *action, gpointer data)
 	info_window_new(fd, list);
 }
 
-static void layout_menu_select_all_cb(GtkAction *action, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	layout_select_all(lw);
-}
-
-static void layout_menu_unselect_all_cb(GtkAction *action, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	layout_select_none(lw);
-}
 
 static void layout_menu_config_cb(GtkAction *action, gpointer data)
 {
@@ -566,12 +553,6 @@ static void layout_menu_thumb_cb(GtkToggleAction *action, gpointer data)
 	layout_thumb_set(lw, gtk_toggle_action_get_active(action));
 }
 
-static void layout_menu_marks_cb(GtkToggleAction *action, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	layout_marks_set(lw, gtk_toggle_action_get_active(action));
-}
 
 static void layout_menu_list_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
 {
@@ -728,6 +709,106 @@ static void layout_menu_about_cb(GtkAction *action, gpointer data)
 		layout_image_full_screen_stop(lw);
 	show_about_window();
 }
+
+
+/*
+ *-----------------------------------------------------------------------------
+ * select menu
+ *-----------------------------------------------------------------------------
+ */ 
+
+static void layout_menu_select_all_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_select_all(lw);
+}
+
+static void layout_menu_unselect_all_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_select_none(lw);
+}
+
+static void layout_menu_marks_cb(GtkToggleAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_marks_set(lw, gtk_toggle_action_get_active(action));
+}
+
+
+static void layout_menu_set_mark_sel_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
+	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
+	mark--;
+	
+	layout_selection_to_mark(lw, mark, STM_MODE_SET);
+}
+
+static void layout_menu_res_mark_sel_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
+	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
+	mark--;
+	
+	layout_selection_to_mark(lw, mark, STM_MODE_RESET);
+}
+
+static void layout_menu_toggle_mark_sel_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
+	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
+	mark--;
+	
+	layout_selection_to_mark(lw, mark, STM_MODE_TOGGLE);
+}
+
+static void layout_menu_sel_mark_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
+	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
+	mark--;
+	
+	layout_mark_to_selection(lw, mark, MTS_MODE_SET);
+}
+
+static void layout_menu_sel_mark_or_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
+	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
+	mark--;
+	
+	layout_mark_to_selection(lw, mark, MTS_MODE_OR);
+}
+
+static void layout_menu_sel_mark_and_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
+	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
+	mark--;
+	
+	layout_mark_to_selection(lw, mark, MTS_MODE_AND);
+}
+
+static void layout_menu_sel_mark_minus_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
+	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
+	mark--;
+	
+	layout_mark_to_selection(lw, mark, MTS_MODE_MINUS);
+}
+
 
 /*
  *-----------------------------------------------------------------------------
@@ -934,6 +1015,7 @@ static GtkActionEntry menu_entries[] = {
   { "FileMenu",		NULL,		N_("_File") },
   { "GoMenu",		NULL,		N_("_Go") },
   { "EditMenu",		NULL,		N_("_Edit") },
+  { "SelectMenu",	NULL,		N_("_Select") },
   { "AdjustMenu",	NULL,		N_("_Adjust") },
   { "ViewMenu",		NULL,		N_("_View") },
   { "ZoomMenu",		NULL,		N_("_Zoom") },
@@ -1015,7 +1097,7 @@ static GtkActionEntry menu_entries[] = {
 
 static GtkToggleActionEntry menu_toggle_entries[] = {
   { "Thumbnails",	NULL,		N_("_Thumbnails"),	"T",		NULL,	CB(layout_menu_thumb_cb) },
-  { "Marks",        	NULL,		N_("_Marks"),		"M",		NULL,	CB(layout_menu_marks_cb) },  
+  { "ShowMarks",        NULL,		N_("Show _Marks"),	"M",		NULL,	CB(layout_menu_marks_cb) },  
   { "FolderTree",	NULL,		N_("Tr_ee"),		"<control>T",	NULL,	CB(layout_menu_tree_cb) },
   { "FloatTools",	NULL,		N_("_Float file list"),	"L",		NULL,	CB(layout_menu_float_cb) },
   { "HideToolbar",	NULL,		N_("Hide tool_bar"),	NULL,		NULL,	CB(layout_menu_toolbar_cb) },
@@ -1070,6 +1152,13 @@ static const char *menu_ui_description =
 "      <menuitem action='NextImage'/>"
 "      <menuitem action='LastImage'/>"
 "    </menu>"
+"    <menu action='SelectMenu'>"
+"      <menuitem action='SelectAll'/>"
+"      <menuitem action='SelectNone'/>"
+"      <separator/>"
+"      <menuitem action='ShowMarks'/>"
+"      <separator/>"
+"    </menu>"
 "    <menu action='EditMenu'>"
 "      <menuitem action='Editor0'/>"
 "      <menuitem action='Editor1'/>"
@@ -1091,9 +1180,6 @@ static const char *menu_ui_description =
 "        <menuitem action='Grayscale'/>"
 "      </menu>"
 "      <menuitem action='Properties'/>"
-"      <separator/>"
-"      <menuitem action='SelectAll'/>"
-"      <menuitem action='SelectNone'/>"
 "      <separator/>"
 "      <menuitem action='Preferences'/>"
 "      <menuitem action='Maintenance'/>"
@@ -1126,8 +1212,6 @@ static const char *menu_ui_description =
 "      </menu>"
 "      <menuitem action='ConnectScroll'/>"
 "      <menuitem action='ConnectZoom'/>"
-"      <separator/>"
-"      <menuitem action='Marks'/>"
 "      <separator/>"
 "      <menuitem action='Thumbnails'/>"
 "      <menuitem action='ViewList'/>"
@@ -1165,6 +1249,74 @@ static gchar *menu_translate(const gchar *path, gpointer data)
 	return _(path);
 }
 
+static void layout_actions_setup_mark(LayoutWindow *lw, gint mark, char *name_tmpl, char *label_tmpl, char *accel_tmpl,  GCallback cb)
+{
+	char name[50];
+	char label[100];
+	char accel[50];
+	GtkActionEntry entry = { name, NULL, label, accel, NULL, cb };
+	GtkAction *action;
+
+	g_snprintf(name, sizeof(name), name_tmpl, mark);
+	g_snprintf(label, sizeof(label), label_tmpl, mark);
+	if (accel_tmpl)
+		g_snprintf(accel, sizeof(accel), accel_tmpl, mark % 10);
+	else
+		accel[0] = 0;
+	gtk_action_group_add_actions(lw->action_group, &entry, 1, lw);
+	action = gtk_action_group_get_action(lw->action_group, name);
+	g_object_set_data(G_OBJECT(action), "mark_num", GINT_TO_POINTER(mark));
+}
+
+static void layout_actions_setup_marks(LayoutWindow *lw)
+{
+	int mark;
+	GError *error;
+	GString *desc = g_string_new(
+				"<ui>"
+				"  <menubar name='MainMenu'>"
+				"    <menu action='SelectMenu'>");
+	
+	for (mark = 1; mark <= FILEDATA_MARKS_SIZE; mark++)
+		{
+		layout_actions_setup_mark(lw, mark, "Mark%d", _("Mark _%d"), NULL, NULL);
+		layout_actions_setup_mark(lw, mark, "SetMark%d", _("_Set mark %d"), NULL, G_CALLBACK(layout_menu_set_mark_sel_cb));
+		layout_actions_setup_mark(lw, mark, "ResetMark%d", _("_Reset mark %d"), NULL, G_CALLBACK(layout_menu_res_mark_sel_cb));
+		layout_actions_setup_mark(lw, mark, "ToggleMark%d", _("_Toggle mark %d"), "%d", G_CALLBACK(layout_menu_toggle_mark_sel_cb));
+		layout_actions_setup_mark(lw, mark, "SelectMark%d", _("_Select mark %d"), NULL, G_CALLBACK(layout_menu_sel_mark_cb));
+		layout_actions_setup_mark(lw, mark, "AddMark%d", _("_Add mark %d"), NULL, G_CALLBACK(layout_menu_sel_mark_or_cb));
+		layout_actions_setup_mark(lw, mark, "IntMark%d", _("_Intersection with mark %d"), NULL, G_CALLBACK(layout_menu_sel_mark_and_cb));
+		layout_actions_setup_mark(lw, mark, "UnselMark%d", _("_Unselect mark %d"), NULL, G_CALLBACK(layout_menu_sel_mark_minus_cb));
+
+		g_string_append_printf(desc,
+				"      <menu action='Mark%d'>"
+				"        <menuitem action='ToggleMark%d'/>"
+				"        <menuitem action='SetMark%d'/>"
+				"        <menuitem action='ResetMark%d'/>"
+				"        <separator/>"
+				"        <menuitem action='SelectMark%d'/>"
+				"        <menuitem action='AddMark%d'/>"
+				"        <menuitem action='IntMark%d'/>"
+				"        <menuitem action='UnselMark%d'/>"
+				"      </menu>",
+				mark, mark, mark, mark, mark, mark, mark, mark);
+		}
+
+	g_string_append(desc,
+				"    </menu>"
+				"  </menubar>"
+				"</ui>" );
+
+	error = NULL;
+	if (!gtk_ui_manager_add_ui_from_string(lw->ui_manager, desc->str, -1, &error))
+		{
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+		exit (EXIT_FAILURE);
+		}
+	g_string_free(desc, TRUE);
+}
+
 void layout_actions_setup(LayoutWindow *lw)
 {
 	GError *error;
@@ -1196,6 +1348,8 @@ void layout_actions_setup(LayoutWindow *lw)
 		g_error_free (error);
 		exit (EXIT_FAILURE);
 		}
+
+	layout_actions_setup_marks(lw);
 }
 
 void layout_actions_add_window(LayoutWindow *lw, GtkWidget *window)

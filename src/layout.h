@@ -49,6 +49,9 @@ gint layout_selection_count(LayoutWindow *lw, gint64 *bytes);
 void layout_select_all(LayoutWindow *lw);
 void layout_select_none(LayoutWindow *lw);
 
+void layout_mark_to_selection(LayoutWindow *lw, gint mark, MarkToSelectionMode mode);
+void layout_selection_to_mark(LayoutWindow *lw, gint mark, SelectionToMarkMode mode);
+
 void layout_refresh(LayoutWindow *lw);
 
 void layout_thumb_set(LayoutWindow *lw, gint enable);
