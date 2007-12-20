@@ -1044,16 +1044,16 @@ static GtkActionEntry menu_entries[] = {
   { "CloseWindow",	GTK_STOCK_CLOSE,N_("C_lose window"),	"<control>W",	NULL,	CB(layout_menu_close_cb) },
   { "Quit",		GTK_STOCK_QUIT, N_("_Quit"),		"<control>Q",	NULL,	CB(layout_menu_exit_cb) },
 
-  { "Editor0",		NULL,		"editor0",		"<control>1",	NULL,	CB(layout_menu_edit_cb) },
-  { "Editor1",		NULL,		"editor1",		"<control>2",	NULL,	CB(layout_menu_edit_cb) },
-  { "Editor2",		NULL,		"editor2",		"<control>3",	NULL,	CB(layout_menu_edit_cb) },
-  { "Editor3",		NULL,		"editor3",		"<control>4",	NULL,	CB(layout_menu_edit_cb) },
-  { "Editor4",		NULL,		"editor4",		"<control>5",	NULL,	CB(layout_menu_edit_cb) },
-  { "Editor5",		NULL,		"editor5",		"<control>6",	NULL,	CB(layout_menu_edit_cb) },
-  { "Editor6",		NULL,		"editor6",		"<control>7",	NULL,	CB(layout_menu_edit_cb) },
-  { "Editor7",		NULL,		"editor7",		"<control>8",	NULL,	CB(layout_menu_edit_cb) },
-  { "Editor8",		NULL,		"editor8",		"<control>9",	NULL,	CB(layout_menu_edit_cb) },
-  { "Editor9",		NULL,		"editor9",		"<control>0",	NULL,	CB(layout_menu_edit_cb) },
+  { "Editor0",		NULL,		"editor0",		NULL,		NULL,	CB(layout_menu_edit_cb) },
+  { "Editor1",		NULL,		"editor1",		NULL,		NULL,	CB(layout_menu_edit_cb) },
+  { "Editor2",		NULL,		"editor2",		NULL,		NULL,	CB(layout_menu_edit_cb) },
+  { "Editor3",		NULL,		"editor3",		NULL,		NULL,	CB(layout_menu_edit_cb) },
+  { "Editor4",		NULL,		"editor4",		NULL,		NULL,	CB(layout_menu_edit_cb) },
+  { "Editor5",		NULL,		"editor5",		NULL,		NULL,	CB(layout_menu_edit_cb) },
+  { "Editor6",		NULL,		"editor6",		NULL,		NULL,	CB(layout_menu_edit_cb) },
+  { "Editor7",		NULL,		"editor7",		NULL,		NULL,	CB(layout_menu_edit_cb) },
+  { "Editor8",		NULL,		"editor8",		NULL,		NULL,	CB(layout_menu_edit_cb) },
+  { "Editor9",		NULL,		"editor9",		NULL,		NULL,	CB(layout_menu_edit_cb) },
   { "RotateCW",		NULL,	N_("_Rotate clockwise"),	"bracketright",	NULL,	CB(layout_menu_alter_90_cb) },
   { "RotateCCW",	NULL,	N_("Rotate _counterclockwise"),	"bracketleft",	NULL,	CB(layout_menu_alter_90cc_cb) },
   { "Rotate180",	NULL,		N_("Rotate 1_80"),	"<shift>R",	NULL,	CB(layout_menu_alter_180_cb) },
@@ -1279,14 +1279,14 @@ static void layout_actions_setup_marks(LayoutWindow *lw)
 	
 	for (mark = 1; mark <= FILEDATA_MARKS_SIZE; mark++)
 		{
-		layout_actions_setup_mark(lw, mark, "Mark%d", _("Mark _%d"), NULL, NULL);
-		layout_actions_setup_mark(lw, mark, "SetMark%d", _("_Set mark %d"), NULL, G_CALLBACK(layout_menu_set_mark_sel_cb));
-		layout_actions_setup_mark(lw, mark, "ResetMark%d", _("_Reset mark %d"), NULL, G_CALLBACK(layout_menu_res_mark_sel_cb));
-		layout_actions_setup_mark(lw, mark, "ToggleMark%d", _("_Toggle mark %d"), "%d", G_CALLBACK(layout_menu_toggle_mark_sel_cb));
-		layout_actions_setup_mark(lw, mark, "SelectMark%d", _("_Select mark %d"), NULL, G_CALLBACK(layout_menu_sel_mark_cb));
-		layout_actions_setup_mark(lw, mark, "AddMark%d", _("_Add mark %d"), NULL, G_CALLBACK(layout_menu_sel_mark_or_cb));
-		layout_actions_setup_mark(lw, mark, "IntMark%d", _("_Intersection with mark %d"), NULL, G_CALLBACK(layout_menu_sel_mark_and_cb));
-		layout_actions_setup_mark(lw, mark, "UnselMark%d", _("_Unselect mark %d"), NULL, G_CALLBACK(layout_menu_sel_mark_minus_cb));
+		layout_actions_setup_mark(lw, mark, "Mark%d", 		_("Mark _%d"), NULL, NULL);
+		layout_actions_setup_mark(lw, mark, "SetMark%d", 	_("_Set mark %d"), 			NULL, G_CALLBACK(layout_menu_set_mark_sel_cb));
+		layout_actions_setup_mark(lw, mark, "ResetMark%d", 	_("_Reset mark %d"), 			NULL, G_CALLBACK(layout_menu_res_mark_sel_cb));
+		layout_actions_setup_mark(lw, mark, "ToggleMark%d", 	_("_Toggle mark %d"), 			"%d", G_CALLBACK(layout_menu_toggle_mark_sel_cb));
+		layout_actions_setup_mark(lw, mark, "SelectMark%d", 	_("_Select mark %d"), 			"<control>%d", G_CALLBACK(layout_menu_sel_mark_cb));
+		layout_actions_setup_mark(lw, mark, "AddMark%d", 	_("_Add mark %d"), 			NULL, G_CALLBACK(layout_menu_sel_mark_or_cb));
+		layout_actions_setup_mark(lw, mark, "IntMark%d", 	_("_Intersection with mark %d"), 	NULL, G_CALLBACK(layout_menu_sel_mark_and_cb));
+		layout_actions_setup_mark(lw, mark, "UnselMark%d", 	_("_Unselect mark %d"), 		NULL, G_CALLBACK(layout_menu_sel_mark_minus_cb));
 
 		g_string_append_printf(desc,
 				"      <menu action='Mark%d'>"
