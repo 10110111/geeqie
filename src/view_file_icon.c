@@ -1028,6 +1028,67 @@ void vficon_select_by_fd(ViewFileIcon *vfi, FileData *fd)
 	vficon_select_by_id(vfi, id);
 }
 
+void vficon_mark_to_selection(ViewFileIcon *vfi, gint mark, MarkToSelectionMode mode)
+{
+	GList *work;
+
+	work = vfi->list;
+	while (work)
+		{
+		IconData *id = work->data;
+		FileData *fd = id->fd;
+		gboolean mark_val, selected;
+
+		g_assert(fd->magick == 0x12345678); 
+
+		mark_val = fd->marks[mark];
+		selected = (id->selected & SELECTION_SELECTED);
+		
+		switch (mode) 
+			{
+			case MTS_MODE_SET: selected = mark_val;
+				break;
+			case MTS_MODE_OR: selected = mark_val | selected;
+				break;
+			case MTS_MODE_AND: selected = mark_val & selected;
+				break;
+			case MTS_MODE_MINUS: selected = !mark_val & selected;
+				break;
+			}
+		
+		vficon_select_util(vfi, id, selected);
+
+		work = work->next;
+		}
+}
+
+void vficon_selection_to_mark(ViewFileIcon *vfi, gint mark, SelectionToMarkMode mode)
+{
+	GList *slist;
+	GList *work;
+
+	g_assert(mark >= 0 && mark < FILEDATA_MARKS_SIZE);
+
+	slist = vficon_selection_get_list(vfi);
+	work = slist;
+	while (work)
+		{
+		FileData *fd = work->data;
+		
+		switch (mode)
+			{
+			case STM_MODE_SET: fd->marks[mark] = 1;
+				break;
+			case STM_MODE_RESET: fd->marks[mark] = 0;
+				break;
+			case STM_MODE_TOGGLE: fd->marks[mark] = !fd->marks[mark];
+				break;
+			}
+			
+		work = work->next;
+		}
+	filelist_free(slist);
+}
 
 
 /*

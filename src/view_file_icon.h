@@ -45,6 +45,8 @@ void vficon_select_none(ViewFileIcon *vfi);
 void vficon_select_by_path(ViewFileIcon *vfi, const gchar *path);
 void vficon_select_by_fd(ViewFileIcon *vfi, FileData *fd);
 
+void vficon_mark_to_selection(ViewFileIcon *vfi, gint mark, MarkToSelectionMode mode);
+void vficon_selection_to_mark(ViewFileIcon *vfi, gint mark, SelectionToMarkMode mode);
 
 gint vficon_maint_renamed(ViewFileIcon *vfi, FileData *fd);
 gint vficon_maint_removed(ViewFileIcon *vfi, FileData *fd, GList *ignore_list);

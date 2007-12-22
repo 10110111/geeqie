@@ -906,7 +906,7 @@ void layout_mark_to_selection(LayoutWindow *lw, gint mark, MarkToSelectionMode m
 	if (!layout_valid(&lw)) return;
 
 	if (lw->vfl) vflist_mark_to_selection(lw->vfl, mark, mode);
-	// FIXME vficon
+	if (lw->vfi) vficon_mark_to_selection(lw->vfi, mark, mode);
 }
 
 void layout_selection_to_mark(LayoutWindow *lw, gint mark, SelectionToMarkMode mode)
@@ -914,7 +914,7 @@ void layout_selection_to_mark(LayoutWindow *lw, gint mark, SelectionToMarkMode m
 	if (!layout_valid(&lw)) return;
 
 	if (lw->vfl) vflist_selection_to_mark(lw->vfl, mark, mode);
-	// FIXME vficon
+	if (lw->vfi) vficon_selection_to_mark(lw->vfi, mark, mode);
 	
 	layout_status_update_info(lw, NULL); /* osd in fullscreen mode */
 }
