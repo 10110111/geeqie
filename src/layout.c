@@ -748,6 +748,7 @@ static GtkWidget *layout_list_new(LayoutWindow *lw)
 
 		vficon_set_status_func(lw->vfi, layout_icon_status_cb, lw);
 		vficon_set_thumb_status_func(lw->vfi, layout_icon_thumb_cb, lw);
+		/* FIXME vficon_marks_set(lw->vfi, lw->marks_enabled); */
 
 		return lw->vfi->widget;
 		}
@@ -758,6 +759,8 @@ static GtkWidget *layout_list_new(LayoutWindow *lw)
 	vflist_set_status_func(lw->vfl, layout_list_status_cb, lw);
 	vflist_set_thumb_status_func(lw->vfl, layout_list_thumb_cb, lw);
 
+	vflist_marks_set(lw->vfl, lw->marks_enabled);
+	
 	return lw->vfl->widget;
 }
 
