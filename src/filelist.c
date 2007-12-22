@@ -628,6 +628,8 @@ const gchar *text_from_time(time_t t)
  */
 
 FileData *file_data_merge_sidecar_files(FileData *target, FileData *source);
+static void file_data_check_sidecars(FileData *fd);
+FileData *file_data_disconnect_sidecar_file(FileData *target, FileData *sfd);
 
 
 static void file_data_set_path(FileData *fd, const gchar *path)
@@ -668,8 +670,9 @@ static void file_data_set_path(FileData *fd, const gchar *path)
 		fd->extension = fd->name + strlen(fd->name);
 }
 
-static void file_data_check_update(FileData *fd, struct stat *st)
+static void file_data_check_changed_files(FileData *fd, struct stat *st)
 {
+	GList *work;
 	if (fd->size != st->st_size ||
 	    fd->date != st->st_mtime)
 		{
@@ -678,9 +681,23 @@ static void file_data_check_update(FileData *fd, struct stat *st)
 		if (fd->pixbuf) g_object_unref(fd->pixbuf);
 		fd->pixbuf = NULL;
 		}
+
+	work = fd->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+		struct stat st;
+
+		if (!stat_utf8(sfd->path, &st))
+			{
+			file_data_disconnect_sidecar_file(fd, sfd);
+			}
+			
+		file_data_check_changed_files(sfd, &st);
+		work = work->next;
+		}
 }
 
-static void file_data_check_sidecars(FileData *fd);
 static GHashTable *file_data_pool = NULL;
 
 static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean check_sidecars)
@@ -695,7 +712,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	fd = g_hash_table_lookup(file_data_pool, path_utf8);
 	if (fd)
 		{
-		file_data_check_update(fd, st);
+		file_data_check_changed_files(fd, st);
 		printf("file_data_pool hit: '%s'\n", fd->path);
 		return file_data_ref(fd);
 		}
@@ -794,6 +811,7 @@ FileData *file_data_add_sidecar_file(FileData *target, FileData *sfd)
 	return target;
 }
 
+
 FileData *file_data_merge_sidecar_files(FileData *target, FileData *source)
 {
 	GList *work;
@@ -809,9 +827,12 @@ FileData *file_data_merge_sidecar_files(FileData *target, FileData *source)
 
 	g_list_free(source->sidecar_files);
 	source->sidecar_files = NULL;
-	
+
+	target->sidecar_files = filelist_sort(target->sidecar_files, SORT_NAME, TRUE); 	
 	return target;
 }
+
+
 
 FileData *file_data_ref(FileData *fd)
 {
@@ -883,6 +904,22 @@ void file_data_unref(FileData *fd)
 		file_data_free(parent);
 		
 		}
+}
+
+FileData *file_data_disconnect_sidecar_file(FileData *target, FileData *sfd)
+{
+	sfd->parent = target;
+	g_assert(g_list_find(target->sidecar_files, sfd));
+
+	target->sidecar_files = g_list_remove(target->sidecar_files, sfd);
+	sfd->parent = NULL;
+
+	if (sfd->ref == 0) {
+		file_data_free(sfd);
+		return NULL;
+	}
+
+	return sfd;
 }
 
 /* compare name without extension */
@@ -1022,12 +1059,12 @@ gint filelist_sort_compare_filedata(FileData *fa, FileData *fb)
 		case SORT_SIZE:
 			if (fa->size < fb->size) return -1;
 			if (fa->size > fb->size) return 1;
-			return 0;
+			return CASE_SORT(fa->name, fb->name); /* fall back to name */
 			break;
 		case SORT_TIME:
 			if (fa->date < fb->date) return -1;
 			if (fa->date > fb->date) return 1;
-			return 0;
+			return CASE_SORT(fa->name, fb->name); /* fall back to name */
 			break;
 #ifdef HAVE_STRVERSCMP
 		case SORT_NUMBER:
@@ -1039,6 +1076,13 @@ gint filelist_sort_compare_filedata(FileData *fa, FileData *fb)
 			return CASE_SORT(fa->name, fb->name);
 			break;
 		}
+}
+
+gint filelist_sort_compare_filedata_full(FileData *fa, FileData *fb, SortType method, gint ascend)
+{
+	filelist_sort_method = method;
+	filelist_sort_ascend = ascend;
+	return filelist_sort_compare_filedata(fa, fb);
 }
 
 static gint filelist_sort_file_cb(void *a, void *b)

@@ -2184,22 +2184,12 @@ static gint vficon_refresh_real(ViewFileIcon *vfi, gint keep_position)
 			{
 			IconData *idn = needle->data;
 			FileData *fdn = idn->fd;
-			if (strcmp(fd->name, fdn->name) == 0)
+			if (fdn == fd)
 				{
 				/* swap, to retain old thumb, selection */
 				needle->data = id;
 				work->data = idn;
 				needle = NULL;
-
-				if (fd->date != fdn->date || fd->size != fdn->size)
-					{
-					/* file changed, update */
-					/* FIXME
-					fd->date = fdn->date;
-					fd->size = fdn->size;
-					vficon_set_thumb(vfi, fd, NULL);
-					*/
-					}
 				}
 			else
 				{

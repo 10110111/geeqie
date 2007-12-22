@@ -67,6 +67,7 @@ void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd);
 gchar *sidecar_file_data_list_to_string(FileData *fd);
 
 gint filelist_sort_compare_filedata(FileData *fa, FileData *fb);
+gint filelist_sort_compare_filedata_full(FileData *fa, FileData *fb, SortType method, gint ascend);
 GList *filelist_sort(GList *list, SortType method, gint ascend);
 GList *filelist_insert_sort(GList *list, FileData *fd, SortType method, gint ascend);
 GList *filelist_sort_full(GList *list, SortType method, gint ascend, GCompareFunc cb);

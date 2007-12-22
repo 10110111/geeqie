@@ -867,25 +867,15 @@ static gboolean vflist_dummy_select_cb(GtkTreeSelection *selection, GtkTreeModel
 }
 
 
-
-void vflist_setup_iter(ViewFileList *vfl, GtkTreeStore *store, GtkTreeIter *iter, FileData *fd, GtkTreeIter *before)
+void vflist_setup_iter(ViewFileList *vfl, GtkTreeStore *store, GtkTreeIter *iter, FileData *fd)
 {
-	gchar *size;
-	gchar *sidecars;
 	int i;
-	GList *work;
-    		
-	sidecars = sidecar_file_data_list_to_string(fd);
+	gchar *size;
+	gchar *sidecars = NULL;
+
+	if (fd->sidecar_files)
+		sidecars = sidecar_file_data_list_to_string(fd);
 	size = text_from_size(fd->size);
-	
-	if (before)
-		{
-		gtk_tree_store_insert_before(store, iter, NULL, before);
-		}
-		else
-		{
-		gtk_tree_store_append(store, iter, NULL);
-		}
 	
 	gtk_tree_store_set(store, iter, FILE_COLUMN_POINTER, fd,
 					FILE_COLUMN_THUMB, (vfl->thumbs_enabled) ? fd->pixbuf : NULL,
@@ -898,28 +888,93 @@ void vflist_setup_iter(ViewFileList *vfl, GtkTreeStore *store, GtkTreeIter *iter
 		gtk_tree_store_set(store, iter, FILE_COLUMN_MARKS + i, fd->marks[i], -1);
             
 	g_free(size);
-	g_free(sidecars);
+	if (sidecars)
+		g_free(sidecars);
+}
 
+void vflist_setup_iter_with_sidecars(ViewFileList *vfl, GtkTreeStore *store, GtkTreeIter *iter, FileData *fd)
+{
+	GList *work;
+	GtkTreeIter new;
+	GtkTreeIter s_iter;
+	gint valid;
+
+    	vflist_setup_iter(vfl, store, iter, fd);
+
+
+	/* this is almost the same code as in vflist_populate_view 
+	   maybe it should be made more generic and used in both places */
+	
+	
+	valid = gtk_tree_model_iter_children(GTK_TREE_MODEL(store), &s_iter, iter);
 
 	work = fd->sidecar_files;
 	while (work)
 		{
-		GtkTreeIter s_iter;
-		
+		gint match;
 		FileData *sfd = work->data;
-		work = work->next;
+		gint done = FALSE;
 
-		size = text_from_size(sfd->size);
-		gtk_tree_store_append(store, &s_iter, iter);
-		gtk_tree_store_set(store, &s_iter, 
-					FILE_COLUMN_POINTER, sfd,
-					FILE_COLUMN_NAME, sfd->name,
-					FILE_COLUMN_SIZE, size,
-					FILE_COLUMN_DATE, text_from_time(sfd->date),
-					-1);
-		g_free(size);
+		while (!done)
+			{
+			FileData *old_sfd = NULL;
+            
+			if (valid)
+				{
+				gtk_tree_model_get(GTK_TREE_MODEL(store), &s_iter, FILE_COLUMN_POINTER, &old_sfd, -1);
+				
+				if (sfd == old_sfd)
+					{
+					match = 0;
+					}
+				else
+					{
+					match = filelist_sort_compare_filedata_full(sfd, old_sfd, SORT_NAME, TRUE);
+					}
+				}
+					
+			else
+				{
+				match = -1;
+				}
+
+			if (match < 0)
+				{
+				GtkTreeIter new;
+				
+				if (valid)
+					{
+					gtk_tree_store_insert_before(store, &new, iter, &s_iter);
+					}
+				else
+					{
+					gtk_tree_store_append(store, &new, iter);
+					}
+				
+				vflist_setup_iter(vfl, store, &new, sfd);
+
+				done = TRUE;
+				}
+			else if (match > 0)
+				{
+				valid = gtk_tree_store_remove(store, &s_iter);
+				}
+			else
+				{
+				vflist_setup_iter(vfl, store, &s_iter, sfd);
+
+				if (valid) valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &s_iter);
+
+				done = TRUE;
+				}
+			}
+		work = work->next;
 		}
-	
+
+	while (valid)
+		{
+		valid = gtk_tree_store_remove(store, &s_iter);
+		}
 }
 
 
@@ -1008,7 +1063,8 @@ void vflist_sort_set(ViewFileList *vfl, SortType type, gint ascend)
 		{
 		FileData *fd = work->data;
 		
-		vflist_setup_iter(vfl, store, &iter, fd, NULL);
+		gtk_tree_store_append(store, &iter, NULL);
+		vflist_setup_iter_with_sidecars(vfl, store, &iter, fd);
 
 		if (select_list && select_list->data == fd)
 			{
@@ -1627,13 +1683,23 @@ static void vflist_populate_view(ViewFileList *vfl)
 		while (!done)
 			{
 			FileData *old_fd = NULL;
-            int i;
             
 			if (valid)
 				{
 				gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, FILE_COLUMN_POINTER, &old_fd, -1);
-				match = CASE_SORT(fd->name, old_fd->name);
+				
+				if (fd == old_fd)
+					{
+					match = 0;
+					}
+				else
+					{
+					match = filelist_sort_compare_filedata_full(fd, old_fd, vfl->sort_method, vfl->sort_ascend);
+					if (match == 0)
+						match = -1; /* probably should not happen*/
+					}
 				}
+					
 			else
 				{
 				match = -1;
@@ -1645,12 +1711,13 @@ static void vflist_populate_view(ViewFileList *vfl)
 				
 				if (valid)
 					{
-					vflist_setup_iter(vfl, store, &new, fd, &iter); 
+					gtk_tree_store_insert_before(store, &new, NULL, &iter);
 					}
 				else
 					{
-					vflist_setup_iter(vfl, store, &new, fd, NULL);
+					gtk_tree_store_append(store, &new, NULL);
 					}
+				vflist_setup_iter_with_sidecars(vfl, store, &new, fd);
 
 				done = TRUE;
 				}
@@ -1660,28 +1727,7 @@ static void vflist_populate_view(ViewFileList *vfl)
 				}
 			else
 				{
-				gtk_tree_store_set(store, &iter, FILE_COLUMN_POINTER, fd, -1);
-				if (fd->date != old_fd->date)
-					{
-					gchar *size;
-
-					/* update, file changed */
-					size = text_from_size(fd->size);
-					gtk_tree_store_set(store, &iter, FILE_COLUMN_SIZE, size,
-									 FILE_COLUMN_DATE, text_from_time(fd->date), -1);
-					g_free(size);
-					}
-				else if (fd != old_fd)
-					{
-					/* preserve thumbnail */
-					if (fd->pixbuf) g_object_unref(fd->pixbuf);
-					fd->pixbuf = old_fd->pixbuf;
-					if (fd->pixbuf) g_object_ref(fd->pixbuf);
-					}
-
-				gtk_tree_store_set(store, &iter, FILE_COLUMN_THUMB, (thumbs) ? fd->pixbuf : NULL, -1);
-
-				if (vfl->select_fd == old_fd) vfl->select_fd = fd;
+				vflist_setup_iter_with_sidecars(vfl, store, &iter, fd);
 
 				if (valid) valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter);
 
