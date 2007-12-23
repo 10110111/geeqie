@@ -103,6 +103,51 @@ static gint vflist_find_row(ViewFileList *vfl, FileData *fd, GtkTreeIter *iter)
 	return -1;
 }
 
+
+static gint vflist_find_sidecar_list_idx(GList *work, FileData *fd)
+{
+	gint i = 0;
+	while (work)
+		{
+		FileData *fd_p = work->data;
+		if (fd == fd_p) return i;
+		
+		i++;
+
+		GList *work2 = fd_p->sidecar_files;
+		while (work2)
+			{
+			fd_p = work2->data; 
+			if (fd == fd_p) return i;
+			
+			i++;
+			work2 = work2->next;
+			}
+		work = work->next;
+		}
+	return -1;
+}
+
+static gint vflist_sidecar_list_count(GList *work)
+{
+	gint i = 0;
+	while (work)
+		{
+		FileData *fd = work->data;
+		i++;
+
+		GList *work2 = fd->sidecar_files;
+		while (work2)
+			{
+			i++;
+			work2 = work2->next;
+			}
+		work = work->next;
+		}
+	return i;
+}
+
+
 static void vflist_color_set(ViewFileList *vfl, FileData *fd, gint color_set)
 {
 	GtkTreeModel *store;
@@ -1085,7 +1130,7 @@ static void vflist_thumb_do(ViewFileList *vfl, ThumbLoader *tl, FileData *fd)
 	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vfl->listview)));
 	gtk_tree_store_set(store, &iter, FILE_COLUMN_THUMB, fd->pixbuf, -1);
 
-	vflist_thumb_status(vfl, (gdouble)(vfl->thumbs_count) / g_list_length(vfl->list), _("Loading thumbs..."));
+	vflist_thumb_status(vfl, (gdouble)(vfl->thumbs_count) / vflist_sidecar_list_count(vfl->list), _("Loading thumbs..."));
 }
 
 static void vflist_thumb_error_cb(ThumbLoader *tl, gpointer data)
@@ -1147,9 +1192,20 @@ static gint vflist_thumb_next(ViewFileList *vfl)
 		while (work && !fd)
 			{
 			FileData *fd_p = work->data;
+			if (!fd_p->pixbuf) 
+				fd = fd_p;
+			else
+				{
+				GList *work2 = fd_p->sidecar_files;
+				
+				while (work2 && !fd)
+					{
+					fd_p = work2->data; 
+					if (!fd_p->pixbuf) fd = fd_p;
+					work2 = work2->next;
+					}
+				}
 			work = work->next;
-
-			if (!fd_p->pixbuf) fd = fd_p;
 			}
 		}
 
