@@ -65,23 +65,39 @@ static void vflist_send_update(ViewFileList *vfl)
  * misc
  *-----------------------------------------------------------------------------
  */
+typedef struct {
+	FileData *fd;
+	GtkTreeIter *iter;
+	gint found;
+	gint row;
+} ViewFileListFindRowData;
+
+static gboolean vflist_find_row_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	ViewFileListFindRowData *find = data;
+	FileData *fd;
+	gtk_tree_model_get(model, iter, FILE_COLUMN_POINTER, &fd, -1);
+	if (fd == find->fd)
+		{
+		*find->iter = *iter;
+		find->found = 1;
+		return TRUE;
+		}
+	find->row++;
+	return FALSE;
+}
 
 static gint vflist_find_row(ViewFileList *vfl, FileData *fd, GtkTreeIter *iter)
 {
 	GtkTreeModel *store;
-	gint valid;
-	gint row = 0;
-
+	ViewFileListFindRowData data = {fd, iter, 0, 0};
+	
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vfl->listview));
-	valid = gtk_tree_model_get_iter_first(store, iter);
-	while (valid)
-		{
-		FileData *fd_n;
-		gtk_tree_model_get(GTK_TREE_MODEL(store), iter, FILE_COLUMN_POINTER, &fd_n, -1);
-		if (fd_n == fd) return row;
+	gtk_tree_model_foreach(store, vflist_find_row_cb, &data);
 
-		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), iter);
-		row++;
+	if (data.found)
+		{
+		return data.row;
 		}
 
 	return -1;
@@ -867,7 +883,7 @@ static gboolean vflist_dummy_select_cb(GtkTreeSelection *selection, GtkTreeModel
 }
 
 
-void vflist_setup_iter(ViewFileList *vfl, GtkTreeStore *store, GtkTreeIter *iter, FileData *fd)
+static void vflist_setup_iter(ViewFileList *vfl, GtkTreeStore *store, GtkTreeIter *iter, FileData *fd)
 {
 	int i;
 	gchar *size;
@@ -886,20 +902,20 @@ void vflist_setup_iter(ViewFileList *vfl, GtkTreeStore *store, GtkTreeIter *iter
 					FILE_COLUMN_COLOR, FALSE, -1);
 	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
 		gtk_tree_store_set(store, iter, FILE_COLUMN_MARKS + i, fd->marks[i], -1);
-            
+
 	g_free(size);
 	if (sidecars)
 		g_free(sidecars);
 }
 
-void vflist_setup_iter_with_sidecars(ViewFileList *vfl, GtkTreeStore *store, GtkTreeIter *iter, FileData *fd)
+static void vflist_setup_iter_with_sidecars(ViewFileList *vfl, GtkTreeStore *store, GtkTreeIter *iter, FileData *fd)
 {
 	GList *work;
 	GtkTreeIter new;
 	GtkTreeIter s_iter;
 	gint valid;
 
-    	vflist_setup_iter(vfl, store, iter, fd);
+	vflist_setup_iter(vfl, store, iter, fd);
 
 
 	/* this is almost the same code as in vflist_populate_view 
@@ -977,120 +993,49 @@ void vflist_setup_iter_with_sidecars(ViewFileList *vfl, GtkTreeStore *store, Gtk
 		}
 }
 
-
 void vflist_sort_set(ViewFileList *vfl, SortType type, gint ascend)
 {
-	GtkTreeModel *model;
+	gint i;
+	GHashTable *fd_idx_hash = g_hash_table_new(NULL, NULL);
+	gint *new_order;
 	GtkTreeStore *store;
 	GList *work;
-	GtkTreeSelection *selection;
-	GtkTreePath *tpath;
-	GtkTreeIter iter;
-	GList *select_list;
-	FileData *cursor_fd = NULL;
-	gint single_select;
 
 	if (vfl->sort_method == type && vfl->sort_ascend == ascend) return;
+	if (!vfl->list) return;
+
+	work = vfl->list;
+	i = 0;
+	while (work)
+		{
+		FileData *fd = work->data;
+		g_hash_table_insert(fd_idx_hash, fd, GINT_TO_POINTER(i));
+		i++;
+		work = work->next;
+		}
 
 	vfl->sort_method = type;
 	vfl->sort_ascend = ascend;
 
-	if (!vfl->list) return;
-
 	vfl->list = filelist_sort(vfl->list, vfl->sort_method, vfl->sort_ascend);
-
-	/* now reorder the treeview, maintaining current selection */
-
-#if 0
-	/* this is simpler, but much slower */
-	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vfl->listview)));
-
-	work = g_list_last(vfl->list);
-	while (work)
-		{
-		FileData *fd;
-		GtkTreeIter iter;
-
-		fd = work->data;
-		if (vflist_find_row(vfl, fd, &iter) >= 0)
-			{
-			gtk_tree_store_move_after(store, &iter, NULL);
-			}
-
-		work = work->prev;
-		}
-#endif
-
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vfl->listview));
-
-	gtk_tree_selection_set_select_function(selection, vflist_dummy_select_cb, vfl, NULL);
-
-	select_list = gtk_tree_selection_get_selected_rows(selection, &model);
-	work = select_list;
-	while (work) // FIXME this does not work for tree view
-		{
-		FileData *fd;
-
-		tpath = work->data;
-		gtk_tree_model_get_iter(model, &iter, tpath);
-		gtk_tree_model_get(model, &iter, FILE_COLUMN_POINTER, &fd, -1);
-		gtk_tree_path_free(tpath);
-
-		work->data = fd;
-		work = work->next;
-		}
-
-	select_list = filelist_sort(select_list, vfl->sort_method, vfl->sort_ascend);
-
-	gtk_tree_view_get_cursor(GTK_TREE_VIEW(vfl->listview), &tpath, NULL);
-	if (tpath)
-		{
-		if (gtk_tree_model_get_iter(model, &iter, tpath))
-			{
-			gtk_tree_model_get(model, &iter, FILE_COLUMN_POINTER, &cursor_fd, -1);
-			}
-		gtk_tree_path_free(tpath);
-		}
-
-	single_select = (select_list && !select_list->next);
-	if (single_select) cursor_fd = select_list->data;
-
-	store = GTK_TREE_STORE(model);
-	gtk_tree_store_clear(store);
-
+	
+	new_order = g_malloc(i * sizeof(gint));
+	
 	work = vfl->list;
+	i = 0;
 	while (work)
 		{
 		FileData *fd = work->data;
-		
-		gtk_tree_store_append(store, &iter, NULL);
-		vflist_setup_iter_with_sidecars(vfl, store, &iter, fd);
-
-		if (select_list && select_list->data == fd)
-			{
-			select_list = g_list_remove(select_list, fd);
-			gtk_tree_selection_select_iter(selection, &iter);
-			}
-
+		new_order[i] = GPOINTER_TO_INT(g_hash_table_lookup(fd_idx_hash, fd));
+		i++;
 		work = work->next;
 		}
-
-	g_list_free(select_list);
-
-	if (cursor_fd &&
-	    vflist_find_row(vfl, cursor_fd, &iter) >= 0)
-		{
-		if (single_select)
-			{
-			vflist_move_cursor(vfl, &iter);
-			}
-		else
-			{
-			tree_view_row_make_visible(GTK_TREE_VIEW(vfl->listview), &iter, TRUE);
-			}
-		}
-
-	gtk_tree_selection_set_select_function(selection, vflist_select_cb, vfl, NULL);
+	
+	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vfl->listview)));
+	gtk_tree_store_reorder(store, NULL, new_order);
+	
+	g_free(new_order);
+	g_hash_table_destroy(fd_idx_hash);
 }
 
 /*
@@ -2163,13 +2108,11 @@ static gint vflist_maint_find_closest(ViewFileList *vfl, gint row, gint count, G
 gint vflist_maint_renamed(ViewFileList *vfl, FileData *fd)
 {
 	gint ret = FALSE;
-	gint row;
 	gchar *source_base;
 	gchar *dest_base;
 	GList *work;
 
-	row = g_list_index(vfl->list, fd);
-	if (row < 0) return FALSE;
+	if (g_list_index(vfl->list, fd) < 0) return FALSE;
 
 	source_base = remove_level_from_path(fd->change->source);
 	dest_base = remove_level_from_path(fd->change->dest);
@@ -2191,7 +2134,6 @@ gint vflist_maint_renamed(ViewFileList *vfl, FileData *fd)
 		n = g_list_index(vfl->list, fd);
 
 		store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vfl->listview)));
-		row = vflist_find_row(vfl, fd, &iter);
 		if (vflist_find_row(vfl, fd, &iter) >= 0 &&
 		    gtk_tree_model_iter_nth_child(GTK_TREE_MODEL(store), &position, NULL, n))
 			{
