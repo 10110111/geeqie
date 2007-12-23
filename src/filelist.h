@@ -38,8 +38,9 @@ gint filter_name_exists(const gchar *name);
 void filter_write_list(FILE *f);
 void filter_parse(const gchar *text);
 
-void sidecar_ext_parse(const gchar *text);
+void sidecar_ext_parse(const gchar *text, gint quoted);
 void sidecar_ext_write(FILE *f);
+char *sidecar_ext_to_string(); 
 void sidecar_ext_add_defaults();
 
 gint ishidden(const gchar *name);

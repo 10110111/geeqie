@@ -142,7 +142,7 @@ static GtkWidget *color_profile_input_file_entry[COLOR_PROFILE_INPUTS];
 static GtkWidget *color_profile_input_name_entry[COLOR_PROFILE_INPUTS];
 static GtkWidget *color_profile_screen_file_entry;
 
-
+static GtkWidget *sidecar_ext_entry;
 /*
  *-----------------------------------------------------------------------------
  * option widget callbacks (private)
@@ -255,6 +255,8 @@ static void config_window_apply(void)
 	show_dot_files = show_dot_files_c;
 	file_sort_case_sensitive = file_sort_case_sensitive_c;
 	file_filter_disable = file_filter_disable_c;
+
+	sidecar_ext_parse(gtk_entry_get_text(GTK_ENTRY(sidecar_ext_entry)), FALSE);
 
 	slideshow_random = slideshow_random_c;
 	slideshow_repeat = slideshow_repeat_c;
@@ -1021,6 +1023,14 @@ static void config_window_create(void)
 
 	ct_button = pref_checkbox_new_int(group, _("Disable File Filtering"),
 					  file_filter_disable, &file_filter_disable_c);
+
+
+	group = pref_group_new(vbox, FALSE, _("Grouping sidecar extensions"), GTK_ORIENTATION_VERTICAL);
+
+	sidecar_ext_entry = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(sidecar_ext_entry), sidecar_ext_to_string());
+	gtk_box_pack_start(GTK_BOX(group), sidecar_ext_entry, FALSE, FALSE, 0);
+	gtk_widget_show(sidecar_ext_entry);
 
 	group = pref_group_new(vbox, TRUE, _("File types"), GTK_ORIENTATION_VERTICAL);
 

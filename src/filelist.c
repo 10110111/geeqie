@@ -416,7 +416,7 @@ static GList *sidecar_ext_get_list(void)
 	return sidecar_ext_list;
 }
 
-void sidecar_ext_parse(const gchar *text)
+void sidecar_ext_parse(const gchar *text, gint quoted)
 {
 	GList *work;
 	gchar *value;
@@ -431,7 +431,10 @@ void sidecar_ext_parse(const gchar *text)
 	g_list_free(sidecar_ext_list);
 	sidecar_ext_list = NULL;
 	
-	value = quoted_value(text);
+	if (quoted)
+		value = quoted_value(text);
+	else
+		value = g_strdup(text);
 
 	if (value == NULL) return;
 
@@ -443,22 +446,28 @@ void sidecar_ext_parse(const gchar *text)
 void sidecar_ext_write(FILE *f)
 {
 	GList *work;
-	fprintf(f, "\nsidecar_ext: \"");
-	
+	fprintf(f, "\nsidecar_ext: \"%s\"\n", sidecar_ext_to_string());
+}
+
+char *sidecar_ext_to_string()
+{
+	GList *work;
+	GString *str = g_string_new("");
+
 	work = sidecar_ext_list;
 	while (work)
 		{
 		gchar *ext = work->data;
 		work = work->next;
-		fprintf(f, "%s%s", ext, work ? ";" : "");
+		g_string_append(str, ext);
+		if (work) g_string_append(str, ";");
 		}
-	fprintf(f, "\"\n");
-
+	return g_string_free(str, FALSE);
 }
 
 void sidecar_ext_add_defaults()
 {
-	sidecar_ext_parse("\".jpg;.cr2;.nef;.crw\"");
+	sidecar_ext_parse(".jpg;.cr2;.nef;.crw", FALSE);
 }
 
 /*

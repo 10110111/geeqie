@@ -585,7 +585,7 @@ void load_options(void)
 
 		if (strcasecmp(option, "sidecar_ext") == 0)
 			{
-			sidecar_ext_parse(value_all);
+			sidecar_ext_parse(value_all, TRUE);
 			}
 		
 		/* Color Profiles */
