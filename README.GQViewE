@@ -1,0 +1,75 @@
+Implemented features
+====================
+
+Comparing images side-to-side
+"""""""""""""""""""""""""""""
+
+Menu: View/Split/... 
+      View/Connected Scroll
+      View/Connected Zoom
+
+
+File marks
+""""""""""
+
+Each image can be marked with up to 6 different
+flags, it is possible to convert marks to selection and vice versa,
+even boolean operations are supported
+Note: marks are visible in file list and fullscreen mode with info,
+they are not visible in icon list (yet).
+
+Menu: Select/Show Marks
+      Select/Mark ...
+      
+
+File grouping
+"""""""""""""
+
+It is possible to group files which have the same name and different extension,
+and show them as one entry. Typical usage: raw + jpeg, raw + xmp.
+
+Configuration: Preferences/Filtering
+
+
+External commands
+"""""""""""""""""
+
+It is possible to replace internal copy/move/delete operations with 
+external commands, for example create hardlinks instead of copying files.
+
+External editors handling was improved, it is possible to run an editor 
+on the best fitting file type, and the exit status is reported back 
+to gqview.
+
+Configuration: Preferences/Editors
+Menu: Edit/...
+
+
+Controls redesing
+"""""""""""""""""
+
+Most of controls was added to menu and is handled via keyboard accelerators,
+thus they can be configured in ~/.gqview/accels
+
+The default function of keys 1, 2, 3, ... was changed from zoom to mark toggle and 
+function of <ctrl>1, <ctrl>2, <ctrl>3, ... from external editor to selecting mark.
+
+
+
+TODO
+====
+
+metadata handling - xmp support
+
+
+external commands
+  - internal copy/move/delete of grouped files
+  - rewrite utilops.c, better error handling
+  - "filters" - commands that have source and target file, offer them in d&d menu,
+    ask for target when they are called normally.
+  - external command for reading and writting metadata (typically exiftool)
+  
+rewrite change notifications, take advantage of FileData structure
+
+configuration dialog for accelerators
+
