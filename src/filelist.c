@@ -713,7 +713,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 {
 	FileData *fd;
 
-	printf("file_data_new: '%s' %d\n", path_utf8, check_sidecars);
+	if (debug) printf("file_data_new: '%s' %d\n", path_utf8, check_sidecars);
 	
 	if (!file_data_pool)
 		file_data_pool = g_hash_table_new (g_str_hash, g_str_equal);
@@ -722,7 +722,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	if (fd)
 		{
 		file_data_check_changed_files(fd, st);
-		printf("file_data_pool hit: '%s'\n", fd->path);
+		if (debug) printf("file_data_pool hit: '%s'\n", fd->path);
 		return file_data_ref(fd);
 		}
 	
@@ -875,7 +875,7 @@ void file_data_unref(FileData *fd)
 {
 	if (fd == NULL) return;
 	g_assert(fd->magick == 0x12345678);
-	printf("file_data_unref: '%s'\n", fd->path);
+	if (debug) printf("file_data_unref: '%s'\n", fd->path);
 	fd->ref--;
 	if (fd->ref == 0)
 		{
@@ -897,7 +897,7 @@ void file_data_unref(FileData *fd)
 		
 		/* none of parent/children is referenced, we can free everything */
 		
-		printf("file_data_unref: '%s', parent '%s'\n", fd->path, parent->path);
+		if (debug) printf("file_data_unref: deleting '%s', parent '%s'\n", fd->path, parent->path);
 		
 		work = parent->sidecar_files;
 		while (work)
