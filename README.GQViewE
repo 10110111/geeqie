@@ -45,7 +45,7 @@ Configuration: Preferences/Editors
 Menu: Edit/...
 
 
-Controls redesing
+Controls redesign
 """""""""""""""""
 
 Most of controls was added to menu and is handled via keyboard accelerators,
@@ -60,16 +60,30 @@ TODO
 ====
 
 metadata handling - xmp support
+  - use exiv2, display Exif, IPTX and XMP tags
+  - tag editor
+  - search, filtering
+  - save tags in XMP - structured tags should be possible
 
 
 external commands
   - internal copy/move/delete of grouped files
-  - rewrite utilops.c, better error handling
+  - rewrite utilops.c, better error handling, faster preview (use thumbnails)
   - "filters" - commands that have source and target file, offer them in d&d menu,
     ask for target when they are called normally.
   - external command for reading and writting metadata (typically exiftool)
+  - structured list of commands - editors, exporters, ...
+  - posibility to add commands by installing additional file/package 
+  - some dialog for extra parameters of commands, 
+    for example 
+      command median filter, extra parameter radius (float)
+      command export, extra parameter target directory (string)
   
 rewrite change notifications, take advantage of FileData structure
 
 configuration dialog for accelerators
+
+fix all bugs :)
+
+Please send any comments or bugreports to nadvornik@suse.cz
 
