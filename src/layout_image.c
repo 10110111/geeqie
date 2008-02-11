@@ -1693,7 +1693,14 @@ GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
 	if (!lw->split_images[0])
 		{
 		layout_image_new(lw, 0);
+		image_set_frame(lw->split_images[0], (!lw->tools_float && !lw->tools_hidden));
+		image_set_selectable(lw->split_images[0], 0);
 		layout_image_activate(lw, 0);
+		}
+	else
+		{
+		image_set_frame(lw->split_images[0], (!lw->tools_float && !lw->tools_hidden));
+		image_set_selectable(lw->split_images[0], 0);
 		}
 		
 	for (i=1; i < MAX_SPLIT_IMAGES; i++)
@@ -1705,13 +1712,12 @@ GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
 			}
 		}
 
+
 	layout_image_activate(lw, 0);
-	image_set_selectable(lw->split_images[0], 0);
 	
 	lw->split_image_widget = lw->split_images[0]->widget;
 			
 	return lw->split_image_widget;
-
 }
 
 GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
@@ -1725,10 +1731,14 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 		{
 		layout_image_new(lw, 0);
 		}
+	image_set_frame(lw->split_images[0], 1);
+	image_set_selectable(lw->split_images[0], 1);
 
 	if (!lw->split_images[1])
 		{
 		layout_image_new(lw, 1);
+		image_set_frame(lw->split_images[1], 1);
+		image_set_selectable(lw->split_images[1], 1);
 		if (lw->image)
 			{
 			gdouble sx, sy;
@@ -1740,6 +1750,11 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 		layout_image_deactivate(lw, 1);
 		layout_image_activate(lw, 0);
 		}
+	else
+		{
+		image_set_frame(lw->split_images[1], 1);
+		image_set_selectable(lw->split_images[1], 1);
+		}
 
 	
 	for (i=2; i < MAX_SPLIT_IMAGES; i++)
@@ -1750,9 +1765,6 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 			lw->split_images[i] = NULL;
 			}
 		}
-
-	image_set_selectable(lw->split_images[0], 1);
-	image_set_selectable(lw->split_images[1], 1);
 
         if (!lw->image || lw->active_split_image < 0 || lw->active_split_image > 1)
 		{
@@ -1792,6 +1804,9 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 		layout_image_new(lw, 0);
 		}
 
+	image_set_frame(lw->split_images[0], 1);
+	image_set_selectable(lw->split_images[0], 1);
+
 	if (!lw->split_images[1])
 		{
 		layout_image_activate(lw, 0);
@@ -1801,6 +1816,8 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 		if (!lw->split_images[i])
 			{
 			layout_image_new(lw, i);
+			image_set_frame(lw->split_images[i], 1);
+			image_set_selectable(lw->split_images[i], 1);
 			if (lw->image)
 				{
 				gdouble sx, sy;
@@ -1810,6 +1827,11 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 				image_set_scroll_center(lw->split_images[i], sx, sy);
 				}
 			layout_image_deactivate(lw, i);
+			}
+		else
+			{
+			image_set_frame(lw->split_images[i], 1);
+			image_set_selectable(lw->split_images[i], 1);
 			}
 
 	for (i=4; i < MAX_SPLIT_IMAGES; i++)
@@ -1821,10 +1843,6 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 			}
 		}
 
-	image_set_selectable(lw->split_images[0], 1);
-	image_set_selectable(lw->split_images[1], 1);
-	image_set_selectable(lw->split_images[2], 1);
-	image_set_selectable(lw->split_images[3], 1);
 
         if (!lw->image || lw->active_split_image < 0 || lw->active_split_image > 3)
 		{

@@ -1691,13 +1691,13 @@ void image_set_selectable(ImageWindow *imd, gboolean selectable)
 		{
 		if (selectable) 
 			{
-			gtk_frame_set_shadow_type(GTK_FRAME(imd->widget), GTK_SHADOW_NONE);
-			gtk_container_set_border_width (GTK_CONTAINER (imd->widget), 4);
+			gtk_frame_set_shadow_type(GTK_FRAME(imd->frame), GTK_SHADOW_NONE);
+			gtk_container_set_border_width (GTK_CONTAINER (imd->frame), 4);
 			}
 		else
 			{
-			gtk_frame_set_shadow_type(GTK_FRAME(imd->widget), GTK_SHADOW_NONE);
-			gtk_container_set_border_width (GTK_CONTAINER (imd->widget), 0);
+			gtk_frame_set_shadow_type(GTK_FRAME(imd->frame), GTK_SHADOW_NONE);
+			gtk_container_set_border_width (GTK_CONTAINER (imd->frame), 0);
 			}
 		}
 }
@@ -1786,6 +1786,55 @@ gboolean selectable_frame_expose_cb (GtkWidget *widget, GdkEventExpose *event, g
 }
 
 
+void image_set_frame(ImageWindow *imd, gboolean frame)
+{
+	frame = !!frame;
+	
+	if (frame == imd->has_frame) return;
+	
+	gtk_widget_hide(imd->pr);
+	
+	if (frame)
+		{
+		imd->frame = gtk_frame_new(NULL);
+		gtk_widget_ref(imd->pr);
+		if (imd->has_frame != -1) gtk_container_remove(GTK_CONTAINER(imd->widget), imd->pr);
+		gtk_container_add(GTK_CONTAINER(imd->frame), imd->pr);
+		gtk_widget_unref(imd->pr);
+		g_signal_connect (G_OBJECT (imd->frame), "expose_event",  
+                    G_CALLBACK (selectable_frame_expose_cb), NULL);
+
+		GTK_WIDGET_SET_FLAGS(imd->frame, GTK_CAN_FOCUS);
+		g_signal_connect(G_OBJECT(imd->frame), "focus_in_event",
+				 G_CALLBACK(image_focus_in_cb), imd);
+		g_signal_connect(G_OBJECT(imd->frame), "focus_out_event",
+				 G_CALLBACK(image_focus_out_cb), imd);
+
+		g_signal_connect_after(G_OBJECT(imd->frame), "expose_event",
+				       G_CALLBACK(image_focus_expose), imd);
+
+
+		gtk_box_pack_start_defaults(GTK_BOX(imd->widget), imd->frame);
+		gtk_widget_show(imd->frame);
+		}
+	else
+		{
+		gtk_widget_ref(imd->pr);
+		if (imd->frame) 
+			{
+			gtk_container_remove(GTK_CONTAINER(imd->frame), imd->pr);
+			gtk_widget_destroy(imd->frame);
+			imd->frame = NULL;
+			}
+		gtk_box_pack_start_defaults(GTK_BOX(imd->widget), imd->pr);
+		gtk_widget_unref(imd->pr);
+		}
+
+	gtk_widget_show(imd->pr);
+	
+	imd->has_frame = frame;
+}
+
 ImageWindow *image_new(gint frame)
 {
 	ImageWindow *imd;
@@ -1799,7 +1848,7 @@ ImageWindow *image_new(gint frame)
 
 	imd->unknown = TRUE;
 
-	imd->has_frame = frame;
+	imd->has_frame = -1; /* not initialized; for image_set_frame */
 	imd->top_window_sync = FALSE;
 
 	imd->delay_alter_type = ALTER_NONE;
@@ -1833,28 +1882,12 @@ ImageWindow *image_new(gint frame)
 
 	image_options_set(imd);
 
-	if (imd->has_frame)
-		{
-		imd->widget = gtk_frame_new(NULL);
-		image_set_selectable(imd, 0);
-		gtk_container_add(GTK_CONTAINER(imd->widget), imd->pr);
-		gtk_widget_show(imd->pr);
-		g_signal_connect (G_OBJECT (imd->widget), "expose_event",  
-                    G_CALLBACK (selectable_frame_expose_cb), NULL);
+	
+	imd->widget = gtk_vbox_new(0, 0);
 
-		GTK_WIDGET_SET_FLAGS(imd->widget, GTK_CAN_FOCUS);
-		g_signal_connect(G_OBJECT(imd->widget), "focus_in_event",
-				 G_CALLBACK(image_focus_in_cb), imd);
-		g_signal_connect(G_OBJECT(imd->widget), "focus_out_event",
-				 G_CALLBACK(image_focus_out_cb), imd);
+	image_set_frame(imd, frame);
 
-		g_signal_connect_after(G_OBJECT(imd->widget), "expose_event",
-				       G_CALLBACK(image_focus_expose), imd);
-		}
-	else
-		{
-		imd->widget = imd->pr;
-		}
+	image_set_selectable(imd, 0);
 
 	g_signal_connect(G_OBJECT(imd->pr), "clicked",
 			 G_CALLBACK(image_click_cb), imd);
