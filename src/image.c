@@ -1684,6 +1684,24 @@ void image_select(ImageWindow *imd, gboolean select)
 }
 
 
+
+void image_set_selectable(ImageWindow *imd, gboolean selectable)
+{
+	if (imd->has_frame)
+		{
+		if (selectable) 
+			{
+			gtk_frame_set_shadow_type(GTK_FRAME(imd->widget), GTK_SHADOW_NONE);
+			gtk_container_set_border_width (GTK_CONTAINER (imd->widget), 4);
+			}
+		else
+			{
+			gtk_frame_set_shadow_type(GTK_FRAME(imd->widget), GTK_SHADOW_NONE);
+			gtk_container_set_border_width (GTK_CONTAINER (imd->widget), 0);
+			}
+		}
+}
+
 /*
  *-------------------------------------------------------------------
  * prefs sync
@@ -1760,8 +1778,8 @@ gboolean selectable_frame_expose_cb (GtkWidget *widget, GdkEventExpose *event, g
                            NULL,
                            widget,
                            NULL,
-		    	   widget->allocation.x, widget->allocation.y, 
-		    	   widget->allocation.width, widget->allocation.height); 
+		    	   widget->allocation.x + 3, widget->allocation.y + 3, 
+		    	   widget->allocation.width - 6, widget->allocation.height - 6); 
  
  
 	return FALSE;
@@ -1818,9 +1836,8 @@ ImageWindow *image_new(gint frame)
 	if (imd->has_frame)
 		{
 		imd->widget = gtk_frame_new(NULL);
-		gtk_frame_set_shadow_type(GTK_FRAME(imd->widget), GTK_SHADOW_NONE);
+		image_set_selectable(imd, 0);
 		gtk_container_add(GTK_CONTAINER(imd->widget), imd->pr);
-		gtk_container_set_border_width (GTK_CONTAINER (imd->widget), 7);
 		gtk_widget_show(imd->pr);
 		g_signal_connect (G_OBJECT (imd->widget), "expose_event",  
                     G_CALLBACK (selectable_frame_expose_cb), NULL);
