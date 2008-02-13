@@ -11,6 +11,7 @@
 #  include "config.h"
 #endif
 
+#ifndef HAVE_EXIV2
 
 #include <stdio.h>
 #include <string.h>
@@ -380,3 +381,5 @@ gint format_olympus_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 }
 
 
+#endif 
+/* not HAVE_EXIV2 */

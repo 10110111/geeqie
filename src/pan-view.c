@@ -1434,7 +1434,7 @@ static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 	gint i;
 
 	if (!fd) return;
-	exif = exif_read(fd, FALSE);
+	exif = exif_read(fd->path, FALSE);
 	if (!exif) return;
 
 	pan_text_alignment_add(ta, NULL, NULL);

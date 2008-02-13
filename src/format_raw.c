@@ -14,6 +14,7 @@
 #  include "config.h"
 #endif
 
+#ifndef HAVE_EXIV2
 
 #include <stdio.h>
 #include <string.h>
@@ -564,4 +565,6 @@ gint format_debug_tiff_raw(unsigned char *data, const guint len,
 }
 #endif
 
+#endif 
+/* not HAVE_EXIV2 */
 

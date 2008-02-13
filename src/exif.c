@@ -54,6 +54,8 @@
 #  include "config.h"
 #endif
 
+#ifndef HAVE_EXIV2
+
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
@@ -1232,7 +1234,7 @@ void exif_free(ExifData *exif)
 	g_free(exif);
 }
 
-ExifData *exif_read(FileData *fd, gint parse_color_profile)
+ExifData *exif_read(gchar *path, gint parse_color_profile)
 {
 	ExifData *exif;
 	void *f;
@@ -1241,7 +1243,7 @@ ExifData *exif_read(FileData *fd, gint parse_color_profile)
 
 	if (!fd) return NULL;
 
-	pathl = path_from_utf8(fd->path);
+	pathl = path_from_utf8(path);
 	if (map_file(pathl, &f, &size) == -1)
 		{
 		g_free(pathl);
@@ -1848,3 +1850,5 @@ void exif_write_data_list(ExifData *exif, FILE *f, gint human_readable_list)
 	fprintf(f, "----------------------------------------------------\n");
 }
 
+#endif 
+/* not HAVE_EXIV2 */

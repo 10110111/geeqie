@@ -425,7 +425,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 	if (exif_rotate_enable ||
 	    (imd->color_profile_enable && imd->color_profile_use_image) )
 		{
-		exif = exif_read(imd->image_fd, (imd->color_profile_enable && imd->color_profile_use_image));
+		exif = exif_read(imd->image_fd->path, (imd->color_profile_enable && imd->color_profile_use_image));
 		}
 
 	if (exif_rotate_enable && exif)
@@ -624,7 +624,7 @@ static gint image_post_buffer_get(ImageWindow *imd)
 			{
 			ExifData *exif = NULL;
 
-			if (imd->color_profile_use_image) exif = exif_read(imd->image_fd, TRUE);
+			if (imd->color_profile_use_image) exif = exif_read(imd->image_fd->path, TRUE);
 			image_post_process_color(imd, imd->prev_color_row, exif);
 			exif_free(exif);
 			}

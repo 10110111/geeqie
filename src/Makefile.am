@@ -84,6 +84,7 @@ gqview_SOURCES = \
 	editors.h	\
 	exif.c		\
 	exif.h		\
+	exiv2.cc	\
 	filelist.c	\
 	filelist.h	\
 	format_canon.c	\

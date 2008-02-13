@@ -15,6 +15,7 @@
 #  include "config.h"
 #endif
 
+#ifndef HAVE_EXIV2
 
 #include <stdio.h>
 #include <string.h>
@@ -443,3 +444,5 @@ gint format_nikon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 	return TRUE;
 }
 
+#endif 
+/* not HAVE_EXIV2 */

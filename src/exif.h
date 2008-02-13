@@ -97,7 +97,7 @@ typedef enum {
  *-----------------------------------------------------------------------------
  */
 
-ExifData *exif_read(FileData *fd, gint parse_color_profile);
+ExifData *exif_read(gchar *path, gint parse_color_profile);
 void exif_free(ExifData *exif);
 
 gchar *exif_get_data_as_text(ExifData *exif, const gchar *key);
