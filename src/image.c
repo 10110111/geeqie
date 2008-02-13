@@ -369,7 +369,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 			gint cs;
 
 			/* ColorSpace == 1 specifies sRGB per EXIF 2.2 */
-			if (exif_get_integer(exif, "ColorSpace", &cs) &&
+			if (exif_get_integer(exif, "Exif.Photo.ColorSpace", &cs) &&
 			    cs == 1)
 				{
 				input_type = COLOR_PROFILE_SRGB;

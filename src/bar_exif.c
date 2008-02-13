@@ -32,18 +32,18 @@ static const gchar *bar_exif_key_list_real[] = {
 	"fDateTime",
 	"fShutterSpeed",
 	"fAperture",
-	"ExposureProgram",
+	"Exif.Photo.ExposureProgram",
 	"fExposureBias",
 	"fISOSpeedRating",
 	"fFocalLength",
 	"fSubjectDistance",
-	"MeteringMode",
+	"Exif.Photo.MeteringMode",
 	"fFlash",
-	"LightSource",
+	"Exif.Photo.LightSource",
 	"fResolution",
-	"Orientation",
-	"ImageDescription",
-	"Copyright" */
+	"Exif.Image.Orientation",
+	"Exif.Image.ImageDescription",
+	"Exif.Image.Copyright" */
 };
 
 const gchar **bar_exif_key_list = bar_exif_key_list_real;

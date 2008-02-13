@@ -385,7 +385,7 @@ static FormatExifEntry *format_exif_makernote_find(ExifData *exif, unsigned char
 	ExifItem *make;
 	gint n;
 
-	make = exif_get_item(exif, "Make");
+	make = exif_get_item(exif, "Exif.Image.Make");
 
 	n = 0;
 	while (format_exif_list[n].header_pattern)
