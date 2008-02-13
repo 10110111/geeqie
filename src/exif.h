@@ -51,6 +51,14 @@ typedef enum {
 	EXIF_FORMAT_DOUBLE		= 12
 } ExifFormatType;
 
+
+typedef struct _ExifFormattedText ExifFormattedText;
+struct _ExifFormattedText
+{
+	const gchar *key;
+	const gchar *description;
+};
+
 /*
  *-----------------------------------------------------------------------------
  * Data storage

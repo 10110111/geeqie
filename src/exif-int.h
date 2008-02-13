@@ -99,12 +99,6 @@ struct _ExifTextList
 #define EXIF_TEXT_LIST_END { -1, NULL }
 
 
-typedef struct _ExifFormattedText ExifFormattedText;
-struct _ExifFormattedText
-{
-	const gchar *key;
-	const gchar *description;
-};
 
 
 /*

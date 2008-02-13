@@ -84,6 +84,7 @@ gqview_SOURCES = \
 	editors.h	\
 	exif.c		\
 	exif.h		\
+	exif-int.h	\
 	exiv2.cc	\
 	filelist.c	\
 	filelist.h	\
@@ -167,7 +168,7 @@ gqview_SOURCES = \
 	view_file_icon.c	\
 	view_file_icon.h
 
-gqview_LDADD = $(GTK_LIBS) $(INTLLIBS) $(LCMS_LIBS)
+gqview_LDADD = $(GTK_LIBS) $(INTLLIBS) $(LCMS_LIBS) $(EXIV2_LIBS)
 
 EXTRA_DIST = \
 	$(extra_SLIK)
