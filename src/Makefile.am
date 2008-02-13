@@ -85,6 +85,7 @@ gqview_SOURCES = \
 	exif.c		\
 	exif.h		\
 	exif-int.h	\
+	exif-common.c   \
 	exiv2.cc	\
 	filelist.c	\
 	filelist.h	\

@@ -164,6 +164,5 @@ gint exif_tiff_parse(ExifData *exif, unsigned char *tiff, guint size, ExifMarker
 
 gchar *exif_text_list_find_value(ExifTextList *list, guint value);
 
-
 #endif
 

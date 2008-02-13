@@ -28,7 +28,7 @@
 #define BAR_EXIF_DATA_COLUMN_WIDTH 250
 
 static const gchar *bar_exif_key_list_real[] = {
-	"Exif.Image.Model" /*,
+	"fCamera",
 	"fDateTime",
 	"fShutterSpeed",
 	"fAperture",
@@ -43,7 +43,7 @@ static const gchar *bar_exif_key_list_real[] = {
 	"fResolution",
 	"Exif.Image.Orientation",
 	"Exif.Image.ImageDescription",
-	"Exif.Image.Copyright" */
+	"Exif.Image.Copyright" 
 };
 
 const gchar **bar_exif_key_list = bar_exif_key_list_real;
@@ -263,7 +263,7 @@ static void bar_exif_update(ExifBar *eb)
 			text = bar_exif_validate_text(text);
 			elements = g_strdup_printf("%d", exif_item_get_elements(item));
 			description = exif_item_get_description(item);
-			if (!description) description = "";
+			if (!description) description = g_strdup("");
 			gtk_list_store_append(store, &iter);
 			gtk_list_store_set(store, &iter,
 					EXIF_ADVCOL_ENABLED, bar_exif_row_enabled(tag_name),
@@ -276,6 +276,7 @@ static void bar_exif_update(ExifBar *eb)
 			g_free(tag);
 			g_free(text);
 			g_free(elements);
+			g_free(description);
 			item = exif_get_next_item(exif);
 			}
 		}
@@ -313,6 +314,8 @@ void bar_exif_set(GtkWidget *bar, FileData *fd)
 {
 	ExifBar *eb;
 
+	g_assert(fd);
+	
 	eb = g_object_get_data(G_OBJECT(bar), "bar_exif_data");
 	if (!eb) return;
 

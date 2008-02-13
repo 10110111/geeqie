@@ -112,6 +112,7 @@ gchar *exif_get_data_as_text(ExifData *exif, const gchar *key);
 gint exif_get_integer(ExifData *exif, const gchar *key, gint *value);
 ExifRational *exif_get_rational(ExifData *exif, const gchar *key, gint *sign);
 double exif_rational_to_double(ExifRational *r, gint sign);
+double exif_get_rational_as_double(ExifData *exif, const gchar *key);
 
 ExifItem *exif_get_item(ExifData *exif, const gchar *key);
 ExifItem *exif_get_first_item(ExifData *exif);
@@ -121,7 +122,7 @@ const char *exif_item_get_tag_name(ExifItem *item);
 guint exif_item_get_tag_id(ExifItem *item);
 guint exif_item_get_elements(ExifItem *item);
 char *exif_item_get_data(ExifItem *item, guint *data_len);
-const char *exif_item_get_description(ExifItem *item);
+char *exif_item_get_description(ExifItem *item);
 guint exif_item_get_format_id(ExifItem *item);
 const char *exif_item_get_format_name(ExifItem *item, gint brief);
 gchar *exif_item_get_data_as_text(ExifItem *item);
@@ -129,6 +130,9 @@ gint exif_item_get_integer(ExifItem *item, gint *value);
 ExifRational *exif_item_get_rational(ExifItem *item, gint *sign);
 
 const gchar *exif_get_description_by_key(const gchar *key);
+const gchar *exif_get_tag_description_by_key(const gchar *key);
+
+gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid);
 
 gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 				    unsigned char *header_data, const guint header_len,

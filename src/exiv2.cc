@@ -24,8 +24,9 @@ struct _ExifData
 
 ExifData *exif_read(gchar *path, gint parse_color_profile)
 {
+	printf("exif %s\n", path);
 	try {
-		ExifData *exif = g_new0(ExifData, 1);
+		ExifData *exif = new ExifData;
 	
 		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
 		g_assert (image.get() != 0);
@@ -42,11 +43,17 @@ ExifData *exif_read(gchar *path, gint parse_color_profile)
 
 void exif_free(ExifData *exif)
 {
+	
+	delete exif;
 }
 
 
 gchar *exif_get_data_as_text(ExifData *exif, const gchar *key)
 {
+	gint key_valid;
+	gchar *text = exif_get_formatted_by_key(exif, key, &key_valid);
+	if (key_valid) return text;
+
 	return g_strdup(exif->exifData[key].toString().c_str());
 }
 
@@ -66,14 +73,6 @@ ExifRational *exif_get_rational(ExifData *exif, const gchar *key, gint *sign)
 	ExifRational *ret = 
 	return exif->exifData[key];
 */
-}
-
-double exif_rational_to_double(ExifRational *r, gint sign)
-{
-	if (!r || r->den == 0.0) return 0.0;
-
-	if (sign) return (double)((int)r->num) / (double)((int)r->den);
-	return (double)r->num / r->den;
 }
 
 ExifItem *exif_get_item(ExifData *exif, const gchar *key)
@@ -117,9 +116,9 @@ char *exif_item_get_data(ExifItem *item, guint *data_len)
 {
 }
 
-const char *exif_item_get_description(ExifItem *item)
+char *exif_item_get_description(ExifItem *item)
 {
-	return ((Exiv2::Exifdatum *)item)->tagLabel().c_str();
+	return g_strdup(((Exiv2::Exifdatum *)item)->tagLabel().c_str());
 }
 
 /*
@@ -170,8 +169,10 @@ ExifRational *exif_item_get_rational(ExifItem *item, gint *sign)
 {
 }
 
-const gchar *exif_get_description_by_key(const gchar *key)
+const gchar *exif_get_tag_description_by_key(const gchar *key)
 {
+	Exiv2::ExifKey ekey(key);
+	return Exiv2::ExifTags::tagLabel(ekey.tag(), ekey.ifdId ());
 }
 
 gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
