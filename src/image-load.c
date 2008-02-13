@@ -14,7 +14,7 @@
 #include "image-load.h"
 #include "filelist.h"
 
-#include "format_raw.h"
+#include "exif.h"
 #include "ui_fileops.h"
 
 #include <fcntl.h>

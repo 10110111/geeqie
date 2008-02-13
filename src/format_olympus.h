@@ -11,7 +11,7 @@
 #define __FORMAT_OLYMPUS_H
 
 
-#include "exif.h"
+#include "exif-int.h"
 
 
 gint format_olympus_raw(unsigned char *data, const guint len,

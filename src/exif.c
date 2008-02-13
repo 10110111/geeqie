@@ -68,7 +68,7 @@
 #include "intl.h"
 
 #include "gqview.h"
-#include "exif.h"
+#include "exif-int.h"
 
 #include "format_raw.h"
 #include "ui_fileops.h"
@@ -512,6 +512,29 @@ const char *exif_item_get_tag_name(ExifItem *item)
 	return item->marker->key;
 }
 
+guint exif_item_get_tag_id(ExifItem *item)
+{
+	return item->tag;
+}
+
+guint exif_item_get_elements(ExifItem *item)
+{
+	return item->elements;
+}
+
+char *exif_item_get_data(ExifItem *item, guint *data_len)
+{
+	if (data_len)
+		*data_len = item->data_len;
+	return item->data;
+}
+
+guint exif_item_get_format_id(ExifItem *item)
+{
+	return item->format;
+}
+
+
 const char *exif_item_get_description(ExifItem *item)
 {
 	if (!item || !item->marker) return NULL;
@@ -574,6 +597,7 @@ gchar *exif_text_list_find_value(ExifTextList *list, guint value)
 
 	return result;
 }
+
 
 /*
  *-------------------------------------------------------------------
@@ -1122,6 +1146,32 @@ static gint exif_jpeg_parse(ExifData *exif,
  *-------------------------------------------------------------------
  */
 
+
+ExifItem *exif_get_first_item(ExifData *exif)
+{
+	if (exif->items) 
+		{
+		ExifItem *ret = (ExifItem *)exif->items->data;
+		exif->current = exif->items->next;
+		return ret;
+		}
+	exif->current = NULL;
+	return NULL;
+}
+
+ExifItem *exif_get_next_item(ExifData *exif)
+{
+	if (exif->current) 
+		{
+		ExifItem *ret = (ExifItem *)exif->current->data;
+		exif->current = exif->current->next;
+		return ret;
+		}
+	return NULL;
+}
+
+
+
 static gint map_file(const gchar *path, void **mapping, int *size)
 {
 	int fd;
@@ -1201,6 +1251,7 @@ ExifData *exif_read(FileData *fd, gint parse_color_profile)
 
 	exif = g_new0(ExifData, 1);
 	exif->items = NULL;
+	exif->current = NULL;
 
 	if ((res = exif_jpeg_parse(exif, (unsigned char *)f, size,
 				   ExifKnownMarkersList,

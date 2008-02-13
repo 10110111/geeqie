@@ -379,16 +379,21 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 				}
 			}
 		}
-	if (item && item->format == EXIF_FORMAT_UNDEFINED)
+
+	if (item && exif_item_get_format_id(item) == EXIF_FORMAT_UNDEFINED)
 		{
+		char *data;
+		guint data_len;
 		if (debug) printf("Found embedded color profile\n");
+		
+		data = exif_item_get_data(item, &data_len);
 
 		cm = color_man_new_embedded(imd, NULL,
-					    item->data, item->data_len,
+					    data, data_len,
 					    screen_type, screen_file,
 					    image_post_process_color_cb, imd);
 		}
-	else
+	else 
 		{
 		cm = color_man_new(imd, NULL,
 				   input_type, input_file,

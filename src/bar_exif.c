@@ -241,14 +241,14 @@ static void bar_exif_update(ExifBar *eb)
 		GtkListStore *store;
 		GtkTreeIter iter;
 		GList *work;
+		ExifItem *item;
 		
 		store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(eb->listview)));
 		gtk_list_store_clear(store);
 
-		work = exif->items;
-		while (work)
+		item = exif_get_first_item(exif);
+		while (item)
 			{
-			ExifItem *item;
 			gchar *tag;
 			const gchar *tag_name;
 			gchar *text;
@@ -256,15 +256,12 @@ static void bar_exif_update(ExifBar *eb)
 			gchar *elements;
 			const gchar *description;
 
-			item = work->data;
-			work = work->next;
-
-			tag = g_strdup_printf("0x%04x", item->tag);
+			tag = g_strdup_printf("0x%04x", exif_item_get_tag_id(item));
 			tag_name = exif_item_get_tag_name(item);
 			format = exif_item_get_format_name(item, TRUE);
 			text = exif_item_get_data_as_text(item);
 			text = bar_exif_validate_text(text);
-			elements = g_strdup_printf("%d", item->elements);
+			elements = g_strdup_printf("%d", exif_item_get_elements(item));
 			description = exif_item_get_description(item);
 			if (!description) description = "";
 			gtk_list_store_append(store, &iter);
@@ -279,6 +276,7 @@ static void bar_exif_update(ExifBar *eb)
 			g_free(tag);
 			g_free(text);
 			g_free(elements);
+			item = exif_get_next_item(exif);
 			}
 		}
 

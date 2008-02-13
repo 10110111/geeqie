@@ -19,7 +19,7 @@
 #define __FORMAT_CANON_H
 
 
-#include "exif.h"
+#include "exif-int.h"
 
 
 gint format_canon_raw_crw(unsigned char *data, const guint len,

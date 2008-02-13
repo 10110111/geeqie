@@ -14,7 +14,7 @@
 #define __FORMAT_FUJI_H
 
 
-#include "exif.h"
+#include "exif-int.h"
 
 
 gint format_fuji_raw(unsigned char *data, const guint len,

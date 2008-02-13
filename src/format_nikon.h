@@ -11,7 +11,7 @@
 #define __FORMAT_NIKON_H
 
 
-#include "exif.h"
+#include "exif-int.h"
 
 gint format_nikon_raw(unsigned char *data, const guint len,
 		      guint *image_offset, guint *exif_offset);
