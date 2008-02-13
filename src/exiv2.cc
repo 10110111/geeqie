@@ -31,10 +31,13 @@ ExifData *exif_read(gchar *path, gint parse_color_profile)
 		g_assert (image.get() != 0);
 		image->readMetadata();
 		exif->exifData = image->exifData();
+		return exif;
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return 0;
 	}
+	
 }
 
 void exif_free(ExifData *exif)

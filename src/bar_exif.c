@@ -28,7 +28,7 @@
 #define BAR_EXIF_DATA_COLUMN_WIDTH 250
 
 static const gchar *bar_exif_key_list_real[] = {
-	"fCamera",
+	"Exif.Image.Model" /*,
 	"fDateTime",
 	"fShutterSpeed",
 	"fAperture",
@@ -43,7 +43,7 @@ static const gchar *bar_exif_key_list_real[] = {
 	"fResolution",
 	"Orientation",
 	"ImageDescription",
-	"Copyright"
+	"Copyright" */
 };
 
 const gchar **bar_exif_key_list = bar_exif_key_list_real;
