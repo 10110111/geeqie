@@ -52,7 +52,12 @@ gchar *exif_get_data_as_text(ExifData *exif, const gchar *key)
 
 gint exif_get_integer(ExifData *exif, const gchar *key, gint *value)
 {
-	return exif->exifData[key].toLong();
+	Exiv2::ExifKey ekey(key);
+	Exiv2::ExifData::iterator pos = exif->exifData.findKey(ekey);
+	if (pos == exif->exifData.end()) return 0;
+	*value = pos->getValue()->toLong();
+	
+	return 1;
 }
 
 ExifRational *exif_get_rational(ExifData *exif, const gchar *key, gint *sign)
@@ -95,12 +100,12 @@ ExifItem *exif_get_next_item(ExifData *exif)
 
 const char *exif_item_get_tag_name(ExifItem *item)
 {
-	return ((Exiv2::Exifdatum *)item)->tagName().c_str();
+	return ((Exiv2::Exifdatum *)item)->key().c_str();
 }
 
 guint exif_item_get_tag_id(ExifItem *item)
 {
-	return ((Exiv2::Exifdatum *)item)->idx();
+	return ((Exiv2::Exifdatum *)item)->tag();
 }
 
 guint exif_item_get_elements(ExifItem *item)
@@ -147,9 +152,7 @@ guint exif_item_get_format_id(ExifItem *item)
 }
 const char *exif_item_get_format_name(ExifItem *item, gint brief)
 {
-/*
-	return exif_item_get_tag_name(item);
-*/
+	return ((Exiv2::Exifdatum *)item)->typeName();
 }
 
 

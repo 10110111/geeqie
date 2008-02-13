@@ -432,7 +432,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 		{
 		gint orientation;
 
-		if (exif_get_integer(exif, "Orientation", &orientation))
+		if (exif_get_integer(exif, "Exif.Image.Orientation", &orientation))
 			{
 			gint rotate = TRUE;
 
