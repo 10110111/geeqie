@@ -53,8 +53,15 @@ gchar *exif_get_data_as_text(ExifData *exif, const gchar *key)
 	gint key_valid;
 	gchar *text = exif_get_formatted_by_key(exif, key, &key_valid);
 	if (key_valid) return text;
-
-	return g_strdup(exif->exifData[key].toString().c_str());
+	
+	try {
+		std::stringstream str;
+		str << exif->exifData[key];
+		return g_strdup(str.str().c_str());
+	}
+	catch (Exiv2::AnyError& e) {
+		return NULL;
+	}
 }
 
 gint exif_get_integer(ExifData *exif, const gchar *key, gint *value)
@@ -69,10 +76,14 @@ gint exif_get_integer(ExifData *exif, const gchar *key, gint *value)
 
 ExifRational *exif_get_rational(ExifData *exif, const gchar *key, gint *sign)
 {
-/*	Exiv2::Rational v = exif->exifData[key];
-	ExifRational *ret = 
-	return exif->exifData[key];
-*/
+	Exiv2::ExifKey ekey(key);
+	Exiv2::ExifData::iterator pos = exif->exifData.findKey(ekey);
+	if (pos == exif->exifData.end()) return NULL;
+	Exiv2::Rational v = pos->getValue()->toRational();
+	static ExifRational ret;
+	ret.num = v.first;
+	ret.den = v.second;
+	return &ret;
 }
 
 ExifItem *exif_get_item(ExifData *exif, const gchar *key)
@@ -157,16 +168,29 @@ const char *exif_item_get_format_name(ExifItem *item, gint brief)
 
 gchar *exif_item_get_data_as_text(ExifItem *item)
 {
-	return g_strdup(((Exiv2::Exifdatum *)item)->toString().c_str());
+	try {
+		std::stringstream str;
+		str << *((Exiv2::Exifdatum *)item);
+		return g_strdup(str.str().c_str());
+	}
+	catch (Exiv2::AnyError& e) {
+		return NULL;
+	}
 }
 
 
 gint exif_item_get_integer(ExifItem *item, gint *value)
 {
+	return ((Exiv2::Exifdatum *)item)->toLong();
 }
 
 ExifRational *exif_item_get_rational(ExifItem *item, gint *sign)
 {
+	Exiv2::Rational v = ((Exiv2::Exifdatum *)item)->toRational();
+	static ExifRational ret;
+	ret.num = v.first;
+	ret.den = v.second;
+	return &ret;
 }
 
 const gchar *exif_get_tag_description_by_key(const gchar *key)
