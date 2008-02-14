@@ -14,25 +14,30 @@ extern "C" {
 #include <glib.h> 
 #include "exif.h"
 
+}
 
 struct _ExifData
 {
 	Exiv2::ExifData exifData;
 	Exiv2::ExifData::const_iterator iter;
+
+	_ExifData(gchar *path, gint parse_color_profile)
+	{
+		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+		g_assert (image.get() != 0);
+		image->readMetadata();
+		exifData = image->exifData();
+	}
+
 };
 
+extern "C" {
 
 ExifData *exif_read(gchar *path, gint parse_color_profile)
 {
 	printf("exif %s\n", path);
 	try {
-		ExifData *exif = new ExifData;
-	
-		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
-		g_assert (image.get() != 0);
-		image->readMetadata();
-		exif->exifData = image->exifData();
-		return exif;
+		return new ExifData(path, parse_color_profile);
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";
@@ -47,80 +52,84 @@ void exif_free(ExifData *exif)
 	delete exif;
 }
 
-
-gchar *exif_get_data_as_text(ExifData *exif, const gchar *key)
+ExifItem *exif_get_item(ExifData *exif, const gchar *key)
 {
-	gint key_valid;
-	gchar *text = exif_get_formatted_by_key(exif, key, &key_valid);
-	if (key_valid) return text;
-	
 	try {
-		std::stringstream str;
-		str << exif->exifData[key];
-		return g_strdup(str.str().c_str());
+		Exiv2::ExifKey ekey(key);
+		Exiv2::ExifData::iterator pos = exif->exifData.findKey(ekey);
+		if (pos == exif->exifData.end()) return NULL;
+		Exiv2::Exifdatum *item = &*pos;
+		return (ExifItem *)item;
 	}
 	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
 		return NULL;
 	}
 }
 
-gint exif_get_integer(ExifData *exif, const gchar *key, gint *value)
-{
-	Exiv2::ExifKey ekey(key);
-	Exiv2::ExifData::iterator pos = exif->exifData.findKey(ekey);
-	if (pos == exif->exifData.end()) return 0;
-	*value = pos->getValue()->toLong();
-	
-	return 1;
-}
-
-ExifRational *exif_get_rational(ExifData *exif, const gchar *key, gint *sign)
-{
-	Exiv2::ExifKey ekey(key);
-	Exiv2::ExifData::iterator pos = exif->exifData.findKey(ekey);
-	if (pos == exif->exifData.end()) return NULL;
-	Exiv2::Rational v = pos->getValue()->toRational();
-	static ExifRational ret;
-	ret.num = v.first;
-	ret.den = v.second;
-	return &ret;
-}
-
-ExifItem *exif_get_item(ExifData *exif, const gchar *key)
-{
-	Exiv2::Exifdatum *item = &exif->exifData[key];
-	return (ExifItem *)item;
-}
 
 ExifItem *exif_get_first_item(ExifData *exif)
 {
-	exif->iter = exif->exifData.begin();
-	if (exif->iter == exif->exifData.end()) return NULL;
-	const Exiv2::Exifdatum *item = &*exif->iter;
-	return (ExifItem *)item;
+	try {
+		exif->iter = exif->exifData.begin();
+		if (exif->iter == exif->exifData.end()) return NULL;
+		const Exiv2::Exifdatum *item = &*exif->iter;
+		return (ExifItem *)item;
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return NULL;
+	}
 }
 
 ExifItem *exif_get_next_item(ExifData *exif)
 {
-	exif->iter++;
-	if (exif->iter == exif->exifData.end()) return NULL;
-	const Exiv2::Exifdatum *item = &*exif->iter;
-	return (ExifItem *)item;
+	try {
+		exif->iter++;
+		if (exif->iter == exif->exifData.end()) return NULL;
+		const Exiv2::Exifdatum *item = &*exif->iter;
+		return (ExifItem *)item;
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return NULL;
+	}
 }
 
 const char *exif_item_get_tag_name(ExifItem *item)
 {
-	return ((Exiv2::Exifdatum *)item)->key().c_str();
+	try {
+		if (!item) return NULL;
+		return ((Exiv2::Exifdatum *)item)->key().c_str();
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return NULL;
+	}
 }
 
 guint exif_item_get_tag_id(ExifItem *item)
 {
-	return ((Exiv2::Exifdatum *)item)->tag();
+	try {
+		if (!item) return 0;
+		return ((Exiv2::Exifdatum *)item)->tag();
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return 0;
+	}
 }
 
 guint exif_item_get_elements(ExifItem *item)
 {
-	return ((Exiv2::Exifdatum *)item)->count();
+	try {
+		if (!item) return 0;
+		return ((Exiv2::Exifdatum *)item)->count();
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return NULL;
+	}
 }
 
 char *exif_item_get_data(ExifItem *item, guint *data_len)
@@ -129,7 +138,14 @@ char *exif_item_get_data(ExifItem *item, guint *data_len)
 
 char *exif_item_get_description(ExifItem *item)
 {
-	return g_strdup(((Exiv2::Exifdatum *)item)->tagLabel().c_str());
+	try {
+		if (!item) return NULL;
+		return g_strdup(((Exiv2::Exifdatum *)item)->tagLabel().c_str());
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return NULL;
+	}
 }
 
 /*
@@ -139,36 +155,63 @@ invalidTypeId, unsignedByte, asciiString, unsignedShort,
   date, time, comment, directory,
   xmpText, xmpAlt, xmpBag, xmpSeq,
   langAlt, lastTypeId 
-
-	EXIF_FORMAT_UNKNOWN		= 0,
-	EXIF_FORMAT_BYTE_UNSIGNED	= 1,
-	EXIF_FORMAT_STRING		= 2,
-	EXIF_FORMAT_SHORT_UNSIGNED	= 3,
-	EXIF_FORMAT_LONG_UNSIGNED	= 4,
-	EXIF_FORMAT_RATIONAL_UNSIGNED	= 5,
-	EXIF_FORMAT_BYTE		= 6,
-	EXIF_FORMAT_UNDEFINED		= 7,
-	EXIF_FORMAT_SHORT		= 8,
-	EXIF_FORMAT_LONG		= 9,
-	EXIF_FORMAT_RATIONAL		= 10,
-	EXIF_FORMAT_FLOAT		= 11,
-	EXIF_FORMAT_DOUBLE		= 12
 */
 
+static guint format_id_trans_tbl [] = {
+	EXIF_FORMAT_UNKNOWN,
+	EXIF_FORMAT_BYTE_UNSIGNED,
+	EXIF_FORMAT_STRING,
+	EXIF_FORMAT_SHORT_UNSIGNED,
+	EXIF_FORMAT_LONG_UNSIGNED,
+	EXIF_FORMAT_RATIONAL_UNSIGNED,
+	EXIF_FORMAT_BYTE,
+	EXIF_FORMAT_UNDEFINED,
+	EXIF_FORMAT_SHORT,
+	EXIF_FORMAT_LONG,
+	EXIF_FORMAT_RATIONAL,
+	EXIF_FORMAT_STRING,
+	EXIF_FORMAT_STRING,
+	EXIF_FORMAT_STRING,
+	EXIF_FORMAT_UNDEFINED,
+	EXIF_FORMAT_STRING,
+	EXIF_FORMAT_STRING,
+	EXIF_FORMAT_STRING,
+	EXIF_FORMAT_STRING
+	};
+	
+	
 
 guint exif_item_get_format_id(ExifItem *item)
 {
-	return ((Exiv2::Exifdatum *)item)->typeId();
+	try {
+		if (!item) return EXIF_FORMAT_UNKNOWN;
+		guint id = ((Exiv2::Exifdatum *)item)->typeId();
+		if (id >= (sizeof(format_id_trans_tbl) / sizeof(format_id_trans_tbl[0])) ) return EXIF_FORMAT_UNKNOWN;
+		return format_id_trans_tbl[id];
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return EXIF_FORMAT_UNKNOWN;
+	}
 }
+
 const char *exif_item_get_format_name(ExifItem *item, gint brief)
 {
-	return ((Exiv2::Exifdatum *)item)->typeName();
+	try {
+		if (!item) return NULL;
+		return ((Exiv2::Exifdatum *)item)->typeName();
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return NULL;
+	}
 }
 
 
 gchar *exif_item_get_data_as_text(ExifItem *item)
 {
 	try {
+		if (!item) return NULL;
 		std::stringstream str;
 		str << *((Exiv2::Exifdatum *)item);
 		return g_strdup(str.str().c_str());
@@ -181,22 +224,42 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 
 gint exif_item_get_integer(ExifItem *item, gint *value)
 {
-	return ((Exiv2::Exifdatum *)item)->toLong();
+	try {
+		if (!item) return 0;
+		return ((Exiv2::Exifdatum *)item)->toLong();
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return 0;
+	}
 }
 
 ExifRational *exif_item_get_rational(ExifItem *item, gint *sign)
 {
-	Exiv2::Rational v = ((Exiv2::Exifdatum *)item)->toRational();
-	static ExifRational ret;
-	ret.num = v.first;
-	ret.den = v.second;
-	return &ret;
+	try {
+		if (!item) return NULL;
+		Exiv2::Rational v = ((Exiv2::Exifdatum *)item)->toRational();
+		static ExifRational ret;
+		ret.num = v.first;
+		ret.den = v.second;
+		return &ret;
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return NULL;
+	}
 }
 
 const gchar *exif_get_tag_description_by_key(const gchar *key)
 {
-	Exiv2::ExifKey ekey(key);
-	return Exiv2::ExifTags::tagLabel(ekey.tag(), ekey.ifdId ());
+	try {
+		Exiv2::ExifKey ekey(key);
+		return Exiv2::ExifTags::tagLabel(ekey.tag(), ekey.ifdId ());
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return NULL;
+	}
 }
 
 gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,

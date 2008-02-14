@@ -217,7 +217,7 @@ gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_val
 		if (!exif_get_integer(exif, "Exif.Photo.Flash", &n)) return NULL;
 
 		/* Exif 2.1 only defines first 3 bits */
-//		if (n <= 0x07) return exif_text_list_find_value(ExifFlashList, n);
+		if (n <= 0x07) return exif_get_data_as_text(exif, "Exif.Photo.Flash");
 
 		/* must be Exif 2.2 */
 		string = g_string_new("");
@@ -292,4 +292,37 @@ const gchar *exif_get_description_by_key(const gchar *key)
 		}
 
 	return exif_get_tag_description_by_key(key);
+}
+
+gint exif_get_integer(ExifData *exif, const gchar *key, gint *value)
+{
+	ExifItem *item;
+
+	item = exif_get_item(exif, key);
+	return exif_item_get_integer(item, value);
+}
+
+ExifRational *exif_get_rational(ExifData *exif, const gchar *key, gint *sign)
+{
+	ExifItem *item;
+
+	item = exif_get_item(exif, key);
+	return exif_item_get_rational(item, sign);
+}
+
+gchar *exif_get_data_as_text(ExifData *exif, const gchar *key)
+{
+	ExifItem *item;
+	gchar *text;
+	gint key_valid;
+
+	if (!key) return NULL;
+
+	text = exif_get_formatted_by_key(exif, key, &key_valid);
+	if (key_valid) return text;
+
+	item = exif_get_item(exif, key);
+	if (item) return exif_item_get_data_as_text(item);
+
+	return NULL;
 }
