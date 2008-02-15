@@ -494,7 +494,7 @@ static void exif_item_free(ExifItem *item)
 const char *exif_item_get_tag_name(ExifItem *item)
 {
 	if (!item || !item->marker) return NULL;
-	return item->marker->key;
+	return g_strdup(item->marker->key);
 }
 
 guint exif_item_get_tag_id(ExifItem *item)
@@ -694,7 +694,9 @@ void exif_item_copy_data(ExifItem *item, void *src, guint len,
 	if (!dest ||
 	    ExifFormatList[src_format].size * ne > len)
 		{
-		printf("exif tag %s data size mismatch\n", exif_item_get_tag_name(item));
+		gchar *tag = exif_item_get_tag_name(item);
+		printf("exif tag %s data size mismatch\n", tag);
+		g_free(tag);
 		return;
 		}
 
@@ -1556,8 +1558,10 @@ static void exif_write_item(FILE *f, ExifItem *item)
 	text = exif_item_get_data_as_text(item);
 	if (text)
 		{
+		gchar *tag = exif_item_get_tag_name(item);
 		fprintf(f, "%4x %9s %30s %s\n", item->tag, ExifFormatList[item->format].short_name,
-			exif_item_get_tag_name(item), text);
+			tag, text);
+		g_free(tag);
 		}
 	g_free(text);
 }

@@ -118,7 +118,7 @@ ExifItem *exif_get_item(ExifData *exif, const gchar *key);
 ExifItem *exif_get_first_item(ExifData *exif);
 ExifItem *exif_get_next_item(ExifData *exif);
 
-const char *exif_item_get_tag_name(ExifItem *item);
+char *exif_item_get_tag_name(ExifItem *item);
 guint exif_item_get_tag_id(ExifItem *item);
 guint exif_item_get_elements(ExifItem *item);
 char *exif_item_get_data(ExifItem *item, guint *data_len);
