@@ -9,8 +9,24 @@
 #include <exiv2/exif.hpp>
 #include <iostream>
 
-extern "C" {
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/mman.h>
 
+#include <exiv2/tiffparser.hpp>
+#include <exiv2/tiffcomposite.hpp>
+#include <exiv2/tiffvisitor.hpp>
+#include <exiv2/tiffimage.hpp>
+#include <exiv2/cr2image.hpp>
+#include <exiv2/orfimage.hpp>
+#include <exiv2/rafimage.hpp>
+#include <exiv2/futils.hpp>
+
+
+
+extern "C" {
 #include <glib.h> 
 #include "exif.h"
 
@@ -284,7 +300,8 @@ gint exif_item_get_integer(ExifItem *item, gint *value)
 {
 	try {
 		if (!item) return 0;
-		return ((Exiv2::Metadatum *)item)->toLong();
+		*value = ((Exiv2::Metadatum *)item)->toLong();
+		return 1;
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";
@@ -320,14 +337,197 @@ const gchar *exif_get_tag_description_by_key(const gchar *key)
 	}
 }
 
-gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
-				    unsigned char *header_data, const guint header_len,
-				    guint *image_offset, guint *exif_offset)
+
+}
+
+/* This is a dirty hack to support raw file preview, bassed on 
+tiffparse.cpp from Exiv2 examples */
+
+class RawFile {
+	public:
+    
+	RawFile(int fd);
+	~RawFile();
+    
+	const Exiv2::Value *find(uint16_t tag, uint16_t group);
+    
+	unsigned long preview_offset();
+    
+	private:
+	int type;
+	Exiv2::TiffComponent::AutoPtr rootDir;
+	Exiv2::byte *map_data;
+	size_t map_len;
+	unsigned long offset;
+};
+
+using namespace Exiv2;
+
+RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 {
+	struct stat st;
+	if (fstat(fd, &st) == -1)
+		{
+		throw Error(14);
+		}
+	map_len = st.st_size;
+	map_data = (Exiv2::byte *) mmap(0, map_len, PROT_READ, MAP_PRIVATE, fd, 0);
+	if (map_data == MAP_FAILED)
+		{
+		throw Error(14);
+		}
+	type = Exiv2::ImageFactory::getType(map_data, map_len);
+
+	TiffHeaderBase *tiffHeader;
+	switch (type) {
+		case Exiv2::ImageType::tiff:
+			tiffHeader = new TiffHeade2();
+			break;
+		case Exiv2::ImageType::cr2:
+			tiffHeader = new Cr2Header();
+			break;
+		case Exiv2::ImageType::orf:
+			tiffHeader = new OrfHeader();
+			break;
+		case Exiv2::ImageType::raf:
+		        if (map_len < 84 + 4) throw Error(14);
+    			offset = getULong(map_data + 84, bigEndian);
+			return;
+
+		default:
+			throw Error(3, "RAW");
+	}
+
+	// process tiff-like formats
+	if (!tiffHeader->read(map_data, map_len)) throw Error(3, "TIFF");
+
+	TiffCompFactoryFct createFct = TiffCreator::create;
+
+	rootDir = createFct(Tag::root, Group::none);
+	if (0 == rootDir.get()) {
+    		throw Error(1, "No root element defined in TIFF structure");
+	}
+	rootDir->setStart(map_data + tiffHeader->offset());
+
+	TiffRwState::AutoPtr state(
+    		new TiffRwState(tiffHeader->byteOrder(), 0, createFct));
+
+	TiffReader reader(map_data,
+                      map_len,
+                      rootDir.get(),
+                      state);
+
+	rootDir->accept(reader);
+	
+	delete tiffHeader;
+}
+
+RawFile::~RawFile()
+{
+	if (map_data && munmap(map_data, map_len) == -1)
+		{
+		printf("Failed to unmap file \n");
+		}
+}
+
+const Value * RawFile::find(uint16_t tag, uint16_t group)
+{
+	printf("%04x %04x\n", tag, group);
+	TiffFinder finder(tag, group);
+	rootDir->accept(finder);
+	TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
+	if (te)
+		return te->pValue();
+	else
+		return NULL;
+}
+
+unsigned long RawFile::preview_offset()
+{
+	const Value *val;
+	if (offset) return offset;
+	
+	if (type == Exiv2::ImageType::cr2)
+		{
+		val = find(0x111, Group::ifd0);
+		if (val) return val->toLong();
+    
+		return 0;
+		}
+	
+	val = find(0x201, Group::sub0_0);
+	if (val) return val->toLong();
+
+	val = find(0x201, Group::ifd0);
+	if (val) return val->toLong();
+    
+	val = find(0x201, Group::ignr); // for PEF files, originally it was probably ifd2
+	if (val) return val->toLong();
+
+	val = find(0x111, Group::sub0_1); // dng
+	if (val) return val->toLong();
+
 	return 0;
 }
 
+
+const static char *raw_ext_list[] = { ".cr2", ".nef", ".pef", ".arw", NULL };
+
+extern "C" gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
+				    unsigned char *header_data, const guint header_len,
+				    guint *image_offset, guint *exif_offset)
+{
+	int success;
+	unsigned long offset;
+
+	/* given image pathname, first do simple (and fast) file extension test */
+/*	if (path)
+		{
+		const gchar *ext;
+		gint match = FALSE;
+		gint i;
+
+		ext = strrchr(path, '.');
+		if (!ext) return FALSE;
+		
+		for (i = 0; raw_ext_list[i]; i++) 
+			{
+			if (strcasecmp(raw_ext_list[i], ext) == 0)
+				{
+				match = TRUE;
+				break;
+				}
+			}
+
+		if (!match) return FALSE;
+
+		}
+*/
+	try {
+		RawFile rf(fd);
+		offset = rf.preview_offset();
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return 0;
+	}
+
+	if (image_offset)
+		{
+		*image_offset = offset;
+		if (lseek(fd, *image_offset, SEEK_SET) != *image_offset)
+			{
+			printf("Failed to seek to embedded image\n");
+
+			*image_offset = 0;
+			if (*exif_offset) *exif_offset = 0;
+			success = FALSE;
+			}
+		}
+
+	return offset > 0;
 }
+
 
 #endif 
 /* HAVE_EXIV2 */
