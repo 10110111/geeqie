@@ -1608,5 +1608,28 @@ void exif_write_data_list(ExifData *exif, FILE *f, gint human_readable_list)
 	fprintf(f, "----------------------------------------------------\n");
 }
 
+int exif_write(ExifData *exif)
+{
+	printf("Not compiled with EXIF write support");
+	return 0;
+}
+
+ExifItem *exif_add_item(ExifData *exif, const gchar *key)
+{
+	return NULL;
+}
+
+int exif_item_delete(ExifData *exif, ExifItem *item)
+{
+	return 0;
+}
+
+int exif_item_set_string(ExifItem *item, const char *str)
+{
+	return 0;
+}
+
+
+
 #endif 
 /* not HAVE_EXIV2 */

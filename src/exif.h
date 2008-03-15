@@ -106,6 +106,7 @@ typedef enum {
  */
 
 ExifData *exif_read(gchar *path, gint parse_color_profile);
+int exif_write(ExifData *exif);
 void exif_free(ExifData *exif);
 
 gchar *exif_get_data_as_text(ExifData *exif, const gchar *key);
@@ -115,8 +116,10 @@ double exif_rational_to_double(ExifRational *r, gint sign);
 double exif_get_rational_as_double(ExifData *exif, const gchar *key);
 
 ExifItem *exif_get_item(ExifData *exif, const gchar *key);
+ExifItem *exif_add_item(ExifData *exif, const gchar *key);
 ExifItem *exif_get_first_item(ExifData *exif);
 ExifItem *exif_get_next_item(ExifData *exif);
+
 
 char *exif_item_get_tag_name(ExifItem *item);
 guint exif_item_get_tag_id(ExifItem *item);
@@ -133,6 +136,10 @@ const gchar *exif_get_description_by_key(const gchar *key);
 const gchar *exif_get_tag_description_by_key(const gchar *key);
 
 gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid);
+
+int exif_item_delete(ExifData *exif, ExifItem *item);
+int exif_item_set_string(ExifItem *item, const char *str);
+
 
 gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 				    unsigned char *header_data, const guint header_len,

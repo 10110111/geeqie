@@ -34,22 +34,23 @@ extern "C" {
 
 struct _ExifData
 {
-	Exiv2::ExifData exifData;
+	Exiv2::Image::AutoPtr image;
 	Exiv2::ExifData::const_iterator exifIter; /* for exif_get_next_item */
-	Exiv2::IptcData iptcData;
 	Exiv2::IptcData::const_iterator iptcIter; /* for exif_get_next_item */
-	Exiv2::XmpData xmpData;
 	Exiv2::XmpData::const_iterator xmpIter; /* for exif_get_next_item */
 
 	_ExifData(gchar *path, gint parse_color_profile)
 	{
-		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
-		g_assert (image.get() != 0);
+		image = Exiv2::ImageFactory::open(path);
+//		g_assert (image.get() != 0);
 		image->readMetadata();
-		exifData = image->exifData();
-		iptcData = image->iptcData();
-		xmpData = image->xmpData();
 	}
+	
+	void writeMetadata()
+	{
+		image->writeMetadata();
+	}
+	
 
 };
 
@@ -68,6 +69,20 @@ ExifData *exif_read(gchar *path, gint parse_color_profile)
 	
 }
 
+int exif_write(ExifData *exif)
+{
+	try {
+		exif->writeMetadata();
+		return 1;
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return 0;
+	}
+	
+}
+
+
 void exif_free(ExifData *exif)
 {
 	
@@ -80,21 +95,56 @@ ExifItem *exif_get_item(ExifData *exif, const gchar *key)
 		Exiv2::Metadatum *item;
 		try {
 			Exiv2::ExifKey ekey(key);
-			Exiv2::ExifData::iterator pos = exif->exifData.findKey(ekey);
-			if (pos == exif->exifData.end()) return NULL;
+			Exiv2::ExifData::iterator pos = exif->image->exifData().findKey(ekey);
+			if (pos == exif->image->exifData().end()) return NULL;
 			item = &*pos;
 		}
 		catch (Exiv2::AnyError& e) {
 			try {
 				Exiv2::IptcKey ekey(key);
-				Exiv2::IptcData::iterator pos = exif->iptcData.findKey(ekey);
-				if (pos == exif->iptcData.end()) return NULL;
+				Exiv2::IptcData::iterator pos = exif->image->iptcData().findKey(ekey);
+				if (pos == exif->image->iptcData().end()) return NULL;
 				item = &*pos;
 			}
 			catch (Exiv2::AnyError& e) {
 				Exiv2::XmpKey ekey(key);
-				Exiv2::XmpData::iterator pos = exif->xmpData.findKey(ekey);
-				if (pos == exif->xmpData.end()) return NULL;
+				Exiv2::XmpData::iterator pos = exif->image->xmpData().findKey(ekey);
+				if (pos == exif->image->xmpData().end()) return NULL;
+				item = &*pos;
+			}
+		}
+		return (ExifItem *)item;
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return NULL;
+	}
+}
+
+ExifItem *exif_add_item(ExifData *exif, const gchar *key)
+{
+	try {
+		Exiv2::Metadatum *item;
+		try {
+			Exiv2::ExifKey ekey(key);
+			exif->image->exifData().add(ekey, NULL);
+			Exiv2::ExifData::iterator pos = exif->image->exifData().end(); // a hack, there should be a better way to get the currently added item
+			pos--;
+			item = &*pos;
+		}
+		catch (Exiv2::AnyError& e) {
+			try {
+				Exiv2::IptcKey ekey(key);
+				exif->image->iptcData().add(ekey, NULL);
+				Exiv2::IptcData::iterator pos = exif->image->iptcData().end();
+				pos--;
+				item = &*pos;
+			}
+			catch (Exiv2::AnyError& e) {
+				Exiv2::XmpKey ekey(key);
+				exif->image->xmpData().add(ekey, NULL);
+				Exiv2::XmpData::iterator pos = exif->image->xmpData().end();
+				pos--;
 				item = &*pos;
 			}
 		}
@@ -110,22 +160,22 @@ ExifItem *exif_get_item(ExifData *exif, const gchar *key)
 ExifItem *exif_get_first_item(ExifData *exif)
 {
 	try {
-		exif->exifIter = exif->exifData.begin();
-		exif->iptcIter = exif->iptcData.begin();
-		exif->xmpIter = exif->xmpData.begin();
-		if (exif->exifIter != exif->exifData.end()) 
+		exif->exifIter = exif->image->exifData().begin();
+		exif->iptcIter = exif->image->iptcData().begin();
+		exif->xmpIter = exif->image->xmpData().begin();
+		if (exif->exifIter != exif->image->exifData().end()) 
 			{
 			const Exiv2::Metadatum *item = &*exif->exifIter;
 			exif->exifIter++;
 			return (ExifItem *)item;
 			}
-		if (exif->iptcIter != exif->iptcData.end()) 
+		if (exif->iptcIter != exif->image->iptcData().end()) 
 			{
 			const Exiv2::Metadatum *item = &*exif->iptcIter;
 			exif->iptcIter++;
 			return (ExifItem *)item;
 			}
-		if (exif->xmpIter != exif->xmpData.end()) 
+		if (exif->xmpIter != exif->image->xmpData().end()) 
 			{
 			const Exiv2::Metadatum *item = &*exif->xmpIter;
 			exif->xmpIter++;
@@ -143,19 +193,19 @@ ExifItem *exif_get_first_item(ExifData *exif)
 ExifItem *exif_get_next_item(ExifData *exif)
 {
 	try {
-		if (exif->exifIter != exif->exifData.end())
+		if (exif->exifIter != exif->image->exifData().end())
 			{
 			const Exiv2::Metadatum *item = &*exif->exifIter;
 			exif->exifIter++;
 			return (ExifItem *)item;
 		}
-		if (exif->iptcIter != exif->iptcData.end())
+		if (exif->iptcIter != exif->image->iptcData().end())
 			{
 			const Exiv2::Metadatum *item = &*exif->iptcIter;
 			exif->iptcIter++;
 			return (ExifItem *)item;
 		}
-		if (exif->xmpIter != exif->xmpData.end())
+		if (exif->xmpIter != exif->image->xmpData().end())
 			{
 			const Exiv2::Metadatum *item = &*exif->xmpIter;
 			exif->xmpIter++;
@@ -336,6 +386,49 @@ const gchar *exif_get_tag_description_by_key(const gchar *key)
 		return NULL;
 	}
 }
+
+int exif_item_set_string(ExifItem *item, const char *str)
+{
+	try {
+		if (!item) return 0;
+		((Exiv2::Metadatum *)item)->setValue(std::string(str));
+		return 1;
+	}
+	catch (Exiv2::AnyError& e) {
+		return 0;
+	}
+}
+
+int exif_item_delete(ExifData *exif, ExifItem *item)
+{
+	try {
+		if (!item) return 0;
+		for (Exiv2::ExifData::iterator i = exif->image->exifData().begin(); i != exif->image->exifData().end(); ++i) {
+			if (((Exiv2::Metadatum *)item) == &*i) {
+				i = exif->image->exifData().erase(i);
+				return 1;
+			}
+		}
+		for (Exiv2::IptcData::iterator i = exif->image->iptcData().begin(); i != exif->image->iptcData().end(); ++i) {
+			if (((Exiv2::Metadatum *)item) == &*i) {
+				i = exif->image->iptcData().erase(i);
+				return 1;
+			}
+		}
+		for (Exiv2::XmpData::iterator i = exif->image->xmpData().begin(); i != exif->image->xmpData().end(); ++i) {
+			if (((Exiv2::Metadatum *)item) == &*i) {
+				i = exif->image->xmpData().erase(i);
+				return 1;
+			}
+		}
+		
+		return 0;
+	}
+	catch (Exiv2::AnyError& e) {
+		return 0;
+	}
+}
+
 
 
 }
