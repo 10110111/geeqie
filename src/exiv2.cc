@@ -28,6 +28,7 @@
 
 extern "C" {
 #include <glib.h> 
+#include "gqview.h"
 #include "exif.h"
 
 }
@@ -35,20 +36,50 @@ extern "C" {
 struct _ExifData
 {
 	Exiv2::Image::AutoPtr image;
+	Exiv2::Image::AutoPtr sidecar;
 	Exiv2::ExifData::const_iterator exifIter; /* for exif_get_next_item */
 	Exiv2::IptcData::const_iterator iptcIter; /* for exif_get_next_item */
 	Exiv2::XmpData::const_iterator xmpIter; /* for exif_get_next_item */
+	bool have_sidecar;
 
-	_ExifData(gchar *path, gint parse_color_profile)
+
+	_ExifData(gchar *path, gchar *sidecar_path, gint parse_color_profile)
 	{
+		have_sidecar = false;
 		image = Exiv2::ImageFactory::open(path);
 //		g_assert (image.get() != 0);
 		image->readMetadata();
+		
+		printf("xmp count %d\n", image->xmpData().count());
+		if (sidecar_path && image->xmpData().empty())
+			{
+			sidecar = Exiv2::ImageFactory::open(sidecar_path);
+			sidecar->readMetadata();
+			have_sidecar = sidecar->good();
+			printf("sidecar xmp count %d\n", sidecar->xmpData().count());
+			}
+		
 	}
 	
 	void writeMetadata()
 	{
+		if (have_sidecar) sidecar->writeMetadata();
 		image->writeMetadata();
+	}
+	
+	Exiv2::ExifData &exifData ()
+	{
+		return image->exifData();
+	}
+
+	Exiv2::IptcData &iptcData ()
+	{
+		return image->iptcData();
+	}
+
+	Exiv2::XmpData &xmpData ()
+	{
+		return have_sidecar ? sidecar->xmpData() : image->xmpData();
 	}
 	
 
@@ -56,15 +87,15 @@ struct _ExifData
 
 extern "C" {
 
-ExifData *exif_read(gchar *path, gint parse_color_profile)
+ExifData *exif_read(gchar *path, gchar *sidecar_path, gint parse_color_profile)
 {
-	printf("exif %s\n", path);
+	printf("exif %s %s\n", path, sidecar_path ? sidecar_path : "-");
 	try {
-		return new ExifData(path, parse_color_profile);
+		return new ExifData(path, sidecar_path, parse_color_profile);
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";
-		return 0;
+		return NULL;
 	}
 	
 }
@@ -95,21 +126,21 @@ ExifItem *exif_get_item(ExifData *exif, const gchar *key)
 		Exiv2::Metadatum *item;
 		try {
 			Exiv2::ExifKey ekey(key);
-			Exiv2::ExifData::iterator pos = exif->image->exifData().findKey(ekey);
-			if (pos == exif->image->exifData().end()) return NULL;
+			Exiv2::ExifData::iterator pos = exif->exifData().findKey(ekey);
+			if (pos == exif->exifData().end()) return NULL;
 			item = &*pos;
 		}
 		catch (Exiv2::AnyError& e) {
 			try {
 				Exiv2::IptcKey ekey(key);
-				Exiv2::IptcData::iterator pos = exif->image->iptcData().findKey(ekey);
-				if (pos == exif->image->iptcData().end()) return NULL;
+				Exiv2::IptcData::iterator pos = exif->iptcData().findKey(ekey);
+				if (pos == exif->iptcData().end()) return NULL;
 				item = &*pos;
 			}
 			catch (Exiv2::AnyError& e) {
 				Exiv2::XmpKey ekey(key);
-				Exiv2::XmpData::iterator pos = exif->image->xmpData().findKey(ekey);
-				if (pos == exif->image->xmpData().end()) return NULL;
+				Exiv2::XmpData::iterator pos = exif->xmpData().findKey(ekey);
+				if (pos == exif->xmpData().end()) return NULL;
 				item = &*pos;
 			}
 		}
@@ -127,23 +158,23 @@ ExifItem *exif_add_item(ExifData *exif, const gchar *key)
 		Exiv2::Metadatum *item;
 		try {
 			Exiv2::ExifKey ekey(key);
-			exif->image->exifData().add(ekey, NULL);
-			Exiv2::ExifData::iterator pos = exif->image->exifData().end(); // a hack, there should be a better way to get the currently added item
+			exif->exifData().add(ekey, NULL);
+			Exiv2::ExifData::iterator pos = exif->exifData().end(); // a hack, there should be a better way to get the currently added item
 			pos--;
 			item = &*pos;
 		}
 		catch (Exiv2::AnyError& e) {
 			try {
 				Exiv2::IptcKey ekey(key);
-				exif->image->iptcData().add(ekey, NULL);
-				Exiv2::IptcData::iterator pos = exif->image->iptcData().end();
+				exif->iptcData().add(ekey, NULL);
+				Exiv2::IptcData::iterator pos = exif->iptcData().end();
 				pos--;
 				item = &*pos;
 			}
 			catch (Exiv2::AnyError& e) {
 				Exiv2::XmpKey ekey(key);
-				exif->image->xmpData().add(ekey, NULL);
-				Exiv2::XmpData::iterator pos = exif->image->xmpData().end();
+				exif->xmpData().add(ekey, NULL);
+				Exiv2::XmpData::iterator pos = exif->xmpData().end();
 				pos--;
 				item = &*pos;
 			}
@@ -160,22 +191,22 @@ ExifItem *exif_add_item(ExifData *exif, const gchar *key)
 ExifItem *exif_get_first_item(ExifData *exif)
 {
 	try {
-		exif->exifIter = exif->image->exifData().begin();
-		exif->iptcIter = exif->image->iptcData().begin();
-		exif->xmpIter = exif->image->xmpData().begin();
-		if (exif->exifIter != exif->image->exifData().end()) 
+		exif->exifIter = exif->exifData().begin();
+		exif->iptcIter = exif->iptcData().begin();
+		exif->xmpIter = exif->xmpData().begin();
+		if (exif->exifIter != exif->exifData().end()) 
 			{
 			const Exiv2::Metadatum *item = &*exif->exifIter;
 			exif->exifIter++;
 			return (ExifItem *)item;
 			}
-		if (exif->iptcIter != exif->image->iptcData().end()) 
+		if (exif->iptcIter != exif->iptcData().end()) 
 			{
 			const Exiv2::Metadatum *item = &*exif->iptcIter;
 			exif->iptcIter++;
 			return (ExifItem *)item;
 			}
-		if (exif->xmpIter != exif->image->xmpData().end()) 
+		if (exif->xmpIter != exif->xmpData().end()) 
 			{
 			const Exiv2::Metadatum *item = &*exif->xmpIter;
 			exif->xmpIter++;
@@ -193,19 +224,19 @@ ExifItem *exif_get_first_item(ExifData *exif)
 ExifItem *exif_get_next_item(ExifData *exif)
 {
 	try {
-		if (exif->exifIter != exif->image->exifData().end())
+		if (exif->exifIter != exif->exifData().end())
 			{
 			const Exiv2::Metadatum *item = &*exif->exifIter;
 			exif->exifIter++;
 			return (ExifItem *)item;
 		}
-		if (exif->iptcIter != exif->image->iptcData().end())
+		if (exif->iptcIter != exif->iptcData().end())
 			{
 			const Exiv2::Metadatum *item = &*exif->iptcIter;
 			exif->iptcIter++;
 			return (ExifItem *)item;
 		}
-		if (exif->xmpIter != exif->image->xmpData().end())
+		if (exif->xmpIter != exif->xmpData().end())
 			{
 			const Exiv2::Metadatum *item = &*exif->xmpIter;
 			exif->xmpIter++;
@@ -345,6 +376,26 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 	}
 }
 
+gchar *exif_item_get_string(ExifItem *item, int idx)
+{
+	try {
+		if (!item) return NULL;
+		Exiv2::Metadatum *em = (Exiv2::Metadatum *)item;
+		std::string str = em->toString(idx);
+		if (idx == 0 && str == "") str = em->toString();
+		if (str.length() > 5 && str.substr(0, 5) == "lang=") 
+			{
+        		std::string::size_type pos = str.find_first_of(' ');
+        		if (pos != std::string::npos) str = str.substr(pos+1);
+			}
+
+		return g_strdup(str.c_str());
+	}
+	catch (Exiv2::AnyError& e) {
+		return NULL;
+	}
+}
+
 
 gint exif_item_get_integer(ExifItem *item, gint *value)
 {
@@ -403,21 +454,21 @@ int exif_item_delete(ExifData *exif, ExifItem *item)
 {
 	try {
 		if (!item) return 0;
-		for (Exiv2::ExifData::iterator i = exif->image->exifData().begin(); i != exif->image->exifData().end(); ++i) {
+		for (Exiv2::ExifData::iterator i = exif->exifData().begin(); i != exif->exifData().end(); ++i) {
 			if (((Exiv2::Metadatum *)item) == &*i) {
-				i = exif->image->exifData().erase(i);
+				i = exif->exifData().erase(i);
 				return 1;
 			}
 		}
-		for (Exiv2::IptcData::iterator i = exif->image->iptcData().begin(); i != exif->image->iptcData().end(); ++i) {
+		for (Exiv2::IptcData::iterator i = exif->iptcData().begin(); i != exif->iptcData().end(); ++i) {
 			if (((Exiv2::Metadatum *)item) == &*i) {
-				i = exif->image->iptcData().erase(i);
+				i = exif->iptcData().erase(i);
 				return 1;
 			}
 		}
-		for (Exiv2::XmpData::iterator i = exif->image->xmpData().begin(); i != exif->image->xmpData().end(); ++i) {
+		for (Exiv2::XmpData::iterator i = exif->xmpData().begin(); i != exif->xmpData().end(); ++i) {
 			if (((Exiv2::Metadatum *)item) == &*i) {
-				i = exif->image->xmpData().erase(i);
+				i = exif->xmpData().erase(i);
 				return 1;
 			}
 		}

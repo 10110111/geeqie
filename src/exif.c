@@ -1220,7 +1220,7 @@ void exif_free(ExifData *exif)
 	g_free(exif);
 }
 
-ExifData *exif_read(gchar *path, gint parse_color_profile)
+ExifData *exif_read(gchar *path, gchar *sidecar_path, gint parse_color_profile)
 {
 	ExifData *exif;
 	void *f;

@@ -1772,7 +1772,7 @@ static gint search_file_next(SearchData *sd)
 		tested = TRUE;
 		match = FALSE;
 
-		if (comment_cache_read(fd, &list, NULL))
+		if (comment_read(fd, &list, NULL))
 			{
 			GList *needle;
 			GList *haystack;

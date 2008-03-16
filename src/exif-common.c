@@ -326,3 +326,25 @@ gchar *exif_get_data_as_text(ExifData *exif, const gchar *key)
 
 	return NULL;
 }
+
+ExifData *exif_read_fd(FileData *fd, gint parse_color_profile)
+{
+	GList *work = fd->sidecar_files;
+	gchar *sidecar_path = NULL;
+				
+	while(work)
+		{
+		FileData *sfd = work->data;
+		work = work->next;
+		printf("sfd %s\n", sfd->path);
+		if (strcasecmp(sfd->extension, ".xmp") == 0)
+			{
+			sidecar_path = sfd->path;
+			break;
+			}
+		}
+
+
+	// FIXME: some caching would be nice
+	return exif_read(fd->path, sidecar_path, parse_color_profile);
+}

@@ -27,11 +27,9 @@ void bar_info_size_request(GtkWidget *bar, gint width);
 
 void bar_info_maint_renamed(GtkWidget *bar, FileData *fd);
 
-gint comment_write(gchar *path, GList *keywords, const gchar *comment);
-gint comment_cache_write(FileData *fd, GList *keywords, const gchar *comment);
+gint comment_write(FileData *fd, GList *keywords, const gchar *comment);
 
-gint comment_read(gchar *path, GList **keywords, gchar **comment);
-gint comment_cache_read(FileData *fd, GList **keywords, gchar **comment);
+gint comment_read(FileData *fd, GList **keywords, gchar **comment);
 
 GList *keyword_list_pull(GtkWidget *text_widget);
 void keyword_list_push(GtkWidget *textview, GList *list);

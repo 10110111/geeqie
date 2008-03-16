@@ -11,6 +11,8 @@
 
 
 #include "gqview.h"
+#include "exif.h"
+
 #include "bar_info.h"
 
 #include "cache.h"
@@ -47,7 +49,7 @@ static void bar_info_keyword_update_all(void);
  *-------------------------------------------------------------------
  */
 
-gint comment_write(gchar *path, GList *keywords, const gchar *comment)
+static gint comment_file_write(gchar *path, GList *keywords, const gchar *comment)
 {
 	FILE *f;
 
@@ -76,7 +78,7 @@ gint comment_write(gchar *path, GList *keywords, const gchar *comment)
 	return TRUE;
 }
 
-gint comment_cache_write(FileData *fd, GList *keywords, const gchar *comment)
+static gint comment_legacy_write(FileData *fd, GList *keywords, const gchar *comment)
 {
 	gchar *comment_path;
 	gint success = FALSE;
@@ -113,7 +115,7 @@ gint comment_cache_write(FileData *fd, GList *keywords, const gchar *comment)
 
 		comment_pathl = path_from_utf8(comment_path);
 
-		success = comment_write(comment_pathl, keywords, comment);
+		success = comment_file_write(comment_pathl, keywords, comment);
 
 		g_free(comment_pathl);
 		g_free(comment_path);
@@ -122,7 +124,7 @@ gint comment_cache_write(FileData *fd, GList *keywords, const gchar *comment)
 	return success;
 }
 
-gint comment_read(gchar *path, GList **keywords, gchar **comment)
+static gint comment_file_read(gchar *path, GList **keywords, gchar **comment)
 {
 	FILE *f;
 	gchar s_buf[1024];
@@ -184,7 +186,7 @@ gint comment_read(gchar *path, GList **keywords, gchar **comment)
 	return TRUE;
 }
 
-gint comment_cache_read(FileData *fd, GList **keywords, gchar **comment)
+static gint comment_legacy_read(FileData *fd, GList **keywords, gchar **comment)
 {
 	gchar *comment_path;
 	gchar *comment_pathl;
@@ -196,13 +198,107 @@ gint comment_cache_read(FileData *fd, GList **keywords, gchar **comment)
 
 	comment_pathl = path_from_utf8(comment_path);
 
-	success = comment_read(comment_pathl, keywords, comment);
+	success = comment_file_read(comment_pathl, keywords, comment);
 
 	g_free(comment_pathl);
 	g_free(comment_path);
 
 	return success;
 }
+
+gchar *comment_key = "Xmp.dc.description";
+gchar *keyword_key = "Xmp.dc.subject";
+
+static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
+{
+	ExifData *exif = exif_read_fd(fd, FALSE);
+	if (!exif) return FALSE;
+
+	if (comment)
+		{
+		ExifItem *item = exif_get_item(exif, comment_key);
+		*comment = exif_item_get_string(item, 0);
+		}
+	
+	if (keywords)
+		{
+		ExifItem *item = exif_get_item(exif, keyword_key);
+		int count = exif_item_get_elements(item);
+		int i = 0;
+		GList *work = NULL;
+		char *kw = NULL;
+		
+		while (i < count && (kw = exif_item_get_string(item, i++)))
+			{
+			work = g_list_append(work, (gpointer) kw);
+			}
+		
+		*keywords = work;
+		}
+		
+	exif_free(exif);
+	return TRUE;
+}
+
+static gint comment_xmp_write(FileData *fd, GList *keywords, const gchar *comment)
+{
+	gint success = FALSE;
+	GList *work = keywords;
+	ExifData *exif = exif_read_fd(fd, FALSE);
+	if (!exif) return FALSE;
+
+	ExifItem *item = exif_get_item(exif, comment_key);
+	
+	if (item && !(comment && comment[0])) 
+		{
+		exif_item_delete(exif, item); 
+		item = NULL;
+		}
+		
+	if (!item && comment && comment[0]) item = exif_add_item(exif, comment_key);
+	if (item) exif_item_set_string(item, comment);
+
+
+
+	while ((item = exif_get_item(exif, keyword_key)))
+		{
+		exif_item_delete(exif, item);
+		}
+	
+	if (work)
+		{
+		item = exif_add_item(exif, keyword_key);
+		
+		while (work)
+			{
+			gchar *kw = (gchar *) work->data;
+			work = work->next;
+		
+			exif_item_set_string(item, kw);
+			}
+		}
+	
+	success = exif_write(exif);
+		
+	exif_free(exif);
+	
+	return success;
+}
+
+gint comment_write(FileData *fd, GList *keywords, const gchar *comment)
+{
+	if (comment_xmp_write(fd, keywords, comment)) return TRUE;
+
+	return comment_legacy_write(fd, keywords, comment);
+}
+
+gint comment_read(FileData *fd, GList **keywords, gchar **comment)
+{
+	if (comment_xmp_read(fd, keywords, comment)) return TRUE;
+
+	return comment_legacy_read(fd, keywords, comment);
+}
+
 
 static gchar *comment_pull(GtkWidget *textview)
 {
@@ -290,7 +386,7 @@ static void metadata_set_keywords(FileData *fd, GList *list, gint add)
 	GList *keywords = NULL;
 	GList *save_list = NULL;
 
-	comment_cache_read(fd, &keywords, &comment);
+	comment_read(fd, &keywords, &comment);
 
 	if (add)
 		{
@@ -323,7 +419,7 @@ static void metadata_set_keywords(FileData *fd, GList *list, gint add)
 		save_list = list;
 		}
 
-	comment_cache_write(fd, save_list, comment);
+	comment_write(fd, save_list, comment);
 
 	string_list_free(keywords);
 	g_free(comment);
@@ -625,7 +721,7 @@ static void bar_info_write(BarInfoData *bd)
 	list = keyword_list_pull(bd->keyword_view);
 	comment = comment_pull(bd->comment_view);
 
-	comment_cache_write(bd->fd, list, comment);
+	comment_write(bd->fd, list, comment);
 
 	string_list_free(list);
 	g_free(comment);
@@ -744,7 +840,7 @@ static void bar_info_update(BarInfoData *bd)
 		gtk_label_set_text(GTK_LABEL(bd->label_file_time), (bd->fd) ? text_from_time(bd->fd->date) : "");
 		}
 
-	if (comment_cache_read(bd->fd, &keywords, &comment))
+	if (comment_read(bd->fd, &keywords, &comment))
 		{
 		keyword_list_push(bd->keyword_view, keywords);
 		gtk_text_buffer_set_text(gtk_text_view_get_buffer(GTK_TEXT_VIEW(bd->comment_view)),

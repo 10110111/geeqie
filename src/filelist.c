@@ -209,6 +209,7 @@ void filter_add_defaults(void)
 	filter_add_if_missing("ico", "Icon file", ".ico;.cur", FALSE);
 	filter_add_if_missing("ras", "Raster", ".ras", FALSE);
 	filter_add_if_missing("svg", "Scalable Vector Graphics", ".svg", FALSE);
+	filter_add_if_missing("xmp", "XMP sidecar", ".xmp", FALSE);
 
 	/* These are the raw camera formats with embedded jpeg/exif.
 	 * (see format_raw.c)
@@ -467,7 +468,7 @@ char *sidecar_ext_to_string()
 
 void sidecar_ext_add_defaults()
 {
-	sidecar_ext_parse(".jpg;.cr2;.nef;.crw", FALSE);
+	sidecar_ext_parse(".jpg;.cr2;.nef;.crw;.xmp", FALSE);
 }
 
 /*
