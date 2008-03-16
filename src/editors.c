@@ -60,7 +60,7 @@ static gchar *editor_slot_defaults[GQVIEW_EDITOR_SLOTS * 2] = {
 	N_("XV"), "xv %f",
 	N_("Xpaint"), "xpaint %f",
 	N_("UFraw"), "ufraw %{.cr2;.crw;.nef;.raw}p",
-	NULL, NULL,
+	N_("Add XMP sidecar"), "%vFILE=%{.cr2;.crw;.nef;.raw}p;XMP=`echo \"$FILE\"|sed -e 's|\\.[^.]*$|.xmp|'`; exiftool -tagsfromfile \"$FILE\" \"$XMP\"",
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,

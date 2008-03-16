@@ -329,18 +329,22 @@ gchar *exif_get_data_as_text(ExifData *exif, const gchar *key)
 
 ExifData *exif_read_fd(FileData *fd, gint parse_color_profile)
 {
-	GList *work = fd->sidecar_files;
+	GList *work = fd->parent ? fd->parent->sidecar_files : fd->sidecar_files;
 	gchar *sidecar_path = NULL;
-				
-	while(work)
+
+	if (strcasecmp(fd->extension, ".cr2") == 0 || // FIXME: list of formats that can have xmp sidecar, make it configurable
+	    strcasecmp(fd->extension, ".nef") == 0)
 		{
-		FileData *sfd = work->data;
-		work = work->next;
-		printf("sfd %s\n", sfd->path);
-		if (strcasecmp(sfd->extension, ".xmp") == 0)
+		while(work)
 			{
-			sidecar_path = sfd->path;
-			break;
+			FileData *sfd = work->data;
+			work = work->next;
+			printf("sfd %s\n", sfd->path);
+			if (strcasecmp(sfd->extension, ".xmp") == 0)
+				{
+				sidecar_path = sfd->path;
+				break;
+				}
 			}
 		}
 
