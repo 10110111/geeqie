@@ -1133,6 +1133,8 @@ static void setup_default_options(void)
 		color_profile_input_file[i] = NULL;
 		color_profile_input_name[i] = NULL;
 		}
+
+	sidecar_ext_add_defaults();
 }
 
 static void exit_gqview_final(void)
@@ -1298,8 +1300,6 @@ int main (int argc, char *argv[])
 	filter_add_defaults();
 	filter_rebuild();
 	
-	sidecar_ext_add_defaults();
-
 	buf = g_strconcat(homedir(), "/", GQVIEW_RC_DIR, "/accels", NULL);
 	bufl = path_from_utf8(buf);
 	gtk_accel_map_load(bufl);
