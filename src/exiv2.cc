@@ -20,6 +20,7 @@
 #include <exiv2/tiffvisitor.hpp>
 #include <exiv2/tiffimage.hpp>
 #include <exiv2/cr2image.hpp>
+#include <exiv2/crwimage.hpp>
 #include <exiv2/orfimage.hpp>
 #include <exiv2/rafimage.hpp>
 #include <exiv2/futils.hpp>
@@ -537,6 +538,15 @@ RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 		        if (map_len < 84 + 4) throw Error(14);
     			offset = getULong(map_data + 84, bigEndian);
 			return;
+		case Exiv2::ImageType::crw:
+			{
+			// Parse the image, starting with a CIFF header component
+			Exiv2::CiffHeader::AutoPtr parseTree(new Exiv2::CiffHeader);
+			parseTree->read(map_data, map_len);
+			CiffComponent *entry = parseTree->findComponent(0x2007, 0); 
+			if (entry) offset =  entry->pData() - map_data;
+			return;
+			}
 
 		default:
 			throw Error(3, "RAW");
