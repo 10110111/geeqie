@@ -586,12 +586,14 @@ RawFile::~RawFile()
 
 const Value * RawFile::find(uint16_t tag, uint16_t group)
 {
-	printf("%04x %04x\n", tag, group);
 	TiffFinder finder(tag, group);
 	rootDir->accept(finder);
 	TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
 	if (te)
+		{
+		if (debug) printf("(tag: %04x %04x) ", tag, group);
 		return te->pValue();
+		}
 	else
 		return NULL;
 }
@@ -659,14 +661,16 @@ extern "C" gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 */
 	try {
 		RawFile rf(fd);
+		if (debug) printf("%s: offset ", path);
 		offset = rf.preview_offset();
+		if (debug) printf("%d\n", offset);
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";
 		return 0;
 	}
 
-	if (image_offset)
+	if (image_offset && offset > 0)
 		{
 		*image_offset = offset;
 		if (lseek(fd, *image_offset, SEEK_SET) != *image_offset)
