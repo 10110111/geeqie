@@ -55,12 +55,34 @@ The default function of keys 1, 2, 3, ... was changed from zoom to mark toggle a
 function of <ctrl>1, <ctrl>2, <ctrl>3, ... from external editor to selecting mark.
 
 
+Exiv2 support
+"""""""""""""
+
+exiv2 improves exif handling and adds iptc and xmp support.
+
+Here is a comparison of supported raw formats:
+
+Format		with exiv2				without exiv2
+		metadata	preview			metadata	preview
+arw		yes		yes			yes		no
+cr2		yes		yes			yes		yes
+crw		yes		yes			no		yes
+dng		yes		sometimes (bug ?)	yes		sometimes
+mef		yes		no			yes		no
+mrw		yes		no			no		no
+nef		yes		yes			yes		yes
+orf		yes		no			yes		yes
+pef		yes		yes			yes		yes
+raf		yes		yes			yes		yes
+sr2		yes		yes			yes		no
+
+
+
 
 TODO
 ====
 
 metadata handling - xmp support
-  - use exiv2, display Exif, IPTX and XMP tags
   - tag editor
   - search, filtering
   - save tags in XMP - structured tags should be possible
