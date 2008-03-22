@@ -491,7 +491,7 @@ static void exif_item_free(ExifItem *item)
 	g_free(item);
 }
 
-const char *exif_item_get_tag_name(ExifItem *item)
+char *exif_item_get_tag_name(ExifItem *item)
 {
 	if (!item || !item->marker) return NULL;
 	return g_strdup(item->marker->key);
@@ -1322,6 +1322,12 @@ ExifItem *exif_get_item(ExifData *exif, const gchar *key)
 
 #define EXIF_DATA_AS_TEXT_MAX_COUNT 16
 
+gchar *exif_item_get_string(ExifItem *item, int idx)
+{
+	return exif_item_get_data_as_text(item);
+}
+
+
 gchar *exif_item_get_data_as_text(ExifItem *item)
 {
 	const ExifMarker *marker;
@@ -1487,13 +1493,6 @@ gint exif_item_get_integer(ExifItem *item, gint *value)
 	return FALSE;
 }
 
-gint exif_get_integer(ExifData *exif, const gchar *key, gint *value)
-{
-	ExifItem *item;
-
-	item = exif_get_item(exif, key);
-	return exif_item_get_integer(item, value);
-}
 
 ExifRational *exif_item_get_rational(ExifItem *item, gint *sign)
 {
@@ -1509,31 +1508,7 @@ ExifRational *exif_item_get_rational(ExifItem *item, gint *sign)
 	return NULL;
 }
 
-ExifRational *exif_get_rational(ExifData *exif, const gchar *key, gint *sign)
-{
-	ExifItem *item;
 
-	item = exif_get_item(exif, key);
-	return exif_item_get_rational(item, sign);
-}
-
-
-gchar *exif_get_data_as_text(ExifData *exif, const gchar *key)
-{
-	ExifItem *item;
-	gchar *text;
-	gint key_valid;
-
-	if (!key) return NULL;
-
-	text = exif_get_formatted_by_key(exif, key, &key_valid);
-	if (key_valid) return text;
-
-	item = exif_get_item(exif, key);
-	if (item) return exif_item_get_data_as_text(item);
-
-	return NULL;
-}
 
 const gchar *exif_get_tag_description_by_key(const gchar *key)
 {
