@@ -49,7 +49,7 @@ Controls redesign
 """""""""""""""""
 
 Most of controls was added to menu and is handled via keyboard accelerators,
-thus they can be configured in ~/.gqview/accels
+thus they can be configured in ~/.geeqie/accels
 
 The default function of keys 1, 2, 3, ... was changed from zoom to mark toggle and 
 function of <ctrl>1, <ctrl>2, <ctrl>3, ... from external editor to selecting mark.

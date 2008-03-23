@@ -1265,7 +1265,7 @@ int main (int argc, char *argv[])
         srand(time(NULL));
 
 #if 1
-	printf("GQview %s, This is a beta release.\n", VERSION);
+	printf("geeqie %s, This is an alpha release.\n", VERSION);
 #endif
 
 	layout_order = g_strdup("123");

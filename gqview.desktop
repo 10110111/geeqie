@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=GQview
+Name=Geeqie
 GenericName=Image Viewer
 GenericName[et]=Piltide vaatur
 GenericName[tr]=Resim göstericisi
@@ -9,8 +9,8 @@ GenericName[es]=Visor de imágenes
 Comment=View and manage images
 Comment[hu]=Képek megjelenítése és rendszerezése
 Comment[es]=Visualiza y administra imágenes
-Exec=gqview -r %F
-Icon=gqview.png
+Exec=geeqie -r %F
+Icon=geeqie
 Type=Application
 Terminal=false
 # Startup notification disabled, since the remote -r switch may not open a new window...

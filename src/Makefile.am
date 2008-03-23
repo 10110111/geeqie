@@ -48,9 +48,9 @@ CLEANFILES = $(noinst_DATA)
 extra_SLIK = \
 	$(extra_ICONS)
 
-bin_PROGRAMS = gqview
+bin_PROGRAMS = geeqie
 
-gqview_SOURCES = \
+geeqie_SOURCES = \
 	$(module_SLIK)	\
 	bar_info.c	\
 	bar_info.h	\
@@ -169,7 +169,7 @@ gqview_SOURCES = \
 	view_file_icon.c	\
 	view_file_icon.h
 
-gqview_LDADD = $(GTK_LIBS) $(INTLLIBS) $(LCMS_LIBS) $(EXIV2_LIBS)
+geeqie_LDADD = $(GTK_LIBS) $(INTLLIBS) $(LCMS_LIBS) $(EXIV2_LIBS)
 
 EXTRA_DIST = \
 	$(extra_SLIK)
