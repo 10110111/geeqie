@@ -359,8 +359,8 @@ msgstr ""
 
 #: src/cache_maint.c:1162
 #, fuzzy
-msgid "Cache Maintenance - GQview"
-msgstr "Kép tulajdonságai - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Kép tulajdonságai - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
@@ -369,8 +369,8 @@ msgstr ""
 # src/fullscreen.c:117
 #: src/cache_maint.c:1176
 #, fuzzy
-msgid "GQview thumbnail cache"
-msgstr "GQview teljes képernyő"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie teljes képernyő"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -436,8 +436,8 @@ msgstr "Névtelen (%d)"
 # src/collect.c:930
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - GQview gyűjtemény"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Geeqie gyűjtemény"
 
 # src/collect.c:1048
 #: src/collect.c:1094 src/collect.c:1098
@@ -811,8 +811,8 @@ msgstr "Hasonlóság (egyéni)"
 
 # src/dupe.c:1968
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Duplikációk keresése - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Duplikációk keresése - Geeqie"
 
 # src/dupe.c:1948
 #: src/dupe.c:3148
@@ -1182,8 +1182,8 @@ msgstr "%.1f GB"
 
 # src/fullscreen.c:117
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview teljes képernyő"
+msgid "Geeqie full screen"
+msgstr "Geeqie teljes képernyő"
 
 # src/menu.c:709
 #: src/fullscreen.c:397
@@ -1330,8 +1330,8 @@ msgid "Image %d of %d"
 msgstr "%d. kép összesen %d közül"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "Kép tulajdonságai - GQview"
+msgid "Image properties - Geeqie"
+msgstr "Kép tulajdonságai - Geeqie"
 
 # src/window.c:87
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
@@ -1344,7 +1344,7 @@ msgstr ""
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1411,8 +1411,8 @@ msgstr "( %d x %d ) %s byte"
 
 # src/window.c:234
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview Eszközök"
+msgid "Geeqie Tools"
+msgstr "Geeqie Eszközök"
 
 # src/collect-dlg.c:59
 #: src/layout.c:1934
@@ -1732,7 +1732,7 @@ msgstr "1:1 méretarány"
 # src/menu.c:1087
 #: src/layout_util.c:1104
 msgid "Configure options"
-msgstr "A GQview beállítása"
+msgstr "A Geeqie beállítása"
 
 # src/preferences.c:401
 #: src/layout_util.c:1105
@@ -1747,8 +1747,8 @@ msgstr "Külön eszköztár"
 
 # src/main.c:129
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Segítség - GQview"
+msgid "Help - Geeqie"
+msgstr "Segítség - Geeqie"
 
 # src/main.c:743
 #: src/main.c:460 src/main.c:1376
@@ -1830,7 +1830,7 @@ msgstr ""
 #: src/main.c:511
 #, fuzzy
 msgid "hide tools"
-msgstr "GQview Eszközök"
+msgstr "Geeqie Eszközök"
 
 #: src/main.c:512
 msgid "quit"
@@ -1854,7 +1854,7 @@ msgid "Remote command list:\n"
 msgstr ""
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
+msgid "Remote Geeqie not running, starting..."
 msgstr ""
 
 #: src/main.c:773
@@ -1950,8 +1950,8 @@ msgstr ""
 # src/main.c:533
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "GQview könyvtár létrehozása: %s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Geeqie könyvtár létrehozása: %s\n"
 
 # src/main.c:536
 #: src/main.c:1099
@@ -1971,14 +1971,14 @@ msgstr "Munkaasztal"
 
 # src/main.c:619
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - kilépés"
+msgid "Geeqie - exit"
+msgstr "Geeqie - kilépés"
 
 # src/main.c:129
 #: src/main.c:1226
 #, fuzzy
-msgid "Quit GQview"
-msgstr "Névjegy - GQview"
+msgid "Quit Geeqie"
+msgstr "Névjegy - Geeqie"
 
 # src/main.c:619
 #: src/main.c:1226
@@ -2096,8 +2096,8 @@ msgstr ""
 # src/main.c:129
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "Névjegy - GQview"
+msgid "Pan View - Geeqie"
+msgstr "Névjegy - Geeqie"
 
 # src/preferences.c:369
 #: src/pan-view.c:2376
@@ -2321,8 +2321,8 @@ msgstr "Ez eltávolítja a kukában lévő elemeket."
 # src/utilops.c:942 src/utilops.c:1091
 #: src/preferences.c:800
 #, fuzzy
-msgid "GQview Preferences"
-msgstr "GQview - átnevezés"
+msgid "Geeqie Preferences"
+msgstr "Geeqie - átnevezés"
 
 #: src/preferences.c:854
 #, fuzzy
@@ -2676,14 +2676,14 @@ msgstr ""
 
 # src/main.c:129
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "Névjegy - GQview"
+msgid "About - Geeqie"
+msgstr "Névjegy - Geeqie"
 
 # src/preferences.c:1041
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2691,7 +2691,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "honlap: %s\n"
@@ -2916,8 +2916,8 @@ msgstr "Alapértelmezések"
 # src/main.c:129
 #: src/print.c:2602 src/print.c:3347
 #, fuzzy
-msgid "Print - GQview"
-msgstr "Névjegy - GQview"
+msgid "Print - Geeqie"
+msgstr "Névjegy - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -3150,8 +3150,8 @@ msgstr "Kérlek válassz egy létező könyvtárat"
 
 #: src/search.c:2561
 #, fuzzy
-msgid "Image search - GQview"
-msgstr "Kép tulajdonságai - GQview"
+msgid "Image search - Geeqie"
+msgstr "Kép tulajdonságai - Geeqie"
 
 # src/dupe.c:871 src/dupe.c:892
 #: src/search.c:2590
@@ -3586,8 +3586,8 @@ msgstr "Kérlek válassz egy létező könyvtárat"
 # src/main.c:129
 #: src/utilops.c:1022
 #, fuzzy
-msgid "Copy - GQview"
-msgstr "Segítség - GQview"
+msgid "Copy - Geeqie"
+msgstr "Segítség - Geeqie"
 
 # src/utilops.c:592
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
@@ -3609,8 +3609,8 @@ msgstr "Több fájl másolása ide:"
 # src/main.c:129
 #: src/utilops.c:1036
 #, fuzzy
-msgid "Move - GQview"
-msgstr "Segítség - GQview"
+msgid "Move - Geeqie"
+msgstr "Segítség - Geeqie"
 
 # src/utilops.c:601
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
@@ -3703,7 +3703,7 @@ msgstr "%d. fájl %d közül"
 # src/utilops.c:707
 #: src/utilops.c:1482
 #, fuzzy
-msgid "Delete files - GQview"
+msgid "Delete files - Geeqie"
 msgstr "Fájlok törlése"
 
 # src/utilops.c:942
@@ -3721,7 +3721,7 @@ msgstr "%d fájl újranézése"
 # src/ui_pathsel.c:398 src/utilops.c:760
 #: src/utilops.c:1560
 #, fuzzy
-msgid "Delete file - GQview"
+msgid "Delete file - Geeqie"
 msgstr "Fájl törlése"
 
 # src/ui_pathsel.c:398 src/utilops.c:760
@@ -3784,8 +3784,8 @@ msgstr ""
 # src/main.c:129
 #: src/utilops.c:2249 src/utilops.c:2503
 #, fuzzy
-msgid "Rename - GQview"
-msgstr "Segítség - GQview"
+msgid "Rename - Geeqie"
+msgstr "Segítség - Geeqie"
 
 # src/utilops.c:942
 #: src/utilops.c:2252
@@ -3891,8 +3891,8 @@ msgstr ""
 # src/main.c:129
 #: src/utilops.c:2625
 #, fuzzy
-msgid "New folder - GQview"
-msgstr "Segítség - GQview"
+msgid "New folder - Geeqie"
+msgstr "Segítség - Geeqie"
 
 # src/utilops.c:1211
 #: src/utilops.c:2628
@@ -4344,8 +4344,8 @@ msgstr ""
 #~ msgstr "/Súgó/sep1"
 
 # src/preferences.c:507
-#~ msgid "GQview configuration"
-#~ msgstr "A GQview beállításai"
+#~ msgid "Geeqie configuration"
+#~ msgstr "A Geeqie beállításai"
 
 # src/menu.c:749
 #~ msgid "/Edit/_Remove old thumbnails"
@@ -4576,20 +4576,20 @@ msgstr ""
 #~ msgstr "Érvénytelen könyvtár"
 
 # src/utilops.c:591
-#~ msgid "GQview - copy"
-#~ msgstr "GQview - másolás"
+#~ msgid "Geeqie - copy"
+#~ msgstr "Geeqie - másolás"
 
 # src/utilops.c:600
-#~ msgid "GQview - move"
-#~ msgstr "GQview - mozgatás"
+#~ msgid "Geeqie - move"
+#~ msgstr "Geeqie - mozgatás"
 
 # src/utilops.c:1145
 #~ msgid "Directory exists"
 #~ msgstr "A könyvtár létezik"
 
 # src/utilops.c:1212
-#~ msgid "GQview - new directory"
-#~ msgstr "GQview - új könyvtár"
+#~ msgid "Geeqie - new directory"
+#~ msgstr "Geeqie - új könyvtár"
 
 #~ msgid "Misc."
 #~ msgstr "Egyéb"

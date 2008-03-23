@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2006 John Ellis
  *
  * Author: John Ellis
@@ -296,7 +296,7 @@ GenericDialog *file_util_warning_dialog(const gchar *heading, const gchar *messa
 {
 	GenericDialog *gd;
 
-	gd = file_util_gen_dlg(heading, "GQview", "warning", parent, TRUE, NULL, NULL);
+	gd = file_util_gen_dlg(heading, "Geeqie", "warning", parent, TRUE, NULL, NULL);
 	generic_dialog_add_message(gd, icon_stock_id, heading, message);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, file_util_warning_dialog_ok_cb, TRUE);
 	if (place_dialogs_under_mouse)
@@ -644,7 +644,7 @@ static GenericDialog *file_util_move_multiple_confirm_dialog(FileDataMult *fdm)
 	GenericDialog *gd;
 	GtkWidget *hbox;
 
-	gd = file_util_gen_dlg(_("Overwrite file"), "GQview", "dlg_confirm",
+	gd = file_util_gen_dlg(_("Overwrite file"), "Geeqie", "dlg_confirm",
 				NULL, TRUE,
 				file_util_move_multiple_cancel_cb, fdm);
 
@@ -726,7 +726,7 @@ static void file_util_move_multiple(FileDataMult *fdm)
 					text = g_strdup_printf(_("Unable to move file:\n%s\nto itself."), fdm->dest);
 					}
 
-				gd = file_util_gen_dlg(title, "GQview", "dlg_confirm",
+				gd = file_util_gen_dlg(title, "Geeqie", "dlg_confirm",
 							NULL, TRUE,
 							file_util_move_multiple_cancel_cb, fdm);
 				generic_dialog_add_message(gd, GTK_STOCK_DIALOG_WARNING, title, text);
@@ -812,7 +812,7 @@ static void file_util_move_multiple(FileDataMult *fdm)
 				title = _("Error moving file");
 				text = g_strdup_printf(_("Unable to move file:\n%s\nto:\n%s\nduring multiple file move."), fdm->source_fd->path, fdm->dest);
 				}
-			gd = file_util_gen_dlg(title, "GQview", "dlg_confirm",
+			gd = file_util_gen_dlg(title, "Geeqie", "dlg_confirm",
 						NULL, TRUE,
 						file_util_move_multiple_cancel_cb, fdm);
 			generic_dialog_add_message(gd, GTK_STOCK_DIALOG_WARNING, title, text);
@@ -974,7 +974,7 @@ static void file_util_move_single(FileDataSingle *fds)
 		GenericDialog *gd;
 		GtkWidget *hbox;
 
-		gd = file_util_gen_dlg(_("Overwrite file"), "GQview", "dlg_confirm",
+		gd = file_util_gen_dlg(_("Overwrite file"), "Geeqie", "dlg_confirm",
 					NULL, TRUE,
 					file_util_move_single_cancel_cb, fds);
 
@@ -1170,7 +1170,7 @@ static void real_file_util_move(FileData *source_fd, GList *source_list,
 
 	if (copy)
 		{
-		title = _("Copy - GQview");
+		title = _("Copy - Geeqie");
 		op_text = _("_Copy");
 		if (fd)
 			{
@@ -1184,7 +1184,7 @@ static void real_file_util_move(FileData *source_fd, GList *source_list,
 		}
 	else
 		{
-		title = _("Move - GQview");
+		title = _("Move - Geeqie");
 		op_text = _("_Move");
 		if (fd)
 			{
@@ -1197,7 +1197,7 @@ static void real_file_util_move(FileData *source_fd, GList *source_list,
 		stock_id = GTK_STOCK_OK;
 		}
 
-	fdlg = file_util_file_dlg(title, "GQview", "dlg_copymove", parent,
+	fdlg = file_util_file_dlg(title, "Geeqie", "dlg_copymove", parent,
 				file_util_move_cancel_cb, NULL);
 	generic_dialog_add_message(GENERIC_DIALOG(fdlg), NULL, text, NULL);
 
@@ -1500,7 +1500,7 @@ static gint file_util_delete_ext_cb(gpointer resume_data, gint flags, GList *lis
 			if (resume_data)
 				{
 				g_string_append(msg, _("\n Continue multiple delete operation?"));
-				d = file_util_gen_dlg(_("Delete failed"), "GQview", "dlg_confirm",
+				d = file_util_gen_dlg(_("Delete failed"), "Geeqie", "dlg_confirm",
 						      NULL, TRUE,
 						      file_util_delete_ext_cancel_cb, resume_data);
 
@@ -1592,7 +1592,7 @@ static void file_util_delete_multiple_ok_cb(GenericDialog *gd, gpointer data)
 				GenericDialog *d;
 				gchar *text;
 
-				d = file_util_gen_dlg(_("Delete failed"), "GQview", "dlg_confirm",
+				d = file_util_gen_dlg(_("Delete failed"), "Geeqie", "dlg_confirm",
 						      NULL, TRUE,
 						      file_util_delete_multiple_cancel_cb, source_list);
 
@@ -1736,8 +1736,8 @@ static void file_util_delete_multiple(GList *source_list, GtkWidget *parent)
 		ImageWindow *imd;
 		gchar *buf;
 
-		gd = file_util_gen_dlg(_("Delete files - GQview"),
-					"GQview", "dlg_confirm", parent, TRUE,
+		gd = file_util_gen_dlg(_("Delete files - Geeqie"),
+					"Geeqie", "dlg_confirm", parent, TRUE,
 					file_util_delete_multiple_cancel_cb, source_list);
 
 		generic_dialog_add_message(gd, NULL, _("Delete multiple files"), NULL);
@@ -1832,7 +1832,7 @@ static void file_util_delete_single(FileData *fd, GtkWidget *parent)
 		GtkWidget *table;
 		gchar *base;
 
-		gd = file_util_gen_dlg(_("Delete file - GQview"), "GQview", "dlg_confirm",
+		gd = file_util_gen_dlg(_("Delete file - Geeqie"), "Geeqie", "dlg_confirm",
 					parent, TRUE,
 					file_util_delete_cancel_cb, file_data_ref(fd));
 
@@ -1989,7 +1989,7 @@ static void file_util_rename_multiple(RenameDataMult *rd)
 		{
 		GenericDialog *gd;
 
-		gd = file_util_gen_dlg(_("Overwrite file"), "GQview", "dlg_confirm",
+		gd = file_util_gen_dlg(_("Overwrite file"), "Geeqie", "dlg_confirm",
 					NULL, TRUE,
 					file_util_rename_multiple_cancel_cb, rd);
 
@@ -2518,8 +2518,8 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 
 	rd = g_new0(RenameDataMult, 1);
 
-	rd->fdlg = file_util_file_dlg(_("Rename - GQview"),
-				    "GQview", "dlg_rename", parent,
+	rd->fdlg = file_util_file_dlg(_("Rename - Geeqie"),
+				    "Geeqie", "dlg_rename", parent,
 				    file_util_rename_multiple_close_cb, rd);
 	generic_dialog_add_message(GENERIC_DIALOG(rd->fdlg), NULL, _("Rename multiple files"), NULL);
 	file_dialog_add_button(rd->fdlg, GTK_STOCK_OK, _("_Rename"), file_util_rename_multiple_cb, TRUE);
@@ -2707,7 +2707,7 @@ static void file_util_rename_single(FileDataSingle *fds)
 		{
 		GenericDialog *gd;
 
-		gd = file_util_gen_dlg(_("Overwrite file"), "GQview", "dlg_confirm",
+		gd = file_util_gen_dlg(_("Overwrite file"), "Geeqie", "dlg_confirm",
 					NULL, TRUE,
 					file_util_rename_single_cancel_cb, fds);
 
@@ -2775,7 +2775,7 @@ static void file_util_rename_single_do(FileData *source_fd, GtkWidget *parent)
 	GtkWidget *table;
 	const gchar *name;
 
-	fdlg = file_util_file_dlg(_("Rename - GQview"), "GQview", "dlg_rename", parent,
+	fdlg = file_util_file_dlg(_("Rename - Geeqie"), "Geeqie", "dlg_rename", parent,
 			     file_util_rename_single_close_cb, NULL);
 
 	generic_dialog_add_message(GENERIC_DIALOG(fdlg), NULL, _("Rename file"), NULL);
@@ -2897,7 +2897,7 @@ void file_util_create_dir(const gchar *path, GtkWidget *parent)
 
 	if (!isdir(path)) return;
 
-	fdlg = file_util_file_dlg(_("New folder - GQview"), "GQview", "dlg_newdir", parent,
+	fdlg = file_util_file_dlg(_("New folder - Geeqie"), "Geeqie", "dlg_newdir", parent,
 			     file_util_create_dir_close_cb, NULL);
 
 	text = g_strdup_printf(_("Create folder in:\n%s\nnamed:"), path);
@@ -3295,7 +3295,7 @@ void file_util_delete_dir(FileData *fd, GtkWidget *parent)
 		ud->dlist = NULL;
 		ud->flist = NULL;
 
-		ud->gd = file_util_gen_dlg(_("Delete folder"), "GQview", "dlg_confirm",
+		ud->gd = file_util_gen_dlg(_("Delete folder"), "Geeqie", "dlg_confirm",
 					   parent, TRUE,
 					   file_util_delete_dir_cancel_cb, ud);
 
@@ -3344,7 +3344,7 @@ void file_util_delete_dir(FileData *fd, GtkWidget *parent)
 		GtkWidget *box;
 		gchar *text;
 
-		gd = file_util_gen_dlg(_("Folder contains subfolders"), "GQview", "dlg_warning",
+		gd = file_util_gen_dlg(_("Folder contains subfolders"), "Geeqie", "dlg_warning",
 					parent, TRUE, NULL, NULL);
 		generic_dialog_add_button(gd, GTK_STOCK_CLOSE, NULL, NULL, TRUE);
 
@@ -3379,7 +3379,7 @@ void file_util_delete_dir(FileData *fd, GtkWidget *parent)
 		ud->flist = filelist_sort_path(flist);
 		flist = NULL;
 
-		ud->gd = file_util_gen_dlg(_("Delete folder"), "GQview", "dlg_confirm",
+		ud->gd = file_util_gen_dlg(_("Delete folder"), "Geeqie", "dlg_confirm",
 					   parent, TRUE, file_util_delete_dir_cancel_cb, ud);
 		generic_dialog_add_button(ud->gd, GTK_STOCK_DELETE, NULL, file_util_delete_dir_ok_cb, TRUE);
 

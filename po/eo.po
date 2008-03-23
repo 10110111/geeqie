@@ -307,16 +307,16 @@ msgstr ""
 "kiuj estas konservitaj en disko. Ĉu daŭre?"
 
 #: src/cache_maint.c:1162
-msgid "Cache Maintenance - GQview"
-msgstr "Kaŝmemora Bontenado - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Kaŝmemora Bontenado - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
 msgstr "Bontenado de kaŝmemoro kaj datumoj"
 
 #: src/cache_maint.c:1176
-msgid "GQview thumbnail cache"
-msgstr "Kaŝmemoro de GQview miniaturoj"
+msgid "Geeqie thumbnail cache"
+msgstr "Kaŝmemoro de Geeqie miniaturoj"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -369,8 +369,8 @@ msgstr "Sen titola (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - GQview Kolekto"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Geeqie Kolekto"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -670,8 +670,8 @@ msgid "Similarity (custom)"
 msgstr "Simileco (personigita)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Trovu duplikatojn - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Trovu duplikatojn - Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1013,8 +1013,8 @@ msgid "%.1f GB"
 msgstr "%.1f GB "
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview plenekrane"
+msgid "Geeqie full screen"
+msgstr "Geeqie plenekrane"
 
 #: src/fullscreen.c:397
 msgid "Full size"
@@ -1138,8 +1138,8 @@ msgid "Image %d of %d"
 msgstr "Bildo %d el %d"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "Bildaj ecoj - GQview"
+msgid "Image properties - Geeqie"
+msgstr "Bildaj ecoj - Geeqie"
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
 msgid "Ascending"
@@ -1152,7 +1152,7 @@ msgstr "Nesubtenita dosierujo"
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1211,8 +1211,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s bajtoj"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview Iloj"
+msgid "Geeqie Tools"
+msgstr "Geeqie Iloj"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1457,8 +1457,8 @@ msgid "Float Controls"
 msgstr "Flosantaj Regoj"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Helpo - GQview"
+msgid "Help - Geeqie"
+msgstr "Helpo - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1538,8 +1538,8 @@ msgid "Remote command list:\n"
 msgstr "Listo de malproksimaj komandoj:\n"
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
-msgstr "Malproksima GQview ne funkcias, startante..."
+msgid "Remote Geeqie not running, starting..."
+msgstr "Malproksima Geeqie ne funkcias, startante..."
 
 #: src/main.c:773
 msgid "Remote not available\n"
@@ -1618,8 +1618,8 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "Kreante GQview dosierujon: %s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Kreante Geeqie dosierujon: %s\n"
 
 #: src/main.c:1099
 #, c-format
@@ -1635,12 +1635,12 @@ msgid "Desktop"
 msgstr "Tabulo"
 
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - eliro"
+msgid "Geeqie - exit"
+msgstr "Geeqie - eliro"
 
 #: src/main.c:1226
-msgid "Quit GQview"
-msgstr "Fermu GQview"
+msgid "Quit Geeqie"
+msgstr "Fermu Geeqie"
 
 #: src/main.c:1226
 msgid "Collections have been modified. Quit anyway?"
@@ -1734,8 +1734,8 @@ msgstr "La enigita raŭto ne estas dosierujo"
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "Larĝvido - GQview"
+msgid "Pan View - Geeqie"
+msgstr "Larĝvido - Geeqie"
 
 #: src/pan-view.c:2376
 msgid "Timeline"
@@ -1922,8 +1922,8 @@ msgid "This will remove the trash contents."
 msgstr "Ĉi tiu formovos rubujan entenon."
 
 #: src/preferences.c:800
-msgid "GQview Preferences"
-msgstr "GQview Agordoj"
+msgid "Geeqie Preferences"
+msgstr "Geeqie Agordoj"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2214,13 +2214,13 @@ msgid "Screen:"
 msgstr "Ekrano"
 
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "Pri GQview"
+msgid "About - Geeqie"
+msgstr "Pri Geeqie"
 
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2228,7 +2228,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copirajto (c) %s John Ellis\n"
 "Retpaĝaro: %s\n"
@@ -2435,8 +2435,8 @@ msgid "Details"
 msgstr "Detaloj"
 
 #: src/print.c:2602 src/print.c:3347
-msgid "Print - GQview"
-msgstr "Presu - GQview"
+msgid "Print - Geeqie"
+msgstr "Presu - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2623,8 +2623,8 @@ msgid "Please enter an existing folder to search."
 msgstr "Bonvolu, enigu ekzistantan dosierujon por serĉi."
 
 #: src/search.c:2561
-msgid "Image search - GQview"
-msgstr "Serĉu bildon - GQview"
+msgid "Image search - Geeqie"
+msgstr "Serĉu bildon - Geeqie"
 
 #: src/search.c:2590
 msgid "Search:"
@@ -2971,8 +2971,8 @@ msgid "Please select an existing folder."
 msgstr "Bonvolu, elektu ekzistantan dosierujon."
 
 #: src/utilops.c:1022
-msgid "Copy - GQview"
-msgstr "Kopiu - GQview"
+msgid "Copy - Geeqie"
+msgstr "Kopiu - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
@@ -2987,8 +2987,8 @@ msgid "Copy multiple files"
 msgstr "Kopiu plurajn dosierojn"
 
 #: src/utilops.c:1036
-msgid "Move - GQview"
-msgstr "Movu - GQview"
+msgid "Move - Geeqie"
+msgstr "Movu - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
@@ -3062,8 +3062,8 @@ msgid "File %d of %d"
 msgstr "Dosiero %d el %d"
 
 #: src/utilops.c:1482
-msgid "Delete files - GQview"
-msgstr "Forigu dosierojn - GQview"
+msgid "Delete files - Geeqie"
+msgstr "Forigu dosierojn - Geeqie"
 
 #: src/utilops.c:1486
 msgid "Delete multiple files"
@@ -3075,8 +3075,8 @@ msgid "Review %d files"
 msgstr "Revidu %d dosierojn"
 
 #: src/utilops.c:1560
-msgid "Delete file - GQview"
-msgstr "Forigu dosieron - GQview"
+msgid "Delete file - Geeqie"
+msgstr "Forigu dosieron - Geeqie"
 
 #: src/utilops.c:1564
 msgid "Delete file?"
@@ -3130,8 +3130,8 @@ msgstr ""
 "La nombro estis %d."
 
 #: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - GQview"
-msgstr "Renomu - GQview"
+msgid "Rename - Geeqie"
+msgstr "Renomu - Geeqie"
 
 #: src/utilops.c:2252
 msgid "Rename multiple files"
@@ -3222,8 +3222,8 @@ msgstr ""
 "jam estis dosiero."
 
 #: src/utilops.c:2625
-msgid "New folder - GQview"
-msgstr "Nova dosierujo - GQview"
+msgid "New folder - Geeqie"
+msgstr "Nova dosierujo - Geeqie"
 
 #: src/utilops.c:2628
 #, c-format

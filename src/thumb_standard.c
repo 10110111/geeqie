@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2006 John Ellis
  *
  * Author: John Ellis
@@ -353,7 +353,7 @@ static void thumb_loader_std_save(ThumbLoaderStd *tl, GdkPixbuf *pixbuf)
 
 		mark_uri = (tl->cache_local) ? tl->local_uri :tl->thumb_uri;
 
-		mark_app = g_strdup_printf("GQview %s", VERSION);
+		mark_app = g_strdup_printf("Geeqie %s", VERSION);
 		mark_mtime = g_strdup_printf("%lu", tl->source_mtime);
 
 		pathl = path_from_utf8(tmp_path);

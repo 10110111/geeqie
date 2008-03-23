@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2006 John Ellis
  *
  * Author: John Ellis
@@ -2362,8 +2362,8 @@ static void pan_window_new_real(const gchar *path)
 	gtk_window_set_geometry_hints(GTK_WINDOW(pw->window), NULL, &geometry, GDK_HINT_MIN_SIZE);
 
 	gtk_window_set_resizable(GTK_WINDOW(pw->window), TRUE);
-	gtk_window_set_title (GTK_WINDOW(pw->window), _("Pan View - GQview"));
-        gtk_window_set_wmclass(GTK_WINDOW(pw->window), "view", "GQview");
+	gtk_window_set_title (GTK_WINDOW(pw->window), _("Pan View - Geeqie"));
+        gtk_window_set_wmclass(GTK_WINDOW(pw->window), "view", "Geeqie");
         gtk_container_set_border_width(GTK_CONTAINER(pw->window), 0);
 
 	window_set_icon(pw->window, NULL, NULL);
@@ -2577,7 +2577,7 @@ static gint pan_warning(const gchar *path)
 	if (!pref_list_int_get(PAN_PREF_GROUP, PAN_PREF_HIDE_WARNING, &hide_dlg)) hide_dlg = FALSE;
 	if (hide_dlg) return FALSE;
 
-	gd = generic_dialog_new(_("Pan View Performance"), "GQview", "pan_view_warning", NULL, FALSE,
+	gd = generic_dialog_new(_("Pan View Performance"), "Geeqie", "pan_view_warning", NULL, FALSE,
 				NULL, NULL);
 	gd->data = g_strdup(path);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL,

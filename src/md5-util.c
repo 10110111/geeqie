@@ -22,7 +22,7 @@
  */
 
 /*
- * Pulled from evolution for use in GQview, their version is nicely glib'ed
+ * Pulled from evolution for use in Geeqie, their version is nicely glib'ed
  * GNOME CVS HEAD evolution/e-util/md5-utils.[ch] September 8, 2004
  */
 

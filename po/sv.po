@@ -305,16 +305,16 @@ msgstr ""
 "som sparats på hårddisken, fortsätt?"
 
 #: src/cache_maint.c:1162
-msgid "Cache Maintenance - GQview"
-msgstr "Cache-hantering - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Cache-hantering - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
 msgstr "Cache- och Datahantering"
 
 #: src/cache_maint.c:1176
-msgid "GQview thumbnail cache"
-msgstr "GQview miniatyrbildscache"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie miniatyrbildscache"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -367,8 +367,8 @@ msgstr "Namnlös (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - GQview Album"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Geeqie Album"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -668,8 +668,8 @@ msgid "Similarity (custom)"
 msgstr "Likhet (anpassad)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Hitta dubletter - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Hitta dubletter - Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1011,8 +1011,8 @@ msgid "%.1f GB"
 msgstr "%.1f gigabyte"
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview helskärmsläge"
+msgid "Geeqie full screen"
+msgstr "Geeqie helskärmsläge"
 
 #: src/fullscreen.c:397
 msgid "Full size"
@@ -1136,8 +1136,8 @@ msgid "Image %d of %d"
 msgstr "Bild %d av %d"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "Bildegenskaper - GQview"
+msgid "Image properties - Geeqie"
+msgstr "Bildegenskaper - Geeqie"
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
 msgid "Ascending"
@@ -1150,7 +1150,7 @@ msgstr "Mappen hittades inte"
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1209,8 +1209,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d × %d ) %s byte"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview Verktyg"
+msgid "Geeqie Tools"
+msgstr "Geeqie Verktyg"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1457,8 +1457,8 @@ msgid "Float Controls"
 msgstr "Ta loss kontroller"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Hjälp - GQview"
+msgid "Help - Geeqie"
+msgstr "Hjälp - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1538,8 +1538,8 @@ msgid "Remote command list:\n"
 msgstr "Lista över fjärrkommandon:\n"
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
-msgstr "Fjärr-GQview inte igång, startar..."
+msgid "Remote Geeqie not running, starting..."
+msgstr "Fjärr-Geeqie inte igång, startar..."
 
 #: src/main.c:773
 msgid "Remote not available\n"
@@ -1618,8 +1618,8 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "Skapar GQview-mapp:%s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Skapar Geeqie-mapp:%s\n"
 
 #: src/main.c:1099
 #, c-format
@@ -1635,12 +1635,12 @@ msgid "Desktop"
 msgstr "Skrivbord"
 
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - avsluta"
+msgid "Geeqie - exit"
+msgstr "Geeqie - avsluta"
 
 #: src/main.c:1226
-msgid "Quit GQview"
-msgstr "Avsluta GQview"
+msgid "Quit Geeqie"
+msgstr "Avsluta Geeqie"
 
 #: src/main.c:1226
 msgid "Collections have been modified. Quit anyway?"
@@ -1740,8 +1740,8 @@ msgstr ""
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "Skriv ut - GQview"
+msgid "Pan View - Geeqie"
+msgstr "Skriv ut - Geeqie"
 
 #: src/pan-view.c:2376
 #, fuzzy
@@ -1938,8 +1938,8 @@ msgid "This will remove the trash contents."
 msgstr "Detta kommer att ta bort papperskorgens innehåll."
 
 #: src/preferences.c:800
-msgid "GQview Preferences"
-msgstr "GQview Inställningar"
+msgid "Geeqie Preferences"
+msgstr "Geeqie Inställningar"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2231,13 +2231,13 @@ msgid "Screen:"
 msgstr "Skärm"
 
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "Om - GQview"
+msgid "About - Geeqie"
+msgstr "Om - Geeqie"
 
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2245,7 +2245,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright © %s John Ellis\n"
 "webbplats: %s\n"
@@ -2452,8 +2452,8 @@ msgid "Details"
 msgstr "Detaljer"
 
 #: src/print.c:2602 src/print.c:3347
-msgid "Print - GQview"
-msgstr "Skriv ut - GQview"
+msgid "Print - Geeqie"
+msgstr "Skriv ut - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2641,8 +2641,8 @@ msgid "Please enter an existing folder to search."
 msgstr "Välj en befintlig mapp att genomsöka."
 
 #: src/search.c:2561
-msgid "Image search - GQview"
-msgstr "Bildsökning - GQview"
+msgid "Image search - Geeqie"
+msgstr "Bildsökning - Geeqie"
 
 #: src/search.c:2590
 msgid "Search:"
@@ -2988,8 +2988,8 @@ msgid "Please select an existing folder."
 msgstr "Välj en befintlig mapp"
 
 #: src/utilops.c:1022
-msgid "Copy - GQview"
-msgstr "Kopiera - GQview"
+msgid "Copy - Geeqie"
+msgstr "Kopiera - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
@@ -3004,8 +3004,8 @@ msgid "Copy multiple files"
 msgstr "Kopiera flera filer"
 
 #: src/utilops.c:1036
-msgid "Move - GQview"
-msgstr "Flytta - GQview"
+msgid "Move - Geeqie"
+msgstr "Flytta - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
@@ -3079,8 +3079,8 @@ msgid "File %d of %d"
 msgstr "Fil %d av %d"
 
 #: src/utilops.c:1482
-msgid "Delete files - GQview"
-msgstr "Ta bort filer - GQview"
+msgid "Delete files - Geeqie"
+msgstr "Ta bort filer - Geeqie"
 
 #: src/utilops.c:1486
 msgid "Delete multiple files"
@@ -3092,8 +3092,8 @@ msgid "Review %d files"
 msgstr "Granska %d filer"
 
 #: src/utilops.c:1560
-msgid "Delete file - GQview"
-msgstr "Ta bort fil - GQview"
+msgid "Delete file - Geeqie"
+msgstr "Ta bort fil - Geeqie"
 
 #: src/utilops.c:1564
 msgid "Delete file?"
@@ -3147,8 +3147,8 @@ msgstr ""
 "Numret var %d."
 
 #: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - GQview"
-msgstr "Byt namn - GQview"
+msgid "Rename - Geeqie"
+msgstr "Byt namn - Geeqie"
 
 #: src/utilops.c:2252
 msgid "Rename multiple files"
@@ -3239,8 +3239,8 @@ msgstr ""
 "finns redan som fil."
 
 #: src/utilops.c:2625
-msgid "New folder - GQview"
-msgstr "Ny mapp - GQview"
+msgid "New folder - Geeqie"
+msgstr "Ny mapp - Geeqie"
 
 #: src/utilops.c:2628
 #, c-format
@@ -3607,8 +3607,8 @@ msgstr ""
 #~ msgid "/Help/sep1"
 #~ msgstr "/Hjälp/sep1"
 
-#~ msgid "GQview configuration"
-#~ msgstr "GQview konfiguration"
+#~ msgid "Geeqie configuration"
+#~ msgstr "Geeqie konfiguration"
 
 #~ msgid "/Edit/_Remove old thumbnails"
 #~ msgstr "/Redigera/Ra_dera gamla miniatyrbilder"

@@ -293,7 +293,7 @@ msgid ""
 msgstr ""
 
 #: src/cache_maint.c:1162
-msgid "Cache Maintenance - GQview"
+msgid "Cache Maintenance - Geeqie"
 msgstr ""
 
 #: src/cache_maint.c:1172
@@ -301,7 +301,7 @@ msgid "Cache and Data Maintenance"
 msgstr ""
 
 #: src/cache_maint.c:1176
-msgid "GQview thumbnail cache"
+msgid "Geeqie thumbnail cache"
 msgstr ""
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
@@ -355,7 +355,7 @@ msgstr ""
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
+msgid "%s - Geeqie Collection"
 msgstr ""
 
 #: src/collect.c:1094 src/collect.c:1098
@@ -651,7 +651,7 @@ msgid "Similarity (custom)"
 msgstr ""
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
+msgid "Find duplicates - Geeqie"
 msgstr ""
 
 #: src/dupe.c:3148
@@ -992,7 +992,7 @@ msgid "%.1f GB"
 msgstr ""
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
+msgid "Geeqie full screen"
 msgstr ""
 
 #: src/fullscreen.c:397
@@ -1117,7 +1117,7 @@ msgid "Image %d of %d"
 msgstr ""
 
 #: src/info.c:684
-msgid "Image properties - GQview"
+msgid "Image properties - Geeqie"
 msgstr ""
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
@@ -1130,7 +1130,7 @@ msgstr ""
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1189,7 +1189,7 @@ msgid "( %d x %d ) %s bytes"
 msgstr ""
 
 #: src/layout.c:1304
-msgid "GQview Tools"
+msgid "Geeqie Tools"
 msgstr ""
 
 #: src/layout.c:1934
@@ -1437,7 +1437,7 @@ msgid "Float Controls"
 msgstr ""
 
 #: src/main.c:237
-msgid "Help - GQview"
+msgid "Help - Geeqie"
 msgstr ""
 
 #: src/main.c:460 src/main.c:1376
@@ -1518,7 +1518,7 @@ msgid "Remote command list:\n"
 msgstr ""
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
+msgid "Remote Geeqie not running, starting..."
 msgstr ""
 
 #: src/main.c:773
@@ -1590,7 +1590,7 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
+msgid "Creating Geeqie dir:%s\n"
 msgstr ""
 
 #: src/main.c:1099
@@ -1607,11 +1607,11 @@ msgid "Desktop"
 msgstr ""
 
 #: src/main.c:1222
-msgid "GQview - exit"
+msgid "Geeqie - exit"
 msgstr ""
 
 #: src/main.c:1226
-msgid "Quit GQview"
+msgid "Quit Geeqie"
 msgstr ""
 
 #: src/main.c:1226
@@ -1708,7 +1708,7 @@ msgid "The entered path is not a folder"
 msgstr ""
 
 #: src/pan-view.c:2354
-msgid "Pan View - GQview"
+msgid "Pan View - Geeqie"
 msgstr ""
 
 #: src/pan-view.c:2376
@@ -1893,7 +1893,7 @@ msgid "This will remove the trash contents."
 msgstr ""
 
 #: src/preferences.c:800
-msgid "GQview Preferences"
+msgid "Geeqie Preferences"
 msgstr ""
 
 #: src/preferences.c:854
@@ -2183,13 +2183,13 @@ msgid "Screen:"
 msgstr ""
 
 #: src/preferences.c:1380
-msgid "About - GQview"
+msgid "About - Geeqie"
 msgstr ""
 
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2395,7 +2395,7 @@ msgid "Details"
 msgstr ""
 
 #: src/print.c:2602 src/print.c:3347
-msgid "Print - GQview"
+msgid "Print - Geeqie"
 msgstr ""
 
 #: src/print.c:2606
@@ -2583,7 +2583,7 @@ msgid "Please enter an existing folder to search."
 msgstr ""
 
 #: src/search.c:2561
-msgid "Image search - GQview"
+msgid "Image search - Geeqie"
 msgstr ""
 
 #: src/search.c:2590
@@ -2898,7 +2898,7 @@ msgid "Please select an existing folder."
 msgstr ""
 
 #: src/utilops.c:1022
-msgid "Copy - GQview"
+msgid "Copy - Geeqie"
 msgstr ""
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
@@ -2914,7 +2914,7 @@ msgid "Copy multiple files"
 msgstr ""
 
 #: src/utilops.c:1036
-msgid "Move - GQview"
+msgid "Move - Geeqie"
 msgstr ""
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
@@ -2984,7 +2984,7 @@ msgid "File %d of %d"
 msgstr ""
 
 #: src/utilops.c:1482
-msgid "Delete files - GQview"
+msgid "Delete files - Geeqie"
 msgstr ""
 
 #: src/utilops.c:1486
@@ -2997,7 +2997,7 @@ msgid "Review %d files"
 msgstr ""
 
 #: src/utilops.c:1560
-msgid "Delete file - GQview"
+msgid "Delete file - Geeqie"
 msgstr ""
 
 #: src/utilops.c:1564
@@ -3042,7 +3042,7 @@ msgid ""
 msgstr ""
 
 #: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - GQview"
+msgid "Rename - Geeqie"
 msgstr ""
 
 #: src/utilops.c:2252
@@ -3123,7 +3123,7 @@ msgid ""
 msgstr ""
 
 #: src/utilops.c:2625
-msgid "New folder - GQview"
+msgid "New folder - Geeqie"
 msgstr ""
 
 #: src/utilops.c:2628

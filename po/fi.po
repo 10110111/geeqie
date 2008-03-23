@@ -1,4 +1,4 @@
-# GQview Finnish translation.
+# Geeqie Finnish translation.
 # Copyright (C) 2001, 2002, 2003, 2004, 2006 Lauri Nurmi
 # Lauri Nurmi <lanurmi@iki.fi>, 2001-2006.
 #
@@ -339,8 +339,8 @@ msgstr ""
 "pienoiskuvat, jatketaanko?"
 
 #: src/cache_maint.c:1162
-msgid "Cache Maintenance - GQview"
-msgstr "Välimuistin hallinta - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Välimuistin hallinta - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
@@ -348,8 +348,8 @@ msgstr "Välimuistin ja tiedon hallinta"
 
 # src/fullscreen.c:117
 #: src/cache_maint.c:1176
-msgid "GQview thumbnail cache"
-msgstr "GQviewin pienoiskuvien välimuisti"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqiein pienoiskuvien välimuisti"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -410,8 +410,8 @@ msgstr "Nimetön (%d)"
 # src/collect.c:930
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - GQview-kokoelma"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Geeqie-kokoelma"
 
 # src/collect.c:1048
 #: src/collect.c:1094 src/collect.c:1098
@@ -777,8 +777,8 @@ msgstr "Yhtäläisyys (mukautettu)"
 
 # src/dupe.c:1968
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Kaksoiskappaleiden etsintö - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Kaksoiskappaleiden etsintö - Geeqie"
 
 # src/dupe.c:1948
 #: src/dupe.c:3148
@@ -1148,8 +1148,8 @@ msgstr "%.1f Gt"
 
 # src/fullscreen.c:117
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview-kokoruutu"
+msgid "Geeqie full screen"
+msgstr "Geeqie-kokoruutu"
 
 # src/preferences.c:368
 #: src/fullscreen.c:397
@@ -1293,8 +1293,8 @@ msgid "Image %d of %d"
 msgstr "Kuva %d/%d"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "Kuvan ominaisuudet - GQview"
+msgid "Image properties - Geeqie"
+msgstr "Kuvan ominaisuudet - Geeqie"
 
 # src/window.c:87
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
@@ -1308,7 +1308,7 @@ msgstr "Kansiota ei löydy"
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1375,8 +1375,8 @@ msgstr "( %d × %d ) %s tavua"
 
 # src/window.c:234
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview-työkalut"
+msgid "Geeqie Tools"
+msgstr "Geeqie-työkalut"
 
 # src/collect-dlg.c:59
 #: src/layout.c:1934
@@ -1677,8 +1677,8 @@ msgstr "Kelluta työkalut"
 
 # src/main.c:129
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Ohje - GQview"
+msgid "Help - Geeqie"
+msgstr "Ohje - Geeqie"
 
 # src/main.c:743
 #: src/main.c:460 src/main.c:1376
@@ -1771,8 +1771,8 @@ msgid "Remote command list:\n"
 msgstr "Luettelo etäkomennoista:\n"
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
-msgstr "Etä-GQview ei ole käynnissä, käynnistetään..."
+msgid "Remote Geeqie not running, starting..."
+msgstr "Etä-Geeqie ei ole käynnissä, käynnistetään..."
 
 #: src/main.c:773
 msgid "Remote not available\n"
@@ -1863,8 +1863,8 @@ msgstr ""
 # src/main.c:533
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "Luodaan GQview-kansiota:%s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Luodaan Geeqie-kansiota:%s\n"
 
 # src/main.c:536
 #: src/main.c:1099
@@ -1884,13 +1884,13 @@ msgstr "Työpöytä"
 
 # src/main.c:619
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - poistuminen"
+msgid "Geeqie - exit"
+msgstr "Geeqie - poistuminen"
 
 # src/main.c:129
 #: src/main.c:1226
-msgid "Quit GQview"
-msgstr "GQview’n lopetus"
+msgid "Quit Geeqie"
+msgstr "Geeqie’n lopetus"
 
 # src/main.c:619
 #: src/main.c:1226
@@ -2004,8 +2004,8 @@ msgstr ""
 # src/main.c:129
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "Tulostus - GQview"
+msgid "Pan View - Geeqie"
+msgstr "Tulostus - Geeqie"
 
 # src/preferences.c:369
 #: src/pan-view.c:2376
@@ -2227,8 +2227,8 @@ msgstr "Roskakorin sisältö poistetaan."
 
 # src/utilops.c:942 src/utilops.c:1091
 #: src/preferences.c:800
-msgid "GQview Preferences"
-msgstr "GQview’n asetukset"
+msgid "Geeqie Preferences"
+msgstr "Geeqie’n asetukset"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2571,14 +2571,14 @@ msgstr "Työpöytä"
 
 # src/main.c:129
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "Tietoja - GQview"
+msgid "About - Geeqie"
+msgstr "Tietoja - Geeqie"
 
 # src/preferences.c:1041
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2586,7 +2586,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Tekijänoikeus © %s John Ellis\n"
 "WWW-sivu: %s\n"
@@ -2800,8 +2800,8 @@ msgstr "Yksityiskohdat"
 
 # src/main.c:129
 #: src/print.c:2602 src/print.c:3347
-msgid "Print - GQview"
-msgstr "Tulostus - GQview"
+msgid "Print - Geeqie"
+msgstr "Tulostus - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -3011,8 +3011,8 @@ msgid "Please enter an existing folder to search."
 msgstr "Valitse olemassaoleva kansio hakua varten."
 
 #: src/search.c:2561
-msgid "Image search - GQview"
-msgstr "Kuvahaku - GQview"
+msgid "Image search - Geeqie"
+msgstr "Kuvahaku - Geeqie"
 
 # src/dupe.c:871 src/dupe.c:892
 #: src/search.c:2590
@@ -3418,8 +3418,8 @@ msgstr "Valitse olemassaoleva kansio."
 
 # src/main.c:129
 #: src/utilops.c:1022
-msgid "Copy - GQview"
-msgstr "Kopiointi - GQview"
+msgid "Copy - Geeqie"
+msgstr "Kopiointi - Geeqie"
 
 # src/utilops.c:592
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
@@ -3438,8 +3438,8 @@ msgstr "Kopioi useita tiedostoja"
 
 # src/main.c:129
 #: src/utilops.c:1036
-msgid "Move - GQview"
-msgstr "Siirto - GQview"
+msgid "Move - Geeqie"
+msgstr "Siirto - Geeqie"
 
 # src/utilops.c:601
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
@@ -3526,8 +3526,8 @@ msgstr "Tiedosto %d/%d"
 
 # src/utilops.c:707
 #: src/utilops.c:1482
-msgid "Delete files - GQview"
-msgstr "Tiedostojen poisto - GQview"
+msgid "Delete files - Geeqie"
+msgstr "Tiedostojen poisto - Geeqie"
 
 # src/utilops.c:942
 #: src/utilops.c:1486
@@ -3542,8 +3542,8 @@ msgstr "Tarkastele %d tiedostoa"
 
 # src/ui_pathsel.c:398 src/utilops.c:760
 #: src/utilops.c:1560
-msgid "Delete file - GQview"
-msgstr "Tiedoston poisto - GQview"
+msgid "Delete file - Geeqie"
+msgstr "Tiedoston poisto - Geeqie"
 
 # src/ui_pathsel.c:398 src/utilops.c:760
 #: src/utilops.c:1564
@@ -3602,8 +3602,8 @@ msgstr ""
 
 # src/main.c:129
 #: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - GQview"
-msgstr "Uudelleennimeäminen - GQview"
+msgid "Rename - Geeqie"
+msgstr "Uudelleennimeäminen - Geeqie"
 
 # src/utilops.c:942
 #: src/utilops.c:2252
@@ -3703,8 +3703,8 @@ msgstr ""
 
 # src/main.c:129
 #: src/utilops.c:2625
-msgid "New folder - GQview"
-msgstr "Uusi kansio - GQview"
+msgid "New folder - Geeqie"
+msgstr "Uusi kansio - Geeqie"
 
 # src/utilops.c:1211
 #: src/utilops.c:2628
@@ -4155,8 +4155,8 @@ msgstr ""
 #~ msgstr "/Ohje/sep1"
 
 # src/preferences.c:507
-#~ msgid "GQview configuration"
-#~ msgstr "GQview-asetukset"
+#~ msgid "Geeqie configuration"
+#~ msgstr "Geeqie-asetukset"
 
 # src/menu.c:749
 #~ msgid "/Edit/_Remove old thumbnails"
@@ -4386,20 +4386,20 @@ msgstr ""
 #~ msgstr "Virheellinen kansio"
 
 # src/utilops.c:591
-#~ msgid "GQview - copy"
-#~ msgstr "GQview - kopiointi"
+#~ msgid "Geeqie - copy"
+#~ msgstr "Geeqie - kopiointi"
 
 # src/utilops.c:600
-#~ msgid "GQview - move"
-#~ msgstr "GQview - siirto"
+#~ msgid "Geeqie - move"
+#~ msgstr "Geeqie - siirto"
 
 # src/utilops.c:1145
 #~ msgid "Directory exists"
 #~ msgstr "Kansio on olemassa"
 
 # src/utilops.c:1212
-#~ msgid "GQview - new directory"
-#~ msgstr "GQview - uusi kansio"
+#~ msgid "Geeqie - new directory"
+#~ msgstr "Geeqie - uusi kansio"
 
 #~ msgid "Misc."
 #~ msgstr "Muut"
@@ -4426,8 +4426,8 @@ msgstr ""
 #~ msgstr "nimelle:"
 
 # src/main.c:146 src/main.c:176
-#~ msgid "GQview running: %s\n"
-#~ msgstr "GQview käynnissä: %s\n"
+#~ msgid "Geeqie running: %s\n"
+#~ msgstr "Geeqie käynnissä: %s\n"
 
 # kirjoitusvirhe on tahallinen, tekee taivutusmuodosta (lähes) oikean
 # src/main.c:555

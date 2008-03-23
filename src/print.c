@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2004 John Ellis
  *
  * Author: John Ellis
@@ -1096,7 +1096,7 @@ static gint print_job_ps_init(PrintWindow *pw)
 
 	/* comments, etc. */
 	fprintf(f, "%%!PS-Adobe-3.0\n");
-	fprintf(f, "%%%%Creator: GQview Version %s\n", VERSION);
+	fprintf(f, "%%%%Creator: Geeqie Version %s\n", VERSION);
 	fprintf(f, "%%%%CreationDate: \n");
 	fprintf(f, "%%%%LanguageLevel 2\n");
 	fprintf(f, "%%%%DocumentMedia: \n");
@@ -1998,7 +1998,7 @@ static void print_job_throw_error(PrintWindow *pw, const gchar *message)
 
 	if (GTK_WIDGET_VISIBLE(pw->dialog->dialog)) parent = pw->dialog->dialog;
 
-	gd = generic_dialog_new(_("Printing error"), "GQview", "print_warning",
+	gd = generic_dialog_new(_("Printing error"), "Geeqie", "print_warning",
 				parent, TRUE, NULL, NULL);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, NULL, TRUE);
 
@@ -2599,7 +2599,7 @@ static gint print_job_start(PrintWindow *pw, RenderFormat format, PrintOutput ou
 
 	gtk_widget_hide(pw->dialog->dialog);
 
-	pw->job_dialog = file_util_gen_dlg(_("Print - GQview"), "gqview", "print_job_dialog",
+	pw->job_dialog = file_util_gen_dlg(_("Print - Geeqie"), "gqview", "print_job_dialog",
 					   (GtkWidget *)gtk_window_get_transient_for(GTK_WINDOW(pw->dialog->dialog)), FALSE,
 					   print_job_cancel_cb, pw);
 
@@ -3344,7 +3344,7 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 
 	pw->save_settings = print_pref_int(PRINT_PREF_SAVE, TRUE);
 
-	pw->dialog = file_util_gen_dlg(_("Print - GQview"), "gqview", "print_dialog",
+	pw->dialog = file_util_gen_dlg(_("Print - Geeqie"), "gqview", "print_dialog",
 				       parent, FALSE,
 				       print_window_cancel_cb, pw);
 

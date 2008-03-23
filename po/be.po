@@ -302,16 +302,16 @@ msgstr ""
 "будуць выдалены, працягнуць?"
 
 #: src/cache_maint.c:1162
-msgid "Cache Maintenance - GQview"
-msgstr "Кіраванне кэшам - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Кіраванне кэшам - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
 msgstr "Кіраванне кэшам і даннімі"
 
 #: src/cache_maint.c:1176
-msgid "GQview thumbnail cache"
-msgstr "Кэш мініяцюраў GQview"
+msgid "Geeqie thumbnail cache"
+msgstr "Кэш мініяцюраў Geeqie"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -364,8 +364,8 @@ msgstr "Безназоўны (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - Калекцыя GQview"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Калекцыя Geeqie"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -665,8 +665,8 @@ msgid "Similarity (custom)"
 msgstr "Падабенства (іншае)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Адшукванне аднолькавых - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Адшукванне аднолькавых - Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1008,8 +1008,8 @@ msgid "%.1f GB"
 msgstr "%.1f GB"
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview на поўны экран"
+msgid "Geeqie full screen"
+msgstr "Geeqie на поўны экран"
 
 #: src/fullscreen.c:397
 msgid "Full size"
@@ -1133,8 +1133,8 @@ msgid "Image %d of %d"
 msgstr "Выява %d з %d"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "Уласцівасці выявы - GQview"
+msgid "Image properties - Geeqie"
+msgstr "Уласцівасці выявы - Geeqie"
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
 msgid "Ascending"
@@ -1147,7 +1147,7 @@ msgstr "Тэчка не падтрымліваецца"
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1206,8 +1206,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s байтаў"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "Прылады GQview"
+msgid "Geeqie Tools"
+msgstr "Прылады Geeqie"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1452,8 +1452,8 @@ msgid "Float Controls"
 msgstr "Адлучыць панэль кіравання"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Дапамога - GQview"
+msgid "Help - Geeqie"
+msgstr "Дапамога - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1533,8 +1533,8 @@ msgid "Remote command list:\n"
 msgstr "Спіс камандаў аддаленасці:\n"
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
-msgstr "Аддалены GQview не запушчаны, запускаецца..."
+msgid "Remote Geeqie not running, starting..."
+msgstr "Аддалены Geeqie не запушчаны, запускаецца..."
 
 #: src/main.c:773
 msgid "Remote not available\n"
@@ -1613,8 +1613,8 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "Стварэнне дырэкторыі GQview:%s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Стварэнне дырэкторыі Geeqie:%s\n"
 
 #: src/main.c:1099
 #, c-format
@@ -1630,12 +1630,12 @@ msgid "Desktop"
 msgstr "Варштат"
 
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - выйсце"
+msgid "Geeqie - exit"
+msgstr "Geeqie - выйсце"
 
 #: src/main.c:1226
-msgid "Quit GQview"
-msgstr "Выйсці з GQview"
+msgid "Quit Geeqie"
+msgstr "Выйсці з Geeqie"
 
 #: src/main.c:1226
 msgid "Collections have been modified. Quit anyway?"
@@ -1728,8 +1728,8 @@ msgid "The entered path is not a folder"
 msgstr "Уведзены шлях не ёсць тэчкай"
 
 #: src/pan-view.c:2354
-msgid "Pan View - GQview"
-msgstr "Панарамны выгляд - GQview"
+msgid "Pan View - Geeqie"
+msgstr "Панарамны выгляд - Geeqie"
 
 #: src/pan-view.c:2376
 msgid "Timeline"
@@ -1917,8 +1917,8 @@ msgid "This will remove the trash contents."
 msgstr "Змест сметніцы будзе выдалены."
 
 #: src/preferences.c:800
-msgid "GQview Preferences"
-msgstr "Наладкі GQview"
+msgid "Geeqie Preferences"
+msgstr "Наладкі Geeqie"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2209,13 +2209,13 @@ msgid "Screen:"
 msgstr "Экран"
 
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "Аб праграме - GQview"
+msgid "About - Geeqie"
+msgstr "Аб праграме - Geeqie"
 
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2223,7 +2223,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "www-старонка: %s\n"
@@ -2430,8 +2430,8 @@ msgid "Details"
 msgstr "Дэталёвасці"
 
 #: src/print.c:2602 src/print.c:3347
-msgid "Print - GQview"
-msgstr "Друк - GQview"
+msgid "Print - Geeqie"
+msgstr "Друк - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2618,8 +2618,8 @@ msgid "Please enter an existing folder to search."
 msgstr "Калі ласка, увядзіце існуючую тэчку для пошуку."
 
 #: src/search.c:2561
-msgid "Image search - GQview"
-msgstr "Пошук выяваў - GQview"
+msgid "Image search - Geeqie"
+msgstr "Пошук выяваў - Geeqie"
 
 #: src/search.c:2590
 msgid "Search:"
@@ -2967,8 +2967,8 @@ msgid "Please select an existing folder."
 msgstr "Калі ласка, вылучыце існуючую тэчку"
 
 #: src/utilops.c:1022
-msgid "Copy - GQview"
-msgstr "Капіяванне - GQview"
+msgid "Copy - Geeqie"
+msgstr "Капіяванне - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
@@ -2983,8 +2983,8 @@ msgid "Copy multiple files"
 msgstr "Капіяваць некалькі файлаў"
 
 #: src/utilops.c:1036
-msgid "Move - GQview"
-msgstr "Перамяшчэнне - GQview"
+msgid "Move - Geeqie"
+msgstr "Перамяшчэнне - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
@@ -3058,8 +3058,8 @@ msgid "File %d of %d"
 msgstr "Файл %d з %d"
 
 #: src/utilops.c:1482
-msgid "Delete files - GQview"
-msgstr "Выдаленне файлаў - GQview"
+msgid "Delete files - Geeqie"
+msgstr "Выдаленне файлаў - Geeqie"
 
 #: src/utilops.c:1486
 msgid "Delete multiple files"
@@ -3071,8 +3071,8 @@ msgid "Review %d files"
 msgstr "Прагляд %d файлаў"
 
 #: src/utilops.c:1560
-msgid "Delete file - GQview"
-msgstr "Выдаленне файла - GQview"
+msgid "Delete file - Geeqie"
+msgstr "Выдаленне файла - Geeqie"
 
 #: src/utilops.c:1564
 msgid "Delete file?"
@@ -3126,8 +3126,8 @@ msgstr ""
 "Лічба была  %d."
 
 #: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - GQview"
-msgstr "Перайменаванне - GQview"
+msgid "Rename - Geeqie"
+msgstr "Перайменаванне - Geeqie"
 
 #: src/utilops.c:2252
 msgid "Rename multiple files"
@@ -3217,8 +3217,8 @@ msgstr ""
 "ужо існуе, гэта файл."
 
 #: src/utilops.c:2625
-msgid "New folder - GQview"
-msgstr "Новая тэчка - GQview"
+msgid "New folder - Geeqie"
+msgstr "Новая тэчка - Geeqie"
 
 #: src/utilops.c:2628
 #, c-format

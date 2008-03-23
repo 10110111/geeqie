@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2006 John Ellis
  *
  * Author: John Ellis
@@ -397,7 +397,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 
 #ifndef HAVE_LCMS
 	file_util_warning_dialog(_("Color profiles not supported"),
-				 _("This installation of GQview was not built with support for color profiles."),
+				 _("This installation of Geeqie was not built with support for color profiles."),
 				 GTK_STOCK_DIALOG_INFO, widget);
 	return;
 #endif
@@ -1350,8 +1350,8 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 
 
 	        gtk_window_set_resizable(GTK_WINDOW(lw->tools), TRUE);
-        	gtk_window_set_title(GTK_WINDOW(lw->tools), _("GQview Tools"));
-        	gtk_window_set_wmclass(GTK_WINDOW(lw->tools), "tools", "GQview");
+        	gtk_window_set_title(GTK_WINDOW(lw->tools), _("Geeqie Tools"));
+        	gtk_window_set_wmclass(GTK_WINDOW(lw->tools), "tools", "Geeqie");
         	gtk_container_set_border_width(GTK_CONTAINER(lw->tools), 0);
 
 		window_set_icon(lw->tools, PIXBUF_INLINE_ICON_TOOLS, NULL);
@@ -1934,8 +1934,8 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 	lw->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_resizable(GTK_WINDOW(lw->window), TRUE);
 
-	gtk_window_set_title(GTK_WINDOW(lw->window), "GQview");
-	gtk_window_set_wmclass(GTK_WINDOW(lw->window), "gqview", "GQview");
+	gtk_window_set_title(GTK_WINDOW(lw->window), "Geeqie");
+	gtk_window_set_wmclass(GTK_WINDOW(lw->window), "gqview", "Geeqie");
 	gtk_container_set_border_width(GTK_CONTAINER(lw->window), 0);
 
 	window_set_icon(lw->window, NULL, NULL);

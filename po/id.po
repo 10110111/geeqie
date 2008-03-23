@@ -331,8 +331,8 @@ msgstr ""
 
 #: src/cache_maint.c:1162
 #, fuzzy
-msgid "Cache Maintenance - GQview"
-msgstr "Properti image.-.GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Properti image.-.Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
@@ -340,8 +340,8 @@ msgstr ""
 
 #: src/cache_maint.c:1176
 #, fuzzy
-msgid "GQview thumbnail cache"
-msgstr "GQview layar penuh"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie layar penuh"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -399,8 +399,8 @@ msgstr "Tiada judul (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - Koleksi GQview"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Koleksi Geeqie"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -723,8 +723,8 @@ msgid "Similarity (custom)"
 msgstr "Kemiripan (kustom)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Cari duplikat.-. GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Cari duplikat.-. Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1081,8 +1081,8 @@ msgid "%.1f GB"
 msgstr "%.1f MB"
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview layar penuh"
+msgid "Geeqie full screen"
+msgstr "Geeqie layar penuh"
 
 #: src/fullscreen.c:397
 #, fuzzy
@@ -1221,8 +1221,8 @@ msgid "Image %d of %d"
 msgstr ""
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "Properti image.-.GQview"
+msgid "Image properties - Geeqie"
+msgstr "Properti image.-.Geeqie"
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
 msgid "Ascending"
@@ -1234,7 +1234,7 @@ msgstr ""
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1293,8 +1293,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s byte"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "Tool GQview"
+msgid "Geeqie Tools"
+msgstr "Tool Geeqie"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1384,7 +1384,7 @@ msgstr "Membandingkan..."
 #: src/layout_util.c:789
 #, fuzzy
 msgid "Pan _view"
-msgstr "Bantuan - GQview"
+msgstr "Bantuan - Geeqie"
 
 #: src/layout_util.c:790
 #, fuzzy
@@ -1582,8 +1582,8 @@ msgid "Float Controls"
 msgstr "Kendali Ambang"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Bantuan - GQview"
+msgid "Help - Geeqie"
+msgstr "Bantuan - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1655,7 +1655,7 @@ msgstr ""
 #: src/main.c:511
 #, fuzzy
 msgid "hide tools"
-msgstr "Tool GQview"
+msgstr "Tool Geeqie"
 
 #: src/main.c:512
 msgid "quit"
@@ -1679,7 +1679,7 @@ msgid "Remote command list:\n"
 msgstr ""
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
+msgid "Remote Geeqie not running, starting..."
 msgstr ""
 
 #: src/main.c:773
@@ -1760,7 +1760,7 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
+msgid "Creating Geeqie dir:%s\n"
 msgstr "Membuat direktori GQView: %s\n"
 
 #: src/main.c:1099
@@ -1777,13 +1777,13 @@ msgid "Desktop"
 msgstr ""
 
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - keluar"
+msgid "Geeqie - exit"
+msgstr "Geeqie - keluar"
 
 #: src/main.c:1226
 #, fuzzy
-msgid "Quit GQview"
-msgstr "Bantuan - GQview"
+msgid "Quit Geeqie"
+msgstr "Bantuan - Geeqie"
 
 #: src/main.c:1226
 #, fuzzy
@@ -1890,8 +1890,8 @@ msgstr ""
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "Bantuan - GQview"
+msgid "Pan View - Geeqie"
+msgstr "Bantuan - Geeqie"
 
 #: src/pan-view.c:2376
 #, fuzzy
@@ -2091,8 +2091,8 @@ msgstr ""
 
 #: src/preferences.c:800
 #, fuzzy
-msgid "GQview Preferences"
-msgstr "GQview - ganti nama"
+msgid "Geeqie Preferences"
+msgstr "Geeqie - ganti nama"
 
 #: src/preferences.c:854
 #, fuzzy
@@ -2399,13 +2399,13 @@ msgstr ""
 
 #: src/preferences.c:1380
 #, fuzzy
-msgid "About - GQview"
-msgstr "Bantuan - GQview"
+msgid "About - Geeqie"
+msgstr "Bantuan - Geeqie"
 
 #: src/preferences.c:1393
 #, fuzzy, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2413,7 +2413,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) 2002 by John Ellis\n"
 "http://gqview.sourceforge.net\n"
@@ -2626,8 +2626,8 @@ msgstr "Baku"
 
 #: src/print.c:2602 src/print.c:3347
 #, fuzzy
-msgid "Print - GQview"
-msgstr "Bantuan - GQview"
+msgid "Print - Geeqie"
+msgstr "Bantuan - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2838,8 +2838,8 @@ msgstr "Silakan pilih direktori yang ada"
 
 #: src/search.c:2561
 #, fuzzy
-msgid "Image search - GQview"
-msgstr "Properti image.-.GQview"
+msgid "Image search - Geeqie"
+msgstr "Properti image.-.Geeqie"
 
 #: src/search.c:2590
 #, fuzzy
@@ -3217,8 +3217,8 @@ msgstr "Silakan pilih direktori yang ada"
 
 #: src/utilops.c:1022
 #, fuzzy
-msgid "Copy - GQview"
-msgstr "Bantuan - GQview"
+msgid "Copy - Geeqie"
+msgstr "Bantuan - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 #, fuzzy
@@ -3240,8 +3240,8 @@ msgstr "Salin banyak file ke:"
 
 #: src/utilops.c:1036
 #, fuzzy
-msgid "Move - GQview"
-msgstr "Bantuan - GQview"
+msgid "Move - Geeqie"
+msgstr "Bantuan - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 #, fuzzy
@@ -3330,7 +3330,7 @@ msgstr ""
 
 #: src/utilops.c:1482
 #, fuzzy
-msgid "Delete files - GQview"
+msgid "Delete files - Geeqie"
 msgstr "Hapus file"
 
 #: src/utilops.c:1486
@@ -3345,7 +3345,7 @@ msgstr "%d files"
 
 #: src/utilops.c:1560
 #, fuzzy
-msgid "Delete file - GQview"
+msgid "Delete file - Geeqie"
 msgstr "Hapus file"
 
 #: src/utilops.c:1564
@@ -3402,8 +3402,8 @@ msgstr ""
 
 #: src/utilops.c:2249 src/utilops.c:2503
 #, fuzzy
-msgid "Rename - GQview"
-msgstr "Bantuan - GQview"
+msgid "Rename - Geeqie"
+msgstr "Bantuan - Geeqie"
 
 #: src/utilops.c:2252
 #, fuzzy
@@ -3503,8 +3503,8 @@ msgstr ""
 
 #: src/utilops.c:2625
 #, fuzzy
-msgid "New folder - GQview"
-msgstr "Bantuan - GQview"
+msgid "New folder - Geeqie"
+msgstr "Bantuan - Geeqie"
 
 #: src/utilops.c:2628
 #, fuzzy, c-format
@@ -3888,8 +3888,8 @@ msgstr ""
 #~ msgid "/Help/sep1"
 #~ msgstr "/Help/sep1"
 
-#~ msgid "GQview configuration"
-#~ msgstr "Konfigurasi GQview"
+#~ msgid "Geeqie configuration"
+#~ msgstr "Konfigurasi Geeqie"
 
 #~ msgid "/Edit/_Remove old thumbnails"
 #~ msgstr "/Edit/_Remove old thumbnails"
@@ -4070,17 +4070,17 @@ msgstr ""
 #~ msgid "Invalid directory"
 #~ msgstr "Direktori tidak valid"
 
-#~ msgid "GQview - copy"
-#~ msgstr "GQview - salin"
+#~ msgid "Geeqie - copy"
+#~ msgstr "Geeqie - salin"
 
-#~ msgid "GQview - move"
-#~ msgstr "GQview - pindah"
+#~ msgid "Geeqie - move"
+#~ msgstr "Geeqie - pindah"
 
 #~ msgid "Directory exists"
 #~ msgstr "Direktori ada"
 
-#~ msgid "GQview - new directory"
-#~ msgstr "GQview - direktori baru"
+#~ msgid "Geeqie - new directory"
+#~ msgstr "Geeqie - direktori baru"
 
 #~ msgid "Misc."
 #~ msgstr "Lain"
@@ -4101,8 +4101,8 @@ msgstr ""
 #~ msgid "top"
 #~ msgstr "ke:"
 
-#~ msgid "GQview running: %s\n"
-#~ msgstr "GQview berjalan: %s\n"
+#~ msgid "Geeqie running: %s\n"
+#~ msgstr "Geeqie berjalan: %s\n"
 
 #~ msgid "Electric Eyes"
 #~ msgstr "Electric Eyes"

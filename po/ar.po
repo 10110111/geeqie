@@ -322,8 +322,8 @@ msgstr ""
 
 #: src/cache_maint.c:1162
 #, fuzzy
-msgid "Cache Maintenance - GQview"
-msgstr "بحث الصور - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "بحث الصور - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
@@ -331,8 +331,8 @@ msgstr ""
 
 #: src/cache_maint.c:1176
 #, fuzzy
-msgid "GQview thumbnail cache"
-msgstr "GQview شاشة كاملة"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie شاشة كاملة"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -390,8 +390,8 @@ msgstr "بدون اسم (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - GQview مجموعة"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Geeqie مجموعة"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -698,8 +698,8 @@ msgid "Similarity (custom)"
 msgstr "درجة تطابق (حسب الطلب)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "ابحث عن الملفات المطابقة - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "ابحث عن الملفات المطابقة - Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1041,8 +1041,8 @@ msgid "%.1f GB"
 msgstr "%.1f  جيجابايت"
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview شاشة كاملة"
+msgid "Geeqie full screen"
+msgstr "Geeqie شاشة كاملة"
 
 #: src/fullscreen.c:397
 msgid "Full size"
@@ -1168,8 +1168,8 @@ msgid "Image %d of %d"
 msgstr "صورة %d من %d"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "خواص الصورة - GQview"
+msgid "Image properties - Geeqie"
+msgstr "خواص الصورة - Geeqie"
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
 msgid "Ascending"
@@ -1182,7 +1182,7 @@ msgstr "الدليل لم يوجد"
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1241,8 +1241,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s بايتات"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview أدوات"
+msgid "Geeqie Tools"
+msgstr "Geeqie أدوات"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1523,8 +1523,8 @@ msgid "Float Controls"
 msgstr "افصل الأدوات فى نافذة مستقلة"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "مساعدة - GQview"
+msgid "Help - Geeqie"
+msgstr "مساعدة - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1596,7 +1596,7 @@ msgstr ""
 #: src/main.c:511
 #, fuzzy
 msgid "hide tools"
-msgstr "GQview أدوات"
+msgstr "Geeqie أدوات"
 
 #: src/main.c:512
 msgid "quit"
@@ -1617,7 +1617,7 @@ msgid "Remote command list:\n"
 msgstr ""
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
+msgid "Remote Geeqie not running, starting..."
 msgstr ""
 
 #: src/main.c:773
@@ -1696,7 +1696,7 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
+msgid "Creating Geeqie dir:%s\n"
 msgstr "انشاء دليل gqview الخاص: %s \n"
 
 #: src/main.c:1099
@@ -1713,13 +1713,13 @@ msgid "Desktop"
 msgstr "سطح مكتب الحاسب"
 
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - خروج"
+msgid "Geeqie - exit"
+msgstr "Geeqie - خروج"
 
 #: src/main.c:1226
 #, fuzzy
-msgid "Quit GQview"
-msgstr "عن - GQview"
+msgid "Quit Geeqie"
+msgstr "عن - Geeqie"
 
 #: src/main.c:1226
 #, fuzzy
@@ -1822,8 +1822,8 @@ msgstr ""
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "عن - GQview"
+msgid "Pan View - Geeqie"
+msgstr "عن - Geeqie"
 
 #: src/pan-view.c:2376
 #, fuzzy
@@ -2021,8 +2021,8 @@ msgstr "هذا الأمر ينظّف الملفات المحذوفة من سلّ
 
 #: src/preferences.c:800
 #, fuzzy
-msgid "GQview Preferences"
-msgstr "GQview شاشة كاملة"
+msgid "Geeqie Preferences"
+msgstr "Geeqie شاشة كاملة"
 
 #: src/preferences.c:854
 #, fuzzy
@@ -2328,13 +2328,13 @@ msgid "Screen:"
 msgstr "سطح الشاشة"
 
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "عن - GQview"
+msgid "About - Geeqie"
+msgstr "عن - Geeqie"
 
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2342,7 +2342,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "حقوق الطبع و النشر (c) %s John Ellis\n"
 "الموقع: %s\n"
@@ -2558,8 +2558,8 @@ msgstr "التفاصيل"
 
 #: src/print.c:2602 src/print.c:3347
 #, fuzzy
-msgid "Print - GQview"
-msgstr "عن - GQview"
+msgid "Print - Geeqie"
+msgstr "عن - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2763,8 +2763,8 @@ msgid "Please enter an existing folder to search."
 msgstr "أدخل دليل حالى للبحث:"
 
 #: src/search.c:2561
-msgid "Image search - GQview"
-msgstr "بحث الصور - GQview"
+msgid "Image search - Geeqie"
+msgstr "بحث الصور - Geeqie"
 
 #: src/search.c:2590
 #, fuzzy
@@ -3123,8 +3123,8 @@ msgid "Please select an existing folder."
 msgstr "رجاء إختيار دليل صحيح و موجود."
 
 #: src/utilops.c:1022
-msgid "Copy - GQview"
-msgstr "انسخ - GQview"
+msgid "Copy - Geeqie"
+msgstr "انسخ - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
@@ -3141,8 +3141,8 @@ msgid "Copy multiple files"
 msgstr "انسخ عدة ملفات إلى:"
 
 #: src/utilops.c:1036
-msgid "Move - GQview"
-msgstr "حرّك - GQview"
+msgid "Move - Geeqie"
+msgstr "حرّك - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
@@ -3220,8 +3220,8 @@ msgid "File %d of %d"
 msgstr "ملف %d من %d"
 
 #: src/utilops.c:1482
-msgid "Delete files - GQview"
-msgstr "ملفات محذوفة - GQview"
+msgid "Delete files - Geeqie"
+msgstr "ملفات محذوفة - Geeqie"
 
 #: src/utilops.c:1486
 #, fuzzy
@@ -3234,8 +3234,8 @@ msgid "Review %d files"
 msgstr "راجع %d ملفات"
 
 #: src/utilops.c:1560
-msgid "Delete file - GQview"
-msgstr "احذف الملف - GQview"
+msgid "Delete file - Geeqie"
+msgstr "احذف الملف - Geeqie"
 
 #: src/utilops.c:1564
 #, fuzzy
@@ -3290,8 +3290,8 @@ msgstr ""
 "الرقم هو %d."
 
 #: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - GQview"
-msgstr "عد التسمية - GQview"
+msgid "Rename - Geeqie"
+msgstr "عد التسمية - Geeqie"
 
 #: src/utilops.c:2252
 #, fuzzy
@@ -3386,8 +3386,8 @@ msgstr ""
 "موجود فعلاً لكنه ملف."
 
 #: src/utilops.c:2625
-msgid "New folder - GQview"
-msgstr "دليل جديد - GQview"
+msgid "New folder - Geeqie"
+msgstr "دليل جديد - Geeqie"
 
 #: src/utilops.c:2628
 #, c-format
@@ -3757,8 +3757,8 @@ msgstr ""
 #~ msgid "/Help/sep1"
 #~ msgstr "/مساعدة/فاصل1"
 
-#~ msgid "GQview configuration"
-#~ msgstr "إعداد GQview"
+#~ msgid "Geeqie configuration"
+#~ msgstr "إعداد Geeqie"
 
 #~ msgid "/Edit/_Remove old thumbnails"
 #~ msgstr "/حرّر/احذف النماذج القديمة المصغرة للصور"

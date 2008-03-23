@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2006 John Ellis
  *
  * Author: John Ellis
@@ -156,7 +156,7 @@ static EditorVerboseData *editor_verbose_window(EditorData *ed, const gchar *tex
 
 	vd = g_new0(EditorVerboseData, 1);
 
-	vd->gd = file_util_gen_dlg(_("Edit command results"), "GQview", "editor_results",
+	vd->gd = file_util_gen_dlg(_("Edit command results"), "Geeqie", "editor_results",
 				   NULL, FALSE,
 				   NULL, ed);
 	buf = g_strdup_printf(_("Output of %s"), text);
@@ -244,7 +244,7 @@ static gboolean editor_verbose_io_cb(GIOChannel *source, GIOCondition condition,
 					}
 				else
 					{
-					editor_verbose_window_fill(ed->vd, "GQview: Error converting text to valid utf8\n", -1);
+					editor_verbose_window_fill(ed->vd, "Geeqie: Error converting text to valid utf8\n", -1);
 					}
 				}
 			else

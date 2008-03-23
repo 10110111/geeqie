@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2004 John Ellis
  *
  * Author: John Ellis
@@ -681,8 +681,8 @@ void info_window_new(FileData *fd, GList *list)
 	window_set_icon(id->window, NULL, NULL);
 
 	gtk_window_set_resizable(GTK_WINDOW(id->window), TRUE);
-	gtk_window_set_title(GTK_WINDOW(id->window), _("Image properties - GQview"));
-	gtk_window_set_wmclass(GTK_WINDOW(id->window), "properties", "GQview");
+	gtk_window_set_title(GTK_WINDOW(id->window), _("Image properties - Geeqie"));
+	gtk_window_set_wmclass(GTK_WINDOW(id->window), "properties", "Geeqie");
 
 	geometry.min_width = 32;
 	geometry.min_height = 32;

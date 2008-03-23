@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2004 John Ellis
  *
  * Author: John Ellis
@@ -239,7 +239,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 				      &screen, &same);
 
 	fs->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_wmclass(GTK_WINDOW(fs->window), "fullscreen", "GQview");
+	gtk_window_set_wmclass(GTK_WINDOW(fs->window), "fullscreen", "Geeqie");
 
 	/* this requests no decorations, if you still have them complain to the window manager author(s) */
 	gtk_window_set_decorated(GTK_WINDOW(fs->window), FALSE);
@@ -247,7 +247,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	if (fullscreen_screen < 0)
 		{
 		/* If we want control of the window size and position this is not what we want.
-		 * GQview needs control of which monitor(s) to use for full screen.
+		 * Geeqie needs control of which monitor(s) to use for full screen.
 		 */
 		gtk_window_fullscreen(GTK_WINDOW(fs->window));
 		}
@@ -264,7 +264,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	g_signal_connect(G_OBJECT(fs->window), "delete_event",
 			 G_CALLBACK(fullscreen_delete_cb), fs);
 
-	gtk_window_set_title(GTK_WINDOW(fs->window), _("GQview full screen"));
+	gtk_window_set_title(GTK_WINDOW(fs->window), _("Geeqie full screen"));
 
 	geometry.min_width = w;
 	geometry.min_height = h;

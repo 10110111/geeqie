@@ -322,8 +322,8 @@ msgstr ""
 
 #: src/cache_maint.c:1162
 #, fuzzy
-msgid "Cache Maintenance - GQview"
-msgstr "Proprietãþi imagine - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Proprietãþi imagine - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
@@ -331,8 +331,8 @@ msgstr ""
 
 #: src/cache_maint.c:1176
 #, fuzzy
-msgid "GQview thumbnail cache"
-msgstr "GQview tot ecranul"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie tot ecranul"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -390,8 +390,8 @@ msgstr "Fãra titlu (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - Colecþie GQview"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Colecþie Geeqie"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -697,8 +697,8 @@ msgid "Similarity (custom)"
 msgstr "Similaritate (personalizatã)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Cautã duplicatele - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Cautã duplicatele - Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1040,8 +1040,8 @@ msgid "%.1f GB"
 msgstr "%.1f GB"
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview tot ecranul"
+msgid "Geeqie full screen"
+msgstr "Geeqie tot ecranul"
 
 #: src/fullscreen.c:397
 #, fuzzy
@@ -1168,8 +1168,8 @@ msgid "Image %d of %d"
 msgstr "Imaginea %d din %d"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "Proprietãþi imagine - GQview"
+msgid "Image properties - Geeqie"
+msgstr "Proprietãþi imagine - Geeqie"
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
 msgid "Ascending"
@@ -1181,7 +1181,7 @@ msgstr ""
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1240,8 +1240,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s bytes"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview - Unelte"
+msgid "Geeqie Tools"
+msgstr "Geeqie - Unelte"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1522,8 +1522,8 @@ msgid "Float Controls"
 msgstr "Controale flotante"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Ajutor - GQview"
+msgid "Help - Geeqie"
+msgstr "Ajutor - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1595,7 +1595,7 @@ msgstr ""
 #: src/main.c:511
 #, fuzzy
 msgid "hide tools"
-msgstr "GQview - Unelte"
+msgstr "Geeqie - Unelte"
 
 #: src/main.c:512
 msgid "quit"
@@ -1616,7 +1616,7 @@ msgid "Remote command list:\n"
 msgstr ""
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
+msgid "Remote Geeqie not running, starting..."
 msgstr ""
 
 #: src/main.c:773
@@ -1699,7 +1699,7 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
+msgid "Creating Geeqie dir:%s\n"
 msgstr "Creez directorul GQView: %s\n"
 
 #: src/main.c:1099
@@ -1716,13 +1716,13 @@ msgid "Desktop"
 msgstr "Ecran"
 
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - ieºire"
+msgid "Geeqie - exit"
+msgstr "Geeqie - ieºire"
 
 #: src/main.c:1226
 #, fuzzy
-msgid "Quit GQview"
-msgstr "Despre - GQview"
+msgid "Quit Geeqie"
+msgstr "Despre - Geeqie"
 
 #: src/main.c:1226
 #, fuzzy
@@ -1824,8 +1824,8 @@ msgstr ""
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "Despre - GQview"
+msgid "Pan View - Geeqie"
+msgstr "Despre - Geeqie"
 
 #: src/pan-view.c:2376
 #, fuzzy
@@ -2023,8 +2023,8 @@ msgstr "Se va goli conþinutul gunoiului"
 
 #: src/preferences.c:800
 #, fuzzy
-msgid "GQview Preferences"
-msgstr "GQview - redenumire"
+msgid "Geeqie Preferences"
+msgstr "Geeqie - redenumire"
 
 #: src/preferences.c:854
 #, fuzzy
@@ -2327,13 +2327,13 @@ msgid "Screen:"
 msgstr ""
 
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "Despre - GQview"
+msgid "About - Geeqie"
+msgstr "Despre - Geeqie"
 
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2341,7 +2341,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2559,8 +2559,8 @@ msgstr "Implicite"
 
 #: src/print.c:2602 src/print.c:3347
 #, fuzzy
-msgid "Print - GQview"
-msgstr "Despre - GQview"
+msgid "Print - Geeqie"
+msgstr "Despre - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2773,8 +2773,8 @@ msgstr "Selectaþi un director existent"
 
 #: src/search.c:2561
 #, fuzzy
-msgid "Image search - GQview"
-msgstr "Proprietãþi imagine - GQview"
+msgid "Image search - Geeqie"
+msgstr "Proprietãþi imagine - Geeqie"
 
 #: src/search.c:2590
 #, fuzzy
@@ -3143,8 +3143,8 @@ msgstr "Selectaþi un director existent"
 
 #: src/utilops.c:1022
 #, fuzzy
-msgid "Copy - GQview"
-msgstr "Ajutor - GQview"
+msgid "Copy - Geeqie"
+msgstr "Ajutor - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
@@ -3162,8 +3162,8 @@ msgstr "Copiazã mai multe fiºiere în:"
 
 #: src/utilops.c:1036
 #, fuzzy
-msgid "Move - GQview"
-msgstr "Ajutor - GQview"
+msgid "Move - Geeqie"
+msgstr "Ajutor - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
@@ -3243,7 +3243,7 @@ msgstr "Fiºierul %d din %d"
 
 #: src/utilops.c:1482
 #, fuzzy
-msgid "Delete files - GQview"
+msgid "Delete files - Geeqie"
 msgstr "ªterge fiºiere"
 
 #: src/utilops.c:1486
@@ -3258,7 +3258,7 @@ msgstr "Revedere %d fiºiere"
 
 #: src/utilops.c:1560
 #, fuzzy
-msgid "Delete file - GQview"
+msgid "Delete file - Geeqie"
 msgstr "ªtergere fiºiere"
 
 #: src/utilops.c:1564
@@ -3314,8 +3314,8 @@ msgstr ""
 
 #: src/utilops.c:2249 src/utilops.c:2503
 #, fuzzy
-msgid "Rename - GQview"
-msgstr "Ajutor - GQview"
+msgid "Rename - Geeqie"
+msgstr "Ajutor - Geeqie"
 
 #: src/utilops.c:2252
 #, fuzzy
@@ -3412,8 +3412,8 @@ msgstr ""
 
 #: src/utilops.c:2625
 #, fuzzy
-msgid "New folder - GQview"
-msgstr "Ajutor - GQview"
+msgid "New folder - Geeqie"
+msgstr "Ajutor - Geeqie"
 
 #: src/utilops.c:2628
 #, fuzzy, c-format
@@ -3780,8 +3780,8 @@ msgstr ""
 #~ msgid "/Help/sep1"
 #~ msgstr "/Ajutor/sep1"
 
-#~ msgid "GQview configuration"
-#~ msgstr "Configurare GQview"
+#~ msgid "Geeqie configuration"
+#~ msgstr "Configurare Geeqie"
 
 #~ msgid "/Edit/_Remove old thumbnails"
 #~ msgstr "/Editare/_ªterge miniaturile vechi"
@@ -3963,17 +3963,17 @@ msgstr ""
 #~ msgid "Invalid directory"
 #~ msgstr "Director incorect"
 
-#~ msgid "GQview - copy"
-#~ msgstr "GQview - copiere"
+#~ msgid "Geeqie - copy"
+#~ msgstr "Geeqie - copiere"
 
-#~ msgid "GQview - move"
-#~ msgstr "GQview - mutare"
+#~ msgid "Geeqie - move"
+#~ msgstr "Geeqie - mutare"
 
 #~ msgid "Directory exists"
 #~ msgstr "Directorul existã"
 
-#~ msgid "GQview - new directory"
-#~ msgstr "GQview - director nou"
+#~ msgid "Geeqie - new directory"
+#~ msgstr "Geeqie - director nou"
 
 #~ msgid "Add contents recursive"
 #~ msgstr "Adaugã conþinut în mod recursiv"
@@ -3997,8 +3997,8 @@ msgstr ""
 #~ msgid "top"
 #~ msgstr "în:"
 
-#~ msgid "GQview running: %s\n"
-#~ msgstr "GQview ruleazã: %s\n"
+#~ msgid "Geeqie running: %s\n"
+#~ msgstr "Geeqie ruleazã: %s\n"
 
 #~ msgid "Electric Eyes"
 #~ msgstr "Electric Eyes"

@@ -304,16 +304,16 @@ msgstr ""
 "全て削除されます。よろしいですか？"
 
 #: src/cache_maint.c:1162
-msgid "Cache Maintenance - GQview"
-msgstr "キャッシュの保守 - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "キャッシュの保守 - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
 msgstr "キャッシュとデータの保守"
 
 #: src/cache_maint.c:1176
-msgid "GQview thumbnail cache"
-msgstr "GQview サムネイルのキャッシュ"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie サムネイルのキャッシュ"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -366,8 +366,8 @@ msgstr "タイトルなし (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - GQview コレクション"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Geeqie コレクション"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -667,8 +667,8 @@ msgid "Similarity (custom)"
 msgstr "類似性 (カスタム)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "複製の検索 - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "複製の検索 - Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1010,8 +1010,8 @@ msgid "%.1f GB"
 msgstr "%.1f Gバイト"
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview フル・スクリーン"
+msgid "Geeqie full screen"
+msgstr "Geeqie フル・スクリーン"
 
 #: src/fullscreen.c:397
 msgid "Full size"
@@ -1135,8 +1135,8 @@ msgid "Image %d of %d"
 msgstr "画像 %d / %d"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "画像のプロパティ - GQview"
+msgid "Image properties - Geeqie"
+msgstr "画像のプロパティ - Geeqie"
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
 msgid "Ascending"
@@ -1149,7 +1149,7 @@ msgstr "フォルダはありません"
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1208,8 +1208,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s バイト"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview ツール"
+msgid "Geeqie Tools"
+msgstr "Geeqie ツール"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1456,8 +1456,8 @@ msgid "Float Controls"
 msgstr "コントロールのフロート状態を切り替えます"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "ヘルプ - GQview"
+msgid "Help - Geeqie"
+msgstr "ヘルプ - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1537,8 +1537,8 @@ msgid "Remote command list:\n"
 msgstr "リモート・コマンドの一覧:\n"
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
-msgstr "リモートの GQview が起動していません。起動します..."
+msgid "Remote Geeqie not running, starting..."
+msgstr "リモートの Geeqie が起動していません。起動します..."
 
 #: src/main.c:773
 msgid "Remote not available\n"
@@ -1615,8 +1615,8 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "GQview フォルダの生成中: %s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Geeqie フォルダの生成中: %s\n"
 
 #: src/main.c:1099
 #, c-format
@@ -1632,12 +1632,12 @@ msgid "Desktop"
 msgstr "デスクトップ"
 
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - 終了"
+msgid "Geeqie - exit"
+msgstr "Geeqie - 終了"
 
 #: src/main.c:1226
-msgid "Quit GQview"
-msgstr "GQview の終了"
+msgid "Quit Geeqie"
+msgstr "Geeqie の終了"
 
 #: src/main.c:1226
 msgid "Collections have been modified. Quit anyway?"
@@ -1737,8 +1737,8 @@ msgstr ""
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "印刷 - GQview"
+msgid "Pan View - Geeqie"
+msgstr "印刷 - Geeqie"
 
 #: src/pan-view.c:2376
 #, fuzzy
@@ -1934,8 +1934,8 @@ msgid "This will remove the trash contents."
 msgstr "ゴミ箱にあるものを削除します"
 
 #: src/preferences.c:800
-msgid "GQview Preferences"
-msgstr "GQview の設定"
+msgid "Geeqie Preferences"
+msgstr "Geeqie の設定"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2227,13 +2227,13 @@ msgid "Screen:"
 msgstr "スクリーン"
 
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "情報 - GQview"
+msgid "About - Geeqie"
+msgstr "情報 - Geeqie"
 
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2241,7 +2241,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (C) %s John Ellis\n"
 "ウェブサイト: %s\n"
@@ -2448,8 +2448,8 @@ msgid "Details"
 msgstr "詳細"
 
 #: src/print.c:2602 src/print.c:3347
-msgid "Print - GQview"
-msgstr "印刷 - GQview"
+msgid "Print - Geeqie"
+msgstr "印刷 - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2636,8 +2636,8 @@ msgid "Please enter an existing folder to search."
 msgstr "存在しているフォルダを入力して下さい"
 
 #: src/search.c:2561
-msgid "Image search - GQview"
-msgstr "画像の検索 - GQview"
+msgid "Image search - Geeqie"
+msgstr "画像の検索 - Geeqie"
 
 #: src/search.c:2590
 msgid "Search:"
@@ -2982,8 +2982,8 @@ msgid "Please select an existing folder."
 msgstr "存在しているフォルダを選択して下さい。"
 
 #: src/utilops.c:1022
-msgid "Copy - GQview"
-msgstr "コピー - GQview"
+msgid "Copy - Geeqie"
+msgstr "コピー - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
@@ -2998,8 +2998,8 @@ msgid "Copy multiple files"
 msgstr "複数のファイルのコピー"
 
 #: src/utilops.c:1036
-msgid "Move - GQview"
-msgstr "移動 - GQview"
+msgid "Move - Geeqie"
+msgstr "移動 - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
@@ -3073,8 +3073,8 @@ msgid "File %d of %d"
 msgstr "ファイル %d / %d"
 
 #: src/utilops.c:1482
-msgid "Delete files - GQview"
-msgstr "ファイルの削除 - GQview"
+msgid "Delete files - Geeqie"
+msgstr "ファイルの削除 - Geeqie"
 
 #: src/utilops.c:1486
 msgid "Delete multiple files"
@@ -3086,8 +3086,8 @@ msgid "Review %d files"
 msgstr "%d 個のファイルのレビュー"
 
 #: src/utilops.c:1560
-msgid "Delete file - GQview"
-msgstr "ファイルの削除 - GQview"
+msgid "Delete file - Geeqie"
+msgstr "ファイルの削除 - Geeqie"
 
 #: src/utilops.c:1564
 msgid "Delete file?"
@@ -3141,8 +3141,8 @@ msgstr ""
 "番号は %d です。"
 
 #: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - GQview"
-msgstr "名前の変更 - GQview"
+msgid "Rename - Geeqie"
+msgstr "名前の変更 - Geeqie"
 
 #: src/utilops.c:2252
 msgid "Rename multiple files"
@@ -3233,8 +3233,8 @@ msgstr ""
 "はファイルとして既に存在しています。"
 
 #: src/utilops.c:2625
-msgid "New folder - GQview"
-msgstr "新しいフォルダ - GQview"
+msgid "New folder - Geeqie"
+msgstr "新しいフォルダ - Geeqie"
 
 #: src/utilops.c:2628
 #, c-format

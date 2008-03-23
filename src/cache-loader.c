@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2005 John Ellis
  *
  * Author: John Ellis

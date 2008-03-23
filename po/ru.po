@@ -7,7 +7,7 @@
 # Edited by drF_ckoff <dfo@antex.ru>, 2003-2004.
 # Edited by Vitaly Lipatov <lav@altlinux.ru>, 2005.
 #
-# $Id$
+# $Id: ru.po,v 1.15 2006/12/03 01:55:06 gqview Exp $
 #
 msgid ""
 msgstr ""
@@ -309,16 +309,16 @@ msgstr ""
 "были сохранены на диск, продолжить?"
 
 #: src/cache_maint.c:1162
-msgid "Cache Maintenance - GQview"
-msgstr "Управление кэшем - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Управление кэшем - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
 msgstr "Управление кэшем и данными"
 
 #: src/cache_maint.c:1176
-msgid "GQview thumbnail cache"
-msgstr "Кэш миниатюр GQview"
+msgid "Geeqie thumbnail cache"
+msgstr "Кэш миниатюр Geeqie"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -371,8 +371,8 @@ msgstr "Безымянный (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - коллекция GQview"
+msgid "%s - Geeqie Collection"
+msgstr "%s - коллекция Geeqie"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -672,8 +672,8 @@ msgid "Similarity (custom)"
 msgstr "Похожесть (заданная)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Поиск повторяющихся - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Поиск повторяющихся - Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1015,8 +1015,8 @@ msgid "%.1f GB"
 msgstr "%.1f Гб"
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview на весь экран"
+msgid "Geeqie full screen"
+msgstr "Geeqie на весь экран"
 
 #: src/fullscreen.c:397
 msgid "Full size"
@@ -1140,8 +1140,8 @@ msgid "Image %d of %d"
 msgstr "Изображение %d из %d"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "Свойства изображения - GQview"
+msgid "Image properties - Geeqie"
+msgstr "Свойства изображения - Geeqie"
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
 msgid "Ascending"
@@ -1154,7 +1154,7 @@ msgstr "Каталог не найден"
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1213,8 +1213,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s байт"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview Инструменты"
+msgid "Geeqie Tools"
+msgstr "Geeqie Инструменты"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1461,8 +1461,8 @@ msgid "Float Controls"
 msgstr "прикрепить/освободить инструменты"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Помощь - GQview"
+msgid "Help - Geeqie"
+msgstr "Помощь - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1542,8 +1542,8 @@ msgid "Remote command list:\n"
 msgstr "Список команд удалённого доступа:\n"
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
-msgstr "Удалённый GQview не запущен, запускаем..."
+msgid "Remote Geeqie not running, starting..."
+msgstr "Удалённый Geeqie не запущен, запускаем..."
 
 #: src/main.c:773
 msgid "Remote not available\n"
@@ -1622,8 +1622,8 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "Создаём каталог GQview%s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Создаём каталог Geeqie%s\n"
 
 #: src/main.c:1099
 #, c-format
@@ -1639,12 +1639,12 @@ msgid "Desktop"
 msgstr "Десктоп"
 
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - выход"
+msgid "Geeqie - exit"
+msgstr "Geeqie - выход"
 
 #: src/main.c:1226
-msgid "Quit GQview"
-msgstr "Выйти из GQview"
+msgid "Quit Geeqie"
+msgstr "Выйти из Geeqie"
 
 #: src/main.c:1226
 msgid "Collections have been modified. Quit anyway?"
@@ -1744,8 +1744,8 @@ msgstr ""
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "Печать - GQview"
+msgid "Pan View - Geeqie"
+msgstr "Печать - Geeqie"
 
 #: src/pan-view.c:2376
 #, fuzzy
@@ -1941,8 +1941,8 @@ msgid "This will remove the trash contents."
 msgstr "Содержимое корзины будет удалено."
 
 #: src/preferences.c:800
-msgid "GQview Preferences"
-msgstr "GQview Настройки"
+msgid "Geeqie Preferences"
+msgstr "Geeqie Настройки"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2237,13 +2237,13 @@ msgid "Screen:"
 msgstr "Экран"
 
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "О программе - GQview"
+msgid "About - Geeqie"
+msgstr "О программе - Geeqie"
 
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2251,7 +2251,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Все права защищены (c) %s John Ellis\n"
 "website: %s\n"
@@ -2458,8 +2458,8 @@ msgid "Details"
 msgstr "Подробности"
 
 #: src/print.c:2602 src/print.c:3347
-msgid "Print - GQview"
-msgstr "Печать - GQview"
+msgid "Print - Geeqie"
+msgstr "Печать - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2646,8 +2646,8 @@ msgid "Please enter an existing folder to search."
 msgstr "Пожалуйста, выберите существующий каталог для поиска."
 
 #: src/search.c:2561
-msgid "Image search - GQview"
-msgstr "Поиск изображений - GQview"
+msgid "Image search - Geeqie"
+msgstr "Поиск изображений - Geeqie"
 
 #: src/search.c:2590
 msgid "Search:"
@@ -2995,8 +2995,8 @@ msgid "Please select an existing folder."
 msgstr "Пожалуйста, выберите существующий каталог."
 
 #: src/utilops.c:1022
-msgid "Copy - GQview"
-msgstr "Копирование - GQview"
+msgid "Copy - Geeqie"
+msgstr "Копирование - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
@@ -3011,8 +3011,8 @@ msgid "Copy multiple files"
 msgstr "Копировать несколько файлов"
 
 #: src/utilops.c:1036
-msgid "Move - GQview"
-msgstr "Перемещение - GQview"
+msgid "Move - Geeqie"
+msgstr "Перемещение - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
@@ -3086,8 +3086,8 @@ msgid "File %d of %d"
 msgstr "Файл %d из %d"
 
 #: src/utilops.c:1482
-msgid "Delete files - GQview"
-msgstr "Удаление файлов - GQview"
+msgid "Delete files - Geeqie"
+msgstr "Удаление файлов - Geeqie"
 
 #: src/utilops.c:1486
 msgid "Delete multiple files"
@@ -3099,8 +3099,8 @@ msgid "Review %d files"
 msgstr "Просмотр %d файлов"
 
 #: src/utilops.c:1560
-msgid "Delete file - GQview"
-msgstr "Удаление файла - GQview"
+msgid "Delete file - Geeqie"
+msgstr "Удаление файла - Geeqie"
 
 #: src/utilops.c:1564
 msgid "Delete file?"
@@ -3154,8 +3154,8 @@ msgstr ""
 "Номер %d."
 
 #: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - GQview"
-msgstr "Переименование - GQview"
+msgid "Rename - Geeqie"
+msgstr "Переименование - Geeqie"
 
 #: src/utilops.c:2252
 msgid "Rename multiple files"
@@ -3246,8 +3246,8 @@ msgstr ""
 "уже существует как файл."
 
 #: src/utilops.c:2625
-msgid "New folder - GQview"
-msgstr "Новый каталог - GQview"
+msgid "New folder - Geeqie"
+msgstr "Новый каталог - Geeqie"
 
 #: src/utilops.c:2628
 #, c-format

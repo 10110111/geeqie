@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2004 John Ellis
  *
  * Author: John Ellis
@@ -65,7 +65,7 @@ static gint collection_save_confirmed(FileDialog *fd, gint overwrite, Collection
 		{
 		GenericDialog *gd;
 
-		gd = file_util_gen_dlg(_("Overwrite File"), "GQview", "dlg_confirm",
+		gd = file_util_gen_dlg(_("Overwrite File"), "Geeqie", "dlg_confirm",
 					GENERIC_DIALOG(fd)->dialog, TRUE,
 					collection_confirm_cancel_cb, fd);
 
@@ -192,7 +192,7 @@ static void collection_save_or_load_dialog(const gchar *path,
 	cw = collection_window_find(cd);
 	if (cw) parent = cw->window;
 
-	fd = file_util_file_dlg(title, "GQview", "dlg_collection", parent,
+	fd = file_util_file_dlg(title, "Geeqie", "dlg_collection", parent,
 			     collection_save_or_load_dialog_close_cb, cd);
 
 	generic_dialog_add_message(GENERIC_DIALOG(fd), NULL, title, NULL);

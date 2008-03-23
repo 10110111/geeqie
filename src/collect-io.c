@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2004 John Ellis
  *
  * Author: John Ellis
@@ -21,7 +21,7 @@
 #include "filelist.h"
 
 
-#define GQVIEW_COLLECTION_MARKER "#GQview"
+#define GQVIEW_COLLECTION_MARKER "#Geeqie"
 
 #define GQVIEW_COLLECTION_FAIL_MIN     300
 #define GQVIEW_COLLECTION_FAIL_PERCENT 98
@@ -311,7 +311,7 @@ static gint collection_save_private(CollectionData *cd, const gchar *path)
 		}
 
 	fprintf(f, "%s collection\n", GQVIEW_COLLECTION_MARKER);
-	fprintf(f, "#created with GQview version %s\n", VERSION);
+	fprintf(f, "#created with Geeqie version %s\n", VERSION);
 
 	collection_update_geometry(cd);
 	if (cd->window_read)

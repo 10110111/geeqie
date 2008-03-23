@@ -302,16 +302,16 @@ msgstr ""
 "lưu. Bạn có muốn thực hiện không?"
 
 #: src/cache_maint.c:1162
-msgid "Cache Maintenance - GQview"
-msgstr "Bảo trì cache - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Bảo trì cache - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
 msgstr "Bảo trì Cache và dữ liệu"
 
 #: src/cache_maint.c:1176
-msgid "GQview thumbnail cache"
-msgstr "Cache ảnh mẫu GQview"
+msgid "Geeqie thumbnail cache"
+msgstr "Cache ảnh mẫu Geeqie"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -364,8 +364,8 @@ msgstr "Không tựa (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - Tập ảnh GQview"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Tập ảnh Geeqie"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -665,8 +665,8 @@ msgid "Similarity (custom)"
 msgstr "Tương tự (tự chọn)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Tìm trùng lặp - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Tìm trùng lặp - Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1008,8 +1008,8 @@ msgid "%.1f GB"
 msgstr "%.1f GB"
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview toàn màn hình"
+msgid "Geeqie full screen"
+msgstr "Geeqie toàn màn hình"
 
 #: src/fullscreen.c:397
 msgid "Full size"
@@ -1133,8 +1133,8 @@ msgid "Image %d of %d"
 msgstr "Ảnh %d trên %d"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "Thuộc tính ảnh - GQview"
+msgid "Image properties - Geeqie"
+msgstr "Thuộc tính ảnh - Geeqie"
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
 msgid "Ascending"
@@ -1147,7 +1147,7 @@ msgstr "Thư mục không được hỗ trợ"
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1206,8 +1206,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s byte"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "Công cụ GQview"
+msgid "Geeqie Tools"
+msgstr "Công cụ Geeqie"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1452,8 +1452,8 @@ msgid "Float Controls"
 msgstr "Điều khiển rời"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Trợ giúp - GQview"
+msgid "Help - Geeqie"
+msgstr "Trợ giúp - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1533,12 +1533,12 @@ msgid "Remote command list:\n"
 msgstr "Danh sách lệnh từ xa:\n"
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
-msgstr "GQview ở xa chưa chạy, đang khởi động..."
+msgid "Remote Geeqie not running, starting..."
+msgstr "Geeqie ở xa chưa chạy, đang khởi động..."
 
 #: src/main.c:773
 msgid "Remote not available\n"
-msgstr "GQview ở xa không sẵn sàng\n"
+msgstr "Geeqie ở xa không sẵn sàng\n"
 
 #: src/main.c:991
 msgid ""
@@ -1611,8 +1611,8 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "Đang tạo thư mục GQview: %s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Đang tạo thư mục Geeqie: %s\n"
 
 #: src/main.c:1099
 #, c-format
@@ -1628,12 +1628,12 @@ msgid "Desktop"
 msgstr "Desktop"
 
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - thoát"
+msgid "Geeqie - exit"
+msgstr "Geeqie - thoát"
 
 #: src/main.c:1226
-msgid "Quit GQview"
-msgstr "Thoát GQview"
+msgid "Quit Geeqie"
+msgstr "Thoát Geeqie"
 
 #: src/main.c:1226
 msgid "Collections have been modified. Quit anyway?"
@@ -1727,8 +1727,8 @@ msgstr "Đường dẫn nhập vào không phải thư mục"
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "In - GQview"
+msgid "Pan View - Geeqie"
+msgstr "In - Geeqie"
 
 #: src/pan-view.c:2376
 msgid "Timeline"
@@ -1915,8 +1915,8 @@ msgid "This will remove the trash contents."
 msgstr "Hành động này sẽ loại bỏ những thứ có trong sọt rác."
 
 #: src/preferences.c:800
-msgid "GQview Preferences"
-msgstr "Tuỳ thích GQview"
+msgid "Geeqie Preferences"
+msgstr "Tuỳ thích Geeqie"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2207,13 +2207,13 @@ msgid "Screen:"
 msgstr "Screen"
 
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "Giới thiệu - GQview"
+msgid "About - Geeqie"
+msgstr "Giới thiệu - Geeqie"
 
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2221,7 +2221,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Bản quyền (c) %s John Ellis\n"
 "website: %s\n"
@@ -2428,8 +2428,8 @@ msgid "Details"
 msgstr "Chi tiết"
 
 #: src/print.c:2602 src/print.c:3347
-msgid "Print - GQview"
-msgstr "In - GQview"
+msgid "Print - Geeqie"
+msgstr "In - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2616,8 +2616,8 @@ msgid "Please enter an existing folder to search."
 msgstr "Vui lòng chọn một thư mục đã có để tìm."
 
 #: src/search.c:2561
-msgid "Image search - GQview"
-msgstr "Tìm ảnh - GQview"
+msgid "Image search - Geeqie"
+msgstr "Tìm ảnh - Geeqie"
 
 #: src/search.c:2590
 msgid "Search:"
@@ -2965,8 +2965,8 @@ msgid "Please select an existing folder."
 msgstr "Vui lòng chọn một thư mục đã có."
 
 #: src/utilops.c:1022
-msgid "Copy - GQview"
-msgstr "Chép - GQview"
+msgid "Copy - Geeqie"
+msgstr "Chép - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
@@ -2981,8 +2981,8 @@ msgid "Copy multiple files"
 msgstr "Chép nhiều tập tin"
 
 #: src/utilops.c:1036
-msgid "Move - GQview"
-msgstr "Di chuyển - GQview"
+msgid "Move - Geeqie"
+msgstr "Di chuyển - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
@@ -3056,8 +3056,8 @@ msgid "File %d of %d"
 msgstr "Tập tin %d trên %d"
 
 #: src/utilops.c:1482
-msgid "Delete files - GQview"
-msgstr "Xóa tập tin - GQview"
+msgid "Delete files - Geeqie"
+msgstr "Xóa tập tin - Geeqie"
 
 #: src/utilops.c:1486
 msgid "Delete multiple files"
@@ -3069,8 +3069,8 @@ msgid "Review %d files"
 msgstr "Xem lại %d tập tin"
 
 #: src/utilops.c:1560
-msgid "Delete file - GQview"
-msgstr "Xóa tập tin - GQview"
+msgid "Delete file - Geeqie"
+msgstr "Xóa tập tin - Geeqie"
 
 #: src/utilops.c:1564
 msgid "Delete file?"
@@ -3124,8 +3124,8 @@ msgstr ""
 "Số là %d."
 
 #: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - GQview"
-msgstr "Đổi tên - GQview"
+msgid "Rename - Geeqie"
+msgstr "Đổi tên - Geeqie"
 
 #: src/utilops.c:2252
 msgid "Rename multiple files"
@@ -3216,8 +3216,8 @@ msgstr ""
 "là một tập tin."
 
 #: src/utilops.c:2625
-msgid "New folder - GQview"
-msgstr "Thư mục mới - GQview"
+msgid "New folder - Geeqie"
+msgstr "Thư mục mới - Geeqie"
 
 #: src/utilops.c:2628
 #, c-format
@@ -3586,8 +3586,8 @@ msgstr ""
 #~ msgid "/Help/_About"
 #~ msgstr "/Trợ giúp/_Giới thiệu"
 
-#~ msgid "GQview configuration"
-#~ msgstr "Cấu hình GQview"
+#~ msgid "Geeqie configuration"
+#~ msgstr "Cấu hình Geeqie"
 
 #~ msgid "/Edit/_Remove old thumbnails"
 #~ msgstr "/Hiệu chỉnh/_Loại bỏ ảnh mẫu cũ"
@@ -3775,17 +3775,17 @@ msgstr ""
 #~ msgid "Invalid directory"
 #~ msgstr "Thư mục không hợp lệ"
 
-#~ msgid "GQview - copy"
-#~ msgstr "GQview - sao chép"
+#~ msgid "Geeqie - copy"
+#~ msgstr "Geeqie - sao chép"
 
-#~ msgid "GQview - move"
-#~ msgstr "GQview - di chuyển"
+#~ msgid "Geeqie - move"
+#~ msgstr "Geeqie - di chuyển"
 
 #~ msgid "Directory exists"
 #~ msgstr "Thư mục đã có"
 
-#~ msgid "GQview - new directory"
-#~ msgstr "GQview - thư mục mới"
+#~ msgid "Geeqie - new directory"
+#~ msgstr "Geeqie - thư mục mới"
 
 #~ msgid "Misc."
 #~ msgstr "Linh tinh."
@@ -3805,8 +3805,8 @@ msgstr ""
 #~ msgid "top"
 #~ msgstr "đỉnh"
 
-#~ msgid "GQview running: %s\n"
-#~ msgstr "GQview đang chạy: %s\n"
+#~ msgid "Geeqie running: %s\n"
+#~ msgstr "Geeqie đang chạy: %s\n"
 
 #~ msgid "Electric Eyes"
 #~ msgstr "Electric Eyes"

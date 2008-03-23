@@ -1,4 +1,4 @@
-# GQview eesti keele tõlge.
+# Geeqie eesti keele tõlge.
 # Copyright (C) 2001-2002 Free Software Foundation, Inc.
 # Ilmar Kerm <ikerm@hot.ee>, 2001-2002.
 #
@@ -329,8 +329,8 @@ msgstr ""
 
 #: src/cache_maint.c:1162
 #, fuzzy
-msgid "Cache Maintenance - GQview"
-msgstr "Pildi omadused - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Pildi omadused - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
@@ -338,8 +338,8 @@ msgstr ""
 
 #: src/cache_maint.c:1176
 #, fuzzy
-msgid "GQview thumbnail cache"
-msgstr "GQview täisekraan"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie täisekraan"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -397,8 +397,8 @@ msgstr "Pealkirjata (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - GQview kollektsioon"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Geeqie kollektsioon"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -721,8 +721,8 @@ msgid "Similarity (custom)"
 msgstr "Sarnasus (kohandatud)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Otsi duplikaadid - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Otsi duplikaadid - Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1079,8 +1079,8 @@ msgid "%.1f GB"
 msgstr "%.1f MB"
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview täisekraan"
+msgid "Geeqie full screen"
+msgstr "Geeqie täisekraan"
 
 #: src/fullscreen.c:397
 #, fuzzy
@@ -1219,8 +1219,8 @@ msgid "Image %d of %d"
 msgstr ""
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "Pildi omadused - GQview"
+msgid "Image properties - Geeqie"
+msgstr "Pildi omadused - Geeqie"
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
 msgid "Ascending"
@@ -1232,7 +1232,7 @@ msgstr ""
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1291,8 +1291,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s baiti"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview tööriistad"
+msgid "Geeqie Tools"
+msgstr "Geeqie tööriistad"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1382,7 +1382,7 @@ msgstr "Võrdlen..."
 #: src/layout_util.c:789
 #, fuzzy
 msgid "Pan _view"
-msgstr "Abi - GQview"
+msgstr "Abi - Geeqie"
 
 #: src/layout_util.c:790
 #, fuzzy
@@ -1580,8 +1580,8 @@ msgid "Float Controls"
 msgstr "Ujuvuse kontroll"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Abi - GQview"
+msgid "Help - Geeqie"
+msgstr "Abi - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1653,7 +1653,7 @@ msgstr ""
 #: src/main.c:511
 #, fuzzy
 msgid "hide tools"
-msgstr "GQview tööriistad"
+msgstr "Geeqie tööriistad"
 
 #: src/main.c:512
 msgid "quit"
@@ -1677,7 +1677,7 @@ msgid "Remote command list:\n"
 msgstr ""
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
+msgid "Remote Geeqie not running, starting..."
 msgstr ""
 
 #: src/main.c:773
@@ -1756,8 +1756,8 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "Loon GQview kataloogi: %s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Loon Geeqie kataloogi: %s\n"
 
 #: src/main.c:1099
 #, c-format
@@ -1774,13 +1774,13 @@ msgid "Desktop"
 msgstr "failiks:"
 
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - väljumine"
+msgid "Geeqie - exit"
+msgstr "Geeqie - väljumine"
 
 #: src/main.c:1226
 #, fuzzy
-msgid "Quit GQview"
-msgstr "Abi - GQview"
+msgid "Quit Geeqie"
+msgstr "Abi - Geeqie"
 
 #: src/main.c:1226
 #, fuzzy
@@ -1887,8 +1887,8 @@ msgstr ""
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "Abi - GQview"
+msgid "Pan View - Geeqie"
+msgstr "Abi - Geeqie"
 
 #: src/pan-view.c:2376
 #, fuzzy
@@ -2084,8 +2084,8 @@ msgstr ""
 
 #: src/preferences.c:800
 #, fuzzy
-msgid "GQview Preferences"
-msgstr "GQview - ümbernimetamine"
+msgid "Geeqie Preferences"
+msgstr "Geeqie - ümbernimetamine"
 
 #: src/preferences.c:854
 #, fuzzy
@@ -2392,13 +2392,13 @@ msgstr ""
 
 #: src/preferences.c:1380
 #, fuzzy
-msgid "About - GQview"
-msgstr "Abi - GQview"
+msgid "About - Geeqie"
+msgstr "Abi - Geeqie"
 
 #: src/preferences.c:1393
 #, fuzzy, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2406,7 +2406,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) 2003 by John Ellis\n"
 "http://gqview.sourceforge.net\n"
@@ -2619,8 +2619,8 @@ msgstr "Kustuta failid"
 
 #: src/print.c:2602 src/print.c:3347
 #, fuzzy
-msgid "Print - GQview"
-msgstr "Abi - GQview"
+msgid "Print - Geeqie"
+msgstr "Abi - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2831,8 +2831,8 @@ msgstr "Palun vali eksisteeriv kataloog"
 
 #: src/search.c:2561
 #, fuzzy
-msgid "Image search - GQview"
-msgstr "Pildi omadused - GQview"
+msgid "Image search - Geeqie"
+msgstr "Pildi omadused - Geeqie"
 
 #: src/search.c:2590
 #, fuzzy
@@ -3210,8 +3210,8 @@ msgstr "Palun vali eksisteeriv kataloog"
 
 #: src/utilops.c:1022
 #, fuzzy
-msgid "Copy - GQview"
-msgstr "Abi - GQview"
+msgid "Copy - Geeqie"
+msgstr "Abi - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 #, fuzzy
@@ -3233,8 +3233,8 @@ msgstr "Kopeeri failid kataloogi:"
 
 #: src/utilops.c:1036
 #, fuzzy
-msgid "Move - GQview"
-msgstr "Abi - GQview"
+msgid "Move - Geeqie"
+msgstr "Abi - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 #, fuzzy
@@ -3323,7 +3323,7 @@ msgstr ""
 
 #: src/utilops.c:1482
 #, fuzzy
-msgid "Delete files - GQview"
+msgid "Delete files - Geeqie"
 msgstr "Kustuta failid"
 
 #: src/utilops.c:1486
@@ -3338,7 +3338,7 @@ msgstr "%d faili"
 
 #: src/utilops.c:1560
 #, fuzzy
-msgid "Delete file - GQview"
+msgid "Delete file - Geeqie"
 msgstr "Kustuta fail"
 
 #: src/utilops.c:1564
@@ -3395,8 +3395,8 @@ msgstr ""
 
 #: src/utilops.c:2249 src/utilops.c:2503
 #, fuzzy
-msgid "Rename - GQview"
-msgstr "Abi - GQview"
+msgid "Rename - Geeqie"
+msgstr "Abi - Geeqie"
 
 #: src/utilops.c:2252
 #, fuzzy
@@ -3496,8 +3496,8 @@ msgstr ""
 
 #: src/utilops.c:2625
 #, fuzzy
-msgid "New folder - GQview"
-msgstr "Abi - GQview"
+msgid "New folder - Geeqie"
+msgstr "Abi - Geeqie"
 
 #: src/utilops.c:2628
 #, fuzzy, c-format
@@ -3880,8 +3880,8 @@ msgstr ""
 #~ msgid "/Help/sep1"
 #~ msgstr "/Abi/sep1"
 
-#~ msgid "GQview configuration"
-#~ msgstr "GQview konfiguratsioon"
+#~ msgid "Geeqie configuration"
+#~ msgstr "Geeqie konfiguratsioon"
 
 #~ msgid "/Edit/_Remove old thumbnails"
 #~ msgstr "/Redaktor/_Eemalda vanad pisipildid"
@@ -4057,17 +4057,17 @@ msgstr ""
 #~ msgid "Invalid directory"
 #~ msgstr "Vigane kataloog"
 
-#~ msgid "GQview - copy"
-#~ msgstr "GQview - kopeerimine"
+#~ msgid "Geeqie - copy"
+#~ msgstr "Geeqie - kopeerimine"
 
-#~ msgid "GQview - move"
-#~ msgstr "GQview - liigutamine"
+#~ msgid "Geeqie - move"
+#~ msgstr "Geeqie - liigutamine"
 
 #~ msgid "Directory exists"
 #~ msgstr "Kataloog on juba olemas"
 
-#~ msgid "GQview - new directory"
-#~ msgstr "GQview - uue kataloogi loomine"
+#~ msgid "Geeqie - new directory"
+#~ msgstr "Geeqie - uue kataloogi loomine"
 
 #~ msgid "Misc."
 #~ msgstr "Mitmesugust"
@@ -4088,8 +4088,8 @@ msgstr ""
 #~ msgid "top"
 #~ msgstr "failiks:"
 
-#~ msgid "GQview running: %s\n"
-#~ msgstr "GQview jooksutab: %s\n"
+#~ msgid "Geeqie running: %s\n"
+#~ msgstr "Geeqie jooksutab: %s\n"
 
 #~ msgid "Electric Eyes"
 #~ msgstr "Electric Eyes"

@@ -1,4 +1,4 @@
-# GQview Triditional Chinese (Big5) translation.
+# Geeqie Triditional Chinese (Big5) translation.
 # Copyright (C) 2000-2001 Free Software Foundation, Inc.
 # Kam Tik <kamtik@hongkong.com>, 2000.
 # Abel Cheung <deaddog@deaddog.ws>, 2001.
@@ -338,8 +338,8 @@ msgid ""
 msgstr "所有儲存了的預覽小圖將會被清除，是否繼續？"
 
 #: src/cache_maint.c:1162
-msgid "Cache Maintenance - GQview"
-msgstr "快取維護 - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "快取維護 - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
@@ -347,8 +347,8 @@ msgstr "快取以及資料操作"
 
 # src/fullscreen.c:117
 #: src/cache_maint.c:1176
-msgid "GQview thumbnail cache"
-msgstr "GQview 的預覽小圖快取"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie 的預覽小圖快取"
 
 # src/preferences.c:897
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
@@ -410,8 +410,8 @@ msgstr "無標題（%d）"
 # src/collect.c:930
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - GQview 圖像集"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Geeqie 圖像集"
 
 # src/collect.c:1048
 #: src/collect.c:1094 src/collect.c:1098
@@ -779,8 +779,8 @@ msgstr "類似度（自訂）"
 
 # src/dupe.c:1968
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "尋找重複檔案 - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "尋找重複檔案 - Geeqie"
 
 # 
 # src/dupe.c:1948
@@ -1159,8 +1159,8 @@ msgstr "%.1f GB"
 # 
 # src/fullscreen.c:117
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview 全螢幕"
+msgid "Geeqie full screen"
+msgstr "Geeqie 全螢幕"
 
 # src/preferences.c:368
 #: src/fullscreen.c:397
@@ -1305,8 +1305,8 @@ msgid "Image %d of %d"
 msgstr "影像 %d/%d"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "影像內容 - GQview"
+msgid "Image properties - Geeqie"
+msgstr "影像內容 - Geeqie"
 
 # src/window.c:87
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
@@ -1320,7 +1320,7 @@ msgstr "資料夾不支援"
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1390,8 +1390,8 @@ msgstr "( %d x %d ) %s 位元組"
 
 # src/window.c:234
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview 工具"
+msgid "Geeqie Tools"
+msgstr "Geeqie 工具"
 
 # src/collect-dlg.c:59
 #: src/layout.c:1934
@@ -1698,8 +1698,8 @@ msgstr "浮動控制視窗"
 
 # src/main.c:129
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "求助 - GQview"
+msgid "Help - Geeqie"
+msgstr "求助 - Geeqie"
 
 # 
 # src/main.c:743
@@ -1794,8 +1794,8 @@ msgid "Remote command list:\n"
 msgstr "遠端命令列表:\n"
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
-msgstr "遠端的 GQview 尚未執行, 啟動中..."
+msgid "Remote Geeqie not running, starting..."
+msgstr "遠端的 Geeqie 尚未執行, 啟動中..."
 
 #: src/main.c:773
 msgid "Remote not available\n"
@@ -1896,8 +1896,8 @@ msgstr ""
 # src/main.c:533
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "正在建立 GQview 目錄：%s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "正在建立 Geeqie 目錄：%s\n"
 
 # 
 # src/main.c:536
@@ -1919,13 +1919,13 @@ msgstr "桌面："
 # 
 # src/main.c:619
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - 離開"
+msgid "Geeqie - exit"
+msgstr "Geeqie - 離開"
 
 # src/img-view.c:559 src/window.c:533
 #: src/main.c:1226
-msgid "Quit GQview"
-msgstr "結束 GQview"
+msgid "Quit Geeqie"
+msgstr "結束 Geeqie"
 
 # src/main.c:619
 #: src/main.c:1226
@@ -2039,8 +2039,8 @@ msgstr "輸入的路徑不是一個資料夾"
 # src/img-view.c:559 src/window.c:533
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "列印 - GQview"
+msgid "Pan View - Geeqie"
+msgstr "列印 - Geeqie"
 
 # src/preferences.c:369
 #: src/pan-view.c:2376
@@ -2258,8 +2258,8 @@ msgstr "這樣將會移除垃圾桶中的內容。"
 
 # src/utilops.c:942 src/utilops.c:1091
 #: src/preferences.c:800
-msgid "GQview Preferences"
-msgstr "GQview 偏好設定"
+msgid "Geeqie Preferences"
+msgstr "Geeqie 偏好設定"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2626,14 +2626,14 @@ msgstr "螢幕"
 
 # src/img-view.c:559 src/window.c:533
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "關於 - GQview"
+msgid "About - Geeqie"
+msgstr "關於 - Geeqie"
 
 # src/preferences.c:1041
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2641,7 +2641,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "版權所有 (c) %s John Ellis\n"
 "網站: %s\n"
@@ -2877,8 +2877,8 @@ msgstr "詳細內容"
 
 # src/img-view.c:559 src/window.c:533
 #: src/print.c:2602 src/print.c:3347
-msgid "Print - GQview"
-msgstr "列印 - GQview"
+msgid "Print - Geeqie"
+msgstr "列印 - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -3088,8 +3088,8 @@ msgid "Please enter an existing folder to search."
 msgstr ""
 
 #: src/search.c:2561
-msgid "Image search - GQview"
-msgstr "影像搜尋 - GQview"
+msgid "Image search - Geeqie"
+msgstr "影像搜尋 - Geeqie"
 
 # src/dupe.c:871 src/dupe.c:892
 #: src/search.c:2590
@@ -3513,8 +3513,8 @@ msgstr "請選擇一個已存在的目錄"
 
 # src/main.c:129
 #: src/utilops.c:1022
-msgid "Copy - GQview"
-msgstr "複製 - GQview"
+msgid "Copy - Geeqie"
+msgstr "複製 - Geeqie"
 
 # src/utilops.c:592
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
@@ -3533,8 +3533,8 @@ msgstr "複製多個檔案"
 
 # src/main.c:129
 #: src/utilops.c:1036
-msgid "Move - GQview"
-msgstr "移動 - GQview"
+msgid "Move - Geeqie"
+msgstr "移動 - Geeqie"
 
 # src/utilops.c:601
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
@@ -3623,8 +3623,8 @@ msgstr "檔案 %d/%d"
 
 # src/utilops.c:707
 #: src/utilops.c:1482
-msgid "Delete files - GQview"
-msgstr "刪除檔案 - GQview"
+msgid "Delete files - Geeqie"
+msgstr "刪除檔案 - Geeqie"
 
 # src/utilops.c:942
 #: src/utilops.c:1486
@@ -3639,8 +3639,8 @@ msgstr "回顧 %d 個檔案"
 
 # src/ui_pathsel.c:398 src/utilops.c:760
 #: src/utilops.c:1560
-msgid "Delete file - GQview"
-msgstr "刪除檔案 - GQview"
+msgid "Delete file - Geeqie"
+msgstr "刪除檔案 - Geeqie"
 
 # src/ui_pathsel.c:398 src/utilops.c:760
 #: src/utilops.c:1564
@@ -3700,8 +3700,8 @@ msgstr ""
 
 # src/main.c:129
 #: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - GQview"
-msgstr "更改檔名 - GQview"
+msgid "Rename - Geeqie"
+msgstr "更改檔名 - Geeqie"
 
 # src/utilops.c:942
 #: src/utilops.c:2252
@@ -3803,8 +3803,8 @@ msgstr ""
 
 # src/main.c:129
 #: src/utilops.c:2625
-msgid "New folder - GQview"
-msgstr "新資料夾 - GQview"
+msgid "New folder - Geeqie"
+msgstr "新資料夾 - Geeqie"
 
 # src/utilops.c:1211
 #: src/utilops.c:2628

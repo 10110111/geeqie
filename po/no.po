@@ -1,4 +1,4 @@
-# GQview in Norwegian.
+# Geeqie in Norwegian.
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Torgeir Ness Sundli <torgeir@mp3bil.no>, 2001.
 #
@@ -330,8 +330,8 @@ msgstr ""
 
 #: src/cache_maint.c:1162
 #, fuzzy
-msgid "Cache Maintenance - GQview"
-msgstr "Hjelp - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Hjelp - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
@@ -339,8 +339,8 @@ msgstr ""
 
 #: src/cache_maint.c:1176
 #, fuzzy
-msgid "GQview thumbnail cache"
-msgstr "GQview fullskjerm"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie fullskjerm"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -398,8 +398,8 @@ msgstr "Intet navn (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - GQview samling"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Geeqie samling"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -723,8 +723,8 @@ msgid "Similarity (custom)"
 msgstr "Likhet (lav)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Finn dubletter - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Finn dubletter - Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1082,8 +1082,8 @@ msgid "%.1f GB"
 msgstr ""
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview fullskjerm"
+msgid "Geeqie full screen"
+msgstr "Geeqie fullskjerm"
 
 #: src/fullscreen.c:397
 #, fuzzy
@@ -1226,7 +1226,7 @@ msgid "Image %d of %d"
 msgstr ""
 
 #: src/info.c:684
-msgid "Image properties - GQview"
+msgid "Image properties - Geeqie"
 msgstr ""
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
@@ -1239,7 +1239,7 @@ msgstr ""
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1298,8 +1298,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s byte"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview værktøy"
+msgid "Geeqie Tools"
+msgstr "Geeqie værktøy"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1391,7 +1391,7 @@ msgstr "Sammenligner..."
 #: src/layout_util.c:789
 #, fuzzy
 msgid "Pan _view"
-msgstr " - GQview"
+msgstr " - Geeqie"
 
 #: src/layout_util.c:790
 #, fuzzy
@@ -1401,7 +1401,7 @@ msgstr "/Fil/_Omdøp..."
 #: src/layout_util.c:791
 #, fuzzy
 msgid "N_ew folder..."
-msgstr "Hjelp - GQview"
+msgstr "Hjelp - Geeqie"
 
 #: src/layout_util.c:797
 #, fuzzy
@@ -1590,8 +1590,8 @@ msgid "Float Controls"
 msgstr "Flytende kontrollpanel"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Hjelp - GQview"
+msgid "Help - Geeqie"
+msgstr "Hjelp - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1663,7 +1663,7 @@ msgstr ""
 #: src/main.c:511
 #, fuzzy
 msgid "hide tools"
-msgstr "GQview værktøy"
+msgstr "Geeqie værktøy"
 
 #: src/main.c:512
 msgid "quit"
@@ -1687,7 +1687,7 @@ msgid "Remote command list:\n"
 msgstr ""
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
+msgid "Remote Geeqie not running, starting..."
 msgstr ""
 
 #: src/main.c:773
@@ -1766,8 +1766,8 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "Opretter GQview mappe:%s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Opretter Geeqie mappe:%s\n"
 
 #: src/main.c:1099
 #, c-format
@@ -1784,13 +1784,13 @@ msgid "Desktop"
 msgstr "til:"
 
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - avslutt"
+msgid "Geeqie - exit"
+msgstr "Geeqie - avslutt"
 
 #: src/main.c:1226
 #, fuzzy
-msgid "Quit GQview"
-msgstr " - GQview"
+msgid "Quit Geeqie"
+msgstr " - Geeqie"
 
 #: src/main.c:1226
 #, fuzzy
@@ -1897,8 +1897,8 @@ msgstr ""
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr " - GQview"
+msgid "Pan View - Geeqie"
+msgstr " - Geeqie"
 
 #: src/pan-view.c:2376
 #, fuzzy
@@ -2094,8 +2094,8 @@ msgstr ""
 
 #: src/preferences.c:800
 #, fuzzy
-msgid "GQview Preferences"
-msgstr "GQview - omdøp"
+msgid "Geeqie Preferences"
+msgstr "Geeqie - omdøp"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2402,13 +2402,13 @@ msgstr ""
 
 #: src/preferences.c:1380
 #, fuzzy
-msgid "About - GQview"
-msgstr " - GQview"
+msgid "About - Geeqie"
+msgstr " - Geeqie"
 
 #: src/preferences.c:1393
 #, fuzzy, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2416,7 +2416,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Opphavsrett (c) 2003 by John Ellis\n"
 "http://gqview.sourceforge.net\n"
@@ -2629,8 +2629,8 @@ msgstr "Slett filer"
 
 #: src/print.c:2602 src/print.c:3347
 #, fuzzy
-msgid "Print - GQview"
-msgstr " - GQview"
+msgid "Print - Geeqie"
+msgstr " - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2840,7 +2840,7 @@ msgid "Please enter an existing folder to search."
 msgstr "Vennligst velg en eksisterende mappe"
 
 #: src/search.c:2561
-msgid "Image search - GQview"
+msgid "Image search - Geeqie"
 msgstr ""
 
 #: src/search.c:2590
@@ -3007,7 +3007,7 @@ msgstr "Slett"
 #: src/ui_pathsel.c:739 src/ui_pathsel.c:1044
 #, fuzzy
 msgid "New folder"
-msgstr "Hjelp - GQview"
+msgstr "Hjelp - Geeqie"
 
 #: src/ui_pathsel.c:749 src/utilops.c:2581 src/view_dir_list.c:330
 #: src/view_dir_tree.c:426
@@ -3083,7 +3083,7 @@ msgstr "Feil ved flyttning av fil"
 #: src/utilops.c:519 src/utilops.c:836 src/utilops.c:1728 src/utilops.c:2450
 #, fuzzy
 msgid "New file"
-msgstr "Hjelp - GQview"
+msgstr "Hjelp - Geeqie"
 
 #: src/utilops.c:529 src/utilops.c:845 src/utilops.c:1862 src/utilops.c:1918
 #: src/utilops.c:1994 src/utilops.c:2326
@@ -3220,8 +3220,8 @@ msgstr "Vennligst velg en eksisterende mappe"
 
 #: src/utilops.c:1022
 #, fuzzy
-msgid "Copy - GQview"
-msgstr "Hjelp - GQview"
+msgid "Copy - Geeqie"
+msgstr "Hjelp - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 #, fuzzy
@@ -3243,8 +3243,8 @@ msgstr "Kopier mangfoldige filer til:"
 
 #: src/utilops.c:1036
 #, fuzzy
-msgid "Move - GQview"
-msgstr "Hjelp - GQview"
+msgid "Move - Geeqie"
+msgstr "Hjelp - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 #, fuzzy
@@ -3333,7 +3333,7 @@ msgstr ""
 
 #: src/utilops.c:1482
 #, fuzzy
-msgid "Delete files - GQview"
+msgid "Delete files - Geeqie"
 msgstr "Slett filer"
 
 #: src/utilops.c:1486
@@ -3348,7 +3348,7 @@ msgstr "%d filer"
 
 #: src/utilops.c:1560
 #, fuzzy
-msgid "Delete file - GQview"
+msgid "Delete file - Geeqie"
 msgstr "Slett fil"
 
 #: src/utilops.c:1564
@@ -3399,8 +3399,8 @@ msgstr "Kunne ikke omdøpe %s til %s."
 
 #: src/utilops.c:2249 src/utilops.c:2503
 #, fuzzy
-msgid "Rename - GQview"
-msgstr "Hjelp - GQview"
+msgid "Rename - Geeqie"
+msgstr "Hjelp - Geeqie"
 
 #: src/utilops.c:2252
 #, fuzzy
@@ -3500,8 +3500,8 @@ msgstr ""
 
 #: src/utilops.c:2625
 #, fuzzy
-msgid "New folder - GQview"
-msgstr "Hjelp - GQview"
+msgid "New folder - Geeqie"
+msgstr "Hjelp - Geeqie"
 
 #: src/utilops.c:2628
 #, fuzzy, c-format
@@ -3887,8 +3887,8 @@ msgstr ""
 #~ msgid "/Help/sep1"
 #~ msgstr "/Hjelp/sep1"
 
-#~ msgid "GQview configuration"
-#~ msgstr "GQview konfigurasjon"
+#~ msgid "Geeqie configuration"
+#~ msgstr "Geeqie konfigurasjon"
 
 #~ msgid "/Edit/_Remove old thumbnails"
 #~ msgstr "/Rediger/_Fjern gamle thumbnails"
@@ -4066,17 +4066,17 @@ msgstr ""
 #~ msgid "Invalid directory"
 #~ msgstr "Ugyldig mappe"
 
-#~ msgid "GQview - copy"
-#~ msgstr "GQview - kopier"
+#~ msgid "Geeqie - copy"
+#~ msgstr "Geeqie - kopier"
 
-#~ msgid "GQview - move"
-#~ msgstr "GQview - flytt"
+#~ msgid "Geeqie - move"
+#~ msgstr "Geeqie - flytt"
 
 #~ msgid "Directory exists"
 #~ msgstr "Mappen eksisterer"
 
-#~ msgid "GQview - new directory"
-#~ msgstr "GQview - ny mappe"
+#~ msgid "Geeqie - new directory"
+#~ msgstr "Geeqie - ny mappe"
 
 #~ msgid "/File/Create _Dir..."
 #~ msgstr "/Fil/Oprett _mappe..."
@@ -4094,8 +4094,8 @@ msgstr ""
 #~ msgid "top"
 #~ msgstr "til:"
 
-#~ msgid "GQview running: %s\n"
-#~ msgstr "GQview kjører: %s\n"
+#~ msgid "Geeqie running: %s\n"
+#~ msgstr "Geeqie kjører: %s\n"
 
 #~ msgid "Electric Eyes"
 #~ msgstr "Electric Eyes"

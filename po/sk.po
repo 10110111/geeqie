@@ -342,8 +342,8 @@ msgstr ""
 "boli ulo¾ené na disk, pokraèova»?"
 
 #: src/cache_maint.c:1162
-msgid "Cache Maintenance - GQview"
-msgstr "Údr¾ba vyrovnávacej pamäte - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Údr¾ba vyrovnávacej pamäte - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
@@ -351,8 +351,8 @@ msgstr "Údr¾ba dát a vyrovnávacej pamäte"
 
 # src/fullscreen.c:117
 #: src/cache_maint.c:1176
-msgid "GQview thumbnail cache"
-msgstr "GQview vyrovnávacia pamä» miniatúr"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie vyrovnávacia pamä» miniatúr"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -413,8 +413,8 @@ msgstr "Nepomenovaný (%d)"
 # src/collect.c:930
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - GQview zbierka"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Geeqie zbierka"
 
 # src/collect.c:1048
 #: src/collect.c:1094 src/collect.c:1098
@@ -782,8 +782,8 @@ msgstr "Podobnos» (voliteµná)"
 
 # src/dupe.c:1968
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Nájs» duplikáty - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Nájs» duplikáty - Geeqie"
 
 # src/dupe.c:1948
 #: src/dupe.c:3148
@@ -1157,8 +1157,8 @@ msgstr "%.1f GB"
 
 # src/fullscreen.c:117
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview: celoobrazovkový re¾im"
+msgid "Geeqie full screen"
+msgstr "Geeqie: celoobrazovkový re¾im"
 
 # src/preferences.c:368
 #: src/fullscreen.c:397
@@ -1302,8 +1302,8 @@ msgid "Image %d of %d"
 msgstr "Obrázok %d z %d"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "Vlastnosti obrázka - GQview"
+msgid "Image properties - Geeqie"
+msgstr "Vlastnosti obrázka - Geeqie"
 
 # src/window.c:87
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
@@ -1317,7 +1317,7 @@ msgstr "Prieèinok nie je podporovaný"
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1384,8 +1384,8 @@ msgstr "( %d x %d ) %s bajtov"
 
 # src/window.c:234
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview : Nástroje"
+msgid "Geeqie Tools"
+msgstr "Geeqie : Nástroje"
 
 # src/collect-dlg.c:59
 #: src/layout.c:1934
@@ -1591,7 +1591,7 @@ msgstr "Poznámky k ve_rzii"
 # src/menu.c:776
 #: src/layout_util.c:834
 msgid "_About"
-msgstr "O GQview"
+msgstr "O Geeqie"
 
 # src/dupe.c:2054 src/preferences.c:586
 #: src/layout_util.c:838 src/layout_util.c:1086
@@ -1689,8 +1689,8 @@ msgstr "Plávajúce ovládanie"
 
 # src/main.c:129
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Pomoc - GQview"
+msgid "Help - Geeqie"
+msgstr "Pomoc - Geeqie"
 
 # src/main.c:743
 #: src/main.c:460 src/main.c:1376
@@ -1783,8 +1783,8 @@ msgid "Remote command list:\n"
 msgstr "Zoznam vzdialených príkazov:\n"
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
-msgstr "Vzdialený GQview nebe¾í, ¹tartujem..."
+msgid "Remote Geeqie not running, starting..."
+msgstr "Vzdialený Geeqie nebe¾í, ¹tartujem..."
 
 #: src/main.c:773
 msgid "Remote not available\n"
@@ -1877,8 +1877,8 @@ msgstr ""
 # src/main.c:533
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "Vytváram GQview adresár:%s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Vytváram Geeqie adresár:%s\n"
 
 # src/main.c:536
 #: src/main.c:1099
@@ -1898,13 +1898,13 @@ msgstr "Plocha"
 
 # src/main.c:619
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - koniec"
+msgid "Geeqie - exit"
+msgstr "Geeqie - koniec"
 
 # src/img-view.c:559 src/window.c:533
 #: src/main.c:1226
-msgid "Quit GQview"
-msgstr "Skonèi» GQview"
+msgid "Quit Geeqie"
+msgstr "Skonèi» Geeqie"
 
 # src/main.c:619
 #: src/main.c:1226
@@ -2014,8 +2014,8 @@ msgstr "Zadaná cesta nie je prieèinok"
 # src/img-view.c:559 src/window.c:533
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "Tlaè - GQview"
+msgid "Pan View - Geeqie"
+msgstr "Tlaè - Geeqie"
 
 # src/preferences.c:369
 #: src/pan-view.c:2376
@@ -2230,8 +2230,8 @@ msgstr "Toto vyma¾e obsah ko¹a."
 
 # src/utilops.c:942 src/utilops.c:1091
 #: src/preferences.c:800
-msgid "GQview Preferences"
-msgstr "GQview - Nastavenia"
+msgid "Geeqie Preferences"
+msgstr "Geeqie - Nastavenia"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2574,14 +2574,14 @@ msgstr "Obrazovka"
 
 # src/img-view.c:559 src/window.c:533
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "O - GQview"
+msgid "About - Geeqie"
+msgstr "O - Geeqie"
 
 # src/preferences.c:1041
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2589,7 +2589,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "WWW: %s\n"
@@ -2802,8 +2802,8 @@ msgstr "Podrobnosti"
 
 # src/img-view.c:559 src/window.c:533
 #: src/print.c:2602 src/print.c:3347
-msgid "Print - GQview"
-msgstr "Tlaè - GQview"
+msgid "Print - Geeqie"
+msgstr "Tlaè - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -3014,8 +3014,8 @@ msgid "Please enter an existing folder to search."
 msgstr "Prosím zadajte existujúci prieèinok pre vyhµadávanie."
 
 #: src/search.c:2561
-msgid "Image search - GQview"
-msgstr "Vyhµada» obrázok - GQview"
+msgid "Image search - Geeqie"
+msgstr "Vyhµada» obrázok - Geeqie"
 
 # src/dupe.c:871 src/dupe.c:892
 #: src/search.c:2590
@@ -3427,8 +3427,8 @@ msgstr "Prosím zvoµte existujúci prieèinok"
 
 # src/main.c:129
 #: src/utilops.c:1022
-msgid "Copy - GQview"
-msgstr "Kopírovanie - GQview"
+msgid "Copy - Geeqie"
+msgstr "Kopírovanie - Geeqie"
 
 # src/utilops.c:592
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
@@ -3447,8 +3447,8 @@ msgstr "Kopírova» viacero súborov"
 
 # src/main.c:129
 #: src/utilops.c:1036
-msgid "Move - GQview"
-msgstr "Presunú» - GQview"
+msgid "Move - Geeqie"
+msgstr "Presunú» - Geeqie"
 
 # src/utilops.c:601
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
@@ -3535,8 +3535,8 @@ msgstr "Súbor %d z %d"
 
 # src/utilops.c:707
 #: src/utilops.c:1482
-msgid "Delete files - GQview"
-msgstr "Mazanie súborov - GQview"
+msgid "Delete files - Geeqie"
+msgstr "Mazanie súborov - Geeqie"
 
 # src/utilops.c:942
 #: src/utilops.c:1486
@@ -3551,8 +3551,8 @@ msgstr "Prehµad %d súborov"
 
 # src/ui_pathsel.c:398 src/utilops.c:760
 #: src/utilops.c:1560
-msgid "Delete file - GQview"
-msgstr "Zmaza» súbor - GQview"
+msgid "Delete file - Geeqie"
+msgstr "Zmaza» súbor - Geeqie"
 
 # src/ui_pathsel.c:398 src/utilops.c:760
 #: src/utilops.c:1564
@@ -3612,8 +3612,8 @@ msgstr ""
 
 # src/main.c:129
 #: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - GQview"
-msgstr "Premenovanie - GQview"
+msgid "Rename - Geeqie"
+msgstr "Premenovanie - Geeqie"
 
 # src/utilops.c:942
 #: src/utilops.c:2252
@@ -3713,8 +3713,8 @@ msgstr ""
 
 # src/main.c:129
 #: src/utilops.c:2625
-msgid "New folder - GQview"
-msgstr "Nový prieèinok - GQview"
+msgid "New folder - Geeqie"
+msgstr "Nový prieèinok - Geeqie"
 
 # src/utilops.c:1211
 #: src/utilops.c:2628
@@ -4165,8 +4165,8 @@ msgstr ""
 #~ msgstr "/Pomocník/sep1"
 
 # src/preferences.c:507
-#~ msgid "GQview configuration"
-#~ msgstr "Konfigurácia GQview"
+#~ msgid "Geeqie configuration"
+#~ msgstr "Konfigurácia Geeqie"
 
 # src/menu.c:749
 #~ msgid "/Edit/_Remove old thumbnails"
@@ -4397,20 +4397,20 @@ msgstr ""
 #~ msgstr "Chybný adresár"
 
 # src/utilops.c:591
-#~ msgid "GQview - copy"
-#~ msgstr "GQview - kopírovanie"
+#~ msgid "Geeqie - copy"
+#~ msgstr "Geeqie - kopírovanie"
 
 # src/utilops.c:600
-#~ msgid "GQview - move"
-#~ msgstr "GQview - presúvanie"
+#~ msgid "Geeqie - move"
+#~ msgstr "Geeqie - presúvanie"
 
 # src/utilops.c:1145
 #~ msgid "Directory exists"
 #~ msgstr "Adresár existuje"
 
 # src/utilops.c:1212
-#~ msgid "GQview - new directory"
-#~ msgstr "GQview - nový adresár"
+#~ msgid "Geeqie - new directory"
+#~ msgstr "Geeqie - nový adresár"
 
 #~ msgid "Misc."
 #~ msgstr "Rôzne"
@@ -4437,8 +4437,8 @@ msgstr ""
 #~ msgstr "na:"
 
 # src/main.c:146 src/main.c:176
-#~ msgid "GQview running: %s\n"
-#~ msgstr "GQview spustení: %s\n"
+#~ msgid "Geeqie running: %s\n"
+#~ msgstr "Geeqie spustení: %s\n"
 
 # src/main.c:555
 #~ msgid "Electric Eyes"

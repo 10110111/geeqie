@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2006 John Ellis
  *
  * Author: John Ellis
@@ -970,7 +970,7 @@ static void collection_window_update_title(CollectWindow *cw)
 
 	if (!cw) return;
 
-	buf = g_strdup_printf(_("%s - GQview Collection"), cw->cd->name);
+	buf = g_strdup_printf(_("%s - Geeqie Collection"), cw->cd->name);
 	gtk_window_set_title(GTK_WINDOW(cw->window), buf);
 	g_free(buf);
 }
@@ -1089,7 +1089,7 @@ static void collection_close_dlg_show(CollectWindow *cw)
 		}
 
 	gd = generic_dialog_new(_("Close collection"),
-				"GQview", "close_collection", cw->window, FALSE,
+				"Geeqie", "close_collection", cw->window, FALSE,
 				collection_close_cancel_cb, cw);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION,
 				   _("Close collection"),
@@ -1185,7 +1185,7 @@ CollectWindow *collection_window_new(const gchar *path)
 
 	gtk_window_set_resizable(GTK_WINDOW(cw->window), TRUE);
 	collection_window_update_title(cw);
-	gtk_window_set_wmclass(GTK_WINDOW(cw->window), "collection", "GQview");
+	gtk_window_set_wmclass(GTK_WINDOW(cw->window), "collection", "Geeqie");
 	gtk_container_set_border_width (GTK_CONTAINER (cw->window), 0);
 
 	g_signal_connect(G_OBJECT(cw->window), "delete_event",

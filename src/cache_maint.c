@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2006 John Ellis
  *
  * Author: John Ellis
@@ -312,7 +312,7 @@ void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
 		}
 
 	cm->gd = generic_dialog_new(_("Maintenance"),
-				    "GQview", "gqview_maintenance",
+				    "Geeqie", "gqview_maintenance",
 				    parent, FALSE,
 				    NULL, cm);
 	cm->gd->cancel_cb = cache_maintain_home_close_cb;
@@ -820,7 +820,7 @@ static void cache_manager_render_dialog(GtkWidget *widget, const gchar *path)
 	cd = g_new0(CleanData, 1);
 
 	cd->gd = generic_dialog_new(_("Create thumbnails"),
-				    "GQview", "create_thumbnails",
+				    "Geeqie", "create_thumbnails",
 				    widget, FALSE,
 				    NULL, cd);
 	gtk_window_set_default_size(GTK_WINDOW(cd->gd->dialog), PURGE_DIALOG_WIDTH, -1);
@@ -1050,7 +1050,7 @@ static void cache_manager_standard_process(GtkWidget *widget, gint clear)
 		}
 
 	cd->gd = generic_dialog_new(_("Maintenance"),
-				    "GQview", "standard_maintenance",
+				    "Geeqie", "standard_maintenance",
 				    widget, FALSE,
 				    NULL, cd);
 	cd->gd->cancel_cb = cache_manager_standard_clean_close_cb;
@@ -1108,7 +1108,7 @@ void cache_manager_gqview_clear_confirm(GtkWidget *parent)
 	GenericDialog *gd;
 
 	gd = generic_dialog_new(_("Clear cache"),
-				"GQview", "clear_cache", parent, TRUE,
+				"Geeqie", "clear_cache", parent, TRUE,
 				dummy_cancel_cb, NULL);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Clear cache"),
 				   _("This will remove all thumbnails that have\nbeen saved to disk, continue?"));
@@ -1161,7 +1161,7 @@ void cache_manager_show(void)
 
 	cache_manager = g_new0(CacheManager, 1);
 
-	cache_manager->dialog = generic_dialog_new(_("Cache Maintenance - GQview"),
+	cache_manager->dialog = generic_dialog_new(_("Cache Maintenance - Geeqie"),
 						   "GQiew", "cache_manager",
 						   NULL, FALSE,
 						   NULL, cache_manager);
@@ -1175,7 +1175,7 @@ void cache_manager_show(void)
 
 	sizegroup = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
-	group = pref_group_new(gd->vbox, FALSE, _("GQview thumbnail cache"), GTK_ORIENTATION_VERTICAL);
+	group = pref_group_new(gd->vbox, FALSE, _("Geeqie thumbnail cache"), GTK_ORIENTATION_VERTICAL);
 
 	buf = g_strconcat(_("Location:"), " ", homedir(), "/", GQVIEW_CACHE_RC_THUMB, NULL);
 	label = pref_label_new(group, buf);

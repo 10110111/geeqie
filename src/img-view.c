@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2006 John Ellis
  *
  * Author: John Ellis
@@ -851,8 +851,8 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 	gtk_window_set_geometry_hints(GTK_WINDOW(vw->window), NULL, &geometry, GDK_HINT_MIN_SIZE);
 
 	gtk_window_set_resizable(GTK_WINDOW(vw->window), TRUE);
-	gtk_window_set_title (GTK_WINDOW(vw->window), "GQview");
-        gtk_window_set_wmclass(GTK_WINDOW(vw->window), "view", "GQview");
+	gtk_window_set_title (GTK_WINDOW(vw->window), "Geeqie");
+        gtk_window_set_wmclass(GTK_WINDOW(vw->window), "view", "Geeqie");
         gtk_container_set_border_width(GTK_CONTAINER(vw->window), 0);
 
 	window_set_icon(vw->window, PIXBUF_INLINE_ICON_VIEW, NULL);
@@ -861,7 +861,7 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 
 	if (black_window_background) image_background_set_black(vw->imd, TRUE);
 
-	image_attach_window(vw->imd, vw->window, NULL, "GQview", TRUE);
+	image_attach_window(vw->imd, vw->window, NULL, "Geeqie", TRUE);
 
 	image_auto_refresh(vw->imd, 0);
 	image_top_window_set_sync(vw->imd, TRUE);

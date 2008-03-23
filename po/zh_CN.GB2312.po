@@ -326,8 +326,8 @@ msgstr ""
 
 #: src/cache_maint.c:1162
 #, fuzzy
-msgid "Cache Maintenance - GQview"
-msgstr "求助 - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "求助 - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
@@ -335,8 +335,8 @@ msgstr ""
 
 #: src/cache_maint.c:1176
 #, fuzzy
-msgid "GQview thumbnail cache"
-msgstr "GQview 全屏"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie 全屏"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -394,8 +394,8 @@ msgstr "无标题 (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - GQview 图像集"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Geeqie 图像集"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -719,8 +719,8 @@ msgid "Similarity (custom)"
 msgstr "相似性 (低)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "文件复制 - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "文件复制 - Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1078,8 +1078,8 @@ msgid "%.1f GB"
 msgstr ""
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview 全屏"
+msgid "Geeqie full screen"
+msgstr "Geeqie 全屏"
 
 #: src/fullscreen.c:397
 #, fuzzy
@@ -1222,7 +1222,7 @@ msgid "Image %d of %d"
 msgstr ""
 
 #: src/info.c:684
-msgid "Image properties - GQview"
+msgid "Image properties - Geeqie"
 msgstr ""
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
@@ -1235,7 +1235,7 @@ msgstr ""
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1294,8 +1294,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s 字节"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview 工具栏"
+msgid "Geeqie Tools"
+msgstr "Geeqie 工具栏"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1387,7 +1387,7 @@ msgstr "正在比较..."
 #: src/layout_util.c:789
 #, fuzzy
 msgid "Pan _view"
-msgstr "求助 - GQview"
+msgstr "求助 - Geeqie"
 
 #: src/layout_util.c:790
 #, fuzzy
@@ -1397,7 +1397,7 @@ msgstr "/文件/重命名(_R)..."
 #: src/layout_util.c:791
 #, fuzzy
 msgid "N_ew folder..."
-msgstr "求助 - GQview"
+msgstr "求助 - Geeqie"
 
 #: src/layout_util.c:797
 #, fuzzy
@@ -1586,8 +1586,8 @@ msgid "Float Controls"
 msgstr "浮动控制"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "求助 - GQview"
+msgid "Help - Geeqie"
+msgstr "求助 - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1659,7 +1659,7 @@ msgstr ""
 #: src/main.c:511
 #, fuzzy
 msgid "hide tools"
-msgstr "GQview 工具栏"
+msgstr "Geeqie 工具栏"
 
 #: src/main.c:512
 msgid "quit"
@@ -1683,7 +1683,7 @@ msgid "Remote command list:\n"
 msgstr ""
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
+msgid "Remote Geeqie not running, starting..."
 msgstr ""
 
 #: src/main.c:773
@@ -1762,8 +1762,8 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "正在创建 GQview 目录：%s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "正在创建 Geeqie 目录：%s\n"
 
 #: src/main.c:1099
 #, c-format
@@ -1780,13 +1780,13 @@ msgid "Desktop"
 msgstr "到："
 
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - 退出"
+msgid "Geeqie - exit"
+msgstr "Geeqie - 退出"
 
 #: src/main.c:1226
 #, fuzzy
-msgid "Quit GQview"
-msgstr "求助 - GQview"
+msgid "Quit Geeqie"
+msgstr "求助 - Geeqie"
 
 #: src/main.c:1226
 #, fuzzy
@@ -1893,8 +1893,8 @@ msgstr ""
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "求助 - GQview"
+msgid "Pan View - Geeqie"
+msgstr "求助 - Geeqie"
 
 #: src/pan-view.c:2376
 #, fuzzy
@@ -2090,8 +2090,8 @@ msgstr ""
 
 #: src/preferences.c:800
 #, fuzzy
-msgid "GQview Preferences"
-msgstr "GQview - 重命名"
+msgid "Geeqie Preferences"
+msgstr "Geeqie - 重命名"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2398,13 +2398,13 @@ msgstr ""
 
 #: src/preferences.c:1380
 #, fuzzy
-msgid "About - GQview"
-msgstr "求助 - GQview"
+msgid "About - Geeqie"
+msgstr "求助 - Geeqie"
 
 #: src/preferences.c:1393
 #, fuzzy, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2412,7 +2412,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "版权所有 (c) 2003 John Ellis\n"
 "http://gqview.sourceforge.net\n"
@@ -2625,8 +2625,8 @@ msgstr "删除文件"
 
 #: src/print.c:2602 src/print.c:3347
 #, fuzzy
-msgid "Print - GQview"
-msgstr "求助 - GQview"
+msgid "Print - Geeqie"
+msgstr "求助 - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2836,7 +2836,7 @@ msgid "Please enter an existing folder to search."
 msgstr "请选择一个已存在的目录"
 
 #: src/search.c:2561
-msgid "Image search - GQview"
+msgid "Image search - Geeqie"
 msgstr ""
 
 #: src/search.c:2590
@@ -3003,7 +3003,7 @@ msgstr "删除"
 #: src/ui_pathsel.c:739 src/ui_pathsel.c:1044
 #, fuzzy
 msgid "New folder"
-msgstr "求助 - GQview"
+msgstr "求助 - Geeqie"
 
 #: src/ui_pathsel.c:749 src/utilops.c:2581 src/view_dir_list.c:330
 #: src/view_dir_tree.c:426
@@ -3079,7 +3079,7 @@ msgstr "移动文件错误"
 #: src/utilops.c:519 src/utilops.c:836 src/utilops.c:1728 src/utilops.c:2450
 #, fuzzy
 msgid "New file"
-msgstr "求助 - GQview"
+msgstr "求助 - Geeqie"
 
 #: src/utilops.c:529 src/utilops.c:845 src/utilops.c:1862 src/utilops.c:1918
 #: src/utilops.c:1994 src/utilops.c:2326
@@ -3216,8 +3216,8 @@ msgstr "请选择一个已存在的目录"
 
 #: src/utilops.c:1022
 #, fuzzy
-msgid "Copy - GQview"
-msgstr "求助 - GQview"
+msgid "Copy - Geeqie"
+msgstr "求助 - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 #, fuzzy
@@ -3239,8 +3239,8 @@ msgstr "将多个文件复制到："
 
 #: src/utilops.c:1036
 #, fuzzy
-msgid "Move - GQview"
-msgstr "求助 - GQview"
+msgid "Move - Geeqie"
+msgstr "求助 - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 #, fuzzy
@@ -3329,7 +3329,7 @@ msgstr ""
 
 #: src/utilops.c:1482
 #, fuzzy
-msgid "Delete files - GQview"
+msgid "Delete files - Geeqie"
 msgstr "删除文件"
 
 #: src/utilops.c:1486
@@ -3344,7 +3344,7 @@ msgstr "%d 文件"
 
 #: src/utilops.c:1560
 #, fuzzy
-msgid "Delete file - GQview"
+msgid "Delete file - Geeqie"
 msgstr "删除文件"
 
 #: src/utilops.c:1564
@@ -3395,8 +3395,8 @@ msgstr "将 %s 重命名为 %s 失败。"
 
 #: src/utilops.c:2249 src/utilops.c:2503
 #, fuzzy
-msgid "Rename - GQview"
-msgstr "求助 - GQview"
+msgid "Rename - Geeqie"
+msgstr "求助 - Geeqie"
 
 #: src/utilops.c:2252
 #, fuzzy
@@ -3496,8 +3496,8 @@ msgstr ""
 
 #: src/utilops.c:2625
 #, fuzzy
-msgid "New folder - GQview"
-msgstr "求助 - GQview"
+msgid "New folder - Geeqie"
+msgstr "求助 - Geeqie"
 
 #: src/utilops.c:2628
 #, fuzzy, c-format
@@ -3886,8 +3886,8 @@ msgstr ""
 #~ msgid "/Help/_About"
 #~ msgstr "/求助/关于(_A)"
 
-#~ msgid "GQview configuration"
-#~ msgstr "GQview 配置"
+#~ msgid "Geeqie configuration"
+#~ msgstr "Geeqie 配置"
 
 #~ msgid "/Edit/_Remove old thumbnails"
 #~ msgstr "/编辑/删除原来的缩略图(_R)"
@@ -4065,17 +4065,17 @@ msgstr ""
 #~ msgid "Invalid directory"
 #~ msgstr "无效的目录"
 
-#~ msgid "GQview - copy"
-#~ msgstr "GQview - 复制"
+#~ msgid "Geeqie - copy"
+#~ msgstr "Geeqie - 复制"
 
-#~ msgid "GQview - move"
-#~ msgstr "GQview - 移动"
+#~ msgid "Geeqie - move"
+#~ msgstr "Geeqie - 移动"
 
 #~ msgid "Directory exists"
 #~ msgstr "目录已存在"
 
-#~ msgid "GQview - new directory"
-#~ msgstr "GQview - 新建目录"
+#~ msgid "Geeqie - new directory"
+#~ msgstr "Geeqie - 新建目录"
 
 #~ msgid "/File/Create _Dir..."
 #~ msgstr "/文件/创建目录(_D)..."
@@ -4093,8 +4093,8 @@ msgstr ""
 #~ msgid "top"
 #~ msgstr "到："
 
-#~ msgid "GQview running: %s\n"
-#~ msgstr "GQview 运行：%s\n"
+#~ msgid "Geeqie running: %s\n"
+#~ msgstr "Geeqie 运行：%s\n"
 
 #~ msgid "Electric Eyes"
 #~ msgstr "电眼"

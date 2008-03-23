@@ -331,8 +331,8 @@ msgstr ""
 
 #: src/cache_maint.c:1162
 #, fuzzy
-msgid "Cache Maintenance - GQview"
-msgstr " - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr " - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
@@ -340,8 +340,8 @@ msgstr ""
 
 #: src/cache_maint.c:1176
 #, fuzzy
-msgid "GQview thumbnail cache"
-msgstr "GQview celozaslonsko"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie celozaslonsko"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -399,8 +399,8 @@ msgstr "Neimenovano (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - GQview zbirka"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Geeqie zbirka"
 
 #: src/collect.c:1094 src/collect.c:1098
 #, fuzzy
@@ -724,8 +724,8 @@ msgid "Similarity (custom)"
 msgstr "Podobnost (majhna)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Najdi dvojnike - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Najdi dvojnike - Geeqie"
 
 #: src/dupe.c:3148
 #, fuzzy
@@ -1084,8 +1084,8 @@ msgid "%.1f GB"
 msgstr ""
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview celozaslonsko"
+msgid "Geeqie full screen"
+msgstr "Geeqie celozaslonsko"
 
 #: src/fullscreen.c:397
 #, fuzzy
@@ -1228,7 +1228,7 @@ msgid "Image %d of %d"
 msgstr ""
 
 #: src/info.c:684
-msgid "Image properties - GQview"
+msgid "Image properties - Geeqie"
 msgstr ""
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
@@ -1241,7 +1241,7 @@ msgstr ""
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1300,8 +1300,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %d bajtov"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview orodja"
+msgid "Geeqie Tools"
+msgstr "Geeqie orodja"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1393,7 +1393,7 @@ msgstr "Primerjam..."
 #: src/layout_util.c:789
 #, fuzzy
 msgid "Pan _view"
-msgstr " - GQview"
+msgstr " - Geeqie"
 
 #: src/layout_util.c:790
 #, fuzzy
@@ -1403,7 +1403,7 @@ msgstr "/Datoteka/Pr_eimenuj..."
 #: src/layout_util.c:791
 #, fuzzy
 msgid "N_ew folder..."
-msgstr " - GQview"
+msgstr " - Geeqie"
 
 #: src/layout_util.c:797
 #, fuzzy
@@ -1591,8 +1591,8 @@ msgstr "Plavajoèi krmilniki"
 
 #: src/main.c:237
 #, fuzzy
-msgid "Help - GQview"
-msgstr " - GQview"
+msgid "Help - Geeqie"
+msgstr " - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1664,7 +1664,7 @@ msgstr ""
 #: src/main.c:511
 #, fuzzy
 msgid "hide tools"
-msgstr "GQview orodja"
+msgstr "Geeqie orodja"
 
 #: src/main.c:512
 msgid "quit"
@@ -1688,7 +1688,7 @@ msgid "Remote command list:\n"
 msgstr ""
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
+msgid "Remote Geeqie not running, starting..."
 msgstr ""
 
 #: src/main.c:773
@@ -1762,8 +1762,8 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "Ustarjam GQview imenik: %s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Ustarjam Geeqie imenik: %s\n"
 
 #: src/main.c:1099
 #, c-format
@@ -1781,13 +1781,13 @@ msgstr "v:"
 
 #: src/main.c:1222
 #, fuzzy
-msgid "GQview - exit"
-msgstr "GQview - premakni"
+msgid "Geeqie - exit"
+msgstr "Geeqie - premakni"
 
 #: src/main.c:1226
 #, fuzzy
-msgid "Quit GQview"
-msgstr " - GQview"
+msgid "Quit Geeqie"
+msgstr " - Geeqie"
 
 #: src/main.c:1226
 msgid "Collections have been modified. Quit anyway?"
@@ -1891,8 +1891,8 @@ msgstr ""
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr " - GQview"
+msgid "Pan View - Geeqie"
+msgstr " - Geeqie"
 
 #: src/pan-view.c:2376
 #, fuzzy
@@ -2088,8 +2088,8 @@ msgstr ""
 
 #: src/preferences.c:800
 #, fuzzy
-msgid "GQview Preferences"
-msgstr "GQview - preimenuj"
+msgid "Geeqie Preferences"
+msgstr "Geeqie - preimenuj"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2397,13 +2397,13 @@ msgstr ""
 
 #: src/preferences.c:1380
 #, fuzzy
-msgid "About - GQview"
-msgstr " - GQview"
+msgid "About - Geeqie"
+msgstr " - Geeqie"
 
 #: src/preferences.c:1393
 #, fuzzy, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2411,7 +2411,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Avtorke pravice (c) 2003 John Ellis\n"
 "http://gqview.sourceforge.net\n"
@@ -2624,8 +2624,8 @@ msgstr "Zbri¹i datoteke"
 
 #: src/print.c:2602 src/print.c:3347
 #, fuzzy
-msgid "Print - GQview"
-msgstr " - GQview"
+msgid "Print - Geeqie"
+msgstr " - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2835,7 +2835,7 @@ msgid "Please enter an existing folder to search."
 msgstr "Prosim izberite obstojeè imenik"
 
 #: src/search.c:2561
-msgid "Image search - GQview"
+msgid "Image search - Geeqie"
 msgstr ""
 
 #: src/search.c:2590
@@ -3004,7 +3004,7 @@ msgstr "Zbri¹i"
 #: src/ui_pathsel.c:739 src/ui_pathsel.c:1044
 #, fuzzy
 msgid "New folder"
-msgstr " - GQview"
+msgstr " - Geeqie"
 
 #: src/ui_pathsel.c:749 src/utilops.c:2581 src/view_dir_list.c:330
 #: src/view_dir_tree.c:426
@@ -3080,7 +3080,7 @@ msgstr "Napaka pri premikanju datoteke"
 #: src/utilops.c:519 src/utilops.c:836 src/utilops.c:1728 src/utilops.c:2450
 #, fuzzy
 msgid "New file"
-msgstr " - GQview"
+msgstr " - Geeqie"
 
 #: src/utilops.c:529 src/utilops.c:845 src/utilops.c:1862 src/utilops.c:1918
 #: src/utilops.c:1994 src/utilops.c:2326
@@ -3217,8 +3217,8 @@ msgstr "Prosim izberite obstojeè imenik"
 
 #: src/utilops.c:1022
 #, fuzzy
-msgid "Copy - GQview"
-msgstr " - GQview"
+msgid "Copy - Geeqie"
+msgstr " - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 #, fuzzy
@@ -3240,8 +3240,8 @@ msgstr "Prepi¹i mno¾ico datotek v:"
 
 #: src/utilops.c:1036
 #, fuzzy
-msgid "Move - GQview"
-msgstr " - GQview"
+msgid "Move - Geeqie"
+msgstr " - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 #, fuzzy
@@ -3330,7 +3330,7 @@ msgstr ""
 
 #: src/utilops.c:1482
 #, fuzzy
-msgid "Delete files - GQview"
+msgid "Delete files - Geeqie"
 msgstr "Zbri¹i datoteke"
 
 #: src/utilops.c:1486
@@ -3345,7 +3345,7 @@ msgstr "%d datotek"
 
 #: src/utilops.c:1560
 #, fuzzy
-msgid "Delete file - GQview"
+msgid "Delete file - Geeqie"
 msgstr "Zbri¹i datoteko"
 
 #: src/utilops.c:1564
@@ -3396,8 +3396,8 @@ msgstr "Neuspe¹no preimenovanje %s v %s."
 
 #: src/utilops.c:2249 src/utilops.c:2503
 #, fuzzy
-msgid "Rename - GQview"
-msgstr " - GQview"
+msgid "Rename - Geeqie"
+msgstr " - Geeqie"
 
 #: src/utilops.c:2252
 #, fuzzy
@@ -3497,8 +3497,8 @@ msgstr ""
 
 #: src/utilops.c:2625
 #, fuzzy
-msgid "New folder - GQview"
-msgstr " - GQview"
+msgid "New folder - Geeqie"
+msgstr " - Geeqie"
 
 #: src/utilops.c:2628
 #, fuzzy, c-format
@@ -3888,8 +3888,8 @@ msgstr ""
 #~ msgid "/Help/_About"
 #~ msgstr "/Pomoè/_O programu"
 
-#~ msgid "GQview configuration"
-#~ msgstr "GQview nastavitve"
+#~ msgid "Geeqie configuration"
+#~ msgstr "Geeqie nastavitve"
 
 #~ msgid "/Edit/_Remove old thumbnails"
 #~ msgstr "/Uredi/Odstrani _stare miniature"
@@ -4039,7 +4039,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "New Directory"
-#~ msgstr "GQview - nov imenik"
+#~ msgstr "Geeqie - nov imenik"
 
 #~ msgid ""
 #~ "Unable to create directory:\n"
@@ -4071,17 +4071,17 @@ msgstr ""
 #~ msgid "Invalid directory"
 #~ msgstr "Napaèen imenik"
 
-#~ msgid "GQview - copy"
-#~ msgstr "GQview - prepi¹i"
+#~ msgid "Geeqie - copy"
+#~ msgstr "Geeqie - prepi¹i"
 
-#~ msgid "GQview - move"
-#~ msgstr "GQview - premakni"
+#~ msgid "Geeqie - move"
+#~ msgstr "Geeqie - premakni"
 
 #~ msgid "Directory exists"
 #~ msgstr "Imenik obstaja"
 
-#~ msgid "GQview - new directory"
-#~ msgstr "GQview - nov imenik"
+#~ msgid "Geeqie - new directory"
+#~ msgstr "Geeqie - nov imenik"
 
 #~ msgid "/File/Create _Dir..."
 #~ msgstr "/Datoteka/Ustvari _imenik..."
@@ -4096,8 +4096,8 @@ msgstr ""
 #~ msgid "top"
 #~ msgstr "v:"
 
-#~ msgid "GQview running: %s\n"
-#~ msgstr "GQview teèe: %s\n"
+#~ msgid "Geeqie running: %s\n"
+#~ msgstr "Geeqie teèe: %s\n"
 
 #~ msgid "Electric Eyes"
 #~ msgstr "Electric Eyes"

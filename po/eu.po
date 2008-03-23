@@ -303,16 +303,16 @@ msgstr ""
 "ezabatuko ditu, jarraitu?"
 
 #: src/cache_maint.c:1162
-msgid "Cache Maintenance - GQview"
-msgstr "Katxe Mantenua - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Katxe Mantenua - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
 msgstr "Katxe eta Data Mantenua"
 
 #: src/cache_maint.c:1176
-msgid "GQview thumbnail cache"
-msgstr "GQview argazkitxo katxea"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie argazkitxo katxea"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -365,8 +365,8 @@ msgstr "Izengabea (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - GQview Bilduma"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Geeqie Bilduma"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -666,8 +666,8 @@ msgid "Similarity (custom)"
 msgstr "Antzekotasuna (pertsonalizatua)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Bokiztuak bilatu - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Bokiztuak bilatu - Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1009,8 +1009,8 @@ msgid "%.1f GB"
 msgstr "%.1f GB"
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview pantaila osoa"
+msgid "Geeqie full screen"
+msgstr "Geeqie pantaila osoa"
 
 #: src/fullscreen.c:397
 msgid "Full size"
@@ -1134,8 +1134,8 @@ msgid "Image %d of %d"
 msgstr "%d Irudia %d-tik"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "Irudi propietateak - GQview"
+msgid "Image properties - Geeqie"
+msgstr "Irudi propietateak - Geeqie"
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
 msgid "Ascending"
@@ -1148,7 +1148,7 @@ msgstr "Karpeta ez da onartzen"
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1207,8 +1207,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s byte"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview Tresnak"
+msgid "Geeqie Tools"
+msgstr "Geeqie Tresnak"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1453,8 +1453,8 @@ msgid "Float Controls"
 msgstr "Kontrol Mugikorrak"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Laguntza - GQview"
+msgid "Help - Geeqie"
+msgstr "Laguntza - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1534,8 +1534,8 @@ msgid "Remote command list:\n"
 msgstr "Urrunekoa komando zerrenda:\n"
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
-msgstr "Urruneko GQview ez dago martxan, abiarazten..."
+msgid "Remote Geeqie not running, starting..."
+msgstr "Urruneko Geeqie ez dago martxan, abiarazten..."
 
 #: src/main.c:773
 msgid "Remote not available\n"
@@ -1612,8 +1612,8 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "GQview direktorioa sortzen:%s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Geeqie direktorioa sortzen:%s\n"
 
 #: src/main.c:1099
 #, c-format
@@ -1629,12 +1629,12 @@ msgid "Desktop"
 msgstr "Mahaigaina"
 
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - irten"
+msgid "Geeqie - exit"
+msgstr "Geeqie - irten"
 
 #: src/main.c:1226
-msgid "Quit GQview"
-msgstr "GQview Utzi"
+msgid "Quit Geeqie"
+msgstr "Geeqie Utzi"
 
 #: src/main.c:1226
 msgid "Collections have been modified. Quit anyway?"
@@ -1727,7 +1727,7 @@ msgid "The entered path is not a folder"
 msgstr "Idatzirako bidea ez da karpeta bat"
 
 #: src/pan-view.c:2354
-msgid "Pan View - GQview"
+msgid "Pan View - Geeqie"
 msgstr "Ikusi"
 
 #: src/pan-view.c:2376
@@ -1915,8 +1915,8 @@ msgid "This will remove the trash contents."
 msgstr "Honek zakarrotziko edukia ezabatuko du."
 
 #: src/preferences.c:800
-msgid "GQview Preferences"
-msgstr "GQview Hobespenak"
+msgid "Geeqie Preferences"
+msgstr "Geeqie Hobespenak"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2207,13 +2207,13 @@ msgid "Screen:"
 msgstr "Pantaila"
 
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "Honi buruz - GQview"
+msgid "About - Geeqie"
+msgstr "Honi buruz - Geeqie"
 
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2221,7 +2221,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright-a (c) %s John Ellis\n"
 "webgunea: %s\n"
@@ -2428,8 +2428,8 @@ msgid "Details"
 msgstr "Xehetasunak"
 
 #: src/print.c:2602 src/print.c:3347
-msgid "Print - GQview"
-msgstr "Inprimatu - GQview"
+msgid "Print - Geeqie"
+msgstr "Inprimatu - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2616,8 +2616,8 @@ msgid "Please enter an existing folder to search."
 msgstr "Hauatatu karpeta bat bilaketarako."
 
 #: src/search.c:2561
-msgid "Image search - GQview"
-msgstr "Irudi bilaketa - GQview"
+msgid "Image search - Geeqie"
+msgstr "Irudi bilaketa - Geeqie"
 
 #: src/search.c:2590
 msgid "Search:"
@@ -2962,8 +2962,8 @@ msgid "Please select an existing folder."
 msgstr "Mwsedez karpeta bat hautatu."
 
 #: src/utilops.c:1022
-msgid "Copy - GQview"
-msgstr "Kopiatu - GQview"
+msgid "Copy - Geeqie"
+msgstr "Kopiatu - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
@@ -2978,8 +2978,8 @@ msgid "Copy multiple files"
 msgstr "Fitxategi anitz kopiatu"
 
 #: src/utilops.c:1036
-msgid "Move - GQview"
-msgstr "Mugitu - GQview"
+msgid "Move - Geeqie"
+msgstr "Mugitu - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
@@ -3053,8 +3053,8 @@ msgid "File %d of %d"
 msgstr "%d fitxategia %d-tik"
 
 #: src/utilops.c:1482
-msgid "Delete files - GQview"
-msgstr "Fitxategiak ezabatu - GQview"
+msgid "Delete files - Geeqie"
+msgstr "Fitxategiak ezabatu - Geeqie"
 
 #: src/utilops.c:1486
 msgid "Delete multiple files"
@@ -3066,8 +3066,8 @@ msgid "Review %d files"
 msgstr "Berrikusi %d fitxategiak"
 
 #: src/utilops.c:1560
-msgid "Delete file - GQview"
-msgstr "Fitxategia ezabatu - GQview"
+msgid "Delete file - Geeqie"
+msgstr "Fitxategia ezabatu - Geeqie"
 
 #: src/utilops.c:1564
 msgid "Delete file?"
@@ -3120,8 +3120,8 @@ msgstr ""
 "Zenbakia %d zen."
 
 #: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - GQview"
-msgstr "Berizendatu - GQview"
+msgid "Rename - Geeqie"
+msgstr "Berizendatu - Geeqie"
 
 #: src/utilops.c:2252
 msgid "Rename multiple files"
@@ -3210,8 +3210,8 @@ msgstr ""
 "fitxategi bat da dagoeneko."
 
 #: src/utilops.c:2625
-msgid "New folder - GQview"
-msgstr "Karpeta berria - GQview"
+msgid "New folder - Geeqie"
+msgstr "Karpeta berria - Geeqie"
 
 #: src/utilops.c:2628
 #, c-format

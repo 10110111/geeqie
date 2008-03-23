@@ -304,16 +304,16 @@ msgstr ""
 "na disku. Chcete pokračovat?"
 
 #: src/cache_maint.c:1162
-msgid "Cache Maintenance - GQview"
-msgstr "Správa cache - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Správa cache - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
 msgstr "Správa cache a dat"
 
 #: src/cache_maint.c:1176
-msgid "GQview thumbnail cache"
-msgstr "Cache náhledů GQview"
+msgid "Geeqie thumbnail cache"
+msgstr "Cache náhledů Geeqie"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -366,8 +366,8 @@ msgstr "Nepojmenovaná (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - Sbírka GQview"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Sbírka Geeqie"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -667,8 +667,8 @@ msgid "Similarity (custom)"
 msgstr "Podobnosti (vlastní)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Hledat duplikáty - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Hledat duplikáty - Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1012,8 +1012,8 @@ msgid "%.1f GB"
 msgstr "%.1f GB"
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview celá obrazovka"
+msgid "Geeqie full screen"
+msgstr "Geeqie celá obrazovka"
 
 #: src/fullscreen.c:397
 msgid "Full size"
@@ -1137,8 +1137,8 @@ msgid "Image %d of %d"
 msgstr "Obrázek %d z %d"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "Vlastnosti obrázku - GQview"
+msgid "Image properties - Geeqie"
+msgstr "Vlastnosti obrázku - Geeqie"
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
 msgid "Ascending"
@@ -1151,7 +1151,7 @@ msgstr "Adresář nenalezen"
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1210,8 +1210,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d) %s bajtů"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "Nástroje GQview"
+msgid "Geeqie Tools"
+msgstr "Nástroje Geeqie"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1458,8 +1458,8 @@ msgid "Float Controls"
 msgstr "Plovoucí ovládání"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Nápověda - GQview"
+msgid "Help - Geeqie"
+msgstr "Nápověda - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1539,12 +1539,12 @@ msgid "Remote command list:\n"
 msgstr "Seznam vzdálených příkazů:\n"
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
-msgstr "Vzdálený GQview není spuštěn, spouštím..."
+msgid "Remote Geeqie not running, starting..."
+msgstr "Vzdálený Geeqie není spuštěn, spouštím..."
 
 #: src/main.c:773
 msgid "Remote not available\n"
-msgstr "Vzdálený GQview není dostupný\n"
+msgstr "Vzdálený Geeqie není dostupný\n"
 
 #: src/main.c:991
 msgid ""
@@ -1618,8 +1618,8 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "Vytvořit GQview adresář:%s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Vytvořit Geeqie adresář:%s\n"
 
 #: src/main.c:1099
 #, c-format
@@ -1635,12 +1635,12 @@ msgid "Desktop"
 msgstr "Plocha"
 
 #: src/main.c:1222
-msgid "GQview - exit"
-msgstr "GQview - konec"
+msgid "Geeqie - exit"
+msgstr "Geeqie - konec"
 
 #: src/main.c:1226
-msgid "Quit GQview"
-msgstr "Ukončit GQview"
+msgid "Quit Geeqie"
+msgstr "Ukončit Geeqie"
 
 #: src/main.c:1226
 msgid "Collections have been modified. Quit anyway?"
@@ -1740,8 +1740,8 @@ msgstr ""
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "Tisk - GQview"
+msgid "Pan View - Geeqie"
+msgstr "Tisk - Geeqie"
 
 #: src/pan-view.c:2376
 #, fuzzy
@@ -1937,8 +1937,8 @@ msgid "This will remove the trash contents."
 msgstr "Toto odstraní obsah z koše."
 
 #: src/preferences.c:800
-msgid "GQview Preferences"
-msgstr "Nastavení GQview "
+msgid "Geeqie Preferences"
+msgstr "Nastavení Geeqie "
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2230,13 +2230,13 @@ msgid "Screen:"
 msgstr "Obrazovka"
 
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "O programu - GQview"
+msgid "About - Geeqie"
+msgstr "O programu - Geeqie"
 
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2244,7 +2244,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "web: %s\n"
@@ -2455,8 +2455,8 @@ msgid "Details"
 msgstr "Podrobnosti"
 
 #: src/print.c:2602 src/print.c:3347
-msgid "Print - GQview"
-msgstr "Tisk - GQview"
+msgid "Print - Geeqie"
+msgstr "Tisk - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2643,8 +2643,8 @@ msgid "Please enter an existing folder to search."
 msgstr "Prosím zadejte existující adresář pro hledání."
 
 #: src/search.c:2561
-msgid "Image search - GQview"
-msgstr "Hledat obrázek - GQview"
+msgid "Image search - Geeqie"
+msgstr "Hledat obrázek - Geeqie"
 
 #: src/search.c:2590
 msgid "Search:"
@@ -2993,8 +2993,8 @@ msgid "Please select an existing folder."
 msgstr "Prosím vyberte existující adresář."
 
 #: src/utilops.c:1022
-msgid "Copy - GQview"
-msgstr "Kopírovat - GQview"
+msgid "Copy - Geeqie"
+msgstr "Kopírovat - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
@@ -3009,8 +3009,8 @@ msgid "Copy multiple files"
 msgstr "Kopírovat více souborů"
 
 #: src/utilops.c:1036
-msgid "Move - GQview"
-msgstr "Přesunout - GQview"
+msgid "Move - Geeqie"
+msgstr "Přesunout - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
@@ -3084,8 +3084,8 @@ msgid "File %d of %d"
 msgstr "Soubor %d z %d"
 
 #: src/utilops.c:1482
-msgid "Delete files - GQview"
-msgstr "Odstranit soubory - GQview"
+msgid "Delete files - Geeqie"
+msgstr "Odstranit soubory - Geeqie"
 
 #: src/utilops.c:1486
 msgid "Delete multiple files"
@@ -3097,8 +3097,8 @@ msgid "Review %d files"
 msgstr "Ohodnoceno souborů: %d"
 
 #: src/utilops.c:1560
-msgid "Delete file - GQview"
-msgstr "Odstranit soubor - GQview"
+msgid "Delete file - Geeqie"
+msgstr "Odstranit soubor - Geeqie"
 
 #: src/utilops.c:1564
 msgid "Delete file?"
@@ -3153,8 +3153,8 @@ msgstr ""
 "Číslo bylo %d."
 
 #: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - GQview"
-msgstr "Přejmenovat - GQview"
+msgid "Rename - Geeqie"
+msgstr "Přejmenovat - Geeqie"
 
 #: src/utilops.c:2252
 msgid "Rename multiple files"
@@ -3245,8 +3245,8 @@ msgstr ""
 "již existuje jako soubor."
 
 #: src/utilops.c:2625
-msgid "New folder - GQview"
-msgstr "Nový adresář - GQview"
+msgid "New folder - Geeqie"
+msgstr "Nový adresář - Geeqie"
 
 #: src/utilops.c:2628
 #, c-format

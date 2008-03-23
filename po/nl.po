@@ -1,11 +1,11 @@
-# Nederlandse vertaling van GQview
+# Nederlandse vertaling van Geeqie
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Hette J Visser <H.J.Visser@harrie.mine.nu>, 2001.
 # Tino Meinen <a.t.meinen@chello.nl>, 2003, 2004, 2005.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GQview 1.3.1\n"
+"Project-Id-Version: Geeqie 1.3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-02 20:43-0500\n"
 "PO-Revision-Date: 2005-02-26 18:35+0100\n"
@@ -306,16 +306,16 @@ msgstr ""
 "gewist, wilt u verder gaan?"
 
 #: src/cache_maint.c:1162
-msgid "Cache Maintenance - GQview"
-msgstr "Cache-beheer - GQview"
+msgid "Cache Maintenance - Geeqie"
+msgstr "Cache-beheer - Geeqie"
 
 #: src/cache_maint.c:1172
 msgid "Cache and Data Maintenance"
 msgstr "Cache en data beheer"
 
 #: src/cache_maint.c:1176
-msgid "GQview thumbnail cache"
-msgstr "GQview miniaturen cache"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie miniaturen cache"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -369,8 +369,8 @@ msgstr "Naamloos (%d)"
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
-msgstr "%s - GQview collectie"
+msgid "%s - Geeqie Collection"
+msgstr "%s - Geeqie collectie"
 
 #: src/collect.c:1094 src/collect.c:1098
 msgid "Close collection"
@@ -670,8 +670,8 @@ msgid "Similarity (custom)"
 msgstr "Overeenkomst (aangepast)"
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
-msgstr "Dubbele bestanden zoeken - GQview"
+msgid "Find duplicates - Geeqie"
+msgstr "Dubbele bestanden zoeken - Geeqie"
 
 #: src/dupe.c:3148
 msgid "Compare to:"
@@ -1014,8 +1014,8 @@ msgid "%.1f GB"
 msgstr "%.1f Gb"
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview volledig scherm"
+msgid "Geeqie full screen"
+msgstr "Geeqie volledig scherm"
 
 #: src/fullscreen.c:397
 msgid "Full size"
@@ -1140,8 +1140,8 @@ msgid "Image %d of %d"
 msgstr "Afbeelding %d van %d"
 
 #: src/info.c:684
-msgid "Image properties - GQview"
-msgstr "Eigenschappen van afbeelding - GQview"
+msgid "Image properties - Geeqie"
+msgstr "Eigenschappen van afbeelding - Geeqie"
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
 msgid "Ascending"
@@ -1154,7 +1154,7 @@ msgstr "Map niet gevonden"
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1213,8 +1213,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s byte"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview gereedschap"
+msgid "Geeqie Tools"
+msgstr "Geeqie gereedschap"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1463,8 +1463,8 @@ msgid "Float Controls"
 msgstr "Bedieningsvenster loskoppelen"
 
 #: src/main.c:237
-msgid "Help - GQview"
-msgstr "Hulp - GQview"
+msgid "Help - Geeqie"
+msgstr "Hulp - Geeqie"
 
 #: src/main.c:460 src/main.c:1376
 msgid "Command line"
@@ -1544,8 +1544,8 @@ msgid "Remote command list:\n"
 msgstr "Externe opdrachtenlijst:\n"
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
-msgstr "Externe GQview niet opgestart, starten..."
+msgid "Remote Geeqie not running, starting..."
+msgstr "Externe Geeqie niet opgestart, starten..."
 
 #: src/main.c:773
 msgid "Remote not available\n"
@@ -1620,8 +1620,8 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
-msgstr "Bezig met maken van GQview map:%s\n"
+msgid "Creating Geeqie dir:%s\n"
+msgstr "Bezig met maken van Geeqie map:%s\n"
 
 #: src/main.c:1099
 #, c-format
@@ -1637,12 +1637,12 @@ msgid "Desktop"
 msgstr "Desktop"
 
 #: src/main.c:1222
-msgid "GQview - exit"
+msgid "Geeqie - exit"
 msgstr "Gqview - Afsluiten"
 
 #: src/main.c:1226
-msgid "Quit GQview"
-msgstr "GQview afsluiten"
+msgid "Quit Geeqie"
+msgstr "Geeqie afsluiten"
 
 #: src/main.c:1226
 msgid "Collections have been modified. Quit anyway?"
@@ -1745,8 +1745,8 @@ msgstr ""
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
-msgstr "Afdrukken - GQview"
+msgid "Pan View - Geeqie"
+msgstr "Afdrukken - Geeqie"
 
 #: src/pan-view.c:2376
 #, fuzzy
@@ -1942,8 +1942,8 @@ msgid "This will remove the trash contents."
 msgstr "Hiermee zal de inhoud van de prullenbak verwijderd worden"
 
 #: src/preferences.c:800
-msgid "GQview Preferences"
-msgstr "GQview - voorkeuren"
+msgid "Geeqie Preferences"
+msgstr "Geeqie - voorkeuren"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2240,13 +2240,13 @@ msgid "Screen:"
 msgstr "Scherm"
 
 #: src/preferences.c:1380
-msgid "About - GQview"
-msgstr "Info - GQview"
+msgid "About - Geeqie"
+msgstr "Info - Geeqie"
 
 #: src/preferences.c:1393
 #, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2254,7 +2254,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright ©  %s John Ellis\n"
 "website: %s\n"
@@ -2462,8 +2462,8 @@ msgid "Details"
 msgstr "Details"
 
 #: src/print.c:2602 src/print.c:3347
-msgid "Print - GQview"
-msgstr "Afdrukken - GQview"
+msgid "Print - Geeqie"
+msgstr "Afdrukken - Geeqie"
 
 #: src/print.c:2606
 #, c-format
@@ -2653,8 +2653,8 @@ msgid "Please enter an existing folder to search."
 msgstr "Selecteer een bestaande map om te doorzoeken."
 
 #: src/search.c:2561
-msgid "Image search - GQview"
-msgstr "Afbeelding zoeken - GQview"
+msgid "Image search - Geeqie"
+msgstr "Afbeelding zoeken - Geeqie"
 
 #: src/search.c:2590
 msgid "Search:"
@@ -3006,8 +3006,8 @@ msgid "Please select an existing folder."
 msgstr "Selecteer een bestaande map."
 
 #: src/utilops.c:1022
-msgid "Copy - GQview"
-msgstr "Kopiëren - GQview"
+msgid "Copy - Geeqie"
+msgstr "Kopiëren - Geeqie"
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
@@ -3022,8 +3022,8 @@ msgid "Copy multiple files"
 msgstr "Meerdere bestanden kopiëren"
 
 #: src/utilops.c:1036
-msgid "Move - GQview"
-msgstr "Verplaatsen - GQview"
+msgid "Move - Geeqie"
+msgstr "Verplaatsen - Geeqie"
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
@@ -3097,8 +3097,8 @@ msgid "File %d of %d"
 msgstr "Bestand %d van %d"
 
 #: src/utilops.c:1482
-msgid "Delete files - GQview"
-msgstr "Bestand verwijderen - GQview"
+msgid "Delete files - Geeqie"
+msgstr "Bestand verwijderen - Geeqie"
 
 #: src/utilops.c:1486
 msgid "Delete multiple files"
@@ -3110,8 +3110,8 @@ msgid "Review %d files"
 msgstr "%d bestanden herzien"
 
 #: src/utilops.c:1560
-msgid "Delete file - GQview"
-msgstr "Bestand verwijderen - GQview"
+msgid "Delete file - Geeqie"
+msgstr "Bestand verwijderen - Geeqie"
 
 #: src/utilops.c:1564
 msgid "Delete file?"
@@ -3165,8 +3165,8 @@ msgstr ""
 "Het getal was %d."
 
 #: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - GQview"
-msgstr "Hernoemen - GQview"
+msgid "Rename - Geeqie"
+msgstr "Hernoemen - Geeqie"
 
 #: src/utilops.c:2252
 msgid "Rename multiple files"
@@ -3258,8 +3258,8 @@ msgstr ""
 "bestaat al als bestand."
 
 #: src/utilops.c:2625
-msgid "New folder - GQview"
-msgstr "Nieuwe map - GQview"
+msgid "New folder - Geeqie"
+msgstr "Nieuwe map - Geeqie"
 
 #: src/utilops.c:2628
 #, c-format
@@ -3634,8 +3634,8 @@ msgstr ""
 #~ msgid "/Help/sep1"
 #~ msgstr "/Hulp/sep1"
 
-#~ msgid "GQview configuration"
-#~ msgstr "GQview configuratie"
+#~ msgid "Geeqie configuration"
+#~ msgstr "Geeqie configuratie"
 
 #~ msgid "/Edit/_Remove old thumbnails"
 #~ msgstr "/Bewerken/Oude miniaturen _verwijderen"
@@ -3826,17 +3826,17 @@ msgstr ""
 #~ msgid "Invalid directory"
 #~ msgstr "Ongeldige map"
 
-#~ msgid "GQview - copy"
-#~ msgstr "GQview - kopiëren"
+#~ msgid "Geeqie - copy"
+#~ msgstr "Geeqie - kopiëren"
 
-#~ msgid "GQview - move"
+#~ msgid "Geeqie - move"
 #~ msgstr "Gqview - verplaatsen"
 
 #~ msgid "Directory exists"
 #~ msgstr "Map bestaat al"
 
-#~ msgid "GQview - new directory"
-#~ msgstr "GQview - Nieuwe map"
+#~ msgid "Geeqie - new directory"
+#~ msgstr "Geeqie - Nieuwe map"
 
 #~ msgid "Misc."
 #~ msgstr "Overig"
@@ -3883,8 +3883,8 @@ msgstr ""
 #~ msgid "top"
 #~ msgstr "boven"
 
-#~ msgid "GQview running: %s\n"
-#~ msgstr "GQview draait: %s\n"
+#~ msgid "Geeqie running: %s\n"
+#~ msgstr "Geeqie draait: %s\n"
 
 #~ msgid "Electric Eyes"
 #~ msgstr "Electric Eyes"

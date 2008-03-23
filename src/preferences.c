@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2006 John Ellis
  *
  * Author: John Ellis
@@ -695,7 +695,7 @@ static void filter_default_cb(GtkWidget *widget, gpointer data)
 	GenericDialog *gd;
 
 	gd = generic_dialog_new(_("Reset filters"),
-				"GQview", "reset_filter", widget, TRUE,
+				"Geeqie", "reset_filter", widget, TRUE,
 				dummy_cancel_cb, NULL);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset filters"),
 				   _("This will reset the file filters to the defaults.\nContinue?"));
@@ -733,7 +733,7 @@ static void editor_default_cb(GtkWidget *widget, gpointer data)
 	GenericDialog *gd;
 
 	gd = generic_dialog_new(_("Reset editors"),
-				"GQview", "reset_filter", widget, TRUE,
+				"Geeqie", "reset_filter", widget, TRUE,
 				dummy_cancel_cb, NULL);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset editors"),
 				   _("This will reset the edit commands to the defaults.\nContinue?"));
@@ -761,7 +761,7 @@ static void safe_delete_clear_cb(GtkWidget* widget, gpointer data)
 	GenericDialog *gd;
 	GtkWidget *entry;
 	gd = generic_dialog_new(_("Clear trash"),
-				"GQview", "clear_trash", widget, TRUE,
+				"Geeqie", "clear_trash", widget, TRUE,
 				dummy_cancel_cb, NULL);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Clear trash"),
 				    _("This will remove the trash contents."));
@@ -803,8 +803,8 @@ static void config_window_create(void)
 	g_signal_connect(G_OBJECT (configwindow), "delete_event",
 			 G_CALLBACK(config_window_delete), NULL);
 	gtk_window_set_resizable(GTK_WINDOW(configwindow), FALSE);
-	gtk_window_set_title(GTK_WINDOW(configwindow), _("GQview Preferences"));
-	gtk_window_set_wmclass(GTK_WINDOW(configwindow), "config", "GQview");
+	gtk_window_set_title(GTK_WINDOW(configwindow), _("Geeqie Preferences"));
+	gtk_window_set_wmclass(GTK_WINDOW(configwindow), "config", "Geeqie");
 	gtk_container_set_border_width(GTK_CONTAINER(configwindow), PREF_PAD_BORDER);
 
 	window_set_icon(configwindow, PIXBUF_INLINE_ICON_CONFIG, NULL);
@@ -1395,11 +1395,11 @@ void show_about_window(void)
 
 	about = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_type_hint(GTK_WINDOW(about), GDK_WINDOW_TYPE_HINT_DIALOG);
-	gtk_window_set_wmclass(GTK_WINDOW(about), "about", "GQview");
+	gtk_window_set_wmclass(GTK_WINDOW(about), "about", "Geeqie");
 	g_signal_connect(G_OBJECT(about), "delete_event",
 			 G_CALLBACK(about_delete_cb), NULL);
 
-	gtk_window_set_title(GTK_WINDOW(about), _("About - GQview"));
+	gtk_window_set_title(GTK_WINDOW(about), _("About - Geeqie"));
 	gtk_container_set_border_width(GTK_CONTAINER(about), PREF_PAD_BORDER);
 
 	vbox = gtk_vbox_new(FALSE, PREF_PAD_SPACE);
@@ -1412,7 +1412,7 @@ void show_about_window(void)
 	gtk_box_pack_start(GTK_BOX(vbox), button, TRUE, TRUE, 0);
 	gtk_widget_show(button);
 
-	buf = g_strdup_printf(_("GQview %s\n\nCopyright (c) %s John Ellis\nwebsite: %s\nemail: %s\n\nReleased under the GNU General Public License"),
+	buf = g_strdup_printf(_("Geeqie %s\n\nCopyright (c) %s John Ellis\nwebsite: %s\nemail: %s\n\nReleased under the GNU General Public License"),
 			      VERSION,
 			      "2006",
 			      "gqview.sourceforge.net",

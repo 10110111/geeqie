@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2006 John Ellis
  *
  * Author: John Ellis
@@ -18,7 +18,7 @@
 #include <gtk/gtk.h>
 
 
-/* comment this out if not using this from within GQview
+/* comment this out if not using this from within Geeqie
  * defining GQVIEW_BUILD does these things:
  *   - Sets the shift-click scroller pixbuf to a nice icon instead of a black box
  */

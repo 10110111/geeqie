@@ -1,5 +1,5 @@
 /*
- * GQview
+ * Geeqie
  * (C) 2006 John Ellis
  *
  * Author: John Ellis
@@ -234,7 +234,7 @@ void help_window_show(const gchar *key)
 		return;
 		}
 
-	help_window = help_window_new(_("Help - GQview"), "GQview", "help",
+	help_window = help_window_new(_("Help - Geeqie"), "Geeqie", "help",
                                       GQVIEW_HELPDIR "/README", key);
 	g_signal_connect(G_OBJECT(help_window), "destroy",
 			 G_CALLBACK(help_window_destroy_cb), NULL);
@@ -635,7 +635,7 @@ static void gqview_remote_control(const gchar *arg_exec, GList *remote_list, con
 		gint retry_count = 12;
 		gint blank = FALSE;
 
-		print_term(_("Remote GQview not running, starting..."));
+		print_term(_("Remote Geeqie not running, starting..."));
 		command = g_string_new(arg_exec);
 
 		work = remote_list;
@@ -975,7 +975,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 			else if (strcmp(cmd_line, "-v") == 0 ||
 				 strcmp(cmd_line, "--version") == 0)
 				{
-				printf("GQview %s\n", VERSION);
+				printf("Geeqie %s\n", VERSION);
 				exit (0);
 				}
 			else if (strcmp(cmd_line, "--alternate") == 0)
@@ -987,7 +987,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 			else if (strcmp(cmd_line, "-h") == 0 ||
 				 strcmp(cmd_line, "--help") == 0)
 				{
-				printf("GQview %s\n", VERSION);
+				printf("Geeqie %s\n", VERSION);
 				print_term(_("Usage: gqview [options] [path]\n\n"));
 				print_term(_("valid options are:\n"));
 				print_term(_("  +t, --with-tools           force show of tools\n"));
@@ -1090,7 +1090,7 @@ static void check_for_home_path(gchar *path)
 		{
 		gchar *tmp;
 
-		tmp = g_strdup_printf(_("Creating GQview dir:%s\n"), buf);
+		tmp = g_strdup_printf(_("Creating Geeqie dir:%s\n"), buf);
 		print_term(tmp);
 		g_free(tmp);
 
@@ -1221,11 +1221,11 @@ static gint exit_confirm_dlg(void)
 		parent = lw->window;
 		}
 
-	exit_dialog = generic_dialog_new(_("GQview - exit"),
-				"GQview", "exit", parent, FALSE,
+	exit_dialog = generic_dialog_new(_("Geeqie - exit"),
+				"Geeqie", "exit", parent, FALSE,
 				exit_confirm_cancel_cb, NULL);
 	generic_dialog_add_message(exit_dialog, GTK_STOCK_DIALOG_QUESTION,
-				   _("Quit GQview"), _("Collections have been modified. Quit anyway?"));
+				   _("Quit Geeqie"), _("Collections have been modified. Quit anyway?"));
 	generic_dialog_add_button(exit_dialog, GTK_STOCK_QUIT, NULL, exit_confirm_exit_cb, TRUE);
 
 	gtk_widget_show(exit_dialog->dialog);
@@ -1281,14 +1281,14 @@ int main (int argc, char *argv[])
 		{
 		gchar *msg;
 		print_term("!!! This is a friendly warning.\n");
-		print_term("!!! The version of GTK+ in use now is older than when GQview was compiled.\n");
+		print_term("!!! The version of GTK+ in use now is older than when Geeqie was compiled.\n");
 		msg = g_strdup_printf("!!!  compiled with GTK+-%d.%d\n", GTK_MAJOR_VERSION, GTK_MINOR_VERSION);
 		print_term(msg);
 		g_free(msg);
 		msg = g_strdup_printf("!!!   running with GTK+-%d.%d\n", gtk_major_version, gtk_minor_version);
 		print_term(msg);
 		g_free(msg);
-		print_term("!!! GQview may quit unexpectedly with a relocation error.\n");
+		print_term("!!! Geeqie may quit unexpectedly with a relocation error.\n");
 		}
 
 	check_for_home_path(GQVIEW_RC_DIR);

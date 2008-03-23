@@ -4,7 +4,7 @@
 # ---------------------------------------------------------------------
 msgid ""
 msgstr ""
-"Project-Id-Version: GQview  0.8.0\n"
+"Project-Id-Version: Geeqie  0.8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-02 20:43-0500\n"
 "PO-Revision-Date: 2000-04-07 17:09+0200\n"
@@ -325,7 +325,7 @@ msgstr ""
 
 #: src/cache_maint.c:1162
 #, fuzzy
-msgid "Cache Maintenance - GQview"
+msgid "Cache Maintenance - Geeqie"
 msgstr ""
 "%s'yi yeniden\n"
 "adlandýr :\n"
@@ -337,8 +337,8 @@ msgstr ""
 
 #: src/cache_maint.c:1176
 #, fuzzy
-msgid "GQview thumbnail cache"
-msgstr "GQview tam ekran"
+msgid "Geeqie thumbnail cache"
+msgstr "Geeqie tam ekran"
 
 #: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
 #: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
@@ -394,7 +394,7 @@ msgstr ""
 
 #: src/collect.c:976
 #, c-format
-msgid "%s - GQview Collection"
+msgid "%s - Geeqie Collection"
 msgstr ""
 
 #: src/collect.c:1094 src/collect.c:1098
@@ -720,7 +720,7 @@ msgid "Similarity (custom)"
 msgstr ""
 
 #: src/dupe.c:3076
-msgid "Find duplicates - GQview"
+msgid "Find duplicates - Geeqie"
 msgstr ""
 
 #: src/dupe.c:3148
@@ -1073,8 +1073,8 @@ msgid "%.1f GB"
 msgstr ""
 
 #: src/fullscreen.c:267
-msgid "GQview full screen"
-msgstr "GQview tam ekran"
+msgid "Geeqie full screen"
+msgstr "Geeqie tam ekran"
 
 #: src/fullscreen.c:397
 #, fuzzy
@@ -1215,7 +1215,7 @@ msgid "Image %d of %d"
 msgstr ""
 
 #: src/info.c:684
-msgid "Image properties - GQview"
+msgid "Image properties - Geeqie"
 msgstr ""
 
 #: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
@@ -1228,7 +1228,7 @@ msgstr ""
 
 #: src/layout.c:400
 msgid ""
-"This installation of GQview was not built with support for color profiles."
+"This installation of Geeqie was not built with support for color profiles."
 msgstr ""
 
 #: src/layout.c:410
@@ -1287,8 +1287,8 @@ msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %d byte"
 
 #: src/layout.c:1304
-msgid "GQview Tools"
-msgstr "GQview Çerezleri"
+msgid "Geeqie Tools"
+msgstr "Geeqie Çerezleri"
 
 #: src/layout.c:1934
 #, fuzzy
@@ -1500,7 +1500,7 @@ msgstr "Dosya listesini dinamik et/etme"
 #: src/layout_util.c:841
 #, fuzzy
 msgid "Hide tool_bar"
-msgstr "GQview Çerezleri"
+msgstr "Geeqie Çerezleri"
 
 #: src/layout_util.c:842
 #, fuzzy
@@ -1571,7 +1571,7 @@ msgid "Float Controls"
 msgstr "Dinamik ayarlamalar"
 
 #: src/main.c:237
-msgid "Help - GQview"
+msgid "Help - Geeqie"
 msgstr ""
 
 #: src/main.c:460 src/main.c:1376
@@ -1645,7 +1645,7 @@ msgstr ""
 #: src/main.c:511
 #, fuzzy
 msgid "hide tools"
-msgstr "GQview Çerezleri"
+msgstr "Geeqie Çerezleri"
 
 #: src/main.c:512
 msgid "quit"
@@ -1669,7 +1669,7 @@ msgid "Remote command list:\n"
 msgstr ""
 
 #: src/main.c:638
-msgid "Remote GQview not running, starting..."
+msgid "Remote Geeqie not running, starting..."
 msgstr ""
 
 #: src/main.c:773
@@ -1752,7 +1752,7 @@ msgstr ""
 
 #: src/main.c:1093
 #, c-format
-msgid "Creating GQview dir:%s\n"
+msgid "Creating Geeqie dir:%s\n"
 msgstr ""
 
 #: src/main.c:1099
@@ -1770,12 +1770,12 @@ msgstr ""
 
 #: src/main.c:1222
 #, fuzzy
-msgid "GQview - exit"
-msgstr "GQview - taþý"
+msgid "Geeqie - exit"
+msgstr "Geeqie - taþý"
 
 #: src/main.c:1226
 #, fuzzy
-msgid "Quit GQview"
+msgid "Quit Geeqie"
 msgstr ""
 "%s'yi yeniden\n"
 "adlandýr :\n"
@@ -1877,7 +1877,7 @@ msgstr ""
 
 #: src/pan-view.c:2354
 #, fuzzy
-msgid "Pan View - GQview"
+msgid "Pan View - Geeqie"
 msgstr ""
 "%s'yi yeniden\n"
 "adlandýr :\n"
@@ -2076,8 +2076,8 @@ msgstr ""
 
 #: src/preferences.c:800
 #, fuzzy
-msgid "GQview Preferences"
-msgstr "GQview - yeniden adlandýr"
+msgid "Geeqie Preferences"
+msgstr "Geeqie - yeniden adlandýr"
 
 #: src/preferences.c:854
 msgid "Startup"
@@ -2387,13 +2387,13 @@ msgid "Screen:"
 msgstr ""
 
 #: src/preferences.c:1380
-msgid "About - GQview"
+msgid "About - Geeqie"
 msgstr ""
 
 #: src/preferences.c:1393
 #, fuzzy, c-format
 msgid ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2401,7 +2401,7 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"Geeqie %s\n"
 "\n"
 "Telif hakký (c) 2003 John Ellis'den\n"
 "http://gqview.netpedia.net\n"
@@ -2617,7 +2617,7 @@ msgstr "Dosyalarý sil"
 
 #: src/print.c:2602 src/print.c:3347
 #, fuzzy
-msgid "Print - GQview"
+msgid "Print - Geeqie"
 msgstr ""
 "%s'yi yeniden\n"
 "adlandýr :\n"
@@ -2827,7 +2827,7 @@ msgid "Please enter an existing folder to search."
 msgstr "Lütfen varolan bir dizini seç"
 
 #: src/search.c:2561
-msgid "Image search - GQview"
+msgid "Image search - Geeqie"
 msgstr ""
 
 #: src/search.c:2590
@@ -3214,7 +3214,7 @@ msgid "Please select an existing folder."
 msgstr "Lütfen varolan bir dizini seç"
 
 #: src/utilops.c:1022
-msgid "Copy - GQview"
+msgid "Copy - Geeqie"
 msgstr ""
 
 #: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
@@ -3239,7 +3239,7 @@ msgstr ""
 "buraya ulaþ :"
 
 #: src/utilops.c:1036
-msgid "Move - GQview"
+msgid "Move - Geeqie"
 msgstr ""
 
 #: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
@@ -3333,7 +3333,7 @@ msgstr ""
 
 #: src/utilops.c:1482
 #, fuzzy
-msgid "Delete files - GQview"
+msgid "Delete files - Geeqie"
 msgstr "Dosyalarý sil"
 
 #: src/utilops.c:1486
@@ -3348,7 +3348,7 @@ msgstr "%d dosya %s"
 
 #: src/utilops.c:1560
 #, fuzzy
-msgid "Delete file - GQview"
+msgid "Delete file - Geeqie"
 msgstr "Dosyayý sil"
 
 #: src/utilops.c:1564
@@ -3403,7 +3403,7 @@ msgstr ""
 
 #: src/utilops.c:2249 src/utilops.c:2503
 #, fuzzy
-msgid "Rename - GQview"
+msgid "Rename - Geeqie"
 msgstr ""
 "%s'yi yeniden\n"
 "adlandýr :\n"
@@ -3506,7 +3506,7 @@ msgstr ""
 "var ."
 
 #: src/utilops.c:2625
-msgid "New folder - GQview"
+msgid "New folder - Geeqie"
 msgstr ""
 
 #: src/utilops.c:2628
@@ -3855,7 +3855,7 @@ msgstr "geçerli opsiyonlar :\n"
 #~ msgid "/Help/sep1"
 #~ msgstr "Yardým"
 
-#~ msgid "GQview configuration"
+#~ msgid "Geeqie configuration"
 #~ msgstr "GQView ayarlarý"
 
 #, fuzzy
@@ -3985,7 +3985,7 @@ msgstr "geçerli opsiyonlar :\n"
 
 #, fuzzy
 #~ msgid "New Directory"
-#~ msgstr "GQview - yeni dizin"
+#~ msgstr "Geeqie - yeni dizin"
 
 #~ msgid ""
 #~ "Unable to create directory:\n"
@@ -4012,17 +4012,17 @@ msgstr "geçerli opsiyonlar :\n"
 #~ msgid "Invalid directory"
 #~ msgstr "Geçersiz dizin"
 
-#~ msgid "GQview - copy"
-#~ msgstr "GQview - kopyala"
+#~ msgid "Geeqie - copy"
+#~ msgstr "Geeqie - kopyala"
 
-#~ msgid "GQview - move"
-#~ msgstr "GQview - taþý"
+#~ msgid "Geeqie - move"
+#~ msgstr "Geeqie - taþý"
 
 #~ msgid "Directory exists"
 #~ msgstr "Bu dizin zaten var"
 
-#~ msgid "GQview - new directory"
-#~ msgstr "GQview - yeni dizin"
+#~ msgid "Geeqie - new directory"
+#~ msgstr "Geeqie - yeni dizin"
 
 #, fuzzy
 #~ msgid "/File/Create _Dir..."
@@ -4031,8 +4031,8 @@ msgstr "geçerli opsiyonlar :\n"
 #~ msgid "Edit"
 #~ msgstr "Düzenle"
 
-#~ msgid "GQview running: %s\n"
-#~ msgstr "GQview çalýþýyor : %s\n"
+#~ msgid "Geeqie running: %s\n"
+#~ msgstr "Geeqie çalýþýyor : %s\n"
 
 #~ msgid "Electric Eyes"
 #~ msgstr "Electric Eyes"
