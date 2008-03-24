@@ -115,7 +115,8 @@ static void image_complete_util(ImageWindow *imd, gint preload)
 	if (imd->il && image_get_pixbuf(imd) != image_loader_get_pixbuf(imd->il)) return;
 
 	if (debug) printf("image load completed \"%s\" (%s)\n",
-			  (preload) ? imd->read_ahead_fd->path : imd->image_fd->path,
+			  (preload) ? (imd->read_ahead_fd ? imd->read_ahead_fd->path : "null") : 
+			              (imd->image_fd ? imd->image_fd->path : "null"),
 			  (preload) ? "preload" : "current");
 
 	if (!preload) imd->completed = TRUE;
@@ -511,7 +512,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 
 static void image_read_ahead_cancel(ImageWindow *imd)
 {
-	if (debug) printf("read ahead cancelled for :%s\n", imd->read_ahead_fd->path);
+	if (debug) printf("read ahead cancelled for :%s\n", imd->read_ahead_fd ? imd->read_ahead_fd->path : "null");
 
 	image_loader_free(imd->read_ahead_il);
 	imd->read_ahead_il = NULL;
@@ -609,7 +610,7 @@ static void image_post_buffer_set(ImageWindow *imd, FileData *fd, GdkPixbuf *pix
 		imd->prev_color_row = -1;
 		}
 
-	if (debug) printf("post buffer set: %s\n", fd->path);
+	if (debug) printf("post buffer set: %s\n", fd ? fd->path : "null");
 }
 
 static gint image_post_buffer_get(ImageWindow *imd)
