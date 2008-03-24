@@ -1415,8 +1415,8 @@ void show_about_window(void)
 	buf = g_strdup_printf(_("Geeqie %s\n\nCopyright (c) %s John Ellis\nwebsite: %s\nemail: %s\n\nReleased under the GNU General Public License"),
 			      VERSION,
 			      "2006",
-			      "gqview.sourceforge.net",
-			      "gqview@users.sourceforge.net");
+			      "geeqie.sourceforge.net",
+			      "geeqie-devel@lists.sourceforge.net");
 	label = gtk_label_new(buf);
 	g_free(buf);
 
