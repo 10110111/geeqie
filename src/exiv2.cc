@@ -9,6 +9,13 @@
 #include <exiv2/exif.hpp>
 #include <iostream>
 
+// EXIV2_TEST_VERSION is defined in Exiv2 0.15 and newer.
+#ifndef EXIV2_TEST_VERSION
+# define EXIV2_TEST_VERSION(major,minor,patch) \
+	( EXIV2_VERSION >= EXIV2_MAKE_VERSION(major,minor,patch) )
+#endif
+
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -21,8 +28,12 @@
 #include <exiv2/tiffimage.hpp>
 #include <exiv2/cr2image.hpp>
 #include <exiv2/crwimage.hpp>
+#if EXIV2_TEST_VERSION(0,16,0)
 #include <exiv2/orfimage.hpp>
+#endif
+#if EXIV2_TEST_VERSION(0,13,0)
 #include <exiv2/rafimage.hpp>
+#endif
 #include <exiv2/futils.hpp>
 
 
@@ -40,7 +51,9 @@ struct _ExifData
 	Exiv2::Image::AutoPtr sidecar;
 	Exiv2::ExifData::const_iterator exifIter; /* for exif_get_next_item */
 	Exiv2::IptcData::const_iterator iptcIter; /* for exif_get_next_item */
+#if EXIV2_TEST_VERSION(0,16,0)
 	Exiv2::XmpData::const_iterator xmpIter; /* for exif_get_next_item */
+#endif
 	bool have_sidecar;
 
 
@@ -50,7 +63,8 @@ struct _ExifData
 		image = Exiv2::ImageFactory::open(path);
 //		g_assert (image.get() != 0);
 		image->readMetadata();
-		
+
+#if EXIV2_TEST_VERSION(0,16,0)
 		printf("xmp count %d\n", image->xmpData().count());
 		if (sidecar_path && image->xmpData().empty())
 			{
@@ -60,6 +74,7 @@ struct _ExifData
 			printf("sidecar xmp count %d\n", sidecar->xmpData().count());
 			}
 		
+#endif
 	}
 	
 	void writeMetadata()
@@ -78,11 +93,12 @@ struct _ExifData
 		return image->iptcData();
 	}
 
+#if EXIV2_TEST_VERSION(0,16,0)
 	Exiv2::XmpData &xmpData ()
 	{
 		return have_sidecar ? sidecar->xmpData() : image->xmpData();
 	}
-	
+#endif
 
 };
 
@@ -139,10 +155,12 @@ ExifItem *exif_get_item(ExifData *exif, const gchar *key)
 				item = &*pos;
 			}
 			catch (Exiv2::AnyError& e) {
+#if EXIV2_TEST_VERSION(0,16,0)
 				Exiv2::XmpKey ekey(key);
 				Exiv2::XmpData::iterator pos = exif->xmpData().findKey(ekey);
 				if (pos == exif->xmpData().end()) return NULL;
 				item = &*pos;
+#endif
 			}
 		}
 		return (ExifItem *)item;
@@ -173,11 +191,13 @@ ExifItem *exif_add_item(ExifData *exif, const gchar *key)
 				item = &*pos;
 			}
 			catch (Exiv2::AnyError& e) {
+#if EXIV2_TEST_VERSION(0,16,0)
 				Exiv2::XmpKey ekey(key);
 				exif->xmpData().add(ekey, NULL);
 				Exiv2::XmpData::iterator pos = exif->xmpData().end();
 				pos--;
 				item = &*pos;
+#endif
 			}
 		}
 		return (ExifItem *)item;
@@ -194,7 +214,9 @@ ExifItem *exif_get_first_item(ExifData *exif)
 	try {
 		exif->exifIter = exif->exifData().begin();
 		exif->iptcIter = exif->iptcData().begin();
+#if EXIV2_TEST_VERSION(0,16,0)
 		exif->xmpIter = exif->xmpData().begin();
+#endif
 		if (exif->exifIter != exif->exifData().end()) 
 			{
 			const Exiv2::Metadatum *item = &*exif->exifIter;
@@ -207,12 +229,14 @@ ExifItem *exif_get_first_item(ExifData *exif)
 			exif->iptcIter++;
 			return (ExifItem *)item;
 			}
+#if EXIV2_TEST_VERSION(0,16,0)
 		if (exif->xmpIter != exif->xmpData().end()) 
 			{
 			const Exiv2::Metadatum *item = &*exif->xmpIter;
 			exif->xmpIter++;
 			return (ExifItem *)item;
 			}
+#endif
 		return NULL;
 			
 	}
@@ -237,12 +261,14 @@ ExifItem *exif_get_next_item(ExifData *exif)
 			exif->iptcIter++;
 			return (ExifItem *)item;
 		}
+#if EXIV2_TEST_VERSION(0,16,0)
 		if (exif->xmpIter != exif->xmpData().end())
 			{
 			const Exiv2::Metadatum *item = &*exif->xmpIter;
 			exif->xmpIter++;
 			return (ExifItem *)item;
 		}
+#endif
 		return NULL;
 	}
 	catch (Exiv2::AnyError& e) {
@@ -382,7 +408,11 @@ gchar *exif_item_get_string(ExifItem *item, int idx)
 	try {
 		if (!item) return NULL;
 		Exiv2::Metadatum *em = (Exiv2::Metadatum *)item;
+#if EXIV2_TEST_VERSION(0,16,0)
 		std::string str = em->toString(idx);
+#else
+		std::string str = em->toString(); // FIXME
+#endif
 		if (idx == 0 && str == "") str = em->toString();
 		if (str.length() > 5 && str.substr(0, 5) == "lang=") 
 			{
@@ -467,13 +497,14 @@ int exif_item_delete(ExifData *exif, ExifItem *item)
 				return 1;
 			}
 		}
+#if EXIV2_TEST_VERSION(0,16,0)
 		for (Exiv2::XmpData::iterator i = exif->xmpData().begin(); i != exif->xmpData().end(); ++i) {
 			if (((Exiv2::Metadatum *)item) == &*i) {
 				i = exif->xmpData().erase(i);
 				return 1;
 			}
 		}
-		
+#endif		
 		return 0;
 	}
 	catch (Exiv2::AnyError& e) {
@@ -523,21 +554,30 @@ RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 		}
 	type = Exiv2::ImageFactory::getType(map_data, map_len);
 
+#if EXIV2_TEST_VERSION(0,16,0)
 	TiffHeaderBase *tiffHeader;
+#else
+	TiffHeade2 *tiffHeader;
+#endif
 	switch (type) {
 		case Exiv2::ImageType::tiff:
 			tiffHeader = new TiffHeade2();
 			break;
+#if EXIV2_TEST_VERSION(0,16,0)
+
 		case Exiv2::ImageType::cr2:
 			tiffHeader = new Cr2Header();
 			break;
 		case Exiv2::ImageType::orf:
 			tiffHeader = new OrfHeader();
 			break;
+#endif
+#if EXIV2_TEST_VERSION(0,13,0)
 		case Exiv2::ImageType::raf:
 		        if (map_len < 84 + 4) throw Error(14);
     			offset = getULong(map_data + 84, bigEndian);
 			return;
+#endif
 		case Exiv2::ImageType::crw:
 			{
 			// Parse the image, starting with a CIFF header component
@@ -561,8 +601,11 @@ RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 	if (0 == rootDir.get()) {
     		throw Error(1, "No root element defined in TIFF structure");
 	}
+#if EXIV2_TEST_VERSION(0,16,0)
 	rootDir->setStart(map_data + tiffHeader->offset());
-
+#else
+	rootDir->setStart(map_data + tiffHeader->ifdOffset());
+#endif
 	TiffRwState::AutoPtr state(
     		new TiffRwState(tiffHeader->byteOrder(), 0, createFct));
 
