@@ -9,7 +9,7 @@ ICONS_INLINE = \
 	folder_open.png		\
 	folder_up.png		\
 	gqview_icon.png		\
-	gqview_logo.png		\
+	geeqie_logo.png		\
 	scroller.png		\
 	sheet_broken.png	\
 	icon_float.png		\
@@ -25,7 +25,7 @@ ICONS_INLINE_PAIRS = \
 	folder_open		$(srcdir)/folder_open.png	\
 	folder_up		$(srcdir)/folder_up.png		\
 	gqview_icon		$(srcdir)/gqview_icon.png	\
-	gqview_logo		$(srcdir)/gqview_logo.png	\
+	geeqie_logo		$(srcdir)/geeqie_logo.png	\
 	icon_float		$(srcdir)/icon_float.png	\
 	icon_thumb		$(srcdir)/icon_thumb.png	\
 	icon_scroller		$(srcdir)/scroller.png		\
