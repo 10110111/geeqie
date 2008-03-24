@@ -3,25 +3,25 @@
 SUBDIRS = src po doc
 DIST_SUBDIRS = src po doc
 
-man_MANS = gqview.1
+man_MANS = geeqie.1
 
-readmedir = $(datadir)/doc/gqview-$(VERSION)
+readmedir = $(datadir)/doc/geeqie-$(VERSION)
 readme_DATA = README COPYING ChangeLog TODO
 
 desktopdir = $(datadir)/applications
-desktop_DATA = gqview.desktop
+desktop_DATA = geeqie.desktop
 
 icondir = $(datadir)/pixmaps
-icon_DATA = gqview.png
+icon_DATA = geeqie.png
 
 EXTRA_DIST = \
 	$(readme_DATA)	\
 	$(desktop_DATA)	\
 	$(icon_DATA)	\
-	gqview.spec.in	\
-	gqview.1
+	geeqie.spec.in	\
+	geeqie.1
 
-dist-hook: gqview.spec
-	cp $(top_builddir)/gqview.spec $(distdir)
+dist-hook: geeqie.spec
+	cp $(top_builddir)/geeqie.spec $(distdir)
 
 

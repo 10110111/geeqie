@@ -10,7 +10,7 @@ test -z "$srcdir" && srcdir=.
   && test -f $srcdir/src/main.c \
   && test -f $srcdir/src/gqview.h) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
-    echo " top-level gqview directory"
+    echo " top-level geeqie directory"
     exit 1
 }
 
