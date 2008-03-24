@@ -555,19 +555,20 @@ RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 	type = Exiv2::ImageFactory::getType(map_data, map_len);
 
 #if EXIV2_TEST_VERSION(0,16,0)
-	TiffHeaderBase *tiffHeader;
+	TiffHeaderBase *tiffHeader = NULL;
 #else
-	TiffHeade2 *tiffHeader;
+	TiffHeade2 *tiffHeader = NULL;
 #endif
+	Cr2Header *cr2Header = NULL;
+
 	switch (type) {
 		case Exiv2::ImageType::tiff:
 			tiffHeader = new TiffHeade2();
 			break;
-#if EXIV2_TEST_VERSION(0,16,0)
-
 		case Exiv2::ImageType::cr2:
-			tiffHeader = new Cr2Header();
+			cr2Header = new Cr2Header();
 			break;
+#if EXIV2_TEST_VERSION(0,16,0)
 		case Exiv2::ImageType::orf:
 			tiffHeader = new OrfHeader();
 			break;
@@ -593,7 +594,6 @@ RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 	}
 
 	// process tiff-like formats
-	if (!tiffHeader->read(map_data, map_len)) throw Error(3, "TIFF");
 
 	TiffCompFactoryFct createFct = TiffCreator::create;
 
@@ -601,13 +601,23 @@ RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 	if (0 == rootDir.get()) {
     		throw Error(1, "No root element defined in TIFF structure");
 	}
+	
+	if (tiffHeader)
+		{
+		if (!tiffHeader->read(map_data, map_len)) throw Error(3, "TIFF");
 #if EXIV2_TEST_VERSION(0,16,0)
-	rootDir->setStart(map_data + tiffHeader->offset());
+		rootDir->setStart(map_data + tiffHeader->offset());
 #else
-	rootDir->setStart(map_data + tiffHeader->ifdOffset());
+		rootDir->setStart(map_data + tiffHeader->ifdOffset());
 #endif
-	TiffRwState::AutoPtr state(
-    		new TiffRwState(tiffHeader->byteOrder(), 0, createFct));
+		}
+		
+	if (cr2Header)
+		{
+		rootDir->setStart(map_data + cr2Header->offset());
+		}
+	
+	TiffRwState::AutoPtr state(new TiffRwState(tiffHeader ? tiffHeader->byteOrder() : littleEndian, 0, createFct));
 
 	TiffReader reader(map_data,
                       map_len,
@@ -616,7 +626,10 @@ RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 
 	rootDir->accept(reader);
 	
-	delete tiffHeader;
+	if (tiffHeader) 
+		delete tiffHeader;
+	if (cr2Header) 
+		delete cr2Header;
 }
 
 RawFile::~RawFile()
