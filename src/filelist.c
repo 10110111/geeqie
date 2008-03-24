@@ -209,16 +209,28 @@ void filter_add_defaults(void)
 	filter_add_if_missing("ico", "Icon file", ".ico;.cur", FALSE);
 	filter_add_if_missing("ras", "Raster", ".ras", FALSE);
 	filter_add_if_missing("svg", "Scalable Vector Graphics", ".svg", FALSE);
-	filter_add_if_missing("xmp", "XMP sidecar", ".xmp", FALSE);
+	
+	/* non-image files that might be desirable to show */
+	filter_add_if_missing("xmp", "XMP sidecar", ".xmp", TRUE);
 
 	/* These are the raw camera formats with embedded jpeg/exif.
-	 * (see format_raw.c)
+	 * (see format_raw.c and/or exiv2.cc)
 	 */
+	filter_add_if_missing("arw", "Sony raw format", ".arw;.srf;.sr2", TRUE);
 	filter_add_if_missing("crw", "Canon raw format", ".crw;.cr2", TRUE);
+	filter_add_if_missing("kdc", "Kodak raw format", ".kdc;.dcr", TRUE);
 	filter_add_if_missing("raf", "Fujifilm raw format", ".raf", TRUE);
+	filter_add_if_missing("mef", "Mamiya raw format", ".mef;.mos", TRUE);
+	filter_add_if_missing("mrw", "Minolta raw format", ".mrw", TRUE);
 	filter_add_if_missing("nef", "Nikon raw format", ".nef", TRUE);
 	filter_add_if_missing("orf", "Olympus raw format", ".orf", TRUE);
-	filter_add_if_missing("pef", "Pentax raw format", ".pef", TRUE);
+	filter_add_if_missing("pef", "Pentax raw format", ".pef;.ptx", TRUE);
+	filter_add_if_missing("dng", "Adobe Digital Negative raw format", ".dng", TRUE);
+	filter_add_if_missing("x3f", "Sigma raw format", ".x3f", TRUE);
+	filter_add_if_missing("raw", "Panasonic raw format", ".raw", TRUE);
+	filter_add_if_missing("r3d", "Red raw format", ".r3d", TRUE);
+	filter_add_if_missing("3fr", "Hasselblad raw format", ".3fr", TRUE);
+	filter_add_if_missing("erf", "Epson raw format", ".erf", TRUE);
 }
 
 GList *filter_to_list(const gchar *extensions)
