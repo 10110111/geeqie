@@ -1,3 +1,28 @@
+
+This is Geeqie, a successor of GQview.
+
+Geeqie has been forked from GQview project, because it was not 
+possible to contact gqview author and the only maintainer. 
+Geeqie projects goal is to move the development forward and 
+also integrate the existing patches.
+
+Geeqie is currently in alpha state. Everybody is encouraged 
+to try the new features, however for stable software look at 
+the original project.
+
+For more info see:
+http://geeqie.sourceforge.net
+
+Vladimir Nadvornik
+Petr Ostadal
+
+Please send any question or suggestions to
+geeqie-devel@lists.sourceforge.net
+
+
+Bellow is the original README:
+
+
 ###################################################################
 ##                          GQview 2.1.5      (December 3, 2006) ##
 ##                                                               ##
