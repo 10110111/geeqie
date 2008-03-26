@@ -314,8 +314,6 @@ void bar_exif_set(GtkWidget *bar, FileData *fd)
 {
 	ExifBar *eb;
 
-	g_assert(fd);
-	
 	eb = g_object_get_data(G_OBJECT(bar), "bar_exif_data");
 	if (!eb) return;
 

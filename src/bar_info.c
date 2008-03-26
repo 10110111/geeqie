@@ -186,6 +186,26 @@ static gint comment_file_read(gchar *path, GList **keywords, gchar **comment)
 	return TRUE;
 }
 
+static gint comment_delete_legacy(FileData *fd)
+{
+	gchar *comment_path;
+	gchar *comment_pathl;
+	gint success = FALSE;
+	if (!fd) return FALSE;
+
+	comment_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
+	if (!comment_path) return FALSE;
+
+	comment_pathl = path_from_utf8(comment_path);
+
+	success = !unlink(comment_pathl);
+
+	g_free(comment_pathl);
+	g_free(comment_path);
+
+	return success;
+}
+
 static gint comment_legacy_read(FileData *fd, GList **keywords, gchar **comment)
 {
 	gchar *comment_path;
@@ -212,6 +232,7 @@ gchar *keyword_key = "Xmp.dc.subject";
 static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 {
 	ExifData *exif = exif_read_fd(fd, FALSE);
+	gint success;
 	if (!exif) return FALSE;
 
 	if (comment)
@@ -237,7 +258,10 @@ static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 		}
 		
 	exif_free(exif);
-	return TRUE;
+	
+	success = *comment || *keywords;
+	
+	return success;
 }
 
 static gint comment_xmp_write(FileData *fd, GList *keywords, const gchar *comment)
@@ -287,16 +311,59 @@ static gint comment_xmp_write(FileData *fd, GList *keywords, const gchar *commen
 
 gint comment_write(FileData *fd, GList *keywords, const gchar *comment)
 {
-	if (comment_xmp_write(fd, keywords, comment)) return TRUE;
+	if (!fd) return FALSE;
+
+	if (enable_metadata_dirs && /* FIXME - use dedicated option */
+	    comment_xmp_write(fd, keywords, comment))
+		{
+		comment_delete_legacy(fd);
+		return TRUE;
+		}
 
 	return comment_legacy_write(fd, keywords, comment);
 }
 
 gint comment_read(FileData *fd, GList **keywords, gchar **comment)
 {
-	if (comment_xmp_read(fd, keywords, comment)) return TRUE;
+	GList *keywords1, *keywords2;
+	gchar *comment1, *comment2;
+	gint res1, res2;
 
-	return comment_legacy_read(fd, keywords, comment);
+	if (!fd) return FALSE;
+
+	res1 = comment_xmp_read(fd, &keywords1, &comment1);
+	res2 = comment_legacy_read(fd, &keywords2, &comment2);
+        
+	if (!res1 && !res2)
+    		{
+		return FALSE;
+		}
+	
+	if (keywords)
+		{
+		if (res1 && res2)
+			*keywords = g_list_concat(keywords1, keywords2);
+		else
+			*keywords = res1 ? keywords1 : keywords2;
+		}
+	else
+		{
+		if (res1) string_list_free(keywords1);
+		if (res2) string_list_free(keywords2);
+		}
+		
+
+	if (comment)
+		{
+		if (res1 && res2 && comment1 && comment2 && comment1[0] && comment2[0])
+			*comment = g_strdup_printf("%s\n%s", comment1, comment2);
+		else
+			*comment = res1 ? comment1 : comment2;
+		}
+	if (res1 && (!comment || *comment != comment1)) g_free(comment1);
+	if (res2 && (!comment || *comment != comment2)) g_free(comment2);
+	
+	return TRUE;
 }
 
 
