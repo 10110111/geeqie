@@ -1559,11 +1559,6 @@ void image_top_window_set_sync(ImageWindow *imd, gint allow_sync)
 	g_object_set(G_OBJECT(imd->pr), "window_fit", allow_sync, NULL);
 }
 
-void image_background_set_black(ImageWindow *imd, gint black)
-{
-	pixbuf_renderer_set_black((PixbufRenderer *)imd->pr, black);
-}
-
 void image_background_set_color(ImageWindow *imd, GdkColor *color)
 {
 	pixbuf_renderer_set_color((PixbufRenderer *)imd->pr, color);

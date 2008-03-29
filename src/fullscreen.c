@@ -292,10 +292,9 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 
 	gtk_container_add(GTK_CONTAINER(fs->window), fs->imd->widget);
 
-	/* set background to black */
-	if (BLACK_BACKGROUND)
+	if (user_specified_window_background)
 		{
-		image_background_set_black(fs->imd, TRUE);
+		image_background_set_color(fs->imd, &window_background_color);
 		}
 
 	image_set_delay_flip(fs->imd, fullscreen_clean_flip);

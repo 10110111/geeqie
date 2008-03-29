@@ -92,7 +92,6 @@ void image_auto_refresh(ImageWindow *imd, gint interval);
 void image_top_window_set_sync(ImageWindow *imd, gint allow_sync);
 
 /* background of image */
-void image_background_set_black(ImageWindow *imd, gint black);
 void image_background_set_color(ImageWindow *imd, GdkColor *color);
 
 /* color profiles */

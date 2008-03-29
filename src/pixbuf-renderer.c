@@ -1285,31 +1285,23 @@ void pixbuf_renderer_set_color(PixbufRenderer *pr, GdkColor *color)
 
 	widget = GTK_WIDGET(pr);
 
-	style = gtk_style_copy(gtk_widget_get_style(widget));
-	g_object_ref(G_OBJECT(style));
-
-	if (color)
-		{
+	if (color) {
 		GdkColor *slot;
 
+		style = gtk_style_copy(gtk_widget_get_style(widget));
 		slot = &style->bg[GTK_STATE_NORMAL];
 
 		slot->red = color->red;
 		slot->green = color->green;
 		slot->blue = color->blue;
 		}
+	else {
+		style = gtk_style_copy(gtk_widget_get_default_style());
+	}
 
 	gtk_widget_set_style(widget, style);
-	g_object_unref(G_OBJECT(style));
 
 	if (GTK_WIDGET_VISIBLE(widget)) pr_border_clear(pr);
-}
-
-void pixbuf_renderer_set_black(PixbufRenderer *pr, gint black)
-{
-	GdkColor color = { 0, 0, 0, 0};
-
-	pixbuf_renderer_set_color(pr, &color);
 }
 
 

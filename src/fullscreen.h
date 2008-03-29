@@ -15,7 +15,6 @@
 
 #define FULL_SCREEN_HIDE_MOUSE_DELAY 3000
 #define FULL_SCREEN_BUSY_MOUSE_DELAY 200
-#define BLACK_BACKGROUND 1
 
 
 FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,

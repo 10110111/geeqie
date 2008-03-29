@@ -91,7 +91,8 @@ gint enable_read_ahead = TRUE;
 
 gint place_dialogs_under_mouse = FALSE;
 
-gint black_window_background = FALSE;
+gint user_specified_window_background = FALSE;
+GdkColor window_background_color = {0, 0, 0, 0};
 
 gint fullscreen_screen = -1;
 gint fullscreen_clean_flip = FALSE;

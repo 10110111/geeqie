@@ -114,7 +114,8 @@ static gint zoom_increment_c;
 
 static gint enable_read_ahead_c;
 
-static gint black_window_background_c;
+static gint user_specified_window_background_c;
+static GdkColor window_background_color_c;
 
 static gint fullscreen_screen_c;
 static gint fullscreen_clean_flip_c;
@@ -277,10 +278,11 @@ static void config_window_apply(void)
 
 	enable_read_ahead = enable_read_ahead_c;
 
-	if (black_window_background != black_window_background_c)
+	if (user_specified_window_background != user_specified_window_background_c
+	    || !gdk_color_equal(&window_background_color, &window_background_color_c))
 		{
-		black_window_background = black_window_background_c;
-
+		user_specified_window_background = user_specified_window_background_c;
+		window_background_color = window_background_color_c;
 		layout_colors_update();
 		view_window_colors_update();
 		}
@@ -957,8 +959,11 @@ static void config_window_create(void)
 
 	group = pref_group_new(vbox, FALSE, _("Appearance"), GTK_ORIENTATION_VERTICAL);
 
-	pref_checkbox_new_int(group, _("Black background"),
-			      black_window_background, &black_window_background_c);
+	pref_checkbox_new_int(group, _("User specified background color"),
+			      user_specified_window_background, &user_specified_window_background_c);
+
+	pref_colorbutton_new(group, _("Background color"), &window_background_color,
+			     G_CALLBACK(pref_background_color_set_cb), &window_background_color_c);
 
 	group = pref_group_new(vbox, FALSE, _("Convenience"), GTK_ORIENTATION_VERTICAL);
 

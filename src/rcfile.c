@@ -81,6 +81,29 @@ static gchar *read_char_option(FILE *f, gchar *option, gchar *label, gchar *valu
 	return text;
 }
 
+static void write_color_option(FILE *f, gchar *label, GdkColor *color)
+{
+	if (color)
+		{
+		gchar *colorstring = gdk_color_to_string (color);
+
+		fprintf(f,"%s: \"%s\"\n", label, colorstring);
+		g_free(colorstring);
+		}
+	else
+		fprintf(f,"%s: \n", label);
+}
+
+static GdkColor *read_color_option(FILE *f, gchar *option, gchar *label, gchar *value, GdkColor *color)
+{
+	if (strcasecmp(option, label) == 0)
+		{
+		gdk_color_parse(quoted_value(value), color);
+		}
+	return color;
+}
+
+
 static void write_int_option(FILE *f, gchar *label, gint n)
 {
 	fprintf(f,"%s: %d\n\n", label, n);
@@ -283,7 +306,8 @@ void save_options(void)
 
 	write_bool_option(f, "display_dialogs_under_mouse", place_dialogs_under_mouse);
 
-	write_bool_option(f, "black_window_background", black_window_background);
+	write_bool_option(f, "user_specified_window_background", user_specified_window_background);
+	write_color_option(f, "window_background_color", &window_background_color);
 
 	write_int_option(f, "fullscreen_screen", fullscreen_screen);
 	write_bool_option(f, "fullscreen_clean_flip", fullscreen_clean_flip);
@@ -547,8 +571,10 @@ void load_options(void)
 		place_dialogs_under_mouse = read_bool_option(f, option,
 			"display_dialogs_under_mouse", value, place_dialogs_under_mouse);
 
-		black_window_background = read_bool_option(f, option,
-			"black_window_background", value, black_window_background);
+		user_specified_window_background = read_bool_option(f, option,
+			"user_specified_window_background", value, user_specified_window_background);
+		read_color_option(f, option,
+			"window_background_color", value, &window_background_color);
 
 		fullscreen_screen = read_int_option(f, option,
 			"fullscreen_screen", value, fullscreen_screen);

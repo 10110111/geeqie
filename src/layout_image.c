@@ -1616,7 +1616,7 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 
 		gtk_widget_ref(lw->split_images[i]->widget);
 
-		if (black_window_background) image_background_set_black(lw->split_images[i], TRUE);
+		image_background_set_color(lw->split_images[i], user_specified_window_background ? &window_background_color : NULL);
 
 		image_auto_refresh(lw->split_images[i], 0);
 

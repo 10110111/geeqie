@@ -1614,3 +1614,50 @@ gint pref_list_string_get(const gchar *group, const gchar *key, const gchar **re
 }
 
 
+void pref_background_color_set_cb(GtkWidget *widget, gpointer data)
+{
+	GdkColor *color = data;
+
+	gtk_color_button_get_color(GTK_COLOR_BUTTON(widget), color);
+}
+
+GtkWidget *pref_colorbutton_new(GtkWidget *parent_box,
+				const gchar *title, const GdkColor *color,
+				GCallback func, gpointer data)
+{
+	GtkWidget *button;
+	
+	if (color)
+		{
+		button = gtk_color_button_new_with_color(color);
+		}
+	else
+		{
+		button = gtk_color_button_new();
+		}
+
+	if (func) g_signal_connect(G_OBJECT(button), "color-set", func, data);
+
+	if (title)
+		{
+		GtkWidget *label;
+		GtkWidget *hbox;
+
+		gtk_color_button_set_title(GTK_COLOR_BUTTON(button), title);
+		label = gtk_label_new(title);
+
+		hbox = gtk_hbox_new(TRUE, 0);
+		gtk_box_pack_start(GTK_BOX(parent_box), hbox, TRUE, TRUE, 0);
+		
+		gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
+		gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
+
+		gtk_widget_show_all(hbox);
+		}
+	else
+		{
+		gtk_widget_show(button);
+		}
+	
+	return button;
+}

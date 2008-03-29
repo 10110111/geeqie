@@ -859,7 +859,7 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 
 	vw->imd = image_new(FALSE);
 
-	if (black_window_background) image_background_set_black(vw->imd, TRUE);
+	image_background_set_color(vw->imd, user_specified_window_background ? &window_background_color : NULL);
 
 	image_attach_window(vw->imd, vw->window, NULL, "Geeqie", TRUE);
 
@@ -1015,7 +1015,7 @@ void view_window_colors_update(void)
 		ViewWindow *vw = work->data;
 		work = work->next;
 
-		image_background_set_black(vw->imd, black_window_background);
+		image_background_set_color(vw->imd, user_specified_window_background ? &window_background_color : NULL);
 		}
 }
 

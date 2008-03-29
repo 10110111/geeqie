@@ -212,9 +212,7 @@ gint pixbuf_renderer_get_visible_rect(PixbufRenderer *pr, GdkRectangle *rect);
 gint pixbuf_renderer_get_virtual_rect(PixbufRenderer *pr, GdkRectangle *rect);
 
 /* background color */
-
 void pixbuf_renderer_set_color(PixbufRenderer *pr, GdkColor *color);
-void pixbuf_renderer_set_black(PixbufRenderer *pr, gint black);
 
 /* overlay */
 

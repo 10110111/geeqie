@@ -1731,8 +1731,9 @@ void layout_colors_update(void)
 		{
 		LayoutWindow *lw = work->data;
 		work = work->next;
-
-		if (lw->image) image_background_set_black(lw->image, black_window_background);
+		
+		if (!lw->image) continue;
+		image_background_set_color(lw->image, user_specified_window_background ? &window_background_color : NULL);
 		}
 }
 

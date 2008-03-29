@@ -156,7 +156,8 @@ extern gint slideshow_repeat;
 extern gint mousewheel_scrolls;
 extern gint enable_in_place_rename;
 
-extern gint black_window_background;
+extern gint user_specified_window_background;
+extern GdkColor window_background_color;
 
 extern gint fullscreen_screen;
 extern gint fullscreen_clean_flip;
