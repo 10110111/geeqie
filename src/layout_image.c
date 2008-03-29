@@ -1618,13 +1618,13 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 
 		if (black_window_background) image_background_set_black(lw->split_images[i], TRUE);
 
-		image_auto_refresh(lw->image, 0);
+		image_auto_refresh(lw->split_images[i], 0);
 
 		layout_image_dnd_init(lw, i);
-		image_color_profile_set(lw->image,
+		image_color_profile_set(lw->split_images[i],
 					color_profile_input_type, color_profile_screen_type,
 					color_profile_use_image);
-		image_color_profile_set_use(lw->image, color_profile_enabled);
+		image_color_profile_set_use(lw->split_images[i], color_profile_enabled);
 		}
 
 	return lw->split_images[i]->widget;
