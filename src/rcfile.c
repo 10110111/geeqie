@@ -29,8 +29,9 @@ gchar *quoted_value(const gchar *text)
 	const gchar *ptr;
 	gint c = 0;
 	gint l = strlen(text);
-
-	if (l == 0) return NULL;
+	gchar *retval = NULL;
+	
+	if (l == 0) return retval;
 
 	while (c < l && text[c] !='"') c++;
 	if (text[c] == '"')
@@ -39,12 +40,22 @@ gchar *quoted_value(const gchar *text)
 		c++;
 		ptr = text + c;
 		e = c;
-		while (e < l && text[e] !='"') e++;
+		while (e < l)
+			{
+			if (text[e-1] != '\\' && text[e] == '"') break;
+			e++;
+			}
 		if (text[e] == '"')
 			{
 			if (e - c > 0)
 				{
-				return g_strndup(ptr, e - c);
+				gchar *substring = g_strndup(ptr, e - c);
+				
+				if (substring)
+					{
+					retval = g_strcompress(substring);
+					g_free(substring);
+					}
 				}
 			}
 		}
@@ -56,17 +67,39 @@ gchar *quoted_value(const gchar *text)
 		while (c < l && text[c] !=' ' && text[c] !=8 && text[c] != '\n') c++;
 		if (c != 0)
 			{
-			return g_strndup(text, c);
+			retval = g_strndup(text, c);
 			}
 		}
 
-	return NULL;
+	return retval;
+}
+
+gchar *escquote_value(const gchar *text)
+{
+	gchar *e;
+	gchar *retval;
+
+	if (!text) return g_strdup("");
+
+	e = g_strescape(text, "");
+	if (e)
+		{
+		gchar *retval = g_strdup_printf("\"%s\"", e);
+		g_free(e);
+		return retval;
+		}
+	return g_strdup("");
 }
 
 static void write_char_option(FILE *f, gchar *label, gchar *text)
 {
-	if (text)
-		fprintf(f,"%s: \"%s\"\n", label, text);
+	gchar *escval = escquote_value(text);
+
+	if (escval)
+		{
+		fprintf(f,"%s: %s\n", label, escval);
+		g_free(escval);
+		}
 	else
 		fprintf(f,"%s: \n", label);
 }
