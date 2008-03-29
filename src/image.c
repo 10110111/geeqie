@@ -1720,6 +1720,9 @@ static void image_options_set(ImageWindow *imd)
 					"window_fit", (imd->top_window_sync && fit_window),
 					"window_limit", limit_window_size,
 					"window_limit_value", max_window_size,
+					"autofit_limit", limit_autofit_size,
+					"autofit_limit_value", max_autofit_size,
+
 					NULL);
 
 	pixbuf_renderer_set_parent((PixbufRenderer *)imd->pr, (GtkWindow *)imd->top_window);

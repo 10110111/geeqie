@@ -81,6 +81,8 @@ static gint fit_window_c;
 static gint limit_window_size_c;
 static gint zoom_to_fit_expands_c;
 static gint max_window_size_c;
+static gint limit_autofit_size_c;
+static gint max_autofit_size_c;
 static gint progressive_key_scrolling_c;
 static gint thumb_max_width_c;
 static gint thumb_max_height_c;
@@ -242,6 +244,8 @@ static void config_window_apply(void)
 	limit_window_size = limit_window_size_c;
 	zoom_to_fit_expands = zoom_to_fit_expands_c;
 	max_window_size = max_window_size_c;
+	limit_autofit_size = limit_autofit_size_c;
+	max_autofit_size = max_autofit_size_c;
 	progressive_key_scrolling = progressive_key_scrolling_c;
 	thumb_max_width = thumb_max_width_c;
 	thumb_max_height = thumb_max_height_c;
@@ -937,6 +941,14 @@ static void config_window_create(void)
 
 	pref_checkbox_new_int(group, _("Allow enlargement of image for zoom to fit"),
 			      zoom_to_fit_expands, &zoom_to_fit_expands_c);
+
+	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+	ct_button = pref_checkbox_new_int(hbox, _("Limit image size when autofitting (%):"),
+					  limit_autofit_size, &limit_autofit_size_c);
+	spin = pref_spin_new_int(hbox, NULL, NULL,
+				 10, 150, 1,
+				 max_autofit_size, &max_autofit_size_c);
+	pref_checkbox_link_sensitivity(ct_button, spin);
 
 	zoom_increment_c = zoom_increment;
 	spin = pref_spin_new(group, _("Zoom increment:"), NULL,

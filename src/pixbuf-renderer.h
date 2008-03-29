@@ -86,6 +86,10 @@ struct _PixbufRenderer
 	gboolean window_limit;
 	gint window_limit_size;
 
+	gboolean autofit_limit;
+	gint autofit_limit_size;
+
+
 	gint tile_cache_max;		/* max mb to use for offscreen buffer */
 
 	/*< private >*/

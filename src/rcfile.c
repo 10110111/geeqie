@@ -253,6 +253,8 @@ void save_options(void)
 	write_bool_option(f, "fit_window_to_image", fit_window);
 	write_bool_option(f, "limit_window_size", limit_window_size);
 	write_int_option(f, "max_window_size", max_window_size);
+	write_bool_option(f, "limit_autofit_size", limit_autofit_size);
+	write_int_option(f, "max_autofit_size", max_autofit_size);
 	fprintf(f,"\n");
 
 	write_bool_option(f, "progressive_keyboard_scrolling", progressive_key_scrolling);
@@ -491,6 +493,10 @@ void load_options(void)
 			"limit_window_size", value, limit_window_size);
 		max_window_size = read_int_option(f, option,
 			"max_window_size", value, max_window_size);
+		limit_autofit_size = read_bool_option(f, option,
+			"limit_autofit_size", value, limit_autofit_size);
+		max_autofit_size = read_int_option(f, option,
+			"max_autofit_size", value, max_autofit_size);
 		progressive_key_scrolling = read_bool_option(f, option,
 			"progressive_keyboard_scrolling", value, progressive_key_scrolling);
 		scroll_reset_method = read_int_option(f, option,

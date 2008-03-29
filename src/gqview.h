@@ -132,6 +132,8 @@ extern gint fit_window;
 extern gint limit_window_size;
 extern gint zoom_to_fit_expands;
 extern gint max_window_size;
+extern gint limit_autofit_size;
+extern gint max_autofit_size;
 extern gint thumb_max_width;
 extern gint thumb_max_height;
 extern gint enable_thumb_caching;
