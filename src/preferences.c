@@ -952,7 +952,7 @@ static void config_window_create(void)
 
 	zoom_increment_c = zoom_increment;
 	spin = pref_spin_new(group, _("Zoom increment:"), NULL,
-			     0.1, 4.0, 1.0, 1, (double)zoom_increment / 10.0,
+			     0.1, 4.0, 0.1, 1, (double)zoom_increment / 10.0,
 			     G_CALLBACK(zoom_increment_cb), NULL);
 	gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), GTK_UPDATE_ALWAYS);
 
