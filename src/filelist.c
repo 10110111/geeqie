@@ -313,14 +313,17 @@ void filter_rebuild(void)
 gint filter_name_exists(const gchar *name)
 {
 	GList *work;
+	gint ln;
+
 	if (!extension_list || file_filter_disable) return TRUE;
 
+	ln = strlen(name);
 	work = extension_list;
 	while (work)
 		{
 		gchar *filter = work->data;
 		gint lf = strlen(filter);
-		gint ln = strlen(name);
+
 		if (ln >= lf)
 			{
 			if (strncasecmp(name + ln - lf, filter, lf) == 0) return TRUE;
@@ -334,6 +337,7 @@ gint filter_name_exists(const gchar *name)
 gint filter_file_class(const gchar *name, FileFormatClass file_class)
 {
 	GList *work;
+	gint ln;
 
 	if (file_class < 0 || file_class >= FILE_FORMAT_CLASSES)
 		{
@@ -341,12 +345,13 @@ gint filter_file_class(const gchar *name, FileFormatClass file_class)
 		return FALSE;
 		}
 
+	ln = strlen(name);
 	work = file_class_extension_list[file_class];
 	while (work)
 		{
 		gchar *filter = work->data;
 		gint lf = strlen(filter);
-		gint ln = strlen(name);
+
 		if (ln >= lf)
 			{
 			if (strncasecmp(name + ln - lf, filter, lf) == 0) return TRUE;
