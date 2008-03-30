@@ -15,6 +15,7 @@
 
 #include "cache.h"
 #include "image-load.h"
+#include "filelist.h"
 #include "pixbuf_util.h"
 #include "thumb_standard.h"
 #include "ui_fileops.h"
