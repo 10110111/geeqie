@@ -659,7 +659,7 @@ static void filter_set_func(GtkTreeViewColumn *tree_column, GtkCellRenderer *cel
 
 static void filter_add_cb(GtkWidget *widget, gpointer data)
 {
-	filter_add_unique("description", ".new", TRUE);
+	filter_add_unique("description", ".new", FORMAT_CLASS_IMAGE, TRUE);
 	filter_store_populate();
 
 	/* FIXME: implement the scroll to/select row stuff for tree view */

@@ -42,6 +42,7 @@ extern "C" {
 #include <glib.h> 
 #include "gqview.h"
 #include "exif.h"
+#include "filelist.h"
 
 }
 
@@ -106,7 +107,7 @@ extern "C" {
 
 ExifData *exif_read(gchar *path, gchar *sidecar_path, gint parse_color_profile)
 {
-	printf("exif %s %s\n", path, sidecar_path ? sidecar_path : "-");
+	if (debug) printf("exif read %s,  sidecar: %s\n", path, sidecar_path ? sidecar_path : "-");
 	try {
 		return new ExifData(path, sidecar_path, parse_color_profile);
 	}
@@ -683,8 +684,6 @@ unsigned long RawFile::preview_offset()
 }
 
 
-const static char *raw_ext_list[] = { ".cr2", ".nef", ".pef", ".arw", NULL };
-
 extern "C" gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 				    unsigned char *header_data, const guint header_len,
 				    guint *image_offset, guint *exif_offset)
@@ -693,28 +692,8 @@ extern "C" gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 	unsigned long offset;
 
 	/* given image pathname, first do simple (and fast) file extension test */
-/*	if (path)
-		{
-		const gchar *ext;
-		gint match = FALSE;
-		gint i;
+	if (!filter_file_class(path, FORMAT_CLASS_RAWIMAGE)) return 0;
 
-		ext = strrchr(path, '.');
-		if (!ext) return FALSE;
-		
-		for (i = 0; raw_ext_list[i]; i++) 
-			{
-			if (strcasecmp(raw_ext_list[i], ext) == 0)
-				{
-				match = TRUE;
-				break;
-				}
-			}
-
-		if (!match) return FALSE;
-
-		}
-*/
 	try {
 		RawFile rf(fd);
 		if (debug) printf("%s: offset ", path);

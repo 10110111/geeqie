@@ -336,14 +336,12 @@ ExifData *exif_read_fd(FileData *fd, gint parse_color_profile)
 
 	work = fd->parent ? fd->parent->sidecar_files : fd->sidecar_files;
 
-	if (strcasecmp(fd->extension, ".cr2") == 0 || // FIXME: list of formats that can have xmp sidecar, make it configurable
-	    strcasecmp(fd->extension, ".nef") == 0)
+	if (filter_file_class(fd->extension, FORMAT_CLASS_RAWIMAGE))
 		{
 		while(work)
 			{
 			FileData *sfd = work->data;
 			work = work->next;
-			printf("sfd %s\n", sfd->path);
 			if (strcasecmp(sfd->extension, ".xmp") == 0)
 				{
 				sidecar_path = sfd->path;

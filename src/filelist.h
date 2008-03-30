@@ -19,6 +19,7 @@ struct _FilterEntry {
 	gchar *key;
 	gchar *description;
 	gchar *extensions;
+	FileFormatClass file_class;
 	gint enabled;
 };
 
@@ -26,14 +27,15 @@ struct _FilterEntry {
 GList *filter_get_list(void);
 void filter_remove_entry(FilterEntry *fe);
 
-void filter_add(const gchar *key, const gchar *description, const gchar *extensions, gint enabled);
-void filter_add_unique(const gchar *description, const gchar *extensions, gint enabled);
+void filter_add(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gint enabled);
+void filter_add_unique(const gchar *description, const gchar *extensions, FileFormatClass file_class, gint enabled);
 void filter_add_defaults(void);
 void filter_reset(void);
 void filter_rebuild(void);
 GList *filter_to_list(const gchar *extensions);
 
 gint filter_name_exists(const gchar *name);
+gint filter_file_class(const gchar *name, FileFormatClass file_class);
 
 void filter_write_list(FILE *f);
 void filter_parse(const gchar *text);

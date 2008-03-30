@@ -88,6 +88,14 @@ typedef enum {
 	STM_MODE_TOGGLE
 } SelectionToMarkMode;
 
+typedef enum {
+	FORMAT_CLASS_UNKNOWN,
+	FORMAT_CLASS_IMAGE,
+	FORMAT_CLASS_RAWIMAGE,
+	FORMAT_CLASS_META,
+	FILE_FORMAT_CLASSES
+} FileFormatClass;
+
 
 #define MAX_SPLIT_IMAGES 4
 

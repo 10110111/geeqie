@@ -29,6 +29,9 @@ static GList *filter_list = NULL;
 static GList *extension_list = NULL;
 static GList *sidecar_ext_list = NULL;
 
+static GList *file_class_extension_list[FILE_FORMAT_CLASSES];
+
+
 gint ishidden(const gchar *name)
 {
 	if (name[0] != '.') return FALSE;
@@ -37,7 +40,7 @@ gint ishidden(const gchar *name)
 }
 
 static FilterEntry *filter_entry_new(const gchar *key, const gchar *description,
-				     const gchar *extensions, gint enabled)
+				     const gchar *extensions, FileFormatClass file_class, gint enabled)
 {
 	FilterEntry *fe;
 
@@ -46,6 +49,7 @@ static FilterEntry *filter_entry_new(const gchar *key, const gchar *description,
 	fe->description = g_strdup(description);
 	fe->extensions = g_strdup(extensions);
 	fe->enabled = enabled;
+	fe->file_class = file_class;
 	
 	return fe;
 }
@@ -91,12 +95,12 @@ static gint filter_key_exists(const gchar *key)
 	return FALSE;
 }
 
-void filter_add(const gchar *key, const gchar *description, const gchar *extensions, gint enabled)
+void filter_add(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gint enabled)
 {
-	filter_list = g_list_append(filter_list, filter_entry_new(key, description, extensions, enabled));
+	filter_list = g_list_append(filter_list, filter_entry_new(key, description, extensions, file_class, enabled));
 }
 
-void filter_add_unique(const gchar *description, const gchar *extensions, gint enabled)
+void filter_add_unique(const gchar *description, const gchar *extensions, FileFormatClass file_class, gint enabled)
 {
 	gchar *key;
 	gint n;
@@ -111,11 +115,11 @@ void filter_add_unique(const gchar *description, const gchar *extensions, gint e
 		n++;
 		}
 
-	filter_add(key, description, extensions, enabled);
+	filter_add(key, description, extensions, file_class, enabled);
 	g_free(key);
 }
 
-static void filter_add_if_missing(const gchar *key, const gchar *description, const gchar *extensions, gint enabled)
+static void filter_add_if_missing(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gint enabled)
 {
 	GList *work;
 
@@ -126,10 +130,15 @@ static void filter_add_if_missing(const gchar *key, const gchar *description, co
 		{
 		FilterEntry *fe = work->data;
 		work = work->next;
-		if (fe->key && strcmp(fe->key, key) == 0) return;
+		if (fe->key && strcmp(fe->key, key) == 0)
+			{
+			if (fe->file_class == FORMAT_CLASS_UNKNOWN)
+				fe->file_class = file_class;	/* for compatibility */
+			return;
+			}
 		}
 
-	filter_add(key, description, extensions, enabled);
+	filter_add(key, description, extensions, file_class, enabled);
 }
 
 void filter_reset(void)
@@ -188,7 +197,7 @@ void filter_add_defaults(void)
 
 		if (debug) printf("loader reported [%s] [%s] [%s]\n", name, desc, filter->str);
 
-		filter_add_if_missing(name, desc, filter->str, TRUE);
+		filter_add_if_missing(name, desc, filter->str, FORMAT_CLASS_IMAGE, TRUE);
 
 		g_free(name);
 		g_free(desc);
@@ -198,39 +207,39 @@ void filter_add_defaults(void)
 	g_slist_free(list);
 
 	/* add defaults even if gdk-pixbuf does not have them, but disabled */
-	filter_add_if_missing("jpeg", "JPEG group", ".jpg;.jpeg;.jpe", FALSE);
-	filter_add_if_missing("png", "Portable Network Graphic", ".png", FALSE);
-	filter_add_if_missing("tiff", "Tiff", ".tif;.tiff", FALSE);
-	filter_add_if_missing("pnm", "Packed Pixel formats", ".pbm;.pgm;.pnm;.ppm", FALSE);
-	filter_add_if_missing("gif", "Graphics Interchange Format", ".gif", FALSE);
-	filter_add_if_missing("xbm", "X bitmap", ".xbm", FALSE);
-	filter_add_if_missing("xpm", "X pixmap", ".xpm", FALSE);
-	filter_add_if_missing("bmp", "Bitmap", ".bmp", FALSE);
-	filter_add_if_missing("ico", "Icon file", ".ico;.cur", FALSE);
-	filter_add_if_missing("ras", "Raster", ".ras", FALSE);
-	filter_add_if_missing("svg", "Scalable Vector Graphics", ".svg", FALSE);
+	filter_add_if_missing("jpeg", "JPEG group", ".jpg;.jpeg;.jpe", FORMAT_CLASS_IMAGE, FALSE);
+	filter_add_if_missing("png", "Portable Network Graphic", ".png", FORMAT_CLASS_IMAGE, FALSE);
+	filter_add_if_missing("tiff", "Tiff", ".tif;.tiff", FORMAT_CLASS_IMAGE, FALSE);
+	filter_add_if_missing("pnm", "Packed Pixel formats", ".pbm;.pgm;.pnm;.ppm", FORMAT_CLASS_IMAGE, FALSE);
+	filter_add_if_missing("gif", "Graphics Interchange Format", ".gif", FORMAT_CLASS_IMAGE, FALSE);
+	filter_add_if_missing("xbm", "X bitmap", ".xbm", FORMAT_CLASS_IMAGE, FALSE);
+	filter_add_if_missing("xpm", "X pixmap", ".xpm", FORMAT_CLASS_IMAGE, FALSE);
+	filter_add_if_missing("bmp", "Bitmap", ".bmp", FORMAT_CLASS_IMAGE, FALSE);
+	filter_add_if_missing("ico", "Icon file", ".ico;.cur", FORMAT_CLASS_IMAGE, FALSE);
+	filter_add_if_missing("ras", "Raster", ".ras", FORMAT_CLASS_IMAGE, FALSE);
+	filter_add_if_missing("svg", "Scalable Vector Graphics", ".svg", FORMAT_CLASS_IMAGE, FALSE);
 	
 	/* non-image files that might be desirable to show */
-	filter_add_if_missing("xmp", "XMP sidecar", ".xmp", TRUE);
+	filter_add_if_missing("xmp", "XMP sidecar", ".xmp", FORMAT_CLASS_META, TRUE);
 
 	/* These are the raw camera formats with embedded jpeg/exif.
 	 * (see format_raw.c and/or exiv2.cc)
 	 */
-	filter_add_if_missing("arw", "Sony raw format", ".arw;.srf;.sr2", TRUE);
-	filter_add_if_missing("crw", "Canon raw format", ".crw;.cr2", TRUE);
-	filter_add_if_missing("kdc", "Kodak raw format", ".kdc;.dcr", TRUE);
-	filter_add_if_missing("raf", "Fujifilm raw format", ".raf", TRUE);
-	filter_add_if_missing("mef", "Mamiya raw format", ".mef;.mos", TRUE);
-	filter_add_if_missing("mrw", "Minolta raw format", ".mrw", TRUE);
-	filter_add_if_missing("nef", "Nikon raw format", ".nef", TRUE);
-	filter_add_if_missing("orf", "Olympus raw format", ".orf", TRUE);
-	filter_add_if_missing("pef", "Pentax raw format", ".pef;.ptx", TRUE);
-	filter_add_if_missing("dng", "Adobe Digital Negative raw format", ".dng", TRUE);
-	filter_add_if_missing("x3f", "Sigma raw format", ".x3f", TRUE);
-	filter_add_if_missing("raw", "Panasonic raw format", ".raw", TRUE);
-	filter_add_if_missing("r3d", "Red raw format", ".r3d", TRUE);
-	filter_add_if_missing("3fr", "Hasselblad raw format", ".3fr", TRUE);
-	filter_add_if_missing("erf", "Epson raw format", ".erf", TRUE);
+	filter_add_if_missing("arw", "Sony raw format", ".arw;.srf;.sr2", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("crw", "Canon raw format", ".crw;.cr2", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("kdc", "Kodak raw format", ".kdc;.dcr", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("raf", "Fujifilm raw format", ".raf", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("mef", "Mamiya raw format", ".mef;.mos", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("mrw", "Minolta raw format", ".mrw", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("nef", "Nikon raw format", ".nef", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("orf", "Olympus raw format", ".orf", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("pef", "Pentax raw format", ".pef;.ptx", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("dng", "Adobe Digital Negative raw format", ".dng", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("x3f", "Sigma raw format", ".x3f", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("raw", "Panasonic raw format", ".raw", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("r3d", "Red raw format", ".r3d", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("3fr", "Hasselblad raw format", ".3fr", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("erf", "Epson raw format", ".erf", FORMAT_CLASS_RAWIMAGE, TRUE);
 }
 
 GList *filter_to_list(const gchar *extensions)
@@ -262,9 +271,16 @@ GList *filter_to_list(const gchar *extensions)
 void filter_rebuild(void)
 {
 	GList *work;
+	gint i;
 
-	path_list_free(extension_list);
+	string_list_free(extension_list);
 	extension_list = NULL;
+
+	for (i = 0; i < FILE_FORMAT_CLASSES; i++)
+		{
+		string_list_free(file_class_extension_list[i]);
+		file_class_extension_list[i] = NULL;
+		}
 
 	work = filter_list;
 	while (work)
@@ -280,6 +296,16 @@ void filter_rebuild(void)
 
 			ext = filter_to_list(fe->extensions);
 			if (ext) extension_list = g_list_concat(extension_list, ext);
+			
+			if (fe->file_class >= 0 && fe->file_class < FILE_FORMAT_CLASSES)
+				{
+				ext = filter_to_list(fe->extensions);
+				if (ext) file_class_extension_list[fe->file_class] = g_list_concat(file_class_extension_list[fe->file_class], ext);
+				}
+			else
+				{
+				printf("WARNING: invalid file class %d\n", fe->file_class);
+				}
 			}
 		}
 }
@@ -290,6 +316,32 @@ gint filter_name_exists(const gchar *name)
 	if (!extension_list || file_filter_disable) return TRUE;
 
 	work = extension_list;
+	while (work)
+		{
+		gchar *filter = work->data;
+		gint lf = strlen(filter);
+		gint ln = strlen(name);
+		if (ln >= lf)
+			{
+			if (strncasecmp(name + ln - lf, filter, lf) == 0) return TRUE;
+			}
+		work = work->next;
+		}
+
+	return FALSE;
+}
+
+gint filter_file_class(const gchar *name, FileFormatClass file_class)
+{
+	GList *work;
+
+	if (file_class < 0 || file_class >= FILE_FORMAT_CLASSES)
+		{
+		printf("WARNING: invalid file class %d\n", file_class);
+		return FALSE;
+		}
+
+	work = file_class_extension_list[file_class];
 	while (work)
 		{
 		gchar *filter = work->data;
@@ -376,7 +428,7 @@ void filter_parse(const gchar *text)
 		enabled = FALSE;
 		}
 
-	if (key && strlen(key) > 0 && ext) filter_add(key, desc, ext, enabled);
+	if (key && strlen(key) > 0 && ext) filter_add(key, desc, ext, FORMAT_CLASS_UNKNOWN, enabled);
 
 	g_free(key);
 	g_free(ext);
