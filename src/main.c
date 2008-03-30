@@ -334,7 +334,7 @@ static void gr_slideshow_start_rec(const gchar *text, gpointer data)
 
 	list = path_list_recursive(text);
 	if (!list) return;
-printf("length: %d\n", g_list_length(list));
+//printf("length: %d\n", g_list_length(list));
 	layout_image_slideshow_stop(NULL);
 	layout_image_slideshow_start_from_list(NULL, list);
 }
