@@ -88,8 +88,8 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	gint n, t;
 	CollectionData *cd;
 	CollectInfo *info;
-    gchar *ct;
-    int i;
+    	gchar *ct;
+    	int i;
     
 	name = image_get_name(imd);
 	if (name)
@@ -179,23 +179,21 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 				       w, h,
 				       text_from_time(imd->mtime), size);
 
-        
-
-        }
+                }
 	g_free(size);
 	g_free(ct);
 	g_free(name_escaped);
 
 	{
-		GString *buf = g_string_sized_new(FILEDATA_MARKS_SIZE * 2);
-		FileData *fd = image_get_fd(imd);
+	GString *buf = g_string_sized_new(FILEDATA_MARKS_SIZE * 2);
+	FileData *fd = image_get_fd(imd);
         
-		for (i=0; i < FILEDATA_MARKS_SIZE; i++) 
-			{
+	for (i=0; i < FILEDATA_MARKS_SIZE; i++) 
+		{
 			
-			g_string_append_printf(buf, fd->marks[i] ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + i);
-    			}
-    		text2 = g_strdup_printf("%s\n%s", text, buf->str);
+		g_string_append_printf(buf, fd->marks[i] ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + i);
+    		}
+    	text2 = g_strdup_printf("%s\n%s", text, buf->str);
 	}
         
 	layout = gtk_widget_create_pango_layout(imd->pr, NULL);
@@ -596,4 +594,3 @@ void image_osd_icon(ImageWindow *imd, ImageOSDFlag flag, gint duration)
 	image_osd_update_schedule(osd, FALSE);
 	image_osd_timer_schedule(osd);
 }
-
