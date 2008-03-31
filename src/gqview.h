@@ -167,6 +167,8 @@ extern gint fullscreen_screen;
 extern gint fullscreen_clean_flip;
 extern gint fullscreen_disable_saver;
 extern gint fullscreen_above;
+extern gint show_fullscreen_info;
+extern gchar *fullscreen_info;
 
 extern gint dupe_custom_threshold;
 

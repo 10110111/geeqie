@@ -18,6 +18,7 @@
 #include "dnd.h"
 #include "editors.h"
 #include "filelist.h"
+#include "image-overlay.h"
 #include "img-view.h"
 #include "layout.h"
 #include "layout_image.h"
@@ -1134,6 +1135,11 @@ static void setup_default_options(void)
 		color_profile_input_name[i] = NULL;
 		}
 
+	fullscreen_info = g_strdup("%collection%(%number%/%total%) <b>%name%</b>\n"
+				   "%res%|%date%|%size%\n"
+				   "%fAperture%|%fShutterSpeed%|%fISOSpeedRating%|%fFocalLength%|%fExposureBias%\n"
+				   "%fCamera%|%fFlash%");
+
 	sidecar_ext_add_defaults();
 }
 
@@ -1155,6 +1161,7 @@ static void exit_gqview_final(void)
 			layout_geometry_get(NULL, &main_window_x, &main_window_y,
 					    &main_window_w, &main_window_h);
 			}
+		show_fullscreen_info = image_osd_get(lw->image, NULL, NULL);
 		}
 
 	layout_geometry_get_dividers(NULL, &window_hdivider_pos, &window_vdivider_pos);
@@ -1418,6 +1425,7 @@ int main (int argc, char *argv[])
 						    collection_get_first(first_collection));
 			}
 		}
+	image_osd_set(lw->image, FALSE, show_fullscreen_info);
 
 	g_free(geometry);
 	g_free(cmd_path);

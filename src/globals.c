@@ -100,6 +100,8 @@ gint fullscreen_screen = -1;
 gint fullscreen_clean_flip = FALSE;
 gint fullscreen_disable_saver = TRUE;
 gint fullscreen_above = FALSE;
+gint show_fullscreen_info = TRUE;
+gchar *fullscreen_info = NULL;
 
 gint dupe_custom_threshold = 99;
 

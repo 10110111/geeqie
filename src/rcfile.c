@@ -357,6 +357,8 @@ void save_options(void)
 	write_bool_option(f, "fullscreen_clean_flip", fullscreen_clean_flip);
 	write_bool_option(f, "fullscreen_disable_saver", fullscreen_disable_saver);
 	write_bool_option(f, "fullscreen_above", fullscreen_above);
+	write_bool_option(f, "show_fullscreen_info", show_fullscreen_info);
+	write_char_option(f, "fullscreen_info", fullscreen_info);
 
 	write_int_option(f, "custom_similarity_threshold", dupe_custom_threshold);
 
@@ -632,6 +634,10 @@ void load_options(void)
 			"fullscreen_disable_saver", value, fullscreen_disable_saver);
 		fullscreen_above = read_bool_option(f, option,
 			"fullscreen_above", value, fullscreen_above);
+		show_fullscreen_info = read_bool_option(f, option,
+			"show_fullscreen_info", value, show_fullscreen_info);
+		fullscreen_info = read_char_option(f, option,
+			"fullscreen_info", value_all, fullscreen_info);
 
 		dupe_custom_threshold = read_int_option(f, option,
 			"custom_similarity_threshold", value, dupe_custom_threshold);

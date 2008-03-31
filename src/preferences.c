@@ -123,6 +123,8 @@ static gint fullscreen_screen_c;
 static gint fullscreen_clean_flip_c;
 static gint fullscreen_disable_saver_c;
 static gint fullscreen_above_c;
+static gint show_fullscreen_info_c;
+static gchar *fullscreen_info_c = NULL;
 
 static gint dupe_custom_threshold_c;
 
@@ -295,6 +297,12 @@ static void config_window_apply(void)
 	fullscreen_clean_flip = fullscreen_clean_flip_c;
 	fullscreen_disable_saver = fullscreen_disable_saver_c;
 	fullscreen_above = fullscreen_above_c;
+	show_fullscreen_info = show_fullscreen_info_c;
+	if (fullscreen_info_c)
+		{
+		g_free(fullscreen_info);
+		fullscreen_info = g_strdup(fullscreen_info_c);
+		}
 
 	update_on_time_change = update_on_time_change_c;
 	exif_rotate_enable = exif_rotate_enable_c;
@@ -781,6 +789,23 @@ static void safe_delete_clear_cb(GtkWidget* widget, gpointer data)
 	gtk_widget_show(gd->dialog);
 }
 
+static void fullscreen_info_view_changed_cb(GtkWidget* widget, gpointer data)
+{
+	GtkWidget *pTextView;
+	GtkTextBuffer* pTextBuffer;
+	GtkTextIter iStart;
+	GtkTextIter iEnd;
+
+	pTextView = GTK_WIDGET(data);
+
+	pTextBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(pTextView));
+	gtk_text_buffer_get_start_iter(pTextBuffer, &iStart);
+	gtk_text_buffer_get_end_iter(pTextBuffer, &iEnd);
+
+	if (fullscreen_info_c) g_free(fullscreen_info_c);
+	fullscreen_info_c = gtk_text_buffer_get_text(pTextBuffer, &iStart, &iEnd, TRUE);
+}
+
 static void config_window_create(void)
 {
 	GtkWidget *win_vbox;
@@ -799,9 +824,11 @@ static void config_window_create(void)
 	GtkWidget *scrolled;
 	GtkWidget *viewport;
 	GtkWidget *filter_view;
+	GtkWidget *fullscreen_info_view;
 	GtkCellRenderer *renderer;
 	GtkTreeSelection *selection;
 	GtkTreeViewColumn *column;
+	GtkTextBuffer *buffer;
 	gint i;
 
 	configwindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -1221,6 +1248,39 @@ static void config_window_create(void)
 			      fullscreen_clean_flip, &fullscreen_clean_flip_c);
 	pref_checkbox_new_int(group, _("Disable screen saver"),
 			      fullscreen_disable_saver, &fullscreen_disable_saver_c);
+	pref_checkbox_new_int(group, _("Always show fullscreen info"),
+			      show_fullscreen_info, &show_fullscreen_info_c);
+	pref_label_new(group, _("Fullscreen info string"));
+
+	scrolled = gtk_scrolled_window_new(NULL, NULL);
+	gtk_widget_set_size_request(scrolled, 200, 150);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
+				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_box_pack_start(GTK_BOX(group), scrolled, TRUE, TRUE, 5);
+	gtk_widget_show(scrolled);
+
+	fullscreen_info_view = gtk_text_view_new();
+	gtk_widget_set_tooltip_markup(fullscreen_info_view,
+	_("<i>%name%</i> results in the filename of the picture.\n"
+	  "Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>%date%</i>,\n"
+	  "<i>%size%</i> (filesize), <i>%width%</i>, <i>%height%</i>, <i>%res%</i> (resolution)\n"
+	  "To access exif data use the exif name, e. g. <i>%fCamera%</i> is the formatted camera name,\n"
+	  "<i>%Exif.Photo.DateTimeOriginal%</i> the date of the original shot.\n"
+	  "If two or more variables are connected with the |-sign, it prints available variables with a separator.\n"
+	  "<i>%fShutterSpeed%</i>|<i>%fISOSpeedRating%</i>|<i>%fFocalLength%</i> could show \"1/20s - 400 - 80 mm\" or \"1/200 - 80 mm\",\n"
+	  "if there's no ISO information in the Exif data.\n"
+	  "If a line is empty, it is removed. This allows to add lines that totally disappear when no data is available.\n"
+));
+
+gtk_container_add(GTK_CONTAINER(scrolled), fullscreen_info_view);
+	gtk_widget_show(fullscreen_info_view);
+
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(fullscreen_info_view));
+	gtk_text_buffer_set_text(buffer, fullscreen_info, -1);
+	g_signal_connect(G_OBJECT(buffer), "changed",
+			 G_CALLBACK(fullscreen_info_view_changed_cb), fullscreen_info_view);
+
 
 	group = pref_group_new(vbox, FALSE, _("Delete"), GTK_ORIENTATION_VERTICAL);
 

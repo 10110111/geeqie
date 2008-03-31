@@ -13,6 +13,7 @@
 #include "image-overlay.h"
 
 #include "collect.h"
+#include "exif.h"
 #include "filelist.h"
 #include "image.h"
 #include "img-view.h"
@@ -75,6 +76,72 @@ static OSDIcon osd_icons[] = {
 
 static void image_osd_timer_schedule(OverlayStateData *osd);
 
+static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *vars)
+{
+	gchar delim = '%', imp = '|', sep[] = " - ";
+	gchar *start, *end;
+	gint pos, prev;
+	gint last;
+	gchar *name, *data;
+	GString *new = g_string_new(str);
+	gchar *ret;
+	ExifData *exif;
+
+	exif = exif_read_fd(imd->image_fd, FALSE);
+	prev = 0;
+	last = FALSE;
+
+	while (TRUE)
+		{
+		start = strchr(new->str, delim);
+		if (!start)
+			break;
+		end = strchr(start+1, delim);
+		if (!end)
+			break;
+
+		name = g_strndup(start+1, end-start-1);
+		pos = start-new->str;
+		data = g_strdup(g_hash_table_lookup(vars, name));
+		if (!data && exif)
+			data = exif_get_data_as_text(exif, name);
+
+		g_string_erase(new, pos, end-start+1);
+		if (data)
+			g_string_insert(new, pos, data);
+		if (pos-prev == 2 && new->str[pos-1] == imp)
+			{
+			g_string_erase(new, --pos, 1);
+			if (last && data)
+				{
+				g_string_insert(new, pos, sep);
+				pos += strlen(sep);
+				}
+			}
+
+		prev = data ? pos+strlen(data)-1 : pos-1;
+		last = data ? TRUE : last;
+		g_free(name);
+		g_free(data);
+		}
+	
+	/* search and destroy empty lines */
+	end = new->str;
+	while (start = strchr(end, '\n'))
+		{
+		end = start;
+		while (*++(end) == '\n')
+			;
+		g_string_erase(new, start-new->str, end-start-1);
+		}
+
+	g_strchomp(new->str);
+
+	ret = new->str;
+	g_string_free(new, FALSE);
+
+	return ret;
+}
 
 static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 {
@@ -90,7 +157,11 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	CollectInfo *info;
     	gchar *ct;
     	int i;
-    
+	gint w, h;
+	GHashTable *vars;
+
+	vars = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+
 	name = image_get_name(imd);
 	if (name)
 		{
@@ -148,20 +219,8 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 		}
 
 	size = text_from_size_abrev(imd->size);
-	if (!name_escaped)
+	if (!imd->unknown)
 		{
-		text = g_strdup_printf(_("Untitled"));
-		}
-	else if (imd->unknown)
-		{
-		text = g_strdup_printf("%s(%d/%d) <b>%s</b>\n%s - %s", ct,
-				       n, t, name_escaped,
-				       text_from_time(imd->mtime), size);
-		}
-	else
-		{
-		gint w, h;
-
 		if (imd->delay_flip &&
 		    imd->il && imd->il->pixbuf &&
 		    image_get_pixbuf(imd) != imd->il->pixbuf)
@@ -174,15 +233,31 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 			pixbuf_renderer_get_image_size(PIXBUF_RENDERER(imd->pr), &w, &h);
 			}
 
-		text = g_strdup_printf("%s(%d/%d) <b>%s</b>\n%d x %d - %s - %s", ct,
-				       n, t, name_escaped,
-				       w, h,
-				       text_from_time(imd->mtime), size);
+ 		g_hash_table_insert(vars, "width", g_strdup_printf("%d", w));
+ 		g_hash_table_insert(vars, "height", g_strdup_printf("%d", h));
+ 		g_hash_table_insert(vars, "res", g_strdup_printf("%d × %d", w, h));
+ 		}
+  
+ 	g_hash_table_insert(vars, "collection", g_strdup(ct));
+ 	g_hash_table_insert(vars, "number", g_strdup_printf("%d", n));
+ 	g_hash_table_insert(vars, "total", g_strdup_printf("%d", t));
+ 	g_hash_table_insert(vars, "name", g_strdup(name_escaped));
+ 	g_hash_table_insert(vars, "date", g_strdup(text_from_time(imd->mtime)));
+ 	g_hash_table_insert(vars, "size", g_strdup(size));
+  
+ 	if (!name_escaped)
+ 		{
+ 		text = g_strdup_printf(_("Untitled"));
+ 		}
+ 	else
+ 		{
+ 		text = image_osd_mkinfo(fullscreen_info, imd, vars);
+		}
 
-                }
 	g_free(size);
-	g_free(ct);
-	g_free(name_escaped);
+  	g_free(ct);
+  	g_free(name_escaped);
+	g_hash_table_destroy(vars);
 
 	{
 	GString *buf = g_string_sized_new(FILEDATA_MARKS_SIZE * 2);
@@ -206,6 +281,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	width += 10;
 	height += 10;
 
+	/* TODO: make osd color configurable --Zas */
 	pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, width, height);
 	pixbuf_set_rect_fill(pixbuf, 3, 3, width-6, height-6, 240, 240, 240, 210);
 	pixbuf_set_rect(pixbuf, 0, 0, width, height, 240, 240, 240, 80, 1, 1, 1, 1);
