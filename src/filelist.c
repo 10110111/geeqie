@@ -371,10 +371,14 @@ void filter_write_list(FILE *f)
 		{
 		FilterEntry *fe = work->data;
 		work = work->next;
+		
+		gchar *extensions = escquote_value(fe->extensions);
+		gchar *description = escquote_value(fe->description);
 
-		fprintf(f, "filter_ext: \"%s%s\" \"%s\" \"%s\"\n", (fe->enabled) ? "" : "#",
-			fe->key, fe->extensions,
-			(fe->description) ? fe->description : "");
+		fprintf(f, "filter_ext: \"%s%s\" %s %s\n", (fe->enabled) ? "" : "#",
+			fe->key, extensions, description);
+		g_free(extensions);
+		g_free(description);
 		}
 }
 
@@ -388,40 +392,11 @@ void filter_parse(const gchar *text)
 
 	if (!text || text[0] != '"') return;
 
-	key = quoted_value(text);
+	key = quoted_value(text, &p);
 	if (!key) return;
 
-	p = text;
-	p++;
-	while (*p != '"' && *p != '\0') p++;
-	if (*p != '"')
-		{
-		g_free(key);
-		return;
-		}
-	p++;
-	while (*p != '"' && *p != '\0') p++;
-	if (*p != '"')
-		{
-		g_free(key);
-		return;
-		}
-
-	ext = quoted_value(p);
-
-	p++;
-	while (*p != '"' && *p != '\0') p++;
-	if (*p == '"') p++;
-	while (*p != '"' && *p != '\0') p++;
-
-	if (*p == '"')
-		{
-		desc = quoted_value(p);
-		}
-	else
-		{
-		desc = NULL;
-		}
+	ext = quoted_value(p, &p);
+	desc = quoted_value(p, &p);
 
 	if (key && key[0] == '#')
 		{
@@ -502,7 +477,7 @@ void sidecar_ext_parse(const gchar *text, gint quoted)
 	sidecar_ext_list = NULL;
 	
 	if (quoted)
-		value = quoted_value(text);
+		value = quoted_value(text, NULL);
 	else
 		value = g_strdup(text);
 

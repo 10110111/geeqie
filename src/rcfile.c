@@ -23,13 +23,23 @@
  * line write/parse routines (private)
  *-----------------------------------------------------------------------------
  */ 
+ 
+/* 
+   returns text without quotes or NULL for empty or broken string
+   any text up to first '"' is skipped
+   tail is set to point at the char after the second '"'
+   or at the ending \0 
+   
+*/
 
-gchar *quoted_value(const gchar *text)
+gchar *quoted_value(const gchar *text, const gchar **tail)
 {
 	const gchar *ptr;
 	gint c = 0;
 	gint l = strlen(text);
 	gchar *retval = NULL;
+	
+	if (tail) *tail = text;
 	
 	if (l == 0) return retval;
 
@@ -58,6 +68,7 @@ gchar *quoted_value(const gchar *text)
 					}
 				}
 			}
+		if (tail) *tail = text + e + 1;
 		}
 	else
 		/* for compatibility with older formats (<0.3.7)
@@ -69,6 +80,7 @@ gchar *quoted_value(const gchar *text)
 			{
 			retval = g_strndup(text, c);
 			}
+		if (tail) *tail = text + c;
 		}
 
 	return retval;
@@ -79,7 +91,7 @@ gchar *escquote_value(const gchar *text)
 	gchar *e;
 	gchar *retval;
 
-	if (!text) return g_strdup("");
+	if (!text) return g_strdup("\"\"");
 
 	e = g_strescape(text, "");
 	if (e)
@@ -88,20 +100,15 @@ gchar *escquote_value(const gchar *text)
 		g_free(e);
 		return retval;
 		}
-	return g_strdup("");
+	return g_strdup("\"\"");
 }
 
 static void write_char_option(FILE *f, gchar *label, gchar *text)
 {
 	gchar *escval = escquote_value(text);
 
-	if (escval)
-		{
-		fprintf(f,"%s: %s\n", label, escval);
-		g_free(escval);
-		}
-	else
-		fprintf(f,"%s: \n", label);
+	fprintf(f,"%s: %s\n", label, escval);
+	g_free(escval);
 }
 
 static gchar *read_char_option(FILE *f, gchar *option, gchar *label, gchar *value, gchar *text)
@@ -109,7 +116,7 @@ static gchar *read_char_option(FILE *f, gchar *option, gchar *label, gchar *valu
 	if (strcasecmp(option, label) == 0)
 		{
 		g_free(text);
-		text = quoted_value(value);
+		text = quoted_value(value, NULL);
 		}
 	return text;
 }
@@ -120,7 +127,7 @@ static void write_color_option(FILE *f, gchar *label, GdkColor *color)
 		{
 		gchar *colorstring = gdk_color_to_string (color);
 
-		fprintf(f,"%s: \"%s\"\n", label, colorstring);
+		write_char_option(f, label, colorstring);
 		g_free(colorstring);
 		}
 	else
@@ -131,7 +138,9 @@ static GdkColor *read_color_option(FILE *f, gchar *option, gchar *label, gchar *
 {
 	if (strcasecmp(option, label) == 0)
 		{
-		gdk_color_parse(quoted_value(value), color);
+		gchar *colorstr = quoted_value(value, NULL);
+		if (colorstr) gdk_color_parse(colorstr, color);
+		g_free(colorstr);
 		}
 	return color;
 }
@@ -398,11 +407,11 @@ void save_options(void)
 
 	for (i = 0; i < GQVIEW_EDITOR_SLOTS; i++)
 		{
-		fprintf(f,"external_%d: \"", i+1);
-		if (editor_name[i]) fprintf(f, "%s", editor_name[i]);
-		fprintf(f, "\" \"");
-		if (editor_command[i]) fprintf(f, "%s", editor_command[i]);
-		fprintf(f, "\"\n");
+		char *qname = escquote_value(editor_name[i]);
+		char *qcommand = escquote_value(editor_command[i]);
+		fprintf(f,"external_%d: %s %s\n", i+1, qname, qcommand);
+		g_free(qname);
+		g_free(qcommand);
 		}
 
 	fprintf(f,"\n##### Collection Options #####\n\n");
@@ -693,44 +702,13 @@ void load_options(void)
 			i = strtol(option + 9, NULL, 0);
 			if (i > 0 && i <= GQVIEW_EDITOR_SLOTS)
 				{
-				gchar *ptr1, *ptr2;
+				const gchar *ptr;
 				i--;
-				c = 0;
-				l = strlen(value_all);
-				ptr1 = value_all;
-
 				g_free(editor_name[i]);
-				editor_name[i] = NULL;
 				g_free(editor_command[i]);
-				editor_command[i] = NULL;
-
-				while (c<l && value_all[c] !='"') c++;
-				if (ptr1[c] == '"')
-					{
-					c++;
-					ptr2 = ptr1 + c;
-					while (c<l && value_all[c] !='"') c++;
-					if (ptr1[c] == '"')
-						{
-						ptr1[c] = '\0';
-						if (ptr1 + c - 1 != ptr2)
-							editor_name[i] = g_strdup(ptr2);
-						c++;
-						while (c<l && value_all[c] !='"') c++;
-						if (ptr1[c] == '"')
-							{
-							c++;
-							ptr2 = ptr1 + c;
-							while (value_all[c] != '\0') c++;
-							while (c > 0 && value_all[c] != '"') c--;
-							if (ptr1[c] == '"' && ptr1 + c > ptr2)
-								{
-								ptr1[c] = '\0';
-								editor_command[i] = g_strdup(ptr2);
-								}
-							}
-						}
-					}
+				
+				editor_name[i] = quoted_value(value_all, &ptr);
+				editor_command[i] = quoted_value(ptr, NULL);
 				}
 			}
 

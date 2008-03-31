@@ -112,7 +112,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, gint 
 			}
 		if (s_buf[0]=='\n') continue;
 
-		buf = quoted_value(s_buf);
+		buf = quoted_value(s_buf, NULL);
 		if (buf)
 			{
 			gint valid;

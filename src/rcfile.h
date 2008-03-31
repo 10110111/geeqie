@@ -14,7 +14,8 @@
 #define RCFILE_H
 
 
-gchar *quoted_value(const gchar *text);
+gchar *quoted_value(const gchar *text, const gchar **tail);
+gchar *escquote_value(const gchar *text);
 
 void save_options(void);
 void load_options(void);
