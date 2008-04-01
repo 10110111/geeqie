@@ -459,7 +459,7 @@ static void info_window_sync(InfoData *id, FileData *fd)
 		{
 		gchar *buf;
 		buf = g_strdup_printf(_("Image %d of %d"),
-				      g_list_index(id->list, (gpointer)fd->path) + 1,
+				      g_list_index(id->list, (gpointer)fd) + 1,
 				      g_list_length(id->list));
 		gtk_label_set_text(GTK_LABEL(id->label_count), buf);
 		g_free(buf);
