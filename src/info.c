@@ -41,8 +41,18 @@ struct _TabData
 	void (*func_sync)(InfoData *id, gpointer data);
 	void (*func_image)(InfoData *id, gpointer data);
 	gpointer data;
+	TabData *(*func_new)(InfoData *id);
+	GtkWidget *child;
 };
 
+typedef struct _InfoTabsPos InfoTabsPos;
+struct _InfoTabsPos
+{
+	TabData *(*func)(InfoData *id);
+	gint pos;
+};
+
+static GList *info_tabs_pos_list = NULL;
 
 /*
  *-------------------------------------------------------------------
@@ -105,6 +115,7 @@ static TabData *info_tab_exif_new(InfoData *id)
 
 	label = gtk_label_new(_("Exif"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(id->notebook), bar, label);
+	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(id->notebook), bar, TRUE);
 	gtk_widget_show(bar);
 
 	/* register */
@@ -113,6 +124,8 @@ static TabData *info_tab_exif_new(InfoData *id)
 	td->func_sync = info_tab_exif_sync;
 	td->func_image = info_tab_exif_image;
 	td->data = bar;
+	td->func_new = info_tab_exif_new;
+	td->child = bar;
 
 	return td;
 }
@@ -166,6 +179,7 @@ static TabData *info_tab_meta_new(InfoData *id)
 
 	label = gtk_label_new(_("Keywords"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(id->notebook), tab->bar_info, label);
+	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(id->notebook), tab->bar_info, TRUE);
 	gtk_widget_show(tab->bar_info);
 
 	/* register */
@@ -174,6 +188,8 @@ static TabData *info_tab_meta_new(InfoData *id)
 	td->func_sync = info_tab_meta_sync;
 	td->func_image = NULL;
 	td->data = tab;
+	td->func_new = info_tab_meta_new;
+	td->child = tab->bar_info;
 
 	return td;
 }
@@ -379,6 +395,7 @@ static TabData *info_tab_general_new(InfoData *id)
 
 	label = gtk_label_new(_("General"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(id->notebook), table, label);
+	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(id->notebook), table, TRUE);
 	gtk_widget_show(table);
 
 	/* register */
@@ -387,6 +404,8 @@ static TabData *info_tab_general_new(InfoData *id)
 	td->func_sync = info_tab_general_sync;
 	td->func_image = info_tab_general_image;
 	td->data = tab;
+	td->func_new = info_tab_general_new;
+	td->child = table;
 
 	return td;
 }
@@ -435,11 +454,53 @@ static void info_tabs_free(InfoData *id)
 	id->tab_list = NULL;
 }
 
+static InfoTabsPos *info_tabs_pos_new(gpointer func, gint pos)
+{
+	InfoTabsPos *t = g_new0(InfoTabsPos, 1);
+	t->func = func;
+	t->pos = pos;
+
+	return t;
+}
+
+static void info_tabs_pos_list_append(gpointer func)
+{
+	static gint pos = 0;
+
+	info_tabs_pos_list = g_list_append(info_tabs_pos_list, info_tabs_pos_new(func, pos++));
+}
+
+static gint compare_info_tabs_pos(gconstpointer a, gconstpointer b)
+{
+	InfoTabsPos *ta = (InfoTabsPos *) a;
+	InfoTabsPos *tb = (InfoTabsPos *) b;
+
+	if (ta->pos > tb->pos) return 1;
+	return -1;
+}
+
 static void info_tabs_init(InfoData *id)
 {
-	id->tab_list = g_list_append(id->tab_list, info_tab_general_new(id));
-	id->tab_list = g_list_append(id->tab_list, info_tab_meta_new(id));
-	id->tab_list = g_list_append(id->tab_list, info_tab_exif_new(id));
+	GList *work;
+
+	if (!info_tabs_pos_list)
+		{
+		/* First run, default tabs order is defined here. */
+		info_tabs_pos_list_append(info_tab_general_new);
+		info_tabs_pos_list_append(info_tab_meta_new);
+		info_tabs_pos_list_append(info_tab_exif_new);
+		}
+	else
+		info_tabs_pos_list = g_list_sort(info_tabs_pos_list, compare_info_tabs_pos);
+
+	work = info_tabs_pos_list;
+	while (work)
+		{
+		InfoTabsPos *t = work->data;
+		work = work->next;
+
+		id->tab_list = g_list_append(id->tab_list, t->func(id));
+		}
 }
 
 /*
@@ -469,6 +530,37 @@ static void info_window_sync(InfoData *id, FileData *fd)
 
 	id->updated = FALSE;
 	image_change_fd(id->image, fd, 0.0);
+}
+
+static void info_notebook_reordered_cb(GtkNotebook *notebook, GtkWidget *child, guint page_num, gpointer data)
+{
+	InfoData *id = data;
+	GList *work;
+
+	info_tabs_sync(id, 0);
+
+	/* Save current tabs position to be able to restore them later. */
+	work = id->tab_list;
+	while (work)
+		{
+		GList *tabpos;
+		TabData *td = work->data;
+		gint pos = gtk_notebook_page_num(GTK_NOTEBOOK(id->notebook), GTK_WIDGET(td->child));
+		work = work->next;
+
+		tabpos = info_tabs_pos_list;
+		while (tabpos)
+			{
+			InfoTabsPos *t = tabpos->data;
+			tabpos = tabpos->next;
+
+			if (t->func == td->func_new)
+				{
+				t->pos = pos;
+				break;
+				}
+			}	
+	}
 }
 
 /*
@@ -730,6 +822,9 @@ void info_window_new(FileData *fd, GList *list)
 	id->notebook = gtk_notebook_new();
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(id->notebook), GTK_POS_TOP);
 	gtk_box_pack_start(GTK_BOX(main_vbox), id->notebook, TRUE, TRUE, 5);
+	g_signal_connect(G_OBJECT(id->notebook), "page-reordered",
+			 G_CALLBACK(info_notebook_reordered_cb), id);
+
 	gtk_widget_show(id->notebook);
 
 	pref_spacer(main_vbox, PREF_PAD_GAP);
