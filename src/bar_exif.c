@@ -36,6 +36,7 @@ static const gchar *bar_exif_key_list_real[] = {
 	"fExposureBias",
 	"fISOSpeedRating",
 	"fFocalLength",
+	"fFocalLength35mmFilm",
 	"fSubjectDistance",
 	"Exif.Photo.MeteringMode",
 	"fFlash",
@@ -48,6 +49,27 @@ static const gchar *bar_exif_key_list_real[] = {
 
 const gchar **bar_exif_key_list = bar_exif_key_list_real;
 const gint bar_exif_key_count = (sizeof(bar_exif_key_list_real) / sizeof(gchar *));
+
+ExifUI ExifUIList[]={
+	{ 0, 0, EXIF_UI_ON,    "fCamera"},
+	{ 0, 0, EXIF_UI_ON,    "fDateTime"},
+	{ 0, 0, EXIF_UI_ON,    "fShutterSpeed"},
+	{ 0, 0, EXIF_UI_ON,    "fAperture"},
+	{ 0, 0, EXIF_UI_IFSET, "Exif.Photo.ExposureProgram"},
+	{ 0, 0, EXIF_UI_IFSET, "fExposureBias"},
+	{ 0, 0, EXIF_UI_IFSET, "fISOSpeedRating"},
+	{ 0, 0, EXIF_UI_ON,    "fFocalLength"},
+	{ 0, 0, EXIF_UI_IFSET, "fFocalLength35mmFilm"},
+	{ 0, 0, EXIF_UI_IFSET, "fSubjectDistance"},
+	{ 0, 0, EXIF_UI_IFSET, "Exif.Photo.MeteringMode"},
+	{ 0, 0, EXIF_UI_ON,    "fFlash"},
+	{ 0, 0, EXIF_UI_IFSET, "Exif.Photo.LightSource"},
+	{ 0, 0, EXIF_UI_OFF,   "fResolution"},
+	{ 0, 0, EXIF_UI_IFSET, "Exif.Image.Orientation"},
+	{ 0, 0, EXIF_UI_IFSET, "Exif.Image.ImageDescription"},
+	{ 0, 0, EXIF_UI_IFSET, "Exif.Image.Copyright"},
+	{ 0, 0, EXIF_UI_OFF,   NULL}
+};
 
 
 /*
@@ -87,7 +109,8 @@ static void table_add_line_custom(GtkWidget *table, gint x, gint y,
 }
 
 static GtkWidget *table_add_line(GtkWidget *table, gint x, gint y,
-				 const gchar *description, const gchar *text)
+				 const gchar *description, const gchar *text,
+				GtkWidget **keyret)
 {
 	GtkWidget *key;
 	GtkWidget *label;
@@ -95,6 +118,7 @@ static GtkWidget *table_add_line(GtkWidget *table, gint x, gint y,
 	table_add_line_custom(table, x, y, description, text, &key, &label);
 	gtk_widget_show(key);
 	gtk_widget_show(label);
+	if (keyret) *keyret = key;
 
 	return label;
 }
@@ -114,6 +138,7 @@ struct _ExifBar
 	GtkWidget *table;
 	GtkWidget *advanced_scrolled;
 	GtkWidget *listview;
+	GtkWidget **keys;
 	GtkWidget **labels;
 
 	GtkWidget *custom_sep;
@@ -185,12 +210,27 @@ static void bar_exif_update(ExifBar *eb)
 	if (GTK_WIDGET_VISIBLE(eb->scrolled))
 		{
 		GList *list;
-		len = bar_exif_key_count;
-		for (i = 0; i < len; i++)
+		for (i = 0; ExifUIList[i].key; i++)
 			{
 			gchar *text;
-			text = exif_get_data_as_text(exif, bar_exif_key_list[i]);
+
+			if (ExifUIList[i].current == EXIF_UI_OFF)
+				{
+				gtk_widget_hide(eb->labels[i]);
+				gtk_widget_hide(eb->keys[i]);
+				continue;
+				}
+			text = exif_get_data_as_text(exif, ExifUIList[i].key);
 			text = bar_exif_validate_text(text);
+			if (ExifUIList[i].current == EXIF_UI_IFSET
+			    && (!text || !*text))
+			    	{
+				gtk_widget_hide(eb->labels[i]);
+				gtk_widget_hide(eb->keys[i]);
+				continue;
+				}
+			gtk_widget_show(eb->labels[i]);
+			gtk_widget_show(eb->keys[i]);
 			gtk_label_set_text(GTK_LABEL(eb->labels[i]), text);
 			g_free(text);
 			}
@@ -286,13 +326,11 @@ static void bar_exif_update(ExifBar *eb)
 
 static void bar_exif_clear(ExifBar *eb)
 {
-	gint len;
 	gint i;
 
 	if (!GTK_WIDGET_SENSITIVE(eb->labels[0])) return;
 
-	len = bar_exif_key_count;
-	for (i = 0; i < len; i++)
+	for (i = 0; ExifUIList[i].key; i++)
 		{
 		gtk_label_set_text(GTK_LABEL(eb->labels[i]), "");
 		}
@@ -519,6 +557,7 @@ static void bar_exif_destroy(GtkWidget *widget, gpointer data)
 {
 	ExifBar *eb = data;
 
+	g_free(eb->keys);
 	g_free(eb->labels);
 	file_data_unref(eb->fd);
 	g_free(eb);
@@ -533,10 +572,15 @@ GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget 
 	GtkWidget *button;
 	gint len;
 	gint i;
+	gint exif_len;
+
+	for (exif_len = 0; ExifUIList[exif_len].key; exif_len++)
+	      ;
 
 	eb = g_new0(ExifBar, 1);
 
-	eb->labels = g_new0(GtkWidget *, bar_exif_key_count);
+	eb->keys = g_new0(GtkWidget *, exif_len);
+	eb->labels = g_new0(GtkWidget *, exif_len);
 
 	eb->vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
 	g_object_set_data(G_OBJECT(eb->vbox), "bar_exif_data", eb);
@@ -590,27 +634,28 @@ GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget 
 		gtk_widget_show(box);
 		}
 
-	table = gtk_table_new(2, bar_exif_key_count + 1 + EXIF_BAR_CUSTOM_COUNT, FALSE);
+
+	table = gtk_table_new(2, exif_len + 1 + EXIF_BAR_CUSTOM_COUNT, FALSE);
 
 	eb->table = table;
 
-	len = bar_exif_key_count;
-	for (i = 0; i < len; i++)
+	for (i = 0; ExifUIList[i].key; i++)
 		{
 		const gchar *text;
 
-		text = exif_get_description_by_key(bar_exif_key_list[i]);
-		eb->labels[i] = table_add_line(table, 0, i, text, NULL);
+		text = exif_get_description_by_key(ExifUIList[i].key);
+		eb->labels[i] = table_add_line(table, 0, i, text, NULL, 
+		      &eb->keys[i]);
 		}
 
 	eb->custom_sep = gtk_hseparator_new();
 	gtk_table_attach(GTK_TABLE(table), eb->custom_sep, 0, 1,
-					   bar_exif_key_count, bar_exif_key_count + 1,
+					   exif_len, exif_len + 1,
 					   GTK_FILL, GTK_FILL, 2, 2);
 
 	for (i = 0; i < EXIF_BAR_CUSTOM_COUNT; i++)
 		{
-		table_add_line_custom(table, 0, bar_exif_key_count + 1 + i,
+		table_add_line_custom(table, 0, exif_len + 1 + i,
 				      "", "",  &eb->custom_name[i], &eb->custom_value[i]);
 		}
 

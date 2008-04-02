@@ -364,7 +364,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 
 	if (imd->color_profile_use_image && exif)
 		{
-		item = exif_get_item(exif, "ColorProfile");
+		item = exif_get_item(exif, "Exif.Image.InterColorProfile");
 		if (!item)
 			{
 			gint cs;

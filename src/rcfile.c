@@ -16,6 +16,7 @@
 #include "filelist.h"
 #include "slideshow.h"
 #include "ui_fileops.h"
+#include "bar_exif.h"
 
 
 /*
@@ -437,6 +438,13 @@ void save_options(void)
 	write_int_option(f, "divider_position_h", window_hdivider_pos);
 	write_int_option(f, "divider_position_v", window_vdivider_pos);
 
+	fprintf(f,"\n##### Exif #####\n# 0: never\n# 1: if set\n# 2: always\n");
+	for (i = 0; ExifUIList[i].key; i++)
+		{
+		fprintf(f,"exif_");
+		write_int_option(f, (gchar *)ExifUIList[i].key, ExifUIList[i].current);
+		}
+
 	fprintf(f,"######################################################################\n");
 	fprintf(f,"#                      end of Geeqie config file                     #\n");
 	fprintf(f,"######################################################################\n");
@@ -463,6 +471,9 @@ void load_options(void)
 	gchar value[1024];
 	gchar value_all[1024];
 	gint c,l,i;
+
+	for (i = 0; ExifUIList[i].key; i++)
+		ExifUIList[i].current = ExifUIList[i].default_value;
 
 	rc_path = g_strconcat(homedir(), "/", GQVIEW_RC_DIR, "/", RC_FILE_NAME, NULL);
 
@@ -753,6 +764,12 @@ void load_options(void)
 		window_vdivider_pos = read_int_option(f, option,
 			"divider_position_v", value, window_vdivider_pos);
 
+		if (0 == strncasecmp(option, "exif_", 5))
+			{
+			for (i = 0; ExifUIList[i].key; i++)
+				if (0 == strcasecmp(option+5, ExifUIList[i].key))
+					ExifUIList[i].current = strtol(value, NULL, 10);
+		  	}
 		}
 
 	fclose(f);

@@ -13,6 +13,19 @@
 #ifndef BAR_EXIF_H
 #define BAR_EXIF_H
 
+#define EXIF_UI_OFF     0
+#define EXIF_UI_IFSET   1
+#define EXIF_UI_ON      2
+
+typedef struct _ExifUI ExifUI;
+struct _ExifUI {
+	gint         current;
+	gint         temp;
+	gint         default_value;
+	const gchar *key;
+};
+extern ExifUI ExifUIList[];
+
 
 GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget *bounding_widget);
 void bar_exif_close(GtkWidget *bar);

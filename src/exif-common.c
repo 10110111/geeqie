@@ -38,6 +38,7 @@ ExifFormattedText ExifFormattedList[] = {
 	{ "fExposureBias",	N_("Exposure bias") },
 	{ "fISOSpeedRating",	N_("ISO sensitivity") },
 	{ "fFocalLength",	N_("Focal length") },
+	{ "fFocalLength35mmFilm",N_("Focal length 35mm") },
 	{ "fSubjectDistance",	N_("Subject distance") },
 	{ "fFlash",		N_("Flash") },
 	{ "fResolution",	N_("Resolution") },
@@ -51,7 +52,6 @@ static ExifTextList ExifFlashList[] = {
 	{ 7,	N_("yes, detected by strobe") },
 	EXIF_TEXT_LIST_END
 };
-
 
 double exif_rational_to_double(ExifRational *r, gint sign)
 {
@@ -78,6 +78,58 @@ static GString *append_comma_text(GString *string, const gchar *text)
 	return string;
 }
 
+static gchar *remove_common_prefix(gchar *s, gchar *t)
+{
+	gint i;
+
+	if (!s || !t) return t;
+
+	for (i = 0; s[i] == t[i]; i++)
+		;
+	if (!i) 
+		return t;
+	if (s[i]==' ' || s[i]==0)
+		{
+		while (t[i] == ' ')
+			i++;
+		return t + i;
+		}
+	return s;
+}
+
+static double get_crop_factor(ExifData *exif)
+{
+        double res_unit_tbl[] = {0.0, 25.4, 25.4, 10.0, 1.0, 0.001 };
+
+        double xres = exif_get_rational_as_double(exif, "Exif.Photo.FocalPlaneXResolution");
+        double yres = exif_get_rational_as_double(exif, "Exif.Photo.FocalPlaneYResolution");
+        int res_unit;
+        int w, h;
+        double xsize, ysize, size, ratio;
+        
+        if (xres == 0.0 || yres == 0.0) return 0.0;
+        
+        if (!exif_get_integer(exif, "Exif.Photo.FocalPlaneResolutionUnit", &res_unit)) return 0.0;
+        if (res_unit < 1 || res_unit > 5) return 0.0;
+        
+        if (!exif_get_integer(exif, "Exif.Photo.PixelXDimension", &w)) return 0.0;
+        if (!exif_get_integer(exif, "Exif.Photo.PixelYDimension", &h)) return 0.0;
+        
+        xsize = w * res_unit_tbl[res_unit] / xres;
+        ysize = h * res_unit_tbl[res_unit] / yres;
+        
+        ratio = xsize / ysize;
+        
+        if (ratio < 0.5 || ratio > 2.0) return 0.0; /* reasonable ratio */
+        
+        size = sqrt(xsize * xsize + ysize * ysize);
+        
+        if (size < 1.0 || size > 100.0) return 0.0; /* reasonable sensor size in mm */
+        
+        return sqrt(36*36+24*24) / size;
+        
+}
+
 
 gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid)
 {
@@ -96,12 +148,47 @@ gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_val
 		gchar *make = exif_get_data_as_text(exif, "Exif.Image.Make");
 		gchar *model = exif_get_data_as_text(exif, "Exif.Image.Model");
 		gchar *software = exif_get_data_as_text(exif, "Exif.Image.Software");
+		gchar *model2;
+		gchar *software2;
+		gint i;
+
+		if (make)
+			{
+			gchar *x;
+			
+			g_strstrip(make);
+#define REMOVE_SUFFIX(str,suff)         \
+do {                                    \
+	if (g_str_has_suffix(str,suff)) \
+		str[strlen(str)-(sizeof(suff)-1)] = 0;  \
+} while(0)
+			REMOVE_SUFFIX(make," Corporation"); /* Pentax */
+			REMOVE_SUFFIX(make," OPTICAL CO.,LTD"); /* OLYMPUS */
+		}
+		if (model)
+			g_strstrip(model);
+		if (software)
+			g_strstrip(software);
+		/* remove superfluous spaces (pentax K100D) */
+		for (i=0; software && software[i]; i++)
+			if (software[i] == ' ' && software[i+1] == ' ')
+				{
+				gint j;
+				
+				for (j=1; software[i+j]; j++)
+		      			if (software[i+j] != ' ')
+						break;
+		    		memmove(software+i+1, software+i+j, strlen(software+i+j)+1);
+		  		}
+
+		model2 = remove_common_prefix(make, model);
+		software2 = remove_common_prefix(model2, software);
 
 		text = g_strdup_printf("%s%s%s%s%s%s", (make) ? make : "", ((make) && (model)) ? " " : "",
-						       (model) ? model : "",
-						       (software) ? " (" : "",
-						       (software) ? software : "",
-						       (software) ? ")" : "");
+						       (model2) ? model2 : "",
+						       (software2) ? " (" : "",
+						       (software2) ? software2 : "",
+						       (software2) ? ")" : "");
 
 		g_free(make);
 		g_free(model);
@@ -179,7 +266,27 @@ gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_val
 
 		n = exif_get_rational_as_double(exif, "Exif.Photo.FocalLength");
 		if (n == 0.0) return NULL;
-		return g_strdup_printf("%.2f mm", n);
+		return g_strdup_printf("%.0f mm", n);
+		}
+	if (strcmp(key, "fFocalLength35mmFilm") == 0)
+		{
+		gint n;
+                double f, c;
+
+		if (exif_get_integer(exif, "Exif.Photo.FocalLengthIn35mmFilm", &n) && n != 0)
+		        {
+                        return g_strdup_printf("%d mm", n);
+                        }
+                        
+                f = exif_get_rational_as_double(exif, "Exif.Photo.FocalLength");
+                c = get_crop_factor(exif);
+                
+                if (f != 0.0 && c != 0.0)
+                        {
+                        return g_strdup_printf("%.0f mm", f * c);
+                        }
+
+                return NULL;
 		}
 	if (strcmp(key, "fISOSpeedRating") == 0)
 		{

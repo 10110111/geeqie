@@ -109,6 +109,36 @@ ExifFormatAttrib ExifFormatList[] = {
  * Data
  *-----------------------------------------------------------------------------
  */
+static ExifTextList ExifCompressionList[] = {
+	{ 1, "Uncompressed" },
+	{ 2, "CCITT 1D" },
+	{ 3, "T4/Group 3 Fax" },
+	{ 4, "T6/Group 4 Fax" },
+	{ 5, "LZW" },
+	{ 6, "JPEG (old style)" },
+	{ 7, "JPEG" },
+	{ 8, "Adobe Deflate" },
+	{ 9, "JBIG B&W" },
+	{ 10, "JBIG Color" },
+	{ 32766, "Next" },
+	{ 32771, "CCIRLEW" },
+	{ 32773, "PackBits" },
+	{ 32809, "ThunderScan" },
+	{ 32895, "IT8CTPAD" },
+	{ 32896, "IT8LW" },
+	{ 32897, "IT8MP" },
+	{ 32898, "IT8BL" },
+	{ 32908, "PixasFilm" },
+	{ 32909, "PixasLog" },
+	{ 32946, "Deflate" },
+	{ 32947, "DCS" },
+	{ 34661, "JBIG" },
+	{ 34676, "SGILog" },
+	{ 34677, "SGILog24" },
+	{ 34712, "JPEF 2000" },
+	{ 34713, "Nikon NEF Compressed" },
+	EXIF_TEXT_LIST_END
+};
 
 static ExifTextList ExifOrientationList[] = {
 	{ EXIF_ORIENTATION_UNKNOWN,	N_("unknown") },
@@ -287,31 +317,40 @@ static ExifTextList ExifSubjectRangeList[] = {
 	EXIF_TEXT_LIST_END
 };
 
+/* 
+Tag names should match to exiv2 keys, http://www.exiv2.org/metadata.html 
+Tags that don't match are not supported by exiv2 and should not be used anywhere in the code
+*/
+
 ExifMarker ExifKnownMarkersList[] = {
+{ 0x0100, EXIF_FORMAT_LONG_UNSIGNED, 1,		"Exif.Image.ImageWidth",	N_("Image Width"), NULL },
+{ 0x0101, EXIF_FORMAT_LONG_UNSIGNED, 1,		"Exif.Image.ImageLength",	N_("Image Height"), NULL },
+{ 0x0102, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Image.BitsPerSample",	N_("Bits per Sample/Pixel"), NULL },
+{ 0x0103, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Image.Compression",	N_("Compression"), ExifCompressionList },
 { 0x010e, EXIF_FORMAT_STRING, -1,		"Exif.Image.ImageDescription",	N_("Image description"), NULL },
-{ 0x010f, EXIF_FORMAT_STRING, -1,		"Exif.Image.Make",			"Camera make", NULL },
+{ 0x010f, EXIF_FORMAT_STRING, -1,		"Exif.Image.Make",		"Camera make", NULL },
 { 0x0110, EXIF_FORMAT_STRING, -1,		"Exif.Image.Model",		"Camera model", NULL },
-{ 0x0112, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Image.Orientation",		N_("Orientation"), ExifOrientationList },
-{ 0x011a, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Image.XResolution",		"X resolution", NULL },
-{ 0x011b, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Image.YResolution",		"Y Resolution", NULL },
+{ 0x0112, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Image.Orientation",	N_("Orientation"), ExifOrientationList },
+{ 0x011a, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Image.XResolution",	"X resolution", NULL },
+{ 0x011b, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Image.YResolution",	"Y Resolution", NULL },
 { 0x0128, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Image.ResolutionUnit",	"Resolution units", ExifUnitList },
 { 0x0131, EXIF_FORMAT_STRING, -1, 		"Exif.Image.Software",		"Firmware", NULL },
 { 0x0132, EXIF_FORMAT_STRING, 20,		"Exif.Image.DateTime",		N_("Date"), NULL },
-{ 0x013e, EXIF_FORMAT_RATIONAL_UNSIGNED, 2,	"Exif.Image.WhitePoint",		"White point", NULL },
+{ 0x013e, EXIF_FORMAT_RATIONAL_UNSIGNED, 2,	"Exif.Image.WhitePoint",	"White point", NULL },
 { 0x013f, EXIF_FORMAT_RATIONAL_UNSIGNED, 6,	"Exif.Image.PrimaryChromaticities","Primary chromaticities", NULL },
 { 0x0211, EXIF_FORMAT_RATIONAL_UNSIGNED, 3,	"Exif.Image.YCbCrCoefficients",	"YCbCy coefficients", NULL },
 { 0x0213, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Image.YCbCrPositioning",	"YCbCr positioning", ExifYCbCrPosList },
-{ 0x0214, EXIF_FORMAT_RATIONAL_UNSIGNED, 6, 	"Exif.Image.ReferenceBlackWhite",	"Black white reference", NULL },
+{ 0x0214, EXIF_FORMAT_RATIONAL_UNSIGNED, 6, 	"Exif.Image.ReferenceBlackWhite","Black white reference", NULL },
 { 0x8298, EXIF_FORMAT_STRING, -1,		"Exif.Image.Copyright",		N_("Copyright"), NULL },
-{ 0x8769, EXIF_FORMAT_LONG_UNSIGNED, 1,		"ExifOffset",		"SubIFD Exif offset", NULL },
+{ 0x8769, EXIF_FORMAT_LONG_UNSIGNED, 1,		"Exif.Image.ExifTag",		"SubIFD Exif offset", NULL },
 	/* subIFD follows */
-{ 0x829a, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.ExposureTime",		"Exposure time (seconds)", NULL },
+{ 0x829a, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.ExposureTime",	"Exposure time (seconds)", NULL },
 { 0x829d, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.FNumber",		"FNumber", NULL },
 { 0x8822, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.ExposureProgram",	N_("Exposure program"), ExifExposureProgramList },
-{ 0x8824, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SpectralSensitivity",	"Spectral Sensitivity", NULL },
+{ 0x8824, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SpectralSensitivity","Spectral Sensitivity", NULL },
 { 0x8827, EXIF_FORMAT_SHORT_UNSIGNED, -1,	"Exif.Photo.ISOSpeedRatings",	N_("ISO sensitivity"), NULL },
-{ 0x8828, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Photo.OECF",			"Optoelectric conversion factor", NULL },
-{ 0x9000, EXIF_FORMAT_UNDEFINED, 4,		"Exif.Photo.ExifVersion",		"Exif version", NULL },
+{ 0x8828, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Photo.OECF",		"Optoelectric conversion factor", NULL },
+{ 0x9000, EXIF_FORMAT_UNDEFINED, 4,		"Exif.Photo.ExifVersion",	"Exif version", NULL },
 { 0x9003, EXIF_FORMAT_STRING, 20,		"Exif.Photo.DateTimeOriginal",	N_("Date original"), NULL },
 { 0x9004, EXIF_FORMAT_STRING, 20,		"Exif.Photo.DateTimeDigitized",	N_("Date digitized"), NULL },
 { 0x9101, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Photo.ComponentsConfiguration","Pixel format", NULL },
@@ -322,24 +361,24 @@ ExifMarker ExifKnownMarkersList[] = {
 { 0x9204, EXIF_FORMAT_RATIONAL, 1,		"Exif.Photo.ExposureBiasValue",	N_("Exposure bias"), NULL },
 { 0x9205, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.MaxApertureValue",	"Maximum aperture", NULL },
 { 0x9206, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.SubjectDistance",	N_("Subject distance"), NULL },
-{ 0x9207, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.MeteringMode",		N_("Metering mode"), ExifMeteringModeList },
-{ 0x9208, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.LightSource",		N_("Light source"), ExifLightSourceList },
+{ 0x9207, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.MeteringMode",	N_("Metering mode"), ExifMeteringModeList },
+{ 0x9208, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.LightSource",	N_("Light source"), ExifLightSourceList },
 { 0x9209, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.Flash",		N_("Flash"), ExifFlashList },
-{ 0x920a, EXIF_FORMAT_RATIONAL_UNSIGNED, 1, 	"Exif.Photo.FocalLength",		N_("Focal length"), NULL },
-{ 0x9214, EXIF_FORMAT_SHORT_UNSIGNED, -1,	"Exif.Photo.SubjectArea",		"Subject area", NULL },
+{ 0x920a, EXIF_FORMAT_RATIONAL_UNSIGNED, 1, 	"Exif.Photo.FocalLength",	N_("Focal length"), NULL },
+{ 0x9214, EXIF_FORMAT_SHORT_UNSIGNED, -1,	"Exif.Photo.SubjectArea",	"Subject area", NULL },
 { 0x927c, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Photo.MakerNote",		"MakerNote", NULL },
-{ 0x9286, EXIF_FORMAT_UNDEFINED, -1, 		"Exif.Photo.UserComment",		"UserComment", NULL },
-{ 0x9290, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SubSecTime",		"Subsecond time", NULL },
-{ 0x9291, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SubSecTimeOriginal",	"Subsecond time original", NULL },
-{ 0x9292, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SubSecTimeDigitized",	"Subsecond time digitized", NULL },
-{ 0xa000, EXIF_FORMAT_UNDEFINED, 4,		"FlashPixVersion",	"FlashPix version", NULL },
-{ 0xa001, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.ColorSpace",		"Colorspace", ExifColorSpaceList },
+{ 0x9286, EXIF_FORMAT_UNDEFINED, -1, 		"Exif.Photo.UserComment",	"UserComment", NULL },
+{ 0x9290, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SubSecTime",	"Subsecond time", NULL },
+{ 0x9291, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SubSecTimeOriginal","Subsecond time original", NULL },
+{ 0x9292, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SubSecTimeDigitized","Subsecond time digitized", NULL },
+{ 0xa000, EXIF_FORMAT_UNDEFINED, 4,		"Exif.Photo.FlashpixVersion",	"FlashPix version", NULL },
+{ 0xa001, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.ColorSpace",	"Colorspace", ExifColorSpaceList },
 	/* ExifImageWidth, ExifImageHeight can also be unsigned short */
-{ 0xa002, EXIF_FORMAT_LONG_UNSIGNED, 1,		"ExifImageWidth",	N_("Width"), NULL },
-{ 0xa003, EXIF_FORMAT_LONG_UNSIGNED, 1,		"ExifImageHeight",	N_("Height"), NULL },
+{ 0xa002, EXIF_FORMAT_LONG_UNSIGNED, 1,		"Exif.Photo.PixelXDimension",	N_("Width"), NULL },
+{ 0xa003, EXIF_FORMAT_LONG_UNSIGNED, 1,		"Exif.Photo.PixelYDimension",	N_("Height"), NULL },
 { 0xa004, EXIF_FORMAT_STRING, -1,		"Exif.Photo.RelatedSoundFile",	"Audio data", NULL },
-{ 0xa005, EXIF_FORMAT_LONG_UNSIGNED, 1,		"ExifInteroperabilityOffset", "ExifR98 extension", NULL },
-{ 0xa20b, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.FlashEnergy",		"Flash strength", NULL },
+{ 0xa005, EXIF_FORMAT_LONG_UNSIGNED, 1,		"ExifInteroperabilityOffset",   "ExifR98 extension", NULL },
+{ 0xa20b, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.FlashEnergy",	"Flash strength", NULL },
 { 0xa20c, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.SpatialFrequencyResponse","Spatial frequency response", NULL },
 { 0xa20e, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.FocalPlaneXResolution", "X Pixel density", NULL },
 { 0xa20f, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.FocalPlaneYResolution", "Y Pixel density", NULL },
@@ -347,26 +386,26 @@ ExifMarker ExifKnownMarkersList[] = {
 { 0x0214, EXIF_FORMAT_SHORT_UNSIGNED, 2,	"Exif.Photo.SubjectLocation",	"Subject location", NULL },
 { 0xa215, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.ExposureIndex",	N_("ISO sensitivity"), NULL },
 { 0xa217, EXIF_FORMAT_SHORT_UNSIGNED, -1,	"Exif.Photo.SensingMethod",	"Sensor type", ExifSensorList },
-{ 0xa300, EXIF_FORMAT_UNDEFINED, 1,		"Exif.Photo.FileSource",		"Source type", ExifSourceList },
+{ 0xa300, EXIF_FORMAT_UNDEFINED, 1,		"Exif.Photo.FileSource",	"Source type", ExifSourceList },
 { 0xa301, EXIF_FORMAT_UNDEFINED, 1,		"Exif.Photo.SceneType",		"Scene type", ExifSceneList },
-{ 0xa302, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Image.CFAPattern",		"Color filter array pattern", NULL },
+{ 0xa302, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Image.CFAPattern",	"Color filter array pattern", NULL },
 	/* tags a4xx were added for Exif 2.2 (not just these - some above, as well) */
 { 0xa401, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.CustomRendered",	"Render process", ExifCustRenderList },
-{ 0xa402, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.ExposureMode",		"Exposure mode", ExifExposureModeList },
-{ 0xa403, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.WhiteBalance",		"White balance", ExifWhiteBalanceList },
+{ 0xa402, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.ExposureMode",	"Exposure mode", ExifExposureModeList },
+{ 0xa403, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.WhiteBalance",	"White balance", ExifWhiteBalanceList },
 { 0xa404, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.DigitalZoomRatio",	"Digital zoom ratio", NULL },
-{ 0xa405, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"FocalLength35mmFilm",	"Focal length (35mm)", NULL },
-{ 0xa406, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"SceneCapturetype",	"Scene capture type", ExifSceneCaptureList },
-{ 0xa407, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.GainControl",		"Gain control", ExifGainControlList },
+{ 0xa405, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.FocalLengthIn35mmFilm","Focal length (35mm)", NULL },
+{ 0xa406, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.SceneCaptureType",	"Scene capture type", ExifSceneCaptureList },
+{ 0xa407, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.GainControl",	"Gain control", ExifGainControlList },
 { 0xa408, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.Contrast",		"Contrast", ExifContrastList },
-{ 0xa409, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.Saturation",		"Saturation", ExifSaturationList },
+{ 0xa409, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.Saturation",	"Saturation", ExifSaturationList },
 { 0xa40a, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.Sharpness",		"Sharpness", ExifSharpnessList },
 { 0xa40b, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Photo.DeviceSettingDescription","Device setting", NULL },
-{ 0xa40c, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.SubjectDistanceRange",	"Subject range", ExifSubjectRangeList },
+{ 0xa40c, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.SubjectDistanceRange","Subject range", ExifSubjectRangeList },
 { 0xa420, EXIF_FORMAT_STRING, -1,		"Exif.Photo.ImageUniqueID",	"Image serial number", NULL },
 	/* place known, but undocumented or lesser used tags here */
 { 0x00fe, EXIF_FORMAT_LONG_UNSIGNED, 1,		"Exif.Image.NewSubfileType",	NULL, NULL },
-{ 0x00ff, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"SubfileType",		NULL, NULL },
+{ 0x00ff, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"SubfileType",			NULL, NULL },
 { 0x012d, EXIF_FORMAT_SHORT_UNSIGNED, 3,	"Exif.Image.TransferFunction",	NULL, NULL },
 { 0x013b, EXIF_FORMAT_STRING, -1,		"Exif.Image.Artist",		"Artist", NULL },
 { 0x013d, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Predictor",		NULL, NULL },
@@ -380,7 +419,7 @@ ExifMarker ExifKnownMarkersList[] = {
 { 0x828e, EXIF_FORMAT_BYTE_UNSIGNED, -1,	"Exif.Image.CFAPattern",		NULL, NULL },
 { 0x828f, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Image.BatteryLevel",		NULL, NULL },
 { 0x83bb, EXIF_FORMAT_LONG_UNSIGNED, -1,	"IPTC/NAA",		NULL, NULL },
-{ 0x8773, EXIF_FORMAT_UNDEFINED, -1,		"ColorProfile",		NULL, NULL },
+{ 0x8773, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Image.InterColorProfile",		NULL, NULL },
 { 0x8825, EXIF_FORMAT_LONG_UNSIGNED, 1,		"GPSInfo",		"SubIFD GPS offset", NULL },
 { 0x8829, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Interlace",		NULL, NULL },
 { 0x882a, EXIF_FORMAT_SHORT, 1,			"TimeZoneOffset",	NULL, NULL },
@@ -1013,7 +1052,7 @@ static gint exif_jpeg_segment_find(unsigned char *data, guint size,
 	return FALSE;
 }
 
-static ExifMarker jpeg_color_marker = { 0x8773, EXIF_FORMAT_UNDEFINED, -1, "ColorProfile", NULL, NULL };
+static ExifMarker jpeg_color_marker = { 0x8773, EXIF_FORMAT_UNDEFINED, -1, "Exif.Image.InterColorProfile", NULL, NULL };
 
 static gint exif_jpeg_parse_color(ExifData *exif, unsigned char *data, guint size)
 {
@@ -1507,8 +1546,6 @@ ExifRational *exif_item_get_rational(ExifItem *item, gint *sign)
 
 	return NULL;
 }
-
-
 
 const gchar *exif_get_tag_description_by_key(const gchar *key)
 {

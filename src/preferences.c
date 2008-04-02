@@ -28,6 +28,8 @@
 #include "ui_misc.h"
 #include "ui_tabcomp.h"
 #include "ui_utildlg.h"
+#include "bar_exif.h"
+#include "exif.h"
 
 #include <math.h>
 
@@ -330,6 +332,11 @@ static void config_window_apply(void)
 	if (buf && strlen(buf) > 0) color_profile_screen_file = g_strdup(buf);
 #endif
 
+	for (i=0; ExifUIList[i].key; i++)
+		{
+		ExifUIList[i].current = ExifUIList[i].temp;
+		}
+
 	l_conf = layout_config_get(layout_widget, &new_style);
 
 	if (new_style != layout_style ||
@@ -395,6 +402,41 @@ static void config_window_apply_cb(GtkWidget *widget, gpointer data)
  * config window setup (private)
  *-----------------------------------------------------------------------------
  */ 
+
+static void exif_item_cb(GtkWidget *combo, gpointer data)
+{
+	gint *option = data;
+	*option = gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
+}
+
+static void exif_item(GtkWidget *table, gint column, gint row, 
+		      const gchar *text, gint option, gint *option_c)
+{
+	GtkWidget *combo;
+	gint current = 0;
+
+	*option_c = option;
+
+	pref_table_label(table, column, row, text, 0.0);
+
+	combo = gtk_combo_box_new_text();
+
+	/* note: the order is important, it must match the values of 
+	 * EXIF_UI_OFF, _IFSET, _ON */
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Never"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("If set"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Always"));
+
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), option);
+
+	g_signal_connect(G_OBJECT(combo), "changed",
+			 G_CALLBACK(exif_item_cb), option_c);
+
+	gtk_table_attach(GTK_TABLE(table), combo, 
+			 column + 1, column + 2, row, row + 1,
+			 GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_widget_show(combo);
+}
 
 static void quality_menu_cb(GtkWidget *combo, gpointer data)
 {
@@ -1216,6 +1258,40 @@ static void config_window_create(void)
 				 G_CALLBACK(editor_help_cb), NULL);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
+
+	/* exif tab */
+
+	scrolled = gtk_scrolled_window_new(NULL, NULL);
+	gtk_container_set_border_width(GTK_CONTAINER(scrolled), PREF_PAD_BORDER);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
+				       GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+
+	label = gtk_label_new(_("Exif"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), scrolled, label);
+	gtk_widget_show(scrolled);
+
+	viewport = gtk_viewport_new(NULL, NULL);
+	gtk_viewport_set_shadow_type(GTK_VIEWPORT(viewport), GTK_SHADOW_NONE);
+	gtk_container_add(GTK_CONTAINER(scrolled), viewport);
+	gtk_widget_show(viewport);
+
+	vbox = gtk_vbox_new(FALSE, 0);
+	gtk_container_add(GTK_CONTAINER(viewport), vbox);
+	gtk_widget_show(vbox);
+
+	group = pref_group_new(vbox, FALSE, _("What to show in properties dialog:"), 
+			       GTK_ORIENTATION_VERTICAL);
+	table = pref_table_new(group, 2, 2, FALSE, FALSE);
+
+	for (i = 0; ExifUIList[i].key; i++)
+		{
+		static gint cc;
+		const gchar *title;
+	  
+	  	title = exif_get_description_by_key(ExifUIList[i].key);
+		exif_item(table, 0, i, title, ExifUIList[i].current,
+			  &ExifUIList[i].temp);
+		}
 
 	/* advanced entry tab */
 
