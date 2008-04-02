@@ -1159,6 +1159,44 @@ void layout_image_set_index(LayoutWindow *lw, gint index)
 		read_ahead_fd = layout_list_get_fd(lw, index + 1);
 		}
 
+ 	if (layout_selection_count(lw, 0) > 1)
+		{
+ 		GList *x = layout_selection_list_by_index(lw);
+ 	  	GList *y;
+ 	  	GList *last;
+
+ 		for (last = y = x; y; y = y->next)
+ 			last = y;
+		for (y = x; y && ((gint)y->data) != index; y = y->next)
+			;
+
+		if (y)
+			{
+			gint newindex;
+
+			if ((index > old && (index != (gint) last->data || old != (gint) x->data))
+ 	        	    || (old == (gint) last->data && index == (gint) x->data))
+			    	{
+				if (y->next)
+ 					newindex = (gint) y->next->data;
+				else
+ 					newindex = (gint) x->data;
+				}
+			else
+				{
+				if (y->prev)
+					newindex = (gint) y->prev->data;
+				else
+					newindex = (gint) last->data;
+ 	    			}
+
+			read_ahead_fd = layout_list_get_fd(lw, newindex);
+			}
+			
+		while (x)
+			x = g_list_remove(x, x->data);
+		}
+
 	layout_image_set_with_ahead(lw, fd, read_ahead_fd);
 }
 
@@ -1260,6 +1298,27 @@ void layout_image_next(LayoutWindow *lw)
 		return;
 		}
 
+	if (layout_selection_count(lw, 0) > 1)
+		{
+		GList *x = layout_selection_list_by_index(lw);
+		gint old = layout_list_get_index(lw, layout_image_get_path(lw));
+		GList *y;
+
+		for (y = x; y && ((gint) y->data) != old; y = y->next)
+			;
+		if (y)
+			{
+			if (y->next) 
+		    		layout_image_set_index(lw, (gint) y->next->data);
+		  	else
+		    		layout_image_set_index(lw, (gint) x->data);
+			}
+		while (x)
+			x = g_list_remove(x, x->data);
+		if (y) /* not dereferenced */
+			return;
+		}
+
 	cd = image_get_collection(lw->image, &info);
 
 	if (cd && info)
@@ -1307,6 +1366,30 @@ void layout_image_prev(LayoutWindow *lw)
 		{
 		layout_image_slideshow_prev(lw);
 		return;
+		}
+
+	if (layout_selection_count(lw, 0) > 1)
+		{
+		GList *x = layout_selection_list_by_index(lw);
+		gint old = layout_list_get_index(lw, layout_image_get_path(lw));
+		GList *y;
+		GList *last;
+
+		for (last = y = x; y; y = y->next)
+			last = y;
+		for (y = x; y && ((gint) y->data) != old; y = y->next)
+			;
+		if (y)
+			{
+		  	if (y->prev)
+				layout_image_set_index(lw, (gint) y->prev->data);
+			else
+				layout_image_set_index(lw, (gint) last->data);
+			}
+		while (x)
+			x = g_list_remove(x, x->data);
+		if (y) /* not dereferenced */
+			return;
 		}
 
 	cd = image_get_collection(lw->image, &info);
