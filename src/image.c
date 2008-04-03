@@ -383,11 +383,11 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 
 	if (item && exif_item_get_format_id(item) == EXIF_FORMAT_UNDEFINED)
 		{
-		char *data;
+		unsigned char *data;
 		guint data_len;
 		if (debug) printf("Found embedded color profile\n");
 		
-		data = exif_item_get_data(item, &data_len);
+		data = (unsigned char *) exif_item_get_data(item, &data_len);
 
 		cm = color_man_new_embedded(imd, NULL,
 					    data, data_len,
