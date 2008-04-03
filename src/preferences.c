@@ -130,6 +130,10 @@ static gchar *fullscreen_info_c = NULL;
 
 static gint dupe_custom_threshold_c;
 
+#ifdef DEBUG
+static gint debug_c;
+#endif
+
 static GtkWidget *configwindow = NULL;
 static GtkWidget *startup_path_entry;
 static GtkListStore *filter_store = NULL;
@@ -317,6 +321,9 @@ static void config_window_apply(void)
 	dupe_custom_threshold = dupe_custom_threshold_c;
 
 	tree_descend_subdirs = tree_descend_subdirs_c;
+#ifdef DEBUG
+	debug = debug_c;
+#endif
 
 #ifdef HAVE_LCMS
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
@@ -1473,6 +1480,13 @@ static void config_window_create(void)
 			 COLOR_PROFILE_INPUTS + 1, COLOR_PROFILE_INPUTS + 2,
 			 GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	gtk_widget_show(tabcomp);
+
+#ifdef DEBUG
+	group = pref_group_new(vbox, FALSE, _("Debugging"), GTK_ORIENTATION_VERTICAL);
+
+	pref_spin_new_int(group, _("Debug level:"), NULL,
+			  0, 9, 1, debug, &debug_c);
+#endif
 
 	gtk_widget_show(notebook);
 

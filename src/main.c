@@ -914,12 +914,14 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 				parse_command_line_process_file(cmd_all, path, file,
 								&list, collection_list, &first_dir);
 				}
+#ifdef DEBUG
 			else if (strcmp(cmd_line, "--debug") == 0)
 				{
 				/* we now increment the debug state for verbosity */
 				debug++;
 				printf("debugging output enabled (level %d)\n", debug);
 				}
+#endif
 			else if (strcmp(cmd_line, "+t") == 0 ||
 				 strcmp(cmd_line, "--with-tools") == 0)
 				{
@@ -999,7 +1001,9 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 				print_term(_("      --geometry=GEOMETRY    set main window location\n"));
 				print_term(_("  -r, --remote               send following commands to open window\n"));
 				print_term(_("  -rh,--remote-help          print remote command list\n"));
+#ifdef DEBUG
 				print_term(_("  --debug                    turn on debug output\n"));
+#endif
 				print_term(_("  -v, --version              print version info\n"));
 				print_term(_("  -h, --help                 show this message\n\n"));
 				

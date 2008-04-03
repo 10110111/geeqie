@@ -85,6 +85,14 @@
 #define DEFAULT_THUMB_WIDTH	96
 #define DEFAULT_THUMB_HEIGHT	72
 
+#if 1 /* set to 0 to disable debugging code and related options */
+# ifndef DEBUG
+# define DEBUG 1
+# endif
+#endif
+#ifndef DEBUG
+# define debug 0
+#endif
 
 #include "typedefs.h"
 
@@ -176,7 +184,9 @@ extern gchar *fullscreen_info;
 
 extern gint dupe_custom_threshold;
 
+#ifdef DEBUG
 extern gint debug;
+#endif
 
 extern gint recent_list_max;
 

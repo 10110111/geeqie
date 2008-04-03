@@ -35,10 +35,10 @@
 #include "format_nikon.h"
 #include "format_olympus.h"
 
-
+#ifdef DEBUG
 /* so that debugging is honored */
 extern gint debug;
-
+#endif
 
 typedef struct _FormatRawEntry FormatRawEntry;
 struct _FormatRawEntry {

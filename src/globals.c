@@ -105,7 +105,9 @@ gchar *fullscreen_info = NULL;
 
 gint dupe_custom_threshold = 99;
 
+#ifdef DEBUG
 gint debug = FALSE;
+#endif
 
 /* layout */
 gchar *layout_order = NULL;
