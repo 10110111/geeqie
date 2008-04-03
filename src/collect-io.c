@@ -33,7 +33,7 @@ static gint collection_save_private(CollectionData *cd, const gchar *path);
 
 static CollectManagerEntry *collect_manager_get_entry(const gchar *path);
 static void collect_manager_entry_reset(CollectManagerEntry *entry);
-
+static gint collect_manager_process_action(CollectManagerEntry *entry, gchar **path_ptr);
 
 
 static gint scan_geometry(gchar *buffer, gint *x, gint *y, gint *w, gint *h)
@@ -637,7 +637,7 @@ static void collect_manager_entry_add_action(CollectManagerEntry *entry, Collect
 	collect_manager_action_ref(action);
 }
 
-gint collect_manager_process_action(CollectManagerEntry *entry, gchar **path_ptr)
+static gint collect_manager_process_action(CollectManagerEntry *entry, gchar **path_ptr)
 {
 	gchar *path = *path_ptr;
 	CollectManagerAction *action;
