@@ -551,7 +551,6 @@ static void vdtree_dnd_get(GtkWidget *widget, GdkDragContext *context,
 			   guint time, gpointer data)
 {
 	ViewDirTree *vdt = data;
-	gchar *path;
 	GList *list;
 	gchar *uri_text = NULL;
 	gint length = 0;
@@ -1073,7 +1072,6 @@ static gint vdtree_populate_path_by_iter(ViewDirTree *vdt, GtkTreeIter *iter, gi
 		if (target_path[n] == '/' && target_path[n+1] == '.')
 			{
 			gchar *name8;
-			gchar *namel;
 			struct stat sbuf;
 
 			n++;

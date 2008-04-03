@@ -90,8 +90,7 @@ gchar *quoted_value(const gchar *text, const gchar **tail)
 gchar *escquote_value(const gchar *text)
 {
 	gchar *e;
-	gchar *retval;
-
+	
 	if (!text) return g_strdup("\"\"");
 
 	e = g_strescape(text, "");

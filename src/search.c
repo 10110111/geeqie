@@ -912,8 +912,7 @@ static void sr_menu_collection_cb(GtkWidget *widget, gpointer data)
 static void sr_menu_print_cb(GtkWidget *widget, gpointer data)
 {
 	SearchData *sd = data;
-	FileData *fd;
-
+	
 	print_window_new(sd->click_fd, search_result_selection_list(sd),
 			 search_result_get_filelist(sd), sd->window);
 }

@@ -2206,7 +2206,6 @@ static gint vficon_refresh_real(ViewFileIcon *vfi, gint keep_position)
 	while (work)
 		{
 		IconData *id = work->data;
-		FileData *fd = id->fd;
 		work = work->next;
 
 		if (id == vfi->prev_selection) vfi->prev_selection = NULL;

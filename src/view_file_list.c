@@ -956,7 +956,6 @@ static void vflist_setup_iter(ViewFileList *vfl, GtkTreeStore *store, GtkTreeIte
 static void vflist_setup_iter_with_sidecars(ViewFileList *vfl, GtkTreeStore *store, GtkTreeIter *iter, FileData *fd)
 {
 	GList *work;
-	GtkTreeIter new;
 	GtkTreeIter s_iter;
 	gint valid;
 
@@ -1868,7 +1867,6 @@ static void vflist_listview_add_column(ViewFileList *vfl, gint n, const gchar *t
 static void vflist_listview_mark_toggled(GtkCellRendererToggle *cell, gchar *path_str, GtkTreeStore *store)
 {
 	GtkTreePath *path = gtk_tree_path_new_from_string(path_str);
-	guint *marks;
 	GtkTreeIter iter;
 	FileData *fd;
 	gboolean mark;
@@ -2071,8 +2069,6 @@ void vflist_thumb_set(ViewFileList *vfl, gint enable)
 
 void vflist_marks_set(ViewFileList *vfl, gint enable)
 {
-	GtkTreeStore *store;
-	GtkTreeViewColumn *column;
 	GList *columns, *work;
     
 	if (vfl->marks_enabled == enable) return;
@@ -2166,7 +2162,6 @@ gint vflist_maint_renamed(ViewFileList *vfl, FileData *fd)
 	gint ret = FALSE;
 	gchar *source_base;
 	gchar *dest_base;
-	GList *work;
 
 	if (g_list_index(vfl->list, fd) < 0) return FALSE;
 

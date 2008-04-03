@@ -686,8 +686,7 @@ void pan_cache_sync_date(PanWindow *pw, GList *list)
 		while (needle)
 			{
 			PanCacheData *pc;
-			gchar *path;
-
+			
 			pc = needle->data;
 			if (pc->fd == fd)
 				{

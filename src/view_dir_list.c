@@ -276,7 +276,6 @@ static void vdlist_pop_menu_slide_rec_cb(GtkWidget *widget, gpointer data)
 static void vdlist_pop_menu_dupe(ViewDirList *vdl, gint recursive)
 {
 	DupeWindow *dw;
-	const gchar *path;
 	GList *list = NULL;
 
 	if (!vdl->click_fd) return;
@@ -470,7 +469,6 @@ static void vdlist_dnd_get(GtkWidget *widget, GdkDragContext *context,
 			   guint time, gpointer data)
 {
 	ViewDirList *vdl = data;
-	gchar *path;
 	GList *list;
 	gchar *text = NULL;
 	gint length = 0;
