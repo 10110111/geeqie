@@ -14,6 +14,7 @@
 #define IMAGE_H
 
 
+void image_set_frame(ImageWindow *imd, gboolean frame);
 ImageWindow *image_new(gint frame);
 
 /* additional setup */
