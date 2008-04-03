@@ -52,6 +52,9 @@ void file_util_copy_simple(GList *list, const gchar *dest_path);
 
 void file_util_delete_dir(FileData *source_fd, GtkWidget *parent);
 
+gint copy_file_ext(FileData *fd);
+gint move_file_ext(FileData *fd);
+gint rename_file_ext(FileData *fd);
 
 #endif
 
