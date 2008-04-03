@@ -379,8 +379,7 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 	const gchar *p = template;
 	GString *result = NULL;
 	gchar *extensions = NULL;
-	GList *work;
-
+	
 	if (output)
 		result = g_string_new("");
 
