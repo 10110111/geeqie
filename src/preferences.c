@@ -425,7 +425,6 @@ static void exif_item(GtkWidget *table, gint column, gint row,
 		      const gchar *text, gint option, gint *option_c)
 {
 	GtkWidget *combo;
-	gint current = 0;
 
 	*option_c = option;
 
@@ -1005,7 +1004,6 @@ static void config_tab_windows(GtkWidget *notebook)
 	GtkWidget *hbox;
 	GtkWidget *vbox;
 	GtkWidget *group;
-	GtkWidget *button;
 	GtkWidget *ct_button;
 	GtkWidget *spin;
 
@@ -1051,14 +1049,9 @@ static void config_tab_filtering(GtkWidget *notebook)
 	GtkWidget *label;
 	GtkWidget *vbox;
 	GtkWidget *group;
-	GtkWidget *subgroup;
 	GtkWidget *button;
-	GtkWidget *tabcomp;
 	GtkWidget *ct_button;
-	GtkWidget *table;
-	GtkWidget *spin;
 	GtkWidget *scrolled;
-	GtkWidget *viewport;
 	GtkWidget *filter_view;
 	GtkCellRenderer *renderer;
 	GtkTreeSelection *selection;
@@ -1279,7 +1272,6 @@ static void config_tab_exif(GtkWidget *notebook)
 
 	for (i = 0; ExifUIList[i].key; i++)
 		{
-		static gint cc;
 		const gchar *title;
 	  
 	  	title = exif_get_description_by_key(ExifUIList[i].key);
