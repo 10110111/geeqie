@@ -1215,36 +1215,41 @@ static void config_window_create(void)
 
 	for (i = 0; i < GQVIEW_EDITOR_SLOTS; i++)
 		{
-		gchar *buf;
-
+		GtkWidget *entry;
 
 		if (i < GQVIEW_EDITOR_GENERIC_SLOTS)
 			{
+			gchar *buf;
+			
 			buf = g_strdup_printf("%d", i+1);
 			pref_table_label(table, 0, i+1, buf, 1.0);
 			g_free(buf);
-			editor_name_entry[i] = gtk_entry_new();
-			gtk_entry_set_max_length(GTK_ENTRY(editor_name_entry[i]), EDITOR_NAME_MAX_LENGTH);
-			gtk_widget_set_size_request(editor_name_entry[i],80,-1);
-			if (editor_name[i]) gtk_entry_set_text(GTK_ENTRY(editor_name_entry[i]),editor_name[i]);
+			entry = gtk_entry_new();
+			gtk_entry_set_max_length(GTK_ENTRY(entry), EDITOR_NAME_MAX_LENGTH);
+			gtk_widget_set_size_request(entry, 80, -1);
+			if (editor_name[i])
+				gtk_entry_set_text(GTK_ENTRY(entry), editor_name[i]);
 			}
 		else
 			{
-			editor_name_entry[i] = gtk_label_new(editor_name[i]);
+			entry = gtk_label_new(editor_name[i]);
 			}
 		
-		gtk_table_attach(GTK_TABLE (table),editor_name_entry[i],1,2,i+1,i+2,
+		gtk_table_attach(GTK_TABLE (table), entry, 1, 2, i+1, i+2,
 				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
-		gtk_widget_show(editor_name_entry[i]);
+		gtk_widget_show(entry);
+		editor_name_entry[i] = entry;
 
-		editor_command_entry[i] = gtk_entry_new();
-		gtk_entry_set_max_length(GTK_ENTRY(editor_command_entry[i]), EDITOR_COMMAND_MAX_LENGTH);
-		gtk_widget_set_size_request(editor_command_entry[i],160,-1);
-		tab_completion_add_to_entry(editor_command_entry[i], NULL, NULL);
-		if (editor_command[i]) gtk_entry_set_text(GTK_ENTRY(editor_command_entry[i]), editor_command[i]);
-		gtk_table_attach(GTK_TABLE (table),editor_command_entry[i],2,3,i+1,i+2,
+		entry = gtk_entry_new();
+		gtk_entry_set_max_length(GTK_ENTRY(entry), EDITOR_COMMAND_MAX_LENGTH);
+		gtk_widget_set_size_request(entry, 160, -1);
+		tab_completion_add_to_entry(entry, NULL, NULL);
+		if (editor_command[i])
+			gtk_entry_set_text(GTK_ENTRY(entry), editor_command[i]);
+		gtk_table_attach(GTK_TABLE (table), entry, 2, 3, i+1, i+2,
 				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
-		gtk_widget_show(editor_command_entry[i]);
+		gtk_widget_show(entry);
+		editor_command_entry[i] = entry;
 		}
 
 	hbox = pref_box_new(vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
@@ -1348,15 +1353,14 @@ static void config_window_create(void)
 	  "if there's no ISO information in the Exif data.\n"
 	  "If a line is empty, it is removed. This allows to add lines that totally disappear when no data is available.\n"
 ));
-
-gtk_container_add(GTK_CONTAINER(scrolled), fullscreen_info_view);
+	
+	gtk_container_add(GTK_CONTAINER(scrolled), fullscreen_info_view);
 	gtk_widget_show(fullscreen_info_view);
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(fullscreen_info_view));
 	gtk_text_buffer_set_text(buffer, fullscreen_info, -1);
 	g_signal_connect(G_OBJECT(buffer), "changed",
 			 G_CALLBACK(fullscreen_info_view_changed_cb), fullscreen_info_view);
-
 
 	group = pref_group_new(vbox, FALSE, _("Delete"), GTK_ORIENTATION_VERTICAL);
 
