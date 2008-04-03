@@ -127,7 +127,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 	
 	/* search and destroy empty lines */
 	end = new->str;
-	while (start = strchr(end, '\n'))
+	while ((start = strchr(end, '\n')))
 		{
 		end = start;
 		while (*++(end) == '\n')
