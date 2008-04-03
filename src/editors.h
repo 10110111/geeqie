@@ -64,9 +64,9 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output);
 
 void editor_reset_defaults(void);
 gint start_editor_from_file(gint n, FileData *fd);
-gint start_editor_from_file_list(gint n, GList *list);
+gint start_editor_from_filelist(gint n, GList *list);
 gint start_editor_from_file_full(gint n, FileData *fd, EditorCallback cb, gpointer data);
-gint start_editor_from_file_list_full(gint n, GList *list, EditorCallback cb, gpointer data);
+gint start_editor_from_filelist_full(gint n, GList *list, EditorCallback cb, gpointer data);
 gint editor_window_flag_set(gint n);
 const gchar *editor_get_error_str(gint flags);
 
