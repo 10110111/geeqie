@@ -528,8 +528,6 @@ static CollectManagerEntry *collect_manager_entry_new(const gchar *path)
 
 static void collect_manager_entry_free(CollectManagerEntry *entry)
 {
-	GList *work;
-
 	collection_manager_entry_list = g_list_remove(collection_manager_entry_list, entry);
 
 	collect_manager_entry_free_data(entry);
