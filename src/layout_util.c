@@ -21,6 +21,7 @@
 #include "collect-dlg.h"
 #include "dupe.h"
 #include "editors.h"
+#include "filelist.h"
 #include "img-view.h"
 #include "info.h"
 #include "layout_image.h"
