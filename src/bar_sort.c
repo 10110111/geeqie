@@ -490,7 +490,7 @@ static void bar_sort_add_cb(GtkWidget *button, gpointer data)
 		}
 
 	sd->dialog = file_util_file_dlg(title,
-				       "Geeqie", "add_bookmark", button,
+				       GQ_WMCLASS, "add_bookmark", button,
 				       bar_sort_add_cancel_cb, sd);
 	file_dialog_add_button(sd->dialog, GTK_STOCK_OK, NULL, bar_sort_add_ok_cb, TRUE);
 

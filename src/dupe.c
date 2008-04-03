@@ -1893,7 +1893,7 @@ static void dupe_display_stats(DupeWindow *dw, DupeItem *di)
 	
 	if (!di) return;
 
-	gd = file_util_gen_dlg("Image thumbprint debug info", "Geeqie", "thumbprint",
+	gd = file_util_gen_dlg("Image thumbprint debug info", GQ_WMCLASS, "thumbprint",
 			       dw->window, TRUE,
 			       NULL, NULL);
 	generic_dialog_add_button(gd, GTK_STOCK_CLOSE, NULL, NULL, TRUE);
@@ -3108,7 +3108,7 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 
 	gtk_window_set_resizable(GTK_WINDOW(dw->window), TRUE);
 	gtk_window_set_title(GTK_WINDOW(dw->window), _("Find duplicates - Geeqie"));
-        gtk_window_set_wmclass(GTK_WINDOW(dw->window), "dupe", "Geeqie");
+        gtk_window_set_wmclass(GTK_WINDOW(dw->window), "dupe", GQ_WMCLASS);
         gtk_container_set_border_width (GTK_CONTAINER (dw->window), 0);
 
         g_signal_connect(G_OBJECT(dw->window), "delete_event",

@@ -62,6 +62,8 @@
  *----------------------------------------------------------------------------
  */
 
+#define GQ_WMCLASS "geeqie"
+
 #define GQVIEW_RC_DIR             ".geeqie"
 #define GQVIEW_RC_DIR_COLLECTIONS GQVIEW_RC_DIR"/collections"
 #define GQVIEW_RC_DIR_TRASH       GQVIEW_RC_DIR"/trash"

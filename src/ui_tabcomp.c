@@ -856,7 +856,7 @@ static void tab_completion_select_show(TabCompData *td)
 		}
 
 	title = (td->fd_title) ? td->fd_title : _("Select path");
-	td->fd = file_dialog_new(title, PACKAGE, "select_path", td->entry,
+	td->fd = file_dialog_new(title, GQ_WMCLASS, "select_path", td->entry,
 				 tab_completion_select_cancel_cb, td);
 	file_dialog_add_button(td->fd, GTK_STOCK_OK, NULL,
 				 tab_completion_select_ok_cb, TRUE);

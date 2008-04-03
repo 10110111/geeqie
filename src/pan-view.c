@@ -2362,7 +2362,7 @@ static void pan_window_new_real(const gchar *path)
 
 	gtk_window_set_resizable(GTK_WINDOW(pw->window), TRUE);
 	gtk_window_set_title (GTK_WINDOW(pw->window), _("Pan View - Geeqie"));
-        gtk_window_set_wmclass(GTK_WINDOW(pw->window), "view", "Geeqie");
+        gtk_window_set_wmclass(GTK_WINDOW(pw->window), "view", GQ_WMCLASS);
         gtk_container_set_border_width(GTK_CONTAINER(pw->window), 0);
 
 	window_set_icon(pw->window, NULL, NULL);
@@ -2576,7 +2576,7 @@ static gint pan_warning(const gchar *path)
 	if (!pref_list_int_get(PAN_PREF_GROUP, PAN_PREF_HIDE_WARNING, &hide_dlg)) hide_dlg = FALSE;
 	if (hide_dlg) return FALSE;
 
-	gd = generic_dialog_new(_("Pan View Performance"), "Geeqie", "pan_view_warning", NULL, FALSE,
+	gd = generic_dialog_new(_("Pan View Performance"), GQ_WMCLASS, "pan_view_warning", NULL, FALSE,
 				NULL, NULL);
 	gd->data = g_strdup(path);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL,

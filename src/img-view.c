@@ -852,7 +852,7 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 
 	gtk_window_set_resizable(GTK_WINDOW(vw->window), TRUE);
 	gtk_window_set_title (GTK_WINDOW(vw->window), "Geeqie");
-        gtk_window_set_wmclass(GTK_WINDOW(vw->window), "view", "Geeqie");
+        gtk_window_set_wmclass(GTK_WINDOW(vw->window), "view", GQ_WMCLASS);
         gtk_container_set_border_width(GTK_CONTAINER(vw->window), 0);
 
 	window_set_icon(vw->window, PIXBUF_INLINE_ICON_VIEW, NULL);

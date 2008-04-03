@@ -745,7 +745,7 @@ static void filter_default_cb(GtkWidget *widget, gpointer data)
 	GenericDialog *gd;
 
 	gd = generic_dialog_new(_("Reset filters"),
-				"Geeqie", "reset_filter", widget, TRUE,
+				GQ_WMCLASS, "reset_filter", widget, TRUE,
 				dummy_cancel_cb, NULL);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset filters"),
 				   _("This will reset the file filters to the defaults.\nContinue?"));
@@ -783,7 +783,7 @@ static void editor_default_cb(GtkWidget *widget, gpointer data)
 	GenericDialog *gd;
 
 	gd = generic_dialog_new(_("Reset editors"),
-				"Geeqie", "reset_filter", widget, TRUE,
+				GQ_WMCLASS, "reset_filter", widget, TRUE,
 				dummy_cancel_cb, NULL);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset editors"),
 				   _("This will reset the edit commands to the defaults.\nContinue?"));
@@ -811,7 +811,7 @@ static void safe_delete_clear_cb(GtkWidget* widget, gpointer data)
 	GenericDialog *gd;
 	GtkWidget *entry;
 	gd = generic_dialog_new(_("Clear trash"),
-				"Geeqie", "clear_trash", widget, TRUE,
+				GQ_WMCLASS, "clear_trash", widget, TRUE,
 				dummy_cancel_cb, NULL);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Clear trash"),
 				    _("This will remove the trash contents."));
@@ -1506,7 +1506,7 @@ static void config_window_create(void)
 	gtk_window_set_default_size(GTK_WINDOW(configwindow), CONFIG_WINDOW_DEF_WIDTH, CONFIG_WINDOW_DEF_HEIGHT);		 
 	gtk_window_set_resizable(GTK_WINDOW(configwindow), TRUE);
 	gtk_window_set_title(GTK_WINDOW(configwindow), _("Geeqie Preferences"));
-	gtk_window_set_wmclass(GTK_WINDOW(configwindow), "config", "Geeqie");
+	gtk_window_set_wmclass(GTK_WINDOW(configwindow), "config", GQ_WMCLASS);
 	gtk_container_set_border_width(GTK_CONTAINER(configwindow), PREF_PAD_BORDER);
 
 	window_set_icon(configwindow, PIXBUF_INLINE_ICON_CONFIG, NULL);
@@ -1628,7 +1628,7 @@ void show_about_window(void)
 
 	about = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_type_hint(GTK_WINDOW(about), GDK_WINDOW_TYPE_HINT_DIALOG);
-	gtk_window_set_wmclass(GTK_WINDOW(about), "about", "Geeqie");
+	gtk_window_set_wmclass(GTK_WINDOW(about), "about", GQ_WMCLASS);
 	g_signal_connect(G_OBJECT(about), "delete_event",
 			 G_CALLBACK(about_delete_cb), NULL);
 

@@ -308,7 +308,7 @@ GenericDialog *warning_dialog(const gchar *heading, const gchar *text,
 {
 	GenericDialog *gd;
 
-	gd = generic_dialog_new(heading, PACKAGE, "warning", parent, TRUE, NULL, NULL);
+	gd = generic_dialog_new(heading, GQ_WMCLASS, "warning", parent, TRUE, NULL, NULL);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, warning_dialog_ok_cb, TRUE);
 
 	generic_dialog_add_message(gd, icon_stock_id, heading, text);

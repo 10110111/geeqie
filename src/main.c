@@ -235,7 +235,7 @@ void help_window_show(const gchar *key)
 		return;
 		}
 
-	help_window = help_window_new(_("Help - Geeqie"), "Geeqie", "help",
+	help_window = help_window_new(_("Help - Geeqie"), GQ_WMCLASS, "help",
                                       GQVIEW_HELPDIR "/README", key);
 	g_signal_connect(G_OBJECT(help_window), "destroy",
 			 G_CALLBACK(help_window_destroy_cb), NULL);
@@ -1233,7 +1233,7 @@ static gint exit_confirm_dlg(void)
 		}
 
 	exit_dialog = generic_dialog_new(_("Geeqie - exit"),
-				"Geeqie", "exit", parent, FALSE,
+				GQ_WMCLASS, "exit", parent, FALSE,
 				exit_confirm_cancel_cb, NULL);
 	generic_dialog_add_message(exit_dialog, GTK_STOCK_DIALOG_QUESTION,
 				   _("Quit Geeqie"), _("Collections have been modified. Quit anyway?"));

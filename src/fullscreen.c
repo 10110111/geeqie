@@ -239,7 +239,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 				      &screen, &same);
 
 	fs->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_wmclass(GTK_WINDOW(fs->window), "fullscreen", "Geeqie");
+	gtk_window_set_wmclass(GTK_WINDOW(fs->window), "fullscreen", GQ_WMCLASS);
 
 	/* this requests no decorations, if you still have them complain to the window manager author(s) */
 	gtk_window_set_decorated(GTK_WINDOW(fs->window), FALSE);
