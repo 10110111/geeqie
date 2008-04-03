@@ -195,7 +195,7 @@ static gint bar_exif_row_enabled(const gchar *name)
 static void bar_exif_update(ExifBar *eb)
 {
 	ExifData *exif;
-	gint len, i;
+	gint i;
 
 	exif = exif_read_fd(eb->fd, FALSE);
 
@@ -570,7 +570,6 @@ GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget 
 	GtkWidget *viewport;
 	GtkWidget *hbox;
 	GtkWidget *button;
-	gint len;
 	gint i;
 	gint exif_len;
 
