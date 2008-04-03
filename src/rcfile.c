@@ -561,8 +561,10 @@ void load_options(void)
 			"enable_thumbnails", value, thumbnails_enabled);
 		thumb_max_width = read_int_option(f, option,
 			"thumbnail_width", value, thumb_max_width);
+		if (thumb_max_width < 16) thumb_max_width = 16;
 		thumb_max_height = read_int_option(f, option,
 			"thumbnail_height", value, thumb_max_height);
+		if (thumb_max_height < 16) thumb_max_height = 16;
 		enable_thumb_caching = read_bool_option(f, option,
 			"cache_thumbnails", value, enable_thumb_caching);
 		enable_thumb_dirs = read_bool_option(f, option,

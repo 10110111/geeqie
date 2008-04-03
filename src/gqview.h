@@ -82,6 +82,10 @@
 
 #define COLOR_PROFILE_INPUTS 4
 
+#define DEFAULT_THUMB_WIDTH	96
+#define DEFAULT_THUMB_HEIGHT	72
+
+
 #include "typedefs.h"
 
 /*

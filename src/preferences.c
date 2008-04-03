@@ -545,9 +545,7 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 {
 	GtkWidget *combo;
 	gint current;
-	gint last_w, last_h;
 	gint i;
-	gint c;
 
 	thumb_max_width_c = thumb_max_width;
 	thumb_max_height_c = thumb_max_height;
@@ -556,35 +554,20 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 
 	combo = gtk_combo_box_new_text();
 
-	last_w = last_h = 0;
 	current = -1;
-	i = 0;
-	c = TRUE;
-	while (c)
+	for (i = 0; i < sizeof(thumb_size_list) / sizeof(ThumbSize); i++)
 		{
 		gint w, h;
+		gchar *buf;
 
 		w = thumb_size_list[i].w;
 		h = thumb_size_list[i].h;
 
-		if ( w > 0 && h > 0)
-			{
-			gchar *buf;
-
-			buf = g_strdup_printf("%d x %d", w, h);
-			gtk_combo_box_append_text(GTK_COMBO_BOX(combo), buf);
-			g_free(buf);
-
-			if (w == thumb_max_width && h == thumb_max_height) current = i;
-
-			last_w = w;
-			last_h = h;
-			}
-		else
-			{
-			c = FALSE;
-			}
-		i++;
+		buf = g_strdup_printf("%d x %d", w, h);
+		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), buf);
+		g_free(buf);
+	
+		if (w == thumb_max_width && h == thumb_max_height) current = i;
 		}
 
 	if (current == -1)
@@ -595,7 +578,7 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), buf);
 		g_free(buf);
 
-		current = i - 1;
+		current = i;
 		}
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), current);
