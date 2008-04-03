@@ -68,7 +68,7 @@ void layout_image_overlay_update(LayoutWindow *lw)
  * full screen
  *----------------------------------------------------------------------------
  */
-
+#if 0
 static void layout_image_fullscreen_menu_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -87,7 +87,6 @@ static void layout_image_full_screen_menu_popup(LayoutWindow *lw)
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, layout_image_fullscreen_menu_pos_cb, lw, 0, GDK_CURRENT_TIME);
 }
 
-#if 0
 /* this is handled by layout_key_press_cb */
 
 
@@ -1729,10 +1728,6 @@ void layout_image_deactivate(LayoutWindow *lw, gint i)
 void layout_image_activate(LayoutWindow *lw, gint i)
 {
 	FileData *fd;
-
-	gchar *base;
-	gint row;
-	gint j;
 	
 	if (!lw->split_images[i]) return;
 
