@@ -66,7 +66,7 @@
 #define GQVIEW_RC_DIR_COLLECTIONS GQVIEW_RC_DIR"/collections"
 #define GQVIEW_RC_DIR_TRASH       GQVIEW_RC_DIR"/trash"
 
-#define RC_FILE_NAME "gqviewrc"
+#define RC_FILE_NAME "geeqierc"
 
 #define ZOOM_RESET_ORIGINAL 0
 #define ZOOM_RESET_FIT_WINDOW 1
