@@ -1383,8 +1383,9 @@ gtk_container_add(GTK_CONTAINER(scrolled), fullscreen_info_view);
 	pref_checkbox_link_sensitivity(ct_button, hbox);
 
 	pref_spacer(hbox, PREF_PAD_INDENT - PREF_PAD_GAP);
-	pref_spin_new_int(hbox, _("Maximum size:"), _("MB"),
-			  1, 500, 1, safe_delete_size, &safe_delete_size_c);
+	spin = pref_spin_new_int(hbox, _("Maximum size:"), _("MB"),
+			 	 0, 2048, 1, safe_delete_size, &safe_delete_size_c);
+	gtk_widget_set_tooltip_markup(spin, _("Set to 0 for unlimited size"));
 
 	button = pref_button_new(NULL, NULL, _("View"), FALSE,
 				 G_CALLBACK(safe_delete_view_cb), NULL);

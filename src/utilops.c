@@ -1320,7 +1320,7 @@ static gint file_util_safe_number(gint64 free_space)
 		total += fd->size;
 		}
 
-	while (list &&
+	while (safe_delete_size > 0 && list &&
 	       (free_space < 0 || total + free_space > (gint64)safe_delete_size * 1048576) )
 		{
 		FileData *fd;
@@ -1449,7 +1449,29 @@ static void box_append_safe_delete_status(GenericDialog *gd)
 	GtkWidget *label;
 	gchar *buf;
 
-	buf = g_strdup_printf(_("Safe delete: %s"), (safe_delete_enable) ? _("on") : _("off"));
+	if (editor_command[CMD_DELETE])
+		{
+		buf = g_strdup(_("Deletion by external command"));
+		}
+	else
+		{
+		if (safe_delete_enable)
+			{
+			gchar *buf2;
+			if (safe_delete_size > 0)
+				buf2 = g_strdup_printf(_(" (max. %d MB)"), safe_delete_size);
+			else
+				buf2 = g_strdup("");
+
+			buf = g_strdup_printf(_("Safe delete: %s%s\nTrash: %s"), _("on"), buf2, safe_delete_path);
+			g_free(buf2);
+			}
+		else
+			{
+			buf = g_strdup_printf(_("Safe delete: %s"), _("off"));
+			}
+		}
+
 	label = pref_label_new(gd->vbox, buf);
 	g_free(buf);
 
