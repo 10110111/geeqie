@@ -32,6 +32,7 @@ void vficon_sort_set(ViewFileIcon *vfi, SortType type, gint ascend);
 FileData *vficon_index_get_data(ViewFileIcon *vfi, gint row);
 gchar *vficon_index_get_path(ViewFileIcon *vfi, gint row);
 gint vficon_index_by_path(ViewFileIcon *vfi, const gchar *path);
+gint vficon_index_by_fd(ViewFileIcon *vfi, FileData *in_fd);
 gint vficon_count(ViewFileIcon *vfi, gint64 *bytes);
 GList *vficon_get_list(ViewFileIcon *vfi);
 
