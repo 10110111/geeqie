@@ -2599,7 +2599,7 @@ static gint print_job_start(PrintWindow *pw, RenderFormat format, PrintOutput ou
 
 	gtk_widget_hide(pw->dialog->dialog);
 
-	pw->job_dialog = file_util_gen_dlg(_("Print - Geeqie"), "gqview", "print_job_dialog",
+	pw->job_dialog = file_util_gen_dlg(_("Print - Geeqie"), "Geeqie", "print_job_dialog",
 					   (GtkWidget *)gtk_window_get_transient_for(GTK_WINDOW(pw->dialog->dialog)), FALSE,
 					   print_job_cancel_cb, pw);
 
@@ -3344,7 +3344,7 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 
 	pw->save_settings = print_pref_int(PRINT_PREF_SAVE, TRUE);
 
-	pw->dialog = file_util_gen_dlg(_("Print - Geeqie"), "gqview", "print_dialog",
+	pw->dialog = file_util_gen_dlg(_("Print - Geeqie"), "Geeqie", "print_dialog",
 				       parent, FALSE,
 				       print_window_cancel_cb, pw);
 

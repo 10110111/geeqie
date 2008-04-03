@@ -312,7 +312,7 @@ void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
 		}
 
 	cm->gd = generic_dialog_new(_("Maintenance"),
-				    "Geeqie", "gqview_maintenance",
+				    "Geeqie", "main_maintenance",
 				    parent, FALSE,
 				    NULL, cm);
 	cm->gd->cancel_cb = cache_maintain_home_close_cb;
@@ -344,7 +344,7 @@ void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
 	cm->idle_id = g_idle_add(cache_maintain_home_cb, cm);
 }
 
-/* This checks all files in ~/.gqview/thumbnails and
+/* This checks all files in ~/.geeqie/thumbnails and
  * removes them if thay have no source counterpart.
  * (this assumes all cache files have an extension of 4 chars including '.')
  */
@@ -1162,7 +1162,7 @@ void cache_manager_show(void)
 	cache_manager = g_new0(CacheManager, 1);
 
 	cache_manager->dialog = generic_dialog_new(_("Cache Maintenance - Geeqie"),
-						   "GQiew", "cache_manager",
+						   "Geeqie", "cache_manager",
 						   NULL, FALSE,
 						   NULL, cache_manager);
 	gd = cache_manager->dialog;

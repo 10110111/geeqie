@@ -1936,7 +1936,7 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 	gtk_window_set_resizable(GTK_WINDOW(lw->window), TRUE);
 
 	gtk_window_set_title(GTK_WINDOW(lw->window), "Geeqie");
-	gtk_window_set_wmclass(GTK_WINDOW(lw->window), "gqview", "Geeqie");
+	gtk_window_set_wmclass(GTK_WINDOW(lw->window), "Geeqie", "Geeqie");
 	gtk_container_set_border_width(GTK_CONTAINER(lw->window), 0);
 
 	window_set_icon(lw->window, NULL, NULL);
