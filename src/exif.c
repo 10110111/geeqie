@@ -538,11 +538,13 @@ char *exif_item_get_tag_name(ExifItem *item)
 
 guint exif_item_get_tag_id(ExifItem *item)
 {
+	if (!item) return 0;
 	return item->tag;
 }
 
 guint exif_item_get_elements(ExifItem *item)
 {
+	if (!item) return 0;
 	return item->elements;
 }
 
@@ -555,6 +557,7 @@ char *exif_item_get_data(ExifItem *item, guint *data_len)
 
 guint exif_item_get_format_id(ExifItem *item)
 {
+	if (!item) return EXIF_FORMAT_UNKNOWN;
 	return item->format;
 }
 
