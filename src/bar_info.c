@@ -325,8 +325,10 @@ gint comment_write(FileData *fd, GList *keywords, const gchar *comment)
 
 gint comment_read(FileData *fd, GList **keywords, gchar **comment)
 {
-	GList *keywords1, *keywords2;
-	gchar *comment1, *comment2;
+	GList *keywords1 = NULL;
+	GList *keywords2 = NULL;
+	gchar *comment1 = NULL;
+	gchar *comment2 = NULL;
 	gint res1, res2;
 
 	if (!fd) return FALSE;
