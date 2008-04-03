@@ -150,6 +150,11 @@ static GtkWidget *color_profile_input_name_entry[COLOR_PROFILE_INPUTS];
 static GtkWidget *color_profile_screen_file_entry;
 
 static GtkWidget *sidecar_ext_entry;
+
+
+#define CONFIG_WINDOW_DEF_WIDTH		700
+#define CONFIG_WINDOW_DEF_HEIGHT	500
+
 /*
  *-----------------------------------------------------------------------------
  * option widget callbacks (private)
@@ -877,7 +882,8 @@ static void config_window_create(void)
 	gtk_window_set_type_hint(GTK_WINDOW(configwindow), GDK_WINDOW_TYPE_HINT_DIALOG);
 	g_signal_connect(G_OBJECT (configwindow), "delete_event",
 			 G_CALLBACK(config_window_delete), NULL);
-	gtk_window_set_resizable(GTK_WINDOW(configwindow), FALSE);
+	gtk_window_set_default_size(GTK_WINDOW(configwindow), CONFIG_WINDOW_DEF_WIDTH, CONFIG_WINDOW_DEF_HEIGHT);		 
+	gtk_window_set_resizable(GTK_WINDOW(configwindow), TRUE);
 	gtk_window_set_title(GTK_WINDOW(configwindow), _("Geeqie Preferences"));
 	gtk_window_set_wmclass(GTK_WINDOW(configwindow), "config", "Geeqie");
 	gtk_container_set_border_width(GTK_CONTAINER(configwindow), PREF_PAD_BORDER);
@@ -1233,10 +1239,11 @@ static void config_window_create(void)
 		else
 			{
 			entry = gtk_label_new(editor_name[i]);
+			gtk_misc_set_alignment(GTK_MISC(entry), 0.0, 0.5);
 			}
 		
 		gtk_table_attach(GTK_TABLE (table), entry, 1, 2, i+1, i+2,
-				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
+				 GTK_FILL | GTK_SHRINK, 0, 0, 0);
 		gtk_widget_show(entry);
 		editor_name_entry[i] = entry;
 
