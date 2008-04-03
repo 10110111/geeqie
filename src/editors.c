@@ -668,8 +668,7 @@ static gint editor_command_next_start(EditorData *ed)
 		}
 	
 	/* everything is done */
-	editor_command_done(ed);
-
+	return editor_command_done(ed);
 }
 
 static gint editor_command_next_finish(EditorData *ed, gint status)
