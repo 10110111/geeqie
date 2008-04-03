@@ -492,7 +492,6 @@ void sidecar_ext_parse(const gchar *text, gint quoted)
 
 void sidecar_ext_write(FILE *f)
 {
-	GList *work;
 	fprintf(f, "\nsidecar_ext: \"%s\"\n", sidecar_ext_to_string());
 }
 
@@ -794,7 +793,6 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 
 static void file_data_check_sidecars(FileData *fd)
 {
-	int i = 0;
 	int base_len = fd->extension - fd->path;
 	GString *fname = g_string_new_len(fd->path, base_len);
 	FileData *parent_fd = NULL;
