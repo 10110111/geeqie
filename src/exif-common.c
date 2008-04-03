@@ -24,6 +24,7 @@
 #include "gqview.h"
 #include "exif.h"
 
+#include "filelist.h"
 #include "format_raw.h"
 #include "ui_fileops.h"
 
@@ -43,14 +44,6 @@ ExifFormattedText ExifFormattedList[] = {
 	{ "fFlash",		N_("Flash") },
 	{ "fResolution",	N_("Resolution") },
 	{ NULL, NULL }
-};
-
-static ExifTextList ExifFlashList[] = {
-	{ 0,	N_("no") },
-	{ 1,	N_("yes") },
-	{ 5,	N_("yes, not detected by strobe") },
-	{ 7,	N_("yes, detected by strobe") },
-	EXIF_TEXT_LIST_END
 };
 
 double exif_rational_to_double(ExifRational *r, gint sign)
@@ -154,8 +147,6 @@ gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_val
 
 		if (make)
 			{
-			gchar *x;
-			
 			g_strstrip(make);
 #define REMOVE_SUFFIX(str,suff)         \
 do {                                    \
