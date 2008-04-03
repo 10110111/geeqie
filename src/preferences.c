@@ -843,13 +843,11 @@ static void fullscreen_info_view_changed_cb(GtkWidget* widget, gpointer data)
 	fullscreen_info_c = gtk_text_buffer_get_text(pTextBuffer, &iStart, &iEnd, TRUE);
 }
 
-static void config_window_create(void)
+/* general options tab */
+static void config_tab_general(GtkWidget *notebook)
 {
-	GtkWidget *win_vbox;
-	GtkWidget *hbox;
-	GtkWidget *notebook;
-	GtkWidget *frame;
 	GtkWidget *label;
+	GtkWidget *hbox;
 	GtkWidget *vbox;
 	GtkWidget *group;
 	GtkWidget *subgroup;
@@ -858,69 +856,6 @@ static void config_window_create(void)
 	GtkWidget *ct_button;
 	GtkWidget *table;
 	GtkWidget *spin;
-	GtkWidget *scrolled;
-	GtkWidget *viewport;
-	GtkWidget *filter_view;
-	GtkWidget *fullscreen_info_view;
-	GtkCellRenderer *renderer;
-	GtkTreeSelection *selection;
-	GtkTreeViewColumn *column;
-	GtkTextBuffer *buffer;
-	gint i;
-
-	configwindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_type_hint(GTK_WINDOW(configwindow), GDK_WINDOW_TYPE_HINT_DIALOG);
-	g_signal_connect(G_OBJECT (configwindow), "delete_event",
-			 G_CALLBACK(config_window_delete), NULL);
-	gtk_window_set_default_size(GTK_WINDOW(configwindow), CONFIG_WINDOW_DEF_WIDTH, CONFIG_WINDOW_DEF_HEIGHT);		 
-	gtk_window_set_resizable(GTK_WINDOW(configwindow), TRUE);
-	gtk_window_set_title(GTK_WINDOW(configwindow), _("Geeqie Preferences"));
-	gtk_window_set_wmclass(GTK_WINDOW(configwindow), "config", "Geeqie");
-	gtk_container_set_border_width(GTK_CONTAINER(configwindow), PREF_PAD_BORDER);
-
-	window_set_icon(configwindow, PIXBUF_INLINE_ICON_CONFIG, NULL);
-
-	win_vbox = gtk_vbox_new(FALSE, PREF_PAD_SPACE);
-	gtk_container_add(GTK_CONTAINER(configwindow), win_vbox);
-	gtk_widget_show(win_vbox);
-
-	hbox = gtk_hbutton_box_new();
-	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_END);
-	gtk_box_set_spacing(GTK_BOX(hbox), PREF_PAD_BUTTON_GAP);
-	gtk_box_pack_end(GTK_BOX(win_vbox), hbox, FALSE, FALSE, 0);
-	gtk_widget_show(hbox);
-
-	button = pref_button_new(NULL, GTK_STOCK_OK, NULL, FALSE,
-				 G_CALLBACK(config_window_ok_cb), NULL);
-	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
-	gtk_widget_grab_default(button);
-	gtk_widget_show(button);
-
-	ct_button = button;
-
-	button = pref_button_new(NULL, GTK_STOCK_APPLY, NULL, FALSE,
-				 G_CALLBACK(config_window_apply_cb), NULL);
-	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
-	gtk_widget_show(button);
-
-	button = pref_button_new(NULL, GTK_STOCK_CANCEL, NULL, FALSE,
-				 G_CALLBACK(config_window_close_cb), NULL);
-	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
-	gtk_widget_show(button);
-
-	if (!generic_dialog_get_alternative_button_order(configwindow))
-		{
-		gtk_box_reorder_child(GTK_BOX(hbox), ct_button, -1);
-		}
-
-	notebook = gtk_notebook_new();
-	gtk_notebook_set_tab_pos (GTK_NOTEBOOK(notebook), GTK_POS_TOP);
-	gtk_box_pack_start(GTK_BOX(win_vbox), notebook, TRUE, TRUE, 0);
-
-	/* general options tab */
 
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), PREF_PAD_BORDER);
@@ -984,14 +919,25 @@ static void config_window_create(void)
 
 	pref_checkbox_new_int(group, _("Random"), slideshow_random, &slideshow_random_c);
 	pref_checkbox_new_int(group, _("Repeat"), slideshow_repeat, &slideshow_repeat_c);
+}
 
-	/* image tab */
+/* image tab */
+static void config_tab_image(GtkWidget *notebook)
+{
+	GtkWidget *label;
+	GtkWidget *hbox;
+	GtkWidget *vbox;
+	GtkWidget *group;
+	GtkWidget *button;
+	GtkWidget *ct_button;
+	GtkWidget *table;
+	GtkWidget *spin;
 
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), PREF_PAD_BORDER);
 	gtk_widget_show(vbox);
 	label = gtk_label_new(_("Image"));
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), vbox, label);
+	gtk_notebook_append_page (GTK_NOTEBOOK(notebook), vbox, label);
 
 	group = pref_group_new(vbox, FALSE, _("Zoom"), GTK_ORIENTATION_VERTICAL);
 
@@ -1050,9 +996,18 @@ static void config_window_create(void)
 			      enable_read_ahead, &enable_read_ahead_c);
 	pref_checkbox_new_int(group, _("Auto rotate image using Exif information"),
 			      exif_rotate_enable, &exif_rotate_enable_c);
+}
 
-
-	/* window tab */
+/* windows tab */
+static void config_tab_windows(GtkWidget *notebook)
+{
+	GtkWidget *label;
+	GtkWidget *hbox;
+	GtkWidget *vbox;
+	GtkWidget *group;
+	GtkWidget *button;
+	GtkWidget *ct_button;
+	GtkWidget *spin;
 
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), PREF_PAD_BORDER);
@@ -1086,9 +1041,28 @@ static void config_window_create(void)
 	layout_config_set(layout_widget, layout_style, layout_order);
 	gtk_box_pack_start(GTK_BOX(group), layout_widget, FALSE, FALSE, 0);
 	gtk_widget_show(layout_widget);
+}
 
-
-	/* filtering tab */
+/* filtering tab */
+static void config_tab_filtering(GtkWidget *notebook)
+{
+	GtkWidget *hbox;
+	GtkWidget *frame;
+	GtkWidget *label;
+	GtkWidget *vbox;
+	GtkWidget *group;
+	GtkWidget *subgroup;
+	GtkWidget *button;
+	GtkWidget *tabcomp;
+	GtkWidget *ct_button;
+	GtkWidget *table;
+	GtkWidget *spin;
+	GtkWidget *scrolled;
+	GtkWidget *viewport;
+	GtkWidget *filter_view;
+	GtkCellRenderer *renderer;
+	GtkTreeSelection *selection;
+	GtkTreeViewColumn *column;
 
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER (vbox), PREF_PAD_BORDER);
@@ -1187,9 +1161,17 @@ static void config_window_create(void)
 				 G_CALLBACK(filter_add_cb), NULL);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
+}
 
-
-	/* editor entry tab */
+/* editors tab */
+static void config_tab_editors(GtkWidget *notebook)
+{
+	GtkWidget *hbox;
+	GtkWidget *label;
+	GtkWidget *vbox;
+	GtkWidget *button;
+	GtkWidget *table;
+	gint i;
 
 	vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), PREF_PAD_BORDER);
@@ -1260,8 +1242,18 @@ static void config_window_create(void)
 				 G_CALLBACK(editor_help_cb), NULL);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
+}
 
-	/* exif tab */
+/* exif tab */
+static void config_tab_exif(GtkWidget *notebook)
+{
+	GtkWidget *label;
+	GtkWidget *vbox;
+	GtkWidget *group;
+	GtkWidget *table;
+	GtkWidget *scrolled;
+	GtkWidget *viewport;
+	gint i;
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_container_set_border_width(GTK_CONTAINER(scrolled), PREF_PAD_BORDER);
@@ -1294,8 +1286,25 @@ static void config_window_create(void)
 		exif_item(table, 0, i, title, ExifUIList[i].current,
 			  &ExifUIList[i].temp);
 		}
+}
 
-	/* advanced entry tab */
+/* advanced entry tab */
+static void config_tab_advanced(GtkWidget *notebook)
+{
+	GtkWidget *label;
+	GtkWidget *hbox;
+	GtkWidget *vbox;
+	GtkWidget *group;
+	GtkWidget *button;
+	GtkWidget *tabcomp;
+	GtkWidget *ct_button;
+	GtkWidget *table;
+	GtkWidget *spin;
+	GtkWidget *scrolled;
+	GtkWidget *viewport;
+	GtkWidget *fullscreen_info_view;
+	GtkTextBuffer *buffer;
+	gint i;
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_container_set_border_width(GTK_CONTAINER(scrolled), PREF_PAD_BORDER);
@@ -1487,6 +1496,76 @@ static void config_window_create(void)
 	pref_spin_new_int(group, _("Debug level:"), NULL,
 			  0, 9, 1, debug, &debug_c);
 #endif
+}
+
+/* Main preferences window */
+static void config_window_create(void)
+{
+	GtkWidget *win_vbox;
+	GtkWidget *hbox;
+	GtkWidget *notebook;
+	GtkWidget *button;
+	GtkWidget *ct_button;
+
+	configwindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_type_hint(GTK_WINDOW(configwindow), GDK_WINDOW_TYPE_HINT_DIALOG);
+	g_signal_connect(G_OBJECT (configwindow), "delete_event",
+			 G_CALLBACK(config_window_delete), NULL);
+	gtk_window_set_default_size(GTK_WINDOW(configwindow), CONFIG_WINDOW_DEF_WIDTH, CONFIG_WINDOW_DEF_HEIGHT);		 
+	gtk_window_set_resizable(GTK_WINDOW(configwindow), TRUE);
+	gtk_window_set_title(GTK_WINDOW(configwindow), _("Geeqie Preferences"));
+	gtk_window_set_wmclass(GTK_WINDOW(configwindow), "config", "Geeqie");
+	gtk_container_set_border_width(GTK_CONTAINER(configwindow), PREF_PAD_BORDER);
+
+	window_set_icon(configwindow, PIXBUF_INLINE_ICON_CONFIG, NULL);
+
+	win_vbox = gtk_vbox_new(FALSE, PREF_PAD_SPACE);
+	gtk_container_add(GTK_CONTAINER(configwindow), win_vbox);
+	gtk_widget_show(win_vbox);
+
+	hbox = gtk_hbutton_box_new();
+	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_END);
+	gtk_box_set_spacing(GTK_BOX(hbox), PREF_PAD_BUTTON_GAP);
+	gtk_box_pack_end(GTK_BOX(win_vbox), hbox, FALSE, FALSE, 0);
+	gtk_widget_show(hbox);
+
+	button = pref_button_new(NULL, GTK_STOCK_OK, NULL, FALSE,
+				 G_CALLBACK(config_window_ok_cb), NULL);
+	gtk_container_add(GTK_CONTAINER(hbox), button);
+	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_grab_default(button);
+	gtk_widget_show(button);
+
+	ct_button = button;
+
+	button = pref_button_new(NULL, GTK_STOCK_APPLY, NULL, FALSE,
+				 G_CALLBACK(config_window_apply_cb), NULL);
+	gtk_container_add(GTK_CONTAINER(hbox), button);
+	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_show(button);
+
+	button = pref_button_new(NULL, GTK_STOCK_CANCEL, NULL, FALSE,
+				 G_CALLBACK(config_window_close_cb), NULL);
+	gtk_container_add(GTK_CONTAINER(hbox), button);
+	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_show(button);
+
+	if (!generic_dialog_get_alternative_button_order(configwindow))
+		{
+		gtk_box_reorder_child(GTK_BOX(hbox), ct_button, -1);
+		}
+
+	notebook = gtk_notebook_new();
+	gtk_notebook_set_tab_pos (GTK_NOTEBOOK(notebook), GTK_POS_TOP);
+	gtk_box_pack_start(GTK_BOX(win_vbox), notebook, TRUE, TRUE, 0);
+
+	config_tab_general(notebook);
+	config_tab_image(notebook);
+	config_tab_windows(notebook);
+	config_tab_filtering(notebook);
+	config_tab_editors(notebook);
+	config_tab_exif(notebook);
+	config_tab_advanced(notebook);
 
 	gtk_widget_show(notebook);
 
