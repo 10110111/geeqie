@@ -31,6 +31,8 @@ static GList *sidecar_ext_list = NULL;
 
 static GList *file_class_extension_list[FILE_FORMAT_CLASSES];
 
+static gint sidecar_file_priority(const gchar *path);
+
 
 gint ishidden(const gchar *name)
 {
@@ -988,7 +990,7 @@ gint file_data_compare_name_without_ext(FileData *fd1, FileData *fd2)
 	return strncmp(fd1->name, fd2->name, len1);
 }
 
-FileData *file_data_do_change(FileData *fd)
+void file_data_do_change(FileData *fd)
 {
 //FIXME sidecars
 	g_assert(fd->change);
@@ -1052,7 +1054,7 @@ void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd)
 
 
 
-gint sidecar_file_priority(const gchar *path)
+static gint sidecar_file_priority(const gchar *path)
 {
 	const char *extension = extension_from_path(path);
 	int i = 1;
