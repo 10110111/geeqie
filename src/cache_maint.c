@@ -1087,7 +1087,7 @@ static void cache_manager_standard_clear_cb(GtkWidget *widget, gpointer data)
 }
 
 
-static void cache_manager_gqview_clean_cb(GtkWidget *widget, gpointer data)
+static void cache_manager_main_clean_cb(GtkWidget *widget, gpointer data)
 {
 	cache_maintain_home(FALSE, FALSE, widget);
 }
@@ -1098,12 +1098,12 @@ static void dummy_cancel_cb(GenericDialog *gd, gpointer data)
 	/* no op, only so cancel button appears */
 }
 
-static void cache_manager_gqview_clear_ok_cb(GenericDialog *gd, gpointer data)
+static void cache_manager_main_clear_ok_cb(GenericDialog *gd, gpointer data)
 {
 	cache_maintain_home(FALSE, TRUE, NULL);
 }
 
-void cache_manager_gqview_clear_confirm(GtkWidget *parent)
+void cache_manager_main_clear_confirm(GtkWidget *parent)
 {
 	GenericDialog *gd;
 
@@ -1112,14 +1112,14 @@ void cache_manager_gqview_clear_confirm(GtkWidget *parent)
 				dummy_cancel_cb, NULL);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Clear cache"),
 				   _("This will remove all thumbnails that have\nbeen saved to disk, continue?"));
-	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, cache_manager_gqview_clear_ok_cb, TRUE);
+	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, cache_manager_main_clear_ok_cb, TRUE);
 
 	gtk_widget_show(gd->dialog);
 }
 
-static void cache_manager_gqview_clear_cb(GtkWidget *widget, gpointer data)
+static void cache_manager_main_clear_cb(GtkWidget *widget, gpointer data)
 {
-	cache_manager_gqview_clear_confirm(widget);
+	cache_manager_main_clear_confirm(widget);
 }
 
 static void cache_manager_render_cb(GtkWidget *widget, gpointer data)
@@ -1185,12 +1185,12 @@ void cache_manager_show(void)
 	table = pref_table_new(group, 2, 2, FALSE, FALSE);
 
 	button = pref_table_button(table, 0, 0, GTK_STOCK_CLEAR, _("Clean up"), FALSE,
-				   G_CALLBACK(cache_manager_gqview_clean_cb), cache_manager);
+				   G_CALLBACK(cache_manager_main_clean_cb), cache_manager);
 	gtk_size_group_add_widget(sizegroup, button);
 	pref_table_label(table, 1, 0, _("Remove orphaned or outdated thumbnails."), 0.0);
 
 	button = pref_table_button(table, 0, 1, GTK_STOCK_DELETE, _("Clear cache"), FALSE,
-				   G_CALLBACK(cache_manager_gqview_clear_cb), cache_manager);
+				   G_CALLBACK(cache_manager_main_clear_cb), cache_manager);
 	gtk_size_group_add_widget(sizegroup, button);
 	pref_table_label(table, 1, 1, _("Delete all cached thumbnails."), 0.0);
 
