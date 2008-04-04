@@ -1268,6 +1268,12 @@ static void config_tab_properties(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Exif"), 
 			       GTK_ORIENTATION_VERTICAL);
+	
+	
+	pref_spacer(group, PREF_PAD_INDENT - PREF_PAD_SPACE);
+	label = pref_label_new(group, _("What to show in properties dialog:"));
+	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+
 	table = pref_table_new(group, 2, 2, FALSE, FALSE);
 
 	for (i = 0; ExifUIList[i].key; i++)
