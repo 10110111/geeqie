@@ -1237,8 +1237,8 @@ static void config_tab_editors(GtkWidget *notebook)
 	gtk_widget_show(button);
 }
 
-/* exif tab */
-static void config_tab_exif(GtkWidget *notebook)
+/* properties tab */
+static void config_tab_properties(GtkWidget *notebook)
 {
 	GtkWidget *label;
 	GtkWidget *vbox;
@@ -1253,7 +1253,7 @@ static void config_tab_exif(GtkWidget *notebook)
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 				       GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-	label = gtk_label_new(_("Exif"));
+	label = gtk_label_new(_("Properties"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), scrolled, label);
 	gtk_widget_show(scrolled);
 
@@ -1266,7 +1266,7 @@ static void config_tab_exif(GtkWidget *notebook)
 	gtk_container_add(GTK_CONTAINER(viewport), vbox);
 	gtk_widget_show(vbox);
 
-	group = pref_group_new(vbox, FALSE, _("What to show in properties dialog:"), 
+	group = pref_group_new(vbox, FALSE, _("Exif"), 
 			       GTK_ORIENTATION_VERTICAL);
 	table = pref_table_new(group, 2, 2, FALSE, FALSE);
 
@@ -1556,7 +1556,7 @@ static void config_window_create(void)
 	config_tab_windows(notebook);
 	config_tab_filtering(notebook);
 	config_tab_editors(notebook);
-	config_tab_exif(notebook);
+	config_tab_properties(notebook);
 	config_tab_advanced(notebook);
 
 	gtk_widget_show(notebook);
