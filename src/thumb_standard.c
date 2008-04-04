@@ -542,7 +542,7 @@ static void thumb_loader_std_done_cb(ImageLoader *il, gpointer data)
 	if (debug)
 		{
 		printf("thumb image done: %s\n", tl->source_path);
-		printf("            from: %s\n", tl->il->fd->path);
+		printf("            from: %s\n", tl->il->path);
 		}
 
 	pixbuf = image_loader_get_pixbuf(tl->il);
