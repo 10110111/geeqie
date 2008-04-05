@@ -814,15 +814,14 @@ void tab_completion_add_tab_func(GtkWidget *entry, void (*tab_func)(const gchar 
 
 gchar *remove_trailing_slash(const gchar *path)
 {
-	gchar *ret;
 	gint l;
+
 	if (!path) return NULL;
 
-	ret = g_strdup(path);
-	l = strlen(ret);
-	if (l > 1 && ret[l - 1] == '/') ret[l - 1] = '\0';
+	l = strlen(path);
+	while (l > 1 && path[l - 1] == '/') l--;
 
-	return ret;
+	return g_strndup(path, l);
 }
 
 static void tab_completion_select_cancel_cb(FileDialog *fd, gpointer data)
