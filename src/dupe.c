@@ -321,6 +321,7 @@ static void dupe_list_free(GList *list)
 	g_list_free(list);
 }
 
+/*
 static DupeItem *dupe_item_find_fd_by_list(FileData *fd, GList *work)
 {
 	while (work)
@@ -334,7 +335,9 @@ static DupeItem *dupe_item_find_fd_by_list(FileData *fd, GList *work)
 
 	return NULL;
 }
+*/
 
+/*
 static DupeItem *dupe_item_find_fd(DupeWindow *dw, FileData *fd)
 {
 	DupeItem *di;
@@ -344,6 +347,7 @@ static DupeItem *dupe_item_find_fd(DupeWindow *dw, FileData *fd)
 
 	return di;
 }
+*/
 
 static DupeItem *dupe_item_find_path_by_list(const gchar *path, GList *work)
 {

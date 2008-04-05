@@ -104,6 +104,7 @@ static gint vflist_find_row(ViewFileList *vfl, FileData *fd, GtkTreeIter *iter)
 }
 
 
+/*
 static gint vflist_find_sidecar_list_idx(GList *work, FileData *fd)
 {
 	gint i = 0;
@@ -127,6 +128,7 @@ static gint vflist_find_sidecar_list_idx(GList *work, FileData *fd)
 		}
 	return -1;
 }
+*/
 
 static gint vflist_sidecar_list_count(GList *work)
 {
@@ -921,11 +923,13 @@ static gboolean vflist_select_cb(GtkTreeSelection *selection, GtkTreeModel *stor
  *-----------------------------------------------------------------------------
  */
 
+/*
 static gboolean vflist_dummy_select_cb(GtkTreeSelection *selection, GtkTreeModel *store, GtkTreePath *tpath,
 				        gboolean path_currently_selected, gpointer data)
 {
 	return TRUE;
 }
+*/
 
 
 static void vflist_setup_iter(ViewFileList *vfl, GtkTreeStore *store, GtkTreeIter *iter, FileData *fd)

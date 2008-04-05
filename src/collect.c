@@ -704,7 +704,7 @@ gint collection_rename(CollectionData *cd, FileData *fd)
 {
 	CollectInfo *ci;
 	const gchar *source = fd->change->source;
-	const gchar *dest = fd->change->dest;
+//	const gchar *dest = fd->change->dest;
 	ci = collection_list_find(cd->list, source);
 
 	if (!ci) return FALSE;
