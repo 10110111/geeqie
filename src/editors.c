@@ -69,17 +69,17 @@ static gchar *editor_slot_defaults[GQVIEW_EDITOR_SLOTS * 2] = {
 	/* special slots */
 #if 1
 	/* for testing */
-	"External Copy command", "%vset -x;cp %p %d",
-	"External Move command", "%vset -x;mv %p %d",
-	"External Rename command", "%vset -x;mv %p %d",
-	"External Delete command", "%vset -x;rm %f",
-	"External New Folder command", NULL
+	N_("External Copy command"), "%vset -x;cp %p %d",
+	N_("External Move command"), "%vset -x;mv %p %d",
+	N_("External Rename command"), "%vset -x;mv %p %d",
+	N_("External Delete command"), "%vset -x;rm %f",
+	N_("External New Folder command"), NULL
 #else
-	"External Copy command", NULL,
-	"External Move command", NULL,
-	"External Rename command", NULL,
-	"External Delete command", NULL,
-	"External New Folder command", NULL
+	N_("External Copy command"), NULL,
+	N_("External Move command"), NULL,
+	N_("External Rename command"), NULL,
+	N_("External Delete command"), NULL,
+	N_("External New Folder command"), NULL
 #endif
 };
 
