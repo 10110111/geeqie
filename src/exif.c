@@ -198,21 +198,21 @@ static ExifTextList ExifLightSourceList[] = {
 	{ 2,	N_("fluorescent") },
 	{ 3,	N_("tungsten (incandescent)") },
 	{ 4,	N_("flash") },
-	{ 9,	"fine weather" },
-	{ 10,	"cloudy weather" },
-	{ 11,	"shade" },
-	{ 12,	"daylight fluorescent" },
-	{ 13,	"day white fluorescent" },
-	{ 14,	"cool white fluorescent" },
-	{ 15,	"while fluorescent" },
-	{ 17,	"standard light A" },
-	{ 18,	"standard light B" },
-	{ 19,	"standard light C" },
-	{ 20,	"D55" },
-	{ 21,	"D65" },
-	{ 22,	"D75" },
-	{ 23,	"D50" },
-	{ 24,	"ISO studio tungsten" },
+	{ 9,	N_("fine weather") },
+	{ 10,	N_("cloudy weather") },
+	{ 11,	N_("shade") },
+	{ 12,	N_("daylight fluorescent") },
+	{ 13,	N_("day white fluorescent") },
+	{ 14,	N_("cool white fluorescent") },
+	{ 15,	N_("while fluorescent") },
+	{ 17,	N_("standard light A") },
+	{ 18,	N_("standard light B") },
+	{ 19,	N_("standard light C") },
+	{ 20,	N_("D55") },
+	{ 21,	N_("D65") },
+	{ 22,	N_("D75") },
+	{ 23,	N_("D50") },
+	{ 24,	N_("ISO studio tungsten") },
 	{ 255,	N_("other") },
 	EXIF_TEXT_LIST_END
 };
@@ -226,94 +226,94 @@ static ExifTextList ExifFlashList[] = {
 };
 
 static ExifTextList ExifColorSpaceList[] = {
-	{ 1,	"sRGB" },
-	{ 65535,"uncalibrated" },
+	{ 1,	N_("sRGB") },
+	{ 65535,N_("uncalibrated") },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList ExifSensorList[] = {
-	{ 1,	"not defined" },
-	{ 2,	"1 chip color area" },
-	{ 2,	"2 chip color area" },
-	{ 4,	"3 chip color area" },
-	{ 5,	"color sequential area" },
-	{ 7,	"trilinear" },
-	{ 8,	"color sequential linear" },
+	{ 1,	N_("not defined") },
+	{ 2,	N_("1 chip color area") },
+	{ 2,	N_("2 chip color area") },
+	{ 4,	N_("3 chip color area") },
+	{ 5,	N_("color sequential area") },
+	{ 7,	N_("trilinear") },
+	{ 8,	N_("color sequential linear") },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList ExifSourceList[] = {
-	{ 3,	"digital still camera" },
+	{ 3,	N_("digital still camera") },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList ExifSceneList[] = {
-	{ 1,	"direct photo" },
+	{ 1,	N_("direct photo") },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList ExifCustRenderList[] = {
-	{ 0,	"normal" },
-	{ 1,	"custom" },
+	{ 0,	N_("normal") },
+	{ 1,	N_("custom") },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList ExifExposureModeList[] = {
-	{ 0,	"auto" },
-	{ 1,	"manual" },
-	{ 2,	"auto bracket" },
+	{ 0,	N_("auto") },
+	{ 1,	N_("manual") },
+	{ 2,	N_("auto bracket") },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList ExifWhiteBalanceList[] = {
-	{ 0,	"auto" },
-	{ 1,	"manual" },
+	{ 0,	N_("auto") },
+	{ 1,	N_("manual") },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList ExifSceneCaptureList[] = {
-	{ 0,	"standard" },
-	{ 1,	"landscape" },
-	{ 2,	"portrait" },
-	{ 3,	"night scene" },
+	{ 0,	N_("standard") },
+	{ 1,	N_("landscape") },
+	{ 2,	N_("portrait") },
+	{ 3,	N_("night scene") },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList ExifGainControlList[] = {
-	{ 0,	"none" },
-	{ 1,	"low gain up" },
-	{ 2,	"high gain up" },
-	{ 3,	"low gain down" },
-	{ 4,	"high gain down" },
+	{ 0,	N_("none") },
+	{ 1,	N_("low gain up") },
+	{ 2,	N_("high gain up") },
+	{ 3,	N_("low gain down") },
+	{ 4,	N_("high gain down") },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList ExifContrastList[] = {
-	{ 0,	"normal" },
-	{ 1,	"soft" },
-	{ 2,	"hard" },
+	{ 0,	N_("normal") },
+	{ 1,	N_("soft") },
+	{ 2,	N_("hard") },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList ExifSaturationList[] = {
-	{ 0,	"normal" },
-	{ 1,	"low" },
-	{ 2,	"high" },
+	{ 0,	N_("normal") },
+	{ 1,	N_("low") },
+	{ 2,	N_("high") },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList ExifSharpnessList[] = {
-	{ 0,	"normal" },
-	{ 1,	"soft" },
-	{ 2,	"hard" },
+	{ 0,	N_("normal") },
+	{ 1,	N_("soft") },
+	{ 2,	N_("hard") },
 	EXIF_TEXT_LIST_END
 };
 
 static ExifTextList ExifSubjectRangeList[] = {
-	{ 0,	"unknown" },
-	{ 1,	"macro" },
-	{ 2,	"close" },
-	{ 3,	"distant" },
+	{ 0,	N_("unknown") },
+	{ 1,	N_("macro") },
+	{ 2,	N_("close") },
+	{ 3,	N_("distant") },
 	EXIF_TEXT_LIST_END
 };
 
@@ -328,81 +328,81 @@ ExifMarker ExifKnownMarkersList[] = {
 { 0x0102, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Image.BitsPerSample",	N_("Bits per Sample/Pixel"), NULL },
 { 0x0103, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Image.Compression",	N_("Compression"), ExifCompressionList },
 { 0x010e, EXIF_FORMAT_STRING, -1,		"Exif.Image.ImageDescription",	N_("Image description"), NULL },
-{ 0x010f, EXIF_FORMAT_STRING, -1,		"Exif.Image.Make",		"Camera make", NULL },
-{ 0x0110, EXIF_FORMAT_STRING, -1,		"Exif.Image.Model",		"Camera model", NULL },
+{ 0x010f, EXIF_FORMAT_STRING, -1,		"Exif.Image.Make",		N_("Camera make"), NULL },
+{ 0x0110, EXIF_FORMAT_STRING, -1,		"Exif.Image.Model",		N_("Camera model"), NULL },
 { 0x0112, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Image.Orientation",	N_("Orientation"), ExifOrientationList },
-{ 0x011a, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Image.XResolution",	"X resolution", NULL },
-{ 0x011b, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Image.YResolution",	"Y Resolution", NULL },
-{ 0x0128, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Image.ResolutionUnit",	"Resolution units", ExifUnitList },
-{ 0x0131, EXIF_FORMAT_STRING, -1, 		"Exif.Image.Software",		"Firmware", NULL },
+{ 0x011a, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Image.XResolution",	N_("X resolution"), NULL },
+{ 0x011b, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Image.YResolution",	N_("Y Resolution"), NULL },
+{ 0x0128, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Image.ResolutionUnit",	N_("Resolution units"), ExifUnitList },
+{ 0x0131, EXIF_FORMAT_STRING, -1, 		"Exif.Image.Software",		N_("Firmware"), NULL },
 { 0x0132, EXIF_FORMAT_STRING, 20,		"Exif.Image.DateTime",		N_("Date"), NULL },
-{ 0x013e, EXIF_FORMAT_RATIONAL_UNSIGNED, 2,	"Exif.Image.WhitePoint",	"White point", NULL },
-{ 0x013f, EXIF_FORMAT_RATIONAL_UNSIGNED, 6,	"Exif.Image.PrimaryChromaticities","Primary chromaticities", NULL },
-{ 0x0211, EXIF_FORMAT_RATIONAL_UNSIGNED, 3,	"Exif.Image.YCbCrCoefficients",	"YCbCy coefficients", NULL },
-{ 0x0213, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Image.YCbCrPositioning",	"YCbCr positioning", ExifYCbCrPosList },
-{ 0x0214, EXIF_FORMAT_RATIONAL_UNSIGNED, 6, 	"Exif.Image.ReferenceBlackWhite","Black white reference", NULL },
+{ 0x013e, EXIF_FORMAT_RATIONAL_UNSIGNED, 2,	"Exif.Image.WhitePoint",	N_("White point"), NULL },
+{ 0x013f, EXIF_FORMAT_RATIONAL_UNSIGNED, 6,	"Exif.Image.PrimaryChromaticities",N_("Primary chromaticities"), NULL },
+{ 0x0211, EXIF_FORMAT_RATIONAL_UNSIGNED, 3,	"Exif.Image.YCbCrCoefficients",	N_("YCbCy coefficients"), NULL },
+{ 0x0213, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Image.YCbCrPositioning",	N_("YCbCr positioning"), ExifYCbCrPosList },
+{ 0x0214, EXIF_FORMAT_RATIONAL_UNSIGNED, 6, 	"Exif.Image.ReferenceBlackWhite",N_("Black white reference"), NULL },
 { 0x8298, EXIF_FORMAT_STRING, -1,		"Exif.Image.Copyright",		N_("Copyright"), NULL },
-{ 0x8769, EXIF_FORMAT_LONG_UNSIGNED, 1,		"Exif.Image.ExifTag",		"SubIFD Exif offset", NULL },
+{ 0x8769, EXIF_FORMAT_LONG_UNSIGNED, 1,		"Exif.Image.ExifTag",		N_("SubIFD Exif offset"), NULL },
 	/* subIFD follows */
-{ 0x829a, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.ExposureTime",	"Exposure time (seconds)", NULL },
-{ 0x829d, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.FNumber",		"FNumber", NULL },
+{ 0x829a, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.ExposureTime",	N_("Exposure time (seconds)"), NULL },
+{ 0x829d, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.FNumber",		N_("FNumber"), NULL },
 { 0x8822, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.ExposureProgram",	N_("Exposure program"), ExifExposureProgramList },
-{ 0x8824, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SpectralSensitivity","Spectral Sensitivity", NULL },
+{ 0x8824, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SpectralSensitivity",N_("Spectral Sensitivity"), NULL },
 { 0x8827, EXIF_FORMAT_SHORT_UNSIGNED, -1,	"Exif.Photo.ISOSpeedRatings",	N_("ISO sensitivity"), NULL },
-{ 0x8828, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Photo.OECF",		"Optoelectric conversion factor", NULL },
-{ 0x9000, EXIF_FORMAT_UNDEFINED, 4,		"Exif.Photo.ExifVersion",	"Exif version", NULL },
+{ 0x8828, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Photo.OECF",		N_("Optoelectric conversion factor"), NULL },
+{ 0x9000, EXIF_FORMAT_UNDEFINED, 4,		"Exif.Photo.ExifVersion",	N_("Exif version"), NULL },
 { 0x9003, EXIF_FORMAT_STRING, 20,		"Exif.Photo.DateTimeOriginal",	N_("Date original"), NULL },
 { 0x9004, EXIF_FORMAT_STRING, 20,		"Exif.Photo.DateTimeDigitized",	N_("Date digitized"), NULL },
-{ 0x9101, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Photo.ComponentsConfiguration","Pixel format", NULL },
-{ 0x9102, EXIF_FORMAT_RATIONAL_UNSIGNED,1,	"Exif.Photo.CompressedBitsPerPixel","Compression ratio", NULL },
+{ 0x9101, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Photo.ComponentsConfiguration",N_("Pixel format"), NULL },
+{ 0x9102, EXIF_FORMAT_RATIONAL_UNSIGNED,1,	"Exif.Photo.CompressedBitsPerPixel",N_("Compression ratio"), NULL },
 { 0x9201, EXIF_FORMAT_RATIONAL, 1,		"Exif.Photo.ShutterSpeedValue",	N_("Shutter speed"), NULL },
 { 0x9202, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.ApertureValue",	N_("Aperture"), NULL },
-{ 0x9203, EXIF_FORMAT_RATIONAL, 1,		"Exif.Photo.BrightnessValue",	"Brightness", NULL },
+{ 0x9203, EXIF_FORMAT_RATIONAL, 1,		"Exif.Photo.BrightnessValue",	N_("Brightness"), NULL },
 { 0x9204, EXIF_FORMAT_RATIONAL, 1,		"Exif.Photo.ExposureBiasValue",	N_("Exposure bias"), NULL },
-{ 0x9205, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.MaxApertureValue",	"Maximum aperture", NULL },
+{ 0x9205, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.MaxApertureValue",	N_("Maximum aperture"), NULL },
 { 0x9206, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.SubjectDistance",	N_("Subject distance"), NULL },
 { 0x9207, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.MeteringMode",	N_("Metering mode"), ExifMeteringModeList },
 { 0x9208, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.LightSource",	N_("Light source"), ExifLightSourceList },
 { 0x9209, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.Flash",		N_("Flash"), ExifFlashList },
 { 0x920a, EXIF_FORMAT_RATIONAL_UNSIGNED, 1, 	"Exif.Photo.FocalLength",	N_("Focal length"), NULL },
-{ 0x9214, EXIF_FORMAT_SHORT_UNSIGNED, -1,	"Exif.Photo.SubjectArea",	"Subject area", NULL },
-{ 0x927c, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Photo.MakerNote",		"MakerNote", NULL },
-{ 0x9286, EXIF_FORMAT_UNDEFINED, -1, 		"Exif.Photo.UserComment",	"UserComment", NULL },
-{ 0x9290, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SubSecTime",	"Subsecond time", NULL },
-{ 0x9291, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SubSecTimeOriginal","Subsecond time original", NULL },
-{ 0x9292, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SubSecTimeDigitized","Subsecond time digitized", NULL },
-{ 0xa000, EXIF_FORMAT_UNDEFINED, 4,		"Exif.Photo.FlashpixVersion",	"FlashPix version", NULL },
-{ 0xa001, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.ColorSpace",	"Colorspace", ExifColorSpaceList },
+{ 0x9214, EXIF_FORMAT_SHORT_UNSIGNED, -1,	"Exif.Photo.SubjectArea",	N_("Subject area"), NULL },
+{ 0x927c, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Photo.MakerNote",		N_("MakerNote"), NULL },
+{ 0x9286, EXIF_FORMAT_UNDEFINED, -1, 		"Exif.Photo.UserComment",	N_("UserComment"), NULL },
+{ 0x9290, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SubSecTime",	N_("Subsecond time"), NULL },
+{ 0x9291, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SubSecTimeOriginal",N_("Subsecond time original"), NULL },
+{ 0x9292, EXIF_FORMAT_STRING, -1,		"Exif.Photo.SubSecTimeDigitized",N_("Subsecond time digitized"), NULL },
+{ 0xa000, EXIF_FORMAT_UNDEFINED, 4,		"Exif.Photo.FlashpixVersion",	N_("FlashPix version"), NULL },
+{ 0xa001, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.ColorSpace",	N_("Colorspace"), ExifColorSpaceList },
 	/* ExifImageWidth, ExifImageHeight can also be unsigned short */
 { 0xa002, EXIF_FORMAT_LONG_UNSIGNED, 1,		"Exif.Photo.PixelXDimension",	N_("Width"), NULL },
 { 0xa003, EXIF_FORMAT_LONG_UNSIGNED, 1,		"Exif.Photo.PixelYDimension",	N_("Height"), NULL },
-{ 0xa004, EXIF_FORMAT_STRING, -1,		"Exif.Photo.RelatedSoundFile",	"Audio data", NULL },
-{ 0xa005, EXIF_FORMAT_LONG_UNSIGNED, 1,		"ExifInteroperabilityOffset",   "ExifR98 extension", NULL },
-{ 0xa20b, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.FlashEnergy",	"Flash strength", NULL },
-{ 0xa20c, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.SpatialFrequencyResponse","Spatial frequency response", NULL },
-{ 0xa20e, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.FocalPlaneXResolution", "X Pixel density", NULL },
-{ 0xa20f, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.FocalPlaneYResolution", "Y Pixel density", NULL },
-{ 0xa210, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.FocalPlaneResolutionUnit", "Pixel density units", ExifUnitList },
-{ 0x0214, EXIF_FORMAT_SHORT_UNSIGNED, 2,	"Exif.Photo.SubjectLocation",	"Subject location", NULL },
+{ 0xa004, EXIF_FORMAT_STRING, -1,		"Exif.Photo.RelatedSoundFile",	N_("Audio data"), NULL },
+{ 0xa005, EXIF_FORMAT_LONG_UNSIGNED, 1,		"ExifInteroperabilityOffset",   N_("ExifR98 extension"), NULL },
+{ 0xa20b, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.FlashEnergy",	N_("Flash strength"), NULL },
+{ 0xa20c, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.SpatialFrequencyResponse",N_("Spatial frequency response"), NULL },
+{ 0xa20e, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.FocalPlaneXResolution", N_("X Pixel density"), NULL },
+{ 0xa20f, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.FocalPlaneYResolution", N_("Y Pixel density"), NULL },
+{ 0xa210, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.FocalPlaneResolutionUnit", N_("Pixel density units"), ExifUnitList },
+{ 0x0214, EXIF_FORMAT_SHORT_UNSIGNED, 2,	"Exif.Photo.SubjectLocation",	N_("Subject location"), NULL },
 { 0xa215, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.ExposureIndex",	N_("ISO sensitivity"), NULL },
-{ 0xa217, EXIF_FORMAT_SHORT_UNSIGNED, -1,	"Exif.Photo.SensingMethod",	"Sensor type", ExifSensorList },
-{ 0xa300, EXIF_FORMAT_UNDEFINED, 1,		"Exif.Photo.FileSource",	"Source type", ExifSourceList },
-{ 0xa301, EXIF_FORMAT_UNDEFINED, 1,		"Exif.Photo.SceneType",		"Scene type", ExifSceneList },
-{ 0xa302, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Image.CFAPattern",	"Color filter array pattern", NULL },
+{ 0xa217, EXIF_FORMAT_SHORT_UNSIGNED, -1,	"Exif.Photo.SensingMethod",	N_("Sensor type"), ExifSensorList },
+{ 0xa300, EXIF_FORMAT_UNDEFINED, 1,		"Exif.Photo.FileSource",	N_("Source type"), ExifSourceList },
+{ 0xa301, EXIF_FORMAT_UNDEFINED, 1,		"Exif.Photo.SceneType",		N_("Scene type"), ExifSceneList },
+{ 0xa302, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Image.CFAPattern",	N_("Color filter array pattern"), NULL },
 	/* tags a4xx were added for Exif 2.2 (not just these - some above, as well) */
-{ 0xa401, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.CustomRendered",	"Render process", ExifCustRenderList },
-{ 0xa402, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.ExposureMode",	"Exposure mode", ExifExposureModeList },
-{ 0xa403, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.WhiteBalance",	"White balance", ExifWhiteBalanceList },
-{ 0xa404, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.DigitalZoomRatio",	"Digital zoom ratio", NULL },
-{ 0xa405, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.FocalLengthIn35mmFilm","Focal length (35mm)", NULL },
-{ 0xa406, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.SceneCaptureType",	"Scene capture type", ExifSceneCaptureList },
-{ 0xa407, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.GainControl",	"Gain control", ExifGainControlList },
-{ 0xa408, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.Contrast",		"Contrast", ExifContrastList },
-{ 0xa409, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.Saturation",	"Saturation", ExifSaturationList },
-{ 0xa40a, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.Sharpness",		"Sharpness", ExifSharpnessList },
-{ 0xa40b, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Photo.DeviceSettingDescription","Device setting", NULL },
-{ 0xa40c, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.SubjectDistanceRange","Subject range", ExifSubjectRangeList },
-{ 0xa420, EXIF_FORMAT_STRING, -1,		"Exif.Photo.ImageUniqueID",	"Image serial number", NULL },
+{ 0xa401, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.CustomRendered",	N_("Render process"), ExifCustRenderList },
+{ 0xa402, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.ExposureMode",	N_("Exposure mode"), ExifExposureModeList },
+{ 0xa403, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.WhiteBalance",	N_("White balance"), ExifWhiteBalanceList },
+{ 0xa404, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,	"Exif.Photo.DigitalZoomRatio",	N_("Digital zoom ratio"), NULL },
+{ 0xa405, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.FocalLengthIn35mmFilm",N_("Focal length (35mm)"), NULL },
+{ 0xa406, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.SceneCaptureType",	N_("Scene capture type"), ExifSceneCaptureList },
+{ 0xa407, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.GainControl",	N_("Gain control"), ExifGainControlList },
+{ 0xa408, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.Contrast",		N_("Contrast"), ExifContrastList },
+{ 0xa409, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.Saturation",	N_("Saturation"), ExifSaturationList },
+{ 0xa40a, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.Sharpness",		N_("Sharpness"), ExifSharpnessList },
+{ 0xa40b, EXIF_FORMAT_UNDEFINED, -1,		"Exif.Photo.DeviceSettingDescription",N_("Device setting"), NULL },
+{ 0xa40c, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"Exif.Photo.SubjectDistanceRange",N_("Subject range"), ExifSubjectRangeList },
+{ 0xa420, EXIF_FORMAT_STRING, -1,		"Exif.Photo.ImageUniqueID",	N_("Image serial number"), NULL },
 	/* place known, but undocumented or lesser used tags here */
 { 0x00fe, EXIF_FORMAT_LONG_UNSIGNED, 1,		"Exif.Image.NewSubfileType",	NULL, NULL },
 { 0x00ff, EXIF_FORMAT_SHORT_UNSIGNED, 1,	"SubfileType",			NULL, NULL },
