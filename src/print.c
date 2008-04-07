@@ -172,7 +172,8 @@ typedef enum {
 	TEXT_INFO_FILENAME = 1 << 0,
 	TEXT_INFO_FILEDATE = 1 << 1,
 	TEXT_INFO_FILESIZE = 1 << 2,
-	TEXT_INFO_DIMENSIONS = 1 << 3
+	TEXT_INFO_DIMENSIONS = 1 << 3,
+	TEXT_INFO_FILEPATH = 1 << 4
 } TextInfo;
 
 typedef struct _PrintWindow PrintWindow;
@@ -2034,7 +2035,18 @@ static gint print_job_text_image(PrintWindow *pw, const gchar *path,
 
 	if (pw->text_fields & TEXT_INFO_FILENAME)
 		{
-		g_string_append(string, filename_from_path(path));
+		if (pw->text_fields & TEXT_INFO_FILEPATH)
+			g_string_append(string, path);
+		else
+			g_string_append(string, filename_from_path(path));
+		newline = TRUE;
+		}
+	else if (pw->text_fields & TEXT_INFO_FILEPATH)
+		{
+		gchar *dirname = g_path_get_dirname(path);
+
+		g_string_append_printf(string, "%s%s", dirname, G_DIR_SEPARATOR_S);
+		g_free(dirname);
 		newline = TRUE;
 		}
 	if (pw->text_fields & TEXT_INFO_DIMENSIONS)
@@ -3161,6 +3173,15 @@ static void print_text_cb_name(GtkWidget *widget, gpointer data)
 	print_text_field_set(pw, TEXT_INFO_FILENAME, active);
 }
 
+static void print_text_cb_path(GtkWidget *widget, gpointer data)
+{
+	PrintWindow *pw = data;
+	gint active;
+
+	active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	print_text_field_set(pw, TEXT_INFO_FILEPATH, active);
+}
+
 static void print_text_cb_date(GtkWidget *widget, gpointer data)
 {
 	PrintWindow *pw = data;
@@ -3204,6 +3225,8 @@ static void print_text_menu(GtkWidget *box, PrintWindow *pw)
 
 	pref_checkbox_new(group, _("Name"), (pw->text_fields & TEXT_INFO_FILENAME),
 			  G_CALLBACK(print_text_cb_name), pw);
+	pref_checkbox_new(group, _("Path"), (pw->text_fields & TEXT_INFO_FILEPATH),
+			  G_CALLBACK(print_text_cb_path), pw);
 	pref_checkbox_new(group, _("Date"), (pw->text_fields & TEXT_INFO_FILEDATE),
 			  G_CALLBACK(print_text_cb_date), pw);
 	pref_checkbox_new(group, _("Size"), (pw->text_fields & TEXT_INFO_FILESIZE),
