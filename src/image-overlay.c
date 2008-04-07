@@ -258,32 +258,33 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
   	g_free(name_escaped);
 	g_hash_table_destroy(vars);
 
+	text2 = text;
 	{
 	FileData *fd = image_get_fd(imd);
-	gint active_marks = 0;
-	gint mark;
 
-	for (mark = 0; mark < FILEDATA_MARKS_SIZE; mark++) 
+	if (fd) /* fd may be null after file deletion */
 		{
-		active_marks += fd->marks[mark];
-		}
+		gint active_marks = 0;
+		gint mark;
 
-	if (active_marks > 0)
-		{
-		GString *buf = g_string_sized_new(FILEDATA_MARKS_SIZE * 2);
-	        
 		for (mark = 0; mark < FILEDATA_MARKS_SIZE; mark++) 
 			{
-			g_string_append_printf(buf, fd->marks[mark] ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + mark);
-    			}
+			active_marks += fd->marks[mark];
+			}
 
-    		text2 = g_strdup_printf("%s\n%s", text, buf->str);
-		g_string_free(buf, TRUE);
-		g_free(text);
-		}
-	else
-		{
-		text2 = text;
+		if (active_marks > 0)
+			{
+			GString *buf = g_string_sized_new(FILEDATA_MARKS_SIZE * 2);
+	        
+			for (mark = 0; mark < FILEDATA_MARKS_SIZE; mark++) 
+				{
+				g_string_append_printf(buf, fd->marks[mark] ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + mark);
+    				}
+
+    			text2 = g_strdup_printf("%s\n%s", text, buf->str);
+			g_string_free(buf, TRUE);
+			g_free(text);
+			}
 		}
 	}
         
