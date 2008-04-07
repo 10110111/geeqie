@@ -1132,6 +1132,10 @@ static gint dupe_match(DupeItem *a, DupeItem *b, DupeMatchType mask, gdouble *ra
 		{
 		if (strcmp(a->fd->name, b->fd->name) != 0) return FALSE;
 		}
+	if (mask & DUPE_MATCH_NAME_CI)
+		{
+		if (strcasecmp(a->fd->name, b->fd->name) != 0) return FALSE;
+		}
 	if (mask & DUPE_MATCH_SIZE)
 		{
 		if (a->fd->size != b->fd->size) return FALSE;
@@ -1796,7 +1800,7 @@ void dupe_window_add_files(DupeWindow *dw, GList *list, gint recurse)
 
 static void dupe_item_update(DupeWindow *dw, DupeItem *di)
 {
-	if ( (dw->match_mask & DUPE_MATCH_NAME) || (dw->match_mask & DUPE_MATCH_PATH) )
+	if ( (dw->match_mask & DUPE_MATCH_NAME) || (dw->match_mask & DUPE_MATCH_PATH || (dw->match_mask & DUPE_MATCH_NAME_CI)) )
 		{
 		/* only effects matches on name or path */
 /*
@@ -2625,6 +2629,7 @@ static void dupe_menu_setup(DupeWindow *dw)
 				       "text", DUPE_MENU_COLUMN_NAME, NULL);
 
 	dupe_menu_add_item(store, _("Name"), DUPE_MATCH_NAME, dw);
+	dupe_menu_add_item(store, _("Name case-insensitive"), DUPE_MATCH_NAME_CI, dw);
 	dupe_menu_add_item(store, _("Size"), DUPE_MATCH_SIZE, dw);
 	dupe_menu_add_item(store, _("Date"), DUPE_MATCH_DATE, dw);
 	dupe_menu_add_item(store, _("Dimensions"), DUPE_MATCH_DIM, dw);
