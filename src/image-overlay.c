@@ -156,8 +156,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	CollectionData *cd;
 	CollectInfo *info;
     	gchar *ct;
-    	int i;
-	gint w, h;
+    	gint w, h;
 	GHashTable *vars;
 
 	vars = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
@@ -260,21 +259,37 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	g_hash_table_destroy(vars);
 
 	{
-	GString *buf = g_string_sized_new(FILEDATA_MARKS_SIZE * 2);
 	FileData *fd = image_get_fd(imd);
-        
-	for (i=0; i < FILEDATA_MARKS_SIZE; i++) 
+	gint active_marks = 0;
+	gint mark;
+
+	for (mark = 0; mark < FILEDATA_MARKS_SIZE; mark++) 
 		{
-			
-		g_string_append_printf(buf, fd->marks[i] ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + i);
-    		}
-    	text2 = g_strdup_printf("%s\n%s", text, buf->str);
+		active_marks += fd->marks[mark];
+		}
+
+	if (active_marks > 0)
+		{
+		GString *buf = g_string_sized_new(FILEDATA_MARKS_SIZE * 2);
+	        
+		for (mark = 0; mark < FILEDATA_MARKS_SIZE; mark++) 
+			{
+			g_string_append_printf(buf, fd->marks[mark] ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + mark);
+    			}
+
+    		text2 = g_strdup_printf("%s\n%s", text, buf->str);
+		g_string_free(buf, TRUE);
+		g_free(text);
+		}
+	else
+		{
+		text2 = text;
+		}
 	}
         
 	layout = gtk_widget_create_pango_layout(imd->pr, NULL);
 	pango_layout_set_markup(layout, text2, -1);
 	g_free(text2);
-	g_free(text);
     
 	pango_layout_get_pixel_size(layout, &width, &height);
 
