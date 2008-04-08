@@ -133,7 +133,7 @@ gulong histogram_read(Histogram *histogram, GdkPixbuf *imgpixbuf)
 }
 
 
-int histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
+gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
 {
 	/* FIXME: use the coordinates correctly */
 	gint i;
@@ -143,7 +143,7 @@ int histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint
 	if (!histogram) return 0;
 
 	for (i=0; i<1024; i++) {
-		int flag = 0;
+		gint flag = 0;
 
 		switch (histogram->histogram_chan)
 		{

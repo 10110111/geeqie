@@ -28,4 +28,4 @@ gint histogram_set_mode(Histogram *histogram, gint mode);
 gint histogram_get_mode(Histogram *histogram);
 const gchar *histogram_label(Histogram *histogram);
 gulong histogram_read(Histogram *histogram, GdkPixbuf *imgpixbuf);
-int histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height);
+gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height);
