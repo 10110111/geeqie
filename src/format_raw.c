@@ -62,6 +62,7 @@ static FormatRawEntry format_raw_list[] = {
 	FORMAT_RAW_NIKON,
 	FORMAT_RAW_OLYMPUS,
 	FORMAT_RAW_PENTAX,
+	FORMAT_RAW_SAMSUNG,
 	{ NULL, 0, 0, NULL, 0, 0, NULL, NULL, NULL }
 };
 

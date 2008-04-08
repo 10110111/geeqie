@@ -235,7 +235,7 @@ void filter_add_defaults(void)
 	filter_add_if_missing("mrw", "Minolta raw format", ".mrw", FORMAT_CLASS_RAWIMAGE, TRUE);
 	filter_add_if_missing("nef", "Nikon raw format", ".nef", FORMAT_CLASS_RAWIMAGE, TRUE);
 	filter_add_if_missing("orf", "Olympus raw format", ".orf", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("pef", "Pentax raw format", ".pef;.ptx", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("pef", "Pentax or Samsung raw format", ".pef;.ptx", FORMAT_CLASS_RAWIMAGE, TRUE);
 	filter_add_if_missing("dng", "Adobe Digital Negative raw format", ".dng", FORMAT_CLASS_RAWIMAGE, TRUE);
 	filter_add_if_missing("x3f", "Sigma raw format", ".x3f", FORMAT_CLASS_RAWIMAGE, TRUE);
 	filter_add_if_missing("raw", "Panasonic raw format", ".raw", FORMAT_CLASS_RAWIMAGE, TRUE);

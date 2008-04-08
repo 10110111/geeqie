@@ -29,6 +29,10 @@ gint format_nikon_raw(unsigned char *data, const guint len,
 			    FORMAT_RAW_EXIF_TIFF, NULL, \
 			    "Pentax raw", format_nikon_raw }
 
+#define FORMAT_RAW_SAMSUNG { "pef", \
+			    FORMAT_RAW_MATCH_TIFF_MAKE, 0, "SAMSUNG TECHWIN", 15, \
+			    FORMAT_RAW_EXIF_TIFF, NULL, \
+			    "Samsung raw", format_nikon_raw }
 
 gint format_nikon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 			    guint size, ExifByteOrder bo);
