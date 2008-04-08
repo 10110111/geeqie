@@ -66,13 +66,13 @@ struct _ExifData
 		image->readMetadata();
 
 #if EXIV2_TEST_VERSION(0,16,0)
-		printf("xmp count %d\n", image->xmpData().count());
+		if (debug >= 2) printf("xmp count %d\n", image->xmpData().count());
 		if (sidecar_path && image->xmpData().empty())
 			{
 			sidecar = Exiv2::ImageFactory::open(sidecar_path);
 			sidecar->readMetadata();
 			have_sidecar = sidecar->good();
-			printf("sidecar xmp count %d\n", sidecar->xmpData().count());
+			if (debug >= 2) printf("sidecar xmp count %d\n", sidecar->xmpData().count());
 			}
 		
 #endif
