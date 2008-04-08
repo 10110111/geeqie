@@ -354,7 +354,7 @@ static void layout_menu_close_cb(GtkAction *action, gpointer data)
 
 static void layout_menu_exit_cb(GtkAction *action, gpointer data)
 {
-	exit_gqview();
+	exit_program();
 }
 
 static void layout_menu_alter_90_cb(GtkAction *action, gpointer data)

@@ -184,7 +184,7 @@ static gint layout_image_full_screen_key_press_cb(GtkWidget *widget, GdkEventKey
 				info_window_new(layout_image_get_fd(lw), NULL);
 				break;
 			case 'Q': case 'q':
-				exit_gqview();
+				exit_program();
 				return FALSE;
 				break;
 			default:

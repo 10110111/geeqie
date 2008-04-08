@@ -247,7 +247,7 @@ void help_window_show(const gchar *key);
 
 void keyboard_scroll_calc(gint *x, gint *y, GdkEventKey *event);
 gint key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
-void exit_gqview(void);
+void exit_program(void);
 
 
 #endif

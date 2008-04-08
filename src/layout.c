@@ -1833,7 +1833,7 @@ void layout_close(LayoutWindow *lw)
 		}
 	else
 		{
-		exit_gqview();
+		exit_program();
 		}
 }
 

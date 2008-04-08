@@ -398,7 +398,7 @@ static void gr_tools_hide(const gchar *text, gpointer data)
 
 static gint gr_quit_idle_cb(gpointer data)
 {
-	exit_gqview();
+	exit_program();
 
 	return FALSE;
 }
@@ -1147,7 +1147,7 @@ static void setup_default_options(void)
 	sidecar_ext_add_defaults();
 }
 
-static void exit_gqview_final(void)
+static void exit_program_final(void)
 {
 	gchar *path;
 	gchar *pathl;
@@ -1209,7 +1209,7 @@ static void exit_confirm_exit_cb(GenericDialog *gd, gpointer data)
 {
 	exit_dialog = NULL;
 	generic_dialog_close(gd);
-	exit_gqview_final();
+	exit_program_final();
 }
 
 static gint exit_confirm_dlg(void)
@@ -1244,13 +1244,13 @@ static gint exit_confirm_dlg(void)
 	return TRUE;
 }
 
-void exit_gqview(void)
+void exit_program(void)
 {
 	layout_image_full_screen_stop(NULL);
 
 	if (exit_confirm_dlg()) return;
 
-	exit_gqview_final();
+	exit_program_final();
 }
 
 int main (int argc, char *argv[])
