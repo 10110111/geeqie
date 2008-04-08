@@ -103,6 +103,8 @@ geeqie_SOURCES = \
 	fullscreen.h	\
 	globals.c	\
 	gqview.h	\
+	histogram.c	\
+	histogram.h	\
 	image.c		\
 	image.h		\
 	image-load.c	\

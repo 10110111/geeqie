@@ -122,6 +122,8 @@ typedef struct _SlideShowData SlideShowData;
 typedef struct _FullScreenData FullScreenData;
 
 typedef struct _PixmapFolders PixmapFolders;
+typedef struct _Histogram Histogram;
+
 
 
 struct _ImageLoader
@@ -379,6 +381,13 @@ struct _FileData {
 	gint ref;
 };
 
+struct _Histogram {
+	gulong histmap[256*4];
+	gint histogram_chan;
+	gint histogram_logmode;
+};
+
+
 struct _LayoutWindow
 {
 	gchar *path;
@@ -488,6 +497,9 @@ struct _LayoutWindow
 	GtkWidget *bar_sort;
 	GtkWidget *bar_exif;
 	GtkWidget *bar_info;
+
+	gint histogram_enabled;
+	Histogram *histogram;
 
 	gint bar_sort_enabled;
 	gint bar_exif_enabled;

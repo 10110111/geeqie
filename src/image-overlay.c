@@ -20,6 +20,7 @@
 #include "layout.h"
 #include "pixbuf-renderer.h"
 #include "pixbuf_util.h"
+#include "histogram.h"
 
 
 /*
@@ -72,6 +73,50 @@ static OSDIcon osd_icons[] = {
 #define OSD_INFO_Y -10
 
 #define IMAGE_OSD_DEFAULT_DURATION 30
+
+/*
+ *----------------------------------------------------------------------------
+ * image histogram
+ *----------------------------------------------------------------------------
+ */
+
+
+#define HIST_PREPARE(imd, lw)                          \
+       LayoutWindow *lw = NULL;                        \
+       if (imd)                                        \
+               lw = layout_find_by_image(imd);
+
+void image_osd_histogram_onoff_toggle(ImageWindow *imd, gint x)
+{
+	HIST_PREPARE(imd, lw)
+	if (lw) 
+    		{
+        	lw->histogram_enabled = !!(x);
+		if (lw->histogram_enabled && !lw->histogram)
+			lw->histogram = histogram_new();
+		}
+}
+
+gint image_osd_histogram_onoff_status(ImageWindow *imd)
+{
+       HIST_PREPARE(imd, lw)
+       return lw ?  lw->histogram_enabled : FALSE;
+}
+
+void image_osd_histogram_chan_toggle(ImageWindow *imd)
+{
+       HIST_PREPARE(imd, lw)
+       if (lw && lw->histogram) 
+               histogram_set_channel(lw->histogram, (histogram_get_channel(lw->histogram) +1)%HCHAN_COUNT);
+}
+
+void image_osd_histogram_log_toggle(ImageWindow *imd)
+{
+       HIST_PREPARE(imd,lw)
+       if (lw && lw->histogram) 
+               histogram_set_mode(lw->histogram, !histogram_get_mode(lw->histogram));
+}
+
 
 
 static void image_osd_timer_schedule(OverlayStateData *osd);
@@ -155,6 +200,9 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	gint n, t;
 	CollectionData *cd;
 	CollectInfo *info;
+	GdkPixbuf *imgpixbuf = NULL;
+	LayoutWindow *lw = NULL;
+	gint with_hist = 0;
     	gchar *ct;
     	gint w, h;
 	GHashTable *vars;
@@ -184,8 +232,6 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 		}
 	else
 		{
-		LayoutWindow *lw;
-
 		lw = layout_find_by_image(imd);
 		if (lw)
 			{
@@ -226,11 +272,19 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 			{
 			w = gdk_pixbuf_get_width(imd->il->pixbuf);
 			h = gdk_pixbuf_get_height(imd->il->pixbuf);
+			imgpixbuf = imd->il->pixbuf;
 			}
 		else
 			{
 			pixbuf_renderer_get_image_size(PIXBUF_RENDERER(imd->pr), &w, &h);
+			imgpixbuf = (PIXBUF_RENDERER(imd->pr))->pixbuf;
 			}
+		if (!lw)
+			lw = layout_find_by_image(imd);
+
+		if (imgpixbuf && lw->histogram && lw->histogram_enabled 
+			      && (!imd->il || imd->il->done)) 
+			with_hist=1;
 
  		g_hash_table_insert(vars, "width", g_strdup_printf("%d", w));
  		g_hash_table_insert(vars, "height", g_strdup_printf("%d", h));
@@ -281,7 +335,10 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 				g_string_append_printf(buf, fd->marks[mark] ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + mark);
     				}
 
-    			text2 = g_strdup_printf("%s\n%s", text, buf->str);
+    			if (with_hist)
+				text2 = g_strdup_printf("%s\n%s\n%s", text, buf->str, histogram_label(lw->histogram));
+			else
+				text2 = g_strdup_printf("%s\n%s", text, buf->str);
 			g_string_free(buf, TRUE);
 			g_free(text);
 			}
@@ -297,6 +354,14 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	width += 10;
 	height += 10;
 
+	if (with_hist)
+		{
+		histogram_read(lw->histogram, imgpixbuf);
+		if (width < 266) width = 266;
+		height += 256;
+		}
+
+
 	/* TODO: make osd color configurable --Zas */
 	pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, width, height);
 	pixbuf_set_rect_fill(pixbuf, 3, 3, width-6, height-6, 240, 240, 240, 210);
@@ -308,6 +373,9 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	pixbuf_pixel_set(pixbuf, 0, height - 1, 0, 0, 0, 0);
 	pixbuf_pixel_set(pixbuf, width - 1, height - 1, 0, 0, 0, 0);
 
+	if (with_hist)
+		histogram_draw(lw->histogram, pixbuf, 0, 0, width, height);
+		
 	pixbuf_draw_layout(pixbuf, layout, imd->pr, 5, 5, 0, 0, 0, 255);
 
 	g_object_unref(G_OBJECT(layout));
@@ -485,7 +553,8 @@ static gint image_osd_update_cb(gpointer data)
 			}
 		}
 
-	osd->changed_states = IMAGE_STATE_NONE;
+	if (osd->imd->il && osd->imd->il->done)
+		osd->changed_states = IMAGE_STATE_NONE;
 	osd->idle_id = -1;
 	return FALSE;
 }

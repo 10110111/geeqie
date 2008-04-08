@@ -593,7 +593,38 @@ static void layout_menu_overlay_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_overlay_toggle(lw);
+	if (image_osd_get(lw->image, NULL, NULL))
+		{
+		if (image_osd_histogram_onoff_status(lw->image))
+			{
+		    	image_osd_histogram_onoff_toggle(lw->image, 0);
+			layout_image_overlay_update(lw);
+			}
+		else
+			layout_image_overlay_toggle(lw);
+		}
+	else
+		{
+		layout_image_overlay_toggle(lw);
+		image_osd_histogram_onoff_toggle(lw->image, 1);
+		layout_image_overlay_update(lw);
+		}
+}
+
+static void layout_menu_histogram_chan_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	image_osd_histogram_chan_toggle(lw->image);
+	layout_image_overlay_update(lw);
+}
+
+static void layout_menu_histogram_log_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	image_osd_histogram_log_toggle(lw->image);
+	layout_image_overlay_update(lw);
 }
 
 static void layout_menu_refresh_cb(GtkAction *action, gpointer data)
@@ -1086,6 +1117,8 @@ static GtkActionEntry menu_entries[] = {
 
   { "FullScreen",	NULL,		N_("F_ull screen"),	"F",		NULL,	CB(layout_menu_fullscreen_cb) },
   { "ImageOverlay",	NULL,		N_("_Image Overlay"),	"I",		NULL,	CB(layout_menu_overlay_cb) },
+  { "HistogramChan",	NULL,	N_("Histogram _channels"),	"K",		NULL,	CB(layout_menu_histogram_chan_cb) },
+  { "HistogramLog",	NULL,	N_("Histogram _log mode"),	"J",		NULL,	CB(layout_menu_histogram_log_cb) },
   { "HideTools",	NULL,		N_("_Hide file list"),	"<control>H",	NULL,	CB(layout_menu_hide_cb) },
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb) },
   { "Refresh",	GTK_STOCK_REFRESH,	N_("_Refresh"),		"R",		NULL,	CB(layout_menu_refresh_cb) },
@@ -1220,6 +1253,8 @@ static const char *menu_ui_description =
 "      <separator/>"
 "      <menuitem action='FolderTree'/>"
 "      <menuitem action='ImageOverlay'/>"
+"      <menuitem action='HistogramChan'/>"
+"      <menuitem action='HistogramLog'/>"
 "      <menuitem action='FullScreen'/>"
 "      <separator/>"
 "      <menuitem action='FloatTools'/>"

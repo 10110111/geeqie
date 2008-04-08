@@ -1,0 +1,222 @@
+/*
+ * Geeqie
+ *
+ * Author: Vladimir Nadvornik
+ * based on a patch by Uwe Ohse
+ *
+ * This software is released under the GNU General Public License (GNU GPL).
+ * Please read the included file COPYING for more information.
+ * This software comes with no warranty of any kind, use at your own risk!
+ */
+
+#include "gqview.h"
+#include "histogram.h"
+#include <math.h>
+
+/*
+ *----------------------------------------------------------------------------
+ * image histogram
+ *----------------------------------------------------------------------------
+ */
+
+
+Histogram *histogram_new()
+{
+	Histogram *histogram;
+
+        histogram = g_new0(Histogram, 1);
+	histogram->histogram_chan = HCHAN_RGB;
+	histogram->histogram_logmode = 1;
+
+	return histogram;
+}
+
+void histogram_free(Histogram *histogram)
+{
+	g_free(histogram);
+}
+
+
+gint histogram_set_channel(Histogram *histogram, gint chan)
+{
+	if (!histogram) return 0;
+	histogram->histogram_chan = chan;
+	return chan;
+}
+
+gint histogram_get_channel(Histogram *histogram)
+{
+	if (!histogram) return 0;
+	return histogram->histogram_chan;
+}
+
+gint histogram_set_mode(Histogram *histogram, gint mode)
+{
+	if (!histogram) return 0;
+	histogram->histogram_logmode = mode;
+	return mode;
+}
+
+gint histogram_get_mode(Histogram *histogram)
+{
+	if (!histogram) return 0;
+	return histogram->histogram_logmode;
+}
+
+const gchar *histogram_label(Histogram *histogram)
+{
+	const gchar *t1 = "";
+	if (!histogram) return NULL;
+
+	if (histogram->histogram_logmode)
+			switch (histogram->histogram_chan) {
+			case HCHAN_R:   t1 = _("logarithmical histogram on red"); break;
+                        case HCHAN_G:   t1 = _("logarithmical histogram on green"); break;
+                        case HCHAN_B:   t1 = _("logarithmical histogram on blue"); break;
+                        case HCHAN_VAL: t1 = _("logarithmical histogram on value"); break;
+                        case HCHAN_RGB: t1 = _("logarithmical histogram on RGB"); break;
+                        case HCHAN_MAX: t1 = _("logarithmical histogram on max value"); break;
+                        }
+                else
+                        switch (histogram->histogram_chan) {
+                        case HCHAN_R:   t1 = _("linear histogram on red"); break;
+                        case HCHAN_G:   t1 = _("linear histogram on green"); break;
+                        case HCHAN_B:   t1 = _("linear histogram on blue"); break;
+                        case HCHAN_VAL: t1 = _("linear histogram on value"); break;
+                        case HCHAN_RGB: t1 = _("linear histogram on RGB"); break;
+                        case HCHAN_MAX: t1 = _("linear histogram on max value"); break;
+                        }
+	return t1;
+}
+
+gulong histogram_read(Histogram *histogram, GdkPixbuf *imgpixbuf)
+{
+	gint w, h, i, j, srs, has_alpha;
+	guchar *s_pix;
+
+	if (!histogram) return 0;
+
+	w = gdk_pixbuf_get_width(imgpixbuf);
+	h = gdk_pixbuf_get_height(imgpixbuf);
+	srs = gdk_pixbuf_get_rowstride(imgpixbuf);
+	s_pix = gdk_pixbuf_get_pixels(imgpixbuf);
+	has_alpha = gdk_pixbuf_get_has_alpha(imgpixbuf);
+
+	for (i = 0; i < 256*4; i++) histogram->histmap[i] = 0;
+
+	for (i = 0; i < h; i++)
+		{
+		guchar *sp = s_pix + (i * srs); /* 8bit */
+		for (j = 0; j < w; j++)
+			{
+			histogram->histmap[sp[0]+0]++;
+			histogram->histmap[sp[1]+256]++;
+			histogram->histmap[sp[2]+512]++;
+			if (histogram->histogram_chan == HCHAN_MAX)
+				{
+				guchar t = sp[0];
+				if (sp[1]>t) t = sp[1];
+				if (sp[2]>t) t = sp[2];
+  				histogram->histmap[t+768]++;
+				}
+			else
+  				histogram->histmap[768+(sp[0]+sp[1]+sp[2])/3]++;
+			sp += 3;
+			if (has_alpha) sp++;
+			}
+		}
+
+	return w*h;
+}
+
+
+int histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
+{
+	/* FIXME: use the coordinates correctly */
+	gint i;
+	gulong max = 0;
+	double logmax;
+
+	if (!histogram) return 0;
+
+	for (i=0; i<1024; i++) {
+		int flag = 0;
+
+		switch (histogram->histogram_chan)
+		{
+		case HCHAN_RGB: if ((i%4) != 3 ) flag = 1; break;
+		case HCHAN_R: if ((i%4) == 0) flag = 1; break;
+		case HCHAN_G: if ((i%4) == 1) flag = 1; break;
+		case HCHAN_B: if ((i%4) == 2) flag = 1; break;
+		case HCHAN_VAL: if ((i%4) == 3) flag = 1; break;
+		case HCHAN_MAX: if ((i%4) == 3) flag = 1; break;
+		}
+		if (flag && histogram->histmap[i] > max) max = histogram->histmap[i];
+	}
+
+	logmax = log(max);
+	for (i=0; i<256; i++)
+		{
+		gint j;
+		glong v[4];
+		gint rplus = 0;
+		gint gplus = 0;
+		gint bplus = 0;
+
+		v[0] = histogram->histmap[i+0*256]; // r
+		v[1] = histogram->histmap[i+1*256]; // g
+		v[2] = histogram->histmap[i+2*256]; // b
+		v[3] = histogram->histmap[i+3*256]; // value, max
+		
+		for (j=0; j<4; j++)
+			{
+			gint r = rplus;
+			gint g = gplus;
+			gint b = bplus;
+			gint max2 = 0;
+			gint k;
+			gulong pt;
+
+			for (k=1; k<4; k++)
+				if (v[k] > v[max2]) max2 = k;
+	
+			switch (max2)
+			{
+			case HCHAN_R: rplus = r = 255; break;
+			case HCHAN_G: gplus = g = 255; break;
+			case HCHAN_B: bplus = b = 255; break;
+			}
+
+			switch(histogram->histogram_chan)
+			{
+			case HCHAN_MAX: r = 0; b = 0; g = 0; break;
+			case HCHAN_VAL: r = 0; b = 0; g = 0; break;
+			case HCHAN_R: g = 0; b = 0; break;
+			case HCHAN_G: r = 0; b = 0; break;
+			case HCHAN_B: r = 0; g = 0; break;
+			case HCHAN_RGB: 
+				if (r == 255 && g == 255 && b == 255) {
+					r = 0; 
+					g = 0; 
+					b = 0; 
+				}
+				break;
+			}
+
+			if (v[max2] == 0)
+				pt = 0;
+			else if (histogram->histogram_logmode)
+				pt = ((float)log(v[max2]))/logmax*255;
+			else
+				pt = ((float)v[max2])/max*255;
+			if (histogram->histogram_chan >= HCHAN_RGB 
+			    || max2 == histogram->histogram_chan)
+				pixbuf_draw_line(pixbuf, 
+					0+5, height-255, 256, 256,
+					i+5, height, i+5, height-pt, 
+					r, g, b, 255);
+			v[max2] = -1;
+			}
+		}
+	return TRUE;
+}

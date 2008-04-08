@@ -248,6 +248,7 @@ static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp)
 			pixbuf_desaturate_rect(pr->pixbuf,
 					       0, 0,  pr->image_width, pr->image_height);
 			image_area_changed(imd, 0, 0, pr->image_width, pr->image_height);
+			layout_image_overlay_update(layout_find_by_image(imd));
 			break;
 		case ALTER_NONE:
 		default:
@@ -285,6 +286,7 @@ static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp)
 		}
 
 	if (exif_rotate) image_state_set(imd, IMAGE_STATE_ROTATE_AUTO);
+	layout_image_overlay_update(layout_find_by_image(imd));
 }
 
 static void image_post_process_alter(ImageWindow *imd, gint clamp)

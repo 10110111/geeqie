@@ -29,6 +29,7 @@
 #include "ui_menu.h"
 #include "ui_misc.h"
 #include "ui_tabcomp.h"
+#include "histogram.h"
 
 
 #define MAINWINDOW_DEF_WIDTH 700
@@ -1850,6 +1851,8 @@ void layout_free(LayoutWindow *lw)
 	layout_bars_close(lw);
 
 	gtk_widget_destroy(lw->window);
+	
+	histogram_free(lw->histogram);
 
 	g_free(lw->path);
 
@@ -1894,6 +1897,8 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 	lw->bar_exif_enabled = FALSE;
 	lw->bar_exif_size = -1;
 	lw->bar_exif_advanced = FALSE;
+
+	lw->histogram_enabled = FALSE;
 
 	/* default layout */
 
