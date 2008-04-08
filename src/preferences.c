@@ -1346,6 +1346,8 @@ static void config_tab_advanced(GtkWidget *notebook)
 	gtk_widget_show(scrolled);
 
 	fullscreen_info_view = gtk_text_view_new();
+
+#if GTK_CHECK_VERSION(2,12,0)
 	gtk_widget_set_tooltip_markup(fullscreen_info_view,
 	_("<i>%name%</i> results in the filename of the picture.\n"
 	  "Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>%date%</i>,\n"
@@ -1357,7 +1359,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 	  "if there's no ISO information in the Exif data.\n"
 	  "If a line is empty, it is removed. This allows to add lines that totally disappear when no data is available.\n"
 ));
-	
+#endif
 	gtk_container_add(GTK_CONTAINER(scrolled), fullscreen_info_view);
 	gtk_widget_show(fullscreen_info_view);
 
@@ -1393,8 +1395,9 @@ static void config_tab_advanced(GtkWidget *notebook)
 	pref_spacer(hbox, PREF_PAD_INDENT - PREF_PAD_GAP);
 	spin = pref_spin_new_int(hbox, _("Maximum size:"), _("MB"),
 			 	 0, 2048, 1, safe_delete_size, &safe_delete_size_c);
+#if GTK_CHECK_VERSION(2,12,0)
 	gtk_widget_set_tooltip_markup(spin, _("Set to 0 for unlimited size"));
-
+#endif
 	button = pref_button_new(NULL, NULL, _("View"), FALSE,
 				 G_CALLBACK(safe_delete_view_cb), NULL);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);

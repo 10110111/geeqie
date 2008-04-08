@@ -121,11 +121,18 @@ static gchar *read_char_option(FILE *f, gchar *option, gchar *label, gchar *valu
 	return text;
 }
 
+/* Since gdk_color_to_string() is only available since gtk 2.12
+ * here is an equivalent stub function. */
+static gchar *color_to_string(GdkColor *color)
+{
+	return g_strdup_printf("#%04X%04X%04X", color->red, color->green, color->blue);
+}
+
 static void write_color_option(FILE *f, gchar *label, GdkColor *color)
 {
 	if (color)
 		{
-		gchar *colorstring = gdk_color_to_string (color);
+		gchar *colorstring = color_to_string(color);
 
 		write_char_option(f, label, colorstring);
 		g_free(colorstring);
