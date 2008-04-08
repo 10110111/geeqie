@@ -42,8 +42,8 @@
 #include <math.h>
 
 
-static RemoteConnection *gqview_remote = NULL;
-static CollectionData *gqview_command_collection = NULL;
+static RemoteConnection *remote_connection = NULL;
+static CollectionData *command_collection = NULL;
 
 
 /*
@@ -441,15 +441,15 @@ static void gr_file_view(const gchar *text, gpointer data)
 
 static void gr_list_clear(const gchar *text, gpointer data)
 {
-	if (gqview_command_collection) collection_unref(gqview_command_collection);
-	gqview_command_collection = NULL;
+	if (command_collection) collection_unref(command_collection);
+	command_collection = NULL;
 }
 
 static void gr_list_add(const gchar *text, gpointer data)
 {
 	gint new = TRUE;
 
-	if (!gqview_command_collection)
+	if (!command_collection)
 		{
 		CollectionData *cd;
 
@@ -460,17 +460,17 @@ static void gr_list_add(const gchar *text, gpointer data)
 		g_free(cd->name);
 		cd->name = g_strdup(_("Command line"));
 
-		gqview_command_collection = cd;
+		command_collection = cd;
 		}
 	else
 		{
-		new = (!collection_get_first(gqview_command_collection));
+		new = (!collection_get_first(command_collection));
 		}
 
-	if (collection_add(gqview_command_collection, file_data_new_simple(text), FALSE) && new)
+	if (collection_add(command_collection, file_data_new_simple(text), FALSE) && new)
 		{
-		layout_image_set_collection(NULL, gqview_command_collection,
-					    collection_get_first(gqview_command_collection));
+		layout_image_set_collection(NULL, command_collection,
+					    collection_get_first(command_collection));
 		}
 }
 
@@ -519,7 +519,7 @@ static RemoteCommandEntry remote_commands[] = {
 	{ NULL, NULL, NULL, FALSE, FALSE, NULL }
 };
 
-static RemoteCommandEntry *gqview_remote_command_find(const gchar *text, const gchar **offset)
+static RemoteCommandEntry *remote_command_find(const gchar *text, const gchar **offset)
 {
 	gint match = FALSE;
 	gint i;
@@ -558,12 +558,12 @@ static RemoteCommandEntry *gqview_remote_command_find(const gchar *text, const g
 	return NULL;
 }
 
-static void gqview_remote_cb(RemoteConnection *rc, const gchar *text, gpointer data)
+static void remote_cb(RemoteConnection *rc, const gchar *text, gpointer data)
 {
 	RemoteCommandEntry *entry;
 	const gchar *offset;
 
-	entry = gqview_remote_command_find(text, &offset);
+	entry = remote_command_find(text, &offset);
 	if (entry && entry->func)
 		{
 		entry->func(offset, data);
@@ -574,7 +574,7 @@ static void gqview_remote_cb(RemoteConnection *rc, const gchar *text, gpointer d
 		}
 }
 
-static void gqview_remote_help(void)
+static void remote_help(void)
 {
 	gint i;
 
@@ -600,7 +600,7 @@ static void gqview_remote_help(void)
 		}
 }
 
-static GList *gqview_remote_build_list(GList *list, int argc, char *argv[])
+static GList *remote_build_list(GList *list, int argc, char *argv[])
 {
 	gint i;
 
@@ -609,7 +609,7 @@ static GList *gqview_remote_build_list(GList *list, int argc, char *argv[])
 		{
 		RemoteCommandEntry *entry;
 
-		entry = gqview_remote_command_find(argv[i], NULL);
+		entry = remote_command_find(argv[i], NULL);
 		if (entry)
 			{
 			list = g_list_append(list, argv[i]);
@@ -620,7 +620,7 @@ static GList *gqview_remote_build_list(GList *list, int argc, char *argv[])
 	return list;
 }
 
-static void gqview_remote_control(const gchar *arg_exec, GList *remote_list, const gchar *path,
+static void remote_control(const gchar *arg_exec, GList *remote_list, const gchar *path,
 				  GList *cmd_list, GList *collection_list)
 {
 	RemoteConnection *rc;
@@ -648,7 +648,7 @@ static void gqview_remote_control(const gchar *arg_exec, GList *remote_list, con
 			text = work->data;
 			work = work->next;
 
-			entry = gqview_remote_command_find(text, NULL);
+			entry = remote_command_find(text, NULL);
 			if (entry)
 				{
 				if (entry->prefer_command_line)
@@ -701,7 +701,7 @@ static void gqview_remote_control(const gchar *arg_exec, GList *remote_list, con
 			text = work->data;
 			work = work->next;
 
-			entry = gqview_remote_command_find(text, NULL);
+			entry = remote_command_find(text, NULL);
 			if (entry &&
 			    entry->opt_l &&
 			    strcmp(entry->opt_l, "file:") == 0) use_path = FALSE;
@@ -962,13 +962,13 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 				if (!remote_do)
 					{
 					remote_do = TRUE;
-					remote_list = gqview_remote_build_list(remote_list, argc, argv);
+					remote_list = remote_build_list(remote_list, argc, argv);
 					}
 				}
 			else if (strcmp(cmd_line, "-rh") == 0 ||
 				 strcmp(cmd_line, "--remote-help") == 0)
 				{
-				gqview_remote_help();
+				remote_help();
 				exit (0);
 				}
 			else if (strcmp(cmd_line, "--blank") == 0)
@@ -1045,7 +1045,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 
 	if (remote_do)
 		{
-		gqview_remote_control(argv[0], remote_list, *path, list, *collection_list);
+		remote_control(argv[0], remote_list, *path, list, *collection_list);
 		}
 	g_list_free(remote_list);
 
@@ -1153,7 +1153,7 @@ static void exit_program_final(void)
 	gchar *pathl;
 	LayoutWindow *lw = NULL;
 
-	remote_close(gqview_remote);
+	remote_close(remote_connection);
 
 	collect_manager_flush();
 
@@ -1380,7 +1380,7 @@ int main (int argc, char *argv[])
 		else
 			{
 			cd = collection_new("");	/* if we pass NULL, untitled counter is falsely increm. */
-			gqview_command_collection = cd;
+			command_collection = cd;
 			}
 
 		g_free(cd->path);
@@ -1442,8 +1442,8 @@ int main (int argc, char *argv[])
 	if (startup_in_slideshow) layout_image_slideshow_start(lw);
 
 	buf = g_strconcat(homedir(), "/", GQVIEW_RC_DIR, "/.command", NULL);
-	gqview_remote = remote_server_open(buf);
-	remote_server_subscribe(gqview_remote, gqview_remote_cb, NULL);
+	remote_connection = remote_server_open(buf);
+	remote_server_subscribe(remote_connection, remote_cb, NULL);
 	g_free(buf);
 
 	gtk_main ();
