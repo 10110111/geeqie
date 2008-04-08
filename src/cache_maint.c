@@ -143,11 +143,11 @@ static gint cache_maintain_home_cb(gpointer data)
 
 	if (cm->metadata)
 		{
-		cache_folder = GQVIEW_CACHE_RC_METADATA;
+		cache_folder = GQ_CACHE_RC_METADATA;
 		}
 	else
 		{
-		cache_folder = GQVIEW_CACHE_RC_THUMB;
+		cache_folder = GQ_CACHE_RC_THUMB;
 		}
 
 	base_length = strlen(homedir()) + strlen("/") + strlen(cache_folder);
@@ -275,11 +275,11 @@ void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
 
 	if (metadata)
 		{
-		cache_folder = GQVIEW_CACHE_RC_METADATA;
+		cache_folder = GQ_CACHE_RC_METADATA;
 		}
 	else
 		{
-		cache_folder = GQVIEW_CACHE_RC_THUMB;
+		cache_folder = GQ_CACHE_RC_THUMB;
 		}
 
 	base = g_strconcat(homedir(), "/", cache_folder, NULL);
@@ -358,8 +358,8 @@ gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear)
 
 	if (debug) printf("maintainance check: %s\n", dir);
 
-	base_length = strlen(homedir()) + strlen("/") + strlen(GQVIEW_CACHE_RC_THUMB);
-	base = g_strconcat(homedir(), "/", GQVIEW_CACHE_RC_THUMB, dir, NULL);
+	base_length = strlen(homedir()) + strlen("/") + strlen(GQ_CACHE_RC_THUMB);
+	base = g_strconcat(homedir(), "/", GQ_CACHE_RC_THUMB, dir, NULL);
 
 	if (path_list(base, &flist, &dlist))
 		{
@@ -426,7 +426,7 @@ gint cache_maintain_dir(const gchar *dir, gint recursive, gint clear)
 	gint still_have_a_file = FALSE;
 	GList *work;
 
-	cachedir = g_strconcat(dir, "/", GQVIEW_CACHE_LOCAL_THUMB, NULL);
+	cachedir = g_strconcat(dir, "/", GQ_CACHE_LOCAL_THUMB, NULL);
 
 	path_list(cachedir, &list, NULL);
 	work = list;
@@ -442,8 +442,8 @@ gint cache_maintain_dir(const gchar *dir, gint recursive, gint clear)
 		source = g_strconcat(dir, "/", filename_from_path(path), NULL);
 
 		if (clear ||
-		    extension_truncate(source, GQVIEW_CACHE_EXT_THUMB) ||
-		    extension_truncate(source, GQVIEW_CACHE_EXT_SIM))
+		    extension_truncate(source, GQ_CACHE_EXT_THUMB) ||
+		    extension_truncate(source, GQ_CACHE_EXT_SIM))
 			{
 			if (!clear && isfile(source))
 				{
@@ -1177,7 +1177,7 @@ void cache_manager_show(void)
 
 	group = pref_group_new(gd->vbox, FALSE, _("Geeqie thumbnail cache"), GTK_ORIENTATION_VERTICAL);
 
-	buf = g_strconcat(_("Location:"), " ", homedir(), "/", GQVIEW_CACHE_RC_THUMB, NULL);
+	buf = g_strconcat(_("Location:"), " ", homedir(), "/", GQ_CACHE_RC_THUMB, NULL);
 	label = pref_label_new(group, buf);
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
 	g_free(buf);
@@ -1225,7 +1225,7 @@ void cache_manager_show(void)
 
 	group = pref_group_new(gd->vbox, FALSE, _("Metadata"), GTK_ORIENTATION_VERTICAL);
 	
-	buf = g_strconcat(_("Location:"), " ", homedir(), "/", GQVIEW_CACHE_RC_METADATA, NULL);
+	buf = g_strconcat(_("Location:"), " ", homedir(), "/", GQ_CACHE_RC_METADATA, NULL);
 	label = pref_label_new(group, buf);
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
 	g_free(buf);

@@ -21,10 +21,10 @@
 #include "filelist.h"
 
 
-#define GQVIEW_COLLECTION_MARKER "#Geeqie"
+#define GQ_COLLECTION_MARKER "#Geeqie"
 
-#define GQVIEW_COLLECTION_FAIL_MIN     300
-#define GQVIEW_COLLECTION_FAIL_PERCENT 98
+#define GQ_COLLECTION_FAIL_MIN     300
+#define GQ_COLLECTION_FAIL_PERCENT 98
 
 typedef struct _CollectManagerEntry CollectManagerEntry;
 
@@ -94,7 +94,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, gint 
 		gchar *buf;
 		if (s_buf[0]=='#')
 			{
-			if (strncasecmp(s_buf, GQVIEW_COLLECTION_MARKER, strlen(GQVIEW_COLLECTION_MARKER)) == 0)
+			if (strncasecmp(s_buf, GQ_COLLECTION_MARKER, strlen(GQ_COLLECTION_MARKER)) == 0)
 				{
 				/* Looks like an official collection, allow unchecked input.
 				 * All this does is allow adding files that may not exist,
@@ -127,8 +127,8 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, gint 
 			if (!valid && !official)
 				{
 				fail++;
-				if (fail > GQVIEW_COLLECTION_FAIL_MIN &&
-				    fail * 100 / total > GQVIEW_COLLECTION_FAIL_PERCENT)
+				if (fail > GQ_COLLECTION_FAIL_MIN &&
+				    fail * 100 / total > GQ_COLLECTION_FAIL_PERCENT)
 					{
 					printf("Too many invalid filenames in unoffical collection file, closing: %s\n", path);
 					success = FALSE;
@@ -310,7 +310,7 @@ static gint collection_save_private(CollectionData *cd, const gchar *path)
 		return FALSE;
 		}
 
-	fprintf(f, "%s collection\n", GQVIEW_COLLECTION_MARKER);
+	fprintf(f, "%s collection\n", GQ_COLLECTION_MARKER);
 	fprintf(f, "#created with Geeqie version %s\n", VERSION);
 
 	collection_update_geometry(cd);
@@ -675,7 +675,7 @@ static void collect_manager_refresh(void)
 	GList *work;
 	gchar *base;
 
-	base = g_strconcat(homedir(), "/", GQVIEW_RC_DIR_COLLECTIONS, NULL);
+	base = g_strconcat(homedir(), "/", GQ_RC_DIR_COLLECTIONS, NULL);
 	path_list(base, &list, NULL);
 	g_free(base);
 

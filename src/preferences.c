@@ -137,8 +137,8 @@ static gint debug_c;
 static GtkWidget *configwindow = NULL;
 static GtkWidget *startup_path_entry;
 static GtkListStore *filter_store = NULL;
-static GtkWidget *editor_name_entry[GQVIEW_EDITOR_SLOTS];
-static GtkWidget *editor_command_entry[GQVIEW_EDITOR_SLOTS];
+static GtkWidget *editor_name_entry[GQ_EDITOR_SLOTS];
+static GtkWidget *editor_command_entry[GQ_EDITOR_SLOTS];
 
 static GtkWidget *layout_widget;
 
@@ -213,9 +213,9 @@ static void config_window_apply(void)
 	gint i;
 	gint refresh = FALSE;
 
-	for(i = 0; i < GQVIEW_EDITOR_SLOTS; i++)
+	for(i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
-		if (i < GQVIEW_EDITOR_GENERIC_SLOTS)
+		if (i < GQ_EDITOR_GENERIC_SLOTS)
 			{
 			g_free(editor_name[i]);
 			editor_name[i] = NULL;
@@ -768,9 +768,9 @@ static void editor_default_ok_cb(GenericDialog *gd, gpointer data)
 	editor_reset_defaults();
 	if (!configwindow) return;
 
-	for (i = 0; i < GQVIEW_EDITOR_SLOTS; i++)
+	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
-		if (i < GQVIEW_EDITOR_GENERIC_SLOTS)
+		if (i < GQ_EDITOR_GENERIC_SLOTS)
 			gtk_entry_set_text(GTK_ENTRY(editor_name_entry[i]),
 				   (editor_name[i]) ? editor_name[i] : "");
 		gtk_entry_set_text(GTK_ENTRY(editor_command_entry[i]),
@@ -1184,11 +1184,11 @@ static void config_tab_editors(GtkWidget *notebook)
 	label = pref_table_label(table, 2, 0, _("Command Line"), 0.0);
 	pref_label_bold(label, TRUE, FALSE);
 
-	for (i = 0; i < GQVIEW_EDITOR_SLOTS; i++)
+	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
 		GtkWidget *entry;
 
-		if (i < GQVIEW_EDITOR_GENERIC_SLOTS)
+		if (i < GQ_EDITOR_GENERIC_SLOTS)
 			{
 			gchar *buf;
 			

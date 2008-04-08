@@ -2138,7 +2138,7 @@ static void search_start_cb(GtkWidget *widget, gpointer data)
 		/* search metadata */
 
 		g_free(sd->search_path);
-		sd->search_path = g_strconcat(homedir(), "/", GQVIEW_CACHE_RC_METADATA, NULL);
+		sd->search_path = g_strconcat(homedir(), "/", GQ_CACHE_RC_METADATA, NULL);
 
 		search_start(sd);
 		}

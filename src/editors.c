@@ -55,7 +55,7 @@ struct _EditorData {
 };
 
 
-static gchar *editor_slot_defaults[GQVIEW_EDITOR_SLOTS * 2] = {
+static gchar *editor_slot_defaults[GQ_EDITOR_SLOTS * 2] = {
 	N_("The Gimp"), "gimp-remote -n %{.cr2;.crw;.nef;.raw;*}f",
 	N_("XV"), "xv %f",
 	N_("Xpaint"), "xpaint %f",
@@ -98,7 +98,7 @@ void editor_reset_defaults(void)
 {
 	gint i;
 
-	for (i = 0; i < GQVIEW_EDITOR_SLOTS; i++)
+	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
 		g_free(editor_name[i]);
 		editor_name[i] = g_strdup(_(editor_slot_defaults[i * 2]));
@@ -784,7 +784,7 @@ gint start_editor_from_filelist_full(gint n, GList *list, EditorCallback cb, gpo
 	gchar *command;
 	gint error;
 
-	if (n < 0 || n >= GQVIEW_EDITOR_SLOTS || !list ||
+	if (n < 0 || n >= GQ_EDITOR_SLOTS || !list ||
 	    !editor_command[n] ||
 	    strlen(editor_command[n]) == 0) return FALSE;
 
@@ -820,7 +820,7 @@ gint start_editor_from_file(gint n, FileData *fd)
 
 gint editor_window_flag_set(gint n)
 {
-	if (n < 0 || n >= GQVIEW_EDITOR_SLOTS ||
+	if (n < 0 || n >= GQ_EDITOR_SLOTS ||
 	    !editor_command[n] ||
 	    strlen(editor_command[n]) == 0) return TRUE;
 

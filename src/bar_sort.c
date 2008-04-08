@@ -95,7 +95,7 @@ static void bar_sort_collection_list_build(GtkWidget *bookmarks)
 	history_list_free_key(SORT_KEY_COLLECTIONS);
 	bookmark_list_set_key(bookmarks, SORT_KEY_COLLECTIONS);
 
-	collect_path = g_strconcat(homedir(), "/", GQVIEW_RC_DIR_COLLECTIONS, NULL);
+	collect_path = g_strconcat(homedir(), "/", GQ_RC_DIR_COLLECTIONS, NULL);
 	path_list(collect_path, &list, NULL);
 	g_free(collect_path);
 
@@ -429,7 +429,7 @@ static void bar_sort_add_ok_cb(FileDialog *fd, gpointer data)
 			ext = ".gqv";
 			}
 
-		path = g_strconcat(homedir(), "/", GQVIEW_RC_DIR_COLLECTIONS, "/", name, ext, NULL);
+		path = g_strconcat(homedir(), "/", GQ_RC_DIR_COLLECTIONS, "/", name, ext, NULL);
 		if (isfile(path))
 			{
 			gchar *text = g_strdup_printf(_("The collection:\n%s\nalready exists."), name);

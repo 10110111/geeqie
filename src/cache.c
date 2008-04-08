@@ -620,19 +620,19 @@ static void cache_path_parts(CacheType type,
 	switch (type)
 		{
 		case CACHE_TYPE_THUMB:
-			*cache_rc = GQVIEW_CACHE_RC_THUMB;
-			*cache_local = GQVIEW_CACHE_LOCAL_THUMB;
-			*cache_ext = GQVIEW_CACHE_EXT_THUMB;
+			*cache_rc = GQ_CACHE_RC_THUMB;
+			*cache_local = GQ_CACHE_LOCAL_THUMB;
+			*cache_ext = GQ_CACHE_EXT_THUMB;
 			break;
 		case CACHE_TYPE_SIM:
-			*cache_rc = GQVIEW_CACHE_RC_THUMB;
-			*cache_local = GQVIEW_CACHE_LOCAL_THUMB;
-			*cache_ext = GQVIEW_CACHE_EXT_SIM;
+			*cache_rc = GQ_CACHE_RC_THUMB;
+			*cache_local = GQ_CACHE_LOCAL_THUMB;
+			*cache_ext = GQ_CACHE_EXT_SIM;
 			break;
 		case CACHE_TYPE_METADATA:
-			*cache_rc = GQVIEW_CACHE_RC_METADATA;
-			*cache_local = GQVIEW_CACHE_LOCAL_METADATA;
-			*cache_ext = GQVIEW_CACHE_EXT_METADATA;
+			*cache_rc = GQ_CACHE_RC_METADATA;
+			*cache_local = GQ_CACHE_LOCAL_METADATA;
+			*cache_ext = GQ_CACHE_EXT_METADATA;
 			break;
 		}
 }

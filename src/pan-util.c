@@ -202,7 +202,7 @@ gint pan_is_ignored(const gchar *s, gint ignore_symlinks)
 	if (S_ISLNK(st.st_mode) && (ignore_symlinks || pan_is_link_loop(s))) return TRUE;
 
 	n = filename_from_path(s);
-	if (n && strcmp(n, GQVIEW_RC_DIR) == 0) return TRUE;
+	if (n && strcmp(n, GQ_RC_DIR) == 0) return TRUE;
 
 	return FALSE;
 }

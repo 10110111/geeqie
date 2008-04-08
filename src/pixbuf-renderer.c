@@ -19,13 +19,13 @@
 
 
 /* comment this out if not using this from within Geeqie
- * defining GQVIEW_BUILD does these things:
+ * defining GQ_BUILD does these things:
  *   - Sets the shift-click scroller pixbuf to a nice icon instead of a black box
  */
-#define GQVIEW_BUILD 1
+#define GQ_BUILD 1
 
 
-#ifdef GQVIEW_BUILD
+#ifdef GQ_BUILD
 	#include "pixbuf_util.h"
 #endif
 
@@ -1201,7 +1201,7 @@ static void pr_scroller_start(PixbufRenderer *pr, gint x, gint y)
 		GdkPixbuf *pixbuf;
 		gint w, h;
 
-#ifdef GQVIEW_BUILD
+#ifdef GQ_BUILD
 		pixbuf = pixbuf_inline(PIXBUF_INLINE_SCROLLER);
 #else
 		pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, 32, 32);

@@ -594,7 +594,7 @@ void save_options(void)
 	gchar *rc_pathl;
 	gint i;
 
-	rc_path = g_strconcat(homedir(), "/", GQVIEW_RC_DIR, "/", RC_FILE_NAME, NULL);
+	rc_path = g_strconcat(homedir(), "/", GQ_RC_DIR, "/", RC_FILE_NAME, NULL);
 
 	rc_pathl = path_from_utf8(rc_path);
 	ssi = secure_open(rc_pathl);
@@ -763,7 +763,7 @@ void save_options(void)
 	secure_fprintf(ssi, "# Maximum of 10 programs (external_1 through external_10)\n");
 	secure_fprintf(ssi, "# format: external_n: \"menu name\" \"command line\"\n\n");
 
-	for (i = 0; i < GQVIEW_EDITOR_SLOTS; i++)
+	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
 		gchar *qname = escquote_value(editor_name[i]);
 		gchar *qcommand = escquote_value(editor_command[i]);
@@ -843,7 +843,7 @@ void load_options(void)
 	for (i = 0; ExifUIList[i].key; i++)
 		ExifUIList[i].current = ExifUIList[i].default_value;
 
-	rc_path = g_strconcat(homedir(), "/", GQVIEW_RC_DIR, "/", RC_FILE_NAME, NULL);
+	rc_path = g_strconcat(homedir(), "/", GQ_RC_DIR, "/", RC_FILE_NAME, NULL);
 
 	rc_pathl = path_from_utf8(rc_path);
 	f = fopen(rc_pathl,"r");
@@ -1087,7 +1087,7 @@ void load_options(void)
 		if (strncasecmp(option, "external_", 9) == 0)
 			{
 			i = strtol(option + 9, NULL, 0);
-			if (i > 0 && i <= GQVIEW_EDITOR_SLOTS)
+			if (i > 0 && i <= GQ_EDITOR_SLOTS)
 				{
 				const gchar *ptr;
 				i--;

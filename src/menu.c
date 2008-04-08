@@ -65,7 +65,7 @@ gpointer submenu_item_get_data(GtkWidget *menu)
 static void add_edit_items(GtkWidget *menu, GCallback func, GtkAccelGroup *accel_grp)
 {
 	gint i;
-	for (i = 0; i < GQVIEW_EDITOR_SLOTS; i++)
+	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
 		if (editor_command[i] && strlen(editor_command[i]) > 0)
 			{

@@ -198,7 +198,7 @@ static void collection_save_or_load_dialog(const gchar *path,
 	generic_dialog_add_message(GENERIC_DIALOG(fd), NULL, title, NULL);
 	file_dialog_add_button(fd, stock_id, btntext, btnfunc, TRUE);
 
-	base = g_strconcat(homedir(), "/", GQVIEW_RC_DIR_COLLECTIONS, NULL);
+	base = g_strconcat(homedir(), "/", GQ_RC_DIR_COLLECTIONS, NULL);
 	file_dialog_add_path_widgets(fd, base, path,
 				     "collection_load_save", ".gqv", _("Collection Files"));
 	g_free(base);

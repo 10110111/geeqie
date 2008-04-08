@@ -434,8 +434,8 @@ GList *path_list_filter(GList *list, gint is_dir_list)
 
 		if ((!show_dot_files && ishidden(base)) ||
 		    (!is_dir_list && !filter_name_exists(base)) ||
-		    (is_dir_list && base[0] == '.' && (strcmp(base, GQVIEW_CACHE_LOCAL_THUMB) == 0 ||
-						       strcmp(base, GQVIEW_CACHE_LOCAL_METADATA) == 0)) )
+		    (is_dir_list && base[0] == '.' && (strcmp(base, GQ_CACHE_LOCAL_THUMB) == 0 ||
+						       strcmp(base, GQ_CACHE_LOCAL_METADATA) == 0)) )
 			{
 			GList *link = work;
 			work = work->next;
@@ -1231,8 +1231,8 @@ static gint filelist_read_real(const gchar *path, GList **files, GList **dirs, g
 					/* we ignore the .thumbnails dir for cleanliness */
 					if ((dirs) &&
 					    !(name[0] == '.' && (name[1] == '\0' || (name[1] == '.' && name[2] == '\0'))) &&
-					    strcmp(name, GQVIEW_CACHE_LOCAL_THUMB) != 0 &&
-					    strcmp(name, GQVIEW_CACHE_LOCAL_METADATA) != 0 &&
+					    strcmp(name, GQ_CACHE_LOCAL_THUMB) != 0 &&
+					    strcmp(name, GQ_CACHE_LOCAL_METADATA) != 0 &&
 					    strcmp(name, THUMB_FOLDER_LOCAL) != 0)
 						{
 						dlist = g_list_prepend(dlist, file_data_new_local(filepath, &ent_sbuf, FALSE));
@@ -1358,8 +1358,8 @@ GList *filelist_filter(GList *list, gint is_dir_list)
 
 		if ((!show_dot_files && ishidden(name)) ||
 		    (!is_dir_list && !filter_name_exists(name)) ||
-		    (is_dir_list && name[0] == '.' && (strcmp(name, GQVIEW_CACHE_LOCAL_THUMB) == 0 ||
-						       strcmp(name, GQVIEW_CACHE_LOCAL_METADATA) == 0)) )
+		    (is_dir_list && name[0] == '.' && (strcmp(name, GQ_CACHE_LOCAL_THUMB) == 0 ||
+						       strcmp(name, GQ_CACHE_LOCAL_METADATA) == 0)) )
 			{
 			GList *link = work;
 			work = work->next;

@@ -3289,7 +3289,7 @@ static GList *file_util_delete_dir_remaining_folders(GList *dlist)
 		if (!fd->name ||
 		    (strcmp(fd->name, THUMB_FOLDER_GLOBAL) != 0 &&
 		     strcmp(fd->name, THUMB_FOLDER_LOCAL) != 0 &&
-		     strcmp(fd->name, GQVIEW_CACHE_LOCAL_METADATA) != 0) )
+		     strcmp(fd->name, GQ_CACHE_LOCAL_METADATA) != 0) )
 			{
 			rlist = g_list_prepend(rlist, fd);
 			}

@@ -102,7 +102,7 @@ static gint comment_legacy_write(FileData *fd, GList *keywords, const gchar *com
 		if (cache_ensure_dir_exists(comment_dir, mode))
 			{
 			comment_path = g_strconcat(comment_dir, "/", fd->name,
-						   GQVIEW_CACHE_EXT_METADATA, NULL);
+						   GQ_CACHE_EXT_METADATA, NULL);
 			}
 		g_free(comment_dir);
 		}

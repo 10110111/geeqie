@@ -202,7 +202,7 @@ static void help_browser_run(void)
 		return;
 		}
 
-	help_browser_command(result, GQVIEW_HTMLDIR "/index.html");
+	help_browser_command(result, GQ_HTMLDIR "/index.html");
 
 	g_free(result);
 }
@@ -236,7 +236,7 @@ void help_window_show(const gchar *key)
 		}
 
 	help_window = help_window_new(_("Help - Geeqie"), GQ_WMCLASS, "help",
-                                      GQVIEW_HELPDIR "/README", key);
+                                      GQ_HELPDIR "/README", key);
 	g_signal_connect(G_OBJECT(help_window), "destroy",
 			 G_CALLBACK(help_window_destroy_cb), NULL);
 }
@@ -627,7 +627,7 @@ static void remote_control(const gchar *arg_exec, GList *remote_list, const gcha
 	gint started = FALSE;
 	gchar *buf;
 
-	buf = g_strconcat(homedir(), "/", GQVIEW_RC_DIR, "/.command", NULL);
+	buf = g_strconcat(homedir(), "/", GQ_RC_DIR, "/.command", NULL);
 	rc = remote_client_open(buf);
 	if (!rc)
 		{
@@ -1072,7 +1072,7 @@ static void keys_load(void)
 {
 	gchar *path;
 
-	path = g_strconcat(homedir(), "/", GQVIEW_RC_DIR, "/", RC_HISTORY_NAME, NULL);
+	path = g_strconcat(homedir(), "/", GQ_RC_DIR, "/", RC_HISTORY_NAME, NULL);
 	history_list_load(path);
 	g_free(path);
 }
@@ -1081,7 +1081,7 @@ static void keys_save(void)
 {
 	gchar *path;
 
-	path = g_strconcat(homedir(), "/", GQVIEW_RC_DIR, "/", RC_HISTORY_NAME, NULL);
+	path = g_strconcat(homedir(), "/", GQ_RC_DIR, "/", RC_HISTORY_NAME, NULL);
 	history_list_save(path);
 	g_free(path);
 }
@@ -1114,7 +1114,7 @@ static void setup_default_options(void)
 	gchar *path;
 	gint i;
 
-	for (i = 0; i < GQVIEW_EDITOR_SLOTS; i++)
+	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
 		editor_name[i] = NULL;
 		editor_command[i] = NULL;
@@ -1126,12 +1126,12 @@ static void setup_default_options(void)
 	path = concat_dir_and_file(homedir(), "Desktop");
 	bookmark_add_default(_("Desktop"), path);
 	g_free(path);
-	path = concat_dir_and_file(homedir(), GQVIEW_RC_DIR_COLLECTIONS);
+	path = concat_dir_and_file(homedir(), GQ_RC_DIR_COLLECTIONS);
 	bookmark_add_default(_("Collections"), path);
 	g_free(path);
 
 	g_free(safe_delete_path);
-	safe_delete_path = concat_dir_and_file(homedir(), GQVIEW_RC_DIR_TRASH);
+	safe_delete_path = concat_dir_and_file(homedir(), GQ_RC_DIR_TRASH);
 
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{
@@ -1188,7 +1188,7 @@ static void exit_program_final(void)
 	save_options();
 	keys_save();
 
-	path = g_strconcat(homedir(), "/", GQVIEW_RC_DIR, "/accels", NULL);
+	path = g_strconcat(homedir(), "/", GQ_RC_DIR, "/accels", NULL);
 	pathl = path_from_utf8(path);
 	gtk_accel_map_save(pathl);
 	g_free(pathl);
@@ -1268,7 +1268,7 @@ int main (int argc, char *argv[])
 
 	/* setup locale, i18n */
 	gtk_set_locale();
-	bindtextdomain(PACKAGE, GQVIEW_LOCALEDIR);
+	bindtextdomain(PACKAGE, GQ_LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
 	textdomain(PACKAGE);
 
@@ -1302,16 +1302,16 @@ int main (int argc, char *argv[])
 		print_term("!!! Geeqie may quit unexpectedly with a relocation error.\n");
 		}
 
-	check_for_home_path(GQVIEW_RC_DIR);
-	check_for_home_path(GQVIEW_RC_DIR_COLLECTIONS);
-	check_for_home_path(GQVIEW_CACHE_RC_THUMB);
-	check_for_home_path(GQVIEW_CACHE_RC_METADATA);
+	check_for_home_path(GQ_RC_DIR);
+	check_for_home_path(GQ_RC_DIR_COLLECTIONS);
+	check_for_home_path(GQ_CACHE_RC_THUMB);
+	check_for_home_path(GQ_CACHE_RC_METADATA);
 
 	keys_load();
 	filter_add_defaults();
 	filter_rebuild();
 	
-	buf = g_strconcat(homedir(), "/", GQVIEW_RC_DIR, "/accels", NULL);
+	buf = g_strconcat(homedir(), "/", GQ_RC_DIR, "/accels", NULL);
 	bufl = path_from_utf8(buf);
 	gtk_accel_map_load(bufl);
 	g_free(bufl);
@@ -1441,7 +1441,7 @@ int main (int argc, char *argv[])
 	if (startup_full_screen) layout_image_full_screen_start(lw);
 	if (startup_in_slideshow) layout_image_slideshow_start(lw);
 
-	buf = g_strconcat(homedir(), "/", GQVIEW_RC_DIR, "/.command", NULL);
+	buf = g_strconcat(homedir(), "/", GQ_RC_DIR, "/.command", NULL);
 	remote_connection = remote_server_open(buf);
 	remote_server_subscribe(remote_connection, remote_cb, NULL);
 	g_free(buf);

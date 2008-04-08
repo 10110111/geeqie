@@ -52,7 +52,7 @@ static gint thumb_loader_save_to_cache(ThumbLoader *tl)
 		gchar *pathl;
 
 		cache_path = g_strconcat(cache_dir, "/", filename_from_path(tl->path),
-					 GQVIEW_CACHE_EXT_THUMB, NULL);
+					 GQ_CACHE_EXT_THUMB, NULL);
 
 		if (debug) printf("Saving thumb: %s\n", cache_path);
 
@@ -100,7 +100,7 @@ static gint thumb_loader_mark_failure(ThumbLoader *tl)
 		FILE *f;
 
 		cache_path = g_strconcat(cache_dir, "/", filename_from_path(tl->path),
-					 GQVIEW_CACHE_EXT_THUMB, NULL);
+					 GQ_CACHE_EXT_THUMB, NULL);
 
 		if (debug) printf("marking thumb failure: %s\n", cache_path);
 

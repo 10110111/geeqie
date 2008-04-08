@@ -64,8 +64,8 @@ gint thumbnail_spec_standard = TRUE;
 gint enable_metadata_dirs = FALSE;
 gint show_dot_files = FALSE;
 gint file_filter_disable = FALSE;
-gchar *editor_name[GQVIEW_EDITOR_SLOTS];
-gchar *editor_command[GQVIEW_EDITOR_SLOTS];
+gchar *editor_name[GQ_EDITOR_SLOTS];
+gchar *editor_command[GQ_EDITOR_SLOTS];
 
 gint thumbnails_enabled = FALSE;
 SortType file_sort_method = SORT_NAME;

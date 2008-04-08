@@ -20,8 +20,8 @@ fi
 
 AM_PATH_GTK_2_0(2.4.0,,AC_MSG_ERROR(GTK+ >= 2.4.0 not installed.))
 
-AC_DEFINE_UNQUOTED(GQVIEW_HELPDIR, "$prefix/share/doc/geeqie-$VERSION", [Location of documentation files])
-AC_DEFINE_UNQUOTED(GQVIEW_HTMLDIR, "$prefix/share/doc/geeqie-$VERSION/html", [Location of html documentation])
+AC_DEFINE_UNQUOTED(GQ_HELPDIR, "$prefix/share/doc/geeqie-$VERSION", [Location of documentation files])
+AC_DEFINE_UNQUOTED(GQ_HTMLDIR, "$prefix/share/doc/geeqie-$VERSION/html", [Location of html documentation])
 
 dnl checks for functions
 AC_CHECK_FUNCS(strverscmp access fsync fflush)
@@ -68,7 +68,7 @@ ALL_LINGUAS="ar be bg ca cs da de eo es et eu fi fr hu id it ja ko nl no pl pt_B
 GETTEXT_PACKAGE=$PACKAGE
 AC_SUBST(GETTEXT_PACKAGE)
 AM_GLIB_GNU_GETTEXT
-AM_GLIB_DEFINE_LOCALEDIR(GQVIEW_LOCALEDIR)
+AM_GLIB_DEFINE_LOCALEDIR(GQ_LOCALEDIR)
 
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)

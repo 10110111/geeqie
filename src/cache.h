@@ -17,15 +17,15 @@
 #include "similar.h"
 
 
-#define GQVIEW_CACHE_RC_THUMB       GQVIEW_RC_DIR"/thumbnails"
-#define GQVIEW_CACHE_RC_METADATA    GQVIEW_RC_DIR"/metadata"
+#define GQ_CACHE_RC_THUMB       GQ_RC_DIR"/thumbnails"
+#define GQ_CACHE_RC_METADATA    GQ_RC_DIR"/metadata"
 
-#define GQVIEW_CACHE_LOCAL_THUMB    ".thumbnails"
-#define GQVIEW_CACHE_LOCAL_METADATA ".metadata"
+#define GQ_CACHE_LOCAL_THUMB    ".thumbnails"
+#define GQ_CACHE_LOCAL_METADATA ".metadata"
 
-#define GQVIEW_CACHE_EXT_THUMB      ".png"
-#define GQVIEW_CACHE_EXT_SIM        ".sim"
-#define GQVIEW_CACHE_EXT_METADATA   ".meta"
+#define GQ_CACHE_EXT_THUMB      ".png"
+#define GQ_CACHE_EXT_SIM        ".sim"
+#define GQ_CACHE_EXT_METADATA   ".meta"
 
 
 typedef enum {

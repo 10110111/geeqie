@@ -64,9 +64,9 @@
 
 #define GQ_WMCLASS "geeqie"
 
-#define GQVIEW_RC_DIR             ".geeqie"
-#define GQVIEW_RC_DIR_COLLECTIONS GQVIEW_RC_DIR"/collections"
-#define GQVIEW_RC_DIR_TRASH       GQVIEW_RC_DIR"/trash"
+#define GQ_RC_DIR             ".geeqie"
+#define GQ_RC_DIR_COLLECTIONS GQ_RC_DIR"/collections"
+#define GQ_RC_DIR_TRASH       GQ_RC_DIR"/trash"
 
 #define RC_FILE_NAME "geeqierc"
 
@@ -80,7 +80,7 @@
 
 #define MOUSEWHEEL_SCROLL_SIZE 20
 
-#define GQVIEW_EDITOR_GENERIC_SLOTS 10
+#define GQ_EDITOR_GENERIC_SLOTS 10
 
 #define COLOR_PROFILE_INPUTS 4
 
