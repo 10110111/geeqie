@@ -11,6 +11,9 @@
 
 #include "main.h"
 #include "histogram.h"
+
+#include "pixbuf_util.h"
+
 #include <math.h>
 
 /*

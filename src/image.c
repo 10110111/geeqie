@@ -18,6 +18,8 @@
 #include "collect.h"
 #include "color-man.h"
 #include "exif.h"
+#include "layout.h"
+#include "layout_image.h"
 #include "pixbuf-renderer.h"
 #include "pixbuf_util.h"
 #include "ui_fileops.h"
