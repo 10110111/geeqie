@@ -478,10 +478,11 @@ static GtkWidget *layout_color_button(LayoutWindow *lw)
 	gtk_widget_show(image);
 	g_signal_connect(G_OBJECT(button), "clicked",
 			 G_CALLBACK(layout_color_button_press_cb), lw);
-        gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+	gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
 
+#ifdef HAVE_LCMS
 	enable = (lw->image) ? lw->image->color_profile_enable : FALSE;
-#ifndef HAVE_LCMS
+#else
 	enable = FALSE;
 #endif
 	gtk_widget_set_sensitive(image, enable);
@@ -518,8 +519,6 @@ void layout_status_update_info(LayoutWindow *lw, const gchar *text)
 		gint s;
 		gint64 s_bytes = 0;
 		const gchar *ss;
-		gchar *b;
-		gchar *sb;
 
 		if (layout_image_slideshow_active(lw))
 			{
@@ -544,15 +543,15 @@ void layout_status_update_info(LayoutWindow *lw, const gchar *text)
 
 		if (s > 0)
 			{
-			b = text_from_size_abrev(n_bytes);
-			sb = text_from_size_abrev(s_bytes);
+			gchar *b = text_from_size_abrev(n_bytes);
+			gchar *sb = text_from_size_abrev(s_bytes);
 			buf = g_strdup_printf(_("%s, %d files (%s, %d)%s"), b, n, sb, s, ss);
 			g_free(b);
 			g_free(sb);
 			}
 		else if (n > 0)
 			{
-			b = text_from_size_abrev(n_bytes);
+			gchar *b = text_from_size_abrev(n_bytes);
 			buf = g_strdup_printf(_("%s, %d files%s"), b, n, ss);
 			g_free(b);
 			}
@@ -727,16 +726,16 @@ static void layout_list_thumb_cb(ViewFileList *vfl, gdouble val, const gchar *te
 
 static void layout_icon_status_cb(ViewFileIcon *vfi, gpointer data)
 {
-        LayoutWindow *lw = data;
+	LayoutWindow *lw = data;
 
-        layout_status_update_info(lw, NULL);
+	layout_status_update_info(lw, NULL);
 }
 
 static void layout_icon_thumb_cb(ViewFileIcon *vfi, gdouble val, const gchar *text, gpointer data)
 {
-        LayoutWindow *lw = data;
+	LayoutWindow *lw = data;
 
-        layout_status_update_progress(lw, val, text);
+	layout_status_update_progress(lw, val, text);
 }
 
 static GtkWidget *layout_list_new(LayoutWindow *lw)
@@ -1086,9 +1085,8 @@ void layout_marks_set(LayoutWindow *lw, gint enable)
 
 	lw->marks_enabled = enable;
 
-    //	layout_util_sync_marks(lw);
-    layout_list_sync_marks(lw);
-    
+//	layout_util_sync_marks(lw);
+	layout_list_sync_marks(lw);
 }
 
 gint layout_thumb_get(LayoutWindow *lw)
@@ -1349,10 +1347,10 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 					      GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE | hints);
 
 
-	        gtk_window_set_resizable(GTK_WINDOW(lw->tools), TRUE);
-        	gtk_window_set_title(GTK_WINDOW(lw->tools), _("Geeqie Tools"));
-        	gtk_window_set_wmclass(GTK_WINDOW(lw->tools), "tools", GQ_WMCLASS);
-        	gtk_container_set_border_width(GTK_CONTAINER(lw->tools), 0);
+		gtk_window_set_resizable(GTK_WINDOW(lw->tools), TRUE);
+		gtk_window_set_title(GTK_WINDOW(lw->tools), _("Geeqie Tools"));
+		gtk_window_set_wmclass(GTK_WINDOW(lw->tools), "tools", GQ_WMCLASS);
+		gtk_container_set_border_width(GTK_CONTAINER(lw->tools), 0);
 
 		window_set_icon(lw->tools, PIXBUF_INLINE_ICON_TOOLS, NULL);
 
@@ -1396,7 +1394,7 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 			{
 			gtk_window_set_default_size(GTK_WINDOW(lw->tools), float_window_w, float_window_h);
 			gtk_window_move(GTK_WINDOW(lw->tools), float_window_x, float_window_y);
-        	        }
+			}
 		else
 			{
 			if (vertical)
@@ -1485,7 +1483,8 @@ void layout_split_change(LayoutWindow *lw, ImageSplitMode mode)
 {
 	GtkWidget *image;
 	gint i;
-	for (i=0; i < MAX_SPLIT_IMAGES; i++)
+
+	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i])
 			{
@@ -1524,7 +1523,6 @@ static void layout_grid_setup(LayoutWindow *lw)
 	priority_location = layout_grid_compass(lw);
 
 	image = layout_image_setup_split(lw, lw->split_mode);
-	
 	
 	tools = layout_tools_new(lw);
 	files = layout_list_new(lw);
@@ -1644,7 +1642,7 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 
 	/* clear it all */
 
-	for (i=0; i < MAX_SPLIT_IMAGES; i++)
+	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i])
 			{
