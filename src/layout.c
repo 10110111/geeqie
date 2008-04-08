@@ -391,11 +391,11 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 	return;
 #endif
 
-	active = layout_image_color_profile_get_use(lw);
 	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
 
 	menu = popup_menu_short_lived();
 
+	active = layout_image_color_profile_get_use(lw);
 	menu_item_add_check(menu, _("Use _color profiles"), active,
 			    G_CALLBACK(layout_color_menu_enable_cb), lw);
 
