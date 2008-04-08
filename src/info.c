@@ -54,6 +54,13 @@ struct _InfoTabsPos
 
 static GList *info_tabs_pos_list = NULL;
 
+static void notebook_set_tab_reorderable(GtkNotebook *notebook, GtkWidget *child, gboolean reorderable)
+{
+#if GTK_CHECK_VERSION(2,10,0)
+	gtk_notebook_set_tab_reorderable(notebook, child, reorderable);
+#endif
+}
+
 /*
  *-------------------------------------------------------------------
  * table utils
@@ -115,7 +122,7 @@ static TabData *info_tab_exif_new(InfoData *id)
 
 	label = gtk_label_new(_("Exif"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(id->notebook), bar, label);
-	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(id->notebook), bar, TRUE);
+	notebook_set_tab_reorderable(GTK_NOTEBOOK(id->notebook), bar, TRUE);
 	gtk_widget_show(bar);
 
 	/* register */
@@ -179,7 +186,7 @@ static TabData *info_tab_meta_new(InfoData *id)
 
 	label = gtk_label_new(_("Keywords"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(id->notebook), tab->bar_info, label);
-	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(id->notebook), tab->bar_info, TRUE);
+	notebook_set_tab_reorderable(GTK_NOTEBOOK(id->notebook), tab->bar_info, TRUE);
 	gtk_widget_show(tab->bar_info);
 
 	/* register */
@@ -395,7 +402,7 @@ static TabData *info_tab_general_new(InfoData *id)
 
 	label = gtk_label_new(_("General"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(id->notebook), table, label);
-	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(id->notebook), table, TRUE);
+	notebook_set_tab_reorderable(GTK_NOTEBOOK(id->notebook), table, TRUE);
 	gtk_widget_show(table);
 
 	/* register */
