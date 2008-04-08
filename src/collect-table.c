@@ -46,6 +46,7 @@
 #define THUMB_BORDER_PADDING 2
 
 #define COLLECT_TABLE_TIP_DELAY 500
+#define COLLECT_TABLE_TIP_DELAY_PATH (COLLECT_TABLE_TIP_DELAY * 1.7)
 
 
 enum {
@@ -448,7 +449,7 @@ static void tip_show(CollectTable *ct)
 	gtk_window_set_resizable(GTK_WINDOW(ct->tip_window), FALSE);
 	gtk_container_set_border_width(GTK_CONTAINER(ct->tip_window), 2);
 
-	label = gtk_label_new(ct->tip_info->fd->name);
+	label = gtk_label_new(ct->show_text ? ct->tip_info->fd->path : ct->tip_info->fd->name);
 
 	g_object_set_data(G_OBJECT(ct->tip_window), "tip_label", label);
 	gtk_container_add(GTK_CONTAINER(ct->tip_window), label);
@@ -489,10 +490,7 @@ static void tip_schedule(CollectTable *ct)
 		ct->tip_delay_id = -1;
 		}
 
-	if (!ct->show_text)
-		{
-		ct->tip_delay_id = g_timeout_add(COLLECT_TABLE_TIP_DELAY, tip_schedule_cb, ct);
-		}
+	ct->tip_delay_id = g_timeout_add(ct->show_text ? COLLECT_TABLE_TIP_DELAY_PATH : COLLECT_TABLE_TIP_DELAY, tip_schedule_cb, ct);
 }
 
 static void tip_unschedule(CollectTable *ct)
@@ -505,6 +503,8 @@ static void tip_unschedule(CollectTable *ct)
 
 static void tip_update(CollectTable *ct, CollectInfo *info)
 {
+	tip_schedule(ct);
+
 	if (ct->tip_window)
 		{
 		gint x, y;
@@ -520,18 +520,12 @@ static void tip_update(CollectTable *ct, CollectInfo *info)
 
 			if (!ct->tip_info)
 				{
-				tip_hide(ct);
-				tip_schedule(ct);
 				return;
 				}
 
 			label = g_object_get_data(G_OBJECT(ct->tip_window), "tip_label");
-			gtk_label_set_text(GTK_LABEL(label), ct->tip_info->fd->name);
+			gtk_label_set_text(GTK_LABEL(label), ct->show_text ? ct->tip_info->fd->path : ct->tip_info->fd->name);
 			}
-		}
-	else
-		{
-		tip_schedule(ct);
 		}
 }
 
