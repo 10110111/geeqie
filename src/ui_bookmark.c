@@ -22,7 +22,7 @@
 
 #include <gdk/gdkkeysyms.h> /* for key values */
 
-#include "gqview.h"
+#include "main.h"
 #include "filelist.h"
 
 #include "ui_bookmark.h"

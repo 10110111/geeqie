@@ -21,7 +21,7 @@
 
 #include "intl.h"
 
-#include "gqview.h"
+#include "main.h"
 #include "format_olympus.h"
 #include "format_raw.h"
 

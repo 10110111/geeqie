@@ -10,7 +10,7 @@
  */
 
 
-#include "gqview.h"
+#include "main.h"
 #include "collect-table.h"
 
 #include "cellrenderericon.h"

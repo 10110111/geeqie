@@ -69,7 +69,7 @@
 
 #include "intl.h"
 
-#include "gqview.h"
+#include "main.h"
 #include "exif-int.h"
 
 #include "format_raw.h"

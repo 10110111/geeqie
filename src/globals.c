@@ -10,7 +10,7 @@
  */
 
 
-#include "gqview.h"
+#include "main.h"
 
 
 GList *filename_filter = NULL;

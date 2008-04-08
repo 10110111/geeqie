@@ -12,7 +12,7 @@
 #include <glib/gstdio.h>
 #include <errno.h>
 
-#include "gqview.h"
+#include "main.h"
 #include "rcfile.h"
 
 #include "filelist.h"

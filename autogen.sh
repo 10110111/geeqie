@@ -8,7 +8,7 @@ test -z "$srcdir" && srcdir=.
 
 (test -f $srcdir/configure.in \
   && test -f $srcdir/src/main.c \
-  && test -f $srcdir/src/gqview.h) || {
+  && test -f $srcdir/src/main.h) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
     echo " top-level geeqie directory"
     exit 1

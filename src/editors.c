@@ -10,7 +10,7 @@
  */
 
 
-#include "gqview.h"
+#include "main.h"
 #include "editors.h"
 
 #include "utilops.h"

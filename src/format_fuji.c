@@ -24,7 +24,7 @@
 
 #include "intl.h"
 
-#include "gqview.h"
+#include "main.h"
 #include "format_fuji.h"
 #include "format_raw.h"
 

@@ -10,7 +10,7 @@
  */
 
 
-#include "gqview.h"
+#include "main.h"
 #include "thumb_standard.h"
 
 #include "cache.h"	/* for cache_ensure_dir_exists */

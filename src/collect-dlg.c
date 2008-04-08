@@ -10,7 +10,7 @@
  */
 
 
-#include "gqview.h"
+#include "main.h"
 #include "collect.h"
 #include "collect-dlg.h"
 

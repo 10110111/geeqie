@@ -21,7 +21,7 @@
 
 #include "intl.h"
 
-#include "gqview.h"
+#include "main.h"
 #include "exif.h"
 
 #include "filelist.h"

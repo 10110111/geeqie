@@ -10,7 +10,7 @@
  */
 
 
-#include "gqview.h"
+#include "main.h"
 #include "menu.h"
 
 #include "cache_maint.h"

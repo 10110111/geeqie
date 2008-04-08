@@ -10,7 +10,7 @@
  */
 
 
-#include "gqview.h"
+#include "main.h"
 #include "pan-view.h"
 
 #include "pan-types.h"

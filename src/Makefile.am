@@ -102,7 +102,6 @@ geeqie_SOURCES = \
 	fullscreen.c	\
 	fullscreen.h	\
 	globals.c	\
-	gqview.h	\
 	histogram.c	\
 	histogram.h	\
 	image.c		\
@@ -124,6 +123,7 @@ geeqie_SOURCES = \
 	layout_util.c	\
 	layout_util.h	\
 	main.c		\
+	main.h		\
 	md5-util.c	\
 	md5-util.h	\
 	menu.c		\

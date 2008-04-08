@@ -10,7 +10,7 @@
  */
 
 
-#include "gqview.h"
+#include "main.h"
 #include "pixbuf_util.h"
 
 #include "icons/icons_inline.h"

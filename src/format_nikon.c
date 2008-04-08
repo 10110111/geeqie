@@ -25,7 +25,7 @@
 
 #include "intl.h"
 
-#include "gqview.h"
+#include "main.h"
 #include "format_nikon.h"
 
 #include "exif.h"

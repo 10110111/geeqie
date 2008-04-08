@@ -25,7 +25,7 @@
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include "gqview.h"
+#include "main.h"
 #include "ui_tabcomp.h"
 
 #include "ui_bookmark.h"

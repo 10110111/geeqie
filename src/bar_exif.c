@@ -10,7 +10,7 @@
  */
 
 
-#include "gqview.h"
+#include "main.h"
 #include "bar_exif.h"
 
 #include "exif.h"

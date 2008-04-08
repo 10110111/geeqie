@@ -22,7 +22,7 @@
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
-#include "gqview.h"
+#include "main.h"
 #include "ui_utildlg.h"
 
 #include "filelist.h"

@@ -9,7 +9,7 @@
  * This software comes with no warranty of any kind, use at your own risk!
  */
 
-#include "gqview.h"
+#include "main.h"
 #include "layout_config.h"
 
 

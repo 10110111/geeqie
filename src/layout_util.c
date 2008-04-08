@@ -10,7 +10,7 @@
  */
 
 
-#include "gqview.h"
+#include "main.h"
 #include "layout_util.h"
 
 #include "bar_info.h"

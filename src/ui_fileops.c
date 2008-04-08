@@ -25,7 +25,7 @@
 #include <glib.h>
 #include <gtk/gtk.h>	/* for locale warning dialog */
 
-#include "gqview.h"
+#include "main.h"
 #include "ui_fileops.h"
 
 #include "ui_utildlg.h"	/* for locale warning dialog */
