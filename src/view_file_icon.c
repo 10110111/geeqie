@@ -2677,8 +2677,7 @@ gint vficon_maint_removed(ViewFileIcon *vfi, FileData *fd, GList *ignore_list)
 			}
 		if (new_row >= 0)
 			{
-			FileData *fdn = g_list_nth_data(vfi->list, new_row);
-			IconData *idn = vficon_icon_data(vfi,fdn);
+			IconData *idn = g_list_nth_data(vfi->list, new_row);
 
 			vficon_select(vfi, idn);
 			vficon_send_layout_select(vfi, idn);
