@@ -24,7 +24,6 @@ void cache_maint_removed(FileData *fd);
 void cache_maint_copied(FileData *fd);
 
 
-void cache_manager_gqview_clear_confirm(GtkWidget *parent);
 void cache_manager_show(void);
 
 
