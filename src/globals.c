@@ -122,7 +122,7 @@ gint tree_descend_subdirs = FALSE;
 
 gint lazy_image_sync = FALSE;
 gint update_on_time_change = TRUE;
-gint exif_rotate_enable = FALSE;
+gint exif_rotate_enable = TRUE;
 
 /* color profiles */
 gint color_profile_enabled = FALSE;
