@@ -366,19 +366,8 @@ static void layout_color_menu_screen_cb(GtkWidget *widget, gpointer data)
 
 static gchar *layout_color_name_parse(const gchar *name)
 {
-	gchar *result;
-	gchar *p;
-
-	if (!name) name = _("Empty");
-
-	result = g_strdup(name);
-	p = result;
-	while (*p != '\0')
-		{
-		if (*p == '_') *p = '-';
-		p++;
-		}
-	return result;
+	if (!name) return g_strdup(_("Empty"));
+	return g_strdelimit(g_strdup(name), "_", '-');
 }
 
 static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
