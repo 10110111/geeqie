@@ -195,7 +195,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	PangoLayout *layout;
 	const gchar *name;
 	gchar *name_escaped;
-	gchar *text, *text2;
+	gchar *text;
 	gchar *size;
 	gint n, t;
 	CollectionData *cd;
@@ -312,7 +312,6 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
   	g_free(name_escaped);
 	g_hash_table_destroy(vars);
 
-	text2 = text;
 	{
 	FileData *fd = image_get_fd(imd);
 
@@ -320,10 +319,18 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 		{
 		gint active_marks = 0;
 		gint mark;
+		gchar *text2;
 
 		for (mark = 0; mark < FILEDATA_MARKS_SIZE; mark++) 
 			{
 			active_marks += fd->marks[mark];
+			}
+
+    		if (with_hist)
+			{
+			text2 = g_strdup_printf("%s\n%s", text, histogram_label(lw->histogram));
+			g_free(text);
+			text = text2;
 			}
 
 		if (active_marks > 0)
@@ -335,19 +342,18 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 				g_string_append_printf(buf, fd->marks[mark] ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + mark);
     				}
 
-    			if (with_hist)
-				text2 = g_strdup_printf("%s\n%s\n%s", text, buf->str, histogram_label(lw->histogram));
-			else
-				text2 = g_strdup_printf("%s\n%s", text, buf->str);
+			text2 = g_strdup_printf("%s\n%s", text, buf->str);
 			g_string_free(buf, TRUE);
 			g_free(text);
+			text = text2;
 			}
+
 		}
 	}
         
 	layout = gtk_widget_create_pango_layout(imd->pr, NULL);
-	pango_layout_set_markup(layout, text2, -1);
-	g_free(text2);
+	pango_layout_set_markup(layout, text, -1);
+	g_free(text);
     
 	pango_layout_get_pixel_size(layout, &width, &height);
 
