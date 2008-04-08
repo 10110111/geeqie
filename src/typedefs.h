@@ -96,6 +96,21 @@ typedef enum {
 	FILE_FORMAT_CLASSES
 } FileFormatClass;
 
+typedef enum {
+	SS_ERR_NONE = 0,
+	SS_ERR_DISABLED, /**< secsave is disabled. */
+	SS_ERR_OUT_OF_MEM, /**< memory allocation failure */
+
+	/* see err field in SecureSaveInfo */
+	SS_ERR_OPEN_READ,
+	SS_ERR_OPEN_WRITE,
+	SS_ERR_STAT,
+	SS_ERR_ACCESS,
+	SS_ERR_MKSTEMP,
+	SS_ERR_RENAME,
+	SS_ERR_OTHER,
+} SecureSaveErrno;
+
 
 #define MAX_SPLIT_IMAGES 4
 
@@ -124,6 +139,7 @@ typedef struct _FullScreenData FullScreenData;
 typedef struct _PixmapFolders PixmapFolders;
 typedef struct _Histogram Histogram;
 
+typedef struct _SecureSaveInfo SecureSaveInfo;
 
 
 struct _ImageLoader
@@ -704,6 +720,14 @@ struct _PixmapFolders
 	GdkPixbuf *open;
 	GdkPixbuf *deny;
 	GdkPixbuf *parent;
+};
+
+struct _SecureSaveInfo {
+	FILE *fp; /**< file stream pointer */
+	gchar *file_name; /**< final file name */
+	gchar *tmp_file_name; /**< temporary file name */
+	gint err; /**< set to non-zero value in case of error */
+	gint secure_save; /**< use secure save for this file */
 };
 
 

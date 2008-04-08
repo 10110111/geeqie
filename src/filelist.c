@@ -364,7 +364,7 @@ gint filter_file_class(const gchar *name, FileFormatClass file_class)
 	return FALSE;
 }
 
-void filter_write_list(FILE *f)
+void filter_write_list(SecureSaveInfo *ssi)
 {
 	GList *work;
 
@@ -377,8 +377,9 @@ void filter_write_list(FILE *f)
 		gchar *extensions = escquote_value(fe->extensions);
 		gchar *description = escquote_value(fe->description);
 
-		fprintf(f, "filter_ext: \"%s%s\" %s %s\n", (fe->enabled) ? "" : "#",
-			fe->key, extensions, description);
+		secure_fprintf(ssi, "filter_ext: \"%s%s\" %s %s\n",
+			       (fe->enabled) ? "" : "#",
+			       fe->key, extensions, description);
 		g_free(extensions);
 		g_free(description);
 		}
@@ -490,9 +491,9 @@ void sidecar_ext_parse(const gchar *text, gint quoted)
 	g_free(value);
 }
 
-void sidecar_ext_write(FILE *f)
+void sidecar_ext_write(SecureSaveInfo *ssi)
 {
-	fprintf(f, "\nsidecar_ext: \"%s\"\n", sidecar_ext_to_string());
+	secure_fprintf(ssi, "\nsidecar_ext: \"%s\"\n", sidecar_ext_to_string());
 }
 
 char *sidecar_ext_to_string()

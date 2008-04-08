@@ -24,7 +24,7 @@ AC_DEFINE_UNQUOTED(GQVIEW_HELPDIR, "$prefix/share/doc/geeqie-$VERSION", [Locatio
 AC_DEFINE_UNQUOTED(GQVIEW_HTMLDIR, "$prefix/share/doc/geeqie-$VERSION/html", [Location of html documentation])
 
 dnl checks for functions
-AC_CHECK_FUNCS(strverscmp)
+AC_CHECK_FUNCS(strverscmp access fsync fflush)
 
 dnl check for little cms (lcms, this test pulled from gimp)
 AC_ARG_WITH(lcms, [  --without-lcms          build without lcms support])

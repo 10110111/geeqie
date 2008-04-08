@@ -37,11 +37,11 @@ GList *filter_to_list(const gchar *extensions);
 gint filter_name_exists(const gchar *name);
 gint filter_file_class(const gchar *name, FileFormatClass file_class);
 
-void filter_write_list(FILE *f);
+void filter_write_list(SecureSaveInfo *ssi);
 void filter_parse(const gchar *text);
 
 void sidecar_ext_parse(const gchar *text, gint quoted);
-void sidecar_ext_write(FILE *f);
+void sidecar_ext_write(SecureSaveInfo *ssi);
 char *sidecar_ext_to_string(); 
 void sidecar_ext_add_defaults();
 
