@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview-2.1.2-eu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-09 23:16+0200\n"
+"POT-Creation-Date: 2008-04-10 00:20+0200\n"
 "PO-Revision-Date: 2006-10-14 23:08+0200\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: librezale <librezale@librezale.org>\n"
@@ -16,6 +16,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: src/bar_exif.c:475
+msgid "Tag"
+msgstr "Etiketa"
+
+#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
+#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
+msgid "Name"
+msgstr "Izena"
+
+#: src/bar_exif.c:477
+msgid "Value"
+msgstr "Balioa"
+
+#: src/bar_exif.c:478
+msgid "Format"
+msgstr "Formatua"
+
+#: src/bar_exif.c:479
+msgid "Elements"
+msgstr "Elementuak"
+
+#: src/bar_exif.c:480 src/preferences.c:1126
+msgid "Description"
+msgstr "Azalpena"
+
+#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
+msgid "Exif"
+msgstr "Exif"
+
+#: src/bar_exif.c:680
+msgid "Advanced view"
+msgstr "Ikuspegi aurreratua"
 
 #: src/bar_info.c:32
 msgid "Favorite"
@@ -88,39 +121,6 @@ msgstr "Gehitu gako-hitzak hautatutakoa fitxategietara, daudenak ordezkatzen."
 #: src/bar_info.c:1296
 msgid "Save comment now"
 msgstr "Gorde iruzkina orain"
-
-#: src/bar_exif.c:475
-msgid "Tag"
-msgstr "Etiketa"
-
-#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
-#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
-msgid "Name"
-msgstr "Izena"
-
-#: src/bar_exif.c:477
-msgid "Value"
-msgstr "Balioa"
-
-#: src/bar_exif.c:478
-msgid "Format"
-msgstr "Formatua"
-
-#: src/bar_exif.c:479
-msgid "Elements"
-msgstr "Elementuak"
-
-#: src/bar_exif.c:480 src/preferences.c:1126
-msgid "Description"
-msgstr "Azalpena"
-
-#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
-msgid "Exif"
-msgstr "Exif"
-
-#: src/bar_exif.c:680
-msgid "Advanced view"
-msgstr "Ikuspegi aurreratua"
 
 #: src/bar_sort.c:217
 #, c-format
@@ -353,6 +353,91 @@ msgstr "Metadatuak"
 #: src/cache_maint.c:1241
 msgid "Remove orphaned keywords and comments."
 msgstr "Hitz-gako eta iruzkin umezurtzak ezabatu."
+
+#: src/cellrenderericon.c:127
+msgid "Pixbuf Object"
+msgstr ""
+
+#: src/cellrenderericon.c:128
+msgid "The pixbuf to render"
+msgstr ""
+
+#: src/cellrenderericon.c:135 src/print.c:3437
+msgid "Text"
+msgstr "Testua"
+
+#: src/cellrenderericon.c:136
+msgid "Text to render"
+msgstr ""
+
+#: src/cellrenderericon.c:143 src/preferences.c:987
+#, fuzzy
+msgid "Background color"
+msgstr "Atzeko plano beltza"
+
+#: src/cellrenderericon.c:144
+#, fuzzy
+msgid "Background color as a GdkColor"
+msgstr "Atzeko plano beltza"
+
+#: src/cellrenderericon.c:151
+#, fuzzy
+msgid "Foreground color"
+msgstr "Atzeko plano beltza"
+
+#: src/cellrenderericon.c:152
+msgid "Foreground color as a GdkColor"
+msgstr ""
+
+#: src/cellrenderericon.c:159
+msgid "Focus"
+msgstr ""
+
+#: src/cellrenderericon.c:160
+msgid "Draw focus indicator"
+msgstr ""
+
+#: src/cellrenderericon.c:167
+msgid "Fixed width"
+msgstr ""
+
+#: src/cellrenderericon.c:168
+msgid "Width of cell"
+msgstr ""
+
+#: src/cellrenderericon.c:176
+msgid "Fixed height"
+msgstr ""
+
+#: src/cellrenderericon.c:177
+msgid "Height of icon excluding text"
+msgstr ""
+
+#: src/cellrenderericon.c:185
+#, fuzzy
+msgid "Background set"
+msgstr "Atzeko plano beltza"
+
+#: src/cellrenderericon.c:186
+msgid "Whether this tag affects the background color"
+msgstr ""
+
+#: src/cellrenderericon.c:193
+msgid "Foreground set"
+msgstr ""
+
+#: src/cellrenderericon.c:194
+msgid "Whether this tag affects the foreground color"
+msgstr ""
+
+#: src/cellrenderericon.c:201
+#, fuzzy
+msgid "Show text"
+msgstr "Erakutsi fitxategi-izen _testua"
+
+#: src/cellrenderericon.c:202
+msgid "Whether the text is displayed"
+msgstr ""
 
 #: src/collect.c:348 src/image.c:172 src/image-overlay.c:230
 #: src/image-overlay.c:304
@@ -639,8 +724,8 @@ msgstr "Larri/xeheak bereiziz ordenatu"
 msgid "Size"
 msgstr "Tamaina"
 
-#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/print.c:3234
-#: src/search.c:2741 src/view_file_list.c:2029
+#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/exif-common.c:36
+#: src/print.c:3234 src/search.c:2741 src/view_file_list.c:2029
 msgid "Date"
 msgstr "Data"
 
@@ -803,7 +888,8 @@ msgid "Unknown error."
 msgstr ""
 
 #: src/exif.c:144 src/exif.c:157 src/exif.c:171 src/exif.c:196 src/exif.c:313
-#: src/exif.c:624
+#: src/exif.c:624 src/exif-common.c:301 src/exif-common.c:304
+#: src/exif-common.c:369
 msgid "unknown"
 msgstr "ezezaguna"
 
@@ -956,7 +1042,7 @@ msgstr "fluoreszentea"
 
 #: src/exif.c:207
 #, fuzzy
-msgid "while fluorescent"
+msgid "white fluorescent"
 msgstr "fluoreszentea"
 
 #: src/exif.c:208
@@ -991,11 +1077,12 @@ msgstr ""
 msgid "ISO studio tungsten"
 msgstr ""
 
-#: src/exif.c:221 src/info.c:255
+#: src/exif.c:221 src/exif-common.c:324 src/info.c:255
 msgid "no"
 msgstr "ez"
 
-#: src/exif.c:222 src/info.c:255
+#. flash fired (bit 0)
+#: src/exif.c:222 src/exif-common.c:324 src/info.c:255
 msgid "yes"
 msgstr "bai"
 
@@ -1053,7 +1140,7 @@ msgstr ""
 msgid "custom"
 msgstr "Pertsonalizatua"
 
-#: src/exif.c:262 src/exif.c:269
+#: src/exif.c:262 src/exif.c:269 src/exif-common.c:338
 msgid "auto"
 msgstr "automatikoa"
 
@@ -1229,7 +1316,7 @@ msgstr "Agerpen programa"
 msgid "Spectral Sensitivity"
 msgstr "ISO sentsibilitatea"
 
-#: src/exif.c:351 src/exif.c:387
+#: src/exif.c:351 src/exif.c:387 src/exif-common.c:40
 msgid "ISO sensitivity"
 msgstr "ISO sentsibilitatea"
 
@@ -1259,11 +1346,11 @@ msgstr "Fitxategi formatua:"
 msgid "Compression ratio"
 msgstr "Konpresio erratioa:"
 
-#: src/exif.c:358
+#: src/exif.c:358 src/exif-common.c:37
 msgid "Shutter speed"
 msgstr "Obturadore abiadura"
 
-#: src/exif.c:359
+#: src/exif.c:359 src/exif-common.c:38
 msgid "Aperture"
 msgstr "Irekiera"
 
@@ -1271,7 +1358,7 @@ msgstr "Irekiera"
 msgid "Brightness"
 msgstr ""
 
-#: src/exif.c:361
+#: src/exif.c:361 src/exif-common.c:39
 msgid "Exposure bias"
 msgstr "Agerpena alborapena"
 
@@ -1280,7 +1367,7 @@ msgstr "Agerpena alborapena"
 msgid "Maximum aperture"
 msgstr "irekiera"
 
-#: src/exif.c:363
+#: src/exif.c:363 src/exif-common.c:43
 msgid "Subject distance"
 msgstr "Elementu distantzia"
 
@@ -1292,11 +1379,11 @@ msgstr "Neurtze modua"
 msgid "Light source"
 msgstr "Argi jatorria"
 
-#: src/exif.c:366
+#: src/exif.c:366 src/exif-common.c:44
 msgid "Flash"
 msgstr "Flash-a"
 
-#: src/exif.c:367
+#: src/exif.c:367 src/exif-common.c:41
 msgid "Focal length"
 msgstr "Fokuaren luzera"
 
@@ -1460,6 +1547,55 @@ msgstr "Elementu distantzia"
 msgid "Image serial number"
 msgstr "Irudi fitxategia"
 
+#: src/exif-common.c:35
+#, fuzzy
+msgid "Camera"
+msgstr "Kamara"
+
+#: src/exif-common.c:42
+#, fuzzy
+msgid "Focal length 35mm"
+msgstr "Fokuaren luzera"
+
+#: src/exif-common.c:45
+#, fuzzy
+msgid "Resolution"
+msgstr "Bereizmena"
+
+#: src/exif-common.c:300
+msgid "infinity"
+msgstr "infinitua"
+
+#: src/exif-common.c:328
+msgid "mode:"
+msgstr "modua:"
+
+#: src/exif-common.c:332 src/utilops.c:1467
+msgid "on"
+msgstr "aktibatuta"
+
+#: src/exif-common.c:335 src/utilops.c:1472
+msgid "off"
+msgstr "desaktibatuta"
+
+#: src/exif-common.c:344
+msgid "not detected by strobe"
+msgstr "ez da estrobe bidez atzeman"
+
+#: src/exif-common.c:345
+msgid "detected by strobe"
+msgstr "estrobe bidez atzemanda"
+
+#. we ignore flash function (bit 5)
+#. red-eye (bit 6)
+#: src/exif-common.c:350
+msgid "red-eye reduction"
+msgstr "begi-gorri murrizketa"
+
+#: src/exif-common.c:369
+msgid "dot"
+msgstr "puntu"
+
 #: src/filelist.c:637
 #, c-format
 msgid "%d bytes"
@@ -1511,6 +1647,54 @@ msgstr "Pantaila aktiboa"
 #: src/fullscreen.c:650
 msgid "Active monitor"
 msgstr "Monitore aktiboa"
+
+#: src/histogram.c:84
+msgid "logarithmical histogram on red"
+msgstr ""
+
+#: src/histogram.c:85
+msgid "logarithmical histogram on green"
+msgstr ""
+
+#: src/histogram.c:86
+msgid "logarithmical histogram on blue"
+msgstr ""
+
+#: src/histogram.c:87
+msgid "logarithmical histogram on value"
+msgstr ""
+
+#: src/histogram.c:88
+msgid "logarithmical histogram on RGB"
+msgstr ""
+
+#: src/histogram.c:89
+msgid "logarithmical histogram on max value"
+msgstr ""
+
+#: src/histogram.c:93
+msgid "linear histogram on red"
+msgstr ""
+
+#: src/histogram.c:94
+msgid "linear histogram on green"
+msgstr ""
+
+#: src/histogram.c:95
+msgid "linear histogram on blue"
+msgstr ""
+
+#: src/histogram.c:96
+msgid "linear histogram on value"
+msgstr ""
+
+#: src/histogram.c:97
+msgid "linear histogram on RGB"
+msgstr ""
+
+#: src/histogram.c:98
+msgid "linear histogram on max value"
+msgstr ""
 
 #: src/img-view.c:1233 src/layout_image.c:725 src/layout_util.c:1103
 #: src/pan-view.c:2780
@@ -2660,11 +2844,6 @@ msgstr "Itxura"
 msgid "User specified background color"
 msgstr ""
 
-#: src/preferences.c:987
-#, fuzzy
-msgid "Background color"
-msgstr "Atzeko plano beltza"
-
 #: src/preferences.c:990
 msgid "Convenience"
 msgstr "Egokiera"
@@ -3191,10 +3370,6 @@ msgstr "Iturburua"
 #: src/print.c:3421
 msgid "Proof size:"
 msgstr "Muga tamaina:"
-
-#: src/print.c:3437
-msgid "Text"
-msgstr "Testua"
 
 #: src/print.c:3447
 msgid "Paper"
@@ -3850,18 +4025,10 @@ msgid ""
 "Trash: %s"
 msgstr "Ezabatze ziurra: %s"
 
-#: src/utilops.c:1467
-msgid "on"
-msgstr "aktibatuta"
-
 #: src/utilops.c:1472
 #, c-format
 msgid "Safe delete: %s"
 msgstr "Ezabatze ziurra: %s"
-
-#: src/utilops.c:1472
-msgid "off"
-msgstr "desaktibatuta"
 
 #: src/utilops.c:1513
 #, fuzzy
@@ -4241,24 +4408,6 @@ msgstr ""
 
 #~ msgid "Find duplicates - Geeqie"
 #~ msgstr "Bokiztuak bilatu - Geeqie"
-
-#~ msgid "infinity"
-#~ msgstr "infinitua"
-
-#~ msgid "mode:"
-#~ msgstr "modua:"
-
-#~ msgid "not detected by strobe"
-#~ msgstr "ez da estrobe bidez atzeman"
-
-#~ msgid "detected by strobe"
-#~ msgstr "estrobe bidez atzemanda"
-
-#~ msgid "red-eye reduction"
-#~ msgstr "begi-gorri murrizketa"
-
-#~ msgid "dot"
-#~ msgstr "puntu"
 
 #~ msgid "Geeqie full screen"
 #~ msgstr "Geeqie pantaila osoa"

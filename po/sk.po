@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-09 23:16+0200\n"
+"POT-Creation-Date: 2008-04-10 00:20+0200\n"
 "PO-Revision-Date: 2004-02-11 23:45+0100\n"
 "Last-Translator: \n"
 "Language-Team:  <sk@li.org>\n"
@@ -16,6 +16,42 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.0.1\n"
+
+#: src/bar_exif.c:475
+msgid "Tag"
+msgstr "Znaèka"
+
+# src/dupe.c:1652 src/dupe.c:1941
+#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
+#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
+msgid "Name"
+msgstr "Meno"
+
+#: src/bar_exif.c:477
+msgid "Value"
+msgstr "Hodnota"
+
+# src/preferences.c:401
+#: src/bar_exif.c:478
+msgid "Format"
+msgstr "Formát"
+
+#: src/bar_exif.c:479
+msgid "Elements"
+msgstr "Prvky"
+
+#: src/bar_exif.c:480 src/preferences.c:1126
+msgid "Description"
+msgstr "Popis"
+
+# src/main.c:622
+#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
+msgid "Exif"
+msgstr "Exif"
+
+#: src/bar_exif.c:680
+msgid "Advanced view"
+msgstr "Roz¹írený pohµad"
 
 #: src/bar_info.c:32
 msgid "Favorite"
@@ -93,42 +129,6 @@ msgstr "Prida» kµúèové slová do vybraných súborov, existujúce prepísa»."
 #: src/bar_info.c:1296
 msgid "Save comment now"
 msgstr "Ulo¾i» poznámku"
-
-#: src/bar_exif.c:475
-msgid "Tag"
-msgstr "Znaèka"
-
-# src/dupe.c:1652 src/dupe.c:1941
-#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
-#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
-msgid "Name"
-msgstr "Meno"
-
-#: src/bar_exif.c:477
-msgid "Value"
-msgstr "Hodnota"
-
-# src/preferences.c:401
-#: src/bar_exif.c:478
-msgid "Format"
-msgstr "Formát"
-
-#: src/bar_exif.c:479
-msgid "Elements"
-msgstr "Prvky"
-
-#: src/bar_exif.c:480 src/preferences.c:1126
-msgid "Description"
-msgstr "Popis"
-
-# src/main.c:622
-#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
-msgid "Exif"
-msgstr "Exif"
-
-#: src/bar_exif.c:680
-msgid "Advanced view"
-msgstr "Roz¹írený pohµad"
 
 # src/utilops.c:496
 #: src/bar_sort.c:217
@@ -398,6 +398,92 @@ msgstr "Podobnostné dáta (metadata)"
 #: src/cache_maint.c:1241
 msgid "Remove orphaned keywords and comments."
 msgstr "Odstráni» neaktuálne kµúèové slová a poznámky."
+
+#: src/cellrenderericon.c:127
+msgid "Pixbuf Object"
+msgstr ""
+
+#: src/cellrenderericon.c:128
+msgid "The pixbuf to render"
+msgstr ""
+
+#: src/cellrenderericon.c:135 src/print.c:3437
+msgid "Text"
+msgstr "Text"
+
+#: src/cellrenderericon.c:136
+msgid "Text to render"
+msgstr ""
+
+#: src/cellrenderericon.c:143 src/preferences.c:987
+#, fuzzy
+msgid "Background color"
+msgstr "Èierne pozadie"
+
+#: src/cellrenderericon.c:144
+#, fuzzy
+msgid "Background color as a GdkColor"
+msgstr "Èierne pozadie"
+
+#: src/cellrenderericon.c:151
+#, fuzzy
+msgid "Foreground color"
+msgstr "Èierne pozadie"
+
+#: src/cellrenderericon.c:152
+msgid "Foreground color as a GdkColor"
+msgstr ""
+
+#: src/cellrenderericon.c:159
+msgid "Focus"
+msgstr ""
+
+#: src/cellrenderericon.c:160
+msgid "Draw focus indicator"
+msgstr ""
+
+#: src/cellrenderericon.c:167
+msgid "Fixed width"
+msgstr ""
+
+#: src/cellrenderericon.c:168
+msgid "Width of cell"
+msgstr ""
+
+#: src/cellrenderericon.c:176
+msgid "Fixed height"
+msgstr ""
+
+#: src/cellrenderericon.c:177
+msgid "Height of icon excluding text"
+msgstr ""
+
+#: src/cellrenderericon.c:185
+#, fuzzy
+msgid "Background set"
+msgstr "Èierne pozadie"
+
+#: src/cellrenderericon.c:186
+msgid "Whether this tag affects the background color"
+msgstr ""
+
+#: src/cellrenderericon.c:193
+msgid "Foreground set"
+msgstr ""
+
+#: src/cellrenderericon.c:194
+msgid "Whether this tag affects the foreground color"
+msgstr ""
+
+# src/ui_pathsel.c:764
+#: src/cellrenderericon.c:201
+#, fuzzy
+msgid "Show text"
+msgstr "Zobrazi» meno súboru"
+
+#: src/cellrenderericon.c:202
+msgid "Whether the text is displayed"
+msgstr ""
 
 # src/collect.c:329 src/image.c:1058
 #: src/collect.c:348 src/image.c:172 src/image-overlay.c:230
@@ -747,8 +833,8 @@ msgid "Size"
 msgstr "Veµkos»"
 
 # src/dupe.c:1654 src/dupe.c:1943
-#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/print.c:3234
-#: src/search.c:2741 src/view_file_list.c:2029
+#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/exif-common.c:36
+#: src/print.c:3234 src/search.c:2741 src/view_file_list.c:2029
 msgid "Date"
 msgstr "Dátum"
 
@@ -937,7 +1023,8 @@ msgstr ""
 
 # src/menu.c:432 src/menu.c:461
 #: src/exif.c:144 src/exif.c:157 src/exif.c:171 src/exif.c:196 src/exif.c:313
-#: src/exif.c:624
+#: src/exif.c:624 src/exif-common.c:301 src/exif-common.c:304
+#: src/exif-common.c:369
 msgid "unknown"
 msgstr "neznámy"
 
@@ -1096,7 +1183,7 @@ msgstr "fluorescenèné"
 
 #: src/exif.c:207
 #, fuzzy
-msgid "while fluorescent"
+msgid "white fluorescent"
 msgstr "fluorescenèné"
 
 #: src/exif.c:208
@@ -1131,12 +1218,13 @@ msgstr ""
 msgid "ISO studio tungsten"
 msgstr ""
 
-#: src/exif.c:221 src/info.c:255
+#: src/exif.c:221 src/exif-common.c:324 src/info.c:255
 msgid "no"
 msgstr "nie"
 
 # src/utilops.c:343
-#: src/exif.c:222 src/info.c:255
+#. flash fired (bit 0)
+#: src/exif.c:222 src/exif-common.c:324 src/info.c:255
 msgid "yes"
 msgstr "áno"
 
@@ -1195,7 +1283,7 @@ msgstr ""
 msgid "custom"
 msgstr "Pou¾ívateµské"
 
-#: src/exif.c:262 src/exif.c:269
+#: src/exif.c:262 src/exif.c:269 src/exif-common.c:338
 msgid "auto"
 msgstr "automaticky"
 
@@ -1384,7 +1472,7 @@ msgstr "Expozièný program"
 msgid "Spectral Sensitivity"
 msgstr "Citlivos» ISO"
 
-#: src/exif.c:351 src/exif.c:387
+#: src/exif.c:351 src/exif.c:387 src/exif-common.c:40
 msgid "ISO sensitivity"
 msgstr "Citlivos» ISO"
 
@@ -1416,11 +1504,11 @@ msgstr "Formát súboru:"
 msgid "Compression ratio"
 msgstr "Kompresný pomer:"
 
-#: src/exif.c:358
+#: src/exif.c:358 src/exif-common.c:37
 msgid "Shutter speed"
 msgstr "Rýchlos» uzávierky"
 
-#: src/exif.c:359
+#: src/exif.c:359 src/exif-common.c:38
 msgid "Aperture"
 msgstr "Clona"
 
@@ -1428,7 +1516,7 @@ msgstr "Clona"
 msgid "Brightness"
 msgstr ""
 
-#: src/exif.c:361
+#: src/exif.c:361 src/exif-common.c:39
 msgid "Exposure bias"
 msgstr "Skreslenie expozície"
 
@@ -1437,7 +1525,7 @@ msgstr "Skreslenie expozície"
 msgid "Maximum aperture"
 msgstr "clona"
 
-#: src/exif.c:363
+#: src/exif.c:363 src/exif-common.c:43
 msgid "Subject distance"
 msgstr "Vzdialenos» subjektu"
 
@@ -1450,11 +1538,11 @@ msgstr "Re¾im merania"
 msgid "Light source"
 msgstr "Zdroj svetla"
 
-#: src/exif.c:366
+#: src/exif.c:366 src/exif-common.c:44
 msgid "Flash"
 msgstr "Blesk"
 
-#: src/exif.c:367
+#: src/exif.c:367 src/exif-common.c:41
 msgid "Focal length"
 msgstr "Ohnisková vzdialenos»"
 
@@ -1629,6 +1717,57 @@ msgstr "Vzdialenos» subjektu"
 msgid "Image serial number"
 msgstr "Súbor obrázku"
 
+#: src/exif-common.c:35
+#, fuzzy
+msgid "Camera"
+msgstr "Fotoaparát"
+
+#: src/exif-common.c:42
+#, fuzzy
+msgid "Focal length 35mm"
+msgstr "Ohnisková vzdialenos»"
+
+#: src/exif-common.c:45
+#, fuzzy
+msgid "Resolution"
+msgstr "Rozlí¹enie"
+
+#: src/exif-common.c:300
+msgid "infinity"
+msgstr "nekoneèno"
+
+# src/preferences.c:368
+#: src/exif-common.c:328
+msgid "mode:"
+msgstr "re¾im:"
+
+# src/preferences.c:400
+#: src/exif-common.c:332 src/utilops.c:1467
+msgid "on"
+msgstr "zapnuté"
+
+#: src/exif-common.c:335 src/utilops.c:1472
+msgid "off"
+msgstr "vypnuté"
+
+#: src/exif-common.c:344
+msgid "not detected by strobe"
+msgstr "nedetekované snímacím impulzom"
+
+#: src/exif-common.c:345
+msgid "detected by strobe"
+msgstr "detekované snímacím impulzom"
+
+#. we ignore flash function (bit 5)
+#. red-eye (bit 6)
+#: src/exif-common.c:350
+msgid "red-eye reduction"
+msgstr "redukcia \"èervených oèí\""
+
+#: src/exif-common.c:369
+msgid "dot"
+msgstr "bod"
+
 # src/dupe.c:67 src/dupe.c:1449
 #: src/filelist.c:637
 #, c-format
@@ -1684,6 +1823,54 @@ msgstr "Aktívna obrazovka"
 #: src/fullscreen.c:650
 msgid "Active monitor"
 msgstr "Aktívny monitor"
+
+#: src/histogram.c:84
+msgid "logarithmical histogram on red"
+msgstr ""
+
+#: src/histogram.c:85
+msgid "logarithmical histogram on green"
+msgstr ""
+
+#: src/histogram.c:86
+msgid "logarithmical histogram on blue"
+msgstr ""
+
+#: src/histogram.c:87
+msgid "logarithmical histogram on value"
+msgstr ""
+
+#: src/histogram.c:88
+msgid "logarithmical histogram on RGB"
+msgstr ""
+
+#: src/histogram.c:89
+msgid "logarithmical histogram on max value"
+msgstr ""
+
+#: src/histogram.c:93
+msgid "linear histogram on red"
+msgstr ""
+
+#: src/histogram.c:94
+msgid "linear histogram on green"
+msgstr ""
+
+#: src/histogram.c:95
+msgid "linear histogram on blue"
+msgstr ""
+
+#: src/histogram.c:96
+msgid "linear histogram on value"
+msgstr ""
+
+#: src/histogram.c:97
+msgid "linear histogram on RGB"
+msgstr ""
+
+#: src/histogram.c:98
+msgid "linear histogram on max value"
+msgstr ""
 
 # src/img-view.c:789 src/menu.c:944 src/menu.c:1079
 #: src/img-view.c:1233 src/layout_image.c:725 src/layout_util.c:1103
@@ -3025,11 +3212,6 @@ msgstr "Vzhµad"
 msgid "User specified background color"
 msgstr ""
 
-#: src/preferences.c:987
-#, fuzzy
-msgid "Background color"
-msgstr "Èierne pozadie"
-
 # src/utilops.c:328 src/utilops.c:394 src/utilops.c:668
 #: src/preferences.c:990
 msgid "Convenience"
@@ -3609,10 +3791,6 @@ msgstr "Zdroj"
 #, fuzzy
 msgid "Proof size:"
 msgstr "Veµkos» obrázoku:"
-
-#: src/print.c:3437
-msgid "Text"
-msgstr "Text"
 
 #: src/print.c:3447
 msgid "Paper"
@@ -4376,20 +4554,11 @@ msgid ""
 "Trash: %s"
 msgstr "Bezpeèné mazanie: %s"
 
-# src/preferences.c:400
-#: src/utilops.c:1467
-msgid "on"
-msgstr "zapnuté"
-
 # src/preferences.c:667
 #: src/utilops.c:1472
 #, c-format
 msgid "Safe delete: %s"
 msgstr "Bezpeèné mazanie: %s"
-
-#: src/utilops.c:1472
-msgid "off"
-msgstr "vypnuté"
 
 # src/ui_pathsel.c:343 src/utilops.c:675 src/utilops.c:727
 #: src/utilops.c:1513
@@ -4812,25 +4981,6 @@ msgstr ""
 # src/dupe.c:1968
 #~ msgid "Find duplicates - Geeqie"
 #~ msgstr "Nájs» duplikáty - Geeqie"
-
-#~ msgid "infinity"
-#~ msgstr "nekoneèno"
-
-# src/preferences.c:368
-#~ msgid "mode:"
-#~ msgstr "re¾im:"
-
-#~ msgid "not detected by strobe"
-#~ msgstr "nedetekované snímacím impulzom"
-
-#~ msgid "detected by strobe"
-#~ msgstr "detekované snímacím impulzom"
-
-#~ msgid "red-eye reduction"
-#~ msgstr "redukcia \"èervených oèí\""
-
-#~ msgid "dot"
-#~ msgstr "bod"
 
 # src/fullscreen.c:117
 #~ msgid "Geeqie full screen"

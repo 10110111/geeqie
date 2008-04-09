@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-09 23:16+0200\n"
+"POT-Creation-Date: 2008-04-10 00:20+0200\n"
 "PO-Revision-Date: 2004-02-22 17:20+0100\n"
 "Last-Translator: Sári Gábor <saga@externet.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -16,6 +16,42 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.0.2\n"
+
+#: src/bar_exif.c:475
+msgid "Tag"
+msgstr "Címke"
+
+# src/dupe.c:1652 src/dupe.c:1941
+#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
+#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
+msgid "Name"
+msgstr "Név"
+
+#: src/bar_exif.c:477
+msgid "Value"
+msgstr "Érték"
+
+# src/preferences.c:401
+#: src/bar_exif.c:478
+msgid "Format"
+msgstr "Formátum"
+
+#: src/bar_exif.c:479
+msgid "Elements"
+msgstr "Elemek"
+
+#: src/bar_exif.c:480 src/preferences.c:1126
+msgid "Description"
+msgstr "Leírás"
+
+# src/main.c:622
+#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
+msgid "Exif"
+msgstr "Exif"
+
+#: src/bar_exif.c:680
+msgid "Advanced view"
+msgstr "Haladó nézet"
 
 #: src/bar_info.c:32
 msgid "Favorite"
@@ -96,42 +132,6 @@ msgstr ""
 #, fuzzy
 msgid "Save comment now"
 msgstr "Gyűjtemény mentése"
-
-#: src/bar_exif.c:475
-msgid "Tag"
-msgstr "Címke"
-
-# src/dupe.c:1652 src/dupe.c:1941
-#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
-#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
-msgid "Name"
-msgstr "Név"
-
-#: src/bar_exif.c:477
-msgid "Value"
-msgstr "Érték"
-
-# src/preferences.c:401
-#: src/bar_exif.c:478
-msgid "Format"
-msgstr "Formátum"
-
-#: src/bar_exif.c:479
-msgid "Elements"
-msgstr "Elemek"
-
-#: src/bar_exif.c:480 src/preferences.c:1126
-msgid "Description"
-msgstr "Leírás"
-
-# src/main.c:622
-#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
-msgid "Exif"
-msgstr "Exif"
-
-#: src/bar_exif.c:680
-msgid "Advanced view"
-msgstr "Haladó nézet"
 
 # src/utilops.c:496
 #: src/bar_sort.c:217
@@ -418,6 +418,92 @@ msgstr ""
 
 #: src/cache_maint.c:1241
 msgid "Remove orphaned keywords and comments."
+msgstr ""
+
+#: src/cellrenderericon.c:127
+msgid "Pixbuf Object"
+msgstr ""
+
+#: src/cellrenderericon.c:128
+msgid "The pixbuf to render"
+msgstr ""
+
+#: src/cellrenderericon.c:135 src/print.c:3437
+msgid "Text"
+msgstr ""
+
+#: src/cellrenderericon.c:136
+msgid "Text to render"
+msgstr ""
+
+#: src/cellrenderericon.c:143 src/preferences.c:987
+#, fuzzy
+msgid "Background color"
+msgstr "Fekete háttér"
+
+#: src/cellrenderericon.c:144
+#, fuzzy
+msgid "Background color as a GdkColor"
+msgstr "Fekete háttér"
+
+#: src/cellrenderericon.c:151
+#, fuzzy
+msgid "Foreground color"
+msgstr "Fekete háttér"
+
+#: src/cellrenderericon.c:152
+msgid "Foreground color as a GdkColor"
+msgstr ""
+
+#: src/cellrenderericon.c:159
+msgid "Focus"
+msgstr ""
+
+#: src/cellrenderericon.c:160
+msgid "Draw focus indicator"
+msgstr ""
+
+#: src/cellrenderericon.c:167
+msgid "Fixed width"
+msgstr ""
+
+#: src/cellrenderericon.c:168
+msgid "Width of cell"
+msgstr ""
+
+#: src/cellrenderericon.c:176
+msgid "Fixed height"
+msgstr ""
+
+#: src/cellrenderericon.c:177
+msgid "Height of icon excluding text"
+msgstr ""
+
+#: src/cellrenderericon.c:185
+#, fuzzy
+msgid "Background set"
+msgstr "Fekete háttér"
+
+#: src/cellrenderericon.c:186
+msgid "Whether this tag affects the background color"
+msgstr ""
+
+#: src/cellrenderericon.c:193
+msgid "Foreground set"
+msgstr ""
+
+#: src/cellrenderericon.c:194
+msgid "Whether this tag affects the foreground color"
+msgstr ""
+
+# src/ui_pathsel.c:764
+#: src/cellrenderericon.c:201
+#, fuzzy
+msgid "Show text"
+msgstr "Fájlnév mu_tatása"
+
+#: src/cellrenderericon.c:202
+msgid "Whether the text is displayed"
 msgstr ""
 
 # src/collect.c:329 src/image.c:1058
@@ -774,8 +860,8 @@ msgid "Size"
 msgstr "Méret"
 
 # src/dupe.c:1654 src/dupe.c:1943
-#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/print.c:3234
-#: src/search.c:2741 src/view_file_list.c:2029
+#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/exif-common.c:36
+#: src/print.c:3234 src/search.c:2741 src/view_file_list.c:2029
 msgid "Date"
 msgstr "Dátum"
 
@@ -960,7 +1046,8 @@ msgstr ""
 
 # src/menu.c:432 src/menu.c:461
 #: src/exif.c:144 src/exif.c:157 src/exif.c:171 src/exif.c:196 src/exif.c:313
-#: src/exif.c:624
+#: src/exif.c:624 src/exif-common.c:301 src/exif-common.c:304
+#: src/exif-common.c:369
 msgid "unknown"
 msgstr "ismeretlen"
 
@@ -1115,7 +1202,7 @@ msgid "cool white fluorescent"
 msgstr ""
 
 #: src/exif.c:207
-msgid "while fluorescent"
+msgid "white fluorescent"
 msgstr ""
 
 #: src/exif.c:208
@@ -1150,12 +1237,13 @@ msgstr ""
 msgid "ISO studio tungsten"
 msgstr ""
 
-#: src/exif.c:221 src/info.c:255
+#: src/exif.c:221 src/exif-common.c:324 src/info.c:255
 msgid "no"
 msgstr "nem"
 
 # src/utilops.c:343
-#: src/exif.c:222 src/info.c:255
+#. flash fired (bit 0)
+#: src/exif.c:222 src/exif-common.c:324 src/info.c:255
 msgid "yes"
 msgstr "igen"
 
@@ -1214,7 +1302,7 @@ msgstr ""
 msgid "custom"
 msgstr "automatikus"
 
-#: src/exif.c:262 src/exif.c:269
+#: src/exif.c:262 src/exif.c:269 src/exif-common.c:338
 msgid "auto"
 msgstr "automatikus"
 
@@ -1401,7 +1489,7 @@ msgstr ""
 msgid "Spectral Sensitivity"
 msgstr "ISO érzékenység"
 
-#: src/exif.c:351 src/exif.c:387
+#: src/exif.c:351 src/exif.c:387 src/exif-common.c:40
 msgid "ISO sensitivity"
 msgstr "ISO érzékenység"
 
@@ -1433,11 +1521,11 @@ msgstr "Fájl dátuma:"
 msgid "Compression ratio"
 msgstr "Tömörítési arány:"
 
-#: src/exif.c:358
+#: src/exif.c:358 src/exif-common.c:37
 msgid "Shutter speed"
 msgstr "Zársebesség"
 
-#: src/exif.c:359
+#: src/exif.c:359 src/exif-common.c:38
 msgid "Aperture"
 msgstr "Rekesz"
 
@@ -1445,7 +1533,7 @@ msgstr "Rekesz"
 msgid "Brightness"
 msgstr ""
 
-#: src/exif.c:361
+#: src/exif.c:361 src/exif-common.c:39
 msgid "Exposure bias"
 msgstr ""
 
@@ -1454,7 +1542,7 @@ msgstr ""
 msgid "Maximum aperture"
 msgstr "rekesz"
 
-#: src/exif.c:363
+#: src/exif.c:363 src/exif-common.c:43
 msgid "Subject distance"
 msgstr "Tárgytávolság"
 
@@ -1467,11 +1555,11 @@ msgstr "Mérési módszer"
 msgid "Light source"
 msgstr "Fényforrás"
 
-#: src/exif.c:366
+#: src/exif.c:366 src/exif-common.c:44
 msgid "Flash"
 msgstr "Villanófény"
 
-#: src/exif.c:367
+#: src/exif.c:367 src/exif-common.c:41
 msgid "Focal length"
 msgstr "Gyújtótávolság"
 
@@ -1645,6 +1733,57 @@ msgstr "Tárgytávolság"
 msgid "Image serial number"
 msgstr "Kép mérete:"
 
+#: src/exif-common.c:35
+#, fuzzy
+msgid "Camera"
+msgstr "Kamera"
+
+#: src/exif-common.c:42
+#, fuzzy
+msgid "Focal length 35mm"
+msgstr "Gyújtótávolság"
+
+#: src/exif-common.c:45
+#, fuzzy
+msgid "Resolution"
+msgstr "Felbontás"
+
+#: src/exif-common.c:300
+msgid "infinity"
+msgstr "végtelen"
+
+# src/menu.c:709
+#: src/exif-common.c:328
+msgid "mode:"
+msgstr "mód:"
+
+# src/preferences.c:400
+#: src/exif-common.c:332 src/utilops.c:1467
+msgid "on"
+msgstr "bekapcsolva"
+
+#: src/exif-common.c:335 src/utilops.c:1472
+msgid "off"
+msgstr "kikapcsolva"
+
+#: src/exif-common.c:344
+msgid "not detected by strobe"
+msgstr ""
+
+#: src/exif-common.c:345
+msgid "detected by strobe"
+msgstr ""
+
+#. we ignore flash function (bit 5)
+#. red-eye (bit 6)
+#: src/exif-common.c:350
+msgid "red-eye reduction"
+msgstr "a vörösszem effektus csökkentése"
+
+#: src/exif-common.c:369
+msgid "dot"
+msgstr "pont"
+
 # src/dupe.c:67 src/dupe.c:1449
 #: src/filelist.c:637
 #, c-format
@@ -1702,6 +1841,54 @@ msgstr ""
 
 #: src/fullscreen.c:650
 msgid "Active monitor"
+msgstr ""
+
+#: src/histogram.c:84
+msgid "logarithmical histogram on red"
+msgstr ""
+
+#: src/histogram.c:85
+msgid "logarithmical histogram on green"
+msgstr ""
+
+#: src/histogram.c:86
+msgid "logarithmical histogram on blue"
+msgstr ""
+
+#: src/histogram.c:87
+msgid "logarithmical histogram on value"
+msgstr ""
+
+#: src/histogram.c:88
+msgid "logarithmical histogram on RGB"
+msgstr ""
+
+#: src/histogram.c:89
+msgid "logarithmical histogram on max value"
+msgstr ""
+
+#: src/histogram.c:93
+msgid "linear histogram on red"
+msgstr ""
+
+#: src/histogram.c:94
+msgid "linear histogram on green"
+msgstr ""
+
+#: src/histogram.c:95
+msgid "linear histogram on blue"
+msgstr ""
+
+#: src/histogram.c:96
+msgid "linear histogram on value"
+msgstr ""
+
+#: src/histogram.c:97
+msgid "linear histogram on RGB"
+msgstr ""
+
+#: src/histogram.c:98
+msgid "linear histogram on max value"
 msgstr ""
 
 # src/img-view.c:789 src/menu.c:944 src/menu.c:1079
@@ -3109,11 +3296,6 @@ msgstr "Hozzáfűzés"
 msgid "User specified background color"
 msgstr ""
 
-#: src/preferences.c:987
-#, fuzzy
-msgid "Background color"
-msgstr "Fekete háttér"
-
 # src/utilops.c:328 src/utilops.c:394 src/utilops.c:668
 #: src/preferences.c:990
 #, fuzzy
@@ -3717,10 +3899,6 @@ msgstr "Rendezés"
 #, fuzzy
 msgid "Proof size:"
 msgstr "Kép mérete:"
-
-#: src/print.c:3437
-msgid "Text"
-msgstr ""
 
 #: src/print.c:3447
 #, fuzzy
@@ -4527,20 +4705,11 @@ msgid ""
 "Trash: %s"
 msgstr "Biztonságos törlés: %s"
 
-# src/preferences.c:400
-#: src/utilops.c:1467
-msgid "on"
-msgstr "bekapcsolva"
-
 # src/preferences.c:667
 #: src/utilops.c:1472
 #, c-format
 msgid "Safe delete: %s"
 msgstr "Biztonságos törlés: %s"
-
-#: src/utilops.c:1472
-msgid "off"
-msgstr "kikapcsolva"
 
 # src/ui_pathsel.c:343 src/utilops.c:675 src/utilops.c:727
 #: src/utilops.c:1513
@@ -4971,19 +5140,6 @@ msgstr ""
 # src/dupe.c:1968
 #~ msgid "Find duplicates - Geeqie"
 #~ msgstr "Duplikációk keresése - Geeqie"
-
-#~ msgid "infinity"
-#~ msgstr "végtelen"
-
-# src/menu.c:709
-#~ msgid "mode:"
-#~ msgstr "mód:"
-
-#~ msgid "red-eye reduction"
-#~ msgstr "a vörösszem effektus csökkentése"
-
-#~ msgid "dot"
-#~ msgstr "pont"
 
 # src/fullscreen.c:117
 #~ msgid "Geeqie full screen"

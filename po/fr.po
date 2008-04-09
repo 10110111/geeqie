@@ -12,13 +12,46 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview-2.1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-09 23:16+0200\n"
-"PO-Revision-Date: 2008-04-09 23:46+0100\n"
+"POT-Creation-Date: 2008-04-10 00:20+0200\n"
+"PO-Revision-Date: 2008-04-10 00:28+0100\n"
 "Last-Translator: Laurent Monin <zas@norz.org>\n"
 "Language-Team: french\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: src/bar_exif.c:475
+msgid "Tag"
+msgstr "Attribut"
+
+#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
+#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
+msgid "Name"
+msgstr "Nom"
+
+#: src/bar_exif.c:477
+msgid "Value"
+msgstr "Valeur"
+
+#: src/bar_exif.c:478
+msgid "Format"
+msgstr "Format"
+
+#: src/bar_exif.c:479
+msgid "Elements"
+msgstr "Éléments"
+
+#: src/bar_exif.c:480 src/preferences.c:1126
+msgid "Description"
+msgstr "Description"
+
+#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
+msgid "Exif"
+msgstr "Exif"
+
+#: src/bar_exif.c:680
+msgid "Advanced view"
+msgstr "Affichage avancé"
 
 #: src/bar_info.c:32
 msgid "Favorite"
@@ -92,39 +125,6 @@ msgstr ""
 #: src/bar_info.c:1296
 msgid "Save comment now"
 msgstr "Enregistrer les commentaires"
-
-#: src/bar_exif.c:475
-msgid "Tag"
-msgstr "Attribut"
-
-#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
-#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
-msgid "Name"
-msgstr "Nom"
-
-#: src/bar_exif.c:477
-msgid "Value"
-msgstr "Valeur"
-
-#: src/bar_exif.c:478
-msgid "Format"
-msgstr "Format"
-
-#: src/bar_exif.c:479
-msgid "Elements"
-msgstr "Éléments"
-
-#: src/bar_exif.c:480 src/preferences.c:1126
-msgid "Description"
-msgstr "Description"
-
-#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
-msgid "Exif"
-msgstr "Exif"
-
-#: src/bar_exif.c:680
-msgid "Advanced view"
-msgstr "Affichage avancé"
 
 #: src/bar_sort.c:217
 #, c-format
@@ -355,6 +355,86 @@ msgstr "Méta-données"
 #: src/cache_maint.c:1241
 msgid "Remove orphaned keywords and comments."
 msgstr "Supprimer les mots-clés et commentaires orphelins."
+
+#: src/cellrenderericon.c:127
+msgid "Pixbuf Object"
+msgstr "Objet pixbuf"
+
+#: src/cellrenderericon.c:128
+msgid "The pixbuf to render"
+msgstr "Le pixbuf à rendre"
+
+#: src/cellrenderericon.c:135 src/print.c:3437
+msgid "Text"
+msgstr "Texte"
+
+#: src/cellrenderericon.c:136
+msgid "Text to render"
+msgstr "Texte à rendre"
+
+#: src/cellrenderericon.c:143 src/preferences.c:987
+msgid "Background color"
+msgstr "Couleur du fond"
+
+#: src/cellrenderericon.c:144
+msgid "Background color as a GdkColor"
+msgstr "Couleur d'arrière-plan en tant que GdkColor"
+
+#: src/cellrenderericon.c:151
+msgid "Foreground color"
+msgstr "Couleur de premier plan"
+
+#: src/cellrenderericon.c:152
+msgid "Foreground color as a GdkColor"
+msgstr "Couleur de premier plan en tant que GdkColor"
+
+#: src/cellrenderericon.c:159
+msgid "Focus"
+msgstr "Focus"
+
+#: src/cellrenderericon.c:160
+msgid "Draw focus indicator"
+msgstr "Dessiner l'indicateur de focus"
+
+#: src/cellrenderericon.c:167
+msgid "Fixed width"
+msgstr "Largeur fixe"
+
+#: src/cellrenderericon.c:168
+msgid "Width of cell"
+msgstr "Largeur de cellule"
+
+#: src/cellrenderericon.c:176
+msgid "Fixed height"
+msgstr "Hauteur fixe"
+
+#: src/cellrenderericon.c:177
+msgid "Height of icon excluding text"
+msgstr "Hauteur de l'icone sans le texte"
+
+#: src/cellrenderericon.c:185
+msgid "Background set"
+msgstr "Arrière-plan défini"
+
+#: src/cellrenderericon.c:186
+msgid "Whether this tag affects the background color"
+msgstr "Indique si cette balise affecte la couleur de fond"
+
+#: src/cellrenderericon.c:193
+msgid "Foreground set"
+msgstr "Premier plan défini"
+
+#: src/cellrenderericon.c:194
+msgid "Whether this tag affects the foreground color"
+msgstr "Indique si cette balise affecte la couleur d'avant-plan"
+
+#: src/cellrenderericon.c:201
+msgid "Show text"
+msgstr "Afficher le texte"
+
+#: src/cellrenderericon.c:202
+msgid "Whether the text is displayed"
+msgstr "Indique si ce texte est caché."
 
 #: src/collect.c:348 src/image.c:172 src/image-overlay.c:230
 #: src/image-overlay.c:304
@@ -640,8 +720,8 @@ msgstr "Nom insensible à la casse"
 msgid "Size"
 msgstr "Taille"
 
-#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/print.c:3234
-#: src/search.c:2741 src/view_file_list.c:2029
+#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/exif-common.c:36
+#: src/print.c:3234 src/search.c:2741 src/view_file_list.c:2029
 msgid "Date"
 msgstr "Date"
 
@@ -802,7 +882,8 @@ msgid "Unknown error."
 msgstr "Erreur inconnue."
 
 #: src/exif.c:144 src/exif.c:157 src/exif.c:171 src/exif.c:196 src/exif.c:313
-#: src/exif.c:624
+#: src/exif.c:624 src/exif-common.c:301 src/exif-common.c:304
+#: src/exif-common.c:369
 msgid "unknown"
 msgstr "inconnu"
 
@@ -951,9 +1032,8 @@ msgid "cool white fluorescent"
 msgstr "Fluorescent blanc froid"
 
 #: src/exif.c:207
-#, fuzzy
-msgid "while fluorescent"
-msgstr "fluorescent"
+msgid "white fluorescent"
+msgstr "Fluorescent blanc"
 
 #: src/exif.c:208
 msgid "standard light A"
@@ -987,11 +1067,12 @@ msgstr "D50"
 msgid "ISO studio tungsten"
 msgstr "tungstène studio ISO"
 
-#: src/exif.c:221 src/info.c:255
+#: src/exif.c:221 src/exif-common.c:324 src/info.c:255
 msgid "no"
 msgstr "non"
 
-#: src/exif.c:222 src/info.c:255
+#. flash fired (bit 0)
+#: src/exif.c:222 src/exif-common.c:324 src/info.c:255
 msgid "yes"
 msgstr "oui"
 
@@ -1047,7 +1128,7 @@ msgstr "photo directe"
 msgid "custom"
 msgstr "personnalisé"
 
-#: src/exif.c:262 src/exif.c:269
+#: src/exif.c:262 src/exif.c:269 src/exif-common.c:338
 msgid "auto"
 msgstr "auto"
 
@@ -1204,7 +1285,7 @@ msgstr "Programme d'exposition"
 msgid "Spectral Sensitivity"
 msgstr "Sensibilité spectrale"
 
-#: src/exif.c:351 src/exif.c:387
+#: src/exif.c:351 src/exif.c:387 src/exif-common.c:40
 msgid "ISO sensitivity"
 msgstr "Sensibilité ISO"
 
@@ -1232,11 +1313,11 @@ msgstr "Format des pixels"
 msgid "Compression ratio"
 msgstr "Rapport de compression"
 
-#: src/exif.c:358
+#: src/exif.c:358 src/exif-common.c:37
 msgid "Shutter speed"
 msgstr "Vitesse d'obturation"
 
-#: src/exif.c:359
+#: src/exif.c:359 src/exif-common.c:38
 msgid "Aperture"
 msgstr "Ouverture"
 
@@ -1244,7 +1325,7 @@ msgstr "Ouverture"
 msgid "Brightness"
 msgstr "Luminosité"
 
-#: src/exif.c:361
+#: src/exif.c:361 src/exif-common.c:39
 msgid "Exposure bias"
 msgstr "Polarisation d'exposition"
 
@@ -1252,7 +1333,7 @@ msgstr "Polarisation d'exposition"
 msgid "Maximum aperture"
 msgstr "Ouverture maximale"
 
-#: src/exif.c:363
+#: src/exif.c:363 src/exif-common.c:43
 msgid "Subject distance"
 msgstr "Distance du sujet"
 
@@ -1264,11 +1345,11 @@ msgstr "Méthode de mesure"
 msgid "Light source"
 msgstr "Source de lumière"
 
-#: src/exif.c:366
+#: src/exif.c:366 src/exif-common.c:44
 msgid "Flash"
 msgstr "Flash"
 
-#: src/exif.c:367
+#: src/exif.c:367 src/exif-common.c:41
 msgid "Focal length"
 msgstr "Distance focale"
 
@@ -1290,12 +1371,11 @@ msgstr "Heure sub-seconde"
 
 #: src/exif.c:372
 msgid "Subsecond time original"
-msgstr ""
+msgstr "Heure sub-seconde originale"
 
 #: src/exif.c:373
-#, fuzzy
 msgid "Subsecond time digitized"
-msgstr "Date de numérisation"
+msgstr "Date de numérisation sub-seconde"
 
 #: src/exif.c:374
 msgid "FlashPix version"
@@ -1360,7 +1440,7 @@ msgstr "Type de scène"
 
 #: src/exif.c:391
 msgid "Color filter array pattern"
-msgstr ""
+msgstr "Forme du filtre couleur "
 
 #. tags a4xx were added for Exif 2.2 (not just these - some above, as well)
 #: src/exif.c:393
@@ -1415,6 +1495,52 @@ msgstr "Distance du sujet"
 msgid "Image serial number"
 msgstr "Numéro de série de l'image"
 
+#: src/exif-common.c:35
+msgid "Camera"
+msgstr "Appareil"
+
+#: src/exif-common.c:42
+msgid "Focal length 35mm"
+msgstr "Focale 35mm"
+
+#: src/exif-common.c:45
+msgid "Resolution"
+msgstr "Résolution"
+
+#: src/exif-common.c:300
+msgid "infinity"
+msgstr "infini"
+
+#: src/exif-common.c:328
+msgid "mode:"
+msgstr "mode :"
+
+#: src/exif-common.c:332 src/utilops.c:1467
+msgid "on"
+msgstr "on"
+
+#: src/exif-common.c:335 src/utilops.c:1472
+msgid "off"
+msgstr "off"
+
+#: src/exif-common.c:344
+msgid "not detected by strobe"
+msgstr "non détecté"
+
+#: src/exif-common.c:345
+msgid "detected by strobe"
+msgstr "détecté"
+
+#. we ignore flash function (bit 5)
+#. red-eye (bit 6)
+#: src/exif-common.c:350
+msgid "red-eye reduction"
+msgstr "anti-yeux rouges"
+
+#: src/exif-common.c:369
+msgid "dot"
+msgstr "point"
+
 # c-format
 #: src/filelist.c:637
 #, c-format
@@ -1467,6 +1593,54 @@ msgstr "Écran actif"
 #: src/fullscreen.c:650
 msgid "Active monitor"
 msgstr "Moniteur actif"
+
+#: src/histogram.c:84
+msgid "logarithmical histogram on red"
+msgstr "Histogramme logarithmique sur le rouge"
+
+#: src/histogram.c:85
+msgid "logarithmical histogram on green"
+msgstr "Histogramme logarithmique sur le vert"
+
+#: src/histogram.c:86
+msgid "logarithmical histogram on blue"
+msgstr "Histogramme logarithmique sur le bleu"
+
+#: src/histogram.c:87
+msgid "logarithmical histogram on value"
+msgstr "Histogramme logarithmique sur la valeur"
+
+#: src/histogram.c:88
+msgid "logarithmical histogram on RGB"
+msgstr "Histogramme logarithmique RVB"
+
+#: src/histogram.c:89
+msgid "logarithmical histogram on max value"
+msgstr "Histogramme logarithmique sur la valeur max"
+
+#: src/histogram.c:93
+msgid "linear histogram on red"
+msgstr "Histogramme linéaire sur le rouge"
+
+#: src/histogram.c:94
+msgid "linear histogram on green"
+msgstr "Histogramme linéaire sur le vert"
+
+#: src/histogram.c:95
+msgid "linear histogram on blue"
+msgstr "Histogramme linéaire sur le bleu"
+
+#: src/histogram.c:96
+msgid "linear histogram on value"
+msgstr "Histogramme linéaire sur la valeur"
+
+#: src/histogram.c:97
+msgid "linear histogram on RGB"
+msgstr "Histogramme linéaire RVB"
+
+#: src/histogram.c:98
+msgid "linear histogram on max value"
+msgstr "Histogramme linéaire sur la valeur max"
 
 #: src/img-view.c:1233 src/layout_image.c:725 src/layout_util.c:1103
 #: src/pan-view.c:2780
@@ -2604,10 +2778,6 @@ msgstr "Apparence"
 msgid "User specified background color"
 msgstr "Couleur de fond spécifiée par l'utilisateur"
 
-#: src/preferences.c:987
-msgid "Background color"
-msgstr "Couleur du fond"
-
 #: src/preferences.c:990
 msgid "Convenience"
 msgstr "Commodités"
@@ -3149,10 +3319,6 @@ msgstr "Source"
 #: src/print.c:3421
 msgid "Proof size:"
 msgstr "Taille de l'aperçu :"
-
-#: src/print.c:3437
-msgid "Text"
-msgstr "Texte"
 
 #: src/print.c:3447
 msgid "Paper"
@@ -3815,18 +3981,10 @@ msgstr ""
 "Suppression sécurisée: %s%s\n"
 "Poubelle: %s"
 
-#: src/utilops.c:1467
-msgid "on"
-msgstr "on"
-
 #: src/utilops.c:1472
 #, c-format
 msgid "Safe delete: %s"
 msgstr "Confirmer la suppression des fichiers : %s"
-
-#: src/utilops.c:1472
-msgid "off"
-msgstr "off"
 
 #: src/utilops.c:1513
 msgid ""
@@ -4216,28 +4374,10 @@ msgstr ""
 
 #: src/view_file_list.c:2026
 msgid "SC"
-msgstr ""
+msgstr "SC"
 
 #~ msgid "Find duplicates - Geeqie"
 #~ msgstr "Recherche des fichiers en double - Geeqie"
-
-#~ msgid "infinity"
-#~ msgstr "infini"
-
-#~ msgid "mode:"
-#~ msgstr "mode :"
-
-#~ msgid "not detected by strobe"
-#~ msgstr "non détecté"
-
-#~ msgid "detected by strobe"
-#~ msgstr "détecté"
-
-#~ msgid "red-eye reduction"
-#~ msgstr "anti-yeux rouges"
-
-#~ msgid "dot"
-#~ msgstr "point"
 
 #~ msgid "Geeqie full screen"
 #~ msgstr "Geeqie plein écran"

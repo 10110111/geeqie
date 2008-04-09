@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview 1.5.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-09 23:16+0200\n"
+"POT-Creation-Date: 2008-04-10 00:20+0200\n"
 "PO-Revision-Date: 2005-02-01 23:26+0100\n"
 "Last-Translator: Hans Ofverbeck <hans.ofverbeck@home.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -16,6 +16,39 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/bar_exif.c:475
+msgid "Tag"
+msgstr "Tagg"
+
+#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
+#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
+msgid "Name"
+msgstr "Namn"
+
+#: src/bar_exif.c:477
+msgid "Value"
+msgstr "Värde"
+
+#: src/bar_exif.c:478
+msgid "Format"
+msgstr "Format"
+
+#: src/bar_exif.c:479
+msgid "Elements"
+msgstr "Element"
+
+#: src/bar_exif.c:480 src/preferences.c:1126
+msgid "Description"
+msgstr "Beskrivning"
+
+#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
+msgid "Exif"
+msgstr "Exif"
+
+#: src/bar_exif.c:680
+msgid "Advanced view"
+msgstr "Avancerad vy"
 
 #: src/bar_info.c:32
 msgid "Favorite"
@@ -88,39 +121,6 @@ msgstr "Lägg till nyckelord till de valda filerna, skriv över befintliga."
 #: src/bar_info.c:1296
 msgid "Save comment now"
 msgstr "Spara kommentar nu"
-
-#: src/bar_exif.c:475
-msgid "Tag"
-msgstr "Tagg"
-
-#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
-#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
-msgid "Name"
-msgstr "Namn"
-
-#: src/bar_exif.c:477
-msgid "Value"
-msgstr "Värde"
-
-#: src/bar_exif.c:478
-msgid "Format"
-msgstr "Format"
-
-#: src/bar_exif.c:479
-msgid "Elements"
-msgstr "Element"
-
-#: src/bar_exif.c:480 src/preferences.c:1126
-msgid "Description"
-msgstr "Beskrivning"
-
-#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
-msgid "Exif"
-msgstr "Exif"
-
-#: src/bar_exif.c:680
-msgid "Advanced view"
-msgstr "Avancerad vy"
 
 #: src/bar_sort.c:217
 #, fuzzy, c-format
@@ -355,6 +355,91 @@ msgstr "Metadata"
 #: src/cache_maint.c:1241
 msgid "Remove orphaned keywords and comments."
 msgstr "Ta bort övergivna nyckelord och kommentarer."
+
+#: src/cellrenderericon.c:127
+msgid "Pixbuf Object"
+msgstr ""
+
+#: src/cellrenderericon.c:128
+msgid "The pixbuf to render"
+msgstr ""
+
+#: src/cellrenderericon.c:135 src/print.c:3437
+msgid "Text"
+msgstr "Text"
+
+#: src/cellrenderericon.c:136
+msgid "Text to render"
+msgstr ""
+
+#: src/cellrenderericon.c:143 src/preferences.c:987
+#, fuzzy
+msgid "Background color"
+msgstr "Svart bakgrund"
+
+#: src/cellrenderericon.c:144
+#, fuzzy
+msgid "Background color as a GdkColor"
+msgstr "Svart bakgrund"
+
+#: src/cellrenderericon.c:151
+#, fuzzy
+msgid "Foreground color"
+msgstr "Svart bakgrund"
+
+#: src/cellrenderericon.c:152
+msgid "Foreground color as a GdkColor"
+msgstr ""
+
+#: src/cellrenderericon.c:159
+msgid "Focus"
+msgstr ""
+
+#: src/cellrenderericon.c:160
+msgid "Draw focus indicator"
+msgstr ""
+
+#: src/cellrenderericon.c:167
+msgid "Fixed width"
+msgstr ""
+
+#: src/cellrenderericon.c:168
+msgid "Width of cell"
+msgstr ""
+
+#: src/cellrenderericon.c:176
+msgid "Fixed height"
+msgstr ""
+
+#: src/cellrenderericon.c:177
+msgid "Height of icon excluding text"
+msgstr ""
+
+#: src/cellrenderericon.c:185
+#, fuzzy
+msgid "Background set"
+msgstr "Svart bakgrund"
+
+#: src/cellrenderericon.c:186
+msgid "Whether this tag affects the background color"
+msgstr ""
+
+#: src/cellrenderericon.c:193
+msgid "Foreground set"
+msgstr ""
+
+#: src/cellrenderericon.c:194
+msgid "Whether this tag affects the foreground color"
+msgstr ""
+
+#: src/cellrenderericon.c:201
+#, fuzzy
+msgid "Show text"
+msgstr "Visa _filnamnstext"
+
+#: src/cellrenderericon.c:202
+msgid "Whether the text is displayed"
+msgstr ""
 
 #: src/collect.c:348 src/image.c:172 src/image-overlay.c:230
 #: src/image-overlay.c:304
@@ -641,8 +726,8 @@ msgstr "Skiftlägeskänslig sortering"
 msgid "Size"
 msgstr "Storlek"
 
-#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/print.c:3234
-#: src/search.c:2741 src/view_file_list.c:2029
+#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/exif-common.c:36
+#: src/print.c:3234 src/search.c:2741 src/view_file_list.c:2029
 msgid "Date"
 msgstr "Datum"
 
@@ -805,7 +890,8 @@ msgid "Unknown error."
 msgstr ""
 
 #: src/exif.c:144 src/exif.c:157 src/exif.c:171 src/exif.c:196 src/exif.c:313
-#: src/exif.c:624
+#: src/exif.c:624 src/exif-common.c:301 src/exif-common.c:304
+#: src/exif-common.c:369
 msgid "unknown"
 msgstr "okänd"
 
@@ -958,7 +1044,7 @@ msgstr "lysrör (fluorescerande)"
 
 #: src/exif.c:207
 #, fuzzy
-msgid "while fluorescent"
+msgid "white fluorescent"
 msgstr "lysrör (fluorescerande)"
 
 #: src/exif.c:208
@@ -993,11 +1079,12 @@ msgstr ""
 msgid "ISO studio tungsten"
 msgstr ""
 
-#: src/exif.c:221 src/info.c:255
+#: src/exif.c:221 src/exif-common.c:324 src/info.c:255
 msgid "no"
 msgstr "nej"
 
-#: src/exif.c:222 src/info.c:255
+#. flash fired (bit 0)
+#: src/exif.c:222 src/exif-common.c:324 src/info.c:255
 msgid "yes"
 msgstr "ja"
 
@@ -1055,7 +1142,7 @@ msgstr ""
 msgid "custom"
 msgstr "Egendefinierat"
 
-#: src/exif.c:262 src/exif.c:269
+#: src/exif.c:262 src/exif.c:269 src/exif-common.c:338
 msgid "auto"
 msgstr "auto"
 
@@ -1232,7 +1319,7 @@ msgstr "Exponeringsprogram"
 msgid "Spectral Sensitivity"
 msgstr "ISO-känslighet"
 
-#: src/exif.c:351 src/exif.c:387
+#: src/exif.c:351 src/exif.c:387 src/exif-common.c:40
 msgid "ISO sensitivity"
 msgstr "ISO-känslighet"
 
@@ -1262,11 +1349,11 @@ msgstr "Filformat:"
 msgid "Compression ratio"
 msgstr "Kompression:"
 
-#: src/exif.c:358
+#: src/exif.c:358 src/exif-common.c:37
 msgid "Shutter speed"
 msgstr "Slutarhastighet"
 
-#: src/exif.c:359
+#: src/exif.c:359 src/exif-common.c:38
 msgid "Aperture"
 msgstr "Bländare"
 
@@ -1274,7 +1361,7 @@ msgstr "Bländare"
 msgid "Brightness"
 msgstr ""
 
-#: src/exif.c:361
+#: src/exif.c:361 src/exif-common.c:39
 msgid "Exposure bias"
 msgstr "Exponeringskompensation"
 
@@ -1283,7 +1370,7 @@ msgstr "Exponeringskompensation"
 msgid "Maximum aperture"
 msgstr "bländare"
 
-#: src/exif.c:363
+#: src/exif.c:363 src/exif-common.c:43
 msgid "Subject distance"
 msgstr "Avstånd till motiv"
 
@@ -1295,11 +1382,11 @@ msgstr "Mätmetod"
 msgid "Light source"
 msgstr "Ljuskälla"
 
-#: src/exif.c:366
+#: src/exif.c:366 src/exif-common.c:44
 msgid "Flash"
 msgstr "Blixt"
 
-#: src/exif.c:367
+#: src/exif.c:367 src/exif-common.c:41
 msgid "Focal length"
 msgstr "Brännvidd"
 
@@ -1464,6 +1551,55 @@ msgstr "Avstånd till motiv"
 msgid "Image serial number"
 msgstr "Bildfil"
 
+#: src/exif-common.c:35
+#, fuzzy
+msgid "Camera"
+msgstr "Kamera"
+
+#: src/exif-common.c:42
+#, fuzzy
+msgid "Focal length 35mm"
+msgstr "Brännvidd"
+
+#: src/exif-common.c:45
+#, fuzzy
+msgid "Resolution"
+msgstr "Upplösning"
+
+#: src/exif-common.c:300
+msgid "infinity"
+msgstr "oändligt"
+
+#: src/exif-common.c:328
+msgid "mode:"
+msgstr "läge:"
+
+#: src/exif-common.c:332 src/utilops.c:1467
+msgid "on"
+msgstr "på"
+
+#: src/exif-common.c:335 src/utilops.c:1472
+msgid "off"
+msgstr "av"
+
+#: src/exif-common.c:344
+msgid "not detected by strobe"
+msgstr "inte upptäckt av sensor"
+
+#: src/exif-common.c:345
+msgid "detected by strobe"
+msgstr "upptäckt av sensor"
+
+#. we ignore flash function (bit 5)
+#. red-eye (bit 6)
+#: src/exif-common.c:350
+msgid "red-eye reduction"
+msgstr "reducering av röda ögon"
+
+#: src/exif-common.c:369
+msgid "dot"
+msgstr "punkt"
+
 #: src/filelist.c:637
 #, c-format
 msgid "%d bytes"
@@ -1515,6 +1651,54 @@ msgstr "Aktiv skärm"
 #: src/fullscreen.c:650
 msgid "Active monitor"
 msgstr "Aktiv bildskärm"
+
+#: src/histogram.c:84
+msgid "logarithmical histogram on red"
+msgstr ""
+
+#: src/histogram.c:85
+msgid "logarithmical histogram on green"
+msgstr ""
+
+#: src/histogram.c:86
+msgid "logarithmical histogram on blue"
+msgstr ""
+
+#: src/histogram.c:87
+msgid "logarithmical histogram on value"
+msgstr ""
+
+#: src/histogram.c:88
+msgid "logarithmical histogram on RGB"
+msgstr ""
+
+#: src/histogram.c:89
+msgid "logarithmical histogram on max value"
+msgstr ""
+
+#: src/histogram.c:93
+msgid "linear histogram on red"
+msgstr ""
+
+#: src/histogram.c:94
+msgid "linear histogram on green"
+msgstr ""
+
+#: src/histogram.c:95
+msgid "linear histogram on blue"
+msgstr ""
+
+#: src/histogram.c:96
+msgid "linear histogram on value"
+msgstr ""
+
+#: src/histogram.c:97
+msgid "linear histogram on RGB"
+msgstr ""
+
+#: src/histogram.c:98
+msgid "linear histogram on max value"
+msgstr ""
 
 #: src/img-view.c:1233 src/layout_image.c:725 src/layout_util.c:1103
 #: src/pan-view.c:2780
@@ -2682,11 +2866,6 @@ msgstr "Utseende"
 msgid "User specified background color"
 msgstr ""
 
-#: src/preferences.c:987
-#, fuzzy
-msgid "Background color"
-msgstr "Svart bakgrund"
-
 #: src/preferences.c:990
 msgid "Convenience"
 msgstr "Bekvämlighet"
@@ -3215,10 +3394,6 @@ msgstr "Källa"
 #: src/print.c:3421
 msgid "Proof size:"
 msgstr "Utkaststorlek:"
-
-#: src/print.c:3437
-msgid "Text"
-msgstr "Text"
 
 #: src/print.c:3447
 msgid "Paper"
@@ -3877,18 +4052,10 @@ msgid ""
 "Trash: %s"
 msgstr "Säker borttagning: %s"
 
-#: src/utilops.c:1467
-msgid "on"
-msgstr "på"
-
 #: src/utilops.c:1472
 #, c-format
 msgid "Safe delete: %s"
 msgstr "Säker borttagning: %s"
-
-#: src/utilops.c:1472
-msgid "off"
-msgstr "av"
 
 #: src/utilops.c:1513
 #, fuzzy
@@ -4272,24 +4439,6 @@ msgstr ""
 
 #~ msgid "Find duplicates - Geeqie"
 #~ msgstr "Hitta dubletter - Geeqie"
-
-#~ msgid "infinity"
-#~ msgstr "oändligt"
-
-#~ msgid "mode:"
-#~ msgstr "läge:"
-
-#~ msgid "not detected by strobe"
-#~ msgstr "inte upptäckt av sensor"
-
-#~ msgid "detected by strobe"
-#~ msgstr "upptäckt av sensor"
-
-#~ msgid "red-eye reduction"
-#~ msgstr "reducering av röda ögon"
-
-#~ msgid "dot"
-#~ msgstr "punkt"
 
 #~ msgid "Geeqie full screen"
 #~ msgstr "Geeqie helskärmsläge"

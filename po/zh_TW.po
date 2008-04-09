@@ -7,13 +7,49 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview 2.1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-09 23:16+0200\n"
+"POT-Creation-Date: 2008-04-10 00:20+0200\n"
 "PO-Revision-Date: 2005-08-13 13:22+0800\n"
 "Last-Translator: S.J. Luo <crystal@mickey.ee.nctu.edu.tw>\n"
 "Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: src/bar_exif.c:475
+msgid "Tag"
+msgstr "標籤"
+
+# src/dupe.c:1652 src/dupe.c:1941
+#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
+#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
+msgid "Name"
+msgstr "名稱"
+
+#: src/bar_exif.c:477
+msgid "Value"
+msgstr "值"
+
+# src/preferences.c:401
+#: src/bar_exif.c:478
+msgid "Format"
+msgstr "格式"
+
+#: src/bar_exif.c:479
+msgid "Elements"
+msgstr "元素"
+
+#: src/bar_exif.c:480 src/preferences.c:1126
+msgid "Description"
+msgstr "描述"
+
+# src/main.c:622
+#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
+msgid "Exif"
+msgstr "Exif"
+
+#: src/bar_exif.c:680
+msgid "Advanced view"
+msgstr "進階檢視"
 
 #: src/bar_info.c:32
 msgid "Favorite"
@@ -91,42 +127,6 @@ msgstr "在選取的檔案中加入並取代現有的關鍵字"
 #: src/bar_info.c:1296
 msgid "Save comment now"
 msgstr "儲存註解"
-
-#: src/bar_exif.c:475
-msgid "Tag"
-msgstr "標籤"
-
-# src/dupe.c:1652 src/dupe.c:1941
-#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
-#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
-msgid "Name"
-msgstr "名稱"
-
-#: src/bar_exif.c:477
-msgid "Value"
-msgstr "值"
-
-# src/preferences.c:401
-#: src/bar_exif.c:478
-msgid "Format"
-msgstr "格式"
-
-#: src/bar_exif.c:479
-msgid "Elements"
-msgstr "元素"
-
-#: src/bar_exif.c:480 src/preferences.c:1126
-msgid "Description"
-msgstr "描述"
-
-# src/main.c:622
-#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
-msgid "Exif"
-msgstr "Exif"
-
-#: src/bar_exif.c:680
-msgid "Advanced view"
-msgstr "進階檢視"
 
 # src/utilops.c:496
 #: src/bar_sort.c:217
@@ -395,6 +395,92 @@ msgstr "附屬資料"
 #: src/cache_maint.c:1241
 msgid "Remove orphaned keywords and comments."
 msgstr "移除不屬於任何圖像的關鍵字或註解."
+
+#: src/cellrenderericon.c:127
+msgid "Pixbuf Object"
+msgstr ""
+
+#: src/cellrenderericon.c:128
+msgid "The pixbuf to render"
+msgstr ""
+
+#: src/cellrenderericon.c:135 src/print.c:3437
+msgid "Text"
+msgstr "文字"
+
+#: src/cellrenderericon.c:136
+msgid "Text to render"
+msgstr ""
+
+#: src/cellrenderericon.c:143 src/preferences.c:987
+#, fuzzy
+msgid "Background color"
+msgstr "黑色背景"
+
+#: src/cellrenderericon.c:144
+#, fuzzy
+msgid "Background color as a GdkColor"
+msgstr "黑色背景"
+
+#: src/cellrenderericon.c:151
+#, fuzzy
+msgid "Foreground color"
+msgstr "黑色背景"
+
+#: src/cellrenderericon.c:152
+msgid "Foreground color as a GdkColor"
+msgstr ""
+
+#: src/cellrenderericon.c:159
+msgid "Focus"
+msgstr ""
+
+#: src/cellrenderericon.c:160
+msgid "Draw focus indicator"
+msgstr ""
+
+#: src/cellrenderericon.c:167
+msgid "Fixed width"
+msgstr ""
+
+#: src/cellrenderericon.c:168
+msgid "Width of cell"
+msgstr ""
+
+#: src/cellrenderericon.c:176
+msgid "Fixed height"
+msgstr ""
+
+#: src/cellrenderericon.c:177
+msgid "Height of icon excluding text"
+msgstr ""
+
+#: src/cellrenderericon.c:185
+#, fuzzy
+msgid "Background set"
+msgstr "黑色背景"
+
+#: src/cellrenderericon.c:186
+msgid "Whether this tag affects the background color"
+msgstr ""
+
+#: src/cellrenderericon.c:193
+msgid "Foreground set"
+msgstr ""
+
+#: src/cellrenderericon.c:194
+msgid "Whether this tag affects the foreground color"
+msgstr ""
+
+# src/ui_pathsel.c:764
+#: src/cellrenderericon.c:201
+#, fuzzy
+msgid "Show text"
+msgstr "顯示檔案名稱(_T)"
+
+#: src/cellrenderericon.c:202
+msgid "Whether the text is displayed"
+msgstr ""
 
 # src/collect.c:329 src/image.c:1058
 #: src/collect.c:348 src/image.c:172 src/image-overlay.c:230
@@ -744,8 +830,8 @@ msgid "Size"
 msgstr "檔案大小"
 
 # src/dupe.c:1654 src/dupe.c:1943
-#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/print.c:3234
-#: src/search.c:2741 src/view_file_list.c:2029
+#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/exif-common.c:36
+#: src/print.c:3234 src/search.c:2741 src/view_file_list.c:2029
 msgid "Date"
 msgstr "日期"
 
@@ -936,7 +1022,8 @@ msgstr ""
 
 # src/menu.c:432 src/menu.c:461
 #: src/exif.c:144 src/exif.c:157 src/exif.c:171 src/exif.c:196 src/exif.c:313
-#: src/exif.c:624
+#: src/exif.c:624 src/exif-common.c:301 src/exif-common.c:304
+#: src/exif-common.c:369
 msgid "unknown"
 msgstr "未知"
 
@@ -1091,7 +1178,7 @@ msgid "cool white fluorescent"
 msgstr ""
 
 #: src/exif.c:207
-msgid "while fluorescent"
+msgid "white fluorescent"
 msgstr ""
 
 #: src/exif.c:208
@@ -1126,13 +1213,14 @@ msgstr ""
 msgid "ISO studio tungsten"
 msgstr ""
 
-#: src/exif.c:221 src/info.c:255
+#: src/exif.c:221 src/exif-common.c:324 src/info.c:255
 msgid "no"
 msgstr "否"
 
 # src/utilops.c:343
 #  flash fired (bit 0)
-#: src/exif.c:222 src/info.c:255
+#. flash fired (bit 0)
+#: src/exif.c:222 src/exif-common.c:324 src/info.c:255
 msgid "yes"
 msgstr "是"
 
@@ -1192,7 +1280,7 @@ msgstr ""
 msgid "custom"
 msgstr "自訂"
 
-#: src/exif.c:262 src/exif.c:269
+#: src/exif.c:262 src/exif.c:269 src/exif-common.c:338
 msgid "auto"
 msgstr "自動閃光"
 
@@ -1379,7 +1467,7 @@ msgstr "曝光方式"
 msgid "Spectral Sensitivity"
 msgstr "ISO 感光值"
 
-#: src/exif.c:351 src/exif.c:387
+#: src/exif.c:351 src/exif.c:387 src/exif-common.c:40
 msgid "ISO sensitivity"
 msgstr "ISO 感光值"
 
@@ -1411,11 +1499,11 @@ msgstr "檔案格式:"
 msgid "Compression ratio"
 msgstr "壓縮比例："
 
-#: src/exif.c:358
+#: src/exif.c:358 src/exif-common.c:37
 msgid "Shutter speed"
 msgstr "快門速度"
 
-#: src/exif.c:359
+#: src/exif.c:359 src/exif-common.c:38
 msgid "Aperture"
 msgstr "光圈"
 
@@ -1423,7 +1511,7 @@ msgstr "光圈"
 msgid "Brightness"
 msgstr ""
 
-#: src/exif.c:361
+#: src/exif.c:361 src/exif-common.c:39
 msgid "Exposure bias"
 msgstr "曝光補償"
 
@@ -1432,7 +1520,7 @@ msgstr "曝光補償"
 msgid "Maximum aperture"
 msgstr "光圈"
 
-#: src/exif.c:363
+#: src/exif.c:363 src/exif-common.c:43
 msgid "Subject distance"
 msgstr "物距"
 
@@ -1445,11 +1533,11 @@ msgstr "測光模式"
 msgid "Light source"
 msgstr "光源"
 
-#: src/exif.c:366
+#: src/exif.c:366 src/exif-common.c:44
 msgid "Flash"
 msgstr "閃光"
 
-#: src/exif.c:367
+#: src/exif.c:367 src/exif-common.c:41
 msgid "Focal length"
 msgstr "焦距"
 
@@ -1623,6 +1711,59 @@ msgstr "物距"
 msgid "Image serial number"
 msgstr "影像檔"
 
+#: src/exif-common.c:35
+#, fuzzy
+msgid "Camera"
+msgstr "相機"
+
+#: src/exif-common.c:42
+#, fuzzy
+msgid "Focal length 35mm"
+msgstr "焦距"
+
+#: src/exif-common.c:45
+#, fuzzy
+msgid "Resolution"
+msgstr "解析度"
+
+#: src/exif-common.c:300
+msgid "infinity"
+msgstr "無限"
+
+# src/preferences.c:368
+#: src/exif-common.c:328
+msgid "mode:"
+msgstr "模式:"
+
+# src/preferences.c:400
+#: src/exif-common.c:332 src/utilops.c:1467
+msgid "on"
+msgstr "強制閃光"
+
+#: src/exif-common.c:335 src/utilops.c:1472
+msgid "off"
+msgstr "強制關閉"
+
+#: src/exif-common.c:344
+msgid "not detected by strobe"
+msgstr "未偵測出"
+
+#: src/exif-common.c:345
+msgid "detected by strobe"
+msgstr "有偵測出"
+
+#  we ignore flash function (bit 5)
+#  red-eye (bit 6)
+#. we ignore flash function (bit 5)
+#. red-eye (bit 6)
+#: src/exif-common.c:350
+msgid "red-eye reduction"
+msgstr "防紅眼"
+
+#: src/exif-common.c:369
+msgid "dot"
+msgstr "點"
+
 # src/dupe.c:67 src/dupe.c:1449
 #: src/filelist.c:637
 #, c-format
@@ -1678,6 +1819,54 @@ msgstr "作用中的螢幕"
 #: src/fullscreen.c:650
 msgid "Active monitor"
 msgstr "作用中的顯示器"
+
+#: src/histogram.c:84
+msgid "logarithmical histogram on red"
+msgstr ""
+
+#: src/histogram.c:85
+msgid "logarithmical histogram on green"
+msgstr ""
+
+#: src/histogram.c:86
+msgid "logarithmical histogram on blue"
+msgstr ""
+
+#: src/histogram.c:87
+msgid "logarithmical histogram on value"
+msgstr ""
+
+#: src/histogram.c:88
+msgid "logarithmical histogram on RGB"
+msgstr ""
+
+#: src/histogram.c:89
+msgid "logarithmical histogram on max value"
+msgstr ""
+
+#: src/histogram.c:93
+msgid "linear histogram on red"
+msgstr ""
+
+#: src/histogram.c:94
+msgid "linear histogram on green"
+msgstr ""
+
+#: src/histogram.c:95
+msgid "linear histogram on blue"
+msgstr ""
+
+#: src/histogram.c:96
+msgid "linear histogram on value"
+msgstr ""
+
+#: src/histogram.c:97
+msgid "linear histogram on RGB"
+msgstr ""
+
+#: src/histogram.c:98
+msgid "linear histogram on max value"
+msgstr ""
 
 # src/img-view.c:789 src/menu.c:944 src/menu.c:1079
 #: src/img-view.c:1233 src/layout_image.c:725 src/layout_util.c:1103
@@ -3055,11 +3244,6 @@ msgstr "外觀"
 msgid "User specified background color"
 msgstr ""
 
-#: src/preferences.c:987
-#, fuzzy
-msgid "Background color"
-msgstr "黑色背景"
-
 # src/utilops.c:328 src/utilops.c:394 src/utilops.c:668
 #: src/preferences.c:990
 msgid "Convenience"
@@ -3676,10 +3860,6 @@ msgstr "來源"
 #: src/print.c:3421
 msgid "Proof size:"
 msgstr "圖像大小:"
-
-#: src/print.c:3437
-msgid "Text"
-msgstr "文字"
 
 #: src/print.c:3447
 msgid "Paper"
@@ -4458,20 +4638,11 @@ msgid ""
 "Trash: %s"
 msgstr "安全刪除: %s"
 
-# src/preferences.c:400
-#: src/utilops.c:1467
-msgid "on"
-msgstr "強制閃光"
-
 # src/preferences.c:667
 #: src/utilops.c:1472
 #, c-format
 msgid "Safe delete: %s"
 msgstr "安全刪除: %s"
-
-#: src/utilops.c:1472
-msgid "off"
-msgstr "強制關閉"
 
 #
 # src/ui_pathsel.c:343 src/utilops.c:675 src/utilops.c:727
@@ -4904,27 +5075,6 @@ msgstr ""
 # src/dupe.c:1968
 #~ msgid "Find duplicates - Geeqie"
 #~ msgstr "尋找重複檔案 - Geeqie"
-
-#~ msgid "infinity"
-#~ msgstr "無限"
-
-# src/preferences.c:368
-#~ msgid "mode:"
-#~ msgstr "模式:"
-
-#~ msgid "not detected by strobe"
-#~ msgstr "未偵測出"
-
-#~ msgid "detected by strobe"
-#~ msgstr "有偵測出"
-
-#  we ignore flash function (bit 5)
-#  red-eye (bit 6)
-#~ msgid "red-eye reduction"
-#~ msgstr "防紅眼"
-
-#~ msgid "dot"
-#~ msgstr "點"
 
 #
 # src/fullscreen.c:117

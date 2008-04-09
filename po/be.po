@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview 2.1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-09 23:16+0200\n"
+"POT-Creation-Date: 2008-04-10 00:20+0200\n"
 "PO-Revision-Date: 2006-10-19 01:30+0300\n"
 "Last-Translator: Pavel Piatruk <berserker@neolocation.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -15,6 +15,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.2\n"
+
+#: src/bar_exif.c:475
+msgid "Tag"
+msgstr "Тэг"
+
+#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
+#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
+msgid "Name"
+msgstr "Імя"
+
+#: src/bar_exif.c:477
+msgid "Value"
+msgstr "Значэнне"
+
+#: src/bar_exif.c:478
+msgid "Format"
+msgstr "Фармат"
+
+#: src/bar_exif.c:479
+msgid "Elements"
+msgstr "Элементы"
+
+#: src/bar_exif.c:480 src/preferences.c:1126
+msgid "Description"
+msgstr "Апісанне"
+
+#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
+msgid "Exif"
+msgstr "Exif"
+
+#: src/bar_exif.c:680
+msgid "Advanced view"
+msgstr "Дадатковы прагляд"
 
 #: src/bar_info.c:32
 msgid "Favorite"
@@ -87,39 +120,6 @@ msgstr "Дадаць ключавыя словы да вылучаных фай�
 #: src/bar_info.c:1296
 msgid "Save comment now"
 msgstr "Захаваць каментар"
-
-#: src/bar_exif.c:475
-msgid "Tag"
-msgstr "Тэг"
-
-#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
-#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
-msgid "Name"
-msgstr "Імя"
-
-#: src/bar_exif.c:477
-msgid "Value"
-msgstr "Значэнне"
-
-#: src/bar_exif.c:478
-msgid "Format"
-msgstr "Фармат"
-
-#: src/bar_exif.c:479
-msgid "Elements"
-msgstr "Элементы"
-
-#: src/bar_exif.c:480 src/preferences.c:1126
-msgid "Description"
-msgstr "Апісанне"
-
-#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
-msgid "Exif"
-msgstr "Exif"
-
-#: src/bar_exif.c:680
-msgid "Advanced view"
-msgstr "Дадатковы прагляд"
 
 #: src/bar_sort.c:217
 #, c-format
@@ -352,6 +352,91 @@ msgstr "Метаданні"
 #: src/cache_maint.c:1241
 msgid "Remove orphaned keywords and comments."
 msgstr "Выдаліць асірацелыя ключавыя словы і каментары"
+
+#: src/cellrenderericon.c:127
+msgid "Pixbuf Object"
+msgstr ""
+
+#: src/cellrenderericon.c:128
+msgid "The pixbuf to render"
+msgstr ""
+
+#: src/cellrenderericon.c:135 src/print.c:3437
+msgid "Text"
+msgstr "Тэкст"
+
+#: src/cellrenderericon.c:136
+msgid "Text to render"
+msgstr ""
+
+#: src/cellrenderericon.c:143 src/preferences.c:987
+#, fuzzy
+msgid "Background color"
+msgstr "Чорны фон"
+
+#: src/cellrenderericon.c:144
+#, fuzzy
+msgid "Background color as a GdkColor"
+msgstr "Чорны фон"
+
+#: src/cellrenderericon.c:151
+#, fuzzy
+msgid "Foreground color"
+msgstr "Чорны фон"
+
+#: src/cellrenderericon.c:152
+msgid "Foreground color as a GdkColor"
+msgstr ""
+
+#: src/cellrenderericon.c:159
+msgid "Focus"
+msgstr ""
+
+#: src/cellrenderericon.c:160
+msgid "Draw focus indicator"
+msgstr ""
+
+#: src/cellrenderericon.c:167
+msgid "Fixed width"
+msgstr ""
+
+#: src/cellrenderericon.c:168
+msgid "Width of cell"
+msgstr ""
+
+#: src/cellrenderericon.c:176
+msgid "Fixed height"
+msgstr ""
+
+#: src/cellrenderericon.c:177
+msgid "Height of icon excluding text"
+msgstr ""
+
+#: src/cellrenderericon.c:185
+#, fuzzy
+msgid "Background set"
+msgstr "Чорны фон"
+
+#: src/cellrenderericon.c:186
+msgid "Whether this tag affects the background color"
+msgstr ""
+
+#: src/cellrenderericon.c:193
+msgid "Foreground set"
+msgstr ""
+
+#: src/cellrenderericon.c:194
+msgid "Whether this tag affects the foreground color"
+msgstr ""
+
+#: src/cellrenderericon.c:201
+#, fuzzy
+msgid "Show text"
+msgstr "Паказаць _імёны файлаў"
+
+#: src/cellrenderericon.c:202
+msgid "Whether the text is displayed"
+msgstr ""
 
 #: src/collect.c:348 src/image.c:172 src/image-overlay.c:230
 #: src/image-overlay.c:304
@@ -638,8 +723,8 @@ msgstr "Сартоўка з улікам рэгістру"
 msgid "Size"
 msgstr "Памер"
 
-#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/print.c:3234
-#: src/search.c:2741 src/view_file_list.c:2029
+#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/exif-common.c:36
+#: src/print.c:3234 src/search.c:2741 src/view_file_list.c:2029
 msgid "Date"
 msgstr "дата"
 
@@ -802,7 +887,8 @@ msgid "Unknown error."
 msgstr ""
 
 #: src/exif.c:144 src/exif.c:157 src/exif.c:171 src/exif.c:196 src/exif.c:313
-#: src/exif.c:624
+#: src/exif.c:624 src/exif-common.c:301 src/exif-common.c:304
+#: src/exif-common.c:369
 msgid "unknown"
 msgstr "невядома"
 
@@ -955,7 +1041,7 @@ msgstr "флуарэсцэнт"
 
 #: src/exif.c:207
 #, fuzzy
-msgid "while fluorescent"
+msgid "white fluorescent"
 msgstr "флуарэсцэнт"
 
 #: src/exif.c:208
@@ -990,11 +1076,12 @@ msgstr ""
 msgid "ISO studio tungsten"
 msgstr ""
 
-#: src/exif.c:221 src/info.c:255
+#: src/exif.c:221 src/exif-common.c:324 src/info.c:255
 msgid "no"
 msgstr "не"
 
-#: src/exif.c:222 src/info.c:255
+#. flash fired (bit 0)
+#: src/exif.c:222 src/exif-common.c:324 src/info.c:255
 msgid "yes"
 msgstr "так"
 
@@ -1052,7 +1139,7 @@ msgstr ""
 msgid "custom"
 msgstr "Іншае"
 
-#: src/exif.c:262 src/exif.c:269
+#: src/exif.c:262 src/exif.c:269 src/exif-common.c:338
 msgid "auto"
 msgstr "аўта"
 
@@ -1228,7 +1315,7 @@ msgstr "Праграма экспазіцыі"
 msgid "Spectral Sensitivity"
 msgstr "Адчувальнасць ISO"
 
-#: src/exif.c:351 src/exif.c:387
+#: src/exif.c:351 src/exif.c:387 src/exif-common.c:40
 msgid "ISO sensitivity"
 msgstr "Адчувальнасць ISO"
 
@@ -1258,11 +1345,11 @@ msgstr "Фармат файла:"
 msgid "Compression ratio"
 msgstr "Узровень сціску:"
 
-#: src/exif.c:358
+#: src/exif.c:358 src/exif-common.c:37
 msgid "Shutter speed"
 msgstr "Хуткасць затвора"
 
-#: src/exif.c:359
+#: src/exif.c:359 src/exif-common.c:38
 msgid "Aperture"
 msgstr "Апертура"
 
@@ -1270,7 +1357,7 @@ msgstr "Апертура"
 msgid "Brightness"
 msgstr ""
 
-#: src/exif.c:361
+#: src/exif.c:361 src/exif-common.c:39
 msgid "Exposure bias"
 msgstr "Зрушэнне экспазіцыі"
 
@@ -1279,7 +1366,7 @@ msgstr "Зрушэнне экспазіцыі"
 msgid "Maximum aperture"
 msgstr "апертура"
 
-#: src/exif.c:363
+#: src/exif.c:363 src/exif-common.c:43
 msgid "Subject distance"
 msgstr "Адлегласць да аб'екта"
 
@@ -1291,11 +1378,11 @@ msgstr "Метад вымярэння"
 msgid "Light source"
 msgstr "Крыніца святла"
 
-#: src/exif.c:366
+#: src/exif.c:366 src/exif-common.c:44
 msgid "Flash"
 msgstr "Успышка"
 
-#: src/exif.c:367
+#: src/exif.c:367 src/exif-common.c:41
 msgid "Focal length"
 msgstr "Фокусная адлегласць"
 
@@ -1459,6 +1546,55 @@ msgstr "Адлегласць да аб'екта"
 msgid "Image serial number"
 msgstr "Файл выявы"
 
+#: src/exif-common.c:35
+#, fuzzy
+msgid "Camera"
+msgstr "Фотаздымач"
+
+#: src/exif-common.c:42
+#, fuzzy
+msgid "Focal length 35mm"
+msgstr "Фокусная адлегласць"
+
+#: src/exif-common.c:45
+#, fuzzy
+msgid "Resolution"
+msgstr "Раздзяляльнасць"
+
+#: src/exif-common.c:300
+msgid "infinity"
+msgstr "бясконцасць"
+
+#: src/exif-common.c:328
+msgid "mode:"
+msgstr "рэжым:"
+
+#: src/exif-common.c:332 src/utilops.c:1467
+msgid "on"
+msgstr "уключана"
+
+#: src/exif-common.c:335 src/utilops.c:1472
+msgid "off"
+msgstr "выключана"
+
+#: src/exif-common.c:344
+msgid "not detected by strobe"
+msgstr "не выяўлена стробам"
+
+#: src/exif-common.c:345
+msgid "detected by strobe"
+msgstr "выяўлена стробам"
+
+#. we ignore flash function (bit 5)
+#. red-eye (bit 6)
+#: src/exif-common.c:350
+msgid "red-eye reduction"
+msgstr "падаўленне эфекту чырвоных вачэй"
+
+#: src/exif-common.c:369
+msgid "dot"
+msgstr "кропак"
+
 #: src/filelist.c:637
 #, c-format
 msgid "%d bytes"
@@ -1510,6 +1646,54 @@ msgstr "Актыўны экран"
 #: src/fullscreen.c:650
 msgid "Active monitor"
 msgstr "Актыўны манітор"
+
+#: src/histogram.c:84
+msgid "logarithmical histogram on red"
+msgstr ""
+
+#: src/histogram.c:85
+msgid "logarithmical histogram on green"
+msgstr ""
+
+#: src/histogram.c:86
+msgid "logarithmical histogram on blue"
+msgstr ""
+
+#: src/histogram.c:87
+msgid "logarithmical histogram on value"
+msgstr ""
+
+#: src/histogram.c:88
+msgid "logarithmical histogram on RGB"
+msgstr ""
+
+#: src/histogram.c:89
+msgid "logarithmical histogram on max value"
+msgstr ""
+
+#: src/histogram.c:93
+msgid "linear histogram on red"
+msgstr ""
+
+#: src/histogram.c:94
+msgid "linear histogram on green"
+msgstr ""
+
+#: src/histogram.c:95
+msgid "linear histogram on blue"
+msgstr ""
+
+#: src/histogram.c:96
+msgid "linear histogram on value"
+msgstr ""
+
+#: src/histogram.c:97
+msgid "linear histogram on RGB"
+msgstr ""
+
+#: src/histogram.c:98
+msgid "linear histogram on max value"
+msgstr ""
 
 #: src/img-view.c:1233 src/layout_image.c:725 src/layout_util.c:1103
 #: src/pan-view.c:2780
@@ -2662,11 +2846,6 @@ msgstr "Выгляд"
 msgid "User specified background color"
 msgstr ""
 
-#: src/preferences.c:987
-#, fuzzy
-msgid "Background color"
-msgstr "Чорны фон"
-
 #: src/preferences.c:990
 msgid "Convenience"
 msgstr "Выгоды"
@@ -3193,10 +3372,6 @@ msgstr "Крыніца"
 #: src/print.c:3421
 msgid "Proof size:"
 msgstr "Памер пробы:"
-
-#: src/print.c:3437
-msgid "Text"
-msgstr "Тэкст"
 
 #: src/print.c:3447
 msgid "Paper"
@@ -3857,18 +4032,10 @@ msgid ""
 "Trash: %s"
 msgstr "Бяспечнае выдаленне: %s"
 
-#: src/utilops.c:1467
-msgid "on"
-msgstr "уключана"
-
 #: src/utilops.c:1472
 #, c-format
 msgid "Safe delete: %s"
 msgstr "Бяспечнае выдаленне: %s"
-
-#: src/utilops.c:1472
-msgid "off"
-msgstr "выключана"
 
 #: src/utilops.c:1513
 #, fuzzy
@@ -4250,24 +4417,6 @@ msgstr ""
 
 #~ msgid "Find duplicates - Geeqie"
 #~ msgstr "Адшукванне аднолькавых - Geeqie"
-
-#~ msgid "infinity"
-#~ msgstr "бясконцасць"
-
-#~ msgid "mode:"
-#~ msgstr "рэжым:"
-
-#~ msgid "not detected by strobe"
-#~ msgstr "не выяўлена стробам"
-
-#~ msgid "detected by strobe"
-#~ msgstr "выяўлена стробам"
-
-#~ msgid "red-eye reduction"
-#~ msgstr "падаўленне эфекту чырвоных вачэй"
-
-#~ msgid "dot"
-#~ msgstr "кропак"
 
 #~ msgid "Geeqie full screen"
 #~ msgstr "Geeqie на поўны экран"

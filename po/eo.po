@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview-2.1.2_dev_eo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-09 23:16+0200\n"
+"POT-Creation-Date: 2008-04-10 00:20+0200\n"
 "PO-Revision-Date: 2006-10-28 09:40+0200\n"
 "Last-Translator: Antonio C. Codazzi <f_sophia@libero.it>\n"
 "Language-Team: \n"
@@ -18,6 +18,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.10.2\n"
+
+#: src/bar_exif.c:475
+msgid "Tag"
+msgstr "Slipo"
+
+#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
+#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
+msgid "Name"
+msgstr "Nomo"
+
+#: src/bar_exif.c:477
+msgid "Value"
+msgstr "Valoro"
+
+#: src/bar_exif.c:478
+msgid "Format"
+msgstr "Formato"
+
+#: src/bar_exif.c:479
+msgid "Elements"
+msgstr "Elementoj"
+
+#: src/bar_exif.c:480 src/preferences.c:1126
+msgid "Description"
+msgstr "Priscribo"
+
+#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
+msgid "Exif"
+msgstr "Exif"
+
+#: src/bar_exif.c:680
+msgid "Advanced view"
+msgstr "Avana videbligo"
 
 #: src/bar_info.c:32
 msgid "Favorite"
@@ -92,39 +125,6 @@ msgstr ""
 #: src/bar_info.c:1296
 msgid "Save comment now"
 msgstr "Konservu komenton nur"
-
-#: src/bar_exif.c:475
-msgid "Tag"
-msgstr "Slipo"
-
-#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
-#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
-msgid "Name"
-msgstr "Nomo"
-
-#: src/bar_exif.c:477
-msgid "Value"
-msgstr "Valoro"
-
-#: src/bar_exif.c:478
-msgid "Format"
-msgstr "Formato"
-
-#: src/bar_exif.c:479
-msgid "Elements"
-msgstr "Elementoj"
-
-#: src/bar_exif.c:480 src/preferences.c:1126
-msgid "Description"
-msgstr "Priscribo"
-
-#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
-msgid "Exif"
-msgstr "Exif"
-
-#: src/bar_exif.c:680
-msgid "Advanced view"
-msgstr "Avana videbligo"
 
 #: src/bar_sort.c:217
 #, fuzzy, c-format
@@ -357,6 +357,91 @@ msgstr "Metadatumoj"
 #: src/cache_maint.c:1241
 msgid "Remove orphaned keywords and comments."
 msgstr "Formovu orfajn ŝlosilvortojn kaj komentojn."
+
+#: src/cellrenderericon.c:127
+msgid "Pixbuf Object"
+msgstr ""
+
+#: src/cellrenderericon.c:128
+msgid "The pixbuf to render"
+msgstr ""
+
+#: src/cellrenderericon.c:135 src/print.c:3437
+msgid "Text"
+msgstr "Teksto"
+
+#: src/cellrenderericon.c:136
+msgid "Text to render"
+msgstr ""
+
+#: src/cellrenderericon.c:143 src/preferences.c:987
+#, fuzzy
+msgid "Background color"
+msgstr "Nigra fono"
+
+#: src/cellrenderericon.c:144
+#, fuzzy
+msgid "Background color as a GdkColor"
+msgstr "Nigra fono"
+
+#: src/cellrenderericon.c:151
+#, fuzzy
+msgid "Foreground color"
+msgstr "Nigra fono"
+
+#: src/cellrenderericon.c:152
+msgid "Foreground color as a GdkColor"
+msgstr ""
+
+#: src/cellrenderericon.c:159
+msgid "Focus"
+msgstr ""
+
+#: src/cellrenderericon.c:160
+msgid "Draw focus indicator"
+msgstr ""
+
+#: src/cellrenderericon.c:167
+msgid "Fixed width"
+msgstr ""
+
+#: src/cellrenderericon.c:168
+msgid "Width of cell"
+msgstr ""
+
+#: src/cellrenderericon.c:176
+msgid "Fixed height"
+msgstr ""
+
+#: src/cellrenderericon.c:177
+msgid "Height of icon excluding text"
+msgstr ""
+
+#: src/cellrenderericon.c:185
+#, fuzzy
+msgid "Background set"
+msgstr "Nigra fono"
+
+#: src/cellrenderericon.c:186
+msgid "Whether this tag affects the background color"
+msgstr ""
+
+#: src/cellrenderericon.c:193
+msgid "Foreground set"
+msgstr ""
+
+#: src/cellrenderericon.c:194
+msgid "Whether this tag affects the foreground color"
+msgstr ""
+
+#: src/cellrenderericon.c:201
+#, fuzzy
+msgid "Show text"
+msgstr "Montru dosiernomajn _tekstojn"
+
+#: src/cellrenderericon.c:202
+msgid "Whether the text is displayed"
+msgstr ""
 
 #: src/collect.c:348 src/image.c:172 src/image-overlay.c:230
 #: src/image-overlay.c:304
@@ -643,8 +728,8 @@ msgstr "Ordigu per majusklo-minusklo"
 msgid "Size"
 msgstr "Grandeco"
 
-#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/print.c:3234
-#: src/search.c:2741 src/view_file_list.c:2029
+#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/exif-common.c:36
+#: src/print.c:3234 src/search.c:2741 src/view_file_list.c:2029
 msgid "Date"
 msgstr "Dato"
 
@@ -807,7 +892,8 @@ msgid "Unknown error."
 msgstr ""
 
 #: src/exif.c:144 src/exif.c:157 src/exif.c:171 src/exif.c:196 src/exif.c:313
-#: src/exif.c:624
+#: src/exif.c:624 src/exif-common.c:301 src/exif-common.c:304
+#: src/exif-common.c:369
 msgid "unknown"
 msgstr "nekonata"
 
@@ -960,7 +1046,7 @@ msgstr "fluoreska"
 
 #: src/exif.c:207
 #, fuzzy
-msgid "while fluorescent"
+msgid "white fluorescent"
 msgstr "fluoreska"
 
 #: src/exif.c:208
@@ -995,11 +1081,12 @@ msgstr ""
 msgid "ISO studio tungsten"
 msgstr ""
 
-#: src/exif.c:221 src/info.c:255
+#: src/exif.c:221 src/exif-common.c:324 src/info.c:255
 msgid "no"
 msgstr "ne"
 
-#: src/exif.c:222 src/info.c:255
+#. flash fired (bit 0)
+#: src/exif.c:222 src/exif-common.c:324 src/info.c:255
 msgid "yes"
 msgstr "jes"
 
@@ -1057,7 +1144,7 @@ msgstr ""
 msgid "custom"
 msgstr "Personigita"
 
-#: src/exif.c:262 src/exif.c:269
+#: src/exif.c:262 src/exif.c:269 src/exif-common.c:338
 msgid "auto"
 msgstr "aŭtomate"
 
@@ -1233,7 +1320,7 @@ msgstr "Programo por Ekspono"
 msgid "Spectral Sensitivity"
 msgstr "ISO sentiveco"
 
-#: src/exif.c:351 src/exif.c:387
+#: src/exif.c:351 src/exif.c:387 src/exif-common.c:40
 msgid "ISO sensitivity"
 msgstr "ISO sentiveco"
 
@@ -1263,11 +1350,11 @@ msgstr "Dosierformato:"
 msgid "Compression ratio"
 msgstr "Kunprema grado:"
 
-#: src/exif.c:358
+#: src/exif.c:358 src/exif-common.c:37
 msgid "Shutter speed"
 msgstr "Obturatora rapideco"
 
-#: src/exif.c:359
+#: src/exif.c:359 src/exif-common.c:38
 msgid "Aperture"
 msgstr "Aperturo"
 
@@ -1275,7 +1362,7 @@ msgstr "Aperturo"
 msgid "Brightness"
 msgstr ""
 
-#: src/exif.c:361
+#: src/exif.c:361 src/exif-common.c:39
 msgid "Exposure bias"
 msgstr "Ekspona erareto"
 
@@ -1284,7 +1371,7 @@ msgstr "Ekspona erareto"
 msgid "Maximum aperture"
 msgstr "aperturo"
 
-#: src/exif.c:363
+#: src/exif.c:363 src/exif-common.c:43
 msgid "Subject distance"
 msgstr "Distanco de subjekto"
 
@@ -1296,11 +1383,11 @@ msgstr "Mezurada maniero"
 msgid "Light source"
 msgstr "Lumfonto"
 
-#: src/exif.c:366
+#: src/exif.c:366 src/exif-common.c:44
 msgid "Flash"
 msgstr "Fulmo"
 
-#: src/exif.c:367
+#: src/exif.c:367 src/exif-common.c:41
 msgid "Focal length"
 msgstr "Fokuslongo"
 
@@ -1464,6 +1551,55 @@ msgstr "Distanco de subjekto"
 msgid "Image serial number"
 msgstr "Bildodosiero"
 
+#: src/exif-common.c:35
+#, fuzzy
+msgid "Camera"
+msgstr "Fotoaparato"
+
+#: src/exif-common.c:42
+#, fuzzy
+msgid "Focal length 35mm"
+msgstr "Fokuslongo"
+
+#: src/exif-common.c:45
+#, fuzzy
+msgid "Resolution"
+msgstr "Difino"
+
+#: src/exif-common.c:300
+msgid "infinity"
+msgstr "senfino"
+
+#: src/exif-common.c:328
+msgid "mode:"
+msgstr "maniero:"
+
+#: src/exif-common.c:332 src/utilops.c:1467
+msgid "on"
+msgstr "kondukta pos."
+
+#: src/exif-common.c:335 src/utilops.c:1472
+msgid "off"
+msgstr "elkluda pos."
+
+#: src/exif-common.c:344
+msgid "not detected by strobe"
+msgstr "ne rekonita far strobo"
+
+#: src/exif-common.c:345
+msgid "detected by strobe"
+msgstr "rekonita far strobo"
+
+#. we ignore flash function (bit 5)
+#. red-eye (bit 6)
+#: src/exif-common.c:350
+msgid "red-eye reduction"
+msgstr "ruĝokula redukto"
+
+#: src/exif-common.c:369
+msgid "dot"
+msgstr "punkto"
+
 #: src/filelist.c:637
 #, c-format
 msgid "%d bytes"
@@ -1515,6 +1651,54 @@ msgstr "Aktiva ekrano"
 #: src/fullscreen.c:650
 msgid "Active monitor"
 msgstr "Aktiva monitoro"
+
+#: src/histogram.c:84
+msgid "logarithmical histogram on red"
+msgstr ""
+
+#: src/histogram.c:85
+msgid "logarithmical histogram on green"
+msgstr ""
+
+#: src/histogram.c:86
+msgid "logarithmical histogram on blue"
+msgstr ""
+
+#: src/histogram.c:87
+msgid "logarithmical histogram on value"
+msgstr ""
+
+#: src/histogram.c:88
+msgid "logarithmical histogram on RGB"
+msgstr ""
+
+#: src/histogram.c:89
+msgid "logarithmical histogram on max value"
+msgstr ""
+
+#: src/histogram.c:93
+msgid "linear histogram on red"
+msgstr ""
+
+#: src/histogram.c:94
+msgid "linear histogram on green"
+msgstr ""
+
+#: src/histogram.c:95
+msgid "linear histogram on blue"
+msgstr ""
+
+#: src/histogram.c:96
+msgid "linear histogram on value"
+msgstr ""
+
+#: src/histogram.c:97
+msgid "linear histogram on RGB"
+msgstr ""
+
+#: src/histogram.c:98
+msgid "linear histogram on max value"
+msgstr ""
 
 #: src/img-view.c:1233 src/layout_image.c:725 src/layout_util.c:1103
 #: src/pan-view.c:2780
@@ -2666,11 +2850,6 @@ msgstr "Aspekto"
 msgid "User specified background color"
 msgstr ""
 
-#: src/preferences.c:987
-#, fuzzy
-msgid "Background color"
-msgstr "Nigra fono"
-
 #: src/preferences.c:990
 msgid "Convenience"
 msgstr "Taŭgeco"
@@ -3197,10 +3376,6 @@ msgstr "Fonto"
 #: src/print.c:3421
 msgid "Proof size:"
 msgstr "Elprovu grandecon:"
-
-#: src/print.c:3437
-msgid "Text"
-msgstr "Teksto"
 
 #: src/print.c:3447
 msgid "Paper"
@@ -3860,18 +4035,10 @@ msgid ""
 "Trash: %s"
 msgstr "Sendanĝera forigo: %s"
 
-#: src/utilops.c:1467
-msgid "on"
-msgstr "kondukta pos."
-
 #: src/utilops.c:1472
 #, c-format
 msgid "Safe delete: %s"
 msgstr "Sendanĝera forigo: %s"
-
-#: src/utilops.c:1472
-msgid "off"
-msgstr "elkluda pos."
 
 #: src/utilops.c:1513
 #, fuzzy
@@ -4254,24 +4421,6 @@ msgstr ""
 
 #~ msgid "Find duplicates - Geeqie"
 #~ msgstr "Trovu duplikatojn - Geeqie"
-
-#~ msgid "infinity"
-#~ msgstr "senfino"
-
-#~ msgid "mode:"
-#~ msgstr "maniero:"
-
-#~ msgid "not detected by strobe"
-#~ msgstr "ne rekonita far strobo"
-
-#~ msgid "detected by strobe"
-#~ msgstr "rekonita far strobo"
-
-#~ msgid "red-eye reduction"
-#~ msgstr "ruĝokula redukto"
-
-#~ msgid "dot"
-#~ msgstr "punkto"
 
 #~ msgid "Geeqie full screen"
 #~ msgstr "Geeqie plenekrane"
