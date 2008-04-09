@@ -1317,7 +1317,7 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 		GdkGeometry geometry;
 		GdkWindowHints hints;
 
-		lw->tools = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+		lw->tools = window_new(GTK_WINDOW_TOPLEVEL, "tools", PIXBUF_INLINE_ICON_TOOLS, NULL, _("Tools"));
 		g_signal_connect(G_OBJECT(lw->tools), "delete_event",
 				 G_CALLBACK(layout_tools_delete_cb), lw);
 		layout_keyboard_init(lw, lw->tools);
@@ -1340,16 +1340,8 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 
 
 		gtk_window_set_resizable(GTK_WINDOW(lw->tools), TRUE);
-		{
-		gchar *title = g_strdup_printf("%s - %s", _("Tools"), GQ_APPNAME);
-		gtk_window_set_title(GTK_WINDOW(lw->tools), title);
-		g_free(title);
-		}
-		gtk_window_set_wmclass(GTK_WINDOW(lw->tools), "tools", GQ_WMCLASS);
 		gtk_container_set_border_width(GTK_CONTAINER(lw->tools), 0);
-
-		window_set_icon(lw->tools, PIXBUF_INLINE_ICON_TOOLS, NULL);
-
+	
 		new_window = TRUE;
 		}
 	else
@@ -1930,14 +1922,9 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 
 	/* window */
 
-	lw->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	lw->window = window_new(GTK_WINDOW_TOPLEVEL, GQ_WMCLASS, NULL, NULL, NULL);
 	gtk_window_set_resizable(GTK_WINDOW(lw->window), TRUE);
-
-	gtk_window_set_title(GTK_WINDOW(lw->window), GQ_APPNAME);
-	gtk_window_set_wmclass(GTK_WINDOW(lw->window), GQ_WMCLASS, GQ_WMCLASS);
 	gtk_container_set_border_width(GTK_CONTAINER(lw->window), 0);
-
-	window_set_icon(lw->window, NULL, NULL);
 
 	if (save_window_positions)
 		{

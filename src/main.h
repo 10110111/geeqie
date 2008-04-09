@@ -243,6 +243,8 @@ extern gint color_profile_use_image;
  * This also doubles as the main.c header.
  */
 
+GtkWidget *window_new(GtkWindowType type, const gchar *name, const gchar *icon,
+		      const gchar *icon_file, const gchar *subtitle);
 void window_set_icon(GtkWidget *window, const gchar *icon, const gchar *file);
 gint window_maximized(GtkWidget *window);
 

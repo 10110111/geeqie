@@ -2354,23 +2354,14 @@ static void pan_window_new_real(const gchar *path)
 	pw->overlay_id = -1;
 	pw->idle_id = -1;
 
-	pw->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	pw->window = window_new(GTK_WINDOW_TOPLEVEL, "panview", NULL, NULL, _("Pan View"));
 
 	geometry.min_width = 8;
 	geometry.min_height = 8;
 	gtk_window_set_geometry_hints(GTK_WINDOW(pw->window), NULL, &geometry, GDK_HINT_MIN_SIZE);
 
 	gtk_window_set_resizable(GTK_WINDOW(pw->window), TRUE);
-
-	{
-	gchar *title = g_strdup_printf("%s - %s",  _("Pan View"), GQ_APPNAME);
-	gtk_window_set_title(GTK_WINDOW(pw->window), title);
-	g_free(title);
-	}
-        gtk_window_set_wmclass(GTK_WINDOW(pw->window), "view", GQ_WMCLASS);
         gtk_container_set_border_width(GTK_CONTAINER(pw->window), 0);
-
-	window_set_icon(pw->window, NULL, NULL);
 
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(pw->window), vbox);

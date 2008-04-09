@@ -20,6 +20,7 @@
 
 #include <gtk/gtk.h>
 
+#include "main.h"
 #include "ui_help.h"
 
 #include "ui_fileops.h"
@@ -198,16 +199,12 @@ GtkWidget *help_window_new(const gchar *title,
 
 	/* window */
 
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	window = window_new(GTK_WINDOW_TOPLEVEL, subclass, NULL, NULL, title);
 	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 #if 0
 	gtk_container_set_border_width(GTK_CONTAINER(window), PREF_PAD_BORDER);
 #endif
-	gtk_window_set_wmclass(GTK_WINDOW(window), subclass, wmclass);
-
 	gtk_window_set_default_size(GTK_WINDOW(window), HELP_WINDOW_WIDTH, HELP_WINDOW_HEIGHT);
-
-	gtk_window_set_title(GTK_WINDOW(window), title);
 
 	g_signal_connect(G_OBJECT(window), "delete_event",
 			 G_CALLBACK(help_window_delete_cb), NULL);

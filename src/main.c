@@ -52,6 +52,34 @@ static CollectionData *command_collection = NULL;
  *-----------------------------------------------------------------------------
  */ 
 
+GtkWidget *window_new(GtkWindowType type, const gchar *name, const gchar *icon,
+		      const gchar *icon_file, const gchar *subtitle)
+{
+	gchar *title;
+	GtkWidget *window;
+
+	window = gtk_window_new(type);
+	if (!window) return NULL;
+	
+	if (subtitle)
+		{
+		title = g_strdup_printf("%s - %s", subtitle, GQ_APPNAME);
+		}
+	else
+		{
+		title = g_strdup_printf("%s", GQ_APPNAME);
+		}
+	
+	gtk_window_set_title(GTK_WINDOW(window), title);
+	g_free(title);
+
+	window_set_icon(window, icon, icon_file);
+	gtk_window_set_role(GTK_WINDOW(window), name);
+	gtk_window_set_wmclass(GTK_WINDOW(window), name, GQ_WMCLASS);
+
+	return window;
+}
+
 void window_set_icon(GtkWidget *window, const gchar *icon, const gchar *file)
 {
 	if (!icon && !file) icon = PIXBUF_INLINE_ICON;

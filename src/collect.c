@@ -1162,8 +1162,7 @@ CollectWindow *collection_window_new(const gchar *path)
 
 	cw->cd = collection_new(path);
 
-	cw->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	window_set_icon(cw->window, PIXBUF_INLINE_ICON_BOOK, NULL);
+	cw->window = window_new(GTK_WINDOW_TOPLEVEL, "collection", PIXBUF_INLINE_ICON_BOOK, NULL, NULL);
 
 	geometry.min_width = 32;
 	geometry.min_height = 32;
@@ -1185,7 +1184,6 @@ CollectWindow *collection_window_new(const gchar *path)
 
 	gtk_window_set_resizable(GTK_WINDOW(cw->window), TRUE);
 	collection_window_update_title(cw);
-	gtk_window_set_wmclass(GTK_WINDOW(cw->window), "collection", GQ_WMCLASS);
 	gtk_container_set_border_width (GTK_CONTAINER (cw->window), 0);
 
 	g_signal_connect(G_OBJECT(cw->window), "delete_event",

@@ -217,9 +217,9 @@ static void generic_dialog_setup(GenericDialog *gd,
 	gd->data = data;
 	gd->cancel_cb = cancel_cb;
 
-	gd->dialog = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gd->dialog = window_new(GTK_WINDOW_TOPLEVEL, wmsubclass, NULL, NULL, title);
 	gtk_window_set_type_hint(GTK_WINDOW(gd->dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
-	gtk_window_set_wmclass(GTK_WINDOW(gd->dialog), wmsubclass, wmclass);
+
 	if (parent)
 		{
 		GtkWindow *window = NULL;
@@ -245,7 +245,6 @@ static void generic_dialog_setup(GenericDialog *gd,
 			 G_CALLBACK(generic_dialog_key_press_cb), gd);
 
 	gtk_window_set_resizable(GTK_WINDOW(gd->dialog), TRUE);
-	gtk_window_set_title(GTK_WINDOW (gd->dialog), title);
 	gtk_container_set_border_width(GTK_CONTAINER(gd->dialog), PREF_PAD_BORDER);
 
 	vbox = gtk_vbox_new(FALSE, PREF_PAD_BUTTON_SPACE);

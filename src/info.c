@@ -775,17 +775,10 @@ void info_window_new(FileData *fd, GList *list)
 	id->fd = (FileData *)id->list->data;
 	id->updated = FALSE;
 
-	id->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	id->window = window_new(GTK_WINDOW_TOPLEVEL, "properties", NULL, NULL, _("Image properties"));
 	gtk_window_set_type_hint(GTK_WINDOW(id->window), GDK_WINDOW_TYPE_HINT_DIALOG);
-	window_set_icon(id->window, NULL, NULL);
 
 	gtk_window_set_resizable(GTK_WINDOW(id->window), TRUE);
-	{
-	gchar *title = g_strdup_printf("%s - %s", _("Image properties"), GQ_APPNAME); 
-	gtk_window_set_title(GTK_WINDOW(id->window), title);
-	g_free(title);
-	}
-	gtk_window_set_wmclass(GTK_WINDOW(id->window), "properties", GQ_WMCLASS);
 
 	geometry.min_width = 32;
 	geometry.min_height = 32;

@@ -3103,9 +3103,8 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 
 	dw->second_set = FALSE;
 
-	dw->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-        window_set_icon(dw->window, NULL, NULL);
-
+	dw->window = window_new(GTK_WINDOW_TOPLEVEL, "dupe", NULL, NULL, _("Find duplicates"));
+      
 	geometry.min_width = 32;
 	geometry.min_height = 32;
 	geometry.base_width = DUPE_DEF_WIDTH;
@@ -3116,12 +3115,6 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 	gtk_window_set_default_size(GTK_WINDOW(dw->window), DUPE_DEF_WIDTH, DUPE_DEF_HEIGHT);
 
 	gtk_window_set_resizable(GTK_WINDOW(dw->window), TRUE);
-	{
-	gchar *title = g_strdup_printf("%s - %s", _("Find duplicates"), GQ_APPNAME);
-	gtk_window_set_title(GTK_WINDOW(dw->window), title);
-	g_free(title);
-	}
-        gtk_window_set_wmclass(GTK_WINDOW(dw->window), "dupe", GQ_WMCLASS);
         gtk_container_set_border_width (GTK_CONTAINER (dw->window), 0);
 
         g_signal_connect(G_OBJECT(dw->window), "delete_event",

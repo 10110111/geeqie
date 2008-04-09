@@ -844,18 +844,14 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 	vw->list = NULL;
 	vw->list_pointer = NULL;
 
-	vw->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	vw->window = window_new(GTK_WINDOW_TOPLEVEL, "view", PIXBUF_INLINE_ICON_VIEW, NULL, NULL);
 
 	geometry.min_width = 8;
 	geometry.min_height = 8;
 	gtk_window_set_geometry_hints(GTK_WINDOW(vw->window), NULL, &geometry, GDK_HINT_MIN_SIZE);
 
 	gtk_window_set_resizable(GTK_WINDOW(vw->window), TRUE);
-	gtk_window_set_title (GTK_WINDOW(vw->window), GQ_APPNAME);
-        gtk_window_set_wmclass(GTK_WINDOW(vw->window), "view", GQ_WMCLASS);
         gtk_container_set_border_width(GTK_CONTAINER(vw->window), 0);
-
-	window_set_icon(vw->window, PIXBUF_INLINE_ICON_VIEW, NULL);
 
 	vw->imd = image_new(FALSE);
 

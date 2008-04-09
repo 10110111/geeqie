@@ -1508,21 +1508,13 @@ static void config_window_create(void)
 	GtkWidget *button;
 	GtkWidget *ct_button;
 
-	configwindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	configwindow = window_new(GTK_WINDOW_TOPLEVEL, "preferences", PIXBUF_INLINE_ICON_CONFIG, NULL, _("Preferences"));
 	gtk_window_set_type_hint(GTK_WINDOW(configwindow), GDK_WINDOW_TYPE_HINT_DIALOG);
 	g_signal_connect(G_OBJECT (configwindow), "delete_event",
 			 G_CALLBACK(config_window_delete), NULL);
 	gtk_window_set_default_size(GTK_WINDOW(configwindow), CONFIG_WINDOW_DEF_WIDTH, CONFIG_WINDOW_DEF_HEIGHT);		 
 	gtk_window_set_resizable(GTK_WINDOW(configwindow), TRUE);
-	{
-	gchar *title = g_strdup_printf("%s - %s", _("Preferences"), GQ_APPNAME);
-	gtk_window_set_title(GTK_WINDOW(configwindow), title);
-	g_free(title);
-	}
-	gtk_window_set_wmclass(GTK_WINDOW(configwindow), "config", GQ_WMCLASS);
 	gtk_container_set_border_width(GTK_CONTAINER(configwindow), PREF_PAD_BORDER);
-
-	window_set_icon(configwindow, PIXBUF_INLINE_ICON_CONFIG, NULL);
 
 	win_vbox = gtk_vbox_new(FALSE, PREF_PAD_SPACE);
 	gtk_container_add(GTK_CONTAINER(configwindow), win_vbox);
@@ -1639,17 +1631,11 @@ void show_about_window(void)
 		return;
 		}
 
-	about = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	about = window_new(GTK_WINDOW_TOPLEVEL, "about", NULL, NULL, _("About"));
 	gtk_window_set_type_hint(GTK_WINDOW(about), GDK_WINDOW_TYPE_HINT_DIALOG);
-	gtk_window_set_wmclass(GTK_WINDOW(about), "about", GQ_WMCLASS);
 	g_signal_connect(G_OBJECT(about), "delete_event",
 			 G_CALLBACK(about_delete_cb), NULL);
 
-	{
-	gchar *title = g_strdup_printf("%s - %s", _("About"), GQ_APPNAME);
-	gtk_window_set_title(GTK_WINDOW(about), title);
-	g_free(title);
-	}
 	gtk_container_set_border_width(GTK_CONTAINER(about), PREF_PAD_BORDER);
 
 	vbox = gtk_vbox_new(FALSE, PREF_PAD_SPACE);
@@ -1694,7 +1680,6 @@ void show_about_window(void)
 	gtk_widget_grab_default(button);
 	gtk_widget_show(button);
 
-	window_set_icon(about, NULL, NULL);
 	gtk_widget_show(about);
 }
 

@@ -2552,16 +2552,9 @@ void search_new(const gchar *path, const gchar *example_file)
 	sd->search_idle_id = -1;
 	sd->update_idle_id = -1;
 
-	sd->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	window_set_icon(sd->window, NULL, NULL);
+	sd->window = window_new(GTK_WINDOW_TOPLEVEL, "search", NULL, NULL, _("Image search"));
 
 	gtk_window_set_resizable(GTK_WINDOW(sd->window), TRUE);
-	{
-	gchar *title = g_strdup_printf("%s - %s", _("Image search"), GQ_APPNAME);
-	gtk_window_set_title(GTK_WINDOW(sd->window), title);
-	g_free(title);
-	}
-	gtk_window_set_wmclass(GTK_WINDOW(sd->window), "search", GQ_WMCLASS);
 
 	geometry.min_width = 32;
 	geometry.min_height = 32;

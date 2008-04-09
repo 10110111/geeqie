@@ -238,8 +238,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	fullscreen_prefs_get_geometry(fullscreen_screen, window, &x, &y, &w, &h,
 				      &screen, &same);
 
-	fs->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_wmclass(GTK_WINDOW(fs->window), "fullscreen", GQ_WMCLASS);
+	fs->window = window_new(GTK_WINDOW_TOPLEVEL, "fullscreen", NULL, NULL, _("Full screen"));
 
 	/* this requests no decorations, if you still have them complain to the window manager author(s) */
 	gtk_window_set_decorated(GTK_WINDOW(fs->window), FALSE);
@@ -263,12 +262,6 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	gtk_container_set_border_width(GTK_CONTAINER(fs->window), 0);
 	g_signal_connect(G_OBJECT(fs->window), "delete_event",
 			 G_CALLBACK(fullscreen_delete_cb), fs);
-
-	{
-	gchar *title = g_strdup_printf("%s - %s", _("Full screen"), GQ_APPNAME);
-	gtk_window_set_title(GTK_WINDOW(fs->window), title);
-	g_free(title);
-	}
 
 	geometry.min_width = w;
 	geometry.min_height = h;
