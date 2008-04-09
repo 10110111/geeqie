@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview 1.5.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-02 20:43-0500\n"
+"POT-Creation-Date: 2008-04-09 23:16+0200\n"
 "PO-Revision-Date: 2005-02-01 23:26+0100\n"
 "Last-Translator: Hans Ofverbeck <hans.ofverbeck@home.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -17,108 +17,108 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/bar_info.c:30
+#: src/bar_info.c:32
 msgid "Favorite"
 msgstr "Favorit"
 
-#: src/bar_info.c:31
+#: src/bar_info.c:33
 msgid "Todo"
 msgstr "Att göra"
 
-#: src/bar_info.c:32
+#: src/bar_info.c:34
 msgid "People"
 msgstr "Folk"
 
-#: src/bar_info.c:33
+#: src/bar_info.c:35
 msgid "Places"
 msgstr "Platser"
 
-#: src/bar_info.c:34
+#: src/bar_info.c:36
 msgid "Art"
 msgstr "Konst"
 
-#: src/bar_info.c:35
+#: src/bar_info.c:37
 msgid "Nature"
 msgstr "Natur"
 
-#: src/bar_info.c:36
+#: src/bar_info.c:38
 msgid "Possessions"
 msgstr "Ägodelar"
 
-#: src/bar_info.c:505
+#: src/bar_info.c:671
 msgid "Keyword Presets"
 msgstr "Förinställda nyckelord"
 
-#: src/bar_info.c:508
+#: src/bar_info.c:674
 msgid "Favorite keywords list"
 msgstr "Lista över favoritnyckelord."
 
-#: src/bar_info.c:992 src/info.c:167 src/search.c:2683
+#: src/bar_info.c:1158 src/info.c:187 src/search.c:2678
 msgid "Keywords"
 msgstr "Nyckelord"
 
-#: src/bar_info.c:1006 src/info.c:722 src/pan-view.c:1521 src/print.c:2614
+#: src/bar_info.c:1172 src/info.c:818 src/pan-view.c:1531 src/print.c:2630
 msgid "Filename:"
 msgstr "Filnamn:"
 
-#: src/bar_info.c:1007 src/info.c:366
+#: src/bar_info.c:1173 src/info.c:389
 msgid "File date:"
 msgstr "Fildatum:"
 
-#: src/bar_info.c:1027
+#: src/bar_info.c:1193
 msgid "Keywords:"
 msgstr "Nyckelord:"
 
-#: src/bar_info.c:1095
+#: src/bar_info.c:1261
 msgid "Comment:"
 msgstr "Kommentar:"
 
-#: src/bar_info.c:1119
+#: src/bar_info.c:1285
 msgid "Edit favorite keywords list."
 msgstr "Redigera listan över favoritnyckelord."
 
-#: src/bar_info.c:1123
+#: src/bar_info.c:1289
 msgid "Add keywords to selected files"
 msgstr "Lägg till nyckelord till de valda filerna"
 
-#: src/bar_info.c:1126
+#: src/bar_info.c:1292
 msgid "Add keywords to selected files, replacing the existing ones."
 msgstr "Lägg till nyckelord till de valda filerna, skriv över befintliga."
 
-#: src/bar_info.c:1130
+#: src/bar_info.c:1296
 msgid "Save comment now"
 msgstr "Spara kommentar nu"
 
-#: src/bar_exif.c:436
+#: src/bar_exif.c:475
 msgid "Tag"
 msgstr "Tagg"
 
-#: src/bar_exif.c:437 src/dupe.c:2589 src/dupe.c:3112 src/print.c:3205
-#: src/search.c:2744 src/utilops.c:2779 src/view_file_list.c:1655
+#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
+#: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
 msgid "Name"
 msgstr "Namn"
 
-#: src/bar_exif.c:438
+#: src/bar_exif.c:477
 msgid "Value"
 msgstr "Värde"
 
-#: src/bar_exif.c:439
+#: src/bar_exif.c:478
 msgid "Format"
 msgstr "Format"
 
-#: src/bar_exif.c:440
+#: src/bar_exif.c:479
 msgid "Elements"
 msgstr "Element"
 
-#: src/bar_exif.c:441 src/preferences.c:1063
+#: src/bar_exif.c:480 src/preferences.c:1126
 msgid "Description"
 msgstr "Beskrivning"
 
-#: src/bar_exif.c:562 src/info.c:106
+#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
 msgid "Exif"
 msgstr "Exif"
 
-#: src/bar_exif.c:635
+#: src/bar_exif.c:680
 msgid "Advanced view"
 msgstr "Avancerad vy"
 
@@ -165,7 +165,7 @@ msgstr ""
 msgid "Collection exists"
 msgstr "Albumet finns"
 
-#: src/bar_sort.c:450 src/collect.c:1057 src/collect-dlg.c:84
+#: src/bar_sort.c:450 src/collect.c:1054 src/collect-dlg.c:84
 #, c-format
 msgid ""
 "Failed to save the collection:\n"
@@ -174,7 +174,7 @@ msgstr ""
 "Kunde inte spara albumet:\n"
 "%s"
 
-#: src/bar_sort.c:451 src/collect.c:1058 src/collect-dlg.c:85
+#: src/bar_sort.c:451 src/collect.c:1055 src/collect-dlg.c:85
 msgid "Save Failed"
 msgstr "Lyckades inte spara"
 
@@ -186,7 +186,7 @@ msgstr "Lägg till bokmärke"
 msgid "Add Collection"
 msgstr "Lägg till album"
 
-#: src/bar_sort.c:506 src/ui_bookmark.c:603
+#: src/bar_sort.c:506 src/ui_bookmark.c:606
 msgid "Name:"
 msgstr "Namn:"
 
@@ -194,19 +194,19 @@ msgstr "Namn:"
 msgid "Sort Manager"
 msgstr "Sorteringshanterare"
 
-#: src/bar_sort.c:577 src/pan-view.c:2378 src/ui_pathsel.c:1094
+#: src/bar_sort.c:577 src/pan-view.c:2384 src/ui_pathsel.c:1095
 msgid "Folders"
 msgstr "Mappar"
 
-#: src/bar_sort.c:578 src/main.c:1125
+#: src/bar_sort.c:578 src/main.c:1169
 msgid "Collections"
 msgstr "Album"
 
-#: src/bar_sort.c:586
+#: src/bar_sort.c:586 src/utilops.c:1173
 msgid "Copy"
 msgstr "Kopiera"
 
-#: src/bar_sort.c:589
+#: src/bar_sort.c:589 src/utilops.c:1187
 msgid "Move"
 msgstr "Flytta"
 
@@ -226,8 +226,8 @@ msgstr "Lägg till markering"
 msgid "Undo last image"
 msgstr "Ångra senaste bild"
 
-#: src/cache_maint.c:126 src/cache_maint.c:680 src/cache_maint.c:893
-#: src/editors.c:437
+#: src/cache_maint.c:126 src/cache_maint.c:682 src/cache_maint.c:895
+#: src/editors.c:716
 msgid "done"
 msgstr "färdig"
 
@@ -239,64 +239,64 @@ msgstr "Tar bort gammal metadata..."
 msgid "Clearing cached thumbnails..."
 msgstr "Tömmer cachade miniatyrbilder..."
 
-#: src/cache_maint.c:311 src/cache_maint.c:1047
+#: src/cache_maint.c:311 src/cache_maint.c:1049
 msgid "Removing old thumbnails..."
 msgstr "Tar bort gamla miniatyrbilder..."
 
-#: src/cache_maint.c:314 src/cache_maint.c:1050
+#: src/cache_maint.c:314 src/cache_maint.c:1052
 msgid "Maintenance"
 msgstr "Underhåll"
 
-#: src/cache_maint.c:791 src/utilops.c:952
+#: src/cache_maint.c:793 src/utilops.c:1103
 msgid "Invalid folder"
 msgstr "Ogiltig mapp"
 
-#: src/cache_maint.c:792
+#: src/cache_maint.c:794
 msgid "The specified folder can not be found."
 msgstr "Den angivna mappen kan inte hittas."
 
-#: src/cache_maint.c:820 src/cache_maint.c:834 src/cache_maint.c:1215
+#: src/cache_maint.c:822 src/cache_maint.c:836 src/cache_maint.c:1220
 msgid "Create thumbnails"
 msgstr "Skapa miniatyrbilder"
 
-#: src/cache_maint.c:828 src/cache_maint.c:1057
+#: src/cache_maint.c:830 src/cache_maint.c:1059
 msgid "S_tart"
 msgstr "_Starta"
 
-#: src/cache_maint.c:841 src/preferences.c:1200
+#: src/cache_maint.c:843 src/preferences.c:1385
 msgid "Folder:"
 msgstr "Mapp:"
 
-#: src/cache_maint.c:844
+#: src/cache_maint.c:846
 msgid "Select folder"
 msgstr "Markera mapp"
 
-#: src/cache_maint.c:848
+#: src/cache_maint.c:850
 msgid "Include subfolders"
 msgstr "Inkludera undermappar"
 
-#: src/cache_maint.c:849
+#: src/cache_maint.c:851
 msgid "Store thumbnails local to source images"
 msgstr "Lagra miniatyrbilder i närheten av originalbilder"
 
-#: src/cache_maint.c:858 src/cache_maint.c:1066
+#: src/cache_maint.c:860 src/cache_maint.c:1068
 msgid "click start to begin"
 msgstr "tryck på starta för att börja"
 
-#: src/cache_maint.c:996 src/editors.c:585
+#: src/cache_maint.c:998 src/editors.c:647
 msgid "running..."
 msgstr "kör..."
 
-#: src/cache_maint.c:1042
+#: src/cache_maint.c:1044
 msgid "Clearing thumbnails..."
 msgstr "Tömmer miniatyrbilder..."
 
-#: src/cache_maint.c:1108 src/cache_maint.c:1111 src/cache_maint.c:1190
-#: src/cache_maint.c:1210
+#: src/cache_maint.c:1110 src/cache_maint.c:1113 src/cache_maint.c:1195
+#: src/cache_maint.c:1215
 msgid "Clear cache"
 msgstr "Töm cache"
 
-#: src/cache_maint.c:1112
+#: src/cache_maint.c:1114
 msgid ""
 "This will remove all thumbnails that have\n"
 "been saved to disk, continue?"
@@ -304,77 +304,79 @@ msgstr ""
 "Detta kommer att ta bort alla miniatyrbilder\n"
 "som sparats på hårddisken, fortsätt?"
 
-#: src/cache_maint.c:1162
-msgid "Cache Maintenance - Geeqie"
+#: src/cache_maint.c:1165
+#, fuzzy
+msgid "Cache Maintenance"
 msgstr "Cache-hantering - Geeqie"
 
-#: src/cache_maint.c:1172
+#: src/cache_maint.c:1177
 msgid "Cache and Data Maintenance"
 msgstr "Cache- och Datahantering"
 
-#: src/cache_maint.c:1176
-msgid "Geeqie thumbnail cache"
+#: src/cache_maint.c:1181
+#, fuzzy
+msgid "Thumbnail cache"
 msgstr "Geeqie miniatyrbildscache"
 
-#: src/cache_maint.c:1178 src/cache_maint.c:1198 src/cache_maint.c:1226
-#: src/pan-view.c:1523 src/pan-view.c:2367 src/preferences.c:1177
-#: src/utilops.c:1571
+#: src/cache_maint.c:1183 src/cache_maint.c:1203 src/cache_maint.c:1231
+#: src/pan-view.c:1533 src/pan-view.c:2373 src/preferences.c:1328
+#: src/utilops.c:1871
 msgid "Location:"
 msgstr "Plats:"
 
-#: src/cache_maint.c:1185 src/cache_maint.c:1205 src/cache_maint.c:1233
+#: src/cache_maint.c:1190 src/cache_maint.c:1210 src/cache_maint.c:1238
 msgid "Clean up"
 msgstr "Städa"
 
-#: src/cache_maint.c:1188 src/cache_maint.c:1208
+#: src/cache_maint.c:1193 src/cache_maint.c:1213
 msgid "Remove orphaned or outdated thumbnails."
 msgstr "Ta bort övergivna eller föråldrade miniatyrbilder."
 
-#: src/cache_maint.c:1193 src/cache_maint.c:1213
+#: src/cache_maint.c:1198 src/cache_maint.c:1218
 msgid "Delete all cached thumbnails."
 msgstr "Radera alla cachade miniatyrbilder."
 
-#: src/cache_maint.c:1196
+#: src/cache_maint.c:1201
 msgid "Shared thumbnail cache"
 msgstr "Delad miniatyrbildscache"
 
-#: src/cache_maint.c:1219
+#: src/cache_maint.c:1224
 msgid "Render"
 msgstr "Skapa"
 
-#: src/cache_maint.c:1222
+#: src/cache_maint.c:1227
 msgid "Render thumbnails for a specific folder."
 msgstr "Skapa miniatyrbilder för en specifik mapp."
 
-#: src/cache_maint.c:1224
+#: src/cache_maint.c:1229
 msgid "Metadata"
 msgstr "Metadata"
 
-#: src/cache_maint.c:1236
+#: src/cache_maint.c:1241
 msgid "Remove orphaned keywords and comments."
 msgstr "Ta bort övergivna nyckelord och kommentarer."
 
-#: src/collect.c:350 src/image.c:151 src/image-overlay.c:110
-#: src/image-overlay.c:152
+#: src/collect.c:348 src/image.c:172 src/image-overlay.c:230
+#: src/image-overlay.c:304
 #, c-format
 msgid "Untitled"
 msgstr "Namnlös"
 
-#: src/collect.c:354
+#: src/collect.c:352
 #, c-format
 msgid "Untitled (%d)"
 msgstr "Namnlös (%d)"
 
-#: src/collect.c:976
-#, c-format
-msgid "%s - Geeqie Collection"
+#: src/collect.c:973
+#, fuzzy, c-format
+msgid "%s - Collection - %s"
 msgstr "%s - Geeqie Album"
 
-#: src/collect.c:1094 src/collect.c:1098
+#: src/collect.c:1091 src/collect.c:1095
 msgid "Close collection"
 msgstr "Stäng album"
 
-#: src/collect.c:1099
+#: src/collect.c:1096
 msgid ""
 "Collection has been modified.\n"
 "Save first?"
@@ -382,7 +384,7 @@ msgstr ""
 "Albumet har ändrats.\n"
 "Spara först?"
 
-#: src/collect.c:1102
+#: src/collect.c:1099
 msgid "_Discard"
 msgstr "_Kasta bort"
 
@@ -409,8 +411,8 @@ msgstr "Skriv över fil"
 msgid "Overwrite existing file?"
 msgstr "Skriv över befintlig fil?"
 
-#: src/collect-dlg.c:75 src/utilops.c:514 src/utilops.c:835 src/utilops.c:1725
-#: src/utilops.c:2447
+#: src/collect-dlg.c:75 src/utilops.c:656 src/utilops.c:986 src/utilops.c:2026
+#: src/utilops.c:2746
 msgid "_Overwrite"
 msgstr "Skriv _över"
 
@@ -442,126 +444,126 @@ msgstr "Tomt album"
 msgid "The current collection is empty, save aborted."
 msgstr "Detta album är tomt, försöket att spara avbröts."
 
-#: src/collect-table.c:164 src/layout.c:372 src/layout_util.c:737
+#: src/collect-table.c:165 src/layout.c:370 src/layout_util.c:1008
 msgid "Empty"
 msgstr "Tom"
 
-#: src/collect-table.c:168
+#: src/collect-table.c:169
 #, c-format
 msgid "%d images (%d)"
 msgstr "%d bilder (%d)"
 
-#: src/collect-table.c:172
+#: src/collect-table.c:173
 #, c-format
 msgid "%d images"
 msgstr "%d bilder"
 
-#: src/collect-table.c:186 src/dupe.c:1296 src/search.c:303
-#: src/view_file_icon.c:1776 src/view_file_icon.c:1891
-#: src/view_file_list.c:916 src/view_file_list.c:1021
+#: src/collect-table.c:187 src/dupe.c:1325 src/search.c:303
+#: src/view_file_icon.c:1900 src/view_file_icon.c:2016
+#: src/view_file_list.c:1136 src/view_file_list.c:1252
 msgid "Loading thumbs..."
 msgstr "Läser in miniatyrbilder..."
 
-#: src/collect-table.c:773 src/dupe.c:2187 src/dupe.c:2497
-#: src/layout_util.c:780 src/search.c:969
+#: src/collect-table.c:767 src/dupe.c:2229 src/dupe.c:2539
+#: src/layout_util.c:1053 src/search.c:968
 msgid "_View"
 msgstr "_Visa"
 
-#: src/collect-table.c:775 src/dupe.c:2189 src/dupe.c:2499 src/img-view.c:1251
-#: src/layout_image.c:735 src/pan-view.c:2788 src/search.c:971
-#: src/view_file_icon.c:287 src/view_file_list.c:398
+#: src/collect-table.c:769 src/dupe.c:2231 src/dupe.c:2541 src/img-view.c:1247
+#: src/layout_image.c:741 src/pan-view.c:2794 src/search.c:970
+#: src/view_file_icon.c:326 src/view_file_list.c:572
 msgid "View in _new window"
 msgstr "Visa i _nytt fönster"
 
-#: src/collect-table.c:778 src/dupe.c:2219 src/dupe.c:2507 src/search.c:997
+#: src/collect-table.c:772 src/dupe.c:2261 src/dupe.c:2549 src/search.c:996
 msgid "Rem_ove"
 msgstr "_Ta bort"
 
-#: src/collect-table.c:781
+#: src/collect-table.c:775
 msgid "Append from file list"
 msgstr "Lägg till från fillista"
 
-#: src/collect-table.c:783
+#: src/collect-table.c:777
 msgid "Append from collection..."
 msgstr "Lägg till från album..."
 
-#: src/collect-table.c:786 src/dupe.c:2192 src/dupe.c:2502 src/search.c:974
+#: src/collect-table.c:780 src/dupe.c:2234 src/dupe.c:2544 src/search.c:973
 msgid "Select all"
 msgstr "Markera alla"
 
-#: src/collect-table.c:788 src/dupe.c:2194 src/dupe.c:2504 src/search.c:976
+#: src/collect-table.c:782 src/dupe.c:2236 src/dupe.c:2546 src/search.c:975
 msgid "Select none"
 msgstr "Markera ingen"
 
-#: src/collect-table.c:796 src/dupe.c:2203 src/img-view.c:1249
-#: src/layout_image.c:732 src/layout_util.c:815 src/pan-view.c:2785
-#: src/search.c:981 src/view_file_icon.c:284 src/view_file_list.c:396
+#: src/collect-table.c:790 src/dupe.c:2245 src/img-view.c:1245
+#: src/layout_image.c:738 src/layout_util.c:1096 src/pan-view.c:2791
+#: src/search.c:980 src/view_file_icon.c:323 src/view_file_list.c:570
 msgid "_Properties"
 msgstr "_Egenskaper"
 
-#: src/collect-table.c:799 src/dupe.c:2210 src/img-view.c:1254
-#: src/layout_image.c:740 src/layout_util.c:792 src/pan-view.c:2792
-#: src/search.c:988 src/view_file_icon.c:291 src/view_file_list.c:402
+#: src/collect-table.c:793 src/dupe.c:2252 src/img-view.c:1250
+#: src/layout_image.c:746 src/layout_util.c:1073 src/pan-view.c:2798
+#: src/search.c:987 src/view_file_icon.c:330 src/view_file_list.c:576
 msgid "_Copy..."
 msgstr "_Kopiera..."
 
-#: src/collect-table.c:801 src/dupe.c:2212 src/img-view.c:1255
-#: src/layout_image.c:742 src/layout_util.c:793 src/pan-view.c:2794
-#: src/search.c:990 src/view_file_icon.c:293 src/view_file_list.c:404
+#: src/collect-table.c:795 src/dupe.c:2254 src/img-view.c:1251
+#: src/layout_image.c:748 src/layout_util.c:1074 src/pan-view.c:2800
+#: src/search.c:989 src/view_file_icon.c:332 src/view_file_list.c:578
 msgid "_Move..."
 msgstr "Fl_ytta..."
 
-#: src/collect-table.c:803 src/dupe.c:2214 src/img-view.c:1256
-#: src/layout_image.c:744 src/layout_util.c:794 src/pan-view.c:2796
-#: src/search.c:992 src/view_dir_list.c:415 src/view_dir_tree.c:514
-#: src/view_file_icon.c:295 src/view_file_list.c:406
+#: src/collect-table.c:797 src/dupe.c:2256 src/img-view.c:1252
+#: src/layout_image.c:750 src/layout_util.c:1075 src/pan-view.c:2802
+#: src/search.c:991 src/view_dir_list.c:413 src/view_dir_tree.c:508
+#: src/view_file_icon.c:334 src/view_file_list.c:580
 msgid "_Rename..."
 msgstr "_Byt namn..."
 
-#: src/collect-table.c:805 src/dupe.c:2216 src/img-view.c:1257
-#: src/layout_image.c:746 src/layout_util.c:795 src/pan-view.c:2798
-#: src/search.c:994 src/view_dir_list.c:417 src/view_dir_tree.c:516
-#: src/view_file_icon.c:297 src/view_file_list.c:408
+#: src/collect-table.c:799 src/dupe.c:2258 src/img-view.c:1253
+#: src/layout_image.c:752 src/layout_util.c:1076 src/pan-view.c:2804
+#: src/search.c:993 src/view_dir_list.c:415 src/view_dir_tree.c:510
+#: src/view_file_icon.c:336 src/view_file_list.c:582
 msgid "_Delete..."
 msgstr "_Ta bort..."
 
-#: src/collect-table.c:810 src/view_file_icon.c:313
+#: src/collect-table.c:804 src/view_file_icon.c:352
 msgid "Show filename _text"
 msgstr "Visa _filnamnstext"
 
-#: src/collect-table.c:813
+#: src/collect-table.c:807
 msgid "_Save collection"
 msgstr "_Spara album"
 
-#: src/collect-table.c:815
+#: src/collect-table.c:809
 msgid "Save collection _as..."
 msgstr "Spara album s_om..."
 
-#: src/collect-table.c:818 src/layout_util.c:788
+#: src/collect-table.c:812 src/layout_util.c:1069
 msgid "_Find duplicates..."
 msgstr "_Hitta dubletter..."
 
-#: src/collect-table.c:820 src/dupe.c:2207 src/search.c:985
+#: src/collect-table.c:814 src/dupe.c:2249 src/search.c:984
 msgid "Print..."
 msgstr "Skriv ut..."
 
-#: src/collect-table.c:1972 src/dupe.c:3300 src/img-view.c:1411
+#: src/collect-table.c:1966 src/dupe.c:3340 src/img-view.c:1407
 msgid "Dropped list includes folders."
 msgstr "Släppt lista innehåller mappar."
 
-#: src/collect-table.c:1974 src/dupe.c:3302 src/img-view.c:1413
+#: src/collect-table.c:1968 src/dupe.c:3342 src/img-view.c:1409
 msgid "_Add contents"
 msgstr "_Lägg till innehåll"
 
-#: src/collect-table.c:1976 src/dupe.c:3303 src/img-view.c:1414
+#: src/collect-table.c:1970 src/dupe.c:3343 src/img-view.c:1410
 msgid "Add contents _recursive"
 msgstr "Lägg till innehåll _rekursivt"
 
-#: src/collect-table.c:1978 src/dupe.c:3304 src/img-view.c:1415
+#: src/collect-table.c:1972 src/dupe.c:3344 src/img-view.c:1411
 msgid "_Skip folders"
 msgstr "Hoppa _över mappar"
 
-#: src/collect-table.c:1981 src/dupe.c:3306 src/img-view.c:1417
+#: src/collect-table.c:1975 src/dupe.c:3346 src/img-view.c:1413
 #: src/view_dir_list.c:214 src/view_dir_tree.c:306
 msgid "Cancel"
 msgstr "Avbryt"
@@ -584,143 +586,180 @@ msgstr "%d dubletter funna i %d filer"
 msgid "[set 1]"
 msgstr "[grupp 1]"
 
-#: src/dupe.c:1422
+#: src/dupe.c:1451
 msgid "Reading checksums..."
 msgstr "Läser in kontrollsummor..."
 
-#: src/dupe.c:1455
+#: src/dupe.c:1484
 msgid "Reading dimensions..."
 msgstr "Läser in dimensioner..."
 
-#: src/dupe.c:1489
+#: src/dupe.c:1518
 msgid "Reading similarity data..."
 msgstr "Läser in likhetsdata..."
 
-#: src/dupe.c:1524 src/dupe.c:1555
+#: src/dupe.c:1553 src/dupe.c:1584
 msgid "Comparing..."
 msgstr "Jämför..."
 
-#: src/dupe.c:1535 src/pan-view.c:1080
+#: src/dupe.c:1564 src/pan-view.c:1090
 msgid "Sorting..."
 msgstr "Sorterar..."
 
-#: src/dupe.c:2196
+#: src/dupe.c:2238
 msgid "Select group _1 duplicates"
 msgstr "Markera dubletter i grupp _1"
 
-#: src/dupe.c:2198
+#: src/dupe.c:2240
 msgid "Select group _2 duplicates"
 msgstr "Markera dubletter i grupp _2"
 
-#: src/dupe.c:2205 src/search.c:983
+#: src/dupe.c:2247 src/search.c:982
 msgid "Add to new collection"
 msgstr "Lägg till i nytt album"
 
-#: src/dupe.c:2221 src/dupe.c:2509 src/search.c:999
+#: src/dupe.c:2263 src/dupe.c:2551 src/search.c:998
 msgid "C_lear"
 msgstr "T_öm"
 
-#: src/dupe.c:2224 src/dupe.c:2512
+#: src/dupe.c:2266 src/dupe.c:2554
 msgid "Close _window"
 msgstr "Stäng _fönster"
 
-#: src/dupe.c:2382
+#: src/dupe.c:2424
 #, c-format
 msgid "%d files (set 2)"
 msgstr "%d filer (grupp 2)"
 
-#: src/dupe.c:2590 src/dupe.c:3113 src/preferences.c:982 src/print.c:3209
-#: src/search.c:2745 src/view_file_list.c:1656
+#: src/dupe.c:2632
+#, fuzzy
+msgid "Name case-insensitive"
+msgstr "Skiftlägeskänslig sortering"
+
+#: src/dupe.c:2633 src/dupe.c:3153 src/preferences.c:1023 src/print.c:3236
+#: src/search.c:2740 src/view_file_list.c:2028
 msgid "Size"
 msgstr "Storlek"
 
-#: src/dupe.c:2591 src/dupe.c:3114 src/exif.c:296 src/exif.c:417
-#: src/print.c:3207 src/search.c:2746 src/view_file_list.c:1657
+#: src/dupe.c:2634 src/dupe.c:3154 src/exif.c:338 src/print.c:3234
+#: src/search.c:2741 src/view_file_list.c:2029
 msgid "Date"
 msgstr "Datum"
 
-#: src/dupe.c:2592 src/dupe.c:3115 src/print.c:3211 src/search.c:2747
+#: src/dupe.c:2635 src/dupe.c:3155 src/print.c:3238 src/search.c:2742
 msgid "Dimensions"
 msgstr "Dimensioner"
 
-#: src/dupe.c:2593
+#: src/dupe.c:2636
 msgid "Checksum"
 msgstr "Kontrollsumma"
 
-#: src/dupe.c:2594 src/dupe.c:3116 src/search.c:2748 src/ui_pathsel.c:1106
+#: src/dupe.c:2637 src/dupe.c:3156 src/print.c:3232 src/search.c:2743
+#: src/ui_pathsel.c:1107
 msgid "Path"
 msgstr "Sökväg"
 
-#: src/dupe.c:2595
+#: src/dupe.c:2638
 msgid "Similarity (high)"
 msgstr "Likhet (stor)"
 
-#: src/dupe.c:2596
+#: src/dupe.c:2639
 msgid "Similarity"
 msgstr "Likhet"
 
-#: src/dupe.c:2597
+#: src/dupe.c:2640
 msgid "Similarity (low)"
 msgstr "Likhet (liten)"
 
-#: src/dupe.c:2598
+#: src/dupe.c:2641
 msgid "Similarity (custom)"
 msgstr "Likhet (anpassad)"
 
-#: src/dupe.c:3076
-msgid "Find duplicates - Geeqie"
-msgstr "Hitta dubletter - Geeqie"
+#: src/dupe.c:3106
+#, fuzzy
+msgid "Find duplicates"
+msgstr "_Hitta dubletter..."
 
-#: src/dupe.c:3148
+#: src/dupe.c:3188
 msgid "Compare to:"
 msgstr "Jämför med:"
 
-#: src/dupe.c:3161
+#: src/dupe.c:3201
 msgid "Compare by:"
 msgstr "Jämför med avseende på:"
 
-#: src/dupe.c:3169 src/preferences.c:870 src/search.c:2761
+#: src/dupe.c:3209 src/preferences.c:881 src/search.c:2756
 msgid "Thumbnails"
 msgstr "Miniatyrbilder"
 
-#: src/dupe.c:3176
+#: src/dupe.c:3216
 msgid "Compare two file sets"
 msgstr "Jämför två filgrupper"
 
-#: src/editors.c:50
+#: src/editors.c:59
 msgid "The Gimp"
 msgstr "Gimp"
 
-#: src/editors.c:51
+#: src/editors.c:60
 msgid "XV"
 msgstr "XV"
 
-#: src/editors.c:52
+#: src/editors.c:61
 msgid "Xpaint"
 msgstr "Xpaint"
 
-#: src/editors.c:58
+#: src/editors.c:62
+msgid "UFraw"
+msgstr ""
+
+#: src/editors.c:63
+msgid "Add XMP sidecar"
+msgstr ""
+
+#: src/editors.c:67
 msgid "Rotate jpeg clockwise"
 msgstr "Rotera jpeg medurs"
 
-#: src/editors.c:59
+#: src/editors.c:68
 msgid "Rotate jpeg counterclockwise"
 msgstr "Rotera jpeg moturs"
 
-#: src/editors.c:104
+#. for testing
+#: src/editors.c:72 src/editors.c:78
+msgid "External Copy command"
+msgstr ""
+
+#: src/editors.c:73 src/editors.c:79
+msgid "External Move command"
+msgstr ""
+
+#: src/editors.c:74 src/editors.c:80
+msgid "External Rename command"
+msgstr ""
+
+#: src/editors.c:75 src/editors.c:81
+#, fuzzy
+msgid "External Delete command"
+msgstr "Aktivera Delete-knappen"
+
+#: src/editors.c:76 src/editors.c:82
+msgid "External New Folder command"
+msgstr ""
+
+#: src/editors.c:138
 msgid "stopping..."
 msgstr "stoppar..."
 
-#: src/editors.c:131
+#: src/editors.c:159
 msgid "Edit command results"
 msgstr "Redigera resultaten från kommandot"
 
-#: src/editors.c:134
+#: src/editors.c:162
 #, c-format
 msgid "Output of %s"
 msgstr "Utdata från %s"
 
-#: src/editors.c:303
+#: src/editors.c:599
 #, c-format
 msgid ""
 "Failed to run command:\n"
@@ -729,503 +768,935 @@ msgstr ""
 "Misslyckades att köra kommandot:\n"
 "%s\n"
 
-#: src/editors.c:441
+#: src/editors.c:720
 msgid "stopped by user"
 msgstr "stoppad av användaren"
 
-#: src/exif.c:111 src/exif.c:124 src/exif.c:138 src/exif.c:163 src/exif.c:572
-#: src/exif.c:1626 src/exif.c:1629 src/exif.c:1694
+#: src/editors.c:833
+msgid "Editor template is empty."
+msgstr ""
+
+#: src/editors.c:834
+msgid "Editor template has incorrect syntax."
+msgstr ""
+
+#: src/editors.c:835
+msgid "Editor template uses incompatible macros."
+msgstr ""
+
+#: src/editors.c:836
+msgid "Can't find matching file type."
+msgstr ""
+
+#: src/editors.c:837
+msgid "Can't execute external editor."
+msgstr ""
+
+#: src/editors.c:838
+msgid "External editor returned error status."
+msgstr ""
+
+#: src/editors.c:839
+msgid "File was skipped."
+msgstr ""
+
+#: src/editors.c:840
+msgid "Unknown error."
+msgstr ""
+
+#: src/exif.c:144 src/exif.c:157 src/exif.c:171 src/exif.c:196 src/exif.c:313
+#: src/exif.c:624
 msgid "unknown"
 msgstr "okänd"
 
-#: src/exif.c:112
+#: src/exif.c:145
 msgid "top left"
 msgstr "överst vänster"
 
-#: src/exif.c:113
+#: src/exif.c:146
 msgid "top right"
 msgstr "överst höger"
 
-#: src/exif.c:114
+#: src/exif.c:147
 msgid "bottom right"
 msgstr "underst höger"
 
-#: src/exif.c:115
+#: src/exif.c:148
 msgid "bottom left"
 msgstr "underst vänster"
 
-#: src/exif.c:116
+#: src/exif.c:149
 msgid "left top"
 msgstr "vänster överst"
 
-#: src/exif.c:117
+#: src/exif.c:150
 msgid "right top"
 msgstr "höger överst"
 
-#: src/exif.c:118
+#: src/exif.c:151
 msgid "right bottom"
 msgstr "höger underst"
 
-#: src/exif.c:119
+#: src/exif.c:152
 msgid "left bottom"
 msgstr "vänster underst"
 
-#: src/exif.c:126
+#: src/exif.c:159
 msgid "inch"
 msgstr "tum"
 
-#: src/exif.c:127
+#: src/exif.c:160
 msgid "centimeter"
 msgstr "centimeter"
 
-#: src/exif.c:139
+#: src/exif.c:172
 msgid "average"
 msgstr "medelvärde"
 
-#: src/exif.c:140
+#: src/exif.c:173
 msgid "center weighted"
 msgstr "centrumvägt"
 
-#: src/exif.c:141
+#: src/exif.c:174
 msgid "spot"
 msgstr "spot"
 
-#: src/exif.c:142
+#: src/exif.c:175
 msgid "multi-spot"
 msgstr "multi-spot"
 
-#: src/exif.c:143
+#: src/exif.c:176
 msgid "multi-segment"
 msgstr "flersegment"
 
-#: src/exif.c:144
+#: src/exif.c:177
 msgid "partial"
 msgstr "partiell"
 
-#: src/exif.c:145 src/exif.c:183
+#: src/exif.c:178 src/exif.c:216
 msgid "other"
 msgstr "annan"
 
-#: src/exif.c:150
+#: src/exif.c:183 src/exif.c:235
 msgid "not defined"
 msgstr "ej definierad"
 
-#: src/exif.c:151
+#: src/exif.c:184 src/exif.c:263 src/exif.c:270
 msgid "manual"
 msgstr "manuell"
 
-#: src/exif.c:152
+#: src/exif.c:185 src/exif.c:256 src/exif.c:292 src/exif.c:299 src/exif.c:306
 msgid "normal"
 msgstr "normal"
 
-#: src/exif.c:153
+#: src/exif.c:186
 msgid "aperture"
 msgstr "bländare"
 
-#: src/exif.c:154
+#: src/exif.c:187
 msgid "shutter"
 msgstr "slutare"
 
-#: src/exif.c:155
+#: src/exif.c:188
 msgid "creative"
 msgstr "kreativt"
 
-#: src/exif.c:156
+#: src/exif.c:189
 msgid "action"
 msgstr "aktivt"
 
-#: src/exif.c:157
+#: src/exif.c:190 src/exif.c:277
 msgid "portrait"
 msgstr "stående"
 
-#: src/exif.c:158
+#: src/exif.c:191 src/exif.c:276
 msgid "landscape"
 msgstr "liggande"
 
-#: src/exif.c:164
+#: src/exif.c:197
 msgid "daylight"
 msgstr "dagsljus"
 
-#: src/exif.c:165
+#: src/exif.c:198
 msgid "fluorescent"
 msgstr "lysrör (fluorescerande)"
 
-#: src/exif.c:166
+#: src/exif.c:199
 msgid "tungsten (incandescent)"
 msgstr "volfram (glödande)"
 
-#: src/exif.c:167
+#: src/exif.c:200
 msgid "flash"
 msgstr "blixt"
 
-#: src/exif.c:188 src/exif.c:1649 src/info.c:232
+#: src/exif.c:201
+msgid "fine weather"
+msgstr ""
+
+#: src/exif.c:202
+msgid "cloudy weather"
+msgstr ""
+
+#: src/exif.c:203
+msgid "shade"
+msgstr ""
+
+#: src/exif.c:204
+#, fuzzy
+msgid "daylight fluorescent"
+msgstr "lysrör (fluorescerande)"
+
+#: src/exif.c:205
+#, fuzzy
+msgid "day white fluorescent"
+msgstr "lysrör (fluorescerande)"
+
+#: src/exif.c:206
+#, fuzzy
+msgid "cool white fluorescent"
+msgstr "lysrör (fluorescerande)"
+
+#: src/exif.c:207
+#, fuzzy
+msgid "while fluorescent"
+msgstr "lysrör (fluorescerande)"
+
+#: src/exif.c:208
+msgid "standard light A"
+msgstr ""
+
+#: src/exif.c:209
+msgid "standard light B"
+msgstr ""
+
+#: src/exif.c:210
+msgid "standard light C"
+msgstr ""
+
+#: src/exif.c:211
+msgid "D55"
+msgstr ""
+
+#: src/exif.c:212
+msgid "D65"
+msgstr ""
+
+#: src/exif.c:213
+msgid "D75"
+msgstr ""
+
+#: src/exif.c:214
+msgid "D50"
+msgstr ""
+
+#: src/exif.c:215
+msgid "ISO studio tungsten"
+msgstr ""
+
+#: src/exif.c:221 src/info.c:255
 msgid "no"
 msgstr "nej"
 
-#. flash fired (bit 0)
-#: src/exif.c:189 src/exif.c:1649 src/info.c:232
+#: src/exif.c:222 src/info.c:255
 msgid "yes"
 msgstr "ja"
 
-#: src/exif.c:190
+#: src/exif.c:223
 msgid "yes, not detected by strobe"
 msgstr "ja, inte upptäckt av sensor"
 
-#: src/exif.c:191
+#: src/exif.c:224
 msgid "yes, detected by strobe"
 msgstr "ja, upptäckt av sensor"
 
-#: src/exif.c:288
-msgid "Image description"
-msgstr "Bildbeskrivning"
+#: src/exif.c:229
+msgid "sRGB"
+msgstr ""
 
-#: src/exif.c:291
-msgid "Orientation"
-msgstr "Orientering"
+#: src/exif.c:230
+msgid "uncalibrated"
+msgstr ""
 
-#: src/exif.c:302
-msgid "Copyright"
-msgstr "Copyright"
+#: src/exif.c:236
+msgid "1 chip color area"
+msgstr ""
 
-#: src/exif.c:307
-msgid "Exposure program"
-msgstr "Exponeringsprogram"
+#: src/exif.c:237
+msgid "2 chip color area"
+msgstr ""
 
-#: src/exif.c:309 src/exif.c:345 src/exif.c:421
-msgid "ISO sensitivity"
-msgstr "ISO-känslighet"
+#: src/exif.c:238
+msgid "3 chip color area"
+msgstr ""
 
-#: src/exif.c:312
-msgid "Date original"
-msgstr "Ursprungsdatum"
+#: src/exif.c:239
+msgid "color sequential area"
+msgstr ""
 
-#: src/exif.c:313
-msgid "Date digitized"
-msgstr "Digitaliseringsdatum"
+#: src/exif.c:240
+#, fuzzy
+msgid "trilinear"
+msgstr "Bilinjär"
 
-#: src/exif.c:316 src/exif.c:418
-msgid "Shutter speed"
-msgstr "Slutarhastighet"
+#: src/exif.c:241
+msgid "color sequential linear"
+msgstr ""
 
-#: src/exif.c:317 src/exif.c:419
-msgid "Aperture"
-msgstr "Bländare"
+#: src/exif.c:246
+msgid "digital still camera"
+msgstr ""
 
-#: src/exif.c:319 src/exif.c:420
-msgid "Exposure bias"
-msgstr "Exponeringskompensation"
+#: src/exif.c:251
+msgid "direct photo"
+msgstr ""
 
-#: src/exif.c:321 src/exif.c:423
-msgid "Subject distance"
-msgstr "Avstånd till motiv"
+#: src/exif.c:257
+#, fuzzy
+msgid "custom"
+msgstr "Egendefinierat"
 
-#: src/exif.c:322
-msgid "Metering mode"
-msgstr "Mätmetod"
-
-#: src/exif.c:323
-msgid "Light source"
-msgstr "Ljuskälla"
-
-#: src/exif.c:324 src/exif.c:424
-msgid "Flash"
-msgstr "Blixt"
-
-#: src/exif.c:325 src/exif.c:422
-msgid "Focal length"
-msgstr "Brännvidd"
-
-#. ExifImageWidth, ExifImageHeight can also be unsigned short
-#: src/exif.c:335
-msgid "Width"
-msgstr "Bredd"
-
-#: src/exif.c:336
-msgid "Height"
-msgstr "Höjd"
-
-#: src/exif.c:416
-msgid "Camera"
-msgstr "Kamera"
-
-#: src/exif.c:425
-msgid "Resolution"
-msgstr "Upplösning"
-
-#: src/exif.c:1625
-msgid "infinity"
-msgstr "oändligt"
-
-#: src/exif.c:1653
-msgid "mode:"
-msgstr "läge:"
-
-#: src/exif.c:1657 src/utilops.c:1300
-msgid "on"
-msgstr "på"
-
-#: src/exif.c:1660 src/utilops.c:1300
-msgid "off"
-msgstr "av"
-
-#: src/exif.c:1663
+#: src/exif.c:262 src/exif.c:269
 msgid "auto"
 msgstr "auto"
 
-#: src/exif.c:1669
-msgid "not detected by strobe"
-msgstr "inte upptäckt av sensor"
+#: src/exif.c:264
+#, fuzzy
+msgid "auto bracket"
+msgstr "Automatiskt namnbyte"
 
-#: src/exif.c:1670
-msgid "detected by strobe"
-msgstr "upptäckt av sensor"
+#: src/exif.c:275
+#, fuzzy
+msgid "standard"
+msgstr "T_öm"
 
-#. we ignore flash function (bit 5)
-#. red-eye (bit 6)
-#: src/exif.c:1675
-msgid "red-eye reduction"
-msgstr "reducering av röda ögon"
+#: src/exif.c:278
+#, fuzzy
+msgid "night scene"
+msgstr "Ljuskälla"
 
-#: src/exif.c:1694
-msgid "dot"
-msgstr "punkt"
+#: src/exif.c:283
+#, fuzzy
+msgid "none"
+msgstr "färdig"
 
-#: src/filelist.c:523
+#: src/exif.c:284
+#, fuzzy
+msgid "low gain up"
+msgstr "Städa"
+
+#: src/exif.c:285
+msgid "high gain up"
+msgstr ""
+
+#: src/exif.c:286
+#, fuzzy
+msgid "low gain down"
+msgstr "Stäng _fönster"
+
+#: src/exif.c:287
+msgid "high gain down"
+msgstr ""
+
+#: src/exif.c:293 src/exif.c:307
+#, fuzzy
+msgid "soft"
+msgstr "spot"
+
+#: src/exif.c:294 src/exif.c:308
+msgid "hard"
+msgstr ""
+
+#: src/exif.c:300
+msgid "low"
+msgstr ""
+
+#: src/exif.c:301
+#, fuzzy
+msgid "high"
+msgstr "Höjd"
+
+#: src/exif.c:314
+msgid "macro"
+msgstr ""
+
+#: src/exif.c:315
+#, fuzzy
+msgid "close"
+msgstr "Stäng"
+
+#: src/exif.c:316
+msgid "distant"
+msgstr ""
+
+#: src/exif.c:326
+#, fuzzy
+msgid "Image Width"
+msgstr "Bildfil"
+
+#: src/exif.c:327
+#, fuzzy
+msgid "Image Height"
+msgstr "Höjd"
+
+#: src/exif.c:328
+msgid "Bits per Sample/Pixel"
+msgstr ""
+
+#: src/exif.c:329
+#, fuzzy
+msgid "Compression"
+msgstr "Kompression:"
+
+#: src/exif.c:330
+msgid "Image description"
+msgstr "Bildbeskrivning"
+
+#: src/exif.c:331
+#, fuzzy
+msgid "Camera make"
+msgstr "Kamera"
+
+#: src/exif.c:332
+#, fuzzy
+msgid "Camera model"
+msgstr "Kamera"
+
+#: src/exif.c:333
+msgid "Orientation"
+msgstr "Orientering"
+
+#: src/exif.c:334
+#, fuzzy
+msgid "X resolution"
+msgstr "Upplösning"
+
+#: src/exif.c:335
+#, fuzzy
+msgid "Y Resolution"
+msgstr "Upplösning"
+
+#: src/exif.c:336
+#, fuzzy
+msgid "Resolution units"
+msgstr "Upplösning"
+
+#: src/exif.c:337
+msgid "Firmware"
+msgstr ""
+
+#: src/exif.c:339
+msgid "White point"
+msgstr ""
+
+#: src/exif.c:340
+msgid "Primary chromaticities"
+msgstr ""
+
+#: src/exif.c:341
+msgid "YCbCy coefficients"
+msgstr ""
+
+#: src/exif.c:342
+msgid "YCbCr positioning"
+msgstr ""
+
+#: src/exif.c:343
+#, fuzzy
+msgid "Black white reference"
+msgstr "Geeqie Inställningar"
+
+#: src/exif.c:344
+msgid "Copyright"
+msgstr "Copyright"
+
+#: src/exif.c:345
+msgid "SubIFD Exif offset"
+msgstr ""
+
+#. subIFD follows
+#: src/exif.c:347
+#, fuzzy
+msgid "Exposure time (seconds)"
+msgstr "Exponeringskompensation"
+
+#: src/exif.c:348
+msgid "FNumber"
+msgstr ""
+
+#: src/exif.c:349
+msgid "Exposure program"
+msgstr "Exponeringsprogram"
+
+#: src/exif.c:350
+#, fuzzy
+msgid "Spectral Sensitivity"
+msgstr "ISO-känslighet"
+
+#: src/exif.c:351 src/exif.c:387
+msgid "ISO sensitivity"
+msgstr "ISO-känslighet"
+
+#: src/exif.c:352
+msgid "Optoelectric conversion factor"
+msgstr ""
+
+#: src/exif.c:353
+msgid "Exif version"
+msgstr ""
+
+#: src/exif.c:354
+msgid "Date original"
+msgstr "Ursprungsdatum"
+
+#: src/exif.c:355
+msgid "Date digitized"
+msgstr "Digitaliseringsdatum"
+
+#: src/exif.c:356
+#, fuzzy
+msgid "Pixel format"
+msgstr "Filformat:"
+
+#: src/exif.c:357
+#, fuzzy
+msgid "Compression ratio"
+msgstr "Kompression:"
+
+#: src/exif.c:358
+msgid "Shutter speed"
+msgstr "Slutarhastighet"
+
+#: src/exif.c:359
+msgid "Aperture"
+msgstr "Bländare"
+
+#: src/exif.c:360
+msgid "Brightness"
+msgstr ""
+
+#: src/exif.c:361
+msgid "Exposure bias"
+msgstr "Exponeringskompensation"
+
+#: src/exif.c:362
+#, fuzzy
+msgid "Maximum aperture"
+msgstr "bländare"
+
+#: src/exif.c:363
+msgid "Subject distance"
+msgstr "Avstånd till motiv"
+
+#: src/exif.c:364
+msgid "Metering mode"
+msgstr "Mätmetod"
+
+#: src/exif.c:365
+msgid "Light source"
+msgstr "Ljuskälla"
+
+#: src/exif.c:366
+msgid "Flash"
+msgstr "Blixt"
+
+#: src/exif.c:367
+msgid "Focal length"
+msgstr "Brännvidd"
+
+#: src/exif.c:368
+#, fuzzy
+msgid "Subject area"
+msgstr "Avstånd till motiv"
+
+#: src/exif.c:369
+msgid "MakerNote"
+msgstr ""
+
+#: src/exif.c:370
+#, fuzzy
+msgid "UserComment"
+msgstr "Kommentar:"
+
+#: src/exif.c:371
+msgid "Subsecond time"
+msgstr ""
+
+#: src/exif.c:372
+#, fuzzy
+msgid "Subsecond time original"
+msgstr "Ursprungsdatum"
+
+#: src/exif.c:373
+#, fuzzy
+msgid "Subsecond time digitized"
+msgstr "Digitaliseringsdatum"
+
+#: src/exif.c:374
+msgid "FlashPix version"
+msgstr ""
+
+#: src/exif.c:375
+#, fuzzy
+msgid "Colorspace"
+msgstr "Stäng"
+
+#. ExifImageWidth, ExifImageHeight can also be unsigned short
+#: src/exif.c:377
+msgid "Width"
+msgstr "Bredd"
+
+#: src/exif.c:378
+msgid "Height"
+msgstr "Höjd"
+
+#: src/exif.c:379
+#, fuzzy
+msgid "Audio data"
+msgstr "_Exif-information"
+
+#: src/exif.c:380
+msgid "ExifR98 extension"
+msgstr ""
+
+#: src/exif.c:381
+#, fuzzy
+msgid "Flash strength"
+msgstr "Brännvidd"
+
+#: src/exif.c:382
+msgid "Spatial frequency response"
+msgstr ""
+
+#: src/exif.c:383
+msgid "X Pixel density"
+msgstr ""
+
+#: src/exif.c:384
+msgid "Y Pixel density"
+msgstr ""
+
+#: src/exif.c:385
+msgid "Pixel density units"
+msgstr ""
+
+#: src/exif.c:386
+#, fuzzy
+msgid "Subject location"
+msgstr "Markering"
+
+#: src/exif.c:388
+#, fuzzy
+msgid "Sensor type"
+msgstr "Osorterade"
+
+#: src/exif.c:389
+#, fuzzy
+msgid "Source type"
+msgstr "Källa"
+
+#: src/exif.c:390
+#, fuzzy
+msgid "Scene type"
+msgstr "centimeter"
+
+#: src/exif.c:391
+msgid "Color filter array pattern"
+msgstr ""
+
+#. tags a4xx were added for Exif 2.2 (not just these - some above, as well)
+#: src/exif.c:393
+#, fuzzy
+msgid "Render process"
+msgstr "Skapa"
+
+#: src/exif.c:394
+#, fuzzy
+msgid "Exposure mode"
+msgstr "Exponeringskompensation"
+
+#: src/exif.c:395
+msgid "White balance"
+msgstr ""
+
+#: src/exif.c:396
+msgid "Digital zoom ratio"
+msgstr ""
+
+#: src/exif.c:397
+#, fuzzy
+msgid "Focal length (35mm)"
+msgstr "Brännvidd"
+
+#: src/exif.c:398
+msgid "Scene capture type"
+msgstr ""
+
+#: src/exif.c:399
+#, fuzzy
+msgid "Gain control"
+msgstr "Ta loss kontroller"
+
+#: src/exif.c:400
+#, fuzzy
+msgid "Contrast"
+msgstr "stående"
+
+#: src/exif.c:401
+#, fuzzy
+msgid "Saturation"
+msgstr "aktivt"
+
+#: src/exif.c:402
+msgid "Sharpness"
+msgstr ""
+
+#: src/exif.c:403
+msgid "Device setting"
+msgstr ""
+
+#: src/exif.c:404
+#, fuzzy
+msgid "Subject range"
+msgstr "Avstånd till motiv"
+
+#: src/exif.c:405
+#, fuzzy
+msgid "Image serial number"
+msgstr "Bildfil"
+
+#: src/filelist.c:637
 #, c-format
 msgid "%d bytes"
 msgstr "%d byte"
 
-#: src/filelist.c:527
+#: src/filelist.c:641
 #, c-format
 msgid "%.1f K"
 msgstr "%.1f kilobyte"
 
-#: src/filelist.c:531
+#: src/filelist.c:645
 #, c-format
 msgid "%.1f MB"
 msgstr "%.1f megabyte"
 
-#: src/filelist.c:536
+#: src/filelist.c:650
 #, c-format
 msgid "%.1f GB"
 msgstr "%.1f gigabyte"
 
-#: src/fullscreen.c:267
-msgid "Geeqie full screen"
-msgstr "Geeqie helskärmsläge"
+#: src/fullscreen.c:241 src/preferences.c:1324
+msgid "Full screen"
+msgstr "Helskärm"
 
-#: src/fullscreen.c:397
+#: src/fullscreen.c:393
 msgid "Full size"
 msgstr "Full storlek"
 
-#: src/fullscreen.c:402
+#: src/fullscreen.c:398
 msgid "Monitor"
 msgstr "Bildskärm"
 
-#: src/fullscreen.c:407 src/layout.c:452
+#: src/fullscreen.c:403 src/layout.c:443
 msgid "Screen"
 msgstr "Skärm"
 
-#: src/fullscreen.c:644
+#: src/fullscreen.c:640
 msgid "Stay above other windows"
 msgstr "Stanna ovanför andra fönster"
 
-#: src/fullscreen.c:651
+#: src/fullscreen.c:647
 msgid "Determined by Window Manager"
 msgstr "Hanteras av fönsterhanteraren"
 
-#: src/fullscreen.c:652
+#: src/fullscreen.c:648
 msgid "Active screen"
 msgstr "Aktiv skärm"
 
-#: src/fullscreen.c:654
+#: src/fullscreen.c:650
 msgid "Active monitor"
 msgstr "Aktiv bildskärm"
 
-#: src/img-view.c:1237 src/layout_image.c:719 src/layout_util.c:822
-#: src/pan-view.c:2774
+#: src/img-view.c:1233 src/layout_image.c:725 src/layout_util.c:1103
+#: src/pan-view.c:2780
 msgid "Zoom _in"
 msgstr "Zooma _in"
 
-#: src/img-view.c:1238 src/layout_image.c:720 src/layout_util.c:823
-#: src/pan-view.c:2776
+#: src/img-view.c:1234 src/layout_image.c:726 src/layout_util.c:1104
+#: src/pan-view.c:2782
 msgid "Zoom _out"
 msgstr "Zooma _ut"
 
-#: src/img-view.c:1239 src/layout_image.c:721 src/layout_util.c:824
-#: src/pan-view.c:2778
+#: src/img-view.c:1235 src/layout_image.c:727 src/layout_util.c:1105
+#: src/pan-view.c:2784
 msgid "Zoom _1:1"
 msgstr "Zooma _1:1"
 
-#: src/img-view.c:1240 src/layout_image.c:722
+#: src/img-view.c:1236 src/layout_image.c:728
 msgid "Fit image to _window"
 msgstr "Anpassa bild till fönster_storlek"
 
-#: src/img-view.c:1245 src/layout_image.c:728 src/layout_util.c:820
+#: src/img-view.c:1241 src/layout_image.c:734 src/layout_util.c:1101
 msgid "Set as _wallpaper"
 msgstr "Ställ in som skrivbords_underlag"
 
-#: src/img-view.c:1263 src/layout_image.c:753
+#: src/img-view.c:1259 src/layout_image.c:759
 msgid "_Stop slideshow"
 msgstr "_Stoppa bildspel"
 
-#: src/img-view.c:1266 src/layout_image.c:756
+#: src/img-view.c:1262 src/layout_image.c:762
 msgid "Continue slides_how"
 msgstr "Forts_ätt bildspel"
 
-#: src/img-view.c:1271 src/img-view.c:1279 src/layout_image.c:761
-#: src/layout_image.c:768
+#: src/img-view.c:1267 src/img-view.c:1275 src/layout_image.c:767
+#: src/layout_image.c:774
 msgid "Pause slides_how"
 msgstr "_Pausa bildspel"
 
-#: src/img-view.c:1277 src/layout_image.c:767
+#: src/img-view.c:1273 src/layout_image.c:773
 msgid "_Start slideshow"
 msgstr "_Starta bildspel"
 
-#: src/img-view.c:1285 src/layout_image.c:778 src/pan-view.c:2844
+#: src/img-view.c:1281 src/layout_image.c:784 src/pan-view.c:2850
 msgid "Exit _full screen"
 msgstr "Avsluta _helskärmsläge"
 
-#: src/img-view.c:1289 src/layout_image.c:774 src/pan-view.c:2848
+#: src/img-view.c:1285 src/layout_image.c:780 src/pan-view.c:2854
 msgid "_Full screen"
 msgstr "_Helskärmsläge"
 
-#: src/img-view.c:1293 src/layout_util.c:796 src/pan-view.c:2852
+#: src/img-view.c:1289 src/layout_util.c:1077 src/pan-view.c:2858
 msgid "C_lose window"
 msgstr "_Stäng fönster"
 
-#: src/info.c:367
+#: src/info.c:390
 msgid "File size:"
 msgstr "Filstorlek:"
 
-#: src/info.c:369
+#: src/info.c:392
 msgid "Dimensions:"
 msgstr "Dimensioner:"
 
-#: src/info.c:370
+#: src/info.c:393
 msgid "Transparent:"
 msgstr "Transparent:"
 
-#: src/info.c:371 src/print.c:3386
+#: src/info.c:394 src/print.c:3417
 msgid "Image size:"
 msgstr "Bildstorlek:"
 
-#: src/info.c:373
+#: src/info.c:396
 msgid "Compress ratio:"
 msgstr "Kompression:"
 
-#: src/info.c:374
+#: src/info.c:397
 msgid "File type:"
 msgstr "Filtyp:"
 
-#: src/info.c:376
+#: src/info.c:399
 msgid "Owner:"
 msgstr "Ägare:"
 
-#: src/info.c:377
+#: src/info.c:400
 msgid "Group:"
 msgstr "Grupp:"
 
-#: src/info.c:380 src/preferences.c:851
+#: src/info.c:403 src/preferences.c:862
 msgid "General"
 msgstr "Allmänt"
 
-#: src/info.c:461
+#: src/info.c:529
 #, c-format
 msgid "Image %d of %d"
 msgstr "Bild %d av %d"
 
-#: src/info.c:684
-msgid "Image properties - Geeqie"
+#: src/info.c:778
+#, fuzzy
+msgid "Image properties"
 msgstr "Bildegenskaper - Geeqie"
 
-#: src/layout.c:274 src/view_file_icon.c:305 src/view_file_list.c:416
+#: src/layout.c:275 src/view_file_icon.c:344 src/view_file_list.c:590
 msgid "Ascending"
 msgstr "Stigande"
 
-#: src/layout.c:399
+#: src/layout.c:377
+#, c-format
+msgid "This installation of %s was not built with support for color profiles."
+msgstr ""
+
+#: src/layout.c:378
 #, fuzzy
 msgid "Color profiles not supported"
 msgstr "Mappen hittades inte"
 
-#: src/layout.c:400
-msgid ""
-"This installation of Geeqie was not built with support for color profiles."
-msgstr ""
-
-#: src/layout.c:410
+#: src/layout.c:401
 msgid "Use _color profiles"
 msgstr ""
 
-#: src/layout.c:415
+#: src/layout.c:406
 msgid "Use profile from _image"
 msgstr ""
 
-#: src/layout.c:419 src/layout.c:436
+#: src/layout.c:410 src/layout.c:427
 #, c-format
 msgid "Input _%d:"
 msgstr ""
 
-#: src/layout.c:461
+#: src/layout.c:452
 msgid "_Screen profile"
 msgstr ""
 
-#: src/layout.c:528
+#: src/layout.c:519
 msgid " Slideshow"
 msgstr " Bildspel"
 
-#: src/layout.c:532
+#: src/layout.c:523
 msgid " Paused"
 msgstr " Pausat"
 
-#: src/layout.c:549
+#: src/layout.c:540
 #, c-format
 msgid "%s, %d files (%s, %d)%s"
 msgstr "%s, %d filer (%s, %d)%s"
 
-#: src/layout.c:556
+#: src/layout.c:547
 #, c-format
 msgid "%s, %d files%s"
 msgstr "%s, %d filer%s"
 
-#: src/layout.c:561
+#: src/layout.c:552
 #, c-format
 msgid "%d files%s"
 msgstr "%d filer%s"
 
-#: src/layout.c:590
+#: src/layout.c:581
 #, c-format
 msgid "(no read permission) %s bytes"
 msgstr "(ingen läsrättighet) %s byte"
 
-#: src/layout.c:594
+#: src/layout.c:585
 #, c-format
 msgid "( ? x ? ) %s bytes"
 msgstr "( ? × ? ) %s byte"
 
-#: src/layout.c:602
+#: src/layout.c:593
 #, c-format
 msgid "( %d x %d ) %s bytes"
 msgstr "( %d × %d ) %s byte"
 
-#: src/layout.c:1304
-msgid "Geeqie Tools"
-msgstr "Geeqie Verktyg"
+#: src/layout.c:1320 src/layout_config.c:57
+msgid "Tools"
+msgstr "Verktyg"
 
-#: src/layout.c:1934
+#: src/layout.c:1995
 #, fuzzy
 msgid "Invalid geometry\n"
 msgstr "Ogiltig mapp"
 
-#: src/layout_config.c:57
-msgid "Tools"
-msgstr "Verktyg"
-
-#: src/layout_config.c:57 src/ui_pathsel.c:1174
+#: src/layout_config.c:57 src/ui_pathsel.c:1175
 msgid "Files"
 msgstr "Filer"
 
-#: src/layout_config.c:57 src/preferences.c:916 src/print.c:114
+#: src/layout_config.c:57 src/preferences.c:938 src/print.c:114
 msgid "Image"
 msgstr "Bild"
 
@@ -1233,373 +1704,539 @@ msgstr "Bild"
 msgid "(drag to change order)"
 msgstr "(dra-och-släpp för att byta ordning)"
 
-#: src/layout_image.c:783
+#: src/layout_image.c:789
 msgid "Hide file _list"
 msgstr "Dölj fil_lista"
 
-#: src/layout_util.c:654 src/menu.c:74
+#: src/layout_util.c:925 src/menu.c:74
 #, c-format
 msgid "in %s..."
 msgstr "i %s..."
 
-#: src/layout_util.c:658 src/menu.c:76
+#: src/layout_util.c:929 src/menu.c:76
 msgid "in (unknown)..."
 msgstr "i (okänd)..."
 
-#: src/layout_util.c:666
+#: src/layout_util.c:937
 msgid "empty"
 msgstr "tom"
 
-#: src/layout_util.c:777
+#: src/layout_util.c:1048
 msgid "_File"
 msgstr "_Arkiv"
 
-#: src/layout_util.c:778 src/menu.c:91
+#: src/layout_util.c:1049
+msgid "_Go"
+msgstr ""
+
+#: src/layout_util.c:1050 src/menu.c:91
 msgid "_Edit"
 msgstr "_Redigera"
 
-#: src/layout_util.c:779 src/menu.c:259
+#: src/layout_util.c:1051
+#, fuzzy
+msgid "_Select"
+msgstr "Markering"
+
+#: src/layout_util.c:1052 src/menu.c:259
 msgid "_Adjust"
 msgstr "_Justera"
 
-#: src/layout_util.c:781
+#: src/layout_util.c:1054
+#, fuzzy
+msgid "_Zoom"
+msgstr "Zooma"
+
+#: src/layout_util.c:1055
+msgid "_Split"
+msgstr ""
+
+#: src/layout_util.c:1056
 msgid "_Help"
 msgstr "_Hjälp"
 
-#: src/layout_util.c:783
+#: src/layout_util.c:1058
+#, fuzzy
+msgid "_First Image"
+msgstr "första bilden"
+
+#: src/layout_util.c:1059
+#, fuzzy
+msgid "_Previous Image"
+msgstr "föregående bild"
+
+#: src/layout_util.c:1060
+#, fuzzy
+msgid "_Next Image"
+msgstr "nästa bild"
+
+#: src/layout_util.c:1061
+#, fuzzy
+msgid "_Last Image"
+msgstr "sista bilden"
+
+#: src/layout_util.c:1064
 msgid "New _window"
 msgstr "Nytt _fönster"
 
-#: src/layout_util.c:784
+#: src/layout_util.c:1065
 msgid "_New collection"
 msgstr "_Nytt album"
 
-#: src/layout_util.c:785
+#: src/layout_util.c:1066
 msgid "_Open collection..."
 msgstr "Öppna _album..."
 
-#: src/layout_util.c:786
+#: src/layout_util.c:1067
 msgid "Open _recent"
 msgstr "_Öppna senaste"
 
-#: src/layout_util.c:787
+#: src/layout_util.c:1068
 msgid "_Search..."
 msgstr "_Sök..."
 
-#: src/layout_util.c:789
+#: src/layout_util.c:1070
 #, fuzzy
 msgid "Pan _view"
 msgstr "Avancerad vy"
 
-#: src/layout_util.c:790
+#: src/layout_util.c:1071
 msgid "_Print..."
 msgstr "_Skriv ut..."
 
-#: src/layout_util.c:791
+#: src/layout_util.c:1072
 msgid "N_ew folder..."
 msgstr "Ny _mapp..."
 
-#: src/layout_util.c:797
+#: src/layout_util.c:1078
 msgid "_Quit"
 msgstr "A_vsluta"
 
-#: src/layout_util.c:809 src/menu.c:201
+#: src/layout_util.c:1090 src/menu.c:201
 msgid "_Rotate clockwise"
 msgstr "_Rotera medurs"
 
-#: src/layout_util.c:810 src/menu.c:204
+#: src/layout_util.c:1091 src/menu.c:204
 msgid "Rotate _counterclockwise"
 msgstr "Rotera mot_urs"
 
-#: src/layout_util.c:811
+#: src/layout_util.c:1092
 msgid "Rotate 1_80"
 msgstr "Rotera 1_80°"
 
-#: src/layout_util.c:812 src/menu.c:210
+#: src/layout_util.c:1093 src/menu.c:210
 msgid "_Mirror"
 msgstr "Spegla _horisontellt"
 
-#: src/layout_util.c:813 src/menu.c:213
+#: src/layout_util.c:1094 src/menu.c:213
 msgid "_Flip"
 msgstr "Spegla _vertikalt"
 
-#: src/layout_util.c:814 src/menu.c:216
+#: src/layout_util.c:1095 src/menu.c:216
 msgid "_Grayscale"
 msgstr ""
 
-#: src/layout_util.c:816
+#: src/layout_util.c:1097
 msgid "Select _all"
 msgstr "Markera _alla"
 
-#: src/layout_util.c:817
+#: src/layout_util.c:1098
 msgid "Select _none"
 msgstr "Markera _ingen"
 
-#: src/layout_util.c:818
+#: src/layout_util.c:1099
 msgid "P_references..."
 msgstr "In_ställningar..."
 
-#: src/layout_util.c:819
+#: src/layout_util.c:1100
 msgid "_Thumbnail maintenance..."
 msgstr "_Miniatyrbildsunderhåll..."
 
-#: src/layout_util.c:825
+#: src/layout_util.c:1106
 msgid "_Zoom to fit"
 msgstr "_Zooma så bilden passar"
 
-#: src/layout_util.c:826
+#: src/layout_util.c:1107
+msgid "Fit _Horizontally"
+msgstr ""
+
+#: src/layout_util.c:1108
+msgid "Fit _Vorizontally"
+msgstr ""
+
+#: src/layout_util.c:1109
+#, fuzzy
+msgid "Zoom _2:1"
+msgstr "Zooma _1:1"
+
+#: src/layout_util.c:1110
+#, fuzzy
+msgid "Zoom _3:1"
+msgstr "Zooma _1:1"
+
+#: src/layout_util.c:1111
+#, fuzzy
+msgid "Zoom _4:1"
+msgstr "Zooma _1:1"
+
+#: src/layout_util.c:1112
+#, fuzzy
+msgid "Zoom 1:2"
+msgstr "Zooma _1:1"
+
+#: src/layout_util.c:1113
+#, fuzzy
+msgid "Zoom 1:3"
+msgstr "Zooma _1:1"
+
+#: src/layout_util.c:1114
+#, fuzzy
+msgid "Zoom 1:4"
+msgstr "Zooma _1:1"
+
+#: src/layout_util.c:1117
+#, fuzzy
+msgid "_View in new window"
+msgstr "Visa i _nytt fönster"
+
+#: src/layout_util.c:1119
 msgid "F_ull screen"
 msgstr "_Helskärm"
 
-#: src/layout_util.c:827
+#: src/layout_util.c:1120
+msgid "_Image Overlay"
+msgstr ""
+
+#: src/layout_util.c:1121
+msgid "Histogram _channels"
+msgstr ""
+
+#: src/layout_util.c:1122
+msgid "Histogram _log mode"
+msgstr ""
+
+#: src/layout_util.c:1123
 msgid "_Hide file list"
 msgstr "_Dölj fillista"
 
-#: src/layout_util.c:828
+#: src/layout_util.c:1124
 msgid "Toggle _slideshow"
 msgstr "Växla _bildspel"
 
-#: src/layout_util.c:829
+#: src/layout_util.c:1125
 msgid "_Refresh"
 msgstr "_Uppdatera"
 
-#: src/layout_util.c:831
+#: src/layout_util.c:1127
 msgid "_Contents"
 msgstr "_Innehåll"
 
-#: src/layout_util.c:832
+#: src/layout_util.c:1128
 msgid "_Keyboard shortcuts"
 msgstr "_Tangentbordsgenvägar"
 
-#: src/layout_util.c:833
+#: src/layout_util.c:1129
 msgid "_Release notes"
 msgstr "_Utgåvenoteringar"
 
-#: src/layout_util.c:834
+#: src/layout_util.c:1130
 msgid "_About"
 msgstr "_Om"
 
-#: src/layout_util.c:838 src/layout_util.c:1086
+#: src/layout_util.c:1134 src/layout_util.c:1498
 msgid "_Thumbnails"
 msgstr "_Miniatyrbilder"
 
-#: src/layout_util.c:839
+#: src/layout_util.c:1135
+#, fuzzy
+msgid "Show _Marks"
+msgstr "Visa dolda"
+
+#: src/layout_util.c:1136
 msgid "Tr_ee"
 msgstr "T_räd"
 
-#: src/layout_util.c:840
+#: src/layout_util.c:1137
 msgid "_Float file list"
 msgstr "_Ta loss fillista"
 
-#: src/layout_util.c:841
+#: src/layout_util.c:1138
 msgid "Hide tool_bar"
 msgstr "Dölj _verktygsrad"
 
-#: src/layout_util.c:842
+#: src/layout_util.c:1139
 msgid "_Keywords"
 msgstr "_Nyckelord"
 
-#: src/layout_util.c:843
+#: src/layout_util.c:1140
 msgid "E_xif data"
 msgstr "_Exif-information"
 
-#: src/layout_util.c:844
+#: src/layout_util.c:1141
 msgid "Sort _manager"
 msgstr "_Sorteringshanterare"
 
-#: src/layout_util.c:848
+#: src/layout_util.c:1142
+msgid "Connected scroll"
+msgstr ""
+
+#: src/layout_util.c:1143
+msgid "Connected zoom"
+msgstr ""
+
+#: src/layout_util.c:1147
 msgid "_List"
 msgstr "_Lista"
 
-#: src/layout_util.c:849
+#: src/layout_util.c:1148
 msgid "I_cons"
 msgstr "I_koner"
 
-#: src/layout_util.c:1087
+#: src/layout_util.c:1152
+msgid "Horizontal"
+msgstr ""
+
+#: src/layout_util.c:1153
+#, fuzzy
+msgid "Vertical"
+msgstr "partiell"
+
+#: src/layout_util.c:1154
+msgid "Quad"
+msgstr ""
+
+#: src/layout_util.c:1155
+#, fuzzy
+msgid "Single"
+msgstr "Storlek"
+
+#: src/layout_util.c:1319
+#, c-format
+msgid "Mark _%d"
+msgstr ""
+
+#: src/layout_util.c:1320 src/view_file_list.c:526
+#, c-format
+msgid "_Set mark %d"
+msgstr ""
+
+#: src/layout_util.c:1321 src/view_file_list.c:527
+#, c-format
+msgid "_Reset mark %d"
+msgstr ""
+
+#: src/layout_util.c:1322 src/view_file_list.c:528
+#, c-format
+msgid "_Toggle mark %d"
+msgstr ""
+
+#: src/layout_util.c:1323 src/view_file_list.c:529
+#, fuzzy, c-format
+msgid "_Select mark %d"
+msgstr "Markera alla"
+
+#: src/layout_util.c:1324 src/view_file_list.c:530
+#, fuzzy, c-format
+msgid "_Add mark %d"
+msgstr "Lägg till bokmärke"
+
+#: src/layout_util.c:1325 src/view_file_list.c:531
+#, c-format
+msgid "_Intersection with mark %d"
+msgstr ""
+
+#: src/layout_util.c:1326 src/view_file_list.c:532
+#, c-format
+msgid "_Unselect mark %d"
+msgstr ""
+
+#: src/layout_util.c:1499
 msgid "Show thumbnails"
 msgstr "Visa miniatyrbilder"
 
-#: src/layout_util.c:1092
+#: src/layout_util.c:1504
 msgid "Change to home folder"
 msgstr "Byt till hemmappen"
 
-#: src/layout_util.c:1094
+#: src/layout_util.c:1506
 msgid "Refresh file list"
 msgstr "Uppdatera fillista"
 
-#: src/layout_util.c:1096
+#: src/layout_util.c:1508
 msgid "Zoom in"
 msgstr "Zooma in"
 
-#: src/layout_util.c:1098
+#: src/layout_util.c:1510
 msgid "Zoom out"
 msgstr "Zooma ut"
 
-#: src/layout_util.c:1100 src/preferences.c:945
+#: src/layout_util.c:1512 src/preferences.c:975
 msgid "Fit image to window"
 msgstr "Anpassa bild till fönsterstorlek"
 
-#: src/layout_util.c:1102
+#: src/layout_util.c:1514
 msgid "Set zoom 1:1"
 msgstr "Ställ in zoom 1:1"
 
-#: src/layout_util.c:1104
+#: src/layout_util.c:1516
 msgid "Configure options"
 msgstr "Konfigurera alternativ"
 
-#: src/layout_util.c:1105
+#: src/layout_util.c:1517
 #, fuzzy
 msgid "_Float"
 msgstr "Format"
 
-#: src/layout_util.c:1106
+#: src/layout_util.c:1518
 msgid "Float Controls"
 msgstr "Ta loss kontroller"
 
-#: src/main.c:237
-msgid "Help - Geeqie"
-msgstr "Hjälp - Geeqie"
+#: src/main.c:267
+msgid "Help"
+msgstr "Hjälp"
 
-#: src/main.c:460 src/main.c:1376
+#: src/main.c:493 src/main.c:1438
 msgid "Command line"
 msgstr "Kommandorad"
 
 #. short, long                  callback,               extra, prefer,description
-#: src/main.c:498
+#: src/main.c:531
 msgid "next image"
 msgstr "nästa bild"
 
-#: src/main.c:499
+#: src/main.c:532
 msgid "previous image"
 msgstr "föregående bild"
 
-#: src/main.c:500
+#: src/main.c:533
 msgid "first image"
 msgstr "första bilden"
 
-#: src/main.c:501
+#: src/main.c:534
 msgid "last image"
 msgstr "sista bilden"
 
-#: src/main.c:502
+#: src/main.c:535
 msgid "toggle full screen"
 msgstr "växla helskärmsläge"
 
-#: src/main.c:503
+#: src/main.c:536
 msgid "start full screen"
 msgstr "aktivera helskärmsläge"
 
-#: src/main.c:504
+#: src/main.c:537
 msgid "stop full screen"
 msgstr "avaktivera helskärmsläge"
 
-#: src/main.c:505
+#: src/main.c:538
 msgid "toggle slide show"
 msgstr "växla bildspel"
 
-#: src/main.c:506
+#: src/main.c:539
 msgid "start slide show"
 msgstr "starta bildspel"
 
-#: src/main.c:507
+#: src/main.c:540
 msgid "stop slide show"
 msgstr "stoppa bildspel"
 
-#: src/main.c:508
+#: src/main.c:541
 msgid "start recursive slide show"
 msgstr "starta rekursivt bildspel"
 
-#: src/main.c:509
+#: src/main.c:542
 msgid "set slide show delay in seconds"
 msgstr "ställ in bildspelsfördröjning i sekunder"
 
-#: src/main.c:510
+#: src/main.c:543
 msgid "show tools"
 msgstr "visa verktyg"
 
-#: src/main.c:511
+#: src/main.c:544
 msgid "hide tools"
 msgstr "dölj verktyg"
 
-#: src/main.c:512
+#: src/main.c:545
 msgid "quit"
 msgstr "avsluta"
 
-#: src/main.c:513
+#: src/main.c:546
 msgid "open file"
 msgstr "öppna fil"
 
-#: src/main.c:514
+#: src/main.c:547
 msgid "open file in new window"
 msgstr "öppna fil i ett nytt fönster"
 
-#: src/main.c:580
+#: src/main.c:613
 msgid "Remote command list:\n"
 msgstr "Lista över fjärrkommandon:\n"
 
-#: src/main.c:638
-msgid "Remote Geeqie not running, starting..."
+#: src/main.c:672
+#, fuzzy, c-format
+msgid "Remote %s not running, starting..."
 msgstr "Fjärr-Geeqie inte igång, startar..."
 
-#: src/main.c:773
+#: src/main.c:811
 msgid "Remote not available\n"
 msgstr "Fjärr ej tillgänglig\n"
 
-#: src/main.c:991
+#: src/main.c:1030
+#, fuzzy, c-format
 msgid ""
-"Usage: gqview [options] [path]\n"
+"Usage: %s [options] [path]\n"
 "\n"
 msgstr ""
 "Användning: gqview [flaggor] [sökväg]\n"
 "\n"
 
-#: src/main.c:992
+#: src/main.c:1034
 msgid "valid options are:\n"
 msgstr "giltiga flaggor är:\n"
 
-#: src/main.c:993
+#: src/main.c:1035
 msgid "  +t, --with-tools           force show of tools\n"
 msgstr "  +t, --with-tools           tvingar verktygen att visas\n"
 
-#: src/main.c:994
+#: src/main.c:1036
 msgid "  -t, --without-tools        force hide of tools\n"
 msgstr "  -t, --without-tools        tvingar verktygen att döljas\n"
 
-#: src/main.c:995
+#: src/main.c:1037
 msgid "  -f, --fullscreen           start in full screen mode\n"
 msgstr "  -f, --fullscreen           starta i helskärmsläge\n"
 
-#: src/main.c:996
+#: src/main.c:1038
 msgid "  -s, --slideshow            start in slideshow mode\n"
 msgstr "  -s, --slideshow            starta i bildspelsläge\n"
 
-#: src/main.c:997
+#: src/main.c:1039
 msgid "  -l, --list                 open collection window for command line\n"
 msgstr "  -l, --list                 öppna albumfönster för angivna filer\n"
 
-#: src/main.c:998
+#: src/main.c:1040
 msgid "      --geometry=GEOMETRY    set main window location\n"
 msgstr ""
 
-#: src/main.c:999
+#: src/main.c:1041
 msgid "  -r, --remote               send following commands to open window\n"
 msgstr ""
 "  -r, --remote               skicka följande kommandon till ett öppet "
 "fönster\n"
 
-#: src/main.c:1000
+#: src/main.c:1042
 msgid "  -rh,--remote-help          print remote command list\n"
 msgstr "  -rh,--remote-help          visa lista över fjärrkommandon\n"
 
-#: src/main.c:1001
+#: src/main.c:1044
 msgid "  --debug                    turn on debug output\n"
 msgstr "  --debug                    slå på felsökningsmeddelanden\n"
 
-#: src/main.c:1002
+#: src/main.c:1046
 msgid "  -v, --version              print version info\n"
 msgstr "  -v, --version              visa versionsinformation\n"
 
-#: src/main.c:1003
+#: src/main.c:1047
 msgid ""
 "  -h, --help                 show this message\n"
 "\n"
@@ -1607,7 +2244,7 @@ msgstr ""
 "  -h, --help                 visa denna hjälptext\n"
 "\n"
 
-#: src/main.c:1017
+#: src/main.c:1061
 #, c-format
 msgid ""
 "invalid or ignored: %s\n"
@@ -1616,33 +2253,34 @@ msgstr ""
 "ogiltig eller ignorerad: %s\n"
 "Använd --help för att visa parametrar\n"
 
-#: src/main.c:1093
-#, c-format
-msgid "Creating Geeqie dir:%s\n"
+#: src/main.c:1137
+#, fuzzy, c-format
+msgid "Creating %s dir:%s\n"
 msgstr "Skapar Geeqie-mapp:%s\n"
 
-#: src/main.c:1099
+#: src/main.c:1143
 #, c-format
 msgid "Could not create dir:%s\n"
 msgstr "Kunde inte skapa mapp:%s\n"
 
-#: src/main.c:1120 src/ui_bookmark.c:858 src/ui_pathsel.c:1042
+#: src/main.c:1164 src/ui_bookmark.c:861 src/ui_pathsel.c:1043
 msgid "Home"
 msgstr "Hem"
 
-#: src/main.c:1122 src/ui_bookmark.c:865
+#: src/main.c:1166 src/ui_bookmark.c:868
 msgid "Desktop"
 msgstr "Skrivbord"
 
-#: src/main.c:1222
-msgid "Geeqie - exit"
-msgstr "Geeqie - avsluta"
+#: src/main.c:1275
+msgid "exit"
+msgstr "avsluta"
 
-#: src/main.c:1226
-msgid "Quit Geeqie"
-msgstr "Avsluta Geeqie"
+#: src/main.c:1280
+#, fuzzy, c-format
+msgid "Quit %s"
+msgstr "A_vsluta"
 
-#: src/main.c:1226
+#: src/main.c:1282
 msgid "Collections have been modified. Quit anyway?"
 msgstr "Album har ändrats. Avsluta ändå?"
 
@@ -1693,222 +2331,236 @@ msgstr ""
 msgid "Folder not supported"
 msgstr "Mappen hittades inte"
 
-#: src/pan-view.c:1070 src/pan-view.c:1086
+#: src/pan-view.c:1080 src/pan-view.c:1096
 #, fuzzy
 msgid "Reading image data..."
 msgstr "Läser in likhetsdata..."
 
-#: src/pan-view.c:1145
+#: src/pan-view.c:1155
 #, fuzzy
 msgid "Sorting images..."
 msgstr "Sorterar..."
 
-#: src/pan-view.c:1525 src/pan-view.c:1891
+#: src/pan-view.c:1535 src/pan-view.c:1901
 #, fuzzy
 msgid "Date:"
 msgstr "Datum"
 
-#: src/pan-view.c:1527 src/preferences.c:873 src/print.c:3216 src/print.c:3423
+#: src/pan-view.c:1537 src/preferences.c:884 src/print.c:3243 src/print.c:3454
 msgid "Size:"
 msgstr "Storlek:"
 
-#: src/pan-view.c:1629
+#: src/pan-view.c:1639
 msgid "path found"
 msgstr ""
 
-#: src/pan-view.c:1629
+#: src/pan-view.c:1639
 #, fuzzy
 msgid "filename found"
 msgstr "Filen hittades inte"
 
-#: src/pan-view.c:1677
+#: src/pan-view.c:1687
 #, fuzzy
 msgid "partial match"
 msgstr "partiell"
 
-#: src/pan-view.c:1888 src/pan-view.c:1921
+#: src/pan-view.c:1898 src/pan-view.c:1931
 msgid "no match"
 msgstr ""
 
-#: src/pan-view.c:2247 src/search.c:2131
+#: src/pan-view.c:2257 src/search.c:2129
 msgid "Folder not found"
 msgstr "Mappen hittades inte"
 
-#: src/pan-view.c:2248
+#: src/pan-view.c:2258
 msgid "The entered path is not a folder"
 msgstr ""
 
-#: src/pan-view.c:2354
+#: src/pan-view.c:2357
 #, fuzzy
-msgid "Pan View - Geeqie"
-msgstr "Skriv ut - Geeqie"
+msgid "Pan View"
+msgstr "Avancerad vy"
 
-#: src/pan-view.c:2376
+#: src/pan-view.c:2382
 #, fuzzy
 msgid "Timeline"
 msgstr "Bilinjär"
 
-#: src/pan-view.c:2377
+#: src/pan-view.c:2383
 #, fuzzy
 msgid "Calendar"
 msgstr "T_öm"
 
-#: src/pan-view.c:2379
+#: src/pan-view.c:2385
 #, fuzzy
 msgid "Folders (flower)"
 msgstr "Mappar"
 
-#: src/pan-view.c:2380
+#: src/pan-view.c:2386
 msgid "Grid"
 msgstr ""
 
-#: src/pan-view.c:2389
+#: src/pan-view.c:2395
 #, fuzzy
 msgid "Dots"
 msgstr "punkter"
 
-#: src/pan-view.c:2390
+#: src/pan-view.c:2396
 #, fuzzy
 msgid "No Images"
 msgstr "Bild"
 
-#: src/pan-view.c:2391
+#: src/pan-view.c:2397
 #, fuzzy
 msgid "Small Thumbnails"
 msgstr "Miniatyrbilder"
 
-#: src/pan-view.c:2392
+#: src/pan-view.c:2398
 #, fuzzy
 msgid "Normal Thumbnails"
 msgstr "Miniatyrbilder"
 
-#: src/pan-view.c:2393
+#: src/pan-view.c:2399
 #, fuzzy
 msgid "Large Thumbnails"
 msgstr "Kasta miniatyrbilder"
 
-#: src/pan-view.c:2394 src/pan-view.c:2834
+#: src/pan-view.c:2400 src/pan-view.c:2840
 msgid "1:10 (10%)"
 msgstr ""
 
-#: src/pan-view.c:2395 src/pan-view.c:2830
+#: src/pan-view.c:2401 src/pan-view.c:2836
 msgid "1:4 (25%)"
 msgstr ""
 
-#: src/pan-view.c:2396 src/pan-view.c:2826
+#: src/pan-view.c:2402 src/pan-view.c:2832
 msgid "1:3 (33%)"
 msgstr ""
 
-#: src/pan-view.c:2397 src/pan-view.c:2822
+#: src/pan-view.c:2403 src/pan-view.c:2828
 msgid "1:2 (50%)"
 msgstr ""
 
-#: src/pan-view.c:2398
+#: src/pan-view.c:2404
 msgid "1:1 (100%)"
 msgstr ""
 
-#: src/pan-view.c:2446
+#: src/pan-view.c:2452
 #, fuzzy
 msgid "Find:"
 msgstr "Fil:"
 
-#: src/pan-view.c:2489
+#: src/pan-view.c:2495
 #, fuzzy
 msgid "Use Exif date"
 msgstr "_Exif-information"
 
-#: src/pan-view.c:2502
+#: src/pan-view.c:2508
 msgid "Find"
 msgstr ""
 
-#: src/pan-view.c:2569
+#: src/pan-view.c:2575
 msgid "Pan View Performance"
 msgstr ""
 
-#: src/pan-view.c:2576
+#: src/pan-view.c:2582
 msgid "Pan view performance may be poor."
 msgstr ""
 
-#: src/pan-view.c:2577
+#: src/pan-view.c:2583
 msgid ""
 "To improve performance of thumbnails in the pan view the following options "
 "can be enabled. Note that both options must be enabled to notice a change in "
 "performance."
 msgstr ""
 
-#: src/pan-view.c:2585 src/preferences.c:876
+#: src/pan-view.c:2591 src/preferences.c:887
 msgid "Cache thumbnails"
 msgstr "Cacha miniatyrbilder"
 
-#: src/pan-view.c:2587 src/preferences.c:882
+#: src/pan-view.c:2593 src/preferences.c:893
 msgid "Use shared thumbnail cache"
 msgstr "Använd delad miniatyrbildscache"
 
-#: src/pan-view.c:2593
+#: src/pan-view.c:2599
 msgid "Do not show this dialog again"
 msgstr ""
 
-#: src/pan-view.c:2802
+#: src/pan-view.c:2808
 #, fuzzy
 msgid "Sort by E_xif date"
 msgstr "Sortera efter datum"
 
-#: src/pan-view.c:2808
+#: src/pan-view.c:2814
 msgid "_Show Exif information"
 msgstr ""
 
-#: src/pan-view.c:2810
+#: src/pan-view.c:2816
 #, fuzzy
 msgid "Show im_age"
 msgstr "Visa dolda"
 
-#: src/pan-view.c:2814
+#: src/pan-view.c:2820
 #, fuzzy
 msgid "_None"
 msgstr "Ingen"
 
-#: src/pan-view.c:2818
+#: src/pan-view.c:2824
 #, fuzzy
 msgid "_Full size"
 msgstr "Full storlek"
 
-#: src/preferences.c:414
+#. note: the order is important, it must match the values of
+#. * EXIF_UI_OFF, _IFSET, _ON
+#: src/preferences.c:437
+msgid "Never"
+msgstr ""
+
+#: src/preferences.c:438
+msgid "If set"
+msgstr ""
+
+#: src/preferences.c:439
+msgid "Always"
+msgstr ""
+
+#: src/preferences.c:486
 msgid "Nearest (worst, but fastest)"
 msgstr "Närmast (sämst, men snabbast)"
 
-#: src/preferences.c:416
+#: src/preferences.c:488
 msgid "Tiles"
 msgstr "Brickor"
 
-#: src/preferences.c:418
+#: src/preferences.c:490
 msgid "Bilinear"
 msgstr "Bilinjär"
 
-#: src/preferences.c:420
+#: src/preferences.c:492
 msgid "Hyper (best, but slowest)"
 msgstr "Super (bäst, men långsammast)"
 
-#: src/preferences.c:448
+#: src/preferences.c:520
 msgid "None"
 msgstr "Ingen"
 
-#: src/preferences.c:449
+#: src/preferences.c:521
 msgid "Normal"
 msgstr "Normal"
 
-#: src/preferences.c:450
+#: src/preferences.c:522
 msgid "Best"
 msgstr "Bäst"
 
-#: src/preferences.c:528 src/print.c:369
+#: src/preferences.c:583 src/print.c:370
 msgid "Custom"
 msgstr "Egendefinierat"
 
-#: src/preferences.c:692 src/preferences.c:695
+#: src/preferences.c:747 src/preferences.c:750
 msgid "Reset filters"
 msgstr "Återställ filfilter"
 
-#: src/preferences.c:696
+#: src/preferences.c:751
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
@@ -1916,11 +2568,11 @@ msgstr ""
 "Detta kommer att återställa filfiltren till standardinställningarna.\n"
 "Fortsätt?"
 
-#: src/preferences.c:729 src/preferences.c:732
+#: src/preferences.c:785 src/preferences.c:788
 msgid "Reset editors"
 msgstr "Återställ redigeringsprogram"
 
-#: src/preferences.c:733
+#: src/preferences.c:789
 msgid ""
 "This will reset the edit commands to the defaults.\n"
 "Continue?"
@@ -1929,315 +2581,377 @@ msgstr ""
 "till standardinställningarna.\n"
 "Fortsätt?"
 
-#: src/preferences.c:757 src/preferences.c:760
+#: src/preferences.c:813 src/preferences.c:816
 msgid "Clear trash"
 msgstr "Töm papperskorgen"
 
-#: src/preferences.c:761
+#: src/preferences.c:817
 msgid "This will remove the trash contents."
 msgstr "Detta kommer att ta bort papperskorgens innehåll."
 
-#: src/preferences.c:800
-msgid "Geeqie Preferences"
-msgstr "Geeqie Inställningar"
-
-#: src/preferences.c:854
+#: src/preferences.c:865
 msgid "Startup"
 msgstr "Uppstart"
 
-#: src/preferences.c:856
+#: src/preferences.c:867
 msgid "Change to folder:"
 msgstr "Byt till mapp:"
 
-#: src/preferences.c:867
+#: src/preferences.c:878
 msgid "Use current"
 msgstr "Använd aktuell"
 
-#: src/preferences.c:874 src/preferences.c:925
+#: src/preferences.c:885 src/preferences.c:947
 msgid "Quality:"
 msgstr "Kvalitet:"
 
-#: src/preferences.c:888
+#: src/preferences.c:899
 msgid "Cache thumbnails into .thumbnails"
 msgstr "Cacha miniatyrbilder i .thumbnails"
 
-#: src/preferences.c:892
+#: src/preferences.c:903
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr "Använd xvpics-miniatyrbilder om sådana finns (endast läsning)"
 
-#: src/preferences.c:896
+#: src/preferences.c:907
 msgid "Faster jpeg thumbnailing (may reduce quality)"
 msgstr ""
 
-#: src/preferences.c:899
+#: src/preferences.c:910
 msgid "Slide show"
 msgstr "Bildspel"
 
-#: src/preferences.c:902
+#: src/preferences.c:913
 msgid "Delay between image change:"
 msgstr "Fördröjning mellan bildväxlingar:"
 
-#: src/preferences.c:902
+#: src/preferences.c:913
 msgid "seconds"
 msgstr "sekunder"
 
-#: src/preferences.c:908
+#: src/preferences.c:919
 msgid "Random"
 msgstr "Slumpmässigt"
 
-#: src/preferences.c:909
+#: src/preferences.c:920
 msgid "Repeat"
 msgstr "Upprepa"
 
-#: src/preferences.c:919
+#: src/preferences.c:941
 msgid "Zoom"
 msgstr "Zooma"
 
-#: src/preferences.c:922
+#: src/preferences.c:944
 msgid "Dithering method:"
 msgstr "Ditheringmetod:"
 
-#: src/preferences.c:927
+#: src/preferences.c:949
 msgid "Two pass zooming"
 msgstr "Tvåstegszoomning"
 
-#: src/preferences.c:930
+#: src/preferences.c:952
 msgid "Allow enlargement of image for zoom to fit"
 msgstr "Tillåt förstoring av bilder för att passa fönstret"
 
-#: src/preferences.c:934
+#: src/preferences.c:956
+#, fuzzy
+msgid "Limit image size when autofitting (%):"
+msgstr "Begränsa storlek vid automatisk storleksändring av fönster (%):"
+
+#: src/preferences.c:964
 msgid "Zoom increment:"
 msgstr "Zoomökning:"
 
-#: src/preferences.c:939
+#: src/preferences.c:969
 msgid "When new image is selected:"
 msgstr "När en ny bild väljs:"
 
-#: src/preferences.c:942
+#: src/preferences.c:972
 msgid "Zoom to original size"
 msgstr "Zooma till originalstorlek"
 
-#: src/preferences.c:948
+#: src/preferences.c:978
 msgid "Leave Zoom at previous setting"
 msgstr "Använd föregående zoominställning"
 
-#: src/preferences.c:952
+#: src/preferences.c:982
 msgid "Appearance"
 msgstr "Utseende"
 
-#: src/preferences.c:954
-msgid "Black background"
+#: src/preferences.c:984
+msgid "User specified background color"
+msgstr ""
+
+#: src/preferences.c:987
+#, fuzzy
+msgid "Background color"
 msgstr "Svart bakgrund"
 
-#: src/preferences.c:957
+#: src/preferences.c:990
 msgid "Convenience"
 msgstr "Bekvämlighet"
 
-#: src/preferences.c:959
+#: src/preferences.c:992
 msgid "Refresh on file change"
 msgstr "Uppdatera vid filändring"
 
-#: src/preferences.c:961
+#: src/preferences.c:994
 msgid "Preload next image"
 msgstr "Läs in nästa bild i förväg"
 
-#: src/preferences.c:963
+#: src/preferences.c:996
 msgid "Auto rotate image using Exif information"
 msgstr "Rotera bild automatiskt baserat på Exif-informationen"
 
-#: src/preferences.c:972
+#: src/preferences.c:1013
 msgid "Windows"
 msgstr "Fönster"
 
-#: src/preferences.c:975
+#: src/preferences.c:1016
 msgid "State"
 msgstr "Tillstånd"
 
-#: src/preferences.c:977
+#: src/preferences.c:1018
 msgid "Remember window positions"
 msgstr "Kom ihåg fönsterpositioner"
 
-#: src/preferences.c:979
+#: src/preferences.c:1020
 msgid "Remember tool state (float/hidden)"
 msgstr "Kom ihåg verktygstillstånd (flytande/dolt)"
 
-#: src/preferences.c:984
+#: src/preferences.c:1025
 msgid "Fit window to image when tools are hidden/floating"
 msgstr "Anpassa fönstret till bilden när verktygen är dolda/flytande"
 
-#: src/preferences.c:988
+#: src/preferences.c:1029
 msgid "Limit size when auto-sizing window (%):"
 msgstr "Begränsa storlek vid automatisk storleksändring av fönster (%):"
 
-#: src/preferences.c:995 src/print.c:3371 src/print.c:3378
+#: src/preferences.c:1036 src/print.c:3402 src/print.c:3409
 msgid "Layout"
 msgstr "Layout"
 
-#: src/preferences.c:1008
+#: src/preferences.c:1063
 msgid "Filtering"
 msgstr "Filtrering"
 
-#: src/preferences.c:1013
+#: src/preferences.c:1068
 msgid "Show entries that begin with a dot"
 msgstr "Visa poster som börjar med en punkt"
 
-#: src/preferences.c:1015
+#: src/preferences.c:1070
 msgid "Case sensitive sort"
 msgstr "Skiftlägeskänslig sortering"
 
-#: src/preferences.c:1018
+#: src/preferences.c:1073
 msgid "Disable File Filtering"
 msgstr "Avaktivera filfiltrering"
 
-#: src/preferences.c:1021
+#: src/preferences.c:1077
+msgid "Grouping sidecar extensions"
+msgstr ""
+
+#: src/preferences.c:1084
 msgid "File types"
 msgstr "Filtyper"
 
-#: src/preferences.c:1043
+#: src/preferences.c:1106
 msgid "Filter"
 msgstr "Filter"
 
-#: src/preferences.c:1080 src/preferences.c:1144
+#: src/preferences.c:1143 src/preferences.c:1229
 msgid "Defaults"
 msgstr "Standardinställningar"
 
-#: src/preferences.c:1101
+#: src/preferences.c:1172
 msgid "Editors"
 msgstr "Redigerare"
 
-#: src/preferences.c:1107
+#: src/preferences.c:1178
 msgid "#"
 msgstr "Nr."
 
-#: src/preferences.c:1110 src/preferences.c:1264
+#: src/preferences.c:1181 src/preferences.c:1451
 msgid "Menu name"
 msgstr "Menynamn"
 
-#: src/preferences.c:1113
+#: src/preferences.c:1184
 msgid "Command Line"
 msgstr "Kommandorad"
 
-#: src/preferences.c:1160
+#: src/preferences.c:1256
+#, fuzzy
+msgid "Properties"
+msgstr "_Egenskaper"
+
+#: src/preferences.c:1274
+msgid "What to show in properties dialog:"
+msgstr ""
+
+#: src/preferences.c:1311
 msgid "Advanced"
 msgstr "Avancerat"
 
-#: src/preferences.c:1173
-msgid "Full screen"
-msgstr "Helskärm"
-
-#: src/preferences.c:1181
+#: src/preferences.c:1332
 msgid "Smooth image flip"
 msgstr "Mjuk bildväxling"
 
-#: src/preferences.c:1183
+#: src/preferences.c:1334
 msgid "Disable screen saver"
 msgstr "Avaktivera skärmsläckare"
 
-#: src/preferences.c:1186
+#: src/preferences.c:1336
+#, fuzzy
+msgid "Always show fullscreen info"
+msgstr "avaktivera helskärmsläge"
+
+#: src/preferences.c:1338
+#, fuzzy
+msgid "Fullscreen info string"
+msgstr "Storlek för helskärmsläge:"
+
+#: src/preferences.c:1352
+msgid ""
+"<i>%name%</i> results in the filename of the picture.\n"
+"Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>%"
+"date%</i>,\n"
+"<i>%size%</i> (filesize), <i>%width%</i>, <i>%height%</i>, <i>%res%</i> "
+"(resolution)\n"
+"To access exif data use the exif name, e. g. <i>%fCamera%</i> is the "
+"formatted camera name,\n"
+"<i>%Exif.Photo.DateTimeOriginal%</i> the date of the original shot.\n"
+"If two or more variables are connected with the |-sign, it prints available "
+"variables with a separator.\n"
+"<i>%fShutterSpeed%</i>|<i>%fISOSpeedRating%</i>|<i>%fFocalLength%</i> could "
+"show \"1/20s - 400 - 80 mm\" or \"1/200 - 80 mm\",\n"
+"if there's no ISO information in the Exif data.\n"
+"If a line is empty, it is removed. This allows to add lines that totally "
+"disappear when no data is available.\n"
+msgstr ""
+
+#: src/preferences.c:1371
 msgid "Delete"
 msgstr "Ta bort"
 
-#: src/preferences.c:1188
+#: src/preferences.c:1373
 msgid "Confirm file delete"
 msgstr "Bekräfta filborttagning"
 
-#: src/preferences.c:1190
+#: src/preferences.c:1375
 msgid "Enable Delete key"
 msgstr "Aktivera Delete-knappen"
 
-#: src/preferences.c:1193
+#: src/preferences.c:1378
 msgid "Safe delete"
 msgstr "Säker borttagning"
 
-#: src/preferences.c:1211
+#: src/preferences.c:1396
 msgid "Maximum size:"
 msgstr "Maximal storlek:"
 
-#: src/preferences.c:1211
+#: src/preferences.c:1396
 msgid "MB"
 msgstr "Mbyte"
 
-#: src/preferences.c:1214
+#: src/preferences.c:1399
+msgid "Set to 0 for unlimited size"
+msgstr ""
+
+#: src/preferences.c:1401
 msgid "View"
 msgstr "Visa"
 
-#: src/preferences.c:1224
+#: src/preferences.c:1411
 msgid "Behavior"
 msgstr "Beteende"
 
-#: src/preferences.c:1226
+#: src/preferences.c:1413
 msgid "Rectangular selection in icon view"
 msgstr "Rektangulär markering i ikonvy"
 
-#: src/preferences.c:1229
+#: src/preferences.c:1416
 msgid "Descend folders in tree view"
 msgstr "Gå in i undermappar i trädvyn"
 
-#: src/preferences.c:1232
+#: src/preferences.c:1419
 msgid "In place renaming"
 msgstr "Namnbyte på plats"
 
-#: src/preferences.c:1235
+#: src/preferences.c:1422
 msgid "Navigation"
 msgstr "Navigering"
 
-#: src/preferences.c:1237
+#: src/preferences.c:1424
 msgid "Progressive keyboard scrolling"
 msgstr "Progressiv tangentbordsrullning"
 
-#: src/preferences.c:1239
+#: src/preferences.c:1426
 msgid "Mouse wheel scrolls image"
 msgstr "Mushjulet rullar bilden"
 
-#: src/preferences.c:1242
+#: src/preferences.c:1429
 msgid "Miscellaneous"
 msgstr "Diverse"
 
-#: src/preferences.c:1244
+#: src/preferences.c:1431
 #, fuzzy
 msgid "Store keywords and comments local to source images"
 msgstr "Lagra miniatyrbilder i närheten av originalbilder"
 
-#: src/preferences.c:1247
+#: src/preferences.c:1434
 msgid "Custom similarity threshold:"
 msgstr "Anpassad likhetströskel:"
 
-#: src/preferences.c:1250
+#: src/preferences.c:1437
 msgid "Offscreen cache size (Mb per image):"
 msgstr "Storlek på dold cache (megabyte per bild):"
 
-#: src/preferences.c:1253
+#: src/preferences.c:1440
 #, fuzzy
 msgid "Color profiles"
 msgstr "Alla filer"
 
-#: src/preferences.c:1261
+#: src/preferences.c:1448
 msgid "Type"
 msgstr ""
 
-#: src/preferences.c:1267
+#: src/preferences.c:1454
 #, fuzzy
 msgid "File"
 msgstr "Fil:"
 
-#: src/preferences.c:1289 src/preferences.c:1300
+#: src/preferences.c:1476 src/preferences.c:1487
 #, fuzzy
 msgid "Select color profile"
 msgstr "Markera mapp"
 
-#: src/preferences.c:1297
+#: src/preferences.c:1484
 #, fuzzy
 msgid "Screen:"
 msgstr "Skärm"
 
-#: src/preferences.c:1380
-msgid "About - Geeqie"
-msgstr "Om - Geeqie"
+#: src/preferences.c:1495
+msgid "Debugging"
+msgstr ""
 
-#: src/preferences.c:1393
-#, c-format
+#: src/preferences.c:1497
+msgid "Debug level:"
+msgstr ""
+
+#: src/preferences.c:1511
+#, fuzzy
+msgid "Preferences"
+msgstr "In_ställningar..."
+
+#: src/preferences.c:1634
+#, fuzzy
+msgid "About"
+msgstr "_Om"
+
+#: src/preferences.c:1651
+#, fuzzy, c-format
 msgid ""
-"Geeqie %s\n"
+"%s %s\n"
 "\n"
 "Copyright (c) %s John Ellis\n"
 "website: %s\n"
@@ -2253,7 +2967,7 @@ msgstr ""
 "\n"
 "Utgiven under GNU General Public License"
 
-#: src/preferences.c:1411
+#: src/preferences.c:1670
 msgid "Credits..."
 msgstr "Tack..."
 
@@ -2301,45 +3015,45 @@ msgstr "jpeg, normal kvalitet"
 msgid "jpeg, high quality"
 msgstr "jpeg, hög kvalitet"
 
-#: src/print.c:354 src/print.c:3216
+#: src/print.c:355 src/print.c:3243
 msgid "points"
 msgstr "punkter"
 
-#: src/print.c:355
+#: src/print.c:356
 msgid "millimeters"
 msgstr "millimeter"
 
-#: src/print.c:356
+#: src/print.c:357
 msgid "centimeters"
 msgstr "centimeter"
 
-#: src/print.c:357
+#: src/print.c:358
 msgid "inches"
 msgstr "tum"
 
-#: src/print.c:358
+#: src/print.c:359
 msgid "picas"
 msgstr ""
 
-#: src/print.c:363
+#: src/print.c:364
 msgid "Portrait"
 msgstr "Stående"
 
-#: src/print.c:364
+#: src/print.c:365
 msgid "Landscape"
 msgstr "Liggande"
 
-#: src/print.c:370
+#: src/print.c:371
 msgid "Letter"
 msgstr "\"Letter\"-format"
 
 #. in 8.5 x 11
-#: src/print.c:371
+#: src/print.c:372
 msgid "Legal"
 msgstr "\"Legal\"-format"
 
 #. in 8.5 x 14
-#: src/print.c:372
+#: src/print.c:373
 msgid "Executive"
 msgstr "\"Executive\"-format"
 
@@ -2355,60 +3069,60 @@ msgstr "\"Executive\"-format"
 #. mm 250 x 353
 #. mm 176 x 250
 #. mm 125 x 176
-#: src/print.c:384
+#: src/print.c:385
 msgid "Envelope #10"
 msgstr "\"Envelope #10\"-format"
 
 #. in 4.125 x 9.5
-#: src/print.c:385
+#: src/print.c:386
 msgid "Envelope #9"
 msgstr "\"Envelope #9\"-format"
 
 #. in 3.875 x 8.875
-#: src/print.c:386
+#: src/print.c:387
 msgid "Envelope C4"
 msgstr "Kuvert C4"
 
 #. mm 229 x 324
-#: src/print.c:387
+#: src/print.c:388
 msgid "Envelope C5"
 msgstr "Kuvert C5"
 
 #. mm 162 x 229
-#: src/print.c:388
+#: src/print.c:389
 msgid "Envelope C6"
 msgstr "Kuvert C6"
 
 #. mm 114 x 162
-#: src/print.c:389
+#: src/print.c:390
 msgid "Photo 6x4"
 msgstr "Foto, 6×4 tum"
 
 #. in 6   x 4
-#: src/print.c:390
+#: src/print.c:391
 msgid "Photo 8x10"
 msgstr "Foto, 8×10 tum"
 
 #. in 8   x 10
-#: src/print.c:391
+#: src/print.c:392
 msgid "Postcard"
 msgstr "Vykortsformat, 10×14,8 cm"
 
 #. mm 100 x 148
-#: src/print.c:392
+#: src/print.c:393
 msgid "Tabloid"
 msgstr "\"Tabloid\"-format"
 
-#: src/print.c:548
+#: src/print.c:549
 #, c-format
 msgid "page %d of %d"
 msgstr "sida %d av %d"
 
-#: src/print.c:740 src/utilops.c:2287
+#: src/print.c:741 src/utilops.c:2586
 msgid "Preview"
 msgstr "Förhandsgranskning"
 
-#: src/print.c:1048
+#: src/print.c:1049
 #, c-format
 msgid ""
 "Unable to open pipe for writing.\n"
@@ -2417,145 +3131,193 @@ msgstr ""
 "Kan inte öppna rör för skrivning.\n"
 "\"%s\""
 
-#: src/print.c:1063 src/print.c:1503 src/ui_pathsel.c:423
-#: src/view_file_list.c:456
+#: src/print.c:1064 src/print.c:1504 src/ui_pathsel.c:424
+#: src/view_file_list.c:630
 #, c-format
 msgid "A file with name %s already exists."
 msgstr "En fil med namnet %s finns redan."
 
-#: src/print.c:1078 src/print.c:1558
+#: src/print.c:1079 src/print.c:1559
 #, c-format
 msgid "Failure writing to file %s"
 msgstr "Misslyckades skriva till filen %s"
 
-#: src/print.c:1132 src/print.c:1169 src/print.c:1205 src/print.c:1322
-#: src/print.c:1413 src/print.c:1444
+#: src/print.c:1133 src/print.c:1170 src/print.c:1206 src/print.c:1323
+#: src/print.c:1414 src/print.c:1445
 msgid "SIGPIPE error writing to printer."
 msgstr "Brutet rör-fel vid utskrift."
 
-#: src/print.c:1979
+#: src/print.c:1980
 #, c-format
 msgid "Page %d"
 msgstr "Sida %d"
 
-#: src/print.c:2001 src/print.c:2006
+#: src/print.c:2002 src/print.c:2007
 msgid "Printing error"
 msgstr "Utskriftsfel"
 
-#: src/print.c:2005
+#: src/print.c:2006
 #, c-format
 msgid "An error occured printing to %s."
 msgstr "Ett fel uppstod vid utskrift till %s."
 
-#: src/print.c:2009
+#: src/print.c:2010
 msgid "Details"
 msgstr "Detaljer"
 
-#: src/print.c:2602 src/print.c:3347
-msgid "Print - Geeqie"
-msgstr "Skriv ut - Geeqie"
+#: src/print.c:2615 src/print.c:3375
+#, fuzzy
+msgid "Print"
+msgstr "Skrivare"
 
-#: src/print.c:2606
+#: src/print.c:2622
 #, c-format
 msgid "Printing %d pages to %s."
 msgstr "Skriver ut %d sidor till %s."
 
-#: src/print.c:2706
+#: src/print.c:2722
 msgid "Format:"
 msgstr "Format:"
 
-#: src/print.c:2781
+#: src/print.c:2797
 msgid "Units:"
 msgstr "Måttenhet:"
 
-#: src/print.c:2825
+#: src/print.c:2841
 msgid "Orientation:"
 msgstr "Orientering:"
 
-#: src/print.c:2957
+#: src/print.c:2973
 msgid "Destination:"
 msgstr "Destination:"
 
-#: src/print.c:3005
+#: src/print.c:3021
 #, fuzzy
 msgid "<printer name>"
 msgstr "Filnamn"
 
-#: src/print.c:3094
+#: src/print.c:3110
 msgid "Unlimited"
 msgstr "Obegränsad"
 
-#: src/print.c:3203
+#: src/print.c:3228
 msgid "Show"
 msgstr "Visa"
 
-#: src/print.c:3214
+#: src/print.c:3241
 msgid "Font"
 msgstr "Typsnitt"
 
-#: src/print.c:3374
+#: src/print.c:3405
 msgid "Source"
 msgstr "Källa"
 
-#: src/print.c:3390
+#: src/print.c:3421
 msgid "Proof size:"
 msgstr "Utkaststorlek:"
 
-#: src/print.c:3406
+#: src/print.c:3437
 msgid "Text"
 msgstr "Text"
 
-#: src/print.c:3416
+#: src/print.c:3447
 msgid "Paper"
 msgstr "Papper"
 
-#: src/print.c:3439
+#: src/print.c:3470
 msgid "Margins"
 msgstr "Marginaler"
 
-#: src/print.c:3441
+#: src/print.c:3472
 msgid "Left:"
 msgstr "Vänster:"
 
-#: src/print.c:3444
+#: src/print.c:3475
 msgid "Right:"
 msgstr "Höger:"
 
-#: src/print.c:3447
+#: src/print.c:3478
 msgid "Top:"
 msgstr "Överkant:"
 
-#: src/print.c:3450
+#: src/print.c:3481
 msgid "Bottom:"
 msgstr "Underkant:"
 
-#: src/print.c:3459
+#: src/print.c:3490
 msgid "Printer"
 msgstr "Skrivare"
 
-#: src/print.c:3465
+#: src/print.c:3496
 msgid "Custom printer:"
 msgstr "Anpassad skrivare:"
 
-#: src/print.c:3474
+#: src/print.c:3505
 msgid "File:"
 msgstr "Fil:"
 
-#: src/print.c:3483
+#: src/print.c:3514
 msgid "File format:"
 msgstr "Filformat:"
 
-#: src/print.c:3488
+#: src/print.c:3519
 msgid "DPI:"
 msgstr "Punkter/tum:"
 
-#: src/print.c:3496
+#: src/print.c:3527
 msgid "Remember print settings"
 msgstr "Kom ihåg utskriftsinställningar"
 
-#: src/rcfile.c:185
+#: src/rcfile.c:350
+#, fuzzy
+msgid "Cannot read the file"
+msgstr "Kunde inte skapa mapp"
+
+#: src/rcfile.c:352
+#, fuzzy
+msgid "Cannot get file status"
+msgstr "Jämför två filgrupper"
+
+#: src/rcfile.c:354
+msgid "Cannot access the file"
+msgstr ""
+
+#: src/rcfile.c:356
+#, fuzzy
+msgid "Cannot create temp file"
+msgstr "Kunde inte skapa mapp"
+
+#: src/rcfile.c:358
+#, fuzzy
+msgid "Cannot rename the file"
+msgstr "Kunde inte skapa mapp"
+
+#: src/rcfile.c:360
+msgid "File saving disabled by option"
+msgstr ""
+
+#: src/rcfile.c:362
+msgid "Out of memory"
+msgstr ""
+
+#: src/rcfile.c:364
+msgid "Cannot write the file"
+msgstr ""
+
+#: src/rcfile.c:368
+msgid "Secure file saving error"
+msgstr ""
+
+#: src/rcfile.c:606
 #, c-format
 msgid "error saving config file: %s\n"
+msgstr "fel vid sparande av konfigurationsfil: %s\n"
+
+#: src/rcfile.c:813
+#, fuzzy, c-format
+msgid ""
+"error saving config file: %s\n"
+"error: %s\n"
 msgstr "fel vid sparande av konfigurationsfil: %s\n"
 
 #: src/search.c:200
@@ -2628,125 +3390,126 @@ msgstr "%s, %d filer"
 msgid "Searching..."
 msgstr "Söker..."
 
-#: src/search.c:2084
+#: src/search.c:2082
 msgid "File not found"
 msgstr "Filen hittades inte"
 
-#: src/search.c:2085
+#: src/search.c:2083
 msgid "Please enter an existing file for image content."
 msgstr "Välj en befintlig fil för bildinnehåll."
 
-#: src/search.c:2132
+#: src/search.c:2130
 msgid "Please enter an existing folder to search."
 msgstr "Välj en befintlig mapp att genomsöka."
 
-#: src/search.c:2561
-msgid "Image search - Geeqie"
+#: src/search.c:2555
+#, fuzzy
+msgid "Image search"
 msgstr "Bildsökning - Geeqie"
 
-#: src/search.c:2590
+#: src/search.c:2585
 msgid "Search:"
 msgstr "Sök:"
 
-#: src/search.c:2604
+#: src/search.c:2599
 msgid "Recurse"
 msgstr "Rekursera"
 
-#: src/search.c:2608
+#: src/search.c:2603
 msgid "File name"
 msgstr "Filnamn"
 
-#: src/search.c:2614
+#: src/search.c:2609
 msgid "Match case"
 msgstr "Matcha skiftläge"
 
-#: src/search.c:2618
+#: src/search.c:2613
 msgid "File size is"
 msgstr "Filens storlek är"
 
-#: src/search.c:2625 src/search.c:2640 src/search.c:2658
+#: src/search.c:2620 src/search.c:2635 src/search.c:2653
 msgid "and"
 msgstr "och"
 
-#: src/search.c:2630
+#: src/search.c:2625
 msgid "File date is"
 msgstr "Filens datum är"
 
-#: src/search.c:2647
+#: src/search.c:2642
 msgid "Image dimensions are"
 msgstr "Bildens dimensioner är"
 
-#: src/search.c:2667
+#: src/search.c:2662
 msgid "Image content is"
 msgstr "Bildens innehåll är"
 
-#: src/search.c:2673
+#: src/search.c:2668
 #, no-c-format
 msgid "% similar to"
 msgstr "% likhet med"
 
-#: src/search.c:2742
+#: src/search.c:2737
 msgid "Rank"
 msgstr "Rang"
 
-#: src/thumb.c:379
+#: src/thumb.c:380
 msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
 msgstr "Misslyckades läsa in miniatyrbild från cache, försöker återskapa.\n"
 
-#: src/ui_bookmark.c:148
+#: src/ui_bookmark.c:151
 #, c-format
 msgid "Unable to write history lists to: %s\n"
 msgstr "Kan inte skriva historiklistor till: %s\n"
 
-#: src/ui_bookmark.c:445 src/ui_bookmark.c:508
+#: src/ui_bookmark.c:448 src/ui_bookmark.c:511
 msgid "New Bookmark"
 msgstr "Nytt bokmärke"
 
-#: src/ui_bookmark.c:591 src/ui_bookmark.c:597
+#: src/ui_bookmark.c:594 src/ui_bookmark.c:600
 msgid "Edit Bookmark"
 msgstr "Redigera bokmärke"
 
-#: src/ui_bookmark.c:612
+#: src/ui_bookmark.c:615
 msgid "Path:"
 msgstr "Sökväg:"
 
-#: src/ui_bookmark.c:621
+#: src/ui_bookmark.c:624
 msgid "Icon:"
 msgstr "Ikon:"
 
-#: src/ui_bookmark.c:627
+#: src/ui_bookmark.c:630
 msgid "Select icon"
 msgstr "Markera ikon"
 
-#: src/ui_bookmark.c:718
+#: src/ui_bookmark.c:721
 msgid "_Properties..."
 msgstr "_Egenskaper..."
 
-#: src/ui_bookmark.c:720
+#: src/ui_bookmark.c:723
 msgid "Move _up"
 msgstr "Flytta _upp"
 
-#: src/ui_bookmark.c:722
+#: src/ui_bookmark.c:725
 msgid "Move _down"
 msgstr "Flytta _ner"
 
-#: src/ui_bookmark.c:724
+#: src/ui_bookmark.c:727
 msgid "_Remove"
 msgstr "_Ta bort"
 
-#: src/ui_help.c:111
+#: src/ui_help.c:112
 #, c-format
 msgid ""
 "Unable to load:\n"
 "%s"
 msgstr "Kan inte läsa in:%s"
 
-#: src/ui_pathsel.c:429 src/utilops.c:2675
+#: src/ui_pathsel.c:430 src/utilops.c:2983
 #, c-format
 msgid "Failed to rename %s to %s."
 msgstr "Misslyckades att byta namn från %s till %s."
 
-#: src/ui_pathsel.c:485 src/utilops.c:1354 src/utilops.c:1527
+#: src/ui_pathsel.c:486 src/utilops.c:1634 src/utilops.c:1827
 #, c-format
 msgid ""
 "Unable to delete file:\n"
@@ -2755,15 +3518,16 @@ msgstr ""
 "Kan inte ta bort filen:\n"
 "%s"
 
-#: src/ui_pathsel.c:486 src/utilops.c:1528
+#: src/ui_pathsel.c:487 src/utilops.c:1576 src/utilops.c:1596
+#: src/utilops.c:1808 src/utilops.c:1820 src/utilops.c:1828
 msgid "File deletion failed"
 msgstr "Borttagning av fil misslyckades"
 
-#: src/ui_pathsel.c:528 src/ui_pathsel.c:536
+#: src/ui_pathsel.c:529 src/ui_pathsel.c:537 src/utilops.c:1858
 msgid "Delete file"
 msgstr "Ta bort fil"
 
-#: src/ui_pathsel.c:534
+#: src/ui_pathsel.c:535
 #, c-format
 msgid ""
 "About to delete the file:\n"
@@ -2772,25 +3536,25 @@ msgstr ""
 "Kommer att ta bort filen:\n"
 "%s"
 
-#: src/ui_pathsel.c:625 src/ui_pathsel.c:633 src/utilops.c:2253
-#: src/utilops.c:2509
+#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2552
+#: src/utilops.c:2814
 msgid "_Rename"
 msgstr "_Byt namn"
 
-#: src/ui_pathsel.c:627 src/ui_pathsel.c:637
+#: src/ui_pathsel.c:628 src/ui_pathsel.c:638
 msgid "Add _Bookmark"
 msgstr "_Lägg till bokmärke"
 
-#: src/ui_pathsel.c:635
+#: src/ui_pathsel.c:636
 msgid "_Delete"
 msgstr "_Ta bort"
 
-#: src/ui_pathsel.c:739 src/ui_pathsel.c:1044
+#: src/ui_pathsel.c:740 src/ui_pathsel.c:1045 src/utilops.c:2931
 msgid "New folder"
 msgstr "Ny mapp"
 
-#: src/ui_pathsel.c:749 src/utilops.c:2581 src/view_dir_list.c:330
-#: src/view_dir_tree.c:426
+#: src/ui_pathsel.c:750 src/utilops.c:2886 src/view_dir_list.c:328
+#: src/view_dir_tree.c:420
 #, c-format
 msgid ""
 "Unable to create folder:\n"
@@ -2799,20 +3563,20 @@ msgstr ""
 "Kan inte skapa mappen:\n"
 "%s"
 
-#: src/ui_pathsel.c:750 src/utilops.c:2582 src/view_dir_list.c:331
-#: src/view_dir_tree.c:427
+#: src/ui_pathsel.c:751 src/utilops.c:2887 src/view_dir_list.c:329
+#: src/view_dir_tree.c:421
 msgid "Error creating folder"
 msgstr "Fel vid skapande av mapp"
 
-#: src/ui_pathsel.c:971
+#: src/ui_pathsel.c:972
 msgid "All Files"
 msgstr "Alla filer"
 
-#: src/ui_pathsel.c:1047
+#: src/ui_pathsel.c:1048
 msgid "Show hidden"
 msgstr "Visa dolda"
 
-#: src/ui_pathsel.c:1131
+#: src/ui_pathsel.c:1132
 msgid "Filter:"
 msgstr "Filter:"
 
@@ -2824,52 +3588,107 @@ msgstr "Markera sökväg"
 msgid "All files"
 msgstr "Alla filer"
 
-#: src/utilops.c:505 src/utilops.c:826 src/utilops.c:1716 src/utilops.c:2438
+#: src/utilops.c:342 src/utilops.c:807 src/utilops.c:1044
+msgid "Error copying file"
+msgstr "Fel vid kopiering av fil"
+
+#: src/utilops.c:343
+#, fuzzy, c-format
+msgid ""
+"%s\n"
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Kan inte kopiera filen:\n"
+"%s\n"
+"till:\n"
+"%s"
+
+#: src/utilops.c:386 src/utilops.c:812 src/utilops.c:1049
+msgid "Error moving file"
+msgstr "Fel vid flytt av fil"
+
+#: src/utilops.c:387
+#, fuzzy, c-format
+msgid ""
+"%s\n"
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Kan inte flytta filen:\n"
+"%s\n"
+"till:\n"
+"%s"
+
+#: src/utilops.c:435 src/utilops.c:2044 src/utilops.c:2766
+#: src/view_file_list.c:625 src/view_file_list.c:631 src/view_file_list.c:645
+msgid "Error renaming file"
+msgstr "Fel vid namnbyte av fil"
+
+#: src/utilops.c:436
+#, fuzzy, c-format
+msgid ""
+"%s\n"
+"Unable to rename file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Kan inte byta namn på filen:\n"
+"%s\n"
+"till:\n"
+"%s"
+
+#: src/utilops.c:647 src/utilops.c:977 src/utilops.c:2017 src/utilops.c:2737
 msgid "Overwrite file"
 msgstr "Skriv över fil"
 
-#: src/utilops.c:510 src/utilops.c:831 src/utilops.c:1721 src/utilops.c:2443
+#: src/utilops.c:652 src/utilops.c:982 src/utilops.c:2022 src/utilops.c:2742
 msgid "Overwrite file?"
 msgstr "Skriv över fil?"
 
-#: src/utilops.c:511 src/utilops.c:832
+#: src/utilops.c:653 src/utilops.c:983
 msgid "Replace existing file with new file."
 msgstr "Ersätt befintlig fil med ny fil."
 
-#: src/utilops.c:515
+#: src/utilops.c:657
 msgid "Overwrite _all"
 msgstr "Skriv över _alla"
 
-#: src/utilops.c:517
+#: src/utilops.c:659
 msgid "S_kip all"
 msgstr "H_oppa över alla"
 
-#: src/utilops.c:518
+#: src/utilops.c:660
 msgid "_Skip"
 msgstr "_Hoppa över"
 
-#: src/utilops.c:519 src/utilops.c:836 src/utilops.c:1727 src/utilops.c:2449
+#: src/utilops.c:661 src/utilops.c:987 src/utilops.c:2028 src/utilops.c:2748
 msgid "Existing file"
 msgstr "Befintlig fil"
 
-#: src/utilops.c:519 src/utilops.c:836 src/utilops.c:1728 src/utilops.c:2450
+#: src/utilops.c:661 src/utilops.c:987 src/utilops.c:2029 src/utilops.c:2749
 msgid "New file"
 msgstr "Ny fil"
 
-#: src/utilops.c:529 src/utilops.c:845 src/utilops.c:1862 src/utilops.c:1918
-#: src/utilops.c:1994 src/utilops.c:2326
+#: src/utilops.c:671 src/utilops.c:996 src/utilops.c:2162 src/utilops.c:2218
+#: src/utilops.c:2291 src/utilops.c:2625
 msgid "Auto rename"
 msgstr "Automatiskt namnbyte"
 
-#: src/utilops.c:537 src/utilops.c:853
+#: src/utilops.c:679 src/utilops.c:1004 src/utilops.c:2547 src/utilops.c:2806
 msgid "Rename"
 msgstr "Byt namn"
 
-#: src/utilops.c:578
+#: src/utilops.c:720
 msgid "Source to copy matches destination"
 msgstr "Källan att kopiera är samma som målet"
 
-#: src/utilops.c:579
+#: src/utilops.c:721
 #, c-format
 msgid ""
 "Unable to copy file:\n"
@@ -2880,11 +3699,11 @@ msgstr ""
 "%s\n"
 "till sig själv."
 
-#: src/utilops.c:583
+#: src/utilops.c:725
 msgid "Source to move matches destination"
 msgstr "Källan att flytta är samma som målet"
 
-#: src/utilops.c:584
+#: src/utilops.c:726
 #, c-format
 msgid ""
 "Unable to move file:\n"
@@ -2895,15 +3714,11 @@ msgstr ""
 "%s\n"
 "till sig själv."
 
-#: src/utilops.c:592 src/utilops.c:679 src/utilops.c:1346
+#: src/utilops.c:734 src/utilops.c:821 src/utilops.c:1532 src/utilops.c:1626
 msgid "Co_ntinue"
 msgstr "_Fortsätt"
 
-#: src/utilops.c:665 src/utilops.c:893
-msgid "Error copying file"
-msgstr "Fel vid kopiering av fil"
-
-#: src/utilops.c:666
+#: src/utilops.c:808
 #, c-format
 msgid ""
 "Unable to copy file:\n"
@@ -2918,11 +3733,7 @@ msgstr ""
 "%s\n"
 "vid kopiering av flera filer."
 
-#: src/utilops.c:670 src/utilops.c:898
-msgid "Error moving file"
-msgstr "Fel vid flytt av fil"
-
-#: src/utilops.c:671
+#: src/utilops.c:813
 #, c-format
 msgid ""
 "Unable to move file:\n"
@@ -2937,15 +3748,15 @@ msgstr ""
 "%s\n"
 "vid flytt av flera filer."
 
-#: src/utilops.c:817
+#: src/utilops.c:968
 msgid "Source matches destination"
 msgstr "Källan är samma som målet"
 
-#: src/utilops.c:818
+#: src/utilops.c:969
 msgid "Source and destination are the same, operation cancelled."
 msgstr "Källa och mål är samma, operationen avbröts."
 
-#: src/utilops.c:894
+#: src/utilops.c:1045
 #, c-format
 msgid ""
 "Unable to copy file:\n"
@@ -2958,7 +3769,7 @@ msgstr ""
 "till:\n"
 "%s"
 
-#: src/utilops.c:899
+#: src/utilops.c:1050
 #, c-format
 msgid ""
 "Unable to move file:\n"
@@ -2971,11 +3782,11 @@ msgstr ""
 "till:\n"
 "%s"
 
-#: src/utilops.c:947
+#: src/utilops.c:1098
 msgid "Invalid destination"
 msgstr "Ogiltigt mål"
 
-#: src/utilops.c:948
+#: src/utilops.c:1099
 msgid ""
 "When operating with multiple files, please select\n"
 "a folder, not a file."
@@ -2983,68 +3794,61 @@ msgstr ""
 "Vid operationer med flera filer på en gång, var god\n"
 "välj en mapp, inte en fil."
 
-#: src/utilops.c:953
+#: src/utilops.c:1104
 msgid "Please select an existing folder."
 msgstr "Välj en befintlig mapp"
 
-#: src/utilops.c:1022
-msgid "Copy - Geeqie"
-msgstr "Kopiera - Geeqie"
-
-#: src/utilops.c:1023 src/view_dir_list.c:209 src/view_dir_tree.c:301
+#: src/utilops.c:1174 src/view_dir_list.c:209 src/view_dir_tree.c:301
 msgid "_Copy"
 msgstr "_Kopiera"
 
-#: src/utilops.c:1026
+#: src/utilops.c:1177
 msgid "Copy file"
 msgstr "Kopiera fil"
 
-#: src/utilops.c:1030
+#: src/utilops.c:1181
 msgid "Copy multiple files"
 msgstr "Kopiera flera filer"
 
-#: src/utilops.c:1036
-msgid "Move - Geeqie"
-msgstr "Flytta - Geeqie"
-
-#: src/utilops.c:1037 src/view_dir_list.c:211 src/view_dir_tree.c:303
+#: src/utilops.c:1188 src/view_dir_list.c:211 src/view_dir_tree.c:303
 msgid "_Move"
 msgstr "Fl_ytta"
 
-#: src/utilops.c:1040
+#: src/utilops.c:1191
 msgid "Move file"
 msgstr "Flytta fil"
 
-#: src/utilops.c:1044
+#: src/utilops.c:1195
 msgid "Move multiple files"
 msgstr "Flytta flera filer"
 
-#: src/utilops.c:1058 src/utilops.c:1568
+#: src/utilops.c:1210 src/utilops.c:1868
 msgid "File name:"
 msgstr "Filnamn:"
 
-#: src/utilops.c:1062
+#: src/utilops.c:1214
 msgid "Choose the destination folder."
 msgstr "Välj målmapp."
 
-#: src/utilops.c:1189 src/utilops.c:1338 src/utilops.c:1355 src/utilops.c:2902
-#: src/utilops.c:2953 src/utilops.c:3041 src/utilops.c:3052
+#: src/utilops.c:1341 src/utilops.c:1526 src/utilops.c:1539 src/utilops.c:1618
+#: src/utilops.c:1635 src/utilops.c:3219 src/utilops.c:3270 src/utilops.c:3356
+#: src/utilops.c:3367
 msgid "Delete failed"
 msgstr "Borttagning misslyckades"
 
-#: src/utilops.c:1190
+#: src/utilops.c:1342
 msgid "Unable to remove old file from trash folder"
 msgstr "Kan inte ta bort en gammal fil från papperskorgsmappen"
 
-#: src/utilops.c:1246 src/utilops.c:2574
+#: src/utilops.c:1399 src/utilops.c:2879
 msgid "Could not create folder"
 msgstr "Kunde inte skapa mapp"
 
-#: src/utilops.c:1268
+#: src/utilops.c:1421
 msgid "Permission denied"
 msgstr "Åtkomst nekas"
 
-#: src/utilops.c:1278
+#: src/utilops.c:1431
 #, c-format
 msgid ""
 "Unable to access or create the trash folder.\n"
@@ -3053,16 +3857,72 @@ msgstr ""
 "Kan inte komma åt eller skapa papperskorgsmappen:\n"
 "\"%s\""
 
-#: src/utilops.c:1282
+#: src/utilops.c:1435
 msgid "Turn off safe delete"
 msgstr "Stäng av säker borttagning"
 
-#: src/utilops.c:1300
+#: src/utilops.c:1455
+msgid "Deletion by external command"
+msgstr ""
+
+#: src/utilops.c:1463
+#, c-format
+msgid " (max. %d MB)"
+msgstr ""
+
+#: src/utilops.c:1467
+#, fuzzy, c-format
+msgid ""
+"Safe delete: %s%s\n"
+"Trash: %s"
+msgstr "Säker borttagning: %s"
+
+#: src/utilops.c:1467
+msgid "on"
+msgstr "på"
+
+#: src/utilops.c:1472
 #, c-format
 msgid "Safe delete: %s"
 msgstr "Säker borttagning: %s"
 
-#: src/utilops.c:1342
+#: src/utilops.c:1472
+msgid "off"
+msgstr "av"
+
+#: src/utilops.c:1513
+#, fuzzy
+msgid ""
+"\n"
+"Unable to delete file by external command:\n"
+msgstr ""
+"Kan inte ta bort filen:\n"
+"%s"
+
+#: src/utilops.c:1525
+#, fuzzy
+msgid ""
+"\n"
+" Continue multiple delete operation?"
+msgstr ""
+"Kan inte ta bort filen:\n"
+" %s\n"
+" Fortsätta ta bort flera filer?"
+
+#: src/utilops.c:1576 src/utilops.c:1808
+msgid "Another operation in progress.\n"
+msgstr ""
+
+#: src/utilops.c:1595
+#, fuzzy, c-format
+msgid ""
+"%s\n"
+"Unable to delete files by external command.\n"
+msgstr ""
+"Kan inte ta bort filen:\n"
+"%s"
+
+#: src/utilops.c:1622
 #, c-format
 msgid ""
 "Unable to delete file:\n"
@@ -3073,37 +3933,44 @@ msgstr ""
 " %s\n"
 " Fortsätta ta bort flera filer?"
 
-#: src/utilops.c:1413
+#: src/utilops.c:1693
 #, c-format
 msgid "File %d of %d"
 msgstr "Fil %d av %d"
 
-#: src/utilops.c:1482
-msgid "Delete files - Geeqie"
-msgstr "Ta bort filer - Geeqie"
+#: src/utilops.c:1761
+#, fuzzy
+msgid "Delete files"
+msgstr "Ta bort fil"
 
-#: src/utilops.c:1486
+#: src/utilops.c:1767
 msgid "Delete multiple files"
 msgstr "Ta bort flera filer"
 
-#: src/utilops.c:1504
+#: src/utilops.c:1785
 #, c-format
 msgid "Review %d files"
 msgstr "Granska %d filer"
 
-#: src/utilops.c:1560
-msgid "Delete file - Geeqie"
-msgstr "Ta bort fil - Geeqie"
+#: src/utilops.c:1819
+#, fuzzy, c-format
+msgid ""
+"%s\n"
+"Unable to delete file by external command:\n"
+"%s"
+msgstr ""
+"Kan inte ta bort filen:\n"
+"%s"
 
-#: src/utilops.c:1564
+#: src/utilops.c:1864
 msgid "Delete file?"
 msgstr "Ta bort fil?"
 
-#: src/utilops.c:1722 src/utilops.c:2444
+#: src/utilops.c:2023 src/utilops.c:2743
 msgid "Replace existing file by renaming new file."
 msgstr "Ersätt befintlig fil genom att byta namn på ny fil."
 
-#: src/utilops.c:1739
+#: src/utilops.c:2041
 #, c-format
 msgid ""
 "Unable to rename file:\n"
@@ -3116,16 +3983,11 @@ msgstr ""
 " till:\n"
 "%s"
 
-#: src/utilops.c:1742 src/utilops.c:2461 src/view_file_list.c:451
-#: src/view_file_list.c:457 src/view_file_list.c:463
-msgid "Error renaming file"
-msgstr "Fel vid namnbyte av fil"
-
-#: src/utilops.c:1863
+#: src/utilops.c:2163
 msgid "Format must include at least one of the symbol characters '*' or '#'.\n"
 msgstr ""
 
-#: src/utilops.c:1919
+#: src/utilops.c:2219
 msgid ""
 "Can not auto rename with the selected\n"
 "number set, one or more files exist that\n"
@@ -3135,7 +3997,7 @@ msgstr ""
 "nummermängden, en eller fler filer finns redan\n"
 "vars namn finns i den resulterande namnlistan.\n"
 
-#: src/utilops.c:1993
+#: src/utilops.c:2290
 #, c-format
 msgid ""
 "Failed to rename\n"
@@ -3146,56 +4008,52 @@ msgstr ""
 "%s\n"
 "Numret var %d."
 
-#: src/utilops.c:2249 src/utilops.c:2503
-msgid "Rename - Geeqie"
-msgstr "Byt namn - Geeqie"
-
-#: src/utilops.c:2252
+#: src/utilops.c:2551
 msgid "Rename multiple files"
 msgstr "Byt namn på flera filer"
 
-#: src/utilops.c:2286
+#: src/utilops.c:2585
 msgid "Original Name"
 msgstr "Ursprungligt namn"
 
-#: src/utilops.c:2324
+#: src/utilops.c:2623
 #, fuzzy
 msgid "Manual rename"
 msgstr "Menynamn"
 
-#: src/utilops.c:2325
+#: src/utilops.c:2624
 msgid "Formatted rename"
 msgstr ""
 
-#: src/utilops.c:2338 src/utilops.c:2516
+#: src/utilops.c:2637 src/utilops.c:2821
 msgid "Original name:"
 msgstr "Ursprungligt namn:"
 
-#: src/utilops.c:2341 src/utilops.c:2519
+#: src/utilops.c:2640 src/utilops.c:2824
 msgid "New name:"
 msgstr "Nytt namn:"
 
-#: src/utilops.c:2359
+#: src/utilops.c:2658
 msgid "Begin text"
 msgstr "Starttext"
 
-#: src/utilops.c:2367 src/utilops.c:2399
+#: src/utilops.c:2666 src/utilops.c:2698
 msgid "Start #"
 msgstr "Startnr."
 
-#: src/utilops.c:2373
+#: src/utilops.c:2672
 msgid "End text"
 msgstr "Sluttext"
 
-#: src/utilops.c:2381
+#: src/utilops.c:2680
 msgid "Padding:"
 msgstr "Utfyllnad:"
 
-#: src/utilops.c:2391
+#: src/utilops.c:2690
 msgid "Format (* = original name, ## = numbers)"
 msgstr ""
 
-#: src/utilops.c:2460 src/view_file_list.c:462
+#: src/utilops.c:2765 src/view_file_list.c:644
 #, c-format
 msgid ""
 "Unable to rename file:\n"
@@ -3208,11 +4066,11 @@ msgstr ""
 "till:\n"
 "%s"
 
-#: src/utilops.c:2506
+#: src/utilops.c:2811
 msgid "Rename file"
 msgstr "Byt namn på filen"
 
-#: src/utilops.c:2567 src/utilops.c:2657
+#: src/utilops.c:2872 src/utilops.c:2965
 #, c-format
 msgid ""
 "The folder:\n"
@@ -3223,11 +4081,11 @@ msgstr ""
 "%s\n"
 "finns redan."
 
-#: src/utilops.c:2568 src/utilops.c:2658
+#: src/utilops.c:2873 src/utilops.c:2966
 msgid "Folder exists"
 msgstr "Mappen finns"
 
-#: src/utilops.c:2573 src/utilops.c:2666
+#: src/utilops.c:2878 src/utilops.c:2974
 #, c-format
 msgid ""
 "The path:\n"
@@ -3238,11 +4096,7 @@ msgstr ""
 "%s\n"
 "finns redan som fil."
 
-#: src/utilops.c:2625
-msgid "New folder - Geeqie"
-msgstr "Ny mapp - Geeqie"
-
-#: src/utilops.c:2628
+#: src/utilops.c:2936
 #, c-format
 msgid ""
 "Create folder in:\n"
@@ -3253,17 +4107,17 @@ msgstr ""
 "%s\n"
 "med namnet:"
 
-#: src/utilops.c:2667 src/utilops.c:2676
+#: src/utilops.c:2975 src/utilops.c:2984
 #, fuzzy
 msgid "Rename failed"
 msgstr "Byt namn på filen"
 
-#: src/utilops.c:2775
+#: src/utilops.c:3091
 #, fuzzy
 msgid "Location"
 msgstr "Plats:"
 
-#: src/utilops.c:2952
+#: src/utilops.c:3269
 #, fuzzy, c-format
 msgid ""
 "Unable to delete folder:\n"
@@ -3273,7 +4127,7 @@ msgstr ""
 "Kan inte ta bort filen:\n"
 "%s"
 
-#: src/utilops.c:2959
+#: src/utilops.c:3276
 #, c-format
 msgid ""
 "Removal of folder contents failed at this file:\n"
@@ -3281,12 +4135,12 @@ msgid ""
 "%s"
 msgstr ""
 
-#: src/utilops.c:3016 src/utilops.c:3100
+#: src/utilops.c:3331 src/utilops.c:3415
 #, fuzzy
 msgid "Delete folder"
 msgstr "Markera mapp"
 
-#: src/utilops.c:3020
+#: src/utilops.c:3335
 #, c-format
 msgid ""
 "This will delete the symbolic link:\n"
@@ -3296,30 +4150,30 @@ msgid ""
 "The folder this link points to will not be deleted."
 msgstr ""
 
-#: src/utilops.c:3024
+#: src/utilops.c:3339
 msgid "Delete symbolic link to folder?"
 msgstr ""
 
-#: src/utilops.c:3039
+#: src/utilops.c:3354
 #, fuzzy, c-format
 msgid ""
 "Unable to remove folder %s\n"
 "Permissions do not allow writing to the folder."
 msgstr "Kan inte ta bort en gammal fil från papperskorgsmappen"
 
-#: src/utilops.c:3051
+#: src/utilops.c:3366
 #, fuzzy, c-format
 msgid "Unable to list contents of folder %s"
 msgstr ""
 "Kan inte skapa mappen:\n"
 "%s"
 
-#: src/utilops.c:3065 src/utilops.c:3073
+#: src/utilops.c:3380 src/utilops.c:3388
 #, fuzzy
 msgid "Folder contains subfolders"
 msgstr "Inkludera undermappar"
 
-#: src/utilops.c:3069
+#: src/utilops.c:3384
 #, c-format
 msgid ""
 "Unable to delete the folder:\n"
@@ -3329,12 +4183,12 @@ msgid ""
 "This folder contains subfolders which must be moved before it can be deleted."
 msgstr ""
 
-#: src/utilops.c:3077
+#: src/utilops.c:3392
 #, fuzzy
 msgid "Subfolders:"
 msgstr "mapp"
 
-#: src/utilops.c:3104
+#: src/utilops.c:3419
 #, c-format
 msgid ""
 "This will delete the folder:\n"
@@ -3344,66 +4198,66 @@ msgid ""
 "The contents of this folder will also be deleted."
 msgstr ""
 
-#: src/utilops.c:3108
+#: src/utilops.c:3423
 #, fuzzy
 msgid "Delete folder?"
 msgstr "Ta bort fil?"
 
-#: src/utilops.c:3112
+#: src/utilops.c:3427
 #, fuzzy
 msgid "Contents:"
 msgstr "_Innehåll"
 
-#: src/view_dir_list.c:321 src/view_dir_tree.c:417
+#: src/view_dir_list.c:319 src/view_dir_tree.c:411
 msgid "new_folder"
 msgstr "ny_mapp"
 
-#: src/view_dir_list.c:387 src/view_dir_tree.c:491
+#: src/view_dir_list.c:385 src/view_dir_tree.c:485
 msgid "_Up to parent"
 msgstr "_Upp en nivå"
 
-#: src/view_dir_list.c:392 src/view_dir_tree.c:496
+#: src/view_dir_list.c:390 src/view_dir_tree.c:490
 msgid "_Slideshow"
 msgstr "_Bildspel"
 
-#: src/view_dir_list.c:394 src/view_dir_tree.c:498
+#: src/view_dir_list.c:392 src/view_dir_tree.c:492
 msgid "Slideshow recursive"
 msgstr "Rekursivt bildspel"
 
-#: src/view_dir_list.c:398 src/view_dir_tree.c:502
+#: src/view_dir_list.c:396 src/view_dir_tree.c:496
 msgid "Find _duplicates..."
 msgstr "Hitta _dubletter..."
 
-#: src/view_dir_list.c:400 src/view_dir_tree.c:504
+#: src/view_dir_list.c:398 src/view_dir_tree.c:498
 msgid "Find duplicates recursive..."
 msgstr "Rekursiv sökning efter dubletter..."
 
-#: src/view_dir_list.c:407 src/view_dir_tree.c:511
+#: src/view_dir_list.c:405 src/view_dir_tree.c:505
 msgid "_New folder..."
 msgstr "Ny _mapp..."
 
-#: src/view_dir_list.c:421 src/view_dir_tree.c:520
+#: src/view_dir_list.c:419 src/view_dir_tree.c:514
 msgid "View as _tree"
 msgstr "Visa som t_räd"
 
-#: src/view_dir_list.c:423 src/view_dir_tree.c:522 src/view_file_icon.c:315
-#: src/view_file_list.c:426
+#: src/view_dir_list.c:421 src/view_dir_tree.c:516 src/view_file_icon.c:354
+#: src/view_file_list.c:600
 msgid "Re_fresh"
 msgstr "Upp_datera"
 
-#: src/view_file_icon.c:308 src/view_file_list.c:419
+#: src/view_file_icon.c:347 src/view_file_list.c:593
 msgid "_Sort"
 msgstr "_Sortera"
 
-#: src/view_file_icon.c:311 src/view_file_list.c:422
+#: src/view_file_icon.c:350 src/view_file_list.c:596
 msgid "View as _icons"
 msgstr "Visa som _ikoner"
 
-#: src/view_file_list.c:424
+#: src/view_file_list.c:598
 msgid "Show _thumbnails"
 msgstr "Visa _miniatyrbilder"
 
-#: src/view_file_list.c:450
+#: src/view_file_list.c:624
 #, c-format
 msgid ""
 "Invalid file name:\n"
@@ -3411,6 +4265,74 @@ msgid ""
 msgstr ""
 "Ogiltigt filnamn:\n"
 "%s"
+
+#: src/view_file_list.c:2026
+msgid "SC"
+msgstr ""
+
+#~ msgid "Find duplicates - Geeqie"
+#~ msgstr "Hitta dubletter - Geeqie"
+
+#~ msgid "infinity"
+#~ msgstr "oändligt"
+
+#~ msgid "mode:"
+#~ msgstr "läge:"
+
+#~ msgid "not detected by strobe"
+#~ msgstr "inte upptäckt av sensor"
+
+#~ msgid "detected by strobe"
+#~ msgstr "upptäckt av sensor"
+
+#~ msgid "red-eye reduction"
+#~ msgstr "reducering av röda ögon"
+
+#~ msgid "dot"
+#~ msgstr "punkt"
+
+#~ msgid "Geeqie full screen"
+#~ msgstr "Geeqie helskärmsläge"
+
+#~ msgid "Geeqie Tools"
+#~ msgstr "Geeqie Verktyg"
+
+#~ msgid "Help - Geeqie"
+#~ msgstr "Hjälp - Geeqie"
+
+#~ msgid "Geeqie - exit"
+#~ msgstr "Geeqie - avsluta"
+
+#~ msgid "Quit Geeqie"
+#~ msgstr "Avsluta Geeqie"
+
+#, fuzzy
+#~ msgid "Pan View - Geeqie"
+#~ msgstr "Skriv ut - Geeqie"
+
+#~ msgid "About - Geeqie"
+#~ msgstr "Om - Geeqie"
+
+#~ msgid "Print - Geeqie"
+#~ msgstr "Skriv ut - Geeqie"
+
+#~ msgid "Copy - Geeqie"
+#~ msgstr "Kopiera - Geeqie"
+
+#~ msgid "Move - Geeqie"
+#~ msgstr "Flytta - Geeqie"
+
+#~ msgid "Delete files - Geeqie"
+#~ msgstr "Ta bort filer - Geeqie"
+
+#~ msgid "Delete file - Geeqie"
+#~ msgstr "Ta bort fil - Geeqie"
+
+#~ msgid "Rename - Geeqie"
+#~ msgstr "Byt namn - Geeqie"
+
+#~ msgid "New folder - Geeqie"
+#~ msgstr "Ny mapp - Geeqie"
 
 #~ msgid "/File/tear1"
 #~ msgstr "/Arkiv/tear1"
@@ -3619,9 +4541,6 @@ msgstr ""
 #~ msgid "Save"
 #~ msgstr "Spara"
 
-#~ msgid "Close"
-#~ msgstr "Stäng"
-
 #~ msgid ""
 #~ "Overwrite collection file:\n"
 #~ "%s"
@@ -3640,9 +4559,6 @@ msgstr ""
 
 #~ msgid "Append collection from:"
 #~ msgstr "Komplettera album med innehåll från:"
-
-#~ msgid "exit"
-#~ msgstr "avsluta"
 
 #~ msgid "Exit"
 #~ msgstr "Avsluta"
@@ -3670,12 +4586,6 @@ msgstr ""
 
 #~ msgid "Add"
 #~ msgstr "Lägg till"
-
-#~ msgid "Help"
-#~ msgstr "Hjälp"
-
-#~ msgid "Full screen size:"
-#~ msgstr "Storlek för helskärmsläge:"
 
 #~ msgid "Point size:"
 #~ msgstr "Textstorlek (punkter):"
