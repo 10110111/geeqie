@@ -204,7 +204,7 @@ static ExifTextList ExifLightSourceList[] = {
 	{ 12,	N_("daylight fluorescent") },
 	{ 13,	N_("day white fluorescent") },
 	{ 14,	N_("cool white fluorescent") },
-	{ 15,	N_("while fluorescent") },
+	{ 15,	N_("white fluorescent") },
 	{ 17,	N_("standard light A") },
 	{ 18,	N_("standard light B") },
 	{ 19,	N_("standard light C") },
