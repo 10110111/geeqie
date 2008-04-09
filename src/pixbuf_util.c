@@ -32,7 +32,7 @@ gboolean pixbuf_to_file_as_png (GdkPixbuf *pixbuf, const char *filename)
 	if (!pixbuf || !filename) return FALSE;
 
 	ret = gdk_pixbuf_save(pixbuf, filename, "png", &error,
-			      "tEXt::Software", "Geeqie "VERSION, NULL);
+			      "tEXt::Software", GQ_APPNAME " " VERSION, NULL);
 
 	if (error)
 		{

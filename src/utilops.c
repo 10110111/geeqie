@@ -1145,7 +1145,7 @@ static void real_file_util_move(FileData *source_fd, GList *source_list,
 	FileData *fd = NULL;
 	gint multiple;
 	const gchar *text;
-	const gchar *title;
+	gchar *title;
 	const gchar *op_text;
 	const gchar *stock_id;
 
@@ -1170,7 +1170,7 @@ static void real_file_util_move(FileData *source_fd, GList *source_list,
 
 	if (copy)
 		{
-		title = _("Copy - Geeqie");
+		title = g_strdup_printf("%s -%s", _("Copy"), GQ_APPNAME);
 		op_text = _("_Copy");
 		if (fd)
 			{
@@ -1184,7 +1184,7 @@ static void real_file_util_move(FileData *source_fd, GList *source_list,
 		}
 	else
 		{
-		title = _("Move - Geeqie");
+		title = g_strdup_printf("%s -%s", _("Move"), GQ_APPNAME);
 		op_text = _("_Move");
 		if (fd)
 			{
@@ -1199,6 +1199,7 @@ static void real_file_util_move(FileData *source_fd, GList *source_list,
 
 	fdlg = file_util_file_dlg(title, GQ_WMCLASS, "dlg_copymove", parent,
 				file_util_move_cancel_cb, NULL);
+	g_free(title);
 	generic_dialog_add_message(GENERIC_DIALOG(fdlg), NULL, text, NULL);
 
 	if (fd)
@@ -1757,11 +1758,12 @@ static void file_util_delete_multiple(GList *source_list, GtkWidget *parent)
 		GtkWidget *label;
 		ImageWindow *imd;
 		gchar *buf;
+		gchar *title = g_strdup_printf("%s -%s", _("Delete files"), GQ_APPNAME);
 
-		gd = file_util_gen_dlg(_("Delete files - Geeqie"),
-					GQ_WMCLASS, "dlg_confirm", parent, TRUE,
-					file_util_delete_multiple_cancel_cb, source_list);
-
+		gd = file_util_gen_dlg(title, GQ_WMCLASS, "dlg_confirm", parent, TRUE,
+				       file_util_delete_multiple_cancel_cb, source_list);
+		g_free(title);
+		
 		generic_dialog_add_message(gd, NULL, _("Delete multiple files"), NULL);
 
 		generic_dialog_add_image(gd, NULL, NULL, NULL, NULL, NULL, TRUE);
@@ -1853,10 +1855,11 @@ static void file_util_delete_single(FileData *fd, GtkWidget *parent)
 		GenericDialog *gd;
 		GtkWidget *table;
 		gchar *base;
+		gchar *title = g_strdup_printf("%s -%s", _("Delete file"), GQ_APPNAME);
 
-		gd = file_util_gen_dlg(_("Delete file - Geeqie"), GQ_WMCLASS, "dlg_confirm",
-					parent, TRUE,
-					file_util_delete_cancel_cb, file_data_ref(fd));
+		gd = file_util_gen_dlg(title, GQ_WMCLASS, "dlg_confirm", parent, TRUE,
+				       file_util_delete_cancel_cb, file_data_ref(fd));
+		g_free(title);
 
 		generic_dialog_add_message(gd, NULL, _("Delete file?"), NULL);
 
@@ -2537,12 +2540,14 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 	GtkWidget *combo;
 	GList *work;
 	const gchar *name;
+	gchar *title;
 
 	rd = g_new0(RenameDataMult, 1);
-
-	rd->fdlg = file_util_file_dlg(_("Rename - Geeqie"),
-				    GQ_WMCLASS, "dlg_rename", parent,
-				    file_util_rename_multiple_close_cb, rd);
+	
+	title = g_strdup_printf("%s -%s", _("Rename"), GQ_APPNAME);
+	rd->fdlg = file_util_file_dlg(title, GQ_WMCLASS, "dlg_rename", parent,
+				      file_util_rename_multiple_close_cb, rd);
+	g_free(title);
 	generic_dialog_add_message(GENERIC_DIALOG(rd->fdlg), NULL, _("Rename multiple files"), NULL);
 	file_dialog_add_button(rd->fdlg, GTK_STOCK_OK, _("_Rename"), file_util_rename_multiple_cb, TRUE);
 
@@ -2796,9 +2801,12 @@ static void file_util_rename_single_do(FileData *source_fd, GtkWidget *parent)
 	FileDialog *fdlg;
 	GtkWidget *table;
 	const gchar *name;
+	gchar *title;
 
-	fdlg = file_util_file_dlg(_("Rename - Geeqie"), GQ_WMCLASS, "dlg_rename", parent,
-			     file_util_rename_single_close_cb, NULL);
+	title = g_strdup_printf("%s -%s", _("Rename"), GQ_APPNAME);
+	fdlg = file_util_file_dlg(title, GQ_WMCLASS, "dlg_rename", parent,
+			          file_util_rename_single_close_cb, NULL);
+	g_free(title);
 
 	generic_dialog_add_message(GENERIC_DIALOG(fdlg), NULL, _("Rename file"), NULL);
 	generic_dialog_add_image(GENERIC_DIALOG(fdlg), NULL, source_fd, NULL, NULL, NULL, FALSE);
@@ -2916,11 +2924,14 @@ void file_util_create_dir(const gchar *path, GtkWidget *parent)
 {
 	FileDialog *fdlg;
 	gchar *text;
+	gchar *title;
 
 	if (!isdir(path)) return;
 
-	fdlg = file_util_file_dlg(_("New folder - Geeqie"), GQ_WMCLASS, "dlg_newdir", parent,
-			     file_util_create_dir_close_cb, NULL);
+	title = g_strdup_printf("%s -%s", _("New folder"), GQ_APPNAME);
+	fdlg = file_util_file_dlg(title, GQ_WMCLASS, "dlg_newdir", parent,
+			          file_util_create_dir_close_cb, NULL);
+	g_free(title);
 
 	text = g_strdup_printf(_("Create folder in:\n%s\nnamed:"), path);
 	generic_dialog_add_message(GENERIC_DIALOG(fdlg), NULL, NULL, text);

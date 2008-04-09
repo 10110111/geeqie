@@ -30,8 +30,8 @@
 /* If ssi->secure_save is TRUE:
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
- * A call to secure_open("/home/me/.geeqie/filename", mask) will open a file
- * named "filename.tmp_XXXXXX" in /home/me/.geeqie/ and return a pointer to a
+ * A call to secure_open("/home/me/.confdir/filename", mask) will open a file
+ * named "filename.tmp_XXXXXX" in /home/me/.confdir/ and return a pointer to a
  * structure SecureSaveInfo on success or NULL on error.
  *
  * filename.tmp_XXXXXX can't conflict with any file since it's created using
@@ -612,7 +612,7 @@ void save_options(void)
 		}
 	
 	secure_fprintf(ssi, "######################################################################\n");
-	secure_fprintf(ssi, "#                         Geeqie config file         version %7s #\n", VERSION);
+	secure_fprintf(ssi, "# %30s config file         version %7s #\n", GQ_APPNAME, VERSION);
 	secure_fprintf(ssi, "######################################################################\n");
 	secure_fputc(ssi, '\n');
 
@@ -736,8 +736,8 @@ void save_options(void)
 	secure_fprintf(ssi, "\n##### Color Profiles #####\n\n");
 
 #ifndef HAVE_LCMS
-	secure_fprintf(ssi, "# NOTICE: Geeqie was not built with support for color profiles,\n"
-		  	   "#         color profile options will have no effect.\n\n");
+	secure_fprintf(ssi, "# NOTICE: %s was not built with support for color profiles,\n"
+		  	   "#         color profile options will have no effect.\n\n", GQ_APPNAME);
 #endif
 
 	write_bool_option(ssi, "color_profile_enabled", color_profile_enabled);
@@ -802,7 +802,7 @@ void save_options(void)
 
 	secure_fputc(ssi, '\n');
 	secure_fprintf(ssi, "######################################################################\n");
-	secure_fprintf(ssi, "#                      end of Geeqie config file                     #\n");
+	secure_fprintf(ssi, "#                         end of config file                         #\n");
 	secure_fprintf(ssi, "######################################################################\n");
 
 	

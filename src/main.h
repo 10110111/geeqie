@@ -62,13 +62,18 @@
  *----------------------------------------------------------------------------
  */
 
-#define GQ_WMCLASS "geeqie"
+#define GQ_APPNAME "Geeqie"
+#define GQ_APPNAME_LC "geeqie"
+#define GQ_WEBSITE "geeqie.sourceforge.net"
+#define GQ_EMAIL_ADDRESS "geeqie-devel@lists.sourceforge.net"
 
-#define GQ_RC_DIR             ".geeqie"
+#define GQ_WMCLASS GQ_APPNAME_LC
+
+#define GQ_RC_DIR             "." GQ_APPNAME_LC
 #define GQ_RC_DIR_COLLECTIONS GQ_RC_DIR"/collections"
 #define GQ_RC_DIR_TRASH       GQ_RC_DIR"/trash"
 
-#define RC_FILE_NAME "geeqierc"
+#define RC_FILE_NAME GQ_APPNAME_LC "rc"
 
 #define ZOOM_RESET_ORIGINAL 0
 #define ZOOM_RESET_FIT_WINDOW 1

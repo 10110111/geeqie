@@ -244,7 +244,7 @@ static gboolean editor_verbose_io_cb(GIOChannel *source, GIOCondition condition,
 					}
 				else
 					{
-					editor_verbose_window_fill(ed->vd, "Geeqie: Error converting text to valid utf8\n", -1);
+					editor_verbose_window_fill(ed->vd, "Error converting text to valid utf8\n", -1);
 					}
 				}
 			else

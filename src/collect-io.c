@@ -21,7 +21,7 @@
 #include "filelist.h"
 
 
-#define GQ_COLLECTION_MARKER "#Geeqie"
+#define GQ_COLLECTION_MARKER "#" GQ_APPNAME
 
 #define GQ_COLLECTION_FAIL_MIN     300
 #define GQ_COLLECTION_FAIL_PERCENT 98
@@ -311,7 +311,7 @@ static gint collection_save_private(CollectionData *cd, const gchar *path)
 		}
 
 	fprintf(f, "%s collection\n", GQ_COLLECTION_MARKER);
-	fprintf(f, "#created with Geeqie version %s\n", VERSION);
+	fprintf(f, "#created with %s version %s\n", GQ_APPNAME, VERSION);
 
 	collection_update_geometry(cd);
 	if (cd->window_read)

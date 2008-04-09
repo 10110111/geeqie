@@ -1514,7 +1514,11 @@ static void config_window_create(void)
 			 G_CALLBACK(config_window_delete), NULL);
 	gtk_window_set_default_size(GTK_WINDOW(configwindow), CONFIG_WINDOW_DEF_WIDTH, CONFIG_WINDOW_DEF_HEIGHT);		 
 	gtk_window_set_resizable(GTK_WINDOW(configwindow), TRUE);
-	gtk_window_set_title(GTK_WINDOW(configwindow), _("Geeqie Preferences"));
+	{
+	gchar *title = g_strdup_printf("%s - %s", _("Preferences"), GQ_APPNAME);
+	gtk_window_set_title(GTK_WINDOW(configwindow), title);
+	g_free(title);
+	}
 	gtk_window_set_wmclass(GTK_WINDOW(configwindow), "config", GQ_WMCLASS);
 	gtk_container_set_border_width(GTK_CONTAINER(configwindow), PREF_PAD_BORDER);
 
@@ -1641,7 +1645,11 @@ void show_about_window(void)
 	g_signal_connect(G_OBJECT(about), "delete_event",
 			 G_CALLBACK(about_delete_cb), NULL);
 
-	gtk_window_set_title(GTK_WINDOW(about), _("About - Geeqie"));
+	{
+	gchar *title = g_strdup_printf("%s - %s", _("About"), GQ_APPNAME);
+	gtk_window_set_title(GTK_WINDOW(about), title);
+	g_free(title);
+	}
 	gtk_container_set_border_width(GTK_CONTAINER(about), PREF_PAD_BORDER);
 
 	vbox = gtk_vbox_new(FALSE, PREF_PAD_SPACE);
@@ -1654,11 +1662,12 @@ void show_about_window(void)
 	gtk_box_pack_start(GTK_BOX(vbox), button, TRUE, TRUE, 0);
 	gtk_widget_show(button);
 
-	buf = g_strdup_printf(_("Geeqie %s\n\nCopyright (c) %s John Ellis\nwebsite: %s\nemail: %s\n\nReleased under the GNU General Public License"),
+	buf = g_strdup_printf(_("%s %s\n\nCopyright (c) %s John Ellis\nwebsite: %s\nemail: %s\n\nReleased under the GNU General Public License"),
+			      GQ_APPNAME,
 			      VERSION,
 			      "2006",
-			      "geeqie.sourceforge.net",
-			      "geeqie-devel@lists.sourceforge.net");
+			      GQ_WEBSITE,
+			      GQ_EMAIL_ADDRESS);
 	label = gtk_label_new(buf);
 	g_free(buf);
 

@@ -851,7 +851,7 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 	gtk_window_set_geometry_hints(GTK_WINDOW(vw->window), NULL, &geometry, GDK_HINT_MIN_SIZE);
 
 	gtk_window_set_resizable(GTK_WINDOW(vw->window), TRUE);
-	gtk_window_set_title (GTK_WINDOW(vw->window), "Geeqie");
+	gtk_window_set_title (GTK_WINDOW(vw->window), GQ_APPNAME);
         gtk_window_set_wmclass(GTK_WINDOW(vw->window), "view", GQ_WMCLASS);
         gtk_container_set_border_width(GTK_CONTAINER(vw->window), 0);
 
@@ -861,7 +861,7 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 
 	image_background_set_color(vw->imd, user_specified_window_background ? &window_background_color : NULL);
 
-	image_attach_window(vw->imd, vw->window, NULL, "Geeqie", TRUE);
+	image_attach_window(vw->imd, vw->window, NULL, GQ_APPNAME, TRUE);
 
 	image_auto_refresh(vw->imd, 0);
 	image_top_window_set_sync(vw->imd, TRUE);

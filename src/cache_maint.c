@@ -344,7 +344,7 @@ void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
 	cm->idle_id = g_idle_add(cache_maintain_home_cb, cm);
 }
 
-/* This checks all files in ~/.geeqie/thumbnails and
+/* This checks all files in ~/GQ_RC_DIR/thumbnails and
  * removes them if thay have no source counterpart.
  * (this assumes all cache files have an extension of 4 chars including '.')
  */
@@ -1152,6 +1152,7 @@ void cache_manager_show(void)
 	GtkWidget *table;
 	GtkSizeGroup *sizegroup;
 	gchar *buf;
+	gchar *title;
 
 	if (cache_manager)
 		{
@@ -1161,10 +1162,12 @@ void cache_manager_show(void)
 
 	cache_manager = g_new0(CacheManager, 1);
 
-	cache_manager->dialog = generic_dialog_new(_("Cache Maintenance - Geeqie"),
+	title = g_strdup_printf("%s - %s", _("Cache Maintenance"), GQ_APPNAME);
+	cache_manager->dialog = generic_dialog_new(title,
 						   GQ_WMCLASS, "cache_manager",
 						   NULL, FALSE,
 						   NULL, cache_manager);
+	g_free(title);
 	gd = cache_manager->dialog;
 
 	gd->cancel_cb = cache_manager_close_cb;
@@ -1175,7 +1178,7 @@ void cache_manager_show(void)
 
 	sizegroup = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
-	group = pref_group_new(gd->vbox, FALSE, _("Geeqie thumbnail cache"), GTK_ORIENTATION_VERTICAL);
+	group = pref_group_new(gd->vbox, FALSE, _("Thumbnail cache"), GTK_ORIENTATION_VERTICAL);
 
 	buf = g_strconcat(_("Location:"), " ", homedir(), "/", GQ_CACHE_RC_THUMB, NULL);
 	label = pref_label_new(group, buf);
@@ -1224,7 +1227,7 @@ void cache_manager_show(void)
 	pref_table_label(table, 1, 1, _("Render thumbnails for a specific folder."), 0.0);
 
 	group = pref_group_new(gd->vbox, FALSE, _("Metadata"), GTK_ORIENTATION_VERTICAL);
-	
+
 	buf = g_strconcat(_("Location:"), " ", homedir(), "/", GQ_CACHE_RC_METADATA, NULL);
 	label = pref_label_new(group, buf);
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);

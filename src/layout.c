@@ -373,6 +373,14 @@ static gchar *layout_color_name_parse(const gchar *name)
 
 static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 {
+#ifndef HAVE_LCMS
+	gchar *msg = g_strdup_printf(_("This installation of %s was not built with support for color profiles."), GQ_APPNAME);
+	file_util_warning_dialog(_("Color profiles not supported"),
+				 msg,
+				 GTK_STOCK_DIALOG_INFO, widget);
+	g_free(msg);
+	return;
+#else
 	LayoutWindow *lw = data;
 	GtkWidget *menu;
 	GtkWidget *item;
@@ -384,13 +392,6 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 	gint screen = 0;
 	gint use_image = 0;
 	gint i;
-
-#ifndef HAVE_LCMS
-	file_util_warning_dialog(_("Color profiles not supported"),
-				 _("This installation of Geeqie was not built with support for color profiles."),
-				 GTK_STOCK_DIALOG_INFO, widget);
-	return;
-#endif
 
 	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
 
@@ -454,6 +455,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 	gtk_widget_set_sensitive(item, active && color_profile_screen_file);
 
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
+#endif /* HAVE_LCMS */
 }
 
 static GtkWidget *layout_color_button(LayoutWindow *lw)
@@ -1338,7 +1340,11 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 
 
 		gtk_window_set_resizable(GTK_WINDOW(lw->tools), TRUE);
-		gtk_window_set_title(GTK_WINDOW(lw->tools), _("Geeqie Tools"));
+		{
+		gchar *title = g_strdup_printf("%s - %s", _("Tools"), GQ_APPNAME);
+		gtk_window_set_title(GTK_WINDOW(lw->tools), title);
+		g_free(title);
+		}
 		gtk_window_set_wmclass(GTK_WINDOW(lw->tools), "tools", GQ_WMCLASS);
 		gtk_container_set_border_width(GTK_CONTAINER(lw->tools), 0);
 
@@ -1927,7 +1933,7 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 	lw->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_resizable(GTK_WINDOW(lw->window), TRUE);
 
-	gtk_window_set_title(GTK_WINDOW(lw->window), "Geeqie");
+	gtk_window_set_title(GTK_WINDOW(lw->window), GQ_APPNAME);
 	gtk_window_set_wmclass(GTK_WINDOW(lw->window), GQ_WMCLASS, GQ_WMCLASS);
 	gtk_container_set_border_width(GTK_CONTAINER(lw->window), 0);
 

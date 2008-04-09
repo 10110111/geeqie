@@ -1742,7 +1742,7 @@ void layout_image_activate(LayoutWindow *lw, gint i)
 	layout_image_set_buttons(lw);
 	image_set_drag_func(lw->image, layout_image_drag_cb, lw);
 
-	image_attach_window(lw->image, lw->window, NULL, "Geeqie", FALSE);
+	image_attach_window(lw->image, lw->window, NULL, GQ_APPNAME, FALSE);
 
 	/* do not hilight selected image in SPLIT_NONE */
 	/* maybe the image should be selected always and hilight should be controled by

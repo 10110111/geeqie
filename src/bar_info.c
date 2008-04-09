@@ -56,7 +56,7 @@ static gint comment_file_write(gchar *path, GList *keywords, const gchar *commen
 	f = fopen(path, "w");
 	if (!f) return FALSE;
 
-	fprintf(f, "#Geeqie comment (%s)\n\n", VERSION);
+	fprintf(f, "#%s comment (%s)\n\n", GQ_APPNAME, VERSION);
 
 	fprintf(f, "[keywords]\n");
 	while (keywords)

@@ -780,7 +780,11 @@ void info_window_new(FileData *fd, GList *list)
 	window_set_icon(id->window, NULL, NULL);
 
 	gtk_window_set_resizable(GTK_WINDOW(id->window), TRUE);
-	gtk_window_set_title(GTK_WINDOW(id->window), _("Image properties - Geeqie"));
+	{
+	gchar *title = g_strdup_printf("%s - %s", _("Image properties"), GQ_APPNAME); 
+	gtk_window_set_title(GTK_WINDOW(id->window), title);
+	g_free(title);
+	}
 	gtk_window_set_wmclass(GTK_WINDOW(id->window), "properties", GQ_WMCLASS);
 
 	geometry.min_width = 32;

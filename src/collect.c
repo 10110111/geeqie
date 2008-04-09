@@ -970,7 +970,7 @@ static void collection_window_update_title(CollectWindow *cw)
 
 	if (!cw) return;
 
-	buf = g_strdup_printf(_("%s - Geeqie Collection"), cw->cd->name);
+	buf = g_strdup_printf(_("%s - Collection - %s"), cw->cd->name, GQ_APPNAME);
 	gtk_window_set_title(GTK_WINDOW(cw->window), buf);
 	g_free(buf);
 }

@@ -235,8 +235,12 @@ void help_window_show(const gchar *key)
 		return;
 		}
 
-	help_window = help_window_new(_("Help - Geeqie"), GQ_WMCLASS, "help",
+	{
+	gchar *title = g_strdup_printf("%s - %s", _("Help"), GQ_APPNAME);
+	help_window = help_window_new(title, GQ_WMCLASS, "help",
                                       GQ_HELPDIR "/README", key);
+	g_free(title);
+	}
 	g_signal_connect(G_OBJECT(help_window), "destroy",
 			 G_CALLBACK(help_window_destroy_cb), NULL);
 }
@@ -636,7 +640,12 @@ static void remote_control(const gchar *arg_exec, GList *remote_list, const gcha
 		gint retry_count = 12;
 		gint blank = FALSE;
 
-		print_term(_("Remote Geeqie not running, starting..."));
+		{
+		gchar *msg = g_strdup_printf(_("Remote %s not running, starting..."), GQ_APPNAME);
+		print_term(msg);
+		g_free(msg);
+		}
+
 		command = g_string_new(arg_exec);
 
 		work = remote_list;
@@ -978,7 +987,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 			else if (strcmp(cmd_line, "-v") == 0 ||
 				 strcmp(cmd_line, "--version") == 0)
 				{
-				printf("Geeqie %s\n", VERSION);
+				printf("%s %s\n", GQ_APPNAME, VERSION);
 				exit (0);
 				}
 			else if (strcmp(cmd_line, "--alternate") == 0)
@@ -990,8 +999,10 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 			else if (strcmp(cmd_line, "-h") == 0 ||
 				 strcmp(cmd_line, "--help") == 0)
 				{
-				printf("Geeqie %s\n", VERSION);
-				print_term(_("Usage: gqview [options] [path]\n\n"));
+				gchar *usage = g_strdup_printf(_("Usage: %s [options] [path]\n\n"), GQ_APPNAME_LC);
+				printf("%s %s\n", GQ_APPNAME, VERSION);
+				print_term(usage);
+				g_free(usage);
 				print_term(_("valid options are:\n"));
 				print_term(_("  +t, --with-tools           force show of tools\n"));
 				print_term(_("  -t, --without-tools        force hide of tools\n"));
@@ -1095,7 +1106,7 @@ static void check_for_home_path(gchar *path)
 		{
 		gchar *tmp;
 
-		tmp = g_strdup_printf(_("Creating Geeqie dir:%s\n"), buf);
+		tmp = g_strdup_printf(_("Creating %s dir:%s\n"), GQ_APPNAME, buf);
 		print_term(tmp);
 		g_free(tmp);
 
@@ -1216,6 +1227,7 @@ static gint exit_confirm_dlg(void)
 {
 	GtkWidget *parent;
 	LayoutWindow *lw;
+	gchar *msg;
 
 	if (exit_dialog)
 		{
@@ -1232,11 +1244,15 @@ static gint exit_confirm_dlg(void)
 		parent = lw->window;
 		}
 
-	exit_dialog = generic_dialog_new(_("Geeqie - exit"),
+	msg = g_strdup_printf("%s - %s", GQ_APPNAME, _("exit"));
+	exit_dialog = generic_dialog_new(msg,
 				GQ_WMCLASS, "exit", parent, FALSE,
 				exit_confirm_cancel_cb, NULL);
+	g_free(msg);
+	msg = g_strdup_printf(_("Quit %s"), GQ_APPNAME);
 	generic_dialog_add_message(exit_dialog, GTK_STOCK_DIALOG_QUESTION,
-				   _("Quit Geeqie"), _("Collections have been modified. Quit anyway?"));
+				   msg, _("Collections have been modified. Quit anyway?"));
+	g_free(msg);
 	generic_dialog_add_button(exit_dialog, GTK_STOCK_QUIT, NULL, exit_confirm_exit_cb, TRUE);
 
 	gtk_widget_show(exit_dialog->dialog);
@@ -1276,7 +1292,7 @@ int main (int argc, char *argv[])
         srand(time(NULL));
 
 #if 1
-	printf("geeqie %s, This is an alpha release.\n", VERSION);
+	printf("%s %s, This is an alpha release.\n", GQ_APPNAME, VERSION);
 #endif
 
 	layout_order = g_strdup("123");
@@ -1291,15 +1307,20 @@ int main (int argc, char *argv[])
 	    (gtk_major_version == GTK_MAJOR_VERSION && gtk_minor_version < GTK_MINOR_VERSION) )
 		{
 		gchar *msg;
+
 		print_term("!!! This is a friendly warning.\n");
-		print_term("!!! The version of GTK+ in use now is older than when Geeqie was compiled.\n");
+		msg = g_strdup_printf("!!! The version of GTK+ in use now is older than when %s was compiled.\n", GQ_APPNAME);
+		print_term(msg);
+		g_free(msg);
 		msg = g_strdup_printf("!!!  compiled with GTK+-%d.%d\n", GTK_MAJOR_VERSION, GTK_MINOR_VERSION);
 		print_term(msg);
 		g_free(msg);
 		msg = g_strdup_printf("!!!   running with GTK+-%d.%d\n", gtk_major_version, gtk_minor_version);
 		print_term(msg);
 		g_free(msg);
-		print_term("!!! Geeqie may quit unexpectedly with a relocation error.\n");
+		msg = g_strdup_printf("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
+		print_term(msg);
+		g_free(msg);
 		}
 
 	check_for_home_path(GQ_RC_DIR);

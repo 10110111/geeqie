@@ -3116,7 +3116,11 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 	gtk_window_set_default_size(GTK_WINDOW(dw->window), DUPE_DEF_WIDTH, DUPE_DEF_HEIGHT);
 
 	gtk_window_set_resizable(GTK_WINDOW(dw->window), TRUE);
-	gtk_window_set_title(GTK_WINDOW(dw->window), _("Find duplicates - Geeqie"));
+	{
+	gchar *title = g_strdup_printf("%s - %s", _("Find duplicates"), GQ_APPNAME);
+	gtk_window_set_title(GTK_WINDOW(dw->window), title);
+	g_free(title);
+	}
         gtk_window_set_wmclass(GTK_WINDOW(dw->window), "dupe", GQ_WMCLASS);
         gtk_container_set_border_width (GTK_CONTAINER (dw->window), 0);
 

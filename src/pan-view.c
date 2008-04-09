@@ -2361,7 +2361,12 @@ static void pan_window_new_real(const gchar *path)
 	gtk_window_set_geometry_hints(GTK_WINDOW(pw->window), NULL, &geometry, GDK_HINT_MIN_SIZE);
 
 	gtk_window_set_resizable(GTK_WINDOW(pw->window), TRUE);
-	gtk_window_set_title (GTK_WINDOW(pw->window), _("Pan View - Geeqie"));
+
+	{
+	gchar *title = g_strdup_printf("%s - %s",  _("Pan View"), GQ_APPNAME);
+	gtk_window_set_title(GTK_WINDOW(pw->window), title);
+	g_free(title);
+	}
         gtk_window_set_wmclass(GTK_WINDOW(pw->window), "view", GQ_WMCLASS);
         gtk_container_set_border_width(GTK_CONTAINER(pw->window), 0);
 

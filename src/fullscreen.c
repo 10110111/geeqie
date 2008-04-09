@@ -264,7 +264,11 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	g_signal_connect(G_OBJECT(fs->window), "delete_event",
 			 G_CALLBACK(fullscreen_delete_cb), fs);
 
-	gtk_window_set_title(GTK_WINDOW(fs->window), _("Geeqie full screen"));
+	{
+	gchar *title = g_strdup_printf("%s - %s", _("Full screen"), GQ_APPNAME);
+	gtk_window_set_title(GTK_WINDOW(fs->window), title);
+	g_free(title);
+	}
 
 	geometry.min_width = w;
 	geometry.min_height = h;
