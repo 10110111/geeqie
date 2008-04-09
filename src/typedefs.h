@@ -397,13 +397,6 @@ struct _FileData {
 	gint ref;
 };
 
-struct _Histogram {
-	gulong histmap[256*4];
-	gint histogram_chan;
-	gint histogram_logmode;
-};
-
-
 struct _LayoutWindow
 {
 	gchar *path;

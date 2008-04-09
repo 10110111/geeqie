@@ -22,6 +22,14 @@
  *----------------------------------------------------------------------------
  */
 
+#define HISTOGRAM_SIZE 256
+ 
+struct _Histogram {
+	gulong histmap[HISTOGRAM_SIZE*4];
+	gint histogram_chan;
+	gint histogram_logmode;
+};
+
 
 Histogram *histogram_new()
 {
@@ -105,25 +113,25 @@ gulong histogram_read(Histogram *histogram, GdkPixbuf *imgpixbuf)
 	s_pix = gdk_pixbuf_get_pixels(imgpixbuf);
 	has_alpha = gdk_pixbuf_get_has_alpha(imgpixbuf);
 
-	for (i = 0; i < 256*4; i++) histogram->histmap[i] = 0;
+	for (i = 0; i < HISTOGRAM_SIZE*4; i++) histogram->histmap[i] = 0;
 
 	for (i = 0; i < h; i++)
 		{
 		guchar *sp = s_pix + (i * srs); /* 8bit */
 		for (j = 0; j < w; j++)
 			{
-			histogram->histmap[sp[0]+0]++;
-			histogram->histmap[sp[1]+256]++;
-			histogram->histmap[sp[2]+512]++;
+			histogram->histmap[sp[0] + 0 * HISTOGRAM_SIZE]++;
+			histogram->histmap[sp[1] + 1 * HISTOGRAM_SIZE]++;
+			histogram->histmap[sp[2] + 2 * HISTOGRAM_SIZE]++;
 			if (histogram->histogram_chan == HCHAN_MAX)
 				{
 				guchar t = sp[0];
 				if (sp[1]>t) t = sp[1];
 				if (sp[2]>t) t = sp[2];
-  				histogram->histmap[t+768]++;
+  				histogram->histmap[t + 3 * HISTOGRAM_SIZE]++;
 				}
 			else
-  				histogram->histmap[768+(sp[0]+sp[1]+sp[2])/3]++;
+  				histogram->histmap[3 * HISTOGRAM_SIZE + (sp[0]+sp[1]+sp[2])/3]++;
 			sp += 3;
 			if (has_alpha) sp++;
 			}
@@ -158,18 +166,23 @@ gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gin
 	}
 
 	logmax = log(max);
-	for (i=0; i<256; i++)
+	for (i=0; i<width; i++)
 		{
 		gint j;
-		glong v[4];
+		glong v[4] = {0, 0, 0, 0};
 		gint rplus = 0;
 		gint gplus = 0;
 		gint bplus = 0;
+		gint ii = i * HISTOGRAM_SIZE / width;
+		gint combine  = (HISTOGRAM_SIZE - 1) / width + 1;
 
-		v[0] = histogram->histmap[i+0*256]; // r
-		v[1] = histogram->histmap[i+1*256]; // g
-		v[2] = histogram->histmap[i+2*256]; // b
-		v[3] = histogram->histmap[i+3*256]; // value, max
+		for (j = 0; j < combine; j++)
+			{
+			v[0] += histogram->histmap[ii + j + 0*HISTOGRAM_SIZE]; // r
+			v[1] += histogram->histmap[ii + j + 1*HISTOGRAM_SIZE]; // g
+			v[2] += histogram->histmap[ii + j + 2*HISTOGRAM_SIZE]; // b
+			v[3] += histogram->histmap[ii + j + 3*HISTOGRAM_SIZE]; // value, max
+			}
 		
 		for (j=0; j<4; j++)
 			{
@@ -209,14 +222,14 @@ gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gin
 			if (v[max2] == 0)
 				pt = 0;
 			else if (histogram->histogram_logmode)
-				pt = ((float)log(v[max2]))/logmax*255;
+				pt = ((float)log(v[max2])) / logmax * (height - 1);
 			else
-				pt = ((float)v[max2])/max*255;
+				pt = ((float)v[max2])/ max * (height - 1);
 			if (histogram->histogram_chan >= HCHAN_RGB 
 			    || max2 == histogram->histogram_chan)
 				pixbuf_draw_line(pixbuf, 
-					0+5, height-255, 256, 256,
-					i+5, height, i+5, height-pt, 
+					x, y, width, height,
+					x + i, y + height, x + i, y + height-pt, 
 					r, g, b, 255);
 			v[max2] = -1;
 			}

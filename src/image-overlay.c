@@ -74,6 +74,7 @@ static OSDIcon osd_icons[] = {
 
 #define IMAGE_OSD_DEFAULT_DURATION 30
 
+#define HISTOGRAM_HEIGHT 140
 /*
  *----------------------------------------------------------------------------
  * image histogram
@@ -326,12 +327,6 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 			active_marks += fd->marks[mark];
 			}
 
-    		if (with_hist)
-			{
-			text2 = g_strdup_printf("%s\n%s", text, histogram_label(lw->histogram));
-			g_free(text);
-			text = text2;
-			}
 
 		if (active_marks > 0)
 			{
@@ -348,6 +343,12 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 			text = text2;
 			}
 
+    		if (with_hist)
+			{
+			text2 = g_strdup_printf("%s\n%s", text, histogram_label(lw->histogram));
+			g_free(text);
+			text = text2;
+			}
 		}
 	}
         
@@ -364,7 +365,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 		{
 		histogram_read(lw->histogram, imgpixbuf);
 		if (width < 266) width = 266;
-		height += 256;
+		height += HISTOGRAM_HEIGHT + 5;
 		}
 
 
@@ -380,7 +381,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	pixbuf_pixel_set(pixbuf, width - 1, height - 1, 0, 0, 0, 0);
 
 	if (with_hist)
-		histogram_draw(lw->histogram, pixbuf, 0, 0, width, height);
+		histogram_draw(lw->histogram, pixbuf, 5, height - HISTOGRAM_HEIGHT - 5 , width - 10, HISTOGRAM_HEIGHT);
 		
 	pixbuf_draw_layout(pixbuf, layout, imd->pr, 5, 5, 0, 0, 0, 255);
 
