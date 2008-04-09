@@ -324,10 +324,7 @@ void pan_calendar_compute(PanWindow *pw, const gchar *path, gint *width, gint *h
 
 			dt = pan_date_to_time(year, month, day);
 
-			fd = g_new0(FileData, 1);
-			/* path and name must be non NULL, so make them an invalid filename */
-			fd->path = g_strdup("//");
-			fd->name = path;
+			fd = file_data_new_simple("");
 			fd->date = dt;
 			pi_day = pan_item_box_new(pw, fd, x, y, PAN_CAL_DAY_WIDTH, PAN_CAL_DAY_HEIGHT,
 						  PAN_CAL_DAY_BORDER,
