@@ -1354,6 +1354,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 	  "<i>%size%</i> (filesize), <i>%width%</i>, <i>%height%</i>, <i>%res%</i> (resolution)\n"
 	  "To access exif data use the exif name, e. g. <i>%fCamera%</i> is the formatted camera name,\n"
 	  "<i>%Exif.Photo.DateTimeOriginal%</i> the date of the original shot.\n"
+	  "<i>%fCamera:20</i> notation will truncate the displayed data to 20 characters and will add 3 dots at the end to denote the truncation.\n"
 	  "If two or more variables are connected with the |-sign, it prints available variables with a separator.\n"
 	  "<i>%fShutterSpeed%</i>|<i>%fISOSpeedRating%</i>|<i>%fFocalLength%</i> could show \"1/20s - 400 - 80 mm\" or \"1/200 - 80 mm\",\n"
 	  "if there's no ISO information in the Exif data.\n"

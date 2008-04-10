@@ -139,19 +139,43 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 
 	while (TRUE)
 		{
+		gint was_digit = 0;
+		gint limit = 0;
+		gchar *trunc = NULL;
+		gchar *p;
+
 		start = strchr(new->str, delim);
 		if (!start)
 			break;
 		end = strchr(start+1, delim);
 		if (!end)
 			break;
+		
+		for (p = end; p > start; p--)
+			{
+			if (*p == ':' && was_digit)
+				{
+				trunc = p;
+				break;
+				}
+			was_digit = (*p >= '0' && *p <= '9');
+			}
 
-		name = g_strndup(start+1, end-start-1);
+		if (trunc) limit = atoi(trunc+1);
+
+		name = g_strndup(start+1, ((limit > 0) ? trunc : end)-start-1);
+
 		pos = start-new->str;
 		data = g_strdup(g_hash_table_lookup(vars, name));
 		if (!data && exif)
 			data = exif_get_data_as_text(exif, name);
-
+		if (data && *data && limit > 0)
+			{
+			gchar *new_data = g_strdup_printf("%-*.*s...", limit, limit, data);
+			g_free(data);
+			data = new_data;
+			}
+		
 		g_string_erase(new, pos, end-start+1);
 		if (data)
 			g_string_insert(new, pos, data);
