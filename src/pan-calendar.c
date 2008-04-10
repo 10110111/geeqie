@@ -321,10 +321,17 @@ void pan_calendar_compute(PanWindow *pw, const gchar *path, gint *width, gint *h
 			PanItem *pi_day;
 			gint dx, dy;
 			gint n = 0;
+			char fake_path[20];
 
 			dt = pan_date_to_time(year, month, day);
-
-			fd = file_data_new_simple("");
+			
+			/* 
+			 * Create a FileData entry that represents the given day. 
+			 * It does not correspond to any real file
+			 */ 
+			  
+			g_snprintf(fake_path, sizeof(fake_path), "//%04d-%02d-%02d", year, month, day); 
+			fd = file_data_new_simple(fake_path);
 			fd->date = dt;
 			pi_day = pan_item_box_new(pw, fd, x, y, PAN_CAL_DAY_WIDTH, PAN_CAL_DAY_HEIGHT,
 						  PAN_CAL_DAY_BORDER,
