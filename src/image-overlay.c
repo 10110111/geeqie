@@ -158,7 +158,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 				trunc = p;
 				break;
 				}
-			was_digit = (*p >= '0' && *p <= '9');
+			was_digit = g_ascii_isdigit(*p);
 			}
 
 		if (trunc) limit = atoi(trunc+1);
@@ -169,7 +169,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 		data = g_strdup(g_hash_table_lookup(vars, name));
 		if (!data && exif)
 			data = exif_get_data_as_text(exif, name);
-		if (data && *data && limit > 0)
+		if (data && *data && limit > 0 && strlen(data) > limit + 3)
 			{
 			gchar *new_data = g_strdup_printf("%-*.*s...", limit, limit, data);
 			g_free(data);
