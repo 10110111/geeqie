@@ -81,8 +81,7 @@ static gchar *remove_common_prefix(gchar *s, gchar *t)
 		;
 	if (!i) 
 		return t;
-	--i;
-	if (s[i]==' ' || !s[i])
+	if (s[i-1] == ' ' || !s[i])
 		{
 		while (t[i] == ' ')
 			i++;
@@ -156,6 +155,7 @@ do {                                    \
 } while(0)
 			REMOVE_SUFFIX(make," Corporation"); /* Pentax */
 			REMOVE_SUFFIX(make," OPTICAL CO.,LTD"); /* OLYMPUS */
+			REMOVE_SUFFIX(make," CORPORATION"); /* Nikon */
 		}
 		if (model)
 			g_strstrip(model);
@@ -176,11 +176,11 @@ do {                                    \
 		model2 = remove_common_prefix(make, model);
 		software2 = remove_common_prefix(model2, software);
 
-		text = g_strdup_printf("%s%s%s%s%s%s", (make) ? make : "", ((make) && (model)) ? " " : "",
+		text = g_strdup_printf("%s%s%s%s%s%s", (make) ? make : "", (make && model2) ? " " : "",
 						       (model2) ? model2 : "",
-						       (software2) ? " (" : "",
+						       (software2 && (make || model2)) ? " (" : "",
 						       (software2) ? software2 : "",
-						       (software2) ? ")" : "");
+						       (software2 && (make || model2)) ? ")" : "");
 
 		g_free(make);
 		g_free(model);
