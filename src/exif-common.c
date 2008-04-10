@@ -77,11 +77,12 @@ static gchar *remove_common_prefix(gchar *s, gchar *t)
 
 	if (!s || !t) return t;
 
-	for (i = 0; s[i] == t[i]; i++)
+	for (i = 0; s[i] && t[i] && s[i] == t[i]; i++)
 		;
 	if (!i) 
 		return t;
-	if (s[i]==' ' || s[i]==0)
+	--i;
+	if (s[i]==' ' || !s[i])
 		{
 		while (t[i] == ' ')
 			i++;
