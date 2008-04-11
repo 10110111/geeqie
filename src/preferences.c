@@ -70,7 +70,7 @@ enum {
 };
 
 /* config memory values */
-static ConfOptions *options_c = NULL;
+static ConfOptions *c_options = NULL;
 
 
 #ifdef DEBUG
@@ -86,11 +86,6 @@ static GtkWidget *editor_command_entry[GQ_EDITOR_SLOTS];
 static GtkWidget *layout_widget;
 
 static GtkWidget *safe_delete_path_entry;
-
-static gint tree_descend_subdirs_c;
-
-static gint update_on_time_change_c;
-static gint exif_rotate_enable_c;
 
 static GtkWidget *color_profile_input_file_entry[COLOR_PROFILE_INPUTS];
 static GtkWidget *color_profile_input_name_entry[COLOR_PROFILE_INPUTS];
@@ -116,29 +111,29 @@ static void startup_path_set_current(GtkWidget *widget, gpointer data)
 static void zoom_mode_original_cb(GtkWidget *widget, gpointer data)
 {
 	if (GTK_TOGGLE_BUTTON (widget)->active)
-		options_c->zoom_mode = ZOOM_RESET_ORIGINAL;
+		c_options->zoom_mode = ZOOM_RESET_ORIGINAL;
 }
 
 static void zoom_mode_fit_cb(GtkWidget *widget, gpointer data)
 {
 	if (GTK_TOGGLE_BUTTON (widget)->active)
-		options_c->zoom_mode = ZOOM_RESET_FIT_WINDOW;
+		c_options->zoom_mode = ZOOM_RESET_FIT_WINDOW;
 }
 
 static void zoom_mode_none_cb(GtkWidget *widget, gpointer data)
 {
 	if (GTK_TOGGLE_BUTTON (widget)->active)
-		options_c->zoom_mode = ZOOM_RESET_NONE;
+		c_options->zoom_mode = ZOOM_RESET_NONE;
 }
 
 static void zoom_increment_cb(GtkWidget *spin, gpointer data)
 {
-	options_c->zoom_increment = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) * 10.0 + 0.01);
+	c_options->zoom_increment = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) * 10.0 + 0.01);
 }
 
 static void slideshow_delay_cb(GtkWidget *spin, gpointer data)
 {
-	options_c->slideshow_delay = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) *
+	c_options->slideshow_delay = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) *
 				   (double)SLIDESHOW_SUBSECOND_PRECISION + 0.01);
 }
 
@@ -183,87 +178,87 @@ static void config_window_apply(void)
 	buf = gtk_entry_get_text(GTK_ENTRY(safe_delete_path_entry));
 	if (buf && strlen(buf) > 0) options->safe_delete_path = remove_trailing_slash(buf);
 
-	if (options->show_dot_files != options_c->show_dot_files) refresh = TRUE;
-	if (options->file_sort_case_sensitive != options_c->file_sort_case_sensitive) refresh = TRUE;
-	if (options->file_filter_disable != options_c->file_filter_disable) refresh = TRUE;
+	if (options->show_dot_files != c_options->show_dot_files) refresh = TRUE;
+	if (options->file_sort_case_sensitive != c_options->file_sort_case_sensitive) refresh = TRUE;
+	if (options->file_filter_disable != c_options->file_filter_disable) refresh = TRUE;
 
-	options->startup_path_enable = options_c->startup_path_enable;
-	options->confirm_delete = options_c->confirm_delete;
-	options->enable_delete_key = options_c->enable_delete_key;
-	options->safe_delete_enable = options_c->safe_delete_enable;
-	options->safe_delete_size = options_c->safe_delete_size;
-	options->restore_tool = options_c->restore_tool;
-	options->save_window_positions = options_c->save_window_positions;
-	options->zoom_mode = options_c->zoom_mode;
-	options->two_pass_zoom = options_c->two_pass_zoom;
-	options->fit_window = options_c->fit_window;
-	options->limit_window_size = options_c->limit_window_size;
-	options->zoom_to_fit_expands = options_c->zoom_to_fit_expands;
-	options->max_window_size = options_c->max_window_size;
-	options->limit_autofit_size = options_c->limit_autofit_size;
-	options->max_autofit_size = options_c->max_autofit_size;
-	options->progressive_key_scrolling = options_c->progressive_key_scrolling;
-	options->thumb_max_width = options_c->thumb_max_width;
-	options->thumb_max_height = options_c->thumb_max_height;
-	options->enable_thumb_caching = options_c->enable_thumb_caching;
-	options->enable_thumb_dirs = options_c->enable_thumb_dirs;
-	options->thumbnail_fast = options_c->thumbnail_fast;
+	options->startup_path_enable = c_options->startup_path_enable;
+	options->confirm_delete = c_options->confirm_delete;
+	options->enable_delete_key = c_options->enable_delete_key;
+	options->safe_delete_enable = c_options->safe_delete_enable;
+	options->safe_delete_size = c_options->safe_delete_size;
+	options->restore_tool = c_options->restore_tool;
+	options->save_window_positions = c_options->save_window_positions;
+	options->zoom_mode = c_options->zoom_mode;
+	options->two_pass_zoom = c_options->two_pass_zoom;
+	options->fit_window = c_options->fit_window;
+	options->limit_window_size = c_options->limit_window_size;
+	options->zoom_to_fit_expands = c_options->zoom_to_fit_expands;
+	options->max_window_size = c_options->max_window_size;
+	options->limit_autofit_size = c_options->limit_autofit_size;
+	options->max_autofit_size = c_options->max_autofit_size;
+	options->progressive_key_scrolling = c_options->progressive_key_scrolling;
+	options->thumb_max_width = c_options->thumb_max_width;
+	options->thumb_max_height = c_options->thumb_max_height;
+	options->enable_thumb_caching = c_options->enable_thumb_caching;
+	options->enable_thumb_dirs = c_options->enable_thumb_dirs;
+	options->thumbnail_fast = c_options->thumbnail_fast;
 #if 0
-	options->use_xvpics_thumbnails = options_c->use_xvpics_thumbnails;
+	options->use_xvpics_thumbnails = c_options->use_xvpics_thumbnails;
 #endif
-	options->thumbnail_spec_standard = options_c->thumbnail_spec_standard;
-	options->enable_metadata_dirs = options_c->enable_metadata_dirs;
-	options->show_dot_files = options_c->show_dot_files;
-	options->file_sort_case_sensitive = options_c->file_sort_case_sensitive;
-	options->file_filter_disable = options_c->file_filter_disable;
+	options->thumbnail_spec_standard = c_options->thumbnail_spec_standard;
+	options->enable_metadata_dirs = c_options->enable_metadata_dirs;
+	options->show_dot_files = c_options->show_dot_files;
+	options->file_sort_case_sensitive = c_options->file_sort_case_sensitive;
+	options->file_filter_disable = c_options->file_filter_disable;
 
 	sidecar_ext_parse(gtk_entry_get_text(GTK_ENTRY(sidecar_ext_entry)), FALSE);
 
-	options->slideshow_random = options_c->slideshow_random;
-	options->slideshow_repeat = options_c->slideshow_repeat;
-	options->slideshow_delay = options_c->slideshow_delay;
+	options->slideshow_random = c_options->slideshow_random;
+	options->slideshow_repeat = c_options->slideshow_repeat;
+	options->slideshow_delay = c_options->slideshow_delay;
 
-	options->mousewheel_scrolls = options_c->mousewheel_scrolls;
+	options->mousewheel_scrolls = c_options->mousewheel_scrolls;
 
-	options->enable_in_place_rename = options_c->enable_in_place_rename;
+	options->enable_in_place_rename = c_options->enable_in_place_rename;
 
-	options->collection_rectangular_selection = options_c->collection_rectangular_selection;
+	options->collection_rectangular_selection = c_options->collection_rectangular_selection;
 
-	options->tile_cache_max = options_c->tile_cache_max;
+	options->tile_cache_max = c_options->tile_cache_max;
 
-	options->thumbnail_quality = options_c->thumbnail_quality;
-	options->zoom_quality = options_c->zoom_quality;
+	options->thumbnail_quality = c_options->thumbnail_quality;
+	options->zoom_quality = c_options->zoom_quality;
 
-	options->zoom_increment = options_c->zoom_increment;
+	options->zoom_increment = c_options->zoom_increment;
 
-	options->enable_read_ahead = options_c->enable_read_ahead;
+	options->enable_read_ahead = c_options->enable_read_ahead;
 
-	if (options->user_specified_window_background != options_c->user_specified_window_background
-	    || !gdk_color_equal(&options->window_background_color, &options_c->window_background_color))
+	if (options->user_specified_window_background != c_options->user_specified_window_background
+	    || !gdk_color_equal(&options->window_background_color, &c_options->window_background_color))
 		{
-		options->user_specified_window_background = options_c->user_specified_window_background;
-		options->window_background_color = options_c->window_background_color;
+		options->user_specified_window_background = c_options->user_specified_window_background;
+		options->window_background_color = c_options->window_background_color;
 		layout_colors_update();
 		view_window_colors_update();
 		}
 
-	options->fullscreen_screen = options_c->fullscreen_screen;
-	options->fullscreen_clean_flip = options_c->fullscreen_clean_flip;
-	options->fullscreen_disable_saver = options_c->fullscreen_disable_saver;
-	options->fullscreen_above = options_c->fullscreen_above;
-	options->show_fullscreen_info = options_c->show_fullscreen_info;
-	if (options_c->fullscreen_info)
+	options->fullscreen_screen = c_options->fullscreen_screen;
+	options->fullscreen_clean_flip = c_options->fullscreen_clean_flip;
+	options->fullscreen_disable_saver = c_options->fullscreen_disable_saver;
+	options->fullscreen_above = c_options->fullscreen_above;
+	options->show_fullscreen_info = c_options->show_fullscreen_info;
+	if (c_options->fullscreen_info)
 		{
 		g_free(options->fullscreen_info);
-		options->fullscreen_info = g_strdup(options_c->fullscreen_info);
+		options->fullscreen_info = g_strdup(c_options->fullscreen_info);
 		}
 
-	options->update_on_time_change = update_on_time_change_c;
-	options->exif_rotate_enable = exif_rotate_enable_c;
+	options->update_on_time_change = c_options->update_on_time_change;
+	options->exif_rotate_enable = c_options->exif_rotate_enable;
 
-	options->dupe_custom_threshold = options_c->dupe_custom_threshold;
+	options->dupe_custom_threshold = c_options->dupe_custom_threshold;
 
-	options->tree_descend_subdirs = tree_descend_subdirs_c;
+	options->tree_descend_subdirs = c_options->tree_descend_subdirs;
 #ifdef DEBUG
 	debug = debug_c;
 #endif
@@ -480,13 +475,13 @@ static void thumb_size_menu_cb(GtkWidget *combo, gpointer data)
 
 	if (n >= 0 && n < sizeof(thumb_size_list) / sizeof(ThumbSize))
 		{
-		options_c->thumb_max_width = thumb_size_list[n].w;
-		options_c->thumb_max_height = thumb_size_list[n].h;
+		c_options->thumb_max_width = thumb_size_list[n].w;
+		c_options->thumb_max_height = thumb_size_list[n].h;
 		}
 	else if (n > 0)
 		{
-		options_c->thumb_max_width = options->thumb_max_width;
-		options_c->thumb_max_height = options->thumb_max_height;
+		c_options->thumb_max_width = options->thumb_max_width;
+		c_options->thumb_max_height = options->thumb_max_height;
 		}
 }
 
@@ -496,8 +491,8 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 	gint current;
 	gint i;
 
-	options_c->thumb_max_width = options->thumb_max_width;
-	options_c->thumb_max_height = options->thumb_max_height;
+	c_options->thumb_max_width = options->thumb_max_width;
+	c_options->thumb_max_height = options->thumb_max_height;
 
 	pref_table_label(table, column, row, text, 0.0);
 
@@ -781,8 +776,8 @@ static void fullscreen_info_view_changed_cb(GtkWidget* widget, gpointer data)
 	gtk_text_buffer_get_start_iter(pTextBuffer, &iStart);
 	gtk_text_buffer_get_end_iter(pTextBuffer, &iEnd);
 
-	if (options_c->fullscreen_info) g_free(options_c->fullscreen_info);
-	options_c->fullscreen_info = gtk_text_buffer_get_text(pTextBuffer, &iStart, &iEnd, TRUE);
+	if (c_options->fullscreen_info) g_free(c_options->fullscreen_info);
+	c_options->fullscreen_info = gtk_text_buffer_get_text(pTextBuffer, &iStart, &iEnd, TRUE);
 }
 
 /* general options tab */
@@ -808,7 +803,7 @@ static void config_tab_general(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Startup"), GTK_ORIENTATION_VERTICAL);
 
 	button = pref_checkbox_new_int(group, _("Change to folder:"),
-				       options->startup_path_enable, &options_c->startup_path_enable);
+				       options->startup_path_enable, &c_options->startup_path_enable);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 	pref_checkbox_link_sensitivity(button, hbox);
@@ -825,42 +820,42 @@ static void config_tab_general(GtkWidget *notebook)
 
 	table = pref_table_new(group, 2, 2, FALSE, FALSE);
 	add_thumb_size_menu(table, 0, 0, _("Size:"));
-	add_quality_menu(table, 0, 1, _("Quality:"), options->thumbnail_quality, &options_c->thumbnail_quality);
+	add_quality_menu(table, 0, 1, _("Quality:"), options->thumbnail_quality, &c_options->thumbnail_quality);
 
 	ct_button = pref_checkbox_new_int(group, _("Cache thumbnails"),
-					  options->enable_thumb_caching, &options_c->enable_thumb_caching);
+					  options->enable_thumb_caching, &c_options->enable_thumb_caching);
 
 	subgroup = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 	pref_checkbox_link_sensitivity(ct_button, subgroup);
 
 	button = pref_checkbox_new_int(subgroup, _("Use shared thumbnail cache"),
-				       options->thumbnail_spec_standard, &options_c->thumbnail_spec_standard);
+				       options->thumbnail_spec_standard, &c_options->thumbnail_spec_standard);
 
 	subgroup = pref_box_new(subgroup, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 	pref_checkbox_link_sensitivity_swap(button, subgroup);
 
 	pref_checkbox_new_int(subgroup, _("Cache thumbnails into .thumbnails"),
-			      options->enable_thumb_dirs, &options_c->enable_thumb_dirs);
+			      options->enable_thumb_dirs, &c_options->enable_thumb_dirs);
 
 #if 0
 	pref_checkbox_new_int(subgroup, _("Use xvpics thumbnails when found (read only)"),
-			      options->use_xvpics_thumbnails, &options_c->use_xvpics_thumbnails);
+			      options->use_xvpics_thumbnails, &c_options->use_xvpics_thumbnails);
 #endif
 
 	pref_checkbox_new_int(group, _("Faster jpeg thumbnailing (may reduce quality)"),
-			      options->thumbnail_fast, &options_c->thumbnail_fast);
+			      options->thumbnail_fast, &c_options->thumbnail_fast);
 
 	group = pref_group_new(vbox, FALSE, _("Slide show"), GTK_ORIENTATION_VERTICAL);
 
-	options_c->slideshow_delay = options->slideshow_delay;
+	c_options->slideshow_delay = options->slideshow_delay;
 	spin = pref_spin_new(group, _("Delay between image change:"), _("seconds"),
 			     SLIDESHOW_MIN_SECONDS, SLIDESHOW_MAX_SECONDS, 1.0, 1,
 			     options->slideshow_delay ? (double)options->slideshow_delay / SLIDESHOW_SUBSECOND_PRECISION : 10.0,
 			     G_CALLBACK(slideshow_delay_cb), NULL);
 	gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), GTK_UPDATE_ALWAYS);
 
-	pref_checkbox_new_int(group, _("Random"), options->slideshow_random, &options_c->slideshow_random);
-	pref_checkbox_new_int(group, _("Repeat"), options->slideshow_repeat, &options_c->slideshow_repeat);
+	pref_checkbox_new_int(group, _("Random"), options->slideshow_random, &c_options->slideshow_random);
+	pref_checkbox_new_int(group, _("Repeat"), options->slideshow_repeat, &c_options->slideshow_repeat);
 }
 
 /* image tab */
@@ -884,26 +879,26 @@ static void config_tab_image(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Zoom"), GTK_ORIENTATION_VERTICAL);
 
 #if 0
-	add_dither_menu(dither_quality, &options_c->dither_quality, _("Dithering method:"), group);
+	add_dither_menu(dither_quality, &c_options->dither_quality, _("Dithering method:"), group);
 #endif
 	table = pref_table_new(group, 2, 1, FALSE, FALSE);
-	add_quality_menu(table, 0, 0, _("Quality:"), options->zoom_quality, &options_c->zoom_quality);
+	add_quality_menu(table, 0, 0, _("Quality:"), options->zoom_quality, &c_options->zoom_quality);
 
 	pref_checkbox_new_int(group, _("Two pass zooming"),
-			      options->two_pass_zoom, &options_c->two_pass_zoom);
+			      options->two_pass_zoom, &c_options->two_pass_zoom);
 
 	pref_checkbox_new_int(group, _("Allow enlargement of image for zoom to fit"),
-			      options->zoom_to_fit_expands, &options_c->zoom_to_fit_expands);
+			      options->zoom_to_fit_expands, &c_options->zoom_to_fit_expands);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 	ct_button = pref_checkbox_new_int(hbox, _("Limit image size when autofitting (%):"),
-					  options->limit_autofit_size, &options_c->limit_autofit_size);
+					  options->limit_autofit_size, &c_options->limit_autofit_size);
 	spin = pref_spin_new_int(hbox, NULL, NULL,
 				 10, 150, 1,
-				 options->max_autofit_size, &options_c->max_autofit_size);
+				 options->max_autofit_size, &c_options->max_autofit_size);
 	pref_checkbox_link_sensitivity(ct_button, spin);
 
-	options_c->zoom_increment = options->zoom_increment;
+	c_options->zoom_increment = options->zoom_increment;
 	spin = pref_spin_new(group, _("Zoom increment:"), NULL,
 			     0.1, 4.0, 0.1, 1, (double)options->zoom_increment / 10.0,
 			     G_CALLBACK(zoom_increment_cb), NULL);
@@ -911,7 +906,7 @@ static void config_tab_image(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("When new image is selected:"), GTK_ORIENTATION_VERTICAL);
 
-	options_c->zoom_mode = options->zoom_mode;
+	c_options->zoom_mode = options->zoom_mode;
 	button = pref_radiobutton_new(group, NULL, _("Zoom to original size"),
 				      (options->zoom_mode == ZOOM_RESET_ORIGINAL),
 				      G_CALLBACK(zoom_mode_original_cb), NULL);
@@ -925,19 +920,19 @@ static void config_tab_image(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Appearance"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("User specified background color"),
-			      options->user_specified_window_background, &options_c->user_specified_window_background);
+			      options->user_specified_window_background, &c_options->user_specified_window_background);
 
 	pref_colorbutton_new(group, _("Background color"), &options->window_background_color,
-			     G_CALLBACK(pref_background_color_set_cb), &options_c->window_background_color);
+			     G_CALLBACK(pref_background_color_set_cb), &c_options->window_background_color);
 
 	group = pref_group_new(vbox, FALSE, _("Convenience"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Refresh on file change"),
-			      options->update_on_time_change, &update_on_time_change_c);
+			      options->update_on_time_change, &c_options->update_on_time_change);
 	pref_checkbox_new_int(group, _("Preload next image"),
-			      options->enable_read_ahead, &options_c->enable_read_ahead);
+			      options->enable_read_ahead, &c_options->enable_read_ahead);
 	pref_checkbox_new_int(group, _("Auto rotate image using Exif information"),
-			      options->exif_rotate_enable, &exif_rotate_enable_c);
+			      options->exif_rotate_enable, &c_options->exif_rotate_enable);
 }
 
 /* windows tab */
@@ -959,21 +954,21 @@ static void config_tab_windows(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("State"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Remember window positions"),
-			      options->save_window_positions, &options_c->save_window_positions);
+			      options->save_window_positions, &c_options->save_window_positions);
 	pref_checkbox_new_int(group, _("Remember tool state (float/hidden)"),
-			      options->restore_tool, &options_c->restore_tool);
+			      options->restore_tool, &c_options->restore_tool);
 
 	group = pref_group_new(vbox, FALSE, _("Size"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Fit window to image when tools are hidden/floating"),
-			      options->fit_window, &options_c->fit_window);
+			      options->fit_window, &c_options->fit_window);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 	ct_button = pref_checkbox_new_int(hbox, _("Limit size when auto-sizing window (%):"),
-					  options->limit_window_size, &options_c->limit_window_size);
+					  options->limit_window_size, &c_options->limit_window_size);
 	spin = pref_spin_new_int(hbox, NULL, NULL,
 				 10, 150, 1,
-				 options->max_window_size, &options_c->max_window_size);
+				 options->max_window_size, &c_options->max_window_size);
 	pref_checkbox_link_sensitivity(ct_button, spin);
 
 	group = pref_group_new(vbox, FALSE, _("Layout"), GTK_ORIENTATION_VERTICAL);
@@ -1009,12 +1004,12 @@ static void config_tab_filtering(GtkWidget *notebook)
 	group = pref_box_new(vbox, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 
 	pref_checkbox_new_int(group, _("Show entries that begin with a dot"),
-			      options->show_dot_files, &options_c->show_dot_files);
+			      options->show_dot_files, &c_options->show_dot_files);
 	pref_checkbox_new_int(group, _("Case sensitive sort"),
-			      options->file_sort_case_sensitive, &options_c->file_sort_case_sensitive);
+			      options->file_sort_case_sensitive, &c_options->file_sort_case_sensitive);
 
 	ct_button = pref_checkbox_new_int(group, _("Disable File Filtering"),
-					  options->file_filter_disable, &options_c->file_filter_disable);
+					  options->file_filter_disable, &c_options->file_filter_disable);
 
 
 	group = pref_group_new(vbox, FALSE, _("Grouping sidecar extensions"), GTK_ORIENTATION_VERTICAL);
@@ -1266,18 +1261,18 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Full screen"), GTK_ORIENTATION_VERTICAL);
 
-	options_c->fullscreen_screen = options->fullscreen_screen;
-	options_c->fullscreen_above = options->fullscreen_above;
-	hbox = fullscreen_prefs_selection_new(_("Location:"), &options_c->fullscreen_screen, &options_c->fullscreen_above);
+	c_options->fullscreen_screen = options->fullscreen_screen;
+	c_options->fullscreen_above = options->fullscreen_above;
+	hbox = fullscreen_prefs_selection_new(_("Location:"), &c_options->fullscreen_screen, &c_options->fullscreen_above);
 	gtk_box_pack_start(GTK_BOX(group), hbox, FALSE, FALSE, 0);
 	gtk_widget_show(hbox);
 
 	pref_checkbox_new_int(group, _("Smooth image flip"),
-			      options->fullscreen_clean_flip, &options_c->fullscreen_clean_flip);
+			      options->fullscreen_clean_flip, &c_options->fullscreen_clean_flip);
 	pref_checkbox_new_int(group, _("Disable screen saver"),
-			      options->fullscreen_disable_saver, &options_c->fullscreen_disable_saver);
+			      options->fullscreen_disable_saver, &c_options->fullscreen_disable_saver);
 	pref_checkbox_new_int(group, _("Always show fullscreen info"),
-			      options->show_fullscreen_info, &options_c->show_fullscreen_info);
+			      options->show_fullscreen_info, &c_options->show_fullscreen_info);
 	pref_label_new(group, _("Fullscreen info string"));
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
@@ -1315,12 +1310,12 @@ static void config_tab_advanced(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Delete"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Confirm file delete"),
-			      options->confirm_delete, &options_c->confirm_delete);
+			      options->confirm_delete, &c_options->confirm_delete);
 	pref_checkbox_new_int(group, _("Enable Delete key"),
-			      options->enable_delete_key, &options_c->enable_delete_key);
+			      options->enable_delete_key, &c_options->enable_delete_key);
 
 	ct_button = pref_checkbox_new_int(group, _("Safe delete"),
-					  options->safe_delete_enable, &options_c->safe_delete_enable);
+					  options->safe_delete_enable, &c_options->safe_delete_enable);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 	pref_checkbox_link_sensitivity(ct_button, hbox);
@@ -1338,7 +1333,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	pref_spacer(hbox, PREF_PAD_INDENT - PREF_PAD_GAP);
 	spin = pref_spin_new_int(hbox, _("Maximum size:"), _("MB"),
-			 	 0, 2048, 1, options->safe_delete_size, &options_c->safe_delete_size);
+			 	 0, 2048, 1, options->safe_delete_size, &c_options->safe_delete_size);
 #if GTK_CHECK_VERSION(2,12,0)
 	gtk_widget_set_tooltip_markup(spin, _("Set to 0 for unlimited size"));
 #endif
@@ -1355,31 +1350,31 @@ static void config_tab_advanced(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Behavior"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Rectangular selection in icon view"),
-			      options->collection_rectangular_selection, &options_c->collection_rectangular_selection);
+			      options->collection_rectangular_selection, &c_options->collection_rectangular_selection);
 
 	pref_checkbox_new_int(group, _("Descend folders in tree view"),
-			      options->tree_descend_subdirs, &tree_descend_subdirs_c);
+			      options->tree_descend_subdirs, &c_options->tree_descend_subdirs);
 
 	pref_checkbox_new_int(group, _("In place renaming"),
-			      options->enable_in_place_rename, &options_c->enable_in_place_rename);
+			      options->enable_in_place_rename, &c_options->enable_in_place_rename);
 
 	group = pref_group_new(vbox, FALSE, _("Navigation"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Progressive keyboard scrolling"),
-			      options->progressive_key_scrolling, &options_c->progressive_key_scrolling);
+			      options->progressive_key_scrolling, &c_options->progressive_key_scrolling);
 	pref_checkbox_new_int(group, _("Mouse wheel scrolls image"),
-			      options->mousewheel_scrolls, &options_c->mousewheel_scrolls);
+			      options->mousewheel_scrolls, &c_options->mousewheel_scrolls);
 
 	group = pref_group_new(vbox, FALSE, _("Miscellaneous"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Store keywords and comments local to source images"),
-			      options->enable_metadata_dirs, &options_c->enable_metadata_dirs);
+			      options->enable_metadata_dirs, &c_options->enable_metadata_dirs);
 
 	pref_spin_new_int(group, _("Custom similarity threshold:"), NULL,
-			  0, 100, 1, options->dupe_custom_threshold, &options_c->dupe_custom_threshold);
+			  0, 100, 1, options->dupe_custom_threshold, &c_options->dupe_custom_threshold);
 
 	pref_spin_new_int(group, _("Offscreen cache size (Mb per image):"), NULL,
-			  0, 128, 1, options->tile_cache_max, &options_c->tile_cache_max);
+			  0, 128, 1, options->tile_cache_max, &c_options->tile_cache_max);
 
 	group =  pref_group_new(vbox, FALSE, _("Color profiles"), GTK_ORIENTATION_VERTICAL);
 #ifndef HAVE_LCMS
@@ -1455,7 +1450,7 @@ static void config_window_create(void)
 	GtkWidget *button;
 	GtkWidget *ct_button;
 
-	if (!options_c) options_c = init_options(NULL);
+	if (!c_options) c_options = init_options(NULL);
 
 	configwindow = window_new(GTK_WINDOW_TOPLEVEL, "preferences", PIXBUF_INLINE_ICON_CONFIG, NULL, _("Preferences"));
 	gtk_window_set_type_hint(GTK_WINDOW(configwindow), GDK_WINDOW_TYPE_HINT_DIALOG);
