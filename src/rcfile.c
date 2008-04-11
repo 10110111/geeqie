@@ -328,7 +328,7 @@ void save_options(void)
 
 	write_int_option(ssi, "sort_method", (gint)options->file_sort_method);
 	write_bool_option(ssi, "sort_ascending", options->file_sort_ascending);
-	write_bool_option(ssi, "sort_case_sensitive", file_sort_case_sensitive);
+	write_bool_option(ssi, "sort_case_sensitive", options->file_sort_case_sensitive);
 	secure_fputc(ssi, '\n');
 
 	write_bool_option(ssi, "confirm_delete", options->confirm_delete);
@@ -604,8 +604,8 @@ void load_options(void)
 			"sort_method", value, (gint)options->file_sort_method);
 		options->file_sort_ascending = read_bool_option(f, option,
 			"sort_ascending", value, options->file_sort_ascending);
-		file_sort_case_sensitive = read_bool_option(f, option,
-			"sort_case_sensitive", value, file_sort_case_sensitive);
+		options->file_sort_case_sensitive = read_bool_option(f, option,
+			"sort_case_sensitive", value, options->file_sort_case_sensitive);
 
 		options->confirm_delete = read_bool_option(f, option,
 			"confirm_delete", value, options->confirm_delete);

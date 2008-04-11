@@ -20,9 +20,6 @@
 #include <time.h>
 
 
-#define CASE_SORT(a, b) ( (file_sort_case_sensitive) ? strcmp(a, b) : strcasecmp(a, b) )
-
-extern gint file_sort_case_sensitive;
 
 void print_term(const gchar *text_utf8);
 

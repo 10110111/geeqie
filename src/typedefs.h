@@ -819,6 +819,9 @@ struct _ConfOptions
 	gint enable_read_ahead;
 
 	gint place_dialogs_under_mouse;
+
+	gint file_sort_case_sensitive; /* file sorting method (case) */
+
 };
 
 #endif

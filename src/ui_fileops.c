@@ -36,8 +36,6 @@
  *-----------------------------------------------------------------------------
  */ 
 
-/* file sorting method (case) */
-gint file_sort_case_sensitive = FALSE;
 
 
 void print_term(const gchar *text_utf8)
