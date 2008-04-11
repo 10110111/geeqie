@@ -3361,7 +3361,7 @@ static GtkTargetEntry dupe_drag_types[] = {
 static gint n_dupe_drag_types = 2;
 
 static GtkTargetEntry dupe_drop_types[] = {
-        { "application/x-gqview-collection-member", 0, TARGET_APP_COLLECTION_MEMBER },
+        { TARGET_APP_COLLECTION_MEMBER_STRING, 0, TARGET_APP_COLLECTION_MEMBER },
         { "text/uri-list", 0, TARGET_URI_LIST }
 };
 static gint n_dupe_drop_types = 2;

@@ -13,6 +13,7 @@
 #ifndef DND_H
 #define DND_H
 
+#define TARGET_APP_COLLECTION_MEMBER_STRING "application/x-" GQ_APPNAME_LC "-collection-member"
 
 enum {
 	TARGET_APP_COLLECTION_MEMBER,

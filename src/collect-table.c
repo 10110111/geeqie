@@ -1984,14 +1984,14 @@ static GtkWidget *collection_table_drop_menu(CollectTable *ct)
  */
 
 static GtkTargetEntry collection_drag_types[] = {
-	{ "application/x-gqview-collection-member", 0, TARGET_APP_COLLECTION_MEMBER },
+	{ TARGET_APP_COLLECTION_MEMBER_STRING, 0, TARGET_APP_COLLECTION_MEMBER },
 	{ "text/uri-list", 0, TARGET_URI_LIST },
 	{ "text/plain", 0, TARGET_TEXT_PLAIN }
 };
 static gint n_collection_drag_types = 3;
 
 static GtkTargetEntry collection_drop_types[] = {
-	{ "application/x-gqview-collection-member", 0, TARGET_APP_COLLECTION_MEMBER },
+	{ TARGET_APP_COLLECTION_MEMBER_STRING, 0, TARGET_APP_COLLECTION_MEMBER },
 	{ "text/uri-list", 0, TARGET_URI_LIST }
 };
 static gint n_collection_drop_types = 2;

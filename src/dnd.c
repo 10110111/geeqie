@@ -26,7 +26,7 @@ GtkTargetEntry dnd_file_drag_types[] = {
 gint dnd_file_drag_types_count = 2;
 
 GtkTargetEntry dnd_file_drop_types[] = {
-	{ "application/x-gqview-collection-member", 0, TARGET_APP_COLLECTION_MEMBER },
+	{ TARGET_APP_COLLECTION_MEMBER_STRING, 0, TARGET_APP_COLLECTION_MEMBER },
 	{ "text/uri-list", 0, TARGET_URI_LIST }
 };
 gint dnd_file_drop_types_count = 2;
