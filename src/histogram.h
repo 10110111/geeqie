@@ -9,6 +9,8 @@
  * This software comes with no warranty of any kind, use at your own risk!
  */
 
+#ifndef HISTOGRAM_H
+#define HISTOGRAM_H
 
 /* Note: The order is important */
 #define HCHAN_R 0
@@ -29,3 +31,5 @@ gint histogram_get_mode(Histogram *histogram);
 const gchar *histogram_label(Histogram *histogram);
 gulong histogram_read(Histogram *histogram, GdkPixbuf *imgpixbuf);
 gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height);
+
+#endif /* HISTOGRAM_H */
