@@ -70,6 +70,12 @@ AC_SUBST(GETTEXT_PACKAGE)
 AM_GLIB_GNU_GETTEXT
 AM_GLIB_DEFINE_LOCALEDIR(GQ_LOCALEDIR)
 
+#Always use -Wall with gcc
+if test "x$ac_cv_c_compiler_gnu" = "xyes"; then
+	CFLAGS="$CFLAGS -Wall"
+	CPPFLAGS="$CPPFLAGS -Wall"
+fi
+
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
