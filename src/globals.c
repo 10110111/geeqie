@@ -12,102 +12,108 @@
 
 #include "main.h"
 
-
 GList *filename_filter = NULL;
 
+ConfOptions *init_options(ConfOptions *options)
+{
+	if (!options) options = g_new0(ConfOptions, 1);
+
+	options->main_window_w = 500;
+	options->main_window_h = 400;
+	options->main_window_x = 0;
+	options->main_window_y = 0;
+	options->main_window_maximized = FALSE;
+	
+	options->float_window_w = 260;
+	options->float_window_h = 450;
+	options->float_window_x = 0;
+	options->float_window_y = 0;
+	options->float_window_divider = -1;
+	
+	options->window_hdivider_pos = -1;
+	options->window_vdivider_pos = 200;
+	
+	options->save_window_positions = FALSE;
+	options->tools_float = FALSE;
+	options->tools_hidden = FALSE;
+	options->toolbar_hidden = FALSE;
+	options->progressive_key_scrolling = FALSE;
+	
+	options->startup_path_enable = FALSE;
+	options->startup_path = NULL;
+	options->confirm_delete = TRUE;
+	options->enable_delete_key = TRUE;
+	options->safe_delete_enable = FALSE;
+	options->safe_delete_path = NULL;
+	options->safe_delete_size = 128;
+	options->restore_tool = FALSE;
+	options->zoom_mode = ZOOM_RESET_ORIGINAL;
+	options->two_pass_zoom = TRUE;
+	options->scroll_reset_method = SCROLL_RESET_TOPLEFT;
+	options->fit_window = FALSE;
+	options->limit_window_size = FALSE;
+	options->zoom_to_fit_expands = TRUE;
+	options->max_window_size = 100;
+	options->limit_autofit_size = FALSE;
+	options->max_autofit_size = 100;
+	options->thumb_max_width = DEFAULT_THUMB_WIDTH;
+	options->thumb_max_height = DEFAULT_THUMB_HEIGHT;
+	options->enable_thumb_caching = TRUE;
+	options->enable_thumb_dirs = FALSE;
+	options->use_xvpics_thumbnails = TRUE;
+	options->thumbnail_fast = TRUE;
+	options->thumbnail_spec_standard = TRUE;
+	options->enable_metadata_dirs = FALSE;
+	options->show_dot_files = FALSE;
+	options->file_filter_disable = FALSE;
+	
+	
+	options->thumbnails_enabled = FALSE;
+	options->file_sort_method = SORT_NAME;
+	options->file_sort_ascending = TRUE;
+	
+	options->slideshow_delay = 150;
+	options->slideshow_random = FALSE;
+	options->slideshow_repeat = FALSE;
+	
+	options->mousewheel_scrolls = FALSE;
+	options->enable_in_place_rename = TRUE;
+	
+	options->recent_list_max = 10;
+	
+	options->collection_rectangular_selection = FALSE;
+	
+	options->tile_cache_max = 10;
+	options->thumbnail_quality = (gint)GDK_INTERP_TILES;
+	options->zoom_quality = (gint)GDK_INTERP_BILINEAR;
+	options->dither_quality = (gint)GDK_RGB_DITHER_NORMAL;
+	
+	options->zoom_increment = 5;
+	
+	options->enable_read_ahead = TRUE;
+	
+	options->place_dialogs_under_mouse = FALSE;
+	
+	options->user_specified_window_background = FALSE;
+	memset(&options->window_background_color, 0, sizeof(options->window_background_color));
+	
+	options->fullscreen_screen = -1;
+	options->fullscreen_clean_flip = FALSE;
+	options->fullscreen_disable_saver = TRUE;
+	options->fullscreen_above = FALSE;
+	options->show_fullscreen_info = TRUE;
+	options->fullscreen_info = NULL;
+	
+	options->dupe_custom_threshold = 99;
+
+	return options;
+}
+
 /* -- options -- */
-gint main_window_w = 500;
-gint main_window_h = 400;
-gint main_window_x = 0;
-gint main_window_y = 0;
-gint main_window_maximized = FALSE;
-
-gint float_window_w = 260;
-gint float_window_h = 450;
-gint float_window_x = 0;
-gint float_window_y = 0;
-gint float_window_divider = -1;
-
-gint window_hdivider_pos = -1;
-gint window_vdivider_pos = 200;
-
-gint save_window_positions = FALSE;
-gint tools_float = FALSE;
-gint tools_hidden = FALSE;
-gint toolbar_hidden = FALSE;
-gint progressive_key_scrolling = FALSE;
-
-gint startup_path_enable = FALSE;
-gchar *startup_path = NULL;
-gint confirm_delete = TRUE;
-gint enable_delete_key = TRUE;
-gint safe_delete_enable = FALSE;
-gchar *safe_delete_path = NULL;
-gint safe_delete_size = 128;
-gint restore_tool = FALSE;
-gint zoom_mode = ZOOM_RESET_ORIGINAL;
-gint two_pass_zoom = TRUE;
-gint scroll_reset_method = SCROLL_RESET_TOPLEFT;
-gint fit_window = FALSE;
-gint limit_window_size = FALSE;
-gint zoom_to_fit_expands = TRUE;
-gint max_window_size = 100;
-gint limit_autofit_size = FALSE;
-gint max_autofit_size = 100;
-gint thumb_max_width = DEFAULT_THUMB_WIDTH;
-gint thumb_max_height = DEFAULT_THUMB_HEIGHT;
-gint enable_thumb_caching = TRUE;
-gint enable_thumb_dirs = FALSE;
-gint use_xvpics_thumbnails = TRUE;
-gint thumbnail_fast = TRUE;
-gint thumbnail_spec_standard = TRUE;
-gint enable_metadata_dirs = FALSE;
-gint show_dot_files = FALSE;
-gint file_filter_disable = FALSE;
-gchar *editor_name[GQ_EDITOR_SLOTS];
-gchar *editor_command[GQ_EDITOR_SLOTS];
-
-gint thumbnails_enabled = FALSE;
-SortType file_sort_method = SORT_NAME;
-gint file_sort_ascending = TRUE;
-
-gint slideshow_delay = 150;
-gint slideshow_random = FALSE;
-gint slideshow_repeat = FALSE;
-
-gint mousewheel_scrolls = FALSE;
-gint enable_in_place_rename = TRUE;
-
-gint recent_list_max = 10;
-
-gint collection_rectangular_selection = FALSE;
-
-gint tile_cache_max = 10;
-gint thumbnail_quality = (gint)GDK_INTERP_TILES;
-gint zoom_quality = (gint)GDK_INTERP_BILINEAR;
-gint dither_quality = (gint)GDK_RGB_DITHER_NORMAL;
-
-gint zoom_increment = 5;
-
-gint enable_read_ahead = TRUE;
-
-gint place_dialogs_under_mouse = FALSE;
-
-gint user_specified_window_background = FALSE;
-GdkColor window_background_color = {0, 0, 0, 0};
-
-gint fullscreen_screen = -1;
-gint fullscreen_clean_flip = FALSE;
-gint fullscreen_disable_saver = TRUE;
-gint fullscreen_above = FALSE;
-gint show_fullscreen_info = TRUE;
-gchar *fullscreen_info = NULL;
-
-gint dupe_custom_threshold = 99;
-
 #ifdef DEBUG
 gint debug = FALSE;
 #endif
+
 
 /* layout */
 gchar *layout_order = NULL;

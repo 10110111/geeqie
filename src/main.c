@@ -113,7 +113,7 @@ gint window_maximized(GtkWidget *window)
 
 gdouble get_zoom_increment(void)
 {
-	return ((zoom_increment != 0) ? (gdouble)zoom_increment / 10.0 : 1.0);
+	return ((options->zoom_increment != 0) ? (gdouble)options->zoom_increment / 10.0 : 1.0);
 }
 
 /*
@@ -296,7 +296,7 @@ void keyboard_scroll_calc(gint *x, gint *y, GdkEventKey *event)
 		return;
 		}
 
-	if (progressive_key_scrolling)
+	if (options->progressive_key_scrolling)
 		{
 		guint32 time_diff;
 
@@ -403,7 +403,7 @@ static void gr_slideshow_delay(const gchar *text, gpointer data)
 
 		return;
 		}
-	slideshow_delay = (gint)(n * 10.0 + 0.01);
+	options->slideshow_delay = (gint)(n * 10.0 + 0.01);
 }
 
 static void gr_tools_show(const gchar *text, gpointer data)
@@ -962,15 +962,15 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 			else if (strcmp(cmd_line, "+t") == 0 ||
 				 strcmp(cmd_line, "--with-tools") == 0)
 				{
-				tools_float = FALSE;
-				tools_hidden = FALSE;
+				options->tools_float = FALSE;
+				options->tools_hidden = FALSE;
 
 				remote_list = g_list_append(remote_list, "+t");
 				}
 			else if (strcmp(cmd_line, "-t") == 0 ||
 				 strcmp(cmd_line, "--without-tools") == 0)
 				{
-				tools_hidden = TRUE;
+				options->tools_hidden = TRUE;
 
 				remote_list = g_list_append(remote_list, "-t");
 				}
@@ -1155,8 +1155,8 @@ static void setup_default_options(void)
 
 	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
-		editor_name[i] = NULL;
-		editor_command[i] = NULL;
+		options->editor_name[i] = NULL;
+		options->editor_command[i] = NULL;
 		}
 
 	editor_reset_defaults();
@@ -1169,8 +1169,8 @@ static void setup_default_options(void)
 	bookmark_add_default(_("Collections"), path);
 	g_free(path);
 
-	g_free(safe_delete_path);
-	safe_delete_path = concat_dir_and_file(homedir(), GQ_RC_DIR_TRASH);
+	g_free(options->safe_delete_path);
+	options->safe_delete_path = concat_dir_and_file(homedir(), GQ_RC_DIR_TRASH);
 
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{
@@ -1178,7 +1178,7 @@ static void setup_default_options(void)
 		color_profile_input_name[i] = NULL;
 		}
 
-	fullscreen_info = g_strdup("%collection%(%number%/%total%) <b>%name%</b>\n"
+	options->fullscreen_info = g_strdup("%collection%(%number%/%total%) <b>%name%</b>\n"
 				   "%res%|%date%|%size%\n"
 				   "%fAperture%|%fShutterSpeed%|%fISOSpeedRating%|%fFocalLength%|%fExposureBias%\n"
 				   "%fCamera%|%fFlash%");
@@ -1198,26 +1198,26 @@ static void exit_program_final(void)
 
 	if (layout_valid(&lw))
 		{
-		main_window_maximized =  window_maximized(lw->window);
-		if (!main_window_maximized)
+		options->main_window_maximized =  window_maximized(lw->window);
+		if (!options->main_window_maximized)
 			{
-			layout_geometry_get(NULL, &main_window_x, &main_window_y,
-					    &main_window_w, &main_window_h);
+			layout_geometry_get(NULL, &options->main_window_x, &options->main_window_y,
+					    &options->main_window_w, &options->main_window_h);
 			}
-		show_fullscreen_info = image_osd_get(lw->image, NULL, NULL);
+		options->show_fullscreen_info = image_osd_get(lw->image, NULL, NULL);
 		}
 
-	layout_geometry_get_dividers(NULL, &window_hdivider_pos, &window_vdivider_pos);
+	layout_geometry_get_dividers(NULL, &options->window_hdivider_pos, &options->window_vdivider_pos);
 
 	layout_views_get(NULL, &layout_view_tree, &layout_view_icons);
 
-	thumbnails_enabled = layout_thumb_get(NULL);
-	layout_sort_get(NULL, &file_sort_method, &file_sort_ascending);
+	options->thumbnails_enabled = layout_thumb_get(NULL);
+	layout_sort_get(NULL, &options->file_sort_method, &options->file_sort_ascending);
 
-	layout_geometry_get_tools(NULL, &float_window_x, &float_window_y,
-				  &float_window_w, &float_window_h, &float_window_divider);
-	layout_tools_float_get(NULL, &tools_float, &tools_hidden);
-	toolbar_hidden = layout_toolbar_hidden(NULL);
+	layout_geometry_get_tools(NULL, &options->float_window_x, &options->float_window_y,
+				  &options->float_window_w, &options->float_window_h, &options->float_window_divider);
+	layout_tools_float_get(NULL, &options->tools_float, &options->tools_hidden);
+	options->toolbar_hidden = layout_toolbar_hidden(NULL);
 
 	color_profile_enabled = layout_image_color_profile_get_use(NULL);
 	layout_image_color_profile_get(NULL,
@@ -1322,7 +1322,7 @@ int main (int argc, char *argv[])
 #if 1
 	printf("%s %s, This is an alpha release.\n", GQ_APPNAME, VERSION);
 #endif
-
+	options = init_options(NULL);
 	layout_order = g_strdup("123");
 	setup_default_options();
 	load_options();
@@ -1383,17 +1383,17 @@ int main (int argc, char *argv[])
 		{
 		path = g_strdup(cmd_path);
 		}
-	else if (startup_path_enable && startup_path && isdir(startup_path))
+	else if (options->startup_path_enable && options->startup_path && isdir(options->startup_path))
 		{
-		path = g_strdup(startup_path);
+		path = g_strdup(options->startup_path);
 		}
 	else
 		{
 		path = get_current_dir();
 		}
 
-	lw = layout_new_with_geometry(NULL, tools_float, tools_hidden, geometry);
-	layout_sort_set(lw, file_sort_method, file_sort_ascending);
+	lw = layout_new_with_geometry(NULL, options->tools_float, options->tools_hidden, geometry);
+	layout_sort_set(lw, options->file_sort_method, options->file_sort_ascending);
 
 	if (collection_list && !startup_command_line_collection)
 		{
@@ -1478,7 +1478,7 @@ int main (int argc, char *argv[])
 						    collection_get_first(first_collection));
 			}
 		}
-	image_osd_set(lw->image, FALSE, show_fullscreen_info);
+	image_osd_set(lw->image, FALSE, options->show_fullscreen_info);
 
 	g_free(geometry);
 	g_free(cmd_path);

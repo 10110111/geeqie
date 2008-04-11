@@ -938,7 +938,7 @@ static void image_change_real(ImageWindow *imd, FileData *fd,
 
 	pixbuf = image_get_pixbuf(imd);
 
-	if (enable_read_ahead && imd->image_fd && pixbuf)
+	if (options->enable_read_ahead && imd->image_fd && pixbuf)
 		{
 		if (imd->il)
 			{
@@ -1090,7 +1090,7 @@ void image_attach_window(ImageWindow *imd, GtkWidget *window,
 	imd->title_right = g_strdup(title_right);
 	imd->title_show_zoom = show_zoom;
 
-	if (!fit_window) window = NULL;
+	if (!options->fit_window) window = NULL;
 
 	pixbuf_renderer_set_parent((PixbufRenderer *)imd->pr, (GtkWindow *)window);
 
@@ -1663,7 +1663,7 @@ void image_to_root_window(ImageWindow *imd, gint scaled)
 		pixbuf_renderer_get_scaled_size((PixbufRenderer *)imd->pr, &width, &height);
 		}
 
-	pb = gdk_pixbuf_scale_simple(pixbuf, width, height, (GdkInterpType)zoom_quality);
+	pb = gdk_pixbuf_scale_simple(pixbuf, width, height, (GdkInterpType)options->zoom_quality);
 
 	gdk_pixbuf_render_pixmap_and_mask (pb, &pixmap, NULL, 128);
 	gdk_window_set_back_pixmap(rootwindow, pixmap, FALSE);
@@ -1715,17 +1715,17 @@ void image_set_selectable(ImageWindow *imd, gboolean selectable)
 
 static void image_options_set(ImageWindow *imd)
 {
-	g_object_set(G_OBJECT(imd->pr), "zoom_quality", zoom_quality,
-					"zoom_2pass", two_pass_zoom,
-					"zoom_expand", zoom_to_fit_expands,
-					"dither_quality", dither_quality,
-					"scroll_reset", scroll_reset_method,
-					"cache_display", tile_cache_max,
-					"window_fit", (imd->top_window_sync && fit_window),
-					"window_limit", limit_window_size,
-					"window_limit_value", max_window_size,
-					"autofit_limit", limit_autofit_size,
-					"autofit_limit_value", max_autofit_size,
+	g_object_set(G_OBJECT(imd->pr), "zoom_quality", options->zoom_quality,
+					"zoom_2pass", options->two_pass_zoom,
+					"zoom_expand", options->zoom_to_fit_expands,
+					"dither_quality", options->dither_quality,
+					"scroll_reset", options->scroll_reset_method,
+					"cache_display", options->tile_cache_max,
+					"window_fit", (imd->top_window_sync && options->fit_window),
+					"window_limit", options->limit_window_size,
+					"window_limit_value", options->max_window_size,
+					"autofit_limit", options->limit_autofit_size,
+					"autofit_limit_value", options->max_autofit_size,
 
 					NULL);
 

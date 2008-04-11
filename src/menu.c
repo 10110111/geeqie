@@ -67,11 +67,11 @@ static void add_edit_items(GtkWidget *menu, GCallback func, GtkAccelGroup *accel
 	gint i;
 	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
-		if (editor_command[i] && strlen(editor_command[i]) > 0)
+		if (options->editor_command[i] && strlen(options->editor_command[i]) > 0)
 			{
 			gchar *text;
-			if (editor_name[i] && strlen(editor_name[i]) > 0)
-				text = g_strdup_printf(_("in %s..."), editor_name[i]);
+			if (options->editor_name[i] && strlen(options->editor_name[i]) > 0)
+				text = g_strdup_printf(_("in %s..."), options->editor_name[i]);
 			else
 				text = g_strdup(_("in (unknown)..."));
 			if (accel_grp)

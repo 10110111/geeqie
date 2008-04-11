@@ -196,7 +196,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 			if (w < 1) w = 1;
 			}
 
-		tl->pixbuf = gdk_pixbuf_scale_simple(pixbuf, w, h, (GdkInterpType)thumbnail_quality);
+		tl->pixbuf = gdk_pixbuf_scale_simple(pixbuf, w, h, (GdkInterpType)options->thumbnail_quality);
 		save = TRUE;
 		}
 	else
@@ -255,7 +255,7 @@ static void thumb_loader_setup(ThumbLoader *tl, gchar *path)
 	image_loader_free(tl->il);
 	tl->il = image_loader_new(file_data_new_simple(path));
 
-	if (thumbnail_fast)
+	if (options->thumbnail_fast)
 		{
 		/* this will speed up jpegs by up to 3x in some cases */
 		image_loader_set_requested_size(tl->il, tl->max_w, tl->max_h);
@@ -350,7 +350,7 @@ gint thumb_loader_start(ThumbLoader *tl, const gchar *path)
 			}
 		}
 
-	if (!cache_path && use_xvpics_thumbnails)
+	if (!cache_path && options->use_xvpics_thumbnails)
 		{
 		tl->pixbuf = get_xv_thumbnail(tl->path, tl->max_w, tl->max_h);
 		if (tl->pixbuf)
@@ -461,7 +461,7 @@ ThumbLoader *thumb_loader_new(gint width, gint height)
 {
 	ThumbLoader *tl;
 
-	if (thumbnail_spec_standard)
+	if (options->thumbnail_spec_standard)
 		{
 		return (ThumbLoader *)thumb_loader_std_new(width, height);
 		}
@@ -469,7 +469,7 @@ ThumbLoader *thumb_loader_new(gint width, gint height)
 	tl = g_new0(ThumbLoader, 1);
 	tl->standard_loader = FALSE;
 	tl->path = NULL;
-	tl->cache_enable = enable_thumb_caching;
+	tl->cache_enable = options->enable_thumb_caching;
 	tl->cache_hit = FALSE;
 	tl->percent_done = 0.0;
 	tl->max_w = width;

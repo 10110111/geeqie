@@ -660,8 +660,8 @@ gchar *cache_get_location(CacheType type, const gchar *source, gint include_name
 		cache_ext = NULL;
 		}
 
-	if (((type != CACHE_TYPE_METADATA && enable_thumb_dirs) ||
-	     (type == CACHE_TYPE_METADATA && enable_metadata_dirs)) &&
+	if (((type != CACHE_TYPE_METADATA && options->enable_thumb_dirs) ||
+	     (type == CACHE_TYPE_METADATA && options->enable_metadata_dirs)) &&
 	    access_file(base, W_OK))
 		{
 		path = g_strconcat(base, "/", cache_local, name, cache_ext, NULL);
@@ -699,11 +699,11 @@ gchar *cache_find_location(CacheType type, const gchar *source)
 
 	if (type == CACHE_TYPE_METADATA)
 		{
-		prefer_local = enable_metadata_dirs;
+		prefer_local = options->enable_metadata_dirs;
 		}
 	else
 		{
-		prefer_local = enable_thumb_dirs;
+		prefer_local = options->enable_thumb_dirs;
 		}
 
 	if (prefer_local)

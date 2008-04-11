@@ -240,7 +240,7 @@ static void collection_load_thumb_step(CollectionData *cd)
 	/* setup loader and call it */
 	cd->thumb_info = ci;
 	thumb_loader_free(cd->thumb_loader);
-	cd->thumb_loader = thumb_loader_new(thumb_max_width, thumb_max_height);
+	cd->thumb_loader = thumb_loader_new(options->thumb_max_width, options->thumb_max_height);
 	thumb_loader_set_callbacks(cd->thumb_loader,
 				   collection_load_thumb_done_cb,
 				   collection_load_thumb_error_cb,

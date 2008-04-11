@@ -329,7 +329,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
  		}
  	else
  		{
- 		text = image_osd_mkinfo(fullscreen_info, imd, vars);
+ 		text = image_osd_mkinfo(options->fullscreen_info, imd, vars);
 		}
 
 	g_free(size);

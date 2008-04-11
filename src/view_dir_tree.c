@@ -1062,7 +1062,7 @@ static gint vdtree_populate_path_by_iter(ViewDirTree *vdt, GtkTreeIter *iter, gi
 	/* when hidden files are not enabled, and the user enters a hidden path,
 	 * allow the tree to display that path by specifically inserting the hidden entries
 	 */
-	if (!show_dot_files &&
+	if (!options->show_dot_files &&
 	    target_path &&
 	    strncmp(nd->fd->path, target_path, strlen(nd->fd->path)) == 0)
 		{

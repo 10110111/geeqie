@@ -80,7 +80,7 @@ ThumbLoaderStd *thumb_loader_std_new(gint width, gint height)
 	tl->il = NULL;
 	tl->source_path = NULL;
 
-	tl->cache_enable = enable_thumb_caching;
+	tl->cache_enable = options->enable_thumb_caching;
 	tl->cache_local = FALSE;
 	tl->cache_retry = FALSE;
 
@@ -436,7 +436,7 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 								  &thumb_w, &thumb_h))
 					{
 					pixbuf_thumb = gdk_pixbuf_scale_simple(pixbuf, thumb_w, thumb_h,
-									       (GdkInterpType)thumbnail_quality);
+									       (GdkInterpType)options->thumbnail_quality);
 					}
 				else
 					{
@@ -484,7 +484,7 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 						  &thumb_w, &thumb_h))
 			{
 			result = gdk_pixbuf_scale_simple(pixbuf, thumb_w, thumb_h,
-							 (GdkInterpType)thumbnail_quality);
+							 (GdkInterpType)options->thumbnail_quality);
 			}
 		else
 			{
@@ -603,7 +603,7 @@ static gint thumb_loader_std_setup(ThumbLoaderStd *tl, const gchar *path)
 {
 	tl->il = image_loader_new_from_path(path);
 
-	if (thumbnail_fast)
+	if (options->thumbnail_fast)
 		{
 		/* this will speed up jpegs by up to 3x in some cases */
 		if (tl->requested_width <= THUMB_SIZE_NORMAL &&

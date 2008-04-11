@@ -157,7 +157,7 @@ static gboolean cache_loader_process(CacheLoader *cl)
 	else
 		{
 		/* done, save then call done function */
-		if (enable_thumb_caching &&
+		if (options->enable_thumb_caching &&
 		    cl->done_mask != CACHE_LOADER_NONE)
 			{
 			gchar *base;

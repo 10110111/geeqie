@@ -100,10 +100,10 @@ void editor_reset_defaults(void)
 
 	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
-		g_free(editor_name[i]);
-		editor_name[i] = g_strdup(_(editor_slot_defaults[i * 2]));
-		g_free(editor_command[i]);
-		editor_command[i] = g_strdup(editor_slot_defaults[i * 2 + 1]);
+		g_free(options->editor_name[i]);
+		options->editor_name[i] = g_strdup(_(editor_slot_defaults[i * 2]));
+		g_free(options->editor_command[i]);
+		options->editor_command[i] = g_strdup(editor_slot_defaults[i * 2 + 1]);
 		}
 }
 
@@ -785,11 +785,11 @@ gint start_editor_from_filelist_full(gint n, GList *list, EditorCallback cb, gpo
 	gint error;
 
 	if (n < 0 || n >= GQ_EDITOR_SLOTS || !list ||
-	    !editor_command[n] ||
-	    strlen(editor_command[n]) == 0) return FALSE;
+	    !options->editor_command[n] ||
+	    strlen(options->editor_command[n]) == 0) return FALSE;
 
-	command = g_locale_from_utf8(editor_command[n], -1, NULL, NULL, NULL);
-	error = editor_command_start(command, editor_name[n], list, cb, data);
+	command = g_locale_from_utf8(options->editor_command[n], -1, NULL, NULL, NULL);
+	error = editor_command_start(command, options->editor_name[n], list, cb, data);
 	g_free(command);
 	return error;
 }
@@ -821,10 +821,10 @@ gint start_editor_from_file(gint n, FileData *fd)
 gint editor_window_flag_set(gint n)
 {
 	if (n < 0 || n >= GQ_EDITOR_SLOTS ||
-	    !editor_command[n] ||
-	    strlen(editor_command[n]) == 0) return TRUE;
+	    !options->editor_command[n] ||
+	    strlen(options->editor_command[n]) == 0) return TRUE;
 
-	return (editor_command_parse(editor_command[n], NULL, NULL) & EDITOR_KEEP_FS);
+	return (editor_command_parse(options->editor_command[n], NULL, NULL) & EDITOR_KEEP_FS);
 }
 
 

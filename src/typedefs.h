@@ -141,6 +141,7 @@ typedef struct _Histogram Histogram;
 
 typedef struct _SecureSaveInfo SecureSaveInfo;
 
+typedef struct _ConfOptions ConfOptions;
 
 struct _ImageLoader
 {
@@ -728,6 +729,97 @@ struct _SecureSaveInfo {
 	gint unlink_on_error; /**< whether to remove temporary file on save failure, TRUE by default */
 };
 
+struct _ConfOptions
+{
+	gint main_window_w;
+	gint main_window_h;
+	gint main_window_x;
+	gint main_window_y;
+	gint main_window_maximized;
+
+	gint float_window_w;
+	gint float_window_h;
+	gint float_window_x;
+	gint float_window_y;
+	gint float_window_divider;
+
+	gint window_hdivider_pos;
+	gint window_vdivider_pos;
+
+	gint save_window_positions;
+	gint tools_float;
+	gint tools_hidden;
+	gint toolbar_hidden;
+	gint progressive_key_scrolling;
+
+	gint startup_path_enable;
+	gchar *startup_path;
+	gint confirm_delete;
+	gint enable_delete_key;
+	gint safe_delete_enable;
+	gchar *safe_delete_path;
+	gint safe_delete_size;
+	gint restore_tool;
+	gint zoom_mode;
+	gint two_pass_zoom;
+	gint scroll_reset_method;
+	gint fit_window;
+	gint limit_window_size;
+	gint zoom_to_fit_expands;
+	gint max_window_size;
+	gint limit_autofit_size;
+	gint max_autofit_size;
+	gint thumb_max_width;
+	gint thumb_max_height;
+	gint enable_thumb_caching;
+	gint enable_thumb_dirs;
+	gint thumbnail_fast;
+	gint use_xvpics_thumbnails;
+	gint thumbnail_spec_standard;
+	gint enable_metadata_dirs;
+	gint show_dot_files;
+	gint file_filter_disable;
+	gchar *editor_name[GQ_EDITOR_SLOTS];
+	gchar *editor_command[GQ_EDITOR_SLOTS];
+
+	gint thumbnails_enabled;
+	SortType file_sort_method;
+	gint file_sort_ascending;
+
+	gint slideshow_delay;	/* in tenths of a second */
+	gint slideshow_random;
+	gint slideshow_repeat;
+
+	gint mousewheel_scrolls;
+	gint enable_in_place_rename;
+
+	gint user_specified_window_background;
+	GdkColor window_background_color;
+
+	gint fullscreen_screen;
+	gint fullscreen_clean_flip;
+	gint fullscreen_disable_saver;
+	gint fullscreen_above;
+	gint show_fullscreen_info;
+	gchar *fullscreen_info;
+
+	gint dupe_custom_threshold;
+
+	gint recent_list_max;
+
+	gint collection_rectangular_selection;
+
+	gint tile_cache_max;	/* in megabytes */
+	gint thumbnail_quality;
+	gint zoom_quality;
+	gint dither_quality;
+
+	gint zoom_increment;	/* 10 is 1.0, 5 is 0.05, 20 is 2.0, etc. */
+
+	gint enable_read_ahead;
+
+	gint place_dialogs_under_mouse;
+};
 
 #endif
 

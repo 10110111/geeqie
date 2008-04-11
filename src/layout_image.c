@@ -1111,7 +1111,7 @@ void layout_image_set_fd(LayoutWindow *lw, FileData *fd)
 
 	image_get_scroll_center(lw->image, &sx, &sy);
 
-	image_change_fd(lw->image, fd, image_zoom_get_default(lw->image, zoom_mode));
+	image_change_fd(lw->image, fd, image_zoom_get_default(lw->image, options->zoom_mode));
 
 	image_set_scroll_center(lw->image, sx, sy);
 
@@ -1135,7 +1135,7 @@ This should be handled at the caller: in vflist_select_image
 		}
 */
 	layout_image_set_fd(lw, fd);
-	if (enable_read_ahead) image_prebuffer_set(lw->image, read_ahead_fd);
+	if (options->enable_read_ahead) image_prebuffer_set(lw->image, read_ahead_fd);
 }
 
 void layout_image_set_index(LayoutWindow *lw, gint index)
@@ -1203,8 +1203,8 @@ static void layout_image_set_collection_real(LayoutWindow *lw, CollectionData *c
 {
 	if (!layout_valid(&lw)) return;
 
-	image_change_from_collection(lw->image, cd, info, image_zoom_get_default(lw->image, zoom_mode));
-	if (enable_read_ahead)
+	image_change_from_collection(lw->image, cd, info, image_zoom_get_default(lw->image, options->zoom_mode));
+	if (options->enable_read_ahead)
 		{
 		CollectInfo *r_info;
 		if (forward)
@@ -1556,7 +1556,7 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkScrollDirection directio
 				break;
 			}
 		}
-	else if ( (state & GDK_SHIFT_MASK) != (mousewheel_scrolls))
+	else if ( (state & GDK_SHIFT_MASK) != (options->mousewheel_scrolls))
 		{
 		switch (direction)
 			{
@@ -1698,7 +1698,7 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 
 		gtk_widget_ref(lw->split_images[i]->widget);
 
-		image_background_set_color(lw->split_images[i], user_specified_window_background ? &window_background_color : NULL);
+		image_background_set_color(lw->split_images[i], options->user_specified_window_background ? &options->window_background_color : NULL);
 
 		image_auto_refresh(lw->split_images[i], 0);
 

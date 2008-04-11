@@ -290,97 +290,97 @@ void save_options(void)
 	write_bool_option(ssi, "exif_auto_rotate", exif_rotate_enable);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "enable_startup_path", startup_path_enable);
-	write_char_option(ssi, "startup_path", startup_path);
+	write_bool_option(ssi, "enable_startup_path", options->startup_path_enable);
+	write_char_option(ssi, "startup_path", options->startup_path);
 	secure_fputc(ssi, '\n');
 
 	secure_fprintf(ssi, "zoom_mode: ");
-	if (zoom_mode == ZOOM_RESET_ORIGINAL) secure_fprintf(ssi, "original\n");
-	if (zoom_mode == ZOOM_RESET_FIT_WINDOW) secure_fprintf(ssi, "fit\n");
-	if (zoom_mode == ZOOM_RESET_NONE) secure_fprintf(ssi, "dont_change\n");
-	write_bool_option(ssi, "two_pass_scaling", two_pass_zoom);
-	write_bool_option(ssi, "zoom_to_fit_allow_expand", zoom_to_fit_expands);
+	if (options->zoom_mode == ZOOM_RESET_ORIGINAL) secure_fprintf(ssi, "original\n");
+	if (options->zoom_mode == ZOOM_RESET_FIT_WINDOW) secure_fprintf(ssi, "fit\n");
+	if (options->zoom_mode == ZOOM_RESET_NONE) secure_fprintf(ssi, "dont_change\n");
+	write_bool_option(ssi, "two_pass_scaling", options->two_pass_zoom);
+	write_bool_option(ssi, "zoom_to_fit_allow_expand", options->zoom_to_fit_expands);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "fit_window_to_image", fit_window);
-	write_bool_option(ssi, "limit_window_size", limit_window_size);
-	write_int_option(ssi, "max_window_size", max_window_size);
-	write_bool_option(ssi, "limit_autofit_size", limit_autofit_size);
-	write_int_option(ssi, "max_autofit_size", max_autofit_size);
+	write_bool_option(ssi, "fit_window_to_image", options->fit_window);
+	write_bool_option(ssi, "limit_window_size", options->limit_window_size);
+	write_int_option(ssi, "max_window_size", options->max_window_size);
+	write_bool_option(ssi, "limit_autofit_size", options->limit_autofit_size);
+	write_int_option(ssi, "max_autofit_size", options->max_autofit_size);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "progressive_keyboard_scrolling", progressive_key_scrolling);
-	write_int_option(ssi, "scroll_reset_method", scroll_reset_method);
+	write_bool_option(ssi, "progressive_keyboard_scrolling", options->progressive_key_scrolling);
+	write_int_option(ssi, "scroll_reset_method", options->scroll_reset_method);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "enable_thumbnails", thumbnails_enabled);
-	write_int_option(ssi, "thumbnail_width", thumb_max_width);
-	write_int_option(ssi, "thumbnail_height", thumb_max_height);
-	write_bool_option(ssi, "cache_thumbnails", enable_thumb_caching);
-	write_bool_option(ssi, "cache_thumbnails_into_dirs", enable_thumb_dirs);
-	write_bool_option(ssi, "thumbnail_fast", thumbnail_fast);
-	write_bool_option(ssi, "use_xvpics_thumbnails", use_xvpics_thumbnails);
-	write_bool_option(ssi, "thumbnail_spec_standard", thumbnail_spec_standard);
+	write_bool_option(ssi, "enable_thumbnails", options->thumbnails_enabled);
+	write_int_option(ssi, "thumbnail_width", options->thumb_max_width);
+	write_int_option(ssi, "thumbnail_height", options->thumb_max_height);
+	write_bool_option(ssi, "cache_thumbnails", options->enable_thumb_caching);
+	write_bool_option(ssi, "cache_thumbnails_into_dirs", options->enable_thumb_dirs);
+	write_bool_option(ssi, "thumbnail_fast", options->thumbnail_fast);
+	write_bool_option(ssi, "use_xvpics_thumbnails", options->use_xvpics_thumbnails);
+	write_bool_option(ssi, "thumbnail_spec_standard", options->thumbnail_spec_standard);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "local_metadata", enable_metadata_dirs);
+	write_bool_option(ssi, "local_metadata", options->enable_metadata_dirs);
 	secure_fputc(ssi, '\n');
 
-	write_int_option(ssi, "sort_method", (gint)file_sort_method);
-	write_bool_option(ssi, "sort_ascending", file_sort_ascending);
+	write_int_option(ssi, "sort_method", (gint)options->file_sort_method);
+	write_bool_option(ssi, "sort_ascending", options->file_sort_ascending);
 	write_bool_option(ssi, "sort_case_sensitive", file_sort_case_sensitive);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "confirm_delete", confirm_delete);
-	write_bool_option(ssi, "enable_delete_key", enable_delete_key);
-	write_bool_option(ssi, "safe_delete", safe_delete_enable);
-	write_char_option(ssi, "safe_delete_path", safe_delete_path);
-	write_int_option(ssi, "safe_delete_size", safe_delete_size);
+	write_bool_option(ssi, "confirm_delete", options->confirm_delete);
+	write_bool_option(ssi, "enable_delete_key", options->enable_delete_key);
+	write_bool_option(ssi, "safe_delete", options->safe_delete_enable);
+	write_char_option(ssi, "safe_delete_path", options->safe_delete_path);
+	write_int_option(ssi, "safe_delete_size", options->safe_delete_size);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "tools_float", tools_float);
-	write_bool_option(ssi, "tools_hidden", tools_hidden);
-	write_bool_option(ssi, "restore_tool_state", restore_tool);
-	write_bool_option(ssi, "toolbar_hidden", toolbar_hidden);
+	write_bool_option(ssi, "tools_float", options->tools_float);
+	write_bool_option(ssi, "tools_hidden", options->tools_hidden);
+	write_bool_option(ssi, "restore_tool_state", options->restore_tool);
+	write_bool_option(ssi, "toolbar_hidden", options->toolbar_hidden);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "mouse_wheel_scrolls", mousewheel_scrolls);
-	write_bool_option(ssi, "in_place_rename", enable_in_place_rename);
-	write_int_option(ssi, "open_recent_max", recent_list_max);
-	write_int_option(ssi, "image_cache_size_max", tile_cache_max);
-	write_int_option(ssi, "thumbnail_quality", thumbnail_quality);
-	write_int_option(ssi, "zoom_quality", zoom_quality);
-	write_int_option(ssi, "dither_quality", dither_quality);
-	write_int_option(ssi, "zoom_increment", zoom_increment);
-	write_bool_option(ssi, "enable_read_ahead", enable_read_ahead);
-	write_bool_option(ssi, "display_dialogs_under_mouse", place_dialogs_under_mouse);
+	write_bool_option(ssi, "mouse_wheel_scrolls", options->mousewheel_scrolls);
+	write_bool_option(ssi, "in_place_rename", options->enable_in_place_rename);
+	write_int_option(ssi, "open_recent_max", options->recent_list_max);
+	write_int_option(ssi, "image_cache_size_max", options->tile_cache_max);
+	write_int_option(ssi, "thumbnail_quality", options->thumbnail_quality);
+	write_int_option(ssi, "zoom_quality", options->zoom_quality);
+	write_int_option(ssi, "dither_quality", options->dither_quality);
+	write_int_option(ssi, "zoom_increment", options->zoom_increment);
+	write_bool_option(ssi, "enable_read_ahead", options->enable_read_ahead);
+	write_bool_option(ssi, "display_dialogs_under_mouse", options->place_dialogs_under_mouse);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "user_specified_window_background", user_specified_window_background);
-	write_color_option(ssi, "window_background_color", &window_background_color);
+	write_bool_option(ssi, "user_specified_window_background", options->user_specified_window_background);
+	write_color_option(ssi, "window_background_color", &options->window_background_color);
 	secure_fputc(ssi, '\n');
 
-	write_int_option(ssi, "fullscreen_screen", fullscreen_screen);
-	write_bool_option(ssi, "fullscreen_clean_flip", fullscreen_clean_flip);
-	write_bool_option(ssi, "fullscreen_disable_saver", fullscreen_disable_saver);
-	write_bool_option(ssi, "fullscreen_above", fullscreen_above);
-	write_bool_option(ssi, "show_fullscreen_info", show_fullscreen_info);
-	write_char_option(ssi, "fullscreen_info", fullscreen_info);
+	write_int_option(ssi, "fullscreen_screen", options->fullscreen_screen);
+	write_bool_option(ssi, "fullscreen_clean_flip", options->fullscreen_clean_flip);
+	write_bool_option(ssi, "fullscreen_disable_saver", options->fullscreen_disable_saver);
+	write_bool_option(ssi, "fullscreen_above", options->fullscreen_above);
+	write_bool_option(ssi, "show_fullscreen_info", options->show_fullscreen_info);
+	write_char_option(ssi, "fullscreen_info", options->fullscreen_info);
 	secure_fputc(ssi, '\n');
 
-	write_int_option(ssi, "custom_similarity_threshold", dupe_custom_threshold);
+	write_int_option(ssi, "custom_similarity_threshold", options->dupe_custom_threshold);
 
 	secure_fprintf(ssi, "\n##### Slideshow Options #####\n\n");
 
-	write_int_unit_option(ssi, "slideshow_delay", slideshow_delay, SLIDESHOW_SUBSECOND_PRECISION);
+	write_int_unit_option(ssi, "slideshow_delay", options->slideshow_delay, SLIDESHOW_SUBSECOND_PRECISION);
 
-	write_bool_option(ssi, "slideshow_random", slideshow_random);
-	write_bool_option(ssi, "slideshow_repeat", slideshow_repeat);
+	write_bool_option(ssi, "slideshow_random", options->slideshow_random);
+	write_bool_option(ssi, "slideshow_repeat", options->slideshow_repeat);
 
 	secure_fprintf(ssi, "\n##### Filtering Options #####\n\n");
 
-	write_bool_option(ssi, "show_dotfiles", show_dot_files);
-	write_bool_option(ssi, "disable_filtering", file_filter_disable);
+	write_bool_option(ssi, "show_dotfiles", options->show_dot_files);
+	write_bool_option(ssi, "disable_filtering", options->file_filter_disable);
 	
 	filter_write_list(ssi);
 	
@@ -418,8 +418,8 @@ void save_options(void)
 
 	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
-		gchar *qname = escquote_value(editor_name[i]);
-		gchar *qcommand = escquote_value(editor_command[i]);
+		gchar *qname = escquote_value(options->editor_name[i]);
+		gchar *qcommand = escquote_value(options->editor_command[i]);
 		secure_fprintf(ssi, "external_%d: %s %s\n", i+1, qname, qcommand);
 		g_free(qname);
 		g_free(qcommand);
@@ -427,24 +427,24 @@ void save_options(void)
 
 	secure_fprintf(ssi, "\n##### Collection Options #####\n\n");
 
-	write_bool_option(ssi, "rectangular_selections", collection_rectangular_selection);
+	write_bool_option(ssi, "rectangular_selections", options->collection_rectangular_selection);
 
 	secure_fprintf(ssi, "\n##### Window Positions #####\n\n");
 
-	write_bool_option(ssi, "restore_window_positions", save_window_positions);
+	write_bool_option(ssi, "restore_window_positions", options->save_window_positions);
 	secure_fputc(ssi, '\n');
-	write_int_option(ssi, "main_window_x", main_window_x);
-	write_int_option(ssi, "main_window_y", main_window_y);
-	write_int_option(ssi, "main_window_width", main_window_w);
-	write_int_option(ssi, "main_window_height", main_window_h);
-	write_bool_option(ssi, "main_window_maximized", main_window_maximized);
-	write_int_option(ssi, "float_window_x", float_window_x);
-	write_int_option(ssi, "float_window_y", float_window_y);
-	write_int_option(ssi, "float_window_width", float_window_w);
-	write_int_option(ssi, "float_window_height", float_window_h);
-	write_int_option(ssi, "float_window_divider", float_window_divider);
-	write_int_option(ssi, "divider_position_h", window_hdivider_pos);
-	write_int_option(ssi, "divider_position_v", window_vdivider_pos);
+	write_int_option(ssi, "main_window_x", options->main_window_x);
+	write_int_option(ssi, "main_window_y", options->main_window_y);
+	write_int_option(ssi, "main_window_width", options->main_window_w);
+	write_int_option(ssi, "main_window_height", options->main_window_h);
+	write_bool_option(ssi, "main_window_maximized", options->main_window_maximized);
+	write_int_option(ssi, "float_window_x", options->float_window_x);
+	write_int_option(ssi, "float_window_y", options->float_window_y);
+	write_int_option(ssi, "float_window_width", options->float_window_w);
+	write_int_option(ssi, "float_window_height", options->float_window_h);
+	write_int_option(ssi, "float_window_divider", options->float_window_divider);
+	write_int_option(ssi, "divider_position_h", options->window_hdivider_pos);
+	write_int_option(ssi, "divider_position_v", options->window_vdivider_pos);
 
 	secure_fprintf(ssi, "\n##### Exif #####\n# 0: never\n# 1: if set\n# 2: always\n\n");
 	for (i = 0; ExifUIList[i].key; i++)
@@ -547,150 +547,150 @@ void load_options(void)
 		exif_rotate_enable = read_bool_option(f, option,
 			"exif_auto_rotate", value, exif_rotate_enable);
 
-		startup_path_enable = read_bool_option(f, option,
-			"enable_startup_path", value, startup_path_enable);
-		startup_path = read_char_option(f, option,
-			"startup_path", value_all, startup_path);
+		options->startup_path_enable = read_bool_option(f, option,
+			"enable_startup_path", value, options->startup_path_enable);
+		options->startup_path = read_char_option(f, option,
+			"startup_path", value_all, options->startup_path);
 
-		if (strcasecmp(option,"zoom_mode") == 0)
+		if (strcasecmp(option, "zoom_mode") == 0)
                         {
-                        if (strcasecmp(value, "original") == 0) zoom_mode = ZOOM_RESET_ORIGINAL;
-                        if (strcasecmp(value, "fit") == 0) zoom_mode = ZOOM_RESET_FIT_WINDOW;
-                        if (strcasecmp(value, "dont_change") == 0) zoom_mode = ZOOM_RESET_NONE;
+                        if (strcasecmp(value, "original") == 0) options->zoom_mode = ZOOM_RESET_ORIGINAL;
+                        if (strcasecmp(value, "fit") == 0) options->zoom_mode = ZOOM_RESET_FIT_WINDOW;
+                        if (strcasecmp(value, "dont_change") == 0) options->zoom_mode = ZOOM_RESET_NONE;
                         }
-		two_pass_zoom = read_bool_option(f, option,
-			"two_pass_scaling", value, two_pass_zoom);
-		zoom_to_fit_expands = read_bool_option(f, option,
-			"zoom_to_fit_allow_expand", value, zoom_to_fit_expands);
+		options->two_pass_zoom = read_bool_option(f, option,
+			"two_pass_scaling", value, options->two_pass_zoom);
+		options->zoom_to_fit_expands = read_bool_option(f, option,
+			"zoom_to_fit_allow_expand", value, options->zoom_to_fit_expands);
 
-		fit_window = read_bool_option(f, option,
-			"fit_window_to_image", value, fit_window);
-		limit_window_size = read_bool_option(f, option,
-			"limit_window_size", value, limit_window_size);
-		max_window_size = read_int_option(f, option,
-			"max_window_size", value, max_window_size);
-		limit_autofit_size = read_bool_option(f, option,
-			"limit_autofit_size", value, limit_autofit_size);
-		max_autofit_size = read_int_option(f, option,
-			"max_autofit_size", value, max_autofit_size);
-		progressive_key_scrolling = read_bool_option(f, option,
-			"progressive_keyboard_scrolling", value, progressive_key_scrolling);
-		scroll_reset_method = read_int_option(f, option,
-			"scroll_reset_method", value, scroll_reset_method);
+		options->fit_window = read_bool_option(f, option,
+			"fit_window_to_image", value, options->fit_window);
+		options->limit_window_size = read_bool_option(f, option,
+			"limit_window_size", value, options->limit_window_size);
+		options->max_window_size = read_int_option(f, option,
+			"max_window_size", value, options->max_window_size);
+		options->limit_autofit_size = read_bool_option(f, option,
+			"limit_autofit_size", value, options->limit_autofit_size);
+		options->max_autofit_size = read_int_option(f, option,
+			"max_autofit_size", value, options->max_autofit_size);
+		options->progressive_key_scrolling = read_bool_option(f, option,
+			"progressive_keyboard_scrolling", value, options->progressive_key_scrolling);
+		options->scroll_reset_method = read_int_option(f, option,
+			"scroll_reset_method", value, options->scroll_reset_method);
 
-		thumbnails_enabled = read_bool_option(f, option,
-			"enable_thumbnails", value, thumbnails_enabled);
-		thumb_max_width = read_int_option(f, option,
-			"thumbnail_width", value, thumb_max_width);
-		if (thumb_max_width < 16) thumb_max_width = 16;
-		thumb_max_height = read_int_option(f, option,
-			"thumbnail_height", value, thumb_max_height);
-		if (thumb_max_height < 16) thumb_max_height = 16;
-		enable_thumb_caching = read_bool_option(f, option,
-			"cache_thumbnails", value, enable_thumb_caching);
-		enable_thumb_dirs = read_bool_option(f, option,
-			"cache_thumbnails_into_dirs", value, enable_thumb_dirs);
-		thumbnail_fast = read_bool_option(f, option,
-			"thumbnail_fast", value, thumbnail_fast);
-		use_xvpics_thumbnails = read_bool_option(f, option,
-			"use_xvpics_thumbnails", value, use_xvpics_thumbnails);
-		thumbnail_spec_standard = read_bool_option(f, option,
-			"thumbnail_spec_standard", value, thumbnail_spec_standard);
+		options->thumbnails_enabled = read_bool_option(f, option,
+			"enable_thumbnails", value, options->thumbnails_enabled);
+		options->thumb_max_width = read_int_option(f, option,
+			"thumbnail_width", value, options->thumb_max_width);
+		if (options->thumb_max_width < 16) options->thumb_max_width = 16;
+		options->thumb_max_height = read_int_option(f, option,
+			"thumbnail_height", value, options->thumb_max_height);
+		if (options->thumb_max_height < 16) options->thumb_max_height = 16;
+		options->enable_thumb_caching = read_bool_option(f, option,
+			"cache_thumbnails", value, options->enable_thumb_caching);
+		options->enable_thumb_dirs = read_bool_option(f, option,
+			"cache_thumbnails_into_dirs", value, options->enable_thumb_dirs);
+		options->thumbnail_fast = read_bool_option(f, option,
+			"thumbnail_fast", value, options->thumbnail_fast);
+		options->use_xvpics_thumbnails = read_bool_option(f, option,
+			"use_xvpics_thumbnails", value, options->use_xvpics_thumbnails);
+		options->thumbnail_spec_standard = read_bool_option(f, option,
+			"thumbnail_spec_standard", value, options->thumbnail_spec_standard);
 
-		enable_metadata_dirs = read_bool_option(f, option,
-			"local_metadata", value, enable_metadata_dirs);
+		options->enable_metadata_dirs = read_bool_option(f, option,
+			"local_metadata", value, options->enable_metadata_dirs);
 
-		file_sort_method = (SortType)read_int_option(f, option,
-			"sort_method", value, (gint)file_sort_method);
-		file_sort_ascending = read_bool_option(f, option,
-			"sort_ascending", value, file_sort_ascending);
+		options->file_sort_method = (SortType)read_int_option(f, option,
+			"sort_method", value, (gint)options->file_sort_method);
+		options->file_sort_ascending = read_bool_option(f, option,
+			"sort_ascending", value, options->file_sort_ascending);
 		file_sort_case_sensitive = read_bool_option(f, option,
 			"sort_case_sensitive", value, file_sort_case_sensitive);
 
-		confirm_delete = read_bool_option(f, option,
-			"confirm_delete", value, confirm_delete);
-		enable_delete_key = read_bool_option(f, option,
-			"enable_delete_key", value, enable_delete_key);
-		safe_delete_enable = read_bool_option(f, option,
-			"safe_delete",  value, safe_delete_enable);
-		safe_delete_path = read_char_option(f, option,
-			"safe_delete_path", value, safe_delete_path);
-		safe_delete_size = read_int_option(f, option,
-			"safe_delete_size", value, safe_delete_size);
+		options->confirm_delete = read_bool_option(f, option,
+			"confirm_delete", value, options->confirm_delete);
+		options->enable_delete_key = read_bool_option(f, option,
+			"enable_delete_key", value, options->enable_delete_key);
+		options->safe_delete_enable = read_bool_option(f, option,
+			"safe_delete",  value, options->safe_delete_enable);
+		options->safe_delete_path = read_char_option(f, option,
+			"safe_delete_path", value, options->safe_delete_path);
+		options->safe_delete_size = read_int_option(f, option,
+			"safe_delete_size", value,options->safe_delete_size);
 
-		tools_float = read_bool_option(f, option,
-			"tools_float", value, tools_float);
-		tools_hidden = read_bool_option(f, option,
-			"tools_hidden", value, tools_hidden);
-		restore_tool = read_bool_option(f, option,
-			"restore_tool_state", value, restore_tool);
+		options->tools_float = read_bool_option(f, option,
+			"tools_float", value, options->tools_float);
+		options->tools_hidden = read_bool_option(f, option,
+			"tools_hidden", value, options->tools_hidden);
+		options->restore_tool = read_bool_option(f, option,
+			"restore_tool_state", value, options->restore_tool);
 
-		toolbar_hidden = read_bool_option(f, option,
-			"toolbar_hidden", value, toolbar_hidden);
+		options->toolbar_hidden = read_bool_option(f, option,
+			"toolbar_hidden", value, options->toolbar_hidden);
 
-		mousewheel_scrolls = read_bool_option(f, option,
-			"mouse_wheel_scrolls", value, mousewheel_scrolls);
-		enable_in_place_rename = read_bool_option(f, option,
-			"in_place_rename", value, enable_in_place_rename);
+		options->mousewheel_scrolls = read_bool_option(f, option,
+			"mouse_wheel_scrolls", value, options->mousewheel_scrolls);
+		options->enable_in_place_rename = read_bool_option(f, option,
+			"in_place_rename", value, options->enable_in_place_rename);
 
-		recent_list_max = read_int_option(f, option,
-			"open_recent_max", value, recent_list_max);
+		options->recent_list_max = read_int_option(f, option,
+			"open_recent_max", value, options->recent_list_max);
 
-		tile_cache_max = read_int_option(f, option,
-			"image_cache_size_max", value, tile_cache_max);
+		options->tile_cache_max = read_int_option(f, option,
+			"image_cache_size_max", value, options->tile_cache_max);
 
-		thumbnail_quality = CLAMP(read_int_option(f, option,
-			"thumbnail_quality", value, thumbnail_quality), GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
-		zoom_quality = CLAMP(read_int_option(f, option,
-			"zoom_quality", value, zoom_quality), GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
-		dither_quality = CLAMP(read_int_option(f, option,
-			"dither_quality", value, dither_quality), GDK_RGB_DITHER_NONE, GDK_RGB_DITHER_MAX);
+		options->thumbnail_quality = CLAMP(read_int_option(f, option,
+			"thumbnail_quality", value, options->thumbnail_quality), GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
+		options->zoom_quality = CLAMP(read_int_option(f, option,
+			"zoom_quality", value, options->zoom_quality), GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
+		options->dither_quality = CLAMP(read_int_option(f, option,
+			"dither_quality", value, options->dither_quality), GDK_RGB_DITHER_NONE, GDK_RGB_DITHER_MAX);
 
-		zoom_increment = read_int_option(f, option,
-			"zoom_increment", value, zoom_increment);
+		options->zoom_increment = read_int_option(f, option,
+			"zoom_increment", value, options->zoom_increment);
 
-		enable_read_ahead = read_bool_option(f, option,
-			"enable_read_ahead", value, enable_read_ahead);
+		options->enable_read_ahead = read_bool_option(f, option,
+			"enable_read_ahead", value, options->enable_read_ahead);
 
-		place_dialogs_under_mouse = read_bool_option(f, option,
-			"display_dialogs_under_mouse", value, place_dialogs_under_mouse);
+		options->place_dialogs_under_mouse = read_bool_option(f, option,
+			"display_dialogs_under_mouse", value, options->place_dialogs_under_mouse);
 
-		user_specified_window_background = read_bool_option(f, option,
-			"user_specified_window_background", value, user_specified_window_background);
+		options->user_specified_window_background = read_bool_option(f, option,
+			"user_specified_window_background", value, options->user_specified_window_background);
 		read_color_option(f, option,
-			"window_background_color", value, &window_background_color);
+			"window_background_color", value, &options->window_background_color);
 
-		fullscreen_screen = read_int_option(f, option,
-			"fullscreen_screen", value, fullscreen_screen);
-		fullscreen_clean_flip = read_bool_option(f, option,
-			"fullscreen_clean_flip", value, fullscreen_clean_flip);
-		fullscreen_disable_saver = read_bool_option(f, option,
-			"fullscreen_disable_saver", value, fullscreen_disable_saver);
-		fullscreen_above = read_bool_option(f, option,
-			"fullscreen_above", value, fullscreen_above);
-		show_fullscreen_info = read_bool_option(f, option,
-			"show_fullscreen_info", value, show_fullscreen_info);
-		fullscreen_info = read_char_option(f, option,
-			"fullscreen_info", value_all, fullscreen_info);
+		options->fullscreen_screen = read_int_option(f, option,
+			"fullscreen_screen", value, options->fullscreen_screen);
+		options->fullscreen_clean_flip = read_bool_option(f, option,
+			"fullscreen_clean_flip", value, options->fullscreen_clean_flip);
+		options->fullscreen_disable_saver = read_bool_option(f, option,
+			"fullscreen_disable_saver", value, options->fullscreen_disable_saver);
+		options->fullscreen_above = read_bool_option(f, option,
+			"fullscreen_above", value, options->fullscreen_above);
+		options->show_fullscreen_info = read_bool_option(f, option,
+			"show_fullscreen_info", value, options->show_fullscreen_info);
+		options->fullscreen_info = read_char_option(f, option,
+			"fullscreen_info", value_all, options->fullscreen_info);
 
-		dupe_custom_threshold = read_int_option(f, option,
-			"custom_similarity_threshold", value, dupe_custom_threshold);
+		options->dupe_custom_threshold = read_int_option(f, option,
+			"custom_similarity_threshold", value, options->dupe_custom_threshold);
 
 		/* slideshow options */
 
-		slideshow_delay = read_int_unit_option(f, option,
-			"slideshow_delay", value, slideshow_delay, SLIDESHOW_SUBSECOND_PRECISION);
-		slideshow_random = read_bool_option(f, option,
-			"slideshow_random", value, slideshow_random);
-		slideshow_repeat = read_bool_option(f, option,
-			"slideshow_repeat", value, slideshow_repeat);
+		options->slideshow_delay = read_int_unit_option(f, option,
+			"slideshow_delay", value, options->slideshow_delay, SLIDESHOW_SUBSECOND_PRECISION);
+		options->slideshow_random = read_bool_option(f, option,
+			"slideshow_random", value, options->slideshow_random);
+		options->slideshow_repeat = read_bool_option(f, option,
+			"slideshow_repeat", value, options->slideshow_repeat);
 
 		/* filtering options */
 
-		show_dot_files = read_bool_option(f, option,
-			"show_dotfiles", value, show_dot_files);
-		file_filter_disable = read_bool_option(f, option,
-			"disable_filtering", value, file_filter_disable);
+		options->show_dot_files = read_bool_option(f, option,
+			"show_dotfiles", value, options->show_dot_files);
+		options->file_filter_disable = read_bool_option(f, option,
+			"disable_filtering", value, options->file_filter_disable);
 
 		if (strcasecmp(option, "filter_ext") == 0)
 			{
@@ -744,48 +744,48 @@ void load_options(void)
 				{
 				const gchar *ptr;
 				i--;
-				g_free(editor_name[i]);
-				g_free(editor_command[i]);
+				g_free(options->editor_name[i]);
+				g_free(options->editor_command[i]);
 				
-				editor_name[i] = quoted_value(value_all, &ptr);
-				editor_command[i] = quoted_value(ptr, NULL);
+				options->editor_name[i] = quoted_value(value_all, &ptr);
+				options->editor_command[i] = quoted_value(ptr, NULL);
 				}
 			}
 
 		/* colection options */
 
-		collection_rectangular_selection = read_bool_option(f, option,
-			"rectangular_selections", value, collection_rectangular_selection);
+		options->collection_rectangular_selection = read_bool_option(f, option,
+			"rectangular_selections", value, options->collection_rectangular_selection);
 
 		/* window positions */
 
-		save_window_positions = read_bool_option(f, option,
-			"restore_window_positions", value, save_window_positions);
+		options->save_window_positions = read_bool_option(f, option,
+			"restore_window_positions", value, options->save_window_positions);
 
-		main_window_x = read_int_option(f, option,
-			"main_window_x", value, main_window_x);
-		main_window_y = read_int_option(f, option,
-			"main_window_y", value, main_window_y);
-		main_window_w = read_int_option(f, option,
-			"main_window_width", value, main_window_w);
-		main_window_h = read_int_option(f, option,
-			"main_window_height", value, main_window_h);
-		main_window_maximized = read_bool_option(f, option,
-			"main_window_maximized", value, main_window_maximized);
-		float_window_x = read_int_option(f, option,
-			"float_window_x", value, float_window_x);
-		float_window_y = read_int_option(f, option,
-			"float_window_y", value, float_window_y);
-		float_window_w = read_int_option(f, option,
-			"float_window_width", value, float_window_w);
-		float_window_h = read_int_option(f, option,
-			"float_window_height", value, float_window_h);
-		float_window_divider = read_int_option(f, option,
-			"float_window_divider", value, float_window_divider);
-		window_hdivider_pos = read_int_option(f, option,
-			"divider_position_h", value, window_hdivider_pos);
-		window_vdivider_pos = read_int_option(f, option,
-			"divider_position_v", value, window_vdivider_pos);
+		options->main_window_x = read_int_option(f, option,
+			"main_window_x", value, options->main_window_x);
+		options->main_window_y = read_int_option(f, option,
+			"main_window_y", value, options->main_window_y);
+		options->main_window_w = read_int_option(f, option,
+			"main_window_width", value, options->main_window_w);
+		options->main_window_h = read_int_option(f, option,
+			"main_window_height", value, options->main_window_h);
+		options->main_window_maximized = read_bool_option(f, option,
+			"main_window_maximized", value, options->main_window_maximized);
+		options->float_window_x = read_int_option(f, option,
+			"float_window_x", value, options->float_window_x);
+		options->float_window_y = read_int_option(f, option,
+			"float_window_y", value, options->float_window_y);
+		options->float_window_w = read_int_option(f, option,
+			"float_window_width", value, options->float_window_w);
+		options->float_window_h = read_int_option(f, option,
+			"float_window_height", value, options->float_window_h);
+		options->float_window_divider = read_int_option(f, option,
+			"float_window_divider", value, options->float_window_divider);
+		options->window_hdivider_pos = read_int_option(f, option,
+			"divider_position_h", value,options-> window_hdivider_pos);
+		options->window_vdivider_pos = read_int_option(f, option,
+			"divider_position_v", value, options->window_vdivider_pos);
 
 		if (0 == strncasecmp(option, "exif_", 5))
 			{

@@ -190,7 +190,7 @@ gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 				layout_image_next(lw);
 				break;
 			case GDK_Delete: case GDK_KP_Delete:
-				if (enable_delete_key)
+				if (options->enable_delete_key)
 					{
 					file_util_delete(NULL, layout_selection_list(lw), widget);
 					}
@@ -255,7 +255,7 @@ static void layout_menu_new_window_cb(GtkAction *action, gpointer data)
 		layout_image_full_screen_stop(lw);
 
 	nw = layout_new(NULL, FALSE, FALSE);
-	layout_sort_set(nw, file_sort_method, file_sort_ascending);
+	layout_sort_set(nw, options->file_sort_method, options->file_sort_ascending);
 	layout_set_path(nw, layout_get_path(lw));
 }
 
@@ -916,13 +916,13 @@ static void layout_menu_edit_update(LayoutWindow *lw)
 		action = gtk_action_group_get_action(lw->action_group, key);
 		g_object_set_data(G_OBJECT(action), "edit_index", GINT_TO_POINTER(i));
 
-		if (editor_command[i] && strlen(editor_command[i]) > 0)
+		if (options->editor_command[i] && strlen(options->editor_command[i]) > 0)
 			{
 			gchar *text;
 
-			if (editor_name[i] && strlen(editor_name[i]) > 0)
+			if (options->editor_name[i] && strlen(options->editor_name[i]) > 0)
 				{
-				text = g_strdup_printf(_("in %s..."), editor_name[i]);
+				text = g_strdup_printf(_("in %s..."), options->editor_name[i]);
 				}
 			else
 				{
@@ -1031,7 +1031,7 @@ void layout_recent_add_path(const gchar *path)
 {
 	if (!path) return;
 
-	history_list_add_to_key("recent", path, recent_list_max);
+	history_list_add_to_key("recent", path, options->recent_list_max);
 
 	layout_recent_update_all();
 }

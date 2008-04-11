@@ -318,7 +318,7 @@ gint filter_name_exists(const gchar *name)
 	GList *work;
 	gint ln;
 
-	if (!extension_list || file_filter_disable) return TRUE;
+	if (!extension_list || options->file_filter_disable) return TRUE;
 
 	ln = strlen(name);
 	work = extension_list;
@@ -423,7 +423,7 @@ GList *path_list_filter(GList *list, gint is_dir_list)
 {
 	GList *work;
 
-	if (!is_dir_list && file_filter_disable && show_dot_files) return list;
+	if (!is_dir_list && options->file_filter_disable && options->show_dot_files) return list;
 
 	work = list;
 	while (work)
@@ -433,7 +433,7 @@ GList *path_list_filter(GList *list, gint is_dir_list)
 
 		base = filename_from_path(name);
 
-		if ((!show_dot_files && ishidden(base)) ||
+		if ((!options->show_dot_files && ishidden(base)) ||
 		    (!is_dir_list && !filter_name_exists(base)) ||
 		    (is_dir_list && base[0] == '.' && (strcmp(base, GQ_CACHE_LOCAL_THUMB) == 0 ||
 						       strcmp(base, GQ_CACHE_LOCAL_METADATA) == 0)) )
@@ -1220,7 +1220,7 @@ static gint filelist_read_real(const gchar *path, GList **files, GList **dirs, g
 	while ((dir = readdir(dp)) != NULL)
 		{
 		gchar *name = dir->d_name;
-		if (show_dot_files || !ishidden(name))
+		if (options->show_dot_files || !ishidden(name))
 			{
 			gchar *filepath = g_strconcat(pathl, "/", name, NULL);
 			if ((follow_symlinks ? 
@@ -1349,7 +1349,7 @@ GList *filelist_filter(GList *list, gint is_dir_list)
 {
 	GList *work;
 
-	if (!is_dir_list && file_filter_disable && show_dot_files) return list;
+	if (!is_dir_list && options->file_filter_disable && options->show_dot_files) return list;
 
 	work = list;
 	while (work)
@@ -1357,7 +1357,7 @@ GList *filelist_filter(GList *list, gint is_dir_list)
 		FileData *fd = (FileData *)(work->data);
 		const gchar *name = fd->name;
 
-		if ((!show_dot_files && ishidden(name)) ||
+		if ((!options->show_dot_files && ishidden(name)) ||
 		    (!is_dir_list && !filter_name_exists(name)) ||
 		    (is_dir_list && name[0] == '.' && (strcmp(name, GQ_CACHE_LOCAL_THUMB) == 0 ||
 						       strcmp(name, GQ_CACHE_LOCAL_METADATA) == 0)) )

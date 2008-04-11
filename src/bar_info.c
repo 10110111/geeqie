@@ -312,7 +312,7 @@ gint comment_write(FileData *fd, GList *keywords, const gchar *comment)
 {
 	if (!fd) return FALSE;
 
-	if (enable_metadata_dirs && /* FIXME - use dedicated option */
+	if (options->enable_metadata_dirs && /* FIXME - use dedicated option */
 	    comment_xmp_write(fd, keywords, comment))
 		{
 		comment_delete_legacy(fd);

@@ -205,11 +205,11 @@ static gint collection_table_get_icon_width(CollectTable *ct)
 {
 	gint width;
 
-	if (!ct->show_text) return thumb_max_width;
+	if (!ct->show_text) return options->thumb_max_width;
 
-	width = thumb_max_width + thumb_max_width / 2;
+	width = options->thumb_max_width + options->thumb_max_width / 2;
 	if (width < THUMB_MIN_ICON_WIDTH) width = THUMB_MIN_ICON_WIDTH;
-	if (width > THUMB_MAX_ICON_WIDTH) width = thumb_max_width;
+	if (width > THUMB_MAX_ICON_WIDTH) width = options->thumb_max_width;
 
 	return width;
 }
@@ -366,7 +366,7 @@ static void collection_table_select_region_util(CollectTable *ct, CollectInfo *s
 
 	ct->prev_selection = end;
 
-	if (!collection_rectangular_selection)
+	if (!options->collection_rectangular_selection)
 		{
 		GList *work;
 		CollectInfo *info;
@@ -988,8 +988,8 @@ static gint page_height(CollectTable *ct)
 	adj = gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(ct->listview));
 	page_size = (gint)adj->page_increment;
 
-	row_height = thumb_max_height + THUMB_BORDER_PADDING * 2;
-	if (ct->show_text) row_height += thumb_max_height / 3;
+	row_height = options->thumb_max_height + THUMB_BORDER_PADDING * 2;
+	if (ct->show_text) row_height += options->thumb_max_height / 3;
 
 	ret = page_size / row_height;
 	if (ret < 1) ret = 1;
@@ -1100,7 +1100,7 @@ static gint collection_table_press_key_cb(GtkWidget *widget, GdkEventKey *event,
 			{
 			if (event->state & GDK_SHIFT_MASK)
 				{
-				if (!collection_rectangular_selection)
+				if (!options->collection_rectangular_selection)
 					{
 					collection_table_select_region_util(ct, old_info, new_info, FALSE);
 					}
@@ -1392,7 +1392,7 @@ static void collection_table_scroll(CollectTable *ct, gint scroll)
 	else
 		{
 		GtkAdjustment *adj = gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(ct->listview));
-		widget_auto_scroll_start(ct->listview, adj, -1, thumb_max_height / 2,
+		widget_auto_scroll_start(ct->listview, adj, -1, options->thumb_max_height / 2,
 					 collection_table_auto_scroll_notify_cb, ct);
 		}
 }
@@ -1594,7 +1594,7 @@ static void collection_table_populate(CollectTable *ct, gint resize)
 			if (cell && GQV_IS_CELL_RENDERER_ICON(cell))
 				{
 				g_object_set(G_OBJECT(cell), "fixed_width", thumb_width,
-							     "fixed_height", thumb_max_height,
+							     "fixed_height", options->thumb_max_height,
 							     "show_text", ct->show_text, NULL);
 				}
 			}
