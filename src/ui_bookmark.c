@@ -25,8 +25,8 @@
 #include "main.h"
 #include "filelist.h"
 
+#include "secure_save.h"
 #include "ui_bookmark.h"
-
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "ui_misc.h"
@@ -137,14 +137,14 @@ gint history_list_load(const gchar *path)
 
 gint history_list_save(const gchar *path)
 {
-	FILE *f;
+	SecureSaveInfo *ssi;
 	GList *list;
 	gchar *pathl;
 
 	pathl = path_from_utf8(path);
-	f = fopen(pathl, "w");
+	ssi = secure_open(pathl);
 	g_free(pathl);
-	if (!f)
+	if (!ssi)
 		{
 		gchar *buf;
 
@@ -155,11 +155,11 @@ gint history_list_save(const gchar *path)
 		return FALSE;
 		}
 
-	fprintf(f, "#History lists\n");
-	fprintf(f, "\n");
+	secure_fprintf(ssi, "#History lists\n");
+	secure_fprintf(ssi, "\n");
 
 	list = g_list_last(history_list);
-	while(list)
+	while(list && secsave_errno == SS_ERR_NONE)
 		{
 		HistoryData *hd;
 		GList *work;
@@ -167,25 +167,23 @@ gint history_list_save(const gchar *path)
 		hd = list->data;
 		list = list->prev;
 
-		fprintf(f, "[%s]\n", hd->key);
+		secure_fprintf(ssi, "[%s]\n", hd->key);
 
 		/* save them inverted (oldest to newest)
 		 * so that when reading they are added correctly
 		 */
 		work = g_list_last(hd->list);
-		while(work)
+		while(work && secsave_errno == SS_ERR_NONE)
 			{
-			fprintf(f, "\"%s\"\n", (gchar *)work->data);
+			secure_fprintf(ssi, "\"%s\"\n", (gchar *)work->data);
 			work = work->prev;
 			}
-		fprintf(f, "\n");
+		secure_fputc(ssi, '\n');
 		}
 
-	fprintf(f, "#end\n");
+	secure_fprintf(ssi, "#end\n");
 
-	fclose(f);
-
-	return TRUE;
+	return (secure_close(ssi) == 0);
 }
 
 static void history_list_free(HistoryData *hd)
