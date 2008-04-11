@@ -14,7 +14,7 @@
 
 extern SecureSaveErrno secsave_errno; /**< internal secsave error number */
 
-SecureSaveInfo *secure_open(gchar *);
+SecureSaveInfo *secure_open(const gchar *);
 
 gint secure_close(SecureSaveInfo *);
 

@@ -15,6 +15,7 @@
 #include "main.h"
 #include "secure_save.h"
 
+#include "ui_fileops.h"
 
 /* ABOUT SECURE SAVE */
 /* This code was borrowed from the ELinks project (http://elinks.cz)
@@ -68,7 +69,7 @@ SecureSaveErrno secsave_errno = SS_ERR_NONE;
 /** Open a file for writing in a secure way. @returns a pointer to a
  * structure secure_save_info on success, or NULL on failure. */
 static SecureSaveInfo *
-secure_open_umask(gchar *file_name)
+secure_open_umask(const gchar *file_name)
 {
 	struct stat st;
 	SecureSaveInfo *ssi;
@@ -83,7 +84,7 @@ secure_open_umask(gchar *file_name)
 
 	ssi->secure_save = TRUE;
 
-	ssi->file_name = g_strdup(file_name);
+	ssi->file_name = path_from_utf8(file_name);
 	if (!ssi->file_name) {
 		secsave_errno = SS_ERR_OUT_OF_MEM;
 		goto free_f;
@@ -187,7 +188,7 @@ end:
 }
 
 SecureSaveInfo *
-secure_open(gchar *file_name)
+secure_open(const gchar *file_name)
 {
 	SecureSaveInfo *ssi;
 	mode_t saved_mask;
