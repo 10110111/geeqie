@@ -14,11 +14,12 @@
 #include "collect-io.h"
 
 #include "collect.h"
+#include "filelist.h"
 #include "layout_util.h"
 #include "rcfile.h"
+#include "secure_save.h"
 #include "thumb.h"
 #include "ui_fileops.h"
-#include "filelist.h"
 
 
 #define GQ_COLLECTION_MARKER "#" GQ_APPNAME
@@ -280,11 +281,9 @@ void collection_load_stop(CollectionData *cd)
 
 static gint collection_save_private(CollectionData *cd, const gchar *path)
 {
-	FILE *f;
+	SecureSaveInfo *ssi;
 	GList *work;
-	gchar *tmp_path;
 	gchar *pathl;
-	mode_t save_mask;
 
 	if (!path && !cd->path) return FALSE;
 
@@ -293,61 +292,49 @@ static gint collection_save_private(CollectionData *cd, const gchar *path)
 		path = cd->path;
 		}
 
-	tmp_path = unique_filename(path, ".tmp", "_", 3);
-	if (!tmp_path) return FALSE;
 
-	pathl = path_from_utf8(tmp_path);
-	save_mask = umask(0077);
-	f = fopen(pathl, "w");
-	umask(save_mask);
+	pathl = path_from_utf8(path);
+	ssi = secure_open(pathl);
 	g_free(pathl);
-
-	if (!f)
+	if (!ssi)
 		{
-		/* file open failed */
-		printf("failed to open collection (write) \"%s\"\n", tmp_path);
-		g_free(tmp_path);
+		gchar *buf;
+
+		buf = g_strdup_printf(_("failed to open collection (write) \"%s\"\n"), path);
+		print_term(buf);
+		g_free(buf);
 		return FALSE;
 		}
 
-	fprintf(f, "%s collection\n", GQ_COLLECTION_MARKER);
-	fprintf(f, "#created with %s version %s\n", GQ_APPNAME, VERSION);
+	secure_fprintf(ssi, "%s collection\n", GQ_COLLECTION_MARKER);
+	secure_fprintf(ssi, "#created with %s version %s\n", GQ_APPNAME, VERSION);
 
 	collection_update_geometry(cd);
 	if (cd->window_read)
 		{
-		fprintf(f, "#geometry: %d %d %d %d\n", cd->window_x, cd->window_y, cd->window_w, cd->window_h);
+		secure_fprintf(ssi, "#geometry: %d %d %d %d\n", cd->window_x, cd->window_y, cd->window_w, cd->window_h);
 		}
 
 	work = cd->list;
-	while (work)
+	while (work && secsave_errno == SS_ERR_NONE)
 		{
 		CollectInfo *ci = work->data;
-		if (fprintf(f, "\"%s\"\n", ci->fd->path) < 0)
-			{
-			fclose(f);
-			printf("Error writing to %s\n", tmp_path);
-			unlink_file(tmp_path);
-			g_free(tmp_path);
-			return FALSE;
-			}
+		secure_fprintf(ssi, "\"%s\"\n", ci->fd->path);
 		work = work->next;
 		}
 
-	fprintf(f, "#end\n");
+	secure_fprintf(ssi, "#end\n");
 
-	fclose(f);
-
-	copy_file_attributes(path, tmp_path, TRUE, FALSE);
-	if (!rename_file(tmp_path, path))
+	if (secure_close(ssi))
 		{
-		printf("collection save unable to rename %s to %s\n", tmp_path, path);
-		unlink_file(tmp_path);
-		g_free(tmp_path);
+		gchar *buf;
+
+		buf = g_strdup_printf(_("error saving collection file: %s\nerror: %s\n"), path,
+				      secsave_strerror(secsave_errno));
+		print_term(buf);
+		g_free(buf);
 		return FALSE;
 		}
-
-	g_free(tmp_path);
 
 	if (!cd->path || strcmp(path, cd->path) != 0)
 		{
