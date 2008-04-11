@@ -15,8 +15,6 @@
 #include "main.h"
 #include "secure_save.h"
 
-#include "ui_fileops.h"
-
 /* ABOUT SECURE SAVE */
 /* This code was borrowed from the ELinks project (http://elinks.cz)
  * It was originally written by me (Laurent Monin aka Zas) and heavily
@@ -84,7 +82,7 @@ secure_open_umask(const gchar *file_name)
 
 	ssi->secure_save = TRUE;
 
-	ssi->file_name = path_from_utf8(file_name);
+	ssi->file_name = g_strdup(file_name);
 	if (!ssi->file_name) {
 		secsave_errno = SS_ERR_OUT_OF_MEM;
 		goto free_f;
