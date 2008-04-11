@@ -11,6 +11,7 @@
 
 #include <glib/gstdio.h>
 #include <errno.h>
+#include <utime.h>
 
 #include "main.h"
 #include "secure_save.h"
@@ -81,6 +82,7 @@ secure_open_umask(const gchar *file_name)
 	}
 
 	ssi->secure_save = TRUE;
+	ssi->preserve_perms = TRUE;
 
 	ssi->file_name = g_strdup(file_name);
 	if (!ssi->file_name) {
@@ -256,10 +258,34 @@ secure_close(SecureSaveInfo *ssi)
 	}
 
 	if (ssi->secure_save && ssi->file_name && ssi->tmp_file_name) {
+		struct stat st;
+
 		/* FIXME: Race condition on ssi->file_name. The file
 		 * named ssi->file_name may have changed since
 		 * secure_open() call (where we stat() file and
 		 * more..).  */
+#ifndef NO_UNIX_SOFTLINKS
+		if (g_lstat(ssi->file_name, &st) == 0)
+#else	
+		if (g_stat(ssi->file_name, &st) == 0)
+#endif
+			{
+			/* set the dest file attributes to that of source (ignoring errors) */
+			if (ssi->preserve_perms)
+				{
+				chown(ssi->tmp_file_name, st.st_uid, st.st_gid);
+				chmod(ssi->tmp_file_name, st.st_mode);
+				}
+
+			if (ssi->preserve_mtime)
+				{
+				struct utimbuf tb;
+
+				tb.actime = st.st_atime;
+				tb.modtime = st.st_mtime;
+				utime(ssi->tmp_file_name, &tb);
+				}
+			}
 		if (debug > 2) g_printf("rename %s -> %s", ssi->tmp_file_name, ssi->file_name);
 		if (g_rename(ssi->tmp_file_name, ssi->file_name) == -1) {
 			ret = errno;

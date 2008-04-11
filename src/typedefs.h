@@ -723,6 +723,8 @@ struct _SecureSaveInfo {
 	gchar *tmp_file_name; /**< temporary file name */
 	gint err; /**< set to non-zero value in case of error */
 	gint secure_save; /**< use secure save for this file */
+	gint preserve_perms; /**< whether to preserve perms */
+	gint preserve_mtime; /**< whether to preserve mtime */
 };
 
 
