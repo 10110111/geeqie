@@ -18,6 +18,7 @@
 #include "cache.h"
 #include "filelist.h"
 #include "info.h"
+#include "secure_save.h"
 #include "utilops.h"
 #include "ui_bookmark.h"
 #include "ui_fileops.h"
@@ -51,31 +52,29 @@ static void bar_info_keyword_update_all(void);
 
 static gint comment_file_write(gchar *path, GList *keywords, const gchar *comment)
 {
-	FILE *f;
+	SecureSaveInfo *ssi;
 
-	f = fopen(path, "w");
-	if (!f) return FALSE;
+	ssi = secure_open(path);
+	if (!ssi) return FALSE;
 
-	fprintf(f, "#%s comment (%s)\n\n", GQ_APPNAME, VERSION);
+	secure_fprintf(ssi, "#%s comment (%s)\n\n", GQ_APPNAME, VERSION);
 
-	fprintf(f, "[keywords]\n");
-	while (keywords)
+	secure_fprintf(ssi, "[keywords]\n");
+	while (keywords && secsave_errno == SS_ERR_NONE)
 		{
 		const gchar *word = keywords->data;
 		keywords = keywords->next;
 
-		fprintf(f, "%s\n", word);
+		secure_fprintf(ssi, "%s\n", word);
 		}
-	fprintf(f, "\n");
+	secure_fputc(ssi, '\n');
 
-	fprintf(f, "[comment]\n");
-	fprintf(f, "%s\n", (comment) ? comment : "");
+	secure_fprintf(ssi, "[comment]\n");
+	secure_fprintf(ssi, "%s\n", (comment) ? comment : "");
 
-	fprintf(f, "#end\n");
+	secure_fprintf(ssi, "#end\n");
 
-	fclose(f);
-
-	return TRUE;
+	return (secure_close(ssi) == 0);
 }
 
 static gint comment_legacy_write(FileData *fd, GList *keywords, const gchar *comment)
