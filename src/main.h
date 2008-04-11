@@ -112,14 +112,6 @@ ConfOptions *init_options(ConfOptions *options); /* TODO: move to globals.h */
 
 ConfOptions *options;
 
-/*
- * Since globals are used everywhere,
- * it is easier to define them here.
- */
-
-extern GList *filename_filter;
-
-/* -- options -- */
 
 
 #ifdef DEBUG
@@ -127,28 +119,6 @@ extern gint debug;
 #endif
 
 
-/* layout */
-extern gchar *layout_order;
-extern gint layout_style;
-
-extern gint layout_view_icons;
-extern gint layout_view_tree;
-
-extern gint show_icon_names;
-
-extern gint tree_descend_subdirs;
-
-extern gint lazy_image_sync;
-extern gint update_on_time_change;
-extern gint exif_rotate_enable;
-
-extern gint color_profile_enabled;
-extern gint color_profile_input_type;
-extern gchar *color_profile_input_file[];
-extern gchar *color_profile_input_name[];
-extern gint color_profile_screen_type;
-extern gchar *color_profile_screen_file;
-extern gint color_profile_use_image;
 
 /*
  *----------------------------------------------------------------------------

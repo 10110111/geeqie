@@ -411,7 +411,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 	buf = g_strdup_printf("%s %s", front, "sRGB");
 	g_free(front);
 	item = menu_item_add_radio(menu, NULL,
-				   buf, (color_profile_input_type == 0),
+				   buf, (options->color_profile_input_type == 0),
 				   G_CALLBACK(layout_color_menu_input_cb), lw);
 	g_free(buf);
 	g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(0));
@@ -421,8 +421,8 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 		{
 		const gchar *name;
 
-		name = color_profile_input_name[i];
-		if (!name) name = filename_from_path(color_profile_input_file[i]);
+		name = options->color_profile_input_name[i];
+		if (!name) name = filename_from_path(options->color_profile_input_file[i]);
 
 		front = g_strdup_printf(_("Input _%d:"), i + 1);
 		end = layout_color_name_parse(name);
@@ -435,7 +435,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 					   G_CALLBACK(layout_color_menu_input_cb), lw);
 		g_free(buf);
 		g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(i + 1));
-		gtk_widget_set_sensitive(item, active && color_profile_input_file[i]);
+		gtk_widget_set_sensitive(item, active && options->color_profile_input_file[i]);
 		}
 
 	menu_item_add_divider(menu);
@@ -452,7 +452,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 				   _("_Screen profile"), (screen == 1),
 				   G_CALLBACK(layout_color_menu_screen_cb), lw);
 	g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(1));
-	gtk_widget_set_sensitive(item, active && color_profile_screen_file);
+	gtk_widget_set_sensitive(item, active && options->color_profile_screen_file);
 
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
 #endif /* HAVE_LCMS */
@@ -995,7 +995,7 @@ gint layout_set_path(LayoutWindow *lw, const gchar *path)
 			layout_image_set_fd(lw, file_data_new_simple(path));
 			}
 		}
-	else if (!lazy_image_sync)
+	else if (!options->lazy_image_sync)
 		{
 		layout_image_set_index(lw, 0);
 		}
@@ -1039,7 +1039,7 @@ static gint layout_check_for_update_cb(gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	if (!update_on_time_change) return TRUE;
+	if (!options->update_on_time_change) return TRUE;
 
 	if (lw->path)
 		{
@@ -1704,7 +1704,7 @@ void layout_styles_update(void)
 		LayoutWindow *lw = work->data;
 		work = work->next;
 
-		layout_style_set(lw, layout_style, layout_order);
+		layout_style_set(lw, options->layout_style, options->layout_order);
 		}
 }
 
@@ -1900,10 +1900,10 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 
 	/* default layout */
 
-	layout_config_parse(layout_style, layout_order,
+	layout_config_parse(options->layout_style, options->layout_order,
 			    &lw->dir_location,  &lw->file_location, &lw->image_location);
-	lw->tree_view = layout_view_tree;
-	lw->icon_view = layout_view_icons;
+	lw->tree_view = options->layout_view_tree;
+	lw->icon_view = options->layout_view_icons;
 
 	/* divider positions */
 

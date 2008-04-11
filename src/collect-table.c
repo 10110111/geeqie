@@ -196,7 +196,7 @@ static void collection_table_update_extras(CollectTable *ct, gint loading, gdoub
 static void collection_table_toggle_filenames(CollectTable *ct)
 {
 	ct->show_text = !ct->show_text;
-	show_icon_names = ct->show_text;
+	options->show_icon_names = ct->show_text;
 
 	collection_table_populate_at_new_size(ct, ct->listview->allocation.width, ct->listview->allocation.height, TRUE);
 }
@@ -2362,7 +2362,7 @@ CollectTable *collection_table_new(CollectionData *cd)
 	ct->focus_column = 0;
 	ct->focus_info = NULL;
 
-	ct->show_text = show_icon_names;
+	ct->show_text = options->show_icon_names;
 
 	ct->sync_idle_id = -1;
 	ct->drop_idle_id = -1;

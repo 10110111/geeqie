@@ -275,19 +275,19 @@ void save_options(void)
 
 	secure_fprintf(ssi, "##### General Options #####\n\n");
 
-	write_int_option(ssi, "layout_style", layout_style);
-	write_char_option(ssi, "layout_order", layout_order);
+	write_int_option(ssi, "layout_style", options->layout_style);
+	write_char_option(ssi, "layout_order", options->layout_order);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "layout_view_as_icons", layout_view_icons);
-	write_bool_option(ssi, "layout_view_as_tree", layout_view_tree);
-	write_bool_option(ssi, "show_icon_names", show_icon_names);
+	write_bool_option(ssi, "layout_view_as_icons", options->layout_view_icons);
+	write_bool_option(ssi, "layout_view_as_tree", options->layout_view_tree);
+	write_bool_option(ssi, "show_icon_names", options->show_icon_names);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "tree_descend_folders", tree_descend_subdirs);
-	write_bool_option(ssi, "lazy_image_sync", lazy_image_sync);
-	write_bool_option(ssi, "update_on_time_change", update_on_time_change);
-	write_bool_option(ssi, "exif_auto_rotate", exif_rotate_enable);
+	write_bool_option(ssi, "tree_descend_folders", options->tree_descend_subdirs);
+	write_bool_option(ssi, "lazy_image_sync", options->lazy_image_sync);
+	write_bool_option(ssi, "update_on_time_change", options->update_on_time_change);
+	write_bool_option(ssi, "exif_auto_rotate", options->exif_rotate_enable);
 	secure_fputc(ssi, '\n');
 
 	write_bool_option(ssi, "enable_startup_path", options->startup_path_enable);
@@ -393,24 +393,24 @@ void save_options(void)
 		  	   "#         color profile options will have no effect.\n\n", GQ_APPNAME);
 #endif
 
-	write_bool_option(ssi, "color_profile_enabled", color_profile_enabled);
-	write_bool_option(ssi, "color_profile_use_image", color_profile_use_image);
-	write_int_option(ssi, "color_profile_input_type", color_profile_input_type);
+	write_bool_option(ssi, "color_profile_enabled", options->color_profile_enabled);
+	write_bool_option(ssi, "color_profile_use_image", options->color_profile_use_image);
+	write_int_option(ssi, "color_profile_input_type", options->color_profile_input_type);
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{
 		gchar *buf;
 
 		buf = g_strdup_printf("color_profile_input_file_%d", i + 1);
-		write_char_option(ssi, buf, color_profile_input_file[i]);
+		write_char_option(ssi, buf, options->color_profile_input_file[i]);
 		g_free(buf);
 
 		buf = g_strdup_printf("color_profile_input_name_%d", i + 1);
-		write_char_option(ssi, buf, color_profile_input_name[i]);
+		write_char_option(ssi, buf, options->color_profile_input_name[i]);
 		g_free(buf);
 		}
 	secure_fputc(ssi, '\n');
-	write_int_option(ssi, "color_profile_screen_type", color_profile_screen_type);
-	write_char_option(ssi, "color_profile_screen_file_1", color_profile_screen_file);
+	write_int_option(ssi, "color_profile_screen_type", options->color_profile_screen_type);
+	write_char_option(ssi, "color_profile_screen_file_1", options->color_profile_screen_file);
 
 	secure_fprintf(ssi, "\n##### External Programs #####\n");
 	secure_fprintf(ssi, "# Maximum of 10 programs (external_1 through external_10)\n");
@@ -527,25 +527,25 @@ void load_options(void)
 
 		/* general options */
 
-		layout_style = read_int_option(f, option,
-			"layout_style", value, layout_style);
-		layout_order = read_char_option(f, option,
-			"layout_order", value, layout_order);
-		layout_view_icons = read_bool_option(f, option,
-			"layout_view_as_icons", value, layout_view_icons);
-		layout_view_tree = read_bool_option(f, option,
-			"layout_view_as_tree", value, layout_view_tree);
-		show_icon_names = read_bool_option(f, option,
-			"show_icon_names", value, show_icon_names);
+		options->layout_style = read_int_option(f, option,
+			"layout_style", value, options->layout_style);
+		options->layout_order = read_char_option(f, option,
+			"layout_order", value, options->layout_order);
+		options->layout_view_icons = read_bool_option(f, option,
+			"layout_view_as_icons", value, options->layout_view_icons);
+		options->layout_view_tree = read_bool_option(f, option,
+			"layout_view_as_tree", value, options->layout_view_tree);
+		options->show_icon_names = read_bool_option(f, option,
+			"show_icon_names", value, options->show_icon_names);
 
-		tree_descend_subdirs = read_bool_option(f, option,
-			"tree_descend_folders", value, tree_descend_subdirs);
-		lazy_image_sync = read_bool_option(f, option,
-			"lazy_image_sync", value, lazy_image_sync);
-		update_on_time_change = read_bool_option(f, option,
-			"update_on_time_change", value, update_on_time_change);
-		exif_rotate_enable = read_bool_option(f, option,
-			"exif_auto_rotate", value, exif_rotate_enable);
+		options->tree_descend_subdirs = read_bool_option(f, option,
+			"tree_descend_folders", value, options->tree_descend_subdirs);
+		options->lazy_image_sync = read_bool_option(f, option,
+			"lazy_image_sync", value, options->lazy_image_sync);
+		options->update_on_time_change = read_bool_option(f, option,
+			"update_on_time_change", value, options->update_on_time_change);
+		options->exif_rotate_enable = read_bool_option(f, option,
+			"exif_auto_rotate", value, options->exif_rotate_enable);
 
 		options->startup_path_enable = read_bool_option(f, option,
 			"enable_startup_path", value, options->startup_path_enable);
@@ -704,20 +704,20 @@ void load_options(void)
 		
 		/* Color Profiles */
 
-		color_profile_enabled = read_bool_option(f, option,
-			"color_profile_enabled", value, color_profile_enabled);
-		color_profile_use_image = read_bool_option(f, option,
-			"color_profile_use_image", value, color_profile_use_image);
-		color_profile_input_type = read_int_option(f, option,
-			"color_profile_input_type", value, color_profile_input_type);
+		options->color_profile_enabled = read_bool_option(f, option,
+			"color_profile_enabled", value, options->color_profile_enabled);
+		options->color_profile_use_image = read_bool_option(f, option,
+			"color_profile_use_image", value, options->color_profile_use_image);
+		options->color_profile_input_type = read_int_option(f, option,
+			"color_profile_input_type", value, options->color_profile_input_type);
 
 		if (strncasecmp(option, "color_profile_input_file_", 25) == 0)
                         {
                         i = strtol(option + 25, NULL, 0) - 1;
 			if (i >= 0 && i < COLOR_PROFILE_INPUTS)
 				{
-				color_profile_input_file[i] = read_char_option(f, option,
-					option, value, color_profile_input_file[i]);
+				options->color_profile_input_file[i] = read_char_option(f, option,
+					option, value, options->color_profile_input_file[i]);
 				}
 			}
 		if (strncasecmp(option, "color_profile_input_name_", 25) == 0)
@@ -725,15 +725,15 @@ void load_options(void)
                         i = strtol(option + 25, NULL, 0) - 1;
 			if (i >= 0 && i < COLOR_PROFILE_INPUTS)
 				{
-				color_profile_input_name[i] = read_char_option(f, option,
-					option, value, color_profile_input_name[i]);
+				options->color_profile_input_name[i] = read_char_option(f, option,
+					option, value, options->color_profile_input_name[i]);
 				}
 			}
 
-		color_profile_screen_type = read_int_option(f, option,
-			"color_profile_screen_type", value, color_profile_screen_type);
-		color_profile_screen_file = read_char_option(f, option,
-			"color_profile_screen_file_1", value, color_profile_screen_file);
+		options->color_profile_screen_type = read_int_option(f, option,
+			"color_profile_screen_type", value, options->color_profile_screen_type);
+		options->color_profile_screen_file = read_char_option(f, option,
+			"color_profile_screen_file_1", value, options->color_profile_screen_file);
 
 		/* External Programs */
 

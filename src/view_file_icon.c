@@ -402,7 +402,7 @@ static void vficon_send_layout_select(ViewFileIcon *vfi, IconData *id)
 static void vficon_toggle_filenames(ViewFileIcon *vfi)
 {
 	vfi->show_text = !vfi->show_text;
-	show_icon_names = vfi->show_text;
+	options->show_icon_names = vfi->show_text;
 
 	vficon_populate_at_new_size(vfi, vfi->listview->allocation.width, vfi->listview->allocation.height, TRUE);
 }
@@ -2411,7 +2411,7 @@ ViewFileIcon *vficon_new(const gchar *path)
 	vfi->focus_column = 0;
 	vfi->focus_id = NULL;
 
-	vfi->show_text = show_icon_names;
+	vfi->show_text = options->show_icon_names;
 
 	vfi->sync_idle_id = -1;
 

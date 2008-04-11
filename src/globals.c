@@ -12,7 +12,10 @@
 
 #include "main.h"
 
-GList *filename_filter = NULL;
+#ifdef DEBUG
+gint debug = FALSE;
+#endif
+
 
 ConfOptions *init_options(ConfOptions *options)
 {
@@ -108,37 +111,29 @@ ConfOptions *init_options(ConfOptions *options)
 
 	options->file_sort_case_sensitive = FALSE;
 
+	/* layout */
+	options->layout_order = NULL;
+	options->layout_style = 0;
+
+	options->layout_view_icons = FALSE;
+	options->layout_view_tree = FALSE;
+
+	options->show_icon_names = TRUE;
+
+	options->tree_descend_subdirs = FALSE;
+
+	options->lazy_image_sync = FALSE;
+	options->update_on_time_change = TRUE;
+	options->exif_rotate_enable = TRUE;
+
+	/* color profiles */
+	options->color_profile_enabled = FALSE;
+	options->color_profile_input_type = 0;
+	options->color_profile_screen_type = 0;
+	options->color_profile_screen_file = NULL;
+	options->color_profile_use_image = TRUE;
+
+	options->filename_filter = NULL;
+
 	return options;
 }
-
-/* -- options -- */
-#ifdef DEBUG
-gint debug = FALSE;
-#endif
-
-
-/* layout */
-gchar *layout_order = NULL;
-gint layout_style = 0;
-
-gint layout_view_icons = FALSE;
-gint layout_view_tree = FALSE;
-
-gint show_icon_names = TRUE;
-
-gint tree_descend_subdirs = FALSE;
-
-gint lazy_image_sync = FALSE;
-gint update_on_time_change = TRUE;
-gint exif_rotate_enable = TRUE;
-
-/* color profiles */
-gint color_profile_enabled = FALSE;
-gint color_profile_input_type = 0;
-gchar *color_profile_input_file[COLOR_PROFILE_INPUTS];
-gchar *color_profile_input_name[COLOR_PROFILE_INPUTS];
-gint color_profile_screen_type = 0;
-gchar *color_profile_screen_file = NULL;
-gint color_profile_use_image = TRUE;
-
-

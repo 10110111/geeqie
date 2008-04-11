@@ -335,10 +335,10 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 		gint n;
 
 		n = imd->color_profile_input - 1;
-		if (!color_profile_input_file[n]) return FALSE;
+		if (!options->color_profile_input_file[n]) return FALSE;
 
 		input_type = COLOR_PROFILE_FILE;
-		input_file = color_profile_input_file[n];
+		input_file = options->color_profile_input_file[n];
 		}
 	else if (imd->color_profile_input == 0)
 		{
@@ -351,10 +351,10 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 		}
 
 	if (imd->color_profile_screen == 1 &&
-	    color_profile_screen_file)
+	    options->color_profile_screen_file)
 		{
 		screen_type = COLOR_PROFILE_FILE;
-		screen_file = color_profile_screen_file;
+		screen_file = options->color_profile_screen_file;
 		}
 	else if (imd->color_profile_screen == 0)
 		{
@@ -427,13 +427,13 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 
 	if (!image_get_pixbuf(imd)) return;
 
-	if (exif_rotate_enable ||
+	if (options->exif_rotate_enable ||
 	    (imd->color_profile_enable && imd->color_profile_use_image) )
 		{
 		exif = exif_read_fd(imd->image_fd, (imd->color_profile_enable && imd->color_profile_use_image));
 		}
 
-	if (exif_rotate_enable && exif)
+	if (options->exif_rotate_enable && exif)
 		{
 		gint orientation;
 
@@ -1522,7 +1522,7 @@ static gint image_auto_refresh_cb(gpointer data)
 	
 	if (!imd || !image_get_pixbuf(imd) ||
 	    imd->il || !imd->image_fd ||
-	    !update_on_time_change) return TRUE;
+	    !options->update_on_time_change) return TRUE;
 
 	newtime = filetime(imd->image_fd->path);
 	if (newtime > 0 && newtime != imd->mtime)

@@ -1013,7 +1013,7 @@ static void vdtree_add_by_data(ViewDirTree *vdt, FileData *fd, GtkTreeIter *pare
 
 		gtk_tree_model_get(GTK_TREE_MODEL(store), parent, DIR_COLUMN_POINTER, &pnd, -1);
 		tpath = gtk_tree_model_get_path(GTK_TREE_MODEL(store), parent);
-		if (tree_descend_subdirs &&
+		if (options->tree_descend_subdirs &&
 		    gtk_tree_view_row_expanded(GTK_TREE_VIEW(vdt->treeview), tpath) &&
 		    !nd->expanded)
 			{

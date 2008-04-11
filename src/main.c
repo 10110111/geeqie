@@ -1174,8 +1174,8 @@ static void setup_default_options(void)
 
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{
-		color_profile_input_file[i] = NULL;
-		color_profile_input_name[i] = NULL;
+		options->color_profile_input_file[i] = NULL;
+		options->color_profile_input_name[i] = NULL;
 		}
 
 	options->fullscreen_info = g_strdup("%collection%(%number%/%total%) <b>%name%</b>\n"
@@ -1209,7 +1209,7 @@ static void exit_program_final(void)
 
 	layout_geometry_get_dividers(NULL, &options->window_hdivider_pos, &options->window_vdivider_pos);
 
-	layout_views_get(NULL, &layout_view_tree, &layout_view_icons);
+	layout_views_get(NULL, &options->layout_view_tree, &options->layout_view_icons);
 
 	options->thumbnails_enabled = layout_thumb_get(NULL);
 	layout_sort_get(NULL, &options->file_sort_method, &options->file_sort_ascending);
@@ -1219,10 +1219,11 @@ static void exit_program_final(void)
 	layout_tools_float_get(NULL, &options->tools_float, &options->tools_hidden);
 	options->toolbar_hidden = layout_toolbar_hidden(NULL);
 
-	color_profile_enabled = layout_image_color_profile_get_use(NULL);
+	options->color_profile_enabled = layout_image_color_profile_get_use(NULL);
 	layout_image_color_profile_get(NULL,
-				       &color_profile_input_type, &color_profile_screen_type,
-				       &color_profile_use_image);
+				       &options->color_profile_input_type,
+				       &options->color_profile_screen_type,
+				       &options->color_profile_use_image);
 
 	save_options();
 	keys_save();
@@ -1323,7 +1324,7 @@ int main (int argc, char *argv[])
 	printf("%s %s, This is an alpha release.\n", GQ_APPNAME, VERSION);
 #endif
 	options = init_options(NULL);
-	layout_order = g_strdup("123");
+	options->layout_order = g_strdup("123"); /* TODO: move to init_options() */
 	setup_default_options();
 	load_options();
 

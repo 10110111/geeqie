@@ -822,6 +822,30 @@ struct _ConfOptions
 
 	gint file_sort_case_sensitive; /* file sorting method (case) */
 
+	/* layout */
+	gchar *layout_order;
+	gint layout_style;
+
+	gint layout_view_icons;
+	gint layout_view_tree;
+
+	gint show_icon_names;
+
+	gint tree_descend_subdirs;
+
+	gint lazy_image_sync;
+	gint update_on_time_change;
+	gint exif_rotate_enable;
+
+	gint color_profile_enabled;
+	gint color_profile_input_type;
+	gchar *color_profile_input_file[COLOR_PROFILE_INPUTS];
+	gchar *color_profile_input_name[COLOR_PROFILE_INPUTS];
+	gint color_profile_screen_type;
+	gchar *color_profile_screen_file;
+	gint color_profile_use_image;
+
+	GList *filename_filter;
 };
 
 #endif
