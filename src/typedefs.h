@@ -722,9 +722,10 @@ struct _SecureSaveInfo {
 	gchar *file_name; /**< final file name */
 	gchar *tmp_file_name; /**< temporary file name */
 	gint err; /**< set to non-zero value in case of error */
-	gint secure_save; /**< use secure save for this file */
-	gint preserve_perms; /**< whether to preserve perms */
-	gint preserve_mtime; /**< whether to preserve mtime */
+	gint secure_save; /**< use secure save for this file, internal use only */
+	gint preserve_perms; /**< whether to preserve perms, TRUE by default */
+	gint preserve_mtime; /**< whether to preserve mtime, FALSE by default */
+	gint unlink_on_error; /**< whether to remove temporary file on save failure, TRUE by default */
 };
 
 

@@ -83,6 +83,7 @@ secure_open_umask(const gchar *file_name)
 
 	ssi->secure_save = TRUE;
 	ssi->preserve_perms = TRUE;
+	ssi->unlink_on_error = TRUE;
 
 	ssi->file_name = g_strdup(file_name);
 	if (!ssi->file_name) {
@@ -106,7 +107,7 @@ secure_open_umask(const gchar *file_name)
 	} else {
 		if (!S_ISREG(st.st_mode)) {
 			/* Not a regular file, secure_save is disabled. */
-			ssi->secure_save = 0;
+			ssi->secure_save = FALSE;
 		} else {
 #ifdef HAVE_ACCESS
 			/* XXX: access() do not work with setuid programs. */
@@ -297,7 +298,11 @@ secure_close(SecureSaveInfo *ssi)
 	ret = 0;	/* Success. */
 
 free:
-	if (ssi->tmp_file_name) g_free(ssi->tmp_file_name);
+	if (ssi->tmp_file_name)
+		{
+		if (ret && ssi->unlink_on_error) unlink(ssi->tmp_file_name);
+		g_free(ssi->tmp_file_name);
+		}
 	if (ssi->file_name) g_free(ssi->file_name);
 	if (ssi) g_free(ssi);
 
