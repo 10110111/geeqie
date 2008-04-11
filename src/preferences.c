@@ -242,15 +242,15 @@ static void config_window_apply(void)
 		view_window_colors_update();
 		}
 
-	options->fullscreen_screen = c_options->fullscreen_screen;
-	options->fullscreen_clean_flip = c_options->fullscreen_clean_flip;
-	options->fullscreen_disable_saver = c_options->fullscreen_disable_saver;
-	options->fullscreen_above = c_options->fullscreen_above;
-	options->show_fullscreen_info = c_options->show_fullscreen_info;
-	if (c_options->fullscreen_info)
+	options->fullscreen.screen = c_options->fullscreen.screen;
+	options->fullscreen.clean_flip = c_options->fullscreen.clean_flip;
+	options->fullscreen.disable_saver = c_options->fullscreen.disable_saver;
+	options->fullscreen.above = c_options->fullscreen.above;
+	options->fullscreen.show_info = c_options->fullscreen.show_info;
+	if (c_options->fullscreen.info)
 		{
-		g_free(options->fullscreen_info);
-		options->fullscreen_info = g_strdup(c_options->fullscreen_info);
+		g_free(options->fullscreen.info);
+		options->fullscreen.info = g_strdup(c_options->fullscreen.info);
 		}
 
 	options->update_on_time_change = c_options->update_on_time_change;
@@ -776,8 +776,8 @@ static void fullscreen_info_view_changed_cb(GtkWidget* widget, gpointer data)
 	gtk_text_buffer_get_start_iter(pTextBuffer, &iStart);
 	gtk_text_buffer_get_end_iter(pTextBuffer, &iEnd);
 
-	if (c_options->fullscreen_info) g_free(c_options->fullscreen_info);
-	c_options->fullscreen_info = gtk_text_buffer_get_text(pTextBuffer, &iStart, &iEnd, TRUE);
+	if (c_options->fullscreen.info) g_free(c_options->fullscreen.info);
+	c_options->fullscreen.info = gtk_text_buffer_get_text(pTextBuffer, &iStart, &iEnd, TRUE);
 }
 
 /* general options tab */
@@ -1261,18 +1261,18 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Full screen"), GTK_ORIENTATION_VERTICAL);
 
-	c_options->fullscreen_screen = options->fullscreen_screen;
-	c_options->fullscreen_above = options->fullscreen_above;
-	hbox = fullscreen_prefs_selection_new(_("Location:"), &c_options->fullscreen_screen, &c_options->fullscreen_above);
+	c_options->fullscreen.screen = options->fullscreen.screen;
+	c_options->fullscreen.above = options->fullscreen.above;
+	hbox = fullscreen_prefs_selection_new(_("Location:"), &c_options->fullscreen.screen, &c_options->fullscreen.above);
 	gtk_box_pack_start(GTK_BOX(group), hbox, FALSE, FALSE, 0);
 	gtk_widget_show(hbox);
 
 	pref_checkbox_new_int(group, _("Smooth image flip"),
-			      options->fullscreen_clean_flip, &c_options->fullscreen_clean_flip);
+			      options->fullscreen.clean_flip, &c_options->fullscreen.clean_flip);
 	pref_checkbox_new_int(group, _("Disable screen saver"),
-			      options->fullscreen_disable_saver, &c_options->fullscreen_disable_saver);
+			      options->fullscreen.disable_saver, &c_options->fullscreen.disable_saver);
 	pref_checkbox_new_int(group, _("Always show fullscreen info"),
-			      options->show_fullscreen_info, &c_options->show_fullscreen_info);
+			      options->fullscreen.show_info, &c_options->fullscreen.show_info);
 	pref_label_new(group, _("Fullscreen info string"));
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
@@ -1303,7 +1303,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 	gtk_widget_show(fullscreen_info_view);
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(fullscreen_info_view));
-	gtk_text_buffer_set_text(buffer, options->fullscreen_info, -1);
+	gtk_text_buffer_set_text(buffer, options->fullscreen.info, -1);
 	g_signal_connect(G_OBJECT(buffer), "changed",
 			 G_CALLBACK(fullscreen_info_view_changed_cb), fullscreen_info_view);
 

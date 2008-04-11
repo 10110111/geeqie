@@ -100,12 +100,12 @@ ConfOptions *init_options(ConfOptions *options)
 	options->user_specified_window_background = FALSE;
 	memset(&options->window_background_color, 0, sizeof(options->window_background_color));
 	
-	options->fullscreen_screen = -1;
-	options->fullscreen_clean_flip = FALSE;
-	options->fullscreen_disable_saver = TRUE;
-	options->fullscreen_above = FALSE;
-	options->show_fullscreen_info = TRUE;
-	options->fullscreen_info = NULL;
+	options->fullscreen.screen = -1;
+	options->fullscreen.clean_flip = FALSE;
+	options->fullscreen.disable_saver = TRUE;
+	options->fullscreen.above = FALSE;
+	options->fullscreen.show_info = TRUE;
+	options->fullscreen.info = NULL;
 	
 	options->dupe_custom_threshold = 99;
 

@@ -360,12 +360,12 @@ void save_options(void)
 	write_color_option(ssi, "window_background_color", &options->window_background_color);
 	secure_fputc(ssi, '\n');
 
-	write_int_option(ssi, "fullscreen_screen", options->fullscreen_screen);
-	write_bool_option(ssi, "fullscreen_clean_flip", options->fullscreen_clean_flip);
-	write_bool_option(ssi, "fullscreen_disable_saver", options->fullscreen_disable_saver);
-	write_bool_option(ssi, "fullscreen_above", options->fullscreen_above);
-	write_bool_option(ssi, "show_fullscreen_info", options->show_fullscreen_info);
-	write_char_option(ssi, "fullscreen_info", options->fullscreen_info);
+	write_int_option(ssi, "fullscreen.screen", options->fullscreen.screen);
+	write_bool_option(ssi, "fullscreen.clean_flip", options->fullscreen.clean_flip);
+	write_bool_option(ssi, "fullscreen.disable_saver", options->fullscreen.disable_saver);
+	write_bool_option(ssi, "fullscreen.above", options->fullscreen.above);
+	write_bool_option(ssi, "fullscreen.show_info", options->fullscreen.show_info);
+	write_char_option(ssi, "fullscreen.info", options->fullscreen.info);
 	secure_fputc(ssi, '\n');
 
 	write_int_option(ssi, "custom_similarity_threshold", options->dupe_custom_threshold);
@@ -660,18 +660,18 @@ void load_options(void)
 		read_color_option(f, option,
 			"window_background_color", value, &options->window_background_color);
 
-		options->fullscreen_screen = read_int_option(f, option,
-			"fullscreen_screen", value, options->fullscreen_screen);
-		options->fullscreen_clean_flip = read_bool_option(f, option,
-			"fullscreen_clean_flip", value, options->fullscreen_clean_flip);
-		options->fullscreen_disable_saver = read_bool_option(f, option,
-			"fullscreen_disable_saver", value, options->fullscreen_disable_saver);
-		options->fullscreen_above = read_bool_option(f, option,
-			"fullscreen_above", value, options->fullscreen_above);
-		options->show_fullscreen_info = read_bool_option(f, option,
-			"show_fullscreen_info", value, options->show_fullscreen_info);
-		options->fullscreen_info = read_char_option(f, option,
-			"fullscreen_info", value_all, options->fullscreen_info);
+		options->fullscreen.screen = read_int_option(f, option,
+			"fullscreen.screen", value, options->fullscreen.screen);
+		options->fullscreen.clean_flip = read_bool_option(f, option,
+			"fullscreen.clean_flip", value, options->fullscreen.clean_flip);
+		options->fullscreen.disable_saver = read_bool_option(f, option,
+			"fullscreen.disable_saver", value, options->fullscreen.disable_saver);
+		options->fullscreen.above = read_bool_option(f, option,
+			"fullscreen.above", value, options->fullscreen.above);
+		options->fullscreen.show_info = read_bool_option(f, option,
+			"fullscreen.show_info", value, options->fullscreen.show_info);
+		options->fullscreen.info = read_char_option(f, option,
+			"fullscreen.info", value_all, options->fullscreen.info);
 
 		options->dupe_custom_threshold = read_int_option(f, option,
 			"custom_similarity_threshold", value, options->dupe_custom_threshold);

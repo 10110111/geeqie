@@ -194,7 +194,7 @@ static void fullscreen_saver_deactivate(void)
 
 static gboolean fullscreen_saver_block_cb(gpointer data)
 {
-	if (options->fullscreen_disable_saver)
+	if (options->fullscreen.disable_saver)
 		{
 		fullscreen_saver_deactivate();
 		}
@@ -234,8 +234,8 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	fs->stop_func = stop_func;
 	fs->stop_data = stop_data;
 
-	if (debug) printf("full screen requests screen %d\n", options->fullscreen_screen);
-	fullscreen_prefs_get_geometry(options->fullscreen_screen, window, &x, &y, &w, &h,
+	if (debug) printf("full screen requests screen %d\n", options->fullscreen.screen);
+	fullscreen_prefs_get_geometry(options->fullscreen.screen, window, &x, &y, &w, &h,
 				      &screen, &same);
 
 	fs->window = window_new(GTK_WINDOW_TOPLEVEL, "fullscreen", NULL, NULL, _("Full screen"));
@@ -243,14 +243,14 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	/* this requests no decorations, if you still have them complain to the window manager author(s) */
 	gtk_window_set_decorated(GTK_WINDOW(fs->window), FALSE);
 
-	if (options->fullscreen_screen < 0)
+	if (options->fullscreen.screen < 0)
 		{
 		/* If we want control of the window size and position this is not what we want.
 		 * Geeqie needs control of which monitor(s) to use for full screen.
 		 */
 		gtk_window_fullscreen(GTK_WINDOW(fs->window));
 		}
-	else if (options->fullscreen_above)
+	else if (options->fullscreen.above)
 		{
 		/* request to be above other windows */
 		gtk_window_set_keep_above(GTK_WINDOW(fs->window), TRUE);
@@ -294,10 +294,10 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 		image_background_set_color(fs->imd, &options->window_background_color);
 		}
 
-	image_set_delay_flip(fs->imd, options->fullscreen_clean_flip);
+	image_set_delay_flip(fs->imd, options->fullscreen.clean_flip);
 	image_auto_refresh(fs->imd, fs->normal_imd->auto_refresh_interval);
 
-	if (options->fullscreen_clean_flip)
+	if (options->fullscreen.clean_flip)
 		{
 		image_set_update_func(fs->imd, fullscreen_image_update_cb, fs);
 		image_set_complete_func(fs->imd, fullscreen_image_complete_cb, fs);

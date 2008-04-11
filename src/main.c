@@ -1178,7 +1178,7 @@ static void setup_default_options(void)
 		options->color_profile_input_name[i] = NULL;
 		}
 
-	options->fullscreen_info = g_strdup("%collection%(%number%/%total%) <b>%name%</b>\n"
+	options->fullscreen.info = g_strdup("%collection%(%number%/%total%) <b>%name%</b>\n"
 				   "%res%|%date%|%size%\n"
 				   "%fAperture%|%fShutterSpeed%|%fISOSpeedRating%|%fFocalLength%|%fExposureBias%\n"
 				   "%fCamera%|%fFlash%");
@@ -1204,7 +1204,7 @@ static void exit_program_final(void)
 			layout_geometry_get(NULL, &options->main_window_x, &options->main_window_y,
 					    &options->main_window_w, &options->main_window_h);
 			}
-		options->show_fullscreen_info = image_osd_get(lw->image, NULL, NULL);
+		options->fullscreen.show_info = image_osd_get(lw->image, NULL, NULL);
 		}
 
 	layout_geometry_get_dividers(NULL, &options->window_hdivider_pos, &options->window_vdivider_pos);
@@ -1479,7 +1479,7 @@ int main (int argc, char *argv[])
 						    collection_get_first(first_collection));
 			}
 		}
-	image_osd_set(lw->image, FALSE, options->show_fullscreen_info);
+	image_osd_set(lw->image, FALSE, options->fullscreen.show_info);
 
 	g_free(geometry);
 	g_free(cmd_path);

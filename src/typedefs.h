@@ -796,12 +796,14 @@ struct _ConfOptions
 	gint user_specified_window_background;
 	GdkColor window_background_color;
 
-	gint fullscreen_screen;
-	gint fullscreen_clean_flip;
-	gint fullscreen_disable_saver;
-	gint fullscreen_above;
-	gint show_fullscreen_info;
-	gchar *fullscreen_info;
+	struct 	{
+		gint screen;
+		gint clean_flip;
+		gint disable_saver;
+		gint above;
+		gint show_info;
+		gchar *info;
+	} fullscreen;
 
 	gint dupe_custom_threshold;
 
