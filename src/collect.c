@@ -333,6 +333,8 @@ CollectionData *collection_new(const gchar *path)
 
 	cd->changed = FALSE;
 
+	cd->existence = g_hash_table_new(NULL, NULL);
+
 	if (path)
 		{
 		cd->path = g_strdup(path);
@@ -369,6 +371,8 @@ void collection_free(CollectionData *cd)
 
 	collection_list = g_list_remove(collection_list, cd);
 
+	g_hash_table_destroy(cd->existence);
+	
 	g_free(cd->path);
 	g_free(cd->name);
 
@@ -586,6 +590,17 @@ void collection_set_update_info_func(CollectionData *cd,
 	cd->info_updated_data = data;
 }
 
+static CollectInfo *collection_info_new_if_not_exists(CollectionData *cd, struct stat *st, FileData *fd)
+{
+	CollectInfo *ci;
+
+	if (g_hash_table_lookup(cd->existence, fd->path)) return NULL;
+
+	ci = collection_info_new(fd, st, NULL);
+	if (ci) g_hash_table_insert(cd->existence, fd->path, "");
+	return ci;
+}
+
 gint collection_add_check(CollectionData *cd, FileData *fd, gint sorted, gint must_exist)
 {
 	struct stat st;
@@ -605,7 +620,11 @@ gint collection_add_check(CollectionData *cd, FileData *fd, gint sorted, gint mu
 	if (valid)
 		{
 		CollectInfo *ci;
-		ci = collection_info_new(fd, &st, NULL);
+
+		ci = collection_info_new_if_not_exists(cd, &st, fd);
+		if (!ci) return FALSE;
+		if (debug > 2) printf("add to collection: %s\n", fd->path);
+
 		cd->list = collection_list_add(cd->list, ci, sorted ? cd->sort_method : SORT_NONE);
 		cd->changed = TRUE;
 
@@ -636,7 +655,12 @@ gint collection_insert(CollectionData *cd, FileData *fd, CollectInfo *insert_ci,
 	if (stat_utf8(fd->path, &st) >= 0 && !S_ISDIR(st.st_mode))
 		{
 		CollectInfo *ci;
-		ci = collection_info_new(fd, &st, NULL);
+
+		ci = collection_info_new_if_not_exists(cd, &st, fd);
+		if (!ci) return FALSE;
+
+		if (debug > 2) printf("insert in collection: %s\n", fd->path);
+
 		cd->list = collection_list_insert(cd->list, ci, insert_ci, sorted ? cd->sort_method : SORT_NONE);
 		cd->changed = TRUE;
 
@@ -655,6 +679,8 @@ gint collection_remove(CollectionData *cd, FileData *fd)
 	ci = collection_list_find(cd->list, fd->path);
 
 	if (!ci) return FALSE;
+
+	g_hash_table_remove(cd->existence, fd->path);
 
 	cd->list = g_list_remove(cd->list, ci);
 	cd->changed = TRUE;

@@ -234,6 +234,8 @@ struct _CollectionData
 
 	/* contents changed since save flag */
 	gint changed;
+
+	GHashTable *existence;
 };
 
 struct _CollectTable
