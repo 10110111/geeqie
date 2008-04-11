@@ -36,8 +36,12 @@ ICON_PAIRS = \
 	icon_spinner		$(srcdir)/ui_spinner.png	\
 	icon_tabcomp		$(srcdir)/ui_tabcomp.png
 
-ui_icons.h: $(extra_ICONS)
-	gdk-pixbuf-csource --raw --extern --build-list $(ICON_PAIRS) > ui_icons.h
+ui_icons.h: $(extra_ICONS) Makefile.in
+	@(echo '/* Auto generated file, do not edit */'; echo; \
+	 echo '#ifndef UI_ICONS_H'; \
+	 echo '#define UI_ICONS_H'; echo; \
+	 $(GDK_PIXBUF_CSOURCE) --raw --extern --build-list $(ICON_PAIRS); \
+	 echo '#endif /* UI_ICONS_H */') > $@ || echo "!!! Failed to generate $@ !!!"
 
 ui_spinner.o: ui_icons.h
 

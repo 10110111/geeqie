@@ -19,6 +19,7 @@ else
 fi
 
 AM_PATH_GTK_2_0(2.4.0,,AC_MSG_ERROR(GTK+ >= 2.4.0 not installed.))
+AC_PATH_PROGS(GDK_PIXBUF_CSOURCE, "gdk-pixbuf-csource")
 
 AC_DEFINE_UNQUOTED(GQ_HELPDIR, "$prefix/share/doc/geeqie-$VERSION", [Location of documentation files])
 AC_DEFINE_UNQUOTED(GQ_HTMLDIR, "$prefix/share/doc/geeqie-$VERSION/html", [Location of html documentation])
