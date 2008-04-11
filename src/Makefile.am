@@ -151,6 +151,8 @@ geeqie_SOURCES = \
 	rcfile.h	\
 	search.c	\
 	search.h	\
+	secure_save.c	\
+	secure_save.h	\
 	similar.c	\
 	similar.h	\
 	slideshow.c	\

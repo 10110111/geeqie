@@ -15,6 +15,7 @@
 
 #include "cache.h"
 #include "rcfile.h"
+#include "secure_save.h"
 #include "thumb_standard.h"
 #include "ui_fileops.h"
 

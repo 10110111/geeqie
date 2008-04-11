@@ -13,22 +13,6 @@
 #ifndef RCFILE_H
 #define RCFILE_H
 
-
-extern SecureSaveErrno secsave_errno; /**< internal secsave error number */
-
-SecureSaveInfo *secure_open(gchar *);
-
-gint secure_close(SecureSaveInfo *);
-
-gint secure_fputs(SecureSaveInfo *, const gchar *);
-gint secure_fputc(SecureSaveInfo *, gint);
-
-gint secure_fprintf(SecureSaveInfo *, const gchar *, ...);
-
-gchar *secsave_strerror(SecureSaveErrno);
-
-
-
 gchar *quoted_value(const gchar *text, const gchar **tail);
 gchar *escquote_value(const gchar *text);
 
