@@ -831,7 +831,7 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 		}
 	if (i < MAX_SPLIT_IMAGES)
 		{
-		printf("dnd image activate %d\n", i);
+		if (debug) printf("dnd image activate %d\n", i);
 		layout_image_activate(lw, i);
 		}
 
@@ -911,7 +911,7 @@ static void layout_image_dnd_get(GtkWidget *widget, GdkDragContext *context,
 		}
 	if (i < MAX_SPLIT_IMAGES)
 		{
-		printf("dnd get from %d\n", i);
+		if (debug) printf("dnd get from %d\n", i);
 		fd = image_get_fd(lw->split_images[i]);
 		}
 	else
