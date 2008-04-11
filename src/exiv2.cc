@@ -66,13 +66,13 @@ struct _ExifData
 		image->readMetadata();
 
 #if EXIV2_TEST_VERSION(0,16,0)
-		if (debug >= 2) printf("xmp count %d\n", image->xmpData().count());
+		if (debug >= 2) printf("xmp count %li\n", image->xmpData().count());
 		if (sidecar_path && image->xmpData().empty())
 			{
 			sidecar = Exiv2::ImageFactory::open(sidecar_path);
 			sidecar->readMetadata();
 			have_sidecar = sidecar->good();
-			if (debug >= 2) printf("sidecar xmp count %d\n", sidecar->xmpData().count());
+			if (debug >= 2) printf("sidecar xmp count %li\n", sidecar->xmpData().count());
 			}
 		
 #endif
@@ -316,6 +316,7 @@ guint exif_item_get_elements(ExifItem *item)
 
 char *exif_item_get_data(ExifItem *item, guint *data_len)
 {
+	return NULL;
 }
 
 char *exif_item_get_description(ExifItem *item)
@@ -698,7 +699,7 @@ extern "C" gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 		RawFile rf(fd);
 		if (debug) printf("%s: offset ", path);
 		offset = rf.preview_offset();
-		if (debug) printf("%d\n", offset);
+		if (debug) printf("%lu\n", offset);
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";
@@ -708,7 +709,7 @@ extern "C" gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 	if (image_offset && offset > 0)
 		{
 		*image_offset = offset;
-		if (lseek(fd, *image_offset, SEEK_SET) != *image_offset)
+		if ((unsigned long) lseek(fd, *image_offset, SEEK_SET) != *image_offset)
 			{
 			printf("Failed to seek to embedded image\n");
 
