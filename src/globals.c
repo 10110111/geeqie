@@ -133,7 +133,5 @@ ConfOptions *init_options(ConfOptions *options)
 	options->color_profile.screen_file = NULL;
 	options->color_profile.use_image = TRUE;
 
-	options->filename_filter = NULL;
-
 	return options;
 }
