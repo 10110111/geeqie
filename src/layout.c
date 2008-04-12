@@ -1879,7 +1879,7 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 
 	lw = g_new0(LayoutWindow, 1);
 
-	lw->thumbs_enabled = options->thumbnails.enabled;
+	lw->thumbs_enabled = options->layout.show_thumbnails;
 	lw->sort_method = SORT_NAME;
 	lw->sort_ascend = TRUE;
 

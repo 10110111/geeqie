@@ -71,7 +71,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->file_filter.disable = FALSE;
 	
 	
-	options->thumbnails.enabled = FALSE;
+	options->layout.show_thumbnails = FALSE;
 	options->file_sort.method = SORT_NAME;
 	options->file_sort.ascending = TRUE;
 	

@@ -793,7 +793,6 @@ struct _ConfOptions
 		gint use_xvpics;
 		gint spec_standard;
 		gint quality;
-		gint enabled;	/* TODO: move to layout ? */
 	} thumbnails;
 
 	/* file filtering */
@@ -842,6 +841,8 @@ struct _ConfOptions
 
 		gint view_as_icons;
 		gint view_as_tree;
+		
+		gint show_thumbnails;
 
 		struct {
 			gint w;

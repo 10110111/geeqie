@@ -311,6 +311,7 @@ void save_options(void)
 	write_char_option(ssi, "layout.order", options->layout.order);
 	write_bool_option(ssi, "layout.view_as_icons", options->layout.view_as_icons);
 	write_bool_option(ssi, "layout.view_as_tree", options->layout.view_as_tree);
+	write_bool_option(ssi, "layout.show_thumbnails", options->layout.show_thumbnails);
 	secure_fputc(ssi, '\n');
 
 	write_bool_option(ssi, "layout.save_window_positions", options->layout.save_window_positions);
@@ -366,7 +367,6 @@ void save_options(void)
 
 	secure_fprintf(ssi, "\n##### Thumbnails Options #####\n\n");
 
-	write_bool_option(ssi, "thumbnails.enabled", options->thumbnails.enabled);
 	write_int_option(ssi, "thumbnails.max_width", options->thumbnails.max_width);
 	write_int_option(ssi, "thumbnails.max_height", options->thumbnails.max_height);
 	write_bool_option(ssi, "thumbnails.enable_caching", options->thumbnails.enable_caching);
@@ -550,6 +550,9 @@ void load_options(void)
 			"layout.view_as_icons", value, options->layout.view_as_icons);
 		options->layout.view_as_tree = read_bool_option(f, option,
 			"layout.view_as_tree", value, options->layout.view_as_tree);
+		options->layout.show_thumbnails = read_bool_option(f, option,
+			"layout.show_thumbnails", value, options->layout.show_thumbnails);
+
 		/* window positions */
 
 		options->layout.save_window_positions = read_bool_option(f, option,
@@ -650,8 +653,6 @@ void load_options(void)
 
 
 		/* thumbnails options */
-		options->thumbnails.enabled = read_bool_option(f, option,
-			"thumbnails.enabled", value, options->thumbnails.enabled);
 		options->thumbnails.max_width = read_int_option(f, option,
 			"thumbnails.max_width", value, options->thumbnails.max_width);
 		if (options->thumbnails.max_width < 16) options->thumbnails.max_width = 16;
