@@ -84,7 +84,7 @@ ConfOptions *init_options(ConfOptions *options)
 	
 	options->recent_list_max = 10;
 	
-	options->collection_rectangular_selection = FALSE;
+	options->collections.rectangular_selection = FALSE;
 	
 	options->tile_cache_max = 10;
 	options->thumbnail_quality = (gint)GDK_INTERP_TILES;

@@ -366,7 +366,7 @@ static void collection_table_select_region_util(CollectTable *ct, CollectInfo *s
 
 	ct->prev_selection = end;
 
-	if (!options->collection_rectangular_selection)
+	if (!options->collections.rectangular_selection)
 		{
 		GList *work;
 		CollectInfo *info;
@@ -1100,7 +1100,7 @@ static gint collection_table_press_key_cb(GtkWidget *widget, GdkEventKey *event,
 			{
 			if (event->state & GDK_SHIFT_MASK)
 				{
-				if (!options->collection_rectangular_selection)
+				if (!options->collections.rectangular_selection)
 					{
 					collection_table_select_region_util(ct, old_info, new_info, FALSE);
 					}

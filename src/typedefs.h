@@ -818,7 +818,9 @@ struct _ConfOptions
 	gint file_filter_disable;
 
 	/* collections */
-	gint collection_rectangular_selection;
+	struct {
+		gint rectangular_selection;
+	} collections;
 
 	/* editors */
 	gchar *editor_name[GQ_EDITOR_SLOTS];

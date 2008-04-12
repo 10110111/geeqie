@@ -860,7 +860,7 @@ static void vficon_select_region_util(ViewFileIcon *vfi, IconData *start, IconDa
 
 	vfi->prev_selection = end;
 
-	if (!options->collection_rectangular_selection)
+	if (!options->collections.rectangular_selection)
 		{
 		GList *work;
 		IconData *id;
@@ -1382,7 +1382,7 @@ static gint vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 			{
 			if (event->state & GDK_SHIFT_MASK)
 				{
-				if (!options->collection_rectangular_selection)
+				if (!options->collections.rectangular_selection)
 					{
 					vficon_select_region_util(vfi, old_id, new_id, FALSE);
 					}

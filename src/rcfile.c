@@ -427,7 +427,7 @@ void save_options(void)
 
 	secure_fprintf(ssi, "\n##### Collection Options #####\n\n");
 
-	write_bool_option(ssi, "rectangular_selections", options->collection_rectangular_selection);
+	write_bool_option(ssi, "collections.rectangular_selection", options->collections.rectangular_selection);
 
 	secure_fprintf(ssi, "\n##### Window Positions #####\n\n");
 
@@ -754,8 +754,8 @@ void load_options(void)
 
 		/* colection options */
 
-		options->collection_rectangular_selection = read_bool_option(f, option,
-			"rectangular_selections", value, options->collection_rectangular_selection);
+		options->collections.rectangular_selection = read_bool_option(f, option,
+			"collections.rectangular_selection", value, options->collections.rectangular_selection);
 
 		/* window positions */
 

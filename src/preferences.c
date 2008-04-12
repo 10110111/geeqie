@@ -222,7 +222,7 @@ static void config_window_apply(void)
 
 	options->enable_in_place_rename = c_options->enable_in_place_rename;
 
-	options->collection_rectangular_selection = c_options->collection_rectangular_selection;
+	options->collections.rectangular_selection = c_options->collections.rectangular_selection;
 
 	options->tile_cache_max = c_options->tile_cache_max;
 
@@ -1350,7 +1350,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Behavior"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Rectangular selection in icon view"),
-			      options->collection_rectangular_selection, &c_options->collection_rectangular_selection);
+			      options->collections.rectangular_selection, &c_options->collections.rectangular_selection);
 
 	pref_checkbox_new_int(group, _("Descend folders in tree view"),
 			      options->tree_descend_subdirs, &c_options->tree_descend_subdirs);
