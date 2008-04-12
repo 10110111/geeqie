@@ -450,11 +450,13 @@ void save_options(void)
 	write_char_option(ssi, "color_profile.screen_file", options->color_profile.screen_file);
 
 	secure_fprintf(ssi, "\n##### External Programs #####\n");
-	secure_fprintf(ssi, "# Maximum of 10 programs (external_1 through external_10)\n");
+	secure_fprintf(ssi, "# Maximum of %d programs (external_1 through external_%d)\n", GQ_EDITOR_GENERIC_SLOTS, GQ_EDITOR_GENERIC_SLOTS);
+	secure_fprintf(ssi, "# external_%d through external_%d are used for file ops\n", GQ_EDITOR_GENERIC_SLOTS + 1, GQ_EDITOR_SLOTS);
 	secure_fprintf(ssi, "# format: external_n: \"menu name\" \"command line\"\n\n");
 
 	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
+		if (i == GQ_EDITOR_GENERIC_SLOTS) secure_fputc(ssi, '\n');
 		gchar *qname = escquote_value(options->editor_name[i]);
 		gchar *qcommand = escquote_value(options->editor_command[i]);
 		secure_fprintf(ssi, "external_%d: %s %s\n", i+1, qname, qcommand);
