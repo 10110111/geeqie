@@ -748,7 +748,7 @@ struct _ConfOptions
 	gint lazy_image_sync;
 	gint update_on_time_change;
 
-	gint dupe_custom_threshold;
+	gint duplicates_similarity_threshold;
 
 	gint recent_list_max;
 

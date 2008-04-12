@@ -289,7 +289,7 @@ void save_options(void)
 	write_bool_option(ssi, "progressive_keyboard_scrolling", options->progressive_key_scrolling);
 	write_bool_option(ssi, "local_metadata", options->enable_metadata_dirs);
 
-	write_int_option(ssi, "custom_similarity_threshold", options->dupe_custom_threshold);
+	write_int_option(ssi, "duplicates_similarity_threshold", options->duplicates_similarity_threshold);
 	secure_fputc(ssi, '\n');
 
 	write_bool_option(ssi, "mouse_wheel_scrolls", options->mousewheel_scrolls);
@@ -559,8 +559,8 @@ void load_options(void)
 		options->startup_path = read_char_option(f, option,
 			"startup_path", value_all, options->startup_path);
 
-		options->dupe_custom_threshold = read_int_option(f, option,
-			"custom_similarity_threshold", value, options->dupe_custom_threshold);
+		options->duplicates_similarity_threshold = read_int_option(f, option,
+			"duplicates_similarity_threshold", value, options->duplicates_similarity_threshold);
 
 		options->progressive_key_scrolling = read_bool_option(f, option,
 			"progressive_keyboard_scrolling", value, options->progressive_key_scrolling);

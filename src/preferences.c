@@ -256,7 +256,7 @@ static void config_window_apply(void)
 	options->update_on_time_change = c_options->update_on_time_change;
 	options->image.exif_rotate_enable = c_options->image.exif_rotate_enable;
 
-	options->dupe_custom_threshold = c_options->dupe_custom_threshold;
+	options->duplicates_similarity_threshold = c_options->duplicates_similarity_threshold;
 
 	options->tree_descend_subdirs = c_options->tree_descend_subdirs;
 #ifdef DEBUG
@@ -1371,7 +1371,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 			      options->enable_metadata_dirs, &c_options->enable_metadata_dirs);
 
 	pref_spin_new_int(group, _("Custom similarity threshold:"), NULL,
-			  0, 100, 1, options->dupe_custom_threshold, &c_options->dupe_custom_threshold);
+			  0, 100, 1, options->duplicates_similarity_threshold, &c_options->duplicates_similarity_threshold);
 
 	pref_spin_new_int(group, _("Offscreen cache size (Mb per image):"), NULL,
 			  0, 128, 1, options->image.tile_cache_max, &c_options->image.tile_cache_max);

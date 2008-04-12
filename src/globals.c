@@ -107,7 +107,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->fullscreen.show_info = TRUE;
 	options->fullscreen.info = NULL;
 	
-	options->dupe_custom_threshold = 99;
+	options->duplicates_similarity_threshold = 99;
 
 	options->file_sort.case_sensitive = FALSE;
 

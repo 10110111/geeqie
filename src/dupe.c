@@ -1168,7 +1168,7 @@ static gint dupe_match(DupeItem *a, DupeItem *b, DupeMatchType mask, gdouble *ra
 
 		if (mask & DUPE_MATCH_SIM_HIGH) m = 0.95;
 		else if (mask & DUPE_MATCH_SIM_MED) m = 0.90;
-		else if (mask & DUPE_MATCH_SIM_CUSTOM) m = (gdouble)options->dupe_custom_threshold / 100.0;
+		else if (mask & DUPE_MATCH_SIM_CUSTOM) m = (gdouble)options->duplicates_similarity_threshold / 100.0;
 		else m = 0.85;
 
 		if (fast)
