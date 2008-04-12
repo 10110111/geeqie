@@ -278,7 +278,7 @@ void save_options(void)
 	write_bool_option(ssi, "show_icon_names", options->show_icon_names);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "tree_descend_folders", options->tree_descend_subdirs);
+	write_bool_option(ssi, "tree_descend_subdirs", options->tree_descend_subdirs);
 	write_bool_option(ssi, "lazy_image_sync", options->lazy_image_sync);
 	write_bool_option(ssi, "update_on_time_change", options->update_on_time_change);
 	secure_fputc(ssi, '\n');
@@ -548,7 +548,7 @@ void load_options(void)
 			"show_icon_names", value, options->show_icon_names);
 
 		options->tree_descend_subdirs = read_bool_option(f, option,
-			"tree_descend_folders", value, options->tree_descend_subdirs);
+			"tree_descend_subdirs", value, options->tree_descend_subdirs);
 		options->lazy_image_sync = read_bool_option(f, option,
 			"lazy_image_sync", value, options->lazy_image_sync);
 		options->update_on_time_change = read_bool_option(f, option,
