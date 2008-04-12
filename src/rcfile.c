@@ -275,26 +275,55 @@ void save_options(void)
 
 	secure_fprintf(ssi, "##### General Options #####\n\n");
 
-	write_int_option(ssi, "layout.style", options->layout.style);
-	write_char_option(ssi, "layout.order", options->layout.order);
-	secure_fputc(ssi, '\n');
-
-	write_bool_option(ssi, "layout.view_as_icons", options->layout.view_as_icons);
-	write_bool_option(ssi, "layout.view_as_tree", options->layout.view_as_tree);
 	write_bool_option(ssi, "show_icon_names", options->show_icon_names);
 	secure_fputc(ssi, '\n');
 
 	write_bool_option(ssi, "tree_descend_folders", options->tree_descend_subdirs);
 	write_bool_option(ssi, "lazy_image_sync", options->lazy_image_sync);
 	write_bool_option(ssi, "update_on_time_change", options->update_on_time_change);
-	write_bool_option(ssi, "exif_auto_rotate", options->image.exif_rotate_enable);
 	secure_fputc(ssi, '\n');
 
 	write_bool_option(ssi, "enable_startup_path", options->startup_path_enable);
 	write_char_option(ssi, "startup_path", options->startup_path);
+
+	write_bool_option(ssi, "progressive_keyboard_scrolling", options->progressive_key_scrolling);
+	write_bool_option(ssi, "local_metadata", options->enable_metadata_dirs);
+
+	write_bool_option(ssi, "confirm_delete", options->confirm_delete);
+	write_bool_option(ssi, "enable_delete_key", options->enable_delete_key);
+	write_bool_option(ssi, "safe_delete", options->safe_delete_enable);
+	write_char_option(ssi, "safe_delete_path", options->safe_delete_path);
+	write_int_option(ssi, "safe_delete_size", options->safe_delete_size);
+	secure_fputc(ssi, '\n');
+	
+	write_int_option(ssi, "custom_similarity_threshold", options->dupe_custom_threshold);
 	secure_fputc(ssi, '\n');
 
-	secure_fprintf(ssi, "##### Image Options #####\n\n");
+	write_bool_option(ssi, "tools_float", options->tools_float);
+	write_bool_option(ssi, "tools_hidden", options->tools_hidden);
+	write_bool_option(ssi, "restore_tool_state", options->restore_tool);
+	write_bool_option(ssi, "toolbar_hidden", options->toolbar_hidden);
+	secure_fputc(ssi, '\n');
+
+	write_bool_option(ssi, "mouse_wheel_scrolls", options->mousewheel_scrolls);
+	write_bool_option(ssi, "in_place_rename", options->enable_in_place_rename);
+	write_int_option(ssi, "open_recent_max", options->recent_list_max);
+	write_bool_option(ssi, "display_dialogs_under_mouse", options->place_dialogs_under_mouse);
+	secure_fputc(ssi, '\n');
+
+	write_bool_option(ssi, "user_specified_window_background", options->user_specified_window_background);
+	write_color_option(ssi, "window_background_color", &options->window_background_color);
+
+
+	secure_fprintf(ssi, "\n##### Layout Options #####\n\n");
+
+	write_int_option(ssi, "layout.style", options->layout.style);
+	write_char_option(ssi, "layout.order", options->layout.order);
+	write_bool_option(ssi, "layout.view_as_icons", options->layout.view_as_icons);
+	write_bool_option(ssi, "layout.view_as_tree", options->layout.view_as_tree);
+
+
+	secure_fprintf(ssi, "\n##### Image Options #####\n\n");
 
 	secure_fprintf(ssi, "image.zoom_mode: ");
 	if (options->image.zoom_mode == ZOOM_RESET_ORIGINAL) secure_fprintf(ssi, "original\n");
@@ -313,10 +342,10 @@ void save_options(void)
 	write_int_option(ssi, "image.dither_quality", options->image.dither_quality);
 	write_int_option(ssi, "image.zoom_increment", options->image.zoom_increment);
 	write_bool_option(ssi, "image.enable_read_ahead", options->image.enable_read_ahead);
-	secure_fputc(ssi, '\n');
+	write_bool_option(ssi, "image.exif_rotate_enable", options->image.exif_rotate_enable);
 
-	write_bool_option(ssi, "progressive_keyboard_scrolling", options->progressive_key_scrolling);
-	secure_fputc(ssi, '\n');
+
+	secure_fprintf(ssi, "\n##### Thumbnails Options #####\n\n");
 
 	write_bool_option(ssi, "thumbnails.enabled", options->thumbnails.enabled);
 	write_int_option(ssi, "thumbnails.max_width", options->thumbnails.max_width);
@@ -327,38 +356,16 @@ void save_options(void)
 	write_bool_option(ssi, "thumbnails.use_xvpics", options->thumbnails.use_xvpics);
 	write_bool_option(ssi, "thumbnails.spec_standard", options->thumbnails.spec_standard);
 	write_int_option(ssi, "thumbnails.quality", options->thumbnails.quality);
-	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "local_metadata", options->enable_metadata_dirs);
-	secure_fputc(ssi, '\n');
+
+	secure_fprintf(ssi, "\n##### File sorting Options #####\n\n");
 
 	write_int_option(ssi, "file_sort.method", (gint)options->file_sort.method);
 	write_bool_option(ssi, "file_sort.ascending", options->file_sort.ascending);
 	write_bool_option(ssi, "file_sort.case_sensitive", options->file_sort.case_sensitive);
-	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "confirm_delete", options->confirm_delete);
-	write_bool_option(ssi, "enable_delete_key", options->enable_delete_key);
-	write_bool_option(ssi, "safe_delete", options->safe_delete_enable);
-	write_char_option(ssi, "safe_delete_path", options->safe_delete_path);
-	write_int_option(ssi, "safe_delete_size", options->safe_delete_size);
-	secure_fputc(ssi, '\n');
-
-	write_bool_option(ssi, "tools_float", options->tools_float);
-	write_bool_option(ssi, "tools_hidden", options->tools_hidden);
-	write_bool_option(ssi, "restore_tool_state", options->restore_tool);
-	write_bool_option(ssi, "toolbar_hidden", options->toolbar_hidden);
-	secure_fputc(ssi, '\n');
-
-	write_bool_option(ssi, "mouse_wheel_scrolls", options->mousewheel_scrolls);
-	write_bool_option(ssi, "in_place_rename", options->enable_in_place_rename);
-	write_int_option(ssi, "open_recent_max", options->recent_list_max);
-	write_bool_option(ssi, "display_dialogs_under_mouse", options->place_dialogs_under_mouse);
-	secure_fputc(ssi, '\n');
-
-	write_bool_option(ssi, "user_specified_window_background", options->user_specified_window_background);
-	write_color_option(ssi, "window_background_color", &options->window_background_color);
-	secure_fputc(ssi, '\n');
+	
+	secure_fprintf(ssi, "\n##### Fullscreen Options #####\n\n");
 
 	write_int_option(ssi, "fullscreen.screen", options->fullscreen.screen);
 	write_bool_option(ssi, "fullscreen.clean_flip", options->fullscreen.clean_flip);
@@ -366,16 +373,13 @@ void save_options(void)
 	write_bool_option(ssi, "fullscreen.above", options->fullscreen.above);
 	write_bool_option(ssi, "fullscreen.show_info", options->fullscreen.show_info);
 	write_char_option(ssi, "fullscreen.info", options->fullscreen.info);
-	secure_fputc(ssi, '\n');
-
-	write_int_option(ssi, "custom_similarity_threshold", options->dupe_custom_threshold);
 
 	secure_fprintf(ssi, "\n##### Slideshow Options #####\n\n");
 
 	write_int_unit_option(ssi, "slideshow.delay", options->slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION);
-
 	write_bool_option(ssi, "slideshow.random", options->slideshow.random);
 	write_bool_option(ssi, "slideshow.repeat", options->slideshow.repeat);
+
 
 	secure_fprintf(ssi, "\n##### Filtering Options #####\n\n");
 
@@ -544,9 +548,7 @@ void load_options(void)
 			"lazy_image_sync", value, options->lazy_image_sync);
 		options->update_on_time_change = read_bool_option(f, option,
 			"update_on_time_change", value, options->update_on_time_change);
-		options->image.exif_rotate_enable = read_bool_option(f, option,
-			"exif_auto_rotate", value, options->image.exif_rotate_enable);
-
+	
 		options->startup_path_enable = read_bool_option(f, option,
 			"enable_startup_path", value, options->startup_path_enable);
 		options->startup_path = read_char_option(f, option,
@@ -584,6 +586,8 @@ void load_options(void)
 			"image.zoom_increment", value, options->image.zoom_increment);
 		options->image.enable_read_ahead = read_bool_option(f, option,
 			"image.enable_read_ahead", value, options->image.enable_read_ahead);
+		options->image.exif_rotate_enable = read_bool_option(f, option,
+			"image.exif_rotate_enable", value, options->image.exif_rotate_enable);
 
 		options->progressive_key_scrolling = read_bool_option(f, option,
 			"progressive_keyboard_scrolling", value, options->progressive_key_scrolling);
