@@ -1169,8 +1169,8 @@ static void setup_default_options(void)
 	bookmark_add_default(_("Collections"), path);
 	g_free(path);
 
-	g_free(options->safe_delete_path);
-	options->safe_delete_path = concat_dir_and_file(homedir(), GQ_RC_DIR_TRASH);
+	g_free(options->file_ops.safe_delete_path);
+	options->file_ops.safe_delete_path = concat_dir_and_file(homedir(), GQ_RC_DIR_TRASH);
 
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{

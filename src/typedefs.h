@@ -739,7 +739,6 @@ struct _ConfOptions
 	gint show_icon_names;
 
 	/* various */
-	gint enable_in_place_rename;
 	gint startup_path_enable;
 	gchar *startup_path;
 	gint enable_metadata_dirs;
@@ -749,15 +748,20 @@ struct _ConfOptions
 	gint lazy_image_sync;
 	gint update_on_time_change;
 
-	gint confirm_delete;
-	gint enable_delete_key;
-	gint safe_delete_enable;
-	gchar *safe_delete_path;
-	gint safe_delete_size;
-	
 	gint dupe_custom_threshold;
 
 	gint recent_list_max;
+
+	/* file ops */
+	struct {
+		gint enable_in_place_rename;
+		
+		gint confirm_delete;
+		gint enable_delete_key;
+		gint safe_delete_enable;
+		gchar *safe_delete_path;
+		gint safe_delete_folder_maxsize;
+	} file_ops;
 
 	/* image */
 	struct {

@@ -173,20 +173,20 @@ static void config_window_apply(void)
 	buf = gtk_entry_get_text(GTK_ENTRY(startup_path_entry));
 	if (buf && strlen(buf) > 0) options->startup_path = remove_trailing_slash(buf);
 
-	g_free(options->safe_delete_path);
-	options->safe_delete_path = NULL;
+	g_free(options->file_ops.safe_delete_path);
+	options->file_ops.safe_delete_path = NULL;
 	buf = gtk_entry_get_text(GTK_ENTRY(safe_delete_path_entry));
-	if (buf && strlen(buf) > 0) options->safe_delete_path = remove_trailing_slash(buf);
+	if (buf && strlen(buf) > 0) options->file_ops.safe_delete_path = remove_trailing_slash(buf);
 
 	if (options->file_filter.show_dot_files != c_options->file_filter.show_dot_files) refresh = TRUE;
 	if (options->file_sort.case_sensitive != c_options->file_sort.case_sensitive) refresh = TRUE;
 	if (options->file_filter.disable != c_options->file_filter.disable) refresh = TRUE;
 
 	options->startup_path_enable = c_options->startup_path_enable;
-	options->confirm_delete = c_options->confirm_delete;
-	options->enable_delete_key = c_options->enable_delete_key;
-	options->safe_delete_enable = c_options->safe_delete_enable;
-	options->safe_delete_size = c_options->safe_delete_size;
+	options->file_ops.confirm_delete = c_options->file_ops.confirm_delete;
+	options->file_ops.enable_delete_key = c_options->file_ops.enable_delete_key;
+	options->file_ops.safe_delete_enable = c_options->file_ops.safe_delete_enable;
+	options->file_ops.safe_delete_folder_maxsize = c_options->file_ops.safe_delete_folder_maxsize;
 	options->layout.tools_restore_state = c_options->layout.tools_restore_state;
 	options->layout.save_window_positions = c_options->layout.save_window_positions;
 	options->image.zoom_mode = c_options->image.zoom_mode;
@@ -220,7 +220,7 @@ static void config_window_apply(void)
 
 	options->mousewheel_scrolls = c_options->mousewheel_scrolls;
 
-	options->enable_in_place_rename = c_options->enable_in_place_rename;
+	options->file_ops.enable_in_place_rename = c_options->file_ops.enable_in_place_rename;
 
 	options->collections.rectangular_selection = c_options->collections.rectangular_selection;
 
@@ -757,7 +757,7 @@ static void safe_delete_clear_cb(GtkWidget* widget, gpointer data)
 	entry = gtk_entry_new();
 	GTK_WIDGET_UNSET_FLAGS(entry, GTK_CAN_FOCUS);
 	gtk_editable_set_editable(GTK_EDITABLE(entry), FALSE);
-	if (options->safe_delete_path) gtk_entry_set_text(GTK_ENTRY(entry), options->safe_delete_path);
+	if (options->file_ops.safe_delete_path) gtk_entry_set_text(GTK_ENTRY(entry), options->file_ops.safe_delete_path);
 	gtk_box_pack_start(GTK_BOX(gd->vbox), entry, FALSE, FALSE, 0);
 	gtk_widget_show(entry);
 	gtk_widget_show(gd->dialog);
@@ -1310,12 +1310,12 @@ static void config_tab_advanced(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Delete"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Confirm file delete"),
-			      options->confirm_delete, &c_options->confirm_delete);
+			      options->file_ops.confirm_delete, &c_options->file_ops.confirm_delete);
 	pref_checkbox_new_int(group, _("Enable Delete key"),
-			      options->enable_delete_key, &c_options->enable_delete_key);
+			      options->file_ops.enable_delete_key, &c_options->file_ops.enable_delete_key);
 
 	ct_button = pref_checkbox_new_int(group, _("Safe delete"),
-					  options->safe_delete_enable, &c_options->safe_delete_enable);
+					  options->file_ops.safe_delete_enable, &c_options->file_ops.safe_delete_enable);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 	pref_checkbox_link_sensitivity(ct_button, hbox);
@@ -1323,7 +1323,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 	pref_spacer(hbox, PREF_PAD_INDENT - PREF_PAD_SPACE);
 	pref_label_new(hbox, _("Folder:"));
 
-	tabcomp = tab_completion_new(&safe_delete_path_entry, options->safe_delete_path, NULL, NULL);
+	tabcomp = tab_completion_new(&safe_delete_path_entry, options->file_ops.safe_delete_path, NULL, NULL);
 	tab_completion_add_select_button(safe_delete_path_entry, NULL, TRUE);
 	gtk_box_pack_start(GTK_BOX(hbox), tabcomp, TRUE, TRUE, 0);
 	gtk_widget_show(tabcomp);
@@ -1333,7 +1333,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	pref_spacer(hbox, PREF_PAD_INDENT - PREF_PAD_GAP);
 	spin = pref_spin_new_int(hbox, _("Maximum size:"), _("MB"),
-			 	 0, 2048, 1, options->safe_delete_size, &c_options->safe_delete_size);
+			 	 0, 2048, 1, options->file_ops.safe_delete_folder_maxsize, &c_options->file_ops.safe_delete_folder_maxsize);
 #if GTK_CHECK_VERSION(2,12,0)
 	gtk_widget_set_tooltip_markup(spin, _("Set to 0 for unlimited size"));
 #endif
@@ -1356,7 +1356,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 			      options->tree_descend_subdirs, &c_options->tree_descend_subdirs);
 
 	pref_checkbox_new_int(group, _("In place renaming"),
-			      options->enable_in_place_rename, &c_options->enable_in_place_rename);
+			      options->file_ops.enable_in_place_rename, &c_options->file_ops.enable_in_place_rename);
 
 	group = pref_group_new(vbox, FALSE, _("Navigation"), GTK_ORIENTATION_VERTICAL);
 

@@ -289,22 +289,24 @@ void save_options(void)
 	write_bool_option(ssi, "progressive_keyboard_scrolling", options->progressive_key_scrolling);
 	write_bool_option(ssi, "local_metadata", options->enable_metadata_dirs);
 
-	write_bool_option(ssi, "confirm_delete", options->confirm_delete);
-	write_bool_option(ssi, "enable_delete_key", options->enable_delete_key);
-	write_bool_option(ssi, "safe_delete", options->safe_delete_enable);
-	write_char_option(ssi, "safe_delete_path", options->safe_delete_path);
-	write_int_option(ssi, "safe_delete_size", options->safe_delete_size);
-	secure_fputc(ssi, '\n');
-	
 	write_int_option(ssi, "custom_similarity_threshold", options->dupe_custom_threshold);
 	secure_fputc(ssi, '\n');
 
 	write_bool_option(ssi, "mouse_wheel_scrolls", options->mousewheel_scrolls);
-	write_bool_option(ssi, "in_place_rename", options->enable_in_place_rename);
 	write_int_option(ssi, "open_recent_max", options->recent_list_max);
 	write_bool_option(ssi, "display_dialogs_under_mouse", options->place_dialogs_under_mouse);
-	
 
+
+	secure_fprintf(ssi, "\n##### File operations Options #####\n\n");
+
+	write_bool_option(ssi, "file_ops.enable_in_place_rename", options->file_ops.enable_in_place_rename);
+	write_bool_option(ssi, "file_ops.confirm_delete", options->file_ops.confirm_delete);
+	write_bool_option(ssi, "file_ops.enable_delete_key", options->file_ops.enable_delete_key);
+	write_bool_option(ssi, "file_ops.safe_delete_enable", options->file_ops.safe_delete_enable);
+	write_char_option(ssi, "file_ops.safe_delete_path", options->file_ops.safe_delete_path);
+	write_int_option(ssi, "file_ops.safe_delete_folder_maxsize", options->file_ops.safe_delete_folder_maxsize);
+
+	
 	secure_fprintf(ssi, "\n##### Layout Options #####\n\n");
 
 	write_int_option(ssi, "layout.style", options->layout.style);
@@ -540,6 +542,42 @@ void load_options(void)
 		strncpy(option, s_buf, sizeof(option));
 		strncpy(value, s_buf_ptr, sizeof(value));
 
+
+		/* general options */
+		options->show_icon_names = read_bool_option(f, option,
+			"show_icon_names", value, options->show_icon_names);
+
+		options->tree_descend_subdirs = read_bool_option(f, option,
+			"tree_descend_folders", value, options->tree_descend_subdirs);
+		options->lazy_image_sync = read_bool_option(f, option,
+			"lazy_image_sync", value, options->lazy_image_sync);
+		options->update_on_time_change = read_bool_option(f, option,
+			"update_on_time_change", value, options->update_on_time_change);
+	
+		options->startup_path_enable = read_bool_option(f, option,
+			"enable_startup_path", value, options->startup_path_enable);
+		options->startup_path = read_char_option(f, option,
+			"startup_path", value_all, options->startup_path);
+
+		options->dupe_custom_threshold = read_int_option(f, option,
+			"custom_similarity_threshold", value, options->dupe_custom_threshold);
+
+		options->progressive_key_scrolling = read_bool_option(f, option,
+			"progressive_keyboard_scrolling", value, options->progressive_key_scrolling);
+
+		options->enable_metadata_dirs = read_bool_option(f, option,
+			"local_metadata", value, options->enable_metadata_dirs);
+
+		options->mousewheel_scrolls = read_bool_option(f, option,
+			"mouse_wheel_scrolls", value, options->mousewheel_scrolls);
+	
+		options->recent_list_max = read_int_option(f, option,
+			"open_recent_max", value, options->recent_list_max);
+
+		options->place_dialogs_under_mouse = read_bool_option(f, option,
+			"display_dialogs_under_mouse", value, options->place_dialogs_under_mouse);
+
+
 		/* layout options */
 
 		options->layout.style = read_int_option(f, option,
@@ -592,22 +630,6 @@ void load_options(void)
 			"layout.toolbar_hidden", value, options->layout.toolbar_hidden);
 
 
-		/* general options */
-		options->show_icon_names = read_bool_option(f, option,
-			"show_icon_names", value, options->show_icon_names);
-
-		options->tree_descend_subdirs = read_bool_option(f, option,
-			"tree_descend_folders", value, options->tree_descend_subdirs);
-		options->lazy_image_sync = read_bool_option(f, option,
-			"lazy_image_sync", value, options->lazy_image_sync);
-		options->update_on_time_change = read_bool_option(f, option,
-			"update_on_time_change", value, options->update_on_time_change);
-	
-		options->startup_path_enable = read_bool_option(f, option,
-			"enable_startup_path", value, options->startup_path_enable);
-		options->startup_path = read_char_option(f, option,
-			"startup_path", value_all, options->startup_path);
-
 		/* image options */
 		if (strcasecmp(option, "image.zoom_mode") == 0)
                         {
@@ -648,9 +670,6 @@ void load_options(void)
 		read_color_option(f, option,
 			"image.border_color", value, &options->image.border_color);
 
-		options->progressive_key_scrolling = read_bool_option(f, option,
-			"progressive_keyboard_scrolling", value, options->progressive_key_scrolling);
-
 
 		/* thumbnails options */
 		options->thumbnails.max_width = read_int_option(f, option,
@@ -672,9 +691,6 @@ void load_options(void)
 		options->thumbnails.quality = CLAMP(read_int_option(f, option,
 			"thumbnails.quality", value, options->thumbnails.quality), GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
 
-		options->enable_metadata_dirs = read_bool_option(f, option,
-			"local_metadata", value, options->enable_metadata_dirs);
-
 		/* file sorting options */
 		options->file_sort.method = (SortType)read_int_option(f, option,
 			"file_sort.method", value, (gint)options->file_sort.method);
@@ -683,28 +699,21 @@ void load_options(void)
 		options->file_sort.case_sensitive = read_bool_option(f, option,
 			"file_sort.case_sensitive", value, options->file_sort.case_sensitive);
 
-		options->confirm_delete = read_bool_option(f, option,
-			"confirm_delete", value, options->confirm_delete);
-		options->enable_delete_key = read_bool_option(f, option,
-			"enable_delete_key", value, options->enable_delete_key);
-		options->safe_delete_enable = read_bool_option(f, option,
-			"safe_delete",  value, options->safe_delete_enable);
-		options->safe_delete_path = read_char_option(f, option,
-			"safe_delete_path", value, options->safe_delete_path);
-		options->safe_delete_size = read_int_option(f, option,
-			"safe_delete_size", value,options->safe_delete_size);
+		/* file operations options */
+		options->file_ops.enable_in_place_rename = read_bool_option(f, option,
+			"file_ops.enable_in_place_rename", value, options->file_ops.enable_in_place_rename);
+		options->file_ops.confirm_delete = read_bool_option(f, option,
+			"file_ops.confirm_delete", value, options->file_ops.confirm_delete);
+		options->file_ops.enable_delete_key = read_bool_option(f, option,
+			"file_ops.enable_delete_key", value, options->file_ops.enable_delete_key);
+		options->file_ops.safe_delete_enable = read_bool_option(f, option,
+			"file_ops.safe_delete_enable",  value, options->file_ops.safe_delete_enable);
+		options->file_ops.safe_delete_path = read_char_option(f, option,
+			"file_ops.safe_delete_path", value, options->file_ops.safe_delete_path);
+		options->file_ops.safe_delete_folder_maxsize = read_int_option(f, option,
+			"file_ops.safe_delete_folder_maxsize", value,options->file_ops.safe_delete_folder_maxsize);
 
-		options->mousewheel_scrolls = read_bool_option(f, option,
-			"mouse_wheel_scrolls", value, options->mousewheel_scrolls);
-		options->enable_in_place_rename = read_bool_option(f, option,
-			"in_place_rename", value, options->enable_in_place_rename);
-
-		options->recent_list_max = read_int_option(f, option,
-			"open_recent_max", value, options->recent_list_max);
-
-		options->place_dialogs_under_mouse = read_bool_option(f, option,
-			"display_dialogs_under_mouse", value, options->place_dialogs_under_mouse);
-
+		/* fullscreen options */
 		options->fullscreen.screen = read_int_option(f, option,
 			"fullscreen.screen", value, options->fullscreen.screen);
 		options->fullscreen.clean_flip = read_bool_option(f, option,
@@ -717,9 +726,6 @@ void load_options(void)
 			"fullscreen.show_info", value, options->fullscreen.show_info);
 		options->fullscreen.info = read_char_option(f, option,
 			"fullscreen.info", value_all, options->fullscreen.info);
-
-		options->dupe_custom_threshold = read_int_option(f, option,
-			"custom_similarity_threshold", value, options->dupe_custom_threshold);
 
 		/* slideshow options */
 

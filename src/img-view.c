@@ -557,7 +557,7 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 				image_alter(imd, ALTER_ROTATE_90_CC);
 				break;
 			case GDK_Delete: case GDK_KP_Delete:
-				if (options->enable_delete_key)
+				if (options->file_ops.enable_delete_key)
 					{
 					file_util_delete(image_get_fd(imd), NULL, imd->widget);
 					}

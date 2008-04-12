@@ -356,7 +356,7 @@ static void vflist_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 	GList *list;
 
 	list = vflist_pop_menu_file_list(vfl);
-	if (options->enable_in_place_rename &&
+	if (options->file_ops.enable_in_place_rename &&
 	    list && !list->next && vfl->click_fd)
 		{
 		GtkTreeModel *store;

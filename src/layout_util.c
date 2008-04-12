@@ -190,7 +190,7 @@ gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 				layout_image_next(lw);
 				break;
 			case GDK_Delete: case GDK_KP_Delete:
-				if (options->enable_delete_key)
+				if (options->file_ops.enable_delete_key)
 					{
 					file_util_delete(NULL, layout_selection_list(lw), widget);
 					}

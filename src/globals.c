@@ -44,11 +44,11 @@ ConfOptions *init_options(ConfOptions *options)
 	
 	options->startup_path_enable = FALSE;
 	options->startup_path = NULL;
-	options->confirm_delete = TRUE;
-	options->enable_delete_key = TRUE;
-	options->safe_delete_enable = FALSE;
-	options->safe_delete_path = NULL;
-	options->safe_delete_size = 128;
+	options->file_ops.confirm_delete = TRUE;
+	options->file_ops.enable_delete_key = TRUE;
+	options->file_ops.safe_delete_enable = FALSE;
+	options->file_ops.safe_delete_path = NULL;
+	options->file_ops.safe_delete_folder_maxsize = 128;
 	options->layout.tools_restore_state = FALSE;
 	options->image.zoom_mode = ZOOM_RESET_ORIGINAL;
 	options->image.zoom_2pass = TRUE;
@@ -80,7 +80,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->slideshow.repeat = FALSE;
 	
 	options->mousewheel_scrolls = FALSE;
-	options->enable_in_place_rename = TRUE;
+	options->file_ops.enable_in_place_rename = TRUE;
 	
 	options->recent_list_max = 10;
 	
