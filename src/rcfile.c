@@ -286,15 +286,15 @@ void save_options(void)
 	write_bool_option(ssi, "startup_path_enable", options->startup_path_enable);
 	write_char_option(ssi, "startup_path", options->startup_path);
 
-	write_bool_option(ssi, "progressive_keyboard_scrolling", options->progressive_key_scrolling);
-	write_bool_option(ssi, "local_metadata", options->enable_metadata_dirs);
+	write_bool_option(ssi, "progressive_key_scrolling", options->progressive_key_scrolling);
+	write_bool_option(ssi, "enable_metadata_dirs", options->enable_metadata_dirs);
 
 	write_int_option(ssi, "duplicates_similarity_threshold", options->duplicates_similarity_threshold);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "mouse_wheel_scrolls", options->mousewheel_scrolls);
+	write_bool_option(ssi, "mousewheel_scrolls", options->mousewheel_scrolls);
 	write_int_option(ssi, "open_recent_list_maxsize", options->open_recent_list_maxsize);
-	write_bool_option(ssi, "display_dialogs_under_mouse", options->place_dialogs_under_mouse);
+	write_bool_option(ssi, "place_dialogs_under_mouse", options->place_dialogs_under_mouse);
 
 
 	secure_fprintf(ssi, "\n##### File operations Options #####\n\n");
@@ -563,19 +563,19 @@ void load_options(void)
 			"duplicates_similarity_threshold", value, options->duplicates_similarity_threshold);
 
 		options->progressive_key_scrolling = read_bool_option(f, option,
-			"progressive_keyboard_scrolling", value, options->progressive_key_scrolling);
+			"progressive_key_scrolling", value, options->progressive_key_scrolling);
 
 		options->enable_metadata_dirs = read_bool_option(f, option,
-			"local_metadata", value, options->enable_metadata_dirs);
+			"enable_metadata_dirs", value, options->enable_metadata_dirs);
 
 		options->mousewheel_scrolls = read_bool_option(f, option,
-			"mouse_wheel_scrolls", value, options->mousewheel_scrolls);
+			"mousewheel_scrolls", value, options->mousewheel_scrolls);
 	
 		options->open_recent_list_maxsize = read_int_option(f, option,
 			"open_recent_list_maxsize", value, options->open_recent_list_maxsize);
 
 		options->place_dialogs_under_mouse = read_bool_option(f, option,
-			"display_dialogs_under_mouse", value, options->place_dialogs_under_mouse);
+			"place_dialogs_under_mouse", value, options->place_dialogs_under_mouse);
 
 
 		/* layout options */
