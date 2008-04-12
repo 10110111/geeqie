@@ -750,7 +750,7 @@ struct _ConfOptions
 
 	gint duplicates_similarity_threshold;
 
-	gint recent_list_max;
+	gint open_recent_list_maxsize;
 
 	/* file ops */
 	struct {

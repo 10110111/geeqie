@@ -82,7 +82,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->mousewheel_scrolls = FALSE;
 	options->file_ops.enable_in_place_rename = TRUE;
 	
-	options->recent_list_max = 10;
+	options->open_recent_list_maxsize = 10;
 	
 	options->collections.rectangular_selection = FALSE;
 	

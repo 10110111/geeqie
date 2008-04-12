@@ -1031,7 +1031,7 @@ void layout_recent_add_path(const gchar *path)
 {
 	if (!path) return;
 
-	history_list_add_to_key("recent", path, options->recent_list_max);
+	history_list_add_to_key("recent", path, options->open_recent_list_maxsize);
 
 	layout_recent_update_all();
 }

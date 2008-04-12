@@ -293,7 +293,7 @@ void save_options(void)
 	secure_fputc(ssi, '\n');
 
 	write_bool_option(ssi, "mouse_wheel_scrolls", options->mousewheel_scrolls);
-	write_int_option(ssi, "open_recent_max", options->recent_list_max);
+	write_int_option(ssi, "open_recent_list_maxsize", options->open_recent_list_maxsize);
 	write_bool_option(ssi, "display_dialogs_under_mouse", options->place_dialogs_under_mouse);
 
 
@@ -571,8 +571,8 @@ void load_options(void)
 		options->mousewheel_scrolls = read_bool_option(f, option,
 			"mouse_wheel_scrolls", value, options->mousewheel_scrolls);
 	
-		options->recent_list_max = read_int_option(f, option,
-			"open_recent_max", value, options->recent_list_max);
+		options->open_recent_list_maxsize = read_int_option(f, option,
+			"open_recent_list_maxsize", value, options->open_recent_list_maxsize);
 
 		options->place_dialogs_under_mouse = read_bool_option(f, option,
 			"display_dialogs_under_mouse", value, options->place_dialogs_under_mouse);
