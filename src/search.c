@@ -779,7 +779,7 @@ static void search_result_thumb_step(SearchData *sd)
 
 	sd->thumb_fd = mfd->fd;
 	thumb_loader_free(sd->thumb_loader);
-	sd->thumb_loader = thumb_loader_new(options->thumb_max_width, options->thumb_max_height);
+	sd->thumb_loader = thumb_loader_new(options->thumbnails.max_width, options->thumbnails.max_height);
 
 	thumb_loader_set_callbacks(sd->thumb_loader,
 				   search_result_thumb_done_cb,
@@ -802,14 +802,14 @@ static void search_result_thumb_height(SearchData *sd)
 	column = gtk_tree_view_get_column(GTK_TREE_VIEW(sd->result_view), SEARCH_COLUMN_THUMB - 1);
 	if (!column) return;
 
-	gtk_tree_view_column_set_fixed_width(column, (sd->thumb_enable) ? options->thumb_max_width : 4);
+	gtk_tree_view_column_set_fixed_width(column, (sd->thumb_enable) ? options->thumbnails.max_width : 4);
 
 	list = gtk_tree_view_column_get_cell_renderers(column);
 	if (!list) return;
 	cell = list->data;
 	g_list_free(list);
 
-	g_object_set(G_OBJECT(cell), "height", (sd->thumb_enable) ? options->thumb_max_height : -1, NULL);
+	g_object_set(G_OBJECT(cell), "height", (sd->thumb_enable) ? options->thumbnails.max_height : -1, NULL);
 	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(sd->result_view));
 }
 
@@ -1500,7 +1500,7 @@ static void search_file_load_process(SearchData *sd, CacheData *cd)
 			image_sim_free(sim);
 			}
 
-		if (options->enable_thumb_caching &&
+		if (options->thumbnails.enable_caching &&
 		    sd->img_loader && sd->img_loader->fd)
 			{
 			gchar *base;

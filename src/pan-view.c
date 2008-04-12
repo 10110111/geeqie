@@ -2566,8 +2566,8 @@ static gint pan_warning(const gchar *path)
 		return TRUE;
 		}
 
-	if (options->enable_thumb_caching &&
-	    options->thumbnail_spec_standard) return FALSE;
+	if (options->thumbnails.enable_caching &&
+	    options->thumbnails.spec_standard) return FALSE;
 
 	if (!pref_list_int_get(PAN_PREF_GROUP, PAN_PREF_HIDE_WARNING, &hide_dlg)) hide_dlg = FALSE;
 	if (hide_dlg) return FALSE;
@@ -2589,9 +2589,9 @@ static gint pan_warning(const gchar *path)
 	group = pref_box_new(group, TRUE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 
 	ct_button = pref_checkbox_new_int(group, _("Cache thumbnails"),
-			  		  options->enable_thumb_caching, &options->enable_thumb_caching);
+			  		  options->thumbnails.enable_caching, &options->thumbnails.enable_caching);
 	button = pref_checkbox_new_int(group, _("Use shared thumbnail cache"),
-				       options->thumbnail_spec_standard, &options->thumbnail_spec_standard);
+				       options->thumbnails.spec_standard, &options->thumbnails.spec_standard);
 	pref_checkbox_link_sensitivity(ct_button, button);
 
 	pref_line(box, 0);

@@ -802,15 +802,17 @@ struct _ConfOptions
 	GdkColor window_background_color;
 
 	/* thumbnails */
-	gint thumb_max_width;
-	gint thumb_max_height;
-	gint enable_thumb_caching;
-	gint enable_thumb_dirs;
-	gint thumbnail_fast;
-	gint use_xvpics_thumbnails;
-	gint thumbnail_spec_standard;
-	gint thumbnail_quality;
-	gint thumbnails_enabled;
+	struct {
+		gint max_width;
+		gint max_height;
+		gint enable_caching;
+		gint cache_into_dirs;
+		gint fast;
+		gint use_xvpics;
+		gint spec_standard;
+		gint quality;
+		gint enabled;	/* TODO: move to layout ? */
+	} thumbnails;
 
 	/* file filtering */
 	struct {

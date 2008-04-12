@@ -198,15 +198,15 @@ static void config_window_apply(void)
 	options->limit_autofit_size = c_options->limit_autofit_size;
 	options->max_autofit_size = c_options->max_autofit_size;
 	options->progressive_key_scrolling = c_options->progressive_key_scrolling;
-	options->thumb_max_width = c_options->thumb_max_width;
-	options->thumb_max_height = c_options->thumb_max_height;
-	options->enable_thumb_caching = c_options->enable_thumb_caching;
-	options->enable_thumb_dirs = c_options->enable_thumb_dirs;
-	options->thumbnail_fast = c_options->thumbnail_fast;
+	options->thumbnails.max_width = c_options->thumbnails.max_width;
+	options->thumbnails.max_height = c_options->thumbnails.max_height;
+	options->thumbnails.enable_caching = c_options->thumbnails.enable_caching;
+	options->thumbnails.cache_into_dirs = c_options->thumbnails.cache_into_dirs;
+	options->thumbnails.fast = c_options->thumbnails.fast;
 #if 0
-	options->use_xvpics_thumbnails = c_options->use_xvpics_thumbnails;
+	options->thumbnails.use_xvpics = c_options->thumbnails.use_xvpics;
 #endif
-	options->thumbnail_spec_standard = c_options->thumbnail_spec_standard;
+	options->thumbnails.spec_standard = c_options->thumbnails.spec_standard;
 	options->enable_metadata_dirs = c_options->enable_metadata_dirs;
 	options->file_filter.show_dot_files = c_options->file_filter.show_dot_files;
 	options->file_sort.case_sensitive = c_options->file_sort.case_sensitive;
@@ -226,7 +226,7 @@ static void config_window_apply(void)
 
 	options->tile_cache_max = c_options->tile_cache_max;
 
-	options->thumbnail_quality = c_options->thumbnail_quality;
+	options->thumbnails.quality = c_options->thumbnails.quality;
 	options->zoom_quality = c_options->zoom_quality;
 
 	options->zoom_increment = c_options->zoom_increment;
@@ -475,13 +475,13 @@ static void thumb_size_menu_cb(GtkWidget *combo, gpointer data)
 
 	if (n >= 0 && n < sizeof(thumb_size_list) / sizeof(ThumbSize))
 		{
-		c_options->thumb_max_width = thumb_size_list[n].w;
-		c_options->thumb_max_height = thumb_size_list[n].h;
+		c_options->thumbnails.max_width = thumb_size_list[n].w;
+		c_options->thumbnails.max_height = thumb_size_list[n].h;
 		}
 	else if (n > 0)
 		{
-		c_options->thumb_max_width = options->thumb_max_width;
-		c_options->thumb_max_height = options->thumb_max_height;
+		c_options->thumbnails.max_width = options->thumbnails.max_width;
+		c_options->thumbnails.max_height = options->thumbnails.max_height;
 		}
 }
 
@@ -491,8 +491,8 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 	gint current;
 	gint i;
 
-	c_options->thumb_max_width = options->thumb_max_width;
-	c_options->thumb_max_height = options->thumb_max_height;
+	c_options->thumbnails.max_width = options->thumbnails.max_width;
+	c_options->thumbnails.max_height = options->thumbnails.max_height;
 
 	pref_table_label(table, column, row, text, 0.0);
 
@@ -511,14 +511,14 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), buf);
 		g_free(buf);
 	
-		if (w == options->thumb_max_width && h == options->thumb_max_height) current = i;
+		if (w == options->thumbnails.max_width && h == options->thumbnails.max_height) current = i;
 		}
 
 	if (current == -1)
 		{
 		gchar *buf;
 
-		buf = g_strdup_printf("%s %d x %d", _("Custom"), options->thumb_max_width, options->thumb_max_height);
+		buf = g_strdup_printf("%s %d x %d", _("Custom"), options->thumbnails.max_width, options->thumbnails.max_height);
 		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), buf);
 		g_free(buf);
 
@@ -820,30 +820,30 @@ static void config_tab_general(GtkWidget *notebook)
 
 	table = pref_table_new(group, 2, 2, FALSE, FALSE);
 	add_thumb_size_menu(table, 0, 0, _("Size:"));
-	add_quality_menu(table, 0, 1, _("Quality:"), options->thumbnail_quality, &c_options->thumbnail_quality);
+	add_quality_menu(table, 0, 1, _("Quality:"), options->thumbnails.quality, &c_options->thumbnails.quality);
 
 	ct_button = pref_checkbox_new_int(group, _("Cache thumbnails"),
-					  options->enable_thumb_caching, &c_options->enable_thumb_caching);
+					  options->thumbnails.enable_caching, &c_options->thumbnails.enable_caching);
 
 	subgroup = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 	pref_checkbox_link_sensitivity(ct_button, subgroup);
 
 	button = pref_checkbox_new_int(subgroup, _("Use shared thumbnail cache"),
-				       options->thumbnail_spec_standard, &c_options->thumbnail_spec_standard);
+				       options->thumbnails.spec_standard, &c_options->thumbnails.spec_standard);
 
 	subgroup = pref_box_new(subgroup, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 	pref_checkbox_link_sensitivity_swap(button, subgroup);
 
 	pref_checkbox_new_int(subgroup, _("Cache thumbnails into .thumbnails"),
-			      options->enable_thumb_dirs, &c_options->enable_thumb_dirs);
+			      options->thumbnails.cache_into_dirs, &c_options->thumbnails.cache_into_dirs);
 
 #if 0
 	pref_checkbox_new_int(subgroup, _("Use xvpics thumbnails when found (read only)"),
-			      options->use_xvpics_thumbnails, &c_options->use_xvpics_thumbnails);
+			      options->thumbnails.use_xvpics, &c_options->thumbnails.use_xvpics);
 #endif
 
 	pref_checkbox_new_int(group, _("Faster jpeg thumbnailing (may reduce quality)"),
-			      options->thumbnail_fast, &c_options->thumbnail_fast);
+			      options->thumbnails.fast, &c_options->thumbnails.fast);
 
 	group = pref_group_new(vbox, FALSE, _("Slide show"), GTK_ORIENTATION_VERTICAL);
 

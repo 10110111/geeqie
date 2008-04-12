@@ -1327,7 +1327,7 @@ static void dupe_thumb_step(DupeWindow *dw)
 
 	dw->thumb_item = di;
 	thumb_loader_free(dw->thumb_loader);
-	dw->thumb_loader = thumb_loader_new(options->thumb_max_width, options->thumb_max_height);
+	dw->thumb_loader = thumb_loader_new(options->thumbnails.max_width, options->thumbnails.max_height);
 
 	thumb_loader_set_callbacks(dw->thumb_loader,
 				   dupe_thumb_done_cb,
@@ -1393,7 +1393,7 @@ static void dupe_loader_done_cb(ImageLoader *il, gpointer data)
 			di->width = gdk_pixbuf_get_width(pixbuf);
 			di->height = gdk_pixbuf_get_height(pixbuf);
 			}
-		if (options->enable_thumb_caching)
+		if (options->thumbnails.enable_caching)
 			{
 			dupe_item_write_cache(di);
 			}
@@ -1451,14 +1451,14 @@ static gint dupe_check_cb(gpointer data)
 					dupe_window_update_progress(dw, _("Reading checksums..."),
 						dw->setup_count == 0 ? 0.0 : (gdouble)(dw->setup_n - 1) / dw->setup_count, FALSE);
 
-					if (options->enable_thumb_caching)
+					if (options->thumbnails.enable_caching)
 						{
 						dupe_item_read_cache(di);
 						if (di->md5sum) return TRUE;
 						}
 
 					di->md5sum = md5_text_from_file_utf8(di->fd->path, "");
-					if (options->enable_thumb_caching)
+					if (options->thumbnails.enable_caching)
 						{
 						dupe_item_write_cache(di);
 						}
@@ -1484,14 +1484,14 @@ static gint dupe_check_cb(gpointer data)
 					dupe_window_update_progress(dw, _("Reading dimensions..."),
 						dw->setup_count == 0 ? 0.0 : (gdouble)(dw->setup_n - 1) / dw->setup_count, FALSE);
 
-					if (options->enable_thumb_caching)
+					if (options->thumbnails.enable_caching)
 						{
 						dupe_item_read_cache(di);
 						if (di->width != 0 || di->height != 0) return TRUE;
 						}
 
 					image_load_dimensions(di->fd, &di->width, &di->height);
-					if (options->enable_thumb_caching)
+					if (options->thumbnails.enable_caching)
 						{
 						dupe_item_write_cache(di);
 						}
@@ -1518,7 +1518,7 @@ static gint dupe_check_cb(gpointer data)
 					dupe_window_update_progress(dw, _("Reading similarity data..."),
 						dw->setup_count == 0 ? 0.0 : (gdouble)dw->setup_n / dw->setup_count, FALSE);
 
-					if (options->enable_thumb_caching)
+					if (options->thumbnails.enable_caching)
 						{
 						dupe_item_read_cache(di);
 						if (cache_sim_data_filled(di->simd))
@@ -2751,14 +2751,14 @@ static void dupe_listview_set_height(GtkWidget *listview, gint thumb)
 	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), DUPE_COLUMN_THUMB - 1);
 	if (!column) return;
 
-	gtk_tree_view_column_set_fixed_width(column, (thumb) ? options->thumb_max_width : 4);
+	gtk_tree_view_column_set_fixed_width(column, (thumb) ? options->thumbnails.max_width : 4);
 	
 	list = gtk_tree_view_column_get_cell_renderers(column);
 	if (!list) return;
 	cell = list->data;
 	g_list_free(list);
 
-	g_object_set(G_OBJECT(cell), "height", (thumb) ? options->thumb_max_height : -1, NULL);
+	g_object_set(G_OBJECT(cell), "height", (thumb) ? options->thumbnails.max_height : -1, NULL);
 	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(listview));
 }
 

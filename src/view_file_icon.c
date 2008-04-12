@@ -411,11 +411,11 @@ static gint vficon_get_icon_width(ViewFileIcon *vfi)
 {
 	gint width;
 
-	if (!vfi->show_text) return options->thumb_max_width;
+	if (!vfi->show_text) return options->thumbnails.max_width;
 
-	width = options->thumb_max_width + options->thumb_max_width / 2;
+	width = options->thumbnails.max_width + options->thumbnails.max_width / 2;
 	if (width < THUMB_MIN_ICON_WIDTH) width = THUMB_MIN_ICON_WIDTH;
-	if (width > THUMB_MAX_ICON_WIDTH) width = options->thumb_max_width;
+	if (width > THUMB_MAX_ICON_WIDTH) width = options->thumbnails.max_width;
 
 	return width;
 }
@@ -1256,8 +1256,8 @@ static gint page_height(ViewFileIcon *vfi)
 	adj = gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(vfi->listview));
 	page_size = (gint)adj->page_increment;
 
-	row_height = options->thumb_max_height + THUMB_BORDER_PADDING * 2;
-	if (vfi->show_text) row_height += options->thumb_max_height / 3;
+	row_height = options->thumbnails.max_height + THUMB_BORDER_PADDING * 2;
+	if (vfi->show_text) row_height += options->thumbnails.max_height / 3;
 
 	ret = page_size / row_height;
 	if (ret < 1) ret = 1;
@@ -1664,7 +1664,7 @@ static void vficon_populate(ViewFileIcon *vfi, gint resize, gint keep_position)
 			if (cell && GQV_IS_CELL_RENDERER_ICON(cell))
 				{
 				g_object_set(G_OBJECT(cell), "fixed_width", thumb_width,
-							     "fixed_height", options->thumb_max_height,
+							     "fixed_height", options->thumbnails.max_height,
 							     "show_text", vfi->show_text, NULL);
 				}
 			}
@@ -1990,7 +1990,7 @@ static gint vficon_thumb_next(ViewFileIcon *vfi)
 
 	thumb_loader_free(vfi->thumbs_loader);
 
-	vfi->thumbs_loader = thumb_loader_new(options->thumb_max_width, options->thumb_max_height);
+	vfi->thumbs_loader = thumb_loader_new(options->thumbnails.max_width, options->thumbnails.max_height);
 	thumb_loader_set_callbacks(vfi->thumbs_loader,
 				   vficon_thumb_done_cb,
 				   vficon_thumb_error_cb,

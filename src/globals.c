@@ -59,19 +59,19 @@ ConfOptions *init_options(ConfOptions *options)
 	options->max_window_size = 100;
 	options->limit_autofit_size = FALSE;
 	options->max_autofit_size = 100;
-	options->thumb_max_width = DEFAULT_THUMB_WIDTH;
-	options->thumb_max_height = DEFAULT_THUMB_HEIGHT;
-	options->enable_thumb_caching = TRUE;
-	options->enable_thumb_dirs = FALSE;
-	options->use_xvpics_thumbnails = TRUE;
-	options->thumbnail_fast = TRUE;
-	options->thumbnail_spec_standard = TRUE;
+	options->thumbnails.max_width = DEFAULT_THUMB_WIDTH;
+	options->thumbnails.max_height = DEFAULT_THUMB_HEIGHT;
+	options->thumbnails.enable_caching = TRUE;
+	options->thumbnails.cache_into_dirs = FALSE;
+	options->thumbnails.use_xvpics = TRUE;
+	options->thumbnails.fast = TRUE;
+	options->thumbnails.spec_standard = TRUE;
 	options->enable_metadata_dirs = FALSE;
 	options->file_filter.show_dot_files = FALSE;
 	options->file_filter.disable = FALSE;
 	
 	
-	options->thumbnails_enabled = FALSE;
+	options->thumbnails.enabled = FALSE;
 	options->file_sort.method = SORT_NAME;
 	options->file_sort.ascending = TRUE;
 	
@@ -87,7 +87,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->collections.rectangular_selection = FALSE;
 	
 	options->tile_cache_max = 10;
-	options->thumbnail_quality = (gint)GDK_INTERP_TILES;
+	options->thumbnails.quality = (gint)GDK_INTERP_TILES;
 	options->zoom_quality = (gint)GDK_INTERP_BILINEAR;
 	options->dither_quality = (gint)GDK_RGB_DITHER_NORMAL;
 	

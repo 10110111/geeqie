@@ -660,7 +660,7 @@ gchar *cache_get_location(CacheType type, const gchar *source, gint include_name
 		cache_ext = NULL;
 		}
 
-	if (((type != CACHE_TYPE_METADATA && options->enable_thumb_dirs) ||
+	if (((type != CACHE_TYPE_METADATA && options->thumbnails.cache_into_dirs) ||
 	     (type == CACHE_TYPE_METADATA && options->enable_metadata_dirs)) &&
 	    access_file(base, W_OK))
 		{
@@ -703,7 +703,7 @@ gchar *cache_find_location(CacheType type, const gchar *source)
 		}
 	else
 		{
-		prefer_local = options->enable_thumb_dirs;
+		prefer_local = options->thumbnails.cache_into_dirs;
 		}
 
 	if (prefer_local)

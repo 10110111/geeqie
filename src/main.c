@@ -1211,7 +1211,7 @@ static void exit_program_final(void)
 
 	layout_views_get(NULL, &options->layout.view_as_tree, &options->layout.view_as_icons);
 
-	options->thumbnails_enabled = layout_thumb_get(NULL);
+	options->thumbnails.enabled = layout_thumb_get(NULL);
 	layout_sort_get(NULL, &options->file_sort.method, &options->file_sort.ascending);
 
 	layout_geometry_get_tools(NULL, &options->float_window_x, &options->float_window_y,

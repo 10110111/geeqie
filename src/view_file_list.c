@@ -1225,7 +1225,7 @@ static gint vflist_thumb_next(ViewFileList *vfl)
 
 	thumb_loader_free(vfl->thumbs_loader);
 
-	vfl->thumbs_loader = thumb_loader_new(options->thumb_max_width, options->thumb_max_height);
+	vfl->thumbs_loader = thumb_loader_new(options->thumbnails.max_width, options->thumbnails.max_height);
 	thumb_loader_set_callbacks(vfl->thumbs_loader,
 				   vflist_thumb_done_cb,
 				   vflist_thumb_error_cb,
@@ -1633,14 +1633,14 @@ static void vflist_listview_set_height(GtkWidget *listview, gint thumb)
 	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_COLUMN_THUMB - 1);
 	if (!column) return;
 
-	gtk_tree_view_column_set_fixed_width(column, ((thumb) ? options->thumb_max_width : 4) + 10);
+	gtk_tree_view_column_set_fixed_width(column, ((thumb) ? options->thumbnails.max_width : 4) + 10);
 
 	list = gtk_tree_view_column_get_cell_renderers(column);
 	if (!list) return;
 	cell = list->data;
 	g_list_free(list);
 
-	g_object_set(G_OBJECT(cell), "height", (thumb) ? options->thumb_max_height : -1, NULL);
+	g_object_set(G_OBJECT(cell), "height", (thumb) ? options->thumbnails.max_height : -1, NULL);
 	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(listview));
 }
 

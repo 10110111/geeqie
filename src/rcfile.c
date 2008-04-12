@@ -313,14 +313,15 @@ void save_options(void)
 	write_int_option(ssi, "scroll_reset_method", options->scroll_reset_method);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "enable_thumbnails", options->thumbnails_enabled);
-	write_int_option(ssi, "thumbnail_width", options->thumb_max_width);
-	write_int_option(ssi, "thumbnail_height", options->thumb_max_height);
-	write_bool_option(ssi, "cache_thumbnails", options->enable_thumb_caching);
-	write_bool_option(ssi, "cache_thumbnails_into_dirs", options->enable_thumb_dirs);
-	write_bool_option(ssi, "thumbnail_fast", options->thumbnail_fast);
-	write_bool_option(ssi, "use_xvpics_thumbnails", options->use_xvpics_thumbnails);
-	write_bool_option(ssi, "thumbnail_spec_standard", options->thumbnail_spec_standard);
+	write_bool_option(ssi, "thumbnails.enabled", options->thumbnails.enabled);
+	write_int_option(ssi, "thumbnails.max_width", options->thumbnails.max_width);
+	write_int_option(ssi, "thumbnails.max_height", options->thumbnails.max_height);
+	write_bool_option(ssi, "thumbnails.enable_caching", options->thumbnails.enable_caching);
+	write_bool_option(ssi, "thumbnails.cache_into_dirs", options->thumbnails.cache_into_dirs);
+	write_bool_option(ssi, "thumbnails.fast", options->thumbnails.fast);
+	write_bool_option(ssi, "thumbnails.use_xvpics", options->thumbnails.use_xvpics);
+	write_bool_option(ssi, "thumbnails.spec_standard", options->thumbnails.spec_standard);
+	write_int_option(ssi, "thumbnails.quality", options->thumbnails.quality);
 	secure_fputc(ssi, '\n');
 
 	write_bool_option(ssi, "local_metadata", options->enable_metadata_dirs);
@@ -348,7 +349,6 @@ void save_options(void)
 	write_bool_option(ssi, "in_place_rename", options->enable_in_place_rename);
 	write_int_option(ssi, "open_recent_max", options->recent_list_max);
 	write_int_option(ssi, "image_cache_size_max", options->tile_cache_max);
-	write_int_option(ssi, "thumbnail_quality", options->thumbnail_quality);
 	write_int_option(ssi, "zoom_quality", options->zoom_quality);
 	write_int_option(ssi, "dither_quality", options->dither_quality);
 	write_int_option(ssi, "zoom_increment", options->zoom_increment);
@@ -578,24 +578,26 @@ void load_options(void)
 		options->scroll_reset_method = read_int_option(f, option,
 			"scroll_reset_method", value, options->scroll_reset_method);
 
-		options->thumbnails_enabled = read_bool_option(f, option,
-			"enable_thumbnails", value, options->thumbnails_enabled);
-		options->thumb_max_width = read_int_option(f, option,
-			"thumbnail_width", value, options->thumb_max_width);
-		if (options->thumb_max_width < 16) options->thumb_max_width = 16;
-		options->thumb_max_height = read_int_option(f, option,
-			"thumbnail_height", value, options->thumb_max_height);
-		if (options->thumb_max_height < 16) options->thumb_max_height = 16;
-		options->enable_thumb_caching = read_bool_option(f, option,
-			"cache_thumbnails", value, options->enable_thumb_caching);
-		options->enable_thumb_dirs = read_bool_option(f, option,
-			"cache_thumbnails_into_dirs", value, options->enable_thumb_dirs);
-		options->thumbnail_fast = read_bool_option(f, option,
-			"thumbnail_fast", value, options->thumbnail_fast);
-		options->use_xvpics_thumbnails = read_bool_option(f, option,
-			"use_xvpics_thumbnails", value, options->use_xvpics_thumbnails);
-		options->thumbnail_spec_standard = read_bool_option(f, option,
-			"thumbnail_spec_standard", value, options->thumbnail_spec_standard);
+		options->thumbnails.enabled = read_bool_option(f, option,
+			"thumbnails.enabled", value, options->thumbnails.enabled);
+		options->thumbnails.max_width = read_int_option(f, option,
+			"thumbnails.max_width", value, options->thumbnails.max_width);
+		if (options->thumbnails.max_width < 16) options->thumbnails.max_width = 16;
+		options->thumbnails.max_height = read_int_option(f, option,
+			"thumbnails.max_height", value, options->thumbnails.max_height);
+		if (options->thumbnails.max_height < 16) options->thumbnails.max_height = 16;
+		options->thumbnails.enable_caching = read_bool_option(f, option,
+			"thumbnails.enable_caching", value, options->thumbnails.enable_caching);
+		options->thumbnails.cache_into_dirs = read_bool_option(f, option,
+			"thumbnails.cache_into_dirs", value, options->thumbnails.cache_into_dirs);
+		options->thumbnails.fast = read_bool_option(f, option,
+			"thumbnails.fast", value, options->thumbnails.fast);
+		options->thumbnails.use_xvpics = read_bool_option(f, option,
+			"thumbnails.use_xvpics", value, options->thumbnails.use_xvpics);
+		options->thumbnails.spec_standard = read_bool_option(f, option,
+			"thumbnails.spec_standard", value, options->thumbnails.spec_standard);
+		options->thumbnails.quality = CLAMP(read_int_option(f, option,
+			"thumbnails.quality", value, options->thumbnails.quality), GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
 
 		options->enable_metadata_dirs = read_bool_option(f, option,
 			"local_metadata", value, options->enable_metadata_dirs);
@@ -639,8 +641,6 @@ void load_options(void)
 		options->tile_cache_max = read_int_option(f, option,
 			"image_cache_size_max", value, options->tile_cache_max);
 
-		options->thumbnail_quality = CLAMP(read_int_option(f, option,
-			"thumbnail_quality", value, options->thumbnail_quality), GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
 		options->zoom_quality = CLAMP(read_int_option(f, option,
 			"zoom_quality", value, options->zoom_quality), GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
 		options->dither_quality = CLAMP(read_int_option(f, option,

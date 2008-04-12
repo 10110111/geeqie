@@ -547,7 +547,7 @@ void cache_maint_moved(FileData *fd)
 		}
 	g_free(base);
 
-	if (options->enable_thumb_caching && options->thumbnail_spec_standard)
+	if (options->thumbnails.enable_caching && options->thumbnails.spec_standard)
 		thumb_std_maint_moved(src, dest);
 }
 
@@ -575,7 +575,7 @@ void cache_maint_removed(FileData *fd)
 	cache_file_remove(buf);
 	g_free(buf);
 
-	if (options->enable_thumb_caching && options->thumbnail_spec_standard)
+	if (options->thumbnails.enable_caching && options->thumbnails.spec_standard)
 		thumb_std_maint_removed(fd->path);
 }
 
@@ -740,7 +740,7 @@ static gint cache_manager_render_file(CleanData *cd)
 		path = cd->list->data;
 		cd->list = g_list_remove(cd->list, path);
 
-		cd->tl = (ThumbLoaderStd *)thumb_loader_new(options->thumb_max_width, options->thumb_max_height);
+		cd->tl = (ThumbLoaderStd *)thumb_loader_new(options->thumbnails.max_width, options->thumbnails.max_height);
 		thumb_loader_set_callbacks((ThumbLoader *)cd->tl,
 					   cache_manager_render_thumb_done_cb,
 					   cache_manager_render_thumb_done_cb,
@@ -851,7 +851,7 @@ static void cache_manager_render_dialog(GtkWidget *widget, const gchar *path)
 
 	pref_checkbox_new_int(cd->group, _("Include subfolders"), FALSE, &cd->recurse);
 	button = pref_checkbox_new_int(cd->group, _("Store thumbnails local to source images"), FALSE, &cd->local);
-	gtk_widget_set_sensitive(button, options->thumbnail_spec_standard);
+	gtk_widget_set_sensitive(button, options->thumbnails.spec_standard);
 
 	pref_line(cd->gd->vbox, PREF_PAD_SPACE);
 	hbox = pref_box_new(cd->gd->vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
