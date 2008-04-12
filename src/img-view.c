@@ -855,7 +855,7 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 
 	vw->imd = image_new(FALSE);
 
-	image_background_set_color(vw->imd, options->user_specified_window_background ? &options->window_background_color : NULL);
+	image_background_set_color(vw->imd, options->image.use_custom_border_color ? &options->image.border_color : NULL);
 
 	image_attach_window(vw->imd, vw->window, NULL, GQ_APPNAME, TRUE);
 
@@ -1011,7 +1011,7 @@ void view_window_colors_update(void)
 		ViewWindow *vw = work->data;
 		work = work->next;
 
-		image_background_set_color(vw->imd, options->user_specified_window_background ? &options->window_background_color : NULL);
+		image_background_set_color(vw->imd, options->image.use_custom_border_color ? &options->image.border_color : NULL);
 		}
 }
 

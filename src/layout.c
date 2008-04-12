@@ -1719,7 +1719,7 @@ void layout_colors_update(void)
 		work = work->next;
 		
 		if (!lw->image) continue;
-		image_background_set_color(lw->image, options->user_specified_window_background ? &options->window_background_color : NULL);
+		image_background_set_color(lw->image, options->image.use_custom_border_color ? &options->image.border_color : NULL);
 		}
 }
 

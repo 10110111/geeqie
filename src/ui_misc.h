@@ -179,10 +179,10 @@ void pref_list_string_set(const gchar *group, const gchar *key, const gchar *val
 gint pref_list_string_get(const gchar *group, const gchar *key, const gchar **result);
 
 
-void pref_background_color_set_cb(GtkWidget *widget, gpointer data);
-GtkWidget *pref_colorbutton_new(GtkWidget *parent_box,
-				const gchar *title, const GdkColor *color,
-				GCallback func, gpointer data);
+void pref_color_button_set_cb(GtkWidget *widget, gpointer data);
+GtkWidget *pref_color_button_new(GtkWidget *parent_box,
+			 	 const gchar *title, const GdkColor *color,
+			 	 GCallback func, gpointer data);
 
 
 #endif

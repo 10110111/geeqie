@@ -778,10 +778,10 @@ struct _ConfOptions
 		gint zoom_to_fit_allow_expand;
 		gint zoom_quality;
 		gint zoom_increment;	/* 10 is 1.0, 5 is 0.05, 20 is 2.0, etc. */
-	} image;
 
-	gint user_specified_window_background;
-	GdkColor window_background_color;
+		gint use_custom_border_color;
+		GdkColor border_color;
+	} image;
 
 	/* thumbnails */
 	struct {

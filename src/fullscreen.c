@@ -289,9 +289,9 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 
 	gtk_container_add(GTK_CONTAINER(fs->window), fs->imd->widget);
 
-	if (options->user_specified_window_background)
+	if (options->image.use_custom_border_color)
 		{
-		image_background_set_color(fs->imd, &options->window_background_color);
+		image_background_set_color(fs->imd, &options->image.border_color);
 		}
 
 	image_set_delay_flip(fs->imd, options->fullscreen.clean_flip);

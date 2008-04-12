@@ -1698,7 +1698,7 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 
 		gtk_widget_ref(lw->split_images[i]->widget);
 
-		image_background_set_color(lw->split_images[i], options->user_specified_window_background ? &options->window_background_color : NULL);
+		image_background_set_color(lw->split_images[i], options->image.use_custom_border_color ? &options->image.border_color : NULL);
 
 		image_auto_refresh(lw->split_images[i], 0);
 

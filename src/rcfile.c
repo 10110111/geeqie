@@ -303,11 +303,7 @@ void save_options(void)
 	write_bool_option(ssi, "in_place_rename", options->enable_in_place_rename);
 	write_int_option(ssi, "open_recent_max", options->recent_list_max);
 	write_bool_option(ssi, "display_dialogs_under_mouse", options->place_dialogs_under_mouse);
-	secure_fputc(ssi, '\n');
-
-	write_bool_option(ssi, "user_specified_window_background", options->user_specified_window_background);
-	write_color_option(ssi, "window_background_color", &options->window_background_color);
-
+	
 
 	secure_fprintf(ssi, "\n##### Layout Options #####\n\n");
 
@@ -364,6 +360,8 @@ void save_options(void)
 	write_int_option(ssi, "image.dither_quality", options->image.dither_quality);
 	write_bool_option(ssi, "image.enable_read_ahead", options->image.enable_read_ahead);
 	write_bool_option(ssi, "image.exif_rotate_enable", options->image.exif_rotate_enable);
+	write_bool_option(ssi, "image.use_custom_border_color", options->image.use_custom_border_color);
+	write_color_option(ssi, "image.border_color", &options->image.border_color);
 
 
 	secure_fprintf(ssi, "\n##### Thumbnails Options #####\n\n");
@@ -642,6 +640,10 @@ void load_options(void)
 			"image.enable_read_ahead", value, options->image.enable_read_ahead);
 		options->image.exif_rotate_enable = read_bool_option(f, option,
 			"image.exif_rotate_enable", value, options->image.exif_rotate_enable);
+		options->image.use_custom_border_color = read_bool_option(f, option,
+			"image.use_custom_border_color", value, options->image.use_custom_border_color);
+		read_color_option(f, option,
+			"image.border_color", value, &options->image.border_color);
 
 		options->progressive_key_scrolling = read_bool_option(f, option,
 			"progressive_keyboard_scrolling", value, options->progressive_key_scrolling);
@@ -701,11 +703,6 @@ void load_options(void)
 
 		options->place_dialogs_under_mouse = read_bool_option(f, option,
 			"display_dialogs_under_mouse", value, options->place_dialogs_under_mouse);
-
-		options->user_specified_window_background = read_bool_option(f, option,
-			"user_specified_window_background", value, options->user_specified_window_background);
-		read_color_option(f, option,
-			"window_background_color", value, &options->window_background_color);
 
 		options->fullscreen.screen = read_int_option(f, option,
 			"fullscreen.screen", value, options->fullscreen.screen);

@@ -97,8 +97,8 @@ ConfOptions *init_options(ConfOptions *options)
 	
 	options->place_dialogs_under_mouse = FALSE;
 	
-	options->user_specified_window_background = FALSE;
-	memset(&options->window_background_color, 0, sizeof(options->window_background_color));
+	options->image.use_custom_border_color = FALSE;
+	memset(&options->image.border_color, 0, sizeof(options->image.border_color));
 	
 	options->fullscreen.screen = -1;
 	options->fullscreen.clean_flip = FALSE;

@@ -233,11 +233,11 @@ static void config_window_apply(void)
 
 	options->image.enable_read_ahead = c_options->image.enable_read_ahead;
 
-	if (options->user_specified_window_background != c_options->user_specified_window_background
-	    || !gdk_color_equal(&options->window_background_color, &c_options->window_background_color))
+	if (options->image.use_custom_border_color != c_options->image.use_custom_border_color
+	    || !gdk_color_equal(&options->image.border_color, &c_options->image.border_color))
 		{
-		options->user_specified_window_background = c_options->user_specified_window_background;
-		options->window_background_color = c_options->window_background_color;
+		options->image.use_custom_border_color = c_options->image.use_custom_border_color;
+		options->image.border_color = c_options->image.border_color;
 		layout_colors_update();
 		view_window_colors_update();
 		}
@@ -919,11 +919,11 @@ static void config_tab_image(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Appearance"), GTK_ORIENTATION_VERTICAL);
 
-	pref_checkbox_new_int(group, _("User specified background color"),
-			      options->user_specified_window_background, &c_options->user_specified_window_background);
+	pref_checkbox_new_int(group, _("Custom border color"),
+			      options->image.use_custom_border_color, &c_options->image.use_custom_border_color);
 
-	pref_colorbutton_new(group, _("Background color"), &options->window_background_color,
-			     G_CALLBACK(pref_background_color_set_cb), &c_options->window_background_color);
+	pref_color_button_new(group, _("Border color"), &options->image.border_color,
+			      G_CALLBACK(pref_color_button_set_cb), &c_options->image.border_color);
 
 	group = pref_group_new(vbox, FALSE, _("Convenience"), GTK_ORIENTATION_VERTICAL);
 
