@@ -494,7 +494,7 @@ void sidecar_ext_parse(const gchar *text, gint quoted)
 
 void sidecar_ext_write(SecureSaveInfo *ssi)
 {
-	secure_fprintf(ssi, "\nsidecar_ext: \"%s\"\n", sidecar_ext_to_string());
+	secure_fprintf(ssi, "sidecar.ext: \"%s\"\n", sidecar_ext_to_string());
 }
 
 char *sidecar_ext_to_string()

@@ -748,7 +748,7 @@ void load_options(void)
 			filter_parse(value_all);
 			}
 
-		if (strcasecmp(option, "sidecar_ext") == 0)
+		if (strcasecmp(option, "sidecar.ext") == 0)
 			{
 			sidecar_ext_parse(value_all, TRUE);
 			}
