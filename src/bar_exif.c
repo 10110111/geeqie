@@ -28,26 +28,26 @@
 #define BAR_EXIF_DATA_COLUMN_WIDTH 250
 
 ExifUI ExifUIList[]={
-	{ 0, 0, EXIF_UI_ON,    "fCamera"},
-	{ 0, 0, EXIF_UI_ON,    "fDateTime"},
-	{ 0, 0, EXIF_UI_ON,    "fShutterSpeed"},
-	{ 0, 0, EXIF_UI_ON,    "fAperture"},
-	{ 0, 0, EXIF_UI_IFSET, "fExposureBias"},
-	{ 0, 0, EXIF_UI_IFSET, "fISOSpeedRating"},
-	{ 0, 0, EXIF_UI_ON,    "fFocalLength"},
-	{ 0, 0, EXIF_UI_IFSET, "fFocalLength35mmFilm"},
-	{ 0, 0, EXIF_UI_ON,    "fFlash"},
-	{ 0, 0, EXIF_UI_IFSET, "fSubjectDistance"},
-	{ 0, 0, EXIF_UI_IFSET, "Exif.Photo.ExposureProgram"},
-	{ 0, 0, EXIF_UI_IFSET, "Exif.Photo.MeteringMode"},
-	{ 0, 0, EXIF_UI_IFSET, "Exif.Photo.LightSource"},
-	{ 0, 0, EXIF_UI_IFSET, "Exif.Photo.ColorSpace"},
-	{ 0, 0, EXIF_UI_IFSET, "fSubjectDistance"},
-	{ 0, 0, EXIF_UI_OFF,   "fResolution"},
-	{ 0, 0, EXIF_UI_IFSET, "Exif.Image.Orientation"},
-	{ 0, 0, EXIF_UI_IFSET, "Exif.Image.ImageDescription"},
-	{ 0, 0, EXIF_UI_IFSET, "Exif.Image.Copyright"},
-	{ 0, 0, EXIF_UI_OFF,   NULL}
+	{ 0, 0, EXIF_UI_IFSET,	"fCamera"},
+	{ 0, 0, EXIF_UI_IFSET,	"fDateTime"},
+	{ 0, 0, EXIF_UI_IFSET,	"fShutterSpeed"},
+	{ 0, 0, EXIF_UI_IFSET,	"fAperture"},
+	{ 0, 0, EXIF_UI_IFSET,	"fExposureBias"},
+	{ 0, 0, EXIF_UI_IFSET,	"fISOSpeedRating"},
+	{ 0, 0, EXIF_UI_IFSET,	"fFocalLength"},
+	{ 0, 0, EXIF_UI_IFSET,	"fFocalLength35mmFilm"},
+	{ 0, 0, EXIF_UI_IFSET,	"fFlash"},
+	{ 0, 0, EXIF_UI_IFSET,	"fSubjectDistance"},
+	{ 0, 0, EXIF_UI_IFSET,	"Exif.Photo.ExposureProgram"},
+	{ 0, 0, EXIF_UI_IFSET,	"Exif.Photo.MeteringMode"},
+	{ 0, 0, EXIF_UI_IFSET,	"Exif.Photo.LightSource"},
+	{ 0, 0, EXIF_UI_IFSET,	"Exif.Photo.ColorSpace"},
+	{ 0, 0, EXIF_UI_IFSET,	"fSubjectDistance"},
+	{ 0, 0, EXIF_UI_IFSET,	"fResolution"},
+	{ 0, 0, EXIF_UI_IFSET,	"Exif.Image.Orientation"},
+	{ 0, 0, EXIF_UI_IFSET,	"Exif.Image.ImageDescription"},
+	{ 0, 0, EXIF_UI_IFSET,	"Exif.Image.Copyright"},
+	{ 0, 0, EXIF_UI_OFF,	NULL}
 };
 
 
