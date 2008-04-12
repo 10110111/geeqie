@@ -337,7 +337,7 @@ void save_options(void)
 	write_bool_option(ssi, "image.limit_autofit_size", options->image.limit_autofit_size);
 	write_int_option(ssi, "image.max_autofit_size", options->image.max_autofit_size);
 	write_int_option(ssi, "image.scroll_reset_method", options->image.scroll_reset_method);
-	write_int_option(ssi, "image_cache_size_max", options->image.tile_cache_max);
+	write_int_option(ssi, "image.tile_cache_max", options->image.tile_cache_max);
 	write_int_option(ssi, "image.zoom_quality", options->image.zoom_quality);
 	write_int_option(ssi, "image.dither_quality", options->image.dither_quality);
 	write_int_option(ssi, "image.zoom_increment", options->image.zoom_increment);
@@ -577,7 +577,7 @@ void load_options(void)
 		options->image.scroll_reset_method = read_int_option(f, option,
 			"image.scroll_reset_method", value, options->image.scroll_reset_method);
 		options->image.tile_cache_max = read_int_option(f, option,
-			"image.cache_size_max", value, options->image.tile_cache_max);
+			"image.tile_cache_max", value, options->image.tile_cache_max);
 		options->image.zoom_quality = CLAMP(read_int_option(f, option,
 			"image.zoom_quality", value, options->image.zoom_quality), GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
 		options->image.dither_quality = CLAMP(read_int_option(f, option,
