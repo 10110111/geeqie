@@ -2666,8 +2666,10 @@ static gint pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
 
 			if (pr->autofit_limit)
 				{
-				w = w * pr->autofit_limit_size / 100;
-				h = h * pr->autofit_limit_size / 100;
+				gdouble factor = (gdouble)pr->autofit_limit_size / 100;
+				w = w * factor + 0.5;
+				h = h * factor + 0.5;
+				scale = scale * factor;
 				}
 			
 			if (w < 1) w = 1;
