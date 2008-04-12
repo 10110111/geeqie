@@ -465,10 +465,10 @@ void save_options(void)
 		}
 
 
-	secure_fprintf(ssi, "\n##### Exif #####\n# 0: never\n# 1: if set\n# 2: always\n\n");
+	secure_fprintf(ssi, "\n##### Exif Options #####\n# Display:\n#   0: never\n#   1: if set\n#   2: always\n\n");
 	for (i = 0; ExifUIList[i].key; i++)
 		{
-		secure_fprintf(ssi, "exif_");
+		secure_fprintf(ssi, "exif.display.");
 		write_int_option(ssi, (gchar *)ExifUIList[i].key, ExifUIList[i].current);
 		}
 
@@ -810,10 +810,10 @@ void load_options(void)
 		options->collections.rectangular_selection = read_bool_option(f, option,
 			"collections.rectangular_selection", value, options->collections.rectangular_selection);
 
-		if (0 == strncasecmp(option, "exif_", 5))
+		if (0 == strncasecmp(option, "exif.display.", 13))
 			{
 			for (i = 0; ExifUIList[i].key; i++)
-				if (0 == strcasecmp(option+5, ExifUIList[i].key))
+				if (0 == strcasecmp(option + 13, ExifUIList[i].key))
 					ExifUIList[i].current = strtol(value, NULL, 10);
 		  	}
 		}
