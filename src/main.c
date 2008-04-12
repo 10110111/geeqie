@@ -1212,7 +1212,7 @@ static void exit_program_final(void)
 	layout_views_get(NULL, &options->layout.view_as_tree, &options->layout.view_as_icons);
 
 	options->thumbnails_enabled = layout_thumb_get(NULL);
-	layout_sort_get(NULL, &options->file_sort_method, &options->file_sort_ascending);
+	layout_sort_get(NULL, &options->file_sort.method, &options->file_sort.ascending);
 
 	layout_geometry_get_tools(NULL, &options->float_window_x, &options->float_window_y,
 				  &options->float_window_w, &options->float_window_h, &options->float_window_divider);
@@ -1394,7 +1394,7 @@ int main (int argc, char *argv[])
 		}
 
 	lw = layout_new_with_geometry(NULL, options->tools_float, options->tools_hidden, geometry);
-	layout_sort_set(lw, options->file_sort_method, options->file_sort_ascending);
+	layout_sort_set(lw, options->file_sort.method, options->file_sort.ascending);
 
 	if (collection_list && !startup_command_line_collection)
 		{

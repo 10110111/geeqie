@@ -255,7 +255,7 @@ static void layout_menu_new_window_cb(GtkAction *action, gpointer data)
 		layout_image_full_screen_stop(lw);
 
 	nw = layout_new(NULL, FALSE, FALSE);
-	layout_sort_set(nw, options->file_sort_method, options->file_sort_ascending);
+	layout_sort_set(nw, options->file_sort.method, options->file_sort.ascending);
 	layout_set_path(nw, layout_get_path(lw));
 }
 

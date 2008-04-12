@@ -72,8 +72,8 @@ ConfOptions *init_options(ConfOptions *options)
 	
 	
 	options->thumbnails_enabled = FALSE;
-	options->file_sort_method = SORT_NAME;
-	options->file_sort_ascending = TRUE;
+	options->file_sort.method = SORT_NAME;
+	options->file_sort.ascending = TRUE;
 	
 	options->slideshow.delay = 150;
 	options->slideshow.random = FALSE;
@@ -109,7 +109,7 @@ ConfOptions *init_options(ConfOptions *options)
 	
 	options->dupe_custom_threshold = 99;
 
-	options->file_sort_case_sensitive = FALSE;
+	options->file_sort.case_sensitive = FALSE;
 
 	/* layout */
 	options->layout.order = NULL;

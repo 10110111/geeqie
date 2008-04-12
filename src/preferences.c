@@ -179,7 +179,7 @@ static void config_window_apply(void)
 	if (buf && strlen(buf) > 0) options->safe_delete_path = remove_trailing_slash(buf);
 
 	if (options->show_dot_files != c_options->show_dot_files) refresh = TRUE;
-	if (options->file_sort_case_sensitive != c_options->file_sort_case_sensitive) refresh = TRUE;
+	if (options->file_sort.case_sensitive != c_options->file_sort.case_sensitive) refresh = TRUE;
 	if (options->file_filter_disable != c_options->file_filter_disable) refresh = TRUE;
 
 	options->startup_path_enable = c_options->startup_path_enable;
@@ -209,7 +209,7 @@ static void config_window_apply(void)
 	options->thumbnail_spec_standard = c_options->thumbnail_spec_standard;
 	options->enable_metadata_dirs = c_options->enable_metadata_dirs;
 	options->show_dot_files = c_options->show_dot_files;
-	options->file_sort_case_sensitive = c_options->file_sort_case_sensitive;
+	options->file_sort.case_sensitive = c_options->file_sort.case_sensitive;
 	options->file_filter_disable = c_options->file_filter_disable;
 
 	sidecar_ext_parse(gtk_entry_get_text(GTK_ENTRY(sidecar_ext_entry)), FALSE);
@@ -1006,7 +1006,7 @@ static void config_tab_filtering(GtkWidget *notebook)
 	pref_checkbox_new_int(group, _("Show entries that begin with a dot"),
 			      options->show_dot_files, &c_options->show_dot_files);
 	pref_checkbox_new_int(group, _("Case sensitive sort"),
-			      options->file_sort_case_sensitive, &c_options->file_sort_case_sensitive);
+			      options->file_sort.case_sensitive, &c_options->file_sort.case_sensitive);
 
 	ct_button = pref_checkbox_new_int(group, _("Disable File Filtering"),
 					  options->file_filter_disable, &c_options->file_filter_disable);

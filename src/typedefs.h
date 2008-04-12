@@ -825,9 +825,11 @@ struct _ConfOptions
 	gchar *editor_command[GQ_EDITOR_SLOTS];
 
 	/* file sorting */
-	SortType file_sort_method;
-	gint file_sort_ascending;
-	gint file_sort_case_sensitive; /* file sorting method (case) */
+	struct {
+		SortType method;
+		gint ascending;
+		gint case_sensitive; /* file sorting method (case) */
+	} file_sort;
 
 	/* slideshow */
 	struct {

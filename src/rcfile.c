@@ -326,9 +326,9 @@ void save_options(void)
 	write_bool_option(ssi, "local_metadata", options->enable_metadata_dirs);
 	secure_fputc(ssi, '\n');
 
-	write_int_option(ssi, "sort_method", (gint)options->file_sort_method);
-	write_bool_option(ssi, "sort_ascending", options->file_sort_ascending);
-	write_bool_option(ssi, "sort_case_sensitive", options->file_sort_case_sensitive);
+	write_int_option(ssi, "file_sort.method", (gint)options->file_sort.method);
+	write_bool_option(ssi, "file_sort.ascending", options->file_sort.ascending);
+	write_bool_option(ssi, "file_sort.case_sensitive", options->file_sort.case_sensitive);
 	secure_fputc(ssi, '\n');
 
 	write_bool_option(ssi, "confirm_delete", options->confirm_delete);
@@ -600,12 +600,12 @@ void load_options(void)
 		options->enable_metadata_dirs = read_bool_option(f, option,
 			"local_metadata", value, options->enable_metadata_dirs);
 
-		options->file_sort_method = (SortType)read_int_option(f, option,
-			"sort_method", value, (gint)options->file_sort_method);
-		options->file_sort_ascending = read_bool_option(f, option,
-			"sort_ascending", value, options->file_sort_ascending);
-		options->file_sort_case_sensitive = read_bool_option(f, option,
-			"sort_case_sensitive", value, options->file_sort_case_sensitive);
+		options->file_sort.method = (SortType)read_int_option(f, option,
+			"file_sort.method", value, (gint)options->file_sort.method);
+		options->file_sort.ascending = read_bool_option(f, option,
+			"file_sort.ascending", value, options->file_sort.ascending);
+		options->file_sort.case_sensitive = read_bool_option(f, option,
+			"file_sort.case_sensitive", value, options->file_sort.case_sensitive);
 
 		options->confirm_delete = read_bool_option(f, option,
 			"confirm_delete", value, options->confirm_delete);
