@@ -731,6 +731,7 @@ struct _SecureSaveInfo {
 
 struct _ConfOptions
 {
+	/* windows */
 	gint main_window_w;
 	gint main_window_h;
 	gint main_window_x;
@@ -747,19 +748,41 @@ struct _ConfOptions
 	gint window_vdivider_pos;
 
 	gint save_window_positions;
+
 	gint tools_float;
 	gint tools_hidden;
 	gint toolbar_hidden;
-	gint progressive_key_scrolling;
 
+	/* ui */
+	gint progressive_key_scrolling;
+	gint place_dialogs_under_mouse;
+	gint mousewheel_scrolls;
+	gint show_icon_names;
+
+	/* various */
+	gint enable_in_place_rename;
 	gint startup_path_enable;
 	gchar *startup_path;
+	gint enable_metadata_dirs;
+
+	gint tree_descend_subdirs;
+
+	gint lazy_image_sync;
+	gint update_on_time_change;
+
 	gint confirm_delete;
 	gint enable_delete_key;
 	gint safe_delete_enable;
 	gchar *safe_delete_path;
 	gint safe_delete_size;
 	gint restore_tool;
+
+	gint dupe_custom_threshold;
+
+	gint recent_list_max;
+
+	/* image */
+	gint exif_rotate_enable;
 	gint zoom_mode;
 	gint two_pass_zoom;
 	gint scroll_reset_method;
@@ -769,6 +792,16 @@ struct _ConfOptions
 	gint max_window_size;
 	gint limit_autofit_size;
 	gint max_autofit_size;
+	gint tile_cache_max;	/* in megabytes */
+	gint zoom_quality;
+	gint dither_quality;
+	gint zoom_increment;	/* 10 is 1.0, 5 is 0.05, 20 is 2.0, etc. */
+	gint enable_read_ahead;
+	
+	gint user_specified_window_background;
+	GdkColor window_background_color;
+
+	/* thumbnails */
 	gint thumb_max_width;
 	gint thumb_max_height;
 	gint enable_thumb_caching;
@@ -776,28 +809,34 @@ struct _ConfOptions
 	gint thumbnail_fast;
 	gint use_xvpics_thumbnails;
 	gint thumbnail_spec_standard;
-	gint enable_metadata_dirs;
+	gint thumbnail_quality;
+	gint thumbnails_enabled;
+
+	/* file filtering */
+	GList *filename_filter;
 	gint show_dot_files;
 	gint file_filter_disable;
+
+	/* collections */
+	gint collection_rectangular_selection;
+
+	/* editors */
 	gchar *editor_name[GQ_EDITOR_SLOTS];
 	gchar *editor_command[GQ_EDITOR_SLOTS];
 
-	gint thumbnails_enabled;
+	/* file sorting */
 	SortType file_sort_method;
 	gint file_sort_ascending;
+	gint file_sort_case_sensitive; /* file sorting method (case) */
 
+	/* slideshow */
 	struct {
 		gint delay;	/* in tenths of a second */
 		gint random;
 		gint repeat;
 	} slideshow;
 
-	gint mousewheel_scrolls;
-	gint enable_in_place_rename;
-
-	gint user_specified_window_background;
-	GdkColor window_background_color;
-
+	/* fullscreen */
 	struct 	{
 		gint screen;
 		gint clean_flip;
@@ -806,25 +845,6 @@ struct _ConfOptions
 		gint show_info;
 		gchar *info;
 	} fullscreen;
-
-	gint dupe_custom_threshold;
-
-	gint recent_list_max;
-
-	gint collection_rectangular_selection;
-
-	gint tile_cache_max;	/* in megabytes */
-	gint thumbnail_quality;
-	gint zoom_quality;
-	gint dither_quality;
-
-	gint zoom_increment;	/* 10 is 1.0, 5 is 0.05, 20 is 2.0, etc. */
-
-	gint enable_read_ahead;
-
-	gint place_dialogs_under_mouse;
-
-	gint file_sort_case_sensitive; /* file sorting method (case) */
 
 	/* layout */
 	struct {
@@ -835,14 +855,7 @@ struct _ConfOptions
 		gint view_as_tree;
 	} layout;
 
-	gint show_icon_names;
-
-	gint tree_descend_subdirs;
-
-	gint lazy_image_sync;
-	gint update_on_time_change;
-	gint exif_rotate_enable;
-
+	/* color profiles */
 	struct {
 		gint enabled;
 		gint input_type;
@@ -854,7 +867,6 @@ struct _ConfOptions
 
 	} color_profile;
 
-	GList *filename_filter;
 };
 
 #endif
