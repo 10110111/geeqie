@@ -27,29 +27,6 @@
 
 #define BAR_EXIF_DATA_COLUMN_WIDTH 250
 
-static const gchar *bar_exif_key_list_real[] = {
-	"fCamera",
-	"fDateTime",
-	"fShutterSpeed",
-	"fAperture",
-	"Exif.Photo.ExposureProgram",
-	"fExposureBias",
-	"fISOSpeedRating",
-	"fFocalLength",
-	"fFocalLength35mmFilm",
-	"fSubjectDistance",
-	"Exif.Photo.MeteringMode",
-	"fFlash",
-	"Exif.Photo.LightSource",
-	"fResolution",
-	"Exif.Image.Orientation",
-	"Exif.Image.ImageDescription",
-	"Exif.Image.Copyright" 
-};
-
-const gchar **bar_exif_key_list = bar_exif_key_list_real;
-const gint bar_exif_key_count = (sizeof(bar_exif_key_list_real) / sizeof(gchar *));
-
 ExifUI ExifUIList[]={
 	{ 0, 0, EXIF_UI_ON,    "fCamera"},
 	{ 0, 0, EXIF_UI_ON,    "fDateTime"},

@@ -1438,13 +1438,13 @@ static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 
 	pan_text_alignment_add(ta, NULL, NULL);
 
-	for (i = 0; i < bar_exif_key_count; i++)
+	for (i = 0; ExifUIList[i].key; i++)
 		{
 		gchar *label;
 		gchar *text;
 
-		label = g_strdup_printf("%s:", exif_get_description_by_key(bar_exif_key_list[i]));
-		text = exif_get_data_as_text(exif, bar_exif_key_list[i]);
+		label = g_strdup_printf("%s:", exif_get_description_by_key(ExifUIList[i].key));
+		text = exif_get_data_as_text(exif, ExifUIList[i].key);
 		text = bar_exif_validate_text(text);
 		pan_text_alignment_add(ta, label, text);
 		g_free(label);
