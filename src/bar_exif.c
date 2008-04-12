@@ -64,6 +64,7 @@ ExifUI ExifUIList[]={
 	{ 0, 0, EXIF_UI_IFSET, "Exif.Photo.ExposureProgram"},
 	{ 0, 0, EXIF_UI_IFSET, "Exif.Photo.MeteringMode"},
 	{ 0, 0, EXIF_UI_IFSET, "Exif.Photo.LightSource"},
+	{ 0, 0, EXIF_UI_IFSET, "Exif.Photo.ColorSpace"},
 	{ 0, 0, EXIF_UI_IFSET, "fSubjectDistance"},
 	{ 0, 0, EXIF_UI_OFF,   "fResolution"},
 	{ 0, 0, EXIF_UI_IFSET, "Exif.Image.Orientation"},
