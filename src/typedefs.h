@@ -786,9 +786,11 @@ struct _ConfOptions
 	SortType file_sort_method;
 	gint file_sort_ascending;
 
-	gint slideshow_delay;	/* in tenths of a second */
-	gint slideshow_random;
-	gint slideshow_repeat;
+	struct {
+		gint delay;	/* in tenths of a second */
+		gint random;
+		gint repeat;
+	} slideshow;
 
 	gint mousewheel_scrolls;
 	gint enable_in_place_rename;

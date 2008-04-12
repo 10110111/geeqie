@@ -75,9 +75,9 @@ ConfOptions *init_options(ConfOptions *options)
 	options->file_sort_method = SORT_NAME;
 	options->file_sort_ascending = TRUE;
 	
-	options->slideshow_delay = 150;
-	options->slideshow_random = FALSE;
-	options->slideshow_repeat = FALSE;
+	options->slideshow.delay = 150;
+	options->slideshow.random = FALSE;
+	options->slideshow.repeat = FALSE;
 	
 	options->mousewheel_scrolls = FALSE;
 	options->enable_in_place_rename = TRUE;

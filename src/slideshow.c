@@ -94,7 +94,7 @@ static void slideshow_list_init(SlideShowData *ss, gint start_index)
 
 	if (ss->list) g_list_free(ss->list);
 
-	if (options->slideshow_random)
+	if (options->slideshow.random)
 		{
 		ss->list = generate_random_list(ss);
 		}
@@ -209,7 +209,7 @@ static gint slideshow_step(SlideShowData *ss, gint forward)
 			}
 		}
 
-	if (!ss->list && options->slideshow_repeat)
+	if (!ss->list && options->slideshow.repeat)
 		{
 		slideshow_list_init(ss, -1);
 		}
@@ -274,10 +274,10 @@ static void slideshow_timer_reset(SlideShowData *ss, gint reset)
 {
 	if (reset)
 		{
-		if (options->slideshow_delay < 1) options->slideshow_delay = 1;
+		if (options->slideshow.delay < 1) options->slideshow.delay = 1;
 
 		if (ss->timeout_id != -1) g_source_remove(ss->timeout_id);
-		ss->timeout_id = g_timeout_add(options->slideshow_delay * 1000 / SLIDESHOW_SUBSECOND_PRECISION,
+		ss->timeout_id = g_timeout_add(options->slideshow.delay * 1000 / SLIDESHOW_SUBSECOND_PRECISION,
 					       slideshow_loop_cb, ss);
 		}
 	else if (ss->timeout_id != -1)
@@ -350,7 +350,7 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 		{
 		collection_ref(ss->cd);
 		ss->slide_count = g_list_length(ss->cd->list);
-		if (!options->slideshow_random && start_info)
+		if (!options->slideshow.random && start_info)
 			{
 			start_index = g_list_index(ss->cd->list, start_info);
 			}
@@ -364,7 +364,7 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 		if (ss->slide_count < 2)
 			{
 			ss->slide_count = layout_list_count(ss->layout, NULL);
-			if (!options->slideshow_random && start_point >= 0 && start_point < ss->slide_count)
+			if (!options->slideshow.random && start_point >= 0 && start_point < ss->slide_count)
 				{
 				start_index = start_point;
 				}

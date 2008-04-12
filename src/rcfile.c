@@ -372,10 +372,10 @@ void save_options(void)
 
 	secure_fprintf(ssi, "\n##### Slideshow Options #####\n\n");
 
-	write_int_unit_option(ssi, "slideshow_delay", options->slideshow_delay, SLIDESHOW_SUBSECOND_PRECISION);
+	write_int_unit_option(ssi, "slideshow.delay", options->slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION);
 
-	write_bool_option(ssi, "slideshow_random", options->slideshow_random);
-	write_bool_option(ssi, "slideshow_repeat", options->slideshow_repeat);
+	write_bool_option(ssi, "slideshow.random", options->slideshow.random);
+	write_bool_option(ssi, "slideshow.repeat", options->slideshow.repeat);
 
 	secure_fprintf(ssi, "\n##### Filtering Options #####\n\n");
 
@@ -678,12 +678,12 @@ void load_options(void)
 
 		/* slideshow options */
 
-		options->slideshow_delay = read_int_unit_option(f, option,
-			"slideshow_delay", value, options->slideshow_delay, SLIDESHOW_SUBSECOND_PRECISION);
-		options->slideshow_random = read_bool_option(f, option,
-			"slideshow_random", value, options->slideshow_random);
-		options->slideshow_repeat = read_bool_option(f, option,
-			"slideshow_repeat", value, options->slideshow_repeat);
+		options->slideshow.delay = read_int_unit_option(f, option,
+			"slideshow.delay", value, options->slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION);
+		options->slideshow.random = read_bool_option(f, option,
+			"slideshow.random", value, options->slideshow.random);
+		options->slideshow.repeat = read_bool_option(f, option,
+			"slideshow.repeat", value, options->slideshow.repeat);
 
 		/* filtering options */
 

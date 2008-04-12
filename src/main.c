@@ -403,7 +403,7 @@ static void gr_slideshow_delay(const gchar *text, gpointer data)
 
 		return;
 		}
-	options->slideshow_delay = (gint)(n * 10.0 + 0.01);
+	options->slideshow.delay = (gint)(n * 10.0 + 0.01);
 }
 
 static void gr_tools_show(const gchar *text, gpointer data)

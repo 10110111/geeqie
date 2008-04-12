@@ -133,7 +133,7 @@ static void zoom_increment_cb(GtkWidget *spin, gpointer data)
 
 static void slideshow_delay_cb(GtkWidget *spin, gpointer data)
 {
-	c_options->slideshow_delay = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) *
+	c_options->slideshow.delay = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) *
 				   (double)SLIDESHOW_SUBSECOND_PRECISION + 0.01);
 }
 
@@ -214,9 +214,9 @@ static void config_window_apply(void)
 
 	sidecar_ext_parse(gtk_entry_get_text(GTK_ENTRY(sidecar_ext_entry)), FALSE);
 
-	options->slideshow_random = c_options->slideshow_random;
-	options->slideshow_repeat = c_options->slideshow_repeat;
-	options->slideshow_delay = c_options->slideshow_delay;
+	options->slideshow.random = c_options->slideshow.random;
+	options->slideshow.repeat = c_options->slideshow.repeat;
+	options->slideshow.delay = c_options->slideshow.delay;
 
 	options->mousewheel_scrolls = c_options->mousewheel_scrolls;
 
@@ -847,15 +847,15 @@ static void config_tab_general(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Slide show"), GTK_ORIENTATION_VERTICAL);
 
-	c_options->slideshow_delay = options->slideshow_delay;
+	c_options->slideshow.delay = options->slideshow.delay;
 	spin = pref_spin_new(group, _("Delay between image change:"), _("seconds"),
 			     SLIDESHOW_MIN_SECONDS, SLIDESHOW_MAX_SECONDS, 1.0, 1,
-			     options->slideshow_delay ? (double)options->slideshow_delay / SLIDESHOW_SUBSECOND_PRECISION : 10.0,
+			     options->slideshow.delay ? (double)options->slideshow.delay / SLIDESHOW_SUBSECOND_PRECISION : 10.0,
 			     G_CALLBACK(slideshow_delay_cb), NULL);
 	gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), GTK_UPDATE_ALWAYS);
 
-	pref_checkbox_new_int(group, _("Random"), options->slideshow_random, &c_options->slideshow_random);
-	pref_checkbox_new_int(group, _("Repeat"), options->slideshow_repeat, &c_options->slideshow_repeat);
+	pref_checkbox_new_int(group, _("Random"), options->slideshow.random, &c_options->slideshow.random);
+	pref_checkbox_new_int(group, _("Repeat"), options->slideshow.repeat, &c_options->slideshow.repeat);
 }
 
 /* image tab */
