@@ -962,15 +962,15 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 			else if (strcmp(cmd_line, "+t") == 0 ||
 				 strcmp(cmd_line, "--with-tools") == 0)
 				{
-				options->tools_float = FALSE;
-				options->tools_hidden = FALSE;
+				options->layout.tools_float = FALSE;
+				options->layout.tools_hidden = FALSE;
 
 				remote_list = g_list_append(remote_list, "+t");
 				}
 			else if (strcmp(cmd_line, "-t") == 0 ||
 				 strcmp(cmd_line, "--without-tools") == 0)
 				{
-				options->tools_hidden = TRUE;
+				options->layout.tools_hidden = TRUE;
 
 				remote_list = g_list_append(remote_list, "-t");
 				}
@@ -1198,26 +1198,26 @@ static void exit_program_final(void)
 
 	if (layout_valid(&lw))
 		{
-		options->main_window_maximized =  window_maximized(lw->window);
-		if (!options->main_window_maximized)
+		options->layout.main_window.maximized =  window_maximized(lw->window);
+		if (!options->layout.main_window.maximized)
 			{
-			layout_geometry_get(NULL, &options->main_window_x, &options->main_window_y,
-					    &options->main_window_w, &options->main_window_h);
+			layout_geometry_get(NULL, &options->layout.main_window.x, &options->layout.main_window.y,
+					    &options->layout.main_window.w, &options->layout.main_window.h);
 			}
 		options->fullscreen.show_info = image_osd_get(lw->image, NULL, NULL);
 		}
 
-	layout_geometry_get_dividers(NULL, &options->window_hdivider_pos, &options->window_vdivider_pos);
+	layout_geometry_get_dividers(NULL, &options->layout.main_window.hdivider_pos, &options->layout.main_window.vdivider_pos);
 
 	layout_views_get(NULL, &options->layout.view_as_tree, &options->layout.view_as_icons);
 
 	options->thumbnails.enabled = layout_thumb_get(NULL);
 	layout_sort_get(NULL, &options->file_sort.method, &options->file_sort.ascending);
 
-	layout_geometry_get_tools(NULL, &options->float_window_x, &options->float_window_y,
-				  &options->float_window_w, &options->float_window_h, &options->float_window_divider);
-	layout_tools_float_get(NULL, &options->tools_float, &options->tools_hidden);
-	options->toolbar_hidden = layout_toolbar_hidden(NULL);
+	layout_geometry_get_tools(NULL, &options->layout.float_window.x, &options->layout.float_window.y,
+				  &options->layout.float_window.w, &options->layout.float_window.h, &options->layout.float_window.vdivider_pos);
+	layout_tools_float_get(NULL, &options->layout.tools_float, &options->layout.tools_hidden);
+	options->layout.toolbar_hidden = layout_toolbar_hidden(NULL);
 
 	options->color_profile.enabled = layout_image_color_profile_get_use(NULL);
 	layout_image_color_profile_get(NULL,
@@ -1393,7 +1393,7 @@ int main (int argc, char *argv[])
 		path = get_current_dir();
 		}
 
-	lw = layout_new_with_geometry(NULL, options->tools_float, options->tools_hidden, geometry);
+	lw = layout_new_with_geometry(NULL, options->layout.tools_float, options->layout.tools_hidden, geometry);
 	layout_sort_set(lw, options->file_sort.method, options->file_sort.ascending);
 
 	if (collection_list && !startup_command_line_collection)

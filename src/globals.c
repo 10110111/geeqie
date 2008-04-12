@@ -21,25 +21,25 @@ ConfOptions *init_options(ConfOptions *options)
 {
 	if (!options) options = g_new0(ConfOptions, 1);
 
-	options->main_window_w = 500;
-	options->main_window_h = 400;
-	options->main_window_x = 0;
-	options->main_window_y = 0;
-	options->main_window_maximized = FALSE;
+	options->layout.main_window.w = 500;
+	options->layout.main_window.h = 400;
+	options->layout.main_window.x = 0;
+	options->layout.main_window.y = 0;
+	options->layout.main_window.maximized = FALSE;
 	
-	options->float_window_w = 260;
-	options->float_window_h = 450;
-	options->float_window_x = 0;
-	options->float_window_y = 0;
-	options->float_window_divider = -1;
+	options->layout.float_window.w = 260;
+	options->layout.float_window.h = 450;
+	options->layout.float_window.x = 0;
+	options->layout.float_window.y = 0;
+	options->layout.float_window.vdivider_pos = -1;
 	
-	options->window_hdivider_pos = -1;
-	options->window_vdivider_pos = 200;
+	options->layout.main_window.hdivider_pos = -1;
+	options->layout.main_window.vdivider_pos = 200;
 	
-	options->save_window_positions = FALSE;
-	options->tools_float = FALSE;
-	options->tools_hidden = FALSE;
-	options->toolbar_hidden = FALSE;
+	options->layout.save_window_positions = FALSE;
+	options->layout.tools_float = FALSE;
+	options->layout.tools_hidden = FALSE;
+	options->layout.toolbar_hidden = FALSE;
 	options->progressive_key_scrolling = FALSE;
 	
 	options->startup_path_enable = FALSE;
@@ -49,7 +49,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->safe_delete_enable = FALSE;
 	options->safe_delete_path = NULL;
 	options->safe_delete_size = 128;
-	options->restore_tool = FALSE;
+	options->layout.tools_restore_state = FALSE;
 	options->image.zoom_mode = ZOOM_RESET_ORIGINAL;
 	options->image.zoom_2pass = TRUE;
 	options->image.scroll_reset_method = SCROLL_RESET_TOPLEFT;

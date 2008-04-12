@@ -1258,8 +1258,8 @@ gint layout_geometry_get_tools(LayoutWindow *lw, gint *x, gint *y, gint *w, gint
 
 static void layout_tools_geometry_sync(LayoutWindow *lw)
 {
-	layout_geometry_get_tools(lw, &options->float_window_x, &options->float_window_x,
-				  &options->float_window_w, &options->float_window_h, &lw->div_float);
+	layout_geometry_get_tools(lw, &options->layout.float_window.x, &options->layout.float_window.x,
+				  &options->layout.float_window.w, &options->layout.float_window.h, &lw->div_float);
 }
 
 static void layout_tools_hide(LayoutWindow *lw, gint hide)
@@ -1322,7 +1322,7 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 				 G_CALLBACK(layout_tools_delete_cb), lw);
 		layout_keyboard_init(lw, lw->tools);
 
-		if (options->save_window_positions)
+		if (options->layout.save_window_positions)
 			{
 			hints = GDK_HINT_USER_POS;
 			}
@@ -1378,10 +1378,10 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 
 	if (new_window)
 		{
-		if (options->save_window_positions)
+		if (options->layout.save_window_positions)
 			{
-			gtk_window_set_default_size(GTK_WINDOW(lw->tools), options->float_window_w, options->float_window_h);
-			gtk_window_move(GTK_WINDOW(lw->tools), options->float_window_x, options->float_window_y);
+			gtk_window_set_default_size(GTK_WINDOW(lw->tools), options->layout.float_window.w, options->layout.float_window.h);
+			gtk_window_move(GTK_WINDOW(lw->tools), options->layout.float_window.x, options->layout.float_window.y);
 			}
 		else
 			{
@@ -1398,7 +1398,7 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 			}
 		}
 
-	if (!options->save_window_positions)
+	if (!options->layout.save_window_positions)
 		{
 		if (vertical)
 			{
@@ -1886,7 +1886,7 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 	lw->tools_float = popped;
 	lw->tools_hidden = hidden;
 
-	lw->toolbar_hidden = options->toolbar_hidden;
+	lw->toolbar_hidden = options->layout.toolbar_hidden;
 
 	lw->utility_box = NULL;
 	lw->bar_sort = NULL;
@@ -1907,11 +1907,11 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 
 	/* divider positions */
 
-	if (options->save_window_positions)
+	if (options->layout.save_window_positions)
 		{
-		lw->div_h = options->window_hdivider_pos;
-		lw->div_v = options->window_vdivider_pos;
-		lw->div_float = options->float_window_divider;
+		lw->div_h = options->layout.main_window.hdivider_pos;
+		lw->div_v = options->layout.main_window.vdivider_pos;
+		lw->div_float = options->layout.float_window.vdivider_pos;
 		}
 	else
 		{
@@ -1926,7 +1926,7 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 	gtk_window_set_resizable(GTK_WINDOW(lw->window), TRUE);
 	gtk_container_set_border_width(GTK_CONTAINER(lw->window), 0);
 
-	if (options->save_window_positions)
+	if (options->layout.save_window_positions)
 		{
 		hint_mask = GDK_HINT_USER_POS;
 		}
@@ -1942,13 +1942,13 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 	gtk_window_set_geometry_hints(GTK_WINDOW(lw->window), NULL, &hint,
 				      GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE | hint_mask);
 
-	if (options->save_window_positions)
+	if (options->layout.save_window_positions)
 		{
-		gtk_window_set_default_size(GTK_WINDOW(lw->window), options->main_window_w, options->main_window_h);
+		gtk_window_set_default_size(GTK_WINDOW(lw->window), options->layout.main_window.w, options->layout.main_window.h);
 		if (!layout_window_list)
 			{
-			gtk_window_move(GTK_WINDOW(lw->window), options->main_window_x, options->main_window_y);
-			if (options->main_window_maximized) gtk_window_maximize(GTK_WINDOW(lw->window));
+			gtk_window_move(GTK_WINDOW(lw->window), options->layout.main_window.x, options->layout.main_window.y);
+			if (options->layout.main_window.maximized) gtk_window_maximize(GTK_WINDOW(lw->window));
 			}
 		}
 	else

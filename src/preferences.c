@@ -187,8 +187,8 @@ static void config_window_apply(void)
 	options->enable_delete_key = c_options->enable_delete_key;
 	options->safe_delete_enable = c_options->safe_delete_enable;
 	options->safe_delete_size = c_options->safe_delete_size;
-	options->restore_tool = c_options->restore_tool;
-	options->save_window_positions = c_options->save_window_positions;
+	options->layout.tools_restore_state = c_options->layout.tools_restore_state;
+	options->layout.save_window_positions = c_options->layout.save_window_positions;
 	options->image.zoom_mode = c_options->image.zoom_mode;
 	options->image.zoom_2pass = c_options->image.zoom_2pass;
 	options->image.fit_window_to_image = c_options->image.fit_window_to_image;
@@ -954,9 +954,9 @@ static void config_tab_windows(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("State"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Remember window positions"),
-			      options->save_window_positions, &c_options->save_window_positions);
+			      options->layout.save_window_positions, &c_options->layout.save_window_positions);
 	pref_checkbox_new_int(group, _("Remember tool state (float/hidden)"),
-			      options->restore_tool, &c_options->restore_tool);
+			      options->layout.tools_restore_state, &c_options->layout.tools_restore_state);
 
 	group = pref_group_new(vbox, FALSE, _("Size"), GTK_ORIENTATION_VERTICAL);
 

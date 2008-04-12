@@ -731,27 +731,6 @@ struct _SecureSaveInfo {
 
 struct _ConfOptions
 {
-	/* windows */
-	gint main_window_w;
-	gint main_window_h;
-	gint main_window_x;
-	gint main_window_y;
-	gint main_window_maximized;
-
-	gint float_window_w;
-	gint float_window_h;
-	gint float_window_x;
-	gint float_window_y;
-	gint float_window_divider;
-
-	gint window_hdivider_pos;
-	gint window_vdivider_pos;
-
-	gint save_window_positions;
-
-	gint tools_float;
-	gint tools_hidden;
-	gint toolbar_hidden;
 
 	/* ui */
 	gint progressive_key_scrolling;
@@ -775,8 +754,7 @@ struct _ConfOptions
 	gint safe_delete_enable;
 	gchar *safe_delete_path;
 	gint safe_delete_size;
-	gint restore_tool;
-
+	
 	gint dupe_custom_threshold;
 
 	gint recent_list_max;
@@ -864,6 +842,33 @@ struct _ConfOptions
 
 		gint view_as_icons;
 		gint view_as_tree;
+
+		struct {
+			gint w;
+			gint h;
+			gint x;
+			gint y;
+			gint maximized;
+			gint hdivider_pos;
+			gint vdivider_pos;
+		} main_window;
+
+		struct {
+			gint w;
+			gint h;
+			gint x;
+			gint y;
+			gint vdivider_pos;
+		} float_window;
+
+		gint save_window_positions;
+
+		gint tools_float;
+		gint tools_hidden;
+		gint tools_restore_state;
+
+		gint toolbar_hidden;
+
 	} layout;
 
 	/* color profiles */
