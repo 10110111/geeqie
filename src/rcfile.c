@@ -506,11 +506,10 @@ void load_options(void)
 	gchar *rc_path;
 	gchar *rc_pathl;
 	gchar s_buf[1024];
-	gchar *s_buf_ptr;
 	gchar option[1024];
 	gchar value[1024];
 	gchar value_all[1024];
-	gint c,l,i;
+	gint i;
 
 	for (i = 0; ExifUIList[i].key; i++)
 		ExifUIList[i].current = ExifUIList[i].default_value;
@@ -526,24 +525,25 @@ void load_options(void)
 		return;
 		}
 
-	while (fgets(s_buf,1024,f))
+	while (fgets(s_buf, sizeof(s_buf), f))
 		{
-		if (s_buf[0]=='#') continue;
-		if (s_buf[0]=='\n') continue;
-		c = 0;
-		l = strlen(s_buf);
-		while (s_buf[c] != ':' && c < l) c++;
-		if (c >= l) continue;
-		s_buf[c] = '\0';
-		c++;
-		while ((s_buf[c] == ' ' || s_buf[c] == 8) && c < l) c++;
-		s_buf_ptr = s_buf + c;
-		strncpy(value_all, s_buf_ptr, sizeof(value_all));
-		while (s_buf[c] != 8 && s_buf[c] != ' ' && s_buf[c] != '\n' && c < l) c++;
-		s_buf[c] = '\0';
-		strncpy(option, s_buf, sizeof(option));
-		strncpy(value, s_buf_ptr, sizeof(value));
+		gchar *option_start, *value_start;
+		gchar *p = s_buf;
 
+		while(g_ascii_isspace(*p)) p++;
+		if (!*p || *p == '\n' || *p == '#') continue;
+		option_start = p;
+		while(*p && *p != ':') p++;
+		if (!*p) continue;
+		*p = '\0';
+		p++;
+		strncpy(option, option_start, sizeof(option));
+		while(g_ascii_isspace(*p)) p++;
+		value_start = p;
+		strncpy(value_all, value_start, sizeof(value_all));
+		while(*p && !g_ascii_isspace(*p) && *p != '\n') p++;
+		*p = '\0';
+		strncpy(value, value_start, sizeof(value));
 
 		/* general options */
 		options->show_icon_names = read_bool_option(f, option,
