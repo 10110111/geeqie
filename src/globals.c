@@ -67,8 +67,8 @@ ConfOptions *init_options(ConfOptions *options)
 	options->thumbnail_fast = TRUE;
 	options->thumbnail_spec_standard = TRUE;
 	options->enable_metadata_dirs = FALSE;
-	options->show_dot_files = FALSE;
-	options->file_filter_disable = FALSE;
+	options->file_filter.show_dot_files = FALSE;
+	options->file_filter.disable = FALSE;
 	
 	
 	options->thumbnails_enabled = FALSE;

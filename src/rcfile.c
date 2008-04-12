@@ -379,8 +379,8 @@ void save_options(void)
 
 	secure_fprintf(ssi, "\n##### Filtering Options #####\n\n");
 
-	write_bool_option(ssi, "show_dotfiles", options->show_dot_files);
-	write_bool_option(ssi, "disable_filtering", options->file_filter_disable);
+	write_bool_option(ssi, "file_filter.show_dot_files", options->file_filter.show_dot_files);
+	write_bool_option(ssi, "file_filter.disable", options->file_filter.disable);
 	
 	filter_write_list(ssi);
 	
@@ -687,12 +687,12 @@ void load_options(void)
 
 		/* filtering options */
 
-		options->show_dot_files = read_bool_option(f, option,
-			"show_dotfiles", value, options->show_dot_files);
-		options->file_filter_disable = read_bool_option(f, option,
-			"disable_filtering", value, options->file_filter_disable);
+		options->file_filter.show_dot_files = read_bool_option(f, option,
+			"file_filter.show_dot_files", value, options->file_filter.show_dot_files);
+		options->file_filter.disable = read_bool_option(f, option,
+			"file_filter.disable", value, options->file_filter.disable);
 
-		if (strcasecmp(option, "filter_ext") == 0)
+		if (strcasecmp(option, "file_filter.ext") == 0)
 			{
 			filter_parse(value_all);
 			}

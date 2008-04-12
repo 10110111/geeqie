@@ -178,9 +178,9 @@ static void config_window_apply(void)
 	buf = gtk_entry_get_text(GTK_ENTRY(safe_delete_path_entry));
 	if (buf && strlen(buf) > 0) options->safe_delete_path = remove_trailing_slash(buf);
 
-	if (options->show_dot_files != c_options->show_dot_files) refresh = TRUE;
+	if (options->file_filter.show_dot_files != c_options->file_filter.show_dot_files) refresh = TRUE;
 	if (options->file_sort.case_sensitive != c_options->file_sort.case_sensitive) refresh = TRUE;
-	if (options->file_filter_disable != c_options->file_filter_disable) refresh = TRUE;
+	if (options->file_filter.disable != c_options->file_filter.disable) refresh = TRUE;
 
 	options->startup_path_enable = c_options->startup_path_enable;
 	options->confirm_delete = c_options->confirm_delete;
@@ -208,9 +208,9 @@ static void config_window_apply(void)
 #endif
 	options->thumbnail_spec_standard = c_options->thumbnail_spec_standard;
 	options->enable_metadata_dirs = c_options->enable_metadata_dirs;
-	options->show_dot_files = c_options->show_dot_files;
+	options->file_filter.show_dot_files = c_options->file_filter.show_dot_files;
 	options->file_sort.case_sensitive = c_options->file_sort.case_sensitive;
-	options->file_filter_disable = c_options->file_filter_disable;
+	options->file_filter.disable = c_options->file_filter.disable;
 
 	sidecar_ext_parse(gtk_entry_get_text(GTK_ENTRY(sidecar_ext_entry)), FALSE);
 
@@ -1004,12 +1004,12 @@ static void config_tab_filtering(GtkWidget *notebook)
 	group = pref_box_new(vbox, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 
 	pref_checkbox_new_int(group, _("Show entries that begin with a dot"),
-			      options->show_dot_files, &c_options->show_dot_files);
+			      options->file_filter.show_dot_files, &c_options->file_filter.show_dot_files);
 	pref_checkbox_new_int(group, _("Case sensitive sort"),
 			      options->file_sort.case_sensitive, &c_options->file_sort.case_sensitive);
 
 	ct_button = pref_checkbox_new_int(group, _("Disable File Filtering"),
-					  options->file_filter_disable, &c_options->file_filter_disable);
+					  options->file_filter.disable, &c_options->file_filter.disable);
 
 
 	group = pref_group_new(vbox, FALSE, _("Grouping sidecar extensions"), GTK_ORIENTATION_VERTICAL);
@@ -1024,7 +1024,7 @@ static void config_tab_filtering(GtkWidget *notebook)
 	frame = pref_group_parent(group);
 	g_signal_connect(G_OBJECT(ct_button), "toggled",
 			 G_CALLBACK(filter_disable_cb), frame);
-	gtk_widget_set_sensitive(frame, !options->file_filter_disable);
+	gtk_widget_set_sensitive(frame, !options->file_filter.disable);
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);

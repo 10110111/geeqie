@@ -813,8 +813,10 @@ struct _ConfOptions
 	gint thumbnails_enabled;
 
 	/* file filtering */
-	gint show_dot_files;
-	gint file_filter_disable;
+	struct {
+		gint show_dot_files;
+		gint disable;
+	} file_filter;
 
 	/* collections */
 	struct {
