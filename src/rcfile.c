@@ -283,7 +283,7 @@ void save_options(void)
 	write_bool_option(ssi, "update_on_time_change", options->update_on_time_change);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "enable_startup_path", options->startup_path_enable);
+	write_bool_option(ssi, "startup_path_enable", options->startup_path_enable);
 	write_char_option(ssi, "startup_path", options->startup_path);
 
 	write_bool_option(ssi, "progressive_keyboard_scrolling", options->progressive_key_scrolling);
@@ -555,7 +555,7 @@ void load_options(void)
 			"update_on_time_change", value, options->update_on_time_change);
 	
 		options->startup_path_enable = read_bool_option(f, option,
-			"enable_startup_path", value, options->startup_path_enable);
+			"startup_path_enable", value, options->startup_path_enable);
 		options->startup_path = read_char_option(f, option,
 			"startup_path", value_all, options->startup_path);
 
