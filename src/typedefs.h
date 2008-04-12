@@ -782,22 +782,26 @@ struct _ConfOptions
 	gint recent_list_max;
 
 	/* image */
-	gint exif_rotate_enable;
-	gint zoom_mode;
-	gint two_pass_zoom;
-	gint scroll_reset_method;
-	gint fit_window;
-	gint limit_window_size;
-	gint zoom_to_fit_expands;
-	gint max_window_size;
-	gint limit_autofit_size;
-	gint max_autofit_size;
-	gint tile_cache_max;	/* in megabytes */
-	gint zoom_quality;
-	gint dither_quality;
-	gint zoom_increment;	/* 10 is 1.0, 5 is 0.05, 20 is 2.0, etc. */
-	gint enable_read_ahead;
-	
+	struct {
+		gint exif_rotate_enable;
+		gint scroll_reset_method;
+		gint fit_window_to_image;
+		gint limit_window_size;
+		gint max_window_size;
+		gint limit_autofit_size;
+		gint max_autofit_size;
+
+		gint tile_cache_max;	/* in megabytes */
+		gint dither_quality;
+		gint enable_read_ahead;
+
+		gint zoom_mode;
+		gint zoom_2pass;
+		gint zoom_to_fit_allow_expand;
+		gint zoom_quality;
+		gint zoom_increment;	/* 10 is 1.0, 5 is 0.05, 20 is 2.0, etc. */
+	} image;
+
 	gint user_specified_window_background;
 	GdkColor window_background_color;
 

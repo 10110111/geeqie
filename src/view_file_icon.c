@@ -380,7 +380,7 @@ static void vficon_send_layout_select(ViewFileIcon *vfi, IconData *id)
 	cur_fd = layout_image_get_fd(vfi->layout);
 	if (sel_fd == cur_fd) return; /* no change */
 	
-	if (options->enable_read_ahead)
+	if (options->image.enable_read_ahead)
 		{
 		gint row;
 

@@ -111,24 +111,24 @@ static void startup_path_set_current(GtkWidget *widget, gpointer data)
 static void zoom_mode_original_cb(GtkWidget *widget, gpointer data)
 {
 	if (GTK_TOGGLE_BUTTON (widget)->active)
-		c_options->zoom_mode = ZOOM_RESET_ORIGINAL;
+		c_options->image.zoom_mode = ZOOM_RESET_ORIGINAL;
 }
 
 static void zoom_mode_fit_cb(GtkWidget *widget, gpointer data)
 {
 	if (GTK_TOGGLE_BUTTON (widget)->active)
-		c_options->zoom_mode = ZOOM_RESET_FIT_WINDOW;
+		c_options->image.zoom_mode = ZOOM_RESET_FIT_WINDOW;
 }
 
 static void zoom_mode_none_cb(GtkWidget *widget, gpointer data)
 {
 	if (GTK_TOGGLE_BUTTON (widget)->active)
-		c_options->zoom_mode = ZOOM_RESET_NONE;
+		c_options->image.zoom_mode = ZOOM_RESET_NONE;
 }
 
 static void zoom_increment_cb(GtkWidget *spin, gpointer data)
 {
-	c_options->zoom_increment = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) * 10.0 + 0.01);
+	c_options->image.zoom_increment = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) * 10.0 + 0.01);
 }
 
 static void slideshow_delay_cb(GtkWidget *spin, gpointer data)
@@ -189,14 +189,14 @@ static void config_window_apply(void)
 	options->safe_delete_size = c_options->safe_delete_size;
 	options->restore_tool = c_options->restore_tool;
 	options->save_window_positions = c_options->save_window_positions;
-	options->zoom_mode = c_options->zoom_mode;
-	options->two_pass_zoom = c_options->two_pass_zoom;
-	options->fit_window = c_options->fit_window;
-	options->limit_window_size = c_options->limit_window_size;
-	options->zoom_to_fit_expands = c_options->zoom_to_fit_expands;
-	options->max_window_size = c_options->max_window_size;
-	options->limit_autofit_size = c_options->limit_autofit_size;
-	options->max_autofit_size = c_options->max_autofit_size;
+	options->image.zoom_mode = c_options->image.zoom_mode;
+	options->image.zoom_2pass = c_options->image.zoom_2pass;
+	options->image.fit_window_to_image = c_options->image.fit_window_to_image;
+	options->image.limit_window_size = c_options->image.limit_window_size;
+	options->image.zoom_to_fit_allow_expand = c_options->image.zoom_to_fit_allow_expand;
+	options->image.max_window_size = c_options->image.max_window_size;
+	options->image.limit_autofit_size = c_options->image.limit_autofit_size;
+	options->image.max_autofit_size = c_options->image.max_autofit_size;
 	options->progressive_key_scrolling = c_options->progressive_key_scrolling;
 	options->thumbnails.max_width = c_options->thumbnails.max_width;
 	options->thumbnails.max_height = c_options->thumbnails.max_height;
@@ -224,14 +224,14 @@ static void config_window_apply(void)
 
 	options->collections.rectangular_selection = c_options->collections.rectangular_selection;
 
-	options->tile_cache_max = c_options->tile_cache_max;
+	options->image.tile_cache_max = c_options->image.tile_cache_max;
 
 	options->thumbnails.quality = c_options->thumbnails.quality;
-	options->zoom_quality = c_options->zoom_quality;
+	options->image.zoom_quality = c_options->image.zoom_quality;
 
-	options->zoom_increment = c_options->zoom_increment;
+	options->image.zoom_increment = c_options->image.zoom_increment;
 
-	options->enable_read_ahead = c_options->enable_read_ahead;
+	options->image.enable_read_ahead = c_options->image.enable_read_ahead;
 
 	if (options->user_specified_window_background != c_options->user_specified_window_background
 	    || !gdk_color_equal(&options->window_background_color, &c_options->window_background_color))
@@ -254,7 +254,7 @@ static void config_window_apply(void)
 		}
 
 	options->update_on_time_change = c_options->update_on_time_change;
-	options->exif_rotate_enable = c_options->exif_rotate_enable;
+	options->image.exif_rotate_enable = c_options->image.exif_rotate_enable;
 
 	options->dupe_custom_threshold = c_options->dupe_custom_threshold;
 
@@ -879,42 +879,42 @@ static void config_tab_image(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Zoom"), GTK_ORIENTATION_VERTICAL);
 
 #if 0
-	add_dither_menu(dither_quality, &c_options->dither_quality, _("Dithering method:"), group);
+	add_dither_menu(dither_quality, &c_options->image.dither_quality, _("Dithering method:"), group);
 #endif
 	table = pref_table_new(group, 2, 1, FALSE, FALSE);
-	add_quality_menu(table, 0, 0, _("Quality:"), options->zoom_quality, &c_options->zoom_quality);
+	add_quality_menu(table, 0, 0, _("Quality:"), options->image.zoom_quality, &c_options->image.zoom_quality);
 
 	pref_checkbox_new_int(group, _("Two pass zooming"),
-			      options->two_pass_zoom, &c_options->two_pass_zoom);
+			      options->image.zoom_2pass, &c_options->image.zoom_2pass);
 
 	pref_checkbox_new_int(group, _("Allow enlargement of image for zoom to fit"),
-			      options->zoom_to_fit_expands, &c_options->zoom_to_fit_expands);
+			      options->image.zoom_to_fit_allow_expand, &c_options->image.zoom_to_fit_allow_expand);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 	ct_button = pref_checkbox_new_int(hbox, _("Limit image size when autofitting (%):"),
-					  options->limit_autofit_size, &c_options->limit_autofit_size);
+					  options->image.limit_autofit_size, &c_options->image.limit_autofit_size);
 	spin = pref_spin_new_int(hbox, NULL, NULL,
 				 10, 150, 1,
-				 options->max_autofit_size, &c_options->max_autofit_size);
+				 options->image.max_autofit_size, &c_options->image.max_autofit_size);
 	pref_checkbox_link_sensitivity(ct_button, spin);
 
-	c_options->zoom_increment = options->zoom_increment;
+	c_options->image.zoom_increment = options->image.zoom_increment;
 	spin = pref_spin_new(group, _("Zoom increment:"), NULL,
-			     0.1, 4.0, 0.1, 1, (double)options->zoom_increment / 10.0,
+			     0.1, 4.0, 0.1, 1, (double)options->image.zoom_increment / 10.0,
 			     G_CALLBACK(zoom_increment_cb), NULL);
 	gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), GTK_UPDATE_ALWAYS);
 
 	group = pref_group_new(vbox, FALSE, _("When new image is selected:"), GTK_ORIENTATION_VERTICAL);
 
-	c_options->zoom_mode = options->zoom_mode;
+	c_options->image.zoom_mode = options->image.zoom_mode;
 	button = pref_radiobutton_new(group, NULL, _("Zoom to original size"),
-				      (options->zoom_mode == ZOOM_RESET_ORIGINAL),
+				      (options->image.zoom_mode == ZOOM_RESET_ORIGINAL),
 				      G_CALLBACK(zoom_mode_original_cb), NULL);
 	button = pref_radiobutton_new(group, button, _("Fit image to window"),
-				      (options->zoom_mode == ZOOM_RESET_FIT_WINDOW),
+				      (options->image.zoom_mode == ZOOM_RESET_FIT_WINDOW),
 				      G_CALLBACK(zoom_mode_fit_cb), NULL);
 	button = pref_radiobutton_new(group, button, _("Leave Zoom at previous setting"),
-				      (options->zoom_mode == ZOOM_RESET_NONE),
+				      (options->image.zoom_mode == ZOOM_RESET_NONE),
 				      G_CALLBACK(zoom_mode_none_cb), NULL);
 
 	group = pref_group_new(vbox, FALSE, _("Appearance"), GTK_ORIENTATION_VERTICAL);
@@ -930,9 +930,9 @@ static void config_tab_image(GtkWidget *notebook)
 	pref_checkbox_new_int(group, _("Refresh on file change"),
 			      options->update_on_time_change, &c_options->update_on_time_change);
 	pref_checkbox_new_int(group, _("Preload next image"),
-			      options->enable_read_ahead, &c_options->enable_read_ahead);
+			      options->image.enable_read_ahead, &c_options->image.enable_read_ahead);
 	pref_checkbox_new_int(group, _("Auto rotate image using Exif information"),
-			      options->exif_rotate_enable, &c_options->exif_rotate_enable);
+			      options->image.exif_rotate_enable, &c_options->image.exif_rotate_enable);
 }
 
 /* windows tab */
@@ -961,14 +961,14 @@ static void config_tab_windows(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Size"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Fit window to image when tools are hidden/floating"),
-			      options->fit_window, &c_options->fit_window);
+			      options->image.fit_window_to_image, &c_options->image.fit_window_to_image);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 	ct_button = pref_checkbox_new_int(hbox, _("Limit size when auto-sizing window (%):"),
-					  options->limit_window_size, &c_options->limit_window_size);
+					  options->image.limit_window_size, &c_options->image.limit_window_size);
 	spin = pref_spin_new_int(hbox, NULL, NULL,
 				 10, 150, 1,
-				 options->max_window_size, &c_options->max_window_size);
+				 options->image.max_window_size, &c_options->image.max_window_size);
 	pref_checkbox_link_sensitivity(ct_button, spin);
 
 	group = pref_group_new(vbox, FALSE, _("Layout"), GTK_ORIENTATION_VERTICAL);
@@ -1374,7 +1374,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 			  0, 100, 1, options->dupe_custom_threshold, &c_options->dupe_custom_threshold);
 
 	pref_spin_new_int(group, _("Offscreen cache size (Mb per image):"), NULL,
-			  0, 128, 1, options->tile_cache_max, &c_options->tile_cache_max);
+			  0, 128, 1, options->image.tile_cache_max, &c_options->image.tile_cache_max);
 
 	group =  pref_group_new(vbox, FALSE, _("Color profiles"), GTK_ORIENTATION_VERTICAL);
 #ifndef HAVE_LCMS

@@ -287,30 +287,35 @@ void save_options(void)
 	write_bool_option(ssi, "tree_descend_folders", options->tree_descend_subdirs);
 	write_bool_option(ssi, "lazy_image_sync", options->lazy_image_sync);
 	write_bool_option(ssi, "update_on_time_change", options->update_on_time_change);
-	write_bool_option(ssi, "exif_auto_rotate", options->exif_rotate_enable);
+	write_bool_option(ssi, "exif_auto_rotate", options->image.exif_rotate_enable);
 	secure_fputc(ssi, '\n');
 
 	write_bool_option(ssi, "enable_startup_path", options->startup_path_enable);
 	write_char_option(ssi, "startup_path", options->startup_path);
 	secure_fputc(ssi, '\n');
 
-	secure_fprintf(ssi, "zoom_mode: ");
-	if (options->zoom_mode == ZOOM_RESET_ORIGINAL) secure_fprintf(ssi, "original\n");
-	if (options->zoom_mode == ZOOM_RESET_FIT_WINDOW) secure_fprintf(ssi, "fit\n");
-	if (options->zoom_mode == ZOOM_RESET_NONE) secure_fprintf(ssi, "dont_change\n");
-	write_bool_option(ssi, "two_pass_scaling", options->two_pass_zoom);
-	write_bool_option(ssi, "zoom_to_fit_allow_expand", options->zoom_to_fit_expands);
-	secure_fputc(ssi, '\n');
+	secure_fprintf(ssi, "##### Image Options #####\n\n");
 
-	write_bool_option(ssi, "fit_window_to_image", options->fit_window);
-	write_bool_option(ssi, "limit_window_size", options->limit_window_size);
-	write_int_option(ssi, "max_window_size", options->max_window_size);
-	write_bool_option(ssi, "limit_autofit_size", options->limit_autofit_size);
-	write_int_option(ssi, "max_autofit_size", options->max_autofit_size);
+	secure_fprintf(ssi, "image.zoom_mode: ");
+	if (options->image.zoom_mode == ZOOM_RESET_ORIGINAL) secure_fprintf(ssi, "original\n");
+	if (options->image.zoom_mode == ZOOM_RESET_FIT_WINDOW) secure_fprintf(ssi, "fit\n");
+	if (options->image.zoom_mode == ZOOM_RESET_NONE) secure_fprintf(ssi, "dont_change\n");
+	write_bool_option(ssi, "image.zoom_2pass", options->image.zoom_2pass);
+	write_bool_option(ssi, "image.zoom_to_fit_allow_expand", options->image.zoom_to_fit_allow_expand);
+	write_bool_option(ssi, "image.fit_window_to_image", options->image.fit_window_to_image);
+	write_bool_option(ssi, "image.limit_window_size", options->image.limit_window_size);
+	write_int_option(ssi, "image.max_window_size", options->image.max_window_size);
+	write_bool_option(ssi, "image.limit_autofit_size", options->image.limit_autofit_size);
+	write_int_option(ssi, "image.max_autofit_size", options->image.max_autofit_size);
+	write_int_option(ssi, "image.scroll_reset_method", options->image.scroll_reset_method);
+	write_int_option(ssi, "image_cache_size_max", options->image.tile_cache_max);
+	write_int_option(ssi, "image.zoom_quality", options->image.zoom_quality);
+	write_int_option(ssi, "image.dither_quality", options->image.dither_quality);
+	write_int_option(ssi, "image.zoom_increment", options->image.zoom_increment);
+	write_bool_option(ssi, "image.enable_read_ahead", options->image.enable_read_ahead);
 	secure_fputc(ssi, '\n');
 
 	write_bool_option(ssi, "progressive_keyboard_scrolling", options->progressive_key_scrolling);
-	write_int_option(ssi, "scroll_reset_method", options->scroll_reset_method);
 	secure_fputc(ssi, '\n');
 
 	write_bool_option(ssi, "thumbnails.enabled", options->thumbnails.enabled);
@@ -348,11 +353,6 @@ void save_options(void)
 	write_bool_option(ssi, "mouse_wheel_scrolls", options->mousewheel_scrolls);
 	write_bool_option(ssi, "in_place_rename", options->enable_in_place_rename);
 	write_int_option(ssi, "open_recent_max", options->recent_list_max);
-	write_int_option(ssi, "image_cache_size_max", options->tile_cache_max);
-	write_int_option(ssi, "zoom_quality", options->zoom_quality);
-	write_int_option(ssi, "dither_quality", options->dither_quality);
-	write_int_option(ssi, "zoom_increment", options->zoom_increment);
-	write_bool_option(ssi, "enable_read_ahead", options->enable_read_ahead);
 	write_bool_option(ssi, "display_dialogs_under_mouse", options->place_dialogs_under_mouse);
 	secure_fputc(ssi, '\n');
 
@@ -544,39 +544,50 @@ void load_options(void)
 			"lazy_image_sync", value, options->lazy_image_sync);
 		options->update_on_time_change = read_bool_option(f, option,
 			"update_on_time_change", value, options->update_on_time_change);
-		options->exif_rotate_enable = read_bool_option(f, option,
-			"exif_auto_rotate", value, options->exif_rotate_enable);
+		options->image.exif_rotate_enable = read_bool_option(f, option,
+			"exif_auto_rotate", value, options->image.exif_rotate_enable);
 
 		options->startup_path_enable = read_bool_option(f, option,
 			"enable_startup_path", value, options->startup_path_enable);
 		options->startup_path = read_char_option(f, option,
 			"startup_path", value_all, options->startup_path);
 
-		if (strcasecmp(option, "zoom_mode") == 0)
+		if (strcasecmp(option, "image.zoom_mode") == 0)
                         {
-                        if (strcasecmp(value, "original") == 0) options->zoom_mode = ZOOM_RESET_ORIGINAL;
-                        if (strcasecmp(value, "fit") == 0) options->zoom_mode = ZOOM_RESET_FIT_WINDOW;
-                        if (strcasecmp(value, "dont_change") == 0) options->zoom_mode = ZOOM_RESET_NONE;
+                        if (strcasecmp(value, "original") == 0) options->image.zoom_mode = ZOOM_RESET_ORIGINAL;
+                        if (strcasecmp(value, "fit") == 0) options->image.zoom_mode = ZOOM_RESET_FIT_WINDOW;
+                        if (strcasecmp(value, "dont_change") == 0) options->image.zoom_mode = ZOOM_RESET_NONE;
                         }
-		options->two_pass_zoom = read_bool_option(f, option,
-			"two_pass_scaling", value, options->two_pass_zoom);
-		options->zoom_to_fit_expands = read_bool_option(f, option,
-			"zoom_to_fit_allow_expand", value, options->zoom_to_fit_expands);
+		options->image.zoom_2pass = read_bool_option(f, option,
+			"image.zoom_2pass", value, options->image.zoom_2pass);
+		options->image.zoom_to_fit_allow_expand = read_bool_option(f, option,
+			"image.zoom_to_fit_allow_expand", value, options->image.zoom_to_fit_allow_expand);
+		options->image.fit_window_to_image = read_bool_option(f, option,
+			"image.fit_window_to_image", value, options->image.fit_window_to_image);
+		options->image.limit_window_size = read_bool_option(f, option,
+			"image.limit_window_size", value, options->image.limit_window_size);
+		options->image.max_window_size = read_int_option(f, option,
+			"image.max_window_size", value, options->image.max_window_size);
+		options->image.limit_autofit_size = read_bool_option(f, option,
+			"image.limit_autofit_size", value, options->image.limit_autofit_size);
+		options->image.max_autofit_size = read_int_option(f, option,
+			"image.max_autofit_size", value, options->image.max_autofit_size);
+		options->image.scroll_reset_method = read_int_option(f, option,
+			"image.scroll_reset_method", value, options->image.scroll_reset_method);
+		options->image.tile_cache_max = read_int_option(f, option,
+			"image.cache_size_max", value, options->image.tile_cache_max);
+		options->image.zoom_quality = CLAMP(read_int_option(f, option,
+			"image.zoom_quality", value, options->image.zoom_quality), GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
+		options->image.dither_quality = CLAMP(read_int_option(f, option,
+			"image.dither_quality", value, options->image.dither_quality), GDK_RGB_DITHER_NONE, GDK_RGB_DITHER_MAX);
+		options->image.zoom_increment = read_int_option(f, option,
+			"image.zoom_increment", value, options->image.zoom_increment);
+		options->image.enable_read_ahead = read_bool_option(f, option,
+			"image.enable_read_ahead", value, options->image.enable_read_ahead);
 
-		options->fit_window = read_bool_option(f, option,
-			"fit_window_to_image", value, options->fit_window);
-		options->limit_window_size = read_bool_option(f, option,
-			"limit_window_size", value, options->limit_window_size);
-		options->max_window_size = read_int_option(f, option,
-			"max_window_size", value, options->max_window_size);
-		options->limit_autofit_size = read_bool_option(f, option,
-			"limit_autofit_size", value, options->limit_autofit_size);
-		options->max_autofit_size = read_int_option(f, option,
-			"max_autofit_size", value, options->max_autofit_size);
 		options->progressive_key_scrolling = read_bool_option(f, option,
 			"progressive_keyboard_scrolling", value, options->progressive_key_scrolling);
-		options->scroll_reset_method = read_int_option(f, option,
-			"scroll_reset_method", value, options->scroll_reset_method);
+
 
 		options->thumbnails.enabled = read_bool_option(f, option,
 			"thumbnails.enabled", value, options->thumbnails.enabled);
@@ -637,20 +648,6 @@ void load_options(void)
 
 		options->recent_list_max = read_int_option(f, option,
 			"open_recent_max", value, options->recent_list_max);
-
-		options->tile_cache_max = read_int_option(f, option,
-			"image_cache_size_max", value, options->tile_cache_max);
-
-		options->zoom_quality = CLAMP(read_int_option(f, option,
-			"zoom_quality", value, options->zoom_quality), GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
-		options->dither_quality = CLAMP(read_int_option(f, option,
-			"dither_quality", value, options->dither_quality), GDK_RGB_DITHER_NONE, GDK_RGB_DITHER_MAX);
-
-		options->zoom_increment = read_int_option(f, option,
-			"zoom_increment", value, options->zoom_increment);
-
-		options->enable_read_ahead = read_bool_option(f, option,
-			"enable_read_ahead", value, options->enable_read_ahead);
 
 		options->place_dialogs_under_mouse = read_bool_option(f, option,
 			"display_dialogs_under_mouse", value, options->place_dialogs_under_mouse);

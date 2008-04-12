@@ -113,7 +113,7 @@ gint window_maximized(GtkWidget *window)
 
 gdouble get_zoom_increment(void)
 {
-	return ((options->zoom_increment != 0) ? (gdouble)options->zoom_increment / 10.0 : 1.0);
+	return ((options->image.zoom_increment != 0) ? (gdouble)options->image.zoom_increment / 10.0 : 1.0);
 }
 
 /*

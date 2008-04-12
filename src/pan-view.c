@@ -131,7 +131,7 @@ static void pan_queue_image_done_cb(ImageLoader *il, gpointer data)
 
 			tmp = pi->pixbuf;
 			pi->pixbuf = gdk_pixbuf_scale_simple(tmp, pi->width, pi->height,
-							     (GdkInterpType)options->zoom_quality);
+							     (GdkInterpType)options->image.zoom_quality);
 			g_object_unref(tmp);
 			}
 

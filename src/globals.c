@@ -50,15 +50,15 @@ ConfOptions *init_options(ConfOptions *options)
 	options->safe_delete_path = NULL;
 	options->safe_delete_size = 128;
 	options->restore_tool = FALSE;
-	options->zoom_mode = ZOOM_RESET_ORIGINAL;
-	options->two_pass_zoom = TRUE;
-	options->scroll_reset_method = SCROLL_RESET_TOPLEFT;
-	options->fit_window = FALSE;
-	options->limit_window_size = FALSE;
-	options->zoom_to_fit_expands = TRUE;
-	options->max_window_size = 100;
-	options->limit_autofit_size = FALSE;
-	options->max_autofit_size = 100;
+	options->image.zoom_mode = ZOOM_RESET_ORIGINAL;
+	options->image.zoom_2pass = TRUE;
+	options->image.scroll_reset_method = SCROLL_RESET_TOPLEFT;
+	options->image.fit_window_to_image = FALSE;
+	options->image.limit_window_size = FALSE;
+	options->image.zoom_to_fit_allow_expand = TRUE;
+	options->image.max_window_size = 100;
+	options->image.limit_autofit_size = FALSE;
+	options->image.max_autofit_size = 100;
 	options->thumbnails.max_width = DEFAULT_THUMB_WIDTH;
 	options->thumbnails.max_height = DEFAULT_THUMB_HEIGHT;
 	options->thumbnails.enable_caching = TRUE;
@@ -86,14 +86,14 @@ ConfOptions *init_options(ConfOptions *options)
 	
 	options->collections.rectangular_selection = FALSE;
 	
-	options->tile_cache_max = 10;
+	options->image.tile_cache_max = 10;
 	options->thumbnails.quality = (gint)GDK_INTERP_TILES;
-	options->zoom_quality = (gint)GDK_INTERP_BILINEAR;
-	options->dither_quality = (gint)GDK_RGB_DITHER_NORMAL;
+	options->image.zoom_quality = (gint)GDK_INTERP_BILINEAR;
+	options->image.dither_quality = (gint)GDK_RGB_DITHER_NORMAL;
 	
-	options->zoom_increment = 5;
+	options->image.zoom_increment = 5;
 	
-	options->enable_read_ahead = TRUE;
+	options->image.enable_read_ahead = TRUE;
 	
 	options->place_dialogs_under_mouse = FALSE;
 	
@@ -124,7 +124,7 @@ ConfOptions *init_options(ConfOptions *options)
 
 	options->lazy_image_sync = FALSE;
 	options->update_on_time_change = TRUE;
-	options->exif_rotate_enable = TRUE;
+	options->image.exif_rotate_enable = TRUE;
 
 	/* color profiles */
 	options->color_profile.enabled = FALSE;
