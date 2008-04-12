@@ -827,11 +827,13 @@ struct _ConfOptions
 	gint file_sort_case_sensitive; /* file sorting method (case) */
 
 	/* layout */
-	gchar *layout_order;
-	gint layout_style;
+	struct {
+		gchar *order;
+		gint style;
 
-	gint layout_view_icons;
-	gint layout_view_tree;
+		gint view_as_icons;
+		gint view_as_tree;
+	} layout;
 
 	gint show_icon_names;
 
@@ -841,13 +843,16 @@ struct _ConfOptions
 	gint update_on_time_change;
 	gint exif_rotate_enable;
 
-	gint color_profile_enabled;
-	gint color_profile_input_type;
-	gchar *color_profile_input_file[COLOR_PROFILE_INPUTS];
-	gchar *color_profile_input_name[COLOR_PROFILE_INPUTS];
-	gint color_profile_screen_type;
-	gchar *color_profile_screen_file;
-	gint color_profile_use_image;
+	struct {
+		gint enabled;
+		gint input_type;
+		gchar *input_file[COLOR_PROFILE_INPUTS];
+		gchar *input_name[COLOR_PROFILE_INPUTS];
+		gint screen_type;
+		gchar *screen_file;
+		gint use_image;
+
+	} color_profile;
 
 	GList *filename_filter;
 };

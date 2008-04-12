@@ -1704,10 +1704,10 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 
 		layout_image_dnd_init(lw, i);
 		image_color_profile_set(lw->split_images[i],
-					options->color_profile_input_type,
-					options->color_profile_screen_type,
-					options->color_profile_use_image);
-		image_color_profile_set_use(lw->split_images[i], options->color_profile_enabled);
+					options->color_profile.input_type,
+					options->color_profile.screen_type,
+					options->color_profile.use_image);
+		image_color_profile_set_use(lw->split_images[i], options->color_profile.enabled);
 		}
 
 	return lw->split_images[i]->widget;

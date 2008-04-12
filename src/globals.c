@@ -112,11 +112,11 @@ ConfOptions *init_options(ConfOptions *options)
 	options->file_sort_case_sensitive = FALSE;
 
 	/* layout */
-	options->layout_order = NULL;
-	options->layout_style = 0;
+	options->layout.order = NULL;
+	options->layout.style = 0;
 
-	options->layout_view_icons = FALSE;
-	options->layout_view_tree = FALSE;
+	options->layout.view_as_icons = FALSE;
+	options->layout.view_as_tree = FALSE;
 
 	options->show_icon_names = TRUE;
 
@@ -127,11 +127,11 @@ ConfOptions *init_options(ConfOptions *options)
 	options->exif_rotate_enable = TRUE;
 
 	/* color profiles */
-	options->color_profile_enabled = FALSE;
-	options->color_profile_input_type = 0;
-	options->color_profile_screen_type = 0;
-	options->color_profile_screen_file = NULL;
-	options->color_profile_use_image = TRUE;
+	options->color_profile.enabled = FALSE;
+	options->color_profile.input_type = 0;
+	options->color_profile.screen_type = 0;
+	options->color_profile.screen_file = NULL;
+	options->color_profile.use_image = TRUE;
 
 	options->filename_filter = NULL;
 

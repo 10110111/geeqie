@@ -275,12 +275,12 @@ void save_options(void)
 
 	secure_fprintf(ssi, "##### General Options #####\n\n");
 
-	write_int_option(ssi, "layout_style", options->layout_style);
-	write_char_option(ssi, "layout_order", options->layout_order);
+	write_int_option(ssi, "layout.style", options->layout.style);
+	write_char_option(ssi, "layout.order", options->layout.order);
 	secure_fputc(ssi, '\n');
 
-	write_bool_option(ssi, "layout_view_as_icons", options->layout_view_icons);
-	write_bool_option(ssi, "layout_view_as_tree", options->layout_view_tree);
+	write_bool_option(ssi, "layout.view_as_icons", options->layout.view_as_icons);
+	write_bool_option(ssi, "layout.view_as_tree", options->layout.view_as_tree);
 	write_bool_option(ssi, "show_icon_names", options->show_icon_names);
 	secure_fputc(ssi, '\n');
 
@@ -393,24 +393,24 @@ void save_options(void)
 		  	   "#         color profile options will have no effect.\n\n", GQ_APPNAME);
 #endif
 
-	write_bool_option(ssi, "color_profile_enabled", options->color_profile_enabled);
-	write_bool_option(ssi, "color_profile_use_image", options->color_profile_use_image);
-	write_int_option(ssi, "color_profile_input_type", options->color_profile_input_type);
+	write_bool_option(ssi, "color_profile.enabled", options->color_profile.enabled);
+	write_bool_option(ssi, "color_profile.use_image", options->color_profile.use_image);
+	write_int_option(ssi, "color_profile.input_type", options->color_profile.input_type);
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{
 		gchar *buf;
 
-		buf = g_strdup_printf("color_profile_input_file_%d", i + 1);
-		write_char_option(ssi, buf, options->color_profile_input_file[i]);
+		buf = g_strdup_printf("color_profile.input_file_%d", i + 1);
+		write_char_option(ssi, buf, options->color_profile.input_file[i]);
 		g_free(buf);
 
-		buf = g_strdup_printf("color_profile_input_name_%d", i + 1);
-		write_char_option(ssi, buf, options->color_profile_input_name[i]);
+		buf = g_strdup_printf("color_profile.input_name_%d", i + 1);
+		write_char_option(ssi, buf, options->color_profile.input_name[i]);
 		g_free(buf);
 		}
 	secure_fputc(ssi, '\n');
-	write_int_option(ssi, "color_profile_screen_type", options->color_profile_screen_type);
-	write_char_option(ssi, "color_profile_screen_file_1", options->color_profile_screen_file);
+	write_int_option(ssi, "color_profile.screen_type", options->color_profile.screen_type);
+	write_char_option(ssi, "color_profile.screen_file", options->color_profile.screen_file);
 
 	secure_fprintf(ssi, "\n##### External Programs #####\n");
 	secure_fprintf(ssi, "# Maximum of 10 programs (external_1 through external_10)\n");
@@ -527,14 +527,14 @@ void load_options(void)
 
 		/* general options */
 
-		options->layout_style = read_int_option(f, option,
-			"layout_style", value, options->layout_style);
-		options->layout_order = read_char_option(f, option,
-			"layout_order", value, options->layout_order);
-		options->layout_view_icons = read_bool_option(f, option,
-			"layout_view_as_icons", value, options->layout_view_icons);
-		options->layout_view_tree = read_bool_option(f, option,
-			"layout_view_as_tree", value, options->layout_view_tree);
+		options->layout.style = read_int_option(f, option,
+			"layout.style", value, options->layout.style);
+		options->layout.order = read_char_option(f, option,
+			"layout.order", value, options->layout.order);
+		options->layout.view_as_icons = read_bool_option(f, option,
+			"layout.view_as_icons", value, options->layout.view_as_icons);
+		options->layout.view_as_tree = read_bool_option(f, option,
+			"layout.view_as_tree", value, options->layout.view_as_tree);
 		options->show_icon_names = read_bool_option(f, option,
 			"show_icon_names", value, options->show_icon_names);
 
@@ -704,36 +704,36 @@ void load_options(void)
 		
 		/* Color Profiles */
 
-		options->color_profile_enabled = read_bool_option(f, option,
-			"color_profile_enabled", value, options->color_profile_enabled);
-		options->color_profile_use_image = read_bool_option(f, option,
-			"color_profile_use_image", value, options->color_profile_use_image);
-		options->color_profile_input_type = read_int_option(f, option,
-			"color_profile_input_type", value, options->color_profile_input_type);
+		options->color_profile.enabled = read_bool_option(f, option,
+			"color_profile.enabled", value, options->color_profile.enabled);
+		options->color_profile.use_image = read_bool_option(f, option,
+			"color_profile.use_image", value, options->color_profile.use_image);
+		options->color_profile.input_type = read_int_option(f, option,
+			"color_profile.input_type", value, options->color_profile.input_type);
 
-		if (strncasecmp(option, "color_profile_input_file_", 25) == 0)
+		if (strncasecmp(option, "color_profile.input_file_", 25) == 0)
                         {
                         i = strtol(option + 25, NULL, 0) - 1;
 			if (i >= 0 && i < COLOR_PROFILE_INPUTS)
 				{
-				options->color_profile_input_file[i] = read_char_option(f, option,
-					option, value, options->color_profile_input_file[i]);
+				options->color_profile.input_file[i] = read_char_option(f, option,
+					option, value, options->color_profile.input_file[i]);
 				}
 			}
-		if (strncasecmp(option, "color_profile_input_name_", 25) == 0)
+		if (strncasecmp(option, "color_profile.input_name_", 25) == 0)
                         {
                         i = strtol(option + 25, NULL, 0) - 1;
 			if (i >= 0 && i < COLOR_PROFILE_INPUTS)
 				{
-				options->color_profile_input_name[i] = read_char_option(f, option,
-					option, value, options->color_profile_input_name[i]);
+				options->color_profile.input_name[i] = read_char_option(f, option,
+					option, value, options->color_profile.input_name[i]);
 				}
 			}
 
-		options->color_profile_screen_type = read_int_option(f, option,
-			"color_profile_screen_type", value, options->color_profile_screen_type);
-		options->color_profile_screen_file = read_char_option(f, option,
-			"color_profile_screen_file_1", value, options->color_profile_screen_file);
+		options->color_profile.screen_type = read_int_option(f, option,
+			"color_profile.screen_type", value, options->color_profile.screen_type);
+		options->color_profile.screen_file = read_char_option(f, option,
+			"color_profile.screen_file", value, options->color_profile.screen_file);
 
 		/* External Programs */
 

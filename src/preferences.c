@@ -266,20 +266,20 @@ static void config_window_apply(void)
 #ifdef HAVE_LCMS
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{
-		g_free(options->color_profile_input_name[i]);
-		options->color_profile_input_name[i] = NULL;
+		g_free(options->color_profile.input_name[i]);
+		options->color_profile.input_name[i] = NULL;
 		buf = gtk_entry_get_text(GTK_ENTRY(color_profile_input_name_entry[i]));
-		if (buf && strlen(buf) > 0) options->color_profile_input_name[i] = g_strdup(buf);
+		if (buf && strlen(buf) > 0) options->color_profile.input_name[i] = g_strdup(buf);
 
-		g_free(options->color_profile_input_file[i]);
-		options->color_profile_input_file[i] = NULL;
+		g_free(options->color_profile.input_file[i]);
+		options->color_profile.input_file[i] = NULL;
 		buf = gtk_entry_get_text(GTK_ENTRY(color_profile_input_file_entry[i]));
-		if (buf && strlen(buf) > 0) options->color_profile_input_file[i] = g_strdup(buf);
+		if (buf && strlen(buf) > 0) options->color_profile.input_file[i] = g_strdup(buf);
 		}
-	g_free(options->color_profile_screen_file);
-	options->color_profile_screen_file = NULL;
+	g_free(options->color_profile.screen_file);
+	options->color_profile.screen_file = NULL;
 	buf = gtk_entry_get_text(GTK_ENTRY(color_profile_screen_file_entry));
-	if (buf && strlen(buf) > 0) options->color_profile_screen_file = g_strdup(buf);
+	if (buf && strlen(buf) > 0) options->color_profile.screen_file = g_strdup(buf);
 #endif
 
 	for (i=0; ExifUIList[i].key; i++)
@@ -289,19 +289,19 @@ static void config_window_apply(void)
 
 	l_conf = layout_config_get(layout_widget, &new_style);
 
-	if (new_style != options->layout_style ||
-	    (l_conf == NULL) != (options->layout_order == NULL) ||
-	    !options->layout_order ||
-	    strcmp(buf, options->layout_order) != 0)
+	if (new_style != options->layout.style ||
+	    (l_conf == NULL) != (options->layout.order == NULL) ||
+	    !options->layout.order ||
+	    strcmp(buf, options->layout.order) != 0)
 		{
 		if (refresh) filter_rebuild();
 		refresh = FALSE;
 
-		g_free(options->layout_order);
-		options->layout_order = l_conf;
+		g_free(options->layout.order);
+		options->layout.order = l_conf;
 		l_conf = NULL;
 
-		options->layout_style = new_style;
+		options->layout.style = new_style;
 
 		layout_styles_update();
 		}
@@ -974,7 +974,7 @@ static void config_tab_windows(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Layout"), GTK_ORIENTATION_VERTICAL);
 
 	layout_widget = layout_config_new();
-	layout_config_set(layout_widget, options->layout_style, options->layout_order);
+	layout_config_set(layout_widget, options->layout.style, options->layout.order);
 	gtk_box_pack_start(GTK_BOX(group), layout_widget, FALSE, FALSE, 0);
 	gtk_widget_show(layout_widget);
 }
@@ -1405,16 +1405,16 @@ static void config_tab_advanced(GtkWidget *notebook)
 		entry = gtk_entry_new();
 		gtk_entry_set_max_length(GTK_ENTRY(entry), EDITOR_NAME_MAX_LENGTH);
 		gtk_widget_set_size_request(editor_name_entry[i], 30, -1);
-		if (options->color_profile_input_name[i])
+		if (options->color_profile.input_name[i])
 			{
-			gtk_entry_set_text(GTK_ENTRY(entry), options->color_profile_input_name[i]);
+			gtk_entry_set_text(GTK_ENTRY(entry), options->color_profile.input_name[i]);
 			}
 		gtk_table_attach(GTK_TABLE(table), entry, 1, 2, i + 1, i + 2,
 				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
 		gtk_widget_show(entry);
 		color_profile_input_name_entry[i] = entry;
 
-		tabcomp = tab_completion_new(&entry, options->color_profile_input_file[i], NULL, NULL);
+		tabcomp = tab_completion_new(&entry, options->color_profile.input_file[i], NULL, NULL);
 		tab_completion_add_select_button(entry, _("Select color profile"), FALSE);
 		gtk_widget_set_size_request(entry, 160, -1);
 		gtk_table_attach(GTK_TABLE(table), tabcomp, 2, 3, i + 1, i + 2,
@@ -1425,7 +1425,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	pref_table_label(table, 0, COLOR_PROFILE_INPUTS + 1, _("Screen:"), 1.0);
 	tabcomp = tab_completion_new(&color_profile_screen_file_entry,
-				     options->color_profile_screen_file, NULL, NULL);
+				     options->color_profile.screen_file, NULL, NULL);
 	tab_completion_add_select_button(color_profile_screen_file_entry, _("Select color profile"), FALSE);
 	gtk_widget_set_size_request(color_profile_screen_file_entry, 160, -1);
 	gtk_table_attach(GTK_TABLE(table), tabcomp, 2, 3,
