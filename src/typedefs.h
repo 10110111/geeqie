@@ -801,7 +801,7 @@ struct _ConfOptions
 
 	/* file filtering */
 	struct {
-		gint show_dot_files;
+		gint show_hidden_files;
 		gint disable;
 	} file_filter;
 

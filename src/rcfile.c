@@ -423,7 +423,7 @@ void save_options(void)
 
 	secure_fprintf(ssi, "\n##### Filtering Options #####\n\n");
 
-	write_bool_option(ssi, "file_filter.show_dot_files", options->file_filter.show_dot_files);
+	write_bool_option(ssi, "file_filter.show_hidden_files", options->file_filter.show_hidden_files);
 	write_bool_option(ssi, "file_filter.disable", options->file_filter.disable);
 	secure_fputc(ssi, '\n');
 
@@ -690,7 +690,7 @@ void load_options(void)
 
 		/* filtering options */
 
-		READ_BOOL(file_filter.show_dot_files);
+		READ_BOOL(file_filter.show_hidden_files);
 		READ_BOOL(file_filter.disable);
 
 		if (strcasecmp(option, "file_filter.ext") == 0)
