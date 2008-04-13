@@ -462,6 +462,14 @@ static void vdtree_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 	if (vdt->layout) layout_refresh(vdt->layout);
 }
 
+static void vdtree_toggle_show_dot_files_cb(GtkWidget *widget, gpointer data)
+{
+	ViewDirTree *vdt = data;
+
+	options->file_filter.show_dot_files = !options->file_filter.show_dot_files;
+	if (vdt->layout) layout_refresh(vdt->layout);
+}
+
 static GtkWidget *vdtree_pop_menu(ViewDirTree *vdt, FileData *fd)
 {
 	GtkWidget *menu;
@@ -513,6 +521,9 @@ static GtkWidget *vdtree_pop_menu(ViewDirTree *vdt, FileData *fd)
 	menu_item_add_divider(menu);
 	menu_item_add_check(menu, _("View as _tree"), TRUE,
 			    G_CALLBACK(vdtree_pop_menu_tree_cb), vdt);
+	menu_item_add_check(menu, _("Show _hidden files"), options->file_filter.show_dot_files,
+			    G_CALLBACK(vdtree_toggle_show_dot_files_cb), vdt);
+
 	menu_item_add_stock(menu, _("Re_fresh"), GTK_STOCK_REFRESH,
 			    G_CALLBACK(vdtree_pop_menu_refresh_cb), vdt);
 
