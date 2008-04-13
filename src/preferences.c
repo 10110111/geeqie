@@ -780,6 +780,32 @@ static void fullscreen_info_view_changed_cb(GtkWidget* widget, gpointer data)
 	c_options->fullscreen.info = gtk_text_buffer_get_text(pTextBuffer, &iStart, &iEnd, TRUE);
 }
 
+static void fullscreen_info_default_ok_cb(GenericDialog *gd, gpointer data)
+{
+	GtkTextView *text_view = data;
+	GtkTextBuffer *buffer;
+
+	set_default_fullscreen_info(options);
+	if (!configwindow) return;
+
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view));
+	gtk_text_buffer_set_text(buffer, options->fullscreen.info, -1);
+}
+
+static void fullscreen_info_default_cb(GtkWidget *widget, gpointer data)
+{
+	GenericDialog *gd;
+
+	gd = generic_dialog_new(_("Reset fullscreen info string"),
+				GQ_WMCLASS, "reset_fullscreen_info", widget, TRUE,
+				dummy_cancel_cb, data);
+	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset fullscreen info string"),
+				   _("This will reset the fullscreen info string to the default.\nContinue?"));
+	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, fullscreen_info_default_ok_cb, TRUE);
+	gtk_widget_show(gd->dialog);
+}
+
+
 /* general options tab */
 static void config_tab_general(GtkWidget *notebook)
 {
@@ -1301,6 +1327,13 @@ static void config_tab_advanced(GtkWidget *notebook)
 #endif
 	gtk_container_add(GTK_CONTAINER(scrolled), fullscreen_info_view);
 	gtk_widget_show(fullscreen_info_view);
+
+	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
+
+	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
+				 G_CALLBACK(fullscreen_info_default_cb), fullscreen_info_view);
+	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+	gtk_widget_show(button);
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(fullscreen_info_view));
 	gtk_text_buffer_set_text(buffer, options->fullscreen.info, -1);

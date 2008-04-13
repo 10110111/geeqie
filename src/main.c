@@ -18,6 +18,7 @@
 #include "dnd.h"
 #include "editors.h"
 #include "filelist.h"
+#include "fullscreen.h"
 #include "image-overlay.h"
 #include "img-view.h"
 #include "layout.h"
@@ -1178,11 +1179,7 @@ static void setup_default_options(void)
 		options->color_profile.input_name[i] = NULL;
 		}
 
-	options->fullscreen.info = g_strdup("%collection%(%number%/%total%) <b>%name%</b>\n"
-				   "%res%|%date%|%size%\n"
-				   "%fAperture%|%fShutterSpeed%|%fISOSpeedRating%|%fFocalLength%|%fExposureBias%\n"
-				   "%fCamera%|%fFlash%");
-
+	set_default_fullscreen_info(options);
 	sidecar_ext_add_defaults();
 }
 
