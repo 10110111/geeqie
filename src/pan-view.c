@@ -1443,9 +1443,17 @@ static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 		gchar *label;
 		gchar *text;
 
-		label = g_strdup_printf("%s:", exif_get_description_by_key(ExifUIList[i].key));
+		if (ExifUIList[i].current == EXIF_UI_OFF) continue;
+		
 		text = exif_get_data_as_text(exif, ExifUIList[i].key);
 		text = bar_exif_validate_text(text);
+		if (ExifUIList[i].current == EXIF_UI_IFSET && (!text || !*text))
+			{
+			if (text) g_free(text);
+			continue;
+			}
+
+		label = g_strdup_printf("%s:", exif_get_description_by_key(ExifUIList[i].key));
 		pan_text_alignment_add(ta, label, text);
 		g_free(label);
 		g_free(text);
