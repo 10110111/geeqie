@@ -564,7 +564,7 @@ void load_options(void)
 #define READ_UINT(_name_) read_uint_option(f, option, #_name_, value, &options->_name_)
 #define READ_INT_CLAMP(_name_, _min_, _max_) read_int_option_clamp(f, option, #_name_, value, &options->_name_, _min_, _max_)
 #define READ_INT_UNIT(_name_, _unit_) read_int_unit_option(f, option, #_name_, value, &options->_name_, _unit_)
-#define READ_CHAR(_name_) read_char_option(f, option, #_name_, value, &options->_name_)
+#define READ_CHAR(_name_) read_char_option(f, option, #_name_, value_all, &options->_name_)
 #define READ_COLOR(_name_) read_color_option(f, option, #_name_, value, &options->_name_)
 
 		/* general options */
