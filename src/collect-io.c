@@ -57,7 +57,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 	gchar s_buf[GQ_COLLECTION_READ_BUFSIZE];
 	FILE *f;
 	gchar *pathl;
-	gint official = FALSE;
+	gint limit_failures = TRUE;
 	gint success = TRUE;
 	guint total = 0;
 	guint fail = 0;
@@ -112,7 +112,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 				 * which is needed for the collection manager to work.
 				 * Also unofficial files abort after too many invalid entries.
 				 */
-				official = TRUE;
+				limit_failures = FALSE;
 				}
 			else if (strncmp(s_buf, "#geometry:", 10 ) == 0 &&
 			    scan_geometry(s_buf + 10, &cd->window_x, &cd->window_y, &cd->window_w, &cd->window_h) )
@@ -128,7 +128,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 				{
 				/* As 2008/04/15 there is no difference between our collection file format
 				 * and GQview 2.1.5 collection file format so ignore failures as well. */
-				official = TRUE;
+				limit_failures = FALSE;
 				}
 			continue;
 			}
@@ -146,7 +146,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 			g_free(buf);
 
 			total++;
-			if (!valid && !official)
+			if (!valid && limit_failures)
 				{
 				fail++;
 				if (fail > GQ_COLLECTION_FAIL_MIN &&
