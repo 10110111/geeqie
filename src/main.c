@@ -1181,6 +1181,7 @@ static void setup_default_options(void)
 
 	set_default_fullscreen_info(options);
 	sidecar_ext_add_defaults();
+	options->layout.order = g_strdup("123");
 }
 
 static void exit_program_final(void)
@@ -1321,7 +1322,6 @@ int main (int argc, char *argv[])
 	printf("%s %s, This is an alpha release.\n", GQ_APPNAME, VERSION);
 #endif
 	options = init_options(NULL);
-	options->layout.order = g_strdup("123"); /* TODO: move to init_options() */
 	setup_default_options();
 	load_options();
 
