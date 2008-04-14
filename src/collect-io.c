@@ -67,9 +67,9 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 	guint fail = 0;
 	gboolean changed = FALSE;
 	CollectManagerEntry *entry = NULL;
-	guint flush = flags & COLLECTION_LOAD_FLUSH;
-	guint append = flags & COLLECTION_LOAD_APPEND;
-	guint only_geometry = flags & COLLECTION_LOAD_GEOMETRY;
+	guint flush = !!(flags & COLLECTION_LOAD_FLUSH);
+	guint append = !!(flags & COLLECTION_LOAD_APPEND);
+	guint only_geometry = !!(flags & COLLECTION_LOAD_GEOMETRY);
 
 	if (!only_geometry)
 		{
@@ -159,10 +159,11 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 			g_free(buf);
 
 			total++;
-			if (!valid && limit_failures)
+			if (!valid)
 				{
 				fail++;
-				if (fail > GQ_COLLECTION_FAIL_MIN &&
+				if (limit_failures &&
+				    fail > GQ_COLLECTION_FAIL_MIN &&
 				    fail * 100 / total > GQ_COLLECTION_FAIL_PERCENT)
 					{
 					printf("%d invalid filenames in unoffical collection file, closing: %s\n", fail, path);
