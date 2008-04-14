@@ -64,18 +64,22 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 	CollectManagerEntry *entry = NULL;
 	guint flush = flags & COLLECTION_LOAD_FLUSH;
 	guint append = flags & COLLECTION_LOAD_APPEND;
+	guint only_geometry = flags & COLLECTION_LOAD_GEOMETRY;
 
-	collection_load_stop(cd);
-
-	if (flush) 
-		collect_manager_flush();
-	else
-		entry = collect_manager_get_entry(path);
-
-	if (!append)
+	if (!only_geometry)
 		{
-		collection_list_free(cd->list);
-		cd->list = NULL;
+		collection_load_stop(cd);
+
+		if (flush)
+			collect_manager_flush();
+		else
+			entry = collect_manager_get_entry(path);
+
+		if (!append)
+			{
+			collection_list_free(cd->list);
+			cd->list = NULL;
+			}
 		}
 
 	if (!path && !cd->path) return FALSE;
@@ -110,6 +114,11 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 			    scan_geometry(s_buf + 10, &cd->window_x, &cd->window_y, &cd->window_w, &cd->window_h) )
 				{
 				cd->window_read = TRUE;
+				if (only_geometry)
+					{
+					fclose(f);
+					return TRUE;
+					}
 				}
 			continue;
 			}
@@ -142,7 +151,8 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 		}
 
 	fclose(f);
-	
+	if (only_geometry) return FALSE;
+
 	if (!flush)
 		{
 		gchar *buf = NULL;
@@ -369,33 +379,7 @@ gint collection_save(CollectionData *cd, const gchar *path)
 
 gint collection_load_only_geometry(CollectionData *cd, const gchar *path)
 {
-	gchar s_buf[2048];
-	FILE *f;
-	gchar *pathl;
-
-	if (!path && !cd->path) return FALSE;
-
-	if (!path) path = cd->path;
-
-	/* load it */
-	pathl = path_from_utf8(path);
-	f = fopen(pathl, "r");
-	g_free(pathl);
-	if (!f) return FALSE;
-
-	while (fgets(s_buf, sizeof(s_buf), f))
-		{
-		if (s_buf[0]=='#' &&
-		    strncmp(s_buf, "#geometry:", 10 ) == 0 &&
-		    scan_geometry(s_buf + 10, &cd->window_x, &cd->window_y, &cd->window_w, &cd->window_h) )
-			{
-			cd->window_read = TRUE;
-			fclose(f);
-			return TRUE;
-			}
-		}
-	fclose(f);
-	return FALSE;
+	return collection_load(cd, path, COLLECTION_LOAD_GEOMETRY);
 }
 
 

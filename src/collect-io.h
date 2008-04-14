@@ -17,6 +17,7 @@ typedef enum {
 	COLLECTION_LOAD_NONE	= 0,
 	COLLECTION_LOAD_APPEND	= 1 << 0,
 	COLLECTION_LOAD_FLUSH	= 1 << 1,
+	COLLECTION_LOAD_GEOMETRY= 1 << 2,
 } CollectionLoadFlags;
 
 gint collection_load(CollectionData *cd, const gchar *path, CollectionLoadFlags flags);
