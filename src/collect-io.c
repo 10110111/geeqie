@@ -143,6 +143,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 				changed |= collect_manager_process_action(entry, &buf);
 			
 			valid = (buf[0] == '/' && collection_add_check(cd, file_data_new_simple(buf), FALSE, TRUE));
+			if (debug && !valid) printf("collection invalid file: %s\n", buf);
 			g_free(buf);
 
 			total++;
@@ -152,13 +153,15 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 				if (fail > GQ_COLLECTION_FAIL_MIN &&
 				    fail * 100 / total > GQ_COLLECTION_FAIL_PERCENT)
 					{
-					printf("Too many invalid filenames in unoffical collection file, closing: %s\n", path);
+					printf("%d invalid filenames in unoffical collection file, closing: %s\n", fail, path);
 					success = FALSE;
 					break;
 					}
 				}
 			}
 		}
+
+	if (debug) printf("collection files: total = %d fail = %d\n", total, fail); 
 
 	fclose(f);
 	if (only_geometry) return FALSE;
