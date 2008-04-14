@@ -131,7 +131,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 					return TRUE;
 					}
 				}
-			else if (strncasecmp(p, "GQview collection", strlen("GQview collection")) == 0)
+			else if (strncasecmp(p, "#GQview collection", strlen("#GQview collection")) == 0)
 				{
 				/* As 2008/04/15 there is no difference between our collection file format
 				 * and GQview 2.1.5 collection file format so ignore failures as well. */
