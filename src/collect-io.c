@@ -59,6 +59,10 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 	gchar *pathl;
 	gint limit_failures = TRUE;
 	gint success = TRUE;
+	gint has_official_header = FALSE;
+	gint has_geometry_header = FALSE;
+	gint has_gqview_header   = FALSE;
+	gint need_header	 = TRUE;
 	guint total = 0;
 	guint fail = 0;
 	gboolean changed = FALSE;
@@ -112,6 +116,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 		/* Parse comments */
 		if (*p == '#')
 			{
+			if (!need_header) continue;
 			if (strncasecmp(p, GQ_COLLECTION_MARKER, strlen(GQ_COLLECTION_MARKER)) == 0)
 				{
 				/* Looks like an official collection, allow unchecked input.
@@ -119,24 +124,24 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 				 * which is needed for the collection manager to work.
 				 * Also unofficial files abort after too many invalid entries.
 				 */
+				has_official_header = TRUE;
 				limit_failures = FALSE;
 				}
 			else if (strncmp(p, "#geometry:", 10 ) == 0 &&
-			    scan_geometry(p + 10, &cd->window_x, &cd->window_y, &cd->window_w, &cd->window_h) )
+			         scan_geometry(p + 10, &cd->window_x, &cd->window_y, &cd->window_w, &cd->window_h))
 				{
+				has_geometry_header = TRUE;
 				cd->window_read = TRUE;
-				if (only_geometry)
-					{
-					fclose(f);
-					return TRUE;
-					}
+				if (only_geometry) break;
 				}
 			else if (strncasecmp(p, "#GQview collection", strlen("#GQview collection")) == 0)
 				{
 				/* As 2008/04/15 there is no difference between our collection file format
 				 * and GQview 2.1.5 collection file format so ignore failures as well. */
+				has_gqview_header = TRUE;
 				limit_failures = FALSE;
 				}
+			need_header = (!has_official_header && !has_gqview_header) || !has_geometry_header;
 			continue;
 			}
 
@@ -168,10 +173,11 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 			}
 		}
 
-	if (debug) printf("collection files: total = %d fail = %d\n", total, fail); 
+	if (debug) printf("collection files: total = %d fail = %d official=%d gqview=%d geometry=%d\n",
+			  total, fail, has_official_header, has_gqview_header, has_geometry_header); 
 
 	fclose(f);
-	if (only_geometry) return FALSE;
+	if (only_geometry) return has_geometry_header;
 
 	if (!flush)
 		{
