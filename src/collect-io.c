@@ -103,9 +103,16 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 	while (fgets(s_buf, sizeof(s_buf), f))
 		{
 		gchar *buf;
-		if (s_buf[0]=='#')
+		gchar *p = s_buf;
+
+		/* Skip whitespaces and empty lines */
+		while (*p && g_ascii_isspace(*p)) p++;
+		if (*p == '\n' || *p == '\r') continue;
+
+		/* Parse comments */
+		if (*p == '#')
 			{
-			if (strncasecmp(s_buf, GQ_COLLECTION_MARKER, strlen(GQ_COLLECTION_MARKER)) == 0)
+			if (strncasecmp(p, GQ_COLLECTION_MARKER, strlen(GQ_COLLECTION_MARKER)) == 0)
 				{
 				/* Looks like an official collection, allow unchecked input.
 				 * All this does is allow adding files that may not exist,
@@ -114,8 +121,8 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 				 */
 				limit_failures = FALSE;
 				}
-			else if (strncmp(s_buf, "#geometry:", 10 ) == 0 &&
-			    scan_geometry(s_buf + 10, &cd->window_x, &cd->window_y, &cd->window_w, &cd->window_h) )
+			else if (strncmp(p, "#geometry:", 10 ) == 0 &&
+			    scan_geometry(p + 10, &cd->window_x, &cd->window_y, &cd->window_w, &cd->window_h) )
 				{
 				cd->window_read = TRUE;
 				if (only_geometry)
@@ -124,7 +131,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 					return TRUE;
 					}
 				}
-			else if (strncasecmp(s_buf, "GQview collection", strlen("GQview collection")) == 0)
+			else if (strncasecmp(p, "GQview collection", strlen("GQview collection")) == 0)
 				{
 				/* As 2008/04/15 there is no difference between our collection file format
 				 * and GQview 2.1.5 collection file format so ignore failures as well. */
@@ -132,9 +139,9 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 				}
 			continue;
 			}
-		if (s_buf[0]=='\n') continue;
 
-		buf = quoted_value(s_buf, NULL);
+		/* Read filenames */
+		buf = quoted_value(p, NULL);
 		if (buf)
 			{
 			gint valid;
