@@ -950,7 +950,7 @@ void view_window_new(FileData *fd)
 		CollectInfo *info;
 
 		cd = collection_new(fd->path);
-		if (collection_load(cd, fd->path, FALSE))
+		if (collection_load(cd, fd->path, COLLECTION_LOAD_NONE))
 			{
 			info = collection_get_first(cd);
 			}

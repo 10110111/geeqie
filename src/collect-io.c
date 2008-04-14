@@ -51,7 +51,7 @@ static gint scan_geometry(gchar *buffer, gint *x, gint *y, gint *w, gint *h)
 	return TRUE;
 }
 
-static gint collection_load_private(CollectionData *cd, const gchar *path, gint append, gint flush)
+static gint collection_load_private(CollectionData *cd, const gchar *path, CollectionLoadFlags flags)
 {
 	gchar s_buf[2048];
 	FILE *f;
@@ -62,6 +62,8 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, gint 
 	guint fail = 0;
 	gboolean changed = FALSE;
 	CollectManagerEntry *entry = NULL;
+	guint flush = flags & COLLECTION_LOAD_FLUSH;
+	guint append = flags & COLLECTION_LOAD_APPEND;
 
 	collection_load_stop(cd);
 
@@ -165,9 +167,9 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, gint 
 	return success;
 }
 
-gint collection_load(CollectionData *cd, const gchar *path, gint append)
+gint collection_load(CollectionData *cd, const gchar *path, CollectionLoadFlags flags)
 {
-	if (collection_load_private(cd, path, append, TRUE))
+	if (collection_load_private(cd, path, flags | COLLECTION_LOAD_FLUSH))
 		{
 		layout_recent_add_path(cd->path);
 		return TRUE;
@@ -262,9 +264,9 @@ void collection_load_thumb_idle(CollectionData *cd)
 	if (!cd->thumb_loader) collection_load_thumb_step(cd);
 }
 
-gint collection_load_begin(CollectionData *cd, const gchar *path, gint append)
+gint collection_load_begin(CollectionData *cd, const gchar *path, CollectionLoadFlags flags)
 {
-	if (!collection_load(cd, path, append)) return FALSE;
+	if (!collection_load(cd, path, flags)) return FALSE;
 
 	collection_load_thumb_idle(cd);
 
@@ -782,7 +784,7 @@ static gint collect_manager_process_entry(CollectManagerEntry *entry)
 	if (entry->empty) return FALSE;
 
 	cd = collection_new(entry->path);
-	success = collection_load_private(cd, entry->path, FALSE, FALSE);
+	success = collection_load_private(cd, entry->path, COLLECTION_LOAD_NONE);
 
 	collection_unref(cd);
 

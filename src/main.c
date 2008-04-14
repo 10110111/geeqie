@@ -1447,7 +1447,7 @@ int main (int argc, char *argv[])
 		work = collection_list;
 		while (work)
 			{
-			collection_load(cd, (gchar *)work->data, TRUE);
+			collection_load(cd, (gchar *)work->data, COLLECTION_LOAD_APPEND);
 			work = work->next;
 			}
 

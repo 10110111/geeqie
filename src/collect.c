@@ -1251,7 +1251,7 @@ CollectWindow *collection_window_new(const gchar *path)
 
 	collection_set_update_info_func(cw->cd, collection_window_update_info, cw);
 
-	if (path && *path == '/') collection_load_begin(cw->cd, NULL, FALSE);
+	if (path && *path == '/') collection_load_begin(cw->cd, NULL, COLLECTION_LOAD_NONE);
 
 	return cw;
 }

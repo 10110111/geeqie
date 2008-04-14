@@ -13,10 +13,15 @@
 #ifndef COLLECT_IO_H
 #define COLLECT_IO_H
 
+typedef enum {
+	COLLECTION_LOAD_NONE	= 0,
+	COLLECTION_LOAD_APPEND	= 1 << 0,
+	COLLECTION_LOAD_FLUSH	= 1 << 1,
+} CollectionLoadFlags;
 
-gint collection_load(CollectionData *cd, const gchar *path, gint append);
+gint collection_load(CollectionData *cd, const gchar *path, CollectionLoadFlags flags);
 
-gint collection_load_begin(CollectionData *cd, const gchar *path, gint append);
+gint collection_load_begin(CollectionData *cd, const gchar *path, CollectionLoadFlags flags);
 void collection_load_stop(CollectionData *cd);
 
 void collection_load_thumb_idle(CollectionData *cd);
