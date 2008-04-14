@@ -26,6 +26,7 @@
 
 #define GQ_COLLECTION_FAIL_MIN     300
 #define GQ_COLLECTION_FAIL_PERCENT 98
+#define GQ_COLLECTION_READ_BUFSIZE 4096
 
 typedef struct _CollectManagerEntry CollectManagerEntry;
 
@@ -53,7 +54,7 @@ static gint scan_geometry(gchar *buffer, gint *x, gint *y, gint *w, gint *h)
 
 static gint collection_load_private(CollectionData *cd, const gchar *path, CollectionLoadFlags flags)
 {
-	gchar s_buf[2048];
+	gchar s_buf[GQ_COLLECTION_READ_BUFSIZE];
 	FILE *f;
 	gchar *pathl;
 	gint official = FALSE;
@@ -85,6 +86,9 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 	if (!path && !cd->path) return FALSE;
 
 	if (!path) path = cd->path;
+	
+	if (debug) printf("collection load: append=%d flush=%d only_geometry=%d path=%s\n",
+			  append, flush, only_geometry, path);
 
 	/* load it */
 	pathl = path_from_utf8(path);
@@ -119,6 +123,12 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 					fclose(f);
 					return TRUE;
 					}
+				}
+			else if (strncasecmp(s_buf, "GQview collection", strlen("GQview collection")) == 0)
+				{
+				/* As 2008/04/15 there is no difference between our collection file format
+				 * and GQview 2.1.5 collection file format so ignore failures as well. */
+				official = TRUE;
 				}
 			continue;
 			}
