@@ -1113,6 +1113,8 @@ static void view_info_cb(GtkWidget *widget, gpointer data)
 	ViewWindow *vw = data;
 	ImageWindow *imd;
 
+	if (vw->fs) view_fullscreen_toggle(vw, FALSE);
+
 	imd = view_window_active_image(vw);
 	info_window_new(image_get_fd(imd), NULL);
 }

@@ -614,6 +614,7 @@ static void li_pop_menu_info_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
+	if (lw->full_screen) layout_image_full_screen_stop(lw);
 	info_window_new(layout_image_get_fd(lw), NULL);
 }
 
