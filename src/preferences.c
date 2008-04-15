@@ -146,7 +146,6 @@ static void slideshow_delay_cb(GtkWidget *spin, gpointer data)
 static void config_window_apply(void)
 {
 	const gchar *buf;
-	gchar *l_conf;
 	gint new_style;
 	gint i;
 	gint refresh = FALSE;
@@ -290,26 +289,28 @@ static void config_window_apply(void)
 		ExifUIList[i].current = ExifUIList[i].temp;
 		}
 
-	l_conf = layout_config_get(layout_widget, &new_style);
+	{
+	gchar *layout_order = layout_config_get(layout_widget, &new_style);
 
 	if (new_style != options->layout.style ||
-	    (l_conf == NULL) != (options->layout.order == NULL) ||
+	    (layout_order == NULL) != (options->layout.order == NULL) ||
 	    !options->layout.order ||
-	    strcmp(l_conf, options->layout.order) != 0)
+	    strcmp(layout_order, options->layout.order) != 0)
 		{
 		if (refresh) filter_rebuild();
 		refresh = FALSE;
 
 		g_free(options->layout.order);
-		options->layout.order = l_conf;
-		l_conf = NULL;
+		options->layout.order = layout_order;
+		layout_order = NULL; /* g_free() later */
 
 		options->layout.style = new_style;
 
 		layout_styles_update();
 		}
 
-	g_free(l_conf);
+	g_free(layout_order);
+	}
 
 	image_options_sync();
 
