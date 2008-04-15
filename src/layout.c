@@ -85,6 +85,23 @@ LayoutWindow *layout_find_by_image(ImageWindow *imd)
 	return NULL;
 }
 
+LayoutWindow *layout_find_by_image_fd(ImageWindow *imd)
+{
+	GList *work;
+
+	work = layout_window_list;
+	while (work)
+		{
+		LayoutWindow *lw = work->data;
+		work = work->next;
+		if (lw->image->image_fd == imd->image_fd)
+			return lw;
+		
+		}
+
+	return NULL;
+}
+
 /*
  *-----------------------------------------------------------------------------
  * menu, toolbar, and dir view

@@ -709,6 +709,30 @@ static void li_pop_menu_hide_cb(GtkWidget *widget, gpointer data)
 	layout_tools_hide_toggle(lw);
 }
 
+static void li_set_layout_path_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw = data;
+	const gchar *path;
+
+	if (!layout_valid(&lw)) return;
+	
+	path = layout_image_get_path(lw);
+	if (path) layout_set_path(lw, path);
+}
+
+static gint li_check_if_current_path(LayoutWindow *lw, const gchar *path)
+{
+	gchar *dirname;
+	gint ret;
+
+	if (!path || !layout_valid(&lw) || !lw->path) return FALSE;
+
+	dirname = g_path_get_dirname(path);
+	ret = (strcmp(lw->path, dirname) == 0);
+	g_free(dirname);
+	return ret;
+}
+
 static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 {
 	GtkWidget *menu;
@@ -740,6 +764,9 @@ static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 
 	item = menu_item_add_stock(menu, _("View in _new window"), GTK_STOCK_NEW, G_CALLBACK(li_pop_menu_new_cb), lw);
 	if (!path || fullscreen) gtk_widget_set_sensitive(item, FALSE);
+	
+	item = menu_item_add(menu, _("_Go to directory view"), G_CALLBACK(li_set_layout_path_cb), lw);
+	if (!path || li_check_if_current_path(lw, path)) gtk_widget_set_sensitive(item, FALSE);
 
 	menu_item_add_divider(menu);
 

@@ -26,6 +26,7 @@ void layout_free(LayoutWindow *lw);
 gint layout_valid(LayoutWindow **lw);
 
 LayoutWindow *layout_find_by_image(ImageWindow *imd);
+LayoutWindow *layout_find_by_image_fd(ImageWindow *imd);
 
 const gchar *layout_get_path(LayoutWindow *lw);
 gint layout_set_path(LayoutWindow *lw, const gchar *path);

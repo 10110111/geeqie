@@ -22,6 +22,8 @@
 #include "image.h"
 #include "image-overlay.h"
 #include "info.h"
+#include "layout.h"
+#include "layout_image.h"
 #include "menu.h"
 #include "pixbuf-renderer.h"
 #include "pixbuf_util.h"
@@ -1223,6 +1225,38 @@ static void view_close_cb(GtkWidget *widget, gpointer data)
 	view_window_close(vw);
 }
 
+static LayoutWindow *view_new_layout_with_path(const gchar *path)
+{
+	LayoutWindow *nw;
+
+	nw = layout_new(NULL, FALSE, FALSE);
+	layout_sort_set(nw, options->file_sort.method, options->file_sort.ascending);
+	layout_set_path(nw, path);
+	return nw;
+}
+
+
+static void view_set_layout_path_cb(GtkWidget *widget, gpointer data)
+{
+	ViewWindow *vw = data;
+	LayoutWindow *lw;
+	const gchar *path;
+	ImageWindow *imd;
+	
+	imd = view_window_active_image(vw);
+
+	if (!imd || !imd->image_fd) return;
+	path = imd->image_fd->path;
+	if (!path) return;
+	
+	lw = layout_find_by_image_fd(imd);
+	if (lw)
+		layout_set_path(lw, path);
+	else
+		view_new_layout_with_path(path);
+	view_window_close(vw);
+}
+
 static GtkWidget *view_popup_menu(ViewWindow *vw)
 {
 	GtkWidget *menu;
@@ -1245,6 +1279,7 @@ static GtkWidget *view_popup_menu(ViewWindow *vw)
 	menu_item_add_stock(menu, _("_Properties"), GTK_STOCK_PROPERTIES, G_CALLBACK(view_info_cb), vw);
 
 	menu_item_add_stock(menu, _("View in _new window"), GTK_STOCK_NEW, G_CALLBACK(view_new_window_cb), vw);
+	item = menu_item_add(menu, _("_Go to directory view"), G_CALLBACK(view_set_layout_path_cb), vw);
 
 	menu_item_add_divider(menu);
 	menu_item_add_stock(menu, _("_Copy..."), GTK_STOCK_COPY, G_CALLBACK(view_copy_cb), vw);
