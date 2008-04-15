@@ -265,6 +265,9 @@ RemoteConnection *remote_client_open(const gchar *path)
 	rc->fd = fd;
 	rc->path = g_strdup(path);
 
+	/* this might fix the freezes on freebsd, solaris, etc. - completely untested */
+	remote_client_send(rc, "\n"); 
+
 	return rc;
 }
 
