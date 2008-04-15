@@ -378,9 +378,9 @@ void filter_write_list(SecureSaveInfo *ssi)
 		gchar *extensions = escquote_value(fe->extensions);
 		gchar *description = escquote_value(fe->description);
 
-		secure_fprintf(ssi, "file_filter.ext: \"%s%s\" %s %s\n",
+		secure_fprintf(ssi, "file_filter.ext: \"%s%s\" %s %s %d\n",
 			       (fe->enabled) ? "" : "#",
-			       fe->key, extensions, description);
+			       fe->key, extensions, description, fe->file_class);
 		g_free(extensions);
 		g_free(description);
 		}
@@ -393,6 +393,7 @@ void filter_parse(const gchar *text)
 	gchar *ext;
 	gchar *desc;
 	gint enabled = TRUE;
+	gint file_class;
 
 	if (!text || text[0] != '"') return;
 
@@ -401,6 +402,10 @@ void filter_parse(const gchar *text)
 
 	ext = quoted_value(p, &p);
 	desc = quoted_value(p, &p);
+	
+	file_class = strtol(p, NULL, 10);
+	
+	if (file_class < 0 || file_class >= FILE_FORMAT_CLASSES) file_class = FORMAT_CLASS_UNKNOWN;
 
 	if (key && key[0] == '#')
 		{
@@ -412,7 +417,7 @@ void filter_parse(const gchar *text)
 		enabled = FALSE;
 		}
 
-	if (key && strlen(key) > 0 && ext) filter_add(key, desc, ext, FORMAT_CLASS_UNKNOWN, enabled);
+	if (key && strlen(key) > 0 && ext) filter_add(key, desc, ext, file_class, enabled);
 
 	g_free(key);
 	g_free(ext);
