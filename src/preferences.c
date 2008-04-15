@@ -179,6 +179,7 @@ static void config_window_apply(void)
 	if (buf && strlen(buf) > 0) options->file_ops.safe_delete_path = remove_trailing_slash(buf);
 
 	if (options->file_filter.show_hidden_files != c_options->file_filter.show_hidden_files) refresh = TRUE;
+	if (options->file_filter.show_dot_directory != c_options->file_filter.show_dot_directory) refresh = TRUE;
 	if (options->file_sort.case_sensitive != c_options->file_sort.case_sensitive) refresh = TRUE;
 	if (options->file_filter.disable != c_options->file_filter.disable) refresh = TRUE;
 
@@ -209,6 +210,8 @@ static void config_window_apply(void)
 	options->thumbnails.spec_standard = c_options->thumbnails.spec_standard;
 	options->enable_metadata_dirs = c_options->enable_metadata_dirs;
 	options->file_filter.show_hidden_files = c_options->file_filter.show_hidden_files;
+	options->file_filter.show_dot_directory = c_options->file_filter.show_dot_directory;
+
 	options->file_sort.case_sensitive = c_options->file_sort.case_sensitive;
 	options->file_filter.disable = c_options->file_filter.disable;
 
@@ -1031,6 +1034,8 @@ static void config_tab_filtering(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Show hidden files or folders"),
 			      options->file_filter.show_hidden_files, &c_options->file_filter.show_hidden_files);
+	pref_checkbox_new_int(group, _("Show dot directory"),
+			      options->file_filter.show_dot_directory, &c_options->file_filter.show_dot_directory);
 	pref_checkbox_new_int(group, _("Case sensitive sort"),
 			      options->file_sort.case_sensitive, &c_options->file_sort.case_sensitive);
 

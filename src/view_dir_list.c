@@ -861,10 +861,14 @@ gint vdlist_set_path(ViewDirList *vdl, const gchar *path)
 		vdl->list = g_list_prepend(vdl->list, fd);
 		g_free(filepath);
 		}
-	filepath = g_strconcat(vdl->path, "/", ".", NULL); 
-	fd = file_data_new_simple(filepath);
-	vdl->list = g_list_prepend(vdl->list, fd);
-	g_free(filepath);
+	
+	if (options->file_filter.show_dot_directory)
+		{
+		filepath = g_strconcat(vdl->path, "/", ".", NULL); 
+		fd = file_data_new_simple(filepath);
+		vdl->list = g_list_prepend(vdl->list, fd);
+		g_free(filepath);
+	}
 
 	vdlist_populate(vdl);
 

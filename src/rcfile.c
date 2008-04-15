@@ -433,6 +433,7 @@ void save_options(void)
 	WRITE_SUBTITLE("Filtering Options");
 
 	WRITE_BOOL(file_filter.show_hidden_files);
+	WRITE_BOOL(file_filter.show_dot_directory);
 	WRITE_BOOL(file_filter.disable);
 	WRITE_SEPARATOR();
 
@@ -706,6 +707,7 @@ void load_options(void)
 		/* filtering options */
 
 		READ_BOOL(file_filter.show_hidden_files);
+		READ_BOOL(file_filter.show_dot_directory);
 		READ_BOOL(file_filter.disable);
 
 		if (strcasecmp(option, "file_filter.ext") == 0)
