@@ -585,7 +585,6 @@ void load_options(void)
 
 		/* general options */
 		READ_BOOL(show_icon_names);
-		READ_BOOL(show_icon_names);
 
 		READ_BOOL(tree_descend_subdirs);
 		READ_BOOL(lazy_image_sync);
