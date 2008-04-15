@@ -367,11 +367,19 @@ void save_options(void)
 
 
 	WRITE_SUBTITLE("Image Options");
-
+	
+	secure_fprintf(ssi, "# image.zoom_mode possible values are:\n"
+			    "#   original\n"
+			    "#   fit\n"
+			    "#   dont_change\n");
 	secure_fprintf(ssi, "image.zoom_mode: ");
-	if (options->image.zoom_mode == ZOOM_RESET_ORIGINAL) secure_fprintf(ssi, "original\n");
-	if (options->image.zoom_mode == ZOOM_RESET_FIT_WINDOW) secure_fprintf(ssi, "fit\n");
-	if (options->image.zoom_mode == ZOOM_RESET_NONE) secure_fprintf(ssi, "dont_change\n");
+	if (options->image.zoom_mode == ZOOM_RESET_ORIGINAL)
+		secure_fprintf(ssi, "original\n");
+	else if (options->image.zoom_mode == ZOOM_RESET_FIT_WINDOW)
+		secure_fprintf(ssi, "fit\n");
+	else if (options->image.zoom_mode == ZOOM_RESET_NONE)
+		secure_fprintf(ssi, "dont_change\n");
+	WRITE_SEPARATOR();
 	WRITE_BOOL(image.zoom_2pass);
 	WRITE_BOOL(image.zoom_to_fit_allow_expand);
 	WRITE_INT(image.zoom_quality);
@@ -639,9 +647,12 @@ void load_options(void)
 		/* image options */
 		if (strcasecmp(option, "image.zoom_mode") == 0)
                         {
-                        if (strcasecmp(value, "original") == 0) options->image.zoom_mode = ZOOM_RESET_ORIGINAL;
-                        if (strcasecmp(value, "fit") == 0) options->image.zoom_mode = ZOOM_RESET_FIT_WINDOW;
-                        if (strcasecmp(value, "dont_change") == 0) options->image.zoom_mode = ZOOM_RESET_NONE;
+                        if (strcasecmp(value, "original") == 0)
+				options->image.zoom_mode = ZOOM_RESET_ORIGINAL;
+                        else if (strcasecmp(value, "fit") == 0)
+				options->image.zoom_mode = ZOOM_RESET_FIT_WINDOW;
+                        else if (strcasecmp(value, "dont_change") == 0)
+				options->image.zoom_mode = ZOOM_RESET_NONE;
                         }
 		READ_BOOL(image.zoom_2pass);
 		READ_BOOL(image.zoom_to_fit_allow_expand);
