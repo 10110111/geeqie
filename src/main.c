@@ -1038,7 +1038,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 				print_term(_("  -r, --remote               send following commands to open window\n"));
 				print_term(_("  -rh,--remote-help          print remote command list\n"));
 #ifdef DEBUG
-				print_term(_("  --debug                    turn on debug output\n"));
+				print_term(_("  --debug[=level]            turn on debug output\n"));
 #endif
 				print_term(_("  -v, --version              print version info\n"));
 				print_term(_("  -h, --help                 show this message\n\n"));
