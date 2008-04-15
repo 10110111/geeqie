@@ -295,7 +295,7 @@ static void config_window_apply(void)
 	if (new_style != options->layout.style ||
 	    (l_conf == NULL) != (options->layout.order == NULL) ||
 	    !options->layout.order ||
-	    strcmp(buf, options->layout.order) != 0)
+	    strcmp(l_conf, options->layout.order) != 0)
 		{
 		if (refresh) filter_rebuild();
 		refresh = FALSE;
