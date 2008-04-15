@@ -952,14 +952,10 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 				parse_command_line_process_file(cmd_all, path, file,
 								&list, collection_list, &first_dir);
 				}
-#ifdef DEBUG
-			else if (strcmp(cmd_line, "--debug") == 0)
+			else if (strncmp(cmd_line, "--debug", 7) == 0 && (cmd_line[7] == '\0' || cmd_line[7] == '='))
 				{
-				/* we now increment the debug state for verbosity */
-				debug++;
-				printf("debugging output enabled (level %d)\n", debug);
+				/* do nothing but do not produce warnings */
 				}
-#endif
 			else if (strcmp(cmd_line, "+t") == 0 ||
 				 strcmp(cmd_line, "--with-tools") == 0)
 				{
@@ -1098,6 +1094,40 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 		path_list_free(list);
 		*cmd_list = NULL;
 		}
+}
+
+static void parse_command_line_for_debug_option(int argc, char *argv[])
+{
+#ifdef DEBUG
+	const gchar *debug_option = "--debug";
+	gint len = strlen(debug_option);
+
+	if (argc > 1)
+		{
+		gint i;
+ 
+		for (i = 1; i < argc; i++)
+			{
+			const gchar *cmd_line = argv[i];
+			if (strncmp(cmd_line, debug_option, len) == 0)
+				{
+				gint cmd_line_len = strlen(cmd_line);
+
+				/* we now increment the debug state for verbosity */
+				if (cmd_line_len == len)
+					debug++;
+				else if (cmd_line[len] == '=' && g_ascii_isdigit(cmd_line[len+1]))
+					{
+					gint n = atoi(cmd_line + len + 1);
+					if (n < 0) n = 1;
+					debug += n;
+					}
+				}
+			}
+		}
+
+	if (debug > 0) printf("debugging output enabled (level %d)\n", debug);
+#endif
 }
 
 /*
@@ -1321,6 +1351,8 @@ int main (int argc, char *argv[])
 #if 1
 	printf("%s %s, This is an alpha release.\n", GQ_APPNAME, VERSION);
 #endif
+	parse_command_line_for_debug_option(argc, argv);
+
 	options = init_options(NULL);
 	setup_default_options();
 	load_options();
