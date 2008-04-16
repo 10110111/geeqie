@@ -930,7 +930,7 @@ static void layout_sync_path(LayoutWindow *lw)
 	lw->last_time = filetime(lw->path);
 
 	gtk_entry_set_text(GTK_ENTRY(lw->path_entry), lw->path);
-	vd_set_path(lw->vd, lw->path);
+	if (lw->vd) vd_set_path(lw->vd, lw->path);
 
 	if (lw->vfl) vflist_set_path(lw->vfl, lw->path);
 	if (lw->vfi) vficon_set_path(lw->vfi, lw->path);
@@ -1004,7 +1004,7 @@ static void layout_refresh_lists(LayoutWindow *lw)
 {
 	if (lw->path) lw->last_time = filetime(lw->path);
 
-	vd_refresh(lw->vd);
+	if (lw->vd) vd_refresh(lw->vd);
 
 	if (lw->vfl) vflist_refresh(lw->vfl);
 	if (lw->vfi) vficon_refresh(lw->vfi);
