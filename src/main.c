@@ -119,7 +119,7 @@ gdouble get_zoom_increment(void)
 
 const gchar *get_exec_time()
 {
-	static timestr[20];
+	static gchar timestr[20];
 	static struct timeval start_tv = {0, 0};
 	
 	struct timeval tv = {0, 0};
@@ -137,7 +137,7 @@ const gchar *get_exec_time()
 		tv.tv_sec -= 1;
 		}
 	
-	g_snprintf(timestr, sizeof(timestr), "%5d.%06d", tv.tv_sec, tv.tv_usec);
+	g_snprintf(timestr, sizeof(timestr), "%5d.%06d", (int)tv.tv_sec, (int)tv.tv_usec);
 	
 	return timestr;
 }
