@@ -33,7 +33,6 @@
 #define VDLIST_INFO(_vd_, _part_) (((ViewDirInfoList *)(_vd_->info))->_part_)
 
 
-static void vdlist_popup_destroy_cb(GtkWidget *widget, gpointer data);
 static gint vdlist_auto_scroll_notify_cb(GtkWidget *widget, gint x, gint y, gpointer data);
 
 /*
@@ -172,16 +171,15 @@ static void vdlist_pop_menu_slide_cb(GtkWidget *widget, gpointer data)
 	ViewDir *vd = data;
 	gchar *path;
 
-	if (!vd->layout || !vd->click_fd) return;
+	if (!vd->layout) return;
+	if (!vd->click_fd) return;
 
-	path = g_strdup(vd->click_fd->path);
+	path = vd->click_fd->path;
 
 	layout_set_path(vd->layout, path);
 	layout_select_none(vd->layout);
 	layout_image_slideshow_stop(vd->layout);
 	layout_image_slideshow_start(vd->layout);
-
-	g_free(path);
 }
 
 static void vdlist_pop_menu_slide_rec_cb(GtkWidget *widget, gpointer data)
@@ -190,16 +188,15 @@ static void vdlist_pop_menu_slide_rec_cb(GtkWidget *widget, gpointer data)
 	gchar *path;
 	GList *list;
 
-	if (!vd->layout || !vd->click_fd) return;
+	if (!vd->layout) return;
+	if (!vd->click_fd) return;
 
-	path = g_strdup(vd->click_fd->path);
+	path = vd->click_fd->path;
 
 	list = filelist_recursive(path);
 
 	layout_image_slideshow_stop(vd->layout);
 	layout_image_slideshow_start_from_list(vd->layout, list);
-
-	g_free(path);
 }
 
 static void vdlist_pop_menu_dupe(ViewDir *vd, gint recursive)
@@ -317,7 +314,7 @@ static GtkWidget *vdlist_pop_menu(ViewDir *vd, FileData *fd)
 
 	menu = popup_menu_short_lived();
 	g_signal_connect(G_OBJECT(menu), "destroy",
-			 G_CALLBACK(vdlist_popup_destroy_cb), vd);
+			 G_CALLBACK(vd_popup_destroy_cb), vd);
 
 	menu_item_add_stock_sensitive(menu, _("_Up to parent"), GTK_STOCK_GO_UP,
 				      (vd->path && strcmp(vd->path, "/") != 0),
@@ -364,19 +361,6 @@ static GtkWidget *vdlist_pop_menu(ViewDir *vd, FileData *fd)
 	return menu;
 }
 
-static void vdlist_popup_destroy_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-
-	vd_color_set(vd, vd->click_fd, FALSE);
-	vd->click_fd = NULL;
-	vd->popup = NULL;
-
-	vd_color_set(vd, vd->drop_fd, FALSE);
-	filelist_free(vd->drop_list);
-	vd->drop_list = NULL;
-	vd->drop_fd = NULL;
-}
 
 /*
  *-----------------------------------------------------------------------------
