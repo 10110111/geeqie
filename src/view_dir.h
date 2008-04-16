@@ -22,6 +22,8 @@ enum {
 
 extern GtkRadioActionEntry menu_view_dir_radio_entries[2];
 
+void vd_destroy(ViewDir *vd);
+
 ViewDir *vd_new(DirViewType type, const gchar *path);
 
 void vd_set_select_func(ViewDir *vdl, void (*func)(ViewDir *vdl, const gchar *path, gpointer data), gpointer data);

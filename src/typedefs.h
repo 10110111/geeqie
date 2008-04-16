@@ -529,6 +529,9 @@ struct _LayoutWindow
 struct _ViewDir
 {
 	DirViewType type;
+	gpointer info;
+	void (*widget_destroy_cb)(GtkWidget *widget, gpointer data);
+
 	GtkWidget *widget;
 	GtkWidget *view;
 
@@ -549,8 +552,6 @@ struct _ViewDir
 	GtkWidget *popup;
 
 	PixmapFolders *pf;
-
-	gpointer info;
 };
 
 struct _ViewDirInfoList

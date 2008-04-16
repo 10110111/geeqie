@@ -13,6 +13,7 @@
 #include "view_dir.h"
 
 #include "filelist.h"
+#include "layout_util.h"
 #include "ui_menu.h"
 #include "utilops.h"
 #include "view_dir_list.h"
@@ -23,15 +24,58 @@ GtkRadioActionEntry menu_view_dir_radio_entries[] = {
   { "FolderTree",	NULL,		N_("Tr_ee"),		"<control>T",	NULL, DIRVIEW_TREE },
 };
 
+void vd_destroy_cb(GtkWidget *widget, gpointer data)
+{
+	ViewDir *vd = data;
+
+	if (vd->popup)
+		{
+		g_signal_handlers_disconnect_matched(G_OBJECT(vd->popup), G_SIGNAL_MATCH_DATA,
+						     0, 0, 0, NULL, vd);
+		gtk_widget_destroy(vd->popup);
+		}
+
+	if (vd->widget_destroy_cb) vd->widget_destroy_cb(widget, data);
+
+	if (vd->pf) folder_icons_free(vd->pf);
+	if (vd->drop_list) filelist_free(vd->drop_list);
+
+	if (vd->path) g_free(vd->path);
+	if (vd->info) g_free(vd->info);
+
+	g_free(vd);
+}
+
 ViewDir *vd_new(DirViewType type, const gchar *path)
 {
-	ViewDir *vd = NULL;
+	ViewDir *vd = g_new0(ViewDir, 1);
+
+	vd->path = NULL;
+	vd->click_fd = NULL;
+
+	vd->drop_fd = NULL;
+	vd->drop_list = NULL;
+	vd->drop_scroll_id = -1;
+	vd->drop_list = NULL;
+
+	vd->popup = NULL;
+	vd->pf = NULL;
+
+	vd->widget = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(vd->widget), GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(vd->widget),
+				       GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
 
 	switch(type)
 	{
-	case DIRVIEW_LIST: vd = vdlist_new(path); break;
-	case DIRVIEW_TREE: vd = vdtree_new(path); break;
+	case DIRVIEW_LIST: vd = vdlist_new(vd, path); break;
+	case DIRVIEW_TREE: vd = vdtree_new(vd, path); break;
 	}
+
+	g_signal_connect(G_OBJECT(vd->widget), "destroy",
+			 G_CALLBACK(vd_destroy_cb), vd);
+
+	vd->pf = folder_icons_new();
 
 	return vd;
 }

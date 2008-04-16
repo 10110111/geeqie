@@ -13,12 +13,12 @@
 #define VIEW_DIR_LIST_H
 
 
-ViewDir *vdlist_new(const gchar *path);
+ViewDir *vdlist_new(ViewDir *vd, const gchar *path);
 
-gint vdlist_set_path(ViewDir *vdl, const gchar *path);
-void vdlist_refresh(ViewDir *vdl);
+gint vdlist_set_path(ViewDir *vd, const gchar *path);
+void vdlist_refresh(ViewDir *vd);
 
-const gchar *vdlist_row_get_path(ViewDir *vdl, gint row);
+const gchar *vdlist_row_get_path(ViewDir *vd, gint row);
 gint vdlist_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter);
 
 

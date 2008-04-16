@@ -974,7 +974,7 @@ static GdkColor *vdlist_color_shifted(GtkWidget *widget)
 	if (done != widget)
 		{
 		GtkStyle *style;
-
+		
 		style = gtk_widget_get_style(widget);
 		memcpy(&color, &style->base[GTK_STATE_NORMAL], sizeof(color));
 		shift_color(&color, -1, 0);
@@ -1000,55 +1000,24 @@ static void vdlist_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
 
-	if (vd->popup)
-		{
-		g_signal_handlers_disconnect_matched(G_OBJECT(vd->popup), G_SIGNAL_MATCH_DATA,
-						     0, 0, 0, NULL, vd);
-		gtk_widget_destroy(vd->popup);
-		}
-
 	vdlist_dnd_drop_scroll_cancel(vd);
 	widget_auto_scroll_stop(vd->view);
 
-	filelist_free(vd->drop_list);
-
-	folder_icons_free(vd->pf);
-
-	g_free(vd->path);
 	filelist_free(VDLIST_INFO(vd, list));
-	g_free(vd->info);
-	g_free(vd);
 }
 
-ViewDir *vdlist_new(const gchar *path)
+ViewDir *vdlist_new(ViewDir *vd, const gchar *path)
 {
-	ViewDir *vd;
 	GtkListStore *store;
 	GtkTreeSelection *selection;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 
-	vd = g_new0(ViewDir, 1);
 	vd->info = g_new0(ViewDirInfoList, 1);
 	vd->type = DIRVIEW_LIST;
+	vd->widget_destroy_cb = vdlist_destroy_cb;
 
-	vd->path = NULL;
 	VDLIST_INFO(vd, list) = NULL;
-	vd->click_fd = NULL;
-
-	vd->drop_fd = NULL;
-	vd->drop_list = NULL;
-
-	vd->drop_scroll_id = -1;
-
-	vd->popup = NULL;
-
-	vd->widget = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(vd->widget), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(vd->widget),
-				       GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-	g_signal_connect(G_OBJECT(vd->widget), "destroy",
-			 G_CALLBACK(vdlist_destroy_cb), vd);
 
 	store = gtk_list_store_new(4, G_TYPE_POINTER, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_BOOLEAN);
 	vd->view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
@@ -1082,8 +1051,6 @@ ViewDir *vdlist_new(const gchar *path)
 			   G_CALLBACK(vdlist_press_key_cb), vd);
 	gtk_container_add(GTK_CONTAINER(vd->widget), vd->view);
 	gtk_widget_show(vd->view);
-
-	vd->pf = folder_icons_new();
 
 	vdlist_dnd_init(vd);
 

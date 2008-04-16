@@ -1544,59 +1544,28 @@ static void vdtree_destroy_cb(GtkWidget *widget, gpointer data)
 	ViewDir *vd = data;
 	GtkTreeModel *store;
 
-	if (vd->popup)
-		{
-		g_signal_handlers_disconnect_matched(G_OBJECT(vd->popup), G_SIGNAL_MATCH_DATA,
-						     0, 0, 0, NULL, vd);
-		gtk_widget_destroy(vd->popup);
-		}
-
 	vdtree_dnd_drop_expand_cancel(vd);
 	vdtree_dnd_drop_scroll_cancel(vd);
 	widget_auto_scroll_stop(vd->view);
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
 	gtk_tree_model_foreach(store, vdtree_destroy_node_cb, vd);
-
-	filelist_free(vd->drop_list);
-
-	folder_icons_free(vd->pf);
-
-	g_free(vd->path);
-	g_free(vd->info);
-	g_free(vd);
 }
 
-ViewDir *vdtree_new(const gchar *path)
+ViewDir *vdtree_new(ViewDir *vd, const gchar *path)
 {
-	ViewDir *vd;
 	GtkTreeStore *store;
 	GtkTreeSelection *selection;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 
-	vd = g_new0(ViewDir, 1);
 	vd->info = g_new0(ViewDirInfoTree, 1);
 	vd->type = DIRVIEW_TREE;
+	vd->widget_destroy_cb = vdtree_destroy_cb;
 
-	vd->path = NULL;
-	vd->click_fd = NULL;
-
-	vd->drop_fd = NULL;
-	vd->drop_list = NULL;
-	vd->drop_scroll_id = -1;
 	VDTREE_INFO(vd, drop_expand_id) = -1;
 
-	vd->popup = NULL;
-
 	VDTREE_INFO(vd, busy_ref) = 0;
-
-	vd->widget = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(vd->widget), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(vd->widget),
-				       GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-	g_signal_connect(G_OBJECT(vd->widget), "destroy",
-			 G_CALLBACK(vdtree_destroy_cb), vd);
 
 	store = gtk_tree_store_new(4, G_TYPE_POINTER, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_INT);
 	vd->view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));

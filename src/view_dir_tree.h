@@ -12,12 +12,12 @@
 #ifndef VIEW_DIR_TREE_H
 #define VIEW_DIR_TREE_H
 
-ViewDir *vdtree_new(const gchar *path);
+ViewDir *vdtree_new(ViewDir *vd, const gchar *path);
 
-gint vdtree_set_path(ViewDir *vdt, const gchar *path);
-void vdtree_refresh(ViewDir *vdt);
+gint vdtree_set_path(ViewDir *vd, const gchar *path);
+void vdtree_refresh(ViewDir *vd);
 
-const gchar *vdtree_row_get_path(ViewDir *vdt, gint row);
+const gchar *vdtree_row_get_path(ViewDir *vd, gint row);
 gint vdtree_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter, GtkTreeIter *parent);
 
 
