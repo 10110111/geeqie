@@ -63,12 +63,13 @@ ViewDir *vd_new(DirViewType type, const gchar *path)
 	vd->drop_list = NULL;
 
 	vd->popup = NULL;
-	vd->pf = NULL;
 
 	vd->widget = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(vd->widget), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(vd->widget),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+
+	vd->pf = folder_icons_new();
 
 	switch(type)
 	{
@@ -78,8 +79,6 @@ ViewDir *vd_new(DirViewType type, const gchar *path)
 
 	g_signal_connect(G_OBJECT(vd->widget), "destroy",
 			 G_CALLBACK(vd_destroy_cb), vd);
-
-	vd->pf = folder_icons_new();
 
 	return vd;
 }
