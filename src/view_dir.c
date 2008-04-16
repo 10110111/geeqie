@@ -505,35 +505,34 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 	gint new_folder_active = FALSE;
 
 	active = (fd != NULL);
-	if (fd)
+	switch(vd->type)
 		{
-		switch(vd->type)
+		case DIRVIEW_LIST:
 			{
-			case DIRVIEW_LIST:
-				{
-				/* check using . (always row 0) */
-				new_folder_active = (vd->path && access_file(vd->path , W_OK | X_OK));
+			/* check using . (always row 0) */
+			new_folder_active = (vd->path && access_file(vd->path , W_OK | X_OK));
 
-				/* ignore .. and . */
-				rename_delete_active = (new_folder_active &&
-					strcmp(fd->name, ".") != 0 &&
-		  			strcmp(fd->name, "..") != 0 &&
-		  			access_file(fd->path, W_OK | X_OK));
-				};
-				break;
-			case DIRVIEW_TREE:
+			/* ignore .. and . */
+			rename_delete_active = (new_folder_active && fd &&
+				strcmp(fd->name, ".") != 0 &&
+	  			strcmp(fd->name, "..") != 0 &&
+	  			access_file(fd->path, W_OK | X_OK));
+			};
+			break;
+		case DIRVIEW_TREE:
+			{
+			if (fd)
 				{
 				gchar *parent;
-
 				new_folder_active = (fd && access_file(fd->path, W_OK | X_OK));
 				parent = remove_level_from_path(fd->path);
 				rename_delete_active = access_file(parent, W_OK | X_OK);
 				g_free(parent);
 				};
-				break;
 			}
-
+			break;
 		}
+
 	menu = popup_menu_short_lived();
 	g_signal_connect(G_OBJECT(menu), "destroy",
 			 G_CALLBACK(vd_popup_destroy_cb), vd);
