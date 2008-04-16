@@ -52,7 +52,6 @@ struct _NodeData
 
 
 static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, const gchar *target_path);
-static FileData *vdtree_populate_path(ViewDir *vd, const gchar *path, gint expand, gint force);
 
 
 /*
@@ -198,7 +197,7 @@ static gint vdtree_rename_row_cb(TreeEditData *td, const gchar *old, const gchar
 	return FALSE;
 }
 
-static void vdtree_rename_by_data(ViewDir *vd, FileData *fd)
+void vdtree_rename_by_data(ViewDir *vd, FileData *fd)
 {
 	GtkTreeModel *store;
 	GtkTreePath *tpath;
@@ -221,228 +220,6 @@ static void vdtree_node_free(NodeData *nd)
 
 	file_data_unref(nd->fd);
 	g_free(nd);
-}
-
-/*
- *-----------------------------------------------------------------------------
- * pop-up menu
- *-----------------------------------------------------------------------------
- */
-
-static void vdtree_pop_menu_up_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-	gchar *path;
-
-	if (!vd->path || strcmp(vd->path, "/") == 0) return;
-	path = remove_level_from_path(vd->path);
-
-	if (vd->select_func)
-		{
-		vd->select_func(vd, path, vd->select_data);
-		}
-
-	g_free(path);
-}
-
-static void vdtree_pop_menu_slide_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-	gchar *path;
-
-	if (!vd->layout) return;
-
-	if (!vd->click_fd) return;
-	path = vd->click_fd->path;
-
-	layout_set_path(vd->layout, path);
-	layout_select_none(vd->layout);
-	layout_image_slideshow_stop(vd->layout);
-	layout_image_slideshow_start(vd->layout);
-}
-
-static void vdtree_pop_menu_slide_rec_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-	gchar *path;
-	GList *list;
-
-	if (!vd->layout) return;
-
-	if (!vd->click_fd) return;
-	path = vd->click_fd->path;
-
-	list = filelist_recursive(path);
-
-	layout_image_slideshow_stop(vd->layout);
-	layout_image_slideshow_start_from_list(vd->layout, list);
-}
-
-static void vdtree_pop_menu_dupe(ViewDir *vd, gint recursive)
-{
-	DupeWindow *dw;
-	GList *list = NULL;
-
-	if (!vd->click_fd) return;
-
-	if (recursive)
-		{
-		list = g_list_append(list, file_data_ref(vd->click_fd));
-		}
-	else
-		{
-		filelist_read(vd->click_fd->path, &list, NULL);
-		list = filelist_filter(list, FALSE);
-		}
-
-	dw = dupe_window_new(DUPE_MATCH_NAME);
-	dupe_window_add_files(dw, list, recursive);
-
-	filelist_free(list);
-}
-
-static void vdtree_pop_menu_dupe_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-	vdtree_pop_menu_dupe(vd, FALSE);
-}
-
-static void vdtree_pop_menu_dupe_rec_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-	vdtree_pop_menu_dupe(vd, TRUE);
-}
-
-static void vdtree_pop_menu_new_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-	const gchar *path;
-	gchar *new_path;
-	gchar *buf;
-
-	if (!vd->click_fd) return;
-	path = vd->click_fd->path;
-
-	buf = concat_dir_and_file(path, _("new_folder"));
-	new_path = unique_filename(buf, NULL, NULL, FALSE);
-	g_free(buf);
-	if (!new_path) return;
-
-	if (!mkdir_utf8(new_path, 0755))
-		{
-		gchar *text;
-
-		text = g_strdup_printf(_("Unable to create folder:\n%s"), new_path);
-		file_util_warning_dialog(_("Error creating folder"), text, GTK_STOCK_DIALOG_ERROR, vd->view);
-		g_free(text);
-		}
-	else
-		{
-		FileData *fd;
-
-		fd = vdtree_populate_path(vd, new_path, TRUE, TRUE);
-
-		vdtree_rename_by_data(vd, fd);
-		}
-
-	g_free(new_path);
-}
-
-static void vdtree_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-
-	vdtree_rename_by_data(vd, vd->click_fd);
-}
-
-static void vdtree_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-
-	if (!vd->click_fd) return;
-	file_util_delete_dir(vd->click_fd, vd->widget);
-}
-
-static void vdtree_pop_menu_dir_view_as_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-
-	if (vd->layout) layout_views_set(vd->layout, DIRVIEW_LIST, vd->layout->icon_view);
-}
-
-static void vdtree_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-
-	if (vd->layout) layout_refresh(vd->layout);
-}
-
-static void vdtree_toggle_show_hidden_files_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-
-	options->file_filter.show_hidden_files = !options->file_filter.show_hidden_files;
-	if (vd->layout) layout_refresh(vd->layout);
-}
-
-static GtkWidget *vdtree_pop_menu(ViewDir *vd, FileData *fd)
-{
-	GtkWidget *menu;
-	gint active;
-	gint parent_active = FALSE;
-
-	active = (fd != NULL);
-	if (fd)
-		{
-		gchar *parent;
-
-		parent = remove_level_from_path(fd->path);
-		parent_active = access_file(parent, W_OK | X_OK);
-		g_free(parent);
-		}
-
-	menu = popup_menu_short_lived();
-	g_signal_connect(G_OBJECT(menu), "destroy",
-			 G_CALLBACK(vd_popup_destroy_cb), vd);
-
-	menu_item_add_stock_sensitive(menu, _("_Up to parent"), GTK_STOCK_GO_UP,
-		       		      (vd->path && strcmp(vd->path, "/") != 0),
-				      G_CALLBACK(vdtree_pop_menu_up_cb), vd);
-
-	menu_item_add_divider(menu);
-	menu_item_add_sensitive(menu, _("_Slideshow"), active,
-				G_CALLBACK(vdtree_pop_menu_slide_cb), vd);
-	menu_item_add_sensitive(menu, _("Slideshow recursive"), active,
-				G_CALLBACK(vdtree_pop_menu_slide_rec_cb), vd);
-
-	menu_item_add_divider(menu);
-	menu_item_add_stock_sensitive(menu, _("Find _duplicates..."), GTK_STOCK_FIND, active,
-				      G_CALLBACK(vdtree_pop_menu_dupe_cb), vd);
-	menu_item_add_stock_sensitive(menu, _("Find duplicates recursive..."), GTK_STOCK_FIND, active,
-				      G_CALLBACK(vdtree_pop_menu_dupe_rec_cb), vd);
-
-	menu_item_add_divider(menu);
-
-	active = (fd &&
-		  access_file(fd->path, W_OK | X_OK));
-	menu_item_add_sensitive(menu, _("_New folder..."), active,
-				G_CALLBACK(vdtree_pop_menu_new_cb), vd);
-
-	menu_item_add_sensitive(menu, _("_Rename..."), parent_active,
-				G_CALLBACK(vdtree_pop_menu_rename_cb), vd);
-	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, parent_active,
-				      G_CALLBACK(vdtree_pop_menu_delete_cb), vd);
-
-	menu_item_add_divider(menu);
-	menu_item_add_check(menu, _("View as _tree"), TRUE,
-			    G_CALLBACK(vdtree_pop_menu_dir_view_as_cb), vd);
-	menu_item_add_check(menu, _("Show _hidden files"), options->file_filter.show_hidden_files,
-			    G_CALLBACK(vdtree_toggle_show_hidden_files_cb), vd);
-
-	menu_item_add_stock(menu, _("Re_fresh"), GTK_STOCK_REFRESH,
-			    G_CALLBACK(vdtree_pop_menu_refresh_cb), vd);
-
-	return menu;
 }
 
 /*
@@ -1088,7 +865,7 @@ static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint fo
 	return TRUE;
 }
 
-static FileData *vdtree_populate_path(ViewDir *vd, const gchar *path, gint expand, gint force)
+FileData *vdtree_populate_path(ViewDir *vd, const gchar *path, gint expand, gint force)
 {
 	GList *list;
 	GList *work;
@@ -1311,7 +1088,7 @@ static gint vdtree_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 			vd->click_fd = fd;
 			vd_color_set(vd, vd->click_fd, TRUE);
 
-			vd->popup = vdtree_pop_menu(vd, vd->click_fd);
+			vd->popup = vd_pop_menu(vd, vd->click_fd);
 			gtk_menu_popup(GTK_MENU(vd->popup), NULL, NULL, vdtree_menu_position_cb, vd, 0, GDK_CURRENT_TIME);
 
 			return TRUE;
@@ -1400,7 +1177,7 @@ static gint vdtree_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 
 	if (bevent->button == 3)
 		{
-		vd->popup = vdtree_pop_menu(vd, vd->click_fd);
+		vd->popup = vd_pop_menu(vd, vd->click_fd);
 		gtk_menu_popup(GTK_MENU(vd->popup), NULL, NULL, NULL, NULL,
 			       bevent->button, bevent->time);
 		}

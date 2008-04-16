@@ -20,6 +20,8 @@ void vdtree_refresh(ViewDir *vd);
 const gchar *vdtree_row_get_path(ViewDir *vd, gint row);
 gint vdtree_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter, GtkTreeIter *parent);
 
+FileData *vdtree_populate_path(ViewDir *vd, const gchar *path, gint expand, gint force);
+void vdtree_rename_by_data(ViewDir *vd, FileData *fd);
 
 #endif
 

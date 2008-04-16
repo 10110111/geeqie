@@ -21,6 +21,9 @@ void vdlist_refresh(ViewDir *vd);
 const gchar *vdlist_row_get_path(ViewDir *vd, gint row);
 gint vdlist_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter);
 
+void vdlist_rename_by_row(ViewDir *vd, FileData *fd);
+FileData *vdlist_row_by_path(ViewDir *vd, const gchar *path, gint *row);
+
 
 #endif
 
