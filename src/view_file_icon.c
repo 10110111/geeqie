@@ -281,7 +281,7 @@ static void vficon_pop_menu_list_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFileIcon *vfi = data;
 
-	if (vfi->layout) layout_views_set(vfi->layout, vfi->layout->tree_view, FALSE);
+	if (vfi->layout) layout_views_set(vfi->layout, vfi->layout->dir_view_type, FALSE);
 }
 
 static void vficon_pop_menu_show_names_cb(GtkWidget *widget, gpointer data)

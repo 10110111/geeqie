@@ -13,17 +13,12 @@
 #define VIEW_DIR_LIST_H
 
 
-ViewDirList *vdlist_new(const gchar *path);
+ViewDir *vdlist_new(const gchar *path);
 
-void vdlist_set_select_func(ViewDirList *vdl,
-			    void (*func)(ViewDirList *vdl, const gchar *path, gpointer data), gpointer data);
+gint vdlist_set_path(ViewDir *vdl, const gchar *path);
+void vdlist_refresh(ViewDir *vdl);
 
-void vdlist_set_layout(ViewDirList *vdl, LayoutWindow *layout);
-
-gint vdlist_set_path(ViewDirList *vdl, const gchar *path);
-void vdlist_refresh(ViewDirList *vdl);
-
-const gchar *vdlist_row_get_path(ViewDirList *vdl, gint row);
+const gchar *vdlist_row_get_path(ViewDir *vdl, gint row);
 
 
 #endif

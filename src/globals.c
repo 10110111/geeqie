@@ -118,7 +118,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->layout.style = 0;
 
 	options->layout.view_as_icons = FALSE;
-	options->layout.view_as_tree = FALSE;
+	options->layout.dir_view_type = DIRVIEW_LIST;
 
 	options->show_icon_names = TRUE;
 

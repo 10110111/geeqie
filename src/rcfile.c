@@ -167,6 +167,11 @@ static void read_int_option(FILE *f, gchar *option, gchar *label, gchar *value, 
 		}
 }
 
+static void write_uint_option(SecureSaveInfo *ssi, gchar *label, guint n)
+{
+	secure_fprintf(ssi, "%s: %u\n", label, n);
+}
+
 static void read_uint_option(FILE *f, gchar *option, gchar *label, gchar *value, guint *n)
 {
 	if (n && strcasecmp(option, label) == 0)
@@ -280,6 +285,7 @@ void save_options(void)
 	
 #define WRITE_BOOL(_name_) write_bool_option(ssi, #_name_, options->_name_)
 #define WRITE_INT(_name_) write_int_option(ssi, #_name_, options->_name_)
+#define WRITE_UINT(_name_) write_uint_option(ssi, #_name_, options->_name_)
 #define WRITE_INT_UNIT(_name_, _unit_) write_int_unit_option(ssi, #_name_, options->_name_, _unit_)
 #define WRITE_CHAR(_name_) write_char_option(ssi, #_name_, options->_name_)
 #define WRITE_COLOR(_name_) write_color_option(ssi, #_name_, &options->_name_)
@@ -335,7 +341,7 @@ void save_options(void)
 	WRITE_INT(layout.style);
 	WRITE_CHAR(layout.order);
 	WRITE_BOOL(layout.view_as_icons);
-	WRITE_BOOL(layout.view_as_tree);
+	WRITE_UINT(layout.dir_view_type);
 	WRITE_BOOL(layout.show_thumbnails);
 	WRITE_SEPARATOR();
 
@@ -619,7 +625,7 @@ void load_options(void)
 		READ_INT(layout.style);
 		READ_CHAR(layout.order);
 		READ_BOOL(layout.view_as_icons);
-		READ_BOOL(layout.view_as_tree);
+		READ_UINT(layout.dir_view_type);
 		READ_BOOL(layout.show_thumbnails);
 
 		/* window positions */

@@ -14,6 +14,11 @@
 #define TYPEDEFS_H
 
 typedef enum {
+	DIRVIEW_LIST,
+	DIRVIEW_TREE
+} DirViewType;
+
+typedef enum {
 	CMD_COPY = GQ_EDITOR_GENERIC_SLOTS,
 	CMD_MOVE,
 	CMD_RENAME,
@@ -128,8 +133,9 @@ typedef struct _FileData FileData;
 typedef struct _FileDataChangeInfo FileDataChangeInfo;
 
 typedef struct _LayoutWindow LayoutWindow;
-typedef struct _ViewDirList ViewDirList;
-typedef struct _ViewDirTree ViewDirTree;
+typedef struct _ViewDir ViewDir;
+typedef struct _ViewDirInfoList ViewDirInfoList;
+typedef struct _ViewDirInfoTree ViewDirInfoTree;
 typedef struct _ViewFileList ViewFileList;
 typedef struct _ViewFileIcon ViewFileIcon;
 
@@ -456,11 +462,10 @@ struct _LayoutWindow
 
 	LayoutLocation dir_location;
 
-	ViewDirList *vdl;
-	ViewDirTree *vdt;
+	ViewDir *vd;
 	GtkWidget *dir_view;
 
-	gint tree_view;
+	DirViewType dir_view_type;
 
 	/* file view */
 
@@ -521,23 +526,22 @@ struct _LayoutWindow
 	gint bar_exif_advanced;
 };
 
-struct _ViewDirList
+struct _ViewDir
 {
+	DirViewType type;
 	GtkWidget *widget;
-	GtkWidget *listview;
+	GtkWidget *view;
 
 	gchar *path;
-	GList *list;
 
 	FileData *click_fd;
 
 	FileData *drop_fd;
 	GList *drop_list;
-
 	gint drop_scroll_id;
 
 	/* func list */
-	void (*select_func)(ViewDirList *vdl, const gchar *path, gpointer data);
+	void (*select_func)(ViewDir *vd, const gchar *path, gpointer data);
 	gpointer select_data;
 
 	LayoutWindow *layout;
@@ -545,33 +549,18 @@ struct _ViewDirList
 	GtkWidget *popup;
 
 	PixmapFolders *pf;
+
+	gpointer info;
 };
 
-struct _ViewDirTree
+struct _ViewDirInfoList
 {
-	GtkWidget *widget;
-	GtkWidget *treeview;
+	GList *list;
+};
 
-	gchar *path;
-
-	FileData *click_fd;
-
-	FileData *drop_fd;
-	GList *drop_list;
-
-	gint drop_scroll_id;
+struct _ViewDirInfoTree
+{
 	gint drop_expand_id;
-
-	/* func list */
-	void (*select_func)(ViewDirTree *vdt, const gchar *path, gpointer data);
-	gpointer select_data;
-
-	LayoutWindow *layout;
-
-	GtkWidget *popup;
-
-	PixmapFolders *pf;
-
 	gint busy_ref;
 };
 
@@ -845,7 +834,7 @@ struct _ConfOptions
 		gint style;
 
 		gint view_as_icons;
-		gint view_as_tree;
+		DirViewType dir_view_type;
 		
 		gint show_thumbnails;
 

@@ -20,8 +20,7 @@
 #include "pixbuf-renderer.h"
 #include "pixbuf_util.h"
 #include "utilops.h"
-#include "view_dir_list.h"
-#include "view_dir_tree.h"
+#include "view_dir.h"
 #include "view_file_list.h"
 #include "view_file_icon.h"
 #include "ui_bookmark.h"
@@ -170,14 +169,7 @@ static void layout_path_entry_cb(const gchar *path, gpointer data)
 	g_free(buf);
 }
 
-static void layout_vdlist_select_cb(ViewDirList *vdl, const gchar *path, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	layout_set_path(lw, path);
-}
-
-static void layout_vdtree_select_cb(ViewDirTree *vdt, const gchar *path, gpointer data)
+static void layout_vd_select_cb(ViewDir *vd, const gchar *path, gpointer data)
 {
 	LayoutWindow *lw = data;
 
@@ -209,22 +201,11 @@ static GtkWidget *layout_tool_setup(LayoutWindow *lw)
 	g_signal_connect(G_OBJECT(lw->path_entry->parent), "changed",
 			 G_CALLBACK(layout_path_entry_changed_cb), lw);
 
-	if (lw->tree_view)
-		{
-		lw->vdt = vdtree_new(lw->path, TRUE);
-		vdtree_set_layout(lw->vdt, lw);
-		vdtree_set_select_func(lw->vdt, layout_vdtree_select_cb, lw);
+	lw->vd = vd_new(lw->dir_view_type, lw->path);
+	vd_set_layout(lw->vd, lw);
+	vd_set_select_func(lw->vd, layout_vd_select_cb, lw);
 
-		lw->dir_view = lw->vdt->widget;
-		}
-	else
-		{
-		lw->vdl = vdlist_new(lw->path);
-		vdlist_set_layout(lw->vdl, lw);
-		vdlist_set_select_func(lw->vdl, layout_vdlist_select_cb, lw);
-
-		lw->dir_view = lw->vdl->widget;
-		}
+	lw->dir_view = lw->vd->widget;
 
 	gtk_box_pack_start(GTK_BOX(box), lw->dir_view, TRUE, TRUE, 0);
 	gtk_widget_show(lw->dir_view);
@@ -949,8 +930,7 @@ static void layout_sync_path(LayoutWindow *lw)
 	lw->last_time = filetime(lw->path);
 
 	gtk_entry_set_text(GTK_ENTRY(lw->path_entry), lw->path);
-	if (lw->vdl) vdlist_set_path(lw->vdl, lw->path);
-	if (lw->vdt) vdtree_set_path(lw->vdt, lw->path);
+	vd_set_path(lw->vd, lw->path);
 
 	if (lw->vfl) vflist_set_path(lw->vfl, lw->path);
 	if (lw->vfi) vficon_set_path(lw->vfi, lw->path);
@@ -1024,8 +1004,7 @@ static void layout_refresh_lists(LayoutWindow *lw)
 {
 	if (lw->path) lw->last_time = filetime(lw->path);
 
-	if (lw->vdl) vdlist_refresh(lw->vdl);
-	if (lw->vdt) vdtree_refresh(lw->vdt);
+	vd_refresh(lw->vd);
 
 	if (lw->vfl) vflist_refresh(lw->vfl);
 	if (lw->vfi) vficon_refresh(lw->vfi);
@@ -1163,23 +1142,23 @@ gint layout_geometry_get_dividers(LayoutWindow *lw, gint *h, gint *v)
 	return TRUE;
 }
 
-void layout_views_set(LayoutWindow *lw, gint tree, gint icons)
+void layout_views_set(LayoutWindow *lw, DirViewType type, gint icons)
 {
 	if (!layout_valid(&lw)) return;
 
-	if (lw->tree_view == tree && lw->icon_view == icons) return;
+	if (lw->dir_view_type == type && lw->icon_view == icons) return;
 
-	lw->tree_view = tree;
+	lw->dir_view_type = type;
 	lw->icon_view = icons;
 
 	layout_style_set(lw, -1, NULL);
 }
 
-gint layout_views_get(LayoutWindow *lw, gint *tree, gint *icons)
+gint layout_views_get(LayoutWindow *lw, DirViewType *type, gint *icons)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
-	*tree = lw->tree_view;
+	*type = lw->dir_view_type;
 	*icons = lw->icon_view;
 
 	return TRUE;
@@ -1663,8 +1642,7 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	lw->thumb_button = NULL;
 	lw->path_entry = NULL;
 	lw->dir_view = NULL;
-	lw->vdl = NULL;
-	lw->vdt = NULL;
+	lw->vd = NULL;
 
 	lw->file_view = NULL;
 	lw->vfl = NULL;
@@ -1919,7 +1897,7 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 
 	layout_config_parse(options->layout.style, options->layout.order,
 			    &lw->dir_location,  &lw->file_location, &lw->image_location);
-	lw->tree_view = options->layout.view_as_tree;
+	lw->dir_view_type = options->layout.dir_view_type;
 	lw->icon_view = options->layout.view_as_icons;
 
 	/* divider positions */

@@ -168,6 +168,8 @@ geeqie_SOURCES = \
 	thumb_standard.h	\
 	utilops.c	\
 	utilops.h	\
+	view_dir.c	\
+	view_dir.h	\
 	view_dir_list.c	\
 	view_dir_list.h	\
 	view_dir_tree.c	\

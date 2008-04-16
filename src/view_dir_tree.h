@@ -12,17 +12,12 @@
 #ifndef VIEW_DIR_TREE_H
 #define VIEW_DIR_TREE_H
 
-ViewDirTree *vdtree_new(const gchar *path, gint expand);
+ViewDir *vdtree_new(const gchar *path);
 
-void vdtree_set_select_func(ViewDirTree *vdt,
-			    void (*func)(ViewDirTree *vdt, const gchar *path, gpointer data), gpointer data);
+gint vdtree_set_path(ViewDir *vdt, const gchar *path);
+void vdtree_refresh(ViewDir *vdt);
 
-void vdtree_set_layout(ViewDirTree *vdt, LayoutWindow *layout);
-
-gint vdtree_set_path(ViewDirTree *vdt, const gchar *path);
-void vdtree_refresh(ViewDirTree *vdt);
-
-const gchar *vdtree_row_get_path(ViewDirTree *vdt, gint row);
+const gchar *vdtree_row_get_path(ViewDir *vdt, gint row);
 
 
 #endif

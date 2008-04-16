@@ -428,7 +428,7 @@ static void vflist_pop_menu_icons_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFileList *vfl = data;
 
-	if (vfl->layout) layout_views_set(vfl->layout, vfl->layout->tree_view, TRUE);
+	if (vfl->layout) layout_views_set(vfl->layout, vfl->layout->dir_view_type, TRUE);
 }
 
 static void vflist_pop_menu_thumbs_cb(GtkWidget *widget, gpointer data)

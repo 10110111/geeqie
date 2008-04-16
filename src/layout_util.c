@@ -37,6 +37,7 @@
 #include "ui_menu.h"
 #include "ui_misc.h"
 #include "ui_tabcomp.h"
+#include "view_dir.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -91,9 +92,9 @@ gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 			return TRUE;
 			}
 		}
-	if (lw->vdt && GTK_WIDGET_HAS_FOCUS(lw->vdt->treeview) &&
+	if (lw->vd && lw->dir_view_type == DIRVIEW_TREE && GTK_WIDGET_HAS_FOCUS(lw->vd->view) &&
 	    !layout_key_match(event->keyval) &&
-	    gtk_widget_event(lw->vdt->treeview, (GdkEvent *)event))
+	    gtk_widget_event(lw->vd->view, (GdkEvent *)event))
 		{
 		return TRUE;
 		}
@@ -562,16 +563,16 @@ static void layout_menu_list_cb(GtkRadioAction *action, GtkRadioAction *current,
 	if (lw->full_screen)
 		layout_image_full_screen_stop(lw);
 
-	layout_views_set(lw, lw->tree_view, (gtk_radio_action_get_current_value(action) == 1));
+	layout_views_set(lw, lw->dir_view_type, (gtk_radio_action_get_current_value(action) == 1));
 }
 
-static void layout_menu_tree_cb(GtkToggleAction *action, gpointer data)
+static void layout_menu_view_dir_as_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
 {
 	LayoutWindow *lw = data;
 	if (lw->full_screen)
 		layout_image_full_screen_stop(lw);
 
-	layout_views_set(lw, gtk_toggle_action_get_active(action), lw->icon_view);
+	layout_views_set(lw, (DirViewType) gtk_radio_action_get_current_value(action), lw->icon_view);
 }
 
 static void layout_menu_view_in_new_window_cb(GtkAction *action, gpointer data)
@@ -1051,6 +1052,7 @@ static GtkActionEntry menu_entries[] = {
   { "SelectMenu",	NULL,		N_("_Select") },
   { "AdjustMenu",	NULL,		N_("_Adjust") },
   { "ViewMenu",		NULL,		N_("_View") },
+  { "DirMenu",          NULL,           N_("_View Directory as") },
   { "ZoomMenu",		NULL,		N_("_Zoom") },
   { "SplitMenu",	NULL,		N_("_Split") },
   { "HelpMenu",		NULL,		N_("_Help") },
@@ -1133,7 +1135,6 @@ static GtkActionEntry menu_entries[] = {
 static GtkToggleActionEntry menu_toggle_entries[] = {
   { "Thumbnails",	NULL,		N_("_Thumbnails"),	"T",		NULL,	CB(layout_menu_thumb_cb) },
   { "ShowMarks",        NULL,		N_("Show _Marks"),	"M",		NULL,	CB(layout_menu_marks_cb) },  
-  { "FolderTree",	NULL,		N_("Tr_ee"),		"<control>T",	NULL,	CB(layout_menu_tree_cb) },
   { "FloatTools",	NULL,		N_("_Float file list"),	"L",		NULL,	CB(layout_menu_float_cb) },
   { "HideToolbar",	NULL,		N_("Hide tool_bar"),	NULL,		NULL,	CB(layout_menu_toolbar_cb) },
   { "SBarKeywords",	NULL,		N_("_Keywords"),	"<control>K",	NULL,	CB(layout_menu_bar_info_cb) },
@@ -1154,6 +1155,7 @@ static GtkRadioActionEntry menu_split_radio_entries[] = {
   { "SplitQuad",	NULL,		N_("Quad"),		"Q",		NULL,	SPLIT_QUAD },
   { "SplitSingle",	NULL,		N_("Single"),		"Y",		NULL,	SPLIT_NONE }
 };
+
 
 #undef CB
 
@@ -1252,7 +1254,11 @@ static const char *menu_ui_description =
 "      <menuitem action='ViewList'/>"
 "      <menuitem action='ViewIcons'/>"
 "      <separator/>"
-"      <menuitem action='FolderTree'/>"
+"      <menu action='DirMenu'>"
+"        <menuitem action='FolderList'/>"
+"        <menuitem action='FolderTree'/>"
+"      </menu>"
+"      <separator/>"
 "      <menuitem action='ImageOverlay'/>"
 "      <menuitem action='HistogramChan'/>"
 "      <menuitem action='HistogramLog'/>"
@@ -1373,6 +1379,9 @@ void layout_actions_setup(LayoutWindow *lw)
 	gtk_action_group_add_radio_actions(lw->action_group,
 					   menu_split_radio_entries, G_N_ELEMENTS(menu_split_radio_entries),
 					   0, G_CALLBACK(layout_menu_split_cb), lw);
+	gtk_action_group_add_radio_actions(lw->action_group,
+					   menu_view_dir_radio_entries, G_N_ELEMENTS(menu_view_dir_radio_entries),
+					   0, G_CALLBACK(layout_menu_view_dir_as_cb), lw);
 
 	lw->ui_manager = gtk_ui_manager_new();
 	gtk_ui_manager_set_add_tearoffs(lw->ui_manager, TRUE);
@@ -1534,7 +1543,7 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	if (!lw->action_group) return;
 
 	action = gtk_action_group_get_action(lw->action_group, "FolderTree");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->tree_view);
+	gtk_radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->dir_view_type);
 
 	action = gtk_action_group_get_action(lw->action_group, "ViewIcons");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->icon_view);

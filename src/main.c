@@ -1237,7 +1237,7 @@ static void exit_program_final(void)
 
 	layout_geometry_get_dividers(NULL, &options->layout.main_window.hdivider_pos, &options->layout.main_window.vdivider_pos);
 
-	layout_views_get(NULL, &options->layout.view_as_tree, &options->layout.view_as_icons);
+	layout_views_get(NULL, &options->layout.dir_view_type, &options->layout.view_as_icons);
 
 	options->layout.show_thumbnails = layout_thumb_get(NULL);
 	layout_sort_get(NULL, &options->file_sort.method, &options->file_sort.ascending);

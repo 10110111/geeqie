@@ -24,6 +24,7 @@
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "ui_tree_edit.h"
+#include "view_dir.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -31,13 +32,7 @@
 #define VDTREE_INDENT 14
 #define VDTREE_PAD 4
 
-enum {
-	DIR_COLUMN_POINTER = 0,
-	DIR_COLUMN_ICON,
-	DIR_COLUMN_NAME,
-	DIR_COLUMN_COLOR,
-	DIR_COLUMN_COUNT
-};
+#define VDTREE_INFO(_vd_, _part_) (((ViewDirInfoTree *)(_vd_->info))->_part_)
 
 
 typedef struct _PathData PathData;
@@ -56,8 +51,8 @@ struct _NodeData
 };
 
 
-static gint vdtree_populate_path_by_iter(ViewDirTree *vdt, GtkTreeIter *iter, gint force, const gchar *target_path);
-static FileData *vdtree_populate_path(ViewDirTree *vdt, const gchar *path, gint expand, gint force);
+static gint vdtree_populate_path_by_iter(ViewDir *vdt, GtkTreeIter *iter, gint force, const gchar *target_path);
+static FileData *vdtree_populate_path(ViewDir *vdt, const gchar *path, gint expand, gint force);
 
 
 /*
@@ -78,24 +73,24 @@ static void set_cursor(GtkWidget *widget, GdkCursorType cursor_type)
 	gdk_flush();
 }
 
-static void vdtree_busy_push(ViewDirTree *vdt)
+static void vdtree_busy_push(ViewDir *vdt)
 {
-	if (vdt->busy_ref == 0) set_cursor(vdt->treeview, GDK_WATCH);
-	vdt->busy_ref++;
+	if (VDTREE_INFO(vdt, busy_ref) == 0) set_cursor(vdt->view, GDK_WATCH);
+	VDTREE_INFO(vdt, busy_ref)++;
 }
 
-static void vdtree_busy_pop(ViewDirTree *vdt)
+static void vdtree_busy_pop(ViewDir *vdt)
 {
-	if (vdt->busy_ref == 1) set_cursor(vdt->treeview, -1);
-	if (vdt->busy_ref > 0) vdt->busy_ref--;
+	if (VDTREE_INFO(vdt, busy_ref) == 1) set_cursor(vdt->view, -1);
+	if (VDTREE_INFO(vdt, busy_ref) > 0) VDTREE_INFO(vdt, busy_ref)--;
 }
 
-static gint vdtree_find_row(ViewDirTree *vdt, FileData *fd, GtkTreeIter *iter, GtkTreeIter *parent)
+static gint vdtree_find_row(ViewDir *vdt, FileData *fd, GtkTreeIter *iter, GtkTreeIter *parent)
 {
 	GtkTreeModel *store;
 	gint valid;
 
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view));
 	if (parent)
 		{
 		valid = gtk_tree_model_iter_children(store, iter, parent);
@@ -124,12 +119,12 @@ static gint vdtree_find_row(ViewDirTree *vdt, FileData *fd, GtkTreeIter *iter, G
 	return FALSE;
 }
 
-static void vdtree_icon_set_by_iter(ViewDirTree *vdt, GtkTreeIter *iter, GdkPixbuf *pixbuf)
+static void vdtree_icon_set_by_iter(ViewDir *vdt, GtkTreeIter *iter, GdkPixbuf *pixbuf)
 {
 	GtkTreeModel *store;
 	GdkPixbuf *old;
 
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view));
 	gtk_tree_model_get(store, iter, DIR_COLUMN_ICON, &old, -1);
 	if (old != vdt->pf->deny)
 		{
@@ -137,26 +132,26 @@ static void vdtree_icon_set_by_iter(ViewDirTree *vdt, GtkTreeIter *iter, GdkPixb
 		}
 }
 
-static void vdtree_expand_by_iter(ViewDirTree *vdt, GtkTreeIter *iter, gint expand)
+static void vdtree_expand_by_iter(ViewDir *vdt, GtkTreeIter *iter, gint expand)
 {
 	GtkTreeModel *store;
 	GtkTreePath *tpath;
 
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view));
 	tpath = gtk_tree_model_get_path(store, iter);
 	if (expand)
 		{
-		gtk_tree_view_expand_row(GTK_TREE_VIEW(vdt->treeview), tpath, FALSE);
+		gtk_tree_view_expand_row(GTK_TREE_VIEW(vdt->view), tpath, FALSE);
 		vdtree_icon_set_by_iter(vdt, iter, vdt->pf->open);
 		}
 	else
 		{
-		gtk_tree_view_collapse_row(GTK_TREE_VIEW(vdt->treeview), tpath);
+		gtk_tree_view_collapse_row(GTK_TREE_VIEW(vdt->view), tpath);
 		}
 	gtk_tree_path_free(tpath);
 }
 
-static void vdtree_expand_by_data(ViewDirTree *vdt, FileData *fd, gint expand)
+static void vdtree_expand_by_data(ViewDir *vdt, FileData *fd, gint expand)
 {
 	GtkTreeIter iter;
 
@@ -166,19 +161,19 @@ static void vdtree_expand_by_data(ViewDirTree *vdt, FileData *fd, gint expand)
 		}
 }
 
-static void vdtree_color_set(ViewDirTree *vdt, FileData *fd, gint color_set)
+static void vdtree_color_set(ViewDir *vdt, FileData *fd, gint color_set)
 {
 	GtkTreeModel *store;
 	GtkTreeIter iter;
 
 	if (!vdtree_find_row(vdt, fd, &iter, NULL)) return;
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view));
 	gtk_tree_store_set(GTK_TREE_STORE(store), &iter, DIR_COLUMN_COLOR, color_set, -1);
 }
 
 static gint vdtree_rename_row_cb(TreeEditData *td, const gchar *old, const gchar *new, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	GtkTreeModel *store;
 	GtkTreeIter iter;
 	NodeData *nd;
@@ -186,7 +181,7 @@ static gint vdtree_rename_row_cb(TreeEditData *td, const gchar *old, const gchar
 	gchar *new_path;
 	gchar *base;
 
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view));
 	if (!gtk_tree_model_get_iter(store, &iter, td->path)) return FALSE;
 	gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
 	if (!nd) return FALSE;
@@ -197,7 +192,7 @@ static gint vdtree_rename_row_cb(TreeEditData *td, const gchar *old, const gchar
 	new_path = concat_dir_and_file(base, new);
 	g_free(base);
 
-	if (file_util_rename_dir(nd->fd, new_path, vdt->treeview))
+	if (file_util_rename_dir(nd->fd, new_path, vdt->view))
 		{
 		vdtree_populate_path(vdt, new_path, TRUE, TRUE);
 
@@ -213,7 +208,7 @@ static gint vdtree_rename_row_cb(TreeEditData *td, const gchar *old, const gchar
 	return FALSE;
 }
 
-static void vdtree_rename_by_data(ViewDirTree *vdt, FileData *fd)
+static void vdtree_rename_by_data(ViewDir *vdt, FileData *fd)
 {
 	GtkTreeModel *store;
 	GtkTreePath *tpath;
@@ -222,10 +217,10 @@ static void vdtree_rename_by_data(ViewDirTree *vdt, FileData *fd)
 	if (!fd ||
 	    !vdtree_find_row(vdt, fd, &iter, NULL)) return;
 
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view));
 	tpath = gtk_tree_model_get_path(store, &iter);
 
-	tree_edit_by_path(GTK_TREE_VIEW(vdt->treeview), tpath, 0, fd->name,
+	tree_edit_by_path(GTK_TREE_VIEW(vdt->view), tpath, 0, fd->name,
 			  vdtree_rename_row_cb, vdt);
 	gtk_tree_path_free(tpath);
 }
@@ -240,7 +235,7 @@ static void vdtree_node_free(NodeData *nd)
 
 static void vdtree_popup_destroy_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 
 	vdtree_color_set(vdt, vdt->click_fd, FALSE);
 	vdt->click_fd = NULL;
@@ -260,7 +255,7 @@ static void vdtree_popup_destroy_cb(GtkWidget *widget, gpointer data)
 
 static void vdtree_drop_menu_copy_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	const gchar *path;
 	GList *list;
 
@@ -276,7 +271,7 @@ static void vdtree_drop_menu_copy_cb(GtkWidget *widget, gpointer data)
 
 static void vdtree_drop_menu_move_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	const gchar *path;
 	GList *list;
 
@@ -290,7 +285,7 @@ static void vdtree_drop_menu_move_cb(GtkWidget *widget, gpointer data)
 	file_util_move_simple(list, path);
 }
 
-static GtkWidget *vdtree_drop_menu(ViewDirTree *vdt, gint active)
+static GtkWidget *vdtree_drop_menu(ViewDir *vdt, gint active)
 {
 	GtkWidget *menu;
 
@@ -316,7 +311,7 @@ static GtkWidget *vdtree_drop_menu(ViewDirTree *vdt, gint active)
 
 static void vdtree_pop_menu_up_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	gchar *path;
 
 	if (!vdt->path || strcmp(vdt->path, "/") == 0) return;
@@ -332,7 +327,7 @@ static void vdtree_pop_menu_up_cb(GtkWidget *widget, gpointer data)
 
 static void vdtree_pop_menu_slide_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	gchar *path;
 
 	if (!vdt->layout) return;
@@ -348,7 +343,7 @@ static void vdtree_pop_menu_slide_cb(GtkWidget *widget, gpointer data)
 
 static void vdtree_pop_menu_slide_rec_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	gchar *path;
 	GList *list;
 
@@ -363,7 +358,7 @@ static void vdtree_pop_menu_slide_rec_cb(GtkWidget *widget, gpointer data)
 	layout_image_slideshow_start_from_list(vdt->layout, list);
 }
 
-static void vdtree_pop_menu_dupe(ViewDirTree *vdt, gint recursive)
+static void vdtree_pop_menu_dupe(ViewDir *vdt, gint recursive)
 {
 	DupeWindow *dw;
 	GList *list = NULL;
@@ -388,19 +383,19 @@ static void vdtree_pop_menu_dupe(ViewDirTree *vdt, gint recursive)
 
 static void vdtree_pop_menu_dupe_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	vdtree_pop_menu_dupe(vdt, FALSE);
 }
 
 static void vdtree_pop_menu_dupe_rec_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	vdtree_pop_menu_dupe(vdt, TRUE);
 }
 
 static void vdtree_pop_menu_new_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	const gchar *path;
 	gchar *new_path;
 	gchar *buf;
@@ -418,7 +413,7 @@ static void vdtree_pop_menu_new_cb(GtkWidget *widget, gpointer data)
 		gchar *text;
 
 		text = g_strdup_printf(_("Unable to create folder:\n%s"), new_path);
-		file_util_warning_dialog(_("Error creating folder"), text, GTK_STOCK_DIALOG_ERROR, vdt->treeview);
+		file_util_warning_dialog(_("Error creating folder"), text, GTK_STOCK_DIALOG_ERROR, vdt->view);
 		g_free(text);
 		}
 	else
@@ -435,42 +430,42 @@ static void vdtree_pop_menu_new_cb(GtkWidget *widget, gpointer data)
 
 static void vdtree_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 
 	vdtree_rename_by_data(vdt, vdt->click_fd);
 }
 
 static void vdtree_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 
 	if (!vdt->click_fd) return;
 	file_util_delete_dir(vdt->click_fd, vdt->widget);
 }
 
-static void vdtree_pop_menu_tree_cb(GtkWidget *widget, gpointer data)
+static void vdtree_pop_menu_dir_view_as_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 
-	if (vdt->layout) layout_views_set(vdt->layout, FALSE, vdt->layout->icon_view);
+	if (vdt->layout) layout_views_set(vdt->layout, DIRVIEW_LIST, vdt->layout->icon_view);
 }
 
 static void vdtree_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 
 	if (vdt->layout) layout_refresh(vdt->layout);
 }
 
 static void vdtree_toggle_show_hidden_files_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 
 	options->file_filter.show_hidden_files = !options->file_filter.show_hidden_files;
 	if (vdt->layout) layout_refresh(vdt->layout);
 }
 
-static GtkWidget *vdtree_pop_menu(ViewDirTree *vdt, FileData *fd)
+static GtkWidget *vdtree_pop_menu(ViewDir *vdt, FileData *fd)
 {
 	GtkWidget *menu;
 	gint active;
@@ -520,7 +515,7 @@ static GtkWidget *vdtree_pop_menu(ViewDirTree *vdt, FileData *fd)
 
 	menu_item_add_divider(menu);
 	menu_item_add_check(menu, _("View as _tree"), TRUE,
-			    G_CALLBACK(vdtree_pop_menu_tree_cb), vdt);
+			    G_CALLBACK(vdtree_pop_menu_dir_view_as_cb), vdt);
 	menu_item_add_check(menu, _("Show _hidden files"), options->file_filter.show_hidden_files,
 			    G_CALLBACK(vdtree_toggle_show_hidden_files_cb), vdt);
 
@@ -542,18 +537,18 @@ static GtkTargetEntry vdtree_dnd_drop_types[] = {
 static gint vdtree_dnd_drop_types_count = 1;
 
 
-static void vdtree_dest_set(ViewDirTree *vdt, gint enable)
+static void vdtree_dest_set(ViewDir *vdt, gint enable)
 {
 	if (enable)
 		{
-		gtk_drag_dest_set(vdt->treeview,
+		gtk_drag_dest_set(vdt->view,
 				  GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_DROP,
 				  vdtree_dnd_drop_types, vdtree_dnd_drop_types_count,
 				  GDK_ACTION_MOVE | GDK_ACTION_COPY);
 		}
 	else
 		{
-		gtk_drag_dest_unset(vdt->treeview);
+		gtk_drag_dest_unset(vdt->view);
 		}
 }
 
@@ -561,7 +556,7 @@ static void vdtree_dnd_get(GtkWidget *widget, GdkDragContext *context,
 			   GtkSelectionData *selection_data, guint info,
 			   guint time, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	GList *list;
 	gchar *uri_text = NULL;
 	gint length = 0;
@@ -588,7 +583,7 @@ static void vdtree_dnd_get(GtkWidget *widget, GdkDragContext *context,
 
 static void vdtree_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 
 	vdtree_color_set(vdt, vdt->click_fd, TRUE);
 	vdtree_dest_set(vdt, FALSE);
@@ -596,7 +591,7 @@ static void vdtree_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointe
 
 static void vdtree_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 
 	vdtree_color_set(vdt, vdt->click_fd, FALSE);
 	vdtree_dest_set(vdt, TRUE);
@@ -607,7 +602,7 @@ static void vdtree_dnd_drop_receive(GtkWidget *widget,
 				    GtkSelectionData *selection_data, guint info,
 				    guint time, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	GtkTreePath *tpath;
 	GtkTreeIter iter;
 	FileData *fd = NULL;
@@ -651,7 +646,7 @@ static void vdtree_dnd_drop_receive(GtkWidget *widget,
 
 static gint vdtree_dnd_drop_expand_cb(gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	GtkTreeIter iter;
 
 	if (vdt->drop_fd &&
@@ -661,35 +656,35 @@ static gint vdtree_dnd_drop_expand_cb(gpointer data)
 		vdtree_expand_by_data(vdt, vdt->drop_fd, TRUE);
 		}
 
-	vdt->drop_expand_id = -1;
+	VDTREE_INFO(vdt, drop_expand_id) = -1;
 	return FALSE;
 }
 
-static void vdtree_dnd_drop_expand_cancel(ViewDirTree *vdt)
+static void vdtree_dnd_drop_expand_cancel(ViewDir *vdt)
 {
-	if (vdt->drop_expand_id != -1) g_source_remove(vdt->drop_expand_id);
-	vdt->drop_expand_id = -1;
+	if (VDTREE_INFO(vdt, drop_expand_id) != -1) g_source_remove(VDTREE_INFO(vdt, drop_expand_id));
+	VDTREE_INFO(vdt, drop_expand_id) = -1;
 }
 
-static void vdtree_dnd_drop_expand(ViewDirTree *vdt)
+static void vdtree_dnd_drop_expand(ViewDir *vdt)
 {
 	vdtree_dnd_drop_expand_cancel(vdt);
-	vdt->drop_expand_id = g_timeout_add(1000, vdtree_dnd_drop_expand_cb, vdt);
+	VDTREE_INFO(vdt, drop_expand_id) = g_timeout_add(1000, vdtree_dnd_drop_expand_cb, vdt);
 }
 
-static void vdtree_drop_update(ViewDirTree *vdt, gint x, gint y)
+static void vdtree_drop_update(ViewDir *vdt, gint x, gint y)
 {
 	GtkTreePath *tpath;
 	GtkTreeIter iter;
 	FileData *fd = NULL;
 
-	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(vdt->treeview), x, y,
+	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(vdt->view), x, y,
 					  &tpath, NULL, NULL, NULL))
 		{
 		GtkTreeModel *store;
 		NodeData *nd;
 
-		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
+		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view));
 		gtk_tree_model_get_iter(store, &iter, tpath);
 		gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
 		gtk_tree_path_free(tpath);
@@ -707,7 +702,7 @@ static void vdtree_drop_update(ViewDirTree *vdt, gint x, gint y)
 	vdt->drop_fd = fd;
 }
 
-static void vdtree_dnd_drop_scroll_cancel(ViewDirTree *vdt)
+static void vdtree_dnd_drop_scroll_cancel(ViewDir *vdt)
 {
 	if (vdt->drop_scroll_id != -1) g_source_remove(vdt->drop_scroll_id);
 	vdt->drop_scroll_id = -1;
@@ -715,7 +710,7 @@ static void vdtree_dnd_drop_scroll_cancel(ViewDirTree *vdt)
 
 static gint vdtree_auto_scroll_idle_cb(gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 
 	if (vdt->drop_fd)
 		{
@@ -723,7 +718,7 @@ static gint vdtree_auto_scroll_idle_cb(gpointer data)
 		gint x, y;
 		gint w, h;
 
-		window = vdt->treeview->window;
+		window = vdt->view->window;
 		gdk_window_get_pointer(window, &x, &y, NULL);
 		gdk_drawable_get_size(window, &w, &h);
 		if (x >= 0 && x < w && y >= 0 && y < h)
@@ -738,7 +733,7 @@ static gint vdtree_auto_scroll_idle_cb(gpointer data)
 
 static gint vdtree_auto_scroll_notify_cb(GtkWidget *widget, gint x, gint y, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 
 	if (!vdt->drop_fd || vdt->drop_list) return FALSE;
 
@@ -750,11 +745,11 @@ static gint vdtree_auto_scroll_notify_cb(GtkWidget *widget, gint x, gint y, gpoi
 static gint vdtree_dnd_drop_motion(GtkWidget *widget, GdkDragContext *context,
 				   gint x, gint y, guint time, gpointer data)
 {
-        ViewDirTree *vdt = data;
+        ViewDir *vdt = data;
 
 	vdt->click_fd = NULL;
 
-	if (gtk_drag_get_source_widget(context) == vdt->treeview)
+	if (gtk_drag_get_source_widget(context) == vdt->view)
 		{
 		gdk_drag_status(context, 0, time);
 		return TRUE;
@@ -768,8 +763,8 @@ static gint vdtree_dnd_drop_motion(GtkWidget *widget, GdkDragContext *context,
 
 	if (vdt->drop_fd)
 		{
-		GtkAdjustment *adj = gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(vdt->treeview));
-		widget_auto_scroll_start(vdt->treeview, adj, -1, -1, vdtree_auto_scroll_notify_cb, vdt);
+		GtkAdjustment *adj = gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(vdt->view));
+		widget_auto_scroll_start(vdt->view, adj, -1, -1, vdtree_auto_scroll_notify_cb, vdt);
 		}
 
 	return FALSE;
@@ -777,7 +772,7 @@ static gint vdtree_dnd_drop_motion(GtkWidget *widget, GdkDragContext *context,
 
 static void vdtree_dnd_drop_leave(GtkWidget *widget, GdkDragContext *context, guint time, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 
 	if (vdt->drop_fd != vdt->click_fd) vdtree_color_set(vdt, vdt->drop_fd, FALSE);
 
@@ -786,24 +781,24 @@ static void vdtree_dnd_drop_leave(GtkWidget *widget, GdkDragContext *context, gu
 	vdtree_dnd_drop_expand_cancel(vdt);
 }
 
-static void vdtree_dnd_init(ViewDirTree *vdt)
+static void vdtree_dnd_init(ViewDir *vdt)
 {
-	gtk_drag_source_set(vdt->treeview, GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
+	gtk_drag_source_set(vdt->view, GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
 			    dnd_file_drag_types, dnd_file_drag_types_count,
 			    GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
-	g_signal_connect(G_OBJECT(vdt->treeview), "drag_data_get",
+	g_signal_connect(G_OBJECT(vdt->view), "drag_data_get",
 			 G_CALLBACK(vdtree_dnd_get), vdt);
-	g_signal_connect(G_OBJECT(vdt->treeview), "drag_begin",
+	g_signal_connect(G_OBJECT(vdt->view), "drag_begin",
 			 G_CALLBACK(vdtree_dnd_begin), vdt);
-	g_signal_connect(G_OBJECT(vdt->treeview), "drag_end",
+	g_signal_connect(G_OBJECT(vdt->view), "drag_end",
 			 G_CALLBACK(vdtree_dnd_end), vdt);
 
 	vdtree_dest_set(vdt, TRUE);
-	g_signal_connect(G_OBJECT(vdt->treeview), "drag_data_received",
+	g_signal_connect(G_OBJECT(vdt->view), "drag_data_received",
 			 G_CALLBACK(vdtree_dnd_drop_receive), vdt);
-	g_signal_connect(G_OBJECT(vdt->treeview), "drag_motion",
+	g_signal_connect(G_OBJECT(vdt->view), "drag_motion",
 			 G_CALLBACK(vdtree_dnd_drop_motion), vdt);
-	g_signal_connect(G_OBJECT(vdt->treeview), "drag_leave",
+	g_signal_connect(G_OBJECT(vdt->view), "drag_leave",
 			 G_CALLBACK(vdtree_dnd_drop_leave), vdt);
 }
 
@@ -865,14 +860,14 @@ static void parts_list_free(GList *list)
 	g_list_free(list);
 }
 
-static GList *parts_list_add_node_points(ViewDirTree *vdt, GList *list)
+static GList *parts_list_add_node_points(ViewDir *vdt, GList *list)
 {
 	GList *work;
 	GtkTreeModel *store;
 	GtkTreeIter iter;
 	gint valid;
 
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view));
 	valid = gtk_tree_model_get_iter_first(store, &iter);
 
 	work = list;
@@ -943,11 +938,11 @@ static void vdtree_row_deleted_cb(GtkTreeModel *tree_model, GtkTreePath *tpath, 
  *----------------------------------------------------------------------------
  */
 
-static gint vdtree_find_iter_by_data(ViewDirTree *vdt, GtkTreeIter *parent, NodeData *nd, GtkTreeIter *iter)
+static gint vdtree_find_iter_by_data(ViewDir *vdt, GtkTreeIter *parent, NodeData *nd, GtkTreeIter *iter)
 {
 	GtkTreeModel *store;
 
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view));
 	if (!nd || !gtk_tree_model_iter_children(store, iter, parent)) return -1;
 	do	{
 		NodeData *cnd;
@@ -959,11 +954,11 @@ static gint vdtree_find_iter_by_data(ViewDirTree *vdt, GtkTreeIter *parent, Node
 	return FALSE;
 }
 
-static NodeData *vdtree_find_iter_by_name(ViewDirTree *vdt, GtkTreeIter *parent, const gchar *name, GtkTreeIter *iter)
+static NodeData *vdtree_find_iter_by_name(ViewDir *vdt, GtkTreeIter *parent, const gchar *name, GtkTreeIter *iter)
 {
 	GtkTreeModel *store;
 
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view));
 	if (!name || !gtk_tree_model_iter_children(store, iter, parent)) return NULL;
 	do	{
 		NodeData *nd;
@@ -975,7 +970,7 @@ static NodeData *vdtree_find_iter_by_name(ViewDirTree *vdt, GtkTreeIter *parent,
 	return NULL;
 }
 
-static void vdtree_add_by_data(ViewDirTree *vdt, FileData *fd, GtkTreeIter *parent)
+static void vdtree_add_by_data(ViewDir *vdt, FileData *fd, GtkTreeIter *parent)
 {
 	GtkTreeStore *store;
 	GtkTreeIter child;
@@ -1000,7 +995,7 @@ static void vdtree_add_by_data(ViewDirTree *vdt, FileData *fd, GtkTreeIter *pare
 	nd->expanded = FALSE;
 	nd->last_update = time(NULL);
 
-	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview)));
+	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view)));
 	gtk_tree_store_append(store, &child, parent);
 	gtk_tree_store_set(store, &child, DIR_COLUMN_POINTER, nd,
 					 DIR_COLUMN_ICON, pixbuf,
@@ -1025,7 +1020,7 @@ static void vdtree_add_by_data(ViewDirTree *vdt, FileData *fd, GtkTreeIter *pare
 		gtk_tree_model_get(GTK_TREE_MODEL(store), parent, DIR_COLUMN_POINTER, &pnd, -1);
 		tpath = gtk_tree_model_get_path(GTK_TREE_MODEL(store), parent);
 		if (options->tree_descend_subdirs &&
-		    gtk_tree_view_row_expanded(GTK_TREE_VIEW(vdt->treeview), tpath) &&
+		    gtk_tree_view_row_expanded(GTK_TREE_VIEW(vdt->view), tpath) &&
 		    !nd->expanded)
 			{
 			vdtree_populate_path_by_iter(vdt, &child, FALSE, vdt->path);
@@ -1034,7 +1029,7 @@ static void vdtree_add_by_data(ViewDirTree *vdt, FileData *fd, GtkTreeIter *pare
 		}
 }
 
-static gint vdtree_populate_path_by_iter(ViewDirTree *vdt, GtkTreeIter *iter, gint force, const gchar *target_path)
+static gint vdtree_populate_path_by_iter(ViewDir *vdt, GtkTreeIter *iter, gint force, const gchar *target_path)
 {
 	GtkTreeModel *store;
 	GList *list;
@@ -1044,7 +1039,7 @@ static gint vdtree_populate_path_by_iter(ViewDirTree *vdt, GtkTreeIter *iter, gi
 	GtkTreeIter child;
 	NodeData *nd;
 
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view));
 	gtk_tree_model_get(store, iter, DIR_COLUMN_POINTER, &nd, -1);
 
 	if (!nd) return FALSE;
@@ -1173,7 +1168,7 @@ static gint vdtree_populate_path_by_iter(ViewDirTree *vdt, GtkTreeIter *iter, gi
 	return TRUE;
 }
 
-static FileData *vdtree_populate_path(ViewDirTree *vdt, const gchar *path, gint expand, gint force)
+static FileData *vdtree_populate_path(ViewDir *vdt, const gchar *path, gint expand, gint force)
 {
 	GList *list;
 	GList *work;
@@ -1271,13 +1266,13 @@ static gboolean vdtree_select_cb(GtkTreeSelection *selection, GtkTreeModel *stor
 	return selection_is_ok;
 }
 
-static void vdtree_select_row(ViewDirTree *vdt, FileData *fd)
+static void vdtree_select_row(ViewDir *vdt, FileData *fd)
 {
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
                                                                                                                                
 	if (!vdtree_find_row(vdt, fd, &iter, NULL)) return;
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vdt->treeview));
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vdt->view));
 
 	/* hack, such that selection is only allowed to be changed from here */
 	selection_is_ok = TRUE;
@@ -1294,7 +1289,7 @@ static void vdtree_select_row(ViewDirTree *vdt, FileData *fd)
                 }
 }
 
-gint vdtree_set_path(ViewDirTree *vdt, const gchar *path)
+gint vdtree_set_path(ViewDir *vdt, const gchar *path)
 {
 	FileData *fd;
 	GtkTreeIter iter;
@@ -1314,11 +1309,11 @@ gint vdtree_set_path(ViewDirTree *vdt, const gchar *path)
 		GtkTreeModel *store;
 		GtkTreePath *tpath;
 
-		tree_view_row_make_visible(GTK_TREE_VIEW(vdt->treeview), &iter, TRUE);
+		tree_view_row_make_visible(GTK_TREE_VIEW(vdt->view), &iter, TRUE);
 
-		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
+		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view));
 		tpath = gtk_tree_model_get_path(store, &iter);
-		gtk_tree_view_set_cursor(GTK_TREE_VIEW(vdt->treeview), tpath, NULL, FALSE);
+		gtk_tree_view_set_cursor(GTK_TREE_VIEW(vdt->view), tpath, NULL, FALSE);
 		gtk_tree_path_free(tpath);
 
 		vdtree_select_row(vdt, fd);
@@ -1328,18 +1323,18 @@ gint vdtree_set_path(ViewDirTree *vdt, const gchar *path)
 }
 
 #if 0
-const gchar *vdtree_get_path(ViewDirTree *vdt)
+const gchar *vdtree_get_path(ViewDir *vdt)
 {
 	return vdt->path;
 }
 #endif
 
-void vdtree_refresh(ViewDirTree *vdt)
+void vdtree_refresh(ViewDir *vdt)
 {
 	vdtree_populate_path(vdt, vdt->path, FALSE, TRUE);
 }
 
-const gchar *vdtree_row_get_path(ViewDirTree *vdt, gint row)
+const gchar *vdtree_row_get_path(ViewDir *vdt, gint row)
 {
 	printf("FIXME: no get row path\n");
 	return NULL;
@@ -1353,16 +1348,16 @@ const gchar *vdtree_row_get_path(ViewDirTree *vdt, gint row)
 
 static void vdtree_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	GtkTreeModel *store;
 	GtkTreeIter iter;
 	GtkTreePath *tpath;
 	gint cw, ch;
 
 	if (vdtree_find_row(vdt, vdt->click_fd, &iter, NULL) < 0) return;
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view));
 	tpath = gtk_tree_model_get_path(store, &iter);
-	tree_view_get_cell_clamped(GTK_TREE_VIEW(vdt->treeview), tpath, 0, TRUE, x, y, &cw, &ch);
+	tree_view_get_cell_clamped(GTK_TREE_VIEW(vdt->view), tpath, 0, TRUE, x, y, &cw, &ch);
 	gtk_tree_path_free(tpath);
 	*y += ch;
 	popup_menu_position_clamp(menu, x, y, 0);
@@ -1370,12 +1365,12 @@ static void vdtree_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gboolean *p
 
 static gint vdtree_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	GtkTreePath *tpath;
 	GtkTreeIter iter;
 	FileData *fd = NULL;
 
-	gtk_tree_view_get_cursor(GTK_TREE_VIEW(vdt->treeview), &tpath, NULL);
+	gtk_tree_view_get_cursor(GTK_TREE_VIEW(vdt->view), &tpath, NULL);
 	if (tpath)
 		{
 		GtkTreeModel *store;
@@ -1441,7 +1436,7 @@ static gint vdtree_clicked_on_expander(GtkTreeView *treeview, GtkTreePath *tpath
 
 static gint vdtree_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	GtkTreePath *tpath;
 	GtkTreeViewColumn *column;
 	GtkTreeIter iter;
@@ -1467,7 +1462,7 @@ static gint vdtree_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 			 */
 			if (bevent->button == 1 &&
 			    !left_of_expander &&
-			    !gtk_tree_view_row_expanded(GTK_TREE_VIEW(vdt->treeview), tpath))
+			    !gtk_tree_view_row_expanded(GTK_TREE_VIEW(vdt->view), tpath))
 				{
 				vdtree_populate_path_by_iter(vdt, &iter, FALSE, vdt->path);
 				vdtree_icon_set_by_iter(vdt, &iter, vdt->pf->open);
@@ -1495,7 +1490,7 @@ static gint vdtree_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 
 static gint vdtree_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	GtkTreePath *tpath;
 	GtkTreeIter iter;
 	NodeData *nd = NULL;
@@ -1527,7 +1522,7 @@ static gint vdtree_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointe
 
 static void vdtree_row_expanded(GtkTreeView *treeview, GtkTreeIter *iter, GtkTreePath *tpath, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 
 	vdtree_populate_path_by_iter(vdt, iter, FALSE, NULL);
 	vdtree_icon_set_by_iter(vdt, iter, vdt->pf->open);
@@ -1535,7 +1530,7 @@ static void vdtree_row_expanded(GtkTreeView *treeview, GtkTreeIter *iter, GtkTre
 
 static void vdtree_row_collapsed(GtkTreeView *treeview, GtkTreeIter *iter, GtkTreePath *tpath, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 
 	vdtree_icon_set_by_iter(vdt, iter, vdt->pf->close);
 }
@@ -1557,7 +1552,7 @@ static gint vdtree_sort_cb(GtkTreeModel *store, GtkTreeIter *a, GtkTreeIter *b, 
  *----------------------------------------------------------------------------
  */
 
-static void vdtree_setup_root(ViewDirTree *vdt)
+static void vdtree_setup_root(ViewDir *vdt)
 {
 	const gchar *path = "/";
 	FileData *fd;
@@ -1572,7 +1567,7 @@ static void vdtree_setup_root(ViewDirTree *vdt)
 
 static void vdtree_activate_cb(GtkTreeView *tview, GtkTreePath *tpath, GtkTreeViewColumn *column, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	GtkTreeModel *store;
 	GtkTreeIter iter;
 	NodeData *nd;
@@ -1605,12 +1600,12 @@ static GdkColor *vdtree_color_shifted(GtkWidget *widget)
 static void vdtree_color_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell,
 			    GtkTreeModel *tree_model, GtkTreeIter *iter, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	gboolean set;
 
 	gtk_tree_model_get(tree_model, iter, DIR_COLUMN_COLOR, &set, -1);
 	g_object_set(G_OBJECT(cell),
-		     "cell-background-gdk", vdtree_color_shifted(vdt->treeview),
+		     "cell-background-gdk", vdtree_color_shifted(vdt->view),
 		     "cell-background-set", set, NULL);
 }
 
@@ -1626,7 +1621,7 @@ static gboolean vdtree_destroy_node_cb(GtkTreeModel *store, GtkTreePath *tpath, 
 
 static void vdtree_destroy_cb(GtkWidget *widget, gpointer data)
 {
-	ViewDirTree *vdt = data;
+	ViewDir *vdt = data;
 	GtkTreeModel *store;
 
 	if (vdt->popup)
@@ -1638,9 +1633,9 @@ static void vdtree_destroy_cb(GtkWidget *widget, gpointer data)
 
 	vdtree_dnd_drop_expand_cancel(vdt);
 	vdtree_dnd_drop_scroll_cancel(vdt);
-	widget_auto_scroll_stop(vdt->treeview);
+	widget_auto_scroll_stop(vdt->view);
 
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->treeview));
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vdt->view));
 	gtk_tree_model_foreach(store, vdtree_destroy_node_cb, vdt);
 
 	filelist_free(vdt->drop_list);
@@ -1648,18 +1643,21 @@ static void vdtree_destroy_cb(GtkWidget *widget, gpointer data)
 	folder_icons_free(vdt->pf);
 
 	g_free(vdt->path);
+	g_free(vdt->info);
 	g_free(vdt);
 }
 
-ViewDirTree *vdtree_new(const gchar *path, gint expand)
+ViewDir *vdtree_new(const gchar *path)
 {
-	ViewDirTree *vdt;
+	ViewDir *vdt;
 	GtkTreeStore *store;
 	GtkTreeSelection *selection;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 
-	vdt = g_new0(ViewDirTree, 1);
+	vdt = g_new0(ViewDir, 1);
+	vdt->info = g_new0(ViewDirInfoTree, 1);
+	vdt->type = DIRVIEW_TREE;
 
 	vdt->path = NULL;
 	vdt->click_fd = NULL;
@@ -1667,11 +1665,11 @@ ViewDirTree *vdtree_new(const gchar *path, gint expand)
 	vdt->drop_fd = NULL;
 	vdt->drop_list = NULL;
 	vdt->drop_scroll_id = -1;
-	vdt->drop_expand_id = -1;
+	VDTREE_INFO(vdt, drop_expand_id) = -1;
 
 	vdt->popup = NULL;
 
-	vdt->busy_ref = 0;
+	VDTREE_INFO(vdt, busy_ref) = 0;
 
 	vdt->widget = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(vdt->widget), GTK_SHADOW_IN);
@@ -1681,27 +1679,27 @@ ViewDirTree *vdtree_new(const gchar *path, gint expand)
 			 G_CALLBACK(vdtree_destroy_cb), vdt);
 
 	store = gtk_tree_store_new(4, G_TYPE_POINTER, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_INT);
-	vdt->treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+	vdt->view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
 	g_object_unref(store);
 
-	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(vdt->treeview), FALSE);
-	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(vdt->treeview), FALSE);
+	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(vdt->view), FALSE);
+	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(vdt->view), FALSE);
 	gtk_tree_sortable_set_default_sort_func(GTK_TREE_SORTABLE(store), vdtree_sort_cb, vdt, NULL);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(store),
 					     GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID, GTK_SORT_ASCENDING);
 
-	g_signal_connect(G_OBJECT(vdt->treeview), "row_activated",
+	g_signal_connect(G_OBJECT(vdt->view), "row_activated",
 			 G_CALLBACK(vdtree_activate_cb), vdt);
-	g_signal_connect(G_OBJECT(vdt->treeview), "row_expanded",
+	g_signal_connect(G_OBJECT(vdt->view), "row_expanded",
 			 G_CALLBACK(vdtree_row_expanded), vdt);
-	g_signal_connect(G_OBJECT(vdt->treeview), "row_collapsed",
+	g_signal_connect(G_OBJECT(vdt->view), "row_collapsed",
 			 G_CALLBACK(vdtree_row_collapsed), vdt);
 #if 0
 	g_signal_connect(G_OBJECT(store), "row_deleted",
 			 G_CALLBACK(vdtree_row_deleted_cb), vdt);
 #endif
 
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vdt->treeview));
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vdt->view));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
 	gtk_tree_selection_set_select_function(selection, vdtree_select_cb, vdt, NULL);
 
@@ -1718,13 +1716,13 @@ ViewDirTree *vdtree_new(const gchar *path, gint expand)
 	gtk_tree_view_column_add_attribute(column, renderer, "text", DIR_COLUMN_NAME);
 	gtk_tree_view_column_set_cell_data_func(column, renderer, vdtree_color_cb, vdt, NULL);
 
-	gtk_tree_view_append_column(GTK_TREE_VIEW(vdt->treeview), column);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(vdt->view), column);
 
-	g_signal_connect(G_OBJECT(vdt->treeview), "key_press_event",
+	g_signal_connect(G_OBJECT(vdt->view), "key_press_event",
 			 G_CALLBACK(vdtree_press_key_cb), vdt);
 
-	gtk_container_add(GTK_CONTAINER(vdt->widget), vdt->treeview);
-	gtk_widget_show(vdt->treeview);
+	gtk_container_add(GTK_CONTAINER(vdt->widget), vdt->view);
+	gtk_widget_show(vdt->view);
 
 	vdt->pf = folder_icons_new();
 
@@ -1732,9 +1730,9 @@ ViewDirTree *vdtree_new(const gchar *path, gint expand)
 
 	vdtree_dnd_init(vdt);
 
-	g_signal_connect(G_OBJECT(vdt->treeview), "button_press_event",
+	g_signal_connect(G_OBJECT(vdt->view), "button_press_event",
 			 G_CALLBACK(vdtree_press_cb), vdt);
-	g_signal_connect(G_OBJECT(vdt->treeview), "button_release_event",
+	g_signal_connect(G_OBJECT(vdt->view), "button_release_event",
 			 G_CALLBACK(vdtree_release_cb), vdt);
 
 	vdtree_set_path(vdt, path);
@@ -1742,16 +1740,9 @@ ViewDirTree *vdtree_new(const gchar *path, gint expand)
 	return vdt;
 }
 
-void vdtree_set_select_func(ViewDirTree *vdt,
-                            void (*func)(ViewDirTree *vdt, const gchar *path, gpointer data), gpointer data)
-{
-        vdt->select_func = func;
-        vdt->select_data = data;
-}
-
 #if 0
-void vdtree_set_click_func(ViewDirTree *vdt,
-			   void (*func)(ViewDirTree *vdt, GdkEventButton *event, FileData *fd, gpointer), gpointer data)
+void vdtree_set_click_func(ViewDir *vdt,
+			   void (*func)(ViewDir *vdt, GdkEventButton *event, FileData *fd, gpointer), gpointer data)
 {
 	if (!td) return;
 	vdt->click_func = func;
@@ -1759,8 +1750,4 @@ void vdtree_set_click_func(ViewDirTree *vdt,
 }
 #endif
 
-void vdtree_set_layout(ViewDirTree *vdt, LayoutWindow *layout)
-{
-	vdt->layout = layout;
-}
 
