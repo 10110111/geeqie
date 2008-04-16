@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gqview\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-10 00:20+0200\n"
+"POT-Creation-Date: 2008-04-17 00:41+0200\n"
 "PO-Revision-Date: 2003-04-14 11:03GMT+0700\n"
 "Last-Translator: Tedi Heriyanto <tedi_h@gmx.net>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
@@ -16,114 +16,114 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 0.9.6\n"
 
-#: src/bar_exif.c:475
+#: src/bar_exif.c:453
 msgid "Tag"
 msgstr ""
 
-#: src/bar_exif.c:476 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
+#: src/bar_exif.c:454 src/dupe.c:2631 src/dupe.c:3152 src/print.c:3230
 #: src/search.c:2739 src/utilops.c:3095 src/view_file_list.c:2025
 msgid "Name"
 msgstr "Nama"
 
-#: src/bar_exif.c:477
+#: src/bar_exif.c:455
 msgid "Value"
 msgstr ""
 
-#: src/bar_exif.c:478
+#: src/bar_exif.c:456
 #, fuzzy
 msgid "Format"
 msgstr "Normal"
 
-#: src/bar_exif.c:479
+#: src/bar_exif.c:457
 msgid "Elements"
 msgstr ""
 
-#: src/bar_exif.c:480 src/preferences.c:1126
+#: src/bar_exif.c:458 src/preferences.c:1096
 #, fuzzy
 msgid "Description"
 msgstr "deskripsi"
 
-#: src/bar_exif.c:606 src/info.c:123 src/preferences.c:1269
+#: src/bar_exif.c:584 src/info.c:123 src/preferences.c:1239
 #, fuzzy
 msgid "Exif"
 msgstr "Keluar"
 
-#: src/bar_exif.c:680
+#: src/bar_exif.c:658
 msgid "Advanced view"
 msgstr ""
 
-#: src/bar_info.c:32
+#: src/bar_info.c:33
 msgid "Favorite"
 msgstr ""
 
-#: src/bar_info.c:33
+#: src/bar_info.c:34
 #, fuzzy
 msgid "Todo"
 msgstr "Tool"
 
-#: src/bar_info.c:34
+#: src/bar_info.c:35
 msgid "People"
 msgstr ""
 
-#: src/bar_info.c:35
+#: src/bar_info.c:36
 msgid "Places"
 msgstr ""
 
-#: src/bar_info.c:36
+#: src/bar_info.c:37
 msgid "Art"
 msgstr ""
 
-#: src/bar_info.c:37
+#: src/bar_info.c:38
 #, fuzzy
 msgid "Nature"
 msgstr "Tanggal"
 
-#: src/bar_info.c:38
+#: src/bar_info.c:39
 msgid "Possessions"
 msgstr ""
 
-#: src/bar_info.c:671
+#: src/bar_info.c:670
 msgid "Keyword Presets"
 msgstr ""
 
-#: src/bar_info.c:674
+#: src/bar_info.c:673
 msgid "Favorite keywords list"
 msgstr ""
 
-#: src/bar_info.c:1158 src/info.c:187 src/search.c:2678
+#: src/bar_info.c:1157 src/info.c:187 src/search.c:2678
 msgid "Keywords"
 msgstr ""
 
-#: src/bar_info.c:1172 src/info.c:818 src/pan-view.c:1531 src/print.c:2630
+#: src/bar_info.c:1171 src/info.c:818 src/pan-view.c:1539 src/print.c:2630
 msgid "Filename:"
 msgstr "Namafile:"
 
-#: src/bar_info.c:1173 src/info.c:389
+#: src/bar_info.c:1172 src/info.c:389
 msgid "File date:"
 msgstr "Tanggal file:"
 
-#: src/bar_info.c:1193
+#: src/bar_info.c:1192
 msgid "Keywords:"
 msgstr ""
 
-#: src/bar_info.c:1261
+#: src/bar_info.c:1260
 #, fuzzy
 msgid "Comment:"
 msgstr "Bandingkan dengan:"
 
-#: src/bar_info.c:1285
+#: src/bar_info.c:1284
 msgid "Edit favorite keywords list."
 msgstr ""
 
-#: src/bar_info.c:1289
+#: src/bar_info.c:1288
 msgid "Add keywords to selected files"
 msgstr ""
 
-#: src/bar_info.c:1292
+#: src/bar_info.c:1291
 msgid "Add keywords to selected files, replacing the existing ones."
 msgstr ""
 
-#: src/bar_info.c:1296
+#: src/bar_info.c:1295
 #, fuzzy
 msgid "Save comment now"
 msgstr "Simpan koleksi"
@@ -173,7 +173,7 @@ msgstr ""
 msgid "Collection exists"
 msgstr "Koleksi kosong"
 
-#: src/bar_sort.c:450 src/collect.c:1054 src/collect-dlg.c:84
+#: src/bar_sort.c:450 src/collect.c:1080 src/collect-dlg.c:84
 #, c-format
 msgid ""
 "Failed to save the collection:\n"
@@ -182,7 +182,7 @@ msgstr ""
 "Gagal menyimpan koleksi:\n"
 "%s"
 
-#: src/bar_sort.c:451 src/collect.c:1055 src/collect-dlg.c:85
+#: src/bar_sort.c:451 src/collect.c:1081 src/collect-dlg.c:85
 msgid "Save Failed"
 msgstr "Gagal Menyimpan"
 
@@ -195,7 +195,7 @@ msgstr ""
 msgid "Add Collection"
 msgstr "Koleksi"
 
-#: src/bar_sort.c:506 src/ui_bookmark.c:606
+#: src/bar_sort.c:506 src/ui_bookmark.c:604
 #, fuzzy
 msgid "Name:"
 msgstr "Nama"
@@ -205,12 +205,12 @@ msgstr "Nama"
 msgid "Sort Manager"
 msgstr "Urutkan berdasarkan nama"
 
-#: src/bar_sort.c:577 src/pan-view.c:2384 src/ui_pathsel.c:1095
+#: src/bar_sort.c:577 src/pan-view.c:2392 src/ui_pathsel.c:1101
 #, fuzzy
 msgid "Folders"
 msgstr "File"
 
-#: src/bar_sort.c:578 src/main.c:1169
+#: src/bar_sort.c:578 src/main.c:1225
 msgid "Collections"
 msgstr "Koleksi"
 
@@ -240,7 +240,7 @@ msgstr "Tidak ada yang dipilih"
 msgid "Undo last image"
 msgstr ""
 
-#: src/cache_maint.c:126 src/cache_maint.c:682 src/cache_maint.c:895
+#: src/cache_maint.c:126 src/cache_maint.c:684 src/cache_maint.c:897
 #: src/editors.c:716
 #, fuzzy
 msgid "done"
@@ -256,72 +256,72 @@ msgstr "Membaca kemiripan data..."
 msgid "Clearing cached thumbnails..."
 msgstr "Menghapus thumbnail..."
 
-#: src/cache_maint.c:311 src/cache_maint.c:1049
+#: src/cache_maint.c:311 src/cache_maint.c:1051
 #, fuzzy
 msgid "Removing old thumbnails..."
 msgstr "Menghapus thumbnail lama..."
 
-#: src/cache_maint.c:314 src/cache_maint.c:1052
+#: src/cache_maint.c:314 src/cache_maint.c:1054
 msgid "Maintenance"
 msgstr ""
 
-#: src/cache_maint.c:793 src/utilops.c:1103
+#: src/cache_maint.c:795 src/utilops.c:1103
 #, fuzzy
 msgid "Invalid folder"
 msgstr "Namafile tidak valid"
 
-#: src/cache_maint.c:794
+#: src/cache_maint.c:796
 msgid "The specified folder can not be found."
 msgstr ""
 
-#: src/cache_maint.c:822 src/cache_maint.c:836 src/cache_maint.c:1220
+#: src/cache_maint.c:824 src/cache_maint.c:838 src/cache_maint.c:1222
 #, fuzzy
 msgid "Create thumbnails"
 msgstr "Cache thumbnail"
 
-#: src/cache_maint.c:830 src/cache_maint.c:1059
+#: src/cache_maint.c:832 src/cache_maint.c:1061
 #, fuzzy
 msgid "S_tart"
 msgstr "Mulai #"
 
-#: src/cache_maint.c:843 src/preferences.c:1385
+#: src/cache_maint.c:845 src/preferences.c:1363
 #, fuzzy
 msgid "Folder:"
 msgstr "File"
 
-#: src/cache_maint.c:846
+#: src/cache_maint.c:848
 #, fuzzy
 msgid "Select folder"
 msgstr "Tidak ada yang dipilih"
 
-#: src/cache_maint.c:850
+#: src/cache_maint.c:852
 #, fuzzy
 msgid "Include subfolders"
 msgstr "Namafile tidak valid"
 
-#: src/cache_maint.c:851
+#: src/cache_maint.c:853
 msgid "Store thumbnails local to source images"
 msgstr ""
 
-#: src/cache_maint.c:860 src/cache_maint.c:1068
+#: src/cache_maint.c:862 src/cache_maint.c:1070
 msgid "click start to begin"
 msgstr ""
 
-#: src/cache_maint.c:998 src/editors.c:647
+#: src/cache_maint.c:1000 src/editors.c:647
 #, fuzzy
 msgid "running..."
 msgstr "Membandingkan..."
 
-#: src/cache_maint.c:1044
+#: src/cache_maint.c:1046
 msgid "Clearing thumbnails..."
 msgstr "Menghapus thumbnail..."
 
-#: src/cache_maint.c:1110 src/cache_maint.c:1113 src/cache_maint.c:1195
-#: src/cache_maint.c:1215
+#: src/cache_maint.c:1112 src/cache_maint.c:1115 src/cache_maint.c:1197
+#: src/cache_maint.c:1217
 msgid "Clear cache"
 msgstr "Hapus cache"
 
-#: src/cache_maint.c:1114
+#: src/cache_maint.c:1116
 msgid ""
 "This will remove all thumbnails that have\n"
 "been saved to disk, continue?"
@@ -329,60 +329,60 @@ msgstr ""
 "Akan menghapus semua thumbnail yang telah\n"
 "disimpan ke disk, lanjutkan?"
 
-#: src/cache_maint.c:1165
+#: src/cache_maint.c:1167
 #, fuzzy
 msgid "Cache Maintenance"
 msgstr "Properti image.-.Geeqie"
 
-#: src/cache_maint.c:1177
+#: src/cache_maint.c:1179
 msgid "Cache and Data Maintenance"
 msgstr ""
 
-#: src/cache_maint.c:1181
+#: src/cache_maint.c:1183
 #, fuzzy
 msgid "Thumbnail cache"
 msgstr "Geeqie layar penuh"
 
-#: src/cache_maint.c:1183 src/cache_maint.c:1203 src/cache_maint.c:1231
-#: src/pan-view.c:1533 src/pan-view.c:2373 src/preferences.c:1328
+#: src/cache_maint.c:1185 src/cache_maint.c:1205 src/cache_maint.c:1233
+#: src/pan-view.c:1541 src/pan-view.c:2381 src/preferences.c:1298
 #: src/utilops.c:1871
 #, fuzzy
 msgid "Location:"
 msgstr "Koleksi"
 
-#: src/cache_maint.c:1190 src/cache_maint.c:1210 src/cache_maint.c:1238
+#: src/cache_maint.c:1192 src/cache_maint.c:1212 src/cache_maint.c:1240
 #, fuzzy
 msgid "Clean up"
 msgstr "Bersihkan"
 
-#: src/cache_maint.c:1193 src/cache_maint.c:1213
+#: src/cache_maint.c:1195 src/cache_maint.c:1215
 msgid "Remove orphaned or outdated thumbnails."
 msgstr ""
 
-#: src/cache_maint.c:1198 src/cache_maint.c:1218
+#: src/cache_maint.c:1200 src/cache_maint.c:1220
 #, fuzzy
 msgid "Delete all cached thumbnails."
 msgstr "Cache thumbnail"
 
-#: src/cache_maint.c:1201
+#: src/cache_maint.c:1203
 #, fuzzy
 msgid "Shared thumbnail cache"
 msgstr "Tampilkan thumbnail"
 
-#: src/cache_maint.c:1224
+#: src/cache_maint.c:1226
 #, fuzzy
 msgid "Render"
 msgstr "Ganti nama"
 
-#: src/cache_maint.c:1227
+#: src/cache_maint.c:1229
 msgid "Render thumbnails for a specific folder."
 msgstr ""
 
-#: src/cache_maint.c:1229
+#: src/cache_maint.c:1231
 msgid "Metadata"
 msgstr ""
 
-#: src/cache_maint.c:1241
+#: src/cache_maint.c:1243
 msgid "Remove orphaned keywords and comments."
 msgstr ""
 
@@ -402,7 +402,7 @@ msgstr ""
 msgid "Text to render"
 msgstr ""
 
-#: src/cellrenderericon.c:143 src/preferences.c:987
+#: src/cellrenderericon.c:143
 #, fuzzy
 msgid "Background color"
 msgstr "Latar belakang hitam"
@@ -471,27 +471,27 @@ msgstr "Tampilkan sembunyi"
 msgid "Whether the text is displayed"
 msgstr ""
 
-#: src/collect.c:348 src/image.c:172 src/image-overlay.c:230
-#: src/image-overlay.c:304
+#: src/collect.c:350 src/image.c:172 src/image-overlay.c:254
+#: src/image-overlay.c:328
 #, c-format
 msgid "Untitled"
 msgstr "Tiada judul"
 
-#: src/collect.c:352
+#: src/collect.c:354
 #, c-format
 msgid "Untitled (%d)"
 msgstr "Tiada judul (%d)"
 
-#: src/collect.c:973
+#: src/collect.c:999
 #, fuzzy, c-format
 msgid "%s - Collection - %s"
 msgstr "%s - Koleksi Geeqie"
 
-#: src/collect.c:1091 src/collect.c:1095
+#: src/collect.c:1117 src/collect.c:1121
 msgid "Close collection"
 msgstr "Menutup koleksi"
 
-#: src/collect.c:1096
+#: src/collect.c:1122
 msgid ""
 "Collection has been modified.\n"
 "Save first?"
@@ -499,7 +499,7 @@ msgstr ""
 "Koleksi telah dimodifikasi \n"
 "Simpan dulu?"
 
-#: src/collect.c:1099
+#: src/collect.c:1125
 msgid "_Discard"
 msgstr ""
 
@@ -562,7 +562,21 @@ msgstr "Koleksi kosong"
 msgid "The current collection is empty, save aborted."
 msgstr "Koleksi saat ini kosong, penyimpanan dibatalkan"
 
-#: src/collect-table.c:165 src/layout.c:370 src/layout_util.c:1008
+#: src/collect-io.c:342
+#, fuzzy, c-format
+msgid "failed to open collection (write) \"%s\"\n"
+msgstr ""
+"Gagal menyimpan koleksi:\n"
+"%s"
+
+#: src/collect-io.c:371
+#, fuzzy, c-format
+msgid ""
+"error saving collection file: %s\n"
+"error: %s\n"
+msgstr "kesalahan menyimpan file config: %s\n"
+
+#: src/collect-table.c:165 src/layout.c:368 src/layout_util.c:1009
 msgid "Empty"
 msgstr "Kosong"
 
@@ -583,13 +597,13 @@ msgid "Loading thumbs..."
 msgstr "Memuatkan thumb..."
 
 #: src/collect-table.c:767 src/dupe.c:2229 src/dupe.c:2539
-#: src/layout_util.c:1053 src/search.c:968
+#: src/layout_util.c:1054 src/search.c:968
 #, fuzzy
 msgid "_View"
 msgstr "/_View"
 
-#: src/collect-table.c:769 src/dupe.c:2231 src/dupe.c:2541 src/img-view.c:1247
-#: src/layout_image.c:741 src/pan-view.c:2794 src/search.c:970
+#: src/collect-table.c:769 src/dupe.c:2231 src/dupe.c:2541 src/img-view.c:1283
+#: src/layout_image.c:766 src/pan-view.c:2802 src/search.c:970
 #: src/view_file_icon.c:326 src/view_file_list.c:572
 #, fuzzy
 msgid "View in _new window"
@@ -616,39 +630,39 @@ msgstr "Pilih semua"
 msgid "Select none"
 msgstr "Tidak ada yang dipilih"
 
-#: src/collect-table.c:790 src/dupe.c:2245 src/img-view.c:1245
-#: src/layout_image.c:738 src/layout_util.c:1096 src/pan-view.c:2791
+#: src/collect-table.c:790 src/dupe.c:2245 src/img-view.c:1281
+#: src/layout_image.c:763 src/layout_util.c:1098 src/pan-view.c:2799
 #: src/search.c:980 src/view_file_icon.c:323 src/view_file_list.c:570
 #, fuzzy
 msgid "_Properties"
 msgstr "Properti"
 
-#: src/collect-table.c:793 src/dupe.c:2252 src/img-view.c:1250
-#: src/layout_image.c:746 src/layout_util.c:1073 src/pan-view.c:2798
+#: src/collect-table.c:793 src/dupe.c:2252 src/img-view.c:1287
+#: src/layout_image.c:774 src/layout_util.c:1075 src/pan-view.c:2806
 #: src/search.c:987 src/view_file_icon.c:330 src/view_file_list.c:576
 #, fuzzy
 msgid "_Copy..."
 msgstr "Salin..."
 
-#: src/collect-table.c:795 src/dupe.c:2254 src/img-view.c:1251
-#: src/layout_image.c:748 src/layout_util.c:1074 src/pan-view.c:2800
+#: src/collect-table.c:795 src/dupe.c:2254 src/img-view.c:1288
+#: src/layout_image.c:776 src/layout_util.c:1076 src/pan-view.c:2808
 #: src/search.c:989 src/view_file_icon.c:332 src/view_file_list.c:578
 #, fuzzy
 msgid "_Move..."
 msgstr "Pindah..."
 
-#: src/collect-table.c:797 src/dupe.c:2256 src/img-view.c:1252
-#: src/layout_image.c:750 src/layout_util.c:1075 src/pan-view.c:2802
-#: src/search.c:991 src/view_dir_list.c:413 src/view_dir_tree.c:508
-#: src/view_file_icon.c:334 src/view_file_list.c:580
+#: src/collect-table.c:797 src/dupe.c:2256 src/img-view.c:1289
+#: src/layout_image.c:778 src/layout_util.c:1077 src/pan-view.c:2810
+#: src/search.c:991 src/view_dir.c:561 src/view_file_icon.c:334
+#: src/view_file_list.c:580
 #, fuzzy
 msgid "_Rename..."
 msgstr "Ganti nama..."
 
-#: src/collect-table.c:799 src/dupe.c:2258 src/img-view.c:1253
-#: src/layout_image.c:752 src/layout_util.c:1076 src/pan-view.c:2804
-#: src/search.c:993 src/view_dir_list.c:415 src/view_dir_tree.c:510
-#: src/view_file_icon.c:336 src/view_file_list.c:582
+#: src/collect-table.c:799 src/dupe.c:2258 src/img-view.c:1290
+#: src/layout_image.c:780 src/layout_util.c:1078 src/pan-view.c:2812
+#: src/search.c:993 src/view_dir.c:563 src/view_file_icon.c:336
+#: src/view_file_list.c:582
 #, fuzzy
 msgid "_Delete..."
 msgstr "Hapus..."
@@ -668,7 +682,7 @@ msgstr "Simpan koleksi"
 msgid "Save collection _as..."
 msgstr "Simpan koleksi sebagai..."
 
-#: src/collect-table.c:812 src/layout_util.c:1069
+#: src/collect-table.c:812 src/layout_util.c:1071
 #, fuzzy
 msgid "_Find duplicates..."
 msgstr "Cari duplikat..."
@@ -678,28 +692,28 @@ msgstr "Cari duplikat..."
 msgid "Print..."
 msgstr "/File/_Rename..."
 
-#: src/collect-table.c:1966 src/dupe.c:3340 src/img-view.c:1407
+#: src/collect-table.c:1966 src/dupe.c:3340 src/img-view.c:1444
 #, fuzzy
 msgid "Dropped list includes folders."
 msgstr "Hapus daftar termasuk direktori."
 
-#: src/collect-table.c:1968 src/dupe.c:3342 src/img-view.c:1409
+#: src/collect-table.c:1968 src/dupe.c:3342 src/img-view.c:1446
 #, fuzzy
 msgid "_Add contents"
 msgstr "Tambah isi"
 
-#: src/collect-table.c:1970 src/dupe.c:3343 src/img-view.c:1410
+#: src/collect-table.c:1970 src/dupe.c:3343 src/img-view.c:1447
 #, fuzzy
 msgid "Add contents _recursive"
 msgstr "Tambah isi secara rekursif"
 
-#: src/collect-table.c:1972 src/dupe.c:3344 src/img-view.c:1411
+#: src/collect-table.c:1972 src/dupe.c:3344 src/img-view.c:1448
 #, fuzzy
 msgid "_Skip folders"
 msgstr "Lewati direktori"
 
-#: src/collect-table.c:1975 src/dupe.c:3346 src/img-view.c:1413
-#: src/view_dir_list.c:214 src/view_dir_tree.c:306
+#: src/collect-table.c:1975 src/dupe.c:3346 src/img-view.c:1450
+#: src/view_dir.c:301
 msgid "Cancel"
 msgstr "Batal"
 
@@ -773,7 +787,7 @@ msgstr "%d file%s"
 msgid "Name case-insensitive"
 msgstr ""
 
-#: src/dupe.c:2633 src/dupe.c:3153 src/preferences.c:1023 src/print.c:3236
+#: src/dupe.c:2633 src/dupe.c:3153 src/preferences.c:991 src/print.c:3236
 #: src/search.c:2740 src/view_file_list.c:2028
 msgid "Size"
 msgstr "Ukuran"
@@ -792,7 +806,7 @@ msgid "Checksum"
 msgstr "Checksum"
 
 #: src/dupe.c:2637 src/dupe.c:3156 src/print.c:3232 src/search.c:2743
-#: src/ui_pathsel.c:1107
+#: src/ui_pathsel.c:1113
 msgid "Path"
 msgstr "Path"
 
@@ -825,7 +839,7 @@ msgstr "Bandingkan dengan:"
 msgid "Compare by:"
 msgstr "Dibandingkan secara:"
 
-#: src/dupe.c:3209 src/preferences.c:881 src/search.c:2756
+#: src/dupe.c:3209 src/preferences.c:849 src/search.c:2756
 msgid "Thumbnails"
 msgstr "Thumbnail"
 
@@ -946,8 +960,8 @@ msgid "Unknown error."
 msgstr ""
 
 #: src/exif.c:144 src/exif.c:157 src/exif.c:171 src/exif.c:196 src/exif.c:313
-#: src/exif.c:624 src/exif-common.c:301 src/exif-common.c:304
-#: src/exif-common.c:369
+#: src/exif.c:624 src/exif-common.c:302 src/exif-common.c:305
+#: src/exif-common.c:370
 #, fuzzy
 msgid "unknown"
 msgstr "dalam (tidak dikenal)..."
@@ -1136,12 +1150,12 @@ msgstr ""
 msgid "ISO studio tungsten"
 msgstr ""
 
-#: src/exif.c:221 src/exif-common.c:324 src/info.c:255
+#: src/exif.c:221 src/exif-common.c:325 src/info.c:255
 msgid "no"
 msgstr "tidak"
 
 #. flash fired (bit 0)
-#: src/exif.c:222 src/exif-common.c:324 src/info.c:255
+#: src/exif.c:222 src/exif-common.c:325 src/info.c:255
 msgid "yes"
 msgstr "ya"
 
@@ -1198,7 +1212,7 @@ msgstr ""
 msgid "custom"
 msgstr ""
 
-#: src/exif.c:262 src/exif.c:269 src/exif-common.c:338
+#: src/exif.c:262 src/exif.c:269 src/exif-common.c:339
 msgid "auto"
 msgstr ""
 
@@ -1608,94 +1622,94 @@ msgstr ""
 msgid "Resolution"
 msgstr "Koleksi kosong"
 
-#: src/exif-common.c:300
+#: src/exif-common.c:301
 msgid "infinity"
 msgstr ""
 
-#: src/exif-common.c:328
+#: src/exif-common.c:329
 #, fuzzy
 msgid "mode:"
 msgstr "File"
 
-#: src/exif-common.c:332 src/utilops.c:1467
+#: src/exif-common.c:333 src/utilops.c:1467
 #, fuzzy
 msgid "on"
 msgstr "Tidak ada"
 
-#: src/exif-common.c:335 src/utilops.c:1472
+#: src/exif-common.c:336 src/utilops.c:1472
 msgid "off"
 msgstr ""
 
-#: src/exif-common.c:344
+#: src/exif-common.c:345
 msgid "not detected by strobe"
 msgstr ""
 
-#: src/exif-common.c:345
+#: src/exif-common.c:346
 msgid "detected by strobe"
 msgstr ""
 
 #. we ignore flash function (bit 5)
 #. red-eye (bit 6)
-#: src/exif-common.c:350
+#: src/exif-common.c:351
 msgid "red-eye reduction"
 msgstr ""
 
-#: src/exif-common.c:369
+#: src/exif-common.c:370
 msgid "dot"
 msgstr ""
 
-#: src/filelist.c:637
+#: src/filelist.c:643
 #, c-format
 msgid "%d bytes"
 msgstr "%d bytes"
 
-#: src/filelist.c:641
+#: src/filelist.c:647
 #, c-format
 msgid "%.1f K"
 msgstr "%.1f K"
 
-#: src/filelist.c:645
+#: src/filelist.c:651
 #, c-format
 msgid "%.1f MB"
 msgstr "%.1f MB"
 
-#: src/filelist.c:650
+#: src/filelist.c:656
 #, fuzzy, c-format
 msgid "%.1f GB"
 msgstr "%.1f MB"
 
-#: src/fullscreen.c:241 src/preferences.c:1324
+#: src/fullscreen.c:250 src/preferences.c:1294
 #, fuzzy
 msgid "Full screen"
 msgstr "Layar penuh"
 
-#: src/fullscreen.c:393
+#: src/fullscreen.c:402
 #, fuzzy
 msgid "Full size"
 msgstr "Ukuran file:"
 
-#: src/fullscreen.c:398
+#: src/fullscreen.c:407
 msgid "Monitor"
 msgstr ""
 
-#: src/fullscreen.c:403 src/layout.c:443
+#: src/fullscreen.c:412 src/layout.c:441
 msgid "Screen"
 msgstr ""
 
-#: src/fullscreen.c:640
+#: src/fullscreen.c:649
 #, fuzzy
 msgid "Stay above other windows"
 msgstr "Sesuaikan image ke jendela"
 
-#: src/fullscreen.c:647
+#: src/fullscreen.c:656
 msgid "Determined by Window Manager"
 msgstr ""
 
-#: src/fullscreen.c:648
+#: src/fullscreen.c:657
 msgid "Active screen"
 msgstr ""
 
-#: src/fullscreen.c:650
+#: src/fullscreen.c:659
 msgid "Active monitor"
 msgstr ""
 
@@ -1747,66 +1761,70 @@ msgstr ""
 msgid "linear histogram on max value"
 msgstr ""
 
-#: src/img-view.c:1233 src/layout_image.c:725 src/layout_util.c:1103
-#: src/pan-view.c:2780
+#: src/img-view.c:1269 src/layout_image.c:750 src/layout_util.c:1105
+#: src/pan-view.c:2788
 #, fuzzy
 msgid "Zoom _in"
 msgstr "Perbesar"
 
-#: src/img-view.c:1234 src/layout_image.c:726 src/layout_util.c:1104
-#: src/pan-view.c:2782
+#: src/img-view.c:1270 src/layout_image.c:751 src/layout_util.c:1106
+#: src/pan-view.c:2790
 #, fuzzy
 msgid "Zoom _out"
 msgstr "Perkecil"
 
-#: src/img-view.c:1235 src/layout_image.c:727 src/layout_util.c:1105
-#: src/pan-view.c:2784
+#: src/img-view.c:1271 src/layout_image.c:752 src/layout_util.c:1107
+#: src/pan-view.c:2792
 #, fuzzy
 msgid "Zoom _1:1"
 msgstr "Zoom 1:1"
 
-#: src/img-view.c:1236 src/layout_image.c:728
+#: src/img-view.c:1272 src/layout_image.c:753
 #, fuzzy
 msgid "Fit image to _window"
 msgstr "Sesuaikan image ke jendela"
 
-#: src/img-view.c:1241 src/layout_image.c:734 src/layout_util.c:1101
+#: src/img-view.c:1277 src/layout_image.c:759 src/layout_util.c:1103
 #, fuzzy
 msgid "Set as _wallpaper"
 msgstr "Set sebagai wallpaper"
 
-#: src/img-view.c:1259 src/layout_image.c:759
+#: src/img-view.c:1284 src/layout_image.c:769
+msgid "_Go to directory view"
+msgstr ""
+
+#: src/img-view.c:1296 src/layout_image.c:787
 #, fuzzy
 msgid "_Stop slideshow"
 msgstr "Hentikan slideshow"
 
-#: src/img-view.c:1262 src/layout_image.c:762
+#: src/img-view.c:1299 src/layout_image.c:790
 #, fuzzy
 msgid "Continue slides_how"
 msgstr "Lanjutkan slideshow"
 
-#: src/img-view.c:1267 src/img-view.c:1275 src/layout_image.c:767
-#: src/layout_image.c:774
+#: src/img-view.c:1304 src/img-view.c:1312 src/layout_image.c:795
+#: src/layout_image.c:802
 #, fuzzy
 msgid "Pause slides_how"
 msgstr "Pause slideshow"
 
-#: src/img-view.c:1273 src/layout_image.c:773
+#: src/img-view.c:1310 src/layout_image.c:801
 #, fuzzy
 msgid "_Start slideshow"
 msgstr "Mulai slideshow"
 
-#: src/img-view.c:1281 src/layout_image.c:784 src/pan-view.c:2850
+#: src/img-view.c:1318 src/layout_image.c:812 src/pan-view.c:2858
 #, fuzzy
 msgid "Exit _full screen"
 msgstr "Keluar layar penuh"
 
-#: src/img-view.c:1285 src/layout_image.c:780 src/pan-view.c:2854
+#: src/img-view.c:1322 src/layout_image.c:808 src/pan-view.c:2862
 #, fuzzy
 msgid "_Full screen"
 msgstr "Layar penuh"
 
-#: src/img-view.c:1289 src/layout_util.c:1077 src/pan-view.c:2858
+#: src/img-view.c:1326 src/layout_util.c:1079 src/pan-view.c:2866
 #, fuzzy
 msgid "C_lose window"
 msgstr "Tutup jendela"
@@ -1844,7 +1862,7 @@ msgstr "Pemilik:"
 msgid "Group:"
 msgstr "Grup:"
 
-#: src/info.c:403 src/preferences.c:862
+#: src/info.c:403 src/preferences.c:830
 msgid "General"
 msgstr "Umum"
 
@@ -1858,88 +1876,88 @@ msgstr ""
 msgid "Image properties"
 msgstr "Properti image.-.Geeqie"
 
-#: src/layout.c:275 src/view_file_icon.c:344 src/view_file_list.c:590
+#: src/layout.c:273 src/view_file_icon.c:344 src/view_file_list.c:590
 msgid "Ascending"
 msgstr "Menaik"
 
-#: src/layout.c:377
+#: src/layout.c:375
 #, c-format
 msgid "This installation of %s was not built with support for color profiles."
 msgstr ""
 
-#: src/layout.c:378
+#: src/layout.c:376
 msgid "Color profiles not supported"
 msgstr ""
 
-#: src/layout.c:401
+#: src/layout.c:399
 msgid "Use _color profiles"
 msgstr ""
 
-#: src/layout.c:406
+#: src/layout.c:404
 msgid "Use profile from _image"
 msgstr ""
 
-#: src/layout.c:410 src/layout.c:427
+#: src/layout.c:408 src/layout.c:425
 #, c-format
 msgid "Input _%d:"
 msgstr ""
 
-#: src/layout.c:452
+#: src/layout.c:450
 msgid "_Screen profile"
 msgstr ""
 
-#: src/layout.c:519
+#: src/layout.c:517
 msgid " Slideshow"
 msgstr " Slideshow"
 
-#: src/layout.c:523
+#: src/layout.c:521
 msgid " Paused"
 msgstr " Pause"
 
-#: src/layout.c:540
+#: src/layout.c:538
 #, c-format
 msgid "%s, %d files (%s, %d)%s"
 msgstr "%s, %d file (%s, %d)%s"
 
-#: src/layout.c:547
+#: src/layout.c:545
 #, c-format
 msgid "%s, %d files%s"
 msgstr "%s, %d file%s"
 
-#: src/layout.c:552
+#: src/layout.c:550
 #, c-format
 msgid "%d files%s"
 msgstr "%d file%s"
 
-#: src/layout.c:581
+#: src/layout.c:579
 #, c-format
 msgid "(no read permission) %s bytes"
 msgstr "(tidak ada ijin membaca) %s byte"
 
-#: src/layout.c:585
+#: src/layout.c:583
 #, c-format
 msgid "( ? x ? ) %s bytes"
 msgstr "( ? x ? ) %s byte"
 
-#: src/layout.c:593
+#: src/layout.c:591
 #, c-format
 msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s byte"
 
-#: src/layout.c:1320 src/layout_config.c:57
+#: src/layout.c:1316 src/layout_config.c:57
 msgid "Tools"
 msgstr "Tool"
 
-#: src/layout.c:1995
+#: src/layout.c:1990
 #, fuzzy
 msgid "Invalid geometry\n"
 msgstr "Namafile tidak valid"
 
-#: src/layout_config.c:57 src/ui_pathsel.c:1175
+#: src/layout_config.c:57 src/ui_pathsel.c:1181
 msgid "Files"
 msgstr "File"
 
-#: src/layout_config.c:57 src/preferences.c:938 src/print.c:114
+#: src/layout_config.c:57 src/preferences.c:906 src/print.c:114
 msgid "Image"
 msgstr "Image"
 
@@ -1947,514 +1965,514 @@ msgstr "Image"
 msgid "(drag to change order)"
 msgstr "(tarik untuk merubah urutan)"
 
-#: src/layout_image.c:789
+#: src/layout_image.c:817
 #, fuzzy
 msgid "Hide file _list"
 msgstr "Sembunyikan daftar file"
 
-#: src/layout_util.c:925 src/menu.c:74
+#: src/layout_util.c:926 src/menu.c:74
 #, c-format
 msgid "in %s..."
 msgstr "dalam %s..."
 
-#: src/layout_util.c:929 src/menu.c:76
+#: src/layout_util.c:930 src/menu.c:76
 msgid "in (unknown)..."
 msgstr "dalam (tidak dikenal)..."
 
-#: src/layout_util.c:937
+#: src/layout_util.c:938
 #, fuzzy
 msgid "empty"
 msgstr "Kosong"
 
-#: src/layout_util.c:1048
+#: src/layout_util.c:1049
 #, fuzzy
 msgid "_File"
 msgstr "/_File"
 
-#: src/layout_util.c:1049
+#: src/layout_util.c:1050
 msgid "_Go"
 msgstr ""
 
-#: src/layout_util.c:1050 src/menu.c:91
+#: src/layout_util.c:1051 src/menu.c:91
 #, fuzzy
 msgid "_Edit"
 msgstr "/_Edit"
 
-#: src/layout_util.c:1051
+#: src/layout_util.c:1052
 #, fuzzy
 msgid "_Select"
 msgstr "Tidak ada yang dipilih"
 
-#: src/layout_util.c:1052 src/menu.c:259
+#: src/layout_util.c:1053 src/menu.c:259
 #, fuzzy
 msgid "_Adjust"
 msgstr "Sesuaikan"
 
-#: src/layout_util.c:1054
+#: src/layout_util.c:1055
+#, fuzzy
+msgid "_View Directory as"
+msgstr "Direktori Baru"
+
+#: src/layout_util.c:1056
 #, fuzzy
 msgid "_Zoom"
 msgstr "Perbesar"
 
-#: src/layout_util.c:1055
+#: src/layout_util.c:1057
 msgid "_Split"
 msgstr ""
 
-#: src/layout_util.c:1056
+#: src/layout_util.c:1058
 #, fuzzy
 msgid "_Help"
 msgstr "/_Help"
 
-#: src/layout_util.c:1058
+#: src/layout_util.c:1060
 #, fuzzy
 msgid "_First Image"
 msgstr "%d image"
 
-#: src/layout_util.c:1059
+#: src/layout_util.c:1061
 msgid "_Previous Image"
 msgstr ""
 
-#: src/layout_util.c:1060
+#: src/layout_util.c:1062
 #, fuzzy
 msgid "_Next Image"
 msgstr "Preload gambar berikutnya"
 
-#: src/layout_util.c:1061
+#: src/layout_util.c:1063
 #, fuzzy
 msgid "_Last Image"
 msgstr "Preload gambar berikutnya"
 
-#: src/layout_util.c:1064
+#: src/layout_util.c:1066
 #, fuzzy
 msgid "New _window"
 msgstr "/File/New _window"
 
-#: src/layout_util.c:1065
+#: src/layout_util.c:1067
 #, fuzzy
 msgid "_New collection"
 msgstr "Simpan koleksi"
 
-#: src/layout_util.c:1066
+#: src/layout_util.c:1068
 #, fuzzy
 msgid "_Open collection..."
 msgstr "Buka koleksi"
 
-#: src/layout_util.c:1067
+#: src/layout_util.c:1069
 #, fuzzy
 msgid "Open _recent"
 msgstr "/File/Open _recent"
 
-#: src/layout_util.c:1068
+#: src/layout_util.c:1070
 #, fuzzy
 msgid "_Search..."
 msgstr "Membandingkan..."
 
-#: src/layout_util.c:1070
+#: src/layout_util.c:1072
 #, fuzzy
 msgid "Pan _view"
 msgstr "Bantuan - Geeqie"
 
-#: src/layout_util.c:1071
+#: src/layout_util.c:1073
 #, fuzzy
 msgid "_Print..."
 msgstr "/File/_Rename..."
 
-#: src/layout_util.c:1072
+#: src/layout_util.c:1074
 #, fuzzy
 msgid "N_ew folder..."
 msgstr "Folder baru..."
 
-#: src/layout_util.c:1078
+#: src/layout_util.c:1080
 #, fuzzy
 msgid "_Quit"
 msgstr "Kualitas"
 
-#: src/layout_util.c:1090 src/menu.c:201
+#: src/layout_util.c:1092 src/menu.c:201
 #, fuzzy
 msgid "_Rotate clockwise"
 msgstr "Putar searah jarum jam"
 
-#: src/layout_util.c:1091 src/menu.c:204
+#: src/layout_util.c:1093 src/menu.c:204
 #, fuzzy
 msgid "Rotate _counterclockwise"
 msgstr "Putar berlawanan dengan arah jam"
 
-#: src/layout_util.c:1092
+#: src/layout_util.c:1094
 #, fuzzy
 msgid "Rotate 1_80"
 msgstr "Rotasi 180"
 
-#: src/layout_util.c:1093 src/menu.c:210
+#: src/layout_util.c:1095 src/menu.c:210
 #, fuzzy
 msgid "_Mirror"
 msgstr "Cermin"
 
-#: src/layout_util.c:1094 src/menu.c:213
+#: src/layout_util.c:1096 src/menu.c:213
 #, fuzzy
 msgid "_Flip"
 msgstr "Balik"
 
-#: src/layout_util.c:1095 src/menu.c:216
+#: src/layout_util.c:1097 src/menu.c:216
 msgid "_Grayscale"
 msgstr ""
 
-#: src/layout_util.c:1097
+#: src/layout_util.c:1099
 #, fuzzy
 msgid "Select _all"
 msgstr "Pilih semua"
 
-#: src/layout_util.c:1098
+#: src/layout_util.c:1100
 #, fuzzy
 msgid "Select _none"
 msgstr "Tidak ada yang dipilih"
 
-#: src/layout_util.c:1099
+#: src/layout_util.c:1101
 #, fuzzy
 msgid "P_references..."
 msgstr "Properti"
 
-#: src/layout_util.c:1100
+#: src/layout_util.c:1102
 msgid "_Thumbnail maintenance..."
 msgstr ""
 
-#: src/layout_util.c:1106
+#: src/layout_util.c:1108
 #, fuzzy
 msgid "_Zoom to fit"
 msgstr "/View/_Zoom to fit"
 
-#: src/layout_util.c:1107
+#: src/layout_util.c:1109
 msgid "Fit _Horizontally"
 msgstr ""
 
-#: src/layout_util.c:1108
+#: src/layout_util.c:1110
 msgid "Fit _Vorizontally"
 msgstr ""
 
-#: src/layout_util.c:1109
+#: src/layout_util.c:1111
 #, fuzzy
 msgid "Zoom _2:1"
 msgstr "Zoom 1:1"
 
-#: src/layout_util.c:1110
+#: src/layout_util.c:1112
 #, fuzzy
 msgid "Zoom _3:1"
 msgstr "Zoom 1:1"
 
-#: src/layout_util.c:1111
+#: src/layout_util.c:1113
 #, fuzzy
 msgid "Zoom _4:1"
 msgstr "Zoom 1:1"
 
-#: src/layout_util.c:1112
+#: src/layout_util.c:1114
 #, fuzzy
 msgid "Zoom 1:2"
 msgstr "Zoom 1:1"
 
-#: src/layout_util.c:1113
+#: src/layout_util.c:1115
 #, fuzzy
 msgid "Zoom 1:3"
 msgstr "Zoom 1:1"
 
-#: src/layout_util.c:1114
+#: src/layout_util.c:1116
 #, fuzzy
 msgid "Zoom 1:4"
 msgstr "Zoom 1:1"
 
-#: src/layout_util.c:1117
+#: src/layout_util.c:1119
 #, fuzzy
 msgid "_View in new window"
 msgstr "Lihat di jendela baru"
 
-#: src/layout_util.c:1119
+#: src/layout_util.c:1121
 #, fuzzy
 msgid "F_ull screen"
 msgstr "Layar penuh"
 
-#: src/layout_util.c:1120
+#: src/layout_util.c:1122
 msgid "_Image Overlay"
 msgstr ""
 
-#: src/layout_util.c:1121
+#: src/layout_util.c:1123
 msgid "Histogram _channels"
 msgstr ""
 
-#: src/layout_util.c:1122
+#: src/layout_util.c:1124
 msgid "Histogram _log mode"
 msgstr ""
 
-#: src/layout_util.c:1123
+#: src/layout_util.c:1125
 #, fuzzy
 msgid "_Hide file list"
 msgstr "Sembunyikan daftar file"
 
-#: src/layout_util.c:1124
+#: src/layout_util.c:1126
 #, fuzzy
 msgid "Toggle _slideshow"
 msgstr "Hentikan slideshow"
 
-#: src/layout_util.c:1125
+#: src/layout_util.c:1127
 #, fuzzy
 msgid "_Refresh"
 msgstr "Refresh"
 
-#: src/layout_util.c:1127
+#: src/layout_util.c:1129
 #, fuzzy
 msgid "_Contents"
 msgstr "/Help/_About"
 
-#: src/layout_util.c:1128
+#: src/layout_util.c:1130
 #, fuzzy
 msgid "_Keyboard shortcuts"
 msgstr "/Help/_Keyboard shortcuts"
 
-#: src/layout_util.c:1129
+#: src/layout_util.c:1131
 #, fuzzy
 msgid "_Release notes"
 msgstr "/Help/_Release notes"
 
-#: src/layout_util.c:1130
+#: src/layout_util.c:1132
 #, fuzzy
 msgid "_About"
 msgstr "/Help/_About"
 
-#: src/layout_util.c:1134 src/layout_util.c:1498
+#: src/layout_util.c:1136 src/layout_util.c:1507
 #, fuzzy
 msgid "_Thumbnails"
 msgstr "Thumbnail"
 
-#: src/layout_util.c:1135
+#: src/layout_util.c:1137
 #, fuzzy
 msgid "Show _Marks"
 msgstr "Tampilkan sembunyi"
 
-#: src/layout_util.c:1136
-#, fuzzy
-msgid "Tr_ee"
-msgstr "/View/Tr_ee"
-
-#: src/layout_util.c:1137
+#: src/layout_util.c:1138
 #, fuzzy
 msgid "_Float file list"
 msgstr "/View/_Float file list"
 
-#: src/layout_util.c:1138
+#: src/layout_util.c:1139
 #, fuzzy
 msgid "Hide tool_bar"
 msgstr "/View/Hide tool_bar"
 
-#: src/layout_util.c:1139
+#: src/layout_util.c:1140
 #, fuzzy
 msgid "_Keywords"
 msgstr "/View/I_cons"
 
-#: src/layout_util.c:1140
+#: src/layout_util.c:1141
 #, fuzzy
 msgid "E_xif data"
 msgstr "/View/_List"
 
-#: src/layout_util.c:1141
+#: src/layout_util.c:1142
 #, fuzzy
 msgid "Sort _manager"
 msgstr "Urutkan berdasarkan nama"
 
-#: src/layout_util.c:1142
+#: src/layout_util.c:1143
 msgid "Connected scroll"
 msgstr ""
 
-#: src/layout_util.c:1143
+#: src/layout_util.c:1144
 msgid "Connected zoom"
 msgstr ""
 
-#: src/layout_util.c:1147
+#: src/layout_util.c:1148
 #, fuzzy
 msgid "_List"
 msgstr "/View/_List"
 
-#: src/layout_util.c:1148
+#: src/layout_util.c:1149
 #, fuzzy
 msgid "I_cons"
 msgstr "/View/I_cons"
 
-#: src/layout_util.c:1152
+#: src/layout_util.c:1153
 msgid "Horizontal"
 msgstr ""
 
-#: src/layout_util.c:1153
+#: src/layout_util.c:1154
 msgid "Vertical"
 msgstr ""
 
-#: src/layout_util.c:1154
+#: src/layout_util.c:1155
 msgid "Quad"
 msgstr ""
 
-#: src/layout_util.c:1155
+#: src/layout_util.c:1156
 #, fuzzy
 msgid "Single"
 msgstr "Ukuran"
 
-#: src/layout_util.c:1319
+#: src/layout_util.c:1325
 #, c-format
 msgid "Mark _%d"
 msgstr ""
 
-#: src/layout_util.c:1320 src/view_file_list.c:526
+#: src/layout_util.c:1326 src/view_file_list.c:526
 #, c-format
 msgid "_Set mark %d"
 msgstr ""
 
-#: src/layout_util.c:1321 src/view_file_list.c:527
+#: src/layout_util.c:1327 src/view_file_list.c:527
 #, c-format
 msgid "_Reset mark %d"
 msgstr ""
 
-#: src/layout_util.c:1322 src/view_file_list.c:528
+#: src/layout_util.c:1328 src/view_file_list.c:528
 #, c-format
 msgid "_Toggle mark %d"
 msgstr ""
 
-#: src/layout_util.c:1323 src/view_file_list.c:529
+#: src/layout_util.c:1329 src/view_file_list.c:529
 #, fuzzy, c-format
 msgid "_Select mark %d"
 msgstr "Pilih semua"
 
-#: src/layout_util.c:1324 src/view_file_list.c:530
+#: src/layout_util.c:1330 src/view_file_list.c:530
 #, fuzzy, c-format
 msgid "_Add mark %d"
 msgstr "Editor"
 
-#: src/layout_util.c:1325 src/view_file_list.c:531
+#: src/layout_util.c:1331 src/view_file_list.c:531
 #, c-format
 msgid "_Intersection with mark %d"
 msgstr ""
 
-#: src/layout_util.c:1326 src/view_file_list.c:532
+#: src/layout_util.c:1332 src/view_file_list.c:532
 #, c-format
 msgid "_Unselect mark %d"
 msgstr ""
 
-#: src/layout_util.c:1499
+#: src/layout_util.c:1508
 msgid "Show thumbnails"
 msgstr "Tampilkan thumbnail"
 
-#: src/layout_util.c:1504
+#: src/layout_util.c:1513
 #, fuzzy
 msgid "Change to home folder"
 msgstr "Rubah ke home direktori"
 
-#: src/layout_util.c:1506
+#: src/layout_util.c:1515
 msgid "Refresh file list"
 msgstr "Refresh daftar file"
 
-#: src/layout_util.c:1508
+#: src/layout_util.c:1517
 msgid "Zoom in"
 msgstr "Perbesar"
 
-#: src/layout_util.c:1510
+#: src/layout_util.c:1519
 msgid "Zoom out"
 msgstr "Perkecil"
 
-#: src/layout_util.c:1512 src/preferences.c:975
+#: src/layout_util.c:1521 src/preferences.c:943
 msgid "Fit image to window"
 msgstr "Sesuaikan image ke jendela"
 
-#: src/layout_util.c:1514
+#: src/layout_util.c:1523
 msgid "Set zoom 1:1"
 msgstr "Set zoom 1:1"
 
-#: src/layout_util.c:1516
+#: src/layout_util.c:1525
 msgid "Configure options"
 msgstr "Opsi konfigurasi"
 
-#: src/layout_util.c:1517
+#: src/layout_util.c:1526
 #, fuzzy
 msgid "_Float"
 msgstr "Normal"
 
-#: src/layout_util.c:1518
+#: src/layout_util.c:1527
 msgid "Float Controls"
 msgstr "Kendali Ambang"
 
-#: src/main.c:267
+#: src/main.c:293
 #, fuzzy
 msgid "Help"
 msgstr "/_Help"
 
-#: src/main.c:493 src/main.c:1438
+#: src/main.c:519 src/main.c:1496
 msgid "Command line"
 msgstr "Perintah baris"
 
 #. short, long                  callback,               extra, prefer,description
-#: src/main.c:531
+#: src/main.c:557
 #, fuzzy
 msgid "next image"
 msgstr "Preload gambar berikutnya"
 
-#: src/main.c:532
+#: src/main.c:558
 msgid "previous image"
 msgstr ""
 
-#: src/main.c:533
+#: src/main.c:559
 #, fuzzy
 msgid "first image"
 msgstr "%d image"
 
-#: src/main.c:534
+#: src/main.c:560
 #, fuzzy
 msgid "last image"
 msgstr "Preload gambar berikutnya"
 
-#: src/main.c:535
+#: src/main.c:561
 #, fuzzy
 msgid "toggle full screen"
 msgstr "Keluar layar penuh"
 
-#: src/main.c:536
+#: src/main.c:562
 #, fuzzy
 msgid "start full screen"
 msgstr "Keluar layar penuh"
 
-#: src/main.c:537
+#: src/main.c:563
 #, fuzzy
 msgid "stop full screen"
 msgstr "Keluar layar penuh"
 
-#: src/main.c:538
+#: src/main.c:564
 #, fuzzy
 msgid "toggle slide show"
 msgstr "Hentikan slideshow"
 
-#: src/main.c:539
+#: src/main.c:565
 #, fuzzy
 msgid "start slide show"
 msgstr "Mulai slideshow"
 
-#: src/main.c:540
+#: src/main.c:566
 #, fuzzy
 msgid "stop slide show"
 msgstr "Hentikan slideshow"
 
-#: src/main.c:541
+#: src/main.c:567
 #, fuzzy
 msgid "start recursive slide show"
 msgstr "Mulai slideshow"
 
-#: src/main.c:542
+#: src/main.c:568
 msgid "set slide show delay in seconds"
 msgstr ""
 
-#: src/main.c:543
+#: src/main.c:569
 msgid "show tools"
 msgstr ""
 
-#: src/main.c:544
+#: src/main.c:570
 #, fuzzy
 msgid "hide tools"
 msgstr "Tool Geeqie"
 
-#: src/main.c:545
+#: src/main.c:571
 msgid "quit"
 msgstr ""
 
-#: src/main.c:546
+#: src/main.c:572
 #, fuzzy
 msgid "open file"
 msgstr ""
@@ -2462,25 +2480,25 @@ msgstr ""
 "%s\n"
 "ke:"
 
-#: src/main.c:547
+#: src/main.c:573
 #, fuzzy
 msgid "open file in new window"
 msgstr "Lihat di jendela baru"
 
-#: src/main.c:613
+#: src/main.c:639
 msgid "Remote command list:\n"
 msgstr ""
 
-#: src/main.c:672
+#: src/main.c:698
 #, c-format
 msgid "Remote %s not running, starting..."
 msgstr ""
 
-#: src/main.c:811
+#: src/main.c:837
 msgid "Remote not available\n"
 msgstr ""
 
-#: src/main.c:1030
+#: src/main.c:1052
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [options] [path]\n"
@@ -2489,54 +2507,55 @@ msgstr ""
 "Penggunaan: gqview [options] [path]\n"
 "\n"
 
-#: src/main.c:1034
+#: src/main.c:1056
 msgid "valid options are:\n"
 msgstr "opsi valid:\n"
 
-#: src/main.c:1035
+#: src/main.c:1057
 msgid "  +t, --with-tools           force show of tools\n"
 msgstr "  +t, --with-tools           paksa tampilkan tool\n"
 
-#: src/main.c:1036
+#: src/main.c:1058
 msgid "  -t, --without-tools        force hide of tools\n"
 msgstr "  -t, --without-tools        paksa sembunyikan tool\n"
 
-#: src/main.c:1037
+#: src/main.c:1059
 msgid "  -f, --fullscreen           start in full screen mode\n"
 msgstr "  -f, --fullscreen           mulai dengan mode layar penuh\n"
 
-#: src/main.c:1038
+#: src/main.c:1060
 msgid "  -s, --slideshow            start in slideshow mode\n"
 msgstr "  -s, --slideshow            mulai dalam mode slideshow\n"
 
-#: src/main.c:1039
+#: src/main.c:1061
 msgid "  -l, --list                 open collection window for command line\n"
 msgstr ""
 "  -l, --list                 buka jendela koleksi untuk perintah baris\n"
 
-#: src/main.c:1040
+#: src/main.c:1062
 msgid "      --geometry=GEOMETRY    set main window location\n"
 msgstr ""
 
-#: src/main.c:1041
+#: src/main.c:1063
 #, fuzzy
 msgid "  -r, --remote               send following commands to open window\n"
 msgstr ""
 "  -l, --list                 buka jendela koleksi untuk perintah baris\n"
 
-#: src/main.c:1042
+#: src/main.c:1064
 msgid "  -rh,--remote-help          print remote command list\n"
 msgstr ""
 
-#: src/main.c:1044
-msgid "  --debug                    turn on debug output\n"
+#: src/main.c:1066
+#, fuzzy
+msgid "  --debug[=level]            turn on debug output\n"
 msgstr "  --debug                    adakan output debug\n"
 
-#: src/main.c:1046
+#: src/main.c:1068
 msgid "  -v, --version              print version info\n"
 msgstr "  -v, --version              cetak info versi\n"
 
-#: src/main.c:1047
+#: src/main.c:1069
 msgid ""
 "  -h, --help                 show this message\n"
 "\n"
@@ -2544,7 +2563,7 @@ msgstr ""
 "  -h, --help                 tampilkan pesan ini\n"
 "\n"
 
-#: src/main.c:1061
+#: src/main.c:1083
 #, c-format
 msgid ""
 "invalid or ignored: %s\n"
@@ -2553,35 +2572,35 @@ msgstr ""
 "tidak valid atau diabaikan: %s\n"
 "Gunakan --help untuk opsi\n"
 
-#: src/main.c:1137
+#: src/main.c:1193
 #, fuzzy, c-format
 msgid "Creating %s dir:%s\n"
 msgstr "Membuat direktori GQView: %s\n"
 
-#: src/main.c:1143
+#: src/main.c:1199
 #, c-format
 msgid "Could not create dir:%s\n"
 msgstr "Tidak dapat membuat dir: %s\n"
 
-#: src/main.c:1164 src/ui_bookmark.c:861 src/ui_pathsel.c:1043
+#: src/main.c:1220 src/ui_bookmark.c:859 src/ui_pathsel.c:1049
 msgid "Home"
 msgstr "Rumah"
 
-#: src/main.c:1166 src/ui_bookmark.c:868
+#: src/main.c:1222 src/ui_bookmark.c:866
 msgid "Desktop"
 msgstr ""
 
-#: src/main.c:1275
+#: src/main.c:1329
 #, fuzzy
 msgid "exit"
 msgstr "Keluar"
 
-#: src/main.c:1280
+#: src/main.c:1334
 #, fuzzy, c-format
 msgid "Quit %s"
 msgstr "Kualitas"
 
-#: src/main.c:1282
+#: src/main.c:1336
 #, fuzzy
 msgid "Collections have been modified. Quit anyway?"
 msgstr ""
@@ -2650,225 +2669,225 @@ msgstr "Membaca kemiripan data..."
 msgid "Sorting images..."
 msgstr "Membandingkan..."
 
-#: src/pan-view.c:1535 src/pan-view.c:1901
+#: src/pan-view.c:1543 src/pan-view.c:1909
 #, fuzzy
 msgid "Date:"
 msgstr "Tanggal"
 
-#: src/pan-view.c:1537 src/preferences.c:884 src/print.c:3243 src/print.c:3454
+#: src/pan-view.c:1545 src/preferences.c:852 src/print.c:3243 src/print.c:3454
 msgid "Size:"
 msgstr "Ukuran:"
 
-#: src/pan-view.c:1639
+#: src/pan-view.c:1647
 msgid "path found"
 msgstr ""
 
-#: src/pan-view.c:1639
+#: src/pan-view.c:1647
 #, fuzzy
 msgid "filename found"
 msgstr "Namafile:"
 
-#: src/pan-view.c:1687
+#: src/pan-view.c:1695
 msgid "partial match"
 msgstr ""
 
-#: src/pan-view.c:1898 src/pan-view.c:1931
+#: src/pan-view.c:1906 src/pan-view.c:1939
 msgid "no match"
 msgstr ""
 
-#: src/pan-view.c:2257 src/search.c:2129
+#: src/pan-view.c:2265 src/search.c:2129
 msgid "Folder not found"
 msgstr ""
 
-#: src/pan-view.c:2258
+#: src/pan-view.c:2266
 msgid "The entered path is not a folder"
 msgstr ""
 
-#: src/pan-view.c:2357
+#: src/pan-view.c:2365
 #, fuzzy
 msgid "Pan View"
 msgstr "Bantuan - Geeqie"
 
-#: src/pan-view.c:2382
+#: src/pan-view.c:2390
 #, fuzzy
 msgid "Timeline"
 msgstr "Bilinear"
 
-#: src/pan-view.c:2383
+#: src/pan-view.c:2391
 #, fuzzy
 msgid "Calendar"
 msgstr "Bersihkan"
 
-#: src/pan-view.c:2385
+#: src/pan-view.c:2393
 #, fuzzy
 msgid "Folders (flower)"
 msgstr "File"
 
-#: src/pan-view.c:2386
+#: src/pan-view.c:2394
 msgid "Grid"
 msgstr ""
 
-#: src/pan-view.c:2395
+#: src/pan-view.c:2403
 #, fuzzy
 msgid "Dots"
 msgstr "Xpaint"
 
-#: src/pan-view.c:2396
+#: src/pan-view.c:2404
 #, fuzzy
 msgid "No Images"
 msgstr "Image"
 
-#: src/pan-view.c:2397
+#: src/pan-view.c:2405
 #, fuzzy
 msgid "Small Thumbnails"
 msgstr "Thumbnail"
 
-#: src/pan-view.c:2398
+#: src/pan-view.c:2406
 #, fuzzy
 msgid "Normal Thumbnails"
 msgstr "Thumbnail"
 
-#: src/pan-view.c:2399
+#: src/pan-view.c:2407
 #, fuzzy
 msgid "Large Thumbnails"
 msgstr "Menghapus thumbnail"
 
-#: src/pan-view.c:2400 src/pan-view.c:2840
+#: src/pan-view.c:2408 src/pan-view.c:2848
 msgid "1:10 (10%)"
 msgstr ""
 
-#: src/pan-view.c:2401 src/pan-view.c:2836
+#: src/pan-view.c:2409 src/pan-view.c:2844
 msgid "1:4 (25%)"
 msgstr ""
 
-#: src/pan-view.c:2402 src/pan-view.c:2832
+#: src/pan-view.c:2410 src/pan-view.c:2840
 msgid "1:3 (33%)"
 msgstr ""
 
-#: src/pan-view.c:2403 src/pan-view.c:2828
+#: src/pan-view.c:2411 src/pan-view.c:2836
 msgid "1:2 (50%)"
 msgstr ""
 
-#: src/pan-view.c:2404
+#: src/pan-view.c:2412
 msgid "1:1 (100%)"
 msgstr ""
 
-#: src/pan-view.c:2452
+#: src/pan-view.c:2460
 #, fuzzy
 msgid "Find:"
 msgstr "Filter:"
 
-#: src/pan-view.c:2495
+#: src/pan-view.c:2503
 #, fuzzy
 msgid "Use Exif date"
 msgstr "/View/_List"
 
-#: src/pan-view.c:2508
+#: src/pan-view.c:2516
 msgid "Find"
 msgstr ""
 
-#: src/pan-view.c:2575
+#: src/pan-view.c:2583
 msgid "Pan View Performance"
 msgstr ""
 
-#: src/pan-view.c:2582
+#: src/pan-view.c:2590
 msgid "Pan view performance may be poor."
 msgstr ""
 
-#: src/pan-view.c:2583
+#: src/pan-view.c:2591
 msgid ""
 "To improve performance of thumbnails in the pan view the following options "
 "can be enabled. Note that both options must be enabled to notice a change in "
 "performance."
 msgstr ""
 
-#: src/pan-view.c:2591 src/preferences.c:887
+#: src/pan-view.c:2599 src/preferences.c:855
 msgid "Cache thumbnails"
 msgstr "Cache thumbnail"
 
-#: src/pan-view.c:2593 src/preferences.c:893
+#: src/pan-view.c:2601 src/preferences.c:861
 msgid "Use shared thumbnail cache"
 msgstr ""
 
-#: src/pan-view.c:2599
+#: src/pan-view.c:2607
 msgid "Do not show this dialog again"
-msgstr ""
-
-#: src/pan-view.c:2808
-#, fuzzy
-msgid "Sort by E_xif date"
-msgstr "Urutkan berdasarkan tanggal"
-
-#: src/pan-view.c:2814
-msgid "_Show Exif information"
 msgstr ""
 
 #: src/pan-view.c:2816
 #, fuzzy
+msgid "Sort by E_xif date"
+msgstr "Urutkan berdasarkan tanggal"
+
+#: src/pan-view.c:2822
+msgid "_Show Exif information"
+msgstr ""
+
+#: src/pan-view.c:2824
+#, fuzzy
 msgid "Show im_age"
 msgstr "Tampilkan sembunyi"
 
-#: src/pan-view.c:2820
+#: src/pan-view.c:2828
 #, fuzzy
 msgid "_None"
 msgstr "Tidak ada"
 
-#: src/pan-view.c:2824
+#: src/pan-view.c:2832
 #, fuzzy
 msgid "_Full size"
 msgstr "Ukuran file:"
 
 #. note: the order is important, it must match the values of
 #. * EXIF_UI_OFF, _IFSET, _ON
-#: src/preferences.c:437
+#: src/preferences.c:379
 msgid "Never"
 msgstr ""
 
-#: src/preferences.c:438
+#: src/preferences.c:380
 msgid "If set"
 msgstr ""
 
-#: src/preferences.c:439
+#: src/preferences.c:381
 msgid "Always"
 msgstr ""
 
-#: src/preferences.c:486
+#: src/preferences.c:428
 msgid "Nearest (worst, but fastest)"
 msgstr "Terdekat (terjelek, namun tercepat)"
 
-#: src/preferences.c:488
+#: src/preferences.c:430
 msgid "Tiles"
 msgstr "Ubin"
 
-#: src/preferences.c:490
+#: src/preferences.c:432
 msgid "Bilinear"
 msgstr "Bilinear"
 
-#: src/preferences.c:492
+#: src/preferences.c:434
 msgid "Hyper (best, but slowest)"
 msgstr "Hiper (terbaik, namun terlambat)"
 
-#: src/preferences.c:520
+#: src/preferences.c:462
 msgid "None"
 msgstr "Tidak ada"
 
-#: src/preferences.c:521
+#: src/preferences.c:463
 msgid "Normal"
 msgstr "Normal"
 
-#: src/preferences.c:522
+#: src/preferences.c:464
 msgid "Best"
 msgstr "Terbaik"
 
-#: src/preferences.c:583 src/print.c:370
+#: src/preferences.c:525 src/print.c:370
 msgid "Custom"
 msgstr ""
 
-#: src/preferences.c:747 src/preferences.c:750
+#: src/preferences.c:689 src/preferences.c:692
 msgid "Reset filters"
 msgstr "Reset filter"
 
-#: src/preferences.c:751
+#: src/preferences.c:693
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
@@ -2876,12 +2895,12 @@ msgstr ""
 "Akan mereset file filter ke bakunya.\n"
 "Lanjutkan?"
 
-#: src/preferences.c:785 src/preferences.c:788
+#: src/preferences.c:727 src/preferences.c:730
 #, fuzzy
 msgid "Reset editors"
 msgstr "Reset filter"
 
-#: src/preferences.c:789
+#: src/preferences.c:731
 #, fuzzy
 msgid ""
 "This will reset the edit commands to the defaults.\n"
@@ -2890,244 +2909,268 @@ msgstr ""
 "Akan mereset file filter ke bakunya.\n"
 "Lanjutkan?"
 
-#: src/preferences.c:813 src/preferences.c:816
+#: src/preferences.c:755 src/preferences.c:758
 #, fuzzy
 msgid "Clear trash"
 msgstr "Hapus cache"
 
-#: src/preferences.c:817
+#: src/preferences.c:759
 msgid "This will remove the trash contents."
 msgstr ""
 
-#: src/preferences.c:865
+#: src/preferences.c:803 src/preferences.c:806
+#, fuzzy
+msgid "Reset fullscreen info string"
+msgstr "Layar penuh"
+
+#: src/preferences.c:807
+#, fuzzy
+msgid ""
+"This will reset the fullscreen info string to the default.\n"
+"Continue?"
+msgstr ""
+"Akan mereset file filter ke bakunya.\n"
+"Lanjutkan?"
+
+#: src/preferences.c:833
 #, fuzzy
 msgid "Startup"
 msgstr "Mulai #"
 
-#: src/preferences.c:867
+#: src/preferences.c:835
 #, fuzzy
 msgid "Change to folder:"
 msgstr "Rubah ke home direktori"
 
-#: src/preferences.c:878
+#: src/preferences.c:846
 msgid "Use current"
 msgstr "Gunakan saat ini"
 
-#: src/preferences.c:885 src/preferences.c:947
+#: src/preferences.c:853 src/preferences.c:915
 msgid "Quality:"
 msgstr "Kualitas:"
 
-#: src/preferences.c:899
+#: src/preferences.c:867
 msgid "Cache thumbnails into .thumbnails"
 msgstr "Cache thumbnail ke thumbnail"
 
-#: src/preferences.c:903
+#: src/preferences.c:871
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr "Gunakan xvpics thumbnail bila ditemukan (hanya-baca)"
 
-#: src/preferences.c:907
+#: src/preferences.c:875
 msgid "Faster jpeg thumbnailing (may reduce quality)"
 msgstr ""
 
-#: src/preferences.c:910
+#: src/preferences.c:878
 msgid "Slide show"
 msgstr "Slide show"
 
-#: src/preferences.c:913
+#: src/preferences.c:881
 #, fuzzy
 msgid "Delay between image change:"
 msgstr "Tunda sebelum gambar berubah (detik):"
 
-#: src/preferences.c:913
+#: src/preferences.c:881
 msgid "seconds"
 msgstr ""
 
-#: src/preferences.c:919
+#: src/preferences.c:887
 msgid "Random"
 msgstr "Acak"
 
-#: src/preferences.c:920
+#: src/preferences.c:888
 msgid "Repeat"
 msgstr "Berulang"
 
-#: src/preferences.c:941
+#: src/preferences.c:909
 #, fuzzy
 msgid "Zoom"
 msgstr "Perbesar"
 
-#: src/preferences.c:944
+#: src/preferences.c:912
 msgid "Dithering method:"
 msgstr "Metode dithering:"
 
-#: src/preferences.c:949
+#: src/preferences.c:917
 msgid "Two pass zooming"
 msgstr "Zoom 2-pass"
 
-#: src/preferences.c:952
+#: src/preferences.c:920
 #, fuzzy
 msgid "Allow enlargement of image for zoom to fit"
 msgstr "Ekspansi gambar untuk zoom agar sesuai."
 
-#: src/preferences.c:956
+#: src/preferences.c:924
 #, fuzzy
 msgid "Limit image size when autofitting (%):"
 msgstr "Batasi ukuran ketika jendela auto-sizing (%):"
 
-#: src/preferences.c:964
+#: src/preferences.c:932
 msgid "Zoom increment:"
 msgstr "Inkrementasi zoom:"
 
-#: src/preferences.c:969
+#: src/preferences.c:937
 msgid "When new image is selected:"
 msgstr "Ketika gambar baru terpilih:"
 
-#: src/preferences.c:972
+#: src/preferences.c:940
 msgid "Zoom to original size"
 msgstr "Zoom ke ukuran asli"
 
-#: src/preferences.c:978
+#: src/preferences.c:946
 msgid "Leave Zoom at previous setting"
 msgstr "Biarkan zoom pada setting sebelumnya"
 
-#: src/preferences.c:982
+#: src/preferences.c:950
 #, fuzzy
 msgid "Appearance"
 msgstr "Tambah"
 
-#: src/preferences.c:984
-msgid "User specified background color"
+#: src/preferences.c:952
+msgid "Custom border color"
 msgstr ""
 
-#: src/preferences.c:990
+#: src/preferences.c:955
+#, fuzzy
+msgid "Border color"
+msgstr "Latar belakang hitam"
+
+#: src/preferences.c:958
 #, fuzzy
 msgid "Convenience"
 msgstr "Lanjut"
 
-#: src/preferences.c:992
+#: src/preferences.c:960
 #, fuzzy
 msgid "Refresh on file change"
 msgstr "Refresh daftar file"
 
-#: src/preferences.c:994
+#: src/preferences.c:962
 msgid "Preload next image"
 msgstr "Preload gambar berikutnya"
 
-#: src/preferences.c:996
+#: src/preferences.c:964
 msgid "Auto rotate image using Exif information"
 msgstr ""
 
-#: src/preferences.c:1013
+#: src/preferences.c:981
 msgid "Windows"
 msgstr "Jendela"
 
-#: src/preferences.c:1016
+#: src/preferences.c:984
 #, fuzzy
 msgid "State"
 msgstr "Mulai #"
 
-#: src/preferences.c:1018
+#: src/preferences.c:986
 msgid "Remember window positions"
 msgstr "Ingat posisi jendela"
 
-#: src/preferences.c:1020
+#: src/preferences.c:988
 msgid "Remember tool state (float/hidden)"
 msgstr "Ingat status tool (float/sembunyi)"
 
-#: src/preferences.c:1025
+#: src/preferences.c:993
 msgid "Fit window to image when tools are hidden/floating"
 msgstr "Sesuaikan jendela dengan gambar ketika tool sembunyi/mengambang"
 
-#: src/preferences.c:1029
+#: src/preferences.c:997
 msgid "Limit size when auto-sizing window (%):"
 msgstr "Batasi ukuran ketika jendela auto-sizing (%):"
 
-#: src/preferences.c:1036 src/print.c:3402 src/print.c:3409
+#: src/preferences.c:1004 src/print.c:3402 src/print.c:3409
 msgid "Layout"
 msgstr "Layout"
 
-#: src/preferences.c:1063
+#: src/preferences.c:1031
 msgid "Filtering"
 msgstr "Filter"
 
-#: src/preferences.c:1068
-msgid "Show entries that begin with a dot"
-msgstr "Tampilkan entri yang dimulai dengan titik"
+#: src/preferences.c:1036
+msgid "Show hidden files or folders"
+msgstr ""
 
-#: src/preferences.c:1070
+#: src/preferences.c:1038
+#, fuzzy
+msgid "Show dot directory"
+msgstr "Direktori Baru"
+
+#: src/preferences.c:1040
 msgid "Case sensitive sort"
 msgstr ""
 
-#: src/preferences.c:1073
+#: src/preferences.c:1043
 msgid "Disable File Filtering"
 msgstr "Tiadakan File Filtering"
 
-#: src/preferences.c:1077
+#: src/preferences.c:1047
 msgid "Grouping sidecar extensions"
 msgstr ""
 
-#: src/preferences.c:1084
+#: src/preferences.c:1054
 #, fuzzy
 msgid "File types"
 msgstr "Tanggal file:"
 
-#: src/preferences.c:1106
+#: src/preferences.c:1076
 #, fuzzy
 msgid "Filter"
 msgstr "Filter:"
 
-#: src/preferences.c:1143 src/preferences.c:1229
+#: src/preferences.c:1113 src/preferences.c:1199 src/preferences.c:1339
 msgid "Defaults"
 msgstr "Baku"
 
-#: src/preferences.c:1172
+#: src/preferences.c:1142
 msgid "Editors"
 msgstr "Editor"
 
-#: src/preferences.c:1178
+#: src/preferences.c:1148
 msgid "#"
 msgstr "#"
 
-#: src/preferences.c:1181 src/preferences.c:1451
+#: src/preferences.c:1151 src/preferences.c:1429
 msgid "Menu name"
 msgstr "Nama menu"
 
-#: src/preferences.c:1184
+#: src/preferences.c:1154
 msgid "Command Line"
 msgstr "Perintah baris"
 
-#: src/preferences.c:1256
+#: src/preferences.c:1226
 #, fuzzy
 msgid "Properties"
 msgstr "Properti"
 
-#: src/preferences.c:1274
+#: src/preferences.c:1244
 msgid "What to show in properties dialog:"
 msgstr ""
 
-#: src/preferences.c:1311
+#: src/preferences.c:1281
 msgid "Advanced"
 msgstr ""
 
-#: src/preferences.c:1332
+#: src/preferences.c:1302
 #, fuzzy
 msgid "Smooth image flip"
 msgstr "Ukuran image:"
 
-#: src/preferences.c:1334
+#: src/preferences.c:1304
 msgid "Disable screen saver"
 msgstr ""
 
-#: src/preferences.c:1336
+#: src/preferences.c:1306
 #, fuzzy
 msgid "Always show fullscreen info"
 msgstr "Keluar layar penuh"
 
-#: src/preferences.c:1338
+#: src/preferences.c:1308
 #, fuzzy
 msgid "Fullscreen info string"
 msgstr "Layar penuh"
 
-#: src/preferences.c:1352
+#: src/preferences.c:1322
 msgid ""
 "<i>%name%</i> results in the filename of the picture.\n"
 "Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>%"
@@ -3137,6 +3180,8 @@ msgid ""
 "To access exif data use the exif name, e. g. <i>%fCamera%</i> is the "
 "formatted camera name,\n"
 "<i>%Exif.Photo.DateTimeOriginal%</i> the date of the original shot.\n"
+"<i>%fCamera:20</i> notation will truncate the displayed data to 20 "
+"characters and will add 3 dots at the end to denote the truncation.\n"
 "If two or more variables are connected with the |-sign, it prints available "
 "variables with a separator.\n"
 "<i>%fShutterSpeed%</i>|<i>%fISOSpeedRating%</i>|<i>%fFocalLength%</i> could "
@@ -3146,127 +3191,127 @@ msgid ""
 "disappear when no data is available.\n"
 msgstr ""
 
-#: src/preferences.c:1371
+#: src/preferences.c:1349
 msgid "Delete"
 msgstr "Hapus"
 
-#: src/preferences.c:1373
+#: src/preferences.c:1351
 msgid "Confirm file delete"
 msgstr "Konfirmasi hapus file"
 
-#: src/preferences.c:1375
+#: src/preferences.c:1353
 msgid "Enable Delete key"
 msgstr "Adakan kunci hapus"
 
-#: src/preferences.c:1378
+#: src/preferences.c:1356
 #, fuzzy
 msgid "Safe delete"
 msgstr "Konfirmasi hapus file"
 
-#: src/preferences.c:1396
+#: src/preferences.c:1374
 #, fuzzy
 msgid "Maximum size:"
 msgstr "Ukuran file:"
 
-#: src/preferences.c:1396
+#: src/preferences.c:1374
 msgid "MB"
 msgstr ""
 
-#: src/preferences.c:1399
+#: src/preferences.c:1377
 msgid "Set to 0 for unlimited size"
 msgstr ""
 
-#: src/preferences.c:1401
+#: src/preferences.c:1379
 msgid "View"
 msgstr "Lihat"
 
-#: src/preferences.c:1411
+#: src/preferences.c:1389
 msgid "Behavior"
 msgstr ""
 
-#: src/preferences.c:1413
+#: src/preferences.c:1391
 #, fuzzy
 msgid "Rectangular selection in icon view"
 msgstr "Seleksi kotak"
 
-#: src/preferences.c:1416
+#: src/preferences.c:1394
 msgid "Descend folders in tree view"
 msgstr "Folder descend dalam view pohon"
 
-#: src/preferences.c:1419
+#: src/preferences.c:1397
 msgid "In place renaming"
 msgstr "Menggantikan"
 
-#: src/preferences.c:1422
+#: src/preferences.c:1400
 msgid "Navigation"
 msgstr ""
 
-#: src/preferences.c:1424
+#: src/preferences.c:1402
 msgid "Progressive keyboard scrolling"
 msgstr "Scrolling keyboard progresif"
 
-#: src/preferences.c:1426
+#: src/preferences.c:1404
 msgid "Mouse wheel scrolls image"
 msgstr "Scrool gambar roda mouse "
 
-#: src/preferences.c:1429
+#: src/preferences.c:1407
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/preferences.c:1431
+#: src/preferences.c:1409
 msgid "Store keywords and comments local to source images"
 msgstr ""
 
-#: src/preferences.c:1434
+#: src/preferences.c:1412
 msgid "Custom similarity threshold:"
 msgstr "Ambang kesamaan kustom:"
 
-#: src/preferences.c:1437
+#: src/preferences.c:1415
 msgid "Offscreen cache size (Mb per image):"
 msgstr "Ukuran cache offscreen (Mb per gambar):"
 
-#: src/preferences.c:1440
+#: src/preferences.c:1418
 #, fuzzy
 msgid "Color profiles"
 msgstr "Semua file"
 
-#: src/preferences.c:1448
+#: src/preferences.c:1426
 msgid "Type"
 msgstr ""
 
-#: src/preferences.c:1454
+#: src/preferences.c:1432
 #, fuzzy
 msgid "File"
 msgstr "Filter:"
 
-#: src/preferences.c:1476 src/preferences.c:1487
+#: src/preferences.c:1457 src/preferences.c:1468
 #, fuzzy
 msgid "Select color profile"
 msgstr "Tidak ada yang dipilih"
 
-#: src/preferences.c:1484
+#: src/preferences.c:1465
 msgid "Screen:"
 msgstr ""
 
-#: src/preferences.c:1495
+#: src/preferences.c:1476
 msgid "Debugging"
 msgstr ""
 
-#: src/preferences.c:1497
+#: src/preferences.c:1478
 msgid "Debug level:"
 msgstr ""
 
-#: src/preferences.c:1511
+#: src/preferences.c:1494
 #, fuzzy
 msgid "Preferences"
 msgstr "Properti"
 
-#: src/preferences.c:1634
+#: src/preferences.c:1617
 #, fuzzy
 msgid "About"
 msgstr "/Help/_About"
 
-#: src/preferences.c:1651
+#: src/preferences.c:1634
 #, fuzzy, c-format
 msgid ""
 "%s %s\n"
@@ -3285,7 +3330,7 @@ msgstr ""
 "\n"
 "Released under the GNU General Public License"
 
-#: src/preferences.c:1670
+#: src/preferences.c:1653
 #, fuzzy
 msgid "Credits..."
 msgstr "Properti"
@@ -3452,7 +3497,7 @@ msgid ""
 "\"%s\""
 msgstr ""
 
-#: src/print.c:1064 src/print.c:1504 src/ui_pathsel.c:424
+#: src/print.c:1064 src/print.c:1504 src/ui_pathsel.c:430
 #: src/view_file_list.c:630
 #, fuzzy, c-format
 msgid "A file with name %s already exists."
@@ -3601,52 +3646,12 @@ msgstr ""
 msgid "Remember print settings"
 msgstr "Ingat posisi jendela"
 
-#: src/rcfile.c:350
-#, fuzzy
-msgid "Cannot read the file"
-msgstr "Tidak dapat membuat direktori"
-
-#: src/rcfile.c:352
-#, fuzzy
-msgid "Cannot get file status"
-msgstr "Bandingkan dua set file"
-
-#: src/rcfile.c:354
-msgid "Cannot access the file"
-msgstr ""
-
-#: src/rcfile.c:356
-#, fuzzy
-msgid "Cannot create temp file"
-msgstr "Tidak dapat membuat direktori"
-
-#: src/rcfile.c:358
-#, fuzzy
-msgid "Cannot rename the file"
-msgstr "Tidak dapat membuat direktori"
-
-#: src/rcfile.c:360
-msgid "File saving disabled by option"
-msgstr ""
-
-#: src/rcfile.c:362
-msgid "Out of memory"
-msgstr ""
-
-#: src/rcfile.c:364
-msgid "Cannot write the file"
-msgstr ""
-
-#: src/rcfile.c:368
-msgid "Secure file saving error"
-msgstr ""
-
-#: src/rcfile.c:606
+#: src/rcfile.c:278
 #, c-format
 msgid "error saving config file: %s\n"
 msgstr "kesalahan menyimpan file config: %s\n"
 
-#: src/rcfile.c:813
+#: src/rcfile.c:529
 #, fuzzy, c-format
 msgid ""
 "error saving config file: %s\n"
@@ -3801,6 +3806,46 @@ msgstr "Kemiripan"
 msgid "Rank"
 msgstr "Acak"
 
+#: src/secure_save.c:376
+#, fuzzy
+msgid "Cannot read the file"
+msgstr "Tidak dapat membuat direktori"
+
+#: src/secure_save.c:378
+#, fuzzy
+msgid "Cannot get file status"
+msgstr "Bandingkan dua set file"
+
+#: src/secure_save.c:380
+msgid "Cannot access the file"
+msgstr ""
+
+#: src/secure_save.c:382
+#, fuzzy
+msgid "Cannot create temp file"
+msgstr "Tidak dapat membuat direktori"
+
+#: src/secure_save.c:384
+#, fuzzy
+msgid "Cannot rename the file"
+msgstr "Tidak dapat membuat direktori"
+
+#: src/secure_save.c:386
+msgid "File saving disabled by option"
+msgstr ""
+
+#: src/secure_save.c:388
+msgid "Out of memory"
+msgstr ""
+
+#: src/secure_save.c:390
+msgid "Cannot write the file"
+msgstr ""
+
+#: src/secure_save.c:394
+msgid "Secure file saving error"
+msgstr ""
+
 #: src/thumb.c:380
 msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
 msgstr "Gambar thumbnail di cache gagal dimuatkan, coba buat ulang.\n"
@@ -3810,45 +3855,45 @@ msgstr "Gambar thumbnail di cache gagal dimuatkan, coba buat ulang.\n"
 msgid "Unable to write history lists to: %s\n"
 msgstr "Tidak dapat menulis daftar sejarah ke: %s\n"
 
-#: src/ui_bookmark.c:448 src/ui_bookmark.c:511
+#: src/ui_bookmark.c:446 src/ui_bookmark.c:509
 msgid "New Bookmark"
 msgstr ""
 
-#: src/ui_bookmark.c:594 src/ui_bookmark.c:600
+#: src/ui_bookmark.c:592 src/ui_bookmark.c:598
 #, fuzzy
 msgid "Edit Bookmark"
 msgstr "Editor"
 
-#: src/ui_bookmark.c:615
+#: src/ui_bookmark.c:613
 #, fuzzy
 msgid "Path:"
 msgstr "Path"
 
-#: src/ui_bookmark.c:624
+#: src/ui_bookmark.c:622
 msgid "Icon:"
 msgstr ""
 
-#: src/ui_bookmark.c:630
+#: src/ui_bookmark.c:628
 #, fuzzy
 msgid "Select icon"
 msgstr "Tidak ada yang dipilih"
 
-#: src/ui_bookmark.c:721
+#: src/ui_bookmark.c:719
 #, fuzzy
 msgid "_Properties..."
 msgstr "Properti"
 
-#: src/ui_bookmark.c:723
+#: src/ui_bookmark.c:721
 #, fuzzy
 msgid "Move _up"
 msgstr "Pindah"
 
-#: src/ui_bookmark.c:725
+#: src/ui_bookmark.c:723
 #, fuzzy
 msgid "Move _down"
 msgstr "Pindah"
 
-#: src/ui_bookmark.c:727
+#: src/ui_bookmark.c:725
 #, fuzzy
 msgid "_Remove"
 msgstr "Pindahkan"
@@ -3862,12 +3907,12 @@ msgstr ""
 "Tidak dapat memuatkan:\n"
 "%s"
 
-#: src/ui_pathsel.c:430 src/utilops.c:2983
+#: src/ui_pathsel.c:436 src/utilops.c:2983
 #, c-format
 msgid "Failed to rename %s to %s."
 msgstr "Gagal mengganti nama %s ke %s."
 
-#: src/ui_pathsel.c:486 src/utilops.c:1634 src/utilops.c:1827
+#: src/ui_pathsel.c:492 src/utilops.c:1634 src/utilops.c:1827
 #, c-format
 msgid ""
 "Unable to delete file:\n"
@@ -3876,16 +3921,16 @@ msgstr ""
 "Tidak dapat menghapus file:\n"
 "%s"
 
-#: src/ui_pathsel.c:487 src/utilops.c:1576 src/utilops.c:1596
+#: src/ui_pathsel.c:493 src/utilops.c:1576 src/utilops.c:1596
 #: src/utilops.c:1808 src/utilops.c:1820 src/utilops.c:1828
 msgid "File deletion failed"
 msgstr "Gagal hapus file"
 
-#: src/ui_pathsel.c:529 src/ui_pathsel.c:537 src/utilops.c:1858
+#: src/ui_pathsel.c:535 src/ui_pathsel.c:543 src/utilops.c:1858
 msgid "Delete file"
 msgstr "Hapus file"
 
-#: src/ui_pathsel.c:535
+#: src/ui_pathsel.c:541
 #, c-format
 msgid ""
 "About to delete the file:\n"
@@ -3894,29 +3939,28 @@ msgstr ""
 "Akan menghapus file:\n"
 "%s"
 
-#: src/ui_pathsel.c:626 src/ui_pathsel.c:634 src/utilops.c:2552
+#: src/ui_pathsel.c:632 src/ui_pathsel.c:640 src/utilops.c:2552
 #: src/utilops.c:2814
 #, fuzzy
 msgid "_Rename"
 msgstr "Ganti nama"
 
-#: src/ui_pathsel.c:628 src/ui_pathsel.c:638
+#: src/ui_pathsel.c:634 src/ui_pathsel.c:644
 #, fuzzy
 msgid "Add _Bookmark"
 msgstr "Editor"
 
-#: src/ui_pathsel.c:636
+#: src/ui_pathsel.c:642
 #, fuzzy
 msgid "_Delete"
 msgstr "Hapus"
 
-#: src/ui_pathsel.c:740 src/ui_pathsel.c:1045 src/utilops.c:2931
+#: src/ui_pathsel.c:746 src/ui_pathsel.c:1051 src/utilops.c:2931
 #, fuzzy
 msgid "New folder"
 msgstr "Folder baru..."
 
-#: src/ui_pathsel.c:750 src/utilops.c:2886 src/view_dir_list.c:328
-#: src/view_dir_tree.c:420
+#: src/ui_pathsel.c:756 src/utilops.c:2886 src/view_dir.c:467
 #, fuzzy, c-format
 msgid ""
 "Unable to create folder:\n"
@@ -3925,21 +3969,20 @@ msgstr ""
 "Tidak dapat membuat direktori baru:\n"
 "%s"
 
-#: src/ui_pathsel.c:751 src/utilops.c:2887 src/view_dir_list.c:329
-#: src/view_dir_tree.c:421
+#: src/ui_pathsel.c:757 src/utilops.c:2887 src/view_dir.c:468
 #, fuzzy
 msgid "Error creating folder"
 msgstr "Gagal membuat direktori"
 
-#: src/ui_pathsel.c:972
+#: src/ui_pathsel.c:978
 msgid "All Files"
 msgstr "Semua file"
 
-#: src/ui_pathsel.c:1048
+#: src/ui_pathsel.c:1054
 msgid "Show hidden"
 msgstr "Tampilkan sembunyi"
 
-#: src/ui_pathsel.c:1132
+#: src/ui_pathsel.c:1138
 msgid "Filter:"
 msgstr "Filter:"
 
@@ -4170,7 +4213,7 @@ msgstr ""
 msgid "Please select an existing folder."
 msgstr "Silakan pilih direktori yang ada"
 
-#: src/utilops.c:1174 src/view_dir_list.c:209 src/view_dir_tree.c:301
+#: src/utilops.c:1174 src/view_dir.c:296
 #, fuzzy
 msgid "_Copy"
 msgstr "Salin"
@@ -4188,7 +4231,7 @@ msgstr ""
 msgid "Copy multiple files"
 msgstr "Salin banyak file ke:"
 
-#: src/utilops.c:1188 src/view_dir_list.c:211 src/view_dir_tree.c:303
+#: src/utilops.c:1188 src/view_dir.c:298
 #, fuzzy
 msgid "_Move"
 msgstr "Pindah"
@@ -4608,45 +4651,60 @@ msgstr "Hapus file"
 msgid "Contents:"
 msgstr "/Help/_About"
 
-#: src/view_dir_list.c:319 src/view_dir_tree.c:411
+#: src/view_dir.c:27
+#, fuzzy
+msgid "List"
+msgstr "/View/_List"
+
+#: src/view_dir.c:28
+#, fuzzy
+msgid "Tr_ee"
+msgstr "/View/Tr_ee"
+
+#: src/view_dir.c:458
 msgid "new_folder"
 msgstr "new_folder"
 
-#: src/view_dir_list.c:385 src/view_dir_tree.c:485
+#: src/view_dir.c:540
 #, fuzzy
 msgid "_Up to parent"
 msgstr "Ke orangtua"
 
-#: src/view_dir_list.c:390 src/view_dir_tree.c:490
+#: src/view_dir.c:545
 #, fuzzy
 msgid "_Slideshow"
 msgstr "Slideshow"
 
-#: src/view_dir_list.c:392 src/view_dir_tree.c:492
+#: src/view_dir.c:547
 msgid "Slideshow recursive"
 msgstr "Rekursif Slideshow"
 
-#: src/view_dir_list.c:396 src/view_dir_tree.c:496
+#: src/view_dir.c:551
 #, fuzzy
 msgid "Find _duplicates..."
 msgstr "Cari duplikat..."
 
-#: src/view_dir_list.c:398 src/view_dir_tree.c:498
+#: src/view_dir.c:553
 msgid "Find duplicates recursive..."
 msgstr "Cari rekursif ganda..."
 
-#: src/view_dir_list.c:405 src/view_dir_tree.c:505
+#: src/view_dir.c:558
 #, fuzzy
 msgid "_New folder..."
 msgstr "Folder baru..."
 
-#: src/view_dir_list.c:419 src/view_dir_tree.c:514
+#. FIXME
+#: src/view_dir.c:568
 #, fuzzy
 msgid "View as _tree"
 msgstr "Lihat sebagai pohon"
 
-#: src/view_dir_list.c:421 src/view_dir_tree.c:516 src/view_file_icon.c:354
-#: src/view_file_list.c:600
+#: src/view_dir.c:570
+#, fuzzy
+msgid "Show _hidden files"
+msgstr "Tampilkan sembunyi"
+
+#: src/view_dir.c:573 src/view_file_icon.c:354 src/view_file_list.c:600
 #, fuzzy
 msgid "Re_fresh"
 msgstr "Refresh"
@@ -4678,6 +4736,9 @@ msgstr ""
 #: src/view_file_list.c:2026
 msgid "SC"
 msgstr ""
+
+#~ msgid "Show entries that begin with a dot"
+#~ msgstr "Tampilkan entri yang dimulai dengan titik"
 
 #~ msgid "Find duplicates - Geeqie"
 #~ msgstr "Cari duplikat.-. Geeqie"
@@ -5064,9 +5125,6 @@ msgstr ""
 
 #~ msgid "Initial directory"
 #~ msgstr "Direktori awal"
-
-#~ msgid "New Directory"
-#~ msgstr "Direktori Baru"
 
 #~ msgid ""
 #~ "Unable to create directory:\n"
