@@ -116,7 +116,7 @@ static void image_complete_util(ImageWindow *imd, gint preload)
 {
 	if (imd->il && image_get_pixbuf(imd) != image_loader_get_pixbuf(imd->il)) return;
 
-	if (debug) printf("image load completed \"%s\" (%s)\n",
+	if (debug) printf("%s image load completed \"%s\" (%s)\n", get_exec_time(),
 			  (preload) ? (imd->read_ahead_fd ? imd->read_ahead_fd->path : "null") : 
 			              (imd->image_fd ? imd->image_fd->path : "null"),
 			  (preload) ? "preload" : "current");
@@ -289,6 +289,7 @@ static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp)
 
 	if (exif_rotate) image_state_set(imd, IMAGE_STATE_ROTATE_AUTO);
 	layout_image_overlay_update(layout_find_by_image(imd));
+	if (debug) printf("%s image postprocess done: %s\n", get_exec_time(), imd->image_fd->name);
 }
 
 static void image_post_process_alter(ImageWindow *imd, gint clamp)
@@ -312,6 +313,7 @@ static void image_post_process_color_cb(ColorMan *cm, ColorManReturnType type, g
 
 	imd->cm = NULL;
 	image_state_set(imd, IMAGE_STATE_COLOR_ADJ);
+	if (debug) printf("%s image postprocess cm done: %s\n", get_exec_time(), imd->image_fd->name);
 
 	image_post_process_alter(imd, FALSE);
 
@@ -427,6 +429,8 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 
 	if (!image_get_pixbuf(imd)) return;
 
+	if (debug) printf("%s image postprocess: %s\n", get_exec_time(), imd->image_fd->name);
+
 	if (options->image.exif_rotate_enable ||
 	    (imd->color_profile_enable && imd->color_profile_use_image) )
 		{
@@ -516,7 +520,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 
 static void image_read_ahead_cancel(ImageWindow *imd)
 {
-	if (debug) printf("read ahead cancelled for :%s\n", imd->read_ahead_fd ? imd->read_ahead_fd->path : "null");
+	if (debug) printf("%s read ahead cancelled for :%s\n", get_exec_time(), imd->read_ahead_fd ? imd->read_ahead_fd->path : "null");
 
 	image_loader_free(imd->read_ahead_il);
 	imd->read_ahead_il = NULL;
@@ -532,7 +536,7 @@ static void image_read_ahead_done_cb(ImageLoader *il, gpointer data)
 {
 	ImageWindow *imd = data;
 
-	if (debug) printf("read ahead done for :%s\n", imd->read_ahead_fd->path);
+	if (debug) printf("%s read ahead done for :%s\n", get_exec_time(), imd->read_ahead_fd->path);
 
 	imd->read_ahead_pixbuf = image_loader_get_pixbuf(imd->read_ahead_il);
 	if (imd->read_ahead_pixbuf)
@@ -563,7 +567,7 @@ static void image_read_ahead_start(ImageWindow *imd)
 	/* still loading ?, do later */
 	if (imd->il || imd->cm) return;
 
-	if (debug) printf("read ahead started for :%s\n", imd->read_ahead_fd->path);
+	if (debug) printf("%s read ahead started for :%s\n", get_exec_time(), imd->read_ahead_fd->path);
 
 	imd->read_ahead_il = image_loader_new(imd->read_ahead_fd);
 
@@ -614,7 +618,7 @@ static void image_post_buffer_set(ImageWindow *imd, FileData *fd, GdkPixbuf *pix
 		imd->prev_color_row = -1;
 		}
 
-	if (debug) printf("post buffer set: %s\n", fd ? fd->path : "null");
+	if (debug) printf("%s post buffer set: %s\n", get_exec_time(), fd ? fd->path : "null");
 }
 
 static gint image_post_buffer_get(ImageWindow *imd)
@@ -684,7 +688,7 @@ static void image_load_done_cb(ImageLoader *il, gpointer data)
 {
 	ImageWindow *imd = data;
 
-	if (debug) printf ("image done\n");
+	if (debug) printf ("%s image done\n", get_exec_time());
 
 	g_object_set(G_OBJECT(imd->pr), "loading", FALSE, NULL);
 	image_state_unset(imd, IMAGE_STATE_LOADING);
@@ -706,7 +710,7 @@ static void image_load_done_cb(ImageLoader *il, gpointer data)
 
 static void image_load_error_cb(ImageLoader *il, gpointer data)
 {
-	if (debug) printf ("image error\n");
+	if (debug) printf ("%s image error\n", get_exec_time());
 
 	/* even on error handle it like it was done,
 	 * since we have a pixbuf with _something_ */
@@ -787,7 +791,7 @@ static gint image_read_ahead_check(ImageWindow *imd)
 
 static gint image_load_begin(ImageWindow *imd, FileData *fd)
 {
-	if (debug) printf ("image begin \n");
+	if (debug) printf ("%s image begin \n", get_exec_time());
 
 	if (imd->il) return FALSE;
 
@@ -852,7 +856,7 @@ static void image_reset(ImageWindow *imd)
 {
 	/* stops anything currently being done */
 
-	if (debug) printf("image reset\n");
+	if (debug) printf("%s image reset\n", get_exec_time());
 
 	g_object_set(G_OBJECT(imd->pr), "loading", FALSE, NULL);
 

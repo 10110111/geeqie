@@ -117,6 +117,31 @@ gdouble get_zoom_increment(void)
 	return ((options->image.zoom_increment != 0) ? (gdouble)options->image.zoom_increment / 10.0 : 1.0);
 }
 
+const gchar *get_exec_time()
+{
+	static timestr[20];
+	static struct timeval start_tv = {0, 0};
+	
+	struct timeval tv = {0, 0};
+	
+	gettimeofday(&tv, NULL);
+	
+	if (start_tv.tv_sec == 0) start_tv = tv;
+	
+	tv.tv_sec -= start_tv.tv_sec;
+	if (tv.tv_usec >= start_tv.tv_usec) 
+		tv.tv_usec -= start_tv.tv_usec;
+	else
+		{
+		tv.tv_usec += 1000000 - start_tv.tv_usec;
+		tv.tv_sec -= 1;
+		}
+	
+	g_snprintf(timestr, sizeof(timestr), "%5d.%06d", tv.tv_sec, tv.tv_usec);
+	
+	return timestr;
+}
+
 /*
  *-----------------------------------------------------------------------------
  * Open  browser with the help Documentation
@@ -1339,6 +1364,9 @@ int main (int argc, char *argv[])
 	gchar *buf;
 	gchar *bufl;
 
+	/* init execution time counter*/
+	get_exec_time();
+	
 	/* setup locale, i18n */
 	gtk_set_locale();
 	bindtextdomain(PACKAGE, GQ_LOCALEDIR);

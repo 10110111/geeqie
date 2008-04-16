@@ -125,6 +125,7 @@ struct _PixbufRenderer
 	gboolean delay_flip;
 	gboolean loading;
 	gboolean complete;
+	gboolean debug_updated; /* debug only */
 
 	gint scroller_id;
 	gint scroller_overlay;

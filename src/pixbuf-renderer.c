@@ -27,6 +27,9 @@
 
 #ifdef GQ_BUILD
 	#include "pixbuf_util.h"
+	
+	/* for debug */
+	#include "main.h"
 #endif
 
 
@@ -2497,6 +2500,8 @@ static void pr_update_signal(PixbufRenderer *pr)
 #if 0
 	printf("FIXME: send updated signal\n");
 #endif
+	if (debug) printf("%s pixbuf renderer updated - started drawing %p\n", get_exec_time(), pr);
+	pr->debug_updated = TRUE;
 }
 
 static void pr_zoom_signal(PixbufRenderer *pr)
@@ -2520,6 +2525,11 @@ static void pr_render_complete_signal(PixbufRenderer *pr)
 		{
 		g_signal_emit(pr, signals[SIGNAL_RENDER_COMPLETE], 0);
 		g_object_set(G_OBJECT(pr), "complete", TRUE, NULL);
+		}
+	if (pr->debug_updated)
+		{
+		if (debug) printf("%s pixbuf renderer done %p\n", get_exec_time(), pr);
+		pr->debug_updated = FALSE;
 		}
 }
 
