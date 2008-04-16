@@ -33,6 +33,11 @@ void vd_refresh(ViewDir *vdl);
 
 const gchar *vd_row_get_path(ViewDir *vdl, gint row);
 
+void vd_color_set(ViewDir *vd, FileData *fd, gint color_set);
+void vd_popup_destroy_cb(GtkWidget *widget, gpointer data);
+
+GtkWidget *vd_drop_menu(ViewDir *vd, gint active);
+
 
 #endif
 

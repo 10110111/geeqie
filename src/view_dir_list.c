@@ -42,7 +42,7 @@ static gint vdlist_auto_scroll_notify_cb(GtkWidget *widget, gint x, gint y, gpoi
  *-----------------------------------------------------------------------------
  */
 
-static gint vdlist_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
+gint vdlist_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
 {
 	GtkTreeModel *store;
 	gint valid;
@@ -143,71 +143,6 @@ static FileData *vdlist_row_by_path(ViewDir *vd, const gchar *path, gint *row)
 
 	if (row) *row = -1;
 	return NULL;
-}
-
-static void vdlist_color_set(ViewDir *vd, FileData *fd, gint color_set)
-{
-	GtkTreeModel *store;
-	GtkTreeIter iter;
-
-	if (vdlist_find_row(vd, fd, &iter) < 0) return;
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
-	gtk_list_store_set(GTK_LIST_STORE(store), &iter, DIR_COLUMN_COLOR, color_set, -1);
-}
-
-/*
- *-----------------------------------------------------------------------------
- * drop menu (from dnd)
- *-----------------------------------------------------------------------------
- */
-
-static void vdlist_drop_menu_copy_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-	const gchar *path;
-	GList *list;
-
-	if (!vd->drop_fd) return;
-
-	path = vd->drop_fd->path;
-	list = vd->drop_list;
-	vd->drop_list = NULL;
-
-	file_util_copy_simple(list, path);
-}
-
-static void vdlist_drop_menu_move_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-	const gchar *path;
-	GList *list;
-
-	if (!vd->drop_fd) return;
-
-	path = vd->drop_fd->path;
-	list = vd->drop_list;
-
-	vd->drop_list = NULL;
-
-	file_util_move_simple(list, path);
-}
-
-static GtkWidget *vdlist_drop_menu(ViewDir *vd, gint active)
-{
-	GtkWidget *menu;
-
-	menu = popup_menu_short_lived();
-	g_signal_connect(G_OBJECT(menu), "destroy",
-			 G_CALLBACK(vdlist_popup_destroy_cb), vd);
-
-	menu_item_add_stock_sensitive(menu, _("_Copy"), GTK_STOCK_COPY, active,
-				      G_CALLBACK(vdlist_drop_menu_copy_cb), vd);
-	menu_item_add_sensitive(menu, _("_Move"), active, G_CALLBACK(vdlist_drop_menu_move_cb), vd);
-
-	menu_item_add_divider(menu);
-	menu_item_add_stock(menu, _("Cancel"), GTK_STOCK_CANCEL, NULL, vd);
-
-	return menu;
 }
 
 /*
@@ -433,11 +368,11 @@ static void vdlist_popup_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
 
-	vdlist_color_set(vd, vd->click_fd, FALSE);
+	vd_color_set(vd, vd->click_fd, FALSE);
 	vd->click_fd = NULL;
 	vd->popup = NULL;
 
-	vdlist_color_set(vd, vd->drop_fd, FALSE);
+	vd_color_set(vd, vd->drop_fd, FALSE);
 	filelist_free(vd->drop_list);
 	vd->drop_list = NULL;
 	vd->drop_fd = NULL;
@@ -501,7 +436,7 @@ static void vdlist_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointe
 {
 	ViewDir *vd = data;
 
-	vdlist_color_set(vd, vd->click_fd, TRUE);
+	vd_color_set(vd, vd->click_fd, TRUE);
 	vdlist_dest_set(vd, FALSE);
 }
 
@@ -509,7 +444,7 @@ static void vdlist_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer 
 {
 	ViewDir *vd = data;
 
-	vdlist_color_set(vd, vd->click_fd, FALSE);
+	vd_color_set(vd, vd->click_fd, FALSE);
 
 	if (context->action == GDK_ACTION_MOVE)
 		{
@@ -553,8 +488,8 @@ static void vdlist_dnd_drop_receive(GtkWidget *widget,
 
 		active = access_file(fd->path, W_OK | X_OK);
 
-		vdlist_color_set(vd, fd, TRUE);
-		vd->popup = vdlist_drop_menu(vd, active);
+		vd_color_set(vd, fd, TRUE);
+		vd->popup = vd_drop_menu(vd, active);
 		gtk_menu_popup(GTK_MENU(vd->popup), NULL, NULL, NULL, NULL, 0, time);
 
 		vd->drop_fd = fd;
@@ -629,8 +564,8 @@ static void vdlist_drop_update(ViewDir *vd, gint x, gint y)
 
 	if (fd != vd->drop_fd)
 		{
-		vdlist_color_set(vd, vd->drop_fd, FALSE);
-		vdlist_color_set(vd, fd, TRUE);
+		vd_color_set(vd, vd->drop_fd, FALSE);
+		vd_color_set(vd, fd, TRUE);
 		}
 
 	vd->drop_fd = fd;
@@ -709,7 +644,7 @@ static void vdlist_dnd_drop_leave(GtkWidget *widget, GdkDragContext *context, gu
 {
 	ViewDir *vd = data;
 
-	if (vd->drop_fd != vd->click_fd) vdlist_color_set(vd, vd->drop_fd, FALSE);
+	if (vd->drop_fd != vd->click_fd) vd_color_set(vd, vd->drop_fd, FALSE);
 
 	vd->drop_fd = NULL;
 }
@@ -945,7 +880,7 @@ static gint vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 		vd->click_fd = NULL;
 		}
 
-	vdlist_color_set(vd, vd->click_fd, TRUE);
+	vd_color_set(vd, vd->click_fd, TRUE);
 
 	vd->popup = vdlist_pop_menu(vd, vd->click_fd);
 
@@ -974,7 +909,7 @@ static gint vdlist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 		}
 
 	vd->click_fd = fd;
-	vdlist_color_set(vd, vd->click_fd, TRUE);
+	vd_color_set(vd, vd->click_fd, TRUE);
 
 	if (bevent->button == 3)
 		{
@@ -993,7 +928,7 @@ static gint vdlist_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointe
 	GtkTreeIter iter;
 	FileData *fd = NULL;
 
-	vdlist_color_set(vd, vd->click_fd, FALSE);
+	vd_color_set(vd, vd->click_fd, FALSE);
 
 	if (bevent->button != 1) return TRUE;
 

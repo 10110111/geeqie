@@ -19,6 +19,7 @@ gint vdlist_set_path(ViewDir *vdl, const gchar *path);
 void vdlist_refresh(ViewDir *vdl);
 
 const gchar *vdlist_row_get_path(ViewDir *vdl, gint row);
+gint vdlist_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter);
 
 
 #endif
