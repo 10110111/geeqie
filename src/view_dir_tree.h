@@ -12,6 +12,14 @@
 #ifndef VIEW_DIR_TREE_H
 #define VIEW_DIR_TREE_H
 
+typedef struct _NodeData NodeData;
+struct _NodeData
+{
+	FileData *fd;
+	gint expanded;
+	time_t last_update;
+};
+
 ViewDir *vdtree_new(ViewDir *vd, const gchar *path);
 
 gint vdtree_set_path(ViewDir *vd, const gchar *path);

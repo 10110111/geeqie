@@ -32,6 +32,7 @@ void vd_set_layout(ViewDir *vdl, LayoutWindow *layout);
 
 gint vd_set_path(ViewDir *vdl, const gchar *path);
 void vd_refresh(ViewDir *vdl);
+gint vd_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter);
 
 const gchar *vd_row_get_path(ViewDir *vdl, gint row);
 

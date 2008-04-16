@@ -17,6 +17,7 @@
 #include "layout_image.h"
 #include "layout_util.h"
 #include "ui_fileops.h"
+#include "ui_tree_edit.h"
 #include "ui_menu.h"
 #include "utilops.h"
 #include "view_dir_list.h"
@@ -130,26 +131,106 @@ const gchar *vd_row_get_path(ViewDir *vd, gint row)
 	return ret;
 }
 
+gint vd_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
+{
+	gint ret = FALSE;
+
+	switch(vd->type)
+	{
+	case DIRVIEW_LIST: ret = vdlist_find_row(vd, fd, iter); break;
+	case DIRVIEW_TREE: ret = vdtree_find_row(vd, fd, iter, NULL); break;
+	}
+
+	return ret;
+}
+
+static gint vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, gpointer data)
+{
+	ViewDir *vd = data;
+	GtkTreeModel *store;
+	GtkTreeIter iter;
+	FileData *fd;
+	gchar *old_path;
+	gchar *new_path;
+	gchar *base;
+
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
+	if (!gtk_tree_model_get_iter(store, &iter, td->path)) return FALSE;
+
+	switch(vd->type)
+	{
+	case DIRVIEW_LIST:
+		gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &fd, -1);
+		break;
+	case DIRVIEW_TREE:
+		{
+		NodeData *nd;
+		gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
+		if (!nd) return FALSE;
+		fd = nd->fd;
+		};
+		break;
+	}
+
+	if (!fd) return FALSE;
+
+	old_path = g_strdup(fd->path);
+
+	base = remove_level_from_path(old_path);
+	new_path = concat_dir_and_file(base, new);
+	g_free(base);
+
+	if (file_util_rename_dir(fd, new_path, vd->view))
+		{
+
+		if (vd->type == DIRVIEW_TREE) vdtree_populate_path(vd, new_path, TRUE, TRUE);
+		if (vd->layout && strcmp(vd->path, old_path) == 0)
+			{
+			layout_set_path(vd->layout, new_path);
+			}
+		else
+			{
+			if (vd->type == DIRVIEW_LIST) vd_refresh(vd);
+			}
+		}
+
+	g_free(old_path);
+	g_free(new_path);
+
+	return FALSE;
+}
+
+static void vd_rename_by_data(ViewDir *vd, FileData *fd)
+{
+	GtkTreeModel *store;
+	GtkTreePath *tpath;
+	GtkTreeIter iter;
+
+	if (!fd || vd_find_row(vd, fd, &iter) < 0) return;
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
+	tpath = gtk_tree_model_get_path(store, &iter);
+
+	tree_edit_by_path(GTK_TREE_VIEW(vd->view), tpath, 0, fd->name,
+			  vd_rename_cb, vd);
+	gtk_tree_path_free(tpath);
+}
+
+
 void vd_color_set(ViewDir *vd, FileData *fd, gint color_set)
 {
 	GtkTreeModel *store;
 	GtkTreeIter iter;
 
+	if (vd_find_row(vd, fd, &iter) < 0) return;
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
+
 	switch(vd->type)
 	{
 	case DIRVIEW_LIST:
-		{
-		if (vdlist_find_row(vd, fd, &iter) < 0) return;
-		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
 		gtk_list_store_set(GTK_LIST_STORE(store), &iter, DIR_COLUMN_COLOR, color_set, -1);
-		}
 		break;
 	case DIRVIEW_TREE:
-		{
-		if (vdtree_find_row(vd, fd, &iter, NULL) < 0) return;
-		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
 		gtk_tree_store_set(GTK_TREE_STORE(store), &iter, DIR_COLUMN_COLOR, color_set, -1);
-		}
 		break;
 	}
 }
@@ -390,27 +471,21 @@ static void vd_pop_menu_new_cb(GtkWidget *widget, gpointer data)
 		}
 	else
 		{
+		FileData *fd = NULL;
+
 		switch(vd->type)
 			{
 			case DIRVIEW_LIST:
 				{
-				FileData *fd;
-	
 				vd_refresh(vd);
 				fd = vdlist_row_by_path(vd, new_path, NULL);
-	
-				vdlist_rename_by_row(vd, fd);
 				};
 				break;
 			case DIRVIEW_TREE:
-				{
-				FileData *fd;
-
 				fd = vdtree_populate_path(vd, new_path, TRUE, TRUE);
-				vdtree_rename_by_data(vd, fd);
-				};
 				break;
 			}
+		vd_rename_by_data(vd, fd);
 		}
 
 	g_free(new_path);
@@ -420,11 +495,7 @@ static void vd_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
 	
-	switch(vd->type)
-	{
-	case DIRVIEW_LIST: vdlist_rename_by_row(vd, vd->click_fd); break;
-	case DIRVIEW_TREE: vdtree_rename_by_data(vd, vd->click_fd); break;
-	}
+	vd_rename_by_data(vd, vd->click_fd);
 }
 
 GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)

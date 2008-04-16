@@ -42,13 +42,6 @@ struct _PathData
 	FileData *node;
 };
 
-typedef struct _NodeData NodeData;
-struct _NodeData
-{
-	FileData *fd;
-	gint expanded;
-	time_t last_update;
-};
 
 
 static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, const gchar *target_path);
@@ -154,64 +147,10 @@ static void vdtree_expand_by_data(ViewDir *vd, FileData *fd, gint expand)
 {
 	GtkTreeIter iter;
 
-	if (vdtree_find_row(vd, fd, &iter, NULL))
+	if (vd_find_row(vd, fd, &iter))
 		{
 		vdtree_expand_by_iter(vd, &iter, expand);
 		}
-}
-
-static gint vdtree_rename_row_cb(TreeEditData *td, const gchar *old, const gchar *new, gpointer data)
-{
-	ViewDir *vd = data;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
-	NodeData *nd;
-	gchar *old_path;
-	gchar *new_path;
-	gchar *base;
-
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
-	if (!gtk_tree_model_get_iter(store, &iter, td->path)) return FALSE;
-	gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
-	if (!nd) return FALSE;
-
-	old_path = g_strdup(nd->fd->path);
-
-	base = remove_level_from_path(old_path);
-	new_path = concat_dir_and_file(base, new);
-	g_free(base);
-
-	if (file_util_rename_dir(nd->fd, new_path, vd->view))
-		{
-		vdtree_populate_path(vd, new_path, TRUE, TRUE);
-
-		if (vd->layout && strcmp(vd->path, old_path) == 0)
-			{
-			layout_set_path(vd->layout, new_path);
-			}
-		}
-
-	g_free(old_path);
-	g_free(new_path);
-
-	return FALSE;
-}
-
-void vdtree_rename_by_data(ViewDir *vd, FileData *fd)
-{
-	GtkTreeModel *store;
-	GtkTreePath *tpath;
-	GtkTreeIter iter;
-
-	if (!fd ||
-	    !vdtree_find_row(vd, fd, &iter, NULL)) return;
-
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
-	tpath = gtk_tree_model_get_path(store, &iter);
-
-	tree_edit_by_path(GTK_TREE_VIEW(vd->view), tpath, 0, fd->name,
-			  vdtree_rename_row_cb, vd);
-	gtk_tree_path_free(tpath);
 }
 
 static void vdtree_node_free(NodeData *nd)
@@ -347,7 +286,7 @@ static gint vdtree_dnd_drop_expand_cb(gpointer data)
 	GtkTreeIter iter;
 
 	if (vd->drop_fd &&
-	    vdtree_find_row(vd, vd->drop_fd, &iter, NULL))
+	    vd_find_row(vd, vd->drop_fd, &iter))
 		{
 		vdtree_populate_path_by_iter(vd, &iter, FALSE, vd->path);
 		vdtree_expand_by_data(vd, vd->drop_fd, TRUE);
@@ -900,7 +839,7 @@ FileData *vdtree_populate_path(ViewDir *vd, const gchar *path, gint expand, gint
 
 			parent_pd = work->prev->data;
 
-			if (!vdtree_find_row(vd, parent_pd->node, &parent_iter, NULL) ||
+			if (!vd_find_row(vd, parent_pd->node, &parent_iter) ||
 			    !vdtree_populate_path_by_iter(vd, &parent_iter, force, path) ||
 			    (nd = vdtree_find_iter_by_name(vd, &parent_iter, pd->name, &iter)) == NULL)
 				{
@@ -926,7 +865,7 @@ FileData *vdtree_populate_path(ViewDir *vd, const gchar *path, gint expand, gint
 			{
 			GtkTreeIter iter;
 
-			if (vdtree_find_row(vd, pd->node, &iter, NULL))
+			if (vd_find_row(vd, pd->node, &iter))
 				{
 				if (expand) vdtree_expand_by_iter(vd, &iter, TRUE);
 				vdtree_populate_path_by_iter(vd, &iter, force, path);
@@ -968,7 +907,7 @@ static void vdtree_select_row(ViewDir *vd, FileData *fd)
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
                                                                                                                                
-	if (!vdtree_find_row(vd, fd, &iter, NULL)) return;
+	if (!vd_find_row(vd, fd, &iter)) return;
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vd->view));
 
 	/* hack, such that selection is only allowed to be changed from here */
@@ -1001,7 +940,7 @@ gint vdtree_set_path(ViewDir *vd, const gchar *path)
 
 	if (!fd) return FALSE;
 
-	if (vdtree_find_row(vd, fd, &iter, NULL))
+	if (vd_find_row(vd, fd, &iter))
 		{
 		GtkTreeModel *store;
 		GtkTreePath *tpath;
@@ -1051,7 +990,7 @@ static void vdtree_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gboolean *p
 	GtkTreePath *tpath;
 	gint cw, ch;
 
-	if (vdtree_find_row(vd, vd->click_fd, &iter, NULL) < 0) return;
+	if (vd_find_row(vd, vd->click_fd, &iter) < 0) return;
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
 	tpath = gtk_tree_model_get_path(store, &iter);
 	tree_view_get_cell_clamped(GTK_TREE_VIEW(vd->view), tpath, 0, TRUE, x, y, &cw, &ch);

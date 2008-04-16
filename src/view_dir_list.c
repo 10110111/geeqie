@@ -62,58 +62,6 @@ gint vdlist_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
 	return -1;
 }
 
-static gint vdlist_rename_row_cb(TreeEditData *td, const gchar *old, const gchar *new, gpointer data)
-{
-	ViewDir *vd = data;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
-	FileData *fd;
-	gchar *old_path;
-	gchar *new_path;
-	gchar *base;
-
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
-	if (!gtk_tree_model_get_iter(store, &iter, td->path)) return FALSE;
-	gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &fd, -1);
-	if (!fd) return FALSE;
-	
-	old_path = g_strdup(fd->path);
-
-	base = remove_level_from_path(old_path);
-	new_path = concat_dir_and_file(base, new);
-	g_free(base);
-
-	if (file_util_rename_dir(fd, new_path, vd->view))
-		{
-		if (vd->layout && strcmp(vd->path, old_path) == 0)
-			{
-			layout_set_path(vd->layout, new_path);
-			}
-		else
-			{
-			vdlist_refresh(vd);
-			}
-		}
-
-	g_free(old_path);
-	g_free(new_path);
-	return FALSE;
-}
-
-void vdlist_rename_by_row(ViewDir *vd, FileData *fd)
-{
-	GtkTreeModel *store;
-	GtkTreePath *tpath;
-	GtkTreeIter iter;
-
-	if (vdlist_find_row(vd, fd, &iter) < 0) return;
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
-	tpath = gtk_tree_model_get_path(store, &iter);
-
-	tree_edit_by_path(GTK_TREE_VIEW(vd->view), tpath, 0, fd->name,
-			  vdlist_rename_row_cb, vd);
-	gtk_tree_path_free(tpath);
-}
 
 FileData *vdlist_row_by_path(ViewDir *vd, const gchar *path, gint *row)
 {
@@ -274,7 +222,7 @@ static gint vdlist_get_row_visibility(ViewDir *vd, FileData *fd)
 	GdkRectangle vrect;
 	GdkRectangle crect;
 
-	if (!fd || vdlist_find_row(vd, fd, &iter) < 0) return 0;
+	if (!fd || vd_find_row(vd, fd, &iter) < 0) return 0;
 
 	column = gtk_tree_view_get_column(GTK_TREE_VIEW(vd->view), 0);
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
@@ -296,7 +244,7 @@ static void vdlist_scroll_to_row(ViewDir *vd, FileData *fd, gfloat y_align)
 	GtkTreeIter iter;
 
 	if (GTK_WIDGET_REALIZED(vd->view) &&
-	    vdlist_find_row(vd, fd, &iter) >= 0)
+	    vd_find_row(vd, fd, &iter) >= 0)
 		{
 		GtkTreeModel *store;
 		GtkTreePath *tpath;
@@ -613,7 +561,7 @@ static void vdlist_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gboolean *p
 	GtkTreePath *tpath;
 	gint cw, ch;
 
-	if (vdlist_find_row(vd, vd->click_fd, &iter) < 0) return;
+	if (vd_find_row(vd, vd->click_fd, &iter) < 0) return;
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
 	tpath = gtk_tree_model_get_path(store, &iter);
 	tree_view_get_cell_clamped(GTK_TREE_VIEW(vd->view), tpath, 0, TRUE, x, y, &cw, &ch);
