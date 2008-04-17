@@ -26,8 +26,8 @@
 #include "view_dir_tree.h"
 
 GtkRadioActionEntry menu_view_dir_radio_entries[] = {
-  { "FolderList",	NULL,		N_("List"),		"<meta>L",	NULL, DIRVIEW_LIST },
-  { "FolderTree",	NULL,		N_("Tr_ee"),		"<control>T",	NULL, DIRVIEW_TREE },
+  { "FolderList",	NULL,		N_("_List"),		"<meta>L",	NULL, DIRVIEW_LIST },
+  { "FolderTree",	NULL,		N_("_Tree"),		"<control>T",	NULL, DIRVIEW_TREE },
 };
 
 static void vd_destroy_cb(GtkWidget *widget, gpointer data)
