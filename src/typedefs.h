@@ -379,6 +379,8 @@ struct _ImageWindow
 	gint auto_refresh_interval;
 
 	gint delay_flip;
+	gint orientation;
+	gint desaturate;
 };
 
 #define FILEDATA_MARKS_SIZE 6

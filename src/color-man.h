@@ -47,16 +47,17 @@ struct _ColorMan {
 
 ColorMan *color_man_new(ImageWindow *imd, GdkPixbuf *pixbuf,
 			ColorManProfileType input_type, const gchar *input_file,
-			ColorManProfileType screen_type, const gchar *screen_file,
-			ColorManDoneFunc done_func, gpointer done_data);
+			ColorManProfileType screen_type, const gchar *screen_file);
 ColorMan *color_man_new_embedded(ImageWindow *imd, GdkPixbuf *pixbuf,
 				 unsigned char *input_data, guint input_data_len,
-				 ColorManProfileType screen_type, const gchar *screen_file,
-				 ColorManDoneFunc done_func, gpointer done_data);
+				 ColorManProfileType screen_type, const gchar *screen_file);
 void color_man_free(ColorMan *cm);
 
 void color_man_update(void);
 
+void color_man_correct_region(ColorMan *cm, GdkPixbuf *pixbuf, gint x, gint y, gint w, gint h);
+
+void color_man_start_bg(ColorMan *cm, ColorManDoneFunc don_func, gpointer done_data);
 
 #endif
 

@@ -213,7 +213,7 @@ gchar *alter_type_get_text(AlterType type)
 			return _("_Flip");
 			break;
 		case ALTER_DESATURATE:
-			return _("_Grayscale");
+			return _("Toggle _grayscale");
 			break;
 		default:
 			break;

@@ -1094,7 +1094,7 @@ static GtkActionEntry menu_entries[] = {
   { "Rotate180",	NULL,		N_("Rotate 1_80"),	"<shift>R",	NULL,	CB(layout_menu_alter_180_cb) },
   { "Mirror",		NULL,		N_("_Mirror"),		"<shift>M",	NULL,	CB(layout_menu_alter_mirror_cb) },
   { "Flip",		NULL,		N_("_Flip"),		"<shift>F",	NULL,	CB(layout_menu_alter_flip_cb) },
-  { "Grayscale",	NULL,		N_("_Grayscale"),	"<shift>G",	NULL,	CB(layout_menu_alter_desaturate_cb) },
+  { "Grayscale",	NULL,		N_("Toggle _grayscale"),"<shift>G",	NULL,	CB(layout_menu_alter_desaturate_cb) },
   { "Properties",GTK_STOCK_PROPERTIES,	N_("_Properties"),	"<control>P",	NULL,	CB(layout_menu_info_cb) },
   { "SelectAll",	NULL,		N_("Select _all"),	"<control>A",	NULL,	CB(layout_menu_select_all_cb) },
   { "SelectNone",	NULL,		N_("Select _none"), "<control><shift>A",NULL,	CB(layout_menu_unselect_all_cb) },

@@ -36,7 +36,7 @@
 #define IMAGE_THROTTLE_LARGER_IMAGES 1
 
 /* throttle factor to increase read bytes by (2 is double, 3 is triple, etc.) */
-#define IMAGE_THROTTLE_FACTOR 4
+#define IMAGE_THROTTLE_FACTOR 32
 
 /* the file size at which throttling take place */
 #define IMAGE_THROTTLE_THRESHOLD 1048576
@@ -201,6 +201,9 @@ static void image_update_title(ImageWindow *imd)
  *-------------------------------------------------------------------
  */
 
+
+#if 0
+
 static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp)
 {
 	PixbufRenderer *pr;
@@ -300,6 +303,7 @@ static void image_post_process_alter(ImageWindow *imd, gint clamp)
 		}
 }
 
+
 static void image_post_process_color_cb(ColorMan *cm, ColorManReturnType type, gpointer data)
 {
 	ImageWindow *imd = data;
@@ -319,8 +323,9 @@ static void image_post_process_color_cb(ColorMan *cm, ColorManReturnType type, g
 
 	image_read_ahead_start(imd);
 }
+#endif
 
-static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData *exif)
+static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData *exif, gint run_in_bg)
 {
 	ColorMan *cm;
 	ColorManProfileType input_type;
@@ -395,17 +400,15 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 		
 		data = (unsigned char *) exif_item_get_data(item, &data_len);
 
-		cm = color_man_new_embedded(imd, NULL,
+		cm = color_man_new_embedded(run_in_bg ? imd : NULL, NULL,
 					    data, data_len,
-					    screen_type, screen_file,
-					    image_post_process_color_cb, imd);
+					    screen_type, screen_file);
 		}
 	else 
 		{
-		cm = color_man_new(imd, NULL,
+		cm = color_man_new(run_in_bg ? imd : NULL, NULL,
 				   input_type, input_file,
-				   screen_type, screen_file,
-				   image_post_process_color_cb, imd);
+				   screen_type, screen_file);
 		}
 
 	if (cm)
@@ -417,6 +420,9 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 			}
 
 		imd->cm = (gpointer)cm;
+#if 0		
+		if (run_in_bg) color_man_start_bg(imd->cm, image_post_process_color_cb, imd);
+#endif
 		return TRUE;
 		}
 
@@ -425,6 +431,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 
 static void image_post_process(ImageWindow *imd, gint clamp)
 {
+#if 0
 	ExifData *exif = NULL;
 
 	if (!image_get_pixbuf(imd)) return;
@@ -436,7 +443,6 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 		{
 		exif = exif_read_fd(imd->image_fd, (imd->color_profile_enable && imd->color_profile_use_image));
 		}
-
 	if (options->image.exif_rotate_enable && exif)
 		{
 		gint orientation;
@@ -497,20 +503,76 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 			if (rotate) image_state_set(imd, IMAGE_STATE_ROTATE_AUTO);
 			}
 		}
-
 	if (imd->color_profile_enable)
 		{
-		if (!image_post_process_color(imd, 0, exif))
+		if (!image_post_process_color(imd, 0, exif, TRUE))
 			{
 			/* fixme: note error to user */
 			image_state_set(imd, IMAGE_STATE_COLOR_ADJ);
 			}
 		}
 
+
 	if (!imd->cm) image_post_process_alter(imd, clamp);
 
 	exif_free(exif);
+#endif
 }
+
+static void image_post_process_tile_color_cb(PixbufRenderer *pr, GdkPixbuf **pixbuf, gint x, gint y, gint w, gint h, gpointer data)
+{
+	ImageWindow *imd = (ImageWindow *)data;
+        if (imd->cm) color_man_correct_region(imd->cm, *pixbuf, x, y, w, h);
+	if (imd->desaturate) pixbuf_desaturate_rect(*pixbuf, x, y, w, h);
+
+}
+
+void image_alter(ImageWindow *imd, AlterType type)
+{
+
+	const static gint rotate_90[]    = {1,   6, 7, 8, 5, 2, 3, 4, 1};
+	const static gint rotate_90_cc[] = {1,   8, 5, 6, 7, 4, 1, 2, 3};
+	const static gint rotate_180[]   = {1,   3, 4, 1, 2, 7, 8, 5, 6};
+	const static gint mirror[]       = {1,   2, 1, 4, 3, 6, 5, 8, 7};
+	const static gint flip[]         = {1,   4, 3, 2, 1, 8, 7, 6, 5};
+
+	
+	if (!imd || !imd->pr) return;
+	
+	if (imd->orientation < 1 || imd->orientation > 8) imd->orientation = 1;
+	
+	switch (type)
+		{
+		case ALTER_ROTATE_90:
+			imd->orientation = rotate_90[imd->orientation];
+			break;
+		case ALTER_ROTATE_90_CC:
+			imd->orientation = rotate_90_cc[imd->orientation];
+			break;
+		case ALTER_ROTATE_180:
+			imd->orientation = rotate_180[imd->orientation];
+			break;
+		case ALTER_MIRROR:
+			imd->orientation = mirror[imd->orientation];
+			break;
+		case ALTER_FLIP:
+			imd->orientation = flip[imd->orientation];
+			break;
+		case ALTER_DESATURATE:
+			imd->desaturate = !imd->desaturate;
+			break;
+		case ALTER_NONE:
+		default:
+			return;
+			break;
+		}
+	pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, imd->orientation);
+	if (imd->cm || imd->desaturate) 
+		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, image_post_process_tile_color_cb, (gpointer) imd, (imd->cm != NULL) );
+	else
+		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, NULL, NULL, TRUE);
+}
+
 
 /*
  *-------------------------------------------------------------------
@@ -565,7 +627,7 @@ static void image_read_ahead_start(ImageWindow *imd)
 	if (!imd->read_ahead_fd || imd->read_ahead_il || imd->read_ahead_pixbuf) return;
 
 	/* still loading ?, do later */
-	if (imd->il || imd->cm) return;
+	if (imd->il /*|| imd->cm*/) return;
 
 	if (debug) printf("%s read ahead started for :%s\n", get_exec_time(), imd->read_ahead_fd->path);
 
@@ -634,7 +696,7 @@ static gint image_post_buffer_get(ImageWindow *imd)
 			ExifData *exif = NULL;
 
 			if (imd->color_profile_use_image) exif = exif_read_fd(imd->image_fd, TRUE);
-			image_post_process_color(imd, imd->prev_color_row, exif);
+//			image_post_process_color(imd, imd->prev_color_row, exif, TRUE);
 			exif_free(exif);
 			}
 		success = TRUE;
@@ -1203,7 +1265,45 @@ GdkPixbuf *image_get_pixbuf(ImageWindow *imd)
 
 void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
 {
+
+	ExifData *exif = NULL;
+	gint orientation;
+
+	if (options->image.exif_rotate_enable ||
+	    (imd->color_profile_enable && imd->color_profile_use_image) )
+		{
+		exif = exif_read_fd(imd->image_fd, (imd->color_profile_enable && imd->color_profile_use_image));
+		}
+
+	if (options->image.exif_rotate_enable && exif && exif_get_integer(exif, "Exif.Image.Orientation", &orientation)) 
+		imd->orientation = orientation;
+	else
+		imd->orientation = 1;
+
+	pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, NULL, NULL, FALSE);
+	if (imd->cm) 
+		{
+		color_man_free(imd->cm);
+		imd->cm = NULL;
+		}
+
 	pixbuf_renderer_set_pixbuf((PixbufRenderer *)imd->pr, pixbuf, zoom);
+	pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, imd->orientation);
+
+	if (imd->color_profile_enable)
+		{
+		if (!image_post_process_color(imd, 0, exif, FALSE))
+			{
+			/* fixme: note error to user */
+//			image_state_set(imd, IMAGE_STATE_COLOR_ADJ);
+			}
+		}
+		
+	exif_free(exif);
+
+	if (imd->cm || imd->desaturate) 
+		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, image_post_process_tile_color_cb, (gpointer) imd, (imd->cm != NULL) );
+		
 	image_state_set(imd, IMAGE_STATE_IMAGE);
 }
 
@@ -1317,8 +1417,17 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	imd->completed = source->completed;
 	imd->state = source->state;
 	source->state = IMAGE_STATE_NONE;
+	
+	imd->orientation = source->orientation;
+	imd->desaturate = source->desaturate;
 
 	pixbuf_renderer_move(PIXBUF_RENDERER(imd->pr), PIXBUF_RENDERER(source->pr));
+
+	if (imd->cm || imd->desaturate) 
+		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, image_post_process_tile_color_cb, (gpointer) imd, (imd->cm != NULL) );
+	else
+		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, NULL, NULL, TRUE);
+
 }
 
 /* manipulation */
@@ -1357,7 +1466,7 @@ void image_set_scroll_center(ImageWindow *imd, gdouble x, gdouble y)
 }
 
 
-
+#if 0
 void image_alter(ImageWindow *imd, AlterType type)
 {
 	if (pixbuf_renderer_get_tiles((PixbufRenderer *)imd->pr)) return;
@@ -1377,6 +1486,7 @@ void image_alter(ImageWindow *imd, AlterType type)
 
 	image_alter_real(imd, type, TRUE);
 }
+#endif
 
 void image_zoom_adjust(ImageWindow *imd, gdouble increment)
 {
@@ -1889,6 +1999,8 @@ ImageWindow *image_new(gint frame)
 
 	imd->func_button = NULL;
 	imd->func_scroll = NULL;
+	
+	imd->orientation = 1;
 
 	imd->pr = GTK_WIDGET(pixbuf_renderer_new());
 

@@ -63,6 +63,18 @@
  */
 #define PR_MIN_SCALE_SIZE 8
 
+typedef enum {
+	EXIF_ORIENTATION_UNKNOWN	= 0,
+	EXIF_ORIENTATION_TOP_LEFT	= 1,
+	EXIF_ORIENTATION_TOP_RIGHT	= 2,
+	EXIF_ORIENTATION_BOTTOM_RIGHT	= 3,
+	EXIF_ORIENTATION_BOTTOM_LEFT	= 4,
+	EXIF_ORIENTATION_LEFT_TOP	= 5,
+	EXIF_ORIENTATION_RIGHT_TOP	= 6,
+	EXIF_ORIENTATION_RIGHT_BOTTOM	= 7,
+	EXIF_ORIENTATION_LEFT_BOTTOM	= 8
+} ExifOrientationType;
+
 
 typedef enum {
 	TILE_RENDER_NONE = 0,	/* do nothing */
@@ -491,6 +503,8 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 	pr->source_tiles_enabled = FALSE;
 	pr->source_tiles = NULL;
 
+	pr->orientation = 1;
+
 	gtk_widget_set_double_buffered(box, FALSE);
 	g_signal_connect_after(G_OBJECT(box), "size_allocate",
 			       G_CALLBACK(pr_size_cb), pr);
@@ -508,6 +522,7 @@ static void pixbuf_renderer_finalize(GObject *object)
 	pr_tile_free_all(pr);
 
 	if (pr->pixbuf) g_object_unref(pr->pixbuf);
+	if (pr->spare_tile) gdk_pixbuf_unref(pr->spare_tile);
 
 	pr_scroller_timer_set(pr, FALSE);
 	pr_overlay_list_clear(pr);
@@ -2002,12 +2017,13 @@ static void pr_tile_prepare(PixbufRenderer *pr, ImageTile *it)
 		pr->tile_cache_size += size;
 		}
 	
-	if ((pr->zoom != 1.0 || pr->source_tiles_enabled || (pr->pixbuf && gdk_pixbuf_get_has_alpha(pr->pixbuf)) ) &&
-	    !it->pixbuf)
+	if ((pr->zoom != 1.0 || pr->source_tiles_enabled || (pr->pixbuf && gdk_pixbuf_get_has_alpha(pr->pixbuf)) || 
+	     pr->orientation != EXIF_ORIENTATION_TOP_LEFT || pr->func_post_process) && !it->pixbuf)
 		{
 		GdkPixbuf *pixbuf;
 		guint size;
-
+#if 0
+/* I don't think that we need a pixbuf with alpha channel here */
 		if (pr->pixbuf)
 			{
 			pixbuf = gdk_pixbuf_new(gdk_pixbuf_get_colorspace(pr->pixbuf),
@@ -2016,6 +2032,7 @@ static void pr_tile_prepare(PixbufRenderer *pr, ImageTile *it)
 						pr->tile_width, pr->tile_height);
 			}
 		else
+#endif
 			{
 			pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, pr->tile_width, pr->tile_height);
 			}
@@ -2034,6 +2051,362 @@ static void pr_tile_prepare(PixbufRenderer *pr, ImageTile *it)
  * drawing
  *-------------------------------------------------------------------
  */
+ 
+
+static void pr_tile_coords_map_orientation(PixbufRenderer *pr,
+                                     double tile_x, double tile_y, /* coordinates of the tile */
+				     gint image_w, gint image_h, 
+				     double tile_w, double tile_h,
+				     double *res_x, double *res_y)
+{
+	*res_x = tile_x;
+	*res_y = tile_y;
+	switch (pr->orientation)
+		{
+		case EXIF_ORIENTATION_TOP_LEFT:
+			/* normal -- nothing to do */
+			break;
+		case EXIF_ORIENTATION_TOP_RIGHT:
+			/* mirrored */
+			*res_x = image_w - tile_x - tile_w;
+			break;
+		case EXIF_ORIENTATION_BOTTOM_RIGHT:
+			/* upside down */
+			*res_x = image_w - tile_x - tile_w;
+			*res_y = image_h - tile_y - tile_h;
+			break;
+		case EXIF_ORIENTATION_BOTTOM_LEFT:
+			/* flipped */
+			*res_y = image_h - tile_y - tile_h;
+			break;
+		case EXIF_ORIENTATION_LEFT_TOP:
+			*res_x = tile_y;
+			*res_y = tile_x;
+			break;
+		case EXIF_ORIENTATION_RIGHT_TOP:
+			/* rotated -90 (270) */
+			*res_x = tile_y;
+			*res_y = image_w - tile_x - tile_w;
+			break;
+		case EXIF_ORIENTATION_RIGHT_BOTTOM:
+			*res_x = image_h - tile_y - tile_h;
+			*res_y = image_w - tile_x - tile_w;
+			break;
+		case EXIF_ORIENTATION_LEFT_BOTTOM:
+			/* rotated 90 */
+			*res_x = image_h - tile_y - tile_h;
+			*res_y = tile_x;
+			break;
+		default:
+			/* The other values are out of range */
+			break;
+		}
+//	printf("tile coord y:%f, ih:%d, th:%f ry:%f\n", tile_y, image_h, tile_h, *res_x); 
+} 
+
+static void pr_tile_region_map_orientation(PixbufRenderer *pr,
+				     gint area_x, gint area_y, /* coordinates of the area inside tile */
+				     gint tile_w, gint tile_h,
+				     gint area_w, gint area_h,
+				     gint *res_x, gint *res_y,
+				     gint *res_w, gint *res_h)
+{
+	*res_x = area_x;
+	*res_y = area_y;
+	*res_w = area_w;
+	*res_h = area_h;
+
+	switch (pr->orientation)
+		{
+		case EXIF_ORIENTATION_TOP_LEFT:
+			/* normal -- nothing to do */
+			break;
+		case EXIF_ORIENTATION_TOP_RIGHT:
+			/* mirrored */
+			*res_x = tile_w - area_x - area_w;
+			break;
+		case EXIF_ORIENTATION_BOTTOM_RIGHT:
+			/* upside down */
+			*res_x = tile_w - area_x - area_w;
+			*res_y = tile_h - area_y - area_h;
+			break;
+		case EXIF_ORIENTATION_BOTTOM_LEFT:
+			/* flipped */
+			*res_y = tile_h - area_y - area_h;
+			break;
+		case EXIF_ORIENTATION_LEFT_TOP:
+			*res_x = area_y;
+			*res_y = area_x;
+			*res_w = area_h;
+			*res_h = area_w;
+			break;
+		case EXIF_ORIENTATION_RIGHT_TOP:
+			/* rotated -90 (270) */
+			*res_x = area_y;
+			*res_y = tile_w - area_x - area_w;
+			*res_w = area_h;
+			*res_h = area_w;
+			break;
+		case EXIF_ORIENTATION_RIGHT_BOTTOM:
+			*res_x = tile_h - area_y - area_h;
+			*res_y = tile_w - area_x - area_w;
+			*res_w = area_h;
+			*res_h = area_w;
+			break;
+		case EXIF_ORIENTATION_LEFT_BOTTOM:
+			/* rotated 90 */
+			*res_x = tile_h - area_y - area_h;
+			*res_y = area_x;
+			*res_w = area_h;
+			*res_h = area_w;
+			break;
+		default:
+			/* The other values are out of range */
+			break;
+		}
+//	printf("inside y:%d, th:%d, ah:%d ry:%d\n", area_y, tile_h, area_h, *res_x); 
+} 
+
+static void pr_coords_map_orientation_reverse(PixbufRenderer *pr,
+				     gint area_x, gint area_y,
+				     gint tile_w, gint tile_h,
+				     gint area_w, gint area_h,
+				     gint *res_x, gint *res_y,
+				     gint *res_w, gint *res_h)
+{
+	*res_x = area_x;
+	*res_y = area_y;
+	*res_w = area_w;
+	*res_h = area_h;
+
+	switch (pr->orientation)
+		{
+		case EXIF_ORIENTATION_TOP_LEFT:
+			/* normal -- nothing to do */
+			break;
+		case EXIF_ORIENTATION_TOP_RIGHT:
+			/* mirrored */
+			*res_x = tile_w - area_x - area_w;
+			break;
+		case EXIF_ORIENTATION_BOTTOM_RIGHT:
+			/* upside down */
+			*res_x = tile_w - area_x - area_w;
+			*res_y = tile_h - area_y - area_h;
+			break;
+		case EXIF_ORIENTATION_BOTTOM_LEFT:
+			/* flipped */
+			*res_y = tile_h - area_y - area_h;
+			break;
+		case EXIF_ORIENTATION_LEFT_TOP:
+			*res_x = area_y;
+			*res_y = area_x;
+			*res_w = area_h;
+			*res_h = area_w;
+			break;
+		case EXIF_ORIENTATION_RIGHT_TOP:
+			/* rotated -90 (270) */
+			*res_x = tile_w - area_y - area_h;
+			*res_y = area_x;
+			*res_w = area_h;
+			*res_h = area_w;
+			break;
+		case EXIF_ORIENTATION_RIGHT_BOTTOM:
+			*res_x = tile_w - area_y - area_h;
+			*res_y = tile_h - area_x - area_w;
+			*res_w = area_h;
+			*res_h = area_w;
+			break;
+		case EXIF_ORIENTATION_LEFT_BOTTOM:
+			/* rotated 90 */
+			*res_x = area_y;
+			*res_y = tile_h - area_x - area_w;
+			*res_w = area_h;
+			*res_h = area_w;
+			break;
+		default:
+			/* The other values are out of range */
+			break;
+		}
+} 
+
+
+static GdkPixbuf *pr_get_spare_tile(PixbufRenderer *pr)
+{
+	if (!pr->spare_tile) pr->spare_tile = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, pr->tile_width, pr->tile_height);
+	return pr->spare_tile;
+}
+
+static void pr_tile_rotate_90(PixbufRenderer *pr, GdkPixbuf **tile, gint counter_clockwise, gint x, gint y, gint w, gint h)
+{
+	GdkPixbuf *src = *tile;
+	GdkPixbuf *dest;
+	gint srs;
+	gint drs;
+	guchar *s_pix;
+        guchar *d_pix;
+	guchar *sp;
+        guchar *dp;
+	gint i, j;
+	gint a = 3;
+	
+	gint tw = pr->tile_width;
+	gint th = pr->tile_height;
+
+	
+	srs = gdk_pixbuf_get_rowstride(src);
+	s_pix = gdk_pixbuf_get_pixels(src);
+
+	dest = pr_get_spare_tile(pr);
+	drs = gdk_pixbuf_get_rowstride(dest);
+	d_pix = gdk_pixbuf_get_pixels(dest);
+
+	for (i = y; i < y + h; i++)
+		{
+		sp = s_pix + (i * srs) + (x * a);
+		for (j = x; j < x + w; j++)
+			{
+			if (counter_clockwise)
+				{
+				dp = d_pix + ((th - j - 1) * drs) + (i * a);
+				}
+			else
+				{
+				dp = d_pix + (j * drs) + ((tw - i - 1) * a);
+				}
+
+			*(dp++) = *(sp++);	/* r */
+			*(dp++) = *(sp++);	/* g */
+			*(dp++) = *(sp++);	/* b */
+			}
+		}
+
+	pr->spare_tile = src;
+	*tile = dest;
+}
+
+/*
+ * Returns a copy of pixbuf mirrored and or flipped.
+ * TO do a 180 degree rotations set both mirror and flipped TRUE
+ * if mirror and flip are FALSE, result is a simple copy.
+ */
+static void pr_tile_mirror(PixbufRenderer *pr, GdkPixbuf **tile, gint mirror, gint flip, gint x, gint y, gint w, gint h)
+{
+	GdkPixbuf *src = *tile;
+	GdkPixbuf *dest;
+	gint srs;
+	gint drs;
+	guchar *s_pix;
+        guchar *d_pix;
+	guchar *sp;
+        guchar *dp;
+	gint i, j;
+	gint a = 3;
+
+	gint tw = pr->tile_width;
+	gint th = pr->tile_height;
+
+	srs = gdk_pixbuf_get_rowstride(src);
+	s_pix = gdk_pixbuf_get_pixels(src);
+
+	dest = pr_get_spare_tile(pr);
+	drs = gdk_pixbuf_get_rowstride(dest);
+	d_pix = gdk_pixbuf_get_pixels(dest);
+
+	for (i = y; i < y + h; i++)
+		{
+		sp = s_pix + (i * srs) + (x * a);
+		if (flip)
+			{
+			dp = d_pix + ((th - i - 1) * drs);
+			}
+		else
+			{
+			dp = d_pix + (i * drs);
+			}
+		if (mirror)
+			{
+			dp += (tw - x - 1) * a;
+			for (j = 0; j < w; j++)
+				{
+				*(dp++) = *(sp++);	/* r */
+				*(dp++) = *(sp++);	/* g */
+				*(dp++) = *(sp++);	/* b */
+				dp -= (a + 3);
+				}
+			}
+		else
+			{
+			dp += x * a;
+			for (j = 0; j < w; j++)
+				{
+				*(dp++) = *(sp++);	/* r */
+				*(dp++) = *(sp++);	/* g */
+				*(dp++) = *(sp++);	/* b */
+				}
+			}
+		}
+
+	pr->spare_tile = src;
+	*tile = dest;
+}
+
+
+static void pr_tile_apply_orientation(PixbufRenderer *pr, GdkPixbuf **pixbuf, gint x, gint y, gint w, gint h)
+{
+	switch (pr->orientation)
+		{
+		case EXIF_ORIENTATION_TOP_LEFT:
+			/* normal -- nothing to do */
+			break;
+		case EXIF_ORIENTATION_TOP_RIGHT:
+			/* mirrored */
+			{
+				pr_tile_mirror(pr, pixbuf, TRUE, FALSE, x, y, w, h);
+			}
+			break;
+		case EXIF_ORIENTATION_BOTTOM_RIGHT:
+			/* upside down */
+			{
+				pr_tile_mirror(pr, pixbuf, TRUE, TRUE, x, y, w, h);
+			}
+			break;
+		case EXIF_ORIENTATION_BOTTOM_LEFT:
+			/* flipped */
+			{
+				pr_tile_mirror(pr, pixbuf, FALSE, TRUE, x, y, w, h);
+			}
+			break;
+		case EXIF_ORIENTATION_LEFT_TOP:
+			{
+				pr_tile_mirror(pr, pixbuf, FALSE, TRUE, x, y, w, h);
+				pr_tile_rotate_90(pr, pixbuf, FALSE, x, pr->tile_height - y - h, w, h);
+			}
+			break;
+		case EXIF_ORIENTATION_RIGHT_TOP:
+			/* rotated -90 (270) */
+			{
+				pr_tile_rotate_90(pr, pixbuf, FALSE, x, y, w, h);
+			}
+			break;
+		case EXIF_ORIENTATION_RIGHT_BOTTOM:
+			{
+				pr_tile_mirror(pr, pixbuf, FALSE, TRUE, x, y, w, h);
+				pr_tile_rotate_90(pr, pixbuf, TRUE, x, pr->tile_height - y - h, w, h);
+			}
+			break;
+		case EXIF_ORIENTATION_LEFT_BOTTOM:
+			/* rotated 90 */
+			{
+				pr_tile_rotate_90(pr, pixbuf, TRUE, x, y, w, h);
+			}
+			break;
+		default:
+			/* The other values are out of range */
+			break;
+		}
+
+}
+
 
 static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 			   gint x, gint y, gint w, gint h,
@@ -2084,35 +2457,79 @@ static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 		}
 	else if (pr->zoom == 1.0 || pr->scale == 1.0)
 		{
+
+		double src_x, src_y;
+		gint pb_x, pb_y;
+		gint pb_w, pb_h;
+		pr_tile_coords_map_orientation(pr, it->x, it->y, 
+		                            pr->image_width, pr->image_height, 
+					    pr->tile_width, pr->tile_height,
+					    &src_x, &src_y);
+		pr_tile_region_map_orientation(pr, x, y, 
+					    pr->tile_width, pr->tile_height,
+					    w, h,
+					    &pb_x, &pb_y,
+					    &pb_w, &pb_h);
+
 		if (has_alpha)
 			{
-			gdk_pixbuf_composite_color(pr->pixbuf, it->pixbuf, x, y, w, h,
-					 (double) 0.0 - it->x,
-					 (double) 0.0 - it->y,
+			gdk_pixbuf_composite_color(pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
+					 (double) 0.0 - src_x,
+					 (double) 0.0 - src_y,
 					 1.0, 1.0, GDK_INTERP_NEAREST,
-					 255, it->x + x, it->y + y,
+					 255, it->x + pb_x, it->y + pb_y,
 					 PR_ALPHA_CHECK_SIZE, PR_ALPHA_CHECK1, PR_ALPHA_CHECK2);
+			pr_tile_apply_orientation(pr, &it->pixbuf, pb_x, pb_y, pb_w, pb_h);
 			draw = TRUE;
 			}
 		else
 			{
-			/* faster, simple */
-			gdk_draw_pixbuf(it->pixmap,
-					box->style->fg_gc[GTK_WIDGET_STATE(box)],
-					pr->pixbuf,
-					it->x + x, it->y + y,
-					x, y,
-					w, h,
-					pr->dither_quality, it->x + x, it->y + y);
+			
+			
+			if (pr->orientation == EXIF_ORIENTATION_TOP_LEFT && !(pr->func_post_process && !(pr->post_process_slow && fast)))
+				{
+				/* faster, simple, base orientation, no postprocessing */
+				gdk_draw_pixbuf(it->pixmap,
+						box->style->fg_gc[GTK_WIDGET_STATE(box)],
+						pr->pixbuf,
+						it->x + x, it->y + y,
+						x, y,
+						w, h,
+						pr->dither_quality, it->x + x, it->y + y);
+				}
+			else
+				{
+				gdk_pixbuf_copy_area(pr->pixbuf,
+				                     src_x + pb_x, src_y + pb_y,
+						     pb_w, pb_h,
+						     it->pixbuf,
+						     pb_x, pb_y);
+				pr_tile_apply_orientation(pr, &it->pixbuf, pb_x, pb_y, pb_w, pb_h);
+				draw = TRUE;
+				}
 			}
 		}
 	else
 		{
 		double scale_x, scale_y;
+		double src_x, src_y;
+		gint pb_x, pb_y;
+		gint pb_w, pb_h;
 
 		if (pr->image_width == 0 || pr->image_height == 0) return;
+
 		scale_x = (double)pr->width / pr->image_width;
 		scale_y = (double)pr->height / pr->image_height;
+
+		pr_tile_coords_map_orientation(pr, it->x / scale_x, it->y /scale_y , 
+		                            pr->image_width, pr->image_height, 
+					    pr->tile_width / scale_x , pr->tile_height / scale_y,
+					    &src_x, &src_y);
+		pr_tile_region_map_orientation(pr, x, y, 
+					    pr->tile_width, pr->tile_height,
+					    w, h,
+					    &pb_x, &pb_y,
+					    &pb_w, &pb_h);
 
 		/* HACK: The pixbuf scalers get kinda buggy(crash) with extremely
 		 * small sizes for anything but GDK_INTERP_NEAREST
@@ -2121,27 +2538,32 @@ static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 
 		if (!has_alpha)
 			{
-			gdk_pixbuf_scale(pr->pixbuf, it->pixbuf, x, y, w, h,
-					 (double) 0.0 - it->x,
-					 (double) 0.0 - it->y,
+			gdk_pixbuf_scale(pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
+					 (double) 0.0 - src_x * scale_x,
+					 (double) 0.0 - src_y * scale_y,
 					 scale_x, scale_y,
 					 (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality);
 			}
 		else
 			{
-			gdk_pixbuf_composite_color(pr->pixbuf, it->pixbuf, x, y, w, h,
-					 (double) 0.0 - it->x,
-					 (double) 0.0 - it->y,
+			gdk_pixbuf_composite_color(pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
+					 (double) 0.0 - src_x * scale_x,
+					 (double) 0.0 - src_y * scale_y,
 					 scale_x, scale_y,
 					 (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality,
-					 255, it->x + x, it->y + y,
+					 255, it->x + pb_x, it->y + pb_y,
 					 PR_ALPHA_CHECK_SIZE, PR_ALPHA_CHECK1, PR_ALPHA_CHECK2);
 			}
+		pr_tile_apply_orientation(pr, &it->pixbuf, pb_x, pb_y, pb_w, pb_h);
 		draw = TRUE;
 		}
 
 	if (draw && it->pixbuf && !it->blank)
 		{
+		
+		if (pr->func_post_process && !(pr->post_process_slow && fast))
+			pr->func_post_process(pr, &it->pixbuf, x, y, w, h, pr->post_process_user_data);
+		
 		gdk_draw_pixbuf(it->pixmap,
 				box->style->fg_gc[GTK_WIDGET_STATE(box)],
 				it->pixbuf,
@@ -2155,6 +2577,8 @@ static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 	/* enable this line for debugging the edges of tiles */
 	gdk_draw_rectangle(it->pixmap, box->style->white_gc,
 			   FALSE, 0, 0, it->w, it->h);
+	gdk_draw_rectangle(it->pixmap, box->style->white_gc,
+			   FALSE, x, y, w, h);
 #endif
 }
 
@@ -2214,7 +2638,7 @@ static gint pr_queue_draw_idle_cb(gpointer data)
 	if (pr->draw_queue)
 		{
 		qd = pr->draw_queue->data;
-		fast = (pr->zoom_2pass && pr->zoom_quality != GDK_INTERP_NEAREST && pr->scale != 1.0);
+		fast = ((pr->zoom_2pass && pr->zoom_quality != GDK_INTERP_NEAREST && pr->scale != 1.0) || pr->post_process_slow);
 		}
 	else
 		{
@@ -3222,6 +3646,23 @@ static void pr_signals_connect(PixbufRenderer *pr)
  * public
  *-------------------------------------------------------------------
  */
+static void pr_pixbuf_size_sync(PixbufRenderer *pr)
+{
+	if (!pr->pixbuf) return;
+	switch (pr->orientation)
+		{
+		case EXIF_ORIENTATION_LEFT_TOP:
+		case EXIF_ORIENTATION_RIGHT_TOP:
+		case EXIF_ORIENTATION_RIGHT_BOTTOM:
+		case EXIF_ORIENTATION_LEFT_BOTTOM:
+			pr->image_width = gdk_pixbuf_get_height(pr->pixbuf);
+			pr->image_height = gdk_pixbuf_get_width(pr->pixbuf);
+			break;
+		default:
+			pr->image_width = gdk_pixbuf_get_width(pr->pixbuf);
+			pr->image_height = gdk_pixbuf_get_height(pr->pixbuf);
+		}
+}
 
 static void pr_pixbuf_sync(PixbufRenderer *pr, gdouble zoom)
 {
@@ -3246,10 +3687,8 @@ static void pr_pixbuf_sync(PixbufRenderer *pr, gdouble zoom)
 
 		return;
 		}
-
-	pr->image_width = gdk_pixbuf_get_width(pr->pixbuf);
-	pr->image_height = gdk_pixbuf_get_height(pr->pixbuf);
-
+		
+	pr_pixbuf_size_sync(pr);
 	pr_zoom_sync(pr, zoom, TRUE, TRUE, FALSE, 0, 0);
 }
 
@@ -3280,6 +3719,33 @@ GdkPixbuf *pixbuf_renderer_get_pixbuf(PixbufRenderer *pr)
 	return pr->pixbuf;
 }
 
+void pixbuf_renderer_set_orientation(PixbufRenderer *pr, gint orientation)
+{
+	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
+
+	pr->orientation = orientation;
+
+	pr_pixbuf_size_sync(pr);
+	pr_zoom_sync(pr, pr->zoom, TRUE, FALSE, FALSE, 0, 0);
+}
+
+gint pixbuf_renderer_get_orientation(PixbufRenderer *pr)
+{
+	if (!pr) return 1;
+	return pr->orientation;
+}
+
+void pixbuf_renderer_set_post_process_func(PixbufRenderer *pr, PixbufRendererPostProcessFunc func, gpointer user_data, gint slow)
+{
+	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
+	
+	pr->func_post_process = func;
+	pr->post_process_user_data = user_data;
+	pr->post_process_slow = func && slow;
+
+}
+
+
 void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source)
 {
 	GObject *object;
@@ -3303,6 +3769,11 @@ void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source)
 
 	scroll_reset = pr->scroll_reset;
 	pr->scroll_reset = PR_SCROLL_RESET_NOCHANGE;
+
+	pr->func_post_process = source->func_post_process;
+	pr->post_process_user_data = source->post_process_user_data;
+	pr->post_process_slow = source->post_process_slow;
+	pr->orientation = source->orientation;
 
 	if (source->source_tiles_enabled)
 		{
@@ -3337,11 +3808,18 @@ void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source)
 	pr_tile_free_all(source);
 }
 
-void pixbuf_renderer_area_changed(PixbufRenderer *pr, gint x, gint y, gint width, gint height)
+void pixbuf_renderer_area_changed(PixbufRenderer *pr, gint src_x, gint src_y, gint src_w, gint src_h)
 {
-	gint x1, y1, x2, y2;
+	gint x, y, width, height,  x1, y1, x2, y2;
 
 	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
+
+        pr_coords_map_orientation_reverse(pr,
+				     src_x, src_y,
+				     pr->image_width, pr->image_height,
+				     src_w, src_h,
+				     &x, &y,
+				     &width, &height);
 
 	if (pr->source_tiles_enabled)
 		{

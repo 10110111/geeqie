@@ -32,6 +32,10 @@ typedef gint (* PixbufRendererTileRequestFunc)(PixbufRenderer *pr, gint x, gint 
 					       gint width, gint height, GdkPixbuf *pixbuf, gpointer user_data);
 typedef void (* PixbufRendererTileDisposeFunc)(PixbufRenderer *pr, gint x, gint y,
 					       gint width, gint height, GdkPixbuf *pixbuf, gpointer user_data);
+
+typedef void (* PixbufRendererPostProcessFunc)(PixbufRenderer *pr, GdkPixbuf **pixbuf, gint x, gint y,
+					       gint width, gint height, gpointer user_data);
+
 typedef enum {
 	PR_SCROLL_RESET_TOPLEFT = 0,
 	PR_SCROLL_RESET_CENTER,
@@ -119,8 +123,12 @@ struct _PixbufRenderer
 
 	PixbufRendererTileRequestFunc func_tile_request;
 	PixbufRendererTileDisposeFunc func_tile_dispose;
-
+	
 	gpointer func_tile_data;
+
+	PixbufRendererPostProcessFunc func_post_process;
+	gpointer post_process_user_data;
+	gint post_process_slow;
 
 	gboolean delay_flip;
 	gboolean loading;
@@ -138,6 +146,10 @@ struct _PixbufRenderer
 
 	GList *overlay_list;
 	GdkPixmap *overlay_buffer;
+
+	GdkPixbuf *spare_tile;
+	
+	gint orientation;
 };
 
 struct _PixbufRendererClass
@@ -164,6 +176,11 @@ GtkWindow *pixbuf_renderer_get_parent(PixbufRenderer *pr);
 
 void pixbuf_renderer_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom);
 GdkPixbuf *pixbuf_renderer_get_pixbuf(PixbufRenderer *pr);
+
+void pixbuf_renderer_set_orientation(PixbufRenderer *pr, gint orientation);
+gint pixbuf_renderer_get_orientation(PixbufRenderer *pr);
+
+void pixbuf_renderer_set_post_process_func(PixbufRenderer *pr, PixbufRendererPostProcessFunc func, gpointer user_data, gint slow);
 
 /* display an on-request array of pixbuf tiles */
 
