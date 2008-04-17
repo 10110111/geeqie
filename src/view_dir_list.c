@@ -284,7 +284,7 @@ void vdlist_refresh(ViewDir *vd)
 	g_free(path);
 }
 
-static gint vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gint vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	ViewDir *vd = data;
 	GtkTreePath *tpath;
@@ -317,7 +317,7 @@ static gint vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 	return TRUE;
 }
 
-static gint vdlist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+gint vdlist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	ViewDir *vd = data;
 	GtkTreePath *tpath;
@@ -349,7 +349,7 @@ static gint vdlist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 	return TRUE;
 }
 
-static void vdlist_destroy_cb(GtkWidget *widget, gpointer data)
+void vdlist_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
 
@@ -368,7 +368,6 @@ ViewDir *vdlist_new(ViewDir *vd, const gchar *path)
 
 	vd->info = g_new0(ViewDirInfoList, 1);
 	vd->type = DIRVIEW_LIST;
-	vd->widget_destroy_cb = vdlist_destroy_cb;
 
 	VDLIST_INFO(vd, list) = NULL;
 
@@ -379,7 +378,6 @@ ViewDir *vdlist_new(ViewDir *vd, const gchar *path)
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(vd->view), FALSE);
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(vd->view), FALSE);
 	g_signal_connect(G_OBJECT(vd->view), "row_activated",
-
 			 G_CALLBACK(vd_activate_cb), vd);
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vd->view));
@@ -401,14 +399,14 @@ ViewDir *vdlist_new(ViewDir *vd, const gchar *path)
 	gtk_tree_view_append_column(GTK_TREE_VIEW(vd->view), column);
 
 	g_signal_connect(G_OBJECT(vd->view), "key_press_event",
-			   G_CALLBACK(vdlist_press_key_cb), vd);
+			   G_CALLBACK(vd_press_key_cb), vd);
 	gtk_container_add(GTK_CONTAINER(vd->widget), vd->view);
 	gtk_widget_show(vd->view);
 
 	vd_dnd_init(vd);
 
 	g_signal_connect(G_OBJECT(vd->view), "button_press_event",
-			 G_CALLBACK(vdlist_press_cb), vd);
+			 G_CALLBACK(vd_press_cb), vd);
 	g_signal_connect(G_OBJECT(vd->view), "button_release_event",
 			 G_CALLBACK(vd_release_cb), vd);
 

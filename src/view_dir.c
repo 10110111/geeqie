@@ -30,7 +30,7 @@ GtkRadioActionEntry menu_view_dir_radio_entries[] = {
   { "FolderTree",	NULL,		N_("Tr_ee"),		"<control>T",	NULL, DIRVIEW_TREE },
 };
 
-void vd_destroy_cb(GtkWidget *widget, gpointer data)
+static void vd_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
 
@@ -41,8 +41,12 @@ void vd_destroy_cb(GtkWidget *widget, gpointer data)
 		gtk_widget_destroy(vd->popup);
 		}
 
-	if (vd->widget_destroy_cb) vd->widget_destroy_cb(widget, data);
-
+	switch(vd->type)
+	{
+	case DIRVIEW_LIST: vdlist_destroy_cb(widget, data); break;
+	case DIRVIEW_TREE: vdtree_destroy_cb(widget, data); break;
+	}
+	
 	if (vd->pf) folder_icons_free(vd->pf);
 	if (vd->drop_list) filelist_free(vd->drop_list);
 
@@ -918,3 +922,30 @@ gint vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 	return FALSE;
 }
 
+gint vd_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+{
+	ViewDir *vd = data;
+	gint ret = FALSE;
+
+	switch(vd->type)
+	{
+	case DIRVIEW_LIST: ret = vdlist_press_key_cb(widget, event, data); break;
+	case DIRVIEW_TREE: ret = vdtree_press_key_cb(widget, event, data); break;
+	}
+
+	return ret;
+}
+
+gint vd_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+{
+	ViewDir *vd = data;
+	gint ret = FALSE;
+
+	switch(vd->type)
+	{
+	case DIRVIEW_LIST: ret = vdlist_press_cb(widget, bevent, data); break;
+	case DIRVIEW_TREE: ret = vdtree_press_cb(widget, bevent, data); break;
+	}
+
+	return ret;
+}

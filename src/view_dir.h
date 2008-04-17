@@ -22,8 +22,6 @@ enum {
 
 extern GtkRadioActionEntry menu_view_dir_radio_entries[2];
 
-void vd_destroy(ViewDir *vd);
-
 ViewDir *vd_new(DirViewType type, const gchar *path);
 
 void vd_set_select_func(ViewDir *vdl, void (*func)(ViewDir *vdl, const gchar *path, gpointer data), gpointer data);
@@ -51,6 +49,8 @@ void vd_activate_cb(GtkTreeView *tview, GtkTreePath *tpath, GtkTreeViewColumn *c
 void vd_color_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model, GtkTreeIter *iter, gpointer data);
 
 gint vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
+gint vd_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
+gint vd_press_cb(GtkWidget *widget,  GdkEventButton *bevent, gpointer data);
 
 #endif
 

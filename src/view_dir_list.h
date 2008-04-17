@@ -26,6 +26,10 @@ gint vdlist_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter);
 void vdlist_rename_by_row(ViewDir *vd, FileData *fd);
 FileData *vdlist_row_by_path(ViewDir *vd, const gchar *path, gint *row);
 
+gint vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
+gint vdlist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
+
+void vdlist_destroy_cb(GtkWidget *widget, gpointer data);
 
 #endif
 

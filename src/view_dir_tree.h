@@ -36,5 +36,10 @@ void vdtree_rename_by_data(ViewDir *vd, FileData *fd);
 void vdtree_dnd_drop_expand_cancel(ViewDir *vd);
 void vdtree_dnd_drop_expand(ViewDir *vd);
 
+gint vdtree_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
+gint vdtree_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
+
+void vdtree_destroy_cb(GtkWidget *widget, gpointer data);
+
 #endif
 

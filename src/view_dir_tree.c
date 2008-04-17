@@ -738,7 +738,7 @@ const gchar *vdtree_row_get_path(ViewDir *vd, gint row)
  *----------------------------------------------------------------------------
  */
 
-static gint vdtree_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gint vdtree_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	ViewDir *vd = data;
 	GtkTreePath *tpath;
@@ -809,7 +809,7 @@ static gint vdtree_clicked_on_expander(GtkTreeView *treeview, GtkTreePath *tpath
 	return FALSE;
 }
 
-static gint vdtree_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+gint vdtree_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	ViewDir *vd = data;
 	GtkTreePath *tpath;
@@ -918,7 +918,7 @@ static gboolean vdtree_destroy_node_cb(GtkTreeModel *store, GtkTreePath *tpath, 
 	return FALSE;
 }
 
-static void vdtree_destroy_cb(GtkWidget *widget, gpointer data)
+void vdtree_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
 	GtkTreeModel *store;
@@ -940,7 +940,6 @@ ViewDir *vdtree_new(ViewDir *vd, const gchar *path)
 
 	vd->info = g_new0(ViewDirInfoTree, 1);
 	vd->type = DIRVIEW_TREE;
-	vd->widget_destroy_cb = vdtree_destroy_cb;
 
 	VDTREE_INFO(vd, drop_expand_id) = -1;
 
@@ -987,7 +986,7 @@ ViewDir *vdtree_new(ViewDir *vd, const gchar *path)
 	gtk_tree_view_append_column(GTK_TREE_VIEW(vd->view), column);
 
 	g_signal_connect(G_OBJECT(vd->view), "key_press_event",
-			 G_CALLBACK(vdtree_press_key_cb), vd);
+			 G_CALLBACK(vd_press_key_cb), vd);
 
 	gtk_container_add(GTK_CONTAINER(vd->widget), vd->view);
 	gtk_widget_show(vd->view);
@@ -999,7 +998,7 @@ ViewDir *vdtree_new(ViewDir *vd, const gchar *path)
 	vd_dnd_init(vd);
 
 	g_signal_connect(G_OBJECT(vd->view), "button_press_event",
-			 G_CALLBACK(vdtree_press_cb), vd);
+			 G_CALLBACK(vd_press_cb), vd);
 	g_signal_connect(G_OBJECT(vd->view), "button_release_event",
 			 G_CALLBACK(vd_release_cb), vd);
 
