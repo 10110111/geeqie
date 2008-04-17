@@ -154,34 +154,40 @@ gint vd_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
 	return ret;
 }
 
+FileData *vd_get_fd_from_tree_path(ViewDir *vd, GtkTreeView *tview, GtkTreePath *tpath)
+{
+	GtkTreeIter iter;
+	FileData *fd = NULL;
+	GtkTreeModel *store;
+
+	store = gtk_tree_view_get_model(tview);
+	gtk_tree_model_get_iter(store, &iter, tpath);
+	switch (vd->type)
+		{
+		case DIRVIEW_LIST:
+			gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &fd, -1);
+			break;
+		case DIRVIEW_TREE:
+			{
+			NodeData *nd;
+			gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
+			fd = (nd) ? nd->fd : NULL;
+			};
+			break;
+		}
+
+	return fd;
+}
+
 static gint vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, gpointer data)
 {
 	ViewDir *vd = data;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
 	FileData *fd;
 	gchar *old_path;
 	gchar *new_path;
 	gchar *base;
 
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
-	if (!gtk_tree_model_get_iter(store, &iter, td->path)) return FALSE;
-
-	switch(vd->type)
-	{
-	case DIRVIEW_LIST:
-		gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &fd, -1);
-		break;
-	case DIRVIEW_TREE:
-		{
-		NodeData *nd;
-		gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
-		if (!nd) return FALSE;
-		fd = nd->fd;
-		};
-		break;
-	}
-
+	fd = vd_get_fd_from_tree_path(vd, GTK_TREE_VIEW(vd->view), td->path);
 	if (!fd) return FALSE;
 
 	old_path = g_strdup(fd->path);
@@ -669,7 +675,6 @@ static void vd_dnd_drop_receive(GtkWidget *widget,
 {
 	ViewDir *vd = data;
 	GtkTreePath *tpath;
-	GtkTreeIter iter;
 	FileData *fd = NULL;
 
 	vd->click_fd = NULL;
@@ -677,23 +682,7 @@ static void vd_dnd_drop_receive(GtkWidget *widget,
 	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget), x, y,
 					  &tpath, NULL, NULL, NULL))
 		{
-		GtkTreeModel *store;
-
-		store = gtk_tree_view_get_model(GTK_TREE_VIEW(widget));
-		gtk_tree_model_get_iter(store, &iter, tpath);
-		switch (vd->type)
-			{
-			case DIRVIEW_LIST:
-				gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &fd, -1);
-				break;
-			case DIRVIEW_TREE:
-				{
-				NodeData *nd;
-				gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
-				fd = (nd) ? nd->fd : NULL;
-				};
-				break;
-			}
+		fd = vd_get_fd_from_tree_path(vd, GTK_TREE_VIEW(widget), tpath);
 		gtk_tree_path_free(tpath);
 		}
 
@@ -721,29 +710,12 @@ static void vd_dnd_drop_receive(GtkWidget *widget,
 static void vd_drop_update(ViewDir *vd, gint x, gint y)
 {
 	GtkTreePath *tpath;
-	GtkTreeIter iter;
 	FileData *fd = NULL;
 
 	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(vd->view), x, y,
 					  &tpath, NULL, NULL, NULL))
 		{
-		GtkTreeModel *store;
-	
-		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
-		gtk_tree_model_get_iter(store, &iter, tpath);
-		switch (vd->type)
-			{
-			case DIRVIEW_LIST:
-				gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &fd, -1);
-				break;
-			case DIRVIEW_TREE:
-				{
-				NodeData *nd;
-				gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
-				fd = (nd) ? nd->fd : NULL;
-				};
-				break;
-			}
+		fd = vd_get_fd_from_tree_path(vd, GTK_TREE_VIEW(vd->view), tpath);
 		gtk_tree_path_free(tpath);
 		}
 
@@ -884,25 +856,7 @@ void vd_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
 void vd_activate_cb(GtkTreeView *tview, GtkTreePath *tpath, GtkTreeViewColumn *column, gpointer data)
 {
 	ViewDir *vd = data;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
-	FileData *fd;
-
-	store = gtk_tree_view_get_model(tview);
-	gtk_tree_model_get_iter(store, &iter, tpath);
-	switch (vd->type)
-		{
-		case DIRVIEW_LIST:
-			gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &fd, -1);
-			break;
-		case DIRVIEW_TREE:
-			{
-			NodeData *nd;
-			gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
-			fd = (nd) ? nd->fd : NULL;
-			};
-			break;
-		}
+	FileData *fd = vd_get_fd_from_tree_path(vd, tview, tpath);
 
 	vd_select_row(vd, fd);
 }
@@ -941,7 +895,6 @@ gint vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	ViewDir *vd = data;
 	GtkTreePath *tpath;
-	GtkTreeIter iter;
 	FileData *fd = NULL;
 
 	vd_color_set(vd, vd->click_fd, FALSE);
@@ -952,24 +905,7 @@ gint vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 	    gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget), bevent->x, bevent->y,
 					  &tpath, NULL, NULL, NULL))
 		{
-		GtkTreeModel *store;
-
-		store = gtk_tree_view_get_model(GTK_TREE_VIEW(widget));
-		gtk_tree_model_get_iter(store, &iter, tpath);
-		switch (vd->type)
-			{
-			case DIRVIEW_LIST:
-				gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &fd, -1);
-				break;
-			case DIRVIEW_TREE:
-				{
-				NodeData *nd;
-				gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
-				fd = (nd) ? nd->fd : NULL;
-				};
-				break;
-			}
-		
+		fd = vd_get_fd_from_tree_path(vd, GTK_TREE_VIEW(widget), tpath);
 		gtk_tree_path_free(tpath);
 		}
 
