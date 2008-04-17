@@ -42,6 +42,8 @@ void vd_popup_destroy_cb(GtkWidget *widget, gpointer data);
 GtkWidget *vd_drop_menu(ViewDir *vd, gint active);
 GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd);
 
+void vd_dnd_drop_scroll_cancel(ViewDir *vd);
+void vd_dnd_init(ViewDir *vd);
 
 #endif
 

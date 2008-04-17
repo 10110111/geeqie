@@ -12,10 +12,12 @@
 #include "main.h"
 #include "view_dir.h"
 
+#include "dnd.h"
 #include "dupe.h"
 #include "filelist.h"
 #include "layout_image.h"
 #include "layout_util.h"
+#include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_tree_edit.h"
 #include "ui_menu.h"
@@ -574,5 +576,276 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 			    G_CALLBACK(vd_pop_menu_refresh_cb), vd);
 
 	return menu;
+}
+
+/*
+ *-----------------------------------------------------------------------------
+ * dnd
+ *-----------------------------------------------------------------------------
+ */
+
+static GtkTargetEntry vd_dnd_drop_types[] = {
+	{ "text/uri-list", 0, TARGET_URI_LIST }
+};
+static gint vd_dnd_drop_types_count = 1;
+
+static void vd_dest_set(ViewDir *vd, gint enable)
+{
+	if (enable)
+		{
+		gtk_drag_dest_set(vd->view,
+				  GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_DROP,
+				  vd_dnd_drop_types, vd_dnd_drop_types_count,
+				  GDK_ACTION_MOVE | GDK_ACTION_COPY);
+		}
+	else
+		{
+		gtk_drag_dest_unset(vd->view);
+		}
+}
+
+static void vd_dnd_get(GtkWidget *widget, GdkDragContext *context,
+			   GtkSelectionData *selection_data, guint info,
+			   guint time, gpointer data)
+{
+	ViewDir *vd = data;
+	GList *list;
+	gchar *uritext = NULL;
+	gint length = 0;
+
+	if (!vd->click_fd) return;
+
+	switch (info)
+		{
+		case TARGET_URI_LIST:
+		case TARGET_TEXT_PLAIN:
+			list = g_list_prepend(NULL, vd->click_fd);
+			uritext = uri_text_from_filelist(list, &length, (info == TARGET_TEXT_PLAIN));
+			g_list_free(list);
+			break;
+		}
+	if (uritext)
+		{
+		gtk_selection_data_set (selection_data, selection_data->target,
+				8, (guchar *)uritext, length);
+		g_free(uritext);
+		}
+}
+
+static void vd_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointer data)
+{
+	ViewDir *vd = data;
+
+	vd_color_set(vd, vd->click_fd, TRUE);
+	vd_dest_set(vd, FALSE);
+}
+
+static void vd_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer data)
+{
+	ViewDir *vd = data;
+
+	vd_color_set(vd, vd->click_fd, FALSE);
+
+	if (vd->type == DIRVIEW_LIST && context->action == GDK_ACTION_MOVE)
+		{
+		vd_refresh(vd);
+		}
+	vd_dest_set(vd, TRUE);
+}
+
+static void vd_dnd_drop_receive(GtkWidget *widget,
+				    GdkDragContext *context, gint x, gint y,
+				    GtkSelectionData *selection_data, guint info,
+				    guint time, gpointer data)
+{
+	ViewDir *vd = data;
+	GtkTreePath *tpath;
+	GtkTreeIter iter;
+	FileData *fd = NULL;
+
+	vd->click_fd = NULL;
+
+	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget), x, y,
+					  &tpath, NULL, NULL, NULL))
+		{
+		GtkTreeModel *store;
+
+		store = gtk_tree_view_get_model(GTK_TREE_VIEW(widget));
+		gtk_tree_model_get_iter(store, &iter, tpath);
+		switch (vd->type)
+			{
+			case DIRVIEW_LIST:
+				gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &fd, -1);
+				break;
+			case DIRVIEW_TREE:
+				{
+				NodeData *nd;
+				gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
+				fd = (nd) ? nd->fd : NULL;
+				};
+				break;
+			}
+		gtk_tree_path_free(tpath);
+		}
+
+	if (!fd) return;
+
+	if (info == TARGET_URI_LIST)
+		{
+		GList *list;
+		gint active;
+
+		list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
+		if (!list) return;
+
+		active = access_file(fd->path, W_OK | X_OK);
+
+		vd_color_set(vd, fd, TRUE);
+		vd->popup = vd_drop_menu(vd, active);
+		gtk_menu_popup(GTK_MENU(vd->popup), NULL, NULL, NULL, NULL, 0, time);
+
+		vd->drop_fd = fd;
+		vd->drop_list = list;
+		}
+}
+
+static void vd_drop_update(ViewDir *vd, gint x, gint y)
+{
+	GtkTreePath *tpath;
+	GtkTreeIter iter;
+	FileData *fd = NULL;
+
+	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(vd->view), x, y,
+					  &tpath, NULL, NULL, NULL))
+		{
+		GtkTreeModel *store;
+	
+		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
+		gtk_tree_model_get_iter(store, &iter, tpath);
+		switch (vd->type)
+			{
+			case DIRVIEW_LIST:
+				gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &fd, -1);
+				break;
+			case DIRVIEW_TREE:
+				{
+				NodeData *nd;
+				gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
+				fd = (nd) ? nd->fd : NULL;
+				};
+				break;
+			}
+		gtk_tree_path_free(tpath);
+		}
+
+	if (fd != vd->drop_fd)
+		{
+		vd_color_set(vd, vd->drop_fd, FALSE);
+		vd_color_set(vd, fd, TRUE);
+		if (vd->type == DIRVIEW_TREE && fd) vdtree_dnd_drop_expand(vd);
+		}
+
+	vd->drop_fd = fd;
+}
+
+void vd_dnd_drop_scroll_cancel(ViewDir *vd)
+{
+	if (vd->drop_scroll_id != -1) g_source_remove(vd->drop_scroll_id);
+	vd->drop_scroll_id = -1;
+}
+
+static gint vd_auto_scroll_idle_cb(gpointer data)
+{
+	ViewDir *vd = data;
+
+	if (vd->drop_fd)
+		{
+		GdkWindow *window;
+		gint x, y;
+		gint w, h;
+
+		window = vd->view->window;
+		gdk_window_get_pointer(window, &x, &y, NULL);
+		gdk_drawable_get_size(window, &w, &h);
+		if (x >= 0 && x < w && y >= 0 && y < h)
+			{
+			vd_drop_update(vd, x, y);
+			}
+		}
+
+	vd->drop_scroll_id = -1;
+	return FALSE;
+}
+
+static gint vd_auto_scroll_notify_cb(GtkWidget *widget, gint x, gint y, gpointer data)
+{
+	ViewDir *vd = data;
+
+	if (!vd->drop_fd || vd->drop_list) return FALSE;
+
+	if (vd->drop_scroll_id == -1) vd->drop_scroll_id = g_idle_add(vd_auto_scroll_idle_cb, vd);
+
+	return TRUE;
+}
+
+static gint vd_dnd_drop_motion(GtkWidget *widget, GdkDragContext *context,
+				   gint x, gint y, guint time, gpointer data)
+{
+        ViewDir *vd = data;
+
+	vd->click_fd = NULL;
+
+	if (gtk_drag_get_source_widget(context) == vd->view)
+		{
+		/* from same window */
+		gdk_drag_status(context, 0, time);
+		return TRUE;
+		}
+	else
+		{
+		gdk_drag_status(context, context->suggested_action, time);
+		}
+
+	vd_drop_update(vd, x, y);
+
+	if (vd->drop_fd)
+		{
+		GtkAdjustment *adj = gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(vd->view));
+		widget_auto_scroll_start(vd->view, adj, -1, -1, vd_auto_scroll_notify_cb, vd);
+		}
+
+	return FALSE;
+}
+
+static void vd_dnd_drop_leave(GtkWidget *widget, GdkDragContext *context, guint time, gpointer data)
+{
+	ViewDir *vd = data;
+
+	if (vd->drop_fd != vd->click_fd) vd_color_set(vd, vd->drop_fd, FALSE);
+
+	vd->drop_fd = NULL;
+
+	if (vd->type == DIRVIEW_TREE) vdtree_dnd_drop_expand_cancel(vd);
+}
+
+void vd_dnd_init(ViewDir *vd)
+{
+	gtk_drag_source_set(vd->view, GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
+			    dnd_file_drag_types, dnd_file_drag_types_count,
+			    GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
+	g_signal_connect(G_OBJECT(vd->view), "drag_data_get",
+			 G_CALLBACK(vd_dnd_get), vd);
+	g_signal_connect(G_OBJECT(vd->view), "drag_begin",
+			 G_CALLBACK(vd_dnd_begin), vd);
+	g_signal_connect(G_OBJECT(vd->view), "drag_end",
+			 G_CALLBACK(vd_dnd_end), vd);
+
+	vd_dest_set(vd, TRUE);
+	g_signal_connect(G_OBJECT(vd->view), "drag_data_received",
+			 G_CALLBACK(vd_dnd_drop_receive), vd);
+	g_signal_connect(G_OBJECT(vd->view), "drag_motion",
+			 G_CALLBACK(vd_dnd_drop_motion), vd);
+	g_signal_connect(G_OBJECT(vd->view), "drag_leave",
+			 G_CALLBACK(vd_dnd_drop_leave), vd);
 }
 

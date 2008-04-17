@@ -31,5 +31,8 @@ gint vdtree_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter, GtkTreeIter *
 FileData *vdtree_populate_path(ViewDir *vd, const gchar *path, gint expand, gint force);
 void vdtree_rename_by_data(ViewDir *vd, FileData *fd);
 
+void vdtree_dnd_drop_expand_cancel(ViewDir *vd);
+void vdtree_dnd_drop_expand(ViewDir *vd);
+
 #endif
 
