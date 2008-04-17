@@ -15,6 +15,8 @@
 
 ViewDir *vdlist_new(ViewDir *vd, const gchar *path);
 
+void vdlist_select_row(ViewDir *vd, FileData *fd);
+
 gint vdlist_set_path(ViewDir *vd, const gchar *path);
 void vdlist_refresh(ViewDir *vd);
 

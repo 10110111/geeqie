@@ -121,7 +121,7 @@ static void vdlist_scroll_to_row(ViewDir *vd, FileData *fd, gfloat y_align)
  *-----------------------------------------------------------------------------
  */ 
 
-static void vdlist_select_row(ViewDir *vd, FileData *fd)
+void vdlist_select_row(ViewDir *vd, FileData *fd)
 {
 	if (fd && vd->select_func)
 		{
@@ -380,50 +380,6 @@ static gint vdlist_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointe
 	return TRUE;
 }
 
-static void vdlist_select_cb(GtkTreeView *tview, GtkTreePath *tpath, GtkTreeViewColumn *column, gpointer data)
-{
-	ViewDir *vd = data;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
-	FileData *fd;
-
-	store = gtk_tree_view_get_model(tview);
-	gtk_tree_model_get_iter(store, &iter, tpath);
-	gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &fd, -1);
-
-	vdlist_select_row(vd, fd);
-}
-
-static GdkColor *vdlist_color_shifted(GtkWidget *widget)
-{
-	static GdkColor color;
-	static GtkWidget *done = NULL;
-
-	if (done != widget)
-		{
-		GtkStyle *style;
-		
-		style = gtk_widget_get_style(widget);
-		memcpy(&color, &style->base[GTK_STATE_NORMAL], sizeof(color));
-		shift_color(&color, -1, 0);
-		done = widget;
-		}
-
-	return &color;
-}
-
-static void vdlist_color_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell,
-			    GtkTreeModel *tree_model, GtkTreeIter *iter, gpointer data)
-{
-	ViewDir *vd = data;
-	gboolean set;
-
-	gtk_tree_model_get(tree_model, iter, DIR_COLUMN_COLOR, &set, -1);
-	g_object_set(G_OBJECT(cell),
-		     "cell-background-gdk", vdlist_color_shifted(vd->view),
-		     "cell-background-set", set, NULL);
-}
-
 static void vdlist_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
@@ -455,7 +411,7 @@ ViewDir *vdlist_new(ViewDir *vd, const gchar *path)
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(vd->view), FALSE);
 	g_signal_connect(G_OBJECT(vd->view), "row_activated",
 
-			 G_CALLBACK(vdlist_select_cb), vd);
+			 G_CALLBACK(vd_activate_cb), vd);
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vd->view));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_NONE);
@@ -466,12 +422,12 @@ ViewDir *vdlist_new(ViewDir *vd, const gchar *path)
 	renderer = gtk_cell_renderer_pixbuf_new();
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
 	gtk_tree_view_column_add_attribute(column, renderer, "pixbuf", DIR_COLUMN_ICON);
-	gtk_tree_view_column_set_cell_data_func(column, renderer, vdlist_color_cb, vd, NULL);
+	gtk_tree_view_column_set_cell_data_func(column, renderer, vd_color_cb, vd, NULL);
 
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, TRUE);
 	gtk_tree_view_column_add_attribute(column, renderer, "text", DIR_COLUMN_NAME);
-	gtk_tree_view_column_set_cell_data_func(column, renderer, vdlist_color_cb, vd, NULL);
+	gtk_tree_view_column_set_cell_data_func(column, renderer, vd_color_cb, vd, NULL);
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(vd->view), column);
 

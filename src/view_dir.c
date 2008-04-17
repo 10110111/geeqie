@@ -132,6 +132,15 @@ const gchar *vd_row_get_path(ViewDir *vd, gint row)
 	return ret;
 }
 
+void vd_select_row(ViewDir *vd, FileData *fd)
+{
+	switch(vd->type)
+	{
+	case DIRVIEW_LIST: vdlist_select_row(vd, fd); break;
+	case DIRVIEW_TREE: vdtree_select_row(vd, fd); break;
+	}
+}
+
 gint vd_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
 {
 	gint ret = FALSE;
@@ -870,5 +879,61 @@ void vd_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
 	gtk_tree_path_free(tpath);
 	*y += ch;
 	popup_menu_position_clamp(menu, x, y, 0);
+}
+
+void vd_activate_cb(GtkTreeView *tview, GtkTreePath *tpath, GtkTreeViewColumn *column, gpointer data)
+{
+	ViewDir *vd = data;
+	GtkTreeModel *store;
+	GtkTreeIter iter;
+	FileData *fd;
+
+	store = gtk_tree_view_get_model(tview);
+	gtk_tree_model_get_iter(store, &iter, tpath);
+	switch (vd->type)
+		{
+		case DIRVIEW_LIST:
+			gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &fd, -1);
+			break;
+		case DIRVIEW_TREE:
+			{
+			NodeData *nd;
+			gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
+			fd = (nd) ? nd->fd : NULL;
+			};
+			break;
+		}
+
+	vd_select_row(vd, fd);
+}
+
+static GdkColor *vd_color_shifted(GtkWidget *widget)
+{
+	static GdkColor color;
+	static GtkWidget *done = NULL;
+
+	if (done != widget)
+		{
+		GtkStyle *style;
+
+		style = gtk_widget_get_style(widget);
+		memcpy(&color, &style->base[GTK_STATE_NORMAL], sizeof(color));
+		shift_color(&color, -1, 0);
+		done = widget;
+		}
+
+	return &color;
+}
+
+void vd_color_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell,
+		 GtkTreeModel *tree_model, GtkTreeIter *iter, gpointer data)
+{
+	ViewDir *vd = data;
+	gboolean set;
+
+	gtk_tree_model_get(tree_model, iter, DIR_COLUMN_COLOR, &set, -1);
+	g_object_set(G_OBJECT(cell),
+		     "cell-background-gdk", vd_color_shifted(vd->view),
+		     "cell-background-set", set, NULL);
 }
 
