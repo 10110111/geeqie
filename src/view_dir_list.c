@@ -284,23 +284,6 @@ void vdlist_refresh(ViewDir *vd)
 	g_free(path);
 }
 
-static void vdlist_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer data)
-{
-	ViewDir *vd = data;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
-	GtkTreePath *tpath;
-	gint cw, ch;
-
-	if (vd_find_row(vd, vd->click_fd, &iter) < 0) return;
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
-	tpath = gtk_tree_model_get_path(store, &iter);
-	tree_view_get_cell_clamped(GTK_TREE_VIEW(vd->view), tpath, 0, TRUE, x, y, &cw, &ch);
-	gtk_tree_path_free(tpath);
-	*y += ch;
-	popup_menu_position_clamp(menu, x, y, 0);
-}
-
 static gint vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	ViewDir *vd = data;
@@ -329,7 +312,7 @@ static gint vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 
 	vd->popup = vd_pop_menu(vd, vd->click_fd);
 
-	gtk_menu_popup(GTK_MENU(vd->popup), NULL, NULL, vdlist_menu_position_cb, vd, 0, GDK_CURRENT_TIME);
+	gtk_menu_popup(GTK_MENU(vd->popup), NULL, NULL, vd_menu_position_cb, vd, 0, GDK_CURRENT_TIME);
 
 	return TRUE;
 }

@@ -45,6 +45,9 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd);
 void vd_dnd_drop_scroll_cancel(ViewDir *vd);
 void vd_dnd_init(ViewDir *vd);
 
+void vd_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer data);
+
+
 #endif
 
 
