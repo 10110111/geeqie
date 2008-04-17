@@ -50,6 +50,7 @@ void vd_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
 void vd_activate_cb(GtkTreeView *tview, GtkTreePath *tpath, GtkTreeViewColumn *column, gpointer data);
 void vd_color_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model, GtkTreeIter *iter, gpointer data);
 
+gint vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 
 #endif
 

@@ -937,3 +937,47 @@ void vd_color_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell,
 		     "cell-background-set", set, NULL);
 }
 
+gint vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+{
+	ViewDir *vd = data;
+	GtkTreePath *tpath;
+	GtkTreeIter iter;
+	FileData *fd = NULL;
+
+	vd_color_set(vd, vd->click_fd, FALSE);
+
+	if (bevent->button != 1) return TRUE;
+
+	if ((bevent->x != 0 || bevent->y != 0) &&
+	    gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget), bevent->x, bevent->y,
+					  &tpath, NULL, NULL, NULL))
+		{
+		GtkTreeModel *store;
+
+		store = gtk_tree_view_get_model(GTK_TREE_VIEW(widget));
+		gtk_tree_model_get_iter(store, &iter, tpath);
+		switch (vd->type)
+			{
+			case DIRVIEW_LIST:
+				gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &fd, -1);
+				break;
+			case DIRVIEW_TREE:
+				{
+				NodeData *nd;
+				gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
+				fd = (nd) ? nd->fd : NULL;
+				};
+				break;
+			}
+		
+		gtk_tree_path_free(tpath);
+		}
+
+	if (fd && vd->click_fd == fd)
+		{
+		vdlist_select_row(vd, vd->click_fd);
+		}
+
+	return TRUE;
+}
+

@@ -863,38 +863,6 @@ static gint vdtree_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 	return (bevent->button != 1);
 }
 
-static gint vdtree_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
-{
-	ViewDir *vd = data;
-	GtkTreePath *tpath;
-	GtkTreeIter iter;
-	NodeData *nd = NULL;
-
-	if (!vd->click_fd) return FALSE;
-	vd_color_set(vd, vd->click_fd, FALSE);
-
-	if (bevent->button != 1) return TRUE;
-
-	if ((bevent->x != 0 || bevent->y != 0) &&
-	    gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget), bevent->x, bevent->y,
-					  &tpath, NULL, NULL, NULL))
-		{
-		GtkTreeModel *store;
-
-		store = gtk_tree_view_get_model(GTK_TREE_VIEW(widget));
-		gtk_tree_model_get_iter(store, &iter, tpath);
-		gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
-		gtk_tree_path_free(tpath);
-		}
-
-	if (nd && vd->click_fd == nd->fd)
-		{
-		vdtree_select_row(vd, vd->click_fd);
-		}
-
-	return FALSE;
-}
-
 static void vdtree_row_expanded(GtkTreeView *treeview, GtkTreeIter *iter, GtkTreePath *tpath, gpointer data)
 {
 	ViewDir *vd = data;
@@ -1033,7 +1001,7 @@ ViewDir *vdtree_new(ViewDir *vd, const gchar *path)
 	g_signal_connect(G_OBJECT(vd->view), "button_press_event",
 			 G_CALLBACK(vdtree_press_cb), vd);
 	g_signal_connect(G_OBJECT(vd->view), "button_release_event",
-			 G_CALLBACK(vdtree_release_cb), vd);
+			 G_CALLBACK(vd_release_cb), vd);
 
 	vdtree_set_path(vd, path);
 
