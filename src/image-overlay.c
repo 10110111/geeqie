@@ -388,7 +388,6 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 
 	layout = gtk_widget_create_pango_layout(imd->pr, NULL);
 	pango_layout_set_markup(layout, text, -1);
-printf("|%s|\n",text);
 	g_free(text);
     
 	pango_layout_get_pixel_size(layout, &width, &height);
