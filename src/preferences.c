@@ -1342,7 +1342,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 	gtk_widget_show(button);
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(fullscreen_info_view));
-	gtk_text_buffer_set_text(buffer, options->fullscreen.info, -1);
+	if (options->fullscreen.info) gtk_text_buffer_set_text(buffer, options->fullscreen.info, -1);
 	g_signal_connect(G_OBJECT(buffer), "changed",
 			 G_CALLBACK(fullscreen_info_view_changed_cb), fullscreen_info_view);
 

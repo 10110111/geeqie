@@ -129,9 +129,13 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 	gint pos, prev;
 	gint last;
 	gchar *name, *data;
-	GString *new = g_string_new(str);
+	GString *new;
 	gchar *ret;
 	ExifData *exif;
+
+	if (!str || !*str) return g_strdup("");
+	
+	new = g_string_new(str);
 
 	exif = exif_read_fd(imd->image_fd, FALSE);
 	prev = 0;
@@ -215,7 +219,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 
 static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 {
-	GdkPixbuf *pixbuf;
+	GdkPixbuf *pixbuf = NULL;
 	gint width, height;
 	PangoLayout *layout;
 	const gchar *name;
@@ -361,7 +365,10 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 				g_string_append_printf(buf, fd->marks[mark] ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + mark);
     				}
 
-			text2 = g_strdup_printf("%s\n%s", text, buf->str);
+			if (*text)
+				text2 = g_strdup_printf("%s\n%s", text, buf->str);
+			else
+				text2 = g_strdup(buf->str);
 			g_string_free(buf, TRUE);
 			g_free(text);
 			text = text2;
@@ -369,21 +376,29 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 
     		if (with_hist)
 			{
-			text2 = g_strdup_printf("%s\n%s", text, histogram_label(lw->histogram));
+			if (*text)
+				text2 = g_strdup_printf("%s\n%s", text, histogram_label(lw->histogram));
+			else
+				text2 = g_strdup(histogram_label(lw->histogram));
 			g_free(text);
 			text = text2;
 			}
 		}
 	}
-        
+
 	layout = gtk_widget_create_pango_layout(imd->pr, NULL);
 	pango_layout_set_markup(layout, text, -1);
+printf("|%s|\n",text);
 	g_free(text);
     
 	pango_layout_get_pixel_size(layout, &width, &height);
-
-	width += 10;
-	height += 10;
+	/* with empty text width is set to 0, but not height) */
+	if (width == 0)
+		height = 0;
+	else if (height == 0)
+		width = 0;
+	if (width > 0) width += 10;
+	if (height > 0) height += 10;
 
 	if (with_hist)
 		{
@@ -392,22 +407,24 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 		height += HISTOGRAM_HEIGHT + 5;
 		}
 
-
-	/* TODO: make osd color configurable --Zas */
-	pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, width, height);
-	pixbuf_set_rect_fill(pixbuf, 3, 3, width-6, height-6, 240, 240, 240, 210);
-	pixbuf_set_rect(pixbuf, 0, 0, width, height, 240, 240, 240, 80, 1, 1, 1, 1);
-	pixbuf_set_rect(pixbuf, 1, 1, width-2, height-2, 240, 240, 240, 130, 1, 1, 1, 1);
-	pixbuf_set_rect(pixbuf, 2, 2, width-4, height-4, 240, 240, 240, 180, 1, 1, 1, 1);
-	pixbuf_pixel_set(pixbuf, 0, 0, 0, 0, 0, 0);
-	pixbuf_pixel_set(pixbuf, width - 1, 0, 0, 0, 0, 0);
-	pixbuf_pixel_set(pixbuf, 0, height - 1, 0, 0, 0, 0);
-	pixbuf_pixel_set(pixbuf, width - 1, height - 1, 0, 0, 0, 0);
-
-	if (with_hist)
-		histogram_draw(lw->histogram, pixbuf, 5, height - HISTOGRAM_HEIGHT - 5 , width - 10, HISTOGRAM_HEIGHT);
+	if (width > 0 && height > 0)
+		{
+		/* TODO: make osd color configurable --Zas */
+		pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, width, height);
+		pixbuf_set_rect_fill(pixbuf, 3, 3, width-6, height-6, 240, 240, 240, 210);
+		pixbuf_set_rect(pixbuf, 0, 0, width, height, 240, 240, 240, 80, 1, 1, 1, 1);
+		pixbuf_set_rect(pixbuf, 1, 1, width-2, height-2, 240, 240, 240, 130, 1, 1, 1, 1);
+		pixbuf_set_rect(pixbuf, 2, 2, width-4, height-4, 240, 240, 240, 180, 1, 1, 1, 1);
+		pixbuf_pixel_set(pixbuf, 0, 0, 0, 0, 0, 0);
+		pixbuf_pixel_set(pixbuf, width - 1, 0, 0, 0, 0, 0);
+		pixbuf_pixel_set(pixbuf, 0, height - 1, 0, 0, 0, 0);
+		pixbuf_pixel_set(pixbuf, width - 1, height - 1, 0, 0, 0, 0);
+	
+		if (with_hist)
+			histogram_draw(lw->histogram, pixbuf, 5, height - HISTOGRAM_HEIGHT - 5 , width - 10, HISTOGRAM_HEIGHT);
 		
-	pixbuf_draw_layout(pixbuf, layout, imd->pr, 5, 5, 0, 0, 0, 255);
+		pixbuf_draw_layout(pixbuf, layout, imd->pr, 5, 5, 0, 0, 0, 255);
+	}
 
 	g_object_unref(G_OBJECT(layout));
 
@@ -509,16 +526,24 @@ static gint image_osd_update_cb(gpointer data)
 			GdkPixbuf *pixbuf;
 
 			pixbuf = image_osd_info_render(osd->imd);
-			if (osd->ovl_info == 0)
+			if (pixbuf)
 				{
-				osd->ovl_info = image_overlay_add(osd->imd, pixbuf,
-								  OSD_INFO_X, OSD_INFO_Y, TRUE, FALSE);
+				if (osd->ovl_info == 0)
+					{
+					osd->ovl_info = image_overlay_add(osd->imd, pixbuf,
+									  OSD_INFO_X, OSD_INFO_Y, TRUE, FALSE);
+					}
+				else
+					{
+					image_overlay_set(osd->imd, osd->ovl_info, pixbuf, OSD_INFO_X, OSD_INFO_Y);
+					}
+				g_object_unref(pixbuf);
 				}
-			else
+			else if (osd->ovl_info)
 				{
-				image_overlay_set(osd->imd, osd->ovl_info, pixbuf, OSD_INFO_X, OSD_INFO_Y);
+				image_overlay_remove(osd->imd, osd->ovl_info);
+				osd->ovl_info = 0;
 				}
-			g_object_unref(pixbuf);
 			}
 		}
 	else
