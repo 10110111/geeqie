@@ -50,6 +50,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->file_ops.safe_delete_path = NULL;
 	options->file_ops.safe_delete_folder_maxsize = 128;
 	options->layout.tools_restore_state = FALSE;
+
 	options->image.zoom_mode = ZOOM_RESET_ORIGINAL;
 	options->image.zoom_2pass = TRUE;
 	options->image.scroll_reset_method = SCROLL_RESET_TOPLEFT;
@@ -59,6 +60,10 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image.max_window_size = 100;
 	options->image.limit_autofit_size = FALSE;
 	options->image.max_autofit_size = 100;
+	
+	options->image.read_buffer_size = IMAGE_LOADER_READ_BUFFER_SIZE_DEFAULT;
+	options->image.idle_read_loop_count = IMAGE_LOADER_IDLE_READ_LOOP_COUNT_DEFAULT;
+
 	options->thumbnails.max_width = DEFAULT_THUMB_WIDTH;
 	options->thumbnails.max_height = DEFAULT_THUMB_HEIGHT;
 	options->thumbnails.enable_caching = TRUE;

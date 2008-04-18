@@ -20,12 +20,6 @@
 #include <fcntl.h>
 
 
-/* bytes to read from file per read() */
-#define IMAGE_LOADER_BUFFER_SIZE 512
-
-/* the number of bytes to read per idle call (define x IMAGE_LOADER_BUFFER_SIZE) */
-#define IMAGE_LOADER_BUFFER_DEFAULT_COUNT 1
-
 static const gchar *image_loader_path(ImageLoader *il)
 {
 	if (il->fd)
@@ -177,7 +171,6 @@ static void image_loader_error(ImageLoader *il)
 static gint image_loader_idle_cb(gpointer data)
 {
 	ImageLoader *il = data;
-	guchar buf[IMAGE_LOADER_BUFFER_SIZE];
 	gint b;
 	gint c;
 
@@ -185,10 +178,10 @@ static gint image_loader_idle_cb(gpointer data)
 
 	if (il->idle_id == -1) return FALSE;
 
-	c = il->buffer_size ? il->buffer_size : 1;
+	c = il->idle_read_loop_count ? il->idle_read_loop_count : 1;
 	while (c > 0)
 		{
-		b = read(il->load_fd, &buf, sizeof(buf));
+		b = read(il->load_fd, il->read_buffer, il->read_buffer_size);
 
 		if (b == 0)
 			{
@@ -196,7 +189,7 @@ static gint image_loader_idle_cb(gpointer data)
 			return FALSE;
 			}
 
-		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, buf, b, NULL)))
+		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, il->read_buffer, b, NULL)))
 			{
 			image_loader_error(il);
 			return FALSE;
@@ -217,20 +210,19 @@ static gint image_loader_idle_cb(gpointer data)
 
 static gint image_loader_begin(ImageLoader *il)
 {
-	guchar buf[IMAGE_LOADER_BUFFER_SIZE];
 	int b;
 	unsigned int offset = 0;
 
 	if (!il->loader || il->pixbuf) return FALSE;
-
-	b = read(il->load_fd, &buf, sizeof(buf));
+	
+	b = read(il->load_fd, il->read_buffer, il->read_buffer_size);
 
 	if (b > 0 &&
-	    format_raw_img_exif_offsets_fd(il->load_fd, image_loader_path(il), buf, b, &offset, NULL))
+	    format_raw_img_exif_offsets_fd(il->load_fd, image_loader_path(il), il->read_buffer, b, &offset, NULL))
 		{
 		if (debug) printf("Raw file %s contains embedded image\n", image_loader_path(il));
 
-		b = read(il->load_fd, &buf, sizeof(buf));
+		b = read(il->load_fd, il->read_buffer, il->read_buffer_size);
 		}
 
 	if (b < 1)
@@ -239,7 +231,7 @@ static gint image_loader_begin(ImageLoader *il)
 		return FALSE;
 		}
 
-	if (!gdk_pixbuf_loader_write(il->loader, buf, b, NULL))
+	if (!gdk_pixbuf_loader_write(il->loader, il->read_buffer, b, NULL))
 		{
 		image_loader_stop(il);
 		return FALSE;
@@ -250,8 +242,8 @@ static gint image_loader_begin(ImageLoader *il)
 	/* read until size is known */
 	while (il->loader && !gdk_pixbuf_loader_get_pixbuf(il->loader) && b > 0)
 		{
-		b = read(il->load_fd, &buf, sizeof(buf));
-		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, buf, b, NULL)))
+		b = read(il->load_fd, il->read_buffer, il->read_buffer_size);
+		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, il->read_buffer, b, NULL)))
 			{
 			image_loader_stop(il);
 			return FALSE;
@@ -332,12 +324,14 @@ static ImageLoader *image_loader_new_real(FileData *fd, const gchar *path)
 
 	il->idle_done_id = -1;
 
-	il->buffer_size = IMAGE_LOADER_BUFFER_DEFAULT_COUNT;
+	il->idle_read_loop_count = options->image.idle_read_loop_count;
+	il->read_buffer_size = options->image.read_buffer_size;
+	il->read_buffer = g_new(guchar, il->read_buffer_size);
 
 	il->requested_width = 0;
 	il->requested_height = 0;
 	il->shrunk = FALSE;
-
+	if (debug) printf("new image loader %p, bufsize=%u idle_loop=%u\n", il, il->read_buffer_size, il->idle_read_loop_count);
 	return il;
 }
 
@@ -360,6 +354,8 @@ void image_loader_free(ImageLoader *il)
 	if (il->pixbuf) gdk_pixbuf_unref(il->pixbuf);
 	if (il->fd) file_data_unref(il->fd);
 	if (il->path) g_free(il->path);
+	if (il->read_buffer) g_free(il->read_buffer);
+	if (debug) printf("freeing image loader %p bytes_read=%d\n", il, il->bytes_read);
 	g_free(il);
 }
 
@@ -430,11 +426,11 @@ void image_loader_set_requested_size(ImageLoader *il, gint width, gint height)
 	il->requested_height = height;
 }
 
-void image_loader_set_buffer_size(ImageLoader *il, guint size)
+void image_loader_set_buffer_size(ImageLoader *il, guint count)
 {
 	if (!il) return;
 
-	il->buffer_size = size ? size : 1;
+	il->idle_read_loop_count = count ? count : 1;
 }
 
 void image_loader_set_priority(ImageLoader *il, gint priority)

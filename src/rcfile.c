@@ -397,7 +397,8 @@ void save_options(void)
 	WRITE_BOOL(image.exif_rotate_enable);
 	WRITE_BOOL(image.use_custom_border_color);
 	WRITE_COLOR(image.border_color);
-
+	WRITE_INT(image.read_buffer_size);
+	WRITE_INT(image.idle_read_loop_count);
 
 	WRITE_SUBTITLE("Thumbnails Options");
 
@@ -666,7 +667,9 @@ void load_options(void)
 		READ_BOOL(image.exif_rotate_enable);
 		READ_BOOL(image.use_custom_border_color);
 		READ_COLOR(image.border_color);
-
+		READ_INT_CLAMP(image.read_buffer_size, IMAGE_LOADER_READ_BUFFER_SIZE_MIN, IMAGE_LOADER_READ_BUFFER_SIZE_MAX);
+		READ_INT_CLAMP(image.idle_read_loop_count, IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MIN, IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MAX);
+		
 
 		/* thumbnails options */
 		READ_INT_CLAMP(thumbnails.max_width, 16, 512);

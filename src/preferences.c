@@ -227,6 +227,9 @@ static void config_window_apply(void)
 	options->collections.rectangular_selection = c_options->collections.rectangular_selection;
 
 	options->image.tile_cache_max = c_options->image.tile_cache_max;
+	
+	options->image.read_buffer_size = c_options->image.read_buffer_size;
+	options->image.idle_read_loop_count = c_options->image.idle_read_loop_count;
 
 	options->thumbnails.quality = c_options->thumbnails.quality;
 	options->image.zoom_quality = c_options->image.zoom_quality;
@@ -1412,8 +1415,19 @@ static void config_tab_advanced(GtkWidget *notebook)
 	pref_spin_new_int(group, _("Custom similarity threshold:"), NULL,
 			  0, 100, 1, options->duplicates_similarity_threshold, &c_options->duplicates_similarity_threshold);
 
+	group = pref_group_new(vbox, FALSE, _("Image loading and caching"), GTK_ORIENTATION_VERTICAL);
+
 	pref_spin_new_int(group, _("Offscreen cache size (Mb per image):"), NULL,
 			  0, 128, 1, options->image.tile_cache_max, &c_options->image.tile_cache_max);
+	
+	pref_spin_new_int(group, _("Image read buffer size (bytes):"), NULL,
+			  IMAGE_LOADER_READ_BUFFER_SIZE_MIN, IMAGE_LOADER_READ_BUFFER_SIZE_MAX, 512,
+			  options->image.read_buffer_size, &c_options->image.read_buffer_size);
+	
+	pref_spin_new_int(group, _("Image idle loop read count:"), NULL,
+			  IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MIN, IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MAX, 1,
+			  options->image.idle_read_loop_count, &c_options->image.idle_read_loop_count);
+
 
 	group =  pref_group_new(vbox, FALSE, _("Color profiles"), GTK_ORIENTATION_VERTICAL);
 #ifndef HAVE_LCMS
