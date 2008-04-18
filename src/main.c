@@ -117,13 +117,38 @@ gdouble get_zoom_increment(void)
 	return ((options->image.zoom_increment != 0) ? (gdouble)options->image.zoom_increment / 10.0 : 1.0);
 }
 
+static gint timeval_delta(struct timeval *result, struct timeval *x, struct timeval *y)
+{
+	if (x->tv_usec < y->tv_usec)
+		{
+		gint nsec = (y->tv_usec - x->tv_usec) / 1000000 + 1;
+		y->tv_usec -= 1000000 * nsec;
+		y->tv_sec += nsec;
+		}
+
+	if (x->tv_usec - y->tv_usec > 1000000)
+		{
+		gint nsec = (x->tv_usec - y->tv_usec) / 1000000;
+		y->tv_usec += 1000000 * nsec;
+		y->tv_sec -= nsec;
+	}
+
+	result->tv_sec = x->tv_sec - y->tv_sec;
+	result->tv_usec = x->tv_usec - y->tv_usec;
+
+	return x->tv_sec < y->tv_sec;
+}
+
 const gchar *get_exec_time()
 {
-	static gchar timestr[20];
+	static gchar timestr[30];
 	static struct timeval start_tv = {0, 0};
-	
+	static struct timeval previous = {0, 0};
+	static gint started = 0;
+
 	struct timeval tv = {0, 0};
-	
+	static struct timeval delta = {0, 0};
+
 	gettimeofday(&tv, NULL);
 	
 	if (start_tv.tv_sec == 0) start_tv = tv;
@@ -136,8 +161,13 @@ const gchar *get_exec_time()
 		tv.tv_usec += 1000000 - start_tv.tv_usec;
 		tv.tv_sec -= 1;
 		}
-	
-	g_snprintf(timestr, sizeof(timestr), "%5d.%06d", (int)tv.tv_sec, (int)tv.tv_usec);
+
+	if (started) timeval_delta(&delta, &tv, &previous);
+
+	previous = tv;
+	started = 1;
+
+	g_snprintf(timestr, sizeof(timestr), "%5d.%06d (+%05d.%06d)", (int)tv.tv_sec, (int)tv.tv_usec, (int)delta.tv_sec, (int)delta.tv_usec);
 	
 	return timestr;
 }
