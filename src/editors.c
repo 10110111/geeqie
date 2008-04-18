@@ -56,7 +56,7 @@ struct _EditorData {
 
 
 static gchar *editor_slot_defaults[GQ_EDITOR_SLOTS * 2] = {
-	N_("The Gimp"), "gimp-remote -n %{.cr2;.crw;.nef;.raw;*}f",
+	N_("The Gimp"), "gimp-remote %{.cr2;.crw;.nef;.raw;*}f",
 	N_("XV"), "xv %f",
 	N_("Xpaint"), "xpaint %f",
 	N_("UFraw"), "ufraw %{.cr2;.crw;.nef;.raw}p",
