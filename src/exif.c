@@ -552,7 +552,7 @@ char *exif_item_get_data(ExifItem *item, guint *data_len)
 {
 	if (data_len)
 		*data_len = item->data_len;
-	return item->data;
+	return g_memdup(item->data, item->data_len);
 }
 
 guint exif_item_get_format_id(ExifItem *item)

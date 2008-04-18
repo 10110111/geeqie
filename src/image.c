@@ -403,6 +403,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 		cm = color_man_new_embedded(run_in_bg ? imd : NULL, NULL,
 					    data, data_len,
 					    screen_type, screen_file);
+		g_free(data);
 		}
 	else 
 		{

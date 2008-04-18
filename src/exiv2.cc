@@ -316,7 +316,19 @@ guint exif_item_get_elements(ExifItem *item)
 
 char *exif_item_get_data(ExifItem *item, guint *data_len)
 {
-	return NULL;
+	try {
+		if (!item) return 0;
+		Exiv2::Metadatum *md = (Exiv2::Metadatum *)item;
+		if(data_len) *data_len = md->size();
+		char *data = (char *)g_malloc(md->size());
+		long res = md->copy((Exiv2::byte *)data, Exiv2::littleEndian /* should not matter */);
+		g_assert(res == md->size());
+		return data;
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return NULL;
+	}
 }
 
 char *exif_item_get_description(ExifItem *item)
