@@ -28,8 +28,6 @@
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
 
-#define VDLIST_PAD 4
-
 #define VDLIST_INFO(_vd_, _part_) (((ViewDirInfoList *)(_vd_->info))->_part_)
 
 

@@ -29,9 +29,6 @@
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
 
-#define VDTREE_INDENT 14
-#define VDTREE_PAD 4
-
 #define VDTREE_INFO(_vd_, _part_) (((ViewDirInfoTree *)(_vd_->info))->_part_)
 
 
