@@ -179,13 +179,13 @@ static gint vdtree_dnd_drop_expand_cb(gpointer data)
 	return FALSE;
 }
 
-void vdtree_dnd_drop_expand_cancel(ViewDir *vd)
+static void vdtree_dnd_drop_expand_cancel(ViewDir *vd)
 {
 	if (VDTREE_INFO(vd, drop_expand_id) != -1) g_source_remove(VDTREE_INFO(vd, drop_expand_id));
 	VDTREE_INFO(vd, drop_expand_id) = -1;
 }
 
-void vdtree_dnd_drop_expand(ViewDir *vd)
+static void vdtree_dnd_drop_expand(ViewDir *vd)
 {
 	vdtree_dnd_drop_expand_cancel(vd);
 	VDTREE_INFO(vd, drop_expand_id) = g_timeout_add(1000, vdtree_dnd_drop_expand_cb, vd);
@@ -939,8 +939,10 @@ ViewDir *vdtree_new(ViewDir *vd, const gchar *path)
 	vd->type = DIRVIEW_TREE;
 
 	VDTREE_INFO(vd, drop_expand_id) = -1;
-
 	VDTREE_INFO(vd, busy_ref) = 0;
+	
+	vd->dnd_drop_leave_func = vdtree_dnd_drop_expand_cancel;
+	vd->dnd_drop_update_func = vdtree_dnd_drop_expand;
 
 	store = gtk_tree_store_new(4, G_TYPE_POINTER, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_INT);
 	vd->view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));

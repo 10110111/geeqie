@@ -70,6 +70,9 @@ ViewDir *vd_new(DirViewType type, const gchar *path)
 
 	vd->popup = NULL;
 
+	vd->dnd_drop_leave_func = NULL;
+	vd->dnd_drop_update_func = NULL;
+
 	vd->widget = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(vd->widget), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(vd->widget),
@@ -727,7 +730,7 @@ static void vd_dnd_drop_receive(GtkWidget *widget,
 		}
 }
 
-static void vd_drop_update(ViewDir *vd, gint x, gint y)
+static void vd_dnd_drop_update(ViewDir *vd, gint x, gint y)
 {
 	GtkTreePath *tpath;
 	FileData *fd = NULL;
@@ -743,7 +746,7 @@ static void vd_drop_update(ViewDir *vd, gint x, gint y)
 		{
 		vd_color_set(vd, vd->drop_fd, FALSE);
 		vd_color_set(vd, fd, TRUE);
-		if (vd->type == DIRVIEW_TREE && fd) vdtree_dnd_drop_expand(vd);
+		if (fd && vd->dnd_drop_update_func) vd->dnd_drop_update_func(vd);
 		}
 
 	vd->drop_fd = fd;
@@ -770,7 +773,7 @@ static gint vd_auto_scroll_idle_cb(gpointer data)
 		gdk_drawable_get_size(window, &w, &h);
 		if (x >= 0 && x < w && y >= 0 && y < h)
 			{
-			vd_drop_update(vd, x, y);
+			vd_dnd_drop_update(vd, x, y);
 			}
 		}
 
@@ -807,7 +810,7 @@ static gint vd_dnd_drop_motion(GtkWidget *widget, GdkDragContext *context,
 		gdk_drag_status(context, context->suggested_action, time);
 		}
 
-	vd_drop_update(vd, x, y);
+	vd_dnd_drop_update(vd, x, y);
 
 	if (vd->drop_fd)
 		{
@@ -826,7 +829,7 @@ static void vd_dnd_drop_leave(GtkWidget *widget, GdkDragContext *context, guint 
 
 	vd->drop_fd = NULL;
 
-	if (vd->type == DIRVIEW_TREE) vdtree_dnd_drop_expand_cancel(vd);
+	if (vd->dnd_drop_leave_func) vd->dnd_drop_leave_func(vd);
 }
 
 void vd_dnd_init(ViewDir *vd)

@@ -548,6 +548,9 @@ struct _ViewDir
 	void (*select_func)(ViewDir *vd, const gchar *path, gpointer data);
 	gpointer select_data;
 
+	void (*dnd_drop_update_func)(ViewDir *vd);
+	void (*dnd_drop_leave_func)(ViewDir *vd);
+	
 	LayoutWindow *layout;
 
 	GtkWidget *popup;
