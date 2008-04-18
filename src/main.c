@@ -420,13 +420,8 @@ static void gr_slideshow_delay(const gchar *text, gpointer data)
 	n = strtod(text, NULL);
 	if (n < SLIDESHOW_MIN_SECONDS || n > SLIDESHOW_MAX_SECONDS)
 		{
-		gchar *buf;
-
-		buf = g_strdup_printf("Remote slideshow delay out of range (%.1f to %.1f)\n",
-				      SLIDESHOW_MIN_SECONDS, SLIDESHOW_MAX_SECONDS);
-		print_term(buf);
-		g_free(buf);
-
+		printf_term("Remote slideshow delay out of range (%.1f to %.1f)\n",
+			    SLIDESHOW_MIN_SECONDS, SLIDESHOW_MAX_SECONDS);
 		return;
 		}
 	options->slideshow.delay = (gint)(n * 10.0 + 0.01);
@@ -643,16 +638,11 @@ static void remote_help(void)
 		{
 		if (remote_commands[i].description)
 			{
-			gchar *buf;
-
-			buf = g_strdup_printf("  %-3s%s %-20s %s\n",
-				(remote_commands[i].opt_s) ? remote_commands[i].opt_s : "",
-				(remote_commands[i].opt_s && remote_commands[i].opt_l) ? "," : " ",
-				(remote_commands[i].opt_l) ? remote_commands[i].opt_l : "",
-				_(remote_commands[i].description));
-
-			print_term(buf);
-			g_free(buf);
+			printf_term("  %-3s%s %-20s %s\n",
+				    (remote_commands[i].opt_s) ? remote_commands[i].opt_s : "",
+				    (remote_commands[i].opt_s && remote_commands[i].opt_l) ? "," : " ",
+				    (remote_commands[i].opt_l) ? remote_commands[i].opt_l : "",
+				    _(remote_commands[i].description));
 			}
 		i++;
 		}
@@ -694,11 +684,7 @@ static void remote_control(const gchar *arg_exec, GList *remote_list, const gcha
 		gint retry_count = 12;
 		gint blank = FALSE;
 
-		{
-		gchar *msg = g_strdup_printf(_("Remote %s not running, starting..."), GQ_APPNAME);
-		print_term(msg);
-		g_free(msg);
-		}
+		printf_term(_("Remote %s not running, starting..."), GQ_APPNAME);
 
 		command = g_string_new(arg_exec);
 
@@ -1049,10 +1035,8 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 			else if (strcmp(cmd_line, "-h") == 0 ||
 				 strcmp(cmd_line, "--help") == 0)
 				{
-				gchar *usage = g_strdup_printf(_("Usage: %s [options] [path]\n\n"), GQ_APPNAME_LC);
 				printf("%s %s\n", GQ_APPNAME, VERSION);
-				print_term(usage);
-				g_free(usage);
+				printf_term(_("Usage: %s [options] [path]\n\n"), GQ_APPNAME_LC);
 				print_term(_("valid options are:\n"));
 				print_term(_("  +t, --with-tools           force show of tools\n"));
 				print_term(_("  -t, --without-tools        force hide of tools\n"));
@@ -1078,11 +1062,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 				}
 			else if (!remote_do)
 				{
-				gchar *buf;
-
-				buf = g_strdup_printf(_("invalid or ignored: %s\nUse --help for options\n"), cmd_line);
-				print_term(buf);
-				g_free(buf);
+				printf_term(_("invalid or ignored: %s\nUse --help for options\n"), cmd_line);
 				}
 
 			g_free(cmd_all);
@@ -1188,17 +1168,11 @@ static void check_for_home_path(gchar *path)
 	buf = g_strconcat(homedir(), "/", path, NULL);
 	if (!isdir(buf))
 		{
-		gchar *tmp;
-
-		tmp = g_strdup_printf(_("Creating %s dir:%s\n"), GQ_APPNAME, buf);
-		print_term(tmp);
-		g_free(tmp);
-
+		printf_term(_("Creating %s dir:%s\n"), GQ_APPNAME, buf);
+	
 		if (!mkdir_utf8(buf, 0755))
 			{
-			tmp = g_strdup_printf(_("Could not create dir:%s\n"), buf);
-			print_term(tmp);
-			g_free(tmp);
+			printf_term(_("Could not create dir:%s\n"), buf);
 			}
 		}
 	g_free(buf);
@@ -1392,21 +1366,11 @@ int main (int argc, char *argv[])
 	if (gtk_major_version < GTK_MAJOR_VERSION ||
 	    (gtk_major_version == GTK_MAJOR_VERSION && gtk_minor_version < GTK_MINOR_VERSION) )
 		{
-		gchar *msg;
-
-		print_term("!!! This is a friendly warning.\n");
-		msg = g_strdup_printf("!!! The version of GTK+ in use now is older than when %s was compiled.\n", GQ_APPNAME);
-		print_term(msg);
-		g_free(msg);
-		msg = g_strdup_printf("!!!  compiled with GTK+-%d.%d\n", GTK_MAJOR_VERSION, GTK_MINOR_VERSION);
-		print_term(msg);
-		g_free(msg);
-		msg = g_strdup_printf("!!!   running with GTK+-%d.%d\n", gtk_major_version, gtk_minor_version);
-		print_term(msg);
-		g_free(msg);
-		msg = g_strdup_printf("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
-		print_term(msg);
-		g_free(msg);
+		printf_term("!!! This is a friendly warning.\n");
+		printf_term("!!! The version of GTK+ in use now is older than when %s was compiled.\n", GQ_APPNAME);
+		printf_term("!!!  compiled with GTK+-%d.%d\n", GTK_MAJOR_VERSION, GTK_MINOR_VERSION);
+		printf_term("!!!   running with GTK+-%d.%d\n", gtk_major_version, gtk_minor_version);
+		printf_term("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
 		}
 
 	check_for_home_path(GQ_RC_DIR);

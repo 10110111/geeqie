@@ -337,11 +337,7 @@ static gint collection_save_private(CollectionData *cd, const gchar *path)
 	g_free(pathl);
 	if (!ssi)
 		{
-		gchar *buf;
-
-		buf = g_strdup_printf(_("failed to open collection (write) \"%s\"\n"), path);
-		print_term(buf);
-		g_free(buf);
+		printf_term(_("failed to open collection (write) \"%s\"\n"), path);
 		return FALSE;
 		}
 
@@ -366,12 +362,8 @@ static gint collection_save_private(CollectionData *cd, const gchar *path)
 
 	if (secure_close(ssi))
 		{
-		gchar *buf;
-
-		buf = g_strdup_printf(_("error saving collection file: %s\nerror: %s\n"), path,
-				      secsave_strerror(secsave_errno));
-		print_term(buf);
-		g_free(buf);
+		printf_term(_("error saving collection file: %s\nerror: %s\n"), path,
+			    secsave_strerror(secsave_errno));
 		return FALSE;
 		}
 

@@ -23,6 +23,13 @@
 
 void print_term(const gchar *text_utf8);
 
+#define printf_term(...) \
+	do { \
+		gchar *msg = g_strdup_printf(__VA_ARGS__); \
+		print_term(msg); \
+		g_free(msg); \
+	} while (0) 
+
 gchar *path_to_utf8(const gchar *path);
 gchar *path_from_utf8(const gchar *path);
 
