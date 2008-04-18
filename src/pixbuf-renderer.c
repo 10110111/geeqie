@@ -2310,65 +2310,36 @@ static void pr_tile_rotate_90_counter_clockwise(PixbufRenderer *pr, GdkPixbuf **
 	*tile = dest;
 }
 
-/*
- * Returns a copy of pixbuf mirrored and or flipped.
- * TO do a 180 degree rotations set both mirror and flipped TRUE
- * if mirror and flip are FALSE, result is a simple copy.
- */
-static void pr_tile_mirror(PixbufRenderer *pr, GdkPixbuf **tile, gint mirror, gint flip, gint x, gint y, gint w, gint h)
+static void pr_tile_mirror_only(PixbufRenderer *pr, GdkPixbuf **tile, gint x, gint y, gint w, gint h)
 {
 	GdkPixbuf *src = *tile;
 	GdkPixbuf *dest;
-	gint srs;
-	gint drs;
-	guchar *s_pix;
-        guchar *d_pix;
-	guchar *sp;
-        guchar *dp;
-	gint i, j;
-	gint a = 3;
+	gint srs, drs;
+	guchar *s_pix, *d_pix;
+	guchar *sp, *dp;
+	guchar *spi, *dpi;
+	gint i, j, n;
 
 	gint tw = pr->tile_width;
-	gint th = pr->tile_height;
 
 	srs = gdk_pixbuf_get_rowstride(src);
 	s_pix = gdk_pixbuf_get_pixels(src);
+	spi = s_pix + (x * COLOR_BYTES);
 
 	dest = pr_get_spare_tile(pr);
 	drs = gdk_pixbuf_get_rowstride(dest);
 	d_pix = gdk_pixbuf_get_pixels(dest);
+	dpi =  d_pix + (tw - x - 1) * COLOR_BYTES;
 
 	for (i = y; i < y + h; i++)
 		{
-		sp = s_pix + (i * srs) + (x * a);
-		if (flip)
+		sp = spi + (i * srs);
+		dp = dpi + (i * drs);
+		for (j = 0; j < w; j++)
 			{
-			dp = d_pix + ((th - i - 1) * drs);
-			}
-		else
-			{
-			dp = d_pix + (i * drs);
-			}
-		if (mirror)
-			{
-			dp += (tw - x - 1) * a;
-			for (j = 0; j < w; j++)
-				{
-				*(dp++) = *(sp++);	/* r */
-				*(dp++) = *(sp++);	/* g */
-				*(dp++) = *(sp++);	/* b */
-				dp -= (a + 3);
-				}
-			}
-		else
-			{
-			dp += x * a;
-			for (j = 0; j < w; j++)
-				{
-				*(dp++) = *(sp++);	/* r */
-				*(dp++) = *(sp++);	/* g */
-				*(dp++) = *(sp++);	/* b */
-				}
+			for (n = 0; n < COLOR_BYTES; n++)
+				dp[n] = *(sp++);
+			dp -= COLOR_BYTES;
 			}
 		}
 
@@ -2376,6 +2347,77 @@ static void pr_tile_mirror(PixbufRenderer *pr, GdkPixbuf **tile, gint mirror, gi
 	*tile = dest;
 }
 
+static void pr_tile_mirror_and_flip(PixbufRenderer *pr, GdkPixbuf **tile, gint x, gint y, gint w, gint h)
+{
+	GdkPixbuf *src = *tile;
+	GdkPixbuf *dest;
+	gint srs, drs;
+	guchar *s_pix, *d_pix;
+	guchar *sp, *dp;
+	guchar *spi, *dpi;
+	gint i, j, n;
+	gint tw = pr->tile_width;
+	gint th = pr->tile_height;
+
+	srs = gdk_pixbuf_get_rowstride(src);
+	s_pix = gdk_pixbuf_get_pixels(src);
+	spi = s_pix + (x * COLOR_BYTES);
+
+	dest = pr_get_spare_tile(pr);
+	drs = gdk_pixbuf_get_rowstride(dest);
+	d_pix = gdk_pixbuf_get_pixels(dest);
+	dpi = d_pix + (th - 1) * drs + (tw - 1) * COLOR_BYTES;
+
+	for (i = y; i < y + h; i++)
+		{
+		sp = s_pix + (i * srs) + (x * COLOR_BYTES);
+		dp = dpi - (i * drs) - (x * COLOR_BYTES);
+		for (j = 0; j < w; j++)
+			{
+			for (n = 0; n < COLOR_BYTES; n++)
+				dp[n] = *(sp++);
+			dp -= COLOR_BYTES;
+			}
+		}
+	
+	pr->spare_tile = src;
+	*tile = dest;
+}
+
+static void pr_tile_flip_only(PixbufRenderer *pr, GdkPixbuf **tile, gint x, gint y, gint w, gint h)
+{
+	GdkPixbuf *src = *tile;
+	GdkPixbuf *dest;
+	gint srs, drs;
+	guchar *s_pix, *d_pix;
+	guchar *sp, *dp;
+	guchar *spi, *dpi;
+	gint i, j, n;
+	gint th = pr->tile_height;
+
+	srs = gdk_pixbuf_get_rowstride(src);
+	s_pix = gdk_pixbuf_get_pixels(src);
+	spi = s_pix + (x * COLOR_BYTES);
+
+	dest = pr_get_spare_tile(pr);
+	drs = gdk_pixbuf_get_rowstride(dest);
+	d_pix = gdk_pixbuf_get_pixels(dest);
+	dpi = d_pix + (th - 1) * drs + (x * COLOR_BYTES);
+
+	for (i = y; i < y + h; i++)
+		{
+		sp = spi + (i * srs);
+		dp = dpi - (i * drs);
+		for (j = 0; j < w; j++)
+			{
+			for (n = 0; n < COLOR_BYTES; n++)
+				*(dp++) = *(sp++);
+			}
+		}
+
+	pr->spare_tile = src;
+	*tile = dest;
+}
 
 static void pr_tile_apply_orientation(PixbufRenderer *pr, GdkPixbuf **pixbuf, gint x, gint y, gint w, gint h)
 {
@@ -2387,24 +2429,24 @@ static void pr_tile_apply_orientation(PixbufRenderer *pr, GdkPixbuf **pixbuf, gi
 		case EXIF_ORIENTATION_TOP_RIGHT:
 			/* mirrored */
 			{
-				pr_tile_mirror(pr, pixbuf, TRUE, FALSE, x, y, w, h);
+				pr_tile_mirror_only(pr, pixbuf, x, y, w, h);
 			}
 			break;
 		case EXIF_ORIENTATION_BOTTOM_RIGHT:
 			/* upside down */
 			{
-				pr_tile_mirror(pr, pixbuf, TRUE, TRUE, x, y, w, h);
+				pr_tile_mirror_and_flip(pr, pixbuf, x, y, w, h);
 			}
 			break;
 		case EXIF_ORIENTATION_BOTTOM_LEFT:
 			/* flipped */
 			{
-				pr_tile_mirror(pr, pixbuf, FALSE, TRUE, x, y, w, h);
+				pr_tile_flip_only(pr, pixbuf, x, y, w, h);
 			}
 			break;
 		case EXIF_ORIENTATION_LEFT_TOP:
 			{
-				pr_tile_mirror(pr, pixbuf, FALSE, TRUE, x, y, w, h);
+				pr_tile_flip_only(pr, pixbuf, x, y, w, h);
 				pr_tile_rotate_90_clockwise(pr, pixbuf, x, pr->tile_height - y - h, w, h);
 			}
 			break;
@@ -2416,7 +2458,7 @@ static void pr_tile_apply_orientation(PixbufRenderer *pr, GdkPixbuf **pixbuf, gi
 			break;
 		case EXIF_ORIENTATION_RIGHT_BOTTOM:
 			{
-				pr_tile_mirror(pr, pixbuf, FALSE, TRUE, x, y, w, h);
+				pr_tile_flip_only(pr, pixbuf, x, y, w, h);
 				pr_tile_rotate_90_counter_clockwise(pr, pixbuf, x, pr->tile_height - y - h, w, h);
 			}
 			break;
@@ -2430,7 +2472,6 @@ static void pr_tile_apply_orientation(PixbufRenderer *pr, GdkPixbuf **pixbuf, gi
 			/* The other values are out of range */
 			break;
 		}
-
 }
 
 
