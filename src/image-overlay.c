@@ -171,6 +171,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 
 		pos = start-new->str;
 		data = g_strdup(g_hash_table_lookup(vars, name));
+		if (data && strcmp(name, "zoom") == 0) imd->overlay_show_zoom = TRUE;
 		if (!data && exif)
 			data = exif_get_data_as_text(exif, name);
 		if (data && *data && limit > 0 && strlen(data) > limit + 3)
@@ -326,7 +327,8 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
  	g_hash_table_insert(vars, "name", g_strdup(name_escaped));
  	g_hash_table_insert(vars, "date", g_strdup(text_from_time(imd->mtime)));
  	g_hash_table_insert(vars, "size", g_strdup(size));
-  
+	g_hash_table_insert(vars, "zoom", image_zoom_get_as_text(imd));
+
  	if (!name_escaped)
  		{
  		text = g_strdup_printf(_("Untitled"));
@@ -517,6 +519,8 @@ static void image_osd_icon_hide(OverlayStateData *osd, ImageOSDFlag flag)
 static gint image_osd_update_cb(gpointer data)
 {
 	OverlayStateData *osd = data;
+
+	osd->imd->overlay_show_zoom = FALSE;
 
 	if (osd->show_info)
 		{

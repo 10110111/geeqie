@@ -18,6 +18,7 @@
 #include "collect.h"
 #include "color-man.h"
 #include "exif.h"
+#include "image-overlay.h"
 #include "layout.h"
 #include "layout_image.h"
 #include "pixbuf-renderer.h"
@@ -109,6 +110,8 @@ static void image_zoom_cb(PixbufRenderer *pr, gdouble zoom, gpointer data)
 	ImageWindow *imd = data;
 
 	if (imd->title_show_zoom) image_update_title(imd);
+	if (imd->overlay_show_zoom) image_osd_update(imd);
+
 	image_update_util(imd);
 }
 
@@ -1578,7 +1581,7 @@ gchar *image_zoom_get_as_text(ImageWindow *imd)
 			{
 			r = 1.0 / scale;
 			}
-		approx = " ~";
+		approx = "~";
 		}
 
 	if (rint(l) != l) pl = 1;

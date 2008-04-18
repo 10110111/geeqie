@@ -100,6 +100,12 @@
 #define IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MIN 		1
 #define IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MAX		16
 
+
+#define DEFAULT_OVERLAY_INFO 	"%collection%(%number%/%total%) [%zoom%] <b>%name%</b>\n" \
+			   	"%res%|%date%|%size%\n" \
+				"%fAperture%|%fShutterSpeed%|%fISOSpeedRating%|%fFocalLength%|%fExposureBias%\n" \
+				"%fCamera%|%fFlash%" \
+
 #if 1 /* set to 0 to disable debugging code and related options */
 # ifndef DEBUG
 # define DEBUG 1

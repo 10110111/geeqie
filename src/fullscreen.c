@@ -35,10 +35,7 @@ enum {
 void set_default_fullscreen_info(ConfOptions *options)
 {
 	if (options->fullscreen.info) g_free(options->fullscreen.info);
-	options->fullscreen.info = g_strdup("%collection%(%number%/%total%) <b>%name%</b>\n"
-				   "%res%|%date%|%size%\n"
-				   "%fAperture%|%fShutterSpeed%|%fISOSpeedRating%|%fFocalLength%|%fExposureBias%\n"
-				   "%fCamera%|%fFlash%");
+	options->fullscreen.info = g_strdup(DEFAULT_OVERLAY_INFO);
 }
 
 static void clear_mouse_cursor(GtkWidget *widget, gint state)
