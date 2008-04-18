@@ -2246,7 +2246,7 @@ static void pr_tile_rotate_90_clockwise(PixbufRenderer *pr, GdkPixbuf **tile, gi
 	guchar *s_pix, *d_pix;
 	guchar *sp, *dp;
 	guchar *ip, *spi, *dpi;
-	gint i, j, n;
+	gint i, j;
 	gint tw = pr->tile_width;
 		
 	srs = gdk_pixbuf_get_rowstride(src);
@@ -2265,8 +2265,8 @@ static void pr_tile_rotate_90_clockwise(PixbufRenderer *pr, GdkPixbuf **tile, gi
 		for (j = x; j < x + w; j++)
 			{
 			dp = ip + (j * drs);
-			for (n = 0; n < COLOR_BYTES; n++)
-				*(dp++) = *(sp++);
+			memcpy(dp, sp, COLOR_BYTES);
+			sp += COLOR_BYTES;
 			}
 		}
 	
@@ -2282,7 +2282,7 @@ static void pr_tile_rotate_90_counter_clockwise(PixbufRenderer *pr, GdkPixbuf **
 	guchar *s_pix, *d_pix;
 	guchar *sp, *dp;
 	guchar *ip, *spi, *dpi;
-	gint i, j, n;
+	gint i, j;
 	gint th = pr->tile_height;
 	
 	srs = gdk_pixbuf_get_rowstride(src);
@@ -2301,8 +2301,8 @@ static void pr_tile_rotate_90_counter_clockwise(PixbufRenderer *pr, GdkPixbuf **
 		for (j = x; j < x + w; j++)
 			{
 			dp = ip - (j * drs);
-			for (n = 0; n < COLOR_BYTES; n++)
-				*(dp++) = *(sp++);
+			memcpy(dp, sp, COLOR_BYTES);
+			sp += COLOR_BYTES;
 			}
 		}
 	
@@ -2318,7 +2318,7 @@ static void pr_tile_mirror_only(PixbufRenderer *pr, GdkPixbuf **tile, gint x, gi
 	guchar *s_pix, *d_pix;
 	guchar *sp, *dp;
 	guchar *spi, *dpi;
-	gint i, j, n;
+	gint i, j;
 
 	gint tw = pr->tile_width;
 
@@ -2337,8 +2337,8 @@ static void pr_tile_mirror_only(PixbufRenderer *pr, GdkPixbuf **tile, gint x, gi
 		dp = dpi + (i * drs);
 		for (j = 0; j < w; j++)
 			{
-			for (n = 0; n < COLOR_BYTES; n++)
-				dp[n] = *(sp++);
+			memcpy(dp, sp, COLOR_BYTES);
+			sp += COLOR_BYTES;
 			dp -= COLOR_BYTES;
 			}
 		}
@@ -2355,7 +2355,7 @@ static void pr_tile_mirror_and_flip(PixbufRenderer *pr, GdkPixbuf **tile, gint x
 	guchar *s_pix, *d_pix;
 	guchar *sp, *dp;
 	guchar *spi, *dpi;
-	gint i, j, n;
+	gint i, j;
 	gint tw = pr->tile_width;
 	gint th = pr->tile_height;
 
@@ -2374,8 +2374,8 @@ static void pr_tile_mirror_and_flip(PixbufRenderer *pr, GdkPixbuf **tile, gint x
 		dp = dpi - (i * drs) - (x * COLOR_BYTES);
 		for (j = 0; j < w; j++)
 			{
-			for (n = 0; n < COLOR_BYTES; n++)
-				dp[n] = *(sp++);
+			memcpy(dp, sp, COLOR_BYTES);
+			sp += COLOR_BYTES;
 			dp -= COLOR_BYTES;
 			}
 		}
@@ -2392,7 +2392,7 @@ static void pr_tile_flip_only(PixbufRenderer *pr, GdkPixbuf **tile, gint x, gint
 	guchar *s_pix, *d_pix;
 	guchar *sp, *dp;
 	guchar *spi, *dpi;
-	gint i, j, n;
+	gint i;
 	gint th = pr->tile_height;
 
 	srs = gdk_pixbuf_get_rowstride(src);
@@ -2408,11 +2408,7 @@ static void pr_tile_flip_only(PixbufRenderer *pr, GdkPixbuf **tile, gint x, gint
 		{
 		sp = spi + (i * srs);
 		dp = dpi - (i * drs);
-		for (j = 0; j < w; j++)
-			{
-			for (n = 0; n < COLOR_BYTES; n++)
-				*(dp++) = *(sp++);
-			}
+		memcpy(dp, sp, w * COLOR_BYTES);
 		}
 
 	pr->spare_tile = src;
