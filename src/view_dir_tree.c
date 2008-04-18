@@ -955,17 +955,6 @@ ViewDir *vdtree_new(ViewDir *vd, const gchar *path)
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(store),
 					     GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID, GTK_SORT_ASCENDING);
 
-	g_signal_connect(G_OBJECT(vd->view), "row_activated",
-			 G_CALLBACK(vd_activate_cb), vd);
-	g_signal_connect(G_OBJECT(vd->view), "row_expanded",
-			 G_CALLBACK(vdtree_row_expanded), vd);
-	g_signal_connect(G_OBJECT(vd->view), "row_collapsed",
-			 G_CALLBACK(vdtree_row_collapsed), vd);
-#if 0
-	g_signal_connect(G_OBJECT(store), "row_deleted",
-			 G_CALLBACK(vdtree_row_deleted_cb), vd);
-#endif
-
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vd->view));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
 	gtk_tree_selection_set_select_function(selection, vdtree_select_cb, vd, NULL);
@@ -985,36 +974,12 @@ ViewDir *vdtree_new(ViewDir *vd, const gchar *path)
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(vd->view), column);
 
-	g_signal_connect(G_OBJECT(vd->view), "key_press_event",
-			 G_CALLBACK(vd_press_key_cb), vd);
-
-	gtk_container_add(GTK_CONTAINER(vd->widget), vd->view);
-	gtk_widget_show(vd->view);
-
-	vd->pf = folder_icons_new();
-
 	vdtree_setup_root(vd);
 
-	vd_dnd_init(vd);
-
-	g_signal_connect(G_OBJECT(vd->view), "button_press_event",
-			 G_CALLBACK(vd_press_cb), vd);
-	g_signal_connect(G_OBJECT(vd->view), "button_release_event",
-			 G_CALLBACK(vd_release_cb), vd);
-
-	vdtree_set_path(vd, path);
+	g_signal_connect(G_OBJECT(vd->view), "row_expanded",
+			 G_CALLBACK(vdtree_row_expanded), vd);
+	g_signal_connect(G_OBJECT(vd->view), "row_collapsed",
+			 G_CALLBACK(vdtree_row_collapsed), vd);
 
 	return vd;
 }
-
-#if 0
-void vdtree_set_click_func(ViewDir *vd,
-			   void (*func)(ViewDir *vd, GdkEventButton *event, FileData *fd, gpointer), gpointer data)
-{
-	if (!td) return;
-	vd->click_func = func;
-	vd->click_data = data;
-}
-#endif
-
-

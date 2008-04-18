@@ -377,8 +377,6 @@ ViewDir *vdlist_new(ViewDir *vd, const gchar *path)
 
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(vd->view), FALSE);
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(vd->view), FALSE);
-	g_signal_connect(G_OBJECT(vd->view), "row_activated",
-			 G_CALLBACK(vd_activate_cb), vd);
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vd->view));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_NONE);
@@ -397,20 +395,6 @@ ViewDir *vdlist_new(ViewDir *vd, const gchar *path)
 	gtk_tree_view_column_set_cell_data_func(column, renderer, vd_color_cb, vd, NULL);
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(vd->view), column);
-
-	g_signal_connect(G_OBJECT(vd->view), "key_press_event",
-			   G_CALLBACK(vd_press_key_cb), vd);
-	gtk_container_add(GTK_CONTAINER(vd->widget), vd->view);
-	gtk_widget_show(vd->view);
-
-	vd_dnd_init(vd);
-
-	g_signal_connect(G_OBJECT(vd->view), "button_press_event",
-			 G_CALLBACK(vd_press_cb), vd);
-	g_signal_connect(G_OBJECT(vd->view), "button_release_event",
-			 G_CALLBACK(vd_release_cb), vd);
-
-	if (path) vdlist_set_path(vd, path);
 
 	return vd;
 }

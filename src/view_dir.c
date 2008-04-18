@@ -83,8 +83,24 @@ ViewDir *vd_new(DirViewType type, const gchar *path)
 	case DIRVIEW_TREE: vd = vdtree_new(vd, path); break;
 	}
 
+	gtk_container_add(GTK_CONTAINER(vd->widget), vd->view);
+	
+	vd_dnd_init(vd);
+
+	g_signal_connect(G_OBJECT(vd->view), "row_activated",
+			 G_CALLBACK(vd_activate_cb), vd);
 	g_signal_connect(G_OBJECT(vd->widget), "destroy",
 			 G_CALLBACK(vd_destroy_cb), vd);
+	g_signal_connect(G_OBJECT(vd->view), "key_press_event",
+			 G_CALLBACK(vd_press_key_cb), vd);
+	g_signal_connect(G_OBJECT(vd->view), "button_press_event",
+			 G_CALLBACK(vd_press_cb), vd);
+	g_signal_connect(G_OBJECT(vd->view), "button_release_event",
+			 G_CALLBACK(vd_release_cb), vd);
+
+	if (path) vd_set_path(vd, path);
+
+	gtk_widget_show(vd->view);
 
 	return vd;
 }
