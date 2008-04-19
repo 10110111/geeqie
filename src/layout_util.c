@@ -1311,7 +1311,9 @@ static void layout_actions_setup_marks(LayoutWindow *lw)
 		layout_actions_setup_mark(lw, mark, "SetMark%d", 	_("_Set mark %d"), 			NULL, G_CALLBACK(layout_menu_set_mark_sel_cb));
 		layout_actions_setup_mark(lw, mark, "ResetMark%d", 	_("_Reset mark %d"), 			NULL, G_CALLBACK(layout_menu_res_mark_sel_cb));
 		layout_actions_setup_mark(lw, mark, "ToggleMark%d", 	_("_Toggle mark %d"), 			"%d", G_CALLBACK(layout_menu_toggle_mark_sel_cb));
+		layout_actions_setup_mark(lw, mark, "ToggleMark%dAlt1",	_("_Toggle mark %d"), 			"KP_%d", G_CALLBACK(layout_menu_toggle_mark_sel_cb));
 		layout_actions_setup_mark(lw, mark, "SelectMark%d", 	_("_Select mark %d"), 			"<control>%d", G_CALLBACK(layout_menu_sel_mark_cb));
+		layout_actions_setup_mark(lw, mark, "SelectMark%dAlt1",	_("_Select mark %d"), 			"<control>KP_%d", G_CALLBACK(layout_menu_sel_mark_cb));
 		layout_actions_setup_mark(lw, mark, "AddMark%d", 	_("_Add mark %d"), 			NULL, G_CALLBACK(layout_menu_sel_mark_or_cb));
 		layout_actions_setup_mark(lw, mark, "IntMark%d", 	_("_Intersection with mark %d"), 	NULL, G_CALLBACK(layout_menu_sel_mark_and_cb));
 		layout_actions_setup_mark(lw, mark, "UnselMark%d", 	_("_Unselect mark %d"), 		NULL, G_CALLBACK(layout_menu_sel_mark_minus_cb));
@@ -1332,8 +1334,15 @@ static void layout_actions_setup_marks(LayoutWindow *lw)
 
 	g_string_append(desc,
 				"    </menu>"
-				"  </menubar>"
-				"</ui>" );
+				"  </menubar>");
+	for (mark = 1; mark <= FILEDATA_MARKS_SIZE; mark++)
+		{
+		g_string_append_printf(desc,
+				"<accelerator action='ToggleMark%dAlt1'/>"
+				"<accelerator action='SelectMark%dAlt1'/>",
+				mark, mark);
+		}
+	g_string_append(desc,   "</ui>" );
 
 	error = NULL;
 	if (!gtk_ui_manager_add_ui_from_string(lw->ui_manager, desc->str, -1, &error))
