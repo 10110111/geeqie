@@ -104,6 +104,7 @@ gint image_color_profile_get(ImageWindow *imd,
 			     gint *use_image);
 void image_color_profile_set_use(ImageWindow *imd, gint enable);
 gint image_color_profile_get_use(ImageWindow *imd);
+gint image_color_profile_get_from_image(ImageWindow *imd);
 
 /* set delayed page flipping */
 void image_set_delay_flip(ImageWindow *imd, gint delay);

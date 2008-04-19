@@ -365,6 +365,7 @@ struct _ImageWindow
 	gint color_profile_input;
 	gint color_profile_screen;
 	gint color_profile_use_image;
+	gint color_profile_from_image;
 	gpointer cm;
 
 	AlterType delay_alter_type;

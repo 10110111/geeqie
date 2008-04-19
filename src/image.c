@@ -339,8 +339,8 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 
 	if (imd->cm) return FALSE;
 
-	if (imd->color_profile_input >= 1 &&
-	    imd->color_profile_input <= COLOR_PROFILE_INPUTS)
+	if (imd->color_profile_input >= COLOR_PROFILE_FILE &&
+	    imd->color_profile_input <  COLOR_PROFILE_FILE + COLOR_PROFILE_INPUTS)
 		{
 		gint n;
 
@@ -350,9 +350,10 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 		input_type = COLOR_PROFILE_FILE;
 		input_file = options->color_profile.input_file[n];
 		}
-	else if (imd->color_profile_input == 0)
+	else if (imd->color_profile_input >= COLOR_PROFILE_SRGB && 
+	         imd->color_profile_input <  COLOR_PROFILE_FILE)
 		{
-		input_type = COLOR_PROFILE_SRGB;
+		input_type = imd->color_profile_input;
 		input_file = NULL;
 		}
 	else
@@ -375,6 +376,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 		{
 		return FALSE;
 		}
+	imd->color_profile_from_image = COLOR_PROFILE_NONE;
 
 	if (imd->color_profile_use_image && exif)
 		{
@@ -392,6 +394,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 				{
 				input_type = COLOR_PROFILE_SRGB;
 				input_file = NULL;
+				imd->color_profile_from_image = COLOR_PROFILE_SRGB;
 
 				if (debug) printf("Found EXIF ColorSpace of sRGB\n");
 				}
@@ -399,6 +402,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 				{
 				input_type = COLOR_PROFILE_ADOBERGB;
 				input_file = NULL;
+				imd->color_profile_from_image = COLOR_PROFILE_ADOBERGB;
 
 				if (debug) printf("Found EXIF ColorSpace of AdobeRGB\n");
 				}
@@ -412,6 +416,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 		unsigned char *data;
 		guint data_len;
 		if (debug) printf("Found embedded color profile\n");
+		imd->color_profile_from_image = COLOR_PROFILE_MEM;
 		
 		data = (unsigned char *) exif_item_get_data(item, &data_len);
 
@@ -1744,6 +1749,13 @@ gint image_color_profile_get_use(ImageWindow *imd)
 	return imd->color_profile_enable;
 }
 
+gint image_color_profile_get_from_image(ImageWindow *imd)
+{
+	if (!imd) return FALSE;
+
+	return imd->color_profile_from_image;
+}
+
 void image_set_delay_flip(ImageWindow *imd, gint delay)
 {
 	if (!imd ||
@@ -2002,6 +2014,7 @@ ImageWindow *image_new(gint frame)
 	imd->color_profile_input = 0;
 	imd->color_profile_screen = 0;
 	imd->color_profile_use_image = FALSE;
+	imd->color_profile_from_image = COLOR_PROFILE_NONE;
 
 	imd->auto_refresh_id = -1;
 	imd->auto_refresh_interval = -1;

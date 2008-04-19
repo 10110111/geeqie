@@ -18,6 +18,7 @@
 #include "filelist.h"
 #include "fullscreen.h"
 #include "image.h"
+#include "color-man.h"
 #include "img-view.h"
 #include "layout_config.h"
 #include "layout_util.h"
@@ -1451,7 +1452,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 		GtkWidget *entry;
 		gchar *buf;
 
-		buf = g_strdup_printf("Input %d:", i + 1);
+		buf = g_strdup_printf("Input %d:", i + COLOR_PROFILE_FILE);
 		pref_table_label(table, 0, i + 1, buf, 1.0);
 		g_free(buf);
 

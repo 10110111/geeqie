@@ -35,6 +35,7 @@ gint layout_image_color_profile_get(LayoutWindow *lw,
 				    gint *use_image);
 void layout_image_color_profile_set_use(LayoutWindow *lw, gint enable);
 gint layout_image_color_profile_get_use(LayoutWindow *lw);
+gint layout_image_color_profile_get_from_image(LayoutWindow *lw);
 
 
 const gchar *layout_image_get_path(LayoutWindow *lw);

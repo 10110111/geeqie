@@ -1305,6 +1305,13 @@ gint layout_image_color_profile_get_use(LayoutWindow *lw)
 	return image_color_profile_get_use(lw->image);
 }
 
+gint layout_image_color_profile_get_from_image(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return FALSE;
+
+	return image_color_profile_get_from_image(lw->image);
+}
+
 /*
  *----------------------------------------------------------------------------
  * list walkers

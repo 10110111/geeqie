@@ -13,6 +13,7 @@
 #include "layout.h"
 
 #include "image.h"
+#include "color-man.h"
 #include "layout_config.h"
 #include "layout_image.h"
 #include "layout_util.h"
@@ -389,10 +390,12 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 	gint input = 0;
 	gint screen = 0;
 	gint use_image = 0;
+	gint from_image = 0;
 	gint i;
 
 	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
 
+	from_image = use_image && (layout_image_color_profile_get_from_image(lw) != COLOR_PROFILE_NONE);
 	menu = popup_menu_short_lived();
 
 	active = layout_image_color_profile_get_use(lw);
@@ -405,15 +408,18 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 			    G_CALLBACK(layout_color_menu_use_image_cb), lw);
 	gtk_widget_set_sensitive(item, active);
 
-	front = g_strdup_printf(_("Input _%d:"), 0);
-	buf = g_strdup_printf("%s %s", front, "sRGB");
-	g_free(front);
-	item = menu_item_add_radio(menu, NULL,
-				   buf, (options->color_profile.input_type == 0),
+	for (i = COLOR_PROFILE_SRGB; i < COLOR_PROFILE_FILE; i++)
+		{
+		front = g_strdup_printf(_("Input _%d:"), i);
+		buf = g_strdup_printf("%s %s", front, i == COLOR_PROFILE_SRGB ? _("sRGB") : _("AdobeRGB compatible"));
+		g_free(front);
+		item = menu_item_add_radio(menu, (i == 0) ? NULL : item,
+				   buf, (input == i),
 				   G_CALLBACK(layout_color_menu_input_cb), lw);
-	g_free(buf);
-	g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(0));
-	gtk_widget_set_sensitive(item, active);
+		g_free(buf);
+		g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(i));
+		gtk_widget_set_sensitive(item, active && !from_image);
+		}
 
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{
@@ -422,18 +428,18 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 		name = options->color_profile.input_name[i];
 		if (!name) name = filename_from_path(options->color_profile.input_file[i]);
 
-		front = g_strdup_printf(_("Input _%d:"), i + 1);
+		front = g_strdup_printf(_("Input _%d:"), i + COLOR_PROFILE_FILE);
 		end = layout_color_name_parse(name);
 		buf = g_strdup_printf("%s %s", front, end);
 		g_free(front);
 		g_free(end);
 
 		item = menu_item_add_radio(menu, item,
-					   buf, (i + 1 == input),
+					   buf, (i + COLOR_PROFILE_FILE == input),
 					   G_CALLBACK(layout_color_menu_input_cb), lw);
 		g_free(buf);
-		g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(i + 1));
-		gtk_widget_set_sensitive(item, active && options->color_profile.input_file[i]);
+		g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(i + COLOR_PROFILE_FILE));
+		gtk_widget_set_sensitive(item, active && options->color_profile.input_file[i] && !from_image);
 		}
 
 	menu_item_add_divider(menu);
