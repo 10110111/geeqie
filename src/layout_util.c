@@ -1556,6 +1556,9 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "HideToolbar");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->toolbar_hidden);
+
+	action = gtk_action_group_get_action(lw->action_group, "ShowMarks");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->marks_enabled);
 }
 
 void layout_util_sync_thumb(LayoutWindow *lw)

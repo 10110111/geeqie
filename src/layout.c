@@ -1090,6 +1090,13 @@ gint layout_thumb_get(LayoutWindow *lw)
 	return lw->thumbs_enabled;
 }
 
+gint layout_marks_get(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return FALSE;
+
+	return lw->marks_enabled;
+}
+
 void layout_sort_set(LayoutWindow *lw, SortType type, gint ascend)
 {
 	if (!layout_valid(&lw)) return;
@@ -1881,6 +1888,7 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 	lw = g_new0(LayoutWindow, 1);
 
 	lw->thumbs_enabled = options->layout.show_thumbnails;
+	lw->marks_enabled = options->layout.show_marks;
 	lw->sort_method = SORT_NAME;
 	lw->sort_ascend = TRUE;
 

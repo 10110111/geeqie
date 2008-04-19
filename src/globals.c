@@ -89,6 +89,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->layout.main_window.y = 0;
 	options->layout.order = NULL;
 	options->layout.save_window_positions = FALSE;
+	options->layout.show_marks = FALSE;
 	options->layout.show_thumbnails = FALSE;
 	options->layout.style = 0;
 	options->layout.toolbar_hidden = FALSE;

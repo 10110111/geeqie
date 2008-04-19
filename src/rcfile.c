@@ -337,6 +337,7 @@ void save_options(void)
 	WRITE_CHAR(layout.order);
 	WRITE_BOOL(layout.view_as_icons);
 	WRITE_UINT(layout.dir_view_type);
+	WRITE_BOOL(layout.show_marks);
 	WRITE_BOOL(layout.show_thumbnails);
 	WRITE_SEPARATOR();
 
@@ -617,6 +618,7 @@ void load_options(void)
 		READ_CHAR(layout.order);
 		READ_BOOL(layout.view_as_icons);
 		READ_UINT(layout.dir_view_type);
+		READ_BOOL(layout.show_marks);
 		READ_BOOL(layout.show_thumbnails);
 
 		/* window positions */

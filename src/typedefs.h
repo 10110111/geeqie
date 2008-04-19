@@ -850,6 +850,7 @@ struct _ConfOptions
 		DirViewType dir_view_type;
 		
 		gint show_thumbnails;
+		gint show_marks;
 
 		struct {
 			gint w;
