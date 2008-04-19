@@ -344,7 +344,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 		{
 		gint n;
 
-		n = imd->color_profile_input - 1;
+		n = imd->color_profile_input - COLOR_PROFILE_FILE;
 		if (!options->color_profile.input_file[n]) return FALSE;
 
 		input_type = COLOR_PROFILE_FILE;
