@@ -1709,7 +1709,7 @@ void image_color_profile_set(ImageWindow *imd,
 {
 	if (!imd) return;
 
-	if (input_type < 0 || input_type > COLOR_PROFILE_INPUTS ||
+	if (input_type < 0 || input_type >= COLOR_PROFILE_FILE + COLOR_PROFILE_INPUTS ||
 	    screen_type < 0 || screen_type > 1)
 		{
 		return;

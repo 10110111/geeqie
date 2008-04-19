@@ -337,7 +337,7 @@ static void layout_color_menu_input_cb(GtkWidget *widget, gpointer data)
 	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) return;
 
 	type = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), COLOR_MENU_KEY));
-	if (type < 0 || type > COLOR_PROFILE_INPUTS) return;
+	if (type < 0 || type >= COLOR_PROFILE_FILE + COLOR_PROFILE_INPUTS) return;
 
 	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
 	if (type == input) return;
