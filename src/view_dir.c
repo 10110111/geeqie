@@ -441,26 +441,11 @@ static void vd_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
 	file_util_delete_dir(vd->click_fd, vd->widget);
 }
 
-static void vd_pop_menu_dir_view_as_cb(GtkWidget *widget, gpointer data)
-{
-	ViewDir *vd = data;
-	DirViewType new_type = DIRVIEW_LIST;
-
-	if (!vd->layout) return;
-
-	switch(vd->type)
-	{
-	case DIRVIEW_LIST: new_type = DIRVIEW_TREE; break;
-	case DIRVIEW_TREE: new_type = DIRVIEW_LIST; break;
-	}
-	
-	layout_views_set(vd->layout, new_type, vd->layout->icon_view);
-}
-
-#define VIEW_DIR_AS_SUBMENU_KEY "view_dir_as"
+#define VIEW_DIR_AS_SUBMENU_KEY "view_dir_as_submenu"
 static void vd_pop_submenu_dir_view_as_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
+
 	DirViewType new_type = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), VIEW_DIR_AS_SUBMENU_KEY));
 	layout_views_set(vd->layout, new_type, vd->layout->icon_view);
 }
@@ -620,7 +605,7 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 	submenu = gtk_menu_new();
         gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 
-	for (i = 0; i < sizeof(menu_view_dir_radio_entries) / sizeof(GtkRadioActionEntry); i++)
+	for (i = 0; i < G_N_ELEMENTS(menu_view_dir_radio_entries); i++)
 		{
 		item = menu_item_add_check(submenu, menu_view_dir_radio_entries[i].label,
 					   (vd->type == menu_view_dir_radio_entries[i].value),
