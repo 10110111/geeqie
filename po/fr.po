@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: geeqie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-19 14:49+0200\n"
-"PO-Revision-Date: 2008-04-19 15:34+0100\n"
+"PO-Revision-Date: 2008-04-19 18:09+0100\n"
 "Last-Translator: Laurent Monin <zas@norz.org>\n"
 "Language-Team: french\n"
 "MIME-Version: 1.0\n"
@@ -909,7 +909,7 @@ msgstr "Similarité (basse)"
 
 #: src/dupe.c:2641
 msgid "Similarity (custom)"
-msgstr "Similarité (spécifique)"
+msgstr "Similarité (personnalisée)"
 
 #: src/dupe.c:3106
 msgid "Find duplicates"
@@ -1006,7 +1006,7 @@ msgid ""
 "Failed to run command:\n"
 "%s\n"
 msgstr ""
-"Impossible de charger :\n"
+"Echec de l'éxécution de la commande :\n"
 "%s\n"
 
 #: src/editors.c:720
@@ -1027,7 +1027,7 @@ msgstr "Le squelette d'éditeur utilise des macros incompatibles."
 
 #: src/editors.c:836
 msgid "Can't find matching file type."
-msgstr "Ne peut trouver un type de fichier correspondant."
+msgstr "Ne peut trouver de type de fichier correspondant."
 
 #: src/editors.c:837
 msgid "Can't execute external editor."
@@ -1091,11 +1091,11 @@ msgstr "gauche bas"
 
 #: src/exif.c:159
 msgid "inch"
-msgstr "pouces"
+msgstr "pouce"
 
 #: src/exif.c:160
 msgid "centimeter"
-msgstr "centimètres"
+msgstr "centimètre"
 
 #: src/exif.c:172
 msgid "average"
@@ -1181,11 +1181,11 @@ msgstr "fluorescent"
 
 #: src/exif.c:199
 msgid "tungsten (incandescent)"
-msgstr "tungstène"
+msgstr "tungstène (incandescent)"
 
 #: src/exif.c:200
 msgid "flash"
-msgstr "Flash :"
+msgstr "flash"
 
 #: src/exif.c:201
 msgid "fine weather"
@@ -1197,23 +1197,23 @@ msgstr "temps nuageux"
 
 #: src/exif.c:203
 msgid "shade"
-msgstr "ombres"
+msgstr "ombragé"
 
 #: src/exif.c:204
 msgid "daylight fluorescent"
-msgstr "Lumière du jour fluorescent"
+msgstr "lumière du jour fluorescent"
 
 #: src/exif.c:205
 msgid "day white fluorescent"
-msgstr "Fluorescent blanc jour"
+msgstr "fluorescent blanc jour"
 
 #: src/exif.c:206
 msgid "cool white fluorescent"
-msgstr "Fluorescent blanc froid"
+msgstr "fluorescent blanc froid"
 
 #: src/exif.c:207
 msgid "white fluorescent"
-msgstr "Fluorescent blanc"
+msgstr "fluorescent blanc"
 
 #: src/exif.c:208
 msgid "standard light A"
@@ -1278,15 +1278,15 @@ msgstr "non calibré"
 
 #: src/exif.c:236
 msgid "1 chip color area"
-msgstr "Mono-CCD"
+msgstr "mono-CCD"
 
 #: src/exif.c:237
 msgid "2 chip color area"
-msgstr "Bi-CCD"
+msgstr "bi-CCD"
 
 #: src/exif.c:238
 msgid "3 chip color area"
-msgstr "Tri-CCD"
+msgstr "tri-CCD"
 
 #: src/exif.c:239
 msgid "color sequential area"
@@ -1298,11 +1298,11 @@ msgstr "trilinéaire"
 
 #: src/exif.c:241
 msgid "color sequential linear"
-msgstr "Capteur séquentiel linéaire"
+msgstr "capteur séquentiel linéaire"
 
 #: src/exif.c:246
 msgid "digital still camera"
-msgstr "Appareil photo numérique"
+msgstr "appareil photo numérique"
 
 #: src/exif.c:251
 msgid "direct photo"
@@ -1320,15 +1320,15 @@ msgstr "auto"
 
 #: src/exif.c:264
 msgid "auto bracket"
-msgstr "Bracketing automatique"
+msgstr "bracketing automatique"
 
 #: src/exif.c:275
 msgid "standard"
-msgstr "Standard"
+msgstr "standard"
 
 #: src/exif.c:278
 msgid "night scene"
-msgstr "Scène de nuit"
+msgstr "scène de nuit"
 
 #: src/exif.c:283
 msgid "none"
@@ -1348,7 +1348,7 @@ msgstr "faible réduction du gain"
 
 #: src/exif.c:287
 msgid "high gain down"
-msgstr "Forte réduction du gain"
+msgstr "forte réduction du gain"
 
 #: src/exif.c:293
 #: src/exif.c:307
@@ -1358,11 +1358,11 @@ msgstr "doux"
 #: src/exif.c:294
 #: src/exif.c:308
 msgid "hard"
-msgstr "Dur"
+msgstr "dur"
 
 #: src/exif.c:300
 msgid "low"
-msgstr "Faible"
+msgstr "faible"
 
 #: src/exif.c:301
 msgid "high"
@@ -1370,7 +1370,7 @@ msgstr "élevé"
 
 #: src/exif.c:314
 msgid "macro"
-msgstr "Macro"
+msgstr "macro"
 
 #: src/exif.c:315
 msgid "close"
@@ -1975,15 +1975,15 @@ msgstr "Croissant"
 #: src/layout.c:375
 #, c-format
 msgid "This installation of %s was not built with support for color profiles."
-msgstr "Cette installation de %s n'a pas été compilé avec le support des profils de couleur."
+msgstr "Cette installation de %s n'a pas été compilé avec le support des profils colorimétriques."
 
 #: src/layout.c:376
 msgid "Color profiles not supported"
-msgstr "Profils de couleur non supportés"
+msgstr "Profils colorimétriques non supportés"
 
 #: src/layout.c:399
 msgid "Use _color profiles"
-msgstr "Utiliser les profils de _couleurs"
+msgstr "Utiliser les profils _colorimétriques"
 
 #: src/layout.c:404
 msgid "Use profile from _image"
@@ -2721,7 +2721,7 @@ msgstr "chemin trouvé"
 
 #: src/pan-view.c:1647
 msgid "filename found"
-msgstr "Fichier trouvé"
+msgstr "fichier trouvé"
 
 #: src/pan-view.c:1695
 msgid "partial match"
@@ -3021,7 +3021,7 @@ msgstr "Zoom en 2 passes"
 
 #: src/preferences.c:923
 msgid "Allow enlargement of image for zoom to fit"
-msgstr "Aggrandir les images pour que le zoom convienne"
+msgstr "Permettre d'agrandir les images pour que le zoom convienne"
 
 #: src/preferences.c:927
 msgid "Limit image size when autofitting (%):"
@@ -3081,11 +3081,11 @@ msgstr "État"
 
 #: src/preferences.c:989
 msgid "Remember window positions"
-msgstr "Conserver les positions de la fenêtre"
+msgstr "Se rappeler la position des fenêtres"
 
 #: src/preferences.c:991
 msgid "Remember tool state (float/hidden)"
-msgstr "Conserver l'état des outils (flottants/cachés)"
+msgstr "Se rappeler l'état des outils (flottants/cachés)"
 
 #: src/preferences.c:996
 msgid "Fit window to image when tools are hidden/floating"
@@ -3123,11 +3123,11 @@ msgstr "Désactiver les filtres de fichiers"
 
 #: src/preferences.c:1050
 msgid "Grouping sidecar extensions"
-msgstr "Groupement des extensions de fichiers annexes"
+msgstr "Groupement des extensions de fichiers sidecar"
 
 #: src/preferences.c:1057
 msgid "File types"
-msgstr "Type de fichier"
+msgstr "Types de fichier"
 
 #: src/preferences.c:1079
 msgid "Filter"
@@ -3178,7 +3178,7 @@ msgstr "Inhiber l'économiseur d'écran"
 
 #: src/preferences.c:1309
 msgid "Always show fullscreen info"
-msgstr "Toujours montrer les infos en mode plein écran"
+msgstr "Toujours montrer les infos OSD en mode plein écran"
 
 #: src/preferences.c:1311
 msgid "Fullscreen info string"
@@ -3210,7 +3210,7 @@ msgstr ""
 
 #: src/preferences.c:1352
 msgid "Delete"
-msgstr "Effacer"
+msgstr "Suppression"
 
 #: src/preferences.c:1354
 msgid "Confirm file delete"
@@ -3298,7 +3298,7 @@ msgstr "Compteur de la boucle de lecture des images lorsque inoccupé:"
 
 #: src/preferences.c:1432
 msgid "Color profiles"
-msgstr "Profils couleur"
+msgstr "Profils colorimétriques"
 
 #: src/preferences.c:1440
 msgid "Type"
@@ -3962,7 +3962,7 @@ msgstr "Ajouter un _signet"
 
 #: src/ui_pathsel.c:642
 msgid "_Delete"
-msgstr "_Effacer"
+msgstr "_Supprimer"
 
 #: src/ui_pathsel.c:746
 #: src/ui_pathsel.c:1051
@@ -4322,7 +4322,7 @@ msgstr ""
 
 #: src/utilops.c:1435
 msgid "Turn off safe delete"
-msgstr "Désactiver la suppression sécurisée"
+msgstr "Désactiver la suppression récupérable"
 
 #: src/utilops.c:1455
 msgid "Deletion by external command"
@@ -4339,13 +4339,13 @@ msgid ""
 "Safe delete: %s%s\n"
 "Trash: %s"
 msgstr ""
-"Suppression sécurisée: %s%s\n"
+"Suppression récupérable: %s%s\n"
 "Poubelle: %s"
 
 #: src/utilops.c:1472
 #, c-format
 msgid "Safe delete: %s"
-msgstr "Suppression sécurisée : %s"
+msgstr "Suppression récupérable : %s"
 
 #: src/utilops.c:1513
 msgid ""
