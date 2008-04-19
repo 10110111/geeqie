@@ -225,8 +225,8 @@ static gint comment_legacy_read(FileData *fd, GList **keywords, gchar **comment)
 	return success;
 }
 
-gchar *comment_key = "Xmp.dc.description";
-gchar *keyword_key = "Xmp.dc.subject";
+const gchar *comment_key = "Xmp.dc.description";
+const gchar *keyword_key = "Xmp.dc.subject";
 
 static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 {
@@ -379,6 +379,20 @@ static gchar *comment_pull(GtkWidget *textview)
 	return gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
 }
 
+static gint keyword_list_find(GList *list, const gchar *keyword)
+{
+	while (list)
+		{
+		gchar *haystack = list->data;
+
+		if (haystack && keyword && strcmp(haystack, keyword) == 0) return TRUE;
+
+		list = list->next;
+		}
+
+	return FALSE;
+}
+
 GList *keyword_list_pull(GtkWidget *text_widget)
 {
 	GList *list = NULL;
@@ -404,20 +418,29 @@ GList *keyword_list_pull(GtkWidget *text_widget)
 		gchar *begin;
 		gint l = 0;
 
-		while (*ptr == ' ' || *ptr == ',' || *ptr == '\n' || *ptr == '\r' || *ptr == '\b') ptr++;
+#define KEYWORDS_SEPARATOR(c) ((c) == ',' || (c) == ';' || (c) == '\n' || (c) == '\r' || (c) == '\b')
+		while (KEYWORDS_SEPARATOR(*ptr)) ptr++;
 		begin = ptr;
-		if (*ptr != '\0')
+		while (*ptr != '\0' && !KEYWORDS_SEPARATOR(*ptr))
 			{
-			while (*ptr != ' ' && *ptr != ',' &&
-			       *ptr != '\n' && *ptr != '\r' && *ptr != '\b' &&
-			       *ptr != '\0')
-				{
-				ptr++;
-				l++;
-				}
+			ptr++;
+			l++;
 			}
+	
+		/* trim starting and ending whitespaces */
+		while (l > 0 && g_ascii_isspace(*begin)) begin++, l--;
+		while (l > 0 && g_ascii_isspace(begin[l-1])) l--;
 
-		if (l > 0) list = g_list_append(list, g_strndup(begin, l));
+		if (l > 0)
+			{
+			gchar *keyword = g_strndup(begin, l);
+			
+			/* only add if not already in the list */
+			if (keyword_list_find(list, keyword) == FALSE)
+				list = g_list_append(list, keyword);
+			else
+				g_free(keyword);
+			}
 		}
 
 	g_free(text);
@@ -822,20 +845,6 @@ static void bar_info_save_update(BarInfoData *bd, gint enable)
 		}
 }
 
-static gint bar_keyword_list_find(GList *list, const gchar *keyword)
-{
-	while (list)
-		{
-		gchar *haystack = list->data;
-
-		if (haystack && keyword && strcmp(haystack, keyword) == 0) return TRUE;
-
-		list = list->next;
-		}
-
-	return FALSE;
-}
-
 static void bar_keyword_list_sync(BarInfoData *bd, GList *keywords)
 {
 	GList *list;
@@ -868,7 +877,7 @@ static void bar_keyword_list_sync(BarInfoData *bd, GList *keywords)
 		gchar *key = list->data;
 
 		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store, &iter, KEYWORD_COLUMN_TOGGLE, bar_keyword_list_find(keywords, key),
+		gtk_list_store_set(store, &iter, KEYWORD_COLUMN_TOGGLE, keyword_list_find(keywords, key),
 						 KEYWORD_COLUMN_TEXT, key, -1);
 
 		list = list->prev;
@@ -986,7 +995,7 @@ static void bar_info_keyword_set(BarInfoData *bd, const gchar *keyword, gint act
 	if (!keyword) return;
 
 	list = keyword_list_pull(bd->keyword_view);
-	found = bar_keyword_list_find(list, keyword);
+	found = keyword_list_find(list, keyword);
 
 	if (active != found)
 		{
