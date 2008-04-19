@@ -43,6 +43,13 @@ ui_icons.h: $(extra_ICONS) Makefile.in
 	 $(GDK_PIXBUF_CSOURCE) --raw --extern --build-list $(ICON_PAIRS); \
 	 echo '#endif /* UI_ICONS_H */') > $@ || echo "!!! Failed to generate $@ !!!"
 
+ClayRGB1998_icc.h: ClayRGB1998.icc
+	echo "/*" > $@ 
+	echo " * This file was generated from ClayRGB1998.icc, DO NOT EDIT " >> $@
+	echo " * http://www.argyllcms.com/ClayRGB1998.zip " >> $@
+	echo " */ " >> $@
+	xxd -i $^ >> $@
+
 ui_spinner.o: ui_icons.h
 
 
@@ -56,6 +63,8 @@ bin_PROGRAMS = geeqie
 
 geeqie_SOURCES = \
 	$(module_SLIK)	\
+	ClayRGB1998.icc \
+	ClayRGB1998_icc.h \
 	bar_info.c	\
 	bar_info.h	\
 	bar_exif.c	\

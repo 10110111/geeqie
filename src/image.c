@@ -382,16 +382,28 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 		if (!item)
 			{
 			gint cs;
+			gchar *interop_index;
 
 			/* ColorSpace == 1 specifies sRGB per EXIF 2.2 */
-			if (exif_get_integer(exif, "Exif.Photo.ColorSpace", &cs) &&
-			    cs == 1)
+			if (!exif_get_integer(exif, "Exif.Photo.ColorSpace", &cs)) cs = 0;
+			interop_index = exif_get_data_as_text(exif, "Exif.Iop.InteroperabilityIndex");			
+			
+			if (cs == 1)
 				{
 				input_type = COLOR_PROFILE_SRGB;
 				input_file = NULL;
 
 				if (debug) printf("Found EXIF ColorSpace of sRGB\n");
 				}
+			if (cs == 2 || (interop_index && !strcmp(interop_index, "R03")))
+				{
+				input_type = COLOR_PROFILE_ADOBERGB;
+				input_file = NULL;
+
+				if (debug) printf("Found EXIF ColorSpace of AdobeRGB\n");
+				}
+				
+			g_free(interop_index);
 			}
 		}
 

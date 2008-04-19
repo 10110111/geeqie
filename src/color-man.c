@@ -58,6 +58,12 @@ static void color_man_lib_init(void)
 	cmsErrorAction(LCMS_ERROR_IGNORE);
 }
 
+static cmsHPROFILE color_man_create_adobe_comp()
+{
+	/* ClayRGB1998 is AdobeRGB compatible */
+#include "ClayRGB1998_icc.h"
+	return cmsOpenProfileFromMem(ClayRGB1998_icc, ClayRGB1998_icc_len);
+}
 
 /*
  *-------------------------------------------------------------------
@@ -112,6 +118,9 @@ static cmsHPROFILE color_man_cache_load_profile(ColorManProfileType type, const 
 			break;
 		case COLOR_PROFILE_SRGB:
 			profile = cmsCreate_sRGBProfile();
+			break;
+		case COLOR_PROFILE_ADOBERGB:
+			profile = color_man_create_adobe_comp();
 			break;
 		case COLOR_PROFILE_MEM:
 			if (data)
