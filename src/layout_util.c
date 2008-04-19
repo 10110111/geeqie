@@ -161,71 +161,6 @@ gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 		layout_image_scroll(lw, x, y);
 		}
 
-	if (stop_signal) return stop_signal;
-
-	if (event->state & GDK_CONTROL_MASK)
-		{
-		stop_signal = FALSE;
-		}
-	else
-		{
-		stop_signal = TRUE;
-		switch (event->keyval)
-			{
-			case '+': case GDK_KP_Add:
-				layout_image_zoom_adjust(lw, get_zoom_increment());
-				break;
-			case GDK_KP_Subtract:
-				layout_image_zoom_adjust(lw, -get_zoom_increment());
-				break;
-			case GDK_KP_Multiply:
-				layout_image_zoom_set(lw, 0.0);
-				break;
-			case GDK_KP_Divide:
-				layout_image_zoom_set(lw, 1.0);
-				break;
-			case GDK_Page_Up: case GDK_KP_Page_Up:
-				layout_image_prev(lw);
-				break;
-			case GDK_Page_Down: case GDK_KP_Page_Down:
-				layout_image_next(lw);
-				break;
-			case GDK_Delete: case GDK_KP_Delete:
-				if (options->file_ops.enable_delete_key)
-					{
-					file_util_delete(NULL, layout_selection_list(lw), widget);
-					}
-				break;
-			case GDK_Escape:
-				/* FIXME:interrupting thumbs no longer allowed */
-#if 0
-				interrupt_thumbs();
-#endif
-				break;
-			case 'P': case 'p':
-				if (!event->state & GDK_SHIFT_MASK)
-					{
-					layout_image_slideshow_pause_toggle(lw);
-					}
-				else
-					{
-					stop_signal = FALSE;
-					}
-				break;
-			case 'V': case 'v':
-			case GDK_F11:
-				layout_image_full_screen_toggle(lw);
-				break;
-			default:
-				stop_signal = FALSE;
-				break;
-			}
-		}
-
-#if 0
-	if (stop_signal) g_signal_stop_emission_by_name(G_OBJECT(widget), "key_press_event");
-#endif
-
 	return stop_signal;
 }
 
@@ -591,6 +526,17 @@ static void layout_menu_fullscreen_cb(GtkAction *action, gpointer data)
 	layout_image_full_screen_toggle(lw);
 }
 
+static void layout_menu_escape_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_full_screen_stop(lw);
+				/* FIXME:interrupting thumbs no longer allowed */
+#if 0
+				interrupt_thumbs();
+#endif
+}
+
 static void layout_menu_overlay_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -710,6 +656,13 @@ static void layout_menu_slideshow_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 
 	layout_image_slideshow_toggle(lw);
+}
+
+static void layout_menu_slideshow_pause_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_slideshow_pause_toggle(lw);
 }
 
 static void layout_menu_help_cb(GtkAction *action, gpointer data)
@@ -1059,7 +1012,11 @@ static GtkActionEntry menu_entries[] = {
 
   { "FirstImage",	GTK_STOCK_GOTO_TOP,	N_("_First Image"),	"Home",		NULL,	CB(layout_menu_image_first_cb) },
   { "PrevImage",	GTK_STOCK_GO_UP,   	N_("_Previous Image"),	"BackSpace",	NULL,	CB(layout_menu_image_prev_cb) },
+  { "PrevImageAlt1",	GTK_STOCK_GO_UP,   	N_("_Previous Image"),	"Page_Up",	NULL,	CB(layout_menu_image_prev_cb) },
+  { "PrevImageAlt2",	GTK_STOCK_GO_UP,   	N_("_Previous Image"),	"KP_Page_Up",	NULL,	CB(layout_menu_image_prev_cb) },
   { "NextImage",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),	"space",	NULL,	CB(layout_menu_image_next_cb) },
+  { "NextImageAlt1",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),	"Page_Down",	NULL,	CB(layout_menu_image_next_cb) },
+  { "NextImageAlt2",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),	"KP_Page_Down",	NULL,	CB(layout_menu_image_next_cb) },
   { "LastImage",	GTK_STOCK_GOTO_BOTTOM,	N_("_Last Image"),	"End",		NULL,	CB(layout_menu_image_last_cb) },
 
 
@@ -1076,6 +1033,8 @@ static GtkActionEntry menu_entries[] = {
   { "Move",		NULL,		N_("_Move..."),		"<control>M",	NULL,	CB(layout_menu_move_cb) },
   { "Rename",		NULL,		N_("_Rename..."),	"<control>R",	NULL,	CB(layout_menu_rename_cb) },
   { "Delete",	GTK_STOCK_DELETE,	N_("_Delete..."),	"<control>D",	NULL,	CB(layout_menu_delete_cb) },
+  { "DeleteAlt1",GTK_STOCK_DELETE,	N_("_Delete..."),	"Delete",	NULL,	CB(layout_menu_delete_cb) },
+  { "DeleteAlt2",GTK_STOCK_DELETE,	N_("_Delete..."),	"KP_Delete",	NULL,	CB(layout_menu_delete_cb) },
   { "CloseWindow",	GTK_STOCK_CLOSE,N_("C_lose window"),	"<control>W",	NULL,	CB(layout_menu_close_cb) },
   { "Quit",		GTK_STOCK_QUIT, N_("_Quit"),		"<control>Q",	NULL,	CB(layout_menu_exit_cb) },
 
@@ -1103,9 +1062,14 @@ static GtkActionEntry menu_entries[] = {
   { "Wallpaper",	NULL,		N_("Set as _wallpaper"),NULL,		NULL,	CB(layout_menu_wallpaper_cb) },
 
   { "ZoomIn",	GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"equal",	NULL,	CB(layout_menu_zoom_in_cb) },
+  { "ZoomInAlt1",GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"plus",		NULL,	CB(layout_menu_zoom_in_cb) },
+  { "ZoomInAlt2",GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"KP_Add",	NULL,	CB(layout_menu_zoom_in_cb) },
   { "ZoomOut",	GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),	"minus",	NULL,	CB(layout_menu_zoom_out_cb) },
+  { "ZoomOutAlt1",GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),	"KP_Subtract",	NULL,	CB(layout_menu_zoom_out_cb) },
   { "Zoom100",	GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),	"Z",		NULL,	CB(layout_menu_zoom_1_1_cb) },
+  { "Zoom100Alt1",GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),	"KP_Divide",		NULL,	CB(layout_menu_zoom_1_1_cb) },
   { "ZoomFit",	GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),	"X",		NULL,	CB(layout_menu_zoom_fit_cb) },
+  { "ZoomFitAlt1",GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),	"KP_Multiply",	NULL,	CB(layout_menu_zoom_fit_cb) },
   { "ZoomFillHor",	NULL,		N_("Fit _Horizontally"),"H",		NULL,	CB(layout_menu_zoom_fit_hor_cb) },
   { "ZoomFillVert",	NULL,		N_("Fit _Vorizontally"),"W",		NULL,	CB(layout_menu_zoom_fit_vert_cb) },
   { "Zoom200",	        NULL,		N_("Zoom _2:1"),	NULL,		NULL,	CB(layout_menu_zoom_2_1_cb) },
@@ -1119,11 +1083,16 @@ static GtkActionEntry menu_entries[] = {
   { "ViewInNewWindow",	NULL,		N_("_View in new window"),	"<control>V",		NULL,	CB(layout_menu_view_in_new_window_cb) },
 
   { "FullScreen",	NULL,		N_("F_ull screen"),	"F",		NULL,	CB(layout_menu_fullscreen_cb) },
+  { "FullScreenAlt1",	NULL,		N_("F_ull screen"),	"V",		NULL,	CB(layout_menu_fullscreen_cb) },
+  { "FullScreenAlt2",	NULL,		N_("F_ull screen"),	"F11",		NULL,	CB(layout_menu_fullscreen_cb) },
+  { "Escape",		NULL,		N_("Escape"),		"Escape",	NULL,	CB(layout_menu_escape_cb) },
+  { "EscapeAlt1",	NULL,		N_("Escape"),		"Q",		NULL,	CB(layout_menu_escape_cb) },
   { "ImageOverlay",	NULL,		N_("_Image Overlay"),	"I",		NULL,	CB(layout_menu_overlay_cb) },
   { "HistogramChan",	NULL,	N_("Histogram _channels"),	"K",		NULL,	CB(layout_menu_histogram_chan_cb) },
   { "HistogramLog",	NULL,	N_("Histogram _log mode"),	"J",		NULL,	CB(layout_menu_histogram_log_cb) },
   { "HideTools",	NULL,		N_("_Hide file list"),	"<control>H",	NULL,	CB(layout_menu_hide_cb) },
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb) },
+  { "SlideShowPause",	NULL,		N_("_Pause _slideshow"),"P",		NULL,	CB(layout_menu_slideshow_pause_cb) },
   { "Refresh",	GTK_STOCK_REFRESH,	N_("_Refresh"),		"R",		NULL,	CB(layout_menu_refresh_cb) },
 
   { "HelpContents",	GTK_STOCK_HELP,	N_("_Contents"),	"F1",		NULL,	CB(layout_menu_help_cb) },
@@ -1152,7 +1121,7 @@ static GtkRadioActionEntry menu_radio_entries[] = {
 static GtkRadioActionEntry menu_split_radio_entries[] = {
   { "SplitHorizontal",	NULL,		N_("Horizontal"),	"E",		NULL,	SPLIT_HOR },
   { "SplitVertical",	NULL,		N_("Vertical"),		"U",		NULL,	SPLIT_VERT },
-  { "SplitQuad",	NULL,		N_("Quad"),		"Q",		NULL,	SPLIT_QUAD },
+  { "SplitQuad",	NULL,		N_("Quad"),		NULL,		NULL,	SPLIT_QUAD },
   { "SplitSingle",	NULL,		N_("Single"),		"Y",		NULL,	SPLIT_NONE }
 };
 
@@ -1273,6 +1242,7 @@ static const char *menu_ui_description =
 "      <menuitem action='SBarSort'/>"
 "      <separator/>"
 "      <menuitem action='SlideShow'/>"
+"      <menuitem action='SlideShowPause'/>"
 "      <menuitem action='Refresh'/>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
@@ -1284,6 +1254,21 @@ static const char *menu_ui_description =
 "      <menuitem action='About'/>"
 "    </menu>"
 "  </menubar>"
+"<accelerator action='PrevImageAlt1'/>"
+"<accelerator action='PrevImageAlt2'/>"
+"<accelerator action='NextImageAlt1'/>"
+"<accelerator action='NextImageAlt2'/>"
+"<accelerator action='DeleteAlt1'/>"
+"<accelerator action='DeleteAlt2'/>"
+"<accelerator action='ZoomInAlt1'/>"
+"<accelerator action='ZoomInAlt2'/>"
+"<accelerator action='ZoomOutAlt1'/>"
+"<accelerator action='Zoom100Alt1'/>"
+"<accelerator action='ZoomFitAlt1'/>"
+"<accelerator action='FullScreenAlt1'/>"
+"<accelerator action='FullScreenAlt2'/>"
+"<accelerator action='Escape'/>"
+"<accelerator action='EscapeAlt1'/>"
 "</ui>";
 
 
