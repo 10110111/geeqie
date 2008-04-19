@@ -927,8 +927,10 @@ void file_data_unref(FileData *fd)
 {
 	if (fd == NULL) return;
 	g_assert(fd->magick == 0x12345678);
-	if (debug) printf("file_data_unref: '%s'\n", fd->path);
+	
 	fd->ref--;
+	if (debug) printf("file_data_unref (%d): '%s'\n", fd->ref, fd->path);
+
 	if (fd->ref == 0)
 		{
 		FileData *parent = fd->parent ? fd->parent : fd;
