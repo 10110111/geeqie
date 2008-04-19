@@ -411,6 +411,7 @@ struct _FileData {
 	FileDataChangeInfo *change; /* for rename, move ... */
 	GdkPixbuf *pixbuf;
 	gint ref;
+	gint user_orientation;
 };
 
 struct _LayoutWindow

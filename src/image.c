@@ -587,6 +587,18 @@ void image_alter(ImageWindow *imd, AlterType type)
 			return;
 			break;
 		}
+
+	if (type != ALTER_NONE && type != ALTER_DESATURATE)
+		{
+		if (imd->image_fd->user_orientation == 0) file_data_ref(imd->image_fd);
+		imd->image_fd->user_orientation = imd->orientation;
+		}
+	else
+		{
+		if (imd->image_fd->user_orientation != 0) file_data_unref(imd->image_fd);
+		imd->image_fd->user_orientation = 0;
+		}
+
 	pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, imd->orientation);
 	if (imd->cm || imd->desaturate) 
 		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, image_post_process_tile_color_cb, (gpointer) imd, (imd->cm != NULL) );
@@ -1290,16 +1302,18 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
 	ExifData *exif = NULL;
 	gint orientation;
 
-	if (options->image.exif_rotate_enable ||
+	if (imd->image_fd && imd->image_fd->user_orientation)
+		imd->orientation = imd->image_fd->user_orientation;
+	else if (options->image.exif_rotate_enable ||
 	    (imd->color_profile_enable && imd->color_profile_use_image) )
 		{
 		exif = exif_read_fd(imd->image_fd, (imd->color_profile_enable && imd->color_profile_use_image));
+		
+		if (options->image.exif_rotate_enable && exif && exif_get_integer(exif, "Exif.Image.Orientation", &orientation)) 
+			imd->orientation = orientation;
+		else
+			imd->orientation = 1;
 		}
-
-	if (options->image.exif_rotate_enable && exif && exif_get_integer(exif, "Exif.Image.Orientation", &orientation)) 
-		imd->orientation = orientation;
-	else
-		imd->orientation = 1;
 
 	pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, NULL, NULL, FALSE);
 	if (imd->cm) 
