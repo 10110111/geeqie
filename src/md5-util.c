@@ -349,7 +349,7 @@ gboolean md5_get_digest_from_file(const gchar *path, guchar digest[16])
 
 	md5_init(&ctx);
 	
-	while ((nb_bytes_read = fread (tmp_buf, sizeof (guchar), 1024, fp)) > 0)
+	while ((nb_bytes_read = fread (tmp_buf, sizeof (guchar), sizeof(tmp_buf), fp)) > 0)
 		{
 		md5_update (&ctx, tmp_buf, nb_bytes_read);
 		}

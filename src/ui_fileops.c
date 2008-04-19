@@ -425,7 +425,7 @@ gint copy_file(const gchar *s, const gchar *t)
 
 	if (!fi || !fo) return FALSE;
 
-	while((b = fread(buf, sizeof(char), 4096, fi)) && b != 0)
+	while((b = fread(buf, sizeof(char), sizeof(buf), fi)) && b != 0)
 		{
 		if (fwrite(buf, sizeof(char), b, fo) != b)
 			{
