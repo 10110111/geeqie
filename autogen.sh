@@ -85,6 +85,9 @@ do
 	  test -r $dr/aclocal.m4 || touch $dr/aclocal.m4
 	  echo "Running glib-gettextize..."
 	  echo "no" | glib-gettextize --force --copy
+	  if [ -r po/Makefile.in.in.patch ]; then
+		patch po/Makefile.in.in < po/Makefile.in.in.patch
+	  fi
 	  echo "Making $dr/aclocal.m4 writable ..."
 	  test -r $dr/aclocal.m4 && chmod u+w $dr/aclocal.m4
         fi

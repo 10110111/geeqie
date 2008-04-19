@@ -1,0 +1,34 @@
+--- Makefile.in.in	2008-04-19 14:36:53.000000000 +0200
++++ Makefile.in.in.new	2008-04-19 14:39:19.000000000 +0200
+@@ -216,7 +216,30 @@
+ 	    || cp -p $(srcdir)/$$file $(distdir); \
+ 	done
+ 
+-update-po: Makefile
++### Updating po and gmo files
++#
++# Update by merging all .po files with the .po template master file.
++#
++# It is possible to update only a single .po file by setting the PO variable to
++# either <lang> or <lang>.po when calling make. Example: make update-po PO=is
++
++update-po: Makefile $(GETTEXT_PACKAGE).pot
++	@cd $(srcdir); \
++	$(foreach lang,$(basename $(if $(strip $(PO)),$(PO),$(CATALOGS))), \
++	  echo -n "$(lang): "; \
++	  if $(MSGMERGE) $(lang).po $(GETTEXT_PACKAGE).pot -o $(lang).new.po; then \
++	    mv -f $(lang).new.po $(lang).po; \
++	  else \
++	    echo "msgmerge failed!"; \
++	    rm -f $(lang).new.po; \
++	  fi; \
++	)
++	$(MAKE) update-gmo
++
++update-gmo: Makefile $(CATALOGS)
++	@:
++
++update-po-orig: Makefile
+ 	$(MAKE) $(GETTEXT_PACKAGE).pot
+ 	tmpdir=`pwd`; \
+ 	cd $(srcdir); \
