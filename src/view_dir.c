@@ -457,6 +457,14 @@ static void vd_pop_menu_dir_view_as_cb(GtkWidget *widget, gpointer data)
 	layout_views_set(vd->layout, new_type, vd->layout->icon_view);
 }
 
+#define VIEW_DIR_AS_SUBMENU_KEY "view_dir_as"
+static void vd_pop_submenu_dir_view_as_cb(GtkWidget *widget, gpointer data)
+{
+	ViewDir *vd = data;
+	DirViewType new_type = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), VIEW_DIR_AS_SUBMENU_KEY));
+	layout_views_set(vd->layout, new_type, vd->layout->icon_view);
+}
+
 static void vd_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
@@ -540,9 +548,12 @@ static void vd_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 {
 	GtkWidget *menu;
+	GtkWidget *submenu;
+	GtkWidget *item;
 	gint active;
 	gint rename_delete_active = FALSE;
 	gint new_folder_active = FALSE;
+	gint i;
 
 	active = (fd != NULL);
 	switch(vd->type)
@@ -604,9 +615,19 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 				      G_CALLBACK(vd_pop_menu_delete_cb), vd);
 
 	menu_item_add_divider(menu);
-	/* FIXME */
-	menu_item_add_check(menu, _("View as _tree"), vd->type,
-			    G_CALLBACK(vd_pop_menu_dir_view_as_cb), vd);
+	
+	item = menu_item_add(menu, _("_View as"), NULL, NULL);
+	submenu = gtk_menu_new();
+        gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
+
+	for (i = 0; i < sizeof(menu_view_dir_radio_entries) / sizeof(GtkRadioActionEntry); i++)
+		{
+		item = menu_item_add_check(submenu, menu_view_dir_radio_entries[i].label,
+					   (vd->type == menu_view_dir_radio_entries[i].value),
+					   G_CALLBACK(vd_pop_submenu_dir_view_as_cb), vd);
+		g_object_set_data(G_OBJECT(item), VIEW_DIR_AS_SUBMENU_KEY, GINT_TO_POINTER(menu_view_dir_radio_entries[i].value));
+		}
+
 	menu_item_add_check(menu, _("Show _hidden files"), options->file_filter.show_hidden_files,
 			    G_CALLBACK(vd_toggle_show_hidden_files_cb), vd);
 
