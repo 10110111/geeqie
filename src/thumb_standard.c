@@ -169,7 +169,7 @@ static gchar *thumb_std_cache_path(const gchar *path, const gchar *uri, gint loc
 
 static gchar *thumb_loader_std_cache_path(ThumbLoaderStd *tl, gint local, GdkPixbuf *pixbuf, gint fail)
 {
-	const gchar *folder_size;
+	const gchar *folder;
 	gint w, h;
 
 	if (!tl->source_path || !tl->thumb_uri) return NULL;
@@ -187,20 +187,20 @@ static gchar *thumb_loader_std_cache_path(ThumbLoaderStd *tl, gint local, GdkPix
 
 	if (fail)
 		{
-		folder_size = THUMB_FOLDER_FAIL;
+		folder = THUMB_FOLDER_FAIL;
 		}
 	else if (w > THUMB_SIZE_NORMAL || h > THUMB_SIZE_NORMAL)
 		{
-		folder_size = THUMB_FOLDER_LARGE;
+		folder = THUMB_FOLDER_LARGE;
 		}
 	else
 		{
-		folder_size = THUMB_FOLDER_NORMAL;
+		folder = THUMB_FOLDER_NORMAL;
 		}
 
 	return thumb_std_cache_path(tl->source_path,
 				    (local) ?  tl->local_uri : tl->thumb_uri,
-				    local, folder_size);
+				    local, folder);
 }
 
 static gint thumb_loader_std_fail_check(ThumbLoaderStd *tl)
@@ -295,7 +295,7 @@ static void thumb_loader_std_save(ThumbLoaderStd *tl, GdkPixbuf *pixbuf)
 		/* local failures are not stored */
 		if (tl->cache_local) return;
 
-		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
+		pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
 		fail = TRUE;
 		}
 	else
