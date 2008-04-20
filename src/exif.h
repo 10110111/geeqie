@@ -105,9 +105,9 @@ typedef enum {
  *-----------------------------------------------------------------------------
  */
 
-ExifData *exif_read(gchar *path, gchar *sidecar_path, gint parse_color_profile);
+ExifData *exif_read(gchar *path, gchar *sidecar_path);
 
-ExifData *exif_read_fd(FileData *fd, gint parse_color_profile);
+ExifData *exif_read_fd(FileData *fd);
 
 
 int exif_write(ExifData *exif);
@@ -146,10 +146,23 @@ gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_val
 int exif_item_delete(ExifData *exif, ExifItem *item);
 int exif_item_set_string(ExifItem *item, const char *str);
 
+unsigned char *exif_get_color_profile(ExifData *exif, guint *data_len);
 
+/* jpeg embedded icc support */
+
+void exif_add_jpeg_color_profile(ExifData *exif, unsigned char *cp_data, guint cp_length);
+
+
+gint exif_jpeg_segment_find(unsigned char *data, guint size,
+                                   guchar app_marker, const gchar *magic, guint magic_len,
+                                   guint *seg_offset, guint *seg_length);
+gint exif_jpeg_parse_color(ExifData *exif, unsigned char *data, guint size);
+
+/*raw support */
 gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 				    unsigned char *header_data, const guint header_len,
 				    guint *image_offset, guint *exif_offset);
+
 
 
 #endif

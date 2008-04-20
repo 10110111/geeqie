@@ -992,6 +992,7 @@ gint exif_tiff_parse(ExifData *exif, unsigned char *tiff, guint size, ExifMarker
 	return exif_parse_IFD_table(exif, tiff, offset, size, bo, 0, list);
 }
 
+
 /*
  *-------------------------------------------------------------------
  * jpeg marker utils
@@ -1015,133 +1016,23 @@ gint exif_tiff_parse(ExifData *exif, unsigned char *tiff, guint size, ExifMarker
 	     length of NN... == SSSS - 2.
        NNN.: the data in this segment
  */
-
-static gint exif_jpeg_segment_find(unsigned char *data, guint size,
-				   guchar app_marker, const gchar *magic, guint magic_len,
-				   guint *seg_offset, guint *seg_length)
-{
-	guchar marker = 0;
-	guint offset = 0;
-	guint length = 0;
-
-	while (marker != app_marker &&
-	       marker != JPEG_MARKER_EOI)
-		{
-		offset += length;
-		length = 2;
-
-		if (offset + 2 >= size ||
-		    data[offset] != JPEG_MARKER) return FALSE;
-
-		marker = data[offset + 1];
-		if (marker != JPEG_MARKER_SOI &&
-		    marker != JPEG_MARKER_EOI)
-			{
-			if (offset + 4 >= size) return FALSE;
-			length += exif_byte_get_int16(data + offset + 2, EXIF_BYTE_ORDER_MOTOROLA);
-			}
-		}
-
-	if (marker == app_marker &&
-	    offset + length < size &&
-	    length >= 4 + magic_len &&
-	    memcmp(data + offset + 4, magic, magic_len) == 0)
-		{
-		*seg_offset = offset + 4;
-		*seg_length = length - 4;
-		return TRUE;
-		}
-
-	return FALSE;
-}
-
 static ExifMarker jpeg_color_marker = { 0x8773, EXIF_FORMAT_UNDEFINED, -1, "Exif.Image.InterColorProfile", NULL, NULL };
 
-static gint exif_jpeg_parse_color(ExifData *exif, unsigned char *data, guint size)
+void exif_add_jpeg_color_profile(ExifData *exif, unsigned char *cp_data, guint cp_length)
 {
-	guint seg_offset = 0;
-	guint seg_length = 0;
-	guint chunk_offset[255];
-	guint chunk_length[255];
-	guint chunk_count = 0;
-
-	/* For jpeg/jfif, ICC color profile data can be in more than one segment.
-	   the data is in APP2 data segments that start with "ICC_PROFILE\x00\xNN\xTT"
-	   NN = segment number for data
-	   TT = total number of ICC segments (TT in each ICC segment should match)
-	 */
-
-	while (exif_jpeg_segment_find(data + seg_offset + seg_length,
-				      size - seg_offset - seg_length,
-				      JPEG_MARKER_APP2,
-				      "ICC_PROFILE\x00", 12,
-				      &seg_offset, &seg_length))
-		{
-		guchar chunk_num;
-		guchar chunk_tot;
-
-		if (seg_length < 14) return FALSE;
-
-		chunk_num = data[seg_offset + 12];
-		chunk_tot = data[seg_offset + 13];
-
-		if (chunk_num == 0 || chunk_tot == 0) return FALSE;
-
-		if (chunk_count == 0)
-			{
-			guint i;
-
-			chunk_count = (guint)chunk_tot;
-			for (i = 0; i < chunk_count; i++) chunk_offset[i] = 0;
-			for (i = 0; i < chunk_count; i++) chunk_length[i] = 0;
-			}
-
-		if (chunk_tot != chunk_count ||
-		    chunk_num > chunk_count) return FALSE;
-
-		chunk_num--;
-		chunk_offset[chunk_num] = seg_offset + 14;
-		chunk_length[chunk_num] = seg_length - 14;
-		}
-
-	if (chunk_count > 0)
-		{
-		ExifItem *item;
-		unsigned char *cp_data;
-		guint cp_length = 0;
-		guint i;
-
-		for (i = 0; i < chunk_count; i++) cp_length += chunk_length[i];
-		cp_data = g_malloc(cp_length);
-
-		for (i = 0; i < chunk_count; i++)
-			{
-			if (chunk_offset[i] == 0)
-				{
-				/* error, we never saw this chunk */
-				g_free(cp_data);
-				return FALSE;
-				}
-			memcpy(cp_data, data + chunk_offset[i], chunk_length[i]);
-			}
-
-		item = exif_item_new(jpeg_color_marker.format, jpeg_color_marker.tag, 1,
+	ExifItem *item = exif_item_new(jpeg_color_marker.format, jpeg_color_marker.tag, 1,
 				     &jpeg_color_marker);
-		g_free(item->data);
-		item->data = cp_data;
-		item->elements = cp_length;
-		item->data_len = cp_length;
-		exif->items = g_list_prepend(exif->items, item);
+	g_free(item->data);
+	item->data = cp_data;
+	item->elements = cp_length;
+	item->data_len = cp_length;
+	exif->items = g_list_prepend(exif->items, item);
 
-		return TRUE;
-		}
-
-	return FALSE;
 }
 
 static gint exif_jpeg_parse(ExifData *exif,
 			    unsigned char *data, guint size,
-			    ExifMarker *list, gint parse_color)
+			    ExifMarker *list)
 {
 	guint seg_offset = 0;
 	guint seg_length = 0;
@@ -1160,13 +1051,20 @@ static gint exif_jpeg_parse(ExifData *exif,
 		res = exif_tiff_parse(exif, data + seg_offset + 6, seg_length - 6, list);
 		}
 
-	if (parse_color &&
-	    exif_jpeg_parse_color(exif, data, size))
+	if (exif_jpeg_parse_color(exif, data, size))
 		{
 		res = 0;
 		}
 
 	return res;
+}
+
+unsigned char *exif_get_color_profile(ExifData *exif, guint *data_len)
+{
+	ExifItem *prof_item = exif_get_item(exif, "Exif.Image.InterColorProfile");
+	if (prof_item && exif_item_get_format_id(prof_item) == EXIF_FORMAT_UNDEFINED)
+		return (unsigned char*) exif_item_get_data(prof_item, data_len);
+	return NULL;
 }
 
 
@@ -1199,8 +1097,6 @@ ExifItem *exif_get_next_item(ExifData *exif)
 		}
 	return NULL;
 }
-
-
 
 static gint map_file(const gchar *path, void **mapping, int *size)
 {
@@ -1262,7 +1158,7 @@ void exif_free(ExifData *exif)
 	g_free(exif);
 }
 
-ExifData *exif_read(gchar *path, gchar *sidecar_path, gint parse_color_profile)
+ExifData *exif_read(gchar *path, gchar *sidecar_path)
 {
 	ExifData *exif;
 	void *f;
@@ -1284,8 +1180,7 @@ ExifData *exif_read(gchar *path, gchar *sidecar_path, gint parse_color_profile)
 	exif->current = NULL;
 
 	if ((res = exif_jpeg_parse(exif, (unsigned char *)f, size,
-				   ExifKnownMarkersList,
-				   parse_color_profile)) == -2)
+				   ExifKnownMarkersList)) == -2)
 		{
 		res = exif_tiff_parse(exif, (unsigned char *)f, size, ExifKnownMarkersList);
 		}
@@ -1308,7 +1203,7 @@ ExifData *exif_read(gchar *path, gchar *sidecar_path, gint parse_color_profile)
 				break;
 			case FORMAT_RAW_EXIF_JPEG:
 				res = exif_jpeg_parse(exif, (unsigned char*)f + offset, size - offset,
-						      ExifKnownMarkersList, FALSE);
+						      ExifKnownMarkersList);
 				break;
 			case FORMAT_RAW_EXIF_IFD_II:
 			case FORMAT_RAW_EXIF_IFD_MM:

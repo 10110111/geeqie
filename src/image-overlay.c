@@ -137,7 +137,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 
 	new = g_string_new(str);
 
-	exif = exif_read_fd(imd->image_fd, FALSE);
+	exif = exif_read_fd(imd->image_fd);
 	prev = 0;
 	last = FALSE;
 

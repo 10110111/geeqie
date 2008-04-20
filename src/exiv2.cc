@@ -57,10 +57,15 @@ struct _ExifData
 #endif
 	bool have_sidecar;
 
+	/* the icc profile in jpeg is not technically exif - store it here */
+	unsigned char *cp_data;
+	guint cp_length;
 
-	_ExifData(gchar *path, gchar *sidecar_path, gint parse_color_profile)
+	_ExifData(gchar *path, gchar *sidecar_path)
 	{
 		have_sidecar = false;
+		cp_data = NULL;
+		cp_length = 0;
 		image = Exiv2::ImageFactory::open(path);
 //		g_assert (image.get() != 0);
 		image->readMetadata();
@@ -74,8 +79,26 @@ struct _ExifData
 			have_sidecar = sidecar->good();
 			if (debug >= 2) printf("sidecar xmp count %li\n", sidecar->xmpData().count());
 			}
+
+		if (image->mimeType() == std::string("image/jpeg"))
+			{
+			/* try to get jpeg color profile */
+			Exiv2::BasicIo &io = image->io();
+			gint open = io.isopen();
+			if (!open) io.open();
+			unsigned char *mapped = (unsigned char*)io.mmap();
+			if (mapped) exif_jpeg_parse_color(this, mapped, io.size());
+			io.munmap();
+			if (!open) io.close();
+			}
+		
 		
 #endif
+	}
+	
+	~_ExifData()
+	{
+		if (cp_data) g_free(cp_data);
 	}
 	
 	void writeMetadata()
@@ -105,11 +128,11 @@ struct _ExifData
 
 extern "C" {
 
-ExifData *exif_read(gchar *path, gchar *sidecar_path, gint parse_color_profile)
+ExifData *exif_read(gchar *path, gchar *sidecar_path)
 {
 	if (debug) printf("exif read %s,  sidecar: %s\n", path, sidecar_path ? sidecar_path : "-");
 	try {
-		return new ExifData(path, sidecar_path, parse_color_profile);
+		return new ExifData(path, sidecar_path);
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";
@@ -524,6 +547,26 @@ int exif_item_delete(ExifData *exif, ExifItem *item)
 	catch (Exiv2::AnyError& e) {
 		return 0;
 	}
+}
+
+void exif_add_jpeg_color_profile(ExifData *exif, unsigned char *cp_data, guint cp_length)
+{
+	if (exif->cp_data) g_free(exif->cp_data);
+	exif->cp_data = cp_data;
+	exif->cp_length =cp_length;
+}
+
+unsigned char *exif_get_color_profile(ExifData *exif, guint *data_len)
+{
+	if (exif->cp_data)
+		{
+		if (data_len) *data_len = exif->cp_length;
+		return (unsigned char *) g_memdup(exif->cp_data, exif->cp_length);
+		}
+	ExifItem *prof_item = exif_get_item(exif, "Exif.Image.InterColorProfile");
+	if (prof_item && exif_item_get_format_id(prof_item) == EXIF_FORMAT_UNDEFINED)
+		return (unsigned char *) exif_item_get_data(prof_item, data_len);
+	return NULL;
 }
 
 

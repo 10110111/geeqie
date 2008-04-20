@@ -387,8 +387,10 @@ do {                                    \
 		{
 		const gchar *name = "";
 		const gchar *source = "";
-		ExifItem *prof_item = exif_get_item(exif, "Exif.Image.InterColorProfile");
-		if (!prof_item)
+		unsigned char *profile_data;
+		guint profile_len;
+		profile_data = exif_get_color_profile(exif, &profile_len);
+		if (!profile_data)
 			{
 			gint cs;
 			gchar *interop_index;
@@ -410,28 +412,21 @@ do {                                    \
 
 			g_free(interop_index);
 			}
-
-		if (prof_item && exif_item_get_format_id(prof_item) == EXIF_FORMAT_UNDEFINED)
+		else
 			{
 			source = _("embedded");
 #ifdef HAVE_LCMS
 
 				{
-				unsigned char *data;
-				guint data_len;
 				cmsHPROFILE profile;
 
-				data = (unsigned char *) exif_item_get_data(prof_item, &data_len);
-				if (data)
+				profile = cmsOpenProfileFromMem(profile_data, profile_len);
+				if (profile)
 					{
-					profile = cmsOpenProfileFromMem(data, data_len);
-					if (profile)
-						{
-						name = cmsTakeProductName(profile);
-						cmsCloseProfile(profile);
-						}
-					g_free(data);
+					name = cmsTakeProductName(profile);
+					cmsCloseProfile(profile);
 					}
+				g_free(profile_data);
 				}
 #endif
 			}
@@ -492,7 +487,7 @@ gchar *exif_get_data_as_text(ExifData *exif, const gchar *key)
 	return NULL;
 }
 
-ExifData *exif_read_fd(FileData *fd, gint parse_color_profile)
+ExifData *exif_read_fd(FileData *fd)
 {
 	GList *work;
 	gchar *sidecar_path = NULL;
@@ -517,5 +512,142 @@ ExifData *exif_read_fd(FileData *fd, gint parse_color_profile)
 
 
 	// FIXME: some caching would be nice
-	return exif_read(fd->path, sidecar_path, parse_color_profile);
+	return exif_read(fd->path, sidecar_path);
+}
+
+
+
+/* embedded icc in jpeg */
+
+
+#define JPEG_MARKER		0xFF
+#define JPEG_MARKER_SOI		0xD8
+#define JPEG_MARKER_EOI		0xD9
+#define JPEG_MARKER_APP1	0xE1
+#define JPEG_MARKER_APP2	0xE2
+
+/* jpeg container format:
+     all data markers start with 0XFF
+     2 byte long file start and end markers: 0xFFD8(SOI) and 0XFFD9(EOI)
+     4 byte long data segment markers in format: 0xFFTTSSSSNNN...
+       FF:   1 byte standard marker identifier
+       TT:   1 byte data type
+       SSSS: 2 bytes in Motorola byte alignment for length of the data.
+	     This value includes these 2 bytes in the count, making actual
+	     length of NN... == SSSS - 2.
+       NNN.: the data in this segment
+ */
+
+gint exif_jpeg_segment_find(unsigned char *data, guint size,
+				   guchar app_marker, const gchar *magic, guint magic_len,
+				   guint *seg_offset, guint *seg_length)
+{
+	guchar marker = 0;
+	guint offset = 0;
+	guint length = 0;
+
+	while (marker != app_marker &&
+	       marker != JPEG_MARKER_EOI)
+		{
+		offset += length;
+		length = 2;
+
+		if (offset + 2 >= size ||
+		    data[offset] != JPEG_MARKER) return FALSE;
+
+		marker = data[offset + 1];
+		if (marker != JPEG_MARKER_SOI &&
+		    marker != JPEG_MARKER_EOI)
+			{
+			if (offset + 4 >= size) return FALSE;
+			length += ((guint)data[offset + 2] << 8) + data[offset + 3];
+			}
+		}
+
+	if (marker == app_marker &&
+	    offset + length < size &&
+	    length >= 4 + magic_len &&
+	    memcmp(data + offset + 4, magic, magic_len) == 0)
+		{
+		*seg_offset = offset + 4;
+		*seg_length = length - 4;
+		return TRUE;
+		}
+
+	return FALSE;
+}
+
+gint exif_jpeg_parse_color(ExifData *exif, unsigned char *data, guint size)
+{
+	guint seg_offset = 0;
+	guint seg_length = 0;
+	guint chunk_offset[255];
+	guint chunk_length[255];
+	guint chunk_count = 0;
+
+	/* For jpeg/jfif, ICC color profile data can be in more than one segment.
+	   the data is in APP2 data segments that start with "ICC_PROFILE\x00\xNN\xTT"
+	   NN = segment number for data
+	   TT = total number of ICC segments (TT in each ICC segment should match)
+	 */
+
+	while (exif_jpeg_segment_find(data + seg_offset + seg_length,
+				      size - seg_offset - seg_length,
+				      JPEG_MARKER_APP2,
+				      "ICC_PROFILE\x00", 12,
+				      &seg_offset, &seg_length))
+		{
+		guchar chunk_num;
+		guchar chunk_tot;
+
+		if (seg_length < 14) return FALSE;
+
+		chunk_num = data[seg_offset + 12];
+		chunk_tot = data[seg_offset + 13];
+
+		if (chunk_num == 0 || chunk_tot == 0) return FALSE;
+
+		if (chunk_count == 0)
+			{
+			guint i;
+
+			chunk_count = (guint)chunk_tot;
+			for (i = 0; i < chunk_count; i++) chunk_offset[i] = 0;
+			for (i = 0; i < chunk_count; i++) chunk_length[i] = 0;
+			}
+
+		if (chunk_tot != chunk_count ||
+		    chunk_num > chunk_count) return FALSE;
+
+		chunk_num--;
+		chunk_offset[chunk_num] = seg_offset + 14;
+		chunk_length[chunk_num] = seg_length - 14;
+		}
+
+	if (chunk_count > 0)
+		{
+		unsigned char *cp_data;
+		guint cp_length = 0;
+		guint i;
+
+		for (i = 0; i < chunk_count; i++) cp_length += chunk_length[i];
+		cp_data = g_malloc(cp_length);
+
+		for (i = 0; i < chunk_count; i++)
+			{
+			if (chunk_offset[i] == 0)
+				{
+				/* error, we never saw this chunk */
+				g_free(cp_data);
+				return FALSE;
+				}
+			memcpy(cp_data, data + chunk_offset[i], chunk_length[i]);
+			}
+		if (debug) printf("Found embedded icc profile in jpeg\n");
+		exif_add_jpeg_color_profile(exif, cp_data, cp_length);
+
+		return TRUE;
+		}
+
+	return FALSE;
 }

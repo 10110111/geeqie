@@ -335,7 +335,8 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 	ColorManProfileType screen_type;
 	const gchar *input_file;
 	const gchar *screen_file;
-	ExifItem *item = NULL;
+	unsigned char *profile = NULL;
+	guint profile_len;
 
 	if (imd->cm) return FALSE;
 
@@ -380,8 +381,8 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 
 	if (imd->color_profile_use_image && exif)
 		{
-		item = exif_get_item(exif, "Exif.Image.InterColorProfile");
-		if (!item)
+		profile = exif_get_color_profile(exif, &profile_len);
+		if (!profile)
 			{
 			gint cs;
 			gchar *interop_index;
@@ -411,19 +412,15 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 			}
 		}
 
-	if (item && exif_item_get_format_id(item) == EXIF_FORMAT_UNDEFINED)
+	if (profile)
 		{
-		unsigned char *data;
-		guint data_len;
 		if (debug) printf("Found embedded color profile\n");
 		imd->color_profile_from_image = COLOR_PROFILE_MEM;
 
-		data = (unsigned char *) exif_item_get_data(item, &data_len);
-
 		cm = color_man_new_embedded(run_in_bg ? imd : NULL, NULL,
-					    data, data_len,
+					    profile, profile_len,
 					    screen_type, screen_file);
-		g_free(data);
+		g_free(profile);
 		}
 	else
 		{
@@ -462,7 +459,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 	if (options->image.exif_rotate_enable ||
 	    (imd->color_profile_enable && imd->color_profile_use_image) )
 		{
-		exif = exif_read_fd(imd->image_fd, (imd->color_profile_enable && imd->color_profile_use_image));
+		exif = exif_read_fd(imd->image_fd);
 		}
 	if (options->image.exif_rotate_enable && exif)
 		{
@@ -731,7 +728,7 @@ static gint image_post_buffer_get(ImageWindow *imd)
 			{
 			ExifData *exif = NULL;
 
-			if (imd->color_profile_use_image) exif = exif_read_fd(imd->image_fd, TRUE);
+			if (imd->color_profile_use_image) exif = exif_read_fd(imd->image_fd);
 //			image_post_process_color(imd, imd->prev_color_row, exif, TRUE);
 			exif_free(exif);
 			}
@@ -1315,7 +1312,7 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
 		{
 		gint orientation;
 
-		exif = exif_read_fd(imd->image_fd, read_exif_for_color_profile);
+		exif = exif_read_fd(imd->image_fd);
 
 		if (exif && read_exif_for_orientation)
 			{

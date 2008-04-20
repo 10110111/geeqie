@@ -249,7 +249,7 @@ const gchar *keyword_key = "Xmp.dc.subject";
 
 static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 {
-	ExifData *exif = exif_read_fd(fd, FALSE);
+	ExifData *exif = exif_read_fd(fd);
 	gint success;
 	if (!exif) return FALSE;
 
@@ -286,7 +286,7 @@ static gint comment_xmp_write(FileData *fd, GList *keywords, const gchar *commen
 {
 	gint success = FALSE;
 	GList *work = keywords;
-	ExifData *exif = exif_read_fd(fd, FALSE);
+	ExifData *exif = exif_read_fd(fd);
 	if (!exif) return FALSE;
 
 	ExifItem *item = exif_get_item(exif, comment_key);
