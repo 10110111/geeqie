@@ -16,7 +16,17 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <math.h>
- 
+
+#ifdef HAVE_LCMS
+/*** color support enabled ***/
+
+#ifdef HAVE_LCMS_LCMS_H
+  #include <lcms/lcms.h>
+#else
+  #include <lcms.h>
+#endif
+#endif
+
 #include <glib.h>
 
 #include "intl.h"
@@ -43,6 +53,7 @@ ExifFormattedText ExifFormattedList[] = {
 	{ "fSubjectDistance",	N_("Subject distance") },
 	{ "fFlash",		N_("Flash") },
 	{ "fResolution",	N_("Resolution") },
+	{ "fColorProfile",	N_("Color profile") },
 	{ NULL, NULL }
 };
 
@@ -371,6 +382,61 @@ do {                                    \
 
 		g_free(units);
 		return text;
+		}
+	if (strcmp(key, "fColorProfile") == 0)
+		{
+		const gchar *name = "";
+		const gchar *source = "";
+		ExifItem *prof_item = exif_get_item(exif, "Exif.Image.InterColorProfile");
+		if (!prof_item)
+			{
+			gint cs;
+			gchar *interop_index;
+
+			/* ColorSpace == 1 specifies sRGB per EXIF 2.2 */
+			if (!exif_get_integer(exif, "Exif.Photo.ColorSpace", &cs)) cs = 0;
+			interop_index = exif_get_data_as_text(exif, "Exif.Iop.InteroperabilityIndex");			
+			
+			if (cs == 1)
+				{
+				name = _("sRGB");
+				source = "ColorSpace";
+				}
+			else if (cs == 2 || (interop_index && !strcmp(interop_index, "R03")))
+				{
+				name = _("AdobeRGB");
+				source = (cs == 2) ? "ColorSpace" : "Iop";
+				}
+				
+			g_free(interop_index);
+			}
+
+		if (prof_item && exif_item_get_format_id(prof_item) == EXIF_FORMAT_UNDEFINED)
+			{
+			source = _("embedded");
+#ifdef HAVE_LCMS
+	
+				{
+				unsigned char *data;
+				guint data_len;
+				cmsHPROFILE profile;
+		
+				data = (unsigned char *) exif_item_get_data(prof_item, &data_len);
+				if (data)
+					{
+					profile = cmsOpenProfileFromMem(data, data_len);
+					if (profile)
+						{
+						name = cmsTakeProductName(profile);
+						cmsCloseProfile(profile);
+						}
+					g_free(data);
+					}
+				}
+#endif
+			}
+		if (name[0] == 0 && source[0] == 0) return NULL;
+		return g_strdup_printf("%s (%s)", name, source);
 		}
 
 	if (key_valid) *key_valid = FALSE;
