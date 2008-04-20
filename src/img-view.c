@@ -603,13 +603,13 @@ static void button_cb(ImageWindow *imd, gint button, guint32 time,
 
 	switch (button)
 		{
-		case 1:
+		case MOUSE_BUTTON_LEFT:
 			view_step_next(vw);
 			break;
-		case 2:
+		case MOUSE_BUTTON_MIDDLE:
 			view_step_prev(vw);
 			break;
-		case 3:
+		case MOUSE_BUTTON_RIGHT:
 			menu = view_popup_menu(vw);
 			gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, time);
 			break;

@@ -1427,7 +1427,7 @@ static gint collection_table_press_cb(GtkWidget *widget, GdkEventButton *bevent,
 
 	switch (bevent->button)
 		{
-		case 1:
+		case MOUSE_BUTTON_LEFT:
 			if (bevent->type == GDK_2BUTTON_PRESS)
 				{
 				if (info)
@@ -1440,7 +1440,7 @@ static gint collection_table_press_cb(GtkWidget *widget, GdkEventButton *bevent,
 				gtk_widget_grab_focus(ct->listview);
 				}
 			break;
-		case 3:
+		case MOUSE_BUTTON_RIGHT:
 			ct->popup = collection_table_popup_menu(ct, (info != NULL));
 			gtk_menu_popup(GTK_MENU(ct->popup), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
 			break;
@@ -1469,7 +1469,7 @@ static gint collection_table_release_cb(GtkWidget *widget, GdkEventButton *beven
 		collection_table_selection_remove(ct, ct->click_info, SELECTION_PRELIGHT, NULL);
 		}
 
-	if (bevent->button == 1 &&
+	if (bevent->button == MOUSE_BUTTON_LEFT &&
 	    info && ct->click_info == info)
 		{
 		collection_table_set_focus(ct, info);
@@ -1503,7 +1503,7 @@ static gint collection_table_release_cb(GtkWidget *widget, GdkEventButton *beven
 				}
 			}
 		}
-	else if (bevent->button == 2 &&
+	else if (bevent->button == MOUSE_BUTTON_MIDDLE &&
 		 info && ct->click_info == info)
 		{
 		collection_table_select_util(ct, info, !INFO_SELECTED(info));

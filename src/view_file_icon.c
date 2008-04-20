@@ -1450,7 +1450,7 @@ static gint vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 
 	switch (bevent->button)
 		{
-		case 1:
+		case MOUSE_BUTTON_LEFT:
 			if (!GTK_WIDGET_HAS_FOCUS(vfi->listview))
 				{
 				gtk_widget_grab_focus(vfi->listview);
@@ -1464,7 +1464,7 @@ static gint vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 				}
 #endif
 			break;
-		case 3:
+		case MOUSE_BUTTON_RIGHT:
 			vfi->popup = vficon_pop_menu(vfi, (id != NULL));
 			gtk_menu_popup(GTK_MENU(vfi->popup), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
 			break;
@@ -1496,7 +1496,7 @@ static gint vficon_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointe
 
 	if (id) was_selected = (id->selected & SELECTION_SELECTED);
 
-	if (bevent->button == 1 &&
+	if (bevent->button == MOUSE_BUTTON_LEFT &&
 	    id && vfi->click_id == id)
 		{
 		vficon_set_focus(vfi, id);
@@ -1531,7 +1531,7 @@ static gint vficon_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointe
 				}
 			}
 		}
-	else if (bevent->button == 2 &&
+	else if (bevent->button == MOUSE_BUTTON_MIDDLE &&
 		 id && vfi->click_id == id)
 		{
 		vficon_select_util(vfi, id, !(id->selected & SELECTION_SELECTED));

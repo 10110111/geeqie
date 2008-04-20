@@ -21,6 +21,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "main.h"
 #include "ui_misc.h"
 
 #include "ui_bookmark.h"
@@ -1249,7 +1250,7 @@ static gint sizer_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer d
 {
 	SizerData *sd = data;
 
-	if (bevent->button != 1) return FALSE;
+	if (bevent->button != MOUSE_BUTTON_LEFT) return FALSE;
 
 	sd->in_drag = TRUE;
 	sd->press_x = bevent->x_root;
@@ -1270,7 +1271,7 @@ static gint sizer_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer
 {
 	SizerData *sd = data;
 
-	if (bevent->button != 1) return FALSE;
+	if (bevent->button != MOUSE_BUTTON_LEFT) return FALSE;
 
 	if (gdk_pointer_is_grabbed() && GTK_WIDGET_HAS_GRAB(sd->sizer))
 		{

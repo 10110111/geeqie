@@ -2289,7 +2289,7 @@ static gint dupe_listview_press_cb(GtkWidget *widget, GdkEventButton *bevent, gp
 
 	dw->click_item = di;
 
-	if (bevent->button == 3)
+	if (bevent->button == MOUSE_BUTTON_RIGHT)
 		{
 		/* right click menu */
 		GtkWidget *menu;
@@ -2312,14 +2312,15 @@ static gint dupe_listview_press_cb(GtkWidget *widget, GdkEventButton *bevent, gp
 
 	if (!di) return FALSE;
 
-	if (bevent->button == 1 && bevent->type == GDK_2BUTTON_PRESS)
+	if (bevent->button == MOUSE_BUTTON_LEFT &&
+	    bevent->type == GDK_2BUTTON_PRESS)
 		{
 		dupe_menu_view(dw, di, widget, FALSE);
 		}
 
-	if (bevent->button == 2) return TRUE;
+	if (bevent->button == MOUSE_BUTTON_MIDDLE) return TRUE;
 
-	if (bevent->button == 3)
+	if (bevent->button == MOUSE_BUTTON_RIGHT)
 		{
 		if (!dupe_listview_item_is_selected(dw, di, widget))
 			{
@@ -2337,7 +2338,8 @@ static gint dupe_listview_press_cb(GtkWidget *widget, GdkEventButton *bevent, gp
 		return TRUE;
 		}
 
-	if (bevent->button == 1 && bevent->type == GDK_BUTTON_PRESS &&
+	if (bevent->button == MOUSE_BUTTON_LEFT &&
+	    bevent->type == GDK_BUTTON_PRESS &&
 	    !(bevent->state & GDK_SHIFT_MASK ) &&
 	    !(bevent->state & GDK_CONTROL_MASK ) &&
 	    dupe_listview_item_is_selected(dw, di, widget))
@@ -2358,7 +2360,7 @@ static gint dupe_listview_release_cb(GtkWidget *widget, GdkEventButton *bevent, 
 	GtkTreeIter iter;
 	DupeItem *di = NULL;
 
-	if (bevent->button != 1 && bevent->button != 2) return TRUE;
+	if (bevent->button != MOUSE_BUTTON_LEFT && bevent->button != MOUSE_BUTTON_MIDDLE) return TRUE;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(widget));
 
@@ -2371,7 +2373,7 @@ static gint dupe_listview_release_cb(GtkWidget *widget, GdkEventButton *bevent, 
 		gtk_tree_path_free(tpath);
 		}
 
-	if (bevent->button == 2)
+	if (bevent->button == MOUSE_BUTTON_MIDDLE)
 		{
 		if (di && dw->click_item == di)
 			{

@@ -696,11 +696,11 @@ static void info_window_next_cb(GtkWidget *widget, gpointer data)
 static void info_window_image_button_cb(ImageWindow *imd, gint button, guint32 time,
 					gdouble x, gdouble y, guint state, gpointer data)
 {
-	if (button == 1)
+	if (button == MOUSE_BUTTON_LEFT)
 		{
 		info_window_next_cb(NULL, data);
 		}
-	else if (button == 2 || button == 3)
+	else if (button == MOUSE_BUTTON_MIDDLE || button == MOUSE_BUTTON_RIGHT)
 		{
 		info_window_back_cb(NULL, data);
 		}

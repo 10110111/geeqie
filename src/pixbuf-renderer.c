@@ -3593,7 +3593,7 @@ static gint pr_mouse_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointe
 
 	switch (bevent->button)
 		{
-		case 1:
+		case MOUSE_BUTTON_LEFT:
 			pr->in_drag = TRUE;
 			pr->drag_last_x = bevent->x;
 			pr->drag_last_y = bevent->y;
@@ -3603,10 +3603,10 @@ static gint pr_mouse_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointe
 					 NULL, NULL, bevent->time);
 			gtk_grab_add(widget);
 			break;
-		case 2:
+		case MOUSE_BUTTON_MIDDLE:
 			pr->drag_moved = 0;
 			break;
-		case 3:
+		case MOUSE_BUTTON_RIGHT:
 			pr_clicked_signal(pr, bevent);
 			break;
 		default:
@@ -3643,11 +3643,11 @@ static gint pr_mouse_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpoin
 
 	if (pr->drag_moved < PR_DRAG_SCROLL_THRESHHOLD)
 		{
-		if (bevent->button == 1 && (bevent->state & GDK_SHIFT_MASK))
+		if (bevent->button == MOUSE_BUTTON_LEFT && (bevent->state & GDK_SHIFT_MASK))
 			{
 			pr_scroller_start(pr, bevent->x, bevent->y);
 			}
-		else if (bevent->button == 1 || bevent->button == 2)
+		else if (bevent->button == MOUSE_BUTTON_LEFT || bevent->button == MOUSE_BUTTON_MIDDLE)
 			{
 			pr_clicked_signal(pr, bevent);
 			}

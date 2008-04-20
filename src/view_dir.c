@@ -929,7 +929,7 @@ gint vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 	if (!vd->click_fd) return FALSE;
 	vd_color_set(vd, vd->click_fd, FALSE);
 
-	if (bevent->button != 1) return TRUE;
+	if (bevent->button != MOUSE_BUTTON_LEFT) return TRUE;
 
 	if ((bevent->x != 0 || bevent->y != 0) &&
 	    gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget), bevent->x, bevent->y,

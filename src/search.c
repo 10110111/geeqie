@@ -1045,7 +1045,7 @@ static gint search_result_press_cb(GtkWidget *widget, GdkEventButton *bevent, gp
 
 	sd->click_fd = mfd ? mfd->fd : NULL;
 
-	if (bevent->button == 3)
+	if (bevent->button == MOUSE_BUTTON_RIGHT)
 		{
 		GtkWidget *menu;
 
@@ -1055,14 +1055,14 @@ static gint search_result_press_cb(GtkWidget *widget, GdkEventButton *bevent, gp
 
 	if (!mfd) return FALSE;
 
-	if (bevent->button == 1 && bevent->type == GDK_2BUTTON_PRESS)
+	if (bevent->button == MOUSE_BUTTON_LEFT && bevent->type == GDK_2BUTTON_PRESS)
 		{
 		layout_image_set_fd(NULL, mfd->fd);
 		}
 
-	if (bevent->button == 2) return TRUE;
+	if (bevent->button == MOUSE_BUTTON_MIDDLE) return TRUE;
 
-	if (bevent->button == 3)
+	if (bevent->button == MOUSE_BUTTON_RIGHT)
 		{
 		if (!search_result_row_selected(sd, mfd->fd))
 			{
@@ -1079,7 +1079,7 @@ static gint search_result_press_cb(GtkWidget *widget, GdkEventButton *bevent, gp
 		return TRUE;
 		}
 
-	if (bevent->button == 1 && bevent->type == GDK_BUTTON_PRESS &&
+	if (bevent->button == MOUSE_BUTTON_LEFT && bevent->type == GDK_BUTTON_PRESS &&
 	    !(bevent->state & GDK_SHIFT_MASK ) &&
 	    !(bevent->state & GDK_CONTROL_MASK ) &&
 	    search_result_row_selected(sd, mfd->fd))
@@ -1101,7 +1101,7 @@ static gint search_result_release_cb(GtkWidget *widget, GdkEventButton *bevent, 
 
 	MatchFileData *mfd = NULL;
 
-	if (bevent->button != 1 && bevent->button != 2) return TRUE;
+	if (bevent->button != MOUSE_BUTTON_LEFT && bevent->button != MOUSE_BUTTON_MIDDLE) return TRUE;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(widget));
 
@@ -1114,7 +1114,7 @@ static gint search_result_release_cb(GtkWidget *widget, GdkEventButton *bevent, 
 		gtk_tree_path_free(tpath);
 		}
 
-	if (bevent->button == 2)
+	if (bevent->button == MOUSE_BUTTON_MIDDLE)
 		{
 		if (mfd && sd->click_fd == mfd->fd)
 			{

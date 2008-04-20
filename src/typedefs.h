@@ -14,6 +14,14 @@
 #define TYPEDEFS_H
 
 typedef enum {
+	MOUSE_BUTTON_LEFT	= 1,
+	MOUSE_BUTTON_MIDDLE	= 2,
+	MOUSE_BUTTON_RIGHT	= 3,
+	MOUSE_BUTTON_WHEEL_UP	= 4,
+	MOUSE_BUTTON_WHEEL_DOWN	= 5
+} MouseButton;
+
+typedef enum {
 	DIRVIEW_LIST,
 	DIRVIEW_TREE
 } DirViewType;

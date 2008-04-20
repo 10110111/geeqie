@@ -1721,11 +1721,11 @@ static void file_util_delete_multiple_review_next(GtkWidget *button, gpointer da
 static void file_util_delete_multiple_review_button_cb(ImageWindow *imd, gint button, guint32 time,
 						       gdouble x, gdouble y, guint state, gpointer data)
 {
-	if (button == 1)
+	if (button == MOUSE_BUTTON_LEFT)
 		{
 		file_util_delete_multiple_review_next(NULL, data);
 		}
-	else if (button == 2 || button == 3)
+	else if (button == MOUSE_BUTTON_MIDDLE || button == MOUSE_BUTTON_RIGHT)
 		{
 		file_util_delete_multiple_review_back(NULL, data);
 		}

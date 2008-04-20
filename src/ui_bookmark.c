@@ -735,7 +735,7 @@ static gint bookmark_press_cb(GtkWidget *button, GdkEventButton *event, gpointer
 {
 	BookMarkData *bm = data;
 
-	if (event->button != 3) return FALSE;
+	if (event->button != MOUSE_BUTTON_RIGHT) return FALSE;
 
 	bookmark_menu_popup(bm, button, event->button, event->time, FALSE);
 

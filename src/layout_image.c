@@ -1544,13 +1544,13 @@ static void layout_image_button_cb(ImageWindow *imd, gint button, guint32 time,
 
 	switch (button)
 		{
-		case 1:
+		case MOUSE_BUTTON_LEFT:
 			layout_image_next(lw);
 			break;
-		case 2:
+		case MOUSE_BUTTON_MIDDLE:
 			layout_image_prev(lw);
 			break;
-		case 3:
+		case MOUSE_BUTTON_RIGHT:
 			menu = layout_image_pop_menu(lw);
 			if (imd == lw->image)
 				{
@@ -1669,7 +1669,7 @@ static void layout_image_button_inactive_cb(ImageWindow *imd, gint button, guint
 
 	switch (button)
 		{
-		case 3:
+		case MOUSE_BUTTON_RIGHT:
 			menu = layout_image_pop_menu(lw);
 			if (imd == lw->image)
 				{

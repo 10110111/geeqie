@@ -669,7 +669,7 @@ static gint dest_press_cb(GtkWidget *view, GdkEventButton *event, gpointer data)
 	GtkTreeIter iter;
 	GtkTreeSelection *selection;
 
-	if (event->button != 3 ||
+	if (event->button != MOUSE_BUTTON_RIGHT ||
 	    !gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(view), event->x, event->y,
 					   &tpath, &column, &cell_x, &cell_y))
 		{

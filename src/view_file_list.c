@@ -715,7 +715,7 @@ static gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 		GtkTreeModel *store;
 		col_idx = GPOINTER_TO_INT(g_object_get_data (G_OBJECT(column), "column_store_idx"));
 
-		if (bevent->button == 1 &&
+		if (bevent->button == MOUSE_BUTTON_LEFT &&
 		    col_idx >= FILE_COLUMN_MARKS && col_idx <= FILE_COLUMN_MARKS_LAST)
 			return FALSE;
 
@@ -731,7 +731,7 @@ static gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 
 	vfl->click_fd = fd;
 
-	if (bevent->button == 3)
+	if (bevent->button == MOUSE_BUTTON_RIGHT)
 		{
 		vfl->popup = vflist_pop_menu(vfl, vfl->click_fd, col_idx);
 		gtk_menu_popup(GTK_MENU(vfl->popup), NULL, NULL, NULL, NULL,
@@ -741,7 +741,7 @@ static gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 
 	if (!fd) return FALSE;
 
-	if (bevent->button == 2)
+	if (bevent->button == MOUSE_BUTTON_MIDDLE)
 		{
 		if (!vflist_row_is_selected(vfl, fd))
 			{
@@ -751,7 +751,7 @@ static gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 		}
 
 
-	if (bevent->button == 1 && bevent->type == GDK_BUTTON_PRESS &&
+	if (bevent->button == MOUSE_BUTTON_LEFT && bevent->type == GDK_BUTTON_PRESS &&
 	    !(bevent->state & GDK_SHIFT_MASK ) &&
 	    !(bevent->state & GDK_CONTROL_MASK ) &&
 	    vflist_row_is_selected(vfl, fd))
@@ -761,7 +761,7 @@ static gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 		}
 
 #if 0
-	if (bevent->button == 1 && bevent->type == GDK_2BUTTON_PRESS)
+	if (bevent->button == MOUSE_BUTTON_LEFT && bevent->type == GDK_2BUTTON_PRESS)
 		{
 		if (vfl->layout) layout_image_full_screen_start(vfl->layout);
 		}
@@ -777,12 +777,12 @@ static gint vflist_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointe
 	GtkTreeIter iter;
 	FileData *fd = NULL;
 
-	if (bevent->button == 2)
+	if (bevent->button == MOUSE_BUTTON_MIDDLE)
 		{
 		vflist_color_set(vfl, vfl->click_fd, FALSE);
 		}
 
-	if (bevent->button != 1 && bevent->button != 2)
+	if (bevent->button != MOUSE_BUTTON_LEFT && bevent->button != MOUSE_BUTTON_MIDDLE)
 		{
 		return TRUE;
 		}
@@ -799,7 +799,7 @@ static gint vflist_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointe
 		gtk_tree_path_free(tpath);
 		}
 
-	if (bevent->button == 2)
+	if (bevent->button == MOUSE_BUTTON_MIDDLE)
 		{
 		if (fd && vfl->click_fd == fd)
 			{

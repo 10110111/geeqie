@@ -832,7 +832,7 @@ gint vdtree_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 			/* clicking this region should automatically reveal an expander, if necessary
 			 * treeview bug: the expander will not expand until a button_motion_event highlights it.
 			 */
-			if (bevent->button == 1 &&
+			if (bevent->button == MOUSE_BUTTON_LEFT &&
 			    !left_of_expander &&
 			    !gtk_tree_view_row_expanded(GTK_TREE_VIEW(vd->view), tpath))
 				{
@@ -850,14 +850,14 @@ gint vdtree_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 	vd->click_fd = (nd) ? nd->fd : NULL;
 	vd_color_set(vd, vd->click_fd, TRUE);
 
-	if (bevent->button == 3)
+	if (bevent->button == MOUSE_BUTTON_RIGHT)
 		{
 		vd->popup = vd_pop_menu(vd, vd->click_fd);
 		gtk_menu_popup(GTK_MENU(vd->popup), NULL, NULL, NULL, NULL,
 			       bevent->button, bevent->time);
 		}
 
-	return (bevent->button != 1);
+	return (bevent->button != MOUSE_BUTTON_LEFT);
 }
 
 static void vdtree_row_expanded(GtkTreeView *treeview, GtkTreeIter *iter, GtkTreePath *tpath, gpointer data)

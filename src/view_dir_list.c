@@ -337,7 +337,7 @@ gint vdlist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 	vd->click_fd = fd;
 	vd_color_set(vd, vd->click_fd, TRUE);
 
-	if (bevent->button == 3)
+	if (bevent->button == MOUSE_BUTTON_RIGHT)
 		{
 		vd->popup = vd_pop_menu(vd, vd->click_fd);
 		gtk_menu_popup(GTK_MENU(vd->popup), NULL, NULL, NULL, NULL,

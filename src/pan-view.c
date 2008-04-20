@@ -2026,7 +2026,7 @@ static void button_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer data)
 		}
 
 	pi = pan_item_find_by_coord(pw, PAN_ITEM_BOX, rx, ry, "info");
-	if (pi && event->button == 1)
+	if (pi && event->button == MOUSE_BUTTON_LEFT)
 		{
 		pan_info_update(pw, NULL);
 		return;
@@ -2037,7 +2037,7 @@ static void button_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer data)
 
 	switch (event->button)
 		{
-		case 1:
+		case MOUSE_BUTTON_LEFT:
 			pan_info_update(pw, pi);
 
 			if (!pi && pw->layout == PAN_LAYOUT_CALENDAR)
@@ -2046,9 +2046,9 @@ static void button_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer data)
 				pan_calendar_update(pw, pi);
 				}
 			break;
-		case 2:
+		case MOUSE_BUTTON_MIDDLE:
 			break;
-		case 3:
+		case MOUSE_BUTTON_RIGHT:
 			pan_info_update(pw, pi);
 			menu = pan_popup_menu(pw);
 			gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, event->time);
