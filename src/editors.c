@@ -236,6 +236,7 @@ static gboolean editor_verbose_io_cb(GIOChannel *source, GIOCondition condition,
 			if (!g_utf8_validate(buf, count, NULL))
 				{
 				gchar *utf8;
+
 				utf8 = g_locale_to_utf8(buf, count, NULL, NULL, NULL);
 				if (utf8)
 					{
@@ -288,6 +289,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 			{
 			while(work)
 				{
+				GList *work2;
 				gchar *ext = work->data;
 				work = work->next;
 
@@ -298,8 +300,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 					break;
 					}
 
-				GList *work2 = fd->sidecar_files;
-
+				work2 = fd->sidecar_files;
 				while(work2)
 					{
 					FileData *sfd = work2->data;
@@ -324,6 +325,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 		else
 			p = "";
 		}
+
 	while (*p != '\0')
 		{
 		/* must escape \, ", `, and $ to avoid problems,
@@ -428,8 +430,10 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 			/* for example "%f" or "%{.crw;.raw;.cr2}f" */
 			if (*p == '{')
 				{
+				gchar *end;
+				
 				p++;
-				gchar *end = strchr(p, '}');
+				end = strchr(p, '}');
 				if (!end)
 					{
 					flags |= EDITOR_ERROR_SYNTAX;
@@ -485,6 +489,7 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 						/* use whole list */
 						GList *work = list;
 						gboolean ok = FALSE;
+
 						while (work)
 							{
 							FileData *fd = work->data;
@@ -589,7 +594,6 @@ static gint editor_command_one(const gchar *template, GList *list, EditorData *e
 
 	if (ed->vd)
 		{
-
 		if (!ok)
 			{
 			gchar *buf;
@@ -601,9 +605,9 @@ static gint editor_command_one(const gchar *template, GList *list, EditorData *e
 			}
 		else
 			{
-
 			GIOChannel *channel_output;
 			GIOChannel *channel_error;
+
 			channel_output = g_io_channel_unix_new(standard_output);
 			g_io_channel_set_flags(channel_output, G_IO_FLAG_NONBLOCK, NULL);
 
@@ -627,7 +631,6 @@ static gint editor_command_one(const gchar *template, GList *list, EditorData *e
 
 static gint editor_command_next_start(EditorData *ed)
 {
-
 	if (ed->vd) editor_verbose_window_fill(ed->vd, "\n", 1);
 
 	if (ed->list && ed->count < ed->total)
@@ -676,6 +679,7 @@ static gint editor_command_next_finish(EditorData *ed, gint status)
 		{
 		/* handle the first element from the list */
 		GList *fd_element = ed->list;
+
 		ed->list = g_list_remove_link(ed->list, fd_element);
 		if (ed->callback)
 			cont = ed->callback(ed->list ? ed : NULL, ed->flags, fd_element, ed->data);
@@ -696,16 +700,16 @@ static gint editor_command_next_finish(EditorData *ed, gint status)
 		return editor_command_done(ed);
 	else
 		return editor_command_next_start(ed);
-
 }
 
 static gint editor_command_done(EditorData *ed)
 {
 	gint flags;
-	const gchar *text;
 
 	if (ed->vd)
 		{
+		const gchar *text;
+
 		if (ed->count == ed->total)
 			{
 			text = _("done");
@@ -774,14 +778,20 @@ static gint editor_command_start(const gchar *template, const gchar *text, GList
 	return flags & EDITOR_ERROR_MASK;
 }
 
+static gint is_valid_editor_command(gint n)
+{
+	return (n >= 0 && n < GQ_EDITOR_SLOTS
+		&& options->editor_command[n]
+		&& strlen(options->editor_command[n]) > 0); 
+}
+
 gint start_editor_from_filelist_full(gint n, GList *list, EditorCallback cb, gpointer data)
 {
 	gchar *command;
 	gint error;
 
-	if (n < 0 || n >= GQ_EDITOR_SLOTS || !list ||
-	    !options->editor_command[n] ||
-	    strlen(options->editor_command[n]) == 0) return FALSE;
+	if (!list) return FALSE;
+	if (!is_valid_editor_command(n)) return FALSE;
 
 	command = g_locale_from_utf8(options->editor_command[n], -1, NULL, NULL, NULL);
 	error = editor_command_start(command, options->editor_name[n], list, cb, data);
@@ -793,7 +803,6 @@ gint start_editor_from_filelist(gint n, GList *list)
 {
 	return start_editor_from_filelist_full(n, list,  NULL, NULL);
 }
-
 
 gint start_editor_from_file_full(gint n, FileData *fd, EditorCallback cb, gpointer data)
 {
@@ -815,13 +824,10 @@ gint start_editor_from_file(gint n, FileData *fd)
 
 gint editor_window_flag_set(gint n)
 {
-	if (n < 0 || n >= GQ_EDITOR_SLOTS ||
-	    !options->editor_command[n] ||
-	    strlen(options->editor_command[n]) == 0) return TRUE;
+	if (!is_valid_editor_command(n)) return TRUE;
 
 	return (editor_command_parse(options->editor_command[n], NULL, NULL) & EDITOR_KEEP_FS);
 }
-
 
 const gchar *editor_get_error_str(gint flags)
 {
