@@ -265,6 +265,9 @@ static void config_window_apply(void)
 	options->duplicates_similarity_threshold = c_options->duplicates_similarity_threshold;
 
 	options->tree_descend_subdirs = c_options->tree_descend_subdirs;
+
+	options->open_recent_list_maxsize = c_options->open_recent_list_maxsize;
+
 #ifdef DEBUG
 	debug = debug_c;
 #endif
@@ -1400,6 +1403,9 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("In place renaming"),
 			      options->file_ops.enable_in_place_rename, &c_options->file_ops.enable_in_place_rename);
+
+	pref_spin_new_int(group, _("Open recent list maximum size"), NULL,
+			  1, 50, 1, options->open_recent_list_maxsize, &c_options->open_recent_list_maxsize);
 
 	group = pref_group_new(vbox, FALSE, _("Navigation"), GTK_ORIENTATION_VERTICAL);
 
