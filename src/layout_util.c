@@ -19,6 +19,7 @@
 #include "cache_maint.h"
 #include "collect.h"
 #include "collect-dlg.h"
+#include "compat.h"
 #include "dupe.h"
 #include "editors.h"
 #include "filelist.h"
@@ -1551,7 +1552,7 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	if (!lw->action_group) return;
 
 	action = gtk_action_group_get_action(lw->action_group, "FolderTree");
-	gtk_radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->dir_view_type);
+	radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->dir_view_type);
 
 	action = gtk_action_group_get_action(lw->action_group, "ViewIcons");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->icon_view);

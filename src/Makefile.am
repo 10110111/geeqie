@@ -89,6 +89,8 @@ geeqie_SOURCES = \
 	collect-table.h	\
 	color-man.c	\
 	color-man.h	\
+	compat.c	\
+	compat.h	\
 	dnd.c		\
 	dnd.h		\
 	dupe.c		\
