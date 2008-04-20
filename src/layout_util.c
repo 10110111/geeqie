@@ -1118,8 +1118,8 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "SBarKeywords",	NULL,		N_("_Keywords"),	"<control>K",	NULL,	CB(layout_menu_bar_info_cb) },
   { "SBarExif",		NULL,		N_("E_xif data"),	"<control>E",	NULL,	CB(layout_menu_bar_exif_cb) },
   { "SBarSort",		NULL,		N_("Sort _manager"),	"<control>S",	NULL,	CB(layout_menu_bar_sort_cb) },
-  { "ConnectScroll",	NULL,		N_("Connected scroll"),	"<control>U",	NULL,	CB(layout_menu_connect_scroll_cb) },
-  { "ConnectZoom",	NULL,		N_("Connected zoom"),	"<control>Y",	NULL,	CB(layout_menu_connect_zoom_cb) },
+  { "ConnectScroll",	NULL,		N_("Co_nnected scroll"),	"<control>U",	NULL,	CB(layout_menu_connect_scroll_cb) },
+  { "ConnectZoom",	NULL,		N_("C_onnected zoom"),	"<control>Y",	NULL,	CB(layout_menu_connect_zoom_cb) },
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb) },
 };
 
