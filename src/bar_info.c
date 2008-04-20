@@ -123,11 +123,17 @@ static gint comment_legacy_write(FileData *fd, GList *keywords, const gchar *com
 	return success;
 }
 
+typedef enum {
+	MK_NONE,
+	MK_KEYWORDS,
+	MK_COMMENT
+} MetadataKey;
+
 static gint comment_file_read(gchar *path, GList **keywords, gchar **comment)
 {
 	FILE *f;
 	gchar s_buf[1024];
-	gchar *key = NULL;
+	MetadataKey key = MK_NONE;
 	GList *list = NULL;
 	GString *comment_build = NULL;
 
@@ -136,49 +142,62 @@ static gint comment_file_read(gchar *path, GList **keywords, gchar **comment)
 
 	while (fgets(s_buf,sizeof(s_buf), f))
 		{
-		if (s_buf[0]=='#') continue;
-		if (s_buf[0]=='[')
+		gchar *ptr = s_buf;
+
+		if (*ptr == '#') continue;
+		if (*ptr == '[')
 			{
-			gint c = 0;
-			gchar *ptr = s_buf + 1;
-
-			while(ptr[c] != ']' && ptr[c] != '\n' && ptr[c] != '\0') c++;
-
-			g_free(key);
-			key = g_strndup(ptr, c);
-			}
-		else if (key)
-			{
-			gint newline = FALSE;
-			gchar *ptr = s_buf;
-
-			while (*ptr != '\n' && *ptr != '\0') ptr++;
-			if (*ptr == '\n')
+			gchar *keystr = ++ptr;
+			
+			key = MK_NONE;
+			while(*ptr != ']' && *ptr != '\n' && *ptr != '\0') ptr++;
+			
+			if (*ptr == ']')
 				{
 				*ptr = '\0';
-				newline = TRUE;
+				if (strcasecmp(keystr, "keywords") == 0)
+					key = MK_KEYWORDS;
+				else if (strcasecmp(keystr, "comment") == 0)
+					key = MK_COMMENT;
 				}
-
-			if (strcasecmp(key, "keywords") == 0)
+			continue;
+			}
+		
+		switch(key)
+			{
+			case MK_NONE:
+				break;
+			case MK_KEYWORDS:
 				{
+				while (*ptr != '\n' && *ptr != '\0') ptr++;
+				*ptr = '\0';
 				if (strlen(s_buf) > 0) list = g_list_prepend(list, g_strdup(s_buf));
 				}
-			else if (strcasecmp(key, "comment") == 0)
-				{
+				break;
+			case MK_COMMENT:
 				if (!comment_build) comment_build = g_string_new("");
 				g_string_append(comment_build, s_buf);
-				if (strlen(s_buf) > 0 && newline) g_string_append_c(comment_build, '\n');
-				}
+				break;
 			}
 		}
-
+	
 	fclose(f);
-	g_free(key);
 
 	*keywords = g_list_reverse(list);
 	if (comment_build)
 		{
-		if (comment) *comment = g_strdup(comment_build->str);
+		if (comment)
+			{
+			gint len;
+			gchar *ptr = comment_build->str;
+
+			/* strip leading and trailing newlines */
+			while (*ptr == '\n') ptr++;
+			len = strlen(ptr);
+			while (len > 0 && ptr[len - 1] == '\n') len--;
+			if (ptr[len] == '\n') len++; /* keep the last one */
+			if (len > 0) *comment = g_strndup(ptr, len);
+			}
 		g_string_free(comment_build, TRUE);
 		}
 
