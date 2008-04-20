@@ -37,5 +37,3 @@ void image_osd_histogram_chan_toggle(ImageWindow *);
 void image_osd_histogram_log_toggle(ImageWindow *);
 
 #endif
-
-

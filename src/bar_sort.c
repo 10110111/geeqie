@@ -620,4 +620,3 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 
 	return sd->vbox;
 }
-

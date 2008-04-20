@@ -84,5 +84,3 @@ void layout_image_maint_moved(LayoutWindow *lw, FileData *fd);
 
 
 #endif
-
-

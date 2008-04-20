@@ -26,4 +26,3 @@ void path_selection_clear_filter(GtkWidget *entry);
 
 
 #endif
-

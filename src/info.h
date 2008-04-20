@@ -44,5 +44,3 @@ GtkWidget *table_add_line(GtkWidget *table, gint x, gint y,
 
 
 #endif
-
-

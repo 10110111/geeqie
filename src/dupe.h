@@ -128,5 +128,3 @@ void cell_renderer_height_override(GtkCellRenderer *renderer);
 
 
 #endif
-
-

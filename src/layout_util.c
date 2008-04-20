@@ -1886,4 +1886,3 @@ void layout_bars_maint_renamed(LayoutWindow *lw)
 {
 	layout_bar_info_maint_renamed(lw);
 }
-

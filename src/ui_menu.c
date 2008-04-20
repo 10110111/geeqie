@@ -204,4 +204,3 @@ gint popup_menu_position_clamp(GtkMenu *menu, gint *x, gint *y, gint height)
 
 	return adjusted;
 }
-

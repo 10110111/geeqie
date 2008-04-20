@@ -2057,4 +2057,3 @@ void layout_image_maint_moved(LayoutWindow *lw, FileData *fd)
 {
 	layout_image_maint_renamed(lw, fd);
 }
-

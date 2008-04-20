@@ -40,4 +40,3 @@ void spinner_step(GtkWidget *spinner, gint reset);
 
 
 #endif
-

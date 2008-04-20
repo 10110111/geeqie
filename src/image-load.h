@@ -54,4 +54,3 @@ gint image_loader_get_is_done(ImageLoader *il);
 gint image_load_dimensions(FileData *fd, gint *width, gint *height);
 
 #endif
-

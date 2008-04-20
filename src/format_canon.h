@@ -45,5 +45,3 @@ gint format_canon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 
 
 #endif
-
-

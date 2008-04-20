@@ -786,4 +786,3 @@ void load_options(void)
 	fclose(f);
 	g_free(rc_path);
 }
-

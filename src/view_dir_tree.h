@@ -39,4 +39,3 @@ gint vdtree_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 void vdtree_destroy_cb(GtkWidget *widget, gpointer data);
 
 #endif
-

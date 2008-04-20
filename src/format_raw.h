@@ -77,4 +77,3 @@ gint format_debug_tiff_raw(unsigned char *data, const guint len,
 #endif
 
 #endif
-

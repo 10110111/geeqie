@@ -2731,4 +2731,3 @@ gint vficon_maint_moved(ViewFileIcon *vfi, FileData *fd, GList *ignore_list)
 
 	return ret;
 }
-

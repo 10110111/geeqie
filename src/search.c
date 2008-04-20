@@ -2847,4 +2847,3 @@ void search_maint_removed(FileData *fd)
 {
 	search_maint_renamed(fd);
 }
-

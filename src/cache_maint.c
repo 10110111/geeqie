@@ -1244,4 +1244,3 @@ void cache_manager_show(void)
 
 	gtk_widget_show(cache_manager->dialog->dialog);
 }
-

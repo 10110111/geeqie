@@ -1255,4 +1255,3 @@ CollectWindow *collection_window_new(const gchar *path)
 
 	return cw;
 }
-

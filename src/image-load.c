@@ -490,4 +490,3 @@ gint image_load_dimensions(FileData *fd, gint *width, gint *height)
 
 	return success;
 }
-

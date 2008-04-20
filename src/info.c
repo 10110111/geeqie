@@ -867,4 +867,3 @@ void info_window_new(FileData *fd, GList *list)
 
 	gtk_widget_show(id->window);
 }
-

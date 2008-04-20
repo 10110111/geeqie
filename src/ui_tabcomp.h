@@ -29,4 +29,3 @@ void tab_completion_add_select_button(GtkWidget *entry, const gchar *title, gint
 
 
 #endif
-

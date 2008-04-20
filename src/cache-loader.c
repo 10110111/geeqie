@@ -246,4 +246,3 @@ void cache_loader_free(CacheLoader *cl)
 	file_data_unref(cl->fd);
 	g_free(cl);
 }
-

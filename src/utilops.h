@@ -57,4 +57,3 @@ gint move_file_ext(FileData *fd);
 gint rename_file_ext(FileData *fd);
 
 #endif
-

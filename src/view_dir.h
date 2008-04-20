@@ -53,5 +53,3 @@ gint vd_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
 gint vd_press_cb(GtkWidget *widget,  GdkEventButton *bevent, gpointer data);
 
 #endif
-
-

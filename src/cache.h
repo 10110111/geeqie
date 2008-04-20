@@ -75,5 +75,3 @@ gchar *cache_find_location(CacheType type, const gchar *source);
 
 
 #endif
-
-

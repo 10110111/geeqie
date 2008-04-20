@@ -34,4 +34,3 @@ void dnd_set_drag_icon(GtkWidget *widget, GdkDragContext *context, GdkPixbuf *pi
 
 
 #endif
-

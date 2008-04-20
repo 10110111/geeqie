@@ -471,5 +471,3 @@ void color_man_start_bg(ColorMan *cm, ColorManDoneFunc done_func, gpointer done_
 }
 
 #endif
-
-

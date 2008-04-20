@@ -80,4 +80,3 @@ void pan_grid_compute(PanWindow *pw, const gchar *path, gint *width, gint *heigh
 
 	g_list_free(list);
 }
-

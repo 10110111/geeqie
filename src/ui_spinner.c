@@ -211,4 +211,3 @@ void spinner_step(GtkWidget *spinner, gint reset)
 		spinner_increment_frame(sp);
 		}
 }
-

@@ -85,6 +85,3 @@ void parse_out_relatives(gchar *path);
 gint file_in_path(const gchar *name);
 
 #endif
-
-
-

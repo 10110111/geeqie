@@ -22,4 +22,3 @@ void collection_dialog_append(gchar *path, CollectionData *cd);
 
 
 #endif
-

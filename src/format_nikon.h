@@ -42,4 +42,3 @@ gint format_nikon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 
 
 #endif
-

@@ -35,4 +35,3 @@ gint format_fuji_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 
 
 #endif
-

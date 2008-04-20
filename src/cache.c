@@ -780,4 +780,3 @@ gint cache_time_valid(const gchar *cache, const gchar *path)
 
 	return ret;
 }
-

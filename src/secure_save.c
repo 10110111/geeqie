@@ -394,4 +394,3 @@ secsave_strerror(SecureSaveErrno secsave_error)
 		return _("Secure file saving error");
 	}
 }
-

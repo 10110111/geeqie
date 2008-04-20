@@ -452,5 +452,3 @@ void file_dialog_sync_history(FileDialog *fdlg, gint dir_only)
 		g_free(buf);
 		}
 }
-
-

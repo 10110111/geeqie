@@ -32,5 +32,3 @@ gint vdlist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 void vdlist_destroy_cb(GtkWidget *widget, gpointer data);
 
 #endif
-
-

@@ -466,5 +466,3 @@ void pan_folder_tree_compute(PanWindow *pw, const gchar *path, gint *width, gint
 	if (width) *width = w;
 	if (height) *height = h;
 }
-
-

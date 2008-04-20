@@ -34,4 +34,3 @@ gint format_olympus_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 
 
 #endif
-

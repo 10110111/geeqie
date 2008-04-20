@@ -65,4 +65,3 @@ gchar *uri_text_from_filelist(GList *list, gint *len, gint plain_text);
 
 
 #endif
-

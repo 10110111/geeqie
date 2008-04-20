@@ -81,4 +81,3 @@ gint collection_window_modified_exists(void);
 
 
 #endif
-

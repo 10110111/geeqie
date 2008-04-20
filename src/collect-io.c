@@ -929,4 +929,3 @@ void collect_manager_flush(void)
 	if (debug) printf("collection manager flushing\n");
 	while (collect_manager_process_cb(NULL));
 }
-

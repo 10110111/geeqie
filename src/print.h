@@ -19,4 +19,3 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 
 
 #endif
-

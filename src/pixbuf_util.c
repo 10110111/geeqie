@@ -1229,5 +1229,3 @@ void pixbuf_desaturate_rect(GdkPixbuf *pb,
 			}
 		}
 }
-
-

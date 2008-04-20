@@ -24,4 +24,3 @@ GtkWidget *help_window_get_box(GtkWidget *window);
 
 
 #endif
-

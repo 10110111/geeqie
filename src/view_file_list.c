@@ -2303,4 +2303,3 @@ gint vflist_maint_moved(ViewFileList *vfl, FileData *fd, GList *ignore_list)
 
 	return ret;
 }
-

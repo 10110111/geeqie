@@ -414,5 +414,3 @@ void layout_config_order_from_text(const gchar *text, gint *a, gint *b, gint *c)
 		*c = text_char_to_num(text, 2);
 		}
 }
-
-

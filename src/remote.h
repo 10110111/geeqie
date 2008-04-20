@@ -41,4 +41,3 @@ void remote_close(RemoteConnection *rc);
 
 
 #endif
-

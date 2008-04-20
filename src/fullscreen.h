@@ -57,5 +57,3 @@ GtkWidget *fullscreen_prefs_selection_new(const gchar *text, gint *screen_value,
 
 
 #endif
-
-

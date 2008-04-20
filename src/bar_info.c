@@ -1372,4 +1372,3 @@ void bar_info_size_request(GtkWidget *bar, gint width)
 		gtk_widget_set_size_request(bd->vbox, width, -1);
 		}
 }
-

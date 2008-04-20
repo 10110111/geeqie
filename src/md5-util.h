@@ -59,4 +59,3 @@ gboolean md5_digest_from_text(const gchar *text, guchar digest[16]);
 
 
 #endif	/* MD5_UTILS_H */
-

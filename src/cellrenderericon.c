@@ -640,4 +640,3 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 				cell_area->width, cell_area->height);
 		}
 }
-

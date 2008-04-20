@@ -959,5 +959,3 @@ void pan_text_alignment_calc(PanTextAlignment *ta, PanItem *box)
 		y += height;
 		}
 }
-
-

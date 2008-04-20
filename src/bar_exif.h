@@ -44,4 +44,3 @@ gchar *bar_exif_validate_text(gchar *text);
 
 
 #endif
-

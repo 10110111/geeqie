@@ -680,4 +680,3 @@ GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget 
 
 	return eb->vbox;
 }
-

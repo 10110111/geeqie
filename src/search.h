@@ -22,5 +22,3 @@ void search_maint_removed(FileData *fd);
 
 
 #endif
-
-

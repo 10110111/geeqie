@@ -1503,4 +1503,3 @@ gchar *uri_text_from_filelist(GList *list, gint *len, gint plain_text)
 	string_list_free(path_list);
 	return ret;
 }
-

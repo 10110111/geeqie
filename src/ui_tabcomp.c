@@ -914,4 +914,3 @@ void tab_completion_add_select_button(GtkWidget *entry, const gchar *title, gint
 
 	gtk_widget_show(td->fd_button);
 }
-

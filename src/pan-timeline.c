@@ -182,4 +182,3 @@ void pan_timeline_compute(PanWindow *pw, const gchar *path, gint *width, gint *h
 
 	g_list_free(list);
 }
-

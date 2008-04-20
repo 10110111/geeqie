@@ -44,4 +44,3 @@ gint slideshow_pause_toggle(SlideShowData *ss);
 
 
 #endif
-

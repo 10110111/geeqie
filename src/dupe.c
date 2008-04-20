@@ -3570,4 +3570,3 @@ void dupe_maint_renamed(FileData *fd)
 		}
 
 }
-

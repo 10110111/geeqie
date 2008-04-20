@@ -89,5 +89,3 @@ GList *filelist_sort_path(GList *list);
 GList *filelist_recursive(const gchar *path);
 
 #endif
-
-

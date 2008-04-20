@@ -266,4 +266,3 @@ GtkWidget *help_window_get_box(GtkWidget *window)
 {
 	return g_object_get_data(G_OBJECT(window), "text_vbox");
 }
-

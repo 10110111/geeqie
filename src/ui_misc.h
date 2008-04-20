@@ -186,4 +186,3 @@ GtkWidget *pref_color_button_new(GtkWidget *parent_box,
 
 
 #endif
-

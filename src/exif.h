@@ -153,4 +153,3 @@ gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 
 
 #endif
-

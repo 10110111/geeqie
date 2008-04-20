@@ -3442,4 +3442,3 @@ void file_util_delete_dir(FileData *fd, GtkWidget *parent)
 	filelist_free(dlist);
 	filelist_free(flist);
 }
-

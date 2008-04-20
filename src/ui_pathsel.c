@@ -1299,4 +1299,3 @@ void path_selection_clear_filter(GtkWidget *entry)
 
 	dest_filter_clear(dd);
 }
-

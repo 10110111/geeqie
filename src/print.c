@@ -3532,4 +3532,3 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 	gtk_widget_show(pw->notebook);
 	gtk_widget_show(pw->dialog->dialog);
 }
-

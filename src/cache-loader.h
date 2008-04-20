@@ -55,5 +55,3 @@ void cache_loader_free(CacheLoader *cl);
 
 
 #endif
-
-

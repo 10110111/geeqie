@@ -2967,4 +2967,3 @@ static void pan_window_dnd_init(PanWindow *pw)
  * maintenance (for rename, move, remove)
  *-----------------------------------------------------------------------------
  */
-

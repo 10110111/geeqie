@@ -427,5 +427,3 @@ void pan_calendar_compute(PanWindow *pw, const gchar *path, gint *width, gint *h
 
 	g_list_free(list);
 }
-
-

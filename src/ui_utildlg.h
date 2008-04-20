@@ -92,4 +92,3 @@ void file_dialog_sync_history(FileDialog *fd, gint dir_only);
 
 
 #endif
-

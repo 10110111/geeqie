@@ -249,4 +249,3 @@ GList *pan_list_tree(const gchar *path, SortType sort, gint ascend,
 
 	return result;
 }
-

@@ -2090,4 +2090,3 @@ ImageWindow *image_new(gint frame)
 
 	return imd;
 }
-

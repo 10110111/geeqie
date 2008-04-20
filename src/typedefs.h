@@ -897,5 +897,3 @@ struct _ConfOptions
 };
 
 #endif
-
-

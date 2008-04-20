@@ -1750,4 +1750,3 @@ void view_window_maint_moved(FileData *fd)
 		view_real_moved(vw, fd);
 		}
 }
-

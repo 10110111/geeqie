@@ -568,4 +568,3 @@ gint format_debug_tiff_raw(unsigned char *data, const guint len,
 
 #endif
 /* not HAVE_EXIV2 */
-

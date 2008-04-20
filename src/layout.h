@@ -98,6 +98,3 @@ void layout_maint_moved(FileData *fd, GList *ignore_list);
 
 
 #endif
-
-
-

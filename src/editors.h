@@ -71,6 +71,3 @@ gint editor_window_flag_set(gint n);
 const gchar *editor_get_error_str(gint flags);
 
 #endif
-
-
-

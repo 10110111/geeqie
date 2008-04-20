@@ -1686,4 +1686,3 @@ void show_about_window(void)
 
 	gtk_widget_show(about);
 }
-

@@ -246,4 +246,3 @@ void pixbuf_renderer_overlay_remove(PixbufRenderer *pr, gint id);
 
 
 #endif
-

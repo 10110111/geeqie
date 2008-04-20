@@ -133,6 +133,3 @@ void image_options_sync(void);
 
 
 #endif
-
-
-

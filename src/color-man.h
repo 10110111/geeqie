@@ -61,4 +61,3 @@ void color_man_correct_region(ColorMan *cm, GdkPixbuf *pixbuf, gint x, gint y, g
 void color_man_start_bg(ColorMan *cm, ColorManDoneFunc don_func, gpointer done_data);
 
 #endif
-

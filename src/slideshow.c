@@ -432,5 +432,3 @@ gint slideshow_pause_toggle(SlideShowData *ss)
 	slideshow_pause_set(ss, !slideshow_paused(ss));
 	return slideshow_paused(ss);
 }
-
-

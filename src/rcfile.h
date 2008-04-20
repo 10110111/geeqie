@@ -21,4 +21,3 @@ void load_options(void);
 
 
 #endif
-

@@ -30,4 +30,3 @@ void layout_config_parse(gint style, const gchar *order,
 
 
 #endif
-

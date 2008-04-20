@@ -41,4 +41,3 @@ void image_sim_alternate_processing(ImageSimilarityData *sd);
 
 
 #endif
-

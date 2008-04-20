@@ -336,5 +336,3 @@ void remote_close(RemoteConnection *rc)
 	g_free(rc->path);
 	g_free(rc);
 }
-
-

@@ -4035,5 +4035,3 @@ gint pixbuf_renderer_get_virtual_rect(PixbufRenderer *pr, GdkRectangle *rect)
 	rect->height = pr->vis_height;
 	return TRUE;
 }
-
-

@@ -840,4 +840,3 @@ gint file_in_path(const gchar *name)
 
 	return ret;
 }
-
