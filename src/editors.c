@@ -545,31 +545,28 @@ static void editor_child_exit_cb (GPid pid, gint status, gpointer data)
 static gint editor_command_one(const gchar *template, GList *list, EditorData *ed)
 {
 	gchar *command;
-	gchar *working_directory;
 	FileData *fd = list->data;
-	gchar *args[4];
 	GPid pid;
 	gint standard_output;
 	gint standard_error;
 	gboolean ok;
 
-
 	ed->pid = -1;
-
-	working_directory = remove_level_from_path(fd->path);
-
 	ed->flags = editor_command_parse(template, list, &command);
 
 	ok = !(ed->flags & EDITOR_ERROR_MASK);
 
-
-	args[0] = COMMAND_SHELL;
-	args[1] = COMMAND_OPT;
-	args[2] = command;
-	args[3] = NULL;
-
 	if (ok)
 		{
+		gchar *working_directory;
+		gchar *args[4];
+
+		working_directory = remove_level_from_path(fd->path);
+		args[0] = COMMAND_SHELL;
+		args[1] = COMMAND_OPT;
+		args[2] = command;
+		args[3] = NULL;
+
 		ok = g_spawn_async_with_pipes(working_directory, args, NULL,
 				      G_SPAWN_DO_NOT_REAP_CHILD, /* GSpawnFlags */
 				      NULL, NULL,
@@ -578,6 +575,8 @@ static gint editor_command_one(const gchar *template, GList *list, EditorData *e
 				      ed->vd ? &standard_output : NULL,
 				      ed->vd ? &standard_error : NULL,
 				      NULL);
+		
+		g_free(working_directory);
 
 		if (!ok) ed->flags |= EDITOR_ERROR_CANT_EXEC;
 		}
@@ -587,7 +586,6 @@ static gint editor_command_one(const gchar *template, GList *list, EditorData *e
 		g_child_watch_add(pid, editor_child_exit_cb, ed);
 		ed->pid = pid;
 		}
-
 
 	if (ed->vd)
 		{
@@ -622,10 +620,7 @@ static gint editor_command_one(const gchar *template, GList *list, EditorData *e
 			}
 		}
 
-
-
 	g_free(command);
-	g_free(working_directory);
 
 	return ed->flags & EDITOR_ERROR_MASK;
 }
@@ -745,6 +740,7 @@ void editor_resume(gpointer ed)
 {
 	editor_command_next_start(ed);
 }
+
 void editor_skip(gpointer ed)
 {
 	editor_command_done(ed);
@@ -769,7 +765,6 @@ static gint editor_command_start(const gchar *template, const gchar *text, GList
 
 	if ((flags & EDITOR_VERBOSE_MULTI) && list && list->next)
 		flags |= EDITOR_VERBOSE;
-
 
 	if (flags & EDITOR_VERBOSE)
 		editor_verbose_window(ed, text);
