@@ -71,13 +71,13 @@ static void add_edit_items(GtkWidget *menu, GCallback func, GtkAccelGroup *accel
 			{
 			gchar *text;
 			if (options->editor_name[i] && strlen(options->editor_name[i]) > 0)
-				text = g_strdup_printf(_("in %s..."), options->editor_name[i]);
+				text = g_strdup_printf(_("_%d in %s..."), i, options->editor_name[i]);
 			else
-				text = g_strdup(_("in (unknown)..."));
+				text = g_strdup_printf(_("_%d in (unknown)..."), i);
 			if (accel_grp)
 				add_menu_item(menu, text, accel_grp, i + 49, GDK_CONTROL_MASK, func, GINT_TO_POINTER(i));
 			else
-				menu_item_add_simple(menu, text, func, GINT_TO_POINTER(i));
+				menu_item_add(menu, text, func, GINT_TO_POINTER(i));
 			g_free(text);
 			}
 		}
