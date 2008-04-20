@@ -72,7 +72,7 @@ static gchar *editor_slot_defaults[GQ_EDITOR_SLOTS * 2] = {
 	N_("External Copy command"), "%vset -x;cp %p %d",
 	N_("External Move command"), "%vset -x;mv %p %d",
 	N_("External Rename command"), "%vset -x;mv %p %d",
-	N_("External Delete command"), "%vset -x;rm %f",
+	N_("External Delete command"), NULL,
 	N_("External New Folder command"), NULL
 #else
 	N_("External Copy command"), NULL,
