@@ -166,7 +166,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 				    fail > GQ_COLLECTION_FAIL_MIN &&
 				    fail * 100 / total > GQ_COLLECTION_FAIL_PERCENT)
 					{
-					printf("%d invalid filenames in unoffical collection file, closing: %s\n", fail, path);
+					printf("%d invalid filenames in unofficial collection file, closing: %s\n", fail, path);
 					success = FALSE;
 					break;
 					}
