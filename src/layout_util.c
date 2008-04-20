@@ -1101,7 +1101,6 @@ static GtkActionEntry menu_entries[] = {
   { "HistogramChan",	NULL,	N_("Histogram _channels"),	"K",		NULL,	CB(layout_menu_histogram_chan_cb) },
   { "HistogramLog",	NULL,	N_("Histogram _log mode"),	"J",		NULL,	CB(layout_menu_histogram_log_cb) },
   { "HideTools",	NULL,		N_("_Hide file list"),	"<control>H",	NULL,	CB(layout_menu_hide_cb) },
-  { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb) },
   { "SlideShowPause",	NULL,		N_("_Pause slideshow"), "P",		NULL,	CB(layout_menu_slideshow_pause_cb) },
   { "Refresh",	GTK_STOCK_REFRESH,	N_("_Refresh"),		"R",		NULL,	CB(layout_menu_refresh_cb) },
 
@@ -1120,7 +1119,8 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "SBarExif",		NULL,		N_("E_xif data"),	"<control>E",	NULL,	CB(layout_menu_bar_exif_cb) },
   { "SBarSort",		NULL,		N_("Sort _manager"),	"<control>S",	NULL,	CB(layout_menu_bar_sort_cb) },
   { "ConnectScroll",	NULL,		N_("Connected scroll"),	"<control>U",	NULL,	CB(layout_menu_connect_scroll_cb) },
-  { "ConnectZoom",	NULL,		N_("Connected zoom"),	"<control>Y",	NULL,	CB(layout_menu_connect_zoom_cb) }
+  { "ConnectZoom",	NULL,		N_("Connected zoom"),	"<control>Y",	NULL,	CB(layout_menu_connect_zoom_cb) },
+  { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb) },
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
@@ -1570,6 +1570,9 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "ShowMarks");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->marks_enabled);
+
+	action = gtk_action_group_get_action(lw->action_group, "SlideShow");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), layout_image_slideshow_active(lw));
 }
 
 void layout_util_sync_thumb(LayoutWindow *lw)
