@@ -1300,19 +1300,27 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
 {
 
 	ExifData *exif = NULL;
-	gint orientation;
+	gint read_exif_for_color_profile = (imd->color_profile_enable && imd->color_profile_use_image);
+	gint read_exif_for_orientation = FALSE;
 
 	if (imd->image_fd && imd->image_fd->user_orientation)
 		imd->orientation = imd->image_fd->user_orientation;
-	else if (options->image.exif_rotate_enable ||
-	    (imd->color_profile_enable && imd->color_profile_use_image) )
+	else if (options->image.exif_rotate_enable)
+		read_exif_for_orientation = TRUE;
+	
+	if (read_exif_for_color_profile || read_exif_for_orientation)
 		{
-		exif = exif_read_fd(imd->image_fd, (imd->color_profile_enable && imd->color_profile_use_image));
+		gint orientation;
+
+		exif = exif_read_fd(imd->image_fd, read_exif_for_color_profile);
 		
-		if (options->image.exif_rotate_enable && exif && exif_get_integer(exif, "Exif.Image.Orientation", &orientation)) 
-			imd->orientation = orientation;
-		else
-			imd->orientation = 1;
+		if (exif && read_exif_for_orientation)
+			{
+			if (exif_get_integer(exif, "Exif.Image.Orientation", &orientation)) 
+				imd->orientation = orientation;
+			else
+				imd->orientation = 1;
+			}
 		}
 
 	pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, NULL, NULL, FALSE);
