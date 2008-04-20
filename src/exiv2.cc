@@ -80,6 +80,8 @@ struct _ExifData
 			if (debug >= 2) printf("sidecar xmp count %li\n", sidecar->xmpData().count());
 			}
 
+#endif
+#if EXIV2_TEST_VERSION(0,14,0)
 		if (image->mimeType() == std::string("image/jpeg"))
 			{
 			/* try to get jpeg color profile */
@@ -91,9 +93,7 @@ struct _ExifData
 			io.munmap();
 			if (!open) io.close();
 			}
-		
-		
-#endif
+#endif		
 	}
 	
 	~_ExifData()
@@ -164,7 +164,7 @@ void exif_free(ExifData *exif)
 ExifItem *exif_get_item(ExifData *exif, const gchar *key)
 {
 	try {
-		Exiv2::Metadatum *item;
+		Exiv2::Metadatum *item = NULL;
 		try {
 			Exiv2::ExifKey ekey(key);
 			Exiv2::ExifData::iterator pos = exif->exifData().findKey(ekey);
@@ -198,7 +198,7 @@ ExifItem *exif_get_item(ExifData *exif, const gchar *key)
 ExifItem *exif_add_item(ExifData *exif, const gchar *key)
 {
 	try {
-		Exiv2::Metadatum *item;
+		Exiv2::Metadatum *item = NULL;
 		try {
 			Exiv2::ExifKey ekey(key);
 			exif->exifData().add(ekey, NULL);
