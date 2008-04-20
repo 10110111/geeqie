@@ -412,6 +412,7 @@ struct _FileData {
 	GdkPixbuf *pixbuf;
 	gint ref;
 	gint user_orientation;
+	gint exif_orientation;
 };
 
 struct _LayoutWindow

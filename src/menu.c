@@ -215,6 +215,9 @@ gchar *alter_type_get_text(AlterType type)
 		case ALTER_DESATURATE:
 			return _("Toggle _grayscale");
 			break;
+		case ALTER_NONE:
+			return _("_Original state");
+			break;
 		default:
 			break;
 		}
@@ -251,6 +254,7 @@ static GtkWidget *real_submenu_add_alter(GtkWidget *menu, GCallback func, gpoint
 	submenu_add_alter_item(submenu, func, ALTER_MIRROR, accel_group, 'M', GDK_SHIFT_MASK);
 	submenu_add_alter_item(submenu, func, ALTER_FLIP, accel_group, 'F', GDK_SHIFT_MASK);
 	submenu_add_alter_item(submenu, func, ALTER_DESATURATE, accel_group, 'G', GDK_SHIFT_MASK);
+	submenu_add_alter_item(submenu, func, ALTER_NONE, accel_group, 'O', GDK_SHIFT_MASK);
 
 	if (menu)
 		{

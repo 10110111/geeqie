@@ -336,6 +336,13 @@ static void layout_menu_alter_desaturate_cb(GtkAction *action, gpointer data)
 	layout_image_alter(lw, ALTER_DESATURATE);
 }
 
+static void layout_menu_alter_none_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_alter(lw, ALTER_NONE);
+}
+
 static void layout_menu_info_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1048,12 +1055,15 @@ static GtkActionEntry menu_entries[] = {
   { "Editor7",		NULL,		"editor7",		NULL,		NULL,	CB(layout_menu_edit_cb) },
   { "Editor8",		NULL,		"editor8",		NULL,		NULL,	CB(layout_menu_edit_cb) },
   { "Editor9",		NULL,		"editor9",		NULL,		NULL,	CB(layout_menu_edit_cb) },
+  
   { "RotateCW",		NULL,	N_("_Rotate clockwise"),	"bracketright",	NULL,	CB(layout_menu_alter_90_cb) },
   { "RotateCCW",	NULL,	N_("Rotate _counterclockwise"),	"bracketleft",	NULL,	CB(layout_menu_alter_90cc_cb) },
   { "Rotate180",	NULL,		N_("Rotate 1_80"),	"<shift>R",	NULL,	CB(layout_menu_alter_180_cb) },
   { "Mirror",		NULL,		N_("_Mirror"),		"<shift>M",	NULL,	CB(layout_menu_alter_mirror_cb) },
   { "Flip",		NULL,		N_("_Flip"),		"<shift>F",	NULL,	CB(layout_menu_alter_flip_cb) },
   { "Grayscale",	NULL,		N_("Toggle _grayscale"),"<shift>G",	NULL,	CB(layout_menu_alter_desaturate_cb) },
+  { "AlterNone",	NULL,		N_("_Original state"),  "<shift>O",	NULL,	CB(layout_menu_alter_none_cb) },
+
   { "Properties",GTK_STOCK_PROPERTIES,	N_("_Properties"),	"<control>P",	NULL,	CB(layout_menu_info_cb) },
   { "SelectAll",	NULL,		N_("Select _all"),	"<control>A",	NULL,	CB(layout_menu_select_all_cb) },
   { "SelectNone",	NULL,		N_("Select _none"), "<control><shift>A",NULL,	CB(layout_menu_unselect_all_cb) },
@@ -1184,6 +1194,7 @@ static const char *menu_ui_description =
 "        <menuitem action='Mirror'/>"
 "        <menuitem action='Flip'/>"
 "        <menuitem action='Grayscale'/>"
+"        <menuitem action='AlterNone'/>"
 "      </menu>"
 "      <menuitem action='Properties'/>"
 "      <separator/>"

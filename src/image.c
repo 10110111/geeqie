@@ -583,6 +583,9 @@ void image_alter(ImageWindow *imd, AlterType type)
 			imd->desaturate = !imd->desaturate;
 			break;
 		case ALTER_NONE:
+			imd->orientation = imd->image_fd->exif_orientation ? imd->image_fd->exif_orientation : 1;
+			imd->desaturate = FALSE;
+			break;
 		default:
 			return;
 			break;
@@ -1316,10 +1319,11 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
 		
 		if (exif && read_exif_for_orientation)
 			{
-			if (exif_get_integer(exif, "Exif.Image.Orientation", &orientation)) 
+			if (exif_get_integer(exif, "Exif.Image.Orientation", &orientation))
 				imd->orientation = orientation;
 			else
 				imd->orientation = 1;
+			imd->image_fd->exif_orientation = imd->orientation;
 			}
 		}
 
