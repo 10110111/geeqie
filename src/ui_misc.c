@@ -1083,7 +1083,7 @@ GtkWidget *date_selection_new(void)
 
 	return ds->box;
 }
-                                                                                                                        
+
 void date_selection_set(GtkWidget *widget, gint day, gint month, gint year)
 {
 	DateSelection *ds;
@@ -1108,7 +1108,7 @@ void date_selection_get(GtkWidget *widget, gint *day, gint *month, gint *year)
 	if (month) *month = gtk_spin_button_get_value(GTK_SPIN_BUTTON(ds->spin_m));
 	if (year) *year = gtk_spin_button_get_value(GTK_SPIN_BUTTON(ds->spin_y));
 }
-                                                                                                                        
+
 void date_selection_time_set(GtkWidget *widget, time_t t)
 {
 	struct tm *lt;
@@ -1506,7 +1506,7 @@ static gint pref_list_get(const gchar *group, const gchar *key, const gchar *mar
 
 	g_free(token);
 
-	return ret; 
+	return ret;
 }
 
 static void pref_list_set(const gchar *group, const gchar *key, const gchar *marker, const gchar *text)
@@ -1626,7 +1626,7 @@ GtkWidget *pref_color_button_new(GtkWidget *parent_box,
 				 GCallback func, gpointer data)
 {
 	GtkWidget *button;
-	
+
 	if (color)
 		{
 		button = gtk_color_button_new_with_color(color);
@@ -1648,7 +1648,7 @@ GtkWidget *pref_color_button_new(GtkWidget *parent_box,
 
 		hbox = gtk_hbox_new(TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(parent_box), hbox, TRUE, TRUE, 0);
-		
+
 		gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
 
@@ -1658,6 +1658,6 @@ GtkWidget *pref_color_button_new(GtkWidget *parent_box,
 		{
 		gtk_widget_show(button);
 		}
-	
+
 	return button;
 }

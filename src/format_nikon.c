@@ -444,5 +444,5 @@ gint format_nikon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 	return TRUE;
 }
 
-#endif 
+#endif
 /* not HAVE_EXIV2 */

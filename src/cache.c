@@ -23,7 +23,7 @@
  *-------------------------------------------------------------------
  * Cache data file format:
  *-------------------------------------------------------------------
- * 
+ *
  * SIMcache
  * #coment
  * Dimensions=[<width> x <height>]
@@ -31,8 +31,8 @@
  * Checksum=[<value>]
  * MD5sum=[<32 character ascii text digest>]
  * SimilarityGrid[32 x 32]=<3072 bytes of data (1024 pixels in RGB format, 1 pixel is 24bits)>
- * 
- * 
+ *
+ *
  * The first line (9 bytes) indicates it is a SIMcache format file. (new line char must exist)
  * Comment lines starting with a # are ignored up to a new line.
  * All data lines should end with a new line char.

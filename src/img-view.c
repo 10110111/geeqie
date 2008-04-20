@@ -71,7 +71,7 @@ static void view_window_dnd_init(ViewWindow *vw);
  *-----------------------------------------------------------------------------
  * misc
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static ImageWindow *view_window_active_image(ViewWindow *vw)
 {
@@ -136,7 +136,7 @@ static void view_collection_step(ViewWindow *vw, gint next)
 
 		if (read_ahead_info) image_prebuffer_set(imd, read_ahead_info->fd);
 		}
-	
+
 }
 
 static void view_collection_step_to_end(ViewWindow *vw, gint last)
@@ -471,7 +471,7 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 				break;
 			}
 		}
-	else 
+	else
 		{
 		stop_signal = TRUE;
 		switch (event->keyval)
@@ -593,7 +593,7 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
  *-----------------------------------------------------------------------------
  * view window main routines
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void button_cb(ImageWindow *imd, gint button, guint32 time,
 		      gdouble x, gdouble y, guint state, gpointer data)
@@ -853,7 +853,7 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 	gtk_window_set_geometry_hints(GTK_WINDOW(vw->window), NULL, &geometry, GDK_HINT_MIN_SIZE);
 
 	gtk_window_set_resizable(GTK_WINDOW(vw->window), TRUE);
-        gtk_container_set_border_width(GTK_CONTAINER(vw->window), 0);
+	gtk_container_set_border_width(GTK_CONTAINER(vw->window), 0);
 
 	vw->imd = image_new(FALSE);
 
@@ -969,7 +969,7 @@ void view_window_new(FileData *fd)
 					 G_CALLBACK(view_window_collection_unref_cb), cd);
 			}
 		}
-	else if (isdir(fd->path)) 
+	else if (isdir(fd->path))
 		{
 		GList *list = NULL;
 
@@ -1057,7 +1057,7 @@ gint view_window_find_image(ImageWindow *imd, gint *index, gint *total)
  *-----------------------------------------------------------------------------
  * view window menu routines and callbacks
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void view_new_window_cb(GtkWidget *widget, gpointer data)
 {
@@ -1244,13 +1244,13 @@ static void view_set_layout_path_cb(GtkWidget *widget, gpointer data)
 	LayoutWindow *lw;
 	const gchar *path;
 	ImageWindow *imd;
-	
+
 	imd = view_window_active_image(vw);
 
 	if (!imd || !imd->image_fd) return;
 	path = imd->image_fd->path;
 	if (!path) return;
-	
+
 	lw = layout_find_by_image_fd(imd);
 	if (lw)
 		layout_set_path(lw, path);
@@ -1424,8 +1424,8 @@ static void view_dir_list_skip(GtkWidget *widget, gpointer data)
 static void view_dir_list_destroy(GtkWidget *widget, gpointer data)
 {
 	CViewConfirmD *d = data;
-        filelist_free(d->list);
-        g_free(d);
+	filelist_free(d->list);
+	g_free(d);
 }
 
 static GtkWidget *view_confirm_dir_list(ViewWindow *vw, GList *list)
@@ -1596,7 +1596,7 @@ static void view_window_dnd_init(ViewWindow *vw)
 	gtk_drag_dest_set(imd->pr,
 			  GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_DROP,
 			  dnd_file_drop_types, dnd_file_drop_types_count,
-                          GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
+			  GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
 	g_signal_connect(G_OBJECT(imd->pr), "drag_data_received",
 			 G_CALLBACK(view_window_get_dnd_data), vw);
 }

@@ -31,7 +31,7 @@ void image_set_drag_func(ImageWindow *imd,
 	gpointer data);
 void image_set_scroll_func(ImageWindow *imd,
 	void (*func)(ImageWindow *, GdkScrollDirection direction, guint32 time, gdouble x, gdouble y, guint state, gpointer),
-        gpointer data);
+	gpointer data);
 void image_set_scroll_notify_func(ImageWindow *imd,
 				  void (*func)(ImageWindow *imd, gint x, gint y, gint width, gint height, gpointer data),
 				  gpointer data);

@@ -716,7 +716,7 @@ static void li_set_layout_path_cb(GtkWidget *widget, gpointer data)
 	const gchar *path;
 
 	if (!layout_valid(&lw)) return;
-	
+
 	path = layout_image_get_path(lw);
 	if (path) layout_set_path(lw, path);
 }
@@ -765,7 +765,7 @@ static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 
 	item = menu_item_add_stock(menu, _("View in _new window"), GTK_STOCK_NEW, G_CALLBACK(li_pop_menu_new_cb), lw);
 	if (!path || fullscreen) gtk_widget_set_sensitive(item, FALSE);
-	
+
 	item = menu_item_add(menu, _("_Go to directory view"), G_CALLBACK(li_set_layout_path_cb), lw);
 	if (!path || li_check_if_current_path(lw, path)) gtk_widget_set_sensitive(item, FALSE);
 
@@ -797,7 +797,7 @@ static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 			}
 		}
 	else
-                {
+		{
 		menu_item_add(menu, _("_Start slideshow"), G_CALLBACK(li_pop_menu_slide_start_cb), lw);
 		item = menu_item_add(menu, _("Pause slides_how"), G_CALLBACK(li_pop_menu_slide_pause_cb), lw);
 		gtk_widget_set_sensitive(item, FALSE);
@@ -850,9 +850,9 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 {
 	LayoutWindow *lw = data;
 	gint i;
-	
-	
-	for (i=0; i < MAX_SPLIT_IMAGES; i++) 
+
+
+	for (i=0; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i] && lw->split_images[i]->pr == widget)
 			break;
@@ -930,9 +930,9 @@ static void layout_image_dnd_get(GtkWidget *widget, GdkDragContext *context,
 	LayoutWindow *lw = data;
 	FileData *fd;
 	gint i;
-	
-	
-	for (i=0; i < MAX_SPLIT_IMAGES; i++) 
+
+
+	for (i=0; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i] && lw->split_images[i]->pr == widget)
 			break;
@@ -1021,7 +1021,7 @@ static void layout_image_dnd_init(LayoutWindow *lw, gint i)
 	gtk_drag_dest_set(imd->pr,
 			  GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_DROP,
 			  dnd_file_drop_types, dnd_file_drop_types_count,
-                          GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
+			  GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
 	g_signal_connect(G_OBJECT(imd->pr), "drag_data_received",
 			 G_CALLBACK(layout_image_dnd_receive), lw);
 }
@@ -1060,7 +1060,7 @@ void layout_image_zoom_adjust(LayoutWindow *lw, gdouble increment)
 
 	for (i=0; i < MAX_SPLIT_IMAGES; i++)
 		{
-		if (lw->split_images[i] && lw->split_images[i] != lw->image && lw->connect_zoom) 
+		if (lw->split_images[i] && lw->split_images[i] != lw->image && lw->connect_zoom)
 			image_zoom_adjust(lw->split_images[i], increment); ;
 		}
 }
@@ -1074,7 +1074,7 @@ void layout_image_zoom_set(LayoutWindow *lw, gdouble zoom)
 
 	for (i=0; i < MAX_SPLIT_IMAGES; i++)
 		{
-		if (lw->split_images[i] && lw->split_images[i] != lw->image && lw->connect_zoom) 
+		if (lw->split_images[i] && lw->split_images[i] != lw->image && lw->connect_zoom)
 			image_zoom_set(lw->split_images[i], zoom);
 		}
 }
@@ -1203,7 +1203,7 @@ void layout_image_set_index(LayoutWindow *lw, gint index)
 
 			if ((index > old && (index != (gint) last->data || old != (gint) x->data))
  	        	    || (old == (gint) last->data && index == (gint) x->data))
-			    	{
+				{
 				if (y->next)
  					newindex = (gint) y->next->data;
 				else
@@ -1219,7 +1219,7 @@ void layout_image_set_index(LayoutWindow *lw, gint index)
 
 			read_ahead_fd = layout_list_get_fd(lw, newindex);
 			}
-			
+
 		while (x)
 			x = g_list_remove(x, x->data);
 		}
@@ -1342,10 +1342,10 @@ void layout_image_next(LayoutWindow *lw)
 			;
 		if (y)
 			{
-			if (y->next) 
-		    		layout_image_set_index(lw, (gint) y->next->data);
-		  	else
-		    		layout_image_set_index(lw, (gint) x->data);
+			if (y->next)
+				layout_image_set_index(lw, (gint) y->next->data);
+			else
+				layout_image_set_index(lw, (gint) x->data);
 			}
 		while (x)
 			x = g_list_remove(x, x->data);
@@ -1415,7 +1415,7 @@ void layout_image_prev(LayoutWindow *lw)
 			;
 		if (y)
 			{
-		  	if (y->prev)
+			if (y->prev)
 				layout_image_set_index(lw, (gint) y->prev->data);
 			else
 				layout_image_set_index(lw, (gint) last->data);
@@ -1522,8 +1522,8 @@ void layout_image_last(LayoutWindow *lw)
 static gint image_idx(LayoutWindow *lw, ImageWindow *imd)
 {
 	gint i;
-	
-	for (i=0; i < MAX_SPLIT_IMAGES; i++) 
+
+	for (i=0; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i] == imd)
 			break;
@@ -1569,7 +1569,7 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkScrollDirection directio
 	LayoutWindow *lw = data;
 
 	gint i = image_idx(lw, imd);
-	
+
 	if (i != -1)
 		{
 		printf("image activate scroll %d\n", i);
@@ -1637,14 +1637,14 @@ static void layout_image_drag_cb(ImageWindow *imd, gint button, guint32 time,
 	for (i=0; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i] && lw->split_images[i] != imd)
-			if (lw->connect_scroll) 
+			if (lw->connect_scroll)
 				{
 				gdouble sx, sy;
 				if (state & GDK_CONTROL_MASK)
 					{
 					image_get_scroll_center(imd, &sx, &sy);
 					}
-				else 
+				else
 					{
 					image_get_scroll_center(lw->split_images[i], &sx, &sy);
 					sx += dx;
@@ -1661,7 +1661,7 @@ static void layout_image_button_inactive_cb(ImageWindow *imd, gint button, guint
 	LayoutWindow *lw = data;
 	GtkWidget *menu;
 	gint i = image_idx(lw, imd);
-	
+
 	if (i != -1)
 		{
 		layout_image_activate(lw, i);
@@ -1689,7 +1689,7 @@ static void layout_image_drag_inactive_cb(ImageWindow *imd, gint button, guint32
 	LayoutWindow *lw = data;
 
 	gint i = image_idx(lw, imd);
-	
+
 	if (i != -1)
 		{
 		layout_image_activate(lw, i);
@@ -1727,7 +1727,7 @@ static void layout_image_update_cb(ImageWindow *imd, gpointer data)
 
 GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 {
-	if (!lw->split_images[i]) 
+	if (!lw->split_images[i])
 		{
 		lw->split_images[i] = image_new(TRUE);
 
@@ -1764,7 +1764,7 @@ void layout_image_deactivate(LayoutWindow *lw, gint i)
 void layout_image_activate(LayoutWindow *lw, gint i)
 {
 	FileData *fd;
-	
+
 	if (!lw->split_images[i]) return;
 
 	/* deactivate currently active */
@@ -1773,7 +1773,7 @@ void layout_image_activate(LayoutWindow *lw, gint i)
 
 	lw->image = lw->split_images[i];
 	lw->active_split_image = i;
-	
+
 	image_set_update_func(lw->image, layout_image_update_cb, lw);
 	layout_image_set_buttons(lw);
 	image_set_drag_func(lw->image, layout_image_drag_cb, lw);
@@ -1790,7 +1790,7 @@ void layout_image_activate(LayoutWindow *lw, gint i)
 
 	fd = image_get_fd(lw->image);
 
-        if (fd)
+	if (fd)
 		{
 //		layout_list_sync_path(lw, path);
 		layout_set_path(lw, fd->path);
@@ -1801,7 +1801,7 @@ void layout_image_activate(LayoutWindow *lw, gint i)
 GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
 {
 	gint i;
-	
+
 	lw->split_mode = SPLIT_NONE;
 
 	if (!lw->split_images[0])
@@ -1816,7 +1816,7 @@ GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
 		image_set_frame(lw->split_images[0], (!lw->tools_float && !lw->tools_hidden));
 		image_set_selectable(lw->split_images[0], 0);
 		}
-		
+
 	for (i=1; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i])
@@ -1828,9 +1828,9 @@ GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
 
 
 	layout_image_activate(lw, 0);
-	
+
 	lw->split_image_widget = lw->split_images[0]->widget;
-			
+
 	return lw->split_image_widget;
 }
 
@@ -1840,7 +1840,7 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 	gint i;
 
 	lw->split_mode = horizontal ? SPLIT_HOR : SPLIT_VERT;
-	
+
 	if (!lw->split_images[0])
 		{
 		layout_image_new(lw, 0);
@@ -1856,7 +1856,7 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 		if (lw->image)
 			{
 			gdouble sx, sy;
-			image_change_fd(lw->split_images[1], 
+			image_change_fd(lw->split_images[1],
 				image_get_fd(lw->image), image_zoom_get(lw->image));
 			image_get_scroll_center(lw->image, &sx, &sy);
 			image_set_scroll_center(lw->split_images[1], sx, sy);
@@ -1870,7 +1870,7 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 		image_set_selectable(lw->split_images[1], 1);
 		}
 
-	
+
 	for (i=2; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i])
@@ -1880,7 +1880,7 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 			}
 		}
 
-        if (!lw->image || lw->active_split_image < 0 || lw->active_split_image > 1)
+	if (!lw->image || lw->active_split_image < 0 || lw->active_split_image > 1)
 		{
 		layout_image_activate(lw, 0);
 		}
@@ -1893,13 +1893,13 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 
 	gtk_paned_pack1 (GTK_PANED (paned), lw->split_images[0]->widget, TRUE, TRUE);
 	gtk_paned_pack2 (GTK_PANED (paned), lw->split_images[1]->widget, TRUE, TRUE);
-	
+
 	gtk_widget_show (lw->split_images[0]->widget);
 	gtk_widget_show (lw->split_images[1]->widget);
-	
+
 
 	lw->split_image_widget = paned;
-			
+
 	return lw->split_image_widget;
 
 }
@@ -1910,7 +1910,7 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 	GtkWidget *vpaned1;
 	GtkWidget *vpaned2;
 	gint i;
-	
+
 	lw->split_mode = SPLIT_QUAD;
 
 	if (!lw->split_images[0])
@@ -1935,7 +1935,7 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 			if (lw->image)
 				{
 				gdouble sx, sy;
-				image_change_fd(lw->split_images[i], 
+				image_change_fd(lw->split_images[i],
 					image_get_fd(lw->image), image_zoom_get(lw->image));
 				image_get_scroll_center(lw->image, &sx, &sy);
 				image_set_scroll_center(lw->split_images[i], sx, sy);
@@ -1958,7 +1958,7 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 		}
 
 
-        if (!lw->image || lw->active_split_image < 0 || lw->active_split_image > 3)
+	if (!lw->image || lw->active_split_image < 0 || lw->active_split_image > 3)
 		{
 		layout_image_activate(lw, 0);
 		}
@@ -1976,15 +1976,15 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 	gtk_paned_pack1 (GTK_PANED (hpaned), vpaned1, TRUE, TRUE);
 	gtk_paned_pack2 (GTK_PANED (hpaned), vpaned2, TRUE, TRUE);
 
-	
+
 	for (i=0; i < 4; i++)
 		gtk_widget_show (lw->split_images[i]->widget);
 	gtk_widget_show (vpaned1);
 	gtk_widget_show (vpaned2);
-	
+
 
 	lw->split_image_widget = hpaned;
-			
+
 	return lw->split_image_widget;
 
 }
@@ -1993,7 +1993,7 @@ GtkWidget *layout_image_setup_split(LayoutWindow *lw, ImageSplitMode mode)
 {
 	switch (mode)
 		{
-		case SPLIT_HOR: 
+		case SPLIT_HOR:
 			return layout_image_setup_split_hv(lw, TRUE);
 		case SPLIT_VERT:
 			return layout_image_setup_split_hv(lw, FALSE);

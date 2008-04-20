@@ -1222,7 +1222,7 @@ static void print_job_ps_page_image_pixel(FILE *f, guchar *pix)
 	text[6] = '\0';
 
 	fprintf(f, text);
-}                                                                                                                         
+}
 static gint print_job_ps_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
 				    gdouble x, gdouble y, gdouble w, gdouble h,
 				    gdouble offx, gdouble offy)
@@ -1581,10 +1581,10 @@ static gint print_job_rgb_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
 	dw = (gdouble)gdk_pixbuf_get_width(pw->job_pixbuf);
 	dh = (gdouble)gdk_pixbuf_get_height(pw->job_pixbuf);
 
-        if (clip_region(x, y, w, h,
-                        0.0, 0.0, dw, dh,
-                        &rx, &ry, &rw, &rh))
-                {
+	if (clip_region(x, y, w, h,
+			0.0, 0.0, dw, dh,
+			&rx, &ry, &rw, &rh))
+		{
 		gdk_pixbuf_composite(pixbuf, pw->job_pixbuf, rx, ry, rw, rh,
 				     x + offx, y + offy,
 				     w / sw, h / sh,
@@ -1776,8 +1776,8 @@ static gint print_job_preview_page_done(PrintWindow *pw)
 }
 
 static gint print_job_preview_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
-				         gdouble x, gdouble y, gdouble w, gdouble h,
-				         gdouble offx, gdouble offy)
+					 gdouble x, gdouble y, gdouble w, gdouble h,
+					 gdouble offx, gdouble offy)
 {
 	gdouble sw, sh;
 	gdouble dw, dh;
@@ -2271,7 +2271,7 @@ static void print_job_render_proof_loader_done(ImageLoader *il, gpointer data)
 	x = x + icon_w / 2;
 	y = y + icon_h + (pw->proof_height - icon_h) / 2 + PRINT_TEXT_PADDING;
 
-	success = (success && 
+	success = (success &&
 		   print_job_text_image(pw, pw->job_loader->fd->path, x, y, icon_w + PRINT_PROOF_MARGIN * 2, w, h, TRUE));
 
 	if (!success)
@@ -3421,7 +3421,7 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 	label = pref_table_label(table, 0, 1, _("Proof size:"), 1.0);
 	pw->proof_group = pref_table_box(table, 1, 1, GTK_ORIENTATION_HORIZONTAL, NULL);
 	pref_link_sensitivity(label, pw->proof_group);
-	
+
 	pw->proof_width_spin = pref_spin_new(pw->proof_group, NULL, NULL,
 					     0.0, 50.0, 0.1, 3, 0.0,
 					     G_CALLBACK(print_proof_size_cb), pw);

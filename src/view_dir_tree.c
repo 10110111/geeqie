@@ -434,7 +434,7 @@ static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint fo
 	if (!nd) return FALSE;
 
 	current_time = time(NULL);
-	
+
 	if (nd->expanded)
 		{
 		if (!force && current_time - nd->last_update < 10) return TRUE;
@@ -650,7 +650,7 @@ FileData *vdtree_populate_path(ViewDir *vd, const gchar *path, gint expand, gint
 static gint selection_is_ok = FALSE;
 
 static gboolean vdtree_select_cb(GtkTreeSelection *selection, GtkTreeModel *store, GtkTreePath *tpath,
-                                 gboolean path_currently_selected, gpointer data)
+				 gboolean path_currently_selected, gpointer data)
 {
 	return selection_is_ok;
 }
@@ -659,7 +659,7 @@ void vdtree_select_row(ViewDir *vd, FileData *fd)
 {
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
-                                                                                                                               
+
 	if (!vd_find_row(vd, fd, &iter)) return;
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vd->view));
 
@@ -672,10 +672,10 @@ void vdtree_select_row(ViewDir *vd, FileData *fd)
 
 	vdtree_expand_by_iter(vd, &iter, TRUE);
 
-        if (fd && vd->select_func)
-                {
-                vd->select_func(vd, fd->path, vd->select_data);
-                }
+	if (fd && vd->select_func)
+		{
+		vd->select_func(vd, fd->path, vd->select_data);
+		}
 }
 
 gint vdtree_set_path(ViewDir *vd, const gchar *path)
@@ -940,7 +940,7 @@ ViewDir *vdtree_new(ViewDir *vd, const gchar *path)
 
 	VDTREE_INFO(vd, drop_expand_id) = -1;
 	VDTREE_INFO(vd, busy_ref) = 0;
-	
+
 	vd->dnd_drop_leave_func = vdtree_dnd_drop_expand_cancel;
 	vd->dnd_drop_update_func = vdtree_dnd_drop_expand;
 

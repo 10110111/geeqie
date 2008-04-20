@@ -46,7 +46,7 @@ static void vd_destroy_cb(GtkWidget *widget, gpointer data)
 	case DIRVIEW_LIST: vdlist_destroy_cb(widget, data); break;
 	case DIRVIEW_TREE: vdtree_destroy_cb(widget, data); break;
 	}
-	
+
 	if (vd->pf) folder_icons_free(vd->pf);
 	if (vd->drop_list) filelist_free(vd->drop_list);
 
@@ -87,7 +87,7 @@ ViewDir *vd_new(DirViewType type, const gchar *path)
 	}
 
 	gtk_container_add(GTK_CONTAINER(vd->widget), vd->view);
-	
+
 	vd_dnd_init(vd);
 
 	g_signal_connect(G_OBJECT(vd->view), "row_activated",
@@ -107,12 +107,12 @@ ViewDir *vd_new(DirViewType type, const gchar *path)
 
 	return vd;
 }
-	
+
 void vd_set_select_func(ViewDir *vd,
-                        void (*func)(ViewDir *vd, const gchar *path, gpointer data), gpointer data)
+			void (*func)(ViewDir *vd, const gchar *path, gpointer data), gpointer data)
 {
-        vd->select_func = func;
-        vd->select_data = data;
+	vd->select_func = func;
+	vd->select_data = data;
 }
 
 void vd_set_layout(ViewDir *vd, LayoutWindow *layout)
@@ -347,7 +347,7 @@ GtkWidget *vd_drop_menu(ViewDir *vd, gint active)
  *-----------------------------------------------------------------------------
  * pop-up menu
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void vd_pop_menu_up_cb(GtkWidget *widget, gpointer data)
 {
@@ -526,7 +526,7 @@ static void vd_pop_menu_new_cb(GtkWidget *widget, gpointer data)
 static void vd_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
-	
+
 	vd_rename_by_data(vd, vd->click_fd);
 }
 
@@ -551,8 +551,8 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 			/* ignore .. and . */
 			rename_delete_active = (new_folder_active && fd &&
 				strcmp(fd->name, ".") != 0 &&
-	  			strcmp(fd->name, "..") != 0 &&
-	  			access_file(fd->path, W_OK | X_OK));
+				strcmp(fd->name, "..") != 0 &&
+				access_file(fd->path, W_OK | X_OK));
 			};
 			break;
 		case DIRVIEW_TREE:
@@ -600,10 +600,10 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 				      G_CALLBACK(vd_pop_menu_delete_cb), vd);
 
 	menu_item_add_divider(menu);
-	
+
 	item = menu_item_add(menu, _("_View as"), NULL, NULL);
 	submenu = gtk_menu_new();
-        gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 
 	for (i = 0; i < G_N_ELEMENTS(menu_view_dir_radio_entries); i++)
 		{
@@ -801,7 +801,7 @@ static gint vd_auto_scroll_notify_cb(GtkWidget *widget, gint x, gint y, gpointer
 static gint vd_dnd_drop_motion(GtkWidget *widget, GdkDragContext *context,
 				   gint x, gint y, guint time, gpointer data)
 {
-        ViewDir *vd = data;
+	ViewDir *vd = data;
 
 	vd->click_fd = NULL;
 

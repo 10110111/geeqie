@@ -508,7 +508,7 @@ static gchar *bookmark_string(const gchar *name, const gchar *path, const gchar 
 		{
 		return g_strdup_printf("%s"MARKER_PATH"%s"MARKER_ICON"%s", name, path, icon);
 		}
-	
+
 	return g_strdup_printf("%s"MARKER_PATH"%s", name, path);
 }
 
@@ -576,7 +576,7 @@ static void bookmark_edit(const gchar *key, const gchar *text, GtkWidget *parent
 	GtkWidget *table;
 	GtkWidget *label;
 	const gchar *icon;
-	
+
 	if (!key) key = "bookmarks";
 
 	p = g_new0(BookPropData, 1);
@@ -619,7 +619,7 @@ static void bookmark_edit(const gchar *key, const gchar *text, GtkWidget *parent
 	icon = p->bb->icon;
 	if (!icon) icon = "";
 	label = tab_completion_new_with_history(&p->icon_entry, icon,
-		       				"bookmark_icons", -1, NULL, NULL);
+						"bookmark_icons", -1, NULL, NULL);
 	tab_completion_add_select_button(p->icon_entry, _("Select icon"), FALSE);
 	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 2, 3);
 	generic_dialog_attach_default(gd, p->icon_entry);
@@ -684,7 +684,7 @@ static void bookmark_menu_down_cb(GtkWidget *widget, gpointer data)
 static void bookmark_menu_remove_cb(GtkWidget *widget, gpointer data)
 {
 	BookMarkData *bm = data;
-	
+
 	if (!bm->active_button) return;
 
 	history_list_item_remove(bm->key, bm->active_button->key);
@@ -738,7 +738,7 @@ static gint bookmark_press_cb(GtkWidget *button, GdkEventButton *event, gpointer
 	if (event->button != 3) return FALSE;
 
 	bookmark_menu_popup(bm, button, event->button, event->time, FALSE);
-	
+
 	return TRUE;
 }
 
@@ -787,7 +787,7 @@ static void bookmark_drag_set_data(GtkWidget *button,
 
 	b = g_object_get_data(G_OBJECT(button), "bookbuttondata");
 	if (!b) return;
-	
+
 	list = g_list_append(list, b->path);
 
 	switch (info)
@@ -816,7 +816,7 @@ static void bookmark_drag_begin(GtkWidget *button, GdkDragContext *context, gpoi
 	gint x, y;
 
 	pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8,
-		       		button->allocation.width, button->allocation.height);
+				button->allocation.width, button->allocation.height);
 	gdk_pixbuf_get_from_drawable(pixbuf, button->window, NULL,
 				     button->allocation.x, button->allocation.y,
 				     0, 0, button->allocation.width, button->allocation.height);
@@ -824,7 +824,7 @@ static void bookmark_drag_begin(GtkWidget *button, GdkDragContext *context, gpoi
 	gdk_window_get_pointer(button->window, &x, &y, &mask);
 
 	gtk_drag_set_icon_pixbuf(context, pixbuf,
-		       		 x - button->allocation.x, y - button->allocation.y);
+				 x - button->allocation.x, y - button->allocation.y);
 	g_object_unref(pixbuf);
 }
 
@@ -833,7 +833,7 @@ static void bookmark_populate(BookMarkData *bm)
 	GtkBox *box;
 	GList *work;
 	GList *children;
-	
+
 	box = GTK_BOX(bm->box);
 	children = gtk_container_get_children(GTK_CONTAINER(box));
 	work = children;
@@ -869,7 +869,7 @@ static void bookmark_populate(BookMarkData *bm)
 		while (work && work->next)
 			{
 			gchar *name;
-			
+
 			name = work->data;
 			work = work->next;
 			path = work->data;
@@ -929,7 +929,7 @@ static void bookmark_populate(BookMarkData *bm)
 				else
 					{
 					b->image = gtk_image_new_from_stock(GTK_STOCK_MISSING_IMAGE,
-						       			    GTK_ICON_SIZE_BUTTON);
+									    GTK_ICON_SIZE_BUTTON);
 					}
 				}
 			else
@@ -966,9 +966,9 @@ static void bookmark_populate(BookMarkData *bm)
 static void bookmark_populate_all(const gchar *key)
 {
 	GList *work;
-	
+
 	if (!key) return;
-	
+
 	work = bookmark_widget_list;
 	while (work)
 		{
@@ -1036,7 +1036,7 @@ GtkWidget *bookmark_list_new(const gchar *key,
 {
 	GtkWidget *scrolled;
 	BookMarkData *bm;
-	
+
 	if (!key) key = "bookmarks";
 
 	bm = g_new0(BookMarkData, 1);
@@ -1262,7 +1262,7 @@ void history_combo_append_history(GtkWidget *widget, const gchar *text)
  */
 static gint escape_char_list[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1,	/*   0 */
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1,	/*  10 */ 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1,	/*  10 */
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1,	/*  20 */
 /*	     spc !  "  #  $  %  &  '	       */
 	1, 1, 0, 0, 1, 1, 0, 1, 0, 0,	/*  30 */
@@ -1309,7 +1309,7 @@ gchar *uri_text_escape(const gchar *text)
 	const gchar *p;
 
 	if (!text) return NULL;
-	
+
 	string = g_string_new("");
 
 	p = text;

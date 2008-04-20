@@ -85,14 +85,14 @@ static OSDIcon osd_icons[] = {
 #define HIST_PREPARE(imd, lw)                          \
        LayoutWindow *lw = NULL;                        \
        if (imd)                                        \
-               lw = layout_find_by_image(imd);
+	       lw = layout_find_by_image(imd);
 
 void image_osd_histogram_onoff_toggle(ImageWindow *imd, gint x)
 {
 	HIST_PREPARE(imd, lw)
-	if (lw) 
+	if (lw)
     		{
-        	lw->histogram_enabled = !!(x);
+		lw->histogram_enabled = !!(x);
 		if (lw->histogram_enabled && !lw->histogram)
 			lw->histogram = histogram_new();
 		}
@@ -107,15 +107,15 @@ gint image_osd_histogram_onoff_status(ImageWindow *imd)
 void image_osd_histogram_chan_toggle(ImageWindow *imd)
 {
        HIST_PREPARE(imd, lw)
-       if (lw && lw->histogram) 
-               histogram_set_channel(lw->histogram, (histogram_get_channel(lw->histogram) +1)%HCHAN_COUNT);
+       if (lw && lw->histogram)
+	       histogram_set_channel(lw->histogram, (histogram_get_channel(lw->histogram) +1)%HCHAN_COUNT);
 }
 
 void image_osd_histogram_log_toggle(ImageWindow *imd)
 {
        HIST_PREPARE(imd,lw)
-       if (lw && lw->histogram) 
-               histogram_set_mode(lw->histogram, !histogram_get_mode(lw->histogram));
+       if (lw && lw->histogram)
+	       histogram_set_mode(lw->histogram, !histogram_get_mode(lw->histogram));
 }
 
 
@@ -134,7 +134,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 	ExifData *exif;
 
 	if (!str || !*str) return g_strdup("");
-	
+
 	new = g_string_new(str);
 
 	exif = exif_read_fd(imd->image_fd, FALSE);
@@ -154,7 +154,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 		end = strchr(start+1, delim);
 		if (!end)
 			break;
-		
+
 		for (p = end; p > start; p--)
 			{
 			if (*p == ':' && was_digit)
@@ -180,7 +180,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			g_free(data);
 			data = new_data;
 			}
-		
+
 		g_string_erase(new, pos, end-start+1);
 		if (data)
 			g_string_insert(new, pos, data);
@@ -199,7 +199,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 		g_free(name);
 		g_free(data);
 		}
-	
+
 	/* search and destroy empty lines */
 	end = new->str;
 	while ((start = strchr(end, '\n')))
@@ -312,15 +312,15 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 		if (!lw)
 			lw = layout_find_by_image(imd);
 
-		if (imgpixbuf && lw->histogram && lw->histogram_enabled 
-			      && (!imd->il || imd->il->done)) 
+		if (imgpixbuf && lw->histogram && lw->histogram_enabled
+			      && (!imd->il || imd->il->done))
 			with_hist=1;
 
  		g_hash_table_insert(vars, "width", g_strdup_printf("%d", w));
  		g_hash_table_insert(vars, "height", g_strdup_printf("%d", h));
  		g_hash_table_insert(vars, "res", g_strdup_printf("%d × %d", w, h));
  		}
-  
+
  	g_hash_table_insert(vars, "collection", g_strdup(ct));
  	g_hash_table_insert(vars, "number", g_strdup_printf("%d", n));
  	g_hash_table_insert(vars, "total", g_strdup_printf("%d", t));
@@ -352,7 +352,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 		gint mark;
 		gchar *text2;
 
-		for (mark = 0; mark < FILEDATA_MARKS_SIZE; mark++) 
+		for (mark = 0; mark < FILEDATA_MARKS_SIZE; mark++)
 			{
 			active_marks += fd->marks[mark];
 			}
@@ -361,8 +361,8 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 		if (active_marks > 0)
 			{
 			GString *buf = g_string_sized_new(FILEDATA_MARKS_SIZE * 2);
-	        
-			for (mark = 0; mark < FILEDATA_MARKS_SIZE; mark++) 
+
+			for (mark = 0; mark < FILEDATA_MARKS_SIZE; mark++)
 				{
 				g_string_append_printf(buf, fd->marks[mark] ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + mark);
     				}
@@ -391,7 +391,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 	layout = gtk_widget_create_pango_layout(imd->pr, NULL);
 	pango_layout_set_markup(layout, text, -1);
 	g_free(text);
-    
+
 	pango_layout_get_pixel_size(layout, &width, &height);
 	/* with empty text width is set to 0, but not height) */
 	if (width == 0)
@@ -420,10 +420,10 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 		pixbuf_pixel_set(pixbuf, width - 1, 0, 0, 0, 0, 0);
 		pixbuf_pixel_set(pixbuf, 0, height - 1, 0, 0, 0, 0);
 		pixbuf_pixel_set(pixbuf, width - 1, height - 1, 0, 0, 0, 0);
-	
+
 		if (with_hist)
 			histogram_draw(lw->histogram, pixbuf, 5, height - HISTOGRAM_HEIGHT - 5 , width - 10, HISTOGRAM_HEIGHT);
-		
+
 		pixbuf_draw_layout(pixbuf, layout, imd->pr, 5, 5, 0, 0, 0, 255);
 	}
 

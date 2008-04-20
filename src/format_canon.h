@@ -9,7 +9,7 @@
  *
  * Code to add support for Canon CR2 and CRW files, version 0.2
  *
- * Developed by Daniel M. German, dmgerman at uvic.ca 
+ * Developed by Daniel M. German, dmgerman at uvic.ca
  *
  * you can find the sources for this patch at http://turingmachine.org/~dmg/libdcraw/gqview/
  *

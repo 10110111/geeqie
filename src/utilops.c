@@ -202,7 +202,7 @@ static void generic_dialog_add_image(GenericDialog *gd, GtkWidget *box,
 	/* only the first image is stored (for use in gd_image_set) */
 	g_object_set_data(G_OBJECT(gd->dialog), "img_image", imd);
 	g_object_set_data(G_OBJECT(gd->dialog), "img_label", label);
-		
+
 
 	/* image 2 */
 
@@ -234,7 +234,7 @@ static void generic_dialog_image_set(GenericDialog *gd, FileData *fd)
 {
 	ImageWindow *imd;
 	GtkWidget *label;
-	
+
 	imd = g_object_get_data(G_OBJECT(gd->dialog), "img_image");
 	label = g_object_get_data(G_OBJECT(gd->dialog), "img_label");
 
@@ -340,7 +340,7 @@ static gint copy_file_ext_cb(gpointer ed, gint flags, GList *list, gpointer data
 		{
 		FileData *fd = list->data;
 		gchar *title = _("Error copying file");
-		gchar *text = g_strdup_printf(_("%s\nUnable to copy file:\n%s\nto:\n%s"), editor_get_error_str(flags), fd->name, fd->change->dest); 
+		gchar *text = g_strdup_printf(_("%s\nUnable to copy file:\n%s\nto:\n%s"), editor_get_error_str(flags), fd->name, fd->change->dest);
 		file_util_warning_dialog(title, text, GTK_STOCK_DIALOG_ERROR, NULL);
 		g_free(text);
 		}
@@ -374,7 +374,7 @@ gint copy_file_ext(FileData *fd)
 		}
 
 	file_data_change_info_free(NULL, fd);
-		
+
 	return ok;
 }
 
@@ -384,7 +384,7 @@ static gint move_file_ext_cb(gpointer ed, gint flags, GList *list, gpointer data
 		{
 		FileData *fd = list->data;
 		gchar *title = _("Error moving file");
-		gchar *text = g_strdup_printf(_("%s\nUnable to move file:\n%s\nto:\n%s"), editor_get_error_str(flags), fd->name, fd->change->dest); 
+		gchar *text = g_strdup_printf(_("%s\nUnable to move file:\n%s\nto:\n%s"), editor_get_error_str(flags), fd->name, fd->change->dest);
 		file_util_warning_dialog(title, text, GTK_STOCK_DIALOG_ERROR, NULL);
 		g_free(text);
 		}
@@ -410,8 +410,8 @@ gint move_file_ext(FileData *fd)
 	g_assert(fd->change);
 	if (options->editor_command[CMD_MOVE])
 		{
-		ok = !start_editor_from_file_full(CMD_MOVE, fd, move_file_ext_cb, NULL); 
-		if (ok) return ok; /* that's all for now, let's continue in callback */ 
+		ok = !start_editor_from_file_full(CMD_MOVE, fd, move_file_ext_cb, NULL);
+		if (ok) return ok; /* that's all for now, let's continue in callback */
 		}
 	else
 		ok = move_file(fd->change->source, fd->change->dest);
@@ -423,7 +423,7 @@ gint move_file_ext(FileData *fd)
 		}
 
 	file_data_change_info_free(NULL, fd);
-		
+
 	return ok;
 }
 
@@ -433,7 +433,7 @@ static gint rename_file_ext_cb(gpointer ed, gint flags, GList *list, gpointer da
 		{
 		FileData *fd = list->data;
 		gchar *title = _("Error renaming file");
-		gchar *text = g_strdup_printf(_("%s\nUnable to rename file:\n%s\nto:\n%s"), editor_get_error_str(flags), fd->name, fd->change->dest); 
+		gchar *text = g_strdup_printf(_("%s\nUnable to rename file:\n%s\nto:\n%s"), editor_get_error_str(flags), fd->name, fd->change->dest);
 		file_util_warning_dialog(title, text, GTK_STOCK_DIALOG_ERROR, NULL);
 		g_free(text);
 		}
@@ -462,15 +462,15 @@ gint rename_file_ext(FileData *fd)
 		}
 	else
 		ok = rename_file(fd->change->source, fd->change->dest);
-			
+
 	if (ok)
 		{
 		file_data_do_change(fd);
 		file_maint_renamed(fd);
 		}
-		
+
 	file_data_change_info_free(NULL, fd);
-		
+
 	return ok;
 }
 
@@ -1311,7 +1311,7 @@ static gint file_util_safe_number(gint64 free_space)
 		{
 		FileData *fd;
 		gint v;
-	       
+
 		fd = work->data;
 		work = work->next;
 
@@ -1510,12 +1510,12 @@ static gint file_util_delete_ext_cb(gpointer resume_data, gint flags, GList *lis
 	if ((flags & EDITOR_ERROR_MASK) && !(flags & EDITOR_ERROR_SKIPPED))
 		{
 			GString *msg = g_string_new(editor_get_error_str(flags));
-			g_string_append(msg,_("\nUnable to delete file by external command:\n")); 
+			g_string_append(msg,_("\nUnable to delete file by external command:\n"));
 			GenericDialog *d;
 			while (list)
 				{
 				FileData *fd = list->data;
-				
+
 				g_string_append(msg, fd->path);
 				g_string_append(msg, "\n");
 				list = list->next;
@@ -1540,15 +1540,15 @@ static gint file_util_delete_ext_cb(gpointer resume_data, gint flags, GList *lis
 				}
 			g_string_free(msg, TRUE);
 		}
-	
-	
+
+
 		{
 		while (list)
 			{
 			FileData *fd = list->data;
 			if (flags & EDITOR_ERROR_MASK)
 				/* an error occured -> no change -> delete change info */
-				file_data_change_info_free(NULL, fd); 
+				file_data_change_info_free(NULL, fd);
 			else
 				/* files were successfully deleted, call the maint functions and keep the change info forever */
 				file_maint_removed(fd, list);
@@ -1589,14 +1589,14 @@ static void file_util_delete_multiple_ok_cb(GenericDialog *gd, gpointer data)
 			file_data_add_change_info(fd, FILEDATA_CHANGE_DELETE, NULL, NULL);
 			work = work->next;
 			}
-		
+
 		if ((flags = start_editor_from_filelist_full(CMD_DELETE, source_list, file_util_delete_ext_cb, NULL)))
 			{
-			gchar *text = g_strdup_printf(_("%s\nUnable to delete files by external command.\n"), editor_get_error_str(flags)); 
+			gchar *text = g_strdup_printf(_("%s\nUnable to delete files by external command.\n"), editor_get_error_str(flags));
 			file_util_warning_dialog(_("File deletion failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
 			g_free(text);
 			}
-		
+
 		filelist_free(source_list);
 		return;
 		}
@@ -1630,7 +1630,7 @@ static void file_util_delete_multiple_ok_cb(GenericDialog *gd, gpointer data)
 			else
 				{
 				gchar *text;
-				
+
 				text = g_strdup_printf(_("Unable to delete file:\n%s"), fd->path);
 				file_util_warning_dialog(_("Delete failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
 				g_free(text);
@@ -1763,7 +1763,7 @@ static void file_util_delete_multiple(GList *source_list, GtkWidget *parent)
 		gd = file_util_gen_dlg(title, GQ_WMCLASS, "dlg_confirm", parent, TRUE,
 				       file_util_delete_multiple_cancel_cb, source_list);
 		g_free(title);
-		
+
 		generic_dialog_add_message(gd, NULL, _("Delete multiple files"), NULL);
 
 		generic_dialog_add_image(gd, NULL, NULL, NULL, NULL, NULL, TRUE);
@@ -2254,7 +2254,7 @@ static void file_util_rename_multiple_auto(RenameDataMult *rd)
 			{
 			dest = g_strdup_printf("%s/%s%0*d%s", base, front, padding, n, end);
 			}
-			
+
 		if (!file_data_add_change_info(fd, FILEDATA_CHANGE_RENAME, fd->path, dest) ||
 		    !rename_file_ext(fd))
 			{
@@ -2399,7 +2399,7 @@ static void file_util_rename_multiple_preview_update(RenameDataMult *rd)
 		if (rd->rename_type == RENAME_TYPE_FORMATTED)
 			{
 			FileData *fd;
-	
+
 			gtk_tree_model_get(store, &iter, RENAME_COLUMN_FD, &fd, -1);
 			dest = file_util_rename_multiple_auto_format_name(format, fd->name, n);
 //		        file_data_unref(fd);
@@ -2505,13 +2505,13 @@ static GtkTreeViewColumn *file_util_rename_multiple_add_column(RenameDataMult *r
 	GtkCellRenderer *renderer;
 
 	column = gtk_tree_view_column_new();
-        gtk_tree_view_column_set_title(column, text);
-        gtk_tree_view_column_set_min_width(column, 4);
-        gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
-        renderer = gtk_cell_renderer_text_new();
-        gtk_tree_view_column_pack_start(column, renderer, TRUE);
-        gtk_tree_view_column_add_attribute(column, renderer, "text", n);
-        gtk_tree_view_append_column(GTK_TREE_VIEW(rd->listview), column);
+	gtk_tree_view_column_set_title(column, text);
+	gtk_tree_view_column_set_min_width(column, 4);
+	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
+	renderer = gtk_cell_renderer_text_new();
+	gtk_tree_view_column_pack_start(column, renderer, TRUE);
+	gtk_tree_view_column_add_attribute(column, renderer, "text", n);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(rd->listview), column);
 
 	return column;
 }
@@ -2543,7 +2543,7 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 	gchar *title;
 
 	rd = g_new0(RenameDataMult, 1);
-	
+
 	title = g_strdup_printf("%s -%s", _("Rename"), GQ_APPNAME);
 	rd->fdlg = file_util_file_dlg(title, GQ_WMCLASS, "dlg_rename", parent,
 				      file_util_rename_multiple_close_cb, rd);
@@ -2563,7 +2563,7 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 	pane = gtk_hpaned_new();
 	gtk_box_pack_start(GTK_BOX(vbox), pane, TRUE, TRUE, 0);
 	gtk_widget_show(pane);
-	
+
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolled),
@@ -2585,7 +2585,7 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 	file_util_rename_multiple_add_column(rd, _("Original Name"), RENAME_COLUMN_NAME);
 	column = file_util_rename_multiple_add_column(rd, _("Preview"), RENAME_COLUMN_PREVIEW);
 	gtk_tree_view_column_set_visible(column, FALSE);
-	
+
 	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(rd->listview), TRUE);
 	g_signal_connect(G_OBJECT(store), "row_changed",
 			 G_CALLBACK(file_util_rename_multiple_preview_order_cb), rd);
@@ -2662,7 +2662,7 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 			 G_CALLBACK(file_util_rename_multiple_preview_entry_cb), rd);
 	gtk_box_pack_start(GTK_BOX(box2), combo, TRUE, TRUE, 0);
 	gtk_widget_show(combo);
-	
+
 	box2 = furm_simple_vlabel(hbox, _("Start #"), FALSE);
 
 	rd->auto_spin_start = pref_spin_new(box2, NULL, NULL,
@@ -2694,7 +2694,7 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 			 G_CALLBACK(file_util_rename_multiple_preview_entry_cb), rd);
 	gtk_box_pack_start(GTK_BOX(box2), combo, TRUE, TRUE, 0);
 	gtk_widget_show(combo);
-	
+
 	box2 = furm_simple_vlabel(hbox, _("Start #"), FALSE);
 
 	rd->format_spin = pref_spin_new(box2, NULL, NULL,
@@ -2805,7 +2805,7 @@ static void file_util_rename_single_do(FileData *source_fd, GtkWidget *parent)
 
 	title = g_strdup_printf("%s -%s", _("Rename"), GQ_APPNAME);
 	fdlg = file_util_file_dlg(title, GQ_WMCLASS, "dlg_rename", parent,
-			          file_util_rename_single_close_cb, NULL);
+				  file_util_rename_single_close_cb, NULL);
 	g_free(title);
 
 	generic_dialog_add_message(GENERIC_DIALOG(fdlg), NULL, _("Rename file"), NULL);
@@ -2930,7 +2930,7 @@ void file_util_create_dir(const gchar *path, GtkWidget *parent)
 
 	title = g_strdup_printf("%s -%s", _("New folder"), GQ_APPNAME);
 	fdlg = file_util_file_dlg(title, GQ_WMCLASS, "dlg_newdir", parent,
-			          file_util_create_dir_close_cb, NULL);
+				  file_util_create_dir_close_cb, NULL);
 	g_free(title);
 
 	text = g_strdup_printf(_("Create folder in:\n%s\nnamed:"), path);

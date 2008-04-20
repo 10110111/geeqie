@@ -51,7 +51,7 @@ static CollectionData *command_collection = NULL;
  *-----------------------------------------------------------------------------
  * misc (public)
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 GtkWidget *window_new(GtkWindowType type, const gchar *name, const gchar *icon,
 		      const gchar *icon_file, const gchar *subtitle)
@@ -61,7 +61,7 @@ GtkWidget *window_new(GtkWindowType type, const gchar *name, const gchar *icon,
 
 	window = gtk_window_new(type);
 	if (!window) return NULL;
-	
+
 	if (subtitle)
 		{
 		title = g_strdup_printf("%s - %s", subtitle, GQ_APPNAME);
@@ -70,7 +70,7 @@ GtkWidget *window_new(GtkWindowType type, const gchar *name, const gchar *icon,
 		{
 		title = g_strdup_printf("%s", GQ_APPNAME);
 		}
-	
+
 	gtk_window_set_title(GTK_WINDOW(window), title);
 	g_free(title);
 
@@ -150,11 +150,11 @@ const gchar *get_exec_time()
 	static struct timeval delta = {0, 0};
 
 	gettimeofday(&tv, NULL);
-	
+
 	if (start_tv.tv_sec == 0) start_tv = tv;
-	
+
 	tv.tv_sec -= start_tv.tv_sec;
-	if (tv.tv_usec >= start_tv.tv_usec) 
+	if (tv.tv_usec >= start_tv.tv_usec)
 		tv.tv_usec -= start_tv.tv_usec;
 	else
 		{
@@ -168,7 +168,7 @@ const gchar *get_exec_time()
 	started = 1;
 
 	g_snprintf(timestr, sizeof(timestr), "%5d.%06d (+%05d.%06d)", (int)tv.tv_sec, (int)tv.tv_usec, (int)delta.tv_sec, (int)delta.tv_usec);
-	
+
 	return timestr;
 }
 
@@ -295,7 +295,7 @@ static void help_browser_run(void)
  *-----------------------------------------------------------------------------
  * help window
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static GtkWidget *help_window = NULL;
 
@@ -322,7 +322,7 @@ void help_window_show(const gchar *key)
 	{
 	gchar *title = g_strdup_printf("%s - %s", _("Help"), GQ_APPNAME);
 	help_window = help_window_new(title, GQ_WMCLASS, "help",
-                                      GQ_HELPDIR "/README", key);
+				      GQ_HELPDIR "/README", key);
 	g_free(title);
 	}
 	g_signal_connect(G_OBJECT(help_window), "destroy",
@@ -582,7 +582,7 @@ static RemoteCommandEntry remote_commands[] = {
 	{ "-n", "--next",               gr_image_next,          FALSE, FALSE, N_("next image") },
 	{ "-b", "--back",               gr_image_prev,          FALSE, FALSE, N_("previous image") },
 	{ NULL, "--first",              gr_image_first,         FALSE, FALSE, N_("first image") },
-        { NULL, "--last",               gr_image_last,          FALSE, FALSE, N_("last image") },
+	{ NULL, "--last",               gr_image_last,          FALSE, FALSE, N_("last image") },
 	{ "-f", "--fullscreen",         gr_fullscreen_toggle,   FALSE, TRUE,  N_("toggle full screen") },
 	{ "-fs","--fullscreen-start",   gr_fullscreen_start,    FALSE, FALSE, N_("start full screen") },
 	{ "-fS","--fullscreen-stop",    gr_fullscreen_stop,     FALSE, FALSE, N_("stop full screen") },
@@ -860,7 +860,7 @@ static void remote_control(const gchar *arg_exec, GList *remote_list, const gcha
  *-----------------------------------------------------------------------------
  * command line parser (private) hehe, who needs popt anyway?
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static gint startup_blank = FALSE;
 static gint startup_full_screen = FALSE;
@@ -869,7 +869,7 @@ static gint startup_command_line_collection = FALSE;
 
 
 static void parse_command_line_add_file(const gchar *file_path, gchar **path, gchar **file,
-				        GList **list, GList **collection_list)
+					GList **list, GList **collection_list)
 {
 	gchar *path_parsed;
 
@@ -926,7 +926,7 @@ static void parse_command_line_add_dir(const gchar *dir, gchar **path, gchar **f
 static void parse_command_line_process_dir(const gchar *dir, gchar **path, gchar **file,
 					   GList **list, gchar **first_dir)
 {
-	
+
 	if (!*list && !*first_dir)
 		{
 		*first_dir = g_strdup(dir);
@@ -946,7 +946,7 @@ static void parse_command_line_process_dir(const gchar *dir, gchar **path, gchar
 static void parse_command_line_process_file(const gchar *file_path, gchar **path, gchar **file,
 					    GList **list, GList **collection_list, gchar **first_dir)
 {
-	
+
 	if (*first_dir)
 		{
 		parse_command_line_add_dir(*first_dir, path, file, list);
@@ -1081,13 +1081,13 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 #endif
 				print_term(_("  -v, --version              print version info\n"));
 				print_term(_("  -h, --help                 show this message\n\n"));
-				
+
 #if 0
 				/* these options are not officially supported!
 				 * only for testing new features, no need to translate them */
 				print_term(  "  --alternate                use alternate similarity algorithm\n");
 #endif
-				
+
 				exit (0);
 				}
 			else if (!remote_do)
@@ -1140,7 +1140,7 @@ static void parse_command_line_for_debug_option(int argc, char *argv[])
 	if (argc > 1)
 		{
 		gint i;
- 
+
 		for (i = 1; i < argc; i++)
 			{
 			const gchar *cmd_line = argv[i];
@@ -1169,7 +1169,7 @@ static void parse_command_line_for_debug_option(int argc, char *argv[])
  *-----------------------------------------------------------------------------
  * startup, init, and exit
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 #define RC_HISTORY_NAME "history"
 
@@ -1199,7 +1199,7 @@ static void check_for_home_path(gchar *path)
 	if (!isdir(buf))
 		{
 		printf_term(_("Creating %s dir:%s\n"), GQ_APPNAME, buf);
-	
+
 		if (!mkdir_utf8(buf, 0755))
 			{
 			printf_term(_("Could not create dir:%s\n"), buf);
@@ -1372,7 +1372,7 @@ int main (int argc, char *argv[])
 
 	/* init execution time counter*/
 	get_exec_time();
-	
+
 	/* setup locale, i18n */
 	gtk_set_locale();
 	bindtextdomain(PACKAGE, GQ_LOCALEDIR);
@@ -1380,7 +1380,7 @@ int main (int argc, char *argv[])
 	textdomain(PACKAGE);
 
 	/* setup random seed for random slideshow */
-        srand(time(NULL));
+	srand(time(NULL));
 
 #if 1
 	printf("%s %s, This is an alpha release.\n", GQ_APPNAME, VERSION);
@@ -1413,7 +1413,7 @@ int main (int argc, char *argv[])
 	keys_load();
 	filter_add_defaults();
 	filter_rebuild();
-	
+
 	buf = g_strconcat(homedir(), "/", GQ_RC_DIR, "/accels", NULL);
 	bufl = path_from_utf8(buf);
 	gtk_accel_map_load(bufl);

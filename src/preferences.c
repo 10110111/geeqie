@@ -102,7 +102,7 @@ static GtkWidget *sidecar_ext_entry;
  *-----------------------------------------------------------------------------
  * option widget callbacks (private)
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void startup_path_set_current(GtkWidget *widget, gpointer data)
 {
@@ -142,7 +142,7 @@ static void slideshow_delay_cb(GtkWidget *spin, gpointer data)
  *-----------------------------------------------------------------------------
  * sync progam to config window routine (private)
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void config_window_apply(void)
 {
@@ -228,7 +228,7 @@ static void config_window_apply(void)
 	options->collections.rectangular_selection = c_options->collections.rectangular_selection;
 
 	options->image.tile_cache_max = c_options->image.tile_cache_max;
-	
+
 	options->image.read_buffer_size = c_options->image.read_buffer_size;
 	options->image.idle_read_loop_count = c_options->image.idle_read_loop_count;
 
@@ -332,7 +332,7 @@ static void config_window_apply(void)
  *-----------------------------------------------------------------------------
  * config window main button callbacks (private)
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void config_window_close_cb(GtkWidget *widget, gpointer data)
 {
@@ -362,7 +362,7 @@ static void config_window_apply_cb(GtkWidget *widget, gpointer data)
  *-----------------------------------------------------------------------------
  * config window setup (private)
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void exif_item_cb(GtkWidget *combo, gpointer data)
 {
@@ -370,7 +370,7 @@ static void exif_item_cb(GtkWidget *combo, gpointer data)
 	*option = gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
 }
 
-static void exif_item(GtkWidget *table, gint column, gint row, 
+static void exif_item(GtkWidget *table, gint column, gint row,
 		      const gchar *text, gint option, gint *option_c)
 {
 	GtkWidget *combo;
@@ -381,7 +381,7 @@ static void exif_item(GtkWidget *table, gint column, gint row,
 
 	combo = gtk_combo_box_new_text();
 
-	/* note: the order is important, it must match the values of 
+	/* note: the order is important, it must match the values of
 	 * EXIF_UI_OFF, _IFSET, _ON */
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Never"));
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("If set"));
@@ -392,7 +392,7 @@ static void exif_item(GtkWidget *table, gint column, gint row,
 	g_signal_connect(G_OBJECT(combo), "changed",
 			 G_CALLBACK(exif_item_cb), option_c);
 
-	gtk_table_attach(GTK_TABLE(table), combo, 
+	gtk_table_attach(GTK_TABLE(table), combo,
 			 column + 1, column + 2, row, row + 1,
 			 GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_widget_show(combo);
@@ -521,7 +521,7 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 		buf = g_strdup_printf("%d x %d", w, h);
 		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), buf);
 		g_free(buf);
-	
+
 		if (w == options->thumbnails.max_width && h == options->thumbnails.max_height) current = i;
 		}
 
@@ -1089,7 +1089,7 @@ static void config_tab_filtering(GtkWidget *notebook)
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
 	gtk_tree_view_column_set_cell_data_func(column, renderer, filter_set_func,
 						GINT_TO_POINTER(FE_ENABLE), NULL);
-	
+
 	renderer = gtk_cell_renderer_text_new();
 	g_signal_connect(G_OBJECT(renderer), "edited",
 			 G_CALLBACK(filter_store_ext_edit_cb), filter_store);
@@ -1168,7 +1168,7 @@ static void config_tab_editors(GtkWidget *notebook)
 		if (i < GQ_EDITOR_GENERIC_SLOTS)
 			{
 			gchar *buf;
-			
+
 			buf = g_strdup_printf("%d", i+1);
 			pref_table_label(table, 0, i+1, buf, 1.0);
 			g_free(buf);
@@ -1183,7 +1183,7 @@ static void config_tab_editors(GtkWidget *notebook)
 			entry = gtk_label_new(options->editor_name[i]);
 			gtk_misc_set_alignment(GTK_MISC(entry), 0.0, 0.5);
 			}
-		
+
 		gtk_table_attach(GTK_TABLE (table), entry, 1, 2, i+1, i+2,
 				 GTK_FILL | GTK_SHRINK, 0, 0, 0);
 		gtk_widget_show(entry);
@@ -1243,10 +1243,10 @@ static void config_tab_properties(GtkWidget *notebook)
 	gtk_container_add(GTK_CONTAINER(viewport), vbox);
 	gtk_widget_show(vbox);
 
-	group = pref_group_new(vbox, FALSE, _("Exif"), 
+	group = pref_group_new(vbox, FALSE, _("Exif"),
 			       GTK_ORIENTATION_VERTICAL);
-	
-	
+
+
 	pref_spacer(group, PREF_PAD_INDENT - PREF_PAD_SPACE);
 	label = pref_label_new(group, _("What to show in properties dialog:"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
@@ -1256,8 +1256,8 @@ static void config_tab_properties(GtkWidget *notebook)
 	for (i = 0; ExifUIList[i].key; i++)
 		{
 		const gchar *title;
-	  
-	  	title = exif_get_description_by_key(ExifUIList[i].key);
+
+		title = exif_get_description_by_key(ExifUIList[i].key);
 		exif_item(table, 0, i, title, ExifUIList[i].current,
 			  &ExifUIList[i].temp);
 		}
@@ -1379,7 +1379,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	pref_spacer(hbox, PREF_PAD_INDENT - PREF_PAD_GAP);
 	spin = pref_spin_new_int(hbox, _("Maximum size:"), _("MB"),
-			 	 0, 2048, 1, options->file_ops.safe_delete_folder_maxsize, &c_options->file_ops.safe_delete_folder_maxsize);
+				 0, 2048, 1, options->file_ops.safe_delete_folder_maxsize, &c_options->file_ops.safe_delete_folder_maxsize);
 #if GTK_CHECK_VERSION(2,12,0)
 	gtk_widget_set_tooltip_markup(spin, _("Set to 0 for unlimited size"));
 #endif
@@ -1426,11 +1426,11 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	pref_spin_new_int(group, _("Offscreen cache size (Mb per image):"), NULL,
 			  0, 128, 1, options->image.tile_cache_max, &c_options->image.tile_cache_max);
-	
+
 	pref_spin_new_int(group, _("Image read buffer size (bytes):"), NULL,
 			  IMAGE_LOADER_READ_BUFFER_SIZE_MIN, IMAGE_LOADER_READ_BUFFER_SIZE_MAX, 512,
 			  options->image.read_buffer_size, &c_options->image.read_buffer_size);
-	
+
 	pref_spin_new_int(group, _("Image idle loop read count:"), NULL,
 			  IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MIN, IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MAX, 1,
 			  options->image.idle_read_loop_count, &c_options->image.idle_read_loop_count);
@@ -1516,7 +1516,7 @@ static void config_window_create(void)
 	gtk_window_set_type_hint(GTK_WINDOW(configwindow), GDK_WINDOW_TYPE_HINT_DIALOG);
 	g_signal_connect(G_OBJECT (configwindow), "delete_event",
 			 G_CALLBACK(config_window_delete), NULL);
-	gtk_window_set_default_size(GTK_WINDOW(configwindow), CONFIG_WINDOW_DEF_WIDTH, CONFIG_WINDOW_DEF_HEIGHT);		 
+	gtk_window_set_default_size(GTK_WINDOW(configwindow), CONFIG_WINDOW_DEF_WIDTH, CONFIG_WINDOW_DEF_HEIGHT);
 	gtk_window_set_resizable(GTK_WINDOW(configwindow), TRUE);
 	gtk_container_set_border_width(GTK_CONTAINER(configwindow), PREF_PAD_BORDER);
 
@@ -1577,7 +1577,7 @@ static void config_window_create(void)
  *-----------------------------------------------------------------------------
  * config window show (public)
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 void show_config_window(void)
 {

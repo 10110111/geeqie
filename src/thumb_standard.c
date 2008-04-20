@@ -1024,7 +1024,7 @@ static void thumb_std_maint_move_step(TMaintMove *tm)
 		}
 
 	folder = (tm->pass == 1) ? THUMB_FOLDER_NORMAL : THUMB_FOLDER_LARGE;
-	
+
 	g_free(tm->thumb_path);
 	tm->thumb_path = thumb_std_cache_path(tm->source, tm->source_uri, FALSE, folder);
 	tm->tl = thumb_loader_std_thumb_file_validate(tm->thumb_path, 0,

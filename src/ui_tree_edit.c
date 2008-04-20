@@ -296,7 +296,7 @@ gint tree_view_get_cell_origin(GtkTreeView *widget, GtkTreePath *tpath, gint col
 		g_list_free(renderers);
 
 		if (!cell) return FALSE;
-		
+
 		if (!gtk_tree_view_column_cell_get_position(tv_column, cell, &cell_x, &cell_width))
 			{
 			cell_x = 0;
@@ -342,9 +342,9 @@ void tree_view_get_cell_clamped(GtkTreeView *widget, GtkTreePath *tpath, gint co
 gint tree_view_row_get_visibility(GtkTreeView *widget, GtkTreeIter *iter, gint fully_visible)
 {
 	GtkTreeModel *store;
-	GtkTreePath *tpath;	
+	GtkTreePath *tpath;
 	gint cx, cy;
-                                                                                                                               
+
 	GdkRectangle vrect;
 	GdkRectangle crect;
 
@@ -448,10 +448,10 @@ gint tree_view_move_cursor_away(GtkTreeView *widget, GtkTreeIter *iter, gint onl
 gint tree_path_to_row(GtkTreePath *tpath)
 {
 	gint *indices;
-                                                                                                                    
+
 	indices = gtk_tree_path_get_indices(tpath);
 	if (indices) return indices[0];
-                                                                                                                    
+
 	return -1;
 }
 

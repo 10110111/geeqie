@@ -88,7 +88,7 @@ static gint thumb_loader_mark_failure(ThumbLoader *tl)
 	gchar *cache_dir;
 	gint success = FALSE;
 	mode_t mode = 0755;
-	
+
 	if (!tl) return FALSE;
 
 	cache_dir = cache_get_location(CACHE_TYPE_THUMB, tl->path, FALSE, &mode);
@@ -292,7 +292,7 @@ void thumb_loader_set_callbacks(ThumbLoader *tl,
 
 void thumb_loader_set_cache(ThumbLoader *tl, gint enable_cache, gint local, gint retry_failed)
 {
-        if (!tl) return;
+	if (!tl) return;
 
 	if (tl->standard_loader)
 		{
@@ -387,7 +387,7 @@ gint thumb_loader_start(ThumbLoader *tl, const gchar *path)
 			{
 			thumb_loader_mark_failure(tl);
 			}
-		
+
 		image_loader_free(tl->il);
 		tl->il = NULL;
 		return FALSE;
@@ -649,7 +649,7 @@ static GdkPixbuf *get_xv_thumbnail(gchar *thumb_filename, gint max_w, gint max_h
 			pixbuf = gdk_pixbuf_scale_simple(tmp, width, height, GDK_INTERP_NEAREST);
 			gdk_pixbuf_unref(tmp);
 			}
-	
+
 		return pixbuf;
 		}
 

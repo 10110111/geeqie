@@ -29,8 +29,8 @@ struct _RemoteConnection {
 
 	GList *clients;
 };
-                                                                                                                        
-                                                                                                                        
+
+
 RemoteConnection *remote_server_open(const gchar *path);
 void remote_server_subscribe(RemoteConnection *rc, RemoteReadFunc *func, gpointer data);
 

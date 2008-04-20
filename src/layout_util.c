@@ -175,8 +175,8 @@ void layout_keyboard_init(LayoutWindow *lw, GtkWidget *window)
  * menu callbacks
  *-----------------------------------------------------------------------------
  */
- 
- 
+
+
 static GtkWidget *layout_window(LayoutWindow *lw)
 {
 	return lw->full_screen ? lw->full_screen->window : lw->window;
@@ -472,7 +472,7 @@ static void layout_menu_split_cb(GtkRadioAction *action, GtkRadioAction *current
 		layout_image_full_screen_stop(lw);
 
 	ImageSplitMode mode = gtk_radio_action_get_current_value(action);
-	
+
 	if (mode == lw->split_mode) mode = 0; /* toggle back */
 
 	layout_split_change(lw, mode);
@@ -552,7 +552,7 @@ static void layout_menu_overlay_cb(GtkAction *action, gpointer data)
 		{
 		if (image_osd_histogram_onoff_status(lw->image))
 			{
-		    	image_osd_histogram_onoff_toggle(lw->image, 0);
+			image_osd_histogram_onoff_toggle(lw->image, 0);
 			layout_image_overlay_update(lw);
 			}
 		else
@@ -709,7 +709,7 @@ static void layout_menu_about_cb(GtkAction *action, gpointer data)
  *-----------------------------------------------------------------------------
  * select menu
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void layout_menu_select_all_cb(GtkAction *action, gpointer data)
 {
@@ -739,7 +739,7 @@ static void layout_menu_set_mark_sel_cb(GtkAction *action, gpointer data)
 	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
 	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
 	mark--;
-	
+
 	layout_selection_to_mark(lw, mark, STM_MODE_SET);
 }
 
@@ -749,7 +749,7 @@ static void layout_menu_res_mark_sel_cb(GtkAction *action, gpointer data)
 	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
 	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
 	mark--;
-	
+
 	layout_selection_to_mark(lw, mark, STM_MODE_RESET);
 }
 
@@ -759,7 +759,7 @@ static void layout_menu_toggle_mark_sel_cb(GtkAction *action, gpointer data)
 	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
 	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
 	mark--;
-	
+
 	layout_selection_to_mark(lw, mark, STM_MODE_TOGGLE);
 }
 
@@ -769,7 +769,7 @@ static void layout_menu_sel_mark_cb(GtkAction *action, gpointer data)
 	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
 	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
 	mark--;
-	
+
 	layout_mark_to_selection(lw, mark, MTS_MODE_SET);
 }
 
@@ -779,7 +779,7 @@ static void layout_menu_sel_mark_or_cb(GtkAction *action, gpointer data)
 	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
 	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
 	mark--;
-	
+
 	layout_mark_to_selection(lw, mark, MTS_MODE_OR);
 }
 
@@ -789,7 +789,7 @@ static void layout_menu_sel_mark_and_cb(GtkAction *action, gpointer data)
 	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
 	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
 	mark--;
-	
+
 	layout_mark_to_selection(lw, mark, MTS_MODE_AND);
 }
 
@@ -799,7 +799,7 @@ static void layout_menu_sel_mark_minus_cb(GtkAction *action, gpointer data)
 	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
 	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
 	mark--;
-	
+
 	layout_mark_to_selection(lw, mark, MTS_MODE_MINUS);
 }
 
@@ -808,7 +808,7 @@ static void layout_menu_sel_mark_minus_cb(GtkAction *action, gpointer data)
  *-----------------------------------------------------------------------------
  * go menu
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void layout_menu_image_first_cb(GtkAction *action, gpointer data)
 {
@@ -839,7 +839,7 @@ static void layout_menu_image_last_cb(GtkAction *action, gpointer data)
  *-----------------------------------------------------------------------------
  * edit menu
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void layout_menu_edit_cb(GtkAction *action, gpointer data)
 {
@@ -1001,7 +1001,7 @@ void layout_recent_add_path(const gchar *path)
  *-----------------------------------------------------------------------------
  * menu
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 #define CB G_CALLBACK
 
@@ -1055,7 +1055,7 @@ static GtkActionEntry menu_entries[] = {
   { "Editor7",		NULL,		"editor7",		NULL,		NULL,	CB(layout_menu_edit_cb) },
   { "Editor8",		NULL,		"editor8",		NULL,		NULL,	CB(layout_menu_edit_cb) },
   { "Editor9",		NULL,		"editor9",		NULL,		NULL,	CB(layout_menu_edit_cb) },
-  
+
   { "RotateCW",		NULL,	N_("_Rotate clockwise"),	"bracketright",	NULL,	CB(layout_menu_alter_90_cb) },
   { "RotateCCW",	NULL,	N_("Rotate _counterclockwise"),	"bracketleft",	NULL,	CB(layout_menu_alter_90cc_cb) },
   { "Rotate180",	NULL,		N_("Rotate 1_80"),	"<shift>R",	NULL,	CB(layout_menu_alter_180_cb) },
@@ -1113,7 +1113,7 @@ static GtkActionEntry menu_entries[] = {
 
 static GtkToggleActionEntry menu_toggle_entries[] = {
   { "Thumbnails",	NULL,		N_("_Thumbnails"),	"T",		NULL,	CB(layout_menu_thumb_cb) },
-  { "ShowMarks",        NULL,		N_("Show _Marks"),	"M",		NULL,	CB(layout_menu_marks_cb) },  
+  { "ShowMarks",        NULL,		N_("Show _Marks"),	"M",		NULL,	CB(layout_menu_marks_cb) },
   { "FloatTools",	NULL,		N_("_Float file list"),	"L",		NULL,	CB(layout_menu_float_cb) },
   { "HideToolbar",	NULL,		N_("Hide tool_bar"),	NULL,		NULL,	CB(layout_menu_toolbar_cb) },
   { "SBarKeywords",	NULL,		N_("_Keywords"),	"<control>K",	NULL,	CB(layout_menu_bar_info_cb) },
@@ -1315,7 +1315,7 @@ static void layout_actions_setup_marks(LayoutWindow *lw)
 				"<ui>"
 				"  <menubar name='MainMenu'>"
 				"    <menu action='SelectMenu'>");
-	
+
 	for (mark = 1; mark <= FILEDATA_MARKS_SIZE; mark++)
 		{
 		layout_actions_setup_mark(lw, mark, "Mark%d", 		_("Mark _%d"), NULL, NULL);
@@ -1423,7 +1423,7 @@ GtkWidget *layout_actions_menu_bar(LayoutWindow *lw)
  *-----------------------------------------------------------------------------
  * toolbar
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void layout_button_thumb_cb(GtkWidget *widget, gpointer data)
 {
@@ -1658,7 +1658,7 @@ static GList *layout_bar_info_list_cb(gpointer data)
 static void layout_bar_info_new(LayoutWindow *lw)
 {
 	if (!lw->utility_box) return;
-                                                                                                                    
+
 	lw->bar_info = bar_info_new(layout_image_get_fd(lw), FALSE, lw->utility_box);
 	bar_info_set_selection_func(lw->bar_info, layout_bar_info_list_cb, lw);
 	bar_info_selection(lw->bar_info, layout_selection_count(lw, NULL) - 1);
@@ -1670,7 +1670,7 @@ static void layout_bar_info_new(LayoutWindow *lw)
 	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->bar_info, FALSE, FALSE, 0);
 	gtk_widget_show(lw->bar_info);
 }
-                                                                                                                    
+
 static void layout_bar_info_close(LayoutWindow *lw)
 {
 	if (lw->bar_info)
@@ -1752,7 +1752,7 @@ static void layout_bar_exif_new(LayoutWindow *lw)
 			 G_CALLBACK(layout_bar_exif_destroyed), lw);
 	g_signal_connect(G_OBJECT(lw->bar_exif), "size_allocate",
 			 G_CALLBACK(layout_bar_exif_sized), lw);
-        lw->bar_exif_enabled = TRUE;
+	lw->bar_exif_enabled = TRUE;
 
 	if (lw->bar_exif_size < 1) lw->bar_exif_size = SIDEBAR_WIDTH;
 	gtk_widget_set_size_request(lw->bar_exif, lw->bar_exif_size, -1);
@@ -1768,7 +1768,7 @@ static void layout_bar_exif_close(LayoutWindow *lw)
 		bar_exif_close(lw->bar_exif);
 		lw->bar_exif = NULL;
 		}
-        lw->bar_exif_enabled = FALSE;
+	lw->bar_exif_enabled = FALSE;
 }
 
 void layout_bar_exif_toggle(LayoutWindow *lw)

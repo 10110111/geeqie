@@ -189,7 +189,7 @@ static void pixbuf_copy_block_rotate(guchar *src, gint src_row_stride, gint x, g
 			if (bytes_per_pixel == 4) *(dp) = *(sp++);	/* a */
 			}
 		}
-	
+
 }
 
 static void pixbuf_copy_block(guchar *src, gint src_row_stride, gint w, gint h,
@@ -221,15 +221,15 @@ GdkPixbuf *pixbuf_copy_rotate_90(GdkPixbuf *src, gint counter_clockwise)
 	gint sw, sh, srs;
 	gint dw, dh, drs;
 	guchar *s_pix;
-        guchar *d_pix;
+	guchar *d_pix;
 #if 0
 	guchar *sp;
-        guchar *dp;
+	guchar *dp;
 #endif
 	gint i, j;
 	gint a;
 	GdkPixbuf *buffer;
-        guchar *b_pix;
+	guchar *b_pix;
 	gint brs;
 	gint w, h;
 
@@ -323,9 +323,9 @@ GdkPixbuf *pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
 	gint w, h, srs;
 	gint drs;
 	guchar *s_pix;
-        guchar *d_pix;
+	guchar *d_pix;
 	guchar *sp;
-        guchar *dp;
+	guchar *dp;
 	gint i, j;
 	gint a;
 
@@ -415,7 +415,7 @@ void pixbuf_draw_rect_fill(GdkPixbuf *pb,
 	prs = gdk_pixbuf_get_rowstride(pb);
 	p_pix = gdk_pixbuf_get_pixels(pb);
 
-        for (i = 0; i < h; i++)
+	for (i = 0; i < h; i++)
 		{
 		pp = p_pix + (y + i) * prs + (x * (p_alpha ? 4 : 3));
 		for (j = 0; j < w; j++)
@@ -468,7 +468,7 @@ void pixbuf_set_rect_fill(GdkPixbuf *pb,
 	prs = gdk_pixbuf_get_rowstride(pb);
 	p_pix = gdk_pixbuf_get_pixels(pb);
 
-        for (i = 0; i < h; i++)
+	for (i = 0; i < h; i++)
 		{
 		pp = p_pix + (y + i) * prs + (x * (p_alpha ? 4 : 3));
 		for (j = 0; j < w; j++)
@@ -504,13 +504,13 @@ void pixbuf_pixel_set(GdkPixbuf *pb, gint x, gint y, gint r, gint g, gint b, gin
 	guchar *p;
 
 	if (x < 0 || x >= gdk_pixbuf_get_width(pb) ||
-            y < 0 || y >= gdk_pixbuf_get_height(pb)) return;
+	    y < 0 || y >= gdk_pixbuf_get_height(pb)) return;
 
 	buf = gdk_pixbuf_get_pixels(pb);
 	has_alpha = gdk_pixbuf_get_has_alpha(pb);
 	rowstride = gdk_pixbuf_get_rowstride(pb);
 
-        p = buf + (y * rowstride) + (x * (has_alpha ? 4 : 3));
+	p = buf + (y * rowstride) + (x * (has_alpha ? 4 : 3));
 	*p = r; p++;
 	*p = g; p++;
 	*p = b; p++;
@@ -1018,7 +1018,7 @@ void pixbuf_draw_line(GdkPixbuf *pb,
 
 static void pixbuf_draw_fade_linear(guchar *p_pix, gint prs, gint p_alpha,
 				    gint s, gint vertical, gint border,
-			 	    gint x1, gint y1, gint x2, gint y2,
+				    gint x1, gint y1, gint x2, gint y2,
 				    guint8 r, guint8 g, guint8 b, guint8 a)
 {
 	guchar *pp;
@@ -1047,7 +1047,7 @@ static void pixbuf_draw_fade_linear(guchar *p_pix, gint prs, gint p_alpha,
 
 static void pixbuf_draw_fade_radius(guchar *p_pix, gint prs, gint p_alpha,
 				    gint sx, gint sy, gint border,
-			 	    gint x1, gint y1, gint x2, gint y2,
+				    gint x1, gint y1, gint x2, gint y2,
 				    guint8 r, guint8 g, guint8 b, guint8 a)
 {
 	guchar *pp;
@@ -1211,7 +1211,7 @@ void pixbuf_desaturate_rect(GdkPixbuf *pb,
 	prs = gdk_pixbuf_get_rowstride(pb);
 	p_pix = gdk_pixbuf_get_pixels(pb);
 
-        for (i = 0; i < h; i++)
+	for (i = 0; i < h; i++)
 		{
 		pp = p_pix + (y + i) * prs + (x * (p_alpha ? 4 : 3));
 		for (j = 0; j < w; j++)

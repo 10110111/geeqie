@@ -181,7 +181,7 @@ void image_sim_alternate_processing(ImageSimilarityData *sd)
 #endif
 
 	if (!alternate_enabled) return;
-	
+
 	image_sim_channel_norm(sd->avg_r, sizeof(sd->avg_r));
 	image_sim_channel_norm(sd->avg_g, sizeof(sd->avg_g));
 	image_sim_channel_norm(sd->avg_b, sizeof(sd->avg_b));
@@ -194,7 +194,7 @@ void image_sim_alternate_processing(ImageSimilarityData *sd)
 	for (i = 0; i < sizeof(sd->avg_r); i++)
 		{
 		guint8 n;
-		
+
 		n = (guint8)((gint)(sd->avg_r[i] + sd->avg_g[i] + sd->avg_b[i]) / 3);
 		sd->avg_r[i] = sd->avg_g[i] = sd->avg_b[i] = n;
 		}

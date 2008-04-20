@@ -443,13 +443,13 @@ struct _LayoutWindow
 	ImageWindow *image;
 
 	ImageWindow *split_images[MAX_SPLIT_IMAGES];
-        ImageSplitMode split_mode;
+	ImageSplitMode split_mode;
 	gint active_split_image;
 
-        GtkWidget *split_image_widget;
-	
+	GtkWidget *split_image_widget;
+
 	gint connect_zoom, connect_scroll;
-	
+
 	/* tools window (float) */
 
 	GtkWidget *tools;
@@ -466,7 +466,7 @@ struct _LayoutWindow
 	GtkWidget *thumb_button;
 	gint thumbs_enabled;
 	gint marks_enabled;
-    
+
 	/* dir view */
 
 	LayoutLocation dir_location;
@@ -557,7 +557,7 @@ struct _ViewDir
 
 	void (*dnd_drop_update_func)(ViewDir *vd);
 	void (*dnd_drop_leave_func)(ViewDir *vd);
-	
+
 	LayoutWindow *layout;
 
 	GtkWidget *popup;
@@ -593,7 +593,7 @@ struct _ViewFileList
 	gint thumbs_enabled;
 	gint marks_enabled;
 	gint active_mark;
-    
+
 	/* thumb updates */
 	gint thumbs_running;
 	gint thumbs_count;
@@ -649,7 +649,7 @@ struct _ViewFileIcon
 	gint sync_idle_id;
 
 	/* thumbs */
-	
+
 	gint thumbs_running;
 	GList *thumbs_list;
 	gint thumbs_count;
@@ -756,7 +756,7 @@ struct _ConfOptions
 	/* file ops */
 	struct {
 		gint enable_in_place_rename;
-		
+
 		gint confirm_delete;
 		gint enable_delete_key;
 		gint safe_delete_enable;
@@ -850,7 +850,7 @@ struct _ConfOptions
 
 		gint view_as_icons;
 		DirViewType dir_view_type;
-		
+
 		gint show_thumbnails;
 		gint show_marks;
 

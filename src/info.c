@@ -566,7 +566,7 @@ static void info_notebook_reordered_cb(GtkNotebook *notebook, GtkWidget *child, 
 				t->pos = pos;
 				break;
 				}
-			}	
+			}
 	}
 }
 

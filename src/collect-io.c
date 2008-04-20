@@ -90,7 +90,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 	if (!path && !cd->path) return FALSE;
 
 	if (!path) path = cd->path;
-	
+
 	if (debug) printf("collection load: append=%d flush=%d only_geometry=%d path=%s\n",
 			  append, flush, only_geometry, path);
 
@@ -128,7 +128,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 				limit_failures = FALSE;
 				}
 			else if (strncmp(p, "#geometry:", 10 ) == 0 &&
-			         scan_geometry(p + 10, &cd->window_x, &cd->window_y, &cd->window_w, &cd->window_h))
+				 scan_geometry(p + 10, &cd->window_x, &cd->window_y, &cd->window_w, &cd->window_h))
 				{
 				has_geometry_header = TRUE;
 				cd->window_read = TRUE;
@@ -150,10 +150,10 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 		if (buf)
 			{
 			gint valid;
-			
+
 			if (!flush)
 				changed |= collect_manager_process_action(entry, &buf);
-			
+
 			valid = (buf[0] == '/' && collection_add_check(cd, file_data_new_simple(buf), FALSE, TRUE));
 			if (debug && !valid) printf("collection invalid file: %s\n", buf);
 			g_free(buf);
@@ -175,7 +175,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 		}
 
 	if (debug) printf("collection files: total = %d fail = %d official=%d gqview=%d geometry=%d\n",
-			  total, fail, has_official_header, has_gqview_header, has_geometry_header); 
+			  total, fail, has_official_header, has_gqview_header, has_geometry_header);
 
 	fclose(f);
 	if (only_geometry) return has_geometry_header;
@@ -192,13 +192,13 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 		}
 
 	cd->list = collection_list_sort(cd->list, cd->sort_method);
-	
+
 	if (!flush && changed && success)
 		collection_save_private(cd, path);
-		
+
 	if (!flush)
 		collect_manager_entry_reset(entry);
-	
+
 	if (!append) cd->changed = FALSE;
 
 	return success;
@@ -545,7 +545,7 @@ static CollectManagerEntry *collect_manager_get_entry(const gchar *path)
 
 		entry = work->data;
 		work = work->next;
-		if (strcmp(entry->path, path) == 0) 
+		if (strcmp(entry->path, path) == 0)
 			{
 			return entry;
 			}
@@ -558,9 +558,9 @@ static void collect_manager_entry_add_action(CollectManagerEntry *entry, Collect
 {
 
 	CollectManagerAction *orig_action;
-	
-	entry->empty = FALSE; 
-	
+
+	entry->empty = FALSE;
+
 	if (action->oldpath == NULL)
 		{
 		/* add file */
@@ -568,7 +568,7 @@ static void collect_manager_entry_add_action(CollectManagerEntry *entry, Collect
 			{
 			return;
 			}
-		
+
 		orig_action = g_hash_table_lookup(entry->newpath_hash, action->newpath);
 		if (orig_action)
 			{
@@ -588,7 +588,7 @@ static void collect_manager_entry_add_action(CollectManagerEntry *entry, Collect
 		{
 		/* new action with the same file */
 		CollectManagerAction *new_action = collect_manager_action_new(orig_action->oldpath, action->newpath, action->type);
-		
+
 		if (new_action->oldpath)
 			{
 			g_hash_table_steal(entry->oldpath_hash, orig_action->oldpath);
@@ -599,11 +599,11 @@ static void collect_manager_entry_add_action(CollectManagerEntry *entry, Collect
 			GList *work = g_list_find(entry->add_list, orig_action);
 			work->data = new_action;
 			}
-		
+
 		g_hash_table_steal(entry->newpath_hash, orig_action->newpath);
-		if (new_action->newpath) 
+		if (new_action->newpath)
 			{
-			g_hash_table_insert(entry->newpath_hash, new_action->newpath, new_action); 
+			g_hash_table_insert(entry->newpath_hash, new_action->newpath, new_action);
 			}
 		collect_manager_action_unref(orig_action);
 		return;
@@ -618,11 +618,11 @@ static void collect_manager_entry_add_action(CollectManagerEntry *entry, Collect
 			action->oldpath, entry->path);
 		return;
 		}
-	
+
 	g_hash_table_insert(entry->oldpath_hash, action->oldpath, action);
 	if (action->newpath)
 		{
-		g_hash_table_insert(entry->newpath_hash, action->newpath, action); 
+		g_hash_table_insert(entry->newpath_hash, action->newpath, action);
 		}
 	collect_manager_action_ref(action);
 }
@@ -631,7 +631,7 @@ static gint collect_manager_process_action(CollectManagerEntry *entry, gchar **p
 {
 	gchar *path = *path_ptr;
 	CollectManagerAction *action;
-	
+
 	if (path == NULL)
 		{
 		/* get new files */
@@ -647,9 +647,9 @@ static gint collect_manager_process_action(CollectManagerEntry *entry, gchar **p
 		*path_ptr = path;
 		return (path != NULL);
 		}
-		
+
 	action = g_hash_table_lookup(entry->oldpath_hash, path);
-	
+
 	if (action)
 		{
 		g_free(path);

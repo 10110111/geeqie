@@ -59,7 +59,7 @@ void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 	gint x, y, w, h;
 	gint grid;
 	gint column;
-	
+
 	while ((pi = pan_item_find_by_key(pw, PAN_ITEM_NONE, "day_bubble"))) pan_item_remove(pw, pi);
 
 	if (!pi_day || pi_day->type != PAN_ITEM_BOX ||
@@ -324,13 +324,13 @@ void pan_calendar_compute(PanWindow *pw, const gchar *path, gint *width, gint *h
 			char fake_path[20];
 
 			dt = pan_date_to_time(year, month, day);
-			
-			/* 
-			 * Create a FileData entry that represents the given day. 
+
+			/*
+			 * Create a FileData entry that represents the given day.
 			 * It does not correspond to any real file
-			 */ 
-			  
-			g_snprintf(fake_path, sizeof(fake_path), "//%04d-%02d-%02d", year, month, day); 
+			 */
+
+			g_snprintf(fake_path, sizeof(fake_path), "//%04d-%02d-%02d", year, month, day);
 			fd = file_data_new_simple(fake_path);
 			fd->date = dt;
 			pi_day = pan_item_box_new(pw, fd, x, y, PAN_CAL_DAY_WIDTH, PAN_CAL_DAY_HEIGHT,

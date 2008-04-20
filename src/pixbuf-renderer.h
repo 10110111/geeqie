@@ -123,7 +123,7 @@ struct _PixbufRenderer
 
 	PixbufRendererTileRequestFunc func_tile_request;
 	PixbufRendererTileDisposeFunc func_tile_dispose;
-	
+
 	gpointer func_tile_data;
 
 	PixbufRendererPostProcessFunc func_post_process;
@@ -148,7 +148,7 @@ struct _PixbufRenderer
 	GdkPixmap *overlay_buffer;
 
 	GdkPixbuf *spare_tile;
-	
+
 	gint orientation;
 };
 

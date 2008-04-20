@@ -410,7 +410,7 @@ static void pan_window_dispose_tile_cb(PixbufRenderer *pr, gint x, gint y,
  *-----------------------------------------------------------------------------
  * misc
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void pan_window_message(PanWindow *pw, const gchar *text)
 {
@@ -686,7 +686,7 @@ void pan_cache_sync_date(PanWindow *pw, GList *list)
 		while (needle)
 			{
 			PanCacheData *pc;
-			
+
 			pc = needle->data;
 			if (pc->fd == fd)
 				{
@@ -1444,7 +1444,7 @@ static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 		gchar *text;
 
 		if (ExifUIList[i].current == EXIF_UI_OFF) continue;
-		
+
 		text = exif_get_data_as_text(exif, ExifUIList[i].key);
 		text = bar_exif_validate_text(text);
 		if (ExifUIList[i].current == EXIF_UI_IFSET && (!text || !*text))
@@ -2009,7 +2009,7 @@ static void pan_search_toggle_visible(PanWindow *pw, gint enable)
  *-----------------------------------------------------------------------------
  * main window
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void button_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer data)
 {
@@ -2369,7 +2369,7 @@ static void pan_window_new_real(const gchar *path)
 	gtk_window_set_geometry_hints(GTK_WINDOW(pw->window), NULL, &geometry, GDK_HINT_MIN_SIZE);
 
 	gtk_window_set_resizable(GTK_WINDOW(pw->window), TRUE);
-        gtk_container_set_border_width(GTK_CONTAINER(pw->window), 0);
+	gtk_container_set_border_width(GTK_CONTAINER(pw->window), 0);
 
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(pw->window), vbox);
@@ -2597,7 +2597,7 @@ static gint pan_warning(const gchar *path)
 	group = pref_box_new(group, TRUE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 
 	ct_button = pref_checkbox_new_int(group, _("Cache thumbnails"),
-			  		  options->thumbnails.enable_caching, &options->thumbnails.enable_caching);
+					  options->thumbnails.enable_caching, &options->thumbnails.enable_caching);
 	button = pref_checkbox_new_int(group, _("Use shared thumbnail cache"),
 				       options->thumbnails.spec_standard, &options->thumbnails.spec_standard);
 	pref_checkbox_link_sensitivity(ct_button, button);
@@ -2822,8 +2822,8 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 	menu_item_add_check(menu, _("_Show Exif information"), pw->info_includes_exif,
 			    G_CALLBACK(pan_info_toggle_exif_cb), pw);
 	item = menu_item_add(menu, _("Show im_age"), NULL, NULL);
-        submenu = gtk_menu_new();
-        gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
+	submenu = gtk_menu_new();
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 
 	item = menu_item_add_check(submenu, _("_None"), (pw->info_image_size == PAN_IMAGE_SIZE_THUMB_NONE),
 				   G_CALLBACK(pan_info_toggle_image_cb), pw);
@@ -2848,8 +2848,8 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 	item = menu_item_add_check(submenu, _("1:10 (10%)"), (pw->info_image_size == PAN_IMAGE_SIZE_10),
 				   G_CALLBACK(pan_info_toggle_image_cb), pw);
 	g_object_set_data(G_OBJECT(item), INFO_IMAGE_SIZE_KEY, GINT_TO_POINTER(PAN_IMAGE_SIZE_10));
-	
-	
+
+
 
 	menu_item_add_divider(menu);
 
@@ -2957,7 +2957,7 @@ static void pan_window_dnd_init(PanWindow *pw)
 	gtk_drag_dest_set(widget,
 			  GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_DROP,
 			  dnd_file_drop_types, dnd_file_drop_types_count,
-                          GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
+			  GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
 	g_signal_connect(G_OBJECT(widget), "drag_data_received",
 			 G_CALLBACK(pan_window_get_dnd_data), pw);
 }

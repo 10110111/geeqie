@@ -33,7 +33,7 @@ static GtkWidget *real_submenu_add_alter(GtkWidget *menu, GCallback func, gpoint
  *-----------------------------------------------------------------------------
  * menu utils
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static GtkWidget *add_menu_item(GtkWidget *menu, gchar *label, GtkAccelGroup *accel_group,
 				guint accel_key, guint accel_mods, GCallback func, gpointer data)
@@ -60,7 +60,7 @@ gpointer submenu_item_get_data(GtkWidget *menu)
  *-----------------------------------------------------------------------------
  * edit menu
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void add_edit_items(GtkWidget *menu, GCallback func, GtkAccelGroup *accel_grp)
 {
@@ -232,7 +232,7 @@ static void submenu_add_alter_item(GtkWidget *menu, GCallback func, AlterType ty
 		{
 		add_menu_item(menu, alter_type_get_text(type), accel_group,
 			      accel_key, accel_mods, func, GINT_TO_POINTER((gint)type));
-		
+
 		}
 	else
 		{

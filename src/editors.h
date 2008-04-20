@@ -17,11 +17,11 @@ enum {
 	EDITOR_KEEP_FS            = 0x00000001,
 	EDITOR_VERBOSE            = 0x00000002,
 	EDITOR_VERBOSE_MULTI      = 0x00000004,
-	
+
 	EDITOR_DEST               = 0x00000100,
 	EDITOR_FOR_EACH           = 0x00000200,
 	EDITOR_SINGLE_COMMAND     = 0x00000400,
-	
+
 	EDITOR_ERROR_EMPTY        = 0x00020000,
 	EDITOR_ERROR_SYNTAX       = 0x00040000,
 	EDITOR_ERROR_INCOMPATIBLE = 0x00080000,
@@ -31,7 +31,7 @@ enum {
 	EDITOR_ERROR_SKIPPED      = 0x00800000,
 
 	EDITOR_ERROR_MASK         = 0xffff0000
-	
+
 };
 
 /* return values from callback function */
@@ -39,12 +39,12 @@ enum {
 	EDITOR_CB_CONTINUE = 0, /* continue multiple editor execution on remaining files*/
 	EDITOR_CB_SKIP,         /* skip the remaining files */
 	EDITOR_CB_SUSPEND       /* suspend execution, one of editor_resume or editor_skip
-	                           must be called later */
+				   must be called later */
 };
 
 
 /*
-Callback is called even on skipped files, with the EDITOR_ERROR_SKIPPED flag set. 
+Callback is called even on skipped files, with the EDITOR_ERROR_SKIPPED flag set.
 It is a good place to call file_data_change_info_free().
 
 ed - pointer that can be used for editor_resume/editor_skip or NULL if all files were already processed

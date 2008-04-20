@@ -165,8 +165,8 @@ GtkWidget *sizer_new(GtkWidget *parent, GtkWidget *bounding_widget,
 		     SizerPositionType position);
 
 void sizer_set_limits(GtkWidget *sizer,
-                      gint hsize_min, gint hsize_max,
-                      gint vsize_min, gint vsize_max);
+		      gint hsize_min, gint hsize_max,
+		      gint vsize_min, gint vsize_max);
 
 
 void pref_list_int_set(const gchar *group, const gchar *key, gint value);
@@ -181,8 +181,8 @@ gint pref_list_string_get(const gchar *group, const gchar *key, const gchar **re
 
 void pref_color_button_set_cb(GtkWidget *widget, gpointer data);
 GtkWidget *pref_color_button_new(GtkWidget *parent_box,
-			 	 const gchar *title, const GdkColor *color,
-			 	 GCallback func, gpointer data);
+				 const gchar *title, const GdkColor *color,
+				 GCallback func, gpointer data);
 
 
 #endif

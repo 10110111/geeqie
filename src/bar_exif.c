@@ -58,8 +58,8 @@ ExifUI ExifUIList[]={
  */
 
 static void table_add_line_custom(GtkWidget *table, gint x, gint y,
-                                  const gchar *text1, const gchar *text2,
-                                  GtkWidget **label1, GtkWidget **label2)
+				  const gchar *text1, const gchar *text2,
+				  GtkWidget **label1, GtkWidget **label2)
 {
 	GtkWidget *label;
 	gchar *buf;
@@ -203,7 +203,7 @@ static void bar_exif_update(ExifBar *eb)
 			text = bar_exif_validate_text(text);
 			if (ExifUIList[i].current == EXIF_UI_IFSET
 			    && (!text || !*text))
-			    	{
+				{
 				gtk_widget_hide(eb->labels[i]);
 				gtk_widget_hide(eb->keys[i]);
 				continue;
@@ -260,7 +260,7 @@ static void bar_exif_update(ExifBar *eb)
 		GtkListStore *store;
 		GtkTreeIter iter;
 		ExifItem *item;
-		
+
 		store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(eb->listview)));
 		gtk_list_store_clear(store);
 
@@ -622,7 +622,7 @@ GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget 
 		const gchar *text;
 
 		text = exif_get_description_by_key(ExifUIList[i].key);
-		eb->labels[i] = table_add_line(table, 0, i, text, NULL, 
+		eb->labels[i] = table_add_line(table, 0, i, text, NULL,
 		      &eb->keys[i]);
 		}
 

@@ -36,7 +36,7 @@
  *-----------------------------------------------------------------------------
  * generic dialog
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 void generic_dialog_close(GenericDialog *gd)
 {
@@ -112,7 +112,7 @@ static void generic_dialog_show_cb(GtkWidget *widget, gpointer data)
 {
 	GenericDialog *gd = data;
 	if (gd->cancel_button)
-	       	{
+		{
 		gtk_box_reorder_child(GTK_BOX(gd->hbox), gd->cancel_button, -1);
 		}
 
@@ -262,7 +262,7 @@ static void generic_dialog_setup(GenericDialog *gd,
 	gtk_widget_show(gd->hbox);
 
 	if (gd->cancel_cb)
-	       	{
+		{
 		gd->cancel_button = generic_dialog_add_button(gd, GTK_STOCK_CANCEL, NULL, gd->cancel_cb, TRUE);
 		}
 	else
@@ -295,7 +295,7 @@ GenericDialog *generic_dialog_new(const gchar *title,
  *-----------------------------------------------------------------------------
  * simple warning dialog
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void warning_dialog_ok_cb(GenericDialog *gd, gpointer data)
 {
@@ -321,7 +321,7 @@ GenericDialog *warning_dialog(const gchar *heading, const gchar *text,
  *-----------------------------------------------------------------------------
  * generic file ops dialog routines
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 void file_dialog_close(FileDialog *fdlg)
 {

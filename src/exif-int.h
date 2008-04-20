@@ -3,7 +3,7 @@
  *  (C) 2006 John Ellis
  *
  *  Authors:
- *    Support for Exif file format, originally written by Eric Swalens.    
+ *    Support for Exif file format, originally written by Eric Swalens.
  *    Modified by Quy Tonthat
  *    Reimplemented with generic data storage by John Ellis
  *

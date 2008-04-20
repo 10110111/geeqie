@@ -34,7 +34,7 @@
  *-----------------------------------------------------------------------------
  * generic file information and manipulation routines (public)
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 
 
@@ -226,28 +226,28 @@ gint isfile(const gchar *s)
 gint isdir(const gchar *s)
 {
 	struct stat st;
-   
+
 	return (stat_utf8(s ,&st) && S_ISDIR(st.st_mode));
 }
 
 gint islink(const gchar *s)
 {
 	struct stat st;
-   
+
 	return (lstat_utf8(s ,&st) && S_ISLNK(st.st_mode));
 }
 
 gint64 filesize(const gchar *s)
 {
 	struct stat st;
-   
+
 	if (!stat_utf8(s, &st)) return 0;
 	return (gint)st.st_size;
 }
 
 time_t filetime(const gchar *s)
 {
-        struct stat st;
+	struct stat st;
 
 	if (!stat_utf8(s, &st)) return 0;
 	return st.st_mtime;
@@ -611,13 +611,13 @@ GList *path_list_copy(GList *list)
 	while (work)
 		{
 		gchar *path;
- 
+
 		path = work->data;
 		work = work->next;
- 
+
 		new_list = g_list_prepend(new_list, g_strdup(path));
 		}
- 
+
 	return g_list_reverse(new_list);
 }
 

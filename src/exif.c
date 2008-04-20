@@ -3,7 +3,7 @@
  *  (C) 2006 John Ellis
  *
  *  Authors:
- *    Support for Exif file format, originally written by Eric Swalens.    
+ *    Support for Exif file format, originally written by Eric Swalens.
  *    Modified by Quy Tonthat
  *
  *    Reimplemented with generic data storage by John Ellis (Nov 2003)
@@ -64,7 +64,7 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <math.h>
- 
+
 #include <glib.h>
 
 #include "intl.h"
@@ -317,8 +317,8 @@ static ExifTextList ExifSubjectRangeList[] = {
 	EXIF_TEXT_LIST_END
 };
 
-/* 
-Tag names should match to exiv2 keys, http://www.exiv2.org/metadata.html 
+/*
+Tag names should match to exiv2 keys, http://www.exiv2.org/metadata.html
 Tags that don't match are not supported by exiv2 and should not be used anywhere in the code
 */
 
@@ -570,7 +570,7 @@ char *exif_item_get_description(ExifItem *item)
 
 const char *exif_item_get_format_name(ExifItem *item, gint brief)
 {
-	if (!item || !item->marker) return NULL; 
+	if (!item || !item->marker) return NULL;
 	return (brief) ? ExifFormatList[item->format].short_name : ExifFormatList[item->format].description;
 }
 
@@ -1011,8 +1011,8 @@ gint exif_tiff_parse(ExifData *exif, unsigned char *tiff, guint size, ExifMarker
        FF:   1 byte standard marker identifier
        TT:   1 byte data type
        SSSS: 2 bytes in Motorola byte alignment for length of the data.
-             This value includes these 2 bytes in the count, making actual
-             length of NN... == SSSS - 2.
+	     This value includes these 2 bytes in the count, making actual
+	     length of NN... == SSSS - 2.
        NNN.: the data in this segment
  */
 
@@ -1179,7 +1179,7 @@ static gint exif_jpeg_parse(ExifData *exif,
 
 ExifItem *exif_get_first_item(ExifData *exif)
 {
-	if (exif->items) 
+	if (exif->items)
 		{
 		ExifItem *ret = (ExifItem *)exif->items->data;
 		exif->current = exif->items->next;
@@ -1191,7 +1191,7 @@ ExifItem *exif_get_first_item(ExifData *exif)
 
 ExifItem *exif_get_next_item(ExifData *exif)
 {
-	if (exif->current) 
+	if (exif->current)
 		{
 		ExifItem *ret = (ExifItem *)exif->current->data;
 		exif->current = exif->current->next;
@@ -1358,7 +1358,7 @@ ExifItem *exif_get_item(ExifData *exif, const gchar *key)
 		item = work->data;
 		work = work->next;
 		if (item->marker->key && strcmp(key, item->marker->key) == 0) return item;
-                }
+		}
 	return NULL;
 }
 
@@ -1646,5 +1646,5 @@ int exif_item_set_string(ExifItem *item, const char *str)
 
 
 
-#endif 
+#endif
 /* not HAVE_EXIV2 */

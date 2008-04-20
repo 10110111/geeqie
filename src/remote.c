@@ -254,11 +254,11 @@ RemoteConnection *remote_client_open(const gchar *path)
 	sun_path_len = MIN(strlen(path) + 1, UNIX_PATH_MAX);
 	strncpy(addr.sun_path, path, sun_path_len);
 	if (connect(fd, &addr, sizeof(addr)) == -1)
-        	{
+		{
 		if (debug) printf("error connecting to socket: %s\n", strerror(errno));
-	        close(fd);
-        	return NULL;
-	        }
+		close(fd);
+		return NULL;
+		}
 
 	rc = g_new0(RemoteConnection, 1);
 	rc->server = FALSE;
@@ -266,7 +266,7 @@ RemoteConnection *remote_client_open(const gchar *path)
 	rc->path = g_strdup(path);
 
 	/* this might fix the freezes on freebsd, solaris, etc. - completely untested */
-	remote_client_send(rc, "\n"); 
+	remote_client_send(rc, "\n");
 
 	return rc;
 }

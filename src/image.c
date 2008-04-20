@@ -75,7 +75,7 @@ static void image_drag_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer da
 	gint width, height;
 
 	pixbuf_renderer_get_scaled_size(pr, &width, &height);
-	
+
 	if (imd->func_drag)
 		{
 		imd->func_drag(imd, event->button, event->time,
@@ -120,8 +120,8 @@ static void image_complete_util(ImageWindow *imd, gint preload)
 	if (imd->il && image_get_pixbuf(imd) != image_loader_get_pixbuf(imd->il)) return;
 
 	if (debug) printf("%s image load completed \"%s\" (%s)\n", get_exec_time(),
-			  (preload) ? (imd->read_ahead_fd ? imd->read_ahead_fd->path : "null") : 
-			              (imd->image_fd ? imd->image_fd->path : "null"),
+			  (preload) ? (imd->read_ahead_fd ? imd->read_ahead_fd->path : "null") :
+				      (imd->image_fd ? imd->image_fd->path : "null"),
 			  (preload) ? "preload" : "current");
 
 	if (!preload) imd->completed = TRUE;
@@ -350,8 +350,8 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 		input_type = COLOR_PROFILE_FILE;
 		input_file = options->color_profile.input_file[n];
 		}
-	else if (imd->color_profile_input >= COLOR_PROFILE_SRGB && 
-	         imd->color_profile_input <  COLOR_PROFILE_FILE)
+	else if (imd->color_profile_input >= COLOR_PROFILE_SRGB &&
+		 imd->color_profile_input <  COLOR_PROFILE_FILE)
 		{
 		input_type = imd->color_profile_input;
 		input_file = NULL;
@@ -388,8 +388,8 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 
 			/* ColorSpace == 1 specifies sRGB per EXIF 2.2 */
 			if (!exif_get_integer(exif, "Exif.Photo.ColorSpace", &cs)) cs = 0;
-			interop_index = exif_get_data_as_text(exif, "Exif.Iop.InteroperabilityIndex");			
-			
+			interop_index = exif_get_data_as_text(exif, "Exif.Iop.InteroperabilityIndex");
+
 			if (cs == 1)
 				{
 				input_type = COLOR_PROFILE_SRGB;
@@ -406,7 +406,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 
 				if (debug) printf("Found EXIF ColorSpace of AdobeRGB\n");
 				}
-				
+
 			g_free(interop_index);
 			}
 		}
@@ -417,7 +417,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 		guint data_len;
 		if (debug) printf("Found embedded color profile\n");
 		imd->color_profile_from_image = COLOR_PROFILE_MEM;
-		
+
 		data = (unsigned char *) exif_item_get_data(item, &data_len);
 
 		cm = color_man_new_embedded(run_in_bg ? imd : NULL, NULL,
@@ -425,7 +425,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 					    screen_type, screen_file);
 		g_free(data);
 		}
-	else 
+	else
 		{
 		cm = color_man_new(run_in_bg ? imd : NULL, NULL,
 				   input_type, input_file,
@@ -441,7 +441,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 			}
 
 		imd->cm = (gpointer)cm;
-#if 0		
+#if 0
 		if (run_in_bg) color_man_start_bg(imd->cm, image_post_process_color_cb, imd);
 #endif
 		return TRUE;
@@ -472,7 +472,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 			{
 			gint rotate = TRUE;
 
-			/* see http://jpegclub.org/exif_orientation.html 
+			/* see http://jpegclub.org/exif_orientation.html
 			  1        2       3      4         5            6           7          8
 
 			888888  888888      88  88      8888888888  88                  88  8888888888
@@ -543,7 +543,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 static void image_post_process_tile_color_cb(PixbufRenderer *pr, GdkPixbuf **pixbuf, gint x, gint y, gint w, gint h, gpointer data)
 {
 	ImageWindow *imd = (ImageWindow *)data;
-        if (imd->cm) color_man_correct_region(imd->cm, *pixbuf, x, y, w, h);
+	if (imd->cm) color_man_correct_region(imd->cm, *pixbuf, x, y, w, h);
 	if (imd->desaturate) pixbuf_desaturate_rect(*pixbuf, x, y, w, h);
 
 }
@@ -557,11 +557,11 @@ void image_alter(ImageWindow *imd, AlterType type)
 	const static gint mirror[]       = {1,   2, 1, 4, 3, 6, 5, 8, 7};
 	const static gint flip[]         = {1,   4, 3, 2, 1, 8, 7, 6, 5};
 
-	
+
 	if (!imd || !imd->pr) return;
-	
+
 	if (imd->orientation < 1 || imd->orientation > 8) imd->orientation = 1;
-	
+
 	switch (type)
 		{
 		case ALTER_ROTATE_90:
@@ -603,7 +603,7 @@ void image_alter(ImageWindow *imd, AlterType type)
 		}
 
 	pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, imd->orientation);
-	if (imd->cm || imd->desaturate) 
+	if (imd->cm || imd->desaturate)
 		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, image_post_process_tile_color_cb, (gpointer) imd, (imd->cm != NULL) );
 	else
 		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, NULL, NULL, TRUE);
@@ -704,7 +704,7 @@ static void image_post_buffer_set(ImageWindow *imd, FileData *fd, GdkPixbuf *pix
 	if (fd && pixbuf)
 		{
 		imd->prev_fd = file_data_ref(fd);
-			
+
 		g_object_ref(pixbuf);
 		imd->prev_pixbuf = pixbuf;
 		imd->prev_color_row = color_row;
@@ -1101,7 +1101,7 @@ static void image_focus_paint(ImageWindow *imd, gint has_focus, GdkRectangle *ar
 		gtk_paint_focus (widget->style, widget->window, GTK_STATE_ACTIVE,
 				 area, widget, "image_window",
 				 widget->allocation.x, widget->allocation.y,
-				 widget->allocation.width - 1, widget->allocation.height - 1);	
+				 widget->allocation.width - 1, widget->allocation.height - 1);
 		}
 	else
 		{
@@ -1167,7 +1167,7 @@ static gint image_scroll_cb(GtkWidget *widget, GdkEventScroll *event, gpointer d
 
 	if (imd->func_scroll &&
 	    event && event->type == GDK_SCROLL)
-	        {
+		{
 		imd->func_scroll(imd, event->direction, event->time,
 				 event->x, event->y, event->state, imd->data_scroll);
 		return TRUE;
@@ -1310,13 +1310,13 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
 		imd->orientation = imd->image_fd->user_orientation;
 	else if (options->image.exif_rotate_enable)
 		read_exif_for_orientation = TRUE;
-	
+
 	if (read_exif_for_color_profile || read_exif_for_orientation)
 		{
 		gint orientation;
 
 		exif = exif_read_fd(imd->image_fd, read_exif_for_color_profile);
-		
+
 		if (exif && read_exif_for_orientation)
 			{
 			if (exif_get_integer(exif, "Exif.Image.Orientation", &orientation))
@@ -1328,7 +1328,7 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
 		}
 
 	pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, NULL, NULL, FALSE);
-	if (imd->cm) 
+	if (imd->cm)
 		{
 		color_man_free(imd->cm);
 		imd->cm = NULL;
@@ -1345,12 +1345,12 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
 //			image_state_set(imd, IMAGE_STATE_COLOR_ADJ);
 			}
 		}
-		
+
 	exif_free(exif);
 
-	if (imd->cm || imd->desaturate) 
+	if (imd->cm || imd->desaturate)
 		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, image_post_process_tile_color_cb, (gpointer) imd, (imd->cm != NULL) );
-		
+
 	image_state_set(imd, IMAGE_STATE_IMAGE);
 }
 
@@ -1464,13 +1464,13 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	imd->completed = source->completed;
 	imd->state = source->state;
 	source->state = IMAGE_STATE_NONE;
-	
+
 	imd->orientation = source->orientation;
 	imd->desaturate = source->desaturate;
 
 	pixbuf_renderer_move(PIXBUF_RENDERER(imd->pr), PIXBUF_RENDERER(source->pr));
 
-	if (imd->cm || imd->desaturate) 
+	if (imd->cm || imd->desaturate)
 		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, image_post_process_tile_color_cb, (gpointer) imd, (imd->cm != NULL) );
 	else
 		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, NULL, NULL, TRUE);
@@ -1680,7 +1680,7 @@ static gint image_auto_refresh_cb(gpointer data)
 {
 	ImageWindow *imd = data;
 	time_t newtime;
-	
+
 	if (!imd || !image_get_pixbuf(imd) ||
 	    imd->il || !imd->image_fd ||
 	    !options->update_on_time_change) return TRUE;
@@ -1846,7 +1846,7 @@ void image_select(ImageWindow *imd, gboolean select)
 {
 	if (imd->has_frame)
 		{
-		if (select) 
+		if (select)
 			{
 			gtk_widget_set_state(imd->widget, GTK_STATE_SELECTED);
 			gtk_widget_set_state(imd->pr, GTK_STATE_NORMAL); /* do not propagate */
@@ -1862,7 +1862,7 @@ void image_set_selectable(ImageWindow *imd, gboolean selectable)
 {
 	if (imd->has_frame)
 		{
-		if (selectable) 
+		if (selectable)
 			{
 			gtk_frame_set_shadow_type(GTK_FRAME(imd->frame), GTK_SHADOW_NONE);
 			gtk_container_set_border_width (GTK_CONTAINER (imd->frame), 4);
@@ -1948,16 +1948,16 @@ static void image_destroy_cb(GtkObject *widget, gpointer data)
 gboolean selectable_frame_expose_cb (GtkWidget *widget, GdkEventExpose *event, gpointer data)
 {
 	gtk_paint_flat_box(widget->style,
-                           widget->window,
-                    	   widget->state,
+			   widget->window,
+			   widget->state,
 			   GTK_FRAME (widget)->shadow_type,
-                           NULL,
-                           widget,
-                           NULL,
-		    	   widget->allocation.x + 3, widget->allocation.y + 3, 
-		    	   widget->allocation.width - 6, widget->allocation.height - 6); 
- 
- 
+			   NULL,
+			   widget,
+			   NULL,
+			   widget->allocation.x + 3, widget->allocation.y + 3,
+			   widget->allocation.width - 6, widget->allocation.height - 6);
+
+
 	return FALSE;
 }
 
@@ -1965,11 +1965,11 @@ gboolean selectable_frame_expose_cb (GtkWidget *widget, GdkEventExpose *event, g
 void image_set_frame(ImageWindow *imd, gboolean frame)
 {
 	frame = !!frame;
-	
+
 	if (frame == imd->has_frame) return;
-	
+
 	gtk_widget_hide(imd->pr);
-	
+
 	if (frame)
 		{
 		imd->frame = gtk_frame_new(NULL);
@@ -1977,8 +1977,8 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 		if (imd->has_frame != -1) gtk_container_remove(GTK_CONTAINER(imd->widget), imd->pr);
 		gtk_container_add(GTK_CONTAINER(imd->frame), imd->pr);
 		gtk_widget_unref(imd->pr);
-		g_signal_connect (G_OBJECT (imd->frame), "expose_event",  
-                    G_CALLBACK (selectable_frame_expose_cb), NULL);
+		g_signal_connect (G_OBJECT (imd->frame), "expose_event",
+		    G_CALLBACK (selectable_frame_expose_cb), NULL);
 
 		GTK_WIDGET_SET_FLAGS(imd->frame, GTK_CAN_FOCUS);
 		g_signal_connect(G_OBJECT(imd->frame), "focus_in_event",
@@ -1996,7 +1996,7 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 	else
 		{
 		gtk_widget_ref(imd->pr);
-		if (imd->frame) 
+		if (imd->frame)
 			{
 			gtk_container_remove(GTK_CONTAINER(imd->frame), imd->pr);
 			gtk_widget_destroy(imd->frame);
@@ -2007,7 +2007,7 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 		}
 
 	gtk_widget_show(imd->pr);
-	
+
 	imd->has_frame = frame;
 }
 
@@ -2054,14 +2054,14 @@ ImageWindow *image_new(gint frame)
 
 	imd->func_button = NULL;
 	imd->func_scroll = NULL;
-	
+
 	imd->orientation = 1;
 
 	imd->pr = GTK_WIDGET(pixbuf_renderer_new());
 
 	image_options_set(imd);
 
-	
+
 	imd->widget = gtk_vbox_new(0, 0);
 
 	image_set_frame(imd, frame);

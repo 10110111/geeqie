@@ -267,7 +267,7 @@ secure_close(SecureSaveInfo *ssi)
 		 * more..).  */
 #ifndef NO_UNIX_SOFTLINKS
 		if (g_lstat(ssi->file_name, &st) == 0)
-#else	
+#else
 		if (g_stat(ssi->file_name, &st) == 0)
 #endif
 			{

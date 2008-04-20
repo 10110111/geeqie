@@ -383,7 +383,7 @@ static void collection_table_select_region_util(CollectTable *ct, CollectInfo *s
 			{
 			info = work->data;
 			collection_table_select_util(ct, info, select);
-			
+
 			if (work->data != end)
 				work = work->next;
 			else
@@ -680,7 +680,7 @@ static void collection_table_popup_remove_cb(GtkWidget *widget, gpointer data)
 	GList *list;
 
 	if (!ct->click_info) return;
-                                                                                                                               
+
 	if (INFO_SELECTED(ct->click_info))
 		{
 		list = g_list_copy(ct->selection);
@@ -812,7 +812,7 @@ static GtkWidget *collection_table_popup_menu(CollectTable *ct, gint over_icon)
 	menu_item_add_stock(menu, _("_Find duplicates..."), GTK_STOCK_FIND,
 			G_CALLBACK(collection_table_popup_find_dupes_cb), ct);
 	menu_item_add_stock_sensitive(menu, _("Print..."), GTK_STOCK_PRINT, over_icon,
-			G_CALLBACK(collection_table_popup_print_cb), ct);		
+			G_CALLBACK(collection_table_popup_print_cb), ct);
 
 	return menu;
 }
@@ -2010,7 +2010,7 @@ static void collection_table_dnd_get(GtkWidget *widget, GdkDragContext *context,
 	if (!ct->click_info) return;
 
 	selected = INFO_SELECTED(ct->click_info);
-	
+
 	switch (info)
 		{
 		case TARGET_APP_COLLECTION_MEMBER:
@@ -2177,7 +2177,7 @@ static void collection_table_dnd_leave(GtkWidget *widget, GdkDragContext *contex
 
 	collection_table_scroll(ct, FALSE);
 }
- 
+
 static void collection_table_dnd_init(CollectTable *ct)
 {
 	gtk_drag_source_set(ct->listview, GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,

@@ -435,7 +435,7 @@ void fullscreen_prefs_list_free(GList *list)
 		ScreenData *sd = work->data;
 		work = work->next;
 
-		g_free(sd->description);	
+		g_free(sd->description);
 		g_free(sd);
 		}
 

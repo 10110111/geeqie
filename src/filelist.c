@@ -53,7 +53,7 @@ static FilterEntry *filter_entry_new(const gchar *key, const gchar *description,
 	fe->extensions = g_strdup(extensions);
 	fe->enabled = enabled;
 	fe->file_class = file_class;
-	
+
 	return fe;
 }
 
@@ -174,7 +174,7 @@ void filter_add_defaults(void)
 		gchar **extensions;
 		GString *filter = NULL;
 		gint i;
-		
+
 		format = work->data;
 		work = work->next;
 
@@ -221,7 +221,7 @@ void filter_add_defaults(void)
 	filter_add_if_missing("ico", "Icon file", ".ico;.cur", FORMAT_CLASS_IMAGE, FALSE);
 	filter_add_if_missing("ras", "Raster", ".ras", FORMAT_CLASS_IMAGE, FALSE);
 	filter_add_if_missing("svg", "Scalable Vector Graphics", ".svg", FORMAT_CLASS_IMAGE, FALSE);
-	
+
 	/* non-image files that might be desirable to show */
 	filter_add_if_missing("xmp", "XMP sidecar", ".xmp", FORMAT_CLASS_META, TRUE);
 
@@ -299,7 +299,7 @@ void filter_rebuild(void)
 
 			ext = filter_to_list(fe->extensions);
 			if (ext) extension_list = g_list_concat(extension_list, ext);
-			
+
 			if (fe->file_class >= 0 && fe->file_class < FILE_FORMAT_CLASSES)
 				{
 				ext = filter_to_list(fe->extensions);
@@ -374,7 +374,7 @@ void filter_write_list(SecureSaveInfo *ssi)
 		{
 		FilterEntry *fe = work->data;
 		work = work->next;
-		
+
 		gchar *extensions = escquote_value(fe->extensions);
 		gchar *description = escquote_value(fe->description);
 
@@ -402,9 +402,9 @@ void filter_parse(const gchar *text)
 
 	ext = quoted_value(p, &p);
 	desc = quoted_value(p, &p);
-	
+
 	file_class = strtol(p, NULL, 10);
-	
+
 	if (file_class < 0 || file_class >= FILE_FORMAT_CLASSES) file_class = FORMAT_CLASS_UNKNOWN;
 
 	if (key && key[0] == '#')
@@ -484,7 +484,7 @@ void sidecar_ext_parse(const gchar *text, gint quoted)
 		}
 	g_list_free(sidecar_ext_list);
 	sidecar_ext_list = NULL;
-	
+
 	if (quoted)
 		value = quoted_value(text, NULL);
 	else
@@ -493,7 +493,7 @@ void sidecar_ext_parse(const gchar *text, gint quoted)
 	if (value == NULL) return;
 
 	sidecar_ext_list = filter_to_list(value);
-	
+
 	g_free(value);
 }
 
@@ -710,13 +710,13 @@ static void file_data_set_path(FileData *fd, const gchar *path)
 
 	if (strcmp(fd->name, "..") == 0)
 		{
-		gchar *dir = remove_level_from_path(path); 
+		gchar *dir = remove_level_from_path(path);
 		g_free(fd->path);
 		fd->path = remove_level_from_path(dir);
 		g_free(dir);
 		fd->name = "..";
 		fd->extension = fd->name + 2;
-		return;		
+		return;
 		}
 	else if (strcmp(fd->name, ".") == 0)
 		{
@@ -728,7 +728,7 @@ static void file_data_set_path(FileData *fd, const gchar *path)
 		}
 
 	fd->extension = extension_from_path(fd->path);
-	if (fd->extension == NULL) 
+	if (fd->extension == NULL)
 		fd->extension = fd->name + strlen(fd->name);
 }
 
@@ -754,7 +754,7 @@ static void file_data_check_changed_files(FileData *fd, struct stat *st)
 			{
 			file_data_disconnect_sidecar_file(fd, sfd);
 			}
-			
+
 		file_data_check_changed_files(sfd, &st);
 		work = work->next;
 		}
@@ -767,10 +767,10 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	FileData *fd;
 
 	if (debug) printf("file_data_new: '%s' %d\n", path_utf8, check_sidecars);
-	
+
 	if (!file_data_pool)
 		file_data_pool = g_hash_table_new (g_str_hash, g_str_equal);
-	
+
 	fd = g_hash_table_lookup(file_data_pool, path_utf8);
 	if (fd)
 		{
@@ -778,11 +778,11 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 		if (debug) printf("file_data_pool hit: '%s'\n", fd->path);
 		return file_data_ref(fd);
 		}
-	
+
 	fd = g_new0(FileData, 1);
 
 	file_data_set_path(fd, path_utf8);
-	
+
 	fd->original_path = g_strdup(path_utf8);
 	fd->size = st->st_size;
 	fd->date = st->st_mtime;
@@ -790,10 +790,10 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	fd->sidecar_files = NULL;
 	fd->ref = 1;
 	fd->magick = 0x12345678;
-	
+
 	g_hash_table_insert(file_data_pool, fd->original_path, fd);
-	
-	if (check_sidecars && sidecar_file_priority(fd->extension)) 
+
+	if (check_sidecars && sidecar_file_priority(fd->extension))
 		file_data_check_sidecars(fd);
 	return fd;
 }
@@ -804,19 +804,19 @@ static void file_data_check_sidecars(FileData *fd)
 	GString *fname = g_string_new_len(fd->path, base_len);
 	FileData *parent_fd = NULL;
 	GList *work = sidecar_ext_get_list();
-	while (work) 
+	while (work)
 		{
 		/* check for possible sidecar files;
 		   the sidecar files created here are referenced only via fd->sidecar_files or fd->parent,
 		   they have fd->ref set to 0 and file_data unref must chack and free them all together
 		   (using fd->ref would cause loops and leaks)
 		*/
-		   
+
 		FileData *new_fd;
-		
+
 		gchar *ext = work->data;
 		work = work->next;
-		
+
 		if (strcmp(ext, fd->extension) == 0)
 			{
 			new_fd = fd; /* processing the original file */
@@ -826,14 +826,14 @@ static void file_data_check_sidecars(FileData *fd)
 			struct stat nst;
 			g_string_truncate(fname, base_len);
 			g_string_append(fname, ext);
-		
+
 			if (!stat_utf8(fname->str, &nst))
 				continue;
-				 
+
 			new_fd = file_data_new(fname->str, &nst, FALSE);
 			new_fd->ref--; /* do not use ref here */
 			}
-			
+
 		if (!parent_fd)
 			parent_fd = new_fd; /* parent is the one with the highest prio, found first */
 		else
@@ -877,7 +877,7 @@ FileData *file_data_merge_sidecar_files(FileData *target, FileData *source)
 {
 	GList *work;
 	file_data_add_sidecar_file(target, source);
-	
+
 	work = source->sidecar_files;
 	while (work)
 		{
@@ -889,7 +889,7 @@ FileData *file_data_merge_sidecar_files(FileData *target, FileData *source)
 	g_list_free(source->sidecar_files);
 	source->sidecar_files = NULL;
 
-	target->sidecar_files = filelist_sort(target->sidecar_files, SORT_NAME, TRUE); 	
+	target->sidecar_files = filelist_sort(target->sidecar_files, SORT_NAME, TRUE);
 	return target;
 }
 
@@ -909,7 +909,7 @@ static void file_data_free(FileData *fd)
 {
 	g_assert(fd->magick == 0x12345678);
 	g_assert(fd->ref == 0);
-	
+
 	g_hash_table_remove(file_data_pool, fd->original_path);
 
 	g_free(fd->path);
@@ -919,7 +919,7 @@ static void file_data_free(FileData *fd)
 
 	g_assert(fd->sidecar_files == NULL); /* sidecar files must be freed before calling this */
 
-	file_data_change_info_free(NULL, fd);	
+	file_data_change_info_free(NULL, fd);
 	g_free(fd);
 }
 
@@ -927,19 +927,19 @@ void file_data_unref(FileData *fd)
 {
 	if (fd == NULL) return;
 	g_assert(fd->magick == 0x12345678);
-	
+
 	fd->ref--;
 	if (debug) printf("file_data_unref (%d): '%s'\n", fd->ref, fd->path);
 
 	if (fd->ref == 0)
 		{
 		FileData *parent = fd->parent ? fd->parent : fd;
-		
+
 		GList *work;
-	
+
 		if (parent->ref > 0)
 			return;
-		
+
 		work = parent->sidecar_files;
 		while (work)
 			{
@@ -948,11 +948,11 @@ void file_data_unref(FileData *fd)
 				return;
 			work = work->next;
 			}
-		
+
 		/* none of parent/children is referenced, we can free everything */
-		
+
 		if (debug) printf("file_data_unref: deleting '%s', parent '%s'\n", fd->path, parent->path);
-		
+
 		work = parent->sidecar_files;
 		while (work)
 			{
@@ -960,12 +960,12 @@ void file_data_unref(FileData *fd)
 			file_data_free(sfd);
 			work = work->next;
 			}
-		
+
 		g_list_free(parent->sidecar_files);
 		parent->sidecar_files = NULL;
-		
+
 		file_data_free(parent);
-		
+
 		}
 }
 
@@ -993,7 +993,7 @@ gint file_data_compare_name_without_ext(FileData *fd1, FileData *fd2)
 
 	if (len1 < len2) return -1;
 	if (len1 > len2) return 1;
-	
+
 	return strncmp(fd1->name, fd2->name, len1);
 }
 
@@ -1014,9 +1014,9 @@ gboolean file_data_add_change_info(FileData *fd, FileDataChangeType type, const 
 {
 
 	FileDataChangeInfo *fdci;
-	
+
 	if (fd->change) return FALSE;
-	
+
 	fdci = g_new0(FileDataChangeInfo, 1);
 
 	fdci->type = type;
@@ -1025,10 +1025,10 @@ gboolean file_data_add_change_info(FileData *fd, FileDataChangeType type, const 
 		fdci->source = g_strdup(src);
 	else
 		fdci->source = g_strdup(fd->path);
-		
+
 	if (dest)
 		fdci->dest = g_strdup(dest);
-		
+
 	fd->change = fdci;
 	return TRUE;
 }
@@ -1037,22 +1037,22 @@ void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd)
 {
 	if (!fdci && fd)
 		fdci = fd->change;
-	
+
 	if (!fdci)
 		return;
-	
+
 	g_free(fdci->source);
 	g_free(fdci->dest);
-	
+
 	g_free(fdci);
-	
+
 	if (fd)
 		fd->change = NULL;
 }
 
 
 
-	
+
 /*
  *-----------------------------------------------------------------------------
  * sidecar file info struct
@@ -1068,15 +1068,15 @@ static gint sidecar_file_priority(const gchar *path)
 	GList *work;
 	if (extension == NULL)
 		return 0;
-	
+
 	work = sidecar_ext_get_list();
-	
+
 	while (work) {
 		gchar *ext = work->data;
 		work = work->next;
 		if (strcmp(extension, ext) == 0) return i;
 		i++;
-	}	
+	}
 	return 0;
 }
 
@@ -1182,13 +1182,13 @@ static GList *filelist_filter_out_sidecars(GList *flist)
 {
 	GList *work = flist;
 	GList *flist_filtered = NULL;
-	
+
 	while (work)
 		{
 		FileData *fd = work->data;
 		work = work->next;
 		if (fd->parent) /* remove fd's that are children */
-			file_data_unref(fd);						
+			file_data_unref(fd);
 		else
 			flist_filtered = g_list_prepend(flist_filtered, fd);
 		}
@@ -1230,7 +1230,7 @@ static gint filelist_read_real(const gchar *path, GList **files, GList **dirs, g
 		if (options->file_filter.show_hidden_files || !ishidden(name))
 			{
 			gchar *filepath = g_strconcat(pathl, "/", name, NULL);
-			if ((follow_symlinks ? 
+			if ((follow_symlinks ?
 				stat(filepath, &ent_sbuf) :
 				lstat(filepath, &ent_sbuf)) >= 0)
 				{
@@ -1304,13 +1304,13 @@ GList *filelist_copy(GList *list)
 	while (work)
 		{
 		FileData *fd;
- 
+
 		fd = work->data;
 		work = work->next;
- 
+
 		new_list = g_list_prepend(new_list, file_data_ref(fd));
 		}
- 
+
 	return g_list_reverse(new_list);
 }
 
@@ -1323,13 +1323,13 @@ GList *filelist_from_path_list(GList *list)
 	while (work)
 		{
 		gchar *path;
- 
+
 		path = work->data;
 		work = work->next;
- 
+
 		new_list = g_list_prepend(new_list, file_data_new_simple(path));
 		}
- 
+
 	return g_list_reverse(new_list);
 }
 
@@ -1342,13 +1342,13 @@ GList *filelist_to_path_list(GList *list)
 	while (work)
 		{
 		FileData *fd;
- 
+
 		fd = work->data;
 		work = work->next;
- 
+
 		new_list = g_list_prepend(new_list, g_strdup(fd->path));
 		}
- 
+
 	return g_list_reverse(new_list);
 }
 

@@ -174,15 +174,15 @@ static gint cache_maintain_home_cb(gpointer data)
 
 			just_done = TRUE;
 			still_have_a_file = FALSE;
-	
+
 			work = list;
 			while (work)
 				{
 				gchar *path_buf = work->data;
 				gchar *dot;
-	
+
 				dot = extension_find_dot(path_buf);
-	
+
 				if (dot) *dot = '\0';
 				if ((!cm->metadata && cm->clear) ||
 				    (strlen(path_buf) > base_length && !isfile(path_buf + base_length)) )
@@ -205,7 +205,7 @@ static gint cache_maintain_home_cb(gpointer data)
 	if (cm->list && g_list_find(cm->done_list, cm->list->data) != NULL)
 		{
 		/* check if the dir is empty */
-		
+
 		if (cm->list->data == path && just_done)
 			{
 			if (!still_have_a_file && !dlist && cm->list->next && !rmdir_utf8(path))
@@ -338,7 +338,7 @@ void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
 	cm->spinner = spinner_new(NULL, SPINNER_SPEED);
 	gtk_box_pack_start(GTK_BOX(hbox), cm->spinner, FALSE, FALSE, 0);
 	gtk_widget_show(cm->spinner);
-	
+
 	gtk_widget_show(cm->gd->dialog);
 
 	cm->idle_id = g_idle_add(cache_maintain_home_cb, cm);
@@ -538,7 +538,7 @@ void cache_maint_moved(FileData *fd)
 		{
 		gchar *buf;
 		gchar *d;
-                                                                                                                    
+
 		buf = cache_find_location(CACHE_TYPE_METADATA, src);
 		d = cache_get_location(CACHE_TYPE_METADATA, dest, TRUE, NULL);
 		cache_file_move(buf, d);
@@ -592,7 +592,7 @@ void cache_maint_copied(FileData *fd)
 	if (cache_ensure_dir_exists(dest_base, mode))
 		{
 		gchar *path;
-                                                                                                                    
+
 		path = cache_get_location(CACHE_TYPE_METADATA, fd->change->dest, TRUE, NULL);
 		if (!copy_file(src_cache, path))
 			{
@@ -793,7 +793,7 @@ static void cache_manager_render_start_cb(GenericDialog *fd, gpointer data)
 	if (!isdir(path))
 		{
 		warning_dialog(_("Invalid folder"),
-			        _("The specified folder can not be found."),
+				_("The specified folder can not be found."),
 			       GTK_STOCK_DIALOG_WARNING, cd->gd->dialog);
 		}
 	else
@@ -974,7 +974,7 @@ static void cache_manager_standard_clean_valid_cb(const gchar *path, gint valid,
 
 		next_path = cd->list->data;
 		cd->list = g_list_remove(cd->list, next_path);
-	
+
 		cd->tl = thumb_loader_std_thumb_file_validate(next_path, cd->days,
 							      cache_manager_standard_clean_valid_cb, cd);
 		g_free(next_path);

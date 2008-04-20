@@ -98,7 +98,7 @@ gint collection_info_load_thumb(CollectInfo *ci)
 
 	printf("collection_info_load_thumb not implemented!\n(because an instant thumb loader not implemented)");
 	return FALSE;
-#if 0	
+#if 0
 	if (create_thumbnail(ci->fd->path, &ci->pixmap, &ci->mask) < 0) return FALSE;
 
 	if (ci->pixmap) gdk_pixmap_ref(ci->pixmap);
@@ -372,7 +372,7 @@ void collection_free(CollectionData *cd)
 	collection_list = g_list_remove(collection_list, cd);
 
 	g_hash_table_destroy(cd->existence);
-	
+
 	g_free(cd->path);
 	g_free(cd->name);
 
@@ -900,7 +900,7 @@ static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gp
 				if (!cw->cd->path)
 					{
 					collection_dialog_save_as(NULL, cw->cd);
-			                }
+					}
 				else if (!collection_save(cw->cd, cw->cd->path))
 					{
 					printf("failed saving to collection path: %s\n", cw->cd->path);
@@ -1070,7 +1070,7 @@ static void collection_close_save_cb(GenericDialog *gd, gpointer data)
 	generic_dialog_close(gd);
 
 	if (!cw->cd->path)
-                {
+		{
 		collection_dialog_save_close(NULL, cw->cd);
 		return;
 		}

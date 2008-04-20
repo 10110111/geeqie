@@ -99,30 +99,30 @@ static void tab_completion_free_list(TabCompData *td)
 
 static void tab_completion_read_dir(TabCompData *td, const gchar *path)
 {
-        DIR *dp;
-        struct dirent *dir;
-        GList *list = NULL;
+	DIR *dp;
+	struct dirent *dir;
+	GList *list = NULL;
 	gchar *pathl;
 
 	tab_completion_free_list(td);
 
 	pathl = path_from_utf8(path);
-        dp = opendir(pathl);
+	dp = opendir(pathl);
 	g_free(pathl);
 	if (!dp)
-                {
-                /* dir not found */
-                return;
-                }
-        while ((dir = readdir(dp)) != NULL)
-                {
+		{
+		/* dir not found */
+		return;
+		}
+	while ((dir = readdir(dp)) != NULL)
+		{
 		gchar *name = dir->d_name;
 		if (strcmp(name, ".") != 0 && strcmp(name, "..") != 0)
 			{
 			list = g_list_prepend(list, path_to_utf8(name));
 			}
 		}
-        closedir(dp);
+	closedir(dp);
 
 	td->dir_path = g_strdup(path);
 	td->file_list = list;
@@ -204,7 +204,7 @@ static gint tab_completion_popup_key_press(GtkWidget *widget, GdkEventKey *event
 		gtk_menu_popdown(GTK_MENU(widget));
 		/* doing this does not emit the "selection done" signal, unref it ourselves */
 		gtk_widget_unref(widget);
-			
+
 		return TRUE;
 		}
 
@@ -344,7 +344,7 @@ static void tab_completion_popup_list(TabCompData *td, GList *list)
 
 static gint simple_sort(gconstpointer a, gconstpointer b)
 {
-        return CASE_SORT((gchar *)a, (gchar *)b);
+	return CASE_SORT((gchar *)a, (gchar *)b);
 }
 
 #endif
@@ -549,7 +549,7 @@ static gint tab_completion_key_pressed(GtkWidget *widget, GdkEventKey *event, gp
 
 	switch (event->keyval)
 		{
-                case GDK_Tab:
+		case GDK_Tab:
 			if (!(event->state & GDK_CONTROL_MASK))
 				{
 				if (tab_completion_do(td))

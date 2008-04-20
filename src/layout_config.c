@@ -134,9 +134,9 @@ static gint layout_config_list_order_get(LayoutConfig *lc, gint n)
 	GtkTreeIter iter;
 	gint valid;
 	gint c = 0;
-                                                                                                                               
+
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(lc->listview));
-                                                                                                                               
+
 	valid = gtk_tree_model_get_iter_first(store, &iter);
 	while (valid)
 		{
@@ -198,7 +198,7 @@ static void layout_config_widget_click_cb(GtkWidget *widget, gpointer data)
 	LayoutConfig *lc;
 
 	lc = g_object_get_data(G_OBJECT(widget), "layout_config");
-	
+
 	if (lc) lc->style = GPOINTER_TO_INT(data);
 }
 
@@ -259,7 +259,7 @@ static GtkWidget *layout_config_widget(GtkWidget *group, GtkWidget *box, gint st
 	gtk_widget_show(table);
 
 	gtk_widget_show(group);
-	
+
 	return group;
 }
 
@@ -356,12 +356,12 @@ GtkWidget *layout_config_new(void)
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter, COLUMN_TEXT, _(layout_titles[i]), COLUMN_KEY, i, -1);
 		}
-	
+
 	gtk_container_add(GTK_CONTAINER(scrolled), lc->listview);
 	gtk_widget_show(lc->listview);
 
 	pref_label_new(lc->box, _("(drag to change order)"));
-	
+
 	return lc->box;
 }
 

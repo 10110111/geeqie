@@ -22,38 +22,38 @@ ConfOptions *init_options(ConfOptions *options)
 	if (!options) options = g_new0(ConfOptions, 1);
 
 	options->collections.rectangular_selection = FALSE;
-	
+
 	options->color_profile.enabled = FALSE;
 	options->color_profile.input_type = 0;
 	options->color_profile.screen_file = NULL;
 	options->color_profile.screen_type = 0;
 	options->color_profile.use_image = TRUE;
-	
+
 	options->duplicates_similarity_threshold = 99;
 	options->enable_metadata_dirs = FALSE;
-	
+
 	options->file_filter.disable = FALSE;
 	options->file_filter.show_dot_directory = FALSE;
 	options->file_filter.show_hidden_files = FALSE;
-	
+
 	options->file_ops.confirm_delete = TRUE;
 	options->file_ops.enable_delete_key = TRUE;
 	options->file_ops.enable_in_place_rename = TRUE;
 	options->file_ops.safe_delete_enable = FALSE;
 	options->file_ops.safe_delete_folder_maxsize = 128;
 	options->file_ops.safe_delete_path = NULL;
-	
+
 	options->file_sort.ascending = TRUE;
 	options->file_sort.case_sensitive = FALSE;
 	options->file_sort.method = SORT_NAME;
-	
+
 	options->fullscreen.above = FALSE;
 	options->fullscreen.clean_flip = FALSE;
 	options->fullscreen.disable_saver = TRUE;
 	options->fullscreen.info = NULL;
 	options->fullscreen.screen = -1;
 	options->fullscreen.show_info = TRUE;
-	
+
 	memset(&options->image.border_color, 0, sizeof(options->image.border_color));
 	options->image.dither_quality = (gint)GDK_RGB_DITHER_NORMAL;
 	options->image.enable_read_ahead = TRUE;
@@ -97,21 +97,21 @@ ConfOptions *init_options(ConfOptions *options)
 	options->layout.tools_hidden = FALSE;
 	options->layout.tools_restore_state = FALSE;
 	options->layout.view_as_icons = FALSE;
-	
+
 	options->lazy_image_sync = FALSE;
 	options->mousewheel_scrolls = FALSE;
 	options->open_recent_list_maxsize = 10;
 	options->place_dialogs_under_mouse = FALSE;
 	options->progressive_key_scrolling = FALSE;
 	options->show_icon_names = TRUE;
-	
+
 	options->slideshow.delay = 150;
 	options->slideshow.random = FALSE;
 	options->slideshow.repeat = FALSE;
-	
+
 	options->startup_path_enable = FALSE;
 	options->startup_path = NULL;
-	
+
 	options->thumbnails.cache_into_dirs = FALSE;
 	options->thumbnails.enable_caching = TRUE;
 	options->thumbnails.fast = TRUE;
@@ -120,7 +120,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->thumbnails.quality = (gint)GDK_INTERP_TILES;
 	options->thumbnails.spec_standard = TRUE;
 	options->thumbnails.use_xvpics = TRUE;
-	
+
 	options->tree_descend_subdirs = FALSE;
 	options->update_on_time_change = TRUE;
 

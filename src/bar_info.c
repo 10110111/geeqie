@@ -239,7 +239,7 @@ static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 		ExifItem *item = exif_get_item(exif, comment_key);
 		*comment = exif_item_get_string(item, 0);
 		}
-	
+
 	if (keywords)
 		{
 		ExifItem *item = exif_get_item(exif, keyword_key);
@@ -247,19 +247,19 @@ static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 		int i = 0;
 		GList *work = NULL;
 		char *kw = NULL;
-		
+
 		while (i < count && (kw = exif_item_get_string(item, i++)))
 			{
 			work = g_list_append(work, (gpointer) kw);
 			}
-		
+
 		*keywords = work;
 		}
-		
+
 	exif_free(exif);
-	
+
 	success = *comment || *keywords;
-	
+
 	return success;
 }
 
@@ -271,13 +271,13 @@ static gint comment_xmp_write(FileData *fd, GList *keywords, const gchar *commen
 	if (!exif) return FALSE;
 
 	ExifItem *item = exif_get_item(exif, comment_key);
-	
-	if (item && !(comment && comment[0])) 
+
+	if (item && !(comment && comment[0]))
 		{
-		exif_item_delete(exif, item); 
+		exif_item_delete(exif, item);
 		item = NULL;
 		}
-		
+
 	if (!item && comment && comment[0]) item = exif_add_item(exif, comment_key);
 	if (item) exif_item_set_string(item, comment);
 
@@ -287,24 +287,24 @@ static gint comment_xmp_write(FileData *fd, GList *keywords, const gchar *commen
 		{
 		exif_item_delete(exif, item);
 		}
-	
+
 	if (work)
 		{
 		item = exif_add_item(exif, keyword_key);
-		
+
 		while (work)
 			{
 			gchar *kw = (gchar *) work->data;
 			work = work->next;
-		
+
 			exif_item_set_string(item, kw);
 			}
 		}
-	
+
 	success = exif_write(exif);
-		
+
 	exif_free(exif);
-	
+
 	return success;
 }
 
@@ -334,12 +334,12 @@ gint comment_read(FileData *fd, GList **keywords, gchar **comment)
 
 	res1 = comment_xmp_read(fd, &keywords1, &comment1);
 	res2 = comment_legacy_read(fd, &keywords2, &comment2);
-        
+
 	if (!res1 && !res2)
     		{
 		return FALSE;
 		}
-	
+
 	if (keywords)
 		{
 		if (res1 && res2)
@@ -352,7 +352,7 @@ gint comment_read(FileData *fd, GList **keywords, gchar **comment)
 		if (res1) string_list_free(keywords1);
 		if (res2) string_list_free(keywords2);
 		}
-		
+
 
 	if (comment)
 		{
@@ -363,7 +363,7 @@ gint comment_read(FileData *fd, GList **keywords, gchar **comment)
 		}
 	if (res1 && (!comment || *comment != comment1)) g_free(comment1);
 	if (res2 && (!comment || *comment != comment2)) g_free(comment2);
-	
+
 	return TRUE;
 }
 
@@ -372,10 +372,10 @@ static gchar *comment_pull(GtkWidget *textview)
 {
 	GtkTextBuffer *buffer;
 	GtkTextIter start, end;
-                                                                                                                    
+
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
 	gtk_text_buffer_get_bounds(buffer, &start, &end);
-                                                                                                                    
+
 	return gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
 }
 
@@ -426,7 +426,7 @@ GList *keyword_list_pull(GtkWidget *text_widget)
 			ptr++;
 			l++;
 			}
-	
+
 		/* trim starting and ending whitespaces */
 		while (l > 0 && g_ascii_isspace(*begin)) begin++, l--;
 		while (l > 0 && g_ascii_isspace(begin[l-1])) l--;
@@ -434,7 +434,7 @@ GList *keyword_list_pull(GtkWidget *text_widget)
 		if (l > 0)
 			{
 			gchar *keyword = g_strndup(begin, l);
-			
+
 			/* only add if not already in the list */
 			if (keyword_list_find(list, keyword) == FALSE)
 				list = g_list_append(list, keyword);
@@ -1312,7 +1312,7 @@ GtkWidget *bar_info_new(FileData *fd, gint metadata_only, GtkWidget *bounding_wi
 	bar_info_selection(bd->vbox, 0);
 
 	bar_list = g_list_append(bar_list, bd);
-	
+
 	return bd->vbox;
 }
 

@@ -617,7 +617,7 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 	sd->mode = -1;
 	bar_sort_mode_sync(sd, bar_sort_mode_state);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), sd->mode);
-	
+
 	return sd->vbox;
 }
 

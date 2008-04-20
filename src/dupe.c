@@ -141,7 +141,7 @@ static void dupe_window_update_progress(DupeWindow *dw, const gchar *status, gdo
 			{
 			new_time = msec_time() - dw->setup_time;
 			}
-		
+
 		if (!force &&
 		    value != 0.0 &&
 		    dw->setup_count > 0 &&
@@ -199,7 +199,7 @@ static void dupe_window_update_progress(DupeWindow *dw, const gchar *status, gdo
 			{
 			status_text = NULL;
 			}
-		}	
+		}
 	else
 		{
 		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(dw->extra_label), 0.0);
@@ -214,7 +214,7 @@ static void widget_set_cursor(GtkWidget *widget, gint icon)
 	GdkCursor *cursor;
 
 	if (!widget->window) return;
- 
+
 	if (icon == -1)
 		{
 		cursor = NULL;
@@ -223,9 +223,9 @@ static void widget_set_cursor(GtkWidget *widget, gint icon)
 		{
 		cursor = gdk_cursor_new (icon);
 		}
- 
+
 	gdk_window_set_cursor(widget->window, cursor);
- 
+
 	if (cursor) gdk_cursor_unref(cursor);
 }
 
@@ -797,7 +797,7 @@ static void dupe_match_unlink(DupeItem *a, DupeItem *b)
 static void dupe_match_link_clear(DupeItem *parent, gint unlink_children)
 {
 	GList *work;
-                                                                                                                               
+
 	work = parent->group;
 	while (work)
 		{
@@ -985,7 +985,7 @@ static GList *dupe_match_unlink_by_rank(DupeItem *child, DupeItem *parent, GList
 				list = g_list_remove(list, orphan);
 				}
 			}
-		
+
 		rank = dupe_match_link_rank(child, parent);
 		dupe_match_link_clear(parent, TRUE);
 		dupe_match_link(child, parent, rank);
@@ -994,7 +994,7 @@ static GList *dupe_match_unlink_by_rank(DupeItem *child, DupeItem *parent, GList
 	else
 		{
 		if (debug > 1) printf("unlinking %s and %s\n", child->fd->name, parent->fd->name);
-		
+
 		dupe_match_unlink(child, parent);
 		}
 
@@ -1083,7 +1083,7 @@ static GList *dupe_match_rank_sort(GList *source_list)
 			dupe_match_rank_update(di);
 			list = g_list_prepend(list, di);
 			}
-			
+
 		work = work->next;
 		}
 
@@ -1097,7 +1097,7 @@ static void dupe_match_rank(DupeWindow *dw)
 	list = dupe_match_rank_sort(dw->list);
 
 	if (debug > 1) dupe_match_print_list(list);
-	
+
 	if (debug) printf("Similar items: %d\n", g_list_length(list));
 	list = dupe_match_group_trim(list, dw);
 	if (debug) printf("Unique groups: %d\n", g_list_length(list));
@@ -1663,7 +1663,7 @@ static void dupe_item_remove(DupeWindow *dw, DupeItem *di)
 				{
 				DupeItem *new_parent;
 				DupeMatch *dm;
-				
+
 				dm = parent->group->data;
 				new_parent = dm->di;
 				dupe_match_reparent(dw, parent, new_parent);
@@ -1813,7 +1813,7 @@ static void dupe_item_update(DupeWindow *dw, DupeItem *di)
 		dw->second_drop = second;
 		dupe_files_add(dw, NULL, NULL, fd, FALSE);
 		dw->second_drop = FALSE;
-		
+
 		file_data_unref(fd);
 */
 		dupe_check_start(dw);
@@ -1853,7 +1853,7 @@ static void dupe_item_update_fd_in_list(DupeWindow *dw, FileData *fd, GList *wor
 		{
 		DupeItem *di = work->data;
 
-		if (di->fd == fd) 
+		if (di->fd == fd)
 			dupe_item_update(dw, di);
 
 		work = work->next;
@@ -1887,7 +1887,7 @@ static GtkWidget *dupe_display_label(GtkWidget *vbox, const gchar *description, 
 	label = gtk_label_new(text);
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
 	gtk_widget_show(label);
-	
+
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 	gtk_widget_show(hbox);
 
@@ -1898,7 +1898,7 @@ static void dupe_display_stats(DupeWindow *dw, DupeItem *di)
 {
 	GenericDialog *gd;
 	gchar *buf;
-	
+
 	if (!di) return;
 
 	gd = file_util_gen_dlg("Image thumbprint debug info", GQ_WMCLASS, "thumbprint",
@@ -1926,7 +1926,7 @@ static void dupe_display_stats(DupeWindow *dw, DupeItem *di)
 		guchar *dp;
 		gint rs;
 		gint sp;
-		
+
 		pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, 32, 32);
 		rs = gdk_pixbuf_get_rowstride(pixbuf);
 		d_pix = gdk_pixbuf_get_pixels(pixbuf);
@@ -1946,10 +1946,10 @@ static void dupe_display_stats(DupeWindow *dw, DupeItem *di)
 		image = gtk_image_new_from_pixbuf(pixbuf);
 		gtk_box_pack_start(GTK_BOX(gd->vbox), image, FALSE, FALSE, 0);
 		gtk_widget_show(image);
-		
+
 		gdk_pixbuf_unref(pixbuf);
 		}
-	
+
 	gtk_widget_show(gd->dialog);
 }
 
@@ -2653,7 +2653,7 @@ static void dupe_menu_setup(DupeWindow *dw)
 /* this overrides the low default of a GtkCellRenderer from 100 to CELL_HEIGHT_OVERRIDE, something sane for our purposes */
 
 #define CELL_HEIGHT_OVERRIDE 512
-                                                                                                                               
+
 void cell_renderer_height_override(GtkCellRenderer *renderer)
 {
 	GParamSpec *spec;
@@ -2752,7 +2752,7 @@ static void dupe_listview_set_height(GtkWidget *listview, gint thumb)
 	if (!column) return;
 
 	gtk_tree_view_column_set_fixed_width(column, (thumb) ? options->thumbnails.max_width : 4);
-	
+
 	list = gtk_tree_view_column_get_cell_renderers(column);
 	if (!list) return;
 	cell = list->data;
@@ -3104,7 +3104,7 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 	dw->second_set = FALSE;
 
 	dw->window = window_new(GTK_WINDOW_TOPLEVEL, "dupe", NULL, NULL, _("Find duplicates"));
-      
+
 	geometry.min_width = 32;
 	geometry.min_height = 32;
 	geometry.base_width = DUPE_DEF_WIDTH;
@@ -3115,9 +3115,9 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 	gtk_window_set_default_size(GTK_WINDOW(dw->window), DUPE_DEF_WIDTH, DUPE_DEF_HEIGHT);
 
 	gtk_window_set_resizable(GTK_WINDOW(dw->window), TRUE);
-        gtk_container_set_border_width (GTK_CONTAINER (dw->window), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (dw->window), 0);
 
-        g_signal_connect(G_OBJECT(dw->window), "delete_event",
+	g_signal_connect(G_OBJECT(dw->window), "delete_event",
 			 G_CALLBACK(dupe_window_delete), dw);
 	g_signal_connect(G_OBJECT(dw->window), "key_press_event",
 			 G_CALLBACK(dupe_window_keypress_cb), dw);
@@ -3134,7 +3134,7 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_table_attach_defaults(GTK_TABLE(dw->table), scrolled, 0, 2, 0, 1);
-        gtk_widget_show(scrolled);
+	gtk_widget_show(scrolled);
 
 	store = gtk_list_store_new(9, G_TYPE_POINTER, G_TYPE_STRING, GDK_TYPE_PIXBUF,
 				   G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
@@ -3174,7 +3174,7 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_box_pack_start(GTK_BOX(dw->second_vbox), scrolled, TRUE, TRUE, 0);
-        gtk_widget_show(scrolled);
+	gtk_widget_show(scrolled);
 
 	store = gtk_list_store_new(2, G_TYPE_POINTER, G_TYPE_STRING);
 	dw->second_listview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
@@ -3188,7 +3188,7 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 	dupe_listview_add_column(dw, dw->second_listview, 1, _("Compare to:"), FALSE, FALSE);
 
 	gtk_container_add(GTK_CONTAINER(scrolled), dw->second_listview);
-        gtk_widget_show(dw->second_listview);
+	gtk_widget_show(dw->second_listview);
 
 	dw->second_status_label = gtk_label_new("");
 	gtk_box_pack_start(GTK_BOX(dw->second_vbox), dw->second_status_label, FALSE, FALSE, 0);
@@ -3221,8 +3221,8 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 	gtk_widget_show(button);
 
 	status_box = gtk_hbox_new(FALSE, 0);
-        gtk_box_pack_start(GTK_BOX(vbox), status_box, FALSE, FALSE, 0);
-        gtk_widget_show(status_box);
+	gtk_box_pack_start(GTK_BOX(vbox), status_box, FALSE, FALSE, 0);
+	gtk_widget_show(status_box);
 
 	frame = gtk_frame_new(NULL);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
@@ -3355,14 +3355,14 @@ static GtkWidget *dupe_confirm_dir_list(DupeWindow *dw, GList *list)
  */
 
 static GtkTargetEntry dupe_drag_types[] = {
-        { "text/uri-list", 0, TARGET_URI_LIST },
-        { "text/plain", 0, TARGET_TEXT_PLAIN }
+	{ "text/uri-list", 0, TARGET_URI_LIST },
+	{ "text/plain", 0, TARGET_TEXT_PLAIN }
 };
 static gint n_dupe_drag_types = 2;
 
 static GtkTargetEntry dupe_drop_types[] = {
-        { TARGET_APP_COLLECTION_MEMBER_STRING, 0, TARGET_APP_COLLECTION_MEMBER },
-        { "text/uri-list", 0, TARGET_URI_LIST }
+	{ TARGET_APP_COLLECTION_MEMBER_STRING, 0, TARGET_APP_COLLECTION_MEMBER },
+	{ "text/uri-list", 0, TARGET_URI_LIST }
 };
 static gint n_dupe_drop_types = 2;
 

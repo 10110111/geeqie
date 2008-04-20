@@ -23,7 +23,7 @@
  */
 
 #define HISTOGRAM_SIZE 256
- 
+
 struct _Histogram {
 	gulong histmap[HISTOGRAM_SIZE*4];
 	gint histogram_chan;
@@ -35,7 +35,7 @@ Histogram *histogram_new()
 {
 	Histogram *histogram;
 
-        histogram = g_new0(Histogram, 1);
+	histogram = g_new0(Histogram, 1);
 	histogram->histogram_chan = HCHAN_RGB;
 	histogram->histogram_logmode = 1;
 
@@ -80,23 +80,25 @@ const gchar *histogram_label(Histogram *histogram)
 	if (!histogram) return NULL;
 
 	if (histogram->histogram_logmode)
-			switch (histogram->histogram_chan) {
+			switch (histogram->histogram_chan)
+			{
 			case HCHAN_R:   t1 = _("logarithmical histogram on red"); break;
-                        case HCHAN_G:   t1 = _("logarithmical histogram on green"); break;
-                        case HCHAN_B:   t1 = _("logarithmical histogram on blue"); break;
-                        case HCHAN_VAL: t1 = _("logarithmical histogram on value"); break;
-                        case HCHAN_RGB: t1 = _("logarithmical histogram on RGB"); break;
-                        case HCHAN_MAX: t1 = _("logarithmical histogram on max value"); break;
-                        }
-                else
-                        switch (histogram->histogram_chan) {
-                        case HCHAN_R:   t1 = _("linear histogram on red"); break;
-                        case HCHAN_G:   t1 = _("linear histogram on green"); break;
-                        case HCHAN_B:   t1 = _("linear histogram on blue"); break;
-                        case HCHAN_VAL: t1 = _("linear histogram on value"); break;
-                        case HCHAN_RGB: t1 = _("linear histogram on RGB"); break;
-                        case HCHAN_MAX: t1 = _("linear histogram on max value"); break;
-                        }
+			case HCHAN_G:   t1 = _("logarithmical histogram on green"); break;
+			case HCHAN_B:   t1 = _("logarithmical histogram on blue"); break;
+			case HCHAN_VAL: t1 = _("logarithmical histogram on value"); break;
+			case HCHAN_RGB: t1 = _("logarithmical histogram on RGB"); break;
+			case HCHAN_MAX: t1 = _("logarithmical histogram on max value"); break;
+			}
+		else
+			switch (histogram->histogram_chan)
+			{
+			case HCHAN_R:   t1 = _("linear histogram on red"); break;
+			case HCHAN_G:   t1 = _("linear histogram on green"); break;
+			case HCHAN_B:   t1 = _("linear histogram on blue"); break;
+			case HCHAN_VAL: t1 = _("linear histogram on value"); break;
+			case HCHAN_RGB: t1 = _("linear histogram on RGB"); break;
+			case HCHAN_MAX: t1 = _("linear histogram on max value"); break;
+			}
 	return t1;
 }
 
@@ -183,7 +185,7 @@ gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gin
 			v[2] += histogram->histmap[ii + j + 2*HISTOGRAM_SIZE]; // b
 			v[3] += histogram->histmap[ii + j + 3*HISTOGRAM_SIZE]; // value, max
 			}
-		
+
 		for (j=0; j<4; j++)
 			{
 			gint r = rplus;
@@ -195,7 +197,7 @@ gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gin
 
 			for (k=1; k<4; k++)
 				if (v[k] > v[max2]) max2 = k;
-	
+
 			switch (max2)
 			{
 			case HCHAN_R: rplus = r = 255; break;
@@ -210,11 +212,11 @@ gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gin
 			case HCHAN_R: g = 0; b = 0; break;
 			case HCHAN_G: r = 0; b = 0; break;
 			case HCHAN_B: r = 0; g = 0; break;
-			case HCHAN_RGB: 
+			case HCHAN_RGB:
 				if (r == 255 && g == 255 && b == 255) {
-					r = 0; 
-					g = 0; 
-					b = 0; 
+					r = 0;
+					g = 0;
+					b = 0;
 				}
 				break;
 			}
@@ -225,11 +227,11 @@ gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gin
 				pt = ((float)log(v[max2])) / logmax * (height - 1);
 			else
 				pt = ((float)v[max2])/ max * (height - 1);
-			if (histogram->histogram_chan >= HCHAN_RGB 
+			if (histogram->histogram_chan >= HCHAN_RGB
 			    || max2 == histogram->histogram_chan)
-				pixbuf_draw_line(pixbuf, 
+				pixbuf_draw_line(pixbuf,
 					x, y, width, height,
-					x + i, y + height, x + i, y + height-pt, 
+					x + i, y + height, x + i, y + height-pt,
 					r, g, b, 255);
 			v[max2] = -1;
 			}

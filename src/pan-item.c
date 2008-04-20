@@ -358,7 +358,7 @@ static PangoLayout *pan_item_text_layout(PanItem *pi, GtkWidget *widget)
 		{
 		PangoAttrList *pal;
 		PangoAttribute *pa;
-		
+
 		pal = pango_attr_list_new();
 		if (pi->text_attr & PAN_TEXT_ATTR_BOLD)
 			{

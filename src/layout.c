@@ -96,7 +96,7 @@ LayoutWindow *layout_find_by_image_fd(ImageWindow *imd)
 		work = work->next;
 		if (lw->image->image_fd == imd->image_fd)
 			return lw;
-		
+
 		}
 
 	return NULL;
@@ -124,7 +124,7 @@ static void layout_path_entry_changed_cb(GtkWidget *widget, gpointer data)
 
 	layout_set_path(lw, buf);
 
-        g_free(buf);
+	g_free(buf);
 }
 
 static void layout_path_entry_tab_cb(const gchar *path, gpointer data)
@@ -269,7 +269,7 @@ static void layout_sort_button_press_cb(GtkWidget *widget, gpointer data)
 	g_object_ref_sink(G_OBJECT(menu));
 #endif
 
-        /* ascending option */
+	/* ascending option */
 	menu_item_add_divider(menu);
 	menu_item_add_check(menu, _("Ascending"), lw->sort_ascend, G_CALLBACK(layout_sort_menu_ascend_cb), lw);
 
@@ -295,11 +295,11 @@ static GtkWidget *layout_sort_button(LayoutWindow *lw)
 	GtkWidget *button;
 
 	button = gtk_button_new_with_label(sort_type_get_text(lw->sort_method));
-        g_signal_connect(G_OBJECT(button), "clicked",
+	g_signal_connect(G_OBJECT(button), "clicked",
 			 G_CALLBACK(layout_sort_button_press_cb), lw);
-        gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+	gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
 
-        return button;
+	return button;
 }
 
 /*
@@ -755,7 +755,7 @@ static GtkWidget *layout_list_new(LayoutWindow *lw)
 	vflist_set_thumb_status_func(lw->vfl, layout_list_thumb_cb, lw);
 
 	vflist_marks_set(lw->vfl, lw->marks_enabled);
-	
+
 	return lw->vfl->widget;
 }
 
@@ -913,7 +913,7 @@ void layout_selection_to_mark(LayoutWindow *lw, gint mark, SelectionToMarkMode m
 
 	if (lw->vfl) vflist_selection_to_mark(lw->vfl, mark, mode);
 	if (lw->vfi) vficon_selection_to_mark(lw->vfi, mark, mode);
-	
+
 	layout_status_update_info(lw, NULL); /* osd in fullscreen mode */
 }
 
@@ -1350,7 +1350,7 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 
 		gtk_window_set_resizable(GTK_WINDOW(lw->tools), TRUE);
 		gtk_container_set_border_width(GTK_CONTAINER(lw->tools), 0);
-	
+
 		new_window = TRUE;
 		}
 	else
@@ -1486,7 +1486,7 @@ void layout_split_change(LayoutWindow *lw, ImageSplitMode mode)
 		if (lw->split_images[i])
 			{
 			gtk_widget_hide(lw->split_images[i]->widget);
-			if (lw->split_images[i]->widget->parent != lw->utility_box) 
+			if (lw->split_images[i]->widget->parent != lw->utility_box)
 				gtk_container_remove(GTK_CONTAINER(lw->split_images[i]->widget->parent), lw->split_images[i]->widget);
 			}
 		}
@@ -1520,7 +1520,7 @@ static void layout_grid_setup(LayoutWindow *lw)
 	priority_location = layout_grid_compass(lw);
 
 	image = layout_image_setup_split(lw, lw->split_mode);
-	
+
 	tools = layout_tools_new(lw);
 	files = layout_list_new(lw);
 
@@ -1725,7 +1725,7 @@ void layout_colors_update(void)
 		{
 		LayoutWindow *lw = work->data;
 		work = work->next;
-		
+
 		if (!lw->image) continue;
 		image_background_set_color(lw->image, options->image.use_custom_border_color ? &options->image.border_color : NULL);
 		}
@@ -1857,7 +1857,7 @@ void layout_free(LayoutWindow *lw)
 	layout_bars_close(lw);
 
 	gtk_widget_destroy(lw->window);
-	
+
 	histogram_free(lw->histogram);
 
 	g_free(lw->path);

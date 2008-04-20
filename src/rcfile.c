@@ -26,14 +26,14 @@
  *-----------------------------------------------------------------------------
  * line write/parse routines (private)
  *-----------------------------------------------------------------------------
- */ 
- 
-/* 
+ */
+
+/*
    returns text without quotes or NULL for empty or broken string
    any text up to first '"' is skipped
    tail is set to point at the char after the second '"'
-   or at the ending \0 
-   
+   or at the ending \0
+
 */
 
 gchar *quoted_value(const gchar *text, const gchar **tail)
@@ -42,9 +42,9 @@ gchar *quoted_value(const gchar *text, const gchar **tail)
 	gint c = 0;
 	gint l = strlen(text);
 	gchar *retval = NULL;
-	
+
 	if (tail) *tail = text;
-	
+
 	if (l == 0) return retval;
 
 	while (c < l && text[c] !='"') c++;
@@ -64,7 +64,7 @@ gchar *quoted_value(const gchar *text, const gchar **tail)
 			if (e - c > 0)
 				{
 				gchar *substring = g_strndup(ptr, e - c);
-				
+
 				if (substring)
 					{
 					retval = g_strcompress(substring);
@@ -93,7 +93,7 @@ gchar *quoted_value(const gchar *text, const gchar **tail)
 gchar *escquote_value(const gchar *text)
 {
 	gchar *e;
-	
+
 	if (!text) return g_strdup("\"\"");
 
 	e = g_strescape(text, "");
@@ -257,7 +257,7 @@ static void read_bool_option(FILE *f, gchar *option, gchar *label, gchar *value,
  *-----------------------------------------------------------------------------
  * save configuration (public)
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 void save_options(void)
 {
@@ -277,7 +277,7 @@ void save_options(void)
 		g_free(rc_path);
 		return;
 		}
-	
+
 #define WRITE_BOOL(_name_) write_bool_option(ssi, #_name_, options->_name_)
 #define WRITE_INT(_name_) write_int_option(ssi, #_name_, options->_name_)
 #define WRITE_UINT(_name_) write_uint_option(ssi, #_name_, options->_name_)
@@ -330,7 +330,7 @@ void save_options(void)
 	WRITE_CHAR(file_ops.safe_delete_path);
 	WRITE_INT(file_ops.safe_delete_folder_maxsize);
 
-	
+
 	WRITE_SUBTITLE("Layout Options");
 
 	WRITE_INT(layout.style);
@@ -369,7 +369,7 @@ void save_options(void)
 
 
 	WRITE_SUBTITLE("Image Options");
-	
+
 	secure_fprintf(ssi, "# image.zoom_mode possible values are:\n"
 			    "#   original\n"
 			    "#   fit\n"
@@ -419,7 +419,7 @@ void save_options(void)
 	WRITE_BOOL(file_sort.ascending);
 	WRITE_BOOL(file_sort.case_sensitive);
 
-	
+
 	WRITE_SUBTITLE("Fullscreen Options");
 
 	WRITE_INT(fullscreen.screen);
@@ -449,7 +449,7 @@ void save_options(void)
 	WRITE_SEPARATOR();
 
 	filter_write_list(ssi);
-	
+
 
 	WRITE_SUBTITLE("Sidecars Options");
 
@@ -460,7 +460,7 @@ void save_options(void)
 
 #ifndef HAVE_LCMS
 	secure_fprintf(ssi, "# NOTICE: %s was not built with support for color profiles,\n"
-		  	    "#         color profile options will have no effect.\n\n", GQ_APPNAME);
+			    "#         color profile options will have no effect.\n\n", GQ_APPNAME);
 #endif
 
 	WRITE_BOOL(color_profile.enabled);
@@ -518,7 +518,7 @@ void save_options(void)
 	secure_fprintf(ssi, "#                         end of config file                         #\n");
 	secure_fprintf(ssi, "######################################################################\n");
 
-	
+
 	if (secure_close(ssi))
 		{
 		printf_term(_("error saving config file: %s\nerror: %s\n"), rc_path,
@@ -534,7 +534,7 @@ void save_options(void)
  *-----------------------------------------------------------------------------
  * load configuration (public)
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 void load_options(void)
 {
@@ -595,7 +595,7 @@ void load_options(void)
 		READ_BOOL(tree_descend_subdirs);
 		READ_BOOL(lazy_image_sync);
 		READ_BOOL(update_on_time_change);
-	
+
 		READ_BOOL(startup_path_enable);
 		READ_CHAR(startup_path);
 
@@ -606,7 +606,7 @@ void load_options(void)
 		READ_BOOL(enable_metadata_dirs);
 
 		READ_BOOL(mousewheel_scrolls);
-	
+
 		READ_INT(open_recent_list_maxsize);
 
 		READ_BOOL(place_dialogs_under_mouse);
@@ -645,14 +645,14 @@ void load_options(void)
 
 		/* image options */
 		if (strcasecmp(option, "image.zoom_mode") == 0)
-                        {
-                        if (strcasecmp(value, "original") == 0)
+			{
+			if (strcasecmp(value, "original") == 0)
 				options->image.zoom_mode = ZOOM_RESET_ORIGINAL;
-                        else if (strcasecmp(value, "fit") == 0)
+			else if (strcasecmp(value, "fit") == 0)
 				options->image.zoom_mode = ZOOM_RESET_FIT_WINDOW;
-                        else if (strcasecmp(value, "dont_change") == 0)
+			else if (strcasecmp(value, "dont_change") == 0)
 				options->image.zoom_mode = ZOOM_RESET_NONE;
-                        }
+			}
 		READ_BOOL(image.zoom_2pass);
 		READ_BOOL(image.zoom_to_fit_allow_expand);
 		READ_BOOL(image.fit_window_to_image);
@@ -671,7 +671,7 @@ void load_options(void)
 		READ_COLOR(image.border_color);
 		READ_INT_CLAMP(image.read_buffer_size, IMAGE_LOADER_READ_BUFFER_SIZE_MIN, IMAGE_LOADER_READ_BUFFER_SIZE_MAX);
 		READ_INT_CLAMP(image.idle_read_loop_count, IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MIN, IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MAX);
-		
+
 
 		/* thumbnails options */
 		READ_INT_CLAMP(thumbnails.max_width, 16, 512);
@@ -730,7 +730,7 @@ void load_options(void)
 			{
 			sidecar_ext_parse(value_all, TRUE);
 			}
-		
+
 		/* Color Profiles */
 
 		READ_BOOL(color_profile.enabled);
@@ -738,16 +738,16 @@ void load_options(void)
 		READ_INT(color_profile.input_type);
 
 		if (strncasecmp(option, "color_profile.input_file_", 25) == 0)
-                        {
-                        i = strtol(option + 25, NULL, 0) - 1;
+			{
+			i = strtol(option + 25, NULL, 0) - 1;
 			if (i >= 0 && i < COLOR_PROFILE_INPUTS)
 				{
 				read_char_option(f, option, option, value, &options->color_profile.input_file[i]);
 				}
 			}
 		if (strncasecmp(option, "color_profile.input_name_", 25) == 0)
-                        {
-                        i = strtol(option + 25, NULL, 0) - 1;
+			{
+			i = strtol(option + 25, NULL, 0) - 1;
 			if (i >= 0 && i < COLOR_PROFILE_INPUTS)
 				{
 				read_char_option(f, option, option, value, &options->color_profile.input_name[i]);
@@ -768,7 +768,7 @@ void load_options(void)
 				i--;
 				g_free(options->editor_name[i]);
 				g_free(options->editor_command[i]);
-				
+
 				options->editor_name[i] = quoted_value(value_all, &ptr);
 				options->editor_command[i] = quoted_value(ptr, NULL);
 				}
@@ -780,7 +780,7 @@ void load_options(void)
 			for (i = 0; ExifUIList[i].key; i++)
 				if (0 == strcasecmp(option + 13, ExifUIList[i].key))
 					ExifUIList[i].current = strtol(value, NULL, 10);
-		  	}
+			}
 		}
 
 	fclose(f);

@@ -27,9 +27,9 @@
 #define FIXED_ICON_SIZE_MAX 512
 
 static void gqv_cell_renderer_icon_get_property(GObject		*object,
-					        guint		param_id,
-					        GValue		*value,
-					        GParamSpec	*pspec);
+						guint		param_id,
+						GValue		*value,
+						GParamSpec	*pspec);
 static void gqv_cell_renderer_icon_set_property(GObject		*object,
 						guint		param_id,
 						const GValue	*value,
@@ -91,7 +91,7 @@ gqv_cell_renderer_icon_get_type (void)
 		};
 
 	cell_icon_type = g_type_register_static(GTK_TYPE_CELL_RENDERER,
-					        "GQvCellRendererIcon",
+						"GQvCellRendererIcon",
 						&cell_icon_info, 0);
 	}
 
@@ -223,7 +223,7 @@ gqv_cell_renderer_icon_get_property(GObject	*object,
 				    GParamSpec	*pspec)
 {
 	GQvCellRendererIcon *cellicon = GQV_CELL_RENDERER_ICON (object);
-  
+
 	switch (param_id)
 		{
 		case PROP_PIXBUF:
@@ -337,7 +337,7 @@ gqv_cell_renderer_icon_set_property(GObject		*object,
 				    GParamSpec		*pspec)
 {
 	GQvCellRendererIcon *cellicon = GQV_CELL_RENDERER_ICON (object);
-  
+
 	switch (param_id)
 		{
 		case PROP_PIXBUF:
@@ -433,7 +433,7 @@ gqv_cell_renderer_icon_get_layout(GQvCellRendererIcon *cellicon, GtkWidget *widg
 
 /**
  * gqv_cell_renderer_icon_new:
- * 
+ *
  * Creates a new #GQvCellRendererIcon. Adjust rendering
  * parameters using object properties. Object properties can be set
  * globally (with g_object_set()). Also, with #GtkTreeViewColumn, you
@@ -441,7 +441,7 @@ gqv_cell_renderer_icon_get_layout(GQvCellRendererIcon *cellicon, GtkWidget *widg
  * can bind the "pixbuf" property on the cell renderer to a pixbuf value
  * in the model, thus rendering a different image in each row of the
  * #GtkTreeView.
- * 
+ *
  * Return value: the new cell renderer
  **/
 GtkCellRenderer *
@@ -605,7 +605,7 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 		PangoLayout *layout;
 		PangoRectangle text_rect;
 		GdkRectangle pix_rect;
-                GdkRectangle draw_rect;
+		GdkRectangle draw_rect;
 
 		layout = gqv_cell_renderer_icon_get_layout(cellicon, widget, TRUE);
 		pango_layout_get_pixel_extents(layout, NULL, &text_rect);

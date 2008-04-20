@@ -194,7 +194,7 @@ static EditorVerboseData *editor_verbose_window(EditorData *ed, const gchar *tex
 	vd->spinner = spinner_new(NULL, SPINNER_SPEED);
 	gtk_box_pack_start(GTK_BOX(hbox), vd->spinner, FALSE, FALSE, 0);
 	gtk_widget_show(vd->spinner);
-	
+
 	gtk_widget_show(vd->gd->dialog);
 
 	ed->vd = vd;
@@ -276,12 +276,12 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 	const gchar *p = NULL;
 
 	string = g_string_new("");
-	
+
 	if (type == PATH_FILE)
 		{
 		GList *ext_list = filter_to_list(extensions);
 		GList *work = ext_list;
-		
+
 		if (!work)
 			p = fd->path;
 		else
@@ -290,21 +290,21 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 				{
 				gchar *ext = work->data;
 				work = work->next;
-				
-				if (strcmp(ext, "*") == 0 || 
+
+				if (strcmp(ext, "*") == 0 ||
 				    strcasecmp(ext, fd->extension) == 0)
 					{
 					p = fd->path;
 					break;
 					}
-				
+
 				GList *work2 = fd->sidecar_files;
-				
+
 				while(work2)
 					{
 					FileData *sfd = work2->data;
 					work2 = work2->next;
-					
+
 					if (strcasecmp(ext, sfd->extension) == 0)
 						{
 						p = sfd->path;
@@ -379,17 +379,17 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 	const gchar *p = template;
 	GString *result = NULL;
 	gchar *extensions = NULL;
-	
+
 	if (output)
 		result = g_string_new("");
 
-	if (!template || template[0] == '\0') 
+	if (!template || template[0] == '\0')
 		{
 		flags |= EDITOR_ERROR_EMPTY;
 		goto err;
 		}
 
-	
+
 	/* global flags */
 	while (*p == '%')
 		{
@@ -409,9 +409,9 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 				break;
 			}
 		}
-	
+
 	/* command */
-	
+
 	while (*p)
 		{
 		if (*p != '%')
@@ -424,7 +424,7 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 			gchar *pathl = NULL;
 
 			p++;
-			
+
 			/* for example "%f" or "%{.crw;.raw;.cr2}f" */
 			if (*p == '{')
 				{
@@ -435,12 +435,12 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 					flags |= EDITOR_ERROR_SYNTAX;
 					goto err;
 					}
-				
+
 				extensions = g_strndup(p, end - p);
 				p = end + 1;
 				}
-			
-			switch (*p) 
+
+			switch (*p)
 				{
 				case 'd':
 					flags |= EDITOR_DEST;
@@ -454,13 +454,13 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 					if (output)
 						{
 						/* use the first file from the list */
-						if (!list || !list->data) 
+						if (!list || !list->data)
 							{
 							flags |= EDITOR_ERROR_NO_FILE;
 							goto err;
 							}
 						pathl = editor_command_path_parse((FileData *)list->data, (*p == 'd') ? PATH_DEST : PATH_FILE, extensions);
-						if (!pathl) 
+						if (!pathl)
 							{
 							flags |= EDITOR_ERROR_NO_FILE;
 							goto err;
@@ -470,7 +470,7 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 						g_free(pathl);
 						result = g_string_append_c(result, '"');
 						}
-					break;	
+					break;
 
 				case 'f':
 					flags |= EDITOR_SINGLE_COMMAND;
@@ -501,13 +501,13 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 								}
 							work = work->next;
 							}
-						if (!ok) 
+						if (!ok)
 							{
 							flags |= EDITOR_ERROR_NO_FILE;
 							goto err;
 							}
 						}
-					break;	
+					break;
 				default:
 					flags |= EDITOR_ERROR_SYNTAX;
 					goto err;
@@ -521,9 +521,9 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 	if (output) *output = g_string_free(result, FALSE);
 	return flags;
 
-			
+
 err:
-	if (output) 
+	if (output)
 		{
 		g_string_free(result, TRUE);
 		*output = NULL;
@@ -537,7 +537,7 @@ static void editor_child_exit_cb (GPid pid, gint status, gpointer data)
 	EditorData *ed = data;
 	g_spawn_close_pid(pid);
 	ed->pid = -1;
-	
+
 	editor_command_next_finish(ed, status);
 }
 
@@ -549,15 +549,15 @@ static gint editor_command_one(const gchar *template, GList *list, EditorData *e
 	FileData *fd = list->data;
 	gchar *args[4];
 	GPid pid;
-        gint standard_output;
-        gint standard_error;
+	gint standard_output;
+	gint standard_error;
 	gboolean ok;
 
 
 	ed->pid = -1;
 
 	working_directory = remove_level_from_path(fd->path);
-	
+
 	ed->flags = editor_command_parse(template, list, &command);
 
 	ok = !(ed->flags & EDITOR_ERROR_MASK);
@@ -567,28 +567,28 @@ static gint editor_command_one(const gchar *template, GList *list, EditorData *e
 	args[1] = COMMAND_OPT;
 	args[2] = command;
 	args[3] = NULL;
-	
+
 	if (ok)
 		{
-		ok = g_spawn_async_with_pipes(working_directory, args, NULL, 
+		ok = g_spawn_async_with_pipes(working_directory, args, NULL,
 				      G_SPAWN_DO_NOT_REAP_CHILD, /* GSpawnFlags */
-                                      NULL, NULL,
-                                      &pid, 
-				      NULL, 
-				      ed->vd ? &standard_output : NULL, 
-				      ed->vd ? &standard_error : NULL, 
+				      NULL, NULL,
+				      &pid,
+				      NULL,
+				      ed->vd ? &standard_output : NULL,
+				      ed->vd ? &standard_error : NULL,
 				      NULL);
-		
+
 		if (!ok) ed->flags |= EDITOR_ERROR_CANT_EXEC;
 		}
 
-	if (ok) 
+	if (ok)
 		{
 		g_child_watch_add(pid, editor_child_exit_cb, ed);
 		ed->pid = pid;
 		}
-	
-	
+
+
 	if (ed->vd)
 		{
 
@@ -601,9 +601,9 @@ static gint editor_command_one(const gchar *template, GList *list, EditorData *e
 			g_free(buf);
 
 			}
-		else 
+		else
 			{
-		
+
 			GIOChannel *channel_output;
 			GIOChannel *channel_error;
 			channel_output = g_io_channel_unix_new(standard_output);
@@ -621,9 +621,9 @@ static gint editor_command_one(const gchar *template, GList *list, EditorData *e
 			g_io_channel_unref(channel_error);
 			}
 		}
-	
 
-	
+
+
 	g_free(command);
 	g_free(working_directory);
 
@@ -659,13 +659,13 @@ static gint editor_command_next_start(EditorData *ed)
 				}
 			}
 
-		if (!error) 
+		if (!error)
 			return 0;
 		else
 			/* command was not started, call the finish immediately */
 			return editor_command_next_finish(ed, 0);
 		}
-	
+
 	/* everything is done */
 	return editor_command_done(ed);
 }
@@ -747,14 +747,14 @@ void editor_resume(gpointer ed)
 }
 void editor_skip(gpointer ed)
 {
-	editor_command_done(ed);	
+	editor_command_done(ed);
 }
 
 static gint editor_command_start(const gchar *template, const gchar *text, GList *list, EditorCallback cb, gpointer data)
 {
 	EditorData *ed;
 	gint flags = editor_command_parse(template, NULL, NULL);
-	
+
 	if (flags & EDITOR_ERROR_MASK) return flags & EDITOR_ERROR_MASK;
 
 	ed = g_new0(EditorData, 1);
@@ -766,15 +766,15 @@ static gint editor_command_start(const gchar *template, const gchar *text, GList
 	ed->stopping = FALSE;
 	ed->callback = cb;
 	ed->data =  data;
-	
+
 	if ((flags & EDITOR_VERBOSE_MULTI) && list && list->next)
 		flags |= EDITOR_VERBOSE;
-	
-	
+
+
 	if (flags & EDITOR_VERBOSE)
 		editor_verbose_window(ed, text);
-		
-	editor_command_next_start(ed); 
+
+	editor_command_next_start(ed);
 	/* errors from editor_command_next_start will be handled via callback */
 	return flags & EDITOR_ERROR_MASK;
 }

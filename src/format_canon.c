@@ -9,7 +9,7 @@
  *
  * Code to add support for Canon CR2 and CRW files, version 0.2
  *
- * Developed by Daniel M. German, dmgerman at uvic.ca 
+ * Developed by Daniel M. German, dmgerman at uvic.ca
  *
  * you can find the sources for this patch at http://turingmachine.org/~dmg/libdcraw/gqview/
  *
@@ -218,7 +218,7 @@ gint format_canon_raw_crw(unsigned char *data, const guint len,
 			guint jpeg_offset;
 
 			jpeg_offset = block_offset + record_offset;
-		 	if (len < jpeg_offset + record_length ||
+			if (len < jpeg_offset + record_length ||
 			    record_length < 4 ||
 			    memcmp(data + jpeg_offset, "\xff\xd8\xff\xdb", 4) != 0)
 				{
@@ -630,5 +630,5 @@ gint format_canon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
 }
 
 
-#endif 
+#endif
 /* not HAVE_EXIV2 */

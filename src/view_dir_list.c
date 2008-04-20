@@ -117,7 +117,7 @@ static void vdlist_scroll_to_row(ViewDir *vd, FileData *fd, gfloat y_align)
  *-----------------------------------------------------------------------------
  * main
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 void vdlist_select_row(ViewDir *vd, FileData *fd)
 {
@@ -228,15 +228,15 @@ gint vdlist_set_path(ViewDir *vd, const gchar *path)
 
 	if (strcmp(vd->path, "/") != 0)
 		{
-		filepath = g_strconcat(vd->path, "/", "..", NULL); 
+		filepath = g_strconcat(vd->path, "/", "..", NULL);
 		fd = file_data_new_simple(filepath);
 		VDLIST_INFO(vd, list) = g_list_prepend(VDLIST_INFO(vd, list), fd);
 		g_free(filepath);
 		}
-	
+
 	if (options->file_filter.show_dot_directory)
 		{
-		filepath = g_strconcat(vd->path, "/", ".", NULL); 
+		filepath = g_strconcat(vd->path, "/", ".", NULL);
 		fd = file_data_new_simple(filepath);
 		VDLIST_INFO(vd, list) = g_list_prepend(VDLIST_INFO(vd, list), fd);
 		g_free(filepath);
@@ -286,7 +286,7 @@ gint vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	ViewDir *vd = data;
 	GtkTreePath *tpath;
-	
+
 	if (event->keyval != GDK_Menu) return FALSE;
 
 	gtk_tree_view_get_cursor(GTK_TREE_VIEW(vd->view), &tpath, NULL);
@@ -298,7 +298,7 @@ gint vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 		store = gtk_tree_view_get_model(GTK_TREE_VIEW(widget));
 		gtk_tree_model_get_iter(store, &iter, tpath);
 		gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &vd->click_fd, -1);
-		
+
 		gtk_tree_path_free(tpath);
 		}
 	else

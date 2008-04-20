@@ -102,7 +102,7 @@
 
 
 #define DEFAULT_OVERLAY_INFO 	"%collection%(%number%/%total%) [%zoom%] <b>%name%</b>\n" \
-			   	"%res%|%date%|%size%\n" \
+				"%res%|%date%|%size%\n" \
 				"%fAperture%|%fShutterSpeed%|%fISOSpeedRating%|%fFocalLength%|%fExposureBias%\n" \
 				"%fCamera%|%fFlash%" \
 

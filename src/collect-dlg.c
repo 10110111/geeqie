@@ -101,7 +101,7 @@ static void collection_save_cb(FileDialog *fd, gpointer data)
 	const gchar *path;
 
 	path = fd->dest_path;
-	
+
 	if (!(strlen(path) > 7 && strncasecmp(path + (strlen(path) - 4), ".gqv", 4) == 0))
 		{
 		gchar *buf;

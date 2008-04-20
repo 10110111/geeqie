@@ -27,7 +27,7 @@
  *-----------------------------------------------------------------------------
  * menu items
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void menu_item_finish(GtkWidget *menu, GtkWidget *item, GCallback func, gpointer data)
 {
@@ -80,7 +80,7 @@ GtkWidget *menu_item_add_stock_sensitive(GtkWidget *menu, const gchar *label, co
 
 	item = menu_item_add_stock(menu, label, stock_id, func, data);
 	gtk_widget_set_sensitive(item, sensitive);
-	
+
 	return item;
 }
 
@@ -116,8 +116,8 @@ void menu_item_add_divider(GtkWidget *menu)
 {
 	GtkWidget *item = gtk_menu_item_new();
 	gtk_widget_set_sensitive(item, FALSE);
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
-        gtk_widget_show(item);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
+	gtk_widget_show(item);
 }
 
 GtkWidget *menu_item_add_simple(GtkWidget *menu, const gchar *label,
@@ -133,7 +133,7 @@ GtkWidget *menu_item_add_simple(GtkWidget *menu, const gchar *label,
  *-----------------------------------------------------------------------------
  * popup menus
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void popup_menu_short_lived_cb(GtkWidget *widget, gpointer data)
 {
@@ -167,7 +167,7 @@ gint popup_menu_position_clamp(GtkMenu *menu, gint *x, gint *y, gint height)
 	gint adjusted = FALSE;
 	gint w, h;
 	gint xw, xh;
-	
+
 	w = GTK_WIDGET(menu)->requisition.width;
 	h = GTK_WIDGET(menu)->requisition.height;
 	xw = gdk_screen_width();

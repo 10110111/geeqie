@@ -402,7 +402,7 @@ static gint search_result_selection_util(SearchData *sd, gint64 *bytes, GList **
 
 			if (list) plist = g_list_prepend(plist, file_data_ref(mfd->fd));
 			}
-			
+
 		work = work->next;
 		}
 	g_list_foreach(slist, (GFunc)gtk_tree_path_free, NULL);
@@ -912,7 +912,7 @@ static void sr_menu_collection_cb(GtkWidget *widget, gpointer data)
 static void sr_menu_print_cb(GtkWidget *widget, gpointer data)
 {
 	SearchData *sd = data;
-	
+
 	print_window_new(sd->click_fd, search_result_selection_list(sd),
 			 search_result_get_filelist(sd), sd->window);
 }
@@ -1295,7 +1295,7 @@ static gint search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpo
 				break;
 			}
 		}
-		
+
 	return stop_signal;
 }
 
@@ -1410,7 +1410,7 @@ static void search_dnd_init(SearchData *sd)
 	g_signal_connect(G_OBJECT(sd->result_view), "drag_end",
 			 G_CALLBACK(search_dnd_end), sd);
 #endif
-			
+
 }
 
 /*
@@ -1530,7 +1530,7 @@ static void search_file_load_process(SearchData *sd, CacheData *cd)
 
 static void search_file_load_done_cb(ImageLoader *il, gpointer data)
 {
-        SearchData *sd = data;
+	SearchData *sd = data;
 	search_file_load_process(sd, sd->img_cd);
 }
 
@@ -1626,7 +1626,7 @@ static gint search_file_do_extra(SearchData *sd, FileData *fd, gint *match,
 				value = (gint)result;
 				}
 			}
-		    
+
 		if (simval) *simval = value;
 		}
 
@@ -2050,7 +2050,7 @@ static void search_start(SearchData *sd)
 			image_loader_free(sd->img_loader);
 			sd->img_loader = NULL;
 			}
-			
+
 		}
 
 	sd->search_idle_id = g_idle_add(search_step_cb, sd);

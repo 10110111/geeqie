@@ -90,7 +90,7 @@ static gchar *remove_common_prefix(gchar *s, gchar *t)
 
 	for (i = 0; s[i] && t[i] && s[i] == t[i]; i++)
 		;
-	if (!i) 
+	if (!i)
 		return t;
 	if (s[i-1] == ' ' || !s[i])
 		{
@@ -103,35 +103,35 @@ static gchar *remove_common_prefix(gchar *s, gchar *t)
 
 static double get_crop_factor(ExifData *exif)
 {
-        double res_unit_tbl[] = {0.0, 25.4, 25.4, 10.0, 1.0, 0.001 };
+	double res_unit_tbl[] = {0.0, 25.4, 25.4, 10.0, 1.0, 0.001 };
 
-        double xres = exif_get_rational_as_double(exif, "Exif.Photo.FocalPlaneXResolution");
-        double yres = exif_get_rational_as_double(exif, "Exif.Photo.FocalPlaneYResolution");
-        int res_unit;
-        int w, h;
-        double xsize, ysize, size, ratio;
-        
-        if (xres == 0.0 || yres == 0.0) return 0.0;
-        
-        if (!exif_get_integer(exif, "Exif.Photo.FocalPlaneResolutionUnit", &res_unit)) return 0.0;
-        if (res_unit < 1 || res_unit > 5) return 0.0;
-        
-        if (!exif_get_integer(exif, "Exif.Photo.PixelXDimension", &w)) return 0.0;
-        if (!exif_get_integer(exif, "Exif.Photo.PixelYDimension", &h)) return 0.0;
-        
-        xsize = w * res_unit_tbl[res_unit] / xres;
-        ysize = h * res_unit_tbl[res_unit] / yres;
-        
-        ratio = xsize / ysize;
-        
-        if (ratio < 0.5 || ratio > 2.0) return 0.0; /* reasonable ratio */
-        
-        size = sqrt(xsize * xsize + ysize * ysize);
-        
-        if (size < 1.0 || size > 100.0) return 0.0; /* reasonable sensor size in mm */
-        
-        return sqrt(36*36+24*24) / size;
-        
+	double xres = exif_get_rational_as_double(exif, "Exif.Photo.FocalPlaneXResolution");
+	double yres = exif_get_rational_as_double(exif, "Exif.Photo.FocalPlaneYResolution");
+	int res_unit;
+	int w, h;
+	double xsize, ysize, size, ratio;
+
+	if (xres == 0.0 || yres == 0.0) return 0.0;
+
+	if (!exif_get_integer(exif, "Exif.Photo.FocalPlaneResolutionUnit", &res_unit)) return 0.0;
+	if (res_unit < 1 || res_unit > 5) return 0.0;
+
+	if (!exif_get_integer(exif, "Exif.Photo.PixelXDimension", &w)) return 0.0;
+	if (!exif_get_integer(exif, "Exif.Photo.PixelYDimension", &h)) return 0.0;
+
+	xsize = w * res_unit_tbl[res_unit] / xres;
+	ysize = h * res_unit_tbl[res_unit] / yres;
+
+	ratio = xsize / ysize;
+
+	if (ratio < 0.5 || ratio > 2.0) return 0.0; /* reasonable ratio */
+
+	size = sqrt(xsize * xsize + ysize * ysize);
+
+	if (size < 1.0 || size > 100.0) return 0.0; /* reasonable sensor size in mm */
+
+	return sqrt(36*36+24*24) / size;
+
 }
 
 
@@ -177,12 +177,12 @@ do {                                    \
 			if (software[i] == ' ' && software[i+1] == ' ')
 				{
 				gint j;
-				
+
 				for (j=1; software[i+j]; j++)
-		      			if (software[i+j] != ' ')
+					if (software[i+j] != ' ')
 						break;
-		    		memmove(software+i+1, software+i+j, strlen(software+i+j)+1);
-		  		}
+				memmove(software+i+1, software+i+j, strlen(software+i+j)+1);
+				}
 
 		model2 = remove_common_prefix(make, model);
 		software2 = remove_common_prefix(model2, software);
@@ -237,7 +237,7 @@ do {                                    \
 			if (n > 1.0 && (int)n - ((int)(n/10))*10 == 1) n--;
 
 			return g_strdup_printf("%s%.0fs", n > 1.0 ? "1/" : "",
-							  n > 1.0 ? floor(n) : 1.0 / n);	
+							  n > 1.0 ? floor(n) : 1.0 / n);
 			}
 		return NULL;
 		}
@@ -274,22 +274,22 @@ do {                                    \
 	if (strcmp(key, "fFocalLength35mmFilm") == 0)
 		{
 		gint n;
-                double f, c;
+		double f, c;
 
 		if (exif_get_integer(exif, "Exif.Photo.FocalLengthIn35mmFilm", &n) && n != 0)
-		        {
-                        return g_strdup_printf("%d mm", n);
-                        }
-                        
-                f = exif_get_rational_as_double(exif, "Exif.Photo.FocalLength");
-                c = get_crop_factor(exif);
-                
-                if (f != 0.0 && c != 0.0)
-                        {
-                        return g_strdup_printf("%.0f mm", f * c);
-                        }
+			{
+			return g_strdup_printf("%d mm", n);
+			}
 
-                return NULL;
+		f = exif_get_rational_as_double(exif, "Exif.Photo.FocalLength");
+		c = get_crop_factor(exif);
+
+		if (f != 0.0 && c != 0.0)
+			{
+			return g_strdup_printf("%.0f mm", f * c);
+			}
+
+		return NULL;
 		}
 	if (strcmp(key, "fISOSpeedRating") == 0)
 		{
@@ -395,8 +395,8 @@ do {                                    \
 
 			/* ColorSpace == 1 specifies sRGB per EXIF 2.2 */
 			if (!exif_get_integer(exif, "Exif.Photo.ColorSpace", &cs)) cs = 0;
-			interop_index = exif_get_data_as_text(exif, "Exif.Iop.InteroperabilityIndex");			
-			
+			interop_index = exif_get_data_as_text(exif, "Exif.Iop.InteroperabilityIndex");
+
 			if (cs == 1)
 				{
 				name = _("sRGB");
@@ -407,7 +407,7 @@ do {                                    \
 				name = _("AdobeRGB");
 				source = (cs == 2) ? "ColorSpace" : "Iop";
 				}
-				
+
 			g_free(interop_index);
 			}
 
@@ -415,12 +415,12 @@ do {                                    \
 			{
 			source = _("embedded");
 #ifdef HAVE_LCMS
-	
+
 				{
 				unsigned char *data;
 				guint data_len;
 				cmsHPROFILE profile;
-		
+
 				data = (unsigned char *) exif_item_get_data(prof_item, &data_len);
 				if (data)
 					{

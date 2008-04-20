@@ -293,7 +293,7 @@ void color_man_correct_region(ColorMan *cm, GdkPixbuf *pixbuf, gint x, gint y, g
 	gint rs;
 	gint i;
 	gint pixbuf_width, pixbuf_height;
-	
+
 
 	pixbuf_width = gdk_pixbuf_get_width(pixbuf);
 	pixbuf_height = gdk_pixbuf_get_height(pixbuf);
@@ -312,7 +312,7 @@ void color_man_correct_region(ColorMan *cm, GdkPixbuf *pixbuf, gint x, gint y, g
 		guchar *pbuf;
 
 		pbuf = pix + ((y + i) * rs);
-		
+
 		cmsDoTransform(cc->transform, pbuf, pbuf, w);
 		}
 

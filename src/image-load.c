@@ -84,7 +84,7 @@ static void image_loader_size_cb(GdkPixbufLoader *loader,
 		n++;
 		}
 	g_strfreev(mime_types);
-	
+
 	if (!scale) return;
 
 	if (width > il->requested_width || height > il->requested_height)
@@ -103,7 +103,7 @@ static void image_loader_size_cb(GdkPixbufLoader *loader,
 			nw = (gdouble)nh / height * width;
 			if (nw < 1) nw = 1;
 			}
-		
+
 		gdk_pixbuf_loader_set_size(loader, nw, nh);
 		il->shrunk = TRUE;
 		}
@@ -214,7 +214,7 @@ static gint image_loader_begin(ImageLoader *il)
 	unsigned int offset = 0;
 
 	if (!il->loader || il->pixbuf) return FALSE;
-	
+
 	b = read(il->load_fd, il->read_buffer, il->read_buffer_size);
 
 	if (b > 0 &&
@@ -294,7 +294,7 @@ static gint image_loader_setup(ImageLoader *il)
 
 	il->loader = gdk_pixbuf_loader_new();
 	g_signal_connect(G_OBJECT(il->loader), "area_updated",
-		 	 G_CALLBACK(image_loader_area_cb), il);
+			 G_CALLBACK(image_loader_area_cb), il);
 	g_signal_connect(G_OBJECT(il->loader), "size_prepared",
 			 G_CALLBACK(image_loader_size_cb), il);
 

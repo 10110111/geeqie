@@ -93,7 +93,7 @@ static void dest_view_delete_dlg_cancel(GenericDialog *gd, gpointer data);
  *-----------------------------------------------------------------------------
  * (private)
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void dest_free_data(GtkWidget *widget, gpointer data)
 {
@@ -180,10 +180,10 @@ static void dest_populate(Dest_Data *dd, const gchar *path)
 		{
 		if (!options->file_filter.show_dot_directory
 		    && dir->d_name[0] == '.' && dir->d_name[1] == '\0')
-		    	continue;
+			continue;
 		if (dir->d_name[0] == '.' && dir->d_name[1] == '.' && dir->d_name[2] == '\0'
 		    && pathl[0] == '/' && pathl[1] == '\0')
-		    	continue; /* no .. for root directory */
+			continue; /* no .. for root directory */
 		if (dd->show_hidden || !is_hidden(dir->d_name))
 			{
 			gchar *name = dir->d_name;
@@ -231,7 +231,7 @@ static void dest_populate(Dest_Data *dd, const gchar *path)
 			{
 			filepath = concat_dir_and_file(path, list->data);
 			}
-		
+
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter, 0, list->data, 1, filepath, -1);
 
@@ -249,13 +249,13 @@ static void dest_populate(Dest_Data *dd, const gchar *path)
 
 		list = file_list;
 		while (list)
-        	        {
+			{
 			GtkTreeIter iter;
 			gchar *filepath;
 			const gchar *name = list->data;
 
 			filepath = concat_dir_and_file(path, name);
-		
+
 			gtk_list_store_append(store, &iter);
 			gtk_list_store_set(store, &iter, 0, name, 1, filepath, -1);
 
@@ -518,7 +518,7 @@ static void dest_view_delete(Dest_Data *dd, GtkTreeView *view)
 	model = gtk_tree_view_get_model(view);
 	gtk_tree_model_get_iter(model, &iter, dd->right_click_path);
 	gtk_tree_model_get(model, &iter, 1, &path, -1);
-	
+
 	if (!path) return;
 
 	dl = g_new(DestDel_Data, 1);
@@ -625,7 +625,7 @@ static gint dest_popup_menu(Dest_Data *dd, GtkTreeView *view,
 		gtk_tree_model_get(model, &iter, 0, &text, -1);
 
 		if (!text) return FALSE;
-	       
+
 		normal_dir = (strcmp(text, ".") == 0 || strcmp(text, "..") == 0);
 
 		menu = popup_menu_short_lived();
@@ -726,7 +726,7 @@ static gboolean dest_keypress_cb(GtkWidget *view, GdkEventKey *event, gpointer d
 
 	return FALSE;
 }
-	
+
 static void dest_new_dir_cb(GtkWidget *widget, gpointer data)
 {
 	Dest_Data *dd = data;
@@ -786,7 +786,7 @@ static void dest_new_dir_cb(GtkWidget *widget, gpointer data)
  *-----------------------------------------------------------------------------
  * destination widget file selection, traversal, view options
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 static void dest_select_cb(GtkTreeSelection *selection, gpointer data)
 {
@@ -1008,14 +1008,14 @@ static void dest_bookmark_select_cb(const gchar *path, gpointer data)
 	else if (isfile(path) && dd->f_view)
 		{
 		gtk_entry_set_text(GTK_ENTRY(dd->entry), path);
-		}	
+		}
 }
 
 /*
  *-----------------------------------------------------------------------------
  * destination widget setup routines (public)
  *-----------------------------------------------------------------------------
- */ 
+ */
 
 GtkWidget *path_selection_new_with_files(GtkWidget *entry, const gchar *path,
 					 const gchar *filter, const gchar *filter_desc)
@@ -1129,7 +1129,7 @@ GtkWidget *path_selection_new_with_files(GtkWidget *entry, const gchar *path,
 			 G_CALLBACK(dest_activate_cb), dd);
 	g_signal_connect(G_OBJECT(dd->d_view), "destroy",
 			 G_CALLBACK(dest_free_data), dd);
-	
+
 	if (filter)
 		{
 		GtkListStore *store;
@@ -1254,7 +1254,7 @@ void path_selection_sync_to_entry(GtkWidget *entry)
 	if (!dd) return;
 
 	path = gtk_entry_get_text(GTK_ENTRY(entry));
-	
+
 	if (isdir(path) && (!dd->path || strcmp(path, dd->path) != 0))
 		{
 		dest_populate(dd, path);
