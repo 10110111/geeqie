@@ -1102,7 +1102,7 @@ static GtkActionEntry menu_entries[] = {
   { "HistogramLog",	NULL,	N_("Histogram _log mode"),	"J",		NULL,	CB(layout_menu_histogram_log_cb) },
   { "HideTools",	NULL,		N_("_Hide file list"),	"<control>H",	NULL,	CB(layout_menu_hide_cb) },
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb) },
-  { "SlideShowPause",	NULL,		N_("_Pause _slideshow"),"P",		NULL,	CB(layout_menu_slideshow_pause_cb) },
+  { "SlideShowPause",	NULL,		N_("_Pause slideshow"), "P",		NULL,	CB(layout_menu_slideshow_pause_cb) },
   { "Refresh",	GTK_STOCK_REFRESH,	N_("_Refresh"),		"R",		NULL,	CB(layout_menu_refresh_cb) },
 
   { "HelpContents",	GTK_STOCK_HELP,	N_("_Contents"),	"F1",		NULL,	CB(layout_menu_help_cb) },
