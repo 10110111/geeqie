@@ -104,7 +104,7 @@ const gchar *histogram_label(Histogram *histogram)
 
 gulong histogram_read(Histogram *histogram, GdkPixbuf *imgpixbuf)
 {
-	gint w, h, i, j, srs, has_alpha;
+	gint w, h, i, j, srs, has_alpha, step;
 	guchar *s_pix;
 
 	if (!histogram) return 0;
@@ -117,25 +117,40 @@ gulong histogram_read(Histogram *histogram, GdkPixbuf *imgpixbuf)
 
 	memset(histogram->histmap, 0, sizeof(histogram->histmap));
 
-	for (i = 0; i < h; i++)
+	/* code duplication is here to speed up the calculation */
+	step = 3 + !!(has_alpha);
+	if (histogram->histogram_chan == HCHAN_MAX)
 		{
-		guchar *sp = s_pix + (i * srs); /* 8bit */
-		for (j = 0; j < w; j++)
+		for (i = 0; i < h; i++)
 			{
-			histogram->histmap[sp[0] + 0 * HISTOGRAM_SIZE]++;
-			histogram->histmap[sp[1] + 1 * HISTOGRAM_SIZE]++;
-			histogram->histmap[sp[2] + 2 * HISTOGRAM_SIZE]++;
-			if (histogram->histogram_chan == HCHAN_MAX)
+			guchar *sp = s_pix + (i * srs); /* 8bit */
+			for (j = 0; j < w; j++)
 				{
 				guchar t = sp[0];
 				if (sp[1]>t) t = sp[1];
 				if (sp[2]>t) t = sp[2];
-  				histogram->histmap[t + 3 * HISTOGRAM_SIZE]++;
+
+				histogram->histmap[sp[0] + 0 * HISTOGRAM_SIZE]++;
+				histogram->histmap[sp[1] + 1 * HISTOGRAM_SIZE]++;
+				histogram->histmap[sp[2] + 2 * HISTOGRAM_SIZE]++;
+				histogram->histmap[t + 3 * HISTOGRAM_SIZE]++;
+				sp += step;
 				}
-			else
-  				histogram->histmap[3 * HISTOGRAM_SIZE + (sp[0]+sp[1]+sp[2])/3]++;
-			sp += 3;
-			if (has_alpha) sp++;
+			}
+		}
+	else
+		{
+		for (i = 0; i < h; i++)
+			{
+			guchar *sp = s_pix + (i * srs); /* 8bit */
+			for (j = 0; j < w; j++)
+				{
+				histogram->histmap[sp[0] + 0 * HISTOGRAM_SIZE]++;
+				histogram->histmap[sp[1] + 1 * HISTOGRAM_SIZE]++;
+				histogram->histmap[sp[2] + 2 * HISTOGRAM_SIZE]++;
+				histogram->histmap[3 * HISTOGRAM_SIZE + (sp[0]+sp[1]+sp[2])/3]++;
+				sp += step;
+				}
 			}
 		}
 
