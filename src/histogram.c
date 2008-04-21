@@ -157,7 +157,6 @@ gulong histogram_read(Histogram *histogram, GdkPixbuf *imgpixbuf)
 	return w*h;
 }
 
-
 gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
 {
 	/* FIXME: use the coordinates correctly */
@@ -167,15 +166,15 @@ gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gin
 
 	if (!histogram) return 0;
 
-	for (i=0; i<1024; i++) {
+	for (i = 0; i < 1024; i++) {
 		gint flag = 0;
 
 		switch (histogram->histogram_chan)
 		{
-		case HCHAN_RGB: if ((i%4) != 3 ) flag = 1; break;
-		case HCHAN_R: if ((i%4) == 0) flag = 1; break;
-		case HCHAN_G: if ((i%4) == 1) flag = 1; break;
-		case HCHAN_B: if ((i%4) == 2) flag = 1; break;
+		case HCHAN_RGB: if ((i%4) != 3) flag = 1; break;
+		case HCHAN_R:   if ((i%4) == 0) flag = 1; break;
+		case HCHAN_G:   if ((i%4) == 1) flag = 1; break;
+		case HCHAN_B:   if ((i%4) == 2) flag = 1; break;
 		case HCHAN_VAL: if ((i%4) == 3) flag = 1; break;
 		case HCHAN_MAX: if ((i%4) == 3) flag = 1; break;
 		}
@@ -183,7 +182,7 @@ gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gin
 	}
 
 	logmax = log(max);
-	for (i=0; i<width; i++)
+	for (i = 0; i < width; i++)
 		{
 		gint j;
 		glong v[4] = {0, 0, 0, 0};
@@ -195,61 +194,65 @@ gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gin
 
 		for (j = 0; j < combine; j++)
 			{
-			v[0] += histogram->histmap[ii + j + 0*HISTOGRAM_SIZE]; // r
-			v[1] += histogram->histmap[ii + j + 1*HISTOGRAM_SIZE]; // g
-			v[2] += histogram->histmap[ii + j + 2*HISTOGRAM_SIZE]; // b
-			v[3] += histogram->histmap[ii + j + 3*HISTOGRAM_SIZE]; // value, max
+			v[0] += histogram->histmap[ii + j + 0 * HISTOGRAM_SIZE]; // r
+			v[1] += histogram->histmap[ii + j + 1 * HISTOGRAM_SIZE]; // g
+			v[2] += histogram->histmap[ii + j + 2 * HISTOGRAM_SIZE]; // b
+			v[3] += histogram->histmap[ii + j + 3 * HISTOGRAM_SIZE]; // value, max
 			}
 
-		for (j=0; j<4; j++)
+		for (j = 0; j < 4; j++)
 			{
-			gint r = rplus;
-			gint g = gplus;
-			gint b = bplus;
 			gint max2 = 0;
 			gint k;
-			gulong pt;
-
-			for (k=1; k<4; k++)
+		
+			for (k = 1; k < 4; k++)
 				if (v[k] > v[max2]) max2 = k;
-
-			switch (max2)
-			{
-			case HCHAN_R: rplus = r = 255; break;
-			case HCHAN_G: gplus = g = 255; break;
-			case HCHAN_B: bplus = b = 255; break;
-			}
-
-			switch(histogram->histogram_chan)
-			{
-			case HCHAN_MAX: r = 0; b = 0; g = 0; break;
-			case HCHAN_VAL: r = 0; b = 0; g = 0; break;
-			case HCHAN_R: g = 0; b = 0; break;
-			case HCHAN_G: r = 0; b = 0; break;
-			case HCHAN_B: r = 0; g = 0; break;
-			case HCHAN_RGB:
-				if (r == 255 && g == 255 && b == 255) {
-					r = 0;
-					g = 0;
-					b = 0;
-				}
-				break;
-			}
-
-			if (v[max2] == 0)
-				pt = 0;
-			else if (histogram->histogram_logmode)
-				pt = ((float)log(v[max2])) / logmax * (height - 1);
-			else
-				pt = ((float)v[max2])/ max * (height - 1);
+			
 			if (histogram->histogram_chan >= HCHAN_RGB
 			    || max2 == histogram->histogram_chan)
+			    	{
+				gulong pt;
+				gint r = rplus;
+				gint g = gplus;
+				gint b = bplus;
+
+				switch (max2)
+					{
+					case HCHAN_R: rplus = r = 255; break;
+					case HCHAN_G: gplus = g = 255; break;
+					case HCHAN_B: bplus = b = 255; break;
+					}
+
+				switch (histogram->histogram_chan)
+					{
+					case HCHAN_RGB:
+						if (r == 255 && g == 255 && b == 255)
+							{
+							r = 0; b = 0; g = 0;
+							}
+						break;
+					case HCHAN_R:          b = 0; g = 0; break;
+					case HCHAN_G:   r = 0; b = 0;        break;
+					case HCHAN_B:   r = 0;        g = 0; break;
+					case HCHAN_MAX:
+					case HCHAN_VAL: r = 0; b = 0; g = 0; break;
+					}
+				
+				if (v[max2] == 0)
+					pt = 0;
+				else if (histogram->histogram_logmode)
+					pt = ((float)log(v[max2])) / logmax * (height - 1);
+				else
+					pt = ((float)v[max2])/ max * (height - 1);
+
 				pixbuf_draw_line(pixbuf,
 					x, y, width, height,
-					x + i, y + height, x + i, y + height-pt,
+					x + i, y + height, x + i, y + height - pt,
 					r, g, b, 255);
+				}
 			v[max2] = -1;
 			}
 		}
+
 	return TRUE;
 }
