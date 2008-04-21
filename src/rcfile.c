@@ -593,6 +593,14 @@ void load_options(void)
 #define READ_CHAR(_name_) read_char_option(f, option, #_name_, value_all, &options->_name_)
 #define READ_COLOR(_name_) read_color_option(f, option, #_name_, value, &options->_name_)
 
+#define COMPAT_READ_BOOL(_oldname_, _name_) read_bool_option(f, option, #_oldname_, value, &options->_name_)
+#define COMPAT_READ_INT(_oldname_, _name_) read_int_option(f, option, #_oldname_, value, &options->_name_)
+#define COMPAT_READ_UINT(_oldname_, _name_) read_uint_option(f, option, #_oldname_, value, &options->_name_)
+#define COMPAT_READ_INT_CLAMP(_oldname_, _name_, _min_, _max_) read_int_option_clamp(f, option, #_oldname_, value, &options->_name_, _min_, _max_)
+#define COMPAT_READ_INT_UNIT(_oldname_, _name_, _unit_) read_int_unit_option(f, option, #_oldname_, value, &options->_name_, _unit_)
+#define COMPAT_READ_CHAR(_oldname_, _name_) read_char_option(f, option, #_oldname_, value_all, &options->_name_)
+#define COMPAT_READ_COLOR(_oldname_, _name_) read_color_option(f, option, #_oldname_, value, &options->_name_)
+
 		/* general options */
 		READ_BOOL(show_icon_names);
 
@@ -708,10 +716,12 @@ void load_options(void)
 		READ_BOOL(fullscreen.above);
 
 		/* image overlay */
+		COMPAT_READ_BOOL(fullscreen.show_info, image_overlay.common.show_at_startup);
+		COMPAT_READ_CHAR(fullscreen.info, image_overlay.common.template_string);
 		READ_BOOL(image_overlay.common.enabled);
 		READ_BOOL(image_overlay.common.show_at_startup);
 		READ_CHAR(image_overlay.common.template_string);
-
+	
 		/* slideshow options */
 		READ_INT_UNIT(slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION);
 		READ_BOOL(slideshow.random);
