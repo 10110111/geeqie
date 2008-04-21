@@ -65,7 +65,7 @@ if test "x$with_exiv2" != "xno"; then
 fi
 
 
-ALL_LINGUAS="ar be bg ca cs da de eo es et eu fi fr hu id it ja ko nl no pl pt_BR ro ru sk sl sv th tr uk vi zh_CN.GB2312 zh_TW"
+ALL_LINGUAS="ar be bg ca cs da de eo es et eu fi fr hu id it ja ko nl nb pl pt_BR ro ru sk sl sv th tr uk vi zh_CN.GB2312 zh_TW"
 GETTEXT_PACKAGE=$PACKAGE
 AC_SUBST(GETTEXT_PACKAGE)
 AM_GLIB_GNU_GETTEXT
