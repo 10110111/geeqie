@@ -35,7 +35,7 @@ external commands, for example create hardlinks instead of copying files.
 
 External editors handling was improved, it is possible to run an editor
 on the best fitting file type, and the exit status is reported back
-to gqview.
+to Geeqie.
 
 Configuration: Preferences/Editors
 Menu: Edit/...
