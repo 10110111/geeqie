@@ -75,6 +75,13 @@ static OSDIcon osd_icons[] = {
 #define IMAGE_OSD_DEFAULT_DURATION 30
 
 #define HISTOGRAM_HEIGHT 140
+
+void set_default_image_overlay_template_string(ConfOptions *options)
+{
+	if (options->image_overlay.common.template_string) g_free(options->image_overlay.common.template_string);
+	options->image_overlay.common.template_string = g_strdup(DEFAULT_OVERLAY_INFO);
+}
+
 /*
  *----------------------------------------------------------------------------
  * image histogram

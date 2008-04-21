@@ -1238,7 +1238,7 @@ static void setup_default_options(void)
 		options->color_profile.input_name[i] = NULL;
 		}
 
-	set_default_fullscreen_info(options);
+	set_default_image_overlay_template_string(options);
 	sidecar_ext_add_defaults();
 	options->layout.order = g_strdup("123");
 }

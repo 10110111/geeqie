@@ -23,6 +23,7 @@ typedef enum {
 	IMAGE_OSD_COUNT
 } ImageOSDFlag;
 
+void set_default_image_overlay_template_string(ConfOptions *options);
 
 void image_osd_set(ImageWindow *imd, gint info, gint status);
 gint image_osd_get(ImageWindow *imd, gint *info, gint *status);

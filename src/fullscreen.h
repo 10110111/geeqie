@@ -16,8 +16,6 @@
 #define FULL_SCREEN_HIDE_MOUSE_DELAY 3000
 #define FULL_SCREEN_BUSY_MOUSE_DELAY 200
 
-void set_default_fullscreen_info(ConfOptions *options);
-
 
 FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 				 void (*stop_func)(FullScreenData *, gpointer), gpointer stop_data);

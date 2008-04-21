@@ -18,6 +18,7 @@
 #include "filelist.h"
 #include "fullscreen.h"
 #include "image.h"
+#include "image-overlay.h"
 #include "color-man.h"
 #include "img-view.h"
 #include "layout_config.h"
@@ -792,28 +793,28 @@ static void image_overlay_template_view_changed_cb(GtkWidget* widget, gpointer d
 	c_options->image_overlay.common.template_string = gtk_text_buffer_get_text(pTextBuffer, &iStart, &iEnd, TRUE);
 }
 
-static void fullscreen_info_default_ok_cb(GenericDialog *gd, gpointer data)
+static void image_overlay_default_template_ok_cb(GenericDialog *gd, gpointer data)
 {
 	GtkTextView *text_view = data;
 	GtkTextBuffer *buffer;
 
-	set_default_fullscreen_info(options);
+	set_default_image_overlay_template_string(options);
 	if (!configwindow) return;
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view));
 	gtk_text_buffer_set_text(buffer, options->image_overlay.common.template_string, -1);
 }
 
-static void fullscreen_info_default_cb(GtkWidget *widget, gpointer data)
+static void image_overlay_default_template_cb(GtkWidget *widget, gpointer data)
 {
 	GenericDialog *gd;
 
-	gd = generic_dialog_new(_("Reset fullscreen info string"),
-				GQ_WMCLASS, "reset_fullscreen_info", widget, TRUE,
+	gd = generic_dialog_new(_("Reset image overlay template string"),
+				GQ_WMCLASS, "reset_image_overlay_template_string", widget, TRUE,
 				dummy_cancel_cb, data);
-	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset fullscreen info string"),
-				   _("This will reset the fullscreen info string to the default.\nContinue?"));
-	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, fullscreen_info_default_ok_cb, TRUE);
+	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset image overlay template string"),
+				   _("This will reset the image overlay template string to the default.\nContinue?"));
+	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, image_overlay_default_template_ok_cb, TRUE);
 	gtk_widget_show(gd->dialog);
 }
 
@@ -1345,7 +1346,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
 
 	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
-				 G_CALLBACK(fullscreen_info_default_cb), image_overlay_template_view);
+				 G_CALLBACK(image_overlay_default_template_cb), image_overlay_template_view);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 
