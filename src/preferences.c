@@ -267,6 +267,7 @@ static void config_window_apply(void)
 	options->tree_descend_subdirs = c_options->tree_descend_subdirs;
 
 	options->open_recent_list_maxsize = c_options->open_recent_list_maxsize;
+	options->dnd_icon_size = c_options->dnd_icon_size;
 
 #ifdef DEBUG
 	debug = debug_c;
@@ -1406,6 +1407,9 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	pref_spin_new_int(group, _("Open recent list maximum size"), NULL,
 			  1, 50, 1, options->open_recent_list_maxsize, &c_options->open_recent_list_maxsize);
+	
+	pref_spin_new_int(group, _("Drag'n drop icon size"), NULL,
+			  16, 256, 16, options->dnd_icon_size, &c_options->dnd_icon_size);
 
 	group = pref_group_new(vbox, FALSE, _("Navigation"), GTK_ORIENTATION_VERTICAL);
 

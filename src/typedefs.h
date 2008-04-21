@@ -760,6 +760,7 @@ struct _ConfOptions
 	gint duplicates_similarity_threshold;
 
 	gint open_recent_list_maxsize;
+	gint dnd_icon_size;
 
 	/* file ops */
 	struct {

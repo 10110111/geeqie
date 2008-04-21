@@ -318,6 +318,7 @@ void save_options(void)
 
 	WRITE_BOOL(mousewheel_scrolls);
 	WRITE_INT(open_recent_list_maxsize);
+	WRITE_INT(dnd_icon_size);
 	WRITE_BOOL(place_dialogs_under_mouse);
 
 
@@ -608,7 +609,7 @@ void load_options(void)
 		READ_BOOL(mousewheel_scrolls);
 
 		READ_INT(open_recent_list_maxsize);
-
+		READ_INT(dnd_icon_size);
 		READ_BOOL(place_dialogs_under_mouse);
 
 

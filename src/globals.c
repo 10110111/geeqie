@@ -29,6 +29,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->color_profile.screen_type = 0;
 	options->color_profile.use_image = TRUE;
 
+	options->dnd_icon_size = 48;
 	options->duplicates_similarity_threshold = 99;
 	options->enable_metadata_dirs = FALSE;
 

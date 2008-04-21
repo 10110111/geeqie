@@ -32,7 +32,7 @@ GtkTargetEntry dnd_file_drop_types[] = {
 gint dnd_file_drop_types_count = 2;
 
 
-#define DND_ICON_SIZE 48
+#define DND_ICON_SIZE (options->dnd_icon_size)
 
 
 static void pixbuf_draw_border(GdkPixbuf *pixbuf, gint w, gint h)
