@@ -312,7 +312,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 		if (!lw)
 			lw = layout_find_by_image(imd);
 
-		if (imgpixbuf && lw->histogram && lw->histogram_enabled
+		if (imgpixbuf && lw && lw->histogram && lw->histogram_enabled
 			      && (!imd->il || imd->il->done))
 			with_hist=1;
 
