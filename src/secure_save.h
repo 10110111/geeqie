@@ -1,7 +1,7 @@
 /*
  * Geeqie
+ * Copyright (C) 2008 The Geeqie Team
  *
- * Author: Vladimir Nadvornik
  * based on the code developped for ELinks by Laurent Monin
  *
  * This software is released under the GNU General Public License (GNU GPL).

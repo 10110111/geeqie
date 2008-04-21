@@ -1,6 +1,7 @@
 /*
  *  GQView
  *  (C) 2006 John Ellis
+ * Copyright (C) 2008 The Geeqie Team
  *
 */
 

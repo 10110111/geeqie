@@ -1,6 +1,7 @@
 /*
  *  GQView
  *  (C) 2005 John Ellis
+ * Copyright (C) 2008 The Geeqie Team
  *
  *  Authors:
  *    Original version 2005 Lars Ellenberg, base on dcraw by David coffin.

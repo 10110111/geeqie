@@ -1,6 +1,7 @@
 /*
  * Geeqie
  * (C) 2005 John Ellis
+ * Copyright (C) 2008 The Geeqie Team
  *
  * Author: John Ellis
  *

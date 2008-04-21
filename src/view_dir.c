@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * (C) 2008 Vladimir Nadvornik
+ * Copyright (C) 2008 The Geeqie Team
  *
  * Author: Laurent Monin
  *

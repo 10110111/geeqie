@@ -1,6 +1,7 @@
 /*
  * (SLIK) SimpLIstic sKin functions
  * (C) 2006 John Ellis
+ * Copyright (C) 2008 The Geeqie Team
  *
  * Author: John Ellis
  *
