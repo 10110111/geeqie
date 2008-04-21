@@ -34,8 +34,8 @@ enum {
 
 void set_default_fullscreen_info(ConfOptions *options)
 {
-	if (options->fullscreen.info) g_free(options->fullscreen.info);
-	options->fullscreen.info = g_strdup(DEFAULT_OVERLAY_INFO);
+	if (options->image_overlay.common.template_string) g_free(options->image_overlay.common.template_string);
+	options->image_overlay.common.template_string = g_strdup(DEFAULT_OVERLAY_INFO);
 }
 
 static void clear_mouse_cursor(GtkWidget *widget, gint state)

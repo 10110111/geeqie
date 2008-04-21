@@ -427,8 +427,11 @@ void save_options(void)
 	WRITE_BOOL(fullscreen.clean_flip);
 	WRITE_BOOL(fullscreen.disable_saver);
 	WRITE_BOOL(fullscreen.above);
-	WRITE_BOOL(fullscreen.show_info);
-	WRITE_CHAR(fullscreen.info);
+
+	WRITE_SUBTITLE("Image Overlay Options");
+	WRITE_BOOL(image_overlay.common.enabled);
+	WRITE_BOOL(image_overlay.common.show_at_startup);
+	WRITE_CHAR(image_overlay.common.template_string);
 
 	WRITE_SUBTITLE("Slideshow Options");
 
@@ -703,11 +706,13 @@ void load_options(void)
 		READ_BOOL(fullscreen.clean_flip);
 		READ_BOOL(fullscreen.disable_saver);
 		READ_BOOL(fullscreen.above);
-		READ_BOOL(fullscreen.show_info);
-		READ_CHAR(fullscreen.info);
+
+		/* image overlay */
+		READ_BOOL(image_overlay.common.enabled);
+		READ_BOOL(image_overlay.common.show_at_startup);
+		READ_CHAR(image_overlay.common.template_string);
 
 		/* slideshow options */
-
 		READ_INT_UNIT(slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION);
 		READ_BOOL(slideshow.random);
 		READ_BOOL(slideshow.repeat);

@@ -335,7 +335,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
  		}
  	else
  		{
- 		text = image_osd_mkinfo(options->fullscreen.info, imd, vars);
+ 		text = image_osd_mkinfo(options->image_overlay.common.template_string, imd, vars);
 		}
 
 	g_free(size);

@@ -843,14 +843,21 @@ struct _ConfOptions
 	} slideshow;
 
 	/* fullscreen */
-	struct 	{
+	struct {
 		gint screen;
 		gint clean_flip;
 		gint disable_saver;
 		gint above;
-		gint show_info;
-		gchar *info;
 	} fullscreen;
+
+	/* image overlay */
+	struct {
+		struct {
+			gint enabled;
+			gint show_at_startup;
+			gchar *template_string;
+		} common;
+	} image_overlay;
 
 	/* layout */
 	struct {

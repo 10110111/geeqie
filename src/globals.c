@@ -51,9 +51,9 @@ ConfOptions *init_options(ConfOptions *options)
 	options->fullscreen.above = FALSE;
 	options->fullscreen.clean_flip = FALSE;
 	options->fullscreen.disable_saver = TRUE;
-	options->fullscreen.info = NULL;
+	options->image_overlay.common.template_string = NULL;
 	options->fullscreen.screen = -1;
-	options->fullscreen.show_info = TRUE;
+	options->image_overlay.common.show_at_startup = TRUE;
 
 	memset(&options->image.border_color, 0, sizeof(options->image.border_color));
 	options->image.dither_quality = (gint)GDK_RGB_DITHER_NORMAL;

@@ -252,11 +252,11 @@ static void config_window_apply(void)
 	options->fullscreen.clean_flip = c_options->fullscreen.clean_flip;
 	options->fullscreen.disable_saver = c_options->fullscreen.disable_saver;
 	options->fullscreen.above = c_options->fullscreen.above;
-	options->fullscreen.show_info = c_options->fullscreen.show_info;
-	if (c_options->fullscreen.info)
+	options->image_overlay.common.show_at_startup = c_options->image_overlay.common.show_at_startup;
+	if (c_options->image_overlay.common.template_string)
 		{
-		g_free(options->fullscreen.info);
-		options->fullscreen.info = g_strdup(c_options->fullscreen.info);
+		g_free(options->image_overlay.common.template_string);
+		options->image_overlay.common.template_string = g_strdup(c_options->image_overlay.common.template_string);
 		}
 
 	options->update_on_time_change = c_options->update_on_time_change;
@@ -775,7 +775,7 @@ static void safe_delete_clear_cb(GtkWidget* widget, gpointer data)
 	gtk_widget_show(gd->dialog);
 }
 
-static void fullscreen_info_view_changed_cb(GtkWidget* widget, gpointer data)
+static void image_overlay_template_view_changed_cb(GtkWidget* widget, gpointer data)
 {
 	GtkWidget *pTextView;
 	GtkTextBuffer* pTextBuffer;
@@ -788,8 +788,8 @@ static void fullscreen_info_view_changed_cb(GtkWidget* widget, gpointer data)
 	gtk_text_buffer_get_start_iter(pTextBuffer, &iStart);
 	gtk_text_buffer_get_end_iter(pTextBuffer, &iEnd);
 
-	if (c_options->fullscreen.info) g_free(c_options->fullscreen.info);
-	c_options->fullscreen.info = gtk_text_buffer_get_text(pTextBuffer, &iStart, &iEnd, TRUE);
+	if (c_options->image_overlay.common.template_string) g_free(c_options->image_overlay.common.template_string);
+	c_options->image_overlay.common.template_string = gtk_text_buffer_get_text(pTextBuffer, &iStart, &iEnd, TRUE);
 }
 
 static void fullscreen_info_default_ok_cb(GenericDialog *gd, gpointer data)
@@ -801,7 +801,7 @@ static void fullscreen_info_default_ok_cb(GenericDialog *gd, gpointer data)
 	if (!configwindow) return;
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view));
-	gtk_text_buffer_set_text(buffer, options->fullscreen.info, -1);
+	gtk_text_buffer_set_text(buffer, options->image_overlay.common.template_string, -1);
 }
 
 static void fullscreen_info_default_cb(GtkWidget *widget, gpointer data)
@@ -1278,7 +1278,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 	GtkWidget *spin;
 	GtkWidget *scrolled;
 	GtkWidget *viewport;
-	GtkWidget *fullscreen_info_view;
+	GtkWidget *image_overlay_template_view;
 	GtkTextBuffer *buffer;
 	gint i;
 
@@ -1311,9 +1311,9 @@ static void config_tab_advanced(GtkWidget *notebook)
 			      options->fullscreen.clean_flip, &c_options->fullscreen.clean_flip);
 	pref_checkbox_new_int(group, _("Disable screen saver"),
 			      options->fullscreen.disable_saver, &c_options->fullscreen.disable_saver);
-	pref_checkbox_new_int(group, _("Always show fullscreen info"),
-			      options->fullscreen.show_info, &c_options->fullscreen.show_info);
-	pref_label_new(group, _("Fullscreen info string"));
+	pref_checkbox_new_int(group, _("Always show image overlay at startup"),
+			      options->image_overlay.common.show_at_startup, &c_options->image_overlay.common.show_at_startup);
+	pref_label_new(group, _("Image overlay template"));
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_widget_set_size_request(scrolled, 200, 150);
@@ -1323,10 +1323,10 @@ static void config_tab_advanced(GtkWidget *notebook)
 	gtk_box_pack_start(GTK_BOX(group), scrolled, TRUE, TRUE, 5);
 	gtk_widget_show(scrolled);
 
-	fullscreen_info_view = gtk_text_view_new();
+	image_overlay_template_view = gtk_text_view_new();
 
 #if GTK_CHECK_VERSION(2,12,0)
-	gtk_widget_set_tooltip_markup(fullscreen_info_view,
+	gtk_widget_set_tooltip_markup(image_overlay_template_view,
 	_("<i>%name%</i> results in the filename of the picture.\n"
 	  "Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>%date%</i>,\n"
 	  "<i>%size%</i> (filesize), <i>%width%</i>, <i>%height%</i>, <i>%res%</i> (resolution)\n"
@@ -1339,20 +1339,20 @@ static void config_tab_advanced(GtkWidget *notebook)
 	  "If a line is empty, it is removed. This allows to add lines that totally disappear when no data is available.\n"
 ));
 #endif
-	gtk_container_add(GTK_CONTAINER(scrolled), fullscreen_info_view);
-	gtk_widget_show(fullscreen_info_view);
+	gtk_container_add(GTK_CONTAINER(scrolled), image_overlay_template_view);
+	gtk_widget_show(image_overlay_template_view);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
 
 	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
-				 G_CALLBACK(fullscreen_info_default_cb), fullscreen_info_view);
+				 G_CALLBACK(fullscreen_info_default_cb), image_overlay_template_view);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 
-	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(fullscreen_info_view));
-	if (options->fullscreen.info) gtk_text_buffer_set_text(buffer, options->fullscreen.info, -1);
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(image_overlay_template_view));
+	if (options->image_overlay.common.template_string) gtk_text_buffer_set_text(buffer, options->image_overlay.common.template_string, -1);
 	g_signal_connect(G_OBJECT(buffer), "changed",
-			 G_CALLBACK(fullscreen_info_view_changed_cb), fullscreen_info_view);
+			 G_CALLBACK(image_overlay_template_view_changed_cb), image_overlay_template_view);
 
 	group = pref_group_new(vbox, FALSE, _("Delete"), GTK_ORIENTATION_VERTICAL);
 
