@@ -51,9 +51,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->fullscreen.above = FALSE;
 	options->fullscreen.clean_flip = FALSE;
 	options->fullscreen.disable_saver = TRUE;
-	options->image_overlay.common.template_string = NULL;
 	options->fullscreen.screen = -1;
-	options->image_overlay.common.show_at_startup = TRUE;
 
 	memset(&options->image.border_color, 0, sizeof(options->image.border_color));
 	options->image.dither_quality = (gint)GDK_RGB_DITHER_NORMAL;
@@ -74,6 +72,10 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image.zoom_mode = ZOOM_RESET_ORIGINAL;
 	options->image.zoom_quality = (gint)GDK_INTERP_BILINEAR;
 	options->image.zoom_to_fit_allow_expand = TRUE;
+
+	options->image_overlay.common.enabled = FALSE;
+	options->image_overlay.common.show_at_startup = FALSE;
+	options->image_overlay.common.template_string = NULL;
 
 	options->layout.dir_view_type = DIRVIEW_LIST;
 	options->layout.float_window.h = 450;
