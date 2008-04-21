@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-21 22:13+0200\n"
-"PO-Revision-Date: 2008-04-21 22:25+0100\n"
+"POT-Creation-Date: 2008-04-21 22:39+0200\n"
+"PO-Revision-Date: 2008-04-21 22:40+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french\n"
 "MIME-Version: 1.0\n"
@@ -2738,7 +2738,7 @@ msgstr "Ceci va supprimer le contenu de la corbeille"
 
 #: src/preferences.c:812 src/preferences.c:815
 msgid "Reset image overlay template string"
-msgstr "Restaure le modèle par défaut pour l'affichage en surimpression"
+msgstr "Restaurer le modèle par défaut pour l'affichage en surimpression"
 
 #: src/preferences.c:816
 msgid ""
@@ -2969,7 +2969,7 @@ msgstr "Toujours montrer l'affichage en surimpression au démarrage"
 
 #: src/preferences.c:1317
 msgid "Image overlay template"
-msgstr " Aff_ichage en surimpression"
+msgstr " Modèle pour l'affichage en surimpression"
 
 #: src/preferences.c:1331
 msgid ""
