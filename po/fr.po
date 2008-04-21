@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: geeqie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-21 22:13+0200\n"
-"PO-Revision-Date: 2008-04-21 22:22+0100\n"
+"PO-Revision-Date: 2008-04-21 22:25+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french\n"
 "MIME-Version: 1.0\n"
@@ -2067,7 +2067,7 @@ msgstr "Echappement"
 
 #: src/layout_util.c:1104
 msgid "_Image Overlay"
-msgstr " _Infos OSD"
+msgstr "Aff_ichage en surimpression"
 
 #: src/layout_util.c:1105
 msgid "Histogram _channels"
