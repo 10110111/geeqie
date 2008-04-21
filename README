@@ -640,9 +640,18 @@ zh_TW             93     695      23      26
      Vadim Shliakhov
          for miscellaneous fixes.
 
+     Uwe Ohse
+         for Exif enhancements, histogram and other pathes
 
+     Timo Horstschäfer
+         for customizable fullscreen overlay
+	 
+     Michael Mokeev
+         for print related enhancements
+     
+     
      And...
-         Thanks to the users for finding GQview useful.
+         Thanks to the users for finding Geeqie useful.
 
 
 ========

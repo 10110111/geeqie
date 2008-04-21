@@ -65,8 +65,6 @@ Supporta anche l'uso di editor grafici esterni.
 %setup -q
 
 %build
-rename no nb po/no.*
-%__sed -i "s/\(ALL_LINGUAS.*\) no /\1 nb /" configure.in configure
 %configure
 
 %__make %{?jobs:-j%{jobs}} \
@@ -78,7 +76,7 @@ make install DESTDIR=%{buildroot} \
      helpdir="%{_docdir}/%{name}/html" \
      readmedir="%{_docdir}/%{name}"
 
-%__install AUTHORS COPYING ChangeLog README "%{buildroot}/%{_docdir}/%{name}/"
+%__install AUTHORS COPYING ChangeLog NEWS README "%{buildroot}/%{_docdir}/%{name}/"
 
 %clean
 %__rm -rf "%{buildroot}"
