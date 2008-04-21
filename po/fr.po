@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-21 12:09+0200\n"
-"PO-Revision-Date: 2008-04-21 12:11+0100\n"
+"POT-Creation-Date: 2008-04-21 22:13+0200\n"
+"PO-Revision-Date: 2008-04-21 22:22+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french\n"
 "MIME-Version: 1.0\n"
@@ -44,11 +44,11 @@ msgstr "Format"
 msgid "Elements"
 msgstr "Éléments"
 
-#: src/bar_exif.c:458 src/preferences.c:1104
+#: src/bar_exif.c:458 src/preferences.c:1105
 msgid "Description"
 msgstr "Description"
 
-#: src/bar_exif.c:584 src/info.c:123 src/preferences.c:1247
+#: src/bar_exif.c:584 src/info.c:123 src/preferences.c:1248
 msgid "Exif"
 msgstr "Exif"
 
@@ -268,7 +268,7 @@ msgstr "Créer les vignettes"
 msgid "S_tart"
 msgstr "Dé_but"
 
-#: src/cache_maint.c:845 src/preferences.c:1371
+#: src/cache_maint.c:845 src/preferences.c:1372
 msgid "Folder:"
 msgstr "Dossier :"
 
@@ -322,7 +322,7 @@ msgid "Thumbnail cache"
 msgstr "Cache des vignettes"
 
 #: src/cache_maint.c:1185 src/cache_maint.c:1205 src/cache_maint.c:1233
-#: src/pan-view.c:1541 src/pan-view.c:2381 src/preferences.c:1306
+#: src/pan-view.c:1541 src/pan-view.c:2381 src/preferences.c:1307
 #: src/utilops.c:1871
 msgid "Location:"
 msgstr "Emplacement :"
@@ -439,8 +439,8 @@ msgstr "Montrer le texte"
 msgid "Whether the text is displayed"
 msgstr "Indique si ce texte est caché."
 
-#: src/collect.c:350 src/image.c:175 src/image-overlay.c:259
-#: src/image-overlay.c:334
+#: src/collect.c:350 src/image.c:175 src/image-overlay.c:266
+#: src/image-overlay.c:341
 #, c-format
 msgid "Untitled"
 msgstr "Sans_Titre"
@@ -732,7 +732,7 @@ msgstr "%d fichiers (groupe 2)"
 msgid "Name case-insensitive"
 msgstr "Nom insensible à la casse"
 
-#: src/dupe.c:2635 src/dupe.c:3155 src/preferences.c:999 src/print.c:3236
+#: src/dupe.c:2635 src/dupe.c:3155 src/preferences.c:1000 src/print.c:3236
 #: src/search.c:2740 src/view_file_list.c:2028
 msgid "Size"
 msgstr "Taille"
@@ -783,7 +783,7 @@ msgstr "Comparer à :"
 msgid "Compare by:"
 msgstr "Comparer par :"
 
-#: src/dupe.c:3211 src/preferences.c:857 src/search.c:2756
+#: src/dupe.c:3211 src/preferences.c:858 src/search.c:2756
 msgid "Thumbnails"
 msgstr "Vignettes"
 
@@ -1591,35 +1591,35 @@ msgstr "%.1f Mo"
 msgid "%.1f GB"
 msgstr "%.1f Go"
 
-#: src/fullscreen.c:247 src/preferences.c:1302
+#: src/fullscreen.c:241 src/preferences.c:1303
 msgid "Full screen"
 msgstr "Plein écran"
 
-#: src/fullscreen.c:399
+#: src/fullscreen.c:393
 msgid "Full size"
 msgstr "Pleine taille"
 
-#: src/fullscreen.c:404
+#: src/fullscreen.c:398
 msgid "Monitor"
 msgstr "Moniteur"
 
-#: src/fullscreen.c:409 src/layout.c:447
+#: src/fullscreen.c:403 src/layout.c:447
 msgid "Screen"
 msgstr "Écran"
 
-#: src/fullscreen.c:646
+#: src/fullscreen.c:640
 msgid "Stay above other windows"
 msgstr "Rester au dessus des autres fenêtres"
 
-#: src/fullscreen.c:653
+#: src/fullscreen.c:647
 msgid "Determined by Window Manager"
 msgstr "Déterminé par le gestionnaire de fenêtres"
 
-#: src/fullscreen.c:654
+#: src/fullscreen.c:648
 msgid "Active screen"
 msgstr "Écran actif"
 
-#: src/fullscreen.c:656
+#: src/fullscreen.c:650
 msgid "Active monitor"
 msgstr "Moniteur actif"
 
@@ -1759,7 +1759,7 @@ msgstr "Propriétaire :"
 msgid "Group:"
 msgstr "Groupe :"
 
-#: src/info.c:403 src/preferences.c:838
+#: src/info.c:403 src/preferences.c:839
 msgid "General"
 msgstr "Général"
 
@@ -1858,7 +1858,7 @@ msgstr "Géométrie invalide\n"
 msgid "Files"
 msgstr "Fichiers"
 
-#: src/layout_config.c:57 src/preferences.c:914 src/print.c:114
+#: src/layout_config.c:57 src/preferences.c:915 src/print.c:114
 msgid "Image"
 msgstr "Image"
 
@@ -2229,7 +2229,7 @@ msgstr "Zoom avant"
 msgid "Zoom out"
 msgstr "Zoom arrière"
 
-#: src/layout_util.c:1530 src/preferences.c:951
+#: src/layout_util.c:1530 src/preferences.c:952
 msgid "Fit image to window"
 msgstr "Mettre à la taille de la fenêtre"
 
@@ -2507,7 +2507,7 @@ msgstr "Tri des images ..."
 msgid "Date:"
 msgstr "Date :"
 
-#: src/pan-view.c:1545 src/preferences.c:860 src/print.c:3243 src/print.c:3454
+#: src/pan-view.c:1545 src/preferences.c:861 src/print.c:3243 src/print.c:3454
 msgid "Size:"
 msgstr "Taille :"
 
@@ -2626,11 +2626,11 @@ msgstr ""
 "options doivent être validées pour apprécier un changement dans les "
 "performances."
 
-#: src/pan-view.c:2599 src/preferences.c:863
+#: src/pan-view.c:2599 src/preferences.c:864
 msgid "Cache thumbnails"
 msgstr "Mettre en cache les vignettes"
 
-#: src/pan-view.c:2601 src/preferences.c:869
+#: src/pan-view.c:2601 src/preferences.c:870
 msgid "Use shared thumbnail cache"
 msgstr "Utiliser un cache vignettes partagé"
 
@@ -2660,55 +2660,55 @@ msgstr "_Pleine taille"
 
 #. note: the order is important, it must match the values of
 #. * EXIF_UI_OFF, _IFSET, _ON
-#: src/preferences.c:387
+#: src/preferences.c:388
 msgid "Never"
 msgstr "Jamais"
 
-#: src/preferences.c:388
+#: src/preferences.c:389
 msgid "If set"
 msgstr "Si défini"
 
-#: src/preferences.c:389
+#: src/preferences.c:390
 msgid "Always"
 msgstr "Toujours"
 
-#: src/preferences.c:436
+#: src/preferences.c:437
 msgid "Nearest (worst, but fastest)"
 msgstr "Au plus près (moins bon, plus rapide)"
 
-#: src/preferences.c:438
+#: src/preferences.c:439
 msgid "Tiles"
 msgstr "Tuiles"
 
-#: src/preferences.c:440
+#: src/preferences.c:441
 msgid "Bilinear"
 msgstr "Bilinéaire"
 
-#: src/preferences.c:442
+#: src/preferences.c:443
 msgid "Hyper (best, but slowest)"
 msgstr "Hyper (meilleur, plus lent)"
 
-#: src/preferences.c:470
+#: src/preferences.c:471
 msgid "None"
 msgstr "Aucune"
 
-#: src/preferences.c:471
+#: src/preferences.c:472
 msgid "Normal"
 msgstr "Normale"
 
-#: src/preferences.c:472
+#: src/preferences.c:473
 msgid "Best"
 msgstr "Meilleure"
 
-#: src/preferences.c:533 src/print.c:370
+#: src/preferences.c:534 src/print.c:370
 msgid "Custom"
 msgstr "Spécifique"
 
-#: src/preferences.c:697 src/preferences.c:700
+#: src/preferences.c:698 src/preferences.c:701
 msgid "Reset filters"
 msgstr "RAZ des filtres"
 
-#: src/preferences.c:701
+#: src/preferences.c:702
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
@@ -2716,11 +2716,11 @@ msgstr ""
 "Ceci va remettre les filtres de fichiers à leur état par défaut.\n"
 "Continuer ?"
 
-#: src/preferences.c:735 src/preferences.c:738
+#: src/preferences.c:736 src/preferences.c:739
 msgid "Reset editors"
 msgstr "RAZ des éditeurs"
 
-#: src/preferences.c:739
+#: src/preferences.c:740
 msgid ""
 "This will reset the edit commands to the defaults.\n"
 "Continue?"
@@ -2728,250 +2728,250 @@ msgstr ""
 "Ceci va remettre les commandes d'édition à leur état par défaut.\n"
 "Continuer ?"
 
-#: src/preferences.c:763 src/preferences.c:766
+#: src/preferences.c:764 src/preferences.c:767
 msgid "Clear trash"
 msgstr "Vider la corbeille"
 
-#: src/preferences.c:767
+#: src/preferences.c:768
 msgid "This will remove the trash contents."
 msgstr "Ceci va supprimer le contenu de la corbeille"
 
-#: src/preferences.c:811 src/preferences.c:814
-msgid "Reset fullscreen info string"
-msgstr "RAZ des infos plein écran"
+#: src/preferences.c:812 src/preferences.c:815
+msgid "Reset image overlay template string"
+msgstr "Restaure le modèle par défaut pour l'affichage en surimpression"
 
-#: src/preferences.c:815
+#: src/preferences.c:816
 msgid ""
-"This will reset the fullscreen info string to the default.\n"
+"This will reset the image overlay template string to the default.\n"
 "Continue?"
 msgstr ""
-"Ceci va remettre la chaîne de configuration des infos en mode plein écran à "
-"sa valeur par défaut.\n"
+"Ceci va remettre le modèle pour l'affichage en surimpression à sa valeur par "
+"défaut.\n"
 "Continuer ?"
 
-#: src/preferences.c:841
+#: src/preferences.c:842
 msgid "Startup"
 msgstr "Démarrage"
 
-#: src/preferences.c:843
+#: src/preferences.c:844
 msgid "Change to folder:"
 msgstr "Aller dans le dossier :"
 
-#: src/preferences.c:854
+#: src/preferences.c:855
 msgid "Use current"
 msgstr "Utiliser le dossier courant"
 
-#: src/preferences.c:861 src/preferences.c:923
+#: src/preferences.c:862 src/preferences.c:924
 msgid "Quality:"
 msgstr "Qualité :"
 
-#: src/preferences.c:875
+#: src/preferences.c:876
 msgid "Cache thumbnails into .thumbnails"
 msgstr "Mettre en cache les vignettes dans .thumbnails"
 
-#: src/preferences.c:879
+#: src/preferences.c:880
 msgid "Use xvpics thumbnails when found (read only)"
 msgstr "Utiliser les vignettes xvpics si existantes (lecture seule)"
 
-#: src/preferences.c:883
+#: src/preferences.c:884
 msgid "Faster jpeg thumbnailing (may reduce quality)"
 msgstr "Vignettes JPEG plus rapides (qualité dégradée)"
 
-#: src/preferences.c:886
+#: src/preferences.c:887
 msgid "Slide show"
 msgstr "Diaporama"
 
-#: src/preferences.c:889
+#: src/preferences.c:890
 msgid "Delay between image change:"
 msgstr "Délai entre deux images :"
 
-#: src/preferences.c:889
+#: src/preferences.c:890
 msgid "seconds"
 msgstr "secondes"
 
-#: src/preferences.c:895
+#: src/preferences.c:896
 msgid "Random"
 msgstr "Aléatoire"
 
-#: src/preferences.c:896
+#: src/preferences.c:897
 msgid "Repeat"
 msgstr "En boucle"
 
-#: src/preferences.c:917
+#: src/preferences.c:918
 msgid "Zoom"
 msgstr "Zoom"
 
-#: src/preferences.c:920
+#: src/preferences.c:921
 msgid "Dithering method:"
 msgstr "Méthode de dithering :"
 
-#: src/preferences.c:925
+#: src/preferences.c:926
 msgid "Two pass zooming"
 msgstr "Zoom en 2 passes"
 
-#: src/preferences.c:928
+#: src/preferences.c:929
 msgid "Allow enlargement of image for zoom to fit"
 msgstr "Permettre d'agrandir les images pour que le zoom convienne"
 
-#: src/preferences.c:932
+#: src/preferences.c:933
 msgid "Limit image size when autofitting (%):"
 msgstr "Limiter la taille de l'image lors de l'auto-dimensionnement  (%):"
 
-#: src/preferences.c:940
+#: src/preferences.c:941
 msgid "Zoom increment:"
 msgstr "Incrément de zoom :"
 
-#: src/preferences.c:945
+#: src/preferences.c:946
 msgid "When new image is selected:"
 msgstr "Sélection d'une nouvelle image :"
 
-#: src/preferences.c:948
+#: src/preferences.c:949
 msgid "Zoom to original size"
 msgstr "Zoom à sa taille d'origine"
 
-#: src/preferences.c:954
+#: src/preferences.c:955
 msgid "Leave Zoom at previous setting"
 msgstr "Garder la valeur précédente du zoom"
 
-#: src/preferences.c:958
+#: src/preferences.c:959
 msgid "Appearance"
 msgstr "Apparence"
 
-#: src/preferences.c:960
+#: src/preferences.c:961
 msgid "Custom border color"
 msgstr "Couleur de bordure personnalisée"
 
-#: src/preferences.c:963
+#: src/preferences.c:964
 msgid "Border color"
 msgstr "Couleur de bordure"
 
-#: src/preferences.c:966
+#: src/preferences.c:967
 msgid "Convenience"
 msgstr "Commodités"
 
-#: src/preferences.c:968
+#: src/preferences.c:969
 msgid "Refresh on file change"
 msgstr "Rafraîchir la liste des fichiers"
 
-#: src/preferences.c:970
+#: src/preferences.c:971
 msgid "Preload next image"
 msgstr "Précharger l'image suivante"
 
-#: src/preferences.c:972
+#: src/preferences.c:973
 msgid "Auto rotate image using Exif information"
 msgstr "Rotation automatique de l'image à l'aide des informations Exif"
 
-#: src/preferences.c:989
+#: src/preferences.c:990
 msgid "Windows"
 msgstr "Fenêtres"
 
-#: src/preferences.c:992
+#: src/preferences.c:993
 msgid "State"
 msgstr "État"
 
-#: src/preferences.c:994
+#: src/preferences.c:995
 msgid "Remember window positions"
 msgstr "Se rappeler la position des fenêtres"
 
-#: src/preferences.c:996
+#: src/preferences.c:997
 msgid "Remember tool state (float/hidden)"
 msgstr "Se rappeler l'état des outils (flottants/cachés)"
 
-#: src/preferences.c:1001
+#: src/preferences.c:1002
 msgid "Fit window to image when tools are hidden/floating"
 msgstr ""
 "Mettre la fenêtre à la taille de l'image quand les outils sont cachés/"
 "flottants"
 
-#: src/preferences.c:1005
+#: src/preferences.c:1006
 msgid "Limit size when auto-sizing window (%):"
 msgstr "Limiter la taille quand la fenêtre est auto-dimensionnable (%) :"
 
-#: src/preferences.c:1012 src/print.c:3402 src/print.c:3409
+#: src/preferences.c:1013 src/print.c:3402 src/print.c:3409
 msgid "Layout"
 msgstr "Disposition"
 
-#: src/preferences.c:1039
+#: src/preferences.c:1040
 msgid "Filtering"
 msgstr "Filtres"
 
-#: src/preferences.c:1044
+#: src/preferences.c:1045
 msgid "Show hidden files or folders"
 msgstr "Montrer les fichiers ou dossiers cachés"
 
-#: src/preferences.c:1046
+#: src/preferences.c:1047
 msgid "Show dot directory"
 msgstr "Montrer le répertoire point"
 
-#: src/preferences.c:1048
+#: src/preferences.c:1049
 msgid "Case sensitive sort"
 msgstr "Tri sensible à la casse"
 
-#: src/preferences.c:1051
+#: src/preferences.c:1052
 msgid "Disable File Filtering"
 msgstr "Désactiver les filtres de fichiers"
 
-#: src/preferences.c:1055
+#: src/preferences.c:1056
 msgid "Grouping sidecar extensions"
 msgstr "Groupement des extensions de fichiers sidecar"
 
-#: src/preferences.c:1062
+#: src/preferences.c:1063
 msgid "File types"
 msgstr "Types de fichier"
 
-#: src/preferences.c:1084
+#: src/preferences.c:1085
 msgid "Filter"
 msgstr "Filtre"
 
-#: src/preferences.c:1121 src/preferences.c:1207 src/preferences.c:1347
+#: src/preferences.c:1122 src/preferences.c:1208 src/preferences.c:1348
 msgid "Defaults"
 msgstr "Configuration par défaut"
 
-#: src/preferences.c:1150
+#: src/preferences.c:1151
 msgid "Editors"
 msgstr "Éditeurs"
 
-#: src/preferences.c:1156
+#: src/preferences.c:1157
 msgid "#"
 msgstr "N°"
 
-#: src/preferences.c:1159 src/preferences.c:1454
+#: src/preferences.c:1160 src/preferences.c:1455
 msgid "Menu name"
 msgstr "Nom du menu"
 
-#: src/preferences.c:1162
+#: src/preferences.c:1163
 msgid "Command Line"
 msgstr "Ligne de commande"
 
-#: src/preferences.c:1234
+#: src/preferences.c:1235
 msgid "Properties"
 msgstr "Propriétés"
 
-#: src/preferences.c:1252
+#: src/preferences.c:1253
 msgid "What to show in properties dialog:"
 msgstr "Que montrer dans le dialogue Propriétés:"
 
-#: src/preferences.c:1289
+#: src/preferences.c:1290
 msgid "Advanced"
 msgstr "Avancées"
 
-#: src/preferences.c:1310
+#: src/preferences.c:1311
 msgid "Smooth image flip"
 msgstr "Lisser le basculement d'image"
 
-#: src/preferences.c:1312
+#: src/preferences.c:1313
 msgid "Disable screen saver"
 msgstr "Inhiber l'économiseur d'écran"
 
-#: src/preferences.c:1314
-msgid "Always show fullscreen info"
-msgstr "Toujours montrer les infos OSD en mode plein écran"
+#: src/preferences.c:1315
+msgid "Always show image overlay at startup"
+msgstr "Toujours montrer l'affichage en surimpression au démarrage"
 
-#: src/preferences.c:1316
-msgid "Fullscreen info string"
-msgstr "Infos plein écran"
+#: src/preferences.c:1317
+msgid "Image overlay template"
+msgstr " Aff_ichage en surimpression"
 
-#: src/preferences.c:1330
+#: src/preferences.c:1331
 msgid ""
 "<i>%name%</i> results in the filename of the picture.\n"
 "Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>%"
@@ -3009,139 +3009,139 @@ msgstr ""
 "Si une ligne est vide, elle n'est pas affichée. Cela permet d'ajouter des "
 "lignes qui disparaitront totalement si aucune donnée n'est disponible.\n"
 
-#: src/preferences.c:1357
+#: src/preferences.c:1358
 msgid "Delete"
 msgstr "Suppression"
 
-#: src/preferences.c:1359
+#: src/preferences.c:1360
 msgid "Confirm file delete"
 msgstr "Confirmer la suppression des fichiers"
 
-#: src/preferences.c:1361
+#: src/preferences.c:1362
 msgid "Enable Delete key"
 msgstr "Utiliser la touche [Suppr]"
 
-#: src/preferences.c:1364
+#: src/preferences.c:1365
 msgid "Safe delete"
 msgstr "Suppression récupérable"
 
-#: src/preferences.c:1382
+#: src/preferences.c:1383
 msgid "Maximum size:"
 msgstr "Taille maximale :"
 
-#: src/preferences.c:1382
+#: src/preferences.c:1383
 msgid "MB"
 msgstr "Mo"
 
-#: src/preferences.c:1385
+#: src/preferences.c:1386
 msgid "Set to 0 for unlimited size"
 msgstr "Mettre à zéro pour taille infinie"
 
-#: src/preferences.c:1387
+#: src/preferences.c:1388
 msgid "View"
 msgstr "Vue"
 
-#: src/preferences.c:1397
+#: src/preferences.c:1398
 msgid "Behavior"
 msgstr "Comportement"
 
-#: src/preferences.c:1399
+#: src/preferences.c:1400
 msgid "Rectangular selection in icon view"
 msgstr "Sélection rectangulaire dans la vue en icônes"
 
-#: src/preferences.c:1402
+#: src/preferences.c:1403
 msgid "Descend folders in tree view"
 msgstr "Parcourir les dossiers dans la vue arborescente"
 
-#: src/preferences.c:1405
+#: src/preferences.c:1406
 msgid "In place renaming"
 msgstr "Renommer en place"
 
-#: src/preferences.c:1408
+#: src/preferences.c:1409
 msgid "Open recent list maximum size"
 msgstr "Taille maximale de la liste des fichiers récemment ouverts"
 
-#: src/preferences.c:1411
+#: src/preferences.c:1412
 msgid "Drag'n drop icon size"
 msgstr "Taille de l'icône du glisser-déplacer"
 
-#: src/preferences.c:1414
+#: src/preferences.c:1415
 msgid "Navigation"
 msgstr "Navigation"
 
-#: src/preferences.c:1416
+#: src/preferences.c:1417
 msgid "Progressive keyboard scrolling"
 msgstr "Défilement clavier progressif"
 
-#: src/preferences.c:1418
+#: src/preferences.c:1419
 msgid "Mouse wheel scrolls image"
 msgstr "Défilement des images avec la molette de la souris"
 
-#: src/preferences.c:1421
+#: src/preferences.c:1422
 msgid "Miscellaneous"
 msgstr "Divers"
 
-#: src/preferences.c:1423
+#: src/preferences.c:1424
 msgid "Store keywords and comments local to source images"
 msgstr "Sauver les mots-clés et commentaires avec les images sources"
 
-#: src/preferences.c:1426
+#: src/preferences.c:1427
 msgid "Custom similarity threshold:"
 msgstr "Seuil de similarité personalisé :"
 
-#: src/preferences.c:1429
+#: src/preferences.c:1430
 msgid "Image loading and caching"
 msgstr "Chargement et cache des images"
 
-#: src/preferences.c:1431
+#: src/preferences.c:1432
 msgid "Offscreen cache size (Mb per image):"
 msgstr "Taille du cache mémoire hors-écran (Mo par image) :"
 
-#: src/preferences.c:1434
+#: src/preferences.c:1435
 msgid "Image read buffer size (bytes):"
 msgstr "Taille du tampon de lecture des images (octets):"
 
-#: src/preferences.c:1438
+#: src/preferences.c:1439
 msgid "Image idle loop read count:"
 msgstr "Compteur de la boucle de lecture des images lorsque inoccupé:"
 
-#: src/preferences.c:1443
+#: src/preferences.c:1444
 msgid "Color profiles"
 msgstr "Profils colorimétriques"
 
-#: src/preferences.c:1451
+#: src/preferences.c:1452
 msgid "Type"
 msgstr "Type"
 
-#: src/preferences.c:1457
+#: src/preferences.c:1458
 msgid "File"
 msgstr "Fichier"
 
-#: src/preferences.c:1482 src/preferences.c:1493
+#: src/preferences.c:1483 src/preferences.c:1494
 msgid "Select color profile"
 msgstr "Sélectionner un profil colorimétrique"
 
-#: src/preferences.c:1490
+#: src/preferences.c:1491
 msgid "Screen:"
 msgstr "Écran:"
 
-#: src/preferences.c:1501
+#: src/preferences.c:1502
 msgid "Debugging"
 msgstr "Déboguage"
 
-#: src/preferences.c:1503
+#: src/preferences.c:1504
 msgid "Debug level:"
 msgstr "Niveau de déboguage:"
 
-#: src/preferences.c:1519
+#: src/preferences.c:1520
 msgid "Preferences"
 msgstr "Préférences"
 
-#: src/preferences.c:1642
+#: src/preferences.c:1643
 msgid "About"
 msgstr "À propos"
 
-#: src/preferences.c:1659
+#: src/preferences.c:1660
 #, c-format
 msgid ""
 "%s %s\n"
@@ -3168,7 +3168,7 @@ msgstr ""
 "\n"
 "Distribué sous GNU General Public License"
 
-#: src/preferences.c:1678
+#: src/preferences.c:1679
 msgid "Credits..."
 msgstr "Crédits ..."
 
@@ -3468,7 +3468,7 @@ msgstr "Conserver les paramètres d'impression"
 msgid "error saving config file: %s\n"
 msgstr "erreur à la sauvegarde du fichier de configuration : %s\n"
 
-#: src/rcfile.c:525
+#: src/rcfile.c:528
 #, c-format
 msgid ""
 "error saving config file: %s\n"
@@ -4475,6 +4475,23 @@ msgstr ""
 #: src/view_file_list.c:2026
 msgid "SC"
 msgstr "SC"
+
+#~ msgid "Reset fullscreen info string"
+#~ msgstr "RAZ des infos plein écran"
+
+#~ msgid ""
+#~ "This will reset the fullscreen info string to the default.\n"
+#~ "Continue?"
+#~ msgstr ""
+#~ "Ceci va remettre la chaîne de configuration des infos en mode plein écran "
+#~ "à sa valeur par défaut.\n"
+#~ "Continuer ?"
+
+#~ msgid "Always show fullscreen info"
+#~ msgstr "Toujours montrer les infos OSD en mode plein écran"
+
+#~ msgid "Fullscreen info string"
+#~ msgstr "Infos plein écran"
 
 #~ msgid "in %s..."
 #~ msgstr "dans %s ..."
