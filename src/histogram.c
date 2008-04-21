@@ -115,7 +115,7 @@ gulong histogram_read(Histogram *histogram, GdkPixbuf *imgpixbuf)
 	s_pix = gdk_pixbuf_get_pixels(imgpixbuf);
 	has_alpha = gdk_pixbuf_get_has_alpha(imgpixbuf);
 
-	for (i = 0; i < HISTOGRAM_SIZE*4; i++) histogram->histmap[i] = 0;
+	memset(histogram->histmap, 0, sizeof(histogram->histmap));
 
 	for (i = 0; i < h; i++)
 		{
