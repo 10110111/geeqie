@@ -10,6 +10,7 @@
 ./src/collect-io.c
 ./src/collect-table.c
 ./src/color-man.c
+./src/compat.c
 ./src/dnd.c
 ./src/dupe.c
 ./src/editors.c
