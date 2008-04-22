@@ -594,7 +594,7 @@ static void collection_table_popup_info_cb(GtkWidget *widget, gpointer data)
 {
 	CollectTable *ct = data;
 
-	info_window_new(NULL, collection_table_popup_file_list(ct));
+	info_window_new(NULL, collection_table_popup_file_list(ct), NULL);
 }
 
 static void collection_table_popup_copy_cb(GtkWidget *widget, gpointer data)

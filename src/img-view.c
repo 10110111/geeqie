@@ -419,7 +419,7 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 				file_util_delete(image_get_fd(imd), NULL, imd->widget);
 				break;
 			case 'P': case 'p':
-				info_window_new(image_get_fd(imd), NULL);
+				info_window_new(image_get_fd(imd), NULL, vw->fs ? vw->fs->window : NULL);
 				break;
 			case 'W': case 'w':
 				view_window_close(vw);
@@ -1114,10 +1114,8 @@ static void view_info_cb(GtkWidget *widget, gpointer data)
 	ViewWindow *vw = data;
 	ImageWindow *imd;
 
-	if (vw->fs) view_fullscreen_toggle(vw, FALSE);
-
 	imd = view_window_active_image(vw);
-	info_window_new(image_get_fd(imd), NULL);
+	info_window_new(image_get_fd(imd), NULL, vw->fs ? vw->fs->window : NULL);
 }
 
 static void view_wallpaper_cb(GtkWidget *widget, gpointer data)

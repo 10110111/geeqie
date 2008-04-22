@@ -2147,7 +2147,7 @@ static void dupe_menu_info_cb(GtkWidget *widget, gpointer data)
 {
 	DupeWindow *dw = data;
 
-	info_window_new(NULL, dupe_listview_get_selection(dw, dw->listview));
+	info_window_new(NULL, dupe_listview_get_selection(dw, dw->listview), NULL);
 }
 
 static void dupe_menu_collection_cb(GtkWidget *widget, gpointer data)
@@ -2926,7 +2926,7 @@ static gint dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 					file_util_delete(NULL, dupe_listview_get_selection(dw, listview), dw->window);
 					break;
 				case 'P': case 'p':
-					info_window_new(NULL, dupe_listview_get_selection(dw, listview));
+					info_window_new(NULL, dupe_listview_get_selection(dw, listview), NULL);
 					break;
 				default:
 					stop_signal = FALSE;

@@ -191,7 +191,7 @@ static void vficon_pop_menu_info_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFileIcon *vfi = data;
 
-	info_window_new(NULL, vficon_pop_menu_file_list(vfi));
+	info_window_new(NULL, vficon_pop_menu_file_list(vfi), NULL);
 }
 
 static void vficon_pop_menu_view_cb(GtkWidget *widget, gpointer data)

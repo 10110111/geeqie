@@ -354,7 +354,7 @@ static void layout_menu_info_cb(GtkAction *action, gpointer data)
 	list = layout_selection_list(lw);
 	if (!list) fd = layout_image_get_fd(lw);
 
-	info_window_new(fd, list);
+	info_window_new(fd, list, NULL);
 }
 
 

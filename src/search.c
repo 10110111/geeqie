@@ -900,7 +900,7 @@ static void sr_menu_info_cb(GtkWidget *widget, gpointer data)
 {
 	SearchData *sd = data;
 
-	info_window_new(NULL, search_result_selection_list(sd));
+	info_window_new(NULL, search_result_selection_list(sd), NULL);
 }
 
 static void sr_menu_collection_cb(GtkWidget *widget, gpointer data)
@@ -1232,7 +1232,7 @@ static gint search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpo
 				file_util_delete(NULL, search_result_selection_list(sd), widget);
 				break;
 			case 'P': case 'p':
-				info_window_new(NULL,  search_result_selection_list(sd));
+				info_window_new(NULL,  search_result_selection_list(sd), NULL);
 				break;
 			case 'A': case 'a':
 				if (event->state & GDK_SHIFT_MASK)

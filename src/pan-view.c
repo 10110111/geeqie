@@ -1311,7 +1311,7 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 				if (fd) file_util_delete(fd, NULL, GTK_WIDGET(pr));
 				break;
 			case 'P': case 'p':
-				if (fd) info_window_new(fd, NULL);
+				if (fd) info_window_new(fd, NULL, NULL);
 				break;
 			case 'F': case 'f':
 				pan_search_toggle_visible(pw, TRUE);
@@ -2677,7 +2677,7 @@ static void pan_info_cb(GtkWidget *widget, gpointer data)
 	FileData *fd;
 
 	fd = pan_menu_click_fd(pw);
-	if (fd) info_window_new(fd, NULL);
+	if (fd) info_window_new(fd, NULL, NULL);
 }
 
 static void pan_zoom_in_cb(GtkWidget *widget, gpointer data)

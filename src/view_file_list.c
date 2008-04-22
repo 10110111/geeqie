@@ -316,7 +316,7 @@ static void vflist_pop_menu_info_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFileList *vfl = data;
 
-	info_window_new(NULL, vflist_pop_menu_file_list(vfl));
+	info_window_new(NULL, vflist_pop_menu_file_list(vfl), NULL);
 }
 
 static void vflist_pop_menu_view_cb(GtkWidget *widget, gpointer data)

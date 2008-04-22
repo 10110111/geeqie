@@ -19,6 +19,8 @@ typedef struct _InfoData InfoData;
 struct _InfoData
 {
 	GtkWidget *window;
+	GtkWidget *parent;
+
 	ImageWindow *image;
 
 	GList *list;
@@ -38,7 +40,7 @@ struct _InfoData
 };
 
 
-void info_window_new(FileData *fd, GList *list);
+void info_window_new(FileData *fd, GList *list, GtkWidget *parent);
 
 GtkWidget *table_add_line(GtkWidget *table, gint x, gint y,
 			  const gchar *description, const gchar *text);

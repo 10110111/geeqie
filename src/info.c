@@ -753,7 +753,7 @@ static void info_window_destroy_cb(GtkWidget *widget, gpointer data)
 	g_free(id);
 }
 
-void info_window_new(FileData *fd, GList *list)
+void info_window_new(FileData *fd, GList *list, GtkWidget *parent)
 {
 	InfoData *id;
 	GtkWidget *main_vbox;
@@ -778,7 +778,14 @@ void info_window_new(FileData *fd, GList *list)
 
 	id->window = window_new(GTK_WINDOW_TOPLEVEL, "properties", NULL, NULL, _("Image properties"));
 	gtk_window_set_type_hint(GTK_WINDOW(id->window), GDK_WINDOW_TYPE_HINT_DIALOG);
-
+	id->parent = parent;
+	if (GTK_IS_WINDOW(id->parent)) {
+		gtk_window_set_keep_above(GTK_WINDOW(id->window), TRUE);
+#if 0
+		/* work, but behavior is not that great */
+		gtk_window_set_transient_for(GTK_WINDOW(id->window), GTK_WINDOW(id->parent));
+#endif
+	}
 	gtk_window_set_resizable(GTK_WINDOW(id->window), TRUE);
 
 	geometry.min_width = 32;

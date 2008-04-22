@@ -182,7 +182,7 @@ static gint layout_image_full_screen_key_press_cb(GtkWidget *widget, GdkEventKey
 				file_util_delete(layout_image_get_fd(lw), NULL, widget);
 				break;
 			case 'P': case 'p':
-				info_window_new(layout_image_get_fd(lw), NULL);
+				info_window_new(layout_image_get_fd(lw), NULL, NULL);
 				break;
 			case 'Q': case 'q':
 				exit_program();
@@ -615,8 +615,7 @@ static void li_pop_menu_info_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	if (lw->full_screen) layout_image_full_screen_stop(lw);
-	info_window_new(layout_image_get_fd(lw), NULL);
+	info_window_new(layout_image_get_fd(lw), NULL, lw->full_screen ? lw->full_screen->window : NULL);
 }
 
 static void li_pop_menu_new_cb(GtkWidget *widget, gpointer data)
