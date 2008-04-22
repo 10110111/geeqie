@@ -1,7 +1,7 @@
 AC_INIT(src/main.c)
 AC_CONFIG_HEADER(config.h)
 
-AM_INIT_AUTOMAKE(geeqie, alpha0)
+AM_INIT_AUTOMAKE(geeqie, 1.0-alpha1)
 
 AM_MAINTAINER_MODE
 
