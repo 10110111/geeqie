@@ -369,6 +369,13 @@ void save_options(void)
 
 	WRITE_BOOL(layout.toolbar_hidden);
 
+	WRITE_SUBTITLE("Panels Options");
+
+	WRITE_BOOL(panels.exif.enabled);
+	WRITE_INT(panels.exif.width);
+	WRITE_BOOL(panels.info.enabled);
+	WRITE_INT(panels.info.width);
+	WRITE_BOOL(panels.sort.enabled);
 
 	WRITE_SUBTITLE("Image Options");
 
@@ -655,6 +662,12 @@ void load_options(void)
 		READ_BOOL(layout.tools_restore_state);
 		READ_BOOL(layout.toolbar_hidden);
 
+		/* panels */
+		READ_BOOL(panels.exif.enabled);
+		READ_INT_CLAMP(panels.exif.width, PANEL_MIN_WIDTH, PANEL_MAX_WIDTH);
+		READ_BOOL(panels.info.enabled);
+		READ_INT_CLAMP(panels.info.width, PANEL_MIN_WIDTH, PANEL_MAX_WIDTH);
+		READ_BOOL(panels.sort.enabled);
 
 		/* image options */
 		if (strcasecmp(option, "image.zoom_mode") == 0)

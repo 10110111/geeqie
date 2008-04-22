@@ -101,6 +101,9 @@
 #define IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MIN 		1
 #define IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MAX		16
 
+#define PANEL_MIN_WIDTH	64
+#define PANEL_DEFAULT_WIDTH 288
+#define PANEL_MAX_WIDTH 1200
 
 #define DEFAULT_OVERLAY_INFO 	"%collection%(%number%/%total%) [%zoom%] <b>%name%</b>\n" \
 				"%res%|%date%|%size%\n" \

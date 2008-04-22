@@ -541,8 +541,9 @@ struct _LayoutWindow
 	gint bar_exif_enabled;
 	gint bar_info_enabled;
 
-	gint bar_exif_size;
+	gint bar_exif_width;
 	gint bar_exif_advanced;
+	gint bar_info_width;
 };
 
 struct _ViewDir
@@ -899,6 +900,24 @@ struct _ConfOptions
 		gint toolbar_hidden;
 
 	} layout;
+
+	/* panels */
+	struct {
+		struct {
+			gint enabled;
+			gint width;
+		} info;
+
+		struct {
+			gint enabled;
+			gint width;
+		} exif;
+
+		struct {
+			gint enabled;
+		} sort;
+	} panels;
+
 
 	/* color profiles */
 	struct {

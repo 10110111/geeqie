@@ -106,6 +106,13 @@ ConfOptions *init_options(ConfOptions *options)
 	options->mousewheel_scrolls = FALSE;
 	options->open_recent_list_maxsize = 10;
 	options->place_dialogs_under_mouse = FALSE;
+
+	options->panels.exif.enabled = FALSE;
+	options->panels.exif.width = PANEL_DEFAULT_WIDTH;
+	options->panels.info.enabled = FALSE;
+	options->panels.info.width = PANEL_DEFAULT_WIDTH;
+	options->panels.sort.enabled = FALSE;
+
 	options->progressive_key_scrolling = FALSE;
 	options->show_icon_names = TRUE;
 

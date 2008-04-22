@@ -1371,5 +1371,6 @@ void bar_info_size_request(GtkWidget *bar, gint width)
 	if (bd->label_file_name)
 		{
 		gtk_widget_set_size_request(bd->vbox, width, -1);
+		options->panels.info.width = bd->vbox->allocation.width;
 		}
 }

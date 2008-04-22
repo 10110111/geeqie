@@ -1623,8 +1623,6 @@ void folder_icons_free(PixmapFolders *pf)
  *-----------------------------------------------------------------------------
  */
 
-#define SIDEBAR_WIDTH 288
-
 static void layout_bar_info_destroyed(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1646,6 +1644,15 @@ static GList *layout_bar_info_list_cb(gpointer data)
 	return layout_selection_list(lw);
 }
 
+static void layout_bar_info_sized(GtkWidget *widget, GtkAllocation *allocation, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	if (!lw->bar_info) return;
+	
+	options->panels.info.width = lw->bar_info_width = allocation->width;
+}
+
 static void layout_bar_info_new(LayoutWindow *lw)
 {
 	if (!lw->utility_box) return;
@@ -1653,10 +1660,13 @@ static void layout_bar_info_new(LayoutWindow *lw)
 	lw->bar_info = bar_info_new(layout_image_get_fd(lw), FALSE, lw->utility_box);
 	bar_info_set_selection_func(lw->bar_info, layout_bar_info_list_cb, lw);
 	bar_info_selection(lw->bar_info, layout_selection_count(lw, NULL) - 1);
-	bar_info_size_request(lw->bar_info, SIDEBAR_WIDTH * 3 / 4);
 	g_signal_connect(G_OBJECT(lw->bar_info), "destroy",
 			 G_CALLBACK(layout_bar_info_destroyed), lw);
-	lw->bar_info_enabled = TRUE;
+	g_signal_connect(G_OBJECT(lw->bar_info), "size_allocate",
+			 G_CALLBACK(layout_bar_info_sized), lw);
+
+	options->panels.info.enabled = lw->bar_info_enabled = TRUE;
+	gtk_widget_set_size_request(lw->bar_info, lw->bar_info_width, -1);
 
 	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->bar_info, FALSE, FALSE, 0);
 	gtk_widget_show(lw->bar_info);
@@ -1669,7 +1679,7 @@ static void layout_bar_info_close(LayoutWindow *lw)
 		bar_info_close(lw->bar_info);
 		lw->bar_info = NULL;
 		}
-	lw->bar_info_enabled = FALSE;
+	options->panels.info.enabled = lw->bar_info_enabled = FALSE;
 }
 
 void layout_bar_info_toggle(LayoutWindow *lw)
@@ -1727,10 +1737,9 @@ static void layout_bar_exif_sized(GtkWidget *widget, GtkAllocation *allocation, 
 {
 	LayoutWindow *lw = data;
 
-	if (lw->bar_exif)
-		{
-		lw->bar_exif_size = allocation->width;
-		}
+	if (!lw->bar_exif) return;
+	
+	options->panels.exif.width = lw->bar_exif_width = allocation->width;
 }
 
 static void layout_bar_exif_new(LayoutWindow *lw)
@@ -1743,10 +1752,10 @@ static void layout_bar_exif_new(LayoutWindow *lw)
 			 G_CALLBACK(layout_bar_exif_destroyed), lw);
 	g_signal_connect(G_OBJECT(lw->bar_exif), "size_allocate",
 			 G_CALLBACK(layout_bar_exif_sized), lw);
-	lw->bar_exif_enabled = TRUE;
 
-	if (lw->bar_exif_size < 1) lw->bar_exif_size = SIDEBAR_WIDTH;
-	gtk_widget_set_size_request(lw->bar_exif, lw->bar_exif_size, -1);
+	options->panels.exif.enabled = lw->bar_exif_enabled = TRUE;
+	gtk_widget_set_size_request(lw->bar_exif, lw->bar_exif_width, -1);
+
 	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->bar_exif, FALSE, FALSE, 0);
 	if (lw->bar_info) gtk_box_reorder_child(GTK_BOX(lw->utility_box), lw->bar_exif, 1);
 	gtk_widget_show(lw->bar_exif);
@@ -1759,7 +1768,7 @@ static void layout_bar_exif_close(LayoutWindow *lw)
 		bar_exif_close(lw->bar_exif);
 		lw->bar_exif = NULL;
 		}
-	lw->bar_exif_enabled = FALSE;
+	options->panels.exif.enabled = lw->bar_exif_enabled = FALSE;
 }
 
 void layout_bar_exif_toggle(LayoutWindow *lw)
@@ -1803,7 +1812,7 @@ static void layout_bar_sort_new(LayoutWindow *lw)
 	lw->bar_sort = bar_sort_new(lw);
 	g_signal_connect(G_OBJECT(lw->bar_sort), "destroy",
 			 G_CALLBACK(layout_bar_sort_destroyed), lw);
-	lw->bar_sort_enabled = TRUE;
+	options->panels.sort.enabled = lw->bar_sort_enabled = TRUE;
 
 	gtk_box_pack_end(GTK_BOX(lw->utility_box), lw->bar_sort, FALSE, FALSE, 0);
 	gtk_widget_show(lw->bar_sort);
@@ -1816,7 +1825,7 @@ static void layout_bar_sort_close(LayoutWindow *lw)
 		bar_sort_close(lw->bar_sort);
 		lw->bar_sort = NULL;
 		}
-	lw->bar_sort_enabled = FALSE;
+	options->panels.sort.enabled = lw->bar_sort_enabled = FALSE;
 }
 
 void layout_bar_sort_toggle(LayoutWindow *lw)

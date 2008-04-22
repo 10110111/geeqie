@@ -509,7 +509,7 @@ void bar_exif_close(GtkWidget *bar)
 	gtk_widget_destroy(eb->vbox);
 }
 
-static void bar_exif_size(ExifBar *eb, gint val)
+static void bar_exif_width(ExifBar *eb, gint val)
 {
 	gint size;
 
@@ -517,20 +517,21 @@ static void bar_exif_size(ExifBar *eb, gint val)
 	size = CLAMP(size + val, EXIF_BAR_SIZE_INCREMENT * 2, EXIF_BAR_SIZE_INCREMENT * 16);
 
 	gtk_widget_set_size_request(eb->vbox, size, -1);
+	options->panels.exif.width = eb->vbox->allocation.width;
 }
 
 static void bar_exif_larger(GtkWidget *widget, gpointer data)
 {
 	ExifBar *eb = data;
 
-	bar_exif_size(eb, EXIF_BAR_SIZE_INCREMENT);
+	bar_exif_width(eb, EXIF_BAR_SIZE_INCREMENT);
 }
 
 static void bar_exif_smaller(GtkWidget *widget, gpointer data)
 {
 	ExifBar *eb = data;
 
-	bar_exif_size(eb, -EXIF_BAR_SIZE_INCREMENT);
+	bar_exif_width(eb, -EXIF_BAR_SIZE_INCREMENT);
 }
 
 static void bar_exif_destroy(GtkWidget *widget, gpointer data)
