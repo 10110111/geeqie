@@ -915,6 +915,9 @@ struct _ConfOptions
 
 		struct {
 			gint enabled;
+			gint mode_state;
+			gint action_state;
+			gint selection_state;
 		} sort;
 	} panels;
 

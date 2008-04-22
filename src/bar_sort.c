@@ -34,18 +34,21 @@
 
 typedef enum {
 	BAR_SORT_MODE_FOLDER = 0,
-	BAR_SORT_MODE_COLLECTION
+	BAR_SORT_MODE_COLLECTION,
+	BAR_SORT_MODE_COUNT
 } SortModeType;
 
 typedef enum {
-	BAR_SORT_COPY,
+	BAR_SORT_COPY = 0,
 	BAR_SORT_MOVE,
-	BAR_SORT_LINK
+	BAR_SORT_LINK,
+	BAR_SORT_ACTION_COUNT
 } SortActionType;
 
 typedef enum {
-	BAR_SORT_SELECTION_IMAGE,
-	BAR_SORT_SELECTION_SELECTED
+	BAR_SORT_SELECTION_IMAGE = 0,
+	BAR_SORT_SELECTION_SELECTED,
+	BAR_SORT_SELECTION_COUNT
 } SortSelectionType;
 
 typedef struct _SortData SortData;
@@ -76,11 +79,6 @@ struct _SortData
 
 #define SORT_KEY_FOLDERS     "sort_manager"
 #define SORT_KEY_COLLECTIONS "sort_manager_collections"
-
-
-static gint bar_sort_mode_state = BAR_SORT_MODE_FOLDER;
-static gint bar_sort_action_state = BAR_SORT_COPY;
-static gint bar_sort_selection_state = BAR_SORT_SELECTION_IMAGE;
 
 
 static void bar_sort_undo_set(SortData *sd, GList *src_list, FileData *src, const gchar *dest);
@@ -168,6 +166,7 @@ static void bar_sort_mode_cb(GtkWidget *combo, gpointer data)
 		{
 		bar_sort_mode_sync(sd, BAR_SORT_MODE_COLLECTION);
 		}
+	options->panels.sort.mode_state = sd->mode;
 }
 
 /* this takes control of src_list */
@@ -219,6 +218,8 @@ static void bar_sort_undo_folder(SortData *sd, GtkWidget *button)
 				file_util_warning_dialog(_("Unlink failed"), buf, GTK_STOCK_DIALOG_ERROR, button);
 				g_free(buf);
 				}
+			break;
+		default: 
 			break;
 		}
 
@@ -301,6 +302,8 @@ static void bar_sort_bookmark_select_folder(SortData *sd, FileData *source, cons
 				g_free(buf);
 				}
 			break;
+		default:
+			break;
 		}
 
 	g_list_free(list);
@@ -318,6 +321,8 @@ static void bar_sort_bookmark_select_collection(SortData *sd, FileData *source, 
 			break;
 		case BAR_SORT_SELECTION_SELECTED:
 			list = layout_selection_list(sd->lw);
+			break;
+		default:
 			break;
 		}
 
@@ -357,39 +362,49 @@ static void bar_sort_bookmark_select(const gchar *path, gpointer data)
 		}
 }
 
+static void bar_sort_set_action(SortData *sd, SortActionType action)
+{
+	options->panels.sort.action_state = sd->action = action;
+}
+
 static void bar_sort_set_copy_cb(GtkWidget *button, gpointer data)
 {
 	SortData *sd = data;
 	if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))) return;
-	sd->action = BAR_SORT_COPY;
+	bar_sort_set_action(sd, BAR_SORT_COPY);
 }
 
 static void bar_sort_set_move_cb(GtkWidget *button, gpointer data)
 {
 	SortData *sd = data;
 	if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))) return;
-	sd->action = BAR_SORT_MOVE;
+	bar_sort_set_action(sd, BAR_SORT_MOVE);
 }
 
 static void bar_sort_set_link_cb(GtkWidget *button, gpointer data)
 {
 	SortData *sd = data;
 	if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))) return;
-	sd->action = BAR_SORT_LINK;
+	bar_sort_set_action(sd, BAR_SORT_LINK);
+}
+
+static void bar_sort_set_selection(SortData *sd, SortSelectionType selection)
+{
+	options->panels.sort.selection_state = sd->selection = selection;
 }
 
 static void bar_sort_set_selection_image_cb(GtkWidget *button, gpointer data)
 {
 	SortData *sd = data;
 	if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))) return;
-	sd->selection = BAR_SORT_SELECTION_IMAGE;
+	bar_sort_set_selection(sd, BAR_SORT_SELECTION_IMAGE);
 }
 
 static void bar_sort_set_selection_selected_cb(GtkWidget *button, gpointer data)
 {
 	SortData *sd = data;
 	if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))) return;
-	sd->selection = BAR_SORT_SELECTION_SELECTED;
+	bar_sort_set_selection(sd, BAR_SORT_SELECTION_SELECTED);
 }
 
 static void bar_sort_add_close(SortData *sd)
@@ -534,9 +549,6 @@ static void bar_sort_destroy(GtkWidget *widget, gpointer data)
 	SortData *sd = data;
 
 	bar_sort_add_close(sd);
-	bar_sort_mode_state = sd->mode;
-	bar_sort_action_state = sd->action;
-	bar_sort_selection_state = sd->selection;
 
 	g_free(sd->undo_src);
 	g_free(sd->undo_dest);
@@ -550,14 +562,17 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 	GtkWidget *label;
 	GtkWidget *tbar;
 	GtkWidget *combo;
+	SortModeType mode;
 
 	if (!lw) return NULL;
 
 	sd = g_new0(SortData, 1);
 
 	sd->lw = lw;
-	sd->action = bar_sort_action_state;
-	sd->selection = bar_sort_selection_state;
+
+	mode = CLAMP(options->panels.sort.mode_state, 0, BAR_SORT_MODE_COUNT - 1);
+	sd->action = CLAMP(options->panels.sort.action_state, 0, BAR_SORT_ACTION_COUNT - 1);
+	sd->selection = CLAMP(options->panels.sort.selection_state, 0, BAR_SORT_SELECTION_COUNT - 1);
 	sd->undo_src = NULL;
 	sd->undo_dest = NULL;
 
@@ -616,7 +631,7 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 					      G_CALLBACK(bar_sort_undo_cb), sd);
 
 	sd->mode = -1;
-	bar_sort_mode_sync(sd, bar_sort_mode_state);
+	bar_sort_mode_sync(sd, mode);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), sd->mode);
 
 	return sd->vbox;
