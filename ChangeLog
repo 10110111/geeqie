@@ -1,3 +1,2069 @@
+------------------------------------------------------------------------
+r580 | nadvornik | 2008-04-22 20:06:38 +0200 (Út, 22 dub 2008) | 2 lines
+
+fixed version string ;)
+
+------------------------------------------------------------------------
+r579 | nadvornik | 2008-04-22 19:45:08 +0200 (Út, 22 dub 2008) | 2 lines
+
+updated version number
+
+------------------------------------------------------------------------
+r578 | nadvornik | 2008-04-22 19:40:29 +0200 (Út, 22 dub 2008) | 2 lines
+
+fixed reading of signed rational type with Exiv2
+
+------------------------------------------------------------------------
+r577 | nadvornik | 2008-04-22 11:57:26 +0200 (Út, 22 dub 2008) | 2 lines
+
+fixed instalation of doc files
+
+------------------------------------------------------------------------
+r576 | zas_ | 2008-04-22 11:40:05 +0200 (Út, 22 dub 2008) | 3 lines
+
+Correctly escape data before using pango_layout_set_markup().
+Exif data may contain characters like & or < >.
+
+------------------------------------------------------------------------
+r575 | zas_ | 2008-04-22 11:01:29 +0200 (Út, 22 dub 2008) | 3 lines
+
+Use image_osd_toggle() in layout_menu_overlay_cb().
+Drop layout_image_overlay_update().
+
+------------------------------------------------------------------------
+r574 | zas_ | 2008-04-22 10:53:07 +0200 (Út, 22 dub 2008) | 2 lines
+
+Merge view_overlay_toggle() and layout_image_overlay_toggle() into new image_osd_toggle().
+
+------------------------------------------------------------------------
+r573 | zas_ | 2008-04-22 10:34:30 +0200 (Út, 22 dub 2008) | 3 lines
+
+Make histogram depends on image window not layout window.
+It simplifies the code, and make more sense.
+
+------------------------------------------------------------------------
+r572 | zas_ | 2008-04-22 10:16:02 +0200 (Út, 22 dub 2008) | 4 lines
+
+Ensure Properties dialog is displayed above fullscreen window.
+Add a parameter to info_window_new() to pass parent window and
+revert patch 472.
+
+------------------------------------------------------------------------
+r571 | zas_ | 2008-04-22 00:19:32 +0200 (Út, 22 dub 2008) | 2 lines
+
+Indicate bugs and feature requests trackers, remove obsolete stuff.
+
+------------------------------------------------------------------------
+r570 | zas_ | 2008-04-22 00:15:56 +0200 (Út, 22 dub 2008) | 2 lines
+
+Lowercased name.
+
+------------------------------------------------------------------------
+r569 | zas_ | 2008-04-22 00:14:57 +0200 (Út, 22 dub 2008) | 2 lines
+
+. -> dot
+
+------------------------------------------------------------------------
+r568 | nadvornik | 2008-04-21 23:46:38 +0200 (Po, 21 dub 2008) | 2 lines
+
+updated copyright in source files
+
+------------------------------------------------------------------------
+r567 | zas_ | 2008-04-21 22:45:35 +0200 (Po, 21 dub 2008) | 3 lines
+
+Properly initialize image_overlay options.
+
+
+------------------------------------------------------------------------
+r566 | zas_ | 2008-04-21 22:42:18 +0200 (Po, 21 dub 2008) | 2 lines
+
+Few more fixes to french translation.
+
+------------------------------------------------------------------------
+r565 | zas_ | 2008-04-21 22:39:36 +0200 (Po, 21 dub 2008) | 3 lines
+
+Add some macros to handle rc file compatibility issues related to
+option name changes.
+
+------------------------------------------------------------------------
+r564 | zas_ | 2008-04-21 22:27:39 +0200 (Po, 21 dub 2008) | 2 lines
+
+Minor french translation fix.
+
+------------------------------------------------------------------------
+r563 | zas_ | 2008-04-21 22:24:15 +0200 (Po, 21 dub 2008) | 2 lines
+
+French translation was updated.
+
+------------------------------------------------------------------------
+r562 | zas_ | 2008-04-21 22:12:49 +0200 (Po, 21 dub 2008) | 6 lines
+
+Rename few functions and replace fullscreen info with image overlay template string.
+fullscreen_info_default_cb() -> image_overlay_default_template_cb()
+fullscreen_info_default_ok_cb() -> image_overlay_default_template_ok_cb()
+set_default_fullscreen_info() -> set_default_image_overlay_template_string() (moved to image-overlay.h)
+
+
+------------------------------------------------------------------------
+r561 | zas_ | 2008-04-21 22:01:22 +0200 (Po, 21 dub 2008) | 9 lines
+
+Replace fullscreen.info and fullscreen.show_info options by:
+image_overlay.common.enabled => to save last state to rc file
+image_overlay.common.show_at_startup => overrides .common.enabled at startup
+image_overlay.common.template_string => replace fullscreen.info
+
+common is used since for now there is only one image overlay setup,
+later specific setups may be added.
+
+
+------------------------------------------------------------------------
+r560 | nadvornik | 2008-04-21 21:42:58 +0200 (Po, 21 dub 2008) | 2 lines
+
+fixed another "gqview" occurence
+
+------------------------------------------------------------------------
+r559 | nadvornik | 2008-04-21 21:10:41 +0200 (Po, 21 dub 2008) | 2 lines
+
+updated NEWS, README and other documentation files
+
+------------------------------------------------------------------------
+r558 | nadvornik | 2008-04-21 20:09:30 +0200 (Po, 21 dub 2008) | 2 lines
+
+renamed no.po to nb.po
+
+------------------------------------------------------------------------
+r557 | zas_ | 2008-04-21 17:30:16 +0200 (Po, 21 dub 2008) | 3 lines
+
+Fix a segfault occuring when pressing 'i' for overlay info
+in a separate image window (no layout).
+
+------------------------------------------------------------------------
+r556 | zas_ | 2008-04-21 16:19:48 +0200 (Po, 21 dub 2008) | 2 lines
+
+histogram_draw(): tidy up.
+
+------------------------------------------------------------------------
+r555 | zas_ | 2008-04-21 15:39:17 +0200 (Po, 21 dub 2008) | 2 lines
+
+histogram_read(): speed up calculations by 20%.
+
+------------------------------------------------------------------------
+r554 | zas_ | 2008-04-21 13:44:03 +0200 (Po, 21 dub 2008) | 2 lines
+
+histogram_read(): use memset() to initialize histogram data instead of for() loop.
+
+------------------------------------------------------------------------
+r553 | zas_ | 2008-04-21 12:11:55 +0200 (Po, 21 dub 2008) | 2 lines
+
+French translation was updated.
+
+------------------------------------------------------------------------
+r552 | zas_ | 2008-04-21 12:10:23 +0200 (Po, 21 dub 2008) | 2 lines
+
+Add compat.c to POTFILES
+
+------------------------------------------------------------------------
+r551 | zas_ | 2008-04-21 12:09:01 +0200 (Po, 21 dub 2008) | 4 lines
+
+Allow the user to set the drag'n drop icon size through
+Preferences > Advanced > Behavior > Drag'n drop icon size.
+It is saved to rc file as dnd_icon_size.
+
+------------------------------------------------------------------------
+r550 | zas_ | 2008-04-21 01:17:35 +0200 (Po, 21 dub 2008) | 4 lines
+
+Add a replacement for gtk_radio_action_set_current_value() which
+require GTK+ >= 2.10.
+Two new files were added, compat.h and compat.c.
+
+------------------------------------------------------------------------
+r549 | zas_ | 2008-04-21 00:51:53 +0200 (Po, 21 dub 2008) | 2 lines
+
+French translation was updated.
+
+------------------------------------------------------------------------
+r548 | zas_ | 2008-04-21 00:45:00 +0200 (Po, 21 dub 2008) | 2 lines
+
+Add number mnemonics to image view editors submenu.
+
+------------------------------------------------------------------------
+r547 | zas_ | 2008-04-21 00:29:23 +0200 (Po, 21 dub 2008) | 3 lines
+
+Prefix editor entries in the main menu with numbers.
+It allows Alt+E+number as shortcut to start an editor.
+
+------------------------------------------------------------------------
+r546 | zas_ | 2008-04-21 00:14:54 +0200 (Po, 21 dub 2008) | 2 lines
+
+Add missing shortcuts.
+
+------------------------------------------------------------------------
+r545 | nadvornik | 2008-04-21 00:14:38 +0200 (Po, 21 dub 2008) | 3 lines
+
+fixed color profile code for older versions of exiv2
+compilation fixes
+
+------------------------------------------------------------------------
+r544 | zas_ | 2008-04-21 00:01:26 +0200 (Po, 21 dub 2008) | 4 lines
+
+Mark slideshow toggle state in the menu.
+There is still an issue due to layout vs view slideshows...
+
+
+------------------------------------------------------------------------
+r543 | zas_ | 2008-04-20 23:38:45 +0200 (Ne, 20 dub 2008) | 2 lines
+
+Fix a typo introduced by revision 521.
+
+------------------------------------------------------------------------
+r542 | nadvornik | 2008-04-20 23:35:03 +0200 (Ne, 20 dub 2008) | 2 lines
+
+read color profiles from jpeg also with Exiv2
+
+------------------------------------------------------------------------
+r541 | zas_ | 2008-04-20 23:30:36 +0200 (Ne, 20 dub 2008) | 6 lines
+
+Use explicit names for mouse buttons instead of numbers.
+MOUSE_BUTTON_LEFT   = 1
+MOUSE_BUTTON_MIDDLE = 2
+MOUSE_BUTTON_RIGHT  = 3
+It makes the code easier to read.
+
+------------------------------------------------------------------------
+r540 | zas_ | 2008-04-20 22:35:26 +0200 (Ne, 20 dub 2008) | 2 lines
+
+Fix a typo: unoffical -> unofficial
+
+------------------------------------------------------------------------
+r539 | zas_ | 2008-04-20 20:07:51 +0200 (Ne, 20 dub 2008) | 2 lines
+
+Effectively drop empty newlines at end of files (missing from rev 535)
+
+------------------------------------------------------------------------
+r538 | zas_ | 2008-04-20 18:50:19 +0200 (Ne, 20 dub 2008) | 3 lines
+
+comment_file_read(): rewrite the parser, drop leading and trailing newlines
+in comment.
+
+------------------------------------------------------------------------
+r537 | zas_ | 2008-04-20 15:42:22 +0200 (Ne, 20 dub 2008) | 2 lines
+
+Minor cleanup and code redundancy reduction.
+
+------------------------------------------------------------------------
+r536 | zas_ | 2008-04-20 15:30:36 +0200 (Ne, 20 dub 2008) | 2 lines
+
+editor_command_one(): tidy up.
+
+------------------------------------------------------------------------
+r535 | zas_ | 2008-04-20 15:04:57 +0200 (Ne, 20 dub 2008) | 6 lines
+
+Big whitespaces cleanup:
+- drop whitespaces at end of lines
+- convert eight spaces to tab at start of lines
+- drop spurious spaces mixed with tabs
+- remove empty lines at end of files
+
+------------------------------------------------------------------------
+r534 | zas_ | 2008-04-20 12:05:27 +0200 (Ne, 20 dub 2008) | 3 lines
+
+Allow the user to change open_recent_list_maxsize option through
+Preferences > Advanced > Navigation.
+
+------------------------------------------------------------------------
+r533 | nadvornik | 2008-04-20 11:53:37 +0200 (Ne, 20 dub 2008) | 2 lines
+
+rm as external delete command is too dangerous, even for testing
+
+------------------------------------------------------------------------
+r532 | zas_ | 2008-04-20 11:47:51 +0200 (Ne, 20 dub 2008) | 2 lines
+
+Add a way to restore original state in Adjust menu.
+
+------------------------------------------------------------------------
+r531 | nadvornik | 2008-04-20 11:29:46 +0200 (Ne, 20 dub 2008) | 2 lines
+
+added fColorProfile pseudo-tag with detailed information
+
+------------------------------------------------------------------------
+r530 | zas_ | 2008-04-20 11:02:05 +0200 (Ne, 20 dub 2008) | 3 lines
+
+Fix the case "orientation from FileData, color profile from exif".
+Reported by Vladimir Nadvornik.
+
+------------------------------------------------------------------------
+r529 | zas_ | 2008-04-20 01:12:30 +0200 (Ne, 20 dub 2008) | 3 lines
+
+Rename inappropriate folder_size to folder.
+
+
+------------------------------------------------------------------------
+r528 | zas_ | 2008-04-20 00:32:07 +0200 (Ne, 20 dub 2008) | 2 lines
+
+Use sizeof() for buffer size where appropriate.
+
+------------------------------------------------------------------------
+r527 | zas_ | 2008-04-19 23:50:05 +0200 (So, 19 dub 2008) | 2 lines
+
+Keep image orientation set by the user during the session.
+
+------------------------------------------------------------------------
+r526 | zas_ | 2008-04-19 23:30:19 +0200 (So, 19 dub 2008) | 3 lines
+
+Save Show Marks state to rc file and display current state in menu.
+It is saved as boolean option layout.show_marks.
+
+------------------------------------------------------------------------
+r525 | nadvornik | 2008-04-19 23:20:08 +0200 (So, 19 dub 2008) | 2 lines
+
+fixed max. number of profiles
+
+------------------------------------------------------------------------
+r524 | zas_ | 2008-04-19 23:18:24 +0200 (So, 19 dub 2008) | 2 lines
+
+Sort options.
+
+------------------------------------------------------------------------
+r523 | nadvornik | 2008-04-19 23:10:18 +0200 (So, 19 dub 2008) | 2 lines
+
+fixed color profile index
+
+------------------------------------------------------------------------
+r522 | zas_ | 2008-04-19 22:53:12 +0200 (So, 19 dub 2008) | 2 lines
+
+Let toggle marks with numeric keypad.
+
+------------------------------------------------------------------------
+r521 | nadvornik | 2008-04-19 22:19:27 +0200 (So, 19 dub 2008) | 4 lines
+
+I have finally found how to add alternative hotkeys
+removed more hard-coded keys
+"Split Quad" is without hotkey for now
+
+------------------------------------------------------------------------
+r520 | zas_ | 2008-04-19 21:28:10 +0200 (So, 19 dub 2008) | 3 lines
+
+Accept keywords composed by two words ("Todo" = "A faire" in french).
+Prevent duplicate keywords in the list.
+
+------------------------------------------------------------------------
+r519 | nadvornik | 2008-04-19 19:55:41 +0200 (So, 19 dub 2008) | 2 lines
+
+show the AdobeRGB profile in the menu, indicate input profile from image
+
+------------------------------------------------------------------------
+r518 | zas_ | 2008-04-19 19:14:03 +0200 (So, 19 dub 2008) | 2 lines
+
+file_dat_unref: display number of references as well of path (debug only).
+
+------------------------------------------------------------------------
+r517 | nadvornik | 2008-04-19 18:26:29 +0200 (So, 19 dub 2008) | 2 lines
+
+first support for AdobeRGB colorspace
+
+------------------------------------------------------------------------
+r516 | zas_ | 2008-04-19 18:10:08 +0200 (So, 19 dub 2008) | 2 lines
+
+French translation fixes.
+
+------------------------------------------------------------------------
+r515 | zas_ | 2008-04-19 15:40:20 +0200 (So, 19 dub 2008) | 3 lines
+
+French translation fixes and updates.
+
+
+------------------------------------------------------------------------
+r514 | zas_ | 2008-04-19 15:39:21 +0200 (So, 19 dub 2008) | 2 lines
+
+Add missing _().
+
+------------------------------------------------------------------------
+r513 | zas_ | 2008-04-19 14:46:59 +0200 (So, 19 dub 2008) | 4 lines
+
+Add the possibility to update only one translation file using,
+for example: make update-po PO=fr
+autogen.sh applies a patch made against glib-gettextize generated Makefile.in.in
+
+------------------------------------------------------------------------
+r512 | zas_ | 2008-04-19 13:11:53 +0200 (So, 19 dub 2008) | 5 lines
+
+Cleanup last patch:
+- drop vd_pop_menu_dir_view_as_cb() since it is now unused.
+- use G_N_ELEMENTS()
+
+
+------------------------------------------------------------------------
+r511 | nadvornik | 2008-04-19 11:49:14 +0200 (So, 19 dub 2008) | 2 lines
+
+improved spec file
+
+------------------------------------------------------------------------
+r510 | zas_ | 2008-04-19 11:36:30 +0200 (So, 19 dub 2008) | 3 lines
+
+Fix directory view popup menu to display a View As submenu
+to switch between different directory views.
+
+------------------------------------------------------------------------
+r509 | zas_ | 2008-04-19 01:35:16 +0200 (So, 19 dub 2008) | 2 lines
+
+gimp-remote has no -n option.
+
+------------------------------------------------------------------------
+r508 | zas_ | 2008-04-19 01:09:03 +0200 (So, 19 dub 2008) | 4 lines
+
+Add zoom ratio display to OSD in fullscreen mode.
+It appears as [%zoom%] in fullscreen info string.
+It is now displayed by default.
+
+------------------------------------------------------------------------
+r507 | nadvornik | 2008-04-19 00:31:58 +0200 (So, 19 dub 2008) | 2 lines
+
+partially fixed reading embedded color profiles with exiv2
+
+------------------------------------------------------------------------
+r506 | zas_ | 2008-04-19 00:15:01 +0200 (So, 19 dub 2008) | 5 lines
+
+Add two new options to control image read buffer at runtime.
+They are available in Preferences > Advanced > Image loading and caching.
+Default read buffer size was set to 4096 instead of 512.
+These options are saved to rc file.
+
+------------------------------------------------------------------------
+r505 | zas_ | 2008-04-18 23:53:33 +0200 (Pá, 18 dub 2008) | 2 lines
+
+Display elapsed time since previous get_exec_time() call (debug only).
+
+------------------------------------------------------------------------
+r504 | zas_ | 2008-04-18 23:51:08 +0200 (Pá, 18 dub 2008) | 2 lines
+
+Remove forgotten debug printf().
+
+------------------------------------------------------------------------
+r503 | zas_ | 2008-04-18 23:42:00 +0200 (Pá, 18 dub 2008) | 2 lines
+
+Fix OSD display when fullscreen info string is empty.
+
+------------------------------------------------------------------------
+r502 | nadvornik | 2008-04-18 23:30:12 +0200 (Pá, 18 dub 2008) | 2 lines
+
+replace inner loops with memcpy
+
+------------------------------------------------------------------------
+r501 | zas_ | 2008-04-18 22:41:09 +0200 (Pá, 18 dub 2008) | 5 lines
+
+Explode pr_tile_mirror() in three optimized functions:
+pr_tile_mirror_only()
+pr_tile_mirror_and_flip()
+pr_tile_flip_only()
+
+------------------------------------------------------------------------
+r500 | zas_ | 2008-04-18 18:53:41 +0200 (Pá, 18 dub 2008) | 5 lines
+
+Rename vd_drop_update() to vd_dnd_drop_update().
+Add two function pointers to ViewDir struct to keep
+vdtree_dnd_drop_expand_cancel() and vdtree_dnd_drop_expand()
+static to view_dir_tree.c.
+
+------------------------------------------------------------------------
+r499 | zas_ | 2008-04-18 18:29:47 +0200 (Pá, 18 dub 2008) | 2 lines
+
+Drop 3 useless #define.
+
+------------------------------------------------------------------------
+r498 | zas_ | 2008-04-18 18:25:40 +0200 (Pá, 18 dub 2008) | 4 lines
+
+Fix forgotten vd->pf affectation.
+Cleanup, and reduce code redundancy a bit.
+
+
+------------------------------------------------------------------------
+r497 | zas_ | 2008-04-18 13:01:41 +0200 (Pá, 18 dub 2008) | 6 lines
+
+Explode pr_tile_rotate_90() in two functions:
+pr_tile_rotate_90_clockwise()
+pr_tile_rotate_90_counter_clockwise()
+Optimize the code at the expense of a bit of code redundancy:
+tests were moved outside the loops, intermediate results are now cached.
+
+------------------------------------------------------------------------
+r496 | zas_ | 2008-04-18 11:15:09 +0200 (Pá, 18 dub 2008) | 2 lines
+
+Introduce printf_term() macro and use it.
+
+------------------------------------------------------------------------
+r495 | zas_ | 2008-04-17 22:14:49 +0200 (Čt, 17 dub 2008) | 3 lines
+
+Add a shortcut key for List (L) and change the one for Tree (T),
+they are now in a submenu.
+
+------------------------------------------------------------------------
+r494 | zas_ | 2008-04-17 22:03:49 +0200 (Čt, 17 dub 2008) | 2 lines
+
+Add some wrappers in view_dir.c and simplify even more.
+
+------------------------------------------------------------------------
+r493 | zas_ | 2008-04-17 21:57:41 +0200 (Čt, 17 dub 2008) | 2 lines
+
+Fix a bug introduced in revision 489.
+
+------------------------------------------------------------------------
+r492 | zas_ | 2008-04-17 20:44:17 +0200 (Čt, 17 dub 2008) | 3 lines
+
+Reduce code redundancy with the introduction of a new
+function named vd_get_fd_from_tree_path().
+
+------------------------------------------------------------------------
+r491 | nadvornik | 2008-04-17 19:44:54 +0200 (Čt, 17 dub 2008) | 3 lines
+
+image post-processing (rotation and color management) moved to
+pixbuf-renderer
+
+------------------------------------------------------------------------
+r490 | zas_ | 2008-04-17 19:35:51 +0200 (Čt, 17 dub 2008) | 3 lines
+
+Merge vd(list|tree)_release_cb() in vd_release_cb().
+I made some assumptions here i hope correct.
+
+------------------------------------------------------------------------
+r489 | zas_ | 2008-04-17 19:19:41 +0200 (Čt, 17 dub 2008) | 2 lines
+
+Merge few more functions to view_dir.c.
+
+------------------------------------------------------------------------
+r488 | zas_ | 2008-04-17 18:33:31 +0200 (Čt, 17 dub 2008) | 2 lines
+
+Move common menu position callback to view_dir.c.
+
+------------------------------------------------------------------------
+r487 | zas_ | 2008-04-17 16:51:32 +0200 (Čt, 17 dub 2008) | 2 lines
+
+Merge dirlist/dirview dnd code.
+
+------------------------------------------------------------------------
+r486 | zas_ | 2008-04-17 00:51:32 +0200 (Čt, 17 dub 2008) | 2 lines
+
+Regenerate translations files and update french translation.
+
+------------------------------------------------------------------------
+r485 | zas_ | 2008-04-17 00:31:52 +0200 (Čt, 17 dub 2008) | 2 lines
+
+Fix new folder feature in dirlist mode, it was broken by revision 481.
+
+------------------------------------------------------------------------
+r484 | zas_ | 2008-04-17 00:23:43 +0200 (Čt, 17 dub 2008) | 2 lines
+
+Fix a crash introduced in revision 477.
+
+------------------------------------------------------------------------
+r483 | zas_ | 2008-04-17 00:21:01 +0200 (Čt, 17 dub 2008) | 2 lines
+
+Fix two errors made in revision 473.
+
+------------------------------------------------------------------------
+r482 | zas_ | 2008-04-16 23:58:05 +0200 (St, 16 dub 2008) | 2 lines
+
+Merge few more vdlist/vdtree functions.
+
+------------------------------------------------------------------------
+r481 | zas_ | 2008-04-16 22:36:10 +0200 (St, 16 dub 2008) | 2 lines
+
+Make directory view popup menu common and move it to view_dir.{c,h}.
+
+------------------------------------------------------------------------
+r480 | nadvornik | 2008-04-16 22:32:44 +0200 (St, 16 dub 2008) | 2 lines
+
+fixed compiler warnings
+
+------------------------------------------------------------------------
+r479 | nadvornik | 2008-04-16 22:15:42 +0200 (St, 16 dub 2008) | 2 lines
+
+in debug mode print time information on selected events
+
+------------------------------------------------------------------------
+r478 | zas_ | 2008-04-16 20:57:50 +0200 (St, 16 dub 2008) | 2 lines
+
+Clean up and simplify.
+
+------------------------------------------------------------------------
+r477 | zas_ | 2008-04-16 18:54:38 +0200 (St, 16 dub 2008) | 3 lines
+
+Merge parts of view_dir_list/tree constructors/destructors to
+view_dir.
+
+------------------------------------------------------------------------
+r476 | zas_ | 2008-04-16 18:05:12 +0200 (St, 16 dub 2008) | 3 lines
+
+Move some dnd common code from view_dir_list.c and view_dir_tree.c
+to view_dir.c.
+
+------------------------------------------------------------------------
+r475 | zas_ | 2008-04-16 16:56:31 +0200 (St, 16 dub 2008) | 2 lines
+
+Rename vdt occurences to vd.
+
+------------------------------------------------------------------------
+r474 | zas_ | 2008-04-16 16:51:39 +0200 (St, 16 dub 2008) | 2 lines
+
+Rename vdl occurences to vd.
+
+------------------------------------------------------------------------
+r473 | zas_ | 2008-04-16 16:45:22 +0200 (St, 16 dub 2008) | 11 lines
+
+Introduce a new struct ViewDir to handle directory views common
+data.
+Specific data is now in ViewDirInfoList and ViewDirInfoTree.
+Type of directory view can be specified with enum DirViewType.
+This is saved to rc file as layout.dir_view_type, which replace
+layout.view_as_tree.
+Code was modified to reflect these changes.
+This is a first to move to merge common code of view_dir_list.c
+and view_dir_tree.c and ease the introduction of new types
+of directory view.
+
+------------------------------------------------------------------------
+r472 | zas_ | 2008-04-15 23:49:28 +0200 (Út, 15 dub 2008) | 2 lines
+
+Indicate --debug[=level] in usage display.
+
+------------------------------------------------------------------------
+r471 | zas_ | 2008-04-15 23:47:03 +0200 (Út, 15 dub 2008) | 4 lines
+
+Parse command line for --debug option as soon as possible and allow
+--debug[=level] syntax.
+Only display message indication debug level once.
+
+------------------------------------------------------------------------
+r470 | zas_ | 2008-04-15 23:06:00 +0200 (Út, 15 dub 2008) | 2 lines
+
+Cleanup read/write of image.zoom_mode option.
+
+------------------------------------------------------------------------
+r469 | zas_ | 2008-04-15 22:56:55 +0200 (Út, 15 dub 2008) | 2 lines
+
+Read show_icon_names only once.
+
+------------------------------------------------------------------------
+r468 | zas_ | 2008-04-15 22:55:21 +0200 (Út, 15 dub 2008) | 2 lines
+
+Rename l_conf to layout_order and make it more local.
+
+------------------------------------------------------------------------
+r467 | zas_ | 2008-04-15 22:46:14 +0200 (Út, 15 dub 2008) | 5 lines
+
+Fix a bug that was here since a long time, buf has nothing
+to do with options->layout.order, so compare it to l_conf instead.
+It fixes refreshing of files and directories lists when changing
+filtering options.
+
+------------------------------------------------------------------------
+r466 | zas_ | 2008-04-15 22:36:11 +0200 (Út, 15 dub 2008) | 6 lines
+
+Add a new option in Preferences > Filtering to allow the
+user to choose to display '.' directory in folder lists or not.
+This option is saved to rc file as file_filter.show_dot_directory.
+A minor fix was made to disable display of .. in folder selection
+dialogs when current path is /.
+
+------------------------------------------------------------------------
+r465 | zas_ | 2008-04-15 22:00:27 +0200 (Út, 15 dub 2008) | 2 lines
+
+Add and use few new macros in rc file writing code.
+
+------------------------------------------------------------------------
+r464 | nadvornik | 2008-04-15 20:34:24 +0200 (Út, 15 dub 2008) | 2 lines
+
+this might fix the freezes on freebsd, solaris, etc.
+
+------------------------------------------------------------------------
+r463 | nadvornik | 2008-04-15 18:57:30 +0200 (Út, 15 dub 2008) | 2 lines
+
+save file_class to config file
+
+------------------------------------------------------------------------
+r462 | zas_ | 2008-04-15 09:16:51 +0200 (Út, 15 dub 2008) | 2 lines
+
+Exit fullscreen mode when Properties is displayed.
+
+------------------------------------------------------------------------
+r461 | zas_ | 2008-04-15 08:56:25 +0200 (Út, 15 dub 2008) | 7 lines
+
+New Go to directory view feature that permits to find and display the directory
+corresponding to an image view.
+For example, when you open an image in new window from collection, right clicking on
+the newly displayed image will let you choose Go to directory view, which would open
+a new window, with image and directory list.
+If current directory is the one of the image, menu item is disabled.
+
+------------------------------------------------------------------------
+r460 | zas_ | 2008-04-15 01:47:13 +0200 (Út, 15 dub 2008) | 2 lines
+
+Move layout.order default init to setup_default_options().
+
+------------------------------------------------------------------------
+r459 | zas_ | 2008-04-15 01:39:46 +0200 (Út, 15 dub 2008) | 2 lines
+
+collection_load(): use booleans and always count failures (for debug). 
+
+------------------------------------------------------------------------
+r458 | zas_ | 2008-04-15 01:29:54 +0200 (Út, 15 dub 2008) | 2 lines
+
+collection_load(): improve headers parsing.
+
+------------------------------------------------------------------------
+r457 | zas_ | 2008-04-15 01:09:48 +0200 (Út, 15 dub 2008) | 2 lines
+
+collection_load(): fix typo (missing #) made in rev 453.
+
+------------------------------------------------------------------------
+r456 | zas_ | 2008-04-15 01:08:27 +0200 (Út, 15 dub 2008) | 2 lines
+
+collection_load(): accept whitespaces at start of lines.
+
+------------------------------------------------------------------------
+r455 | zas_ | 2008-04-15 00:57:26 +0200 (Út, 15 dub 2008) | 2 lines
+
+collection_load(): increase verbosity in debug mode.
+
+------------------------------------------------------------------------
+r454 | zas_ | 2008-04-15 00:50:50 +0200 (Út, 15 dub 2008) | 3 lines
+
+collection_load(): replace official by limit_failures (and
+invert the tests).
+
+------------------------------------------------------------------------
+r453 | zas_ | 2008-04-15 00:45:53 +0200 (Út, 15 dub 2008) | 3 lines
+
+Increase collection_load() buffer size and do not activate
+error limiting for GQview collections.
+
+------------------------------------------------------------------------
+r452 | zas_ | 2008-04-15 00:28:29 +0200 (Út, 15 dub 2008) | 2 lines
+
+Merge collection_load_only_geometry() into collection_load().
+
+------------------------------------------------------------------------
+r451 | zas_ | 2008-04-15 00:05:47 +0200 (Út, 15 dub 2008) | 2 lines
+
+Use flags for collection_load*().
+
+------------------------------------------------------------------------
+r450 | zas_ | 2008-04-13 22:33:45 +0200 (Ne, 13 dub 2008) | 2 lines
+
+Apply exif display config (Never/If set/Always) to pan view too.
+
+------------------------------------------------------------------------
+r449 | zas_ | 2008-04-13 21:21:13 +0200 (Ne, 13 dub 2008) | 4 lines
+
+Rename show_dot_files to show_hidden_files.
+There is no need to expose the underlying method to hide
+files.
+
+------------------------------------------------------------------------
+r448 | zas_ | 2008-04-13 20:56:24 +0200 (Ne, 13 dub 2008) | 3 lines
+
+Let toggle the visibility of hidden files from directories list
+or tree contextual menu.
+
+------------------------------------------------------------------------
+r447 | zas_ | 2008-04-13 14:24:42 +0200 (Ne, 13 dub 2008) | 2 lines
+
+Add a button to reset fullscreen info string to default value.
+
+------------------------------------------------------------------------
+r446 | zas_ | 2008-04-13 14:12:44 +0200 (Ne, 13 dub 2008) | 2 lines
+
+Fix a typo, READ_CHAR() must use value_all.
+
+------------------------------------------------------------------------
+r445 | zas_ | 2008-04-13 11:10:38 +0200 (Ne, 13 dub 2008) | 3 lines
+
+Use convenient macros to read options, it will ensure options
+names are matching (in the rc file and internally).
+
+------------------------------------------------------------------------
+r444 | zas_ | 2008-04-13 10:36:17 +0200 (Ne, 13 dub 2008) | 5 lines
+
+Simplify read_*_option() stuff by passing pointer to option value.
+Introduce read_uint_option() to read enum values and read_int_option_clamp()
+to read clamped values.
+
+
+------------------------------------------------------------------------
+r443 | zas_ | 2008-04-13 01:59:31 +0200 (Ne, 13 dub 2008) | 3 lines
+
+Partly rewrite option parser to accept whitespaces at start
+of lines.
+
+------------------------------------------------------------------------
+r442 | zas_ | 2008-04-13 01:41:35 +0200 (Ne, 13 dub 2008) | 2 lines
+
+exif_* -> exif.display.*
+
+------------------------------------------------------------------------
+r441 | zas_ | 2008-04-13 01:32:08 +0200 (Ne, 13 dub 2008) | 2 lines
+
+Add a note in the rc file about special editor slots.
+
+------------------------------------------------------------------------
+r440 | zas_ | 2008-04-13 01:16:41 +0200 (Ne, 13 dub 2008) | 2 lines
+
+sidecar_ext -> sidecar.ext
+
+------------------------------------------------------------------------
+r439 | zas_ | 2008-04-13 01:07:04 +0200 (Ne, 13 dub 2008) | 2 lines
+
+Unify names of options between variables and rc file.
+
+------------------------------------------------------------------------
+r438 | zas_ | 2008-04-13 01:02:00 +0200 (Ne, 13 dub 2008) | 2 lines
+
+Use tree_descend_subdirs everywhere.
+
+------------------------------------------------------------------------
+r437 | zas_ | 2008-04-13 00:22:11 +0200 (Ne, 13 dub 2008) | 2 lines
+
+Use startup_path_enable everywhere.
+
+------------------------------------------------------------------------
+r436 | zas_ | 2008-04-13 00:17:14 +0200 (Ne, 13 dub 2008) | 2 lines
+
+Rename recent_list_max/open_recent_max to open_recent_list_maxsize.
+
+------------------------------------------------------------------------
+r435 | zas_ | 2008-04-13 00:10:38 +0200 (Ne, 13 dub 2008) | 2 lines
+
+Rename dupe_custom_threshold option to duplicates_similarity_threshold.
+
+------------------------------------------------------------------------
+r434 | zas_ | 2008-04-13 00:04:29 +0200 (Ne, 13 dub 2008) | 4 lines
+
+Move safe_delete* and in place rename options to file_ops
+struct.
+Re-order rc file a bit.
+
+------------------------------------------------------------------------
+r433 | zas_ | 2008-04-12 23:45:30 +0200 (So, 12 dub 2008) | 3 lines
+
+Rename option thumbnails.enabled to layout.show_thumbnails as it makes
+more sense.
+
+------------------------------------------------------------------------
+r432 | zas_ | 2008-04-12 23:38:55 +0200 (So, 12 dub 2008) | 5 lines
+
+Rename user_specified_window_background and window_background_color
+to image.use_custom_border_color and image.border_color.
+Rename pref_background_color_set_cb() to pref_color_button_set_cb().
+Rename pref_colorbutton_new() to pref_color_button_new().
+
+------------------------------------------------------------------------
+r431 | zas_ | 2008-04-12 21:33:59 +0200 (So, 12 dub 2008) | 2 lines
+
+Rename window options (moved to layout) and re-order rc file.
+
+------------------------------------------------------------------------
+r430 | zas_ | 2008-04-12 19:20:34 +0200 (So, 12 dub 2008) | 2 lines
+
+Fix bad image option name in the rc file.
+
+------------------------------------------------------------------------
+r429 | zas_ | 2008-04-12 19:09:20 +0200 (So, 12 dub 2008) | 2 lines
+
+Fix display bug when using "Limit image size when autofitting" option.
+
+------------------------------------------------------------------------
+r428 | zas_ | 2008-04-12 17:13:00 +0200 (So, 12 dub 2008) | 2 lines
+
+Beautify rc file, adding sub-sections titles.
+
+------------------------------------------------------------------------
+r427 | zas_ | 2008-04-12 17:04:58 +0200 (So, 12 dub 2008) | 2 lines
+
+Rename image-related options.
+
+------------------------------------------------------------------------
+r426 | zas_ | 2008-04-12 11:41:44 +0200 (So, 12 dub 2008) | 2 lines
+
+Rename thumbnails related options.
+
+------------------------------------------------------------------------
+r425 | zas_ | 2008-04-12 11:12:37 +0200 (So, 12 dub 2008) | 2 lines
+
+Rename file filtering options.
+
+------------------------------------------------------------------------
+r424 | zas_ | 2008-04-12 10:59:52 +0200 (So, 12 dub 2008) | 2 lines
+
+Drop unused stuff.
+
+------------------------------------------------------------------------
+r423 | zas_ | 2008-04-12 10:40:02 +0200 (So, 12 dub 2008) | 2 lines
+
+Rename collection options.
+
+------------------------------------------------------------------------
+r422 | zas_ | 2008-04-12 10:35:58 +0200 (So, 12 dub 2008) | 2 lines
+
+Rename file sorting options.
+
+------------------------------------------------------------------------
+r421 | zas_ | 2008-04-12 10:28:08 +0200 (So, 12 dub 2008) | 2 lines
+
+Re-order and try to group options.
+
+------------------------------------------------------------------------
+r420 | zas_ | 2008-04-12 10:05:44 +0200 (So, 12 dub 2008) | 2 lines
+
+Rename color profile options.
+
+------------------------------------------------------------------------
+r419 | zas_ | 2008-04-12 09:46:01 +0200 (So, 12 dub 2008) | 2 lines
+
+Rename slideshow options.
+
+------------------------------------------------------------------------
+r418 | zas_ | 2008-04-12 09:09:19 +0200 (So, 12 dub 2008) | 3 lines
+
+Only display defined exif tags by default.
+
+
+------------------------------------------------------------------------
+r417 | zas_ | 2008-04-12 09:00:14 +0200 (So, 12 dub 2008) | 2 lines
+
+Drop redundant code.
+
+------------------------------------------------------------------------
+r416 | zas_ | 2008-04-12 08:42:47 +0200 (So, 12 dub 2008) | 3 lines
+
+Add Exif.Photo.ColorSpace tag in Preferences > Properties > Exif.
+Requested by Frédéric Mantegazza.
+
+------------------------------------------------------------------------
+r415 | zas_ | 2008-04-12 01:32:22 +0200 (So, 12 dub 2008) | 2 lines
+
+Rationalize fullscreen options naming.
+
+------------------------------------------------------------------------
+r414 | zas_ | 2008-04-12 01:01:00 +0200 (So, 12 dub 2008) | 2 lines
+
+options_c -> c_options
+
+------------------------------------------------------------------------
+r413 | zas_ | 2008-04-12 00:52:22 +0200 (So, 12 dub 2008) | 2 lines
+
+Move more options to ConfOptions.
+
+------------------------------------------------------------------------
+r412 | zas_ | 2008-04-12 00:27:54 +0200 (So, 12 dub 2008) | 3 lines
+
+Move file_sort_case_sensitive to ConfOptions.
+
+
+------------------------------------------------------------------------
+r411 | zas_ | 2008-04-12 00:14:36 +0200 (So, 12 dub 2008) | 6 lines
+
+Add a new struct ConfOptions to handle options.
+Changes were made among the code to use only one global var
+named "options" of type ConfOptions *.
+Initialization takes place in new init_options().
+
+
+------------------------------------------------------------------------
+r410 | zas_ | 2008-04-11 22:35:37 +0200 (Pá, 11 dub 2008) | 4 lines
+
+Make thumbnail standard fail directory after current application
+name and version.
+
+
+------------------------------------------------------------------------
+r409 | zas_ | 2008-04-11 22:01:29 +0200 (Pá, 11 dub 2008) | 3 lines
+
+Define drag and drop target string in dnd.h.
+Make it use the current name of the application.
+
+------------------------------------------------------------------------
+r408 | zas_ | 2008-04-11 21:43:36 +0200 (Pá, 11 dub 2008) | 2 lines
+
+Use secure save in history_list_save().
+
+------------------------------------------------------------------------
+r407 | zas_ | 2008-04-11 19:11:14 +0200 (Pá, 11 dub 2008) | 3 lines
+
+Use secure save in comment_file_write().
+
+
+------------------------------------------------------------------------
+r406 | zas_ | 2008-04-11 18:46:21 +0200 (Pá, 11 dub 2008) | 5 lines
+
+Secure save now unlinks temporary file on error by default.
+It will prevent left-behind temporary files, but also prevent
+potential data recovery from partially written files (it
+should not be a problem here).
+
+------------------------------------------------------------------------
+r405 | zas_ | 2008-04-11 18:04:37 +0200 (Pá, 11 dub 2008) | 2 lines
+
+Use secure save feature when saving collections.
+
+------------------------------------------------------------------------
+r404 | zas_ | 2008-04-11 18:02:33 +0200 (Pá, 11 dub 2008) | 2 lines
+
+Preserve permissions of the destination file when using secure save.
+
+------------------------------------------------------------------------
+r403 | zas_ | 2008-04-11 17:27:08 +0200 (Pá, 11 dub 2008) | 4 lines
+
+Revert part of the previous patch, let the caller take care
+of calling path_from_utf8().
+
+
+------------------------------------------------------------------------
+r402 | zas_ | 2008-04-11 16:27:55 +0200 (Pá, 11 dub 2008) | 3 lines
+
+Use path_from_utf8() on the passed filename.
+Add const attribute.
+
+------------------------------------------------------------------------
+r401 | zas_ | 2008-04-11 15:07:48 +0200 (Pá, 11 dub 2008) | 8 lines
+
+ui_icons.h and icons_inline.h depend on gdk-pixbuf-csource,
+so add a test for it in configure.
+Wrap generated headers files with #ifdef/#endif and add
+a comment related to their auto-generated nature.
+Make the generation itself quiet, but display a message
+on error.
+Make these targets depend on respective Makefile.in.
+
+------------------------------------------------------------------------
+r400 | zas_ | 2008-04-11 14:31:32 +0200 (Pá, 11 dub 2008) | 2 lines
+
+Move secure save code to its own files: secure_save.{c,h}.
+
+------------------------------------------------------------------------
+r399 | zas_ | 2008-04-11 14:25:36 +0200 (Pá, 11 dub 2008) | 2 lines
+
+Add missing #ifdef/#endif.
+
+------------------------------------------------------------------------
+r398 | zas_ | 2008-04-11 12:46:52 +0200 (Pá, 11 dub 2008) | 2 lines
+
+Ensure that gcc flag -Wall is set.
+
+------------------------------------------------------------------------
+r397 | zas_ | 2008-04-11 12:45:37 +0200 (Pá, 11 dub 2008) | 2 lines
+
+Silent some gcc warnings.
+
+------------------------------------------------------------------------
+r396 | zas_ | 2008-04-11 11:02:20 +0200 (Pá, 11 dub 2008) | 3 lines
+
+Prevent multiple insertion of the same file in a collection.
+Use a hash table to speed up existence tests.
+
+------------------------------------------------------------------------
+r395 | zas_ | 2008-04-11 10:10:40 +0200 (Pá, 11 dub 2008) | 2 lines
+
+Only display these messages if debug mode is enabled.
+
+------------------------------------------------------------------------
+r394 | nadvornik | 2008-04-10 21:27:42 +0200 (Čt, 10 dub 2008) | 2 lines
+
+fixed dates in pan-calendar
+
+------------------------------------------------------------------------
+r393 | zas_ | 2008-04-10 14:07:34 +0200 (Čt, 10 dub 2008) | 2 lines
+
+Fix fCamera even more.
+
+------------------------------------------------------------------------
+r392 | zas_ | 2008-04-10 13:31:20 +0200 (Čt, 10 dub 2008) | 2 lines
+
+Do not display ... if not truncated.
+
+------------------------------------------------------------------------
+r391 | zas_ | 2008-04-10 12:43:15 +0200 (Čt, 10 dub 2008) | 5 lines
+
+Add the possibility to truncate overlay infos displayed:
+%fCamera:20% will truncate data displayed to 20 characters
+and add 3 dots at the end.
+For example, %name% -> some_file, %name:4% -> some...
+
+------------------------------------------------------------------------
+r390 | zas_ | 2008-04-10 02:09:43 +0200 (Čt, 10 dub 2008) | 2 lines
+
+Fix broken remove_common_prefix(), fCamera didn't display model as it should.
+
+------------------------------------------------------------------------
+r389 | zas_ | 2008-04-10 00:47:43 +0200 (Čt, 10 dub 2008) | 2 lines
+
+Resync .po files. French translation was updated (100% made).
+
+------------------------------------------------------------------------
+r388 | zas_ | 2008-04-10 00:36:43 +0200 (Čt, 10 dub 2008) | 2 lines
+
+Add 3 missing files to POTFILES.in.
+
+------------------------------------------------------------------------
+r387 | zas_ | 2008-04-10 00:33:06 +0200 (Čt, 10 dub 2008) | 2 lines
+
+Simple helper script to display translation statistics.
+
+------------------------------------------------------------------------
+r386 | zas_ | 2008-04-10 00:13:11 +0200 (Čt, 10 dub 2008) | 3 lines
+
+Fix a typo: "while fluorescent" -> "white fluorescent"
+
+
+------------------------------------------------------------------------
+r385 | zas_ | 2008-04-10 00:01:52 +0200 (Čt, 10 dub 2008) | 2 lines
+
+Resync .po files. Update french translation.
+
+------------------------------------------------------------------------
+r384 | nadvornik | 2008-04-09 23:14:50 +0200 (St, 09 dub 2008) | 2 lines
+
+fixed crash in pan_calendar
+
+------------------------------------------------------------------------
+r383 | nadvornik | 2008-04-09 22:49:32 +0200 (St, 09 dub 2008) | 2 lines
+
+improved histogram drawing
+
+------------------------------------------------------------------------
+r382 | zas_ | 2008-04-09 18:37:54 +0200 (St, 09 dub 2008) | 5 lines
+
+Simplify and unify gtk_window creation with the help of
+the new window_new() function, that wraps gtk_window_new()
+call.
+Subclass, title and icon are set in the same call.
+
+------------------------------------------------------------------------
+r381 | zas_ | 2008-04-09 15:53:01 +0200 (St, 09 dub 2008) | 2 lines
+
+Replace occurences of Geeqie / geeqie by constants defined in main.h.
+
+------------------------------------------------------------------------
+r380 | zas_ | 2008-04-09 01:41:01 +0200 (St, 09 dub 2008) | 2 lines
+
+int -> gint
+
+------------------------------------------------------------------------
+r379 | zas_ | 2008-04-09 01:39:27 +0200 (St, 09 dub 2008) | 2 lines
+
+Make xmp debug info only appears when debug >= 2.
+
+------------------------------------------------------------------------
+r378 | zas_ | 2008-04-09 01:33:49 +0200 (St, 09 dub 2008) | 3 lines
+
+Enable image rotation depending on EXIF by default.
+New users shouldn't have to search for it.
+
+------------------------------------------------------------------------
+r377 | zas_ | 2008-04-09 01:25:46 +0200 (St, 09 dub 2008) | 2 lines
+
+Fix missing header files inclusions.
+
+------------------------------------------------------------------------
+r376 | zas_ | 2008-04-09 01:16:12 +0200 (St, 09 dub 2008) | 2 lines
+
+GQVIEW_* -> GQ_* 
+
+------------------------------------------------------------------------
+r375 | zas_ | 2008-04-09 01:07:09 +0200 (St, 09 dub 2008) | 2 lines
+
+GQVIEW_H -> MAIN_H
+
+------------------------------------------------------------------------
+r374 | zas_ | 2008-04-09 01:02:33 +0200 (St, 09 dub 2008) | 2 lines
+
+gqview.h -> main.h
+
+------------------------------------------------------------------------
+r373 | zas_ | 2008-04-09 00:31:42 +0200 (St, 09 dub 2008) | 2 lines
+
+Remove obsolete prototype.
+
+------------------------------------------------------------------------
+r372 | zas_ | 2008-04-09 00:28:55 +0200 (St, 09 dub 2008) | 9 lines
+
+
+gqview_remote -> remote_connection
+gqview_command_collection -> command_collection
+gqview_remote_control() -> remote_control()
+gqview_remote_help() -> remote_help()
+gqview_remote_command_find() -> remote_command_find()
+gqview_remote_build_list() -> remote_build_list()
+gqview_remote_cb() -> remote_cb()
+
+------------------------------------------------------------------------
+r371 | zas_ | 2008-04-09 00:16:56 +0200 (St, 09 dub 2008) | 4 lines
+
+
+exit_gqview() renamed to exit_program().
+exit_gqview_final() renamed to exit_program_final().
+
+------------------------------------------------------------------------
+r370 | zas_ | 2008-04-09 00:05:04 +0200 (St, 09 dub 2008) | 8 lines
+
+Add support for some Samsung raw files (.pef).
+
+Samsung raw not strongly differ from Pentax raw.
+The only difference in header (manufacturer, camera name and etc).
+Tested on Samsung GX-1S and Pentax *ist DS.
+Patch by Max Lushnikov.
+
+
+------------------------------------------------------------------------
+r369 | zas_ | 2008-04-08 23:55:58 +0200 (Út, 08 dub 2008) | 7 lines
+
+Implement secure rc file saving.
+First data is written to a temporary file, then if nothing
+was wrong, this file is renamed to the final name.
+This way the risk of corrupted rc file is greatly reduced.
+The code is borrowed from ELinks (http://elinks.cz).
+
+
+------------------------------------------------------------------------
+r368 | nadvornik | 2008-04-08 23:52:04 +0200 (Út, 08 dub 2008) | 2 lines
+
+fixed histogram label
+
+------------------------------------------------------------------------
+r367 | zas_ | 2008-04-08 23:33:29 +0200 (Út, 08 dub 2008) | 11 lines
+
+Fix the "continuous display" of tooltips in the collection view
+(before the tooltip delay occured once, then changing icon to icon never hide the
+tooltip again, now the tip is displayed shortly after the cursor moved on the icon,
+but disappears when moving cursor to another icon).
+
+Display the full path to the file when Show filename text is on (before nothing
+was displayed).
+
+When Show filename text is off, behavior is unchanged, the (short) filename is
+displayed.
+
+------------------------------------------------------------------------
+r366 | nadvornik | 2008-04-08 22:56:50 +0200 (Út, 08 dub 2008) | 3 lines
+
+reworked the histogram patch by Uwe Ohse, most of the code is in
+separate files
+
+------------------------------------------------------------------------
+r365 | nadvornik | 2008-04-08 19:26:13 +0200 (Út, 08 dub 2008) | 2 lines
+
+fixed file delete notification in view_file_icon
+
+------------------------------------------------------------------------
+r364 | zas_ | 2008-04-08 18:22:21 +0200 (Út, 08 dub 2008) | 2 lines
+
+gtk_notebook_set_tab_reorderable() is only available sinc gtk+ 2.10.
+
+------------------------------------------------------------------------
+r363 | zas_ | 2008-04-08 17:53:03 +0200 (Út, 08 dub 2008) | 2 lines
+
+Move active variable affectation after the test.
+
+------------------------------------------------------------------------
+r362 | zas_ | 2008-04-08 16:52:42 +0200 (Út, 08 dub 2008) | 2 lines
+
+Simplify layout_color_name_parse() using g_strdelimit().
+
+------------------------------------------------------------------------
+r361 | zas_ | 2008-04-08 16:50:14 +0200 (Út, 08 dub 2008) | 2 lines
+
+Tidy up, whitespaces and indentation fix.
+
+------------------------------------------------------------------------
+r360 | zas_ | 2008-04-08 13:53:35 +0200 (Út, 08 dub 2008) | 7 lines
+
+Remove dependency on GTK 2.12, reported by John Vodden and Vladimir
+Nadvornik.
+gtk_set_tooltip_markup() calls were disabled for GTK+ versions < 2.12.
+gdk_color_to_string() was replaced by a equivalent function.
+
+
+
+------------------------------------------------------------------------
+r359 | zas_ | 2008-04-07 21:47:22 +0200 (Po, 07 dub 2008) | 9 lines
+
+Add the possibility to print file names with path.
+A checkbox was added to the Text tab in the Print dialog.
+
+Name checked and Path unchecked  -> filename.jpg
+Name checked and Path checked    -> /some/dir/filename.jpg
+Name unchecked and Path checked  -> /some/dir/
+
+Patch by Michael Mokeev and Laurent Monin.
+
+------------------------------------------------------------------------
+r358 | zas_ | 2008-04-07 21:06:17 +0200 (Po, 07 dub 2008) | 2 lines
+
+Fix a segfault on fullscreen file deletion reported by Frédéric Mantegazza.
+
+------------------------------------------------------------------------
+r357 | zas_ | 2008-04-07 20:52:54 +0200 (Po, 07 dub 2008) | 3 lines
+
+Add the possibility to match duplicates on the name but ignoring the case.
+A new item was added to types of match combo box in the Find duplicates dialog.
+
+------------------------------------------------------------------------
+r356 | zas_ | 2008-04-07 10:09:39 +0200 (Po, 07 dub 2008) | 3 lines
+
+Display marks in overlay info only if at least one is set.
+Fix a missing g_string_free().
+
+------------------------------------------------------------------------
+r355 | zas_ | 2008-04-06 12:17:41 +0200 (Ne, 06 dub 2008) | 3 lines
+
+Mark all exif labels as translatable.
+Before only some of them were enclosed by N_().
+
+------------------------------------------------------------------------
+r354 | zas_ | 2008-04-06 12:03:54 +0200 (Ne, 06 dub 2008) | 2 lines
+
+Mark strings as translatable.
+
+------------------------------------------------------------------------
+r353 | zas_ | 2008-04-05 17:23:39 +0200 (So, 05 dub 2008) | 4 lines
+
+Improve remove_trailing_slash() so it allocates no more than
+needed bytes and remove all trailing slashes instead only one.
+
+
+------------------------------------------------------------------------
+r352 | zas_ | 2008-04-05 13:59:29 +0200 (So, 05 dub 2008) | 4 lines
+
+
+Comment out unused code.
+Geeqie code now compiles cleanly with -Wall gcc option.
+
+------------------------------------------------------------------------
+r351 | zas_ | 2008-04-05 00:34:55 +0200 (So, 05 dub 2008) | 3 lines
+
+Change default exif order a bit to move up common and useful
+info.
+
+------------------------------------------------------------------------
+r350 | zas_ | 2008-04-05 00:23:36 +0200 (So, 05 dub 2008) | 3 lines
+
+
+Re-add "What to show in properties dialog:" label before the table. 
+
+------------------------------------------------------------------------
+r349 | zas_ | 2008-04-05 00:12:28 +0200 (So, 05 dub 2008) | 3 lines
+
+Rename exif preferences tab to "Properties", and name the
+subsection "Exif".
+
+------------------------------------------------------------------------
+r348 | zas_ | 2008-04-04 20:50:52 +0200 (Pá, 04 dub 2008) | 3 lines
+
+Fix a segfault occuring when enabling debug mode.
+At this point il->fd can be null.
+
+------------------------------------------------------------------------
+r347 | zas_ | 2008-04-04 01:29:14 +0200 (Pá, 04 dub 2008) | 6 lines
+
+Make the wmclass value unique among the code by defining
+it in main header file as GQ_WMCLASS.
+Before this patch, it was set using PACKAGE (="geeqie"),
+or by the hardcoded string "Geeqie".
+Now all Geeqie windows have the same value for wmclass.
+
+------------------------------------------------------------------------
+r346 | zas_ | 2008-04-04 00:39:50 +0200 (Pá, 04 dub 2008) | 2 lines
+
+Initialize variables, clearing a gcc warning.
+
+------------------------------------------------------------------------
+r345 | zas_ | 2008-04-04 00:33:28 +0200 (Pá, 04 dub 2008) | 2 lines
+
+Add missing prototype to header file.
+
+------------------------------------------------------------------------
+r344 | zas_ | 2008-04-04 00:29:20 +0200 (Pá, 04 dub 2008) | 2 lines
+
+Add few missing prototypes to header file.
+
+------------------------------------------------------------------------
+r343 | zas_ | 2008-04-04 00:20:42 +0200 (Pá, 04 dub 2008) | 2 lines
+
+Drop a bunch of unused variables.
+
+------------------------------------------------------------------------
+r342 | zas_ | 2008-04-04 00:14:37 +0200 (Pá, 04 dub 2008) | 2 lines
+
+Add missing #include.
+
+------------------------------------------------------------------------
+r341 | zas_ | 2008-04-04 00:13:12 +0200 (Pá, 04 dub 2008) | 2 lines
+
+Remove unused variables.
+
+------------------------------------------------------------------------
+r340 | zas_ | 2008-04-04 00:09:36 +0200 (Pá, 04 dub 2008) | 2 lines
+
+Add missing prototype.
+
+------------------------------------------------------------------------
+r339 | zas_ | 2008-04-04 00:06:31 +0200 (Pá, 04 dub 2008) | 2 lines
+
+Drop 3 unused variables and comment out 2 unused functions.
+
+------------------------------------------------------------------------
+r338 | zas_ | 2008-04-04 00:03:14 +0200 (Pá, 04 dub 2008) | 2 lines
+
+Add parenthesis around affection to clear a gcc warning.
+
+------------------------------------------------------------------------
+r337 | zas_ | 2008-04-04 00:01:08 +0200 (Pá, 04 dub 2008) | 2 lines
+
+Fix a signedness warning.
+
+------------------------------------------------------------------------
+r336 | zas_ | 2008-04-03 23:54:23 +0200 (Čt, 03 dub 2008) | 3 lines
+
+Main configuration file was renamed from gqviewrc to geeqierc.
+
+
+------------------------------------------------------------------------
+r335 | zas_ | 2008-04-03 23:50:53 +0200 (Čt, 03 dub 2008) | 3 lines
+
+Fix a segfault occuring when using --without-exiv2 and
+concerning exif stuff.
+
+------------------------------------------------------------------------
+r334 | zas_ | 2008-04-03 23:49:17 +0200 (Čt, 03 dub 2008) | 2 lines
+
+Fix missing bit of previous patch.
+
+------------------------------------------------------------------------
+r333 | zas_ | 2008-04-03 23:04:19 +0200 (Čt, 03 dub 2008) | 2 lines
+
+Fix two more gcc warnings related to function declarations.
+
+------------------------------------------------------------------------
+r332 | zas_ | 2008-04-03 22:53:13 +0200 (Čt, 03 dub 2008) | 3 lines
+
+Remove two unused variables declarations, and add a missing #include.
+
+
+------------------------------------------------------------------------
+r331 | zas_ | 2008-04-03 22:46:55 +0200 (Čt, 03 dub 2008) | 2 lines
+
+Drop unused variable.
+
+------------------------------------------------------------------------
+r330 | zas_ | 2008-04-03 22:45:55 +0200 (Čt, 03 dub 2008) | 2 lines
+
+Add missing return at the end of editor_command_next_start().
+
+------------------------------------------------------------------------
+r329 | zas_ | 2008-04-03 22:40:15 +0200 (Čt, 03 dub 2008) | 2 lines
+
+Drop unused variable.
+
+------------------------------------------------------------------------
+r328 | zas_ | 2008-04-03 22:38:59 +0200 (Čt, 03 dub 2008) | 2 lines
+
+Make collect_manager_process_action() static.
+
+------------------------------------------------------------------------
+r327 | zas_ | 2008-04-03 22:34:49 +0200 (Čt, 03 dub 2008) | 2 lines
+
+Fix typos in functions names: file_list -> filelist.
+
+------------------------------------------------------------------------
+r326 | zas_ | 2008-04-03 22:25:22 +0200 (Čt, 03 dub 2008) | 2 lines
+
+Remove unused variable declarations.
+
+------------------------------------------------------------------------
+r325 | zas_ | 2008-04-03 22:24:20 +0200 (Čt, 03 dub 2008) | 2 lines
+
+Fix missing header include (filelist.h).
+
+------------------------------------------------------------------------
+r324 | zas_ | 2008-04-03 22:19:16 +0200 (Čt, 03 dub 2008) | 2 lines
+
+Remove unused variables declarations.
+
+------------------------------------------------------------------------
+r323 | zas_ | 2008-04-03 22:11:09 +0200 (Čt, 03 dub 2008) | 7 lines
+
+Move tabs code from config_window_create() to new smaller functions.
+Each tab has now its own function named:
+config_tab_general(), config_tab_image(), config_tab_windows(),
+config_tab_filtering(), config_tab_editors(), config_tab_exif(),
+config_tab_advanced();
+
+
+------------------------------------------------------------------------
+r322 | zas_ | 2008-04-03 20:20:39 +0200 (Čt, 03 dub 2008) | 2 lines
+
+Use more generic names for some cache manager callback functions.
+
+------------------------------------------------------------------------
+r321 | zas_ | 2008-04-03 19:34:30 +0200 (Čt, 03 dub 2008) | 3 lines
+
+Replace some occurences of gqview by Geeqie.
+
+
+------------------------------------------------------------------------
+r320 | zas_ | 2008-04-03 19:15:49 +0200 (Čt, 03 dub 2008) | 6 lines
+
+Add a debug level spinner at the end of Preferences > Advanced.
+One can now enable debug mode without restarting geeqie.
+A possibility to disable all debugging code and related options
+at compile time was added.
+
+
+------------------------------------------------------------------------
+r319 | zas_ | 2008-04-03 16:35:03 +0200 (Čt, 03 dub 2008) | 7 lines
+
+Fix and simplify thumbnails size combo box related code.
+Some variables were unused, code was buggy (spurious entry at
+the end of the list). A sanity check for values coming from
+rc file was added. Two constants now define the default
+thumbnail size.
+
+
+------------------------------------------------------------------------
+r318 | zas_ | 2008-04-03 15:58:20 +0200 (Čt, 03 dub 2008) | 4 lines
+
+
+Make the preferences window resizeable, and try to improve
+display of editors tab.
+
+------------------------------------------------------------------------
+r317 | zas_ | 2008-04-03 15:24:13 +0200 (Čt, 03 dub 2008) | 3 lines
+
+Tidy up. Fix indentation and missing whitespaces.
+Make editors table creation code a bit more readable.
+
+------------------------------------------------------------------------
+r316 | zas_ | 2008-04-03 10:51:32 +0200 (Čt, 03 dub 2008) | 11 lines
+
+Setting no limit size to trash directory is now possible using zero as value.
+A tooltip was added to the spinner to inform the user of this possibility.
+When 0 is set, no remaining/free space check occurs.
+Default size of the trash was set to a 128M and maximum size is now 2048MB, which
+is more conform to today's standards.
+The delete dialog now displays more information:
+- if external command will be used
+- if safe delete is on, max size and path to the trash
+- if safe delete is off
+
+
+------------------------------------------------------------------------
+r315 | nadvornik | 2008-04-02 22:44:40 +0200 (St, 02 dub 2008) | 3 lines
+
+various exif improvements based on patch by Uwe Ohse 
+try to compute 35mm focal length
+
+------------------------------------------------------------------------
+r314 | zas_ | 2008-04-02 14:12:50 +0200 (St, 02 dub 2008) | 6 lines
+
+Make properties tabs reorderable through drag'n drop.
+Order is preserved during the whole session.
+When a new properties dialog is open, it uses the last order used.
+Currently, order isn't saved to rc file.
+
+
+------------------------------------------------------------------------
+r313 | zas_ | 2008-04-02 12:40:54 +0200 (St, 02 dub 2008) | 5 lines
+
+Honor selection while fullscreen navigation.
+The behavior is now consistent in full screen and windowed mode.
+It fixes the fact that the selection was discarded on "Next".
+Patch by Uwe Ohse. Cleanups by Laurent Monin.
+
+------------------------------------------------------------------------
+r312 | zas_ | 2008-04-01 09:42:31 +0200 (Út, 01 dub 2008) | 1 line
+
+Fix display of image number in properties dialog when more than one image is selected.
+------------------------------------------------------------------------
+r311 | zas_ | 2008-04-01 00:10:25 +0200 (Út, 01 dub 2008) | 1 line
+
+Customizable info overlay in fullscreen, based on the patch posted to gqview-devel list by Timo on 2007-09-10.
+------------------------------------------------------------------------
+r310 | nadvornik | 2008-03-31 23:09:36 +0200 (Po, 31 bře 2008) | 3 lines
+
+use quoted_value everywhere
+simplify parsing of multiple quoted values on one line
+
+------------------------------------------------------------------------
+r309 | zas_ | 2008-03-31 09:29:03 +0200 (Po, 31 bře 2008) | 1 line
+
+Indentation and white lines minor fixes.
+------------------------------------------------------------------------
+r308 | zas_ | 2008-03-30 21:26:35 +0200 (Ne, 30 bře 2008) | 1 line
+
+Move strlen() calls outside the while loop.
+------------------------------------------------------------------------
+r307 | zas_ | 2008-03-30 16:19:34 +0200 (Ne, 30 bře 2008) | 1 line
+
+Comment out forgotten debugging code.
+------------------------------------------------------------------------
+r306 | zas_ | 2008-03-30 16:18:04 +0200 (Ne, 30 bře 2008) | 1 line
+
+Fix two minor compilation warnings.
+------------------------------------------------------------------------
+r305 | nadvornik | 2008-03-30 13:47:14 +0200 (Ne, 30 bře 2008) | 6 lines
+
+differentiate among normal image, raw image and metadata
+removed raw extension lists on various places and fixed most of the
+Exiv2 warnings
+todo: configuration and a special icons for unreadable raw or metadata
+
+
+------------------------------------------------------------------------
+r304 | zas_ | 2008-03-30 09:14:37 +0200 (Ne, 30 bře 2008) | 1 line
+
+Make the zoom increment spinner more precise, step is now 0.1 instead of 1.
+------------------------------------------------------------------------
+r303 | zas_ | 2008-03-29 22:47:10 +0100 (So, 29 bře 2008) | 1 line
+
+Improve escaping and quoting of strings saved in rc files.
+------------------------------------------------------------------------
+r302 | nadvornik | 2008-03-29 15:59:14 +0100 (So, 29 bře 2008) | 2 lines
+
+configurable frame around image - geeqie_autofit_maxsize.patch by Laurent MONIN
+
+------------------------------------------------------------------------
+r301 | nadvornik | 2008-03-29 11:38:15 +0100 (So, 29 bře 2008) | 2 lines
+
+set user-defined color as image background - patch by Laurent MONIN
+
+------------------------------------------------------------------------
+r300 | nadvornik | 2008-03-29 11:11:02 +0100 (So, 29 bře 2008) | 2 lines
+
+fixed color management initialization
+
+------------------------------------------------------------------------
+r299 | nadvornik | 2008-03-26 13:07:00 +0100 (St, 26 bře 2008) | 2 lines
+
+README fixes
+
+------------------------------------------------------------------------
+r298 | nadvornik | 2008-03-26 09:02:45 +0100 (St, 26 bře 2008) | 2 lines
+
+updated README files
+
+------------------------------------------------------------------------
+r297 | nadvornik | 2008-03-26 09:00:46 +0100 (St, 26 bře 2008) | 2 lines
+
+improved xmp vs. legacy metadata handling
+
+------------------------------------------------------------------------
+r296 | nadvornik | 2008-03-25 00:15:29 +0100 (Út, 25 bře 2008) | 2 lines
+
+fixed crashes with --debug
+
+------------------------------------------------------------------------
+r295 | nadvornik | 2008-03-24 21:42:39 +0100 (Po, 24 bře 2008) | 2 lines
+
+added all possible raw extensions that I could find
+
+------------------------------------------------------------------------
+r294 | nadvornik | 2008-03-24 15:49:00 +0100 (Po, 24 bře 2008) | 2 lines
+
+improved support for older exiv2 versions
+
+------------------------------------------------------------------------
+r293 | nadvornik | 2008-03-24 15:03:46 +0100 (Po, 24 bře 2008) | 2 lines
+
+exiv2 version checks
+
+------------------------------------------------------------------------
+r292 | nadvornik | 2008-03-24 13:04:31 +0100 (Po, 24 bře 2008) | 2 lines
+
+more renames
+
+------------------------------------------------------------------------
+r291 | nadvornik | 2008-03-24 11:27:22 +0100 (Po, 24 bře 2008) | 2 lines
+
+changed logo
+
+------------------------------------------------------------------------
+r290 | nadvornik | 2008-03-24 10:55:09 +0100 (Po, 24 bře 2008) | 2 lines
+
+more renames
+
+------------------------------------------------------------------------
+r289 | nadvornik | 2008-03-23 21:38:54 +0100 (Ne, 23 bře 2008) | 2 lines
+
+rename GQview -> Geeqie over the code
+
+------------------------------------------------------------------------
+r288 | nadvornik | 2008-03-23 21:18:51 +0100 (Ne, 23 bře 2008) | 2 lines
+
+renamed to geeqie
+
+------------------------------------------------------------------------
+r287 | nadvornik | 2008-03-22 20:28:45 +0100 (So, 22 bře 2008) | 2 lines
+
+raw related fixes
+
+------------------------------------------------------------------------
+r286 | nadvornik | 2008-03-22 18:32:43 +0100 (So, 22 bře 2008) | 2 lines
+
+overview of supported raw formats
+
+------------------------------------------------------------------------
+r285 | nadvornik | 2008-03-22 18:09:14 +0100 (So, 22 bře 2008) | 2 lines
+
+configure --without-exiv2
+
+------------------------------------------------------------------------
+r284 | nadvornik | 2008-03-22 17:43:59 +0100 (So, 22 bře 2008) | 2 lines
+
+crw preview support with exiv2
+
+------------------------------------------------------------------------
+r283 | nadvornik | 2008-03-16 15:11:22 +0100 (Ne, 16 bře 2008) | 3 lines
+
+whitelist of files that can have an xmp sidecar, sample external command
+for creating sidecar
+
+------------------------------------------------------------------------
+r282 | nadvornik | 2008-03-16 11:52:44 +0100 (Ne, 16 bře 2008) | 2 lines
+
+fixed reading sidecar extensions from config file
+
+------------------------------------------------------------------------
+r281 | nadvornik | 2008-03-16 11:32:52 +0100 (Ne, 16 bře 2008) | 2 lines
+
+write comment and keywords to xmp, sidecars are used if exist
+
+------------------------------------------------------------------------
+r280 | nadvornik | 2008-03-15 20:53:33 +0100 (So, 15 bře 2008) | 2 lines
+
+write support in Exiv2 wrapper; for now only string values 
+
+------------------------------------------------------------------------
+r279 | nadvornik | 2008-02-24 19:55:19 +0100 (Ne, 24 úno 2008) | 3 lines
+
+a hack to read raw previews with exiv2 0.16, however it should be fixed
+in the library
+
+------------------------------------------------------------------------
+r278 | nadvornik | 2008-02-15 11:48:09 +0100 (Pá, 15 úno 2008) | 2 lines
+
+read also iptc and xmp
+
+------------------------------------------------------------------------
+r277 | nadvornik | 2008-02-14 15:04:43 +0100 (Čt, 14 úno 2008) | 2 lines
+
+more exiv2 fixes
+
+------------------------------------------------------------------------
+r276 | nadvornik | 2008-02-14 12:03:20 +0100 (Čt, 14 úno 2008) | 2 lines
+
+more exiv2 fixes
+
+------------------------------------------------------------------------
+r275 | nadvornik | 2008-02-14 00:02:48 +0100 (Čt, 14 úno 2008) | 2 lines
+
+more exiv2 fixes
+
+------------------------------------------------------------------------
+r274 | nadvornik | 2008-02-13 20:31:50 +0100 (St, 13 úno 2008) | 2 lines
+
+unified tag names between exiv2 and internal rxif parser
+
+------------------------------------------------------------------------
+r273 | nadvornik | 2008-02-13 18:47:55 +0100 (St, 13 úno 2008) | 2 lines
+
+more exiv2 fixes
+
+------------------------------------------------------------------------
+r272 | nadvornik | 2008-02-13 18:08:04 +0100 (St, 13 úno 2008) | 2 lines
+
+and first version that actually shows some exif data (see advanced view)
+
+------------------------------------------------------------------------
+r271 | nadvornik | 2008-02-13 17:52:41 +0100 (St, 13 úno 2008) | 2 lines
+
+first exiv2 support that does not crash immediately
+
+------------------------------------------------------------------------
+r270 | nadvornik | 2008-02-13 15:46:23 +0100 (St, 13 úno 2008) | 2 lines
+
+started exiv2 integration
+
+------------------------------------------------------------------------
+r269 | nadvornik | 2008-02-13 14:57:31 +0100 (St, 13 úno 2008) | 2 lines
+
+simplified exif.h, moved implementation-specific stuff to exif-int.h
+
+------------------------------------------------------------------------
+r268 | nadvornik | 2008-02-11 16:23:43 +0100 (Po, 11 úno 2008) | 2 lines
+
+do not show frame for full-window images
+
+------------------------------------------------------------------------
+r267 | nadvornik | 2008-02-11 13:51:28 +0100 (Po, 11 úno 2008) | 2 lines
+
+improved drawing of image frames
+
+------------------------------------------------------------------------
+r266 | nadvornik | 2008-01-26 22:18:23 +0100 (So, 26 led 2008) | 2 lines
+
+updated TODO list
+
+------------------------------------------------------------------------
+r265 | nadvornik | 2008-01-20 20:04:18 +0100 (Ne, 20 led 2008) | 2 lines
+
+debug messages cleanup
+
+------------------------------------------------------------------------
+r264 | nadvornik | 2008-01-16 20:37:54 +0100 (St, 16 led 2008) | 2 lines
+
+added file with release notes and TODO
+
+------------------------------------------------------------------------
+r263 | nadvornik | 2007-12-23 22:24:48 +0100 (Ne, 23 pro 2007) | 2 lines
+
+basic sidecar files configuration via preferences dialog
+
+------------------------------------------------------------------------
+r262 | nadvornik | 2007-12-23 21:28:50 +0100 (Ne, 23 pro 2007) | 2 lines
+
+fixed loading thumbnails for sidecar files
+
+------------------------------------------------------------------------
+r261 | nadvornik | 2007-12-23 16:49:23 +0100 (Ne, 23 pro 2007) | 3 lines
+
+fixed vflist_find_row and vflist_sort_set to work correctly with sidecar
+files
+
+------------------------------------------------------------------------
+r260 | nadvornik | 2007-12-22 21:33:09 +0100 (So, 22 pro 2007) | 2 lines
+
+fixed filelist refresh
+
+------------------------------------------------------------------------
+r259 | nadvornik | 2007-12-22 11:10:40 +0100 (So, 22 pro 2007) | 3 lines
+
+preserve marks setting on layout change
+
+
+------------------------------------------------------------------------
+r258 | nadvornik | 2007-12-22 10:51:12 +0100 (So, 22 pro 2007) | 2 lines
+
+basic support for marks in view_file_icon.c
+
+------------------------------------------------------------------------
+r257 | nadvornik | 2007-12-20 23:43:52 +0100 (Čt, 20 pro 2007) | 2 lines
+
+update FileData on file change
+
+------------------------------------------------------------------------
+r256 | nadvornik | 2007-12-20 17:18:28 +0100 (Čt, 20 pro 2007) | 3 lines
+
+<num> toggles mark num
+<control><num> selects mark num
+
+------------------------------------------------------------------------
+r255 | nadvornik | 2007-12-20 17:06:20 +0100 (Čt, 20 pro 2007) | 2 lines
+
+created menu "Select" with selection and marks operations
+
+------------------------------------------------------------------------
+r254 | nadvornik | 2007-12-19 23:01:46 +0100 (St, 19 pro 2007) | 3 lines
+
+complete set of boolean operation with marks - 
+union, intersection, complement
+
+------------------------------------------------------------------------
+r253 | nadvornik | 2007-12-18 22:15:16 +0100 (Út, 18 pro 2007) | 2 lines
+
+use accels also in fullscreen mode
+
+------------------------------------------------------------------------
+r252 | nadvornik | 2007-12-17 22:42:24 +0100 (Po, 17 pro 2007) | 2 lines
+
+moved some actions to menu and accels
+
+------------------------------------------------------------------------
+r251 | nadvornik | 2007-12-17 20:34:43 +0100 (Po, 17 pro 2007) | 2 lines
+
+removed unused variable
+
+------------------------------------------------------------------------
+r250 | nadvornik | 2007-12-16 23:30:19 +0100 (Ne, 16 pro 2007) | 2 lines
+
+fixed in-place rename
+
+------------------------------------------------------------------------
+r249 | nadvornik | 2007-12-15 18:58:51 +0100 (So, 15 pro 2007) | 2 lines
+
+better integration of split image functions into menu
+
+------------------------------------------------------------------------
+r248 | nadvornik | 2007-12-14 22:51:46 +0100 (Pá, 14 pro 2007) | 2 lines
+
+show active marks in image overlay
+
+------------------------------------------------------------------------
+r247 | nadvornik | 2007-12-09 22:20:27 +0100 (Ne, 09 pro 2007) | 2 lines
+
+fixed image focus
+
+------------------------------------------------------------------------
+r246 | nadvornik | 2007-12-09 13:33:51 +0100 (Ne, 09 pro 2007) | 2 lines
+
+fixed copying zoom an scroll values from the original image on splitting
+
+------------------------------------------------------------------------
+r245 | nadvornik | 2007-12-09 12:58:39 +0100 (Ne, 09 pro 2007) | 2 lines
+
+do not hilight selected image in SPLIT_NONE
+
+------------------------------------------------------------------------
+r244 | nadvornik | 2007-12-09 01:11:40 +0100 (Ne, 09 pro 2007) | 2 lines
+
+improved drawing of frame around selected image
+
+------------------------------------------------------------------------
+r243 | nadvornik | 2007-11-25 11:25:25 +0100 (Ne, 25 lis 2007) | 2 lines
+
+more operations with file marks
+
+------------------------------------------------------------------------
+r242 | nadvornik | 2007-11-24 22:06:30 +0100 (So, 24 lis 2007) | 2 lines
+
+marks: fixes and cleanup
+
+------------------------------------------------------------------------
+r241 | nadvornik | 2007-11-22 22:15:35 +0100 (Čt, 22 lis 2007) | 2 lines
+
+improved directory scanning a bit
+
+------------------------------------------------------------------------
+r240 | nadvornik | 2007-11-21 23:46:50 +0100 (St, 21 lis 2007) | 2 lines
+
+added possibility to specify prefered file type for external commands
+
+------------------------------------------------------------------------
+r239 | nadvornik | 2007-11-21 22:21:17 +0100 (St, 21 lis 2007) | 2 lines
+
+prevent duplicate sidecar files; code cleanup
+
+------------------------------------------------------------------------
+r238 | nadvornik | 2007-11-20 23:28:40 +0100 (Út, 20 lis 2007) | 3 lines
+
+fixed grouping sidecar files and made it configurable via config file
+(no gui yet)
+
+------------------------------------------------------------------------
+r237 | nadvornik | 2007-10-22 21:58:47 +0200 (Po, 22 říj 2007) | 2 lines
+
+fixed preloading images in file list
+
+------------------------------------------------------------------------
+r236 | nadvornik | 2007-10-08 21:41:49 +0200 (Po, 08 říj 2007) | 2 lines
+
+improved FileDataChangeInfo structure, check for another file operation in progress
+
+------------------------------------------------------------------------
+r235 | nadvornik | 2007-10-02 23:49:02 +0200 (Út, 02 říj 2007) | 7 lines
+
+display sidecar files (jpeg + raw)  using gtk_tree_store
+This is just a prototype to test the functionality, it needs more work.
+
+Please test, omments are welcome :)
+
+
+
+------------------------------------------------------------------------
+r234 | nadvornik | 2007-10-01 21:52:10 +0200 (Po, 01 říj 2007) | 2 lines
+
+use FileData even for sidecar file list
+
+------------------------------------------------------------------------
+r233 | nadvornik | 2007-09-30 23:10:54 +0200 (Ne, 30 zář 2007) | 6 lines
+
+editors.c was almost completely rewritten:
+- centralized template parsing
+- better control of executed editors
+- possibility to get editor exit status via callback
+
+
+------------------------------------------------------------------------
+r232 | nadvornik | 2007-09-12 23:17:31 +0200 (St, 12 zář 2007) | 4 lines
+
+display sidecar extensions in filelist
+some cleanup of file marks
+
+
+------------------------------------------------------------------------
+r231 | nadvornik | 2007-09-11 22:06:29 +0200 (Út, 11 zář 2007) | 3 lines
+
+replaced gchar* path with FileData *fd
+
+
+------------------------------------------------------------------------
+r230 | nadvornik | 2007-08-23 22:45:59 +0200 (Čt, 23 srp 2007) | 2 lines
+
+started support for sidecar files like xmp, raw+jpeg etc.
+
+------------------------------------------------------------------------
+r229 | nadvornik | 2007-08-20 22:11:32 +0200 (Po, 20 srp 2007) | 2 lines
+
+more external commands
+
+------------------------------------------------------------------------
+r228 | nadvornik | 2007-08-16 22:57:09 +0200 (Čt, 16 srp 2007) | 2 lines
+
+improved external delete command
+
+------------------------------------------------------------------------
+r227 | nadvornik | 2007-08-15 23:37:51 +0200 (St, 15 srp 2007) | 2 lines
+
+started implementation of external commands; external Delete should work
+
+------------------------------------------------------------------------
+r226 | bruclik | 2007-07-20 09:10:48 +0200 (Pá, 20 čec 2007) | 3 lines
+
+compilation fix
+
+
+------------------------------------------------------------------------
+r225 | bruclik | 2007-07-13 16:03:08 +0200 (Pá, 13 čec 2007) | 3 lines
+
+First implementation of marks for all photos.
+
+
+------------------------------------------------------------------------
+r224 | nadvornik | 2007-07-12 22:46:28 +0200 (Čt, 12 čec 2007) | 2 lines
+
+relative scroll is working; some cleanup
+
+------------------------------------------------------------------------
+r223 | nadvornik | 2007-07-11 23:10:25 +0200 (St, 11 čec 2007) | 2 lines
+
+connected zoom
+
+------------------------------------------------------------------------
+r222 | nadvornik | 2007-07-11 22:00:07 +0200 (St, 11 čec 2007) | 2 lines
+
+started relative scroll, keep scroll position 
+
+------------------------------------------------------------------------
+r221 | nadvornik | 2007-07-10 23:25:51 +0200 (Út, 10 čec 2007) | 2 lines
+
+improved connected scroll and active image switching
+
+------------------------------------------------------------------------
+r220 | nadvornik | 2007-06-29 17:16:46 +0200 (Pá, 29 čen 2007) | 4 lines
+
+implemented split windows
+TODO: menus and hotkeys, connected zoom, activating on drag
+
+
+------------------------------------------------------------------------
+
 Wed Jan 17 16:50:39 2007  John Ellis  <johne@verizon.net>
 
 	* README: Fix credits for Belarusian translation.
