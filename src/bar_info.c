@@ -1360,17 +1360,3 @@ void bar_info_selection(GtkWidget *bar, gint count)
 	gtk_widget_set_sensitive(bd->button_set_add, enable);
 	gtk_widget_set_sensitive(bd->button_set_replace, enable);
 }
-
-void bar_info_size_request(GtkWidget *bar, gint width)
-{
-	BarInfoData *bd;
-
-	bd = g_object_get_data(G_OBJECT(bar), "bar_info_data");
-	if (!bd) return;
-
-	if (bd->label_file_name)
-		{
-		gtk_widget_set_size_request(bd->vbox, width, -1);
-		options->panels.info.width = bd->vbox->allocation.width;
-		}
-}

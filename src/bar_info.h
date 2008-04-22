@@ -24,8 +24,6 @@ gint bar_info_event(GtkWidget *bar, GdkEvent *event);
 void bar_info_set_selection_func(GtkWidget *bar, GList *(*list_func)(gpointer data), gpointer data);
 void bar_info_selection(GtkWidget *bar, gint count);
 
-void bar_info_size_request(GtkWidget *bar, gint width);
-
 void bar_info_maint_renamed(GtkWidget *bar, FileData *fd);
 
 gint comment_write(FileData *fd, GList *keywords, const gchar *comment);
