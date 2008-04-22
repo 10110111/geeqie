@@ -204,7 +204,13 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			g_free(data);
 			data = new_data;
 			}
-
+		if (data)
+			{
+			/* Since we use pango markup to display, we need to escape here */
+			gchar *escaped = g_markup_escape_text(data, -1);
+			g_free(data);
+			data = escaped;
+			}
 		g_string_erase(new, pos, end-start+1);
 		if (data)
 			g_string_insert(new, pos, data);
@@ -379,7 +385,6 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 			active_marks += fd->marks[mark];
 			}
 
-
 		if (active_marks > 0)
 			{
 			GString *buf = g_string_sized_new(FILEDATA_MARKS_SIZE * 2);
@@ -400,10 +405,12 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 
     		if (with_hist)
 			{
+			gchar *escaped_histogram_label = g_markup_escape_text(histogram_label(imd->histogram), -1);
 			if (*text)
-				text2 = g_strdup_printf("%s\n%s", text, histogram_label(imd->histogram));
+				text2 = g_strdup_printf("%s\n%s", text, escaped_histogram_label);
 			else
-				text2 = g_strdup(histogram_label(imd->histogram));
+				text2 = g_strdup(escaped_histogram_label);
+			g_free(escaped_histogram_label);
 			g_free(text);
 			text = text2;
 			}
