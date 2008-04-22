@@ -77,6 +77,9 @@ static OSDIcon osd_icons[] = {
 
 #define HISTOGRAM_HEIGHT 140
 
+static void image_osd_timer_schedule(OverlayStateData *osd);
+
+
 void set_default_image_overlay_template_string(ConfOptions *options)
 {
 	if (options->image_overlay.common.template_string) g_free(options->image_overlay.common.template_string);
@@ -114,9 +117,28 @@ void image_osd_histogram_log_toggle(ImageWindow *imd)
 		histogram_set_mode(imd->histogram, !histogram_get_mode(imd->histogram));
 }
 
-
-
-static void image_osd_timer_schedule(OverlayStateData *osd);
+void image_osd_toggle(ImageWindow *imd)
+{
+	if (image_osd_get(imd, NULL, NULL))
+		{
+		if (image_osd_histogram_onoff_status(imd))
+			{
+			image_osd_histogram_onoff_toggle(imd, 0);
+			image_osd_update(imd);
+			}
+		else
+			{
+			image_osd_set(imd, FALSE, FALSE);
+			}
+		}
+	else
+		{
+		image_osd_set(imd, TRUE, TRUE);
+		image_osd_icon(imd, IMAGE_OSD_ICON, -1);
+		image_osd_histogram_onoff_toggle(imd, 1);
+		image_osd_update(imd);
+		}
+}
 
 static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *vars)
 {

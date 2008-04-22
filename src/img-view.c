@@ -725,16 +725,8 @@ static void view_overlay_toggle(ViewWindow *vw)
 	ImageWindow *imd;
 
 	imd = view_window_active_image(vw);
-
-	if (!image_osd_get(imd, NULL, NULL))
-		{
-		image_osd_set(imd, TRUE, TRUE);
-		image_osd_icon(imd, IMAGE_OSD_ICON, -1);
-		}
-	else
-		{
-		image_osd_set(imd, FALSE, FALSE);
-		}
+	
+	image_osd_toggle(imd);
 }
 
 static void view_slideshow_next(ViewWindow *vw)

@@ -46,15 +46,8 @@ static void layout_image_set_buttons(LayoutWindow *lw);
 
 void layout_image_overlay_toggle(LayoutWindow *lw)
 {
-	if (image_osd_get(lw->image, NULL, NULL))
-		{
-		image_osd_set(lw->image, FALSE, FALSE);
-		}
-	else
-		{
-		image_osd_set(lw->image, (lw->full_screen != NULL), TRUE);
-		image_osd_icon(lw->image, IMAGE_OSD_ICON, -1);
-		}
+	if (!lw) return;
+	image_osd_toggle(lw->image);
 }
 
 void layout_image_overlay_update(LayoutWindow *lw)
