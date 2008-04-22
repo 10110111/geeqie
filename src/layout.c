@@ -1859,8 +1859,6 @@ void layout_free(LayoutWindow *lw)
 
 	gtk_widget_destroy(lw->window);
 
-	histogram_free(lw->histogram);
-
 	g_free(lw->path);
 
 	g_free(lw);
@@ -1905,8 +1903,6 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 	lw->bar_exif_enabled = FALSE;
 	lw->bar_exif_size = -1;
 	lw->bar_exif_advanced = FALSE;
-
-	lw->histogram_enabled = FALSE;
 
 	/* default layout */
 

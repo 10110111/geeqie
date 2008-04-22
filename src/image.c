@@ -19,6 +19,7 @@
 #include "collect.h"
 #include "color-man.h"
 #include "exif.h"
+#include "histogram.h"
 #include "image-overlay.h"
 #include "layout.h"
 #include "layout_image.h"
@@ -1934,6 +1935,8 @@ static void image_free(ImageWindow *imd)
 	g_free(imd->title);
 	g_free(imd->title_right);
 
+	if (imd->histogram) histogram_free(imd->histogram);
+
 	g_free(imd);
 }
 
@@ -2054,6 +2057,8 @@ ImageWindow *image_new(gint frame)
 	imd->func_scroll = NULL;
 
 	imd->orientation = 1;
+
+	imd->histogram_enabled = FALSE; /* TODO: option */
 
 	imd->pr = GTK_WIDGET(pixbuf_renderer_new());
 

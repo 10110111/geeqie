@@ -377,6 +377,10 @@ struct _ImageWindow
 	gint color_profile_from_image;
 	gpointer cm;
 
+	/* histogram */
+	gint histogram_enabled;
+	Histogram *histogram;
+
 	AlterType delay_alter_type;
 
 	ImageLoader *read_ahead_il;
@@ -532,9 +536,6 @@ struct _LayoutWindow
 	GtkWidget *bar_sort;
 	GtkWidget *bar_exif;
 	GtkWidget *bar_info;
-
-	gint histogram_enabled;
-	Histogram *histogram;
 
 	gint bar_sort_enabled;
 	gint bar_exif_enabled;

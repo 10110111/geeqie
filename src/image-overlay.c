@@ -90,40 +90,28 @@ void set_default_image_overlay_template_string(ConfOptions *options)
  */
 
 
-#define HIST_PREPARE(imd, lw)                          \
-       LayoutWindow *lw = NULL;                        \
-       if (imd)                                        \
-	       lw = layout_find_by_image(imd);
-
 void image_osd_histogram_onoff_toggle(ImageWindow *imd, gint x)
 {
-	HIST_PREPARE(imd, lw)
-	if (lw)
-    		{
-		lw->histogram_enabled = !!(x);
-		if (lw->histogram_enabled && !lw->histogram)
-			lw->histogram = histogram_new();
-		}
+	imd->histogram_enabled = !!(x);
+	if (imd->histogram_enabled && !imd->histogram)
+		imd->histogram = histogram_new();
 }
 
 gint image_osd_histogram_onoff_status(ImageWindow *imd)
 {
-       HIST_PREPARE(imd, lw)
-       return lw ?  lw->histogram_enabled : FALSE;
+      return imd->histogram_enabled;
 }
 
 void image_osd_histogram_chan_toggle(ImageWindow *imd)
 {
-       HIST_PREPARE(imd, lw)
-       if (lw && lw->histogram)
-	       histogram_set_channel(lw->histogram, (histogram_get_channel(lw->histogram) +1)%HCHAN_COUNT);
+	if (imd->histogram)
+		histogram_set_channel(imd->histogram, (histogram_get_channel(imd->histogram) +1)%HCHAN_COUNT);
 }
 
 void image_osd_histogram_log_toggle(ImageWindow *imd)
 {
-       HIST_PREPARE(imd,lw)
-       if (lw && lw->histogram)
-	       histogram_set_mode(lw->histogram, !histogram_get_mode(lw->histogram));
+	if (imd->histogram)
+		histogram_set_mode(imd->histogram, !histogram_get_mode(imd->histogram));
 }
 
 
@@ -317,10 +305,8 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 			pixbuf_renderer_get_image_size(PIXBUF_RENDERER(imd->pr), &w, &h);
 			imgpixbuf = (PIXBUF_RENDERER(imd->pr))->pixbuf;
 			}
-		if (!lw)
-			lw = layout_find_by_image(imd);
-
-		if (imgpixbuf && lw && lw->histogram && lw->histogram_enabled
+	
+		if (imgpixbuf && imd->histogram_enabled && imd->histogram
 			      && (!imd->il || imd->il->done))
 			with_hist=1;
 
@@ -387,9 +373,9 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
     		if (with_hist)
 			{
 			if (*text)
-				text2 = g_strdup_printf("%s\n%s", text, histogram_label(lw->histogram));
+				text2 = g_strdup_printf("%s\n%s", text, histogram_label(imd->histogram));
 			else
-				text2 = g_strdup(histogram_label(lw->histogram));
+				text2 = g_strdup(histogram_label(imd->histogram));
 			g_free(text);
 			text = text2;
 			}
@@ -411,7 +397,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 
 	if (with_hist)
 		{
-		histogram_read(lw->histogram, imgpixbuf);
+		histogram_read(imd->histogram, imgpixbuf);
 		if (width < 266) width = 266;
 		height += HISTOGRAM_HEIGHT + 5;
 		}
@@ -430,7 +416,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 		pixbuf_pixel_set(pixbuf, width - 1, height - 1, 0, 0, 0, 0);
 
 		if (with_hist)
-			histogram_draw(lw->histogram, pixbuf, 5, height - HISTOGRAM_HEIGHT - 5 , width - 10, HISTOGRAM_HEIGHT);
+			histogram_draw(imd->histogram, pixbuf, 5, height - HISTOGRAM_HEIGHT - 5 , width - 10, HISTOGRAM_HEIGHT);
 
 		pixbuf_draw_layout(pixbuf, layout, imd->pr, 5, 5, 0, 0, 0, 255);
 	}
