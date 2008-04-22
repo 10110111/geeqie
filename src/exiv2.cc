@@ -496,6 +496,7 @@ ExifRational *exif_item_get_rational(ExifItem *item, gint *sign)
 		static ExifRational ret;
 		ret.num = v.first;
 		ret.den = v.second;
+		if (sign) *sign = (((Exiv2::Metadatum *)item)->typeId() == Exiv2::signedRational);
 		return &ret;
 	}
 	catch (Exiv2::AnyError& e) {
