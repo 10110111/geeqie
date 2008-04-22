@@ -15,6 +15,7 @@
 
 #include "image.h"
 #include "color-man.h"
+#include "image-overlay.h"
 #include "layout_config.h"
 #include "layout_image.h"
 #include "layout_util.h"
@@ -559,7 +560,7 @@ void layout_status_update_info(LayoutWindow *lw, const gchar *text)
 
 		text = buf;
 
-		layout_image_overlay_update(lw);
+		image_osd_update(lw->image);
 		}
 
 	gtk_label_set_text(GTK_LABEL(lw->info_status), text);

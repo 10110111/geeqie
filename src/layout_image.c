@@ -50,13 +50,6 @@ void layout_image_overlay_toggle(LayoutWindow *lw)
 	image_osd_toggle(lw->image);
 }
 
-void layout_image_overlay_update(LayoutWindow *lw)
-{
-	if (!lw) return;
-
-	image_osd_update(lw->image);
-}
-
 /*
  *----------------------------------------------------------------------------
  * full screen

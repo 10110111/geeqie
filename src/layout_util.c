@@ -550,22 +550,7 @@ static void layout_menu_overlay_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	if (image_osd_get(lw->image, NULL, NULL))
-		{
-		if (image_osd_histogram_onoff_status(lw->image))
-			{
-			image_osd_histogram_onoff_toggle(lw->image, 0);
-			layout_image_overlay_update(lw);
-			}
-		else
-			layout_image_overlay_toggle(lw);
-		}
-	else
-		{
-		layout_image_overlay_toggle(lw);
-		image_osd_histogram_onoff_toggle(lw->image, 1);
-		layout_image_overlay_update(lw);
-		}
+	image_osd_toggle(lw->image);
 }
 
 static void layout_menu_histogram_chan_cb(GtkAction *action, gpointer data)
@@ -573,7 +558,6 @@ static void layout_menu_histogram_chan_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 
 	image_osd_histogram_chan_toggle(lw->image);
-	layout_image_overlay_update(lw);
 }
 
 static void layout_menu_histogram_log_cb(GtkAction *action, gpointer data)
@@ -581,7 +565,6 @@ static void layout_menu_histogram_log_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 
 	image_osd_histogram_log_toggle(lw->image);
-	layout_image_overlay_update(lw);
 }
 
 static void layout_menu_refresh_cb(GtkAction *action, gpointer data)
