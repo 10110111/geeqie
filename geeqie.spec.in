@@ -3,6 +3,7 @@
 BuildRequires:  gtk2-devel gcc-c++
 %if 0%{?suse_version}
 BuildRequires:  liblcms-devel
+%define docname	%{name}
 %if %suse_version < 1030
 %define _prefix	    /opt/gnome
 %define _sysconfdir /etc%{prefix}
@@ -11,6 +12,7 @@ BuildRequires:  liblcms-devel
 %endif
 %else
 BuildRequires:  lcms-devel
+%define docname	%{name}-%{version}
 %endif
 %if 0%{?suse_version} > 1010
 BuildRequires:  libexiv2-devel
@@ -65,25 +67,22 @@ Supporta anche l'uso di editor grafici esterni.
 %setup -q
 
 %build
-%configure
+%configure --with-readmedir="%{_docdir}/%{docname}"
 
-%__make %{?jobs:-j%{jobs}} \
-	helpdir="%{_docdir}/%{name}/html" \
-	readmedir="%{_docdir}/%{name}"
+
+%__make %{?jobs:-j%{jobs}}
 
 %install
-make install DESTDIR=%{buildroot} \
-     helpdir="%{_docdir}/%{name}/html" \
-     readmedir="%{_docdir}/%{name}"
+make install DESTDIR=%{buildroot}
 
-%__install AUTHORS COPYING ChangeLog NEWS README "%{buildroot}/%{_docdir}/%{name}/"
+%__install AUTHORS COPYING ChangeLog NEWS README "%{buildroot}/%{_docdir}/%{docname}/"
 
 %clean
 %__rm -rf "%{buildroot}"
 
 %files 
 %defattr(-,root,root)
-%doc %{_docdir}/%{name}
+%doc %{_docdir}/%{docname}
 %{_bindir}/geeqie
 %{_datadir}/locale/*/LC_MESSAGES/*.mo
 %{_datadir}/applications/geeqie.desktop

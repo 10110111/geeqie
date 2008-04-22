@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in.
 
-helpdir = $(datadir)/doc/geeqie-$(VERSION)/html
+helpdir = @htmldir@
 help_DATA = \
 	gnu_fdl.txt	\
 	gqview_faq.html	\

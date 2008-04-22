@@ -21,8 +21,16 @@ fi
 AM_PATH_GTK_2_0(2.4.0,,AC_MSG_ERROR(GTK+ >= 2.4.0 not installed.))
 AC_PATH_PROGS(GDK_PIXBUF_CSOURCE, "gdk-pixbuf-csource")
 
-AC_DEFINE_UNQUOTED(GQ_HELPDIR, "$prefix/share/doc/geeqie-$VERSION", [Location of documentation files])
-AC_DEFINE_UNQUOTED(GQ_HTMLDIR, "$prefix/share/doc/geeqie-$VERSION/html", [Location of html documentation])
+AC_ARG_WITH(readmedir, [  --with-readmedir=DIR    install path for readme files],
+            readmedir=$withval, readmedir="$prefix/share/doc/geeqie-$VERSION")
+AC_ARG_WITH(htmldir, [  --with-htmldir=DIR      install path for html files],
+            htmldir=$withval, htmldir="$readmedir/html")
+
+AC_DEFINE_UNQUOTED(GQ_HELPDIR, "$readmedir", [Location of documentation files])
+AC_DEFINE_UNQUOTED(GQ_HTMLDIR, "$htmldir", [Location of html documentation])
+
+AC_SUBST(readmedir)
+AC_SUBST(htmldir)
 
 dnl checks for functions
 AC_CHECK_FUNCS(strverscmp access fsync fflush)
