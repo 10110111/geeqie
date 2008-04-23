@@ -503,6 +503,7 @@ zh_TW             93     695      23      26
      Ariel Fermani <the_end@bbs.frc.utn.edu.ar>
          for Spanish translation
 
+     Laurent Monin <i18n@norz.org>
      Eric Lassauge <lassauge@users.sf.net>
      Jean-Pierre Pedron <jppedron@club-internet.fr>
      Pascal Bleser <pascal.bleser@atosorigin.com>
@@ -641,7 +642,7 @@ zh_TW             93     695      23      26
          for miscellaneous fixes.
 
      Uwe Ohse
-         for Exif enhancements, histogram and other pathes
+         for Exif enhancements, histogram and other patches
 
      Timo Horstschäfer
          for customizable fullscreen overlay
@@ -649,7 +650,9 @@ zh_TW             93     695      23      26
      Michael Mokeev
          for print related enhancements
      
-     
+     Carles Pina i Estany
+         for copy path to clipboard patch
+  
      And...
          Thanks to the users for finding Geeqie useful.
 
