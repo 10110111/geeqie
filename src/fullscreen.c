@@ -235,7 +235,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	fs->stop_func = stop_func;
 	fs->stop_data = stop_data;
 
-	if (debug) printf("full screen requests screen %d\n", options->fullscreen.screen);
+	DEBUG_1("full screen requests screen %d\n", options->fullscreen.screen);
 	fullscreen_prefs_get_geometry(options->fullscreen.screen, window, &x, &y, &w, &h,
 				      &screen, &same);
 
@@ -407,7 +407,7 @@ GList *fullscreen_prefs_list(void)
 			sd->width = rect.width;
 			sd->height = rect.height;
 
-			if (debug) printf("Screen %d %30s %4d,%4d (%4dx%4d)\n",
+			DEBUG_1("Screen %d %30s %4d,%4d (%4dx%4d)\n",
 					  sd->number, sd->description, sd->x, sd->y, sd->width, sd->height);
 
 			list = g_list_append(list, sd);
@@ -567,7 +567,7 @@ gint fullscreen_prefs_find_screen_for_widget(GtkWidget *widget)
 
 	n = (gdk_screen_get_number(screen)+1) * 100 + monitor + 1;
 
-	if (debug || TRUE) printf("Screen appears to be %d\n", n);
+	DEBUG_1("Screen appears to be %d\n", n);
 
 	return n;
 }

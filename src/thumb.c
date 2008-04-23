@@ -55,7 +55,7 @@ static gint thumb_loader_save_to_cache(ThumbLoader *tl)
 		cache_path = g_strconcat(cache_dir, "/", filename_from_path(tl->path),
 					 GQ_CACHE_EXT_THUMB, NULL);
 
-		if (debug) printf("Saving thumb: %s\n", cache_path);
+		DEBUG_1("Saving thumb: %s\n", cache_path);
 
 		pathl = path_from_utf8(cache_path);
 		success = pixbuf_to_file_as_png(tl->pixbuf, pathl);
@@ -72,7 +72,7 @@ static gint thumb_loader_save_to_cache(ThumbLoader *tl)
 			}
 		else
 			{
-			if (debug) printf("Saving failed: %s\n", pathl);
+			DEBUG_1("Saving failed: %s\n", pathl);
 			}
 
 		g_free(pathl);
@@ -103,7 +103,7 @@ static gint thumb_loader_mark_failure(ThumbLoader *tl)
 		cache_path = g_strconcat(cache_dir, "/", filename_from_path(tl->path),
 					 GQ_CACHE_EXT_THUMB, NULL);
 
-		if (debug) printf("marking thumb failure: %s\n", cache_path);
+		DEBUG_1("marking thumb failure: %s\n", cache_path);
 
 		pathl = path_from_utf8(cache_path);
 		f = fopen(pathl, "w");
@@ -146,12 +146,12 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 	gint pw, ph;
 	gint save;
 
-	if (debug) printf("thumb done: %s\n", tl->path);
+	DEBUG_1("thumb done: %s\n", tl->path);
 
 	pixbuf = image_loader_get_pixbuf(tl->il);
 	if (!pixbuf)
 		{
-		if (debug) printf("...but no pixbuf: %s\n", tl->path);
+		DEBUG_1("...but no pixbuf: %s\n", tl->path);
 		thumb_loader_error_cb(tl->il, tl);
 		return;
 		}
@@ -162,7 +162,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 	if (tl->cache_hit && pw != tl->max_w && ph != tl->max_h)
 		{
 		/* requested thumbnail size may have changed, load original */
-		if (debug) printf("thumbnail size mismatch, regenerating: %s\n", tl->path);
+		DEBUG_1("thumbnail size mismatch, regenerating: %s\n", tl->path);
 		tl->cache_hit = FALSE;
 
 		thumb_loader_setup(tl, tl->path);
@@ -172,7 +172,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 			image_loader_free(tl->il);
 			tl->il = NULL;
 
-			if (debug) printf("regeneration failure: %s\n", tl->path);
+			DEBUG_1("regeneration failure: %s\n", tl->path);
 			thumb_loader_error_cb(tl->il, tl);
 			}
 		return;
@@ -227,7 +227,7 @@ static void thumb_loader_error_cb(ImageLoader *il, gpointer data)
 		return;
 		}
 
-	if (debug) printf("thumb error: %s\n", tl->path);
+	DEBUG_1("thumb error: %s\n", tl->path);
 
 	image_loader_free(tl->il);
 	tl->il = NULL;
@@ -332,16 +332,16 @@ gint thumb_loader_start(ThumbLoader *tl, const gchar *path)
 			{
 			if (cache_time_valid(cache_path, tl->path))
 				{
-				if (debug) printf("Found in cache:%s\n", tl->path);
+				DEBUG_1("Found in cache:%s\n", tl->path);
 
 				if (filesize(cache_path) == 0)
 					{
-					if (debug) printf("Broken image mark found:%s\n", cache_path);
+					DEBUG_1("Broken image mark found:%s\n", cache_path);
 					g_free(cache_path);
 					return FALSE;
 					}
 
-				if (debug) printf("Cache location:%s\n", cache_path);
+				DEBUG_1("Cache location:%s\n", cache_path);
 				}
 			else
 				{

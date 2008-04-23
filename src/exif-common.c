@@ -644,7 +644,7 @@ gint exif_jpeg_parse_color(ExifData *exif, unsigned char *data, guint size)
 				}
 			memcpy(cp_data, data + chunk_offset[i], chunk_length[i]);
 			}
-		if (debug) printf("Found embedded icc profile in jpeg\n");
+		DEBUG_1("Found embedded icc profile in jpeg\n");
 		exif_add_jpeg_color_profile(exif, cp_data, cp_length);
 
 		return TRUE;

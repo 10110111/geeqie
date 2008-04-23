@@ -965,7 +965,7 @@ static GList *dupe_match_unlink_by_rank(DupeItem *child, DupeItem *parent, GList
 		GList *work;
 		gdouble rank;
 
-		if (debug > 1) printf("link found %s to %s [%d]\n", child->fd->name, parent->fd->name, g_list_length(parent->group));
+		DEBUG_2("link found %s to %s [%d]\n", child->fd->name, parent->fd->name, g_list_length(parent->group));
 
 		work = parent->group;
 		while (work)
@@ -994,7 +994,7 @@ static GList *dupe_match_unlink_by_rank(DupeItem *child, DupeItem *parent, GList
 		}
 	else
 		{
-		if (debug > 1) printf("unlinking %s and %s\n", child->fd->name, parent->fd->name);
+		DEBUG_2("unlinking %s and %s\n", child->fd->name, parent->fd->name);
 
 		dupe_match_unlink(child, parent);
 		}
@@ -1097,11 +1097,11 @@ static void dupe_match_rank(DupeWindow *dw)
 
 	list = dupe_match_rank_sort(dw->list);
 
-	if (debug > 1) dupe_match_print_list(list);
+	if (debug >= 2) dupe_match_print_list(list);
 
-	if (debug) printf("Similar items: %d\n", g_list_length(list));
+	DEBUG_1("Similar items: %d\n", g_list_length(list));
 	list = dupe_match_group_trim(list, dw);
-	if (debug) printf("Unique groups: %d\n", g_list_length(list));
+	DEBUG_1("Unique groups: %d\n", g_list_length(list));
 
 	dupe_match_sort_groups(list);
 
@@ -1185,7 +1185,7 @@ static gint dupe_match(DupeItem *a, DupeItem *b, DupeMatchType mask, gdouble *ra
 
 		if (f < m) return FALSE;
 
-		if (debug > 2) printf("similar: %32s %32s = %f\n", a->fd->name, b->fd->name, f);
+		DEBUG_3("similar: %32s %32s = %f\n", a->fd->name, b->fd->name, f);
 		}
 
 	return TRUE;
@@ -1340,7 +1340,7 @@ static void dupe_thumb_step(DupeWindow *dw)
 	if (!thumb_loader_start(dw->thumb_loader, di->fd->path))
 		{
 		/* error, handle it, do next */
-		if (debug) printf("error loading thumb for %s\n", di->fd->path);
+		DEBUG_1("error loading thumb for %s\n", di->fd->path);
 		dupe_thumb_do(dw);
 		dupe_thumb_step(dw);
 		}

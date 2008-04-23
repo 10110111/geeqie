@@ -1336,7 +1336,7 @@ static gint file_util_safe_number(gint64 free_space)
 		fd = list->data;
 		list = g_list_remove(list, fd);
 
-		if (debug) printf("expunging from trash for space: %s\n", fd->name);
+		DEBUG_1("expunging from trash for space: %s\n", fd->name);
 		if (!unlink_file(fd->path) && !warned)
 			{
 			file_util_warning_dialog(_("Delete failed"),
@@ -1394,7 +1394,7 @@ static gint file_util_unlink(FileData *fd)
 
 	if (!isdir(options->file_ops.safe_delete_path))
 		{
-		if (debug) printf("creating trash: %s\n", options->file_ops.safe_delete_path);
+		DEBUG_1("creating trash: %s\n", options->file_ops.safe_delete_path);
 		if (!options->file_ops.safe_delete_path || !mkdir_utf8(options->file_ops.safe_delete_path, 0755))
 			{
 			result = _("Could not create folder");
@@ -1409,7 +1409,7 @@ static gint file_util_unlink(FileData *fd)
 		dest = file_util_safe_dest(fd->path);
 		if (dest)
 			{
-			if (debug) printf("safe deleting %s to %s\n", fd->path, dest);
+			DEBUG_1("safe deleting %s to %s\n", fd->path, dest);
 			success = move_file(fd->path, dest);
 			}
 		else
@@ -2067,7 +2067,7 @@ static void file_util_rename_multiple(RenameDataMult *rd)
 				}
 			else
 				{
-				if (debug) printf("closed by #%d\n", row);
+				DEBUG_1("closed by #%d\n", row);
 
 				file_dialog_close(rd->fdlg);
 				}
@@ -3149,7 +3149,7 @@ FileData *file_util_delete_dir_empty_path(FileData *fd, gint real_content, gint 
 	GList *work;
 	FileData *fail = NULL;
 
-	if (debug) printf("deltree into: %s\n", fd->path);
+	DEBUG_1("deltree into: %s\n", fd->path);
 
 	level++;
 	if (level > UTILITY_DELETE_MAX_DEPTH)
@@ -3179,7 +3179,7 @@ FileData *file_util_delete_dir_empty_path(FileData *fd, gint real_content, gint 
 		lfd = work->data;
 		work = work->next;
 
-		if (debug) printf("deltree child: %s\n", lfd->path);
+		DEBUG_1("deltree child: %s\n", lfd->path);
 
 		if (real_content && !islink(lfd->path))
 			{
@@ -3199,7 +3199,7 @@ FileData *file_util_delete_dir_empty_path(FileData *fd, gint real_content, gint 
 		fail = file_data_ref(fd);
 		}
 
-	if (debug) printf("deltree done: %s\n", fd->path);
+	DEBUG_1("deltree done: %s\n", fd->path);
 
 	return fail;
 }
@@ -3246,7 +3246,7 @@ static void file_util_delete_dir_ok_cb(GenericDialog *gd, gpointer data)
 			fd = work->data;
 			work = work->next;
 
-			if (debug) printf("deltree unlink: %s\n", fd->path);
+			DEBUG_1("deltree unlink: %s\n", fd->path);
 
 			if (islink(fd->path))
 				{

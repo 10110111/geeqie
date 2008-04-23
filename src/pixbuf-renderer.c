@@ -2988,7 +2988,7 @@ static void pr_update_signal(PixbufRenderer *pr)
 #if 0
 	printf("FIXME: send updated signal\n");
 #endif
-	if (debug) printf("%s pixbuf renderer updated - started drawing %p\n", get_exec_time(), pr);
+	DEBUG_1("%s pixbuf renderer updated - started drawing %p\n", get_exec_time(), pr);
 	pr->debug_updated = TRUE;
 }
 
@@ -3016,7 +3016,7 @@ static void pr_render_complete_signal(PixbufRenderer *pr)
 		}
 	if (pr->debug_updated)
 		{
-		if (debug) printf("%s pixbuf renderer done %p\n", get_exec_time(), pr);
+		DEBUG_1("%s pixbuf renderer done %p\n", get_exec_time(), pr);
 		pr->debug_updated = FALSE;
 		}
 }

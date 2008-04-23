@@ -155,7 +155,7 @@ static gint cache_maintain_home_cb(gpointer data)
 
 	if (!cm->list)
 		{
-		if (debug) printf("purge chk done.\n");
+		DEBUG_1("purge chk done.\n");
 		cm->idle_id = -1;
 		cache_maintain_home_stop(cm);
 		return FALSE;
@@ -163,7 +163,7 @@ static gint cache_maintain_home_cb(gpointer data)
 
 	path = cm->list->data;
 
-	if (debug) printf("purge chk (%d) \"%s\"\n", (cm->clear && !cm->metadata), path);
+	DEBUG_1("purge chk (%d) \"%s\"\n", (cm->clear && !cm->metadata), path);
 
 	if (g_list_find(cm->done_list, path) == NULL)
 		{
@@ -357,7 +357,7 @@ gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear)
 	GList *flist = NULL;
 	gint still_have_a_file = FALSE;
 
-	if (debug) printf("maintainance check: %s\n", dir);
+	DEBUG_1("maintainance check: %s\n", dir);
 
 	base_length = strlen(homedir()) + strlen("/") + strlen(GQ_CACHE_RC_THUMB);
 	base = g_strconcat(homedir(), "/", GQ_CACHE_RC_THUMB, dir, NULL);
@@ -373,7 +373,7 @@ gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear)
 			if (recursive && strlen(path) > base_length &&
 			    !cache_maintain_home_dir(path + base_length, recursive, clear))
 				{
-				if (debug) printf("Deleting thumb dir: %s\n", path);
+				DEBUG_1("Deleting thumb dir: %s\n", path);
 				if (!rmdir_utf8(path))
 					{
 					printf("Unable to delete dir: %s\n", path);
@@ -454,7 +454,7 @@ gint cache_maintain_dir(const gchar *dir, gint recursive, gint clear)
 				{
 				if (!unlink_file(path))
 					{
-					if (debug) printf("Failed to remove cache file %s\n", path);
+					DEBUG_1("Failed to remove cache file %s\n", path);
 					still_have_a_file = TRUE;
 					}
 				}
@@ -495,7 +495,7 @@ static void cache_file_move(const gchar *src, const gchar *dest)
 
 	if (!move_file(src, dest))
 		{
-		if (debug) printf("Failed to move cache file %s\nto %s\n", src, dest);
+		DEBUG_1("Failed to move cache file %s\nto %s\n", src, dest);
 		/* we remove it anyway - it's stale */
 		unlink_file(src);
 		}
@@ -556,7 +556,7 @@ static void cache_file_remove(const gchar *path)
 {
 	if (path && isfile(path) && !unlink_file(path))
 		{
-		if (debug) printf("Failed to remove cache file %s\n", path);
+		DEBUG_1("Failed to remove cache file %s\n", path);
 		}
 }
 
@@ -597,7 +597,7 @@ void cache_maint_copied(FileData *fd)
 		path = cache_get_location(CACHE_TYPE_METADATA, fd->change->dest, TRUE, NULL);
 		if (!copy_file(src_cache, path))
 			{
-			if (debug) printf("failed to copy metadata %s to %s\n", src_cache, path);
+			DEBUG_1("failed to copy metadata %s to %s\n", src_cache, path);
 			}
 		g_free(path);
 		}
@@ -928,7 +928,7 @@ static gint cache_manager_standard_clean_clear_cb(gpointer data)
 		next_path = cd->list->data;
 		cd->list = g_list_remove(cd->list, next_path);
 
-		if (debug) printf("thumb removed: %s\n", next_path);
+		DEBUG_1("thumb removed: %s\n", next_path);
 
 		unlink_file(next_path);
 		g_free(next_path);
@@ -956,7 +956,7 @@ static void cache_manager_standard_clean_valid_cb(const gchar *path, gint valid,
 		{
 		if (!valid)
 			{
-			if (debug) printf("thumb cleaned: %s\n", path);
+			DEBUG_1("thumb cleaned: %s\n", path);
 			unlink_file(path);
 			}
 

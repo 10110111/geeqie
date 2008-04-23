@@ -81,13 +81,13 @@ struct _ExifData
 		image->readMetadata();
 
 #if EXIV2_TEST_VERSION(0,16,0)
-		if (debug >= 2) printf("xmp count %li\n", image->xmpData().count());
+		DEBUG_2("xmp count %li\n", image->xmpData().count());
 		if (sidecar_path && image->xmpData().empty())
 			{
 			sidecar = Exiv2::ImageFactory::open(sidecar_path);
 			sidecar->readMetadata();
 			have_sidecar = sidecar->good();
-			if (debug >= 2) printf("sidecar xmp count %li\n", sidecar->xmpData().count());
+			DEBUG_2("sidecar xmp count %li\n", sidecar->xmpData().count());
 			}
 
 #endif
@@ -140,7 +140,7 @@ extern "C" {
 
 ExifData *exif_read(gchar *path, gchar *sidecar_path)
 {
-	if (debug) printf("exif read %s,  sidecar: %s\n", path, sidecar_path ? sidecar_path : "-");
+	DEBUG_1("exif read %s,  sidecar: %s\n", path, sidecar_path ? sidecar_path : "-");
 	try {
 		return new ExifData(path, sidecar_path);
 	}
@@ -715,7 +715,7 @@ const Value * RawFile::find(uint16_t tag, uint16_t group)
 	TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
 	if (te)
 		{
-		if (debug) printf("(tag: %04x %04x) ", tag, group);
+		DEBUG_1("(tag: %04x %04x) ", tag, group);
 		return te->pValue();
 		}
 	else
@@ -763,9 +763,8 @@ extern "C" gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 
 	try {
 		RawFile rf(fd);
-		if (debug) printf("%s: offset ", path);
 		offset = rf.preview_offset();
-		if (debug) printf("%lu\n", offset);
+		DEBUG_1("%s: offset %lu\n", path, offset);
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";

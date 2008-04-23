@@ -226,7 +226,7 @@ static void vflist_dnd_get(GtkWidget *widget, GdkDragContext *context,
 	uri_text = uri_text_from_filelist(list, &total, (info == TARGET_TEXT_PLAIN));
 	filelist_free(list);
 
-	if (debug) printf(uri_text);
+	DEBUG_1(uri_text);
 
 	gtk_selection_data_set(selection_data, selection_data->target,
 			       8, (guchar *)uri_text, total);
@@ -1236,7 +1236,7 @@ static gint vflist_thumb_next(ViewFileList *vfl)
 	if (!thumb_loader_start(vfl->thumbs_loader, fd->path))
 		{
 		/* set icon to unknown, continue */
-		if (debug) printf("thumb loader start failed %s\n", vfl->thumbs_loader->path);
+		DEBUG_1("thumb loader start failed %s\n", vfl->thumbs_loader->path);
 		vflist_thumb_do(vfl, vfl->thumbs_loader, fd);
 
 		return TRUE;
@@ -2236,7 +2236,7 @@ gint vflist_maint_removed(ViewFileList *vfl, FileData *fd, GList *ignore_list)
 		if (ignore_list)
 			{
 			new_row = vflist_maint_find_closest(vfl, row, n, ignore_list);
-			if (debug) printf("row = %d, closest is %d\n", row, new_row);
+			DEBUG_1("row = %d, closest is %d\n", row, new_row);
 			}
 		else
 			{

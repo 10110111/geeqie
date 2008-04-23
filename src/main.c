@@ -220,7 +220,7 @@ static void help_browser_command(const gchar *command, const gchar *path)
 
 	if (!command || !path) return;
 
-	if (debug) printf("Help command pre \"%s\", \"%s\"\n", command, path);
+	DEBUG_1("Help command pre \"%s\", \"%s\"\n", command, path);
 
 	buf = g_strdup(command);
 	begin = strstr(buf, "%s");
@@ -238,7 +238,7 @@ static void help_browser_command(const gchar *command, const gchar *path)
 		}
 	g_free(buf);
 
-	if (debug) printf("Help command post [%s]\n", result);
+	DEBUG_1("Help command post [%s]\n", result);
 
 	system(result);
 
@@ -1162,7 +1162,7 @@ static void parse_command_line_for_debug_option(int argc, char *argv[])
 			}
 		}
 
-	if (debug > 0) printf("debugging output enabled (level %d)\n", debug);
+	DEBUG_1("debugging output enabled (level %d)\n", debug);
 #endif
 }
 

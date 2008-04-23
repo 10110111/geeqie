@@ -244,7 +244,7 @@ static gint format_raw_parse(FormatRawEntry *entry,
 
 	if (!entry || !entry->func_parse) return FALSE;
 
-	if (debug) printf("RAW using file parser for %s\n", entry->description);
+	DEBUG_1("RAW using file parser for %s\n", entry->description);
 
 	found = entry->func_parse(data, len, &io, &eo);
 
@@ -334,7 +334,7 @@ gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 
 		if (!match) return FALSE;
 
-		if (debug) printf("RAW file parser extension match\n");
+		DEBUG_1("RAW file parser extension match\n");
 		}
 
 	/* FIXME:
@@ -427,7 +427,7 @@ gint format_exif_makernote_parse(ExifData *exif, unsigned char *tiff, guint offs
 
 	if (!entry || !entry->func_parse) return FALSE;
 
-	if (debug) printf("EXIF using makernote parser for %s\n", entry->description);
+	DEBUG_1("EXIF using makernote parser for %s\n", entry->description);
 
 	return entry->func_parse(exif, tiff, offset, size, bo);
 }
