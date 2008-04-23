@@ -125,7 +125,9 @@ void image_osd_histogram_log_toggle(ImageWindow *imd)
 
 void image_osd_toggle(ImageWindow *imd)
 {
-	if (image_osd_get(imd, NULL, NULL))
+	gint info;
+
+	if (image_osd_get(imd, &info, NULL) && info)
 		{
 		if (image_osd_histogram_onoff_status(imd))
 			{
