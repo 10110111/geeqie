@@ -120,11 +120,19 @@
 #endif
 
 #ifdef DEBUG
-#define DEBUG_N(n, ...) do { if (debug >= (n)) printf(__VA_ARGS__); } while (0)
+#define DEBUG_N(n, ...) do \
+				{ \
+				if (debug >= (n)) 	\
+					{ 		\
+					if (debug != 1) printf("%s:%d: ", __FILE__, __LINE__); \
+					printf(__VA_ARGS__); \
+					} \
+				} while (0)
 #else
 #define DEBUG_N(n, ...)  do { } while(0)
 #endif
 
+#define DEBUG_0(...) DEBUG_N(0, __VA_ARGS__)
 #define DEBUG_1(...) DEBUG_N(1, __VA_ARGS__)
 #define DEBUG_2(...) DEBUG_N(2, __VA_ARGS__)
 #define DEBUG_3(...) DEBUG_N(3, __VA_ARGS__)
