@@ -43,7 +43,7 @@ static void image_loader_sync_pixbuf(ImageLoader *il)
 	if (il->pixbuf) gdk_pixbuf_ref(il->pixbuf);
 }
 
-static void image_loader_area_cb(GdkPixbufLoader *loader,
+static void image_loader_area_updated_cb(GdkPixbufLoader *loader,
 				 guint x, guint y, guint w, guint h,
 				 gpointer data)
 {
@@ -61,6 +61,22 @@ static void image_loader_area_cb(GdkPixbufLoader *loader,
 			}
 		il->func_area_ready(il, x, y, w, h, il->data_area_ready);
 		}
+}
+
+static void image_loader_area_prepared_cb(GdkPixbufLoader *loader, gpointer data)
+{
+	GdkPixbuf *pb;
+	guchar *pix;
+	size_t h, rs;
+
+	pb = gdk_pixbuf_loader_get_pixbuf(loader);
+	
+	h = gdk_pixbuf_get_height(pb);
+	rs = gdk_pixbuf_get_rowstride(pb);
+	pix = gdk_pixbuf_get_pixels(pb);
+	
+	memset(pix, 0, rs * h); /*this should be faster than pixbuf_fill */
+
 }
 
 static void image_loader_size_cb(GdkPixbufLoader *loader,
@@ -295,9 +311,11 @@ static gint image_loader_setup(ImageLoader *il)
 
 	il->loader = gdk_pixbuf_loader_new();
 	g_signal_connect(G_OBJECT(il->loader), "area_updated",
-			 G_CALLBACK(image_loader_area_cb), il);
+			 G_CALLBACK(image_loader_area_updated_cb), il);
 	g_signal_connect(G_OBJECT(il->loader), "size_prepared",
 			 G_CALLBACK(image_loader_size_cb), il);
+	g_signal_connect(G_OBJECT(il->loader), "area_prepared",
+			 G_CALLBACK(image_loader_area_prepared_cb), il);
 
 	il->shrunk = FALSE;
 
