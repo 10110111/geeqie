@@ -301,6 +301,7 @@ void save_options(void)
 	WRITE_SUBTITLE("General Options");
 
 	WRITE_BOOL(show_icon_names);
+	WRITE_BOOL(show_copy_path);
 	WRITE_SEPARATOR();
 
 	WRITE_BOOL(tree_descend_subdirs);
@@ -614,6 +615,7 @@ void load_options(void)
 
 		/* general options */
 		READ_BOOL(show_icon_names);
+		READ_BOOL(show_copy_path);
 
 		READ_BOOL(tree_descend_subdirs);
 		READ_BOOL(lazy_image_sync);

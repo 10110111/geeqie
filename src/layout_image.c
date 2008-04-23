@@ -637,6 +637,13 @@ static void li_pop_menu_copy_cb(GtkWidget *widget, gpointer data)
 		       li_pop_menu_click_parent(widget, lw));
 }
 
+static void li_pop_menu_copy_path_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	file_util_copy_path_to_clipboard(layout_image_get_fd(lw));
+}
+
 static void li_pop_menu_move_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -765,6 +772,12 @@ static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 	if (!path) gtk_widget_set_sensitive(item, FALSE);
 	item = menu_item_add_stock(menu, _("_Delete..."), GTK_STOCK_DELETE, G_CALLBACK(li_pop_menu_delete_cb), lw);
 	if (!path) gtk_widget_set_sensitive(item, FALSE);
+	
+	if (options->show_copy_path)
+		{
+		item = menu_item_add(menu, _("_Copy path"), G_CALLBACK(li_pop_menu_copy_path_cb), lw);
+		if (!path) gtk_widget_set_sensitive(item, FALSE);
+	}
 
 	menu_item_add_divider(menu);
 

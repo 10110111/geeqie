@@ -2737,6 +2737,15 @@ static void pan_delete_cb(GtkWidget *widget, gpointer data)
 	if (fd) file_util_delete(fd, NULL, pw->imd->widget);
 }
 
+static void pan_copy_path_cb(GtkWidget *widget, gpointer data)
+{
+	PanWindow *pw = data;
+	FileData *fd;
+
+	fd = pan_menu_click_fd(pw);
+	if (fd) file_util_copy_path_to_clipboard(fd);
+}
+
 static void pan_exif_date_toggle_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
@@ -2812,6 +2821,9 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 				G_CALLBACK(pan_rename_cb), pw);
 	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
 				      G_CALLBACK(pan_delete_cb), pw);
+	if (options->show_copy_path)
+		menu_item_add_sensitive(menu, _("_Copy path"), active,
+					G_CALLBACK(pan_copy_path_cb), pw);
 
 	menu_item_add_divider(menu);
 	item = menu_item_add_check(menu, _("Sort by E_xif date"), pw->exif_date_enable,

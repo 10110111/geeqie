@@ -117,6 +117,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->panels.sort.selection_state = 0;
 
 	options->progressive_key_scrolling = FALSE;
+	options->show_copy_path = FALSE;
 	options->show_icon_names = TRUE;
 
 	options->slideshow.delay = 150;

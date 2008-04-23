@@ -625,6 +625,13 @@ static void collection_table_popup_delete_cb(GtkWidget *widget, gpointer data)
 	file_util_delete(NULL, collection_table_popup_file_list(ct), ct->listview);
 }
 
+static void collection_table_popup_copy_path_cb(GtkWidget *widget, gpointer data)
+{
+	CollectTable *ct = data;
+
+	file_util_copy_path_list_to_clipboard(collection_table_popup_file_list(ct));
+}
+
 static void collection_table_popup_sort_cb(GtkWidget *widget, gpointer data)
 {
 	CollectTable *ct;
@@ -799,6 +806,9 @@ static GtkWidget *collection_table_popup_menu(CollectTable *ct, gint over_icon)
 			G_CALLBACK(collection_table_popup_rename_cb), ct);
 	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, over_icon,
 			G_CALLBACK(collection_table_popup_delete_cb), ct);
+	if (options->show_copy_path)
+		menu_item_add_sensitive(menu, _("_Copy path"), over_icon,
+					G_CALLBACK(collection_table_popup_copy_path_cb), ct);
 	menu_item_add_divider(menu);
 
 	submenu_add_sort(menu, G_CALLBACK(collection_table_popup_sort_cb), ct, FALSE, TRUE, FALSE, 0);

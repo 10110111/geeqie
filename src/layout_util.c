@@ -261,6 +261,13 @@ static void layout_menu_copy_cb(GtkAction *action, gpointer data)
 	file_util_copy(NULL, layout_selection_list(lw), NULL, layout_window(lw));
 }
 
+static void layout_menu_copy_path_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	file_util_copy_path_list_to_clipboard(layout_selection_list(lw));
+}
+
 static void layout_menu_move_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -987,6 +994,38 @@ void layout_recent_add_path(const gchar *path)
 
 /*
  *-----------------------------------------------------------------------------
+ * copy path
+ *-----------------------------------------------------------------------------
+ */
+
+static void layout_copy_path_update(LayoutWindow *lw)
+{
+	GtkWidget *item = gtk_ui_manager_get_widget(lw->ui_manager, "/MainMenu/FileMenu/CopyPath");
+
+	if (!item) return;
+	
+	if (options->show_copy_path)
+		gtk_widget_show(item);
+	else
+		gtk_widget_hide(item);
+}
+
+void layout_copy_path_update_all(void)
+{
+	GList *work;
+
+	work = layout_window_list;
+	while (work)
+		{
+		LayoutWindow *lw = work->data;
+		work = work->next;
+
+		layout_copy_path_update(lw);
+		}
+}
+
+/*
+ *-----------------------------------------------------------------------------
  * menu
  *-----------------------------------------------------------------------------
  */
@@ -1030,6 +1069,7 @@ static GtkActionEntry menu_entries[] = {
   { "Delete",	GTK_STOCK_DELETE,	N_("_Delete..."),	"<control>D",	NULL,	CB(layout_menu_delete_cb) },
   { "DeleteAlt1",GTK_STOCK_DELETE,	N_("_Delete..."),	"Delete",	NULL,	CB(layout_menu_delete_cb) },
   { "DeleteAlt2",GTK_STOCK_DELETE,	N_("_Delete..."),	"KP_Delete",	NULL,	CB(layout_menu_delete_cb) },
+  { "CopyPath",		NULL,		N_("_Copy path"),	NULL,		NULL,	CB(layout_menu_copy_path_cb) },
   { "CloseWindow",	GTK_STOCK_CLOSE,N_("C_lose window"),	"<control>W",	NULL,	CB(layout_menu_close_cb) },
   { "Quit",		GTK_STOCK_QUIT, N_("_Quit"),		"<control>Q",	NULL,	CB(layout_menu_exit_cb) },
 
@@ -1146,6 +1186,7 @@ static const char *menu_ui_description =
 "      <menuitem action='Move'/>"
 "      <menuitem action='Rename'/>"
 "      <menuitem action='Delete'/>"
+"      <menuitem action='CopyPath'/>"
 "      <separator/>"
 "      <menuitem action='CloseWindow'/>"
 "      <menuitem action='Quit'/>"
@@ -1387,8 +1428,9 @@ void layout_actions_setup(LayoutWindow *lw)
 		g_error_free (error);
 		exit (EXIT_FAILURE);
 		}
-
+	
 	layout_actions_setup_marks(lw);
+	layout_copy_path_update(lw);
 }
 
 void layout_actions_add_window(LayoutWindow *lw, GtkWidget *window)

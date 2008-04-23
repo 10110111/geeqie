@@ -344,6 +344,13 @@ static void vflist_pop_menu_copy_cb(GtkWidget *widget, gpointer data)
 	file_util_copy(NULL, vflist_pop_menu_file_list(vfl), NULL, vfl->listview);
 }
 
+static void vflist_pop_menu_copy_path_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFileList *vfl = data;
+
+	file_util_copy_path_list_to_clipboard(vflist_pop_menu_file_list(vfl));
+}
+
 static void vflist_pop_menu_move_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFileList *vfl = data;
@@ -581,7 +588,10 @@ static GtkWidget *vflist_pop_menu(ViewFileList *vfl, FileData *fd, gint col_idx)
 	menu_item_add_sensitive(menu, _("_Rename..."), active,
 				G_CALLBACK(vflist_pop_menu_rename_cb), vfl);
 	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
-				G_CALLBACK(vflist_pop_menu_delete_cb), vfl);
+				      G_CALLBACK(vflist_pop_menu_delete_cb), vfl);
+	if (options->show_copy_path)
+		menu_item_add_sensitive(menu, _("_Copy path"), active,
+					G_CALLBACK(vflist_pop_menu_copy_path_cb), vfl);
 
 	menu_item_add_divider(menu);
 

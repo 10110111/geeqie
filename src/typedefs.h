@@ -749,6 +749,7 @@ struct _ConfOptions
 	gint place_dialogs_under_mouse;
 	gint mousewheel_scrolls;
 	gint show_icon_names;
+	gint show_copy_path;
 
 	/* various */
 	gint startup_path_enable;

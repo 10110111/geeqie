@@ -1238,6 +1238,40 @@ void file_util_copy(FileData *source_fd, GList *source_list, const gchar *dest_p
 	real_file_util_move(source_fd, source_list, dest_path, TRUE, parent);
 }
 
+void file_util_copy_path_to_clipboard(FileData *fd)
+{
+	GtkClipboard *clipboard;
+
+	if (!fd || !*fd->path) return;
+
+	clipboard = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
+	gtk_clipboard_set_text(clipboard, g_shell_quote(fd->path), -1);
+}
+
+void file_util_copy_path_list_to_clipboard(GList *list)
+{
+	GtkClipboard *clipboard;
+	GList *work;
+	GString *new;
+
+	clipboard = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
+	
+	new = g_string_new("");
+	work = list;
+	while (work) {
+		FileData *fd = work->data;
+		work = work->next;
+
+		if (!fd || !*fd->path) continue;
+	
+		g_string_append(new, g_shell_quote(fd->path));
+		if (work) g_string_append_c(new, ' ');
+		}
+	
+	gtk_clipboard_set_text(clipboard, new->str, new->len);
+	g_string_free(new, TRUE);
+}
+
 void file_util_move_simple(GList *list, const gchar *dest_path)
 {
 	if (!list) return;

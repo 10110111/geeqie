@@ -270,6 +270,12 @@ static void config_window_apply(void)
 
 	options->open_recent_list_maxsize = c_options->open_recent_list_maxsize;
 	options->dnd_icon_size = c_options->dnd_icon_size;
+	
+	if (options->show_copy_path != c_options->show_copy_path)
+		{
+		options->show_copy_path = c_options->show_copy_path;
+		layout_copy_path_update_all();
+		}
 
 #ifdef DEBUG
 	debug = debug_c;
@@ -1396,6 +1402,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 
+
 	group = pref_group_new(vbox, FALSE, _("Behavior"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Rectangular selection in icon view"),
@@ -1406,6 +1413,9 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("In place renaming"),
 			      options->file_ops.enable_in_place_rename, &c_options->file_ops.enable_in_place_rename);
+
+	pref_checkbox_new_int(group, _("Show \"Copy path\" menu item which write the path of selected files to clipboard"),
+			      options->show_copy_path, &c_options->show_copy_path);
 
 	pref_spin_new_int(group, _("Open recent list maximum size"), NULL,
 			  1, 50, 1, options->open_recent_list_maxsize, &c_options->open_recent_list_maxsize);

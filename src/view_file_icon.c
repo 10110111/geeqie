@@ -242,6 +242,13 @@ static void vficon_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
 	file_util_delete(NULL, vficon_pop_menu_file_list(vfi), vfi->listview);
 }
 
+static void vficon_pop_menu_copy_path_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFileIcon *vfi = data;
+
+	file_util_copy_path_list_to_clipboard(vficon_pop_menu_file_list(vfi));
+}
+
 static void vficon_pop_menu_sort_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFileIcon *vfi;
@@ -336,6 +343,11 @@ static GtkWidget *vficon_pop_menu(ViewFileIcon *vfi, gint active)
 	gtk_widget_set_sensitive(item, active);
 	item = menu_item_add_stock(menu, _("_Delete..."), GTK_STOCK_DELETE, G_CALLBACK(vficon_pop_menu_delete_cb), vfi);
 	gtk_widget_set_sensitive(item, active);
+	if (options->show_copy_path)
+		{
+		item = menu_item_add(menu, _("_Copy path"), G_CALLBACK(vficon_pop_menu_copy_path_cb), vfi);
+		gtk_widget_set_sensitive(item, active);
+		}
 
 	menu_item_add_divider(menu);
 

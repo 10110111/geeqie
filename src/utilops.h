@@ -57,4 +57,7 @@ gint copy_file_ext(FileData *fd);
 gint move_file_ext(FileData *fd);
 gint rename_file_ext(FileData *fd);
 
+void file_util_copy_path_to_clipboard(FileData *fd);
+void file_util_copy_path_list_to_clipboard(GList *list);
+
 #endif
