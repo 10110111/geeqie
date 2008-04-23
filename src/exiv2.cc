@@ -53,6 +53,7 @@ extern "C" {
 #include "main.h"
 #include "exif.h"
 #include "filelist.h"
+#include "ui_fileops.h"
 
 }
 
@@ -76,7 +77,9 @@ struct _ExifData
 		have_sidecar = false;
 		cp_data = NULL;
 		cp_length = 0;
-		image = Exiv2::ImageFactory::open(path);
+		gchar *pathl = path_from_utf8(path);
+		image = Exiv2::ImageFactory::open(pathl);
+		g_free(pathl);
 //		g_assert (image.get() != 0);
 		image->readMetadata();
 
@@ -84,7 +87,9 @@ struct _ExifData
 		DEBUG_2("xmp count %li\n", image->xmpData().count());
 		if (sidecar_path && image->xmpData().empty())
 			{
-			sidecar = Exiv2::ImageFactory::open(sidecar_path);
+			gchar *sidecar_pathl = path_from_utf8(sidecar_path);
+			sidecar = Exiv2::ImageFactory::open(sidecar_pathl);
+			g_free(sidecar_pathl);
 			sidecar->readMetadata();
 			have_sidecar = sidecar->good();
 			DEBUG_2("sidecar xmp count %li\n", sidecar->xmpData().count());
