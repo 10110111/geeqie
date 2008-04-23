@@ -937,7 +937,7 @@ static void layout_sync_path(LayoutWindow *lw)
 
 	lw->last_time = filetime(lw->path);
 
-	gtk_entry_set_text(GTK_ENTRY(lw->path_entry), lw->path);
+	if (lw->path_entry) gtk_entry_set_text(GTK_ENTRY(lw->path_entry), lw->path);
 	if (lw->vd) vd_set_path(lw->vd, lw->path);
 
 	if (lw->vfl) vflist_set_path(lw->vfl, lw->path);
