@@ -93,14 +93,14 @@ void set_default_image_overlay_template_string(ConfOptions *options)
  */
 
 
-void image_osd_histogram_onoff_toggle(ImageWindow *imd, gint x)
+static void image_osd_histogram_onoff_toggle(ImageWindow *imd, gint x)
 {
 	imd->histogram_enabled = !!(x);
 	if (imd->histogram_enabled && !imd->histogram)
 		imd->histogram = histogram_new();
 }
 
-gint image_osd_histogram_onoff_status(ImageWindow *imd)
+static gint image_osd_histogram_onoff_status(ImageWindow *imd)
 {
       return imd->histogram_enabled;
 }

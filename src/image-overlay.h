@@ -33,8 +33,6 @@ void image_osd_update(ImageWindow *imd);
 
 void image_osd_icon(ImageWindow *imd, ImageOSDFlag flag, gint duration);
 
-void image_osd_histogram_onoff_toggle(ImageWindow *, gint);
-gint image_osd_histogram_onoff_status(ImageWindow *);
 void image_osd_histogram_chan_toggle(ImageWindow *);
 void image_osd_histogram_log_toggle(ImageWindow *);
 
