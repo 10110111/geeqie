@@ -189,6 +189,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 			collection_add_check(cd, file_data_new_simple(buf), FALSE, TRUE);
 			changed = TRUE;
 			g_free(buf);
+			buf = NULL;
 			}
 		}
 
