@@ -1558,7 +1558,7 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkScrollDirection directio
 
 	if (i != -1)
 		{
-		printf("image activate scroll %d\n", i);
+		if (debug) printf("image activate scroll %d\n", i);
 		layout_image_activate(lw, i);
 		}
 
