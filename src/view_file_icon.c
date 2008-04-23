@@ -328,27 +328,24 @@ static GtkWidget *vficon_pop_menu(ViewFileIcon *vfi, gint active)
 	submenu_add_edit(menu, &item, G_CALLBACK(vficon_pop_menu_edit_cb), vfi);
 	gtk_widget_set_sensitive(item, active);
 
-	item = menu_item_add_stock(menu, _("_Properties"), GTK_STOCK_PROPERTIES, G_CALLBACK(vficon_pop_menu_info_cb), vfi);
-	gtk_widget_set_sensitive(item, active);
+	menu_item_add_stock_sensitive(menu, _("_Properties"), GTK_STOCK_PROPERTIES, active,
+				      G_CALLBACK(vficon_pop_menu_info_cb), vfi);
 
-	item = menu_item_add_stock(menu, _("View in _new window"), GTK_STOCK_NEW, G_CALLBACK(vficon_pop_menu_view_cb), vfi);
-	gtk_widget_set_sensitive(item, active);
-
+	menu_item_add_stock_sensitive(menu, _("View in _new window"), GTK_STOCK_NEW, active,
+				      G_CALLBACK(vficon_pop_menu_view_cb), vfi);
 	menu_item_add_divider(menu);
-	item = menu_item_add_stock(menu, _("_Copy..."), GTK_STOCK_COPY, G_CALLBACK(vficon_pop_menu_copy_cb), vfi);
-	gtk_widget_set_sensitive(item, active);
-	item = menu_item_add(menu, _("_Move..."), G_CALLBACK(vficon_pop_menu_move_cb), vfi);
-	gtk_widget_set_sensitive(item, active);
-	item = menu_item_add(menu, _("_Rename..."), G_CALLBACK(vficon_pop_menu_rename_cb), vfi);
-	gtk_widget_set_sensitive(item, active);
-	item = menu_item_add_stock(menu, _("_Delete..."), GTK_STOCK_DELETE, G_CALLBACK(vficon_pop_menu_delete_cb), vfi);
-	gtk_widget_set_sensitive(item, active);
-	if (options->show_copy_path)
-		{
-		item = menu_item_add(menu, _("_Copy path"), G_CALLBACK(vficon_pop_menu_copy_path_cb), vfi);
-		gtk_widget_set_sensitive(item, active);
-		}
 
+	menu_item_add_stock_sensitive(menu, _("_Copy..."), GTK_STOCK_COPY, active,
+				      G_CALLBACK(vficon_pop_menu_copy_cb), vfi);
+	menu_item_add_sensitive(menu, _("_Move..."), active,
+				G_CALLBACK(vficon_pop_menu_move_cb), vfi);
+	menu_item_add_sensitive(menu, _("_Rename..."), active,
+				G_CALLBACK(vficon_pop_menu_rename_cb), vfi);
+	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
+				      G_CALLBACK(vficon_pop_menu_delete_cb), vfi);
+	if (options->show_copy_path)
+		menu_item_add_sensitive(menu, _("_Copy path"), active,
+					G_CALLBACK(vficon_pop_menu_copy_path_cb), vfi);
 	menu_item_add_divider(menu);
 
 	submenu = submenu_add_sort(NULL, G_CALLBACK(vficon_pop_menu_sort_cb), vfi,
