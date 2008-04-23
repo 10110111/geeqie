@@ -721,6 +721,7 @@ static void vd_dnd_drop_receive(GtkWidget *widget,
 		{
 		GList *list;
 		gint active;
+		gint done = FALSE;
 
 		list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
 		if (!list) return;
@@ -728,8 +729,26 @@ static void vd_dnd_drop_receive(GtkWidget *widget,
 		active = access_file(fd->path, W_OK | X_OK);
 
 		vd_color_set(vd, fd, TRUE);
-		vd->popup = vd_drop_menu(vd, active);
-		gtk_menu_popup(GTK_MENU(vd->popup), NULL, NULL, NULL, NULL, 0, time);
+
+		if (active)
+			{
+			if (context->actions == GDK_ACTION_COPY)
+				{
+				file_util_copy_simple(list, fd->path);
+				done = TRUE;
+				}
+			else if (context->actions == GDK_ACTION_MOVE)
+				{
+				file_util_move_simple(list, fd->path);
+				done = TRUE;
+				}
+			}
+
+		if (done == FALSE)
+			{
+			vd->popup = vd_drop_menu(vd, active);
+			gtk_menu_popup(GTK_MENU(vd->popup), NULL, NULL, NULL, NULL, 0, time);
+			}
 
 		vd->drop_fd = fd;
 		vd->drop_list = list;
