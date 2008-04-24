@@ -131,8 +131,6 @@ gint window_maximized(GtkWidget *window);
 
 gdouble get_zoom_increment(void);
 
-const gchar *get_exec_time();
-
 void help_window_show(const gchar *key);
 
 void keyboard_scroll_calc(gint *x, gint *y, GdkEventKey *event);

@@ -27,6 +27,8 @@ gint get_debug_level(void);
 void set_debug_level(gint new_level);
 void debug_level_add(gint delta);
 gint required_debug_level(gint level);
+const gchar *get_exec_time(void);
+void init_exec_time(void);
 
 #define DEBUG_N(n, ...) do \
 				{ \
@@ -38,15 +40,19 @@ gint required_debug_level(gint level);
 					putchar('\n'); \
 					} \
 				} while (0)
-#else
+
+#else /* DEBUG */
 
 #define get_debug_level() (0)
 #define set_debug_level(new_level) do { } while(0)
 #define debug_level_add(delta) do { } while(0)
 #define required_debug_level(level) (0)
+#define get_exec_time() ""
+#define init_exec_time() do { } while(0)
+
 #define DEBUG_N(n, ...)  do { } while(0)
 
-#endif
+#endif /* DEBUG */
 
 #define DEBUG_0(...) DEBUG_N(0, __VA_ARGS__)
 #define DEBUG_1(...) DEBUG_N(1, __VA_ARGS__)
