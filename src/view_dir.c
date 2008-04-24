@@ -698,9 +698,9 @@ static void vd_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer data
 }
 
 static void vd_dnd_drop_receive(GtkWidget *widget,
-				    GdkDragContext *context, gint x, gint y,
-				    GtkSelectionData *selection_data, guint info,
-				    guint time, gpointer data)
+				GdkDragContext *context, gint x, gint y,
+				GtkSelectionData *selection_data, guint info,
+				guint time, gpointer data)
 {
 	ViewDir *vd = data;
 	GtkTreePath *tpath;
