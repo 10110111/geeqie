@@ -1212,12 +1212,12 @@ CollectWindow *collection_window_new(const gchar *path)
 
 	gtk_window_set_resizable(GTK_WINDOW(cw->window), TRUE);
 	collection_window_update_title(cw);
-	gtk_container_set_border_width(GTK_CONTAINER (cw->window), 0);
+	gtk_container_set_border_width(GTK_CONTAINER(cw->window), 0);
 
 	g_signal_connect(G_OBJECT(cw->window), "delete_event",
 			 G_CALLBACK(collection_window_delete), cw);
 
-	g_signal_connect(G_OBJECT(cw->window),"key_press_event",
+	g_signal_connect(G_OBJECT(cw->window), "key_press_event",
 			 G_CALLBACK(collection_window_keypress), cw);
 
 	vbox = gtk_vbox_new(FALSE, 0);

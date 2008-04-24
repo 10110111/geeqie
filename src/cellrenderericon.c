@@ -108,10 +108,10 @@ gqv_cell_renderer_icon_init(GQvCellRendererIcon *cellicon)
 static void
 gqv_cell_renderer_icon_class_init(GQvCellRendererIconClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
-	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS(class);
+	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS(class);
 
-	parent_class = g_type_class_peek_parent (class);
+	parent_class = g_type_class_peek_parent(class);
 
 	object_class->finalize = gqv_cell_renderer_icon_finalize;
 
@@ -209,11 +209,11 @@ gqv_cell_renderer_icon_finalize(GObject *object)
 {
 	GQvCellRendererIcon *cellicon = GQV_CELL_RENDERER_ICON(object);
 
-	if (cellicon->pixbuf) g_object_unref (cellicon->pixbuf);
+	if (cellicon->pixbuf) g_object_unref(cellicon->pixbuf);
 
 	g_free(cellicon->text);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize)(object);
+	(*(G_OBJECT_CLASS(parent_class))->finalize)(object);
 }
 
 static void
@@ -336,7 +336,7 @@ gqv_cell_renderer_icon_set_property(GObject		*object,
 				    const GValue	*value,
 				    GParamSpec		*pspec)
 {
-	GQvCellRendererIcon *cellicon = GQV_CELL_RENDERER_ICON (object);
+	GQvCellRendererIcon *cellicon = GQV_CELL_RENDERER_ICON(object);
 
 	switch (param_id)
 		{
@@ -344,9 +344,9 @@ gqv_cell_renderer_icon_set_property(GObject		*object,
 			{
 			GdkPixbuf *pixbuf;
 
-			pixbuf = (GdkPixbuf*) g_value_get_object (value);
-			if (pixbuf) g_object_ref (pixbuf);
-			if (cellicon->pixbuf) g_object_unref (cellicon->pixbuf);
+			pixbuf = (GdkPixbuf*) g_value_get_object(value);
+			if (pixbuf) g_object_ref(pixbuf);
+			if (cellicon->pixbuf) g_object_unref(cellicon->pixbuf);
 			cellicon->pixbuf = pixbuf;
 			}
 		break;
@@ -505,12 +505,12 @@ gqv_cell_renderer_icon_get_size(GtkCellRenderer *cell,
 		if (x_offset)
 			{
 			*x_offset = (cell->xalign * (cell_area->width - calc_width - 2 * cell->xpad));
-			*x_offset = MAX (*x_offset, 0) + cell->xpad;
+			*x_offset = MAX(*x_offset, 0) + cell->xpad;
 			}
 		if (y_offset)
 			{
 			*y_offset = (cell->yalign * (cell_area->height - calc_height - 2 * cell->ypad));
-			*y_offset = MAX (*y_offset, 0) + cell->ypad;
+			*y_offset = MAX(*y_offset, 0) + cell->ypad;
 			}
 		}
 

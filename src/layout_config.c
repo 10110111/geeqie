@@ -53,7 +53,7 @@ static LayoutStyle layout_config_styles[] = {
 	{ LAYOUT_TOP, LAYOUT_LEFT | LAYOUT_BOTTOM, LAYOUT_RIGHT | LAYOUT_BOTTOM }
 };
 
-static gint layout_config_style_count = sizeof(layout_config_styles) / sizeof (LayoutStyle);
+static gint layout_config_style_count = sizeof(layout_config_styles) / sizeof(LayoutStyle);
 
 static gchar *layout_titles[] = { N_("Tools"), N_("Files"), N_("Image") };
 

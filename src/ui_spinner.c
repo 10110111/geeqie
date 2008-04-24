@@ -149,7 +149,7 @@ GtkWidget *spinner_new(const gchar *path, gint interval)
 		gint n;
 		gint w, h;
 
-		pb = gdk_pixbuf_new_from_inline (-1, icon_spinner, FALSE, NULL);
+		pb = gdk_pixbuf_new_from_inline(-1, icon_spinner, FALSE, NULL);
 		w = gdk_pixbuf_get_width(pb);
 		h = gdk_pixbuf_get_height(pb) / SPINNER_FRAMES;
 		for (n = 0; n < SPINNER_FRAMES; n++)

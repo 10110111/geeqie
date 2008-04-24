@@ -771,7 +771,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	DEBUG_2("file_data_new: '%s' %d", path_utf8, check_sidecars);
 
 	if (!file_data_pool)
-		file_data_pool = g_hash_table_new (g_str_hash, g_str_equal);
+		file_data_pool = g_hash_table_new(g_str_hash, g_str_equal);
 
 	fd = g_hash_table_lookup(file_data_pool, path_utf8);
 	if (fd)

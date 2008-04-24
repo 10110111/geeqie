@@ -25,7 +25,7 @@
  *-----------------------------------------------------------------------------
  */
 
-gboolean pixbuf_to_file_as_png (GdkPixbuf *pixbuf, const char *filename)
+gboolean pixbuf_to_file_as_png(GdkPixbuf *pixbuf, const char *filename)
 {
 	GError *error = NULL;
 	gint ret;

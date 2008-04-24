@@ -55,7 +55,7 @@ GtkWidget *menu_item_add_stock(GtkWidget *menu, const gchar *label, const gchar 
 	GtkWidget *image;
 
 	item = gtk_image_menu_item_new_with_mnemonic(label);
-	image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_MENU);
+	image = gtk_image_new_from_stock(stock_id, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
 	gtk_widget_show(image);
 	menu_item_finish(menu, item, func, data);

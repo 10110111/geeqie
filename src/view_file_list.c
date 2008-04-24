@@ -725,7 +725,7 @@ static gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 					  &tpath, &column, NULL, NULL))
 		{
 		GtkTreeModel *store;
-		col_idx = GPOINTER_TO_INT(g_object_get_data (G_OBJECT(column), "column_store_idx"));
+		col_idx = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(column), "column_store_idx"));
 
 		if (bevent->button == MOUSE_BUTTON_LEFT &&
 		    col_idx >= FILE_COLUMN_MARKS && col_idx <= FILE_COLUMN_MARKS_LAST)
@@ -1891,7 +1891,7 @@ static void vflist_listview_mark_toggled(GtkCellRendererToggle *cell, gchar *pat
 	if (!path || !gtk_tree_model_get_iter(GTK_TREE_MODEL(store), &iter, path))
     		return;
 
-	col_idx = GPOINTER_TO_INT(g_object_get_data (G_OBJECT(cell), "column_store_idx"));
+	col_idx = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(cell), "column_store_idx"));
 
 	g_assert(col_idx >= FILE_COLUMN_MARKS && col_idx <= FILE_COLUMN_MARKS_LAST);
 
@@ -2097,7 +2097,7 @@ void vflist_marks_set(ViewFileList *vfl, gint enable)
 	while (work)
 		{
 		GtkTreeViewColumn *column = work->data;
-		gint col_idx = GPOINTER_TO_INT(g_object_get_data (G_OBJECT(column), "column_store_idx"));
+		gint col_idx = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(column), "column_store_idx"));
 		work = work->next;
 
 		if (col_idx <= FILE_COLUMN_MARKS_LAST && col_idx >= FILE_COLUMN_MARKS)

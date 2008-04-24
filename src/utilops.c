@@ -2602,7 +2602,7 @@ static void file_util_rename_multiple_do(GList *source_list, GtkWidget *parent)
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolled),
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
 	gtk_paned_pack1(GTK_PANED(pane), scrolled, TRUE, TRUE);
 	gtk_widget_show(scrolled);
@@ -3110,7 +3110,7 @@ static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gint fu
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolled),
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
 	gtk_box_pack_start(GTK_BOX(box), scrolled, TRUE, TRUE, 0);
 	gtk_widget_show(scrolled);

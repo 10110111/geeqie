@@ -2385,7 +2385,7 @@ CollectTable *collection_table_new(CollectionData *cd)
 
 	ct->scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(ct->scrolled), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (ct->scrolled),
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(ct->scrolled),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	store = gtk_list_store_new(1, G_TYPE_POINTER);

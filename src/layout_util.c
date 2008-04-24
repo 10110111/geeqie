@@ -1400,7 +1400,7 @@ void layout_actions_setup(LayoutWindow *lw)
 
 	if (lw->ui_manager) return;
 
-	lw->action_group = gtk_action_group_new ("MenuActions");
+	lw->action_group = gtk_action_group_new("MenuActions");
 	gtk_action_group_set_translate_func(lw->action_group, menu_translate, NULL, NULL);
 
 	gtk_action_group_add_actions(lw->action_group,

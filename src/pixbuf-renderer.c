@@ -715,7 +715,7 @@ static void widget_set_cursor(GtkWidget *widget, gint icon)
 		}
 	else
 		{
-		cursor = gdk_cursor_new (icon);
+		cursor = gdk_cursor_new(icon);
 		}
 
 	gdk_window_set_cursor(widget->window, cursor);
@@ -1665,8 +1665,8 @@ static gint pr_source_tile_render(PixbufRenderer *pr, ImageTile *it,
 
 			stx = floor((double)st->x * scale_x);
 			sty = floor((double)st->y * scale_y);
-			stw = ceil ((double)(st->x + pr->source_tile_width) * scale_x) - stx;
-			sth = ceil ((double)(st->y + pr->source_tile_height) * scale_y) - sty;
+			stw = ceil((double)(st->x + pr->source_tile_width) * scale_x) - stx;
+			sth = ceil((double)(st->y + pr->source_tile_height) * scale_y) - sty;
 
 			if (pr_clip_region(stx, sty, stw, sth,
 					   it->x + x, it->y + y, w, h,

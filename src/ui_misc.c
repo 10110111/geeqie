@@ -259,7 +259,7 @@ GtkWidget *pref_button_new(GtkWidget *parent_box, const gchar *stock_id,
 			GtkWidget *align;
 			GtkWidget *hbox;
 
-			hbox = gtk_hbox_new (FALSE, PREF_PAD_BUTTON_ICON_GAP);
+			hbox = gtk_hbox_new(FALSE, PREF_PAD_BUTTON_ICON_GAP);
 
 			align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
 			gtk_container_add(GTK_CONTAINER(button), align);

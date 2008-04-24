@@ -640,7 +640,7 @@ GList *uig_list_insert_link(GList *list, GList *link, gpointer data)
 	if (!list || link == list) return g_list_prepend(list, data);
 	if (!link) return g_list_append(list, data);
 
-	new_list = g_list_alloc ();
+	new_list = g_list_alloc();
 	new_list->data = data;
 
 	if (link->prev)

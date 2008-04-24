@@ -109,7 +109,7 @@ static void slideshow_list_init(SlideShowData *ss, gint start_index)
 
 			while(ss->list && i < start_index)
 				{
-				ss->list_done = g_list_prepend (ss->list_done, ss->list->data);
+				ss->list_done = g_list_prepend(ss->list_done, ss->list->data);
 				ss->list = g_list_remove(ss->list, ss->list->data);
 				i++;
 				}
@@ -166,7 +166,7 @@ static gint slideshow_step(SlideShowData *ss, gint forward)
 		if (!ss->list) return TRUE;
 
 		row = GPOINTER_TO_INT(ss->list->data);
-		ss->list_done = g_list_prepend (ss->list_done, ss->list->data);
+		ss->list_done = g_list_prepend(ss->list_done, ss->list->data);
 		ss->list = g_list_remove(ss->list, ss->list->data);
 		}
 	else

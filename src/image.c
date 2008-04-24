@@ -1865,12 +1865,12 @@ void image_set_selectable(ImageWindow *imd, gboolean selectable)
 		if (selectable)
 			{
 			gtk_frame_set_shadow_type(GTK_FRAME(imd->frame), GTK_SHADOW_NONE);
-			gtk_container_set_border_width(GTK_CONTAINER (imd->frame), 4);
+			gtk_container_set_border_width(GTK_CONTAINER(imd->frame), 4);
 			}
 		else
 			{
 			gtk_frame_set_shadow_type(GTK_FRAME(imd->frame), GTK_SHADOW_NONE);
-			gtk_container_set_border_width(GTK_CONTAINER (imd->frame), 0);
+			gtk_container_set_border_width(GTK_CONTAINER(imd->frame), 0);
 			}
 		}
 }

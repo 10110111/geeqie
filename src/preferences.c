@@ -1043,7 +1043,7 @@ static void config_tab_filtering(GtkWidget *notebook)
 	GtkTreeViewColumn *column;
 
 	vbox = gtk_vbox_new(FALSE, 0);
-	gtk_container_set_border_width(GTK_CONTAINER (vbox), PREF_PAD_BORDER);
+	gtk_container_set_border_width(GTK_CONTAINER(vbox), PREF_PAD_BORDER);
 	gtk_widget_show(vbox);
 	label = gtk_label_new(_("Filtering"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, label);
@@ -1077,7 +1077,7 @@ static void config_tab_filtering(GtkWidget *notebook)
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolled), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
 	gtk_box_pack_start(GTK_BOX(group), scrolled, TRUE, TRUE, 0);
 	gtk_widget_show(scrolled);
 
@@ -1194,7 +1194,7 @@ static void config_tab_editors(GtkWidget *notebook)
 			gtk_misc_set_alignment(GTK_MISC(entry), 0.0, 0.5);
 			}
 
-		gtk_table_attach(GTK_TABLE (table), entry, 1, 2, i+1, i+2,
+		gtk_table_attach(GTK_TABLE(table), entry, 1, 2, i+1, i+2,
 				 GTK_FILL | GTK_SHRINK, 0, 0, 0);
 		gtk_widget_show(entry);
 		editor_name_entry[i] = entry;
@@ -1205,7 +1205,7 @@ static void config_tab_editors(GtkWidget *notebook)
 		tab_completion_add_to_entry(entry, NULL, NULL);
 		if (options->editor_command[i])
 			gtk_entry_set_text(GTK_ENTRY(entry), options->editor_command[i]);
-		gtk_table_attach(GTK_TABLE (table), entry, 2, 3, i+1, i+2,
+		gtk_table_attach(GTK_TABLE(table), entry, 2, 3, i+1, i+2,
 				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
 		gtk_widget_show(entry);
 		editor_command_entry[i] = entry;
@@ -1531,7 +1531,7 @@ static void config_window_create(void)
 
 	configwindow = window_new(GTK_WINDOW_TOPLEVEL, "preferences", PIXBUF_INLINE_ICON_CONFIG, NULL, _("Preferences"));
 	gtk_window_set_type_hint(GTK_WINDOW(configwindow), GDK_WINDOW_TYPE_HINT_DIALOG);
-	g_signal_connect(G_OBJECT (configwindow), "delete_event",
+	g_signal_connect(G_OBJECT(configwindow), "delete_event",
 			 G_CALLBACK(config_window_delete), NULL);
 	gtk_window_set_default_size(GTK_WINDOW(configwindow), CONFIG_WINDOW_DEF_WIDTH, CONFIG_WINDOW_DEF_HEIGHT);
 	gtk_window_set_resizable(GTK_WINDOW(configwindow), TRUE);
