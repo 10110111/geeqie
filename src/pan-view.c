@@ -256,7 +256,7 @@ static void pan_queue_add(PanWindow *pw, PanItem *pi)
 	pi->queued = TRUE;
 	pw->queue = g_list_prepend(pw->queue, pi);
 
-	if (!pw->tl && !pw->il) while(pan_queue_step(pw));
+	if (!pw->tl && !pw->il) while (pan_queue_step(pw));
 }
 
 

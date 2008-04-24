@@ -114,7 +114,7 @@ void collection_list_free(GList *list)
 {
 	GList *work;
 	work = list;
-	while(work)
+	while (work)
 		{
 		collection_info_free((CollectInfo *)work->data);
 		work = work->next;
@@ -215,7 +215,7 @@ CollectInfo *collection_list_find(GList *list, const gchar *path)
 {
 	GList *work = list;
 
-	while(work)
+	while (work)
 		{
 		CollectInfo *ci = work->data;
 		if (strcmp(ci->fd->path, path) == 0) return ci;
@@ -230,7 +230,7 @@ static GList *collection_list_find_link(GList *list, gchar *path)
 {
 	GList *work = list;
 
-	while(work)
+	while (work)
 		{
 		CollectInfo *ci = work->data;
 		if (strcmp(ci->fd->path, path) == 0) return work;
@@ -245,7 +245,7 @@ static gint collection_list_find_index(GList *list, gchar *path)
 	gint c = 0;
 	GList *work = list;
 
-	while(work)
+	while (work)
 		{
 		CollectInfo *ci = work->data;
 		if (strcmp(ci->fd->path, path) == 0) return c;
@@ -436,7 +436,7 @@ CollectionData *collection_from_dnd_data(const gchar *data, GList **list, GList 
 		gint b, e;
 
 		b = 0;
-		while(data[b] != '\0' && data[b] != '\n' ) b++;
+		while (data[b] != '\0' && data[b] != '\n' ) b++;
 		b++;
 		e = b;
 
@@ -481,7 +481,7 @@ gchar *collection_info_list_to_dnd_data(CollectionData *cd, GList *list, gint *l
 	temp = NULL;
 	temp = g_list_prepend(temp, g_strdup_printf("COLLECTION:%d\n", n));
 	work = list;
-	while(work)
+	while (work)
 		{
 		n = g_list_index(cd->list, work->data);
 		if (n >= 0)
@@ -493,7 +493,7 @@ gchar *collection_info_list_to_dnd_data(CollectionData *cd, GList *list, gint *l
 
 	total = 0;
 	work = temp;
-	while(work)
+	while (work)
 		{
 		total += strlen((gchar *)work->data);
 		work = work->next;
@@ -504,7 +504,7 @@ gchar *collection_info_list_to_dnd_data(CollectionData *cd, GList *list, gint *l
 	ptr = uri_text;
 
 	work = g_list_last(temp);
-	while(work)
+	while (work)
 		{
 		gchar *text = work->data;
 
@@ -718,7 +718,7 @@ void collection_remove_by_info_list(CollectionData *cd, GList *list)
 		}
 
 	work = list;
-	while(work)
+	while (work)
 		{
 		cd->list = collection_list_remove(cd->list, work->data);
 		work = work->next;
@@ -762,12 +762,12 @@ void collection_maint_removed(FileData *fd)
 	GList *work;
 
 	work = collection_list;
-	while(work)
+	while (work)
 		{
 		CollectionData *cd = work->data;
 		work = work->next;
 
-		while(collection_remove(cd, fd));
+		while (collection_remove(cd, fd));
 		}
 #if 0
 	/* Do we really need to do this? removed files are
@@ -782,12 +782,12 @@ void collection_maint_renamed(FileData *fd)
 	GList *work;
 
 	work = collection_list;
-	while(work)
+	while (work)
 		{
 		CollectionData *cd = work->data;
 		work = work->next;
 
-		while(collection_rename(cd, fd));
+		while (collection_rename(cd, fd));
 		}
 
 	collect_manager_moved(fd);

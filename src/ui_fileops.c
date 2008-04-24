@@ -426,7 +426,7 @@ gint copy_file(const gchar *s, const gchar *t)
 
 	if (!fi || !fo) return FALSE;
 
-	while((b = fread(buf, sizeof(char), sizeof(buf), fi)) && b != 0)
+	while ((b = fread(buf, sizeof(char), sizeof(buf), fi)) && b != 0)
 		{
 		if (fwrite(buf, sizeof(char), b, fo) != b)
 			{
@@ -634,7 +634,7 @@ long checksum_simple(const gchar *path)
 	g_free(path8);
 	if (!f) return -1;
 
-	while((c = fgetc(f)) != EOF)
+	while ((c = fgetc(f)) != EOF)
 		{
 		sum += c;
 		}
@@ -727,7 +727,7 @@ gchar *remove_level_from_path(const gchar *path)
 
 	p = strlen(path) - 1;
 	if (p < 0) return NULL;
-	while(ptr[p] != '/' && p > 0) p--;
+	while (ptr[p] != '/' && p > 0) p--;
 	if (p == 0 && ptr[p] == '/') p++;
 	new_path = g_strndup(path, (guint)p);
 	return new_path;
@@ -772,7 +772,7 @@ gchar *remove_extension_from_path(const gchar *path)
 	if (strlen(path) < 2) return g_strdup(path);
 
 	p = strlen(path) - 1;
-	while(ptr[p] != '.' && p > 0) p--;
+	while (ptr[p] != '.' && p > 0) p--;
 	if (p == 0) p = strlen(path) - 1;
 	new_path = g_strndup(path, (guint)p);
 	return new_path;

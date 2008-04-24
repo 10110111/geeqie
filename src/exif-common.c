@@ -165,7 +165,7 @@ gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_val
 do {                                    \
 	if (g_str_has_suffix(str,suff)) \
 		str[strlen(str)-(sizeof(suff)-1)] = 0;  \
-} while(0)
+} while (0)
 			REMOVE_SUFFIX(make," Corporation"); /* Pentax */
 			REMOVE_SUFFIX(make," OPTICAL CO.,LTD"); /* OLYMPUS */
 			REMOVE_SUFFIX(make," CORPORATION"); /* Nikon */
@@ -500,7 +500,7 @@ ExifData *exif_read_fd(FileData *fd)
 
 	if (filter_file_class(fd->extension, FORMAT_CLASS_RAWIMAGE))
 		{
-		while(work)
+		while (work)
 			{
 			FileData *sfd = work->data;
 			work = work->next;

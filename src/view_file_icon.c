@@ -1122,7 +1122,7 @@ static void vficon_move_focus(ViewFileIcon *vfi, gint row, gint col, gint relati
 		if (new_row < 0) new_row = 0;
 		if (new_row >= vfi->rows) new_row = vfi->rows - 1;
 
-		while(col != 0)
+		while (col != 0)
 			{
 			if (col < 0)
 				{

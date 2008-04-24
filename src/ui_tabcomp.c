@@ -88,7 +88,7 @@ static void tab_completion_free_list(TabCompData *td)
 
 	list = td->file_list;
 
-	while(list)
+	while (list)
 		{
 		g_free(list->data);
 		list = list->next;
@@ -457,7 +457,7 @@ static gint tab_completion_do(TabCompData *td)
 		if (strcmp(entry_dir, "/") == 0) entry_dir[0] = '\0';
 
 		list = td->file_list;
-		while(list)
+		while (list)
 			{
 			gchar *file = list->data;
 			if (strncmp(entry_file, file, l) == 0)
@@ -498,7 +498,7 @@ static gint tab_completion_do(TabCompData *td)
 					{
 					list = poss;
 					if (!list) done = TRUE;
-					while(list && !done)
+					while (list && !done)
 						{
 						gchar *file = list->data;
 						if (strlen(file) < c || strncmp(test_file, file, c) != 0)

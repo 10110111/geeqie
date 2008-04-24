@@ -152,7 +152,7 @@ static gint comment_file_read(gchar *path, GList **keywords, gchar **comment)
 			gchar *keystr = ++ptr;
 			
 			key = MK_NONE;
-			while(*ptr != ']' && *ptr != '\n' && *ptr != '\0') ptr++;
+			while (*ptr != ']' && *ptr != '\n' && *ptr != '\0') ptr++;
 			
 			if (*ptr == ']')
 				{

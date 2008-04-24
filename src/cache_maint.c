@@ -368,7 +368,7 @@ gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear)
 		GList *work;
 
 		work = dlist;
-		while(work)
+		while (work)
 			{
 			gchar *path = work->data;
 			if (recursive && strlen(path) > base_length &&

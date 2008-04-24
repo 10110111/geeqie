@@ -112,7 +112,7 @@ gint history_list_load(const gchar *path)
 
 			ptr = s_buf + 1;
 			c = 0;
-			while(ptr[c] != ']' && ptr[c] != '\n' && ptr[c] != '\0') c++;
+			while (ptr[c] != ']' && ptr[c] != '\n' && ptr[c] != '\0') c++;
 
 			g_free(key);
 			key = g_strndup(ptr, c);
@@ -155,7 +155,7 @@ gint history_list_save(const gchar *path)
 	secure_fprintf(ssi, "#History lists\n\n");
 
 	list = g_list_last(history_list);
-	while(list && secsave_errno == SS_ERR_NONE)
+	while (list && secsave_errno == SS_ERR_NONE)
 		{
 		HistoryData *hd;
 		GList *work;
@@ -169,7 +169,7 @@ gint history_list_save(const gchar *path)
 		 * so that when reading they are added correctly
 		 */
 		work = g_list_last(hd->list);
-		while(work && secsave_errno == SS_ERR_NONE)
+		while (work && secsave_errno == SS_ERR_NONE)
 			{
 			secure_fprintf(ssi, "\"%s\"\n", (gchar *)work->data);
 			work = work->prev;
@@ -189,7 +189,7 @@ static void history_list_free(HistoryData *hd)
 	if (!hd) return;
 
 	work = hd->list;
-	while(work)
+	while (work)
 		{
 		g_free(work->data);
 		work = work->next;
@@ -252,7 +252,7 @@ void history_list_add_to_key(const gchar *key, const gchar *path, gint max)
 
 	/* if already in the list, simply move it to the top */
 	work = hd->list;
-	while(work)
+	while (work)
 		{
 		gchar *buf = work->data;
 		work = work->next;
@@ -269,7 +269,7 @@ void history_list_add_to_key(const gchar *key, const gchar *path, gint max)
 	if (max == -1) max = HISTORY_DEFAULT_KEY_COUNT;
 	if (max > 0)
 		{
-		while(hd->list && g_list_length(hd->list) > max)
+		while (hd->list && g_list_length(hd->list) > max)
 			{
 			GList *work = g_list_last(hd->list);
 			gchar *buf = work->data;
@@ -289,7 +289,7 @@ void history_list_item_change(const gchar *key, const gchar *oldpath, const gcha
 	if (!hd) return;
 
 	work = hd->list;
-	while(work)
+	while (work)
 		{
 		gchar *buf = work->data;
 		if (strcmp(buf, oldpath) == 0)
@@ -1356,7 +1356,7 @@ void uri_text_decode(gchar *text)
 
 		w = r = text;
 
-		while(*r != '\0')
+		while (*r != '\0')
 			{
 			if (*r == '%' && *(r + 1) != '\0' && *(r + 2) != '\0')
 				{

@@ -582,18 +582,18 @@ void load_options(void)
 		gchar *option_start, *value_start;
 		gchar *p = s_buf;
 
-		while(g_ascii_isspace(*p)) p++;
+		while (g_ascii_isspace(*p)) p++;
 		if (!*p || *p == '\n' || *p == '#') continue;
 		option_start = p;
-		while(*p && *p != ':') p++;
+		while (*p && *p != ':') p++;
 		if (!*p) continue;
 		*p = '\0';
 		p++;
 		strncpy(option, option_start, sizeof(option));
-		while(g_ascii_isspace(*p)) p++;
+		while (g_ascii_isspace(*p)) p++;
 		value_start = p;
 		strncpy(value_all, value_start, sizeof(value_all));
-		while(*p && !g_ascii_isspace(*p) && *p != '\n') p++;
+		while (*p && !g_ascii_isspace(*p) && *p != '\n') p++;
 		*p = '\0';
 		strncpy(value, value_start, sizeof(value));
 

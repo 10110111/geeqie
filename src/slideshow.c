@@ -74,7 +74,7 @@ static GList *generate_random_list(SlideShowData *ss)
 
 	src_list = generate_list(ss);
 
-	while(src_list)
+	while (src_list)
 		{
 		gint p = (double)rand() / ((double)RAND_MAX + 1.0) * g_list_length(src_list);
 		work = g_list_nth(src_list, p);
@@ -107,7 +107,7 @@ static void slideshow_list_init(SlideShowData *ss, gint start_index)
 			/* start with specified image by skipping to it */
 			gint i = 0;
 
-			while(ss->list && i < start_index)
+			while (ss->list && i < start_index)
 				{
 				ss->list_done = g_list_prepend(ss->list_done, ss->list->data);
 				ss->list = g_list_remove(ss->list, ss->list->data);

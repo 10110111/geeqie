@@ -564,7 +564,7 @@ static guchar *load_xv_thumbnail(gchar *filename, gint *widthp, gint *heightp)
 		return NULL;
 		}
 
-	while(fgets(buffer, XV_BUFFER, file) && buffer[0] == '#') /* do_nothing() */;
+	while (fgets(buffer, XV_BUFFER, file) && buffer[0] == '#') /* do_nothing() */;
 
 	if(sscanf(buffer, "%d %d %d", &width, &height, &depth) != 3)
 		{

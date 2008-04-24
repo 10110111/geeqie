@@ -288,7 +288,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 			p = fd->path;
 		else
 			{
-			while(work)
+			while (work)
 				{
 				GList *work2;
 				gchar *ext = work->data;
@@ -302,7 +302,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 					}
 
 				work2 = fd->sidecar_files;
-				while(work2)
+				while (work2)
 					{
 					FileData *sfd = work2->data;
 					work2 = work2->next;

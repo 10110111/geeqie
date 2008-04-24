@@ -1741,14 +1741,14 @@ static void dupe_files_add(DupeWindow *dw, CollectionData *collection, CollectIn
 				d = filelist_filter(d, TRUE);
 
 				work = f;
-				while(work)
+				while (work)
 					{
 					dupe_files_add(dw, NULL, NULL, (FileData *)work->data, TRUE);
 					work = work->next;
 					}
 				filelist_free(f);
 				work = d;
-				while(work)
+				while (work)
 					{
 					dupe_files_add(dw, NULL, NULL, (FileData *)work->data, TRUE);
 					work = work->next;
@@ -1775,7 +1775,7 @@ void dupe_window_add_collection(DupeWindow *dw, CollectionData *collection)
 	CollectInfo *info;
 
 	info = collection_get_first(collection);
-	while(info)
+	while (info)
 		{
 		dupe_files_add(dw, collection, info, NULL, FALSE);
 		info = collection_next_by_info(collection, info);
@@ -1789,7 +1789,7 @@ void dupe_window_add_files(DupeWindow *dw, GList *list, gint recurse)
 	GList *work;
 
 	work = list;
-	while(work)
+	while (work)
 		{
 		FileData *fd = work->data;
 		work = work->next;
@@ -3431,7 +3431,7 @@ static void dupe_dnd_data_get(GtkWidget *widget, GdkDragContext *context,
 		case TARGET_URI_LIST:
 			list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
 			work = list;
-			while(work)
+			while (work)
 				{
 				FileData *fd = work->data;
 				if (isdir(fd->path))

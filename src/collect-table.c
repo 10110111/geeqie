@@ -293,7 +293,7 @@ void collection_table_select_all(CollectTable *ct)
 	ct->selection = NULL;
 
 	work = ct->cd->list;
-	while(work)
+	while (work)
 		{
 		ct->selection = g_list_append(ct->selection, work->data);
 		collection_table_selection_add(ct, work->data, SELECTION_SELECTED, NULL);
@@ -895,7 +895,7 @@ static void collection_table_move_focus(CollectTable *ct, gint row, gint col, gi
 		if (new_row < 0) new_row = 0;
 		if (new_row >= ct->rows) new_row = ct->rows - 1;
 
-		while(col != 0)
+		while (col != 0)
 			{
 			if (col < 0)
 				{
