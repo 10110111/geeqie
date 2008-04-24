@@ -154,7 +154,7 @@ static void config_window_apply(void)
 	gint i;
 	gint refresh = FALSE;
 
-	for(i = 0; i < GQ_EDITOR_SLOTS; i++)
+	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
 		if (i < GQ_EDITOR_GENERIC_SLOTS)
 			{

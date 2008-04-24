@@ -893,7 +893,7 @@ static void pr_overlay_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
 				gint sx, sy;
 
 				for (sx = rx; sx < rx + rw; sx += pr->tile_width)
-				    for(sy = ry; sy < ry + rh; sy += pr->tile_height)
+				    for (sy = ry; sy < ry + rh; sy += pr->tile_height)
 					{
 					gint sw, sh;
 

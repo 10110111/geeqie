@@ -631,7 +631,7 @@ static GdkPixbuf *get_xv_thumbnail(gchar *thumb_filename, gint max_w, gint max_h
 		gint i;
 
 		rgb_data = g_new(guchar, width * height * 3);
-		for(i = 0; i < width * height; i++)
+		for (i = 0; i < width * height; i++)
 			{
 			rgb_data[i * 3 + 0] = (packed_data[i] >> 5) * 36;
 			rgb_data[i * 3 + 1] = ((packed_data[i] & 28) >> 2) * 36;

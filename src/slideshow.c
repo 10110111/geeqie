@@ -56,7 +56,7 @@ static GList *generate_list(SlideShowData *ss)
 	else
 		{
 		gint i;
-		for(i = 0; i < ss->slide_count; i++)
+		for (i = 0; i < ss->slide_count; i++)
 			{
 			list = g_list_prepend(list, GINT_TO_POINTER(i));
 			}

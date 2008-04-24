@@ -133,7 +133,7 @@ static gint cache_sim_write_similarity(FILE *f, CacheData *cd)
 
 			s = y * 32;
 			p = buf;
-			for(x = 0; x < 32; x++)
+			for (x = 0; x < 32; x++)
 				{
 				*p = cd->sim->avg_r[s + x]; p++;
 				*p = cd->sim->avg_g[s + x]; p++;
