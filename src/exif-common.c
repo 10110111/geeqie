@@ -136,6 +136,18 @@ static double get_crop_factor(ExifData *exif)
 
 }
 
+static gint remove_suffix(gchar *str, const gchar *suffix, gint suffix_len)
+{
+	gint str_len = strlen(str);
+	
+	if (suffix_len < 0) suffix_len = strlen(suffix);
+	if (str_len < suffix_len) return FALSE;
+	
+	if (strcmp(str + str_len - suffix_len, suffix) != 0) return FALSE; 
+	str[str_len - suffix_len] = '\0';
+	
+	return TRUE;
+}
 
 gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid)
 {
@@ -156,35 +168,35 @@ gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_val
 		gchar *software = exif_get_data_as_text(exif, "Exif.Image.Software");
 		gchar *model2;
 		gchar *software2;
-		gint i;
-
+	
 		if (make)
 			{
 			g_strstrip(make);
-#define REMOVE_SUFFIX(str,suff)         \
-do {                                    \
-	if (g_str_has_suffix(str,suff)) \
-		str[strlen(str)-(sizeof(suff)-1)] = 0;  \
-} while (0)
-			REMOVE_SUFFIX(make," Corporation"); /* Pentax */
-			REMOVE_SUFFIX(make," OPTICAL CO.,LTD"); /* OLYMPUS */
-			REMOVE_SUFFIX(make," CORPORATION"); /* Nikon */
-		}
+
+			if (remove_suffix(make, " CORPORATION", 12)) { /* Nikon */ }
+			else if (remove_suffix(make, " Corporation", 12)) { /* Pentax */ }
+			else if (remove_suffix(make, " OPTICAL CO.,LTD", 16)) { /* OLYMPUS */ };
+			}
+
 		if (model)
 			g_strstrip(model);
-		if (software)
-			g_strstrip(software);
-		/* remove superfluous spaces (pentax K100D) */
-		for (i=0; software && software[i]; i++)
-			if (software[i] == ' ' && software[i+1] == ' ')
-				{
-				gint j;
 
-				for (j=1; software[i+j]; j++)
-					if (software[i+j] != ' ')
-						break;
-				memmove(software+i+1, software+i+j, strlen(software+i+j)+1);
-				}
+		if (software)
+			{
+			gint i;
+
+			g_strstrip(software);
+			
+			/* remove superfluous spaces (pentax K100D) */
+			for (i = 0; software[i]; i++)
+				if (software[i] == ' ' && software[i + 1] == ' ')
+					{
+					gint j;
+
+					for (j = 1; software[i + j] == ' '; j++);
+					memmove(software + i + 1, software + i + j, strlen(software + i + j) + 1);
+					}
+			}
 
 		model2 = remove_common_prefix(make, model);
 		software2 = remove_common_prefix(model2, software);
