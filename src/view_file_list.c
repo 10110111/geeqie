@@ -2031,7 +2031,7 @@ ViewFileList *vflist_new(const gchar *path, gint thumbs)
 
 	vflist_listview_add_column(vfl, FILE_COLUMN_THUMB, "", TRUE, FALSE, FALSE);
 
-	for (i = 0; i < FILEDATA_MARKS_SIZE;i++)
+	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
     		vflist_listview_add_column_toggle(vfl, i + FILE_COLUMN_MARKS, "");
 
 	vflist_listview_add_column(vfl, FILE_COLUMN_NAME, _("Name"), FALSE, FALSE, FALSE);
