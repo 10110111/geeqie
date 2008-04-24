@@ -376,6 +376,7 @@ struct _BookMarkData
 
 	gint no_defaults;
 	gint editable;
+	gint only_directories;
 
 	BookButtonData *active_button;
 };
@@ -1010,11 +1011,12 @@ static void bookmark_dnd_get_data(GtkWidget *widget,
 		gchar *path = work->data;
 		gchar *buf;
 
+		work = work->next;
+
+		if (bm->only_directories && !isdir(path)) continue;
 		buf = bookmark_string(filename_from_path(path), path, NULL);
 		history_list_add_to_key(bm->key, buf, 0);
 		g_free(buf);
-
-		work = work->next;
 		}
 
 	string_list_free(list);
@@ -1048,6 +1050,7 @@ GtkWidget *bookmark_list_new(const gchar *key,
 
 	bm->no_defaults = FALSE;
 	bm->editable = TRUE;
+	bm->only_directories = FALSE;
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
@@ -1112,6 +1115,16 @@ void bookmark_list_set_editable(GtkWidget *list, gint editable)
 	if (!bm) return;
 
 	bm->editable = editable;
+}
+
+void bookmark_list_set_only_directories(GtkWidget *list, gint only_directories)
+{
+	BookMarkData *bm;
+
+	bm = g_object_get_data(G_OBJECT(list), BOOKMARK_DATA_KEY);
+	if (!bm) return;
+
+	bm->only_directories = only_directories;
 }
 
 void bookmark_list_add(GtkWidget *list, const gchar *name, const gchar *path)

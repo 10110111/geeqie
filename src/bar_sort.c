@@ -135,6 +135,7 @@ static void bar_sort_mode_sync(SortData *sd, SortModeType mode)
 
 	bookmark_list_set_no_defaults(sd->bookmarks, !folder_mode);
 	bookmark_list_set_editable(sd->bookmarks, folder_mode);
+	bookmark_list_set_only_directories(sd->bookmarks, folder_mode);
 
 	if (folder_mode)
 		{
