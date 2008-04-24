@@ -26,6 +26,7 @@
 #include "main.h"
 #include "filelist.h"
 
+#include "debug.h"
 #include "secure_save.h"
 #include "ui_bookmark.h"
 #include "ui_fileops.h"
@@ -94,14 +95,14 @@ gint history_list_load(const gchar *path)
 	if (!f) return FALSE;
 
 	/* first line must start with History comment */
-	if (!fgets(s_buf,1024,f) ||
+	if (!fgets(s_buf, sizeof(s_buf), f) ||
 	    strncmp(s_buf, "#History", 8) != 0)
 		{
 		fclose(f);
 		return FALSE;
 		}
 
-	while (fgets(s_buf,1024,f))
+	while (fgets(s_buf, sizeof(s_buf), f))
 		{
 		if (s_buf[0]=='#') continue;
 		if (s_buf[0]=='[')
