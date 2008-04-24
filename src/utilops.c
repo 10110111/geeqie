@@ -18,6 +18,7 @@
 #include "cache.h"
 #include "cache_maint.h"
 #include "collect.h"
+#include "debug.h"
 #include "dupe.h"
 #include "filelist.h"
 #include "image.h"

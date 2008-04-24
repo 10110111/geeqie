@@ -14,6 +14,7 @@
 #include "main.h"
 #include "color-man.h"
 
+#include "debug.h"
 #include "image.h"
 #include "ui_fileops.h"
 

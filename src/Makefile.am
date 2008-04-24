@@ -91,6 +91,8 @@ geeqie_SOURCES = \
 	color-man.h	\
 	compat.c	\
 	compat.h	\
+	debug.c		\
+	debug.h		\
 	dnd.c		\
 	dnd.h		\
 	dupe.c		\

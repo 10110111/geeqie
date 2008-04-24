@@ -14,6 +14,7 @@
 #include "main.h"
 #include "fullscreen.h"
 
+#include "debug.h"
 #include "image.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"

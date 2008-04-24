@@ -14,6 +14,7 @@
 #include "view_file_list.h"
 
 #include "cache_maint.h"
+#include "debug.h"
 #include "dnd.h"
 #include "editors.h"
 #include "img-view.h"

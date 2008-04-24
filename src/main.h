@@ -110,34 +110,6 @@
 				"%fAperture%|%fShutterSpeed%|%fISOSpeedRating%|%fFocalLength%|%fExposureBias%\n" \
 				"%fCamera%|%fFlash%" \
 
-#if 1 /* set to 0 to disable debugging code and related options */
-# ifndef DEBUG
-# define DEBUG 1
-# endif
-#endif
-#ifndef DEBUG
-# define debug 0
-#endif
-
-#ifdef DEBUG
-#define DEBUG_N(n, ...) do \
-				{ \
-				if (debug >= (n)) 	\
-					{ 		\
-					if (debug != 1) printf("%s:%d: ", __FILE__, __LINE__); \
-					printf(__VA_ARGS__); \
-					putchar('\n'); \
-					} \
-				} while (0)
-#else
-#define DEBUG_N(n, ...)  do { } while(0)
-#endif
-
-#define DEBUG_0(...) DEBUG_N(0, __VA_ARGS__)
-#define DEBUG_1(...) DEBUG_N(1, __VA_ARGS__)
-#define DEBUG_2(...) DEBUG_N(2, __VA_ARGS__)
-#define DEBUG_3(...) DEBUG_N(3, __VA_ARGS__)
-#define DEBUG_4(...) DEBUG_N(4, __VA_ARGS__)
 
 #include "typedefs.h"
 
@@ -150,11 +122,6 @@ ConfOptions *init_options(ConfOptions *options); /* TODO: move to globals.h */
 
 ConfOptions *options;
 
-
-
-#ifdef DEBUG
-extern gint debug;
-#endif
 
 
 

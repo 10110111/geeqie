@@ -17,6 +17,7 @@
 #include "cache.h"
 #include "collect.h"
 #include "collect-table.h"
+#include "debug.h"
 #include "dnd.h"
 #include "editors.h"
 #include "filelist.h"
@@ -1097,7 +1098,7 @@ static void dupe_match_rank(DupeWindow *dw)
 
 	list = dupe_match_rank_sort(dw->list);
 
-	if (debug >= 2) dupe_match_print_list(list);
+	if (required_debug_level(2)) dupe_match_print_list(list);
 
 	DEBUG_1("Similar items: %d", g_list_length(list));
 	list = dupe_match_group_trim(list, dw);
@@ -1105,7 +1106,7 @@ static void dupe_match_rank(DupeWindow *dw)
 
 	dupe_match_sort_groups(list);
 
-	if (debug) dupe_match_print_list(list);
+	if (required_debug_level(2)) dupe_match_print_list(list);
 
 	list = dupe_match_rank_sort(list);
 

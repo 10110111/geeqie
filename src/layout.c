@@ -13,8 +13,10 @@
 #include "main.h"
 #include "layout.h"
 
-#include "image.h"
 #include "color-man.h"
+#include "debug.h"
+#include "histogram.h"
+#include "image.h"
 #include "image-overlay.h"
 #include "layout_config.h"
 #include "layout_image.h"
@@ -31,7 +33,6 @@
 #include "ui_menu.h"
 #include "ui_misc.h"
 #include "ui_tabcomp.h"
-#include "histogram.h"
 
 
 #define MAINWINDOW_DEF_WIDTH 700

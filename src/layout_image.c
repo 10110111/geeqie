@@ -15,6 +15,7 @@
 
 #include "collect.h"
 #include "dnd.h"
+#include "debug.h"
 #include "editors.h"
 #include "filelist.h"
 #include "fullscreen.h"

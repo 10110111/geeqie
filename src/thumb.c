@@ -15,6 +15,7 @@
 #include "thumb.h"
 
 #include "cache.h"
+#include "debug.h"
 #include "image-load.h"
 #include "filelist.h"
 #include "pixbuf_util.h"

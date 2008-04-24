@@ -14,6 +14,7 @@
 #include "main.h"
 #include "print.h"
 
+#include "debug.h"
 #include "filelist.h"
 #include "image.h"
 #include "image-load.h"

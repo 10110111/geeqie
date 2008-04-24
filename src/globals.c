@@ -13,10 +13,6 @@
 
 #include "main.h"
 
-#ifdef DEBUG
-gint debug = FALSE;
-#endif
-
 
 ConfOptions *init_options(ConfOptions *options)
 {

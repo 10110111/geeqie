@@ -15,6 +15,7 @@
 #include "collect-io.h"
 
 #include "collect.h"
+#include "debug.h"
 #include "filelist.h"
 #include "layout_util.h"
 #include "rcfile.h"

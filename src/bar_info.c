@@ -17,6 +17,7 @@
 #include "bar_info.h"
 
 #include "cache.h"
+#include "debug.h"
 #include "filelist.h"
 #include "info.h"
 #include "secure_save.h"

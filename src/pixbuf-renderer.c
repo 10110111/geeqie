@@ -12,7 +12,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
+
 #include "pixbuf-renderer.h"
 #include "intl.h"
 
@@ -25,12 +27,11 @@
  */
 #define GQ_BUILD 1
 
-
 #ifdef GQ_BUILD
-	#include "pixbuf_util.h"
+#include "main.h"
+#include "pixbuf_util.h"
 
-	/* for debug */
-	#include "main.h"
+#include "debug.h"
 #endif
 
 

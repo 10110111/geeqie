@@ -16,6 +16,7 @@
 #include "cache.h"
 #include "collect.h"
 #include "collect-io.h"
+#include "debug.h"
 #include "dnd.h"
 #include "editors.h"
 #include "filelist.h"
@@ -745,7 +746,7 @@ static void remote_control(const gchar *arg_exec, GList *remote_list, const gcha
 			}
 
 		if (blank || cmd_list || path) g_string_append(command, " --blank");
-		if (debug) g_string_append(command, " --debug");
+		if (get_debug_level()) g_string_append(command, " --debug");
 
 		g_string_append(command, " &");
 		system(command->str);
@@ -1151,18 +1152,18 @@ static void parse_command_line_for_debug_option(int argc, char *argv[])
 
 				/* we now increment the debug state for verbosity */
 				if (cmd_line_len == len)
-					debug++;
+					debug_level_add(1);
 				else if (cmd_line[len] == '=' && g_ascii_isdigit(cmd_line[len+1]))
 					{
 					gint n = atoi(cmd_line + len + 1);
 					if (n < 0) n = 1;
-					debug += n;
+					debug_level_add(n);
 					}
 				}
 			}
 		}
 
-	DEBUG_1("debugging output enabled (level %d)", debug);
+	DEBUG_1("debugging output enabled (level %d)", get_debug_level());
 #endif
 }
 

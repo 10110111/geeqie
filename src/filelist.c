@@ -15,6 +15,7 @@
 #include "filelist.h"
 
 #include "cache.h"
+#include "debug.h"
 #include "rcfile.h"
 #include "secure_save.h"
 #include "thumb_standard.h"

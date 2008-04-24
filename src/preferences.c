@@ -15,6 +15,7 @@
 #include "preferences.h"
 
 #include "cache_maint.h"
+#include "debug.h"
 #include "editors.h"
 #include "filelist.h"
 #include "fullscreen.h"
@@ -278,7 +279,7 @@ static void config_window_apply(void)
 		}
 
 #ifdef DEBUG
-	debug = debug_c;
+	set_debug_level(debug_c);
 #endif
 
 #ifdef HAVE_LCMS
@@ -1513,7 +1514,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Debugging"), GTK_ORIENTATION_VERTICAL);
 
 	pref_spin_new_int(group, _("Debug level:"), NULL,
-			  0, 9, 1, debug, &debug_c);
+			  DEBUG_LEVEL_MIN, DEBUG_LEVEL_MAX, 1, get_debug_level(), &debug_c);
 #endif
 }
 

@@ -16,6 +16,8 @@
 #include "main.h"
 #include "secure_save.h"
 
+#include "debug.h"
+
 /* ABOUT SECURE SAVE */
 /* This code was borrowed from the ELinks project (http://elinks.cz)
  * It was originally written by me (Laurent Monin aka Zas) and heavily

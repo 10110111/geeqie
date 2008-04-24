@@ -15,11 +15,12 @@
 #include "image.h"
 
 
-#include "image-load.h"
 #include "collect.h"
 #include "color-man.h"
+#include "debug.h"
 #include "exif.h"
 #include "histogram.h"
+#include "image-load.h"
 #include "image-overlay.h"
 #include "layout.h"
 #include "layout_image.h"

@@ -13,9 +13,10 @@
 
 #include "main.h"
 #include "image-load.h"
-#include "filelist.h"
 
+#include "debug.h"
 #include "exif.h"
+#include "filelist.h"
 #include "ui_fileops.h"
 
 #include <fcntl.h>

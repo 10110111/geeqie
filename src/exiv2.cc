@@ -50,11 +50,13 @@
 
 extern "C" {
 #include <glib.h> 
+
 #include "main.h"
 #include "exif.h"
+
+#include "debug.h"
 #include "filelist.h"
 #include "ui_fileops.h"
-
 }
 
 struct _ExifData
