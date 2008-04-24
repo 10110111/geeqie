@@ -146,7 +146,7 @@ GtkWidget *generic_dialog_add_button(GenericDialog *gd, const gchar *stock_id, c
 	button = pref_button_new(NULL, stock_id, text, FALSE,
 				 G_CALLBACK(generic_dialog_click_cb), gd);
 
-	GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
 	g_object_set_data(G_OBJECT(button), "dialog_function", func_cb);
 
 	gtk_container_add(GTK_CONTAINER(gd->hbox), button);

@@ -173,7 +173,7 @@ gint cache_sim_data_save(CacheData *cd)
 	cache_sim_write_md5sum(f, cd);
 	cache_sim_write_similarity(f, cd);
 
-	fclose (f);
+	fclose(f);
 
 	return TRUE;
 }

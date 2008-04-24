@@ -670,8 +670,8 @@ static void vd_dnd_get(GtkWidget *widget, GdkDragContext *context,
 		}
 	if (uritext)
 		{
-		gtk_selection_data_set (selection_data, selection_data->target,
-				8, (guchar *)uritext, length);
+		gtk_selection_data_set(selection_data, selection_data->target,
+				       8, (guchar *)uritext, length);
 		g_free(uritext);
 		}
 }

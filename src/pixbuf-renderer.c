@@ -1016,7 +1016,7 @@ gint pixbuf_renderer_overlay_add(PixbufRenderer *pr, GdkPixbuf *pixbuf, gint x, 
 	attributes_mask = 0;
 
 	od->window = gdk_window_new(GTK_WIDGET(pr)->window, &attributes, attributes_mask);
-	gdk_window_set_user_data (od->window, pr);
+	gdk_window_set_user_data(od->window, pr);
 	gdk_window_move(od->window, px, py);
 	gdk_window_show(od->window);
 

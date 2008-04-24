@@ -128,7 +128,7 @@ static void image_sim_channel_equal(guint8 *pix, gint len)
 		p++;
 		}
 
-	qsort (buf, len, sizeof(gint) * 2, image_sim_channel_eq_sort_cb);
+	qsort(buf, len, sizeof(gint) * 2, image_sim_channel_eq_sort_cb);
 
 	p = 0;
 	for (i = 0; i < len; i++)

@@ -3129,7 +3129,7 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 	gtk_window_set_default_size(GTK_WINDOW(dw->window), DUPE_DEF_WIDTH, DUPE_DEF_HEIGHT);
 
 	gtk_window_set_resizable(GTK_WINDOW(dw->window), TRUE);
-	gtk_container_set_border_width (GTK_CONTAINER (dw->window), 0);
+	gtk_container_set_border_width(GTK_CONTAINER (dw->window), 0);
 
 	g_signal_connect(G_OBJECT(dw->window), "delete_event",
 			 G_CALLBACK(dupe_window_delete), dw);

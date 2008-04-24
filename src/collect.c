@@ -980,7 +980,7 @@ static void collection_window_get_geometry(CollectWindow *cw)
 	if (!cw) return;
 
 	cd = cw->cd;
-	gdk_window_get_position (cw->window->window, &cd->window_x, &cd->window_y);
+	gdk_window_get_position(cw->window->window, &cd->window_x, &cd->window_y);
 	gdk_drawable_get_size(cw->window->window, &cd->window_w, &cd->window_h);
 	cd->window_read = TRUE;
 }
@@ -1212,7 +1212,7 @@ CollectWindow *collection_window_new(const gchar *path)
 
 	gtk_window_set_resizable(GTK_WINDOW(cw->window), TRUE);
 	collection_window_update_title(cw);
-	gtk_container_set_border_width (GTK_CONTAINER (cw->window), 0);
+	gtk_container_set_border_width(GTK_CONTAINER (cw->window), 0);
 
 	g_signal_connect(G_OBJECT(cw->window), "delete_event",
 			 G_CALLBACK(collection_window_delete), cw);

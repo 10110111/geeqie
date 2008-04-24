@@ -992,7 +992,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 				 strcmp(cmd_line, "--remote-help") == 0)
 				{
 				remote_help();
-				exit (0);
+				exit(0);
 				}
 			else if (strcmp(cmd_line, "--blank") == 0)
 				{
@@ -1002,7 +1002,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 				 strcmp(cmd_line, "--version") == 0)
 				{
 				printf("%s %s\n", GQ_APPNAME, VERSION);
-				exit (0);
+				exit(0);
 				}
 			else if (strcmp(cmd_line, "--alternate") == 0)
 				{
@@ -1036,7 +1036,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 				print_term(  "  --alternate                use alternate similarity algorithm\n");
 #endif
 
-				exit (0);
+				exit(0);
 				}
 			else if (!remote_do)
 				{
@@ -1341,7 +1341,7 @@ int main (int argc, char *argv[])
 
 	parse_command_line(argc, argv, &cmd_path, &cmd_file, &cmd_list, &collection_list, &geometry);
 
-	gtk_init (&argc, &argv);
+	gtk_init(&argc, &argv);
 
 	if (gtk_major_version < GTK_MAJOR_VERSION ||
 	    (gtk_major_version == GTK_MAJOR_VERSION && gtk_minor_version < GTK_MINOR_VERSION) )
@@ -1497,6 +1497,6 @@ int main (int argc, char *argv[])
 	remote_server_subscribe(remote_connection, remote_cb, NULL);
 	g_free(buf);
 
-	gtk_main ();
+	gtk_main();
 	return 0;
 }

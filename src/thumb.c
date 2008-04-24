@@ -112,7 +112,7 @@ static gint thumb_loader_mark_failure(ThumbLoader *tl)
 			{
 			struct utimbuf ut;
 
-			fclose (f);
+			fclose(f);
 
 			ut.actime = ut.modtime = filetime(tl->path);
 			if (ut.modtime > 0)

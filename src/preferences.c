@@ -845,7 +845,7 @@ static void config_tab_general(GtkWidget *notebook)
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), PREF_PAD_BORDER);
 	gtk_widget_show(vbox);
 	label = gtk_label_new(_("General"));
-	gtk_notebook_append_page (GTK_NOTEBOOK(notebook), vbox, label);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, label);
 
 	group = pref_group_new(vbox, FALSE, _("Startup"), GTK_ORIENTATION_VERTICAL);
 
@@ -921,7 +921,7 @@ static void config_tab_image(GtkWidget *notebook)
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), PREF_PAD_BORDER);
 	gtk_widget_show(vbox);
 	label = gtk_label_new(_("Image"));
-	gtk_notebook_append_page (GTK_NOTEBOOK(notebook), vbox, label);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, label);
 
 	group = pref_group_new(vbox, FALSE, _("Zoom"), GTK_ORIENTATION_VERTICAL);
 
@@ -1574,7 +1574,7 @@ static void config_window_create(void)
 		}
 
 	notebook = gtk_notebook_new();
-	gtk_notebook_set_tab_pos (GTK_NOTEBOOK(notebook), GTK_POS_TOP);
+	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);
 	gtk_box_pack_start(GTK_BOX(win_vbox), notebook, TRUE, TRUE, 0);
 
 	config_tab_general(notebook);

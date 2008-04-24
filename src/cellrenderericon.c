@@ -71,7 +71,7 @@ enum {
 static gpointer parent_class;
 
 GType
-gqv_cell_renderer_icon_get_type (void)
+gqv_cell_renderer_icon_get_type(void)
 {
 	static GType cell_icon_type = 0;
 
@@ -79,13 +79,13 @@ gqv_cell_renderer_icon_get_type (void)
 		{
 		static const GTypeInfo cell_icon_info =
 			{
-			sizeof (GQvCellRendererIconClass),
+			sizeof(GQvCellRendererIconClass),
 			NULL,		/* base_init */
 			NULL,		/* base_finalize */
 			(GClassInitFunc) gqv_cell_renderer_icon_class_init,
 			NULL,		/* class_finalize */
 			NULL,		/* class_data */
-			sizeof (GQvCellRendererIcon),
+			sizeof(GQvCellRendererIcon),
 			0,		/* n_preallocs */
 		(GInstanceInitFunc) gqv_cell_renderer_icon_init,
 		};
@@ -99,14 +99,14 @@ gqv_cell_renderer_icon_get_type (void)
 }
 
 static void
-gqv_cell_renderer_icon_init (GQvCellRendererIcon *cellicon)
+gqv_cell_renderer_icon_init(GQvCellRendererIcon *cellicon)
 {
 	GTK_CELL_RENDERER(cellicon)->xpad = 2;
 	GTK_CELL_RENDERER(cellicon)->ypad = 2;
 }
 
 static void
-gqv_cell_renderer_icon_class_init (GQvCellRendererIconClass *class)
+gqv_cell_renderer_icon_class_init(GQvCellRendererIconClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS (class);
@@ -155,7 +155,7 @@ gqv_cell_renderer_icon_class_init (GQvCellRendererIconClass *class)
 
 	g_object_class_install_property(object_class,
 					PROP_FOCUSED,
-					g_param_spec_boolean ("has_focus",
+					g_param_spec_boolean("has_focus",
 							_("Focus"),
 							_("Draw focus indicator"),
 							FALSE,
@@ -189,7 +189,7 @@ gqv_cell_renderer_icon_class_init (GQvCellRendererIconClass *class)
 
 	g_object_class_install_property(object_class,
 					PROP_FOREGROUND_SET,
-					g_param_spec_boolean ("foreground_set",
+					g_param_spec_boolean("foreground_set",
 							_("Foreground set"),
 							_("Whether this tag affects the foreground color"),
 							FALSE,
@@ -205,15 +205,15 @@ gqv_cell_renderer_icon_class_init (GQvCellRendererIconClass *class)
 }
 
 static void
-gqv_cell_renderer_icon_finalize (GObject *object)
+gqv_cell_renderer_icon_finalize(GObject *object)
 {
-	GQvCellRendererIcon *cellicon = GQV_CELL_RENDERER_ICON (object);
+	GQvCellRendererIcon *cellicon = GQV_CELL_RENDERER_ICON(object);
 
 	if (cellicon->pixbuf) g_object_unref (cellicon->pixbuf);
 
 	g_free(cellicon->text);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize)(object);
 }
 
 static void
@@ -222,16 +222,16 @@ gqv_cell_renderer_icon_get_property(GObject	*object,
 				    GValue	*value,
 				    GParamSpec	*pspec)
 {
-	GQvCellRendererIcon *cellicon = GQV_CELL_RENDERER_ICON (object);
+	GQvCellRendererIcon *cellicon = GQV_CELL_RENDERER_ICON(object);
 
 	switch (param_id)
 		{
 		case PROP_PIXBUF:
 		g_value_set_object(value,
-      				   cellicon->pixbuf ? G_OBJECT (cellicon->pixbuf) : NULL);
+      				   cellicon->pixbuf ? G_OBJECT(cellicon->pixbuf) : NULL);
 		break;
 	case PROP_TEXT:
-		g_value_set_string (value, cellicon->text);
+		g_value_set_string(value, cellicon->text);
 		break;
 	case PROP_BACKGROUND_GDK:
 		{
@@ -241,7 +241,7 @@ gqv_cell_renderer_icon_get_property(GObject	*object,
 		color.green = cellicon->background.green;
 		color.blue = cellicon->background.blue;
 
-		g_value_set_boxed (value, &color);
+		g_value_set_boxed(value, &color);
 		}
 		break;
 	case PROP_FOREGROUND_GDK:
@@ -252,11 +252,11 @@ gqv_cell_renderer_icon_get_property(GObject	*object,
 		color.green = cellicon->foreground.green;
 		color.blue = cellicon->foreground.blue;
 
-		g_value_set_boxed (value, &color);
+		g_value_set_boxed(value, &color);
 		}
 		break;
 	case PROP_FOCUSED:
-		g_value_set_boolean (value, cellicon->focused);
+		g_value_set_boolean(value, cellicon->focused);
 		break;
 	case PROP_FIXED_WIDTH:
 		g_value_set_int(value, cellicon->fixed_width);
@@ -274,14 +274,14 @@ gqv_cell_renderer_icon_get_property(GObject	*object,
 		g_value_set_boolean(value, cellicon->show_text);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, param_id, pspec);
 		break;
 	}
 }
 
 static void
-set_bg_color (GQvCellRendererIcon *cellicon,
-	      GdkColor		  *color)
+set_bg_color(GQvCellRendererIcon *cellicon,
+	     GdkColor		  *color)
 {
 	if (color)
 		{
@@ -305,8 +305,8 @@ set_bg_color (GQvCellRendererIcon *cellicon,
 		}
 }
 
-static void set_fg_color (GQvCellRendererIcon *cellicon,
-			  GdkColor	      *color)
+static void set_fg_color(GQvCellRendererIcon *cellicon,
+			 GdkColor	      *color)
 {
 	if (color)
 		{
@@ -386,7 +386,7 @@ gqv_cell_renderer_icon_set_property(GObject		*object,
 		cellicon->show_text = g_value_get_boolean(value);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, param_id, pspec);
 		break;
     }
 }

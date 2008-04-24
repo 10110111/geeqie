@@ -1098,17 +1098,17 @@ static void image_focus_paint(ImageWindow *imd, gint has_focus, GdkRectangle *ar
 
 	if (has_focus)
 		{
-		gtk_paint_focus (widget->style, widget->window, GTK_STATE_ACTIVE,
-				 area, widget, "image_window",
-				 widget->allocation.x, widget->allocation.y,
-				 widget->allocation.width - 1, widget->allocation.height - 1);
+		gtk_paint_focus(widget->style, widget->window, GTK_STATE_ACTIVE,
+				area, widget, "image_window",
+				widget->allocation.x, widget->allocation.y,
+				widget->allocation.width - 1, widget->allocation.height - 1);
 		}
 	else
 		{
-		gtk_paint_shadow (widget->style, widget->window, GTK_STATE_NORMAL, GTK_SHADOW_IN,
-				  area, widget, "image_window",
-				  widget->allocation.x, widget->allocation.y,
-				  widget->allocation.width - 1, widget->allocation.height - 1);
+		gtk_paint_shadow(widget->style, widget->window, GTK_STATE_NORMAL, GTK_SHADOW_IN,
+				 area, widget, "image_window",
+				 widget->allocation.x, widget->allocation.y,
+				 widget->allocation.width - 1, widget->allocation.height - 1);
 		}
 }
 
@@ -1833,7 +1833,7 @@ void image_to_root_window(ImageWindow *imd, gint scaled)
 
 	pb = gdk_pixbuf_scale_simple(pixbuf, width, height, (GdkInterpType)options->image.zoom_quality);
 
-	gdk_pixbuf_render_pixmap_and_mask (pb, &pixmap, NULL, 128);
+	gdk_pixbuf_render_pixmap_and_mask(pb, &pixmap, NULL, 128);
 	gdk_window_set_back_pixmap(rootwindow, pixmap, FALSE);
 	gdk_window_clear(rootwindow);
 	g_object_unref(pb);
@@ -1865,12 +1865,12 @@ void image_set_selectable(ImageWindow *imd, gboolean selectable)
 		if (selectable)
 			{
 			gtk_frame_set_shadow_type(GTK_FRAME(imd->frame), GTK_SHADOW_NONE);
-			gtk_container_set_border_width (GTK_CONTAINER (imd->frame), 4);
+			gtk_container_set_border_width(GTK_CONTAINER (imd->frame), 4);
 			}
 		else
 			{
 			gtk_frame_set_shadow_type(GTK_FRAME(imd->frame), GTK_SHADOW_NONE);
-			gtk_container_set_border_width (GTK_CONTAINER (imd->frame), 0);
+			gtk_container_set_border_width(GTK_CONTAINER (imd->frame), 0);
 			}
 		}
 }
@@ -1947,12 +1947,12 @@ static void image_destroy_cb(GtkObject *widget, gpointer data)
 	image_free(imd);
 }
 
-gboolean selectable_frame_expose_cb (GtkWidget *widget, GdkEventExpose *event, gpointer data)
+gboolean selectable_frame_expose_cb(GtkWidget *widget, GdkEventExpose *event, gpointer data)
 {
 	gtk_paint_flat_box(widget->style,
 			   widget->window,
 			   widget->state,
-			   GTK_FRAME (widget)->shadow_type,
+			   (GTK_FRAME(widget))->shadow_type,
 			   NULL,
 			   widget,
 			   NULL,
@@ -1979,8 +1979,8 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 		if (imd->has_frame != -1) gtk_container_remove(GTK_CONTAINER(imd->widget), imd->pr);
 		gtk_container_add(GTK_CONTAINER(imd->frame), imd->pr);
 		gtk_widget_unref(imd->pr);
-		g_signal_connect (G_OBJECT (imd->frame), "expose_event",
-		    G_CALLBACK (selectable_frame_expose_cb), NULL);
+		g_signal_connect(G_OBJECT(imd->frame), "expose_event",
+		    		 G_CALLBACK(selectable_frame_expose_cb), NULL);
 
 		GTK_WIDGET_SET_FLAGS(imd->frame, GTK_CAN_FOCUS);
 		g_signal_connect(G_OBJECT(imd->frame), "focus_in_event",

@@ -1874,8 +1874,8 @@ static void vflist_listview_add_column(ViewFileList *vfl, gint n, const gchar *t
 		}
 
 	gtk_tree_view_column_set_cell_data_func(column, renderer, vflist_listview_color_cb, vfl, NULL);
-	g_object_set_data (G_OBJECT (column), "column_store_idx", GUINT_TO_POINTER(n));
-	g_object_set_data (G_OBJECT (renderer), "column_store_idx", GUINT_TO_POINTER(n));
+	g_object_set_data(G_OBJECT(column), "column_store_idx", GUINT_TO_POINTER(n));
+	g_object_set_data(G_OBJECT(renderer), "column_store_idx", GUINT_TO_POINTER(n));
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(vfl->listview), column);
 }
@@ -1916,8 +1916,8 @@ static void vflist_listview_add_column_toggle(ViewFileList *vfl, gint n, const g
 	column = gtk_tree_view_column_new_with_attributes(title, renderer, "active", n, NULL);
 
 	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
-	g_object_set_data (G_OBJECT (column), "column_store_idx", GUINT_TO_POINTER(n));
-	g_object_set_data (G_OBJECT (renderer), "column_store_idx", GUINT_TO_POINTER(n));
+	g_object_set_data(G_OBJECT(column), "column_store_idx", GUINT_TO_POINTER(n));
+	g_object_set_data(G_OBJECT(renderer), "column_store_idx", GUINT_TO_POINTER(n));
 
 	index = gtk_tree_view_append_column(GTK_TREE_VIEW(vfl->listview), column);
 	gtk_tree_view_column_set_fixed_width(column, 16);
@@ -2044,7 +2044,7 @@ ViewFileList *vflist_new(const gchar *path, gint thumbs)
 	g_signal_connect(G_OBJECT(vfl->listview), "key_press_event",
 			 G_CALLBACK(vflist_press_key_cb), vfl);
 
-	gtk_container_add (GTK_CONTAINER(vfl->widget), vfl->listview);
+	gtk_container_add(GTK_CONTAINER(vfl->widget), vfl->listview);
 	gtk_widget_show(vfl->listview);
 
 	vflist_dnd_init(vfl);

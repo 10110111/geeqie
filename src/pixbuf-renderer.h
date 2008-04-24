@@ -157,12 +157,12 @@ struct _PixbufRendererClass
 {
 	GtkEventBoxClass parent_class;
 
-	void (* zoom)		(PixbufRenderer *pr, gdouble zoom);
-	void (* clicked)	(PixbufRenderer *pr, GdkEventButton *event);
-	void (* scroll_notify)	(PixbufRenderer *pr);
+	void (*zoom)(PixbufRenderer *pr, gdouble zoom);
+	void (*clicked)(PixbufRenderer *pr, GdkEventButton *event);
+	void (*scroll_notify)(PixbufRenderer *pr);
 
-	void (* render_complete)(PixbufRenderer *pr);
-	void (* drag)		(PixbufRenderer *pr, GdkEventButton *event);
+	void (*render_complete)(PixbufRenderer *pr);
+	void (*drag)(PixbufRenderer *pr, GdkEventButton *event);
 };
 
 

@@ -967,15 +967,15 @@ static void layout_image_dnd_get(GtkWidget *widget, GdkDragContext *context,
 		g_list_free(list);
 		if (text)
 			{
-			gtk_selection_data_set (selection_data, selection_data->target,
-						8, (guchar *)text, len);
+			gtk_selection_data_set(selection_data, selection_data->target,
+					       8, (guchar *)text, len);
 			g_free(text);
 			}
 		}
 	else
 		{
-		gtk_selection_data_set (selection_data, selection_data->target,
-					8, NULL, 0);
+		gtk_selection_data_set(selection_data, selection_data->target,
+				       8, NULL, 0);
 		}
 }
 
@@ -1857,7 +1857,7 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 			{
 			gdouble sx, sy;
 			image_change_fd(lw->split_images[1],
-				image_get_fd(lw->image), image_zoom_get(lw->image));
+					image_get_fd(lw->image), image_zoom_get(lw->image));
 			image_get_scroll_center(lw->image, &sx, &sy);
 			image_set_scroll_center(lw->split_images[1], sx, sy);
 			}
@@ -1887,15 +1887,15 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 
 	/* horizontal split means vpaned and vice versa */
 	if (horizontal)
-		paned = gtk_vpaned_new ();
+		paned = gtk_vpaned_new();
 	else
-		paned = gtk_hpaned_new ();
+		paned = gtk_hpaned_new();
 
-	gtk_paned_pack1 (GTK_PANED (paned), lw->split_images[0]->widget, TRUE, TRUE);
-	gtk_paned_pack2 (GTK_PANED (paned), lw->split_images[1]->widget, TRUE, TRUE);
+	gtk_paned_pack1(GTK_PANED(paned), lw->split_images[0]->widget, TRUE, TRUE);
+	gtk_paned_pack2(GTK_PANED(paned), lw->split_images[1]->widget, TRUE, TRUE);
 
-	gtk_widget_show (lw->split_images[0]->widget);
-	gtk_widget_show (lw->split_images[1]->widget);
+	gtk_widget_show(lw->split_images[0]->widget);
+	gtk_widget_show(lw->split_images[1]->widget);
 
 
 	lw->split_image_widget = paned;
@@ -1963,24 +1963,25 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 		layout_image_activate(lw, 0);
 		}
 
-	hpaned = gtk_hpaned_new ();
-	vpaned1 = gtk_vpaned_new ();
-	vpaned2 = gtk_vpaned_new ();
+	hpaned = gtk_hpaned_new();
+	vpaned1 = gtk_vpaned_new();
+	vpaned2 = gtk_vpaned_new();
 
-	gtk_paned_pack1 (GTK_PANED (vpaned1), lw->split_images[0]->widget, TRUE, TRUE);
-	gtk_paned_pack2 (GTK_PANED (vpaned1), lw->split_images[2]->widget, TRUE, TRUE);
+	gtk_paned_pack1(GTK_PANED(vpaned1), lw->split_images[0]->widget, TRUE, TRUE);
+	gtk_paned_pack2(GTK_PANED(vpaned1), lw->split_images[2]->widget, TRUE, TRUE);
 
-	gtk_paned_pack1 (GTK_PANED (vpaned2), lw->split_images[1]->widget, TRUE, TRUE);
-	gtk_paned_pack2 (GTK_PANED (vpaned2), lw->split_images[3]->widget, TRUE, TRUE);
+	gtk_paned_pack1(GTK_PANED(vpaned2), lw->split_images[1]->widget, TRUE, TRUE);
+	gtk_paned_pack2(GTK_PANED(vpaned2), lw->split_images[3]->widget, TRUE, TRUE);
 
-	gtk_paned_pack1 (GTK_PANED (hpaned), vpaned1, TRUE, TRUE);
-	gtk_paned_pack2 (GTK_PANED (hpaned), vpaned2, TRUE, TRUE);
+	gtk_paned_pack1(GTK_PANED(hpaned), vpaned1, TRUE, TRUE);
+	gtk_paned_pack2(GTK_PANED(hpaned), vpaned2, TRUE, TRUE);
 
 
 	for (i=0; i < 4; i++)
-		gtk_widget_show (lw->split_images[i]->widget);
-	gtk_widget_show (vpaned1);
-	gtk_widget_show (vpaned2);
+		gtk_widget_show(lw->split_images[i]->widget);
+
+	gtk_widget_show(vpaned1);
+	gtk_widget_show(vpaned2);
 
 
 	lw->split_image_widget = hpaned;

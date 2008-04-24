@@ -140,7 +140,7 @@ static void bar_sort_mode_sync(SortData *sd, SortModeType mode)
 		{
 		gtk_widget_hide(sd->collection_group);
 		gtk_widget_show(sd->folder_group);
-		bookmark_list_set_key(sd->bookmarks, SORT_KEY_FOLDERS );
+		bookmark_list_set_key(sd->bookmarks, SORT_KEY_FOLDERS);
 		}
 	else
 		{

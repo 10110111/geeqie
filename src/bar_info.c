@@ -476,7 +476,7 @@ void keyword_list_push(GtkWidget *textview, GList *list)
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
 	gtk_text_buffer_get_bounds(buffer, &start, &end);
-	gtk_text_buffer_delete (buffer, &start, &end);
+	gtk_text_buffer_delete(buffer, &start, &end);
 
 	while (list)
 		{

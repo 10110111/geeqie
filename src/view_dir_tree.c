@@ -57,8 +57,8 @@ static void set_cursor(GtkWidget *widget, GdkCursorType cursor_type)
 
 	if (!widget || !widget->window) return;
 
-	if (cursor_type > -1) cursor = gdk_cursor_new (cursor_type);
-	gdk_window_set_cursor (widget->window, cursor);
+	if (cursor_type > -1) cursor = gdk_cursor_new(cursor_type);
+	gdk_window_set_cursor(widget->window, cursor);
 	if (cursor) gdk_cursor_unref(cursor);
 	gdk_flush();
 }

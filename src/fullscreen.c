@@ -43,12 +43,12 @@ static void clear_mouse_cursor(GtkWidget *widget, gint state)
 		GdkCursor *cursor;
 
 		cursor = gdk_cursor_new(GDK_WATCH);
-		gdk_window_set_cursor (widget->window, cursor);
+		gdk_window_set_cursor(widget->window, cursor);
 		gdk_cursor_unref(cursor);
 		}
 	else if (state & FULLSCREEN_CURSOR_NORMAL)
 		{
-		gdk_window_set_cursor (widget->window, NULL);
+		gdk_window_set_cursor(widget->window, NULL);
 		}
 	else
 		{
@@ -62,7 +62,7 @@ static void clear_mouse_cursor(GtkWidget *widget, gint state)
 						    &widget->style->bg[GTK_STATE_ACTIVE],
 						    0, 0);
 
-		gdk_window_set_cursor (widget->window, cursor);
+		gdk_window_set_cursor(widget->window, cursor);
 
 		gdk_cursor_unref(cursor);
 		g_object_unref(p);
@@ -190,7 +190,7 @@ static void fullscreen_saver_deactivate(void)
 
 	if (found)
 		{
-		system (XSCREENSAVER_COMMAND);
+		system(XSCREENSAVER_COMMAND);
 		}
 }
 

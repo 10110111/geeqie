@@ -64,10 +64,10 @@ struct _GQvCellRendererIconClass
 	GtkCellRendererClass parent_class;
 
 	/* Padding for future expansion */
-	void (*_gtk_reserved1) (void);
-	void (*_gtk_reserved2) (void);
-	void (*_gtk_reserved3) (void);
-	void (*_gtk_reserved4) (void);
+	void (*_gtk_reserved1)(void);
+	void (*_gtk_reserved2)(void);
+	void (*_gtk_reserved3)(void);
+	void (*_gtk_reserved4)(void);
 };
 
 GType            gqv_cell_renderer_icon_get_type (void);

@@ -1387,9 +1387,9 @@ static void layout_actions_setup_marks(LayoutWindow *lw)
 	error = NULL;
 	if (!gtk_ui_manager_add_ui_from_string(lw->ui_manager, desc->str, -1, &error))
 		{
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
-		exit (EXIT_FAILURE);
+		g_message("building menus failed: %s", error->message);
+		g_error_free(error);
+		exit(EXIT_FAILURE);
 		}
 	g_string_free(desc, TRUE);
 }
@@ -1424,9 +1424,9 @@ void layout_actions_setup(LayoutWindow *lw)
 	error = NULL;
 	if (!gtk_ui_manager_add_ui_from_string(lw->ui_manager, menu_ui_description, -1, &error))
 		{
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
-		exit (EXIT_FAILURE);
+		g_message("building menus failed: %s", error->message);
+		g_error_free(error);
+		exit(EXIT_FAILURE);
 		}
 	
 	layout_actions_setup_marks(lw);

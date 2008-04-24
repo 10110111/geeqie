@@ -612,7 +612,7 @@ static void button_cb(ImageWindow *imd, gint button, guint32 time,
 			break;
 		case MOUSE_BUTTON_RIGHT:
 			menu = view_popup_menu(vw);
-			gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, time);
+			gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, time);
 			break;
 		default:
 			break;
@@ -1571,15 +1571,15 @@ static void view_window_set_dnd_data(GtkWidget *widget, GdkDragContext *context,
 		g_list_free(list);
 		if (text)
 			{
-			gtk_selection_data_set (selection_data, selection_data->target,
-						8, (guchar *)text, len);
+			gtk_selection_data_set(selection_data, selection_data->target,
+					       8, (guchar *)text, len);
 			g_free(text);
 			}
 		}
 	else
 		{
-		gtk_selection_data_set (selection_data, selection_data->target,
-					8, NULL, 0);
+		gtk_selection_data_set(selection_data, selection_data->target,
+				       8, NULL, 0);
 		}
 }
 

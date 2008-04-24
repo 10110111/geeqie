@@ -978,11 +978,11 @@ static PipeError *pipe_handler_new(void)
 	pe->error = &pipe_handler_error;
 
 	new_action.sa_handler = pipe_handler_sigpipe_cb;
-	sigemptyset (&new_action.sa_mask);
+	sigemptyset(&new_action.sa_mask);
 	new_action.sa_flags = 0;
 
 	/* setup our signal handler */
-	sigaction (SIGPIPE, &new_action, &pe->old_action);
+	sigaction(SIGPIPE, &new_action, &pe->old_action);
 
 	pipe_handler_data = pe;
 	return pe;
@@ -994,7 +994,7 @@ static void pipe_handler_free(PipeError *pe)
 	if (pe != pipe_handler_data) printf("warning SIGPIPE handler not closing same data\n");
 
 	/* restore the original signal handler */
-	sigaction (SIGPIPE, &pe->old_action, NULL);
+	sigaction(SIGPIPE, &pe->old_action, NULL);
 
 	pipe_handler_data = NULL;
 	g_free(pe);

@@ -288,11 +288,11 @@ gint remote_client_send(RemoteConnection *rc, const gchar *text)
 	sigpipe_occured = FALSE;
 
 	new_action.sa_handler = sighandler_sigpipe;
-	sigemptyset (&new_action.sa_mask);
+	sigemptyset(&new_action.sa_mask);
 	new_action.sa_flags = 0;
 
 	/* setup our signal handler */
-	sigaction (SIGPIPE, &new_action, &old_action);
+	sigaction(SIGPIPE, &new_action, &old_action);
 
 	if (write(rc->fd, text, strlen(text)) == -1 ||
 	    write(rc->fd, "\n", 1) == -1)
@@ -313,7 +313,7 @@ gint remote_client_send(RemoteConnection *rc, const gchar *text)
 		}
 
 	/* restore the original signal handler */
-	sigaction (SIGPIPE, &old_action, NULL);
+	sigaction(SIGPIPE, &old_action, NULL);
 
 	return ret;
 }
