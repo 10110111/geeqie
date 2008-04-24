@@ -92,7 +92,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 
 	if (!path) path = cd->path;
 
-	DEBUG_1("collection load: append=%d flush=%d only_geometry=%d path=%s\n",
+	DEBUG_1("collection load: append=%d flush=%d only_geometry=%d path=%s",
 			  append, flush, only_geometry, path);
 
 	/* load it */
@@ -156,7 +156,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 				changed |= collect_manager_process_action(entry, &buf);
 
 			valid = (buf[0] == '/' && collection_add_check(cd, file_data_new_simple(buf), FALSE, TRUE));
-			if (!valid) DEBUG_1("collection invalid file: %s\n", buf);
+			if (!valid) DEBUG_1("collection invalid file: %s", buf);
 			g_free(buf);
 
 			total++;
@@ -175,7 +175,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 			}
 		}
 
-	DEBUG_1("collection files: total = %d fail = %d official=%d gqview=%d geometry=%d\n",
+	DEBUG_1("collection files: total = %d fail = %d official=%d gqview=%d geometry=%d",
 			  total, fail, has_official_header, has_gqview_header, has_geometry_header);
 
 	fclose(f);
@@ -292,7 +292,7 @@ static void collection_load_thumb_step(CollectionData *cd)
 	if (!thumb_loader_start(cd->thumb_loader, ci->fd->path))
 		{
 		/* error, handle it, do next */
-		DEBUG_1("error loading thumb for %s\n", ci->fd->path);
+		DEBUG_1("error loading thumb for %s", ci->fd->path);
 		collection_load_thumb_do(cd);
 		collection_load_thumb_step(cd);
 		}
@@ -721,7 +721,7 @@ static void collect_manager_refresh(void)
 
 static void collect_manager_process_actions(gint max)
 {
-	if (collection_manager_action_list) DEBUG_1("collection manager processing actions\n");
+	if (collection_manager_action_list) DEBUG_1("collection manager processing actions");
 	
 	while (collection_manager_action_list != NULL && max > 0)
 		{
@@ -820,13 +820,13 @@ static gint collect_manager_process_cb(gpointer data)
 
 	if (collect_manager_process_entry_list()) return TRUE;
 
-	DEBUG_1("collection manager is up to date\n");
+	DEBUG_1("collection manager is up to date");
 	return FALSE;
 }
 
 static gint collect_manager_timer_cb(gpointer data)
 {
-	DEBUG_1("collection manager timer expired\n");
+	DEBUG_1("collection manager timer expired");
 
 	g_idle_add_full(G_PRIORITY_LOW, collect_manager_process_cb, NULL, NULL);
 
@@ -848,7 +848,7 @@ static void collect_manager_timer_push(gint stop)
 		{
 		collection_manager_timer_id = g_timeout_add(COLLECT_MANAGER_FLUSH_DELAY,
 							    collect_manager_timer_cb, NULL);
-		DEBUG_1("collection manager timer started\n");
+		DEBUG_1("collection manager timer started");
 		}
 }
 
@@ -925,6 +925,6 @@ void collect_manager_flush(void)
 {
 	collect_manager_timer_push(TRUE);
 
-	DEBUG_1("collection manager flushing\n");
+	DEBUG_1("collection manager flushing");
 	while (collect_manager_process_cb(NULL));
 }

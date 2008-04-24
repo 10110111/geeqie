@@ -235,7 +235,8 @@ static gint thumb_loader_std_fail_check(ThumbLoaderStd *tl)
 			if (mtime_str && strtol(mtime_str, NULL, 10) == tl->source_mtime)
 				{
 				result = TRUE;
-				DEBUG_1("thumb fail valid: %s\n           thumb: %s\n", tl->source_path, fail_path);
+				DEBUG_1("thumb fail valid: %s", tl->source_path);
+				DEBUG_1("           thumb: %s", fail_path);
 				}
 
 			g_object_unref(G_OBJECT(pixbuf));
@@ -332,7 +333,8 @@ static void thumb_loader_std_save(ThumbLoaderStd *tl, GdkPixbuf *pixbuf)
 		}
 	g_free(base_path);
 
-	DEBUG_1("thumb saving: %s\n       saved: %s\n", tl->source_path, tl->thumb_path);
+	DEBUG_1("thumb saving: %s", tl->source_path);
+	DEBUG_1("       saved: %s", tl->thumb_path);
 
 	/* save thumb, using a temp file then renaming into place */
 	tmp_path = unique_filename(tl->thumb_path, ".tmp", "_", 2);
@@ -367,10 +369,10 @@ static void thumb_loader_std_save(ThumbLoaderStd *tl, GdkPixbuf *pixbuf)
 		g_free(mark_app);
 
 		g_free(tmp_path);
-		if (!success && debug)
+		if (!success)
 			{
-			printf("thumb save failed: %s\n", tl->source_path);
-			printf("            thumb: %s\n", tl->thumb_path);
+			DEBUG_1("thumb save failed: %s", tl->source_path);
+			DEBUG_1("            thumb: %s", tl->thumb_path);
 			}
 
 		}
@@ -451,7 +453,7 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 
 			tl->cache_hit = FALSE;
 
-			DEBUG_1("thumb copied: %s\n", tl->source_path);
+			DEBUG_1("thumb copied: %s", tl->source_path);
 
 			thumb_loader_std_save(tl, pixbuf);
 			}
@@ -500,7 +502,7 @@ static gint thumb_loader_std_next_source(ThumbLoaderStd *tl, gint remove_broken)
 		{
 		if (!tl->thumb_path_local && remove_broken)
 			{
-			DEBUG_1("thumb broken, unlinking: %s\n", tl->thumb_path);
+			DEBUG_1("thumb broken, unlinking: %s", tl->thumb_path);
 			unlink_file(tl->thumb_path);
 			}
 
@@ -532,12 +534,13 @@ static void thumb_loader_std_done_cb(ImageLoader *il, gpointer data)
 	ThumbLoaderStd *tl = data;
 	GdkPixbuf *pixbuf;
 
-	DEBUG_1("thumb image done: %s\n            from: %s\n", tl->source_path, tl->il->path);
+	DEBUG_1("thumb image done: %s", tl->source_path);
+	DEBUG_1("            from: %s", tl->il->path);
 
 	pixbuf = image_loader_get_pixbuf(tl->il);
 	if (!pixbuf)
 		{
-		DEBUG_1("...but no pixbuf\n");
+		DEBUG_1("...but no pixbuf");
 		thumb_loader_std_error_cb(il, data);
 		return;
 		}
@@ -568,7 +571,8 @@ static void thumb_loader_std_error_cb(ImageLoader *il, gpointer data)
 		return;
 		}
 	
-	DEBUG_1("thumb image error: %s\n             from: %s\n", tl->source_path, tl->il->fd->path);
+	DEBUG_1("thumb image error: %s", tl->source_path);
+	DEBUG_1("             from: %s", tl->il->fd->path);
 
 	if (thumb_loader_std_next_source(tl, TRUE)) return;
 
@@ -805,7 +809,7 @@ static void thumb_loader_std_thumb_file_validate_done_cb(ThumbLoaderStd *tl, gpo
 				{
 				struct stat st;
 
-				DEBUG_1("thumb uri foreign, doing day check: %s\n", uri);
+				DEBUG_1("thumb uri foreign, doing day check: %s", uri);
 
 				if (stat_utf8(tv->path, &st))
 					{
@@ -886,7 +890,7 @@ static void thumb_std_maint_remove_one(const gchar *source, const gchar *uri, gi
 					  local, subfolder);
 	if (isfile(thumb_path))
 		{
-		DEBUG_1("thumb removing: %s\n", thumb_path);
+		DEBUG_1("thumb removing: %s", thumb_path);
 		unlink_file(thumb_path);
 		}
 	g_free(thumb_path);
@@ -975,12 +979,12 @@ static void thumb_std_maint_move_validate_cb(const gchar *path, gint valid, gpoi
 			tm->tl->thumb_path = NULL;
 			tm->tl->thumb_path_local = FALSE;
 
-			DEBUG_1("thumb move attempting save:\n");
+			DEBUG_1("thumb move attempting save:");
 
 			thumb_loader_std_save(tm->tl, pixbuf);
 			}
 
-		DEBUG_1("thumb move unlink: %s\n", tm->thumb_path);
+		DEBUG_1("thumb move unlink: %s", tm->thumb_path);
 		unlink_file(tm->thumb_path);
 		}
 

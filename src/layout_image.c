@@ -858,7 +858,7 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 		}
 	if (i < MAX_SPLIT_IMAGES)
 		{
-		DEBUG_1("dnd image activate %d\n", i);
+		DEBUG_1("dnd image activate %d", i);
 		layout_image_activate(lw, i);
 		}
 
@@ -938,7 +938,7 @@ static void layout_image_dnd_get(GtkWidget *widget, GdkDragContext *context,
 		}
 	if (i < MAX_SPLIT_IMAGES)
 		{
-		DEBUG_1("dnd get from %d\n", i);
+		DEBUG_1("dnd get from %d", i);
 		fd = image_get_fd(lw->split_images[i]);
 		}
 	else
@@ -1571,7 +1571,7 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkScrollDirection directio
 
 	if (i != -1)
 		{
-		DEBUG_1("image activate scroll %d\n", i);
+		DEBUG_1("image activate scroll %d", i);
 		layout_image_activate(lw, i);
 		}
 

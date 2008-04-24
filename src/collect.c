@@ -365,7 +365,7 @@ void collection_free(CollectionData *cd)
 {
 	if (!cd) return;
 
-	DEBUG_1("collection \"%s\" freed\n", cd->name);
+	DEBUG_1("collection \"%s\" freed", cd->name);
 
 	collection_load_stop(cd);
 	collection_list_free(cd->list);
@@ -384,14 +384,14 @@ void collection_ref(CollectionData *cd)
 {
 	cd->ref++;
 
-	DEBUG_1("collection \"%s\" ref count = %d\n", cd->name, cd->ref);
+	DEBUG_1("collection \"%s\" ref count = %d", cd->name, cd->ref);
 }
 
 void collection_unref(CollectionData *cd)
 {
 	cd->ref--;
 
-	DEBUG_1("collection \"%s\" ref count = %d\n", cd->name, cd->ref);
+	DEBUG_1("collection \"%s\" ref count = %d", cd->name, cd->ref);
 
 	if (cd->ref < 1)
 		{
@@ -624,7 +624,7 @@ gint collection_add_check(CollectionData *cd, FileData *fd, gint sorted, gint mu
 
 		ci = collection_info_new_if_not_exists(cd, &st, fd);
 		if (!ci) return FALSE;
-		DEBUG_3("add to collection: %s\n", fd->path);
+		DEBUG_3("add to collection: %s", fd->path);
 
 		cd->list = collection_list_add(cd->list, ci, sorted ? cd->sort_method : SORT_NONE);
 		cd->changed = TRUE;
@@ -660,7 +660,7 @@ gint collection_insert(CollectionData *cd, FileData *fd, CollectInfo *insert_ci,
 		ci = collection_info_new_if_not_exists(cd, &st, fd);
 		if (!ci) return FALSE;
 
-		DEBUG_3("insert in collection: %s\n", fd->path);
+		DEBUG_3("insert in collection: %s", fd->path);
 
 		cd->list = collection_list_insert(cd->list, ci, insert_ci, sorted ? cd->sort_method : SORT_NONE);
 		cd->changed = TRUE;

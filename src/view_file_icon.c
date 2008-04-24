@@ -909,7 +909,7 @@ static void vficon_select_region_util(ViewFileIcon *vfi, IconData *start, IconDa
 		col2 = t;
 		}
 
-	DEBUG_1("table: %d x %d to %d x %d\n", row1, col1, row2, col2);
+	DEBUG_1("table: %d x %d to %d x %d", row1, col1, row2, col2);
 
 	for (i = row1; i <= row2; i++)
 		{
@@ -1743,7 +1743,7 @@ static void vficon_populate_at_new_size(ViewFileIcon *vfi, gint w, gint h, gint 
 
 	vficon_populate(vfi, TRUE, TRUE);
 
-	DEBUG_1("col tab pop cols=%d rows=%d\n", vfi->columns, vfi->rows);
+	DEBUG_1("col tab pop cols=%d rows=%d", vfi->columns, vfi->rows);
 }
 
 static void vficon_sync(ViewFileIcon *vfi)
@@ -2010,7 +2010,7 @@ static gint vficon_thumb_next(ViewFileIcon *vfi)
 	if (!thumb_loader_start(vfi->thumbs_loader, fd->path))
 		{
 		/* set icon to unknown, continue */
-		DEBUG_1("thumb loader start failed %s\n", vfi->thumbs_loader->path);
+		DEBUG_1("thumb loader start failed %s", vfi->thumbs_loader->path);
 		vficon_thumb_do(vfi, vfi->thumbs_loader, fd);
 
 		return TRUE;
@@ -2626,7 +2626,7 @@ gint vficon_maint_removed(ViewFileIcon *vfi, FileData *fd, GList *ignore_list)
 			if (ignore_list)
 				{
 				new_row = vficon_maint_find_closest(vfi, row, n, ignore_list);
-				DEBUG_1("row = %d, closest is %d\n", row, new_row);
+				DEBUG_1("row = %d, closest is %d", row, new_row);
 				}
 			else
 				{

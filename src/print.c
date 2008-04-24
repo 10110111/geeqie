@@ -932,7 +932,7 @@ static GList *print_window_list_printers(void)
 		while (*end != '\0' && *end != '\n' && *end != ' ' && *end != '\t') end++;
 		*end = '\0';
 		list = g_list_append(list, g_strdup(ptr));
-		DEBUG_1("adding printer: %s\n", ptr);
+		DEBUG_1("adding printer: %s", ptr);
 		}
 
 	pclose(p);

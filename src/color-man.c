@@ -164,7 +164,7 @@ static ColorManCache *color_man_cache_new(ColorManProfileType in_type, const gch
 
 	if (!cc->profile_in || !cc->profile_out)
 		{
-		DEBUG_1("failed to load color profile for %s: %d %s\n",
+		DEBUG_1("failed to load color profile for %s: %d %s",
 				  (!cc->profile_in) ? "input" : "screen",
 				  (!cc->profile_in) ? cc->profile_in_type : cc->profile_out_type,
 				  (!cc->profile_in) ? cc->profile_in_file : cc->profile_out_file);
@@ -181,7 +181,7 @@ static ColorManCache *color_man_cache_new(ColorManProfileType in_type, const gch
 
 	if (!cc->transform)
 		{
-		DEBUG_1("failed to create color profile transform\n");
+		DEBUG_1("failed to create color profile transform");
 
 		color_man_cache_unref(cc);
 		return NULL;

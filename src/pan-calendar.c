@@ -236,7 +236,7 @@ void pan_calendar_compute(PanWindow *pw, const gchar *path, gint *width, gint *h
 			}
 		}
 
-	DEBUG_1("biggest day contains %d images\n", day_max);
+	DEBUG_1("biggest day contains %d images", day_max);
 
 	grid = (gint)(sqrt((double)day_max) + 0.5) * (PAN_THUMB_SIZE + PAN_SHADOW_OFFSET * 2 + PAN_THUMB_GAP);
 	day_width = MAX(PAN_CAL_DAY_WIDTH, grid);

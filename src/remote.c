@@ -97,7 +97,8 @@ static gboolean remote_server_client_cb(GIOChannel *source, GIOCondition conditi
 		{
 		rc->clients = g_list_remove(rc->clients, client);
 
-		DEBUG_1("HUP detected, closing client.\nclient count %d\n", g_list_length(rc->clients));
+		DEBUG_1("HUP detected, closing client.");
+		DEBUG_1("client count %d", g_list_length(rc->clients));
 		
 		g_source_remove(client->channel_id);
 		close(client->fd);
@@ -129,7 +130,7 @@ static void remote_server_client_add(RemoteConnection *rc, int fd)
 	g_io_channel_unref(channel);
 
 	rc->clients = g_list_append(rc->clients, client);
-	DEBUG_1("client count %d\n", g_list_length(rc->clients));
+	DEBUG_1("client count %d", g_list_length(rc->clients));
 }
 
 static void remote_server_clients_close(RemoteConnection *rc)
@@ -252,7 +253,7 @@ RemoteConnection *remote_client_open(const gchar *path)
 	strncpy(addr.sun_path, path, sun_path_len);
 	if (connect(fd, &addr, sizeof(addr)) == -1)
 		{
-		DEBUG_1("error connecting to socket: %s\n", strerror(errno));
+		DEBUG_1("error connecting to socket: %s", strerror(errno));
 		close(fd);
 		return NULL;
 		}

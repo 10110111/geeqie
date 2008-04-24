@@ -126,6 +126,7 @@
 					{ 		\
 					if (debug != 1) printf("%s:%d: ", __FILE__, __LINE__); \
 					printf(__VA_ARGS__); \
+					putchar('\n'); \
 					} \
 				} while (0)
 #else

@@ -1246,7 +1246,7 @@ static gint vflist_thumb_next(ViewFileList *vfl)
 	if (!thumb_loader_start(vfl->thumbs_loader, fd->path))
 		{
 		/* set icon to unknown, continue */
-		DEBUG_1("thumb loader start failed %s\n", vfl->thumbs_loader->path);
+		DEBUG_1("thumb loader start failed %s", vfl->thumbs_loader->path);
 		vflist_thumb_do(vfl, vfl->thumbs_loader, fd);
 
 		return TRUE;
@@ -2246,7 +2246,7 @@ gint vflist_maint_removed(ViewFileList *vfl, FileData *fd, GList *ignore_list)
 		if (ignore_list)
 			{
 			new_row = vflist_maint_find_closest(vfl, row, n, ignore_list);
-			DEBUG_1("row = %d, closest is %d\n", row, new_row);
+			DEBUG_1("row = %d, closest is %d", row, new_row);
 			}
 		else
 			{

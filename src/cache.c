@@ -457,7 +457,7 @@ CacheData *cache_sim_data_load(const gchar *path)
 	if (fread(&buf, sizeof(char), 9, f) != 9 ||
 	    strncmp(buf, "SIMcache", 8) != 0)
 		{
-		DEBUG_1("%s is not a cache file\n", cd->path);
+		DEBUG_1("%s is not a cache file", cd->path);
 		success = 0;
 		}
 
@@ -601,7 +601,7 @@ gint cache_ensure_dir_exists(gchar *path, mode_t mode)
 					}
 				if (!isdir(path))
 					{
-					DEBUG_1("creating sub dir:%s\n", path);
+					DEBUG_1("creating sub dir:%s", path);
 					if (!mkdir_utf8(path, mode))
 						{
 						printf("create dir failed: %s\n", path);
@@ -770,7 +770,7 @@ gint cache_time_valid(const gchar *cache, const gchar *path)
 			if (utime(cachel, &ut) < 0 &&
 			    errno == EPERM)
 				{
-				DEBUG_1("cache permission workaround: %s\n", cachel);
+				DEBUG_1("cache permission workaround: %s", cachel);
 				ret = TRUE;
 				}
 			}

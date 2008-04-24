@@ -406,7 +406,7 @@ static void collection_table_select_region_util(CollectTable *ct, CollectInfo *s
 		col2 = t;
 		}
 
-	DEBUG_1("table: %d x %d to %d x %d\n", row1, col1, row2, col2);
+	DEBUG_1("table: %d x %d to %d x %d", row1, col1, row2, col2);
 
 	for (i = row1; i <= row2; i++)
 		{
@@ -1652,7 +1652,7 @@ static void collection_table_populate_at_new_size(CollectTable *ct, gint w, gint
 
 	collection_table_populate(ct, TRUE);
 
-	DEBUG_1("col tab pop cols=%d rows=%d\n", ct->columns, ct->rows);
+	DEBUG_1("col tab pop cols=%d rows=%d", ct->columns, ct->rows);
 }
 
 static void collection_table_sync(CollectTable *ct)
@@ -2072,7 +2072,7 @@ static void collection_table_dnd_receive(GtkWidget *widget, GdkDragContext *cont
 	CollectInfo *drop_info;
 	GList *work;
 
-	DEBUG_1("%s\n", selection_data->data);
+	DEBUG_1("%s", selection_data->data);
 
 	collection_table_scroll(ct, FALSE);
 	collection_table_insert_marker(ct, NULL, FALSE);

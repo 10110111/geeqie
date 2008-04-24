@@ -84,7 +84,7 @@ struct _ExifData
 		image->readMetadata();
 
 #if EXIV2_TEST_VERSION(0,16,0)
-		DEBUG_2("xmp count %li\n", image->xmpData().count());
+		DEBUG_2("xmp count %li", image->xmpData().count());
 		if (sidecar_path && image->xmpData().empty())
 			{
 			gchar *sidecar_pathl = path_from_utf8(sidecar_path);
@@ -92,7 +92,7 @@ struct _ExifData
 			g_free(sidecar_pathl);
 			sidecar->readMetadata();
 			have_sidecar = sidecar->good();
-			DEBUG_2("sidecar xmp count %li\n", sidecar->xmpData().count());
+			DEBUG_2("sidecar xmp count %li", sidecar->xmpData().count());
 			}
 
 #endif
@@ -145,7 +145,7 @@ extern "C" {
 
 ExifData *exif_read(gchar *path, gchar *sidecar_path)
 {
-	DEBUG_1("exif read %s,  sidecar: %s\n", path, sidecar_path ? sidecar_path : "-");
+	DEBUG_1("exif read %s, sidecar: %s", path, sidecar_path ? sidecar_path : "-");
 	try {
 		return new ExifData(path, sidecar_path);
 	}
@@ -769,7 +769,7 @@ extern "C" gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 	try {
 		RawFile rf(fd);
 		offset = rf.preview_offset();
-		DEBUG_1("%s: offset %lu\n", path, offset);
+		DEBUG_1("%s: offset %lu", path, offset);
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";

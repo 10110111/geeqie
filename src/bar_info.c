@@ -111,7 +111,7 @@ static gint comment_legacy_write(FileData *fd, GList *keywords, const gchar *com
 		{
 		gchar *comment_pathl;
 
-		DEBUG_1("Saving comment: %s\n", comment_path);
+		DEBUG_1("Saving comment: %s", comment_path);
 
 		comment_pathl = path_from_utf8(comment_path);
 

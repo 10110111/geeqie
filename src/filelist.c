@@ -199,7 +199,7 @@ void filter_add_defaults(void)
 			i++;
 			}
 
-		DEBUG_1("loader reported [%s] [%s] [%s]\n", name, desc, filter->str);
+		DEBUG_1("loader reported [%s] [%s] [%s]", name, desc, filter->str);
 
 		filter_add_if_missing(name, desc, filter->str, FORMAT_CLASS_IMAGE, TRUE);
 
@@ -767,7 +767,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 {
 	FileData *fd;
 
-	DEBUG_1("file_data_new: '%s' %d\n", path_utf8, check_sidecars);
+	DEBUG_1("file_data_new: '%s' %d", path_utf8, check_sidecars);
 
 	if (!file_data_pool)
 		file_data_pool = g_hash_table_new (g_str_hash, g_str_equal);
@@ -776,7 +776,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	if (fd)
 		{
 		file_data_check_changed_files(fd, st);
-		DEBUG_1("file_data_pool hit: '%s'\n", fd->path);
+		DEBUG_1("file_data_pool hit: '%s'", fd->path);
 		return file_data_ref(fd);
 		}
 
@@ -930,7 +930,7 @@ void file_data_unref(FileData *fd)
 	g_assert(fd->magick == 0x12345678);
 
 	fd->ref--;
-	DEBUG_1("file_data_unref (%d): '%s'\n", fd->ref, fd->path);
+	DEBUG_1("file_data_unref (%d): '%s'", fd->ref, fd->path);
 
 	if (fd->ref == 0)
 		{
@@ -952,7 +952,7 @@ void file_data_unref(FileData *fd)
 
 		/* none of parent/children is referenced, we can free everything */
 
-		DEBUG_1("file_data_unref: deleting '%s', parent '%s'\n", fd->path, parent->path);
+		DEBUG_1("file_data_unref: deleting '%s', parent '%s'", fd->path, parent->path);
 
 		work = parent->sidecar_files;
 		while (work)

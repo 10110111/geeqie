@@ -180,7 +180,7 @@ static void image_loader_error(ImageLoader *il)
 {
 	image_loader_stop(il);
 
-	DEBUG_1("pixbuf_loader reported load error for: %s\n", image_loader_path(il));
+	DEBUG_1("pixbuf_loader reported load error for: %s", image_loader_path(il));
 
 	if (il->func_error) il->func_error(il, il->data_error);
 }
@@ -237,7 +237,7 @@ static gint image_loader_begin(ImageLoader *il)
 	if (b > 0 &&
 	    format_raw_img_exif_offsets_fd(il->load_fd, image_loader_path(il), il->read_buffer, b, &offset, NULL))
 		{
-		DEBUG_1("Raw file %s contains embedded image\n", image_loader_path(il));
+		DEBUG_1("Raw file %s contains embedded image", image_loader_path(il));
 
 		b = read(il->load_fd, il->read_buffer, il->read_buffer_size);
 		}
@@ -350,7 +350,7 @@ static ImageLoader *image_loader_new_real(FileData *fd, const gchar *path)
 	il->requested_width = 0;
 	il->requested_height = 0;
 	il->shrunk = FALSE;
-	DEBUG_1("new image loader %p, bufsize=%u idle_loop=%u\n", il, il->read_buffer_size, il->idle_read_loop_count);
+	DEBUG_1("new image loader %p, bufsize=%u idle_loop=%u", il, il->read_buffer_size, il->idle_read_loop_count);
 	return il;
 }
 
@@ -374,7 +374,7 @@ void image_loader_free(ImageLoader *il)
 	if (il->fd) file_data_unref(il->fd);
 	if (il->path) g_free(il->path);
 	if (il->read_buffer) g_free(il->read_buffer);
-	DEBUG_1("freeing image loader %p bytes_read=%d\n", il, il->bytes_read);
+	DEBUG_1("freeing image loader %p bytes_read=%d", il, il->bytes_read);
 	g_free(il);
 }
 

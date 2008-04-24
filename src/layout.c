@@ -1032,7 +1032,7 @@ void layout_refresh(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return;
 
-	DEBUG_1("layout refresh\n");
+	DEBUG_1("layout refresh");
 
 	layout_refresh_lists(lw);
 
@@ -1053,7 +1053,7 @@ static gint layout_check_for_update_cb(gpointer data)
 
 		if (new_time > 0 && new_time > lw->last_time)
 			{
-			DEBUG_1("layout path time changed, refreshing...\n");
+			DEBUG_1("layout path time changed, refreshing...");
 			layout_refresh_by_time(lw);
 			}
 		}
