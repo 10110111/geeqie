@@ -852,7 +852,7 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 	gint i;
 
 
-	for (i=0; i < MAX_SPLIT_IMAGES; i++)
+	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i] && lw->split_images[i]->pr == widget)
 			break;
@@ -932,7 +932,7 @@ static void layout_image_dnd_get(GtkWidget *widget, GdkDragContext *context,
 	gint i;
 
 
-	for (i=0; i < MAX_SPLIT_IMAGES; i++)
+	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i] && lw->split_images[i]->pr == widget)
 			break;
@@ -1058,7 +1058,7 @@ void layout_image_zoom_adjust(LayoutWindow *lw, gdouble increment)
 
 	image_zoom_adjust(lw->image, increment);
 
-	for (i=0; i < MAX_SPLIT_IMAGES; i++)
+	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i] && lw->split_images[i] != lw->image && lw->connect_zoom)
 			image_zoom_adjust(lw->split_images[i], increment); ;
@@ -1523,7 +1523,7 @@ static gint image_idx(LayoutWindow *lw, ImageWindow *imd)
 {
 	gint i;
 
-	for (i=0; i < MAX_SPLIT_IMAGES; i++)
+	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i] == imd)
 			break;
@@ -1817,7 +1817,7 @@ GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
 		image_set_selectable(lw->split_images[0], 0);
 		}
 
-	for (i=1; i < MAX_SPLIT_IMAGES; i++)
+	for (i = 1; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i])
 			{
@@ -1871,7 +1871,7 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 		}
 
 
-	for (i=2; i < MAX_SPLIT_IMAGES; i++)
+	for (i = 2; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i])
 			{
@@ -1926,7 +1926,7 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 		layout_image_activate(lw, 0);
 		}
 
-	for (i=1; i < 4; i++)
+	for (i = 1; i < 4; i++)
 		if (!lw->split_images[i])
 			{
 			layout_image_new(lw, i);
@@ -1948,7 +1948,7 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 			image_set_selectable(lw->split_images[i], 1);
 			}
 
-	for (i=4; i < MAX_SPLIT_IMAGES; i++)
+	for (i = 4; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i])
 			{
@@ -1977,7 +1977,7 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 	gtk_paned_pack2(GTK_PANED(hpaned), vpaned2, TRUE, TRUE);
 
 
-	for (i=0; i < 4; i++)
+	for (i = 0; i < 4; i++)
 		gtk_widget_show(lw->split_images[i]->widget);
 
 	gtk_widget_show(vpaned1);

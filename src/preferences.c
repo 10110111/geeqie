@@ -301,7 +301,7 @@ static void config_window_apply(void)
 	if (buf && strlen(buf) > 0) options->color_profile.screen_file = g_strdup(buf);
 #endif
 
-	for (i=0; ExifUIList[i].key; i++)
+	for (i = 0; ExifUIList[i].key; i++)
 		{
 		ExifUIList[i].current = ExifUIList[i].temp;
 		}
