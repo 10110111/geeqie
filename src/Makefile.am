@@ -118,7 +118,6 @@ geeqie_SOURCES = \
 	format_raw.h	\
 	fullscreen.c	\
 	fullscreen.h	\
-	globals.c	\
 	histogram.c	\
 	histogram.h	\
 	image.c		\
@@ -145,6 +144,8 @@ geeqie_SOURCES = \
 	md5-util.h	\
 	menu.c		\
 	menu.h		\
+	options.c	\
+	options.h	\
 	pan-calendar.c	\
 	pan-folder.c	\
 	pan-grid.c	\
