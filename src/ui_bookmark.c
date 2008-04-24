@@ -152,8 +152,7 @@ gint history_list_save(const gchar *path)
 		return FALSE;
 		}
 
-	secure_fprintf(ssi, "#History lists\n");
-	secure_fprintf(ssi, "\n");
+	secure_fprintf(ssi, "#History lists\n\n");
 
 	list = g_list_last(history_list);
 	while(list && secsave_errno == SS_ERR_NONE)
