@@ -1414,7 +1414,7 @@ void layout_actions_setup(LayoutWindow *lw)
 					   menu_split_radio_entries, G_N_ELEMENTS(menu_split_radio_entries),
 					   0, G_CALLBACK(layout_menu_split_cb), lw);
 	gtk_action_group_add_radio_actions(lw->action_group,
-					   menu_view_dir_radio_entries, G_N_ELEMENTS(menu_view_dir_radio_entries),
+					   menu_view_dir_radio_entries, VIEW_DIR_TYPES_COUNT,
 					   0, G_CALLBACK(layout_menu_view_dir_as_cb), lw);
 
 	lw->ui_manager = gtk_ui_manager_new();

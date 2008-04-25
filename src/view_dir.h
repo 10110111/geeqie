@@ -20,7 +20,8 @@ enum {
 	DIR_COLUMN_COUNT
 };
 
-extern GtkRadioActionEntry menu_view_dir_radio_entries[2];
+#define VIEW_DIR_TYPES_COUNT 1
+extern GtkRadioActionEntry menu_view_dir_radio_entries[VIEW_DIR_TYPES_COUNT];
 
 ViewDir *vd_new(DirViewType type, const gchar *path);
 

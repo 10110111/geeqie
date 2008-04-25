@@ -1913,7 +1913,7 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 
 	layout_config_parse(options->layout.style, options->layout.order,
 			    &lw->dir_location,  &lw->file_location, &lw->image_location);
-	lw->dir_view_type = options->layout.dir_view_type;
+	lw->dir_view_type = CLAMP(options->layout.dir_view_type, 0, VIEW_DIR_TYPES_COUNT - 1);
 	lw->icon_view = options->layout.view_as_icons;
 
 	/* divider positions */

@@ -58,6 +58,8 @@ static void vd_destroy_cb(GtkWidget *widget, gpointer data)
 
 ViewDir *vd_new(DirViewType type, const gchar *path)
 {
+	g_assert(VIEW_DIR_TYPES_COUNT <= G_N_ELEMENTS(menu_view_dir_radio_entries));
+
 	ViewDir *vd = g_new0(ViewDir, 1);
 
 	vd->path = NULL;
@@ -618,7 +620,7 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 	submenu = gtk_menu_new();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 
-	for (i = 0; i < G_N_ELEMENTS(menu_view_dir_radio_entries); i++)
+	for (i = 0; i < VIEW_DIR_TYPES_COUNT; i++)
 		{
 		item = menu_item_add_check(submenu, _(menu_view_dir_radio_entries[i].label),
 					   (vd->type == menu_view_dir_radio_entries[i].value),
