@@ -1,0 +1,37 @@
+Please keep the general coding style of Geeqie:
+
+Space after if, while and for:
+
+while (...)
+for (...)
+if (...)
+
+Indentation of {}:
+
+while (...)
+	{
+	...
+	}
+
+if (...)
+	{
+	...
+	}
+else
+	{
+	...
+	}
+
+Spaces around operators:
+
+i = 2;
+
+Space after comma:
+func(a, b, c);
+
+Use glib functions when possible (ie. g_ascii_isspace() instead of isspace()).
+Please use glib types when possible (ie. gint and gchar instead of int and char)
+.
+
+Check twice the indentation and spurious whitespaces.
+
