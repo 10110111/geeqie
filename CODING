@@ -35,3 +35,4 @@ Please use glib types when possible (ie. gint and gchar instead of int and char)
 
 Check twice the indentation and spurious whitespaces.
 
+Try to use explicit variable and function names
