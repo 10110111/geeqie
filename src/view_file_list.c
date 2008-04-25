@@ -768,8 +768,17 @@ static gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 	    !(bevent->state & GDK_CONTROL_MASK ) &&
 	    vflist_row_is_selected(vfl, fd))
 		{
+		GtkTreeSelection *selection;
+
 		gtk_widget_grab_focus(widget);
-//		return TRUE; // FIXME - expand
+
+
+		/* returning FALSE and further processing of the event is needed for 
+		   correct operation of the expander, to show the sidecar files.
+		   It however resets the selection of multiple files. With this condition
+		   it should work for both cases */
+		selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(widget));
+		return (gtk_tree_selection_count_selected_rows(selection) > 1);
 		}
 
 #if 0
