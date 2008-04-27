@@ -138,6 +138,8 @@ geeqie_SOURCES = \
 	layout_image.h	\
 	layout_util.c	\
 	layout_util.h	\
+	lirc.c		\
+	lirc.h		\
 	main.c		\
 	main.h		\
 	md5-util.c	\

@@ -33,7 +33,9 @@
 #include "ui_menu.h"
 #include "ui_misc.h"
 #include "ui_tabcomp.h"
-
+#ifdef HAVE_LIRC
+#include "lirc.h"
+#endif
 
 #define MAINWINDOW_DEF_WIDTH 700
 #define MAINWINDOW_DEF_HEIGHT 500
@@ -1975,6 +1977,10 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 			 G_CALLBACK(layout_delete_cb), lw);
 
 	layout_keyboard_init(lw, lw->window);
+
+#ifdef HAVE_LIRC
+	layout_image_lirc_init(lw);
+#endif
 
 	lw->main_box = gtk_vbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(lw->window), lw->main_box);

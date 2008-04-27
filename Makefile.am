@@ -6,7 +6,7 @@ DIST_SUBDIRS = src po doc
 man_MANS = geeqie.1
 
 readmedir = @readmedir@
-readme_DATA = README COPYING ChangeLog TODO
+readme_DATA = README COPYING ChangeLog TODO README.lirc
 
 desktopdir = $(datadir)/applications
 desktop_DATA = geeqie.desktop

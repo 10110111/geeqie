@@ -75,7 +75,7 @@ Supporta anche l'uso di editor grafici esterni.
 %install
 make install DESTDIR=%{buildroot}
 
-%__install AUTHORS COPYING ChangeLog NEWS README "%{buildroot}/%{_docdir}/%{docname}/"
+%__install AUTHORS COPYING ChangeLog NEWS README README.lirc "%{buildroot}/%{_docdir}/%{docname}/"
 
 %clean
 %__rm -rf "%{buildroot}"
