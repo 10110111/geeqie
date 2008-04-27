@@ -1194,27 +1194,27 @@ void layout_image_set_index(LayoutWindow *lw, gint index)
 
  		for (last = y = x; y; y = y->next)
  			last = y;
-		for (y = x; y && ((gint)y->data) != index; y = y->next)
+		for (y = x; y && (GPOINTER_TO_INT(y->data)) != index; y = y->next)
 			;
 
 		if (y)
 			{
 			gint newindex;
 
-			if ((index > old && (index != (gint) last->data || old != (gint) x->data))
- 	        	    || (old == (gint) last->data && index == (gint) x->data))
+			if ((index > old && (index != GPOINTER_TO_INT(last->data) || old != GPOINTER_TO_INT(x->data)))
+ 	        	    || (old == GPOINTER_TO_INT(last->data) && index == GPOINTER_TO_INT(x->data)))
 				{
 				if (y->next)
- 					newindex = (gint) y->next->data;
+					newindex = GPOINTER_TO_INT(y->next->data);
 				else
- 					newindex = (gint) x->data;
+					newindex = GPOINTER_TO_INT(x->data);
 				}
 			else
 				{
 				if (y->prev)
-					newindex = (gint) y->prev->data;
+					newindex = GPOINTER_TO_INT(y->prev->data);
 				else
-					newindex = (gint) last->data;
+					newindex = GPOINTER_TO_INT(last->data);
  	    			}
 
 			read_ahead_fd = layout_list_get_fd(lw, newindex);
@@ -1338,14 +1338,14 @@ void layout_image_next(LayoutWindow *lw)
 		gint old = layout_list_get_index(lw, layout_image_get_path(lw));
 		GList *y;
 
-		for (y = x; y && ((gint) y->data) != old; y = y->next)
+		for (y = x; y && (GPOINTER_TO_INT(y->data)) != old; y = y->next)
 			;
 		if (y)
 			{
 			if (y->next)
-				layout_image_set_index(lw, (gint) y->next->data);
+				layout_image_set_index(lw, GPOINTER_TO_INT(y->next->data));
 			else
-				layout_image_set_index(lw, (gint) x->data);
+				layout_image_set_index(lw, GPOINTER_TO_INT(x->data));
 			}
 		while (x)
 			x = g_list_remove(x, x->data);
@@ -1411,14 +1411,14 @@ void layout_image_prev(LayoutWindow *lw)
 
 		for (last = y = x; y; y = y->next)
 			last = y;
-		for (y = x; y && ((gint) y->data) != old; y = y->next)
+		for (y = x; y && (GPOINTER_TO_INT(y->data)) != old; y = y->next)
 			;
 		if (y)
 			{
 			if (y->prev)
-				layout_image_set_index(lw, (gint) y->prev->data);
+				layout_image_set_index(lw, GPOINTER_TO_INT(y->prev->data));
 			else
-				layout_image_set_index(lw, (gint) last->data);
+				layout_image_set_index(lw, GPOINTER_TO_INT(last->data));
 			}
 		while (x)
 			x = g_list_remove(x, x->data);
