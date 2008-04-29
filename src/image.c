@@ -1294,6 +1294,11 @@ void image_change_fd(ImageWindow *imd, FileData *fd, gdouble zoom)
 	image_change_real(imd, fd, NULL, NULL, zoom);
 }
 
+gint image_get_image_size(ImageWindow *imd, gint *width, gint *height)
+{
+	return pixbuf_renderer_get_image_size(PIXBUF_RENDERER(imd->pr), width, height);
+}
+
 GdkPixbuf *image_get_pixbuf(ImageWindow *imd)
 {
 	return pixbuf_renderer_get_pixbuf((PixbufRenderer *)imd->pr);

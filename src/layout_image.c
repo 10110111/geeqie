@@ -1046,9 +1046,28 @@ void layout_image_to_root(LayoutWindow *lw)
 
 void layout_image_scroll(LayoutWindow *lw, gint x, gint y)
 {
+	gdouble dx, dy;
+	gint width, height, i;
 	if (!layout_valid(&lw)) return;
 
 	image_scroll(lw->image, x, y);
+
+	image_get_image_size(lw->image, &width, &height);
+	dx = (gdouble) x / width;
+	dy = (gdouble) y / height;
+	
+	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
+		{
+		if (lw->split_images[i] && lw->split_images[i] != lw->image && lw->connect_scroll)
+			{
+			gdouble sx, sy;
+			image_get_scroll_center(lw->split_images[i], &sx, &sy);
+			sx += dx;
+			sy += dy;
+			image_set_scroll_center(lw->split_images[i], sx, sy);
+			}
+		}
+
 }
 
 void layout_image_zoom_adjust(LayoutWindow *lw, gdouble increment)
@@ -1062,6 +1081,20 @@ void layout_image_zoom_adjust(LayoutWindow *lw, gdouble increment)
 		{
 		if (lw->split_images[i] && lw->split_images[i] != lw->image && lw->connect_zoom)
 			image_zoom_adjust(lw->split_images[i], increment); ;
+		}
+}
+
+void layout_image_zoom_adjust_at_point(LayoutWindow *lw, gdouble increment, gint x, gint y)
+{
+	gint i;
+	if (!layout_valid(&lw)) return;
+
+	image_zoom_adjust_at_point(lw->image, increment, x, y);
+
+	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
+		{
+		if (lw->split_images[i] && lw->split_images[i] != lw->image && lw->connect_zoom)
+			image_zoom_adjust_at_point(lw->split_images[i], increment, x, y);
 		}
 }
 
@@ -1582,10 +1615,10 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkScrollDirection directio
 		switch (direction)
 			{
 			case GDK_SCROLL_UP:
-				image_zoom_adjust_at_point(imd, get_zoom_increment(), x, y);
+				layout_image_zoom_adjust_at_point(lw, get_zoom_increment(), x, y);
 				break;
 			case GDK_SCROLL_DOWN:
-				image_zoom_adjust_at_point(imd, -get_zoom_increment(), x, y);
+				layout_image_zoom_adjust_at_point(lw, -get_zoom_increment(), x, y);
 				break;
 			default:
 				break;
