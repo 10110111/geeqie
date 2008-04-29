@@ -338,7 +338,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 			}
 		else
 			{
-			pixbuf_renderer_get_image_size(PIXBUF_RENDERER(imd->pr), &w, &h);
+			image_get_image_size(imd, &w, &h);
 			imgpixbuf = (PIXBUF_RENDERER(imd->pr))->pixbuf;
 			}
 	

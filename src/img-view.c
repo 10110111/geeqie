@@ -899,7 +899,7 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 
 	if (image_zoom_get(vw->imd) == 0.0)
 		{
-		pixbuf_renderer_get_image_size(PIXBUF_RENDERER(vw->imd->pr), &w, &h);
+		image_get_image_size(vw->imd, &w, &h);
 		}
 	else
 		{

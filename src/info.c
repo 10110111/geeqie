@@ -238,7 +238,7 @@ static void info_tab_general_image(InfoData *id, gpointer data)
 
 	if (id->image->unknown) return;
 
-	pixbuf_renderer_get_image_size(PIXBUF_RENDERER(id->image->pr), &width, &height);
+	image_get_image_size(id->image, &width, &height);
 
 	buf = g_strdup_printf("%d x %d", width, height);
 	gtk_label_set_text(GTK_LABEL(tab->label_dimensions), buf);

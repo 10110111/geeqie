@@ -598,7 +598,7 @@ void layout_status_update_image(LayoutWindow *lw)
 		{
 		gint width, height;
 
-		pixbuf_renderer_get_image_size(PIXBUF_RENDERER(lw->image->pr), &width, &height);
+		image_get_image_size(lw->image, &width, &height);
 		text = g_strdup_printf(_("( %d x %d ) %s bytes"),
 				       width, height, b);
 		}
