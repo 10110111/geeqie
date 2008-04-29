@@ -232,6 +232,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 		g_free(data);
 		}
 
+	exif_free(exif);
 	/* search and destroy empty lines */
 	end = new->str;
 	while ((start = strchr(end, '\n')))
