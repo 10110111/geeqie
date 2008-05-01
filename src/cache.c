@@ -15,6 +15,7 @@
 
 #include "debug.h"
 #include "md5-util.h"
+#include "secure_save.h"
 #include "ui_fileops.h"
 
 #include <utime.h>
@@ -74,58 +75,58 @@ void cache_sim_data_free(CacheData *cd)
  *-------------------------------------------------------------------
  */
 
-static gint cache_sim_write_dimensions(FILE *f, CacheData *cd)
+static gint cache_sim_write_dimensions(SecureSaveInfo *ssi, CacheData *cd)
 {
-	if (!f || !cd || !cd->dimensions) return FALSE;
+	if (!cd || !cd->dimensions) return FALSE;
 
-	fprintf(f, "Dimensions=[%d x %d]\n", cd->width, cd->height);
+	secure_fprintf(ssi, "Dimensions=[%d x %d]\n", cd->width, cd->height);
 
 	return TRUE;
 }
 
-static gint cache_sim_write_date(FILE *f, CacheData *cd)
+static gint cache_sim_write_date(SecureSaveInfo *ssi, CacheData *cd)
 {
-	if (!f || !cd || !cd->have_date) return FALSE;
+	if (!cd || !cd->have_date) return FALSE;
 
-	fprintf(f, "Date=[%ld]\n", cd->date);
+	secure_fprintf(ssi, "Date=[%ld]\n", cd->date);
 
 	return TRUE;
 }
 
-static gint cache_sim_write_checksum(FILE *f, CacheData *cd)
+static gint cache_sim_write_checksum(SecureSaveInfo *ssi, CacheData *cd)
 {
-	if (!f || !cd || !cd->have_checksum) return FALSE;
+	if (!cd || !cd->have_checksum) return FALSE;
 
-	fprintf(f, "Checksum=[%ld]\n", cd->checksum);
+	secure_fprintf(ssi, "Checksum=[%ld]\n", cd->checksum);
 
 	return TRUE;
 }
 
-static gint cache_sim_write_md5sum(FILE *f, CacheData *cd)
+static gint cache_sim_write_md5sum(SecureSaveInfo *ssi, CacheData *cd)
 {
 	gchar *text;
 
-	if (!f || !cd || !cd->have_md5sum) return FALSE;
+	if (!cd || !cd->have_md5sum) return FALSE;
 
 	text = md5_digest_to_text(cd->md5sum);
-	fprintf(f, "MD5sum=[%s]\n", text);
+	secure_fprintf(ssi, "MD5sum=[%s]\n", text);
 	g_free(text);
 
 	return TRUE;
 }
 
-static gint cache_sim_write_similarity(FILE *f, CacheData *cd)
+static gint cache_sim_write_similarity(SecureSaveInfo *ssi, CacheData *cd)
 {
 	gint success = FALSE;
 
-	if (!f || !cd || !cd->similarity) return FALSE;
+	if (!cd || !cd->similarity) return FALSE;
 
 	if (cd->sim && cd->sim->filled)
 		{
 		gint x, y;
 		guint8 buf[96];
 
-		fprintf(f, "SimilarityGrid[32 x 32]=");
+		secure_fprintf(ssi, "SimilarityGrid[32 x 32]=");
 		for (y = 0; y < 32; y++)
 			{
 			gint s;
@@ -139,10 +140,10 @@ static gint cache_sim_write_similarity(FILE *f, CacheData *cd)
 				*p = cd->sim->avg_g[s + x]; p++;
 				*p = cd->sim->avg_b[s + x]; p++;
 				}
-			fwrite(buf, sizeof(buf), 1, f);
+			secure_fwrite(buf, sizeof(buf), 1, ssi);
 			}
 
-		fprintf(f, "\n");
+		secure_fputc(ssi, '\n');
 		success = TRUE;
 		}
 
@@ -151,29 +152,34 @@ static gint cache_sim_write_similarity(FILE *f, CacheData *cd)
 
 gint cache_sim_data_save(CacheData *cd)
 {
-	FILE *f;
+	SecureSaveInfo *ssi;
 	gchar *pathl;
 
 	if (!cd || !cd->path) return FALSE;
 
 	pathl = path_from_utf8(cd->path);
-	f = fopen(pathl, "w");
+	ssi = secure_open(pathl);
 	g_free(pathl);
 
-	if (!f)
+	if (!ssi)
 		{
 		printf("Unable to save sim cache data: %s\n", cd->path);
 		return FALSE;
 		}
 
-	fprintf(f, "SIMcache\n#%s %s\n", PACKAGE, VERSION);
-	cache_sim_write_dimensions(f, cd);
-	cache_sim_write_date(f, cd);
-	cache_sim_write_checksum(f, cd);
-	cache_sim_write_md5sum(f, cd);
-	cache_sim_write_similarity(f, cd);
+	secure_fprintf(ssi, "SIMcache\n#%s %s\n", PACKAGE, VERSION);
+	cache_sim_write_dimensions(ssi, cd);
+	cache_sim_write_date(ssi, cd);
+	cache_sim_write_checksum(ssi, cd);
+	cache_sim_write_md5sum(ssi, cd);
+	cache_sim_write_similarity(ssi, cd);
 
-	fclose(f);
+	if (secure_close(ssi))
+		{
+		printf_term(_("error saving sim cache data: %s\nerror: %s\n"), cd->path,
+			    secsave_strerror(secsave_errno));
+		return FALSE;
+		}
 
 	return TRUE;
 }
