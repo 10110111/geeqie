@@ -87,13 +87,13 @@ gqv_cell_renderer_icon_get_type(void)
 			NULL,		/* class_data */
 			sizeof(GQvCellRendererIcon),
 			0,		/* n_preallocs */
-		(GInstanceInitFunc) gqv_cell_renderer_icon_init,
-		};
+			(GInstanceInitFunc) gqv_cell_renderer_icon_init,
+			};
 
-	cell_icon_type = g_type_register_static(GTK_TYPE_CELL_RENDERER,
-						"GQvCellRendererIcon",
-						&cell_icon_info, 0);
-	}
+		cell_icon_type = g_type_register_static(GTK_TYPE_CELL_RENDERER,
+							"GQvCellRendererIcon",
+							&cell_icon_info, 0);
+		}
 
 	return cell_icon_type;
 }
@@ -225,10 +225,9 @@ gqv_cell_renderer_icon_get_property(GObject	*object,
 	GQvCellRendererIcon *cellicon = GQV_CELL_RENDERER_ICON(object);
 
 	switch (param_id)
-		{
-		case PROP_PIXBUF:
-		g_value_set_object(value,
-      				   cellicon->pixbuf ? G_OBJECT(cellicon->pixbuf) : NULL);
+	{
+	case PROP_PIXBUF:
+		g_value_set_object(value, cellicon->pixbuf ? G_OBJECT(cellicon->pixbuf) : NULL);
 		break;
 	case PROP_TEXT:
 		g_value_set_string(value, cellicon->text);
@@ -339,16 +338,16 @@ gqv_cell_renderer_icon_set_property(GObject		*object,
 	GQvCellRendererIcon *cellicon = GQV_CELL_RENDERER_ICON(object);
 
 	switch (param_id)
+	{
+	case PROP_PIXBUF:
 		{
-		case PROP_PIXBUF:
-			{
-			GdkPixbuf *pixbuf;
+		GdkPixbuf *pixbuf;
 
-			pixbuf = (GdkPixbuf*) g_value_get_object(value);
-			if (pixbuf) g_object_ref(pixbuf);
-			if (cellicon->pixbuf) g_object_unref(cellicon->pixbuf);
-			cellicon->pixbuf = pixbuf;
-			}
+		pixbuf = (GdkPixbuf*) g_value_get_object(value);
+		if (pixbuf) g_object_ref(pixbuf);
+		if (cellicon->pixbuf) g_object_unref(cellicon->pixbuf);
+		cellicon->pixbuf = pixbuf;
+		}
 		break;
 	case PROP_TEXT:
 		{
@@ -388,7 +387,7 @@ gqv_cell_renderer_icon_set_property(GObject		*object,
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, param_id, pspec);
 		break;
-    }
+	}
 }
 
 static PangoLayout *
@@ -447,7 +446,7 @@ gqv_cell_renderer_icon_get_layout(GQvCellRendererIcon *cellicon, GtkWidget *widg
 GtkCellRenderer *
 gqv_cell_renderer_icon_new(void)
 {
-	return g_object_new (GQV_TYPE_CELL_RENDERER_ICON, NULL);
+	return g_object_new(GQV_TYPE_CELL_RENDERER_ICON, NULL);
 }
 
 static void
@@ -629,8 +628,7 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 		g_object_unref(layout);
 		}
 
-	if (cellicon->focused &&
-	    GTK_WIDGET_HAS_FOCUS(widget))
+	if (cellicon->focused && GTK_WIDGET_HAS_FOCUS(widget))
 		{
 		gtk_paint_focus(widget->style, window,
 				state,
