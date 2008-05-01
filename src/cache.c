@@ -230,7 +230,7 @@ static gint cache_sim_read_dimensions(FILE *f, char *buf, int s, CacheData *cd)
 			{
 			if (fread(&b, sizeof(b), 1, f) != 1) return FALSE;
 			}
-		while (b != ']' && p < 1023)
+		while (b != ']' && p < sizeof(buf) - 1)
 			{
 			if (fread(&b, sizeof(b), 1, f) != 1) return FALSE;
 			buf[p] = b;
@@ -272,7 +272,7 @@ static gint cache_sim_read_date(FILE *f, char *buf, int s, CacheData *cd)
 			{
 			if (fread(&b, sizeof(b), 1, f) != 1) return FALSE;
 			}
-		while (b != ']' && p < 1023)
+		while (b != ']' && p < sizeof(buf) - 1)
 			{
 			if (fread(&b, sizeof(b), 1, f) != 1) return FALSE;
 			buf[p] = b;
@@ -312,7 +312,7 @@ static gint cache_sim_read_checksum(FILE *f, char *buf, int s, CacheData *cd)
 			{
 			if (fread(&b, sizeof(b), 1, f) != 1) return FALSE;
 			}
-		while (b != ']' && p < 1023)
+		while (b != ']' && p < sizeof(buf) - 1)
 			{
 			if (fread(&b, sizeof(b), 1, f) != 1) return FALSE;
 			buf[p] = b;
@@ -352,7 +352,7 @@ static gint cache_sim_read_md5sum(FILE *f, char *buf, int s, CacheData *cd)
 			{
 			if (fread(&b, sizeof(b), 1, f) != 1) return FALSE;
 			}
-		while (b != ']' && p < 63)
+		while (b != ']' && p < sizeof(buf) - 1)
 			{
 			if (fread(&b, sizeof(b), 1, f) != 1) return FALSE;
 			buf[p] = b;
