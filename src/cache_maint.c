@@ -68,18 +68,17 @@ static gint extension_truncate(gchar *path, const gchar *ext)
 
 static gchar *extension_find_dot(gchar *path)
 {
-	gchar *ptr;
+	gchar *dot = NULL;
 
-	if (!path || *path == '\0') return NULL;
+	if (!path) return NULL;
 
-	ptr = path;
-	while (*ptr != '\0') ptr++;
+	while (*path != '\0')
+		{
+		if (*path == '.') dot = path;
+		path++;
+		}
 
-	while (ptr > path && *ptr != '.') ptr--;
-
-	if (ptr == path) return NULL;
-
-	return ptr;
+	return dot;
 }
 
 static gint isempty(const gchar *path)
