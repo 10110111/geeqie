@@ -27,7 +27,7 @@
  *-------------------------------------------------------------------
  *
  * SIMcache
- * #coment
+ * #comment
  * Dimensions=[<width> x <height>]
  * Date=[<value in time_t format, or -1 if no embedded date>]
  * Checksum=[<value>]
