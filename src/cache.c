@@ -117,37 +117,33 @@ static gint cache_sim_write_md5sum(SecureSaveInfo *ssi, CacheData *cd)
 
 static gint cache_sim_write_similarity(SecureSaveInfo *ssi, CacheData *cd)
 {
-	gint success = FALSE;
+	guint x, y;
+	guint8 buf[3 * 32];
 
-	if (!cd || !cd->similarity) return FALSE;
+	if (!cd || !cd->similarity || !cd->sim || !cd->sim->filled) return FALSE;
 
-	if (cd->sim && cd->sim->filled)
+	secure_fprintf(ssi, "SimilarityGrid[32 x 32]=");
+	for (y = 0; y < 32; y++)
 		{
-		gint x, y;
-		guint8 buf[96];
-
-		secure_fprintf(ssi, "SimilarityGrid[32 x 32]=");
-		for (y = 0; y < 32; y++)
+		guint s = y * 32;
+		guint8 *avg_r = &cd->sim->avg_r[s];
+		guint8 *avg_g = &cd->sim->avg_g[s];
+		guint8 *avg_b = &cd->sim->avg_b[s];
+		guint n = 0;
+			
+		for (x = 0; x < 32; x++)
 			{
-			gint s;
-			guint8 *p;
-
-			s = y * 32;
-			p = buf;
-			for (x = 0; x < 32; x++)
-				{
-				*p = cd->sim->avg_r[s + x]; p++;
-				*p = cd->sim->avg_g[s + x]; p++;
-				*p = cd->sim->avg_b[s + x]; p++;
-				}
-			secure_fwrite(buf, sizeof(buf), 1, ssi);
+			buf[n++] = avg_r[x];
+			buf[n++] = avg_g[x];
+			buf[n++] = avg_b[x];
 			}
 
-		secure_fputc(ssi, '\n');
-		success = TRUE;
+		secure_fwrite(buf, sizeof(buf), 1, ssi);
 		}
 
-	return success;
+	secure_fputc(ssi, '\n');
+
+	return TRUE;
 }
 
 gint cache_sim_data_save(CacheData *cd)
