@@ -536,12 +536,8 @@ void save_options(void)
 
 
 	if (secure_close(ssi))
-		{
 		printf_term(_("error saving config file: %s\nerror: %s\n"), rc_path,
 			    secsave_strerror(secsave_errno));
-		g_free(rc_path);
-		return;
-		}
 
 	g_free(rc_path);
 }
