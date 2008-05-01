@@ -22,6 +22,7 @@ gint secure_fputs(SecureSaveInfo *, const gchar *);
 gint secure_fputc(SecureSaveInfo *, gint);
 
 gint secure_fprintf(SecureSaveInfo *, const gchar *, ...);
+size_t secure_fwrite(const void *ptr, size_t size, size_t nmemb, SecureSaveInfo *ssi);
 
 gchar *secsave_strerror(SecureSaveErrno);
 

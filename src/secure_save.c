@@ -370,6 +370,26 @@ secure_fprintf(SecureSaveInfo *ssi, const gchar *format, ...)
 	return ret;
 }
 
+/** fwrite() wrapper, set ssi->err to errno on error and return a value less than
+ * the number of elements to write. If ssi->err is set when called, it immediatly returns 0.
+ */
+size_t
+secure_fwrite(const void *ptr, size_t size, size_t nmemb, SecureSaveInfo *ssi)
+{
+	size_t ret;
+
+	if (!ssi || !ssi->fp || ssi->err) return 0;
+
+	ret = fwrite(ptr, size, nmemb, ssi->fp);
+	if (ret < nmemb)
+		{
+		ssi->err = errno;
+		secsave_errno = SS_ERR_OTHER;
+		}
+
+	return ret;
+}
+
 gchar *
 secsave_strerror(SecureSaveErrno secsave_error)
 {
