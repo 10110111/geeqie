@@ -765,18 +765,18 @@ gint file_extension_match(const gchar *path, const gchar *ext)
 
 gchar *remove_extension_from_path(const gchar *path)
 {
-	gchar *new_path;
-	const gchar *ptr = path;
-	gint p;
+	gint p = 0, n = -1;
 
 	if (!path) return NULL;
-	if (strlen(path) < 2) return g_strdup(path);
 
-	p = strlen(path) - 1;
-	while (ptr[p] != '.' && p > 0) p--;
-	if (p == 0) p = strlen(path) - 1;
-	new_path = g_strndup(path, (guint)p);
-	return new_path;
+	while (path[p])
+		{
+		if (path[p] == '.') n = p;
+		p++;
+		}
+	if (n < 0) n = p;
+
+	return g_strndup(path, (gsize) n);
 }
 
 void parse_out_relatives(gchar *path)
