@@ -283,6 +283,7 @@ static void bar_exif_update(ExifBar *eb)
 			elements = g_strdup_printf("%d", exif_item_get_elements(item));
 			description = exif_item_get_description(item);
 			if (!description) description = g_strdup("");
+			description = bar_exif_validate_text(description);
 			gtk_list_store_append(store, &iter);
 			gtk_list_store_set(store, &iter,
 					EXIF_ADVCOL_ENABLED, bar_exif_row_enabled(tag_name),
