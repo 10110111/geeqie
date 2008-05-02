@@ -65,8 +65,6 @@ void string_list_free(GList *list);
 GList *string_list_copy(GList *list);
 #define path_list_copy string_list_copy
 
-long checksum_simple(const gchar *path);
-
 
 gchar *unique_filename(const gchar *path, const gchar *ext, const gchar *divider, gint pad);
 gchar *unique_filename_simple(const gchar *path);

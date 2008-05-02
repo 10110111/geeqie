@@ -623,28 +623,6 @@ GList *path_list_copy(GList *list)
 	return g_list_reverse(new_list);
 }
 
-long checksum_simple(const gchar *path)
-{
-	gchar *path8;
-	FILE *f;
-	long sum = 0;
-	gint c;
-
-	path8 = path_from_utf8(path);
-	f = fopen(path8, "r");
-	g_free(path8);
-	if (!f) return -1;
-
-	while ((c = fgetc(f)) != EOF)
-		{
-		sum += c;
-		}
-
-	fclose(f);
-
-	return sum;
-}
-
 gchar *unique_filename(const gchar *path, const gchar *ext, const gchar *divider, gint pad)
 {
 	gchar *unique;
