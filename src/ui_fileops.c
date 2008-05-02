@@ -29,6 +29,7 @@
 #include "main.h"
 #include "ui_fileops.h"
 
+#include "debug.h"
 #include "ui_utildlg.h"	/* for locale warning dialog */
 
 /*
@@ -719,18 +720,18 @@ const gchar *filename_from_path(const gchar *path)
 
 gchar *remove_level_from_path(const gchar *path)
 {
-	gchar *new_path;
-	const gchar *ptr = path;
-	gint p;
+	gint p = 0, n = -1;
 
 	if (!path) return NULL;
 
-	p = strlen(path) - 1;
-	if (p < 0) return NULL;
-	while (ptr[p] != '/' && p > 0) p--;
-	if (p == 0 && ptr[p] == '/') p++;
-	new_path = g_strndup(path, (guint)p);
-	return new_path;
+	while (path[p])
+		{
+		if (path[p] == '/') n = p;
+		p++;
+		}
+	if (n <= 0) n++;
+
+	return g_strndup(path, (gsize) n);
 }
 
 gchar *concat_dir_and_file(const gchar *base, const gchar *name)
