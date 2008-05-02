@@ -503,15 +503,15 @@ gchar *exif_get_data_as_text(ExifData *exif, const gchar *key)
 
 ExifData *exif_read_fd(FileData *fd)
 {
-	GList *work;
 	gchar *sidecar_path = NULL;
 
 	if (!fd) return NULL;
 
-	work = fd->parent ? fd->parent->sidecar_files : fd->sidecar_files;
-
 	if (filter_file_class(fd->extension, FORMAT_CLASS_RAWIMAGE))
 		{
+		GList *work;
+		
+		work = fd->parent ? fd->parent->sidecar_files : fd->sidecar_files;
 		while (work)
 			{
 			FileData *sfd = work->data;
