@@ -1,6 +1,6 @@
 /*
- *  GQView
- *  (C) 2005 John Ellis
+ * Geeqie
+ * (C) 2005 John Ellis
  * Copyright (C) 2008 The Geeqie Team
  *
  * This software is released under the GNU General Public License (GNU GPL).
