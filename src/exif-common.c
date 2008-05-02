@@ -581,8 +581,8 @@ ExifData *exif_read_fd(FileData *fd)
  */
 
 gint exif_jpeg_segment_find(unsigned char *data, guint size,
-				   guchar app_marker, const gchar *magic, guint magic_len,
-				   guint *seg_offset, guint *seg_length)
+			    guchar app_marker, const gchar *magic, guint magic_len,
+			    guint *seg_offset, guint *seg_length)
 {
 	guchar marker = 0;
 	guint offset = 0;
