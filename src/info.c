@@ -545,8 +545,6 @@ static void info_notebook_reordered_cb(GtkNotebook *notebook, GtkWidget *child, 
 	InfoData *id = data;
 	GList *work;
 
-	info_tabs_sync(id, 0);
-
 	/* Save current tabs position to be able to restore them later. */
 	work = id->tab_list;
 	while (work)
@@ -568,7 +566,7 @@ static void info_notebook_reordered_cb(GtkNotebook *notebook, GtkWidget *child, 
 				break;
 				}
 			}
-	}
+		}
 }
 
 /*
