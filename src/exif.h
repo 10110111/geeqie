@@ -118,8 +118,6 @@ void exif_free(ExifData *exif);
 gchar *exif_get_data_as_text(ExifData *exif, const gchar *key);
 gint exif_get_integer(ExifData *exif, const gchar *key, gint *value);
 ExifRational *exif_get_rational(ExifData *exif, const gchar *key, gint *sign);
-double exif_rational_to_double(ExifRational *r, gint sign);
-double exif_get_rational_as_double(ExifData *exif, const gchar *key);
 
 ExifItem *exif_get_item(ExifData *exif, const gchar *key);
 ExifItem *exif_add_item(ExifData *exif, const gchar *key);

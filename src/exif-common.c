@@ -41,7 +41,7 @@
 #include "ui_fileops.h"
 
 
-double exif_rational_to_double(ExifRational *r, gint sign)
+static double exif_rational_to_double(ExifRational *r, gint sign)
 {
 	if (!r || r->den == 0.0) return 0.0;
 
@@ -49,7 +49,7 @@ double exif_rational_to_double(ExifRational *r, gint sign)
 	return (double)r->num / r->den;
 }
 
-double exif_get_rational_as_double(ExifData *exif, const gchar *key)
+static double exif_get_rational_as_double(ExifData *exif, const gchar *key)
 {
 	ExifRational *r;
 	gint sign;
