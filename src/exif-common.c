@@ -149,6 +149,307 @@ static gint remove_suffix(gchar *str, const gchar *suffix, gint suffix_len)
 	return TRUE;
 }
 
+static gchar *exif_build_fCamera(ExifData *exif)
+{
+	gchar *text;
+	gchar *make = exif_get_data_as_text(exif, "Exif.Image.Make");
+	gchar *model = exif_get_data_as_text(exif, "Exif.Image.Model");
+	gchar *software = exif_get_data_as_text(exif, "Exif.Image.Software");
+	gchar *model2;
+	gchar *software2;
+
+	if (make)
+		{
+		g_strstrip(make);
+
+		if (remove_suffix(make, " CORPORATION", 12)) { /* Nikon */ }
+		else if (remove_suffix(make, " Corporation", 12)) { /* Pentax */ }
+		else if (remove_suffix(make, " OPTICAL CO.,LTD", 16)) { /* OLYMPUS */ };
+		}
+
+	if (model)
+		g_strstrip(model);
+
+	if (software)
+		{
+		gint i;
+
+		g_strstrip(software);
+		
+		/* remove superfluous spaces (pentax K100D) */
+		for (i = 0; software[i]; i++)
+			if (software[i] == ' ' && software[i + 1] == ' ')
+				{
+				gint j;
+
+				for (j = 1; software[i + j] == ' '; j++);
+				memmove(software + i + 1, software + i + j, strlen(software + i + j) + 1);
+				}
+		}
+
+	model2 = remove_common_prefix(make, model);
+	software2 = remove_common_prefix(model2, software);
+
+	text = g_strdup_printf("%s%s%s%s%s%s", (make) ? make : "", (make && model2) ? " " : "",
+					       (model2) ? model2 : "",
+					       (software2 && (make || model2)) ? " (" : "",
+					       (software2) ? software2 : "",
+					       (software2 && (make || model2)) ? ")" : "");
+
+	g_free(make);
+	g_free(model);
+	g_free(software);
+	return text;
+}
+
+static gchar *exif_build_fDateTime(ExifData *exif)
+{
+	gchar *text = exif_get_data_as_text(exif, "Exif.Photo.DateTimeOriginal");
+	gchar *subsec = NULL;
+
+	if (text) subsec = exif_get_data_as_text(exif, "Exif.Photo.SubSecTimeOriginal");
+	if (!text)
+		{
+		text = exif_get_data_as_text(exif, "Exif.Image.DateTime");
+		if (text) subsec = exif_get_data_as_text(exif, "Exif.Photo.SubSecTime");
+		}
+	if (subsec)
+		{
+		gchar *tmp = text;
+		text = g_strconcat(tmp, ".", subsec, NULL);
+		g_free(tmp);
+		g_free(subsec);
+		}
+	return text;
+}
+
+static gchar *exif_build_fShutterSpeed(ExifData *exif)
+{
+	ExifRational *r;
+
+	r = exif_get_rational(exif, "Exif.Photo.ExposureTime", NULL);
+	if (r && r->num && r->den)
+		{
+		double n = (double)r->den / (double)r->num;
+		return g_strdup_printf("%s%.0fs", n > 1.0 ? "1/" : "",
+						  n > 1.0 ? n : 1.0 / n);
+		}
+	r = exif_get_rational(exif, "Exif.Photo.ShutterSpeedValue", NULL);
+	if (r && r->num  && r->den)
+		{
+		double n = pow(2.0, exif_rational_to_double(r, TRUE));
+
+		/* Correct exposure time to avoid values like 1/91s (seen on Minolta DImage 7) */
+		if (n > 1.0 && (int)n - ((int)(n/10))*10 == 1) n--;
+
+		return g_strdup_printf("%s%.0fs", n > 1.0 ? "1/" : "",
+						  n > 1.0 ? floor(n) : 1.0 / n);
+		}
+	return NULL;
+}
+
+static gchar *exif_build_fAperture(ExifData *exif)
+{
+	double n;
+
+	n = exif_get_rational_as_double(exif, "Exif.Photo.FNumber");
+	if (n == 0.0) n = exif_get_rational_as_double(exif, "Exif.Photo.ApertureValue");
+	if (n == 0.0) return NULL;
+
+	return g_strdup_printf("f/%.1f", n);
+}
+
+static gchar *exif_build_fExposureBias(ExifData *exif)
+{
+	ExifRational *r;
+	gint sign;
+	double n;
+
+	r = exif_get_rational(exif, "Exif.Photo.ExposureBiasValue", &sign);
+	if (!r) return NULL;
+
+	n = exif_rational_to_double(r, sign);
+	return g_strdup_printf("%+.1f", n);
+}
+
+static gchar *exif_build_fFocalLength(ExifData *exif)
+{
+	double n;
+
+	n = exif_get_rational_as_double(exif, "Exif.Photo.FocalLength");
+	if (n == 0.0) return NULL;
+	return g_strdup_printf("%.0f mm", n);
+}
+
+static gchar *exif_build_fFocalLength35mmFilm(ExifData *exif)
+{
+	gint n;
+	double f, c;
+
+	if (exif_get_integer(exif, "Exif.Photo.FocalLengthIn35mmFilm", &n) && n != 0)
+		{
+		return g_strdup_printf("%d mm", n);
+		}
+
+	f = exif_get_rational_as_double(exif, "Exif.Photo.FocalLength");
+	c = get_crop_factor(exif);
+
+	if (f != 0.0 && c != 0.0)
+		{
+		return g_strdup_printf("%.0f mm", f * c);
+		}
+
+	return NULL;
+}
+
+static gchar *exif_build_fISOSpeedRating(ExifData *exif)
+{
+	gchar *text;
+
+	text = exif_get_data_as_text(exif, "Exif.Photo.ISOSpeedRatings");
+	/* kodak may set this instead */
+	if (!text) text = exif_get_data_as_text(exif, "Exif.Photo.ExposureIndex");
+	return text;
+}
+
+static gchar *exif_build_fSubjectDistance(ExifData *exif)
+{
+	ExifRational *r;
+	gint sign;
+	double n;
+
+	r = exif_get_rational(exif, "Exif.Photo.SubjectDistance", &sign);
+	if (!r) return NULL;
+
+	if ((long)r->num == 0xffffffff) return g_strdup(_("infinity"));
+	if ((long)r->num == 0) return g_strdup(_("unknown"));
+
+	n = exif_rational_to_double(r, sign);
+	if (n == 0.0) return _("unknown");
+	return g_strdup_printf("%.3f m", n);
+}
+
+static gchar *exif_build_fFlash(ExifData *exif)
+{
+	/* grr, flash is a bitmask... */
+	GString *string;
+	gchar *text;
+	gint n;
+	gint v;
+
+	if (!exif_get_integer(exif, "Exif.Photo.Flash", &n)) return NULL;
+
+	/* Exif 2.1 only defines first 3 bits */
+	if (n <= 0x07) return exif_get_data_as_text(exif, "Exif.Photo.Flash");
+
+	/* must be Exif 2.2 */
+	string = g_string_new("");
+
+	/* flash fired (bit 0) */
+	string = g_string_append(string, (n & 0x01) ? _("yes") : _("no"));
+
+	/* flash mode (bits 3, 4) */
+	v = (n >> 3) & 0x03;
+	if (v) string = append_comma_text(string, _("mode:"));
+	switch (v)
+		{
+		case 1:
+			string = g_string_append(string, _("on"));
+			break;
+		case 2:
+			string = g_string_append(string, _("off"));
+			break;
+		case 3:
+			string = g_string_append(string, _("auto"));
+			break;
+		}
+
+	/* return light (bits 1, 2) */
+	v = (n >> 1) & 0x03;
+	if (v == 2) string = append_comma_text(string, _("not detected by strobe"));
+	if (v == 3) string = append_comma_text(string, _("detected by strobe"));
+
+	/* we ignore flash function (bit 5) */
+
+	/* red-eye (bit 6) */
+	if ((n >> 5) & 0x01) string = append_comma_text(string, _("red-eye reduction"));
+
+	text = string->str;
+	g_string_free(string, FALSE);
+	return text;
+}
+
+static gchar *exif_build_fResolution(ExifData *exif)
+{
+	ExifRational *rx, *ry;
+	gchar *units;
+	gchar *text;
+
+	rx = exif_get_rational(exif, "Exif.Image.XResolution", NULL);
+	ry = exif_get_rational(exif, "Exif.Image.YResolution", NULL);
+	if (!rx || !ry) return NULL;
+
+	units = exif_get_data_as_text(exif, "Exif.Image.ResolutionUnit");
+	text = g_strdup_printf("%0.f x %0.f (%s/%s)", rx->den ? (double)rx->num / rx->den : 1.0,
+						      ry->den ? (double)ry->num / ry->den : 1.0,
+						      _("dot"), (units) ? units : _("unknown"));
+
+	g_free(units);
+	return text;
+}
+
+static gchar *exif_build_fColorProfile(ExifData *exif)
+{
+	const gchar *name = "";
+	const gchar *source = "";
+	unsigned char *profile_data;
+	guint profile_len;
+
+	profile_data = exif_get_color_profile(exif, &profile_len);
+	if (!profile_data)
+		{
+		gint cs;
+		gchar *interop_index;
+
+		/* ColorSpace == 1 specifies sRGB per EXIF 2.2 */
+		if (!exif_get_integer(exif, "Exif.Photo.ColorSpace", &cs)) cs = 0;
+		interop_index = exif_get_data_as_text(exif, "Exif.Iop.InteroperabilityIndex");
+
+		if (cs == 1)
+			{
+			name = _("sRGB");
+			source = "ColorSpace";
+			}
+		else if (cs == 2 || (interop_index && !strcmp(interop_index, "R03")))
+			{
+			name = _("AdobeRGB");
+			source = (cs == 2) ? "ColorSpace" : "Iop";
+			}
+
+		g_free(interop_index);
+		}
+	else
+		{
+		source = _("embedded");
+#ifdef HAVE_LCMS
+
+			{
+			cmsHPROFILE profile;
+
+			profile = cmsOpenProfileFromMem(profile_data, profile_len);
+			if (profile)
+				{
+				name = cmsTakeProductName(profile);
+				cmsCloseProfile(profile);
+				}
+			g_free(profile_data);
+			}
+#endif
+		}
+	if (name[0] == 0 && source[0] == 0) return NULL;
+	return g_strdup_printf("%s (%s)", name, source);
+}
+
 gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid)
 {
 	/* must begin with f, else not formatted */
@@ -160,293 +461,20 @@ gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_val
 
 	if (key_valid) *key_valid = TRUE;
 
-	if (strcmp(key, "fCamera") == 0)
-		{
-		gchar *text;
-		gchar *make = exif_get_data_as_text(exif, "Exif.Image.Make");
-		gchar *model = exif_get_data_as_text(exif, "Exif.Image.Model");
-		gchar *software = exif_get_data_as_text(exif, "Exif.Image.Software");
-		gchar *model2;
-		gchar *software2;
-	
-		if (make)
-			{
-			g_strstrip(make);
+#define EXIF_BUILD_FORMATTED_TAG(x) do { if (strcmp(key, #x) == 0) return exif_build##_##x(exif); } while (0)
 
-			if (remove_suffix(make, " CORPORATION", 12)) { /* Nikon */ }
-			else if (remove_suffix(make, " Corporation", 12)) { /* Pentax */ }
-			else if (remove_suffix(make, " OPTICAL CO.,LTD", 16)) { /* OLYMPUS */ };
-			}
-
-		if (model)
-			g_strstrip(model);
-
-		if (software)
-			{
-			gint i;
-
-			g_strstrip(software);
-			
-			/* remove superfluous spaces (pentax K100D) */
-			for (i = 0; software[i]; i++)
-				if (software[i] == ' ' && software[i + 1] == ' ')
-					{
-					gint j;
-
-					for (j = 1; software[i + j] == ' '; j++);
-					memmove(software + i + 1, software + i + j, strlen(software + i + j) + 1);
-					}
-			}
-
-		model2 = remove_common_prefix(make, model);
-		software2 = remove_common_prefix(model2, software);
-
-		text = g_strdup_printf("%s%s%s%s%s%s", (make) ? make : "", (make && model2) ? " " : "",
-						       (model2) ? model2 : "",
-						       (software2 && (make || model2)) ? " (" : "",
-						       (software2) ? software2 : "",
-						       (software2 && (make || model2)) ? ")" : "");
-
-		g_free(make);
-		g_free(model);
-		g_free(software);
-		return text;
-		}
-	if (strcmp(key, "fDateTime") == 0)
-		{
-		gchar *text = exif_get_data_as_text(exif, "Exif.Photo.DateTimeOriginal");
-		gchar *subsec = NULL;
-		if (text) subsec = exif_get_data_as_text(exif, "Exif.Photo.SubSecTimeOriginal");
-		if (!text)
-			{
-			text = exif_get_data_as_text(exif, "Exif.Image.DateTime");
-			if (text) subsec = exif_get_data_as_text(exif, "Exif.Photo.SubSecTime");
-			}
-		if (subsec)
-			{
-			gchar *tmp = text;
-			text = g_strconcat(tmp, ".", subsec, NULL);
-			g_free(tmp);
-			g_free(subsec);
-			}
-		return text;
-		}
-	if (strcmp(key, "fShutterSpeed") == 0)
-		{
-		ExifRational *r;
-
-		r = exif_get_rational(exif, "Exif.Photo.ExposureTime", NULL);
-		if (r && r->num && r->den)
-			{
-			double n = (double)r->den / (double)r->num;
-			return g_strdup_printf("%s%.0fs", n > 1.0 ? "1/" : "",
-							  n > 1.0 ? n : 1.0 / n);
-			}
-		r = exif_get_rational(exif, "Exif.Photo.ShutterSpeedValue", NULL);
-		if (r && r->num  && r->den)
-			{
-			double n = pow(2.0, exif_rational_to_double(r, TRUE));
-
-			/* Correct exposure time to avoid values like 1/91s (seen on Minolta DImage 7) */
-			if (n > 1.0 && (int)n - ((int)(n/10))*10 == 1) n--;
-
-			return g_strdup_printf("%s%.0fs", n > 1.0 ? "1/" : "",
-							  n > 1.0 ? floor(n) : 1.0 / n);
-			}
-		return NULL;
-		}
-	if (strcmp(key, "fAperture") == 0)
-		{
-		double n;
-
-		n = exif_get_rational_as_double(exif, "Exif.Photo.FNumber");
-		if (n == 0.0) n = exif_get_rational_as_double(exif, "Exif.Photo.ApertureValue");
-		if (n == 0.0) return NULL;
-
-		return g_strdup_printf("f/%.1f", n);
-		}
-	if (strcmp(key, "fExposureBias") == 0)
-		{
-		ExifRational *r;
-		gint sign;
-		double n;
-
-		r = exif_get_rational(exif, "Exif.Photo.ExposureBiasValue", &sign);
-		if (!r) return NULL;
-
-		n = exif_rational_to_double(r, sign);
-		return g_strdup_printf("%+.1f", n);
-		}
-	if (strcmp(key, "fFocalLength") == 0)
-		{
-		double n;
-
-		n = exif_get_rational_as_double(exif, "Exif.Photo.FocalLength");
-		if (n == 0.0) return NULL;
-		return g_strdup_printf("%.0f mm", n);
-		}
-	if (strcmp(key, "fFocalLength35mmFilm") == 0)
-		{
-		gint n;
-		double f, c;
-
-		if (exif_get_integer(exif, "Exif.Photo.FocalLengthIn35mmFilm", &n) && n != 0)
-			{
-			return g_strdup_printf("%d mm", n);
-			}
-
-		f = exif_get_rational_as_double(exif, "Exif.Photo.FocalLength");
-		c = get_crop_factor(exif);
-
-		if (f != 0.0 && c != 0.0)
-			{
-			return g_strdup_printf("%.0f mm", f * c);
-			}
-
-		return NULL;
-		}
-	if (strcmp(key, "fISOSpeedRating") == 0)
-		{
-		gchar *text;
-
-		text = exif_get_data_as_text(exif, "Exif.Photo.ISOSpeedRatings");
-		/* kodak may set this instead */
-		if (!text) text = exif_get_data_as_text(exif, "Exif.Photo.ExposureIndex");
-		return text;
-		}
-	if (strcmp(key, "fSubjectDistance") == 0)
-		{
-		ExifRational *r;
-		gint sign;
-		double n;
-
-		r = exif_get_rational(exif, "Exif.Photo.SubjectDistance", &sign);
-		if (!r) return NULL;
-
-		if ((long)r->num == 0xffffffff) return g_strdup(_("infinity"));
-		if ((long)r->num == 0) return g_strdup(_("unknown"));
-
-		n = exif_rational_to_double(r, sign);
-		if (n == 0.0) return _("unknown");
-		return g_strdup_printf("%.3f m", n);
-		}
-	if (strcmp(key, "fFlash") == 0)
-		{
-		/* grr, flash is a bitmask... */
-		GString *string;
-		gchar *text;
-		gint n;
-		gint v;
-
-		if (!exif_get_integer(exif, "Exif.Photo.Flash", &n)) return NULL;
-
-		/* Exif 2.1 only defines first 3 bits */
-		if (n <= 0x07) return exif_get_data_as_text(exif, "Exif.Photo.Flash");
-
-		/* must be Exif 2.2 */
-		string = g_string_new("");
-
-		/* flash fired (bit 0) */
-		string = g_string_append(string, (n & 0x01) ? _("yes") : _("no"));
-
-		/* flash mode (bits 3, 4) */
-		v = (n >> 3) & 0x03;
-		if (v) string = append_comma_text(string, _("mode:"));
-		switch (v)
-			{
-			case 1:
-				string = g_string_append(string, _("on"));
-				break;
-			case 2:
-				string = g_string_append(string, _("off"));
-				break;
-			case 3:
-				string = g_string_append(string, _("auto"));
-				break;
-			}
-
-		/* return light (bits 1, 2) */
-		v = (n >> 1) & 0x03;
-		if (v == 2) string = append_comma_text(string, _("not detected by strobe"));
-		if (v == 3) string = append_comma_text(string, _("detected by strobe"));
-
-		/* we ignore flash function (bit 5) */
-
-		/* red-eye (bit 6) */
-		if ((n >> 5) & 0x01) string = append_comma_text(string, _("red-eye reduction"));
-
-		text = string->str;
-		g_string_free(string, FALSE);
-		return text;
-		}
-	if (strcmp(key, "fResolution") == 0)
-		{
-		ExifRational *rx, *ry;
-		gchar *units;
-		gchar *text;
-
-		rx = exif_get_rational(exif, "Exif.Image.XResolution", NULL);
-		ry = exif_get_rational(exif, "Exif.Image.YResolution", NULL);
-		if (!rx || !ry) return NULL;
-
-		units = exif_get_data_as_text(exif, "Exif.Image.ResolutionUnit");
-		text = g_strdup_printf("%0.f x %0.f (%s/%s)", rx->den ? (double)rx->num / rx->den : 1.0,
-							      ry->den ? (double)ry->num / ry->den : 1.0,
-							      _("dot"), (units) ? units : _("unknown"));
-
-		g_free(units);
-		return text;
-		}
-	if (strcmp(key, "fColorProfile") == 0)
-		{
-		const gchar *name = "";
-		const gchar *source = "";
-		unsigned char *profile_data;
-		guint profile_len;
-		profile_data = exif_get_color_profile(exif, &profile_len);
-		if (!profile_data)
-			{
-			gint cs;
-			gchar *interop_index;
-
-			/* ColorSpace == 1 specifies sRGB per EXIF 2.2 */
-			if (!exif_get_integer(exif, "Exif.Photo.ColorSpace", &cs)) cs = 0;
-			interop_index = exif_get_data_as_text(exif, "Exif.Iop.InteroperabilityIndex");
-
-			if (cs == 1)
-				{
-				name = _("sRGB");
-				source = "ColorSpace";
-				}
-			else if (cs == 2 || (interop_index && !strcmp(interop_index, "R03")))
-				{
-				name = _("AdobeRGB");
-				source = (cs == 2) ? "ColorSpace" : "Iop";
-				}
-
-			g_free(interop_index);
-			}
-		else
-			{
-			source = _("embedded");
-#ifdef HAVE_LCMS
-
-				{
-				cmsHPROFILE profile;
-
-				profile = cmsOpenProfileFromMem(profile_data, profile_len);
-				if (profile)
-					{
-					name = cmsTakeProductName(profile);
-					cmsCloseProfile(profile);
-					}
-				g_free(profile_data);
-				}
-#endif
-			}
-		if (name[0] == 0 && source[0] == 0) return NULL;
-		return g_strdup_printf("%s (%s)", name, source);
-		}
+	EXIF_BUILD_FORMATTED_TAG(fCamera);
+	EXIF_BUILD_FORMATTED_TAG(fDateTime);
+	EXIF_BUILD_FORMATTED_TAG(fShutterSpeed);
+	EXIF_BUILD_FORMATTED_TAG(fAperture);
+	EXIF_BUILD_FORMATTED_TAG(fExposureBias);
+	EXIF_BUILD_FORMATTED_TAG(fFocalLength);
+	EXIF_BUILD_FORMATTED_TAG(fFocalLength35mmFilm);
+	EXIF_BUILD_FORMATTED_TAG(fISOSpeedRating);
+	EXIF_BUILD_FORMATTED_TAG(fSubjectDistance);
+	EXIF_BUILD_FORMATTED_TAG(fFlash);
+	EXIF_BUILD_FORMATTED_TAG(fResolution);
+	EXIF_BUILD_FORMATTED_TAG(fColorProfile);
 
 	if (key_valid) *key_valid = FALSE;
 	return NULL;
