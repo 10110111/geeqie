@@ -41,24 +41,6 @@
 #include "ui_fileops.h"
 
 
-/* human readable key list */
-
-ExifFormattedText ExifFormattedList[] = {
-	{ "fCamera",		N_("Camera") },
-	{ "fDateTime",		N_("Date") },
-	{ "fShutterSpeed",	N_("Shutter speed") },
-	{ "fAperture",		N_("Aperture") },
-	{ "fExposureBias",	N_("Exposure bias") },
-	{ "fISOSpeedRating",	N_("ISO sensitivity") },
-	{ "fFocalLength",	N_("Focal length") },
-	{ "fFocalLength35mmFilm",N_("Focal length 35mm") },
-	{ "fSubjectDistance",	N_("Subject distance") },
-	{ "fFlash",		N_("Flash") },
-	{ "fResolution",	N_("Resolution") },
-	{ "fColorProfile",	N_("Color profile") },
-	{ NULL, NULL }
-};
-
 double exif_rational_to_double(ExifRational *r, gint sign)
 {
 	if (!r || r->den == 0.0) return 0.0;
@@ -450,31 +432,39 @@ static gchar *exif_build_fColorProfile(ExifData *exif)
 	return g_strdup_printf("%s (%s)", name, source);
 }
 
+
+/* List of custom formatted pseudo-exif tags */
+#define EXIF_FORMATTED_TAG(name, label) { #name, label, exif_build##_##name }
+
+ExifFormattedText ExifFormattedList[] = {
+	EXIF_FORMATTED_TAG(fCamera,		N_("Camera")),
+	EXIF_FORMATTED_TAG(fDateTime,		N_("Date")),
+	EXIF_FORMATTED_TAG(fShutterSpeed,	N_("Shutter speed")),
+	EXIF_FORMATTED_TAG(fAperture,		N_("Aperture")),
+	EXIF_FORMATTED_TAG(fExposureBias,	N_("Exposure bias")),
+	EXIF_FORMATTED_TAG(fISOSpeedRating,	N_("ISO sensitivity")),
+	EXIF_FORMATTED_TAG(fFocalLength,	N_("Focal length")),
+	EXIF_FORMATTED_TAG(fFocalLength35mmFilm,N_("Focal length 35mm")),
+	EXIF_FORMATTED_TAG(fSubjectDistance,	N_("Subject distance")),
+	EXIF_FORMATTED_TAG(fFlash,		N_("Flash")),
+	EXIF_FORMATTED_TAG(fResolution,		N_("Resolution")),
+	EXIF_FORMATTED_TAG(fColorProfile,	N_("Color profile")),
+	{ NULL, NULL, NULL }
+};
+
 gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid)
 {
 	/* must begin with f, else not formatted */
-	if (key[0] != 'f')
+	if (key[0] == 'f')
 		{
-		if (key_valid) *key_valid = FALSE;
-		return NULL;
+		gint i;
+
+		if (key_valid) *key_valid = TRUE;
+
+		for (i = 0; ExifFormattedList[i].key; i++)
+			if (strcmp(key, ExifFormattedList[i].key) == 0)
+				return ExifFormattedList[i].build_func(exif);
 		}
-
-	if (key_valid) *key_valid = TRUE;
-
-#define EXIF_BUILD_FORMATTED_TAG(x) do { if (strcmp(key, #x) == 0) return exif_build##_##x(exif); } while (0)
-
-	EXIF_BUILD_FORMATTED_TAG(fCamera);
-	EXIF_BUILD_FORMATTED_TAG(fDateTime);
-	EXIF_BUILD_FORMATTED_TAG(fShutterSpeed);
-	EXIF_BUILD_FORMATTED_TAG(fAperture);
-	EXIF_BUILD_FORMATTED_TAG(fExposureBias);
-	EXIF_BUILD_FORMATTED_TAG(fFocalLength);
-	EXIF_BUILD_FORMATTED_TAG(fFocalLength35mmFilm);
-	EXIF_BUILD_FORMATTED_TAG(fISOSpeedRating);
-	EXIF_BUILD_FORMATTED_TAG(fSubjectDistance);
-	EXIF_BUILD_FORMATTED_TAG(fFlash);
-	EXIF_BUILD_FORMATTED_TAG(fResolution);
-	EXIF_BUILD_FORMATTED_TAG(fColorProfile);
 
 	if (key_valid) *key_valid = FALSE;
 	return NULL;

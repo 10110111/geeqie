@@ -53,13 +53,6 @@ typedef enum {
 } ExifFormatType;
 
 
-typedef struct _ExifFormattedText ExifFormattedText;
-struct _ExifFormattedText
-{
-	const gchar *key;
-	const gchar *description;
-};
-
 /*
  *-----------------------------------------------------------------------------
  * Data storage
@@ -99,6 +92,14 @@ typedef enum {
 	EXIF_UNIT_CENTIMETER	= 3
 } ExifUnitType;
 
+
+typedef struct _ExifFormattedText ExifFormattedText;
+struct _ExifFormattedText
+{
+	const gchar *key;
+	const gchar *description;
+	gchar *(*build_func)(ExifData *exif);
+};
 
 /*
  *-----------------------------------------------------------------------------
