@@ -28,6 +28,11 @@ typedef enum {
 } DirViewType;
 
 typedef enum {
+	FILEVIEW_LIST,
+	FILEVIEW_ICON
+} FileViewType;
+
+typedef enum {
 	CMD_COPY = GQ_EDITOR_GENERIC_SLOTS,
 	CMD_MOVE,
 	CMD_RENAME,
@@ -142,9 +147,12 @@ typedef struct _FileData FileData;
 typedef struct _FileDataChangeInfo FileDataChangeInfo;
 
 typedef struct _LayoutWindow LayoutWindow;
+
 typedef struct _ViewDir ViewDir;
 typedef struct _ViewDirInfoList ViewDirInfoList;
 typedef struct _ViewDirInfoTree ViewDirInfoTree;
+
+typedef struct _ViewFile ViewFile;
 typedef struct _ViewFileList ViewFileList;
 typedef struct _ViewFileIcon ViewFileIcon;
 
@@ -492,6 +500,9 @@ struct _LayoutWindow
 
 	LayoutLocation file_location;
 
+	ViewFile *vf;
+	FileViewType file_view_type;
+
 	ViewFileList *vfl;
 	ViewFileIcon *vfi;
 	GtkWidget *file_view;
@@ -584,6 +595,33 @@ struct _ViewDirInfoTree
 {
 	gint drop_expand_id;
 	gint busy_ref;
+};
+
+
+struct _ViewFile
+{
+	FileViewType type;
+	gpointer info;
+
+	GtkWidget *widget;
+	GtkWidget *listview;
+
+	gchar *path;
+	GList *list;
+
+	SortType sort_method;
+	gint sort_ascend;
+
+	/* func list */
+	void (*func_thumb_status)(ViewFile *vf, gdouble val, const gchar *text, gpointer data);
+	gpointer data_thumb_status;
+
+	void (*func_status)(ViewFile *vf, gpointer data);
+	gpointer data_status;
+
+	LayoutWindow *layout;
+
+	GtkWidget *popup;
 };
 
 struct _ViewFileList
