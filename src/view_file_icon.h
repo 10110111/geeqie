@@ -16,7 +16,6 @@
 
 ViewFileIcon *vficon_new(const gchar *path);
 
-gint vficon_set_path(ViewFileIcon *vfi, const gchar *path);
 void vficon_set_status_func(ViewFileIcon *vfi,
 			    void (*func)(ViewFileIcon *vfi, gpointer data), gpointer data);
 void vficon_set_thumb_status_func(ViewFileIcon *vfi,
