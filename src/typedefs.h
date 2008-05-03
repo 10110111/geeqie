@@ -623,6 +623,12 @@ struct _ViewFile
 	LayoutWindow *layout;
 
 	GtkWidget *popup;
+
+	/* thumbs updates*/
+	gint thumbs_running;
+	gint thumbs_count;
+	ThumbLoader *thumbs_loader;
+	FileData *thumbs_filedata;
 };
 
 struct _ViewFileInfoList
@@ -633,12 +639,6 @@ struct _ViewFileInfoList
 	gint thumbs_enabled;
 	gint marks_enabled;
 	gint active_mark;
-
-	/* thumb updates */
-	gint thumbs_running;
-	gint thumbs_count;
-	ThumbLoader *thumbs_loader;
-	FileData *thumbs_filedata;
 
 	gint select_idle_id;
 };
@@ -704,12 +704,6 @@ struct _ViewFileInfoIcon
 	gint show_text;
 
 	gint sync_idle_id;
-
-	/* thumbs */
-	gint thumbs_running;
-	gint thumbs_count;
-	ThumbLoader *thumbs_loader;
-	FileData *thumbs_filedata;
 };
 
 struct _ViewFileIcon
