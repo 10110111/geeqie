@@ -514,7 +514,7 @@ static void layout_menu_list_cb(GtkRadioAction *action, GtkRadioAction *current,
 	if (lw->full_screen)
 		layout_image_full_screen_stop(lw);
 
-	layout_views_set(lw, lw->dir_view_type, (gtk_radio_action_get_current_value(action) == 1));
+	layout_views_set(lw, lw->dir_view_type, (gtk_radio_action_get_current_value(action) == 1) ? FILEVIEW_ICON : FILEVIEW_LIST);
 }
 
 static void layout_menu_view_dir_as_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
@@ -523,7 +523,7 @@ static void layout_menu_view_dir_as_cb(GtkRadioAction *action, GtkRadioAction *c
 	if (lw->full_screen)
 		layout_image_full_screen_stop(lw);
 
-	layout_views_set(lw, (DirViewType) gtk_radio_action_get_current_value(action), lw->icon_view);
+	layout_views_set(lw, (DirViewType) gtk_radio_action_get_current_value(action), lw->file_view_type);
 }
 
 static void layout_menu_view_in_new_window_cb(GtkAction *action, gpointer data)
@@ -1581,7 +1581,7 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->dir_view_type);
 
 	action = gtk_action_group_get_action(lw->action_group, "ViewIcons");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->icon_view);
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->file_view_type);
 
 	action = gtk_action_group_get_action(lw->action_group, "FloatTools");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->tools_float);
@@ -1613,10 +1613,10 @@ void layout_util_sync_thumb(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "Thumbnails");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->thumbs_enabled);
-	g_object_set(action, "sensitive", !lw->icon_view, NULL);
+	g_object_set(action, "sensitive", (lw->file_view_type == FILEVIEW_LIST), NULL);
 
 	gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(lw->thumb_button), lw->thumbs_enabled);
-	gtk_widget_set_sensitive(lw->thumb_button, !lw->icon_view);
+	gtk_widget_set_sensitive(lw->thumb_button, (lw->file_view_type == FILEVIEW_LIST));
 }
 
 void layout_util_sync(LayoutWindow *lw)

@@ -141,8 +141,8 @@ struct _ConfOptions
 		gchar *order;
 		gint style;
 
-		gint view_as_icons;
 		DirViewType dir_view_type;
+		FileViewType file_view_type;
 
 		gint show_thumbnails;
 		gint show_marks;

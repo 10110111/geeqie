@@ -507,7 +507,6 @@ struct _LayoutWindow
 	ViewFileIcon *vfi;
 	GtkWidget *file_view;
 
-	gint icon_view;
 	SortType sort_method;
 	gint sort_ascend;
 

@@ -73,6 +73,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image_overlay.common.template_string = NULL;
 
 	options->layout.dir_view_type = DIRVIEW_LIST;
+	options->layout.file_view_type = FILEVIEW_LIST;
 	options->layout.float_window.h = 450;
 	options->layout.float_window.vdivider_pos = -1;
 	options->layout.float_window.w = 260;
@@ -94,7 +95,6 @@ ConfOptions *init_options(ConfOptions *options)
 	options->layout.tools_float = FALSE;
 	options->layout.tools_hidden = FALSE;
 	options->layout.tools_restore_state = FALSE;
-	options->layout.view_as_icons = FALSE;
 
 	options->lazy_image_sync = FALSE;
 	options->mousewheel_scrolls = FALSE;

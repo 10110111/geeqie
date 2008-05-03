@@ -338,8 +338,8 @@ void save_options(void)
 
 	WRITE_INT(layout.style);
 	WRITE_CHAR(layout.order);
-	WRITE_BOOL(layout.view_as_icons);
 	WRITE_UINT(layout.dir_view_type);
+	WRITE_UINT(layout.file_view_type);
 	WRITE_BOOL(layout.show_marks);
 	WRITE_BOOL(layout.show_thumbnails);
 	WRITE_SEPARATOR();
@@ -637,8 +637,11 @@ void load_options(void)
 
 		READ_INT(layout.style);
 		READ_CHAR(layout.order);
-		READ_BOOL(layout.view_as_icons);
+		
+		COMPAT_READ_UINT(layout.view_as_icons, layout.file_view_type); /* 2008/05/03 */
+
 		READ_UINT(layout.dir_view_type);
+		READ_UINT(layout.file_view_type);
 		READ_BOOL(layout.show_marks);
 		READ_BOOL(layout.show_thumbnails);
 

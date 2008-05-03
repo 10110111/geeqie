@@ -12,4 +12,6 @@
 #ifndef VIEW_FILE_H
 #define VIEW_FILE_H
 
+#define VIEW_FILE_TYPES_COUNT 2
+
 #endif /* VIEW_FILE_H */

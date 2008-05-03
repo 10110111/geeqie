@@ -26,6 +26,7 @@
 #include "pixbuf_util.h"
 #include "utilops.h"
 #include "view_dir.h"
+#include "view_file.h"
 #include "view_file_list.h"
 #include "view_file_icon.h"
 #include "ui_bookmark.h"
@@ -742,7 +743,11 @@ static void layout_icon_thumb_cb(ViewFileIcon *vfi, gdouble val, const gchar *te
 
 static GtkWidget *layout_list_new(LayoutWindow *lw)
 {
-	if (lw->icon_view)
+	GtkWidget *widget = NULL;
+
+	switch (lw->file_view_type)
+	{
+	case FILEVIEW_ICON:
 		{
 		lw->vfi = vficon_new(NULL);
 		vficon_set_layout(lw->vfi, lw);
@@ -751,19 +756,26 @@ static GtkWidget *layout_list_new(LayoutWindow *lw)
 		vficon_set_thumb_status_func(lw->vfi, layout_icon_thumb_cb, lw);
 		/* FIXME vficon_marks_set(lw->vfi, lw->marks_enabled); */
 
-		return lw->vfi->widget;
+		widget = lw->vfi->widget;
 		}
+		break;
+	case FILEVIEW_LIST:
+		{
+		lw->vfl = vflist_new(NULL);
+		vflist_set_layout(lw->vfl, lw);
 
-	lw->vfl = vflist_new(NULL);
-	vflist_set_layout(lw->vfl, lw);
+		vflist_set_status_func(lw->vfl, layout_list_status_cb, lw);
+		vflist_set_thumb_status_func(lw->vfl, layout_list_thumb_cb, lw);
 
-	vflist_set_status_func(lw->vfl, layout_list_status_cb, lw);
-	vflist_set_thumb_status_func(lw->vfl, layout_list_thumb_cb, lw);
+		vflist_marks_set(lw->vfl, lw->marks_enabled);
+		vflist_thumbs_set(lw->vfl, lw->thumbs_enabled);
 
-	vflist_marks_set(lw->vfl, lw->marks_enabled);
-	vflist_thumbs_set(lw->vfl, lw->thumbs_enabled);
+		widget = lw->vfl->widget;
+		}
+		break;
+	}
 
-	return lw->vfl->widget;
+	return widget;
 }
 
 static void layout_list_sync_thumb(LayoutWindow *lw)
@@ -1162,24 +1174,24 @@ gint layout_geometry_get_dividers(LayoutWindow *lw, gint *h, gint *v)
 	return TRUE;
 }
 
-void layout_views_set(LayoutWindow *lw, DirViewType type, gint icons)
+void layout_views_set(LayoutWindow *lw, DirViewType dir_view_type, FileViewType file_view_type)
 {
 	if (!layout_valid(&lw)) return;
 
-	if (lw->dir_view_type == type && lw->icon_view == icons) return;
+	if (lw->dir_view_type == dir_view_type && lw->file_view_type == file_view_type) return;
 
-	lw->dir_view_type = type;
-	lw->icon_view = icons;
+	lw->dir_view_type = dir_view_type;
+	lw->file_view_type = file_view_type;
 
 	layout_style_set(lw, -1, NULL);
 }
 
-gint layout_views_get(LayoutWindow *lw, DirViewType *type, gint *icons)
+gint layout_views_get(LayoutWindow *lw, DirViewType *dir_view_type, FileViewType *file_view_type)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
-	*type = lw->dir_view_type;
-	*icons = lw->icon_view;
+	*dir_view_type = lw->dir_view_type;
+	*file_view_type = lw->file_view_type;
 
 	return TRUE;
 }
@@ -1918,7 +1930,7 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 	layout_config_parse(options->layout.style, options->layout.order,
 			    &lw->dir_location,  &lw->file_location, &lw->image_location);
 	lw->dir_view_type = CLAMP(options->layout.dir_view_type, 0, VIEW_DIR_TYPES_COUNT - 1);
-	lw->icon_view = options->layout.view_as_icons;
+	lw->file_view_type = CLAMP(options->layout.file_view_type, 0, VIEW_FILE_TYPES_COUNT - 1);
 
 	/* divider positions */
 

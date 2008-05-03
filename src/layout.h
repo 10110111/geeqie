@@ -68,8 +68,8 @@ gint layout_sort_get(LayoutWindow *lw, SortType *type, gint *ascend);
 gint layout_geometry_get(LayoutWindow *lw, gint *x, gint *y, gint *w, gint *h);
 gint layout_geometry_get_dividers(LayoutWindow *lw, gint *h, gint *v);
 
-void layout_views_set(LayoutWindow *lw, DirViewType type, gint icons);
-gint layout_views_get(LayoutWindow *lw, DirViewType *type, gint *icons);
+void layout_views_set(LayoutWindow *lw, DirViewType dir_view_type, FileViewType file_view_type);
+gint layout_views_get(LayoutWindow *lw, DirViewType *dir_view_type, FileViewType *file_view_type);
 
 void layout_status_update(LayoutWindow *lw, const gchar *text);
 
