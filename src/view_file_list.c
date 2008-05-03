@@ -1981,7 +1981,12 @@ static void vflist_destroy_cb(GtkWidget *widget, gpointer data)
 	g_free(vfl);
 }
 
-ViewFileList *vflist_new(const gchar *path, gint thumbs)
+void vflist_thumbs_set(ViewFileList *vfl, gint enabled)
+{
+	vfl->thumbs_enabled = enabled; 
+}
+
+ViewFileList *vflist_new(const gchar *path)
 {
 	ViewFileList *vfl;
 	GtkTreeStore *store;
@@ -1998,7 +2003,7 @@ ViewFileList *vflist_new(const gchar *path, gint thumbs)
 	vfl->select_fd = NULL;
 	vfl->sort_method = SORT_NAME;
 	vfl->sort_ascend = TRUE;
-	vfl->thumbs_enabled = thumbs;
+	vfl->thumbs_enabled = FALSE;
 
 	vfl->thumbs_running = FALSE;
 	vfl->thumbs_count = 0;
