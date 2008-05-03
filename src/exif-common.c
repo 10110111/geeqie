@@ -131,7 +131,7 @@ static gint remove_suffix(gchar *str, const gchar *suffix, gint suffix_len)
 	return TRUE;
 }
 
-static gchar *exif_build_fCamera(ExifData *exif)
+static gchar *exif_build_formatted_Camera(ExifData *exif)
 {
 	gchar *text;
 	gchar *make = exif_get_data_as_text(exif, "Exif.Image.Make");
@@ -184,7 +184,7 @@ static gchar *exif_build_fCamera(ExifData *exif)
 	return text;
 }
 
-static gchar *exif_build_fDateTime(ExifData *exif)
+static gchar *exif_build_formatted_DateTime(ExifData *exif)
 {
 	gchar *text = exif_get_data_as_text(exif, "Exif.Photo.DateTimeOriginal");
 	gchar *subsec = NULL;
@@ -205,7 +205,7 @@ static gchar *exif_build_fDateTime(ExifData *exif)
 	return text;
 }
 
-static gchar *exif_build_fShutterSpeed(ExifData *exif)
+static gchar *exif_build_formatted_ShutterSpeed(ExifData *exif)
 {
 	ExifRational *r;
 
@@ -230,7 +230,7 @@ static gchar *exif_build_fShutterSpeed(ExifData *exif)
 	return NULL;
 }
 
-static gchar *exif_build_fAperture(ExifData *exif)
+static gchar *exif_build_formatted_Aperture(ExifData *exif)
 {
 	double n;
 
@@ -241,7 +241,7 @@ static gchar *exif_build_fAperture(ExifData *exif)
 	return g_strdup_printf("f/%.1f", n);
 }
 
-static gchar *exif_build_fExposureBias(ExifData *exif)
+static gchar *exif_build_formatted_ExposureBias(ExifData *exif)
 {
 	ExifRational *r;
 	gint sign;
@@ -254,7 +254,7 @@ static gchar *exif_build_fExposureBias(ExifData *exif)
 	return g_strdup_printf("%+.1f", n);
 }
 
-static gchar *exif_build_fFocalLength(ExifData *exif)
+static gchar *exif_build_formatted_FocalLength(ExifData *exif)
 {
 	double n;
 
@@ -263,7 +263,7 @@ static gchar *exif_build_fFocalLength(ExifData *exif)
 	return g_strdup_printf("%.0f mm", n);
 }
 
-static gchar *exif_build_fFocalLength35mmFilm(ExifData *exif)
+static gchar *exif_build_formatted_FocalLength35mmFilm(ExifData *exif)
 {
 	gint n;
 	double f, c;
@@ -284,7 +284,7 @@ static gchar *exif_build_fFocalLength35mmFilm(ExifData *exif)
 	return NULL;
 }
 
-static gchar *exif_build_fISOSpeedRating(ExifData *exif)
+static gchar *exif_build_formatted_ISOSpeedRating(ExifData *exif)
 {
 	gchar *text;
 
@@ -294,7 +294,7 @@ static gchar *exif_build_fISOSpeedRating(ExifData *exif)
 	return text;
 }
 
-static gchar *exif_build_fSubjectDistance(ExifData *exif)
+static gchar *exif_build_formatted_SubjectDistance(ExifData *exif)
 {
 	ExifRational *r;
 	gint sign;
@@ -311,7 +311,7 @@ static gchar *exif_build_fSubjectDistance(ExifData *exif)
 	return g_strdup_printf("%.3f m", n);
 }
 
-static gchar *exif_build_fFlash(ExifData *exif)
+static gchar *exif_build_formatted_Flash(ExifData *exif)
 {
 	/* grr, flash is a bitmask... */
 	GString *string;
@@ -361,7 +361,7 @@ static gchar *exif_build_fFlash(ExifData *exif)
 	return text;
 }
 
-static gchar *exif_build_fResolution(ExifData *exif)
+static gchar *exif_build_formatted_Resolution(ExifData *exif)
 {
 	ExifRational *rx, *ry;
 	gchar *units;
@@ -380,7 +380,7 @@ static gchar *exif_build_fResolution(ExifData *exif)
 	return text;
 }
 
-static gchar *exif_build_fColorProfile(ExifData *exif)
+static gchar *exif_build_formatted_ColorProfile(ExifData *exif)
 {
 	const gchar *name = "";
 	const gchar *source = "";
@@ -434,28 +434,27 @@ static gchar *exif_build_fColorProfile(ExifData *exif)
 
 
 /* List of custom formatted pseudo-exif tags */
-#define EXIF_FORMATTED_TAG(name, label) { #name, label, exif_build##_##name }
+#define EXIF_FORMATTED_TAG(name, label) { "formatted."#name, label, exif_build_formatted##_##name }
 
 ExifFormattedText ExifFormattedList[] = {
-	EXIF_FORMATTED_TAG(fCamera,		N_("Camera")),
-	EXIF_FORMATTED_TAG(fDateTime,		N_("Date")),
-	EXIF_FORMATTED_TAG(fShutterSpeed,	N_("Shutter speed")),
-	EXIF_FORMATTED_TAG(fAperture,		N_("Aperture")),
-	EXIF_FORMATTED_TAG(fExposureBias,	N_("Exposure bias")),
-	EXIF_FORMATTED_TAG(fISOSpeedRating,	N_("ISO sensitivity")),
-	EXIF_FORMATTED_TAG(fFocalLength,	N_("Focal length")),
-	EXIF_FORMATTED_TAG(fFocalLength35mmFilm,N_("Focal length 35mm")),
-	EXIF_FORMATTED_TAG(fSubjectDistance,	N_("Subject distance")),
-	EXIF_FORMATTED_TAG(fFlash,		N_("Flash")),
-	EXIF_FORMATTED_TAG(fResolution,		N_("Resolution")),
-	EXIF_FORMATTED_TAG(fColorProfile,	N_("Color profile")),
+	EXIF_FORMATTED_TAG(Camera,		N_("Camera")),
+	EXIF_FORMATTED_TAG(DateTime,		N_("Date")),
+	EXIF_FORMATTED_TAG(ShutterSpeed,	N_("Shutter speed")),
+	EXIF_FORMATTED_TAG(Aperture,		N_("Aperture")),
+	EXIF_FORMATTED_TAG(ExposureBias,	N_("Exposure bias")),
+	EXIF_FORMATTED_TAG(ISOSpeedRating,	N_("ISO sensitivity")),
+	EXIF_FORMATTED_TAG(FocalLength,		N_("Focal length")),
+	EXIF_FORMATTED_TAG(FocalLength35mmFilm,	N_("Focal length 35mm")),
+	EXIF_FORMATTED_TAG(SubjectDistance,	N_("Subject distance")),
+	EXIF_FORMATTED_TAG(Flash,		N_("Flash")),
+	EXIF_FORMATTED_TAG(Resolution,		N_("Resolution")),
+	EXIF_FORMATTED_TAG(ColorProfile,	N_("Color profile")),
 	{ NULL, NULL, NULL }
 };
 
 gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid)
 {
-	/* must begin with f, else not formatted */
-	if (key[0] == 'f')
+	if (strncmp(key, "formatted.", 10) == 0)
 		{
 		gint i;
 

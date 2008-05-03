@@ -131,7 +131,7 @@ static gboolean cache_loader_process(CacheLoader *cl)
 			{
 			gchar *text;
 
-			text = exif_get_data_as_text(exif, "fDateTime");
+			text = exif_get_data_as_text(exif, "formatted.DateTime");
 			if (text)
 				{
 				struct tm t = { 0 };
