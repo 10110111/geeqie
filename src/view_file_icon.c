@@ -1891,7 +1891,7 @@ static void vficon_thumb_cleanup(ViewFileIcon *vfi)
 	thumb_loader_free(vfi->thumbs_loader);
 	vfi->thumbs_loader = NULL;
 
-	vfi->thumbs_fd = NULL;
+	vfi->thumbs_filedata = NULL;
 }
 
 static void vficon_thumb_stop(ViewFileIcon *vfi)
@@ -1916,9 +1916,9 @@ static void vficon_thumb_error_cb(ThumbLoader *tl, gpointer data)
 {
 	ViewFileIcon *vfi = data;
 
-	if (vfi->thumbs_fd && vfi->thumbs_loader == tl)
+	if (vfi->thumbs_filedata && vfi->thumbs_loader == tl)
 		{
-		vficon_thumb_do(vfi, tl, vfi->thumbs_fd);
+		vficon_thumb_do(vfi, tl, vfi->thumbs_filedata);
 		}
 
 	while (vficon_thumb_next(vfi));
@@ -1928,9 +1928,9 @@ static void vficon_thumb_done_cb(ThumbLoader *tl, gpointer data)
 {
 	ViewFileIcon *vfi = data;
 
-	if (vfi->thumbs_fd && vfi->thumbs_loader == tl)
+	if (vfi->thumbs_filedata && vfi->thumbs_loader == tl)
 		{
-		vficon_thumb_do(vfi, tl, vfi->thumbs_fd);
+		vficon_thumb_do(vfi, tl, vfi->thumbs_filedata);
 		}
 
 	while (vficon_thumb_next(vfi));
@@ -1998,7 +1998,7 @@ static gint vficon_thumb_next(ViewFileIcon *vfi)
 
 	vfi->thumbs_count++;
 
-	vfi->thumbs_fd = fd;
+	vfi->thumbs_filedata = fd;
 
 	thumb_loader_free(vfi->thumbs_loader);
 
@@ -2697,7 +2697,7 @@ gint vficon_maint_removed(ViewFileIcon *vfi, FileData *fd, GList *ignore_list)
 		}
 
 	/* Thumb loader check */
-	if (fd == vfi->thumbs_fd) vfi->thumbs_fd = NULL;
+	if (fd == vfi->thumbs_filedata) vfi->thumbs_filedata = NULL;
 	if (vfi->thumbs_count > 0) vfi->thumbs_count--;
 
 	if (vfi->prev_selection == id) vfi->prev_selection = NULL;

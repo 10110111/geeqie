@@ -709,7 +709,7 @@ struct _ViewFileInfoIcon
 	gint thumbs_running;
 	gint thumbs_count;
 	ThumbLoader *thumbs_loader;
-	FileData *thumbs_fd;
+	FileData *thumbs_filedata;
 };
 
 struct _ViewFileIcon
@@ -750,7 +750,7 @@ struct _ViewFileIcon
 	gint thumbs_running;
 	gint thumbs_count;
 	ThumbLoader *thumbs_loader;
-	FileData *thumbs_fd;
+	FileData *thumbs_filedata;
 
 	/* func list */
 	void (*func_thumb_status)(ViewFileIcon *vfi, gdouble val, const gchar *text, gpointer data);
