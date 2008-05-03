@@ -707,7 +707,6 @@ struct _ViewFileInfoIcon
 
 	/* thumbs */
 	gint thumbs_running;
-	GList *thumbs_list;
 	gint thumbs_count;
 	ThumbLoader *thumbs_loader;
 	FileData *thumbs_fd;
@@ -749,7 +748,6 @@ struct _ViewFileIcon
 	/* thumbs */
 
 	gint thumbs_running;
-	GList *thumbs_list;
 	gint thumbs_count;
 	ThumbLoader *thumbs_loader;
 	FileData *thumbs_fd;

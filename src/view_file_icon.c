@@ -1885,8 +1885,6 @@ static void vficon_thumb_cleanup(ViewFileIcon *vfi)
 {
 	vficon_thumb_status(vfi, 0.0, NULL);
 
-	g_list_free(vfi->thumbs_list);
-	vfi->thumbs_list = NULL;
 	vfi->thumbs_count = 0;
 	vfi->thumbs_running = FALSE;
 
