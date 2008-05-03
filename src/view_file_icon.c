@@ -36,6 +36,9 @@
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
+#define VFICON_INFO_POINTER(_vf_) ((ViewFileInfoIcon *)(_vf_->info))
+#define VFICON_INFO(_vf_, _part_) (VFICON_INFO_POINTER(_vf_)->_part_)
+
 /* between these, the icon width is increased by thumb_max_width / 2 */
 #define THUMB_MIN_ICON_WIDTH 128
 #define THUMB_MAX_ICON_WIDTH 150

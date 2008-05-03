@@ -155,6 +155,8 @@ typedef struct _ViewDirInfoTree ViewDirInfoTree;
 typedef struct _ViewFile ViewFile;
 typedef struct _ViewFileList ViewFileList;
 typedef struct _ViewFileIcon ViewFileIcon;
+typedef struct _ViewFileInfoList ViewFileInfoList;
+typedef struct _ViewFileInfoIcon ViewFileInfoIcon;
 
 typedef struct _SlideShowData SlideShowData;
 typedef struct _FullScreenData FullScreenData;
@@ -623,6 +625,24 @@ struct _ViewFile
 	GtkWidget *popup;
 };
 
+struct _ViewFileInfoList
+{
+	FileData *click_fd;
+	FileData *select_fd;
+
+	gint thumbs_enabled;
+	gint marks_enabled;
+	gint active_mark;
+
+	/* thumb updates */
+	gint thumbs_running;
+	gint thumbs_count;
+	ThumbLoader *thumbs_loader;
+	FileData *thumbs_filedata;
+
+	gint select_idle_id;
+};
+
 struct _ViewFileList
 {
 	GtkWidget *widget;
@@ -661,6 +681,37 @@ struct _ViewFileList
 };
 
 struct _IconData;
+
+struct _ViewFileInfoIcon
+{
+	/* table stuff */
+	gint columns;
+	gint rows;
+
+	GList *selection;
+	struct _IconData *prev_selection;
+
+	GtkWidget *tip_window;
+	gint tip_delay_id;
+	struct _IconData *tip_id;
+
+	struct _IconData *click_id;
+
+	struct _IconData *focus_id;
+	gint focus_row;
+	gint focus_column;
+
+	gint show_text;
+
+	gint sync_idle_id;
+
+	/* thumbs */
+	gint thumbs_running;
+	GList *thumbs_list;
+	gint thumbs_count;
+	ThumbLoader *thumbs_loader;
+	FileData *thumbs_fd;
+};
 
 struct _ViewFileIcon
 {

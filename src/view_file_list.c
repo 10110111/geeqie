@@ -32,6 +32,8 @@
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
+#define VFLIST_INFO_POINTER(_vf_) ((ViewFileInfoList *)(_vf_->info))
+#define VFLIST_INFO(_vf_, _part_) (VFLIST_INFO_POINTER(_vf_)->_part_)
 
 enum {
 	FILE_COLUMN_POINTER = 0,
