@@ -629,6 +629,10 @@ struct _ViewFile
 	gint thumbs_count;
 	ThumbLoader *thumbs_loader;
 	FileData *thumbs_filedata;
+
+	/* marks */
+	gint marks_enabled;
+	gint active_mark;
 };
 
 struct _ViewFileInfoList
@@ -637,8 +641,6 @@ struct _ViewFileInfoList
 	FileData *select_fd;
 
 	gint thumbs_enabled;
-	gint marks_enabled;
-	gint active_mark;
 
 	gint select_idle_id;
 };
