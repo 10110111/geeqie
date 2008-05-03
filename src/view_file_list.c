@@ -1983,11 +1983,6 @@ static void vflist_destroy_cb(GtkWidget *widget, gpointer data)
 	g_free(vfl);
 }
 
-void vflist_thumbs_set(ViewFileList *vfl, gint enabled)
-{
-	vfl->thumbs_enabled = enabled; 
-}
-
 ViewFileList *vflist_new(const gchar *path)
 {
 	ViewFileList *vfl;
@@ -2096,7 +2091,7 @@ void vflist_thumb_set(ViewFileList *vfl, gint enable)
 	if (vfl->thumbs_enabled == enable) return;
 
 	vfl->thumbs_enabled = enable;
-	vflist_refresh(vfl);
+	if (vfl->layout) vflist_refresh(vfl);
 }
 
 void vflist_marks_set(ViewFileList *vfl, gint enable)

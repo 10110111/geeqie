@@ -16,8 +16,6 @@
 
 #include "filelist.h"
 
-void vflist_thumbs_set(ViewFileList *vfl, gint enabled);
-
 ViewFileList *vflist_new(const gchar *path);
 
 void vflist_set_status_func(ViewFileList *vfl,

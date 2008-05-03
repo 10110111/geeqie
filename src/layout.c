@@ -768,7 +768,7 @@ static GtkWidget *layout_list_new(LayoutWindow *lw)
 		vflist_set_thumb_status_func(lw->vfl, layout_list_thumb_cb, lw);
 
 		vflist_marks_set(lw->vfl, lw->marks_enabled);
-		vflist_thumbs_set(lw->vfl, lw->thumbs_enabled);
+		vflist_thumb_set(lw->vfl, lw->thumbs_enabled);
 
 		widget = lw->vfl->widget;
 		}
