@@ -569,7 +569,7 @@ static GList *collection_table_popup_file_list(CollectTable *ct)
 		return collection_table_selection_get_list(ct);
 		}
 
-	return g_list_append(NULL, g_strdup(ct->click_info->fd->path));
+	return g_list_append(NULL, file_data_ref(ct->click_info->fd));
 }
 
 static void collection_table_popup_edit_cb(GtkWidget *widget, gpointer data)
