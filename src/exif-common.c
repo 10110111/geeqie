@@ -460,8 +460,9 @@ gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_val
 
 		if (key_valid) *key_valid = TRUE;
 
+		key = key + 10;
 		for (i = 0; ExifFormattedList[i].key; i++)
-			if (strcmp(key, ExifFormattedList[i].key) == 0)
+			if (strcmp(key, ExifFormattedList[i].key + 10) == 0)
 				return ExifFormattedList[i].build_func(exif);
 		}
 
