@@ -476,9 +476,13 @@ const gchar *exif_get_description_by_key(const gchar *key)
 
 	if (!key) return NULL;
 
-	for (i = 0; ExifFormattedList[i].key; i++)
-		if (strcmp(key, ExifFormattedList[i].key) == 0)
-			return _(ExifFormattedList[i].description);
+	if (strncmp(key, "formatted.", 10) == 0)
+		{
+		key = key + 10;
+		for (i = 0; ExifFormattedList[i].key; i++)
+			if (strcmp(key, ExifFormattedList[i].key + 10) == 0)
+				return _(ExifFormattedList[i].description);
+		}
 
 	return exif_get_tag_description_by_key(key);
 }
