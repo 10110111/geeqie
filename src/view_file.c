@@ -28,7 +28,7 @@ void vf_sort_set(ViewFile *vf, SortType type, gint ascend)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: vflist_sort_set(vf, type, ascend); break;
-	case FILEVIEW_ICON: /*vficon_sort_set(vf, type, ascend);*/; break;
+	case FILEVIEW_ICON: vficon_sort_set(vf, type, ascend); break;
 	}
 }
 
@@ -45,7 +45,7 @@ FileData *vf_index_get_data(ViewFile *vf, gint row)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: fd = vflist_index_get_data(vf, row); break;
-	case FILEVIEW_ICON: /*fd = vficon_index_get_data(vf, row);*/; break;
+	case FILEVIEW_ICON: fd = vficon_index_get_data(vf, row); break;
 	}
 
 	return fd;
@@ -58,7 +58,7 @@ gchar *vf_index_get_path(ViewFile *vf, gint row)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: path = vflist_index_get_path(vf, row); break;
-	case FILEVIEW_ICON: /*path = vficon_index_get_path(vf, row);*/; break;
+	case FILEVIEW_ICON: path = vficon_index_get_path(vf, row); break;
 	}
 
 	return path;
@@ -71,7 +71,7 @@ gint vf_index_by_path(ViewFile *vf, const gchar *path)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: index = vflist_index_by_path(vf, path); break;
-	case FILEVIEW_ICON: /*index = vficon_index_by_path(vf, path);*/; break;
+	case FILEVIEW_ICON: index = vficon_index_by_path(vf, path); break;
 	}
 
 	return index;
@@ -84,7 +84,7 @@ gint vf_count(ViewFile *vf, gint64 *bytes)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: count = vflist_count(vf, bytes); break;
-	case FILEVIEW_ICON: /*count = vficon_count(vf, bytes);*/; break;
+	case FILEVIEW_ICON: count = vficon_count(vf, bytes); break;
 	}
 
 	return count;
@@ -97,7 +97,7 @@ GList *vf_get_list(ViewFile *vf)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: list = vflist_get_list(vf); break;
-	case FILEVIEW_ICON: /*list = vficon_get_list(vf);*/; break;
+	case FILEVIEW_ICON: list = vficon_get_list(vf); break;
 	}
 
 	return list;
@@ -118,7 +118,7 @@ static gint vf_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: ret = vflist_press_key_cb(widget, event, data); break;
-	case FILEVIEW_ICON: /*ret = vficon_press_key_cb(widget, event, data)*/; break;
+	case FILEVIEW_ICON: ret = vficon_press_key_cb(widget, event, data); break;
 	}
 
 	return ret;
@@ -138,7 +138,7 @@ static gint vf_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: ret = vflist_press_cb(widget, bevent, data); break;
-	case FILEVIEW_ICON: /*ret = vficon_press_cb(widget, bevent, data)*/; break;
+	case FILEVIEW_ICON: ret = vficon_press_cb(widget, bevent, data); break;
 	}
 
 	return ret;
@@ -152,7 +152,7 @@ static gint vf_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer da
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: ret = vflist_release_cb(widget, bevent, data); break;
-	case FILEVIEW_ICON: /*ret = vficon_release_cb(widget, bevent, data)*/; break;
+	case FILEVIEW_ICON: ret = vficon_release_cb(widget, bevent, data); break;
 	}
 
 	return ret;
@@ -172,7 +172,7 @@ gint vf_selection_count(ViewFile *vf, gint64 *bytes)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: count = vflist_selection_count(vf, bytes); break;
-	case FILEVIEW_ICON: /*count = vficon_selection_count(vf, bytes)*/; break;
+	case FILEVIEW_ICON: count = vficon_selection_count(vf, bytes); break;
 	}
 
 	return count;
@@ -185,7 +185,7 @@ GList *vf_selection_get_list(ViewFile *vf)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: list = vflist_selection_get_list(vf); break;
-	case FILEVIEW_ICON: /*list = vficon_selection_get_list(vf)*/; break;
+	case FILEVIEW_ICON: list = vficon_selection_get_list(vf); break;
 	}
 
 	return list;
@@ -198,7 +198,7 @@ GList *vf_selection_get_list_by_index(ViewFile *vf)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: list = vflist_selection_get_list_by_index(vf); break;
-	case FILEVIEW_ICON: /*list = vficon_selection_get_list_by_index(vf)*/; break;
+	case FILEVIEW_ICON: list = vficon_selection_get_list_by_index(vf); break;
 	}
 
 	return list;
@@ -209,7 +209,7 @@ void vf_select_all(ViewFile *vf)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: vflist_select_all(vf); break;
-	case FILEVIEW_ICON: /*vficon_select_all(vf);*/; break;
+	case FILEVIEW_ICON: vficon_select_all(vf); break;
 	}
 }
 
@@ -218,7 +218,7 @@ void vf_select_none(ViewFile *vf)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: vflist_select_none(vf); break;
-	case FILEVIEW_ICON: /*vficon_select_none(vf);*/; break;
+	case FILEVIEW_ICON: vficon_select_none(vf); break;
 	}
 }
 
@@ -227,7 +227,7 @@ void vf_select_by_fd(ViewFile *vf, FileData *fd)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: vflist_select_by_fd(vf, fd); break;
-	case FILEVIEW_ICON: /*vficon_select_by_fd(vf, fd);*/; break;
+	case FILEVIEW_ICON: vficon_select_by_fd(vf, fd); break;
 	}
 }
 
@@ -236,7 +236,7 @@ void vf_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: vflist_mark_to_selection(vf, mark, mode); break;
-	case FILEVIEW_ICON: /*vficon_mark_to_selection(vf, mark, mode);*/; break;
+	case FILEVIEW_ICON: vficon_mark_to_selection(vf, mark, mode); break;
 	}
 }
 
@@ -245,7 +245,7 @@ void vf_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: vflist_selection_to_mark(vf, mark, mode); break;
-	case FILEVIEW_ICON: /*vficon_selection_to_mark(vf, mark, mode);*/; break;
+	case FILEVIEW_ICON: vficon_selection_to_mark(vf, mark, mode); break;
 	}
 }
 
@@ -261,7 +261,7 @@ static void vf_dnd_init(ViewFile *vf)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: vflist_dnd_init(vf); break;
-	case FILEVIEW_ICON: /*vficon_dnd_init(vf)*/; break;
+	case FILEVIEW_ICON: vficon_dnd_init(vf); break;
 	}
 }
 
@@ -272,7 +272,7 @@ gint vf_refresh(ViewFile *vf)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: ret = vflist_refresh(vf); break;
-	case FILEVIEW_ICON: /*ret = vficon_refresh(vf)*/; break;
+	case FILEVIEW_ICON: ret = vficon_refresh(vf); break;
 	}
 
 	return ret;
@@ -285,7 +285,7 @@ gint vf_set_path(ViewFile *vf, const gchar *path)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: ret = vflist_set_path(vf, path); break;
-	case FILEVIEW_ICON: /*ret = vficon_set_path(vf, path)*/; break;
+	case FILEVIEW_ICON: ret = vficon_set_path(vf, path); break;
 	}
 	
 	return ret;
@@ -345,8 +345,10 @@ ViewFile *vf_new(FileViewType type, const gchar *path)
 	switch(type)
 	{
 	case FILEVIEW_LIST: vf = vflist_new(vf, path); break;
-	case FILEVIEW_ICON: /*vf = vftree_new(vf, path);*/ break;
+	case FILEVIEW_ICON: vf = vficon_new(vf, path); break;
 	}
+
+	vf_dnd_init(vf);
 
 	g_signal_connect(G_OBJECT(vf->listview), "key_press_event",
 			 G_CALLBACK(vf_press_key_cb), vf);
@@ -357,8 +359,6 @@ ViewFile *vf_new(FileViewType type, const gchar *path)
 
 	gtk_container_add(GTK_CONTAINER(vf->widget), vf->listview);
 	gtk_widget_show(vf->listview);
-
-	vf_dnd_init(vf);
 
 	if (path) vf_set_path(vf, path);
 
@@ -413,7 +413,7 @@ gint vf_maint_renamed(ViewFile *vf, FileData *fd)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: ret = vflist_maint_renamed(vf, fd); break;
-	case FILEVIEW_ICON: /*ret = vficon_maint_renamed(vf, fd);*/ break;
+	case FILEVIEW_ICON: ret = vficon_maint_renamed(vf, fd); break;
 	}
 
 	return ret;
@@ -426,7 +426,7 @@ gint vf_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: ret = vflist_maint_removed(vf, fd, ignore_list); break;
-	case FILEVIEW_ICON: /*ret = vficon_maint_removed(vf, fd, ignore_list);*/ break;
+	case FILEVIEW_ICON: ret = vficon_maint_removed(vf, fd, ignore_list); break;
 	}
 
 	return ret;
@@ -439,7 +439,7 @@ gint vf_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: ret = vflist_maint_moved(vf, fd, ignore_list); break;
-	case FILEVIEW_ICON: /*ret = vficon_maint_moved(vf, fd, ignore_list);*/ break;
+	case FILEVIEW_ICON: ret = vficon_maint_moved(vf, fd, ignore_list); break;
 	}
 
 	return ret;

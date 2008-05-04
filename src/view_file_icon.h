@@ -17,47 +17,47 @@ gint vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
 gint vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 gint vficon_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 
-void vficon_dnd_init(ViewFileIcon *vfi);
+void vficon_dnd_init(ViewFile *vf);
 
 void vficon_destroy_cb(GtkWidget *widget, gpointer data);
-ViewFileIcon *vficon_new(const gchar *path);
+ViewFile *vficon_new(ViewFile *vf, const gchar *path);
 
-void vficon_set_status_func(ViewFileIcon *vfi,
-			    void (*func)(ViewFileIcon *vfi, gpointer data), gpointer data);
-void vficon_set_thumb_status_func(ViewFileIcon *vfi,
-				  void (*func)(ViewFileIcon *vfi, gdouble val, const gchar *text, gpointer data),
+void vficon_set_status_func(ViewFile *vf,
+			    void (*func)(ViewFile *vf, gpointer data), gpointer data);
+void vficon_set_thumb_status_func(ViewFile *vf,
+				  void (*func)(ViewFile *vf, gdouble val, const gchar *text, gpointer data),
 				  gpointer data);
 
-void vficon_set_layout(ViewFileIcon *vfi, LayoutWindow *layout);
+void vficon_set_layout(ViewFile *vf, LayoutWindow *layout);
 
-gint vficon_set_path(ViewFileIcon *vfi, const gchar *path);
-gint vficon_refresh(ViewFileIcon *vfi);
+gint vficon_set_path(ViewFile *vf, const gchar *path);
+gint vficon_refresh(ViewFile *vf);
 
-void vficon_sort_set(ViewFileIcon *vfi, SortType type, gint ascend);
+void vficon_sort_set(ViewFile *vf, SortType type, gint ascend);
 
-FileData *vficon_index_get_data(ViewFileIcon *vfi, gint row);
-gchar *vficon_index_get_path(ViewFileIcon *vfi, gint row);
-gint vficon_index_by_path(ViewFileIcon *vfi, const gchar *path);
-gint vficon_index_by_fd(ViewFileIcon *vfi, FileData *in_fd);
-gint vficon_count(ViewFileIcon *vfi, gint64 *bytes);
-GList *vficon_get_list(ViewFileIcon *vfi);
+FileData *vficon_index_get_data(ViewFile *vf, gint row);
+gchar *vficon_index_get_path(ViewFile *vf, gint row);
+gint vficon_index_by_path(ViewFile *vf, const gchar *path);
+gint vficon_index_by_fd(ViewFile *vf, FileData *in_fd);
+gint vficon_count(ViewFile *vf, gint64 *bytes);
+GList *vficon_get_list(ViewFile *vf);
 
-gint vficon_index_is_selected(ViewFileIcon *vfi, gint row);
-gint vficon_selection_count(ViewFileIcon *vfi, gint64 *bytes);
-GList *vficon_selection_get_list(ViewFileIcon *vfi);
-GList *vficon_selection_get_list_by_index(ViewFileIcon *vfi);
+gint vficon_index_is_selected(ViewFile *vf, gint row);
+gint vficon_selection_count(ViewFile *vf, gint64 *bytes);
+GList *vficon_selection_get_list(ViewFile *vf);
+GList *vficon_selection_get_list_by_index(ViewFile *vf);
 
-void vficon_select_all(ViewFileIcon *vfi);
-void vficon_select_none(ViewFileIcon *vfi);
-void vficon_select_by_path(ViewFileIcon *vfi, const gchar *path);
-void vficon_select_by_fd(ViewFileIcon *vfi, FileData *fd);
+void vficon_select_all(ViewFile *vf);
+void vficon_select_none(ViewFile *vf);
+void vficon_select_by_path(ViewFile *vf, const gchar *path);
+void vficon_select_by_fd(ViewFile *vf, FileData *fd);
 
-void vficon_mark_to_selection(ViewFileIcon *vfi, gint mark, MarkToSelectionMode mode);
-void vficon_selection_to_mark(ViewFileIcon *vfi, gint mark, SelectionToMarkMode mode);
+void vficon_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode);
+void vficon_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode);
 
-gint vficon_maint_renamed(ViewFileIcon *vfi, FileData *fd);
-gint vficon_maint_removed(ViewFileIcon *vfi, FileData *fd, GList *ignore_list);
-gint vficon_maint_moved(ViewFileIcon *vfi, FileData *fd, GList *ignore_list);
+gint vficon_maint_renamed(ViewFile *vf, FileData *fd);
+gint vficon_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list);
+gint vficon_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list);
 
 
 #endif

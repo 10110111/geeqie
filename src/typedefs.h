@@ -153,7 +153,6 @@ typedef struct _ViewDirInfoList ViewDirInfoList;
 typedef struct _ViewDirInfoTree ViewDirInfoTree;
 
 typedef struct _ViewFile ViewFile;
-typedef struct _ViewFileIcon ViewFileIcon;
 typedef struct _ViewFileInfoList ViewFileInfoList;
 typedef struct _ViewFileInfoIcon ViewFileInfoIcon;
 
@@ -504,7 +503,6 @@ struct _LayoutWindow
 	ViewFile *vf;
 	FileViewType file_view_type;
 
-	ViewFileIcon *vfi;
 	GtkWidget *file_view;
 
 	SortType sort_method;
@@ -667,58 +665,6 @@ struct _ViewFileInfoIcon
 	gint show_text;
 
 	gint sync_idle_id;
-};
-
-struct _ViewFileIcon
-{
-	GtkWidget *widget;
-	GtkWidget *listview;
-
-	gchar *path;
-	GList *list;
-
-	/* table stuff */
-
-	gint columns;
-	gint rows;
-
-	GList *selection;
-	struct _IconData *prev_selection;
-
-	GtkWidget *tip_window;
-	gint tip_delay_id;
-	struct _IconData *tip_id;
-
-	struct _IconData *click_id;
-
-	struct _IconData *focus_id;
-	gint focus_row;
-	gint focus_column;
-
-	SortType sort_method;
-	gint sort_ascend;
-
-	gint show_text;
-
-	gint sync_idle_id;
-
-	/* thumbs */
-
-	gint thumbs_running;
-	gint thumbs_count;
-	ThumbLoader *thumbs_loader;
-	FileData *thumbs_filedata;
-
-	/* func list */
-	void (*func_thumb_status)(ViewFileIcon *vfi, gdouble val, const gchar *text, gpointer data);
-	gpointer data_thumb_status;
-
-	void (*func_status)(ViewFileIcon *vfi, gpointer data);
-	gpointer data_status;
-
-	LayoutWindow *layout;
-
-	GtkWidget *popup;
 };
 
 struct _SlideShowData
