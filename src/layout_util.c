@@ -875,11 +875,11 @@ static void layout_menu_edit_update(LayoutWindow *lw)
 
 			if (options->editor_name[i] && strlen(options->editor_name[i]) > 0)
 				{
-				text = g_strdup_printf(_("_%d in %s..."), i, options->editor_name[i]);
+				text = g_strdup_printf(_("_%d %s..."), i, options->editor_name[i]);
 				}
 			else
 				{
-				text = g_strdup_printf(_("_%d in (unknown)..."), i);
+				text = g_strdup_printf(_("_%d (unknown)..."), i);
 				}
 			g_object_set(action, "label", text,
 					     "sensitive", TRUE, NULL);
