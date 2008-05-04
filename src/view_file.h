@@ -42,7 +42,6 @@ GList *vf_selection_get_list_by_index(ViewFile *vf);
 
 void vf_select_all(ViewFile *vf);
 void vf_select_none(ViewFile *vf);
-void vf_select_by_path(ViewFile *vf, const gchar *path);
 void vf_select_by_fd(ViewFile *vf, FileData *fd);
 
 void vf_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode);

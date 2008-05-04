@@ -1011,24 +1011,6 @@ static void vficon_select_by_id(ViewFile *vf, IconData *id)
 	vficon_set_focus(vf, id);
 }
 
-
-void vficon_select_by_path(ViewFile *vf, const gchar *path)
-{
-	IconData *id = NULL;
-	GList *work;
-
-	if (!path) return;
-
-	work = vf->list;
-	while (work && !id)
-		{
-		IconData *chk = work->data;
-		work = work->next;
-		if (strcmp(chk->fd->path, path) == 0) id = chk;
-		}
-	vficon_select_by_id(vf, id);
-}
-
 void vficon_select_by_fd(ViewFile *vf, FileData *fd)
 {
 	IconData *id = NULL;

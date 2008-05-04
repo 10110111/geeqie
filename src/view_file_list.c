@@ -1524,15 +1524,6 @@ void vflist_select_none(ViewFile *vf)
 	gtk_tree_selection_unselect_all(selection);
 }
 
-void vflist_select_by_path(ViewFile *vf, const gchar *path)
-{
-	FileData *fd;
-
-	if (vflist_row_by_path(vf, path, &fd) < 0) return;
-
-	vflist_select_by_fd(vf, fd);
-}
-
 void vflist_select_by_fd(ViewFile *vf, FileData *fd)
 {
 	GtkTreeIter iter;

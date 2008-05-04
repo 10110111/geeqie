@@ -41,7 +41,6 @@ GList *vficon_selection_get_list_by_index(ViewFile *vf);
 
 void vficon_select_all(ViewFile *vf);
 void vficon_select_none(ViewFile *vf);
-void vficon_select_by_path(ViewFile *vf, const gchar *path);
 void vficon_select_by_fd(ViewFile *vf, FileData *fd);
 
 void vficon_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode);
