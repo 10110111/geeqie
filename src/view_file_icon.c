@@ -2110,10 +2110,10 @@ gint vficon_count(ViewFile *vf, gint64 *bytes)
 		work = vf->list;
 		while (work)
 			{
-
 			IconData *id = work->data;
 			FileData *fd = id->fd;
 			work = work->next;
+
 			b += fd->size;
 			}
 
@@ -2168,19 +2168,15 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 	work = old_list;
 	while (work)
 		{
-		IconData *id;
-		FileData *fd;
+		IconData *id = work->data;
+		FileData *fd = id->fd;
+		GList *needle = vf->list;
 
-		GList *needle;
-
-		id = work->data;
-		fd = id->fd;
-
-		needle = vf->list;
 		while (needle)
 			{
 			IconData *idn = needle->data;
 			FileData *fdn = idn->fd;
+
 			if (fdn == fd)
 				{
 				/* swap, to retain old thumb, selection */
@@ -2452,8 +2448,9 @@ static gint vficon_maint_find_closest(ViewFile *vf, gint row, gint count, GList 
 	while (work)
 		{
 		FileData *fd = work->data;
-		gint f = vficon_index_by_fd(vf, work->data);
+		gint f = vficon_index_by_fd(vf, fd);
 		g_assert(fd->magick == 0x12345678);
+
 		if (f >= 0) list = g_list_prepend(list, GINT_TO_POINTER(f));
 		work = work->next;
 		}
@@ -2461,10 +2458,12 @@ static gint vficon_maint_find_closest(ViewFile *vf, gint row, gint count, GList 
 	while (list)
 		{
 		gint c = TRUE;
+
 		work = list;
 		while (work && c)
 			{
 			gpointer p = work->data;
+
 			work = work->next;
 			if (row == GPOINTER_TO_INT(p))
 				{
@@ -2478,12 +2477,14 @@ static gint vficon_maint_find_closest(ViewFile *vf, gint row, gint count, GList 
 				}
 			if (!c) list = g_list_remove(list, p);
 			}
+
 		if (c && list)
 			{
 			g_list_free(list);
 			list = NULL;
 			}
 		}
+
 	if (row > count - 1)
 		{
 		if (rev < 0)
@@ -2601,12 +2602,14 @@ gint vficon_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 						match = TRUE;
 						}
 					}
+
 				if (!match)
 					{
 					new_row = g_list_index(vf->list, ignore_id);
 					work = NULL;
 					}
 				}
+
 			if (new_row == -1)
 				{
 				/* selection all ignored, use closest */
@@ -2617,6 +2620,7 @@ gint vficon_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 			{
 			new_row = g_list_index(vf->list, VFICON_INFO(vf, selection)->data);
 			}
+
 		if (new_row >= 0)
 			{
 			IconData *idn = g_list_nth_data(vf->list, new_row);
