@@ -369,7 +369,7 @@ static void gr_slideshow_start_rec(const gchar *text, gpointer data)
 {
 	GList *list;
 
-	list = path_list_recursive(text);
+	list = filelist_recursive(text);
 	if (!list) return;
 //printf("length: %d\n", g_list_length(list));
 	layout_image_slideshow_stop(NULL);
@@ -751,13 +751,13 @@ static void remote_control(const gchar *arg_exec, GList *remote_list, const gcha
 		work = cmd_list;
 		while (work)
 			{
-			const gchar *name;
+			FileData *fd;
 			gchar *text;
 
-			name = work->data;
+			fd = work->data;
 			work = work->next;
 
-			text = g_strconcat(prefix, name, NULL);
+			text = g_strconcat(prefix, fd->path, NULL);
 			remote_client_send(rc, text);
 			g_free(text);
 
@@ -832,7 +832,7 @@ static void parse_command_line_add_file(const gchar *file_path, gchar **path, gc
 		{
 		if (!*path) *path = remove_level_from_path(path_parsed);
 		if (!*file) *file = g_strdup(path_parsed);
-		*list = g_list_prepend(*list, path_parsed);
+		*list = g_list_prepend(*list, file_data_new_simple(path_parsed));
 		}
 }
 
@@ -845,22 +845,20 @@ static void parse_command_line_add_dir(const gchar *dir, gchar **path, gchar **f
 	path_parsed = g_strdup(dir);
 	parse_out_relatives(path_parsed);
 
-	if (path_list(path_parsed, &files, NULL))
+	if (filelist_read(path_parsed, &files, NULL))
 		{
 		GList *work;
 
-		files = path_list_filter(files, FALSE);
-		files = path_list_sort(files);
+		files = filelist_filter(files, FALSE);
+		files = filelist_sort_path(files);
 
 		work = files;
 		while (work)
 			{
-			gchar *p;
-
-			p = work->data;
-			if (!*path) *path = remove_level_from_path(p);
-			if (!*file) *file = g_strdup(p);
-			*list = g_list_prepend(*list, p);
+			FileData *fd = work->data;
+			if (!*path) *path = remove_level_from_path(fd->path);
+			if (!*file) *file = g_strdup(fd->path);
+			*list = g_list_prepend(*list, fd);
 
 			work = work->next;
 			}
@@ -1074,7 +1072,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 		}
 	else
 		{
-		path_list_free(list);
+		filelist_free(list);
 		*cmd_list = NULL;
 		}
 }
@@ -1374,9 +1372,9 @@ int main (int argc, char *argv[])
 		cmd_path = NULL;
 		g_free(cmd_file);
 		cmd_file = NULL;
-		path_list_free(cmd_list);
+		filelist_free(cmd_list);
 		cmd_list = NULL;
-		path_list_free(collection_list);
+		string_list_free(collection_list);
 		collection_list = NULL;
 
 		path = NULL;
@@ -1485,8 +1483,8 @@ int main (int argc, char *argv[])
 	g_free(geometry);
 	g_free(cmd_path);
 	g_free(cmd_file);
-	path_list_free(cmd_list);
-	path_list_free(collection_list);
+	filelist_free(cmd_list);
+	string_list_free(collection_list);
 	g_free(path);
 
 	if (startup_full_screen) layout_image_full_screen_start(lw);

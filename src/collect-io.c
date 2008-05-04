@@ -671,7 +671,7 @@ static void collect_manager_refresh(void)
 	gchar *base;
 
 	base = g_strconcat(homedir(), "/", GQ_RC_DIR_COLLECTIONS, NULL);
-	path_list(base, &list, NULL);
+	filelist_read(base, &list, NULL);
 	g_free(base);
 
 	work = collection_manager_entry_list;
@@ -686,15 +686,15 @@ static void collect_manager_refresh(void)
 		list_step = list;
 		while (list_step && entry)
 			{
-			gchar *path;
+			FileData *fd;
 
-			path = list_step->data;
+			fd = list_step->data;
 			list_step = list_step->next;
 
-			if (strcmp(path, entry->path) == 0)
+			if (strcmp(fd->path, entry->path) == 0)
 				{
-				list = g_list_remove(list, path);
-				g_free(path);
+				list = g_list_remove(list, fd);
+				file_data_unref(fd);
 
 				entry = NULL;
 				}
@@ -708,16 +708,15 @@ static void collect_manager_refresh(void)
 	work = list;
 	while (work)
 		{
-		gchar *path;
+		FileData *fd;
 
-		path = work->data;
+		fd = work->data;
 		work = work->next;
 
-		collect_manager_entry_new(path);
-		g_free(path);
+		collect_manager_entry_new(fd->path);
 		}
 
-	g_list_free(list);
+	filelist_free(list);
 }
 
 static void collect_manager_process_actions(gint max)

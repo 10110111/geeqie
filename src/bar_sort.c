@@ -95,33 +95,33 @@ static void bar_sort_collection_list_build(GtkWidget *bookmarks)
 	bookmark_list_set_key(bookmarks, SORT_KEY_COLLECTIONS);
 
 	collect_path = g_strconcat(homedir(), "/", GQ_RC_DIR_COLLECTIONS, NULL);
-	path_list(collect_path, &list, NULL);
+	filelist_read(collect_path, &list, NULL);
 	g_free(collect_path);
 
-	list = path_list_sort(list);
+	list = filelist_sort_path(list);
 
 	work = list;
 	while (work)
 		{
-		const gchar *path;
+		FileData *fd;
 		gchar *name;
 
-		path = work->data;
+		fd = work->data;
 		work = work->next;
 
-		if (file_extension_match(path, ".gqv"))
+		if (file_extension_match(fd->path, ".gqv"))
 			{
-			name = remove_extension_from_path(filename_from_path(path));
+			name = remove_extension_from_path(fd->name);
 			}
 		else
 			{
-			name = g_strdup(filename_from_path(path));
+			name = g_strdup(fd->name);
 			}
-		bookmark_list_add(bookmarks, name, path);
+		bookmark_list_add(bookmarks, name, fd->path);
 		g_free(name);
 		}
 
-	string_list_free(list);
+	filelist_free(list);
 }
 
 static void bar_sort_mode_sync(SortData *sd, SortModeType mode)

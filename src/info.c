@@ -168,7 +168,7 @@ static GList *info_tab_meta_list_cb(gpointer data)
 {
 	InfoData *id = data;
 
-	return path_list_copy(id->list);
+	return filelist_copy(id->list);
 }
 
 static TabData *info_tab_meta_new(InfoData *id)

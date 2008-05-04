@@ -426,41 +426,6 @@ void filter_parse(const gchar *text)
 	g_free(desc);
 }
 
-GList *path_list_filter(GList *list, gint is_dir_list)
-{
-	GList *work;
-
-	if (!is_dir_list && options->file_filter.disable && options->file_filter.show_hidden_files) return list;
-
-	work = list;
-	while (work)
-		{
-		gchar *name = work->data;
-		const gchar *base;
-
-		base = filename_from_path(name);
-
-		if ((!options->file_filter.show_hidden_files && ishidden(base)) ||
-		    (!is_dir_list && !filter_name_exists(base)) ||
-		    (is_dir_list && base[0] == '.' && (strcmp(base, GQ_CACHE_LOCAL_THUMB) == 0 ||
-						       strcmp(base, GQ_CACHE_LOCAL_METADATA) == 0)) )
-			{
-			GList *link = work;
-			work = work->next;
-			list = g_list_remove_link(list, link);
-			g_free(name);
-			g_list_free(link);
-			}
-		else
-			{
-			work = work->next;
-			}
-		}
-
-	return list;
-}
-
-
 /*
  *-----------------------------------------------------------------------------
  * sidecar extension list
@@ -523,66 +488,6 @@ char *sidecar_ext_to_string()
 void sidecar_ext_add_defaults()
 {
 	sidecar_ext_parse(".jpg;.cr2;.nef;.crw;.xmp", FALSE);
-}
-
-/*
- *-----------------------------------------------------------------------------
- * path list recursive
- *-----------------------------------------------------------------------------
- */
-
-static gint path_list_sort_cb(gconstpointer a, gconstpointer b)
-{
-	return CASE_SORT((gchar *)a, (gchar *)b);
-}
-
-GList *path_list_sort(GList *list)
-{
-	return g_list_sort(list, path_list_sort_cb);
-}
-
-static void path_list_recursive_append(GList **list, GList *dirs)
-{
-	GList *work;
-
-	work = dirs;
-	while (work)
-		{
-		const gchar *path = work->data;
-		GList *f = NULL;
-		GList *d = NULL;
-
-		if (path_list(path, &f, &d))
-			{
-			f = path_list_filter(f, FALSE);
-			f = path_list_sort(f);
-			*list = g_list_concat(*list, f);
-
-			d = path_list_filter(d, TRUE);
-			d = path_list_sort(d);
-			path_list_recursive_append(list, d);
-			path_list_free(d);
-			}
-
-		work = work->next;
-		}
-}
-
-GList *path_list_recursive(const gchar *path)
-{
-	GList *list = NULL;
-	GList *d = NULL;
-
-	if (!path_list(path, &list, &d)) return NULL;
-	list = path_list_filter(list, FALSE);
-	list = path_list_sort(list);
-
-	d = path_list_filter(d, TRUE);
-	d = path_list_sort(d);
-	path_list_recursive_append(&list, d);
-	path_list_free(d);
-
-	return list;
 }
 
 /*

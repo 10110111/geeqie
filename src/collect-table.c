@@ -758,7 +758,7 @@ static void collection_table_popup_destroy_cb(GtkWidget *widget, gpointer data)
 	ct->click_info = NULL;
 	ct->popup = NULL;
 
-	path_list_free(ct->drop_list);
+	filelist_free(ct->drop_list);
 	ct->drop_list = NULL;
 	ct->drop_info = NULL;
 }

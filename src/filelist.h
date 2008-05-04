@@ -49,11 +49,6 @@ void sidecar_ext_add_defaults();
 gint ishidden(const gchar *name);
 
 
-GList *path_list_filter(GList *list, gint is_dir_list);
-
-GList *path_list_sort(GList *list);
-GList *path_list_recursive(const gchar *path);
-
 gchar *text_from_size(gint64 size);
 gchar *text_from_size_abrev(gint64 size);
 const gchar *text_from_time(time_t t);
