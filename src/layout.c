@@ -15,6 +15,7 @@
 
 #include "color-man.h"
 #include "debug.h"
+#include "filelist.h"
 #include "histogram.h"
 #include "image.h"
 #include "image-overlay.h"
@@ -27,7 +28,6 @@
 #include "utilops.h"
 #include "view_dir.h"
 #include "view_file.h"
-#include "view_file_list.h"
 #include "view_file_icon.h"
 #include "ui_bookmark.h"
 #include "ui_fileops.h"
@@ -713,14 +713,14 @@ static GtkWidget *layout_tools_new(LayoutWindow *lw)
 	return lw->dir_view;
 }
 
-static void layout_list_status_cb(ViewFileList *vfl, gpointer data)
+static void layout_list_status_cb(ViewFile *vf, gpointer data)
 {
 	LayoutWindow *lw = data;
 
 	layout_status_update_info(lw, NULL);
 }
 
-static void layout_list_thumb_cb(ViewFileList *vfl, gdouble val, const gchar *text, gpointer data)
+static void layout_list_thumb_cb(ViewFile *vf, gdouble val, const gchar *text, gpointer data)
 {
 	LayoutWindow *lw = data;
 
@@ -761,16 +761,16 @@ static GtkWidget *layout_list_new(LayoutWindow *lw)
 		break;
 	case FILEVIEW_LIST:
 		{
-		lw->vfl = vflist_new(NULL);
-		vflist_set_layout(lw->vfl, lw);
+		lw->vf = vf_new(lw->file_view_type, NULL);
+		vf_set_layout(lw->vf, lw);
 
-		vflist_set_status_func(lw->vfl, layout_list_status_cb, lw);
-		vflist_set_thumb_status_func(lw->vfl, layout_list_thumb_cb, lw);
+		vf_set_status_func(lw->vf, layout_list_status_cb, lw);
+		vf_set_thumb_status_func(lw->vf, layout_list_thumb_cb, lw);
 
-		vflist_marks_set(lw->vfl, lw->marks_enabled);
-		vflist_thumb_set(lw->vfl, lw->thumbs_enabled);
+		vf_marks_set(lw->vf, lw->marks_enabled);
+		vf_thumb_set(lw->vf, lw->thumbs_enabled);
 
-		widget = lw->vfl->widget;
+		widget = lw->vf->widget;
 		}
 		break;
 	}
@@ -780,19 +780,19 @@ static GtkWidget *layout_list_new(LayoutWindow *lw)
 
 static void layout_list_sync_thumb(LayoutWindow *lw)
 {
-	if (lw->vfl) vflist_thumb_set(lw->vfl, lw->thumbs_enabled);
+	if (lw->vf) vf_thumb_set(lw->vf, lw->thumbs_enabled);
 }
 
 static void layout_list_sync_marks(LayoutWindow *lw)
 {
-	if (lw->vfl) vflist_marks_set(lw->vfl, lw->marks_enabled);
+	if (lw->vf) vf_marks_set(lw->vf, lw->marks_enabled);
 }
 
 static void layout_list_scroll_to_subpart(LayoutWindow *lw, const gchar *needle)
 {
 	if (!lw) return;
 #if 0
-	if (lw->vfl) vflist_scroll_to_subpart(lw->vfl, needle);
+	if (lw->vf) vf_scroll_to_subpart(lw->vf, needle);
 	if (lw->vfi) vficon_scroll_to_subpart(lw->vfi, needle);
 #endif
 }
@@ -801,7 +801,7 @@ GList *layout_list(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return NULL;
 
-	if (lw->vfl) return vflist_get_list(lw->vfl);
+	if (lw->vf) return vf_get_list(lw->vf);
 	if (lw->vfi) return vficon_get_list(lw->vfi);
 
 	return NULL;
@@ -811,7 +811,7 @@ gint layout_list_count(LayoutWindow *lw, gint64 *bytes)
 {
 	if (!layout_valid(&lw)) return 0;
 
-	if (lw->vfl) return vflist_count(lw->vfl, bytes);
+	if (lw->vf) return vf_count(lw->vf, bytes);
 	if (lw->vfi) return vficon_count(lw->vfi, bytes);
 
 	return 0;
@@ -821,7 +821,7 @@ const gchar *layout_list_get_path(LayoutWindow *lw, gint index)
 {
 	if (!layout_valid(&lw)) return NULL;
 
-	if (lw->vfl) return vflist_index_get_path(lw->vfl, index);
+	if (lw->vf) return vf_index_get_path(lw->vf, index);
 	if (lw->vfi) return vficon_index_get_path(lw->vfi, index);
 
 	return NULL;
@@ -831,7 +831,7 @@ FileData *layout_list_get_fd(LayoutWindow *lw, gint index)
 {
 	if (!layout_valid(&lw)) return NULL;
 
-	if (lw->vfl) return vflist_index_get_data(lw->vfl, index);
+	if (lw->vf) return vf_index_get_data(lw->vf, index);
 	if (lw->vfi) return vficon_index_get_data(lw->vfi, index);
 
 	return NULL;
@@ -841,7 +841,7 @@ gint layout_list_get_index(LayoutWindow *lw, const gchar *path)
 {
 	if (!layout_valid(&lw)) return -1;
 
-	if (lw->vfl) return vflist_index_by_path(lw->vfl, path);
+	if (lw->vf) return vf_index_by_path(lw->vf, path);
 	if (lw->vfi) return vficon_index_by_path(lw->vfi, path);
 
 	return -1;
@@ -851,7 +851,7 @@ void layout_list_sync_fd(LayoutWindow *lw, FileData *fd)
 {
 	if (!layout_valid(&lw)) return;
 
-	if (lw->vfl) vflist_select_by_fd(lw->vfl, fd);
+	if (lw->vf) vf_select_by_fd(lw->vf, fd);
 	if (lw->vfi) vficon_select_by_fd(lw->vfi, fd);
 }
 
@@ -859,7 +859,7 @@ static void layout_list_sync_sort(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return;
 
-	if (lw->vfl) vflist_sort_set(lw->vfl, lw->sort_method, lw->sort_ascend);
+	if (lw->vf) vf_sort_set(lw->vf, lw->sort_method, lw->sort_ascend);
 	if (lw->vfi) vficon_sort_set(lw->vfi, lw->sort_method, lw->sort_ascend);
 }
 
@@ -876,7 +876,7 @@ GList *layout_selection_list(LayoutWindow *lw)
 		return NULL;
 		}
 
-	if (lw->vfl) return vflist_selection_get_list(lw->vfl);
+	if (lw->vf) return vf_selection_get_list(lw->vf);
 	if (lw->vfi) return vficon_selection_get_list(lw->vfi);
 
 	return NULL;
@@ -886,7 +886,7 @@ GList *layout_selection_list_by_index(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return NULL;
 
-	if (lw->vfl) return vflist_selection_get_list_by_index(lw->vfl);
+	if (lw->vf) return vf_selection_get_list_by_index(lw->vf);
 	if (lw->vfi) return vficon_selection_get_list_by_index(lw->vfi);
 
 	return NULL;
@@ -896,7 +896,7 @@ gint layout_selection_count(LayoutWindow *lw, gint64 *bytes)
 {
 	if (!layout_valid(&lw)) return 0;
 
-	if (lw->vfl) return vflist_selection_count(lw->vfl, bytes);
+	if (lw->vf) return vf_selection_count(lw->vf, bytes);
 	if (lw->vfi) return vficon_selection_count(lw->vfi, bytes);
 
 	return 0;
@@ -906,7 +906,7 @@ void layout_select_all(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return;
 
-	if (lw->vfl) vflist_select_all(lw->vfl);
+	if (lw->vf) vf_select_all(lw->vf);
 	if (lw->vfi) vficon_select_all(lw->vfi);
 }
 
@@ -914,7 +914,7 @@ void layout_select_none(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return;
 
-	if (lw->vfl) vflist_select_none(lw->vfl);
+	if (lw->vf) vf_select_none(lw->vf);
 	if (lw->vfi) vficon_select_none(lw->vfi);
 }
 
@@ -922,7 +922,7 @@ void layout_mark_to_selection(LayoutWindow *lw, gint mark, MarkToSelectionMode m
 {
 	if (!layout_valid(&lw)) return;
 
-	if (lw->vfl) vflist_mark_to_selection(lw->vfl, mark, mode);
+	if (lw->vf) vf_mark_to_selection(lw->vf, mark, mode);
 	if (lw->vfi) vficon_mark_to_selection(lw->vfi, mark, mode);
 }
 
@@ -930,7 +930,7 @@ void layout_selection_to_mark(LayoutWindow *lw, gint mark, SelectionToMarkMode m
 {
 	if (!layout_valid(&lw)) return;
 
-	if (lw->vfl) vflist_selection_to_mark(lw->vfl, mark, mode);
+	if (lw->vf) vf_selection_to_mark(lw->vf, mark, mode);
 	if (lw->vfi) vficon_selection_to_mark(lw->vfi, mark, mode);
 
 	layout_status_update_info(lw, NULL); /* osd in fullscreen mode */
@@ -957,7 +957,7 @@ static void layout_sync_path(LayoutWindow *lw)
 	if (lw->path_entry) gtk_entry_set_text(GTK_ENTRY(lw->path_entry), lw->path);
 	if (lw->vd) vd_set_path(lw->vd, lw->path);
 
-	if (lw->vfl) vflist_set_path(lw->vfl, lw->path);
+	if (lw->vf) vf_set_path(lw->vf, lw->path);
 	if (lw->vfi) vficon_set_path(lw->vfi, lw->path);
 }
 
@@ -1031,7 +1031,7 @@ static void layout_refresh_lists(LayoutWindow *lw)
 
 	if (lw->vd) vd_refresh(lw->vd);
 
-	if (lw->vfl) vflist_refresh(lw->vfl);
+	if (lw->vf) vf_refresh(lw->vf);
 	if (lw->vfi) vficon_refresh(lw->vfi);
 }
 
@@ -1677,7 +1677,7 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	lw->vd = NULL;
 
 	lw->file_view = NULL;
-	lw->vfl = NULL;
+	lw->vf = NULL;
 	lw->vfi = NULL;
 
 	lw->info_box = NULL;
@@ -2060,7 +2060,7 @@ static void layout_real_renamed(LayoutWindow *lw, FileData *fd)
 
 	if (lw->image) layout_image_maint_renamed(lw, fd);
 
-	if (lw->vfl) update |= vflist_maint_renamed(lw->vfl, fd);
+	if (lw->vf) update |= vf_maint_renamed(lw->vf, fd);
 	if (lw->vfi) update |= vficon_maint_renamed(lw->vfi, fd);
 
 	if (update) layout_real_time_update(lw);
@@ -2072,7 +2072,7 @@ static void layout_real_removed(LayoutWindow *lw, FileData *fd, GList *ignore_li
 
 	if (lw->image) layout_image_maint_removed(lw, fd);
 
-	if (lw->vfl) update |= vflist_maint_removed(lw->vfl, fd, ignore_list);
+	if (lw->vf) update |= vf_maint_removed(lw->vf, fd, ignore_list);
 	if (lw->vfi) update |= vficon_maint_removed(lw->vfi, fd, ignore_list);
 
 	if (update) layout_real_time_update(lw);
@@ -2084,7 +2084,7 @@ static void layout_real_moved(LayoutWindow *lw, FileData *fd, GList *ignore_list
 
 	if (lw->image) layout_image_maint_moved(lw, fd);
 
-	if (lw->vfl) update |= vflist_maint_moved(lw->vfl, fd, ignore_list);
+	if (lw->vf) update |= vf_maint_moved(lw->vf, fd, ignore_list);
 	if (lw->vfi) update |= vficon_maint_moved(lw->vfi, fd, ignore_list);
 
 	if (update) layout_real_time_update(lw);

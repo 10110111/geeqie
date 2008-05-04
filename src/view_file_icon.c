@@ -706,7 +706,7 @@ static void vficon_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer 
 	tip_unschedule(vfi);
 }
 
-static void vficon_dnd_init(ViewFileIcon *vfi)
+void vficon_dnd_init(ViewFileIcon *vfi)
 {
 	gtk_drag_source_set(vfi->listview, GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
 			    dnd_file_drag_types, dnd_file_drag_types_count,
@@ -1303,7 +1303,7 @@ static void vfi_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gboolean *push
 	popup_menu_position_clamp(menu, x, y, 0);
 }
 
-static gint vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gint vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	ViewFileIcon *vfi = data;
 	gint focus_row = 0;
@@ -1449,7 +1449,7 @@ static gint vficon_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer
 	return FALSE;
 }
 
-static gint vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+gint vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	ViewFileIcon *vfi = data;
 	GtkTreeIter iter;
@@ -1489,7 +1489,7 @@ static gint vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 	return TRUE;
 }
 
-static gint vficon_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+gint vficon_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	ViewFileIcon *vfi = data;
 	GtkTreeIter iter;
@@ -2376,7 +2376,7 @@ gint vficon_set_path(ViewFileIcon *vfi, const gchar *path)
 	return ret;
 }
 
-static void vficon_destroy_cb(GtkWidget *widget, gpointer data)
+void vficon_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFileIcon *vfi = data;
 

@@ -153,7 +153,6 @@ typedef struct _ViewDirInfoList ViewDirInfoList;
 typedef struct _ViewDirInfoTree ViewDirInfoTree;
 
 typedef struct _ViewFile ViewFile;
-typedef struct _ViewFileList ViewFileList;
 typedef struct _ViewFileIcon ViewFileIcon;
 typedef struct _ViewFileInfoList ViewFileInfoList;
 typedef struct _ViewFileInfoIcon ViewFileInfoIcon;
@@ -505,7 +504,6 @@ struct _LayoutWindow
 	ViewFile *vf;
 	FileViewType file_view_type;
 
-	ViewFileList *vfl;
 	ViewFileIcon *vfi;
 	GtkWidget *file_view;
 
@@ -643,43 +641,6 @@ struct _ViewFileInfoList
 	gint thumbs_enabled;
 
 	gint select_idle_id;
-};
-
-struct _ViewFileList
-{
-	GtkWidget *widget;
-	GtkWidget *listview;
-
-	gchar *path;
-	GList *list;
-
-	SortType sort_method;
-	gint sort_ascend;
-
-	FileData *click_fd;
-	FileData *select_fd;
-
-	gint thumbs_enabled;
-	gint marks_enabled;
-	gint active_mark;
-
-	/* thumb updates */
-	gint thumbs_running;
-	gint thumbs_count;
-	ThumbLoader *thumbs_loader;
-	FileData *thumbs_filedata;
-
-	/* func list */
-	void (*func_thumb_status)(ViewFileList *vfl, gdouble val, const gchar *text, gpointer data);
-	gpointer data_thumb_status;
-
-	void (*func_status)(ViewFileList *vfl, gpointer data);
-	gpointer data_status;
-
-	gint select_idle_id;
-	LayoutWindow *layout;
-
-	GtkWidget *popup;
 };
 
 struct _IconData;

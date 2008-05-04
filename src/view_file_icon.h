@@ -13,7 +13,13 @@
 #ifndef VIEW_FILE_ICON_H
 #define VIEW_FILE_ICON_H
 
+gint vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
+gint vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
+gint vficon_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 
+void vficon_dnd_init(ViewFileIcon *vfi);
+
+void vficon_destroy_cb(GtkWidget *widget, gpointer data);
 ViewFileIcon *vficon_new(const gchar *path);
 
 void vficon_set_status_func(ViewFileIcon *vfi,

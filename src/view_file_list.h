@@ -16,48 +16,55 @@
 
 #include "filelist.h"
 
-ViewFileList *vflist_new(const gchar *path);
+gint vflist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
+gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
+gint vflist_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 
-void vflist_set_status_func(ViewFileList *vfl,
-			    void (*func)(ViewFileList *vfl, gpointer data), gpointer data);
-void vflist_set_thumb_status_func(ViewFileList *vfl,
-				  void (*func)(ViewFileList *vfl, gdouble val, const gchar *text, gpointer data),
+void vflist_dnd_init(ViewFile *vf);
+
+void vflist_destroy_cb(GtkWidget *widget, gpointer data);
+ViewFile *vflist_new(ViewFile *vf, const gchar *path);
+
+void vflist_set_status_func(ViewFile *vf,
+			    void (*func)(ViewFile *vf, gpointer data), gpointer data);
+void vflist_set_thumb_status_func(ViewFile *vf,
+				  void (*func)(ViewFile *vf, gdouble val, const gchar *text, gpointer data),
 				  gpointer data);
 
-void vflist_set_layout(ViewFileList *vfl, LayoutWindow *layout);
+void vflist_set_layout(ViewFile *vf, LayoutWindow *layout);
 
-gint vflist_set_path(ViewFileList *vfl, const gchar *path);
-gint vflist_refresh(ViewFileList *vfl);
+gint vflist_set_path(ViewFile *vf, const gchar *path);
+gint vflist_refresh(ViewFile *vf);
 
-void vflist_thumb_set(ViewFileList *vfl, gint enable);
-void vflist_marks_set(ViewFileList *vfl, gint enable);
-void vflist_sort_set(ViewFileList *vfl, SortType type, gint ascend);
+void vflist_thumb_set(ViewFile *vf, gint enable);
+void vflist_marks_set(ViewFile *vf, gint enable);
+void vflist_sort_set(ViewFile *vf, SortType type, gint ascend);
 
-FileData *vflist_index_get_data(ViewFileList *vfl, gint row);
-gchar *vflist_index_get_path(ViewFileList *vfl, gint row);
-gint vflist_index_by_path(ViewFileList *vfl, const gchar *path);
-gint vflist_count(ViewFileList *vfl, gint64 *bytes);
-GList *vflist_get_list(ViewFileList *vfl);
+FileData *vflist_index_get_data(ViewFile *vf, gint row);
+gchar *vflist_index_get_path(ViewFile *vf, gint row);
+gint vflist_index_by_path(ViewFile *vf, const gchar *path);
+gint vflist_count(ViewFile *vf, gint64 *bytes);
+GList *vflist_get_list(ViewFile *vf);
 
-gint vflist_index_is_selected(ViewFileList *vfl, gint row);
-gint vflist_selection_count(ViewFileList *vfl, gint64 *bytes);
-GList *vflist_selection_get_list(ViewFileList *vfl);
-GList *vflist_selection_get_list_by_index(ViewFileList *vfl);
+gint vflist_index_is_selected(ViewFile *vf, gint row);
+gint vflist_selection_count(ViewFile *vf, gint64 *bytes);
+GList *vflist_selection_get_list(ViewFile *vf);
+GList *vflist_selection_get_list_by_index(ViewFile *vf);
 
-void vflist_select_all(ViewFileList *vfl);
-void vflist_select_none(ViewFileList *vfl);
-void vflist_select_by_path(ViewFileList *vfl, const gchar *path);
-void vflist_select_by_fd(ViewFileList *vfl, FileData *fd);
+void vflist_select_all(ViewFile *vf);
+void vflist_select_none(ViewFile *vf);
+void vflist_select_by_path(ViewFile *vf, const gchar *path);
+void vflist_select_by_fd(ViewFile *vf, FileData *fd);
 
-void vflist_mark_to_selection(ViewFileList *vfl, gint mark, MarkToSelectionMode mode);
-void vflist_selection_to_mark(ViewFileList *vfl, gint mark, SelectionToMarkMode mode);
+void vflist_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode);
+void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode);
 
-void vflist_select_marked(ViewFileList *vfl, gint mark);
-void vflist_mark_selected(ViewFileList *vfl, gint mark, gint value);
+void vflist_select_marked(ViewFile *vf, gint mark);
+void vflist_mark_selected(ViewFile *vf, gint mark, gint value);
 
-gint vflist_maint_renamed(ViewFileList *vfl, FileData *fd);
-gint vflist_maint_removed(ViewFileList *vfl, FileData *fd, GList *ignore_list);
-gint vflist_maint_moved(ViewFileList *vfl, FileData *fd, GList *ignore_list);
+gint vflist_maint_renamed(ViewFile *vf, FileData *fd);
+gint vflist_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list);
+gint vflist_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list);
 
 
 #endif
