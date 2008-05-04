@@ -783,10 +783,10 @@ static void vficon_verify_selections(ViewFile *vf)
 		{
 		IconData *id = work->data;
 		work = work->next;
-		if (vficon_index_by_id(vf, id) < 0)
-			{
-			VFICON_INFO(vf, selection) = g_list_remove(VFICON_INFO(vf, selection), id);
-			}
+
+		if (vficon_index_by_id(vf, id) >= 0) continue;
+
+		VFICON_INFO(vf, selection) = g_list_remove(VFICON_INFO(vf, selection), id);
 		}
 }
 
@@ -801,9 +801,10 @@ void vficon_select_all(ViewFile *vf)
 	while (work)
 		{
 		IconData *id = work->data;
-		VFICON_INFO(vf, selection) = g_list_append(VFICON_INFO(vf, selection), id);
-		vficon_selection_add(vf, work->data, SELECTION_SELECTED, NULL);
 		work = work->next;
+		
+		VFICON_INFO(vf, selection) = g_list_append(VFICON_INFO(vf, selection), id);
+		vficon_selection_add(vf, id, SELECTION_SELECTED, NULL);
 		}
 
 	vficon_send_update(vf);
@@ -816,8 +817,10 @@ void vficon_select_none(ViewFile *vf)
 	work = VFICON_INFO(vf, selection);
 	while (work)
 		{
-		vficon_selection_remove(vf, work->data, SELECTION_SELECTED, NULL);
+		IconData *id = work->data;
 		work = work->next;
+
+		vficon_selection_remove(vf, id, SELECTION_SELECTED, NULL);
 		}
 
 	g_list_free(VFICON_INFO(vf, selection));
