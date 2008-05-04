@@ -25,14 +25,6 @@ void vflist_dnd_init(ViewFile *vf);
 void vflist_destroy_cb(GtkWidget *widget, gpointer data);
 ViewFile *vflist_new(ViewFile *vf, const gchar *path);
 
-void vflist_set_status_func(ViewFile *vf,
-			    void (*func)(ViewFile *vf, gpointer data), gpointer data);
-void vflist_set_thumb_status_func(ViewFile *vf,
-				  void (*func)(ViewFile *vf, gdouble val, const gchar *text, gpointer data),
-				  gpointer data);
-
-void vflist_set_layout(ViewFile *vf, LayoutWindow *layout);
-
 gint vflist_set_path(ViewFile *vf, const gchar *path);
 gint vflist_refresh(ViewFile *vf);
 

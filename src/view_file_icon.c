@@ -2449,26 +2449,6 @@ ViewFile *vficon_new(ViewFile *vf, const gchar *path)
 	return vf;
 }
 
-void vficon_set_status_func(ViewFile *vf,
-			    void (*func)(ViewFile *vf, gpointer data), gpointer data)
-{
-	vf->func_status = func;
-	vf->data_status = data;
-}
-
-void vficon_set_thumb_status_func(ViewFile *vf,
-				  void (*func)(ViewFile *vf, gdouble val, const gchar *text, gpointer data),
-				  gpointer data)
-{
-	vf->func_thumb_status = func;
-	vf->data_thumb_status = data;
-}
-
-void vficon_set_layout(ViewFile *vf, LayoutWindow *layout)
-{
-	vf->layout = layout;
-}
-
 /*
  *-----------------------------------------------------------------------------
  * maintenance (for rename, move, remove)

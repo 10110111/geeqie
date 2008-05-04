@@ -22,14 +22,6 @@ void vficon_dnd_init(ViewFile *vf);
 void vficon_destroy_cb(GtkWidget *widget, gpointer data);
 ViewFile *vficon_new(ViewFile *vf, const gchar *path);
 
-void vficon_set_status_func(ViewFile *vf,
-			    void (*func)(ViewFile *vf, gpointer data), gpointer data);
-void vficon_set_thumb_status_func(ViewFile *vf,
-				  void (*func)(ViewFile *vf, gdouble val, const gchar *text, gpointer data),
-				  gpointer data);
-
-void vficon_set_layout(ViewFile *vf, LayoutWindow *layout);
-
 gint vficon_set_path(ViewFile *vf, const gchar *path);
 gint vficon_refresh(ViewFile *vf);
 
