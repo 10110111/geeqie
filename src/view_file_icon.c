@@ -1479,11 +1479,11 @@ gint vficon_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 	ViewFile *vf = data;
 	GtkTreeIter iter;
 	IconData *id = NULL;
-	gint was_selected = FALSE;
+	gint was_selected;
 
 	tip_schedule(vf);
 
-	if ((gint)bevent->x != 0 || (gint) bevent->y != 0)
+	if ((gint)bevent->x != 0 || (gint)bevent->y != 0)
 		{
 		id = vficon_find_data_by_coord(vf, (gint)bevent->x, (gint)bevent->y, &iter);
 		}
@@ -1493,51 +1493,56 @@ gint vficon_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 		vficon_selection_remove(vf, VFICON_INFO(vf, click_id), SELECTION_PRELIGHT, NULL);
 		}
 
-	if (id) was_selected = (id->selected & SELECTION_SELECTED);
+	if (!id || VFICON_INFO(vf, click_id) != id) return TRUE;
 
-	if (bevent->button == MOUSE_BUTTON_LEFT &&
-	    id && VFICON_INFO(vf, click_id) == id)
+	was_selected = (id->selected & SELECTION_SELECTED);
+
+	switch (bevent->button)
 		{
-		vficon_set_focus(vf, id);
-
-		if (bevent->state & GDK_CONTROL_MASK)
+		case MOUSE_BUTTON_LEFT:
 			{
-			gint select;
+			vficon_set_focus(vf, id);
 
-			select = !(id->selected & SELECTION_SELECTED);
-			if ((bevent->state & GDK_SHIFT_MASK) && VFICON_INFO(vf, prev_selection))
+			if (bevent->state & GDK_CONTROL_MASK)
 				{
-				vficon_select_region_util(vf, VFICON_INFO(vf, prev_selection), id, select);
+				gint select;
+
+				select = !(id->selected & SELECTION_SELECTED);
+				if ((bevent->state & GDK_SHIFT_MASK) && VFICON_INFO(vf, prev_selection))
+					{
+					vficon_select_region_util(vf, VFICON_INFO(vf, prev_selection), id, select);
+					}
+				else
+					{
+					vficon_select_util(vf, id, select);
+					}
 				}
 			else
 				{
-				vficon_select_util(vf, id, select);
+				vficon_select_none(vf);
+
+				if ((bevent->state & GDK_SHIFT_MASK) && VFICON_INFO(vf, prev_selection))
+					{
+					vficon_select_region_util(vf, VFICON_INFO(vf, prev_selection), id, TRUE);
+					}
+				else
+					{
+					vficon_select_util(vf, id, TRUE);
+					was_selected = FALSE;
+					}
 				}
 			}
-		else
+			break;
+		case MOUSE_BUTTON_MIDDLE:
 			{
-			vficon_select_none(vf);
-
-			if ((bevent->state & GDK_SHIFT_MASK) &&
-			    VFICON_INFO(vf, prev_selection))
-				{
-				vficon_select_region_util(vf, VFICON_INFO(vf, prev_selection), id, TRUE);
-				}
-			else
-				{
-				vficon_select_util(vf, id, TRUE);
-				was_selected = FALSE;
-				}
+			vficon_select_util(vf, id, !(id->selected & SELECTION_SELECTED));
 			}
-		}
-	else if (bevent->button == MOUSE_BUTTON_MIDDLE &&
-		 id && VFICON_INFO(vf, click_id) == id)
-		{
-		vficon_select_util(vf, id, !(id->selected & SELECTION_SELECTED));
+			break;
+		default:
+			break;
 		}
 
-	if (id && !was_selected &&
-	    (id->selected & SELECTION_SELECTED))
+	if (!was_selected && (id->selected & SELECTION_SELECTED))
 		{
 		vficon_send_layout_select(vf, id);
 		}
