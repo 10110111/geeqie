@@ -859,7 +859,7 @@ static void layout_menu_edit_update(LayoutWindow *lw)
 
 	if (!lw->action_group) return;
 
-	for (i = 0; i < 10; i++)
+	for (i = 0; i < GQ_EDITOR_GENERIC_SLOTS; i++)
 		{
 		gchar *key;
 		GtkAction *action;
