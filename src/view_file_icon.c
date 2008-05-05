@@ -1687,15 +1687,16 @@ static void vficon_populate(ViewFile *vf, gint resize, gint keep_position)
 		list = vficon_add_row(vf, &iter);
 		while (work && list)
 			{
-			IconData *id;
+			IconData *id = work->data;
+			work = work->next;
 
-			id = work->data;
 			id->row = row;
 
-			list->data = work->data;
+			list->data = id;
 			list = list->next;
-			work = work->next;
 			}
+
+		g_list_free(list);
 		}
 
 	if (visible_id &&
@@ -1713,6 +1714,7 @@ static void vficon_populate(ViewFile *vf, gint resize, gint keep_position)
 			{
 			tree_view_row_make_visible(GTK_TREE_VIEW(vf->listview), &iter, FALSE);
 			}
+		g_list_free(list);
 		}
 
 	VFICON_INFO(vf, rows) = row + 1;
