@@ -887,3 +887,365 @@ GList *filelist_recursive(const gchar *path)
 
 	return list;
 }
+
+
+
+/*
+ * file_data    - operates on the given fd
+ * file_data_sc - operates on the given fd + sidecars - all fds linked via fd->sidecar_files or fd->parent
+ */
+
+
+/* return list of sidecar file extensions in a string */
+gchar *file_data_sc_list_to_string(FileData *fd); // now gchar *sidecar_file_data_list_to_string(FileData *fd)
+
+
+/* disables / enables grouping for particular file, sends UPDATE notification */
+void file_data_disable_grouping(FileData *fd); // now file_data_disconnect_sidecar_file, broken
+void file_data_disable_grouping(FileData *fd);
+
+/* runs stat on a file and sends UPDATE notification if it has been changed */
+void file_data_sc_update(FileData *fd);
+
+
+
+
+/* 
+ * add FileDataChangeInfo (see typedefs.h) for the given operation 
+ * uses file_data_add_change_info
+ *
+ * fails if the fd->change already exists - change operations can't run in parallel
+ * fd->change_info works as a lock
+ *
+ * dest can be NULL - in this case the current name is used for now, it will
+ * be changed later 
+ */
+
+/*
+   FileDataChangeInfo types:
+   COPY
+   MOVE - patch is changed, name may be changed too
+   RENAME - path remains unchanged, name is changed
+            extension should remain (FIXME should we allow editing extension? it will make problems wth grouping)
+	    sidecar names are changed too, extensions are not changed
+   DELETE
+   UPDATE - file size, date or grouping has been changed 
+*/
+
+gboolean file_data_add_ci(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest)
+{
+
+	FileDataChangeInfo *fdci;
+
+	if (fd->change) return FALSE;
+
+	fdci = g_new0(FileDataChangeInfo, 1);
+
+	fdci->type = type;
+
+	if (src)
+		fdci->source = g_strdup(src);
+	else
+		fdci->source = g_strdup(fd->path);
+
+	if (dest)
+		fdci->dest = g_strdup(dest);
+
+	fd->change = fdci;
+	
+	return TRUE;
+}
+
+void file_data_free_ci(FileData *fd)
+{
+	FileDataChangeInfo *fdci = fd->change;
+
+	if (!fdci)
+		return;
+
+	g_free(fdci->source);
+	g_free(fdci->dest);
+
+	g_free(fdci);
+
+	fd->change = NULL;
+}
+
+ 
+static gboolean file_data_sc_add_ci(FileData *fd, FileDataChangeType type)
+{
+	GList *work;
+	if (fd->parent) fd = fd->parent;
+	
+	if (fd->change) return FALSE;
+	work = fd->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+		if (sfd->change) return FALSE;
+		work = work->next;
+		}
+
+	file_data_add_ci(fd, type, NULL, NULL);
+	
+	work = fd->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+		file_data_add_ci(sfd, type, NULL, NULL);
+		work = work->next;
+		}
+		
+	return TRUE;	
+}
+
+static gboolean file_data_sc_check_ci(FileData *fd, FileDataChangeType type)
+{
+	GList *work;
+	if (fd->parent) fd = fd->parent;
+	
+	if (!fd->change) return FALSE;
+	if (fd->change->type != type) return FALSE;
+	work = fd->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+		if (!sfd->change) return FALSE;
+		if (sfd->change->type != type) return FALSE;
+		work = work->next;
+		}
+	return TRUE;
+}
+
+
+gboolean file_data_sc_add_ci_copy(FileData *fd, gchar *dest_path)
+{
+	if (!file_data_sc_add_ci(fd, FILEDATA_CHANGE_COPY)) return FALSE;
+	file_data_sc_update_ci_copy(fd, dest_path);
+	return TRUE;
+}
+
+gboolean file_data_sc_add_ci_move(FileData *fd, gchar *dest_path)
+{
+	if (!file_data_sc_add_ci(fd, FILEDATA_CHANGE_MOVE)) return FALSE;
+	file_data_sc_update_ci_move(fd, dest_path);
+	return TRUE;
+}
+
+gboolean file_data_sc_add_ci_rename(FileData *fd, gchar *dest_path)
+{
+	if (!file_data_sc_add_ci(fd, FILEDATA_CHANGE_RENAME)) return FALSE;
+	file_data_sc_update_ci_rename(fd, dest_path);
+	return TRUE;
+}
+
+gboolean file_data_sc_add_ci_delete(FileData *fd)
+{
+	return file_data_sc_add_ci(fd, FILEDATA_CHANGE_DELETE);
+}
+
+gboolean file_data_sc_add_ci_update(FileData *fd)
+{
+	return file_data_sc_add_ci(fd, FILEDATA_CHANGE_UPDATE);
+}
+
+void file_data_sc_free_ci(FileData *fd)
+{
+	GList *work;
+	if (fd->parent) fd = fd->parent;
+	
+	file_data_free_ci(fd);
+	
+	work = fd->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+		file_data_free_ci(sfd);
+		work = work->next;
+		}
+}
+
+
+/* 
+ * update existing fd->change, it will be used from dialog callbacks for interactive editing
+ * fails if fd->change does not exist or the change type does not match
+ */
+
+static void file_data_update_ci_dest(FileData *fd, gchar *dest_path)
+{
+	g_free(fd->change->dest);
+	fd->change->dest = g_strdup(dest_path);
+}
+
+static void file_data_update_ci_dest_preserve_ext(FileData *fd, gchar *dest_path)
+{
+	const char *extension = extension_from_path(fd->change->source);
+	g_free(fd->change->dest);
+	fd->change->dest = g_strdup_printf("%*s%s", (int)(extension_from_path(dest_path) - dest_path), dest_path, extension);
+}
+
+static void file_data_sc_update_ci(FileData *fd, gchar *dest_path)
+{
+	GList *work;
+	if (fd->parent) fd = fd->parent;
+	
+	file_data_update_ci_dest(fd, dest_path);
+	work = fd->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+		file_data_update_ci_dest_preserve_ext(sfd, dest_path);
+		work = work->next;
+		}
+}
+
+gint file_data_sc_update_ci_copy(FileData *fd, gchar *dest_path)
+{
+	if (!file_data_sc_check_ci(fd, FILEDATA_CHANGE_COPY)) return FALSE;
+	file_data_sc_update_ci(fd, dest_path);
+	return TRUE;
+}
+	
+gint file_data_sc_update_ci_move(FileData *fd, gchar *dest_path)
+{
+	if (!file_data_sc_check_ci(fd, FILEDATA_CHANGE_MOVE)) return FALSE;
+	file_data_sc_update_ci(fd, dest_path);
+	return TRUE;
+}
+
+gint file_data_sc_update_ci_rename(FileData *fd, gchar *dest_path)
+{
+	if (!file_data_sc_check_ci(fd, FILEDATA_CHANGE_RENAME)) return FALSE;
+	file_data_sc_update_ci(fd, dest_path);
+	return TRUE;
+}
+
+
+
+/*
+ * check dest paths - dest image exists, etc.
+ * returns FIXME
+ * it should detect all possible problems with the planned operation
+ */
+ 
+gint file_data_sc_check_ci_dest(FileData *fd)
+{
+}
+
+
+
+
+/*
+ * perform the change described by FileFataChangeInfo
+ * it is used for internal operations, 
+ * this function actually operates with files on the filesystem
+ * it should implement safe delete
+ */
+ 
+static gboolean file_data_perform_move(FileData *fd)
+{
+	g_assert(!strcmp(fd->change->source, fd->path));
+	return move_file(fd->change->source, fd->change->dest);
+}
+
+static gboolean file_data_perform_copy(FileData *fd)
+{
+	g_assert(!strcmp(fd->change->source, fd->path));
+	return copy_file(fd->change->source, fd->change->dest);
+}
+
+static gboolean file_data_perform_delete(FileData *fd)
+{
+	return unlink_file(fd->path);
+}
+
+static gboolean file_data_perform_ci(FileData *fd)
+{
+	FileDataChangeType type = fd->change->type;
+	switch (type)
+		{
+		case FILEDATA_CHANGE_MOVE:
+			return file_data_perform_move(fd);
+		case FILEDATA_CHANGE_COPY:
+			return file_data_perform_copy(fd);
+		case FILEDATA_CHANGE_RENAME:
+			return file_data_perform_move(fd); /* the same as move */
+		case FILEDATA_CHANGE_DELETE:
+			return file_data_perform_delete(fd);
+		case FILEDATA_CHANGE_UPDATE:
+			/* notring to do here */
+			break;
+		}
+	return TRUE;
+}
+
+
+
+gboolean file_data_sc_perform_ci(FileData *fd)
+{
+	GList *work;
+	gboolean ret = TRUE;
+	FileDataChangeType type = fd->change->type;
+	if (!file_data_sc_check_ci(fd, type)) return FALSE;
+
+	work = fd->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+		if (!file_data_perform_ci(sfd)) ret = FALSE;
+		work = work->next;
+		}
+	if (!file_data_perform_ci(fd)) ret = FALSE;
+	return ret;
+}
+
+/*
+ * updates FileData structure according to FileDataChangeInfo
+ */
+ 
+static void file_data_apply_ci(FileData *fd)
+{
+	FileDataChangeType type = fd->change->type;
+	/* FIXME delete ?*/
+	if (type == FILEDATA_CHANGE_MOVE || type == FILEDATA_CHANGE_COPY || type == FILEDATA_CHANGE_RENAME)
+		{
+		g_free(fd->path);
+		g_hash_table_remove(file_data_pool, fd->original_path);
+		g_free(fd->original_path);
+		file_data_set_path(fd, fd->change->dest);
+		fd->original_path = g_strdup(fd->change->dest);
+		g_hash_table_insert(file_data_pool, fd->original_path, fd);
+		}
+}
+
+gint file_data_sc_apply_ci(FileData *fd) // now file_data_do_change
+{
+	GList *work;
+	FileDataChangeType type = fd->change->type;
+	if (!file_data_sc_check_ci(fd, type)) return FALSE;
+
+	work = fd->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+		file_data_apply_ci(sfd);
+		work = work->next;
+		}
+	file_data_apply_ci(fd);
+	return TRUE;
+}
+
+
+/*
+ * notify other modules about the change described by FileFataChangeInfo
+ */
+ 
+/* might use file_maint_ functions for now, later it should be changed to a system of callbacks
+   FIXME do we need the ignore_list? It looks like a workaround for ineffective
+   implementation in view_file_list.c */
+
+void file_data_sc_send_notification(FileData *fd)
+{
+}
+
+

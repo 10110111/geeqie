@@ -49,4 +49,18 @@ GList *filelist_filter(GList *list, gint is_dir_list);
 GList *filelist_sort_path(GList *list);
 GList *filelist_recursive(const gchar *path);
 
+gchar *file_data_sc_list_to_string(FileData *fd);
+gboolean file_data_add_ci(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest);
+gboolean file_data_sc_add_ci_copy(FileData *fd, gchar *dest_path);
+gboolean file_data_sc_add_ci_move(FileData *fd, gchar *dest_path);
+gboolean file_data_sc_add_ci_rename(FileData *fd, gchar *dest_path);
+gboolean file_data_sc_add_ci_delete(FileData *fd);
+gboolean file_data_sc_add_ci_update(FileData *fd);
+gint file_data_sc_update_ci_copy(FileData *fd, gchar *dest_path);
+gint file_data_sc_update_ci_move(FileData *fd, gchar *dest_path);
+gint file_data_sc_update_ci_rename(FileData *fd, gchar *dest_path);
+gint file_data_sc_check_ci_dest(FileData *fd);
+gboolean file_data_sc_perform_ci(FileData *fd);
+gint file_data_sc_apply_ci(FileData *fd);
+
 #endif
