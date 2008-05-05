@@ -627,7 +627,7 @@ static void tip_update(ViewFile *vf, IconData *id)
 				}
 
 			label = g_object_get_data(G_OBJECT(VFICON_INFO(vf, tip_window)), "tip_label");
-			gtk_label_set_text(GTK_LABEL(label), VFICON_INFO(vf, tip_id)->fd->name);
+			if (label) gtk_label_set_text(GTK_LABEL(label), VFICON_INFO(vf, tip_id)->fd->name);
 			}
 		}
 	else
