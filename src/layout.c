@@ -567,7 +567,7 @@ void layout_status_update_info(LayoutWindow *lw, const gchar *text)
 		image_osd_update(lw->image);
 		}
 
-	gtk_label_set_text(GTK_LABEL(lw->info_status), text);
+	if (lw->info_status) gtk_label_set_text(GTK_LABEL(lw->info_status), text);
 	g_free(buf);
 }
 
