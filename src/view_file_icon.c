@@ -22,7 +22,7 @@
 #include "editors.h"
 #include "img-view.h"
 #include "info.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "layout.h"
 #include "layout_image.h"
 #include "menu.h"

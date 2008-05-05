@@ -16,7 +16,7 @@
 
 #include "collect.h"
 #include "debug.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "layout_util.h"
 #include "rcfile.h"
 #include "secure_save.h"

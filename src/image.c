@@ -28,7 +28,7 @@
 #include "pixbuf_util.h"
 #include "ui_fileops.h"
 
-#include "filelist.h"
+#include "filedata.h"
 
 #include <math.h>
 

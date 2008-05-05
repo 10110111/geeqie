@@ -15,7 +15,7 @@
 
 #include "collect.h"
 #include "exif.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "image.h"
 #include "img-view.h"
 #include "layout.h"

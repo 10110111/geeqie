@@ -14,7 +14,7 @@
 #include "cache-loader.h"
 #include "cache.h"
 
-#include "filelist.h"
+#include "filedata.h"
 #include "exif.h"
 #include "md5-util.h"
 #include "ui_fileops.h"

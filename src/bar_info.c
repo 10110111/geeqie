@@ -18,7 +18,7 @@
 
 #include "cache.h"
 #include "debug.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "info.h"
 #include "secure_save.h"
 #include "utilops.h"

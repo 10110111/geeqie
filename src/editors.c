@@ -19,7 +19,8 @@
 #include "ui_spinner.h"
 #include "ui_utildlg.h"
 
-#include "filelist.h"
+#include "filedata.h"
+#include "filefilter.h"
 
 #include <errno.h>
 

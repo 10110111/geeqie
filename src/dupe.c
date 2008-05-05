@@ -20,7 +20,7 @@
 #include "debug.h"
 #include "dnd.h"
 #include "editors.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "image-load.h"
 #include "img-view.h"
 #include "info.h"

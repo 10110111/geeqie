@@ -14,7 +14,7 @@
 #define VIEW_FILE_LIST_H
 
 
-#include "filelist.h"
+#include "filedata.h"
 
 gint vflist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
 gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);

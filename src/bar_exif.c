@@ -17,7 +17,7 @@
 #include "exif.h"
 #include "ui_bookmark.h"
 #include "ui_misc.h"
-#include "filelist.h"
+#include "filedata.h"
 
 #include <math.h>
 

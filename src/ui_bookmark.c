@@ -24,7 +24,7 @@
 #include <gdk/gdkkeysyms.h> /* for key values */
 
 #include "main.h"
-#include "filelist.h"
+#include "filedata.h"
 
 #include "debug.h"
 #include "secure_save.h"

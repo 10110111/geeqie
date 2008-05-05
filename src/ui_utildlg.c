@@ -26,7 +26,7 @@
 #include "main.h"
 #include "ui_utildlg.h"
 
-#include "filelist.h"
+#include "filedata.h"
 #include "ui_fileops.h"
 #include "ui_misc.h"
 #include "ui_pathsel.h"

@@ -19,7 +19,7 @@
 #include "collect-table.h"
 #include "debug.h"
 #include "editors.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "img-view.h"
 #include "info.h"
 #include "layout.h"

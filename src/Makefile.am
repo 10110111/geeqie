@@ -104,8 +104,10 @@ geeqie_SOURCES = \
 	exif-int.h	\
 	exif-common.c   \
 	exiv2.cc	\
-	filelist.c	\
-	filelist.h	\
+	filedata.c	\
+	filedata.h	\
+	filefilter.c	\
+	filefilter.h	\
 	format_canon.c	\
 	format_canon.h	\
 	format_fuji.c	\

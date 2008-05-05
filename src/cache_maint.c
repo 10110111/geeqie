@@ -15,7 +15,7 @@
 
 #include "cache.h"
 #include "debug.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "thumb.h"
 #include "thumb_standard.h"
 #include "ui_fileops.h"

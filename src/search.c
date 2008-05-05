@@ -24,7 +24,7 @@
 #include "info.h"
 #include "editors.h"
 #include "img-view.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "layout_image.h"
 #include "menu.h"
 #include "print.h"

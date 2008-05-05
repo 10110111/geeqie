@@ -15,7 +15,7 @@
 
 #include "color-man.h"
 #include "debug.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "histogram.h"
 #include "image.h"
 #include "image-overlay.h"

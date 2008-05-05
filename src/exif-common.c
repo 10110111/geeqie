@@ -36,7 +36,8 @@
 #include "exif.h"
 
 #include "debug.h"
-#include "filelist.h"
+#include "filedata.h"
+#include "filefilter.h"
 #include "format_raw.h"
 #include "ui_fileops.h"
 

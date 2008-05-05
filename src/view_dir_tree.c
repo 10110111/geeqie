@@ -16,7 +16,7 @@
 
 #include "dnd.h"
 #include "dupe.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "layout.h"
 #include "layout_image.h"
 #include "layout_util.h"

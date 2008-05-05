@@ -16,7 +16,7 @@
 
 #include "cache.h"
 #include "cache-loader.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "image.h"
 #include "image-load.h"
 #include "pixbuf_util.h"

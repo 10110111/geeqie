@@ -17,7 +17,7 @@
 #include "rcfile.h"
 
 #include "bar_exif.h"
-#include "filelist.h"
+#include "filefilter.h"
 #include "secure_save.h"
 #include "slideshow.h"
 #include "ui_fileops.h"

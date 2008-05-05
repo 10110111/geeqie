@@ -16,7 +16,7 @@
 
 #include "debug.h"
 #include "exif.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "ui_fileops.h"
 
 #include <fcntl.h>

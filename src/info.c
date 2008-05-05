@@ -17,7 +17,7 @@
 #include "bar_info.h"
 #include "bar_exif.h"
 #include "dnd.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "image.h"
 #include "image-load.h"
 #include "pixbuf-renderer.h"

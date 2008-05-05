@@ -18,7 +18,7 @@
 #include "collect-io.h"
 #include "dnd.h"
 #include "editors.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "fullscreen.h"
 #include "image.h"
 #include "image-overlay.h"

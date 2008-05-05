@@ -21,7 +21,7 @@
 #include "dnd.h"
 #include "dupe.h"
 #include "editors.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "img-view.h"
 #include "info.h"
 #include "layout.h"

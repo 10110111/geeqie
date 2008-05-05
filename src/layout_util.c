@@ -23,7 +23,7 @@
 #include "compat.h"
 #include "dupe.h"
 #include "editors.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "image-overlay.h"
 #include "img-view.h"
 #include "info.h"

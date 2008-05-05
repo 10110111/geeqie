@@ -18,7 +18,7 @@
 #include "collect.h"
 #include "collect-dlg.h"
 #include "dupe.h"
-#include "filelist.h"
+#include "filedata.h"
 #include "img-view.h"
 #include "preferences.h"
 #include "slideshow.h"
