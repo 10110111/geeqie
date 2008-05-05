@@ -12,7 +12,7 @@
 ./src/editors.c
 ./src/exif.c
 ./src/exif-common.c
-./src/filelist.c
+./src/filedata.c
 ./src/fullscreen.c
 ./src/histogram.c
 ./src/image.c
