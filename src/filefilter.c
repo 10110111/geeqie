@@ -224,6 +224,7 @@ void filter_add_defaults(void)
 
 	/* non-image files that might be desirable to show */
 	filter_add_if_missing("xmp", "XMP sidecar", ".xmp", FORMAT_CLASS_META, TRUE);
+	filter_add_if_missing("gqv", GQ_APPNAME " image collection", ".gqv", FORMAT_CLASS_META, TRUE);
 
 	/* These are the raw camera formats with embedded jpeg/exif.
 	 * (see format_raw.c and/or exiv2.cc)
