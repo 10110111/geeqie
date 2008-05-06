@@ -24,11 +24,8 @@ FileData *file_data_new_simple(const gchar *path_utf8);
 FileData *file_data_ref(FileData *fd);
 void file_data_unref(FileData *fd);
 
-void file_data_do_change(FileData *fd);
 gboolean file_data_add_change_info(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest);
 void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd);
-
-gchar *sidecar_file_data_list_to_string(FileData *fd);
 
 gint filelist_sort_compare_filedata(FileData *fa, FileData *fb);
 gint filelist_sort_compare_filedata_full(FileData *fa, FileData *fb, SortType method, gint ascend);

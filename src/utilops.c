@@ -396,7 +396,7 @@ static gint move_file_ext_cb(gpointer ed, gint flags, GList *list, gpointer data
 		FileData *fd = list->data;
 		if (!(flags & EDITOR_ERROR_MASK))
 			{
-			file_data_do_change(fd);
+			file_data_sc_apply_ci(fd);
 			file_maint_moved(fd, NULL);
 			}
 		file_data_change_info_free(NULL, fd);
@@ -421,7 +421,7 @@ gint move_file_ext(FileData *fd)
 
 	if (ok)
 		{
-		file_data_do_change(fd);
+		file_data_sc_apply_ci(fd);
 		file_maint_moved(fd, NULL);
 		}
 
@@ -445,7 +445,7 @@ static gint rename_file_ext_cb(gpointer ed, gint flags, GList *list, gpointer da
 		FileData *fd = list->data;
 		if (!(flags & EDITOR_ERROR_MASK))
 			{
-			file_data_do_change(fd);
+			file_data_sc_apply_ci(fd);
 			file_maint_renamed(fd);
 			}
 		file_data_change_info_free(NULL, fd);
@@ -468,7 +468,7 @@ gint rename_file_ext(FileData *fd)
 
 	if (ok)
 		{
-		file_data_do_change(fd);
+		file_data_sc_apply_ci(fd);
 		file_maint_renamed(fd);
 		}
 

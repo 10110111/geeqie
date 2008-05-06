@@ -440,19 +440,6 @@ gint file_data_compare_name_without_ext(FileData *fd1, FileData *fd2)
 	return strncmp(fd1->name, fd2->name, len1);
 }
 
-void file_data_do_change(FileData *fd)
-{
-//FIXME sidecars
-	g_assert(fd->change);
-	g_free(fd->path);
-	g_hash_table_remove(file_data_pool, fd->original_path);
-	g_free(fd->original_path);
-	file_data_set_path(fd, fd->change->dest);
-	fd->original_path = g_strdup(fd->change->dest);
-	g_hash_table_insert(file_data_pool, fd->original_path, fd);
-
-}
-
 gboolean file_data_add_change_info(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest)
 {
 
@@ -523,23 +510,6 @@ static gint sidecar_file_priority(const gchar *path)
 	return 0;
 }
 
-gchar *sidecar_file_data_list_to_string(FileData *fd)
-{
-	GList *work;
-	GString *result = g_string_new("");
-
-	work = fd->sidecar_files;
-	while (work)
-		{
-		FileData *sfd = work->data;
-		result = g_string_append(result, "+ ");
-		result = g_string_append(result, sfd->extension);
-		work = work->next;
-		if (work) result = g_string_append_c(result, ' ');
-		}
-
-	return g_string_free(result, FALSE);
-}
 
 /*
  *-----------------------------------------------------------------------------
@@ -897,7 +867,23 @@ GList *filelist_recursive(const gchar *path)
 
 
 /* return list of sidecar file extensions in a string */
-gchar *file_data_sc_list_to_string(FileData *fd); // now gchar *sidecar_file_data_list_to_string(FileData *fd)
+gchar *file_data_sc_list_to_string(FileData *fd)
+{
+	GList *work;
+	GString *result = g_string_new("");
+
+	work = fd->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+		result = g_string_append(result, "+ ");
+		result = g_string_append(result, sfd->extension);
+		work = work->next;
+		if (work) result = g_string_append_c(result, ' ');
+		}
+
+	return g_string_free(result, FALSE);
+}
 
 
 /* disables / enables grouping for particular file, sends UPDATE notification */
@@ -1173,7 +1159,7 @@ static gboolean file_data_perform_ci(FileData *fd)
 		case FILEDATA_CHANGE_DELETE:
 			return file_data_perform_delete(fd);
 		case FILEDATA_CHANGE_UPDATE:
-			/* notring to do here */
+			/* nothing to do here */
 			break;
 		}
 	return TRUE;
@@ -1218,7 +1204,7 @@ static void file_data_apply_ci(FileData *fd)
 		}
 }
 
-gint file_data_sc_apply_ci(FileData *fd) // now file_data_do_change
+gint file_data_sc_apply_ci(FileData *fd)
 {
 	GList *work;
 	FileDataChangeType type = fd->change->type;

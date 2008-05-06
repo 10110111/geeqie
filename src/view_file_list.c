@@ -962,7 +962,7 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 	gchar *sidecars = NULL;
 
 	if (fd->sidecar_files)
-		sidecars = sidecar_file_data_list_to_string(fd);
+		sidecars = file_data_sc_list_to_string(fd);
 	size = text_from_size(fd->size);
 
 	gtk_tree_store_set(store, iter, FILE_COLUMN_POINTER, fd,
