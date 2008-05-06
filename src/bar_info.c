@@ -492,45 +492,64 @@ void keyword_list_push(GtkWidget *textview, GList *list)
 		}
 }
 
-static void metadata_set_keywords(FileData *fd, GList *list, gint add)
+static void metadata_set_keywords(FileData *fd, GList *keywords_to_use, gchar *comment_to_use, gint add)
 {
 	gchar *comment = NULL;
 	GList *keywords = NULL;
 	GList *save_list = NULL;
 
 	comment_read(fd, &keywords, &comment);
-
-	if (add)
+	
+	if (comment_to_use)
 		{
-		GList *work;
-
-		work = list;
-		while (work)
+		if (add && comment && *comment)
 			{
-			gchar *key;
-			GList *p;
-
-			key = work->data;
-			work = work->next;
-
-			p = keywords;
-			while (p && key)
-				{
-				gchar *needle = p->data;
-				p = p->next;
-
-				if (strcmp(needle, key) == 0) key = NULL;
-				}
-
-			if (key) keywords = g_list_append(keywords, g_strdup(key));
+			gchar *tmp = comment;
+				
+			comment = g_strconcat(tmp, comment_to_use, NULL);
+			g_free(tmp);
 			}
-		save_list = keywords;
+		else
+			{
+			g_free(comment);
+			comment = g_strdup(comment_to_use);
+			}
 		}
-	else
+	
+	if (keywords_to_use)
 		{
-		save_list = list;
-		}
+		if (add && keywords && g_list_length(keywords) > 0)
+			{
+			GList *work;
 
+			work = keywords_to_use;
+			while (work)
+				{
+				gchar *key;
+				GList *p;
+
+				key = work->data;
+				work = work->next;
+
+				p = keywords;
+				while (p && key)
+					{
+					gchar *needle = p->data;
+					p = p->next;
+
+					if (strcmp(needle, key) == 0) key = NULL;
+					}
+
+				if (key) keywords = g_list_append(keywords, g_strdup(key));
+				}
+			save_list = keywords;
+			}
+		else
+			{
+			save_list = keywords_to_use;
+			}
+		}
+	
 	comment_write(fd, save_list, comment);
 
 	string_list_free(keywords);
@@ -807,8 +826,10 @@ struct _BarInfoData
 	GtkWidget *comment_view;
 
 	GtkWidget *button_save;
-	GtkWidget *button_set_add;
-	GtkWidget *button_set_replace;
+	GtkWidget *button_set_keywords_add;
+	GtkWidget *button_set_keywords_replace;
+	GtkWidget *button_set_comment_add;
+	GtkWidget *button_set_comment_replace;
 
 	FileData *fd;
 
@@ -1079,16 +1100,26 @@ static void bar_info_save(GtkWidget *button, gpointer data)
 	bar_info_write(bd);
 }
 
-static void bar_info_set_selection(BarInfoData *bd, gint add)
+static void bar_info_set_selection(BarInfoData *bd, gint set_keywords, gint set_comment, gint add)
 {
-	GList *keywords;
+	GList *keywords = NULL;
 	GList *list = NULL;
 	GList *work;
+	gchar *comment = NULL;
 
 	if (!bd->list_func) return;
 
-	keywords = keyword_list_pull(bd->keyword_view);
-	if (!keywords && add) return;
+	if (set_keywords)
+		{
+		keywords = keyword_list_pull(bd->keyword_view);
+		}
+
+	if (set_comment)
+		{
+		comment = comment_pull(bd->comment_view);
+		}
+
+	if (add && !keywords && !comment) return;
 
 	list = bd->list_func(bd->list_data);
 	work = list;
@@ -1097,25 +1128,40 @@ static void bar_info_set_selection(BarInfoData *bd, gint add)
 		FileData *fd = work->data;
 		work = work->next;
 
-		metadata_set_keywords(fd, keywords, add);
+		metadata_set_keywords(fd, keywords, comment, add);
 		}
 
 	filelist_free(list);
 	string_list_free(keywords);
+	g_free(comment);
 }
 
-static void bar_info_set_add(GtkWidget *button, gpointer data)
+static void bar_info_set_keywords_add(GtkWidget *button, gpointer data)
 {
 	BarInfoData *bd = data;
 
-	bar_info_set_selection(bd, TRUE);
+	bar_info_set_selection(bd, TRUE, FALSE, TRUE);
 }
 
-static void bar_info_set_replace(GtkWidget *button, gpointer data)
+static void bar_info_set_keywords_replace(GtkWidget *button, gpointer data)
 {
 	BarInfoData *bd = data;
 
-	bar_info_set_selection(bd, FALSE);
+	bar_info_set_selection(bd, TRUE, FALSE, FALSE);
+}
+
+static void bar_info_set_comment_add(GtkWidget *button, gpointer data)
+{
+	BarInfoData *bd = data;
+
+	bar_info_set_selection(bd, FALSE, TRUE, TRUE);
+}
+
+static void bar_info_set_comment_replace(GtkWidget *button, gpointer data)
+{
+	BarInfoData *bd = data;
+
+	bar_info_set_selection(bd, FALSE, TRUE, FALSE);
 }
 
 static void bar_info_changed(GtkTextBuffer *buffer, gpointer data)
@@ -1314,12 +1360,19 @@ GtkWidget *bar_info_new(FileData *fd, gint metadata_only, GtkWidget *bounding_wi
 			_("Edit favorite keywords list."),
 			G_CALLBACK(bar_keyword_edit_cb), bd);
 	pref_toolbar_spacer(tbar);
-	bd->button_set_add = pref_toolbar_button(tbar, GTK_STOCK_ADD, NULL, FALSE,
+	bd->button_set_keywords_add = pref_toolbar_button(tbar, GTK_STOCK_ADD, NULL, FALSE,
 			_("Add keywords to selected files"),
-			G_CALLBACK(bar_info_set_add), bd);
-	bd->button_set_replace = pref_toolbar_button(tbar, GTK_STOCK_CONVERT, NULL, FALSE,
-			_("Add keywords to selected files, replacing the existing ones."),
-			G_CALLBACK(bar_info_set_replace), bd);
+			G_CALLBACK(bar_info_set_keywords_add), bd);
+	bd->button_set_keywords_replace = pref_toolbar_button(tbar, GTK_STOCK_CONVERT, NULL, FALSE,
+			_("Add keywords to selected files, replacing existing ones"),
+			G_CALLBACK(bar_info_set_keywords_replace), bd);
+	bd->button_set_comment_add = pref_toolbar_button(tbar, GTK_STOCK_DND_MULTIPLE, NULL, FALSE,
+			_("Add comment to selected files"),
+			G_CALLBACK(bar_info_set_comment_add), bd);
+	bd->button_set_comment_replace = pref_toolbar_button(tbar, GTK_STOCK_DND, NULL, FALSE,
+			_("Add comment to selected files, replacing existing one"),
+			G_CALLBACK(bar_info_set_comment_replace), bd);
+
 	pref_toolbar_spacer(tbar);
 	bd->button_save = pref_toolbar_button(tbar, GTK_STOCK_SAVE, NULL, FALSE,
 			_("Save comment now"),
@@ -1358,6 +1411,9 @@ void bar_info_selection(GtkWidget *bar, gint count)
 
 	enable = (count > 0 && bd->list_func != NULL);
 
-	gtk_widget_set_sensitive(bd->button_set_add, enable);
-	gtk_widget_set_sensitive(bd->button_set_replace, enable);
+	gtk_widget_set_sensitive(bd->button_set_keywords_add, enable);
+	gtk_widget_set_sensitive(bd->button_set_keywords_replace, enable);
+	gtk_widget_set_sensitive(bd->button_set_comment_add, enable);
+	gtk_widget_set_sensitive(bd->button_set_comment_replace, enable);
+
 }
