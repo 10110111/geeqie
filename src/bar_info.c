@@ -246,79 +246,79 @@ static gint comment_legacy_read(FileData *fd, GList **keywords, gchar **comment)
 	return success;
 }
 
-const gchar *comment_key = "Xmp.dc.description";
-const gchar *keyword_key = "Xmp.dc.subject";
+#define COMMENT_KEY "Xmp.dc.description"
+#define KEYWORD_KEY "Xmp.dc.subject"
 
 static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 {
-	ExifData *exif = exif_read_fd(fd);
-	gint success;
+	ExifData *exif;
+
+	exif = exif_read_fd(fd);
 	if (!exif) return FALSE;
 
 	if (comment)
 		{
-		ExifItem *item = exif_get_item(exif, comment_key);
+		ExifItem *item = exif_get_item(exif, COMMENT_KEY);
 		*comment = exif_item_get_string(item, 0);
 		}
 
 	if (keywords)
 		{
-		ExifItem *item = exif_get_item(exif, keyword_key);
-		int count = exif_item_get_elements(item);
-		int i = 0;
-		GList *work = NULL;
-		char *kw = NULL;
-
-		while (i < count && (kw = exif_item_get_string(item, i++)))
+		ExifItem *item;
+		gint i;
+		
+		*keywords = NULL;
+		item = exif_get_item(exif, KEYWORD_KEY);
+		for (i = 0; i < exif_item_get_elements(item); i++)
 			{
-			work = g_list_append(work, (gpointer) kw);
-			}
+			gchar *kw = exif_item_get_string(item, i);
 
-		*keywords = work;
+			if (!kw) break;
+			*keywords = g_list_append(*keywords, (gpointer) kw);
+			}
 		}
 
 	exif_free(exif);
 
-	success = *comment || *keywords;
-
-	return success;
+	return (comment && *comment) || (keywords && *keywords);
 }
 
 static gint comment_xmp_write(FileData *fd, GList *keywords, const gchar *comment)
 {
-	gint success = FALSE;
-	GList *work = keywords;
-	ExifData *exif = exif_read_fd(fd);
+	gint success;
+	gint write_comment = (comment && comment[0]);
+	ExifData *exif;
+	ExifItem *item;
+
+	exif = exif_read_fd(fd);
 	if (!exif) return FALSE;
 
-	ExifItem *item = exif_get_item(exif, comment_key);
-
-	if (item && !(comment && comment[0]))
+	item = exif_get_item(exif, COMMENT_KEY);
+	if (item && !write_comment)
 		{
 		exif_item_delete(exif, item);
 		item = NULL;
 		}
 
-	if (!item && comment && comment[0]) item = exif_add_item(exif, comment_key);
+	if (!item && write_comment) item = exif_add_item(exif, COMMENT_KEY);
 	if (item) exif_item_set_string(item, comment);
 
-
-
-	while ((item = exif_get_item(exif, keyword_key)))
+	while ((item = exif_get_item(exif, KEYWORD_KEY)))
 		{
 		exif_item_delete(exif, item);
 		}
 
-	if (work)
+	if (keywords)
 		{
-		item = exif_add_item(exif, keyword_key);
+		GList *work;
 
+		item = exif_add_item(exif, KEYWORD_KEY);
+
+		work = keywords;
 		while (work)
 			{
-			gchar *kw = (gchar *) work->data;
+			exif_item_set_string(item, (gchar *) work->data);
 			work = work->next;
-
-			exif_item_set_string(item, kw);
 			}
 		}
 
