@@ -34,8 +34,6 @@ FileDialog *file_util_file_dlg(const gchar *title,
 GenericDialog *file_util_warning_dialog(const gchar *heading, const gchar *message,
 					const gchar *icon_stock_id, GtkWidget *parent);
 
-void file_util_trash_clear(void);
-
 void file_util_delete(FileData *source_fd, GList *source_list, GtkWidget *parent);
 void file_util_move(FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent);
 void file_util_copy(FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent);

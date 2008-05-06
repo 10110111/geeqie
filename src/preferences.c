@@ -28,6 +28,7 @@
 #include "layout_util.h"
 #include "pixbuf_util.h"
 #include "slideshow.h"
+#include "trash.h"
 #include "utilops.h"
 #include "ui_fileops.h"
 #include "ui_misc.h"

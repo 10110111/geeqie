@@ -184,6 +184,7 @@ geeqie_SOURCES = \
 	thumb.h		\
 	thumb_standard.c	\
 	thumb_standard.h	\
+	trash.c		\
 	utilops.c	\
 	utilops.h	\
 	view_dir.c	\
