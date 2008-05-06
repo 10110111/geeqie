@@ -33,6 +33,7 @@
 ./src/search.c
 ./src/secure_save.c
 ./src/thumb.c
+./src/trash.c
 ./src/ui_bookmark.c
 ./src/ui_help.c
 ./src/ui_pathsel.c
