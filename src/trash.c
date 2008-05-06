@@ -110,7 +110,7 @@ static void file_util_safe_del_close_cb(GtkWidget *dialog, gpointer data)
 	*gd = NULL;
 }
 
-gint file_util_safe_unlink(const char *path)
+gint file_util_safe_unlink(const gchar *path)
 {
 	static GenericDialog *gd = NULL;
 	gchar *result = NULL;
@@ -172,7 +172,7 @@ gint file_util_safe_unlink(const char *path)
 	return success;
 }
 
-char *file_util_safe_delete_status(void)
+gchar *file_util_safe_delete_status(void)
 {
 	gchar *buf;
 
@@ -201,4 +201,3 @@ char *file_util_safe_delete_status(void)
 		
 	return buf;
 }
-
