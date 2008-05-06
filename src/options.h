@@ -39,6 +39,8 @@ struct _ConfOptions
 	gint open_recent_list_maxsize;
 	gint dnd_icon_size;
 
+	gint save_metadata_in_image_file;
+
 	/* file ops */
 	struct {
 		gint enable_in_place_rename;

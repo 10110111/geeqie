@@ -27,7 +27,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->dnd_icon_size = 48;
 	options->duplicates_similarity_threshold = 99;
 	options->enable_metadata_dirs = FALSE;
-
+	
 	options->file_filter.disable = FALSE;
 	options->file_filter.show_dot_directory = FALSE;
 	options->file_filter.show_hidden_files = FALSE;
@@ -111,6 +111,9 @@ ConfOptions *init_options(ConfOptions *options)
 	options->panels.sort.selection_state = 0;
 
 	options->progressive_key_scrolling = FALSE;
+	
+	options->save_metadata_in_image_file = FALSE;
+	
 	options->show_copy_path = FALSE;
 	options->show_icon_names = TRUE;
 

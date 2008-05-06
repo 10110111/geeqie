@@ -279,6 +279,8 @@ static void config_window_apply(void)
 		layout_copy_path_update_all();
 		}
 
+	options->save_metadata_in_image_file = c_options->save_metadata_in_image_file;
+
 #ifdef DEBUG
 	set_debug_level(debug_c);
 #endif
@@ -1434,8 +1436,11 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Miscellaneous"), GTK_ORIENTATION_VERTICAL);
 
-	pref_checkbox_new_int(group, _("Store keywords and comments local to source images"),
+	pref_checkbox_new_int(group, _("Store metadata and cache files in source image's directory"),
 			      options->enable_metadata_dirs, &c_options->enable_metadata_dirs);
+
+	pref_checkbox_new_int(group, _("Store keywords and comments as XMP tags in image files"),
+			      options->save_metadata_in_image_file, &c_options->save_metadata_in_image_file);
 
 	pref_spin_new_int(group, _("Custom similarity threshold:"), NULL,
 			  0, 100, 1, options->duplicates_similarity_threshold, &c_options->duplicates_similarity_threshold);

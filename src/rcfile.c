@@ -314,6 +314,7 @@ void save_options(void)
 
 	WRITE_BOOL(progressive_key_scrolling);
 	WRITE_BOOL(enable_metadata_dirs);
+	WRITE_BOOL(save_metadata_in_image_file);
 
 	WRITE_INT(duplicates_similarity_threshold);
 	WRITE_SEPARATOR();
@@ -625,6 +626,7 @@ void load_options(void)
 		READ_BOOL(progressive_key_scrolling);
 
 		READ_BOOL(enable_metadata_dirs);
+		READ_BOOL(save_metadata_in_image_file);
 
 		READ_BOOL(mousewheel_scrolls);
 
