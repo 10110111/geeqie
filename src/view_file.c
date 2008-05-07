@@ -222,6 +222,15 @@ void vf_select_none(ViewFile *vf)
 	}
 }
 
+void vf_select_invert(ViewFile *vf)
+{
+	switch(vf->type)
+	{
+	case FILEVIEW_LIST: vflist_select_invert(vf); break;
+	case FILEVIEW_ICON: vficon_select_invert(vf); break;
+	}
+}
+
 void vf_select_by_fd(ViewFile *vf, FileData *fd)
 {
 	switch(vf->type)

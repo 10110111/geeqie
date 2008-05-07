@@ -829,6 +829,31 @@ void vficon_select_none(ViewFile *vf)
 	vficon_send_update(vf);
 }
 
+void vficon_select_invert(ViewFile *vf)
+{
+	GList *work;
+
+	work = vf->list;
+	while (work)
+		{
+		IconData *id = work->data;
+		work = work->next;
+
+		if (id->selected & SELECTION_SELECTED)
+			{
+			VFICON_INFO(vf, selection) = g_list_remove(VFICON_INFO(vf, selection), id);
+			vficon_selection_remove(vf, id, SELECTION_SELECTED, NULL);
+			}
+		else
+			{
+			VFICON_INFO(vf, selection) = g_list_append(VFICON_INFO(vf, selection), id);
+			vficon_selection_add(vf, id, SELECTION_SELECTED, NULL);
+			}
+		}
+
+	vficon_send_update(vf);
+}
+
 static void vficon_select(ViewFile *vf, IconData *id)
 {
 	VFICON_INFO(vf, prev_selection) = id;

@@ -717,6 +717,13 @@ static void layout_menu_unselect_all_cb(GtkAction *action, gpointer data)
 	layout_select_none(lw);
 }
 
+static void layout_menu_invert_selection_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_select_invert(lw);
+}
+
 static void layout_menu_marks_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1095,6 +1102,8 @@ static GtkActionEntry menu_entries[] = {
   { "Properties",GTK_STOCK_PROPERTIES,	N_("_Properties"),	"<control>P",	NULL,	CB(layout_menu_info_cb) },
   { "SelectAll",	NULL,		N_("Select _all"),	"<control>A",	NULL,	CB(layout_menu_select_all_cb) },
   { "SelectNone",	NULL,		N_("Select _none"), "<control><shift>A",NULL,	CB(layout_menu_unselect_all_cb) },
+  { "SelectInvert",	NULL,		N_("_Invert Selection"), "<control><shift>I",	NULL,	CB(layout_menu_invert_selection_cb) },
+
   { "Preferences",GTK_STOCK_PREFERENCES,N_("P_references..."),	"<control>O",	NULL,	CB(layout_menu_config_cb) },
   { "Maintenance",	NULL,		N_("_Thumbnail maintenance..."),NULL,	NULL,	CB(layout_menu_remove_thumb_cb) },
   { "Wallpaper",	NULL,		N_("Set as _wallpaper"),NULL,		NULL,	CB(layout_menu_wallpaper_cb) },
@@ -1200,6 +1209,7 @@ static const char *menu_ui_description =
 "    <menu action='SelectMenu'>"
 "      <menuitem action='SelectAll'/>"
 "      <menuitem action='SelectNone'/>"
+"      <menuitem action='SelectInvert'/>"
 "      <separator/>"
 "      <menuitem action='ShowMarks'/>"
 "      <separator/>"

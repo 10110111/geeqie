@@ -1524,6 +1524,66 @@ void vflist_select_none(ViewFile *vf)
 	gtk_tree_selection_unselect_all(selection);
 }
 
+static gboolean tree_model_iter_prev(GtkTreeModel *store, GtkTreeIter *iter)
+{
+	GtkTreePath *tpath;
+	gboolean result;
+
+	tpath = gtk_tree_model_get_path(store, iter);
+	result = gtk_tree_path_prev(tpath);
+	if (result)
+		gtk_tree_model_get_iter(store, iter, tpath);
+
+	gtk_tree_path_free(tpath);
+
+	return result;
+}
+
+static gboolean tree_model_get_iter_last(GtkTreeModel *store, GtkTreeIter *iter)
+{
+	if (!gtk_tree_model_get_iter_first(store, iter))
+		return FALSE;
+
+	while (TRUE)
+		{
+		GtkTreeIter next = *iter;
+		
+		if (gtk_tree_model_iter_next(store, &next))
+			*iter = next;
+		else
+			break;
+		}
+	
+	return TRUE;
+}
+
+void vflist_select_invert(ViewFile *vf)
+{
+	GtkTreeIter iter;
+	GtkTreeSelection *selection;
+	GtkTreeModel *store;
+	gboolean valid;
+
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vf->listview));
+
+	/* Backward iteration prevents scrolling to the end of the list,
+	 * it scrolls to the first selected row instead. */
+	valid = tree_model_get_iter_last(store, &iter);
+
+	while (valid)
+		{
+		gint selected = gtk_tree_selection_iter_is_selected(selection, &iter);
+
+		if (selected)
+			gtk_tree_selection_unselect_iter(selection, &iter);
+		else
+			gtk_tree_selection_select_iter(selection, &iter);
+				
+		valid = tree_model_iter_prev(store, &iter);
+		}
+}
+
 void vflist_select_by_fd(ViewFile *vf, FileData *fd)
 {
 	GtkTreeIter iter;
