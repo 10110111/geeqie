@@ -20,7 +20,7 @@ void lirc_cleanup()
 {
 	if (config)
 		{
-		gtk_input_remove(input_tag);
+		g_source_remove(input_tag);
 		lirc_freeconfig(config);
 		config = NULL;
 		}
@@ -31,7 +31,8 @@ void lirc_cleanup()
 		}
 	if (gio_chan)
 		{
-		g_io_channel_close(gio_chan);
+		g_io_channel_shutdown(gio_chan, TRUE, NULL);
+		g_io_channel_unref(gio_chan);
 		}
 }
 
@@ -56,7 +57,7 @@ gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 		{
 		while ((ret = lirc_code2char(config, code, &cmd)) == 0 && cmd)
 			{
-			if (g_strncasecmp("LEFT", cmd, 4) == 0)
+			if (g_ascii_strncasecmp("LEFT", cmd, 4) == 0)
 				{
 				ptr = cmd + 4;
 				while (g_ascii_isspace(*ptr)) ptr++;
@@ -65,7 +66,7 @@ gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				if (i_parm <= 0) i_parm = 1;
 				x -= i_parm;
 				}
-			else if (g_strncasecmp("RIGHT", cmd, 5) == 0)
+			else if (g_ascii_strncasecmp("RIGHT", cmd, 5) == 0)
 				{
 				ptr = cmd + 5;
 				while (g_ascii_isspace(*ptr)) ptr++;
@@ -74,7 +75,7 @@ gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				if (i_parm <= 0) i_parm = 1;
 				x += i_parm;
 				}
-			else if (g_strncasecmp("UP", cmd, 2) == 0)
+			else if (g_ascii_strncasecmp("UP", cmd, 2) == 0)
 				{
 				ptr = cmd + 2;
 				while (g_ascii_isspace(*ptr)) ptr++;
@@ -83,7 +84,7 @@ gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				if (i_parm <= 0) i_parm = 1;
 				y -= i_parm;
 				}
-			else if (g_strncasecmp("DOWN", cmd, 4) == 0)
+			else if (g_ascii_strncasecmp("DOWN", cmd, 4) == 0)
 				{
 				ptr = cmd + 4;
 				while (g_ascii_isspace(*ptr)) ptr++;
@@ -92,15 +93,15 @@ gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				if (i_parm <= 0) i_parm = 1;
 				y += i_parm;
 				}
-			else if (g_strcasecmp("PREV", cmd) == 0)
+			else if (g_ascii_strcasecmp("PREV", cmd) == 0)
 				{
 				layout_image_prev(lw);
 				}
-			else if (g_strcasecmp("NEXT", cmd) == 0)
+			else if (g_ascii_strcasecmp("NEXT", cmd) == 0)
 				{
 				layout_image_next(lw);
 				}
-			else if (g_strncasecmp("ZOOM_IN", cmd, 7) == 0)
+			else if (g_ascii_strncasecmp("ZOOM_IN", cmd, 7) == 0)
 				{
 				ptr = cmd + 7;
 				while (g_ascii_isspace(*ptr)) ptr++;
@@ -109,7 +110,7 @@ gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				if (fl_parm <= 0.01) fl_parm = get_zoom_increment();
 				layout_image_zoom_adjust(lw, fl_parm);
 				}
-			else if (g_strncasecmp("ZOOM_OUT", cmd, 8) == 0)
+			else if (g_ascii_strncasecmp("ZOOM_OUT", cmd, 8) == 0)
 				{
 				ptr = cmd + 8;
 				while (g_ascii_isspace(*ptr)) ptr++;
@@ -118,11 +119,11 @@ gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				if (fl_parm <= 0.01) fl_parm = get_zoom_increment();
 				layout_image_zoom_adjust(lw, -fl_parm);
 				}
-			else if (g_strcasecmp("ZOOM_MAX", cmd) == 0)
+			else if (g_ascii_strcasecmp("ZOOM_MAX", cmd) == 0)
 				{
 				layout_image_zoom_set(lw, 0.0);
 				}
-			else if (g_strncasecmp("SET_ZOOM", cmd, 8) == 0)
+			else if (g_ascii_strncasecmp("SET_ZOOM", cmd, 8) == 0)
 				{
 				ptr = cmd + 8;
 				while (g_ascii_isspace(*ptr)) ptr++;
@@ -131,7 +132,7 @@ gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				if (i_parm <= 0) i_parm = 1;
 				layout_image_zoom_set(lw, 1.0);
 				}
-			else if (g_strncasecmp("SET_INV_ZOOM", cmd, 12) == 0)
+			else if (g_ascii_strncasecmp("SET_INV_ZOOM", cmd, 12) == 0)
 				{
 				ptr = cmd + 12;
 				while (g_ascii_isspace(*ptr)) ptr++;
@@ -140,31 +141,31 @@ gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				if (i_parm <= 0) i_parm = 1;
 				layout_image_zoom_set(lw, -i_parm);
 				}
-			else if (g_strcasecmp("FIRST", cmd) == 0)
+			else if (g_ascii_strcasecmp("FIRST", cmd) == 0)
 				{
 				layout_image_first(lw);
 				}
-			else if (g_strcasecmp("LAST", cmd) == 0)
+			else if (g_ascii_strcasecmp("LAST", cmd) == 0)
 				{
 				layout_image_last(lw);
 				}
-			else if (g_strcasecmp("PAUSE", cmd) == 0)
+			else if (g_ascii_strcasecmp("PAUSE", cmd) == 0)
 				{
 				layout_image_slideshow_pause_toggle(lw);
 				}
-			else if (g_strcasecmp("ROTATE_90", cmd) == 0)
+			else if (g_ascii_strcasecmp("ROTATE_90", cmd) == 0)
 				{
 				layout_image_alter(lw, ALTER_ROTATE_90);
 				}
-			else if (g_strcasecmp("ROTATE_90_CC", cmd) == 0)
+			else if (g_ascii_strcasecmp("ROTATE_90_CC", cmd) == 0)
 				{
 				layout_image_alter(lw, ALTER_ROTATE_90_CC);
 				}
-			else if (g_strcasecmp("INFO", cmd) == 0)
+			else if (g_ascii_strcasecmp("INFO", cmd) == 0)
 				{
 				layout_image_overlay_toggle(lw);
 				}
-			else if (g_strcasecmp("EXIT", cmd) == 0)
+			else if (g_ascii_strcasecmp("EXIT", cmd) == 0)
 				{
 				exit_program();
 				}
