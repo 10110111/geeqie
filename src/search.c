@@ -2110,6 +2110,9 @@ static void search_start_cb(GtkWidget *widget, gpointer data)
 	date_selection_get(sd->date_sel, &sd->search_date_d, &sd->search_date_m, &sd->search_date_y);
 	date_selection_get(sd->date_sel_end, &sd->search_date_end_d, &sd->search_date_end_m, &sd->search_date_end_y);
 
+	column = gtk_tree_view_get_column(GTK_TREE_VIEW(sd->result_view), SEARCH_COLUMN_DIMENSIONS - 1);
+	gtk_tree_view_column_set_visible(column, sd->match_dimensions_enable);
+
 	column = gtk_tree_view_get_column(GTK_TREE_VIEW(sd->result_view), SEARCH_COLUMN_RANK - 1);
 	gtk_tree_view_column_set_visible(column, sd->match_similarity_enable);
 	if (!sd->match_similarity_enable)
