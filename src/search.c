@@ -266,25 +266,24 @@ static void search_status_update(SearchData *sd)
 	gint64 t_bytes;
 	gint64 s_bytes;
 	gchar *tt;
-	gchar *ts;
 
 	t = search_result_count(sd, &t_bytes);
 	s = search_result_selection_count(sd, &s_bytes);
+	
+	tt = text_from_size_abrev(t_bytes);
 
 	if (s > 0)
 		{
-		tt = text_from_size_abrev(t_bytes);
-		ts = text_from_size_abrev(s_bytes);
+		gchar *ts = text_from_size_abrev(s_bytes);
 		buf = g_strdup_printf(_("%s, %d files (%s, %d)"), tt, t, ts, s);
-		g_free(tt);
 		g_free(ts);
 		}
 	else
 		{
-		tt = text_from_size_abrev(t_bytes);
 		buf = g_strdup_printf(_("%s, %d files"), tt, t);
-		g_free(tt);
 		}
+
+	g_free(tt);
 
 	gtk_label_set_text(GTK_LABEL(sd->label_status), buf);
 	g_free(buf);
