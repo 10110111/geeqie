@@ -776,7 +776,7 @@ void load_options(void)
 		READ_BOOL(color_profile.use_image);
 		READ_INT(color_profile.input_type);
 
-		if (strncasecmp(option, "color_profile.input_file_", 25) == 0)
+		if (g_ascii_strncasecmp(option, "color_profile.input_file_", 25) == 0)
 			{
 			i = strtol(option + 25, NULL, 0) - 1;
 			if (i >= 0 && i < COLOR_PROFILE_INPUTS)
@@ -784,7 +784,7 @@ void load_options(void)
 				read_char_option(f, option, option, value, &options->color_profile.input_file[i]);
 				}
 			}
-		if (strncasecmp(option, "color_profile.input_name_", 25) == 0)
+		if (g_ascii_strncasecmp(option, "color_profile.input_name_", 25) == 0)
 			{
 			i = strtol(option + 25, NULL, 0) - 1;
 			if (i >= 0 && i < COLOR_PROFILE_INPUTS)
@@ -798,7 +798,7 @@ void load_options(void)
 
 		/* External Programs */
 
-		if (strncasecmp(option, "external_", 9) == 0)
+		if (g_ascii_strncasecmp(option, "external_", 9) == 0)
 			{
 			i = strtol(option + 9, NULL, 0);
 			if (i > 0 && i <= GQ_EDITOR_SLOTS)
@@ -814,7 +814,7 @@ void load_options(void)
 			}
 
 		/* Exif */
-		if (0 == strncasecmp(option, "exif.display.", 13))
+		if (0 == g_ascii_strncasecmp(option, "exif.display.", 13))
 			{
 			for (i = 0; ExifUIList[i].key; i++)
 				if (0 == g_ascii_strcasecmp(option + 13, ExifUIList[i].key))

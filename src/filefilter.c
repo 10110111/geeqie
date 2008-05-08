@@ -330,6 +330,7 @@ gint filter_name_exists(const gchar *name)
 
 		if (ln >= lf)
 			{
+			/* FIXME: utf8 */
 			if (strncasecmp(name + ln - lf, filter, lf) == 0) return TRUE;
 			}
 		work = work->next;
@@ -358,6 +359,7 @@ gint filter_file_class(const gchar *name, FileFormatClass file_class)
 
 		if (ln >= lf)
 			{
+			/* FIXME: utf8 */
 			if (strncasecmp(name + ln - lf, filter, lf) == 0) return TRUE;
 			}
 		work = work->next;

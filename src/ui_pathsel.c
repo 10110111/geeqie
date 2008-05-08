@@ -134,6 +134,7 @@ static gint dest_check_filter(const gchar *filter, const gchar *file)
 			}
 		if (*f_ptr != '\0' && f_ptr[1] == ' ') f_ptr++;	/* skip space immediately after separator */
 		f_ptr++;
+		/* FIXME: utf8 */
 		if (l >= i && strncasecmp(file + l - i, strt_ptr, i) == 0) return TRUE;
 		}
 	return FALSE;
