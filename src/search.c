@@ -741,11 +741,18 @@ static void search_result_thumb_step(SearchData *sd)
 	gint row = 0;
 	gint length = 0;
 
-	if (!sd->thumb_enable) return;
-
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(sd->result_view));
-
 	valid = gtk_tree_model_get_iter_first(store, &iter);
+	if (!sd->thumb_enable)
+		{
+		while (valid)
+			{
+			gtk_list_store_set(GTK_LIST_STORE(store), &iter, SEARCH_COLUMN_THUMB, NULL, -1);
+			valid = gtk_tree_model_iter_next(store, &iter);
+			}
+		return;
+		}
+
 	while (!mfd && valid)
 		{
 		GdkPixbuf *pixbuf;
