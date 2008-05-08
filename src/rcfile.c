@@ -117,7 +117,7 @@ static void write_char_option(SecureSaveInfo *ssi, gchar *label, gchar *text)
 
 static void read_char_option(FILE *f, gchar *option, gchar *label, gchar *value, gchar **text)
 {
-	if (text && strcasecmp(option, label) == 0)
+	if (text && g_ascii_strcasecmp(option, label) == 0)
 		{
 		g_free(*text);
 		*text = quoted_value(value, NULL);
@@ -146,7 +146,7 @@ static void write_color_option(SecureSaveInfo *ssi, gchar *label, GdkColor *colo
 
 static void read_color_option(FILE *f, gchar *option, gchar *label, gchar *value, GdkColor *color)
 {
-	if (color && strcasecmp(option, label) == 0)
+	if (color && g_ascii_strcasecmp(option, label) == 0)
 		{
 		gchar *colorstr = quoted_value(value, NULL);
 		if (colorstr) gdk_color_parse(colorstr, color);
@@ -162,7 +162,7 @@ static void write_int_option(SecureSaveInfo *ssi, gchar *label, gint n)
 
 static void read_int_option(FILE *f, gchar *option, gchar *label, gchar *value, gint *n)
 {
-	if (n && strcasecmp(option, label) == 0)
+	if (n && g_ascii_strcasecmp(option, label) == 0)
 		{
 		*n = strtol(value, NULL, 10);
 		}
@@ -175,7 +175,7 @@ static void write_uint_option(SecureSaveInfo *ssi, gchar *label, guint n)
 
 static void read_uint_option(FILE *f, gchar *option, gchar *label, gchar *value, guint *n)
 {
-	if (n && strcasecmp(option, label) == 0)
+	if (n && g_ascii_strcasecmp(option, label) == 0)
 		{
 		*n = strtoul(value, NULL, 10);
 		}
@@ -185,7 +185,7 @@ static void read_uint_option(FILE *f, gchar *option, gchar *label, gchar *value,
 
 static void read_int_option_clamp(FILE *f, gchar *option, gchar *label, gchar *value, gint *n, gint min, gint max)
 {
-	if (n && strcasecmp(option, label) == 0)
+	if (n && g_ascii_strcasecmp(option, label) == 0)
 		{
 		*n = CLAMP(strtol(value, NULL, 10), min, max);
 		}
@@ -212,7 +212,7 @@ static void write_int_unit_option(SecureSaveInfo *ssi, gchar *label, gint n, gin
 
 static void read_int_unit_option(FILE *f, gchar *option, gchar *label, gchar *value, gint *n, gint subunits)
 {
-	if (n && strcasecmp(option, label) == 0)
+	if (n && g_ascii_strcasecmp(option, label) == 0)
 		{
 		gint l, r;
 		gchar *ptr;
@@ -245,9 +245,9 @@ static void write_bool_option(SecureSaveInfo *ssi, gchar *label, gint n)
 
 static void read_bool_option(FILE *f, gchar *option, gchar *label, gchar *value, gint *n)
 {
-	if (n && strcasecmp(option, label) == 0)
+	if (n && g_ascii_strcasecmp(option, label) == 0)
 		{
-		if (strcasecmp(value, "true") == 0 || strcmp(value, "1") == 0)
+		if (g_ascii_strcasecmp(value, "true") == 0 || strcmp(value, "1") == 0)
 			*n = TRUE;
 		else
 			*n = FALSE;
@@ -679,13 +679,13 @@ void load_options(void)
 		READ_INT(panels.sort.selection_state);
 
 		/* image options */
-		if (strcasecmp(option, "image.zoom_mode") == 0)
+		if (g_ascii_strcasecmp(option, "image.zoom_mode") == 0)
 			{
-			if (strcasecmp(value, "original") == 0)
+			if (g_ascii_strcasecmp(value, "original") == 0)
 				options->image.zoom_mode = ZOOM_RESET_ORIGINAL;
-			else if (strcasecmp(value, "fit") == 0)
+			else if (g_ascii_strcasecmp(value, "fit") == 0)
 				options->image.zoom_mode = ZOOM_RESET_FIT_WINDOW;
-			else if (strcasecmp(value, "dont_change") == 0)
+			else if (g_ascii_strcasecmp(value, "dont_change") == 0)
 				options->image.zoom_mode = ZOOM_RESET_NONE;
 			}
 		READ_BOOL(image.zoom_2pass);
@@ -760,12 +760,12 @@ void load_options(void)
 		READ_BOOL(file_filter.show_dot_directory);
 		READ_BOOL(file_filter.disable);
 
-		if (strcasecmp(option, "file_filter.ext") == 0)
+		if (g_ascii_strcasecmp(option, "file_filter.ext") == 0)
 			{
 			filter_parse(value_all);
 			}
 
-		if (strcasecmp(option, "sidecar.ext") == 0)
+		if (g_ascii_strcasecmp(option, "sidecar.ext") == 0)
 			{
 			sidecar_ext_parse(value_all, TRUE);
 			}
@@ -817,7 +817,7 @@ void load_options(void)
 		if (0 == strncasecmp(option, "exif.display.", 13))
 			{
 			for (i = 0; ExifUIList[i].key; i++)
-				if (0 == strcasecmp(option + 13, ExifUIList[i].key))
+				if (0 == g_ascii_strcasecmp(option + 13, ExifUIList[i].key))
 					ExifUIList[i].current = strtol(value, NULL, 10);
 			}
 		}

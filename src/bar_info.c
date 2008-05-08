@@ -157,9 +157,9 @@ static gint comment_file_read(gchar *path, GList **keywords, gchar **comment)
 			if (*ptr == ']')
 				{
 				*ptr = '\0';
-				if (strcasecmp(keystr, "keywords") == 0)
+				if (g_ascii_strcasecmp(keystr, "keywords") == 0)
 					key = MK_KEYWORDS;
-				else if (strcasecmp(keystr, "comment") == 0)
+				else if (g_ascii_strcasecmp(keystr, "comment") == 0)
 					key = MK_COMMENT;
 				}
 			continue;
