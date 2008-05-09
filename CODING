@@ -1,12 +1,14 @@
 Please keep the general coding style of Geeqie:
 
 Space after if, while and for:
+------------------------------
 
 while (...)
 for (...)
 if (...)
 
 Indentation of {}:
+------------------
 
 while (...)
 	{
@@ -23,16 +25,35 @@ else
 	}
 
 Spaces around operators:
+------------------------
 
 i = 2;
+x = i * (j / 2);
+
 
 Space after comma:
+------------------
 func(a, b, c);
 
-Use glib functions when possible (ie. g_ascii_isspace() instead of isspace()).
+Functions without any parameter should be declared using void:
+--------------------------------------------------------------
+gint function(void)
+{
+...
+}
+
+Use glib types:
+---------------
 Please use glib types when possible (ie. gint and gchar instead of int and char)
 .
 
+Use glib functions:
+-------------------
+Use glib functions when possible (ie. g_ascii_isspace() instead of isspace()).
+Check if used functions are not deprecated.
+
+Others:
+-------
 Check twice the indentation and spurious whitespaces.
 
-Try to use explicit variable and function names
+Try to use explicit variable and function names.
