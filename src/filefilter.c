@@ -470,7 +470,7 @@ void sidecar_ext_write(SecureSaveInfo *ssi)
 	secure_fprintf(ssi, "sidecar.ext: \"%s\"\n", sidecar_ext_to_string());
 }
 
-char *sidecar_ext_to_string()
+gchar *sidecar_ext_to_string(void)
 {
 	GList *work;
 	GString *str = g_string_new("");
@@ -486,7 +486,7 @@ char *sidecar_ext_to_string()
 	return g_string_free(str, FALSE);
 }
 
-void sidecar_ext_add_defaults()
+void sidecar_ext_add_defaults(void)
 {
 	sidecar_ext_parse(".jpg;.cr2;.nef;.crw;.xmp", FALSE);
 }

@@ -60,7 +60,7 @@ static void color_man_lib_init(void)
 	cmsErrorAction(LCMS_ERROR_IGNORE);
 }
 
-static cmsHPROFILE color_man_create_adobe_comp()
+static cmsHPROFILE color_man_create_adobe_comp(void)
 {
 	/* ClayRGB1998 is AdobeRGB compatible */
 #include "ClayRGB1998_icc.h"

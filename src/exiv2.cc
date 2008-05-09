@@ -707,7 +707,7 @@ RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 		delete cr2Header;
 }
 
-RawFile::~RawFile()
+RawFile::~RawFile(void)
 {
 	if (map_data && munmap(map_data, map_len) == -1)
 		{
@@ -729,7 +729,7 @@ const Value * RawFile::find(uint16_t tag, uint16_t group)
 		return NULL;
 }
 
-unsigned long RawFile::preview_offset()
+unsigned long RawFile::preview_offset(void)
 {
 	const Value *val;
 	if (offset) return offset;

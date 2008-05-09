@@ -43,8 +43,8 @@ void filter_parse(const gchar *text);
 
 void sidecar_ext_parse(const gchar *text, gint quoted);
 void sidecar_ext_write(SecureSaveInfo *ssi);
-char *sidecar_ext_to_string();
-void sidecar_ext_add_defaults();
+gchar *sidecar_ext_to_string(void);
+void sidecar_ext_add_defaults(void);
 GList *sidecar_ext_get_list(void);
 
 gint ishidden(const gchar *name);

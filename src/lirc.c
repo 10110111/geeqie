@@ -16,7 +16,7 @@ GIOChannel *gio_chan;
  *-----------------------------------------------------------------------------
  */
 
-void lirc_cleanup()
+void lirc_cleanup(void)
 {
 	if (config)
 		{

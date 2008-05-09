@@ -23,7 +23,7 @@
 #define HCHAN_COUNT (HCHAN_MAX+1)
 
 
-Histogram *histogram_new();
+Histogram *histogram_new(void);
 void histogram_free(Histogram *histogram);
 gint histogram_set_channel(Histogram *histogram, gint chan);
 gint histogram_get_channel(Histogram *histogram);

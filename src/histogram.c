@@ -32,7 +32,7 @@ struct _Histogram {
 };
 
 
-Histogram *histogram_new()
+Histogram *histogram_new(void)
 {
 	Histogram *histogram;
 
