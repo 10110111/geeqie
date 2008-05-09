@@ -107,20 +107,18 @@ static gint image_osd_histogram_onoff_status(ImageWindow *imd)
 
 void image_osd_histogram_chan_toggle(ImageWindow *imd)
 {
-	if (imd->histogram)
-		{
-		histogram_set_channel(imd->histogram, (histogram_get_channel(imd->histogram) +1)%HCHAN_COUNT);
-		image_osd_update(imd);
-		}
+	if (!imd->histogram) return;
+
+	histogram_set_channel(imd->histogram, (histogram_get_channel(imd->histogram) +1)%HCHAN_COUNT);
+	image_osd_update(imd);
 }
 
 void image_osd_histogram_log_toggle(ImageWindow *imd)
 {
-	if (imd->histogram)
-		{
-		histogram_set_mode(imd->histogram, !histogram_get_mode(imd->histogram));
-		image_osd_update(imd);
-		}
+	if (!imd->histogram) return;
+
+	histogram_set_mode(imd->histogram, !histogram_get_mode(imd->histogram));
+	image_osd_update(imd);
 }
 
 void image_osd_toggle(ImageWindow *imd)
