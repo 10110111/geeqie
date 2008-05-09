@@ -30,13 +30,13 @@
  *----------------------------------------------------------------------------
  */
 
+
 typedef struct _OverlayStateData OverlayStateData;
 struct _OverlayStateData {
 	ImageWindow *imd;
 	ImageState changed_states;
 
-	gint show_info;
-	gint show_status;
+	OsdShowFlags show;
 
 	gint ovl_info;
 
@@ -123,9 +123,9 @@ void image_osd_histogram_log_toggle(ImageWindow *imd)
 
 void image_osd_toggle(ImageWindow *imd)
 {
-	gint info;
+	OsdShowFlags show;
 
-	if (image_osd_get(imd, &info, NULL) && info)
+	if (image_osd_get(imd, &show) && show & OSD_SHOW_INFO)
 		{
 		if (image_osd_histogram_onoff_status(imd))
 			{
@@ -134,12 +134,12 @@ void image_osd_toggle(ImageWindow *imd)
 			}
 		else
 			{
-			image_osd_set(imd, FALSE, FALSE);
+			image_osd_set(imd, OSD_SHOW_NOTHING);
 			}
 		}
 	else
 		{
-		image_osd_set(imd, TRUE, TRUE);
+		image_osd_set(imd, OSD_SHOW_INFO | OSD_SHOW_STATUS);
 		image_osd_icon(imd, IMAGE_OSD_ICON, -1);
 		image_osd_histogram_onoff_toggle(imd, 1);
 		image_osd_update(imd);
@@ -552,7 +552,7 @@ static gint image_osd_update_cb(gpointer data)
 
 	osd->imd->overlay_show_zoom = FALSE;
 
-	if (osd->show_info)
+	if (osd->show & OSD_SHOW_INFO)
 		{
 		if (osd->changed_states & IMAGE_STATE_IMAGE)
 			{
@@ -588,7 +588,7 @@ static gint image_osd_update_cb(gpointer data)
 			}
 		}
 
-	if (osd->show_status)
+	if (osd->show & OSD_SHOW_STATUS)
 		{
 		gint i;
 
@@ -763,7 +763,7 @@ static void image_osd_destroy_cb(GtkWidget *widget, gpointer data)
 	image_osd_free(osd);
 }
 
-static void image_osd_enable(ImageWindow *imd, gint info, gint status)
+static void image_osd_enable(ImageWindow *imd, OsdShowFlags show)
 {
 	OverlayStateData *osd;
 
@@ -782,30 +782,26 @@ static void image_osd_enable(ImageWindow *imd, gint info, gint status)
 		image_set_state_func(osd->imd, image_osd_state_cb, osd);
 		}
 
-	if (osd->show_info != info ||
-	    osd->show_status != status)
-		{
-		osd->show_info = info;
-		osd->show_status = status;
-
+	if (show != osd->show)
 		image_osd_update_schedule(osd, TRUE);
-		}
+
+	osd->show = show;
 }
 
-void image_osd_set(ImageWindow *imd, gint info, gint status)
+void image_osd_set(ImageWindow *imd, OsdShowFlags show)
 {
 	if (!imd) return;
 
-	if (!info && !status)
+	if (show == OSD_SHOW_NOTHING)
 		{
 		image_osd_remove(imd);
 		return;
 		}
 
-	image_osd_enable(imd, info, status);
+	image_osd_enable(imd, show);
 }
 
-gint image_osd_get(ImageWindow *imd, gint *info, gint *status)
+gint image_osd_get(ImageWindow *imd, OsdShowFlags *show)
 {
 	OverlayStateData *osd;
 
@@ -814,8 +810,7 @@ gint image_osd_get(ImageWindow *imd, gint *info, gint *status)
 	osd = g_object_get_data(G_OBJECT(imd->pr), "IMAGE_OVERLAY_DATA");
 	if (!osd) return FALSE;
 
-	if (info) *info = osd->show_info;
-	if (status) *status = osd->show_status;
+	if (show) *show = osd->show;
 
 	return TRUE;
 }

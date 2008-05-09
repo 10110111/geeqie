@@ -1208,7 +1208,7 @@ static void exit_program_final(void)
 			layout_geometry_get(NULL, &options->layout.main_window.x, &options->layout.main_window.y,
 					    &options->layout.main_window.w, &options->layout.main_window.h);
 			}
-		options->image_overlay.common.enabled = image_osd_get(lw->image, NULL, NULL);
+		options->image_overlay.common.enabled = image_osd_get(lw->image, NULL);
 		}
 
 	layout_geometry_get_dividers(NULL, &options->layout.main_window.hdivider_pos, &options->layout.main_window.vdivider_pos);
@@ -1479,7 +1479,8 @@ int main (int argc, char *argv[])
 						    collection_get_first(first_collection));
 			}
 		}
-	image_osd_set(lw->image, FALSE, (options->image_overlay.common.show_at_startup || options->image_overlay.common.enabled));
+
+	image_osd_set(lw->image, (options->image_overlay.common.show_at_startup || options->image_overlay.common.enabled) ? OSD_SHOW_INFO : OSD_SHOW_NOTHING);
 
 	g_free(geometry);
 	g_free(cmd_path);

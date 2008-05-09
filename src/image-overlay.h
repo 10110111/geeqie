@@ -24,10 +24,17 @@ typedef enum {
 	IMAGE_OSD_COUNT
 } ImageOSDFlag;
 
+typedef enum {
+	OSD_SHOW_NOTHING	= 0,
+	OSD_SHOW_INFO		= 1 << 0,
+	OSD_SHOW_STATUS		= 1 << 1,
+	OSD_SHOW_HISTOGRAM	= 1 << 2
+} OsdShowFlags;
+
 void set_default_image_overlay_template_string(ConfOptions *options);
 
-void image_osd_set(ImageWindow *imd, gint info, gint status);
-gint image_osd_get(ImageWindow *imd, gint *info, gint *status);
+void image_osd_set(ImageWindow *imd, OsdShowFlags show);
+gint image_osd_get(ImageWindow *imd, OsdShowFlags *show);
 
 void image_osd_update(ImageWindow *imd);
 
