@@ -86,6 +86,25 @@ void set_default_image_overlay_template_string(ConfOptions *options)
 	options->image_overlay.common.template_string = g_strdup(DEFAULT_OVERLAY_INFO);
 }
 
+static OverlayStateData *image_get_osd_data(ImageWindow *imd)
+{
+	OverlayStateData *osd;
+
+	if (!imd) return NULL;
+
+	g_assert(imd->pr);
+
+	osd = g_object_get_data(G_OBJECT(imd->pr), "IMAGE_OVERLAY_DATA");
+	return osd;
+}
+
+static void image_set_osd_data(ImageWindow *imd, OverlayStateData *osd)
+{
+	g_assert(imd);
+	g_assert(imd->pr);
+	g_object_set_data(G_OBJECT(imd->pr), "IMAGE_OVERLAY_DATA", osd);
+}
+
 /*
  *----------------------------------------------------------------------------
  * image histogram
@@ -125,7 +144,7 @@ void image_osd_toggle(ImageWindow *imd)
 {
 	OsdShowFlags show;
 
-	if (image_osd_get(imd, &show) && show & OSD_SHOW_INFO)
+	if (image_osd_get(imd, &show) && (show & OSD_SHOW_INFO))
 		{
 		if (image_osd_histogram_onoff_status(imd))
 			{
@@ -660,11 +679,8 @@ static void image_osd_update_schedule(OverlayStateData *osd, gint force)
 
 void image_osd_update(ImageWindow *imd)
 {
-	OverlayStateData *osd;
+	OverlayStateData *osd = image_get_osd_data(imd);
 
-	if (!imd) return;
-
-	osd = g_object_get_data(G_OBJECT(imd->pr), "IMAGE_OVERLAY_DATA");
 	if (!osd) return;
 
 	image_osd_update_schedule(osd, TRUE);
@@ -732,7 +748,7 @@ static void image_osd_free(OverlayStateData *osd)
 		{
 		gint i;
 
-		g_object_set_data(G_OBJECT(osd->imd->pr), "IMAGE_OVERLAY_DATA", NULL);
+		image_set_osd_data(osd->imd, NULL);
 		g_signal_handler_disconnect(osd->imd->pr, osd->destroy_id);
 
 		image_set_state_func(osd->imd, NULL, NULL);
@@ -749,9 +765,9 @@ static void image_osd_free(OverlayStateData *osd)
 
 static void image_osd_remove(ImageWindow *imd)
 {
-	OverlayStateData *osd;
+	OverlayStateData *osd = image_get_osd_data(imd);
 
-	osd = g_object_get_data(G_OBJECT(imd->pr), "IMAGE_OVERLAY_DATA");
+	g_assert(osd);
 	image_osd_free(osd);
 }
 
@@ -765,9 +781,8 @@ static void image_osd_destroy_cb(GtkWidget *widget, gpointer data)
 
 static void image_osd_enable(ImageWindow *imd, OsdShowFlags show)
 {
-	OverlayStateData *osd;
+	OverlayStateData *osd = image_get_osd_data(imd);
 
-	osd = g_object_get_data(G_OBJECT(imd->pr), "IMAGE_OVERLAY_DATA");
 	if (!osd)
 		{
 		osd = g_new0(OverlayStateData, 1);
@@ -777,7 +792,7 @@ static void image_osd_enable(ImageWindow *imd, OsdShowFlags show)
 
 		osd->destroy_id = g_signal_connect(G_OBJECT(imd->pr), "destroy",
 						   G_CALLBACK(image_osd_destroy_cb), osd);
-		g_object_set_data(G_OBJECT(imd->pr), "IMAGE_OVERLAY_DATA", osd);
+		image_set_osd_data(imd, osd);
 
 		image_set_state_func(osd->imd, image_osd_state_cb, osd);
 		}
@@ -803,11 +818,8 @@ void image_osd_set(ImageWindow *imd, OsdShowFlags show)
 
 gint image_osd_get(ImageWindow *imd, OsdShowFlags *show)
 {
-	OverlayStateData *osd;
+	OverlayStateData *osd = image_get_osd_data(imd);
 
-	if (!imd) return FALSE;
-
-	osd = g_object_get_data(G_OBJECT(imd->pr), "IMAGE_OVERLAY_DATA");
 	if (!osd) return FALSE;
 
 	if (show) *show = osd->show;
@@ -823,11 +835,8 @@ gint image_osd_get(ImageWindow *imd, OsdShowFlags *show)
  */
 void image_osd_icon(ImageWindow *imd, ImageOSDFlag flag, gint duration)
 {
-	OverlayStateData *osd;
+	OverlayStateData *osd = image_get_osd_data(imd);
 
-	if (!imd) return;
-
-	osd = g_object_get_data(G_OBJECT(imd->pr), "IMAGE_OVERLAY_DATA");
 	if (!osd) return;
 
 	if (flag < IMAGE_OSD_NONE || flag >= IMAGE_OSD_COUNT) return;
