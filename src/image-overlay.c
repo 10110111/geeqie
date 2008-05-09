@@ -283,6 +283,9 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
     	gint w, h;
 	GHashTable *vars;
 	ImageWindow *imd = osd->imd;
+	FileData *fd = image_get_fd(imd);
+
+	if (!fd) return NULL;
 
 	vars = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
 
@@ -389,10 +392,6 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	g_hash_table_destroy(vars);
 
 	{
-	FileData *fd = image_get_fd(imd);
-
-	if (fd) /* fd may be null after file deletion */
-		{
 		gint active_marks = 0;
 		gint mark;
 		gchar *text2;
@@ -431,7 +430,6 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 			g_free(text);
 			text = text2;
 			}
-		}
 	}
 
 	layout = gtk_widget_create_pango_layout(imd->pr, NULL);
