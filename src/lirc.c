@@ -16,7 +16,7 @@ GIOChannel *gio_chan;
  *-----------------------------------------------------------------------------
  */
 
-void lirc_cleanup(void)
+static void lirc_cleanup(void)
 {
 	if (config)
 		{
@@ -36,8 +36,8 @@ void lirc_cleanup(void)
 		}
 }
 
-gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
-                             gpointer data)
+static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
+				    gpointer data)
 {
 	LayoutWindow *lw = data;
 	gchar *ptr;
@@ -173,7 +173,7 @@ gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 		free(code);
 		if (ret == -1) break;
 		}
-	if (x != 0 || y!= 0)
+	if (x != 0 || y != 0)
 		{
 		layout_image_scroll(lw, x, y);
 		}
