@@ -1940,9 +1940,6 @@ static void image_free(ImageWindow *imd)
 	file_data_unref(imd->image_fd);
 	g_free(imd->title);
 	g_free(imd->title_right);
-
-	if (imd->histogram) histogram_free(imd->histogram);
-
 	g_free(imd);
 }
 
@@ -2063,8 +2060,6 @@ ImageWindow *image_new(gint frame)
 	imd->func_scroll = NULL;
 
 	imd->orientation = 1;
-
-	imd->histogram_enabled = FALSE; /* TODO: option */
 
 	imd->pr = GTK_WIDGET(pixbuf_renderer_new());
 

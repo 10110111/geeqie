@@ -385,10 +385,6 @@ struct _ImageWindow
 	gint color_profile_from_image;
 	gpointer cm;
 
-	/* histogram */
-	gint histogram_enabled;
-	Histogram *histogram;
-
 	AlterType delay_alter_type;
 
 	ImageLoader *read_ahead_il;

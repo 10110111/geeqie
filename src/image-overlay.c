@@ -14,6 +14,7 @@
 #include "image-overlay.h"
 
 #include "collect.h"
+#include "debug.h"
 #include "exif.h"
 #include "filedata.h"
 #include "image.h"
@@ -35,6 +36,8 @@ typedef struct _OverlayStateData OverlayStateData;
 struct _OverlayStateData {
 	ImageWindow *imd;
 	ImageState changed_states;
+
+	Histogram *histogram;
 
 	OsdShowFlags show;
 
@@ -112,56 +115,49 @@ static void image_set_osd_data(ImageWindow *imd, OverlayStateData *osd)
  */
 
 
-static void image_osd_histogram_onoff_toggle(ImageWindow *imd, gint x)
-{
-	imd->histogram_enabled = !!(x);
-	if (imd->histogram_enabled && !imd->histogram)
-		imd->histogram = histogram_new();
-}
-
-static gint image_osd_histogram_onoff_status(ImageWindow *imd)
-{
-      return imd->histogram_enabled;
-}
-
 void image_osd_histogram_chan_toggle(ImageWindow *imd)
 {
-	if (!imd->histogram) return;
+	OverlayStateData *osd = image_get_osd_data(imd);
 
-	histogram_set_channel(imd->histogram, (histogram_get_channel(imd->histogram) +1)%HCHAN_COUNT);
+	if (!osd || !osd->histogram) return;
+
+	histogram_set_channel(osd->histogram, (histogram_get_channel(osd->histogram) +1)%HCHAN_COUNT);
 	image_osd_update(imd);
 }
 
 void image_osd_histogram_log_toggle(ImageWindow *imd)
 {
-	if (!imd->histogram) return;
+	OverlayStateData *osd = image_get_osd_data(imd);
 
-	histogram_set_mode(imd->histogram, !histogram_get_mode(imd->histogram));
+	if (!osd || !osd->histogram) return;
+
+	histogram_set_mode(osd->histogram, !histogram_get_mode(osd->histogram));
 	image_osd_update(imd);
 }
 
 void image_osd_toggle(ImageWindow *imd)
 {
-	OsdShowFlags show;
+	OverlayStateData *osd;
 
-	if (image_osd_get(imd, &show) && (show & OSD_SHOW_INFO))
+	if (!imd) return;
+
+	osd = image_get_osd_data(imd);
+	if (!osd)
 		{
-		if (image_osd_histogram_onoff_status(imd))
-			{
-			image_osd_histogram_onoff_toggle(imd, 0);
-			image_osd_update(imd);
-			}
-		else
+		image_osd_set(imd, OSD_SHOW_INFO | OSD_SHOW_STATUS);
+		return;
+		}
+
+	if (osd->show != OSD_SHOW_NOTHING)
+		{
+		if (osd->show & OSD_SHOW_HISTOGRAM)
 			{
 			image_osd_set(imd, OSD_SHOW_NOTHING);
 			}
-		}
-	else
-		{
-		image_osd_set(imd, OSD_SHOW_INFO | OSD_SHOW_STATUS);
-		image_osd_icon(imd, IMAGE_OSD_ICON, -1);
-		image_osd_histogram_onoff_toggle(imd, 1);
-		image_osd_update(imd);
+		else
+			{
+			image_osd_set(imd, osd->show | OSD_SHOW_HISTOGRAM);
+			}
 		}
 }
 
@@ -268,7 +264,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 	return ret;
 }
 
-static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
+static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 {
 	GdkPixbuf *pixbuf = NULL;
 	gint width, height;
@@ -286,6 +282,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
     	gchar *ct;
     	gint w, h;
 	GHashTable *vars;
+	ImageWindow *imd = osd->imd;
 
 	vars = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
 
@@ -360,7 +357,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 			imgpixbuf = (PIXBUF_RENDERER(imd->pr))->pixbuf;
 			}
 	
-		if (imgpixbuf && imd->histogram_enabled && imd->histogram
+		if (imgpixbuf && (osd->show & OSD_SHOW_HISTOGRAM) && osd->histogram
 			      && (!imd->il || imd->il->done))
 			with_hist=1;
 
@@ -425,7 +422,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 
     		if (with_hist)
 			{
-			gchar *escaped_histogram_label = g_markup_escape_text(histogram_label(imd->histogram), -1);
+			gchar *escaped_histogram_label = g_markup_escape_text(histogram_label(osd->histogram), -1);
 			if (*text)
 				text2 = g_strdup_printf("%s\n%s", text, escaped_histogram_label);
 			else
@@ -452,7 +449,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 
 	if (with_hist)
 		{
-		histogram_read(imd->histogram, imgpixbuf);
+		histogram_read(osd->histogram, imgpixbuf);
 		if (width < 266) width = 266;
 		height += HISTOGRAM_HEIGHT + 5;
 		}
@@ -471,7 +468,7 @@ static GdkPixbuf *image_osd_info_render(ImageWindow *imd)
 		pixbuf_pixel_set(pixbuf, width - 1, height - 1, 0, 0, 0, 0);
 
 		if (with_hist)
-			histogram_draw(imd->histogram, pixbuf, 5, height - HISTOGRAM_HEIGHT - 5 , width - 10, HISTOGRAM_HEIGHT);
+			histogram_draw(osd->histogram, pixbuf, 5, height - HISTOGRAM_HEIGHT - 5 , width - 10, HISTOGRAM_HEIGHT);
 
 		pixbuf_draw_layout(pixbuf, layout, imd->pr, 5, 5, 0, 0, 0, 255);
 	}
@@ -577,7 +574,7 @@ static gint image_osd_update_cb(gpointer data)
 			{
 			GdkPixbuf *pixbuf;
 
-			pixbuf = image_osd_info_render(osd->imd);
+			pixbuf = image_osd_info_render(osd);
 			if (pixbuf)
 				{
 				if (osd->ovl_info == 0)
@@ -760,6 +757,8 @@ static void image_osd_free(OverlayStateData *osd)
 			}
 		}
 
+	if (osd->histogram) histogram_free(osd->histogram);
+
 	g_free(osd);
 }
 
@@ -767,8 +766,7 @@ static void image_osd_remove(ImageWindow *imd)
 {
 	OverlayStateData *osd = image_get_osd_data(imd);
 
-	g_assert(osd);
-	image_osd_free(osd);
+	if (osd) image_osd_free(osd);
 }
 
 static void image_osd_destroy_cb(GtkWidget *widget, gpointer data)
@@ -789,6 +787,8 @@ static void image_osd_enable(ImageWindow *imd, OsdShowFlags show)
 		osd->imd = imd;
 		osd->idle_id = -1;
 		osd->timer_id = -1;
+		osd->show = OSD_SHOW_NOTHING;
+		osd->histogram = NULL;
 
 		osd->destroy_id = g_signal_connect(G_OBJECT(imd->pr), "destroy",
 						   G_CALLBACK(image_osd_destroy_cb), osd);
@@ -796,6 +796,17 @@ static void image_osd_enable(ImageWindow *imd, OsdShowFlags show)
 
 		image_set_state_func(osd->imd, image_osd_state_cb, osd);
 		}
+
+	if (show & OSD_SHOW_HISTOGRAM)
+		osd->histogram = histogram_new();
+	else if (osd->histogram)
+		{
+		histogram_free(osd->histogram);
+		osd->histogram = NULL;
+		}
+
+	if (show & OSD_SHOW_STATUS)
+		image_osd_icon(imd, IMAGE_OSD_ICON, -1);
 
 	if (show != osd->show)
 		image_osd_update_schedule(osd, TRUE);
