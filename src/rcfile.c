@@ -441,10 +441,17 @@ void save_options(void)
 	WRITE_BOOL(fullscreen.disable_saver);
 	WRITE_BOOL(fullscreen.above);
 
+
+	WRITE_SUBTITLE("Histogram Options");
+	WRITE_UINT(histogram.last_channel_mode);
+	WRITE_UINT(histogram.last_log_mode);
+
+
 	WRITE_SUBTITLE("Image Overlay Options");
 	WRITE_BOOL(image_overlay.common.enabled);
 	WRITE_BOOL(image_overlay.common.show_at_startup);
 	WRITE_CHAR(image_overlay.common.template_string);
+
 
 	WRITE_SUBTITLE("Slideshow Options");
 
@@ -737,6 +744,10 @@ void load_options(void)
 		READ_BOOL(fullscreen.clean_flip);
 		READ_BOOL(fullscreen.disable_saver);
 		READ_BOOL(fullscreen.above);
+
+		/* histogram */
+		READ_UINT(histogram.last_channel_mode);
+		READ_UINT(histogram.last_log_mode);
 
 		/* image overlay */
 		COMPAT_READ_BOOL(fullscreen.show_info, image_overlay.common.show_at_startup);

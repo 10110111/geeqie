@@ -37,8 +37,8 @@ Histogram *histogram_new(void)
 	Histogram *histogram;
 
 	histogram = g_new0(Histogram, 1);
-	histogram->histogram_chan = HCHAN_RGB;
-	histogram->histogram_logmode = 1;
+	histogram->histogram_chan = options->histogram.last_channel_mode;
+	histogram->histogram_logmode = options->histogram.last_log_mode;
 
 	return histogram;
 }
@@ -52,7 +52,7 @@ void histogram_free(Histogram *histogram)
 gint histogram_set_channel(Histogram *histogram, gint chan)
 {
 	if (!histogram) return 0;
-	histogram->histogram_chan = chan;
+	options->histogram.last_channel_mode = histogram->histogram_chan = chan;
 	return chan;
 }
 
@@ -65,7 +65,7 @@ gint histogram_get_channel(Histogram *histogram)
 gint histogram_set_mode(Histogram *histogram, gint mode)
 {
 	if (!histogram) return 0;
-	histogram->histogram_logmode = mode;
+	options->histogram.last_log_mode = histogram->histogram_logmode = mode;
 	return mode;
 }
 

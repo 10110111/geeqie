@@ -129,6 +129,12 @@ struct _ConfOptions
 		gint above;
 	} fullscreen;
 
+	/* histogram */
+	struct {
+		guint last_channel_mode;
+		guint last_log_mode;
+	} histogram;
+	
 	/* image overlay */
 	struct {
 		struct {
