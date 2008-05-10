@@ -829,7 +829,11 @@ gint image_osd_get(ImageWindow *imd, OsdShowFlags *show)
 {
 	OverlayStateData *osd = image_get_osd_data(imd);
 
-	if (!osd) return FALSE;
+	if (!osd)
+		{
+		if (show) *show = OSD_SHOW_NOTHING;
+		return FALSE;
+		}
 
 	if (show) *show = osd->show;
 

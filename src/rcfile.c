@@ -448,7 +448,7 @@ void save_options(void)
 
 
 	WRITE_SUBTITLE("Image Overlay Options");
-	WRITE_BOOL(image_overlay.common.enabled);
+	WRITE_UINT(image_overlay.common.enabled);
 	WRITE_BOOL(image_overlay.common.show_at_startup);
 	WRITE_CHAR(image_overlay.common.template_string);
 
@@ -752,7 +752,7 @@ void load_options(void)
 		/* image overlay */
 		COMPAT_READ_BOOL(fullscreen.show_info, image_overlay.common.show_at_startup);
 		COMPAT_READ_CHAR(fullscreen.info, image_overlay.common.template_string);
-		READ_BOOL(image_overlay.common.enabled);
+		READ_UINT(image_overlay.common.enabled);
 		READ_BOOL(image_overlay.common.show_at_startup);
 		READ_CHAR(image_overlay.common.template_string);
 	

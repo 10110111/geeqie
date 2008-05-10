@@ -138,7 +138,7 @@ struct _ConfOptions
 	/* image overlay */
 	struct {
 		struct {
-			gint enabled;
+			guint enabled;
 			gint show_at_startup;
 			gchar *template_string;
 		} common;
