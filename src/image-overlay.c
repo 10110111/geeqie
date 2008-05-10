@@ -79,6 +79,7 @@ static OSDIcon osd_icons[] = {
 #define IMAGE_OSD_DEFAULT_DURATION 30
 
 #define HISTOGRAM_HEIGHT 140
+#define HISTOGRAM_WIDTH  256
 
 static void image_osd_timer_schedule(OverlayStateData *osd);
 
@@ -448,7 +449,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	if (with_hist)
 		{
 		histogram_read(osd->histogram, imgpixbuf);
-		if (width < 266) width = 266;
+		if (width < HISTOGRAM_WIDTH + 10) width = HISTOGRAM_WIDTH + 10;
 		height += HISTOGRAM_HEIGHT + 5;
 		}
 
@@ -466,8 +467,27 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 		pixbuf_pixel_set(pixbuf, width - 1, height - 1, 0, 0, 0, 0);
 
 		if (with_hist)
-			histogram_draw(osd->histogram, pixbuf, 5, height - HISTOGRAM_HEIGHT - 5 , width - 10, HISTOGRAM_HEIGHT);
+			{
+			gint x = 5;
+			gint y = height - HISTOGRAM_HEIGHT - 5;
+			gint w = width - 10;
+			gint xoffset = 0;
+			gint subdiv = 5;
+			gint c = 160;
+			gint alpha = 250;
+			gint i;
 
+			for (i = 0; i < subdiv; i++)
+				{
+				gint d = (i > 0 ? 0 : 1);
+				gint div_width = d + w / subdiv;
+
+				pixbuf_set_rect(pixbuf, x + xoffset, y, div_width, HISTOGRAM_HEIGHT, c, c, c, alpha, d, 1, 1, 1);
+				xoffset += div_width;
+				}
+						
+			histogram_draw(osd->histogram, pixbuf, x, y, w, HISTOGRAM_HEIGHT);
+			}
 		pixbuf_draw_layout(pixbuf, layout, imd->pr, 5, 5, 0, 0, 0, 255);
 	}
 
