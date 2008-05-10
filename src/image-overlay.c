@@ -17,13 +17,13 @@
 #include "debug.h"
 #include "exif.h"
 #include "filedata.h"
+#include "histogram.h"
 #include "image.h"
 #include "img-view.h"
 #include "layout.h"
 #include "pixbuf-renderer.h"
 #include "pixbuf_util.h"
-#include "histogram.h"
-
+#include "ui_fileops.h"
 
 /*
  *----------------------------------------------------------------------------
@@ -183,9 +183,11 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 
 	while (TRUE)
 		{
-		gint was_digit = 0;
 		gint limit = 0;
 		gchar *trunc = NULL;
+		gchar *limpos = NULL;
+		gchar *extra = NULL;
+		gchar *extrapos = NULL;
 		gchar *p;
 
 		start = strchr(new->str, delim);
@@ -195,20 +197,35 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 		if (!end)
 			break;
 
-		for (p = end; p > start; p--)
+		/* Search for optionnal modifiers
+		 * %name:99:extra% -> name = "name", limit=99, extra = "extra"
+		 */
+		for (p = start + 1; p < end; p++)
 			{
-			if (*p == ':' && was_digit)
+			if (p[0] == ':')
 				{
-				trunc = p;
-				break;
+				if (g_ascii_isdigit(p[1]) && !limpos)
+					{
+					limpos = p + 1;
+					if (!trunc) trunc = p;
+					}
+				else
+					{
+					extrapos = p + 1;
+					if (!trunc) trunc = p;
+					break;
+					}
 				}
-			was_digit = g_ascii_isdigit(*p);
 			}
 
-		if (trunc) limit = atoi(trunc+1);
+		if (limpos)
+			limit = atoi(limpos);
 
-		name = g_strndup(start+1, ((limit > 0) ? trunc : end)-start-1);
-
+		if (extrapos)
+			extra = g_strndup(extrapos, end - extrapos);
+					
+		name = g_strndup(start+1, (trunc ? trunc : end)-start-1);
+		
 		pos = start-new->str;
 		data = g_strdup(g_hash_table_lookup(vars, name));
 		if (data && strcmp(name, "zoom") == 0) imd->overlay_show_zoom = TRUE;
@@ -220,6 +237,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			g_free(data);
 			data = new_data;
 			}
+	
 		if (data)
 			{
 			/* Since we use pango markup to display, we need to escape here */
@@ -227,9 +245,60 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			g_free(data);
 			data = escaped;
 			}
+
+		if (extra)
+			{
+			if (data && *data)
+				{
+				/* Display data between left and right parts of extra string
+				 * the data is expressed by a '*' character.
+				 * If no "*" is present, the extra string is just appended to data string.
+				 * Pango mark up is accepted in left and right parts.
+				 * Any \n is replaced by a newline
+				 * Examples:
+				 * "<i>*</i>\n" -> data is displayed in italics ended with a newline
+				 * "\n" 	-> ended with newline
+				 * "ISO *"	-> prefix data with "ISO " (ie. "ISO 100")
+				 * "Collection <b>*</b>\n" -> display data in bold prefixed by "Collection " and a newline is appended
+				 *
+				 * FIXME: using background / foreground colors lead to weird results.
+				 */
+				gchar *new_data;
+				gchar *left = NULL;
+				gchar *right = extra;
+				gchar *p;
+				gint len = strlen(extra);
+				
+				/* Search and replace "\n" by a newline character */
+				for (p = extra; *p; p++, len--)
+					if (p[0] == '\\' && p[1] == 'n')
+						{
+						memmove(p+1, p+2, --len);
+						*p = '\n';
+						}
+
+				/* Search for left and right parts */
+				for (p = extra; *p; p++)
+					if (*p == '*')
+						{
+						*p = '\0';
+						p++;
+						right = p;
+						left = extra;
+						break;
+						}
+				
+				new_data = g_strdup_printf("%s%s%s", left ? left : "", data, right);
+				g_free(data);
+				data = new_data;
+				}
+			g_free(extra);
+			}	
+
 		g_string_erase(new, pos, end-start+1);
 		if (data)
 			g_string_insert(new, pos, data);
+
 		if (pos-prev == 2 && new->str[pos-1] == imp)
 			{
 			g_string_erase(new, --pos, 1);
@@ -303,13 +372,24 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	cd = image_get_collection(imd, &info);
 	if (cd)
 		{
-		gchar *buf;
+		gchar *collection_name;
 
 		t = g_list_length(cd->list);
 		n = g_list_index(cd->list, info) + 1;
-		buf = g_markup_escape_text((cd->name) ? cd->name : _("Untitled"), -1);
-		ct = g_strdup_printf("<i>%s</i>\n", buf);
-		g_free(buf);
+		if (cd->name)
+			{
+			if (file_extension_match(cd->name, ".gqv"))
+				collection_name = remove_extension_from_path(cd->name);
+			else
+				collection_name = g_strdup(cd->name);
+			}
+		else
+			{
+			collection_name = g_strdup(_("Untitled"));
+			}
+
+		ct = g_markup_escape_text(collection_name, -1);
+		g_free(collection_name);
 		}
 	else
 		{

@@ -105,11 +105,11 @@
 #define PANEL_DEFAULT_WIDTH 288
 #define PANEL_MAX_WIDTH 1200
 
-#define DEFAULT_OVERLAY_INFO 	"%collection%(%number%/%total%) [%zoom%] <b>%name%</b>\n" \
+#define DEFAULT_OVERLAY_INFO	"%collection:<i>*</i>\\n%" \
+				"(%number%/%total%) [%zoom%] <b>%name%</b>\n" \
 				"%res%|%date%|%size%\n" \
-				"%formatted.Aperture%|%formatted.ShutterSpeed%|%formatted.ISOSpeedRating%|%formatted.FocalLength%|%formatted.ExposureBias%\n" \
-				"%formatted.Camera%|%formatted.Flash%" \
-
+				"%formatted.Aperture%|%formatted.ShutterSpeed%|%formatted.ISOSpeedRating:ISO *%|%formatted.FocalLength%|%formatted.ExposureBias:* Ev%\n" \
+				"%formatted.Camera:40%|%formatted.Flash%"
 
 #include "typedefs.h"
 #include "options.h"
