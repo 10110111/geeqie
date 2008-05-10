@@ -695,11 +695,9 @@ static void view_fullscreen_toggle(ViewWindow *vw, gint force_off)
 
 	if (vw->fs)
 		{
-		if (image_osd_get(vw->fs->imd, NULL))
-			{
-			image_osd_set(vw->imd, OSD_SHOW_INFO | OSD_SHOW_STATUS);
-			}
-
+		if (image_osd_get(vw->imd) & OSD_SHOW_INFO)
+			image_osd_set(vw->imd, image_osd_get(vw->fs->imd));
+		
 		fullscreen_stop(vw->fs);
 		}
 	else
@@ -712,10 +710,10 @@ static void view_fullscreen_toggle(ViewWindow *vw, gint force_off)
 
 		if (vw->ss) vw->ss->imd = vw->fs->imd;
 
-		if (image_osd_get(vw->imd, NULL))
+		if (image_osd_get(vw->imd) & OSD_SHOW_INFO)
 			{
+			image_osd_set(vw->fs->imd, image_osd_get(vw->imd));
 			image_osd_set(vw->imd, OSD_SHOW_NOTHING);
-			image_osd_set(vw->fs->imd, OSD_SHOW_INFO | OSD_SHOW_STATUS);
 			}
 		}
 }

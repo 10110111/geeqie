@@ -845,19 +845,11 @@ void image_osd_set(ImageWindow *imd, OsdShowFlags show)
 	image_osd_enable(imd, show);
 }
 
-gint image_osd_get(ImageWindow *imd, OsdShowFlags *show)
+OsdShowFlags image_osd_get(ImageWindow *imd)
 {
 	OverlayStateData *osd = image_get_osd_data(imd);
 
-	if (!osd)
-		{
-		if (show) *show = OSD_SHOW_NOTHING;
-		return FALSE;
-		}
-
-	if (show) *show = osd->show;
-
-	return TRUE;
+	return osd ? osd->show : OSD_SHOW_NOTHING;
 }
 
 /* duration:

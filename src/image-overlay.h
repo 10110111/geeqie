@@ -34,7 +34,7 @@ typedef enum {
 void set_default_image_overlay_template_string(ConfOptions *options);
 
 void image_osd_set(ImageWindow *imd, OsdShowFlags show);
-gint image_osd_get(ImageWindow *imd, OsdShowFlags *show);
+OsdShowFlags image_osd_get(ImageWindow *imd);
 
 void image_osd_update(ImageWindow *imd);
 

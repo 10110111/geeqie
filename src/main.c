@@ -1209,7 +1209,7 @@ static void exit_program_final(void)
 					    &options->layout.main_window.w, &options->layout.main_window.h);
 			}
 
-		image_osd_get(lw->image, &options->image_overlay.common.enabled);
+		options->image_overlay.common.enabled = image_osd_get(lw->image);
 		}
 
 	layout_geometry_get_dividers(NULL, &options->layout.main_window.hdivider_pos, &options->layout.main_window.vdivider_pos);
