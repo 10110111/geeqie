@@ -173,11 +173,6 @@ static void config_window_apply(void)
 		}
 	layout_edit_update_all();
 
-	g_free(options->startup.path);
-	options->startup.path = NULL;
-	buf = gtk_entry_get_text(GTK_ENTRY(startup_path_entry));
-	if (buf && strlen(buf) > 0) options->startup.path = remove_trailing_slash(buf);
-
 	g_free(options->file_ops.safe_delete_path);
 	options->file_ops.safe_delete_path = NULL;
 	buf = gtk_entry_get_text(GTK_ENTRY(safe_delete_path_entry));
@@ -189,6 +184,12 @@ static void config_window_apply(void)
 	if (options->file_filter.disable != c_options->file_filter.disable) refresh = TRUE;
 
 	options->startup.restore_path = c_options->startup.restore_path;
+	options->startup.use_last_path = c_options->startup.use_last_path;
+	g_free(options->startup.path);
+	options->startup.path = NULL;
+	buf = gtk_entry_get_text(GTK_ENTRY(startup_path_entry));
+	if (buf && strlen(buf) > 0) options->startup.path = remove_trailing_slash(buf);
+
 	options->file_ops.confirm_delete = c_options->file_ops.confirm_delete;
 	options->file_ops.enable_delete_key = c_options->file_ops.enable_delete_key;
 	options->file_ops.safe_delete_enable = c_options->file_ops.safe_delete_enable;
@@ -841,6 +842,7 @@ static void config_tab_general(GtkWidget *notebook)
 	GtkWidget *label;
 	GtkWidget *hbox;
 	GtkWidget *vbox;
+	GtkWidget *subvbox;
 	GtkWidget *group;
 	GtkWidget *subgroup;
 	GtkWidget *button;
@@ -857,11 +859,13 @@ static void config_tab_general(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Startup"), GTK_ORIENTATION_VERTICAL);
 
-	button = pref_checkbox_new_int(group, _("Change to folder:"),
+	button = pref_checkbox_new_int(group, _("Restore folder on startup"),
 				       options->startup.restore_path, &c_options->startup.restore_path);
 
-	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
-	pref_checkbox_link_sensitivity(button, hbox);
+	subvbox = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_SPACE);
+	pref_checkbox_link_sensitivity(button, subvbox);
+
+	hbox = pref_box_new(subvbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 
 	tabcomp = tab_completion_new(&startup_path_entry, options->startup.path, NULL, NULL);
 	tab_completion_add_select_button(startup_path_entry, NULL, TRUE);
@@ -870,6 +874,11 @@ static void config_tab_general(GtkWidget *notebook)
 
 	button = pref_button_new(hbox, NULL, _("Use current"), FALSE,
 				 G_CALLBACK(startup_path_set_current), NULL);
+
+	button = pref_checkbox_new_int(subvbox, _("Use last path"),
+				       options->startup.use_last_path, &c_options->startup.use_last_path);
+	pref_checkbox_link_sensitivity_swap(button, hbox);
+
 
 	group = pref_group_new(vbox, FALSE, _("Thumbnails"), GTK_ORIENTATION_VERTICAL);
 

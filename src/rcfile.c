@@ -325,6 +325,7 @@ void save_options(void)
 	WRITE_SUBTITLE("Startup Options");
 
 	WRITE_BOOL(startup.restore_path);
+	WRITE_BOOL(startup.use_last_path);
 	WRITE_CHAR(startup.path);
 
 
@@ -645,6 +646,8 @@ void load_options(void)
 		
 		COMPAT_READ_BOOL(startup_path_enable, startup.restore_path); /* 2008/05/11 */
 		READ_BOOL(startup.restore_path);
+
+		READ_BOOL(startup.use_last_path);
 
 		COMPAT_READ_CHAR(startup_path, startup.path); /* 2008/05/11 */
 		READ_CHAR(startup.path);

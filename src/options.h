@@ -41,6 +41,7 @@ struct _ConfOptions
 
 	struct {
 		gboolean restore_path;
+		gboolean use_last_path;
 		gchar *path;
 	} startup;
 

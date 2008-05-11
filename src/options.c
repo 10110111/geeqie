@@ -127,8 +127,9 @@ ConfOptions *init_options(ConfOptions *options)
 	options->slideshow.random = FALSE;
 	options->slideshow.repeat = FALSE;
 
-	options->startup.restore_path = FALSE;
 	options->startup.path = NULL;
+	options->startup.restore_path = FALSE;
+	options->startup.use_last_path = FALSE;
 
 	options->thumbnails.cache_into_dirs = FALSE;
 	options->thumbnails.enable_caching = TRUE;

@@ -1229,6 +1229,12 @@ static void exit_program_final(void)
 				       &options->color_profile.screen_type,
 				       &options->color_profile.use_image);
 
+	if (options->startup.restore_path && options->startup.use_last_path)
+		{
+		g_free(options->startup.path);
+		options->startup.path = g_strdup(layout_get_path(NULL));
+		}
+
 	save_options();
 	keys_save();
 
@@ -1302,7 +1308,7 @@ void exit_program(void)
 	exit_program_final();
 }
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	LayoutWindow *lw;
 	gchar *path = NULL;
