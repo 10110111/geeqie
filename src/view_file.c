@@ -51,19 +51,6 @@ FileData *vf_index_get_data(ViewFile *vf, gint row)
 	return fd;
 }
 
-gchar *vf_index_get_path(ViewFile *vf, gint row)
-{
-	gchar *path = NULL;
-	
-	switch(vf->type)
-	{
-	case FILEVIEW_LIST: path = vflist_index_get_path(vf, row); break;
-	case FILEVIEW_ICON: path = vficon_index_get_path(vf, row); break;
-	}
-
-	return path;
-}
-
 gint vf_index_by_path(ViewFile *vf, const gchar *path)
 {
 	gint index = -1;

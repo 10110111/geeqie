@@ -1289,15 +1289,6 @@ FileData *vflist_index_get_data(ViewFile *vf, gint row)
 	return g_list_nth_data(vf->list, row);
 }
 
-gchar *vflist_index_get_path(ViewFile *vf, gint row)
-{
-	FileData *fd;
-
-	fd = g_list_nth_data(vf->list, row);
-
-	return (fd ? fd->path : NULL);
-}
-
 static gint vflist_row_by_path(ViewFile *vf, const gchar *path, FileData **fd)
 {
 	gint p = 0;

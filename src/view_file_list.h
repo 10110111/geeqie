@@ -33,7 +33,6 @@ void vflist_marks_set(ViewFile *vf, gint enable);
 void vflist_sort_set(ViewFile *vf, SortType type, gint ascend);
 
 FileData *vflist_index_get_data(ViewFile *vf, gint row);
-gchar *vflist_index_get_path(ViewFile *vf, gint row);
 gint vflist_index_by_path(ViewFile *vf, const gchar *path);
 gint vflist_count(ViewFile *vf, gint64 *bytes);
 GList *vflist_get_list(ViewFile *vf);

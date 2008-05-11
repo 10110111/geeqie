@@ -39,7 +39,6 @@ void layout_status_update_all(LayoutWindow *lw);
 
 GList *layout_list(LayoutWindow *lw);
 gint layout_list_count(LayoutWindow *lw, gint64 *bytes);
-const gchar *layout_list_get_path(LayoutWindow *lw, gint index);
 FileData *layout_list_get_fd(LayoutWindow *lw, gint index);
 gint layout_list_get_index(LayoutWindow *lw, const gchar *path);
 void layout_list_sync_fd(LayoutWindow *lw, FileData *fd);

@@ -29,7 +29,6 @@ void vf_marks_set(ViewFile *vf, gint enable);
 void vf_sort_set(ViewFile *vf, SortType type, gint ascend);
 
 FileData *vf_index_get_data(ViewFile *vf, gint row);
-gchar *vf_index_get_path(ViewFile *vf, gint row);
 gint vf_index_by_path(ViewFile *vf, const gchar *path);
 gint vf_index_by_fd(ViewFile *vf, FileData *in_fd);
 gint vf_count(ViewFile *vf, gint64 *bytes);

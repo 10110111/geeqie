@@ -784,15 +784,6 @@ gint layout_list_count(LayoutWindow *lw, gint64 *bytes)
 	return 0;
 }
 
-const gchar *layout_list_get_path(LayoutWindow *lw, gint index)
-{
-	if (!layout_valid(&lw)) return NULL;
-
-	if (lw->vf) return vf_index_get_path(lw->vf, index);
-
-	return NULL;
-}
-
 FileData *layout_list_get_fd(LayoutWindow *lw, gint index)
 {
 	if (!layout_valid(&lw)) return NULL;

@@ -2060,17 +2060,6 @@ FileData *vficon_index_get_data(ViewFile *vf, gint row)
 	return id ? id->fd : NULL;
 }
 
-gchar *vficon_index_get_path(ViewFile *vf, gint row)
-{
-	FileData *fd;
-	IconData *id;
-
-	id = g_list_nth_data(vf->list, row);
-	fd = id ? id->fd : NULL;
-
-	return (fd ? fd->path : NULL);
-}
-
 gint vficon_index_by_path(ViewFile *vf, const gchar *path)
 {
 	gint p = 0;
