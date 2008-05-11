@@ -830,6 +830,10 @@ static void image_overlay_default_template_cb(GtkWidget *widget, gpointer data)
 	gtk_widget_show(gd->dialog);
 }
 
+static void image_overlay_help_cb(GtkWidget *widget, gpointer data)
+{
+	help_window_show("overlay");
+}
 
 /* general options tab */
 static void config_tab_general(GtkWidget *notebook)
@@ -1324,6 +1328,10 @@ static void config_tab_advanced(GtkWidget *notebook)
 			      options->fullscreen.clean_flip, &c_options->fullscreen.clean_flip);
 	pref_checkbox_new_int(group, _("Disable screen saver"),
 			      options->fullscreen.disable_saver, &c_options->fullscreen.disable_saver);
+
+
+	group = pref_group_new(vbox, FALSE, _("Overlay Screen Display"), GTK_ORIENTATION_VERTICAL);
+
 	pref_checkbox_new_int(group, _("Always show image overlay at startup"),
 			      options->image_overlay.common.show_at_startup, &c_options->image_overlay.common.show_at_startup);
 	pref_label_new(group, _("Image overlay template"));
@@ -1359,6 +1367,11 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
 				 G_CALLBACK(image_overlay_default_template_cb), image_overlay_template_view);
+	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+	gtk_widget_show(button);
+
+	button = pref_button_new(NULL, GTK_STOCK_HELP, NULL, FALSE,
+				 G_CALLBACK(image_overlay_help_cb), NULL);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 
