@@ -28,7 +28,7 @@
 #include "ui_misc.h"
 
 
-#define HELP_WINDOW_WIDTH 620
+#define HELP_WINDOW_WIDTH 650
 #define HELP_WINDOW_HEIGHT 350
 
 
