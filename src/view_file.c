@@ -428,7 +428,17 @@ void vf_pop_menu_toggle_view_type_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 	
-	if (vf->layout) layout_views_set(vf->layout, vf->layout->dir_view_type, !vf->layout->file_view_type);
+	if (!vf->layout) return;
+
+	switch(vf->layout->file_view_type)
+	{
+	case FILEVIEW_LIST:
+		layout_views_set(vf->layout, vf->layout->dir_view_type, FILEVIEW_ICON);
+		break;
+	case FILEVIEW_ICON:
+		layout_views_set(vf->layout, vf->layout->dir_view_type, FILEVIEW_LIST);
+		break;
+	}
 }
 
 
