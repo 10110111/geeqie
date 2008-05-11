@@ -125,7 +125,7 @@ static void help_window_load_text(GtkWidget *text, const gchar *path)
 
 			if (!g_utf8_validate(s_buf, l, NULL))
 				{
-				buf = g_locale_to_utf8(s_buf, strlen(s_buf), NULL, NULL, NULL);
+				buf = g_locale_to_utf8(s_buf, l, NULL, NULL, NULL);
 				if (!buf) buf = g_strdup("\n");
 				}
 			else
