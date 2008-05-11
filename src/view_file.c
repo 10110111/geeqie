@@ -271,6 +271,28 @@ static void vf_dnd_init(ViewFile *vf)
 	}
 }
 
+/*
+ *-----------------------------------------------------------------------------
+ * pop-up menu
+ *-----------------------------------------------------------------------------
+ */
+
+GList *vf_pop_menu_file_list(ViewFile *vf)
+{
+	GList *ret = NULL;
+
+	switch(vf->type)
+	{
+	case FILEVIEW_LIST: ret = vflist_pop_menu_file_list(vf); break;
+	case FILEVIEW_ICON: ret = vficon_pop_menu_file_list(vf); break;
+	}
+
+	return ret;
+}
+
+
+
+
 gint vf_refresh(ViewFile *vf)
 {
 	gint ret = FALSE;

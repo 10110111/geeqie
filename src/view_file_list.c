@@ -277,7 +277,7 @@ void vflist_dnd_init(ViewFile *vf)
  *-----------------------------------------------------------------------------
  */
 
-static GList *vflist_pop_menu_file_list(ViewFile *vf)
+GList *vflist_pop_menu_file_list(ViewFile *vf)
 {
 	if (!VFLIST_INFO(vf, click_fd)) return NULL;
 
@@ -300,7 +300,7 @@ static void vflist_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
 
 	if (!vf) return;
 
-	list = vflist_pop_menu_file_list(vf);
+	list = vf_pop_menu_file_list(vf);
 	start_editor_from_filelist(n, list);
 	filelist_free(list);
 }
@@ -309,7 +309,7 @@ static void vflist_pop_menu_info_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	info_window_new(NULL, vflist_pop_menu_file_list(vf), NULL);
+	info_window_new(NULL, vf_pop_menu_file_list(vf), NULL);
 }
 
 static void vflist_pop_menu_view_cb(GtkWidget *widget, gpointer data)
@@ -334,21 +334,21 @@ static void vflist_pop_menu_copy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	file_util_copy(NULL, vflist_pop_menu_file_list(vf), NULL, vf->listview);
+	file_util_copy(NULL, vf_pop_menu_file_list(vf), NULL, vf->listview);
 }
 
 static void vflist_pop_menu_copy_path_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	file_util_copy_path_list_to_clipboard(vflist_pop_menu_file_list(vf));
+	file_util_copy_path_list_to_clipboard(vf_pop_menu_file_list(vf));
 }
 
 static void vflist_pop_menu_move_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	file_util_move(NULL, vflist_pop_menu_file_list(vf), NULL, vf->listview);
+	file_util_move(NULL, vf_pop_menu_file_list(vf), NULL, vf->listview);
 }
 
 static void vflist_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
@@ -356,7 +356,7 @@ static void vflist_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 	ViewFile *vf = data;
 	GList *list;
 
-	list = vflist_pop_menu_file_list(vf);
+	list = vf_pop_menu_file_list(vf);
 	if (options->file_ops.enable_in_place_rename &&
 	    list && !list->next && VFLIST_INFO(vf, click_fd))
 		{
@@ -386,7 +386,7 @@ static void vflist_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	file_util_delete(NULL, vflist_pop_menu_file_list(vf), vf->listview);
+	file_util_delete(NULL, vf_pop_menu_file_list(vf), vf->listview);
 }
 
 static void vflist_pop_menu_sort_cb(GtkWidget *widget, gpointer data)

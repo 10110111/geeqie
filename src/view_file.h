@@ -30,6 +30,8 @@ void vf_thumb_set(ViewFile *vf, gint enable);
 void vf_marks_set(ViewFile *vf, gint enable);
 void vf_sort_set(ViewFile *vf, SortType type, gint ascend);
 
+GList *vf_pop_menu_file_list(ViewFile *vf);
+
 FileData *vf_index_get_data(ViewFile *vf, gint row);
 gint vf_index_by_path(ViewFile *vf, const gchar *path);
 gint vf_index_by_fd(ViewFile *vf, FileData *in_fd);

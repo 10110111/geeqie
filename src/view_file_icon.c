@@ -164,7 +164,7 @@ static void vficon_populate_at_new_size(ViewFile *vf, gint w, gint h, gint force
  *-----------------------------------------------------------------------------
  */
 
-static GList *vficon_pop_menu_file_list(ViewFile *vf)
+GList *vficon_pop_menu_file_list(ViewFile *vf)
 {
 	if (!VFICON_INFO(vf, click_id)) return NULL;
 
@@ -187,7 +187,7 @@ static void vficon_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
 
 	if (!vf) return;
 
-	list = vficon_pop_menu_file_list(vf);
+	list = vf_pop_menu_file_list(vf);
 	start_editor_from_filelist(n, list);
 	filelist_free(list);
 }
@@ -196,7 +196,7 @@ static void vficon_pop_menu_info_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	info_window_new(NULL, vficon_pop_menu_file_list(vf), NULL);
+	info_window_new(NULL, vf_pop_menu_file_list(vf), NULL);
 }
 
 static void vficon_pop_menu_view_cb(GtkWidget *widget, gpointer data)
@@ -223,35 +223,35 @@ static void vficon_pop_menu_copy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	file_util_copy(NULL, vficon_pop_menu_file_list(vf), NULL, vf->listview);
+	file_util_copy(NULL, vf_pop_menu_file_list(vf), NULL, vf->listview);
 }
 
 static void vficon_pop_menu_move_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	file_util_move(NULL, vficon_pop_menu_file_list(vf), NULL, vf->listview);
+	file_util_move(NULL, vf_pop_menu_file_list(vf), NULL, vf->listview);
 }
 
 static void vficon_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	file_util_rename(NULL, vficon_pop_menu_file_list(vf), vf->listview);
+	file_util_rename(NULL, vf_pop_menu_file_list(vf), vf->listview);
 }
 
 static void vficon_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	file_util_delete(NULL, vficon_pop_menu_file_list(vf), vf->listview);
+	file_util_delete(NULL, vf_pop_menu_file_list(vf), vf->listview);
 }
 
 static void vficon_pop_menu_copy_path_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	file_util_copy_path_list_to_clipboard(vficon_pop_menu_file_list(vf));
+	file_util_copy_path_list_to_clipboard(vf_pop_menu_file_list(vf));
 }
 
 static void vficon_pop_menu_sort_cb(GtkWidget *widget, gpointer data)

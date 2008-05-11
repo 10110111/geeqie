@@ -27,6 +27,9 @@ gint vficon_refresh(ViewFile *vf);
 
 void vficon_sort_set(ViewFile *vf, SortType type, gint ascend);
 
+GList *vficon_pop_menu_file_list(ViewFile *vf);
+
+
 FileData *vficon_index_get_data(ViewFile *vf, gint row);
 gint vficon_index_by_path(ViewFile *vf, const gchar *path);
 gint vficon_index_by_fd(ViewFile *vf, FileData *in_fd);
