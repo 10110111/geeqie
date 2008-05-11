@@ -268,12 +268,9 @@ void help_window_show(const gchar *key)
 		return;
 		}
 
-	{
-	gchar *title = g_strdup_printf("%s - %s", _("Help"), GQ_APPNAME);
-	help_window = help_window_new(title, GQ_WMCLASS, "help",
+	help_window = help_window_new(_("Help"), GQ_WMCLASS, "help",
 				      GQ_HELPDIR "/README", key);
-	g_free(title);
-	}
+
 	g_signal_connect(G_OBJECT(help_window), "destroy",
 			 G_CALLBACK(help_window_destroy_cb), NULL);
 }
