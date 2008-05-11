@@ -32,7 +32,7 @@
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "ui_tree_edit.h"
-
+#include "view_file.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -138,6 +138,7 @@ gint iconlist_sort_file_cb(void *a, void *b)
 	IconData *idb = b;
 	return filelist_sort_compare_filedata(ida->fd, idb->fd);
 }
+
 GList *iconlist_sort(GList *list, SortType method, gint ascend)
 {
 	return filelist_sort_full(list, method, ascend, (GCompareFunc) iconlist_sort_file_cb);
@@ -169,7 +170,7 @@ static GList *vficon_pop_menu_file_list(ViewFile *vf)
 
 	if (VFICON_INFO(vf, click_id)->selected & SELECTION_SELECTED)
 		{
-		return vficon_selection_get_list(vf);
+		return vf_selection_get_list(vf);
 		}
 
 	return g_list_append(NULL, file_data_ref(VFICON_INFO(vf, click_id)->fd));
@@ -208,7 +209,7 @@ static void vficon_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 		{
 		GList *list;
 
-		list = vficon_selection_get_list(vf);
+		list = vf_selection_get_list(vf);
 		view_window_new_from_list(list);
 		filelist_free(list);
 		}
@@ -271,7 +272,7 @@ static void vficon_pop_menu_sort_cb(GtkWidget *widget, gpointer data)
 		}
 	else
 		{
-		vficon_sort_set(vf, type, vf->sort_ascend);
+		vf_sort_set(vf, type, vf->sort_ascend);
 		}
 }
 
@@ -285,7 +286,7 @@ static void vficon_pop_menu_sort_ascend_cb(GtkWidget *widget, gpointer data)
 		}
 	else
 		{
-		vficon_sort_set(vf, vf->sort_method, !vf->sort_ascend);
+		vf_sort_set(vf, vf->sort_method, !vf->sort_ascend);
 		}
 }
 
@@ -307,7 +308,7 @@ static void vficon_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	vficon_refresh(vf);
+	vf_refresh(vf);
 }
 
 static void vficon_popup_destroy_cb(GtkWidget *widget, gpointer data)
@@ -376,11 +377,6 @@ static GtkWidget *vficon_pop_menu(ViewFile *vf, gint active)
  *-------------------------------------------------------------------
  */
 
-static void vficon_send_update(ViewFile *vf)
-{
-	if (vf->func_status) vf->func_status(vf, vf->data_status);
-}
-
 static void vficon_send_layout_select(ViewFile *vf, IconData *id)
 {
 	FileData *read_ahead_fd = NULL;
@@ -400,13 +396,13 @@ static void vficon_send_layout_select(ViewFile *vf, IconData *id)
 
 		row = g_list_index(vf->list, id);
 		if (row > vficon_index_by_fd(vf, cur_fd) &&
-		    row + 1 < vficon_count(vf, NULL))
+		    row + 1 < vf_count(vf, NULL))
 			{
-			read_ahead_fd = vficon_index_get_data(vf, row + 1);
+			read_ahead_fd = vf_index_get_data(vf, row + 1);
 			}
 		else if (row > 0)
 			{
-			read_ahead_fd = vficon_index_get_data(vf, row - 1);
+			read_ahead_fd = vf_index_get_data(vf, row - 1);
 			}
 		}
 
@@ -655,7 +651,7 @@ static void vficon_dnd_get(GtkWidget *widget, GdkDragContext *context,
 
 	if (VFICON_INFO(vf, click_id)->selected & SELECTION_SELECTED)
 		{
-		list = vficon_selection_get_list(vf);
+		list = vf_selection_get_list(vf);
 		}
 	else
 		{
@@ -700,7 +696,7 @@ static void vficon_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer 
 
 	if (context->action == GDK_ACTION_MOVE)
 		{
-		vficon_refresh(vf);
+		vf_refresh(vf);
 		}
 
 	tip_unschedule(vf);
@@ -807,7 +803,7 @@ void vficon_select_all(ViewFile *vf)
 		vficon_selection_add(vf, id, SELECTION_SELECTED, NULL);
 		}
 
-	vficon_send_update(vf);
+	vf_send_update(vf);
 }
 
 void vficon_select_none(ViewFile *vf)
@@ -826,7 +822,7 @@ void vficon_select_none(ViewFile *vf)
 	g_list_free(VFICON_INFO(vf, selection));
 	VFICON_INFO(vf, selection) = NULL;
 
-	vficon_send_update(vf);
+	vf_send_update(vf);
 }
 
 void vficon_select_invert(ViewFile *vf)
@@ -851,7 +847,7 @@ void vficon_select_invert(ViewFile *vf)
 			}
 		}
 
-	vficon_send_update(vf);
+	vf_send_update(vf);
 }
 
 static void vficon_select(ViewFile *vf, IconData *id)
@@ -863,7 +859,7 @@ static void vficon_select(ViewFile *vf, IconData *id)
 	VFICON_INFO(vf, selection) = g_list_append(VFICON_INFO(vf, selection), id);
 	vficon_selection_add(vf, id, SELECTION_SELECTED, NULL);
 
-	vficon_send_update(vf);
+	vf_send_update(vf);
 }
 
 static void vficon_unselect(ViewFile *vf, IconData *id)
@@ -875,7 +871,7 @@ static void vficon_unselect(ViewFile *vf, IconData *id)
 	VFICON_INFO(vf, selection) = g_list_remove(VFICON_INFO(vf, selection), id);
 	vficon_selection_remove(vf, id, SELECTION_SELECTED, NULL);
 
-	vficon_send_update(vf);
+	vf_send_update(vf);
 }
 
 static void vficon_select_util(ViewFile *vf, IconData *id, gint select)
@@ -1029,7 +1025,7 @@ static void vficon_select_by_id(ViewFile *vf, IconData *id)
 
 	if (!(id->selected & SELECTION_SELECTED))
 		{
-		vficon_select_none(vf);
+		vf_select_none(vf);
 		vficon_select(vf, id);
 		}
 
@@ -1093,7 +1089,7 @@ void vficon_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 
 	g_assert(mark >= 0 && mark < FILEDATA_MARKS_SIZE);
 
-	slist = vficon_selection_get_list(vf);
+	slist = vf_selection_get_list(vf);
 	work = slist;
 	while (work)
 		{
@@ -1372,7 +1368,7 @@ gint vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 					}
 				else
 					{
-					vficon_select_none(vf);
+					vf_select_none(vf);
 					vficon_select(vf, id);
 					vficon_send_layout_select(vf, id);
 					}
@@ -1424,7 +1420,7 @@ gint vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 			else
 				{
 				VFICON_INFO(vf, click_id) = new_id;
-				vficon_select_none(vf);
+				vf_select_none(vf);
 				vficon_select(vf, new_id);
 				vficon_send_layout_select(vf, new_id);
 				}
@@ -1544,7 +1540,7 @@ gint vficon_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 				}
 			else
 				{
-				vficon_select_none(vf);
+				vf_select_none(vf);
 
 				if ((bevent->state & GDK_SHIFT_MASK) && VFICON_INFO(vf, prev_selection))
 					{
@@ -1742,7 +1738,7 @@ static void vficon_populate(ViewFile *vf, gint resize, gint keep_position)
 
 	VFICON_INFO(vf, rows) = row + 1;
 
-	vficon_send_update(vf);
+	vf_send_update(vf);
 	vficon_thumb_update(vf);
 }
 
@@ -2574,7 +2570,7 @@ gint vficon_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 			{
 			gint n;
 
-			n = vficon_count(vf, NULL);
+			n = vf_count(vf, NULL);
 			if (ignore_list)
 				{
 				new_row = vficon_maint_find_closest(vf, row, n, ignore_list);
@@ -2632,7 +2628,7 @@ gint vficon_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 			if (new_row == -1)
 				{
 				/* selection all ignored, use closest */
-				new_row = vficon_maint_find_closest(vf, row, vficon_count(vf, NULL), ignore_list);
+				new_row = vficon_maint_find_closest(vf, row, vf_count(vf, NULL), ignore_list);
 				}
 			}
 		else
@@ -2673,7 +2669,7 @@ gint vficon_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 	g_free(id);
 
 	vficon_sync_idle(vf);
-	vficon_send_update(vf);
+	vf_send_update(vf);
 
 	return TRUE;
 }

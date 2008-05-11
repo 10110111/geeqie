@@ -14,6 +14,8 @@
 
 #define VIEW_FILE_TYPES_COUNT 2
 
+void vf_send_update(ViewFile *vf);
+
 ViewFile *vf_new(FileViewType type, const gchar *path);
 
 void vf_set_status_func(ViewFile *vf, void (*func)(ViewFile *vf, gpointer data), gpointer data);

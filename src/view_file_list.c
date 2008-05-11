@@ -28,7 +28,7 @@
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "ui_tree_edit.h"
-#include "typedefs.h"
+#include "view_file.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -53,16 +53,6 @@ static gint vflist_row_is_selected(ViewFile *vf, FileData *fd);
 static gint vflist_row_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, gpointer data);
 static void vflist_populate_view(ViewFile *vf);
 
-/*
- *-----------------------------------------------------------------------------
- * signals
- *-----------------------------------------------------------------------------
- */
-
-static void vflist_send_update(ViewFile *vf)
-{
-	if (vf->func_status) vf->func_status(vf, vf->data_status);
-}
 
 /*
  *-----------------------------------------------------------------------------
@@ -217,7 +207,7 @@ static void vflist_dnd_get(GtkWidget *widget, GdkDragContext *context,
 
 	if (vflist_row_is_selected(vf, VFLIST_INFO(vf, click_fd)))
 		{
-		list = vflist_selection_get_list(vf);
+		list = vf_selection_get_list(vf);
 		}
 	else
 		{
@@ -248,7 +238,7 @@ static void vflist_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointe
 		gint items;
 
 		if (vflist_row_is_selected(vf, VFLIST_INFO(vf, click_fd)))
-			items = vflist_selection_count(vf, NULL);
+			items = vf_selection_count(vf, NULL);
 		else
 			items = 1;
 
@@ -264,7 +254,7 @@ static void vflist_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer 
 
 	if (context->action == GDK_ACTION_MOVE)
 		{
-		vflist_refresh(vf);
+		vf_refresh(vf);
 		}
 }
 
@@ -293,7 +283,7 @@ static GList *vflist_pop_menu_file_list(ViewFile *vf)
 
 	if (vflist_row_is_selected(vf, VFLIST_INFO(vf, click_fd)))
 		{
-		return vflist_selection_get_list(vf);
+		return vf_selection_get_list(vf);
 		}
 
 	return g_list_append(NULL, file_data_ref(VFLIST_INFO(vf, click_fd)));
@@ -330,7 +320,7 @@ static void vflist_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 		{
 		GList *list;
 
-		list = vflist_selection_get_list(vf);
+		list = vf_selection_get_list(vf);
 		view_window_new_from_list(list);
 		filelist_free(list);
 		}
@@ -417,7 +407,7 @@ static void vflist_pop_menu_sort_cb(GtkWidget *widget, gpointer data)
 		}
 	else
 		{
-		vflist_sort_set(vf, type, vf->sort_ascend);
+		vf_sort_set(vf, type, vf->sort_ascend);
 		}
 }
 
@@ -431,7 +421,7 @@ static void vflist_pop_menu_sort_ascend_cb(GtkWidget *widget, gpointer data)
 		}
 	else
 		{
-		vflist_sort_set(vf, vf->sort_method, !vf->sort_ascend);
+		vf_sort_set(vf, vf->sort_method, !vf->sort_ascend);
 		}
 }
 
@@ -462,49 +452,49 @@ static void vflist_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 	ViewFile *vf = data;
 
 	vflist_color_set(vf, VFLIST_INFO(vf, click_fd), FALSE);
-	vflist_refresh(vf);
+	vf_refresh(vf);
 }
 
 static void vflist_pop_menu_sel_mark_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
-	vflist_mark_to_selection(vf, vf->active_mark, MTS_MODE_SET);
+	vf_mark_to_selection(vf, vf->active_mark, MTS_MODE_SET);
 }
 
 static void vflist_pop_menu_sel_mark_and_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
-	vflist_mark_to_selection(vf, vf->active_mark, MTS_MODE_AND);
+	vf_mark_to_selection(vf, vf->active_mark, MTS_MODE_AND);
 }
 
 static void vflist_pop_menu_sel_mark_or_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
-	vflist_mark_to_selection(vf, vf->active_mark, MTS_MODE_OR);
+	vf_mark_to_selection(vf, vf->active_mark, MTS_MODE_OR);
 }
 
 static void vflist_pop_menu_sel_mark_minus_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
-	vflist_mark_to_selection(vf, vf->active_mark, MTS_MODE_MINUS);
+	vf_mark_to_selection(vf, vf->active_mark, MTS_MODE_MINUS);
 }
 
 static void vflist_pop_menu_set_mark_sel_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
-	vflist_selection_to_mark(vf, vf->active_mark, STM_MODE_SET);
+	vf_selection_to_mark(vf, vf->active_mark, STM_MODE_SET);
 }
 
 static void vflist_pop_menu_res_mark_sel_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
-	vflist_selection_to_mark(vf, vf->active_mark, STM_MODE_RESET);
+	vf_selection_to_mark(vf, vf->active_mark, STM_MODE_RESET);
 }
 
 static void vflist_pop_menu_toggle_mark_sel_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
-	vflist_selection_to_mark(vf, vf->active_mark, STM_MODE_TOGGLE);
+	vf_selection_to_mark(vf, vf->active_mark, STM_MODE_TOGGLE);
 }
 
 
@@ -647,7 +637,7 @@ static gint vflist_row_rename_cb(TreeEditData *td, const gchar *old, const gchar
 		}
 	else
 		{
-		gint row = vflist_index_by_path(vf, old_path);
+		gint row = vf_index_by_path(vf, old_path);
 		if (row >= 0)
 			{
 			GList *work = g_list_nth(vf->list, row);
@@ -874,13 +864,13 @@ static void vflist_select_image(ViewFile *vf, FileData *sel_fd)
 	if (sel_fd && options->image.enable_read_ahead && row >= 0)
 		{
 		if (row > g_list_index(vf->list, cur_fd) &&
-		    row + 1 < vflist_count(vf, NULL))
+		    row + 1 < vf_count(vf, NULL))
 			{
-			read_ahead_fd = vflist_index_get_data(vf, row + 1);
+			read_ahead_fd = vf_index_get_data(vf, row + 1);
 			}
 		else if (row > 0)
 			{
-			read_ahead_fd = vflist_index_get_data(vf, row - 1);
+			read_ahead_fd = vf_index_get_data(vf, row - 1);
 			}
 		}
 
@@ -897,7 +887,7 @@ static gint vflist_select_idle_cb(gpointer data)
 		return FALSE;
 		}
 
-	vflist_send_update(vf);
+	vf_send_update(vf);
 
 	if (VFLIST_INFO(vf, select_fd))
 		{
@@ -1394,7 +1384,7 @@ gint vflist_index_is_selected(ViewFile *vf, gint row)
 {
 	FileData *fd;
 
-	fd = vflist_index_get_data(vf, row);
+	fd = vf_index_get_data(vf, row);
 	return vflist_row_is_selected(vf, fd);
 }
 
@@ -1727,7 +1717,7 @@ static void vflist_populate_view(ViewFile *vf)
 	if (!vf->list)
 		{
 		gtk_tree_store_clear(store);
-		vflist_send_update(vf);
+		vf_send_update(vf);
 		return;
 		}
 
@@ -1822,7 +1812,7 @@ static void vflist_populate_view(ViewFile *vf)
 		gtk_tree_row_reference_free(visible_row);
 		}
 
-	vflist_send_update(vf);
+	vf_send_update(vf);
 	vflist_thumb_update(vf);
 }
 
@@ -2003,7 +1993,7 @@ gint vflist_set_path(ViewFile *vf, const gchar *path)
 	filelist_free(vf->list);
 	vf->list = NULL;
 
-	return vflist_refresh(vf);
+	return vf_refresh(vf);
 }
 
 void vflist_destroy_cb(GtkWidget *widget, gpointer data)
@@ -2073,7 +2063,7 @@ void vflist_thumb_set(ViewFile *vf, gint enable)
 	if (VFLIST_INFO(vf, thumbs_enabled) == enable) return;
 
 	VFLIST_INFO(vf, thumbs_enabled) = enable;
-	if (vf->layout) vflist_refresh(vf);
+	if (vf->layout) vf_refresh(vf);
 }
 
 void vflist_marks_set(ViewFile *vf, gint enable)
@@ -2098,7 +2088,7 @@ void vflist_marks_set(ViewFile *vf, gint enable)
 		}
 
 	g_list_free(columns);
-	//vflist_refresh(vf);
+	//vf_refresh(vf);
 }
 
 /*
@@ -2117,7 +2107,7 @@ static gint vflist_maint_find_closest(ViewFile *vf, gint row, gint count, GList 
 	work = ignore_list;
 	while (work)
 		{
-		gint f = vflist_index_by_path(vf, work->data);
+		gint f = vf_index_by_path(vf, work->data);
 		if (f >= 0) list = g_list_prepend(list, GINT_TO_POINTER(f));
 		work = work->next;
 		}
@@ -2231,7 +2221,7 @@ gint vflist_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 		{
 		gint n;
 
-		n = vflist_count(vf, NULL);
+		n = vf_count(vf, NULL);
 		if (ignore_list)
 			{
 			new_row = vflist_maint_find_closest(vf, row, n, ignore_list);
@@ -2248,10 +2238,10 @@ gint vflist_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 				new_row = row - 1;
 				}
 			}
-		vflist_select_none(vf);
+		vf_select_none(vf);
 		if (new_row >= 0)
 			{
-			fd = vflist_index_get_data(vf, new_row);
+			fd = vf_index_get_data(vf, new_row);
 			if (vflist_find_row(vf, fd, &iter) >= 0)
 				{
 				GtkTreeSelection *selection;
@@ -2263,7 +2253,7 @@ gint vflist_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 			}
 		}
 
-	fd = vflist_index_get_data(vf, row);
+	fd = vf_index_get_data(vf, row);
 	if (vflist_find_row(vf, fd, &iter) >= 0)
 		{
 		GtkTreeStore *store;
@@ -2280,7 +2270,7 @@ gint vflist_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 	vf->list = g_list_remove(vf->list, fd);
 	file_data_unref(fd);
 
-	vflist_send_update(vf);
+	vf_send_update(vf);
 
 	return TRUE;
 }
