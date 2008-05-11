@@ -1382,9 +1382,9 @@ int main (int argc, char *argv[])
 		{
 		path = g_strdup(cmd_path);
 		}
-	else if (options->startup_path_enable && options->startup_path && isdir(options->startup_path))
+	else if (options->startup.restore_path && options->startup.path && isdir(options->startup.path))
 		{
-		path = g_strdup(options->startup_path);
+		path = g_strdup(options->startup.path);
 		}
 	else
 		{

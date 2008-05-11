@@ -309,9 +309,6 @@ void save_options(void)
 	WRITE_BOOL(update_on_time_change);
 	WRITE_SEPARATOR();
 
-	WRITE_BOOL(startup_path_enable);
-	WRITE_CHAR(startup_path);
-
 	WRITE_BOOL(progressive_key_scrolling);
 	WRITE_BOOL(enable_metadata_dirs);
 	WRITE_BOOL(save_metadata_in_image_file);
@@ -323,6 +320,12 @@ void save_options(void)
 	WRITE_INT(open_recent_list_maxsize);
 	WRITE_INT(dnd_icon_size);
 	WRITE_BOOL(place_dialogs_under_mouse);
+
+
+	WRITE_SUBTITLE("Startup Options");
+
+	WRITE_BOOL(startup.restore_path);
+	WRITE_CHAR(startup.path);
 
 
 	WRITE_SUBTITLE("File operations Options");
@@ -625,9 +628,6 @@ void load_options(void)
 		READ_BOOL(lazy_image_sync);
 		READ_BOOL(update_on_time_change);
 
-		READ_BOOL(startup_path_enable);
-		READ_CHAR(startup_path);
-
 		READ_INT(duplicates_similarity_threshold);
 
 		READ_BOOL(progressive_key_scrolling);
@@ -641,7 +641,14 @@ void load_options(void)
 		READ_INT(dnd_icon_size);
 		READ_BOOL(place_dialogs_under_mouse);
 
+		/* startup options */
+		
+		COMPAT_READ_BOOL(startup_path_enable, startup.restore_path); /* 2008/05/11 */
+		READ_BOOL(startup.restore_path);
 
+		COMPAT_READ_CHAR(startup_path, startup.path); /* 2008/05/11 */
+		READ_CHAR(startup.path);
+	
 		/* layout options */
 
 		READ_INT(layout.style);

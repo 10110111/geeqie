@@ -173,10 +173,10 @@ static void config_window_apply(void)
 		}
 	layout_edit_update_all();
 
-	g_free(options->startup_path);
-	options->startup_path = NULL;
+	g_free(options->startup.path);
+	options->startup.path = NULL;
 	buf = gtk_entry_get_text(GTK_ENTRY(startup_path_entry));
-	if (buf && strlen(buf) > 0) options->startup_path = remove_trailing_slash(buf);
+	if (buf && strlen(buf) > 0) options->startup.path = remove_trailing_slash(buf);
 
 	g_free(options->file_ops.safe_delete_path);
 	options->file_ops.safe_delete_path = NULL;
@@ -188,7 +188,7 @@ static void config_window_apply(void)
 	if (options->file_sort.case_sensitive != c_options->file_sort.case_sensitive) refresh = TRUE;
 	if (options->file_filter.disable != c_options->file_filter.disable) refresh = TRUE;
 
-	options->startup_path_enable = c_options->startup_path_enable;
+	options->startup.restore_path = c_options->startup.restore_path;
 	options->file_ops.confirm_delete = c_options->file_ops.confirm_delete;
 	options->file_ops.enable_delete_key = c_options->file_ops.enable_delete_key;
 	options->file_ops.safe_delete_enable = c_options->file_ops.safe_delete_enable;
@@ -858,12 +858,12 @@ static void config_tab_general(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Startup"), GTK_ORIENTATION_VERTICAL);
 
 	button = pref_checkbox_new_int(group, _("Change to folder:"),
-				       options->startup_path_enable, &c_options->startup_path_enable);
+				       options->startup.restore_path, &c_options->startup.restore_path);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 	pref_checkbox_link_sensitivity(button, hbox);
 
-	tabcomp = tab_completion_new(&startup_path_entry, options->startup_path, NULL, NULL);
+	tabcomp = tab_completion_new(&startup_path_entry, options->startup.path, NULL, NULL);
 	tab_completion_add_select_button(startup_path_entry, NULL, TRUE);
 	gtk_box_pack_start(GTK_BOX(hbox), tabcomp, TRUE, TRUE, 0);
 	gtk_widget_show(tabcomp);

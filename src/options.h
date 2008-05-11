@@ -25,8 +25,6 @@ struct _ConfOptions
 	gint show_copy_path;
 
 	/* various */
-	gint startup_path_enable;
-	gchar *startup_path;
 	gint enable_metadata_dirs;
 
 	gint tree_descend_subdirs;
@@ -40,6 +38,11 @@ struct _ConfOptions
 	gint dnd_icon_size;
 
 	gint save_metadata_in_image_file;
+
+	struct {
+		gboolean restore_path;
+		gchar *path;
+	} startup;
 
 	/* file ops */
 	struct {
