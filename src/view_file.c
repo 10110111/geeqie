@@ -13,6 +13,11 @@
 #include "view_file.h"
 
 #include "debug.h"
+#include "editors.h"
+#include "info.h"
+#include "layout.h"
+#include "menu.h"
+#include "utilops.h"
 #include "view_file_list.h"
 #include "view_file_icon.h"
 
@@ -288,6 +293,142 @@ GList *vf_pop_menu_file_list(ViewFile *vf)
 	}
 
 	return ret;
+}
+
+void vf_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf;
+	gint n;
+	GList *list;
+
+	vf = submenu_item_get_data(widget);
+	n = GPOINTER_TO_INT(data);
+
+	if (!vf) return;
+
+	list = vf_pop_menu_file_list(vf);
+	start_editor_from_filelist(n, list);
+	filelist_free(list);
+}
+
+void vf_pop_menu_info_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	info_window_new(NULL, vf_pop_menu_file_list(vf), NULL);
+}
+
+void vf_pop_menu_copy_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	file_util_copy(NULL, vf_pop_menu_file_list(vf), NULL, vf->listview);
+}
+
+void vf_pop_menu_move_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	file_util_move(NULL, vf_pop_menu_file_list(vf), NULL, vf->listview);
+}
+
+void vf_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	file_util_delete(NULL, vf_pop_menu_file_list(vf), vf->listview);
+}
+
+void vf_pop_menu_copy_path_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	file_util_copy_path_list_to_clipboard(vf_pop_menu_file_list(vf));
+}
+
+void vf_pop_menu_sort_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf;
+	SortType type;
+
+	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) return;
+
+	vf = submenu_item_get_data(widget);
+	if (!vf) return;
+
+	type = (SortType)GPOINTER_TO_INT(data);
+
+	if (vf->layout)
+		{
+		layout_sort_set(vf->layout, type, vf->sort_ascend);
+		}
+	else
+		{
+		vf_sort_set(vf, type, vf->sort_ascend);
+		}
+}
+
+void vf_pop_menu_sort_ascend_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	if (vf->layout)
+		{
+		layout_sort_set(vf->layout, vf->sort_method, !vf->sort_ascend);
+		}
+	else
+		{
+		vf_sort_set(vf, vf->sort_method, !vf->sort_ascend);
+		}
+}
+
+void vf_pop_menu_sel_mark_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+	vf_mark_to_selection(vf, vf->active_mark, MTS_MODE_SET);
+}
+
+void vf_pop_menu_sel_mark_and_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+	vf_mark_to_selection(vf, vf->active_mark, MTS_MODE_AND);
+}
+
+void vf_pop_menu_sel_mark_or_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+	vf_mark_to_selection(vf, vf->active_mark, MTS_MODE_OR);
+}
+
+void vf_pop_menu_sel_mark_minus_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+	vf_mark_to_selection(vf, vf->active_mark, MTS_MODE_MINUS);
+}
+
+void vf_pop_menu_set_mark_sel_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+	vf_selection_to_mark(vf, vf->active_mark, STM_MODE_SET);
+}
+
+void vf_pop_menu_res_mark_sel_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+	vf_selection_to_mark(vf, vf->active_mark, STM_MODE_RESET);
+}
+
+void vf_pop_menu_toggle_mark_sel_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+	vf_selection_to_mark(vf, vf->active_mark, STM_MODE_TOGGLE);
+}
+
+void vf_pop_menu_toggle_view_type_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+	
+	if (vf->layout) layout_views_set(vf->layout, vf->layout->dir_view_type, !vf->layout->file_view_type);
 }
 
 

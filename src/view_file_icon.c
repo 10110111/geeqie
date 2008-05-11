@@ -176,29 +176,6 @@ GList *vficon_pop_menu_file_list(ViewFile *vf)
 	return g_list_append(NULL, file_data_ref(VFICON_INFO(vf, click_id)->fd));
 }
 
-static void vficon_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
-{
-	ViewFile *vf;
-	gint n;
-	GList *list;
-
-	vf = submenu_item_get_data(widget);
-	n = GPOINTER_TO_INT(data);
-
-	if (!vf) return;
-
-	list = vf_pop_menu_file_list(vf);
-	start_editor_from_filelist(n, list);
-	filelist_free(list);
-}
-
-static void vficon_pop_menu_info_cb(GtkWidget *widget, gpointer data)
-{
-	ViewFile *vf = data;
-
-	info_window_new(NULL, vf_pop_menu_file_list(vf), NULL);
-}
-
 static void vficon_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
@@ -219,82 +196,11 @@ static void vficon_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 		}
 }
 
-static void vficon_pop_menu_copy_cb(GtkWidget *widget, gpointer data)
-{
-	ViewFile *vf = data;
-
-	file_util_copy(NULL, vf_pop_menu_file_list(vf), NULL, vf->listview);
-}
-
-static void vficon_pop_menu_move_cb(GtkWidget *widget, gpointer data)
-{
-	ViewFile *vf = data;
-
-	file_util_move(NULL, vf_pop_menu_file_list(vf), NULL, vf->listview);
-}
-
 static void vficon_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
 	file_util_rename(NULL, vf_pop_menu_file_list(vf), vf->listview);
-}
-
-static void vficon_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
-{
-	ViewFile *vf = data;
-
-	file_util_delete(NULL, vf_pop_menu_file_list(vf), vf->listview);
-}
-
-static void vficon_pop_menu_copy_path_cb(GtkWidget *widget, gpointer data)
-{
-	ViewFile *vf = data;
-
-	file_util_copy_path_list_to_clipboard(vf_pop_menu_file_list(vf));
-}
-
-static void vficon_pop_menu_sort_cb(GtkWidget *widget, gpointer data)
-{
-	ViewFile *vf;
-	SortType type;
-
-	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) return;
-
-	vf = submenu_item_get_data(widget);
-	if (!vf) return;
-
-	type = (SortType)GPOINTER_TO_INT(data);
-
-	if (vf->layout)
-		{
-		layout_sort_set(vf->layout, type, vf->sort_ascend);
-		}
-	else
-		{
-		vf_sort_set(vf, type, vf->sort_ascend);
-		}
-}
-
-static void vficon_pop_menu_sort_ascend_cb(GtkWidget *widget, gpointer data)
-{
-	ViewFile *vf = data;
-
-	if (vf->layout)
-		{
-		layout_sort_set(vf->layout, vf->sort_method, !vf->sort_ascend);
-		}
-	else
-		{
-		vf_sort_set(vf, vf->sort_method, !vf->sort_ascend);
-		}
-}
-
-static void vficon_pop_menu_list_cb(GtkWidget *widget, gpointer data)
-{
-	ViewFile *vf = data;
-
-	if (vf->layout) layout_views_set(vf->layout, vf->layout->dir_view_type, FALSE);
 }
 
 static void vficon_pop_menu_show_names_cb(GtkWidget *widget, gpointer data)
@@ -330,40 +236,40 @@ static GtkWidget *vficon_pop_menu(ViewFile *vf, gint active)
 	g_signal_connect(G_OBJECT(menu), "destroy",
 			 G_CALLBACK(vficon_popup_destroy_cb), vf);
 
-	submenu_add_edit(menu, &item, G_CALLBACK(vficon_pop_menu_edit_cb), vf);
+	submenu_add_edit(menu, &item, G_CALLBACK(vf_pop_menu_edit_cb), vf);
 	gtk_widget_set_sensitive(item, active);
 
 	menu_item_add_stock_sensitive(menu, _("_Properties"), GTK_STOCK_PROPERTIES, active,
-				      G_CALLBACK(vficon_pop_menu_info_cb), vf);
+				      G_CALLBACK(vf_pop_menu_info_cb), vf);
 
 	menu_item_add_stock_sensitive(menu, _("View in _new window"), GTK_STOCK_NEW, active,
 				      G_CALLBACK(vficon_pop_menu_view_cb), vf);
 	menu_item_add_divider(menu);
 
 	menu_item_add_stock_sensitive(menu, _("_Copy..."), GTK_STOCK_COPY, active,
-				      G_CALLBACK(vficon_pop_menu_copy_cb), vf);
+				      G_CALLBACK(vf_pop_menu_copy_cb), vf);
 	menu_item_add_sensitive(menu, _("_Move..."), active,
-				G_CALLBACK(vficon_pop_menu_move_cb), vf);
+				G_CALLBACK(vf_pop_menu_move_cb), vf);
 	menu_item_add_sensitive(menu, _("_Rename..."), active,
 				G_CALLBACK(vficon_pop_menu_rename_cb), vf);
 	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
-				      G_CALLBACK(vficon_pop_menu_delete_cb), vf);
+				      G_CALLBACK(vf_pop_menu_delete_cb), vf);
 	if (options->show_copy_path)
 		menu_item_add_sensitive(menu, _("_Copy path"), active,
-					G_CALLBACK(vficon_pop_menu_copy_path_cb), vf);
+					G_CALLBACK(vf_pop_menu_copy_path_cb), vf);
 	menu_item_add_divider(menu);
 
-	submenu = submenu_add_sort(NULL, G_CALLBACK(vficon_pop_menu_sort_cb), vf,
+	submenu = submenu_add_sort(NULL, G_CALLBACK(vf_pop_menu_sort_cb), vf,
 				   FALSE, FALSE, TRUE, vf->sort_method);
 	menu_item_add_divider(submenu);
 	menu_item_add_check(submenu, _("Ascending"), vf->sort_ascend,
-			    G_CALLBACK(vficon_pop_menu_sort_ascend_cb), vf);
+			    G_CALLBACK(vf_pop_menu_sort_ascend_cb), vf);
 
 	item = menu_item_add(menu, _("_Sort"), NULL, NULL);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 
 	menu_item_add_check(menu, _("View as _icons"), TRUE,
-			    G_CALLBACK(vficon_pop_menu_list_cb), vf);
+			    G_CALLBACK(vf_pop_menu_toggle_view_type_cb), vf);
 	menu_item_add_check(menu, _("Show filename _text"), VFICON_INFO(vf, show_text),
 			    G_CALLBACK(vficon_pop_menu_show_names_cb), vf);
 	menu_item_add_stock(menu, _("Re_fresh"), GTK_STOCK_REFRESH, G_CALLBACK(vficon_pop_menu_refresh_cb), vf);
