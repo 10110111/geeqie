@@ -1,3 +1,14 @@
+###################################################################
+##                          Geeqie 1.0alpha1			 ##
+##                                                               ##
+##              Copyright (C) 2008 The Geeqie Team               ##
+##              Copyright (C) 1999 - 2006 John Ellis.            ##
+##                                                               ##
+##                      Use at your own risk!                    ##
+##                                                               ##
+##  This software released under the GNU General Public License. ##
+##       Please read the COPYING file for more information.      ##
+###################################################################
 
 This is Geeqie, a successor of GQview.
 
@@ -20,33 +31,6 @@ Please send any question or suggestions to
 geeqie-devel@lists.sourceforge.net
 
 
-Below is the original README:
-
-
-###################################################################
-##                          GQview 2.1.5      (December 3, 2006) ##
-##                                                               ##
-##              Copyright (C) 1999 - 2006 John Ellis.            ##
-##                                                               ##
-##                      Use at your own risk!                    ##
-##                                                               ##
-##  This software released under the GNU General Public License. ##
-##       Please read the COPYING file for more information.      ##
-###################################################################
-
-Author: John Ellis <johne@verizon.net>
-e-mail: gqview@users.sourceforge.net
-homepage: http://gqview.sourceforge.net
-
-
- BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA!
-
- The 2.1.x series are all development releases, and as such may
- contain incredible bugs. Only use if interested in the new features.
-
- The stable release as of this writing is 2.0.0.
-
- BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA! BETA!
 
 
 ======== README contents:
@@ -69,6 +53,10 @@ homepage: http://gqview.sourceforge.net
   Optional libraries:
     lcms, for color management support: http://www.littlecms.com
         (disable with configure option: '--without-lcms')
+    exiv2, for enhanced exif support: http://www.exiv2.org/
+        (disable with configure option: '--without-exiv2')
+    lirc, for remote control support: http://www.lirc.org/
+    	(disable with configure option: '--disable-lirc')
 
 ======== Notes and changes for this release            [section:release_notes]
 
@@ -95,8 +83,11 @@ homepage: http://gqview.sourceforge.net
 
     For translation status list, see further below.
 
-    Version in perenthesis indicates first appearance of feature or change.
+    Version in parenthesis indicates first appearance of feature or change.
 
+!!! FIXME Geeqie changes !!!
+   	
+    Below are GQView releases:
     (2.1.5) Add support for color profiles when lcms is installed. To
     disable color profiles and use of lcms, run configure
     with '--without-lcms'.
@@ -191,16 +182,16 @@ homepage: http://gqview.sourceforge.net
   Code hackers:
 
     If you plan on making any major changes to the code that will be offered
-    for inclusion to the main source, please contact me first - so that we
+    for inclusion to the main source, please contact us first - so that we
     can avoid duplication of effort. A good example is porting any part of
     GQview that uses deprecated widgets to GTK2 widgets, there are already
     several such patches floating around. This is especially true if the
     change is listed in the TODO!
-                                             -John ( johne@verizon.net )
+                                                         The Geeqie Team
 
   Known bugs:
 
-    see the TODO file.
+    see the Geeqie Bug Tracker at TODO file.
 
 ======== Installation
 
@@ -208,6 +199,7 @@ homepage: http://gqview.sourceforge.net
   General install: make install
   Removal: make uninstall
 
+!!! FIXME !!!
     - To build an RPM binary:
 
          on RedHat 6.x, 7.x use 'rpm -tb gqview-x.x.x.tar.gz'.
@@ -220,7 +212,7 @@ homepage: http://gqview.sourceforge.net
 
 ======== Description / Features
 
-  GQview is a graphics file viewer. Basic features:
+  Geeqie is a graphics file viewer. Basic features:
 
     - Single click image viewing / navigation.
     - Zoom functions.
@@ -393,6 +385,7 @@ homepage: http://gqview.sourceforge.net
     Wheel up/down + [Shift]            scroll image up/down
     Wheel up/down + [Control]          zoom image in/out
 
+
 ======== Editor command macros                               [section:editors]
 
  Any one of the following filename markers may be used:
@@ -413,12 +406,73 @@ homepage: http://gqview.sourceforge.net
     %w  Prevent full screen from deactivating when command is executed,
         must occur as the first two characters.
 
+
+======== Overlay Info                                        [section:overlay]
+
+Overlay info format string syntax is: %tag[:max_length][:extra]%
+
+  %name%       Filename of the picture.
+  %collection% Name of the collection
+  %number%     Current number of image in the list
+  %total%      Total number of images
+  %date%       File date
+  %size%       File size
+  %width%      Image width
+  %height%     Image height
+  %res%        Image resolution
+  
+  To access exif data use the exif name:
+  %Exif.Photo.DateTimeOriginal%	Date of the original shot
+
+  Pre-formatted exif data is also available:
+  formatted.Camera              Camera and sofware name
+  formatted.DateTime            Image Date
+  formatted.ShutterSpeed        Shutter speed in seconds (ie. 1/60s)
+  formatted.Aperture            Aperture (ie. f5.6)
+  formatted.ExposureBias        Exposure bias (ie. +0.3)
+  formatted.ISOSpeedRating      ISO sensitivity (ie. 100)
+  formatted.FocalLength         Focal length
+  formatted.FocalLength35mmFilm Focal length 35mm
+  formatted.SubjectDistance     Subject distance
+  formatted.Flash               Flash
+  formatted.Resolution          Resolution
+  formatted.ColorProfile        Color profile
+
+  You can limit the length of displayed data using :number notation:
+  %formatted.Camera:20% will truncate the displayed data to 20 characters
+  and will add 3 dots at the end to denote the truncation.
+
+  If two or more variables are connected with the |-sign, it prints available
+  variables with a separator:
+  %formatted.ShutterSpeed%|%formatted.ISOSpeedRating%|%formatted.FocalLength%
+  could show:
+    "1/20s - 400 - 80 mm"
+  or
+    "1/200 - 80 mm" if there's no ISO information in the Exif data.
+
+  If a line is empty, it is removed.
+  This allows to add lines that totally disappear when no data is available.
+
+  Extra string uses special character '*' to mark the position of the data.
+  If no '*' is present, then extra string is just appended to data.
+  Any "\n" is replaced by a newline on display.
+  Pango mark up is accepted in left and right parts.
+  If data is empty, nothing will be displayed.
+
+  Examples:
+  "%name:<i>*</i>\n%" -> name is displayed in italics ended with a newline
+  "%size:\n%"         -> size is displayed with a newline at end
+  "%formatted.ISOSpeedRating:ISO *%"      -> ie. "ISO 100"
+  "Collection <b>*</b>\n" -> display collection name in bold prefixed by
+                             "Collection " and a newline is appended
+
+
 ======== Additional comments:
 
-  Advanced options:
+  Hidden options:
     These options are not adjustable in the preferences window, to change
-    them edit $(HOME)/.gqview/gqviewrc while GQview is not running. An option
-    becomes 'advanced' when it is removed from the user's visibility, and
+    them edit $(HOME)/.geeqie/geeqierc while Geeqie is not running. An option
+    becomes 'hidden' when it is removed from the user's visibility, and
     only remains so that those few users that really want it will not complain
     about it's removal :)
 
@@ -430,52 +484,6 @@ homepage: http://gqview.sourceforge.net
     Set true to force dialogs to display under the current mouse position,
     note that this goes against the preference set for the window manager.
 
-======== Translation status:
-
- (as of 2.1.5)
-
-   Please send po files/patches in gzipped form to ensure data integrity.
-
-   Note: completion % in the chart below may not be quite correct when fuzzy
-         translations exist but do not appear in the source.
-         comp % = trans / (trans + fuzzy + untrans)
-
-Language     Comp (%)  Trans   Fuzzy Untrans  Warn
---------------------------------------------------
-ar                60     449     192     103
-be                95     712      18      14
-bg                89     667      44      33
-ca                89     667      44      33
-cs                89     667      44      33
-da                18     138     324     282
-de                89     667      44      33
-eo                95     708      22      14
-es                89     667      44      33
-et                27     204     322     218
-eu                95     712      18      14
-fi                89     669      42      33
-fr                94     706      21      17
-hu                50     374     226     144
-id                27     208     323     213
-it                94     704      23      17
-ja                89     667      44      33
-ko                15     114      16     614
-nl                89     669      42      33
-no                22     169     335     240
-pl                84     631      22      91
-pt_BR             94     704      23      17
-ro                52     388     228     128
-ru                89     667      44      33
-sk                92     690      24      30
-sl                20     155     341     248
-sv                89     665      45      34
-th                21     161     332     251
-tr                 9      71     323     350
-uk                24     180     331     233
-vi                94     705      22      17
-zh_CN.GB2312      22     169     335     240
-zh_TW             93     695      23      26
---------------------------------------------------
 
 
 ======== Credits                                             [section:credits]
@@ -655,6 +663,54 @@ zh_TW             93     695      23      26
   
      And...
          Thanks to the users for finding Geeqie useful.
+
+
+======== Translation status:
+
+   Please send po files/patches in gzipped form to ensure data integrity.
+
+Translations statistics
+Date: Sun, 11 May 2008 12:03:37 +0200
+
+Note: completion % in the chart below may not be quite correct
+      when fuzzy translations exist but do not appear in the source.
+      For exact results, run make update-po with up to date POTFILES.in.
+      comp % = trans / (trans + fuzzy + untrans)
+
+Language      Comp(%)  Trans  Fuzzy  Untrans  Total
+fr             100.00    985      0        0    985
+be              90.56    892     25       68    985
+eu              68.53    675    150      160    985
+eo              68.22    672    153      160    985
+vi              68.02    670    156      159    985
+it              67.82    668    154      163    985
+pt_BR           67.82    668    154      163    985
+zh_TW           66.90    659    150      176    985
+sk              66.50    655    158      172    985
+fi              64.37    634    176      175    985
+nl              64.37    634    179      172    985
+sv              64.16    632    175      178    985
+bg              64.06    631    175      179    985
+ca              64.06    631    175      179    985
+cs              64.06    631    175      179    985
+de              64.06    631    175      179    985
+es              64.06    631    175      179    985
+ja              64.06    631    175      179    985
+ru              64.06    631    175      179    985
+pl              60.61    597    148      240    985
+ar              42.94    423    315      247    985
+ro              37.56    370    342      273    985
+hu              36.14    356    332      297    985
+id              19.70    194    408      383    985
+et              19.29    190    407      388    985
+uk              17.16    169    411      405    985
+nb              15.94    157    416      412    985
+zh_CN.GB2312    15.94    157    416      412    985
+th              15.13    149    413      423    985
+sl              14.72    145    419      421    985
+da              12.99    128    402      455    985
+ko              11.37    112     52      821    985
+tr               6.60     65    398      522    985
 
 
 ========
