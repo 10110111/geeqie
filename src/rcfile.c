@@ -452,7 +452,7 @@ void save_options(void)
 
 
 	WRITE_SUBTITLE("Image Overlay Options");
-	WRITE_UINT(image_overlay.common.enabled);
+	WRITE_UINT(image_overlay.common.state);
 	WRITE_BOOL(image_overlay.common.show_at_startup);
 	WRITE_CHAR(image_overlay.common.template_string);
 
@@ -760,12 +760,13 @@ void load_options(void)
 		READ_UINT(histogram.last_log_mode);
 
 		/* image overlay */
-		COMPAT_READ_BOOL(fullscreen.show_info, image_overlay.common.show_at_startup);
-		COMPAT_READ_CHAR(fullscreen.info, image_overlay.common.template_string);
-		READ_UINT(image_overlay.common.enabled);
+		COMPAT_READ_UINT(image_overlay.common.enabled, image_overlay.common.state); /* 2008-05-12 */ 
+		READ_UINT(image_overlay.common.state);
+		COMPAT_READ_BOOL(fullscreen.show_info, image_overlay.common.show_at_startup); /* 2008-04-21 */
 		READ_BOOL(image_overlay.common.show_at_startup);
+		COMPAT_READ_CHAR(fullscreen.info, image_overlay.common.template_string); /* 2008-04-21 */
 		READ_CHAR(image_overlay.common.template_string);
-	
+
 		/* slideshow options */
 		READ_INT_UNIT(slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION);
 		READ_BOOL(slideshow.random);

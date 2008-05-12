@@ -74,7 +74,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image.zoom_quality = (gint)GDK_INTERP_BILINEAR;
 	options->image.zoom_to_fit_allow_expand = TRUE;
 
-	options->image_overlay.common.enabled = (guint)OSD_SHOW_NOTHING;
+	options->image_overlay.common.state = (guint)OSD_SHOW_NOTHING;
 	options->image_overlay.common.show_at_startup = FALSE;
 	options->image_overlay.common.template_string = NULL;
 
