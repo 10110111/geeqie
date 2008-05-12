@@ -300,7 +300,13 @@ static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 			if (!kw) break;
 			*keywords = g_list_append(*keywords, (gpointer) kw);
 			}
-		
+#if 0
+		/* FIXME:
+		 * Exiv2 handles Iptc keywords as multiple entries with the
+		 * same key, thus exif_get_item returns only the first keyword
+		 * and the only way to get all keywords is to iterate through
+		 * the item list.
+		 */
 		item = exif_get_item(exif, "Iptc.Application2.Keywords");
 		for (i = 0; i < exif_item_get_elements(item); i++)
 			{
@@ -309,6 +315,7 @@ static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 			if (!kw) break;
 			*keywords = g_list_append(*keywords, (gpointer) kw);
 			}
+#endif
 		}
 
 	exif_free(exif);
