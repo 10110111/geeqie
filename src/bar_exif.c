@@ -143,12 +143,20 @@ enum {
 
 gchar *bar_exif_validate_text(gchar *text)
 {
-	if (text && !g_utf8_validate(text, strlen(text), NULL))
+	gint len;
+
+	if (!text) return NULL;
+	
+	len = strlen(text);
+	if (!g_utf8_validate(text, len, NULL))
 		{
-		gchar *tmp = text;
-		text = g_convert(tmp, strlen(tmp), "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-		g_free(tmp);
+		gchar *conv_text;
+
+		conv_text = g_convert(text, len, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+		g_free(text);
+		text = conv_text;
 		}
+
 	return text;
 }
 
