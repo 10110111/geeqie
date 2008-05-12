@@ -33,6 +33,10 @@ void vflist_marks_set(ViewFile *vf, gint enable);
 void vflist_sort_set(ViewFile *vf, SortType type, gint ascend);
 
 GList *vflist_pop_menu_file_list(ViewFile *vf);
+void vflist_pop_menu_view_cb(GtkWidget *widget, gpointer data);
+void vflist_pop_menu_rename_cb(GtkWidget *widget, gpointer data);
+void vflist_pop_menu_refresh_cb(GtkWidget *widget, gpointer data);
+void vflist_popup_destroy_cb(GtkWidget *widget, gpointer data);
 
 FileData *vflist_index_get_data(ViewFile *vf, gint row);
 gint vflist_index_by_path(ViewFile *vf, const gchar *path);

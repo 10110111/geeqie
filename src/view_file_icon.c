@@ -176,7 +176,7 @@ GList *vficon_pop_menu_file_list(ViewFile *vf)
 	return g_list_append(NULL, file_data_ref(VFICON_INFO(vf, click_id)->fd));
 }
 
-static void vficon_pop_menu_view_cb(GtkWidget *widget, gpointer data)
+void vficon_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
@@ -196,7 +196,7 @@ static void vficon_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 		}
 }
 
-static void vficon_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
+void vficon_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
@@ -210,14 +210,14 @@ static void vficon_pop_menu_show_names_cb(GtkWidget *widget, gpointer data)
 	vficon_toggle_filenames(vf);
 }
 
-static void vficon_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
+void vficon_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
 	vf_refresh(vf);
 }
 
-static void vficon_popup_destroy_cb(GtkWidget *widget, gpointer data)
+void vficon_popup_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 	vficon_selection_remove(vf, VFICON_INFO(vf, click_id), SELECTION_PRELIGHT, NULL);
@@ -234,7 +234,7 @@ static GtkWidget *vficon_pop_menu(ViewFile *vf, gint active)
 	menu = popup_menu_short_lived();
 
 	g_signal_connect(G_OBJECT(menu), "destroy",
-			 G_CALLBACK(vficon_popup_destroy_cb), vf);
+			 G_CALLBACK(vf_popup_destroy_cb), vf);
 
 	submenu_add_edit(menu, &item, G_CALLBACK(vf_pop_menu_edit_cb), vf);
 	gtk_widget_set_sensitive(item, active);
@@ -251,7 +251,7 @@ static GtkWidget *vficon_pop_menu(ViewFile *vf, gint active)
 	menu_item_add_sensitive(menu, _("_Move..."), active,
 				G_CALLBACK(vf_pop_menu_move_cb), vf);
 	menu_item_add_sensitive(menu, _("_Rename..."), active,
-				G_CALLBACK(vficon_pop_menu_rename_cb), vf);
+				G_CALLBACK(vf_pop_menu_rename_cb), vf);
 	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
 				      G_CALLBACK(vf_pop_menu_delete_cb), vf);
 	if (options->show_copy_path)
@@ -272,7 +272,7 @@ static GtkWidget *vficon_pop_menu(ViewFile *vf, gint active)
 			    G_CALLBACK(vf_pop_menu_toggle_view_type_cb), vf);
 	menu_item_add_check(menu, _("Show filename _text"), VFICON_INFO(vf, show_text),
 			    G_CALLBACK(vficon_pop_menu_show_names_cb), vf);
-	menu_item_add_stock(menu, _("Re_fresh"), GTK_STOCK_REFRESH, G_CALLBACK(vficon_pop_menu_refresh_cb), vf);
+	menu_item_add_stock(menu, _("Re_fresh"), GTK_STOCK_REFRESH, G_CALLBACK(vf_pop_menu_refresh_cb), vf);
 
 	return menu;
 }

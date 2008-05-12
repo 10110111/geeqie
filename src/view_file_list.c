@@ -289,7 +289,7 @@ GList *vflist_pop_menu_file_list(ViewFile *vf)
 	return g_list_append(NULL, file_data_ref(VFLIST_INFO(vf, click_fd)));
 }
 
-static void vflist_pop_menu_view_cb(GtkWidget *widget, gpointer data)
+void vflist_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
@@ -307,7 +307,7 @@ static void vflist_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 		}
 }
 
-static void vflist_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
+void vflist_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 	GList *list;
@@ -353,7 +353,7 @@ static void vflist_pop_menu_thumbs_cb(GtkWidget *widget, gpointer data)
 		}
 }
 
-static void vflist_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
+void vflist_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
@@ -361,7 +361,7 @@ static void vflist_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 	vf_refresh(vf);
 }
 
-static void vflist_popup_destroy_cb(GtkWidget *widget, gpointer data)
+void vflist_popup_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 	vflist_color_set(vf, VFLIST_INFO(vf, click_fd), FALSE);
@@ -382,7 +382,7 @@ static GtkWidget *vflist_pop_menu(ViewFile *vf, FileData *fd, gint col_idx)
 
 	menu = popup_menu_short_lived();
 	g_signal_connect(G_OBJECT(menu), "destroy",
-			 G_CALLBACK(vflist_popup_destroy_cb), vf);
+			 G_CALLBACK(vf_popup_destroy_cb), vf);
 
 	if (col_idx >= FILE_COLUMN_MARKS && col_idx <= FILE_COLUMN_MARKS_LAST)
 		{
@@ -434,7 +434,7 @@ static GtkWidget *vflist_pop_menu(ViewFile *vf, FileData *fd, gint col_idx)
 	menu_item_add_stock_sensitive(menu, _("_Properties"), GTK_STOCK_PROPERTIES, active,
 				      G_CALLBACK(vf_pop_menu_info_cb), vf);
 	menu_item_add_stock_sensitive(menu, _("View in _new window"), GTK_STOCK_NEW, active,
-				      G_CALLBACK(vflist_pop_menu_view_cb), vf);
+				      G_CALLBACK(vf_pop_menu_view_cb), vf);
 
 	menu_item_add_divider(menu);
 	menu_item_add_stock_sensitive(menu, _("_Copy..."), GTK_STOCK_COPY, active,
@@ -442,7 +442,7 @@ static GtkWidget *vflist_pop_menu(ViewFile *vf, FileData *fd, gint col_idx)
 	menu_item_add_sensitive(menu, _("_Move..."), active,
 				G_CALLBACK(vf_pop_menu_move_cb), vf);
 	menu_item_add_sensitive(menu, _("_Rename..."), active,
-				G_CALLBACK(vflist_pop_menu_rename_cb), vf);
+				G_CALLBACK(vf_pop_menu_rename_cb), vf);
 	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
 				      G_CALLBACK(vf_pop_menu_delete_cb), vf);
 	if (options->show_copy_path)
@@ -464,7 +464,7 @@ static GtkWidget *vflist_pop_menu(ViewFile *vf, FileData *fd, gint col_idx)
 			    G_CALLBACK(vf_pop_menu_toggle_view_type_cb), vf);
 	menu_item_add_check(menu, _("Show _thumbnails"), VFLIST_INFO(vf, thumbs_enabled),
 			    G_CALLBACK(vflist_pop_menu_thumbs_cb), vf);
-	menu_item_add_stock(menu, _("Re_fresh"), GTK_STOCK_REFRESH, G_CALLBACK(vflist_pop_menu_refresh_cb), vf);
+	menu_item_add_stock(menu, _("Re_fresh"), GTK_STOCK_REFRESH, G_CALLBACK(vf_pop_menu_refresh_cb), vf);
 
 	return menu;
 }

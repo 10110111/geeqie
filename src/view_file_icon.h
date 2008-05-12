@@ -28,7 +28,10 @@ gint vficon_refresh(ViewFile *vf);
 void vficon_sort_set(ViewFile *vf, SortType type, gint ascend);
 
 GList *vficon_pop_menu_file_list(ViewFile *vf);
-
+void vficon_pop_menu_view_cb(GtkWidget *widget, gpointer data);
+void vficon_pop_menu_rename_cb(GtkWidget *widget, gpointer data);
+void vficon_pop_menu_refresh_cb(GtkWidget *widget, gpointer data);
+void vficon_popup_destroy_cb(GtkWidget *widget, gpointer data);
 
 FileData *vficon_index_get_data(ViewFile *vf, gint row);
 gint vficon_index_by_path(ViewFile *vf, const gchar *path);

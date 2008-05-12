@@ -318,6 +318,17 @@ void vf_pop_menu_info_cb(GtkWidget *widget, gpointer data)
 	info_window_new(NULL, vf_pop_menu_file_list(vf), NULL);
 }
 
+void vf_pop_menu_view_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	switch(vf->type)
+	{
+	case FILEVIEW_LIST: vflist_pop_menu_view_cb(widget, data); break;
+	case FILEVIEW_ICON: vficon_pop_menu_view_cb(widget, data); break;
+	}
+}
+
 void vf_pop_menu_copy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
@@ -330,6 +341,17 @@ void vf_pop_menu_move_cb(GtkWidget *widget, gpointer data)
 	ViewFile *vf = data;
 
 	file_util_move(NULL, vf_pop_menu_file_list(vf), NULL, vf->listview);
+}
+
+void vf_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	switch(vf->type)
+	{
+	case FILEVIEW_LIST: vflist_pop_menu_rename_cb(widget, data); break;
+	case FILEVIEW_ICON: vficon_pop_menu_rename_cb(widget, data); break;
+	}
 }
 
 void vf_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
@@ -441,6 +463,27 @@ void vf_pop_menu_toggle_view_type_cb(GtkWidget *widget, gpointer data)
 	}
 }
 
+void vf_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	switch(vf->type)
+	{
+	case FILEVIEW_LIST: vflist_pop_menu_refresh_cb(widget, data); break;
+	case FILEVIEW_ICON: vficon_pop_menu_refresh_cb(widget, data); break;
+	}
+}
+
+void vf_popup_destroy_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	switch(vf->type)
+	{
+	case FILEVIEW_LIST: vflist_popup_destroy_cb(widget, data); break;
+	case FILEVIEW_ICON: vficon_popup_destroy_cb(widget, data); break;
+	}
+}
 
 
 
