@@ -322,7 +322,7 @@ void save_options(void)
 #define WRITE_SUBTITLE(_title_) secure_fprintf(ssi, "\n\n##### "_title_" #####\n\n")
 
 	secure_fprintf(ssi, "######################################################################\n");
-	secure_fprintf(ssi, "# %30s config file         version %7s #\n", GQ_APPNAME, VERSION);
+	secure_fprintf(ssi, "# %30s config file      version %-10s #\n", GQ_APPNAME, VERSION);
 	secure_fprintf(ssi, "######################################################################\n");
 	WRITE_SEPARATOR();
 
