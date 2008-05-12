@@ -120,6 +120,25 @@ gdouble get_zoom_increment(void)
 	return ((options->image.zoom_increment != 0) ? (gdouble)options->image.zoom_increment / 10.0 : 1.0);
 }
 
+gchar *utf8_validate_or_convert(gchar *text)
+{
+	gint len;
+
+	if (!text) return NULL;
+	
+	len = strlen(text);
+	if (!g_utf8_validate(text, len, NULL))
+		{
+		gchar *conv_text;
+
+		conv_text = g_convert(text, len, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+		g_free(text);
+		text = conv_text;
+		}
+
+	return text;
+}
+
 
 /*
  *-----------------------------------------------------------------------------

@@ -41,7 +41,5 @@ gint bar_exif_is_advanced(GtkWidget *bar);
 const gchar **bar_exif_key_list;
 const gint bar_exif_key_count;
 
-gchar *bar_exif_validate_text(gchar *text);
-
 
 #endif

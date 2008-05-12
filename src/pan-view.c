@@ -1448,7 +1448,7 @@ static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 		if (ExifUIList[i].current == EXIF_UI_OFF) continue;
 
 		text = exif_get_data_as_text(exif, ExifUIList[i].key);
-		text = bar_exif_validate_text(text);
+		text = utf8_validate_or_convert(text);
 		if (ExifUIList[i].current == EXIF_UI_IFSET && (!text || !*text))
 			{
 			if (text) g_free(text);
@@ -1474,7 +1474,7 @@ static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 
 		label = g_strdup_printf("%s:", name);
 		text = exif_get_data_as_text(exif, name);
-		text = bar_exif_validate_text(text);
+		text = utf8_validate_or_convert(text);
 		pan_text_alignment_add(ta, label, text);
 		g_free(label);
 		g_free(text);

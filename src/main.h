@@ -130,6 +130,7 @@ void window_set_icon(GtkWidget *window, const gchar *icon, const gchar *file);
 gint window_maximized(GtkWidget *window);
 
 gdouble get_zoom_increment(void);
+gchar *utf8_validate_or_convert(gchar *text);
 
 void help_window_show(const gchar *key);
 

@@ -141,25 +141,6 @@ enum {
 	EXIF_ADVCOL_COUNT
 };
 
-gchar *bar_exif_validate_text(gchar *text)
-{
-	gint len;
-
-	if (!text) return NULL;
-	
-	len = strlen(text);
-	if (!g_utf8_validate(text, len, NULL))
-		{
-		gchar *conv_text;
-
-		conv_text = g_convert(text, len, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-		g_free(text);
-		text = conv_text;
-		}
-
-	return text;
-}
-
 static void bar_exif_sensitive(ExifBar *eb, gint enable)
 {
 	gtk_widget_set_sensitive(eb->table, enable);
@@ -209,7 +190,7 @@ static void bar_exif_update(ExifBar *eb)
 				continue;
 				}
 			text = exif_get_data_as_text(exif, ExifUIList[i].key);
-			text = bar_exif_validate_text(text);
+			text = utf8_validate_or_convert(text);
 			if (ExifUIList[i].current == EXIF_UI_IFSET
 			    && (!text || !*text))
 				{
@@ -243,7 +224,7 @@ static void bar_exif_update(ExifBar *eb)
 			list = list->prev;
 
 			text = exif_get_data_as_text(exif, name);
-			text = bar_exif_validate_text(text);
+			text = utf8_validate_or_convert(text);
 
 			buf = g_strconcat(name, ":", NULL);
 			gtk_label_set_text(GTK_LABEL(eb->custom_name[i]), buf);
@@ -287,11 +268,11 @@ static void bar_exif_update(ExifBar *eb)
 			tag_name = exif_item_get_tag_name(item);
 			format = exif_item_get_format_name(item, TRUE);
 			text = exif_item_get_data_as_text(item);
-			text = bar_exif_validate_text(text);
+			text = utf8_validate_or_convert(text);
 			elements = g_strdup_printf("%d", exif_item_get_elements(item));
 			description = exif_item_get_description(item);
 			if (!description) description = g_strdup("");
-			description = bar_exif_validate_text(description);
+			description = utf8_validate_or_convert(description);
 			gtk_list_store_append(store, &iter);
 			gtk_list_store_set(store, &iter,
 					EXIF_ADVCOL_ENABLED, bar_exif_row_enabled(tag_name),
