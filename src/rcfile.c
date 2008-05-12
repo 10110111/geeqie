@@ -115,13 +115,14 @@ static void write_char_option(SecureSaveInfo *ssi, gchar *label, gchar *text)
 	g_free(escval);
 }
 
-static void read_char_option(FILE *f, gchar *option, gchar *label, gchar *value, gchar **text)
+static gboolean read_char_option(FILE *f, gchar *option, gchar *label, gchar *value, gchar **text)
 {
-	if (text && g_ascii_strcasecmp(option, label) == 0)
-		{
-		g_free(*text);
-		*text = quoted_value(value, NULL);
-		}
+	if (g_ascii_strcasecmp(option, label) != 0) return FALSE;
+	if (!text) return FALSE;
+
+	g_free(*text);
+	*text = quoted_value(value, NULL);
+	return TRUE;
 }
 
 /* Since gdk_color_to_string() is only available since gtk 2.12
@@ -144,28 +145,43 @@ static void write_color_option(SecureSaveInfo *ssi, gchar *label, GdkColor *colo
 		secure_fprintf(ssi, "%s: \n", label);
 }
 
-static void read_color_option(FILE *f, gchar *option, gchar *label, gchar *value, GdkColor *color)
+static gboolean read_color_option(FILE *f, gchar *option, gchar *label, gchar *value, GdkColor *color)
 {
-	if (color && g_ascii_strcasecmp(option, label) == 0)
-		{
-		gchar *colorstr = quoted_value(value, NULL);
-		if (colorstr) gdk_color_parse(colorstr, color);
-		g_free(colorstr);
-		}
-}
+	gchar *colorstr;
+	
+	if (g_ascii_strcasecmp(option, label) != 0) return FALSE;
+	if (!color) return FALSE;
 
+	colorstr = quoted_value(value, NULL);
+	if (!colorstr) return FALSE;
+	gdk_color_parse(colorstr, color);
+	g_free(colorstr);
+	return TRUE;
+}
 
 static void write_int_option(SecureSaveInfo *ssi, gchar *label, gint n)
 {
 	secure_fprintf(ssi, "%s: %d\n", label, n);
 }
 
-static void read_int_option(FILE *f, gchar *option, gchar *label, gchar *value, gint *n)
-{
-	if (n && g_ascii_strcasecmp(option, label) == 0)
+static gboolean read_int_option(FILE *f, gchar *option, gchar *label, gchar *value, gint *n)
+{	
+	if (g_ascii_strcasecmp(option, label) != 0) return FALSE;
+	if (!n) return FALSE;
+
+	if (g_ascii_isdigit(value[0]) || (value[0] == '-' && g_ascii_isdigit(value[1])))
 		{
 		*n = strtol(value, NULL, 10);
 		}
+	else
+		{
+		if (g_ascii_strcasecmp(value, "true") == 0)
+			*n = 1;
+		else
+			*n = 0;
+		}
+
+	return TRUE;
 }
 
 static void write_uint_option(SecureSaveInfo *ssi, gchar *label, guint n)
@@ -173,24 +189,35 @@ static void write_uint_option(SecureSaveInfo *ssi, gchar *label, guint n)
 	secure_fprintf(ssi, "%s: %u\n", label, n);
 }
 
-static void read_uint_option(FILE *f, gchar *option, gchar *label, gchar *value, guint *n)
+static gboolean read_uint_option(FILE *f, gchar *option, gchar *label, gchar *value, guint *n)
 {
-	if (n && g_ascii_strcasecmp(option, label) == 0)
+	if (g_ascii_strcasecmp(option, label) != 0) return FALSE;
+	if (!n) return FALSE;
+
+	if (g_ascii_isdigit(value[0]))
 		{
 		*n = strtoul(value, NULL, 10);
 		}
-}
-
-
-
-static void read_int_option_clamp(FILE *f, gchar *option, gchar *label, gchar *value, gint *n, gint min, gint max)
-{
-	if (n && g_ascii_strcasecmp(option, label) == 0)
+	else
 		{
-		*n = CLAMP(strtol(value, NULL, 10), min, max);
+		if (g_ascii_strcasecmp(value, "true") == 0)
+			*n = 1;
+		else
+			*n = 0;
 		}
+	
+	return TRUE;
 }
 
+static gboolean read_int_option_clamp(FILE *f, gchar *option, gchar *label, gchar *value, gint *n, gint min, gint max)
+{
+	gboolean ret;
+
+	ret = read_int_option(f, option, label, value, n);
+	if (ret) *n = CLAMP(*n, min, max);
+
+	return ret;
+}
 
 static void write_int_unit_option(SecureSaveInfo *ssi, gchar *label, gint n, gint subunits)
 {
@@ -210,31 +237,33 @@ static void write_int_unit_option(SecureSaveInfo *ssi, gchar *label, gint n, gin
 	secure_fprintf(ssi, "%s: %d.%d\n", label, l, r);
 }
 
-static void read_int_unit_option(FILE *f, gchar *option, gchar *label, gchar *value, gint *n, gint subunits)
+static gboolean read_int_unit_option(FILE *f, gchar *option, gchar *label, gchar *value, gint *n, gint subunits)
 {
-	if (n && g_ascii_strcasecmp(option, label) == 0)
+	gint l, r;
+	gchar *ptr;
+
+	if (g_ascii_strcasecmp(option, label) != 0) return FALSE;
+	if (!n) return FALSE;
+
+	ptr = value;
+	while (*ptr != '\0' && *ptr != '.') ptr++;
+	if (*ptr == '.')
 		{
-		gint l, r;
-		gchar *ptr;
-
-		ptr = value;
-		while (*ptr != '\0' && *ptr != '.') ptr++;
-		if (*ptr == '.')
-			{
-			*ptr = '\0';
-			l = strtol(value, NULL, 10);
-			*ptr = '.';
-			ptr++;
-			r = strtol(ptr, NULL, 10);
-			}
-		else
-			{
-			l = strtol(value, NULL, 10);
-			r = 0;
-			}
-
-		*n = l * subunits + r;
+		*ptr = '\0';
+		l = strtol(value, NULL, 10);
+		*ptr = '.';
+		ptr++;
+		r = strtol(ptr, NULL, 10);
 		}
+	else
+		{
+		l = strtol(value, NULL, 10);
+		r = 0;
+		}
+
+	*n = l * subunits + r;
+
+	return TRUE;
 }
 
 static void write_bool_option(SecureSaveInfo *ssi, gchar *label, gint n)
@@ -243,16 +272,19 @@ static void write_bool_option(SecureSaveInfo *ssi, gchar *label, gint n)
 	if (n) secure_fprintf(ssi, "true\n"); else secure_fprintf(ssi, "false\n");
 }
 
-static void read_bool_option(FILE *f, gchar *option, gchar *label, gchar *value, gint *n)
+static gboolean read_bool_option(FILE *f, gchar *option, gchar *label, gchar *value, gint *n)
 {
-	if (n && g_ascii_strcasecmp(option, label) == 0)
-		{
-		if (g_ascii_strcasecmp(value, "true") == 0 || strcmp(value, "1") == 0)
-			*n = TRUE;
-		else
-			*n = FALSE;
-		}
+	if (g_ascii_strcasecmp(option, label) != 0) return FALSE;
+	if (!n) return FALSE;
+
+	if (g_ascii_strcasecmp(value, "true") == 0 || atoi(value) != 0)
+		*n = TRUE;
+	else
+		*n = FALSE;
+
+	return TRUE;
 }
+
 
 /*
  *-----------------------------------------------------------------------------
