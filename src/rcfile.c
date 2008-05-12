@@ -637,21 +637,21 @@ void load_options(void)
 		*p = '\0';
 		strncpy(value, value_start, sizeof(value));
 
-#define READ_BOOL(_name_) read_bool_option(f, option, #_name_, value, &options->_name_)
-#define READ_INT(_name_) read_int_option(f, option, #_name_, value, &options->_name_)
-#define READ_UINT(_name_) read_uint_option(f, option, #_name_, value, &options->_name_)
-#define READ_INT_CLAMP(_name_, _min_, _max_) read_int_option_clamp(f, option, #_name_, value, &options->_name_, _min_, _max_)
-#define READ_INT_UNIT(_name_, _unit_) read_int_unit_option(f, option, #_name_, value, &options->_name_, _unit_)
-#define READ_CHAR(_name_) read_char_option(f, option, #_name_, value_all, &options->_name_)
-#define READ_COLOR(_name_) read_color_option(f, option, #_name_, value, &options->_name_)
+#define READ_BOOL(_name_) if (read_bool_option(f, option, #_name_, value, &options->_name_)) continue;
+#define READ_INT(_name_) if (read_int_option(f, option, #_name_, value, &options->_name_)) continue;
+#define READ_UINT(_name_) if (read_uint_option(f, option, #_name_, value, &options->_name_)) continue;
+#define READ_INT_CLAMP(_name_, _min_, _max_) if (read_int_option_clamp(f, option, #_name_, value, &options->_name_, _min_, _max_)) continue;
+#define READ_INT_UNIT(_name_, _unit_) if (read_int_unit_option(f, option, #_name_, value, &options->_name_, _unit_)) continue;
+#define READ_CHAR(_name_) if (read_char_option(f, option, #_name_, value_all, &options->_name_)) continue;
+#define READ_COLOR(_name_) if (read_color_option(f, option, #_name_, value, &options->_name_)) continue;
 
-#define COMPAT_READ_BOOL(_oldname_, _name_) read_bool_option(f, option, #_oldname_, value, &options->_name_)
-#define COMPAT_READ_INT(_oldname_, _name_) read_int_option(f, option, #_oldname_, value, &options->_name_)
-#define COMPAT_READ_UINT(_oldname_, _name_) read_uint_option(f, option, #_oldname_, value, &options->_name_)
-#define COMPAT_READ_INT_CLAMP(_oldname_, _name_, _min_, _max_) read_int_option_clamp(f, option, #_oldname_, value, &options->_name_, _min_, _max_)
-#define COMPAT_READ_INT_UNIT(_oldname_, _name_, _unit_) read_int_unit_option(f, option, #_oldname_, value, &options->_name_, _unit_)
-#define COMPAT_READ_CHAR(_oldname_, _name_) read_char_option(f, option, #_oldname_, value_all, &options->_name_)
-#define COMPAT_READ_COLOR(_oldname_, _name_) read_color_option(f, option, #_oldname_, value, &options->_name_)
+#define COMPAT_READ_BOOL(_oldname_, _name_) if (read_bool_option(f, option, #_oldname_, value, &options->_name_)) continue;
+#define COMPAT_READ_INT(_oldname_, _name_) if (read_int_option(f, option, #_oldname_, value, &options->_name_)) continue;
+#define COMPAT_READ_UINT(_oldname_, _name_) if (read_uint_option(f, option, #_oldname_, value, &options->_name_)) continue;
+#define COMPAT_READ_INT_CLAMP(_oldname_, _name_, _min_, _max_) if (read_int_option_clamp(f, option, #_oldname_, value, &options->_name_, _min_, _max_)) continue;
+#define COMPAT_READ_INT_UNIT(_oldname_, _name_, _unit_) if (read_int_unit_option(f, option, #_oldname_, value, &options->_name_, _unit_)) continue;
+#define COMPAT_READ_CHAR(_oldname_, _name_) if (read_char_option(f, option, #_oldname_, value_all, &options->_name_)) continue;
+#define COMPAT_READ_COLOR(_oldname_, _name_) if (read_color_option(f, option, #_oldname_, value, &options->_name_)) continue;
 
 		/* general options */
 		READ_BOOL(show_icon_names);
@@ -736,6 +736,7 @@ void load_options(void)
 				options->image.zoom_mode = ZOOM_RESET_FIT_WINDOW;
 			else if (g_ascii_strcasecmp(value, "dont_change") == 0)
 				options->image.zoom_mode = ZOOM_RESET_NONE;
+			continue;
 			}
 		READ_BOOL(image.zoom_2pass);
 		READ_BOOL(image.zoom_to_fit_allow_expand);
@@ -817,11 +818,13 @@ void load_options(void)
 		if (g_ascii_strcasecmp(option, "file_filter.ext") == 0)
 			{
 			filter_parse(value_all);
+			continue;
 			}
 
 		if (g_ascii_strcasecmp(option, "sidecar.ext") == 0)
 			{
 			sidecar_ext_parse(value_all, TRUE);
+			continue;
 			}
 
 		/* Color Profiles */
@@ -837,6 +840,7 @@ void load_options(void)
 				{
 				read_char_option(f, option, option, value, &options->color_profile.input_file[i]);
 				}
+			continue;
 			}
 		if (g_ascii_strncasecmp(option, "color_profile.input_name_", 25) == 0)
 			{
@@ -845,6 +849,7 @@ void load_options(void)
 				{
 				read_char_option(f, option, option, value, &options->color_profile.input_name[i]);
 				}
+			continue;
 			}
 
 		READ_INT(color_profile.screen_type);
@@ -865,6 +870,7 @@ void load_options(void)
 				options->editor_name[i] = quoted_value(value_all, &ptr);
 				options->editor_command[i] = quoted_value(ptr, NULL);
 				}
+			continue;
 			}
 
 		/* Exif */
@@ -873,6 +879,7 @@ void load_options(void)
 			for (i = 0; ExifUIList[i].key; i++)
 				if (0 == g_ascii_strcasecmp(option + 13, ExifUIList[i].key))
 					ExifUIList[i].current = strtol(value, NULL, 10);
+			continue;
 			}
 		}
 
