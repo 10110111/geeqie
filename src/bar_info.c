@@ -246,6 +246,30 @@ static gint comment_legacy_read(FileData *fd, GList **keywords, gchar **comment)
 	return success;
 }
 
+static GList *remove_duplicate_strings_from_list(GList *list)
+{
+	GList *work = list;
+	GHashTable *hashtable = g_hash_table_new(g_str_hash, g_str_equal);
+	GList *newlist = NULL;
+
+	while (work)
+		{
+		gchar *key = work->data;
+
+		if (g_hash_table_lookup(hashtable, key) == NULL)
+			{
+			g_hash_table_insert(hashtable, (gpointer) key, GINT_TO_POINTER(1));
+			newlist = g_list_prepend(newlist, key);
+			}
+		work = work->next; 
+		}
+
+	g_hash_table_destroy(hashtable);
+	g_list_free(list);
+
+	return g_list_reverse(newlist);
+}
+
 #define COMMENT_KEY "Xmp.dc.description"
 #define KEYWORD_KEY "Xmp.dc.subject"
 
@@ -269,6 +293,15 @@ static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 		
 		*keywords = NULL;
 		item = exif_get_item(exif, KEYWORD_KEY);
+		for (i = 0; i < exif_item_get_elements(item); i++)
+			{
+			gchar *kw = exif_item_get_string(item, i);
+
+			if (!kw) break;
+			*keywords = g_list_append(*keywords, (gpointer) kw);
+			}
+		
+		item = exif_get_item(exif, "Iptc.Application2.Keywords");
 		for (i = 0; i < exif_item_get_elements(item); i++)
 			{
 			gchar *kw = exif_item_get_string(item, i);
@@ -367,6 +400,8 @@ gint comment_read(FileData *fd, GList **keywords, gchar **comment)
 			*keywords = g_list_concat(keywords1, keywords2);
 		else
 			*keywords = res1 ? keywords1 : keywords2;
+
+		*keywords = remove_duplicate_strings_from_list(*keywords);
 		}
 	else
 		{
