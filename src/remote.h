@@ -32,13 +32,13 @@ struct _RemoteConnection {
 };
 
 
-RemoteConnection *remote_server_open(const gchar *path);
-void remote_server_subscribe(RemoteConnection *rc, RemoteReadFunc *func, gpointer data);
-
-RemoteConnection *remote_client_open(const gchar *path);
-gint remote_client_send(RemoteConnection *rc, const gchar *text);
-
 void remote_close(RemoteConnection *rc);
+GList *remote_build_list(GList *list, int argc, char *argv[]);
+void remote_help(void);
+void remote_control(const gchar *arg_exec, GList *remote_list, const gchar *path,
+		    GList *cmd_list, GList *collection_list);
+
+RemoteConnection *remote_server_init(gchar *path, CollectionData *command_collection);
 
 
 #endif
