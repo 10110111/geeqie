@@ -590,8 +590,8 @@ gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 		    col_idx >= FILE_COLUMN_MARKS && col_idx <= FILE_COLUMN_MARKS_LAST)
 			return FALSE;
 
-		vf->clicked_mark = 1 + (col_idx - FILE_COLUMN_MARKS);
-		g_assert(vf->clicked_mark >= 1 && vf->clicked_mark <= FILEDATA_MARKS_SIZE);
+		if (col_idx >= FILE_COLUMN_MARKS && col_idx <= FILE_COLUMN_MARKS_LAST)
+			vf->clicked_mark = 1 + (col_idx - FILE_COLUMN_MARKS);
 
 		store = gtk_tree_view_get_model(GTK_TREE_VIEW(widget));
 
