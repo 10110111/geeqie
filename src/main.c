@@ -45,6 +45,9 @@
 
 
 #include <math.h>
+#ifdef G_OS_UNIX
+#include <pwd.h>
+#endif
 
 
 static RemoteConnection *remote_connection = NULL;
@@ -80,6 +83,54 @@ gchar *utf8_validate_or_convert(gchar *text)
 
 	return text;
 }
+
+/* Borrowed from gtkfilesystemunix.c */
+gchar *expand_tilde(const gchar *filename)
+{
+#ifndef G_OS_UNIX
+	return g_strdup(filename);
+#else
+	const char *notilde;
+	const char *slash;
+	const char *home;
+
+	if (filename[0] != '~')
+		return g_strdup(filename);
+
+	notilde = filename + 1;
+  	slash = strchr(notilde, G_DIR_SEPARATOR);
+	if (slash == notilde || !*notilde)
+		{
+		home = g_get_home_dir();
+		if (!home)
+			return g_strdup(filename);
+    		}
+  	else
+		{
+		gchar *username;
+ 		struct passwd *passwd;
+
+		if (slash)
+			username = g_strndup(notilde, slash - notilde);
+		else
+			username = g_strdup(notilde);
+
+		passwd = getpwnam(username);
+		g_free(username);
+
+		if (!passwd)
+			return g_strdup(filename);
+
+		home = passwd->pw_dir;
+		}
+
+	if (slash)
+		return g_build_filename(home, G_DIR_SEPARATOR_S, slash + 1, NULL);
+	else
+		return g_build_filename(home, G_DIR_SEPARATOR_S, NULL);
+#endif
+}
+
 
 /*
  *-----------------------------------------------------------------------------

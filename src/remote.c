@@ -475,30 +475,37 @@ static void gr_quit(const gchar *text, gpointer data)
 
 static void gr_file_load(const gchar *text, gpointer data)
 {
-	if (isfile(text))
+	gchar *filename = expand_tilde(text);
+
+	if (isfile(filename))
 		{
-		if (file_extension_match(text, ".gqv"))
+		if (file_extension_match(filename, ".gqv"))
 			{
-			collection_window_new(text);
+			collection_window_new(filename);
 			}
 		else
 			{
-			layout_set_path(NULL, text);
+			layout_set_path(NULL, filename);
 			}
 		}
-	else if (isdir(text))
+	else if (isdir(filename))
 		{
-		layout_set_path(NULL, text);
+		layout_set_path(NULL, filename);
 		}
 	else
 		{
-		printf("remote sent filename that does not exist:\"%s\"\n", text);
+		printf("remote sent filename that does not exist:\"%s\"\n", filename);
 		}
+
+	g_free(filename);
 }
 
 static void gr_file_view(const gchar *text, gpointer data)
 {
-	view_window_new(file_data_new_simple(text));
+	gchar *filename = expand_tilde(text);
+
+	view_window_new(file_data_new_simple(filename));
+	g_free(filename);
 }
 
 static void gr_list_clear(const gchar *text, gpointer data)
