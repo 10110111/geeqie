@@ -173,7 +173,12 @@ static gint comment_file_read(gchar *path, GList **keywords, gchar **comment)
 				{
 				while (*ptr != '\n' && *ptr != '\0') ptr++;
 				*ptr = '\0';
-				if (strlen(s_buf) > 0) list = g_list_prepend(list, g_strdup(s_buf));
+				if (strlen(s_buf) > 0)
+					{
+					gchar *kw = utf8_validate_or_convert(g_strdup(s_buf));
+
+					list = g_list_prepend(list, kw);
+					}
 				}
 				break;
 			case MK_COMMENT:
@@ -198,7 +203,10 @@ static gint comment_file_read(gchar *path, GList **keywords, gchar **comment)
 			len = strlen(ptr);
 			while (len > 0 && ptr[len - 1] == '\n') len--;
 			if (ptr[len] == '\n') len++; /* keep the last one */
-			if (len > 0) *comment = g_strndup(ptr, len);
+			if (len > 0)
+				{
+				*comment = utf8_validate_or_convert(g_strndup(ptr, len));
+				}
 			}
 		g_string_free(comment_build, TRUE);
 		}
