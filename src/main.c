@@ -232,6 +232,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 {
 	GList *list = NULL;
 	GList *remote_list = NULL;
+	GList *remote_errors = NULL;
 	gint remote_do = FALSE;
 	gchar *first_dir = NULL;
 
@@ -307,7 +308,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 				if (!remote_do)
 					{
 					remote_do = TRUE;
-					remote_list = remote_build_list(remote_list, argc, argv);
+					remote_list = remote_build_list(remote_list, argc - i, &argv[i], &remote_errors);
 					}
 				}
 			else if (strcmp(cmd_line, "-rh") == 0 ||
@@ -386,6 +387,22 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 
 	if (remote_do)
 		{
+		if (remote_errors)
+			{
+			GList *work = remote_errors;
+			
+			printf_term(_("Invalid or ignored remote options: "));
+			while (work)
+				{
+				gchar *opt = work->data;
+						
+				printf_term("%s%s", (work == remote_errors) ? "" : ", ", opt);
+				work = work->next;
+				}
+
+			printf_term(_("\nUse --remote-help for valid remote options.\n"));
+			}
+
 		remote_control(argv[0], remote_list, *path, list, *collection_list);
 		}
 	g_list_free(remote_list);

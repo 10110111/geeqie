@@ -663,7 +663,7 @@ void remote_help(void)
 		}
 }
 
-GList *remote_build_list(GList *list, int argc, char *argv[])
+GList *remote_build_list(GList *list, int argc, char *argv[], GList **errors)
 {
 	gint i;
 
@@ -676,6 +676,10 @@ GList *remote_build_list(GList *list, int argc, char *argv[])
 		if (entry)
 			{
 			list = g_list_append(list, argv[i]);
+			}
+		else if (errors)
+			{
+			*errors = g_list_append(*errors, argv[i]);
 			}
 		i++;
 		}
