@@ -957,6 +957,9 @@ void vficon_select_by_fd(ViewFile *vf, FileData *fd)
 void vficon_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode)
 {
 	GList *work;
+	gint n = mark - 1;
+
+	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
 
 	work = vf->list;
 	while (work)
@@ -967,7 +970,7 @@ void vficon_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode)
 
 		g_assert(fd->magick == 0x12345678);
 
-		mark_val = fd->marks[mark];
+		mark_val = fd->marks[n];
 		selected = (id->selected & SELECTION_SELECTED);
 
 		switch (mode)
@@ -992,8 +995,9 @@ void vficon_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 {
 	GList *slist;
 	GList *work;
+	gint n = mark -1;
 
-	g_assert(mark >= 0 && mark < FILEDATA_MARKS_SIZE);
+	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
 
 	slist = vf_selection_get_list(vf);
 	work = slist;
@@ -1003,11 +1007,11 @@ void vficon_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 
 		switch (mode)
 			{
-			case STM_MODE_SET: fd->marks[mark] = 1;
+			case STM_MODE_SET: fd->marks[n] = 1;
 				break;
-			case STM_MODE_RESET: fd->marks[mark] = 0;
+			case STM_MODE_RESET: fd->marks[n] = 0;
 				break;
-			case STM_MODE_TOGGLE: fd->marks[mark] = !fd->marks[mark];
+			case STM_MODE_TOGGLE: fd->marks[n] = !fd->marks[mark];
 				break;
 			}
 

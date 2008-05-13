@@ -738,7 +738,6 @@ static void layout_menu_set_mark_sel_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
 	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
-	mark--;
 
 	layout_selection_to_mark(lw, mark, STM_MODE_SET);
 }
@@ -748,7 +747,6 @@ static void layout_menu_res_mark_sel_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
 	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
-	mark--;
 
 	layout_selection_to_mark(lw, mark, STM_MODE_RESET);
 }
@@ -758,7 +756,6 @@ static void layout_menu_toggle_mark_sel_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
 	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
-	mark--;
 
 	layout_selection_to_mark(lw, mark, STM_MODE_TOGGLE);
 }
@@ -768,7 +765,6 @@ static void layout_menu_sel_mark_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
 	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
-	mark--;
 
 	layout_mark_to_selection(lw, mark, MTS_MODE_SET);
 }
@@ -778,7 +774,6 @@ static void layout_menu_sel_mark_or_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
 	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
-	mark--;
 
 	layout_mark_to_selection(lw, mark, MTS_MODE_OR);
 }
@@ -788,7 +783,6 @@ static void layout_menu_sel_mark_and_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
 	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
-	mark--;
 
 	layout_mark_to_selection(lw, mark, MTS_MODE_AND);
 }
@@ -798,7 +792,6 @@ static void layout_menu_sel_mark_minus_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
 	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
-	mark--;
 
 	layout_mark_to_selection(lw, mark, MTS_MODE_MINUS);
 }

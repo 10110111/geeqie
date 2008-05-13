@@ -626,6 +626,7 @@ struct _ViewFile
 	/* marks */
 	gint marks_enabled;
 	gint active_mark;
+	gint clicked_mark;
 };
 
 struct _ViewFileInfoList
