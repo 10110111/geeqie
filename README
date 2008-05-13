@@ -420,7 +420,9 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
   %width%      Image width
   %height%     Image height
   %res%        Image resolution
-  
+  %keywords%   Image keywords from metadata
+  %comment%    Image comment from metadata
+
   To access exif data use the exif name:
   %Exif.Photo.DateTimeOriginal%	Date of the original shot
 

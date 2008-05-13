@@ -13,6 +13,7 @@
 #include "main.h"
 #include "image-overlay.h"
 
+#include "bar_info.h"
 #include "collect.h"
 #include "debug.h"
 #include "exif.h"
@@ -162,6 +163,42 @@ void image_osd_toggle(ImageWindow *imd)
 		}
 }
 
+static gchar *keywords_to_string(FileData *fd)
+{
+	GList *keywords;
+	GString *kwstr = NULL;
+	gchar *ret = NULL;
+
+	g_assert(fd);
+
+	if (comment_read(fd, &keywords, NULL))
+		{
+		GList *work = keywords;
+
+		while (work)
+			{
+			gchar *kw = work->data;
+			work = work->next;
+					
+			if (!kw) continue;
+			if (!kwstr)
+				kwstr = g_string_new("");
+			else
+				g_string_append(kwstr, ", ");
+			
+			g_string_append(kwstr, kw);
+			}
+		}
+
+	if (kwstr)
+		{
+		ret = kwstr->str;
+		g_string_free(kwstr, FALSE);
+		}
+
+	return ret;
+}
+
 static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *vars)
 {
 	gchar delim = '%', imp = '|', sep[] = " - ";
@@ -225,12 +262,24 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			extra = g_strndup(extrapos, end - extrapos);
 					
 		name = g_strndup(start+1, (trunc ? trunc : end)-start-1);
-		
-		pos = start-new->str;
-		data = g_strdup(g_hash_table_lookup(vars, name));
-		if (data && strcmp(name, "zoom") == 0) imd->overlay_show_zoom = TRUE;
-		if (!data && exif)
-			data = exif_get_data_as_text(exif, name);
+		pos = start - new->str;
+		data = NULL;
+
+		if (strcmp(name, "keywords") == 0)
+			{
+			data = keywords_to_string(imd->image_fd);
+			}
+		else if (strcmp(name, "comment") == 0)
+			{
+			comment_read(imd->image_fd, NULL, &data);
+			}
+		else
+			{
+			data = g_strdup(g_hash_table_lookup(vars, name));
+			if (data && strcmp(name, "zoom") == 0) imd->overlay_show_zoom = TRUE;
+			if (!data && exif)
+				data = exif_get_data_as_text(exif, name);
+			}
 		if (data && *data && limit > 0 && strlen(data) > limit + 3)
 			{
 			gchar *new_data = g_strdup_printf("%-*.*s...", limit, limit, data);
