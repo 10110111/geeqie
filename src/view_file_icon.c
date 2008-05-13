@@ -225,11 +225,14 @@ void vficon_popup_destroy_cb(GtkWidget *widget, gpointer data)
 	vf->popup = NULL;
 }
 
-static GtkWidget *vficon_pop_menu(ViewFile *vf, gint active)
+static GtkWidget *vficon_pop_menu(ViewFile *vf)
 {
 	GtkWidget *menu;
 	GtkWidget *item;
 	GtkWidget *submenu;
+	gint active;
+
+	active = (VFICON_INFO(vf, click_id) != NULL);
 
 	menu = popup_menu_short_lived();
 
@@ -1291,7 +1294,7 @@ gint vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 			vficon_selection_add(vf, VFICON_INFO(vf, click_id), SELECTION_PRELIGHT, NULL);
 			tip_unschedule(vf);
 
-			vf->popup = vficon_pop_menu(vf, (id != NULL));
+			vf->popup = vficon_pop_menu(vf);
 			gtk_menu_popup(GTK_MENU(vf->popup), NULL, NULL, vfi_menu_position_cb, vf, 0, GDK_CURRENT_TIME);
 			break;
 		default:
@@ -1395,7 +1398,7 @@ gint vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 #endif
 			break;
 		case MOUSE_BUTTON_RIGHT:
-			vf->popup = vficon_pop_menu(vf, (id != NULL));
+			vf->popup = vficon_pop_menu(vf);
 			gtk_menu_popup(GTK_MENU(vf->popup), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
 			break;
 		default:
