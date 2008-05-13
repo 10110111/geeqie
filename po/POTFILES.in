@@ -30,6 +30,7 @@
 ./src/preferences.c
 ./src/print.c
 ./src/rcfile.c
+./src/remote.c
 ./src/search.c
 ./src/secure_save.c
 ./src/thumb.c
@@ -40,6 +41,7 @@
 ./src/ui_tabcomp.c
 ./src/utilops.c
 ./src/view_dir.c
+./src/view_file.c
 ./src/view_file_icon.c
 ./src/view_file_list.c
 ./src/window.c
