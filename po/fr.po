@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: geeqie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-13 22:14+0200\n"
-"PO-Revision-Date: 2008-05-13 22:16+0100\n"
+"PO-Revision-Date: 2008-05-13 22:29+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french\n"
 "MIME-Version: 1.0\n"
@@ -3502,55 +3502,55 @@ msgstr "dernière image"
 
 #: src/remote.c:578
 msgid "toggle full screen"
-msgstr "Sortir du mode plein _écran"
+msgstr "bascule le mode plein écran"
 
 #: src/remote.c:579
 msgid "start full screen"
-msgstr "Démarrer en mode plein _écran"
+msgstr "démarre le mode plein écran"
 
 #: src/remote.c:580
 msgid "stop full screen"
-msgstr "Sortir du mode plein _écran"
+msgstr "arrête le mode plein écran"
 
 #: src/remote.c:581
 msgid "toggle slide show"
-msgstr "stopper le diaporama"
+msgstr "bascule le mode diaporama"
 
 #: src/remote.c:582
 msgid "start slide show"
-msgstr "lancer le diaporama"
+msgstr "démarre le diaporama"
 
 #: src/remote.c:583
 msgid "stop slide show"
-msgstr "stopper le diaporama"
+msgstr "arrête le diaporama"
 
 #: src/remote.c:584
 msgid "start recursive slide show"
-msgstr "lancer le diaporama récursif"
+msgstr "démarre le diaporama récursif"
 
 #: src/remote.c:585
 msgid "set slide show delay in seconds"
-msgstr "délais entre diapos en secondes"
+msgstr "définit le délai entre les diapos en secondes"
 
 #: src/remote.c:586
 msgid "show tools"
-msgstr "montrer les outils"
+msgstr "montre les outils"
 
 #: src/remote.c:587
 msgid "hide tools"
-msgstr "cacher les outils"
+msgstr "cache les outils"
 
 #: src/remote.c:588
 msgid "quit"
-msgstr "quitter"
+msgstr "quitte le programme"
 
 #: src/remote.c:589
 msgid "open file"
-msgstr "ouvrir le fichier"
+msgstr "ouvre le fichier indiqué"
 
 #: src/remote.c:590
 msgid "open file in new window"
-msgstr "ouvrir le fichier dans une nouvelle fenêtre"
+msgstr "ouvre le fichier indiqué dans une nouvelle fenêtre"
 
 #: src/remote.c:656
 msgid "Remote command list:\n"
@@ -3563,7 +3563,7 @@ msgstr "Pas de %s distant, lancement ..."
 
 #: src/remote.c:849
 msgid "Remote not available\n"
-msgstr "Commande à distance non disponible\n"
+msgstr "Commande à distance indisponible\n"
 
 #: src/search.c:202
 msgid "folder"
