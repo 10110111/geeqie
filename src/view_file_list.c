@@ -370,15 +370,15 @@ void vflist_popup_destroy_cb(GtkWidget *widget, gpointer data)
 }
 
 
-static GtkWidget *vflist_pop_menu(ViewFile *vf, FileData *fd)
+static GtkWidget *vflist_pop_menu(ViewFile *vf)
 {
 	GtkWidget *menu;
 	GtkWidget *item;
 	GtkWidget *submenu;
 	gint active;
 
-	vflist_color_set(vf, fd, TRUE);
-	active = (fd != NULL);
+	vflist_color_set(vf, VFLIST_INFO(vf, click_fd), TRUE);
+	active = (VFLIST_INFO(vf, click_fd) != NULL);
 
 	menu = popup_menu_short_lived();
 	g_signal_connect(G_OBJECT(menu), "destroy",
@@ -564,7 +564,7 @@ gint vflist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 		VFLIST_INFO(vf, click_fd) = NULL;
 		}
 
-	vf->popup = vflist_pop_menu(vf, VFLIST_INFO(vf, click_fd));
+	vf->popup = vflist_pop_menu(vf);
 	gtk_menu_popup(GTK_MENU(vf->popup), NULL, NULL, vflist_menu_position_cb, vf, 0, GDK_CURRENT_TIME);
 
 	return TRUE;
@@ -607,7 +607,7 @@ gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 
 	if (bevent->button == MOUSE_BUTTON_RIGHT)
 		{
-		vf->popup = vflist_pop_menu(vf, VFLIST_INFO(vf, click_fd));
+		vf->popup = vflist_pop_menu(vf);
 		gtk_menu_popup(GTK_MENU(vf->popup), NULL, NULL, NULL, NULL,
 				bevent->button, bevent->time);
 		return TRUE;
