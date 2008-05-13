@@ -14,6 +14,12 @@
 
 #define VIEW_FILE_TYPES_COUNT 2
 
+#define VFLIST_INFO_POINTER(_vf_) ((ViewFileInfoList *)(_vf_->info))
+#define VFLIST_INFO(_vf_, _part_) (VFLIST_INFO_POINTER(_vf_)->_part_)
+
+#define VFICON_INFO_POINTER(_vf_) ((ViewFileInfoIcon *)(_vf_->info))
+#define VFICON_INFO(_vf_, _part_) (VFICON_INFO_POINTER(_vf_)->_part_)
+
 void vf_send_update(ViewFile *vf);
 
 ViewFile *vf_new(FileViewType type, const gchar *path);
