@@ -325,15 +325,21 @@ static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 			guint tag;
 		
 			tag = exif_item_get_tag_id(item);
-			if (tag == 0x0019) /* Iptc.Application2.Keywords */
+			if (tag == 0x0019)
 				{
-				gchar *kw;
+				gchar *tag_name = exif_item_get_tag_name(item);
 
-				kw = exif_item_get_data_as_text(item);
-				kw = utf8_validate_or_convert(kw);
+				if (strcmp(tag_name, "Iptc.Application2.Keywords") == 0)
+					{
+					gchar *kw;
+
+					kw = exif_item_get_data_as_text(item);
+					kw = utf8_validate_or_convert(kw);
 					
-				if (!kw) continue;
-				*keywords = g_list_append(*keywords, (gpointer) kw);
+					if (!kw) continue;
+					*keywords = g_list_append(*keywords, (gpointer) kw);
+					}
+				g_free(tag_name);
 				}
 			}
 		}
