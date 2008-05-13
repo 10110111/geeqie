@@ -124,18 +124,12 @@
  * This also doubles as the main.c header.
  */
 
-GtkWidget *window_new(GtkWindowType type, const gchar *name, const gchar *icon,
-		      const gchar *icon_file, const gchar *subtitle);
-void window_set_icon(GtkWidget *window, const gchar *icon, const gchar *file);
-gint window_maximized(GtkWidget *window);
-
 gdouble get_zoom_increment(void);
 gchar *utf8_validate_or_convert(gchar *text);
 
-void help_window_show(const gchar *key);
-
 void keyboard_scroll_calc(gint *x, gint *y, GdkEventKey *event);
 gint key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
+
 void exit_program(void);
 
 #define CASE_SORT(a, b) ( (options->file_sort.case_sensitive) ? strcmp((a), (b)) : strcasecmp((a), (b)) )

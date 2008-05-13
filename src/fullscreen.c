@@ -19,7 +19,7 @@
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "ui_misc.h"
-
+#include "window.h"
 
 enum {
 	FULLSCREEN_CURSOR_HIDDEN = 1 << 0,

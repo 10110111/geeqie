@@ -31,7 +31,7 @@
 #include "ui_misc.h"
 #include "ui_pathsel.h"
 #include "ui_tabcomp.h"
-
+#include "window.h"
 
 /*
  *-----------------------------------------------------------------------------

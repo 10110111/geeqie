@@ -198,7 +198,9 @@ geeqie_SOURCES = \
 	view_file_list.c	\
 	view_file_list.h	\
 	view_file_icon.c	\
-	view_file_icon.h
+	view_file_icon.h	\
+	window.c	\
+	window.h
 
 geeqie_LDADD = $(GTK_LIBS) $(INTLLIBS) $(LCMS_LIBS) $(EXIV2_LIBS)
 

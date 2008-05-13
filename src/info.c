@@ -24,6 +24,7 @@
 #include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_misc.h"
+#include "window.h"
 
 #include <pwd.h>
 #include <grp.h>

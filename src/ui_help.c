@@ -26,6 +26,7 @@
 
 #include "ui_fileops.h"
 #include "ui_misc.h"
+#include "window.h"
 
 
 #define HELP_WINDOW_WIDTH 650

@@ -33,6 +33,8 @@
 #include "ui_menu.h"
 #include "ui_misc.h"
 #include "ui_tabcomp.h"
+#include "window.h"
+
 #ifdef HAVE_LIRC
 #include "lirc.h"
 #endif

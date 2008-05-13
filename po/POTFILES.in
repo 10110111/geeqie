@@ -42,3 +42,4 @@
 ./src/view_dir.c
 ./src/view_file_icon.c
 ./src/view_file_list.c
+./src/window.c

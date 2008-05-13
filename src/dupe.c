@@ -36,6 +36,7 @@
 #include "ui_menu.h"
 #include "ui_misc.h"
 #include "ui_tree_edit.h"
+#include "window.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 

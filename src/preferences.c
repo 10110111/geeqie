@@ -14,9 +14,11 @@
 #include "main.h"
 #include "preferences.h"
 
+#include "bar_exif.h"
 #include "cache_maint.h"
 #include "debug.h"
 #include "editors.h"
+#include "exif.h"
 #include "filedata.h"
 #include "filefilter.h"
 #include "fullscreen.h"
@@ -34,8 +36,7 @@
 #include "ui_misc.h"
 #include "ui_tabcomp.h"
 #include "ui_utildlg.h"
-#include "bar_exif.h"
-#include "exif.h"
+#include "window.h"
 
 #include <math.h>
 

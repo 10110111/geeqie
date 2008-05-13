@@ -34,6 +34,7 @@
 #include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
+#include "window.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 

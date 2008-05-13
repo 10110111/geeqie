@@ -40,6 +40,7 @@
 #include "ui_misc.h"
 #include "ui_tabcomp.h"
 #include "view_dir.h"
+#include "window.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
