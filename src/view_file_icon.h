@@ -32,6 +32,7 @@ void vficon_pop_menu_view_cb(GtkWidget *widget, gpointer data);
 void vficon_pop_menu_rename_cb(GtkWidget *widget, gpointer data);
 void vficon_pop_menu_refresh_cb(GtkWidget *widget, gpointer data);
 void vficon_popup_destroy_cb(GtkWidget *widget, gpointer data);
+void vficon_pop_menu_show_names_cb(GtkWidget *widget, gpointer data);
 
 FileData *vficon_index_get_data(ViewFile *vf, gint row);
 gint vficon_index_by_path(ViewFile *vf, const gchar *path);

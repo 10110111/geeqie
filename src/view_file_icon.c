@@ -201,7 +201,7 @@ void vficon_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 	file_util_rename(NULL, vf_pop_menu_file_list(vf), vf->listview);
 }
 
-static void vficon_pop_menu_show_names_cb(GtkWidget *widget, gpointer data)
+void vficon_pop_menu_show_names_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
@@ -221,61 +221,6 @@ void vficon_popup_destroy_cb(GtkWidget *widget, gpointer data)
 	vficon_selection_remove(vf, VFICON_INFO(vf, click_id), SELECTION_PRELIGHT, NULL);
 	VFICON_INFO(vf, click_id) = NULL;
 	vf->popup = NULL;
-}
-
-static GtkWidget *vficon_pop_menu(ViewFile *vf)
-{
-	GtkWidget *menu;
-	GtkWidget *item;
-	GtkWidget *submenu;
-	gint active;
-
-	active = (VFICON_INFO(vf, click_id) != NULL);
-
-	menu = popup_menu_short_lived();
-
-	g_signal_connect(G_OBJECT(menu), "destroy",
-			 G_CALLBACK(vf_popup_destroy_cb), vf);
-
-	submenu_add_edit(menu, &item, G_CALLBACK(vf_pop_menu_edit_cb), vf);
-	gtk_widget_set_sensitive(item, active);
-
-	menu_item_add_stock_sensitive(menu, _("_Properties"), GTK_STOCK_PROPERTIES, active,
-				      G_CALLBACK(vf_pop_menu_info_cb), vf);
-
-	menu_item_add_stock_sensitive(menu, _("View in _new window"), GTK_STOCK_NEW, active,
-				      G_CALLBACK(vficon_pop_menu_view_cb), vf);
-	menu_item_add_divider(menu);
-
-	menu_item_add_stock_sensitive(menu, _("_Copy..."), GTK_STOCK_COPY, active,
-				      G_CALLBACK(vf_pop_menu_copy_cb), vf);
-	menu_item_add_sensitive(menu, _("_Move..."), active,
-				G_CALLBACK(vf_pop_menu_move_cb), vf);
-	menu_item_add_sensitive(menu, _("_Rename..."), active,
-				G_CALLBACK(vf_pop_menu_rename_cb), vf);
-	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
-				      G_CALLBACK(vf_pop_menu_delete_cb), vf);
-	if (options->show_copy_path)
-		menu_item_add_sensitive(menu, _("_Copy path"), active,
-					G_CALLBACK(vf_pop_menu_copy_path_cb), vf);
-	menu_item_add_divider(menu);
-
-	submenu = submenu_add_sort(NULL, G_CALLBACK(vf_pop_menu_sort_cb), vf,
-				   FALSE, FALSE, TRUE, vf->sort_method);
-	menu_item_add_divider(submenu);
-	menu_item_add_check(submenu, _("Ascending"), vf->sort_ascend,
-			    G_CALLBACK(vf_pop_menu_sort_ascend_cb), vf);
-
-	item = menu_item_add(menu, _("_Sort"), NULL, NULL);
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
-
-	menu_item_add_check(menu, _("View as _icons"), TRUE,
-			    G_CALLBACK(vf_pop_menu_toggle_view_type_cb), vf);
-	menu_item_add_check(menu, _("Show filename _text"), VFICON_INFO(vf, show_text),
-			    G_CALLBACK(vficon_pop_menu_show_names_cb), vf);
-	menu_item_add_stock(menu, _("Re_fresh"), GTK_STOCK_REFRESH, G_CALLBACK(vf_pop_menu_refresh_cb), vf);
-
-	return menu;
 }
 
 /*
@@ -1292,7 +1237,7 @@ gint vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 			vficon_selection_add(vf, VFICON_INFO(vf, click_id), SELECTION_PRELIGHT, NULL);
 			tip_unschedule(vf);
 
-			vf->popup = vficon_pop_menu(vf);
+			vf->popup = vf_pop_menu(vf);
 			gtk_menu_popup(GTK_MENU(vf->popup), NULL, NULL, vfi_menu_position_cb, vf, 0, GDK_CURRENT_TIME);
 			break;
 		default:
@@ -1396,7 +1341,7 @@ gint vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 #endif
 			break;
 		case MOUSE_BUTTON_RIGHT:
-			vf->popup = vficon_pop_menu(vf);
+			vf->popup = vf_pop_menu(vf);
 			gtk_menu_popup(GTK_MENU(vf->popup), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
 			break;
 		default:

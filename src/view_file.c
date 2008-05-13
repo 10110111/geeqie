@@ -17,6 +17,7 @@
 #include "info.h"
 #include "layout.h"
 #include "menu.h"
+#include "ui_menu.h"
 #include "utilops.h"
 #include "view_file_list.h"
 #include "view_file_icon.h"
@@ -485,7 +486,127 @@ void vf_popup_destroy_cb(GtkWidget *widget, gpointer data)
 	}
 }
 
+GtkWidget *vf_pop_menu(ViewFile *vf)
+{
+	GtkWidget *menu;
+	GtkWidget *item;
+	GtkWidget *submenu;
+	gint active = 0;
 
+	switch(vf->type)
+	{
+	case FILEVIEW_LIST:
+		vflist_color_set(vf, VFLIST_INFO(vf, click_fd), TRUE);
+		active = (VFLIST_INFO(vf, click_fd) != NULL);
+		break;
+	case FILEVIEW_ICON:
+		active = (VFICON_INFO(vf, click_id) != NULL);
+		break;
+	}
+
+	menu = popup_menu_short_lived();
+
+	g_signal_connect(G_OBJECT(menu), "destroy",
+			 G_CALLBACK(vf_popup_destroy_cb), vf);
+
+	if (vf->clicked_mark > 0)
+		{
+		gint mark = vf->clicked_mark;
+		gchar *str_set_mark = g_strdup_printf(_("_Set mark %d"), mark);
+		gchar *str_res_mark = g_strdup_printf(_("_Reset mark %d"), mark);
+		gchar *str_toggle_mark = g_strdup_printf(_("_Toggle mark %d"), mark);
+		gchar *str_sel_mark = g_strdup_printf(_("_Select mark %d"), mark);
+		gchar *str_sel_mark_or = g_strdup_printf(_("_Add mark %d"), mark);
+		gchar *str_sel_mark_and = g_strdup_printf(_("_Intersection with mark %d"), mark);
+		gchar *str_sel_mark_minus = g_strdup_printf(_("_Unselect mark %d"), mark);
+
+		g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
+
+		vf->active_mark = mark;
+		vf->clicked_mark = 0;
+
+		menu_item_add_sensitive(menu, str_set_mark, active,
+					G_CALLBACK(vf_pop_menu_set_mark_sel_cb), vf);
+
+		menu_item_add_sensitive(menu, str_res_mark, active,
+					G_CALLBACK(vf_pop_menu_res_mark_sel_cb), vf);
+
+		menu_item_add_sensitive(menu, str_toggle_mark, active,
+					G_CALLBACK(vf_pop_menu_toggle_mark_sel_cb), vf);
+
+		menu_item_add_divider(menu);
+
+		menu_item_add_sensitive(menu, str_sel_mark, active,
+					G_CALLBACK(vf_pop_menu_sel_mark_cb), vf);
+		menu_item_add_sensitive(menu, str_sel_mark_or, active,
+					G_CALLBACK(vf_pop_menu_sel_mark_or_cb), vf);
+		menu_item_add_sensitive(menu, str_sel_mark_and, active,
+					G_CALLBACK(vf_pop_menu_sel_mark_and_cb), vf);
+		menu_item_add_sensitive(menu, str_sel_mark_minus, active,
+					G_CALLBACK(vf_pop_menu_sel_mark_minus_cb), vf);
+
+		menu_item_add_divider(menu);
+
+		g_free(str_set_mark);
+		g_free(str_res_mark);
+		g_free(str_toggle_mark);
+		g_free(str_sel_mark);
+		g_free(str_sel_mark_and);
+		g_free(str_sel_mark_or);
+		g_free(str_sel_mark_minus);
+		}
+
+	submenu_add_edit(menu, &item, G_CALLBACK(vf_pop_menu_edit_cb), vf);
+	gtk_widget_set_sensitive(item, active);
+
+	menu_item_add_stock_sensitive(menu, _("_Properties"), GTK_STOCK_PROPERTIES, active,
+				      G_CALLBACK(vf_pop_menu_info_cb), vf);
+	menu_item_add_stock_sensitive(menu, _("View in _new window"), GTK_STOCK_NEW, active,
+				      G_CALLBACK(vf_pop_menu_view_cb), vf);
+
+	menu_item_add_divider(menu);
+	menu_item_add_stock_sensitive(menu, _("_Copy..."), GTK_STOCK_COPY, active,
+				      G_CALLBACK(vf_pop_menu_copy_cb), vf);
+	menu_item_add_sensitive(menu, _("_Move..."), active,
+				G_CALLBACK(vf_pop_menu_move_cb), vf);
+	menu_item_add_sensitive(menu, _("_Rename..."), active,
+				G_CALLBACK(vf_pop_menu_rename_cb), vf);
+	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
+				      G_CALLBACK(vf_pop_menu_delete_cb), vf);
+	if (options->show_copy_path)
+		menu_item_add_sensitive(menu, _("_Copy path"), active,
+					G_CALLBACK(vf_pop_menu_copy_path_cb), vf);
+
+	menu_item_add_divider(menu);
+
+	submenu = submenu_add_sort(NULL, G_CALLBACK(vf_pop_menu_sort_cb), vf,
+				   FALSE, FALSE, TRUE, vf->sort_method);
+	menu_item_add_divider(submenu);
+	menu_item_add_check(submenu, _("Ascending"), vf->sort_ascend,
+			    G_CALLBACK(vf_pop_menu_sort_ascend_cb), vf);
+
+	item = menu_item_add(menu, _("_Sort"), NULL, NULL);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
+
+	menu_item_add_check(menu, _("View as _icons"), (vf->type == FILEVIEW_ICON),
+			    G_CALLBACK(vf_pop_menu_toggle_view_type_cb), vf);
+
+	switch(vf->type)
+	{
+	case FILEVIEW_LIST:
+		menu_item_add_check(menu, _("Show _thumbnails"), VFLIST_INFO(vf, thumbs_enabled),
+				    G_CALLBACK(vflist_pop_menu_thumbs_cb), vf);
+		break;
+	case FILEVIEW_ICON:
+		menu_item_add_check(menu, _("Show filename _text"), VFICON_INFO(vf, show_text),
+				    G_CALLBACK(vficon_pop_menu_show_names_cb), vf);
+		break;
+	}
+	
+	menu_item_add_stock(menu, _("Re_fresh"), GTK_STOCK_REFRESH, G_CALLBACK(vf_pop_menu_refresh_cb), vf);
+
+	return menu;
+}
 
 gint vf_refresh(ViewFile *vf)
 {
