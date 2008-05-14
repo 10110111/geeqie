@@ -1045,7 +1045,7 @@ FileData *vflist_index_get_data(ViewFile *vf, gint row)
 	return g_list_nth_data(vf->list, row);
 }
 
-static gint vflist_row_by_path(ViewFile *vf, const gchar *path, FileData **fd)
+gint vflist_index_by_path(ViewFile *vf, const gchar *path)
 {
 	gint p = 0;
 	GList *work;
@@ -1055,23 +1055,14 @@ static gint vflist_row_by_path(ViewFile *vf, const gchar *path, FileData **fd)
 	work = vf->list;
 	while (work)
 		{
-		FileData *fd_n = work->data;
-		if (strcmp(path, fd_n->path) == 0)
-			{
-			if (fd) *fd = fd_n;
-			return p;
-			}
+		FileData *fd = work->data;
+		if (strcmp(path, fd->path) == 0) return p;
+		
 		work = work->next;
 		p++;
 		}
 
-	if (fd) *fd = NULL;
 	return -1;
-}
-
-gint vflist_index_by_path(ViewFile *vf, const gchar *path)
-{
-	return vflist_row_by_path(vf, path, NULL);
 }
 
 gint vflist_count(ViewFile *vf, gint64 *bytes)
