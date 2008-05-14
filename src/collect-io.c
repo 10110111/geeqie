@@ -858,16 +858,10 @@ static void collect_manager_add_action(CollectManagerAction *action)
 
 	/* we keep track of the list's tail to keep this a n(1) operation */
 
-	if (collection_manager_action_tail)
-		{
-		collection_manager_action_tail = g_list_append(collection_manager_action_tail, action);
-		collection_manager_action_tail = collection_manager_action_tail->next;
-		}
-	else
-		{
-		collection_manager_action_list = g_list_append(collection_manager_action_list, action);
-		collection_manager_action_tail = collection_manager_action_list;
-		}
+	collection_manager_action_tail = g_list_append(collection_manager_action_tail, action);
+	if (!collection_manager_action_list) 
+		collection_manager_action_list = collection_manager_action_tail;
+	collection_manager_action_tail = collection_manager_action_tail->next;
 
 	collect_manager_timer_push(FALSE);
 }
