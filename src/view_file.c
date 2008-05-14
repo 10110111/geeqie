@@ -296,7 +296,7 @@ GList *vf_pop_menu_file_list(ViewFile *vf)
 	return ret;
 }
 
-void vf_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf;
 	gint n;
@@ -312,14 +312,14 @@ void vf_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
 	filelist_free(list);
 }
 
-void vf_pop_menu_info_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_info_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
 	info_window_new(NULL, vf_pop_menu_file_list(vf), NULL);
 }
 
-void vf_pop_menu_view_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
@@ -330,21 +330,21 @@ void vf_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 	}
 }
 
-void vf_pop_menu_copy_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_copy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
 	file_util_copy(NULL, vf_pop_menu_file_list(vf), NULL, vf->listview);
 }
 
-void vf_pop_menu_move_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_move_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
 	file_util_move(NULL, vf_pop_menu_file_list(vf), NULL, vf->listview);
 }
 
-void vf_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
@@ -355,21 +355,21 @@ void vf_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 	}
 }
 
-void vf_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
 	file_util_delete(NULL, vf_pop_menu_file_list(vf), vf->listview);
 }
 
-void vf_pop_menu_copy_path_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_copy_path_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
 	file_util_copy_path_list_to_clipboard(vf_pop_menu_file_list(vf));
 }
 
-void vf_pop_menu_sort_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_sort_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf;
 	SortType type;
@@ -391,7 +391,7 @@ void vf_pop_menu_sort_cb(GtkWidget *widget, gpointer data)
 		}
 }
 
-void vf_pop_menu_sort_ascend_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_sort_ascend_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
@@ -405,49 +405,49 @@ void vf_pop_menu_sort_ascend_cb(GtkWidget *widget, gpointer data)
 		}
 }
 
-void vf_pop_menu_sel_mark_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_sel_mark_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 	vf_mark_to_selection(vf, vf->active_mark, MTS_MODE_SET);
 }
 
-void vf_pop_menu_sel_mark_and_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_sel_mark_and_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 	vf_mark_to_selection(vf, vf->active_mark, MTS_MODE_AND);
 }
 
-void vf_pop_menu_sel_mark_or_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_sel_mark_or_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 	vf_mark_to_selection(vf, vf->active_mark, MTS_MODE_OR);
 }
 
-void vf_pop_menu_sel_mark_minus_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_sel_mark_minus_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 	vf_mark_to_selection(vf, vf->active_mark, MTS_MODE_MINUS);
 }
 
-void vf_pop_menu_set_mark_sel_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_set_mark_sel_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 	vf_selection_to_mark(vf, vf->active_mark, STM_MODE_SET);
 }
 
-void vf_pop_menu_res_mark_sel_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_res_mark_sel_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 	vf_selection_to_mark(vf, vf->active_mark, STM_MODE_RESET);
 }
 
-void vf_pop_menu_toggle_mark_sel_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_toggle_mark_sel_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 	vf_selection_to_mark(vf, vf->active_mark, STM_MODE_TOGGLE);
 }
 
-void vf_pop_menu_toggle_view_type_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_toggle_view_type_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 	
@@ -464,7 +464,7 @@ void vf_pop_menu_toggle_view_type_cb(GtkWidget *widget, gpointer data)
 	}
 }
 
-void vf_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
+static void vf_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
@@ -475,7 +475,7 @@ void vf_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 	}
 }
 
-void vf_popup_destroy_cb(GtkWidget *widget, gpointer data)
+static void vf_popup_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 

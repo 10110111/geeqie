@@ -37,26 +37,6 @@ void vf_marks_set(ViewFile *vf, gint enable);
 void vf_sort_set(ViewFile *vf, SortType type, gint ascend);
 
 GList *vf_pop_menu_file_list(ViewFile *vf);
-void vf_pop_menu_edit_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_info_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_view_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_copy_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_move_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_rename_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_delete_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_copy_path_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_sort_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_sort_ascend_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_sel_mark_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_sel_mark_and_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_sel_mark_or_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_sel_mark_minus_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_set_mark_sel_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_res_mark_sel_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_toggle_mark_sel_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_toggle_view_type_cb(GtkWidget *widget, gpointer data);
-void vf_pop_menu_refresh_cb(GtkWidget *widget, gpointer data);
-void vf_popup_destroy_cb(GtkWidget *widget, gpointer data);
 GtkWidget *vf_pop_menu(ViewFile *vf);
 
 FileData *vf_index_get_data(ViewFile *vf, gint row);
