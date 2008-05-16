@@ -446,10 +446,25 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 {
 	try {
 		if (!item) return NULL;
-//		std::stringstream str;  // does not work with Exiv2::Metadatum because operator<< is not virtual
-//		str << *((Exiv2::Metadatum *)item);
-//		return g_strdup(str.str().c_str());
-		return g_strdup(((Exiv2::Metadatum *)item)->toString().c_str());
+		Exiv2::Metadatum *metadatum = (Exiv2::Metadatum *)item;
+#if EXIV2_TEST_VERSION(0,16,0)
+		return g_strdup(metadatum->print().c_str());
+#else
+		std::stringstream str;
+		Exiv2::Exifdatum *exifdatum;
+		Exiv2::Iptcdatum *iptcdatum;
+		Exiv2::Xmpdatum *xmpdatum;
+		if ((exifdatum = dynamic_cast<Exiv2::Exifdatum *>(metadatum)))
+			str << *exifdatum;
+		else if ((iptcdatum = dynamic_cast<Exiv2::Iptcdatum *>(metadatum)))
+			str << *iptcdatum;
+#if EXIV2_TEST_VERSION(0,16,0)
+		else if ((xmpdatum = dynamic_cast<Exiv2::Xmpdatum *>(metadatum)))
+			str << *xmpdatum;
+#endif
+
+		return g_strdup(str.str().c_str());
+#endif
 	}
 	catch (Exiv2::AnyError& e) {
 		return NULL;
