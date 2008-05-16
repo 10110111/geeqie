@@ -54,7 +54,6 @@ extern "C" {
 #include "main.h"
 #include "exif.h"
 
-#include "debug.h"
 #include "filefilter.h"
 #include "ui_fileops.h"
 }
