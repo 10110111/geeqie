@@ -447,7 +447,7 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 	try {
 		if (!item) return NULL;
 		Exiv2::Metadatum *metadatum = (Exiv2::Metadatum *)item;
-#if EXIV2_TEST_VERSION(0,16,0)
+#if EXIV2_TEST_VERSION(0,17,0)
 		return g_strdup(metadatum->print().c_str());
 #else
 		std::stringstream str;
