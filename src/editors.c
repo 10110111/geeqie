@@ -14,13 +14,13 @@
 #include "main.h"
 #include "editors.h"
 
+#include "debug.h"
+#include "filedata.h"
+#include "filefilter.h"
 #include "utilops.h"
 #include "ui_fileops.h"
 #include "ui_spinner.h"
 #include "ui_utildlg.h"
-
-#include "filedata.h"
-#include "filefilter.h"
 
 #include <errno.h>
 
@@ -392,7 +392,9 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 		flags |= EDITOR_ERROR_EMPTY;
 		goto err;
 		}
-
+	
+	/* skip leading whitespaces if any */
+	while (g_ascii_isspace(*p)) p++;
 
 	/* global flags */
 	while (*p == '%')
@@ -411,8 +413,14 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 				flags |= EDITOR_VERBOSE_MULTI;
 				p++;
 				break;
+			default:
+				flags |= EDITOR_ERROR_SYNTAX;
+				goto err;
 			}
 		}
+
+	/* skip whitespaces if any */
+	while (g_ascii_isspace(*p)) p++;
 
 	/* command */
 
@@ -450,6 +458,7 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 				{
 				case 'd':
 					flags |= EDITOR_DEST;
+					/* fall through */
 				case 'p':
 					flags |= EDITOR_FOR_EACH;
 					if (flags & EDITOR_SINGLE_COMMAND)
@@ -465,7 +474,9 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 							flags |= EDITOR_ERROR_NO_FILE;
 							goto err;
 							}
-						pathl = editor_command_path_parse((FileData *)list->data, (*p == 'd') ? PATH_DEST : PATH_FILE, extensions);
+						pathl = editor_command_path_parse((FileData *)list->data,
+										  (flags & EDITOR_DEST) ? PATH_DEST : PATH_FILE,
+										  extensions);
 						if (!pathl)
 							{
 							flags |= EDITOR_ERROR_NO_FILE;
@@ -514,6 +525,10 @@ gint editor_command_parse(const gchar *template, GList *list, gchar **output)
 							goto err;
 							}
 						}
+					break;
+				case '%':
+					/* %% = % escaping */
+					if (output) result = g_string_append_c(result, *p);
 					break;
 				default:
 					flags |= EDITOR_ERROR_SYNTAX;
@@ -798,6 +813,16 @@ gint start_editor_from_filelist_full(gint n, GList *list, EditorCallback cb, gpo
 	command = g_locale_from_utf8(options->editor_command[n], -1, NULL, NULL, NULL);
 	error = editor_command_start(command, options->editor_name[n], list, cb, data);
 	g_free(command);
+
+	if (n < GQ_EDITOR_GENERIC_SLOTS && (error & EDITOR_ERROR_SYNTAX))
+		{
+		gchar *text = g_strdup_printf(_("Syntax error in the editor template \"%s\":\n%s"),
+					      options->editor_name[n], options->editor_command[n]);
+		
+		file_util_warning_dialog(_("Invalid editor command"), text, GTK_STOCK_DIALOG_ERROR, NULL);
+		g_free(text);
+		}
+
 	return error;
 }
 

@@ -392,8 +392,7 @@ geeqie-devel@lists.sourceforge.net
 
     %f  Replaced with list of selected files, may occur once.
     %p  Command is run once for each selected file, may occur multiple times.
-   none When neither %f or %p exist, list of files is appended to command.
-
+   
  Use of the following to display output window for the command:
 
     %v  Display result of command in output window, must occur as first two
@@ -406,6 +405,10 @@ geeqie-devel@lists.sourceforge.net
     %w  Prevent full screen from deactivating when command is executed,
         must occur as the first two characters.
 
+    %%  This will be replaced by one '%'. This is the way to escape '%'.
+
+    %d  This only makes sense for external commands like copy or move as this
+        is replaced by the destination.
 
 ======== Overlay Info                                        [section:overlay]
 
