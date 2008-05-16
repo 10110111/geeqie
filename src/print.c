@@ -2612,13 +2612,9 @@ static gint print_job_start(PrintWindow *pw, RenderFormat format, PrintOutput ou
 
 	gtk_widget_hide(pw->dialog->dialog);
 
-	{
-	gchar *title = g_strdup_printf("%s - %s", _("Print"), GQ_APPNAME);
-	pw->job_dialog = file_util_gen_dlg(title, GQ_WMCLASS, "print_job_dialog",
+	pw->job_dialog = file_util_gen_dlg(_("Print"), GQ_WMCLASS, "print_job_dialog",
 					   (GtkWidget *)gtk_window_get_transient_for(GTK_WINDOW(pw->dialog->dialog)), FALSE,
 					   print_job_cancel_cb, pw);
-	g_free(title);
-	}
 
 	msg = g_strdup_printf(_("Printing %d pages to %s."), print_layout_page_count(pw), print_output_name(pw->output));
 	generic_dialog_add_message(pw->job_dialog, NULL, msg, NULL);
@@ -3372,13 +3368,9 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 
 	pw->save_settings = print_pref_int(PRINT_PREF_SAVE, TRUE);
 
-	{
-	gchar *title = g_strdup_printf("%s - %s", _("Print"), GQ_APPNAME);
-	pw->dialog = file_util_gen_dlg(title, GQ_WMCLASS, "print_dialog",
+	pw->dialog = file_util_gen_dlg(_("Print"), GQ_WMCLASS, "print_dialog",
 				       parent, FALSE,
 				       print_window_cancel_cb, pw);
-	g_free(title);
-	}
 
 	geometry.min_width = 32;
 	geometry.min_height = 32;

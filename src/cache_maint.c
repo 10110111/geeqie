@@ -1158,7 +1158,6 @@ void cache_manager_show(void)
 	GtkWidget *table;
 	GtkSizeGroup *sizegroup;
 	gchar *buf;
-	gchar *title;
 
 	if (cache_manager)
 		{
@@ -1168,12 +1167,10 @@ void cache_manager_show(void)
 
 	cache_manager = g_new0(CacheManager, 1);
 
-	title = g_strdup_printf("%s - %s", _("Cache Maintenance"), GQ_APPNAME);
-	cache_manager->dialog = generic_dialog_new(title,
+	cache_manager->dialog = generic_dialog_new(_("Cache Maintenance"),
 						   GQ_WMCLASS, "cache_manager",
 						   NULL, FALSE,
 						   NULL, cache_manager);
-	g_free(title);
 	gd = cache_manager->dialog;
 
 	gd->cancel_cb = cache_manager_close_cb;
