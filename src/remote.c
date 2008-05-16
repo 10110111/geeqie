@@ -15,7 +15,6 @@
 #include "remote.h"
 
 #include "collect.h"
-#include "debug.h"
 #include "filedata.h"
 #include "img-view.h"
 #include "layout.h"

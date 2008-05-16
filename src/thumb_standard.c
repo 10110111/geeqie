@@ -15,7 +15,6 @@
 #include "thumb_standard.h"
 
 #include "cache.h"	/* for cache_ensure_dir_exists */
-#include "debug.h"
 #include "image-load.h"
 #include "md5-util.h"
 #include "pixbuf_util.h"

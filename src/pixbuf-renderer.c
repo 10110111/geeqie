@@ -31,7 +31,6 @@
 #include "main.h"
 #include "pixbuf_util.h"
 
-#include "debug.h"
 #endif
 
 

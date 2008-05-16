@@ -17,7 +17,6 @@
 #include "cellrenderericon.h"
 #include "collect-dlg.h"
 #include "collect-io.h"
-#include "debug.h"
 #include "dnd.h"
 #include "dupe.h"
 #include "editors.h"

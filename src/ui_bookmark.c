@@ -26,7 +26,6 @@
 #include "main.h"
 #include "filedata.h"
 
-#include "debug.h"
 #include "secure_save.h"
 #include "ui_bookmark.h"
 #include "ui_fileops.h"

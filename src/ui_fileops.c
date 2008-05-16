@@ -29,7 +29,6 @@
 #include "main.h"
 #include "ui_fileops.h"
 
-#include "debug.h"
 #include "ui_utildlg.h"	/* for locale warning dialog */
 
 /*

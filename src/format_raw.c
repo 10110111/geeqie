@@ -31,7 +31,6 @@
 #include "main.h"
 #include "format_raw.h"
 
-#include "debug.h"
 #include "format_canon.h"
 #include "format_fuji.h"
 #include "format_nikon.h"

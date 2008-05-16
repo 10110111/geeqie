@@ -16,7 +16,6 @@
 
 #include "bar_exif.h"
 #include "cache_maint.h"
-#include "debug.h"
 #include "editors.h"
 #include "exif.h"
 #include "filedata.h"

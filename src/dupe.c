@@ -17,7 +17,6 @@
 #include "cache.h"
 #include "collect.h"
 #include "collect-table.h"
-#include "debug.h"
 #include "dnd.h"
 #include "editors.h"
 #include "filedata.h"

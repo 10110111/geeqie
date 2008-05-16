@@ -26,6 +26,7 @@
 
 #include "intl.h"
 
+
 /*
  *-------------------------------------
  * Standard library includes
@@ -112,6 +113,7 @@
 				"%formatted.Camera:40%|%formatted.Flash%"
 
 #include "typedefs.h"
+#include "debug.h"
 #include "options.h"
 
 /*

@@ -12,7 +12,6 @@
 #include "main.h"
 #include "view_file.h"
 
-#include "debug.h"
 #include "editors.h"
 #include "info.h"
 #include "layout.h"

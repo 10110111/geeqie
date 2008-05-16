@@ -15,7 +15,6 @@
 
 #include "bar_info.h"
 #include "collect.h"
-#include "debug.h"
 #include "exif.h"
 #include "filedata.h"
 #include "histogram.h"

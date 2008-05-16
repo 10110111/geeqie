@@ -3,7 +3,6 @@
 #ifdef HAVE_LIRC
 #include <lirc/lirc_client.h>
 #include "layout_image.h"
-#include "debug.h"
 
 gint lirc_fd = -1;
 struct lirc_config *config = NULL;

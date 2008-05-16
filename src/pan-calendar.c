@@ -14,7 +14,6 @@
 #include "main.h"
 #include "pan-types.h"
 
-#include "debug.h"
 
 #include <math.h>
 

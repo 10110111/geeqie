@@ -14,7 +14,6 @@
 #include "main.h"
 #include "image-load.h"
 
-#include "debug.h"
 #include "exif.h"
 #include "filedata.h"
 #include "ui_fileops.h"

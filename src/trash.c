@@ -16,7 +16,6 @@
 #include "utilops.h"
 
 
-#include "debug.h"
 #include "filedata.h"
 #include "ui_fileops.h"
 #include "ui_misc.h"

@@ -16,7 +16,6 @@
 
 #include "bar_exif.h"
 #include "dnd.h"
-#include "debug.h"
 #include "editors.h"
 #include "exif.h"
 #include "fullscreen.h"

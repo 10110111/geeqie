@@ -17,7 +17,6 @@
 
 #include "collect.h"
 #include "color-man.h"
-#include "debug.h"
 #include "exif.h"
 #include "histogram.h"
 #include "image-load.h"

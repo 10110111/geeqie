@@ -14,7 +14,6 @@
 #include "main.h"
 #include "editors.h"
 
-#include "debug.h"
 #include "filedata.h"
 #include "filefilter.h"
 #include "utilops.h"

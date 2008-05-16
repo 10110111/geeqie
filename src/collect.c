@@ -17,7 +17,6 @@
 #include "collect-dlg.h"
 #include "collect-io.h"
 #include "collect-table.h"
-#include "debug.h"
 #include "editors.h"
 #include "filedata.h"
 #include "img-view.h"

@@ -12,7 +12,6 @@
 #include "main.h"
 #include "window.h"
 
-#include "debug.h"
 #include "pixbuf_util.h"
 #include "ui_fileops.h"
 #include "ui_help.h"

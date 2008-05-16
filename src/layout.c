@@ -14,7 +14,6 @@
 #include "layout.h"
 
 #include "color-man.h"
-#include "debug.h"
 #include "filedata.h"
 #include "histogram.h"
 #include "image.h"
