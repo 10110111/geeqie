@@ -3028,7 +3028,7 @@ FileData *file_util_delete_dir_empty_path(FileData *fd, gint real_content, gint 
 	level++;
 	if (level > UTILITY_DELETE_MAX_DEPTH)
 		{
-		printf("folder recursion depth past %d, giving up\n", UTILITY_DELETE_MAX_DEPTH);
+		log_printf("folder recursion depth past %d, giving up\n", UTILITY_DELETE_MAX_DEPTH);
 		return file_data_ref(fd);
 		}
 

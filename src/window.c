@@ -185,7 +185,7 @@ static void help_browser_run(void)
 
 	if (!result)
 		{
-		printf("Unable to detect an installed browser.\n");
+		log_printf("Unable to detect an installed browser.\n");
 		return;
 		}
 

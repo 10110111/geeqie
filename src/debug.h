@@ -12,6 +12,15 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
+#define DOMAIN_DEBUG "debug"
+#define DOMAIN_INFO  "info"
+
+gint log_domain_printf(const char *domain, const gchar *format, ...) G_GNUC_PRINTF(2, 3);
+#define log_printf(...) log_domain_printf(DOMAIN_INFO, __VA_ARGS__)
+
+
+
+
 #if 1 /* set to 0 to disable compilation of debugging code and related options */
 # ifndef DEBUG
 # define DEBUG 1
@@ -35,9 +44,9 @@ void init_exec_time(void);
 				gint debug_level = get_debug_level(); \
 				if (debug_level >= (n)) 	\
 					{ 		\
-					if (debug_level != 1) printf("%s:%d: ", __FILE__, __LINE__); \
-					printf(__VA_ARGS__); \
-					putchar('\n'); \
+					if (debug_level != 1) log_domain_printf(DOMAIN_DEBUG, "%s:%d: ", __FILE__, __LINE__); \
+					log_domain_printf(DOMAIN_DEBUG, __VA_ARGS__); \
+					log_domain_printf(DOMAIN_DEBUG, "\n"); \
 					} \
 				} while (0)
 

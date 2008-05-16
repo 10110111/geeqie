@@ -101,7 +101,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 	g_free(pathl);
 	if (!f)
 		{
-		printf("Failed to open collection file: \"%s\"\n", path);
+		log_printf("Failed to open collection file: \"%s\"\n", path);
 		return FALSE;
 		}
 
@@ -167,7 +167,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 				    fail > GQ_COLLECTION_FAIL_MIN &&
 				    fail * 100 / total > GQ_COLLECTION_FAIL_PERCENT)
 					{
-					printf("%d invalid filenames in unofficial collection file, closing: %s\n", fail, path);
+					log_printf("%d invalid filenames in unofficial collection file, closing: %s\n", fail, path);
 					success = FALSE;
 					break;
 					}
@@ -575,7 +575,7 @@ static void collect_manager_entry_add_action(CollectManagerEntry *entry, Collect
 		if (orig_action)
 			{
 			/* target already exists */
-			printf("collection manager failed to add another action for target %s in collection %s\n",
+			log_printf("collection manager failed to add another action for target %s in collection %s\n",
 				action->newpath, entry->path);
 			return;
 			}
@@ -616,7 +616,7 @@ static void collect_manager_entry_add_action(CollectManagerEntry *entry, Collect
 	if (orig_action)
 		{
 		/* another action for the same source, ignore */
-		printf("collection manager failed to add another action for source %s in collection %s\n",
+		log_printf("collection manager failed to add another action for source %s in collection %s\n",
 			action->oldpath, entry->path);
 		return;
 		}
@@ -763,7 +763,7 @@ static void collect_manager_process_actions(gint max)
 		if (action->type != COLLECTION_MANAGER_UPDATE &&
 		    action->oldpath && action->newpath)
 			{
-			printf("collection manager failed to %s %s for collection %s\n",
+			log_printf("collection manager failed to %s %s for collection %s\n",
 				(action->type == COLLECTION_MANAGER_ADD) ? "add" : "remove",
 				action->oldpath, action->newpath);
 			}

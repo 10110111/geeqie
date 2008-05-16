@@ -513,7 +513,7 @@ static void dupe_listview_add(DupeWindow *dw, DupeItem *parent, DupeItem *child)
 		else
 			{
 			rank = 1;
-			printf("NULL group in item!\n");
+			log_printf("NULL group in item!\n");
 			}
 		}
 	else
@@ -928,7 +928,7 @@ static void dupe_match_print_group(DupeItem *di)
 {
 	GList *work;
 
-	printf("+ %f %s\n", di->group_rank, di->fd->name);
+	log_printf("+ %f %s\n", di->group_rank, di->fd->name);
 
 	work = di->group;
 	while (work)
@@ -936,10 +936,10 @@ static void dupe_match_print_group(DupeItem *di)
 		DupeMatch *dm = work->data;
 		work = work->next;
 
-		printf("  %f %s\n", dm->rank, dm->di->fd->name);
+		log_printf("  %f %s\n", dm->rank, dm->di->fd->name);
 		}
 
-	printf("\n");
+	log_printf("\n");
 }
 
 static void dupe_match_print_list(GList *list)

@@ -98,7 +98,7 @@ gint collection_info_load_thumb(CollectInfo *ci)
 
 	collection_info_free_thumb(ci);
 
-	printf("collection_info_load_thumb not implemented!\n(because an instant thumb loader not implemented)");
+	log_printf("collection_info_load_thumb not implemented!\n(because an instant thumb loader not implemented)");
 	return FALSE;
 #if 0
 	if (create_thumbnail(ci->fd->path, &ci->pixmap, &ci->mask) < 0) return FALSE;
@@ -905,7 +905,7 @@ static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gp
 					}
 				else if (!collection_save(cw->cd, cw->cd->path))
 					{
-					printf("failed saving to collection path: %s\n", cw->cd->path);
+					log_printf("failed saving to collection path: %s\n", cw->cd->path);
 					}
 				break;
 			case 'A': case 'a':

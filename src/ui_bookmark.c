@@ -452,7 +452,7 @@ static BookButtonData *bookmark_from_string(const gchar *text)
 
 	if (path_ptr && icon_ptr && icon_ptr < path_ptr)
 		{
-		printf("warning, bookmark icon must be after path\n");
+		log_printf("warning, bookmark icon must be after path\n");
 		return NULL;
 		}
 
@@ -1228,7 +1228,7 @@ void history_combo_append_history(GtkWidget *widget, const gchar *text)
 	hc = g_object_get_data(G_OBJECT(widget), "history_combo_data");
 	if (!hc)
 		{
-		printf("widget is not a history combo\n");
+		log_printf("widget is not a history combo\n");
 		return;
 		}
 

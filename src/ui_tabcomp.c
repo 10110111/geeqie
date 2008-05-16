@@ -778,7 +778,7 @@ void tab_completion_add_to_entry(GtkWidget *entry, void (*enter_func)(const gcha
 	TabCompData *td;
 	if (!entry)
 		{
-		printf("Tab completion error: entry != NULL\n");
+		log_printf("Tab completion error: entry != NULL\n");
 		return;
 		}
 

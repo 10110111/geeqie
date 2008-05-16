@@ -585,7 +585,7 @@ FileData *vdtree_populate_path(ViewDir *vd, const gchar *path, gint expand, gint
 			if (work == list)
 				{
 				/* should not happen */
-				printf("vdtree warning, root node not found\n");
+				log_printf("vdtree warning, root node not found\n");
 				parts_list_free(list);
 				vdtree_busy_pop(vd);
 				return NULL;
@@ -597,7 +597,7 @@ FileData *vdtree_populate_path(ViewDir *vd, const gchar *path, gint expand, gint
 			    !vdtree_populate_path_by_iter(vd, &parent_iter, force, path) ||
 			    (nd = vdtree_find_iter_by_name(vd, &parent_iter, pd->name, &iter)) == NULL)
 				{
-				printf("vdtree warning, aborted at %s\n", parent_pd->name);
+				log_printf("vdtree warning, aborted at %s\n", parent_pd->name);
 				parts_list_free(list);
 				vdtree_busy_pop(vd);
 				return NULL;
@@ -726,7 +726,7 @@ void vdtree_refresh(ViewDir *vd)
 
 const gchar *vdtree_row_get_path(ViewDir *vd, gint row)
 {
-	printf("FIXME: no get row path\n");
+	log_printf("FIXME: no get row path\n");
 	return NULL;
 }
 

@@ -374,19 +374,19 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 			else if (strcmp(cmd_line, "-v") == 0 ||
 				 strcmp(cmd_line, "--version") == 0)
 				{
-				printf("%s %s\n", GQ_APPNAME, VERSION);
+				log_printf("%s %s\n", GQ_APPNAME, VERSION);
 				exit(0);
 				}
 			else if (strcmp(cmd_line, "--alternate") == 0)
 				{
 				/* enable faster experimental algorithm */
-				printf("Alternate similarity algorithm enabled\n");
+				log_printf("Alternate similarity algorithm enabled\n");
 				image_sim_alternate_set(TRUE);
 				}
 			else if (strcmp(cmd_line, "-h") == 0 ||
 				 strcmp(cmd_line, "--help") == 0)
 				{
-				printf("%s %s\n", GQ_APPNAME, VERSION);
+				log_printf("%s %s\n", GQ_APPNAME, VERSION);
 				printf_term(_("Usage: %s [options] [path]\n\n"), GQ_APPNAME_LC);
 				print_term(_("valid options are:\n"));
 				print_term(_("  +t, --with-tools           force show of tools\n"));
@@ -728,7 +728,7 @@ int main(int argc, char *argv[])
 	srand(time(NULL));
 
 #if 1
-	printf("%s %s, This is an alpha release.\n", GQ_APPNAME, VERSION);
+	log_printf("%s %s, This is an alpha release.\n", GQ_APPNAME, VERSION);
 #endif
 	parse_command_line_for_debug_option(argc, argv);
 

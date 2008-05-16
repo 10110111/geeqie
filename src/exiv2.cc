@@ -710,7 +710,7 @@ RawFile::~RawFile(void)
 {
 	if (map_data && munmap(map_data, map_len) == -1)
 		{
-		printf("Failed to unmap file \n");
+		log_printf("Failed to unmap file \n");
 		}
 }
 
@@ -782,7 +782,7 @@ extern "C" gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 		*image_offset = offset;
 		if ((unsigned long) lseek(fd, *image_offset, SEEK_SET) != *image_offset)
 			{
-			printf("Failed to seek to embedded image\n");
+			log_printf("Failed to seek to embedded image\n");
 
 			*image_offset = 0;
 			if (*exif_offset) *exif_offset = 0;

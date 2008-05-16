@@ -343,14 +343,14 @@ gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 
 	if (fstat(fd, &st) == -1)
 		{
-		printf("Failed to stat file %d\n", fd);
+		log_printf("Failed to stat file %d\n", fd);
 		return FALSE;
 		}
 	map_len = st.st_size;
 	map_data = mmap(0, map_len, PROT_READ, MAP_PRIVATE, fd, 0);
 	if (map_data == MAP_FAILED)
 		{
-		printf("Failed to mmap file %d\n", fd);
+		log_printf("Failed to mmap file %d\n", fd);
 		return FALSE;
 		}
 
@@ -358,14 +358,14 @@ gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 
 	if (munmap(map_data, map_len) == -1)
 		{
-		printf("Failed to unmap file %d\n", fd);
+		log_printf("Failed to unmap file %d\n", fd);
 		}
 
 	if (success && image_offset)
 		{
 		if (lseek(fd, *image_offset, SEEK_SET) != *image_offset)
 			{
-			printf("Failed to seek to embedded image\n");
+			log_printf("Failed to seek to embedded image\n");
 
 			*image_offset = 0;
 			if (*exif_offset) *exif_offset = 0;
@@ -462,7 +462,7 @@ static void format_debug_tiff_entry(unsigned char *data, const guint len, guint 
 		segment = offset + EXIF_TIFD_OFFSET_DATA;
 		}
 
-	printf("%*stag:0x%04X (%05d), type:%2d %9s, len:%6d [%02X %02X %02X %02X] @ offset:%d\n",
+	log_printf("%*stag:0x%04X (%05d), type:%2d %9s, len:%6d [%02X %02X %02X %02X] @ offset:%d\n",
 		level, "", tag, tag, type,
 		(type < EXIF_FORMAT_COUNT) ? ExifFormatList[type].short_name : "???", count,
 		data[segment], data[segment + 1], data[segment + 2], data[segment + 3], segment);
@@ -471,7 +471,7 @@ static void format_debug_tiff_entry(unsigned char *data, const guint len, guint 
 		{
 		gint i;
 
-		printf("%*s~~~ found %s table\n", level, "", (tag == 0x14a) ? "subIFD" : "EXIF" );
+		log_printf("%*s~~~ found %s table\n", level, "", (tag == 0x14a) ? "subIFD" : "EXIF" );
 
 		for (i = 0; i < count; i++)
 			{
@@ -483,17 +483,17 @@ static void format_debug_tiff_entry(unsigned char *data, const guint len, guint 
 		}
 	else if (tag == 0x8773 && type == EXIF_FORMAT_UNDEFINED)
 		{
-		printf("%*s~~~ found ICC color profile at offset %d, length %d\n", level, "", segment, seg_len);
+		log_printf("%*s~~~ found ICC color profile at offset %d, length %d\n", level, "", segment, seg_len);
 		}
 	else if (tag == 0x201 && (type == EXIF_FORMAT_LONG_UNSIGNED || type == EXIF_FORMAT_LONG))
 		{
 		guint subset = exif_byte_get_int32(data + segment, bo);
-		printf("%*s~~~ found jpeg data at offset %d\n", level, "", subset);
+		log_printf("%*s~~~ found jpeg data at offset %d\n", level, "", subset);
 		}
 	else if (tag == 0x202 && (type == EXIF_FORMAT_LONG_UNSIGNED || type == EXIF_FORMAT_LONG))
 		{
 		guint subset = exif_byte_get_int32(data + segment, bo);
-		printf("%*s~~~ found jpeg data length of %d\n", level, "", subset);
+		log_printf("%*s~~~ found jpeg data length of %d\n", level, "", subset);
 		}
 }
 
@@ -511,14 +511,14 @@ static guint format_debug_tiff_table(unsigned char *data, const guint len, guint
 	offset += 2;
 	if (len < offset + count * EXIF_TIFD_SIZE + 4) return 0;
 
-	printf("%*s== tiff table #%d has %d entries ==\n", level, "", level, count);
+	log_printf("%*s== tiff table #%d has %d entries ==\n", level, "", level, count);
 
 	for (i = 0; i < count; i++)
 		{
 		format_debug_tiff_entry(data, len, offset + i * EXIF_TIFD_SIZE, bo, level);
 		}
 
-	printf("%*s----------- end of #%d ------------\n", level, "", level);
+	log_printf("%*s----------- end of #%d ------------\n", level, "", level);
 
 	return exif_byte_get_int32(data + offset + count * EXIF_TIFD_SIZE, bo);
 }
@@ -546,7 +546,7 @@ gint format_debug_tiff_raw(unsigned char *data, const guint len,
 		return FALSE;
 		}
 
-	printf("*** debug parsing tiff\n");
+	log_printf("*** debug parsing tiff\n");
 
 	offset = exif_byte_get_int32(data + 4, bo);
 	level = 0;
@@ -556,7 +556,7 @@ gint format_debug_tiff_raw(unsigned char *data, const guint len,
 		level++;
 		}
 
-	printf("*** end\n");
+	log_printf("*** end\n");
 
 	/* we are debugging, not trying to return any data */
 	return FALSE;

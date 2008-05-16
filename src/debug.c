@@ -11,6 +11,31 @@
 
 #include "main.h"
 
+
+/*
+ * Logging functions
+ */
+
+gint log_domain_printf(const char *domain, const gchar *format, ...)
+{
+	va_list ap;
+	gchar buf[4096];
+	gint ret;
+
+	va_start(ap, format);
+	ret = vsnprintf(buf, sizeof(buf), format, ap);
+	va_end(ap);
+
+	puts(buf);
+
+	return ret;
+}
+
+
+/*
+ * Debugging only functions
+ */
+
 #ifdef DEBUG
 
 static gint debug_level = DEBUG_LEVEL_MIN;
@@ -96,4 +121,4 @@ void init_exec_time(void)
 	get_exec_time();
 }
 
-#endif
+#endif /* DEBUG */

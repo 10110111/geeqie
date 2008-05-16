@@ -158,7 +158,7 @@ gint cache_sim_data_save(CacheData *cd)
 
 	if (!ssi)
 		{
-		printf("Unable to save sim cache data: %s\n", cd->path);
+		log_printf("Unable to save sim cache data: %s\n", cd->path);
 		return FALSE;
 		}
 
@@ -606,7 +606,7 @@ gint cache_ensure_dir_exists(gchar *path, mode_t mode)
 					DEBUG_1("creating sub dir:%s", path);
 					if (!mkdir_utf8(path, mode))
 						{
-						printf("create dir failed: %s\n", path);
+						log_printf("create dir failed: %s\n", path);
 						return FALSE;
 						}
 					}

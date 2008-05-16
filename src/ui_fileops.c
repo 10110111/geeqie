@@ -131,7 +131,7 @@ gchar *path_to_utf8(const gchar *path)
 	utf8 = g_filename_to_utf8(path, -1, NULL, NULL, &error);
 	if (error)
 		{
-		printf("Unable to convert filename to UTF-8:\n%s\n%s\n", path, error->message);
+		log_printf("Unable to convert filename to UTF-8:\n%s\n%s\n", path, error->message);
 		g_error_free(error);
 		encoding_dialog(path);
 		}
@@ -154,7 +154,7 @@ gchar *path_from_utf8(const gchar *utf8)
 	path = g_filename_from_utf8(utf8, -1, NULL, NULL, &error);
 	if (error)
 		{
-		printf("Unable to convert filename to locale from UTF-8:\n%s\n%s\n", utf8, error->message);
+		log_printf("Unable to convert filename to locale from UTF-8:\n%s\n%s\n", utf8, error->message);
 		g_error_free(error);
 		}
 	if (!path)

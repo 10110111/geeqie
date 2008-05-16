@@ -189,7 +189,7 @@ static gint cache_maintain_home_cb(gpointer data)
 				    (strlen(path_buf) > base_length && !isfile(path_buf + base_length)) )
 					{
 					if (dot) *dot = '.';
-					if (!unlink_file(path_buf)) printf("failed to delete:%s\n", path_buf);
+					if (!unlink_file(path_buf)) log_printf("failed to delete:%s\n", path_buf);
 					}
 				else
 					{
@@ -212,7 +212,7 @@ static gint cache_maintain_home_cb(gpointer data)
 			{
 			if (!still_have_a_file && !dlist && cm->list->next && !rmdir_utf8(fd->path))
 				{
-				printf("Unable to delete dir: %s\n", fd->path);
+				log_printf("Unable to delete dir: %s\n", fd->path);
 				}
 			}
 		else
@@ -220,7 +220,7 @@ static gint cache_maintain_home_cb(gpointer data)
 			/* must re-check for an empty dir */
 			if (isempty(fd->path) && cm->list->next && !rmdir_utf8(fd->path))
 				{
-				printf("Unable to delete dir: %s\n", fd->path);
+				log_printf("Unable to delete dir: %s\n", fd->path);
 				}
 			}
 
@@ -377,7 +377,7 @@ gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear)
 				DEBUG_1("Deleting thumb dir: %s", fd->path);
 				if (!rmdir_utf8(fd->path))
 					{
-					printf("Unable to delete dir: %s\n", fd->path);
+					log_printf("Unable to delete dir: %s\n", fd->path);
 					}
 				}
 			else
@@ -401,7 +401,7 @@ gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear)
 			    (strlen(path) > base_length && !isfile(path + base_length)) )
 				{
 				if (dot) *dot = '.';
-				if (!unlink_file(path)) printf("failed to delete:%s\n", path);
+				if (!unlink_file(path)) log_printf("failed to delete:%s\n", path);
 				}
 			else
 				{
@@ -533,7 +533,7 @@ void cache_maint_moved(FileData *fd)
 		}
 	else
 		{
-		printf("Failed to create cache dir for move %s\n", base);
+		log_printf("Failed to create cache dir for move %s\n", base);
 		}
 	g_free(base);
 

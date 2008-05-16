@@ -21,6 +21,7 @@
 
 #include <gtk/gtk.h>
 
+#include "main.h"
 #include "ui_spinner.h"
 
 #include "ui_icons.h"
@@ -199,7 +200,7 @@ void spinner_step(GtkWidget *spinner, gint reset)
 	sp = g_object_get_data(G_OBJECT(spinner), "spinner");
 	if (sp->timer_id != -1)
 		{
-		printf("spinner warning: attempt to step with timer set\n");
+		log_printf("spinner warning: attempt to step with timer set\n");
 		return;
 		}
 

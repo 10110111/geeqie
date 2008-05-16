@@ -117,7 +117,7 @@ const gchar *text_from_time(time_t t)
 	ret = g_locale_to_utf8(buf, buflen, NULL, NULL, &error);
 	if (error)
 		{
-		printf("Error converting locale strftime to UTF-8: %s\n", error->message);
+		log_printf("Error converting locale strftime to UTF-8: %s\n", error->message);
 		g_error_free(error);
 		return "";
 		}

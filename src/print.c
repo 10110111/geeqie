@@ -967,7 +967,7 @@ static PipeError *pipe_handler_new(void)
 
 	if (pipe_handler_data)
 		{
-		printf("warning SIGPIPE handler already in use\n");
+		log_printf("warning SIGPIPE handler already in use\n");
 		return NULL;
 		}
 
@@ -990,7 +990,7 @@ static PipeError *pipe_handler_new(void)
 static void pipe_handler_free(PipeError *pe)
 {
 	if (!pe) return;
-	if (pe != pipe_handler_data) printf("warning SIGPIPE handler not closing same data\n");
+	if (pe != pipe_handler_data) log_printf("warning SIGPIPE handler not closing same data\n");
 
 	/* restore the original signal handler */
 	sigaction(SIGPIPE, &pe->old_action, NULL);
@@ -1622,11 +1622,11 @@ static gdouble convert_pango_dpi(gdouble points)
 				{
 				if (dpi == 0.0)
 					{
-					printf("pango dpi unknown, assuming %.0f\n", fallback_dpi);
+					log_printf("pango dpi unknown, assuming %.0f\n", fallback_dpi);
 					}
 				else
 					{
-					printf("pango dpi reported as %.0f ignored, assuming %.0f\n", dpi, fallback_dpi);
+					log_printf("pango dpi reported as %.0f ignored, assuming %.0f\n", dpi, fallback_dpi);
 					}
 				warned = TRUE;
 				}

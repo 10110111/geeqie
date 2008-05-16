@@ -37,7 +37,7 @@ gboolean pixbuf_to_file_as_png(GdkPixbuf *pixbuf, const char *filename)
 
 	if (error)
 		{
-		printf("Error saving png file: %s\n", error->message);
+		log_printf("Error saving png file: %s\n", error->message);
 		g_error_free(error);
 		}
 
@@ -61,7 +61,7 @@ gboolean pixbuf_to_file_as_jpg(GdkPixbuf *pixbuf, const gchar *filename, gint qu
 	if (quality == -1) quality = 75;
 	if (quality < 1 || quality > 100)
 		{
-		printf("Jpeg not saved, invalid quality %d\n", quality);
+		log_printf("Jpeg not saved, invalid quality %d\n", quality);
 		return FALSE;
 		}
 
@@ -71,7 +71,7 @@ gboolean pixbuf_to_file_as_jpg(GdkPixbuf *pixbuf, const gchar *filename, gint qu
 
 	if (error)
 		{
-		printf("Error saving jpeg to %s\n%s\n", filename, error->message);
+		log_printf("Error saving jpeg to %s\n%s\n", filename, error->message);
 		g_error_free(error);
 		}
 
@@ -125,7 +125,7 @@ GdkPixbuf *pixbuf_inline(const gchar *key)
 		i++;
 		}
 
-	printf("warning: inline pixbuf key \"%s\" not found.\n", key);
+	log_printf("warning: inline pixbuf key \"%s\" not found.\n", key);
 
 	return NULL;
 }

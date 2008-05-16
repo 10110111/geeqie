@@ -738,7 +738,7 @@ void exif_item_copy_data(ExifItem *item, void *src, guint len,
 	    ExifFormatList[src_format].size * ne > len)
 		{
 		gchar *tag = exif_item_get_tag_name(item);
-		printf("exif tag %s data size mismatch\n", tag);
+		log_printf("exif tag %s data size mismatch\n", tag);
 		g_free(tag);
 		return;
 		}
@@ -840,7 +840,7 @@ static gint exif_parse_IFD_entry(ExifData *exif, unsigned char *tiff, guint offs
 		{
 		if (format >= EXIF_FORMAT_COUNT)
 			{
-			printf("warning: exif tag 0x%4x has invalid format %d\n", tag, format);
+			log_printf("warning: exif tag 0x%4x has invalid format %d\n", tag, format);
 			return 0;
 			}
 		/* allow non recognized tags to be displayed */
@@ -863,13 +863,13 @@ static gint exif_parse_IFD_entry(ExifData *exif, unsigned char *tiff, guint offs
 			{
 			if (format < EXIF_FORMAT_COUNT)
 				{
-				printf("warning: exif tag %s format mismatch, found %s exif spec requests %s\n",
+				log_printf("warning: exif tag %s format mismatch, found %s exif spec requests %s\n",
 					marker->key, ExifFormatList[format].short_name,
 					ExifFormatList[marker->format].short_name);
 				}
 			else
 				{
-				printf("warning: exif tag %s format mismatch, found unknown id %d exif spec requests %d (%s)\n",
+				log_printf("warning: exif tag %s format mismatch, found unknown id %d exif spec requests %d (%s)\n",
 					marker->key, format, marker->format,
 					ExifFormatList[marker->format].short_name);
 				}
@@ -881,7 +881,7 @@ static gint exif_parse_IFD_entry(ExifData *exif, unsigned char *tiff, guint offs
 	 */
 	if (marker->components > 0 && marker->components != count)
 		{
-		printf("warning: exif tag %s has %d elements, exif spec requests %d\n",
+		log_printf("warning: exif tag %s has %d elements, exif spec requests %d\n",
 			marker->key, count, marker->components);
 		}
 
@@ -891,7 +891,7 @@ static gint exif_parse_IFD_entry(ExifData *exif, unsigned char *tiff, guint offs
 		data_offset = data_val;
 		if (size < data_offset + data_length)
 			{
-			printf("warning: exif tag %s data will overrun end of file, ignored.\n", marker->key);
+			log_printf("warning: exif tag %s data will overrun end of file, ignored.\n", marker->key);
 			return -1;
 			}
 		}
@@ -1521,7 +1521,7 @@ void exif_write_data_list(ExifData *exif, FILE *f, gint human_readable_list)
 
 int exif_write(ExifData *exif)
 {
-	printf("Not compiled with EXIF write support");
+	log_printf("Not compiled with EXIF write support");
 	return 0;
 }
 

@@ -56,7 +56,7 @@ static void image_loader_area_updated_cb(GdkPixbufLoader *loader,
 			image_loader_sync_pixbuf(il);
 			if (!il->pixbuf)
 				{
-				printf("critical: area_ready signal with NULL pixbuf (out of mem?)\n");
+				log_printf("critical: area_ready signal with NULL pixbuf (out of mem?)\n");
 				}
 			}
 		il->func_area_ready(il, x, y, w, h, il->data_area_ready);

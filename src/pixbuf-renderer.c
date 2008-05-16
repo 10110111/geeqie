@@ -2102,7 +2102,7 @@ static void pr_tile_coords_map_orientation(PixbufRenderer *pr,
 			/* The other values are out of range */
 			break;
 		}
-//	printf("tile coord y:%f, ih:%d, th:%f ry:%f\n", tile_y, image_h, tile_h, *res_x);
+//	log_printf("tile coord y:%f, ih:%d, th:%f ry:%f\n", tile_y, image_h, tile_h, *res_x);
 }
 
 static void pr_tile_region_map_orientation(PixbufRenderer *pr,
@@ -2165,7 +2165,7 @@ static void pr_tile_region_map_orientation(PixbufRenderer *pr,
 			/* The other values are out of range */
 			break;
 		}
-//	printf("inside y:%d, th:%d, ah:%d ry:%d\n", area_y, tile_h, area_h, *res_x);
+//	log_printf("inside y:%d, th:%d, ah:%d ry:%d\n", area_y, tile_h, area_h, *res_x);
 }
 
 static void pr_coords_map_orientation_reverse(PixbufRenderer *pr,
@@ -2986,7 +2986,7 @@ static void pr_redraw(PixbufRenderer *pr, gint new_data)
 static void pr_update_signal(PixbufRenderer *pr)
 {
 #if 0
-	printf("FIXME: send updated signal\n");
+	log_printf("FIXME: send updated signal\n");
 #endif
 	DEBUG_1("%s pixbuf renderer updated - started drawing %p", get_exec_time(), pr);
 	pr->debug_updated = TRUE;

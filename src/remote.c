@@ -92,7 +92,7 @@ static gboolean remote_server_client_cb(GIOChannel *source, GIOCondition conditi
 
 		if (error)
 			{
-			printf("error reading socket: %s\n", error->message);
+			log_printf("error reading socket: %s\n", error->message);
 			g_error_free(error);
 			}
 
@@ -131,7 +131,7 @@ static void remote_server_client_add(RemoteConnection *rc, int fd)
 
 	if (g_list_length(rc->clients) > SERVER_MAX_CLIENTS)
 		{
-		printf("maximum remote clients of %d exceeded, closing connection\n", SERVER_MAX_CLIENTS);
+		log_printf("maximum remote clients of %d exceeded, closing connection\n", SERVER_MAX_CLIENTS);
 		close(fd);
 		return;
 		}
@@ -172,7 +172,7 @@ static gboolean remote_server_read_cb(GIOChannel *source, GIOCondition condition
 	fd = accept(rc->fd, NULL, &alen);
 	if (fd == -1)
 		{
-		printf("error accepting socket: %s\n", strerror(errno));
+		log_printf("error accepting socket: %s\n", strerror(errno));
 		return TRUE;
 		}
 
@@ -206,7 +206,7 @@ static RemoteConnection *remote_server_open(const gchar *path)
 
 	if (remote_server_exists(path))
 		{
-		printf("Address already in use: %s\n", path);
+		log_printf("Address already in use: %s\n", path);
 		return NULL;
 		}
 
@@ -219,7 +219,7 @@ static RemoteConnection *remote_server_open(const gchar *path)
 	if (bind(fd, &addr, sizeof(addr)) == -1 ||
 	    listen(fd, REMOTE_SERVER_BACKLOG) == -1)
 		{
-		printf("error subscribing to socket: %s\n", strerror(errno));
+		log_printf("error subscribing to socket: %s\n", strerror(errno));
 		close(fd);
 		return NULL;
 		}
@@ -314,11 +314,11 @@ static gint remote_client_send(RemoteConnection *rc, const gchar *text)
 		{
 		if (sigpipe_occured)
 			{
-			printf("SIGPIPE writing to socket: %s\n", rc->path);
+			log_printf("SIGPIPE writing to socket: %s\n", rc->path);
 			}
 		else
 			{
-			printf("error writing to socket: %s\n", strerror(errno));
+			log_printf("error writing to socket: %s\n", strerror(errno));
 			}
 		ret = FALSE;;
 		}
@@ -493,7 +493,7 @@ static void gr_file_load(const gchar *text, gpointer data)
 		}
 	else
 		{
-		printf("remote sent filename that does not exist:\"%s\"\n", filename);
+		log_printf("remote sent filename that does not exist:\"%s\"\n", filename);
 		}
 
 	g_free(filename);
@@ -644,7 +644,7 @@ static void remote_cb(RemoteConnection *rc, const gchar *text, gpointer data)
 		}
 	else
 		{
-		printf("unknown remote command:%s\n", text);
+		log_printf("unknown remote command:%s\n", text);
 		}
 }
 

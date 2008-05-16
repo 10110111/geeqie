@@ -555,7 +555,7 @@ static void collection_table_popup_save_cb(GtkWidget *widget, gpointer data)
 
 	if (!collection_save(ct->cd, ct->cd->path))
 		{
-		printf("failed saving to collection path: %s\n", ct->cd->path);
+		log_printf("failed saving to collection path: %s\n", ct->cd->path);
 		}
 }
 

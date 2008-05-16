@@ -307,7 +307,7 @@ void filter_rebuild(void)
 				}
 			else
 				{
-				printf("WARNING: invalid file class %d\n", fe->file_class);
+				log_printf("WARNING: invalid file class %d\n", fe->file_class);
 				}
 			}
 		}
@@ -345,7 +345,7 @@ gint filter_file_class(const gchar *name, FileFormatClass file_class)
 
 	if (file_class < 0 || file_class >= FILE_FORMAT_CLASSES)
 		{
-		printf("WARNING: invalid file class %d\n", file_class);
+		log_printf("WARNING: invalid file class %d\n", file_class);
 		return FALSE;
 		}
 
