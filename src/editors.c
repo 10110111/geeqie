@@ -814,9 +814,9 @@ gint start_editor_from_filelist_full(gint n, GList *list, EditorCallback cb, gpo
 	error = editor_command_start(command, options->editor_name[n], list, cb, data);
 	g_free(command);
 
-	if (n < GQ_EDITOR_GENERIC_SLOTS && (error & EDITOR_ERROR_SYNTAX))
+	if (n < GQ_EDITOR_GENERIC_SLOTS && (error & EDITOR_ERROR_MASK))
 		{
-		gchar *text = g_strdup_printf(_("Syntax error in the editor template \"%s\":\n%s"),
+		gchar *text = g_strdup_printf(_("%s\n#%d \"%s\":\n%s"), editor_get_error_str(error), n+1,
 					      options->editor_name[n], options->editor_command[n]);
 		
 		file_util_warning_dialog(_("Invalid editor command"), text, GTK_STOCK_DIALOG_ERROR, NULL);

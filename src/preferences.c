@@ -157,6 +157,9 @@ static void config_window_apply(void)
 	gint i;
 	gint refresh = FALSE;
 
+	{
+	GString *errmsg = g_string_new("");
+
 	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
 		if (i < GQ_EDITOR_GENERIC_SLOTS)
@@ -170,8 +173,28 @@ static void config_window_apply(void)
 		g_free(options->editor_command[i]);
 		options->editor_command[i] = NULL;
 		buf = gtk_entry_get_text(GTK_ENTRY(editor_command_entry[i]));
-		if (buf && strlen(buf) > 0) options->editor_command[i] = g_strdup(buf);
+		if (buf && strlen(buf) > 0)
+			{
+			gint flags = editor_command_parse(buf, NULL, NULL);
+		
+			if (flags & EDITOR_ERROR_MASK)
+				{
+				if (errmsg->str[0]) g_string_append(errmsg, "\n\n");
+				g_string_append_printf(errmsg, _("%s\n#%d \"%s\":\n%s"), editor_get_error_str(flags),
+						       i+1, options->editor_name[i], buf);
+
+				}
+			options->editor_command[i] = g_strdup(buf);
+			}
 		}
+	
+	if (errmsg->str[0])
+		{
+		file_util_warning_dialog(_("Invalid editor command"), errmsg->str, GTK_STOCK_DIALOG_ERROR, NULL);
+		}
+
+	g_string_free(errmsg, TRUE);
+	}
 	layout_edit_update_all();
 
 	g_free(options->file_ops.safe_delete_path);
