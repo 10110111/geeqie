@@ -24,6 +24,7 @@
 ./src/layout_image.c
 ./src/layout_util.c
 ./src/lirc.c
+./src/logwindow.c
 ./src/main.c
 ./src/menu.c
 ./src/pan-view.c
