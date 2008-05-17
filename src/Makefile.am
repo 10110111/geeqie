@@ -142,6 +142,8 @@ geeqie_SOURCES = \
 	layout_util.h	\
 	lirc.c		\
 	lirc.h		\
+	logwindow.c	\
+	logwindow.h	\
 	main.c		\
 	main.h		\
 	md5-util.c	\

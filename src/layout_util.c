@@ -28,6 +28,7 @@
 #include "img-view.h"
 #include "info.h"
 #include "layout_image.h"
+#include "logwindow.h"
 #include "pan-view.h"
 #include "pixbuf_util.h"
 #include "preferences.h"
@@ -697,6 +698,14 @@ static void layout_menu_about_cb(GtkAction *action, gpointer data)
 	show_about_window();
 }
 
+static void layout_menu_log_window_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	if (lw->full_screen)
+		layout_image_full_screen_stop(lw);
+	log_window_new();
+}
+
 
 /*
  *-----------------------------------------------------------------------------
@@ -1138,7 +1147,8 @@ static GtkActionEntry menu_entries[] = {
   { "HelpContents",	GTK_STOCK_HELP,	N_("_Contents"),	"F1",		NULL,	CB(layout_menu_help_cb) },
   { "HelpShortcuts",	NULL,		N_("_Keyboard shortcuts"),NULL,		NULL,	CB(layout_menu_help_keys_cb) },
   { "HelpNotes",	NULL,		N_("_Release notes"),	NULL,		NULL,	CB(layout_menu_notes_cb) },
-  { "About",		NULL,		N_("_About"),		NULL,		NULL,	CB(layout_menu_about_cb) }
+  { "About",		NULL,		N_("_About"),		NULL,		NULL,	CB(layout_menu_about_cb) },
+  { "LogWindow",	NULL,		N_("_Log Window"),	NULL,		NULL,	CB(layout_menu_log_window_cb) }
 };
 
 static GtkToggleActionEntry menu_toggle_entries[] = {
@@ -1296,6 +1306,8 @@ static const char *menu_ui_description =
 "      <menuitem action='HelpNotes'/>"
 "      <separator/>"
 "      <menuitem action='About'/>"
+"      <separator/>"
+"      <menuitem action='LogWindow'/>"
 "    </menu>"
 "  </menubar>"
 "<accelerator action='PrevImageAlt1'/>"
