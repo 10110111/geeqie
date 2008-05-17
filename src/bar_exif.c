@@ -38,7 +38,6 @@ ExifUI ExifUIList[]={
 	{ 0, 0, EXIF_UI_IFSET,	"formatted.FocalLength"},
 	{ 0, 0, EXIF_UI_IFSET,	"formatted.FocalLength35mmFilm"},
 	{ 0, 0, EXIF_UI_IFSET,	"formatted.Flash"},
-	{ 0, 0, EXIF_UI_IFSET,	"formatted.SubjectDistance"},
 	{ 0, 0, EXIF_UI_IFSET,	"Exif.Photo.ExposureProgram"},
 	{ 0, 0, EXIF_UI_IFSET,	"Exif.Photo.MeteringMode"},
 	{ 0, 0, EXIF_UI_IFSET,	"Exif.Photo.LightSource"},
