@@ -17,8 +17,6 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#define TRIM_LINES	25
-
 
 typedef struct _LogWindow LogWindow;
 
@@ -166,6 +164,8 @@ static void log_window_show(LogWindow *logwin)
 	gtk_text_view_scroll_mark_onscreen(text, mark);
 
 	gtk_window_present(GTK_WINDOW(logwin->window));
+
+	log_window_append("", LOG_NORMAL); // to flush memorized lines
 }
 
 
@@ -183,6 +183,13 @@ void log_window_new(void)
 	log_window_show(logwindow);
 }
 
+typedef struct _LogMsg LogMsg;
+
+struct _LogMsg {
+	gchar *text;
+	LogType type;
+};
+
 void log_window_append(const gchar *str, LogType type)
 {
 	GtkTextView *text;
@@ -190,8 +197,28 @@ void log_window_append(const gchar *str, LogType type)
 	GtkTextIter iter;
 	gint line_limit = 1000; //FIXME: option
 	gchar *str_utf8;
+	static GList *memory = NULL;
 
-	if (logwindow == NULL) return;
+	if (logwindow == NULL && *str)
+		{
+		LogMsg *msg = g_new(LogMsg, 1);
+
+		msg->text = g_strdup(str);
+		msg->type = type;
+
+		memory = g_list_prepend(memory, msg);
+
+		while (g_list_length(memory) >= line_limit)
+			{
+			GList *work = g_list_last(memory);
+			LogMsg *oldest_msg = work->data;
+			
+			g_free(oldest_msg->text);
+			memory = g_list_delete_link(memory, work);
+			}
+
+		return;
+		}
 
 	text = GTK_TEXT_VIEW(logwindow->text);
 	buffer = gtk_text_view_get_buffer(text);
@@ -202,16 +229,36 @@ void log_window_append(const gchar *str, LogType type)
 
 		gtk_text_buffer_get_start_iter(buffer, &start);
 		end = start;
-		gtk_text_iter_forward_lines(&end, TRIM_LINES);
+		gtk_text_iter_forward_lines(&end, logwindow->lines - line_limit);
 		gtk_text_buffer_delete(buffer, &start, &end);
-		logwindow->lines = gtk_text_buffer_get_line_count(buffer);
 		}
 
 	gtk_text_buffer_get_end_iter(buffer, &iter);
 
-	str_utf8 = utf8_validate_or_convert((gchar *)str);
-	gtk_text_buffer_insert_with_tags_by_name
-			(buffer, &iter, str_utf8, -1, logdefs[type].tag, NULL);
+	{
+	GList *work = g_list_last(memory);
+
+	while (work)
+		{
+		GList *prev;
+		LogMsg *oldest_msg = work->data;
+		
+		str_utf8 = utf8_validate_or_convert((gchar *)oldest_msg->text);
+		gtk_text_buffer_insert_with_tags_by_name
+			(buffer, &iter, str_utf8, -1, logdefs[oldest_msg->type].tag, NULL);
+	
+		prev = work->prev;
+		memory = g_list_delete_link(memory, work);
+		work = prev;
+		}
+	}
+
+	if (*str)
+		{
+		str_utf8 = utf8_validate_or_convert((gchar *)str);
+		gtk_text_buffer_insert_with_tags_by_name
+				(buffer, &iter, str_utf8, -1, logdefs[type].tag, NULL);
+		}
 
 	if (GTK_WIDGET_VISIBLE(text))
 		{
@@ -221,5 +268,5 @@ void log_window_append(const gchar *str, LogType type)
 		gtk_text_view_scroll_mark_onscreen(text, mark);
 		}
 
-	logwindow->lines++;
+	logwindow->lines = gtk_text_buffer_get_line_count(buffer);
 }
