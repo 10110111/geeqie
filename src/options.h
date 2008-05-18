@@ -207,6 +207,10 @@ struct _ConfOptions
 		} sort;
 	} panels;
 
+	/* properties dialog */
+	struct {
+		gchar *tabs_order;
+	} properties;
 
 	/* color profiles */
 	struct {

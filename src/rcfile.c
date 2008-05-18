@@ -418,6 +418,9 @@ void save_options(void)
 	WRITE_INT(panels.sort.mode_state);
 	WRITE_INT(panels.sort.selection_state);
 
+	WRITE_SUBTITLE("Properties dialog Options");
+	WRITE_CHAR(properties.tabs_order);
+
 	WRITE_SUBTITLE("Image Options");
 
 	secure_fprintf(ssi, "# image.zoom_mode possible values are:\n"
@@ -726,6 +729,9 @@ void load_options(void)
 		READ_INT(panels.sort.action_state);
 		READ_INT(panels.sort.mode_state);
 		READ_INT(panels.sort.selection_state);
+
+		/* properties dialog options */
+		READ_CHAR(properties.tabs_order);
 
 		/* image options */
 		if (g_ascii_strcasecmp(option, "image.zoom_mode") == 0)

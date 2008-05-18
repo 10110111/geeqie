@@ -23,6 +23,7 @@
 #include "fullscreen.h"
 #include "image-overlay.h"
 #include "img-view.h"
+#include "info.h"
 #include "layout.h"
 #include "layout_image.h"
 #include "menu.h"
@@ -578,6 +579,7 @@ static void setup_default_options(void)
 	set_default_image_overlay_template_string(options);
 	sidecar_ext_add_defaults();
 	options->layout.order = g_strdup("123");
+	options->properties.tabs_order = g_strdup(info_tab_default_order());
 }
 
 static void exit_program_final(void)

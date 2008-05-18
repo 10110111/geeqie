@@ -488,19 +488,93 @@ static gint compare_info_tabs_pos(gconstpointer a, gconstpointer b)
 	return -1;
 }
 
+static gpointer info_tab_new_funcs[] = {
+	info_tab_general_new,
+	info_tab_meta_new,
+	info_tab_exif_new,
+};
+
+gchar *info_tab_default_order(void)
+{
+	gint i;
+	static gchar str[G_N_ELEMENTS(info_tab_new_funcs) + 1];
+
+	for (i = 0; i < G_N_ELEMENTS(info_tab_new_funcs); i++)
+		str[i] = i + '1';
+	str[i] = '\0';
+
+	return str;
+}
+
+static void info_tab_get_order_string(gchar **dest)
+{
+	GList *work;
+	gchar str[G_N_ELEMENTS(info_tab_new_funcs) + 1];
+
+	g_assert(dest);
+
+	if (!info_tabs_pos_list)
+		return;
+	
+	memset(str, 0, G_N_ELEMENTS(info_tab_new_funcs) + 1);
+
+	work = info_tabs_pos_list;
+	while (work)
+		{
+		gint i;
+		InfoTabsPos *t = work->data;
+		work = work->next;
+
+		for (i = 0; i < G_N_ELEMENTS(info_tab_new_funcs); i++)
+			{
+			if (t->func == info_tab_new_funcs[i])
+				{
+				g_assert(t->pos >= 0 && t->pos < G_N_ELEMENTS(info_tab_new_funcs));
+				str[t->pos] = i + '1';
+				}
+			}
+		}
+	
+	if (strlen(str) != G_N_ELEMENTS(info_tab_new_funcs)) return;
+
+	g_free(*dest);
+	*dest = g_strdup(str);
+}
+
 static void info_tabs_init(InfoData *id)
 {
 	GList *work;
 
 	if (!info_tabs_pos_list)
 		{
-		/* First run, default tabs order is defined here. */
-		info_tabs_pos_list_append(info_tab_general_new);
-		info_tabs_pos_list_append(info_tab_meta_new);
-		info_tabs_pos_list_append(info_tab_exif_new);
+		gint count = 0;
+		gint i;
+		gchar *order = options->properties.tabs_order;
+		
+		for (i = 0; i < strlen(order); i++)
+			{
+			gint n = order[i] - '1';
+
+			if (n < 0 || n >= G_N_ELEMENTS(info_tab_new_funcs)) break;
+			count++;
+			}
+
+		if (count != G_N_ELEMENTS(info_tab_new_funcs))
+			order = info_tab_default_order();
+
+		for (i = 0; i < strlen(order); i++)
+			{
+			gint n = order[i] - '1';
+
+			if (n < 0 || n >= G_N_ELEMENTS(info_tab_new_funcs)) continue;
+			if (g_list_find(info_tabs_pos_list, info_tab_new_funcs[n])) continue;
+			info_tabs_pos_list_append(info_tab_new_funcs[n]);
+			}
 		}
 	else
 		info_tabs_pos_list = g_list_sort(info_tabs_pos_list, compare_info_tabs_pos);
+
+	info_tab_get_order_string(&options->properties.tabs_order);
 
 	work = info_tabs_pos_list;
 	while (work)
@@ -568,6 +642,9 @@ static void info_notebook_reordered_cb(GtkNotebook *notebook, GtkWidget *child, 
 				}
 			}
 		}
+	
+	info_tabs_pos_list = g_list_sort(info_tabs_pos_list, compare_info_tabs_pos);
+	info_tab_get_order_string(&options->properties.tabs_order);
 }
 
 /*

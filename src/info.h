@@ -45,5 +45,6 @@ void info_window_new(FileData *fd, GList *list, GtkWidget *parent);
 GtkWidget *table_add_line(GtkWidget *table, gint x, gint y,
 			  const gchar *description, const gchar *text);
 
+gchar *info_tab_default_order(void);
 
 #endif
