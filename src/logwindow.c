@@ -171,13 +171,16 @@ static void log_window_show(LogWindow *logwin)
 
 void log_window_new(void)
 {
-	LogWindow *logwin;
+	if (logwindow == NULL)
+		{
+		LogWindow *logwin;
 
-	logwin = log_window_create();
-	log_window_init(logwin);
-	log_window_show(logwin);
+		logwin = log_window_create();
+		log_window_init(logwin);
+		logwindow = logwin;
+		}
 
-	logwindow = logwin;
+	log_window_show(logwindow);
 }
 
 void log_window_append(const gchar *str, LogType type)
