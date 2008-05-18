@@ -148,6 +148,7 @@ static void log_window_init(LogWindow *logwin)
 	for (i = LOG_NORMAL; i < LOG_COUNT; i++)
 		gtk_text_buffer_create_tag(buffer, logdefs[i].tag,
 				   	   "foreground-gdk", &logwin->colors[i],
+					   "family", "MonoSpace",
 				   	   NULL);
 }
 
@@ -167,7 +168,6 @@ static void log_window_show(LogWindow *logwin)
 
 	log_window_append("", LOG_NORMAL); // to flush memorized lines
 }
-
 
 void log_window_new(void)
 {
@@ -190,13 +190,25 @@ struct _LogMsg {
 	LogType type;
 };
 
+
+static void log_window_insert_text(GtkTextBuffer *buffer, GtkTextIter *iter,
+				   const gchar *text, const gchar *tag)
+{
+	gchar *str_utf8;
+
+	if (!text || !*text) return;
+
+	str_utf8 = utf8_validate_or_convert((gchar *)text);
+	gtk_text_buffer_insert_with_tags_by_name(buffer, iter, str_utf8, -1, tag, NULL);
+}
+
+
 void log_window_append(const gchar *str, LogType type)
 {
 	GtkTextView *text;
 	GtkTextBuffer *buffer;
 	GtkTextIter iter;
 	gint line_limit = 1000; //FIXME: option
-	gchar *str_utf8;
 	static GList *memory = NULL;
 
 	if (logwindow == NULL && *str)
@@ -243,22 +255,15 @@ void log_window_append(const gchar *str, LogType type)
 		GList *prev;
 		LogMsg *oldest_msg = work->data;
 		
-		str_utf8 = utf8_validate_or_convert((gchar *)oldest_msg->text);
-		gtk_text_buffer_insert_with_tags_by_name
-			(buffer, &iter, str_utf8, -1, logdefs[oldest_msg->type].tag, NULL);
-	
+		log_window_insert_text(buffer, &iter, oldest_msg->text, logdefs[oldest_msg->type].tag);
+		
 		prev = work->prev;
 		memory = g_list_delete_link(memory, work);
 		work = prev;
 		}
 	}
 
-	if (*str)
-		{
-		str_utf8 = utf8_validate_or_convert((gchar *)str);
-		gtk_text_buffer_insert_with_tags_by_name
-				(buffer, &iter, str_utf8, -1, logdefs[type].tag, NULL);
-		}
+	log_window_insert_text(buffer, &iter, str, logdefs[type].tag);
 
 	if (GTK_WIDGET_VISIBLE(text))
 		{
