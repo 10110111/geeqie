@@ -234,15 +234,16 @@ GType pixbuf_renderer_get_type(void)
 		{
 		static const GTypeInfo pixbuf_renderer_info =
 			{
-			sizeof(PixbufRendererClass),
+			sizeof(PixbufRendererClass), /* class_size */
 			NULL,		/* base_init */
 			NULL,		/* base_finalize */
 			(GClassInitFunc)pixbuf_renderer_class_init,
 			NULL,		/* class_finalize */
 			NULL,		/* class_data */
-			sizeof(PixbufRenderer),
+			sizeof(PixbufRenderer), /* instance_size */
 			0,		/* n_preallocs */
-			(GInstanceInitFunc)pixbuf_renderer_init,
+			(GInstanceInitFunc)pixbuf_renderer_init, /* instance_init */
+			NULL,		/* value_table */
 			};
 
 		pixbuf_renderer_type = g_type_register_static(GTK_TYPE_EVENT_BOX, "PixbufRenderer",

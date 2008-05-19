@@ -549,12 +549,11 @@ static void image_post_process_tile_color_cb(PixbufRenderer *pr, GdkPixbuf **pix
 
 void image_alter(ImageWindow *imd, AlterType type)
 {
-
-	const static gint rotate_90[]    = {1,   6, 7, 8, 5, 2, 3, 4, 1};
-	const static gint rotate_90_cc[] = {1,   8, 5, 6, 7, 4, 1, 2, 3};
-	const static gint rotate_180[]   = {1,   3, 4, 1, 2, 7, 8, 5, 6};
-	const static gint mirror[]       = {1,   2, 1, 4, 3, 6, 5, 8, 7};
-	const static gint flip[]         = {1,   4, 3, 2, 1, 8, 7, 6, 5};
+	static const gint rotate_90[]    = {1,   6, 7, 8, 5, 2, 3, 4, 1};
+	static const gint rotate_90_cc[] = {1,   8, 5, 6, 7, 4, 1, 2, 3};
+	static const gint rotate_180[]   = {1,   3, 4, 1, 2, 7, 8, 5, 6};
+	static const gint mirror[]       = {1,   2, 1, 4, 3, 6, 5, 8, 7};
+	static const gint flip[]         = {1,   4, 3, 2, 1, 8, 7, 6, 5};
 
 
 	if (!imd || !imd->pr) return;

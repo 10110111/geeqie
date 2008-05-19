@@ -1043,16 +1043,16 @@ void layout_copy_path_update_all(void)
 #define CB G_CALLBACK
 
 static GtkActionEntry menu_entries[] = {
-  { "FileMenu",		NULL,		N_("_File") },
-  { "GoMenu",		NULL,		N_("_Go") },
-  { "EditMenu",		NULL,		N_("_Edit") },
-  { "SelectMenu",	NULL,		N_("_Select") },
-  { "AdjustMenu",	NULL,		N_("_Adjust") },
-  { "ViewMenu",		NULL,		N_("_View") },
-  { "DirMenu",          NULL,           N_("_View Directory as") },
-  { "ZoomMenu",		NULL,		N_("_Zoom") },
-  { "SplitMenu",	NULL,		N_("_Split") },
-  { "HelpMenu",		NULL,		N_("_Help") },
+  { "FileMenu",		NULL,		N_("_File"),			NULL, 		NULL, 	NULL },
+  { "GoMenu",		NULL,		N_("_Go"),			NULL, 		NULL, 	NULL },
+  { "EditMenu",		NULL,		N_("_Edit"),			NULL, 		NULL, 	NULL },
+  { "SelectMenu",	NULL,		N_("_Select"),			NULL, 		NULL, 	NULL },
+  { "AdjustMenu",	NULL,		N_("_Adjust"),			NULL, 		NULL, 	NULL },
+  { "ViewMenu",		NULL,		N_("_View"),			NULL, 		NULL, 	NULL },
+  { "DirMenu",          NULL,           N_("_View Directory as"),	NULL, 		NULL, 	NULL },
+  { "ZoomMenu",		NULL,		N_("_Zoom"),			NULL, 		NULL, 	NULL },
+  { "SplitMenu",	NULL,		N_("_Split"),			NULL, 		NULL, 	NULL },
+  { "HelpMenu",		NULL,		N_("_Help"),			NULL, 		NULL, 	NULL },
 
   { "FirstImage",	GTK_STOCK_GOTO_TOP,	N_("_First Image"),	"Home",		NULL,	CB(layout_menu_image_first_cb) },
   { "PrevImage",	GTK_STOCK_GO_UP,   	N_("_Previous Image"),	"BackSpace",	NULL,	CB(layout_menu_image_prev_cb) },
@@ -1067,7 +1067,7 @@ static GtkActionEntry menu_entries[] = {
   { "NewWindow",	GTK_STOCK_NEW,	N_("New _window"),	NULL,		NULL,	CB(layout_menu_new_window_cb) },
   { "NewCollection",	GTK_STOCK_INDEX,N_("_New collection"),	"C",		NULL,	CB(layout_menu_new_cb) },
   { "OpenCollection",	GTK_STOCK_OPEN,	N_("_Open collection..."),"O",		NULL,	CB(layout_menu_open_cb) },
-  { "OpenRecent",	NULL,		N_("Open _recent") },
+  { "OpenRecent",	NULL,		N_("Open _recent"),	NULL,		NULL,	NULL },
   { "Search",		GTK_STOCK_FIND,	N_("_Search..."),	"F3",		NULL,	CB(layout_menu_search_cb) },
   { "FindDupes",	GTK_STOCK_FIND,	N_("_Find duplicates..."),"D",		NULL,	CB(layout_menu_dupes_cb) },
   { "PanView",		NULL,		N_("Pan _view"),	"<control>J",	NULL,	CB(layout_menu_pan_cb) },
@@ -1152,16 +1152,16 @@ static GtkActionEntry menu_entries[] = {
 };
 
 static GtkToggleActionEntry menu_toggle_entries[] = {
-  { "Thumbnails",	NULL,		N_("_Thumbnails"),	"T",		NULL,	CB(layout_menu_thumb_cb) },
-  { "ShowMarks",        NULL,		N_("Show _Marks"),	"M",		NULL,	CB(layout_menu_marks_cb) },
-  { "FloatTools",	NULL,		N_("_Float file list"),	"L",		NULL,	CB(layout_menu_float_cb) },
-  { "HideToolbar",	NULL,		N_("Hide tool_bar"),	NULL,		NULL,	CB(layout_menu_toolbar_cb) },
-  { "SBarKeywords",	NULL,		N_("_Keywords"),	"<control>K",	NULL,	CB(layout_menu_bar_info_cb) },
-  { "SBarExif",		NULL,		N_("E_xif data"),	"<control>E",	NULL,	CB(layout_menu_bar_exif_cb) },
-  { "SBarSort",		NULL,		N_("Sort _manager"),	"<control>S",	NULL,	CB(layout_menu_bar_sort_cb) },
-  { "ConnectScroll",	NULL,		N_("Co_nnected scroll"),	"<control>U",	NULL,	CB(layout_menu_connect_scroll_cb) },
-  { "ConnectZoom",	NULL,		N_("C_onnected zoom"),	"<control>Y",	NULL,	CB(layout_menu_connect_zoom_cb) },
-  { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb) },
+  { "Thumbnails",	NULL,		N_("_Thumbnails"),	"T",		NULL,	CB(layout_menu_thumb_cb),	 FALSE },
+  { "ShowMarks",        NULL,		N_("Show _Marks"),	"M",		NULL,	CB(layout_menu_marks_cb),	 FALSE  },
+  { "FloatTools",	NULL,		N_("_Float file list"),	"L",		NULL,	CB(layout_menu_float_cb),	 FALSE  },
+  { "HideToolbar",	NULL,		N_("Hide tool_bar"),	NULL,		NULL,	CB(layout_menu_toolbar_cb),	 FALSE  },
+  { "SBarKeywords",	NULL,		N_("_Keywords"),	"<control>K",	NULL,	CB(layout_menu_bar_info_cb),	 FALSE  },
+  { "SBarExif",		NULL,		N_("E_xif data"),	"<control>E",	NULL,	CB(layout_menu_bar_exif_cb),	 FALSE  },
+  { "SBarSort",		NULL,		N_("Sort _manager"),	"<control>S",	NULL,	CB(layout_menu_bar_sort_cb),	 FALSE  },
+  { "ConnectScroll",	NULL,		N_("Co_nnected scroll"),"<control>U",	NULL,	CB(layout_menu_connect_scroll_cb), FALSE  },
+  { "ConnectZoom",	NULL,		N_("C_onnected zoom"),	"<control>Y",	NULL,	CB(layout_menu_connect_zoom_cb), FALSE  },
+  { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb),	 FALSE  },
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {

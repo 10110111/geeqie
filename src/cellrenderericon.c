@@ -79,15 +79,16 @@ gqv_cell_renderer_icon_get_type(void)
 		{
 		static const GTypeInfo cell_icon_info =
 			{
-			sizeof(GQvCellRendererIconClass),
+			sizeof(GQvCellRendererIconClass), /* class_size */
 			NULL,		/* base_init */
 			NULL,		/* base_finalize */
-			(GClassInitFunc) gqv_cell_renderer_icon_class_init,
+			(GClassInitFunc) gqv_cell_renderer_icon_class_init, /* class_init */
 			NULL,		/* class_finalize */
 			NULL,		/* class_data */
-			sizeof(GQvCellRendererIcon),
+			sizeof(GQvCellRendererIcon), /* instance_size */
 			0,		/* n_preallocs */
-			(GInstanceInitFunc) gqv_cell_renderer_icon_init,
+			(GInstanceInitFunc) gqv_cell_renderer_icon_init, /* instance_init */
+			NULL,		/* value_table */
 			};
 
 		cell_icon_type = g_type_register_static(GTK_TYPE_CELL_RENDERER,

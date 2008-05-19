@@ -134,7 +134,9 @@ static gboolean cache_loader_process(CacheLoader *cl)
 			text = exif_get_data_as_text(exif, "formatted.DateTime");
 			if (text)
 				{
-				struct tm t = { 0 };
+				struct tm t;
+
+				memset(&t, 0, sizeof(t));
 
 				if (sscanf(text, "%d:%d:%d %d:%d:%d", &t.tm_year, &t.tm_mon, &t.tm_mday,
 					   &t.tm_hour, &t.tm_min, &t.tm_sec) == 6)
