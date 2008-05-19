@@ -723,8 +723,8 @@ int main(int argc, char *argv[])
 	/* setup locale, i18n */
 	gtk_set_locale();
 
-#ifdef ENABLE_NLS                               \
-    bindtextdomain(PACKAGE, GQ_LOCALEDIR);
+#ifdef ENABLE_NLS
+	bindtextdomain(PACKAGE, GQ_LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
 	textdomain(PACKAGE);
 #endif
