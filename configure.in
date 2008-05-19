@@ -64,8 +64,8 @@ fi
 
 if test "x${enable_debug}" != "xno"
 then
-  CXXFLAGS="${CXXFLAGS} -g -O0 -Wstrict-prototypes -Wunused-value -Wunused-variable -Wcomment -Wimplicit-int -Werror-implicit-function-declaration -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -W"
-  CFLAGS="${CFLAGS} -g -O0 -Wstrict-prototypes -Wunused-value -Wunused-variable -Wcomment -Wimplicit-int -Werror-implicit-function-declaration -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -W"
+  CXXFLAGS="${CXXFLAGS} -g -O0 -Wunused-value -Wunused-variable -Wunused-function -Wunused-label -Wcomment -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -W"
+  CFLAGS="${CFLAGS} -g -O0 -Wstrict-prototypes -Wunused-value -Wunused-variable -Wunused-function -Wunused-label -Wcomment -Wimplicit-int -Werror-implicit-function-declaration -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -W"
   AC_DEFINE(DEBUG,1,[Defined if Geeqie is compiled with debugging support])
   __IS_DEBUG=yes
 else
