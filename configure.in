@@ -1,15 +1,170 @@
-AC_INIT(src/main.c)
-AC_CONFIG_HEADER(config.h)
+dnl Process this file with autoconf to produce a configure script.  -*- Autoconf
+ -*-
 
-AM_INIT_AUTOMAKE(geeqie, 1.0alpha1)
+dnl This file is a part of Geeqie project (http://geeqie.sourceforge.net/).
+dnl Copyright (C) 2008 The Geeqie team
+dnl
+dnl This program is free software; you can redistribute it and/or modify
+dnl it under the terms of the GNU General Public License as published by
+dnl the Free Software Foundation; either version 2 of the License, or
+dnl (at your option) any later version.
+dnl
+dnl This program is distributed in the hope that it will be useful,
+dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+dnl GNU General Public License for more details.
 
+AC_PREREQ(2.57)
+AC_INIT(geeqie, 1.0alpha1, geeqie-devel@lists.sourceforge.net)
+
+# Check for rightly dirs
+AC_CONFIG_SRCDIR([src/main.c])
+
+AC_CONFIG_AUX_DIR(auxdir)
+AM_INIT_AUTOMAKE
+
+AC_CONFIG_HEADER([config.h])
+
+# Only for developers
 AM_MAINTAINER_MODE
+
+AC_ARG_ENABLE(developer, [
+Development options:
+AC_HELP_STRING([--enable-developer], [turn on developers mode [default=no]])],
+[
+  __IS_DEVELOPER=yes
+],
+[
+if test "x${enable_developer}" != "xyes"
+then
+  __IS_DEVELOPER=no
+else
+  __IS_DEVELOPER=yes
+fi
+])
+
+#  Debug support
+# ----------------------------------------------------------------------
+
+dnl Debugging option
+dnl FIXME: official release convert default to 'no'
+dnl
+
+AC_ARG_ENABLE([debug], [
+Development options:
+AC_HELP_STRING([--enable-debug], [turn on debugging [default=no]])], [],
+[
+if test "x${enable_developer}" != "xyes"
+then
+  enable_debug="no"
+else
+  enable_debug="yes"
+fi
+])
+
+if test "x${enable_debug}" != "xno"
+then
+  CXXFLAGS="${CXXFLAGS} -g -O0 -Wstrict-prototypes -Wunused-value -Wunused-variable -Wcomment -Wimplicit-int -Werror-implicit-function-declaration -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -W"
+  CFLAGS="${CFLAGS} -g -O0 -Wstrict-prototypes -Wunused-value -Wunused-variable -Wcomment -Wimplicit-int -Werror-implicit-function-declaration -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -W"
+  AC_DEFINE(DEBUG,1,[Defined if Geeqie is compiled with debugging support])
+  __IS_DEBUG=yes
+else
+  __IS_DEBUG=no
+fi
+
+AM_CONDITIONAL(DEBUG, test x$enable_debug = xyes)
+
+AC_ARG_ENABLE(depreceated, [
+AC_HELP_STRING([--enable-depreceated], [turn off checking of depreceated functions [default=yes]])], [], 
+[
+if test "x${enable_developer}" != "xyes"
+then
+  enable_depreceated="no"
+else
+  enable_depreceated="yes"
+fi
+])
+
+if test "x${enable_depreceated}" != "xno"
+then
+  CXXFLAGS="${CXXFLAGS} -DGTK_DISABLE_DEPRECATED=1 -DGDK_DISABLE_DEPRECATED=1 -DGDK_PIXBUF_DISABLE_DEPRECATED=1 -DG_DISABLE_DEPRECATED=1"
+  CFLAGS="${CFLAGS} -DGTK_DISABLE_DEPRECATED=1 -DGDK_DISABLE_DEPRECATED=1 -DGDK_PIXBUF_DISABLE_DEPRECATED=1 -DG_DISABLE_DEPRECATED=1"
+  __IS_DEPRECEATED=no
+else
+  __IS_DEPRECEATED=yes
+fi
+
 
 AC_ISC_POSIX
 AC_PROG_CC
 AC_PROG_CXX
 AC_STDC_HEADERS
 AC_ARG_PROGRAM
+
+dnl checks for functions
+AC_CHECK_FUNCS(strverscmp access fsync fflush)
+
+
+# Check target architecture
+
+# Check for Win32
+AC_MSG_CHECKING([for some Win32 platform])
+case "$target_os" in
+  mingw* | cygwin*)
+    platform_win32=yes
+    AC_DEFINE(PLATFORM_WIN32, 1, [Build on win32 OS])
+    ;;
+  *)
+    platform_win32=no
+    ;;
+esac
+AC_MSG_RESULT([$platform_win32])
+AM_CONDITIONAL(PLATFORM_WIN32, test "$platform_win32" = "yes")
+
+AC_MSG_CHECKING([for native Win32])
+case "$target_os" in
+  mingw*)
+    os_win32=yes
+    AC_DEFINE(OS_WIN32, 1, [Build on native win32 OS])
+    os_unix=no
+    PATHSEP=';'
+    ;;
+  *)
+    os_win32=no
+    os_unix=yes
+    PATHSEP=':'
+    ;;
+esac
+AC_MSG_RESULT([$os_win32])
+AC_SUBST(PATHSEP)
+AM_CONDITIONAL(OS_WIN32, test "$os_win32" = "yes")
+AM_CONDITIONAL(OS_UNIX, test "$os_unix" = "yes")
+
+if test "$os_win32" = "yes"; then
+  AC_CHECK_PROG(ms_librarian, lib.exe, yes, no)
+  AC_CHECK_TOOL(WINDRES, windres, :)
+else
+  WINDRES=":"
+fi
+
+AM_CONDITIONAL(MS_LIB_AVAILABLE, test x$ms_librarian = xyes)
+AM_CONDITIONAL(HAVE_WINDRES, test "x$WINDRES" != "x:")
+AC_SUBST(WINDRES)
+
+AC_MSG_CHECKING(for libpthread)
+have_libpthread=no
+AC_CHECK_LIB([pthread], [main],
+  [AC_CHECK_HEADER([pthread.h],
+     have_libpthread=yes,
+     have_libpthread=no)],
+  [AC_MSG_ERROR([Can't find the POSIX thread libraries])], [-lpthread])
+if test "x${have_libpthread}" = "xyes"; then
+        LIBPTHREAD='-lpthread'
+        AC_DEFINE(HAVE_LIBPTHREAD, 1, [Define if pthread is available])
+else
+  AC_MSG_WARN([POSIX thread header not installed])
+fi
+AC_MSG_RESULT([${have_libpthread}])
 
 dnl reasonable guesses for where stuff is installed
 if test "x$prefix" = "xNONE"; then
@@ -32,8 +187,12 @@ AC_DEFINE_UNQUOTED(GQ_HTMLDIR, "$htmldir", [Location of html documentation])
 AC_SUBST(readmedir)
 AC_SUBST(htmldir)
 
+#  LIRC support
+# ----------------------------------------------------------------------
+
 dnl Check for LIRC client support
-AC_ARG_ENABLE(lirc,  AC_HELP_STRING([--disable-lirc], [do not use lirc support (auto)]),
+AC_ARG_ENABLE([lirc],
+  AC_HELP_STRING([--disable-lirc], [disable lirc support (auto)]),
 [
 if test x"${enableval}" = x"yes" -a x"$GCC" = x"yes"; then
   AC_MSG_RESULT(yes)
@@ -42,86 +201,185 @@ else
   AC_MSG_RESULT(no)
   lirc=no
 fi], AC_MSG_RESULT(no))
-		
+
 
 AC_ARG_WITH(lirc-prefix,
 [  --with-lirc-prefix=PATH Prefix where LIRC is installed],
 [
 for dir in `echo "$withval" | tr : ' '`; do
-  if test -d $dir/lib; then CPPFLAGS="$CPPFLAGS -L$dir/lib"; fi
-  if test -d $dir/include; then CPPFLAGS="$CPPFLAGS -I$dir/include"; fi
+  if test -d $dir/lib; then CXXFLAGS="$CXXFLAGS -L$dir/lib"; fi
+  if test -d $dir/include; then CXXFLAGS="$CXXFLAGS -I$dir/include"; fi
   done
 ])
 
-if test x$lirc != x"no" ; then
+if test "x${lirc}" != x"no" ; then
   AC_CHECK_HEADER(lirc/lirc_client.h,
     [AC_CHECK_LIB(lirc_client,lirc_init,[LIBS=-llirc_client $LIBS;AC_DEFINE([HAVE_LIRC],[],[Define to 1 if LIRC must be used])],,)],)
 fi
 
-dnl checks for functions
-AC_CHECK_FUNCS(strverscmp access fsync fflush)
 
-dnl check for little cms (lcms, this test pulled from gimp)
-AC_ARG_WITH(lcms, [  --without-lcms          build without lcms support])
+#  LCMS support
+# ----------------------------------------------------------------------
 
-have_lcms=no
-if test "x$with_lcms" != "xno"; then
-  AC_CHECK_LIB(lcms, cmsCreate_sRGBProfile, [
-    AC_CHECK_HEADER(lcms.h,
-      have_lcms=yes, [
-      AC_CHECK_HEADER(lcms/lcms.h,
-        have_lcms=yes
-        AC_DEFINE(HAVE_LCMS_LCMS_H, 1,
-          [Define to 1 if the lcms header must be included as lcms/lcms.h]))
-      ])
-  ])
-  if test "$have_lcms" = "yes"; then
-    LCMS_LIBS="-llcms"
-    AC_DEFINE(HAVE_LCMS, 1, [define to enable use of color profiles with lcms])
-  else
-    have_lcms="no (lcms not found or unusable)"
-  fi
+AC_ARG_ENABLE([lcms],
+  AC_HELP_STRING([--disable-lcms], [disable lcms support]),
+    [liblcms=$enableval], [liblcms=auto])
+
+if test "x${liblcms}" != "xno"; then
+  PKG_CHECK_MODULES(LCMS, [lcms >= 1.14],
+    [
+      HAVE_LCMS=yes
+      AC_DEFINE(HAVE_LCMS, 1, [define to enable use of color profiles with lcms])
+    ],
+    [
+      HAVE_LCMS=no
+      AC_MSG_WARN([$LCMS_PKG_ERRORS])
+    ])
 else
-  have_lcms="no (lcms support disabled)"
+  HAVE_LCMS=disabled
 fi
+	
+AM_CONDITIONAL(HAVE_LCMS, [test "x$HAVE_LCMS" = xyes])
+AC_SUBST(LCMS_CFLAGS)
 AC_SUBST(LCMS_LIBS)
-AM_CONDITIONAL(HAVE_LCMS, test "$have_lcms" = "yes")
 
-AC_ARG_WITH(exiv2, [  --without-exiv2          build without exiv2 support])
 
-have_exiv2=no
+#  Exiv2 support
+# ----------------------------------------------------------------------
 
-if test "x$with_exiv2" != "xno"; then
-  PKG_CHECK_MODULES(EXIV2, exiv2 >= 0.11,
-    [ have_exiv2=yes
-      AC_DEFINE(HAVE_EXIV2, 1, have exiv2) ],
-    [ AC_MSG_RESULT($EXIV2_PKG_ERRORS) ] )
+AC_ARG_ENABLE([exiv2],
+  AC_HELP_STRING([--disable-exiv2], [disable exiv2 support]),
+    [libexiv2=$enableval], [libexiv2=auto])
+
+if test "x${libexiv2}" != "xno"; then
+  PKG_CHECK_MODULES(EXIV2, [exiv2 >= 0.11],
+    [
+      HAVE_EXIV2=yes
+      AC_DEFINE(HAVE_EXIV2, 1, [define to enable exiv2 support])
+    ],
+    [
+      HAVE_EXIV2=no
+      AC_MSG_WARN([$EXIV2_PKG_ERRORS])
+    ])
+else
+  HAVE_EXIV2=disabled
 fi
+	
+AM_CONDITIONAL(HAVE_EXIV2, [test "x$HAVE_EXIV2" = xyes])
+AC_SUBST(EXIV2_CFLAGS)
+AC_SUBST(EXIV2_LIBS)
 
 
+#  Gettext support
+# ----------------------------------------------------------------------
+
+dnl Set of available languages
 ALL_LINGUAS="ar be bg ca cs da de eo es et eu fi fr hu id it ja ko nl nb pl pt_BR ro ru sk sl sv th tr uk vi zh_CN.GB2312 zh_TW"
+
 GETTEXT_PACKAGE=$PACKAGE
 AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],["${GETTEXT_PACKAGE}"],[Name of gettext file])
 AM_GLIB_GNU_GETTEXT
 AM_GLIB_DEFINE_LOCALEDIR(GQ_LOCALEDIR)
 
-#Always use -Wall with gcc
-if test "x$ac_cv_c_compiler_gnu" = "xyes"; then
-	CFLAGS="$CFLAGS -Wall"
-	CPPFLAGS="$CPPFLAGS -Wall"
-fi
-
 AC_SUBST(CFLAGS)
+AC_SUBST(CXXFLAGS)
 AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
-AC_OUTPUT([
-Makefile
-src/Makefile
-src/icons/Makefile
-src/icons/svg/Makefile
-po/Makefile.in
-doc/Makefile
-geeqie.spec
+
+AH_TOP([
+/** @file config.h
+ * autogenerated definition by autoheader.
+ * @author Bruclik
+ */
+ 
+/*
+ *  This file is a part of Geeqie project (http://geeqie.sourceforge.net/).
+ *  Copyright (C) 2008 The Geeqie team
+ *  
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or 
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ */ 
+ 
+#ifndef _INCLUDE_CONFIG_H
+#define _INCLUDE_CONFIG_H
 ])
+
+AH_BOTTOM([#endif])
+
+dnl Write the output
+dnl
+
+AC_CONFIG_FILES([
+    Makefile
+    src/Makefile
+    src/icons/Makefile
+    src/icons/svg/Makefile
+    po/Makefile.in
+    doc/Makefile
+    geeqie.spec
+])
+
+AC_OUTPUT
+dnl Print the results
+dnl
+
+cat > config.report << END
+
+     Config results:
+    -=-=-=-=-=-=-=-=-
+
+Package:
+  Name:          $PACKAGE_NAME
+  Version:       $PACKAGE_VERSION
+  Patch version: $GQ_PATCH_VERSION
+  Date:          $GQ_PATCH_DATE
+
+Architecture:
+  UNIX:          $os_unix
+  Win32:         $platform_win32 (nativ: $os_win32)
+
+Settings:
+  Developer:     $__IS_DEVELOPER
+  Debug:         $__IS_DEBUG
+  Depreceated:   $__IS_DEPRECEATED
+
+Flags:
+  Geeqie:        $GQ_CFLAGS
+  DEFS:          $DEFS
+  CPPFLAGS:      $__CPPFLAGS
+  CFLAGS:        $CFLAGS
+  CXXFLAGS:      $CXXFLAGS
+  Gtk:           $GTK_CFLAGS
+  Glib:          $GLIB_CFLAGS
+  Thread:        $LIBPTHREAD
+  Others:	 $LCMS_LIBS $EXIV2_LIBS
+
+Support:
+  LCMS:          $HAVE_LCMS
+  Exiv2:	 $HAVE_EXIV2
+Localization:
+  NLS support:   $USE_NLS
+  LINGUAS:       $LINGUAS
+
+Documentation:
+  Doxygen:       $DOXYGEN
+  Formats:       $doxy_formats_report
+END
+
+cat config.report
+cat <<EOF
+
+  Now you can type "make" to build Geeqie
+  (or you take blue pill and the story ends :)
+
+EOF
 

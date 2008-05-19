@@ -24,14 +24,23 @@ DIE=0
   DIE=1
 }
 
-grep "^AM_GLIB_GNU_GETTEXT" $srcdir/configure.in >/dev/null && {
-  grep "sed.*POTFILES" $srcdir/configure.in >/dev/null || \
+(grep "^AM_GLIB_GNU_GETTEXT" $srcdir/configure.in >/dev/null) && {
+  (grep "sed.*POTFILES" $srcdir/configure.in) >/dev/null || \
   (glib-gettextize --version) < /dev/null > /dev/null 2>&1 || {
     echo
     echo "**Error**: You must have \`glib-gettextize' installed."
-    echo "glib-gettextize is a part of glib"
+    echo "glib-gettextize is a part of glib."
+    echo "You can get it from: ftp://ftp.gtk.org/pub/gtk"
     DIE=1
   }
+}
+
+(automake --version) < /dev/null > /dev/null 2>&1 || {
+  echo
+  echo "**Error**: You must have \`automake' installed."
+  echo "You can get it from: ftp://ftp.gnu.org/pub/gnu/"
+  DIE=1
+  NO_AUTOMAKE=yes
 }
 
 # if no automake, don't bother testing for aclocal
@@ -39,8 +48,7 @@ test -n "$NO_AUTOMAKE" || (aclocal --version) < /dev/null > /dev/null 2>&1 || {
   echo
   echo "**Error**: Missing \`aclocal'.  The version of \`automake'"
   echo "installed doesn't appear recent enough."
-  echo "Get ftp://ftp.gnu.org/pub/gnu/automake-1.3.tar.gz"
-  echo "(or a newer version if it is available)"
+  echo "You can get automake from ftp://ftp.gnu.org/pub/gnu/"
   DIE=1
 }
 

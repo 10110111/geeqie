@@ -9,23 +9,16 @@
  * This software comes with no warranty of any kind, use at your own risk!
  */
 
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef _DEBUG_H
+#define _DEBUG_H
+
+#include <glib.h>
 
 #define DOMAIN_DEBUG "debug"
 #define DOMAIN_INFO  "info"
 
 gint log_domain_printf(const char *domain, const gchar *format, ...) G_GNUC_PRINTF(2, 3);
 #define log_printf(...) log_domain_printf(DOMAIN_INFO, __VA_ARGS__)
-
-
-
-
-#if 1 /* set to 0 to disable compilation of debugging code and related options */
-# ifndef DEBUG
-# define DEBUG 1
-# endif
-#endif
 
 #ifdef DEBUG
 
@@ -70,4 +63,4 @@ void init_exec_time(void);
 #define DEBUG_4(...) DEBUG_N(4, __VA_ARGS__)
 
 
-#endif /* DEBUG_H */
+#endif /* _DEBUG_H */

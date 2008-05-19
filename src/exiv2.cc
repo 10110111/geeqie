@@ -9,9 +9,7 @@
  * This software comes with no warranty of any kind, use at your own risk!
  */
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
+#include "config.h"
 
 #ifdef HAVE_EXIV2
 
@@ -453,8 +451,11 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 		std::stringstream str;
 		Exiv2::Exifdatum *exifdatum;
 		Exiv2::Iptcdatum *iptcdatum;
+#if EXIV2_TEST_VERSION(0,16,0)
 		Exiv2::Xmpdatum *xmpdatum;
-		if ((exifdatum = dynamic_cast<Exiv2::Exifdatum *>(metadatum)))
+#endif
+        
+        if ((exifdatum = dynamic_cast<Exiv2::Exifdatum *>(metadatum)))
 			str << *exifdatum;
 		else if ((iptcdatum = dynamic_cast<Exiv2::Iptcdatum *>(metadatum)))
 			str << *iptcdatum;

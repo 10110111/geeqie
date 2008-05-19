@@ -1,9 +1,20 @@
 SUBDIRS = icons
 DIST_SUBDIRS = icons
 
-INCLUDES = -I$(srcdir) -I$(builddir)    \
-	-I$(top_srcdir) -I$(top_builddir)       \
-	-I$(includedir) $(GTK_CFLAGS)
+AM_CFLAGS =				\
+	$(GLIB_CFLAGS) $(GTK_CFLAGS)	\
+	$(LCMS_CFLAGS)			\
+	$(EXIV2_CFLAGS)			\
+	-I$(top_srcdir)			\
+	-I$(top_builddir)
+
+
+AM_CXXFLAGS =				\
+	$(GLIB_CFLAGS) $(GTK_CFLAGS)	\
+	$(LCMS_CFLAGS)			\
+	$(EXIV2_CFLAGS)			\
+	-I$(top_srcdir)			\
+	-I$(top_builddir)
 
 module_SLIK = \
 	intl.h		\
@@ -187,6 +198,7 @@ geeqie_SOURCES = \
 	thumb_standard.c	\
 	thumb_standard.h	\
 	trash.c		\
+	trash.h		\
 	utilops.c	\
 	utilops.h	\
 	view_dir.c	\
@@ -204,7 +216,7 @@ geeqie_SOURCES = \
 	window.c	\
 	window.h
 
-geeqie_LDADD = $(GTK_LIBS) $(INTLLIBS) $(LCMS_LIBS) $(EXIV2_LIBS)
+geeqie_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(INTLLIBS) $(LCMS_LIBS) $(EXIV2_LIBS)
 
 EXTRA_DIST = \
 	$(extra_SLIK)

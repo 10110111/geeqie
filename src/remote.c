@@ -22,7 +22,6 @@
 #include "slideshow.h"
 #include "ui_fileops.h"
 
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <signal.h>

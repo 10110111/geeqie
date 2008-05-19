@@ -21,11 +21,7 @@
 #ifdef HAVE_LCMS
 /*** color support enabled ***/
 
-#ifdef HAVE_LCMS_LCMS_H
-  #include <lcms/lcms.h>
-#else
-  #include <lcms.h>
-#endif
+#include <lcms.h>
 
 
 typedef struct _ColorManCache ColorManCache;
@@ -431,7 +427,7 @@ void color_man_update(void)
 	color_man_cache_reset();
 }
 
-#else
+#else /* define HAVE_LCMS */
 /*** color support not enabled ***/
 
 
@@ -471,4 +467,4 @@ void color_man_start_bg(ColorMan *cm, ColorManDoneFunc done_func, gpointer done_
 	/* no op */
 }
 
-#endif
+#endif /* define HAVE_LCMS */
