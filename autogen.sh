@@ -68,6 +68,12 @@ xlc )
   am_opt=--include-deps;;
 esac
 
+auxdir="`sed -ne 's/^[ \t]*A._CONFIG_AUX_DIR *( *\([^ )]*\).*/\1/p' $srcdir/configure.in`"
+if test -n "$auxdir"; then
+  if test ! -d "$srcdir/$auxdir"; then
+    mkdir -p "$srcdir/$auxdir"
+  fi                                                                            fi
+
 for coin in `find $srcdir -name configure.in -print`
 do 
   dr=`dirname $coin`
