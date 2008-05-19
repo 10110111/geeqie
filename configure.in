@@ -89,9 +89,9 @@ if test "x${enable_depreceated}" != "xno"
 then
   CXXFLAGS="${CXXFLAGS} -DGTK_DISABLE_DEPRECATED=1 -DGDK_DISABLE_DEPRECATED=1 -DGDK_PIXBUF_DISABLE_DEPRECATED=1 -DG_DISABLE_DEPRECATED=1"
   CFLAGS="${CFLAGS} -DGTK_DISABLE_DEPRECATED=1 -DGDK_DISABLE_DEPRECATED=1 -DGDK_PIXBUF_DISABLE_DEPRECATED=1 -DG_DISABLE_DEPRECATED=1"
-  __IS_DEPRECEATED=no
+  __IS_DEPRECATED=no
 else
-  __IS_DEPRECEATED=yes
+  __IS_DEPRECATED=yes
 fi
 
 
@@ -345,12 +345,12 @@ Package:
 
 Architecture:
   UNIX:          $os_unix
-  Win32:         $platform_win32 (nativ: $os_win32)
+  Win32:         $platform_win32 (native: $os_win32)
 
 Settings:
   Developer:     $__IS_DEVELOPER
   Debug:         $__IS_DEBUG
-  Depreceated:   $__IS_DEPRECEATED
+  Deprecated:    $__IS_DEPRECATED
 
 Flags:
   Geeqie:        $GQ_CFLAGS
