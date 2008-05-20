@@ -101,8 +101,10 @@ static gint comment_legacy_write(FileData *fd, GList *keywords, const gchar *com
 		comment_dir = cache_get_location(CACHE_TYPE_METADATA, fd->path, FALSE, &mode);
 		if (cache_ensure_dir_exists(comment_dir, mode))
 			{
-			comment_path = g_strconcat(comment_dir, "/", fd->name,
-						   GQ_CACHE_EXT_METADATA, NULL);
+			gchar *filename = g_strconcat(fd->name, GQ_CACHE_EXT_METADATA, NULL);
+			
+			comment_path = g_build_filename(comment_dir, filename, NULL);
+			g_free(filename);
 			}
 		g_free(comment_dir);
 		}
