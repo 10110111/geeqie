@@ -398,7 +398,7 @@ gint copy_file(const gchar *s, const gchar *t)
 	FILE *fo = NULL;
 	gchar *sl, *tl;
 	gchar buf[4096];
-	gint b;
+	size_t b;
 
 	sl = path_from_utf8(s);
 	tl = path_from_utf8(t);
