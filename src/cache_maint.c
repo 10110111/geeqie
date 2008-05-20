@@ -140,6 +140,7 @@ static gint cache_maintain_home_cb(gpointer data)
 	gint still_have_a_file = TRUE;
 	gint base_length;
 	const gchar *cache_folder;
+	gchar *base;
 
 	if (cm->metadata)
 		{
@@ -150,7 +151,9 @@ static gint cache_maintain_home_cb(gpointer data)
 		cache_folder = GQ_CACHE_RC_THUMB;
 		}
 
-	base_length = strlen(homedir()) + strlen("/") + strlen(cache_folder);
+	base = g_build_filename(homedir(), cache_folder, NULL);
+	base_length = strlen(base);
+	g_free(base);
 
 	if (!cm->list)
 		{
