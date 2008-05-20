@@ -18,8 +18,8 @@
 #include "similar.h"
 
 
-#define GQ_CACHE_RC_THUMB       GQ_RC_DIR"/thumbnails"
-#define GQ_CACHE_RC_METADATA    GQ_RC_DIR"/metadata"
+#define GQ_CACHE_RC_THUMB       GQ_RC_DIR G_DIR_SEPARATOR_S "thumbnails"
+#define GQ_CACHE_RC_METADATA    GQ_RC_DIR G_DIR_SEPARATOR_S "metadata"
 
 #define GQ_CACHE_LOCAL_THUMB    ".thumbnails"
 #define GQ_CACHE_LOCAL_METADATA ".metadata"
