@@ -94,9 +94,9 @@ secure_open_umask(const gchar *file_name)
 
 	/* Check properties of final file. */
 #ifndef NO_UNIX_SOFTLINKS
-	if (g_lstat(ssi->file_name, &st)) {
+	if (lstat(ssi->file_name, &st)) {
 #else
-	if (g_stat(ssi->file_name, &st)) {
+	if (stat(ssi->file_name, &st)) {
 #endif
 		/* We ignore error caused by file inexistence. */
 		if (errno != ENOENT) {
@@ -123,7 +123,7 @@ secure_open_umask(const gchar *file_name)
 			/* We still have a race condition here between
 			 * [l]stat() and fopen() */
 
-			f1 = g_fopen(ssi->file_name, "rb+");
+			f1 = fopen(ssi->file_name, "rb+");
 			if (f1) {
 				fclose(f1);
 			} else {
@@ -167,7 +167,7 @@ secure_open_umask(const gchar *file_name)
 		ssi->tmp_file_name = randname;
 	} else {
 		/* No need to create a temporary file here. */
-		ssi->fp = g_fopen(ssi->file_name, "wb");
+		ssi->fp = fopen(ssi->file_name, "wb");
 		if (!ssi->fp) {
 			secsave_errno = SS_ERR_OPEN_WRITE;
 			ssi->err = errno;
@@ -267,9 +267,9 @@ secure_close(SecureSaveInfo *ssi)
 		 * secure_open() call (where we stat() file and
 		 * more..).  */
 #ifndef NO_UNIX_SOFTLINKS
-		if (g_lstat(ssi->file_name, &st) == 0)
+		if (lstat(ssi->file_name, &st) == 0)
 #else
-		if (g_stat(ssi->file_name, &st) == 0)
+		if (stat(ssi->file_name, &st) == 0)
 #endif
 			{
 			/* set the dest file attributes to that of source (ignoring errors) */
@@ -289,7 +289,7 @@ secure_close(SecureSaveInfo *ssi)
 				}
 			}
 		DEBUG_3("rename %s -> %s", ssi->tmp_file_name, ssi->file_name);
-		if (g_rename(ssi->tmp_file_name, ssi->file_name) == -1) {
+		if (rename(ssi->tmp_file_name, ssi->file_name) == -1) {
 			ret = errno;
 			secsave_errno = SS_ERR_RENAME;
 			goto free;
