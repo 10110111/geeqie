@@ -378,7 +378,7 @@ gint thumb_loader_start(ThumbLoader *tl, const gchar *path)
 		if (tl->cache_hit)
 			{
 			tl->cache_hit = FALSE;
-			print_term(_("Thumbnail image in cache failed to load, trying to recreate.\n"));
+			log_printf("%s", _("Thumbnail image in cache failed to load, trying to recreate.\n"));
 
 			thumb_loader_setup(tl, tl->path);
 			if (image_loader_start(tl->il, thumb_loader_done_cb, tl)) return TRUE;

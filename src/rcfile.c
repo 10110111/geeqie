@@ -306,7 +306,7 @@ void save_options(void)
 	g_free(rc_pathl);
 	if (!ssi)
 		{
-		printf_term(_("error saving config file: %s\n"), rc_path);
+		log_printf(_("error saving config file: %s\n"), rc_path);
 		g_free(rc_path);
 		return;
 		}
@@ -583,7 +583,7 @@ void save_options(void)
 
 
 	if (secure_close(ssi))
-		printf_term(_("error saving config file: %s\nerror: %s\n"), rc_path,
+		log_printf(_("error saving config file: %s\nerror: %s\n"), rc_path,
 			    secsave_strerror(secsave_errno));
 
 	g_free(rc_path);

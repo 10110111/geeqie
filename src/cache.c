@@ -171,7 +171,7 @@ gint cache_sim_data_save(CacheData *cd)
 
 	if (secure_close(ssi))
 		{
-		printf_term(_("error saving sim cache data: %s\nerror: %s\n"), cd->path,
+		log_printf(_("error saving sim cache data: %s\nerror: %s\n"), cd->path,
 			    secsave_strerror(secsave_errno));
 		return FALSE;
 		}

@@ -1979,7 +1979,7 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 		{
 		if (!gtk_window_parse_geometry(GTK_WINDOW(lw->window), geometry))
 			{
-			print_term(_("Invalid geometry\n"));
+			log_printf("%s", _("Invalid geometry\n"));
 			}
 		}
 

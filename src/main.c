@@ -375,7 +375,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 			else if (strcmp(cmd_line, "-v") == 0 ||
 				 strcmp(cmd_line, "--version") == 0)
 				{
-				log_printf("%s %s\n", GQ_APPNAME, VERSION);
+				printf_term("%s %s\n", GQ_APPNAME, VERSION);
 				exit(0);
 				}
 			else if (strcmp(cmd_line, "--alternate") == 0)
@@ -387,7 +387,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 			else if (strcmp(cmd_line, "-h") == 0 ||
 				 strcmp(cmd_line, "--help") == 0)
 				{
-				log_printf("%s %s\n", GQ_APPNAME, VERSION);
+				printf_term("%s %s\n", GQ_APPNAME, VERSION);
 				printf_term(_("Usage: %s [options] [path]\n\n"), GQ_APPNAME_LC);
 				print_term(_("valid options are:\n"));
 				print_term(_("  +t, --with-tools           force show of tools\n"));
@@ -536,11 +536,11 @@ static void check_for_home_path(gchar *path)
 	buf = g_strconcat(homedir(), "/", path, NULL);
 	if (!isdir(buf))
 		{
-		printf_term(_("Creating %s dir:%s\n"), GQ_APPNAME, buf);
+		log_printf(_("Creating %s dir:%s\n"), GQ_APPNAME, buf);
 
 		if (!mkdir_utf8(buf, 0755))
 			{
-			printf_term(_("Could not create dir:%s\n"), buf);
+			log_printf(_("Could not create dir:%s\n"), buf);
 			}
 		}
 	g_free(buf);
@@ -748,11 +748,11 @@ int main(int argc, char *argv[])
 	if (gtk_major_version < GTK_MAJOR_VERSION ||
 	    (gtk_major_version == GTK_MAJOR_VERSION && gtk_minor_version < GTK_MINOR_VERSION) )
 		{
-		printf_term("!!! This is a friendly warning.\n");
-		printf_term("!!! The version of GTK+ in use now is older than when %s was compiled.\n", GQ_APPNAME);
-		printf_term("!!!  compiled with GTK+-%d.%d\n", GTK_MAJOR_VERSION, GTK_MINOR_VERSION);
-		printf_term("!!!   running with GTK+-%d.%d\n", gtk_major_version, gtk_minor_version);
-		printf_term("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
+		log_printf("!!! This is a friendly warning.\n");
+		log_printf("!!! The version of GTK+ in use now is older than when %s was compiled.\n", GQ_APPNAME);
+		log_printf("!!!  compiled with GTK+-%d.%d\n", GTK_MAJOR_VERSION, GTK_MINOR_VERSION);
+		log_printf("!!!   running with GTK+-%d.%d\n", gtk_major_version, gtk_minor_version);
+		log_printf("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
 		}
 
 	check_for_home_path(GQ_RC_DIR);

@@ -147,7 +147,7 @@ gint history_list_save(const gchar *path)
 	g_free(pathl);
 	if (!ssi)
 		{
-		printf_term(_("Unable to write history lists to: %s\n"), path);
+		log_printf(_("Unable to write history lists to: %s\n"), path);
 		return FALSE;
 		}
 
