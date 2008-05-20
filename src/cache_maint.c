@@ -284,7 +284,7 @@ void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
 		cache_folder = GQ_CACHE_RC_THUMB;
 		}
 
-	base = g_strconcat(homedir(), "/", cache_folder, NULL);
+	base = g_build_filename(homedir(), cache_folder, NULL);
 
 	if (!filelist_read(base, NULL, &dlist))
 		{
@@ -430,7 +430,7 @@ gint cache_maintain_dir(const gchar *dir, gint recursive, gint clear)
 	gint still_have_a_file = FALSE;
 	GList *work;
 
-	cachedir = g_strconcat(dir, "/", GQ_CACHE_LOCAL_THUMB, NULL);
+	cachedir = g_build_filename(dir, GQ_CACHE_LOCAL_THUMB, NULL);
 
 	filelist_read(cachedir, &list, NULL);
 	work = list;
@@ -443,7 +443,7 @@ gint cache_maintain_dir(const gchar *dir, gint recursive, gint clear)
 		fd = work->data;
 		work = work->next;
 
-		source = g_strconcat(dir, "/", fd->name, NULL);
+		source = g_build_filename(dir, fd->name, NULL);
 
 		if (clear ||
 		    extension_truncate(source, GQ_CACHE_EXT_THUMB) ||
@@ -1003,19 +1003,19 @@ static void cache_manager_standard_clean_start_cb(GenericDialog *gd, gpointer da
 
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(cd->progress), _("running..."));
 
-	path = g_strconcat(homedir(), "/", THUMB_FOLDER_GLOBAL, "/", THUMB_FOLDER_NORMAL, NULL);
+	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_NORMAL, NULL);
 	list = NULL;
 	filelist_read(path, &list, NULL);
 	cd->list = list;
 	g_free(path);
 
-	path = g_strconcat(homedir(), "/", THUMB_FOLDER_GLOBAL, "/", THUMB_FOLDER_LARGE, NULL);
+	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_LARGE, NULL);
 	list = NULL;
 	filelist_read(path, &list, NULL);
 	cd->list = g_list_concat(cd->list, list);
 	g_free(path);
 
-	path = g_strconcat(homedir(), "/", THUMB_FOLDER_GLOBAL, "/", THUMB_FOLDER_FAIL, NULL);
+	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_FAIL, NULL);
 	list = NULL;
 	filelist_read(path, &list, NULL);
 	cd->list = g_list_concat(cd->list, list);
@@ -1149,15 +1149,29 @@ static void cache_manager_close_cb(GenericDialog *gd, gpointer data)
 	cache_manager = NULL;
 }
 
+static GtkWidget *cache_manager_location_label(GtkWidget *group, const gchar *subdir)
+{
+	GtkWidget *label;
+	gchar *buf;
+	gchar *path;
+
+	path = g_build_filename(homedir(), subdir, NULL);
+	buf = g_strdup_printf(_("Location: %s"), path);
+	g_free(path);
+	label = pref_label_new(group, buf);
+	g_free(buf);
+	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+	
+	return label;
+}
+
 void cache_manager_show(void)
 {
 	GenericDialog *gd;
 	GtkWidget *group;
 	GtkWidget *button;
-	GtkWidget *label;
 	GtkWidget *table;
 	GtkSizeGroup *sizegroup;
-	gchar *buf;
 
 	if (cache_manager)
 		{
@@ -1183,10 +1197,7 @@ void cache_manager_show(void)
 
 	group = pref_group_new(gd->vbox, FALSE, _("Thumbnail cache"), GTK_ORIENTATION_VERTICAL);
 
-	buf = g_strconcat(_("Location:"), " ", homedir(), "/", GQ_CACHE_RC_THUMB, NULL);
-	label = pref_label_new(group, buf);
-	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-	g_free(buf);
+	cache_manager_location_label(group, GQ_CACHE_RC_THUMB);
 
 	table = pref_table_new(group, 2, 2, FALSE, FALSE);
 
@@ -1203,10 +1214,7 @@ void cache_manager_show(void)
 
 	group = pref_group_new(gd->vbox, FALSE, _("Shared thumbnail cache"), GTK_ORIENTATION_VERTICAL);
 
-	buf = g_strconcat(_("Location:"), " ", homedir(), "/", THUMB_FOLDER_GLOBAL, NULL);
-	label = pref_label_new(group, buf);
-	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-	g_free(buf);
+	cache_manager_location_label(group, THUMB_FOLDER_GLOBAL);
 
 	table = pref_table_new(group, 2, 2, FALSE, FALSE);
 
@@ -1231,10 +1239,7 @@ void cache_manager_show(void)
 
 	group = pref_group_new(gd->vbox, FALSE, _("Metadata"), GTK_ORIENTATION_VERTICAL);
 
-	buf = g_strconcat(_("Location:"), " ", homedir(), "/", GQ_CACHE_RC_METADATA, NULL);
-	label = pref_label_new(group, buf);
-	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-	g_free(buf);
+	cache_manager_location_label(group, GQ_CACHE_RC_METADATA);
 
 	table = pref_table_new(group, 2, 1, FALSE, FALSE);
 
