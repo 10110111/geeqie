@@ -656,24 +656,20 @@ gchar *cache_get_location(CacheType type, const gchar *source, gint include_name
 	base = remove_level_from_path(source);
 	if (include_name)
 		{
-		name = g_strconcat("/", filename_from_path(source), NULL);
-		}
-	else
-		{
-		cache_ext = NULL;
+		name = g_strconcat(filename_from_path(source), cache_ext, NULL);
 		}
 
 	if (((type != CACHE_TYPE_METADATA && options->thumbnails.cache_into_dirs) ||
 	     (type == CACHE_TYPE_METADATA && options->enable_metadata_dirs)) &&
 	    access_file(base, W_OK))
 		{
-		path = g_strconcat(base, "/", cache_local, name, cache_ext, NULL);
+		path = g_build_filename(base, cache_local, name, NULL);
 		if (mode) *mode = 0775;
 		}
 
 	if (!path)
 		{
-		path = g_strconcat(homedir(), "/", cache_rc, base, name, cache_ext, NULL);
+		path = g_build_filename(homedir(), cache_rc, base, name, NULL);
 		if (mode) *mode = 0755;
 		}
 
