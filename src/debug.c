@@ -13,6 +13,7 @@
 #include "debug.h"
 
 #include "logwindow.h"
+#include "ui_fileops.h"
 
 /*
  * Logging functions
@@ -28,7 +29,7 @@ gint log_domain_printf(const char *domain, const gchar *format, ...)
 	ret = vsnprintf(buf, sizeof(buf), format, ap);
 	va_end(ap);
 
-	printf("%s", buf);
+	print_term(buf);
 	if (strcmp(domain, DOMAIN_INFO) == 0)
 		log_window_append(buf, LOG_NORMAL);
 	else
