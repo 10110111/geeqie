@@ -112,7 +112,7 @@ secure_open_umask(const gchar *file_name)
 		} else {
 #ifdef HAVE_ACCESS
 			/* XXX: access() do not work with setuid programs. */
-			if (g_access(ssi->file_name, R_OK | W_OK) < 0) {
+			if (access(ssi->file_name, R_OK | W_OK) < 0) {
 				ssi->err = errno;
 				secsave_errno = SS_ERR_ACCESS;
 				goto free_file_name;
