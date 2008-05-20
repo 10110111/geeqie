@@ -679,11 +679,31 @@ gchar *cache_get_location(CacheType type, const gchar *source, gint include_name
 	return path;
 }
 
+static gchar *cache_build_path_local(const gchar *source, const gchar *cache_local, const gchar *cache_ext)
+{
+	gchar *path;
+	gchar *base = remove_level_from_path(source);
+	gchar *name = g_strconcat(filename_from_path(source), cache_ext, NULL);
+	path = g_build_filename(base, cache_local, name, NULL);
+	g_free(name);
+	g_free(base);
+	
+	return path;
+}
+
+static gchar *cache_build_path_rc(const gchar *source, const gchar *cache_rc, const gchar *cache_ext)
+{
+	gchar *path;
+	gchar *name = g_strconcat(source, cache_ext, NULL);
+	path = g_build_filename(homedir(), cache_rc, name, NULL);
+	g_free(name);
+
+	return path;
+}
+
 gchar *cache_find_location(CacheType type, const gchar *source)
 {
 	gchar *path;
-	const gchar *name;
-	gchar *base;
 	const gchar *cache_rc;
 	const gchar *cache_local;
 	const gchar *cache_ext;
@@ -692,9 +712,6 @@ gchar *cache_find_location(CacheType type, const gchar *source)
 	if (!source) return NULL;
 
 	cache_path_parts(type, &cache_rc, &cache_local, &cache_ext);
-
-	name = filename_from_path(source);
-	base = remove_level_from_path(source);
 
 	if (type == CACHE_TYPE_METADATA)
 		{
@@ -707,11 +724,11 @@ gchar *cache_find_location(CacheType type, const gchar *source)
 
 	if (prefer_local)
 		{
-		path = g_strconcat(base, "/", cache_local, "/", name, cache_ext, NULL);
+		path = cache_build_path_local(source, cache_local, cache_ext);
 		}
 	else
 		{
-		path = g_strconcat(homedir(), "/", cache_rc, source, cache_ext, NULL);
+		path = cache_build_path_rc(source, cache_rc, cache_ext);
 		}
 
 	if (!isfile(path))
@@ -721,11 +738,11 @@ gchar *cache_find_location(CacheType type, const gchar *source)
 		/* try the opposite method if not found */
 		if (!prefer_local)
 			{
-			path = g_strconcat(base, "/", cache_local, "/", name, cache_ext, NULL);
+			path = cache_build_path_local(source, cache_local, cache_ext);
 			}
 		else
 			{
-			path = g_strconcat(homedir(), "/", cache_rc, source, cache_ext, NULL);
+			path = cache_build_path_rc(source, cache_rc, cache_ext);
 			}
 
 		if (!isfile(path))
@@ -734,8 +751,6 @@ gchar *cache_find_location(CacheType type, const gchar *source)
 			path = NULL;
 			}
 		}
-
-	g_free(base);
 
 	return path;
 }
