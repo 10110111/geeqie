@@ -708,7 +708,7 @@ gint file_in_path(const gchar *name)
 		while (path[e] != ':' && path[e] != '\0') e++;
 		path[e] = '\0';
 		e++;
-		f = g_strconcat(path + p, "/", namel, NULL);
+		f = g_build_filename(path + p, namel, NULL);
 		if (isfile(f)) ret = TRUE;
 		g_free(f);
 		p = e;
