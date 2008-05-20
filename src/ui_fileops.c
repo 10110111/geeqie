@@ -596,7 +596,7 @@ const gchar *filename_from_path(const gchar *path)
 
 	if (!path) return NULL;
 
-	base = strrchr(path, '/');
+	base = strrchr(path, G_DIR_SEPARATOR);
 	if (base) return base + 1;
 
 	return path;
@@ -610,7 +610,7 @@ gchar *remove_level_from_path(const gchar *path)
 
 	while (path[p])
 		{
-		if (path[p] == '/') n = p;
+		if (path[p] == G_DIR_SEPARATOR) n = p;
 		p++;
 		}
 	if (n <= 0) n++;
@@ -674,15 +674,15 @@ void parse_out_relatives(gchar *path)
 
 	while (path[s] != '\0')
 		{
-		if (path[s] == '/' && path[s+1] == '.' && (path[s+2] == '/' || path[s+2] == '\0') )
+		if (path[s] == G_DIR_SEPARATOR && path[s+1] == '.' && (path[s+2] == G_DIR_SEPARATOR || path[s+2] == '\0') )
 			{
 			s += 2;
 			}
-		else if (path[s] == '/' && path[s+1] == '.' && path[s+2] == '.' && (path[s+3] == '/' || path[s+3] == '\0') )
+		else if (path[s] == G_DIR_SEPARATOR && path[s+1] == '.' && path[s+2] == '.' && (path[s+3] == G_DIR_SEPARATOR || path[s+3] == '\0') )
 			{
 			s += 3;
 			if (t > 0) t--;
-			while (path[t] != '/' && t > 0) t--;
+			while (path[t] != G_DIR_SEPARATOR && t > 0) t--;
 			}
 		else
 			{
@@ -691,8 +691,8 @@ void parse_out_relatives(gchar *path)
 			s++;
 			}
 		}
-	if (t == 0 && path[t] == '/') t++;
-	if (t > 1 && path[t-1] == '/') t--;
+	if (t == 0 && path[t] == G_DIR_SEPARATOR) t++;
+	if (t > 1 && path[t-1] == G_DIR_SEPARATOR) t--;
 	path[t] = '\0';
 }
 
