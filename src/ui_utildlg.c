@@ -401,7 +401,7 @@ void file_dialog_add_path_widgets(FileDialog *fdlg, const gchar *default_path, c
 
 		if (path)
 			{
-			fdlg->dest_path = concat_dir_and_file(base, path);
+			fdlg->dest_path = g_build_filename(base, path, NULL);
 			}
 		else
 			{

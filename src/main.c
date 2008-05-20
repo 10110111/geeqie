@@ -295,7 +295,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 		while (i < argc)
 			{
 			const gchar *cmd_line = argv[i];
-			gchar *cmd_all = concat_dir_and_file(base_dir, cmd_line);
+			gchar *cmd_all = g_build_filename(base_dir, cmd_line, NULL);
 
 			if (cmd_line[0] == '/' && isdir(cmd_line))
 				{
@@ -560,15 +560,15 @@ static void setup_default_options(void)
 	editor_reset_defaults();
 
 	bookmark_add_default(_("Home"), homedir());
-	path = concat_dir_and_file(homedir(), "Desktop");
+	path = g_build_filename(homedir(), "Desktop", NULL);
 	bookmark_add_default(_("Desktop"), path);
 	g_free(path);
-	path = concat_dir_and_file(homedir(), GQ_RC_DIR_COLLECTIONS);
+	path = g_build_filename(homedir(), GQ_RC_DIR_COLLECTIONS, NULL);
 	bookmark_add_default(_("Collections"), path);
 	g_free(path);
 
 	g_free(options->file_ops.safe_delete_path);
-	options->file_ops.safe_delete_path = concat_dir_and_file(homedir(), GQ_RC_DIR_TRASH);
+	options->file_ops.safe_delete_path = g_build_filename(homedir(), GQ_RC_DIR_TRASH, NULL);
 
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{

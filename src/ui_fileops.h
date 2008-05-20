@@ -66,7 +66,6 @@ gchar *unique_filename_simple(const gchar *path);
 
 const gchar *filename_from_path(const gchar *path);
 gchar *remove_level_from_path(const gchar *path);
-gchar *concat_dir_and_file(const gchar *base, const gchar *name);
 
 const gchar *extension_from_path(const gchar *path);
 gchar *remove_extension_from_path(const gchar *path);

@@ -272,7 +272,7 @@ static void bar_sort_bookmark_select_folder(SortData *sd, FileData *source, cons
 
 	if (!isdir(path)) return;
 
-	dest_path = concat_dir_and_file(path, source->name);
+	dest_path = g_build_filename(path, source->name, NULL);
 	bar_sort_undo_set(sd, NULL, source, dest_path);
 
 	list = g_list_append(NULL, file_data_ref(source));

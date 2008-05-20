@@ -618,15 +618,6 @@ gchar *remove_level_from_path(const gchar *path)
 	return g_strndup(path, (gsize) n);
 }
 
-gchar *concat_dir_and_file(const gchar *base, const gchar *name)
-{
-	if (!base || !name) return NULL;
-
-	if (strcmp(base, "/") == 0) return g_strconcat(base, name, NULL);
-
-	return g_strconcat(base, "/", name, NULL);
-}
-
 const gchar *extension_from_path(const gchar *path)
 {
 	if (!path) return NULL;

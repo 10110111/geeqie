@@ -218,7 +218,7 @@ static gint vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, g
 	old_path = g_strdup(fd->path);
 
 	base = remove_level_from_path(old_path);
-	new_path = concat_dir_and_file(base, new);
+	new_path = g_build_filename(base, new, NULL);
 	g_free(base);
 
 	if (file_util_rename_dir(fd, new_path, vd->view))
@@ -499,7 +499,7 @@ static void vd_pop_menu_new_cb(GtkWidget *widget, gpointer data)
 			break;
 		}
 
-	buf = concat_dir_and_file(path, _("new_folder"));
+	buf = g_build_filename(path, _("new_folder"), NULL);
 	new_path = unique_filename(buf, NULL, NULL, FALSE);
 	g_free(buf);
 	if (!new_path) return;

@@ -381,8 +381,8 @@ static gint vflist_row_rename_cb(TreeEditData *td, const gchar *old, const gchar
 
 	if (strlen(new) == 0) return FALSE;
 
-	old_path = concat_dir_and_file(vf->path, old);
-	new_path = concat_dir_and_file(vf->path, new);
+	old_path = g_build_filename(vf->path, old, NULL);
+	new_path = g_build_filename(vf->path, new, NULL);
 
 	if (strchr(new, '/') != NULL)
 		{

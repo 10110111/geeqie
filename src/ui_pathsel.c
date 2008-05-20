@@ -231,7 +231,7 @@ static void dest_populate(Dest_Data *dd, const gchar *path)
 			}
 		else
 			{
-			filepath = concat_dir_and_file(path, list->data);
+			filepath = g_build_filename(path, list->data, NULL);
 			}
 
 		gtk_list_store_append(store, &iter);
@@ -256,7 +256,7 @@ static void dest_populate(Dest_Data *dd, const gchar *path)
 			gchar *filepath;
 			const gchar *name = list->data;
 
-			filepath = concat_dir_and_file(path, name);
+			filepath = g_build_filename(path, name, NULL);
 
 			gtk_list_store_append(store, &iter);
 			gtk_list_store_set(store, &iter, 0, name, 1, filepath, -1);
@@ -424,7 +424,7 @@ static gint dest_view_rename_cb(TreeEditData *ted, const gchar *old, const gchar
 	if (!old_path) return FALSE;
 
 	buf = remove_level_from_path(old_path);
-	new_path = concat_dir_and_file(buf, new);
+	new_path = g_build_filename(buf, new, NULL);
 	g_free(buf);
 
 	if (isname(new_path))
@@ -745,7 +745,7 @@ static void dest_new_dir_cb(GtkWidget *widget, gpointer data)
 		}
 	else
 		{
-		buf = concat_dir_and_file(dd->path, _("New folder"));
+		buf = g_build_filename(dd->path, _("New folder"), NULL);
 		path = unique_filename(buf, NULL, " ", FALSE);
 		g_free(buf);
 		}

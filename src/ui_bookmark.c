@@ -856,7 +856,7 @@ static void bookmark_populate(BookMarkData *bm)
 			history_list_add_to_key(bm->key, buf, 0);
 			g_free(buf);
 
-			path = concat_dir_and_file(homedir(), "Desktop");
+			path = g_build_filename(homedir(), "Desktop", NULL);
 			if (isname(path))
 				{
 				buf = bookmark_string(_("Desktop"), path, NULL);

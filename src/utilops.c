@@ -542,7 +542,7 @@ static void file_util_move_multiple_ok_cb(GenericDialog *gd, gpointer data)
 		else
 			{
 			g_free(fdm->dest);
-			fdm->dest = concat_dir_and_file(fdm->dest_base, name);
+			fdm->dest = g_build_filename(fdm->dest_base, name, NULL);
 			fdm->confirmed = !isname(fdm->dest);
 			}
 		}
@@ -705,7 +705,7 @@ static void file_util_move_multiple(FileDataMult *fdm)
 			{
 			GList *work = fdm->source_next;
 			fdm->source_fd = work->data;
-			fdm->dest = concat_dir_and_file(fdm->dest_base, fdm->source_fd->name);
+			fdm->dest = g_build_filename(fdm->dest_base, fdm->source_fd->name, NULL);
 			fdm->source_next = work->next;
 			fdm->confirmed = FALSE;
 			}
@@ -905,7 +905,7 @@ static void file_util_move_single_ok_cb(GenericDialog *gd, gpointer data)
 
 			base = remove_level_from_path(fds->dest);
 			g_free(fds->dest);
-			fds->dest = concat_dir_and_file(base, name);
+			fds->dest = g_build_filename(base, name, NULL);
 			fds->confirmed = !isname(fds->dest);
 
 			g_free(base);
@@ -1077,7 +1077,7 @@ static void file_util_move_do(FileDialog *fdlg)
 		{
 		if (isdir(fdlg->dest_path))
 			{
-			gchar *buf = concat_dir_and_file(fdlg->dest_path, fdlg->source_fd->name);
+			gchar *buf = g_build_filename(fdlg->dest_path, fdlg->source_fd->name, NULL);
 			gtk_entry_set_text(GTK_ENTRY(fdlg->entry), buf);
 			g_free(buf);
 			}
@@ -1117,7 +1117,7 @@ static void file_util_move_check(FileDialog *fdlg)
 			gchar *path;
 
 			base = remove_level_from_path(fdlg->source_fd->path);
-			path = concat_dir_and_file(base, fdlg->dest_path);
+			path = g_build_filename(base, fdlg->dest_path, NULL);
 
 			gtk_entry_set_text(GTK_ENTRY(fdlg->entry), path);
 
@@ -1288,7 +1288,7 @@ void file_util_move_simple(GList *list, const gchar *dest_path)
 		gchar *dest;
 
 		source_fd = list->data;
-		dest = concat_dir_and_file(dest_path, source_fd->name);
+		dest = g_build_filename(dest_path, source_fd->name, NULL);
 
 		file_util_move_single(file_data_single_new(source_fd, dest, FALSE));
 		g_free(dest);
@@ -1314,7 +1314,7 @@ void file_util_copy_simple(GList *list, const gchar *dest_path)
 		gchar *dest;
 
 		source_fd = list->data;
-		dest = concat_dir_and_file(dest_path, source_fd->name);
+		dest = g_build_filename(dest_path, source_fd->name, NULL);
 
 		file_util_move_single(file_data_single_new(source_fd, dest, TRUE));
 		g_free(dest);
@@ -2183,7 +2183,7 @@ static void file_util_rename_multiple_cb(FileDialog *fdlg, gpointer data)
 	base = remove_level_from_path(fdlg->source_fd->path);
 
 	g_free(fdlg->dest_path);
-	fdlg->dest_path = concat_dir_and_file(base, name);
+	fdlg->dest_path = g_build_filename(base, name, NULL);
 	g_free(base);
 
 	if (strlen(name) == 0 || strcmp(fdlg->source_fd->path, fdlg->dest_path) == 0)
@@ -2644,7 +2644,7 @@ static void file_util_rename_single_cb(FileDialog *fdlg, gpointer data)
 	gchar *path;
 
 	name = gtk_entry_get_text(GTK_ENTRY(fdlg->entry));
-	path = concat_dir_and_file(fdlg->dest_path, name);
+	path = g_build_filename(fdlg->dest_path, name, NULL);
 
 	if (strlen(name) == 0 || strcmp(fdlg->source_fd->path, path) == 0)
 		{
@@ -2729,7 +2729,7 @@ static void file_util_create_dir_do(const gchar *base, const gchar *name)
 {
 	gchar *path;
 
-	path = concat_dir_and_file(base, name);
+	path = g_build_filename(base, name, NULL);
 
 	if (isdir(path))
 		{

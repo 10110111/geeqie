@@ -167,7 +167,7 @@ gint pan_is_link_loop(const gchar *s)
 				{
 				gchar *link_path;
 
-				link_path = concat_dir_and_file(sl, buf);
+				link_path = g_build_filename(sl, buf, NULL);
 				parse_out_relatives(link_path);
 
 				if (strncmp(sl, link_path, l) == 0 &&
