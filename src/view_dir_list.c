@@ -227,9 +227,9 @@ gint vdlist_set_path(ViewDir *vd, const gchar *path)
 
 	/* add . and .. */
 
-	if (strcmp(vd->path, "/") != 0)
+	if (strcmp(vd->path, G_DIR_SEPARATOR_S) != 0)
 		{
-		filepath = g_strconcat(vd->path, "/", "..", NULL);
+		filepath = g_build_filename(vd->path, "..", NULL);
 		fd = file_data_new_simple(filepath);
 		VDLIST_INFO(vd, list) = g_list_prepend(VDLIST_INFO(vd, list), fd);
 		g_free(filepath);
@@ -237,7 +237,7 @@ gint vdlist_set_path(ViewDir *vd, const gchar *path)
 
 	if (options->file_filter.show_dot_directory)
 		{
-		filepath = g_strconcat(vd->path, "/", ".", NULL);
+		filepath = g_build_filename(vd->path, ".", NULL);
 		fd = file_data_new_simple(filepath);
 		VDLIST_INFO(vd, list) = g_list_prepend(VDLIST_INFO(vd, list), fd);
 		g_free(filepath);
