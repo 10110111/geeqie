@@ -274,38 +274,37 @@ static void dest_populate(Dest_Data *dd, const gchar *path)
 
 static void dest_change_dir(Dest_Data *dd, const gchar *path, gint retain_name)
 {
-	gchar *old_name = NULL;
-	gint s = 0;
+	const gchar *old_name = NULL;
+	gchar *full_path;
+	gchar *new_directory;
 
 	if (retain_name)
 		{
 		const gchar *buf = gtk_entry_get_text(GTK_ENTRY(dd->entry));
-		if (!isdir(buf))
-			{
-			if (path && strcmp(path, "/") == 0)
-				{
-				old_name = g_strdup(filename_from_path(buf));
-				}
-			else
-				{
-				old_name = g_strconcat("/", filename_from_path(buf), NULL);
-				s = 1;
-				}
-			}
+
+		if (!isdir(buf)) old_name = filename_from_path(buf);
 		}
 
-	gtk_entry_set_text(GTK_ENTRY(dd->entry), path);
+	full_path = g_build_filename(path, old_name, NULL);
+	if (old_name)
+		new_directory = g_path_get_dirname(full_path);
+	else
+		new_directory = g_strdup(full_path);
+	
+	gtk_entry_set_text(GTK_ENTRY(dd->entry), full_path);
 
-	dest_populate(dd, path);
+	dest_populate(dd, new_directory);
+	g_free(new_directory);
 
-	/* remember filename */
 	if (old_name)
 		{
-		gint pos = -1;
-		gtk_editable_insert_text(GTK_EDITABLE(dd->entry), old_name, -1, &pos);
-		gtk_editable_select_region(GTK_EDITABLE(dd->entry), strlen(path) + s, strlen(path) + strlen(old_name));
-		g_free(old_name);
+		gchar *basename = g_path_get_basename(full_path);
+
+		gtk_editable_select_region(GTK_EDITABLE(dd->entry), strlen(full_path) - strlen(basename), strlen(full_path));
+		g_free(basename);
 		}
+
+	g_free(full_path);
 }
 
 /*
