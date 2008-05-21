@@ -515,7 +515,7 @@ static void keys_load(void)
 {
 	gchar *path;
 
-	path = g_strconcat(homedir(), "/", GQ_RC_DIR, "/", RC_HISTORY_NAME, NULL);
+	path = g_build_filename(homedir(), GQ_RC_DIR, RC_HISTORY_NAME, NULL);
 	history_list_load(path);
 	g_free(path);
 }
@@ -524,7 +524,7 @@ static void keys_save(void)
 {
 	gchar *path;
 
-	path = g_strconcat(homedir(), "/", GQ_RC_DIR, "/", RC_HISTORY_NAME, NULL);
+	path = g_build_filename(homedir(), GQ_RC_DIR, RC_HISTORY_NAME, NULL);
 	history_list_save(path);
 	g_free(path);
 }
@@ -533,7 +533,7 @@ static void check_for_home_path(gchar *path)
 {
 	gchar *buf;
 
-	buf = g_strconcat(homedir(), "/", path, NULL);
+	buf = g_build_filename(homedir(), path, NULL);
 	if (!isdir(buf))
 		{
 		log_printf(_("Creating %s dir:%s\n"), GQ_APPNAME, buf);
@@ -633,7 +633,7 @@ static void exit_program_final(void)
 	save_options();
 	keys_save();
 
-	path = g_strconcat(homedir(), "/", GQ_RC_DIR, "/accels", NULL);
+	path = g_build_filename(homedir(), GQ_RC_DIR, "accels", NULL);
 	pathl = path_from_utf8(path);
 	gtk_accel_map_save(pathl);
 	g_free(pathl);
@@ -764,7 +764,7 @@ int main(int argc, char *argv[])
 	filter_add_defaults();
 	filter_rebuild();
 
-	buf = g_strconcat(homedir(), "/", GQ_RC_DIR, "/accels", NULL);
+	buf = g_build_filename(homedir(), GQ_RC_DIR, "accels", NULL);
 	bufl = path_from_utf8(buf);
 	gtk_accel_map_load(bufl);
 	g_free(bufl);
@@ -893,7 +893,7 @@ int main(int argc, char *argv[])
 	if (startup_full_screen) layout_image_full_screen_start(lw);
 	if (startup_in_slideshow) layout_image_slideshow_start(lw);
 
-	buf = g_strconcat(homedir(), "/", GQ_RC_DIR, "/.command", NULL);
+	buf = g_build_filename(homedir(), GQ_RC_DIR, ".command", NULL);
 	remote_connection = remote_server_init(buf, cd);
 	g_free(buf);
 
