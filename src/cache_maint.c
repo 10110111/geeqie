@@ -349,6 +349,7 @@ void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
 	cm->idle_id = g_idle_add(cache_maintain_home_cb, cm);
 }
 
+#if 0
 /* This checks all files in ~/GQ_RC_DIR/thumbnails and
  * removes them if thay have no source counterpart.
  * (this assumes all cache files have an extension of 4 chars including '.')
@@ -494,6 +495,7 @@ gint cache_maintain_dir(const gchar *dir, gint recursive, gint clear)
 
 	return still_have_a_file;
 }
+#endif
 
 static void cache_file_move(const gchar *src, const gchar *dest)
 {

@@ -17,8 +17,10 @@
 
 void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent);
 
+#if 0
 gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear);
 gint cache_maintain_dir(const gchar *dir, gint recursive, gint clear);
+#endif
 
 void cache_maint_moved(FileData *fd);
 void cache_maint_removed(FileData *fd);
