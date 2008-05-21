@@ -217,13 +217,11 @@ static void tab_completion_popup_cb(GtkWidget *widget, gpointer data)
 	gchar *name = data;
 	TabCompData *td;
 	gchar *buf;
-	gchar *ptr;
 
 	td = g_object_get_data(G_OBJECT(widget), "tab_completion_data");
 	if (!td) return;
 
-	ptr = td->dir_path + strlen(td->dir_path) - 1;
-	buf = g_strconcat(td->dir_path, (ptr[0] == '/') ? "" : "/", name, NULL);
+	buf = g_build_filename(td->dir_path, name, NULL);
 	gtk_entry_set_text(GTK_ENTRY(td->entry), buf);
 	gtk_editable_set_position(GTK_EDITABLE(td->entry), strlen(buf));
 	g_free(buf);
