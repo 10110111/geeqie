@@ -669,7 +669,7 @@ static void collect_manager_refresh(void)
 	GList *work;
 	gchar *base;
 
-	base = g_strconcat(homedir(), "/", GQ_RC_DIR_COLLECTIONS, NULL);
+	base = g_build_filename(homedir(), GQ_RC_DIR_COLLECTIONS, NULL);
 	filelist_read(base, &list, NULL);
 	g_free(base);
 
