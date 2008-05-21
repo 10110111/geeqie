@@ -379,10 +379,11 @@ static gint tab_completion_do(TabCompData *td)
 		g_free(entry_dir);
 		return home_exp;
 		}
+
 	if (isdir(entry_dir) && strcmp(entry_file, ".") != 0 && strcmp(entry_file, "..") != 0)
 		{
 		ptr = entry_dir + strlen(entry_dir) - 1;
-		if (ptr[0] == '/')
+		if (ptr[0] == G_DIR_SEPARATOR)
 			{
 			if (home_exp)
 				{
@@ -398,11 +399,12 @@ static gint tab_completion_do(TabCompData *td)
 				const gchar *file;
 
 				file = td->file_list->data;
-				buf = g_strconcat(entry_dir, file, NULL);
+				buf = g_build_filename(entry_dir, file, NULL);
 				if (isdir(buf))
 					{
+					gchar *tmp = g_strconcat(buf, G_DIR_SEPARATOR_S, NULL);
 					g_free(buf);
-					buf = g_strconcat(entry_dir, file, "/", NULL);
+					buf = tmp;
 					}
 				gtk_entry_set_text(GTK_ENTRY(td->entry), buf);
 				gtk_editable_set_position(GTK_EDITABLE(td->entry), strlen(buf));
@@ -422,7 +424,7 @@ static gint tab_completion_do(TabCompData *td)
 			}
 		else
 			{
-			gchar *buf = g_strconcat(entry_dir, "/", NULL);
+			gchar *buf = g_strconcat(entry_dir, G_DIR_SEPARATOR_S, NULL);
 			gtk_entry_set_text(GTK_ENTRY(td->entry), buf);
 			gtk_editable_set_position(GTK_EDITABLE(td->entry), strlen(buf));
 			g_free(buf);
@@ -438,7 +440,7 @@ static gint tab_completion_do(TabCompData *td)
 	if (strlen(entry_dir) == 0)
 		{
 		g_free(entry_dir);
-		entry_dir = g_strdup("/");
+		entry_dir = g_strdup(G_DIR_SEPARATOR_S); /* FIXME: win32 */
 		}
 
 	if (isdir(entry_dir))
@@ -452,7 +454,7 @@ static gint tab_completion_do(TabCompData *td)
 			tab_completion_read_dir(td, entry_dir);
 			}
 
-		if (strcmp(entry_dir, "/") == 0) entry_dir[0] = '\0';
+		if (strcmp(entry_dir, G_DIR_SEPARATOR_S) == 0) entry_dir[0] = '\0'; /* FIXME: win32 */
 
 		list = td->file_list;
 		while (list)
@@ -472,12 +474,13 @@ static gint tab_completion_do(TabCompData *td)
 				gchar *file = poss->data;
 				gchar *buf;
 
-				buf = g_strconcat(entry_dir, "/", file, NULL);
+				buf = g_build_filename(entry_dir, file, NULL);
 
 				if (isdir(buf))
 					{
+					gchar *tmp = g_strconcat(buf, G_DIR_SEPARATOR_S, NULL);
 					g_free(buf);
-					buf = g_strconcat(entry_dir, "/", file, "/", NULL);
+					buf = tmp;
 					}
 				gtk_entry_set_text(GTK_ENTRY(td->entry), buf);
 				gtk_editable_set_position(GTK_EDITABLE(td->entry), strlen(buf));
@@ -514,7 +517,7 @@ static gint tab_completion_do(TabCompData *td)
 					gchar *buf;
 					file = g_strdup(test_file);
 					file[c] = '\0';
-					buf = g_strconcat(entry_dir, "/", file, NULL);
+					buf = g_build_filename(entry_dir, file, NULL);
 					gtk_entry_set_text(GTK_ENTRY(td->entry), buf);
 					gtk_editable_set_position(GTK_EDITABLE(td->entry), strlen(buf));
 
