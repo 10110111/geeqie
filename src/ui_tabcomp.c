@@ -152,7 +152,7 @@ static gint tab_completion_emit_enter_signal(TabCompData *td)
 	if (text[0] == '~')
 		{
 		gchar *t = text;
-		text = g_strconcat(homedir(), t + 1, NULL);
+		text = expand_tilde(text);
 		g_free(t);
 		}
 
@@ -172,7 +172,7 @@ static void tab_completion_emit_tab_signal(TabCompData *td)
 	if (text[0] == '~')
 		{
 		gchar *t = text;
-		text = g_strconcat(homedir(), t + 1, NULL);
+		text = expand_tilde(text);
 		g_free(t);
 		}
 
@@ -361,7 +361,7 @@ static gint tab_completion_do(TabCompData *td)
 	/* home dir expansion */
 	if (entry_text[0] == '~')
 		{
-		entry_dir = g_strconcat(homedir(), entry_text + 1, NULL);
+		entry_dir = expand_tilde(entry_text);
 		home_exp = TRUE;
 		}
 	else
