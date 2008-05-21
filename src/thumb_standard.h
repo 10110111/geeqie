@@ -19,7 +19,7 @@
 #define THUMB_FOLDER_LOCAL  ".thumblocal"
 #define THUMB_FOLDER_NORMAL "normal"
 #define THUMB_FOLDER_LARGE  "large"
-#define THUMB_FOLDER_FAIL   "fail/" GQ_APPNAME_LC "-" VERSION
+#define THUMB_FOLDER_FAIL   "fail" G_DIR_SEPARATOR_S GQ_APPNAME_LC "-" VERSION
 #define THUMB_NAME_EXTENSION ".png"
 
 

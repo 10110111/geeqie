@@ -73,8 +73,8 @@
 #define GQ_WMCLASS GQ_APPNAME_LC
 
 #define GQ_RC_DIR             "." GQ_APPNAME_LC
-#define GQ_RC_DIR_COLLECTIONS GQ_RC_DIR"/collections"
-#define GQ_RC_DIR_TRASH       GQ_RC_DIR"/trash"
+#define GQ_RC_DIR_COLLECTIONS GQ_RC_DIR G_DIR_SEPARATOR_S "collections"
+#define GQ_RC_DIR_TRASH       GQ_RC_DIR G_DIR_SEPARATOR_S "trash"
 
 #define RC_FILE_NAME GQ_APPNAME_LC "rc"
 

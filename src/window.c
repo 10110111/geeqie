@@ -189,7 +189,7 @@ static void help_browser_run(void)
 		return;
 		}
 
-	help_browser_command(result, GQ_HTMLDIR "/index.html");
+	help_browser_command(result, GQ_HTMLDIR G_DIR_SEPARATOR_S "index.html");
 
 	g_free(result);
 }
@@ -223,7 +223,7 @@ void help_window_show(const gchar *key)
 		}
 
 	help_window = help_window_new(_("Help"), GQ_WMCLASS, "help",
-				      GQ_HELPDIR "/README", key);
+				      GQ_HELPDIR G_DIR_SEPARATOR_S "README", key);
 
 	g_signal_connect(G_OBJECT(help_window), "destroy",
 			 G_CALLBACK(help_window_destroy_cb), NULL);
