@@ -699,7 +699,7 @@ void remote_control(const gchar *arg_exec, GList *remote_list, const gchar *path
 	gint started = FALSE;
 	gchar *buf;
 
-	buf = g_strconcat(homedir(), "/", GQ_RC_DIR, "/.command", NULL);
+	buf = g_build_filename(homedir(), GQ_RC_DIR, ".command", NULL);
 	rc = remote_client_open(buf);
 	if (!rc)
 		{
