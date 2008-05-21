@@ -51,9 +51,10 @@ static gint thumb_loader_save_to_cache(ThumbLoader *tl)
 		{
 		gchar *cache_path;
 		gchar *pathl;
+		gchar *name = g_strconcat(filename_from_path(tl->path), GQ_CACHE_EXT_THUMB, NULL);
 
-		cache_path = g_strconcat(cache_dir, "/", filename_from_path(tl->path),
-					 GQ_CACHE_EXT_THUMB, NULL);
+		cache_path = g_build_filename(cache_dir, name, NULL);
+		g_free(name);
 
 		DEBUG_1("Saving thumb: %s", cache_path);
 
@@ -99,9 +100,10 @@ static gint thumb_loader_mark_failure(ThumbLoader *tl)
 		gchar *cache_path;
 		gchar *pathl;
 		FILE *f;
+		gchar *name = g_strconcat(filename_from_path(tl->path), GQ_CACHE_EXT_THUMB, NULL);
 
-		cache_path = g_strconcat(cache_dir, "/", filename_from_path(tl->path),
-					 GQ_CACHE_EXT_THUMB, NULL);
+		cache_path = g_build_filename(cache_dir, name, NULL);
+		g_free(name);
 
 		DEBUG_1("marking thumb failure: %s", cache_path);
 
@@ -609,18 +611,22 @@ static GdkPixbuf *get_xv_thumbnail(gchar *thumb_filename, gint max_w, gint max_h
 {
 	gint width, height;
 	gchar *thumb_name;
-	gchar *tmp_string;
-	gchar *last_slash;
+	gchar *path;
+	gchar *directory;
+	gchar *name;
 	guchar *packed_data;
 
-	tmp_string = path_from_utf8(thumb_filename);
-	last_slash = strrchr(tmp_string, '/');
-	if(!last_slash)	return NULL;
-	*last_slash++ = '\0';
+	path = path_from_utf8(thumb_filename);
+	directory = g_path_get_dirname(path);
+	name = g_path_get_basename(path);
+	
+	thumb_name = g_build_filename(directory, ".xvpics", name, NULL);
+	
+	g_free(name);
+	g_free(directory);
+	g_free(path);
 
-	thumb_name = g_strconcat(tmp_string, "/.xvpics/", last_slash, NULL);
 	packed_data = load_xv_thumbnail(thumb_name, &width, &height);
-	g_free(tmp_string);
 	g_free(thumb_name);
 
 	if(packed_data)

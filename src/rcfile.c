@@ -299,7 +299,7 @@ void save_options(void)
 	gchar *rc_pathl;
 	gint i;
 
-	rc_path = g_strconcat(homedir(), "/", GQ_RC_DIR, "/", RC_FILE_NAME, NULL);
+	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
 
 	rc_pathl = path_from_utf8(rc_path);
 	ssi = secure_open(rc_pathl);
@@ -609,7 +609,7 @@ void load_options(void)
 	for (i = 0; ExifUIList[i].key; i++)
 		ExifUIList[i].current = ExifUIList[i].default_value;
 
-	rc_path = g_strconcat(homedir(), "/", GQ_RC_DIR, "/", RC_FILE_NAME, NULL);
+	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
 
 	rc_pathl = path_from_utf8(rc_path);
 	f = fopen(rc_pathl,"r");
