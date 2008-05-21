@@ -92,9 +92,15 @@ void file_util_trash_clear(void)
 static gchar *file_util_safe_dest(const gchar *path)
 {
 	gint n;
+	gchar *name;
+	gchar *dest;
 
 	n = file_util_safe_number(filesize(path));
-	return g_strdup_printf("%s/%06d_%s", options->file_ops.safe_delete_path, n, filename_from_path(path));
+	name = g_strdup_printf("%06d_%s", n, filename_from_path(path));
+	dest = g_build_filename(options->file_ops.safe_delete_path, name, NULL);
+	g_free(name);
+
+	return dest;
 }
 
 static void file_util_safe_del_toggle_cb(GtkWidget *button, gpointer data)
