@@ -629,19 +629,12 @@ static gint filelist_read_real(const gchar *path, GList **files, GList **dirs, g
 		return FALSE;
 		}
 
-	/* root dir fix */
-	if (pathl[0] == '/' && pathl[1] == '\0')
-		{
-		g_free(pathl);
-		pathl = g_strdup("");
-		}
-
 	while ((dir = readdir(dp)) != NULL)
 		{
 		gchar *name = dir->d_name;
 		if (options->file_filter.show_hidden_files || !ishidden(name))
 			{
-			gchar *filepath = g_strconcat(pathl, "/", name, NULL);
+			gchar *filepath = g_build_filename(pathl, name, NULL);
 			if ((follow_symlinks ?
 				stat(filepath, &ent_sbuf) :
 				lstat(filepath, &ent_sbuf)) >= 0)
