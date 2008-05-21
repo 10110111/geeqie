@@ -2065,12 +2065,16 @@ static void file_util_rename_multiple_auto(RenameDataMult *rd)
 			gchar *new_name;
 
 			new_name = file_util_rename_multiple_auto_format_name(format, fd->name, n);
-			dest = g_strconcat(base, "/", new_name, NULL);
+			dest = g_build_filename(base, new_name, NULL);
 			g_free(new_name);
 			}
 		else
 			{
-			dest = g_strdup_printf("%s/%s%0*d%s", base, front, padding, n, end);
+			gchar *new_name;
+			
+			new_name = g_strdup_printf("%s%0*d%s", front, padding, n, end);
+			dest = g_build_filename(base, new_name, NULL);
+			g_free(new_name);
 			}
 
 		if (isname(dest)) success = FALSE;
@@ -2117,12 +2121,16 @@ static void file_util_rename_multiple_auto(RenameDataMult *rd)
 			gchar *new_name;
 
 			new_name = file_util_rename_multiple_auto_format_name(format, fd->name, n);
-			dest = g_strconcat(base, "/", new_name, NULL);
+			dest = g_build_filename(base, new_name, NULL);
 			g_free(new_name);
 			}
 		else
 			{
-			dest = g_strdup_printf("%s/%s%0*d%s", base, front, padding, n, end);
+			gchar *new_name;
+
+			new_name = g_strdup_printf("%s%0*d%s", front, padding, n, end);
+			dest = g_build_filename(base, new_name, NULL);
+			g_free(new_name);
 			}
 
 		if (!file_data_add_change_info(fd, FILEDATA_CHANGE_RENAME, fd->path, dest) ||
