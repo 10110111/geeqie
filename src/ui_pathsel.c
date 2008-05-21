@@ -1214,7 +1214,7 @@ GtkWidget *path_selection_new_with_files(GtkWidget *entry, const gchar *path,
 	else
 		{
 		gchar *buf = remove_level_from_path(path);
-		if (buf && buf[0] == '/' && isdir(buf))
+		if (buf && buf[0] == G_DIR_SEPARATOR && isdir(buf))
 			{
 			dest_populate(dd, buf);
 			}
@@ -1223,7 +1223,7 @@ GtkWidget *path_selection_new_with_files(GtkWidget *entry, const gchar *path,
 			gint pos = -1;
 
 			dest_populate(dd, (gchar *)homedir());
-			if (path) gtk_editable_insert_text(GTK_EDITABLE(dd->entry), "/", -1, &pos);
+			if (path) gtk_editable_insert_text(GTK_EDITABLE(dd->entry), G_DIR_SEPARATOR_S, -1, &pos);
 			if (path) gtk_editable_insert_text(GTK_EDITABLE(dd->entry), path, -1, &pos);
 			}
 		g_free(buf);

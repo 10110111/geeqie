@@ -356,7 +356,7 @@ static void vd_pop_menu_up_cb(GtkWidget *widget, gpointer data)
 	ViewDir *vd = data;
 	gchar *path;
 
-	if (!vd->path || strcmp(vd->path, "/") == 0) return;
+	if (!vd->path || strcmp(vd->path, G_DIR_SEPARATOR_S) == 0) return;
 	path = remove_level_from_path(vd->path);
 
 	if (vd->select_func)
@@ -585,7 +585,7 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 			 G_CALLBACK(vd_popup_destroy_cb), vd);
 
 	menu_item_add_stock_sensitive(menu, _("_Up to parent"), GTK_STOCK_GO_UP,
-				      (vd->path && strcmp(vd->path, "/") != 0),
+				      (vd->path && strcmp(vd->path, G_DIR_SEPARATOR_S) != 0),
 				      G_CALLBACK(vd_pop_menu_up_cb), vd);
 
 	menu_item_add_divider(menu);

@@ -1162,7 +1162,7 @@ static void pan_layout_set_path(PanWindow *pw, const gchar *path)
 {
 	if (!path) return;
 
-	if (strcmp(path, "/") == 0)
+	if (strcmp(path, G_DIR_SEPARATOR_S) == 0)
 		{
 		pan_warning_folder(path, pw->window);
 		return;
@@ -2570,7 +2570,7 @@ static gint pan_warning(const gchar *path)
 	GtkWidget *ct_button;
 	gint hide_dlg;
 
-	if (path && strcmp(path, "/") == 0)
+	if (path && strcmp(path, G_DIR_SEPARATOR_S) == 0)
 		{
 		pan_warning_folder(path, NULL);
 		return TRUE;

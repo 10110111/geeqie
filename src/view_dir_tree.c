@@ -231,7 +231,7 @@ static GList *parts_list(const gchar *path)
 
 	list = g_list_reverse(list);
 
-	list = g_list_prepend(list, g_strdup("/"));
+	list = g_list_prepend(list, g_strdup(G_DIR_SEPARATOR_S));
 
 	return list;
 }
@@ -895,7 +895,7 @@ static gint vdtree_sort_cb(GtkTreeModel *store, GtkTreeIter *a, GtkTreeIter *b, 
 
 static void vdtree_setup_root(ViewDir *vd)
 {
-	const gchar *path = "/";
+	const gchar *path = G_DIR_SEPARATOR_S;
 	FileData *fd;
 
 

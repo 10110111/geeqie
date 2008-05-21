@@ -503,7 +503,7 @@ static void bookmark_free(BookButtonData *b)
 static gchar *bookmark_string(const gchar *name, const gchar *path, const gchar *icon)
 {
 	if (!name) name = _("New Bookmark");
-	if (icon && strncmp(icon, "/", 1) != 0) icon = NULL;
+	if (icon && strncmp(icon, G_DIR_SEPARATOR_S, 1) != 0) icon = NULL;
 
 	if (icon)
 		{

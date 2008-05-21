@@ -139,7 +139,7 @@ FileData *file_data_disconnect_sidecar_file(FileData *target, FileData *sfd);
 static void file_data_set_path(FileData *fd, const gchar *path)
 {
 
-	if (strcmp(path, "/") == 0)
+	if (strcmp(path, G_DIR_SEPARATOR_S) == 0)
 		{
 		fd->path = g_strdup(path);
 		fd->name = fd->path;
