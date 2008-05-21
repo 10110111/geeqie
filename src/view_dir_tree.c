@@ -206,7 +206,7 @@ static GList *parts_list(const gchar *path)
 
 	strp = path;
 
-	if (*strp != '/') return NULL;
+	if (*strp != G_DIR_SEPARATOR) return NULL;
 
 	strp++;
 	strb = strp;
@@ -214,7 +214,7 @@ static GList *parts_list(const gchar *path)
 
 	while (*strp != '\0')
 		{
-		if (*strp == '/')
+		if (*strp == G_DIR_SEPARATOR)
 			{
 			if (l > 0) list = g_list_prepend(list, g_strndup(strb, l));
 			strp++;
@@ -465,14 +465,14 @@ static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint fo
 		gint n;
 
 		n = strlen(nd->fd->path);
-		if (target_path[n] == '/' && target_path[n+1] == '.')
+		if (target_path[n] == G_DIR_SEPARATOR && target_path[n+1] == '.')
 			{
 			gchar *name8;
 			struct stat sbuf;
 
 			n++;
 
-			while (target_path[n] != '\0' && target_path[n] != '/') n++;
+			while (target_path[n] != '\0' && target_path[n] != G_DIR_SEPARATOR) n++;
 			name8 = g_strndup(target_path, n);
 
 			if (stat_utf8(name8, &sbuf))

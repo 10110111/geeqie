@@ -184,7 +184,7 @@ static void dest_populate(Dest_Data *dd, const gchar *path)
 		    && dir->d_name[0] == '.' && dir->d_name[1] == '\0')
 			continue;
 		if (dir->d_name[0] == '.' && dir->d_name[1] == '.' && dir->d_name[2] == '\0'
-		    && pathl[0] == '/' && pathl[1] == '\0')
+		    && pathl[0] == G_DIR_SEPARATOR && pathl[1] == '\0')
 			continue; /* no .. for root directory */
 		if (dd->show_hidden || !is_hidden(dir->d_name))
 			{
@@ -1207,7 +1207,7 @@ GtkWidget *path_selection_new_with_files(GtkWidget *entry, const gchar *path,
 		dd->filter = g_strdup(gtk_entry_get_text(GTK_ENTRY(GTK_BIN(dd->filter_combo)->child)));
 		}
 
-	if (path && path[0] == '/' && isdir(path))
+	if (path && path[0] == G_DIR_SEPARATOR && isdir(path))
 		{
 		dest_populate(dd, path);
 		}

@@ -739,7 +739,7 @@ static GList *pan_item_find_by_path_l(GList *list, GList *search_list,
 			{
 			gint match = FALSE;
 
-			if (path[0] == '/')
+			if (path[0] == G_DIR_SEPARATOR)
 				{
 				if (pi->fd->path && strcmp(path, pi->fd->path) == 0) match = TRUE;
 				}
@@ -785,7 +785,7 @@ GList *pan_item_find_by_path(PanWindow *pw, PanItemType type, const gchar *path,
 	GList *list = NULL;
 
 	if (!path) return NULL;
-	if (partial && path[0] == '/') return NULL;
+	if (partial && path[0] == G_DIR_SEPARATOR) return NULL;
 
 	list = pan_item_find_by_path_l(list, pw->list_static, type, path, ignore_case, partial);
 	list = pan_item_find_by_path_l(list, pw->list, type, path, ignore_case, partial);

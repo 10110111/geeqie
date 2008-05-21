@@ -1109,7 +1109,7 @@ static void file_util_move_check(FileDialog *fdlg)
 		return;
 		}
 
-	if (!fdlg->dest_path || fdlg->dest_path[0] != '/')
+	if (!fdlg->dest_path || fdlg->dest_path[0] != G_DIR_SEPARATOR)
 		{
 		if (fdlg->source_fd)
 			{
@@ -2772,7 +2772,7 @@ static void file_util_create_dir_cb(FileDialog *fdlg, gpointer data)
 
 	if (strlen(name) == 0) return;
 
-	if (name[0] == '/')
+	if (name[0] == G_DIR_SEPARATOR)
 		{
 		gchar *buf;
 		buf  = remove_level_from_path(name);

@@ -1646,7 +1646,7 @@ static gint pan_search_by_path(PanWindow *pw, const gchar *path)
 	image_scroll_to_point(pw->imd, pi->x + pi->width / 2, pi->y + pi->height / 2, 0.5, 0.5);
 
 	buf = g_strdup_printf("%s ( %d / %d )",
-			      (path[0] == '/') ? _("path found") : _("filename found"),
+			      (path[0] == G_DIR_SEPARATOR) ? _("path found") : _("filename found"),
 			      g_list_index(list, pi) + 1,
 			      g_list_length(list));
 	pan_search_status(pw, buf);

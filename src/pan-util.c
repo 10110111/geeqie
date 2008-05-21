@@ -158,10 +158,10 @@ gint pan_is_link_loop(const gchar *s)
 
 			parse_out_relatives(sl);
 
-			if (buf[0] == '/')
+			if (buf[0] == G_DIR_SEPARATOR)
 				{
 				if (strncmp(sl, buf, l) == 0 &&
-				    (sl[l] == '\0' || sl[l] == '/' || l == 1)) ret = TRUE;
+				    (sl[l] == '\0' || sl[l] == G_DIR_SEPARATOR || l == 1)) ret = TRUE;
 				}
 			else
 				{
@@ -171,7 +171,7 @@ gint pan_is_link_loop(const gchar *s)
 				parse_out_relatives(link_path);
 
 				if (strncmp(sl, link_path, l) == 0 &&
-				    (sl[l] == '\0' || sl[l] == '/' || l == 1)) ret = TRUE;
+				    (sl[l] == '\0' || sl[l] == G_DIR_SEPARATOR || l == 1)) ret = TRUE;
 
 				g_free(link_path);
 				}

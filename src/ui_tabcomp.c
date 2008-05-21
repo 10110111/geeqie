@@ -51,7 +51,7 @@
 /* ----------------------------------------------------------------
    Tab completion routines, can be connected to any gtkentry widget
    using the tab_completion_add_to_entry() function.
-   Use remove_trailing_slash() to strip the trailing '/'.
+   Use remove_trailing_slash() to strip the trailing G_DIR_SEPARATOR.
    ----------------------------------------------------------------*/
 
 typedef struct _TabCompData TabCompData;
@@ -821,7 +821,7 @@ gchar *remove_trailing_slash(const gchar *path)
 	if (!path) return NULL;
 
 	l = strlen(path);
-	while (l > 1 && path[l - 1] == '/') l--;
+	while (l > 1 && path[l - 1] == G_DIR_SEPARATOR) l--;
 
 	return g_strndup(path, l);
 }

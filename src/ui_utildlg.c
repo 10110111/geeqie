@@ -386,7 +386,7 @@ void file_dialog_add_path_widgets(FileDialog *fdlg, const gchar *default_path, c
 	generic_dialog_attach_default(GENERIC_DIALOG(fdlg), fdlg->entry);
 	gtk_widget_show(tabcomp);
 
-	if (path && path[0] == '/')
+	if (path && path[0] == G_DIR_SEPARATOR)
 		{
 		fdlg->dest_path = g_strdup(path);
 		}

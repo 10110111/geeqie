@@ -384,7 +384,7 @@ static gint vflist_row_rename_cb(TreeEditData *td, const gchar *old, const gchar
 	old_path = g_build_filename(vf->path, old, NULL);
 	new_path = g_build_filename(vf->path, new, NULL);
 
-	if (strchr(new, '/') != NULL)
+	if (strchr(new, G_DIR_SEPARATOR) != NULL)
 		{
 		gchar *text = g_strdup_printf(_("Invalid file name:\n%s"), new);
 		file_util_warning_dialog(_("Error renaming file"), text, GTK_STOCK_DIALOG_ERROR, vf->listview);

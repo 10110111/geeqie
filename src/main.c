@@ -297,7 +297,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 			const gchar *cmd_line = argv[i];
 			gchar *cmd_all = g_build_filename(base_dir, cmd_line, NULL);
 
-			if (cmd_line[0] == '/' && isdir(cmd_line))
+			if (cmd_line[0] == G_DIR_SEPARATOR && isdir(cmd_line))
 				{
 				parse_command_line_process_dir(cmd_line, path, file, &list, &first_dir);
 				}
@@ -305,7 +305,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 				{
 				parse_command_line_process_dir(cmd_all, path, file, &list, &first_dir);
 				}
-			else if (cmd_line[0] == '/' && isfile(cmd_line))
+			else if (cmd_line[0] == G_DIR_SEPARATOR && isfile(cmd_line))
 				{
 				parse_command_line_process_file(cmd_line, path, file,
 								&list, collection_list, &first_dir);

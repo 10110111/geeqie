@@ -593,7 +593,7 @@ gint cache_ensure_dir_exists(gchar *path, mode_t mode)
 		while (p[0] != '\0')
 			{
 			p++;
-			if (p[0] == '/' || p[0] == '\0')
+			if (p[0] == G_DIR_SEPARATOR || p[0] == '\0')
 				{
 				gint end = TRUE;
 				if (p[0] != '\0')
@@ -610,7 +610,7 @@ gint cache_ensure_dir_exists(gchar *path, mode_t mode)
 						return FALSE;
 						}
 					}
-				if (!end) p[0] = '/';
+				if (!end) p[0] = G_DIR_SEPARATOR;
 				}
 			}
 		}
