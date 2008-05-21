@@ -211,24 +211,25 @@ void log_window_append(const gchar *str, LogType type)
 	gint line_limit = 1000; //FIXME: option
 	static GList *memory = NULL;
 
-	if (logwindow == NULL && *str)
+	if (logwindow == NULL)
 		{
-		LogMsg *msg = g_new(LogMsg, 1);
+		if (*str) {
+			LogMsg *msg = g_new(LogMsg, 1);
 
-		msg->text = g_strdup(str);
-		msg->type = type;
+			msg->text = g_strdup(str);
+			msg->type = type;
 
-		memory = g_list_prepend(memory, msg);
+			memory = g_list_prepend(memory, msg);
 
-		while (g_list_length(memory) >= line_limit)
-			{
-			GList *work = g_list_last(memory);
-			LogMsg *oldest_msg = work->data;
+			while (g_list_length(memory) >= line_limit)
+				{
+				GList *work = g_list_last(memory);
+				LogMsg *oldest_msg = work->data;
 			
-			g_free(oldest_msg->text);
-			memory = g_list_delete_link(memory, work);
+				g_free(oldest_msg->text);
+				memory = g_list_delete_link(memory, work);
+				}
 			}
-
 		return;
 		}
 
