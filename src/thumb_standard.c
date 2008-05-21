@@ -649,7 +649,7 @@ gint thumb_loader_std_start(ThumbLoaderStd *tl, const gchar *path)
 	tl->source_size = st.st_size;
 	tl->source_mode = st.st_mode;
 
-	if (!thumb_cache) thumb_cache = g_strconcat(homedir(), "/", THUMB_FOLDER_GLOBAL, NULL);
+	if (!thumb_cache) thumb_cache = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, NULL);
 	if (strncmp(tl->source_path, thumb_cache, strlen(thumb_cache)) != 0)
 		{
 		gchar *pathl;

@@ -189,7 +189,7 @@ static void dest_populate(Dest_Data *dd, const gchar *path)
 		if (dd->show_hidden || !is_hidden(dir->d_name))
 			{
 			gchar *name = dir->d_name;
-			gchar *filepath = g_strconcat(pathl, "/", name, NULL);
+			gchar *filepath = g_build_filename(pathl, name, NULL);
 			if (stat(filepath, &ent_sbuf) >= 0 && S_ISDIR(ent_sbuf.st_mode))
 				{
 				path_list = g_list_prepend(path_list, path_to_utf8(name));
