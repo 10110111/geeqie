@@ -595,6 +595,23 @@ void save_options(void)
  *-----------------------------------------------------------------------------
  */
 
+static gboolean is_numbered_option(const gchar *option, const gchar *prefix, gint *number)
+{
+	gsize n;
+	gsize option_len = strlen(option);
+	gsize prefix_len = strlen(prefix);
+	
+	if (option_len <= prefix_len) return FALSE;
+	if (g_ascii_strncasecmp(option, prefix, prefix_len) != 0) return FALSE;
+
+	n = prefix_len;
+	while (g_ascii_isdigit(option[n])) n++;
+	if (n < option_len) return FALSE;
+	
+	if (number) *number = atoi(option + prefix_len);
+	return TRUE;
+}
+
 void load_options(void)
 {
 	FILE *f;
@@ -839,20 +856,21 @@ void load_options(void)
 		READ_BOOL(color_profile.use_image);
 		READ_INT(color_profile.input_type);
 
-		if (g_ascii_strncasecmp(option, "color_profile.input_file_", 25) == 0)
+		if (is_numbered_option(option, "color_profile.input_file_", &i))
 			{
-			i = strtol(option + 25, NULL, 0) - 1;
-			if (i >= 0 && i < COLOR_PROFILE_INPUTS)
+			if (i > 0 && i <= COLOR_PROFILE_INPUTS)
 				{
+				i--;
 				read_char_option(f, option, option, value, &options->color_profile.input_file[i]);
 				}
 			continue;
 			}
-		if (g_ascii_strncasecmp(option, "color_profile.input_name_", 25) == 0)
+
+		if (is_numbered_option(option, "color_profile.input_name_", &i))
 			{
-			i = strtol(option + 25, NULL, 0) - 1;
-			if (i >= 0 && i < COLOR_PROFILE_INPUTS)
+			if (i > 0 && i <= COLOR_PROFILE_INPUTS)
 				{
+				i--;
 				read_char_option(f, option, option, value, &options->color_profile.input_name[i]);
 				}
 			continue;
@@ -863,9 +881,8 @@ void load_options(void)
 
 		/* External Programs */
 
-		if (g_ascii_strncasecmp(option, "external_", 9) == 0)
+		if (is_numbered_option(option, "external_", &i))
 			{
-			i = strtol(option + 9, NULL, 0);
 			if (i > 0 && i <= GQ_EDITOR_SLOTS)
 				{
 				const gchar *ptr;
