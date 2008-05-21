@@ -135,34 +135,32 @@ static gchar *thumb_std_cache_path(const gchar *path, const gchar *uri, gint loc
 				   const gchar *cache_subfolder)
 {
 	gchar *result = NULL;
-	gchar *cache_base;
 	gchar *md5_text;
 	guchar digest[16];
+	gchar *name;
 
 	if (!path || !uri || !cache_subfolder) return NULL;
-
-	if (local)
-		{
-		gchar *base;
-
-		base = remove_level_from_path(path);
-		cache_base = g_strconcat(base, "/", THUMB_FOLDER_LOCAL, "/", cache_subfolder, NULL);
-		g_free(base);
-		}
-	else
-		{
-		cache_base = g_strconcat(homedir(), "/", THUMB_FOLDER_GLOBAL, "/", cache_subfolder, NULL);
-		}
 
 	md5_get_digest((guchar *)uri, strlen(uri), digest);
 	md5_text = md5_digest_to_text(digest);
 
-	if (cache_base && md5_text)
+	if (!md5_text) return NULL;
+
+	name = g_strconcat(md5_text, THUMB_NAME_EXTENSION, NULL);
+
+	if (local)
 		{
-		result = g_strconcat(cache_base, "/", md5_text, THUMB_NAME_EXTENSION, NULL);
+		gchar *base = remove_level_from_path(path);
+
+		result = g_build_filename(base, THUMB_FOLDER_LOCAL, cache_subfolder, name, NULL);
+		g_free(base);
+		}
+	else
+		{
+		result = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, cache_subfolder, name, NULL);
 		}
 
-	g_free(cache_base);
+	g_free(name);
 	g_free(md5_text);
 
 	return result;
