@@ -991,7 +991,7 @@ static void layout_image_dnd_end(GtkWidget *widget, GdkDragContext *context, gpo
 
 		if (!isfile(path))
 			{
-			if (row < layout_list_count(lw, NULL) - 1)
+			if ((guint) row < layout_list_count(lw, NULL) - 1)
 				{
 				layout_image_next(lw);
 				}
@@ -1404,7 +1404,7 @@ void layout_image_next(LayoutWindow *lw)
 
 	if (current >= 0)
 		{
-		if (current < layout_list_count(lw, NULL) - 1)
+		if ((guint) current < layout_list_count(lw, NULL) - 1)
 			{
 			layout_image_set_index(lw, current + 1);
 			}
@@ -1622,7 +1622,7 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkScrollDirection directio
 				break;
 			}
 		}
-	else if ( (state & GDK_SHIFT_MASK) != (options->mousewheel_scrolls))
+	else if ( (state & GDK_SHIFT_MASK) != (guint) (options->mousewheel_scrolls))
 		{
 		switch (direction)
 			{

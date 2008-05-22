@@ -238,7 +238,7 @@ struct _CollectInfo
 {
 	FileData *fd;
 	GdkPixbuf *pixbuf;
-	gint flag_mask;
+	guint flag_mask;
 };
 
 struct _CollectionData
@@ -684,7 +684,7 @@ struct _SlideShowData
 
 	FileData *slide_fd;
 
-	gint slide_count;
+	guint slide_count;
 	gint timeout_id;
 
 	gint from_selection;

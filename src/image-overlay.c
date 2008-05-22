@@ -209,8 +209,8 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 {
 	gchar delim = '%', imp = '|', sep[] = " - ";
 	gchar *start, *end;
-	gint pos, prev;
-	gint last;
+	guint pos, prev;
+	guint last;
 	gchar *name, *data;
 	GString *new;
 	gchar *ret;
@@ -226,7 +226,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 
 	while (TRUE)
 		{
-		gint limit = 0;
+		guint limit = 0;
 		gchar *trunc = NULL;
 		gchar *limpos = NULL;
 		gchar *extra = NULL;
@@ -262,7 +262,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			}
 
 		if (limpos)
-			limit = atoi(limpos);
+			limit = (guint) atoi(limpos);
 
 		if (extrapos)
 			extra = g_strndup(extrapos, end - extrapos);
@@ -322,7 +322,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 				gchar *left = NULL;
 				gchar *right = extra;
 				gchar *p;
-				gint len = strlen(extra);
+				guint len = strlen(extra);
 				
 				/* Search and replace "\n" by a newline character */
 				for (p = extra; *p; p++, len--)

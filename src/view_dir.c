@@ -623,7 +623,7 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 	for (i = 0; i < VIEW_DIR_TYPES_COUNT; i++)
 		{
 		item = menu_item_add_check(submenu, _(menu_view_dir_radio_entries[i].label),
-					   (vd->type == menu_view_dir_radio_entries[i].value),
+					   ((gint) vd->type == menu_view_dir_radio_entries[i].value),
 					   G_CALLBACK(vd_pop_submenu_dir_view_as_cb), vd);
 		g_object_set_data(G_OBJECT(item), VIEW_DIR_AS_SUBMENU_KEY, GINT_TO_POINTER(menu_view_dir_radio_entries[i].value));
 		}

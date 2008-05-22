@@ -517,9 +517,9 @@ void layout_status_update_info(LayoutWindow *lw, const gchar *text)
 
 	if (!text)
 		{
-		gint n;
+		guint n;
 		gint64 n_bytes = 0;
-		gint s;
+		guint s;
 		gint64 s_bytes = 0;
 		const gchar *ss;
 
@@ -776,7 +776,7 @@ GList *layout_list(LayoutWindow *lw)
 	return NULL;
 }
 
-gint layout_list_count(LayoutWindow *lw, gint64 *bytes)
+guint layout_list_count(LayoutWindow *lw, gint64 *bytes)
 {
 	if (!layout_valid(&lw)) return 0;
 
@@ -844,7 +844,7 @@ GList *layout_selection_list_by_index(LayoutWindow *lw)
 	return NULL;
 }
 
-gint layout_selection_count(LayoutWindow *lw, gint64 *bytes)
+guint layout_selection_count(LayoutWindow *lw, gint64 *bytes)
 {
 	if (!layout_valid(&lw)) return 0;
 

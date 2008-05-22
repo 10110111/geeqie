@@ -51,7 +51,7 @@ typedef struct _InfoTabsPos InfoTabsPos;
 struct _InfoTabsPos
 {
 	TabData *(*func)(InfoData *id);
-	gint pos;
+	guint pos;
 };
 
 static GList *info_tabs_pos_list = NULL;
@@ -496,7 +496,7 @@ static gpointer info_tab_new_funcs[] = {
 
 gchar *info_tab_default_order(void)
 {
-	gint i;
+	guint i;
 	static gchar str[G_N_ELEMENTS(info_tab_new_funcs) + 1];
 
 	for (i = 0; i < G_N_ELEMENTS(info_tab_new_funcs); i++)
@@ -521,7 +521,7 @@ static void info_tab_get_order_string(gchar **dest)
 	work = info_tabs_pos_list;
 	while (work)
 		{
-		gint i;
+		guint i;
 		InfoTabsPos *t = work->data;
 		work = work->next;
 
@@ -547,15 +547,15 @@ static void info_tabs_init(InfoData *id)
 
 	if (!info_tabs_pos_list)
 		{
-		gint count = 0;
-		gint i;
+		guint count = 0;
+		guint i;
 		gchar *order = options->properties.tabs_order;
 		
 		for (i = 0; i < strlen(order); i++)
 			{
-			gint n = order[i] - '1';
+			guint n = order[i] - '1';
 
-			if (n < 0 || n >= G_N_ELEMENTS(info_tab_new_funcs)) break;
+			if (n >= G_N_ELEMENTS(info_tab_new_funcs)) break;
 			count++;
 			}
 
@@ -564,9 +564,9 @@ static void info_tabs_init(InfoData *id)
 
 		for (i = 0; i < strlen(order); i++)
 			{
-			gint n = order[i] - '1';
+			guint n = order[i] - '1';
 
-			if (n < 0 || n >= G_N_ELEMENTS(info_tab_new_funcs)) continue;
+			if (n >= G_N_ELEMENTS(info_tab_new_funcs)) continue;
 			if (g_list_find(info_tabs_pos_list, info_tab_new_funcs[n])) continue;
 			info_tabs_pos_list_append(info_tab_new_funcs[n]);
 			}

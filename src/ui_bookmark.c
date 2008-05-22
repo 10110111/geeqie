@@ -268,7 +268,7 @@ void history_list_add_to_key(const gchar *key, const gchar *path, gint max)
 	if (max == -1) max = HISTORY_DEFAULT_KEY_COUNT;
 	if (max > 0)
 		{
-		while (hd->list && g_list_length(hd->list) > max)
+		while (hd->list && g_list_length(hd->list) > (guint) max)
 			{
 			GList *work = g_list_last(hd->list);
 			gchar *buf = work->data;

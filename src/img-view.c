@@ -639,7 +639,7 @@ static void scroll_cb(ImageWindow *imd, GdkScrollDirection direction, guint32 ti
 				break;
 			}
 		}
-	else if ( (state & GDK_SHIFT_MASK) != (options->mousewheel_scrolls))
+	else if ( (state & GDK_SHIFT_MASK) != (guint) (options->mousewheel_scrolls))
 		{
 		switch (direction)
 			{

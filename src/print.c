@@ -177,6 +177,22 @@ typedef enum {
 	TEXT_INFO_FILEPATH = 1 << 4
 } TextInfo;
 
+typedef enum {
+	PAPER_UNIT_POINTS = 0,
+	PAPER_UNIT_MM,
+	PAPER_UNIT_CM,
+	PAPER_UNIT_INCH,
+	PAPER_UNIT_PICAS,
+	PAPER_UNIT_COUNT
+} PaperUnits;
+
+typedef enum {
+	PAPER_ORIENTATION_PORTRAIT = 0,
+	PAPER_ORIENTATION_LANDSCAPE,
+	PAPER_ORIENTATION_COUNT
+} PaperOrientation;
+
+
 typedef struct _PrintWindow PrintWindow;
 struct _PrintWindow
 {
@@ -237,11 +253,11 @@ struct _PrintWindow
 	GtkWidget *margin_top_spin;
 	GtkWidget *margin_bottom_spin;
 
-	gint paper_units;
+	PaperUnits paper_units;
 	gint paper_size;
 	gdouble paper_width;
 	gdouble paper_height;
-	gint paper_orientation;
+	PaperOrientation paper_orientation;
 
 	gdouble margin_left;
 	gdouble margin_right;
@@ -328,21 +344,6 @@ static const gchar *print_output_name(PrintOutput output)
  *-----------------------------------------------------------------------------
  */
 
-
-typedef enum {
-	PAPER_UNIT_POINTS = 0,
-	PAPER_UNIT_MM,
-	PAPER_UNIT_CM,
-	PAPER_UNIT_INCH,
-	PAPER_UNIT_PICAS,
-	PAPER_UNIT_COUNT
-} PaperUnits;
-
-typedef enum {
-	PAPER_ORIENTATION_PORTRAIT = 0,
-	PAPER_ORIENTATION_LANDSCAPE,
-	PAPER_ORIENTATION_COUNT
-} PaperOrientation;
 
 typedef struct _PaperSize PaperSize;
 struct _PaperSize {

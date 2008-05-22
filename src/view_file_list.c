@@ -232,7 +232,7 @@ static void vflist_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointe
 	if (VFLIST_INFO(vf, thumbs_enabled) &&
 	    VFLIST_INFO(vf, click_fd) && VFLIST_INFO(vf, click_fd)->pixbuf)
 		{
-		gint items;
+		guint items;
 
 		if (vflist_row_is_selected(vf, VFLIST_INFO(vf, click_fd)))
 			items = vf_selection_count(vf, NULL);
@@ -629,7 +629,7 @@ static void vflist_select_image(ViewFile *vf, FileData *sel_fd)
 	if (sel_fd && options->image.enable_read_ahead && row >= 0)
 		{
 		if (row > g_list_index(vf->list, cur_fd) &&
-		    row + 1 < vf_count(vf, NULL))
+		    (guint) (row + 1) < vf_count(vf, NULL))
 			{
 			read_ahead_fd = vf_index_get_data(vf, row + 1);
 			}
@@ -1064,7 +1064,7 @@ gint vflist_index_by_path(ViewFile *vf, const gchar *path)
 	return -1;
 }
 
-gint vflist_count(ViewFile *vf, gint64 *bytes)
+guint vflist_count(ViewFile *vf, gint64 *bytes)
 {
 	if (bytes)
 		{
@@ -1144,12 +1144,12 @@ gint vflist_index_is_selected(ViewFile *vf, gint row)
 	return vflist_row_is_selected(vf, fd);
 }
 
-gint vflist_selection_count(ViewFile *vf, gint64 *bytes)
+guint vflist_selection_count(ViewFile *vf, gint64 *bytes)
 {
 	GtkTreeModel *store;
 	GtkTreeSelection *selection;
 	GList *slist;
-	gint count;
+	guint count;
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vf->listview));
 	slist = gtk_tree_selection_get_selected_rows(selection, &store);

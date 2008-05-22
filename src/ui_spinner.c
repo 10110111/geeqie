@@ -41,11 +41,11 @@ typedef struct _SpinnerData SpinnerData;
 struct _SpinnerData {
 	GtkWidget *image;
 	GList *list;		/* list of pixbufs */
-	gint frame;
+	guint frame;
 	gint timer_id;
 };
 
-static void spinner_set_frame(SpinnerData *sp, gint frame)
+static void spinner_set_frame(SpinnerData *sp, guint frame)
 {
 	GdkPixbuf *pb;
 

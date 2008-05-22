@@ -20,7 +20,7 @@ struct _ConfOptions
 	/* ui */
 	gint progressive_key_scrolling;
 	gint place_dialogs_under_mouse;
-	gint mousewheel_scrolls;
+	gboolean mousewheel_scrolls;
 	gint show_icon_names;
 	gint show_copy_path;
 

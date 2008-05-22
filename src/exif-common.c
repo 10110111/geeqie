@@ -303,7 +303,7 @@ static gchar *exif_build_formatted_SubjectDistance(ExifData *exif)
 	r = exif_get_rational(exif, "Exif.Photo.SubjectDistance", &sign);
 	if (!r) return NULL;
 
-	if ((long)r->num == 0xffffffff) return g_strdup(_("infinity"));
+	if ((long)r->num == (long)0xffffffff) return g_strdup(_("infinity"));
 	if ((long)r->num == 0) return g_strdup(_("unknown"));
 
 	n = exif_rational_to_double(r, sign);

@@ -41,11 +41,11 @@ void vflist_pop_menu_thumbs_cb(GtkWidget *widget, gpointer data);
 
 FileData *vflist_index_get_data(ViewFile *vf, gint row);
 gint vflist_index_by_path(ViewFile *vf, const gchar *path);
-gint vflist_count(ViewFile *vf, gint64 *bytes);
+guint vflist_count(ViewFile *vf, gint64 *bytes);
 GList *vflist_get_list(ViewFile *vf);
 
 gint vflist_index_is_selected(ViewFile *vf, gint row);
-gint vflist_selection_count(ViewFile *vf, gint64 *bytes);
+guint vflist_selection_count(ViewFile *vf, gint64 *bytes);
 GList *vflist_selection_get_list(ViewFile *vf);
 GList *vflist_selection_get_list_by_index(ViewFile *vf);
 

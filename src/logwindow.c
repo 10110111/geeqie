@@ -28,7 +28,7 @@ struct _LogWindow
 	
 	GdkColor colors[LOG_COUNT];
 
-	gint lines;
+	guint lines;
 };
 
 typedef struct _LogDef LogDef;
@@ -208,7 +208,7 @@ void log_window_append(const gchar *str, LogType type)
 	GtkTextView *text;
 	GtkTextBuffer *buffer;
 	GtkTextIter iter;
-	gint line_limit = 1000; //FIXME: option
+	guint line_limit = 1000; //FIXME: option
 	static GList *memory = NULL;
 
 	if (logwindow == NULL)

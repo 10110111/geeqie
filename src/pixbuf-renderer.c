@@ -1899,7 +1899,7 @@ static void pr_tile_remove(PixbufRenderer *pr, ImageTile *it)
 static void pr_tile_free_space(PixbufRenderer *pr, guint space, ImageTile *it)
 {
 	GList *work;
-	gint tile_max;
+	guint tile_max;
 
 	work = g_list_last(pr->tiles);
 

@@ -519,13 +519,14 @@ static void thumb_size_menu_cb(GtkWidget *combo, gpointer data)
 	gint n;
 
 	n = gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
+	if (n < 0) return;
 
-	if (n >= 0 && n < sizeof(thumb_size_list) / sizeof(ThumbSize))
+	if ((guint) n < sizeof(thumb_size_list) / sizeof(ThumbSize))
 		{
 		c_options->thumbnails.max_width = thumb_size_list[n].w;
 		c_options->thumbnails.max_height = thumb_size_list[n].h;
 		}
-	else if (n > 0)
+	else
 		{
 		c_options->thumbnails.max_width = options->thumbnails.max_width;
 		c_options->thumbnails.max_height = options->thumbnails.max_height;
@@ -546,7 +547,7 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 	combo = gtk_combo_box_new_text();
 
 	current = -1;
-	for (i = 0; i < sizeof(thumb_size_list) / sizeof(ThumbSize); i++)
+	for (i = 0; (guint) i < sizeof(thumb_size_list) / sizeof(ThumbSize); i++)
 		{
 		gint w, h;
 		gchar *buf;

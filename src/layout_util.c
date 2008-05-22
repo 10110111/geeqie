@@ -62,9 +62,9 @@ static guint tree_key_overrides[] = {
 	GDK_End,	GDK_KP_End
 };
 
-static gint layout_key_match(guint keyval)
+static gboolean layout_key_match(guint keyval)
 {
-	gint i;
+	guint i;
 
 	for (i = 0; i < sizeof(tree_key_overrides) / sizeof(guint); i++)
 		{

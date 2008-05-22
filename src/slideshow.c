@@ -55,7 +55,7 @@ static GList *generate_list(SlideShowData *ss)
 		}
 	else
 		{
-		gint i;
+		guint i;
 		for (i = 0; i < ss->slide_count; i++)
 			{
 			list = g_list_prepend(list, GINT_TO_POINTER(i));
@@ -365,7 +365,7 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 		if (ss->slide_count < 2)
 			{
 			ss->slide_count = layout_list_count(ss->layout, NULL);
-			if (!options->slideshow.random && start_point >= 0 && start_point < ss->slide_count)
+			if (!options->slideshow.random && start_point >= 0 && (guint) start_point < ss->slide_count)
 				{
 				start_index = start_point;
 				}

@@ -21,7 +21,7 @@ struct _FilterEntry {
 	gchar *description;
 	gchar *extensions;
 	FileFormatClass file_class;
-	gint enabled;
+	gboolean enabled;
 };
 
 /* you can change, but not add or remove entries from the returned list */

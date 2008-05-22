@@ -79,9 +79,9 @@ gint vf_index_by_path(ViewFile *vf, const gchar *path)
 	return index;
 }
 
-gint vf_count(ViewFile *vf, gint64 *bytes)
+guint vf_count(ViewFile *vf, gint64 *bytes)
 {
-	gint count = 0;
+	guint count = 0;
 
 	switch(vf->type)
 	{
@@ -167,9 +167,9 @@ static gint vf_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer da
  *-----------------------------------------------------------------------------
  */
 
-gint vf_selection_count(ViewFile *vf, gint64 *bytes)
+guint vf_selection_count(ViewFile *vf, gint64 *bytes)
 {
-	gint count = 0;
+	guint count = 0;
 
 	switch(vf->type)
 	{

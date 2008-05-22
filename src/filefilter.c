@@ -42,7 +42,7 @@ gint ishidden(const gchar *name)
 }
 
 static FilterEntry *filter_entry_new(const gchar *key, const gchar *description,
-				     const gchar *extensions, FileFormatClass file_class, gint enabled)
+				     const gchar *extensions, FileFormatClass file_class, gboolean enabled)
 {
 	FilterEntry *fe;
 
@@ -105,7 +105,7 @@ void filter_add(const gchar *key, const gchar *description, const gchar *extensi
 void filter_add_unique(const gchar *description, const gchar *extensions, FileFormatClass file_class, gint enabled)
 {
 	gchar *key;
-	gint n;
+	guint n;
 
 	key = g_strdup("user0");
 	n = 1;
@@ -172,7 +172,7 @@ void filter_add_defaults(void)
 		gchar *desc;
 		gchar **extensions;
 		GString *filter = NULL;
-		gint i;
+		guint i;
 
 		format = work->data;
 		work = work->next;
@@ -256,7 +256,7 @@ GList *filter_to_list(const gchar *extensions)
 	while (*p != '\0')
 		{
 		const gchar *b;
-		gint l = 0;
+		guint l = 0;
 
 		b = p;
 		while (*p != '\0' && *p != ';')
@@ -274,7 +274,7 @@ GList *filter_to_list(const gchar *extensions)
 void filter_rebuild(void)
 {
 	GList *work;
-	gint i;
+	guint i;
 
 	string_list_free(extension_list);
 	extension_list = NULL;
@@ -316,7 +316,7 @@ void filter_rebuild(void)
 gint filter_name_exists(const gchar *name)
 {
 	GList *work;
-	gint ln;
+	guint ln;
 
 	if (!extension_list || options->file_filter.disable) return TRUE;
 
@@ -325,7 +325,7 @@ gint filter_name_exists(const gchar *name)
 	while (work)
 		{
 		gchar *filter = work->data;
-		gint lf = strlen(filter);
+		guint lf = strlen(filter);
 
 		if (ln >= lf)
 			{
@@ -341,7 +341,7 @@ gint filter_name_exists(const gchar *name)
 gint filter_file_class(const gchar *name, FileFormatClass file_class)
 {
 	GList *work;
-	gint ln;
+	guint ln;
 
 	if (file_class < 0 || file_class >= FILE_FORMAT_CLASSES)
 		{
@@ -354,7 +354,7 @@ gint filter_file_class(const gchar *name, FileFormatClass file_class)
 	while (work)
 		{
 		gchar *filter = work->data;
-		gint lf = strlen(filter);
+		guint lf = strlen(filter);
 
 		if (ln >= lf)
 			{
@@ -395,7 +395,7 @@ void filter_parse(const gchar *text)
 	gchar *ext;
 	gchar *desc;
 	gint enabled = TRUE;
-	gint file_class;
+	guint file_class;
 
 	if (!text || text[0] != '"') return;
 
@@ -405,9 +405,9 @@ void filter_parse(const gchar *text)
 	ext = quoted_value(p, &p);
 	desc = quoted_value(p, &p);
 
-	file_class = strtol(p, NULL, 10);
+	file_class = strtoul(p, NULL, 10);
 
-	if (file_class < 0 || file_class >= FILE_FORMAT_CLASSES) file_class = FORMAT_CLASS_UNKNOWN;
+	if (file_class >= FILE_FORMAT_CLASSES) file_class = FORMAT_CLASS_UNKNOWN;
 
 	if (key && key[0] == '#')
 		{
