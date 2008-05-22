@@ -292,23 +292,19 @@ static gboolean read_bool_option(FILE *f, gchar *option, gchar *label, gchar *va
  *-----------------------------------------------------------------------------
  */
 
-void save_options(void)
+static gboolean save_options_to(const gchar *utf8_path)
 {
 	SecureSaveInfo *ssi;
-	gchar *rc_path;
 	gchar *rc_pathl;
 	gint i;
 
-	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
-
-	rc_pathl = path_from_utf8(rc_path);
+	rc_pathl = path_from_utf8(utf8_path);
 	ssi = secure_open(rc_pathl);
 	g_free(rc_pathl);
 	if (!ssi)
 		{
-		log_printf(_("error saving config file: %s\n"), rc_path);
-		g_free(rc_path);
-		return;
+		log_printf(_("error saving config file: %s\n"), utf8_path);
+		return FALSE;
 		}
 
 #define WRITE_BOOL(_name_) write_bool_option(ssi, #_name_, options->_name_)
@@ -589,11 +585,25 @@ void save_options(void)
 
 
 	if (secure_close(ssi))
-		log_printf(_("error saving config file: %s\nerror: %s\n"), rc_path,
-			    secsave_strerror(secsave_errno));
+		{
+		log_printf(_("error saving config file: %s\nerror: %s\n"), utf8_path,
+			   secsave_strerror(secsave_errno));
+		return FALSE;
+		}
 
+	return TRUE;
+}
+
+void save_options(void)
+{
+	gchar *rc_path;
+
+	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
+	save_options_to(rc_path);
 	g_free(rc_path);
 }
+
+
 
 /*
  *-----------------------------------------------------------------------------
