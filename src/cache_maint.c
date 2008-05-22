@@ -48,6 +48,7 @@ struct _CMData
  *-------------------------------------------------------------------
  */
 
+#if 0
 static gint extension_truncate(gchar *path, const gchar *ext)
 {
 	gint l;
@@ -64,6 +65,7 @@ static gint extension_truncate(gchar *path, const gchar *ext)
 
 	return TRUE;
 }
+#endif
 
 static gchar *extension_find_dot(gchar *path)
 {
