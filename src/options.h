@@ -234,5 +234,7 @@ struct _ConfOptions
 ConfOptions *options;
 
 ConfOptions *init_options(ConfOptions *options);
+void setup_default_options(ConfOptions *options);
+void sync_options_with_current_state(ConfOptions *options);
 
 #endif /* OPTIONS_H */

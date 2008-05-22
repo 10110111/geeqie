@@ -13,34 +13,20 @@
 
 #include "main.h"
 
-#include "bar_exif.h"
 #include "cache.h"
 #include "collect.h"
 #include "collect-io.h"
-#include "dnd.h"
-#include "editors.h"
 #include "filedata.h"
 #include "filefilter.h"
-#include "fullscreen.h"
 #include "image-overlay.h"
-#include "img-view.h"
-#include "info.h"
 #include "layout.h"
 #include "layout_image.h"
-#include "menu.h"
-#include "pixbuf_util.h"
-#include "preferences.h"
 #include "rcfile.h"
 #include "remote.h"
 #include "similar.h"
-#include "slideshow.h"
-#include "utilops.h"
 #include "ui_bookmark.h"
-#include "ui_help.h"
 #include "ui_fileops.h"
-#include "ui_tabcomp.h"
 #include "ui_utildlg.h"
-#include "window.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -547,90 +533,6 @@ static void check_for_home_path(gchar *path)
 	g_free(buf);
 }
 
-static void setup_default_options(void)
-{
-	gchar *path;
-	gint i;
-
-	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
-		{
-		options->editor[i].name = NULL;
-		options->editor[i].command = NULL;
-		}
-
-	editor_reset_defaults();
-
-	bookmark_add_default(_("Home"), homedir());
-	path = g_build_filename(homedir(), "Desktop", NULL);
-	bookmark_add_default(_("Desktop"), path);
-	g_free(path);
-	path = g_build_filename(homedir(), GQ_RC_DIR_COLLECTIONS, NULL);
-	bookmark_add_default(_("Collections"), path);
-	g_free(path);
-
-	g_free(options->file_ops.safe_delete_path);
-	options->file_ops.safe_delete_path = g_build_filename(homedir(), GQ_RC_DIR_TRASH, NULL);
-
-	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
-		{
-		options->color_profile.input_file[i] = NULL;
-		options->color_profile.input_name[i] = NULL;
-		}
-
-	set_default_image_overlay_template_string(&options->image_overlay.common.template_string);
-	sidecar_ext_add_defaults();
-	options->layout.order = g_strdup("123");
-	options->properties.tabs_order = g_strdup(info_tab_default_order());
-
-	options->shell.path = g_strdup(GQ_DEFAULT_SHELL_PATH);
-	options->shell.options = g_strdup(GQ_DEFAULT_SHELL_OPTIONS);
-
-	for (i = 0; ExifUIList[i].key; i++)
-		ExifUIList[i].current = ExifUIList[i].default_value;
-}
-
-static void sync_options_with_current_state(void)
-{
-	LayoutWindow *lw = NULL;
-
-	if (layout_valid(&lw))
-		{
-		options->layout.main_window.maximized =  window_maximized(lw->window);
-		if (!options->layout.main_window.maximized)
-			{
-			layout_geometry_get(NULL, &options->layout.main_window.x, &options->layout.main_window.y,
-					    &options->layout.main_window.w, &options->layout.main_window.h);
-			}
-
-		options->image_overlay.common.state = image_osd_get(lw->image);
-		}
-
-	layout_geometry_get_dividers(NULL, &options->layout.main_window.hdivider_pos, &options->layout.main_window.vdivider_pos);
-
-	layout_views_get(NULL, &options->layout.dir_view_type, &options->layout.file_view_type);
-
-	options->layout.show_thumbnails = layout_thumb_get(NULL);
-	options->layout.show_marks = layout_marks_get(NULL);
-
-	layout_sort_get(NULL, &options->file_sort.method, &options->file_sort.ascending);
-
-	layout_geometry_get_tools(NULL, &options->layout.float_window.x, &options->layout.float_window.y,
-				  &options->layout.float_window.w, &options->layout.float_window.h, &options->layout.float_window.vdivider_pos);
-	layout_tools_float_get(NULL, &options->layout.tools_float, &options->layout.tools_hidden);
-	options->layout.toolbar_hidden = layout_toolbar_hidden(NULL);
-
-	options->color_profile.enabled = layout_image_color_profile_get_use(NULL);
-	layout_image_color_profile_get(NULL,
-				       &options->color_profile.input_type,
-				       &options->color_profile.screen_type,
-				       &options->color_profile.use_image);
-
-	if (options->startup.restore_path && options->startup.use_last_path)
-		{
-		g_free(options->startup.path);
-		options->startup.path = g_strdup(layout_get_path(NULL));
-		}
-}
 
 static void exit_program_final(void)
 {
@@ -641,7 +543,7 @@ static void exit_program_final(void)
 
 	collect_manager_flush();
 
-	sync_options_with_current_state();
+	sync_options_with_current_state(options);
 	save_options();
 	keys_save();
 
@@ -750,7 +652,7 @@ int main(int argc, char *argv[])
 	parse_command_line_for_debug_option(argc, argv);
 
 	options = init_options(NULL);
-	setup_default_options();
+	setup_default_options(options);
 	load_options();
 
 	parse_command_line(argc, argv, &cmd_path, &cmd_file, &cmd_list, &collection_list, &geometry);
