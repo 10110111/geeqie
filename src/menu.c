@@ -18,6 +18,7 @@
 #include "collect.h"
 #include "collect-dlg.h"
 #include "dupe.h"
+#include "editors.h"
 #include "filedata.h"
 #include "img-view.h"
 #include "preferences.h"
@@ -69,19 +70,18 @@ static void add_edit_items(GtkWidget *menu, GCallback func, GtkAccelGroup *accel
 
 	for (i = 0; i < GQ_EDITOR_GENERIC_SLOTS; i++)
 		{
-		if (options->editor[i].command && strlen(options->editor[i].command) > 0)
-			{
-			gchar *text;
-			if (options->editor[i].name && strlen(options->editor[i].name) > 0)
-				text = g_strdup_printf(_("_%d %s..."), i, options->editor[i].name);
-			else
-				text = g_strdup_printf(_("_%d (unknown)..."), i);
-			if (accel_grp)
-				add_menu_item(menu, text, accel_grp, i + 49, GDK_CONTROL_MASK, func, GINT_TO_POINTER(i));
-			else
-				menu_item_add(menu, text, func, GINT_TO_POINTER(i));
-			g_free(text);
-			}
+		gchar *text;
+		const gchar *name = editor_get_name(i);
+
+		if (!name) continue;
+
+		text = g_strdup_printf(_("_%d %s..."), i, name);
+		if (accel_grp)
+			add_menu_item(menu, text, accel_grp, i + 49, GDK_CONTROL_MASK, func, GINT_TO_POINTER(i));
+		else
+			menu_item_add(menu, text, func, GINT_TO_POINTER(i));
+		g_free(text);
+		
 		}
 }
 

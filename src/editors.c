@@ -866,3 +866,13 @@ const gchar *editor_get_error_str(gint flags)
 	if (flags & EDITOR_ERROR_SKIPPED) return _("File was skipped.");
 	return _("Unknown error.");
 }
+
+const gchar *editor_get_name(gint n)
+{
+	if (!is_valid_editor_command(n)) return NULL;
+
+	if (options->editor[n].name && strlen(options->editor[n].name) > 0)
+		return options->editor[n].name;
+	
+	return _("(unknown)");
+}

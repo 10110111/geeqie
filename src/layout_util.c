@@ -873,24 +873,18 @@ static void layout_menu_edit_update(LayoutWindow *lw)
 		{
 		gchar *key;
 		GtkAction *action;
-
+		const gchar *name;
+	
 		key = g_strdup_printf("Editor%d", i);
 
 		action = gtk_action_group_get_action(lw->action_group, key);
 		g_object_set_data(G_OBJECT(action), "edit_index", GINT_TO_POINTER(i));
 
-		if (options->editor[i].command && strlen(options->editor[i].command) > 0)
+		name = editor_get_name(i);
+		if (name)
 			{
-			gchar *text;
+			gchar *text = g_strdup_printf(_("_%d %s..."), i, name);
 
-			if (options->editor[i].name && strlen(options->editor[i].name) > 0)
-				{
-				text = g_strdup_printf(_("_%d %s..."), i, options->editor[i].name);
-				}
-			else
-				{
-				text = g_strdup_printf(_("_%d (unknown)..."), i);
-				}
 			g_object_set(action, "label", text,
 					     "sensitive", TRUE, NULL);
 			g_free(text);
