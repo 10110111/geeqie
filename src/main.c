@@ -544,7 +544,7 @@ static void exit_program_final(void)
 	collect_manager_flush();
 
 	sync_options_with_current_state(options);
-	save_options();
+	save_options(options);
 	keys_save();
 
 	path = g_build_filename(homedir(), GQ_RC_DIR, "accels", NULL);
@@ -653,7 +653,7 @@ int main(int argc, char *argv[])
 
 	options = init_options(NULL);
 	setup_default_options(options);
-	load_options();
+	load_options(options);
 
 	parse_command_line(argc, argv, &cmd_path, &cmd_file, &cmd_list, &collection_list, &geometry);
 

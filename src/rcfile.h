@@ -17,8 +17,8 @@
 gchar *quoted_value(const gchar *text, const gchar **tail);
 gchar *escquote_value(const gchar *text);
 
-void save_options(void);
-void load_options(void);
+void save_options(ConfOptions *options);
+void load_options(ConfOptions *options);
 
 
 #endif

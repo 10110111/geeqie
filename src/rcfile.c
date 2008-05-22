@@ -292,7 +292,7 @@ static gboolean read_bool_option(FILE *f, gchar *option, gchar *label, gchar *va
  *-----------------------------------------------------------------------------
  */
 
-static gboolean save_options_to(const gchar *utf8_path)
+static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 {
 	SecureSaveInfo *ssi;
 	gchar *rc_pathl;
@@ -594,12 +594,12 @@ static gboolean save_options_to(const gchar *utf8_path)
 	return TRUE;
 }
 
-void save_options(void)
+void save_options(ConfOptions *options)
 {
 	gchar *rc_path;
 
 	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
-	save_options_to(rc_path);
+	save_options_to(rc_path, options);
 	g_free(rc_path);
 }
 
@@ -630,7 +630,7 @@ static gboolean is_numbered_option(const gchar *option, const gchar *prefix, gin
 
 
 
-static gboolean load_options_from(const gchar *utf8_path)
+static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 {
 	FILE *f;
 	gchar *rc_pathl;
@@ -922,11 +922,11 @@ static gboolean load_options_from(const gchar *utf8_path)
 	return TRUE;
 }
 
-void load_options(void)
+void load_options(ConfOptions *options)
 {
 	gchar *rc_path;
 
 	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
-	load_options_from(rc_path);
+	load_options_from(rc_path, options);
 	g_free(rc_path);
 }
