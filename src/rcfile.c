@@ -618,10 +618,11 @@ static gboolean is_numbered_option(const gchar *option, const gchar *prefix, gin
 	return TRUE;
 }
 
-void load_options(void)
+
+
+static gboolean load_options_from(const gchar *utf8_path)
 {
 	FILE *f;
-	gchar *rc_path;
 	gchar *rc_pathl;
 	gchar s_buf[1024];
 	gchar option[1024];
@@ -629,19 +630,10 @@ void load_options(void)
 	gchar value_all[1024];
 	gint i;
 
-	for (i = 0; ExifUIList[i].key; i++)
-		ExifUIList[i].current = ExifUIList[i].default_value;
-
-	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
-
-	rc_pathl = path_from_utf8(rc_path);
+	rc_pathl = path_from_utf8(utf8_path);
 	f = fopen(rc_pathl,"r");
 	g_free(rc_pathl);
-	if (!f)
-		{
-		g_free(rc_path);
-		return;
-		}
+	if (!f) return FALSE;
 
 	while (fgets(s_buf, sizeof(s_buf), f))
 		{
@@ -917,5 +909,14 @@ void load_options(void)
 		}
 
 	fclose(f);
+	return TRUE;
+}
+
+void load_options(void)
+{
+	gchar *rc_path;
+
+	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
+	load_options_from(rc_path);
 	g_free(rc_path);
 }

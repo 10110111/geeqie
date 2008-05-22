@@ -13,6 +13,7 @@
 
 #include "main.h"
 
+#include "bar_exif.h"
 #include "cache.h"
 #include "collect.h"
 #include "collect-io.h"
@@ -583,6 +584,9 @@ static void setup_default_options(void)
 
 	options->shell.path = g_strdup(GQ_DEFAULT_SHELL_PATH);
 	options->shell.options = g_strdup(GQ_DEFAULT_SHELL_OPTIONS);
+
+	for (i = 0; ExifUIList[i].key; i++)
+		ExifUIList[i].current = ExifUIList[i].default_value;
 }
 
 static void exit_program_final(void)
