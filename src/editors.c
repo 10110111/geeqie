@@ -56,31 +56,31 @@ struct _EditorData {
 };
 
 
-static gchar *editor_slot_defaults[GQ_EDITOR_SLOTS * 2] = {
-	N_("The Gimp"), "gimp-remote %{.cr2;.crw;.nef;.raw;*}f",
-	N_("XV"), "xv %f",
-	N_("Xpaint"), "xpaint %f",
-	N_("UFraw"), "ufraw %{.cr2;.crw;.nef;.raw}p",
-	N_("Add XMP sidecar"), "%vFILE=%{.cr2;.crw;.nef;.raw}p;XMP=`echo \"$FILE\"|sed -e 's|\\.[^.]*$|.xmp|'`; exiftool -tagsfromfile \"$FILE\" \"$XMP\"",
-	NULL, NULL,
-	NULL, NULL,
-	NULL, NULL,
-	N_("Rotate jpeg clockwise"), "%vif jpegtran -rotate 90 -copy all -outfile %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p; then mv %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p;else rm %{.jpg;.jpeg}p_tmp;fi",
-	N_("Rotate jpeg counterclockwise"), "%vif jpegtran -rotate 270 -copy all -outfile %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p; then mv %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p;else rm %{.jpg;.jpeg}p_tmp;fi",
+static Editor editor_slot_defaults[GQ_EDITOR_SLOTS] = {
+	{ N_("The Gimp"), "gimp-remote %{.cr2;.crw;.nef;.raw;*}f" },
+	{ N_("XV"), "xv %f" },
+	{ N_("Xpaint"), "xpaint %f" },
+	{ N_("UFraw"), "ufraw %{.cr2;.crw;.nef;.raw}p" },
+	{ N_("Add XMP sidecar"), "%vFILE=%{.cr2;.crw;.nef;.raw}p;XMP=`echo \"$FILE\"|sed -e 's|\\.[^.]*$|.xmp|'`; exiftool -tagsfromfile \"$FILE\" \"$XMP\"" },
+	{ NULL, NULL },
+	{ NULL, NULL },
+	{ NULL, NULL },
+	{ N_("Rotate jpeg clockwise"), "%vif jpegtran -rotate 90 -copy all -outfile %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p; then mv %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p;else rm %{.jpg;.jpeg}p_tmp;fi" },
+	{ N_("Rotate jpeg counterclockwise"), "%vif jpegtran -rotate 270 -copy all -outfile %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p; then mv %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p;else rm %{.jpg;.jpeg}p_tmp;fi" },
 	/* special slots */
 #if 1
 	/* for testing */
-	N_("External Copy command"), "%vset -x;cp %p %d",
-	N_("External Move command"), "%vset -x;mv %p %d",
-	N_("External Rename command"), "%vset -x;mv %p %d",
-	N_("External Delete command"), NULL,
-	N_("External New Folder command"), NULL
+	{ N_("External Copy command"), "%vset -x;cp %p %d" },
+	{ N_("External Move command"), "%vset -x;mv %p %d" },
+	{ N_("External Rename command"), "%vset -x;mv %p %d" },
+	{ N_("External Delete command"), NULL },
+	{ N_("External New Folder command"), NULL },
 #else
-	N_("External Copy command"), NULL,
-	N_("External Move command"), NULL,
-	N_("External Rename command"), NULL,
-	N_("External Delete command"), NULL,
-	N_("External New Folder command"), NULL
+	{ N_("External Copy command"), NULL },
+	{ N_("External Move command"), NULL },
+	{ N_("External Rename command"), NULL },
+	{ N_("External Delete command"), NULL },
+	{ N_("External New Folder command"), NULL },
 #endif
 };
 
@@ -101,10 +101,10 @@ void editor_reset_defaults(void)
 
 	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
-		g_free(options->editor_name[i]);
-		options->editor_name[i] = g_strdup(_(editor_slot_defaults[i * 2]));
-		g_free(options->editor_command[i]);
-		options->editor_command[i] = g_strdup(editor_slot_defaults[i * 2 + 1]);
+		g_free(options->editor[i].name);
+		options->editor[i].name = g_strdup(_(editor_slot_defaults[i].name));
+		g_free(options->editor[i].command);
+		options->editor[i].command = g_strdup(editor_slot_defaults[i].command);
 		}
 }
 
@@ -797,8 +797,8 @@ static gint editor_command_start(const gchar *template, const gchar *text, GList
 static gint is_valid_editor_command(gint n)
 {
 	return (n >= 0 && n < GQ_EDITOR_SLOTS
-		&& options->editor_command[n]
-		&& strlen(options->editor_command[n]) > 0); 
+		&& options->editor[n].command
+		&& strlen(options->editor[n].command) > 0); 
 }
 
 gint start_editor_from_filelist_full(gint n, GList *list, EditorCallback cb, gpointer data)
@@ -809,14 +809,14 @@ gint start_editor_from_filelist_full(gint n, GList *list, EditorCallback cb, gpo
 	if (!list) return FALSE;
 	if (!is_valid_editor_command(n)) return FALSE;
 
-	command = g_locale_from_utf8(options->editor_command[n], -1, NULL, NULL, NULL);
-	error = editor_command_start(command, options->editor_name[n], list, cb, data);
+	command = g_locale_from_utf8(options->editor[n].command, -1, NULL, NULL, NULL);
+	error = editor_command_start(command, options->editor[n].name, list, cb, data);
 	g_free(command);
 
 	if (n < GQ_EDITOR_GENERIC_SLOTS && (error & EDITOR_ERROR_MASK))
 		{
 		gchar *text = g_strdup_printf(_("%s\n#%d \"%s\":\n%s"), editor_get_error_str(error), n+1,
-					      options->editor_name[n], options->editor_command[n]);
+					      options->editor[n].name, options->editor[n].command);
 		
 		file_util_warning_dialog(_("Invalid editor command"), text, GTK_STOCK_DIALOG_ERROR, NULL);
 		g_free(text);
@@ -852,7 +852,7 @@ gint editor_window_flag_set(gint n)
 {
 	if (!is_valid_editor_command(n)) return TRUE;
 
-	return (editor_command_parse(options->editor_command[n], NULL, NULL) & EDITOR_KEEP_FS);
+	return (editor_command_parse(options->editor[n].command, NULL, NULL) & EDITOR_KEEP_FS);
 }
 
 const gchar *editor_get_error_str(gint flags)

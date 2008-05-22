@@ -108,8 +108,7 @@ struct _ConfOptions
 	} collections;
 
 	/* editors */
-	gchar *editor_name[GQ_EDITOR_SLOTS];
-	gchar *editor_command[GQ_EDITOR_SLOTS];
+	Editor editor[GQ_EDITOR_SLOTS];
 
 	/* file sorting */
 	struct {

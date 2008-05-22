@@ -363,7 +363,7 @@ gint copy_file_ext(FileData *fd)
 {
 	gint ok;
 	g_assert(fd->change);
-	if (options->editor_command[CMD_COPY])
+	if (options->editor[CMD_COPY].command)
 		{
 		ok = !start_editor_from_file_full(CMD_COPY, fd, copy_file_ext_cb, NULL);
 		if (ok) return ok; /* that's all for now, let's continue in callback */
@@ -411,7 +411,7 @@ gint move_file_ext(FileData *fd)
 {
 	gint ok;
 	g_assert(fd->change);
-	if (options->editor_command[CMD_MOVE])
+	if (options->editor[CMD_MOVE].command)
 		{
 		ok = !start_editor_from_file_full(CMD_MOVE, fd, move_file_ext_cb, NULL);
 		if (ok) return ok; /* that's all for now, let's continue in callback */
@@ -458,7 +458,7 @@ gint rename_file_ext(FileData *fd)
 {
 	gint ok;
 	g_assert(fd->change);
-	if (options->editor_command[CMD_RENAME])
+	if (options->editor[CMD_RENAME].command)
 		{
 		ok = !start_editor_from_file_full(CMD_RENAME, fd, rename_file_ext_cb, NULL);
 		if (ok) return ok; /* that's all for now, let's continue in callback */
@@ -1453,7 +1453,7 @@ static void file_util_delete_multiple_ok_cb(GenericDialog *gd, gpointer data)
 		}
 
 
-	if (options->editor_command[CMD_DELETE])
+	if (options->editor[CMD_DELETE].command)
 		{
 		gint flags;
 		work = source_list;
@@ -1683,7 +1683,7 @@ static void file_util_delete_ok_cb(GenericDialog *gd, gpointer data)
 		}
 
 
-	if (options->editor_command[CMD_DELETE])
+	if (options->editor[CMD_DELETE].command)
 		{
 		gint flags;
 		if ((flags = start_editor_from_file_full(CMD_DELETE, fd, file_util_delete_ext_cb, NULL)))

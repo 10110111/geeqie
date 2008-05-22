@@ -556,8 +556,8 @@ void save_options(void)
 	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
 		if (i == GQ_EDITOR_GENERIC_SLOTS) secure_fputc(ssi, '\n');
-		gchar *qname = escquote_value(options->editor_name[i]);
-		gchar *qcommand = escquote_value(options->editor_command[i]);
+		gchar *qname = escquote_value(options->editor[i].name);
+		gchar *qcommand = escquote_value(options->editor[i].command);
 		secure_fprintf(ssi, "external_%d: %s %s\n", i+1, qname, qcommand);
 		g_free(qname);
 		g_free(qcommand);
@@ -887,11 +887,11 @@ void load_options(void)
 				{
 				const gchar *ptr;
 				i--;
-				g_free(options->editor_name[i]);
-				g_free(options->editor_command[i]);
+				g_free(options->editor[i].name);
+				g_free(options->editor[i].command);
 
-				options->editor_name[i] = quoted_value(value_all, &ptr);
-				options->editor_command[i] = quoted_value(ptr, NULL);
+				options->editor[i].name = quoted_value(value_all, &ptr);
+				options->editor[i].command = quoted_value(ptr, NULL);
 				}
 			continue;
 			}

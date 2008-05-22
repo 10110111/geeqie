@@ -553,8 +553,8 @@ static void setup_default_options(void)
 
 	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
-		options->editor_name[i] = NULL;
-		options->editor_command[i] = NULL;
+		options->editor[i].name = NULL;
+		options->editor[i].command = NULL;
 		}
 
 	editor_reset_defaults();

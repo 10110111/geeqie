@@ -165,6 +165,11 @@ typedef struct _Histogram Histogram;
 
 typedef struct _SecureSaveInfo SecureSaveInfo;
 
+typedef struct _Editor Editor;
+struct _Editor {
+	gchar *name;
+	gchar *command;
+};
 
 struct _ImageLoader
 {

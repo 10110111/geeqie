@@ -69,11 +69,11 @@ static void add_edit_items(GtkWidget *menu, GCallback func, GtkAccelGroup *accel
 
 	for (i = 0; i < GQ_EDITOR_GENERIC_SLOTS; i++)
 		{
-		if (options->editor_command[i] && strlen(options->editor_command[i]) > 0)
+		if (options->editor[i].command && strlen(options->editor[i].command) > 0)
 			{
 			gchar *text;
-			if (options->editor_name[i] && strlen(options->editor_name[i]) > 0)
-				text = g_strdup_printf(_("_%d %s..."), i, options->editor_name[i]);
+			if (options->editor[i].name && strlen(options->editor[i].name) > 0)
+				text = g_strdup_printf(_("_%d %s..."), i, options->editor[i].name);
 			else
 				text = g_strdup_printf(_("_%d (unknown)..."), i);
 			if (accel_grp)

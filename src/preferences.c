@@ -163,14 +163,14 @@ static void config_window_apply(void)
 		{
 		if (i < GQ_EDITOR_GENERIC_SLOTS)
 			{
-			g_free(options->editor_name[i]);
-			options->editor_name[i] = NULL;
+			g_free(options->editor[i].name);
+			options->editor[i].name = NULL;
 			buf = gtk_entry_get_text(GTK_ENTRY(editor_name_entry[i]));
-			if (buf && strlen(buf) > 0) options->editor_name[i] = g_strdup(buf);
+			if (buf && strlen(buf) > 0) options->editor[i].name = g_strdup(buf);
 			}
 
-		g_free(options->editor_command[i]);
-		options->editor_command[i] = NULL;
+		g_free(options->editor[i].command);
+		options->editor[i].command = NULL;
 		buf = gtk_entry_get_text(GTK_ENTRY(editor_command_entry[i]));
 		if (buf && strlen(buf) > 0)
 			{
@@ -180,10 +180,10 @@ static void config_window_apply(void)
 				{
 				if (errmsg->str[0]) g_string_append(errmsg, "\n\n");
 				g_string_append_printf(errmsg, _("%s\n#%d \"%s\":\n%s"), editor_get_error_str(flags),
-						       i+1, options->editor_name[i], buf);
+						       i+1, options->editor[i].name, buf);
 
 				}
-			options->editor_command[i] = g_strdup(buf);
+			options->editor[i].command = g_strdup(buf);
 			}
 		}
 	
@@ -759,9 +759,9 @@ static void editor_default_ok_cb(GenericDialog *gd, gpointer data)
 		{
 		if (i < GQ_EDITOR_GENERIC_SLOTS)
 			gtk_entry_set_text(GTK_ENTRY(editor_name_entry[i]),
-				   (options->editor_name[i]) ? options->editor_name[i] : "");
+				   (options->editor[i].name) ? options->editor[i].name : "");
 		gtk_entry_set_text(GTK_ENTRY(editor_command_entry[i]),
-				   (options->editor_command[i]) ? options->editor_command[i] : "");
+				   (options->editor[i].command) ? options->editor[i].command : "");
 		}
 }
 
@@ -1225,12 +1225,12 @@ static void config_tab_editors(GtkWidget *notebook)
 			entry = gtk_entry_new();
 			gtk_entry_set_max_length(GTK_ENTRY(entry), EDITOR_NAME_MAX_LENGTH);
 			gtk_widget_set_size_request(entry, 80, -1);
-			if (options->editor_name[i])
-				gtk_entry_set_text(GTK_ENTRY(entry), options->editor_name[i]);
+			if (options->editor[i].name)
+				gtk_entry_set_text(GTK_ENTRY(entry), options->editor[i].name);
 			}
 		else
 			{
-			entry = gtk_label_new(options->editor_name[i]);
+			entry = gtk_label_new(options->editor[i].name);
 			gtk_misc_set_alignment(GTK_MISC(entry), 0.0, 0.5);
 			}
 
@@ -1243,8 +1243,8 @@ static void config_tab_editors(GtkWidget *notebook)
 		gtk_entry_set_max_length(GTK_ENTRY(entry), EDITOR_COMMAND_MAX_LENGTH);
 		gtk_widget_set_size_request(entry, 160, -1);
 		tab_completion_add_to_entry(entry, NULL, NULL);
-		if (options->editor_command[i])
-			gtk_entry_set_text(GTK_ENTRY(entry), options->editor_command[i]);
+		if (options->editor[i].command)
+			gtk_entry_set_text(GTK_ENTRY(entry), options->editor[i].command);
 		gtk_table_attach(GTK_TABLE(table), entry, 2, 3, i+1, i+2,
 				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
 		gtk_widget_show(entry);

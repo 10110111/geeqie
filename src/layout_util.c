@@ -879,13 +879,13 @@ static void layout_menu_edit_update(LayoutWindow *lw)
 		action = gtk_action_group_get_action(lw->action_group, key);
 		g_object_set_data(G_OBJECT(action), "edit_index", GINT_TO_POINTER(i));
 
-		if (options->editor_command[i] && strlen(options->editor_command[i]) > 0)
+		if (options->editor[i].command && strlen(options->editor[i].command) > 0)
 			{
 			gchar *text;
 
-			if (options->editor_name[i] && strlen(options->editor_name[i]) > 0)
+			if (options->editor[i].name && strlen(options->editor[i].name) > 0)
 				{
-				text = g_strdup_printf(_("_%d %s..."), i, options->editor_name[i]);
+				text = g_strdup_printf(_("_%d %s..."), i, options->editor[i].name);
 				}
 			else
 				{

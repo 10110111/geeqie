@@ -181,7 +181,7 @@ gchar *file_util_safe_delete_status(void)
 {
 	gchar *buf;
 
-	if (options->editor_command[CMD_DELETE])
+	if (options->editor[CMD_DELETE].command)
 		{
 		buf = g_strdup(_("Deletion by external command"));
 		}
