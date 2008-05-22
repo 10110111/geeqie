@@ -185,13 +185,13 @@ gint cache_sim_data_save(CacheData *cd)
  *-------------------------------------------------------------------
  */
 
-static gint cache_sim_read_skipline(FILE *f, int s)
+static gint cache_sim_read_skipline(FILE *f, gint s)
 {
 	if (!f) return FALSE;
 
 	if (fseek(f, 0 - s, SEEK_CUR) == 0)
 		{
-		char b;
+		gchar b;
 		while (fread(&b, sizeof(b), 1, f) == 1)
 			{
 			if (b == '\n') return TRUE;
@@ -202,7 +202,7 @@ static gint cache_sim_read_skipline(FILE *f, int s)
 	return FALSE;
 }
 
-static gint cache_sim_read_comment(FILE *f, char *buf, int s, CacheData *cd)
+static gint cache_sim_read_comment(FILE *f, gchar *buf, gint s, CacheData *cd)
 {
 	if (!f || !buf || !cd) return FALSE;
 
@@ -211,7 +211,7 @@ static gint cache_sim_read_comment(FILE *f, char *buf, int s, CacheData *cd)
 	return cache_sim_read_skipline(f, s - 1);
 }
 
-static gint cache_sim_read_dimensions(FILE *f, char *buf, int s, CacheData *cd)
+static gint cache_sim_read_dimensions(FILE *f, gchar *buf, gint s, CacheData *cd)
 {
 	if (!f || !buf || !cd) return FALSE;
 
@@ -219,9 +219,9 @@ static gint cache_sim_read_dimensions(FILE *f, char *buf, int s, CacheData *cd)
 
 	if (fseek(f, - s, SEEK_CUR) == 0)
 		{
-		char b;
-		char buf[1024];
-		gint p = 0;
+		gchar b;
+		gchar buf[1024];
+		gsize p = 0;
 		gint w, h;
 
 		b = 'X';
@@ -254,7 +254,7 @@ static gint cache_sim_read_dimensions(FILE *f, char *buf, int s, CacheData *cd)
 	return FALSE;
 }
 
-static gint cache_sim_read_date(FILE *f, char *buf, int s, CacheData *cd)
+static gint cache_sim_read_date(FILE *f, gchar *buf, gint s, CacheData *cd)
 {
 	if (!f || !buf || !cd) return FALSE;
 
@@ -262,9 +262,9 @@ static gint cache_sim_read_date(FILE *f, char *buf, int s, CacheData *cd)
 
 	if (fseek(f, - s, SEEK_CUR) == 0)
 		{
-		char b;
-		char buf[1024];
-		gint p = 0;
+		gchar b;
+		gchar buf[1024];
+		gsize p = 0;
 
 		b = 'X';
 		while (b != '[')
@@ -294,7 +294,7 @@ static gint cache_sim_read_date(FILE *f, char *buf, int s, CacheData *cd)
 	return FALSE;
 }
 
-static gint cache_sim_read_checksum(FILE *f, char *buf, int s, CacheData *cd)
+static gint cache_sim_read_checksum(FILE *f, gchar *buf, gint s, CacheData *cd)
 {
 	if (!f || !buf || !cd) return FALSE;
 
@@ -302,9 +302,9 @@ static gint cache_sim_read_checksum(FILE *f, char *buf, int s, CacheData *cd)
 
 	if (fseek(f, - s, SEEK_CUR) == 0)
 		{
-		char b;
-		char buf[1024];
-		gint p = 0;
+		gchar b;
+		gchar buf[1024];
+		gsize p = 0;
 
 		b = 'X';
 		while (b != '[')
@@ -334,7 +334,7 @@ static gint cache_sim_read_checksum(FILE *f, char *buf, int s, CacheData *cd)
 	return FALSE;
 }
 
-static gint cache_sim_read_md5sum(FILE *f, char *buf, int s, CacheData *cd)
+static gint cache_sim_read_md5sum(FILE *f, gchar *buf, gint s, CacheData *cd)
 {
 	if (!f || !buf || !cd) return FALSE;
 
@@ -342,9 +342,9 @@ static gint cache_sim_read_md5sum(FILE *f, char *buf, int s, CacheData *cd)
 
 	if (fseek(f, - s, SEEK_CUR) == 0)
 		{
-		char b;
-		char buf[64];
-		gint p = 0;
+		gchar b;
+		gchar buf[64];
+		gsize p = 0;
 
 		b = 'X';
 		while (b != '[')
@@ -371,7 +371,7 @@ static gint cache_sim_read_md5sum(FILE *f, char *buf, int s, CacheData *cd)
 	return FALSE;
 }
 
-static gint cache_sim_read_similarity(FILE *f, char *buf, int s, CacheData *cd)
+static gint cache_sim_read_similarity(FILE *f, gchar *buf, gint s, CacheData *cd)
 {
 	if (!f || !buf || !cd) return FALSE;
 
@@ -381,7 +381,7 @@ static gint cache_sim_read_similarity(FILE *f, char *buf, int s, CacheData *cd)
 
 	if (fseek(f, - s, SEEK_CUR) == 0)
 		{
-		char b;
+		gchar b;
 		guint8 pixel_buf[3];
 		ImageSimilarityData *sd;
 		gint x, y;
@@ -441,7 +441,7 @@ CacheData *cache_sim_data_load(const gchar *path)
 {
 	FILE *f;
 	CacheData *cd = NULL;
-	char buf[32];
+	gchar buf[32];
 	gint success = CACHE_LOAD_LINE_NOISE;
 	gchar *pathl;
 
@@ -456,7 +456,7 @@ CacheData *cache_sim_data_load(const gchar *path)
 	cd = cache_sim_data_new();
 	cd->path = g_strdup(path);
 
-	if (fread(&buf, sizeof(char), 9, f) != 9 ||
+	if (fread(&buf, sizeof(gchar), 9, f) != 9 ||
 	    strncmp(buf, "SIMcache", 8) != 0)
 		{
 		DEBUG_1("%s is not a cache file", cd->path);
@@ -465,8 +465,8 @@ CacheData *cache_sim_data_load(const gchar *path)
 
 	while (success > 0)
 		{
-		int s;
-		s = fread(&buf, sizeof(char), sizeof(buf), f);
+		gint s;
+		s = fread(&buf, sizeof(gchar), sizeof(buf), f);
 
 		if (s < 1)
 			{

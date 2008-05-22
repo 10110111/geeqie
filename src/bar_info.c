@@ -300,7 +300,7 @@ static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 	if (keywords)
 		{
 		ExifItem *item;
-		gint i;
+		guint i;
 		
 		*keywords = NULL;
 		item = exif_get_item(exif, KEYWORD_KEY);

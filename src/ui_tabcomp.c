@@ -491,7 +491,7 @@ static gint tab_completion_do(TabCompData *td)
 				}
 			else
 				{
-				gint c = strlen(entry_file);
+				gsize c = strlen(entry_file);
 				gint done = FALSE;
 				gchar *test_file = poss->data;
 

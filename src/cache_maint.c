@@ -136,9 +136,9 @@ static gint cache_maintain_home_cb(gpointer data)
 	GList *dlist = NULL;
 	GList *list = NULL;
 	FileData *fd;
-	gint just_done = FALSE;
-	gint still_have_a_file = TRUE;
-	gint base_length;
+	gboolean just_done = FALSE;
+	gboolean still_have_a_file = TRUE;
+	gsize base_length;
 	const gchar *cache_folder;
 	gchar *base;
 
