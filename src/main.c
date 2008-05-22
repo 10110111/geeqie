@@ -589,15 +589,9 @@ static void setup_default_options(void)
 		ExifUIList[i].current = ExifUIList[i].default_value;
 }
 
-static void exit_program_final(void)
+static void sync_options_with_current_state(void)
 {
-	gchar *path;
-	gchar *pathl;
 	LayoutWindow *lw = NULL;
-
-	remote_close(remote_connection);
-
-	collect_manager_flush();
 
 	if (layout_valid(&lw))
 		{
@@ -636,7 +630,18 @@ static void exit_program_final(void)
 		g_free(options->startup.path);
 		options->startup.path = g_strdup(layout_get_path(NULL));
 		}
+}
 
+static void exit_program_final(void)
+{
+	gchar *path;
+	gchar *pathl;
+
+	remote_close(remote_connection);
+
+	collect_manager_flush();
+
+	sync_options_with_current_state();
 	save_options();
 	keys_save();
 
