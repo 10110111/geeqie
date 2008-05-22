@@ -580,6 +580,9 @@ static void setup_default_options(void)
 	sidecar_ext_add_defaults();
 	options->layout.order = g_strdup("123");
 	options->properties.tabs_order = g_strdup(info_tab_default_order());
+
+	options->shell.path = g_strdup(GQ_DEFAULT_SHELL_PATH);
+	options->shell.options = g_strdup(GQ_DEFAULT_SHELL_OPTIONS);
 }
 
 static void exit_program_final(void)

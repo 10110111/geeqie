@@ -110,6 +110,12 @@ struct _ConfOptions
 	/* editors */
 	Editor editor[GQ_EDITOR_SLOTS];
 
+	/* shell */
+	struct {
+		gchar *path;
+		gchar *options;
+	} shell;
+	
 	/* file sorting */
 	struct {
 		SortType method;

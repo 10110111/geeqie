@@ -548,6 +548,12 @@ void save_options(void)
 	WRITE_INT(color_profile.screen_type);
 	WRITE_CHAR(color_profile.screen_file);
 
+
+	WRITE_SUBTITLE("Shell command");
+	WRITE_CHAR(shell.path);
+	WRITE_CHAR(shell.options);
+
+
 	WRITE_SUBTITLE("External Programs");
 	secure_fprintf(ssi, "# Maximum of %d programs (external_1 through external_%d)\n", GQ_EDITOR_GENERIC_SLOTS, GQ_EDITOR_GENERIC_SLOTS);
 	secure_fprintf(ssi, "# external_%d through external_%d are used for file ops\n", GQ_EDITOR_GENERIC_SLOTS + 1, GQ_EDITOR_SLOTS);
@@ -878,6 +884,10 @@ void load_options(void)
 
 		READ_INT(color_profile.screen_type);
 		READ_CHAR(color_profile.screen_file);
+
+		/* Shell command */
+		READ_CHAR(shell.path);
+		READ_CHAR(shell.options);
 
 		/* External Programs */
 

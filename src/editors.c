@@ -27,8 +27,6 @@
 #define EDITOR_WINDOW_WIDTH 500
 #define EDITOR_WINDOW_HEIGHT 300
 
-#define COMMAND_SHELL "/bin/sh"
-#define COMMAND_OPT  "-c"
 
 
 typedef struct _EditorVerboseData EditorVerboseData;
@@ -579,14 +577,30 @@ static gint editor_command_one(const gchar *template, GList *list, EditorData *e
 
 	if (ok)
 		{
+		ok = (options->shell.path && *options->shell.path);
+		if (!ok) log_printf("ERROR: empty shell command\n");
+			
+		if (ok)
+			{
+			ok = (access(options->shell.path, X_OK) == 0);
+			if (!ok) log_printf("ERROR: cannot execute shell command '%s'\n", options->shell.path);
+			}
+
+		if (!ok) ed->flags |= EDITOR_ERROR_CANT_EXEC;
+		}
+
+	if (ok)
+		{
 		gchar *working_directory;
 		gchar *args[4];
+		guint n = 0;
 
 		working_directory = remove_level_from_path(fd->path);
-		args[0] = COMMAND_SHELL;
-		args[1] = COMMAND_OPT;
-		args[2] = command;
-		args[3] = NULL;
+		args[n++] = options->shell.path;
+		if (options->shell.options && *options->shell.options)
+			args[n++] = options->shell.options;
+		args[n++] = command;
+		args[n] = NULL;
 
 		ok = g_spawn_async_with_pipes(working_directory, args, NULL,
 				      G_SPAWN_DO_NOT_REAP_CHILD, /* GSpawnFlags */
