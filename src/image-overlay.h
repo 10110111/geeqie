@@ -31,7 +31,8 @@ typedef enum {
 	OSD_SHOW_HISTOGRAM	= 1 << 2
 } OsdShowFlags;
 
-void set_default_image_overlay_template_string(ConfOptions *options);
+void set_image_overlay_template_string(gchar **template_string, const gchar *value);
+void set_default_image_overlay_template_string(gchar **template_string);
 
 void image_osd_set(ImageWindow *imd, OsdShowFlags show);
 OsdShowFlags image_osd_get(ImageWindow *imd);

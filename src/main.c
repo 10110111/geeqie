@@ -576,7 +576,7 @@ static void setup_default_options(void)
 		options->color_profile.input_name[i] = NULL;
 		}
 
-	set_default_image_overlay_template_string(options);
+	set_default_image_overlay_template_string(&options->image_overlay.common.template_string);
 	sidecar_ext_add_defaults();
 	options->layout.order = g_strdup("123");
 	options->properties.tabs_order = g_strdup(info_tab_default_order());

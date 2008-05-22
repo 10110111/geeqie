@@ -283,11 +283,9 @@ static void config_window_apply(void)
 	options->fullscreen.above = c_options->fullscreen.above;
 	options->image_overlay.common.show_at_startup = c_options->image_overlay.common.show_at_startup;
 	if (c_options->image_overlay.common.template_string)
-		{
-		g_free(options->image_overlay.common.template_string);
-		options->image_overlay.common.template_string = g_strdup(c_options->image_overlay.common.template_string);
-		}
-
+		set_image_overlay_template_string(&options->image_overlay.common.template_string,
+						  c_options->image_overlay.common.template_string);
+		
 	options->update_on_time_change = c_options->update_on_time_change;
 	options->image.exif_rotate_enable = c_options->image.exif_rotate_enable;
 
@@ -825,8 +823,8 @@ static void image_overlay_template_view_changed_cb(GtkWidget* widget, gpointer d
 	gtk_text_buffer_get_start_iter(pTextBuffer, &iStart);
 	gtk_text_buffer_get_end_iter(pTextBuffer, &iEnd);
 
-	if (c_options->image_overlay.common.template_string) g_free(c_options->image_overlay.common.template_string);
-	c_options->image_overlay.common.template_string = gtk_text_buffer_get_text(pTextBuffer, &iStart, &iEnd, TRUE);
+	set_image_overlay_template_string(&c_options->image_overlay.common.template_string,
+					  gtk_text_buffer_get_text(pTextBuffer, &iStart, &iEnd, TRUE));
 }
 
 static void image_overlay_default_template_ok_cb(GenericDialog *gd, gpointer data)
@@ -834,7 +832,7 @@ static void image_overlay_default_template_ok_cb(GenericDialog *gd, gpointer dat
 	GtkTextView *text_view = data;
 	GtkTextBuffer *buffer;
 
-	set_default_image_overlay_template_string(options);
+	set_default_image_overlay_template_string(&options->image_overlay.common.template_string);
 	if (!configwindow) return;
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view));

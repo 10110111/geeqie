@@ -83,11 +83,18 @@ static OSDIcon osd_icons[] = {
 
 static void image_osd_timer_schedule(OverlayStateData *osd);
 
-
-void set_default_image_overlay_template_string(ConfOptions *options)
+void set_image_overlay_template_string(gchar **template_string, const gchar *value)
 {
-	if (options->image_overlay.common.template_string) g_free(options->image_overlay.common.template_string);
-	options->image_overlay.common.template_string = g_strdup(DEFAULT_OVERLAY_INFO);
+	g_assert(template_string);
+
+	g_free(*template_string);
+	*template_string = g_strdup(value);
+}
+
+
+void set_default_image_overlay_template_string(gchar **template_string)
+{
+	set_image_overlay_template_string(template_string, DEFAULT_OVERLAY_INFO);
 }
 
 static OverlayStateData *image_get_osd_data(ImageWindow *imd)
