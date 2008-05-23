@@ -156,7 +156,6 @@ AM_CONDITIONAL(MS_LIB_AVAILABLE, test x$ms_librarian = xyes)
 AM_CONDITIONAL(HAVE_WINDRES, test "x$WINDRES" != "x:")
 AC_SUBST(WINDRES)
 
-AC_MSG_CHECKING(for libpthread)
 have_libpthread=no
 AC_CHECK_LIB([pthread], [main],
   [AC_CHECK_HEADER([pthread.h],
@@ -169,6 +168,7 @@ if test "x${have_libpthread}" = "xyes"; then
 else
   AC_MSG_WARN([POSIX thread header not installed])
 fi
+AC_MSG_CHECKING(for libpthread)
 AC_MSG_RESULT([${have_libpthread}])
 
 dnl reasonable guesses for where stuff is installed
@@ -196,10 +196,12 @@ AC_SUBST(htmldir)
 # ----------------------------------------------------------------------
 
 dnl Check for LIRC client support
+AC_MSG_CHECKING(if LIRC support is enabled)
+lirc=no
 AC_ARG_ENABLE([lirc],
   AC_HELP_STRING([--disable-lirc], [disable lirc support (auto)]),
 [
-if test x"${enableval}" = x"yes" -a x"$GCC" = x"yes"; then
+if test "x${enableval}" = "xyes" -a "x$GCC" = "xyes"; then
   AC_MSG_RESULT(yes)
   lirc=yes
 else
@@ -217,7 +219,7 @@ for dir in `echo "$withval" | tr : ' '`; do
   done
 ])
 
-if test "x${lirc}" != x"no" ; then
+if test "x${lirc}" != "xno" ; then
   AC_CHECK_HEADER(lirc/lirc_client.h,
     [AC_CHECK_LIB(lirc_client,lirc_init,[LIBS=-llirc_client $LIBS;AC_DEFINE([HAVE_LIRC],[],[Define to 1 if LIRC must be used])],,)],)
 fi
