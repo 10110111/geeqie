@@ -65,7 +65,12 @@ fi
 if test "x${enable_debug}" != "xno"
 then
   CXXFLAGS="${CXXFLAGS} -g -O0 -Wunused-value -Wunused-variable -Wunused-function -Wunused-label -Wcomment -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -W"
-  CFLAGS="${CFLAGS} -g -O0 -Wstrict-prototypes -Wunused-value -Wunused-variable -Wunused-function -Wunused-label -Wcomment -Wimplicit-int -Werror-implicit-function-declaration -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -W"
+  CFLAGS="${CFLAGS} -g -O0 -Wunused-value -Wunused-variable -Wunused-function -Wunused-label -Wcomment -Wimplicit-int -Werror-implicit-function-declaration -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -W"
+  if test "x${enable_developer}" == "xyes"
+  then
+  CXXFLAGS="${CXXFLAGS} -Wall"
+  CFLAGS="${CFLAGS} -Wstrict-prototypes -Wall"
+  fi
   AC_DEFINE(DEBUG,1,[Defined if Geeqie is compiled with debugging support])
   __IS_DEBUG=yes
 else
@@ -89,9 +94,9 @@ if test "x${enable_deprecated}" != "xno"
 then
   CXXFLAGS="${CXXFLAGS} -DGTK_DISABLE_DEPRECATED=1 -DGDK_DISABLE_DEPRECATED=1 -DGDK_PIXBUF_DISABLE_DEPRECATED=1 -DG_DISABLE_DEPRECATED=1"
   CFLAGS="${CFLAGS} -DGTK_DISABLE_DEPRECATED=1 -DGDK_DISABLE_DEPRECATED=1 -DGDK_PIXBUF_DISABLE_DEPRECATED=1 -DG_DISABLE_DEPRECATED=1"
-  __IS_DEPRECATED=no
-else
   __IS_DEPRECATED=yes
+else
+  __IS_DEPRECATED=no
 fi
 
 
