@@ -924,9 +924,19 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 
 void load_options(ConfOptions *options)
 {
+	gboolean success;
 	gchar *rc_path;
 
+	if (isdir(GQ_SYSTEM_WIDE_DIR))
+		{
+		rc_path = g_build_filename(GQ_SYSTEM_WIDE_DIR, RC_FILE_NAME, NULL);
+		success = load_options_from(rc_path, options);
+		DEBUG_1("Loading options from %s ... %s", rc_path, success ? "done" : "failed");
+		g_free(rc_path);
+		}
+	
 	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
-	load_options_from(rc_path, options);
+	success = load_options_from(rc_path, options);
+	DEBUG_1("Loading options from %s ... %s", rc_path, success ? "done" : "failed");
 	g_free(rc_path);
 }

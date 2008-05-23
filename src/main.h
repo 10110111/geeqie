@@ -76,6 +76,8 @@
 #define GQ_RC_DIR_COLLECTIONS GQ_RC_DIR G_DIR_SEPARATOR_S "collections"
 #define GQ_RC_DIR_TRASH       GQ_RC_DIR G_DIR_SEPARATOR_S "trash"
 
+#define GQ_SYSTEM_WIDE_DIR    "/etc/" GQ_APPNAME_LC
+
 #define RC_FILE_NAME GQ_APPNAME_LC "rc"
 
 #define ZOOM_RESET_ORIGINAL 0

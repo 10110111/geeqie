@@ -79,11 +79,11 @@ void filter_remove_entry(FilterEntry *fe)
 	filter_entry_free(fe);
 }
 
-static gint filter_key_exists(const gchar *key)
+static FilterEntry *filter_get_by_key(const gchar *key)
 {
 	GList *work;
 
-	if (!key) return FALSE;
+	if (!key) return NULL;
 
 	work = filter_list;
 	while (work)
@@ -91,10 +91,15 @@ static gint filter_key_exists(const gchar *key)
 		FilterEntry *fe = work->data;
 		work = work->next;
 
-		if (strcmp(fe->key, key) == 0) return TRUE;
+		if (strcmp(fe->key, key) == 0) return fe;
 		}
 
-	return FALSE;
+	return NULL;
+}
+
+static gint filter_key_exists(const gchar *key)
+{
+	return (filter_get_by_key(key) == NULL ? FALSE : TRUE);
 }
 
 void filter_add(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gint enabled)
@@ -419,7 +424,13 @@ void filter_parse(const gchar *text)
 		enabled = FALSE;
 		}
 
-	if (key && strlen(key) > 0 && ext) filter_add(key, desc, ext, file_class, enabled);
+	if (key && strlen(key) > 0 && ext)
+		{
+		FilterEntry *fe = filter_get_by_key(key);
+
+		if (fe != NULL) filter_remove_entry(fe);
+		filter_add(key, desc, ext, file_class, enabled);
+		}
 
 	g_free(key);
 	g_free(ext);
