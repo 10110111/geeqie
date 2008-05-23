@@ -1567,9 +1567,9 @@ GtkWidget *layout_button_bar(LayoutWindow *lw)
 	pref_toolbar_button(box, GTK_STOCK_ZOOM_100, NULL, FALSE,
 			    _("Set zoom 1:1"), G_CALLBACK(layout_button_zoom_1_1_cb), lw);
 	pref_toolbar_button(box, GTK_STOCK_PREFERENCES, NULL, FALSE,
-			    _("Configure options"), G_CALLBACK(layout_button_config_cb), lw);
+			    _("Preferences"), G_CALLBACK(layout_button_config_cb), lw);
 	button = pref_toolbar_button(box, NULL, _("_Float"), FALSE,
-				     _("Float Controls"), G_CALLBACK(layout_button_float_cb), lw);
+				     _("Float file list"), G_CALLBACK(layout_button_float_cb), lw);
 	layout_button_custom_icon(button, PIXBUF_INLINE_ICON_FLOAT);
 
 	return box;
