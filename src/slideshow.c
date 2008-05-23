@@ -22,14 +22,14 @@
 #include "ui_fileops.h"
 
 
-static void slideshow_timer_reset(SlideShowData *ss, gint reset);
+static void slideshow_timer_stop(SlideShowData *ss);
 
 
 void slideshow_free(SlideShowData *ss)
 {
 	if (!ss) return;
 
-	slideshow_timer_reset(ss, FALSE);
+	slideshow_timer_stop(ss);
 
 	if (ss->stop_func) ss->stop_func(ss, ss->stop_data);
 
@@ -271,21 +271,21 @@ static gint slideshow_loop_cb(gpointer data)
 	return TRUE;
 }
 
-static void slideshow_timer_reset(SlideShowData *ss, gint reset)
+static void slideshow_timer_stop(SlideShowData *ss)
 {
-	if (reset)
-		{
-		if (options->slideshow.delay < 1) options->slideshow.delay = 1;
+	if (ss->timeout_id == -1) return;
 
-		if (ss->timeout_id != -1) g_source_remove(ss->timeout_id);
-		ss->timeout_id = g_timeout_add(options->slideshow.delay * 1000 / SLIDESHOW_SUBSECOND_PRECISION,
-					       slideshow_loop_cb, ss);
-		}
-	else if (ss->timeout_id != -1)
-		{
-		g_source_remove(ss->timeout_id);
-		ss->timeout_id = -1;
-		}
+	g_source_remove(ss->timeout_id);
+	ss->timeout_id = -1;
+}
+
+static void slideshow_timer_reset(SlideShowData *ss)
+{
+	if (options->slideshow.delay < 1) options->slideshow.delay = 1;
+
+	if (ss->timeout_id != -1) g_source_remove(ss->timeout_id);
+	ss->timeout_id = g_timeout_add(options->slideshow.delay * 1000 / SLIDESHOW_SUBSECOND_PRECISION,
+				       slideshow_loop_cb, ss);
 }
 
 void slideshow_next(SlideShowData *ss)
@@ -298,7 +298,7 @@ void slideshow_next(SlideShowData *ss)
 		return;
 		}
 
-	slideshow_timer_reset(ss, TRUE);
+	slideshow_timer_reset(ss);
 }
 
 void slideshow_prev(SlideShowData *ss)
@@ -311,7 +311,7 @@ void slideshow_prev(SlideShowData *ss)
 		return;
 		}
 
-	slideshow_timer_reset(ss, TRUE);
+	slideshow_timer_reset(ss);
 }
 
 static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
@@ -381,7 +381,7 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 	ss->slide_fd = file_data_ref(image_get_fd(ss->imd));
 	if (slideshow_step(ss, TRUE))
 		{
-		slideshow_timer_reset(ss, TRUE);
+		slideshow_timer_reset(ss);
 
 		ss->stop_func = stop_func;
 		ss->stop_data = stop_data;
