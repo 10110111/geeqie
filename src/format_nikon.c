@@ -74,7 +74,7 @@ static void nikon_tiff_entry(unsigned char *data, const guint len, guint offset,
 	if (tag == 0x14a)
 		{
 		/* sub IFD table */
-		gint i;
+		guint i;
 
 		for (i = 0; i < count; i++)
 			{

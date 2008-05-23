@@ -97,7 +97,7 @@ ExifFormatAttrib ExifFormatList[] = {
 	{ EXIF_FORMAT_RATIONAL,		8, "srational",	"signed rational" },
 	{ EXIF_FORMAT_FLOAT,		4, "float",	"float" },
 	{ EXIF_FORMAT_DOUBLE,		8, "double",	"double" },
-	{ -1, 0, NULL }
+	{ -1, 0, NULL, NULL }
 };
 
 /* tags that are special, or need special treatment */
@@ -619,7 +619,7 @@ gchar *exif_text_list_find_value(ExifTextList *list, guint value)
 	i = 0;
 	while (!result && list[i].value >= 0)
 		{
-		if (value == list[i].value) result = g_strdup(_(list[i].description));
+		if (value == (guint) list[i].value) result = g_strdup(_(list[i].description));
 		i++;
 		}
 	if (!result) result = g_strdup_printf("%d (%s)", value, _("unknown"));
@@ -879,7 +879,7 @@ static gint exif_parse_IFD_entry(ExifData *exif, unsigned char *tiff, guint offs
 
 	/* Where is the data, is it available?
 	 */
-	if (marker->components > 0 && marker->components != count)
+	if (marker->components > 0 && (guint) marker->components != count)
 		{
 		log_printf("warning: exif tag %s has %d elements, exif spec requests %d\n",
 			marker->key, count, marker->components);

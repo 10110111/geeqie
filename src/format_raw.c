@@ -78,7 +78,7 @@ static FormatExifEntry format_exif_list[] = {
 	FORMAT_EXIF_FUJI,
 	FORMAT_EXIF_NIKON,
 	FORMAT_EXIF_OLYMPUS,
-	{ 0, NULL, 0, NULL }
+	{ 0, NULL, 0, NULL, NULL }
 };
 
 
@@ -363,7 +363,7 @@ gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 
 	if (success && image_offset)
 		{
-		if (lseek(fd, *image_offset, SEEK_SET) != *image_offset)
+		if (lseek(fd, *image_offset, SEEK_SET) != (off_t) *image_offset)
 			{
 			log_printf("Failed to seek to embedded image\n");
 
