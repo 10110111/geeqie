@@ -152,7 +152,7 @@ gint slideshow_should_continue(SlideShowData *ss)
 	return FALSE;
 }
 
-static gint slideshow_step(SlideShowData *ss, gint forward)
+static gint slideshow_step(SlideShowData *ss, gboolean forward)
 {
 	gint row;
 
@@ -288,11 +288,11 @@ static void slideshow_timer_reset(SlideShowData *ss)
 				       slideshow_loop_cb, ss);
 }
 
-void slideshow_next(SlideShowData *ss)
+static void slideshow_move(SlideShowData *ss, gboolean forward)
 {
 	if (!ss) return;
 
-	if (!slideshow_step(ss, TRUE))
+	if (!slideshow_step(ss, forward))
 		{
 		slideshow_free(ss);
 		return;
@@ -301,17 +301,14 @@ void slideshow_next(SlideShowData *ss)
 	slideshow_timer_reset(ss);
 }
 
+void slideshow_next(SlideShowData *ss)
+{
+	slideshow_move(ss, TRUE);
+}
+
 void slideshow_prev(SlideShowData *ss)
 {
-	if (!ss) return;
-
-	if (!slideshow_step(ss, FALSE))
-		{
-		slideshow_free(ss);
-		return;
-		}
-
-	slideshow_timer_reset(ss);
+	slideshow_move(ss, FALSE);
 }
 
 static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
