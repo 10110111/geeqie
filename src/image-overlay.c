@@ -306,7 +306,9 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			if (data && *data)
 				{
 				/* Display data between left and right parts of extra string
-				 * the data is expressed by a '*' character.
+				 * the data is expressed by a '*' character. A '*' may be escaped
+				 * by a \. You should escape all '*' characters, do not rely on the 
+				 * current implementation which only replaces the first unescaped '*'.
 				 * If no "*" is present, the extra string is just appended to data string.
 				 * Pango mark up is accepted in left and right parts.
 				 * Any \n is replaced by a newline
@@ -314,6 +316,8 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 				 * "<i>*</i>\n" -> data is displayed in italics ended with a newline
 				 * "\n" 	-> ended with newline
 				 * "ISO *"	-> prefix data with "ISO " (ie. "ISO 100")
+				 * "\**\*"	-> prefix data with a star, and append a star (ie. "*100*")
+				 * "\\*"	-> prefix data with an anti slash (ie "\100")
 				 * "Collection <b>*</b>\n" -> display data in bold prefixed by "Collection " and a newline is appended
 				 *
 				 * FIXME: using background / foreground colors lead to weird results.
@@ -324,25 +328,26 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 				gchar *p;
 				guint len = strlen(extra);
 				
-				/* Search and replace "\n" by a newline character */
+				/* Search for left and right parts and unescape characters */
 				for (p = extra; *p; p++, len--)
-					if (p[0] == '\\' && p[1] == 'n')
+					if (p[0] == '\\')
 						{
-						memmove(p+1, p+2, --len);
-						*p = '\n';
+						if (p[1] == 'n')
+							{
+							memmove(p+1, p+2, --len);
+							p[0] = '\n';
+							}
+						else if (p[1] != '\0')
+							memmove(p, p+1, len--); // includes \0
+						}
+					else if (p[0] == '*' && !left)
+						{
+						right = p + 1;
+						left = extra;
 						}
 
-				/* Search for left and right parts */
-				for (p = extra; *p; p++)
-					if (*p == '*')
-						{
-						*p = '\0';
-						p++;
-						right = p;
-						left = extra;
-						break;
-						}
-				
+				if (left) right[-1] = '\0';
+
 				new_data = g_strdup_printf("%s%s%s", left ? left : "", data, right);
 				g_free(data);
 				data = new_data;
@@ -354,10 +359,10 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 		if (data)
 			g_string_insert(new, pos, data);
 
-		if (pos-prev == 2 && new->str[pos-1] == imp)
+		if (pos-prev >= 2 && new->str[pos-1] == imp)
 			{
 			g_string_erase(new, --pos, 1);
-			if (last && data)
+			if (last && data && *data)
 				{
 				g_string_insert(new, pos, sep);
 				pos += strlen(sep);
