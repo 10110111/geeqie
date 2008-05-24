@@ -52,20 +52,23 @@ gboolean file_data_sc_add_ci_copy(FileData *fd, const gchar *dest_path);
 gboolean file_data_sc_add_ci_move(FileData *fd, const gchar *dest_path);
 gboolean file_data_sc_add_ci_rename(FileData *fd, const gchar *dest_path);
 gboolean file_data_sc_add_ci_delete(FileData *fd);
-gboolean file_data_sc_add_ci_update(FileData *fd);
+gboolean file_data_sc_add_ci_unspecified(FileData *fd, const gchar *dest_path);
 
 gboolean file_data_sc_add_ci_delete_list(GList *fd_list);
 gboolean file_data_sc_add_ci_copy_list(GList *fd_list, const gchar *dest);
 gboolean file_data_sc_add_ci_move_list(GList *fd_list, const gchar *dest);
 gboolean file_data_sc_add_ci_rename_list(GList *fd_list, const gchar *dest);
+gboolean file_data_sc_add_ci_unspecified_list(GList *fd_list, const gchar *dest);
 
 gboolean file_data_sc_update_ci_copy_list(GList *fd_list, const gchar *dest);
 gboolean file_data_sc_update_ci_move_list(GList *fd_list, const gchar *dest);
+gboolean file_data_sc_update_ci_unspecified_list(GList *fd_list, const gchar *dest);
 
 
 gint file_data_sc_update_ci_copy(FileData *fd, const gchar *dest_path);
 gint file_data_sc_update_ci_move(FileData *fd, const gchar *dest_path);
 gint file_data_sc_update_ci_rename(FileData *fd, const gchar *dest_path);
+gint file_data_sc_update_ci_unspecified(FileData *fd, const gchar *dest_path);
 gint file_data_sc_check_ci_dest(FileData *fd);
 gboolean file_data_sc_perform_ci(FileData *fd);
 gint file_data_sc_apply_ci(FileData *fd);

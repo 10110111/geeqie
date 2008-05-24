@@ -20,6 +20,7 @@
 #include "layout.h"
 #include "layout_image.h"
 #include "utilops.h"
+#include "editors.h"
 #include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
@@ -41,8 +42,8 @@ typedef enum {
 typedef enum {
 	BAR_SORT_COPY = 0,
 	BAR_SORT_MOVE,
-	BAR_SORT_LINK,
-	BAR_SORT_ACTION_COUNT
+	BAR_SORT_FILTER,
+	BAR_SORT_ACTION_COUNT = BAR_SORT_FILTER + GQ_EDITOR_GENERIC_SLOTS
 } SortActionType;
 
 typedef enum {
@@ -203,24 +204,16 @@ static void bar_sort_undo_folder(SortData *sd, GtkWidget *button)
 
 			list = g_list_append(NULL, file_data_new_simple(sd->undo_dest));
 			src_dir = remove_level_from_path(sd->undo_src);
-			file_util_move_simple(list, src_dir);
+			file_util_move_simple(list, src_dir, sd->lw->window);
 			g_free(src_dir);
 			}
 			break;
 		case BAR_SORT_COPY:
 			file_util_delete(file_data_new_simple(sd->undo_dest), NULL, button);
 			break;
-		case BAR_SORT_LINK:
-			if (!unlink_file(sd->undo_dest))
-				{
-				gchar *buf;
-
-				buf = g_strdup_printf(_("Unable to remove symbolic link:\n%s"), sd->undo_dest);
-				file_util_warning_dialog(_("Unlink failed"), buf, GTK_STOCK_DIALOG_ERROR, button);
-				g_free(buf);
-				}
-			break;
 		default: 
+			/* undo external command */
+			file_util_delete(file_data_new_simple(sd->undo_dest), NULL, button);
 			break;
 		}
 
@@ -280,30 +273,21 @@ static void bar_sort_bookmark_select_folder(SortData *sd, FileData *source, cons
 	switch (sd->action)
 		{
 		case BAR_SORT_COPY:
-			file_util_copy_simple(list, path);
+			file_util_copy_simple(list, path, sd->lw->window);
 			list = NULL;
 			layout_image_next(sd->lw);
 			break;
 		case BAR_SORT_MOVE:
-			file_util_move_simple(list, path);
+			file_util_move_simple(list, path, sd->lw->window);
 			list = NULL;
 			break;
-		case BAR_SORT_LINK:
-			if (symlink_utf8(source->path, dest_path))
+		default:
+			if (sd->action >= BAR_SORT_FILTER && sd->action < BAR_SORT_ACTION_COUNT) 
 				{
+				file_util_start_filter_from_filelist(sd->action - BAR_SORT_FILTER, list, path, sd->lw->window);
+				list = NULL;
 				layout_image_next(sd->lw);
 				}
-			else
-				{
-				gchar *buf;
-
-				buf = g_strdup_printf(_("Unable to create symbolic link:\n%s"), dest_path);
-				file_util_warning_dialog(_("Link failed"), buf, GTK_STOCK_DIALOG_ERROR, sd->bookmarks);
-
-				g_free(buf);
-				}
-			break;
-		default:
 			break;
 		}
 
@@ -382,11 +366,15 @@ static void bar_sort_set_move_cb(GtkWidget *button, gpointer data)
 	bar_sort_set_action(sd, BAR_SORT_MOVE);
 }
 
-static void bar_sort_set_link_cb(GtkWidget *button, gpointer data)
+static void bar_sort_set_filter_cb(GtkWidget *button, gpointer data)
 {
 	SortData *sd = data;
+	gint n;
 	if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))) return;
-	bar_sort_set_action(sd, BAR_SORT_LINK);
+	n = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(button), "filter_idx"));
+	if (n == 0) return;
+	n--;
+	bar_sort_set_action(sd, BAR_SORT_FILTER + n);
 }
 
 static void bar_sort_set_selection(SortData *sd, SortSelectionType selection)
@@ -561,6 +549,7 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 	GtkWidget *tbar;
 	GtkWidget *combo;
 	SortModeType mode;
+	guint i;
 
 	if (!lw) return NULL;
 
@@ -570,6 +559,9 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 
 	mode = CLAMP(options->panels.sort.mode_state, 0, BAR_SORT_MODE_COUNT - 1);
 	sd->action = CLAMP(options->panels.sort.action_state, 0, BAR_SORT_ACTION_COUNT - 1);
+	
+	while (sd->action >= BAR_SORT_FILTER && !editor_is_filter(sd->action - BAR_SORT_FILTER)) sd->action--;
+	
 	sd->selection = CLAMP(options->panels.sort.selection_state, 0, BAR_SORT_SELECTION_COUNT - 1);
 	sd->undo_src = NULL;
 	sd->undo_dest = NULL;
@@ -602,9 +594,23 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 	pref_radiobutton_new(sd->folder_group, buttongrp,
 			     _("Move"), (sd->action == BAR_SORT_MOVE),
 			     G_CALLBACK(bar_sort_set_move_cb), sd);
-	pref_radiobutton_new(sd->folder_group, buttongrp,
-			     _("Link"), (sd->action == BAR_SORT_LINK),
-			     G_CALLBACK(bar_sort_set_link_cb), sd);
+
+
+	for (i = 0; i < GQ_EDITOR_GENERIC_SLOTS; i++)
+		{
+		GtkWidget *button;
+
+		const gchar *name = editor_get_name(i);
+		if (!name || !editor_is_filter(i)) continue;
+
+		button = pref_radiobutton_new(sd->folder_group, buttongrp,
+					      name, (sd->action == BAR_SORT_FILTER + i),
+					      G_CALLBACK(bar_sort_set_filter_cb), sd);
+
+
+		g_object_set_data(G_OBJECT(button), "filter_idx", GUINT_TO_POINTER(i + 1));
+		}
+
 
 	sd->collection_group = pref_box_new(sd->vbox, FALSE, GTK_ORIENTATION_VERTICAL, 0);
 

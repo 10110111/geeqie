@@ -857,7 +857,7 @@ static void layout_menu_edit_cb(GtkAction *action, gpointer data)
 		layout_image_full_screen_stop(lw);
 		}
 	list = layout_selection_list(lw);
-	start_editor_from_filelist(n, list);
+	file_util_start_editor_from_filelist(n, list, lw->window);
 	filelist_free(list);
 }
 

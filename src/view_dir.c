@@ -22,6 +22,7 @@
 #include "ui_tree_edit.h"
 #include "ui_menu.h"
 #include "utilops.h"
+#include "editors.h"
 #include "view_dir_list.h"
 #include "view_dir_tree.h"
 
@@ -308,7 +309,7 @@ static void vd_drop_menu_copy_cb(GtkWidget *widget, gpointer data)
 	list = vd->drop_list;
 	vd->drop_list = NULL;
 
-	file_util_copy_simple(list, path);
+	file_util_copy_simple(list, path, vd->widget);
 }
 
 static void vd_drop_menu_move_cb(GtkWidget *widget, gpointer data)
@@ -324,12 +325,36 @@ static void vd_drop_menu_move_cb(GtkWidget *widget, gpointer data)
 
 	vd->drop_list = NULL;
 
-	file_util_move_simple(list, path);
+	file_util_move_simple(list, path, vd->widget);
 }
+
+static void vd_drop_menu_filter_cb(GtkWidget *widget, gpointer data)
+{
+	ViewDir *vd = data;
+	const gchar *path;
+	GList *list;
+	guint n;
+
+	if (!vd->drop_fd) return;
+	
+	n = GPOINTER_TO_UINT(g_object_get_data(G_OBJECT(widget), "filter_idx"));
+	if (n == 0) return;
+	n--;
+
+	path = vd->drop_fd->path;
+	list = vd->drop_list;
+
+	vd->drop_list = NULL;
+
+	file_util_start_filter_from_filelist(n, list, path, vd->widget);
+}
+
+
 
 GtkWidget *vd_drop_menu(ViewDir *vd, gint active)
 {
 	GtkWidget *menu;
+	guint i;
 
 	menu = popup_menu_short_lived();
 	g_signal_connect(G_OBJECT(menu), "destroy",
@@ -338,6 +363,18 @@ GtkWidget *vd_drop_menu(ViewDir *vd, gint active)
 	menu_item_add_stock_sensitive(menu, _("_Copy"), GTK_STOCK_COPY, active,
 				      G_CALLBACK(vd_drop_menu_copy_cb), vd);
 	menu_item_add_sensitive(menu, _("_Move"), active, G_CALLBACK(vd_drop_menu_move_cb), vd);
+
+	for (i = 0; i < GQ_EDITOR_GENERIC_SLOTS; i++)
+		{
+		GtkWidget *item;
+
+		const gchar *name = editor_get_name(i);
+		if (!name || !editor_is_filter(i)) continue;
+
+		item = menu_item_add_sensitive(menu, name, active, G_CALLBACK(vd_drop_menu_filter_cb), vd);
+
+		g_object_set_data(G_OBJECT(item), "filter_idx", GUINT_TO_POINTER(i + 1));
+		}
 
 	menu_item_add_divider(menu);
 	menu_item_add_stock(menu, _("Cancel"), GTK_STOCK_CANCEL, NULL, vd);
@@ -749,12 +786,12 @@ static void vd_dnd_drop_receive(GtkWidget *widget,
 			{
 			if (context->actions == GDK_ACTION_COPY)
 				{
-				file_util_copy_simple(list, fd->path);
+				file_util_copy_simple(list, fd->path, vd->widget);
 				done = TRUE;
 				}
 			else if (context->actions == GDK_ACTION_MOVE)
 				{
-				file_util_move_simple(list, fd->path);
+				file_util_move_simple(list, fd->path, vd->widget);
 				done = TRUE;
 				}
 			}

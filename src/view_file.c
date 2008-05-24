@@ -307,7 +307,7 @@ static void vf_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
 	if (!vf) return;
 
 	list = vf_pop_menu_file_list(vf);
-	start_editor_from_filelist(n, list);
+	file_util_start_editor_from_filelist(n, list, vf->listview);
 	filelist_free(list);
 }
 

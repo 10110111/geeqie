@@ -2053,7 +2053,7 @@ static void dupe_window_edit_selected(DupeWindow *dw, gint n)
 
 	list = dupe_listview_get_selection(dw, dw->listview);
 
-	start_editor_from_filelist(n, list);
+	file_util_start_editor_from_filelist(n, list, dw->window);
 
 	filelist_free(list);
 }

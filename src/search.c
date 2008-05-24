@@ -645,7 +645,7 @@ static void search_result_edit_selected(SearchData *sd, gint n)
 	GList *list;
 
 	list = search_result_selection_list(sd);
-	start_editor_from_filelist(n, list);
+	file_util_start_editor_from_filelist(n, list, sd->window);
 	filelist_free(list);
 }
 

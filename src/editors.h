@@ -69,6 +69,7 @@ gint start_editor_from_filelist(gint n, GList *list);
 gint start_editor_from_file_full(gint n, FileData *fd, EditorCallback cb, gpointer data);
 gint start_editor_from_filelist_full(gint n, GList *list, EditorCallback cb, gpointer data);
 gint editor_window_flag_set(gint n);
+gint editor_is_filter(gint n);
 const gchar *editor_get_error_str(gint flags);
 
 const gchar *editor_get_name(gint n);

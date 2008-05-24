@@ -869,6 +869,13 @@ gint editor_window_flag_set(gint n)
 	return (editor_command_parse(options->editor[n].command, NULL, NULL) & EDITOR_KEEP_FS);
 }
 
+gint editor_is_filter(gint n)
+{
+	if (!is_valid_editor_command(n)) return FALSE;
+
+	return (editor_command_parse(options->editor[n].command, NULL, NULL) & EDITOR_DEST);
+}
+
 const gchar *editor_get_error_str(gint flags)
 {
 	if (flags & EDITOR_ERROR_EMPTY) return _("Editor template is empty.");

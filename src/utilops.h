@@ -45,15 +45,18 @@ gint file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget 
 /* these avoid the location entry dialog, list must be files only and
  * dest_path must be a valid directory path
 */
-void file_util_move_simple(GList *list, const gchar *dest_path);
-void file_util_copy_simple(GList *list, const gchar *dest_path);
+void file_util_move_simple(GList *list, const gchar *dest_path, GtkWidget *parent);
+void file_util_copy_simple(GList *list, const gchar *dest_path, GtkWidget *parent);
+void file_util_rename_simple(FileData *fd, const gchar *dest_path, GtkWidget *parent);
+
+void file_util_start_editor_from_file(gint n, FileData *fd, GtkWidget *parent);
+void file_util_start_editor_from_filelist(gint n, GList *list, GtkWidget *parent);
+void file_util_start_filter_from_file(gint n, FileData *fd, const gchar *dest_path, GtkWidget *parent);
+void file_util_start_filter_from_filelist(gint n, GList *list, const gchar *dest_path, GtkWidget *parent);
+
 
 
 void file_util_delete_dir(FileData *source_fd, GtkWidget *parent);
-
-gint copy_file_ext(FileData *fd);
-gint move_file_ext(FileData *fd);
-gint rename_file_ext(FileData *fd);
 
 void file_util_copy_path_to_clipboard(FileData *fd);
 void file_util_copy_path_list_to_clipboard(GList *list);

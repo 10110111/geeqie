@@ -1334,7 +1334,7 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 				{
 				pan_fullscreen_toggle(pw, TRUE);
 				}
-			start_editor_from_file(n, fd);
+			file_util_start_editor_from_file(n, fd, GTK_WIDGET(pr));
 			}
 		}
 	else
@@ -2668,7 +2668,7 @@ static void pan_edit_cb(GtkWidget *widget, gpointer data)
 			{
 			pan_fullscreen_toggle(pw, TRUE);
 			}
-		start_editor_from_file(n, fd);
+		file_util_start_editor_from_file(n, fd, pw->imd->widget);
 		}
 }
 

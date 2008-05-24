@@ -585,7 +585,7 @@ static void collection_table_popup_edit_cb(GtkWidget *widget, gpointer data)
 	list = collection_table_popup_file_list(ct);
 	if (list)
 		{
-		start_editor_from_filelist(n, list);
+		file_util_start_editor_from_filelist(n, list, ct->listview);
 		filelist_free(list);
 		}
 }

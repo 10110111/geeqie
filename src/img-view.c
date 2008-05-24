@@ -436,7 +436,7 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 				view_fullscreen_toggle(vw, TRUE);
 				}
 			imd = view_window_active_image(vw);
-			start_editor_from_file(n, image_get_fd(imd));
+			file_util_start_editor_from_file(n, image_get_fd(imd), imd->widget);
 			}
 		}
 	else if (event->state & GDK_SHIFT_MASK)
@@ -1085,7 +1085,7 @@ static void view_edit_cb(GtkWidget *widget, gpointer data)
 		}
 
 	imd = view_window_active_image(vw);
-	start_editor_from_file(n, image_get_fd(imd));
+	file_util_start_editor_from_file(n, image_get_fd(imd), imd->widget);
 }
 
 static void view_alter_cb(GtkWidget *widget, gpointer data)

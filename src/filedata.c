@@ -1022,9 +1022,11 @@ gboolean file_data_sc_add_ci_delete(FileData *fd)
 	return file_data_sc_add_ci(fd, FILEDATA_CHANGE_DELETE);
 }
 
-gboolean file_data_sc_add_ci_update(FileData *fd)
+gboolean file_data_sc_add_ci_unspecified(FileData *fd, const gchar *dest_path)
 {
-	return file_data_sc_add_ci(fd, FILEDATA_CHANGE_UPDATE);
+	if (!file_data_sc_add_ci(fd, FILEDATA_CHANGE_UNSPECIFIED)) return FALSE;
+	file_data_sc_update_ci_unspecified(fd, dest_path);
+	return TRUE;
 }
 
 void file_data_sc_free_ci(FileData *fd)
@@ -1094,6 +1096,20 @@ gboolean file_data_sc_add_ci_rename_list(GList *fd_list, const gchar *dest)
 		{
 		FileData *fd = work->data;
 		if (!file_data_sc_add_ci_rename(fd, dest)) ret = FALSE;
+		work = work->next;
+		}
+	return ret;
+}
+
+gboolean file_data_sc_add_ci_unspecified_list(GList *fd_list, const gchar *dest)
+{
+	GList *work;
+	gboolean ret = TRUE;
+	work = fd_list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		if (!file_data_sc_add_ci_unspecified(fd, dest)) ret = FALSE;
 		work = work->next;
 		}
 	return ret;
@@ -1186,6 +1202,13 @@ gint file_data_sc_update_ci_rename(FileData *fd, const gchar *dest_path)
 	return TRUE;
 }
 
+gint file_data_sc_update_ci_unspecified(FileData *fd, const gchar *dest_path)
+{
+	if (!file_data_sc_check_ci(fd, FILEDATA_CHANGE_UNSPECIFIED)) return FALSE;
+	file_data_sc_update_ci(fd, dest_path);
+	return TRUE;
+}
+
 
 gboolean file_data_sc_update_ci_move_list(GList *fd_list, const gchar *dest)
 {
@@ -1210,6 +1233,20 @@ gboolean file_data_sc_update_ci_copy_list(GList *fd_list, const gchar *dest)
 		{
 		FileData *fd = work->data;
 		if (!file_data_sc_update_ci_copy(fd, dest)) ret = FALSE;
+		work = work->next;
+		}
+	return ret;
+}
+
+gboolean file_data_sc_update_ci_unspecified_list(GList *fd_list, const gchar *dest)
+{
+	GList *work;
+	gboolean ret = TRUE;
+	work = fd_list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		if (!file_data_sc_update_ci_unspecified(fd, dest)) ret = FALSE;
 		work = work->next;
 		}
 	return ret;
@@ -1266,7 +1303,7 @@ static gboolean file_data_perform_ci(FileData *fd)
 			return file_data_perform_move(fd); /* the same as move */
 		case FILEDATA_CHANGE_DELETE:
 			return file_data_perform_delete(fd);
-		case FILEDATA_CHANGE_UPDATE:
+		case FILEDATA_CHANGE_UNSPECIFIED:
 			/* nothing to do here */
 			break;
 		}

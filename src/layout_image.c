@@ -184,7 +184,7 @@ static gint layout_image_full_screen_key_press_cb(GtkWidget *widget, GdkEventKey
 				{
 				layout_image_full_screen_stop(lw);
 				}
-			start_editor_from_file(n, layout_image_get_fd(lw));
+			file_util_start_editor_from_file(n, layout_image_get_fd(lw), lw->widget);
 			}
 		}
 	else if (event->state & GDK_SHIFT_MASK)
@@ -575,7 +575,7 @@ static void li_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
 		{
 		layout_image_full_screen_stop(lw);
 		}
-	start_editor_from_file(n, layout_image_get_fd(lw));
+	file_util_start_editor_from_file(n, layout_image_get_fd(lw), lw->window);
 }
 
 static void li_pop_menu_wallpaper_cb(GtkWidget *widget, gpointer data)

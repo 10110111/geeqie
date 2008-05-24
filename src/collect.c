@@ -961,7 +961,7 @@ static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gp
 	if (edit_val != -1)
 		{
 		list = collection_table_selection_get_list(cw->table);
-		start_editor_from_filelist(edit_val, list);
+		file_util_start_editor_from_filelist(edit_val, list, cw->window);
 		filelist_free(list);
 		}
 

@@ -403,13 +403,9 @@ static gint vflist_row_rename_cb(TreeEditData *td, const gchar *old, const gchar
 			{
 			GList *work = g_list_nth(vf->list, row);
 			FileData *fd = work->data;
+			
+			file_util_rename_simple(fd, new_path, vf->listview);
 
-			if (!file_data_add_change_info(fd, FILEDATA_CHANGE_RENAME, old_path, new_path) || !rename_file_ext(fd))
-				{
-				gchar *text = g_strdup_printf(_("Unable to rename file:\n%s\nto:\n%s"), old, new);
-				file_util_warning_dialog(_("Error renaming file"), text, GTK_STOCK_DIALOG_ERROR, vf->listview);
-				g_free(text);
-				}
 			}
 
 		}
