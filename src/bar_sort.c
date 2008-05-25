@@ -369,9 +369,10 @@ static void bar_sort_set_move_cb(GtkWidget *button, gpointer data)
 static void bar_sort_set_filter_cb(GtkWidget *button, gpointer data)
 {
 	SortData *sd = data;
-	gint n;
+	guint n;
+
 	if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))) return;
-	n = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(button), "filter_idx"));
+	n = GPOINTER_TO_UINT(g_object_get_data(G_OBJECT(button), "filter_idx"));
 	if (n == 0) return;
 	n--;
 	bar_sort_set_action(sd, BAR_SORT_FILTER + n);
