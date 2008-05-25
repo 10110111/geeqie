@@ -366,12 +366,10 @@ struct _UtilityData {
 	gchar *dest_path;
 
 	/* data for the operation itself, internal or external */
-	gboolean external; /* TRUE for ecternal command, false for internal */
+	gboolean external; /* TRUE for external command, FALSE for internal */
 	
 	gint external_command;
 	gpointer resume_data;
-	
-
 };
 
 enum {
