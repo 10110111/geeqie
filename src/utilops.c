@@ -602,7 +602,7 @@ static gint file_util_perform_ci_cb(gpointer resume_data, gint flags, GList *lis
 
 
 /*
- * perfirm the operation described by FileDataChangeInfo on all files in the list
+ * Perform the operation described by FileDataChangeInfo on all files in the list
  * it is an alternative to start_editor_from_filelist_full, it should use similar interface
  */ 
 
