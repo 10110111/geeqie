@@ -262,6 +262,7 @@ void file_data_notify_ci(FileData *fd)
 			view_window_maint_moved(fd);
 			dupe_maint_renamed(fd);
 			search_maint_renamed(fd);
+			break;
 		case FILEDATA_CHANGE_DELETE:
 			layout_maint_removed(fd, NULL);
 			view_window_maint_removed(fd, NULL);
