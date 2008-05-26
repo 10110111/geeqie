@@ -611,19 +611,19 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 			gint x = 5;
 			gint y = height - HISTOGRAM_HEIGHT - 5;
 			gint w = width - 10;
-			gint xoffset = 0;
+			float xoffset = 0;
 			gint subdiv = 5;
 			gint c = 160;
 			gint alpha = 250;
 			gint i;
+			float add = w / (float)subdiv;
 
 			for (i = 0; i < subdiv; i++)
 				{
 				gint d = (i > 0 ? 0 : 1);
-				gint div_width = d + w / subdiv;
 
-				pixbuf_set_rect(pixbuf, x + xoffset, y, div_width, HISTOGRAM_HEIGHT, c, c, c, alpha, d, 1, 1, 1);
-				xoffset += div_width;
+				pixbuf_set_rect(pixbuf, x + xoffset + 0.5, y, add + d + 0.5, HISTOGRAM_HEIGHT, c, c, c, alpha, d, 1, 1, 1);
+				xoffset += add+d;
 				}
 						
 			histogram_draw(osd->histogram, pixbuf, x, y, w, HISTOGRAM_HEIGHT);
