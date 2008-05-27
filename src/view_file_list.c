@@ -1578,15 +1578,21 @@ gint vflist_refresh(ViewFile *vf)
 	old_list = vf->list;
 	vf->list = NULL;
 
+	DEBUG_1("%s vflist_refresh: read dir", get_exec_time());
 	if (vf->path)
 		{
 		ret = filelist_read(vf->path, &vf->list, NULL);
 		}
+	DEBUG_1("%s vflist_refresh: sort", get_exec_time());
 
 	vf->list = filelist_sort(vf->list, vf->sort_method, vf->sort_ascend);
+
+	DEBUG_1("%s vflist_refresh: populate view", get_exec_time());
+
 	vflist_populate_view(vf);
 
 	filelist_free(old_list);
+	DEBUG_1("%s vflist_refresh: done", get_exec_time());
 
 	return ret;
 }
@@ -1911,6 +1917,8 @@ gint vflist_maint_renamed(ViewFile *vf, FileData *fd)
 	gchar *source_base;
 	gchar *dest_base;
 
+	DEBUG_1("%s vflist_maint_renamed: start", get_exec_time());
+
 	if (g_list_index(vf->list, fd) < 0) return FALSE;
 
 	source_base = remove_level_from_path(fd->change->source);
@@ -1957,6 +1965,8 @@ gint vflist_maint_renamed(ViewFile *vf, FileData *fd)
 	g_free(source_base);
 	g_free(dest_base);
 
+	DEBUG_1("%s vflist_maint_renamed: done", get_exec_time());
+
 	return ret;
 }
 
@@ -1966,6 +1976,8 @@ gint vflist_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 	GList *list;
 	gint row;
 	gint new_row = -1;
+
+	DEBUG_1("%s vflist_maint_removed: start", get_exec_time());
 
 	row = g_list_index(vf->list, fd);
 	if (row < 0) return FALSE;
@@ -2025,6 +2037,8 @@ gint vflist_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 	file_data_unref(fd);
 
 	vf_send_update(vf);
+
+	DEBUG_1("%s vflist_maint_removed: done", get_exec_time());
 
 	return TRUE;
 }
