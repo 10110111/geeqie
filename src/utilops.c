@@ -586,7 +586,10 @@ static gint file_util_perform_ci_cb(gpointer resume_data, gint flags, GList *lis
 		list = list->next; 
 
 		if (!(flags & EDITOR_ERROR_MASK)) /* files were successfully deleted, call the maint functions */
+			{
+			file_data_sc_apply_ci(fd);
 			file_data_sc_notify_ci(fd);
+			}
 		
 		ud->flist = g_list_remove(ud->flist, fd);
 		file_data_sc_free_ci(fd);
