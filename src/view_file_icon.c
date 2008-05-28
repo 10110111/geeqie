@@ -959,6 +959,7 @@ void vficon_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 			case STM_MODE_TOGGLE: fd->marks[n] = !fd->marks[mark];
 				break;
 			}
+		file_data_increment_version(fd);
 
 		work = work->next;
 		}

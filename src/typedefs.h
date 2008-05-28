@@ -433,6 +433,7 @@ struct _FileData {
 	FileDataChangeInfo *change; /* for rename, move ... */
 	GdkPixbuf *pixbuf;
 	gint ref;
+	gint version; /* increased when any field in this structure is changed */
 	gint user_orientation;
 	gint exif_orientation;
 };

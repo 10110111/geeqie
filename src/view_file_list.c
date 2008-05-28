@@ -34,6 +34,7 @@
 
 enum {
 	FILE_COLUMN_POINTER = 0,
+	FILE_COLUMN_VERSION,
 	FILE_COLUMN_THUMB,
 	FILE_COLUMN_NAME,
 	FILE_COLUMN_SIDECARS,
@@ -717,6 +718,7 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 	size = text_from_size(fd->size);
 
 	gtk_tree_store_set(store, iter, FILE_COLUMN_POINTER, fd,
+					FILE_COLUMN_VERSION, fd->version,
 					FILE_COLUMN_THUMB, (VFLIST_INFO(vf, thumbs_enabled)) ? fd->pixbuf : NULL,
 					FILE_COLUMN_NAME, fd->name,
 					FILE_COLUMN_SIDECARS, sidecars,
@@ -1418,6 +1420,8 @@ void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 			case STM_MODE_TOGGLE: fd->marks[n] = !fd->marks[n];
 				break;
 			}
+		
+		file_data_increment_version(fd);
 
 		gtk_tree_store_set(GTK_TREE_STORE(store), &iter, FILE_COLUMN_MARKS + n, fd->marks[n], -1);
 
@@ -1496,10 +1500,14 @@ static void vflist_populate_view(ViewFile *vf)
 		while (!done)
 			{
 			FileData *old_fd = NULL;
+			gint old_version = 0;
 
 			if (valid)
 				{
-				gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, FILE_COLUMN_POINTER, &old_fd, -1);
+				gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
+						   FILE_COLUMN_POINTER, &old_fd,
+						   FILE_COLUMN_VERSION, &old_version,
+						   -1);
 
 				if (fd == old_fd)
 					{
@@ -1540,7 +1548,8 @@ static void vflist_populate_view(ViewFile *vf)
 				}
 			else
 				{
-				vflist_setup_iter_with_sidecars(vf, store, &iter, fd);
+				if (old_version != fd->version)
+					vflist_setup_iter_with_sidecars(vf, store, &iter, fd);
 
 				if (valid) valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter);
 
@@ -1701,6 +1710,7 @@ static void vflist_listview_mark_toggled(GtkCellRendererToggle *cell, gchar *pat
 	gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, FILE_COLUMN_POINTER, &fd, col_idx, &mark, -1);
 	mark = !mark;
 	fd->marks[col_idx - FILE_COLUMN_MARKS] = mark;
+	file_data_increment_version(fd);
 
 	gtk_tree_store_set(store, &iter, col_idx, mark, -1);
 	gtk_tree_path_free(path);
@@ -1783,6 +1793,7 @@ ViewFile *vflist_new(ViewFile *vf, const gchar *path)
 	VFLIST_INFO(vf, select_idle_id) = -1;
 
 	flist_types[FILE_COLUMN_POINTER] = G_TYPE_POINTER;
+	flist_types[FILE_COLUMN_VERSION] = G_TYPE_INT;
 	flist_types[FILE_COLUMN_THUMB] = GDK_TYPE_PIXBUF;
 	flist_types[FILE_COLUMN_NAME] = G_TYPE_STRING;
 	flist_types[FILE_COLUMN_SIDECARS] = G_TYPE_STRING;

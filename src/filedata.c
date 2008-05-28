@@ -136,6 +136,13 @@ static void file_data_check_sidecars(FileData *fd);
 FileData *file_data_disconnect_sidecar_file(FileData *target, FileData *sfd);
 
 
+void file_data_increment_version(FileData *fd)
+{
+	fd->version++;
+	if (fd->parent) fd->parent->version++;
+}
+
+
 static void file_data_set_path(FileData *fd, const gchar *path)
 {
 
@@ -184,6 +191,7 @@ static void file_data_check_changed_files(FileData *fd, struct stat *st)
 		fd->date = st->st_mtime;
 		if (fd->pixbuf) g_object_unref(fd->pixbuf);
 		fd->pixbuf = NULL;
+		file_data_increment_version(fd);
 		}
 
 	work = fd->sidecar_files;
@@ -1347,6 +1355,7 @@ static void file_data_apply_ci(FileData *fd)
 		fd->original_path = g_strdup(fd->change->dest);
 		g_hash_table_insert(file_data_pool, fd->original_path, fd);
 		}
+	file_data_increment_version(fd);
 }
 
 gint file_data_sc_apply_ci(FileData *fd)

@@ -24,6 +24,8 @@ FileData *file_data_new_simple(const gchar *path_utf8);
 FileData *file_data_ref(FileData *fd);
 void file_data_unref(FileData *fd);
 
+void file_data_increment_version(FileData *fd);
+
 gboolean file_data_add_change_info(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest);
 void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd);
 
