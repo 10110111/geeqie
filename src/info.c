@@ -833,8 +833,11 @@ void info_window_new(FileData *fd, GList *list, GtkWidget *parent)
 	GtkWidget *button;
 	GtkWidget *label;
 	GdkGeometry geometry;
+	static gboolean run_once = FALSE;
 
 	if (!fd && !list) return;
+
+	run_once = TRUE;
 
 	if (!list)
 		{
@@ -866,7 +869,7 @@ void info_window_new(FileData *fd, GList *list, GtkWidget *parent)
 	gtk_window_set_geometry_hints(GTK_WINDOW(id->window), NULL, &geometry,
 				      GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
 
-	if (options->layout.save_window_positions)
+	if (options->layout.save_window_positions || run_once)
 		gtk_window_set_default_size(GTK_WINDOW(id->window), options->layout.properties_window.w, options->layout.properties_window.h);
 	else
 		gtk_window_set_default_size(GTK_WINDOW(id->window), DEF_PROPERTY_WIDTH, DEF_PROPERTY_HEIGHT);
