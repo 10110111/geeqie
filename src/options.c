@@ -102,6 +102,8 @@ ConfOptions *init_options(ConfOptions *options)
 	options->layout.main_window.x = 0;
 	options->layout.main_window.y = 0;
 	options->layout.order = NULL;
+	options->layout.properties_window.w = DEF_PROPERTY_WIDTH;
+	options->layout.properties_window.h = DEF_PROPERTY_HEIGHT;
 	options->layout.save_window_positions = FALSE;
 	options->layout.show_marks = FALSE;
 	options->layout.show_thumbnails = FALSE;

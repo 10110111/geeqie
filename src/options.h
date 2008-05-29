@@ -182,6 +182,11 @@ struct _ConfOptions
 			gint vdivider_pos;
 		} float_window;
 
+		struct {
+			gint w;
+			gint h;
+		} properties_window;
+
 		gint save_window_positions;
 
 		gint tools_float;

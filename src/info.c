@@ -33,8 +33,6 @@
 #define IMAGE_SIZE_W 200
 #define IMAGE_SIZE_H 200
 
-#define DEF_PROPERTY_WIDTH  600
-#define DEF_PROPERTY_HEIGHT 400
 
 typedef struct _TabData TabData;
 struct _TabData
@@ -716,9 +714,6 @@ static void info_window_dnd_init(InfoData *id)
  *-------------------------------------------------------------------
  */
 
-static gint info_window_last_width = DEF_PROPERTY_WIDTH;
-static gint info_window_last_height = DEF_PROPERTY_HEIGHT;
-
 static void info_window_image_update_cb(ImageWindow *imd, gpointer data)
 {
 	InfoData *id = data;
@@ -798,9 +793,9 @@ static void info_window_image_scroll_cb(ImageWindow *imd, GdkScrollDirection dir
 
 static void info_window_close(InfoData *id)
 {
-	gdk_drawable_get_size(id->window->window, &info_window_last_width, &info_window_last_height);
-	info_window_last_width = MAX(info_window_last_width, DEF_PROPERTY_WIDTH);
-	info_window_last_height = MAX(info_window_last_height, DEF_PROPERTY_HEIGHT);
+	gdk_drawable_get_size(id->window->window, &options->layout.properties_window.w, &options->layout.properties_window.h);
+	options->layout.properties_window.w = MAX(options->layout.properties_window.w, DEF_PROPERTY_WIDTH);
+	options->layout.properties_window.h = MAX(options->layout.properties_window.h, DEF_PROPERTY_HEIGHT);
 
 	gtk_widget_destroy(id->window);
 }
@@ -871,8 +866,11 @@ void info_window_new(FileData *fd, GList *list, GtkWidget *parent)
 	gtk_window_set_geometry_hints(GTK_WINDOW(id->window), NULL, &geometry,
 				      GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
 
+	if (options->layout.save_window_positions)
+		gtk_window_set_default_size(GTK_WINDOW(id->window), options->layout.properties_window.w, options->layout.properties_window.h);
+	else
+		gtk_window_set_default_size(GTK_WINDOW(id->window), DEF_PROPERTY_WIDTH, DEF_PROPERTY_HEIGHT);
 
-	gtk_window_set_default_size(GTK_WINDOW(id->window), info_window_last_width, info_window_last_height);
 	gtk_container_set_border_width(GTK_CONTAINER(id->window), PREF_PAD_BORDER);
 
 	g_signal_connect(G_OBJECT(id->window), "delete_event",

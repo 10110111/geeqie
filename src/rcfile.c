@@ -396,6 +396,10 @@ static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_INT(layout.float_window.vdivider_pos);
 	WRITE_SEPARATOR();
 
+	WRITE_INT(layout.properties_window.w);
+	WRITE_INT(layout.properties_window.h);
+	WRITE_SEPARATOR();
+
 	WRITE_BOOL(layout.tools_float);
 	WRITE_BOOL(layout.tools_hidden);
 	WRITE_BOOL(layout.tools_restore_state);
@@ -733,13 +737,18 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_INT(layout.main_window.w);
 		READ_INT(layout.main_window.h);
 		READ_BOOL(layout.main_window.maximized);
+		READ_INT(layout.main_window.hdivider_pos);
+		READ_INT(layout.main_window.vdivider_pos);
+
 		READ_INT(layout.float_window.x);
 		READ_INT(layout.float_window.y);
 		READ_INT(layout.float_window.w);
 		READ_INT(layout.float_window.h);
 		READ_INT(layout.float_window.vdivider_pos);
-		READ_INT(layout.main_window.hdivider_pos);
-		READ_INT(layout.main_window.vdivider_pos);
+	
+		READ_INT(layout.properties_window.w);
+		READ_INT(layout.properties_window.h);
+
 		READ_BOOL(layout.tools_float);
 		READ_BOOL(layout.tools_hidden);
 		READ_BOOL(layout.tools_restore_state);

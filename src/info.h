@@ -14,6 +14,9 @@
 #ifndef INFO_H
 #define INFO_H
 
+#define DEF_PROPERTY_WIDTH  600
+#define DEF_PROPERTY_HEIGHT 400
+
 
 typedef struct _InfoData InfoData;
 struct _InfoData
