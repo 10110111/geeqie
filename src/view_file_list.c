@@ -733,46 +733,48 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 		g_free(sidecars);
 }
 
-static void vflist_setup_iter_with_sidecars(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *iter, FileData *fd)
+static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *parent_iter, GList *list, GList *selection)
 {
 	GList *work;
-	GtkTreeIter s_iter;
+	GtkTreeIter iter;
 	gint valid;
 
-	vflist_setup_iter(vf, store, iter, fd);
+	valid = gtk_tree_model_iter_children(GTK_TREE_MODEL(store), &iter, parent_iter);
 
-
-	/* this is almost the same code as in vflist_populate_view
-	   maybe it should be made more generic and used in both places */
-
-
-	valid = gtk_tree_model_iter_children(GTK_TREE_MODEL(store), &s_iter, iter);
-
-	work = fd->sidecar_files;
+	work = list;
 	while (work)
 		{
 		gint match;
-		FileData *sfd = work->data;
+		FileData *fd = work->data;
 		gint done = FALSE;
 
 		while (!done)
 			{
-			FileData *old_sfd = NULL;
+			FileData *old_fd = NULL;
+			gint old_version = 0;
 
 			if (valid)
 				{
-				gtk_tree_model_get(GTK_TREE_MODEL(store), &s_iter, FILE_COLUMN_POINTER, &old_sfd, -1);
+				gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
+						   FILE_COLUMN_POINTER, &old_fd,
+						   FILE_COLUMN_VERSION, &old_version,
+						   -1);
 
-				if (sfd == old_sfd)
+				if (fd == old_fd)
 					{
 					match = 0;
 					}
 				else
 					{
-					match = filelist_sort_compare_filedata_full(sfd, old_sfd, SORT_NAME, TRUE);
-					}
-				}
+					if (parent_iter)
+						match = filelist_sort_compare_filedata_full(fd, old_fd, SORT_NAME, TRUE); /* always sort sidecars by name */
+					else
+						match = filelist_sort_compare_filedata_full(fd, old_fd, vf->sort_method, vf->sort_ascend);
 
+					if (match == 0) g_warning("multiple fd for the same path");
+					}
+					
+				}
 			else
 				{
 				match = -1;
@@ -784,26 +786,31 @@ static void vflist_setup_iter_with_sidecars(ViewFile *vf, GtkTreeStore *store, G
 
 				if (valid)
 					{
-					gtk_tree_store_insert_before(store, &new, iter, &s_iter);
+					gtk_tree_store_insert_before(store, &new, parent_iter, &iter);
 					}
 				else
 					{
-					gtk_tree_store_append(store, &new, iter);
+					gtk_tree_store_append(store, &new, parent_iter);
 					}
 
-				vflist_setup_iter(vf, store, &new, sfd);
+				vflist_setup_iter(vf, store, &new, fd);
+				vflist_setup_iter_recursive(vf, store, &new, fd->sidecar_files, selection);
 
 				done = TRUE;
 				}
 			else if (match > 0)
 				{
-				valid = gtk_tree_store_remove(store, &s_iter);
+				valid = gtk_tree_store_remove(store, &iter);
 				}
 			else
 				{
-				vflist_setup_iter(vf, store, &s_iter, sfd);
+				if (fd->version != old_version)
+					{
+					vflist_setup_iter(vf, store, &iter, fd);
+					vflist_setup_iter_recursive(vf, store, &iter, fd->sidecar_files, selection);
+					}
 
-				if (valid) valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &s_iter);
+				if (valid) valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter);
 
 				done = TRUE;
 				}
@@ -813,7 +820,7 @@ static void vflist_setup_iter_with_sidecars(ViewFile *vf, GtkTreeStore *store, G
 
 	while (valid)
 		{
-		valid = gtk_tree_store_remove(store, &s_iter);
+		valid = gtk_tree_store_remove(store, &iter);
 		}
 }
 
@@ -1460,12 +1467,9 @@ static void vflist_listview_set_height(GtkWidget *listview, gint thumb)
 static void vflist_populate_view(ViewFile *vf)
 {
 	GtkTreeStore *store;
-	GtkTreeIter iter;
 	gint thumbs;
-	GList *work;
 	GtkTreeRowReference *visible_row = NULL;
 	GtkTreePath *tpath;
-	gint valid;
 
 	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
 	thumbs = VFLIST_INFO(vf, thumbs_enabled);
@@ -1488,82 +1492,8 @@ static void vflist_populate_view(ViewFile *vf)
 
 	vflist_listview_set_height(vf->listview, thumbs);
 
-	valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter);
-
-	work = vf->list;
-	while (work)
-		{
-		gint match;
-		FileData *fd = work->data;
-		gint done = FALSE;
-
-		while (!done)
-			{
-			FileData *old_fd = NULL;
-			gint old_version = 0;
-
-			if (valid)
-				{
-				gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
-						   FILE_COLUMN_POINTER, &old_fd,
-						   FILE_COLUMN_VERSION, &old_version,
-						   -1);
-
-				if (fd == old_fd)
-					{
-					match = 0;
-					}
-				else
-					{
-					match = filelist_sort_compare_filedata_full(fd, old_fd, vf->sort_method, vf->sort_ascend);
-					if (match == 0)
-						match = -1; /* probably should not happen*/
-					}
-				}
-
-			else
-				{
-				match = -1;
-				}
-
-			if (match < 0)
-				{
-				GtkTreeIter new;
-
-				if (valid)
-					{
-					gtk_tree_store_insert_before(store, &new, NULL, &iter);
-					}
-				else
-					{
-					gtk_tree_store_append(store, &new, NULL);
-					}
-				vflist_setup_iter_with_sidecars(vf, store, &new, fd);
-
-				done = TRUE;
-				}
-			else if (match > 0)
-				{
-				valid = gtk_tree_store_remove(store, &iter);
-				}
-			else
-				{
-				if (old_version != fd->version)
-					vflist_setup_iter_with_sidecars(vf, store, &iter, fd);
-
-				if (valid) valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter);
-
-				done = TRUE;
-				}
-			}
-		work = work->next;
-		}
-
-	while (valid)
-		{
-		valid = gtk_tree_store_remove(store, &iter);
-		}
-
+	vflist_setup_iter_recursive(vf, store, NULL, vf->list, NULL);
+	
 	if (visible_row)
 		{
 		if (gtk_tree_row_reference_valid(visible_row))
