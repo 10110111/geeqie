@@ -93,16 +93,31 @@ static gint editor_command_done(EditorData *ed);
  *-----------------------------------------------------------------------------
  */
 
+void editor_set_name(gint n, gchar *name)
+{
+	if (n < 0 || n >= GQ_EDITOR_SLOTS) return;
+
+	g_free(options->editor[n].name);
+	
+	options->editor[n].name = name ? utf8_validate_or_convert(name) : NULL;
+}
+
+void editor_set_command(gint n, gchar *command)
+{
+	if (n < 0 || n >= GQ_EDITOR_SLOTS) return;
+
+	g_free(options->editor[n].command);
+	options->editor[n].command = command ? utf8_validate_or_convert(command) : NULL;
+}
+
 void editor_reset_defaults(void)
 {
 	gint i;
 
 	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
-		g_free(options->editor[i].name);
-		options->editor[i].name = g_strdup(_(editor_slot_defaults[i].name));
-		g_free(options->editor[i].command);
-		options->editor[i].command = g_strdup(editor_slot_defaults[i].command);
+		editor_set_name(i, _(editor_slot_defaults[i].name));
+		editor_set_command(i, _(editor_slot_defaults[i].command));
 		}
 }
 

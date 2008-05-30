@@ -164,8 +164,8 @@ void setup_default_options(ConfOptions *options)
 
 	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
-		options->editor[i].name = NULL;
-		options->editor[i].command = NULL;
+		editor_set_name(i, NULL);
+		editor_set_command(i, NULL);
 		}
 
 	editor_reset_defaults();

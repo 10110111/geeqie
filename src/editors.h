@@ -55,6 +55,8 @@ data - generic pointer
 */
 typedef gint (*EditorCallback) (gpointer ed, gint flags, GList *list, gpointer data);
 
+void editor_set_name(gint n, gchar *name);
+void editor_set_command(gint n, gchar *command);
 
 
 void editor_resume(gpointer ed);

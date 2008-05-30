@@ -161,16 +161,18 @@ static void config_window_apply(void)
 
 	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
 		{
+		gchar *command = NULL;
+
 		if (i < GQ_EDITOR_GENERIC_SLOTS)
 			{
-			g_free(options->editor[i].name);
-			options->editor[i].name = NULL;
+			gchar *name = NULL;
+
 			buf = gtk_entry_get_text(GTK_ENTRY(editor_name_entry[i]));
-			if (buf && strlen(buf) > 0) options->editor[i].name = g_strdup(buf);
+			if (buf && strlen(buf) > 0) name = g_strdup(buf);
+			editor_set_name(i, name);
+			g_free(name);
 			}
 
-		g_free(options->editor[i].command);
-		options->editor[i].command = NULL;
 		buf = gtk_entry_get_text(GTK_ENTRY(editor_command_entry[i]));
 		if (buf && strlen(buf) > 0)
 			{
@@ -183,8 +185,11 @@ static void config_window_apply(void)
 						       i+1, options->editor[i].name, buf);
 
 				}
-			options->editor[i].command = g_strdup(buf);
+			command = g_strdup(buf);
 			}
+
+		editor_set_command(i, command);
+		g_free(command);
 		}
 	
 	if (errmsg->str[0])

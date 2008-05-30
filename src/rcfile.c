@@ -17,6 +17,7 @@
 #include "rcfile.h"
 
 #include "bar_exif.h"
+#include "editors.h"
 #include "filefilter.h"
 #include "secure_save.h"
 #include "slideshow.h"
@@ -907,12 +908,10 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 			if (i > 0 && i <= GQ_EDITOR_SLOTS)
 				{
 				const gchar *ptr;
-				i--;
-				g_free(options->editor[i].name);
-				g_free(options->editor[i].command);
 
-				options->editor[i].name = quoted_value(value_all, &ptr);
-				options->editor[i].command = quoted_value(ptr, NULL);
+				i--;
+				editor_set_name(i, quoted_value(value_all, &ptr));
+				editor_set_command(i, quoted_value(ptr, NULL));
 				}
 			continue;
 			}
