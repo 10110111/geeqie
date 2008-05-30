@@ -181,6 +181,7 @@ static void bar_exif_update(ExifBar *eb)
 		for (i = 0; ExifUIList[i].key; i++)
 			{
 			gchar *text;
+			gchar *utf8_text;
 
 			if (ExifUIList[i].current == EXIF_UI_OFF)
 				{
@@ -189,18 +190,20 @@ static void bar_exif_update(ExifBar *eb)
 				continue;
 				}
 			text = exif_get_data_as_text(exif, ExifUIList[i].key);
-			text = utf8_validate_or_convert(text);
+			utf8_text = utf8_validate_or_convert(text);
+			g_free(text);
 			if (ExifUIList[i].current == EXIF_UI_IFSET
-			    && (!text || !*text))
+			    && (!utf8_text || !*utf8_text))
 				{
 				gtk_widget_hide(eb->labels[i]);
 				gtk_widget_hide(eb->keys[i]);
+				g_free(utf8_text);
 				continue;
 				}
 			gtk_widget_show(eb->labels[i]);
 			gtk_widget_show(eb->keys[i]);
-			gtk_label_set_text(GTK_LABEL(eb->labels[i]), text);
-			g_free(text);
+			gtk_label_set_text(GTK_LABEL(eb->labels[i]), utf8_text);
+			g_free(utf8_text);
 			}
 
 		list = g_list_last(history_list_get_by_key("exif_extras"));
@@ -216,6 +219,7 @@ static void bar_exif_update(ExifBar *eb)
 		while (list && i < EXIF_BAR_CUSTOM_COUNT)
 			{
 			gchar *text;
+			gchar *utf8_text;
 			gchar *name;
 			gchar *buf;
 
@@ -223,13 +227,14 @@ static void bar_exif_update(ExifBar *eb)
 			list = list->prev;
 
 			text = exif_get_data_as_text(exif, name);
-			text = utf8_validate_or_convert(text);
+			utf8_text = utf8_validate_or_convert(text);
+			g_free(text);
 
 			buf = g_strconcat(name, ":", NULL);
 			gtk_label_set_text(GTK_LABEL(eb->custom_name[i]), buf);
 			g_free(buf);
-			gtk_label_set_text(GTK_LABEL(eb->custom_value[i]), text);
-			g_free(text);
+			gtk_label_set_text(GTK_LABEL(eb->custom_value[i]), utf8_text);
+			g_free(utf8_text);
 
 			gtk_widget_show(eb->custom_name[i]);
 			gtk_widget_show(eb->custom_value[i]);
@@ -259,32 +264,37 @@ static void bar_exif_update(ExifBar *eb)
 			gchar *tag;
 			gchar *tag_name;
 			gchar *text;
+			gchar *utf8_text;
 			const gchar *format;
 			gchar *elements;
 			gchar *description;
+			gchar *utf8_description;
 
 			tag = g_strdup_printf("0x%04x", exif_item_get_tag_id(item));
 			tag_name = exif_item_get_tag_name(item);
 			format = exif_item_get_format_name(item, TRUE);
 			text = exif_item_get_data_as_text(item);
-			text = utf8_validate_or_convert(text);
+			utf8_text = utf8_validate_or_convert(text);
+			g_free(text);
 			elements = g_strdup_printf("%d", exif_item_get_elements(item));
 			description = exif_item_get_description(item);
 			if (!description) description = g_strdup("");
-			description = utf8_validate_or_convert(description);
+			utf8_description = utf8_validate_or_convert(description);
+			g_free(description);
+
 			gtk_list_store_append(store, &iter);
 			gtk_list_store_set(store, &iter,
 					EXIF_ADVCOL_ENABLED, bar_exif_row_enabled(tag_name),
 					EXIF_ADVCOL_TAG, tag,
 					EXIF_ADVCOL_NAME, tag_name,
-					EXIF_ADVCOL_VALUE, text,
+					EXIF_ADVCOL_VALUE, utf8_text,
 					EXIF_ADVCOL_FORMAT, format,
 					EXIF_ADVCOL_ELEMENTS, elements,
-					EXIF_ADVCOL_DESCRIPTION, description, -1);
+					EXIF_ADVCOL_DESCRIPTION, utf8_description, -1);
 			g_free(tag);
-			g_free(text);
+			g_free(utf8_text);
 			g_free(elements);
-			g_free(description);
+			g_free(utf8_description);
 			g_free(tag_name);
 			item = exif_get_next_item(exif);
 			}

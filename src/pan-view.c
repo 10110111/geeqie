@@ -1444,21 +1444,23 @@ static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 		{
 		gchar *label;
 		gchar *text;
+		gchar *utf8_text;
 
 		if (ExifUIList[i].current == EXIF_UI_OFF) continue;
 
 		text = exif_get_data_as_text(exif, ExifUIList[i].key);
-		text = utf8_validate_or_convert(text);
 		if (ExifUIList[i].current == EXIF_UI_IFSET && (!text || !*text))
 			{
-			if (text) g_free(text);
+			g_free(text);
 			continue;
 			}
-
+		
 		label = g_strdup_printf("%s:", exif_get_description_by_key(ExifUIList[i].key));
-		pan_text_alignment_add(ta, label, text);
-		g_free(label);
+		utf8_text = utf8_validate_or_convert(text);
 		g_free(text);
+		pan_text_alignment_add(ta, label, utf8_text);
+		g_free(label);
+		g_free(utf8_text);
 		}
 
 	work = g_list_last(history_list_get_by_key("exif_extras"));
@@ -1466,18 +1468,22 @@ static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 	while (work)
 		{
 		const gchar *name;
-		gchar *label;
 		gchar *text;
 
 		name = work->data;
 		work = work->prev;
 
-		label = g_strdup_printf("%s:", name);
 		text = exif_get_data_as_text(exif, name);
-		text = utf8_validate_or_convert(text);
-		pan_text_alignment_add(ta, label, text);
-		g_free(label);
-		g_free(text);
+		if (text)
+			{
+			gchar *label = g_strdup_printf("%s:", name);
+			gchar *utf8_text = utf8_validate_or_convert(text);
+
+			g_free(text);
+			pan_text_alignment_add(ta, label, utf8_text);
+			g_free(label);
+			g_free(utf8_text);
+			}
 		}
 
 	exif_free(exif);

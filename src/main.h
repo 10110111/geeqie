@@ -133,7 +133,7 @@
  */
 
 gdouble get_zoom_increment(void);
-gchar *utf8_validate_or_convert(gchar *text);
+gchar *utf8_validate_or_convert(const gchar *text);
 gchar *expand_tilde(const gchar *filename);
 
 void keyboard_scroll_calc(gint *x, gint *y, GdkEventKey *event);

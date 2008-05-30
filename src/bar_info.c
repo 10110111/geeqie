@@ -143,7 +143,7 @@ static gint comment_file_read(gchar *path, GList **keywords, gchar **comment)
 	f = fopen(path, "r");
 	if (!f) return FALSE;
 
-	while (fgets(s_buf,sizeof(s_buf), f))
+	while (fgets(s_buf, sizeof(s_buf), f))
 		{
 		gchar *ptr = s_buf;
 
@@ -176,7 +176,7 @@ static gint comment_file_read(gchar *path, GList **keywords, gchar **comment)
 				*ptr = '\0';
 				if (strlen(s_buf) > 0)
 					{
-					gchar *kw = utf8_validate_or_convert(g_strdup(s_buf));
+					gchar *kw = utf8_validate_or_convert(s_buf);
 
 					list = g_list_prepend(list, kw);
 					}
@@ -206,7 +206,10 @@ static gint comment_file_read(gchar *path, GList **keywords, gchar **comment)
 			if (ptr[len] == '\n') len++; /* keep the last one */
 			if (len > 0)
 				{
-				*comment = utf8_validate_or_convert(g_strndup(ptr, len));
+				gchar *text = g_strndup(ptr, len);
+
+				*comment = utf8_validate_or_convert(text);
+				g_free(text);
 				}
 			}
 		g_string_free(comment_build, TRUE);
@@ -291,10 +294,12 @@ static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 
 	if (comment)
 		{
+		gchar *text;
 		ExifItem *item = exif_get_item(exif, COMMENT_KEY);
 
-		*comment = exif_item_get_string(item, 0);
-		*comment = utf8_validate_or_convert(*comment);
+		text = exif_item_get_string(item, 0);
+		*comment = utf8_validate_or_convert(text);
+		g_free(text);
 		}
 
 	if (keywords)
@@ -307,10 +312,13 @@ static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 		for (i = 0; i < exif_item_get_elements(item); i++)
 			{
 			gchar *kw = exif_item_get_string(item, i);
+			gchar *utf8_kw;
 
-			kw = utf8_validate_or_convert(kw);
 			if (!kw) break;
-			*keywords = g_list_append(*keywords, (gpointer) kw);
+
+			utf8_kw = utf8_validate_or_convert(kw);
+			*keywords = g_list_append(*keywords, (gpointer) utf8_kw);
+			g_free(kw);
 			}
 
 		/* FIXME:
@@ -333,12 +341,14 @@ static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 				if (strcmp(tag_name, "Iptc.Application2.Keywords") == 0)
 					{
 					gchar *kw;
+					gchar *utf8_kw;
 
 					kw = exif_item_get_data_as_text(item);
-					kw = utf8_validate_or_convert(kw);
-					
 					if (!kw) continue;
-					*keywords = g_list_append(*keywords, (gpointer) kw);
+
+					utf8_kw = utf8_validate_or_convert(kw);
+					*keywords = g_list_append(*keywords, (gpointer) utf8_kw);
+					g_free(kw);
 					}
 				g_free(tag_name);
 				}

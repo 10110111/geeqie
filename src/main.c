@@ -52,7 +52,7 @@ gdouble get_zoom_increment(void)
 	return ((options->image.zoom_increment != 0) ? (gdouble)options->image.zoom_increment / 10.0 : 1.0);
 }
 
-gchar *utf8_validate_or_convert(gchar *text)
+gchar *utf8_validate_or_convert(const gchar *text)
 {
 	gint len;
 
@@ -60,15 +60,9 @@ gchar *utf8_validate_or_convert(gchar *text)
 	
 	len = strlen(text);
 	if (!g_utf8_validate(text, len, NULL))
-		{
-		gchar *conv_text;
+		return g_convert(text, len, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
 
-		conv_text = g_convert(text, len, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-		g_free(text);
-		text = conv_text;
-		}
-
-	return text;
+	return g_strdup(text);
 }
 
 /* Borrowed from gtkfilesystemunix.c */
