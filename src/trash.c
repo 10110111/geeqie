@@ -15,7 +15,7 @@
 #include "trash.h"
 #include "utilops.h"
 
-
+#include "editors.h"
 #include "filedata.h"
 #include "ui_fileops.h"
 #include "ui_misc.h"
@@ -181,7 +181,7 @@ gchar *file_util_safe_delete_status(void)
 {
 	gchar *buf;
 
-	if (options->editor[CMD_DELETE].command)
+	if (is_valid_editor_command(CMD_DELETE))
 		{
 		buf = g_strdup(_("Deletion by external command"));
 		}

@@ -74,4 +74,6 @@ const gchar *editor_get_error_str(gint flags);
 
 const gchar *editor_get_name(gint n);
 
+gboolean is_valid_editor_command(gint n);
+
 #endif

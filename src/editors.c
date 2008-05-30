@@ -808,7 +808,7 @@ static gint editor_command_start(const gchar *template, const gchar *text, GList
 	return flags & EDITOR_ERROR_MASK;
 }
 
-static gint is_valid_editor_command(gint n)
+gboolean is_valid_editor_command(gint n)
 {
 	return (n >= 0 && n < GQ_EDITOR_SLOTS
 		&& options->editor[n].command

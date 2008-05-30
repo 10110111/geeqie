@@ -667,7 +667,7 @@ void file_util_perform_ci(UtilityData *ud)
 			break;
 		}
 
-	if (ud->external_command != -1 && options->editor[ud->external_command].command)
+	if (is_valid_editor_command(ud->external_command))
 		{
 		gint flags;
 		
