@@ -1450,7 +1450,7 @@ static void vflist_listview_set_height(GtkWidget *listview, gint thumb)
 	GtkCellRenderer *cell;
 	GList *list;
 
-	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_COLUMN_THUMB - 1);
+	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), 0); /* first column is thumbnail */
 	if (!column) return;
 
 	gtk_tree_view_column_set_fixed_width(column, ((thumb) ? options->thumbnails.max_width : 4) + 10);
