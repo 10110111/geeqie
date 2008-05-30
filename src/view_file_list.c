@@ -706,7 +706,6 @@ static gboolean vflist_dummy_select_cb(GtkTreeSelection *selection, GtkTreeModel
 }
 */
 
-
 static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *iter, FileData *fd)
 {
 	int i;
@@ -733,7 +732,7 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 		g_free(sidecars);
 }
 
-static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *parent_iter, GList *list, GList *selection)
+static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *parent_iter, GList *list, GList *selected)
 {
 	GList *work;
 	GtkTreeIter iter;
@@ -794,7 +793,15 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 					}
 
 				vflist_setup_iter(vf, store, &new, fd);
-				vflist_setup_iter_recursive(vf, store, &new, fd->sidecar_files, selection);
+				vflist_setup_iter_recursive(vf, store, &new, fd->sidecar_files, selected);
+				
+				if (g_list_find(selected, fd))
+					{
+					/* renamed files - the same fd appears at different position - select it again*/
+					GtkTreeSelection *selection;
+					selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vf->listview));
+					gtk_tree_selection_select_iter(selection, &new);
+					}
 
 				done = TRUE;
 				}
@@ -807,7 +814,7 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 				if (fd->version != old_version)
 					{
 					vflist_setup_iter(vf, store, &iter, fd);
-					vflist_setup_iter_recursive(vf, store, &iter, fd->sidecar_files, selection);
+					vflist_setup_iter_recursive(vf, store, &iter, fd->sidecar_files, selected);
 					}
 
 				if (valid) valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter);
@@ -1352,6 +1359,31 @@ void vflist_select_by_fd(ViewFile *vf, FileData *fd)
 		}
 }
 
+static void vflist_select_closest(ViewFile *vf, FileData *sel_fd)
+{
+	GList *work;
+	
+	if (sel_fd->parent) sel_fd = sel_fd->parent;
+	work = vf->list;
+	
+	while (work)
+		{
+		gint match;
+		FileData *fd = work->data;
+		work = work->next;
+		
+
+		match = filelist_sort_compare_filedata_full(fd, sel_fd, vf->sort_method, vf->sort_ascend);
+		
+		if (match >= 0)
+			{
+			vflist_select_by_fd(vf, fd);
+			break;
+			}
+		}
+
+}
+
 void vflist_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode)
 {
 	GtkTreeModel *store;
@@ -1470,6 +1502,7 @@ static void vflist_populate_view(ViewFile *vf)
 	gint thumbs;
 	GtkTreeRowReference *visible_row = NULL;
 	GtkTreePath *tpath;
+	GList *selected;
 
 	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
 	thumbs = VFLIST_INFO(vf, thumbs_enabled);
@@ -1492,7 +1525,17 @@ static void vflist_populate_view(ViewFile *vf)
 
 	vflist_listview_set_height(vf->listview, thumbs);
 
-	vflist_setup_iter_recursive(vf, store, NULL, vf->list, NULL);
+	selected = vflist_selection_get_list(vf);
+	
+	vflist_setup_iter_recursive(vf, store, NULL, vf->list, selected);
+
+	if (selected && vflist_selection_count(vf, NULL) == 0)
+		{
+		/* all selected files disappeared */
+		vflist_select_closest(vf, selected->data);
+		}	
+
+	filelist_free(selected);
 	
 	if (visible_row)
 		{
