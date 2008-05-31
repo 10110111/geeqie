@@ -633,6 +633,9 @@ struct _ViewFile
 	gint marks_enabled;
 	gint active_mark;
 	gint clicked_mark;
+	
+	/* refresh */
+	gint refresh_idle_id; /* used only in vflist for now */
 };
 
 struct _ViewFileInfoList

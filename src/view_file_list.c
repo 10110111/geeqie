@@ -1579,6 +1579,22 @@ gint vflist_refresh(ViewFile *vf)
 	return ret;
 }
 
+static gint vflist_refresh_idle_cb(gpointer data)
+{
+	ViewFile *vf = data;
+
+	vflist_refresh(vf);
+	vf->refresh_idle_id = -1;
+	return FALSE;
+}
+
+static void vflist_refresh_idle_cancel(ViewFile *vf)
+{
+	if (vf->refresh_idle_id != -1) g_source_remove(vf->refresh_idle_id);
+	vf->refresh_idle_id = -1;
+}
+
+
 /* this overrides the low default of a GtkCellRenderer from 100 to CELL_HEIGHT_OVERRIDE, something sane for our purposes */
 
 #define CELL_HEIGHT_OVERRIDE 512
@@ -1744,6 +1760,7 @@ void vflist_destroy_cb(GtkWidget *widget, gpointer data)
 	ViewFile *vf = data;
 
 	vflist_select_idle_cancel(vf);
+	vflist_refresh_idle_cancel(vf);
 	vflist_thumb_stop(vf);
 
 	filelist_free(vf->list);
@@ -1764,6 +1781,8 @@ ViewFile *vflist_new(ViewFile *vf, const gchar *path)
 	VFLIST_INFO(vf, thumbs_enabled) = FALSE;
 
 	VFLIST_INFO(vf, select_idle_id) = -1;
+	vf->refresh_idle_id = -1;
+
 
 	flist_types[FILE_COLUMN_POINTER] = G_TYPE_POINTER;
 	flist_types[FILE_COLUMN_VERSION] = G_TYPE_INT;
@@ -1841,6 +1860,46 @@ void vflist_marks_set(ViewFile *vf, gint enable)
  *-----------------------------------------------------------------------------
  */
 
+void vflist_maint(ViewFile *vf, FileData *fd)
+{
+	gchar *source_base;
+	gchar *dest_base;
+	
+	if (vf->refresh_idle_id != -1) return;
+	
+	source_base = remove_level_from_path(fd->change->source);
+	dest_base = remove_level_from_path(fd->change->dest);
+
+	if (strcmp(source_base, vf->path) == 0 ||
+	    strcmp(dest_base, vf->path) == 0 ||
+	    strcmp(fd->path, vf->path) == 0)
+		{
+		vf->refresh_idle_id = g_idle_add(vflist_refresh_idle_cb, vf);
+		}
+	g_free(source_base);
+	g_free(dest_base);
+}
+
+/* the plan is to drop these functions and use vflist_maint directly */
+
+gint vflist_maint_renamed(ViewFile *vf, FileData *fd)
+{
+	vflist_maint(vf, fd);
+	return TRUE;
+}
+gint vflist_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
+{
+	vflist_maint(vf, fd);
+	return TRUE;
+}
+gint vflist_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list)
+{
+	vflist_maint(vf, fd);
+	return TRUE;
+}
+
+
+#if 0
 static gint vflist_maint_find_closest(ViewFile *vf, gint row, gint count, GList *ignore_list)
 {
 	GList *list = NULL;
@@ -2045,3 +2104,4 @@ gint vflist_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list)
 
 	return ret;
 }
+#endif
