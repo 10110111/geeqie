@@ -1346,7 +1346,7 @@ static void file_data_apply_ci(FileData *fd)
 {
 	FileDataChangeType type = fd->change->type;
 	/* FIXME delete ?*/
-	if (type == FILEDATA_CHANGE_MOVE || type == FILEDATA_CHANGE_COPY || type == FILEDATA_CHANGE_RENAME)
+	if (type == FILEDATA_CHANGE_MOVE || type == FILEDATA_CHANGE_RENAME)
 		{
 		g_free(fd->path);
 		g_hash_table_remove(file_data_pool, fd->original_path);
