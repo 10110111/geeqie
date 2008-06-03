@@ -651,6 +651,15 @@ int main(int argc, char *argv[])
 
 	parse_command_line(argc, argv, &cmd_path, &cmd_file, &cmd_list, &collection_list, &geometry);
 
+	/* If a gtkrc file exists in the rc directory, add it to the
+	 * list of files to be parsed at the end of gtk_init() */
+	buf = g_build_filename(homedir(), GQ_RC_DIR, "gtkrc", NULL);
+	bufl = path_from_utf8(buf);
+	if (access(bufl, R_OK) == 0)
+		gtk_rc_add_default_file(bufl);
+	g_free(bufl);
+	g_free(buf);
+
 	gtk_init(&argc, &argv);
 
 	if (gtk_major_version < GTK_MAJOR_VERSION ||
