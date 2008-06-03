@@ -620,65 +620,72 @@ static gint filelist_read_real(const gchar *path, GList **files, GList **dirs, g
 {
 	DIR *dp;
 	struct dirent *dir;
-	struct stat ent_sbuf;
 	gchar *pathl;
-	GList *dlist;
-	GList *flist;
+	GList *dlist = NULL;
+	GList *flist = NULL;
+	int (*stat_func)(const char *path, struct stat *buf);
 
-	dlist = NULL;
-	flist = NULL;
+	g_assert(files || dirs);
+
+	if (files) *files = NULL;
+	if (dirs) *dirs = NULL;
 
 	pathl = path_from_utf8(path);
-	if (!pathl || (dp = opendir(pathl)) == NULL)
+	if (!pathl) return FALSE;
+
+	dp = opendir(pathl);
+	if (dp == NULL)
 		{
 		g_free(pathl);
-		if (files) *files = NULL;
-		if (dirs) *dirs = NULL;
 		return FALSE;
 		}
 
+	if (follow_symlinks)
+		stat_func = stat;
+	else
+		stat_func = lstat;
+
 	while ((dir = readdir(dp)) != NULL)
 		{
-		gchar *name = dir->d_name;
-		if (options->file_filter.show_hidden_files || !ishidden(name))
+		struct stat ent_sbuf;
+		const gchar *name = dir->d_name;
+		gchar *filepath;
+
+		if (!options->file_filter.show_hidden_files && ishidden(name))
+			continue;
+
+		filepath = g_build_filename(pathl, name, NULL);
+		if (stat_func(filepath, &ent_sbuf) >= 0)
 			{
-			gchar *filepath = g_build_filename(pathl, name, NULL);
-			if ((follow_symlinks ?
-				stat(filepath, &ent_sbuf) :
-				lstat(filepath, &ent_sbuf)) >= 0)
+			if (S_ISDIR(ent_sbuf.st_mode))
 				{
-				if (S_ISDIR(ent_sbuf.st_mode))
+				/* we ignore the .thumbnails dir for cleanliness */
+				if (dirs &&
+				    !(name[0] == '.' && (name[1] == '\0' || (name[1] == '.' && name[2] == '\0'))) &&
+				    strcmp(name, GQ_CACHE_LOCAL_THUMB) != 0 &&
+				    strcmp(name, GQ_CACHE_LOCAL_METADATA) != 0 &&
+				    strcmp(name, THUMB_FOLDER_LOCAL) != 0)
 					{
-					/* we ignore the .thumbnails dir for cleanliness */
-					if ((dirs) &&
-					    !(name[0] == '.' && (name[1] == '\0' || (name[1] == '.' && name[2] == '\0'))) &&
-					    strcmp(name, GQ_CACHE_LOCAL_THUMB) != 0 &&
-					    strcmp(name, GQ_CACHE_LOCAL_METADATA) != 0 &&
-					    strcmp(name, THUMB_FOLDER_LOCAL) != 0)
-						{
-						dlist = g_list_prepend(dlist, file_data_new_local(filepath, &ent_sbuf, FALSE));
-						}
-					}
-				else
-					{
-					if ((files) && filter_name_exists(name))
-						{
-						flist = g_list_prepend(flist, file_data_new_local(filepath, &ent_sbuf, TRUE));
-						}
+					dlist = g_list_prepend(dlist, file_data_new_local(filepath, &ent_sbuf, FALSE));
 					}
 				}
-			g_free(filepath);
+			else
+				{
+				if (files && filter_name_exists(name))
+					{
+					flist = g_list_prepend(flist, file_data_new_local(filepath, &ent_sbuf, TRUE));
+					}
+				}
 			}
+		g_free(filepath);
 		}
 
 	closedir(dp);
-
+	
 	g_free(pathl);
 
-	flist = filelist_filter_out_sidecars(flist);
-
 	if (dirs) *dirs = dlist;
-	if (files) *files = flist;
+	if (files) *files = filelist_filter_out_sidecars(flist);
 
 	return TRUE;
 }
