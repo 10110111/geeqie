@@ -1862,22 +1862,30 @@ void vflist_marks_set(ViewFile *vf, gint enable)
 
 void vflist_maint(ViewFile *vf, FileData *fd)
 {
-	gchar *source_base;
-	gchar *dest_base;
-	
+	gboolean refresh;
+
 	if (vf->refresh_idle_id != -1) return;
 	
-	source_base = remove_level_from_path(fd->change->source);
-	dest_base = remove_level_from_path(fd->change->dest);
+	refresh = (strcmp(fd->path, vf->path) == 0);
 
-	if (strcmp(source_base, vf->path) == 0 ||
-	    strcmp(dest_base, vf->path) == 0 ||
-	    strcmp(fd->path, vf->path) == 0)
+	if (!refresh)
+		{
+		gchar *dest_base = remove_level_from_path(fd->change->dest);
+		refresh = (strcmp(dest_base, vf->path) == 0);
+		g_free(dest_base);
+		}
+
+	if (!refresh)
+		{
+		gchar *source_base = remove_level_from_path(fd->change->source);
+		refresh = (strcmp(source_base, vf->path) == 0);
+		g_free(source_base);
+		}
+	
+	if (refresh)
 		{
 		vf->refresh_idle_id = g_idle_add(vflist_refresh_idle_cb, vf);
 		}
-	g_free(source_base);
-	g_free(dest_base);
 }
 
 /* the plan is to drop these functions and use vflist_maint directly */
