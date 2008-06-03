@@ -208,7 +208,7 @@ gint pan_is_ignored(const gchar *s, gint ignore_symlinks)
 	return FALSE;
 }
 
-GList *pan_list_tree(const gchar *path, SortType sort, gint ascend,
+GList *pan_list_tree(FileData *dir_fd, SortType sort, gint ascend,
 		     gint ignore_symlinks)
 {
 	GList *flist;
@@ -216,7 +216,7 @@ GList *pan_list_tree(const gchar *path, SortType sort, gint ascend,
 	GList *result;
 	GList *folders;
 
-	filelist_read(path, &flist, &dlist);
+	filelist_read(dir_fd, &flist, &dlist);
 	if (sort != SORT_NONE)
 		{
 		flist = filelist_sort(flist, sort, ascend);
@@ -233,7 +233,7 @@ GList *pan_list_tree(const gchar *path, SortType sort, gint ascend,
 		folders = g_list_remove(folders, fd);
 
 		if (!pan_is_ignored(fd->path, ignore_symlinks) &&
-		    filelist_read(fd->path, &flist, &dlist))
+		    filelist_read(fd, &flist, &dlist))
 			{
 			if (sort != SORT_NONE)
 				{

@@ -35,8 +35,15 @@ static gint file_util_safe_number(gint64 free_space)
 	GList *work;
 	gint sorted = FALSE;
 	gint warned = FALSE;
+	FileData *dir_fd;
 
-	if (!filelist_read(options->file_ops.safe_delete_path, &list, NULL)) return 0;
+    	dir_fd = file_data_new_simple(options->file_ops.safe_delete_path);
+	if (!filelist_read(dir_fd, &list, NULL)) 
+		{
+		file_data_unref(dir_fd);
+		return 0;
+		}
+	file_data_unref(dir_fd);
 
 	work = list;
 	while (work)

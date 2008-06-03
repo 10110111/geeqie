@@ -616,7 +616,7 @@ static GList *filelist_filter_out_sidecars(GList *flist)
 	return flist_filtered;
 }
 
-static gint filelist_read_real(const gchar *path, GList **files, GList **dirs, gint follow_symlinks)
+static gint filelist_read_real(FileData *dir_fd, GList **files, GList **dirs, gint follow_symlinks)
 {
 	DIR *dp;
 	struct dirent *dir;
@@ -630,7 +630,7 @@ static gint filelist_read_real(const gchar *path, GList **files, GList **dirs, g
 	if (files) *files = NULL;
 	if (dirs) *dirs = NULL;
 
-	pathl = path_from_utf8(path);
+	pathl = path_from_utf8(dir_fd->path);
 	if (!pathl) return FALSE;
 
 	dp = opendir(pathl);
@@ -690,14 +690,14 @@ static gint filelist_read_real(const gchar *path, GList **files, GList **dirs, g
 	return TRUE;
 }
 
-gint filelist_read(const gchar *path, GList **files, GList **dirs)
+gint filelist_read(FileData *dir_fd, GList **files, GList **dirs)
 {
-	return filelist_read_real(path, files, dirs, TRUE);
+	return filelist_read_real(dir_fd, files, dirs, TRUE);
 }
 
-gint filelist_read_lstat(const gchar *path, GList **files, GList **dirs)
+gint filelist_read_lstat(FileData *dir_fd, GList **files, GList **dirs)
 {
-	return filelist_read_real(path, files, dirs, FALSE);
+	return filelist_read_real(dir_fd, files, dirs, FALSE);
 }
 
 void filelist_free(GList *list)
@@ -828,11 +828,10 @@ static void filelist_recursive_append(GList **list, GList *dirs)
 	while (work)
 		{
 		FileData *fd = (FileData *)(work->data);
-		const gchar *path = fd->path;
 		GList *f;
 		GList *d;
 
-		if (filelist_read(path, &f, &d))
+		if (filelist_read(fd, &f, &d))
 			{
 			f = filelist_filter(f, FALSE);
 			f = filelist_sort_path(f);
@@ -848,12 +847,12 @@ static void filelist_recursive_append(GList **list, GList *dirs)
 		}
 }
 
-GList *filelist_recursive(const gchar *path)
+GList *filelist_recursive(FileData *dir_fd)
 {
 	GList *list;
 	GList *d;
 
-	if (!filelist_read(path, &list, &d)) return NULL;
+	if (!filelist_read(dir_fd, &list, &d)) return NULL;
 	list = filelist_filter(list, FALSE);
 	list = filelist_sort_path(list);
 

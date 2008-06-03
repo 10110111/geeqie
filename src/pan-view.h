@@ -15,7 +15,7 @@
 #define PAN_VIEW_H
 
 
-void pan_window_new(const gchar *path);
+void pan_window_new(FileData *dir_fd);
 
 
 #endif

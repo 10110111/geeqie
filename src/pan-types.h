@@ -194,7 +194,7 @@ struct _PanWindow
 
 	gint overlay_id;
 
-	gchar *path;
+	FileData *dir_fd;
 	PanLayoutType layout;
 	PanImageSize size;
 	gint thumb_size;
@@ -268,6 +268,8 @@ void pan_item_size_coordinates(PanItem *pi, gint border, gint *w, gint *h);
 PanItem *pan_item_find_by_key(PanWindow *pw, PanItemType type, const gchar *key);
 GList *pan_item_find_by_path(PanWindow *pw, PanItemType type, const gchar *path,
 			     gint ignore_case, gint partial);
+GList *pan_item_find_by_fd(PanWindow *pw, PanItemType type, FileData *fd,
+			     gint ignore_case, gint partial);
 PanItem *pan_item_find_by_coord(PanWindow *pw, PanItemType type,
 				gint x, gint y, const gchar *key);
 
@@ -340,20 +342,20 @@ time_t pan_date_to_time(gint year, gint month, gint day);
 
 gint pan_is_link_loop(const gchar *s);
 gint pan_is_ignored(const gchar *s, gint ignore_symlinks);
-GList *pan_list_tree(const gchar *path, SortType sort, gint ascend,
+GList *pan_list_tree(FileData *dir_fd, SortType sort, gint ascend,
 		     gint ignore_symlinks);
 
 
 /* the different view types */
 
 void pan_calendar_update(PanWindow *pw, PanItem *pi_day);
-void pan_calendar_compute(PanWindow *pw, const gchar *path, gint *width, gint *height);
-void pan_flower_compute(PanWindow *pw, const gchar *path,
+void pan_calendar_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *height);
+void pan_flower_compute(PanWindow *pw, FileData *dir_fd,
 			gint *width, gint *height,
 			gint *scroll_x, gint *scroll_y);
-void pan_folder_tree_compute(PanWindow *pw, const gchar *path, gint *width, gint *height);
-void pan_grid_compute(PanWindow *pw, const gchar *path, gint *width, gint *height);
-void pan_timeline_compute(PanWindow *pw, const gchar *path, gint *width, gint *height);
+void pan_folder_tree_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *height);
+void pan_grid_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *height);
+void pan_timeline_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *height);
 
 
 #endif

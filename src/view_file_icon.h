@@ -20,9 +20,9 @@ gint vficon_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 void vficon_dnd_init(ViewFile *vf);
 
 void vficon_destroy_cb(GtkWidget *widget, gpointer data);
-ViewFile *vficon_new(ViewFile *vf, const gchar *path);
+ViewFile *vficon_new(ViewFile *vf, FileData *dir_fd);
 
-gint vficon_set_path(ViewFile *vf, const gchar *path);
+gint vficon_set_fd(ViewFile *vf, FileData *dir_fd);
 gint vficon_refresh(ViewFile *vf);
 
 void vficon_sort_set(ViewFile *vf, SortType type, gint ascend);

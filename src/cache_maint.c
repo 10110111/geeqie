@@ -173,7 +173,7 @@ static gint cache_maintain_home_cb(gpointer data)
 		{
 		cm->done_list = g_list_prepend(cm->done_list, fd);
 
-		if (filelist_read(fd->path, &list, &dlist))
+		if (filelist_read(fd, &list, &dlist))
 			{
 			GList *work;
 
@@ -276,6 +276,7 @@ void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
 	CMData *cm;
 	GList *dlist;
 	gchar *base;
+	FileData *dir_fd;
 	const gchar *msg;
 	const gchar *cache_folder;
 	GtkWidget *hbox;
@@ -290,14 +291,16 @@ void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
 		}
 
 	base = g_build_filename(homedir(), cache_folder, NULL);
-	
-	if (!filelist_read(base, NULL, &dlist))
+	dir_fd = file_data_new_simple(base);
+	if (!filelist_read(dir_fd, NULL, &dlist))
 		{
 		g_free(base);
+		file_data_unref(dir_fd);
 		return;
 		}
 
-	dlist = g_list_append(dlist, file_data_new_simple(base));
+	dlist = g_list_append(dlist, dir_fd);
+	g_free(base);
 
 	cm = g_new0(CMData, 1);
 	cm->list = dlist;
@@ -361,6 +364,7 @@ gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear)
 	gchar *base;
 	gint base_length;
 	GList *dlist = NULL;
+	FileData *dir_fd;
 	GList *flist = NULL;
 	gint still_have_a_file = FALSE;
 
@@ -368,8 +372,10 @@ gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear)
 
 	base_length = strlen(homedir()) + strlen("/") + strlen(GQ_CACHE_RC_THUMB);
 	base = g_strconcat(homedir(), "/", GQ_CACHE_RC_THUMB, dir, NULL);
+	dir_fd = file_data_new_simple(base);
+	g_free(base);
 
-	if (filelist_read(base, &flist, &dlist))
+	if (filelist_read(dir_fd, &flist, &dlist))
 		{
 		GList *work;
 
@@ -421,7 +427,7 @@ gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear)
 
 	filelist_free(dlist);
 	filelist_free(flist);
-	g_free(base);
+	file_data_unref(dir_fd);
 
 	return still_have_a_file;
 }
@@ -429,16 +435,19 @@ gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear)
 /* This checks relative caches in dir/.thumbnails and
  * removes them if they have no source counterpart.
  */
-gint cache_maintain_dir(const gchar *dir, gint recursive, gint clear)
+gint cache_maintain_dir(FileData *dir_fd, gint recursive, gint clear)
 {
 	GList *list = NULL;
 	gchar *cachedir;
+	FileData *cachedir_fd;
 	gint still_have_a_file = FALSE;
 	GList *work;
 
 	cachedir = g_build_filename(dir, GQ_CACHE_LOCAL_THUMB, NULL);
+	cachedir_fd = file_data_new_simple(cachedir);
+	g_free(cachedir);
 
-	filelist_read(cachedir, &list, NULL);
+	filelist_read(cachedir_fd, &list, NULL);
 	work = list;
 
 	while (work)
@@ -449,7 +458,7 @@ gint cache_maintain_dir(const gchar *dir, gint recursive, gint clear)
 		fd = work->data;
 		work = work->next;
 
-		source = g_build_filename(dir, fd->name, NULL);
+		source = g_build_filename(dir->path, fd->name, NULL);
 
 		if (clear ||
 		    extension_truncate(source, GQ_CACHE_EXT_THUMB) ||
@@ -476,13 +485,13 @@ gint cache_maintain_dir(const gchar *dir, gint recursive, gint clear)
 		}
 
 	filelist_free(list);
-	g_free(cachedir);
+	file_data_unref(cachedir_fd);
 
 	if (recursive)
 		{
 		list = NULL;
 
-		filelist_read(dir, NULL, &list);
+		filelist_read(dir_fd, NULL, &list);
 		work = list;
 		while (work)
 			{
@@ -708,18 +717,18 @@ static void cache_manager_render_stop_cb(GenericDialog *fd, gpointer data)
 	cache_manager_render_finish(cd);
 }
 
-static void cache_manager_render_folder(CleanData *cd, const gchar *path)
+static void cache_manager_render_folder(CleanData *cd, FileData *dir_fd)
 {
 	GList *list_d = NULL;
 	GList *list_f = NULL;
 
 	if (cd->recurse)
 		{
-		filelist_read(path, &list_f, &list_d);
+		filelist_read(dir_fd, &list_f, &list_d);
 		}
 	else
 		{
-		filelist_read(path, &list_f, NULL);
+		filelist_read(dir_fd, &list_f, NULL);
 		}
 
 	list_f = filelist_filter(list_f, FALSE);
@@ -779,7 +788,7 @@ static gint cache_manager_render_file(CleanData *cd)
 		fd = cd->list_dir->data;
 		cd->list_dir = g_list_remove(cd->list_dir, fd);
 
-		cache_manager_render_folder(cd, fd->path);
+		cache_manager_render_folder(cd, fd);
 
 		file_data_unref(fd);
 
@@ -809,6 +818,7 @@ static void cache_manager_render_start_cb(GenericDialog *fd, gpointer data)
 		}
 	else
 		{
+		FileData *dir_fd;
 		gtk_widget_set_sensitive(cd->group, FALSE);
 		gtk_widget_set_sensitive(cd->button_start, FALSE);
 		gtk_widget_set_sensitive(cd->button_stop, TRUE);
@@ -816,7 +826,9 @@ static void cache_manager_render_start_cb(GenericDialog *fd, gpointer data)
 
 		spinner_set_interval(cd->spinner, SPINNER_SPEED);
 
-		cache_manager_render_folder(cd, path);
+		dir_fd = file_data_new_simple(path);
+		cache_manager_render_folder(cd, dir_fd);
+		file_data_unref(dir_fd);
 		while (cache_manager_render_file(cd));
 		}
 
@@ -1001,6 +1013,7 @@ static void cache_manager_standard_clean_start_cb(GenericDialog *gd, gpointer da
 	CleanData *cd = data;
 	GList *list;
 	gchar *path;
+	FileData *dir_fd;
 
 	if (cd->list || !GTK_WIDGET_SENSITIVE(cd->button_start)) return;
 
@@ -1011,18 +1024,24 @@ static void cache_manager_standard_clean_start_cb(GenericDialog *gd, gpointer da
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(cd->progress), _("running..."));
 
 	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_NORMAL, NULL);
-	filelist_read(path, &list, NULL);
+	dir_fd = file_data_new_simple(path);
+	filelist_read(dir_fd, &list, NULL);
 	cd->list = list;
+	file_data_unref(dir_fd);
 	g_free(path);
 
 	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_LARGE, NULL);
-	filelist_read(path, &list, NULL);
+	dir_fd = file_data_new_simple(path);
+	filelist_read(dir_fd, &list, NULL);
 	cd->list = g_list_concat(cd->list, list);
+	file_data_unref(dir_fd);
 	g_free(path);
 
 	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_FAIL, NULL);
-	filelist_read(path, &list, NULL);
+	dir_fd = file_data_new_simple(path);
+	filelist_read(dir_fd, &list, NULL);
 	cd->list = g_list_concat(cd->list, list);
+	file_data_unref(dir_fd);
 	g_free(path);
 
 	cd->count_total = g_list_length(cd->list);

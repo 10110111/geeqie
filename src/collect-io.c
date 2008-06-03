@@ -668,9 +668,12 @@ static void collect_manager_refresh(void)
 	GList *list;
 	GList *work;
 	gchar *base;
+	FileData *dir_fd;
 
 	base = g_build_filename(homedir(), GQ_RC_DIR_COLLECTIONS, NULL);
-	filelist_read(base, &list, NULL);
+	dir_fd = file_data_new_simple(base);
+	filelist_read(dir_fd, &list, NULL);
+	file_data_unref(dir_fd);
 	g_free(base);
 
 	work = collection_manager_entry_list;

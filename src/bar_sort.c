@@ -89,6 +89,7 @@ static void bar_sort_add_close(SortData *sd);
 static void bar_sort_collection_list_build(GtkWidget *bookmarks)
 {
 	gchar *collect_path;
+	FileData *dir_fd;
 	GList *list;
 	GList *work;
 
@@ -96,7 +97,9 @@ static void bar_sort_collection_list_build(GtkWidget *bookmarks)
 	bookmark_list_set_key(bookmarks, SORT_KEY_COLLECTIONS);
 
 	collect_path = g_build_filename(homedir(), GQ_RC_DIR_COLLECTIONS, NULL);
-	filelist_read(collect_path, &list, NULL);
+	dir_fd = file_data_new_simple(collect_path);
+	filelist_read(dir_fd, &list, NULL);
+	file_data_unref(dir_fd);
 	g_free(collect_path);
 
 	list = filelist_sort_path(list);

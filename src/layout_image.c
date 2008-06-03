@@ -442,7 +442,7 @@ void layout_image_slideshow_start(LayoutWindow *lw)
 	else
 		{
 		lw->slideshow = slideshow_start(lw->image, lw,
-				layout_list_get_index(lw, layout_image_get_path(lw)),
+				layout_list_get_index(lw, layout_image_get_fd(lw)),
 				layout_image_slideshow_stop_func, lw);
 		}
 
@@ -705,12 +705,12 @@ static void li_pop_menu_hide_cb(GtkWidget *widget, gpointer data)
 static void li_set_layout_path_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
-	const gchar *path;
+	FileData *fd;
 
 	if (!layout_valid(&lw)) return;
 
-	path = layout_image_get_path(lw);
-	if (path) layout_set_path(lw, path);
+	fd = layout_image_get_fd(lw);
+	if (fd) layout_set_fd(lw, fd);
 }
 
 static gint li_check_if_current_path(LayoutWindow *lw, const gchar *path)
@@ -718,10 +718,10 @@ static gint li_check_if_current_path(LayoutWindow *lw, const gchar *path)
 	gchar *dirname;
 	gint ret;
 
-	if (!path || !layout_valid(&lw) || !lw->path) return FALSE;
+	if (!path || !layout_valid(&lw) || !lw->dir_fd) return FALSE;
 
 	dirname = g_path_get_dirname(path);
-	ret = (strcmp(lw->path, dirname) == 0);
+	ret = (strcmp(lw->dir_fd->path, dirname) == 0);
 	g_free(dirname);
 	return ret;
 }
@@ -887,15 +887,18 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 				{
 				gchar *base;
 				gint row;
+				FileData *dir_fd;
 
 				base = remove_level_from_path(fd->path);
-				if (strcmp(base, layout_get_path(lw)) != 0)
+				dir_fd = file_data_new_simple(base);
+				if (dir_fd != lw->dir_fd)
 					{
-					layout_set_path(lw, base);
+					layout_set_fd(lw, dir_fd);
 					}
+				file_data_unref(dir_fd);
 				g_free(base);
 
-				row = layout_list_get_index(lw, fd->path);
+				row = layout_list_get_index(lw, fd);
 				if (source && info_list)
 					{
 					layout_image_set_collection(lw, source, info_list->data);
@@ -911,7 +914,7 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 				}
 			else if (isdir(fd->path))
 				{
-				layout_set_path(lw, fd->path);
+				layout_set_fd(lw, fd);
 				layout_image_set_fd(lw, NULL);
 				}
 			}
@@ -982,14 +985,14 @@ static void layout_image_dnd_end(GtkWidget *widget, GdkDragContext *context, gpo
 	LayoutWindow *lw = data;
 	if (context->action == GDK_ACTION_MOVE)
 		{
-		const gchar *path;
+		FileData *fd;
 		gint row;
 
-		path = layout_image_get_path(lw);
-		row = layout_list_get_index(lw, path);
+		fd = layout_image_get_fd(lw);
+		row = layout_list_get_index(lw, fd);
 		if (row < 0) return;
 
-		if (!isfile(path))
+		if (!isfile(fd->path))
 			{
 			if ((guint) row < layout_list_count(lw, NULL) - 1)
 				{
@@ -1154,7 +1157,7 @@ CollectionData *layout_image_get_collection(LayoutWindow *lw, CollectInfo **info
 
 gint layout_image_get_index(LayoutWindow *lw)
 {
-	return layout_list_get_index(lw, image_get_path(lw->image));
+	return layout_list_get_index(lw, image_get_fd(lw->image));
 }
 
 /*
@@ -1205,7 +1208,7 @@ void layout_image_set_index(LayoutWindow *lw, gint index)
 
 	if (!layout_valid(&lw)) return;
 
-	old = layout_list_get_index(lw, layout_image_get_path(lw));
+	old = layout_list_get_index(lw, layout_image_get_fd(lw));
 	fd = layout_list_get_fd(lw, index);
 
 	if (old > index)
@@ -1366,7 +1369,7 @@ void layout_image_next(LayoutWindow *lw)
 	if (layout_selection_count(lw, 0) > 1)
 		{
 		GList *x = layout_selection_list_by_index(lw);
-		gint old = layout_list_get_index(lw, layout_image_get_path(lw));
+		gint old = layout_list_get_index(lw, layout_image_get_fd(lw));
 		GList *y;
 
 		for (y = x; y && (GPOINTER_TO_INT(y->data)) != old; y = y->next)
@@ -1436,7 +1439,7 @@ void layout_image_prev(LayoutWindow *lw)
 	if (layout_selection_count(lw, 0) > 1)
 		{
 		GList *x = layout_selection_list_by_index(lw);
-		gint old = layout_list_get_index(lw, layout_image_get_path(lw));
+		gint old = layout_list_get_index(lw, layout_image_get_fd(lw));
 		GList *y;
 		GList *last;
 
@@ -1824,7 +1827,7 @@ void layout_image_activate(LayoutWindow *lw, gint i)
 	if (fd)
 		{
 //		layout_list_sync_path(lw, path);
-		layout_set_path(lw, fd->path);
+		layout_set_fd(lw, fd);
 		}
 }
 

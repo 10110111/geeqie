@@ -193,41 +193,41 @@ static void vdlist_populate(ViewDir *vd)
 	vd->drop_fd = NULL;
 }
 
-gint vdlist_set_path(ViewDir *vd, const gchar *path)
+gint vdlist_set_fd(ViewDir *vd, FileData *dir_fd)
 {
 	gint ret;
 	FileData *fd;
 	gchar *old_path = NULL;
 	gchar *filepath;
 
-	if (!path) return FALSE;
-	if (vd->path && strcmp(path, vd->path) == 0) return TRUE;
+	if (!dir_fd) return FALSE;
+	if (vd->dir_fd == dir_fd) return TRUE;
 
-	if (vd->path)
+	if (vd->dir_fd)
 		{
 		gchar *base;
 
-		base = remove_level_from_path(vd->path);
-		if (strcmp(base, path) == 0)
+		base = remove_level_from_path(vd->dir_fd->path);
+		if (strcmp(base, dir_fd->path) == 0)
 			{
-			old_path = g_strdup(filename_from_path(vd->path));
+			old_path = g_strdup(vd->dir_fd->name);
 			}
 		g_free(base);
 		}
 
-	g_free(vd->path);
-	vd->path = g_strdup(path);
+	file_data_unref(vd->dir_fd);
+	vd->dir_fd = file_data_ref(dir_fd);
 
 	filelist_free(VDLIST_INFO(vd, list));
 
-	ret = filelist_read(vd->path, NULL, &VDLIST_INFO(vd, list));
+	ret = filelist_read(vd->dir_fd, NULL, &VDLIST_INFO(vd, list));
 	VDLIST_INFO(vd, list) = filelist_sort(VDLIST_INFO(vd, list), SORT_NAME, TRUE);
 
 	/* add . and .. */
 
-	if (strcmp(vd->path, G_DIR_SEPARATOR_S) != 0)
+	if (strcmp(vd->dir_fd->path, G_DIR_SEPARATOR_S) != 0)
 		{
-		filepath = g_build_filename(vd->path, "..", NULL);
+		filepath = g_build_filename(vd->dir_fd->path, "..", NULL);
 		fd = file_data_new_simple(filepath);
 		VDLIST_INFO(vd, list) = g_list_prepend(VDLIST_INFO(vd, list), fd);
 		g_free(filepath);
@@ -235,7 +235,7 @@ gint vdlist_set_path(ViewDir *vd, const gchar *path)
 
 	if (options->file_filter.show_dot_directory)
 		{
-		filepath = g_build_filename(vd->path, ".", NULL);
+		filepath = g_build_filename(vd->dir_fd->path, ".", NULL);
 		fd = file_data_new_simple(filepath);
 		VDLIST_INFO(vd, list) = g_list_prepend(VDLIST_INFO(vd, list), fd);
 		g_free(filepath);
@@ -273,12 +273,12 @@ gint vdlist_set_path(ViewDir *vd, const gchar *path)
 
 void vdlist_refresh(ViewDir *vd)
 {
-	gchar *path;
+	FileData *dir_fd;
 
-	path = g_strdup(vd->path);
-	vd->path = NULL;
-	vdlist_set_path(vd, path);
-	g_free(path);
+	dir_fd = vd->dir_fd;
+	vd->dir_fd = NULL;
+	vdlist_set_fd(vd, dir_fd);
+	file_data_unref(dir_fd);
 }
 
 gint vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
@@ -356,7 +356,7 @@ void vdlist_destroy_cb(GtkWidget *widget, gpointer data)
 	filelist_free(VDLIST_INFO(vd, list));
 }
 
-ViewDir *vdlist_new(ViewDir *vd, const gchar *path)
+ViewDir *vdlist_new(ViewDir *vd, FileData *dir_fd)
 {
 	GtkListStore *store;
 	GtkTreeSelection *selection;

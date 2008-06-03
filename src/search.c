@@ -124,7 +124,7 @@ struct _SearchData
 	GtkWidget *menu_keywords;
 	GtkWidget *entry_keywords;
 
-	gchar *search_path;
+	FileData *search_dir_fd;
 	gint   search_path_recurse;
 	gchar *search_name;
 	gint   search_name_match_case;
@@ -1942,17 +1942,22 @@ static gint search_step_cb(gpointer data)
 
 		if (sd->search_type == SEARCH_MATCH_NONE)
 			{
-			success = filelist_read(fd->path, &list, &dlist);
+			success = filelist_read(fd, &list, &dlist);
 			}
 		else if (sd->search_type == SEARCH_MATCH_ALL &&
-			 sd->search_path &&
-			 strlen(fd->path) >= strlen(sd->search_path))
+			 sd->search_dir_fd &&
+			 strlen(fd->path) >= strlen(sd->search_dir_fd->path))
 			{
 			const gchar *path;
 
-			path = fd->path + strlen(sd->search_path);
-			if (path != fd->path) success = filelist_read(path, &list, NULL);
-			success |= filelist_read(fd->path, NULL, &dlist);
+			path = fd->path + strlen(sd->search_dir_fd->path);
+			if (path != fd->path)
+				{
+				FileData *dir_fd = file_data_new_simple(path);
+				success = filelist_read(dir_fd, &list, NULL);
+				file_data_unref(dir_fd);
+				}
+			success |= filelist_read(fd, NULL, &dlist);
 			if (success)
 				{
 				GList *work;
@@ -2016,10 +2021,9 @@ static void search_start(SearchData *sd)
 	search_stop(sd);
 	search_result_clear(sd);
 
-	if (sd->search_path)
+	if (sd->search_dir_fd)
 		{
-		sd->search_folder_list = g_list_prepend(sd->search_folder_list,
-							file_data_new_simple(sd->search_path));
+		sd->search_folder_list = g_list_prepend(sd->search_folder_list, sd->search_dir_fd);
 		}
 
 	if (!sd->search_name_match_case)
@@ -2137,11 +2141,10 @@ static void search_start_cb(GtkWidget *widget, gpointer data)
 		path = remove_trailing_slash(gtk_entry_get_text(GTK_ENTRY(sd->path_entry)));
 		if (isdir(path))
 			{
-			g_free(sd->search_path);
-			sd->search_path = path;
-			path = NULL;
+			file_data_unref(sd->search_dir_fd);
+			sd->search_dir_fd = file_data_new_simple(path);
 
-			tab_completion_append_to_history(sd->path_entry, sd->search_path);
+			tab_completion_append_to_history(sd->path_entry, sd->search_dir_fd->path);
 
 			search_start(sd);
 			}
@@ -2157,9 +2160,11 @@ static void search_start_cb(GtkWidget *widget, gpointer data)
 	else if (sd->search_type == SEARCH_MATCH_ALL)
 		{
 		/* search metadata */
+		path = g_build_filename(homedir(), GQ_CACHE_RC_METADATA, NULL);
 
-		g_free(sd->search_path);
-		sd->search_path = g_build_filename(homedir(), GQ_CACHE_RC_METADATA, NULL);
+		file_data_unref(sd->search_dir_fd);
+		sd->search_dir_fd = file_data_new_simple(path);
+		g_free(path);
 
 		search_start(sd);
 		}
@@ -2170,8 +2175,8 @@ static void search_start_cb(GtkWidget *widget, gpointer data)
 
 		list = search_result_refine_list(sd);
 
-		g_free(sd->search_path);
-		sd->search_path = NULL;
+		file_data_unref(sd->search_dir_fd);
+		sd->search_dir_fd = NULL;
 
 		search_start(sd);
 
@@ -2516,7 +2521,8 @@ static void search_window_destroy_cb(GtkWidget *widget, gpointer data)
 	search_stop(sd);
 	search_result_clear(sd);
 
-	g_free(sd->search_path);
+	file_data_unref(sd->search_dir_fd);
+
 	g_free(sd->search_name);
 	g_free(sd->search_similarity_path);
 	string_list_free(sd->search_keyword_list);
@@ -2524,7 +2530,7 @@ static void search_window_destroy_cb(GtkWidget *widget, gpointer data)
 	g_free(sd);
 }
 
-void search_new(const gchar *path, const gchar *example_file)
+void search_new(FileData *dir_fd, FileData *example_file)
 {
 	SearchData *sd;
 	GtkWidget *vbox;
@@ -2541,7 +2547,7 @@ void search_new(const gchar *path, const gchar *example_file)
 
 	sd = g_new0(SearchData, 1);
 
-	sd->search_path = g_strdup(path);
+	sd->search_dir_fd = file_data_ref(dir_fd);
 	sd->search_path_recurse = TRUE;
 	sd->search_size = 0;
 	sd->search_width = 640;
@@ -2567,7 +2573,7 @@ void search_new(const gchar *path, const gchar *example_file)
 	sd->match_keywords_enable = FALSE;
 
 	sd->search_similarity = 95;
-	sd->search_similarity_path = g_strdup(example_file);
+	sd->search_similarity_path = g_strdup(example_file->path);
 	sd->search_similarity_cd = NULL;
 
 	sd->search_idle_id = -1;
@@ -2611,7 +2617,7 @@ void search_new(const gchar *path, const gchar *example_file)
 	gtk_widget_show(sd->menu_path);
 
 	hbox2 = pref_box_new(hbox, TRUE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
-	combo = tab_completion_new_with_history(&sd->path_entry, sd->search_path,
+	combo = tab_completion_new_with_history(&sd->path_entry, sd->search_dir_fd->path,
 						"search_path", -1,
 						NULL, NULL);
 	tab_completion_add_select_button(sd->path_entry, NULL, TRUE);

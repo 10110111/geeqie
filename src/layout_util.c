@@ -83,9 +83,9 @@ gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 
 	if (lw->path_entry && GTK_WIDGET_HAS_FOCUS(lw->path_entry))
 		{
-		if (event->keyval == GDK_Escape && lw->path)
+		if (event->keyval == GDK_Escape && lw->dir_fd)
 			{
-			gtk_entry_set_text(GTK_ENTRY(lw->path_entry), lw->path);
+			gtk_entry_set_text(GTK_ENTRY(lw->path_entry), lw->dir_fd->path);
 			}
 
 		/* the gtkaccelgroup of the window is stealing presses before they get to the entry (and more),
@@ -196,7 +196,7 @@ static void layout_menu_new_window_cb(GtkAction *action, gpointer data)
 
 	nw = layout_new(NULL, FALSE, FALSE);
 	layout_sort_set(nw, options->file_sort.method, options->file_sort.ascending);
-	layout_set_path(nw, layout_get_path(lw));
+	layout_set_fd(nw, lw->dir_fd);
 }
 
 static void layout_menu_new_cb(GtkAction *action, gpointer data)
@@ -221,7 +221,7 @@ static void layout_menu_search_cb(GtkAction *action, gpointer data)
 	if (lw->full_screen)
 		layout_image_full_screen_stop(lw);
 
-	search_new(lw->path, layout_image_get_path(lw));
+	search_new(lw->dir_fd, layout_image_get_fd(lw));
 }
 
 static void layout_menu_dupes_cb(GtkAction *action, gpointer data)
@@ -239,7 +239,7 @@ static void layout_menu_pan_cb(GtkAction *action, gpointer data)
 	if (lw->full_screen)
 		layout_image_full_screen_stop(lw);
 
-	pan_window_new(layout_get_path(lw));
+	pan_window_new(lw->dir_fd);
 }
 
 static void layout_menu_print_cb(GtkAction *action, gpointer data)
@@ -253,7 +253,7 @@ static void layout_menu_dir_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	file_util_create_dir(lw->path, layout_window(lw));
+	file_util_create_dir(lw->dir_fd, layout_window(lw));
 }
 
 static void layout_menu_copy_cb(GtkAction *action, gpointer data)
@@ -1476,8 +1476,12 @@ static void layout_button_home_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 	const gchar *path = homedir();
-
-	if (path) layout_set_path(lw, path);
+	if (path)
+		{
+		FileData *dir_fd = file_data_new_simple(path);
+		layout_set_fd(lw, dir_fd);
+		file_data_unref(dir_fd);
+		}
 }
 
 static void layout_button_refresh_cb(GtkWidget *widget, gpointer data)

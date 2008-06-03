@@ -23,9 +23,9 @@ gint vflist_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 void vflist_dnd_init(ViewFile *vf);
 
 void vflist_destroy_cb(GtkWidget *widget, gpointer data);
-ViewFile *vflist_new(ViewFile *vf, const gchar *path);
+ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd);
 
-gint vflist_set_path(ViewFile *vf, const gchar *path);
+gint vflist_set_fd(ViewFile *vf, FileData *dir_fd);
 gint vflist_refresh(ViewFile *vf);
 
 void vflist_thumb_set(ViewFile *vf, gint enable);

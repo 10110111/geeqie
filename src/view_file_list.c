@@ -382,8 +382,8 @@ static gint vflist_row_rename_cb(TreeEditData *td, const gchar *old, const gchar
 
 	if (strlen(new) == 0) return FALSE;
 
-	old_path = g_build_filename(vf->path, old, NULL);
-	new_path = g_build_filename(vf->path, new, NULL);
+	old_path = g_build_filename(vf->dir_fd->path, old, NULL);
+	new_path = g_build_filename(vf->dir_fd->path, new, NULL);
 
 	if (strchr(new, G_DIR_SEPARATOR) != NULL)
 		{
@@ -1561,9 +1561,9 @@ gint vflist_refresh(ViewFile *vf)
 	vf->list = NULL;
 
 	DEBUG_1("%s vflist_refresh: read dir", get_exec_time());
-	if (vf->path)
+	if (vf->dir_fd)
 		{
-		ret = filelist_read(vf->path, &vf->list, NULL);
+		ret = filelist_read(vf->dir_fd, &vf->list, NULL);
 
 		DEBUG_1("%s vflist_refresh: sort", get_exec_time());
 		vf->list = filelist_sort(vf->list, vf->sort_method, vf->sort_ascend);
@@ -1735,15 +1735,15 @@ static void vflist_listview_add_column_toggle(ViewFile *vf, gint n, const gchar 
  *-----------------------------------------------------------------------------
  */
 
-gint vflist_set_path(ViewFile *vf, const gchar *path)
+gint vflist_set_fd(ViewFile *vf, FileData *dir_fd)
 {
 	GtkTreeStore *store;
 
-	if (!path) return FALSE;
-	if (vf->path && strcmp(path, vf->path) == 0) return TRUE;
+	if (!dir_fd) return FALSE;
+	if (vf->dir_fd == dir_fd) return TRUE;
 
-	g_free(vf->path);
-	vf->path = g_strdup(path);
+	file_data_unref(vf->dir_fd);
+	vf->dir_fd = file_data_ref(dir_fd);
 
 	/* force complete reload */
 	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
@@ -1766,7 +1766,7 @@ void vflist_destroy_cb(GtkWidget *widget, gpointer data)
 	filelist_free(vf->list);
 }
 
-ViewFile *vflist_new(ViewFile *vf, const gchar *path)
+ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 {
 	GtkTreeStore *store;
 	GtkTreeSelection *selection;
@@ -1866,19 +1866,26 @@ void vflist_maint(ViewFile *vf, FileData *fd)
 
 	if (vf->refresh_idle_id != -1) return;
 	
-	refresh = (strcmp(fd->path, vf->path) == 0);
+	refresh = (fd == vf->dir_fd);
 
-	if (!refresh)
+	if (!refresh && fd->change->dest)
+		{
+		gchar *base = remove_level_from_path(fd->path);
+		refresh = (strcmp(base, vf->dir_fd->path) == 0);
+		g_free(base);
+		}
+
+	if (!refresh && fd->change->dest)
 		{
 		gchar *dest_base = remove_level_from_path(fd->change->dest);
-		refresh = (strcmp(dest_base, vf->path) == 0);
+		refresh = (strcmp(dest_base, vf->dir_fd->path) == 0);
 		g_free(dest_base);
 		}
 
-	if (!refresh)
+	if (!refresh && fd->change->source)
 		{
 		gchar *source_base = remove_level_from_path(fd->change->source);
-		refresh = (strcmp(source_base, vf->path) == 0);
+		refresh = (strcmp(source_base, vf->dir_fd->path) == 0);
 		g_free(source_base);
 		}
 	

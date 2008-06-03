@@ -197,11 +197,14 @@ static void parse_command_line_add_dir(const gchar *dir, gchar **path, gchar **f
 {
 	GList *files;
 	gchar *path_parsed;
+	FileData *dir_fd;
 
 	path_parsed = g_strdup(dir);
 	parse_out_relatives(path_parsed);
+	dir_fd = file_data_new_simple(path_parsed);
+	
 
-	if (filelist_read(path_parsed, &files, NULL))
+	if (filelist_read(dir_fd, &files, NULL))
 		{
 		GList *work;
 
@@ -223,6 +226,7 @@ static void parse_command_line_add_dir(const gchar *dir, gchar **path, gchar **f
 		}
 
 	g_free(path_parsed);
+	file_data_unref(dir_fd);
 }
 
 static void parse_command_line_process_dir(const gchar *dir, gchar **path, gchar **file,

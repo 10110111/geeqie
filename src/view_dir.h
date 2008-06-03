@@ -23,13 +23,13 @@ enum {
 #define VIEW_DIR_TYPES_COUNT 2
 extern GtkRadioActionEntry menu_view_dir_radio_entries[VIEW_DIR_TYPES_COUNT];
 
-ViewDir *vd_new(DirViewType type, const gchar *path);
+ViewDir *vd_new(DirViewType type, FileData *dir_fd);
 
 void vd_set_select_func(ViewDir *vdl, void (*func)(ViewDir *vdl, const gchar *path, gpointer data), gpointer data);
 
 void vd_set_layout(ViewDir *vdl, LayoutWindow *layout);
 
-gint vd_set_path(ViewDir *vdl, const gchar *path);
+gint vd_set_fd(ViewDir *vdl, FileData *dir_fd);
 void vd_refresh(ViewDir *vdl);
 gint vd_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter);
 

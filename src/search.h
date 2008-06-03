@@ -15,7 +15,7 @@
 #define SEARCH_H
 
 
-void search_new(const gchar *path, const gchar *example_file);
+void search_new(FileData *dir_fd, FileData *example_file);
 
 
 void search_maint_renamed(FileData *fd);

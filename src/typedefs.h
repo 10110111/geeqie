@@ -440,7 +440,7 @@ struct _FileData {
 
 struct _LayoutWindow
 {
-	gchar *path;
+	FileData *dir_fd;
 
 	/* base */
 
@@ -538,7 +538,7 @@ struct _LayoutWindow
 	/* directory update check */
 
 	gint last_time_id;
-	time_t last_time;
+	gint last_version;
 
 	/* misc */
 
@@ -564,7 +564,7 @@ struct _ViewDir
 	GtkWidget *widget;
 	GtkWidget *view;
 
-	gchar *path;
+	FileData *dir_fd;
 
 	FileData *click_fd;
 
@@ -606,7 +606,7 @@ struct _ViewFile
 	GtkWidget *widget;
 	GtkWidget *listview;
 
-	gchar *path;
+	FileData *dir_fd;
 	GList *list;
 
 	SortType sort_method;
@@ -680,7 +680,7 @@ struct _SlideShowData
 
 	GList *filelist;
 	CollectionData *cd;
-	gchar *layout_path;
+	FileData *dir_fd;
 	LayoutWindow *layout;
 
 	GList *list;

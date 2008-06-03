@@ -1439,7 +1439,7 @@ static void file_util_start_editor_full(gint n, FileData *source_fd, GList *sour
 
 
 /* FIXME: */
-void file_util_create_dir(const gchar *path, GtkWidget *parent)
+void file_util_create_dir(FileData *dir_fd, GtkWidget *parent)
 {
 }
 
@@ -1536,7 +1536,7 @@ FileData *file_util_delete_dir_empty_path(FileData *fd, gint real_content, gint 
 		return file_data_ref(fd);
 		}
 
-	if (!filelist_read_lstat(fd->path, &flist, &dlist)) file_data_ref(fd);
+	if (!filelist_read_lstat(fd, &flist, &dlist)) file_data_ref(fd);
 
 	work = dlist;
 	while (work && !fail)
@@ -1738,7 +1738,7 @@ void file_util_delete_dir(FileData *fd, GtkWidget *parent)
 		return;
 		}
 
-	if (!filelist_read_lstat(fd->path, &flist, &dlist))
+	if (!filelist_read_lstat(fd, &flist, &dlist))
 		{
 		gchar *text;
 

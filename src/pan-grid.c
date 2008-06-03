@@ -17,7 +17,7 @@
 #include <math.h>
 
 
-void pan_grid_compute(PanWindow *pw, const gchar *path, gint *width, gint *height)
+void pan_grid_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *height)
 {
 	GList *list;
 	GList *work;
@@ -25,7 +25,7 @@ void pan_grid_compute(PanWindow *pw, const gchar *path, gint *width, gint *heigh
 	gint grid_size;
 	gint next_y;
 
-	list = pan_list_tree(path, SORT_NAME, TRUE, pw->ignore_symlinks);
+	list = pan_list_tree(dir_fd, SORT_NAME, TRUE, pw->ignore_symlinks);
 
 	grid_size = (gint)sqrt((double)g_list_length(list));
 	if (pw->size > PAN_IMAGE_SIZE_THUMB_LARGE)

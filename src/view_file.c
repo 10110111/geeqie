@@ -620,14 +620,14 @@ gint vf_refresh(ViewFile *vf)
 	return ret;
 }
 
-gint vf_set_path(ViewFile *vf, const gchar *path)
+gint vf_set_fd(ViewFile *vf, FileData *dir_fd)
 {
 	gint ret = FALSE;
 
 	switch(vf->type)
 	{
-	case FILEVIEW_LIST: ret = vflist_set_path(vf, path); break;
-	case FILEVIEW_ICON: ret = vficon_set_path(vf, path); break;
+	case FILEVIEW_LIST: ret = vflist_set_fd(vf, dir_fd); break;
+	case FILEVIEW_ICON: ret = vficon_set_fd(vf, dir_fd); break;
 	}
 	
 	return ret;
@@ -650,12 +650,12 @@ static void vf_destroy_cb(GtkWidget *widget, gpointer data)
 		gtk_widget_destroy(vf->popup);
 		}
 
-	g_free(vf->path);
+	file_data_unref(vf->dir_fd);
 	g_free(vf->info);
 	g_free(vf);
 }
 
-ViewFile *vf_new(FileViewType type, const gchar *path)
+ViewFile *vf_new(FileViewType type, FileData *dir_fd)
 {
 	ViewFile *vf;
 
@@ -663,7 +663,7 @@ ViewFile *vf_new(FileViewType type, const gchar *path)
 	vf->type = type;
 
 	vf->info = NULL;
-	vf->path = NULL;
+	vf->dir_fd = NULL;
 	vf->list = NULL;
 
 	vf->sort_method = SORT_NAME;
@@ -686,8 +686,8 @@ ViewFile *vf_new(FileViewType type, const gchar *path)
 
 	switch(type)
 	{
-	case FILEVIEW_LIST: vf = vflist_new(vf, path); break;
-	case FILEVIEW_ICON: vf = vficon_new(vf, path); break;
+	case FILEVIEW_LIST: vf = vflist_new(vf, dir_fd); break;
+	case FILEVIEW_ICON: vf = vficon_new(vf, dir_fd); break;
 	}
 
 	vf_dnd_init(vf);
@@ -702,7 +702,7 @@ ViewFile *vf_new(FileViewType type, const gchar *path)
 	gtk_container_add(GTK_CONTAINER(vf->widget), vf->listview);
 	gtk_widget_show(vf->listview);
 
-	if (path) vf_set_path(vf, path);
+	if (dir_fd) vf_set_fd(vf, dir_fd);
 
 	return vf;
 }

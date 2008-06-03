@@ -1733,8 +1733,7 @@ static void dupe_files_add(DupeWindow *dw, CollectionData *collection, CollectIn
 		else if (isdir(fd->path) && recurse)
 			{
 			GList *f, *d;
-
-			if (filelist_read(fd->path, &f, &d))
+			if (filelist_read(fd, &f, &d))
 				{
 				GList *work;
 
@@ -3309,7 +3308,7 @@ static void confirm_dir_list_add(GtkWidget *widget, gpointer data)
 			{
 			GList *list;
 
-			filelist_read(fd->path, &list, NULL);
+			filelist_read(fd, &list, NULL);
 			list = filelist_filter(list, FALSE);
 			if (list)
 				{

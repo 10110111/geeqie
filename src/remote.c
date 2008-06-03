@@ -397,8 +397,9 @@ static void gr_fullscreen_stop(const gchar *text, gpointer data)
 static void gr_slideshow_start_rec(const gchar *text, gpointer data)
 {
 	GList *list;
-
-	list = filelist_recursive(text);
+	FileData *dir_fd = file_data_new_simple(text);
+	list = filelist_recursive(dir_fd);
+	file_data_unref(dir_fd);
 	if (!list) return;
 //printf("length: %d\n", g_list_length(list));
 	layout_image_slideshow_stop(NULL);

@@ -36,8 +36,8 @@ GList *filelist_insert_sort(GList *list, FileData *fd, SortType method, gint asc
 GList *filelist_sort_full(GList *list, SortType method, gint ascend, GCompareFunc cb);
 GList *filelist_insert_sort_full(GList *list, void *data, SortType method, gint ascend, GCompareFunc cb);
 
-gint filelist_read(const gchar *path, GList **files, GList **dirs);
-gint filelist_read_lstat(const gchar *path, GList **files, GList **dirs);
+gint filelist_read(FileData *dir_fd, GList **files, GList **dirs);
+gint filelist_read_lstat(FileData *dir_fd, GList **files, GList **dirs);
 void filelist_free(GList *list);
 GList *filelist_copy(GList *list);
 GList *filelist_from_path_list(GList *list);
@@ -46,7 +46,7 @@ GList *filelist_to_path_list(GList *list);
 GList *filelist_filter(GList *list, gint is_dir_list);
 
 GList *filelist_sort_path(GList *list);
-GList *filelist_recursive(const gchar *path);
+GList *filelist_recursive(FileData *dir_fd);
 
 gchar *file_data_sc_list_to_string(FileData *fd);
 gboolean file_data_add_ci(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest);

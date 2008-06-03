@@ -17,8 +17,8 @@
 extern GList *layout_window_list;
 
 
-LayoutWindow *layout_new(const gchar *path, gint popped, gint hidden);
-LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidden,
+LayoutWindow *layout_new(FileData *dir_fd, gint popped, gint hidden);
+LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidden,
 				       const gchar *geometry);
 
 void layout_close(LayoutWindow *lw);
@@ -31,6 +31,7 @@ LayoutWindow *layout_find_by_image_fd(ImageWindow *imd);
 
 const gchar *layout_get_path(LayoutWindow *lw);
 gint layout_set_path(LayoutWindow *lw, const gchar *path);
+gint layout_set_fd(LayoutWindow *lw, FileData *fd);
 
 void layout_status_update_progress(LayoutWindow *lw, gdouble val, const gchar *text);
 void layout_status_update_info(LayoutWindow *lw, const gchar *text);
@@ -40,7 +41,7 @@ void layout_status_update_all(LayoutWindow *lw);
 GList *layout_list(LayoutWindow *lw);
 guint layout_list_count(LayoutWindow *lw, gint64 *bytes);
 FileData *layout_list_get_fd(LayoutWindow *lw, gint index);
-gint layout_list_get_index(LayoutWindow *lw, const gchar *path);
+gint layout_list_get_index(LayoutWindow *lw, FileData *fd);
 void layout_list_sync_fd(LayoutWindow *lw, FileData *fd);
 
 GList *layout_selection_list(LayoutWindow *lw);

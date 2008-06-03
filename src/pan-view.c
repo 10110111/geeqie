@@ -565,13 +565,13 @@ static void pan_cache_free(PanWindow *pw)
 	pw->cache_cl = NULL;
 }
 
-static void pan_cache_fill(PanWindow *pw, const gchar *path)
+static void pan_cache_fill(PanWindow *pw, FileData *dir_fd)
 {
 	GList *list;
 
 	pan_cache_free(pw);
 
-	list = pan_list_tree(path, SORT_NAME, TRUE, pw->ignore_symlinks);
+	list = pan_list_tree(dir_fd, SORT_NAME, TRUE, pw->ignore_symlinks);
 	pw->cache_todo = g_list_reverse(list);
 
 	pw->cache_total = g_list_length(pw->cache_todo);
@@ -884,7 +884,7 @@ static void pan_window_items_free(PanWindow *pw)
  *-----------------------------------------------------------------------------
  */
 
-static void pan_layout_compute(PanWindow *pw, const gchar *path,
+static void pan_layout_compute(PanWindow *pw, FileData *dir_fd,
 			       gint *width, gint *height,
 			       gint *scroll_x, gint *scroll_y)
 {
@@ -944,19 +944,19 @@ static void pan_layout_compute(PanWindow *pw, const gchar *path,
 		{
 		case PAN_LAYOUT_GRID:
 		default:
-			pan_grid_compute(pw, path, width, height);
+			pan_grid_compute(pw, dir_fd, width, height);
 			break;
 		case PAN_LAYOUT_FOLDERS_LINEAR:
-			pan_folder_tree_compute(pw, path, width, height);
+			pan_folder_tree_compute(pw, dir_fd, width, height);
 			break;
 		case PAN_LAYOUT_FOLDERS_FLOWER:
-			pan_flower_compute(pw, path, width, height, scroll_x, scroll_y);
+			pan_flower_compute(pw, dir_fd, width, height, scroll_x, scroll_y);
 			break;
 		case PAN_LAYOUT_CALENDAR:
-			pan_calendar_compute(pw, path, width, height);
+			pan_calendar_compute(pw, dir_fd, width, height);
 			break;
 		case PAN_LAYOUT_TIMELINE:
-			pan_timeline_compute(pw, path, width, height);
+			pan_timeline_compute(pw, dir_fd, width, height);
 			break;
 		}
 
@@ -1076,7 +1076,7 @@ static gint pan_layout_update_idle_cb(gpointer data)
 		{
 		if (!pw->cache_list && !pw->cache_todo)
 			{
-			pan_cache_fill(pw, pw->path);
+			pan_cache_fill(pw, pw->dir_fd);
 			if (pw->cache_todo)
 				{
 				pan_window_message(pw, _("Reading image data..."));
@@ -1110,7 +1110,7 @@ static gint pan_layout_update_idle_cb(gpointer data)
 			}
 		}
 
-	pan_layout_compute(pw, pw->path, &width, &height, &scroll_x, &scroll_y);
+	pan_layout_compute(pw, pw->dir_fd, &width, &height, &scroll_x, &scroll_y);
 
 	pan_window_zoom_limit(pw);
 
@@ -1158,18 +1158,18 @@ static void pan_layout_update(PanWindow *pw)
 	pan_layout_update_idle(pw);
 }
 
-static void pan_layout_set_path(PanWindow *pw, const gchar *path)
+static void pan_layout_set_fd(PanWindow *pw, FileData *dir_fd)
 {
-	if (!path) return;
+	if (!dir_fd) return;
 
-	if (strcmp(path, G_DIR_SEPARATOR_S) == 0)
+	if (strcmp(dir_fd->path, G_DIR_SEPARATOR_S) == 0)
 		{
-		pan_warning_folder(path, pw->window);
+		pan_warning_folder(dir_fd->path, pw->window);
 		return;
 		}
 
-	g_free(pw->path);
-	pw->path = g_strdup(path);
+	file_data_unref(pw->dir_fd);
+	pw->dir_fd = file_data_ref(dir_fd);
 
 	pan_layout_update(pw);
 }
@@ -2276,9 +2276,11 @@ static void pan_window_entry_activate_cb(const gchar *new_text, gpointer data)
 		}
 	else
 		{
+		FileData *dir_fd = file_data_new_simple(path);
 		tab_completion_append_to_history(pw->path_entry, path);
 
-		pan_layout_set_path(pw, path);
+		pan_layout_set_fd(pw, dir_fd);
+		file_data_unref(dir_fd);
 		}
 
 	g_free(path);
@@ -2315,7 +2317,7 @@ static void pan_window_close(PanWindow *pw)
 	pan_window_items_free(pw);
 	pan_cache_free(pw);
 
-	g_free(pw->path);
+	file_data_unref(pw->dir_fd);
 
 	g_free(pw);
 }
@@ -2328,7 +2330,7 @@ static gint pan_window_delete_cb(GtkWidget *w, GdkEventAny *event, gpointer data
 	return TRUE;
 }
 
-static void pan_window_new_real(const gchar *path)
+static void pan_window_new_real(FileData *dir_fd)
 {
 	PanWindow *pw;
 	GtkWidget *vbox;
@@ -2341,7 +2343,7 @@ static void pan_window_new_real(const gchar *path)
 
 	pw = g_new0(PanWindow, 1);
 
-	pw->path = g_strdup(path);
+	pw->dir_fd = file_data_ref(dir_fd);
 	pw->layout = PAN_LAYOUT_TIMELINE;
 	pw->size = PAN_IMAGE_SIZE_THUMB_NORMAL;
 	pw->thumb_size = PAN_THUMB_SIZE_NORMAL;
@@ -2387,7 +2389,7 @@ static void pan_window_new_real(const gchar *path)
 
 	pref_spacer(box, 0);
 	pref_label_new(box, _("Location:"));
-	combo = tab_completion_new_with_history(&pw->path_entry, path, "pan_view_path", -1,
+	combo = tab_completion_new_with_history(&pw->path_entry, dir_fd->path, "pan_view_path", -1,
 						pan_window_entry_activate_cb, pw);
 	g_signal_connect(G_OBJECT(pw->path_entry->parent), "changed",
 			 G_CALLBACK(pan_window_entry_change_cb), pw);
@@ -2551,12 +2553,12 @@ static void pan_window_new_real(const gchar *path)
 
 static void pan_warning_ok_cb(GenericDialog *gd, gpointer data)
 {
-	gchar *path = data;
+	FileData *dir_fd = data;
 
 	generic_dialog_close(gd);
 
-	pan_window_new_real(path);
-	g_free(path);
+	pan_window_new_real(dir_fd);
+	file_data_unref(dir_fd);
 }
 
 static void pan_warning_hide_cb(GtkWidget *button, gpointer data)
@@ -2567,7 +2569,7 @@ static void pan_warning_hide_cb(GtkWidget *button, gpointer data)
 	pref_list_int_set(PAN_PREF_GROUP, PAN_PREF_HIDE_WARNING, hide_dlg);
 }
 
-static gint pan_warning(const gchar *path)
+static gint pan_warning(FileData *dir_fd)
 {
 	GenericDialog *gd;
 	GtkWidget *box;
@@ -2576,9 +2578,9 @@ static gint pan_warning(const gchar *path)
 	GtkWidget *ct_button;
 	gint hide_dlg;
 
-	if (path && strcmp(path, G_DIR_SEPARATOR_S) == 0)
+	if (dir_fd && strcmp(dir_fd->path, G_DIR_SEPARATOR_S) == 0)
 		{
-		pan_warning_folder(path, NULL);
+		pan_warning_folder(dir_fd->path, NULL);
 		return TRUE;
 		}
 
@@ -2590,7 +2592,7 @@ static gint pan_warning(const gchar *path)
 
 	gd = generic_dialog_new(_("Pan View Performance"), GQ_WMCLASS, "pan_view_warning", NULL, FALSE,
 				NULL, NULL);
-	gd->data = g_strdup(path);
+	gd->data = file_data_ref(dir_fd);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL,
 				  pan_warning_ok_cb, TRUE);
 
@@ -2627,11 +2629,11 @@ static gint pan_warning(const gchar *path)
  *-----------------------------------------------------------------------------
  */
 
-void pan_window_new(const gchar *path)
+void pan_window_new(FileData *dir_fd)
 {
-	if (pan_warning(path)) return;
+	if (pan_warning(dir_fd)) return;
 
-	pan_window_new_real(path);
+	pan_window_new_real(dir_fd);
 }
 
 
@@ -2913,7 +2915,7 @@ static void pan_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 			{
 			FileData *fd = list->data;
 
-			pan_layout_set_path(pw, fd->path);
+			pan_layout_set_fd(pw, fd);
 			}
 
 		filelist_free(list);

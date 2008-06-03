@@ -22,14 +22,14 @@
 
 void vf_send_update(ViewFile *vf);
 
-ViewFile *vf_new(FileViewType type, const gchar *path);
+ViewFile *vf_new(FileViewType type, FileData *dir_fd);
 
 void vf_set_status_func(ViewFile *vf, void (*func)(ViewFile *vf, gpointer data), gpointer data);
 void vf_set_thumb_status_func(ViewFile *vf, void (*func)(ViewFile *vf, gdouble val, const gchar *text, gpointer data), gpointer data);
 
 void vf_set_layout(ViewFile *vf, LayoutWindow *layout);
 
-gint vf_set_path(ViewFile *vf, const gchar *path);
+gint vf_set_fd(ViewFile *vf, FileData *fd);
 gint vf_refresh(ViewFile *vf);
 
 void vf_thumb_set(ViewFile *vf, gint enable);

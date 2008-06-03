@@ -35,7 +35,7 @@ void slideshow_free(SlideShowData *ss)
 
 	if (ss->filelist) filelist_free(ss->filelist);
 	if (ss->cd) collection_unref(ss->cd);
-	g_free(ss->layout_path);
+	file_data_unref(ss->dir_fd);
 
 	g_list_free(ss->list);
 	g_list_free(ss->list_done);
@@ -120,7 +120,7 @@ static void slideshow_list_init(SlideShowData *ss, gint start_index)
 gint slideshow_should_continue(SlideShowData *ss)
 {
 	FileData *imd_fd;
-	const gchar *path;
+	FileData *dir_fd;
 
 	if (!ss) return FALSE;
 
@@ -140,10 +140,9 @@ gint slideshow_should_continue(SlideShowData *ss)
 		}
 
 	if (!ss->layout) return FALSE;
-	path = layout_get_path(ss->layout);
+	dir_fd = ss->layout->dir_fd;
 
-	if (path && ss->layout_path &&
-	    strcmp(path, ss->layout_path) == 0)
+	if (dir_fd && ss->dir_fd && dir_fd == ss->dir_fd)
 		{
 		if (ss->from_selection && ss->slide_count == layout_selection_count(ss->layout, NULL)) return TRUE;
 		if (!ss->from_selection && ss->slide_count == layout_list_count(ss->layout, NULL)) return TRUE;
@@ -328,7 +327,7 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 	ss->filelist = filelist;
 	ss->cd = cd;
 	ss->layout = lw;
-	ss->layout_path = NULL;
+	ss->dir_fd = NULL;
 
 	ss->list = NULL;
 	ss->list_done = NULL;
@@ -358,7 +357,7 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 		/* layout method */
 
 		ss->slide_count = layout_selection_count(ss->layout, NULL);
-		ss->layout_path = g_strdup(layout_get_path(ss->layout));
+		ss->dir_fd = file_data_ref(ss->layout->dir_fd);
 		if (ss->slide_count < 2)
 			{
 			ss->slide_count = layout_list_count(ss->layout, NULL);

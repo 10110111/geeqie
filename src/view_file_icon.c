@@ -84,12 +84,12 @@ static IconData *vficon_icon_data(ViewFile *vf, FileData *fd)
 }
 
 
-static gint iconlist_read(const gchar *path, GList **list)
+static gint iconlist_read(FileData *dir_fd, GList **list)
 {
 	GList *temp;
 	GList *work;
 
-	if (!filelist_read(path, &temp, NULL)) return FALSE;
+	if (!filelist_read(dir_fd, &temp, NULL)) return FALSE;
 
 	work = temp;
 	while (work)
@@ -2030,9 +2030,9 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 	old_list = vf->list;
 	vf->list = NULL;
 
-	if (vf->path)
+	if (vf->dir_fd)
 		{
-		ret = iconlist_read(vf->path, &vf->list);
+		ret = iconlist_read(vf->dir_fd, &vf->list);
 		}
 
 	/* check for same files from old_list */
@@ -2203,15 +2203,15 @@ static void vficon_append_column(ViewFile *vf, gint n)
  *-----------------------------------------------------------------------------
  */
 
-gint vficon_set_path(ViewFile *vf, const gchar *path)
+gint vficon_set_fd(ViewFile *vf, FileData *dir_fd)
 {
 	gint ret;
 
-	if (!path) return FALSE;
-	if (vf->path && strcmp(path, vf->path) == 0) return TRUE;
+	if (!dir_fd) return FALSE;
+	if (vf->dir_fd == dir_fd) return TRUE;
 
-	g_free(vf->path);
-	vf->path = g_strdup(path);
+	file_data_unref(vf->dir_fd);
+	vf->dir_fd = file_data_ref(dir_fd);
 
 	g_list_free(VFICON_INFO(vf, selection));
 	VFICON_INFO(vf, selection) = NULL;
@@ -2242,7 +2242,7 @@ void vficon_destroy_cb(GtkWidget *widget, gpointer data)
 	g_list_free(VFICON_INFO(vf, selection));
 }
 
-ViewFile *vficon_new(ViewFile *vf, const gchar *path)
+ViewFile *vficon_new(ViewFile *vf, FileData *dir_fd)
 {
 	GtkListStore *store;
 	GtkTreeSelection *selection;
@@ -2535,11 +2535,11 @@ gint vficon_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list)
 	gint ret = FALSE;
 	gchar *buf;
 
-	if (!fd->change->source || !vf->path) return FALSE;
+	if (!fd->change->source || !vf->dir_fd) return FALSE;
 
 	buf = remove_level_from_path(fd->change->source);
 
-	if (strcmp(buf, vf->path) == 0)
+	if (strcmp(buf, vf->dir_fd->path) == 0)
 		{
 		ret = vficon_maint_removed(vf, fd, ignore_list);
 		}

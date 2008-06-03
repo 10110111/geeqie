@@ -123,7 +123,7 @@ static void layout_path_entry_changed_cb(GtkWidget *widget, gpointer data)
 	if (gtk_combo_box_get_active(GTK_COMBO_BOX(widget)) < 0) return;
 
 	buf = g_strdup(gtk_entry_get_text(GTK_ENTRY(lw->path_entry)));
-	if (!buf || (lw->path && strcmp(buf, lw->path) == 0))
+	if (!buf || (lw->dir_fd && strcmp(buf, lw->dir_fd->path) == 0))
 		{
 		g_free(buf);
 		return;
@@ -146,7 +146,7 @@ static void layout_path_entry_tab_cb(const gchar *path, gpointer data)
 
 	if (isdir(buf))
 		{
-		if ((!lw->path || strcmp(lw->path, buf) != 0) && layout_set_path(lw, buf))
+		if ((!lw->dir_fd || strcmp(lw->dir_fd->path, buf) != 0) && layout_set_path(lw, buf))
 			{
 			gint pos = -1;
 			/* put the G_DIR_SEPARATOR back, if we are in tab completion for a dir and result was path change */
@@ -155,7 +155,7 @@ static void layout_path_entry_tab_cb(const gchar *path, gpointer data)
 						  strlen(gtk_entry_get_text(GTK_ENTRY(lw->path_entry))));
 			}
 		}
-	else if (lw->path && strcmp(lw->path, base) == 0)
+	else if (lw->dir_fd && strcmp(lw->dir_fd->path, base) == 0)
 		{
 		layout_list_scroll_to_subpart(lw, filename_from_path(buf));
 		}
@@ -209,7 +209,7 @@ static GtkWidget *layout_tool_setup(LayoutWindow *lw)
 	g_signal_connect(G_OBJECT(lw->path_entry->parent), "changed",
 			 G_CALLBACK(layout_path_entry_changed_cb), lw);
 
-	lw->vd = vd_new(lw->dir_view_type, lw->path);
+	lw->vd = vd_new(lw->dir_view_type, lw->dir_fd);
 	vd_set_layout(lw->vd, lw);
 	vd_set_select_func(lw->vd, layout_vd_select_cb, lw);
 
@@ -794,11 +794,11 @@ FileData *layout_list_get_fd(LayoutWindow *lw, gint index)
 	return NULL;
 }
 
-gint layout_list_get_index(LayoutWindow *lw, const gchar *path)
+gint layout_list_get_index(LayoutWindow *lw, FileData *fd)
 {
-	if (!layout_valid(&lw)) return -1;
+	if (!layout_valid(&lw) || !fd) return -1;
 
-	if (lw->vf) return vf_index_by_path(lw->vf, path);
+	if (lw->vf) return vf_index_by_path(lw->vf, fd->path);
 
 	return -1;
 }
@@ -899,75 +899,85 @@ void layout_selection_to_mark(LayoutWindow *lw, gint mark, SelectionToMarkMode m
 const gchar *layout_get_path(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return NULL;
-	return lw->path;
+	return lw->dir_fd ? lw->dir_fd->path : NULL;
 }
 
 static void layout_sync_path(LayoutWindow *lw)
 {
-	if (!lw->path) return;
+	if (!lw->dir_fd) return;
 
-	lw->last_time = filetime(lw->path);
+	lw->last_version = lw->dir_fd->version;
 
-	if (lw->path_entry) gtk_entry_set_text(GTK_ENTRY(lw->path_entry), lw->path);
-	if (lw->vd) vd_set_path(lw->vd, lw->path);
+	if (lw->path_entry) gtk_entry_set_text(GTK_ENTRY(lw->path_entry), lw->dir_fd->path);
+	if (lw->vd) vd_set_fd(lw->vd, lw->dir_fd);
 
-	if (lw->vf) vf_set_path(lw->vf, lw->path);
+	if (lw->vf) vf_set_fd(lw->vf, lw->dir_fd);
 }
 
 gint layout_set_path(LayoutWindow *lw, const gchar *path)
+{
+	FileData *fd = file_data_new_simple(path);
+	gint ret = layout_set_fd(lw, fd);
+	file_data_unref(fd);
+	return ret;
+}
+
+
+gint layout_set_fd(LayoutWindow *lw, FileData *fd)
 {
 	gint have_file = FALSE;
 
 	if (!layout_valid(&lw)) return FALSE;
 
-	if (!path || !isname(path)) return FALSE;
-	if (lw->path && path && strcmp(path, lw->path) == 0)
+	if (!fd || !isname(fd->path)) return FALSE;
+	if (lw->dir_fd && fd == lw->dir_fd)
 		{
 		return TRUE;
 		}
 
-	if (isdir(path))
+	if (isdir(fd->path))
 		{
-		g_free(lw->path);
-		lw->path = g_strdup(path);
+		file_data_unref(lw->dir_fd);
+		lw->dir_fd = file_data_ref(fd);
 		}
 	else
 		{
 		gchar *base;
 
-		base = remove_level_from_path(path);
-		if (lw->path && strcmp(lw->path, base) == 0)
+		base = remove_level_from_path(fd->path);
+		if (lw->dir_fd && strcmp(lw->dir_fd->path, base) == 0)
 			{
 			g_free(base);
 			}
 		else if (isdir(base))
 			{
-			g_free(lw->path);
-			lw->path = base;
+			file_data_unref(lw->dir_fd);
+			lw->dir_fd = file_data_new_simple(base);
+			g_free(base);
 			}
 		else
 			{
 			g_free(base);
 			return FALSE;
 			}
-		if (isfile(path)) have_file = TRUE;
+		if (isfile(fd->path)) have_file = TRUE;
 		}
 
-	if (lw->path_entry) tab_completion_append_to_history(lw->path_entry, lw->path);
+	if (lw->path_entry) tab_completion_append_to_history(lw->path_entry, lw->dir_fd->path);
 	layout_sync_path(lw);
 
 	if (have_file)
 		{
 		gint row;
 
-		row = layout_list_get_index(lw, path);
+		row = layout_list_get_index(lw, fd);
 		if (row >= 0)
 			{
 			layout_image_set_index(lw, row);
 			}
 		else
 			{
-			layout_image_set_fd(lw, file_data_new_simple(path));
+			layout_image_set_fd(lw, fd);
 			}
 		}
 	else if (!options->lazy_image_sync)
@@ -980,7 +990,7 @@ gint layout_set_path(LayoutWindow *lw, const gchar *path)
 
 static void layout_refresh_lists(LayoutWindow *lw)
 {
-	if (lw->path) lw->last_time = filetime(lw->path);
+	if (lw->dir_fd) lw->last_version = lw->dir_fd->version;
 
 	if (lw->vd) vd_refresh(lw->vd);
 
@@ -991,7 +1001,7 @@ static void layout_refresh_by_time(LayoutWindow *lw)
 {
 	layout_refresh_lists(lw);
 
-	if (lw->image && filetime(layout_image_get_path(lw)) >= lw->last_time)
+	if (lw->image && layout_image_get_fd(lw)->version != lw->last_version) // FIXME - move to layout_image and fix
 		{
 		layout_image_refresh(lw);
 		}
@@ -1014,13 +1024,9 @@ static gint layout_check_for_update_cb(gpointer data)
 
 	if (!options->update_on_time_change) return TRUE;
 
-	if (lw->path)
+	if (lw->dir_fd)
 		{
-		time_t new_time;
-
-		new_time = filetime(lw->path);
-
-		if (new_time > 0 && new_time > lw->last_time)
+		if (lw->dir_fd->version != lw->last_version)
 			{
 			DEBUG_1("layout path time changed, refreshing...");
 			layout_refresh_by_time(lw);
@@ -1576,7 +1582,7 @@ static void layout_grid_setup(LayoutWindow *lw)
 
 void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 {
-	gchar *path;
+	FileData *dir_fd;
 	gint i;
 
 	if (!layout_valid(&lw)) return;
@@ -1601,8 +1607,8 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	layout_image_slideshow_stop(lw);
 	layout_image_full_screen_stop(lw);
 
-	path = lw->path;
-	lw->path = NULL;
+	dir_fd = lw->dir_fd;
+	lw->dir_fd = NULL;
 	lw->image = NULL;
 	lw->utility_box = NULL;
 
@@ -1658,19 +1664,19 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 
 	/* sync */
 
-	if (image_get_path(lw->image))
+	if (image_get_fd(lw->image))
 		{
-		layout_set_path(lw, image_get_path(lw->image));
+		layout_set_fd(lw, image_get_fd(lw->image));
 		}
 	else
 		{
-		layout_set_path(lw, path);
+		layout_set_fd(lw, dir_fd);
 		}
 	image_top_window_set_sync(lw->image, (lw->tools_float || lw->tools_hidden));
 
 	/* clean up */
 
-	g_free(path);
+	file_data_unref(dir_fd);
 }
 
 void layout_styles_update(void)
@@ -1829,7 +1835,7 @@ void layout_free(LayoutWindow *lw)
 
 	gtk_widget_destroy(lw->window);
 
-	g_free(lw->path);
+	file_data_unref(lw->dir_fd);
 
 	g_free(lw);
 }
@@ -1842,12 +1848,12 @@ static gint layout_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer dat
 	return TRUE;
 }
 
-LayoutWindow *layout_new(const gchar *path, gint popped, gint hidden)
+LayoutWindow *layout_new(FileData *dir_fd, gint popped, gint hidden)
 {
-	return layout_new_with_geometry(path, popped, hidden, NULL);
+	return layout_new_with_geometry(dir_fd, popped, hidden, NULL);
 }
 
-LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidden,
+LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidden,
 				       const gchar *geometry)
 {
 	LayoutWindow *lw;
@@ -1958,9 +1964,9 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 	layout_util_sync(lw);
 	layout_status_update_all(lw);
 
-	if (path)
+	if (dir_fd)
 		{
-		layout_set_path(lw, path);
+		layout_set_fd(lw, dir_fd);
 		}
 	else
 		{
@@ -1972,7 +1978,7 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 		}
 
 	/* set up the time stat timeout */
-	lw->last_time = 0;
+	lw->last_version = 0;
 	lw->last_time_id = g_timeout_add(5000, layout_check_for_update_cb, lw);
 
 	if (geometry)
@@ -2000,10 +2006,10 @@ LayoutWindow *layout_new_with_geometry(const gchar *path, gint popped, gint hidd
 static void layout_real_time_update(LayoutWindow *lw)
 {
 	/* this resets the last time stamp of path so that a refresh does not occur
-	 * from an internal file operation.
+	 * from an internal file operation. FIXME
 	 */
 
-	if (lw->path) lw->last_time = filetime(lw->path);
+	if (lw->dir_fd) lw->last_version = lw->dir_fd->version;
 }
 
 static void layout_real_renamed(LayoutWindow *lw, FileData *fd)

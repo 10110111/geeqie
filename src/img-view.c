@@ -963,7 +963,7 @@ void view_window_new(FileData *fd)
 					 G_CALLBACK(view_window_collection_unref_cb), cd);
 			}
 		}
-	else if (isdir(fd->path) && filelist_read(fd->path, &list, NULL))
+	else if (isdir(fd->path) && filelist_read(fd, &list, NULL))
 		{	
 		list = filelist_sort_path(list);
 		list = filelist_filter(list, FALSE);
@@ -1223,13 +1223,13 @@ static void view_close_cb(GtkWidget *widget, gpointer data)
 	view_window_close(vw);
 }
 
-static LayoutWindow *view_new_layout_with_path(const gchar *path)
+static LayoutWindow *view_new_layout_with_fd(FileData *fd)
 {
 	LayoutWindow *nw;
 
 	nw = layout_new(NULL, FALSE, FALSE);
 	layout_sort_set(nw, options->file_sort.method, options->file_sort.ascending);
-	layout_set_path(nw, path);
+	layout_set_fd(nw, fd);
 	return nw;
 }
 
@@ -1238,20 +1238,17 @@ static void view_set_layout_path_cb(GtkWidget *widget, gpointer data)
 {
 	ViewWindow *vw = data;
 	LayoutWindow *lw;
-	const gchar *path;
 	ImageWindow *imd;
 
 	imd = view_window_active_image(vw);
 
 	if (!imd || !imd->image_fd) return;
-	path = imd->image_fd->path;
-	if (!path) return;
 
 	lw = layout_find_by_image_fd(imd);
 	if (lw)
-		layout_set_path(lw, path);
+		layout_set_fd(lw, imd->image_fd);
 	else
-		view_new_layout_with_path(path);
+		view_new_layout_with_fd(imd->image_fd);
 	view_window_close(vw);
 }
 
@@ -1362,11 +1359,11 @@ static void view_dir_list_do(ViewWindow *vw, GList *list, gint skip, gint recurs
 
 				if (recurse)
 					{
-					list = filelist_recursive(fd->path);
+					list = filelist_recursive(fd);
 					}
 				else
 					{ /*FIXME */
-					filelist_read(fd->path, &list, NULL);
+					filelist_read(fd, &list, NULL);
 					list = filelist_sort_path(list);
 					list = filelist_filter(list, FALSE);
 					}

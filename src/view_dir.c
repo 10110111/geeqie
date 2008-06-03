@@ -51,19 +51,19 @@ static void vd_destroy_cb(GtkWidget *widget, gpointer data)
 	if (vd->pf) folder_icons_free(vd->pf);
 	if (vd->drop_list) filelist_free(vd->drop_list);
 
-	if (vd->path) g_free(vd->path);
+	if (vd->dir_fd) file_data_unref(vd->dir_fd);
 	if (vd->info) g_free(vd->info);
 
 	g_free(vd);
 }
 
-ViewDir *vd_new(DirViewType type, const gchar *path)
+ViewDir *vd_new(DirViewType type, FileData *dir_fd)
 {
 	g_assert(VIEW_DIR_TYPES_COUNT <= G_N_ELEMENTS(menu_view_dir_radio_entries));
 
 	ViewDir *vd = g_new0(ViewDir, 1);
 
-	vd->path = NULL;
+	vd->dir_fd = NULL;
 	vd->click_fd = NULL;
 
 	vd->drop_fd = NULL;
@@ -85,8 +85,8 @@ ViewDir *vd_new(DirViewType type, const gchar *path)
 
 	switch(type)
 	{
-	case DIRVIEW_LIST: vd = vdlist_new(vd, path); break;
-	case DIRVIEW_TREE: vd = vdtree_new(vd, path); break;
+	case DIRVIEW_LIST: vd = vdlist_new(vd, dir_fd); break;
+	case DIRVIEW_TREE: vd = vdtree_new(vd, dir_fd); break;
 	}
 
 	gtk_container_add(GTK_CONTAINER(vd->widget), vd->view);
@@ -104,7 +104,7 @@ ViewDir *vd_new(DirViewType type, const gchar *path)
 	g_signal_connect(G_OBJECT(vd->view), "button_release_event",
 			 G_CALLBACK(vd_release_cb), vd);
 
-	if (path) vd_set_path(vd, path);
+	if (dir_fd) vd_set_fd(vd, dir_fd);
 
 	gtk_widget_show(vd->view);
 
@@ -123,14 +123,14 @@ void vd_set_layout(ViewDir *vd, LayoutWindow *layout)
 	vd->layout = layout;
 }
 
-gint vd_set_path(ViewDir *vd, const gchar *path)
+gint vd_set_fd(ViewDir *vd, FileData *dir_fd)
 {
 	gint ret = FALSE;
 
 	switch(vd->type)
 	{
-	case DIRVIEW_LIST: ret = vdlist_set_path(vd, path); break;
-	case DIRVIEW_TREE: ret = vdtree_set_path(vd, path); break;
+	case DIRVIEW_LIST: ret = vdlist_set_fd(vd, dir_fd); break;
+	case DIRVIEW_TREE: ret = vdtree_set_fd(vd, dir_fd); break;
 	}
 
 	return ret;
@@ -216,8 +216,6 @@ static gint vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, g
 	fd = vd_get_fd_from_tree_path(vd, GTK_TREE_VIEW(vd->view), td->path);
 	if (!fd) return FALSE;
 
-	old_path = g_strdup(fd->path);
-
 	base = remove_level_from_path(old_path);
 	new_path = g_build_filename(base, new, NULL);
 	g_free(base);
@@ -225,8 +223,8 @@ static gint vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, g
 	if (file_util_rename_dir(fd, new_path, vd->view))
 		{
 
-		if (vd->type == DIRVIEW_TREE) vdtree_populate_path(vd, new_path, TRUE, TRUE);
-		if (vd->layout && strcmp(vd->path, old_path) == 0)
+		if (vd->type == DIRVIEW_TREE) vdtree_populate_path(vd, fd, TRUE, TRUE);
+		if (vd->layout && vd->dir_fd != fd) /* FIXME */
 			{
 			layout_set_path(vd->layout, new_path);
 			}
@@ -236,7 +234,6 @@ static gint vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, g
 			}
 		}
 
-	g_free(old_path);
 	g_free(new_path);
 
 	return FALSE;
@@ -393,8 +390,8 @@ static void vd_pop_menu_up_cb(GtkWidget *widget, gpointer data)
 	ViewDir *vd = data;
 	gchar *path;
 
-	if (!vd->path || strcmp(vd->path, G_DIR_SEPARATOR_S) == 0) return;
-	path = remove_level_from_path(vd->path);
+	if (!vd->dir_fd || strcmp(vd->dir_fd->path, G_DIR_SEPARATOR_S) == 0) return;
+	path = remove_level_from_path(vd->dir_fd->path);
 
 	if (vd->select_func)
 		{
@@ -407,14 +404,11 @@ static void vd_pop_menu_up_cb(GtkWidget *widget, gpointer data)
 static void vd_pop_menu_slide_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
-	gchar *path;
 
 	if (!vd->layout) return;
 	if (!vd->click_fd) return;
 
-	path = vd->click_fd->path;
-
-	layout_set_path(vd->layout, path);
+	layout_set_fd(vd->layout, vd->click_fd);
 	layout_select_none(vd->layout);
 	layout_image_slideshow_stop(vd->layout);
 	layout_image_slideshow_start(vd->layout);
@@ -423,15 +417,12 @@ static void vd_pop_menu_slide_cb(GtkWidget *widget, gpointer data)
 static void vd_pop_menu_slide_rec_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
-	gchar *path;
 	GList *list;
 
 	if (!vd->layout) return;
 	if (!vd->click_fd) return;
 
-	path = vd->click_fd->path;
-
-	list = filelist_recursive(path);
+	list = filelist_recursive(vd->click_fd);
 
 	layout_image_slideshow_stop(vd->layout);
 	layout_image_slideshow_start_from_list(vd->layout, list);
@@ -450,7 +441,7 @@ static void vd_pop_menu_dupe(ViewDir *vd, gint recursive)
 		}
 	else
 		{
-		filelist_read(vd->click_fd->path, &list, NULL);
+		filelist_read(vd->click_fd, &list, NULL);
 		list = filelist_filter(list, FALSE);
 		}
 
@@ -524,8 +515,8 @@ static void vd_pop_menu_new_cb(GtkWidget *widget, gpointer data)
 		{
 		case DIRVIEW_LIST:
 			{
-			if (!vd->path) return;
-			path = vd->path;
+			if (!vd->dir_fd) return;
+			path = vd->dir_fd->path;
 			};
 			break;
 		case DIRVIEW_TREE:
@@ -562,7 +553,11 @@ static void vd_pop_menu_new_cb(GtkWidget *widget, gpointer data)
 				};
 				break;
 			case DIRVIEW_TREE:
-				fd = vdtree_populate_path(vd, new_path, TRUE, TRUE);
+				{
+				FileData *new_fd = file_data_new_simple(new_path);
+				fd = vdtree_populate_path(vd, new_fd, TRUE, TRUE);
+				file_data_unref(new_fd);
+				}
 				break;
 			}
 		vd_rename_by_data(vd, fd);
@@ -594,7 +589,7 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 		case DIRVIEW_LIST:
 			{
 			/* check using . (always row 0) */
-			new_folder_active = (vd->path && access_file(vd->path , W_OK | X_OK));
+			new_folder_active = (vd->dir_fd && access_file(vd->dir_fd->path , W_OK | X_OK));
 
 			/* ignore .. and . */
 			rename_delete_active = (new_folder_active && fd &&
@@ -622,7 +617,7 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 			 G_CALLBACK(vd_popup_destroy_cb), vd);
 
 	menu_item_add_stock_sensitive(menu, _("_Up to parent"), GTK_STOCK_GO_UP,
-				      (vd->path && strcmp(vd->path, G_DIR_SEPARATOR_S) != 0),
+				      (vd->dir_fd && strcmp(vd->dir_fd->path, G_DIR_SEPARATOR_S) != 0),
 				      G_CALLBACK(vd_pop_menu_up_cb), vd);
 
 	menu_item_add_divider(menu);

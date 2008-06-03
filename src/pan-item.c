@@ -793,6 +793,14 @@ GList *pan_item_find_by_path(PanWindow *pw, PanItemType type, const gchar *path,
 	return g_list_reverse(list);
 }
 
+GList *pan_item_find_by_fd(PanWindow *pw, PanItemType type, FileData *fd,
+			     gint ignore_case, gint partial)
+{
+	if (!fd) return NULL;
+	return pan_item_find_by_path(pw, type, fd->path, ignore_case, partial); 
+}
+
+
 static PanItem *pan_item_find_by_coord_l(GList *list, PanItemType type, gint x, gint y, const gchar *key)
 {
 	GList *work;

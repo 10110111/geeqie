@@ -42,7 +42,7 @@ struct _PathData
 
 
 
-static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, const gchar *target_path);
+static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, FileData *target_fd);
 
 
 /*
@@ -172,7 +172,7 @@ static gint vdtree_dnd_drop_expand_cb(gpointer data)
 
 	if (vd->drop_fd && vd_find_row(vd, vd->drop_fd, &iter))
 		{
-		vdtree_populate_path_by_iter(vd, &iter, FALSE, vd->path);
+		vdtree_populate_path_by_iter(vd, &iter, FALSE, vd->dir_fd);
 		vdtree_expand_by_data(vd, vd->drop_fd, TRUE);
 		}
 
@@ -413,13 +413,13 @@ static void vdtree_add_by_data(ViewDir *vd, FileData *fd, GtkTreeIter *parent)
 		    gtk_tree_view_row_expanded(GTK_TREE_VIEW(vd->view), tpath) &&
 		    !nd->expanded)
 			{
-			vdtree_populate_path_by_iter(vd, &child, FALSE, vd->path);
+			vdtree_populate_path_by_iter(vd, &child, FALSE, vd->dir_fd);
 			}
 		gtk_tree_path_free(tpath);
 		}
 }
 
-static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, const gchar *target_path)
+static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, FileData *target_fd)
 {
 	GtkTreeModel *store;
 	GList *list;
@@ -452,27 +452,27 @@ static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint fo
 
 	vdtree_busy_push(vd);
 
-	filelist_read(nd->fd->path, NULL, &list);
+	filelist_read(nd->fd, NULL, &list);
 
 	/* when hidden files are not enabled, and the user enters a hidden path,
 	 * allow the tree to display that path by specifically inserting the hidden entries
 	 */
 	if (!options->file_filter.show_hidden_files &&
-	    target_path &&
-	    strncmp(nd->fd->path, target_path, strlen(nd->fd->path)) == 0)
+	    target_fd &&
+	    strncmp(nd->fd->path, target_fd->path, strlen(nd->fd->path)) == 0)
 		{
 		gint n;
 
 		n = strlen(nd->fd->path);
-		if (target_path[n] == G_DIR_SEPARATOR && target_path[n+1] == '.')
+		if (target_fd->path[n] == G_DIR_SEPARATOR && target_fd->path[n+1] == '.')
 			{
 			gchar *name8;
 			struct stat sbuf;
 
 			n++;
 
-			while (target_path[n] != '\0' && target_path[n] != G_DIR_SEPARATOR) n++;
-			name8 = g_strndup(target_path, n);
+			while (target_fd->path[n] != '\0' && target_fd->path[n] != G_DIR_SEPARATOR) n++;
+			name8 = g_strndup(target_fd->path, n);
 
 			if (stat_utf8(name8, &sbuf))
 				{
@@ -515,7 +515,7 @@ static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint fo
 				{
 				old = g_list_remove(old, cnd);
 				if (cnd->expanded && cnd->fd->date != fd->date &&
-				    vdtree_populate_path_by_iter(vd, &child, FALSE, target_path))
+				    vdtree_populate_path_by_iter(vd, &child, FALSE, target_fd))
 					{
 					cnd->fd->size = fd->size;
 					cnd->fd->date = fd->date;
@@ -557,17 +557,17 @@ static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint fo
 	return TRUE;
 }
 
-FileData *vdtree_populate_path(ViewDir *vd, const gchar *path, gint expand, gint force)
+FileData *vdtree_populate_path(ViewDir *vd, FileData *target_fd, gint expand, gint force)
 {
 	GList *list;
 	GList *work;
 	FileData *fd = NULL;
 
-	if (!path) return NULL;
+	if (!target_fd) return NULL;
 
 	vdtree_busy_push(vd);
 
-	list = parts_list(path);
+	list = parts_list(target_fd->path);
 	list = parts_list_add_node_points(vd, list);
 
 	work = list;
@@ -593,7 +593,7 @@ FileData *vdtree_populate_path(ViewDir *vd, const gchar *path, gint expand, gint
 			parent_pd = work->prev->data;
 
 			if (!vd_find_row(vd, parent_pd->node, &parent_iter) ||
-			    !vdtree_populate_path_by_iter(vd, &parent_iter, force, path) ||
+			    !vdtree_populate_path_by_iter(vd, &parent_iter, force, target_fd) ||
 			    (nd = vdtree_find_iter_by_name(vd, &parent_iter, pd->name, &iter)) == NULL)
 				{
 				log_printf("vdtree warning, aborted at %s\n", parent_pd->name);
@@ -611,7 +611,7 @@ FileData *vdtree_populate_path(ViewDir *vd, const gchar *path, gint expand, gint
 					vdtree_expand_by_iter(vd, &parent_iter, TRUE);
 					vdtree_expand_by_iter(vd, &iter, TRUE);
 					}
-				vdtree_populate_path_by_iter(vd, &iter, force, path);
+				vdtree_populate_path_by_iter(vd, &iter, force, target_fd);
 				}
 			}
 		else
@@ -621,7 +621,7 @@ FileData *vdtree_populate_path(ViewDir *vd, const gchar *path, gint expand, gint
 			if (vd_find_row(vd, pd->node, &iter))
 				{
 				if (expand) vdtree_expand_by_iter(vd, &iter, TRUE);
-				vdtree_populate_path_by_iter(vd, &iter, force, path);
+				vdtree_populate_path_by_iter(vd, &iter, force, target_fd);
 				}
 			}
 
@@ -668,7 +668,7 @@ void vdtree_select_row(ViewDir *vd, FileData *fd)
 	gtk_tree_selection_select_iter(selection, &iter);
 	selection_is_ok = FALSE;
 
-	if (!vdtree_populate_path_by_iter(vd, &iter, FALSE, vd->path)) return;
+	if (!vdtree_populate_path_by_iter(vd, &iter, FALSE, vd->dir_fd)) return;
 
 	vdtree_expand_by_iter(vd, &iter, TRUE);
 
@@ -678,18 +678,18 @@ void vdtree_select_row(ViewDir *vd, FileData *fd)
 		}
 }
 
-gint vdtree_set_path(ViewDir *vd, const gchar *path)
+gint vdtree_set_fd(ViewDir *vd, FileData *dir_fd)
 {
 	FileData *fd;
 	GtkTreeIter iter;
 
-	if (!path) return FALSE;
-	if (vd->path && strcmp(path, vd->path) == 0) return TRUE;
+	if (!dir_fd) return FALSE;
+	if (vd->dir_fd == dir_fd) return TRUE;
 
-	g_free(vd->path);
-	vd->path = g_strdup(path);
+	file_data_unref(vd->dir_fd);
+	vd->dir_fd = file_data_ref(dir_fd);;
 
-	fd = vdtree_populate_path(vd, vd->path, TRUE, FALSE);
+	fd = vdtree_populate_path(vd, vd->dir_fd, TRUE, FALSE);
 
 	if (!fd) return FALSE;
 
@@ -720,7 +720,7 @@ const gchar *vdtree_get_path(ViewDir *vd)
 
 void vdtree_refresh(ViewDir *vd)
 {
-	vdtree_populate_path(vd, vd->path, FALSE, TRUE);
+	vdtree_populate_path(vd, vd->dir_fd, FALSE, TRUE);
 }
 
 const gchar *vdtree_row_get_path(ViewDir *vd, gint row)
@@ -773,7 +773,7 @@ gint vdtree_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 		case GDK_KP_Add:
 			if (fd)
 				{
-				vdtree_populate_path_by_iter(vd, &iter, FALSE, vd->path);
+				vdtree_populate_path_by_iter(vd, &iter, FALSE, vd->dir_fd);
 				vdtree_icon_set_by_iter(vd, &iter, vd->pf->open);
 				}
 			break;
@@ -836,7 +836,7 @@ gint vdtree_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 			    !left_of_expander &&
 			    !gtk_tree_view_row_expanded(GTK_TREE_VIEW(vd->view), tpath))
 				{
-				vdtree_populate_path_by_iter(vd, &iter, FALSE, vd->path);
+				vdtree_populate_path_by_iter(vd, &iter, FALSE, vd->dir_fd);
 				vdtree_icon_set_by_iter(vd, &iter, vd->pf->open);
 				}
 
@@ -902,7 +902,7 @@ static void vdtree_setup_root(ViewDir *vd)
 	vdtree_add_by_data(vd, fd, NULL);
 
 	vdtree_expand_by_data(vd, fd, TRUE);
-	vdtree_populate_path(vd, path, FALSE, FALSE);
+	vdtree_populate_path(vd, fd, FALSE, FALSE);
 }
 
 static gboolean vdtree_destroy_node_cb(GtkTreeModel *store, GtkTreePath *tpath, GtkTreeIter *iter, gpointer data)
@@ -928,7 +928,7 @@ void vdtree_destroy_cb(GtkWidget *widget, gpointer data)
 	gtk_tree_model_foreach(store, vdtree_destroy_node_cb, vd);
 }
 
-ViewDir *vdtree_new(ViewDir *vd, const gchar *path)
+ViewDir *vdtree_new(ViewDir *vd, FileData *dir_fd)
 {
 	GtkTreeStore *store;
 	GtkTreeSelection *selection;
