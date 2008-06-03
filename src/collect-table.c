@@ -1902,28 +1902,28 @@ static void collection_table_add_dir_recursive(CollectTable *ct, gchar *path, gi
 {
 	GList *d = NULL;
 	GList *f = NULL;
+	GList *work;
 
-	if (filelist_read(path, &f, recursive ? &d : NULL))
+	if (!filelist_read(path, &f, recursive ? &d : NULL))
+		return;
+
+	f = filelist_filter(f, FALSE);
+	d = filelist_filter(d, TRUE);
+
+	f = filelist_sort_path(f);
+	d = filelist_sort_path(d);
+
+	collection_table_insert_filelist(ct, f, ct->marker_info);
+
+	work = g_list_last(d);
+	while (work)
 		{
-		GList *work;
-
-		f = filelist_filter(f, FALSE);
-		d = filelist_filter(d, TRUE);
-
-		f = filelist_sort_path(f);
-		d = filelist_sort_path(d);
-
-		collection_table_insert_filelist(ct, f, ct->marker_info);
-
-		work = g_list_last(d);
-		while (work)
-			{
-			collection_table_add_dir_recursive(ct, ((FileData *)work->data)->path, TRUE);
-			work = work->prev;
-			}
-		filelist_free(f);
-		filelist_free(d);
+		collection_table_add_dir_recursive(ct, ((FileData *)work->data)->path, TRUE);
+		work = work->prev;
 		}
+
+	filelist_free(f);
+	filelist_free(d);
 }
 
 static void confirm_dir_list_do(CollectTable *ct, GList *list, gint recursive)
