@@ -80,6 +80,8 @@
 
 #define RC_FILE_NAME GQ_APPNAME_LC "rc"
 
+#define GQ_COLLECTION_EXT ".gqv"
+
 #define ZOOM_RESET_ORIGINAL 0
 #define ZOOM_RESET_FIT_WINDOW 1
 #define ZOOM_RESET_NONE 2

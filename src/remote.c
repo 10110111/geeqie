@@ -477,7 +477,7 @@ static void gr_file_load(const gchar *text, gpointer data)
 
 	if (isfile(filename))
 		{
-		if (file_extension_match(filename, ".gqv"))
+		if (file_extension_match(filename, GQ_COLLECTION_EXT))
 			{
 			collection_window_new(filename);
 			}

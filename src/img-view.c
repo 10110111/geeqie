@@ -939,7 +939,7 @@ void view_window_new(FileData *fd)
 {
 	GList *list;
 
-	if (file_extension_match(fd->path, ".gqv"))
+	if (file_extension_match(fd->path, GQ_COLLECTION_EXT))
 		{
 		ViewWindow *vw;
 		CollectionData *cd;

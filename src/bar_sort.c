@@ -110,7 +110,7 @@ static void bar_sort_collection_list_build(GtkWidget *bookmarks)
 		fd = work->data;
 		work = work->next;
 
-		if (file_extension_match(fd->path, ".gqv"))
+		if (file_extension_match(fd->path, GQ_COLLECTION_EXT))
 			{
 			name = remove_extension_from_path(fd->name);
 			}
@@ -425,9 +425,9 @@ static void bar_sort_add_ok_cb(FileDialog *fd, gpointer data)
 	
 		if (strlen(name) == 0) return;
 
-		if (!file_extension_match(name, ".gqv"))
+		if (!file_extension_match(name, GQ_COLLECTION_EXT))
 			{
-			gchar *tmp = g_strconcat(name, ".gqv", NULL);
+			gchar *tmp = g_strconcat(name, GQ_COLLECTION_EXT, NULL);
 			g_free((gpointer) name);
 			name = tmp;
 			}

@@ -104,10 +104,10 @@ static void collection_save_cb(FileDialog *fd, gpointer data)
 	path = fd->dest_path;
 
 	/* FIXME: utf8 */
-	if (!(strlen(path) > 7 && strncasecmp(path + (strlen(path) - 4), ".gqv", 4) == 0))
+	if (!file_extension_match(path, GQ_COLLECTION_EXT))
 		{
 		gchar *buf;
-		buf = g_strconcat(path, ".gqv", NULL);
+		buf = g_strconcat(path, GQ_COLLECTION_EXT, NULL);
 		gtk_entry_set_text(GTK_ENTRY(fd->entry), buf);
 		g_free(buf);
 		}
@@ -202,7 +202,7 @@ static void collection_save_or_load_dialog(const gchar *path,
 
 	base = g_build_filename(homedir(), GQ_RC_DIR_COLLECTIONS, NULL);
 	file_dialog_add_path_widgets(fd, base, path,
-				     "collection_load_save", ".gqv", _("Collection Files"));
+				     "collection_load_save", GQ_COLLECTION_EXT, _("Collection Files"));
 	g_free(base);
 
 	fd->type = type;

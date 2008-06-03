@@ -438,7 +438,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 		n = g_list_index(cd->list, info) + 1;
 		if (cd->name)
 			{
-			if (file_extension_match(cd->name, ".gqv"))
+			if (file_extension_match(cd->name, GQ_COLLECTION_EXT))
 				collection_name = remove_extension_from_path(cd->name);
 			else
 				collection_name = g_strdup(cd->name);

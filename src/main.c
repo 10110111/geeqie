@@ -180,7 +180,7 @@ static void parse_command_line_add_file(const gchar *file_path, gchar **path, gc
 	path_parsed = g_strdup(file_path);
 	parse_out_relatives(path_parsed);
 
-	if (file_extension_match(path_parsed, ".gqv"))
+	if (file_extension_match(path_parsed, GQ_COLLECTION_EXT))
 		{
 		*collection_list = g_list_append(*collection_list, path_parsed);
 		}
