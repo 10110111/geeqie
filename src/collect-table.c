@@ -129,67 +129,63 @@ static CollectInfo *collection_table_find_data_by_coord(CollectTable *ct, gint x
 {
 	GtkTreePath *tpath;
 	GtkTreeViewColumn *column;
+	GtkTreeModel *store;
+	GtkTreeIter row;
+	GList *list;
+	gint n;
 
-	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(ct->listview), x, y,
-					  &tpath, &column, NULL, NULL))
-		{
-		GtkTreeModel *store;
-		GtkTreeIter row;
-		GList *list;
-		gint n;
+	if (!gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(ct->listview), x, y,
+					   &tpath, &column, NULL, NULL))
+		return NULL;
 
-		store = gtk_tree_view_get_model(GTK_TREE_VIEW(ct->listview));
-		gtk_tree_model_get_iter(store, &row, tpath);
-		gtk_tree_path_free(tpath);
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(ct->listview));
+	gtk_tree_model_get_iter(store, &row, tpath);
+	gtk_tree_path_free(tpath);
 
-		gtk_tree_model_get(store, &row, CTABLE_COLUMN_POINTER, &list, -1);
-		if (!list) return NULL;
+	gtk_tree_model_get(store, &row, CTABLE_COLUMN_POINTER, &list, -1);
+	if (!list) return NULL;
 
-		n = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(column), "column_number"));
-		if (iter) *iter = row;
-		return g_list_nth_data(list, n);
-		}
-
-	return NULL;
+	n = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(column), "column_number"));
+	if (iter) *iter = row;
+	return g_list_nth_data(list, n);
 }
 
 static void collection_table_update_status(CollectTable *ct)
 {
-	if (ct->status_label)
+	gchar *buf;
+
+	if (!ct->status_label) return;
+
+	if (!ct->cd->list)
 		{
-		gchar *buf;
-
-		if (!ct->cd->list)
-			{
-			buf = g_strdup(_("Empty"));
-			}
-		else if (ct->selection)
-			{
-			buf = g_strdup_printf(_("%d images (%d)"), g_list_length(ct->cd->list), g_list_length(ct->selection));
-			}
-		else
-			{
-			buf = g_strdup_printf(_("%d images"), g_list_length(ct->cd->list));
-			}
-
-		gtk_label_set_text(GTK_LABEL(ct->status_label), buf);
-		g_free(buf);
+		buf = g_strdup(_("Empty"));
 		}
+	else if (ct->selection)
+		{
+		buf = g_strdup_printf(_("%d images (%d)"), g_list_length(ct->cd->list), g_list_length(ct->selection));
+		}
+	else
+		{
+		buf = g_strdup_printf(_("%d images"), g_list_length(ct->cd->list));
+		}
+
+	gtk_label_set_text(GTK_LABEL(ct->status_label), buf);
+	g_free(buf);
 }
 
 static void collection_table_update_extras(CollectTable *ct, gint loading, gdouble value)
 {
-	if (ct->extra_label)
-		{
-		gchar *text;
-		if (loading)
-			text = _("Loading thumbs...");
-		else
-			text = " ";
+	gchar *text;
 
-		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(ct->extra_label), value);
-		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(ct->extra_label), text);
-		}
+	if (!ct->extra_label) return;
+
+	if (loading)
+		text = _("Loading thumbs...");
+	else
+		text = " ";
+
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(ct->extra_label), value);
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(ct->extra_label), text);
 }
 
 static void collection_table_toggle_filenames(CollectTable *ct)
