@@ -143,13 +143,11 @@ static CollectInfo *collection_table_find_data_by_coord(CollectTable *ct, gint x
 		gtk_tree_path_free(tpath);
 
 		gtk_tree_model_get(store, &row, CTABLE_COLUMN_POINTER, &list, -1);
+		if (!list) return NULL;
 
 		n = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(column), "column_number"));
-		if (list)
-			{
-			if (iter) *iter = row;
-			return g_list_nth_data(list, n);
-			}
+		if (iter) *iter = row;
+		return g_list_nth_data(list, n);
 		}
 
 	return NULL;
