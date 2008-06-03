@@ -452,7 +452,6 @@ static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint fo
 
 	vdtree_busy_push(vd);
 
-	list = NULL;
 	filelist_read(nd->fd->path, NULL, &list);
 
 	/* when hidden files are not enabled, and the user enters a hidden path,

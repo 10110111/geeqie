@@ -829,8 +829,8 @@ static void filelist_recursive_append(GList **list, GList *dirs)
 		{
 		FileData *fd = (FileData *)(work->data);
 		const gchar *path = fd->path;
-		GList *f = NULL;
-		GList *d = NULL;
+		GList *f;
+		GList *d;
 
 		if (filelist_read(path, &f, &d))
 			{
@@ -850,8 +850,8 @@ static void filelist_recursive_append(GList **list, GList *dirs)
 
 GList *filelist_recursive(const gchar *path)
 {
-	GList *list = NULL;
-	GList *d = NULL;
+	GList *list;
+	GList *d;
 
 	if (!filelist_read(path, &list, &d)) return NULL;
 	list = filelist_filter(list, FALSE);

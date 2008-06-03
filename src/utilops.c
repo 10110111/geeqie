@@ -1522,8 +1522,8 @@ void file_util_start_filter_from_filelist(gint n, GList *list, const gchar *dest
 
 FileData *file_util_delete_dir_empty_path(FileData *fd, gint real_content, gint level)
 {
-	GList *dlist = NULL;
-	GList *flist = NULL;
+	GList *dlist;
+	GList *flist;
 	GList *work;
 	FileData *fail = NULL;
 
@@ -1690,8 +1690,8 @@ static GList *file_util_delete_dir_remaining_folders(GList *dlist)
 
 void file_util_delete_dir(FileData *fd, GtkWidget *parent)
 {
-	GList *dlist = NULL;
-	GList *flist = NULL;
+	GList *dlist;
+	GList *flist;
 	GList *rlist;
 
 	if (!isdir(fd->path)) return;

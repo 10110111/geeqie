@@ -937,6 +937,8 @@ static void view_window_collection_unref_cb(GtkWidget *widget, gpointer data)
 
 void view_window_new(FileData *fd)
 {
+	GList *list;
+
 	if (file_extension_match(fd->path, ".gqv"))
 		{
 		ViewWindow *vw;
@@ -961,15 +963,10 @@ void view_window_new(FileData *fd)
 					 G_CALLBACK(view_window_collection_unref_cb), cd);
 			}
 		}
-	else if (isdir(fd->path))
-		{
-		GList *list = NULL;
-
-		if (filelist_read(fd->path, &list, NULL))
-			{
-			list = filelist_sort_path(list);
-			list = filelist_filter(list, FALSE);
-			}
+	else if (isdir(fd->path) && filelist_read(fd->path, &list, NULL))
+		{	
+		list = filelist_sort_path(list);
+		list = filelist_filter(list, FALSE);
 		real_view_window_new(NULL, list, NULL, NULL);
 		filelist_free(list);
 		}

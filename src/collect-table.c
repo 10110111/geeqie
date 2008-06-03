@@ -1900,8 +1900,8 @@ void collection_table_refresh(CollectTable *ct)
 
 static void collection_table_add_dir_recursive(CollectTable *ct, gchar *path, gint recursive)
 {
-	GList *d = NULL;
-	GList *f = NULL;
+	GList *d;
+	GList *f;
 	GList *work;
 
 	if (!filelist_read(path, &f, recursive ? &d : NULL))

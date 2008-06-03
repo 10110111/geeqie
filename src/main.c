@@ -195,7 +195,7 @@ static void parse_command_line_add_file(const gchar *file_path, gchar **path, gc
 static void parse_command_line_add_dir(const gchar *dir, gchar **path, gchar **file,
 				       GList **list)
 {
-	GList *files = NULL;
+	GList *files;
 	gchar *path_parsed;
 
 	path_parsed = g_strdup(dir);

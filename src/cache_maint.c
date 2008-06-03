@@ -274,7 +274,7 @@ static void cache_maintain_home_stop_cb(GenericDialog *gd, gpointer data)
 void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
 {
 	CMData *cm;
-	GList *dlist = NULL;
+	GList *dlist;
 	gchar *base;
 	const gchar *msg;
 	const gchar *cache_folder;
@@ -290,7 +290,7 @@ void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
 		}
 
 	base = g_build_filename(homedir(), cache_folder, NULL);
-
+	
 	if (!filelist_read(base, NULL, &dlist))
 		{
 		g_free(base);
@@ -1011,19 +1011,16 @@ static void cache_manager_standard_clean_start_cb(GenericDialog *gd, gpointer da
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(cd->progress), _("running..."));
 
 	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_NORMAL, NULL);
-	list = NULL;
 	filelist_read(path, &list, NULL);
 	cd->list = list;
 	g_free(path);
 
 	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_LARGE, NULL);
-	list = NULL;
 	filelist_read(path, &list, NULL);
 	cd->list = g_list_concat(cd->list, list);
 	g_free(path);
 
 	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_FAIL, NULL);
-	list = NULL;
 	filelist_read(path, &list, NULL);
 	cd->list = g_list_concat(cd->list, list);
 	g_free(path);

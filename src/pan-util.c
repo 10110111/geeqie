@@ -211,8 +211,8 @@ gint pan_is_ignored(const gchar *s, gint ignore_symlinks)
 GList *pan_list_tree(const gchar *path, SortType sort, gint ascend,
 		     gint ignore_symlinks)
 {
-	GList *flist = NULL;
-	GList *dlist = NULL;
+	GList *flist;
+	GList *dlist;
 	GList *result;
 	GList *folders;
 

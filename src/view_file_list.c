@@ -1564,10 +1564,10 @@ gint vflist_refresh(ViewFile *vf)
 	if (vf->path)
 		{
 		ret = filelist_read(vf->path, &vf->list, NULL);
-		}
-	DEBUG_1("%s vflist_refresh: sort", get_exec_time());
 
-	vf->list = filelist_sort(vf->list, vf->sort_method, vf->sort_ascend);
+		DEBUG_1("%s vflist_refresh: sort", get_exec_time());
+		vf->list = filelist_sort(vf->list, vf->sort_method, vf->sort_ascend);
+		}
 
 	DEBUG_1("%s vflist_refresh: populate view", get_exec_time());
 

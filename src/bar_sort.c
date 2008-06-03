@@ -89,7 +89,7 @@ static void bar_sort_add_close(SortData *sd);
 static void bar_sort_collection_list_build(GtkWidget *bookmarks)
 {
 	gchar *collect_path;
-	GList *list = NULL;
+	GList *list;
 	GList *work;
 
 	history_list_free_key(SORT_KEY_COLLECTIONS);

@@ -219,10 +219,8 @@ gint vdlist_set_path(ViewDir *vd, const gchar *path)
 	vd->path = g_strdup(path);
 
 	filelist_free(VDLIST_INFO(vd, list));
-	VDLIST_INFO(vd, list) = NULL;
 
 	ret = filelist_read(vd->path, NULL, &VDLIST_INFO(vd, list));
-
 	VDLIST_INFO(vd, list) = filelist_sort(VDLIST_INFO(vd, list), SORT_NAME, TRUE);
 
 	/* add . and .. */

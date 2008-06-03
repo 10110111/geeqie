@@ -665,7 +665,7 @@ static gint collect_manager_process_action(CollectManagerEntry *entry, gchar **p
 
 static void collect_manager_refresh(void)
 {
-	GList *list = NULL;
+	GList *list;
 	GList *work;
 	gchar *base;
 
