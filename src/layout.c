@@ -2008,35 +2008,27 @@ static void layout_real_time_update(LayoutWindow *lw)
 
 static void layout_real_renamed(LayoutWindow *lw, FileData *fd)
 {
-	gint update = FALSE;
-
 	if (lw->image) layout_image_maint_renamed(lw, fd);
 
-	if (lw->vf) update |= vf_maint_renamed(lw->vf, fd);
-
-	if (update) layout_real_time_update(lw);
+	if (lw->vf && vf_maint_renamed(lw->vf, fd))
+		layout_real_time_update(lw);
+		
 }
 
 static void layout_real_removed(LayoutWindow *lw, FileData *fd, GList *ignore_list)
 {
-	gint update = FALSE;
-
 	if (lw->image) layout_image_maint_removed(lw, fd);
 
-	if (lw->vf) update |= vf_maint_removed(lw->vf, fd, ignore_list);
-
-	if (update) layout_real_time_update(lw);
+	if (lw->vf && vf_maint_removed(lw->vf, fd, ignore_list))
+		layout_real_time_update(lw);
 }
 
 static void layout_real_moved(LayoutWindow *lw, FileData *fd, GList *ignore_list)
 {
-	gint update = FALSE;
-
 	if (lw->image) layout_image_maint_moved(lw, fd);
 
-	if (lw->vf) update |= vf_maint_moved(lw->vf, fd, ignore_list);
-
-	if (update) layout_real_time_update(lw);
+	if (lw->vf && vf_maint_moved(lw->vf, fd, ignore_list))
+		layout_real_time_update(lw);
 }
 
 void layout_maint_renamed(FileData *fd)
