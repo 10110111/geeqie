@@ -754,7 +754,7 @@ gint vf_maint_renamed(ViewFile *vf, FileData *fd)
 
 	switch(vf->type)
 	{
-	case FILEVIEW_LIST: ret = vflist_maint_renamed(vf, fd); break;
+//	case FILEVIEW_LIST: ret = vflist_maint_renamed(vf, fd); break;
 	case FILEVIEW_ICON: ret = vficon_maint_renamed(vf, fd); break;
 	}
 
@@ -767,7 +767,7 @@ gint vf_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 
 	switch(vf->type)
 	{
-	case FILEVIEW_LIST: ret = vflist_maint_removed(vf, fd, ignore_list); break;
+//	case FILEVIEW_LIST: ret = vflist_maint_removed(vf, fd, ignore_list); break;
 	case FILEVIEW_ICON: ret = vficon_maint_removed(vf, fd, ignore_list); break;
 	}
 
@@ -780,7 +780,7 @@ gint vf_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list)
 
 	switch(vf->type)
 	{
-	case FILEVIEW_LIST: ret = vflist_maint_moved(vf, fd, ignore_list); break;
+//	case FILEVIEW_LIST: ret = vflist_maint_moved(vf, fd, ignore_list); break;
 	case FILEVIEW_ICON: ret = vficon_maint_moved(vf, fd, ignore_list); break;
 	}
 

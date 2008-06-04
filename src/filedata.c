@@ -140,6 +140,8 @@ void file_data_increment_version(FileData *fd)
 {
 	fd->version++;
 	if (fd->parent) fd->parent->version++;
+
+	file_data_send_notification(fd); /* FIXME there are probably situations when we don't want to call this  */
 }
 
 
@@ -1390,8 +1392,69 @@ gint file_data_sc_apply_ci(FileData *fd)
    FIXME do we need the ignore_list? It looks like a workaround for ineffective
    implementation in view_file_list.c */
 
+
+
+
+typedef struct _NotifyData NotifyData;
+
+struct _NotifyData {
+	FileDataNotifyFunc func;
+	gpointer data;
+	};
+
+static GList *notify_func_list = NULL;
+
+gint file_data_register_notify_func(FileDataNotifyFunc func, gpointer data)
+{
+	NotifyData *nd = g_new(NotifyData, 1);
+	nd->func = func;
+	nd->data = data;
+	notify_func_list = g_list_prepend(notify_func_list, nd);
+	DEBUG_1("Notify func registered: %p\n", nd);
+	return TRUE;
+}
+
+gint file_data_unregister_notify_func(FileDataNotifyFunc func, gpointer data)
+{
+	GList *work = notify_func_list;
+	
+	while(work)
+		{
+		NotifyData *nd = (NotifyData *)work->data;
+		if (nd->func == func && nd->data == data)
+			{
+			notify_func_list = g_list_delete_link(notify_func_list, work);
+			g_free(nd);
+			DEBUG_1("Notify func unregistered: %p\n", nd);
+			return TRUE;
+			}
+		work = work->next;
+		}
+	return FALSE;
+}
+
+
+void file_data_send_notification(FileData *fd)
+{
+	GList *work = notify_func_list;
+	while(work)
+		{
+		NotifyData *nd = (NotifyData *)work->data;
+		DEBUG_1("Notify func calling: %p %s\n", nd, fd->path);
+		nd->func(fd, nd->data);
+		work = work->next;
+		}
+}
+
 void file_data_sc_send_notification(FileData *fd)
 {
 }
+
+
+
+
+
+
+
 
 
