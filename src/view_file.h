@@ -61,9 +61,4 @@ void vf_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode);
 void vf_select_marked(ViewFile *vf, gint mark);
 void vf_mark_selected(ViewFile *vf, gint mark, gint value);
 
-gint vf_maint_renamed(ViewFile *vf, FileData *fd);
-gint vf_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list);
-gint vf_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list);
-
-
 #endif /* VIEW_FILE_H */

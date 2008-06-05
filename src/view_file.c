@@ -742,11 +742,13 @@ void vf_set_layout(ViewFile *vf, LayoutWindow *layout)
 	vf->layout = layout;
 }
 
+#if 0
 /*
  *-----------------------------------------------------------------------------
  * maintenance (for rename, move, remove)
  *-----------------------------------------------------------------------------
  */
+
 
 gint vf_maint_renamed(ViewFile *vf, FileData *fd)
 {
@@ -786,3 +788,4 @@ gint vf_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list)
 
 	return ret;
 }
+#endif

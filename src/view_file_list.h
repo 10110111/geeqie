@@ -60,13 +60,6 @@ void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 void vflist_select_marked(ViewFile *vf, gint mark);
 void vflist_mark_selected(ViewFile *vf, gint mark, gint value);
 
-/*
-gint vflist_maint_renamed(ViewFile *vf, FileData *fd);
-gint vflist_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list);
-gint vflist_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list);
-*/
-
 void vflist_color_set(ViewFile *vf, FileData *fd, gint color_set);
-
 
 #endif

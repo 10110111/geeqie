@@ -53,9 +53,4 @@ void vficon_select_by_fd(ViewFile *vf, FileData *fd);
 void vficon_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode);
 void vficon_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode);
 
-gint vficon_maint_renamed(ViewFile *vf, FileData *fd);
-gint vficon_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list);
-gint vficon_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list);
-
-
 #endif

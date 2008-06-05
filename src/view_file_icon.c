@@ -65,6 +65,7 @@ struct _IconData
 	FileData *fd;
 };
 
+static void vficon_notify_cb(FileData *fd, gpointer data);
 static gint vficon_index_by_id(ViewFile *vf, IconData *in_id);
 
 static IconData *vficon_icon_data(ViewFile *vf, FileData *fd)
@@ -2233,6 +2234,8 @@ void vficon_destroy_cb(GtkWidget *widget, gpointer data)
 	ViewFile *vf = data;
 
 	if (VFICON_INFO(vf, sync_idle_id) != -1) g_source_remove(VFICON_INFO(vf, sync_idle_id));
+	
+	file_data_unregister_notify_func(vficon_notify_cb, vf);
 
 	tip_unschedule(vf);
 
@@ -2297,6 +2300,8 @@ ViewFile *vficon_new(ViewFile *vf, FileData *dir_fd)
 
 	/* force VFICON_INFO(vf, columns) to be at least 1 (sane) - this will be corrected in the size_cb */
 	vficon_populate_at_new_size(vf, 1, 1, FALSE);
+
+	file_data_register_notify_func(vficon_notify_cb, vf);
 
 	return vf;
 }
@@ -2369,7 +2374,10 @@ static gint vficon_maint_find_closest(ViewFile *vf, gint row, gint count, GList 
 		}
 }
 
-gint vficon_maint_renamed(ViewFile *vf, FileData *fd)
+static gint vficon_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list);
+
+
+static gint vficon_maint_renamed(ViewFile *vf, FileData *fd)
 {
 	gint ret = FALSE;
 	gint row;
@@ -2404,7 +2412,7 @@ gint vficon_maint_renamed(ViewFile *vf, FileData *fd)
 	return ret;
 }
 
-gint vficon_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
+static gint vficon_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 {
 	gint row;
 	gint new_row = -1;
@@ -2530,7 +2538,7 @@ gint vficon_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
 	return TRUE;
 }
 
-gint vficon_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list)
+static gint vficon_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list)
 {
 	gint ret = FALSE;
 	gchar *buf;
@@ -2547,4 +2555,29 @@ gint vficon_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list)
 	g_free(buf);
 
 	return ret;
+}
+
+static void vficon_notify_cb(FileData *fd, gpointer data)
+{
+	ViewFile *vf = data;
+
+	if (!fd->change) return;
+	
+	switch(fd->change->type)
+		{
+		case FILEDATA_CHANGE_MOVE:
+			vficon_maint_moved(vf, fd, NULL);
+			break;
+		case FILEDATA_CHANGE_COPY:
+			break;
+		case FILEDATA_CHANGE_RENAME:
+			vficon_maint_renamed(vf, fd);
+			break;
+		case FILEDATA_CHANGE_DELETE:
+			vficon_maint_removed(vf, fd, NULL);
+			break;
+		case FILEDATA_CHANGE_UNSPECIFIED:
+			break;
+		}
+
 }
