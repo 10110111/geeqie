@@ -22,6 +22,8 @@
 #include "ui_fileops.h"
 
 
+static GHashTable *file_data_pool = NULL;
+
 static gint sidecar_file_priority(const gchar *path);
 
 
@@ -144,15 +146,48 @@ void file_data_increment_version(FileData *fd)
 	file_data_send_notification(fd); /* FIXME there are probably situations when we don't want to call this  */
 }
 
+static void file_data_set_collate_keys(FileData *fd)
+{
+	gchar *caseless_name;
+
+	g_assert(g_utf8_validate(fd->name, -1, NULL));
+
+	caseless_name = g_utf8_casefold(fd->name, -1);
+
+	g_free(fd->collate_key_name);
+	g_free(fd->collate_key_name_nocase);
+
+#if GLIB_CHECK_VERSION(2, 8, 0)
+	fd->collate_key_name = g_utf8_collate_key_for_filename(fd->name, -1);
+	fd->collate_key_name_nocase = g_utf8_collate_key_for_filename(caseless_name, -1);
+#else
+	fd->collate_key_name = g_utf8_collate_key(fd->name, -1);
+	fd->collate_key_name_nocase = g_utf8_collate_key(caseless_name, -1);
+#endif
+	g_free(caseless_name);
+}
 
 static void file_data_set_path(FileData *fd, const gchar *path)
 {
+	g_assert(path && *path);
+	g_assert(file_data_pool);
+
+	g_free(fd->path);
+
+	if (fd->original_path)
+		{
+		g_hash_table_remove(file_data_pool, fd->original_path);
+		g_free(fd->original_path);
+		}
+	fd->original_path = g_strdup(path);
+	g_hash_table_insert(file_data_pool, fd->original_path, fd);
 
 	if (strcmp(path, G_DIR_SEPARATOR_S) == 0)
 		{
 		fd->path = g_strdup(path);
 		fd->name = fd->path;
 		fd->extension = fd->name + 1;
+		file_data_set_collate_keys(fd);
 		return;
 		}
 
@@ -167,6 +202,7 @@ static void file_data_set_path(FileData *fd, const gchar *path)
 		g_free(dir);
 		fd->name = "..";
 		fd->extension = fd->name + 2;
+		file_data_set_collate_keys(fd);
 		return;
 		}
 	else if (strcmp(fd->name, ".") == 0)
@@ -175,12 +211,15 @@ static void file_data_set_path(FileData *fd, const gchar *path)
 		fd->path = remove_level_from_path(path);
 		fd->name = ".";
 		fd->extension = fd->name + 1;
+		file_data_set_collate_keys(fd);
 		return;
 		}
 
 	fd->extension = extension_from_path(fd->path);
 	if (fd->extension == NULL)
 		fd->extension = fd->name + strlen(fd->name);
+
+	file_data_set_collate_keys(fd);
 }
 
 static void file_data_check_changed_files(FileData *fd, struct stat *st)
@@ -212,8 +251,6 @@ static void file_data_check_changed_files(FileData *fd, struct stat *st)
 		}
 }
 
-static GHashTable *file_data_pool = NULL;
-
 static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean check_sidecars)
 {
 	FileData *fd;
@@ -232,10 +269,13 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 		}
 
 	fd = g_new0(FileData, 1);
+	
+	fd->path = NULL;
+	fd->name = NULL;
+	fd->collate_key_name = NULL;
+	fd->collate_key_name_nocase = NULL;
+	fd->original_path = NULL;
 
-	file_data_set_path(fd, path_utf8);
-
-	fd->original_path = g_strdup(path_utf8);
 	fd->size = st->st_size;
 	fd->date = st->st_mtime;
 	fd->pixbuf = NULL;
@@ -243,10 +283,11 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	fd->ref = 1;
 	fd->magick = 0x12345678;
 
-	g_hash_table_insert(file_data_pool, fd->original_path, fd);
+	file_data_set_path(fd, path_utf8); /* set path, name, collate_key_*, original_path */
 
 	if (check_sidecars && sidecar_file_priority(fd->extension))
 		file_data_check_sidecars(fd);
+
 	return fd;
 }
 
@@ -366,6 +407,8 @@ static void file_data_free(FileData *fd)
 
 	g_free(fd->path);
 	g_free(fd->original_path);
+	g_free(fd->collate_key_name);
+	g_free(fd->collate_key_name_nocase);
 	if (fd->pixbuf) g_object_unref(fd->pixbuf);
 
 
@@ -446,7 +489,7 @@ gint file_data_compare_name_without_ext(FileData *fd1, FileData *fd2)
 	if (len1 < len2) return -1;
 	if (len1 > len2) return 1;
 
-	return strncmp(fd1->name, fd2->name, len1);
+	return strncmp(fd1->name, fd2->name, len1); /* FIXME: utf8 */
 }
 
 gboolean file_data_add_change_info(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest)
@@ -541,26 +584,31 @@ gint filelist_sort_compare_filedata(FileData *fa, FileData *fb)
 
 	switch (filelist_sort_method)
 		{
+		case SORT_NAME:
+			break;
 		case SORT_SIZE:
 			if (fa->size < fb->size) return -1;
 			if (fa->size > fb->size) return 1;
-			return CASE_SORT(fa->name, fb->name); /* fall back to name */
+			/* fall back to name */
 			break;
 		case SORT_TIME:
 			if (fa->date < fb->date) return -1;
 			if (fa->date > fb->date) return 1;
-			return CASE_SORT(fa->name, fb->name); /* fall back to name */
+			/* fall back to name */
 			break;
 #ifdef HAVE_STRVERSCMP
 		case SORT_NUMBER:
 			return strverscmp(fa->name, fb->name);
 			break;
 #endif
-		case SORT_NAME:
 		default:
-			return CASE_SORT(fa->name, fb->name);
 			break;
 		}
+
+	if (options->file_sort.case_sensitive)
+		return strcmp(fa->collate_key_name, fb->collate_key_name);
+	else
+		return strcmp(fa->collate_key_name_nocase, fb->collate_key_name_nocase);
 }
 
 gint filelist_sort_compare_filedata_full(FileData *fa, FileData *fb, SortType method, gint ascend)
@@ -1356,12 +1404,7 @@ static void file_data_apply_ci(FileData *fd)
 	/* FIXME delete ?*/
 	if (type == FILEDATA_CHANGE_MOVE || type == FILEDATA_CHANGE_RENAME)
 		{
-		g_free(fd->path);
-		g_hash_table_remove(file_data_pool, fd->original_path);
-		g_free(fd->original_path);
 		file_data_set_path(fd, fd->change->dest);
-		fd->original_path = g_strdup(fd->change->dest);
-		g_hash_table_insert(file_data_pool, fd->original_path, fd);
 		}
 	file_data_increment_version(fd);
 }

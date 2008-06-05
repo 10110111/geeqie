@@ -425,6 +425,8 @@ struct _FileData {
 	gchar *path;
 	const gchar *name;
 	const gchar *extension;
+	gchar *collate_key_name;
+	gchar *collate_key_name_nocase;
 	gint64 size;
 	time_t date;
 	gboolean marks[FILEDATA_MARKS_SIZE];

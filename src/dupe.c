@@ -1132,11 +1132,11 @@ static gint dupe_match(DupeItem *a, DupeItem *b, DupeMatchType mask, gdouble *ra
 		}
 	if (mask & DUPE_MATCH_NAME)
 		{
-		if (strcmp(a->fd->name, b->fd->name) != 0) return FALSE;
+		if (strcmp(a->fd->collate_key_name, b->fd->collate_key_name) != 0) return FALSE;
 		}
 	if (mask & DUPE_MATCH_NAME_CI)
 		{
-		if (strcasecmp(a->fd->name, b->fd->name) != 0) return FALSE;
+		if (strcmp(a->fd->collate_key_name_nocase, b->fd->collate_key_name_nocase) != 0) return FALSE;
 		}
 	if (mask & DUPE_MATCH_SIZE)
 		{

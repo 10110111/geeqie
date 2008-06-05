@@ -2234,7 +2234,10 @@ static gint search_result_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIt
 			return 0;
 			break;
 		case SEARCH_COLUMN_NAME:
-			return CASE_SORT(fda->fd->name, fdb->fd->name);
+			if (options->file_sort.case_sensitive)
+				return strcmp(fda->fd->collate_key_name, fdb->fd->collate_key_name);
+			else
+				return strcmp(fda->fd->collate_key_name_nocase, fdb->fd->collate_key_name_nocase);
 			break;
 		case SEARCH_COLUMN_SIZE:
 			if (fda->fd->size > fdb->fd->size) return 1;
@@ -2250,7 +2253,7 @@ static gint search_result_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIt
 			return sort_matchdata_dimensions(fda, fdb);
 			break;
 		case SEARCH_COLUMN_PATH:
-			return CASE_SORT(fda->fd->path, fdb->fd->path);
+			return CASE_SORT(fda->fd->path, fdb->fd->path); /* FIXME: utf8_collate */
 			break;
 		default:
 			break;

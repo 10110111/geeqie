@@ -132,6 +132,8 @@ static gint collection_list_sort_cb(gconstpointer a, gconstpointer b)
 
 	switch(collection_list_sort_method)
 		{
+		case SORT_NAME:
+			break;
 		case SORT_NONE:
 			return 0;
 			break;
@@ -146,20 +148,21 @@ static gint collection_list_sort_cb(gconstpointer a, gconstpointer b)
 			return 0;
 			break;
 		case SORT_PATH:
-			return CASE_SORT(cia->fd->path, cib->fd->path);
+			return CASE_SORT(cia->fd->path, cib->fd->path); /* FIXME: utf8_collate */
 			break;
 #ifdef HAVE_STRVERSCMP
 		case SORT_NUMBER:
 			return strverscmp(cia->fd->name, cib->fd->name);
 			break;
 #endif
-		case SORT_NAME:
 		default:
-			return CASE_SORT(cia->fd->name, cib->fd->name);
 			break;
 		}
 
-	return 0;
+	if (options->file_sort.case_sensitive)
+		return strcmp(cia->fd->collate_key_name, cib->fd->collate_key_name);
+	else
+		return strcmp(cia->fd->collate_key_name_nocase, cib->fd->collate_key_name_nocase);
 }
 
 GList *collection_list_sort(GList *list, SortType method)
