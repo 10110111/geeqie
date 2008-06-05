@@ -148,7 +148,7 @@ static gint collection_list_sort_cb(gconstpointer a, gconstpointer b)
 			return 0;
 			break;
 		case SORT_PATH:
-			return CASE_SORT(cia->fd->path, cib->fd->path); /* FIXME: utf8_collate */
+			return utf8_compare(cia->fd->path, cib->fd->path, options->file_sort.case_sensitive);
 			break;
 #ifdef HAVE_STRVERSCMP
 		case SORT_NUMBER:

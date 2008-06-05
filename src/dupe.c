@@ -1128,7 +1128,7 @@ static gint dupe_match(DupeItem *a, DupeItem *b, DupeMatchType mask, gdouble *ra
 
 	if (mask & DUPE_MATCH_PATH)
 		{
-		if (strcmp(a->fd->path, b->fd->path) != 0) return FALSE;
+		if (utf8_compare(a->fd->path, b->fd->path, TRUE) != 0) return FALSE;
 		}
 	if (mask & DUPE_MATCH_NAME)
 		{

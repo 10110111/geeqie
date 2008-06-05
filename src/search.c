@@ -2253,7 +2253,7 @@ static gint search_result_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIt
 			return sort_matchdata_dimensions(fda, fdb);
 			break;
 		case SEARCH_COLUMN_PATH:
-			return CASE_SORT(fda->fd->path, fdb->fd->path); /* FIXME: utf8_collate */
+			return utf8_compare(fda->fd->path, fdb->fd->path, options->file_sort.case_sensitive);
 			break;
 		default:
 			break;

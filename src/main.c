@@ -65,6 +65,38 @@ gchar *utf8_validate_or_convert(const gchar *text)
 	return g_strdup(text);
 }
 
+gint utf8_compare(const gchar *s1, const gchar *s2, gboolean case_sensitive)
+{
+	gchar *s1_key, *s2_key;
+	gchar *s1_t, *s2_t;
+	gint ret;
+
+	g_assert(g_utf8_validate(s1, -1, NULL));
+	g_assert(g_utf8_validate(s2, -1, NULL));
+
+	if (!case_sensitive)
+		{
+		s1_t = g_utf8_casefold(s1, -1); 
+		s2_t = g_utf8_casefold(s2, -1);
+		}
+
+	s1_key = g_utf8_collate_key(s1_t, -1);
+	s2_key = g_utf8_collate_key(s2_t, -1);
+
+	ret = strcmp(s1_key, s2_key);
+
+	g_free(s1_key);
+	g_free(s2_key);
+
+	if (!case_sensitive)
+		{
+		g_free(s1_t);
+		g_free(s2_t);
+		}
+
+	return ret;
+}
+
 /* Borrowed from gtkfilesystemunix.c */
 gchar *expand_tilde(const gchar *filename)
 {
