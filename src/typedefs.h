@@ -137,6 +137,11 @@ typedef enum {
 	NOTIFY_PRIORITY_LOW
 } NotifyPriority;
 	
+typedef enum {
+	NOTIFY_TYPE_INTERNAL = 0, /* changed internal data only, like marks */
+	NOTIFY_TYPE_REREAD,       /* changed file size, date, etc., file name remains unchanged */
+	NOTIFY_TYPE_CHANGE        /* generic change described by fd->change */
+} NotifyType;
 
 
 #define MAX_SPLIT_IMAGES 4

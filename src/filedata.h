@@ -77,10 +77,10 @@ gint file_data_sc_apply_ci(FileData *fd);
 void file_data_sc_free_ci(FileData *fd);
 void file_data_sc_free_ci_list(GList *fd_list);
 
-typedef void (*FileDataNotifyFunc)(FileData *fd, gpointer data);
+typedef void (*FileDataNotifyFunc)(FileData *fd, NotifyType type, gpointer data);
 gint file_data_register_notify_func(FileDataNotifyFunc func, gpointer data, NotifyPriority priority);
 gint file_data_unregister_notify_func(FileDataNotifyFunc func, gpointer data);
-void file_data_send_notification(FileData *fd);
+void file_data_send_notification(FileData *fd, NotifyType type);
 
 gint file_data_register_real_time_monitor(FileData *fd);
 gint file_data_unregister_real_time_monitor(FileData *fd);

@@ -279,7 +279,7 @@ void file_data_notify_ci(FileData *fd)
 
 
 	/* this is the new way: */
-	file_data_send_notification(fd);
+	file_data_send_notification(fd, NOTIFY_TYPE_CHANGE);
 }
 
 void file_data_sc_notify_ci(FileData *fd)

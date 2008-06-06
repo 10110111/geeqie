@@ -50,7 +50,7 @@ enum {
 static gint vflist_row_is_selected(ViewFile *vf, FileData *fd);
 static gint vflist_row_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, gpointer data);
 static void vflist_populate_view(ViewFile *vf);
-static void vflist_notify_cb(FileData *fd, gpointer data);
+static void vflist_notify_cb(FileData *fd, NotifyType type, gpointer data);
 
 
 /*
@@ -1875,7 +1875,7 @@ void vflist_marks_set(ViewFile *vf, gint enable)
  *-----------------------------------------------------------------------------
  */
 
-static void vflist_notify_cb(FileData *fd, gpointer data)
+static void vflist_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	ViewFile *vf = data;
 	gboolean refresh;

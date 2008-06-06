@@ -143,7 +143,7 @@ void file_data_increment_version(FileData *fd)
 	fd->version++;
 	if (fd->parent) fd->parent->version++;
 
-	file_data_send_notification(fd); /* FIXME there are probably situations when we don't want to call this  */
+	file_data_send_notification(fd, NOTIFY_TYPE_REREAD); /* FIXME there are probably situations when we don't want to call this  */
 }
 
 static void file_data_set_collate_keys(FileData *fd)
@@ -1488,14 +1488,14 @@ gint file_data_unregister_notify_func(FileDataNotifyFunc func, gpointer data)
 }
 
 
-void file_data_send_notification(FileData *fd)
+void file_data_send_notification(FileData *fd, NotifyType type)
 {
 	GList *work = notify_func_list;
 	while(work)
 		{
 		NotifyData *nd = (NotifyData *)work->data;
 		DEBUG_1("Notify func calling: %p %s", nd, fd->path);
-		nd->func(fd, nd->data);
+		nd->func(fd, type, nd->data);
 		work = work->next;
 		}
 }

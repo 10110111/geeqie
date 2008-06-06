@@ -65,7 +65,7 @@ struct _IconData
 	FileData *fd;
 };
 
-static void vficon_notify_cb(FileData *fd, gpointer data);
+static void vficon_notify_cb(FileData *fd, NotifyType type, gpointer data);
 static gint vficon_index_by_id(ViewFile *vf, IconData *in_id);
 
 static IconData *vficon_icon_data(ViewFile *vf, FileData *fd)
@@ -2557,7 +2557,7 @@ static gint vficon_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list)
 	return ret;
 }
 
-static void vficon_notify_cb(FileData *fd, gpointer data)
+static void vficon_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	ViewFile *vf = data;
 
