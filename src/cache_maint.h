@@ -22,9 +22,7 @@ gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear);
 gint cache_maintain_dir(const gchar *dir, gint recursive, gint clear);
 #endif
 
-void cache_maint_moved(FileData *fd);
-void cache_maint_removed(FileData *fd);
-void cache_maint_copied(FileData *fd);
+void cache_notify_cb(FileData *fd, NotifyType type, gpointer data);
 
 
 void cache_manager_show(void);

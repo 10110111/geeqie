@@ -520,7 +520,7 @@ static void cache_file_move(const gchar *src, const gchar *dest)
 		}
 }
 
-void cache_maint_moved(FileData *fd)
+static void cache_maint_moved(FileData *fd)
 {
 	gchar *base;
 	mode_t mode = 0755;
@@ -579,7 +579,7 @@ static void cache_file_remove(const gchar *path)
 		}
 }
 
-void cache_maint_removed(FileData *fd)
+static void cache_maint_removed(FileData *fd)
 {
 	gchar *buf;
 
@@ -599,7 +599,7 @@ void cache_maint_removed(FileData *fd)
 		thumb_std_maint_removed(fd->path);
 }
 
-void cache_maint_copied(FileData *fd)
+static void cache_maint_copied(FileData *fd)
 {
 	gchar *dest_base;
 	gchar *src_cache;
@@ -624,6 +624,28 @@ void cache_maint_copied(FileData *fd)
 	g_free(dest_base);
 	g_free(src_cache);
 }
+
+void cache_notify_cb(FileData *fd, NotifyType type, gpointer data)
+{
+	if (!fd->change) return;
+	
+	switch(fd->change->type)
+		{
+		case FILEDATA_CHANGE_MOVE:
+		case FILEDATA_CHANGE_RENAME:
+			cache_maint_moved(fd);
+			break;
+		case FILEDATA_CHANGE_COPY:
+			cache_maint_copied(fd);
+			break;
+		case FILEDATA_CHANGE_DELETE:
+			cache_maint_removed(fd);
+			break;
+		case FILEDATA_CHANGE_UNSPECIFIED:
+			break;
+		}
+}
+
 
 /*
  *-------------------------------------------------------------------

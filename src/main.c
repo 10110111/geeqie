@@ -27,6 +27,7 @@
 #include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_utildlg.h"
+#include "cache_maint.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -679,6 +680,10 @@ int main(int argc, char *argv[])
 #if 1
 	log_printf("%s %s, This is an alpha release.\n", GQ_APPNAME, VERSION);
 #endif
+
+	/* register global notify functions */
+	file_data_register_notify_func(cache_notify_cb, NULL, NOTIFY_PRIORITY_HIGH);
+
 	parse_command_line_for_debug_option(argc, argv);
 
 	options = init_options(NULL);

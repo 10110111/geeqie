@@ -243,7 +243,6 @@ void file_data_notify_ci(FileData *fd)
 	switch (type)
 		{
 		case FILEDATA_CHANGE_MOVE:
-			cache_maint_moved(fd);
 			collection_maint_renamed(fd);
 
 			layout_maint_moved(fd, NULL);
@@ -252,10 +251,8 @@ void file_data_notify_ci(FileData *fd)
 			search_maint_renamed(fd);
 			break;
 		case FILEDATA_CHANGE_COPY:
-			cache_maint_copied(fd);
 			break;
 		case FILEDATA_CHANGE_RENAME:
-			cache_maint_moved(fd);
 			collection_maint_renamed(fd);
 
 			layout_maint_renamed(fd);
@@ -270,7 +267,6 @@ void file_data_notify_ci(FileData *fd)
 			search_maint_removed(fd);
 
 			collection_maint_removed(fd);
-			cache_maint_removed(fd);
 			break;
 		case FILEDATA_CHANGE_UNSPECIFIED:
 			/* FIXME */
