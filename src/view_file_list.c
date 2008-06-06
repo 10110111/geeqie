@@ -1463,7 +1463,7 @@ void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 		
 		file_data_unregister_notify_func(vflist_notify_cb, vf); /* we don't need the notification */
 		file_data_increment_version(fd);
-		file_data_register_notify_func(vflist_notify_cb, vf);
+		file_data_register_notify_func(vflist_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
 		gtk_tree_store_set(GTK_TREE_STORE(store), &iter, FILE_COLUMN_MARKS + n, fd->marks[n], -1);
 
@@ -1570,7 +1570,7 @@ gint vflist_refresh(ViewFile *vf)
 
 		ret = filelist_read(vf->dir_fd, &vf->list, NULL);
 
-		file_data_register_notify_func(vflist_notify_cb, vf);
+		file_data_register_notify_func(vflist_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
 		DEBUG_1("%s vflist_refresh: sort", get_exec_time());
 		vf->list = filelist_sort(vf->list, vf->sort_method, vf->sort_ascend);
@@ -1711,7 +1711,7 @@ static void vflist_listview_mark_toggled_cb(GtkCellRendererToggle *cell, gchar *
 	fd->marks[col_idx - FILE_COLUMN_MARKS] = mark;
 	file_data_unregister_notify_func(vflist_notify_cb, vf); /* we don't need the notification */
 	file_data_increment_version(fd);
-	file_data_register_notify_func(vflist_notify_cb, vf);
+	file_data_register_notify_func(vflist_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
 	gtk_tree_store_set(store, &iter, col_idx, mark, -1);
 	gtk_tree_path_free(path);
@@ -1832,7 +1832,7 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 	vflist_listview_add_column(vf, FILE_COLUMN_SIZE, _("Size"), FALSE, TRUE, FALSE);
 	vflist_listview_add_column(vf, FILE_COLUMN_DATE, _("Date"), FALSE, TRUE, FALSE);
 
-	file_data_register_notify_func(vflist_notify_cb, vf);
+	file_data_register_notify_func(vflist_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 	return vf;
 }
 

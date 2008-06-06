@@ -131,6 +131,13 @@ typedef enum {
 	SS_ERR_OTHER,
 } SecureSaveErrno;
 
+typedef enum {
+	NOTIFY_PRIORITY_HIGH = 0,
+	NOTIFY_PRIORITY_MEDIUM,
+	NOTIFY_PRIORITY_LOW
+} NotifyPriority;
+	
+
 
 #define MAX_SPLIT_IMAGES 4
 
@@ -539,7 +546,6 @@ struct _LayoutWindow
 
 	/* directory update check */
 
-	gint last_time_id;
 	gint last_version;
 
 	/* misc */

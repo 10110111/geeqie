@@ -2301,7 +2301,7 @@ ViewFile *vficon_new(ViewFile *vf, FileData *dir_fd)
 	/* force VFICON_INFO(vf, columns) to be at least 1 (sane) - this will be corrected in the size_cb */
 	vficon_populate_at_new_size(vf, 1, 1, FALSE);
 
-	file_data_register_notify_func(vficon_notify_cb, vf);
+	file_data_register_notify_func(vficon_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
 	return vf;
 }

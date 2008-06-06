@@ -1443,17 +1443,28 @@ typedef struct _NotifyData NotifyData;
 struct _NotifyData {
 	FileDataNotifyFunc func;
 	gpointer data;
+	NotifyPriority priority;
 	};
 
 static GList *notify_func_list = NULL;
 
-gint file_data_register_notify_func(FileDataNotifyFunc func, gpointer data)
+static gint file_data_notify_sort(gconstpointer a, gconstpointer b)
+{
+	NotifyData *nda = (NotifyData *)a;
+	NotifyData *ndb = (NotifyData *)b;
+	if (nda->priority < ndb->priority) return -1;
+	if (nda->priority > ndb->priority) return 1;
+	return 0;
+}
+
+gint file_data_register_notify_func(FileDataNotifyFunc func, gpointer data, NotifyPriority priority)
 {
 	NotifyData *nd = g_new(NotifyData, 1);
 	nd->func = func;
 	nd->data = data;
-	notify_func_list = g_list_prepend(notify_func_list, nd);
-	DEBUG_1("Notify func registered: %p\n", nd);
+	nd->priority = priority;
+	notify_func_list = g_list_insert_sorted(notify_func_list, nd, file_data_notify_sort);
+	DEBUG_1("Notify func registered: %p", nd);
 	return TRUE;
 }
 
@@ -1468,7 +1479,7 @@ gint file_data_unregister_notify_func(FileDataNotifyFunc func, gpointer data)
 			{
 			notify_func_list = g_list_delete_link(notify_func_list, work);
 			g_free(nd);
-			DEBUG_1("Notify func unregistered: %p\n", nd);
+			DEBUG_1("Notify func unregistered: %p", nd);
 			return TRUE;
 			}
 		work = work->next;
@@ -1483,7 +1494,7 @@ void file_data_send_notification(FileData *fd)
 	while(work)
 		{
 		NotifyData *nd = (NotifyData *)work->data;
-		DEBUG_1("Notify func calling: %p %s\n", nd, fd->path);
+		DEBUG_1("Notify func calling: %p %s", nd, fd->path);
 		nd->func(fd, nd->data);
 		work = work->next;
 		}
@@ -1494,6 +1505,78 @@ void file_data_sc_send_notification(FileData *fd)
 }
 
 
+static GHashTable *file_data_monitor_pool = NULL;
+static gint realtime_monitor_id = -1;
+
+static void realtime_monitor_check_cb(gpointer key, gpointer value, gpointer data)
+{
+	FileData *fd = key;
+	struct stat st;
+
+	stat_utf8(fd->path, &st);
+	
+	file_data_check_changed_files(fd, &st);
+	
+	DEBUG_1("monitor %s", fd->path);
+}
+
+static gboolean realtime_monitor_cb(gpointer data)
+{
+	g_hash_table_foreach(file_data_monitor_pool, realtime_monitor_check_cb, NULL);
+	return TRUE;
+}
+
+gint file_data_register_real_time_monitor(FileData *fd)
+{
+	gint count = 0;
+	
+	file_data_ref(fd);
+	
+	if (!file_data_monitor_pool)
+		file_data_monitor_pool = g_hash_table_new(g_direct_hash, g_direct_equal);
+	
+	count = GPOINTER_TO_INT(g_hash_table_lookup(file_data_monitor_pool, fd));
+
+	DEBUG_1("Register realtime %d %s", count, fd->path);
+	
+	count++;
+	g_hash_table_insert(file_data_monitor_pool, fd, GINT_TO_POINTER(count));
+	
+	if (realtime_monitor_id == -1)
+		{
+		realtime_monitor_id = g_timeout_add(5000, realtime_monitor_cb, NULL);
+		}
+	return TRUE;
+}
+
+gint file_data_unregister_real_time_monitor(FileData *fd)
+{
+	gint count;
+	g_assert(file_data_monitor_pool);
+	
+	count = GPOINTER_TO_INT(g_hash_table_lookup(file_data_monitor_pool, fd));
+	
+	DEBUG_1("Unregister realtime %d %s", count, fd->path);
+	
+	g_assert(count > 0);
+	
+	count--;
+	
+	if (count == 0)
+		g_hash_table_remove(file_data_monitor_pool, fd);
+	else
+		g_hash_table_insert(file_data_monitor_pool, fd, GINT_TO_POINTER(count));
+
+	file_data_unref(fd);
+	
+	if (g_hash_table_size(file_data_monitor_pool) == 0)
+		{
+		g_source_remove(realtime_monitor_id);
+		realtime_monitor_id = -1;
+		return FALSE;
+		}
+	return TRUE;
+}
 
 
 

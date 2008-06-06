@@ -937,8 +937,13 @@ gint layout_set_fd(LayoutWindow *lw, FileData *fd)
 
 	if (isdir(fd->path))
 		{
-		file_data_unref(lw->dir_fd);
+		if (lw->dir_fd)
+			{
+			file_data_unregister_real_time_monitor(lw->dir_fd);
+			file_data_unref(lw->dir_fd);
+			}
 		lw->dir_fd = file_data_ref(fd);
+		file_data_register_real_time_monitor(fd);
 		}
 	else
 		{
@@ -951,8 +956,13 @@ gint layout_set_fd(LayoutWindow *lw, FileData *fd)
 			}
 		else if (isdir(base))
 			{
-			file_data_unref(lw->dir_fd);
+			if (lw->dir_fd)
+				{
+				file_data_unregister_real_time_monitor(lw->dir_fd);
+				file_data_unref(lw->dir_fd);
+				}
 			lw->dir_fd = file_data_new_simple(base);
+			file_data_register_real_time_monitor(lw->dir_fd);
 			g_free(base);
 			}
 		else
@@ -1608,6 +1618,7 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	layout_image_full_screen_stop(lw);
 
 	dir_fd = lw->dir_fd;
+	file_data_unregister_real_time_monitor(lw->dir_fd);
 	lw->dir_fd = NULL;
 	lw->image = NULL;
 	lw->utility_box = NULL;
@@ -1826,16 +1837,16 @@ void layout_free(LayoutWindow *lw)
 
 	layout_window_list = g_list_remove(layout_window_list, lw);
 
-	if (lw->last_time_id != -1)
-		{
-		g_source_remove(lw->last_time_id);
-		}
-
+	
 	layout_bars_close(lw);
 
 	gtk_widget_destroy(lw->window);
 
-	file_data_unref(lw->dir_fd);
+	if (lw->dir_fd) 
+		{
+		file_data_unregister_real_time_monitor(lw->dir_fd);
+		file_data_unref(lw->dir_fd);
+		}
 
 	g_free(lw);
 }
@@ -1979,7 +1990,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 
 	/* set up the time stat timeout */
 	lw->last_version = 0;
-	lw->last_time_id = g_timeout_add(5000, layout_check_for_update_cb, lw);
+//	lw->last_time_id = g_timeout_add(5000, layout_check_for_update_cb, lw);
 
 	if (geometry)
 		{
