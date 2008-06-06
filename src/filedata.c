@@ -169,7 +169,7 @@ static void file_data_set_collate_keys(FileData *fd)
 
 static void file_data_set_path(FileData *fd, const gchar *path)
 {
-	g_assert(path && *path);
+	g_assert(path /* && *path*/); /* view_dir_tree uses FileData with zero length path */
 	g_assert(file_data_pool);
 
 	g_free(fd->path);
