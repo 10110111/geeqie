@@ -219,10 +219,12 @@ for dir in `echo "$withval" | tr : ' '`; do
   done
 ])
 
+HAVE_LIRC=no
 if test "x${lirc}" != "xno" ; then
   AC_CHECK_HEADER(lirc/lirc_client.h,
-    [AC_CHECK_LIB(lirc_client,lirc_init,[LIBS=-llirc_client $LIBS;AC_DEFINE([HAVE_LIRC],[],[Define to 1 if LIRC must be used])],,)],)
+    [AC_CHECK_LIB(lirc_client,lirc_init,[HAVE_LIRC=yes;LIBS=-llirc_client $LIBS;AC_DEFINE([HAVE_LIRC],[],[Define to 1 if LIRC must be used])],,)],)
 fi
+AM_CONDITIONAL(HAVE_LIRC, [test "x$HAVE_LIRC" = xyes])
 
 
 #  LCMS support
@@ -354,11 +356,6 @@ Architecture:
   UNIX:          $os_unix
   Win32:         $platform_win32 (native: $os_win32)
 
-Settings:
-  Developer:     $__IS_DEVELOPER
-  Debug:         $__IS_DEBUG
-  Deprecated:    $__IS_DEPRECATED
-
 Flags:
   Geeqie:        $GQ_CFLAGS
   DEFS:          $DEFS
@@ -370,12 +367,19 @@ Flags:
   Thread:        $LIBPTHREAD
   Others:	 $LCMS_LIBS $EXIV2_LIBS
 
-Support:
-  LCMS:          $HAVE_LCMS
-  Exiv2:	 $HAVE_EXIV2
 Localization:
   NLS support:   $USE_NLS
   LINGUAS:       $LINGUAS
+
+Settings:
+  Developer:     $__IS_DEVELOPER
+  Debug:         $__IS_DEBUG
+  Deprecated:    $__IS_DEPRECATED
+
+Support:
+  LCMS:          $HAVE_LCMS
+  Exiv2:	 $HAVE_EXIV2
+  Lirc:          $HAVE_LIRC
 
 Documentation:
   Doxygen:       $DOXYGEN
