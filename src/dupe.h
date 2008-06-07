@@ -120,10 +120,6 @@ void dupe_window_close(DupeWindow *dw);
 void dupe_window_add_collection(DupeWindow *dw, CollectionData *collection);
 void dupe_window_add_files(DupeWindow *dw, GList *list, gint recurse);
 
-void dupe_maint_removed(FileData *fd);
-void dupe_maint_renamed(FileData *fd);
-
-
 /* cell max with/height hack utility */
 void cell_renderer_height_override(GtkCellRenderer *renderer);
 

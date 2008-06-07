@@ -82,6 +82,8 @@ static GtkWidget *dupe_menu_popup_second(DupeWindow *dw, DupeItem *di);
 
 static void dupe_dnd_init(DupeWindow *dw);
 
+static void dupe_notify_cb(FileData *fd, NotifyType type, gpointer data);
+
 /*
  * ------------------------------------------------------------------
  * Window updates
@@ -3081,6 +3083,8 @@ void dupe_window_close(DupeWindow *dw)
 
 	dupe_list_free(dw->second_list);
 
+	file_data_unregister_notify_func(dupe_notify_cb, dw);
+
 	g_free(dw);
 }
 
@@ -3272,6 +3276,8 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 	dupe_window_update_progress(dw, NULL, 0.0, FALSE);
 
 	dupe_window_list = g_list_append(dupe_window_list, dw);
+
+	file_data_register_notify_func(dupe_notify_cb, dw, NOTIFY_PRIORITY_MEDIUM);
 
 	return dw;
 }
@@ -3556,31 +3562,25 @@ static void dupe_dnd_init(DupeWindow *dw)
  *-------------------------------------------------------------------
  */
 
-void dupe_maint_removed(FileData *fd)
+static void dupe_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
-	GList *work;
+	DupeWindow *dw = data;
 
-	work = dupe_window_list;
-	while (work)
+	if (!fd->change) return;
+	
+	switch(fd->change->type)
 		{
-		DupeWindow *dw = work->data;
-		work = work->next;
-
-		while (dupe_item_remove_by_path(dw, fd->path));
-		}
-}
-
-void dupe_maint_renamed(FileData *fd)
-{
-	GList *work;
-
-	work = dupe_window_list;
-	while (work)
-		{
-		DupeWindow *dw = work->data;
-		work = work->next;
-
-		dupe_item_update_fd(dw, fd);
+		case FILEDATA_CHANGE_MOVE:
+		case FILEDATA_CHANGE_RENAME:
+			dupe_item_update_fd(dw, fd);
+			break;
+		case FILEDATA_CHANGE_COPY:
+			break;
+		case FILEDATA_CHANGE_DELETE:
+			while (dupe_item_remove_by_path(dw, fd->path));
+			break;
+		case FILEDATA_CHANGE_UNSPECIFIED:
+			break;
 		}
 
 }
