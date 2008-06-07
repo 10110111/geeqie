@@ -2047,7 +2047,7 @@ GtkWidget *layout_image_setup_split(LayoutWindow *lw, ImageSplitMode mode)
  *-----------------------------------------------------------------------------
  */
 
-void layout_image_maint_renamed(LayoutWindow *lw, FileData *fd)
+static void layout_image_maint_renamed(LayoutWindow *lw, FileData *fd)
 {
 	FileData *img_fd;
 
@@ -2059,7 +2059,7 @@ void layout_image_maint_renamed(LayoutWindow *lw, FileData *fd)
 		}
 }
 
-void layout_image_maint_removed(LayoutWindow *lw, FileData *fd)
+static void layout_image_maint_removed(LayoutWindow *lw, FileData *fd)
 {
 	FileData *img_fd;
 
@@ -2088,7 +2088,25 @@ void layout_image_maint_removed(LayoutWindow *lw, FileData *fd)
 		}
 }
 
-void layout_image_maint_moved(LayoutWindow *lw, FileData *fd)
+
+void layout_image_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
-	layout_image_maint_renamed(lw, fd);
+	LayoutWindow *lw = data;
+
+	if (!fd->change) return;
+	
+	switch(fd->change->type)
+		{
+		case FILEDATA_CHANGE_MOVE:
+		case FILEDATA_CHANGE_RENAME:
+			layout_image_maint_renamed(lw, fd);
+			break;
+		case FILEDATA_CHANGE_DELETE:
+			layout_image_maint_removed(lw, fd);
+			break;
+		case FILEDATA_CHANGE_COPY:
+		case FILEDATA_CHANGE_UNSPECIFIED:
+			break;
+		}
+
 }

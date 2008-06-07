@@ -245,7 +245,6 @@ void file_data_notify_ci(FileData *fd)
 		case FILEDATA_CHANGE_MOVE:
 			collection_maint_renamed(fd);
 
-			layout_maint_moved(fd, NULL);
 			view_window_maint_moved(fd);
 			break;
 		case FILEDATA_CHANGE_COPY:
@@ -253,11 +252,9 @@ void file_data_notify_ci(FileData *fd)
 		case FILEDATA_CHANGE_RENAME:
 			collection_maint_renamed(fd);
 
-			layout_maint_renamed(fd);
 			view_window_maint_moved(fd);
 			break;
 		case FILEDATA_CHANGE_DELETE:
-			layout_maint_removed(fd, NULL);
 			view_window_maint_removed(fd, NULL);
 
 			collection_maint_removed(fd);

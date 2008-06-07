@@ -78,9 +78,6 @@ gint layout_image_slideshow_paused(LayoutWindow *lw);
 
 void layout_image_overlay_toggle(LayoutWindow *lw);
 
-void layout_image_maint_renamed(LayoutWindow *lw, FileData *fd);
-void layout_image_maint_removed(LayoutWindow *lw, FileData *fd);
-void layout_image_maint_moved(LayoutWindow *lw, FileData *fd);
-
+void layout_image_notify_cb(FileData *fd, NotifyType type, gpointer data);
 
 #endif

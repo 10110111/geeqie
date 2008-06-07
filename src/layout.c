@@ -906,8 +906,6 @@ static void layout_sync_path(LayoutWindow *lw)
 {
 	if (!lw->dir_fd) return;
 
-	lw->last_version = lw->dir_fd->version;
-
 	if (lw->path_entry) gtk_entry_set_text(GTK_ENTRY(lw->path_entry), lw->dir_fd->path);
 	if (lw->vd) vd_set_fd(lw->vd, lw->dir_fd);
 
@@ -1000,21 +998,9 @@ gint layout_set_fd(LayoutWindow *lw, FileData *fd)
 
 static void layout_refresh_lists(LayoutWindow *lw)
 {
-	if (lw->dir_fd) lw->last_version = lw->dir_fd->version;
-
 	if (lw->vd) vd_refresh(lw->vd);
 
 	if (lw->vf) vf_refresh(lw->vf);
-}
-
-static void layout_refresh_by_time(LayoutWindow *lw)
-{
-	layout_refresh_lists(lw);
-
-	if (lw->image && layout_image_get_fd(lw)->version != lw->last_version) // FIXME - move to layout_image and fix
-		{
-		layout_image_refresh(lw);
-		}
 }
 
 void layout_refresh(LayoutWindow *lw)
@@ -1026,24 +1012,6 @@ void layout_refresh(LayoutWindow *lw)
 	layout_refresh_lists(lw);
 
 	if (lw->image) layout_image_refresh(lw);
-}
-
-static gint layout_check_for_update_cb(gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	if (!options->update_on_time_change) return TRUE;
-
-	if (lw->dir_fd)
-		{
-		if (lw->dir_fd->version != lw->last_version)
-			{
-			DEBUG_1("layout path time changed, refreshing...");
-			layout_refresh_by_time(lw);
-			}
-		}
-
-	return TRUE;
 }
 
 void layout_thumb_set(LayoutWindow *lw, gint enable)
@@ -1827,6 +1795,7 @@ void layout_close(LayoutWindow *lw)
 		}
 	else
 		{
+		layout_free(lw); /* make leak detection easier */
 		exit_program();
 		}
 }
@@ -1841,6 +1810,8 @@ void layout_free(LayoutWindow *lw)
 	layout_bars_close(lw);
 
 	gtk_widget_destroy(lw->window);
+
+	file_data_unregister_notify_func(layout_image_notify_cb, lw);
 
 	if (lw->dir_fd) 
 		{
@@ -1988,10 +1959,6 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 		gdk_pixbuf_unref(pixbuf);
 		}
 
-	/* set up the time stat timeout */
-	lw->last_version = 0;
-//	lw->last_time_id = g_timeout_add(5000, layout_check_for_update_cb, lw);
-
 	if (geometry)
 		{
 		if (!gtk_window_parse_geometry(GTK_WINDOW(lw->window), geometry))
@@ -2005,81 +1972,8 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 
 	layout_window_list = g_list_append(layout_window_list, lw);
 
+	file_data_register_notify_func(layout_image_notify_cb, lw, NOTIFY_PRIORITY_LOW);
+
 	return lw;
 }
 
-/*
- *-----------------------------------------------------------------------------
- * maintenance (for rename, move, remove)
- *-----------------------------------------------------------------------------
- */
-
-static void layout_real_time_update(LayoutWindow *lw)
-{
-	/* this resets the last time stamp of path so that a refresh does not occur
-	 * from an internal file operation. FIXME
-	 */
-
-	if (lw->dir_fd) lw->last_version = lw->dir_fd->version;
-}
-
-static void layout_real_renamed(LayoutWindow *lw, FileData *fd)
-{
-	if (lw->image) layout_image_maint_renamed(lw, fd);
-
-//	if (lw->vf && vf_maint_renamed(lw->vf, fd))
-		layout_real_time_update(lw);
-		
-}
-
-static void layout_real_removed(LayoutWindow *lw, FileData *fd, GList *ignore_list)
-{
-	if (lw->image) layout_image_maint_removed(lw, fd);
-
-//	if (lw->vf && vf_maint_removed(lw->vf, fd, ignore_list))
-		layout_real_time_update(lw);
-}
-
-static void layout_real_moved(LayoutWindow *lw, FileData *fd, GList *ignore_list)
-{
-	if (lw->image) layout_image_maint_moved(lw, fd);
-
-//	if (lw->vf && vf_maint_moved(lw->vf, fd, ignore_list))
-		layout_real_time_update(lw);
-}
-
-void layout_maint_renamed(FileData *fd)
-{
-	GList *work = layout_window_list;
-	while (work)
-		{
-		LayoutWindow *lw = work->data;
-		work = work->next;
-
-		layout_real_renamed(lw, fd);
-		}
-}
-
-void layout_maint_removed(FileData *fd, GList *ignore_list)
-{
-	GList *work = layout_window_list;
-	while (work)
-		{
-		LayoutWindow *lw = work->data;
-		work = work->next;
-
-		layout_real_removed(lw, fd, ignore_list);
-		}
-}
-
-void layout_maint_moved(FileData *fd, GList *ignore_list)
-{
-	GList *work = layout_window_list;
-	while (work)
-		{
-		LayoutWindow *lw = work->data;
-		work = work->next;
-
-		layout_real_moved(lw, fd, ignore_list);
-		}
-}

@@ -549,10 +549,6 @@ struct _LayoutWindow
 	gint div_v;
 	gint div_float;
 
-	/* directory update check */
-
-	gint last_version;
-
 	/* misc */
 
 	GtkWidget *utility_box;

@@ -94,9 +94,4 @@ gint layout_toolbar_hidden(LayoutWindow *lw);
 
 void layout_split_change(LayoutWindow *lw, ImageSplitMode mode);
 
-void layout_maint_renamed(FileData *fd);
-void layout_maint_removed(FileData *fd, GList *ignore_list);
-void layout_maint_moved(FileData *fd, GList *ignore_list);
-
-
 #endif
