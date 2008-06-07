@@ -68,6 +68,7 @@ static void view_window_close(ViewWindow *vw);
 
 static void view_window_dnd_init(ViewWindow *vw);
 
+static void view_window_notify_cb(FileData *fd, NotifyType type, gpointer data);
 
 /*
  *-----------------------------------------------------------------------------
@@ -805,6 +806,9 @@ static void view_window_destroy_cb(GtkWidget *widget, gpointer data)
 	fullscreen_stop(vw->fs);
 
 	filelist_free(vw->list);
+
+	file_data_unregister_notify_func(view_window_notify_cb, vw);
+
 	g_free(vw);
 }
 
@@ -924,6 +928,8 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 	gtk_widget_show(vw->window);
 
 	view_window_list = g_list_append(view_window_list, vw);
+
+	file_data_register_notify_func(view_window_notify_cb, vw, NOTIFY_PRIORITY_LOW);
 
 	return vw;
 }
@@ -1602,7 +1608,7 @@ static void view_window_dnd_init(ViewWindow *vw)
  *-----------------------------------------------------------------------------
  */
 
-static void view_real_removed(ViewWindow *vw, FileData *fd, GList *ignore_list)
+static void view_real_removed(ViewWindow *vw, FileData *fd)
 {
 	ImageWindow *imd;
 	FileData *image_fd;
@@ -1683,65 +1689,23 @@ static void view_real_removed(ViewWindow *vw, FileData *fd, GList *ignore_list)
 	image_osd_update(imd);
 }
 
-static void view_real_moved(ViewWindow *vw, FileData *fd)
+static void view_window_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
-/*
-	ImageWindow *imd;
-	const gchar *image_path;
+	ViewWindow *vw = data;
 
-	imd = view_window_active_image(vw);
-*/
-/*
-	image_path = image_get_path(imd);
-
-	if (image_path && strcmp(image_path, fd->change->source) == 0)
+	if (!fd->change) return;
+	
+	switch(fd->change->type)
 		{
-		image_set_fd(imd, dest);
-		}
-*/
-/*
-	if (vw->list)
-		{
-		GList *work;
-		work = vw->list;
-		while (work)
-			{
-			gchar *chk_path;
-
-			chk_path = work->data;
-
-			if (strcmp(chk_path, source) == 0)
-				{
-				work->data = g_strdup(dest);
-				g_free(chk_path);
-				}
-
-			work = work->next;
-			}
-		}
-*/
-}
-
-void view_window_maint_removed(FileData *fd, GList *ignore_list)
-{
-	GList *work = view_window_list;
-	while (work)
-		{
-		ViewWindow *vw = work->data;
-		work = work->next;
-
-		view_real_removed(vw, fd, ignore_list);
-		}
-}
-
-void view_window_maint_moved(FileData *fd)
-{
-	GList *work = view_window_list;
-	while (work)
-		{
-		ViewWindow *vw = work->data;
-		work = work->next;
-
-		view_real_moved(vw, fd);
+		case FILEDATA_CHANGE_MOVE:
+		case FILEDATA_CHANGE_RENAME:
+			break;
+		case FILEDATA_CHANGE_COPY:
+			break;
+		case FILEDATA_CHANGE_DELETE:
+			view_real_removed(vw, fd);
+			break;
+		case FILEDATA_CHANGE_UNSPECIFIED:
+			break;
 		}
 }

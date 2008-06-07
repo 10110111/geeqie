@@ -23,8 +23,6 @@ void view_window_colors_update(void);
 
 gint view_window_find_image(ImageWindow *imd, gint *index, gint *total);
 
-void view_window_maint_removed(FileData *fd, GList *ignore_list);
-void view_window_maint_moved(FileData *fd);
 
 
 #endif

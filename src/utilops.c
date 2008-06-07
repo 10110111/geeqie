@@ -245,17 +245,14 @@ void file_data_notify_ci(FileData *fd)
 		case FILEDATA_CHANGE_MOVE:
 			collection_maint_renamed(fd);
 
-			view_window_maint_moved(fd);
 			break;
 		case FILEDATA_CHANGE_COPY:
 			break;
 		case FILEDATA_CHANGE_RENAME:
 			collection_maint_renamed(fd);
 
-			view_window_maint_moved(fd);
 			break;
 		case FILEDATA_CHANGE_DELETE:
-			view_window_maint_removed(fd, NULL);
 
 			collection_maint_removed(fd);
 			break;
