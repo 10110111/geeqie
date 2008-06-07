@@ -239,28 +239,6 @@ static gint filename_base_length(const gchar *name)
 /* FIXME this is a temporary solution */
 void file_data_notify_ci(FileData *fd)
 {
-	FileDataChangeType type = fd->change->type;
-	switch (type)
-		{
-		case FILEDATA_CHANGE_MOVE:
-			collection_maint_renamed(fd);
-
-			break;
-		case FILEDATA_CHANGE_COPY:
-			break;
-		case FILEDATA_CHANGE_RENAME:
-			collection_maint_renamed(fd);
-
-			break;
-		case FILEDATA_CHANGE_DELETE:
-
-			collection_maint_removed(fd);
-			break;
-		case FILEDATA_CHANGE_UNSPECIFIED:
-			/* FIXME */
-			break;
-		}
-
 
 	/* this is the new way: */
 	file_data_send_notification(fd, NOTIFY_TYPE_CHANGE);

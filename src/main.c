@@ -683,6 +683,7 @@ int main(int argc, char *argv[])
 
 	/* register global notify functions */
 	file_data_register_notify_func(cache_notify_cb, NULL, NOTIFY_PRIORITY_HIGH);
+	file_data_register_notify_func(collect_manager_notify_cb, NULL, NOTIFY_PRIORITY_LOW);
 
 	parse_command_line_for_debug_option(argc, argv);
 

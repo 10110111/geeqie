@@ -48,6 +48,7 @@ void collect_manager_remove(FileData *fd, const gchar *collection);
 /* commit pending operations to disk */
 void collect_manager_flush(void);
 
+void collect_manager_notify_cb(FileData *fd, NotifyType type, gpointer data);
 
 
 #endif

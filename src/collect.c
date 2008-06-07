@@ -49,6 +49,8 @@ static void collection_window_update(CollectWindow *cw, CollectInfo *ci);
 
 static void collection_window_close(CollectWindow *cw);
 
+static void collection_notify_cb(FileData *fd, NotifyType type, gpointer data);
+
 /*
  *-------------------------------------------------------------------
  * data, list handling
@@ -214,14 +216,14 @@ GList *collection_list_remove(GList *list, CollectInfo *ci)
 	return list;
 }
 
-CollectInfo *collection_list_find(GList *list, const gchar *path)
+CollectInfo *collection_list_find_fd(GList *list, FileData *fd)
 {
 	GList *work = list;
 
 	while (work)
 		{
 		CollectInfo *ci = work->data;
-		if (strcmp(ci->fd->path, path) == 0) return ci;
+		if (ci->fd == fd) return ci;
 		work = work->next;
 		}
 
@@ -362,6 +364,8 @@ CollectionData *collection_new(const gchar *path)
 		untitled_counter++;
 		}
 
+	file_data_register_notify_func(collection_notify_cb, cd, NOTIFY_PRIORITY_MEDIUM);
+
 	return cd;
 }
 
@@ -373,6 +377,8 @@ void collection_free(CollectionData *cd)
 
 	collection_load_stop(cd);
 	collection_list_free(cd->list);
+	
+	file_data_unregister_notify_func(collection_notify_cb, cd);
 
 	collection_list = g_list_remove(collection_list, cd);
 
@@ -681,7 +687,7 @@ gint collection_remove(CollectionData *cd, FileData *fd)
 {
 	CollectInfo *ci;
 
-	ci = collection_list_find(cd->list, fd->path);
+	ci = collection_list_find_fd(cd->list, fd);
 
 	if (!ci) return FALSE;
 
@@ -734,14 +740,10 @@ void collection_remove_by_info_list(CollectionData *cd, GList *list)
 gint collection_rename(CollectionData *cd, FileData *fd)
 {
 	CollectInfo *ci;
-	const gchar *source = fd->change->source;
-//	const gchar *dest = fd->change->dest;
-	ci = collection_list_find(cd->list, source);
+	ci = collection_list_find_fd(cd->list, fd);
 
 	if (!ci) return FALSE;
 
-//	g_free(ci->path);
-//	ci->path = g_strdup(dest); FIXME
 	cd->changed = TRUE;
 
 	collection_window_update(collection_window_find(cd), ci);
@@ -760,41 +762,29 @@ void collection_update_geometry(CollectionData *cd)
  *-------------------------------------------------------------------
  */
 
-void collection_maint_removed(FileData *fd)
+static void collection_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
-	GList *work;
+	CollectionData *cd = data;
 
-	work = collection_list;
-	while (work)
+	if (!fd->change) return;
+	
+	switch(fd->change->type)
 		{
-		CollectionData *cd = work->data;
-		work = work->next;
-
-		while (collection_remove(cd, fd));
-		}
-#if 0
-	/* Do we really need to do this? removed files are
-	 * automatically ignored when loading a collection.
-	 */
-	collect_manager_moved(fd, NULL);
-#endif
-}
-
-void collection_maint_renamed(FileData *fd)
-{
-	GList *work;
-
-	work = collection_list;
-	while (work)
-		{
-		CollectionData *cd = work->data;
-		work = work->next;
-
-		while (collection_rename(cd, fd));
+		case FILEDATA_CHANGE_MOVE:
+		case FILEDATA_CHANGE_RENAME:
+			collection_rename(cd, fd);
+			break;
+		case FILEDATA_CHANGE_COPY:
+			break;
+		case FILEDATA_CHANGE_DELETE:
+			while (collection_remove(cd, fd));
+			break;
+		case FILEDATA_CHANGE_UNSPECIFIED:
+			break;
 		}
 
-	collect_manager_moved(fd);
 }
+
 
 /*
  *-------------------------------------------------------------------

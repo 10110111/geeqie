@@ -29,7 +29,7 @@ GList *collection_list_sort(GList *list, SortType method);
 GList *collection_list_add(GList *list, CollectInfo *ci, SortType method);
 GList *collection_list_insert(GList *list, CollectInfo *ci, CollectInfo *insert_ci, SortType method);
 GList *collection_list_remove(GList *list, CollectInfo *ci);
-CollectInfo *collection_list_find(GList *list, const gchar *path);
+CollectInfo *collection_list_find_fd(GList *list, FileData *fd);
 GList *collection_list_to_filelist(GList *list);
 
 CollectionData *collection_new(const gchar *path);
@@ -70,9 +70,6 @@ void collection_remove_by_info_list(CollectionData *cd, GList *list);
 gint collection_rename(CollectionData *cd, FileData *fd);
 
 void collection_update_geometry(CollectionData *cd);
-
-void collection_maint_removed(FileData *fd);
-void collection_maint_renamed(FileData *fd);
 
 CollectWindow *collection_window_new(const gchar *path);
 void collection_window_close_by_collection(CollectionData *cd);

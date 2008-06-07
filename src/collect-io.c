@@ -888,7 +888,7 @@ void collect_manager_add(FileData *fd, const gchar *collection)
 	cw = collection_window_find_by_path(collection);
 	if (cw)
 		{
-		if (collection_list_find(cw->cd->list, fd->path) == NULL)
+		if (collection_list_find_fd(cw->cd->list, fd) == NULL)
 			{
 			collection_add(cw->cd, fd, FALSE);
 			}
@@ -923,4 +923,27 @@ void collect_manager_flush(void)
 
 	DEBUG_1("collection manager flushing");
 	while (collect_manager_process_cb(NULL));
+}
+
+void collect_manager_notify_cb(FileData *fd, NotifyType type, gpointer data)
+{
+
+	if (!fd->change) return;
+	
+	switch(fd->change->type)
+		{
+		case FILEDATA_CHANGE_MOVE:
+			collect_manager_moved(fd);
+			break;
+		case FILEDATA_CHANGE_COPY:
+			break;
+		case FILEDATA_CHANGE_RENAME:
+			collect_manager_moved(fd);
+			break;
+		case FILEDATA_CHANGE_DELETE:
+			break;
+		case FILEDATA_CHANGE_UNSPECIFIED:
+			break;
+		}
+
 }
