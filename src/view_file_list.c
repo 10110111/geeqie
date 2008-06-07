@@ -142,6 +142,21 @@ static gint vflist_sidecar_list_count(GList *work)
 	return i;
 }
 
+static gboolean vflist_store_clear_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	FileData *fd;
+	gtk_tree_model_get(model, iter, FILE_COLUMN_POINTER, &fd, -1);
+	file_data_unref(fd);
+	return FALSE;
+}
+
+static void vflist_store_clear(ViewFile *vf)
+{
+	GtkTreeModel *store;
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
+	gtk_tree_model_foreach(store, vflist_store_clear_cb, NULL);
+	gtk_tree_store_clear(GTK_TREE_STORE(store));
+}
 
 void vflist_color_set(ViewFile *vf, FileData *fd, gint color_set)
 {
@@ -793,7 +808,7 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 					gtk_tree_store_append(store, &new, parent_iter);
 					}
 
-				vflist_setup_iter(vf, store, &new, fd);
+				vflist_setup_iter(vf, store, &new, file_data_ref(fd));
 				vflist_setup_iter_recursive(vf, store, &new, fd->sidecar_files, selected);
 				
 				if (g_list_find(selected, fd))
@@ -808,6 +823,7 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 				}
 			else if (match > 0)
 				{
+				file_data_unref(old_fd);
 				valid = gtk_tree_store_remove(store, &iter);
 				}
 			else
@@ -828,6 +844,10 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 
 	while (valid)
 		{
+		FileData *old_fd;
+		gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, FILE_COLUMN_POINTER, &old_fd, -1);
+		file_data_unref(old_fd);
+
 		valid = gtk_tree_store_remove(store, &iter);
 		}
 }
@@ -1514,7 +1534,7 @@ static void vflist_populate_view(ViewFile *vf)
 
 	if (!vf->list)
 		{
-		gtk_tree_store_clear(store);
+		vflist_store_clear(vf);
 		vf_send_update(vf);
 		return;
 		}
@@ -1748,8 +1768,6 @@ static void vflist_listview_add_column_toggle(ViewFile *vf, gint n, const gchar 
 
 gint vflist_set_fd(ViewFile *vf, FileData *dir_fd)
 {
-	GtkTreeStore *store;
-
 	if (!dir_fd) return FALSE;
 	if (vf->dir_fd == dir_fd) return TRUE;
 
@@ -1757,8 +1775,7 @@ gint vflist_set_fd(ViewFile *vf, FileData *dir_fd)
 	vf->dir_fd = file_data_ref(dir_fd);
 
 	/* force complete reload */
-	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
-	gtk_tree_store_clear(store);
+	vflist_store_clear(vf);
 
 	filelist_free(vf->list);
 	vf->list = NULL;

@@ -220,8 +220,9 @@ static void file_data_set_path(FileData *fd, const gchar *path)
 	file_data_set_collate_keys(fd);
 }
 
-static void file_data_check_changed_files(FileData *fd, struct stat *st)
+static gboolean file_data_check_changed_files_recursive(FileData *fd, struct stat *st)
 {
+	gboolean ret = FALSE;
 	GList *work;
 	if (fd->size != st->st_size ||
 	    fd->date != st->st_mtime)
@@ -232,6 +233,7 @@ static void file_data_check_changed_files(FileData *fd, struct stat *st)
 		fd->pixbuf = NULL;
 		file_data_increment_version(fd);
 		file_data_send_notification(fd, NOTIFY_TYPE_REREAD);
+		ret = TRUE;
 		}
 
 	work = fd->sidecar_files;
@@ -239,15 +241,50 @@ static void file_data_check_changed_files(FileData *fd, struct stat *st)
 		{
 		FileData *sfd = work->data;
 		struct stat st;
+		work = work->next;
 
 		if (!stat_utf8(sfd->path, &st))
 			{
+			fd->size = 0;
+			fd->date = 0;
 			file_data_disconnect_sidecar_file(fd, sfd);
+			ret = TRUE;
+			continue;
 			}
 
-		file_data_check_changed_files(sfd, &st);
-		work = work->next;
+		ret |= file_data_check_changed_files_recursive(sfd, &st);
 		}
+	return ret;
+}
+
+
+static gboolean file_data_check_changed_files(FileData *fd)
+{
+	gboolean ret = FALSE;
+	struct stat st;
+	if (fd->parent) fd = fd->parent;
+
+	if (!stat_utf8(fd->path, &st))
+		{
+		/* parent is missing, we have to rebuild whole group */
+		ret = TRUE;
+		fd->size = 0;
+		fd->date = 0;
+		GList *work = fd->sidecar_files;
+		FileData *sfd = NULL;
+		while (work)
+			{
+			sfd = work->data;
+			work = work->next;
+		
+			file_data_disconnect_sidecar_file(fd, sfd);
+			}
+		if (sfd) file_data_check_sidecars(sfd); /* this will group the sidecars back together */
+		file_data_send_notification(fd, NOTIFY_TYPE_REREAD);
+		}
+	else 
+		ret |= file_data_check_changed_files_recursive(fd, &st);
+	return ret;
 }
 
 static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean check_sidecars)
@@ -262,8 +299,14 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	fd = g_hash_table_lookup(file_data_pool, path_utf8);
 	if (fd)
 		{
-		file_data_check_changed_files(fd, st);
-		DEBUG_2("file_data_pool hit: '%s'", fd->path);
+		gboolean changed;
+		if (fd->parent)
+			changed = file_data_check_changed_files(fd);
+		else
+			changed = file_data_check_changed_files_recursive(fd, st);
+		if (changed && check_sidecars && sidecar_file_priority(fd->extension))
+			file_data_check_sidecars(fd);
+		DEBUG_2("file_data_pool hit: '%s' %s", fd->path, changed ? "(changed)" : "");
 		return file_data_ref(fd);
 		}
 
@@ -361,6 +404,7 @@ FileData *file_data_add_sidecar_file(FileData *target, FileData *sfd)
 	sfd->parent = target;
 	if(!g_list_find(target->sidecar_files, sfd))
 		target->sidecar_files = g_list_prepend(target->sidecar_files, sfd);
+	file_data_increment_version(sfd); /* increments both sfd and target */
 	return target;
 }
 
@@ -467,6 +511,8 @@ FileData *file_data_disconnect_sidecar_file(FileData *target, FileData *sfd)
 {
 	sfd->parent = target;
 	g_assert(g_list_find(target->sidecar_files, sfd));
+	
+	file_data_increment_version(sfd); /* increments both sfd and target */
 
 	target->sidecar_files = g_list_remove(target->sidecar_files, sfd);
 	sfd->parent = NULL;
@@ -1541,12 +1587,8 @@ static gint realtime_monitor_id = -1;
 static void realtime_monitor_check_cb(gpointer key, gpointer value, gpointer data)
 {
 	FileData *fd = key;
-	struct stat st;
 
-	if (stat_utf8(fd->path, &st))
-		file_data_check_changed_files(fd, &st);
-	else 
-		file_data_send_notification(fd, NOTIFY_TYPE_REREAD);
+	file_data_check_changed_files(fd);
 	
 	DEBUG_1("monitor %s", fd->path);
 }
