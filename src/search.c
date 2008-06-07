@@ -237,6 +237,7 @@ static gint search_result_count(SearchData *sd, gint64 *bytes);
 
 static void search_window_close(SearchData *sd);
 
+static void search_notify_cb(FileData *fd, NotifyType type, gpointer data);
 
 /*
  *-------------------------------------------------------------------
@@ -2530,6 +2531,8 @@ static void search_window_destroy_cb(GtkWidget *widget, gpointer data)
 	g_free(sd->search_similarity_path);
 	string_list_free(sd->search_keyword_list);
 
+	file_data_unregister_notify_func(search_notify_cb, sd);
+
 	g_free(sd);
 }
 
@@ -2817,6 +2820,8 @@ void search_new(FileData *dir_fd, FileData *example_file)
 
 	search_window_list = g_list_append(search_window_list, sd);
 
+	file_data_register_notify_func(search_notify_cb, sd, NOTIFY_PRIORITY_MEDIUM);
+
 	gtk_widget_show(sd->window);
 }
 
@@ -2859,21 +2864,21 @@ static void search_result_change_path(SearchData *sd, FileData *fd)
 		}
 }
 
-void search_maint_renamed(FileData *fd)
+static void search_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
-	GList *work;
+	SearchData *sd = data;
 
-	work = search_window_list;
-	while (work)
+	if (!fd->change) return;
+	
+	switch(fd->change->type)
 		{
-		SearchData *sd = work->data;
-		work = work->next;
-
-		search_result_change_path(sd, fd);
+		case FILEDATA_CHANGE_MOVE:
+		case FILEDATA_CHANGE_RENAME:
+		case FILEDATA_CHANGE_DELETE:
+			search_result_change_path(sd, fd);
+			break;
+		case FILEDATA_CHANGE_COPY:
+		case FILEDATA_CHANGE_UNSPECIFIED:
+			break;
 		}
-}
-
-void search_maint_removed(FileData *fd)
-{
-	search_maint_renamed(fd);
 }

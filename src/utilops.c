@@ -247,7 +247,6 @@ void file_data_notify_ci(FileData *fd)
 
 			layout_maint_moved(fd, NULL);
 			view_window_maint_moved(fd);
-			search_maint_renamed(fd);
 			break;
 		case FILEDATA_CHANGE_COPY:
 			break;
@@ -256,12 +255,10 @@ void file_data_notify_ci(FileData *fd)
 
 			layout_maint_renamed(fd);
 			view_window_maint_moved(fd);
-			search_maint_renamed(fd);
 			break;
 		case FILEDATA_CHANGE_DELETE:
 			layout_maint_removed(fd, NULL);
 			view_window_maint_removed(fd, NULL);
-			search_maint_removed(fd);
 
 			collection_maint_removed(fd);
 			break;

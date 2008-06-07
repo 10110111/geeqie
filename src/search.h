@@ -18,8 +18,4 @@
 void search_new(FileData *dir_fd, FileData *example_file);
 
 
-void search_maint_renamed(FileData *fd);
-void search_maint_removed(FileData *fd);
-
-
 #endif
