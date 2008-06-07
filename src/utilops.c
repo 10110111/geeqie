@@ -229,37 +229,6 @@ static gint filename_base_length(const gchar *name)
 
 
 
-/*
- *--------------------------------------------------------------------------
- * call these when names change, files move, deleted, etc.
- * so that any open windows are also updated
- *--------------------------------------------------------------------------
- */
-
-/* FIXME this is a temporary solution */
-void file_data_notify_ci(FileData *fd)
-{
-
-	/* this is the new way: */
-	file_data_send_notification(fd, NOTIFY_TYPE_CHANGE);
-}
-
-void file_data_sc_notify_ci(FileData *fd)
-{
-	GList *work;
-	if (fd->parent) fd = fd->parent;
-	
-	file_data_notify_ci(fd);
-	
-	work = fd->sidecar_files;
-	while (work)
-		{
-		FileData *sfd = work->data;
-		file_data_notify_ci(sfd);
-		work = work->next;
-		}
-}
-
 
 typedef enum {
 	UTILITY_TYPE_COPY,
@@ -554,7 +523,6 @@ static gint file_util_perform_ci_cb(gpointer resume_data, gint flags, GList *lis
 		if (!(flags & EDITOR_ERROR_MASK)) /* files were successfully deleted, call the maint functions */
 			{
 			file_data_sc_apply_ci(fd);
-			file_data_sc_notify_ci(fd);
 			}
 		
 		ud->flist = g_list_remove(ud->flist, fd);

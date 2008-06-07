@@ -539,7 +539,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 
 		for (mark = 0; mark < FILEDATA_MARKS_SIZE; mark++)
 			{
-			active_marks += fd->marks[mark];
+			active_marks += file_data_get_mark(fd, mark);
 			}
 
 		if (active_marks > 0)
@@ -548,7 +548,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 
 			for (mark = 0; mark < FILEDATA_MARKS_SIZE; mark++)
 				{
-				g_string_append_printf(buf, fd->marks[mark] ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + mark);
+				g_string_append_printf(buf, file_data_get_mark(fd, mark) ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + mark);
     				}
 
 			if (*text)

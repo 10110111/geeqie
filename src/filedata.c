@@ -142,8 +142,6 @@ void file_data_increment_version(FileData *fd)
 {
 	fd->version++;
 	if (fd->parent) fd->parent->version++;
-
-	file_data_send_notification(fd, NOTIFY_TYPE_REREAD); /* FIXME there are probably situations when we don't want to call this  */
 }
 
 static void file_data_set_collate_keys(FileData *fd)
@@ -233,6 +231,7 @@ static void file_data_check_changed_files(FileData *fd, struct stat *st)
 		if (fd->pixbuf) g_object_unref(fd->pixbuf);
 		fd->pixbuf = NULL;
 		file_data_increment_version(fd);
+		file_data_send_notification(fd, NOTIFY_TYPE_REREAD);
 		}
 
 	work = fd->sidecar_files;
@@ -915,6 +914,41 @@ GList *filelist_recursive(FileData *dir_fd)
 }
 
 
+/*
+ * marks and orientation
+ */
+ 
+ 
+gboolean file_data_get_mark(FileData *fd, gint n)
+{
+	return !!(fd->marks & (1 << n));
+}
+
+void file_data_set_mark(FileData *fd, gint n, gboolean value)
+{
+	if (!value == !(fd->marks & (1 << n))) return;
+
+	fd->marks = fd->marks ^ (1 << n);
+	file_data_increment_version(fd);
+	file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
+
+}
+
+gint file_data_get_user_orientation(FileData *fd)
+{
+	return fd->user_orientation;
+}
+
+void file_data_set_user_orientation(FileData *fd, gint value)
+{
+	if (fd->user_orientation == value) return;
+
+	fd->user_orientation = value;
+	file_data_increment_version(fd);
+	file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
+}
+
+
 
 /*
  * file_data    - operates on the given fd
@@ -1407,6 +1441,7 @@ static void file_data_apply_ci(FileData *fd)
 		file_data_set_path(fd, fd->change->dest);
 		}
 	file_data_increment_version(fd);
+	file_data_send_notification(fd, NOTIFY_TYPE_CHANGE);
 }
 
 gint file_data_sc_apply_ci(FileData *fd)
@@ -1500,11 +1535,6 @@ void file_data_send_notification(FileData *fd, NotifyType type)
 		}
 }
 
-void file_data_sc_send_notification(FileData *fd)
-{
-}
-
-
 static GHashTable *file_data_monitor_pool = NULL;
 static gint realtime_monitor_id = -1;
 
@@ -1513,9 +1543,10 @@ static void realtime_monitor_check_cb(gpointer key, gpointer value, gpointer dat
 	FileData *fd = key;
 	struct stat st;
 
-	stat_utf8(fd->path, &st);
-	
-	file_data_check_changed_files(fd, &st);
+	if (stat_utf8(fd->path, &st))
+		file_data_check_changed_files(fd, &st);
+	else 
+		file_data_send_notification(fd, NOTIFY_TYPE_REREAD);
 	
 	DEBUG_1("monitor %s", fd->path);
 }

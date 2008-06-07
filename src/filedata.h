@@ -48,6 +48,11 @@ GList *filelist_filter(GList *list, gint is_dir_list);
 GList *filelist_sort_path(GList *list);
 GList *filelist_recursive(FileData *dir_fd);
 
+gboolean file_data_get_mark(FileData *fd, gint n);
+void file_data_set_mark(FileData *fd, gint n, gboolean value);
+gint file_data_get_user_orientation(FileData *fd);
+void file_data_set_user_orientation(FileData *fd, gint value);
+
 gchar *file_data_sc_list_to_string(FileData *fd);
 gboolean file_data_add_ci(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest);
 gboolean file_data_sc_add_ci_copy(FileData *fd, const gchar *dest_path);

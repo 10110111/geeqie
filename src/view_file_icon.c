@@ -916,7 +916,7 @@ void vficon_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode)
 
 		g_assert(fd->magick == 0x12345678);
 
-		mark_val = fd->marks[n];
+		mark_val = file_data_get_mark(fd, n);
 		selected = (id->selected & SELECTION_SELECTED);
 
 		switch (mode)
@@ -953,15 +953,13 @@ void vficon_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 
 		switch (mode)
 			{
-			case STM_MODE_SET: fd->marks[n] = 1;
+			case STM_MODE_SET: file_data_set_mark(fd, n, 1);
 				break;
-			case STM_MODE_RESET: fd->marks[n] = 0;
+			case STM_MODE_RESET: file_data_set_mark(fd, n, 0);
 				break;
-			case STM_MODE_TOGGLE: fd->marks[n] = !fd->marks[mark];
+			case STM_MODE_TOGGLE: file_data_set_mark(fd, n, !file_data_get_mark(fd, n));
 				break;
 			}
-		file_data_increment_version(fd);
-
 		work = work->next;
 		}
 	filelist_free(slist);

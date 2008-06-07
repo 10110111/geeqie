@@ -726,7 +726,7 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 					FILE_COLUMN_DATE, text_from_time(fd->date),
 					FILE_COLUMN_COLOR, FALSE, -1);
 	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
-		gtk_tree_store_set(store, iter, FILE_COLUMN_MARKS + i, fd->marks[i], -1);
+		gtk_tree_store_set(store, iter, FILE_COLUMN_MARKS + i, file_data_get_mark(fd, i), -1);
 
 	g_free(size);
 	if (sidecars)
@@ -1405,7 +1405,7 @@ void vflist_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode)
 		gboolean mark_val, selected;
 		gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, FILE_COLUMN_POINTER, &fd, -1);
 
-		mark_val = fd->marks[n];
+		mark_val = file_data_get_mark(fd, n);
 		selected = gtk_tree_selection_iter_is_selected(selection, &iter);
 
 		switch (mode)
@@ -1451,21 +1451,21 @@ void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 		gtk_tree_model_get_iter(store, &iter, tpath);
 		gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &fd, -1);
 
+		file_data_unregister_notify_func(vflist_notify_cb, vf); /* we don't need the notification */
+
 		switch (mode)
 			{
-			case STM_MODE_SET: fd->marks[n] = 1;
+			case STM_MODE_SET: file_data_set_mark(fd, n, 1);
 				break;
-			case STM_MODE_RESET: fd->marks[n] = 0;
+			case STM_MODE_RESET: file_data_set_mark(fd, n, 0);
 				break;
-			case STM_MODE_TOGGLE: fd->marks[n] = !fd->marks[n];
+			case STM_MODE_TOGGLE: file_data_set_mark(fd, n, !file_data_get_mark(fd, n));
 				break;
 			}
 		
-		file_data_unregister_notify_func(vflist_notify_cb, vf); /* we don't need the notification */
-		file_data_increment_version(fd);
 		file_data_register_notify_func(vflist_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
-		gtk_tree_store_set(GTK_TREE_STORE(store), &iter, FILE_COLUMN_MARKS + n, fd->marks[n], -1);
+		gtk_tree_store_set(GTK_TREE_STORE(store), &iter, FILE_COLUMN_MARKS + n, file_data_get_mark(fd, n), -1);
 
 		work = work->next;
 		}
@@ -1708,9 +1708,8 @@ static void vflist_listview_mark_toggled_cb(GtkCellRendererToggle *cell, gchar *
 
 	gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, FILE_COLUMN_POINTER, &fd, col_idx, &mark, -1);
 	mark = !mark;
-	fd->marks[col_idx - FILE_COLUMN_MARKS] = mark;
 	file_data_unregister_notify_func(vflist_notify_cb, vf); /* we don't need the notification */
-	file_data_increment_version(fd);
+	file_data_set_mark(fd, col_idx - FILE_COLUMN_MARKS, mark);
 	file_data_register_notify_func(vflist_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
 	gtk_tree_store_set(store, &iter, col_idx, mark, -1);
