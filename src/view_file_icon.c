@@ -1622,6 +1622,7 @@ static void vficon_sync(ViewFile *vf)
 	GtkTreeIter iter;
 	GList *work;
 	gint r, c;
+	gint valid;
 
 	if (VFICON_INFO(vf, rows) == 0) return;
 
@@ -1630,13 +1631,15 @@ static void vficon_sync(ViewFile *vf)
 	r = -1;
 	c = 0;
 
+	valid = gtk_tree_model_iter_children(store, &iter, NULL);
+
 	work = vf->list;
 	while (work)
 		{
 		GList *list;
 		r++;
 		c = 0;
-		if (gtk_tree_model_iter_nth_child(store, &iter, NULL, r))
+		if (valid)
 			{
 			gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &list, -1);
 			gtk_list_store_set(GTK_LIST_STORE(store), &iter, FILE_COLUMN_POINTER, list, -1);
@@ -1666,15 +1669,16 @@ static void vficon_sync(ViewFile *vf)
 			list->data = id;
 			list = list->next;
 			}
+		if (valid) valid = gtk_tree_model_iter_next(store, &iter);
 		}
 
 	r++;
-	while (gtk_tree_model_iter_nth_child(store, &iter, NULL, r))
+	while (valid)
 		{
 		GList *list;
 
 		gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &list, -1);
-		gtk_list_store_remove(GTK_LIST_STORE(store), &iter);
+		valid = gtk_list_store_remove(GTK_LIST_STORE(store), &iter);
 		g_list_free(list);
 		}
 
