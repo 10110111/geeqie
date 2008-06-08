@@ -2093,7 +2093,7 @@ void layout_image_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	if (!fd->change) return;
+	if (type != NOTIFY_TYPE_CHANGE || !fd->change) return;
 	
 	switch(fd->change->type)
 		{

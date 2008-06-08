@@ -1909,18 +1909,21 @@ static void vflist_notify_cb(FileData *fd, NotifyType type, gpointer data)
 		g_free(base);
 		}
 
-	if (!refresh && fd->change && fd->change->dest)
+	if (type == NOTIFY_TYPE_CHANGE && fd->change)
 		{
-		gchar *dest_base = remove_level_from_path(fd->change->dest);
-		refresh = (strcmp(dest_base, vf->dir_fd->path) == 0);
-		g_free(dest_base);
-		}
+		if (!refresh && fd->change->dest)
+			{
+			gchar *dest_base = remove_level_from_path(fd->change->dest);
+			refresh = (strcmp(dest_base, vf->dir_fd->path) == 0);
+			g_free(dest_base);
+			}
 
-	if (!refresh && fd->change && fd->change->source)
-		{
-		gchar *source_base = remove_level_from_path(fd->change->source);
-		refresh = (strcmp(source_base, vf->dir_fd->path) == 0);
-		g_free(source_base);
+		if (!refresh && fd->change->source)
+			{
+			gchar *source_base = remove_level_from_path(fd->change->source);
+			refresh = (strcmp(source_base, vf->dir_fd->path) == 0);
+			g_free(source_base);
+			}
 		}
 	
 	if (refresh)
