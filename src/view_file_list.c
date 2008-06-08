@@ -734,7 +734,7 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 
 	gtk_tree_store_set(store, iter, FILE_COLUMN_POINTER, fd,
 					FILE_COLUMN_VERSION, fd->version,
-					FILE_COLUMN_THUMB, (VFLIST_INFO(vf, thumbs_enabled)) ? fd->pixbuf : NULL,
+					FILE_COLUMN_THUMB, fd->pixbuf,
 					FILE_COLUMN_NAME, fd->name,
 					FILE_COLUMN_SIDECARS, sidecars,
 					FILE_COLUMN_SIZE, size,
@@ -1508,14 +1508,16 @@ static void vflist_listview_set_height(GtkWidget *listview, gint thumb)
 	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), 0); /* first column is thumbnail */
 	if (!column) return;
 
-	gtk_tree_view_column_set_fixed_width(column, ((thumb) ? options->thumbnails.max_width : 4) + 10);
+	gtk_tree_view_column_set_visible(column, thumb);
+
+	gtk_tree_view_column_set_fixed_width(column, options->thumbnails.max_width + 40);
 
 	list = gtk_tree_view_column_get_cell_renderers(column);
 	if (!list) return;
 	cell = list->data;
 	g_list_free(list);
 
-	g_object_set(G_OBJECT(cell), "height", (thumb) ? options->thumbnails.max_height : -1, NULL);
+	g_object_set(G_OBJECT(cell), "height", options->thumbnails.max_height, NULL);
 	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(listview));
 }
 
