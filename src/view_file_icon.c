@@ -1497,9 +1497,11 @@ static void vficon_populate(ViewFile *vf, gint resize, gint keep_position)
 {
 	GtkTreeModel *store;
 	GtkTreePath *tpath;
-	gint row;
 	GList *work;
 	IconData *visible_id = NULL;
+	gint r, c;
+	gint valid;
+	GtkTreeIter iter;
 
 	vficon_verify_selections(vf);
 
@@ -1518,12 +1520,13 @@ static void vficon_populate(ViewFile *vf, gint resize, gint keep_position)
 		if (list) visible_id = list->data;
 		}
 
-	vficon_clear_store(vf);
 
 	if (resize)
 		{
 		gint i;
 		gint thumb_width;
+		
+		vficon_clear_store(vf);
 
 		thumb_width = vficon_get_icon_width(vf);
 
@@ -1551,28 +1554,61 @@ static void vficon_populate(ViewFile *vf, gint resize, gint keep_position)
 		if (GTK_WIDGET_REALIZED(vf->listview)) gtk_tree_view_columns_autosize(GTK_TREE_VIEW(vf->listview));
 		}
 
-	row = -1;
+	r = -1;
+	c = 0;
+
+	valid = gtk_tree_model_iter_children(store, &iter, NULL);
+
 	work = vf->list;
 	while (work)
 		{
 		GList *list;
-		GtkTreeIter iter;
+		r++;
+		c = 0;
+		if (valid)
+			{
+			gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &list, -1);
+			gtk_list_store_set(GTK_LIST_STORE(store), &iter, FILE_COLUMN_POINTER, list, -1);
+			}
+		else
+			{
+			list = vficon_add_row(vf, &iter);
+			}
 
-		row++;
-
-		list = vficon_add_row(vf, &iter);
-		while (work && list)
+		while (list)
 			{
 			IconData *id;
 
-			id = work->data;
-			id->row = row;
+			if (work)
+				{
+				id = work->data;
+				work = work->next;
+				c++;
 
-			list->data = work->data;
+				id->row = r;
+				}
+			else
+				{
+				id = NULL;
+				}
+
+			list->data = id;
 			list = list->next;
-			work = work->next;
 			}
+		if (valid) valid = gtk_tree_model_iter_next(store, &iter);
 		}
+
+	r++;
+	while (valid)
+		{
+		GList *list;
+
+		gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &list, -1);
+		valid = gtk_list_store_remove(GTK_LIST_STORE(store), &iter);
+		g_list_free(list);
+		}
+
+	VFICON_INFO(vf, rows) = r;
 
 	if (visible_id &&
 	    gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(vf->listview), 0, 0, &tpath, NULL, NULL, NULL))
@@ -1591,7 +1627,6 @@ static void vficon_populate(ViewFile *vf, gint resize, gint keep_position)
 			}
 		}
 
-	VFICON_INFO(vf, rows) = row + 1;
 
 	vf_send_update(vf);
 	vficon_thumb_update(vf);
