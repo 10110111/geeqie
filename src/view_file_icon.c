@@ -965,6 +965,32 @@ void vficon_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 	filelist_free(slist);
 }
 
+static void vficon_select_closest(ViewFile *vf, FileData *sel_fd)
+{
+	GList *work;
+	
+	if (sel_fd->parent) sel_fd = sel_fd->parent;
+	work = vf->list;
+	
+	while (work)
+		{
+		gint match;
+		IconData *id = work->data;
+		FileData *fd = id->fd;
+		work = work->next;
+		
+
+		match = filelist_sort_compare_filedata_full(fd, sel_fd, vf->sort_method, vf->sort_ascend);
+		
+		if (match >= 0)
+			{
+			vficon_select(vf, id);
+			break;
+			}
+		}
+
+}
+
 
 /*
  *-------------------------------------------------------------------
@@ -2062,6 +2088,8 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 	GList *work, *work_fd;
 	IconData *focus_id;
 	GList *new_filelist = NULL;
+	GList *selected;
+	gint num_selected = 0;
 
 	focus_id = VFICON_INFO(vf, focus_id);
 
@@ -2072,6 +2100,8 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 
 	vf->list = iconlist_sort(vf->list, vf->sort_method, vf->sort_ascend); /* the list might not be sorted if there were renames */
 	new_filelist = filelist_sort(new_filelist, vf->sort_method, vf->sort_ascend);
+
+	selected = vficon_selection_get_list(vf);
 
 	/* check for same files from old_list */
 	work = vf->list;
@@ -2095,6 +2125,7 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 				/* not changed, go to next */
 				work = work->next;
 				work_fd = work_fd->next;
+				if (id->selected & SELECTION_SELECTED) num_selected++;
 				continue;
 				}
 			
@@ -2139,6 +2170,14 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 		}
 
 	filelist_free(new_filelist);
+
+	if (selected && num_selected == 0)
+		{
+		/* all selected files disappeared */
+		vficon_select_closest(vf, selected->data);
+		}
+		
+	filelist_free(selected);
 
 	vficon_populate(vf, TRUE, keep_position);
 
