@@ -441,7 +441,7 @@ struct _FileData {
 	gchar *collate_key_name_nocase;
 	gint64 size;
 	time_t date;
-	gint marks;
+	guint marks;
 	GList *sidecar_files;
 	FileData *parent; /* parent file if this is a sidecar file, NULL otherwise */
 	FileDataChangeInfo *change; /* for rename, move ... */
