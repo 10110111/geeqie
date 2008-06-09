@@ -2059,60 +2059,86 @@ GList *vficon_get_list(ViewFile *vf)
 static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 {
 	gint ret = TRUE;
-	GList *old_list;
-	GList *work;
+	GList *work, *work_fd;
 	IconData *focus_id;
+	GList *new_filelist = NULL;
 
 	focus_id = VFICON_INFO(vf, focus_id);
 
-	old_list = vf->list;
-	vf->list = NULL;
-
 	if (vf->dir_fd)
 		{
-		ret = iconlist_read(vf->dir_fd, &vf->list);
+		ret = filelist_read(vf->dir_fd, &new_filelist, NULL);
 		}
+
+	vf->list = iconlist_sort(vf->list, vf->sort_method, vf->sort_ascend); /* the list might not be sorted if there were renames */
+	new_filelist = filelist_sort(new_filelist, vf->sort_method, vf->sort_ascend);
 
 	/* check for same files from old_list */
-	work = old_list;
-	while (work)
+	work = vf->list;
+	work_fd = new_filelist;
+	while (work || work_fd)
 		{
-		IconData *id = work->data;
-		FileData *fd = id->fd;
-		GList *needle = vf->list;
-
-		while (needle)
+		IconData *id = NULL;
+		FileData *fd = NULL;
+		FileData *new_fd = NULL;
+		gint match;
+		
+		if (work && work_fd)
 			{
-			IconData *idn = needle->data;
-			FileData *fdn = idn->fd;
+			id = work->data;
+			fd = id->fd;
+			
+			new_fd = work_fd->data;
+			
+			if (fd == new_fd)
+				{
+				/* not changed, go to next */
+				work = work->next;
+				work_fd = work_fd->next;
+				continue;
+				}
+			
+			match = filelist_sort_compare_filedata_full(fd, new_fd, vf->sort_method, vf->sort_ascend);
+			if (match == 0) g_warning("multiple fd for the same path");
+			}
+		else if (work)
+			{
+			id = work->data;
+			fd = id->fd;
+			match = -1;
+			}
+		else /* work_fd */
+			{
+			new_fd = work_fd->data;
+			match = 1;
+			}
+		
+		if (match < 0)
+			{
+			/* file no longer exists, delete from vf->list */
+			GList *to_delete = work;
+			work = work->next;
+			if (id == VFICON_INFO(vf, prev_selection)) VFICON_INFO(vf, prev_selection) = NULL;
+			if (id == VFICON_INFO(vf, click_id)) VFICON_INFO(vf, click_id) = NULL;
+			file_data_unref(fd);
+			g_free(id);
+			vf->list = g_list_delete_link(vf->list, to_delete);
+			}
+		else
+			{
+			/* new file, add to vf->list */
+			id = g_new0(IconData, 1);
 
-			if (fdn == fd)
-				{
-				/* swap, to retain old thumb, selection */
-				needle->data = id;
-				work->data = idn;
-				needle = NULL;
-				}
-			else
-				{
-				needle = needle->next;
-				}
+			id->selected = SELECTION_NONE;
+			id->row = -1;
+			id->fd = file_data_ref(new_fd);
+			vf->list = g_list_insert_before(vf->list, work, id);
+			work_fd = work_fd->next;
 			}
 
-		work = work->next;
 		}
 
-	vf->list = iconlist_sort(vf->list, vf->sort_method, vf->sort_ascend);
-
-	work = old_list;
-	while (work)
-		{
-		IconData *id = work->data;
-		work = work->next;
-
-		if (id == VFICON_INFO(vf, prev_selection)) VFICON_INFO(vf, prev_selection) = NULL;
-		if (id == VFICON_INFO(vf, click_id)) VFICON_INFO(vf, click_id) = NULL;
-		}
+	filelist_free(new_filelist);
 
 	vficon_populate(vf, TRUE, keep_position);
 
@@ -2121,8 +2147,6 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 		{
 		vficon_set_focus(vf, focus_id);
 		}
-
-	iconlist_free(old_list);
 
 	return ret;
 }
