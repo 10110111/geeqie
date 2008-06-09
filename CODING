@@ -34,10 +34,10 @@ with "- ".
 
 Example:
 
-I done some bugfixes.
+I did some bugfixes.
 Library:
-- I change the interface
-- added some new functions
+- the interface was modified
+- new functions were added
 
 --------------------------------------------------------------------------------
 
@@ -92,7 +92,7 @@ for (i = 0; i <= 10; i++)
 
 Functions:
 
-int bar(<var_def>, <var_def>, <var_def>)
+gint bar(<var_def>, <var_def>, <var_def>)
 {
 	<command>;
 	...
@@ -128,6 +128,8 @@ As you can see above, parentheses are closed to inside, i.e. " (blah blah) "
     In "function(<var>)" there are no space before '('. 
 You MAY use more tabs/spaces than you OUGHT TO (according to this CodingStyle), if
         it makes your code nicer in being verticaly indented.
+Variables declarations should be followed by a blank line and should always be
+at the start of the block.
 
 --------------------------------------------------------------------------------
 
