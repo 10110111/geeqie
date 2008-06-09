@@ -61,4 +61,6 @@ void vf_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode);
 void vf_select_marked(ViewFile *vf, gint mark);
 void vf_mark_selected(ViewFile *vf, gint mark, gint value);
 
+void vf_refresh_idle_cancel(ViewFile *vf);
+void vf_notify_cb(FileData *fd, NotifyType type, gpointer data);
 #endif /* VIEW_FILE_H */

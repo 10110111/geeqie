@@ -65,7 +65,6 @@ struct _IconData
 	FileData *fd;
 };
 
-static void vficon_notify_cb(FileData *fd, NotifyType type, gpointer data);
 static gint vficon_index_by_id(ViewFile *vf, IconData *in_id);
 
 static IconData *vficon_icon_data(ViewFile *vf, FileData *fd)
@@ -1750,21 +1749,6 @@ static void vficon_sync(ViewFile *vf)
 	vficon_update_focus(vf);
 }
 
-static gint vficon_refresh_idle_cb(gpointer data)
-{
-	ViewFile *vf = data;
-
-	vficon_refresh(vf);
-	vf->refresh_idle_id = -1;
-	return FALSE;
-}
-
-static void vficon_refresh_idle_cancel(ViewFile *vf)
-{
-	if (vf->refresh_idle_id != -1) g_source_remove(vf->refresh_idle_id);
-	vf->refresh_idle_id = -1;
-}
-
 #if 0
 static void vficon_sync_idle(ViewFile *vf)
 {
@@ -2341,9 +2325,9 @@ void vficon_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	vficon_refresh_idle_cancel(vf);
+	vf_refresh_idle_cancel(vf);
 	
-	file_data_unregister_notify_func(vficon_notify_cb, vf);
+	file_data_unregister_notify_func(vf_notify_cb, vf);
 
 	tip_unschedule(vf);
 
@@ -2372,8 +2356,6 @@ ViewFile *vficon_new(ViewFile *vf, FileData *dir_fd)
 	VFICON_INFO(vf, focus_id) = NULL;
 
 	VFICON_INFO(vf, show_text) = options->show_icon_names;
-
-	vf->refresh_idle_id = -1;
 
 	store = gtk_list_store_new(1, G_TYPE_POINTER);
 	vf->listview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
@@ -2409,325 +2391,8 @@ ViewFile *vficon_new(ViewFile *vf, FileData *dir_fd)
 	/* force VFICON_INFO(vf, columns) to be at least 1 (sane) - this will be corrected in the size_cb */
 	vficon_populate_at_new_size(vf, 1, 1, FALSE);
 
-	file_data_register_notify_func(vficon_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
+	file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
 	return vf;
 }
 
-/*
- *-----------------------------------------------------------------------------
- * maintenance (for rename, move, remove)
- *-----------------------------------------------------------------------------
- */
-
-static void vficon_notify_cb(FileData *fd, NotifyType type, gpointer data)
-{
-	ViewFile *vf = data;
-	gboolean refresh;
-
-	if (vf->refresh_idle_id != -1) return;
-	
-	refresh = (fd == vf->dir_fd);
-
-	if (!refresh)
-		{
-		gchar *base = remove_level_from_path(fd->path);
-		refresh = (strcmp(base, vf->dir_fd->path) == 0);
-		g_free(base);
-		}
-
-	if (type == NOTIFY_TYPE_CHANGE && fd->change)
-		{
-		if (!refresh && fd->change->dest)
-			{
-			gchar *dest_base = remove_level_from_path(fd->change->dest);
-			refresh = (strcmp(dest_base, vf->dir_fd->path) == 0);
-			g_free(dest_base);
-			}
-
-		if (!refresh && fd->change->source)
-			{
-			gchar *source_base = remove_level_from_path(fd->change->source);
-			refresh = (strcmp(source_base, vf->dir_fd->path) == 0);
-			g_free(source_base);
-			}
-		}
-	
-	if (refresh && vf->refresh_idle_id == -1)
-		{
-		vf->refresh_idle_id = g_idle_add(vficon_refresh_idle_cb, vf);
-		}
-}
-
-
-#if 0
-static gint vficon_maint_find_closest(ViewFile *vf, gint row, gint count, GList *ignore_list)
-{
-	GList *list = NULL;
-	GList *work;
-	gint rev = row - 1;
-	
-	row++;
-
-	work = ignore_list;
-	while (work)
-		{
-		FileData *fd = work->data;
-		gint f = vficon_index_by_fd(vf, fd);
-		g_assert(fd->magick == 0x12345678);
-
-		if (f >= 0) list = g_list_prepend(list, GINT_TO_POINTER(f));
-		work = work->next;
-		}
-
-	while (list)
-		{
-		gint c = TRUE;
-
-		work = list;
-		while (work && c)
-			{
-			gpointer p = work->data;
-
-			work = work->next;
-			if (row == GPOINTER_TO_INT(p))
-				{
-				row++;
-				c = FALSE;
-				}
-			if (rev == GPOINTER_TO_INT(p))
-				{
-				rev--;
-				c = FALSE;
-				}
-			if (!c) list = g_list_remove(list, p);
-			}
-
-		if (c && list)
-			{
-			g_list_free(list);
-			list = NULL;
-			}
-		}
-
-	if (row > count - 1)
-		{
-		if (rev < 0)
-			return -1;
-		else
-			return rev;
-		}
-	else
-		{
-		return row;
-		}
-}
-
-static gint vficon_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list);
-
-
-static gint vficon_maint_renamed(ViewFile *vf, FileData *fd)
-{
-	gint ret = FALSE;
-	gint row;
-	gchar *source_base;
-	gchar *dest_base;
-	IconData *id = vficon_icon_data(vf, fd);
-
-	if (!id) return FALSE;
-
-	row = vficon_index_by_id(vf, id);
-	if (row < 0) return FALSE;
-
-	source_base = remove_level_from_path(fd->change->source);
-	dest_base = remove_level_from_path(fd->change->dest);
-
-	if (strcmp(source_base, dest_base) == 0)
-		{
-		vf->list = g_list_remove(vf->list, id);
-		vf->list = iconlist_insert_sort(vf->list, id, vf->sort_method, vf->sort_ascend);
-
-		vficon_sync_idle(vf);
-		ret = TRUE;
-		}
-	else
-		{
-		ret = vficon_maint_removed(vf, fd, NULL);
-		}
-
-	g_free(source_base);
-	g_free(dest_base);
-
-	return ret;
-}
-
-static gint vficon_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
-{
-	gint row;
-	gint new_row = -1;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
-	IconData *id = vficon_icon_data(vf, fd);
-
-	if (!id) return FALSE;
-
-	row = g_list_index(vf->list, id);
-	if (row < 0) return FALSE;
-
-	if ((id->selected & SELECTION_SELECTED) &&
-	    layout_image_get_collection(vf->layout, NULL) == NULL)
-		{
-		vficon_unselect(vf, id);
-
-		if (!VFICON_INFO(vf, selection))
-			{
-			gint n;
-
-			n = vf_count(vf, NULL);
-			if (ignore_list)
-				{
-				new_row = vficon_maint_find_closest(vf, row, n, ignore_list);
-				DEBUG_1("row = %d, closest is %d", row, new_row);
-				}
-			else
-				{
-				if (row + 1 < n)
-					{
-					new_row = row + 1;
-					}
-				else if (row > 0)
-					{
-					new_row = row - 1;
-					}
-				}
-			}
-		else if (ignore_list)
-			{
-			GList *work;
-
-			work = VFICON_INFO(vf, selection);
-			while (work)
-				{
-				IconData *ignore_id;
-				FileData *ignore_fd;
-				GList *tmp;
-				gint match = FALSE;
-
-				ignore_id = work->data;
-				ignore_fd = ignore_id->fd;
-				g_assert(ignore_fd->magick == 0x12345678);
-				work = work->next;
-
-				tmp = ignore_list;
-				while (tmp && !match)
-					{
-					FileData *ignore_list_fd = tmp->data;
-					g_assert(ignore_list_fd->magick == 0x12345678);
-					tmp = tmp->next;
-
-					if (ignore_list_fd == ignore_fd)
-						{
-						match = TRUE;
-						}
-					}
-
-				if (!match)
-					{
-					new_row = g_list_index(vf->list, ignore_id);
-					work = NULL;
-					}
-				}
-
-			if (new_row == -1)
-				{
-				/* selection all ignored, use closest */
-				new_row = vficon_maint_find_closest(vf, row, vf_count(vf, NULL), ignore_list);
-				}
-			}
-		else
-			{
-			new_row = g_list_index(vf->list, VFICON_INFO(vf, selection)->data);
-			}
-
-		if (new_row >= 0)
-			{
-			IconData *idn = g_list_nth_data(vf->list, new_row);
-
-			vficon_select(vf, idn);
-			vficon_send_layout_select(vf, idn);
-			}
-		}
-
-	/* Thumb loader check */
-	if (fd == vf->thumbs_filedata) vf->thumbs_filedata = NULL;
-	if (vf->thumbs_count > 0) vf->thumbs_count--;
-
-	if (VFICON_INFO(vf, prev_selection) == id) VFICON_INFO(vf, prev_selection) = NULL;
-	if (VFICON_INFO(vf, click_id) == id) VFICON_INFO(vf, click_id) = NULL;
-
-	/* remove pointer to this fd from grid */
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
-	if (id->row >= 0 &&
-	    gtk_tree_model_iter_nth_child(store, &iter, NULL, id->row))
-		{
-		GList *list;
-
-		gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &list, -1);
-		list = g_list_find(list, id);
-		if (list) list->data = NULL;
-		}
-
-	vf->list = g_list_remove(vf->list, id);
-	file_data_unref(fd);
-	g_free(id);
-
-	vficon_sync_idle(vf);
-	vf_send_update(vf);
-
-	return TRUE;
-}
-
-static gint vficon_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list)
-{
-	gint ret = FALSE;
-	gchar *buf;
-
-	if (!fd->change->source || !vf->dir_fd) return FALSE;
-
-	buf = remove_level_from_path(fd->change->source);
-
-	if (strcmp(buf, vf->dir_fd->path) == 0)
-		{
-		ret = vficon_maint_removed(vf, fd, ignore_list);
-		}
-
-	g_free(buf);
-
-	return ret;
-}
-
-static void vficon_notify_cb(FileData *fd, NotifyType type, gpointer data)
-{
-	ViewFile *vf = data;
-
-	if (type != NOTIFY_TYPE_CHANGE || !fd->change) return;
-	
-	switch(fd->change->type)
-		{
-		case FILEDATA_CHANGE_MOVE:
-			vficon_maint_moved(vf, fd, NULL);
-			break;
-		case FILEDATA_CHANGE_COPY:
-			break;
-		case FILEDATA_CHANGE_RENAME:
-			vficon_maint_renamed(vf, fd);
-			break;
-		case FILEDATA_CHANGE_DELETE:
-			vficon_maint_removed(vf, fd, NULL);
-			break;
-		case FILEDATA_CHANGE_UNSPECIFIED:
-			break;
-		}
-
-}
-#endif

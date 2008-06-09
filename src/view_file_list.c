@@ -50,7 +50,6 @@ enum {
 static gint vflist_row_is_selected(ViewFile *vf, FileData *fd);
 static gint vflist_row_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, gpointer data);
 static void vflist_populate_view(ViewFile *vf);
-static void vflist_notify_cb(FileData *fd, NotifyType type, gpointer data);
 
 
 /*
@@ -1471,7 +1470,7 @@ void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 		gtk_tree_model_get_iter(store, &iter, tpath);
 		gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &fd, -1);
 
-		file_data_unregister_notify_func(vflist_notify_cb, vf); /* we don't need the notification */
+		file_data_unregister_notify_func(vf_notify_cb, vf); /* we don't need the notification */
 
 		switch (mode)
 			{
@@ -1483,7 +1482,7 @@ void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 				break;
 			}
 		
-		file_data_register_notify_func(vflist_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
+		file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
 		gtk_tree_store_set(GTK_TREE_STORE(store), &iter, FILE_COLUMN_MARKS + n, file_data_get_mark(fd, n), -1);
 
@@ -1588,11 +1587,11 @@ gint vflist_refresh(ViewFile *vf)
 	DEBUG_1("%s vflist_refresh: read dir", get_exec_time());
 	if (vf->dir_fd)
 		{
-		file_data_unregister_notify_func(vflist_notify_cb, vf); /* we don't need the notification of changes detected by filelist_read */
+		file_data_unregister_notify_func(vf_notify_cb, vf); /* we don't need the notification of changes detected by filelist_read */
 
 		ret = filelist_read(vf->dir_fd, &vf->list, NULL);
 
-		file_data_register_notify_func(vflist_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
+		file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
 		DEBUG_1("%s vflist_refresh: sort", get_exec_time());
 		vf->list = filelist_sort(vf->list, vf->sort_method, vf->sort_ascend);
@@ -1608,20 +1607,6 @@ gint vflist_refresh(ViewFile *vf)
 	return ret;
 }
 
-static gint vflist_refresh_idle_cb(gpointer data)
-{
-	ViewFile *vf = data;
-
-	vflist_refresh(vf);
-	vf->refresh_idle_id = -1;
-	return FALSE;
-}
-
-static void vflist_refresh_idle_cancel(ViewFile *vf)
-{
-	if (vf->refresh_idle_id != -1) g_source_remove(vf->refresh_idle_id);
-	vf->refresh_idle_id = -1;
-}
 
 
 /* this overrides the low default of a GtkCellRenderer from 100 to CELL_HEIGHT_OVERRIDE, something sane for our purposes */
@@ -1730,9 +1715,9 @@ static void vflist_listview_mark_toggled_cb(GtkCellRendererToggle *cell, gchar *
 
 	gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, FILE_COLUMN_POINTER, &fd, col_idx, &mark, -1);
 	mark = !mark;
-	file_data_unregister_notify_func(vflist_notify_cb, vf); /* we don't need the notification */
+	file_data_unregister_notify_func(vf_notify_cb, vf); /* we don't need the notification */
 	file_data_set_mark(fd, col_idx - FILE_COLUMN_MARKS, mark);
-	file_data_register_notify_func(vflist_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
+	file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
 	gtk_tree_store_set(store, &iter, col_idx, mark, -1);
 	gtk_tree_path_free(path);
@@ -1789,10 +1774,10 @@ void vflist_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	file_data_unregister_notify_func(vflist_notify_cb, vf);
+	file_data_unregister_notify_func(vf_notify_cb, vf);
 
 	vflist_select_idle_cancel(vf);
-	vflist_refresh_idle_cancel(vf);
+	vf_refresh_idle_cancel(vf);
 	vflist_thumb_stop(vf);
 
 	filelist_free(vf->list);
@@ -1813,8 +1798,6 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 	VFLIST_INFO(vf, thumbs_enabled) = FALSE;
 
 	VFLIST_INFO(vf, select_idle_id) = -1;
-	vf->refresh_idle_id = -1;
-
 
 	flist_types[FILE_COLUMN_POINTER] = G_TYPE_POINTER;
 	flist_types[FILE_COLUMN_VERSION] = G_TYPE_INT;
@@ -1850,7 +1833,7 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 	vflist_listview_add_column(vf, FILE_COLUMN_SIZE, _("Size"), FALSE, TRUE, FALSE);
 	vflist_listview_add_column(vf, FILE_COLUMN_DATE, _("Date"), FALSE, TRUE, FALSE);
 
-	file_data_register_notify_func(vflist_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
+	file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 	return vf;
 }
 
@@ -1887,272 +1870,3 @@ void vflist_marks_set(ViewFile *vf, gint enable)
 	//vf_refresh(vf);
 }
 
-/*
- *-----------------------------------------------------------------------------
- * maintenance (for rename, move, remove)
- *-----------------------------------------------------------------------------
- */
-
-static void vflist_notify_cb(FileData *fd, NotifyType type, gpointer data)
-{
-	ViewFile *vf = data;
-	gboolean refresh;
-
-	if (vf->refresh_idle_id != -1) return;
-	
-	refresh = (fd == vf->dir_fd);
-
-	if (!refresh)
-		{
-		gchar *base = remove_level_from_path(fd->path);
-		refresh = (strcmp(base, vf->dir_fd->path) == 0);
-		g_free(base);
-		}
-
-	if (type == NOTIFY_TYPE_CHANGE && fd->change)
-		{
-		if (!refresh && fd->change->dest)
-			{
-			gchar *dest_base = remove_level_from_path(fd->change->dest);
-			refresh = (strcmp(dest_base, vf->dir_fd->path) == 0);
-			g_free(dest_base);
-			}
-
-		if (!refresh && fd->change->source)
-			{
-			gchar *source_base = remove_level_from_path(fd->change->source);
-			refresh = (strcmp(source_base, vf->dir_fd->path) == 0);
-			g_free(source_base);
-			}
-		}
-	
-	if (refresh && vf->refresh_idle_id == -1)
-		{
-		vf->refresh_idle_id = g_idle_add(vflist_refresh_idle_cb, vf);
-		}
-}
-
-#if 0
-
-gint vflist_maint_renamed(ViewFile *vf, FileData *fd)
-{
-	vflist_maint(vf, fd);
-	return TRUE;
-}
-gint vflist_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
-{
-	vflist_maint(vf, fd);
-	return TRUE;
-}
-gint vflist_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list)
-{
-	vflist_maint(vf, fd);
-	return TRUE;
-}
-
-
-static gint vflist_maint_find_closest(ViewFile *vf, gint row, gint count, GList *ignore_list)
-{
-	GList *list = NULL;
-	GList *work;
-	gint rev = row - 1;
-	row ++;
-
-	work = ignore_list;
-	while (work)
-		{
-		gint f = vf_index_by_path(vf, work->data);
-		if (f >= 0) list = g_list_prepend(list, GINT_TO_POINTER(f));
-		work = work->next;
-		}
-
-	while (list)
-		{
-		gint c = TRUE;
-		work = list;
-		while (work && c)
-			{
-			gpointer p = work->data;
-			work = work->next;
-			if (row == GPOINTER_TO_INT(p))
-				{
-				row++;
-				c = FALSE;
-				}
-			if (rev == GPOINTER_TO_INT(p))
-				{
-				rev--;
-				c = FALSE;
-				}
-			if (!c) list = g_list_remove(list, p);
-			}
-		if (c && list)
-			{
-			g_list_free(list);
-			list = NULL;
-			}
-		}
-	if (row > count - 1)
-		{
-		if (rev < 0)
-			return -1;
-		else
-			return rev;
-		}
-	else
-		{
-		return row;
-		}
-}
-
-gint vflist_maint_renamed(ViewFile *vf, FileData *fd)
-{
-	gint ret = FALSE;
-	gchar *source_base;
-	gchar *dest_base;
-
-	DEBUG_1("%s vflist_maint_renamed: start", get_exec_time());
-
-	if (g_list_index(vf->list, fd) < 0) return FALSE;
-
-	source_base = remove_level_from_path(fd->change->source);
-	dest_base = remove_level_from_path(fd->change->dest);
-
-
-	if (strcmp(source_base, dest_base) == 0)
-		{
-		GtkTreeStore *store;
-		GtkTreeIter iter;
-		GtkTreeIter position;
-		gint old_row;
-		gint n;
-
-		old_row = g_list_index(vf->list, fd);
-
-		vf->list = g_list_remove(vf->list, fd);
-
-		vf->list = filelist_insert_sort(vf->list, fd, vf->sort_method, vf->sort_ascend);
-		n = g_list_index(vf->list, fd);
-
-		store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
-		if (vflist_find_row(vf, fd, &iter) >= 0 &&
-		    gtk_tree_model_iter_nth_child(GTK_TREE_MODEL(store), &position, NULL, n))
-			{
-			if (old_row >= n)
-				{
-				gtk_tree_store_move_before(store, &iter, &position);
-				}
-			else
-				{
-				gtk_tree_store_move_after(store, &iter, &position);
-				}
-			}
-		gtk_tree_store_set(store, &iter, FILE_COLUMN_NAME, fd->name, -1);
-
-		ret = TRUE;
-		}
-	else
-		{
-		ret = vflist_maint_removed(vf, fd, NULL);
-		}
-
-	g_free(source_base);
-	g_free(dest_base);
-
-	DEBUG_1("%s vflist_maint_renamed: done", get_exec_time());
-
-	return ret;
-}
-
-gint vflist_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
-{
-	GtkTreeIter iter;
-	GList *list;
-	gint row;
-	gint new_row = -1;
-
-	DEBUG_1("%s vflist_maint_removed: start", get_exec_time());
-
-	row = g_list_index(vf->list, fd);
-	if (row < 0) return FALSE;
-
-	if (vflist_index_is_selected(vf, row) &&
-	    layout_image_get_collection(vf->layout, NULL) == NULL)
-		{
-		gint n;
-
-		n = vf_count(vf, NULL);
-		if (ignore_list)
-			{
-			new_row = vflist_maint_find_closest(vf, row, n, ignore_list);
-			DEBUG_1("row = %d, closest is %d", row, new_row);
-			}
-		else
-			{
-			if (row + 1 < n)
-				{
-				new_row = row + 1;
-				}
-			else if (row > 0)
-				{
-				new_row = row - 1;
-				}
-			}
-		vf_select_none(vf);
-		if (new_row >= 0)
-			{
-			fd = vf_index_get_data(vf, new_row);
-			if (vflist_find_row(vf, fd, &iter) >= 0)
-				{
-				GtkTreeSelection *selection;
-
-				selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vf->listview));
-				gtk_tree_selection_select_iter(selection, &iter);
-				vflist_move_cursor(vf, &iter);
-				}
-			}
-		}
-
-	fd = vf_index_get_data(vf, row);
-	if (vflist_find_row(vf, fd, &iter) >= 0)
-		{
-		GtkTreeStore *store;
-		store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
-		gtk_tree_store_remove(store, &iter);
-		}
-	list = g_list_nth(vf->list, row);
-	fd = list->data;
-
-	/* thumbnail loader check */
-	if (fd == vf->thumbs_filedata) vf->thumbs_filedata = NULL;
-	if (vf->thumbs_count > 0) vf->thumbs_count--;
-
-	vf->list = g_list_remove(vf->list, fd);
-	file_data_unref(fd);
-
-	vf_send_update(vf);
-
-	DEBUG_1("%s vflist_maint_removed: done", get_exec_time());
-
-	return TRUE;
-}
-
-gint vflist_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list)
-{
-	gint ret = FALSE;
-	gchar *buf;
-
-	if (!fd->change->source || !vf->path) return FALSE;
-
-	buf = remove_level_from_path(fd->change->source);
-
-	if (strcmp(buf, vf->path) == 0)
-		{
-		ret = vflist_maint_removed(vf, fd, ignore_list);
-		}
-
-	g_free(buf);
-
-	return ret;
-}
-#endif

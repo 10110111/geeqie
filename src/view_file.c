@@ -17,6 +17,7 @@
 #include "layout.h"
 #include "menu.h"
 #include "ui_menu.h"
+#include "ui_fileops.h"
 #include "utilops.h"
 #include "view_file_list.h"
 #include "view_file_icon.h"
@@ -676,6 +677,8 @@ ViewFile *vf_new(FileViewType type, FileData *dir_fd)
 
 	vf->popup = NULL;
 
+	vf->refresh_idle_id = -1;
+
 	vf->widget = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(vf->widget), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(vf->widget),
@@ -742,50 +745,65 @@ void vf_set_layout(ViewFile *vf, LayoutWindow *layout)
 	vf->layout = layout;
 }
 
-#if 0
+
 /*
  *-----------------------------------------------------------------------------
  * maintenance (for rename, move, remove)
  *-----------------------------------------------------------------------------
  */
-
-
-gint vf_maint_renamed(ViewFile *vf, FileData *fd)
+ 
+static gint vf_refresh_idle_cb(gpointer data)
 {
-	gint ret = FALSE;
+	ViewFile *vf = data;
 
-	switch(vf->type)
-	{
-//	case FILEVIEW_LIST: ret = vflist_maint_renamed(vf, fd); break;
-	case FILEVIEW_ICON: ret = vficon_maint_renamed(vf, fd); break;
-	}
-
-	return ret;
+	vf_refresh(vf);
+	vf->refresh_idle_id = -1;
+	return FALSE;
 }
 
-gint vf_maint_removed(ViewFile *vf, FileData *fd, GList *ignore_list)
+void vf_refresh_idle_cancel(ViewFile *vf)
 {
-	gint ret = FALSE;
-
-	switch(vf->type)
-	{
-//	case FILEVIEW_LIST: ret = vflist_maint_removed(vf, fd, ignore_list); break;
-	case FILEVIEW_ICON: ret = vficon_maint_removed(vf, fd, ignore_list); break;
-	}
-
-	return ret;
+	if (vf->refresh_idle_id != -1) g_source_remove(vf->refresh_idle_id);
+	vf->refresh_idle_id = -1;
 }
 
-gint vf_maint_moved(ViewFile *vf, FileData *fd, GList *ignore_list)
+
+void vf_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
-	gint ret = FALSE;
+	ViewFile *vf = data;
+	gboolean refresh;
 
-	switch(vf->type)
-	{
-//	case FILEVIEW_LIST: ret = vflist_maint_moved(vf, fd, ignore_list); break;
-	case FILEVIEW_ICON: ret = vficon_maint_moved(vf, fd, ignore_list); break;
-	}
+	if (vf->refresh_idle_id != -1) return;
+	
+	refresh = (fd == vf->dir_fd);
 
-	return ret;
+	if (!refresh)
+		{
+		gchar *base = remove_level_from_path(fd->path);
+		refresh = (strcmp(base, vf->dir_fd->path) == 0);
+		g_free(base);
+		}
+
+	if (type == NOTIFY_TYPE_CHANGE && fd->change)
+		{
+		if (!refresh && fd->change->dest)
+			{
+			gchar *dest_base = remove_level_from_path(fd->change->dest);
+			refresh = (strcmp(dest_base, vf->dir_fd->path) == 0);
+			g_free(dest_base);
+			}
+
+		if (!refresh && fd->change->source)
+			{
+			gchar *source_base = remove_level_from_path(fd->change->source);
+			refresh = (strcmp(source_base, vf->dir_fd->path) == 0);
+			g_free(source_base);
+			}
+		}
+	
+	if (refresh && vf->refresh_idle_id == -1)
+		{
+		vf->refresh_idle_id = g_idle_add(vf_refresh_idle_cb, vf);
+		}
 }
-#endif
+
