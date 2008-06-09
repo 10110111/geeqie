@@ -644,7 +644,7 @@ struct _ViewFile
 	gint clicked_mark;
 	
 	/* refresh */
-	gint refresh_idle_id; /* used only in vflist for now */
+	gint refresh_idle_id;
 };
 
 struct _ViewFileInfoList
@@ -679,8 +679,6 @@ struct _ViewFileInfoIcon
 	gint focus_column;
 
 	gint show_text;
-
-	gint sync_idle_id;
 };
 
 struct _SlideShowData

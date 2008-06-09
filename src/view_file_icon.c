@@ -84,7 +84,8 @@ static IconData *vficon_icon_data(ViewFile *vf, FileData *fd)
 	return id;
 }
 
-
+#if 0
+/* not used */
 static gint iconlist_read(FileData *dir_fd, GList **list)
 {
 	GList *temp;
@@ -114,6 +115,7 @@ static gint iconlist_read(FileData *dir_fd, GList **list)
 
 	return TRUE;
 }
+#endif
 
 static void iconlist_free(GList *list)
 {
@@ -1748,17 +1750,22 @@ static void vficon_sync(ViewFile *vf)
 	vficon_update_focus(vf);
 }
 
-static gint vficon_sync_idle_cb(gpointer data)
+static gint vficon_refresh_idle_cb(gpointer data)
 {
 	ViewFile *vf = data;
 
-	if (VFICON_INFO(vf, sync_idle_id) == -1) return FALSE;
-	VFICON_INFO(vf, sync_idle_id) = -1;
-
-	vficon_sync(vf);
+	vficon_refresh(vf);
+	vf->refresh_idle_id = -1;
 	return FALSE;
 }
 
+static void vficon_refresh_idle_cancel(ViewFile *vf)
+{
+	if (vf->refresh_idle_id != -1) g_source_remove(vf->refresh_idle_id);
+	vf->refresh_idle_id = -1;
+}
+
+#if 0
 static void vficon_sync_idle(ViewFile *vf)
 {
 	if (VFICON_INFO(vf, sync_idle_id) == -1)
@@ -1769,6 +1776,7 @@ static void vficon_sync_idle(ViewFile *vf)
 		VFICON_INFO(vf, sync_idle_id) = g_idle_add_full(G_PRIORITY_HIGH, vficon_sync_idle_cb, vf, NULL);
 		}
 }
+#endif
 
 static void vficon_sized_cb(GtkWidget *widget, GtkAllocation *allocation, gpointer data)
 {
@@ -2333,7 +2341,7 @@ void vficon_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	if (VFICON_INFO(vf, sync_idle_id) != -1) g_source_remove(VFICON_INFO(vf, sync_idle_id));
+	vficon_refresh_idle_cancel(vf);
 	
 	file_data_unregister_notify_func(vficon_notify_cb, vf);
 
@@ -2365,7 +2373,7 @@ ViewFile *vficon_new(ViewFile *vf, FileData *dir_fd)
 
 	VFICON_INFO(vf, show_text) = options->show_icon_names;
 
-	VFICON_INFO(vf, sync_idle_id) = -1;
+	vf->refresh_idle_id = -1;
 
 	store = gtk_list_store_new(1, G_TYPE_POINTER);
 	vf->listview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
@@ -2412,6 +2420,47 @@ ViewFile *vficon_new(ViewFile *vf, FileData *dir_fd)
  *-----------------------------------------------------------------------------
  */
 
+static void vficon_notify_cb(FileData *fd, NotifyType type, gpointer data)
+{
+	ViewFile *vf = data;
+	gboolean refresh;
+
+	if (vf->refresh_idle_id != -1) return;
+	
+	refresh = (fd == vf->dir_fd);
+
+	if (!refresh)
+		{
+		gchar *base = remove_level_from_path(fd->path);
+		refresh = (strcmp(base, vf->dir_fd->path) == 0);
+		g_free(base);
+		}
+
+	if (type == NOTIFY_TYPE_CHANGE && fd->change)
+		{
+		if (!refresh && fd->change->dest)
+			{
+			gchar *dest_base = remove_level_from_path(fd->change->dest);
+			refresh = (strcmp(dest_base, vf->dir_fd->path) == 0);
+			g_free(dest_base);
+			}
+
+		if (!refresh && fd->change->source)
+			{
+			gchar *source_base = remove_level_from_path(fd->change->source);
+			refresh = (strcmp(source_base, vf->dir_fd->path) == 0);
+			g_free(source_base);
+			}
+		}
+	
+	if (refresh && vf->refresh_idle_id == -1)
+		{
+		vf->refresh_idle_id = g_idle_add(vficon_refresh_idle_cb, vf);
+		}
+}
+
+
+#if 0
 static gint vficon_maint_find_closest(ViewFile *vf, gint row, gint count, GList *ignore_list)
 {
 	GList *list = NULL;
@@ -2681,3 +2730,4 @@ static void vficon_notify_cb(FileData *fd, NotifyType type, gpointer data)
 		}
 
 }
+#endif
