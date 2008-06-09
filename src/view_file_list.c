@@ -1926,7 +1926,7 @@ static void vflist_notify_cb(FileData *fd, NotifyType type, gpointer data)
 			}
 		}
 	
-	if (refresh)
+	if (refresh && vf->refresh_idle_id == -1)
 		{
 		vf->refresh_idle_id = g_idle_add(vflist_refresh_idle_cb, vf);
 		}
