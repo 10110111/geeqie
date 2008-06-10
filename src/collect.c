@@ -427,46 +427,45 @@ CollectionData *collection_from_number(gint n)
 CollectionData *collection_from_dnd_data(const gchar *data, GList **list, GList **info_list)
 {
 	CollectionData *cd;
-	gint n;
+	gint collection_number;
+	const gchar *ptr;
+
+	if (list) *list = NULL;
+	if (info_list) *info_list = NULL;
 
 	if (strncmp(data, "COLLECTION:", 11) != 0) return NULL;
+	
+	ptr = data + 11;
+		
+	collection_number = atoi(ptr);
+	cd = collection_from_number(collection_number);
+	if (!cd) return NULL;
 
-	n = (gint)strtol(data + 11, NULL, 10);
-	cd = collection_from_number(n);
+	if (!list && !info_list) return cd;
+	
+	while (*ptr != '\0' && *ptr != '\n' ) ptr++;
+	if (*ptr == '\0') return cd;
+	ptr++;
 
-	if (!cd || (!list && !info_list))
+	while (*ptr != '\0')
 		{
-		return cd;
+		guint item_number;
+		CollectInfo *info;
+		
+		item_number = (guint) atoi(ptr);
+		while (*ptr != '\n' && *ptr != '\0') ptr++;
+		if (*ptr == '\0')
+			break;
+		else
+			while (*ptr == '\n') ptr++;
+
+		info = g_list_nth_data(cd->list, item_number);
+		if (!info) continue;
+
+		if (list) *list = g_list_append(*list, file_data_ref(info->fd));
+		if (info_list) *info_list = g_list_append(*info_list, info);
 		}
-	else
-		{
-		GList *work = NULL;
-		GList *infol = NULL;
-		gint b, e;
-
-		b = 0;
-		while (data[b] != '\0' && data[b] != '\n' ) b++;
-		b++;
-		e = b;
-
-		while (data[b] != '\0')
-			{
-			CollectInfo *info;
-
-			while (data[e] != '\n' && data[e] != '\0') e++;
-			n = (gint)strtol(data + b, NULL, 10);
-
-			info = g_list_nth_data(cd->list, n);
-			if (info && list) work = g_list_append(work, file_data_ref(info->fd));
-			if (info && info_list) infol = g_list_append(infol, info);
-
-			while (data[e] == '\n') e++;
-			b = e;
-			}
-		if (list) *list = work;
-		if (info_list) *info_list = infol;
-		}
-
+	
 	return cd;
 }
 
