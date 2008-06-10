@@ -209,14 +209,13 @@ static gint vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, g
 {
 	ViewDir *vd = data;
 	FileData *fd;
-	gchar *old_path;
 	gchar *new_path;
 	gchar *base;
 
 	fd = vd_get_fd_from_tree_path(vd, GTK_TREE_VIEW(vd->view), td->path);
 	if (!fd) return FALSE;
 
-	base = remove_level_from_path(old_path);
+	base = remove_level_from_path(fd->path);
 	new_path = g_build_filename(base, new, NULL);
 	g_free(base);
 
