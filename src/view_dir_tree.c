@@ -884,9 +884,9 @@ static gint vdtree_sort_cb(GtkTreeModel *store, GtkTreeIter *a, GtkTreeIter *b, 
 	gtk_tree_model_get(store, b, DIR_COLUMN_POINTER, &ndb, -1);
 
 	if (options->file_sort.case_sensitive)
-		return strcmp(nda->fd->collate_key_name, nda->fd->collate_key_name);
+		return strcmp(nda->fd->collate_key_name, ndb->fd->collate_key_name);
 	else
-		return strcmp(nda->fd->collate_key_name_nocase, nda->fd->collate_key_name_nocase);
+		return strcmp(nda->fd->collate_key_name_nocase, ndb->fd->collate_key_name_nocase);
 }
 
 /*
