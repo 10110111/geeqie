@@ -1678,6 +1678,7 @@ static void vficon_populate_at_new_size(ViewFile *vf, gint w, gint h, gint force
 	DEBUG_1("col tab pop cols=%d rows=%d", VFICON_INFO(vf, columns), VFICON_INFO(vf, rows));
 }
 
+#if 0
 static void vficon_sync(ViewFile *vf)
 {
 	GtkTreeModel *store;
@@ -1748,6 +1749,7 @@ static void vficon_sync(ViewFile *vf)
 
 	vficon_update_focus(vf);
 }
+#endif
 
 #if 0
 static void vficon_sync_idle(ViewFile *vf)
@@ -1784,8 +1786,7 @@ void vficon_sort_set(ViewFile *vf, SortType type, gint ascend)
 
 	if (!vf->list) return;
 
-	vf->list = iconlist_sort(vf->list, vf->sort_method, vf->sort_ascend);
-	vficon_sync(vf);
+	vf_refresh(vf);
 }
 
 /*
