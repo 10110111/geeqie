@@ -472,62 +472,58 @@ CollectionData *collection_from_dnd_data(const gchar *data, GList **list, GList 
 
 gchar *collection_info_list_to_dnd_data(CollectionData *cd, GList *list, gint *length)
 {
-	gchar *uri_text = NULL;
-	gint total;
 	GList *work;
-	gint n;
-	GList *temp;
+	GList *temp = NULL;
 	gchar *ptr;
+	gchar *text;
+	gchar *uri_text;
+	gint collection_number;
 
-	n = collection_to_number(cd);
+	*length = 0;
+	if (!list) return NULL;
 
-	if (!list || n < 0)
-		{
-		*length = 0;
-		return NULL;
-		}
+	collection_number = collection_to_number(cd);
+	if (collection_number < 0) return NULL;
 
-	temp = NULL;
-	temp = g_list_prepend(temp, g_strdup_printf("COLLECTION:%d\n", n));
+	text = g_strdup_printf("COLLECTION:%d\n", collection_number);
+	*length += strlen(text);
+	temp = g_list_prepend(temp, text);
+
 	work = list;
 	while (work)
 		{
-		n = g_list_index(cd->list, work->data);
-		if (n >= 0)
-			{
-			temp = g_list_prepend(temp, g_strdup_printf("%d\n", n));
-			}
+		gint item_number = g_list_index(cd->list, work->data);
+
 		work = work->next;
+
+		if (item_number < 0) continue;
+		
+		text = g_strdup_printf("%d\n", item_number);
+		temp = g_list_prepend(temp, text);
+		*length += strlen(text);
 		}
 
-	total = 0;
-	work = temp;
-	while (work)
-		{
-		total += strlen((gchar *)work->data);
-		work = work->next;
-		}
-	total += 1;
+	*length += 1; /* ending nul char */
 
-	uri_text = g_malloc(total);
+	uri_text = g_malloc(*length);
 	ptr = uri_text;
 
 	work = g_list_last(temp);
 	while (work)
 		{
+		gint len;
 		gchar *text = work->data;
 
 		work = work->prev;
 
-		strcpy(ptr, text);
-		ptr += strlen(text);
+		len = strlen(text);
+		memcpy(ptr, text, len);
+		ptr += len;
 		}
 
 	ptr[0] = '\0';
 
 	string_list_free(temp);
-
-	*length = total;
 
 	return uri_text;
 }
