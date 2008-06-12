@@ -491,6 +491,13 @@ static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_UINT(image_overlay.common.state);
 	WRITE_BOOL(image_overlay.common.show_at_startup);
 	WRITE_CHAR(image_overlay.common.template_string);
+	WRITE_SEPARATOR();
+
+	secure_fprintf(ssi, "# these are relative positions:\n");
+	secure_fprintf(ssi, "# x >= 0: |x| pixels from left border\n");
+	secure_fprintf(ssi, "# x < 0 : |x| pixels from right border\n");
+	secure_fprintf(ssi, "# y >= 0: |y| pixels from top border\n");
+	secure_fprintf(ssi, "# y < 0 : |y| pixels from bottom border\n");
 	WRITE_INT(image_overlay.common.x);
 	WRITE_INT(image_overlay.common.y);
 
