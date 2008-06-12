@@ -49,7 +49,7 @@ gchar *quoted_value(const gchar *text, const gchar **tail)
 
 	if (l == 0) return retval;
 
-	while (c < l && text[c] !='"') c++;
+	while (c < l && text[c] != '"') c++;
 	if (text[c] == '"')
 		{
 		gint e;
@@ -81,7 +81,7 @@ gchar *quoted_value(const gchar *text, const gchar **tail)
 		 * read a line without quotes too */
 		{
 		c = 0;
-		while (c < l && text[c] !=' ' && text[c] !=8 && text[c] != '\n') c++;
+		while (c < l && text[c] != '\n' && !g_ascii_isspace(text[c])) c++;
 		if (c != 0)
 			{
 			retval = g_strndup(text, c);
@@ -642,16 +642,16 @@ static gboolean is_numbered_option(const gchar *option, const gchar *prefix, gin
 	return TRUE;
 }
 
-
+#define OPTION_READ_BUFFER_SIZE 1024
 
 static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 {
 	FILE *f;
 	gchar *rc_pathl;
-	gchar s_buf[1024];
-	gchar option[1024];
-	gchar value[1024];
-	gchar value_all[1024];
+	gchar s_buf[OPTION_READ_BUFFER_SIZE];
+	gchar value_all[OPTION_READ_BUFFER_SIZE];
+	gchar *option;
+	gchar *value;
 	gint i;
 
 	rc_pathl = path_from_utf8(utf8_path);
@@ -661,23 +661,31 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 
 	while (fgets(s_buf, sizeof(s_buf), f))
 		{
-		gchar *option_start, *value_start;
+		gchar *value_end;
 		gchar *p = s_buf;
 
+		/* skip empty lines and comments */
 		while (g_ascii_isspace(*p)) p++;
 		if (!*p || *p == '\n' || *p == '#') continue;
-		option_start = p;
-		while (*p && *p != ':') p++;
+
+		/* parse option name */
+		option = p;
+		while (g_ascii_isalnum(*p) || *p == '_' || *p == '.') p++;
 		if (!*p) continue;
 		*p = '\0';
 		p++;
-		strncpy(option, option_start, sizeof(option));
-		while (g_ascii_isspace(*p)) p++;
-		value_start = p;
-		strncpy(value_all, value_start, sizeof(value_all));
+
+		/* search for value start, name and value are normally separated by ': '
+		 * but we allow relaxed syntax here, so '=', ':=' or just a tab will work too */
+		while (*p == ':' || g_ascii_isspace(*p) || *p == '=') p++;
+		value = p;
+
 		while (*p && !g_ascii_isspace(*p) && *p != '\n') p++;
-		*p = '\0';
-		strncpy(value, value_start, sizeof(value));
+		value_end = p; /* value part up to the first whitespace or end of line */
+		while (*p != '\0') p++;
+		memcpy(value_all, value, 1 + p - value);
+
+		*value_end = '\0';
 
 #define READ_BOOL(_name_) if (read_bool_option(f, option, #_name_, value, &options->_name_)) continue;
 #define READ_INT(_name_) if (read_int_option(f, option, #_name_, value, &options->_name_)) continue;
