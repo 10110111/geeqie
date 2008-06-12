@@ -1795,8 +1795,6 @@ void layout_close(LayoutWindow *lw)
 		}
 	else
 		{
-		sync_options_with_current_state(options);
-		layout_free(lw); /* make leak detection easier */
 		exit_program();
 		}
 }
