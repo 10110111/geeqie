@@ -697,6 +697,29 @@ static GdkPixbuf *image_osd_icon_pixbuf(ImageOSDFlag flag)
 	return icon;
 }
 
+static gint image_overlay_add(ImageWindow *imd, GdkPixbuf *pixbuf, gint x, gint y,
+			      gint relative, gint always)
+{
+	return pixbuf_renderer_overlay_add((PixbufRenderer *)imd->pr, pixbuf, x, y, relative, always);
+}
+
+static void image_overlay_set(ImageWindow *imd, gint id, GdkPixbuf *pixbuf, gint x, gint y)
+{
+	pixbuf_renderer_overlay_set((PixbufRenderer *)imd->pr, id, pixbuf, x, y);
+}
+
+#if 0 /* unused for now */
+static gint image_overlay_get(ImageWindow *imd, gint id, GdkPixbuf **pixbuf, gint *x, gint *y)
+{
+	return pixbuf_renderer_overlay_get((PixbufRenderer *)imd->pr, id, pixbuf, x, y);
+}
+#endif
+
+static void image_overlay_remove(ImageWindow *imd, gint id)
+{
+	pixbuf_renderer_overlay_remove((PixbufRenderer *)imd->pr, id);
+}
+
 static void image_osd_icon_show(OverlayStateData *osd, ImageOSDFlag flag)
 {
 	GdkPixbuf *pixbuf;

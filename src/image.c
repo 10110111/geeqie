@@ -1138,27 +1138,6 @@ static gint image_focus_out_cb(GtkWidget *widget, GdkEventFocus *event, gpointer
 	return TRUE;
 }
 
-gint image_overlay_add(ImageWindow *imd, GdkPixbuf *pixbuf, gint x, gint y,
-		       gint relative, gint always)
-{
-	return pixbuf_renderer_overlay_add((PixbufRenderer *)imd->pr, pixbuf, x, y, relative, always);
-}
-
-void image_overlay_set(ImageWindow *imd, gint id, GdkPixbuf *pixbuf, gint x, gint y)
-{
-	pixbuf_renderer_overlay_set((PixbufRenderer *)imd->pr, id, pixbuf, x, y);
-}
-
-gint image_overlay_get(ImageWindow *imd, gint id, GdkPixbuf **pixbuf, gint *x, gint *y)
-{
-	return pixbuf_renderer_overlay_get((PixbufRenderer *)imd->pr, id, pixbuf, x, y);
-}
-
-void image_overlay_remove(ImageWindow *imd, gint id)
-{
-	pixbuf_renderer_overlay_remove((PixbufRenderer *)imd->pr, id);
-}
-
 static gint image_scroll_cb(GtkWidget *widget, GdkEventScroll *event, gpointer data)
 {
 	ImageWindow *imd = data;

@@ -114,13 +114,6 @@ void image_set_delay_flip(ImageWindow *imd, gint delay);
 /* wallpaper util */
 void image_to_root_window(ImageWindow *imd, gint scaled);
 
-/* overlays */
-gint image_overlay_add(ImageWindow *imd, GdkPixbuf *pixbuf, gint x, gint y,
-		       gint relative, gint always);
-void image_overlay_set(ImageWindow *imd, gint id, GdkPixbuf *pixbuf, gint x, gint y);
-gint image_overlay_get(ImageWindow *imd, gint id, GdkPixbuf **pixbuf, gint *x, gint *y);
-void image_overlay_remove(ImageWindow *imd, gint id);
-
 
 
 void image_set_image_as_tiles(ImageWindow *imd, gint width, gint height,
