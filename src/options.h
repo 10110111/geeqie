@@ -150,6 +150,8 @@ struct _ConfOptions
 			guint state;
 			gint show_at_startup;
 			gchar *template_string;
+			gint x;
+			gint y;
 		} common;
 	} image_overlay;
 

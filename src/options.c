@@ -86,6 +86,8 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image_overlay.common.state = (guint)OSD_SHOW_NOTHING;
 	options->image_overlay.common.show_at_startup = FALSE;
 	options->image_overlay.common.template_string = NULL;
+	options->image_overlay.common.x = 10;
+	options->image_overlay.common.y = -10;
 
 	options->layout.dir_view_type = DIRVIEW_LIST;
 	options->layout.file_view_type = FILEVIEW_LIST;

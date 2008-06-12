@@ -42,6 +42,9 @@ struct _OverlayStateData {
 	OsdShowFlags show;
 
 	gint ovl_info;
+	
+	gint x;
+	gint y;
 
 	gint icon_time[IMAGE_OSD_COUNT];
 	gint icon_id[IMAGE_OSD_COUNT];
@@ -72,9 +75,6 @@ static OSDIcon osd_icons[] = {
 };
 
 #define OSD_DATA "overlay-data"
-
-#define OSD_INFO_X 10
-#define OSD_INFO_Y -10
 
 #define IMAGE_OSD_DEFAULT_DURATION 30
 
@@ -761,11 +761,11 @@ static gint image_osd_update_cb(gpointer data)
 				if (osd->ovl_info == 0)
 					{
 					osd->ovl_info = image_overlay_add(osd->imd, pixbuf,
-									  OSD_INFO_X, OSD_INFO_Y, TRUE, FALSE);
+									  osd->x, osd->y, TRUE, FALSE);
 					}
 				else
 					{
-					image_overlay_set(osd->imd, osd->ovl_info, pixbuf, OSD_INFO_X, OSD_INFO_Y);
+					image_overlay_set(osd->imd, osd->ovl_info, pixbuf, osd->x, osd->y);
 					}
 				g_object_unref(pixbuf);
 				}
@@ -970,7 +970,9 @@ static void image_osd_enable(ImageWindow *imd, OsdShowFlags show)
 		osd->timer_id = -1;
 		osd->show = OSD_SHOW_NOTHING;
 		osd->histogram = NULL;
-
+		osd->x = options->image_overlay.common.x;
+		osd->y = options->image_overlay.common.y;
+		
 		osd->destroy_id = g_signal_connect(G_OBJECT(imd->pr), "destroy",
 						   G_CALLBACK(image_osd_destroy_cb), osd);
 		image_set_osd_data(imd, osd);

@@ -491,6 +491,8 @@ static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_UINT(image_overlay.common.state);
 	WRITE_BOOL(image_overlay.common.show_at_startup);
 	WRITE_CHAR(image_overlay.common.template_string);
+	WRITE_INT(image_overlay.common.x);
+	WRITE_INT(image_overlay.common.y);
 
 
 	WRITE_SUBTITLE("Slideshow Options");
@@ -840,6 +842,10 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_BOOL(image_overlay.common.show_at_startup);
 		COMPAT_READ_CHAR(fullscreen.info, image_overlay.common.template_string); /* 2008-04-21 */
 		READ_CHAR(image_overlay.common.template_string);
+
+		READ_INT(image_overlay.common.x);
+		READ_INT(image_overlay.common.y);
+
 
 		/* slideshow options */
 		READ_INT_UNIT(slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION);
