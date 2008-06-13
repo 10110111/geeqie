@@ -1065,8 +1065,14 @@ void thumb_std_maint_moved(const gchar *source, const gchar *dest)
 		g_idle_add_full(G_PRIORITY_LOW, thumb_std_maint_move_idle, NULL, NULL);
 		}
 
-	thumb_std_maint_move_tail = g_list_append(thumb_std_maint_move_tail, tm);
-	if (!thumb_std_maint_move_list)
-		thumb_std_maint_move_list = thumb_std_maint_move_tail;
-	thumb_std_maint_move_tail = thumb_std_maint_move_tail->next;
+	if (thumb_std_maint_move_tail)
+		{
+		thumb_std_maint_move_tail = g_list_append(thumb_std_maint_move_tail, tm);
+		thumb_std_maint_move_tail = thumb_std_maint_move_tail->next;
+		}
+	else
+		{
+		thumb_std_maint_move_list = g_list_append(thumb_std_maint_move_list, tm);
+		thumb_std_maint_move_tail = thumb_std_maint_move_list;
+		}
 }
