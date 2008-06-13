@@ -738,10 +738,26 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 					FILE_COLUMN_SIDECARS, sidecars,
 					FILE_COLUMN_SIZE, size,
 					FILE_COLUMN_DATE, text_from_time(fd->date),
+#define STORE_SET_IS_SLOW 1
+#if STORE_SET_IS_SLOW	
+/* this is 3x faster on a directory with 20000 files */
+					FILE_COLUMN_MARKS + 0, file_data_get_mark(fd, 0),
+					FILE_COLUMN_MARKS + 1, file_data_get_mark(fd, 1),
+					FILE_COLUMN_MARKS + 2, file_data_get_mark(fd, 2),
+					FILE_COLUMN_MARKS + 3, file_data_get_mark(fd, 3),
+					FILE_COLUMN_MARKS + 4, file_data_get_mark(fd, 4),
+					FILE_COLUMN_MARKS + 5, file_data_get_mark(fd, 5),
+#if FILEDATA_MARKS_SIZE != 6
+#error this needs to be updated  
+#endif
+#endif
 					FILE_COLUMN_COLOR, FALSE, -1);
+
+#if !STORE_SET_IS_SLOW					
+
 	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
 		gtk_tree_store_set(store, iter, FILE_COLUMN_MARKS + i, file_data_get_mark(fd, i), -1);
-
+#endif
 	g_free(size);
 	if (sidecars)
 		g_free(sidecars);
