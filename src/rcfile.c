@@ -376,6 +376,7 @@ static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_UINT(layout.file_view_type);
 	WRITE_BOOL(layout.show_marks);
 	WRITE_BOOL(layout.show_thumbnails);
+	WRITE_BOOL(layout.show_directory_date);
 	WRITE_SEPARATOR();
 
 	WRITE_BOOL(layout.save_window_positions);
@@ -745,6 +746,7 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_UINT(layout.file_view_type);
 		READ_BOOL(layout.show_marks);
 		READ_BOOL(layout.show_thumbnails);
+		READ_BOOL(layout.show_directory_date);
 
 		/* window positions */
 

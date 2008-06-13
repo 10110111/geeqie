@@ -157,6 +157,7 @@ static void vdlist_populate(ViewDir *vd)
 		FileData *fd;
 		GtkTreeIter iter;
 		GdkPixbuf *pixbuf;
+		const gchar *date = "";
 
 		fd = work->data;
 
@@ -173,6 +174,8 @@ static void vdlist_populate(ViewDir *vd)
 			else
 				{
 				pixbuf = vd->pf->close;
+				if (options->layout.show_directory_date)
+					date = text_from_time(fd->date);
 				}
 			}
 		else
@@ -184,7 +187,9 @@ static void vdlist_populate(ViewDir *vd)
 		gtk_list_store_set(store, &iter,
 				   DIR_COLUMN_POINTER, fd,
 				   DIR_COLUMN_ICON, pixbuf,
-				   DIR_COLUMN_NAME, fd->name, -1);
+				   DIR_COLUMN_NAME, fd->name,
+				   DIR_COLUMN_DATE, date,
+				   -1);
 
 		work = work->next;
 		}
@@ -368,7 +373,7 @@ ViewDir *vdlist_new(ViewDir *vd, FileData *dir_fd)
 
 	VDLIST_INFO(vd, list) = NULL;
 
-	store = gtk_list_store_new(4, G_TYPE_POINTER, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_BOOLEAN);
+	store = gtk_list_store_new(5, G_TYPE_POINTER, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_STRING);
 	vd->view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
 	g_object_unref(store);
 
@@ -389,6 +394,11 @@ ViewDir *vdlist_new(ViewDir *vd, FileData *dir_fd)
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, TRUE);
 	gtk_tree_view_column_add_attribute(column, renderer, "text", DIR_COLUMN_NAME);
+	gtk_tree_view_column_set_cell_data_func(column, renderer, vd_color_cb, vd, NULL);
+
+	renderer = gtk_cell_renderer_text_new();
+	gtk_tree_view_column_pack_start(column, renderer, TRUE);
+	gtk_tree_view_column_add_attribute(column, renderer, "text", DIR_COLUMN_DATE);
 	gtk_tree_view_column_set_cell_data_func(column, renderer, vd_color_cb, vd, NULL);
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(vd->view), column);

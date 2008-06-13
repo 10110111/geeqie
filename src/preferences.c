@@ -360,6 +360,12 @@ static void config_window_apply(void)
 	g_free(layout_order);
 	}
 
+	if (options->layout.show_directory_date != c_options->layout.show_directory_date)
+		{
+		options->layout.show_directory_date = c_options->layout.show_directory_date;
+		refresh = TRUE;
+		}
+
 	image_options_sync();
 
 	if (refresh)
@@ -1464,6 +1470,9 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Descend folders in tree view"),
 			      options->tree_descend_subdirs, &c_options->tree_descend_subdirs);
+
+	pref_checkbox_new_int(group, _("Show date in directories list view"),
+			      options->layout.show_directory_date, &c_options->layout.show_directory_date);
 
 	pref_checkbox_new_int(group, _("In place renaming"),
 			      options->file_ops.enable_in_place_rename, &c_options->file_ops.enable_in_place_rename);

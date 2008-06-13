@@ -165,6 +165,7 @@ struct _ConfOptions
 
 		gint show_thumbnails;
 		gint show_marks;
+		gboolean show_directory_date;
 
 		struct {
 			gint w;
