@@ -150,23 +150,78 @@ static CollectInfo *collection_table_find_data_by_coord(CollectTable *ct, gint x
 	return g_list_nth_data(list, n);
 }
 
+static guint collection_table_list_count(CollectTable *ct, gint64 *bytes)
+{
+	if (bytes)
+		{
+		gint64 b = 0;
+		GList *work;
+
+		work = ct->cd->list;
+		while (work)
+			{
+			CollectInfo *ci = work->data;
+			work = work->next;
+			b += ci->fd->size;
+			}
+
+		*bytes = b;
+		}
+
+	return g_list_length(ct->cd->list);
+}
+
+static guint collection_table_selection_count(CollectTable *ct, gint64 *bytes)
+{
+	if (bytes)
+		{
+		gint64 b = 0;
+		GList *work;
+
+		work = ct->selection;
+		while (work)
+			{
+			CollectInfo *ci = work->data;
+			work = work->next;
+			b += ci->fd->size;
+			}
+
+		*bytes = b;
+		}
+
+	return g_list_length(ct->selection);
+}
+
 static void collection_table_update_status(CollectTable *ct)
 {
 	gchar *buf;
+	guint n;
+	gint64 n_bytes = 0;
+	guint s;
+	gint64 s_bytes = 0;
 
 	if (!ct->status_label) return;
 
-	if (!ct->cd->list)
+	n = collection_table_list_count(ct, &n_bytes);
+	s = collection_table_selection_count(ct, &s_bytes);
+
+	if (s > 0)
 		{
-		buf = g_strdup(_("Empty"));
+		gchar *b = text_from_size_abrev(n_bytes);
+		gchar *sb = text_from_size_abrev(s_bytes);
+		buf = g_strdup_printf(_("%s, %d images (%s, %d)"), b, n, sb, s);
+		g_free(b);
+		g_free(sb);
 		}
-	else if (ct->selection)
+	else if (n > 0)
 		{
-		buf = g_strdup_printf(_("%d images (%d)"), g_list_length(ct->cd->list), g_list_length(ct->selection));
+		gchar *b = text_from_size_abrev(n_bytes);
+		buf = g_strdup_printf(_("%s, %d images"), b, n);
+		g_free(b);
 		}
 	else
 		{
-		buf = g_strdup_printf(_("%d images"), g_list_length(ct->cd->list));
+		buf = g_strdup(_("Empty"));
 		}
 
 	gtk_label_set_text(GTK_LABEL(ct->status_label), buf);
