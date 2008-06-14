@@ -1294,9 +1294,12 @@ void layout_image_set_collection(LayoutWindow *lw, CollectionData *cd, CollectIn
 
 void layout_image_refresh(LayoutWindow *lw)
 {
+	gdouble sx, sy;
 	if (!layout_valid(&lw)) return;
 
+	image_get_scroll_center(lw->image, &sx, &sy);
 	image_reload(lw->image);
+	image_set_scroll_center(lw->image, sx, sy);
 }
 
 void layout_image_color_profile_set(LayoutWindow *lw,
