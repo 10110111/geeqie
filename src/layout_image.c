@@ -1764,6 +1764,8 @@ static void layout_image_update_cb(ImageWindow *imd, gpointer data)
 
 GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 {
+	if (!lw->split_image_sizegroup) lw->split_image_sizegroup = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
+
 	if (!lw->split_images[i])
 		{
 		lw->split_images[i] = image_new(TRUE);
@@ -1780,6 +1782,8 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 					options->color_profile.screen_type,
 					options->color_profile.use_image);
 		image_color_profile_set_use(lw->split_images[i], options->color_profile.enabled);
+
+		gtk_size_group_add_widget(lw->split_image_sizegroup, lw->split_images[i]->widget);
 		}
 
 	return lw->split_images[i]->widget;
@@ -1875,7 +1879,7 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 {
 	GtkWidget *paned;
 	gint i;
-
+	
 	lw->split_mode = horizontal ? SPLIT_HOR : SPLIT_VERT;
 
 	if (!lw->split_images[0])
@@ -1933,7 +1937,6 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 
 	gtk_widget_show(lw->split_images[0]->widget);
 	gtk_widget_show(lw->split_images[1]->widget);
-
 
 	lw->split_image_widget = paned;
 

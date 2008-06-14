@@ -484,6 +484,7 @@ struct _LayoutWindow
 	gint active_split_image;
 
 	GtkWidget *split_image_widget;
+	GtkSizeGroup *split_image_sizegroup;
 
 	gint connect_zoom, connect_scroll;
 

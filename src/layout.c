@@ -1809,6 +1809,8 @@ void layout_free(LayoutWindow *lw)
 	layout_bars_close(lw);
 
 	gtk_widget_destroy(lw->window);
+	
+	if (lw->split_image_sizegroup) g_object_unref(lw->split_image_sizegroup);
 
 	file_data_unregister_notify_func(layout_image_notify_cb, lw);
 
