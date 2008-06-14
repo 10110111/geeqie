@@ -31,13 +31,13 @@
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
-
+/* Index to tree store */
 enum {
 	FILE_COLUMN_POINTER = 0,
 	FILE_COLUMN_VERSION,
 	FILE_COLUMN_THUMB,
 	FILE_COLUMN_NAME,
-	FILE_COLUMN_SIDECARS,
+	FILE_COLUMN_MULTILINE,
 	FILE_COLUMN_SIZE,
 	FILE_COLUMN_DATE,
 	FILE_COLUMN_COLOR,
@@ -45,6 +45,20 @@ enum {
 	FILE_COLUMN_MARKS_LAST = FILE_COLUMN_MARKS + FILEDATA_MARKS_SIZE - 1,
 	FILE_COLUMN_COUNT
 };
+
+
+/* Index to tree view */
+enum {
+	FILE_VIEW_COLUMN_MARKS = 0,
+	FILE_VIEW_COLUMN_MARKS_LAST = FILE_VIEW_COLUMN_MARKS + FILEDATA_MARKS_SIZE - 1,
+	FILE_VIEW_COLUMN_THUMB,
+	FILE_VIEW_COLUMN_MULTILINE,
+	FILE_VIEW_COLUMN_NAME,
+	FILE_VIEW_COLUMN_SIZE,
+	FILE_VIEW_COLUMN_DATE,
+	FILE_VIEW_COLUMN_COUNT
+};
+
 
 
 static gint vflist_row_is_selected(ViewFile *vf, FileData *fd);
@@ -726,7 +740,8 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 	gchar *size;
 	gchar *sidecars = NULL;
 	gchar *name_sidecars;
-	
+	gchar *multiline;
+	const gchar *time = text_from_time(fd->date);
 	name_sidecars = (gchar *)fd->name;
 
 	if (fd->sidecar_files)
@@ -735,13 +750,16 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 		name_sidecars = g_strdup_printf("%s %s", fd->name, sidecars);
 		}
 	size = text_from_size(fd->size);
+	
+	multiline = g_strdup_printf("%s\n%s\n%s", name_sidecars, size, time);
 
 	gtk_tree_store_set(store, iter, FILE_COLUMN_POINTER, fd,
 					FILE_COLUMN_VERSION, fd->version,
 					FILE_COLUMN_THUMB, fd->pixbuf,
+					FILE_COLUMN_MULTILINE, multiline,
 					FILE_COLUMN_NAME, name_sidecars,
 					FILE_COLUMN_SIZE, size,
-					FILE_COLUMN_DATE, text_from_time(fd->date),
+					FILE_COLUMN_DATE, time,
 #define STORE_SET_IS_SLOW 1
 #if STORE_SET_IS_SLOW	
 /* this is 3x faster on a directory with 20000 files */
@@ -770,6 +788,7 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 		g_free(sidecars);
 		g_free(name_sidecars);
 		}
+	g_free(multiline);
 }
 
 static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *parent_iter, GList *list, GList *selected)
@@ -1550,18 +1569,17 @@ void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
  *-----------------------------------------------------------------------------
  */
 
-static void vflist_listview_set_height(GtkWidget *listview, gint thumb)
+static void vflist_listview_set_columns(GtkWidget *listview, gint thumb)
 {
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *cell;
 	GList *list;
+	gboolean multiline;
 
-	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), 0); /* first column is thumbnail */
+	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_THUMB);
 	if (!column) return;
 
-	gtk_tree_view_column_set_visible(column, thumb);
-
-	gtk_tree_view_column_set_fixed_width(column, options->thumbnails.max_width + 40);
+	gtk_tree_view_column_set_fixed_width(column, options->thumbnails.max_width + 4);
 
 	list = gtk_tree_view_column_get_cell_renderers(column);
 	if (!list) return;
@@ -1569,6 +1587,28 @@ static void vflist_listview_set_height(GtkWidget *listview, gint thumb)
 	g_list_free(list);
 
 	g_object_set(G_OBJECT(cell), "height", options->thumbnails.max_height, NULL);
+	gtk_tree_view_column_set_visible(column, thumb);
+
+	multiline = (thumb && options->thumbnails.max_height >= 48);
+	
+	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_MULTILINE);
+	if (!column) return;
+	gtk_tree_view_column_set_visible(column, multiline);
+	if (multiline) gtk_tree_view_set_expander_column(GTK_TREE_VIEW(listview), column);
+
+	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_NAME);
+	if (!column) return;
+	gtk_tree_view_column_set_visible(column, !multiline);
+	if (!multiline) gtk_tree_view_set_expander_column(GTK_TREE_VIEW(listview), column);
+
+	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_SIZE);
+	if (!column) return;
+	gtk_tree_view_column_set_visible(column, !multiline);
+
+	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_DATE);
+	if (!column) return;
+	gtk_tree_view_column_set_visible(column, !multiline);
+
 	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(listview));
 }
 
@@ -1599,7 +1639,7 @@ static void vflist_populate_view(ViewFile *vf)
 		gtk_tree_path_free(tpath);
 		}
 
-	vflist_listview_set_height(vf->listview, thumbs);
+	vflist_listview_set_columns(vf->listview, thumbs);
 
 	selected = vflist_selection_get_list(vf);
 	
@@ -1792,7 +1832,7 @@ static void vflist_listview_add_column_toggle(ViewFile *vf, gint n, const gchar 
 	g_object_set_data(G_OBJECT(renderer), "column_store_idx", GUINT_TO_POINTER(n));
 
 	index = gtk_tree_view_append_column(GTK_TREE_VIEW(vf->listview), column);
-	gtk_tree_view_column_set_fixed_width(column, 16);
+	gtk_tree_view_column_set_fixed_width(column, 18);
 	gtk_tree_view_column_set_visible(column, vf->marks_enabled);
 
 
@@ -1841,7 +1881,8 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 	GtkTreeSelection *selection;
 
 	GType flist_types[FILE_COLUMN_COUNT];
-	int i;
+	gint i;
+	gint column;
 
 	vf->info = g_new0(ViewFileInfoList, 1);
 	
@@ -1855,7 +1896,7 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 	flist_types[FILE_COLUMN_VERSION] = G_TYPE_INT;
 	flist_types[FILE_COLUMN_THUMB] = GDK_TYPE_PIXBUF;
 	flist_types[FILE_COLUMN_NAME] = G_TYPE_STRING;
-	flist_types[FILE_COLUMN_SIDECARS] = G_TYPE_STRING;
+	flist_types[FILE_COLUMN_MULTILINE] = G_TYPE_STRING;
 	flist_types[FILE_COLUMN_SIZE] = G_TYPE_STRING;
 	flist_types[FILE_COLUMN_DATE] = G_TYPE_STRING;
 	flist_types[FILE_COLUMN_COLOR] = G_TYPE_BOOLEAN;
@@ -1874,16 +1915,34 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(vf->listview), FALSE);
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(vf->listview), FALSE);
 
-	vflist_listview_add_column(vf, FILE_COLUMN_THUMB, "", TRUE, FALSE, FALSE);
+	column = 0;
 
 	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
+		{
     		vflist_listview_add_column_toggle(vf, i + FILE_COLUMN_MARKS, "");
+    		g_assert(column == FILE_VIEW_COLUMN_MARKS + i);
+    		column++;
+    		}
+
+	vflist_listview_add_column(vf, FILE_COLUMN_THUMB, "", TRUE, FALSE, FALSE);
+	g_assert(column == FILE_VIEW_COLUMN_THUMB);
+	column++;
+	
+	vflist_listview_add_column(vf, FILE_COLUMN_MULTILINE, _("Name"), FALSE, FALSE, TRUE);
+	g_assert(column == FILE_VIEW_COLUMN_MULTILINE);
+	column++;
 
 	vflist_listview_add_column(vf, FILE_COLUMN_NAME, _("Name"), FALSE, FALSE, TRUE);
-	vflist_listview_add_column(vf, FILE_COLUMN_SIDECARS, _("SC"), FALSE, FALSE, FALSE);
+	g_assert(column == FILE_VIEW_COLUMN_NAME);
+	column++;
 
 	vflist_listview_add_column(vf, FILE_COLUMN_SIZE, _("Size"), FALSE, TRUE, FALSE);
+	g_assert(column == FILE_VIEW_COLUMN_SIZE);
+	column++;
+
 	vflist_listview_add_column(vf, FILE_COLUMN_DATE, _("Date"), FALSE, TRUE, FALSE);
+	g_assert(column == FILE_VIEW_COLUMN_DATE);
+	column++;
 
 	file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 	return vf;
