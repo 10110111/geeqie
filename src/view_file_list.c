@@ -769,6 +769,8 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 	GList *work;
 	GtkTreeIter iter;
 	gint valid;
+	gint num_ordered = 0;
+	gint num_prepended = 0;
 
 	valid = gtk_tree_model_iter_children(GTK_TREE_MODEL(store), &iter, parent_iter);
 
@@ -786,6 +788,7 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 
 			if (valid)
 				{
+				num_ordered++;
 				gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
 						   FILE_COLUMN_POINTER, &old_fd,
 						   FILE_COLUMN_VERSION, &old_version,
@@ -821,7 +824,12 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 					}
 				else
 					{
-					gtk_tree_store_append(store, &new, parent_iter);
+					/*
+					    here should be used gtk_tree_store_append, but this function seems to be O(n)
+					    and it seems to be much faster to add new entries to the beginning and reorder later
+					*/
+					num_prepended++;
+					gtk_tree_store_prepend(store, &new, parent_iter);
 					}
 
 				vflist_setup_iter(vf, store, &new, file_data_ref(fd));
@@ -865,6 +873,25 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 		file_data_unref(old_fd);
 
 		valid = gtk_tree_store_remove(store, &iter);
+		}
+		
+	/* move the prepended entries to the correct position */
+	if (num_prepended)
+		{
+		gint i;
+		gint num_total = num_prepended + num_ordered;
+		gint *new_order = g_malloc(num_total * sizeof(gint));
+		
+		for (i = 0; i < num_total; i++)
+			{
+			if (i < num_ordered)
+				new_order[i] = num_prepended + i;
+			else
+				new_order[i] = num_total - 1 - i;
+			}
+		gtk_tree_store_reorder(store, parent_iter, new_order);
+
+		g_free(new_order);
 		}
 }
 
