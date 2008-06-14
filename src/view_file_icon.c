@@ -986,6 +986,7 @@ static void vficon_select_closest(ViewFile *vf, FileData *sel_fd)
 		if (match >= 0)
 			{
 			vficon_select(vf, id);
+			vficon_send_layout_select(vf, id);
 			break;
 			}
 		}
@@ -2164,6 +2165,8 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 
 	filelist_free(new_filelist);
 
+	vficon_populate(vf, TRUE, keep_position);
+
 	if (selected && num_selected == 0)
 		{
 		/* all selected files disappeared */
@@ -2171,8 +2174,6 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 		}
 		
 	filelist_free(selected);
-
-	vficon_populate(vf, TRUE, keep_position);
 
 	/* attempt to keep focus on same icon when refreshing */
 	if (focus_id && g_list_find(vf->list, focus_id))
