@@ -725,16 +725,21 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 {
 	gchar *size;
 	gchar *sidecars = NULL;
+	gchar *name_sidecars;
+	
+	name_sidecars = (gchar *)fd->name;
 
 	if (fd->sidecar_files)
+		{
 		sidecars = file_data_sc_list_to_string(fd);
+		name_sidecars = g_strdup_printf("%s %s", fd->name, sidecars);
+		}
 	size = text_from_size(fd->size);
 
 	gtk_tree_store_set(store, iter, FILE_COLUMN_POINTER, fd,
 					FILE_COLUMN_VERSION, fd->version,
 					FILE_COLUMN_THUMB, fd->pixbuf,
-					FILE_COLUMN_NAME, fd->name,
-					FILE_COLUMN_SIDECARS, sidecars,
+					FILE_COLUMN_NAME, name_sidecars,
 					FILE_COLUMN_SIZE, size,
 					FILE_COLUMN_DATE, text_from_time(fd->date),
 #define STORE_SET_IS_SLOW 1
@@ -761,7 +766,10 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 #endif
 	g_free(size);
 	if (sidecars)
+		{
 		g_free(sidecars);
+		g_free(name_sidecars);
+		}
 }
 
 static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *parent_iter, GList *list, GList *selected)
@@ -1871,7 +1879,7 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
     		vflist_listview_add_column_toggle(vf, i + FILE_COLUMN_MARKS, "");
 
-	vflist_listview_add_column(vf, FILE_COLUMN_NAME, _("Name"), FALSE, FALSE, FALSE);
+	vflist_listview_add_column(vf, FILE_COLUMN_NAME, _("Name"), FALSE, FALSE, TRUE);
 	vflist_listview_add_column(vf, FILE_COLUMN_SIDECARS, _("SC"), FALSE, FALSE, FALSE);
 
 	vflist_listview_add_column(vf, FILE_COLUMN_SIZE, _("Size"), FALSE, TRUE, FALSE);
