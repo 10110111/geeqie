@@ -723,7 +723,6 @@ static gboolean vflist_dummy_select_cb(GtkTreeSelection *selection, GtkTreeModel
 
 static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *iter, FileData *fd)
 {
-	int i;
 	gchar *size;
 	gchar *sidecars = NULL;
 
@@ -754,9 +753,11 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 					FILE_COLUMN_COLOR, FALSE, -1);
 
 #if !STORE_SET_IS_SLOW					
-
+	{
+	gint i;
 	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
 		gtk_tree_store_set(store, iter, FILE_COLUMN_MARKS + i, file_data_get_mark(fd, i), -1);
+	}
 #endif
 	g_free(size);
 	if (sidecars)
