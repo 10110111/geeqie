@@ -2084,6 +2084,7 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 	GList *new_filelist = NULL;
 	GList *selected;
 	gint num_selected = 0;
+	GList *new_iconlist = NULL;
 
 	focus_id = VFICON_INFO(vf, focus_id);
 
@@ -2157,10 +2158,19 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 			id->selected = SELECTION_NONE;
 			id->row = -1;
 			id->fd = file_data_ref(new_fd);
-			vf->list = g_list_insert_before(vf->list, work, id);
+			if (work)
+				vf->list = g_list_insert_before(vf->list, work, id);
+			else
+				new_iconlist = g_list_prepend(new_iconlist, id); /* it is faster to append all new entries together later */
+				
 			work_fd = work_fd->next;
 			}
 
+		}
+
+	if (new_iconlist)
+		{
+		vf->list = g_list_concat(vf->list, g_list_reverse(new_iconlist));
 		}
 
 	filelist_free(new_filelist);
