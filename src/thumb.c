@@ -20,6 +20,7 @@
 #include "pixbuf_util.h"
 #include "thumb_standard.h"
 #include "ui_fileops.h"
+#include "exif.h"
 
 #include <utime.h>
 
@@ -147,6 +148,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 	GdkPixbuf *pixbuf;
 	gint pw, ph;
 	gint save;
+	GdkPixbuf *rotated = NULL;
 
 	DEBUG_1("thumb done: %s", tl->fd->path);
 
@@ -156,6 +158,24 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 		DEBUG_1("...but no pixbuf: %s", tl->fd->path);
 		thumb_loader_error_cb(tl->il, tl);
 		return;
+		}
+
+
+	if (!tl->cache_hit && options->image.exif_rotate_enable)
+		{
+		if (!tl->fd->exif_orientation)
+			{
+			ExifData *exif = exif_read_fd(tl->fd);
+			gint orientation;
+
+			if (exif && exif_get_integer(exif, "Exif.Image.Orientation", &orientation))
+				tl->fd->exif_orientation = orientation;
+			else
+				tl->fd->exif_orientation = 1;
+			}
+		
+		rotated = pixbuf_apply_orientation(pixbuf, tl->fd->exif_orientation);
+		pixbuf = rotated;
 		}
 
 	pw = gdk_pixbuf_get_width(pixbuf);
@@ -217,6 +237,8 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 		save = il->shrunk;
 		}
 
+	if (rotated) gdk_pixbuf_unref(rotated);
+	
 	/* save it ? */
 	if (tl->cache_enable && save)
 		{

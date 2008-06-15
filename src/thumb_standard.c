@@ -20,6 +20,7 @@
 #include "pixbuf_util.h"
 #include "ui_fileops.h"
 #include "filedata.h"
+#include "exif.h"
 
 
 /*
@@ -398,7 +399,26 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 {
 	GdkPixbuf *pixbuf_thumb = NULL;
 	GdkPixbuf *result;
+	GdkPixbuf *rotated = NULL;
 	gint sw, sh;
+
+
+	if (!tl->cache_hit && options->image.exif_rotate_enable)
+		{
+		if (!tl->fd->exif_orientation)
+			{
+			ExifData *exif = exif_read_fd(tl->fd);
+			gint orientation;
+
+			if (exif && exif_get_integer(exif, "Exif.Image.Orientation", &orientation))
+				tl->fd->exif_orientation = orientation;
+			else
+				tl->fd->exif_orientation = 1;
+			}
+		
+		rotated = pixbuf_apply_orientation(pixbuf, tl->fd->exif_orientation);
+		pixbuf = rotated;
+		}
 
 	sw = gdk_pixbuf_get_width(pixbuf);
 	sh = gdk_pixbuf_get_height(pixbuf);
@@ -484,6 +504,7 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 		}
 
 	if (pixbuf_thumb) g_object_unref(pixbuf_thumb);
+	if (rotated) g_object_unref(rotated);
 
 	return result;
 }

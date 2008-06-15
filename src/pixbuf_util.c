@@ -13,6 +13,7 @@
 
 #include "main.h"
 #include "pixbuf_util.h"
+#include "exif.h"
 
 #include "icons/icons_inline.h"
 
@@ -380,6 +381,53 @@ GdkPixbuf *pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
 		}
 
 	return dest;
+}
+
+GdkPixbuf* pixbuf_apply_orientation(GdkPixbuf *pixbuf, gint orientation)
+{
+	GdkPixbuf *dest;
+	GdkPixbuf *tmp = NULL;
+	
+	switch (orientation)
+		{
+		case EXIF_ORIENTATION_TOP_LEFT:
+			dest = gdk_pixbuf_copy(pixbuf);
+			break;
+		case EXIF_ORIENTATION_TOP_RIGHT:
+			/* mirrored */
+			dest = pixbuf_copy_mirror(pixbuf, TRUE, FALSE);
+			break;
+		case EXIF_ORIENTATION_BOTTOM_RIGHT:
+			/* upside down */
+			dest = pixbuf_copy_mirror(pixbuf, TRUE, TRUE);
+			break;
+		case EXIF_ORIENTATION_BOTTOM_LEFT:
+			/* flipped */
+			dest = pixbuf_copy_mirror(pixbuf, FALSE, TRUE);
+			break;
+		case EXIF_ORIENTATION_LEFT_TOP:
+			tmp = pixbuf_copy_mirror(pixbuf, FALSE, TRUE);
+			dest = pixbuf_copy_rotate_90(tmp, FALSE);
+			break;
+		case EXIF_ORIENTATION_RIGHT_TOP:
+			/* rotated -90 (270) */
+			dest = pixbuf_copy_rotate_90(pixbuf, FALSE);
+			break;
+		case EXIF_ORIENTATION_RIGHT_BOTTOM:
+			tmp = pixbuf_copy_mirror(pixbuf, FALSE, TRUE);
+			dest = pixbuf_copy_rotate_90(tmp, TRUE);
+			break;
+		case EXIF_ORIENTATION_LEFT_BOTTOM:
+			/* rotated 90 */
+			dest = pixbuf_copy_rotate_90(pixbuf, TRUE);
+			break;
+		default:
+			dest = gdk_pixbuf_copy(pixbuf);
+			break;
+		}
+	if (tmp) gdk_pixbuf_unref(tmp);
+	return dest;
+
 }
 
 
