@@ -1340,7 +1340,7 @@ static void dupe_thumb_step(DupeWindow *dw)
 				   dw);
 
 	/* start it */
-	if (!thumb_loader_start(dw->thumb_loader, di->fd->path))
+	if (!thumb_loader_start(dw->thumb_loader, di->fd))
 		{
 		/* error, handle it, do next */
 		DEBUG_1("error loading thumb for %s", di->fd->path);

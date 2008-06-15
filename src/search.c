@@ -720,9 +720,6 @@ static void search_result_thumb_do(SearchData *sd)
 	if (!sd->thumb_loader || !sd->thumb_fd) return;
 	fd = sd->thumb_fd;
 
-	if (fd->pixbuf) g_object_unref(fd->pixbuf);
-	fd->pixbuf = thumb_loader_get_pixbuf(sd->thumb_loader, TRUE);
-
 	search_result_thumb_set(sd, fd, NULL);
 }
 
@@ -795,7 +792,7 @@ static void search_result_thumb_step(SearchData *sd)
 				   search_result_thumb_done_cb,
 				   NULL,
 				   sd);
-	if (!thumb_loader_start(sd->thumb_loader, mfd->fd->path))
+	if (!thumb_loader_start(sd->thumb_loader, mfd->fd))
 		{
 		search_result_thumb_do(sd);
 		search_result_thumb_step(sd);

@@ -1008,9 +1008,6 @@ static void vflist_thumb_do(ViewFile *vf, ThumbLoader *tl, FileData *fd)
 
 	if (!fd || vflist_find_row(vf, fd, &iter) < 0) return;
 
-	if (fd->pixbuf) g_object_unref(fd->pixbuf);
-	fd->pixbuf = thumb_loader_get_pixbuf(tl, TRUE);
-
 	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
 	gtk_tree_store_set(store, &iter, FILE_COLUMN_THUMB, fd->pixbuf, -1);
 
@@ -1113,10 +1110,10 @@ static gint vflist_thumb_next(ViewFile *vf)
 				   NULL,
 				   vf);
 
-	if (!thumb_loader_start(vf->thumbs_loader, fd->path))
+	if (!thumb_loader_start(vf->thumbs_loader, fd))
 		{
 		/* set icon to unknown, continue */
-		DEBUG_1("thumb loader start failed %s", vf->thumbs_loader->path);
+		DEBUG_1("thumb loader start failed %s", fd->path);
 		vflist_thumb_do(vf, vf->thumbs_loader, fd);
 
 		return TRUE;

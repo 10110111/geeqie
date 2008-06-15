@@ -233,7 +233,7 @@ static gint pan_queue_step(PanWindow *pw)
 					   pan_queue_thumb_done_cb,
 					   NULL, pw);
 
-		if (thumb_loader_start(pw->tl, pi->fd->path)) return FALSE;
+		if (thumb_loader_start(pw->tl, pi->fd)) return FALSE;
 
 		thumb_loader_free(pw->tl);
 		pw->tl = NULL;

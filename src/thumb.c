@@ -25,7 +25,7 @@
 
 
 static void thumb_loader_error_cb(ImageLoader *il, gpointer data);
-static void thumb_loader_setup(ThumbLoader *tl, gchar *path);
+static void thumb_loader_setup(ThumbLoader *tl, const gchar *path);
 
 static gint normalize_thumb(gint *width, gint *height, gint max_w, gint max_h);
 static GdkPixbuf *get_xv_thumbnail(gchar *thumb_filename, gint max_w, gint max_h);
@@ -43,15 +43,15 @@ static gint thumb_loader_save_to_cache(ThumbLoader *tl)
 	gint success = FALSE;
 	mode_t mode = 0755;
 
-	if (!tl || !tl->pixbuf) return FALSE;
+	if (!tl || !tl->fd || !tl->fd->pixbuf) return FALSE;
 
-	cache_dir = cache_get_location(CACHE_TYPE_THUMB, tl->path, FALSE, &mode);
+	cache_dir = cache_get_location(CACHE_TYPE_THUMB, tl->fd->path, FALSE, &mode);
 
 	if (cache_ensure_dir_exists(cache_dir, mode))
 		{
 		gchar *cache_path;
 		gchar *pathl;
-		gchar *name = g_strconcat(filename_from_path(tl->path), GQ_CACHE_EXT_THUMB, NULL);
+		gchar *name = g_strconcat(filename_from_path(tl->fd->path), GQ_CACHE_EXT_THUMB, NULL);
 
 		cache_path = g_build_filename(cache_dir, name, NULL);
 		g_free(name);
@@ -59,13 +59,13 @@ static gint thumb_loader_save_to_cache(ThumbLoader *tl)
 		DEBUG_1("Saving thumb: %s", cache_path);
 
 		pathl = path_from_utf8(cache_path);
-		success = pixbuf_to_file_as_png(tl->pixbuf, pathl);
+		success = pixbuf_to_file_as_png(tl->fd->pixbuf, pathl);
 		if (success)
 			{
 			struct utimbuf ut;
 			/* set thumb time to that of source file */
 
-			ut.actime = ut.modtime = filetime(tl->path);
+			ut.actime = ut.modtime = filetime(tl->fd->path);
 			if (ut.modtime > 0)
 				{
 				utime(pathl, &ut);
@@ -93,14 +93,14 @@ static gint thumb_loader_mark_failure(ThumbLoader *tl)
 
 	if (!tl) return FALSE;
 
-	cache_dir = cache_get_location(CACHE_TYPE_THUMB, tl->path, FALSE, &mode);
+	cache_dir = cache_get_location(CACHE_TYPE_THUMB, tl->fd->path, FALSE, &mode);
 
 	if (cache_ensure_dir_exists(cache_dir, mode))
 		{
 		gchar *cache_path;
 		gchar *pathl;
 		FILE *f;
-		gchar *name = g_strconcat(filename_from_path(tl->path), GQ_CACHE_EXT_THUMB, NULL);
+		gchar *name = g_strconcat(filename_from_path(tl->fd->path), GQ_CACHE_EXT_THUMB, NULL);
 
 		cache_path = g_build_filename(cache_dir, name, NULL);
 		g_free(name);
@@ -115,7 +115,7 @@ static gint thumb_loader_mark_failure(ThumbLoader *tl)
 
 			fclose(f);
 
-			ut.actime = ut.modtime = filetime(tl->path);
+			ut.actime = ut.modtime = filetime(tl->fd->path);
 			if (ut.modtime > 0)
 				{
 				utime(pathl, &ut);
@@ -148,12 +148,12 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 	gint pw, ph;
 	gint save;
 
-	DEBUG_1("thumb done: %s", tl->path);
+	DEBUG_1("thumb done: %s", tl->fd->path);
 
 	pixbuf = image_loader_get_pixbuf(tl->il);
 	if (!pixbuf)
 		{
-		DEBUG_1("...but no pixbuf: %s", tl->path);
+		DEBUG_1("...but no pixbuf: %s", tl->fd->path);
 		thumb_loader_error_cb(tl->il, tl);
 		return;
 		}
@@ -164,17 +164,17 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 	if (tl->cache_hit && pw != tl->max_w && ph != tl->max_h)
 		{
 		/* requested thumbnail size may have changed, load original */
-		DEBUG_1("thumbnail size mismatch, regenerating: %s", tl->path);
+		DEBUG_1("thumbnail size mismatch, regenerating: %s", tl->fd->path);
 		tl->cache_hit = FALSE;
 
-		thumb_loader_setup(tl, tl->path);
+		thumb_loader_setup(tl, tl->fd->path);
 
 		if (!image_loader_start(tl->il, thumb_loader_done_cb, tl))
 			{
 			image_loader_free(tl->il);
 			tl->il = NULL;
 
-			DEBUG_1("regeneration failure: %s", tl->path);
+			DEBUG_1("regeneration failure: %s", tl->fd->path);
 			thumb_loader_error_cb(tl->il, tl);
 			}
 		return;
@@ -198,14 +198,22 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 			w = (double)h / ph * pw;
 			if (w < 1) w = 1;
 			}
-
-		tl->pixbuf = gdk_pixbuf_scale_simple(pixbuf, w, h, (GdkInterpType)options->thumbnails.quality);
+		
+		if (tl->fd)
+			{
+			if (tl->fd->pixbuf) g_object_unref(tl->fd->pixbuf);
+			tl->fd->pixbuf = gdk_pixbuf_scale_simple(pixbuf, w, h, (GdkInterpType)options->thumbnails.quality);
+			}
 		save = TRUE;
 		}
 	else
 		{
-		tl->pixbuf = pixbuf;
-		gdk_pixbuf_ref(tl->pixbuf);
+		if (tl->fd)
+			{
+			if (tl->fd->pixbuf) g_object_unref(tl->fd->pixbuf);
+			tl->fd->pixbuf = pixbuf;
+			gdk_pixbuf_ref(tl->fd->pixbuf);
+			}
 		save = il->shrunk;
 		}
 
@@ -229,7 +237,7 @@ static void thumb_loader_error_cb(ImageLoader *il, gpointer data)
 		return;
 		}
 
-	DEBUG_1("thumb error: %s", tl->path);
+	DEBUG_1("thumb error: %s", tl->fd->path);
 
 	image_loader_free(tl->il);
 	tl->il = NULL;
@@ -253,10 +261,12 @@ static void thumb_loader_delay_done(ThumbLoader *tl)
 	if (tl->idle_done_id == -1) tl->idle_done_id = g_idle_add(thumb_loader_done_delay_cb, tl);
 }
 
-static void thumb_loader_setup(ThumbLoader *tl, gchar *path)
+static void thumb_loader_setup(ThumbLoader *tl, const gchar *path)
 {
+	FileData *fd = file_data_new_simple(path);
 	image_loader_free(tl->il);
-	tl->il = image_loader_new(file_data_new_simple(path));
+	tl->il = image_loader_new(fd);
+	file_data_unref(fd);
 
 	if (options->thumbnails.fast)
 		{
@@ -311,7 +321,7 @@ void thumb_loader_set_cache(ThumbLoader *tl, gint enable_cache, gint local, gint
 }
 
 
-gint thumb_loader_start(ThumbLoader *tl, const gchar *path)
+gint thumb_loader_start(ThumbLoader *tl, FileData *fd)
 {
 	gchar *cache_path = NULL;
 
@@ -319,22 +329,22 @@ gint thumb_loader_start(ThumbLoader *tl, const gchar *path)
 
 	if (tl->standard_loader)
 		{
-		return thumb_loader_std_start((ThumbLoaderStd *)tl, path);
+		return thumb_loader_std_start((ThumbLoaderStd *)tl, fd);
 		}
 
-	if (!tl->path && !path) return FALSE;
+	if (!tl->fd && !fd) return FALSE;
 
-	if (!tl->path) tl->path = g_strdup(path);
+	if (!tl->fd) tl->fd = file_data_ref(fd);
 
 	if (tl->cache_enable)
 		{
-		cache_path = cache_find_location(CACHE_TYPE_THUMB, tl->path);
+		cache_path = cache_find_location(CACHE_TYPE_THUMB, tl->fd->path);
 
 		if (cache_path)
 			{
-			if (cache_time_valid(cache_path, tl->path))
+			if (cache_time_valid(cache_path, tl->fd->path))
 				{
-				DEBUG_1("Found in cache:%s", tl->path);
+				DEBUG_1("Found in cache:%s", tl->fd->path);
 
 				if (filesize(cache_path) == 0)
 					{
@@ -355,8 +365,9 @@ gint thumb_loader_start(ThumbLoader *tl, const gchar *path)
 
 	if (!cache_path && options->thumbnails.use_xvpics)
 		{
-		tl->pixbuf = get_xv_thumbnail(tl->path, tl->max_w, tl->max_h);
-		if (tl->pixbuf)
+		if (tl->fd->pixbuf) g_object_unref(tl->fd->pixbuf);
+		tl->fd->pixbuf = get_xv_thumbnail(tl->fd->path, tl->max_w, tl->max_h);
+		if (tl->fd->pixbuf)
 			{
 			thumb_loader_delay_done(tl);
 			return TRUE;
@@ -371,7 +382,7 @@ gint thumb_loader_start(ThumbLoader *tl, const gchar *path)
 		}
 	else
 		{
-		thumb_loader_setup(tl, tl->path);
+		thumb_loader_setup(tl, tl->fd->path);
 		}
 
 	if (!image_loader_start(tl->il, thumb_loader_done_cb, tl))
@@ -382,7 +393,7 @@ gint thumb_loader_start(ThumbLoader *tl, const gchar *path)
 			tl->cache_hit = FALSE;
 			log_printf("%s", _("Thumbnail image in cache failed to load, trying to recreate.\n"));
 
-			thumb_loader_setup(tl, tl->path);
+			thumb_loader_setup(tl, tl->fd->path);
 			if (image_loader_start(tl->il, thumb_loader_done_cb, tl)) return TRUE;
 			}
 		/* mark failed thumbnail in cache with 0 byte file */
@@ -419,9 +430,9 @@ GdkPixbuf *thumb_loader_get_pixbuf(ThumbLoader *tl, gint with_fallback)
 		return thumb_loader_std_get_pixbuf((ThumbLoaderStd *)tl, with_fallback);
 		}
 
-	if (tl && tl->pixbuf)
+	if (tl && tl->fd && tl->fd->pixbuf)
 		{
-		pixbuf = tl->pixbuf;
+		pixbuf = tl->fd->pixbuf;
 		g_object_ref(pixbuf);
 		}
 	else if (with_fallback)
@@ -471,7 +482,7 @@ ThumbLoader *thumb_loader_new(gint width, gint height)
 
 	tl = g_new0(ThumbLoader, 1);
 	tl->standard_loader = FALSE;
-	tl->path = NULL;
+	tl->fd = NULL;
 	tl->cache_enable = options->thumbnails.enable_caching;
 	tl->cache_hit = FALSE;
 	tl->percent_done = 0.0;
@@ -495,9 +506,8 @@ void thumb_loader_free(ThumbLoader *tl)
 		return;
 		}
 
-	if (tl->pixbuf) gdk_pixbuf_unref(tl->pixbuf);
 	image_loader_free(tl->il);
-	g_free(tl->path);
+	file_data_unref(tl->fd);
 
 	if (tl->idle_done_id != -1) g_source_remove(tl->idle_done_id);
 

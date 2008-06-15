@@ -788,7 +788,7 @@ static gint cache_manager_render_file(CleanData *cd)
 					   cache_manager_render_thumb_done_cb,
 					   NULL, cd);
 		thumb_loader_set_cache((ThumbLoader *)cd->tl, TRUE, cd->local, TRUE);
-		success = thumb_loader_start((ThumbLoader *)cd->tl, fd->path);
+		success = thumb_loader_start((ThumbLoader *)cd->tl, fd);
 		if (success)
 			{
 			gtk_entry_set_text(GTK_ENTRY(cd->progress), fd->path);

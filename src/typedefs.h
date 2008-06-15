@@ -226,9 +226,8 @@ struct _ThumbLoader
 {
 	gint standard_loader;
 
-	GdkPixbuf *pixbuf;	/* contains final (scaled) image when done */
 	ImageLoader *il;
-	gchar *path;
+	FileData *fd;           /* fd->pixbuf contains final (scaled) image when done */
 
 	gint cache_enable;
 	gint cache_hit;

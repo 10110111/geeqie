@@ -1488,7 +1488,7 @@ static void vficon_clear_store(ViewFile *vf)
 	gtk_list_store_clear(GTK_LIST_STORE(store));
 }
 
-static void vficon_set_thumb(ViewFile *vf, FileData *fd, GdkPixbuf *pb)
+static void vficon_set_thumb(ViewFile *vf, FileData *fd)
 {
 	GtkTreeModel *store;
 	GtkTreeIter iter;
@@ -1497,10 +1497,6 @@ static void vficon_set_thumb(ViewFile *vf, FileData *fd, GdkPixbuf *pb)
 	if (!vficon_find_iter(vf, vficon_icon_data(vf, fd), &iter, NULL)) return;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
-
-	if (pb) g_object_ref(pb);
-	if (fd->pixbuf) g_object_unref(fd->pixbuf);
-	fd->pixbuf = pb;
 
 	gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &list, -1);
 	gtk_list_store_set(GTK_LIST_STORE(store), &iter, FILE_COLUMN_POINTER, list, -1);
@@ -1826,13 +1822,9 @@ static void vficon_thumb_stop(ViewFile *vf)
 
 static void vficon_thumb_do(ViewFile *vf, ThumbLoader *tl, FileData *fd)
 {
-	GdkPixbuf *pixbuf;
-
 	if (!fd) return;
 
-	pixbuf = thumb_loader_get_pixbuf(tl, TRUE);
-	vficon_set_thumb(vf, fd, pixbuf);
-	g_object_unref(pixbuf);
+	vficon_set_thumb(vf, fd);
 
 	vficon_thumb_status(vf, (gdouble)(vf->thumbs_count) / g_list_length(vf->list), _("Loading thumbs..."));
 }
@@ -1934,10 +1926,10 @@ static gint vficon_thumb_next(ViewFile *vf)
 				   NULL,
 				   vf);
 
-	if (!thumb_loader_start(vf->thumbs_loader, fd->path))
+	if (!thumb_loader_start(vf->thumbs_loader, fd))
 		{
 		/* set icon to unknown, continue */
-		DEBUG_1("thumb loader start failed %s", vf->thumbs_loader->path);
+		DEBUG_1("thumb loader start failed %s", fd->path);
 		vficon_thumb_do(vf, vf->thumbs_loader, fd);
 
 		return TRUE;

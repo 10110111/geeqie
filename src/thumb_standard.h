@@ -30,10 +30,8 @@ struct _ThumbLoaderStd
 {
 	gint standard_loader;
 
-	GdkPixbuf *pixbuf;
 	ImageLoader *il;
-
-	gchar *source_path;
+	FileData *fd;
 
 	time_t source_mtime;
 	off_t source_size;
@@ -70,7 +68,7 @@ void thumb_loader_std_set_callbacks(ThumbLoaderStd *tl,
 				    ThumbLoaderStdFunc func_progress,
 				    gpointer data);
 void thumb_loader_std_set_cache(ThumbLoaderStd *tl, gint enable_cache, gint local, gint retry_failed);
-gint thumb_loader_std_start(ThumbLoaderStd *tl, const gchar *path);
+gint thumb_loader_std_start(ThumbLoaderStd *tl, FileData *fd);
 void thumb_loader_std_free(ThumbLoaderStd *tl);
 
 GdkPixbuf *thumb_loader_std_get_pixbuf(ThumbLoaderStd *tl, gint with_fallback);

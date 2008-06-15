@@ -289,7 +289,7 @@ static void collection_load_thumb_step(CollectionData *cd)
 				   cd);
 
 	/* start it */
-	if (!thumb_loader_start(cd->thumb_loader, ci->fd->path))
+	if (!thumb_loader_start(cd->thumb_loader, ci->fd))
 		{
 		/* error, handle it, do next */
 		DEBUG_1("error loading thumb for %s", ci->fd->path);
