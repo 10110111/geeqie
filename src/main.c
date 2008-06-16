@@ -569,6 +569,7 @@ static void exit_program_final(void)
 {
 	gchar *path;
 	gchar *pathl;
+	LayoutWindow *lw = NULL;
 
 	remote_close(remote_connection);
 
@@ -583,6 +584,11 @@ static void exit_program_final(void)
 	gtk_accel_map_save(pathl);
 	g_free(pathl);
 	g_free(path);
+
+	if (layout_valid(&lw))
+		{
+		layout_free(lw);
+		}
 
 	gtk_main_quit();
 }
