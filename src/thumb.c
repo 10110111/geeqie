@@ -172,6 +172,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 				tl->fd->exif_orientation = orientation;
 			else
 				tl->fd->exif_orientation = 1;
+			exif_free(exif);
 			}
 		
 		rotated = pixbuf_apply_orientation(pixbuf, tl->fd->exif_orientation);

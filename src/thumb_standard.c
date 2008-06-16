@@ -414,6 +414,7 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 				tl->fd->exif_orientation = orientation;
 			else
 				tl->fd->exif_orientation = 1;
+			exif_free(exif);
 			}
 		
 		rotated = pixbuf_apply_orientation(pixbuf, tl->fd->exif_orientation);
