@@ -634,7 +634,6 @@ struct _ViewFile
 
 	/* thumbs updates*/
 	gint thumbs_running;
-	gint thumbs_count;
 	ThumbLoader *thumbs_loader;
 	FileData *thumbs_filedata;
 

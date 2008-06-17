@@ -1794,6 +1794,25 @@ void vficon_sort_set(ViewFile *vf, SortType type, gint ascend)
 
 static gint vficon_thumb_next(ViewFile *vf);
 
+static gdouble vficon_thumb_progress(ViewFile *vf)
+{
+	gint count = 0;
+	gint done = 0;
+	
+	GList *work = vf->list;
+	while (work)
+		{
+		IconData *id = work->data;
+		FileData *fd = id->fd;
+		work = work->next;
+
+		if (fd->pixbuf) done++;
+		count++;
+		}
+	DEBUG_1("thumb progress: %d of %d", done, count);
+	return (gdouble)done / count;
+}
+
 static void vficon_thumb_status(ViewFile *vf, gdouble val, const gchar *text)
 {
 	if (vf->func_thumb_status)
@@ -1806,7 +1825,6 @@ static void vficon_thumb_cleanup(ViewFile *vf)
 {
 	vficon_thumb_status(vf, 0.0, NULL);
 
-	vf->thumbs_count = 0;
 	vf->thumbs_running = FALSE;
 
 	thumb_loader_free(vf->thumbs_loader);
@@ -1826,7 +1844,7 @@ static void vficon_thumb_do(ViewFile *vf, ThumbLoader *tl, FileData *fd)
 
 	vficon_set_thumb(vf, fd);
 
-	vficon_thumb_status(vf, (gdouble)(vf->thumbs_count) / g_list_length(vf->list), _("Loading thumbs..."));
+	vficon_thumb_status(vf, vficon_thumb_progress(vf), _("Loading thumbs..."));
 }
 
 static void vficon_thumb_error_cb(ThumbLoader *tl, gpointer data)
@@ -1912,8 +1930,6 @@ static gint vficon_thumb_next(ViewFile *vf)
 		vficon_thumb_cleanup(vf);
 		return FALSE;
 		}
-
-	vf->thumbs_count++;
 
 	vf->thumbs_filedata = fd;
 

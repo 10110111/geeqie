@@ -671,7 +671,6 @@ ViewFile *vf_new(FileViewType type, FileData *dir_fd)
 	vf->sort_ascend = TRUE;
 	
 	vf->thumbs_running = FALSE;
-	vf->thumbs_count = 0;
 	vf->thumbs_loader = NULL;
 	vf->thumbs_filedata = NULL;
 

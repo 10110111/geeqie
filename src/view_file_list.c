@@ -975,6 +975,36 @@ void vflist_sort_set(ViewFile *vf, SortType type, gint ascend)
 
 static gint vflist_thumb_next(ViewFile *vf);
 
+static void vflist_thumb_progress_count(GList *list, gint *count, gint *done)
+{
+	GList *work = list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+
+		if (fd->pixbuf) (*done)++;
+		
+		if (fd->sidecar_files) 
+			{
+			vflist_thumb_progress_count(fd->sidecar_files, count, done);
+			}
+		(*count)++;
+		}
+}
+
+static gdouble vflist_thumb_progress(ViewFile *vf)
+{
+	gint count = 0;
+	gint done = 0;
+	
+	vflist_thumb_progress_count(vf->list, &count, &done);
+
+	DEBUG_1("thumb progress: %d of %d", done, count);
+	return (gdouble)done / count;
+}
+
+
 static void vflist_thumb_status(ViewFile *vf, gdouble val, const gchar *text)
 {
 	if (vf->func_thumb_status)
@@ -987,7 +1017,6 @@ static void vflist_thumb_cleanup(ViewFile *vf)
 {
 	vflist_thumb_status(vf, 0.0, NULL);
 
-	vf->thumbs_count = 0;
 	vf->thumbs_running = FALSE;
 
 	thumb_loader_free(vf->thumbs_loader);
@@ -1011,7 +1040,7 @@ static void vflist_thumb_do(ViewFile *vf, ThumbLoader *tl, FileData *fd)
 	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
 	gtk_tree_store_set(store, &iter, FILE_COLUMN_THUMB, fd->pixbuf, -1);
 
-	vflist_thumb_status(vf, (gdouble)(vf->thumbs_count) / vflist_sidecar_list_count(vf->list), _("Loading thumbs..."));
+	vflist_thumb_status(vf, vflist_thumb_progress(vf), _("Loading thumbs..."));
 }
 
 static void vflist_thumb_error_cb(ThumbLoader *tl, gpointer data)
@@ -1096,8 +1125,6 @@ static gint vflist_thumb_next(ViewFile *vf)
 		vflist_thumb_cleanup(vf);
 		return FALSE;
 		}
-
-	vf->thumbs_count++;
 
 	vf->thumbs_filedata = fd;
 
