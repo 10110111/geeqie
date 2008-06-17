@@ -171,12 +171,15 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 			if (exif && exif_get_integer(exif, "Exif.Image.Orientation", &orientation))
 				tl->fd->exif_orientation = orientation;
 			else
-				tl->fd->exif_orientation = 1;
+				tl->fd->exif_orientation = EXIF_ORIENTATION_TOP_LEFT;
 			exif_free(exif);
 			}
 		
-		rotated = pixbuf_apply_orientation(pixbuf, tl->fd->exif_orientation);
-		pixbuf = rotated;
+		if (tl->fd->exif_orientation != EXIF_ORIENTATION_TOP_LEFT)
+			{
+			rotated = pixbuf_apply_orientation(pixbuf, tl->fd->exif_orientation);
+			pixbuf = rotated;
+			}
 		}
 
 	pw = gdk_pixbuf_get_width(pixbuf);

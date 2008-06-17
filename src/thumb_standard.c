@@ -413,12 +413,15 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 			if (exif && exif_get_integer(exif, "Exif.Image.Orientation", &orientation))
 				tl->fd->exif_orientation = orientation;
 			else
-				tl->fd->exif_orientation = 1;
+				tl->fd->exif_orientation = EXIF_ORIENTATION_TOP_LEFT;
 			exif_free(exif);
 			}
 		
-		rotated = pixbuf_apply_orientation(pixbuf, tl->fd->exif_orientation);
-		pixbuf = rotated;
+		if (tl->fd->exif_orientation != EXIF_ORIENTATION_TOP_LEFT)
+			{
+			rotated = pixbuf_apply_orientation(pixbuf, tl->fd->exif_orientation);
+			pixbuf = rotated;
+			}
 		}
 
 	sw = gdk_pixbuf_get_width(pixbuf);
