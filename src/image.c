@@ -535,7 +535,7 @@ static void image_post_process(ImageWindow *imd, gint clamp)
 
 	if (!imd->cm) image_post_process_alter(imd, clamp);
 
-	exif_free(exif);
+	exif_free_fd(fd, exif);
 #endif
 }
 
@@ -731,7 +731,7 @@ static gint image_post_buffer_get(ImageWindow *imd)
 
 			if (imd->color_profile_use_image) exif = exif_read_fd(imd->image_fd);
 //			image_post_process_color(imd, imd->prev_color_row, exif, TRUE);
-			exif_free(exif);
+			exif_free_fd(imd->image_fd, exif);
 			}
 		success = TRUE;
 		}
@@ -1328,7 +1328,7 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
 			}
 		}
 
-	exif_free(exif);
+	exif_free_fd(imd->image_fd, exif);
 
 	if (imd->cm || imd->desaturate)
 		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, image_post_process_tile_color_cb, (gpointer) imd, (imd->cm != NULL) );

@@ -177,6 +177,8 @@ typedef struct _Histogram Histogram;
 
 typedef struct _SecureSaveInfo SecureSaveInfo;
 
+typedef struct _ExifData ExifData;
+
 typedef struct _Editor Editor;
 struct _Editor {
 	gchar *name;
@@ -449,6 +451,8 @@ struct _FileData {
 	gint version; /* increased when any field in this structure is changed */
 	gint user_orientation;
 	gint exif_orientation;
+	
+	ExifData *exif;
 };
 
 struct _LayoutWindow

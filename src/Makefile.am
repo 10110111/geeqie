@@ -115,6 +115,8 @@ geeqie_SOURCES = \
 	exif-int.h	\
 	exif-common.c   \
 	exiv2.cc	\
+	filecache.c	\
+	filecache.h	\
 	filedata.c	\
 	filedata.h	\
 	filefilter.c	\

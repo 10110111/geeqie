@@ -1486,7 +1486,7 @@ static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 			}
 		}
 
-	exif_free(exif);
+	exif_free_fd(fd, exif);
 }
 
 static void pan_info_update(PanWindow *pw, PanItem *pi)

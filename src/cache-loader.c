@@ -148,7 +148,7 @@ static gboolean cache_loader_process(CacheLoader *cl)
 					}
 				g_free(text);
 				}
-			exif_free(exif);
+			exif_free_fd(cl->fd, exif);
 			}
 
 		cl->cd->date = date;

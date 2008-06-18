@@ -61,8 +61,6 @@ typedef enum {
 
 typedef struct _ExifItem ExifItem;
 
-typedef struct _ExifData ExifData;
-
 typedef struct _ExifRational ExifRational;
 struct _ExifRational
 {
@@ -110,6 +108,7 @@ struct _ExifFormattedText
 ExifData *exif_read(gchar *path, gchar *sidecar_path);
 
 ExifData *exif_read_fd(FileData *fd);
+void exif_free_fd(FileData *fd, ExifData *exif);
 
 
 int exif_write(ExifData *exif);

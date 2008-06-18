@@ -300,7 +300,7 @@ static void bar_exif_update(ExifBar *eb)
 			}
 		}
 
-	exif_free(exif);
+	exif_free_fd(eb->fd, exif);
 }
 
 static void bar_exif_clear(ExifBar *eb)

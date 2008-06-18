@@ -172,7 +172,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 				tl->fd->exif_orientation = orientation;
 			else
 				tl->fd->exif_orientation = EXIF_ORIENTATION_TOP_LEFT;
-			exif_free(exif);
+			exif_free_fd(tl->fd, exif);
 			}
 		
 		if (tl->fd->exif_orientation != EXIF_ORIENTATION_TOP_LEFT)

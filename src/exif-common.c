@@ -37,6 +37,7 @@
 
 #include "filedata.h"
 #include "filefilter.h"
+#include "filecache.h"
 #include "format_raw.h"
 #include "ui_fileops.h"
 
@@ -520,11 +521,24 @@ gchar *exif_get_data_as_text(ExifData *exif, const gchar *key)
 	return NULL;
 }
 
+
+static FileCacheData *exif_cache;
+
+void exif_release_cb(FileData *fd)
+{
+	exif_free(fd->exif);
+	fd->exif = NULL;
+}
+
 ExifData *exif_read_fd(FileData *fd)
 {
 	gchar *sidecar_path = NULL;
 
 	if (!fd) return NULL;
+	
+	if (!exif_cache) exif_cache = file_cache_new(exif_release_cb, 4);
+	
+	if (file_cache_get(exif_cache, fd)) return fd->exif;
 
 	if (filter_file_class(fd->extension, FORMAT_CLASS_RAWIMAGE))
 		{
@@ -544,11 +558,17 @@ ExifData *exif_read_fd(FileData *fd)
 		}
 
 
-	// FIXME: some caching would be nice
-	return exif_read(fd->path, sidecar_path);
+	fd->exif = exif_read(fd->path, sidecar_path);
+	return fd->exif;
 }
 
-
+void exif_free_fd(FileData *fd, ExifData *exif)
+{
+	if (!fd) return;
+	g_assert(fd->exif == exif);
+	
+	file_cache_put(exif_cache, fd, 1);
+}
 
 /* embedded icc in jpeg */
 

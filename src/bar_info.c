@@ -355,7 +355,7 @@ static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 			}
 		}
 
-	exif_free(exif);
+	exif_free_fd(fd, exif);
 
 	return (comment && *comment) || (keywords && *keywords);
 }
@@ -401,7 +401,7 @@ static gint comment_xmp_write(FileData *fd, GList *keywords, const gchar *commen
 
 	success = exif_write(exif);
 
-	exif_free(exif);
+	exif_free_fd(fd, exif);
 
 	return success;
 }

@@ -414,7 +414,7 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 				tl->fd->exif_orientation = orientation;
 			else
 				tl->fd->exif_orientation = EXIF_ORIENTATION_TOP_LEFT;
-			exif_free(exif);
+			exif_free_fd(tl->fd, exif);
 			}
 		
 		if (tl->fd->exif_orientation != EXIF_ORIENTATION_TOP_LEFT)
