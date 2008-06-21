@@ -74,3 +74,16 @@ void file_cache_put(FileCacheData *fc, FileData *fd, gulong size)
 	fc->release(last_fd);
 	file_data_unref(last_fd);
 }
+
+void file_cache_dump(FileCacheData *fc)
+{
+	GList *work;
+	work = fc->list;
+	
+	while(work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		DEBUG_1("cache entry: %s", fd->path);
+		}
+}

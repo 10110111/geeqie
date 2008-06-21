@@ -349,7 +349,8 @@ struct _ImageWindow
 	time_t mtime;		/* file modified time stamp */
 	gint unknown;		/* failed to load image */
 
-	ImageLoader *il;
+	ImageLoader *il;        /* FIXME - image loader should probably go to FileData, but it must first support
+	                           sending callbacks to multiple ImageWindows in parallel */
 
 	gint has_frame;
 
@@ -405,12 +406,9 @@ struct _ImageWindow
 
 	AlterType delay_alter_type;
 
-	ImageLoader *read_ahead_il;
-	GdkPixbuf *read_ahead_pixbuf;
 	FileData *read_ahead_fd;
+	ImageLoader *read_ahead_il;
 
-	GdkPixbuf *prev_pixbuf;
-	FileData *prev_fd;
 	gint prev_color_row;
 
 	gint auto_refresh_id;
@@ -447,6 +445,9 @@ struct _FileData {
 	FileData *parent; /* parent file if this is a sidecar file, NULL otherwise */
 	FileDataChangeInfo *change; /* for rename, move ... */
 	GdkPixbuf *thumb_pixbuf;
+
+	GdkPixbuf *pixbuf; /* full-size image */
+
 	gint ref;
 	gint version; /* increased when any field in this structure is changed */
 	gint user_orientation;

@@ -28,6 +28,7 @@
 #include "ui_fileops.h"
 
 #include "filedata.h"
+#include "filecache.h"
 
 #include <math.h>
 
@@ -51,8 +52,8 @@ static GList *image_list = NULL;
 
 
 static void image_update_title(ImageWindow *imd);
-static void image_post_process(ImageWindow *imd, gint clamp);
 static void image_read_ahead_start(ImageWindow *imd);
+static void image_cache_set(ImageWindow *imd, FileData *fd);
 
 /*
  *-------------------------------------------------------------------
@@ -206,130 +207,6 @@ static void image_update_title(ImageWindow *imd)
  *-------------------------------------------------------------------
  */
 
-
-#if 0
-
-static void image_alter_real(ImageWindow *imd, AlterType type, gint clamp)
-{
-	PixbufRenderer *pr;
-	GdkPixbuf *new = NULL;
-	gint exif_rotate;
-	gint x, y;
-	gint t;
-
-	pr = (PixbufRenderer *)imd->pr;
-
-	exif_rotate = (imd->delay_alter_type != ALTER_NONE && (imd->state & IMAGE_STATE_ROTATE_AUTO));
-	imd->delay_alter_type = ALTER_NONE;
-
-	if (!pr->pixbuf) return;
-
-	x = pr->x_scroll + (pr->vis_width / 2);
-	y = pr->y_scroll + (pr->vis_height / 2);
-
-	switch (type)
-		{
-		case ALTER_ROTATE_90:
-			new = pixbuf_copy_rotate_90(pr->pixbuf, FALSE);
-			t = x;
-			x = pr->height - y;
-			y = t;
-			break;
-		case ALTER_ROTATE_90_CC:
-			new = pixbuf_copy_rotate_90(pr->pixbuf, TRUE);
-			t = x;
-			x = y;
-			y = pr->width - t;
-			break;
-		case ALTER_ROTATE_180:
-			new = pixbuf_copy_mirror(pr->pixbuf, TRUE, TRUE);
-			x = pr->width - x;
-			y = pr->height - y;
-			break;
-		case ALTER_MIRROR:
-			new = pixbuf_copy_mirror(pr->pixbuf, TRUE, FALSE);
-			x = pr->width - x;
-			break;
-		case ALTER_FLIP:
-			new = pixbuf_copy_mirror(pr->pixbuf, FALSE, TRUE);
-			y = pr->height - y;
-			break;
-		case ALTER_DESATURATE:
-			pixbuf_desaturate_rect(pr->pixbuf,
-					       0, 0,  pr->image_width, pr->image_height);
-			image_area_changed(imd, 0, 0, pr->image_width, pr->image_height);
-			layout_image_overlay_update(layout_find_by_image(imd));
-			break;
-		case ALTER_NONE:
-		default:
-			return;
-			break;
-		}
-
-	if (!new) return;
-
-	pixbuf_renderer_set_pixbuf(pr, new, pr->zoom);
-	g_object_unref(new);
-
-	if (clamp && pr->zoom != 0.0 && pr->scale != 0.0)
-		{
-		if (exif_rotate)
-			{
-			switch (pr->scroll_reset)
-				{
-				case PR_SCROLL_RESET_NOCHANGE:
-					break;
-				case PR_SCROLL_RESET_CENTER:
-					x = (gint)((gdouble)pr->image_width / 2.0 * pr->scale);
-					y = (gint)((gdouble)pr->image_height / 2.0 * pr->scale);
-					break;
-				case PR_SCROLL_RESET_TOPLEFT:
-				default:
-					x = 0;
-					y = 0;
-					break;
-				}
-			}
-		pixbuf_renderer_scroll_to_point(pr, (gint)((gdouble)x / pr->scale),
-						    (gint)((gdouble)y / pr->scale),
-						    0.50, 0.50);
-		}
-
-	if (exif_rotate) image_state_set(imd, IMAGE_STATE_ROTATE_AUTO);
-	layout_image_overlay_update(layout_find_by_image(imd));
-	DEBUG_1("%s image postprocess done: %s", get_exec_time(), imd->image_fd->name);
-}
-
-static void image_post_process_alter(ImageWindow *imd, gint clamp)
-{
-	if (imd->delay_alter_type != ALTER_NONE)
-		{
-		image_alter_real(imd, imd->delay_alter_type, clamp);
-		}
-}
-
-
-static void image_post_process_color_cb(ColorMan *cm, ColorManReturnType type, gpointer data)
-{
-	ImageWindow *imd = data;
-
-	color_man_free(cm);
-	if (type == COLOR_RETURN_IMAGE_CHANGED)
-		{
-		if (cm == imd->cm) imd->cm = NULL;
-		return;
-		}
-
-	imd->cm = NULL;
-	image_state_set(imd, IMAGE_STATE_COLOR_ADJ);
-	DEBUG_1("%s image postprocess cm done: %s", get_exec_time(), imd->image_fd->name);
-
-	image_post_process_alter(imd, FALSE);
-
-	image_read_ahead_start(imd);
-}
-#endif
-
 static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData *exif, gint run_in_bg)
 {
 	ColorMan *cm;
@@ -449,95 +326,6 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 	return FALSE;
 }
 
-static void image_post_process(ImageWindow *imd, gint clamp)
-{
-#if 0
-	ExifData *exif = NULL;
-
-	if (!image_get_pixbuf(imd)) return;
-
-	DEBUG_1("%s image postprocess: %s", get_exec_time(), imd->image_fd->name);
-
-	if (options->image.exif_rotate_enable ||
-	    (imd->color_profile_enable && imd->color_profile_use_image) )
-		{
-		exif = exif_read_fd(imd->image_fd);
-		}
-	if (options->image.exif_rotate_enable && exif)
-		{
-		gint orientation;
-
-		if (exif_get_integer(exif, "Exif.Image.Orientation", &orientation))
-			{
-			gint rotate = TRUE;
-
-			/* see http://jpegclub.org/exif_orientation.html
-			  1        2       3      4         5            6           7          8
-
-			888888  888888      88  88      8888888888  88                  88  8888888888
-			88          88      88  88      88  88      88  88          88  88      88  88
-			8888      8888    8888  8888    88          8888888888  8888888888          88
-			88          88      88  88
-			88          88  888888  888888
-			*/
-			switch (orientation)
-				{
-				case EXIF_ORIENTATION_TOP_LEFT:
-					/* normal -- nothing to do */
-					rotate = FALSE;
-					break;
-				case EXIF_ORIENTATION_TOP_RIGHT:
-					/* mirrored */
-					imd->delay_alter_type = ALTER_MIRROR;
-					break;
-				case EXIF_ORIENTATION_BOTTOM_RIGHT:
-					/* upside down */
-					imd->delay_alter_type = ALTER_ROTATE_180;
-					break;
-				case EXIF_ORIENTATION_BOTTOM_LEFT:
-					/* flipped */
-					imd->delay_alter_type = ALTER_FLIP;
-					break;
-				case EXIF_ORIENTATION_LEFT_TOP:
-					/* not implemented -- too wacky to fix in one step */
-					rotate = FALSE;
-					break;
-				case EXIF_ORIENTATION_RIGHT_TOP:
-					/* rotated -90 (270) */
-					imd->delay_alter_type = ALTER_ROTATE_90;
-					break;
-				case EXIF_ORIENTATION_RIGHT_BOTTOM:
-					/* not implemented -- too wacky to fix in one step */
-					rotate = FALSE;
-					break;
-				case EXIF_ORIENTATION_LEFT_BOTTOM:
-					/* rotated 90 */
-					imd->delay_alter_type = ALTER_ROTATE_90_CC;
-					break;
-				default:
-					/* The other values are out of range */
-					rotate = FALSE;
-					break;
-				}
-
-			if (rotate) image_state_set(imd, IMAGE_STATE_ROTATE_AUTO);
-			}
-		}
-	if (imd->color_profile_enable)
-		{
-		if (!image_post_process_color(imd, 0, exif, TRUE))
-			{
-			/* fixme: note error to user */
-			image_state_set(imd, IMAGE_STATE_COLOR_ADJ);
-			}
-		}
-
-
-	if (!imd->cm) image_post_process_alter(imd, clamp);
-
-	exif_free_fd(fd, exif);
-#endif
-}
 
 static void image_post_process_tile_color_cb(PixbufRenderer *pr, GdkPixbuf **pixbuf, gint x, gint y, gint w, gint h, gpointer data)
 {
@@ -621,9 +409,6 @@ static void image_read_ahead_cancel(ImageWindow *imd)
 	image_loader_free(imd->read_ahead_il);
 	imd->read_ahead_il = NULL;
 
-	if (imd->read_ahead_pixbuf) g_object_unref(imd->read_ahead_pixbuf);
-	imd->read_ahead_pixbuf = NULL;
-
 	file_data_unref(imd->read_ahead_fd);
 	imd->read_ahead_fd = NULL;
 }
@@ -634,14 +419,18 @@ static void image_read_ahead_done_cb(ImageLoader *il, gpointer data)
 
 	DEBUG_1("%s read ahead done for :%s", get_exec_time(), imd->read_ahead_fd->path);
 
-	imd->read_ahead_pixbuf = image_loader_get_pixbuf(imd->read_ahead_il);
-	if (imd->read_ahead_pixbuf)
+	if (!imd->read_ahead_fd->pixbuf)
 		{
-		g_object_ref(imd->read_ahead_pixbuf);
-		}
-	else
-		{
-		imd->read_ahead_pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
+		imd->read_ahead_fd->pixbuf = image_loader_get_pixbuf(imd->read_ahead_il);
+		if (imd->read_ahead_fd->pixbuf)
+			{
+			g_object_ref(imd->read_ahead_fd->pixbuf);
+			image_cache_set(imd, imd->read_ahead_fd);
+			}
+		else
+			{
+			imd->read_ahead_fd->pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
+			}
 		}
 	image_loader_free(imd->read_ahead_il);
 	imd->read_ahead_il = NULL;
@@ -658,7 +447,7 @@ static void image_read_ahead_error_cb(ImageLoader *il, gpointer data)
 static void image_read_ahead_start(ImageWindow *imd)
 {
 	/* already started ? */
-	if (!imd->read_ahead_fd || imd->read_ahead_il || imd->read_ahead_pixbuf) return;
+	if (!imd->read_ahead_fd || imd->read_ahead_il || imd->read_ahead_fd->pixbuf) return;
 
 	/* still loading ?, do later */
 	if (imd->il /*|| imd->cm*/) return;
@@ -694,58 +483,39 @@ static void image_read_ahead_set(ImageWindow *imd, FileData *fd)
  *-------------------------------------------------------------------
  */
 
-static void image_post_buffer_set(ImageWindow *imd, FileData *fd, GdkPixbuf *pixbuf, gint color_row)
+static void image_cache_release_cb(FileData *fd)
 {
-	file_data_unref(imd->prev_fd);
-	if (imd->prev_pixbuf) g_object_unref(imd->prev_pixbuf);
-
-	if (fd && pixbuf)
-		{
-		imd->prev_fd = file_data_ref(fd);
-
-		g_object_ref(pixbuf);
-		imd->prev_pixbuf = pixbuf;
-		imd->prev_color_row = color_row;
-		}
-	else
-		{
-		imd->prev_fd = NULL;
-		imd->prev_pixbuf = NULL;
-		imd->prev_color_row = -1;
-		}
-
-	DEBUG_1("%s post buffer set: %s", get_exec_time(), fd ? fd->path : "null");
+	g_object_unref(fd->pixbuf);
+	fd->pixbuf = NULL;
 }
 
-static gint image_post_buffer_get(ImageWindow *imd)
+static FileCacheData *image_get_cache()
+{
+	static FileCacheData *cache = NULL;
+	if (!cache) cache = file_cache_new(image_cache_release_cb, 5);
+	return cache;
+}
+
+static void image_cache_set(ImageWindow *imd, FileData *fd)
+{
+
+	file_cache_put(image_get_cache(), fd, 1);
+	
+	g_assert(fd->pixbuf);
+}
+
+static gint image_cache_get(ImageWindow *imd)
 {
 	gint success;
 
-	if (imd->prev_pixbuf &&
-	    imd->image_fd && imd->prev_fd && imd->image_fd == imd->prev_fd)
+	success = file_cache_get(image_get_cache(), imd->image_fd);
+	if (success)
 		{
-		image_change_pixbuf(imd, imd->prev_pixbuf, image_zoom_get(imd));
-		if (imd->prev_color_row >= 0)
-			{
-			ExifData *exif = NULL;
-
-			if (imd->color_profile_use_image) exif = exif_read_fd(imd->image_fd);
-//			image_post_process_color(imd, imd->prev_color_row, exif, TRUE);
-			exif_free_fd(imd->image_fd, exif);
-			}
-		success = TRUE;
+		g_assert(imd->image_fd->pixbuf);
+		image_change_pixbuf(imd, imd->image_fd->pixbuf, image_zoom_get(imd));
 		}
-	else
-		{
-		success = FALSE;
-		}
-
-	if (imd->prev_pixbuf) g_object_unref(imd->prev_pixbuf);
-	imd->prev_pixbuf = NULL;
-
-	file_data_unref(imd->prev_fd);
-	imd->prev_fd = NULL;
-
+	
+	file_cache_dump(image_get_cache());
 	return success;
 }
 
@@ -789,6 +559,12 @@ static void image_load_done_cb(ImageLoader *il, gpointer data)
 	g_object_set(G_OBJECT(imd->pr), "loading", FALSE, NULL);
 	image_state_unset(imd, IMAGE_STATE_LOADING);
 
+	if (options->image.enable_read_ahead && imd->image_fd && !imd->image_fd->pixbuf && image_loader_get_pixbuf(imd->il))
+		{
+		imd->image_fd->pixbuf = gdk_pixbuf_ref(image_loader_get_pixbuf(imd->il));
+		image_cache_set(imd, imd->image_fd);
+		}
+
 	if (imd->delay_flip &&
 	    image_get_pixbuf(imd) != image_loader_get_pixbuf(imd->il))
 		{
@@ -799,7 +575,7 @@ static void image_load_done_cb(ImageLoader *il, gpointer data)
 	image_loader_free(imd->il);
 	imd->il = NULL;
 
-	image_post_process(imd, TRUE);
+//	image_post_process(imd, TRUE);
 
 	image_read_ahead_start(imd);
 }
@@ -866,18 +642,18 @@ static gint image_read_ahead_check(ImageWindow *imd)
 			image_change_pixbuf(imd, image_loader_get_pixbuf(imd->il), image_zoom_get(imd));
 			}
 
-		image_read_ahead_cancel(imd);
+		file_data_unref(imd->read_ahead_fd);
+		imd->read_ahead_fd = NULL;
 		return TRUE;
 		}
-	else if (imd->read_ahead_pixbuf)
+	else if (imd->read_ahead_fd->pixbuf)
 		{
-		image_change_pixbuf(imd, imd->read_ahead_pixbuf, image_zoom_get(imd));
-		g_object_unref(imd->read_ahead_pixbuf);
-		imd->read_ahead_pixbuf = NULL;
+		image_change_pixbuf(imd, imd->read_ahead_fd->pixbuf, image_zoom_get(imd));
 
-		image_read_ahead_cancel(imd);
+		file_data_unref(imd->read_ahead_fd);
+		imd->read_ahead_fd = NULL;
 
-		image_post_process(imd, FALSE);
+//		image_post_process(imd, FALSE);
 		return TRUE;
 		}
 
@@ -894,7 +670,7 @@ static gint image_load_begin(ImageWindow *imd, FileData *fd)
 	imd->completed = FALSE;
 	g_object_set(G_OBJECT(imd->pr), "complete", FALSE, NULL);
 
-	if (image_post_buffer_get(imd))
+	if (image_cache_get(imd))
 		{
 		DEBUG_1("from post buffer: %s", imd->image_fd->path);
 		return TRUE;
@@ -1027,55 +803,14 @@ static void image_change_complete(ImageWindow *imd, gdouble zoom, gint new)
 static void image_change_real(ImageWindow *imd, FileData *fd,
 			      CollectionData *cd, CollectInfo *info, gdouble zoom)
 {
-	GdkPixbuf *pixbuf;
-	GdkPixbuf *prev_pixbuf = NULL;
-	FileData *prev_fd = NULL;
-	gint prev_clear = FALSE;
-	gint prev_color_row = -1;
 
 	imd->collection = cd;
 	imd->collection_info = info;
-
-	pixbuf = image_get_pixbuf(imd);
-
-	if (options->image.enable_read_ahead && imd->image_fd && pixbuf)
-		{
-		if (imd->il)
-			{
-			/* current image is not finished */
-			prev_clear = TRUE;
-			}
-		else
-			{
-			prev_fd = file_data_ref(imd->image_fd);
-			prev_pixbuf = pixbuf;
-			g_object_ref(prev_pixbuf);
-
-			if (imd->cm)
-				{
-				ColorMan *cm;
-
-				cm = (ColorMan *)imd->cm;
-				prev_color_row = cm->row;
-				}
-			}
-		}
 
 	file_data_unref(imd->image_fd);
 	imd->image_fd = file_data_ref(fd);
 
 	image_change_complete(imd, zoom, TRUE);
-
-	if (prev_pixbuf)
-		{
-		image_post_buffer_set(imd, prev_fd, prev_pixbuf, prev_color_row);
-		file_data_unref(prev_fd);
-		g_object_unref(prev_pixbuf);
-		}
-	else if (prev_clear)
-		{
-		image_post_buffer_set(imd, NULL, NULL, -1);
-		}
 
 	image_update_title(imd);
 	image_state_set(imd, IMAGE_STATE_IMAGE);
@@ -1386,15 +1121,16 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	imd->size = source->size;
 	imd->mtime = source->mtime;
 
-	image_set_fd(imd, image_get_fd(source));
-
 	image_loader_free(imd->il);
 	imd->il = NULL;
 
+	image_set_fd(imd, image_get_fd(source));
+
+
 	if (source->il)
 		{
-		imd->il = source->il;
-		source->il = NULL;
+//		imd->il = source->il;
+//		source->il = NULL;
 
 		image_loader_sync_data(imd->il, imd);
 
@@ -1425,23 +1161,9 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	source->read_ahead_il = NULL;
 	if (imd->read_ahead_il) image_loader_sync_data(imd->read_ahead_il, imd);
 
-	if (imd->read_ahead_pixbuf) g_object_unref(imd->read_ahead_pixbuf);
-	imd->read_ahead_pixbuf = source->read_ahead_pixbuf;
-	source->read_ahead_pixbuf = NULL;
-
 	file_data_unref(imd->read_ahead_fd);
 	imd->read_ahead_fd = source->read_ahead_fd;
 	source->read_ahead_fd = NULL;
-
-	if (imd->prev_pixbuf) g_object_unref(imd->prev_pixbuf);
-	imd->prev_pixbuf = source->prev_pixbuf;
-	source->prev_pixbuf = NULL;
-	imd->prev_color_row = source->prev_color_row;
-	source->prev_color_row = -1;
-
-	file_data_unref(imd->prev_fd);
-	imd->prev_fd = source->prev_fd;
-	source->prev_fd = NULL;
 
 	imd->completed = source->completed;
 	imd->state = source->state;
@@ -1493,29 +1215,6 @@ void image_set_scroll_center(ImageWindow *imd, gdouble x, gdouble y)
 {
 	pixbuf_renderer_set_scroll_center(PIXBUF_RENDERER(imd->pr), x, y);
 }
-
-
-#if 0
-void image_alter(ImageWindow *imd, AlterType type)
-{
-	if (pixbuf_renderer_get_tiles((PixbufRenderer *)imd->pr)) return;
-
-	if (imd->il || imd->cm)
-		{
-		/* still loading, wait till done */
-		imd->delay_alter_type = type;
-		image_state_set(imd, IMAGE_STATE_ROTATE_USER);
-
-		if (imd->cm && (imd->state & IMAGE_STATE_ROTATE_AUTO))
-			{
-			image_state_unset(imd, IMAGE_STATE_ROTATE_AUTO);
-			}
-		return;
-		}
-
-	image_alter_real(imd, type, TRUE);
-}
-#endif
 
 void image_zoom_adjust(ImageWindow *imd, gdouble increment)
 {
@@ -1650,7 +1349,10 @@ void image_prebuffer_set(ImageWindow *imd, FileData *fd)
 
 	if (fd)
 		{
-		image_read_ahead_set(imd, fd);
+		if (!file_cache_get(image_get_cache(), fd))
+			{
+			image_read_ahead_set(imd, fd);
+			}
 		}
 	else
 		{
@@ -1911,7 +1613,6 @@ static void image_free(ImageWindow *imd)
 	image_reset(imd);
 
 	image_read_ahead_cancel(imd);
-	image_post_buffer_set(imd, NULL, NULL, -1);
 	image_auto_refresh(imd, -1);
 
 	file_data_unref(imd->image_fd);
@@ -2011,7 +1712,6 @@ ImageWindow *image_new(gint frame)
 	imd->delay_alter_type = ALTER_NONE;
 
 	imd->read_ahead_il = NULL;
-	imd->read_ahead_pixbuf = NULL;
 	imd->read_ahead_fd = NULL;
 
 	imd->completed = FALSE;

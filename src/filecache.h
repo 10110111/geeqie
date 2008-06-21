@@ -22,5 +22,6 @@ typedef void (*FileCacheReleaseFunc)(FileData *fd);
 FileCacheData *file_cache_new(FileCacheReleaseFunc release, gulong max_size);
 gint file_cache_get(FileCacheData *fc, FileData *fd);
 void file_cache_put(FileCacheData *fc, FileData *fd, gulong size);
+void file_cache_dump(FileCacheData *fc);
 
 #endif

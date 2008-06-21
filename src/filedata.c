@@ -447,6 +447,7 @@ FileData *file_data_merge_sidecar_files(FileData *target, FileData *source)
 FileData *file_data_ref(FileData *fd)
 {
 	if (fd == NULL) return NULL;
+	DEBUG_2("file_data_ref (%d): '%s'", fd->ref, fd->path);
 
 //	return g_memdup(fd, sizeof(FileData));
 	g_assert(fd->magick == 0x12345678);
