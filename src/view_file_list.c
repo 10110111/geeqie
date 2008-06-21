@@ -260,7 +260,7 @@ static void vflist_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointe
 	vflist_color_set(vf, VFLIST_INFO(vf, click_fd), TRUE);
 
 	if (VFLIST_INFO(vf, thumbs_enabled) &&
-	    VFLIST_INFO(vf, click_fd) && VFLIST_INFO(vf, click_fd)->pixbuf)
+	    VFLIST_INFO(vf, click_fd) && VFLIST_INFO(vf, click_fd)->thumb_pixbuf)
 		{
 		guint items;
 
@@ -269,7 +269,7 @@ static void vflist_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointe
 		else
 			items = 1;
 
-		dnd_set_drag_icon(widget, context, VFLIST_INFO(vf, click_fd)->pixbuf, items);
+		dnd_set_drag_icon(widget, context, VFLIST_INFO(vf, click_fd)->thumb_pixbuf, items);
 		}
 }
 
@@ -755,7 +755,7 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 
 	gtk_tree_store_set(store, iter, FILE_COLUMN_POINTER, fd,
 					FILE_COLUMN_VERSION, fd->version,
-					FILE_COLUMN_THUMB, fd->pixbuf,
+					FILE_COLUMN_THUMB, fd->thumb_pixbuf,
 					FILE_COLUMN_MULTILINE, multiline,
 					FILE_COLUMN_NAME, name_sidecars,
 					FILE_COLUMN_SIZE, size,
@@ -983,7 +983,7 @@ static void vflist_thumb_progress_count(GList *list, gint *count, gint *done)
 		FileData *fd = work->data;
 		work = work->next;
 
-		if (fd->pixbuf) (*done)++;
+		if (fd->thumb_pixbuf) (*done)++;
 		
 		if (fd->sidecar_files) 
 			{
@@ -1038,7 +1038,7 @@ static void vflist_thumb_do(ViewFile *vf, ThumbLoader *tl, FileData *fd)
 	if (!fd || vflist_find_row(vf, fd, &iter) < 0) return;
 
 	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
-	gtk_tree_store_set(store, &iter, FILE_COLUMN_THUMB, fd->pixbuf, -1);
+	gtk_tree_store_set(store, &iter, FILE_COLUMN_THUMB, fd->thumb_pixbuf, -1);
 
 	vflist_thumb_status(vf, vflist_thumb_progress(vf), _("Loading thumbs..."));
 }
@@ -1088,7 +1088,7 @@ static gint vflist_thumb_next(ViewFile *vf)
 		while (!fd && valid && tree_view_row_get_visibility(GTK_TREE_VIEW(vf->listview), &iter, FALSE) == 0)
 			{
 			gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &fd, -1);
-			if (fd->pixbuf) fd = NULL;
+			if (fd->thumb_pixbuf) fd = NULL;
 
 			valid = gtk_tree_model_iter_next(store, &iter);
 			}
@@ -1102,7 +1102,7 @@ static gint vflist_thumb_next(ViewFile *vf)
 		while (work && !fd)
 			{
 			FileData *fd_p = work->data;
-			if (!fd_p->pixbuf)
+			if (!fd_p->thumb_pixbuf)
 				fd = fd_p;
 			else
 				{
@@ -1111,7 +1111,7 @@ static gint vflist_thumb_next(ViewFile *vf)
 				while (work2 && !fd)
 					{
 					fd_p = work2->data;
-					if (!fd_p->pixbuf) fd = fd_p;
+					if (!fd_p->thumb_pixbuf) fd = fd_p;
 					work2 = work2->next;
 					}
 				}

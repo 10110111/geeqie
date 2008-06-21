@@ -495,7 +495,7 @@ static void search_result_append(SearchData *sd, MatchFileData *mfd)
 	gtk_list_store_set(store, &iter,
 				SEARCH_COLUMN_POINTER, mfd,
 				SEARCH_COLUMN_RANK, mfd->rank,
-				SEARCH_COLUMN_THUMB, fd->pixbuf,
+				SEARCH_COLUMN_THUMB, fd->thumb_pixbuf,
 				SEARCH_COLUMN_NAME, fd->name,
 				SEARCH_COLUMN_SIZE, text_size,
 				SEARCH_COLUMN_DATE, text_from_time(fd->date),
@@ -710,7 +710,7 @@ static void search_result_thumb_set(SearchData *sd, FileData *fd, GtkTreeIter *i
 		if (search_result_find_row(sd, fd, &iter_n) >= 0) iter = &iter_n;
 		}
 
-	if (iter) gtk_list_store_set(store, iter, SEARCH_COLUMN_THUMB, fd->pixbuf, -1);
+	if (iter) gtk_list_store_set(store, iter, SEARCH_COLUMN_THUMB, fd->thumb_pixbuf, -1);
 }
 
 static void search_result_thumb_do(SearchData *sd)
@@ -758,9 +758,9 @@ static void search_result_thumb_step(SearchData *sd)
 
 		length++;
 		gtk_tree_model_get(store, &iter, SEARCH_COLUMN_POINTER, &mfd, SEARCH_COLUMN_THUMB, &pixbuf, -1);
-		if (pixbuf || mfd->fd->pixbuf)
+		if (pixbuf || mfd->fd->thumb_pixbuf)
 			{
-			if (!pixbuf) gtk_list_store_set(GTK_LIST_STORE(store), &iter, SEARCH_COLUMN_THUMB, mfd->fd->pixbuf, -1);
+			if (!pixbuf) gtk_list_store_set(GTK_LIST_STORE(store), &iter, SEARCH_COLUMN_THUMB, mfd->fd->thumb_pixbuf, -1);
 			row++;
 			mfd = NULL;
 			}
@@ -1407,9 +1407,9 @@ static void search_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointe
 		}
 
 	if (sd->thumb_enable &&
-	    sd->click_fd && sd->click_fd->pixbuf)
+	    sd->click_fd && sd->click_fd->thumb_pixbuf)
 		{
-		dnd_set_drag_icon(widget, context, sd->click_fd->pixbuf, search_result_selection_count(sd, NULL));
+		dnd_set_drag_icon(widget, context, sd->click_fd->thumb_pixbuf, search_result_selection_count(sd, NULL));
 		}
 }
 

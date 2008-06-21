@@ -528,7 +528,7 @@ static void vficon_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointe
 
 	tip_unschedule(vf);
 
-	if (VFICON_INFO(vf, click_id) && VFICON_INFO(vf, click_id)->fd->pixbuf)
+	if (VFICON_INFO(vf, click_id) && VFICON_INFO(vf, click_id)->fd->thumb_pixbuf)
 		{
 		gint items;
 
@@ -537,7 +537,7 @@ static void vficon_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointe
 		else
 			items = 1;
 
-		dnd_set_drag_icon(widget, context, VFICON_INFO(vf, click_id)->fd->pixbuf, items);
+		dnd_set_drag_icon(widget, context, VFICON_INFO(vf, click_id)->fd->thumb_pixbuf, items);
 		}
 }
 
@@ -1806,7 +1806,7 @@ static gdouble vficon_thumb_progress(ViewFile *vf)
 		FileData *fd = id->fd;
 		work = work->next;
 
-		if (fd->pixbuf) done++;
+		if (fd->thumb_pixbuf) done++;
 		count++;
 		}
 	DEBUG_1("thumb progress: %d of %d", done, count);
@@ -1901,7 +1901,7 @@ static gint vficon_thumb_next(ViewFile *vf)
 			while (!fd && list)
 				{
 				IconData *id = list->data;
-				if (id && !id->fd->pixbuf) fd = id->fd;
+				if (id && !id->fd->thumb_pixbuf) fd = id->fd;
 				list = list->next;
 				}
 
@@ -1920,7 +1920,7 @@ static gint vficon_thumb_next(ViewFile *vf)
 			FileData *fd_p = id->fd;
 			work = work->next;
 
-			if (!fd_p->pixbuf) fd = fd_p;
+			if (!fd_p->thumb_pixbuf) fd = fd_p;
 			}
 		}
 
@@ -2263,7 +2263,7 @@ static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer 
 		{
 		if (id)
 			{
-			g_object_set(cell,	"pixbuf", id->fd->pixbuf,
+			g_object_set(cell,	"pixbuf", id->fd->thumb_pixbuf,
 						"text", id->fd->name,
 						"cell-background-gdk", &color_bg,
 						"cell-background-set", TRUE,

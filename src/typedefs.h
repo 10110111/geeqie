@@ -446,7 +446,7 @@ struct _FileData {
 	GList *sidecar_files;
 	FileData *parent; /* parent file if this is a sidecar file, NULL otherwise */
 	FileDataChangeInfo *change; /* for rename, move ... */
-	GdkPixbuf *pixbuf;
+	GdkPixbuf *thumb_pixbuf;
 	gint ref;
 	gint version; /* increased when any field in this structure is changed */
 	gint user_orientation;

@@ -577,8 +577,8 @@ static void thumb_loader_std_done_cb(ImageLoader *il, gpointer data)
 
 	if (tl->fd)
 		{
-		if (tl->fd->pixbuf) g_object_unref(tl->fd->pixbuf);
-		tl->fd->pixbuf = thumb_loader_std_finish(tl, pixbuf, il->shrunk);
+		if (tl->fd->thumb_pixbuf) g_object_unref(tl->fd->thumb_pixbuf);
+		tl->fd->thumb_pixbuf = thumb_loader_std_finish(tl, pixbuf, il->shrunk);
 		}
 
 	if (tl->func_done) tl->func_done(tl, tl->data);
@@ -722,9 +722,9 @@ GdkPixbuf *thumb_loader_std_get_pixbuf(ThumbLoaderStd *tl, gint with_fallback)
 {
 	GdkPixbuf *pixbuf;
 
-	if (tl && tl->fd && tl->fd->pixbuf)
+	if (tl && tl->fd && tl->fd->thumb_pixbuf)
 		{
-		pixbuf = tl->fd->pixbuf;
+		pixbuf = tl->fd->thumb_pixbuf;
 		g_object_ref(pixbuf);
 		}
 	else if (with_fallback)

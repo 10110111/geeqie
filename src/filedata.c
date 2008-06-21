@@ -230,8 +230,8 @@ static gboolean file_data_check_changed_files_recursive(FileData *fd, struct sta
 		{
 		fd->size = st->st_size;
 		fd->date = st->st_mtime;
-		if (fd->pixbuf) g_object_unref(fd->pixbuf);
-		fd->pixbuf = NULL;
+		if (fd->thumb_pixbuf) g_object_unref(fd->thumb_pixbuf);
+		fd->thumb_pixbuf = NULL;
 		file_data_increment_version(fd);
 		file_data_send_notification(fd, NOTIFY_TYPE_REREAD);
 		ret = TRUE;
@@ -330,7 +330,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 
 	fd->size = st->st_size;
 	fd->date = st->st_mtime;
-	fd->pixbuf = NULL;
+	fd->thumb_pixbuf = NULL;
 	fd->sidecar_files = NULL;
 	fd->ref = 1;
 	fd->magick = 0x12345678;
@@ -465,7 +465,7 @@ static void file_data_free(FileData *fd)
 	g_free(fd->original_path);
 	g_free(fd->collate_key_name);
 	g_free(fd->collate_key_name_nocase);
-	if (fd->pixbuf) g_object_unref(fd->pixbuf);
+	if (fd->thumb_pixbuf) g_object_unref(fd->thumb_pixbuf);
 
 	g_assert(fd->sidecar_files == NULL); /* sidecar files must be freed before calling this */
 
