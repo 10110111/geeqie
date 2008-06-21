@@ -262,6 +262,7 @@ static void config_window_apply(void)
 	options->collections.rectangular_selection = c_options->collections.rectangular_selection;
 
 	options->image.tile_cache_max = c_options->image.tile_cache_max;
+	options->image.image_cache_max = c_options->image.image_cache_max;
 
 	options->image.read_buffer_size = c_options->image.read_buffer_size;
 	options->image.idle_read_loop_count = c_options->image.idle_read_loop_count;
@@ -1508,6 +1509,9 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	pref_spin_new_int(group, _("Offscreen cache size (Mb per image):"), NULL,
 			  0, 128, 1, options->image.tile_cache_max, &c_options->image.tile_cache_max);
+
+	pref_spin_new_int(group, _("Decoded image cache size (Mb):"), NULL,
+			  0, 1024, 1, options->image.image_cache_max, &c_options->image.image_cache_max);
 
 	pref_spin_new_int(group, _("Image read buffer size (bytes):"), NULL,
 			  IMAGE_LOADER_READ_BUFFER_SIZE_MIN, IMAGE_LOADER_READ_BUFFER_SIZE_MAX, 512,

@@ -67,6 +67,7 @@ struct _ConfOptions
 		gint max_autofit_size;
 
 		gint tile_cache_max;	/* in megabytes */
+		gint image_cache_max;   /* in megabytes */
 		gint dither_quality;
 		gint enable_read_ahead;
 

@@ -492,7 +492,8 @@ static void image_cache_release_cb(FileData *fd)
 static FileCacheData *image_get_cache()
 {
 	static FileCacheData *cache = NULL;
-	if (!cache) cache = file_cache_new(image_cache_release_cb, 120000000);
+	if (!cache) cache = file_cache_new(image_cache_release_cb, 1);
+	file_cache_set_max_size(cache, (gulong)options->image.image_cache_max * 1048576); /* update from options */
 	return cache;
 }
 

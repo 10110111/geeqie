@@ -448,6 +448,7 @@ static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_INT(image.max_autofit_size);
 	WRITE_INT(image.scroll_reset_method);
 	WRITE_INT(image.tile_cache_max);
+	WRITE_INT(image.image_cache_max);
 	WRITE_INT(image.dither_quality);
 	WRITE_BOOL(image.enable_read_ahead);
 	WRITE_BOOL(image.exif_rotate_enable);
@@ -807,6 +808,7 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_INT(image.max_autofit_size);
 		READ_INT(image.scroll_reset_method);
 		READ_INT(image.tile_cache_max);
+		READ_INT(image.image_cache_max);
 		READ_INT_CLAMP(image.zoom_quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
 		READ_INT_CLAMP(image.dither_quality, GDK_RGB_DITHER_NONE, GDK_RGB_DITHER_MAX);
 		READ_INT(image.zoom_increment);
