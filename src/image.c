@@ -492,16 +492,15 @@ static void image_cache_release_cb(FileData *fd)
 static FileCacheData *image_get_cache()
 {
 	static FileCacheData *cache = NULL;
-	if (!cache) cache = file_cache_new(image_cache_release_cb, 5);
+	if (!cache) cache = file_cache_new(image_cache_release_cb, 120000000);
 	return cache;
 }
 
 static void image_cache_set(ImageWindow *imd, FileData *fd)
 {
-
-	file_cache_put(image_get_cache(), fd, 1);
-	
 	g_assert(fd->pixbuf);
+
+	file_cache_put(image_get_cache(), fd, (gulong)gdk_pixbuf_get_rowstride(fd->pixbuf) * (gulong)gdk_pixbuf_get_height(fd->pixbuf));
 }
 
 static gint image_cache_get(ImageWindow *imd)
@@ -672,7 +671,7 @@ static gint image_load_begin(ImageWindow *imd, FileData *fd)
 
 	if (image_cache_get(imd))
 		{
-		DEBUG_1("from post buffer: %s", imd->image_fd->path);
+		DEBUG_1("from cache: %s", imd->image_fd->path);
 		return TRUE;
 		}
 
