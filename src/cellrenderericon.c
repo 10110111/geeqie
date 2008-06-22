@@ -26,6 +26,10 @@
 
 #define FIXED_ICON_SIZE_MAX 512
 
+#define TOGGLE_WIDTH 13
+#define TOGGLE_SPACING 18
+
+
 static void gqv_cell_renderer_icon_get_property(GObject		*object,
 						guint		param_id,
 						GValue		*value,
@@ -65,7 +69,10 @@ enum {
 
 	PROP_BACKGROUND_SET,
 	PROP_FOREGROUND_SET,
-	PROP_SHOW_TEXT
+	PROP_SHOW_TEXT,
+	PROP_SHOW_MARKS,
+	PROP_NUM_MARKS,
+	PROP_MARKS
 };
 
 static gpointer parent_class;
@@ -203,6 +210,32 @@ gqv_cell_renderer_icon_class_init(GQvCellRendererIconClass *class)
 							_("Whether the text is displayed"),
 							TRUE,
 							G_PARAM_READWRITE));
+
+	g_object_class_install_property(object_class,
+					PROP_SHOW_MARKS,
+					g_param_spec_boolean("show_marks",
+							_("Show marks"),
+							_("Whether the marks are displayed"),
+							TRUE,
+							G_PARAM_READWRITE));
+
+	g_object_class_install_property(object_class,
+					PROP_NUM_MARKS,
+					g_param_spec_int("num_marks",
+							_("Number of marks"),
+							_("Number of marks"),
+							0, 32,
+							6,
+							G_PARAM_READWRITE));
+
+	g_object_class_install_property(object_class,
+					PROP_MARKS,
+					g_param_spec_uint("marks",
+							_("Marks"),
+							_("Marks bit array"),
+							0, 0xffffffff,
+							0,
+							G_PARAM_READWRITE));
 }
 
 static void
@@ -272,6 +305,15 @@ gqv_cell_renderer_icon_get_property(GObject	*object,
 		break;
 	case PROP_SHOW_TEXT:
 		g_value_set_boolean(value, cellicon->show_text);
+		break;
+	case PROP_SHOW_MARKS:
+		g_value_set_boolean(value, cellicon->show_marks);
+		break;
+	case PROP_NUM_MARKS:
+		g_value_set_int(value, cellicon->num_marks);
+		break;
+	case PROP_MARKS:
+		g_value_set_uint(value, cellicon->marks);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, param_id, pspec);
@@ -385,6 +427,15 @@ gqv_cell_renderer_icon_set_property(GObject		*object,
 	case PROP_SHOW_TEXT:
 		cellicon->show_text = g_value_get_boolean(value);
 		break;
+	case PROP_SHOW_MARKS:
+		cellicon->show_marks = g_value_get_boolean(value);
+		break;
+	case PROP_NUM_MARKS:
+		cellicon->num_marks = g_value_get_int(value);
+		break;
+	case PROP_MARKS:
+		cellicon->marks = g_value_get_uint(value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, param_id, pspec);
 		break;
@@ -492,6 +543,12 @@ gqv_cell_renderer_icon_get_size(GtkCellRenderer *cell,
 
 		calc_width = MAX(calc_width, rect.width);
 		calc_height += rect.height;
+		}
+
+	if (cellicon->show_marks)
+		{
+		calc_height += TOGGLE_SPACING;
+		calc_width = MAX(calc_width, TOGGLE_SPACING * cellicon->num_marks);
 		}
 
 	calc_width += (gint)cell->xpad * 2;
@@ -614,6 +671,11 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 		pix_rect.height = text_rect.height;
 		pix_rect.x = cell_area->x + cell->xpad + (cell_rect.width - text_rect.width + 1) / 2;
 		pix_rect.y = cell_area->y + cell->ypad + (cell_rect.height - text_rect.height);
+		
+		if (cellicon->show_marks)
+			{
+			pix_rect.y -= TOGGLE_SPACING;
+			}
 
 		if (gdk_rectangle_intersect(cell_area, &pix_rect, &draw_rect) &&
 		    gdk_rectangle_intersect(expose_area, &draw_rect, &draw_rect))
@@ -628,6 +690,28 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 
 		g_object_unref(layout);
 		}
+
+	if (cellicon->show_marks)
+		{
+		GdkRectangle pix_rect;
+		GdkRectangle draw_rect;
+		gint i;
+
+		pix_rect.width = TOGGLE_SPACING * cellicon->num_marks;
+		pix_rect.height = TOGGLE_SPACING;
+		pix_rect.x = cell_area->x + cell->xpad + (cell_rect.width - pix_rect.width + 1) / 2 + (TOGGLE_SPACING - TOGGLE_WIDTH) / 2;
+		pix_rect.y = cell_area->y + cell->ypad + (cell_rect.height - pix_rect.height) + (TOGGLE_SPACING - TOGGLE_WIDTH) / 2;
+		
+		for (i = 0; i < cellicon->num_marks; i++)
+			{
+			gtk_paint_check (widget->style, window,
+				 state, (cellicon->marks & (1 << i)) ? GTK_SHADOW_IN : GTK_SHADOW_OUT,
+				 cell_area, widget, "cellcheck",
+				 pix_rect.x + i * TOGGLE_SPACING + (TOGGLE_WIDTH - TOGGLE_SPACING) / 2,
+				 pix_rect.y,
+				 TOGGLE_WIDTH, TOGGLE_WIDTH);
+			}
+                }
 
 	if (cellicon->focused && GTK_WIDGET_HAS_FOCUS(widget))
 		{

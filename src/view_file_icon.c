@@ -617,6 +617,11 @@ static void vficon_selection_remove(ViewFile *vf, IconData *id, SelectionType ma
 	vficon_selection_set(vf, id, id->selected & ~mask, iter);
 }
 
+void vficon_marks_set(ViewFile *vf, gint enable)
+{
+	vficon_populate_at_new_size(vf, vf->listview->allocation.width, vf->listview->allocation.height, TRUE);
+}
+
 /*
  *-------------------------------------------------------------------
  * selections
@@ -1572,7 +1577,10 @@ static void vficon_populate(ViewFile *vf, gint resize, gint keep_position)
 				{
 				g_object_set(G_OBJECT(cell), "fixed_width", thumb_width,
 							     "fixed_height", options->thumbnails.max_height,
-							     "show_text", VFICON_INFO(vf, show_text), NULL);
+							     "show_text", VFICON_INFO(vf, show_text),
+							     "show_marks", vf->marks_enabled,
+							     "num_marks", FILEDATA_MARKS_SIZE,
+							     NULL);
 				}
 			}
 		if (GTK_WIDGET_REALIZED(vf->listview)) gtk_tree_view_columns_autosize(GTK_TREE_VIEW(vf->listview));
@@ -2274,6 +2282,8 @@ static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer 
 
 			g_object_set(cell,	"pixbuf", id->fd->thumb_pixbuf,
 						"text", name_sidecars,
+						"marks", id->fd->marks,
+						"show_marks", vf->marks_enabled,
 						"cell-background-gdk", &color_bg,
 						"cell-background-set", TRUE,
 						"foreground-gdk", &color_fg,
@@ -2289,6 +2299,7 @@ static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer 
 			{
 			g_object_set(cell,	"pixbuf", NULL,
 						"text", NULL,
+						"show_marks", FALSE,
 						"cell-background-set", FALSE,
 						"foreground-set", FALSE,
 						"has-focus", FALSE, NULL);

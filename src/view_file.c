@@ -732,10 +732,14 @@ void vf_thumb_set(ViewFile *vf, gint enable)
 
 void vf_marks_set(ViewFile *vf, gint enable)
 {
+	if (vf->marks_enabled == enable) return;
+
+	vf->marks_enabled = enable;
+
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST: vflist_marks_set(vf, enable); break;
-	case FILEVIEW_ICON: /*vficon_marks_set(vf, enable);*/ break;
+	case FILEVIEW_ICON: vficon_marks_set(vf, enable); break;
 	}
 }
 

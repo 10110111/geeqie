@@ -27,6 +27,8 @@ gint vficon_refresh(ViewFile *vf);
 
 void vficon_sort_set(ViewFile *vf, SortType type, gint ascend);
 
+void vficon_marks_set(ViewFile *vf, gint enable);
+
 GList *vficon_pop_menu_file_list(ViewFile *vf);
 void vficon_pop_menu_view_cb(GtkWidget *widget, gpointer data);
 void vficon_pop_menu_rename_cb(GtkWidget *widget, gpointer data);

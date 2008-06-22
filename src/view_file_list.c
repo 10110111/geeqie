@@ -1977,10 +1977,6 @@ void vflist_marks_set(ViewFile *vf, gint enable)
 {
 	GList *columns, *work;
 
-	if (vf->marks_enabled == enable) return;
-
-	vf->marks_enabled = enable;
-
 	columns = gtk_tree_view_get_columns(GTK_TREE_VIEW(vf->listview));
 
 	work = columns;
