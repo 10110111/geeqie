@@ -702,14 +702,18 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 		pix_rect.x = cell_area->x + cell->xpad + (cell_rect.width - pix_rect.width + 1) / 2 + (TOGGLE_SPACING - TOGGLE_WIDTH) / 2;
 		pix_rect.y = cell_area->y + cell->ypad + (cell_rect.height - pix_rect.height) + (TOGGLE_SPACING - TOGGLE_WIDTH) / 2;
 		
-		for (i = 0; i < cellicon->num_marks; i++)
+		if (gdk_rectangle_intersect(cell_area, &pix_rect, &draw_rect) &&
+		    gdk_rectangle_intersect(expose_area, &draw_rect, &draw_rect))
 			{
-			gtk_paint_check (widget->style, window,
-				 state, (cellicon->marks & (1 << i)) ? GTK_SHADOW_IN : GTK_SHADOW_OUT,
-				 cell_area, widget, "cellcheck",
-				 pix_rect.x + i * TOGGLE_SPACING + (TOGGLE_WIDTH - TOGGLE_SPACING) / 2,
-				 pix_rect.y,
-				 TOGGLE_WIDTH, TOGGLE_WIDTH);
+			for (i = 0; i < cellicon->num_marks; i++)
+				{
+				gtk_paint_check (widget->style, window,
+					 state, (cellicon->marks & (1 << i)) ? GTK_SHADOW_IN : GTK_SHADOW_OUT,
+					 cell_area, widget, "cellcheck",
+					 pix_rect.x + i * TOGGLE_SPACING + (TOGGLE_WIDTH - TOGGLE_SPACING) / 2,
+					 pix_rect.y,
+					 TOGGLE_WIDTH, TOGGLE_WIDTH);
+				}
 			}
                 }
 
