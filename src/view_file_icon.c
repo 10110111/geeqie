@@ -2263,13 +2263,27 @@ static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer 
 		{
 		if (id)
 			{
+			gchar *name_sidecars = (gchar *)id->fd->name;
+			gchar *sidecars = NULL;
+
+			if (id->fd->sidecar_files)
+				{
+				sidecars = file_data_sc_list_to_string(id->fd);
+				name_sidecars = g_strdup_printf("%s %s", id->fd->name, sidecars);
+				}
+
 			g_object_set(cell,	"pixbuf", id->fd->thumb_pixbuf,
-						"text", id->fd->name,
+						"text", name_sidecars,
 						"cell-background-gdk", &color_bg,
 						"cell-background-set", TRUE,
 						"foreground-gdk", &color_fg,
 						"foreground-set", TRUE,
 						"has-focus", (VFICON_INFO(vf, focus_id) == id), NULL);
+			if (sidecars)
+				{
+				g_free(sidecars);
+				g_free(name_sidecars);
+				}
 			}
 		else
 			{
