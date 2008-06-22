@@ -428,16 +428,9 @@ static gint vflist_row_rename_cb(TreeEditData *td, const gchar *old, const gchar
 		}
 	else
 		{
-		gint row = vf_index_by_path(vf, old_path);
-		if (row >= 0)
-			{
-			GList *work = g_list_nth(vf->list, row);
-			FileData *fd = work->data;
-			
-			file_util_rename_simple(fd, new_path, vf->listview);
-
-			}
-
+		FileData *fd = file_data_new_simple(old_path); /* get the fd from cache */
+		file_util_rename_simple(fd, new_path, vf->listview);
+		file_data_unref(fd);
 		}
 	g_free(old_path);
 	g_free(new_path);
