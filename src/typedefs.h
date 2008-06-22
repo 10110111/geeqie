@@ -446,10 +446,13 @@ struct _FileData {
 	FileDataChangeInfo *change; /* for rename, move ... */
 	GdkPixbuf *thumb_pixbuf;
 
-	GdkPixbuf *pixbuf; /* full-size image */
+	GdkPixbuf *pixbuf; /* full-size image, only complete images, NULL during loading
+	                      all FileData with non-NULL pixbuf are referenced by image_cache */
 
 	gint ref;
 	gint version; /* increased when any field in this structure is changed */
+	gint disable_grouping;
+
 	gint user_orientation;
 	gint exif_orientation;
 	

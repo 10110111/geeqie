@@ -1187,6 +1187,20 @@ static void file_util_warn_op_in_progress(const gchar *title)
 	file_util_warning_dialog(title, _("Another operation in progress.\n"), GTK_STOCK_DIALOG_ERROR, NULL);
 }
 
+static void file_util_disable_grouping_sc_list(GList *list)
+{
+	GList *work = list;
+	
+	while(work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		
+		if (fd->parent) file_data_disable_grouping(fd, TRUE);
+		}
+		
+}
+
 static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;
@@ -1195,6 +1209,8 @@ static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWi
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
 
+	file_util_disable_grouping_sc_list(flist);
+	
 	if (!file_data_sc_add_ci_delete_list(flist))
 		{
 		file_util_warn_op_in_progress(_("File deletion failed"));
@@ -1228,6 +1244,8 @@ static void file_util_move_full(FileData *source_fd, GList *source_list, const g
 	
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
+
+	file_util_disable_grouping_sc_list(flist);
 
 	if (!file_data_sc_add_ci_move_list(flist, dest_path))
 		{
@@ -1263,6 +1281,8 @@ static void file_util_copy_full(FileData *source_fd, GList *source_list, const g
 	
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
+
+	file_util_disable_grouping_sc_list(flist);
 
 	if (!file_data_sc_add_ci_copy_list(flist, dest_path))
 		{
@@ -1300,6 +1320,8 @@ static void file_util_rename_full(FileData *source_fd, GList *source_list, const
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
 
+	file_util_disable_grouping_sc_list(flist);
+
 	if (!file_data_sc_add_ci_rename_list(flist, dest_path))
 		{
 		file_util_warn_op_in_progress(_("Rename failed"));
@@ -1333,6 +1355,8 @@ static void file_util_start_editor_full(gint n, FileData *source_fd, GList *sour
 	
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
+
+	file_util_disable_grouping_sc_list(flist);
 
 	if (!file_data_sc_add_ci_unspecified_list(flist, dest_path))
 		{

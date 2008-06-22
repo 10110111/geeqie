@@ -29,6 +29,8 @@ void file_data_increment_version(FileData *fd);
 gboolean file_data_add_change_info(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest);
 void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd);
 
+void file_data_disable_grouping(FileData *fd, gboolean disable);
+
 gint filelist_sort_compare_filedata(FileData *fa, FileData *fb);
 gint filelist_sort_compare_filedata_full(FileData *fa, FileData *fb, SortType method, gint ascend);
 GList *filelist_sort(GList *list, SortType method, gint ascend);

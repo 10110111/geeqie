@@ -337,7 +337,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 
 	file_data_set_path(fd, path_utf8); /* set path, name, collate_key_*, original_path */
 
-	if (check_sidecars && sidecar_file_priority(fd->extension))
+	if (check_sidecars)
 		file_data_check_sidecars(fd);
 
 	return fd;
@@ -345,10 +345,17 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 
 static void file_data_check_sidecars(FileData *fd)
 {
-	int base_len = fd->extension - fd->path;
-	GString *fname = g_string_new_len(fd->path, base_len);
+	int base_len;
+	GString *fname;
 	FileData *parent_fd = NULL;
-	GList *work = sidecar_ext_get_list();
+	GList *work;
+
+	if (fd->disable_grouping || !sidecar_file_priority(fd->extension))
+		return;
+
+	base_len = fd->extension - fd->path;
+	fname = g_string_new_len(fd->path, base_len);
+	work = sidecar_ext_get_list();
 
 	while (work)
 		{
@@ -377,6 +384,13 @@ static void file_data_check_sidecars(FileData *fd)
 				continue;
 
 			new_fd = file_data_new(fname->str, &nst, FALSE);
+			
+			if (new_fd->disable_grouping)
+				{
+				file_data_unref(new_fd);
+				continue;
+				}
+			
 			new_fd->ref--; /* do not use ref here */
 			}
 
@@ -535,6 +549,45 @@ FileData *file_data_disconnect_sidecar_file(FileData *target, FileData *sfd)
 		}
 
 	return sfd;
+}
+
+/* disables / enables grouping for particular file, sends UPDATE notification */
+void file_data_disable_grouping(FileData *fd, gboolean disable)
+{
+	if (!fd->disable_grouping == !disable) return;
+	fd->disable_grouping = !!disable;
+	
+	if (disable)
+		{
+		if (fd->parent)
+			{
+			FileData *parent = file_data_ref(fd->parent);
+			file_data_disconnect_sidecar_file(parent, fd);
+			file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
+			file_data_send_notification(parent, NOTIFY_TYPE_INTERNAL);
+			file_data_unref(parent);
+			}
+		else if (fd->sidecar_files)
+			{
+			GList *sidecar_files = filelist_copy(fd->sidecar_files);
+			GList *work = sidecar_files;
+			while (work)
+				{
+				FileData *sfd = work->data;
+				work = work->next;
+				file_data_disconnect_sidecar_file(fd, sfd);
+				file_data_send_notification(sfd, NOTIFY_TYPE_INTERNAL);
+				}
+			file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
+			file_data_check_sidecars((FileData *)sidecar_files->data); /* this will group the sidecars back together */
+			filelist_free(sidecar_files);
+			}
+		}
+	else
+		{
+		file_data_check_sidecars(fd);
+		file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
+		}
 }
 
 /* compare name without extension */
@@ -1035,16 +1088,7 @@ gchar *file_data_sc_list_to_string(FileData *fd)
 }
 
 
-/* disables / enables grouping for particular file, sends UPDATE notification */
-void file_data_disable_grouping(FileData *fd); // now file_data_disconnect_sidecar_file, broken
-void file_data_disable_grouping(FileData *fd);
-
-/* runs stat on a file and sends UPDATE notification if it has been changed */
-void file_data_sc_update(FileData *fd);
-
-
-
-
+				
 /* 
  * add FileDataChangeInfo (see typedefs.h) for the given operation 
  * uses file_data_add_change_info
