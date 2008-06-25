@@ -50,7 +50,9 @@ FileCacheData *file_cache_new(FileCacheReleaseFunc release, gulong max_size)
 gint file_cache_get(FileCacheData *fc, FileData *fd)
 {
 	GList *work;
-	if ((work = g_list_find_custom(fc->list, fd, file_cache_entry_compare_cb)))
+	
+	work = g_list_find_custom(fc->list, fd, file_cache_entry_compare_cb);
+	if (work)
 		{
 		fc->list = g_list_remove_link(fc->list, work);
 		fc->list = g_list_concat(work, fc->list);
@@ -86,7 +88,9 @@ void file_cache_put(FileCacheData *fc, FileData *fd, gulong size)
 {
 	GList *work;
 	FileCacheEntry *fe;
-	if ((work = g_list_find_custom(fc->list, fd, file_cache_entry_compare_cb)))
+
+	work = g_list_find_custom(fc->list, fd, file_cache_entry_compare_cb);
+	if (work)
 		{ 
 		/* entry already exists, move it to the beginning */
 		fc->list = g_list_remove_link(fc->list, work);
@@ -127,7 +131,7 @@ void file_cache_dump(FileCacheData *fc)
 	
 	DEBUG_1("cache dump: max size:%ld size:%ld", fc->max_size, fc->size);
 		
-	while(work)
+	while (work)
 		{
 		FileCacheEntry *fe = work->data;
 		work = work->next;

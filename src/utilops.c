@@ -1191,7 +1191,7 @@ static void file_util_disable_grouping_sc_list(GList *list)
 {
 	GList *work = list;
 	
-	while(work)
+	while (work)
 		{
 		FileData *fd = work->data;
 		work = work->next;

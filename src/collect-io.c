@@ -43,7 +43,7 @@ static gint scan_geometry(gchar *buffer, gint *x, gint *y, gint *w, gint *h)
 {
 	gint nx, ny, nw, nh;
 
-	if(sscanf(buffer, "%d %d %d %d", &nx, &ny, &nw, &nh) != 4) return FALSE;
+	if (sscanf(buffer, "%d %d %d %d", &nx, &ny, &nw, &nh) != 4) return FALSE;
 
 	*x = nx;
 	*y = ny;

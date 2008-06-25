@@ -428,7 +428,7 @@ FileData *file_data_new_simple(const gchar *path_utf8)
 FileData *file_data_add_sidecar_file(FileData *target, FileData *sfd)
 {
 	sfd->parent = target;
-	if(!g_list_find(target->sidecar_files, sfd))
+	if (!g_list_find(target->sidecar_files, sfd))
 		target->sidecar_files = g_list_prepend(target->sidecar_files, sfd);
 	file_data_increment_version(sfd); /* increments both sfd and target */
 	return target;

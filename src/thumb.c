@@ -592,10 +592,10 @@ static guchar *load_xv_thumbnail(gchar *filename, gint *widthp, gint *heightp)
 	gint width, height, depth;
 
 	file = fopen(filename, "rt");
-	if(!file) return NULL;
+	if (!file) return NULL;
 
 	fgets(buffer, XV_BUFFER, file);
-	if(strncmp(buffer, "P7 332", 6) != 0)
+	if (strncmp(buffer, "P7 332", 6) != 0)
 		{
 		fclose(file);
 		return NULL;
@@ -603,7 +603,7 @@ static guchar *load_xv_thumbnail(gchar *filename, gint *widthp, gint *heightp)
 
 	while (fgets(buffer, XV_BUFFER, file) && buffer[0] == '#') /* do_nothing() */;
 
-	if(sscanf(buffer, "%d %d %d", &width, &height, &depth) != 3)
+	if (sscanf(buffer, "%d %d %d", &width, &height, &depth) != 3)
 		{
 		fclose(file);
 		return NULL;
@@ -665,7 +665,7 @@ static GdkPixbuf *get_xv_thumbnail(gchar *thumb_filename, gint max_w, gint max_h
 	packed_data = load_xv_thumbnail(thumb_name, &width, &height);
 	g_free(thumb_name);
 
-	if(packed_data)
+	if (packed_data)
 		{
 		guchar *rgb_data;
 		GdkPixbuf *pixbuf;

@@ -1104,7 +1104,8 @@ static gint map_file(const gchar *path, void **mapping, int *size)
 	int fd;
 	struct stat fs;
 
-	if ((fd = open(path, O_RDONLY)) == -1)
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
 		{
 		perror(path);
 		return -1;
@@ -1119,7 +1120,8 @@ static gint map_file(const gchar *path, void **mapping, int *size)
 
 	*size = fs.st_size;
 
-	if ((*mapping = mmap(0, *size, PROT_READ|PROT_WRITE, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
+	*mapping = mmap(0, *size, PROT_READ|PROT_WRITE, MAP_PRIVATE, fd, 0);
+	if (*mapping == MAP_FAILED)
 		{
 		perror(path);
 		close(fd);
@@ -1180,8 +1182,8 @@ ExifData *exif_read(gchar *path, gchar *sidecar_path)
 	exif->items = NULL;
 	exif->current = NULL;
 
-	if ((res = exif_jpeg_parse(exif, (unsigned char *)f, size,
-				   ExifKnownMarkersList)) == -2)
+	res = exif_jpeg_parse(exif, (unsigned char *)f, size, ExifKnownMarkersList);
+	if (res == -2)
 		{
 		res = exif_tiff_parse(exif, (unsigned char *)f, size, ExifKnownMarkersList);
 		}
