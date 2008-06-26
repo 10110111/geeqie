@@ -30,7 +30,19 @@
 #ifdef GQ_BUILD
 #include "main.h"
 #include "pixbuf_util.h"
-
+#include "exif.h"
+#else
+typedef enum {
+	EXIF_ORIENTATION_UNKNOWN	= 0,
+	EXIF_ORIENTATION_TOP_LEFT	= 1,
+	EXIF_ORIENTATION_TOP_RIGHT	= 2,
+	EXIF_ORIENTATION_BOTTOM_RIGHT	= 3,
+	EXIF_ORIENTATION_BOTTOM_LEFT	= 4,
+	EXIF_ORIENTATION_LEFT_TOP	= 5,
+	EXIF_ORIENTATION_RIGHT_TOP	= 6,
+	EXIF_ORIENTATION_RIGHT_BOTTOM	= 7,
+	EXIF_ORIENTATION_LEFT_BOTTOM	= 8
+} ExifOrientationType;
 #endif
 
 
@@ -63,19 +75,6 @@
  * (below about 4, the other scale types become slow generating their conversion tables)
  */
 #define PR_MIN_SCALE_SIZE 8
-
-typedef enum {
-	EXIF_ORIENTATION_UNKNOWN	= 0,
-	EXIF_ORIENTATION_TOP_LEFT	= 1,
-	EXIF_ORIENTATION_TOP_RIGHT	= 2,
-	EXIF_ORIENTATION_BOTTOM_RIGHT	= 3,
-	EXIF_ORIENTATION_BOTTOM_LEFT	= 4,
-	EXIF_ORIENTATION_LEFT_TOP	= 5,
-	EXIF_ORIENTATION_RIGHT_TOP	= 6,
-	EXIF_ORIENTATION_RIGHT_BOTTOM	= 7,
-	EXIF_ORIENTATION_LEFT_BOTTOM	= 8
-} ExifOrientationType;
-
 
 typedef enum {
 	TILE_RENDER_NONE = 0,	/* do nothing */
