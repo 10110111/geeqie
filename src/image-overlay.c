@@ -400,138 +400,119 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	gint width, height;
 	PangoLayout *layout;
 	const gchar *name;
-	gchar *name_escaped;
 	gchar *text;
-	gchar *size;
-	gint n, t;
-	CollectionData *cd;
-	CollectInfo *info;
 	GdkPixbuf *imgpixbuf = NULL;
-	LayoutWindow *lw = NULL;
-	gint with_hist = 0;
-    	gchar *ct;
-    	gint w, h;
-	GHashTable *vars;
-	ImageWindow *imd = osd->imd;
+	gboolean with_hist;
+       	ImageWindow *imd = osd->imd;
 	FileData *fd = image_get_fd(imd);
 
 	if (!fd) return NULL;
 
-	vars = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
-
 	name = image_get_name(imd);
 	if (name)
 		{
-		name_escaped = g_markup_escape_text(name, -1);
-		}
-	else
-		{
-		name_escaped = NULL;
-		}
+		gint n, t;
+		CollectionData *cd;
+		CollectInfo *info;
+		GHashTable *vars;
+			
+		vars = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
 
-	cd = image_get_collection(imd, &info);
-	if (cd)
-		{
-		gchar *collection_name;
-
-		t = g_list_length(cd->list);
-		n = g_list_index(cd->list, info) + 1;
-		if (cd->name)
+		cd = image_get_collection(imd, &info);
+		if (cd)
 			{
-			if (file_extension_match(cd->name, GQ_COLLECTION_EXT))
-				collection_name = remove_extension_from_path(cd->name);
-			else
-				collection_name = g_strdup(cd->name);
-			}
-		else
-			{
-			collection_name = g_strdup(_("Untitled"));
-			}
-
-		ct = g_markup_escape_text(collection_name, -1);
-		g_free(collection_name);
-		}
-	else
-		{
-		lw = layout_find_by_image(imd);
-		if (lw)
-			{
-			if (lw->slideshow)
-				{
-				n = g_list_length(lw->slideshow->list_done);
-				t = n + g_list_length(lw->slideshow->list);
-				if (n == 0) n = t;
-				}
-			else
-				{
-				t = layout_list_count(lw, NULL);
-				n = layout_list_get_index(lw, image_get_fd(lw->image)) + 1;
-				}
-			}
-		else if (view_window_find_image(imd, &n, &t))
-			{
-			n++;
-			}
-		else
-			{
-			t = 1;
-			n = 1;
-			}
-
-		if (n < 1) n = 1;
-		if (t < 1) t = 1;
-
-		ct = g_strdup("");
-		}
-
-	size = text_from_size_abrev(imd->size);
-	if (!imd->unknown)
-		{
-		if (imd->delay_flip &&
-		    imd->il && imd->il->pixbuf &&
-		    image_get_pixbuf(imd) != imd->il->pixbuf)
-			{
-			w = gdk_pixbuf_get_width(imd->il->pixbuf);
-			h = gdk_pixbuf_get_height(imd->il->pixbuf);
-			imgpixbuf = imd->il->pixbuf;
-			}
-		else
-			{
-			image_get_image_size(imd, &w, &h);
-			imgpixbuf = (PIXBUF_RENDERER(imd->pr))->pixbuf;
-			}
+			gchar *collection_name;
 	
-		if (imgpixbuf && (osd->show & OSD_SHOW_HISTOGRAM) && osd->histogram
-			      && (!imd->il || imd->il->done))
-			with_hist=1;
+			t = g_list_length(cd->list);
+			n = g_list_index(cd->list, info) + 1;
+			if (cd->name)
+				{
+				if (file_extension_match(cd->name, GQ_COLLECTION_EXT))
+					collection_name = remove_extension_from_path(cd->name);
+				else
+					collection_name = g_strdup(cd->name);
+				}
+			else
+				{
+				collection_name = g_strdup(_("Untitled"));
+				}
+	
+			g_hash_table_insert(vars, "collection", g_markup_escape_text(collection_name, -1));
+			g_free(collection_name);
+			}
+		else
+			{
+			LayoutWindow *lw = layout_find_by_image(imd);
+			if (lw)
+				{
+				if (lw->slideshow)
+					{
+					n = g_list_length(lw->slideshow->list_done);
+					t = n + g_list_length(lw->slideshow->list);
+					if (n == 0) n = t;
+					}
+				else
+					{
+					t = layout_list_count(lw, NULL);
+					n = layout_list_get_index(lw, image_get_fd(lw->image)) + 1;
+					}
+				}
+			else if (view_window_find_image(imd, &n, &t))
+				{
+				n++;
+				}
+			else
+				{
+				t = 1;
+				n = 1;
+				}
+	
+			if (n < 1) n = 1;
+			if (t < 1) t = 1;
+	
+			g_hash_table_insert(vars, "collection", g_strdup(""));
+			}
+			
+		g_hash_table_insert(vars, "number", g_strdup_printf("%d", n));
+	 	g_hash_table_insert(vars, "total", g_strdup_printf("%d", t));
+		g_hash_table_insert(vars, "name", g_markup_escape_text(name, -1));
+	 	g_hash_table_insert(vars, "date", g_strdup(text_from_time(imd->mtime)));
+		g_hash_table_insert(vars, "size", text_from_size_abrev(imd->size));
+		g_hash_table_insert(vars, "zoom", image_zoom_get_as_text(imd));
 
- 		g_hash_table_insert(vars, "width", g_strdup_printf("%d", w));
- 		g_hash_table_insert(vars, "height", g_strdup_printf("%d", h));
- 		g_hash_table_insert(vars, "res", g_strdup_printf("%d × %d", w, h));
- 		}
+		if (!imd->unknown)
+			{
+			gint w, h;
 
- 	g_hash_table_insert(vars, "collection", g_strdup(ct));
- 	g_hash_table_insert(vars, "number", g_strdup_printf("%d", n));
- 	g_hash_table_insert(vars, "total", g_strdup_printf("%d", t));
- 	g_hash_table_insert(vars, "name", g_strdup(name_escaped));
- 	g_hash_table_insert(vars, "date", g_strdup(text_from_time(imd->mtime)));
- 	g_hash_table_insert(vars, "size", g_strdup(size));
-	g_hash_table_insert(vars, "zoom", image_zoom_get_as_text(imd));
+			if (imd->delay_flip &&
+			    imd->il && imd->il->pixbuf &&
+			    image_get_pixbuf(imd) != imd->il->pixbuf)
+				{
+				w = gdk_pixbuf_get_width(imd->il->pixbuf);
+				h = gdk_pixbuf_get_height(imd->il->pixbuf);
+				imgpixbuf = imd->il->pixbuf;
+				}
+			else
+				{
+				image_get_image_size(imd, &w, &h);
+				imgpixbuf = (PIXBUF_RENDERER(imd->pr))->pixbuf;
+				}
+		
+			g_hash_table_insert(vars, "width", g_strdup_printf("%d", w));
+	 		g_hash_table_insert(vars, "height", g_strdup_printf("%d", h));
+	 		g_hash_table_insert(vars, "res", g_strdup_printf("%d × %d", w, h));
+	 		}
+		
+	 	text = image_osd_mkinfo(options->image_overlay.common.template_string, imd, vars);
+		g_hash_table_destroy(vars);
 
- 	if (!name_escaped)
- 		{
- 		text = g_strdup_printf(_("Untitled"));
- 		}
- 	else
- 		{
- 		text = image_osd_mkinfo(options->image_overlay.common.template_string, imd, vars);
-		}
+	} else {
+		/* When does this occur ?? */
+		text = g_strdup(_("Untitled"));
+	}
 
-	g_free(size);
-  	g_free(ct);
-  	g_free(name_escaped);
-	g_hash_table_destroy(vars);
-
+	with_hist = (imgpixbuf && (osd->show & OSD_SHOW_HISTOGRAM) && osd->histogram && (!imd->il || imd->il->done));
+	
 	{
 		gint active_marks = 0;
 		gint mark;
