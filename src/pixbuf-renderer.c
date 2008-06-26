@@ -141,9 +141,8 @@ struct _OverlayData
 
 	gint x;
 	gint y;
-	gint relative;	/* x,y coordinates are relative, negative values start bottom right */
 
-	gint always;	/* hide temporarily when scrolling (not yet implemented) */
+	OverlayRendererFlags flags;
 };
 
 enum {
@@ -830,7 +829,7 @@ static void pr_overlay_get_position(PixbufRenderer *pr, OverlayData *od,
 	px = od->x;
 	py = od->y;
 
-	if (od->relative)
+	if (od->flags & OVL_RELATIVE)
 		{
 		if (px < 0) px = pr->window_width - pw + px;
 		if (py < 0) py = pr->window_height - ph + py;
@@ -954,8 +953,10 @@ static void pr_overlay_update_sizes(PixbufRenderer *pr)
 		{
 		OverlayData *od = work->data;
 		work = work->next;
-
-		if (od->relative && od->window)
+		
+		if (!od->window) continue;
+		
+		if (od->flags & OVL_RELATIVE)
 			{
 			gint x, y, w, h;
 
@@ -982,7 +983,7 @@ static OverlayData *pr_overlay_find(PixbufRenderer *pr, gint id)
 }
 
 gint pixbuf_renderer_overlay_add(PixbufRenderer *pr, GdkPixbuf *pixbuf, gint x, gint y,
-				 gint relative, gint always)
+				 OverlayRendererFlags flags)
 {
 	OverlayData *od;
 	gint id;
@@ -1002,8 +1003,7 @@ gint pixbuf_renderer_overlay_add(PixbufRenderer *pr, GdkPixbuf *pixbuf, gint x, 
 	g_object_ref(G_OBJECT(od->pixbuf));
 	od->x = x;
 	od->y = y;
-	od->relative = relative;
-	od->always = always;
+	od->flags = flags;
 
 	pr_overlay_get_position(pr, od, &px, &py, &pw, &ph);
 
@@ -1229,7 +1229,7 @@ static void pr_scroller_start(PixbufRenderer *pr, gint x, gint y)
 		w = gdk_pixbuf_get_width(pixbuf);
 		h = gdk_pixbuf_get_height(pixbuf);
 
-		pr->scroller_overlay = pixbuf_renderer_overlay_add(pr, pixbuf, x - w / 2, y - h / 2, FALSE, TRUE);
+		pr->scroller_overlay = pixbuf_renderer_overlay_add(pr, pixbuf, x - w / 2, y - h / 2, OVL_NORMAL);
 		g_object_unref(pixbuf);
 		}
 

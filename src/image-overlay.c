@@ -698,9 +698,9 @@ static GdkPixbuf *image_osd_icon_pixbuf(ImageOSDFlag flag)
 }
 
 static gint image_overlay_add(ImageWindow *imd, GdkPixbuf *pixbuf, gint x, gint y,
-			      gint relative, gint always)
+			      OverlayRendererFlags flags)
 {
-	return pixbuf_renderer_overlay_add((PixbufRenderer *)imd->pr, pixbuf, x, y, relative, always);
+	return pixbuf_renderer_overlay_add((PixbufRenderer *)imd->pr, pixbuf, x, y, flags);
 }
 
 static void image_overlay_set(ImageWindow *imd, gint id, GdkPixbuf *pixbuf, gint x, gint y)
@@ -731,7 +731,7 @@ static void image_osd_icon_show(OverlayStateData *osd, ImageOSDFlag flag)
 
 	osd->icon_id[flag] = image_overlay_add(osd->imd, pixbuf,
 					       osd_icons[flag].x, osd_icons[flag].y,
-					       TRUE, FALSE);
+					       OVL_RELATIVE);
 }
 
 static void image_osd_icon_hide(OverlayStateData *osd, ImageOSDFlag flag)
@@ -761,7 +761,7 @@ static gint image_osd_update_cb(gpointer data)
 				if (osd->ovl_info == 0)
 					{
 					osd->ovl_info = image_overlay_add(osd->imd, pixbuf,
-									  osd->x, osd->y, TRUE, FALSE);
+									  osd->x, osd->y, OVL_RELATIVE);
 					}
 				else
 					{

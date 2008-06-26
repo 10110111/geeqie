@@ -238,9 +238,14 @@ gint pixbuf_renderer_get_virtual_rect(PixbufRenderer *pr, GdkRectangle *rect);
 void pixbuf_renderer_set_color(PixbufRenderer *pr, GdkColor *color);
 
 /* overlay */
+typedef enum {
+	OVL_NORMAL 	= 0, 
+	OVL_RELATIVE 	= 1 << 0, /* x,y coordinates are relative, negative values start bottom right */
+	/* OVL_HIDE_ON_SCROLL = 1 << 1*/ /* hide temporarily when scrolling (not yet implemented) */
+} OverlayRendererFlags;
 
 gint pixbuf_renderer_overlay_add(PixbufRenderer *pr, GdkPixbuf *pixbuf, gint x, gint y,
-				 gint relative, gint always);
+				 OverlayRendererFlags flags);
 void pixbuf_renderer_overlay_set(PixbufRenderer *pr, gint id, GdkPixbuf *pixbuf, gint x, gint y);
 gint pixbuf_renderer_overlay_get(PixbufRenderer *pr, gint id, GdkPixbuf **pixbuf, gint *x, gint *y);
 void pixbuf_renderer_overlay_remove(PixbufRenderer *pr, gint id);
