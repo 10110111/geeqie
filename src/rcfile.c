@@ -19,6 +19,7 @@
 #include "bar_exif.h"
 #include "editors.h"
 #include "filefilter.h"
+#include "pixbuf-renderer.h"
 #include "secure_save.h"
 #include "slideshow.h"
 #include "ui_fileops.h"
@@ -209,6 +210,17 @@ static gboolean read_uint_option(FILE *f, gchar *option, gchar *label, gchar *va
 	
 	return TRUE;
 }
+
+static gboolean read_uint_option_clamp(FILE *f, gchar *option, gchar *label, gchar *value, guint *n, guint min, guint max)
+{
+	gboolean ret;
+
+	ret = read_uint_option(f, option, label, value, n);
+	if (ret) *n = CLAMP(*n, min, max);
+
+	return ret;
+}
+
 
 static gboolean read_int_option_clamp(FILE *f, gchar *option, gchar *label, gchar *value, gint *n, gint min, gint max)
 {
@@ -446,7 +458,7 @@ static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_INT(image.max_window_size);
 	WRITE_BOOL(image.limit_autofit_size);
 	WRITE_INT(image.max_autofit_size);
-	WRITE_INT(image.scroll_reset_method);
+	WRITE_UINT(image.scroll_reset_method);
 	WRITE_INT(image.tile_cache_max);
 	WRITE_INT(image.image_cache_max);
 	WRITE_INT(image.dither_quality);
@@ -693,6 +705,7 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 #define READ_INT(_name_) if (read_int_option(f, option, #_name_, value, &options->_name_)) continue;
 #define READ_UINT(_name_) if (read_uint_option(f, option, #_name_, value, &options->_name_)) continue;
 #define READ_INT_CLAMP(_name_, _min_, _max_) if (read_int_option_clamp(f, option, #_name_, value, &options->_name_, _min_, _max_)) continue;
+#define READ_UINT_CLAMP(_name_, _min_, _max_) if (read_uint_option_clamp(f, option, #_name_, value, &options->_name_, _min_, _max_)) continue;
 #define READ_INT_UNIT(_name_, _unit_) if (read_int_unit_option(f, option, #_name_, value, &options->_name_, _unit_)) continue;
 #define READ_CHAR(_name_) if (read_char_option(f, option, #_name_, value_all, &options->_name_)) continue;
 #define READ_COLOR(_name_) if (read_color_option(f, option, #_name_, value, &options->_name_)) continue;
@@ -806,7 +819,7 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_INT(image.max_window_size);
 		READ_BOOL(image.limit_autofit_size);
 		READ_INT(image.max_autofit_size);
-		READ_INT(image.scroll_reset_method);
+		READ_UINT_CLAMP(image.scroll_reset_method, 0, PR_SCROLL_RESET_COUNT - 1);
 		READ_INT(image.tile_cache_max);
 		READ_INT(image.image_cache_max);
 		READ_INT_CLAMP(image.zoom_quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER);

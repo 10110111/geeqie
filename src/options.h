@@ -58,22 +58,22 @@ struct _ConfOptions
 
 	/* image */
 	struct {
-		gint exif_rotate_enable;
-		gint scroll_reset_method;
-		gint fit_window_to_image;
-		gint limit_window_size;
+		gboolean exif_rotate_enable;
+		guint scroll_reset_method;
+		gboolean fit_window_to_image;
+		gboolean limit_window_size;
 		gint max_window_size;
-		gint limit_autofit_size;
+		gboolean limit_autofit_size;
 		gint max_autofit_size;
 
 		gint tile_cache_max;	/* in megabytes */
 		gint image_cache_max;   /* in megabytes */
 		gint dither_quality;
-		gint enable_read_ahead;
+		gboolean enable_read_ahead;
 
 		gint zoom_mode;
-		gint zoom_2pass;
-		gint zoom_to_fit_allow_expand;
+		gboolean zoom_2pass;
+		gboolean zoom_to_fit_allow_expand;
 		gint zoom_quality;
 		gint zoom_increment;	/* 10 is 1.0, 5 is 0.05, 20 is 2.0, etc. */
 

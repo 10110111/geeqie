@@ -40,7 +40,8 @@ typedef void (* PixbufRendererPostProcessFunc)(PixbufRenderer *pr, GdkPixbuf **p
 typedef enum {
 	PR_SCROLL_RESET_TOPLEFT = 0,
 	PR_SCROLL_RESET_CENTER,
-	PR_SCROLL_RESET_NOCHANGE
+	PR_SCROLL_RESET_NOCHANGE,
+	PR_SCROLL_RESET_COUNT,
 } PixbufRendererScrollResetType;
 
 struct _PixbufRenderer
