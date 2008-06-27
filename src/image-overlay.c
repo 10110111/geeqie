@@ -214,13 +214,11 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 	gchar *name, *data;
 	GString *new;
 	gchar *ret;
-	ExifData *exif;
 
 	if (!str || !*str) return g_strdup("");
 
 	new = g_string_new(str);
 
-	exif = exif_read_fd(imd->image_fd);
 	prev = 0;
 	last = FALSE;
 
@@ -281,10 +279,20 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			}
 		else
 			{
+			/* 
+			   keywords and comment can't be read between exif_read_fd and exif_free_fd calls
+			   because fd->exif does not count references
+			   on the other hand, it is OK to call it in the loop because it is cached
+			*/
+			   
+			ExifData *exif;
+			exif = exif_read_fd(imd->image_fd);
+
 			data = g_strdup(g_hash_table_lookup(vars, name));
 			if (data && strcmp(name, "zoom") == 0) imd->overlay_show_zoom = TRUE;
 			if (!data && exif)
 				data = exif_get_data_as_text(exif, name);
+			exif_free_fd(imd->image_fd, exif);
 			}
 		if (data && *data && limit > 0 && strlen(data) > limit + 3)
 			{
@@ -375,7 +383,6 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 		g_free(data);
 		}
 
-	exif_free_fd(imd->image_fd, exif);
 	/* search and destroy empty lines */
 	end = new->str;
 	while ((start = strchr(end, '\n')))
