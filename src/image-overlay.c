@@ -394,6 +394,20 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 	return ret;
 }
 
+static void osd_template_insert(GHashTable *vars, const gchar *keyword, const gchar *value)
+{
+	if (!value || !*value)
+		g_hash_table_insert(vars, (gchar *) keyword, g_strdup(""));
+	else
+		g_hash_table_insert(vars, (gchar *) keyword, g_markup_escape_text(value, -1));
+}
+
+static void osd_template_insert_and_free(GHashTable *vars, const gchar *keyword, gchar *value)
+{
+	osd_template_insert(vars, keyword, value);
+	g_free(value);
+}
+
 static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 {
 	GdkPixbuf *pixbuf = NULL;
@@ -415,30 +429,25 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 		CollectionData *cd;
 		CollectInfo *info;
 		GHashTable *vars;
-			
+
 		vars = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
 
 		cd = image_get_collection(imd, &info);
 		if (cd)
 			{
-			gchar *collection_name;
-	
 			t = g_list_length(cd->list);
 			n = g_list_index(cd->list, info) + 1;
 			if (cd->name)
 				{
 				if (file_extension_match(cd->name, GQ_COLLECTION_EXT))
-					collection_name = remove_extension_from_path(cd->name);
+					osd_template_insert_and_free(vars, "collection", remove_extension_from_path(cd->name));
 				else
-					collection_name = g_strdup(cd->name);
+					osd_template_insert(vars, "collection", cd->name);
 				}
 			else
 				{
-				collection_name = g_strdup(_("Untitled"));
+				osd_template_insert(vars, "collection", _("Untitled"));
 				}
-	
-			g_hash_table_insert(vars, "collection", g_markup_escape_text(collection_name, -1));
-			g_free(collection_name);
 			}
 		else
 			{
@@ -470,16 +479,16 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 			if (n < 1) n = 1;
 			if (t < 1) t = 1;
 	
-			g_hash_table_insert(vars, "collection", g_strdup(""));
+			osd_template_insert(vars, "collection", NULL);
 			}
-			
-		g_hash_table_insert(vars, "number", g_strdup_printf("%d", n));
-	 	g_hash_table_insert(vars, "total", g_strdup_printf("%d", t));
-		g_hash_table_insert(vars, "name", g_markup_escape_text(name, -1));
-	 	g_hash_table_insert(vars, "date", g_strdup(text_from_time(imd->mtime)));
-		g_hash_table_insert(vars, "size", text_from_size_abrev(imd->size));
-		g_hash_table_insert(vars, "zoom", image_zoom_get_as_text(imd));
-
+		
+		osd_template_insert_and_free(vars, "number", g_strdup_printf("%d", n));
+		osd_template_insert_and_free(vars, "total", g_strdup_printf("%d", t));
+		osd_template_insert(vars, "name", name);
+	 	osd_template_insert(vars, "date", text_from_time(imd->mtime));
+		osd_template_insert_and_free(vars, "size", text_from_size_abrev(imd->size));
+		osd_template_insert_and_free(vars, "zoom", image_zoom_get_as_text(imd));
+	
 		if (!imd->unknown)
 			{
 			gint w, h;
@@ -498,17 +507,24 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 				imgpixbuf = (PIXBUF_RENDERER(imd->pr))->pixbuf;
 				}
 		
-			g_hash_table_insert(vars, "width", g_strdup_printf("%d", w));
-	 		g_hash_table_insert(vars, "height", g_strdup_printf("%d", h));
-	 		g_hash_table_insert(vars, "res", g_strdup_printf("%d × %d", w, h));
+			
+			osd_template_insert_and_free(vars, "width", g_strdup_printf("%d", w));
+	 		osd_template_insert_and_free(vars, "height", g_strdup_printf("%d", h));
+	 		osd_template_insert_and_free(vars, "res", g_strdup_printf("%d × %d", w, h));
 	 		}
-		
+		else
+			{
+			osd_template_insert(vars, "width", NULL);
+	 		osd_template_insert(vars, "height", NULL);
+	 		osd_template_insert(vars, "res", NULL);
+			}
+
 	 	text = image_osd_mkinfo(options->image_overlay.common.template_string, imd, vars);
 		g_hash_table_destroy(vars);
 
 	} else {
 		/* When does this occur ?? */
-		text = g_strdup(_("Untitled"));
+		text = g_markup_escape_text(_("Untitled"), -1);
 	}
 
 	with_hist = (imgpixbuf && (osd->show & OSD_SHOW_HISTOGRAM) && osd->histogram && (!imd->il || imd->il->done));
