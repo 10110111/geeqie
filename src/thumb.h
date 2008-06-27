@@ -26,7 +26,7 @@ void thumb_loader_set_cache(ThumbLoader *tl, gint enable_cache, gint local, gint
 gint thumb_loader_start(ThumbLoader *tl, FileData *fd);
 void thumb_loader_free(ThumbLoader *tl);
 
-GdkPixbuf *thumb_loader_get_pixbuf(ThumbLoader *tl, gint with_fallback);
+GdkPixbuf *thumb_loader_get_pixbuf(ThumbLoader *tl);
 
 
 #endif

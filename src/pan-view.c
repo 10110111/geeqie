@@ -94,7 +94,7 @@ static void pan_queue_thumb_done_cb(ThumbLoader *tl, gpointer data)
 		pi->queued = FALSE;
 
 		if (pi->pixbuf) g_object_unref(pi->pixbuf);
-		pi->pixbuf = thumb_loader_get_pixbuf(tl, TRUE);
+		pi->pixbuf = thumb_loader_get_pixbuf(tl);
 
 		rc = pi->refcount;
 		image_area_changed(pw->imd, pi->x, pi->y, pi->width, pi->height);

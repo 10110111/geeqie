@@ -20,6 +20,9 @@ gboolean pixbuf_to_file_as_jpg(GdkPixbuf *pixbuf, const gchar *filename, gint qu
 
 
 GdkPixbuf *pixbuf_inline(const gchar *key);
+GdkPixbuf *pixbuf_fallback(FileData *fd, gint requested_width, gint requested_height);
+
+gint pixbuf_scale_aspect(gint req_w, gint req_h, gint old_w, gint old_h, gint *new_w, gint *new_h);
 
 #define PIXBUF_INLINE_FOLDER_CLOSED	"folder_closed"
 #define PIXBUF_INLINE_FOLDER_LOCKED	"folder_locked"

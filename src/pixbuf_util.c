@@ -131,6 +131,53 @@ GdkPixbuf *pixbuf_inline(const gchar *key)
 	return NULL;
 }
 
+gint pixbuf_scale_aspect(gint req_w, gint req_h, gint old_w, gint old_h,
+					  gint *new_w, gint *new_h)
+{
+	if (((gdouble)req_w / old_w) < ((gdouble)req_h / old_h))
+		{
+		*new_w = req_w;
+		*new_h = (gdouble)*new_w / old_w * old_h;
+		if (*new_h < 1) *new_h = 1;
+		}
+	else
+		{
+		*new_h = req_h;
+		*new_w = (gdouble)*new_h / old_h * old_w;
+		if (*new_w < 1) *new_w = 1;
+		}
+
+	return (*new_w != old_w || *new_h != old_h);
+}
+
+GdkPixbuf *pixbuf_fallback(FileData *fd, gint requested_width, gint requested_height)
+{
+	GdkPixbuf *pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN); /* FIXME use different images according to FORMAT_CLASS */
+	
+	if (requested_width && requested_height)
+		{
+		gint w = gdk_pixbuf_get_width(pixbuf);
+		gint h = gdk_pixbuf_get_height(pixbuf);
+
+		if (w > requested_width || h > requested_height)
+			{
+			gint nw, nh;
+
+			if (pixbuf_scale_aspect(requested_width, requested_height,
+							  w, h, &nw, &nh))
+				{
+				GdkPixbuf *tmp;
+
+				tmp = pixbuf;
+				pixbuf = gdk_pixbuf_scale_simple(tmp, nw, nh, GDK_INTERP_TILES);
+				g_object_unref(G_OBJECT(tmp));
+				}
+			}
+		}
+	return pixbuf;
+}
+
+
 /*
  *-----------------------------------------------------------------------------
  * misc utils

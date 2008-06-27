@@ -376,25 +376,6 @@ static void thumb_loader_std_save(ThumbLoaderStd *tl, GdkPixbuf *pixbuf)
 	g_object_unref(G_OBJECT(pixbuf));
 }
 
-static gint thumb_loader_std_scale_aspect(gint req_w, gint req_h, gint old_w, gint old_h,
-					  gint *new_w, gint *new_h)
-{
-	if (((gdouble)req_w / old_w) < ((gdouble)req_h / old_h))
-		{
-		*new_w = req_w;
-		*new_h = (gdouble)*new_w / old_w * old_h;
-		if (*new_h < 1) *new_h = 1;
-		}
-	else
-		{
-		*new_h = req_h;
-		*new_w = (gdouble)*new_h / old_h * old_w;
-		if (*new_w < 1) *new_w = 1;
-		}
-
-	return (*new_w != old_w || *new_h != old_h);
-}
-
 static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf, gint shrunk)
 {
 	GdkPixbuf *pixbuf_thumb = NULL;
@@ -446,7 +427,7 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 				{
 				gint thumb_w, thumb_h;
 
-				if (thumb_loader_std_scale_aspect(cache_w, cache_h, sw, sh,
+				if (pixbuf_scale_aspect(cache_w, cache_h, sw, sh,
 								  &thumb_w, &thumb_h))
 					{
 					pixbuf_thumb = gdk_pixbuf_scale_simple(pixbuf, thumb_w, thumb_h,
@@ -494,7 +475,7 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 			sh = gdk_pixbuf_get_height(pixbuf);
 			}
 
-		if (thumb_loader_std_scale_aspect(tl->requested_width, tl->requested_height, sw, sh,
+		if (pixbuf_scale_aspect(tl->requested_width, tl->requested_height, sw, sh,
 						  &thumb_w, &thumb_h))
 			{
 			result = gdk_pixbuf_scale_simple(pixbuf, thumb_w, thumb_h,
@@ -667,6 +648,10 @@ gint thumb_loader_std_start(ThumbLoaderStd *tl, FileData *fd)
 	if (!tl || !fd) return FALSE;
 
 	thumb_loader_std_reset(tl);
+	
+	if (fd->thumb_pixbuf) g_object_unref(fd->thumb_pixbuf);
+	fd->thumb_pixbuf = pixbuf_fallback(fd, tl->requested_width, tl->requested_height);
+
 
 	if (!stat_utf8(fd->path, &st)) return FALSE;
 
@@ -718,7 +703,7 @@ void thumb_loader_std_free(ThumbLoaderStd *tl)
 	g_free(tl);
 }
 
-GdkPixbuf *thumb_loader_std_get_pixbuf(ThumbLoaderStd *tl, gint with_fallback)
+GdkPixbuf *thumb_loader_std_get_pixbuf(ThumbLoaderStd *tl)
 {
 	GdkPixbuf *pixbuf;
 
@@ -727,32 +712,9 @@ GdkPixbuf *thumb_loader_std_get_pixbuf(ThumbLoaderStd *tl, gint with_fallback)
 		pixbuf = tl->fd->thumb_pixbuf;
 		g_object_ref(pixbuf);
 		}
-	else if (with_fallback)
-		{
-		gint w, h;
-
-		pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
-		w = gdk_pixbuf_get_width(pixbuf);
-		h = gdk_pixbuf_get_height(pixbuf);
-
-		if (w > tl->requested_width || h > tl->requested_height)
-			{
-			gint nw, nh;
-
-			if (thumb_loader_std_scale_aspect(tl->requested_width, tl->requested_height,
-							  w, h, &nw, &nh))
-				{
-				GdkPixbuf *tmp;
-
-				tmp = pixbuf;
-				pixbuf = gdk_pixbuf_scale_simple(tmp, nw, nh, GDK_INTERP_TILES);
-				g_object_unref(G_OBJECT(tmp));
-				}
-			}
-		}
 	else
 		{
-		pixbuf = NULL;
+		pixbuf = pixbuf_fallback(NULL, tl->requested_width, tl->requested_height);
 		}
 
 	return pixbuf;
@@ -806,7 +768,8 @@ static void thumb_loader_std_thumb_file_validate_done_cb(ThumbLoaderStd *tl, gpo
 	GdkPixbuf *pixbuf;
 	gint valid = FALSE;
 
-	pixbuf = thumb_loader_std_get_pixbuf(tv->tl, FALSE);
+	/* this function is called on success, so the pixbuf should not be a fallback*/
+	pixbuf = thumb_loader_std_get_pixbuf(tv->tl);
 	if (pixbuf)
 		{
 		const gchar *uri;
@@ -967,7 +930,8 @@ static void thumb_std_maint_move_validate_cb(const gchar *path, gint valid, gpoi
 	TMaintMove *tm = data;
 	GdkPixbuf *pixbuf;
 
-	pixbuf = thumb_loader_std_get_pixbuf(tm->tl, FALSE);
+	/* this function is called on success, so the pixbuf should not be a fallback*/
+	pixbuf = thumb_loader_std_get_pixbuf(tm->tl);
 	if (pixbuf)
 		{
 		const gchar *uri;
@@ -1010,6 +974,7 @@ static void thumb_std_maint_move_validate_cb(const gchar *path, gint valid, gpoi
 
 		DEBUG_1("thumb move unlink: %s", tm->thumb_path);
 		unlink_file(tm->thumb_path);
+		g_object_unref(pixbuf);
 		}
 
 	thumb_std_maint_move_step(tm);

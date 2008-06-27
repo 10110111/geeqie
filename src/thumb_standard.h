@@ -71,7 +71,7 @@ void thumb_loader_std_set_cache(ThumbLoaderStd *tl, gint enable_cache, gint loca
 gint thumb_loader_std_start(ThumbLoaderStd *tl, FileData *fd);
 void thumb_loader_std_free(ThumbLoaderStd *tl);
 
-GdkPixbuf *thumb_loader_std_get_pixbuf(ThumbLoaderStd *tl, gint with_fallback);
+GdkPixbuf *thumb_loader_std_get_pixbuf(ThumbLoaderStd *tl);
 
 
 /* validates a non local thumbnail file,

@@ -362,6 +362,9 @@ gint thumb_loader_start(ThumbLoader *tl, FileData *fd)
 
 	if (!tl->fd) tl->fd = file_data_ref(fd);
 
+	if (tl->fd->thumb_pixbuf) g_object_unref(tl->fd->thumb_pixbuf);
+	tl->fd->thumb_pixbuf = pixbuf_fallback(tl->fd, tl->max_w, tl->max_h);
+
 	if (tl->cache_enable)
 		{
 		cache_path = cache_find_location(CACHE_TYPE_THUMB, tl->fd->path);
@@ -447,13 +450,13 @@ gint thumb_loader_to_pixmap(ThumbLoader *tl, GdkPixmap **pixmap, GdkBitmap **mas
 }
 #endif
 
-GdkPixbuf *thumb_loader_get_pixbuf(ThumbLoader *tl, gint with_fallback)
+GdkPixbuf *thumb_loader_get_pixbuf(ThumbLoader *tl)
 {
 	GdkPixbuf *pixbuf;
 
 	if (tl && tl->standard_loader)
 		{
-		return thumb_loader_std_get_pixbuf((ThumbLoaderStd *)tl, with_fallback);
+		return thumb_loader_std_get_pixbuf((ThumbLoaderStd *)tl);
 		}
 
 	if (tl && tl->fd && tl->fd->thumb_pixbuf)
@@ -461,26 +464,9 @@ GdkPixbuf *thumb_loader_get_pixbuf(ThumbLoader *tl, gint with_fallback)
 		pixbuf = tl->fd->thumb_pixbuf;
 		g_object_ref(pixbuf);
 		}
-	else if (with_fallback)
-		{
-		gint w, h;
-
-		pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
-		w = gdk_pixbuf_get_width(pixbuf);
-		h = gdk_pixbuf_get_height(pixbuf);
-		if ((w > tl->max_w || h > tl->max_h) &&
-		    normalize_thumb(&w, &h, tl->max_w, tl->max_h))
-			{
-			GdkPixbuf *tmp;
-
-			tmp = pixbuf;
-			pixbuf = gdk_pixbuf_scale_simple(tmp, w, h, GDK_INTERP_NEAREST);
-			gdk_pixbuf_unref(tmp);
-			}
-		}
 	else
 		{
-		pixbuf = NULL;
+		pixbuf = pixbuf_fallback(NULL, tl->max_w, tl->max_h);
 		}
 
 	return pixbuf;
@@ -550,8 +536,7 @@ gint thumb_from_xpm_d(const char **data, gint max_w, gint max_h, GdkPixmap **pix
 	w = gdk_pixbuf_get_width(pixbuf);
 	h = gdk_pixbuf_get_height(pixbuf);
 
-	if ((w > max_w || h > max_h) &&
-	    normalize_thumb(&w, &h, max_w, max_h))
+	if (pixbuf_scale_aspect(w, h, max_w, max_h, &w, &h))
 		{
 		/* scale */
 		GdkPixbuf *tmp;
@@ -619,25 +604,6 @@ static guchar *load_xv_thumbnail(gchar *filename, gint *widthp, gint *heightp)
 }
 #undef XV_BUFFER
 
-static gint normalize_thumb(gint *width, gint *height, gint max_w, gint max_h)
-{
-	gdouble scale;
-	gint new_w, new_h;
-
-	scale = MIN((gdouble) max_w / *width, (gdouble) max_h / *height);
-	new_w = *width * scale;
-	new_h = *height * scale;
-
-	if (new_w != *width || new_h != *height)
-		{
-		*width = new_w;
-		*height = new_h;
-		return TRUE;
-		}
-
-	return FALSE;
-}
-
 static void free_rgb_buffer(guchar *pixels, gpointer data)
 {
 	g_free(pixels);
@@ -683,7 +649,7 @@ static GdkPixbuf *get_xv_thumbnail(gchar *thumb_filename, gint max_w, gint max_h
 		pixbuf = gdk_pixbuf_new_from_data(rgb_data, GDK_COLORSPACE_RGB, FALSE, 8,
 						  width, height, 3 * width, free_rgb_buffer, NULL);
 
-		if (normalize_thumb(&width, &height, max_w, max_h))
+		if (pixbuf_scale_aspect(width, height, max_w, max_h, &width, &height))
 			{
 			/* scale */
 			GdkPixbuf *tmp;

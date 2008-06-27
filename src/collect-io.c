@@ -223,7 +223,7 @@ static void collection_load_thumb_do(CollectionData *cd)
 
 	if (!cd->thumb_loader || !g_list_find(cd->list, cd->thumb_info)) return;
 
-	pixbuf = thumb_loader_get_pixbuf(cd->thumb_loader, TRUE);
+	pixbuf = thumb_loader_get_pixbuf(cd->thumb_loader);
 	collection_info_set_thumb(cd->thumb_info, pixbuf);
 	g_object_unref(pixbuf);
 

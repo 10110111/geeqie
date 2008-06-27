@@ -1264,7 +1264,7 @@ static void dupe_thumb_do(DupeWindow *dw)
 	di = dw->thumb_item;
 
 	if (di->pixbuf) g_object_unref(di->pixbuf);
-	di->pixbuf = thumb_loader_get_pixbuf(dw->thumb_loader, TRUE);
+	di->pixbuf = thumb_loader_get_pixbuf(dw->thumb_loader);
 
 	dupe_listview_set_thumb(dw, di, NULL);
 }
