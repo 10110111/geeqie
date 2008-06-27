@@ -1129,8 +1129,8 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 
 	if (source->il)
 		{
-//		imd->il = source->il;
-//		source->il = NULL;
+		imd->il = source->il;
+		source->il = NULL;
 
 		image_loader_sync_data(imd->il, imd);
 
