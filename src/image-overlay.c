@@ -394,18 +394,36 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 	return ret;
 }
 
-static void osd_template_insert(GHashTable *vars, const gchar *keyword, const gchar *value)
-{
-	if (!value || !*value)
-		g_hash_table_insert(vars, (gchar *) keyword, g_strdup(""));
-	else
-		g_hash_table_insert(vars, (gchar *) keyword, g_markup_escape_text(value, -1));
-}
+typedef enum {
+	OSDT_NONE 	= 0,
+	OSDT_FREE 	= 1 << 0,
+	OSDT_NO_ESCAPE 	= 1 << 1,
+	OSDT_NO_DUP 	= 1 << 2
+} OsdTemplateFlags;
 
-static void osd_template_insert_and_free(GHashTable *vars, const gchar *keyword, gchar *value)
+static void osd_template_insert(GHashTable *vars, gchar *keyword, gchar *value, OsdTemplateFlags flags)
 {
-	osd_template_insert(vars, keyword, value);
-	g_free(value);
+	if (!value)
+		{
+		g_hash_table_insert(vars, keyword, g_strdup(""));
+		return;
+		}
+
+	if (flags & OSDT_NO_DUP)
+		{
+		g_hash_table_insert(vars, keyword, value);
+		return;
+		}
+	else if (flags & OSDT_NO_ESCAPE)
+		{
+		g_hash_table_insert(vars, keyword, g_strdup(value));
+		}
+	else
+		{
+		g_hash_table_insert(vars, keyword, g_markup_escape_text(value, -1));
+		}
+
+	if (flags & OSDT_FREE) g_free((gpointer) value);
 }
 
 static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
@@ -440,13 +458,13 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 			if (cd->name)
 				{
 				if (file_extension_match(cd->name, GQ_COLLECTION_EXT))
-					osd_template_insert_and_free(vars, "collection", remove_extension_from_path(cd->name));
+					osd_template_insert(vars, "collection", remove_extension_from_path(cd->name), OSDT_FREE);
 				else
-					osd_template_insert(vars, "collection", cd->name);
+					osd_template_insert(vars, "collection", cd->name, OSDT_NONE);
 				}
 			else
 				{
-				osd_template_insert(vars, "collection", _("Untitled"));
+				osd_template_insert(vars, "collection", _("Untitled"), OSDT_NONE);
 				}
 			}
 		else
@@ -479,15 +497,15 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 			if (n < 1) n = 1;
 			if (t < 1) t = 1;
 	
-			osd_template_insert(vars, "collection", NULL);
+			osd_template_insert(vars, "collection", NULL, OSDT_NONE);
 			}
 		
-		osd_template_insert_and_free(vars, "number", g_strdup_printf("%d", n));
-		osd_template_insert_and_free(vars, "total", g_strdup_printf("%d", t));
-		osd_template_insert(vars, "name", name);
-	 	osd_template_insert(vars, "date", text_from_time(imd->mtime));
-		osd_template_insert_and_free(vars, "size", text_from_size_abrev(imd->size));
-		osd_template_insert_and_free(vars, "zoom", image_zoom_get_as_text(imd));
+		osd_template_insert(vars, "number", g_strdup_printf("%d", n), OSDT_NO_DUP);
+		osd_template_insert(vars, "total", g_strdup_printf("%d", t), OSDT_NO_DUP);
+		osd_template_insert(vars, "name", (gchar *) name, OSDT_NONE);
+	 	osd_template_insert(vars, "date", (gchar *) text_from_time(imd->mtime), OSDT_NONE);
+		osd_template_insert(vars, "size", text_from_size_abrev(imd->size), OSDT_FREE);
+		osd_template_insert(vars, "zoom", image_zoom_get_as_text(imd), OSDT_FREE);
 	
 		if (!imd->unknown)
 			{
@@ -508,15 +526,15 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 				}
 		
 			
-			osd_template_insert_and_free(vars, "width", g_strdup_printf("%d", w));
-	 		osd_template_insert_and_free(vars, "height", g_strdup_printf("%d", h));
-	 		osd_template_insert_and_free(vars, "res", g_strdup_printf("%d × %d", w, h));
+			osd_template_insert(vars, "width", g_strdup_printf("%d", w), OSDT_NO_DUP);
+	 		osd_template_insert(vars, "height", g_strdup_printf("%d", h), OSDT_NO_DUP);
+	 		osd_template_insert(vars, "res", g_strdup_printf("%d × %d", w, h), OSDT_FREE);
 	 		}
 		else
 			{
-			osd_template_insert(vars, "width", NULL);
-	 		osd_template_insert(vars, "height", NULL);
-	 		osd_template_insert(vars, "res", NULL);
+			osd_template_insert(vars, "width", NULL, OSDT_NONE);
+	 		osd_template_insert(vars, "height", NULL, OSDT_NONE);
+	 		osd_template_insert(vars, "res", NULL, OSDT_NONE);
 			}
 
 	 	text = image_osd_mkinfo(options->image_overlay.common.template_string, imd, vars);
