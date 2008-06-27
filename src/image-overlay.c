@@ -210,7 +210,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 	gchar delim = '%', imp = '|', sep[] = " - ";
 	gchar *start, *end;
 	guint pos, prev;
-	guint last;
+	gboolean want_separator = FALSE;
 	gchar *name, *data;
 	GString *new;
 	gchar *ret;
@@ -220,7 +220,6 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 	new = g_string_new(str);
 
 	prev = 0;
-	last = FALSE;
 
 	while (TRUE)
 		{
@@ -294,6 +293,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 				data = exif_get_data_as_text(exif, name);
 			exif_free_fd(imd->image_fd, exif);
 			}
+	
 		if (data && *data && limit > 0 && strlen(data) > limit + 3)
 			{
 			gchar *new_data = g_strdup_printf("%-*.*s...", limit, limit, data);
@@ -364,21 +364,31 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			}	
 
 		g_string_erase(new, pos, end-start+1);
-		if (data)
-			g_string_insert(new, pos, data);
-
-		if (pos-prev >= 2 && new->str[pos-1] == imp)
+		if (data && *data)
 			{
-			g_string_erase(new, --pos, 1);
-			if (last && data && *data)
+			if (want_separator)
 				{
+				/* insert separator */
 				g_string_insert(new, pos, sep);
 				pos += strlen(sep);
 				}
-			}
 
-		prev = data ? pos+strlen(data)-1 : pos-1;
-		last = data ? TRUE : last;
+			g_string_insert(new, pos, data);
+			pos += strlen(data);
+		}
+
+		want_separator = FALSE;
+
+		if (pos-prev >= 1 && new->str[pos] == imp)
+			{
+			/* pipe character is replaced by a separator, delete it
+			 * and raise a flag if needed */
+			g_string_erase(new, pos--, 1);
+			want_separator = (data && *data);
+			}
+		
+		prev = pos - 1;
+
 		g_free(name);
 		g_free(data);
 		}
