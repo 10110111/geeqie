@@ -597,14 +597,12 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
  * view window main routines
  *-----------------------------------------------------------------------------
  */
-
-static void button_cb(ImageWindow *imd, gint button, guint32 time,
-		      gdouble x, gdouble y, guint state, gpointer data)
+static void button_cb(ImageWindow *imd, GdkEventButton *event, gpointer data)
 {
 	ViewWindow *vw = data;
 	GtkWidget *menu;
 
-	switch (button)
+	switch (event->button)
 		{
 		case MOUSE_BUTTON_LEFT:
 			view_step_next(vw);
@@ -614,35 +612,34 @@ static void button_cb(ImageWindow *imd, gint button, guint32 time,
 			break;
 		case MOUSE_BUTTON_RIGHT:
 			menu = view_popup_menu(vw);
-			gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, time);
+			gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, event->time);
 			break;
 		default:
 			break;
 		}
 }
 
-static void scroll_cb(ImageWindow *imd, GdkScrollDirection direction, guint32 time,
-		      gdouble x, gdouble y, guint state, gpointer data)
+static void scroll_cb(ImageWindow *imd, GdkEventScroll *event, gpointer data)
 {
 	ViewWindow *vw = data;
 
-	if (state & GDK_CONTROL_MASK)
+	if (event->state & GDK_CONTROL_MASK)
 		{
-		switch (direction)
+		switch (event->direction)
 			{
 			case GDK_SCROLL_UP:
-				image_zoom_adjust_at_point(imd, get_zoom_increment(), x, y);
+				image_zoom_adjust_at_point(imd, get_zoom_increment(), event->x, event->y);
 				break;
 			case GDK_SCROLL_DOWN:
-				image_zoom_adjust_at_point(imd, -get_zoom_increment(), x, y);
+				image_zoom_adjust_at_point(imd, -get_zoom_increment(), event->x, event->y);
 				break;
 			default:
 				break;
 			}
 		}
-	else if ( (state & GDK_SHIFT_MASK) != (guint) (options->mousewheel_scrolls))
+	else if ( (event->state & GDK_SHIFT_MASK) != (guint) (options->mousewheel_scrolls))
 		{
-		switch (direction)
+		switch (event->direction)
 			{
 			case GDK_SCROLL_UP:
 				image_scroll(imd, 0, -MOUSEWHEEL_SCROLL_SIZE);
@@ -662,7 +659,7 @@ static void scroll_cb(ImageWindow *imd, GdkScrollDirection direction, guint32 ti
 		}
 	else
 		{
-		switch (direction)
+		switch (event->direction)
 			{
 			case GDK_SCROLL_UP:
 				view_step_prev(vw);

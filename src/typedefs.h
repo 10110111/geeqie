@@ -376,12 +376,9 @@ struct _ImageWindow
 	gpointer data_tile;
 
 	/* button, scroll functions */
-	void (*func_button)(ImageWindow *, gint button,
-			    guint32 time, gdouble x, gdouble y, guint state, gpointer);
-	void (*func_drag)(ImageWindow *, gint button,
-			    guint32 time, gdouble x, gdouble y, guint state, gdouble dx, gdouble dy,gpointer);
-	void (*func_scroll)(ImageWindow *, GdkScrollDirection direction,
-			    guint32 time, gdouble x, gdouble y, guint state, gpointer);
+	void (*func_button)(ImageWindow *, GdkEventButton *event, gpointer);
+	void (*func_drag)(ImageWindow *, GdkEventButton *event, gdouble dx, gdouble dy, gpointer);
+	void (*func_scroll)(ImageWindow *, GdkEventScroll *event, gpointer);
 
 	gpointer data_button;
 	gpointer data_drag;

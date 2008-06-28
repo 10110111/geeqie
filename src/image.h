@@ -25,13 +25,13 @@ void image_set_update_func(ImageWindow *imd,
 			   void (*func)(ImageWindow *imd, gpointer data),
 			   gpointer data);
 void image_set_button_func(ImageWindow *imd,
-	void (*func)(ImageWindow *, gint button, guint32 time, gdouble x, gdouble y, guint state, gpointer),
+	void (*func)(ImageWindow *, GdkEventButton *event, gpointer),
 	gpointer data);
 void image_set_drag_func(ImageWindow *imd,
-	void (*func)(ImageWindow *, gint button, guint32 time, gdouble x, gdouble y, guint state, gdouble dx, gdouble dy, gpointer),
+	void (*func)(ImageWindow *, GdkEventButton *event, gdouble dx, gdouble dy, gpointer),
 	gpointer data);
 void image_set_scroll_func(ImageWindow *imd,
-	void (*func)(ImageWindow *, GdkScrollDirection direction, guint32 time, gdouble x, gdouble y, guint state, gpointer),
+	void (*func)(ImageWindow *, GdkEventScroll *event, gpointer),
 	gpointer data);
 void image_set_scroll_notify_func(ImageWindow *imd,
 				  void (*func)(ImageWindow *imd, gint x, gint y, gint width, gint height, gpointer data),

@@ -765,27 +765,25 @@ static void info_window_next_cb(GtkWidget *widget, gpointer data)
 	gtk_widget_set_sensitive(id->button_back, TRUE);
 }
 
-static void info_window_image_button_cb(ImageWindow *imd, gint button, guint32 time,
-					gdouble x, gdouble y, guint state, gpointer data)
+static void info_window_image_button_cb(ImageWindow *imd, GdkEventButton *event, gpointer data)
 {
-	if (button == MOUSE_BUTTON_LEFT)
+	if (event->button == MOUSE_BUTTON_LEFT)
 		{
 		info_window_next_cb(NULL, data);
 		}
-	else if (button == MOUSE_BUTTON_MIDDLE || button == MOUSE_BUTTON_RIGHT)
+	else if (event->button == MOUSE_BUTTON_MIDDLE || event->button == MOUSE_BUTTON_RIGHT)
 		{
 		info_window_back_cb(NULL, data);
 		}
 }
 
-static void info_window_image_scroll_cb(ImageWindow *imd, GdkScrollDirection direction, guint32 time,
-					gdouble x, gdouble y, guint state, gpointer data)
+static void info_window_image_scroll_cb(ImageWindow *imd, GdkEventScroll *event, gpointer data)
 {
-	if (direction == GDK_SCROLL_UP)
+	if (event->direction == GDK_SCROLL_UP)
 		{
 		info_window_back_cb(NULL, data);
 		}
-	else if (direction == GDK_SCROLL_DOWN)
+	else if (event->direction == GDK_SCROLL_DOWN)
 		{
 		info_window_next_cb(NULL, data);
 		}

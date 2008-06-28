@@ -1573,13 +1573,12 @@ static gint image_idx(LayoutWindow *lw, ImageWindow *imd)
 }
 
 
-static void layout_image_button_cb(ImageWindow *imd, gint button, guint32 time,
-				   gdouble x, gdouble y, guint state, gpointer data)
+static void layout_image_button_cb(ImageWindow *imd, GdkEventButton *event, gpointer data)
 {
 	LayoutWindow *lw = data;
 	GtkWidget *menu;
 
-	switch (button)
+	switch (event->button)
 		{
 		case MOUSE_BUTTON_LEFT:
 			layout_image_next(lw);
@@ -1593,15 +1592,14 @@ static void layout_image_button_cb(ImageWindow *imd, gint button, guint32 time,
 				{
 				g_object_set_data(G_OBJECT(menu), "click_parent", imd->widget);
 				}
-			gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, time);
+			gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, event->time);
 			break;
 		default:
 			break;
 		}
 }
 
-static void layout_image_scroll_cb(ImageWindow *imd, GdkScrollDirection direction, guint32 time,
-				   gdouble x, gdouble y, guint state, gpointer data)
+static void layout_image_scroll_cb(ImageWindow *imd, GdkEventScroll *event, gpointer data)
 {
 	LayoutWindow *lw = data;
 
@@ -1614,23 +1612,23 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkScrollDirection directio
 		}
 
 
-	if (state & GDK_CONTROL_MASK)
+	if (event->state & GDK_CONTROL_MASK)
 		{
-		switch (direction)
+		switch (event->direction)
 			{
 			case GDK_SCROLL_UP:
-				layout_image_zoom_adjust_at_point(lw, get_zoom_increment(), x, y);
+				layout_image_zoom_adjust_at_point(lw, get_zoom_increment(), event->x, event->y);
 				break;
 			case GDK_SCROLL_DOWN:
-				layout_image_zoom_adjust_at_point(lw, -get_zoom_increment(), x, y);
+				layout_image_zoom_adjust_at_point(lw, -get_zoom_increment(), event->x, event->y);
 				break;
 			default:
 				break;
 			}
 		}
-	else if ( (state & GDK_SHIFT_MASK) != (guint) (options->mousewheel_scrolls))
+	else if ( (event->state & GDK_SHIFT_MASK) != (guint) (options->mousewheel_scrolls))
 		{
-		switch (direction)
+		switch (event->direction)
 			{
 			case GDK_SCROLL_UP:
 				image_scroll(imd, 0, -MOUSEWHEEL_SCROLL_SIZE);
@@ -1650,7 +1648,7 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkScrollDirection directio
 		}
 	else
 		{
-		switch (direction)
+		switch (event->direction)
 			{
 			case GDK_SCROLL_UP:
 				layout_image_prev(lw);
@@ -1664,36 +1662,33 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkScrollDirection directio
 		}
 }
 
-static void layout_image_drag_cb(ImageWindow *imd, gint button, guint32 time,
-				 gdouble x, gdouble y, guint state, gdouble dx, gdouble dy, gpointer data)
+static void layout_image_drag_cb(ImageWindow *imd, GdkEventButton *event, gdouble dx, gdouble dy, gpointer data)
 {
 	gint i;
 	LayoutWindow *lw = data;
 
-
-	for (i=0; i < MAX_SPLIT_IMAGES; i++)
+	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
 		{
-		if (lw->split_images[i] && lw->split_images[i] != imd)
-			if (lw->connect_scroll)
+		if (lw->split_images[i] && lw->split_images[i] != imd && lw->connect_scroll)
+			{
+			gdouble sx, sy;
+
+			if (event->state & GDK_CONTROL_MASK)
 				{
-				gdouble sx, sy;
-				if (state & GDK_CONTROL_MASK)
-					{
-					image_get_scroll_center(imd, &sx, &sy);
-					}
-				else
-					{
-					image_get_scroll_center(lw->split_images[i], &sx, &sy);
-					sx += dx;
-					sy += dy;
-					}
-				image_set_scroll_center(lw->split_images[i], sx, sy);
+				image_get_scroll_center(imd, &sx, &sy);
 				}
+			else
+				{
+				image_get_scroll_center(lw->split_images[i], &sx, &sy);
+				sx += dx;
+				sy += dy;
+				}
+			image_set_scroll_center(lw->split_images[i], sx, sy);
+			}
 		}
 }
 
-static void layout_image_button_inactive_cb(ImageWindow *imd, gint button, guint32 time,
-				   gdouble x, gdouble y, guint state, gpointer data)
+static void layout_image_button_inactive_cb(ImageWindow *imd, GdkEventButton *event, gpointer data)
 {
 	LayoutWindow *lw = data;
 	GtkWidget *menu;
@@ -1704,7 +1699,7 @@ static void layout_image_button_inactive_cb(ImageWindow *imd, gint button, guint
 		layout_image_activate(lw, i);
 		}
 
-	switch (button)
+	switch (event->button)
 		{
 		case MOUSE_BUTTON_RIGHT:
 			menu = layout_image_pop_menu(lw);
@@ -1712,7 +1707,7 @@ static void layout_image_button_inactive_cb(ImageWindow *imd, gint button, guint
 				{
 				g_object_set_data(G_OBJECT(menu), "click_parent", imd->widget);
 				}
-			gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, time);
+			gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, event->time);
 			break;
 		default:
 			break;
@@ -1720,11 +1715,9 @@ static void layout_image_button_inactive_cb(ImageWindow *imd, gint button, guint
 
 }
 
-static void layout_image_drag_inactive_cb(ImageWindow *imd, gint button, guint32 time,
-				 gdouble x, gdouble y, guint state, gdouble dx, gdouble dy, gpointer data)
+static void layout_image_drag_inactive_cb(ImageWindow *imd, GdkEventButton *event, gdouble dx, gdouble dy, gpointer data)
 {
 	LayoutWindow *lw = data;
-
 	gint i = image_idx(lw, imd);
 
 	if (i != -1)
@@ -1732,9 +1725,8 @@ static void layout_image_drag_inactive_cb(ImageWindow *imd, gint button, guint32
 		layout_image_activate(lw, i);
 		}
 
-
 	/* continue as with active image */
-	layout_image_drag_cb(imd, button, time, x, y, state, dx, dy, data);
+	layout_image_drag_cb(imd, event, dx, dy, data);
 }
 
 

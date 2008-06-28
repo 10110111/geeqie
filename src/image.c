@@ -67,8 +67,7 @@ static void image_click_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer d
 
 	if (imd->func_button)
 		{
-		imd->func_button(imd, event->button, event->time,
-				 event->x, event->y, event->state, imd->data_button);
+		imd->func_button(imd, event, imd->data_button);
 		}
 }
 
@@ -81,10 +80,10 @@ static void image_drag_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer da
 
 	if (imd->func_drag)
 		{
-		imd->func_drag(imd, event->button, event->time,
-				 event->x, event->y, event->state,
-				 (gfloat)(pr->drag_last_x - event->x) / width, (gfloat)(pr->drag_last_y - event->y) / height,
-				 imd->data_button);
+		imd->func_drag(imd, event,
+			       (gfloat)(pr->drag_last_x - event->x) / width,
+			       (gfloat)(pr->drag_last_y - event->y) / height,
+			       imd->data_button);
 		}
 }
 
@@ -880,8 +879,7 @@ static gint image_scroll_cb(GtkWidget *widget, GdkEventScroll *event, gpointer d
 	if (imd->func_scroll &&
 	    event && event->type == GDK_SCROLL)
 		{
-		imd->func_scroll(imd, event->direction, event->time,
-				 event->x, event->y, event->state, imd->data_scroll);
+		imd->func_scroll(imd, event, imd->data_scroll);
 		return TRUE;
 		}
 
@@ -937,7 +935,7 @@ void image_set_state_func(ImageWindow *imd,
 
 
 void image_set_button_func(ImageWindow *imd,
-			   void (*func)(ImageWindow *, gint button, guint32 time, gdouble x, gdouble y, guint state, gpointer),
+			   void (*func)(ImageWindow *, GdkEventButton *event, gpointer),
 			   gpointer data)
 {
 	imd->func_button = func;
@@ -945,7 +943,7 @@ void image_set_button_func(ImageWindow *imd,
 }
 
 void image_set_drag_func(ImageWindow *imd,
-			   void (*func)(ImageWindow *, gint button, guint32 time, gdouble x, gdouble y, guint state, gdouble dx, gdouble dy, gpointer),
+			   void (*func)(ImageWindow *, GdkEventButton *event, gdouble dx, gdouble dy, gpointer),
 			   gpointer data)
 {
 	imd->func_drag = func;
@@ -953,7 +951,7 @@ void image_set_drag_func(ImageWindow *imd,
 }
 
 void image_set_scroll_func(ImageWindow *imd,
-			   void (*func)(ImageWindow *, GdkScrollDirection direction, guint32 time, gdouble x, gdouble y, guint state, gpointer),
+			   void (*func)(ImageWindow *, GdkEventScroll *event, gpointer),
 			   gpointer data)
 {
 	imd->func_scroll = func;
