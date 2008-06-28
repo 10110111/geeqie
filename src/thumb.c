@@ -28,7 +28,6 @@
 static void thumb_loader_error_cb(ImageLoader *il, gpointer data);
 static void thumb_loader_setup(ThumbLoader *tl, const gchar *path);
 
-static gint normalize_thumb(gint *width, gint *height, gint max_w, gint max_h);
 static GdkPixbuf *get_xv_thumbnail(gchar *thumb_filename, gint max_w, gint max_h);
 
 
