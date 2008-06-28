@@ -1667,9 +1667,11 @@ static void layout_image_drag_cb(ImageWindow *imd, GdkEventButton *event, gdoubl
 	gint i;
 	LayoutWindow *lw = data;
 
+	if (!lw->connect_scroll) return;
+
 	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
 		{
-		if (lw->split_images[i] && lw->split_images[i] != imd && lw->connect_scroll)
+		if (lw->split_images[i] && lw->split_images[i] != imd)
 			{
 			gdouble sx, sy;
 
