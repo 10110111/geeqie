@@ -37,13 +37,16 @@ static GdkPixbuf *get_xv_thumbnail(gchar *thumb_filename, gint max_w, gint max_h
  *-----------------------------------------------------------------------------
  */
 
-static gint thumb_loader_save_to_cache(ThumbLoader *tl)
+/* Save thumbnail to disk
+ * or just mark failed thumbnail with 0 byte file (mark_failure = TRUE) */
+static gboolean thumb_loader_save_thumbnail(ThumbLoader *tl, gboolean mark_failure)
 {
 	gchar *cache_dir;
-	gint success = FALSE;
+	gboolean success = FALSE;
 	mode_t mode = 0755;
 
-	if (!tl || !tl->fd || !tl->fd->thumb_pixbuf) return FALSE;
+	if (!tl || !tl->fd) return FALSE;
+	if (!mark_failure && !tl->fd->thumb_pixbuf) return FALSE;
 
 	cache_dir = cache_get_location(CACHE_TYPE_THUMB, tl->fd->path, FALSE, &mode);
 
@@ -56,10 +59,25 @@ static gint thumb_loader_save_to_cache(ThumbLoader *tl)
 		cache_path = g_build_filename(cache_dir, name, NULL);
 		g_free(name);
 
-		DEBUG_1("Saving thumb: %s", cache_path);
-
 		pathl = path_from_utf8(cache_path);
-		success = pixbuf_to_file_as_png(tl->fd->thumb_pixbuf, pathl);
+
+		if (mark_failure)
+			{
+			FILE *f = fopen(pathl, "w"); ;
+
+			DEBUG_1("Marking thumb failure: %s", cache_path);
+			if (f)
+				{
+				fclose(f);
+				success = TRUE;
+				}
+			}
+		else
+			{
+			DEBUG_1("Saving thumb: %s", cache_path);
+			success = pixbuf_to_file_as_png(tl->fd->thumb_pixbuf, pathl);
+			}
+
 		if (success)
 			{
 			struct utimbuf ut;
@@ -82,53 +100,6 @@ static gint thumb_loader_save_to_cache(ThumbLoader *tl)
 
 	g_free(cache_dir);
 
-	return success;
-}
-
-static gint thumb_loader_mark_failure(ThumbLoader *tl)
-{
-	gchar *cache_dir;
-	gint success = FALSE;
-	mode_t mode = 0755;
-
-	if (!tl) return FALSE;
-
-	cache_dir = cache_get_location(CACHE_TYPE_THUMB, tl->fd->path, FALSE, &mode);
-
-	if (cache_ensure_dir_exists(cache_dir, mode))
-		{
-		gchar *cache_path;
-		gchar *pathl;
-		FILE *f;
-		gchar *name = g_strconcat(filename_from_path(tl->fd->path), GQ_CACHE_EXT_THUMB, NULL);
-
-		cache_path = g_build_filename(cache_dir, name, NULL);
-		g_free(name);
-
-		DEBUG_1("marking thumb failure: %s", cache_path);
-
-		pathl = path_from_utf8(cache_path);
-		f = fopen(pathl, "w");
-		if (f)
-			{
-			struct utimbuf ut;
-
-			fclose(f);
-
-			ut.actime = ut.modtime = filetime(tl->fd->path);
-			if (ut.modtime > 0)
-				{
-				utime(pathl, &ut);
-				}
-
-			success = TRUE;
-			}
-
-		g_free(pathl);
-		g_free(cache_path);
-		}
-
-	g_free(cache_dir);
 	return success;
 }
 
@@ -245,7 +216,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 	/* save it ? */
 	if (tl->cache_enable && save)
 		{
-		thumb_loader_save_to_cache(tl);
+		thumb_loader_save_thumbnail(tl, FALSE);
 		}
 
 	if (tl->func_done) tl->func_done(tl, tl->data);
@@ -427,7 +398,7 @@ gint thumb_loader_start(ThumbLoader *tl, FileData *fd)
 		/* mark failed thumbnail in cache with 0 byte file */
 		if (tl->cache_enable)
 			{
-			thumb_loader_mark_failure(tl);
+			thumb_loader_save_thumbnail(tl, TRUE);
 			}
 
 		image_loader_free(tl->il);
