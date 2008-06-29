@@ -16,28 +16,27 @@ typedef struct _ConfOptions ConfOptions;
 
 struct _ConfOptions
 {
-
 	/* ui */
-	gint progressive_key_scrolling;
-	gint place_dialogs_under_mouse;
+	gboolean progressive_key_scrolling;
+	gboolean place_dialogs_under_mouse;
 	gboolean mousewheel_scrolls;
-	gint show_icon_names;
-	gint show_copy_path;
+	gboolean show_icon_names;
+	gboolean show_copy_path;
 
 	/* various */
-	gint enable_metadata_dirs;
+	gboolean enable_metadata_dirs;
 
-	gint tree_descend_subdirs;
+	gboolean tree_descend_subdirs;
 
-	gint lazy_image_sync;
-	gint update_on_time_change;
+	gboolean lazy_image_sync;
+	gboolean update_on_time_change;
 
-	gint duplicates_similarity_threshold;
+	guint duplicates_similarity_threshold;
 
 	gint open_recent_list_maxsize;
 	gint dnd_icon_size;
 
-	gint save_metadata_in_image_file;
+	gboolean save_metadata_in_image_file;
 
 	struct {
 		gboolean restore_path;
@@ -47,11 +46,11 @@ struct _ConfOptions
 
 	/* file ops */
 	struct {
-		gint enable_in_place_rename;
+		gboolean enable_in_place_rename;
 
-		gint confirm_delete;
-		gint enable_delete_key;
-		gint safe_delete_enable;
+		gboolean confirm_delete;
+		gboolean enable_delete_key;
+		gboolean safe_delete_enable;
 		gchar *safe_delete_path;
 		gint safe_delete_folder_maxsize;
 	} file_ops;
@@ -68,13 +67,13 @@ struct _ConfOptions
 
 		gint tile_cache_max;	/* in megabytes */
 		gint image_cache_max;   /* in megabytes */
-		gint dither_quality;
+		guint dither_quality;
 		gboolean enable_read_ahead;
 
 		gint zoom_mode;
 		gboolean zoom_2pass;
 		gboolean zoom_to_fit_allow_expand;
-		gint zoom_quality;
+		guint zoom_quality;
 		gint zoom_increment;	/* 10 is 1.0, 5 is 0.05, 20 is 2.0, etc. */
 
 		gint use_custom_border_color;
@@ -88,24 +87,24 @@ struct _ConfOptions
 	struct {
 		gint max_width;
 		gint max_height;
-		gint enable_caching;
-		gint cache_into_dirs;
-		gint fast;
-		gint use_xvpics;
-		gint spec_standard;
-		gint quality;
+		gboolean enable_caching;
+		gboolean cache_into_dirs;
+		gboolean fast;
+		gboolean use_xvpics;
+		gboolean spec_standard;
+		guint quality;
 	} thumbnails;
 
 	/* file filtering */
 	struct {
-		gint show_hidden_files;
-		gint show_dot_directory;
-		gint disable;
+		gboolean show_hidden_files;
+		gboolean show_dot_directory;
+		gboolean disable;
 	} file_filter;
 
 	/* collections */
 	struct {
-		gint rectangular_selection;
+		gboolean rectangular_selection;
 	} collections;
 
 	/* editors */
@@ -120,23 +119,23 @@ struct _ConfOptions
 	/* file sorting */
 	struct {
 		SortType method;
-		gint ascending;
-		gint case_sensitive; /* file sorting method (case) */
+		gboolean ascending;
+		gboolean case_sensitive; /* file sorting method (case) */
 	} file_sort;
 
 	/* slideshow */
 	struct {
 		gint delay;	/* in tenths of a second */
-		gint random;
-		gint repeat;
+		gboolean random;
+		gboolean repeat;
 	} slideshow;
 
 	/* fullscreen */
 	struct {
 		gint screen;
-		gint clean_flip;
-		gint disable_saver;
-		gint above;
+		gboolean clean_flip;
+		gboolean disable_saver;
+		gboolean above;
 	} fullscreen;
 
 	/* histogram */
@@ -149,7 +148,7 @@ struct _ConfOptions
 	struct {
 		struct {
 			guint state;
-			gint show_at_startup;
+			gboolean show_at_startup;
 			gchar *template_string;
 			gint x;
 			gint y;
@@ -164,8 +163,8 @@ struct _ConfOptions
 		DirViewType dir_view_type;
 		FileViewType file_view_type;
 
-		gint show_thumbnails;
-		gint show_marks;
+		gboolean show_thumbnails;
+		gboolean show_marks;
 		gboolean show_directory_date;
 
 		struct {
@@ -173,7 +172,7 @@ struct _ConfOptions
 			gint h;
 			gint x;
 			gint y;
-			gint maximized;
+			gboolean maximized;
 			gint hdivider_pos;
 			gint vdivider_pos;
 		} main_window;
@@ -191,30 +190,30 @@ struct _ConfOptions
 			gint h;
 		} properties_window;
 
-		gint save_window_positions;
+		gboolean save_window_positions;
 
-		gint tools_float;
-		gint tools_hidden;
-		gint tools_restore_state;
+		gboolean tools_float;
+		gboolean tools_hidden;
+		gboolean tools_restore_state;
 
-		gint toolbar_hidden;
+		gboolean toolbar_hidden;
 
 	} layout;
 
 	/* panels */
 	struct {
 		struct {
-			gint enabled;
+			gboolean enabled;
 			gint width;
 		} info;
 
 		struct {
-			gint enabled;
+			gboolean enabled;
 			gint width;
 		} exif;
 
 		struct {
-			gint enabled;
+			gboolean enabled;
 			gint mode_state;
 			gint action_state;
 			gint selection_state;
@@ -228,13 +227,13 @@ struct _ConfOptions
 
 	/* color profiles */
 	struct {
-		gint enabled;
+		gboolean enabled;
 		gint input_type;
 		gchar *input_file[COLOR_PROFILE_INPUTS];
 		gchar *input_name[COLOR_PROFILE_INPUTS];
 		gint screen_type;
 		gchar *screen_file;
-		gint use_image;
+		gboolean use_image;
 
 	} color_profile;
 

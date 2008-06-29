@@ -64,7 +64,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->histogram.last_log_mode = 1;
 	
 	memset(&options->image.border_color, 0, sizeof(options->image.border_color));
-	options->image.dither_quality = (gint)GDK_RGB_DITHER_NORMAL;
+	options->image.dither_quality = GDK_RGB_DITHER_NORMAL;
 	options->image.enable_read_ahead = TRUE;
 	options->image.exif_rotate_enable = TRUE;
 	options->image.fit_window_to_image = FALSE;
@@ -81,10 +81,10 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image.zoom_2pass = TRUE;
 	options->image.zoom_increment = 5;
 	options->image.zoom_mode = ZOOM_RESET_ORIGINAL;
-	options->image.zoom_quality = (gint)GDK_INTERP_BILINEAR;
+	options->image.zoom_quality = GDK_INTERP_BILINEAR;
 	options->image.zoom_to_fit_allow_expand = TRUE;
 
-	options->image_overlay.common.state = (guint)OSD_SHOW_NOTHING;
+	options->image_overlay.common.state = OSD_SHOW_NOTHING;
 	options->image_overlay.common.show_at_startup = FALSE;
 	options->image_overlay.common.template_string = NULL;
 	options->image_overlay.common.x = 10;
@@ -151,7 +151,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->thumbnails.fast = TRUE;
 	options->thumbnails.max_height = DEFAULT_THUMB_HEIGHT;
 	options->thumbnails.max_width = DEFAULT_THUMB_WIDTH;
-	options->thumbnails.quality = (gint)GDK_INTERP_TILES;
+	options->thumbnails.quality = GDK_INTERP_TILES;
 	options->thumbnails.spec_standard = TRUE;
 	options->thumbnails.use_xvpics = TRUE;
 

@@ -354,7 +354,7 @@ static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_BOOL(enable_metadata_dirs);
 	WRITE_BOOL(save_metadata_in_image_file);
 
-	WRITE_INT(duplicates_similarity_threshold);
+	WRITE_UINT(duplicates_similarity_threshold);
 	WRITE_SEPARATOR();
 
 	WRITE_BOOL(mousewheel_scrolls);
@@ -451,7 +451,7 @@ static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_SEPARATOR();
 	WRITE_BOOL(image.zoom_2pass);
 	WRITE_BOOL(image.zoom_to_fit_allow_expand);
-	WRITE_INT(image.zoom_quality);
+	WRITE_UINT(image.zoom_quality);
 	WRITE_INT(image.zoom_increment);
 	WRITE_BOOL(image.fit_window_to_image);
 	WRITE_BOOL(image.limit_window_size);
@@ -461,7 +461,7 @@ static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_UINT(image.scroll_reset_method);
 	WRITE_INT(image.tile_cache_max);
 	WRITE_INT(image.image_cache_max);
-	WRITE_INT(image.dither_quality);
+	WRITE_UINT(image.dither_quality);
 	WRITE_BOOL(image.enable_read_ahead);
 	WRITE_BOOL(image.exif_rotate_enable);
 	WRITE_BOOL(image.use_custom_border_color);
@@ -478,7 +478,7 @@ static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_BOOL(thumbnails.fast);
 	WRITE_BOOL(thumbnails.use_xvpics);
 	WRITE_BOOL(thumbnails.spec_standard);
-	WRITE_INT(thumbnails.quality);
+	WRITE_UINT(thumbnails.quality);
 
 
 	WRITE_SUBTITLE("File sorting Options");
@@ -726,7 +726,7 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_BOOL(lazy_image_sync);
 		READ_BOOL(update_on_time_change);
 
-		READ_INT(duplicates_similarity_threshold);
+		READ_UINT_CLAMP(duplicates_similarity_threshold, 0, 100);
 
 		READ_BOOL(progressive_key_scrolling);
 
@@ -822,8 +822,8 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_UINT_CLAMP(image.scroll_reset_method, 0, PR_SCROLL_RESET_COUNT - 1);
 		READ_INT(image.tile_cache_max);
 		READ_INT(image.image_cache_max);
-		READ_INT_CLAMP(image.zoom_quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
-		READ_INT_CLAMP(image.dither_quality, GDK_RGB_DITHER_NONE, GDK_RGB_DITHER_MAX);
+		READ_UINT_CLAMP(image.zoom_quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
+		READ_UINT_CLAMP(image.dither_quality, GDK_RGB_DITHER_NONE, GDK_RGB_DITHER_MAX);
 		READ_INT(image.zoom_increment);
 		READ_BOOL(image.enable_read_ahead);
 		READ_BOOL(image.exif_rotate_enable);
@@ -842,7 +842,7 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_BOOL(thumbnails.fast);
 		READ_BOOL(thumbnails.use_xvpics);
 		READ_BOOL(thumbnails.spec_standard);
-		READ_INT_CLAMP(thumbnails.quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
+		READ_UINT_CLAMP(thumbnails.quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
 
 		/* file sorting options */
 		READ_UINT(file_sort.method);
