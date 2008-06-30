@@ -3525,8 +3525,15 @@ void pixbuf_renderer_get_scroll_center(PixbufRenderer *pr, gdouble *x, gdouble *
 	src_x = pr->x_scroll + pr->vis_width / 2;
 	src_y = pr->y_scroll + pr->vis_height / 2;
 
-	*x = (gdouble)src_x / pr->width;
-	*y = (gdouble)src_y / pr->height;
+	if (pr->width)
+		*x = (gdouble)src_x / pr->width;
+	else
+		*x = 0.5; /* center */
+		
+	if (pr->height)
+		*y = (gdouble)src_y / pr->height;
+	else
+		*y = 0.5; /* center */
 }
 
 void pixbuf_renderer_set_scroll_center(PixbufRenderer *pr, gdouble x, gdouble y)
