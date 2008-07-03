@@ -28,6 +28,7 @@
 #include "ui_fileops.h"
 #include "ui_utildlg.h"
 #include "cache_maint.h"
+#include "thumb.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -689,6 +690,7 @@ int main(int argc, char *argv[])
 
 	/* register global notify functions */
 	file_data_register_notify_func(cache_notify_cb, NULL, NOTIFY_PRIORITY_HIGH);
+	file_data_register_notify_func(thumb_notify_cb, NULL, NOTIFY_PRIORITY_HIGH);
 	file_data_register_notify_func(collect_manager_notify_cb, NULL, NOTIFY_PRIORITY_LOW);
 
 	parse_command_line_for_debug_option(argc, argv);

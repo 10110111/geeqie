@@ -530,6 +530,18 @@ gint thumb_from_xpm_d(const char **data, gint max_w, gint max_h, GdkPixmap **pix
 }
 #endif
 
+
+/* release thumb_pixbuf on file change - this forces reload. */
+void thumb_notify_cb(FileData *fd, NotifyType type, gpointer data)
+{
+	if (type != NOTIFY_TYPE_INTERNAL && fd->thumb_pixbuf)
+		{
+		g_object_unref(fd->thumb_pixbuf);
+		fd->thumb_pixbuf = NULL;
+		}
+}
+
+
 /*
  *-----------------------------------------------------------------------------
  * xvpics thumbnail support, read-only (private)
