@@ -457,15 +457,25 @@ FileData *file_data_merge_sidecar_files(FileData *target, FileData *source)
 	return target;
 }
 
-
+#ifdef DEBUG_FILEDATA
+FileData *file_data_ref_debug(const gchar *file, gint line, FileData *fd)
+#else
 FileData *file_data_ref(FileData *fd)
+#endif
 {
 	if (fd == NULL) return NULL;
-	DEBUG_2("file_data_ref (%d): '%s'", fd->ref, fd->path);
-
-//	return g_memdup(fd, sizeof(FileData));
+#ifdef DEBUG_FILEDATA
+	if (fd->magick != 0x12345678)
+		DEBUG_0("fd magick mismatch at %s:%d", file, line);
+#endif
 	g_assert(fd->magick == 0x12345678);
 	fd->ref++;
+
+#ifdef DEBUG_FILEDATA
+	DEBUG_2("file_data_ref (%d): '%s' @ %s:%d", fd->ref, fd->path, file, line);
+#else
+	DEBUG_2("file_data_ref (%d): '%s'", fd->ref, fd->path);
+#endif
 	return fd;
 }
 
@@ -488,14 +498,26 @@ static void file_data_free(FileData *fd)
 	g_free(fd);
 }
 
+#ifdef DEBUG_FILEDATA
+void file_data_unref_debug(const gchar *file, gint line, FileData *fd)
+#else
 void file_data_unref(FileData *fd)
+#endif
 {
 	if (fd == NULL) return;
+#ifdef DEBUG_FILEDATA
+	if (fd->magick != 0x12345678)
+		DEBUG_0("fd magick mismatch @ %s:%d", file, line);
+#endif
 	g_assert(fd->magick == 0x12345678);
-
+	
 	fd->ref--;
-	DEBUG_2("file_data_unref (%d): '%s'", fd->ref, fd->path);
+#ifdef DEBUG_FILEDATA
+	DEBUG_2("file_data_unref (%d): '%s' @ %s:%d", fd->ref, fd->path, file, line);
 
+#else
+	DEBUG_2("file_data_unref (%d): '%s'", fd->ref, fd->path);
+#endif
 	if (fd->ref == 0)
 		{
 		GList *work;
@@ -515,7 +537,7 @@ void file_data_unref(FileData *fd)
 
 		/* none of parent/children is referenced, we can free everything */
 
-		DEBUG_2("file_data_unref: deleting '%s', parent '%s'", fd->path, parent->path);
+		DEBUG_2("file_data_unref: deleting '%s', parent '%s'", fd->path, fd->parent ? parent->path : "-");
 
 		work = parent->sidecar_files;
 		while (work)

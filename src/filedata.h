@@ -14,6 +14,10 @@
 #ifndef FILEDATA_H
 #define FILEDATA_H
 
+#ifdef DEBUG
+#define DEBUG_FILEDATA
+#endif
+
 gchar *text_from_size(gint64 size);
 gchar *text_from_size_abrev(gint64 size);
 const gchar *text_from_time(time_t t);
@@ -21,8 +25,15 @@ const gchar *text_from_time(time_t t);
 /* this expects a utf-8 path */
 FileData *file_data_new_simple(const gchar *path_utf8);
 
+#ifdef DEBUG_FILEDATA
+FileData *file_data_ref_debug(const gchar *file, gint line, FileData *fd);
+void file_data_unref_debug(const gchar *file, gint line, FileData *fd);
+#define file_data_ref(fd) file_data_ref_debug(__FILE__, __LINE__, fd)
+#define file_data_unref(fd) file_data_unref_debug(__FILE__, __LINE__, fd)
+#else
 FileData *file_data_ref(FileData *fd);
 void file_data_unref(FileData *fd);
+#endif
 
 void file_data_increment_version(FileData *fd);
 
