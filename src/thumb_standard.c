@@ -376,6 +376,12 @@ static void thumb_loader_std_save(ThumbLoaderStd *tl, GdkPixbuf *pixbuf)
 	g_object_unref(G_OBJECT(pixbuf));
 }
 
+static void thumb_loader_std_set_fallback(ThumbLoaderStd *tl)
+{
+	if (tl->fd->thumb_pixbuf) g_object_unref(tl->fd->thumb_pixbuf);
+	tl->fd->thumb_pixbuf = pixbuf_fallback(tl->fd, tl->requested_width, tl->requested_height);
+}
+
 static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf, gint shrunk)
 {
 	GdkPixbuf *pixbuf_thumb = NULL;
@@ -581,6 +587,8 @@ static void thumb_loader_std_error_cb(ImageLoader *il, gpointer data)
 
 	if (thumb_loader_std_next_source(tl, TRUE)) return;
 
+	thumb_loader_std_set_fallback(tl);
+	
 	if (tl->func_error) tl->func_error(tl, tl->data);
 }
 
@@ -648,10 +656,6 @@ gint thumb_loader_std_start(ThumbLoaderStd *tl, FileData *fd)
 	if (!tl || !fd) return FALSE;
 
 	thumb_loader_std_reset(tl);
-	
-	if (fd->thumb_pixbuf) g_object_unref(fd->thumb_pixbuf);
-	fd->thumb_pixbuf = pixbuf_fallback(fd, tl->requested_width, tl->requested_height);
-
 
 	if (!stat_utf8(fd->path, &st)) return FALSE;
 
@@ -681,14 +685,19 @@ gint thumb_loader_std_start(ThumbLoaderStd *tl, FileData *fd)
 		found = isfile(tl->thumb_path);
 		if (found && thumb_loader_std_setup(tl, tl->thumb_path)) return TRUE;
 
-		if (thumb_loader_std_fail_check(tl)) return FALSE;
-
-		return thumb_loader_std_next_source(tl, found);
+		if (thumb_loader_std_fail_check(tl) ||
+		    !thumb_loader_std_next_source(tl, found))
+			{
+			thumb_loader_std_set_fallback(tl);
+			return FALSE;
+			}
+		return TRUE;
 		}
 
 	if (!thumb_loader_std_setup(tl, tl->fd->path))
 		{
 		thumb_loader_std_save(tl, NULL);
+		thumb_loader_std_set_fallback(tl);
 		return FALSE;
 		}
 

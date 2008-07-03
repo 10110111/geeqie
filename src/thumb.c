@@ -112,6 +112,12 @@ static void thumb_loader_percent_cb(ImageLoader *il, gdouble percent, gpointer d
 	if (tl->func_progress) tl->func_progress(tl, tl->data);
 }
 
+static void thumb_loader_set_fallback(ThumbLoader *tl)
+{
+	if (tl->fd->thumb_pixbuf) g_object_unref(tl->fd->thumb_pixbuf);
+	tl->fd->thumb_pixbuf = pixbuf_fallback(tl->fd, tl->max_w, tl->max_h);
+}
+
 static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 {
 	ThumbLoader *tl = data;
@@ -238,6 +244,8 @@ static void thumb_loader_error_cb(ImageLoader *il, gpointer data)
 	image_loader_free(tl->il);
 	tl->il = NULL;
 
+	thumb_loader_set_fallback(tl);
+	
 	if (tl->func_error) tl->func_error(tl, tl->data);
 }
 
@@ -332,8 +340,6 @@ gint thumb_loader_start(ThumbLoader *tl, FileData *fd)
 
 	if (!tl->fd) tl->fd = file_data_ref(fd);
 
-	if (tl->fd->thumb_pixbuf) g_object_unref(tl->fd->thumb_pixbuf);
-	tl->fd->thumb_pixbuf = pixbuf_fallback(tl->fd, tl->max_w, tl->max_h);
 
 	if (tl->cache_enable)
 		{
@@ -403,6 +409,7 @@ gint thumb_loader_start(ThumbLoader *tl, FileData *fd)
 
 		image_loader_free(tl->il);
 		tl->il = NULL;
+		thumb_loader_set_fallback(tl);
 		return FALSE;
 		}
 
