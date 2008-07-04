@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.0alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-25 22:17+0200\n"
-"PO-Revision-Date: 2008-06-25 22:20+0100\n"
+"POT-Creation-Date: 2008-07-05 00:41+0200\n"
+"PO-Revision-Date: 2008-07-05 00:46+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french <geeqie-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -108,7 +108,7 @@ msgid "Keywords"
 msgstr "Mots-clés"
 
 #: src/bar_info.c:1326
-#: src/info.c:903
+#: src/info.c:901
 #: src/pan-view.c:1547
 #: src/print.c:2628
 msgid "Filename:"
@@ -487,11 +487,11 @@ msgstr "Marques"
 msgid "Marks bit array"
 msgstr "Tableau de bits pour les marques"
 
+#. When does this occur ??
 #: src/collect.c:357
-#: src/image.c:178
-#: src/image-overlay.c:448
-#: src/image-overlay.c:523
-#, c-format
+#: src/image.c:177
+#: src/image-overlay.c:484
+#: src/image-overlay.c:562
 msgid "Untitled"
 msgstr "Sans_Titre"
 
@@ -628,7 +628,7 @@ msgstr "_Affichage"
 #: src/collect-table.c:826
 #: src/dupe.c:2242
 #: src/dupe.c:2557
-#: src/img-view.c:1282
+#: src/img-view.c:1279
 #: src/layout_image.c:758
 #: src/pan-view.c:2821
 #: src/search.c:983
@@ -641,7 +641,7 @@ msgstr "Voir dans une _nouvelle fenêtre"
 #: src/dupe.c:2565
 #: src/search.c:1012
 msgid "Rem_ove"
-msgstr "_Effacer"
+msgstr "_Enlever"
 
 #: src/collect-table.c:832
 msgid "Append from file list"
@@ -667,7 +667,7 @@ msgstr "Désélectionner"
 
 #: src/collect-table.c:847
 #: src/dupe.c:2256
-#: src/img-view.c:1280
+#: src/img-view.c:1277
 #: src/layout_image.c:755
 #: src/layout_util.c:1099
 #: src/pan-view.c:2818
@@ -678,7 +678,7 @@ msgstr "_Propriétés"
 
 #: src/collect-table.c:850
 #: src/dupe.c:2263
-#: src/img-view.c:1286
+#: src/img-view.c:1283
 #: src/layout_image.c:766
 #: src/layout_util.c:1070
 #: src/pan-view.c:2825
@@ -689,7 +689,7 @@ msgstr "_Copier ..."
 
 #: src/collect-table.c:852
 #: src/dupe.c:2265
-#: src/img-view.c:1287
+#: src/img-view.c:1284
 #: src/layout_image.c:768
 #: src/layout_util.c:1071
 #: src/pan-view.c:2827
@@ -700,7 +700,7 @@ msgstr "_Déplacer ..."
 
 #: src/collect-table.c:854
 #: src/dupe.c:2267
-#: src/img-view.c:1288
+#: src/img-view.c:1285
 #: src/layout_image.c:770
 #: src/layout_util.c:1072
 #: src/pan-view.c:2829
@@ -712,7 +712,7 @@ msgstr "_Renommer ..."
 
 #: src/collect-table.c:856
 #: src/dupe.c:2269
-#: src/img-view.c:1289
+#: src/img-view.c:1286
 #: src/layout_image.c:772
 #: src/layout_util.c:1073
 #: src/layout_util.c:1074
@@ -726,7 +726,7 @@ msgstr "_Supprimer ..."
 
 #: src/collect-table.c:859
 #: src/dupe.c:2272
-#: src/img-view.c:1291
+#: src/img-view.c:1288
 #: src/layout_image.c:777
 #: src/layout_util.c:1076
 #: src/pan-view.c:2834
@@ -762,31 +762,31 @@ msgstr "Imprimer ..."
 
 #: src/collect-table.c:2026
 #: src/dupe.c:3360
-#: src/img-view.c:1445
+#: src/img-view.c:1442
 msgid "Dropped list includes folders."
 msgstr "La liste ajoutée contient des dossiers."
 
 #: src/collect-table.c:2028
 #: src/dupe.c:3362
-#: src/img-view.c:1447
+#: src/img-view.c:1444
 msgid "_Add contents"
 msgstr "_Ajouter le contenu"
 
 #: src/collect-table.c:2030
 #: src/dupe.c:3363
-#: src/img-view.c:1448
+#: src/img-view.c:1445
 msgid "Add contents _recursive"
 msgstr "Ajouter le contenu _récursivement"
 
 #: src/collect-table.c:2032
 #: src/dupe.c:3364
-#: src/img-view.c:1449
+#: src/img-view.c:1446
 msgid "_Skip folders"
 msgstr "Omettre les dossier_s"
 
 #: src/collect-table.c:2035
 #: src/dupe.c:3366
-#: src/img-view.c:1451
+#: src/img-view.c:1448
 #: src/view_dir.c:376
 msgid "Cancel"
 msgstr "Annuler"
@@ -1063,7 +1063,7 @@ msgstr "L'éditeur externe a retourné une erreur."
 
 #: src/editors.c:902
 msgid "File was skipped."
-msgstr "Le fichier a été sauté."
+msgstr "Le fichier a été omis."
 
 #: src/editors.c:903
 msgid "Unknown error."
@@ -1298,7 +1298,7 @@ msgstr "oui, détecté"
 
 #: src/exif.c:230
 #: src/exif-common.c:403
-#: src/layout.c:421
+#: src/layout.c:422
 msgid "sRGB"
 msgstr "sRGB"
 
@@ -1816,7 +1816,6 @@ msgid "Monitor"
 msgstr "Moniteur"
 
 #: src/fullscreen.c:404
-#: src/layout.c:454
 msgid "Screen"
 msgstr "Écran"
 
@@ -1884,7 +1883,7 @@ msgstr "Histogramme linéaire RVB"
 msgid "linear histogram on max value"
 msgstr "Histogramme linéaire sur la valeur max"
 
-#: src/img-view.c:1268
+#: src/img-view.c:1265
 #: src/layout_image.c:742
 #: src/layout_util.c:1108
 #: src/layout_util.c:1109
@@ -1893,7 +1892,7 @@ msgstr "Histogramme linéaire sur la valeur max"
 msgid "Zoom _in"
 msgstr "Zoom a_vant"
 
-#: src/img-view.c:1269
+#: src/img-view.c:1266
 #: src/layout_image.c:743
 #: src/layout_util.c:1111
 #: src/layout_util.c:1112
@@ -1901,7 +1900,7 @@ msgstr "Zoom a_vant"
 msgid "Zoom _out"
 msgstr "Zoom a_rrière"
 
-#: src/img-view.c:1270
+#: src/img-view.c:1267
 #: src/layout_image.c:744
 #: src/layout_util.c:1113
 #: src/layout_util.c:1114
@@ -1909,57 +1908,57 @@ msgstr "Zoom a_rrière"
 msgid "Zoom _1:1"
 msgstr "Taille réelle (_1:1)"
 
-#: src/img-view.c:1271
+#: src/img-view.c:1268
 #: src/layout_image.c:745
 msgid "Fit image to _window"
 msgstr "Mettre à la taille de la _fenêtre"
 
-#: src/img-view.c:1276
+#: src/img-view.c:1273
 #: src/layout_image.c:751
 #: src/layout_util.c:1106
 msgid "Set as _wallpaper"
 msgstr "Utiliser comme _papier peint"
 
-#: src/img-view.c:1283
+#: src/img-view.c:1280
 #: src/layout_image.c:761
 msgid "_Go to directory view"
 msgstr "_Aller à la vue répertoire"
 
-#: src/img-view.c:1297
+#: src/img-view.c:1294
 #: src/layout_image.c:785
 msgid "_Stop slideshow"
 msgstr "_Stopper le diaporama"
 
-#: src/img-view.c:1300
+#: src/img-view.c:1297
 #: src/layout_image.c:788
 msgid "Continue slides_how"
 msgstr "Reprendre le _diaporama"
 
-#: src/img-view.c:1305
-#: src/img-view.c:1313
+#: src/img-view.c:1302
+#: src/img-view.c:1310
 #: src/layout_image.c:793
 #: src/layout_image.c:800
 msgid "Pause slides_how"
 msgstr "Suspendre le _diaporama"
 
-#: src/img-view.c:1311
+#: src/img-view.c:1308
 #: src/layout_image.c:799
 msgid "_Start slideshow"
 msgstr "_Lancer le diaporama"
 
-#: src/img-view.c:1319
+#: src/img-view.c:1316
 #: src/layout_image.c:810
 #: src/pan-view.c:2880
 msgid "Exit _full screen"
 msgstr "Sortir du mode plein _écran"
 
-#: src/img-view.c:1323
+#: src/img-view.c:1320
 #: src/layout_image.c:806
 #: src/pan-view.c:2884
 msgid "_Full screen"
 msgstr "Plein _écran"
 
-#: src/img-view.c:1327
+#: src/img-view.c:1324
 #: src/layout_util.c:1077
 #: src/pan-view.c:2888
 msgid "C_lose window"
@@ -2008,7 +2007,7 @@ msgstr "Général"
 msgid "Image %d of %d"
 msgstr "Image %d de %d"
 
-#: src/info.c:853
+#: src/info.c:851
 msgid "Image properties"
 msgstr "Propriétés de l'image"
 
@@ -2026,72 +2025,76 @@ msgstr "Cette installation de %s n'a pas été compilé avec le support des prof
 msgid "Color profiles not supported"
 msgstr "Profils colorimétriques non supportés"
 
-#: src/layout.c:409
+#: src/layout.c:407
 msgid "Use _color profiles"
 msgstr "Utiliser les profils _colorimétriques"
 
-#: src/layout.c:414
+#: src/layout.c:412
 msgid "Use profile from _image"
 msgstr "Utiliser le profil contenu dans l'_image"
 
-#: src/layout.c:420
-#: src/layout.c:438
-#, c-format
-msgid "Input _%d:"
-msgstr "Entrée _%d:"
-
-#: src/layout.c:421
+#: src/layout.c:423
 msgid "AdobeRGB compatible"
 msgstr "compatible AdobeRGB"
 
-#: src/layout.c:463
+#: src/layout.c:426
+#: src/layout.c:444
+#, c-format
+msgid "Input _%d: %s"
+msgstr "Entrée _%d: %s"
+
+#: src/layout.c:458
+msgid "Screen sRGB"
+msgstr "Écran sRGB"
+
+#: src/layout.c:465
 msgid "_Screen profile"
 msgstr "_Profil d'écran"
 
-#: src/layout.c:530
+#: src/layout.c:532
 msgid " Slideshow"
 msgstr " Diaporama"
 
-#: src/layout.c:534
+#: src/layout.c:536
 msgid " Paused"
 msgstr " En pause"
 
-#: src/layout.c:551
+#: src/layout.c:553
 #, c-format
 msgid "%s, %d files (%s, %d)%s"
 msgstr "%s, %d fichiers (%s, %d)%s"
 
-#: src/layout.c:558
+#: src/layout.c:560
 #, c-format
 msgid "%s, %d files%s"
 msgstr "%s, %d fichiers%s"
 
-#: src/layout.c:563
+#: src/layout.c:565
 #, c-format
 msgid "%d files%s"
 msgstr "%d fichiers%s"
 
-#: src/layout.c:592
+#: src/layout.c:594
 #, c-format
 msgid "(no read permission) %s bytes"
 msgstr "(pas de permission en lecture) %s octets"
 
-#: src/layout.c:596
+#: src/layout.c:598
 #, c-format
 msgid "( ? x ? ) %s bytes"
 msgstr "( ? x ? ) %s octets"
 
-#: src/layout.c:604
+#: src/layout.c:606
 #, c-format
 msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s octets"
 
-#: src/layout.c:1284
+#: src/layout.c:1286
 #: src/layout_config.c:58
 msgid "Tools"
 msgstr "Outils"
 
-#: src/layout.c:1967
+#: src/layout.c:1969
 msgid "Invalid geometry\n"
 msgstr "Géométrie invalide\n"
 
@@ -2552,7 +2555,7 @@ msgstr ""
 msgid "Log"
 msgstr "Journal"
 
-#: src/main.c:409
+#: src/main.c:410
 #, c-format
 msgid ""
 "Usage: %s [options] [path]\n"
@@ -2561,53 +2564,53 @@ msgstr ""
 "Utilisation: %s [options] [chemin]\n"
 "\n"
 
-#: src/main.c:410
+#: src/main.c:411
 msgid "valid options are:\n"
 msgstr "les options valides sont :\n"
 
-#: src/main.c:411
+#: src/main.c:412
 msgid "  +t, --with-tools           force show of tools\n"
 msgstr "  +t, --with-tools           force l'affichage des outils\n"
 
-#: src/main.c:412
+#: src/main.c:413
 msgid "  -t, --without-tools        force hide of tools\n"
 msgstr "  -t, --without-tools        masque les outils\n"
 
-#: src/main.c:413
+#: src/main.c:414
 msgid "  -f, --fullscreen           start in full screen mode\n"
 msgstr "  -f, --fullscreen           démarre en mode plein écran\n"
 
-#: src/main.c:414
+#: src/main.c:415
 msgid "  -s, --slideshow            start in slideshow mode\n"
 msgstr "  -s, --slideshow            démarre en mode diaporama\n"
 
-#: src/main.c:415
+#: src/main.c:416
 msgid "  -l, --list                 open collection window for command line\n"
 msgstr "  -l, --list                 ouvre une fenêtre de collection pour la ligne de commande\n"
 
-#: src/main.c:416
+#: src/main.c:417
 msgid "      --geometry=GEOMETRY    set main window location\n"
 msgstr "      --geometry=GEOMETRIE   détermine la position de la fenêtre principale\n"
 
-#: src/main.c:417
+#: src/main.c:418
 msgid "  -r, --remote               send following commands to open window\n"
 msgstr ""
 "  -r, --remote               lance la commande suivante pour ouvrir un fenêtre\n"
 "de commande\n"
 
-#: src/main.c:418
+#: src/main.c:419
 msgid "  -rh,--remote-help          print remote command list\n"
 msgstr "  -rh,--remote-help          affiche la liste des commandes à distance\n"
 
-#: src/main.c:420
+#: src/main.c:421
 msgid "  --debug[=level]            turn on debug output\n"
 msgstr "  --debug[=niveau]           active les sorties de déboguage\n"
 
-#: src/main.c:422
+#: src/main.c:423
 msgid "  -v, --version              print version info\n"
 msgstr "  -v, --version              affiche les infos de version\n"
 
-#: src/main.c:423
+#: src/main.c:424
 msgid ""
 "  -h, --help                 show this message\n"
 "\n"
@@ -2615,7 +2618,7 @@ msgstr ""
 "  -h, --help                 affiche ce message\n"
 "\n"
 
-#: src/main.c:435
+#: src/main.c:436
 #, c-format
 msgid ""
 "invalid or ignored: %s\n"
@@ -2624,11 +2627,11 @@ msgstr ""
 "invalide ou ignoré : %s\n"
 "Utiliser --help pour connaître les options\n"
 
-#: src/main.c:463
+#: src/main.c:464
 msgid "Invalid or ignored remote options: "
 msgstr "Options de commande à distance invalides ou ignorées:"
 
-#: src/main.c:472
+#: src/main.c:473
 msgid ""
 "\n"
 "Use --remote-help for valid remote options.\n"
@@ -2636,32 +2639,32 @@ msgstr ""
 "\n"
 "Utilisez --remote-help pour voir les options de commande à distance valides.\n"
 
-#: src/main.c:557
+#: src/main.c:558
 #, c-format
 msgid "Creating %s dir:%s\n"
 msgstr "Création du dossier %s : %s\n"
 
-#: src/main.c:561
+#: src/main.c:562
 #, c-format
 msgid "Could not create dir:%s\n"
 msgstr "Impossible de créer le dossier : %s\n"
 
-#: src/main.c:632
+#: src/main.c:633
 msgid "exit"
 msgstr "sortie"
 
-#: src/main.c:637
+#: src/main.c:638
 #, c-format
 msgid "Quit %s"
 msgstr "Quitter %s"
 
-#: src/main.c:639
+#: src/main.c:640
 msgid "Collections have been modified. Quit anyway?"
 msgstr ""
 "Des collections ont été modifiées.\n"
 "Tout de même quitter ?"
 
-#: src/main.c:805
+#: src/main.c:807
 #: src/remote.c:535
 msgid "Command line"
 msgstr "Ligne de commande"
@@ -3720,12 +3723,12 @@ msgstr "DPI :"
 msgid "Remember print settings"
 msgstr "Conserver les paramètres d'impression"
 
-#: src/rcfile.c:307
+#: src/rcfile.c:319
 #, c-format
 msgid "error saving config file: %s\n"
 msgstr "erreur à la sauvegarde du fichier de configuration : %s\n"
 
-#: src/rcfile.c:605
+#: src/rcfile.c:617
 #, c-format
 msgid ""
 "error saving config file: %s\n"
@@ -3987,7 +3990,7 @@ msgstr "Ecriture du fichier impossible"
 msgid "Secure file saving error"
 msgstr "Erreur de sauvegarde fiable du fichier"
 
-#: src/thumb.c:420
+#: src/thumb.c:399
 msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
 msgstr "Impossible de charger la vignette depuis le cache, regénération.\n"
 
