@@ -391,15 +391,13 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 	GtkWidget *menu;
 	GtkWidget *item;
 	gchar *buf;
-	gchar *front;
-	gchar *end;
 	gint active;
 	gint input = 0;
 	gint screen = 0;
 	gint use_image = 0;
 	gint from_image = 0;
 	gint i;
-
+	
 	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
 
 	from_image = use_image && (layout_image_color_profile_get_from_image(lw) != COLOR_PROFILE_NONE);
@@ -417,10 +415,16 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 
 	for (i = COLOR_PROFILE_SRGB; i < COLOR_PROFILE_FILE; i++)
 		{
-		front = g_strdup_printf(_("Input _%d:"), i);
-		buf = g_strdup_printf("%s %s", front, i == COLOR_PROFILE_SRGB ? _("sRGB") : _("AdobeRGB compatible"));
-		g_free(front);
-		item = menu_item_add_radio(menu, (i == 0) ? NULL : item,
+		const gchar *label;
+
+		switch (i)
+			{
+			case COLOR_PROFILE_SRGB: 	label = _("sRGB"); break;
+			case COLOR_PROFILE_ADOBERGB:	label = _("AdobeRGB compatible"); break;
+			default:			label = "fixme"; break;
+			}
+		buf = g_strdup_printf(_("Input _%d: %s"), i, label);
+	  	item = menu_item_add_radio(menu, (i == COLOR_PROFILE_SRGB) ? NULL : item,
 				   buf, (input == i),
 				   G_CALLBACK(layout_color_menu_input_cb), lw);
 		g_free(buf);
@@ -431,14 +435,13 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{
 		const gchar *name;
+		gchar *end;
 
 		name = options->color_profile.input_name[i];
 		if (!name) name = filename_from_path(options->color_profile.input_file[i]);
 
-		front = g_strdup_printf(_("Input _%d:"), i + COLOR_PROFILE_FILE);
 		end = layout_color_name_parse(name);
-		buf = g_strdup_printf("%s %s", front, end);
-		g_free(front);
+		buf = g_strdup_printf(_("Input _%d: %s"), i + COLOR_PROFILE_FILE, end);
 		g_free(end);
 
 		item = menu_item_add_radio(menu, item,
@@ -451,11 +454,10 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 
 	menu_item_add_divider(menu);
 
-	buf = g_strdup_printf("%s sRGB", _("Screen"));
 	item = menu_item_add_radio(menu, NULL,
-				   buf, (screen == 0),
+				   _("Screen sRGB"), (screen == 0),
 				   G_CALLBACK(layout_color_menu_screen_cb), lw);
-	g_free(buf);
+
 	g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(0));
 	gtk_widget_set_sensitive(item, active);
 
