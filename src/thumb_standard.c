@@ -541,7 +541,7 @@ static void thumb_loader_std_done_cb(ImageLoader *il, gpointer data)
 	ThumbLoaderStd *tl = data;
 	GdkPixbuf *pixbuf;
 
-	DEBUG_1("thumb image done: %s", tl->fd->path);
+	DEBUG_1("thumb image done: %s", tl->fd ? tl->fd->path : "???");
 	DEBUG_1("            from: %s", tl->il->path);
 
 	pixbuf = image_loader_get_pixbuf(tl->il);
