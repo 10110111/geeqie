@@ -146,6 +146,8 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 			continue;
 			}
 
+		if (only_geometry) continue;
+
 		/* Read filenames */
 		buf = quoted_value(p, NULL);
 		if (buf)
