@@ -159,6 +159,8 @@ static gchar *html_browsers[] =
 {
 	/* Redhat has a nifty htmlview script to start the user's preferred browser */
 	"htmlview",	NULL,
+	/* Debian has even better approach with alternatives */
+	"sensible-browser", NULL,
 	/* GNOME 2 */
 	"gconftool-2",	"gconftool-2 -g /desktop/gnome/url-handlers/http/command",
 	/* KDE */
