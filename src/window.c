@@ -77,7 +77,7 @@ gint window_maximized(GtkWidget *window)
 
 /*
  *-----------------------------------------------------------------------------
- * Open  browser with the help Documentation
+ * Open browser with the help Documentation
  *-----------------------------------------------------------------------------
  */
 
@@ -85,13 +85,13 @@ static gchar *command_result(const gchar *binary, const gchar *command)
 {
 	gchar *result = NULL;
 	FILE *f;
-	char buf[2048];
-	int l;
+	gchar buf[2048];
+	gint l;
 
-	if (!binary) return NULL;
+	if (!binary || binary[0] == '\0') return NULL;
 	if (!file_in_path(binary)) return NULL;
 
-	if (!command) return g_strdup(binary);
+	if (!command || command[0] == '\0') return g_strdup(binary);
 	if (command[0] == '!') return g_strdup(command + 1);
 
 	f = popen(command, "r");
@@ -101,7 +101,7 @@ static gchar *command_result(const gchar *binary, const gchar *command)
 		{
 		if (!result)
 			{
-			int n = 0;
+			gint n = 0;
 
 			while (n < l && buf[n] != '\n' && buf[n] != '\r') n++;
 			if (n > 0) result = g_strndup(buf, n);
@@ -157,6 +157,8 @@ static void help_browser_command(const gchar *command, const gchar *path)
 */
 static gchar *html_browsers[] =
 {
+	/* Our specific script */
+	GQ_APPNAME_LC "_html_browser", NULL,
 	/* Redhat has a nifty htmlview script to start the user's preferred browser */
 	"htmlview",	NULL,
 	/* Debian has even better approach with alternatives */
@@ -175,8 +177,10 @@ static gchar *html_browsers[] =
 
 static void help_browser_run(void)
 {
-	gchar *result = NULL;
+	gchar *result;
 	gint i;
+
+	result = command_result(options->helpers.html_browser.command_name, options->helpers.html_browser.command_line);
 
 	i = 0;
 	while (!result && html_browsers[i])

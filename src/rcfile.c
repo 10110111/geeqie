@@ -578,6 +578,18 @@ static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_CHAR(shell.options);
 
 
+	WRITE_SUBTITLE("Helpers");
+	secure_fprintf(ssi, "# Html browser\n");
+	secure_fprintf(ssi, "# command_name is: the binary's name to look for in the path\n");
+	secure_fprintf(ssi, "# If command_name is empty, the program will try various common html browsers\n");
+	secure_fprintf(ssi, "# command_line is:\n");
+	secure_fprintf(ssi, "# \"\" (empty string)  = execute binary with html file path as command line\n");
+	secure_fprintf(ssi, "# \"string\"           = execute string and use results for command line\n");
+	secure_fprintf(ssi, "# \"!string\"          = use text following ! as command line, replacing optional %%s with html file path\n");
+	WRITE_CHAR(helpers.html_browser.command_name);
+	WRITE_CHAR(helpers.html_browser.command_line);
+
+
 	WRITE_SUBTITLE("External Programs");
 	secure_fprintf(ssi, "# Maximum of %d programs (external_1 through external_%d)\n", GQ_EDITOR_GENERIC_SLOTS, GQ_EDITOR_GENERIC_SLOTS);
 	secure_fprintf(ssi, "# external_%d through external_%d are used for file ops\n", GQ_EDITOR_GENERIC_SLOTS + 1, GQ_EDITOR_SLOTS);
@@ -938,6 +950,10 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		/* Shell command */
 		READ_CHAR(shell.path);
 		READ_CHAR(shell.options);
+
+		/* Helpers */
+		READ_CHAR(helpers.html_browser.command_name);
+		READ_CHAR(helpers.html_browser.command_line);
 
 		/* External Programs */
 

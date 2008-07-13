@@ -38,6 +38,7 @@ struct _ConfOptions
 
 	gboolean save_metadata_in_image_file;
 
+	/* start up */
 	struct {
 		gboolean restore_path;
 		gboolean use_last_path;
@@ -237,6 +238,13 @@ struct _ConfOptions
 
 	} color_profile;
 
+	/* Helpers programs */
+	struct {
+		struct {
+			gchar *command_name;
+			gchar *command_line;
+		} html_browser;
+	} helpers;
 };
 
 ConfOptions *options;
