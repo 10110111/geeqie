@@ -815,6 +815,26 @@ static void image_osd_icons_hide(OverlayStateData *osd)
 		}
 }
 
+static void image_osd_info_show(OverlayStateData *osd, GdkPixbuf *pixbuf)
+{
+	if (osd->ovl_info == 0)
+		{
+		osd->ovl_info = image_overlay_add(osd->imd, pixbuf, osd->x, osd->y, OVL_RELATIVE);
+		}
+	else
+		{
+		image_overlay_set(osd->imd, osd->ovl_info, pixbuf, osd->x, osd->y);
+		}
+}
+
+static void image_osd_info_hide(OverlayStateData *osd)
+{
+	if (osd->ovl_info == 0) return;
+
+	image_overlay_remove(osd->imd, osd->ovl_info);
+	osd->ovl_info = 0;
+}
+
 static gint image_osd_update_cb(gpointer data)
 {
 	OverlayStateData *osd = data;
@@ -830,31 +850,18 @@ static gint image_osd_update_cb(gpointer data)
 			pixbuf = image_osd_info_render(osd);
 			if (pixbuf)
 				{
-				if (osd->ovl_info == 0)
-					{
-					osd->ovl_info = image_overlay_add(osd->imd, pixbuf,
-									  osd->x, osd->y, OVL_RELATIVE);
-					}
-				else
-					{
-					image_overlay_set(osd->imd, osd->ovl_info, pixbuf, osd->x, osd->y);
-					}
+				image_osd_info_show(osd, pixbuf);
 				g_object_unref(pixbuf);
 				}
-			else if (osd->ovl_info)
+			else
 				{
-				image_overlay_remove(osd->imd, osd->ovl_info);
-				osd->ovl_info = 0;
+				image_osd_info_hide(osd);
 				}
 			}
 		}
 	else
 		{
-		if (osd->ovl_info)
-			{
-			image_overlay_remove(osd->imd, osd->ovl_info);
-			osd->ovl_info = 0;
-			}
+		image_osd_info_hide(osd);
 		}
 
 	if (osd->show & OSD_SHOW_STATUS)
@@ -978,8 +985,8 @@ static void image_osd_free(OverlayStateData *osd)
 		g_signal_handler_disconnect(osd->imd->pr, osd->destroy_id);
 
 		image_set_state_func(osd->imd, NULL, NULL);
-		image_overlay_remove(osd->imd, osd->ovl_info);
 
+		image_osd_info_hide(osd);
 		image_osd_icons_hide(osd);
 		}
 
