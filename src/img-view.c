@@ -135,7 +135,7 @@ static void view_collection_step(ViewWindow *vw, gint next)
 
 	if (info)
 		{
-		image_change_from_collection(imd, cd, info, image_zoom_get_default(imd, options->image.zoom_mode));
+		image_change_from_collection(imd, cd, info, image_zoom_get_default(imd));
 
 		if (read_ahead_info) image_prebuffer_set(imd, read_ahead_info->fd);
 		}
@@ -166,7 +166,7 @@ static void view_collection_step_to_end(ViewWindow *vw, gint last)
 
 	if (info)
 		{
-		image_change_from_collection(imd, cd, info, image_zoom_get_default(imd, options->image.zoom_mode));
+		image_change_from_collection(imd, cd, info, image_zoom_get_default(imd));
 		if (read_ahead_info) image_prebuffer_set(imd, read_ahead_info->fd);
 		}
 }
@@ -226,7 +226,7 @@ static void view_list_step(ViewWindow *vw, gint next)
 
 	vw->list_pointer = work;
 	fd = work->data;
-	image_change_fd(imd, fd, image_zoom_get_default(imd, options->image.zoom_mode));
+	image_change_fd(imd, fd, image_zoom_get_default(imd));
 
 	if (options->image.enable_read_ahead && work_ahead)
 		{
@@ -257,7 +257,7 @@ static void view_list_step_to_end(ViewWindow *vw, gint last)
 
 	vw->list_pointer = work;
 	fd = work->data;
-	image_change_fd(imd, fd, image_zoom_get_default(imd, options->image.zoom_mode));
+	image_change_fd(imd, fd, image_zoom_get_default(imd));
 
 	if (options->image.enable_read_ahead && work_ahead)
 		{
@@ -872,7 +872,7 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 			 G_CALLBACK(view_window_key_press_cb), vw);
 	if (cd && info)
 		{
-		image_change_from_collection(vw->imd, cd, info, image_zoom_get_default(NULL, options->image.zoom_mode));
+		image_change_from_collection(vw->imd, cd, info, image_zoom_get_default(NULL));
 		if (options->image.enable_read_ahead)
 			{
 			CollectInfo * r_info = collection_next_by_info(cd, info);
@@ -884,7 +884,7 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 		{
 		view_window_set_list(vw, list);
 		vw->list_pointer = vw->list;
-		image_change_fd(vw->imd, (FileData *)vw->list->data, image_zoom_get_default(NULL, options->image.zoom_mode));
+		image_change_fd(vw->imd, (FileData *)vw->list->data, image_zoom_get_default(NULL));
 
 		if (options->image.enable_read_ahead)
 			{
@@ -894,7 +894,7 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 		}
 	else
 		{
-		image_change_fd(vw->imd, fd, image_zoom_get_default(NULL, options->image.zoom_mode));
+		image_change_fd(vw->imd, fd, image_zoom_get_default(NULL));
 		}
 
 	if (image_zoom_get(vw->imd) == 0.0)
@@ -1386,7 +1386,7 @@ static void view_dir_list_do(ViewWindow *vw, GList *list, gint skip, gint recurs
 
 		vw->list_pointer = vw->list;
 		fd = vw->list->data;
-		image_change_fd(vw->imd, fd, image_zoom_get_default(vw->imd, options->image.zoom_mode));
+		image_change_fd(vw->imd, fd, image_zoom_get_default(vw->imd));
 
 		work = vw->list->next;
 		if (options->image.enable_read_ahead && work)
@@ -1397,7 +1397,7 @@ static void view_dir_list_do(ViewWindow *vw, GList *list, gint skip, gint recurs
 		}
 	else
 		{
-		image_change_fd(vw->imd, NULL, image_zoom_get_default(vw->imd, options->image.zoom_mode));
+		image_change_fd(vw->imd, NULL, image_zoom_get_default(vw->imd));
 		}
 }
 
@@ -1516,7 +1516,7 @@ static void view_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 
 				if (source && info_list)
 					{
-					image_change_from_collection(imd, source, info_list->data, image_zoom_get_default(imd, options->image.zoom_mode));
+					image_change_from_collection(imd, source, info_list->data, image_zoom_get_default(imd));
 					}
 				else
 					{
@@ -1527,7 +1527,7 @@ static void view_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 
 						vw->list_pointer = vw->list;
 						}
-					image_change_fd(imd, fd, image_zoom_get_default(imd, options->image.zoom_mode));
+					image_change_fd(imd, fd, image_zoom_get_default(imd));
 					}
 				}
 			}
@@ -1633,7 +1633,7 @@ static void view_real_removed(ViewWindow *vw, FileData *fd)
 			}
 		if (image_get_fd(imd) == image_fd)
 			{
-			image_change_fd(imd, NULL, image_zoom_get_default(imd, options->image.zoom_mode));
+			image_change_fd(imd, NULL, image_zoom_get_default(imd));
 			}
 		}
 
@@ -1679,7 +1679,7 @@ static void view_real_removed(ViewWindow *vw, FileData *fd)
 				fd = NULL;
 				}
 
-			image_change_fd(imd, fd, image_zoom_get_default(imd, options->image.zoom_mode));
+			image_change_fd(imd, fd, image_zoom_get_default(imd));
 			}
 		}
 

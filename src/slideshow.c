@@ -183,7 +183,7 @@ static gint slideshow_step(SlideShowData *ss, gboolean forward)
 	if (ss->filelist)
 		{
 		ss->slide_fd = file_data_ref((FileData *)g_list_nth_data(ss->filelist, row));
-		image_change_fd(ss->imd, ss->slide_fd, image_zoom_get_default(ss->imd, options->image.zoom_mode));
+		image_change_fd(ss->imd, ss->slide_fd, image_zoom_get_default(ss->imd));
 		}
 	else if (ss->cd)
 		{
@@ -192,7 +192,7 @@ static gint slideshow_step(SlideShowData *ss, gboolean forward)
 		info = g_list_nth_data(ss->cd->list, row);
 		ss->slide_fd = file_data_ref(info->fd);
 
-		image_change_from_collection(ss->imd, ss->cd, info, image_zoom_get_default(ss->imd, options->image.zoom_mode));
+		image_change_from_collection(ss->imd, ss->cd, info, image_zoom_get_default(ss->imd));
 		}
 	else
 		{
@@ -200,7 +200,7 @@ static gint slideshow_step(SlideShowData *ss, gboolean forward)
 
 		if (ss->from_selection)
 			{
-			image_change_fd(ss->imd, ss->slide_fd, image_zoom_get_default(ss->imd, options->image.zoom_mode));
+			image_change_fd(ss->imd, ss->slide_fd, image_zoom_get_default(ss->imd));
 			layout_status_update_info(ss->layout, NULL);
 			}
 		else

@@ -83,7 +83,7 @@ void image_zoom_set_fill_geometry(ImageWindow *imd, gint vertical);
 gdouble image_zoom_get(ImageWindow *imd);
 gdouble image_zoom_get_real(ImageWindow *imd);
 gchar *image_zoom_get_as_text(ImageWindow *imd);
-gdouble image_zoom_get_default(ImageWindow *imd, gint mode);
+gdouble image_zoom_get_default(ImageWindow *imd);
 
 /* read ahead, pass NULL to cancel */
 void image_prebuffer_set(ImageWindow *imd, FileData *fd);

@@ -442,12 +442,12 @@ static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 			    "#   fit\n"
 			    "#   dont_change\n");
 	secure_fprintf(ssi, "image.zoom_mode: ");
-	if (options->image.zoom_mode == ZOOM_RESET_ORIGINAL)
-		secure_fprintf(ssi, "original\n");
-	else if (options->image.zoom_mode == ZOOM_RESET_FIT_WINDOW)
-		secure_fprintf(ssi, "fit\n");
-	else if (options->image.zoom_mode == ZOOM_RESET_NONE)
-		secure_fprintf(ssi, "dont_change\n");
+	switch (options->image.zoom_mode)
+	{
+	case ZOOM_RESET_ORIGINAL: secure_fprintf(ssi, "original\n"); break;
+	case ZOOM_RESET_FIT_WINDOW: secure_fprintf(ssi, "fit\n"); break;
+	case ZOOM_RESET_NONE: secure_fprintf(ssi, "dont_change\n"); break;
+	}
 	WRITE_SEPARATOR();
 	WRITE_BOOL(image.zoom_2pass);
 	WRITE_BOOL(image.zoom_to_fit_allow_expand);

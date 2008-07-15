@@ -1312,29 +1312,21 @@ gchar *image_zoom_get_as_text(ImageWindow *imd)
 	return g_strdup_printf("%.*f :%s%.*f", pl, l, approx, pr, r);
 }
 
-gdouble image_zoom_get_default(ImageWindow *imd, gint mode)
+gdouble image_zoom_get_default(ImageWindow *imd)
 {
-	gdouble zoom;
+	gdouble zoom = 1.0;
 
-	if (mode == ZOOM_RESET_ORIGINAL)
-		{
-		zoom = 1.0;
-		}
-	else if (mode == ZOOM_RESET_FIT_WINDOW)
-		{
+	switch (options->image.zoom_mode)
+	{
+	case ZOOM_RESET_ORIGINAL:
+		break;
+	case ZOOM_RESET_FIT_WINDOW:
 		zoom = 0.0;
-		}
-	else
-		{
-		if (imd)
-			{
-			zoom = image_zoom_get(imd);
-			}
-		else
-			{
-			zoom = 1.0;
-			}
-		}
+		break;
+	case ZOOM_RESET_NONE:
+		if (imd) zoom = image_zoom_get(imd);
+		break;
+	}
 
 	return zoom;
 }

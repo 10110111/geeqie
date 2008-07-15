@@ -15,6 +15,12 @@
 #define TYPEDEFS_H
 
 typedef enum {
+	ZOOM_RESET_ORIGINAL	= 0,
+	ZOOM_RESET_FIT_WINDOW	= 1,
+	ZOOM_RESET_NONE		= 2
+} ZoomMode;
+
+typedef enum {
 	MOUSE_BUTTON_LEFT	= 1,
 	MOUSE_BUTTON_MIDDLE	= 2,
 	MOUSE_BUTTON_RIGHT	= 3,

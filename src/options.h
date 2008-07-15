@@ -71,7 +71,7 @@ struct _ConfOptions
 		guint dither_quality;
 		gboolean enable_read_ahead;
 
-		gint zoom_mode;
+		ZoomMode zoom_mode;
 		gboolean zoom_2pass;
 		gboolean zoom_to_fit_allow_expand;
 		guint zoom_quality;
