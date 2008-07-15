@@ -775,6 +775,46 @@ static void image_osd_icon_hide(OverlayStateData *osd, ImageOSDFlag flag)
 		}
 }
 
+static void image_osd_icons_reset_time(OverlayStateData *osd)
+{
+	gint i;
+
+	for (i = 0; i < IMAGE_OSD_COUNT; i++)
+		{
+		if (osd_icons[i].reset)
+			{
+			osd->icon_time[i] = 0;
+			}
+		}
+}
+
+static void image_osd_icons_update(OverlayStateData *osd)
+{
+	gint i;
+
+	for (i = 0; i < IMAGE_OSD_COUNT; i++)
+		{
+		if (osd->icon_time[i] > 0)
+			{
+			image_osd_icon_show(osd, i);
+			}
+		else
+			{
+			image_osd_icon_hide(osd, i);
+			}
+		}
+}
+
+static void image_osd_icons_hide(OverlayStateData *osd)
+{
+	gint i;
+
+	for (i = 0; i < IMAGE_OSD_COUNT; i++)
+		{
+		image_osd_icon_hide(osd, i);
+		}
+}
+
 static gint image_osd_update_cb(gpointer data)
 {
 	OverlayStateData *osd = data;
@@ -819,16 +859,9 @@ static gint image_osd_update_cb(gpointer data)
 
 	if (osd->show & OSD_SHOW_STATUS)
 		{
-		gint i;
-
 		if (osd->changed_states & IMAGE_STATE_IMAGE)
-			{
-			for (i = 0; i < IMAGE_OSD_COUNT; i++)
-				{
-				if (osd_icons[i].reset)	osd->icon_time[i] = 0;
-				}
-			}
-
+			image_osd_icons_reset_time(osd);
+	
 		if (osd->changed_states & IMAGE_STATE_COLOR_ADJ)
 			{
 			osd->icon_time[IMAGE_OSD_COLOR] = IMAGE_OSD_DEFAULT_DURATION + 1;
@@ -849,26 +882,11 @@ static gint image_osd_update_cb(gpointer data)
 			image_osd_timer_schedule(osd);
 			}
 
-		for (i = 0; i < IMAGE_OSD_COUNT; i++)
-			{
-			if (osd->icon_time[i] > 0)
-				{
-				image_osd_icon_show(osd, i);
-				}
-			else
-				{
-				image_osd_icon_hide(osd, i);
-				}
-			}
+		image_osd_icons_update(osd);
 		}
 	else
 		{
-		gint i;
-
-		for (i = 0; i < IMAGE_OSD_COUNT; i++)
-			{
-			image_osd_icon_hide(osd, i);
-			}
+		image_osd_icons_hide(osd);
 		}
 
 	if (osd->imd->il && osd->imd->il->done)
@@ -956,18 +974,13 @@ static void image_osd_free(OverlayStateData *osd)
 
 	if (osd->imd)
 		{
-		gint i;
-
 		image_set_osd_data(osd->imd, NULL);
 		g_signal_handler_disconnect(osd->imd->pr, osd->destroy_id);
 
 		image_set_state_func(osd->imd, NULL, NULL);
 		image_overlay_remove(osd->imd, osd->ovl_info);
 
-		for (i = 0; i < IMAGE_OSD_COUNT; i++)
-			{
-			image_osd_icon_hide(osd, i);
-			}
+		image_osd_icons_hide(osd);
 		}
 
 	if (osd->histogram) histogram_free(osd->histogram);
