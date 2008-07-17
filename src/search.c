@@ -2305,15 +2305,22 @@ static void menu_choice_set_visible(GtkWidget *widget, gint visible)
 		}
 }
 
-static void menu_choice_path_cb(GtkWidget *combo, gpointer data)
+static gboolean menu_choice_get_match_type(GtkWidget *combo, MatchType *type)
 {
-	SearchData *sd = data;
 	GtkTreeModel *store;
 	GtkTreeIter iter;
 
 	store = gtk_combo_box_get_model(GTK_COMBO_BOX(combo));
-	if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(combo), &iter)) return;
-	gtk_tree_model_get(store, &iter, MENU_CHOICE_COLUMN_VALUE, &sd->search_type, -1);
+	if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(combo), &iter)) return FALSE;
+	gtk_tree_model_get(store, &iter, MENU_CHOICE_COLUMN_VALUE, type, -1);
+	return TRUE;
+}
+
+static void menu_choice_path_cb(GtkWidget *combo, gpointer data)
+{
+	SearchData *sd = data;
+
+	if (!menu_choice_get_match_type(combo, &sd->search_type)) return;
 
 	menu_choice_set_visible(gtk_widget_get_parent(sd->check_recurse),
 				(sd->search_type == SEARCH_MATCH_NONE));
@@ -2322,23 +2329,15 @@ static void menu_choice_path_cb(GtkWidget *combo, gpointer data)
 static void menu_choice_name_cb(GtkWidget *combo, gpointer data)
 {
 	SearchData *sd = data;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
 
-	store = gtk_combo_box_get_model(GTK_COMBO_BOX(combo));
-	if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(combo), &iter)) return;
-	gtk_tree_model_get(store, &iter, MENU_CHOICE_COLUMN_VALUE, &sd->match_name, -1);
+	if (!menu_choice_get_match_type(combo, &sd->match_name)) return;
 }
 
 static void menu_choice_size_cb(GtkWidget *combo, gpointer data)
 {
 	SearchData *sd = data;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
 
-	store = gtk_combo_box_get_model(GTK_COMBO_BOX(combo));
-	if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(combo), &iter)) return;
-	gtk_tree_model_get(store, &iter, MENU_CHOICE_COLUMN_VALUE, &sd->match_size, -1);
+	if (!menu_choice_get_match_type(combo, &sd->match_size)) return;
 
 	menu_choice_set_visible(gtk_widget_get_parent(sd->spin_size_end),
 				(sd->match_size == SEARCH_MATCH_BETWEEN));
@@ -2347,12 +2346,8 @@ static void menu_choice_size_cb(GtkWidget *combo, gpointer data)
 static void menu_choice_date_cb(GtkWidget *combo, gpointer data)
 {
 	SearchData *sd = data;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
 
-	store = gtk_combo_box_get_model(GTK_COMBO_BOX(combo));
-	if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(combo), &iter)) return;
-	gtk_tree_model_get(store, &iter, MENU_CHOICE_COLUMN_VALUE, &sd->match_date, -1);
+	if (!menu_choice_get_match_type(combo, &sd->match_date)) return;
 
 	menu_choice_set_visible(gtk_widget_get_parent(sd->date_sel_end),
 				(sd->match_date == SEARCH_MATCH_BETWEEN));
@@ -2361,12 +2356,8 @@ static void menu_choice_date_cb(GtkWidget *combo, gpointer data)
 static void menu_choice_dimensions_cb(GtkWidget *combo, gpointer data)
 {
 	SearchData *sd = data;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
 
-	store = gtk_combo_box_get_model(GTK_COMBO_BOX(combo));
-	if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(combo), &iter)) return;
-	gtk_tree_model_get(store, &iter, MENU_CHOICE_COLUMN_VALUE, &sd->match_dimensions, -1);
+	if (!menu_choice_get_match_type(combo, &sd->match_dimensions)) return;
 
 	menu_choice_set_visible(gtk_widget_get_parent(sd->spin_width_end),
 				(sd->match_dimensions == SEARCH_MATCH_BETWEEN));
@@ -2375,12 +2366,8 @@ static void menu_choice_dimensions_cb(GtkWidget *combo, gpointer data)
 static void menu_choice_keyword_cb(GtkWidget *combo, gpointer data)
 {
 	SearchData *sd = data;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
 
-	store = gtk_combo_box_get_model(GTK_COMBO_BOX(combo));
-	if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(combo), &iter)) return;
-	gtk_tree_model_get(store, &iter, MENU_CHOICE_COLUMN_VALUE, &sd->match_keywords, -1);
+	if (!menu_choice_get_match_type(combo, &sd->match_keywords)) return;
 }
 
 static void menu_choice_spin_cb(GtkAdjustment *adjustment, gpointer data)
