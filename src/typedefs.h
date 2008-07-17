@@ -351,8 +351,6 @@ struct _ImageWindow
 
 	FileData *image_fd;
 
-	gint64 size;		/* file size (bytes) */
-	time_t mtime;		/* file modified time stamp */
 	gint unknown;		/* failed to load image */
 
 	ImageLoader *il;        /* FIXME - image loader should probably go to FileData, but it must first support
@@ -414,8 +412,7 @@ struct _ImageWindow
 
 	gint prev_color_row;
 
-	gint auto_refresh_id;
-	gint auto_refresh_interval;
+	gint auto_refresh;
 
 	gint delay_flip;
 	gint orientation;

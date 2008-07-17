@@ -585,7 +585,7 @@ void layout_status_update_image(LayoutWindow *lw)
 	gtk_label_set_text(GTK_LABEL(lw->info_zoom), text);
 	g_free(text);
 
-	b = text_from_size(lw->image->size);
+	b = image_get_fd(lw->image) ? text_from_size(image_get_fd(lw->image)->size) : g_strdup("0");
 
 	if (lw->image->unknown)
 		{

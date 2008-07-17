@@ -35,6 +35,8 @@ FileData *file_data_ref(FileData *fd);
 void file_data_unref(FileData *fd);
 #endif
 
+gboolean file_data_check_changed_files(FileData *fd);
+
 void file_data_increment_version(FileData *fd);
 
 gboolean file_data_add_change_info(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest);

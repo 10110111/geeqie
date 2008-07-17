@@ -259,7 +259,7 @@ static gboolean file_data_check_changed_files_recursive(FileData *fd, struct sta
 }
 
 
-static gboolean file_data_check_changed_files(FileData *fd)
+gboolean file_data_check_changed_files(FileData *fd)
 {
 	gboolean ret = FALSE;
 	struct stat st;

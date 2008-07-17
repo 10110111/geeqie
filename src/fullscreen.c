@@ -296,7 +296,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 		}
 
 	image_set_delay_flip(fs->imd, options->fullscreen.clean_flip);
-	image_auto_refresh(fs->imd, fs->normal_imd->auto_refresh_interval);
+	image_auto_refresh_enable(fs->imd, fs->normal_imd->auto_refresh);
 
 	if (options->fullscreen.clean_flip)
 		{

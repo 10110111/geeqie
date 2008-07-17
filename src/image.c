@@ -45,9 +45,6 @@
 /* the file size at which throttling take place */
 #define IMAGE_THROTTLE_THRESHOLD 1048576
 
-#define IMAGE_AUTO_REFRESH_TIME 3000
-
-
 static GList *image_list = NULL;
 
 
@@ -773,8 +770,6 @@ static void image_change_complete(ImageWindow *imd, gdouble zoom, gint new)
 
 			imd->unknown = TRUE;
 			}
-		imd->size = filesize(imd->image_fd->path);
-		imd->mtime = filetime(imd->image_fd->path);
 		}
 	else
 		{
@@ -785,15 +780,12 @@ static void image_change_complete(ImageWindow *imd, gdouble zoom, gint new)
 			pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
 			image_change_pixbuf(imd, pixbuf, zoom);
 			g_object_unref(pixbuf);
-			imd->mtime = filetime(imd->image_fd->path);
 			}
 		else
 			{
 			image_change_pixbuf(imd, NULL, zoom);
-			imd->mtime = 0;
 			}
 		imd->unknown = TRUE;
-		imd->size = 0;
 		}
 
 	image_update_util(imd);
@@ -806,13 +798,20 @@ static void image_change_real(ImageWindow *imd, FileData *fd,
 	imd->collection = cd;
 	imd->collection_info = info;
 
+	if (imd->auto_refresh && imd->image_fd)
+		file_data_unregister_real_time_monitor(imd->image_fd);
+
 	file_data_unref(imd->image_fd);
 	imd->image_fd = file_data_ref(fd);
+
 
 	image_change_complete(imd, zoom, TRUE);
 
 	image_update_title(imd);
 	image_state_set(imd, IMAGE_STATE_IMAGE);
+
+	if (imd->auto_refresh && imd->image_fd)
+		file_data_register_real_time_monitor(imd->image_fd);
 }
 
 /*
@@ -988,11 +987,17 @@ FileData *image_get_fd(ImageWindow *imd)
 /* merely changes path string, does not change the image! */
 void image_set_fd(ImageWindow *imd, FileData *fd)
 {
+	if (imd->auto_refresh && imd->image_fd)
+		file_data_unregister_real_time_monitor(imd->image_fd);
+
 	file_data_unref(imd->image_fd);
 	imd->image_fd = file_data_ref(fd);
 
 	image_update_title(imd);
 	image_state_set(imd, IMAGE_STATE_IMAGE);
+
+	if (imd->auto_refresh && imd->image_fd)
+		file_data_register_real_time_monitor(imd->image_fd);
 }
 
 /* load a new image */
@@ -1116,8 +1121,6 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 
 	imd->collection = source->collection;
 	imd->collection_info = source->collection_info;
-	imd->size = source->size;
-	imd->mtime = source->mtime;
 
 	image_loader_free(imd->il);
 	imd->il = NULL;
@@ -1350,45 +1353,29 @@ void image_prebuffer_set(ImageWindow *imd, FileData *fd)
 		}
 }
 
-static gint image_auto_refresh_cb(gpointer data)
+static void image_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	ImageWindow *imd = data;
-	time_t newtime;
 
 	if (!imd || !image_get_pixbuf(imd) ||
 	    imd->il || !imd->image_fd ||
-	    !options->update_on_time_change) return TRUE;
+	    !options->update_on_time_change) return;
 
-	newtime = filetime(imd->image_fd->path);
-	if (newtime > 0 && newtime != imd->mtime)
+	if (type == NOTIFY_TYPE_REREAD && fd == imd->image_fd)
 		{
-		imd->mtime = newtime;
 		image_reload(imd);
 		}
-
-	return TRUE;
 }
 
-/* image auto refresh on time stamp change, in 1/1000's second, -1 disables */
-
-void image_auto_refresh(ImageWindow *imd, gint interval)
+void image_auto_refresh_enable(ImageWindow *imd, gboolean enable)
 {
-	if (!imd) return;
-	if (pixbuf_renderer_get_tiles((PixbufRenderer *)imd->pr)) return;
+	if (!enable && imd->auto_refresh && imd->image_fd)
+		file_data_unregister_real_time_monitor(imd->image_fd);
 
-	if (imd->auto_refresh_id > -1)
-		{
-		g_source_remove(imd->auto_refresh_id);
-		imd->auto_refresh_id = -1;
-		imd->auto_refresh_interval = -1;
-		}
+	if (enable && !imd->auto_refresh && imd->image_fd)
+		file_data_register_real_time_monitor(imd->image_fd);
 
-	if (interval < 0) return;
-
-	if (interval == 0) interval = IMAGE_AUTO_REFRESH_TIME;
-
-	imd->auto_refresh_id = g_timeout_add((guint32)interval, image_auto_refresh_cb, imd);
-	imd->auto_refresh_interval = interval;
+	imd->auto_refresh = enable;
 }
 
 void image_top_window_set_sync(ImageWindow *imd, gint allow_sync)
@@ -1600,10 +1587,14 @@ static void image_free(ImageWindow *imd)
 {
 	image_list = g_list_remove(image_list, imd);
 
+	if (imd->auto_refresh && imd->image_fd)
+		file_data_unregister_real_time_monitor(imd->image_fd);
+
+	file_data_unregister_notify_func(image_notify_cb, imd);
+
 	image_reset(imd);
 
 	image_read_ahead_cancel(imd);
-	image_auto_refresh(imd, -1);
 
 	file_data_unref(imd->image_fd);
 	g_free(imd->title);
@@ -1713,8 +1704,7 @@ ImageWindow *image_new(gint frame)
 	imd->color_profile_use_image = FALSE;
 	imd->color_profile_from_image = COLOR_PROFILE_NONE;
 
-	imd->auto_refresh_id = -1;
-	imd->auto_refresh_interval = -1;
+	imd->auto_refresh = FALSE;
 
 	imd->delay_flip = FALSE;
 
@@ -1756,6 +1746,8 @@ ImageWindow *image_new(gint frame)
 			 G_CALLBACK(image_render_complete_cb), imd);
 	g_signal_connect(G_OBJECT(imd->pr), "drag",
 			 G_CALLBACK(image_drag_cb), imd);
+
+	file_data_register_notify_func(image_notify_cb, imd, NOTIFY_PRIORITY_LOW);
 
 	image_list = g_list_append(image_list, imd);
 

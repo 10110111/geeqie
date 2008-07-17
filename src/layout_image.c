@@ -1776,7 +1776,7 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 
 		image_background_set_color(lw->split_images[i], options->image.use_custom_border_color ? &options->image.border_color : NULL);
 
-		image_auto_refresh(lw->split_images[i], 0);
+		image_auto_refresh_enable(lw->split_images[i], TRUE);
 
 		layout_image_dnd_init(lw, i);
 		image_color_profile_set(lw->split_images[i],
