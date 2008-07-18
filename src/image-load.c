@@ -427,6 +427,16 @@ void image_loader_set_error_func(ImageLoader *il,
 	il->data_error = data_error;
 }
 
+void image_loader_set_done_func(ImageLoader *il,
+				void (*func_done)(ImageLoader *, gpointer),
+				gpointer data_done)
+{
+	if (!il) return;
+
+	il->func_done = func_done;
+	il->data_done = data_done;
+}
+
 void image_loader_set_percent_func(ImageLoader *il,
 				   void (*func_percent)(ImageLoader *, gdouble, gpointer),
 				   gpointer data_percent)
@@ -465,8 +475,7 @@ gint image_loader_start(ImageLoader *il, void (*func_done)(ImageLoader *, gpoint
 
 	if (!image_loader_path(il)) return FALSE;
 
-	il->func_done = func_done;
-	il->data_done = data_done;
+	image_loader_set_done_func(il, func_done, data_done);
 
 	return image_loader_setup(il);
 }

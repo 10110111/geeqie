@@ -621,14 +621,12 @@ static gint image_read_ahead_check(ImageWindow *imd)
 		/* override the old signals */
 		image_loader_set_area_ready_func(imd->il, image_load_area_cb, imd);
 		image_loader_set_error_func(imd->il, image_load_error_cb, imd);
+		image_loader_set_done_func(imd->il, image_load_done_cb, imd);
 		image_loader_set_buffer_size(imd->il, IMAGE_LOAD_BUFFER_COUNT);
 
 #ifdef IMAGE_THROTTLE_LARGER_IMAGES
 		image_load_buffer_throttle(imd->il);
 #endif
-
-		/* do this one directly (probably should add a set func) */
-		imd->il->func_done = image_load_done_cb;
 
 		g_object_set(G_OBJECT(imd->pr), "loading", TRUE, NULL);
 		image_state_set(imd, IMAGE_STATE_LOADING);

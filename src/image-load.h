@@ -27,6 +27,9 @@ void image_loader_set_area_ready_func(ImageLoader *il,
 void image_loader_set_error_func(ImageLoader *il,
 				 void (*func_error)(ImageLoader *, gpointer),
 				 gpointer data_error);
+void image_loader_set_done_func(ImageLoader *il,
+				void (*func_done)(ImageLoader *, gpointer),
+				gpointer data_done);
 void image_loader_set_percent_func(ImageLoader *il,
 				   void (*func_percent)(ImageLoader *, gdouble, gpointer),
 				   gpointer data_percent);
