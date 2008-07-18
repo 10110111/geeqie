@@ -66,8 +66,8 @@ gboolean file_cache_get(FileCacheData *fc, FileData *fd)
 			fc->list = g_list_remove_link(fc->list, work);
 			fc->list = g_list_concat(work, fc->list);
 			
-//			if (file_data_check_changed_files(fd)) /* this will eventually remove changed files from cache via file_cache_notify_cb */
-//				return FALSE;
+			if (file_data_check_changed_files(fd)) /* this will eventually remove changed files from cache via file_cache_notify_cb */
+				return FALSE;
 				
 			if (debug_file_cache) file_cache_dump(fc);
 			return TRUE;
