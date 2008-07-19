@@ -186,13 +186,18 @@ static GtkWidget *layout_window(LayoutWindow *lw)
 	return lw->full_screen ? lw->full_screen->window : lw->window;
 }
 
+static void layout_exit_fullscreen(LayoutWindow *lw)
+{
+	if (!lw->full_screen) return;
+	layout_image_full_screen_stop(lw);
+}
+
 static void layout_menu_new_window_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 	LayoutWindow *nw;
 
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
+	layout_exit_fullscreen(lw);
 
 	nw = layout_new(NULL, FALSE, FALSE);
 	layout_sort_set(nw, options->file_sort.method, options->file_sort.ascending);
@@ -202,43 +207,40 @@ static void layout_menu_new_window_cb(GtkAction *action, gpointer data)
 static void layout_menu_new_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
+
+	layout_exit_fullscreen(lw);
 	collection_window_new(NULL);
 }
 
 static void layout_menu_open_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
+
+	layout_exit_fullscreen(lw);
 	collection_dialog_load(NULL);
 }
 
 static void layout_menu_search_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
 
+	layout_exit_fullscreen(lw);
 	search_new(lw->dir_fd, layout_image_get_fd(lw));
 }
 
 static void layout_menu_dupes_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
 
+	layout_exit_fullscreen(lw);
 	dupe_window_new(DUPE_MATCH_NAME);
 }
 
 static void layout_menu_pan_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
 
+	layout_exit_fullscreen(lw);
 	pan_window_new(lw->dir_fd);
 }
 
@@ -294,9 +296,8 @@ static void layout_menu_delete_cb(GtkAction *action, gpointer data)
 static void layout_menu_close_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
 
+	layout_exit_fullscreen(lw);
 	layout_close(lw);
 }
 
@@ -370,18 +371,16 @@ static void layout_menu_info_cb(GtkAction *action, gpointer data)
 static void layout_menu_config_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
 
+	layout_exit_fullscreen(lw);
 	show_config_window();
 }
 
 static void layout_menu_remove_thumb_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
 
+	layout_exit_fullscreen(lw);
 	cache_manager_show();
 }
 
@@ -479,11 +478,11 @@ static void layout_menu_zoom_1_4_cb(GtkAction *action, gpointer data)
 static void layout_menu_split_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
+	ImageSplitMode mode;
 
-	ImageSplitMode mode = gtk_radio_action_get_current_value(action);
+	layout_exit_fullscreen(lw);
 
+	mode = gtk_radio_action_get_current_value(action);
 	if (mode == lw->split_mode) mode = 0; /* toggle back */
 
 	layout_split_change(lw, mode);
@@ -513,18 +512,16 @@ static void layout_menu_thumb_cb(GtkToggleAction *action, gpointer data)
 static void layout_menu_list_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
-
+	
+	layout_exit_fullscreen(lw);
 	layout_views_set(lw, lw->dir_view_type, (gtk_radio_action_get_current_value(action) == 1) ? FILEVIEW_ICON : FILEVIEW_LIST);
 }
 
 static void layout_menu_view_dir_as_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
 
+	layout_exit_fullscreen(lw);
 	layout_views_set(lw, (DirViewType) gtk_radio_action_get_current_value(action), lw->file_view_type);
 }
 
@@ -532,8 +529,7 @@ static void layout_menu_view_in_new_window_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
+	layout_exit_fullscreen(lw);
 	view_window_new(layout_image_get_fd(lw));
 }
 
@@ -548,10 +544,11 @@ static void layout_menu_escape_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_full_screen_stop(lw);
-				/* FIXME:interrupting thumbs no longer allowed */
+	layout_exit_fullscreen(lw);
+
+	/* FIXME:interrupting thumbs no longer allowed */
 #if 0
-				interrupt_thumbs();
+	interrupt_thumbs();
 #endif
 }
 
@@ -586,70 +583,59 @@ static void layout_menu_refresh_cb(GtkAction *action, gpointer data)
 static void layout_menu_float_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
+	
+	layout_exit_fullscreen(lw);
 
-	if (lw->tools_float != gtk_toggle_action_get_active(action))
-		{
-		layout_tools_float_toggle(lw);
-		}
+	if (lw->tools_float == gtk_toggle_action_get_active(action)) return;
+	layout_tools_float_toggle(lw);
 }
 
 static void layout_menu_hide_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
 
+	layout_exit_fullscreen(lw);
 	layout_tools_hide_toggle(lw);
 }
 
 static void layout_menu_toolbar_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
 
-	if (lw->toolbar_hidden != gtk_toggle_action_get_active(action))
-		{
-		layout_toolbar_toggle(lw);
-		}
+	layout_exit_fullscreen(lw);
+
+	if (lw->toolbar_hidden == gtk_toggle_action_get_active(action)) return;
+	layout_toolbar_toggle(lw);
 }
 
 static void layout_menu_bar_info_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
 
-	if (lw->bar_info_enabled != gtk_toggle_action_get_active(action))
-		{
-		layout_bar_info_toggle(lw);
-		}
+	layout_exit_fullscreen(lw);
+
+	if (lw->bar_info_enabled == gtk_toggle_action_get_active(action)) return;
+	layout_bar_info_toggle(lw);
 }
 
 static void layout_menu_bar_exif_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
+	
+	layout_exit_fullscreen(lw);
 
-	if (lw->bar_exif_enabled != gtk_toggle_action_get_active(action))
-		{
-		layout_bar_exif_toggle(lw);
-		}
+	if (lw->bar_exif_enabled == gtk_toggle_action_get_active(action)) return;
+	layout_bar_exif_toggle(lw);
 }
 
 static void layout_menu_bar_sort_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
 
-	if (lw->bar_sort_enabled != gtk_toggle_action_get_active(action))
-		{
-		layout_bar_sort_toggle(lw);
-		}
+	layout_exit_fullscreen(lw);
+
+	if (lw->bar_sort_enabled == gtk_toggle_action_get_active(action)) return;
+	layout_bar_sort_toggle(lw);
 }
 
 static void layout_menu_slideshow_cb(GtkAction *action, gpointer data)
@@ -669,40 +655,40 @@ static void layout_menu_slideshow_pause_cb(GtkAction *action, gpointer data)
 static void layout_menu_help_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
+
+	layout_exit_fullscreen(lw);
 	help_window_show("html_contents");
 }
 
 static void layout_menu_help_keys_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
+
+	layout_exit_fullscreen(lw);
 	help_window_show("documentation");
 }
 
 static void layout_menu_notes_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
+	
+	layout_exit_fullscreen(lw);
 	help_window_show("release_notes");
 }
 
 static void layout_menu_about_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
+
+	layout_exit_fullscreen(lw);
 	show_about_window();
 }
 
 static void layout_menu_log_window_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (lw->full_screen)
-		layout_image_full_screen_stop(lw);
+
+	layout_exit_fullscreen(lw);
 	log_window_new();
 }
 
@@ -851,11 +837,9 @@ static void layout_menu_edit_cb(GtkAction *action, gpointer data)
 
 	n = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "edit_index"));
 
+	if (!editor_window_flag_set(n))
+		layout_exit_fullscreen(lw);
 
-	if (lw->full_screen && !editor_window_flag_set(n))
-		{
-		layout_image_full_screen_stop(lw);
-		}
 	list = layout_selection_list(lw);
 	file_util_start_editor_from_filelist(n, list, lw->window);
 	filelist_free(list);
@@ -1327,11 +1311,11 @@ static gchar *menu_translate(const gchar *path, gpointer data)
 	return _(path);
 }
 
-static void layout_actions_setup_mark(LayoutWindow *lw, gint mark, char *name_tmpl, char *label_tmpl, char *accel_tmpl,  GCallback cb)
+static void layout_actions_setup_mark(LayoutWindow *lw, gint mark, gchar *name_tmpl, gchar *label_tmpl, gchar *accel_tmpl,  GCallback cb)
 {
-	char name[50];
-	char label[100];
-	char accel[50];
+	gchar name[50];
+	gchar label[100];
+	gchar accel[50];
 	GtkActionEntry entry = { name, NULL, label, accel, NULL, cb };
 	GtkAction *action;
 
@@ -1348,7 +1332,7 @@ static void layout_actions_setup_mark(LayoutWindow *lw, gint mark, char *name_tm
 
 static void layout_actions_setup_marks(LayoutWindow *lw)
 {
-	int mark;
+	gint mark;
 	GError *error;
 	GString *desc = g_string_new(
 				"<ui>"
