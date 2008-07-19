@@ -308,6 +308,8 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	if (fd)
 		{
 		gboolean changed;
+		
+		file_data_ref(fd);
 
 		if (fd->parent)
 			changed = file_data_check_changed_files(fd);
@@ -317,7 +319,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 			file_data_check_sidecars(fd);
 		DEBUG_2("file_data_pool hit: '%s' %s", fd->path, changed ? "(changed)" : "");
 		
-		return file_data_ref(fd);
+		return fd;
 		}
 
 	fd = g_new0(FileData, 1);
