@@ -15,6 +15,7 @@
 ./src/filedata.c
 ./src/fullscreen.c
 ./src/histogram.c
+./src/history_list.c
 ./src/image.c
 ./src/image-overlay.c
 ./src/img-view.c
@@ -27,6 +28,7 @@
 ./src/logwindow.c
 ./src/main.c
 ./src/menu.c
+./src/options.c
 ./src/pan-view.c
 ./src/preferences.c
 ./src/print.c
