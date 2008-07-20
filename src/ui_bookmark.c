@@ -254,13 +254,18 @@ void history_list_add_to_key(const gchar *key, const gchar *path, gint max)
 	while (work)
 		{
 		gchar *buf = work->data;
-		work = work->next;
+
 		if (strcmp(buf, path) == 0)
 			{
-			hd->list = g_list_remove(hd->list, buf);
-			hd->list = g_list_prepend(hd->list, buf);
+			/* if not first, move it */
+			if (work != hd->list)
+				{
+				hd->list = g_list_remove(hd->list, buf);
+				hd->list = g_list_prepend(hd->list, buf);
+				}
 			return;
 			}
+		work = work->next;
 		}
 
 	hd->list = g_list_prepend(hd->list, g_strdup(path));
@@ -268,12 +273,26 @@ void history_list_add_to_key(const gchar *key, const gchar *path, gint max)
 	if (max == -1) max = HISTORY_DEFAULT_KEY_COUNT;
 	if (max > 0)
 		{
-		while (hd->list && g_list_length(hd->list) > (guint) max)
+		gint len = 0;
+		GList *work = hd->list;
+		GList *last = NULL;
+
+		while (work)
 			{
-			GList *work = g_list_last(hd->list);
-			gchar *buf = work->data;
-			hd->list = g_list_remove(hd->list, buf);
-			g_free(buf);
+			len++;
+			last = work;
+			work = work->next;
+			}
+
+		work = last;
+		while (work && len > max)
+			{
+			GList *node = work;
+			work = work->prev;
+
+			g_free(node->data);
+			hd->list = g_list_delete_link(hd->list, node);
+			len--;
 			}
 		}
 }
