@@ -23,8 +23,10 @@
 
 
 static GHashTable *file_data_pool = NULL;
+static GHashTable *file_data_planned_change_hash = NULL;
 
 static gint sidecar_file_priority(const gchar *path);
+static void file_data_apply_ci(FileData *fd);
 
 
 /*
@@ -304,13 +306,25 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	if (!file_data_pool)
 		file_data_pool = g_hash_table_new(g_str_hash, g_str_equal);
 
-	fd = g_hash_table_lookup(file_data_pool, path_utf8);
+	if ((fd = g_hash_table_lookup(file_data_pool, path_utf8)))
+		{
+		file_data_ref(fd);
+		}
+		
+	if (!fd && file_data_planned_change_hash)
+		{
+		if ((fd = g_hash_table_lookup(file_data_planned_change_hash, path_utf8)))
+			{
+			DEBUG_1("planned change: using %s -> %s", path_utf8, fd->path);
+			file_data_ref(fd);
+			file_data_apply_ci(fd);
+			}
+		}
+		
 	if (fd)
 		{
 		gboolean changed;
 		
-		file_data_ref(fd);
-
 		if (fd->parent)
 			changed = file_data_check_changed_files(fd);
 		else
@@ -1381,20 +1395,58 @@ void file_data_sc_free_ci_list(GList *fd_list)
  * fails if fd->change does not exist or the change type does not match
  */
 
+static void file_data_update_planned_change_hash(FileData *fd, const gchar *old_path, gchar *new_path)
+{
+	FileDataChangeType type = fd->change->type;
+	
+	if (type == FILEDATA_CHANGE_MOVE || type == FILEDATA_CHANGE_RENAME)
+		{
+		FileData *ofd;
+		
+		if (!file_data_planned_change_hash)
+			file_data_planned_change_hash = g_hash_table_new(g_str_hash, g_str_equal);
+		
+		if (old_path && g_hash_table_lookup(file_data_planned_change_hash, old_path) == fd)
+			{
+			DEBUG_1("planned change: removing %s -> %s", old_path, fd->path);
+			g_hash_table_remove(file_data_planned_change_hash, old_path);
+			file_data_unref(fd);
+			}
+
+		if ((ofd = g_hash_table_lookup(file_data_planned_change_hash, new_path)) != fd)
+			{
+			if (ofd)
+				{
+				DEBUG_1("planned change: replacing %s -> %s", new_path, ofd->path);
+				g_hash_table_remove(file_data_planned_change_hash, new_path);
+				file_data_unref(ofd);
+				}
+			
+			DEBUG_1("planned change: inserting %s -> %s", new_path, fd->path);
+			file_data_ref(fd);
+			g_hash_table_insert(file_data_planned_change_hash, new_path, fd);
+			}
+		}
+}
+
 static void file_data_update_ci_dest(FileData *fd, const gchar *dest_path)
 {
-	g_free(fd->change->dest);
+	gchar *old_path = fd->change->dest;
 	fd->change->dest = g_strdup(dest_path);
+	file_data_update_planned_change_hash(fd, old_path, fd->change->dest);
+	g_free(old_path);
 }
 
 static void file_data_update_ci_dest_preserve_ext(FileData *fd, const gchar *dest_path)
 {
 	const char *extension = extension_from_path(fd->change->source);
 	gchar *base = remove_extension_from_path(dest_path);
+	gchar *old_path = fd->change->dest;
 	
-	g_free(fd->change->dest);
 	fd->change->dest = g_strdup_printf("%s%s", base, extension);
+	file_data_update_planned_change_hash(fd, old_path, fd->change->dest);
 	
+	g_free(old_path);
 	g_free(base);
 }
 
@@ -1612,6 +1664,16 @@ static void file_data_apply_ci(FileData *fd)
 	/* FIXME delete ?*/
 	if (type == FILEDATA_CHANGE_MOVE || type == FILEDATA_CHANGE_RENAME)
 		{
+		if (file_data_planned_change_hash)
+			{
+			if (g_hash_table_lookup(file_data_planned_change_hash, fd->change->dest) == fd)
+				{
+				DEBUG_1("planned change: applying %s -> %s", fd->change->dest, fd->path);
+				g_hash_table_remove(file_data_planned_change_hash, fd->change->dest);
+				file_data_unref(fd);
+				}
+			}
+
 		file_data_set_path(fd, fd->change->dest);
 		}
 	file_data_increment_version(fd);
@@ -1638,7 +1700,6 @@ gint file_data_sc_apply_ci(FileData *fd)
 	
 	return TRUE;
 }
-
 
 /*
  * notify other modules about the change described by FileFataChangeInfo
