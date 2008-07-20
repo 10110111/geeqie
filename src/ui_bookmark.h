@@ -15,25 +15,6 @@
 #define UI_BOOKMARK_H
 
 
-/* history lists */
-
-gint history_list_load(const gchar *path);
-gint history_list_save(const gchar *path);
-
-void history_list_free_key(const gchar *key);
-
-void history_list_add_to_key(const gchar *key, const gchar *path, gint max);
-
-void history_list_item_change(const gchar *key, const gchar *oldpath, const gchar *newpath);
-void history_list_item_move(const gchar *key, const gchar *path, gint direction);
-void history_list_item_remove(const gchar *key, const gchar *path);
-
-const gchar *history_list_find_last_path_by_key(const gchar* key);
-
-/* the returned GList is internal, don't free it */
-GList *history_list_get_by_key(const gchar *key);
-
-
 /* bookmarks */
 
 GtkWidget *bookmark_list_new(const gchar *key,

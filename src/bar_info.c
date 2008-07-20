@@ -18,10 +18,10 @@
 
 #include "cache.h"
 #include "filedata.h"
+#include "history_list.h"
 #include "info.h"
 #include "secure_save.h"
 #include "utilops.h"
-#include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_misc.h"
 #include "ui_utildlg.h"

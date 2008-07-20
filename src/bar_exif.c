@@ -15,7 +15,7 @@
 #include "bar_exif.h"
 
 #include "exif.h"
-#include "ui_bookmark.h"
+#include "history_list.h"
 #include "ui_misc.h"
 #include "filedata.h"
 

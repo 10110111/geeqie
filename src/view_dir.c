@@ -14,6 +14,7 @@
 
 #include "dnd.h"
 #include "dupe.h"
+#include "editors.h"
 #include "filedata.h"
 #include "layout_image.h"
 #include "layout_util.h"
@@ -22,7 +23,6 @@
 #include "ui_tree_edit.h"
 #include "ui_menu.h"
 #include "utilops.h"
-#include "editors.h"
 #include "view_dir_list.h"
 #include "view_dir_tree.h"
 

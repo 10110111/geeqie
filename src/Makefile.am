@@ -135,6 +135,8 @@ geeqie_SOURCES = \
 	fullscreen.h	\
 	histogram.c	\
 	histogram.h	\
+	history_list.c	\
+	history_list.h	\
 	image.c		\
 	image.h		\
 	image-load.c	\

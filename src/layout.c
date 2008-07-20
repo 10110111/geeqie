@@ -27,7 +27,6 @@
 #include "utilops.h"
 #include "view_dir.h"
 #include "view_file.h"
-#include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "ui_misc.h"

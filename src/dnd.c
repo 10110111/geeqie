@@ -16,7 +16,6 @@
 
 #include "collect.h"
 #include "image.h"
-#include "ui_bookmark.h"
 #include "ui_fileops.h"
 
 

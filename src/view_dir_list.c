@@ -20,7 +20,6 @@
 #include "layout_image.h"
 #include "layout_util.h"
 #include "utilops.h"
-#include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "ui_tree_edit.h"

@@ -17,6 +17,7 @@
 #include "collect.h"
 #include "collect-io.h"
 #include "filedata.h"
+#include "history_list.h"
 #include "layout.h"
 #include "layout_image.h"
 #include "utilops.h"

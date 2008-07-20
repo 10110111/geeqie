@@ -19,6 +19,7 @@
 #include "editors.h"
 #include "exif.h"
 #include "fullscreen.h"
+#include "history_list.h"
 #include "img-view.h"
 #include "info.h"
 #include "menu.h"

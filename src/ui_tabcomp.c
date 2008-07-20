@@ -29,7 +29,7 @@
 #include "main.h"
 #include "ui_tabcomp.h"
 
-#include "ui_bookmark.h"
+#include "history_list.h"
 #include "ui_fileops.h"
 #include "ui_spinner.h"
 #include "ui_utildlg.h"
