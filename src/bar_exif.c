@@ -150,10 +150,12 @@ static gint bar_exif_row_enabled(const gchar *name)
 {
 	GList *list;
 
+	if (!name) return FALSE;
+
 	list = history_list_get_by_key("exif_extras");
 	while (list)
 		{
-		if (name && strcmp(name, (gchar *)(list->data)) == 0) return TRUE;
+		if (strcmp(name, (gchar *)(list->data)) == 0) return TRUE;
 		list = list->next;
 	}
 
