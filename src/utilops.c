@@ -443,7 +443,7 @@ static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gint fu
 }
 
 
-void file_util_perform_ci_internal(UtilityData *ud);
+static void file_util_perform_ci_internal(UtilityData *ud);
 void file_util_dialog_run(UtilityData *ud);
 static gint file_util_perform_ci_cb(gpointer resume_data, gint flags, GList *list, gpointer data);
 
@@ -580,8 +580,8 @@ static void file_util_perform_ci_dir(UtilityData *ud, gboolean internal, gboolea
 		{
 		case UTILITY_TYPE_DELETE_LINK:
 			{
-			if (internal && file_data_sc_perform_ci(ud->dir_fd) ||
-			    !internal && ext_result)
+			if ((internal && file_data_sc_perform_ci(ud->dir_fd)) ||
+			    (!internal && ext_result))
 				{
 				file_data_sc_apply_ci(ud->dir_fd);
 				}
@@ -611,8 +611,8 @@ static void file_util_perform_ci_dir(UtilityData *ud, gboolean internal, gboolea
 				
 				if (!fail)
 					{
-					if (internal && file_data_sc_perform_ci(fd) ||
-					    !internal && ext_result)
+					if ((internal && file_data_sc_perform_ci(fd)) ||
+					    (!internal && ext_result))
 						{
 						file_data_sc_apply_ci(fd);
 						}
@@ -626,8 +626,8 @@ static void file_util_perform_ci_dir(UtilityData *ud, gboolean internal, gboolea
 
 			if (!fail)
 				{
-				if (internal && file_data_sc_perform_ci(ud->dir_fd) ||
-				    !internal && ext_result)
+				if ((internal && file_data_sc_perform_ci(ud->dir_fd)) ||
+				    (!internal && ext_result))
 					{
 					file_data_sc_apply_ci(ud->dir_fd);
 					}
@@ -663,8 +663,8 @@ static void file_util_perform_ci_dir(UtilityData *ud, gboolean internal, gboolea
 			{
 			FileData *fail = NULL;
 			GList *work;
-			if (internal && file_data_sc_perform_ci(ud->dir_fd) ||
-			    !internal && ext_result)
+			if ((internal && file_data_sc_perform_ci(ud->dir_fd)) ||
+			    (!internal && ext_result))
 				{
 				file_data_sc_apply_ci(ud->dir_fd);
 				}
