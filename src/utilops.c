@@ -812,24 +812,10 @@ static void file_util_fdlg_cancel_cb(FileDialog *fdlg, gpointer data)
 	file_util_dialog_run(ud);
 }
 
-static void file_util_fdlg_ok_cb(FileDialog *fdlg, gpointer data)
+static void file_util_dest_folder_update_path(UtilityData *ud)
 {
-	UtilityData *ud = data;
-	
-	file_dialog_close(fdlg);
-	
-	ud->fdlg = NULL;
-
-	file_util_dialog_run(ud);
-}
-
-
-static void file_util_dest_folder_entry_cb(GtkWidget *entry, gpointer data)
-{
-	UtilityData *ud = data;
-	
 	g_free(ud->dest_path);
-	ud->dest_path = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry)));
+	ud->dest_path = g_strdup(gtk_entry_get_text(GTK_ENTRY(ud->fdlg->entry)));
 	
 	switch (ud->type)
 		{
@@ -852,6 +838,24 @@ static void file_util_dest_folder_entry_cb(GtkWidget *entry, gpointer data)
 		}
 }
 
+static void file_util_fdlg_ok_cb(FileDialog *fdlg, gpointer data)
+{
+	UtilityData *ud = data;
+	
+	file_util_dest_folder_update_path(ud);
+	file_dialog_close(fdlg);
+	
+	ud->fdlg = NULL;
+
+	file_util_dialog_run(ud);
+}
+
+
+static void file_util_dest_folder_entry_cb(GtkWidget *entry, gpointer data)
+{
+	UtilityData *ud = data;
+	file_util_dest_folder_update_path(ud);
+}
 
 /* format: * = filename without extension, ## = number position, extension is kept */
 static gchar *file_util_rename_multiple_auto_format_name(const gchar *format, const gchar *name, gint n)
@@ -1429,7 +1433,7 @@ static void file_util_move_full(FileData *source_fd, GList *source_list, const g
 	ud->content_list = NULL;
 	ud->parent = parent;
 
-	ud->dest_path = g_strdup(dest_path ? dest_path : "");
+	if (dest_path) ud->dest_path = g_strdup(dest_path);
 	
 	ud->messages.title = _("Move");
 	ud->messages.question = _("Move files?");
@@ -1466,7 +1470,7 @@ static void file_util_copy_full(FileData *source_fd, GList *source_list, const g
 	ud->content_list = NULL;
 	ud->parent = parent;
 
-	ud->dest_path = g_strdup(dest_path ? dest_path : "");
+	if (dest_path) ud->dest_path = g_strdup(dest_path);
 	
 	ud->messages.title = _("Copy");
 	ud->messages.question = _("Copy files?");
@@ -1549,7 +1553,7 @@ static void file_util_start_editor_full(gint n, FileData *source_fd, GList *sour
 	ud->content_list = NULL;
 	ud->parent = parent;
 
-	ud->dest_path = g_strdup(dest_path ? dest_path : "");
+	if (dest_path) ud->dest_path = g_strdup(dest_path);
 	
 	ud->messages.title = _("Editor");
 	ud->messages.question = _("Run editor?");
