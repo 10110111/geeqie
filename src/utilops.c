@@ -238,7 +238,8 @@ typedef enum {
 	UTILITY_TYPE_FILTER,
 	UTILITY_TYPE_DELETE,
 	UTILITY_TYPE_DELETE_LINK,
-	UTILITY_TYPE_DELETE_FOLDER
+	UTILITY_TYPE_DELETE_FOLDER,
+	UTILITY_TYPE_CREATE_FOLDER
 } UtilityType;
 
 typedef enum {
@@ -589,9 +590,8 @@ static void file_util_perform_ci_dir(UtilityData *ud, gboolean internal, gboolea
 				{
 				gchar *text;
 
-				text = g_strdup_printf("Unable to remove symbolic link:\n %s", ud->dir_fd->path);
-				file_util_warning_dialog(_("Delete failed"), text,
-							 GTK_STOCK_DIALOG_ERROR, NULL);
+				text = g_strdup_printf("%s:\n\n%s", ud->messages.fail, ud->dir_fd->path);
+				file_util_warning_dialog(ud->messages.fail, text, GTK_STOCK_DIALOG_ERROR, NULL);
 				g_free(text);
 				}
 			file_data_sc_free_ci(ud->dir_fd);
@@ -642,8 +642,8 @@ static void file_util_perform_ci_dir(UtilityData *ud, gboolean internal, gboolea
 				gchar *text;
 				GenericDialog *gd;
 
-				text = g_strdup_printf(_("Unable to delete folder:\n\n%s"), ud->dir_fd->path);
-				gd = file_util_warning_dialog(_("Delete failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
+				text = g_strdup_printf("%s:\n\n%s", ud->messages.fail, ud->dir_fd->path);
+				gd = file_util_warning_dialog(ud->messages.fail, text, GTK_STOCK_DIALOG_ERROR, NULL);
 				g_free(text);
 
 				if (fail != ud->dir_fd)
@@ -694,12 +694,31 @@ static void file_util_perform_ci_dir(UtilityData *ud, gboolean internal, gboolea
 				gchar *text;
 				GenericDialog *gd;
 
-				text = g_strdup_printf(_("Unable to rename folder:\n\n%s"), ud->dir_fd->path);
-				gd = file_util_warning_dialog(_("Rename failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
+				text = g_strdup_printf("%s:\n\n%s", ud->messages.fail, ud->dir_fd->path);
+				gd = file_util_warning_dialog(ud->messages.fail, text, GTK_STOCK_DIALOG_ERROR, NULL);
 				g_free(text);
 
 				file_data_unref(fail);
 				}
+			break;
+			}
+		case UTILITY_TYPE_CREATE_FOLDER:
+			{
+			if ((internal && mkdir_utf8(ud->dir_fd->path, 0755)) ||
+			    (!internal && ext_result))
+				{
+				file_data_send_notification(ud->dir_fd, NOTIFY_TYPE_REREAD);
+				}
+			else
+				{
+				gchar *text;
+				GenericDialog *gd;
+
+				text = g_strdup_printf("%s:\n\n%s", ud->messages.fail, ud->dir_fd->path);
+				gd = file_util_warning_dialog(ud->messages.fail, text, GTK_STOCK_DIALOG_ERROR, NULL);
+				g_free(text);
+				}
+			
 			break;
 			}
 		default:
@@ -734,6 +753,9 @@ void file_util_perform_ci(UtilityData *ud)
 		case UTILITY_TYPE_DELETE_LINK:
 		case UTILITY_TYPE_DELETE_FOLDER:
 			ud->external_command = CMD_DELETE;
+			break;
+		case UTILITY_TYPE_CREATE_FOLDER:
+			ud->external_command = CMD_FOLDER;
 			break;
 		case UTILITY_TYPE_FILTER:
 		case UTILITY_TYPE_EDITOR:
@@ -828,6 +850,10 @@ static void file_util_dest_folder_update_path(UtilityData *ud)
 		case UTILITY_TYPE_FILTER:
 		case UTILITY_TYPE_EDITOR:
 			file_data_sc_update_ci_unspecified_list(ud->flist, ud->dest_path);
+			break;
+		case UTILITY_TYPE_CREATE_FOLDER:
+			file_data_unref(ud->dir_fd);
+			ud->dir_fd = file_data_new_simple(ud->dest_path);
 			break;
 		case UTILITY_TYPE_DELETE:
 		case UTILITY_TYPE_DELETE_LINK:
@@ -1326,6 +1352,7 @@ void file_util_dialog_run(UtilityData *ud)
 				case UTILITY_TYPE_MOVE:
 				case UTILITY_TYPE_FILTER:
 				case UTILITY_TYPE_RENAME_FOLDER:
+				case UTILITY_TYPE_CREATE_FOLDER:
 					file_util_dialog_init_dest_folder(ud);
 					break;
 				}
@@ -1565,8 +1592,28 @@ static void file_util_start_editor_full(gint n, FileData *source_fd, GList *sour
 	file_util_dialog_run(ud);
 }
 
-static GList *file_util_delete_dir_remaining_folders(GList *dlist);
+static GList *file_util_delete_dir_remaining_folders(GList *dlist)
+{
+	GList *rlist = NULL;
 
+	while (dlist)
+		{
+		FileData *fd;
+
+		fd = dlist->data;
+		dlist = dlist->next;
+
+		if (!fd->name ||
+		    (strcmp(fd->name, THUMB_FOLDER_GLOBAL) != 0 &&
+		     strcmp(fd->name, THUMB_FOLDER_LOCAL) != 0 &&
+		     strcmp(fd->name, GQ_CACHE_LOCAL_METADATA) != 0) )
+			{
+			rlist = g_list_prepend(rlist, fd);
+			}
+		}
+
+	return g_list_reverse(rlist);
+}
 
 static gboolean file_util_delete_dir_empty_path(UtilityData *ud, FileData *fd, gint level)
 {
@@ -1924,15 +1971,42 @@ static void file_util_rename_dir_full(FileData *fd, const char *new_path, GtkWid
 	file_util_dialog_run(ud);
 }
 
-/* FIXME: */
-void file_util_create_dir(FileData *dir_fd, GtkWidget *parent)
+static void file_util_create_dir_full(FileData *fd, const char *dest_path, GtkWidget *parent, UtilityPhase phase)
 {
+	UtilityData *ud;
+
+	ud = file_util_data_new(UTILITY_TYPE_CREATE_FOLDER);
+
+	ud->phase = phase;
+
+	ud->dir_fd = NULL;
+	ud->flist = NULL;
+	ud->content_list = NULL;
+	ud->parent = parent;
+
+	if (dest_path) 
+		{
+		ud->dest_path = g_strdup(dest_path);
+		}
+	else
+		{
+		gchar *buf = g_build_filename(fd->path, _("New folder"), NULL);
+		ud->dest_path = unique_filename(buf, NULL, " ", FALSE);
+		g_free(buf);
+		}
+	
+	ud->dir_fd = file_data_new_simple(ud->dest_path);
+	
+	ud->messages.title = _("Create Folder");
+	ud->messages.question = _("Create folder?");
+	ud->messages.desc_flist = "";
+	ud->messages.desc_dlist = "";
+	ud->messages.desc_source_fd = "";
+	ud->messages.fail = _("Can't create folder");
+
+	file_util_dialog_run(ud);
 }
 
-gint file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget *parent)
-{
-	file_util_rename_dir_full(source_fd, new_path, parent, UTILITY_PHASE_ENTERING);
-}
 
 /* full-featured entry points
 */
@@ -2001,39 +2075,14 @@ void file_util_delete_dir(FileData *fd, GtkWidget *parent)
 	file_util_delete_dir_full(fd, parent, UTILITY_PHASE_START);
 }
 
-
-/*
- *--------------------------------------------------------------------------
- * Delete directory routines
- *--------------------------------------------------------------------------
- */
-
-// FIXME
-
-
-
-
-static GList *file_util_delete_dir_remaining_folders(GList *dlist)
+void file_util_create_dir(FileData *dir_fd, GtkWidget *parent)
 {
-	GList *rlist = NULL;
+	file_util_create_dir_full(dir_fd, NULL, parent, UTILITY_PHASE_ENTERING);
+}
 
-	while (dlist)
-		{
-		FileData *fd;
-
-		fd = dlist->data;
-		dlist = dlist->next;
-
-		if (!fd->name ||
-		    (strcmp(fd->name, THUMB_FOLDER_GLOBAL) != 0 &&
-		     strcmp(fd->name, THUMB_FOLDER_LOCAL) != 0 &&
-		     strcmp(fd->name, GQ_CACHE_LOCAL_METADATA) != 0) )
-			{
-			rlist = g_list_prepend(rlist, fd);
-			}
-		}
-
-	return g_list_reverse(rlist);
+gint file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget *parent)
+{
+	file_util_rename_dir_full(source_fd, new_path, parent, UTILITY_PHASE_ENTERING);
 }
 
 
