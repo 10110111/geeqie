@@ -1358,8 +1358,8 @@ static void image_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	if (!imd || !image_get_pixbuf(imd) ||
 	    /* imd->il || */ /* loading in progress - do not check - it should start from the beginning anyway */ 
 	    !imd->image_fd || /* nothing to reload */
-	    imd->state == IMAGE_STATE_NONE || /* loading not started, no need to reload */
-	    !options->update_on_time_change) return;
+	    imd->state == IMAGE_STATE_NONE /* loading not started, no need to reload */
+	    ) return;
 
 	if (type == NOTIFY_TYPE_REREAD && fd == imd->image_fd)
 		{

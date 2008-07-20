@@ -1797,6 +1797,7 @@ static void realtime_monitor_check_cb(gpointer key, gpointer value, gpointer dat
 
 static gboolean realtime_monitor_cb(gpointer data)
 {
+	if (!options->update_on_time_change) return TRUE;
 	g_hash_table_foreach(file_data_monitor_pool, realtime_monitor_check_cb, NULL);
 	return TRUE;
 }
