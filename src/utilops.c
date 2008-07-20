@@ -14,7 +14,6 @@
 #include "main.h"
 #include "utilops.h"
 
-
 #include "cache.h"
 #include "cache_maint.h"
 #include "collect.h"
@@ -234,6 +233,7 @@ typedef enum {
 	UTILITY_TYPE_COPY,
 	UTILITY_TYPE_MOVE,
 	UTILITY_TYPE_RENAME,
+	UTILITY_TYPE_RENAME_FOLDER,
 	UTILITY_TYPE_EDITOR,
 	UTILITY_TYPE_FILTER,
 	UTILITY_TYPE_DELETE,
@@ -271,8 +271,8 @@ struct _UtilityData {
 	UtilityType type;
 	UtilityPhase phase;
 	
-	FileData *source_fd;
-	GList *dlist;
+	FileData *dir_fd;
+	GList *content_list;
 	GList *flist;
 
 	GtkWidget *parent;
@@ -342,8 +342,8 @@ static void file_util_data_free(UtilityData *ud)
 
 	if (ud->update_idle_id != -1) g_source_remove(ud->update_idle_id);
 
-	file_data_unref(ud->source_fd);
-	filelist_free(ud->dlist);
+	file_data_unref(ud->dir_fd);
+	filelist_free(ud->content_list);
 	filelist_free(ud->flist);
 
 	if (ud->gd) generic_dialog_close(ud->gd);
@@ -442,8 +442,6 @@ static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gint fu
 	return view;
 }
 
-// FIXME
-static void file_util_delete_dir_ok_cb(GenericDialog *gd, gpointer data);
 
 void file_util_perform_ci_internal(UtilityData *ud);
 void file_util_dialog_run(UtilityData *ud);
@@ -546,7 +544,7 @@ static gint file_util_perform_ci_cb(gpointer resume_data, gint flags, GList *lis
  */ 
 
 
-void file_util_perform_ci_internal(UtilityData *ud)
+static void file_util_perform_ci_internal(UtilityData *ud)
 {
 	
 	while (ud->flist)
@@ -576,6 +574,147 @@ void file_util_perform_ci_internal(UtilityData *ud)
 		}
 }
 
+static void file_util_perform_ci_dir(UtilityData *ud, gboolean internal, gboolean ext_result)
+{
+	switch (ud->type)
+		{
+		case UTILITY_TYPE_DELETE_LINK:
+			{
+			if (internal && file_data_sc_perform_ci(ud->dir_fd) ||
+			    !internal && ext_result)
+				{
+				file_data_sc_apply_ci(ud->dir_fd);
+				}
+			else
+				{
+				gchar *text;
+
+				text = g_strdup_printf("Unable to remove symbolic link:\n %s", ud->dir_fd->path);
+				file_util_warning_dialog(_("Delete failed"), text,
+							 GTK_STOCK_DIALOG_ERROR, NULL);
+				g_free(text);
+				}
+			file_data_sc_free_ci(ud->dir_fd);
+			break;
+			}
+		case UTILITY_TYPE_DELETE_FOLDER:
+			{
+			FileData *fail = NULL;
+			GList *work;
+			work = ud->content_list;
+			while (work)
+				{
+				FileData *fd;
+
+				fd = work->data;
+				work = work->next;
+				
+				if (!fail)
+					{
+					if (internal && file_data_sc_perform_ci(fd) ||
+					    !internal && ext_result)
+						{
+						file_data_sc_apply_ci(fd);
+						}
+					else
+						{
+						if (internal) fail = file_data_ref(fd);
+						}
+					}
+				file_data_sc_free_ci(fd);
+				}
+
+			if (!fail)
+				{
+				if (internal && file_data_sc_perform_ci(ud->dir_fd) ||
+				    !internal && ext_result)
+					{
+					file_data_sc_apply_ci(ud->dir_fd);
+					}
+				else
+					{
+					fail = file_data_ref(ud->dir_fd);
+					}
+				}
+			
+			if (fail)
+				{
+				gchar *text;
+				GenericDialog *gd;
+
+				text = g_strdup_printf(_("Unable to delete folder:\n\n%s"), ud->dir_fd->path);
+				gd = file_util_warning_dialog(_("Delete failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
+				g_free(text);
+
+				if (fail != ud->dir_fd)
+					{
+					pref_spacer(gd->vbox, PREF_PAD_GROUP);
+					text = g_strdup_printf(_("Removal of folder contents failed at this file:\n\n%s"),
+								fail->path);
+					pref_label_new(gd->vbox, text);
+					g_free(text);
+					}
+
+				file_data_unref(fail);
+				}
+			break;
+			}
+		case UTILITY_TYPE_RENAME_FOLDER:
+			{
+			FileData *fail = NULL;
+			GList *work;
+			if (internal && file_data_sc_perform_ci(ud->dir_fd) ||
+			    !internal && ext_result)
+				{
+				file_data_sc_apply_ci(ud->dir_fd);
+				}
+			else
+				{
+				fail = file_data_ref(ud->dir_fd);
+				}
+			
+
+			work = ud->content_list;
+			while (work)
+				{
+				FileData *fd;
+
+				fd = work->data;
+				work = work->next;
+				
+				if (!fail)
+					{
+					file_data_sc_apply_ci(fd);
+					}
+				file_data_sc_free_ci(fd);
+				}
+			
+			if (fail)
+				{
+				gchar *text;
+				GenericDialog *gd;
+
+				text = g_strdup_printf(_("Unable to rename folder:\n\n%s"), ud->dir_fd->path);
+				gd = file_util_warning_dialog(_("Rename failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
+				g_free(text);
+
+				file_data_unref(fail);
+				}
+			break;
+			}
+		default:
+			g_warning("unhandled operation");
+		}
+	ud->phase = UTILITY_PHASE_DONE;
+	file_util_dialog_run(ud);
+}
+
+static gint file_util_perform_ci_dir_cb(gpointer resume_data, gint flags, GList *list, gpointer data)
+{
+	UtilityData *ud = data;
+	file_util_perform_ci_dir(ud, FALSE, !((flags & EDITOR_ERROR_MASK) && !(flags & EDITOR_ERROR_SKIPPED)));
+	return EDITOR_CB_CONTINUE; /* does not matter, there was just single directory */
+}
 
 void file_util_perform_ci(UtilityData *ud)
 {
@@ -588,6 +727,7 @@ void file_util_perform_ci(UtilityData *ud)
 			ud->external_command = CMD_MOVE;
 			break;
 		case UTILITY_TYPE_RENAME:
+		case UTILITY_TYPE_RENAME_FOLDER:
 			ud->external_command = CMD_RENAME;
 			break;
 		case UTILITY_TYPE_DELETE:
@@ -606,7 +746,15 @@ void file_util_perform_ci(UtilityData *ud)
 		gint flags;
 		
 		ud->external = TRUE;
-		flags = start_editor_from_filelist_full(ud->external_command, ud->flist, file_util_perform_ci_cb, ud);
+		
+		if (ud->dir_fd)
+			{
+			flags = start_editor_from_file_full(ud->external_command, ud->dir_fd, file_util_perform_ci_dir_cb, ud);
+			}
+		else
+			{
+			flags = start_editor_from_filelist_full(ud->external_command, ud->flist, file_util_perform_ci_cb, ud);
+			}
 
 		if (flags)
 			{
@@ -618,7 +766,14 @@ void file_util_perform_ci(UtilityData *ud)
 	else
 		{
 		ud->external = FALSE;
-		file_util_perform_ci_internal(ud);
+		if (ud->dir_fd)
+			{
+			file_util_perform_ci_dir(ud, TRUE, FALSE);
+			}
+		else
+			{
+			file_util_perform_ci_internal(ud);
+			}
 		}
 }
 
@@ -692,6 +847,7 @@ static void file_util_dest_folder_entry_cb(GtkWidget *entry, gpointer data)
 		case UTILITY_TYPE_DELETE_LINK:
 		case UTILITY_TYPE_DELETE_FOLDER:
 		case UTILITY_TYPE_RENAME:
+		case UTILITY_TYPE_RENAME_FOLDER:
 			g_warning("unhandled operation");
 		}
 }
@@ -920,15 +1076,28 @@ static void file_util_dialog_init_simple_list(UtilityData *ud)
 {
 	GtkWidget *box;
 	GtkTreeSelection *selection;
+	gchar *dir_msg;
 
 	ud->gd = file_util_gen_dlg(ud->messages.title, GQ_WMCLASS, "dlg_confirm",
 				   ud->parent, FALSE,  file_util_cancel_cb, ud);
 	generic_dialog_add_button(ud->gd, GTK_STOCK_DELETE, NULL, file_util_ok_cb, TRUE);
 
+
+	if (ud->dir_fd)
+		{
+		dir_msg = g_strdup_printf("%s\n\n%s\n", ud->messages.desc_source_fd, ud->dir_fd->path);
+		}
+	else
+		{
+		dir_msg = g_strdup("");
+		}
+		
 	box = generic_dialog_add_message(ud->gd, GTK_STOCK_DIALOG_QUESTION,
 					 ud->messages.question,
-					 ud->messages.desc_flist);
+					 dir_msg);
 
+	g_free(dir_msg);
+	
 	box = pref_group_new(box, TRUE, ud->messages.desc_flist, GTK_ORIENTATION_HORIZONTAL);
 
 	ud->listview = file_util_dialog_add_list(box, ud->flist, FALSE);
@@ -1152,6 +1321,7 @@ void file_util_dialog_run(UtilityData *ud)
 				case UTILITY_TYPE_COPY:
 				case UTILITY_TYPE_MOVE:
 				case UTILITY_TYPE_FILTER:
+				case UTILITY_TYPE_RENAME_FOLDER:
 					file_util_dialog_init_dest_folder(ud);
 					break;
 				}
@@ -1168,8 +1338,8 @@ void file_util_dialog_run(UtilityData *ud)
 		case UTILITY_PHASE_CANCEL:
 		case UTILITY_PHASE_DONE:
 			file_data_sc_free_ci_list(ud->flist);
-			file_data_sc_free_ci_list(ud->dlist);
-			if (ud->source_fd) file_data_sc_free_ci(ud->source_fd);
+			file_data_sc_free_ci_list(ud->content_list);
+			if (ud->dir_fd) file_data_sc_free_ci(ud->dir_fd);
 			file_util_data_free(ud);
 			break;
 		}
@@ -1177,10 +1347,6 @@ void file_util_dialog_run(UtilityData *ud)
 
 
 
-
-static gint file_util_unlink(FileData *fd)
-{
-}
 
 static void file_util_warn_op_in_progress(const gchar *title)
 {
@@ -1222,9 +1388,9 @@ static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWi
 	
 	ud->phase = phase;
 
-	ud->source_fd = NULL;
+	ud->dir_fd = NULL;
 	ud->flist = flist;
-	ud->dlist = NULL;
+	ud->content_list = NULL;
 	ud->parent = parent;
 	
 	ud->messages.title = _("Delete");
@@ -1258,9 +1424,9 @@ static void file_util_move_full(FileData *source_fd, GList *source_list, const g
 
 	ud->phase = phase;
 
-	ud->source_fd = NULL;
+	ud->dir_fd = NULL;
 	ud->flist = flist;
-	ud->dlist = NULL;
+	ud->content_list = NULL;
 	ud->parent = parent;
 
 	ud->dest_path = g_strdup(dest_path ? dest_path : "");
@@ -1295,9 +1461,9 @@ static void file_util_copy_full(FileData *source_fd, GList *source_list, const g
 
 	ud->phase = phase;
 
-	ud->source_fd = NULL;
+	ud->dir_fd = NULL;
 	ud->flist = flist;
-	ud->dlist = NULL;
+	ud->content_list = NULL;
 	ud->parent = parent;
 
 	ud->dest_path = g_strdup(dest_path ? dest_path : "");
@@ -1333,9 +1499,9 @@ static void file_util_rename_full(FileData *source_fd, GList *source_list, const
 
 	ud->phase = phase;
 
-	ud->source_fd = NULL;
+	ud->dir_fd = NULL;
 	ud->flist = flist;
-	ud->dlist = NULL;
+	ud->content_list = NULL;
 	ud->parent = parent;
 	
 	ud->messages.title = _("Rename");
@@ -1378,9 +1544,9 @@ static void file_util_start_editor_full(gint n, FileData *source_fd, GList *sour
 	
 	ud->external_command = n;
 
-	ud->source_fd = NULL;
+	ud->dir_fd = NULL;
 	ud->flist = flist;
-	ud->dlist = NULL;
+	ud->content_list = NULL;
 	ud->parent = parent;
 
 	ud->dest_path = g_strdup(dest_path ? dest_path : "");
@@ -1395,6 +1561,364 @@ static void file_util_start_editor_full(gint n, FileData *source_fd, GList *sour
 	file_util_dialog_run(ud);
 }
 
+static GList *file_util_delete_dir_remaining_folders(GList *dlist);
+
+
+static gboolean file_util_delete_dir_empty_path(UtilityData *ud, FileData *fd, gint level)
+{
+	GList *dlist;
+	GList *flist;
+	GList *work;
+	
+	gboolean ok = TRUE;
+
+	DEBUG_1("deltree into: %s", fd->path);
+
+	level++;
+	if (level > UTILITY_DELETE_MAX_DEPTH)
+		{
+		log_printf("folder recursion depth past %d, giving up\n", UTILITY_DELETE_MAX_DEPTH);
+		// ud->fail_fd = fd
+		return 0;
+		}
+
+	if (!filelist_read_lstat(fd, &flist, &dlist))
+		{
+		// ud->fail_fd = fd
+		return 0;
+		}
+
+	if (ok)
+		{
+		if ((ok = file_data_sc_add_ci_delete(fd)))
+			{
+			ud->content_list = g_list_prepend(ud->content_list, fd);
+			}
+		// ud->fail_fd = fd
+		}
+
+	work = dlist;
+	while (work && ok)
+		{
+		FileData *lfd;
+
+		lfd = work->data;
+		work = work->next;
+
+		ok = file_util_delete_dir_empty_path(ud, lfd, level);
+
+		}
+
+	work = flist;
+	while (work && ok)
+		{
+		FileData *lfd;
+
+		lfd = work->data;
+		work = work->next;
+
+		DEBUG_1("deltree child: %s", lfd->path);
+
+		if ((ok = file_data_sc_add_ci_delete(lfd)))
+			{
+			ud->content_list = g_list_prepend(ud->content_list, lfd);
+			}
+		// ud->fail_fd = fd
+		}
+
+	filelist_free(dlist);
+	filelist_free(flist);
+
+
+	DEBUG_1("deltree done: %s", fd->path);
+
+	return ok;
+}
+
+static gboolean file_util_delete_dir_prepare(UtilityData *ud, GList *flist, GList *dlist)
+{
+	gboolean ok = TRUE;
+	GList *work;
+
+
+	work = dlist;
+	while (work && ok)
+		{
+		FileData *fd;
+
+		fd = work->data;
+		work = work->next;
+
+		ok = file_util_delete_dir_empty_path(ud, fd, 0);
+		}
+
+	work = flist;
+	if (ok && file_data_sc_add_ci_delete_list(flist))
+		{
+		ud->content_list = g_list_concat(filelist_copy(flist), ud->content_list);
+		}
+	else
+		{
+		ok = FALSE;
+		}
+
+	if (ok)
+		{
+		ok = file_data_sc_add_ci_delete(ud->dir_fd);
+		}
+	
+	if (!ok)
+		{
+		work = ud->content_list;
+		while (work)
+			{
+			FileData *fd;
+
+			fd = work->data;
+			work = work->next;
+			file_data_sc_free_ci(fd);
+			}
+		}
+	
+	return ok;
+}
+
+static void file_util_delete_dir_full(FileData *fd, GtkWidget *parent, UtilityPhase phase)
+{
+	GList *dlist;
+	GList *flist;
+	GList *rlist;
+
+	if (!isdir(fd->path)) return;
+
+	if (islink(fd->path))
+		{
+		UtilityData *ud;
+		ud = file_util_data_new(UTILITY_TYPE_DELETE_LINK);
+
+		ud->phase = phase;
+		ud->dir_fd = file_data_ref(fd);
+		ud->content_list = NULL;
+		ud->flist = NULL;
+
+		ud->parent = parent;
+	
+		ud->messages.title = _("Delete folder");
+		ud->messages.question = _("Delete symbolic link?");
+		ud->messages.desc_flist = "";
+		ud->messages.desc_dlist = "";
+		ud->messages.desc_source_fd = _("This will delete the symbolic link.\n"
+					        "The folder this link points to will not be deleted.");
+		ud->messages.fail = _("Link deletion failed");
+
+		file_util_dialog_run(ud);
+		return;
+		}
+
+	if (!access_file(fd->path, W_OK | X_OK))
+		{
+		gchar *text;
+
+		text = g_strdup_printf(_("Unable to remove folder %s\n"
+					 "Permissions do not allow writing to the folder."), fd->path);
+		file_util_warning_dialog(_("Delete failed"), text, GTK_STOCK_DIALOG_ERROR, parent);
+		g_free(text);
+
+		return;
+		}
+
+	if (!filelist_read_lstat(fd, &flist, &dlist))
+		{
+		gchar *text;
+
+		text = g_strdup_printf(_("Unable to list contents of folder %s"), fd->path);
+		file_util_warning_dialog(_("Delete failed"), text, GTK_STOCK_DIALOG_ERROR, parent);
+		g_free(text);
+
+		return;
+		}
+
+	rlist = file_util_delete_dir_remaining_folders(dlist);
+	if (rlist)
+		{
+		GenericDialog *gd;
+		GtkWidget *box;
+		gchar *text;
+
+		gd = file_util_gen_dlg(_("Folder contains subfolders"), GQ_WMCLASS, "dlg_warning",
+					parent, TRUE, NULL, NULL);
+		generic_dialog_add_button(gd, GTK_STOCK_CLOSE, NULL, NULL, TRUE);
+
+		text = g_strdup_printf(_("Unable to delete the folder:\n\n%s\n\n"
+					 "This folder contains subfolders which must be moved before it can be deleted."),
+					fd->path);
+		box = generic_dialog_add_message(gd, GTK_STOCK_DIALOG_WARNING,
+						 _("Folder contains subfolders"),
+						 text);
+		g_free(text);
+
+		box = pref_group_new(box, TRUE, _("Subfolders:"), GTK_ORIENTATION_VERTICAL);
+
+		rlist = filelist_sort_path(rlist);
+		file_util_dialog_add_list(box, rlist, FALSE);
+
+		gtk_widget_show(gd->dialog);
+		}
+	else
+		{
+		UtilityData *ud;
+		ud = file_util_data_new(UTILITY_TYPE_DELETE_FOLDER);
+
+		ud->phase = phase;
+		ud->dir_fd = file_data_ref(fd);
+		ud->content_list = NULL; /* will be filled by file_util_delete_dir_prepare */
+		ud->flist = flist = filelist_sort_path(flist);
+
+		ud->parent = parent;
+	
+		ud->messages.title = _("Delete folder");
+		ud->messages.question = _("Delete folder?");
+		ud->messages.desc_flist = _("The folder contains these files:");
+		ud->messages.desc_source_fd = _("This will delete the folder.\n"
+					        "The contents of this folder will also be deleted.");
+		ud->messages.fail = _("File deletion failed");
+		
+		if (!file_util_delete_dir_prepare(ud, flist, dlist))
+			{
+			gchar *text;
+
+			text = g_strdup_printf(_("Unable to list contents of folder %s"), fd->path);
+			file_util_warning_dialog(_("Delete failed"), text, GTK_STOCK_DIALOG_ERROR, parent);
+			g_free(text);
+			file_data_unref(ud->dir_fd);
+			file_util_data_free(ud);
+			}
+		else
+			{
+			filelist_free(dlist);
+			file_util_dialog_run(ud);
+			return;
+			}
+		}
+
+	g_list_free(rlist);
+	filelist_free(dlist);
+	filelist_free(flist);
+}
+
+static gboolean file_util_rename_dir_scan(UtilityData *ud, FileData *fd)
+{
+	GList *dlist;
+	GList *flist;
+	GList *work;
+	
+	gboolean ok = TRUE;
+
+	if (!filelist_read_lstat(fd, &flist, &dlist))
+		{
+		// ud->fail_fd = fd
+		return 0;
+		}
+
+	ud->content_list = g_list_concat(flist, ud->content_list);
+
+	work = dlist;
+	while (work && ok)
+		{
+		FileData *lfd;
+
+		lfd = work->data;
+		work = work->next;
+
+		ud->content_list = g_list_prepend(ud->content_list, file_data_ref(lfd));
+		ok = file_util_rename_dir_scan(ud, lfd);
+		}
+
+	filelist_free(dlist);
+
+	return ok;
+}
+
+static gboolean file_util_rename_dir_prepare(UtilityData *ud, const char *new_path)
+{
+	gboolean ok;
+	GList *work;
+	gint orig_len = strlen(ud->dir_fd->path);
+	
+	ok = file_util_rename_dir_scan(ud, ud->dir_fd);
+	
+	work = ud->content_list;
+	
+	while (ok && work)
+		{
+		gchar *np;
+		FileData *fd;
+
+		fd = work->data;
+		work = work->next;
+		
+		g_assert(strncmp(fd->path, ud->dir_fd->path, orig_len) == 0);
+		
+		np = g_strdup_printf("%s%s", new_path, fd->path + orig_len);
+		
+		ok = file_data_sc_add_ci_rename(fd, np);
+		
+		DEBUG_1("Dir rename: %s -> %s", fd->path, np);
+		g_free(np);
+		}
+	
+	if (ok)
+		{
+		ok = file_data_sc_add_ci_rename(ud->dir_fd, new_path);
+		}
+	
+	if (!ok)
+		{
+		work = ud->content_list;
+		while (work)
+			{
+			FileData *fd;
+
+			fd = work->data;
+			work = work->next;
+			file_data_sc_free_ci(fd);
+			}
+		}
+	return ok;
+}	
+	
+
+static void file_util_rename_dir_full(FileData *fd, const char *new_path, GtkWidget *parent, UtilityPhase phase)
+{
+	UtilityData *ud;
+
+	ud = file_util_data_new(UTILITY_TYPE_RENAME_FOLDER);
+
+	ud->phase = phase;
+
+	ud->dir_fd = file_data_ref(fd);
+	ud->flist = NULL;
+	ud->content_list = NULL;
+	ud->parent = parent;
+	
+	ud->messages.title = _("Rename");
+	ud->messages.question = _("Rename folder?");
+	ud->messages.desc_flist = _("The folder contains the following files");
+	ud->messages.desc_dlist = "";
+	ud->messages.desc_source_fd = "";
+	ud->messages.fail = _("Rename failed");
+
+	if (!file_util_rename_dir_prepare(ud, new_path))
+		{
+		file_util_warn_op_in_progress(ud->messages.fail);
+		file_util_data_free(ud);
+		return;
+		}
+
+//	ud->flist = filelist_recursive(fd);
+
+	file_util_dialog_run(ud);
+}
 
 /* FIXME: */
 void file_util_create_dir(FileData *dir_fd, GtkWidget *parent)
@@ -1403,6 +1927,7 @@ void file_util_create_dir(FileData *dir_fd, GtkWidget *parent)
 
 gint file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget *parent)
 {
+	file_util_rename_dir_full(source_fd, new_path, parent, UTILITY_PHASE_ENTERING);
 }
 
 /* full-featured entry points
@@ -1467,6 +1992,11 @@ void file_util_start_filter_from_filelist(gint n, GList *list, const gchar *dest
 	file_util_start_editor_full(n, NULL, list, dest_path, parent, UTILITY_PHASE_ENTERING);
 }
 
+void file_util_delete_dir(FileData *fd, GtkWidget *parent)
+{
+	file_util_delete_dir_full(fd, parent, UTILITY_PHASE_START);
+}
+
 
 /*
  *--------------------------------------------------------------------------
@@ -1478,150 +2008,6 @@ void file_util_start_filter_from_filelist(gint n, GList *list, const gchar *dest
 
 
 
-FileData *file_util_delete_dir_empty_path(FileData *fd, gint real_content, gint level)
-{
-	GList *dlist;
-	GList *flist;
-	GList *work;
-	FileData *fail = NULL;
-
-	DEBUG_1("deltree into: %s", fd->path);
-
-	level++;
-	if (level > UTILITY_DELETE_MAX_DEPTH)
-		{
-		log_printf("folder recursion depth past %d, giving up\n", UTILITY_DELETE_MAX_DEPTH);
-		return file_data_ref(fd);
-		}
-
-	if (!filelist_read_lstat(fd, &flist, &dlist)) file_data_ref(fd);
-
-	work = dlist;
-	while (work && !fail)
-		{
-		FileData *lfd;
-
-		lfd = work->data;
-		work = work->next;
-
-		fail = file_util_delete_dir_empty_path(lfd, real_content, level);
-		}
-
-	work = flist;
-	while (work && !fail)
-		{
-		FileData *lfd;
-
-		lfd = work->data;
-		work = work->next;
-
-		DEBUG_1("deltree child: %s", lfd->path);
-
-		if (real_content && !islink(lfd->path))
-			{
-			if (!file_util_unlink(lfd)) fail = file_data_ref(lfd);
-			}
-		else
-			{
-			if (!unlink_file(lfd->path)) fail = file_data_ref(lfd);
-			}
-		}
-
-	filelist_free(dlist);
-	filelist_free(flist);
-
-	if (!fail && !rmdir_utf8(fd->path))
-		{
-		fail = file_data_ref(fd);
-		}
-
-	DEBUG_1("deltree done: %s", fd->path);
-
-	return fail;
-}
-
-static void file_util_delete_dir_ok_cb(GenericDialog *gd, gpointer data)
-{
-	UtilityData *ud = data;
-
-	ud->gd = NULL;
-
-	if (ud->type == UTILITY_TYPE_DELETE_LINK)
-		{
-		if (!unlink_file(ud->source_fd->path))
-			{
-			gchar *text;
-
-			text = g_strdup_printf("Unable to remove symbolic link:\n %s", ud->source_fd->path);
-			file_util_warning_dialog(_("Delete failed"), text,
-						 GTK_STOCK_DIALOG_ERROR, NULL);
-			g_free(text);
-			}
-		}
-	else
-		{
-		FileData *fail = NULL;
-		GList *work;
-
-		work = ud->dlist;
-		while (work && !fail)
-			{
-			FileData *fd;
-
-			fd = work->data;
-			work = work->next;
-
-			fail = file_util_delete_dir_empty_path(fd, FALSE, 0);
-			}
-
-		work = ud->flist;
-		while (work && !fail)
-			{
-			FileData *fd;
-
-			fd = work->data;
-			work = work->next;
-
-			DEBUG_1("deltree unlink: %s", fd->path);
-
-			if (islink(fd->path))
-				{
-				if (!unlink_file(fd->path)) fail = file_data_ref(fd);
-				}
-			else
-				{
-				if (!file_util_unlink(fd)) fail = file_data_ref(fd);
-				}
-			}
-
-		if (!fail)
-			{
-			if (!rmdir_utf8(ud->source_fd->path)) fail = file_data_ref(ud->source_fd);
-			}
-
-		if (fail)
-			{
-			gchar *text;
-
-			text = g_strdup_printf(_("Unable to delete folder:\n\n%s"), ud->source_fd->path);
-			gd = file_util_warning_dialog(_("Delete failed"), text, GTK_STOCK_DIALOG_ERROR, NULL);
-			g_free(text);
-
-			if (fail != ud->source_fd)
-				{
-				pref_spacer(gd->vbox, PREF_PAD_GROUP);
-				text = g_strdup_printf(_("Removal of folder contents failed at this file:\n\n%s"),
-							fail->path);
-				pref_label_new(gd->vbox, text);
-				g_free(text);
-				}
-
-			file_data_unref(fail);
-			}
-		}
-
-	file_util_data_free(ud);
-}
 
 static GList *file_util_delete_dir_remaining_folders(GList *dlist)
 {
@@ -1644,140 +2030,6 @@ static GList *file_util_delete_dir_remaining_folders(GList *dlist)
 		}
 
 	return g_list_reverse(rlist);
-}
-
-void file_util_delete_dir(FileData *fd, GtkWidget *parent)
-{
-	GList *dlist;
-	GList *flist;
-	GList *rlist;
-
-	if (!isdir(fd->path)) return;
-
-	if (islink(fd->path))
-		{
-		UtilityData *ud;
-		gchar *text;
-
-		ud = g_new0(UtilityData, 1);
-		ud->type = UTILITY_TYPE_DELETE_LINK;
-		ud->source_fd = file_data_ref(fd);
-		ud->dlist = NULL;
-		ud->flist = NULL;
-
-		ud->gd = file_util_gen_dlg(_("Delete folder"), GQ_WMCLASS, "dlg_confirm",
-					   parent, TRUE,
-					   file_util_cancel_cb, ud);
-
-		text = g_strdup_printf(_("This will delete the symbolic link:\n\n%s\n\n"
-					 "The folder this link points to will not be deleted."),
-				       fd->path);
-		generic_dialog_add_message(ud->gd, GTK_STOCK_DIALOG_QUESTION,
-					   _("Delete symbolic link to folder?"),
-					   text);
-		g_free(text);
-
-		generic_dialog_add_button(ud->gd, GTK_STOCK_DELETE, NULL, file_util_delete_dir_ok_cb, TRUE);
-
-		gtk_widget_show(ud->gd->dialog);
-
-		return;
-		}
-
-	if (!access_file(fd->path, W_OK | X_OK))
-		{
-		gchar *text;
-
-		text = g_strdup_printf(_("Unable to remove folder %s\n"
-					 "Permissions do not allow writing to the folder."), fd->path);
-		file_util_warning_dialog(_("Delete failed"), text, GTK_STOCK_DIALOG_ERROR, parent);
-		g_free(text);
-
-		return;
-		}
-
-	if (!filelist_read_lstat(fd, &flist, &dlist))
-		{
-		gchar *text;
-
-		text = g_strdup_printf(_("Unable to list contents of folder %s"), fd->path);
-		file_util_warning_dialog(_("Delete failed"), text, GTK_STOCK_DIALOG_ERROR, parent);
-		g_free(text);
-
-		return;
-		}
-
-	rlist = file_util_delete_dir_remaining_folders(dlist);
-	if (rlist)
-		{
-		GenericDialog *gd;
-		GtkWidget *box;
-		gchar *text;
-
-		gd = file_util_gen_dlg(_("Folder contains subfolders"), GQ_WMCLASS, "dlg_warning",
-					parent, TRUE, NULL, NULL);
-		generic_dialog_add_button(gd, GTK_STOCK_CLOSE, NULL, NULL, TRUE);
-
-		text = g_strdup_printf(_("Unable to delete the folder:\n\n%s\n\n"
-					 "This folder contains subfolders which must be moved before it can be deleted."),
-					fd->path);
-		box = generic_dialog_add_message(gd, GTK_STOCK_DIALOG_WARNING,
-						 _("Folder contains subfolders"),
-						 text);
-		g_free(text);
-
-		box = pref_group_new(box, TRUE, _("Subfolders:"), GTK_ORIENTATION_VERTICAL);
-
-		rlist = filelist_sort_path(rlist);
-		file_util_dialog_add_list(box, rlist, FALSE);
-
-		gtk_widget_show(gd->dialog);
-		}
-	else
-		{
-		UtilityData *ud;
-		GtkWidget *box;
-		GtkWidget *view;
-		GtkTreeSelection *selection;
-		gchar *text;
-
-		ud = g_new0(UtilityData, 1);
-		ud->type = UTILITY_TYPE_DELETE_FOLDER;
-		ud->source_fd = file_data_ref(fd);
-		ud->dlist = dlist;
-		dlist = NULL;
-		ud->flist = filelist_sort_path(flist);
-		flist = NULL;
-
-		ud->gd = file_util_gen_dlg(_("Delete folder"), GQ_WMCLASS, "dlg_confirm",
-					   parent, TRUE,  file_util_cancel_cb, ud);
-		generic_dialog_add_button(ud->gd, GTK_STOCK_DELETE, NULL, file_util_delete_dir_ok_cb, TRUE);
-
-		text = g_strdup_printf(_("This will delete the folder:\n\n%s\n\n"
-					 "The contents of this folder will also be deleted."),
-					fd->path);
-		box = generic_dialog_add_message(ud->gd, GTK_STOCK_DIALOG_QUESTION,
-						 _("Delete folder?"),
-						 text);
-		g_free(text);
-
-		box = pref_group_new(box, TRUE, _("Contents:"), GTK_ORIENTATION_HORIZONTAL);
-
-		view = file_util_dialog_add_list(box, ud->flist, FALSE);
-		selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-		gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-		gtk_tree_selection_set_select_function(selection, file_util_preview_cb, ud, NULL);
-
-		generic_dialog_add_image(ud->gd, box, NULL, NULL, NULL, NULL, FALSE);
-
-		box_append_safe_delete_status(ud->gd);
-
-		gtk_widget_show(ud->gd->dialog);
-		}
-
-	g_list_free(rlist);
-	filelist_free(dlist);
-	filelist_free(flist);
 }
 
 

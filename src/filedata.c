@@ -1551,7 +1551,10 @@ static gboolean file_data_perform_copy(FileData *fd)
 
 static gboolean file_data_perform_delete(FileData *fd)
 {
-	return unlink_file(fd->path);
+	if (isdir(fd->path) && !islink(fd->path))
+		return rmdir_utf8(fd->path);
+	else
+		return unlink_file(fd->path);
 }
 
 static gboolean file_data_perform_ci(FileData *fd)
