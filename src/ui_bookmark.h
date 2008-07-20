@@ -36,15 +36,5 @@ GtkWidget *history_combo_new(GtkWidget **entry, const gchar *text,
 void history_combo_append_history(GtkWidget *widget, const gchar *text);
 
 
-/* dnd data parsers (uris) */
-
-gchar *uri_text_escape(const gchar *text);
-void uri_text_decode(gchar *text);
-
-GList *uri_list_from_text(gchar *data, gint files_only);
-GList *uri_filelist_from_text(gchar *data, gint files_only);
-gchar *uri_text_from_list(GList *list, gint *len, gint plain_text);
-gchar *uri_text_from_filelist(GList *list, gint *len, gint plain_text);
-
 
 #endif

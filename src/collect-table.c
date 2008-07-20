@@ -28,10 +28,10 @@
 #include "menu.h"
 #include "print.h"
 #include "utilops.h"
-#include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "ui_tree_edit.h"
+#include "uri_utils.h"
 
 #include "icons/marker.xpm"
 #define MARKER_WIDTH 26

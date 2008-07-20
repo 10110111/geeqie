@@ -28,9 +28,9 @@
 #include "pixbuf_util.h"
 #include "utilops.h"
 #include "slideshow.h"
-#include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
+#include "uri_utils.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 

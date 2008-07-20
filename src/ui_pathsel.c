@@ -39,6 +39,7 @@
 #include "ui_utildlg.h"
 #include "ui_tabcomp.h"
 #include "ui_tree_edit.h"
+#include "uri_utils.h"
 
 
 #define DEST_WIDTH 250

@@ -18,11 +18,11 @@
 #include "filedata.h"
 #include "layout_image.h"
 #include "layout_util.h"
-#include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_tree_edit.h"
 #include "ui_menu.h"
 #include "utilops.h"
+#include "uri_utils.h"
 #include "view_dir_list.h"
 #include "view_dir_tree.h"
 

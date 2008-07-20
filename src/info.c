@@ -21,9 +21,9 @@
 #include "image.h"
 #include "image-load.h"
 #include "pixbuf-renderer.h"
-#include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_misc.h"
+#include "uri_utils.h"
 #include "window.h"
 
 #include <pwd.h>

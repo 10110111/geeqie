@@ -26,11 +26,11 @@
 #include "pan-types.h"
 #include "thumb.h"
 #include "utilops.h"
-#include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "ui_tabcomp.h"
 #include "ui_utildlg.h"
+#include "uri_utils.h"
 #include "window.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */

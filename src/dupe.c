@@ -30,11 +30,11 @@
 #include "print.h"
 #include "thumb.h"
 #include "utilops.h"
-#include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "ui_misc.h"
 #include "ui_tree_edit.h"
+#include "uri_utils.h"
 #include "window.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
