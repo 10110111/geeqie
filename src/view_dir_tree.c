@@ -41,8 +41,6 @@ struct _PathData
 
 
 
-static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, FileData *target_fd);
-
 
 /*
  *----------------------------------------------------------------------------
@@ -381,6 +379,7 @@ static void vdtree_add_by_data(ViewDir *vd, FileData *fd, GtkTreeIter *parent)
 
 	nd = g_new0(NodeData, 1);
 	nd->fd = fd;
+	nd->version = fd->version;
 	nd->expanded = FALSE;
 	nd->last_update = time(NULL);
 
@@ -418,7 +417,7 @@ static void vdtree_add_by_data(ViewDir *vd, FileData *fd, GtkTreeIter *parent)
 		}
 }
 
-static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, FileData *target_fd)
+gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, FileData *target_fd)
 {
 	GtkTreeModel *store;
 	GList *list;
@@ -446,7 +445,7 @@ static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint fo
 			vdtree_node_free(nd);
 			return FALSE;
 			}
-		if (!force && filetime(nd->fd->path) == nd->fd->date) return TRUE;
+		if (!force && nd->fd->version == nd->version) return TRUE;
 		}
 
 	vdtree_busy_push(vd);
@@ -513,11 +512,11 @@ static gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint fo
 			if (cnd)
 				{
 				old = g_list_remove(old, cnd);
-				if (cnd->expanded && cnd->fd->date != fd->date &&
+				if (cnd->expanded &&  cnd->version != fd->version &&
 				    vdtree_populate_path_by_iter(vd, &child, FALSE, target_fd))
 					{
-					cnd->fd->size = fd->size;
-					cnd->fd->date = fd->date;
+					gtk_tree_store_set(store, &child, DIR_COLUMN_NAME, fd->name, -1);
+					cnd->version = fd->version;
 					}
 
 				file_data_unref(fd);

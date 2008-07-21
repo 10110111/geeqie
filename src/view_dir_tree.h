@@ -19,6 +19,7 @@ struct _NodeData
 	FileData *fd;
 	gint expanded;
 	time_t last_update;
+	gint version;
 };
 
 ViewDir *vdtree_new(ViewDir *vd, FileData *dir_fd);
@@ -30,6 +31,7 @@ void vdtree_refresh(ViewDir *vd);
 
 const gchar *vdtree_row_get_path(ViewDir *vd, gint row);
 gint vdtree_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter, GtkTreeIter *parent);
+gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, FileData *target_fd);
 
 FileData *vdtree_populate_path(ViewDir *vd, FileData *target_fd, gint expand, gint force);
 void vdtree_rename_by_data(ViewDir *vd, FileData *fd);

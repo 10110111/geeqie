@@ -26,6 +26,8 @@
 #include "view_dir_list.h"
 #include "view_dir_tree.h"
 
+static void vd_notify_cb(FileData *fd, NotifyType type, gpointer data);
+
 GtkRadioActionEntry menu_view_dir_radio_entries[] = {
   { "FolderList",	NULL,		N_("_List"),		"<meta>L",	NULL, DIRVIEW_LIST },
   { "FolderTree",	NULL,		N_("_Tree"),		"<control>T",	NULL, DIRVIEW_TREE },
@@ -34,6 +36,8 @@ GtkRadioActionEntry menu_view_dir_radio_entries[] = {
 static void vd_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
+
+	file_data_unregister_notify_func(vd_notify_cb, vd);
 
 	if (vd->popup)
 		{
@@ -105,6 +109,8 @@ ViewDir *vd_new(DirViewType type, FileData *dir_fd)
 			 G_CALLBACK(vd_release_cb), vd);
 
 	if (dir_fd) vd_set_fd(vd, dir_fd);
+
+	file_data_register_notify_func(vd_notify_cb, vd, NOTIFY_PRIORITY_HIGH);
 
 	gtk_widget_show(vd->view);
 
@@ -219,18 +225,11 @@ static gint vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, g
 	new_path = g_build_filename(base, new, NULL);
 	g_free(base);
 
-	if (file_util_rename_dir(fd, new_path, vd->view))
+	file_util_rename_dir(fd, new_path, vd->view);
+	
+	if (vd->layout && vd->dir_fd != fd)
 		{
-
-		if (vd->type == DIRVIEW_TREE) vdtree_populate_path(vd, fd, TRUE, TRUE);
-		if (vd->layout && vd->dir_fd != fd) /* FIXME */
-			{
-			layout_set_path(vd->layout, new_path);
-			}
-		else
-			{
-			if (vd->type == DIRVIEW_LIST) vd_refresh(vd);
-			}
+		layout_set_path(vd->layout, new_path);
 		}
 
 	g_free(new_path);
@@ -506,31 +505,28 @@ static void vd_toggle_show_hidden_files_cb(GtkWidget *widget, gpointer data)
 static void vd_pop_menu_new_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
-	const gchar *path = NULL;
-	gchar *new_path;
-	gchar *buf;
+	FileData *dir_fd = NULL;
 
 	switch(vd->type)
 		{
 		case DIRVIEW_LIST:
 			{
 			if (!vd->dir_fd) return;
-			path = vd->dir_fd->path;
+			dir_fd = vd->dir_fd;
 			};
 			break;
 		case DIRVIEW_TREE:
 			{
 			if (!vd->click_fd) return;
-			path = vd->click_fd->path;
+			dir_fd = vd->click_fd;
 			};
 			break;
 		}
 
-	buf = g_build_filename(path, _("new_folder"), NULL);
-	new_path = unique_filename(buf, NULL, NULL, FALSE);
-	g_free(buf);
-	if (!new_path) return;
+	file_util_create_dir(dir_fd, widget);
 
+/* FIXME:*/
+#if 0
 	if (!mkdir_utf8(new_path, 0755))
 		{
 		gchar *text;
@@ -561,8 +557,7 @@ static void vd_pop_menu_new_cb(GtkWidget *widget, gpointer data)
 			}
 		vd_rename_by_data(vd, fd);
 		}
-
-	g_free(new_path);
+#endif
 }
 
 static void vd_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
@@ -1038,4 +1033,59 @@ gint vd_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 	}
 
 	return ret;
+}
+
+static void vd_notify_cb(FileData *fd, NotifyType type, gpointer data)
+{
+	ViewDir *vd = data;
+	gboolean refresh;
+	gchar *base;
+
+	if (!isdir(fd->path) && isname(fd->path)) return;
+
+	base = remove_level_from_path(fd->path);
+
+	if (vd->type == DIRVIEW_LIST)
+		{
+		refresh = (fd == vd->dir_fd);
+
+		if (!refresh)
+			{
+			refresh = (strcmp(base, vd->dir_fd->path) == 0);
+			}
+
+		if (type == NOTIFY_TYPE_CHANGE && fd->change)
+			{
+			if (!refresh && fd->change->dest)
+				{
+				gchar *dest_base = remove_level_from_path(fd->change->dest);
+				refresh = (strcmp(dest_base, vd->dir_fd->path) == 0);
+				g_free(dest_base);
+				}
+
+			if (!refresh && fd->change->source)
+				{
+				gchar *source_base = remove_level_from_path(fd->change->source);
+				refresh = (strcmp(source_base, vd->dir_fd->path) == 0);
+				g_free(source_base);
+				}
+			}
+		
+		if (refresh) vd_refresh(vd);
+		}
+
+	if (vd->type == DIRVIEW_TREE)
+		{
+		GtkTreeIter iter;
+		FileData *base_fd = file_data_new_simple(base);
+
+		if (vd_find_row(vd, base_fd, &iter))
+			{
+			vdtree_populate_path_by_iter(vd, &iter, FALSE, vd->dir_fd);
+			} 
+
+		file_data_unref(base_fd);
+		}
+
+	g_free(base);
 }
