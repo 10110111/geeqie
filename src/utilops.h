@@ -40,7 +40,7 @@ void file_util_copy(FileData *source_fd, GList *source_list, const gchar *dest_p
 void file_util_rename(FileData *source_fd, GList *source_list, GtkWidget *parent);
 
 void file_util_create_dir(FileData *dir_fd, GtkWidget *parent);
-gint file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget *parent);
+void file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget *parent);
 
 /* these avoid the location entry dialog, list must be files only and
  * dest_path must be a valid directory path
@@ -53,8 +53,6 @@ void file_util_start_editor_from_file(gint n, FileData *fd, GtkWidget *parent);
 void file_util_start_editor_from_filelist(gint n, GList *list, GtkWidget *parent);
 void file_util_start_filter_from_file(gint n, FileData *fd, const gchar *dest_path, GtkWidget *parent);
 void file_util_start_filter_from_filelist(gint n, GList *list, const gchar *dest_path, GtkWidget *parent);
-
-
 
 void file_util_delete_dir(FileData *source_fd, GtkWidget *parent);
 

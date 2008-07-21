@@ -2081,7 +2081,7 @@ void file_util_create_dir(FileData *dir_fd, GtkWidget *parent)
 	file_util_create_dir_full(dir_fd, NULL, parent, UTILITY_PHASE_ENTERING);
 }
 
-gint file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget *parent)
+void file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget *parent)
 {
 	file_util_rename_dir_full(source_fd, new_path, parent, UTILITY_PHASE_ENTERING);
 }
