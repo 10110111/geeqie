@@ -2022,7 +2022,7 @@ static void search_start(SearchData *sd)
 
 	if (sd->search_dir_fd)
 		{
-		sd->search_folder_list = g_list_prepend(sd->search_folder_list, sd->search_dir_fd);
+		sd->search_folder_list = g_list_prepend(sd->search_folder_list, file_data_ref(sd->search_dir_fd));
 		}
 
 	if (!sd->search_name_match_case)
