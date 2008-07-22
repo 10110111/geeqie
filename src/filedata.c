@@ -1331,72 +1331,99 @@ gboolean file_data_sc_add_ci_delete_list(GList *fd_list)
 	return ret;
 }
 
-gboolean file_data_sc_add_ci_copy_list(GList *fd_list, const gchar *dest)
+static void file_data_sc_revert_ci_list(GList *fd_list)
 {
 	GList *work;
-	gboolean ret = TRUE;
 	
 	work = fd_list;
 	while (work)
 		{
 		FileData *fd = work->data;
 		
-		if (!file_data_sc_add_ci_copy(fd, dest)) ret = FALSE;
+		file_data_sc_free_ci(fd);
+		work = work->prev;
+		}
+}
+
+
+gboolean file_data_sc_add_ci_copy_list(GList *fd_list, const gchar *dest)
+{
+	GList *work;
+	
+	work = fd_list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		
+		if (!file_data_sc_add_ci_copy(fd, dest)) 
+			{
+			file_data_sc_revert_ci_list(work->prev);
+			return FALSE;
+			}
 		work = work->next;
 		}
 	
-	return ret;
+	return TRUE;
 }
 
 gboolean file_data_sc_add_ci_move_list(GList *fd_list, const gchar *dest)
 {
 	GList *work;
-	gboolean ret = TRUE;
 	
 	work = fd_list;
 	while (work)
 		{
 		FileData *fd = work->data;
 		
-		if (!file_data_sc_add_ci_move(fd, dest)) ret = FALSE;
+		if (!file_data_sc_add_ci_move(fd, dest))
+			{
+			file_data_sc_revert_ci_list(work->prev);
+			return FALSE;
+			}
 		work = work->next;
 		}
 	
-	return ret;
+	return TRUE;
 }
 
 gboolean file_data_sc_add_ci_rename_list(GList *fd_list, const gchar *dest)
 {
 	GList *work;
-	gboolean ret = TRUE;
 	
 	work = fd_list;
 	while (work)
 		{
 		FileData *fd = work->data;
 		
-		if (!file_data_sc_add_ci_rename(fd, dest)) ret = FALSE;
+		if (!file_data_sc_add_ci_rename(fd, dest))
+			{
+			file_data_sc_revert_ci_list(work->prev);
+			return FALSE;
+			}
 		work = work->next;
 		}
 	
-	return ret;
+	return TRUE;
 }
 
 gboolean file_data_sc_add_ci_unspecified_list(GList *fd_list, const gchar *dest)
 {
 	GList *work;
-	gboolean ret = TRUE;
 	
 	work = fd_list;
 	while (work)
 		{
 		FileData *fd = work->data;
 		
-		if (!file_data_sc_add_ci_unspecified(fd, dest)) ret = FALSE;
+		if (!file_data_sc_add_ci_unspecified(fd, dest))
+			{
+			file_data_sc_revert_ci_list(work->prev);
+			return FALSE;
+			}
 		work = work->next;
 		}
 	
-	return ret;
+	return TRUE;
 }
 
 void file_data_sc_free_ci_list(GList *fd_list)
