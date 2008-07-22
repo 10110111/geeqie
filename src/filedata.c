@@ -1172,12 +1172,35 @@ gboolean file_data_add_ci(FileData *fd, FileDataChangeType type, const gchar *sr
 	return TRUE;
 }
 
+static void file_data_planned_change_remove(FileData *fd)
+{
+	if (file_data_planned_change_hash && 
+	    (fd->change->type == FILEDATA_CHANGE_MOVE || fd->change->type == FILEDATA_CHANGE_RENAME))
+		{
+		if (g_hash_table_lookup(file_data_planned_change_hash, fd->change->dest) == fd)
+			{
+			DEBUG_1("planned change: removing %s -> %s", fd->change->dest, fd->path);
+			g_hash_table_remove(file_data_planned_change_hash, fd->change->dest);
+			file_data_unref(fd);
+			if (g_hash_table_size(file_data_planned_change_hash) == 0)
+				{
+				g_hash_table_destroy(file_data_planned_change_hash);
+				file_data_planned_change_hash = NULL;
+				DEBUG_1("planned change: empty");
+				}
+			}
+		}
+}
+ 
+
 void file_data_free_ci(FileData *fd)
 {
 	FileDataChangeInfo *fdci = fd->change;
 
 	if (!fdci)
 		return;
+
+	file_data_planned_change_remove(fd);
 
 	g_free(fdci->source);
 	g_free(fdci->dest);
@@ -1656,7 +1679,7 @@ gboolean file_data_sc_perform_ci(FileData *fd)
 /*
  * updates FileData structure according to FileDataChangeInfo
  */
- 
+
 static void file_data_apply_ci(FileData *fd)
 {
 	FileDataChangeType type = fd->change->type;
@@ -1664,22 +1687,8 @@ static void file_data_apply_ci(FileData *fd)
 	/* FIXME delete ?*/
 	if (type == FILEDATA_CHANGE_MOVE || type == FILEDATA_CHANGE_RENAME)
 		{
-		if (file_data_planned_change_hash)
-			{
-			if (g_hash_table_lookup(file_data_planned_change_hash, fd->change->dest) == fd)
-				{
-				DEBUG_1("planned change: applying %s -> %s", fd->change->dest, fd->path);
-				g_hash_table_remove(file_data_planned_change_hash, fd->change->dest);
-				file_data_unref(fd);
-				if (g_hash_table_size(file_data_planned_change_hash) == 0)
-					{
-					g_hash_table_destroy(file_data_planned_change_hash);
-					file_data_planned_change_hash = NULL;
-					DEBUG_1("planned change: empty");
-					}
-				}
-			}
-
+		DEBUG_1("planned change: applying %s -> %s", fd->change->dest, fd->path);
+		file_data_planned_change_remove(fd);
 		file_data_set_path(fd, fd->change->dest);
 		}
 	file_data_increment_version(fd);
