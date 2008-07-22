@@ -179,6 +179,9 @@ static void file_data_set_path(FileData *fd, const gchar *path)
 		g_hash_table_remove(file_data_pool, fd->original_path);
 		g_free(fd->original_path);
 		}
+
+	g_assert(!g_hash_table_lookup(file_data_pool, path));
+
 	fd->original_path = g_strdup(path);
 	g_hash_table_insert(file_data_pool, fd->original_path, fd);
 
@@ -1758,7 +1761,20 @@ static void file_data_apply_ci(FileData *fd)
 		{
 		DEBUG_1("planned change: applying %s -> %s", fd->change->dest, fd->path);
 		file_data_planned_change_remove(fd);
-		file_data_set_path(fd, fd->change->dest);
+		
+		if (g_hash_table_lookup(file_data_pool, fd->change->dest))
+			{
+			/* this change overwrites another file which is already known to other modules
+			   renaming fd would create duplicate FileData structure
+			   the best thing we can do is nothing
+			   FIXME: maybe we could copy stuff like marks
+			*/
+			DEBUG_1("can't rename fd, target exists %s -> %s", fd->change->dest, fd->path);
+			}
+		else
+			{
+			file_data_set_path(fd, fd->change->dest);
+			}
 		}
 	file_data_increment_version(fd);
 	file_data_send_notification(fd, NOTIFY_TYPE_CHANGE);
