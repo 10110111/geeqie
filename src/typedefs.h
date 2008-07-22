@@ -149,6 +149,13 @@ typedef enum {
 	NOTIFY_TYPE_CHANGE        /* generic change described by fd->change */
 } NotifyType;
 
+typedef enum {
+	CHANGE_OK          = 0,
+	CHANGE_DEST_EXISTS = 1 << 0,
+	CHANGE_ERROR_MASK  = (~0) << 1, /* the values below are fatal errors */
+	CHANGE_NO_PERM     = 1 << 1
+} ChangeError;
+
 
 #define MAX_SPLIT_IMAGES 4
 
@@ -427,6 +434,7 @@ struct _FileDataChangeInfo {
 	FileDataChangeType type;
 	gchar *source;
 	gchar *dest;
+	gint error;
 };
 
 struct _FileData {

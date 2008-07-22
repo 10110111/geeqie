@@ -1621,12 +1621,54 @@ gboolean file_data_sc_update_ci_unspecified_list(GList *fd_list, const gchar *de
 
 /*
  * check dest paths - dest image exists, etc.
- * returns FIXME
  * it should detect all possible problems with the planned operation
+ * FIXME: add more tests
  */
+
+gint file_data_check_ci_dest(FileData *fd)
+{
+	gint ret = CHANGE_OK;
+	
+	g_assert(fd->change);
+	
+	if (fd->change->dest &&
+	    strcmp(fd->change->dest, fd->path) != 0 &&
+	    isname(fd->change->dest))
+		{
+		ret |= CHANGE_DEST_EXISTS;
+		DEBUG_1("Change checked: destination exists: %s -> %s", fd->path, fd->change->dest);
+		}
+	
+	if (!access_file(fd->path, R_OK))
+		{
+		ret |= CHANGE_NO_PERM;
+		DEBUG_1("Change checked: no read permission: %s", fd->path);
+		}
+		
+	fd->change->error = ret;
+	if (ret == 0) DEBUG_1("Change checked: OK: %s", fd->path);
+
+	return ret;
+}
+
  
 gint file_data_sc_check_ci_dest(FileData *fd)
 {
+	GList *work;
+	int ret;
+
+	ret = file_data_check_ci_dest(fd);
+
+	work = fd->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+
+		ret |= file_data_check_ci_dest(sfd);
+		work = work->next;
+		}
+
+	return ret;
 }
 
 

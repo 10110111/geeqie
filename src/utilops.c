@@ -800,6 +800,87 @@ void file_util_perform_ci(UtilityData *ud)
 		}
 }
 
+
+static void file_util_check_resume_cb(GenericDialog *gd, gpointer data)
+{
+	UtilityData *ud = data;
+	ud->phase = UTILITY_PHASE_CHECKED;
+	file_util_dialog_run(ud);
+}
+
+static void file_util_check_abort_cb(GenericDialog *gd, gpointer data)
+{
+	UtilityData *ud = data;
+	ud->phase = UTILITY_PHASE_START;
+	file_util_dialog_run(ud);
+}
+
+void file_util_check_ci(UtilityData *ud)
+{
+	gint error = CHANGE_OK;
+	
+	if (ud->dir_fd)
+		{
+		error = file_data_sc_check_ci_dest(ud->dir_fd);
+		}
+	else
+		{
+		GList *work = ud->flist;
+		while (work)
+			{
+			FileData *fd;
+
+			fd = work->data;
+			work = work->next;
+			
+			error |= file_data_sc_check_ci_dest(fd);
+			}
+		}
+
+	if (!error)
+		{
+		ud->phase = UTILITY_PHASE_CHECKED;
+		file_util_dialog_run(ud);
+		return;
+		}
+
+	// FIXME: the dialogs needs better error messages with a list of files and error descriptions
+	if (!(error & CHANGE_ERROR_MASK))
+		{
+		/* just a warning */
+		GenericDialog *d;
+
+		d = file_util_gen_dlg("This operation can be dangerous", GQ_WMCLASS, "dlg_confirm",
+					ud->parent, TRUE,
+					file_util_check_abort_cb, ud);
+
+		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, NULL, "Really continue?");
+
+		generic_dialog_add_button(d, GTK_STOCK_GO_FORWARD, _("Co_ntinue"),
+					  file_util_check_resume_cb, TRUE);
+		gtk_widget_show(d->dialog);
+		return;
+		}
+	else
+		{
+		/* fatal error */
+		GenericDialog *d;
+
+		d = file_util_gen_dlg("This operation can't continue", GQ_WMCLASS, "dlg_confirm",
+					ud->parent, TRUE,
+					file_util_check_abort_cb, ud);
+		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, NULL, "This operation can't continue");
+
+		gtk_widget_show(d->dialog);
+		return;
+		}
+
+}
+
+
+
+
+
 static void file_util_cancel_cb(GenericDialog *gd, gpointer data)
 {
 	UtilityData *ud = data;
@@ -1360,8 +1441,8 @@ void file_util_dialog_run(UtilityData *ud)
 			ud->phase = UTILITY_PHASE_ENTERING;
 			break;
 		case UTILITY_PHASE_ENTERING:
-			/* FIXME use file_data_sc_check_ci_dest to detect problems and eventually go back to PHASE_START 
-			or to PHASE_CANCEL */
+			file_util_check_ci(ud);
+			break;
 		
 			ud->phase = UTILITY_PHASE_CHECKED;
 		case UTILITY_PHASE_CHECKED:
