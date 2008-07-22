@@ -727,7 +727,10 @@ static gint editor_command_next_finish(EditorData *ed, gint status)
 
 		ed->list = g_list_remove_link(ed->list, fd_element);
 		if (ed->callback)
+			{
 			cont = ed->callback(ed->list ? ed : NULL, ed->flags, fd_element, ed->data);
+			if (ed->stopping && cont == EDITOR_CB_CONTINUE) cont = EDITOR_CB_SKIP;
+			}
 		filelist_free(fd_element);
 		}
 	else
