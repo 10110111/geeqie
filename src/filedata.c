@@ -1671,6 +1671,12 @@ static void file_data_apply_ci(FileData *fd)
 				DEBUG_1("planned change: applying %s -> %s", fd->change->dest, fd->path);
 				g_hash_table_remove(file_data_planned_change_hash, fd->change->dest);
 				file_data_unref(fd);
+				if (g_hash_table_size(file_data_planned_change_hash) == 0)
+					{
+					g_hash_table_destroy(file_data_planned_change_hash);
+					file_data_planned_change_hash = NULL;
+					DEBUG_1("planned change: empty");
+					}
 				}
 			}
 
