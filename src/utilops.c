@@ -1723,7 +1723,8 @@ static gboolean file_util_delete_dir_empty_path(UtilityData *ud, FileData *fd, g
 
 	if (ok)
 		{
-		if ((ok = file_data_sc_add_ci_delete(fd)))
+		ok = file_data_sc_add_ci_delete(fd);
+		if (ok)
 			{
 			ud->content_list = g_list_prepend(ud->content_list, fd);
 			}
@@ -1739,7 +1740,6 @@ static gboolean file_util_delete_dir_empty_path(UtilityData *ud, FileData *fd, g
 		work = work->next;
 
 		ok = file_util_delete_dir_empty_path(ud, lfd, level);
-
 		}
 
 	work = flist;
@@ -1752,7 +1752,8 @@ static gboolean file_util_delete_dir_empty_path(UtilityData *ud, FileData *fd, g
 
 		DEBUG_1("deltree child: %s", lfd->path);
 
-		if ((ok = file_data_sc_add_ci_delete(lfd)))
+		ok = file_data_sc_add_ci_delete(lfd);
+		if (ok)
 			{
 			ud->content_list = g_list_prepend(ud->content_list, lfd);
 			}
@@ -1992,7 +1993,7 @@ static gboolean file_util_rename_dir_prepare(UtilityData *ud, const char *new_pa
 		
 		g_assert(strncmp(fd->path, ud->dir_fd->path, orig_len) == 0);
 		
-		np = g_strdup_printf("%s%s", new_path, fd->path + orig_len);
+		np = g_strconcat(new_path, fd->path + orig_len, NULL);
 		
 		ok = file_data_sc_add_ci_rename(fd, np);
 		
@@ -2017,6 +2018,7 @@ static gboolean file_util_rename_dir_prepare(UtilityData *ud, const char *new_pa
 			file_data_sc_free_ci(fd);
 			}
 		}
+
 	return ok;
 }	
 	
