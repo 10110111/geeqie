@@ -1500,7 +1500,7 @@ static void file_data_update_ci_dest_preserve_ext(FileData *fd, const gchar *des
 	gchar *base = remove_extension_from_path(dest_path);
 	gchar *old_path = fd->change->dest;
 	
-	fd->change->dest = g_strdup_printf("%s%s", base, extension);
+	fd->change->dest = g_strconcat(base, extension, NULL);
 	file_data_update_planned_change_hash(fd, old_path, fd->change->dest);
 	
 	g_free(old_path);
