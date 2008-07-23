@@ -645,28 +645,6 @@ gint file_data_compare_name_without_ext(FileData *fd1, FileData *fd2)
 	return strncmp(fd1->name, fd2->name, len1); /* FIXME: utf8 */
 }
 
-gboolean file_data_add_change_info(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest)
-{
-	FileDataChangeInfo *fdci;
-
-	if (fd->change) return FALSE;
-
-	fdci = g_new0(FileDataChangeInfo, 1);
-	fdci->type = type;
-
-	if (src)
-		fdci->source = g_strdup(src);
-	else
-		fdci->source = g_strdup(fd->path);
-
-	if (dest)
-		fdci->dest = g_strdup(dest);
-
-	fd->change = fdci;
-
-	return TRUE;
-}
-
 void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd)
 {
 	if (!fdci && fd)
@@ -1350,8 +1328,7 @@ static void file_data_sc_revert_ci_list(GList *fd_list)
 		}
 }
 
-
-gboolean file_data_sc_add_ci_copy_list(GList *fd_list, const gchar *dest)
+static gboolean file_data_sc_add_ci_list_call_func(GList *fd_list, const gchar *dest, gboolean (*func)(FileData *, const gchar *))
 {
 	GList *work;
 	
@@ -1360,7 +1337,7 @@ gboolean file_data_sc_add_ci_copy_list(GList *fd_list, const gchar *dest)
 		{
 		FileData *fd = work->data;
 		
-		if (!file_data_sc_add_ci_copy(fd, dest)) 
+		if (!func(fd, dest)) 
 			{
 			file_data_sc_revert_ci_list(work->prev);
 			return FALSE;
@@ -1369,66 +1346,26 @@ gboolean file_data_sc_add_ci_copy_list(GList *fd_list, const gchar *dest)
 		}
 	
 	return TRUE;
+}
+
+gboolean file_data_sc_add_ci_copy_list(GList *fd_list, const gchar *dest)
+{
+	return file_data_sc_add_ci_list_call_func(fd_list, dest, file_data_sc_add_ci_copy);
 }
 
 gboolean file_data_sc_add_ci_move_list(GList *fd_list, const gchar *dest)
 {
-	GList *work;
-	
-	work = fd_list;
-	while (work)
-		{
-		FileData *fd = work->data;
-		
-		if (!file_data_sc_add_ci_move(fd, dest))
-			{
-			file_data_sc_revert_ci_list(work->prev);
-			return FALSE;
-			}
-		work = work->next;
-		}
-	
-	return TRUE;
+	return file_data_sc_add_ci_list_call_func(fd_list, dest, file_data_sc_add_ci_move);
 }
 
 gboolean file_data_sc_add_ci_rename_list(GList *fd_list, const gchar *dest)
 {
-	GList *work;
-	
-	work = fd_list;
-	while (work)
-		{
-		FileData *fd = work->data;
-		
-		if (!file_data_sc_add_ci_rename(fd, dest))
-			{
-			file_data_sc_revert_ci_list(work->prev);
-			return FALSE;
-			}
-		work = work->next;
-		}
-	
-	return TRUE;
+	return file_data_sc_add_ci_list_call_func(fd_list, dest, file_data_sc_add_ci_rename);
 }
 
 gboolean file_data_sc_add_ci_unspecified_list(GList *fd_list, const gchar *dest)
 {
-	GList *work;
-	
-	work = fd_list;
-	while (work)
-		{
-		FileData *fd = work->data;
-		
-		if (!file_data_sc_add_ci_unspecified(fd, dest))
-			{
-			file_data_sc_revert_ci_list(work->prev);
-			return FALSE;
-			}
-		work = work->next;
-		}
-	
-	return TRUE;
+	return file_data_sc_add_ci_list_call_func(fd_list, dest, file_data_sc_add_ci_unspecified);
 }
 
 void file_data_sc_free_ci_list(GList *fd_list)
