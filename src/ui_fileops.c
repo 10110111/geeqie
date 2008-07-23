@@ -665,23 +665,32 @@ void parse_out_relatives(gchar *path)
 
 	while (path[s] != '\0')
 		{
-		if (path[s] == G_DIR_SEPARATOR && path[s+1] == '.' && (path[s+2] == G_DIR_SEPARATOR || path[s+2] == '\0') )
+		if (path[s] == G_DIR_SEPARATOR && path[s+1] == '.')
 			{
-			s += 2;
+			/* /. occurence, let's see more */
+			gint p = s + 2;
+
+			if (path[p] == G_DIR_SEPARATOR || path[p] == '\0')
+				{
+				/* /./ or /., just skip this part */
+				s = p;
+				continue;
+				}
+			else if (path[p] == '.' && (path[p+1] == G_DIR_SEPARATOR || path[p+1] == '\0'))
+				{
+				/* /../ or /.., remove previous part, ie. /a/b/../ becomes /a/ */
+				s = p + 1;
+				if (t > 0) t--;
+				while (path[t] != G_DIR_SEPARATOR && t > 0) t--;
+				continue;
+				}
 			}
-		else if (path[s] == G_DIR_SEPARATOR && path[s+1] == '.' && path[s+2] == '.' && (path[s+3] == G_DIR_SEPARATOR || path[s+3] == '\0') )
-			{
-			s += 3;
-			if (t > 0) t--;
-			while (path[t] != G_DIR_SEPARATOR && t > 0) t--;
-			}
-		else
-			{
-			if (s != t) path[t] = path[s];
-			t++;
-			s++;
-			}
+	
+		if (s != t) path[t] = path[s];
+		t++;
+		s++;
 		}
+
 	if (t == 0 && path[t] == G_DIR_SEPARATOR) t++;
 	if (t > 1 && path[t-1] == G_DIR_SEPARATOR) t--;
 	path[t] = '\0';
