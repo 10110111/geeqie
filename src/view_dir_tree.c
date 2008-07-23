@@ -515,7 +515,7 @@ gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, Fi
 				if (cnd->expanded &&  cnd->version != fd->version &&
 				    vdtree_populate_path_by_iter(vd, &child, FALSE, target_fd))
 					{
-					gtk_tree_store_set(store, &child, DIR_COLUMN_NAME, fd->name, -1);
+					gtk_tree_store_set(GTK_TREE_STORE(store), &child, DIR_COLUMN_NAME, fd->name, -1);
 					cnd->version = fd->version;
 					}
 
