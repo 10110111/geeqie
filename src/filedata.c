@@ -309,14 +309,16 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	if (!file_data_pool)
 		file_data_pool = g_hash_table_new(g_str_hash, g_str_equal);
 
-	if ((fd = g_hash_table_lookup(file_data_pool, path_utf8)))
+	fd = g_hash_table_lookup(file_data_pool, path_utf8);
+	if (fd)
 		{
 		file_data_ref(fd);
 		}
 		
 	if (!fd && file_data_planned_change_hash)
 		{
-		if ((fd = g_hash_table_lookup(file_data_planned_change_hash, path_utf8)))
+		fd = g_hash_table_lookup(file_data_planned_change_hash, path_utf8);
+		if (fd)
 			{
 			DEBUG_1("planned change: using %s -> %s", path_utf8, fd->path);
 			file_data_ref(fd);
@@ -1466,7 +1468,8 @@ static void file_data_update_planned_change_hash(FileData *fd, const gchar *old_
 			file_data_unref(fd);
 			}
 
-		if ((ofd = g_hash_table_lookup(file_data_planned_change_hash, new_path)) != fd)
+		ofd = g_hash_table_lookup(file_data_planned_change_hash, new_path);
+		if (ofd != fd)
 			{
 			if (ofd)
 				{
@@ -1485,6 +1488,7 @@ static void file_data_update_planned_change_hash(FileData *fd, const gchar *old_
 static void file_data_update_ci_dest(FileData *fd, const gchar *dest_path)
 {
 	gchar *old_path = fd->change->dest;
+
 	fd->change->dest = g_strdup(dest_path);
 	file_data_update_planned_change_hash(fd, old_path, fd->change->dest);
 	g_free(old_path);
