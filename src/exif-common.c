@@ -89,11 +89,10 @@ static gchar *remove_common_prefix(gchar *s, gchar *t)
 static double get_crop_factor(ExifData *exif)
 {
 	double res_unit_tbl[] = {0.0, 25.4, 25.4, 10.0, 1.0, 0.001 };
-
 	double xres = exif_get_rational_as_double(exif, "Exif.Photo.FocalPlaneXResolution");
 	double yres = exif_get_rational_as_double(exif, "Exif.Photo.FocalPlaneYResolution");
-	int res_unit;
-	int w, h;
+	gint res_unit;
+	gint w, h;
 	double xsize, ysize, size, ratio;
 
 	if (xres == 0.0 || yres == 0.0) return 0.0;
@@ -126,7 +125,7 @@ static gint remove_suffix(gchar *str, const gchar *suffix, gint suffix_len)
 	if (suffix_len < 0) suffix_len = strlen(suffix);
 	if (str_len < suffix_len) return FALSE;
 	
-	if (strcmp(str + str_len - suffix_len, suffix) != 0) return FALSE; 
+	if (strcmp(str + str_len - suffix_len, suffix) != 0) return FALSE;
 	str[str_len - suffix_len] = '\0';
 	
 	return TRUE;
@@ -275,14 +274,12 @@ static gchar *exif_build_formatted_FocalLength35mmFilm(ExifData *exif)
 		}
 
 	f = exif_get_rational_as_double(exif, "Exif.Photo.FocalLength");
+	if (f == 0.0) return NULL;
+
 	c = get_crop_factor(exif);
+	if (c == 0.0) return NULL;
 
-	if (f != 0.0 && c != 0.0)
-		{
-		return g_strdup_printf("%.0f mm", f * c);
-		}
-
-	return NULL;
+	return g_strdup_printf("%.0f mm", f * c);
 }
 
 static gchar *exif_build_formatted_ISOSpeedRating(ExifData *exif)
@@ -385,7 +382,7 @@ static gchar *exif_build_formatted_ColorProfile(ExifData *exif)
 {
 	const gchar *name = "";
 	const gchar *source = "";
-	unsigned char *profile_data;
+	guchar *profile_data;
 	guint profile_len;
 
 	profile_data = exif_get_color_profile(exif, &profile_len);
@@ -461,7 +458,7 @@ gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_val
 
 		if (key_valid) *key_valid = TRUE;
 
-		key = key + 10;
+		key += 10;
 		for (i = 0; ExifFormattedList[i].key; i++)
 			if (strcmp(key, ExifFormattedList[i].key + 10) == 0)
 				return ExifFormattedList[i].build_func(exif);
@@ -473,13 +470,13 @@ gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_val
 
 const gchar *exif_get_description_by_key(const gchar *key)
 {
-	gint i;
-
 	if (!key) return NULL;
 
 	if (strncmp(key, "formatted.", 10) == 0)
 		{
-		key = key + 10;
+		gint i;
+
+		key += 10;
 		for (i = 0; ExifFormattedList[i].key; i++)
 			if (strcmp(key, ExifFormattedList[i].key + 10) == 0)
 				return _(ExifFormattedList[i].description);
@@ -556,7 +553,6 @@ ExifData *exif_read_fd(FileData *fd)
 				}
 			}
 		}
-
 
 	fd->exif = exif_read(fd->path, sidecar_path);
 	return fd->exif;
