@@ -32,6 +32,8 @@
 #include "ui_tabcomp.h"
 #include "editors.h"
 
+static GdkPixbuf *file_util_get_error_icon(FileData *fd, GtkWidget *widget);
+
 /*
  *--------------------------------------------------------------------------
  * Adds 1 or 2 images (if 2, side by side) to a GenericDialog
@@ -311,6 +313,7 @@ struct _UtilityData {
 
 enum {
 	UTILITY_COLUMN_FD = 0,
+	UTILITY_COLUMN_PIXBUF,
 	UTILITY_COLUMN_PATH,
 	UTILITY_COLUMN_NAME,
 	UTILITY_COLUMN_SIDECARS,
@@ -354,7 +357,7 @@ static void file_util_data_free(UtilityData *ud)
 	g_free(ud);
 }
 
-static GtkTreeViewColumn *file_util_dialog_add_list_column(GtkWidget *view, const gchar *text, gint n)
+static GtkTreeViewColumn *file_util_dialog_add_list_column(GtkWidget *view, const gchar *text, gboolean image, gint n)
 {
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
@@ -362,10 +365,21 @@ static GtkTreeViewColumn *file_util_dialog_add_list_column(GtkWidget *view, cons
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, text);
 	gtk_tree_view_column_set_min_width(column, 4);
-	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
-	renderer = gtk_cell_renderer_text_new();
-	gtk_tree_view_column_pack_start(column, renderer, TRUE);
-	gtk_tree_view_column_add_attribute(column, renderer, "text", n);
+	if (image)
+		{
+		gtk_tree_view_column_set_min_width(column, 20);
+		gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
+		renderer = gtk_cell_renderer_pixbuf_new();
+		gtk_tree_view_column_pack_start(column, renderer, TRUE);
+		gtk_tree_view_column_add_attribute(column, renderer, "pixbuf", n);
+		}
+	else
+		{
+		gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
+		renderer = gtk_cell_renderer_text_new();
+		gtk_tree_view_column_pack_start(column, renderer, TRUE);
+		gtk_tree_view_column_add_attribute(column, renderer, "text", n);
+		}
 	gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
 
 	return column;
@@ -398,20 +412,22 @@ static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gint fu
 	gtk_box_pack_start(GTK_BOX(box), scrolled, TRUE, TRUE, 0);
 	gtk_widget_show(scrolled);
 
-	store = gtk_list_store_new(UTILITY_COLUMN_COUNT, G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+	store = gtk_list_store_new(UTILITY_COLUMN_COUNT, G_TYPE_POINTER, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 	view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
 	g_object_unref(store);
 
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), TRUE);
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(view), FALSE);
 
+	file_util_dialog_add_list_column(view, "", TRUE, UTILITY_COLUMN_PIXBUF);
+
 	if (full_paths)
 		{
-		file_util_dialog_add_list_column(view, _("Location"), UTILITY_COLUMN_PATH);
+		file_util_dialog_add_list_column(view, _("Location"), FALSE, UTILITY_COLUMN_PATH);
 		}
 	else
 		{
-		file_util_dialog_add_list_column(view, _("Name"), UTILITY_COLUMN_NAME);
+		file_util_dialog_add_list_column(view, _("Name"), FALSE, UTILITY_COLUMN_NAME);
 		}
 
 	gtk_widget_set_size_request(view, UTILITY_LIST_MIN_WIDTH, UTILITY_LIST_MIN_HEIGHT);
@@ -429,6 +445,7 @@ static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gint fu
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter,
 				   UTILITY_COLUMN_FD, fd,
+				   UTILITY_COLUMN_PIXBUF, file_util_get_error_icon(fd, view),
 				   UTILITY_COLUMN_PATH, fd->path,
 				   UTILITY_COLUMN_NAME, fd->name,
 				   UTILITY_COLUMN_SIDECARS, sidecars,
@@ -800,6 +817,35 @@ void file_util_perform_ci(UtilityData *ud)
 		}
 }
 
+static GdkPixbuf *file_util_get_error_icon(FileData *fd, GtkWidget *widget)
+{
+	static GdkPixbuf *pb_warning;
+	static GdkPixbuf *pb_error;
+	gint error;
+	
+	if (!pb_warning)
+		{
+		pb_warning = gtk_widget_render_icon(widget, GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_MENU, NULL); 
+		}
+
+	if (!pb_error)
+		{
+		pb_error = gtk_widget_render_icon(widget, GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_MENU, NULL); 
+		}
+	
+	error = file_data_sc_check_ci_dest(fd);
+	
+	if (!error) return NULL;
+
+	if (error & CHANGE_ERROR_MASK) 
+		{
+		return pb_error;
+		}
+	else
+		{
+		return pb_warning;
+		}
+}
 
 static void file_util_check_resume_cb(GenericDialog *gd, gpointer data)
 {
@@ -1052,6 +1098,7 @@ static void file_util_rename_preview_update(UtilityData *ud)
 			gtk_tree_model_get(store, &iter, UTILITY_COLUMN_FD, &fd, -1);
 			file_data_sc_update_ci_rename(fd, dest);
 			gtk_list_store_set(GTK_LIST_STORE(store), &iter, 
+					   UTILITY_COLUMN_PIXBUF, file_util_get_error_icon(fd, ud->listview),
 			                   UTILITY_COLUMN_DEST_PATH, fd->change->dest,
 				           UTILITY_COLUMN_DEST_NAME, filename_from_path(fd->change->dest),
 					   -1);
@@ -1095,7 +1142,8 @@ static void file_util_rename_preview_update(UtilityData *ud)
 
 		file_data_sc_update_ci_rename(fd, dest);
 		gtk_list_store_set(GTK_LIST_STORE(store), &iter, 
-		                   UTILITY_COLUMN_DEST_PATH, fd->change->dest,
+				   UTILITY_COLUMN_PIXBUF, file_util_get_error_icon(fd, ud->listview),
+				   UTILITY_COLUMN_DEST_PATH, fd->change->dest,
 				   UTILITY_COLUMN_DEST_NAME, filename_from_path(fd->change->dest),
 				   -1);
 		g_free(dest);
@@ -1213,7 +1261,7 @@ static void file_util_dialog_init_simple_list(UtilityData *ud)
 	box = pref_group_new(box, TRUE, ud->messages.desc_flist, GTK_ORIENTATION_HORIZONTAL);
 
 	ud->listview = file_util_dialog_add_list(box, ud->flist, FALSE);
-	file_util_dialog_add_list_column(ud->listview, _("Sidecars"), UTILITY_COLUMN_SIDECARS);
+	file_util_dialog_add_list_column(ud->listview, _("Sidecars"), FALSE, UTILITY_COLUMN_SIDECARS);
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(ud->listview));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
@@ -1302,9 +1350,9 @@ static void file_util_dialog_init_source_dest(UtilityData *ud)
 	box = pref_group_new(box, TRUE, ud->messages.desc_flist, GTK_ORIENTATION_HORIZONTAL);
 
 	ud->listview = file_util_dialog_add_list(box, ud->flist, FALSE);
-	file_util_dialog_add_list_column(ud->listview, _("Sidecars"), UTILITY_COLUMN_SIDECARS);
+	file_util_dialog_add_list_column(ud->listview, _("Sidecars"), FALSE, UTILITY_COLUMN_SIDECARS);
 
-	file_util_dialog_add_list_column(ud->listview, _("New name"), UTILITY_COLUMN_DEST_NAME);
+	file_util_dialog_add_list_column(ud->listview, _("New name"), FALSE, UTILITY_COLUMN_DEST_NAME);
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(ud->listview));
 	gtk_tree_selection_set_mode(GTK_TREE_SELECTION(selection), GTK_SELECTION_SINGLE);
