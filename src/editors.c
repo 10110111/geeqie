@@ -655,6 +655,7 @@ static gint editor_command_one(const gchar *template, GList *list, EditorData *e
 
 			channel_output = g_io_channel_unix_new(standard_output);
 			g_io_channel_set_flags(channel_output, G_IO_FLAG_NONBLOCK, NULL);
+			g_io_channel_set_encoding(channel_output, NULL, NULL);
 
 			g_io_add_watch_full(channel_output, G_PRIORITY_HIGH, G_IO_IN | G_IO_ERR | G_IO_HUP,
 					    editor_verbose_io_cb, ed, NULL);
@@ -662,6 +663,7 @@ static gint editor_command_one(const gchar *template, GList *list, EditorData *e
 
 			channel_error = g_io_channel_unix_new(standard_error);
 			g_io_channel_set_flags(channel_error, G_IO_FLAG_NONBLOCK, NULL);
+			g_io_channel_set_encoding(channel_error, NULL, NULL);
 
 			g_io_add_watch_full(channel_error, G_PRIORITY_HIGH, G_IO_IN | G_IO_ERR | G_IO_HUP,
 					    editor_verbose_io_cb, ed, NULL);
