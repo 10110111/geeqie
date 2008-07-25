@@ -1569,7 +1569,7 @@ gboolean file_data_sc_update_ci_unspecified_list(GList *fd_list, const gchar *de
  * FIXME: add more tests
  */
 
-gint file_data_check_ci_dest(FileData *fd)
+gint file_data_verify_ci(FileData *fd)
 {
 	gint ret = CHANGE_OK;
 	
@@ -1596,26 +1596,113 @@ gint file_data_check_ci_dest(FileData *fd)
 }
 
  
-gint file_data_sc_check_ci_dest(FileData *fd)
+gint file_data_sc_verify_ci(FileData *fd)
 {
 	GList *work;
-	int ret;
+	gint ret;
 
-	ret = file_data_check_ci_dest(fd);
+	ret = file_data_verify_ci(fd);
 
 	work = fd->sidecar_files;
 	while (work)
 		{
 		FileData *sfd = work->data;
 
-		ret |= file_data_check_ci_dest(sfd);
+		ret |= file_data_verify_ci(sfd);
 		work = work->next;
 		}
 
 	return ret;
 }
 
+gchar *file_data_get_error_string(gint error)
+{
+	GString *result = g_string_new("");
 
+	if (error & CHANGE_NO_PERM)
+		{
+		if (result->len > 0) g_string_append(result, ", ");
+		g_string_append(result, _("no read permission"));
+		}
+
+	if (error & CHANGE_DEST_EXISTS)
+		{
+		if (result->len > 0) g_string_append(result, ", ");
+		g_string_append(result, _("destination file already exists and will be overwritten"));
+		}
+
+	return g_string_free(result, FALSE);
+}
+
+gint file_data_sc_verify_ci_list(GList *list, gchar **desc)
+{
+	gint all_errors = 0;
+	gint common_errors = ~0; 
+	gint num;
+	gint *errors;
+	gint i;
+	
+	if (!list) return 0;
+	
+	num = g_list_length(list);
+	errors = g_new(int, num);
+	GList *work = list;
+	i = 0;
+	while (work)
+		{
+		FileData *fd;
+		gint error;
+
+		fd = work->data;
+		work = work->next;
+			
+		error = file_data_sc_verify_ci(fd);
+		all_errors |= error;
+		common_errors &= error;
+		
+		errors[i] = error;
+		
+		i++;
+		}
+	
+	if (desc && all_errors)
+		{
+		GString *result = g_string_new("");
+		
+		if (common_errors)
+			{
+			gchar *str = file_data_get_error_string(common_errors);
+			g_string_append(result, str);
+			g_string_append(result, "\n");
+			g_free(str);
+			}
+		
+		GList *work = list;
+		i = 0;
+		while (work)
+			{
+			FileData *fd;
+			gint error;
+
+			fd = work->data;
+			work = work->next;
+			
+			error = errors[i] & ~common_errors;
+			
+			if (error)
+				{
+				gchar *str = file_data_get_error_string(error);
+				g_string_append_printf(result, "%s: %s\n", fd->name, str);
+				g_free(str);
+				}
+			i++;
+			}
+		*desc = g_string_free(result, FALSE);
+		}
+
+	g_free(errors);
+	return all_errors;
+}
 
 
 /*

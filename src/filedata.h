@@ -91,7 +91,10 @@ gint file_data_sc_update_ci_copy(FileData *fd, const gchar *dest_path);
 gint file_data_sc_update_ci_move(FileData *fd, const gchar *dest_path);
 gint file_data_sc_update_ci_rename(FileData *fd, const gchar *dest_path);
 gint file_data_sc_update_ci_unspecified(FileData *fd, const gchar *dest_path);
-gint file_data_sc_check_ci_dest(FileData *fd);
+gint file_data_sc_verify_ci(FileData *fd);
+gchar *file_data_get_error_string(gint error);
+gint file_data_sc_verify_ci_list(GList *list, gchar **desc);
+
 gboolean file_data_sc_perform_ci(FileData *fd);
 gint file_data_sc_apply_ci(FileData *fd);
 void file_data_sc_free_ci(FileData *fd);

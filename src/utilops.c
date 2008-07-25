@@ -833,7 +833,7 @@ static GdkPixbuf *file_util_get_error_icon(FileData *fd, GtkWidget *widget)
 		pb_error = gtk_widget_render_icon(widget, GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_MENU, NULL); 
 		}
 	
-	error = file_data_sc_check_ci_dest(fd);
+	error = file_data_sc_verify_ci(fd);
 	
 	if (!error) return NULL;
 
@@ -864,23 +864,16 @@ static void file_util_check_abort_cb(GenericDialog *gd, gpointer data)
 void file_util_check_ci(UtilityData *ud)
 {
 	gint error = CHANGE_OK;
+	gchar *desc = NULL;
 	
 	if (ud->dir_fd)
 		{
-		error = file_data_sc_check_ci_dest(ud->dir_fd);
+		error = file_data_sc_verify_ci(ud->dir_fd);
+		if (error) desc = file_data_get_error_string(error);
 		}
 	else
 		{
-		GList *work = ud->flist;
-		while (work)
-			{
-			FileData *fd;
-
-			fd = work->data;
-			work = work->next;
-			
-			error |= file_data_sc_check_ci_dest(fd);
-			}
+		error = file_data_sc_verify_ci_list(ud->flist, &desc);
 		}
 
 	if (!error)
@@ -900,12 +893,11 @@ void file_util_check_ci(UtilityData *ud)
 					ud->parent, TRUE,
 					file_util_check_abort_cb, ud);
 
-		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, NULL, "Really continue?");
+		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, _("Really continue?"), desc);
 
 		generic_dialog_add_button(d, GTK_STOCK_GO_FORWARD, _("Co_ntinue"),
 					  file_util_check_resume_cb, TRUE);
 		gtk_widget_show(d->dialog);
-		return;
 		}
 	else
 		{
@@ -915,12 +907,11 @@ void file_util_check_ci(UtilityData *ud)
 		d = file_util_gen_dlg("This operation can't continue", GQ_WMCLASS, "dlg_confirm",
 					ud->parent, TRUE,
 					file_util_check_abort_cb, ud);
-		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, NULL, "This operation can't continue");
+		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, "This operation can't continue", desc);
 
 		gtk_widget_show(d->dialog);
-		return;
 		}
-
+	g_free(desc);
 }
 
 
