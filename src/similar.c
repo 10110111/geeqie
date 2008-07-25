@@ -68,40 +68,6 @@ void image_sim_free(ImageSimilarityData *sd)
 	g_free(sd);
 }
 
-#if 0
-static void image_sim_channel_expand(guint8 *pix, gint len)
-{
-	guint8 l, h;
-	gint i;
-	gdouble scale;
-
-	/* set the start values */
-	l = h = pix[0];
-
-	/* find min/max */
-	for (i = 0; i < len; i++)
-		{
-		if (pix[i] < l) l = pix[i];
-		if (pix[i] > h) h = pix[i];
-		}
-
-	/* calc scale from range */
-	if (l != h)
-		{
-		scale = 255.0 / (gdouble)(h - l);
-		}
-	else
-		{
-		scale = 1.0;
-		}
-
-	for (i = 0; i < len; i++)
-		{
-		pix[i] = (guint8)((gdouble)pix[i] - l * scale);
-		}
-}
-#endif
-
 static int image_sim_channel_eq_sort_cb(const void *a, const void *b)
 {
 	gint *pa = (void *)a;
@@ -136,7 +102,7 @@ static void image_sim_channel_equal(guint8 *pix, gint len)
 		gint n;
 
 		n = buf[p];
-		p+= 2;
+		p += 2;
 		pix[n] = (guint8)(255 * i / len);
 		}
 
@@ -145,7 +111,7 @@ static void image_sim_channel_equal(guint8 *pix, gint len)
 
 static void image_sim_channel_norm(guint8 *pix, gint len)
 {
-	guint8 l, h;
+	guint8 l, h, delta;
 	gint i;
 	gdouble scale;
 
@@ -157,7 +123,8 @@ static void image_sim_channel_norm(guint8 *pix, gint len)
 		if (pix[i] > h) h = pix[i];
 		}
 
-	scale = (h-l !=0) ? 255.0 / (gdouble)(h - l) : 1.0;
+	delta = h - l;
+	scale = (delta != 0) ? 255.0 / (gdouble)(delta) : 1.0;
 
 	for (i = 0; i < len; i++)
 		{
@@ -213,7 +180,7 @@ void image_sim_fill_data(ImageSimilarityData *sd, GdkPixbuf *pixbuf)
 	guchar *p;
 	gint i;
 	gint j;
-	gint x_inc, y_inc;
+	gint x_inc, y_inc, xy_inc;
 	gint xs, ys;
 
 	gint x_small = FALSE;	/* if less than 32 w or h, set TRUE */
@@ -242,6 +209,8 @@ void image_sim_fill_data(ImageSimilarityData *sd, GdkPixbuf *pixbuf)
 		y_small = TRUE;
 		}
 
+	xy_inc = x_inc * y_inc;
+
 	j = 0;
 
 	for (ys = 0; ys < 32; ys++)
@@ -255,14 +224,16 @@ void image_sim_fill_data(ImageSimilarityData *sd, GdkPixbuf *pixbuf)
 			gint x, y;
 			gint r, g, b;
 			gint t;
+			guchar *xpos;
 
 			if (x_small) i = (gdouble)w / 32 * xs;
 
 			r = g = b = 0;
+			xpos = pix + (i * p_step);
 
 			for (y = j; y < j + y_inc; y++)
 				{
-				p = pix + (y * rs) + (i * p_step);
+				p = xpos + (y * rs);
 				for (x = i; x < i + x_inc; x++)
 					{
 					r += *p; p++;
@@ -272,10 +243,9 @@ void image_sim_fill_data(ImageSimilarityData *sd, GdkPixbuf *pixbuf)
 					}
 				}
 
-			t = x_inc * y_inc;
-			r /= t;
-			g /= t;
-			b /= t;
+			r /= xy_inc;
+			g /= xy_inc;
+			b /= xy_inc;
 
 			t = ys * 32 + xs;
 			sd->avg_r[t] = r;
@@ -311,12 +281,11 @@ static gdouble alternate_image_sim_compare_fast(ImageSimilarityData *a, ImageSim
 
 	if (!a || !b || !a->filled || !b->filled) return 0.0;
 
-
 	min = 1.0 - min;
 	sim = 0.0;
 	ld = 0;
 
-	for (j = 0; j < 1024; j+= 32)
+	for (j = 0; j < 1024; j += 32)
 		{
 		for (i = j; i < j + 32; i++)
 			{
@@ -376,7 +345,7 @@ gdouble image_sim_compare_fast(ImageSimilarityData *a, ImageSimilarityData *b, g
 	min = 1.0 - min;
 	sim = 0.0;
 
-	for (j = 0; j < 1024; j+= 32)
+	for (j = 0; j < 1024; j += 32)
 		{
 		for (i = j; i < j + 32; i++)
 			{
