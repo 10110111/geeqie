@@ -15,7 +15,7 @@ dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 dnl GNU General Public License for more details.
 
 AC_PREREQ(2.57)
-AC_INIT(geeqie, 1.0alpha1, geeqie-devel@lists.sourceforge.net)
+AC_INIT(geeqie, 1.0alpha2, geeqie-devel@lists.sourceforge.net)
 
 # Check for rightly dirs
 AC_CONFIG_SRCDIR([src/main.c])
