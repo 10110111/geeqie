@@ -263,7 +263,6 @@ struct _UtilityDataMessages {
 	gchar *title;
 	gchar *question;
 	gchar *desc_flist;
-	gchar *desc_dlist;
 	gchar *desc_source_fd;
 	gchar *fail;
 };
@@ -1564,7 +1563,6 @@ static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWi
 	ud->messages.title = _("Delete");
 	ud->messages.question = _("Delete files?");
 	ud->messages.desc_flist = _("This will delete the following files");
-	ud->messages.desc_dlist = "";
 	ud->messages.desc_source_fd = "";
 	ud->messages.fail = _("File deletion failed");
 
@@ -1602,7 +1600,6 @@ static void file_util_move_full(FileData *source_fd, GList *source_list, const g
 	ud->messages.title = _("Move");
 	ud->messages.question = _("Move files?");
 	ud->messages.desc_flist = _("This will move the following files");
-	ud->messages.desc_dlist = "";
 	ud->messages.desc_source_fd = "";
 	ud->messages.fail = _("Move failed");
 
@@ -1639,7 +1636,6 @@ static void file_util_copy_full(FileData *source_fd, GList *source_list, const g
 	ud->messages.title = _("Copy");
 	ud->messages.question = _("Copy files?");
 	ud->messages.desc_flist = _("This will copy the following files");
-	ud->messages.desc_dlist = "";
 	ud->messages.desc_source_fd = "";
 	ud->messages.fail = _("Copy failed");
 
@@ -1675,7 +1671,6 @@ static void file_util_rename_full(FileData *source_fd, GList *source_list, const
 	ud->messages.title = _("Rename");
 	ud->messages.question = _("Rename files?");
 	ud->messages.desc_flist = _("This will rename the following files");
-	ud->messages.desc_dlist = "";
 	ud->messages.desc_source_fd = "";
 	ud->messages.fail = _("Rename failed");
 
@@ -1722,7 +1717,6 @@ static void file_util_start_editor_full(gint n, FileData *source_fd, GList *sour
 	ud->messages.title = _("Editor");
 	ud->messages.question = _("Run editor?");
 	ud->messages.desc_flist = _("This will copy the following files");
-	ud->messages.desc_dlist = "";
 	ud->messages.desc_source_fd = "";
 	ud->messages.fail = _("External command failed");
 
@@ -1895,7 +1889,6 @@ static void file_util_delete_dir_full(FileData *fd, GtkWidget *parent, UtilityPh
 		ud->messages.title = _("Delete folder");
 		ud->messages.question = _("Delete symbolic link?");
 		ud->messages.desc_flist = "";
-		ud->messages.desc_dlist = "";
 		ud->messages.desc_source_fd = _("This will delete the symbolic link.\n"
 					        "The folder this link points to will not be deleted.");
 		ud->messages.fail = _("Link deletion failed");
@@ -2094,7 +2087,6 @@ static void file_util_rename_dir_full(FileData *fd, const char *new_path, GtkWid
 	ud->messages.title = _("Rename");
 	ud->messages.question = _("Rename folder?");
 	ud->messages.desc_flist = _("The folder contains the following files");
-	ud->messages.desc_dlist = "";
 	ud->messages.desc_source_fd = "";
 	ud->messages.fail = _("Rename failed");
 
@@ -2139,7 +2131,6 @@ static void file_util_create_dir_full(FileData *fd, const char *dest_path, GtkWi
 	ud->messages.title = _("Create Folder");
 	ud->messages.question = _("Create folder?");
 	ud->messages.desc_flist = "";
-	ud->messages.desc_dlist = "";
 	ud->messages.desc_source_fd = "";
 	ud->messages.fail = _("Can't create folder");
 
