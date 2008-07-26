@@ -1607,15 +1607,24 @@ gint file_data_verify_ci(FileData *fd)
 		ret |= CHANGE_WARN_NO_WRITE_PERM;
 		DEBUG_1("Change checked: no write permission: %s", fd->path);
 		}
-		
-	if (fd->change->dest && (strcmp(fd->path, fd->change->dest) == 0))
-		{
-		ret |= CHANGE_WARN_SAME;
-		DEBUG_1("Change checked: source and destination is the same: %s", fd->path);
-		}
-	
+
 	if (fd->change->dest)
 		{
+		const gchar *dest_ext = extension_from_path(fd->change->dest);
+		if (!dest_ext) dest_ext = "";
+		
+		if (strcasecmp(fd->extension, dest_ext) != 0)
+			{
+			ret |= CHANGE_WARN_CHANGED_EXT;
+			DEBUG_1("Change checked: source and destination have different extensions: %s -> %s", fd->path, fd->change->dest);
+		}
+
+		if (strcmp(fd->path, fd->change->dest) == 0)
+			{
+			ret |= CHANGE_WARN_SAME;
+			DEBUG_1("Change checked: source and destination is the same: %s -> %s", fd->path, fd->change->dest);
+		}
+
 		if (!isdir(dest_dir))		
 			{
 			ret |= CHANGE_NO_DEST_DIR;
@@ -1728,11 +1737,17 @@ gchar *file_data_get_error_string(gint error)
 		if (result->len > 0) g_string_append(result, ", ");
 		g_string_append(result, _("destination already exists and will be overwritten"));
 		}
-
+		
 	if (error & CHANGE_WARN_SAME)
 		{
 		if (result->len > 0) g_string_append(result, ", ");
 		g_string_append(result, _("source and destination is the same"));
+		}
+
+	if (error & CHANGE_WARN_CHANGED_EXT)
+		{
+		if (result->len > 0) g_string_append(result, ", ");
+		g_string_append(result, _("source and destination have different extension"));
 		}
 
 	return g_string_free(result, FALSE);
