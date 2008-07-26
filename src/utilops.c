@@ -901,7 +901,7 @@ void file_util_check_ci(UtilityData *ud)
 		/* just a warning */
 		GenericDialog *d;
 
-		d = file_util_gen_dlg("This operation can be dangerous", GQ_WMCLASS, "dlg_confirm",
+		d = file_util_gen_dlg(ud->messages.title, GQ_WMCLASS, "dlg_confirm",
 					ud->parent, TRUE,
 					file_util_check_abort_cb, ud);
 
@@ -916,10 +916,10 @@ void file_util_check_ci(UtilityData *ud)
 		/* fatal error */
 		GenericDialog *d;
 
-		d = file_util_gen_dlg("This operation can't continue", GQ_WMCLASS, "dlg_confirm",
+		d = file_util_gen_dlg(ud->messages.title, GQ_WMCLASS, "dlg_confirm",
 					ud->parent, TRUE,
 					file_util_check_abort_cb, ud);
-		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, "This operation can't continue", desc);
+		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, _("This operation can't continue:"), desc);
 
 		gtk_widget_show(d->dialog);
 		}
