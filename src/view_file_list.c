@@ -420,12 +420,6 @@ static gint vflist_row_rename_cb(TreeEditData *td, const gchar *old, const gchar
 		file_util_warning_dialog(_("Error renaming file"), text, GTK_STOCK_DIALOG_ERROR, vf->listview);
 		g_free(text);
 		}
-	else if (isfile(new_path))
-		{
-		gchar *text = g_strdup_printf(_("A file with name %s already exists."), new);
-		file_util_warning_dialog(_("Error renaming file"), text, GTK_STOCK_DIALOG_ERROR, vf->listview);
-		g_free(text);
-		}
 	else
 		{
 		FileData *fd = file_data_new_simple(old_path); /* get the fd from cache */
