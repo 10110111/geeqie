@@ -1564,34 +1564,90 @@ gboolean file_data_sc_update_ci_unspecified_list(GList *fd_list, const gchar *de
 
 
 /*
- * check dest paths - dest image exists, etc.
+ * verify source and dest paths - dest image exists, etc.
  * it should detect all possible problems with the planned operation
- * FIXME: add more tests
  */
 
 gint file_data_verify_ci(FileData *fd)
 {
 	gint ret = CHANGE_OK;
+	gchar *dir;
+	gchar *dest_dir = NULL;
 	
 	g_assert(fd->change);
-	
-	if (fd->change->dest &&
-	    strcmp(fd->change->dest, fd->path) != 0 &&
-	    isname(fd->change->dest))
+
+	if (!isname(fd->path))
 		{
-		ret |= CHANGE_DEST_EXISTS;
-		DEBUG_1("Change checked: destination exists: %s -> %s", fd->path, fd->change->dest);
+		/* this probably should not happen */
+		ret |= CHANGE_NO_SRC;
+		DEBUG_1("Change checked: file does not exist: %s", fd->path);
+		return ret; 
+		}
+		
+	dir = remove_level_from_path(fd->path);
+	
+	if (fd->change->dest) dest_dir = remove_level_from_path(fd->change->dest);
+
+	if (fd->change->type != FILEDATA_CHANGE_DELETE && 
+	    !access_file(fd->path, R_OK))
+		{
+		ret |= CHANGE_NO_READ_PERM;
+		DEBUG_1("Change checked: no read permission: %s", fd->path);
+		}
+	else if ((fd->change->type == FILEDATA_CHANGE_DELETE || fd->change->type == FILEDATA_CHANGE_MOVE) &&
+	    !access_file(dir, W_OK))
+		{
+		ret |= CHANGE_NO_WRITE_PERM_DIR;
+		DEBUG_1("Change checked: source dir is readonly: %s", fd->path);
+		}
+	else if (fd->change->type != FILEDATA_CHANGE_COPY && 
+	         fd->change->type != FILEDATA_CHANGE_UNSPECIFIED && 
+	         !access_file(fd->path, W_OK)) 
+		{
+		ret |= CHANGE_WARN_NO_WRITE_PERM;
+		DEBUG_1("Change checked: no write permission: %s", fd->path);
+		}
+		
+	if (fd->change->dest && (strcmp(fd->path, fd->change->dest) == 0))
+		{
+		ret |= CHANGE_WARN_SAME;
+		DEBUG_1("Change checked: source and destination is the same: %s", fd->path);
 		}
 	
-	if (!access_file(fd->path, R_OK))
+	if (fd->change->dest)
 		{
-		ret |= CHANGE_NO_PERM;
-		DEBUG_1("Change checked: no read permission: %s", fd->path);
+		if (!isdir(dest_dir))		
+			{
+			ret |= CHANGE_NO_DEST_DIR;
+			DEBUG_1("Change checked: destination dir does not exist: %s -> %s", fd->path, fd->change->dest);
+			}
+		else if (!access_file(dest_dir, W_OK))
+			{
+			ret |= CHANGE_NO_WRITE_PERM_DEST_DIR;
+			DEBUG_1("Change checked: destination dir is readonly: %s -> %s", fd->path, fd->change->dest);
+			}
+		else if (isfile(fd->change->dest) && !access_file(fd->change->dest, W_OK) && (strcmp(fd->change->dest, fd->path) != 0))
+			{
+			ret |= CHANGE_NO_WRITE_PERM_DEST;
+			DEBUG_1("Change checked: destination file exists and is readonly: %s -> %s", fd->path, fd->change->dest);
+			}
+		else if (isfile(fd->change->dest) && (strcmp(fd->change->dest, fd->path) != 0))
+			{
+			ret |= CHANGE_WARN_DEST_EXISTS;
+			DEBUG_1("Change checked: destination exists: %s -> %s", fd->path, fd->change->dest);
+			}
+		else if (isdir(fd->change->dest) && (strcmp(fd->change->dest, fd->path) != 0))
+			{
+			ret |= CHANGE_DEST_EXISTS;
+			DEBUG_1("Change checked: destination exists: %s -> %s", fd->path, fd->change->dest);
+			}
 		}
 		
 	fd->change->error = ret;
 	if (ret == 0) DEBUG_1("Change checked: OK: %s", fd->path);
 
+	g_free(dir);
+	g_free(dest_dir);
 	return ret;
 }
 
@@ -1619,16 +1675,64 @@ gchar *file_data_get_error_string(gint error)
 {
 	GString *result = g_string_new("");
 
-	if (error & CHANGE_NO_PERM)
+	if (error & CHANGE_NO_SRC)
 		{
 		if (result->len > 0) g_string_append(result, ", ");
-		g_string_append(result, _("no read permission"));
+		g_string_append(result, _("file or directory does not exist"));
 		}
 
 	if (error & CHANGE_DEST_EXISTS)
 		{
 		if (result->len > 0) g_string_append(result, ", ");
-		g_string_append(result, _("destination file already exists and will be overwritten"));
+		g_string_append(result, _("destination already exists"));
+		}
+
+	if (error & CHANGE_NO_WRITE_PERM_DEST)
+		{
+		if (result->len > 0) g_string_append(result, ", ");
+		g_string_append(result, _("destination can't be overwritten"));
+		}
+
+	if (error & CHANGE_NO_WRITE_PERM_DEST_DIR)
+		{
+		if (result->len > 0) g_string_append(result, ", ");
+		g_string_append(result, _("destination directory is not writable"));
+		}
+
+	if (error & CHANGE_NO_DEST_DIR)
+		{
+		if (result->len > 0) g_string_append(result, ", ");
+		g_string_append(result, _("destination directory does not exist"));
+		}
+
+	if (error & CHANGE_NO_WRITE_PERM_DIR)
+		{
+		if (result->len > 0) g_string_append(result, ", ");
+		g_string_append(result, _("source directory is not writable"));
+		}
+
+	if (error & CHANGE_NO_READ_PERM)
+		{
+		if (result->len > 0) g_string_append(result, ", ");
+		g_string_append(result, _("no read permission"));
+		}
+
+	if (error & CHANGE_WARN_NO_WRITE_PERM)
+		{
+		if (result->len > 0) g_string_append(result, ", ");
+		g_string_append(result, _("file is readonly"));
+		}
+
+	if (error & CHANGE_WARN_DEST_EXISTS)
+		{
+		if (result->len > 0) g_string_append(result, ", ");
+		g_string_append(result, _("destination already exists and will be overwritten"));
+		}
+
+	if (error & CHANGE_WARN_SAME)
+		{
+		if (result->len > 0) g_string_append(result, ", ");
+		g_string_append(result, _("source and destination is the same"));
 		}
 
 	return g_string_free(result, FALSE);
