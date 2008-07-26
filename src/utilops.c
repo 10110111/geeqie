@@ -866,7 +866,12 @@ void file_util_check_ci(UtilityData *ud)
 	gint error = CHANGE_OK;
 	gchar *desc = NULL;
 	
-	if (ud->dir_fd)
+	if (ud->dest_path && !isdir(ud->dest_path))
+		{
+		error = CHANGE_GENERIC_ERROR;
+		desc = g_strdup_printf(_("%s is not a directory"), ud->dest_path);
+		}
+	else if (ud->dir_fd)
 		{
 		error = file_data_sc_verify_ci(ud->dir_fd);
 		if (error) desc = file_data_get_error_string(error);
@@ -883,7 +888,6 @@ void file_util_check_ci(UtilityData *ud)
 		return;
 		}
 
-	// FIXME: the dialogs needs better error messages with a list of files and error descriptions
 	if (!(error & CHANGE_ERROR_MASK))
 		{
 		/* just a warning */

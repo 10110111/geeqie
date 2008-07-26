@@ -161,7 +161,8 @@ typedef enum {
 	CHANGE_NO_WRITE_PERM_DEST_DIR  = 1 << 6,
 	CHANGE_NO_WRITE_PERM_DEST      = 1 << 7,
 	CHANGE_DEST_EXISTS             = 1 << 8,
-	CHANGE_NO_SRC                  = 1 << 9
+	CHANGE_NO_SRC                  = 1 << 9,
+	CHANGE_GENERIC_ERROR           = 1 << 16
 } ChangeError;
 
 #define MAX_SPLIT_IMAGES 4
