@@ -1620,7 +1620,8 @@ gint file_data_verify_ci(FileData *fd)
 			DEBUG_1("Change checked: source and destination have different extensions: %s -> %s", fd->path, fd->change->dest);
 		}
 
-		if (strcmp(fd->path, fd->change->dest) == 0)
+		if (fd->change->type != FILEDATA_CHANGE_UNSPECIFIED && /* FIXME this is now needed for running editors */
+		    strcmp(fd->path, fd->change->dest) == 0)
 			{
 			ret |= CHANGE_WARN_SAME;
 			DEBUG_1("Change checked: source and destination is the same: %s -> %s", fd->path, fd->change->dest);
