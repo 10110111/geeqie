@@ -872,19 +872,22 @@ void file_util_check_ci(UtilityData *ud)
 	gint error = CHANGE_OK;
 	gchar *desc = NULL;
 	
-	if (ud->dest_path && !isdir(ud->dest_path))
+	if (ud->type != UTILITY_TYPE_CREATE_FOLDER)
 		{
-		error = CHANGE_GENERIC_ERROR;
-		desc = g_strdup_printf(_("%s is not a directory"), ud->dest_path);
-		}
-	else if (ud->dir_fd)
-		{
-		error = file_data_sc_verify_ci(ud->dir_fd);
-		if (error) desc = file_data_get_error_string(error);
-		}
-	else
-		{
-		error = file_data_sc_verify_ci_list(ud->flist, &desc);
+		if (ud->dest_path && !isdir(ud->dest_path))
+			{
+			error = CHANGE_GENERIC_ERROR;
+			desc = g_strdup_printf(_("%s is not a directory"), ud->dest_path);
+			}
+		else if (ud->dir_fd)
+			{
+			error = file_data_sc_verify_ci(ud->dir_fd);
+			if (error) desc = file_data_get_error_string(error);
+			}
+		else
+			{
+			error = file_data_sc_verify_ci_list(ud->flist, &desc);
+			}
 		}
 
 	if (!error)
