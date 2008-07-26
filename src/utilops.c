@@ -1482,10 +1482,13 @@ void file_util_dialog_run(UtilityData *ud)
 				case UTILITY_TYPE_COPY:
 				case UTILITY_TYPE_MOVE:
 				case UTILITY_TYPE_FILTER:
-				case UTILITY_TYPE_RENAME_FOLDER:
 				case UTILITY_TYPE_CREATE_FOLDER:
 					file_util_dialog_init_dest_folder(ud);
 					break;
+				case UTILITY_TYPE_RENAME_FOLDER:
+					ud->phase = UTILITY_PHASE_CANCEL; /* FIXME - not handled for now */
+					file_util_dialog_run(ud);
+					return;
 				}
 			ud->phase = UTILITY_PHASE_ENTERING;
 			break;

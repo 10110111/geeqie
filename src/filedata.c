@@ -1451,9 +1451,11 @@ static void file_data_sc_update_ci(FileData *fd, const gchar *dest_path)
 	
 	if (fd->parent) fd = fd->parent;
 	
-	if (!dest_path) dest_path = fd->path;
-	
-	if (!strchr(dest_path, G_DIR_SEPARATOR)) /* we got only filename, not a full path */
+	if (!dest_path) 
+		{
+		dest_path = fd->path;
+		}
+	else if (!strchr(dest_path, G_DIR_SEPARATOR)) /* we got only filename, not a full path */
 		{
 		gchar *dir = remove_level_from_path(fd->path);
 		
@@ -1461,8 +1463,7 @@ static void file_data_sc_update_ci(FileData *fd, const gchar *dest_path)
 		g_free(dir);
 		dest_path = dest_path_full;
 		}
-	
-	if (isdir(dest_path))
+	else if (fd->change->type != FILEDATA_CHANGE_RENAME && isdir(dest_path)) /* rename should not move files between directories */
 		{
 		dest_path_full = g_build_filename(dest_path, fd->name, NULL);
 		dest_path = dest_path_full;
