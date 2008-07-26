@@ -821,6 +821,7 @@ static GdkPixbuf *file_util_get_error_icon(FileData *fd, GtkWidget *widget)
 {
 	static GdkPixbuf *pb_warning;
 	static GdkPixbuf *pb_error;
+	static GdkPixbuf *pb_apply;
 	gint error;
 	
 	if (!pb_warning)
@@ -832,10 +833,15 @@ static GdkPixbuf *file_util_get_error_icon(FileData *fd, GtkWidget *widget)
 		{
 		pb_error = gtk_widget_render_icon(widget, GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_MENU, NULL); 
 		}
+
+	if (!pb_apply)
+		{
+		pb_apply = gtk_widget_render_icon(widget, GTK_STOCK_APPLY, GTK_ICON_SIZE_MENU, NULL); 
+		}
 	
 	error = file_data_sc_verify_ci(fd);
 	
-	if (!error) return NULL;
+	if (!error) return pb_apply;
 
 	if (error & CHANGE_ERROR_MASK) 
 		{
