@@ -1000,6 +1000,7 @@ static void file_util_fdlg_ok_cb(FileDialog *fdlg, gpointer data)
 	UtilityData *ud = data;
 	
 	file_util_dest_folder_update_path(ud);
+	if (isdir(ud->dest_path)) file_dialog_sync_history(fdlg, TRUE);
 	file_dialog_close(fdlg);
 	
 	ud->fdlg = NULL;
