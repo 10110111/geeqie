@@ -60,7 +60,7 @@ static Editor editor_slot_defaults[GQ_EDITOR_SLOTS] = {
 	{ N_("Xpaint"), "xpaint %f" },
 	{ N_("UFraw"), "ufraw %{.cr2;.crw;.nef;.raw}p" },
 	{ N_("Add XMP sidecar"), "%vFILE=%{.cr2;.crw;.nef;.raw}p;XMP=`echo \"$FILE\"|sed -e 's|\\.[^.]*$|.xmp|'`; exiftool -tagsfromfile \"$FILE\" \"$XMP\"" },
-	{ NULL, NULL },
+	{ N_("Symlink"), "ln -s %p %d"},
 	{ NULL, NULL },
 	{ NULL, NULL },
 	{ N_("Rotate jpeg clockwise"), "%vif jpegtran -rotate 90 -copy all -outfile %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p; then mv %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p;else rm %{.jpg;.jpeg}p_tmp;fi" },
