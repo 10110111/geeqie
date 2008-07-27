@@ -1081,7 +1081,7 @@ static void vd_notify_cb(FileData *fd, NotifyType type, gpointer data)
 
 		if (vd_find_row(vd, base_fd, &iter))
 			{
-			vdtree_populate_path_by_iter(vd, &iter, FALSE, vd->dir_fd);
+			vdtree_populate_path_by_iter(vd, &iter, TRUE, vd->dir_fd);
 			} 
 
 		file_data_unref(base_fd);

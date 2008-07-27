@@ -436,7 +436,6 @@ gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, Fi
 
 	if (nd->expanded)
 		{
-		if (!force && current_time - nd->last_update < 10) return TRUE;
 		if (!isdir(nd->fd->path))
 			{
 			if (vd->click_fd == nd->fd) vd->click_fd = NULL;
@@ -445,7 +444,12 @@ gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, Fi
 			vdtree_node_free(nd);
 			return FALSE;
 			}
-		if (!force && nd->fd->version == nd->version) return TRUE;
+		if (!force && current_time - nd->last_update < 2) 
+			{
+			DEBUG_1("Too frequent update of %s", nd->fd->path);
+			return TRUE;
+			}
+		if (nd->fd->version == nd->version) return TRUE;
 		}
 
 	vdtree_busy_push(vd);
