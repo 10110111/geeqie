@@ -1041,7 +1041,7 @@ static void vd_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	gboolean refresh;
 	gchar *base;
 
-	if (!isdir(fd->path) && isname(fd->path)) return;
+	if (!S_ISDIR(fd->mode)) return; /* this gives correct results even on recently deleted files/directories */
 
 	base = remove_level_from_path(fd->path);
 

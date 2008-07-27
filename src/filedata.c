@@ -235,6 +235,7 @@ static gboolean file_data_check_changed_files_recursive(FileData *fd, struct sta
 		{
 		fd->size = st->st_size;
 		fd->date = st->st_mtime;
+		fd->mode = st->st_mode;
 		if (fd->thumb_pixbuf) g_object_unref(fd->thumb_pixbuf);
 		fd->thumb_pixbuf = NULL;
 		file_data_increment_version(fd);
@@ -351,6 +352,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 
 	fd->size = st->st_size;
 	fd->date = st->st_mtime;
+	fd->mode = st->st_mode;
 	fd->thumb_pixbuf = NULL;
 	fd->sidecar_files = NULL;
 	fd->ref = 1;
