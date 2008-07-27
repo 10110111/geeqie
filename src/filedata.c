@@ -1575,7 +1575,11 @@ gint file_data_verify_ci(FileData *fd)
 	gchar *dir;
 	gchar *dest_dir = NULL;
 	
-	g_assert(fd->change);
+	if (!fd->change)
+		{
+		DEBUG_1("Change checked: no change info: %s", fd->path);
+		return ret; 
+		}
 
 	if (!isname(fd->path))
 		{
