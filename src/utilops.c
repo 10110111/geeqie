@@ -1543,6 +1543,8 @@ static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWi
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
 
+	if (!flist) return;
+	
 	file_util_disable_grouping_sc_list(flist);
 	
 	if (!file_data_sc_add_ci_delete_list(flist))
@@ -1577,6 +1579,8 @@ static void file_util_move_full(FileData *source_fd, GList *source_list, const g
 	
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
+
+	if (!flist) return;
 
 	file_util_disable_grouping_sc_list(flist);
 
@@ -1613,6 +1617,8 @@ static void file_util_copy_full(FileData *source_fd, GList *source_list, const g
 	
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
+
+	if (!flist) return;
 
 	file_util_disable_grouping_sc_list(flist);
 
@@ -1651,6 +1657,8 @@ static void file_util_rename_full(FileData *source_fd, GList *source_list, const
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
 
+	if (!flist) return;
+
 	file_util_disable_grouping_sc_list(flist);
 
 	if (!file_data_sc_add_ci_rename_list(flist, dest_path))
@@ -1685,6 +1693,8 @@ static void file_util_start_editor_full(gint n, FileData *source_fd, GList *sour
 	
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
+
+	if (!flist) return;
 
 	file_util_disable_grouping_sc_list(flist);
 
