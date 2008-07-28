@@ -1126,7 +1126,7 @@ gchar *file_data_sc_list_to_string(FileData *fd)
 /*
    FileDataChangeInfo types:
    COPY
-   MOVE - patch is changed, name may be changed too
+   MOVE   - path is changed, name may be changed too
    RENAME - path remains unchanged, name is changed
             extension should remain (FIXME should we allow editing extension? it will make problems wth grouping)
 	    sidecar names are changed too, extensions are not changed
@@ -1485,36 +1485,36 @@ static void file_data_sc_update_ci(FileData *fd, const gchar *dest_path)
 	g_free(dest_path_full);
 }
 
-gint file_data_sc_update_ci_copy(FileData *fd, const gchar *dest_path)
+static gint file_data_sc_check_update_ci(FileData *fd, const gchar *dest_path, FileDataChangeType type)
 {
-	if (!file_data_sc_check_ci(fd, FILEDATA_CHANGE_COPY)) return FALSE;
+	if (!file_data_sc_check_ci(fd, type)) return FALSE;
 	file_data_sc_update_ci(fd, dest_path);
 	return TRUE;
+}
+
+gint file_data_sc_update_ci_copy(FileData *fd, const gchar *dest_path)
+{
+	return file_data_sc_check_update_ci(fd, dest_path, FILEDATA_CHANGE_COPY);
 }
 	
 gint file_data_sc_update_ci_move(FileData *fd, const gchar *dest_path)
 {
-	if (!file_data_sc_check_ci(fd, FILEDATA_CHANGE_MOVE)) return FALSE;
-	file_data_sc_update_ci(fd, dest_path);
-	return TRUE;
+	return file_data_sc_check_update_ci(fd, dest_path, FILEDATA_CHANGE_MOVE);
 }
 
 gint file_data_sc_update_ci_rename(FileData *fd, const gchar *dest_path)
 {
-	if (!file_data_sc_check_ci(fd, FILEDATA_CHANGE_RENAME)) return FALSE;
-	file_data_sc_update_ci(fd, dest_path);
-	return TRUE;
+	return file_data_sc_check_update_ci(fd, dest_path, FILEDATA_CHANGE_RENAME);
 }
 
 gint file_data_sc_update_ci_unspecified(FileData *fd, const gchar *dest_path)
 {
-	if (!file_data_sc_check_ci(fd, FILEDATA_CHANGE_UNSPECIFIED)) return FALSE;
-	file_data_sc_update_ci(fd, dest_path);
-	return TRUE;
+	return file_data_sc_check_update_ci(fd, dest_path, FILEDATA_CHANGE_UNSPECIFIED);
 }
 
-
-gboolean file_data_sc_update_ci_move_list(GList *fd_list, const gchar *dest)
+static gboolean file_data_sc_update_ci_list_call_func(GList *fd_list,
+						      const gchar *dest,
+						      gboolean (*func)(FileData *, const gchar *))
 {
 	GList *work;
 	gboolean ret = TRUE;
@@ -1524,45 +1524,26 @@ gboolean file_data_sc_update_ci_move_list(GList *fd_list, const gchar *dest)
 		{
 		FileData *fd = work->data;
 		
-		if (!file_data_sc_update_ci_move(fd, dest)) ret = FALSE;
+		if (!func(fd, dest)) ret = FALSE;
 		work = work->next;
 		}
 	
 	return ret;
+}
+
+gboolean file_data_sc_update_ci_move_list(GList *fd_list, const gchar *dest)
+{
+	return file_data_sc_update_ci_list_call_func(fd_list, dest, file_data_sc_update_ci_move);
 }
 
 gboolean file_data_sc_update_ci_copy_list(GList *fd_list, const gchar *dest)
 {
-	GList *work;
-	gboolean ret = TRUE;
-	
-	work = fd_list;
-	while (work)
-		{
-		FileData *fd = work->data;
-		
-		if (!file_data_sc_update_ci_copy(fd, dest)) ret = FALSE;
-		work = work->next;
-		}
-	
-	return ret;
+	return file_data_sc_update_ci_list_call_func(fd_list, dest, file_data_sc_update_ci_copy);
 }
 
 gboolean file_data_sc_update_ci_unspecified_list(GList *fd_list, const gchar *dest)
 {
-	GList *work;
-	gboolean ret = TRUE;
-	
-	work = fd_list;
-	while (work)
-		{
-		FileData *fd = work->data;
-		
-		if (!file_data_sc_update_ci_unspecified(fd, dest)) ret = FALSE;
-		work = work->next;
-		}
-	
-	return ret;
+	return file_data_sc_update_ci_list_call_func(fd_list, dest, file_data_sc_update_ci_unspecified);
 }
 
 
@@ -2059,7 +2040,7 @@ static gboolean realtime_monitor_cb(gpointer data)
 
 gint file_data_register_real_time_monitor(FileData *fd)
 {
-	gint count = 0;
+	gint count;
 	
 	file_data_ref(fd);
 	
