@@ -1556,7 +1556,6 @@ gint file_data_verify_ci(FileData *fd)
 {
 	gint ret = CHANGE_OK;
 	gchar *dir;
-	gchar *dest_dir = NULL;
 	
 	if (!fd->change)
 		{
@@ -1574,8 +1573,6 @@ gint file_data_verify_ci(FileData *fd)
 		
 	dir = remove_level_from_path(fd->path);
 	
-	if (fd->change->dest) dest_dir = remove_level_from_path(fd->change->dest);
-
 	if (fd->change->type != FILEDATA_CHANGE_DELETE && 
 	    !access_file(fd->path, R_OK))
 		{
@@ -1598,6 +1595,7 @@ gint file_data_verify_ci(FileData *fd)
 
 	if (fd->change->dest)
 		{
+		gchar *dest_dir;
 		const gchar *dest_ext = extension_from_path(fd->change->dest);
 		if (!dest_ext) dest_ext = "";
 		
@@ -1613,6 +1611,8 @@ gint file_data_verify_ci(FileData *fd)
 			ret |= CHANGE_WARN_SAME;
 			DEBUG_1("Change checked: source and destination are the same: %s -> %s", fd->path, fd->change->dest);
 		}
+
+		dest_dir = remove_level_from_path(fd->change->dest);
 
 		if (!isdir(dest_dir))		
 			{
@@ -1639,13 +1639,14 @@ gint file_data_verify_ci(FileData *fd)
 			ret |= CHANGE_DEST_EXISTS;
 			DEBUG_1("Change checked: destination exists: %s -> %s", fd->path, fd->change->dest);
 			}
+
+		g_free(dest_dir);
 		}
 		
 	fd->change->error = ret;
 	if (ret == 0) DEBUG_1("Change checked: OK: %s", fd->path);
 
 	g_free(dir);
-	g_free(dest_dir);
 	return ret;
 }
 
