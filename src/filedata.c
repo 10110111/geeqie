@@ -1595,10 +1595,13 @@ gint file_data_verify_ci(FileData *fd)
 
 	if (fd->change->dest)
 		{
+		gboolean same;
 		gchar *dest_dir;
 		const gchar *dest_ext = extension_from_path(fd->change->dest);
 		if (!dest_ext) dest_ext = "";
 		
+		same = (strcmp(fd->path, fd->change->dest) == 0);
+
 		if (strcasecmp(fd->extension, dest_ext) != 0)
 			{
 			ret |= CHANGE_WARN_CHANGED_EXT;
@@ -1606,7 +1609,7 @@ gint file_data_verify_ci(FileData *fd)
 		}
 
 		if (fd->change->type != FILEDATA_CHANGE_UNSPECIFIED && /* FIXME this is now needed for running editors */
-		    strcmp(fd->path, fd->change->dest) == 0)
+		    same)
 			{
 			ret |= CHANGE_WARN_SAME;
 			DEBUG_1("Change checked: source and destination are the same: %s -> %s", fd->path, fd->change->dest);
@@ -1624,7 +1627,7 @@ gint file_data_verify_ci(FileData *fd)
 			ret |= CHANGE_NO_WRITE_PERM_DEST_DIR;
 			DEBUG_1("Change checked: destination dir is readonly: %s -> %s", fd->path, fd->change->dest);
 			}
-		else if (isfile(fd->change->dest) && (strcmp(fd->change->dest, fd->path) != 0))
+		else if (isfile(fd->change->dest) && !same)
 			{
 			if (!access_file(fd->change->dest, W_OK))
 				{
@@ -1637,7 +1640,7 @@ gint file_data_verify_ci(FileData *fd)
 				DEBUG_1("Change checked: destination exists: %s -> %s", fd->path, fd->change->dest);
 				}
 			}
-		else if (isdir(fd->change->dest) && (strcmp(fd->change->dest, fd->path) != 0))
+		else if (isdir(fd->change->dest) && !same)
 			{
 			ret |= CHANGE_DEST_EXISTS;
 			DEBUG_1("Change checked: destination exists: %s -> %s", fd->path, fd->change->dest);
