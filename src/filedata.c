@@ -1597,23 +1597,28 @@ gint file_data_verify_ci(FileData *fd)
 		{
 		gboolean same;
 		gchar *dest_dir;
-		const gchar *dest_ext = extension_from_path(fd->change->dest);
-		if (!dest_ext) dest_ext = "";
-		
+			
 		same = (strcmp(fd->path, fd->change->dest) == 0);
 
-		if (strcasecmp(fd->extension, dest_ext) != 0)
+		if (!same)
 			{
-			ret |= CHANGE_WARN_CHANGED_EXT;
-			DEBUG_1("Change checked: source and destination have different extensions: %s -> %s", fd->path, fd->change->dest);
-		}
+			const gchar *dest_ext = extension_from_path(fd->change->dest);
+			if (!dest_ext) dest_ext = "";
 
-		if (fd->change->type != FILEDATA_CHANGE_UNSPECIFIED && /* FIXME this is now needed for running editors */
-		    same)
+			if (strcasecmp(fd->extension, dest_ext) != 0)
+				{
+				ret |= CHANGE_WARN_CHANGED_EXT;
+				DEBUG_1("Change checked: source and destination have different extensions: %s -> %s", fd->path, fd->change->dest);
+				}
+			}
+		else
 			{
-			ret |= CHANGE_WARN_SAME;
-			DEBUG_1("Change checked: source and destination are the same: %s -> %s", fd->path, fd->change->dest);
-		}
+			if (fd->change->type != FILEDATA_CHANGE_UNSPECIFIED) /* FIXME this is now needed for running editors */
+		   		{
+				ret |= CHANGE_WARN_SAME;
+				DEBUG_1("Change checked: source and destination are the same: %s -> %s", fd->path, fd->change->dest);
+				}
+			}
 
 		dest_dir = remove_level_from_path(fd->change->dest);
 
@@ -1627,23 +1632,26 @@ gint file_data_verify_ci(FileData *fd)
 			ret |= CHANGE_NO_WRITE_PERM_DEST_DIR;
 			DEBUG_1("Change checked: destination dir is readonly: %s -> %s", fd->path, fd->change->dest);
 			}
-		else if (isfile(fd->change->dest) && !same)
+		else if (!same)
 			{
-			if (!access_file(fd->change->dest, W_OK))
+			if (isfile(fd->change->dest))
 				{
-				ret |= CHANGE_NO_WRITE_PERM_DEST;
-				DEBUG_1("Change checked: destination file exists and is readonly: %s -> %s", fd->path, fd->change->dest);
+				if (!access_file(fd->change->dest, W_OK))
+					{
+					ret |= CHANGE_NO_WRITE_PERM_DEST;
+					DEBUG_1("Change checked: destination file exists and is readonly: %s -> %s", fd->path, fd->change->dest);
+					}
+				else
+					{
+					ret |= CHANGE_WARN_DEST_EXISTS;
+					DEBUG_1("Change checked: destination exists: %s -> %s", fd->path, fd->change->dest);
+					}
 				}
-			else
+			else if (isdir(fd->change->dest))
 				{
-				ret |= CHANGE_WARN_DEST_EXISTS;
+				ret |= CHANGE_DEST_EXISTS;
 				DEBUG_1("Change checked: destination exists: %s -> %s", fd->path, fd->change->dest);
 				}
-			}
-		else if (isdir(fd->change->dest) && !same)
-			{
-			ret |= CHANGE_DEST_EXISTS;
-			DEBUG_1("Change checked: destination exists: %s -> %s", fd->path, fd->change->dest);
 			}
 
 		g_free(dest_dir);
