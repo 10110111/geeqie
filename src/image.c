@@ -1064,7 +1064,8 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
 			}
 		}
 
-	exif_free_fd(imd->image_fd, exif);
+	if (read_exif_for_color_profile || read_exif_for_orientation)
+		exif_free_fd(imd->image_fd, exif);
 
 	if (imd->cm || imd->desaturate)
 		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, image_post_process_tile_color_cb, (gpointer) imd, (imd->cm != NULL) );
