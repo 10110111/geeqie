@@ -1624,15 +1624,18 @@ gint file_data_verify_ci(FileData *fd)
 			ret |= CHANGE_NO_WRITE_PERM_DEST_DIR;
 			DEBUG_1("Change checked: destination dir is readonly: %s -> %s", fd->path, fd->change->dest);
 			}
-		else if (isfile(fd->change->dest) && !access_file(fd->change->dest, W_OK) && (strcmp(fd->change->dest, fd->path) != 0))
-			{
-			ret |= CHANGE_NO_WRITE_PERM_DEST;
-			DEBUG_1("Change checked: destination file exists and is readonly: %s -> %s", fd->path, fd->change->dest);
-			}
 		else if (isfile(fd->change->dest) && (strcmp(fd->change->dest, fd->path) != 0))
 			{
-			ret |= CHANGE_WARN_DEST_EXISTS;
-			DEBUG_1("Change checked: destination exists: %s -> %s", fd->path, fd->change->dest);
+			if (!access_file(fd->change->dest, W_OK))
+				{
+				ret |= CHANGE_NO_WRITE_PERM_DEST;
+				DEBUG_1("Change checked: destination file exists and is readonly: %s -> %s", fd->path, fd->change->dest);
+				}
+			else
+				{
+				ret |= CHANGE_WARN_DEST_EXISTS;
+				DEBUG_1("Change checked: destination exists: %s -> %s", fd->path, fd->change->dest);
+				}
 			}
 		else if (isdir(fd->change->dest) && (strcmp(fd->change->dest, fd->path) != 0))
 			{
