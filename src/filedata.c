@@ -1759,6 +1759,7 @@ gchar *file_data_get_error_string(gint error)
 
 gint file_data_sc_verify_ci_list(GList *list, gchar **desc)
 {
+	GList *work;
 	gint all_errors = 0;
 	gint common_errors = ~0; 
 	gint num;
@@ -1769,7 +1770,7 @@ gint file_data_sc_verify_ci_list(GList *list, gchar **desc)
 	
 	num = g_list_length(list);
 	errors = g_new(int, num);
-	GList *work = list;
+	work = list;
 	i = 0;
 	while (work)
 		{
@@ -1790,6 +1791,7 @@ gint file_data_sc_verify_ci_list(GList *list, gchar **desc)
 	
 	if (desc && all_errors)
 		{
+		GList *work;
 		GString *result = g_string_new("");
 		
 		if (common_errors)
@@ -1800,7 +1802,7 @@ gint file_data_sc_verify_ci_list(GList *list, gchar **desc)
 			g_free(str);
 			}
 		
-		GList *work = list;
+		work = list;
 		i = 0;
 		while (work)
 			{
