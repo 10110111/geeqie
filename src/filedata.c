@@ -1630,7 +1630,7 @@ gint file_data_verify_ci(FileData *fd)
 		    strcmp(fd->path, fd->change->dest) == 0)
 			{
 			ret |= CHANGE_WARN_SAME;
-			DEBUG_1("Change checked: source and destination is the same: %s -> %s", fd->path, fd->change->dest);
+			DEBUG_1("Change checked: source and destination are the same: %s -> %s", fd->path, fd->change->dest);
 		}
 
 		if (!isdir(dest_dir))		
@@ -1749,7 +1749,7 @@ gchar *file_data_get_error_string(gint error)
 	if (error & CHANGE_WARN_SAME)
 		{
 		if (result->len > 0) g_string_append(result, ", ");
-		g_string_append(result, _("source and destination is the same"));
+		g_string_append(result, _("source and destination are the same"));
 		}
 
 	if (error & CHANGE_WARN_CHANGED_EXT)
