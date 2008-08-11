@@ -349,7 +349,7 @@ gint tree_view_row_get_visibility(GtkTreeView *widget, GtkTreeIter *iter, gint f
 	GdkRectangle vrect;
 	GdkRectangle crect;
 
-	if (!GTK_WIDGET_REALIZED(GTK_WIDGET(widget))) return 0;
+	if (!GTK_WIDGET_REALIZED(GTK_WIDGET(widget))) return -1; /* we will most probably scroll down, needed for tree_view_row_make_visible */
 
 	store = gtk_tree_view_get_model(widget);
 	tpath = gtk_tree_model_get_path(store, iter);
