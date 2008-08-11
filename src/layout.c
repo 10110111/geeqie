@@ -915,7 +915,9 @@ static void layout_sync_path(LayoutWindow *lw)
 
 gint layout_set_path(LayoutWindow *lw, const gchar *path)
 {
-	FileData *fd = file_data_new_simple(path);
+	FileData *fd;
+	if (!path) return FALSE;
+	fd = file_data_new_simple(path);
 	gint ret = layout_set_fd(lw, fd);
 	file_data_unref(fd);
 	return ret;
