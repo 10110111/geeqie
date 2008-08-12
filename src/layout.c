@@ -1589,7 +1589,7 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	layout_image_full_screen_stop(lw);
 
 	dir_fd = lw->dir_fd;
-	file_data_unregister_real_time_monitor(lw->dir_fd);
+	if (dir_fd) file_data_unregister_real_time_monitor(dir_fd);
 	lw->dir_fd = NULL;
 	lw->image = NULL;
 	lw->utility_box = NULL;
