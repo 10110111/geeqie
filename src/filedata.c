@@ -1061,9 +1061,20 @@ gboolean file_data_get_mark(FileData *fd, gint n)
 
 void file_data_set_mark(FileData *fd, gint n, gboolean value)
 {
+	guint old = fd->marks;
 	if (!value == !(fd->marks & (1 << n))) return;
 
 	fd->marks = fd->marks ^ (1 << n);
+	
+	if (old && !fd->marks) /* keep files with non-zero marks in memory */
+		{
+		file_data_unref(fd);
+		}
+	else if (!old && fd->marks)
+		{
+		file_data_ref(fd);
+		}
+	
 	file_data_increment_version(fd);
 	file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
 }
