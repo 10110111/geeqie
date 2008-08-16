@@ -414,8 +414,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 typedef enum {
 	OSDT_NONE 	= 0,
 	OSDT_FREE 	= 1 << 0,
-	OSDT_NO_ESCAPE 	= 1 << 1,
-	OSDT_NO_DUP 	= 1 << 2
+	OSDT_NO_DUP 	= 1 << 1
 } OsdTemplateFlags;
 
 static void osd_template_insert(GHashTable *vars, gchar *keyword, gchar *value, OsdTemplateFlags flags)
@@ -431,13 +430,9 @@ static void osd_template_insert(GHashTable *vars, gchar *keyword, gchar *value, 
 		g_hash_table_insert(vars, keyword, value);
 		return;
 		}
-	else if (flags & OSDT_NO_ESCAPE)
-		{
-		g_hash_table_insert(vars, keyword, g_strdup(value));
-		}
 	else
 		{
-		g_hash_table_insert(vars, keyword, g_markup_escape_text(value, -1));
+		g_hash_table_insert(vars, keyword, g_strdup(value));
 		}
 
 	if (flags & OSDT_FREE) g_free((gpointer) value);
