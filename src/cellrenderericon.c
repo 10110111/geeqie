@@ -56,6 +56,18 @@ static void gqv_cell_renderer_icon_render(GtkCellRenderer	*cell,
 					   GdkRectangle		*expose_area,
 					   GtkCellRendererState	flags);
 
+static gint gqv_cell_renderer_icon_activate (GtkCellRenderer      *cell,
+					     GdkEvent             *event,
+					     GtkWidget            *widget,
+					     const gchar          *path,
+					     GdkRectangle         *background_area,
+					     GdkRectangle         *cell_area,
+					     GtkCellRendererState  flags);
+
+enum {
+  TOGGLED,
+  LAST_SIGNAL
+};
 
 enum {
 	PROP_ZERO,
@@ -72,8 +84,11 @@ enum {
 	PROP_SHOW_TEXT,
 	PROP_SHOW_MARKS,
 	PROP_NUM_MARKS,
-	PROP_MARKS
+	PROP_MARKS,
+	PROP_TOGGLED
 };
+
+static guint toggle_cell_signals[LAST_SIGNAL] = { 0 };
 
 static gpointer parent_class;
 
@@ -109,6 +124,7 @@ gqv_cell_renderer_icon_get_type(void)
 static void
 gqv_cell_renderer_icon_init(GQvCellRendererIcon *cellicon)
 {
+	GTK_CELL_RENDERER(cellicon)->mode = GTK_CELL_RENDERER_MODE_ACTIVATABLE;
 	GTK_CELL_RENDERER(cellicon)->xpad = 2;
 	GTK_CELL_RENDERER(cellicon)->ypad = 2;
 }
@@ -128,6 +144,7 @@ gqv_cell_renderer_icon_class_init(GQvCellRendererIconClass *class)
 
 	cell_class->get_size = gqv_cell_renderer_icon_get_size;
 	cell_class->render = gqv_cell_renderer_icon_render;
+	cell_class->activate = gqv_cell_renderer_icon_activate;
 
 	g_object_class_install_property(object_class,
 					PROP_PIXBUF,
@@ -236,6 +253,25 @@ gqv_cell_renderer_icon_class_init(GQvCellRendererIconClass *class)
 							0, 0xffffffff,
 							0,
 							G_PARAM_READWRITE));
+
+	g_object_class_install_property(object_class,
+					PROP_TOGGLED,
+					g_param_spec_uint("toggled_mark",
+							_("Toggled mark"),
+							_("Toggled mark"),
+							0, 32,
+							0,
+							G_PARAM_READWRITE));
+	toggle_cell_signals[TOGGLED] = 
+		g_signal_new ("toggled",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GQvCellRendererIconClass, toggled),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__STRING,
+		G_TYPE_NONE, 1,
+		G_TYPE_STRING);
+
 }
 
 static void
@@ -314,6 +350,9 @@ gqv_cell_renderer_icon_get_property(GObject	*object,
 		break;
 	case PROP_MARKS:
 		g_value_set_uint(value, cellicon->marks);
+		break;
+	case PROP_TOGGLED:
+		g_value_set_uint(value, cellicon->toggled_mark);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, param_id, pspec);
@@ -726,4 +765,53 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 				cell_area->x, cell_area->y,
 				cell_area->width, cell_area->height);
 		}
+}
+
+static gint
+gqv_cell_renderer_icon_activate (GtkCellRenderer      *cell,
+				 GdkEvent             *event,
+				 GtkWidget            *widget,
+				 const gchar          *path,
+				 GdkRectangle         *background_area,
+				 GdkRectangle         *cell_area,
+				 GtkCellRendererState  flags)
+{
+	GQvCellRendererIcon *cellicon = (GQvCellRendererIcon *) cell;
+	GdkEventButton      *bevent = &event->button;
+
+	if (cellicon->show_marks &&
+	    event->type == GDK_BUTTON_PRESS &&
+            !(bevent->state & GDK_SHIFT_MASK ) &&
+            !(bevent->state & GDK_CONTROL_MASK ))
+		{
+		GdkRectangle rect;
+		GdkRectangle cell_rect;
+		gint i;
+		
+		gqv_cell_renderer_icon_get_size(cell, widget, cell_area,
+						&cell_rect.x, &cell_rect.y,
+						&cell_rect.width, &cell_rect.height);
+
+		cell_rect.x += cell->xpad;
+		cell_rect.y += cell->ypad;
+		cell_rect.width -= cell->xpad * 2;
+		cell_rect.height -= cell->ypad * 2;
+
+		rect.width = TOGGLE_WIDTH;
+		rect.height = TOGGLE_WIDTH;
+		rect.y = cell_area->y + cell->ypad + (cell_rect.height - TOGGLE_SPACING) + (TOGGLE_SPACING - TOGGLE_WIDTH) / 2;
+		for (i = 0; i < cellicon->num_marks; i++)
+			{
+			rect.x = cell_area->x + cell->xpad + (cell_rect.width - TOGGLE_SPACING * cellicon->num_marks + 1) / 2 + i * TOGGLE_SPACING;
+			
+			if (bevent->x >= rect.x && bevent->x < rect.x + rect.width &&
+			    bevent->y >= rect.y && bevent->y < rect.y + rect.height)
+				{
+				cellicon->toggled_mark = i;
+				g_signal_emit (cell, toggle_cell_signals[TOGGLED], 0, path);
+				break;
+				}
+			}
+		}
+	return FALSE;
 }

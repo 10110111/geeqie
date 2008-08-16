@@ -369,6 +369,35 @@ static IconData *vficon_find_data_by_coord(ViewFile *vf, gint x, gint y, GtkTree
 	return NULL;
 }
 
+static void vficon_mark_toggled_cb(GtkCellRendererToggle *cell, gchar *path_str, gpointer data)
+{
+	ViewFile *vf = data;
+	GtkTreeModel *store;
+	GtkTreePath *path = gtk_tree_path_new_from_string(path_str);
+	GtkTreeIter row;
+	gint column;
+	GList *list;
+	guint toggled_mark;
+
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
+	if (!path || !gtk_tree_model_get_iter(store, &row, path))
+    		return;
+
+	gtk_tree_model_get(store, &row, FILE_COLUMN_POINTER, &list, -1);
+
+	column = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(cell), "column_number"));
+	g_object_get(G_OBJECT(cell), "toggled_mark", &toggled_mark, NULL);
+
+	IconData *id = g_list_nth_data(list, column);
+	
+	if (id)
+		{
+		FileData *fd = id->fd;
+		file_data_set_mark(fd, toggled_mark, !file_data_get_mark(fd, toggled_mark));
+		}
+}
+
+
 /*
  *-------------------------------------------------------------------
  * tooltip type window
@@ -1380,7 +1409,7 @@ gint vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 			break;
 		}
 
-	return TRUE;
+	return FALSE;
 }
 
 gint vficon_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
@@ -2283,7 +2312,7 @@ static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer 
 
 			g_object_set(cell,	"pixbuf", id->fd->thumb_pixbuf,
 						"text", name_sidecars,
-						"marks", id->fd->marks,
+						"marks", file_data_get_marks(id->fd),
 						"show_marks", vf->marks_enabled,
 						"cell-background-gdk", &color_bg,
 						"cell-background-set", TRUE,
@@ -2327,6 +2356,7 @@ static void vficon_append_column(ViewFile *vf, gint n)
 					 "mode", GTK_CELL_RENDERER_MODE_ACTIVATABLE, NULL);
 
 	g_object_set_data(G_OBJECT(column), "column_number", GINT_TO_POINTER(n));
+	g_object_set_data(G_OBJECT(renderer), "column_number", GINT_TO_POINTER(n));
 
 	cd = g_new0(ColumnData, 1);
 	cd->vf = vf;
@@ -2334,6 +2364,8 @@ static void vficon_append_column(ViewFile *vf, gint n)
 	gtk_tree_view_column_set_cell_data_func(column, renderer, vficon_cell_data_cb, cd, g_free);
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(vf->listview), column);
+	
+	g_signal_connect(G_OBJECT(renderer), "toggled", G_CALLBACK(vficon_mark_toggled_cb), vf);
 }
 
 /*

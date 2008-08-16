@@ -1059,6 +1059,11 @@ gboolean file_data_get_mark(FileData *fd, gint n)
 	return !!(fd->marks & (1 << n));
 }
 
+guint file_data_get_marks(FileData *fd)
+{
+	return fd->marks;
+}
+
 void file_data_set_mark(FileData *fd, gint n, gboolean value)
 {
 	guint old = fd->marks;

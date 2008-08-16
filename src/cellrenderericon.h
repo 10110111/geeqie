@@ -62,12 +62,16 @@ struct _GQvCellRendererIcon
 	gboolean show_marks;
 	
 	guint marks;
+	guint toggled_mark;
 	
 };
 
 struct _GQvCellRendererIconClass
 {
 	GtkCellRendererClass parent_class;
+
+	void (* toggled) (GQvCellRendererIcon *cell_renderer,
+		    const gchar                 *path);
 
 	/* Padding for future expansion */
 	void (*_gtk_reserved1)(void);

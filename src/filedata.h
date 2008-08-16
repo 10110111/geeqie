@@ -64,6 +64,7 @@ GList *filelist_sort_path(GList *list);
 GList *filelist_recursive(FileData *dir_fd);
 
 gboolean file_data_get_mark(FileData *fd, gint n);
+guint file_data_get_marks(FileData *fd);
 void file_data_set_mark(FileData *fd, gint n, gboolean value);
 gboolean file_data_filter_marks(FileData *fd, guint filter);
 GList *file_data_filter_marks_list(GList *list, guint filter);
