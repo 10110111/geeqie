@@ -31,10 +31,13 @@ void vf_set_layout(ViewFile *vf, LayoutWindow *layout);
 
 gint vf_set_fd(ViewFile *vf, FileData *fd);
 gint vf_refresh(ViewFile *vf);
+void vf_refresh_idle(ViewFile *vf);
 
 void vf_thumb_set(ViewFile *vf, gint enable);
 void vf_marks_set(ViewFile *vf, gint enable);
 void vf_sort_set(ViewFile *vf, SortType type, gint ascend);
+
+guint vf_marks_get_filter(ViewFile *vf);
 
 GList *vf_pop_menu_file_list(ViewFile *vf);
 GtkWidget *vf_pop_menu(ViewFile *vf);

@@ -656,6 +656,35 @@ static void vf_destroy_cb(GtkWidget *widget, gpointer data)
 	g_free(vf);
 }
 
+static void vf_marks_filter_toggle_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+	vf_refresh_idle(vf);
+}
+
+
+static GtkWidget *vf_marks_filter_init(ViewFile *vf)
+{
+	GtkWidget *frame = gtk_frame_new(NULL);
+	GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
+	
+	gint i;
+	
+	for (i = 0; i < FILEDATA_MARKS_SIZE ; i++)
+		{
+		GtkWidget *check = gtk_check_button_new();
+		gtk_box_pack_start(GTK_BOX(hbox), check, FALSE, FALSE, 0);
+		g_signal_connect(G_OBJECT(check), "toggled",
+			 G_CALLBACK(vf_marks_filter_toggle_cb), vf);
+
+		gtk_widget_show(check);
+		vf->filter_check[i] = check;
+		}
+	gtk_container_add(GTK_CONTAINER(frame), hbox);
+	gtk_widget_show(hbox);
+	return frame;
+}
+
 ViewFile *vf_new(FileViewType type, FileData *dir_fd)
 {
 	ViewFile *vf;
@@ -678,10 +707,17 @@ ViewFile *vf_new(FileViewType type, FileData *dir_fd)
 
 	vf->refresh_idle_id = -1;
 
-	vf->widget = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(vf->widget), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(vf->widget),
+	vf->scrolled = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(vf->scrolled), GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(vf->scrolled),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	
+	vf->filter = vf_marks_filter_init(vf);
+
+	vf->widget = gtk_vbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vf->widget), vf->filter, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vf->widget), vf->scrolled, TRUE, TRUE, 0);
+	gtk_widget_show(vf->scrolled);
 	
 	g_signal_connect(G_OBJECT(vf->widget), "destroy",
 			 G_CALLBACK(vf_destroy_cb), vf);
@@ -701,7 +737,7 @@ ViewFile *vf_new(FileViewType type, FileData *dir_fd)
 	g_signal_connect(G_OBJECT(vf->listview), "button_release_event",
 			 G_CALLBACK(vf_release_cb), vf);
 
-	gtk_container_add(GTK_CONTAINER(vf->widget), vf->listview);
+	gtk_container_add(GTK_CONTAINER(vf->scrolled), vf->listview);
 	gtk_widget_show(vf->listview);
 
 	if (dir_fd) vf_set_fd(vf, dir_fd);
@@ -741,6 +777,28 @@ void vf_marks_set(ViewFile *vf, gint enable)
 	case FILEVIEW_LIST: vflist_marks_set(vf, enable); break;
 	case FILEVIEW_ICON: vficon_marks_set(vf, enable); break;
 	}
+	if (enable)
+		gtk_widget_show(vf->filter);
+	else
+		gtk_widget_hide(vf->filter);
+
+	vf_refresh_idle(vf);
+}
+
+guint vf_marks_get_filter(ViewFile *vf)
+{
+	guint ret = 0;
+	gint i;
+	if (!vf->marks_enabled) return 0;
+	
+	for (i = 0; i < FILEDATA_MARKS_SIZE ; i++)
+		{
+		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(vf->filter_check[i])))
+			{
+			ret |= 1 << i;
+			}
+		}
+	return ret;
 }
 
 void vf_set_layout(ViewFile *vf, LayoutWindow *layout)
@@ -770,6 +828,14 @@ void vf_refresh_idle_cancel(ViewFile *vf)
 	vf->refresh_idle_id = -1;
 }
 
+
+void vf_refresh_idle(ViewFile *vf)
+{
+	if (vf->refresh_idle_id == -1)
+		{
+		vf->refresh_idle_id = g_idle_add(vf_refresh_idle_cb, vf);
+		}
+}
 
 void vf_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
@@ -804,9 +870,9 @@ void vf_notify_cb(FileData *fd, NotifyType type, gpointer data)
 			}
 		}
 	
-	if (refresh && vf->refresh_idle_id == -1)
+	if (refresh)
 		{
-		vf->refresh_idle_id = g_idle_add(vf_refresh_idle_cb, vf);
+		vf_refresh_idle(vf);
 		}
 }
 

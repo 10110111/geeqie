@@ -640,6 +640,9 @@ struct _ViewFile
 
 	GtkWidget *widget;
 	GtkWidget *listview;
+	GtkWidget *scrolled;
+	GtkWidget *filter;
+	GtkWidget *filter_check[FILEDATA_MARKS_SIZE];
 
 	FileData *dir_fd;
 	GList *list;

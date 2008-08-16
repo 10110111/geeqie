@@ -1564,6 +1564,12 @@ void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 				break;
 			}
 		
+		if (!file_data_filter_marks(fd, vf_marks_get_filter(vf))) /* file no longer matches the filter -> remove it */
+			{
+			vf_refresh_idle(vf);
+			}
+
+		
 		file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
 		gtk_tree_store_set(GTK_TREE_STORE(store), &iter, FILE_COLUMN_MARKS + n, file_data_get_mark(fd, n), -1);
@@ -1693,7 +1699,7 @@ gint vflist_refresh(ViewFile *vf)
 		file_data_unregister_notify_func(vf_notify_cb, vf); /* we don't need the notification of changes detected by filelist_read */
 
 		ret = filelist_read(vf->dir_fd, &vf->list, NULL);
-
+		vf->list = file_data_filter_marks_list(vf->list, vf_marks_get_filter(vf));
 		file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
 		DEBUG_1("%s vflist_refresh: sort", get_exec_time());
@@ -1820,6 +1826,10 @@ static void vflist_listview_mark_toggled_cb(GtkCellRendererToggle *cell, gchar *
 	mark = !mark;
 	file_data_unregister_notify_func(vf_notify_cb, vf); /* we don't need the notification */
 	file_data_set_mark(fd, col_idx - FILE_COLUMN_MARKS, mark);
+	if (!file_data_filter_marks(fd, vf_marks_get_filter(vf))) /* file no longer matches the filter -> remove it */
+		{
+		vf_refresh_idle(vf);
+		}
 	file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
 	gtk_tree_store_set(store, &iter, col_idx, mark, -1);

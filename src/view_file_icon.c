@@ -2107,6 +2107,7 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 	if (vf->dir_fd)
 		{
 		ret = filelist_read(vf->dir_fd, &new_filelist, NULL);
+		new_filelist = file_data_filter_marks_list(new_filelist, vf_marks_get_filter(vf));
 		}
 
 	vf->list = iconlist_sort(vf->list, vf->sort_method, vf->sort_ascend); /* the list might not be sorted if there were renames */

@@ -1068,6 +1068,33 @@ void file_data_set_mark(FileData *fd, gint n, gboolean value)
 	file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
 }
 
+gboolean file_data_filter_marks(FileData *fd, guint filter)
+{
+	return ((fd->marks & filter) == filter);
+}
+
+GList *file_data_filter_marks_list(GList *list, guint filter)
+{
+	GList *work;
+
+	work = list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		GList *link = work;
+		work = work->next;
+
+		if (!file_data_filter_marks(fd, filter))
+			{
+			list = g_list_remove_link(list, link);
+			file_data_unref(fd);
+			g_list_free(link);
+			}
+		}
+
+	return list;
+}
+
 gint file_data_get_user_orientation(FileData *fd)
 {
 	return fd->user_orientation;
