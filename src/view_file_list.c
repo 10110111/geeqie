@@ -230,15 +230,15 @@ static void vflist_dnd_get(GtkWidget *widget, GdkDragContext *context,
 	gchar *uri_text = NULL;
 	gint total;
 
-	if (!VFLIST_INFO(vf, click_fd)) return;
+	if (!VFLIST(vf)->click_fd) return;
 
-	if (vflist_row_is_selected(vf, VFLIST_INFO(vf, click_fd)))
+	if (vflist_row_is_selected(vf, VFLIST(vf)->click_fd))
 		{
 		list = vf_selection_get_list(vf);
 		}
 	else
 		{
-		list = g_list_append(NULL, file_data_ref(VFLIST_INFO(vf, click_fd)));
+		list = g_list_append(NULL, file_data_ref(VFLIST(vf)->click_fd));
 		}
 
 	if (!list) return;
@@ -257,19 +257,19 @@ static void vflist_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointe
 {
 	ViewFile *vf = data;
 
-	vflist_color_set(vf, VFLIST_INFO(vf, click_fd), TRUE);
+	vflist_color_set(vf, VFLIST(vf)->click_fd, TRUE);
 
-	if (VFLIST_INFO(vf, thumbs_enabled) &&
-	    VFLIST_INFO(vf, click_fd) && VFLIST_INFO(vf, click_fd)->thumb_pixbuf)
+	if (VFLIST(vf)->thumbs_enabled &&
+	    VFLIST(vf)->click_fd && VFLIST(vf)->click_fd->thumb_pixbuf)
 		{
 		guint items;
 
-		if (vflist_row_is_selected(vf, VFLIST_INFO(vf, click_fd)))
+		if (vflist_row_is_selected(vf, VFLIST(vf)->click_fd))
 			items = vf_selection_count(vf, NULL);
 		else
 			items = 1;
 
-		dnd_set_drag_icon(widget, context, VFLIST_INFO(vf, click_fd)->thumb_pixbuf, items);
+		dnd_set_drag_icon(widget, context, VFLIST(vf)->click_fd->thumb_pixbuf, items);
 		}
 }
 
@@ -277,7 +277,7 @@ static void vflist_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer 
 {
 	ViewFile *vf = data;
 
-	vflist_color_set(vf, VFLIST_INFO(vf, click_fd), FALSE);
+	vflist_color_set(vf, VFLIST(vf)->click_fd, FALSE);
 
 	if (context->action == GDK_ACTION_MOVE)
 		{
@@ -306,21 +306,21 @@ void vflist_dnd_init(ViewFile *vf)
 
 GList *vflist_pop_menu_file_list(ViewFile *vf)
 {
-	if (!VFLIST_INFO(vf, click_fd)) return NULL;
+	if (!VFLIST(vf)->click_fd) return NULL;
 
-	if (vflist_row_is_selected(vf, VFLIST_INFO(vf, click_fd)))
+	if (vflist_row_is_selected(vf, VFLIST(vf)->click_fd))
 		{
 		return vf_selection_get_list(vf);
 		}
 
-	return g_list_append(NULL, file_data_ref(VFLIST_INFO(vf, click_fd)));
+	return g_list_append(NULL, file_data_ref(VFLIST(vf)->click_fd));
 }
 
 void vflist_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	if (vflist_row_is_selected(vf, VFLIST_INFO(vf, click_fd)))
+	if (vflist_row_is_selected(vf, VFLIST(vf)->click_fd))
 		{
 		GList *list;
 
@@ -330,7 +330,7 @@ void vflist_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 		}
 	else
 		{
-		view_window_new(VFLIST_INFO(vf, click_fd));
+		view_window_new(VFLIST(vf)->click_fd);
 		}
 }
 
@@ -341,7 +341,7 @@ void vflist_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 
 	list = vf_pop_menu_file_list(vf);
 	if (options->file_ops.enable_in_place_rename &&
-	    list && !list->next && VFLIST_INFO(vf, click_fd))
+	    list && !list->next && VFLIST(vf)->click_fd)
 		{
 		GtkTreeModel *store;
 		GtkTreeIter iter;
@@ -349,13 +349,13 @@ void vflist_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 		filelist_free(list);
 
 		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
-		if (vflist_find_row(vf, VFLIST_INFO(vf, click_fd), &iter) >= 0)
+		if (vflist_find_row(vf, VFLIST(vf)->click_fd, &iter) >= 0)
 			{
 			GtkTreePath *tpath;
 
 			tpath = gtk_tree_model_get_path(store, &iter);
 			tree_edit_by_path(GTK_TREE_VIEW(vf->listview), tpath,
-					  vflist_column_idx(vf, FILE_COLUMN_NAME), VFLIST_INFO(vf, click_fd)->name,
+					  vflist_column_idx(vf, FILE_COLUMN_NAME), VFLIST(vf)->click_fd->name,
 					  vflist_row_rename_cb, vf);
 			gtk_tree_path_free(tpath);
 			}
@@ -369,14 +369,14 @@ void vflist_pop_menu_thumbs_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	vflist_color_set(vf, VFLIST_INFO(vf, click_fd), FALSE);
+	vflist_color_set(vf, VFLIST(vf)->click_fd, FALSE);
 	if (vf->layout)
 		{
-		layout_thumb_set(vf->layout, !VFLIST_INFO(vf, thumbs_enabled));
+		layout_thumb_set(vf->layout, !VFLIST(vf)->thumbs_enabled);
 		}
 	else
 		{
-		vflist_thumb_set(vf, !VFLIST_INFO(vf, thumbs_enabled));
+		vflist_thumb_set(vf, !VFLIST(vf)->thumbs_enabled);
 		}
 }
 
@@ -384,15 +384,15 @@ void vflist_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	vflist_color_set(vf, VFLIST_INFO(vf, click_fd), FALSE);
+	vflist_color_set(vf, VFLIST(vf)->click_fd, FALSE);
 	vf_refresh(vf);
 }
 
 void vflist_popup_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
-	vflist_color_set(vf, VFLIST_INFO(vf, click_fd), FALSE);
-	VFLIST_INFO(vf, click_fd) = NULL;
+	vflist_color_set(vf, VFLIST(vf)->click_fd, FALSE);
+	VFLIST(vf)->click_fd = NULL;
 	vf->popup = NULL;
 }
 
@@ -440,7 +440,7 @@ static void vflist_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gboolean *p
 	GtkTreePath *tpath;
 	gint cw, ch;
 
-	if (vflist_find_row(vf, VFLIST_INFO(vf, click_fd), &iter) < 0) return;
+	if (vflist_find_row(vf, VFLIST(vf)->click_fd, &iter) < 0) return;
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
 	tpath = gtk_tree_model_get_path(store, &iter);
 	tree_view_get_cell_clamped(GTK_TREE_VIEW(vf->listview), tpath, FILE_COLUMN_NAME - 1, TRUE, x, y, &cw, &ch);
@@ -464,12 +464,12 @@ gint vflist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 
 		store = gtk_tree_view_get_model(GTK_TREE_VIEW(widget));
 		gtk_tree_model_get_iter(store, &iter, tpath);
-		gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &VFLIST_INFO(vf, click_fd), -1);
+		gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &VFLIST(vf)->click_fd, -1);
 		gtk_tree_path_free(tpath);
 		}
 	else
 		{
-		VFLIST_INFO(vf, click_fd) = NULL;
+		VFLIST(vf)->click_fd = NULL;
 		}
 
 	vf->popup = vf_pop_menu(vf);
@@ -511,7 +511,7 @@ gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 		gtk_tree_path_free(tpath);
 		}
 
-	VFLIST_INFO(vf, click_fd) = fd;
+	VFLIST(vf)->click_fd = fd;
 
 	if (bevent->button == MOUSE_BUTTON_RIGHT)
 		{
@@ -570,7 +570,7 @@ gint vflist_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 
 	if (bevent->button == MOUSE_BUTTON_MIDDLE)
 		{
-		vflist_color_set(vf, VFLIST_INFO(vf, click_fd), FALSE);
+		vflist_color_set(vf, VFLIST(vf)->click_fd, FALSE);
 		}
 
 	if (bevent->button != MOUSE_BUTTON_LEFT && bevent->button != MOUSE_BUTTON_MIDDLE)
@@ -592,7 +592,7 @@ gint vflist_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 
 	if (bevent->button == MOUSE_BUTTON_MIDDLE)
 		{
-		if (fd && VFLIST_INFO(vf, click_fd) == fd)
+		if (fd && VFLIST(vf)->click_fd == fd)
 			{
 			GtkTreeSelection *selection;
 
@@ -609,7 +609,7 @@ gint vflist_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 		return TRUE;
 		}
 
-	if (fd && VFLIST_INFO(vf, click_fd) == fd &&
+	if (fd && VFLIST(vf)->click_fd == fd &&
 	    !(bevent->state & GDK_SHIFT_MASK ) &&
 	    !(bevent->state & GDK_CONTROL_MASK ) &&
 	    vflist_row_is_selected(vf, fd))
@@ -661,26 +661,26 @@ static gint vflist_select_idle_cb(gpointer data)
 
 	if (!vf->layout)
 		{
-		VFLIST_INFO(vf, select_idle_id) = -1;
+		VFLIST(vf)->select_idle_id = -1;
 		return FALSE;
 		}
 
 	vf_send_update(vf);
 
-	if (VFLIST_INFO(vf, select_fd))
+	if (VFLIST(vf)->select_fd)
 		{
-		vflist_select_image(vf, VFLIST_INFO(vf, select_fd));
-		VFLIST_INFO(vf, select_fd) = NULL;
+		vflist_select_image(vf, VFLIST(vf)->select_fd);
+		VFLIST(vf)->select_fd = NULL;
 		}
 
-	VFLIST_INFO(vf, select_idle_id) = -1;
+	VFLIST(vf)->select_idle_id = -1;
 	return FALSE;
 }
 
 static void vflist_select_idle_cancel(ViewFile *vf)
 {
-	if (VFLIST_INFO(vf, select_idle_id) != -1) g_source_remove(VFLIST_INFO(vf, select_idle_id));
-	VFLIST_INFO(vf, select_idle_id) = -1;
+	if (VFLIST(vf)->select_idle_id != -1) g_source_remove(VFLIST(vf)->select_idle_id);
+	VFLIST(vf)->select_idle_id = -1;
 }
 
 static gboolean vflist_select_cb(GtkTreeSelection *selection, GtkTreeModel *store, GtkTreePath *tpath,
@@ -692,17 +692,17 @@ static gboolean vflist_select_cb(GtkTreeSelection *selection, GtkTreeModel *stor
 	if (!path_currently_selected &&
 	    gtk_tree_model_get_iter(store, &iter, tpath))
 		{
-		gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &VFLIST_INFO(vf, select_fd), -1);
+		gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &VFLIST(vf)->select_fd, -1);
 		}
 	else
 		{
-		VFLIST_INFO(vf, select_fd) = NULL;
+		VFLIST(vf)->select_fd = NULL;
 		}
 
 	if (vf->layout &&
-	    VFLIST_INFO(vf, select_idle_id) == -1)
+	    VFLIST(vf)->select_idle_id == -1)
 		{
-		VFLIST_INFO(vf, select_idle_id) = g_idle_add(vflist_select_idle_cb, vf);
+		VFLIST(vf)->select_idle_id = g_idle_add(vflist_select_idle_cb, vf);
 		}
 
 	return TRUE;
@@ -1139,7 +1139,7 @@ static gint vflist_thumb_next(ViewFile *vf)
 static void vflist_thumb_update(ViewFile *vf)
 {
 	vflist_thumb_stop(vf);
-	if (!VFLIST_INFO(vf, thumbs_enabled)) return;
+	if (!VFLIST(vf)->thumbs_enabled) return;
 
 	vflist_thumb_status(vf, 0.0, _("Loading thumbs..."));
 	vf->thumbs_running = TRUE;
@@ -1364,7 +1364,7 @@ void vflist_select_all(ViewFile *vf)
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vf->listview));
 	gtk_tree_selection_select_all(selection);
 
-	VFLIST_INFO(vf, select_fd) = NULL;
+	VFLIST(vf)->select_fd = NULL;
 }
 
 void vflist_select_none(ViewFile *vf)
@@ -1638,7 +1638,7 @@ static void vflist_populate_view(ViewFile *vf)
 	GList *selected;
 
 	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
-	thumbs = VFLIST_INFO(vf, thumbs_enabled);
+	thumbs = VFLIST(vf)->thumbs_enabled;
 
 	vflist_thumb_stop(vf);
 
@@ -1907,11 +1907,11 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 
 	vf->info = g_new0(ViewFileInfoList, 1);
 	
-	VFLIST_INFO(vf, click_fd) = NULL;
-	VFLIST_INFO(vf, select_fd) = NULL;
-	VFLIST_INFO(vf, thumbs_enabled) = FALSE;
+	VFLIST(vf)->click_fd = NULL;
+	VFLIST(vf)->select_fd = NULL;
+	VFLIST(vf)->thumbs_enabled = FALSE;
 
-	VFLIST_INFO(vf, select_idle_id) = -1;
+	VFLIST(vf)->select_idle_id = -1;
 
 	flist_types[FILE_COLUMN_POINTER] = G_TYPE_POINTER;
 	flist_types[FILE_COLUMN_VERSION] = G_TYPE_INT;
@@ -1971,9 +1971,9 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 
 void vflist_thumb_set(ViewFile *vf, gint enable)
 {
-	if (VFLIST_INFO(vf, thumbs_enabled) == enable) return;
+	if (VFLIST(vf)->thumbs_enabled == enable) return;
 
-	VFLIST_INFO(vf, thumbs_enabled) = enable;
+	VFLIST(vf)->thumbs_enabled = enable;
 	if (vf->layout) vf_refresh(vf);
 }
 

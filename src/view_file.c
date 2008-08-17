@@ -496,11 +496,11 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST:
-		vflist_color_set(vf, VFLIST_INFO(vf, click_fd), TRUE);
-		active = (VFLIST_INFO(vf, click_fd) != NULL);
+		vflist_color_set(vf, VFLIST(vf)->click_fd, TRUE);
+		active = (VFLIST(vf)->click_fd != NULL);
 		break;
 	case FILEVIEW_ICON:
-		active = (VFICON_INFO(vf, click_id) != NULL);
+		active = (VFICON(vf)->click_id != NULL);
 		break;
 	}
 
@@ -594,11 +594,11 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 	switch(vf->type)
 	{
 	case FILEVIEW_LIST:
-		menu_item_add_check(menu, _("Show _thumbnails"), VFLIST_INFO(vf, thumbs_enabled),
+		menu_item_add_check(menu, _("Show _thumbnails"), VFLIST(vf)->thumbs_enabled,
 				    G_CALLBACK(vflist_pop_menu_thumbs_cb), vf);
 		break;
 	case FILEVIEW_ICON:
-		menu_item_add_check(menu, _("Show filename _text"), VFICON_INFO(vf, show_text),
+		menu_item_add_check(menu, _("Show filename _text"), VFICON(vf)->show_text,
 				    G_CALLBACK(vficon_pop_menu_show_names_cb), vf);
 		break;
 	}
