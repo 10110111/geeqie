@@ -1633,8 +1633,6 @@ static void vflist_populate_view(ViewFile *vf)
 {
 	GtkTreeStore *store;
 	gint thumbs;
-	GtkTreeRowReference *visible_row = NULL;
-	GtkTreePath *tpath;
 	GList *selected;
 
 	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
@@ -1647,13 +1645,6 @@ static void vflist_populate_view(ViewFile *vf)
 		vflist_store_clear(vf);
 		vf_send_update(vf);
 		return;
-		}
-
-	if (GTK_WIDGET_REALIZED(vf->listview) &&
-	    gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(vf->listview), 0, 0, &tpath, NULL, NULL, NULL))
-		{
-		visible_row = gtk_tree_row_reference_new(GTK_TREE_MODEL(store), tpath);
-		gtk_tree_path_free(tpath);
 		}
 
 	vflist_listview_set_columns(vf->listview, thumbs);
@@ -1670,17 +1661,6 @@ static void vflist_populate_view(ViewFile *vf)
 
 	filelist_free(selected);
 	
-	if (visible_row)
-		{
-		if (gtk_tree_row_reference_valid(visible_row))
-			{
-			tpath = gtk_tree_row_reference_get_path(visible_row);
-			gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(vf->listview), tpath, NULL, TRUE, 0.0, 0.0);
-			gtk_tree_path_free(tpath);
-			}
-		gtk_tree_row_reference_free(visible_row);
-		}
-
 	vf_send_update(vf);
 	vflist_thumb_update(vf);
 }
