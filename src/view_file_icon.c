@@ -378,6 +378,7 @@ static void vficon_mark_toggled_cb(GtkCellRendererToggle *cell, gchar *path_str,
 	gint column;
 	GList *list;
 	guint toggled_mark;
+	IconData *id;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
 	if (!path || !gtk_tree_model_get_iter(store, &row, path))
@@ -388,8 +389,7 @@ static void vficon_mark_toggled_cb(GtkCellRendererToggle *cell, gchar *path_str,
 	column = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(cell), "column_number"));
 	g_object_get(G_OBJECT(cell), "toggled_mark", &toggled_mark, NULL);
 
-	IconData *id = g_list_nth_data(list, column);
-	
+	id = g_list_nth_data(list, column);
 	if (id)
 		{
 		FileData *fd = id->fd;
