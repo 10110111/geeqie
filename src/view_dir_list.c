@@ -142,23 +142,53 @@ const gchar *vdlist_row_get_path(ViewDir *vd, gint row)
 	return NULL;
 }
 
-static void vdlist_populate(ViewDir *vd)
+static gint vdlist_populate(ViewDir *vd, gboolean clear)
 {
 	GtkListStore *store;
 	GList *work;
+	GtkTreeIter iter;
+	gint valid;
+	gchar *filepath;
+	GList *old_list;
+	gint ret;
+	FileData *fd;
+
+	old_list = VDLIST_INFO(vd, list);
+
+	ret = filelist_read(vd->dir_fd, NULL, &VDLIST_INFO(vd, list));
+	VDLIST_INFO(vd, list) = filelist_sort(VDLIST_INFO(vd, list), SORT_NAME, TRUE);
+
+	/* add . and .. */
+
+	if (strcmp(vd->dir_fd->path, G_DIR_SEPARATOR_S) != 0)
+		{
+		filepath = g_build_filename(vd->dir_fd->path, "..", NULL);
+		fd = file_data_new_simple(filepath);
+		VDLIST_INFO(vd, list) = g_list_prepend(VDLIST_INFO(vd, list), fd);
+		g_free(filepath);
+		}
+
+	if (options->file_filter.show_dot_directory)
+		{
+		filepath = g_build_filename(vd->dir_fd->path, ".", NULL);
+		fd = file_data_new_simple(filepath);
+		VDLIST_INFO(vd, list) = g_list_prepend(VDLIST_INFO(vd, list), fd);
+		g_free(filepath);
+	}
 
 	store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view)));
-	gtk_list_store_clear(store);
+	if (clear) gtk_list_store_clear(store);
+
+	valid = gtk_tree_model_iter_children(GTK_TREE_MODEL(store), &iter, NULL);
 
 	work = VDLIST_INFO(vd, list);
 	while (work)
 		{
-		FileData *fd;
-		GtkTreeIter iter;
+		gint match;
 		GdkPixbuf *pixbuf;
 		const gchar *date = "";
-
 		fd = work->data;
+		gint done = FALSE;
 
 		if (access_file(fd->path, R_OK | X_OK) && fd->name)
 			{
@@ -182,27 +212,95 @@ static void vdlist_populate(ViewDir *vd)
 			pixbuf = vd->pf->deny;
 			}
 
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store, &iter,
-				   DIR_COLUMN_POINTER, fd,
-				   DIR_COLUMN_ICON, pixbuf,
-				   DIR_COLUMN_NAME, fd->name,
-				   DIR_COLUMN_DATE, date,
-				   -1);
+		while (!done)
+			{
+			FileData *old_fd = NULL;
 
+			if (valid)
+				{
+				gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
+						   DIR_COLUMN_POINTER, &old_fd,
+						   -1);
+
+				if (fd == old_fd)
+					{
+					match = 0;
+					}
+				else
+					{
+					match = filelist_sort_compare_filedata_full(fd, old_fd, SORT_NAME, TRUE); 
+
+					if (match == 0) g_warning("multiple fd for the same path");
+					}
+					
+				}
+			else
+				{
+				match = -1;
+				}
+
+			if (match < 0)
+				{
+				GtkTreeIter new;
+
+				if (valid)
+					{
+					gtk_list_store_insert_before(store, &new, &iter);
+					}
+				else
+					{
+					gtk_list_store_append(store, &new);
+					}
+
+				gtk_list_store_set(store, &new,
+						   DIR_COLUMN_POINTER, fd,
+						   DIR_COLUMN_ICON, pixbuf,
+						   DIR_COLUMN_NAME, fd->name,
+						   DIR_COLUMN_DATE, date,
+						   -1);
+
+				done = TRUE;
+				}
+			else if (match > 0)
+				{
+				valid = gtk_list_store_remove(store, &iter);
+				}
+			else
+				{
+				gtk_list_store_set(store, &iter,
+						   DIR_COLUMN_ICON, pixbuf,
+						   DIR_COLUMN_NAME, fd->name,
+						   DIR_COLUMN_DATE, date,
+						   -1);
+
+				if (valid) valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter);
+
+				done = TRUE;
+				}
+			}
 		work = work->next;
 		}
 
+	while (valid)
+		{
+		FileData *old_fd;
+		gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, DIR_COLUMN_POINTER, &old_fd, -1);
+
+		valid = gtk_list_store_remove(store, &iter);
+		}
+		
+
 	vd->click_fd = NULL;
 	vd->drop_fd = NULL;
+
+	filelist_free(old_list);
+	return ret;
 }
 
 gint vdlist_set_fd(ViewDir *vd, FileData *dir_fd)
 {
 	gint ret;
-	FileData *fd;
 	gchar *old_path = NULL;
-	gchar *filepath;
 
 	if (!dir_fd) return FALSE;
 	if (vd->dir_fd == dir_fd) return TRUE;
@@ -222,30 +320,7 @@ gint vdlist_set_fd(ViewDir *vd, FileData *dir_fd)
 	file_data_unref(vd->dir_fd);
 	vd->dir_fd = file_data_ref(dir_fd);
 
-	filelist_free(VDLIST_INFO(vd, list));
-
-	ret = filelist_read(vd->dir_fd, NULL, &VDLIST_INFO(vd, list));
-	VDLIST_INFO(vd, list) = filelist_sort(VDLIST_INFO(vd, list), SORT_NAME, TRUE);
-
-	/* add . and .. */
-
-	if (strcmp(vd->dir_fd->path, G_DIR_SEPARATOR_S) != 0)
-		{
-		filepath = g_build_filename(vd->dir_fd->path, "..", NULL);
-		fd = file_data_new_simple(filepath);
-		VDLIST_INFO(vd, list) = g_list_prepend(VDLIST_INFO(vd, list), fd);
-		g_free(filepath);
-		}
-
-	if (options->file_filter.show_dot_directory)
-		{
-		filepath = g_build_filename(vd->dir_fd->path, ".", NULL);
-		fd = file_data_new_simple(filepath);
-		VDLIST_INFO(vd, list) = g_list_prepend(VDLIST_INFO(vd, list), fd);
-		g_free(filepath);
-	}
-
-	vdlist_populate(vd);
+	ret = vdlist_populate(vd, TRUE);
 
 	if (old_path)
 		{
@@ -277,12 +352,7 @@ gint vdlist_set_fd(ViewDir *vd, FileData *dir_fd)
 
 void vdlist_refresh(ViewDir *vd)
 {
-	FileData *dir_fd;
-
-	dir_fd = vd->dir_fd;
-	vd->dir_fd = NULL;
-	vdlist_set_fd(vd, dir_fd);
-	file_data_unref(dir_fd);
+	vdlist_populate(vd, FALSE);
 }
 
 gint vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
