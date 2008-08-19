@@ -843,7 +843,9 @@ void vf_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	gboolean refresh;
 
 	if (vf->refresh_idle_id != -1) return;
-	
+
+	if (!vf->dir_fd) return;
+
 	refresh = (fd == vf->dir_fd);
 
 	if (!refresh)
