@@ -657,9 +657,13 @@ gint thumb_loader_std_start(ThumbLoaderStd *tl, FileData *fd)
 
 	thumb_loader_std_reset(tl);
 
-	if (!stat_utf8(fd->path, &st)) return FALSE;
 
 	tl->fd = file_data_ref(fd);
+	if (!stat_utf8(fd->path, &st))
+		{
+		thumb_loader_std_set_fallback(tl);
+		return FALSE;
+		}
 	tl->source_mtime = st.st_mtime;
 	tl->source_size = st.st_size;
 	tl->source_mode = st.st_mode;
