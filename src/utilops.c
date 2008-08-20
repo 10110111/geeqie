@@ -723,8 +723,7 @@ static void file_util_perform_ci_dir(UtilityData *ud, gboolean internal, gboolea
 			if ((internal && mkdir_utf8(ud->dir_fd->path, 0755)) ||
 			    (!internal && ext_result))
 				{
-				file_data_increment_version(ud->dir_fd);
-				file_data_send_notification(ud->dir_fd, NOTIFY_TYPE_REREAD);
+				file_data_check_changed_files(ud->dir_fd); /* this will update the FileData and send notification */
 				}
 			else
 				{
