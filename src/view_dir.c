@@ -146,8 +146,8 @@ void vd_refresh(ViewDir *vd)
 {
 	switch(vd->type)
 	{
-	case DIRVIEW_LIST: return vdlist_refresh(vd);
-	case DIRVIEW_TREE: return vdtree_refresh(vd);
+	case DIRVIEW_LIST: vdlist_refresh(vd);
+	case DIRVIEW_TREE: vdtree_refresh(vd);
 	}
 }
 
