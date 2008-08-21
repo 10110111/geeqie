@@ -28,7 +28,7 @@
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
 
-#define VDLIST(_vf_) ((ViewDirInfoList *)(_vf_->info))
+#define VDLIST(_vd_) ((ViewDirInfoList *)(_vd_->info))
 
 
 /*
