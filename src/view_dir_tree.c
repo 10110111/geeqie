@@ -29,7 +29,7 @@
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
 
-#define VDTREE_INFO(_vd_, _part_) (((ViewDirInfoTree *)(_vd_->info))->_part_)
+#define VDTREE(_vf_) ((ViewDirInfoTree *)(_vf_->info))
 
 
 typedef struct _PathData PathData;
@@ -62,14 +62,14 @@ static void set_cursor(GtkWidget *widget, GdkCursorType cursor_type)
 
 static void vdtree_busy_push(ViewDir *vd)
 {
-	if (VDTREE_INFO(vd, busy_ref) == 0) set_cursor(vd->view, GDK_WATCH);
-	VDTREE_INFO(vd, busy_ref)++;
+	if (VDTREE(vd)->busy_ref == 0) set_cursor(vd->view, GDK_WATCH);
+	VDTREE(vd)->busy_ref++;
 }
 
 static void vdtree_busy_pop(ViewDir *vd)
 {
-	if (VDTREE_INFO(vd, busy_ref) == 1) set_cursor(vd->view, -1);
-	if (VDTREE_INFO(vd, busy_ref) > 0) VDTREE_INFO(vd, busy_ref)--;
+	if (VDTREE(vd)->busy_ref == 1) set_cursor(vd->view, -1);
+	if (VDTREE(vd)->busy_ref > 0) VDTREE(vd)->busy_ref--;
 }
 
 gint vdtree_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter, GtkTreeIter *parent)
@@ -173,20 +173,20 @@ static gint vdtree_dnd_drop_expand_cb(gpointer data)
 		vdtree_expand_by_data(vd, vd->drop_fd, TRUE);
 		}
 
-	VDTREE_INFO(vd, drop_expand_id) = -1;
+	VDTREE(vd)->drop_expand_id = -1;
 	return FALSE;
 }
 
 static void vdtree_dnd_drop_expand_cancel(ViewDir *vd)
 {
-	if (VDTREE_INFO(vd, drop_expand_id) != -1) g_source_remove(VDTREE_INFO(vd, drop_expand_id));
-	VDTREE_INFO(vd, drop_expand_id) = -1;
+	if (VDTREE(vd)->drop_expand_id != -1) g_source_remove(VDTREE(vd)->drop_expand_id);
+	VDTREE(vd)->drop_expand_id = -1;
 }
 
 static void vdtree_dnd_drop_expand(ViewDir *vd)
 {
 	vdtree_dnd_drop_expand_cancel(vd);
-	VDTREE_INFO(vd, drop_expand_id) = g_timeout_add(1000, vdtree_dnd_drop_expand_cb, vd);
+	VDTREE(vd)->drop_expand_id = g_timeout_add(1000, vdtree_dnd_drop_expand_cb, vd);
 }
 
 /*
@@ -943,8 +943,8 @@ ViewDir *vdtree_new(ViewDir *vd, FileData *dir_fd)
 	vd->info = g_new0(ViewDirInfoTree, 1);
 	vd->type = DIRVIEW_TREE;
 
-	VDTREE_INFO(vd, drop_expand_id) = -1;
-	VDTREE_INFO(vd, busy_ref) = 0;
+	VDTREE(vd)->drop_expand_id = -1;
+	VDTREE(vd)->busy_ref = 0;
 
 	vd->dnd_drop_leave_func = vdtree_dnd_drop_expand_cancel;
 	vd->dnd_drop_update_func = vdtree_dnd_drop_expand;

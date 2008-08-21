@@ -28,7 +28,7 @@
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
 
-#define VDLIST_INFO(_vd_, _part_) (((ViewDirInfoList *)(_vd_->info))->_part_)
+#define VDLIST(_vf_) ((ViewDirInfoList *)(_vf_->info))
 
 
 /*
@@ -71,7 +71,7 @@ FileData *vdlist_row_by_path(ViewDir *vd, const gchar *path, gint *row)
 		}
 
 	n = 0;
-	work = VDLIST_INFO(vd, list);
+	work = VDLIST(vd)->list;
 	while (work)
 		{
 		FileData *fd = work->data;
@@ -135,7 +135,7 @@ const gchar *vdlist_row_get_path(ViewDir *vd, gint row)
 {
 	FileData *fd;
 
-	fd = g_list_nth_data(VDLIST_INFO(vd, list), row);
+	fd = g_list_nth_data(VDLIST(vd)->list, row);
 
 	if (fd) return fd->path;
 
@@ -153,10 +153,10 @@ static gint vdlist_populate(ViewDir *vd, gboolean clear)
 	gint ret;
 	FileData *fd;
 
-	old_list = VDLIST_INFO(vd, list);
+	old_list = VDLIST(vd)->list;
 
-	ret = filelist_read(vd->dir_fd, NULL, &VDLIST_INFO(vd, list));
-	VDLIST_INFO(vd, list) = filelist_sort(VDLIST_INFO(vd, list), SORT_NAME, TRUE);
+	ret = filelist_read(vd->dir_fd, NULL, &VDLIST(vd)->list);
+	VDLIST(vd)->list = filelist_sort(VDLIST(vd)->list, SORT_NAME, TRUE);
 
 	/* add . and .. */
 
@@ -164,7 +164,7 @@ static gint vdlist_populate(ViewDir *vd, gboolean clear)
 		{
 		filepath = g_build_filename(vd->dir_fd->path, "..", NULL);
 		fd = file_data_new_simple(filepath);
-		VDLIST_INFO(vd, list) = g_list_prepend(VDLIST_INFO(vd, list), fd);
+		VDLIST(vd)->list = g_list_prepend(VDLIST(vd)->list, fd);
 		g_free(filepath);
 		}
 
@@ -172,7 +172,7 @@ static gint vdlist_populate(ViewDir *vd, gboolean clear)
 		{
 		filepath = g_build_filename(vd->dir_fd->path, ".", NULL);
 		fd = file_data_new_simple(filepath);
-		VDLIST_INFO(vd, list) = g_list_prepend(VDLIST_INFO(vd, list), fd);
+		VDLIST(vd)->list = g_list_prepend(VDLIST(vd)->list, fd);
 		g_free(filepath);
 	}
 
@@ -181,7 +181,7 @@ static gint vdlist_populate(ViewDir *vd, gboolean clear)
 
 	valid = gtk_tree_model_iter_children(GTK_TREE_MODEL(store), &iter, NULL);
 
-	work = VDLIST_INFO(vd, list);
+	work = VDLIST(vd)->list;
 	while (work)
 		{
 		gint match;
@@ -328,7 +328,7 @@ gint vdlist_set_fd(ViewDir *vd, FileData *dir_fd)
 		FileData *found = NULL;
 		GList *work;
 
-		work = VDLIST_INFO(vd, list);
+		work = VDLIST(vd)->list;
 		while (work && !found)
 			{
 			FileData *fd = work->data;
@@ -427,7 +427,7 @@ void vdlist_destroy_cb(GtkWidget *widget, gpointer data)
 	vd_dnd_drop_scroll_cancel(vd);
 	widget_auto_scroll_stop(vd->view);
 
-	filelist_free(VDLIST_INFO(vd, list));
+	filelist_free(VDLIST(vd)->list);
 }
 
 ViewDir *vdlist_new(ViewDir *vd, FileData *dir_fd)
@@ -440,7 +440,7 @@ ViewDir *vdlist_new(ViewDir *vd, FileData *dir_fd)
 	vd->info = g_new0(ViewDirInfoList, 1);
 	vd->type = DIRVIEW_LIST;
 
-	VDLIST_INFO(vd, list) = NULL;
+	VDLIST(vd)->list = NULL;
 
 	store = gtk_list_store_new(5, G_TYPE_POINTER, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_STRING);
 	vd->view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
