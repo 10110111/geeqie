@@ -98,71 +98,71 @@ static void pixbuf_draw_rect(GdkPixbuf *pixbuf, gint x, gint y, gint w, gint h, 
 
 void dnd_set_drag_icon(GtkWidget *widget, GdkDragContext *context, GdkPixbuf *pixbuf, gint items)
 {
-		GdkPixmap *pixmap;
-		GdkBitmap *mask;
-		GdkPixbuf *dest;
-		gint w, h;
-		gint sw, sh;
-		PangoLayout *layout = NULL;
-		gint x, y;
+	GdkPixmap *pixmap;
+	GdkBitmap *mask;
+	GdkPixbuf *dest;
+	gint w, h;
+	gint sw, sh;
+	PangoLayout *layout = NULL;
+	gint x, y;
 
-		x = y = 0;
+	x = y = 0;
 
-		sw = gdk_pixbuf_get_width(pixbuf);
-		sh = gdk_pixbuf_get_height(pixbuf);
+	sw = gdk_pixbuf_get_width(pixbuf);
+	sh = gdk_pixbuf_get_height(pixbuf);
 
-		if (sw <= DND_ICON_SIZE && sh <= DND_ICON_SIZE)
-			{
-			w = sw;
-			h = sh;
-			}
-		else if (sw < sh)
-			{
-			w = sw * DND_ICON_SIZE / sh;
-			h = DND_ICON_SIZE;
-			}
-		else
-			{
-			w = DND_ICON_SIZE;
-			h = sh * DND_ICON_SIZE / sw;
-			}
+	if (sw <= DND_ICON_SIZE && sh <= DND_ICON_SIZE)
+		{
+		w = sw;
+		h = sh;
+		}
+	else if (sw < sh)
+		{
+		w = sw * DND_ICON_SIZE / sh;
+		h = DND_ICON_SIZE;
+		}
+	else
+		{
+		w = DND_ICON_SIZE;
+		h = sh * DND_ICON_SIZE / sw;
+		}
 
-		dest = gdk_pixbuf_scale_simple(pixbuf, w, h, GDK_INTERP_BILINEAR);
-		pixbuf_draw_border(dest, w, h);
+	dest = gdk_pixbuf_scale_simple(pixbuf, w, h, GDK_INTERP_BILINEAR);
+	pixbuf_draw_border(dest, w, h);
 
-		if (items > 1)
-			{
-			gchar *buf;
-			gint lw,lh;
+	if (items > 1)
+		{
+		gchar *buf;
+		gint lw,lh;
 
-			layout = gtk_widget_create_pango_layout(widget, NULL);
-			buf = g_strdup_printf("<small> %d </small>", items);
-			pango_layout_set_markup(layout, buf, -1);
-			g_free(buf);
+		layout = gtk_widget_create_pango_layout(widget, NULL);
+		buf = g_strdup_printf("<small> %d </small>", items);
+		pango_layout_set_markup(layout, buf, -1);
+		g_free(buf);
 
-			pango_layout_get_pixel_size(layout, &lw, &lh);
+		pango_layout_get_pixel_size(layout, &lw, &lh);
 
-			x = MAX(0, w - lw);
-			y = MAX(0, h - lh);
-			lw = CLAMP(lw, 0, w - x - 1);
-			lh = CLAMP(lh, 0, h - y - 1);
+		x = MAX(0, w - lw);
+		y = MAX(0, h - lh);
+		lw = CLAMP(lw, 0, w - x - 1);
+		lh = CLAMP(lh, 0, h - y - 1);
 
-			pixbuf_draw_rect(dest, x, y, lw, lh, 128);
-			}
+		pixbuf_draw_rect(dest, x, y, lw, lh, 128);
+		}
 
-		gdk_pixbuf_render_pixmap_and_mask(dest, &pixmap, &mask, 128);
-		g_object_unref(dest);
+	gdk_pixbuf_render_pixmap_and_mask(dest, &pixmap, &mask, 128);
+	g_object_unref(dest);
 
-		if (layout)
-			{
-			gdk_draw_layout(pixmap, widget->style->black_gc, x+1, y+1, layout);
-			gdk_draw_layout(pixmap, widget->style->white_gc, x, y, layout);
+	if (layout)
+		{
+		gdk_draw_layout(pixmap, widget->style->black_gc, x+1, y+1, layout);
+		gdk_draw_layout(pixmap, widget->style->white_gc, x, y, layout);
 
-			g_object_unref(G_OBJECT(layout));
-			}
+		g_object_unref(G_OBJECT(layout));
+		}
 
-		gtk_drag_set_icon_pixmap(context, gtk_widget_get_colormap(widget), pixmap, mask, -8, -6);
+	gtk_drag_set_icon_pixmap(context, gtk_widget_get_colormap(widget), pixmap, mask, -8, -6);
 
-		g_object_unref(pixmap);
-		if (mask) g_object_unref(mask);
+	g_object_unref(pixmap);
+	if (mask) g_object_unref(mask);
 }
