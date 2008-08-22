@@ -198,7 +198,8 @@ struct _ConfOptions
 		gboolean tools_restore_state;
 
 		gboolean toolbar_hidden;
-
+		
+		gchar *home_path;
 	} layout;
 
 	/* panels */

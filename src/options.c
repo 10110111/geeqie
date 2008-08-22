@@ -97,6 +97,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->layout.float_window.w = 260;
 	options->layout.float_window.x = 0;
 	options->layout.float_window.y = 0;
+	options->layout.home_path = NULL;
 	options->layout.main_window.h = 400;
 	options->layout.main_window.hdivider_pos = -1;
 	options->layout.main_window.maximized = FALSE;

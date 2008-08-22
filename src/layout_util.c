@@ -1458,10 +1458,16 @@ static void layout_button_thumb_cb(GtkWidget *widget, gpointer data)
 
 static void layout_button_home_cb(GtkWidget *widget, gpointer data)
 {
-	LayoutWindow *lw = data;
-	const gchar *path = homedir();
+	const gchar *path;
+	
+	if (options->layout.home_path && *options->layout.home_path)
+		path = options->layout.home_path;
+	else
+		path = homedir();
+
 	if (path)
 		{
+		LayoutWindow *lw = data;
 		FileData *dir_fd = file_data_new_simple(path);
 		layout_set_fd(lw, dir_fd);
 		file_data_unref(dir_fd);
