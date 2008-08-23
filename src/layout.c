@@ -520,96 +520,117 @@ void layout_status_update_info(LayoutWindow *lw, const gchar *text)
 		{
 		guint n;
 		gint64 n_bytes = 0;
-		guint s;
-		gint64 s_bytes = 0;
-		const gchar *ss;
-
-		if (layout_image_slideshow_active(lw))
+	
+		n = layout_list_count(lw, &n_bytes);
+		
+		if (n)
 			{
-			if (!layout_image_slideshow_paused(lw))
+			guint s;
+			gint64 s_bytes = 0;
+			const gchar *ss;
+
+			if (layout_image_slideshow_active(lw))
 				{
-				ss = _(" Slideshow");
+				if (!layout_image_slideshow_paused(lw))
+					{
+					ss = _(" Slideshow");
+					}
+				else
+					{
+					ss = _(" Paused");
+					}
 				}
 			else
 				{
-				ss = _(" Paused");
+				ss = "";
 				}
+	
+			s = layout_selection_count(lw, &s_bytes);
+	
+			layout_bars_new_selection(lw, s);
+	
+			if (s > 0)
+				{
+				gchar *b = text_from_size_abrev(n_bytes);
+				gchar *sb = text_from_size_abrev(s_bytes);
+				buf = g_strdup_printf(_("%s, %d files (%s, %d)%s"), b, n, sb, s, ss);
+				g_free(b);
+				g_free(sb);
+				}
+			else if (n > 0)
+				{
+				gchar *b = text_from_size_abrev(n_bytes);
+				buf = g_strdup_printf(_("%s, %d files%s"), b, n, ss);
+				g_free(b);
+				}
+			else
+				{
+				buf = g_strdup_printf(_("%d files%s"), n, ss);
+				}
+	
+			text = buf;
+	
+			image_osd_update(lw->image);
 			}
 		else
 			{
-			ss = "";
+			text = "";
 			}
-
-		n = layout_list_count(lw, &n_bytes);
-		s = layout_selection_count(lw, &s_bytes);
-
-		layout_bars_new_selection(lw, s);
-
-		if (s > 0)
-			{
-			gchar *b = text_from_size_abrev(n_bytes);
-			gchar *sb = text_from_size_abrev(s_bytes);
-			buf = g_strdup_printf(_("%s, %d files (%s, %d)%s"), b, n, sb, s, ss);
-			g_free(b);
-			g_free(sb);
-			}
-		else if (n > 0)
-			{
-			gchar *b = text_from_size_abrev(n_bytes);
-			buf = g_strdup_printf(_("%s, %d files%s"), b, n, ss);
-			g_free(b);
-			}
-		else
-			{
-			buf = g_strdup_printf(_("%d files%s"), n, ss);
-			}
-
-		text = buf;
-
-		image_osd_update(lw->image);
-		}
-
+	}
+	
 	if (lw->info_status) gtk_label_set_text(GTK_LABEL(lw->info_status), text);
 	g_free(buf);
 }
 
 void layout_status_update_image(LayoutWindow *lw)
 {
-	gchar *text;
-	gchar *b;
+	guint64 n;
 
 	if (!layout_valid(&lw) || !lw->image) return;
 
-	text = image_zoom_get_as_text(lw->image);
-	gtk_label_set_text(GTK_LABEL(lw->info_zoom), text);
-	g_free(text);
-
-	b = image_get_fd(lw->image) ? text_from_size(image_get_fd(lw->image)->size) : g_strdup("0");
-
-	if (lw->image->unknown)
+	n = layout_list_count(lw, NULL);
+	
+	if (!n)
 		{
-		if (image_get_path(lw->image) && !access_file(image_get_path(lw->image), R_OK))
-			{
-			text = g_strdup_printf(_("(no read permission) %s bytes"), b);
-			}
-		else
-			{
-			text = g_strdup_printf(_("( ? x ? ) %s bytes"), b);
-			}
+		gtk_label_set_text(GTK_LABEL(lw->info_zoom), "");
+		gtk_label_set_text(GTK_LABEL(lw->info_details), "");
 		}
 	else
 		{
-		gint width, height;
+		gchar *text;
+		gchar *b;
 
-		image_get_image_size(lw->image, &width, &height);
-		text = g_strdup_printf(_("( %d x %d ) %s bytes"),
-				       width, height, b);
+		text = image_zoom_get_as_text(lw->image);
+		gtk_label_set_text(GTK_LABEL(lw->info_zoom), text);
+		g_free(text);
+
+		b = image_get_fd(lw->image) ? text_from_size(image_get_fd(lw->image)->size) : g_strdup("0");
+
+		if (lw->image->unknown)
+			{
+			if (image_get_path(lw->image) && !access_file(image_get_path(lw->image), R_OK))
+				{
+				text = g_strdup_printf(_("(no read permission) %s bytes"), b);
+				}
+			else
+				{
+				text = g_strdup_printf(_("( ? x ? ) %s bytes"), b);
+				}
+			}
+		else
+			{
+			gint width, height;
+	
+			image_get_image_size(lw->image, &width, &height);
+			text = g_strdup_printf(_("( %d x %d ) %s bytes"),
+					       width, height, b);
+			}
+
+		g_free(b);
+		
+		gtk_label_set_text(GTK_LABEL(lw->info_details), text);
+		g_free(text);
 		}
-
-	gtk_label_set_text(GTK_LABEL(lw->info_details), text);
-
-	g_free(b);
-	g_free(text);
 }
 
 void layout_status_update_all(LayoutWindow *lw)
