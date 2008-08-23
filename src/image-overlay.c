@@ -371,22 +371,23 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 				/* insert separator */
 				g_string_insert(new, pos, sep);
 				pos += strlen(sep);
+				want_separator = FALSE;
 				}
 
 			g_string_insert(new, pos, data);
 			pos += strlen(data);
 		}
 
-		want_separator = FALSE;
-
 		if (pos-prev >= 1 && new->str[pos] == imp)
 			{
 			/* pipe character is replaced by a separator, delete it
 			 * and raise a flag if needed */
 			g_string_erase(new, pos--, 1);
-			want_separator = (data && *data);
+			want_separator |= (data && *data);
 			}
-		
+
+		if (new->str[pos] == '\n') want_separator = FALSE;
+
 		prev = pos - 1;
 
 		g_free(name);
