@@ -154,19 +154,18 @@ static gchar *exif_build_formatted_Camera(ExifData *exif)
 
 	if (software)
 		{
-		gint i;
+		gint i, j;
 
 		g_strstrip(software);
 		
 		/* remove superfluous spaces (pentax K100D) */
-		for (i = 0; software[i]; i++)
+		for (i = 0, j = 0; software[i]; i++, j++)
+			{
 			if (software[i] == ' ' && software[i + 1] == ' ')
-				{
-				gint j;
-
-				for (j = 1; software[i + j] == ' '; j++);
-				memmove(software + i + 1, software + i + j, strlen(software + i + j) + 1);
-				}
+				i++;
+			if (i != j) software[j] = software[i];
+			}
+		software[j] = '\0';
 		}
 
 	model2 = remove_common_prefix(make, model);
