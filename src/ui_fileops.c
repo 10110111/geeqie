@@ -243,7 +243,7 @@ gint64 filesize(const gchar *s)
 	struct stat st;
 
 	if (!stat_utf8(s, &st)) return 0;
-	return (gint)st.st_size;
+	return st.st_size;
 }
 
 time_t filetime(const gchar *s)
