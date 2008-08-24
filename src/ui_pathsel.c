@@ -430,13 +430,13 @@ static gint dest_view_rename_cb(TreeEditData *ted, const gchar *old, const gchar
 	if (isname(new_path))
 		{
 		buf = g_strdup_printf(_("A file with name %s already exists."), new);
-		warning_dialog("Rename failed", buf, GTK_STOCK_DIALOG_INFO, dd->entry);
+		warning_dialog(_("Rename failed"), buf, GTK_STOCK_DIALOG_INFO, dd->entry);
 		g_free(buf);
 		}
 	else if (!rename_file(old_path, new_path))
 		{
 		buf = g_strdup_printf(_("Failed to rename %s to %s."), old, new);
-		warning_dialog("Rename failed", buf, GTK_STOCK_DIALOG_ERROR, dd->entry);
+		warning_dialog(_("Rename failed"), buf, GTK_STOCK_DIALOG_ERROR, dd->entry);
 		g_free(buf);
 		}
 	else

@@ -39,6 +39,7 @@
 ./src/thumb.c
 ./src/trash.c
 ./src/ui_bookmark.c
+./src/ui_fileops.c
 ./src/ui_help.c
 ./src/ui_pathsel.c
 ./src/ui_tabcomp.c

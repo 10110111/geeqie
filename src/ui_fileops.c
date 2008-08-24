@@ -91,30 +91,37 @@ static void encoding_dialog(const gchar *path)
 	warned_user = TRUE;
 
 	string = g_string_new("");
-	g_string_append(string, "One or more filenames are not encoded with the preferred locale character set.\n");
-	g_string_append_printf(string, "Operations on, and display of these files with %s may not succeed.\n\n", PACKAGE);
-	g_string_append(string, "If your filenames are not encoded in utf-8, try setting\n");
-	g_string_append(string, "the environment variable G_BROKEN_FILENAMES=1\n");
-	g_string_append_printf(string, "It appears G_BROKEN_FILENAMES is %s%s\n\n",
-				(bf) ? "set to " : "not set.", (bf) ? bf : "");
-	g_string_append_printf(string, "The locale appears to be set to \"%s\"\n(set by the LANG environment variable)\n", (lc) ? lc : "undefined");
+	g_string_append(string, _("One or more filenames are not encoded with the preferred locale character set.\n"));
+	g_string_append_printf(string, _("Operations on, and display of these files with %s may not succeed.\n"), PACKAGE);
+	g_string_append(string, "\n");
+	g_string_append(string, _("If your filenames are not encoded in utf-8, try setting the environment variable G_BROKEN_FILENAMES=1\n"));
+	if (bf)
+		g_string_append_printf(string, _("It appears G_BROKEN_FILENAMES is set to %s\n"), bf);
+	else
+		g_string_append(string, _("It appears G_BROKEN_FILENAMES is not set\n"));
+	g_string_append(string, "\n");
+	g_string_append_printf(string, _("The locale appears to be set to \"%s\"\n(set by the LANG environment variable)\n"), (lc) ? lc : "undefined");
 	if (lc && (strstr(lc, "UTF-8") || strstr(lc, "utf-8")))
 		{
 		gchar *name;
 		name = g_convert(path, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-		string = g_string_append(string, "\nPreferred encoding appears to be UTF-8, however the file:\n");
-		g_string_append_printf(string, "\"%s\"\n%s encoded in valid UTF-8.\n",
-				(name) ? name : "[name not displayable]",
-				(g_utf8_validate(path, -1, NULL)) ? "is": "is NOT");
+		string = g_string_append(string, _("\nPreferred encoding appears to be UTF-8, however the file:\n"));
+		g_string_append_printf(string, "\"%s\"\n", (name) ? name : _("[name not displayable]"));
+		
+		if (g_utf8_validate(path, -1, NULL))
+			g_string_append_printf(string, _("\"%s\" is encoded in valid UTF-8."), (name) ? name : _("[name not displayable]"));
+		else
+			g_string_append_printf(string, _("\"%s\" is not encoded in valid UTF-8."), (name) ? name : _("[name not displayable]"));
+		g_string_append(string, "\n");
 		g_free(name);
 		}
 
-	gd = generic_dialog_new("Filename encoding locale mismatch",
+	gd = generic_dialog_new(_("Filename encoding locale mismatch"),
 				GQ_WMCLASS, "locale warning", NULL, TRUE, NULL, NULL);
 	generic_dialog_add_button(gd, GTK_STOCK_CLOSE, NULL, NULL, TRUE);
 
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_WARNING,
-				   "Filename encoding locale mismatch", string->str);
+				   _("Filename encoding locale mismatch"), string->str);
 
 	gtk_widget_show(gd->dialog);
 
