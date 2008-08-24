@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.0alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-23 00:06+0200\n"
-"PO-Revision-Date: 2008-08-23 00:09+0100\n"
+"POT-Creation-Date: 2008-08-24 11:49+0200\n"
+"PO-Revision-Date: 2008-08-24 11:58+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french <geeqie-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -453,8 +453,8 @@ msgid "Toggled mark"
 msgstr "Marque basculée"
 
 #. When does this occur ??
-#: src/collect.c:357 src/image.c:174 src/image-overlay.c:479
-#: src/image-overlay.c:557
+#: src/collect.c:357 src/image.c:173 src/image-overlay.c:480
+#: src/image-overlay.c:558
 msgid "Untitled"
 msgstr "Sans_Titre"
 
@@ -754,7 +754,7 @@ msgstr "Nom insensible à la casse"
 msgid "Size"
 msgstr "Taille"
 
-#: src/dupe.c:2650 src/dupe.c:3172 src/exif.c:339 src/exif-common.c:439
+#: src/dupe.c:2650 src/dupe.c:3172 src/exif.c:339 src/exif-common.c:438
 #: src/print.c:3232 src/search.c:2759 src/view_file_list.c:1944
 msgid "Date"
 msgstr "Date"
@@ -939,8 +939,8 @@ msgid "(unknown)"
 msgstr "(inconnu)"
 
 #: src/exif.c:145 src/exif.c:158 src/exif.c:172 src/exif.c:197 src/exif.c:314
-#: src/exif.c:625 src/exif-common.c:305 src/exif-common.c:308
-#: src/exif-common.c:375
+#: src/exif.c:625 src/exif-common.c:304 src/exif-common.c:307
+#: src/exif-common.c:374
 msgid "unknown"
 msgstr "inconnu"
 
@@ -1124,12 +1124,12 @@ msgstr "D50"
 msgid "ISO studio tungsten"
 msgstr "tungstène studio ISO"
 
-#: src/exif.c:222 src/exif-common.c:329 src/info.c:255
+#: src/exif.c:222 src/exif-common.c:328 src/info.c:255
 msgid "no"
 msgstr "non"
 
 #. flash fired (bit 0)
-#: src/exif.c:223 src/exif-common.c:329 src/info.c:255
+#: src/exif.c:223 src/exif-common.c:328 src/info.c:255
 msgid "yes"
 msgstr "oui"
 
@@ -1141,7 +1141,7 @@ msgstr "oui, mais non détecté"
 msgid "yes, detected by strobe"
 msgstr "oui, détecté"
 
-#: src/exif.c:230 src/exif-common.c:400 src/layout.c:421
+#: src/exif.c:230 src/exif-common.c:399 src/layout.c:421
 msgid "sRGB"
 msgstr "sRGB"
 
@@ -1185,7 +1185,7 @@ msgstr "photo directe"
 msgid "custom"
 msgstr "personnalisé"
 
-#: src/exif.c:263 src/exif.c:270 src/exif-common.c:343
+#: src/exif.c:263 src/exif.c:270 src/exif-common.c:342
 msgid "auto"
 msgstr "auto"
 
@@ -1342,7 +1342,7 @@ msgstr "Programme d'exposition"
 msgid "Spectral Sensitivity"
 msgstr "Sensibilité spectrale"
 
-#: src/exif.c:352 src/exif.c:388 src/exif-common.c:443
+#: src/exif.c:352 src/exif.c:388 src/exif-common.c:442
 msgid "ISO sensitivity"
 msgstr "Sensibilité ISO"
 
@@ -1370,11 +1370,11 @@ msgstr "Format des pixels"
 msgid "Compression ratio"
 msgstr "Rapport de compression"
 
-#: src/exif.c:359 src/exif-common.c:440
+#: src/exif.c:359 src/exif-common.c:439
 msgid "Shutter speed"
 msgstr "Vitesse d'obturation"
 
-#: src/exif.c:360 src/exif-common.c:441
+#: src/exif.c:360 src/exif-common.c:440
 msgid "Aperture"
 msgstr "Ouverture"
 
@@ -1382,7 +1382,7 @@ msgstr "Ouverture"
 msgid "Brightness"
 msgstr "Luminosité"
 
-#: src/exif.c:362 src/exif-common.c:442
+#: src/exif.c:362 src/exif-common.c:441
 msgid "Exposure bias"
 msgstr "Polarisation d'exposition"
 
@@ -1390,7 +1390,7 @@ msgstr "Polarisation d'exposition"
 msgid "Maximum aperture"
 msgstr "Ouverture maximale"
 
-#: src/exif.c:364 src/exif-common.c:446
+#: src/exif.c:364 src/exif-common.c:445
 msgid "Subject distance"
 msgstr "Distance du sujet"
 
@@ -1402,11 +1402,11 @@ msgstr "Méthode de mesure"
 msgid "Light source"
 msgstr "Source de lumière"
 
-#: src/exif.c:367 src/exif-common.c:447
+#: src/exif.c:367 src/exif-common.c:446
 msgid "Flash"
 msgstr "Flash"
 
-#: src/exif.c:368 src/exif-common.c:444
+#: src/exif.c:368 src/exif-common.c:443
 msgid "Focal length"
 msgstr "Distance focale"
 
@@ -1552,61 +1552,61 @@ msgstr "Distance du sujet"
 msgid "Image serial number"
 msgstr "Numéro de série de l'image"
 
-#: src/exif-common.c:304
+#: src/exif-common.c:303
 msgid "infinity"
 msgstr "infini"
 
-#: src/exif-common.c:333
+#: src/exif-common.c:332
 msgid "mode:"
 msgstr "mode :"
 
-#: src/exif-common.c:337 src/trash.c:205
+#: src/exif-common.c:336 src/trash.c:205
 msgid "on"
 msgstr "on"
 
-#: src/exif-common.c:340 src/trash.c:210
+#: src/exif-common.c:339 src/trash.c:210
 msgid "off"
 msgstr "off"
 
-#: src/exif-common.c:349
+#: src/exif-common.c:348
 msgid "not detected by strobe"
 msgstr "non détecté"
 
-#: src/exif-common.c:350
+#: src/exif-common.c:349
 msgid "detected by strobe"
 msgstr "détecté"
 
 #. we ignore flash function (bit 5)
 #. red-eye (bit 6)
-#: src/exif-common.c:355
+#: src/exif-common.c:354
 msgid "red-eye reduction"
 msgstr "anti-yeux rouges"
 
-#: src/exif-common.c:375
+#: src/exif-common.c:374
 msgid "dot"
 msgstr "point"
 
-#: src/exif-common.c:405
+#: src/exif-common.c:404
 msgid "AdobeRGB"
 msgstr "AdobeRGB"
 
-#: src/exif-common.c:413
+#: src/exif-common.c:412
 msgid "embedded"
 msgstr "embarqué"
 
-#: src/exif-common.c:438
+#: src/exif-common.c:437
 msgid "Camera"
 msgstr "Appareil"
 
-#: src/exif-common.c:445
+#: src/exif-common.c:444
 msgid "Focal length 35mm"
 msgstr "Focale 35mm"
 
-#: src/exif-common.c:448
+#: src/exif-common.c:447
 msgid "Resolution"
 msgstr "Résolution"
 
-#: src/exif-common.c:449
+#: src/exif-common.c:448
 msgid "Color profile"
 msgstr "Profil colorimétrique"
 
@@ -1760,6 +1760,11 @@ msgstr "Histogramme linéaire sur la valeur max"
 msgid "Unable to write history lists to: %s\n"
 msgstr "Impossible d'écrire l'historique dans : %s\n"
 
+#: src/image.c:174
+#, c-format
+msgid " (Collection %s)"
+msgstr " (Collection %s)"
+
 #: src/img-view.c:1265 src/layout_image.c:742 src/layout_util.c:1092
 #: src/layout_util.c:1093 src/layout_util.c:1094 src/pan-view.c:2808
 msgid "Zoom _in"
@@ -1901,49 +1906,49 @@ msgstr "Écran sRGB"
 msgid "_Screen profile"
 msgstr "_Profil d'écran"
 
-#: src/layout.c:531
+#: src/layout.c:536
 msgid " Slideshow"
 msgstr " Diaporama"
 
-#: src/layout.c:535
+#: src/layout.c:540
 msgid " Paused"
 msgstr " En pause"
 
-#: src/layout.c:552
+#: src/layout.c:556
 #, c-format
 msgid "%s, %d files (%s, %d)%s"
 msgstr "%s, %d fichiers (%s, %d)%s"
 
-#: src/layout.c:559
+#: src/layout.c:563
 #, c-format
 msgid "%s, %d files%s"
 msgstr "%s, %d fichiers%s"
 
-#: src/layout.c:564
+#: src/layout.c:568
 #, c-format
 msgid "%d files%s"
 msgstr "%d fichiers%s"
 
-#: src/layout.c:593
+#: src/layout.c:613
 #, c-format
 msgid "(no read permission) %s bytes"
 msgstr "(pas de permission en lecture) %s octets"
 
-#: src/layout.c:597
+#: src/layout.c:617
 #, c-format
 msgid "( ? x ? ) %s bytes"
 msgstr "( ? x ? ) %s octets"
 
-#: src/layout.c:605
+#: src/layout.c:625
 #, c-format
 msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s octets"
 
-#: src/layout.c:1287 src/layout_config.c:58
+#: src/layout.c:1308 src/layout_config.c:58
 msgid "Tools"
 msgstr "Outils"
 
-#: src/layout.c:1970
+#: src/layout.c:1991
 msgid "Invalid geometry\n"
 msgstr "Géométrie invalide\n"
 
