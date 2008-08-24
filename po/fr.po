@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.0alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-24 15:12+0200\n"
-"PO-Revision-Date: 2008-08-24 15:19+0100\n"
+"POT-Creation-Date: 2008-08-24 16:39+0200\n"
+"PO-Revision-Date: 2008-08-24 16:39+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french <geeqie-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -3912,70 +3912,70 @@ msgstr "_Descendre"
 msgid "_Remove"
 msgstr "Efface_r"
 
-#: src/ui_fileops.c:94
+#: src/ui_fileops.c:93
 msgid ""
 "One or more filenames are not encoded with the preferred locale character "
 "set.\n"
 msgstr ""
-"Un ou plusieurs noms de fichiers ne sont pas encodés dans la jeu de "
+"Un ou plusieurs noms de fichiers ne sont pas encodés dans le jeu de "
 "caractères de la locale préférée.\n"
 
-#: src/ui_fileops.c:95
+#: src/ui_fileops.c:94
 #, c-format
 msgid "Operations on, and display of these files with %s may not succeed.\n"
 msgstr ""
-"Les opérations sur, et l'affichage de ces fichiers avec %s peuvent ne pas "
-"fonctionner.\n"
+"Les opérations et l'affichage de ces fichiers avec %s peuvent ne pas "
+"fonctionner correctement.\n"
 
-#: src/ui_fileops.c:97
+#: src/ui_fileops.c:96
 msgid ""
 "If your filenames are not encoded in utf-8, try setting the environment "
 "variable G_BROKEN_FILENAMES=1\n"
 msgstr ""
-"Si vos noms de fichiers ne sont pas encodés en utf-8, essayez de modifier la "
-"variable d'environnement G_BROKEN_FILENAMES=1\n"
+"Si vos noms de fichiers ne sont pas encodés en utf-8, essayez de mettre la "
+"variable d'environnement G_BROKEN_FILENAMES à 1\n"
 
-#: src/ui_fileops.c:99
+#: src/ui_fileops.c:98
 #, c-format
 msgid "It appears G_BROKEN_FILENAMES is set to %s\n"
-msgstr "Il apparait que G_BROKEN_FILENAMES  a pour valeur %s\n"
+msgstr "G_BROKEN_FILENAMES a pour valeur %s\n"
 
-#: src/ui_fileops.c:101
+#: src/ui_fileops.c:100
 msgid "It appears G_BROKEN_FILENAMES is not set\n"
-msgstr "Il apparait que G_BROKEN_FILENAMES  n'a pas de valeur\n"
+msgstr "G_BROKEN_FILENAMES n'a pas de valeur\n"
 
-#: src/ui_fileops.c:103
+#: src/ui_fileops.c:102
 #, c-format
 msgid ""
 "The locale appears to be set to \"%s\"\n"
 "(set by the LANG environment variable)\n"
 msgstr ""
 "La locale a pour valeur \"%s\"\n"
-"(affectée par la variable d'environnement LANG)\n"
+"(configurée par la variable d'environnement LANG)\n"
 
-#: src/ui_fileops.c:108
+#: src/ui_fileops.c:107
 msgid ""
 "\n"
 "Preferred encoding appears to be UTF-8, however the file:\n"
 msgstr ""
 "\n"
-"L'encodage préféré apparait être UTF-8, toutefois le fichier:\n"
+"L'encodage préféré semble être UTF-8, mais le fichier:\n"
 
-#: src/ui_fileops.c:109 src/ui_fileops.c:112 src/ui_fileops.c:114
+#: src/ui_fileops.c:108 src/ui_fileops.c:111 src/ui_fileops.c:113
 msgid "[name not displayable]"
 msgstr "[nom impossible à afficher]"
 
-#: src/ui_fileops.c:112
+#: src/ui_fileops.c:111
 #, c-format
 msgid "\"%s\" is encoded in valid UTF-8."
 msgstr "\"%s\" est encodé en UTF-8 valide."
 
-#: src/ui_fileops.c:114
+#: src/ui_fileops.c:113
 #, c-format
 msgid "\"%s\" is not encoded in valid UTF-8."
 msgstr "\"%s\" n'est pas encodé en UTF-8 valide."
 
-#: src/ui_fileops.c:119 src/ui_fileops.c:124
+#: src/ui_fileops.c:118 src/ui_fileops.c:123
 msgid "Filename encoding locale mismatch"
 msgstr "Discordance d'encodage entre la locale et les noms de fichiers"
 
