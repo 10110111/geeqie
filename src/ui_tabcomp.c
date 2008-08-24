@@ -142,10 +142,9 @@ static void tab_completion_destroy(GtkWidget *widget, gpointer data)
 	g_free(td);
 }
 
-static gint tab_completion_emit_enter_signal(TabCompData *td)
+static gchar *tab_completion_get_text(TabCompData *td)
 {
 	gchar *text;
-	if (!td->enter_func) return FALSE;
 
 	text = g_strdup(gtk_entry_get_text(GTK_ENTRY(td->entry)));
 
@@ -156,6 +155,15 @@ static gint tab_completion_emit_enter_signal(TabCompData *td)
 		g_free(t);
 		}
 
+	return text;
+}
+
+static gint tab_completion_emit_enter_signal(TabCompData *td)
+{
+	gchar *text;
+	if (!td->enter_func) return FALSE;
+
+	text = tab_completion_get_text(td);
 	td->enter_func(text, td->enter_data);
 	g_free(text);
 
@@ -167,15 +175,7 @@ static void tab_completion_emit_tab_signal(TabCompData *td)
 	gchar *text;
 	if (!td->tab_func) return;
 
-	text = g_strdup(gtk_entry_get_text(GTK_ENTRY(td->entry)));
-
-	if (text[0] == '~')
-		{
-		gchar *t = text;
-		text = expand_tilde(text);
-		g_free(t);
-		}
-
+	text = tab_completion_get_text(td);
 	td->tab_func(text, td->tab_data);
 	g_free(text);
 }
