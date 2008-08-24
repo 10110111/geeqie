@@ -88,7 +88,6 @@ static void encoding_dialog(const gchar *path)
 
 	lc = getenv("LANG");
 	bf = getenv("G_BROKEN_FILENAMES");
-	warned_user = TRUE;
 
 	string = g_string_new("");
 	g_string_append(string, _("One or more filenames are not encoded with the preferred locale character set.\n"));
