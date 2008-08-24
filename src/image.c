@@ -169,10 +169,9 @@ static void image_update_title(ImageWindow *imd)
 
 	if (imd->collection && collection_to_number(imd->collection) >= 0)
 		{
-		const gchar *name;
-		name = imd->collection->name;
+		const gchar *name = imd->collection->name;
 		if (!name) name = _("Untitled");
-		collection = g_strdup_printf(" (Collection %s)", name);
+		collection = g_strdup_printf(_(" (Collection %s)"), name);
 		}
 
 	if (imd->title_show_zoom)
