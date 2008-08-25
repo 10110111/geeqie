@@ -1250,7 +1250,7 @@ ExifItem *exif_get_item(ExifData *exif, const gchar *key)
 
 	work = exif->items;
 	while (work)
- 		{
+		{
 		ExifItem *item;
 
 		item = work->data;

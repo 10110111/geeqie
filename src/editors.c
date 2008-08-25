@@ -832,7 +832,7 @@ gboolean is_valid_editor_command(gint n)
 {
 	return (n >= 0 && n < GQ_EDITOR_SLOTS
 		&& options->editor[n].command
-		&& strlen(options->editor[n].command) > 0); 
+		&& strlen(options->editor[n].command) > 0);
 }
 
 gint start_editor_from_filelist_full(gint n, GList *list, EditorCallback cb, gpointer data)

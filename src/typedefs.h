@@ -370,7 +370,7 @@ struct _ImageWindow
 	gint unknown;		/* failed to load image */
 
 	ImageLoader *il;        /* FIXME - image loader should probably go to FileData, but it must first support
-	                           sending callbacks to multiple ImageWindows in parallel */
+				   sending callbacks to multiple ImageWindows in parallel */
 
 	gint has_frame;
 
@@ -465,7 +465,7 @@ struct _FileData {
 	GdkPixbuf *thumb_pixbuf;
 
 	GdkPixbuf *pixbuf; /* full-size image, only complete images, NULL during loading
-	                      all FileData with non-NULL pixbuf are referenced by image_cache */
+			      all FileData with non-NULL pixbuf are referenced by image_cache */
 
 	gint ref;
 	gint version; /* increased when any field in this structure is changed */

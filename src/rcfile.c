@@ -167,7 +167,7 @@ static void write_int_option(SecureSaveInfo *ssi, gchar *label, gint n)
 }
 
 static gboolean read_int_option(FILE *f, gchar *option, gchar *label, gchar *value, gint *n)
-{	
+{
 	if (g_ascii_strcasecmp(option, label) != 0) return FALSE;
 	if (!n) return FALSE;
 
@@ -882,7 +882,7 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_UINT(histogram.last_log_mode);
 
 		/* image overlay */
-		COMPAT_READ_UINT(image_overlay.common.enabled, image_overlay.common.state); /* 2008-05-12 */ 
+		COMPAT_READ_UINT(image_overlay.common.enabled, image_overlay.common.state); /* 2008-05-12 */
 		READ_UINT(image_overlay.common.state);
 		COMPAT_READ_BOOL(fullscreen.show_info, image_overlay.common.show_at_startup); /* 2008-04-21 */
 		READ_BOOL(image_overlay.common.show_at_startup);

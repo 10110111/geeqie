@@ -209,7 +209,7 @@ void layout_image_lirc_init(LayoutWindow *lw)
 		}
 	gio_chan = g_io_channel_unix_new(lirc_fd);
 	input_tag = g_io_add_watch(gio_chan, G_IO_IN,
-	                           lirc_input_callback, lw);
+				   lirc_input_callback, lw);
 	fcntl(lirc_fd, F_SETOWN, getpid());
 	flags = fcntl(lirc_fd, F_GETFL, 0);
 	if (flags != -1) fcntl(lirc_fd, F_SETFL, flags|O_NONBLOCK);

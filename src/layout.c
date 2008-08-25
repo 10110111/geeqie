@@ -1838,7 +1838,7 @@ void layout_free(LayoutWindow *lw)
 
 	file_data_unregister_notify_func(layout_image_notify_cb, lw);
 
-	if (lw->dir_fd) 
+	if (lw->dir_fd)
 		{
 		file_data_unregister_real_time_monitor(lw->dir_fd);
 		file_data_unref(lw->dir_fd);

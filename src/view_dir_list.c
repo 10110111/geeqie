@@ -228,7 +228,7 @@ static gint vdlist_populate(ViewDir *vd, gboolean clear)
 					}
 				else
 					{
-					match = filelist_sort_compare_filedata_full(fd, old_fd, SORT_NAME, TRUE); 
+					match = filelist_sort_compare_filedata_full(fd, old_fd, SORT_NAME, TRUE);
 
 					if (match == 0) g_warning("multiple fd for the same path");
 					}

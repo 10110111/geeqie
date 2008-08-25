@@ -524,7 +524,7 @@ EXIF_MARKER_LIST_END
 #endif
 
 static ExifMarker CanonExifMarkersList[] = {
- 	{ 1,	EXIF_FORMAT_SHORT_UNSIGNED, -1, "MkN.Canon.Settings1",		NULL, NULL },
+	{ 1,	EXIF_FORMAT_SHORT_UNSIGNED, -1, "MkN.Canon.Settings1",		NULL, NULL },
 	{ 4,	EXIF_FORMAT_SHORT_UNSIGNED, -1, "MkN.Canon.Settings2",		NULL, NULL },
 	{ 6,	EXIF_FORMAT_STRING, -1,		"MkN.Canon.ImageType",		"Image type", NULL },
 	{ 7,	EXIF_FORMAT_STRING, -1,		"MkN.Canon.FirmwareVersion",	"Firmware version", NULL },

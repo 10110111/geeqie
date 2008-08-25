@@ -215,7 +215,7 @@ static void bar_sort_undo_folder(SortData *sd, GtkWidget *button)
 		case BAR_SORT_COPY:
 			file_util_delete(file_data_new_simple(sd->undo_dest), NULL, button);
 			break;
-		default: 
+		default:
 			/* undo external command */
 			file_util_delete(file_data_new_simple(sd->undo_dest), NULL, button);
 			break;
@@ -286,7 +286,7 @@ static void bar_sort_bookmark_select_folder(SortData *sd, FileData *source, cons
 			list = NULL;
 			break;
 		default:
-			if (sd->action >= BAR_SORT_FILTER && sd->action < BAR_SORT_ACTION_COUNT) 
+			if (sd->action >= BAR_SORT_FILTER && sd->action < BAR_SORT_ACTION_COUNT)
 				{
 				file_util_start_filter_from_filelist(sd->action - BAR_SORT_FILTER, list, path, sd->lw->window);
 				list = NULL;

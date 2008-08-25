@@ -262,7 +262,7 @@ gqv_cell_renderer_icon_class_init(GQvCellRendererIconClass *class)
 							0, 32,
 							0,
 							G_PARAM_READWRITE));
-	toggle_cell_signals[TOGGLED] = 
+	toggle_cell_signals[TOGGLED] =
 		g_signal_new ("toggled",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST,

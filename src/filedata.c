@@ -1052,8 +1052,8 @@ GList *filelist_recursive(FileData *dir_fd)
 /*
  * marks and orientation
  */
- 
- 
+
+
 gboolean file_data_get_mark(FileData *fd, gint n)
 {
 	return !!(fd->marks & (1 << n));
@@ -1154,16 +1154,16 @@ gchar *file_data_sc_list_to_string(FileData *fd)
 }
 
 
-				
-/* 
- * add FileDataChangeInfo (see typedefs.h) for the given operation 
+
+/*
+ * add FileDataChangeInfo (see typedefs.h) for the given operation
  * uses file_data_add_change_info
  *
  * fails if the fd->change already exists - change operations can't run in parallel
  * fd->change_info works as a lock
  *
  * dest can be NULL - in this case the current name is used for now, it will
- * be changed later 
+ * be changed later
  */
 
 /*
@@ -1174,7 +1174,7 @@ gchar *file_data_sc_list_to_string(FileData *fd)
             extension should remain (FIXME should we allow editing extension? it will make problems wth grouping)
 	    sidecar names are changed too, extensions are not changed
    DELETE
-   UPDATE - file size, date or grouping has been changed 
+   UPDATE - file size, date or grouping has been changed
 */
 
 gboolean file_data_add_ci(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest)
@@ -1202,7 +1202,7 @@ gboolean file_data_add_ci(FileData *fd, FileDataChangeType type, const gchar *sr
 
 static void file_data_planned_change_remove(FileData *fd)
 {
-	if (file_data_planned_change_hash && 
+	if (file_data_planned_change_hash &&
 	    (fd->change->type == FILEDATA_CHANGE_MOVE || fd->change->type == FILEDATA_CHANGE_RENAME))
 		{
 		if (g_hash_table_lookup(file_data_planned_change_hash, fd->change->dest) == fd)
@@ -1219,7 +1219,7 @@ static void file_data_planned_change_remove(FileData *fd)
 			}
 		}
 }
- 
+
 
 void file_data_free_ci(FileData *fd)
 {
@@ -1238,7 +1238,7 @@ void file_data_free_ci(FileData *fd)
 	fd->change = NULL;
 }
 
- 
+
 static gboolean file_data_sc_add_ci(FileData *fd, FileDataChangeType type)
 {
 	GList *work;
@@ -1267,7 +1267,7 @@ static gboolean file_data_sc_add_ci(FileData *fd, FileDataChangeType type)
 		work = work->next;
 		}
 		
-	return TRUE;	
+	return TRUE;
 }
 
 static gboolean file_data_sc_check_ci(FileData *fd, FileDataChangeType type)
@@ -1382,7 +1382,7 @@ static gboolean file_data_sc_add_ci_list_call_func(GList *fd_list, const gchar *
 		{
 		FileData *fd = work->data;
 		
-		if (!func(fd, dest)) 
+		if (!func(fd, dest))
 			{
 			file_data_sc_revert_ci_list(work->prev);
 			return FALSE;
@@ -1427,7 +1427,7 @@ void file_data_sc_free_ci_list(GList *fd_list)
 		}
 }
 
-/* 
+/*
  * update existing fd->change, it will be used from dialog callbacks for interactive editing
  * fails if fd->change does not exist or the change type does not match
  */
@@ -1496,7 +1496,7 @@ static void file_data_sc_update_ci(FileData *fd, const gchar *dest_path)
 	
 	if (fd->parent) fd = fd->parent;
 	
-	if (!dest_path) 
+	if (!dest_path)
 		{
 		dest_path = fd->path;
 		}
@@ -1603,7 +1603,7 @@ gint file_data_verify_ci(FileData *fd)
 	if (!fd->change)
 		{
 		DEBUG_1("Change checked: no change info: %s", fd->path);
-		return ret; 
+		return ret;
 		}
 
 	if (!isname(fd->path))
@@ -1611,26 +1611,26 @@ gint file_data_verify_ci(FileData *fd)
 		/* this probably should not happen */
 		ret |= CHANGE_NO_SRC;
 		DEBUG_1("Change checked: file does not exist: %s", fd->path);
-		return ret; 
+		return ret;
 		}
 		
 	dir = remove_level_from_path(fd->path);
 	
-	if (fd->change->type != FILEDATA_CHANGE_DELETE && 
+	if (fd->change->type != FILEDATA_CHANGE_DELETE &&
 	    !access_file(fd->path, R_OK))
 		{
 		ret |= CHANGE_NO_READ_PERM;
 		DEBUG_1("Change checked: no read permission: %s", fd->path);
 		}
 	else if ((fd->change->type == FILEDATA_CHANGE_DELETE || fd->change->type == FILEDATA_CHANGE_MOVE) &&
-	    !access_file(dir, W_OK))
+	    	 !access_file(dir, W_OK))
 		{
 		ret |= CHANGE_NO_WRITE_PERM_DIR;
 		DEBUG_1("Change checked: source dir is readonly: %s", fd->path);
 		}
-	else if (fd->change->type != FILEDATA_CHANGE_COPY && 
-	         fd->change->type != FILEDATA_CHANGE_UNSPECIFIED && 
-	         !access_file(fd->path, W_OK)) 
+	else if (fd->change->type != FILEDATA_CHANGE_COPY &&
+		 fd->change->type != FILEDATA_CHANGE_UNSPECIFIED &&
+		 !access_file(fd->path, W_OK))
 		{
 		ret |= CHANGE_WARN_NO_WRITE_PERM;
 		DEBUG_1("Change checked: no write permission: %s", fd->path);
@@ -1665,7 +1665,7 @@ gint file_data_verify_ci(FileData *fd)
 
 		dest_dir = remove_level_from_path(fd->change->dest);
 
-		if (!isdir(dest_dir))		
+		if (!isdir(dest_dir))
 			{
 			ret |= CHANGE_NO_DEST_DIR;
 			DEBUG_1("Change checked: destination dir does not exist: %s -> %s", fd->path, fd->change->dest);
@@ -1707,7 +1707,7 @@ gint file_data_verify_ci(FileData *fd)
 	return ret;
 }
 
- 
+
 gint file_data_sc_verify_ci(FileData *fd)
 {
 	GList *work;
@@ -1804,7 +1804,7 @@ gint file_data_sc_verify_ci_list(GList *list, gchar **desc)
 {
 	GList *work;
 	gint all_errors = 0;
-	gint common_errors = ~0; 
+	gint common_errors = ~0;
 	gint num;
 	gint *errors;
 	gint i;
@@ -1875,11 +1875,11 @@ gint file_data_sc_verify_ci_list(GList *list, gchar **desc)
 
 /*
  * perform the change described by FileFataChangeInfo
- * it is used for internal operations, 
+ * it is used for internal operations,
  * this function actually operates with files on the filesystem
  * it should implement safe delete
  */
- 
+
 static gboolean file_data_perform_move(FileData *fd)
 {
 	g_assert(!strcmp(fd->change->source, fd->path));
@@ -2000,7 +2000,7 @@ gint file_data_sc_apply_ci(FileData *fd)
 /*
  * notify other modules about the change described by FileFataChangeInfo
  */
- 
+
 /* might use file_maint_ functions for now, later it should be changed to a system of callbacks
    FIXME do we need the ignore_list? It looks like a workaround for ineffective
    implementation in view_file_list.c */

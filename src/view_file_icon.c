@@ -382,7 +382,7 @@ static void vficon_mark_toggled_cb(GtkCellRendererToggle *cell, gchar *path_str,
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
 	if (!path || !gtk_tree_model_get_iter(store, &row, path))
-    		return;
+		return;
 
 	gtk_tree_model_get(store, &row, FILE_COLUMN_POINTER, &list, -1);
 

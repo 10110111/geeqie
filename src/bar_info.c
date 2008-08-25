@@ -273,7 +273,7 @@ static GList *remove_duplicate_strings_from_list(GList *list)
 			g_hash_table_insert(hashtable, (gpointer) key, GINT_TO_POINTER(1));
 			newlist = g_list_prepend(newlist, key);
 			}
-		work = work->next; 
+		work = work->next;
 		}
 
 	g_hash_table_destroy(hashtable);
@@ -434,7 +434,7 @@ gint comment_read(FileData *fd, GList **keywords, gchar **comment)
 	res2 = comment_legacy_read(fd, &keywords2, &comment2);
 
 	if (!res1 && !res2)
-    		{
+		{
 		return FALSE;
 		}
 

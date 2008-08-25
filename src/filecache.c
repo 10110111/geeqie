@@ -90,7 +90,7 @@ void file_cache_set_size(FileCacheData *fc, gulong size)
 		{
 		GList *prev;
 		last_fe = work->data;
-		prev = work->prev; 
+		prev = work->prev;
 		fc->list = g_list_delete_link(fc->list, work);
 		work = prev;
 		
@@ -146,7 +146,7 @@ static void file_cache_remove_fd(FileCacheData *fc, FileData *fd)
 		{
 		GList *current = work;
 		fe = work->data;
-		work = work->next; 
+		work = work->next;
 
 		if (fe->fd == fd)
 			{

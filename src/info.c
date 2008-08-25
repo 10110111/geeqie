@@ -97,7 +97,7 @@ static void info_tab_exif_image(InfoData *id, gpointer data)
 		fd = NULL;
 		}
 	else
-       		{
+		{
 		fd = id->image->image_fd;
 		}
 

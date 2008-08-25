@@ -516,7 +516,7 @@ static void gr_list_clear(const gchar *text, gpointer data)
 		collection_unref(remote_data->command_collection);
 		remote_data->command_collection = NULL;
 		}
-}		
+}
 
 static void gr_list_add(const gchar *text, gpointer data)
 {

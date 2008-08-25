@@ -367,7 +367,7 @@ GList *fullscreen_prefs_list(void)
 	display = gdk_display_get_default();
 	number = gdk_display_get_n_screens(display);
 
-	for (i = 0; i < number ; i++)
+	for (i = 0; i < number; i++)
 		{
 		GdkScreen *screen;
 		gint monitors;

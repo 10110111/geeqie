@@ -812,7 +812,7 @@ void vf_set_layout(ViewFile *vf, LayoutWindow *layout)
  * maintenance (for rename, move, remove)
  *-----------------------------------------------------------------------------
  */
- 
+
 static gint vf_refresh_idle_cb(gpointer data)
 {
 	ViewFile *vf = data;

@@ -970,14 +970,14 @@ void layout_image_set_index(LayoutWindow *lw, gint index)
 		read_ahead_fd = layout_list_get_fd(lw, index + 1);
 		}
 
- 	if (layout_selection_count(lw, 0) > 1)
+	if (layout_selection_count(lw, 0) > 1)
 		{
- 		GList *x = layout_selection_list_by_index(lw);
- 	  	GList *y;
- 	  	GList *last;
+		GList *x = layout_selection_list_by_index(lw);
+		GList *y;
+		GList *last;
 
- 		for (last = y = x; y; y = y->next)
- 			last = y;
+		for (last = y = x; y; y = y->next)
+			last = y;
 		for (y = x; y && (GPOINTER_TO_INT(y->data)) != index; y = y->next)
 			;
 
@@ -986,7 +986,7 @@ void layout_image_set_index(LayoutWindow *lw, gint index)
 			gint newindex;
 
 			if ((index > old && (index != GPOINTER_TO_INT(last->data) || old != GPOINTER_TO_INT(x->data)))
- 	        	    || (old == GPOINTER_TO_INT(last->data) && index == GPOINTER_TO_INT(x->data)))
+			    || (old == GPOINTER_TO_INT(last->data) && index == GPOINTER_TO_INT(x->data)))
 				{
 				if (y->next)
 					newindex = GPOINTER_TO_INT(y->next->data);
@@ -999,7 +999,7 @@ void layout_image_set_index(LayoutWindow *lw, gint index)
 					newindex = GPOINTER_TO_INT(y->prev->data);
 				else
 					newindex = GPOINTER_TO_INT(last->data);
- 	    			}
+				}
 
 			read_ahead_fd = layout_list_get_fd(lw, newindex);
 			}

@@ -543,7 +543,7 @@ gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 		gtk_widget_grab_focus(widget);
 
 
-		/* returning FALSE and further processing of the event is needed for 
+		/* returning FALSE and further processing of the event is needed for
 		   correct operation of the expander, to show the sidecar files.
 		   It however resets the selection of multiple files. With this condition
 		   it should work for both cases */
@@ -748,7 +748,7 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 					FILE_COLUMN_SIZE, size,
 					FILE_COLUMN_DATE, time,
 #define STORE_SET_IS_SLOW 1
-#if STORE_SET_IS_SLOW	
+#if STORE_SET_IS_SLOW
 /* this is 3x faster on a directory with 20000 files */
 					FILE_COLUMN_MARKS + 0, file_data_get_mark(fd, 0),
 					FILE_COLUMN_MARKS + 1, file_data_get_mark(fd, 1),
@@ -757,12 +757,12 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 					FILE_COLUMN_MARKS + 4, file_data_get_mark(fd, 4),
 					FILE_COLUMN_MARKS + 5, file_data_get_mark(fd, 5),
 #if FILEDATA_MARKS_SIZE != 6
-#error this needs to be updated  
+#error this needs to be updated
 #endif
 #endif
 					FILE_COLUMN_COLOR, FALSE, -1);
 
-#if !STORE_SET_IS_SLOW					
+#if !STORE_SET_IS_SLOW
 	{
 	gint i;
 	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
@@ -972,7 +972,7 @@ static void vflist_thumb_progress_count(GList *list, gint *count, gint *done)
 
 		if (fd->thumb_pixbuf) (*done)++;
 		
-		if (fd->sidecar_files) 
+		if (fd->sidecar_files)
 			{
 			vflist_thumb_progress_count(fd->sidecar_files, count, done);
 			}
@@ -1657,7 +1657,7 @@ static void vflist_populate_view(ViewFile *vf)
 		{
 		/* all selected files disappeared */
 		vflist_select_closest(vf, selected->data);
-		}	
+		}
 
 	filelist_free(selected);
 	
@@ -1796,7 +1796,7 @@ static void vflist_listview_mark_toggled_cb(GtkCellRendererToggle *cell, gchar *
 
 	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
 	if (!path || !gtk_tree_model_get_iter(GTK_TREE_MODEL(store), &iter, path))
-    		return;
+		return;
 
 	col_idx = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(cell), "column_store_idx"));
 
@@ -1920,10 +1920,10 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 
 	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
 		{
-    		vflist_listview_add_column_toggle(vf, i + FILE_COLUMN_MARKS, "");
-    		g_assert(column == FILE_VIEW_COLUMN_MARKS + i);
-    		column++;
-    		}
+		vflist_listview_add_column_toggle(vf, i + FILE_COLUMN_MARKS, "");
+		g_assert(column == FILE_VIEW_COLUMN_MARKS + i);
+		column++;
+		}
 
 	vflist_listview_add_column(vf, FILE_COLUMN_THUMB, "", TRUE, FALSE, FALSE);
 	g_assert(column == FILE_VIEW_COLUMN_THUMB);

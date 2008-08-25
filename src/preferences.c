@@ -726,7 +726,7 @@ static void filter_remove_cb(GtkWidget *widget, gpointer data)
 	FilterEntry *fe;
 
 	if (!filter_store) return;
-       	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(filter_view));
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(filter_view));
 	if (!gtk_tree_selection_get_selected(selection, NULL, &iter)) return;
 	gtk_tree_model_get(GTK_TREE_MODEL(filter_store), &iter, 0, &fe, -1);
 	if (!fe) return;

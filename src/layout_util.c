@@ -110,7 +110,7 @@ gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 
 /*
 	if (event->type == GDK_KEY_PRESS && lw->full_screen &&
-    	    gtk_accel_groups_activate(G_OBJECT(lw->window), event->keyval, event->state))
+	    gtk_accel_groups_activate(G_OBJECT(lw->window), event->keyval, event->state))
 		return TRUE;
 */
 

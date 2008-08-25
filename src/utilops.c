@@ -533,7 +533,7 @@ static gint file_util_perform_ci_cb(gpointer resume_data, gint flags, GList *lis
 	while (list)  /* be careful, file_util_perform_ci_internal can pass ud->flist as list */
 		{
 		FileData *fd = list->data;
-		list = list->next; 
+		list = list->next;
 
 		if (!(flags & EDITOR_ERROR_MASK)) /* files were successfully deleted, call the maint functions */
 			{
@@ -558,7 +558,7 @@ static gint file_util_perform_ci_cb(gpointer resume_data, gint flags, GList *lis
 /*
  * Perform the operation described by FileDataChangeInfo on all files in the list
  * it is an alternative to start_editor_from_filelist_full, it should use similar interface
- */ 
+ */
 
 
 static void file_util_perform_ci_internal(UtilityData *ud)
@@ -824,24 +824,24 @@ static GdkPixbuf *file_util_get_error_icon(FileData *fd, GtkWidget *widget)
 	
 	if (!pb_warning)
 		{
-		pb_warning = gtk_widget_render_icon(widget, GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_MENU, NULL); 
+		pb_warning = gtk_widget_render_icon(widget, GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_MENU, NULL);
 		}
 
 	if (!pb_error)
 		{
-		pb_error = gtk_widget_render_icon(widget, GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_MENU, NULL); 
+		pb_error = gtk_widget_render_icon(widget, GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_MENU, NULL);
 		}
 
 	if (!pb_apply)
 		{
-		pb_apply = gtk_widget_render_icon(widget, GTK_STOCK_APPLY, GTK_ICON_SIZE_MENU, NULL); 
+		pb_apply = gtk_widget_render_icon(widget, GTK_STOCK_APPLY, GTK_ICON_SIZE_MENU, NULL);
 		}
 	
 	error = file_data_sc_verify_ci(fd);
 	
 	if (!error) return pb_apply;
 
-	if (error & CHANGE_ERROR_MASK) 
+	if (error & CHANGE_ERROR_MASK)
 		{
 		return pb_error;
 		}
@@ -1100,10 +1100,10 @@ static void file_util_rename_preview_update(UtilityData *ud)
 			
 			gtk_tree_model_get(store, &iter, UTILITY_COLUMN_FD, &fd, -1);
 			file_data_sc_update_ci_rename(fd, dest);
-			gtk_list_store_set(GTK_LIST_STORE(store), &iter, 
+			gtk_list_store_set(GTK_LIST_STORE(store), &iter,
 					   UTILITY_COLUMN_PIXBUF, file_util_get_error_icon(fd, ud->listview),
-			                   UTILITY_COLUMN_DEST_PATH, fd->change->dest,
-				           UTILITY_COLUMN_DEST_NAME, filename_from_path(fd->change->dest),
+					   UTILITY_COLUMN_DEST_PATH, fd->change->dest,
+					   UTILITY_COLUMN_DEST_NAME, filename_from_path(fd->change->dest),
 					   -1);
 			}
 		return;
@@ -1144,7 +1144,7 @@ static void file_util_rename_preview_update(UtilityData *ud)
 			}
 
 		file_data_sc_update_ci_rename(fd, dest);
-		gtk_list_store_set(GTK_LIST_STORE(store), &iter, 
+		gtk_list_store_set(GTK_LIST_STORE(store), &iter,
 				   UTILITY_COLUMN_PIXBUF, file_util_get_error_icon(fd, ud->listview),
 				   UTILITY_COLUMN_DEST_PATH, fd->change->dest,
 				   UTILITY_COLUMN_DEST_NAME, filename_from_path(fd->change->dest),
@@ -1285,7 +1285,7 @@ static void file_util_dialog_init_dest_folder(UtilityData *ud)
 	GtkWidget *label;
 	const gchar *stock_id;
 
-	if (ud->type == UTILITY_TYPE_COPY) 
+	if (ud->type == UTILITY_TYPE_COPY)
 		{
 		stock_id = GTK_STOCK_COPY;
 		}
@@ -1900,7 +1900,7 @@ static void file_util_delete_dir_full(FileData *fd, GtkWidget *parent, UtilityPh
 		ud->messages.question = _("Delete symbolic link?");
 		ud->messages.desc_flist = "";
 		ud->messages.desc_source_fd = _("This will delete the symbolic link.\n"
-					        "The folder this link points to will not be deleted.");
+						"The folder this link points to will not be deleted.");
 		ud->messages.fail = _("Link deletion failed");
 
 		file_util_dialog_run(ud);
@@ -1972,7 +1972,7 @@ static void file_util_delete_dir_full(FileData *fd, GtkWidget *parent, UtilityPh
 		ud->messages.question = _("Delete folder?");
 		ud->messages.desc_flist = _("The folder contains these files:");
 		ud->messages.desc_source_fd = _("This will delete the folder.\n"
-					        "The contents of this folder will also be deleted.");
+						"The contents of this folder will also be deleted.");
 		ud->messages.fail = _("File deletion failed");
 		
 		if (!file_util_delete_dir_prepare(ud, flist, dlist))
@@ -2078,7 +2078,7 @@ static gboolean file_util_rename_dir_prepare(UtilityData *ud, const char *new_pa
 		}
 
 	return ok;
-}	
+}
 	
 
 static void file_util_rename_dir_full(FileData *fd, const char *new_path, GtkWidget *parent, UtilityPhase phase)
@@ -2125,7 +2125,7 @@ static void file_util_create_dir_full(FileData *fd, const char *dest_path, GtkWi
 	ud->content_list = NULL;
 	ud->parent = parent;
 
-	if (dest_path) 
+	if (dest_path)
 		{
 		ud->dest_path = g_strdup(dest_path);
 		}

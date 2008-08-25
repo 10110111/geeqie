@@ -240,7 +240,7 @@ void pixbuf_renderer_set_color(PixbufRenderer *pr, GdkColor *color);
 
 /* overlay */
 typedef enum {
-	OVL_NORMAL 	= 0, 
+	OVL_NORMAL 	= 0,
 	OVL_RELATIVE 	= 1 << 0, /* x,y coordinates are relative, negative values start bottom right */
 	/* OVL_HIDE_ON_SCROLL = 1 << 1*/ /* hide temporarily when scrolling (not yet implemented) */
 } OverlayRendererFlags;

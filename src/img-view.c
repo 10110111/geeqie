@@ -967,7 +967,7 @@ void view_window_new(FileData *fd)
 			}
 		}
 	else if (isdir(fd->path) && filelist_read(fd, &list, NULL))
-		{	
+		{
 		list = filelist_sort_path(list);
 		list = filelist_filter(list, FALSE);
 		real_view_window_new(NULL, list, NULL, NULL);

@@ -637,7 +637,7 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 				      G_CALLBACK(vd_pop_menu_delete_cb), vd);
 
 	if (options->show_copy_path)
-		menu_item_add(menu, _("_Copy path"), 
+		menu_item_add(menu, _("_Copy path"),
 			      G_CALLBACK(vd_pop_menu_copy_path_cb), vd);
 
 	menu_item_add_divider(menu);
@@ -1082,7 +1082,7 @@ static void vd_notify_cb(FileData *fd, NotifyType type, gpointer data)
 		if (vd_find_row(vd, base_fd, &iter))
 			{
 			vdtree_populate_path_by_iter(vd, &iter, TRUE, vd->dir_fd);
-			} 
+			}
 
 		file_data_unref(base_fd);
 		}

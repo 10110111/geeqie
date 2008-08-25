@@ -78,7 +78,7 @@ gint utf8_compare(const gchar *s1, const gchar *s2, gboolean case_sensitive)
 
 	if (!case_sensitive)
 		{
-		s1_t = g_utf8_casefold(s1, -1); 
+		s1_t = g_utf8_casefold(s1, -1);
 		s2_t = g_utf8_casefold(s2, -1);
 		}
 
@@ -113,17 +113,17 @@ gchar *expand_tilde(const gchar *filename)
 		return g_strdup(filename);
 
 	notilde = filename + 1;
-  	slash = strchr(notilde, G_DIR_SEPARATOR);
+	slash = strchr(notilde, G_DIR_SEPARATOR);
 	if (slash == notilde || !*notilde)
 		{
 		home = g_get_home_dir();
 		if (!home)
 			return g_strdup(filename);
-    		}
-  	else
+		}
+	else
 		{
 		gchar *username;
- 		struct passwd *passwd;
+		struct passwd *passwd;
 
 		if (slash)
 			username = g_strndup(notilde, slash - notilde);
@@ -680,7 +680,7 @@ int main(int argc, char *argv[])
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
 	textdomain(PACKAGE);
 #endif
-    
+
 	/* setup random seed for random slideshow */
 	srand(time(NULL));
 

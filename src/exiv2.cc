@@ -47,7 +47,7 @@
 
 
 extern "C" {
-#include <glib.h> 
+#include <glib.h>
 
 #include "main.h"
 #include "exif.h"
@@ -107,7 +107,7 @@ struct _ExifData
 			io.munmap();
 			if (!open) io.close();
 			}
-#endif		
+#endif
 	}
 	
 	~_ExifData()
@@ -255,20 +255,20 @@ ExifItem *exif_get_first_item(ExifData *exif)
 #if EXIV2_TEST_VERSION(0,16,0)
 		exif->xmpIter = exif->xmpData().begin();
 #endif
-		if (exif->exifIter != exif->exifData().end()) 
+		if (exif->exifIter != exif->exifData().end())
 			{
 			const Exiv2::Metadatum *item = &*exif->exifIter;
 			exif->exifIter++;
 			return (ExifItem *)item;
 			}
-		if (exif->iptcIter != exif->iptcData().end()) 
+		if (exif->iptcIter != exif->iptcData().end())
 			{
 			const Exiv2::Metadatum *item = &*exif->iptcIter;
 			exif->iptcIter++;
 			return (ExifItem *)item;
 			}
 #if EXIV2_TEST_VERSION(0,16,0)
-		if (exif->xmpIter != exif->xmpData().end()) 
+		if (exif->xmpIter != exif->xmpData().end())
 			{
 			const Exiv2::Metadatum *item = &*exif->xmpIter;
 			exif->xmpIter++;
@@ -386,7 +386,7 @@ invalidTypeId, unsignedByte, asciiString, unsignedShort,
   signedShort, signedLong, signedRational, string,
   date, time, comment, directory,
   xmpText, xmpAlt, xmpBag, xmpSeq,
-  langAlt, lastTypeId 
+  langAlt, lastTypeId
 */
 
 static guint format_id_trans_tbl [] = {
@@ -482,10 +482,10 @@ gchar *exif_item_get_string(ExifItem *item, int idx)
 		std::string str = em->toString(); // FIXME
 #endif
 		if (idx == 0 && str == "") str = em->toString();
-		if (str.length() > 5 && str.substr(0, 5) == "lang=") 
+		if (str.length() > 5 && str.substr(0, 5) == "lang=")
 			{
-        		std::string::size_type pos = str.find_first_of(' ');
-        		if (pos != std::string::npos) str = str.substr(pos+1);
+			std::string::size_type pos = str.find_first_of(' ');
+			if (pos != std::string::npos) str = str.substr(pos+1);
 			}
 
 		return g_strdup(str.c_str());
@@ -573,7 +573,7 @@ int exif_item_delete(ExifData *exif, ExifItem *item)
 				return 1;
 			}
 		}
-#endif		
+#endif
 		return 0;
 	}
 	catch (Exiv2::AnyError& e) {
@@ -605,19 +605,19 @@ unsigned char *exif_get_color_profile(ExifData *exif, guint *data_len)
 
 }
 
-/* This is a dirty hack to support raw file preview, bassed on 
+/* This is a dirty hack to support raw file preview, bassed on
 tiffparse.cpp from Exiv2 examples */
 
 class RawFile {
 	public:
-    
+
 	RawFile(int fd);
 	~RawFile();
-    
+
 	const Exiv2::Value *find(uint16_t tag, uint16_t group);
-    
+
 	unsigned long preview_offset();
-    
+
 	private:
 	int type;
 	Exiv2::TiffComponent::AutoPtr rootDir;
@@ -664,8 +664,8 @@ RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 #endif
 #if EXIV2_TEST_VERSION(0,13,0)
 		case Exiv2::ImageType::raf:
-		        if (map_len < 84 + 4) throw Error(14);
-    			offset = getULong(map_data + 84, bigEndian);
+			if (map_len < 84 + 4) throw Error(14);
+			offset = getULong(map_data + 84, bigEndian);
 			return;
 #endif
 		case Exiv2::ImageType::crw:
@@ -673,7 +673,7 @@ RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 			// Parse the image, starting with a CIFF header component
 			Exiv2::CiffHeader::AutoPtr parseTree(new Exiv2::CiffHeader);
 			parseTree->read(map_data, map_len);
-			CiffComponent *entry = parseTree->findComponent(0x2007, 0); 
+			CiffComponent *entry = parseTree->findComponent(0x2007, 0);
 			if (entry) offset =  entry->pData() - map_data;
 			return;
 			}
@@ -688,7 +688,7 @@ RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 
 	rootDir = createFct(Tag::root, Group::none);
 	if (0 == rootDir.get()) {
-    		throw Error(1, "No root element defined in TIFF structure");
+		throw Error(1, "No root element defined in TIFF structure");
 	}
 	
 	if (tiffHeader)
@@ -709,15 +709,15 @@ RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 	TiffRwState::AutoPtr state(new TiffRwState(tiffHeader ? tiffHeader->byteOrder() : littleEndian, 0, createFct));
 
 	TiffReader reader(map_data,
-                      map_len,
-                      rootDir.get(),
-                      state);
+			  map_len,
+			  rootDir.get(),
+			  state);
 
 	rootDir->accept(reader);
 	
-	if (tiffHeader) 
+	if (tiffHeader)
 		delete tiffHeader;
-	if (cr2Header) 
+	if (cr2Header)
 		delete cr2Header;
 }
 
@@ -752,7 +752,7 @@ unsigned long RawFile::preview_offset(void)
 		{
 		val = find(0x111, Group::ifd0);
 		if (val) return val->toLong();
-    
+
 		return 0;
 		}
 	
@@ -761,7 +761,7 @@ unsigned long RawFile::preview_offset(void)
 
 	val = find(0x201, Group::ifd0);
 	if (val) return val->toLong();
-    
+
 	val = find(0x201, Group::ignr); // for PEF files, originally it was probably ifd2
 	if (val) return val->toLong();
 
@@ -809,5 +809,5 @@ extern "C" gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 }
 
 
-#endif 
+#endif
 /* HAVE_EXIV2 */

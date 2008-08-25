@@ -444,7 +444,7 @@ gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, Fi
 			vdtree_node_free(nd);
 			return FALSE;
 			}
-		if (!force && current_time - nd->last_update < 2) 
+		if (!force && current_time - nd->last_update < 2)
 			{
 			DEBUG_1("Too frequent update of %s", nd->fd->path);
 			return TRUE;

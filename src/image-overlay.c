@@ -185,7 +185,7 @@ static gchar *keywords_to_string(FileData *fd)
 			{
 			gchar *kw = work->data;
 			work = work->next;
-					
+			
 			if (!kw) continue;
 			if (!kwstr)
 				kwstr = g_string_new("");
@@ -278,7 +278,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			}
 		else
 			{
-			/* 
+			/*
 			   keywords and comment can't be read between exif_read_fd and exif_free_fd calls
 			   because fd->exif does not count references
 			   on the other hand, it is OK to call it in the loop because it is cached
@@ -315,7 +315,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 				{
 				/* Display data between left and right parts of extra string
 				 * the data is expressed by a '*' character. A '*' may be escaped
-				 * by a \. You should escape all '*' characters, do not rely on the 
+				 * by a \. You should escape all '*' characters, do not rely on the
 				 * current implementation which only replaces the first unescaped '*'.
 				 * If no "*" is present, the extra string is just appended to data string.
 				 * Pango mark up is accepted in left and right parts.
@@ -361,7 +361,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 				data = new_data;
 				}
 			g_free(extra);
-			}	
+			}
 
 		g_string_erase(new, pos, end-start+1);
 		if (data && *data)
@@ -448,7 +448,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	gchar *text;
 	GdkPixbuf *imgpixbuf = NULL;
 	gboolean with_hist;
-       	ImageWindow *imd = osd->imd;
+	ImageWindow *imd = osd->imd;
 	FileData *fd = image_get_fd(imd);
 
 	if (!fd) return NULL;
@@ -516,7 +516,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 		osd_template_insert(vars, "number", g_strdup_printf("%d", n), OSDT_NO_DUP);
 		osd_template_insert(vars, "total", g_strdup_printf("%d", t), OSDT_NO_DUP);
 		osd_template_insert(vars, "name", (gchar *) name, OSDT_NONE);
-	 	osd_template_insert(vars, "date", imd->image_fd ? ((gchar *) text_from_time(imd->image_fd->date)) : "", OSDT_NONE);
+		osd_template_insert(vars, "date", imd->image_fd ? ((gchar *) text_from_time(imd->image_fd->date)) : "", OSDT_NONE);
 		osd_template_insert(vars, "size", imd->image_fd ? (text_from_size_abrev(imd->image_fd->size)) : g_strdup(""), OSDT_FREE);
 		osd_template_insert(vars, "zoom", image_zoom_get_as_text(imd), OSDT_FREE);
 	
@@ -577,7 +577,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 			for (mark = 0; mark < FILEDATA_MARKS_SIZE; mark++)
 				{
 				g_string_append_printf(buf, file_data_get_mark(fd, mark) ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + mark);
-    				}
+				}
 
 			if (*text)
 				text2 = g_strdup_printf("%s\n%s", text, buf->str);
@@ -588,7 +588,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 			text = text2;
 			}
 
-    		if (with_hist)
+		if (with_hist)
 			{
 			gchar *escaped_histogram_label = g_markup_escape_text(histogram_label(osd->histogram), -1);
 			if (*text)
