@@ -2127,8 +2127,7 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 	GList *work, *work_fd;
 	IconData *focus_id;
 	GList *new_filelist = NULL;
-	GList *selected;
-	gint num_selected = 0;
+	FileData *first_selected = NULL;
 	GList *new_iconlist = NULL;
 
 	focus_id = VFICON(vf)->focus_id;
@@ -2142,7 +2141,15 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 	vf->list = iconlist_sort(vf->list, vf->sort_method, vf->sort_ascend); /* the list might not be sorted if there were renames */
 	new_filelist = filelist_sort(new_filelist, vf->sort_method, vf->sort_ascend);
 
-	selected = vficon_selection_get_list(vf);
+	if (VFICON(vf)->selection)
+		{
+		first_selected = ((IconData *)(VFICON(vf)->selection->data))->fd;
+		file_data_ref(first_selected);
+		g_list_free(VFICON(vf)->selection);
+		VFICON(vf)->selection = NULL;
+		
+
+		}
 
 	/* check for same files from old_list */
 	work = vf->list;
@@ -2166,7 +2173,10 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 				/* not changed, go to next */
 				work = work->next;
 				work_fd = work_fd->next;
-				if (id->selected & SELECTION_SELECTED) num_selected++;
+				if (id->selected & SELECTION_SELECTED) 
+					{
+					VFICON(vf)->selection = g_list_prepend(VFICON(vf)->selection, id);
+					}
 				continue;
 				}
 			
@@ -2218,19 +2228,20 @@ static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 		{
 		vf->list = g_list_concat(vf->list, g_list_reverse(new_iconlist));
 		}
+	
+	VFICON(vf)->selection = g_list_reverse(VFICON(vf)->selection);
 
 	filelist_free(new_filelist);
 
 	vficon_populate(vf, TRUE, keep_position);
 
-	if (selected && num_selected == 0)
+	if (first_selected && !VFICON(vf)->selection)
 		{
 		/* all selected files disappeared */
-		vficon_select_closest(vf, selected->data);
+		vficon_select_closest(vf, first_selected);
 		}
-		
-	filelist_free(selected);
-
+	file_data_unref(first_selected);
+	
 	/* attempt to keep focus on same icon when refreshing */
 	if (focus_id && g_list_find(vf->list, focus_id))
 		{
