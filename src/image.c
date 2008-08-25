@@ -339,7 +339,7 @@ void image_alter(ImageWindow *imd, AlterType type)
 	static const gint flip[]         = {1,   4, 3, 2, 1, 8, 7, 6, 5};
 
 
-	if (!imd || !imd->pr) return;
+	if (!imd || !imd->pr || !imd->image_fd) return;
 
 	if (imd->orientation < 1 || imd->orientation > 8) imd->orientation = 1;
 
