@@ -31,19 +31,19 @@ typedef enum {
 	FORMAT_RAW_EXIF_PROPRIETARY
 } FormatRawExifType;
 
-typedef gint (* FormatRawParseFunc)(unsigned char *data, const guint len,
+typedef gint (* FormatRawParseFunc)(guchar *data, const guint len,
 				    guint *image_offset, guint *exif_offset);
 
-typedef gint (* FormatRawExifParseFunc)(unsigned char *data, const guint len,
+typedef gint (* FormatRawExifParseFunc)(guchar *data, const guint len,
 					ExifData *exif);
 
-gint format_raw_img_exif_offsets(unsigned char *data, const guint len,
+gint format_raw_img_exif_offsets(guchar *data, const guint len,
 				 guint *image_offset, guint *exif_offset);
-gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
-				    unsigned char *header_data, const guint header_len,
+gint format_raw_img_exif_offsets_fd(gint fd, const gchar *path,
+				    guchar *header_data, const guint header_len,
 				    guint *image_offset, guint *exif_offset);
 
-FormatRawExifType format_raw_exif_offset(unsigned char *data, const guint len, guint *exif_offset,
+FormatRawExifType format_raw_exif_offset(guchar *data, const guint len, guint *exif_offset,
 					 FormatRawExifParseFunc *exif_parse_func);
 
 
@@ -52,10 +52,10 @@ typedef enum {
 	FORMAT_EXIF_MATCH_MAKERNOTE
 } FormatExifMatchType;
 
-typedef gint (* FormatExifParseFunc)(ExifData *exif, unsigned char *tiff, guint offset,
+typedef gint (* FormatExifParseFunc)(ExifData *exif, guchar *tiff, guint offset,
 				    guint size, ExifByteOrder bo);
 
-gint format_exif_makernote_parse(ExifData *exif, unsigned char *tiff, guint offset,
+gint format_exif_makernote_parse(ExifData *exif, guchar *tiff, guint offset,
 				 guint size, ExifByteOrder bo);
 
 
@@ -73,7 +73,7 @@ gint format_exif_makernote_parse(ExifData *exif, unsigned char *tiff, guint offs
 				"Tiff debugger MM", format_debug_tiff_raw }
 
 /* used for debugging only */
-gint format_debug_tiff_raw(unsigned char *data, const guint len,
+gint format_debug_tiff_raw(guchar *data, const guint len,
 			   guint *image_offset, guint *exif_offset);
 #endif
 

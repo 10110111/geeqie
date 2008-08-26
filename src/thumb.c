@@ -186,16 +186,16 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 		{
 		gint w, h;
 
-		if (((double)tl->max_w / pw) < ((double)tl->max_h / ph))
+		if (((gdouble)tl->max_w / pw) < ((gdouble)tl->max_h / ph))
 			{
 			w = tl->max_w;
-			h = (double)w / pw * ph;
+			h = (gdouble)w / pw * ph;
 			if (h < 1) h = 1;
 			}
 		else
 			{
 			h = tl->max_h;
-			w = (double)h / ph * pw;
+			w = (gdouble)h / ph * pw;
 			if (w < 1) w = 1;
 			}
 		
@@ -504,7 +504,7 @@ void thumb_loader_free(ThumbLoader *tl)
 }
 
 #if 0
-gint thumb_from_xpm_d(const char **data, gint max_w, gint max_h, GdkPixmap **pixmap, GdkBitmap **mask)
+gint thumb_from_xpm_d(const gchar **data, gint max_w, gint max_h, GdkPixmap **pixmap, GdkBitmap **mask)
 {
 	GdkPixbuf *pixbuf;
 	gint w, h;

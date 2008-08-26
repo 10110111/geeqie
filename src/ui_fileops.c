@@ -275,7 +275,7 @@ gint filetime_set(const gchar *s, time_t tval)
 	return ret;
 }
 
-gint access_file(const gchar *s, int mode)
+gint access_file(const gchar *s, gint mode)
 {
 	gchar *sl;
 	gint ret;
@@ -322,7 +322,7 @@ gint symlink_utf8(const gchar *source, const gchar *target)
 	return ret;
 }
 
-gint mkdir_utf8(const gchar *s, int mode)
+gint mkdir_utf8(const gchar *s, gint mode)
 {
 	gchar *sl;
 	gint ret;
@@ -428,9 +428,9 @@ gint copy_file(const gchar *s, const gchar *t)
 
 	if (!fi || !fo) return FALSE;
 
-	while ((b = fread(buf, sizeof(char), sizeof(buf), fi)) && b != 0)
+	while ((b = fread(buf, sizeof(gchar), sizeof(buf), fi)) && b != 0)
 		{
-		if (fwrite(buf, sizeof(char), b, fo) != b)
+		if (fwrite(buf, sizeof(gchar), b, fo) != b)
 			{
 			fclose(fi);
 			fclose(fo);

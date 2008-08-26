@@ -366,7 +366,7 @@ GtkWidget *layout_config_new(void)
 	return lc->box;
 }
 
-static char num_to_text_char(gint n)
+static gchar num_to_text_char(gint n)
 {
 	switch (n)
 		{

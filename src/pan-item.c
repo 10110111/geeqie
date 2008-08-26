@@ -523,8 +523,8 @@ gint pan_item_thumb_draw(PanWindow *pw, PanItem *pi, GdkPixbuf *pixbuf, PixbufRe
 				     &rx, &ry, &rw, &rh))
 			{
 			gdk_pixbuf_composite(pi->pixbuf, pixbuf, rx - x, ry - y, rw, rh,
-					     (double) tx - x,
-					     (double) ty - y,
+					     (gdouble) tx - x,
+					     (gdouble) ty - y,
 					     1.0, 1.0, GDK_INTERP_NEAREST,
 					     255);
 			}
@@ -663,8 +663,8 @@ gint pan_item_image_draw(PanWindow *pw, PanItem *pi, GdkPixbuf *pixbuf, PixbufRe
 		if (pi->pixbuf)
 			{
 			gdk_pixbuf_composite(pi->pixbuf, pixbuf, rx - x, ry - y, rw, rh,
-					     (double) pi->x - x,
-					     (double) pi->y - y,
+					     (gdouble) pi->x - x,
+					     (gdouble) pi->y - y,
 					     1.0, 1.0, GDK_INTERP_NEAREST,
 					     pi->color_a);
 			}

@@ -27,7 +27,7 @@ void pan_grid_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *height
 
 	list = pan_list_tree(dir_fd, SORT_NAME, TRUE, pw->ignore_symlinks);
 
-	grid_size = (gint)sqrt((double)g_list_length(list));
+	grid_size = (gint)sqrt((gdouble)g_list_length(list));
 	if (pw->size > PAN_IMAGE_SIZE_THUMB_LARGE)
 		{
 		grid_size = grid_size * (512 + PAN_THUMB_GAP) * pw->image_size / 100;

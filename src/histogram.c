@@ -164,7 +164,7 @@ gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gin
 	/* FIXME: use the coordinates correctly */
 	gint i;
 	gulong max = 0;
-	double logmax;
+	gdouble logmax;
 
 	if (!histogram) return 0;
 

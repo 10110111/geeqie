@@ -94,7 +94,7 @@ struct _ExifMarker
 struct _ExifTextList
 {
 	gint value;
-	const gchar* description;
+	const gchar *description;
 };
 
 #define EXIF_TEXT_LIST_END { -1, NULL }
@@ -143,10 +143,10 @@ void exif_write_data_list(ExifData *exif, FILE *f, gint human_readable_list);
 #define EXIF_TIFD_SIZE 12
 
 
-guint16 exif_byte_get_int16(unsigned char *f, ExifByteOrder bo);
-guint32 exif_byte_get_int32(unsigned char *f, ExifByteOrder bo);
-void exif_byte_put_int16(unsigned char *f, guint16 n, ExifByteOrder bo);
-void exif_byte_put_int32(unsigned char *f, guint32 n, ExifByteOrder bo);
+guint16 exif_byte_get_int16(guchar *f, ExifByteOrder bo);
+guint32 exif_byte_get_int32(guchar *f, ExifByteOrder bo);
+void exif_byte_put_int16(guchar *f, guint16 n, ExifByteOrder bo);
+void exif_byte_put_int32(guchar *f, guint32 n, ExifByteOrder bo);
 
 ExifItem *exif_item_new(ExifFormatType format, guint tag,
 			guint elements, const ExifMarker *marker);
@@ -154,14 +154,14 @@ void exif_item_copy_data(ExifItem *item, void *src, guint len,
 			 ExifFormatType src_format, ExifByteOrder bo);
 
 gint exif_parse_IFD_table(ExifData *exif,
-			  unsigned char *tiff, guint offset,
+			  guchar *tiff, guint offset,
 			  guint size, ExifByteOrder bo,
 			  gint level,
 			  const ExifMarker *list);
 
-gint exif_tiff_directory_offset(unsigned char *data, const guint len,
+gint exif_tiff_directory_offset(guchar *data, const guint len,
 				guint *offset, ExifByteOrder *bo);
-gint exif_tiff_parse(ExifData *exif, unsigned char *tiff, guint size, ExifMarker *list);
+gint exif_tiff_parse(ExifData *exif, guchar *tiff, guint size, ExifMarker *list);
 
 gchar *exif_text_list_find_value(ExifTextList *list, guint value);
 

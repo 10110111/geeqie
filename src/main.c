@@ -105,9 +105,9 @@ gchar *expand_tilde(const gchar *filename)
 #ifndef G_OS_UNIX
 	return g_strdup(filename);
 #else
-	const char *notilde;
-	const char *slash;
-	const char *home;
+	const gchar *notilde;
+	const gchar *slash;
+	const gchar *home;
 
 	if (filename[0] != '~')
 		return g_strdup(filename);
@@ -296,7 +296,7 @@ static void parse_command_line_process_file(const gchar *file_path, gchar **path
 	parse_command_line_add_file(file_path, path, file, list, collection_list);
 }
 
-static void parse_command_line(int argc, char *argv[], gchar **path, gchar **file,
+static void parse_command_line(gint argc, gchar *argv[], gchar **path, gchar **file,
 			       GList **cmd_list, GList **collection_list,
 			       gchar **geometry)
 {
@@ -488,7 +488,7 @@ static void parse_command_line(int argc, char *argv[], gchar **path, gchar **fil
 		}
 }
 
-static void parse_command_line_for_debug_option(int argc, char *argv[])
+static void parse_command_line_for_debug_option(gint argc, gchar *argv[])
 {
 #ifdef DEBUG
 	const gchar *debug_option = "--debug";
@@ -655,7 +655,7 @@ void exit_program(void)
 	exit_program_final();
 }
 
-int main(int argc, char *argv[])
+gint main(gint argc, gchar *argv[])
 {
 	LayoutWindow *lw;
 	gchar *path = NULL;

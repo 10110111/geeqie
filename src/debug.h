@@ -17,7 +17,7 @@
 #define DOMAIN_DEBUG "debug"
 #define DOMAIN_INFO  "info"
 
-gint log_domain_printf(const char *domain, const gchar *format, ...) G_GNUC_PRINTF(2, 3);
+gint log_domain_printf(const gchar *domain, const gchar *format, ...) G_GNUC_PRINTF(2, 3);
 #define log_printf(...) log_domain_printf(DOMAIN_INFO, __VA_ARGS__)
 
 #ifdef DEBUG

@@ -237,8 +237,8 @@ static gint image_loader_idle_cb(gpointer data)
 
 static gint image_loader_begin(ImageLoader *il)
 {
-	int b;
-	unsigned int offset = 0;
+	gint b;
+	guint offset = 0;
 
 	if (!il->loader || il->pixbuf) return FALSE;
 

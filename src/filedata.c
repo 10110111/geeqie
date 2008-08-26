@@ -90,16 +90,16 @@ gchar *text_from_size_abrev(gint64 size)
 		}
 	if (size < (gint64)1048576)
 		{
-		return g_strdup_printf(_("%.1f K"), (double)size / 1024.0);
+		return g_strdup_printf(_("%.1f K"), (gdouble)size / 1024.0);
 		}
 	if (size < (gint64)1073741824)
 		{
-		return g_strdup_printf(_("%.1f MB"), (double)size / 1048576.0);
+		return g_strdup_printf(_("%.1f MB"), (gdouble)size / 1048576.0);
 		}
 
-	/* to avoid overflowing the double, do division in two steps */
+	/* to avoid overflowing the gdouble, do division in two steps */
 	size /= 1048576;
-	return g_strdup_printf(_("%.1f GB"), (double)size / 1024.0);
+	return g_strdup_printf(_("%.1f GB"), (gdouble)size / 1024.0);
 }
 
 /* note: returned string is valid until next call to text_from_time() */
@@ -368,7 +368,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 
 static void file_data_check_sidecars(FileData *fd)
 {
-	int base_len;
+	gint base_len;
 	GString *fname;
 	FileData *parent_fd = NULL;
 	GList *work;
@@ -677,8 +677,8 @@ void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd)
 
 static gint sidecar_file_priority(const gchar *path)
 {
-	const char *extension = extension_from_path(path);
-	int i = 1;
+	const gchar *extension = extension_from_path(path);
+	gint i = 1;
 	GList *work;
 
 	if (extension == NULL)
@@ -809,7 +809,7 @@ static gint filelist_read_real(FileData *dir_fd, GList **files, GList **dirs, gi
 	gchar *pathl;
 	GList *dlist = NULL;
 	GList *flist = NULL;
-	int (*stat_func)(const char *path, struct stat *buf);
+	gint (*stat_func)(const gchar *path, struct stat *buf);
 
 	g_assert(files || dirs);
 
@@ -1478,7 +1478,7 @@ static void file_data_update_ci_dest(FileData *fd, const gchar *dest_path)
 
 static void file_data_update_ci_dest_preserve_ext(FileData *fd, const gchar *dest_path)
 {
-	const char *extension = extension_from_path(fd->change->source);
+	const gchar *extension = extension_from_path(fd->change->source);
 	gchar *base = remove_extension_from_path(dest_path);
 	gchar *old_path = fd->change->dest;
 	

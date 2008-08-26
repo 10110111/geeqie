@@ -111,7 +111,7 @@ ExifData *exif_read_fd(FileData *fd);
 void exif_free_fd(FileData *fd, ExifData *exif);
 
 
-int exif_write(ExifData *exif);
+gint exif_write(ExifData *exif);
 void exif_free(ExifData *exif);
 
 gchar *exif_get_data_as_text(ExifData *exif, const gchar *key);
@@ -124,42 +124,42 @@ ExifItem *exif_get_first_item(ExifData *exif);
 ExifItem *exif_get_next_item(ExifData *exif);
 
 
-char *exif_item_get_tag_name(ExifItem *item);
+gchar *exif_item_get_tag_name(ExifItem *item);
 guint exif_item_get_tag_id(ExifItem *item);
 guint exif_item_get_elements(ExifItem *item);
-char *exif_item_get_data(ExifItem *item, guint *data_len);
-char *exif_item_get_description(ExifItem *item);
+gchar *exif_item_get_data(ExifItem *item, guint *data_len);
+gchar *exif_item_get_description(ExifItem *item);
 guint exif_item_get_format_id(ExifItem *item);
-const char *exif_item_get_format_name(ExifItem *item, gint brief);
+const gchar *exif_item_get_format_name(ExifItem *item, gint brief);
 gchar *exif_item_get_data_as_text(ExifItem *item);
 gint exif_item_get_integer(ExifItem *item, gint *value);
 ExifRational *exif_item_get_rational(ExifItem *item, gint *sign);
 
-gchar *exif_item_get_string(ExifItem *item, int idx);
+gchar *exif_item_get_string(ExifItem *item, gint idx);
 
 const gchar *exif_get_description_by_key(const gchar *key);
 const gchar *exif_get_tag_description_by_key(const gchar *key);
 
 gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid);
 
-int exif_item_delete(ExifData *exif, ExifItem *item);
-int exif_item_set_string(ExifItem *item, const char *str);
+gint exif_item_delete(ExifData *exif, ExifItem *item);
+gint exif_item_set_string(ExifItem *item, const gchar *str);
 
-unsigned char *exif_get_color_profile(ExifData *exif, guint *data_len);
+guchar *exif_get_color_profile(ExifData *exif, guint *data_len);
 
 /* jpeg embedded icc support */
 
-void exif_add_jpeg_color_profile(ExifData *exif, unsigned char *cp_data, guint cp_length);
+void exif_add_jpeg_color_profile(ExifData *exif, guchar *cp_data, guint cp_length);
 
 
-gint exif_jpeg_segment_find(unsigned char *data, guint size,
+gint exif_jpeg_segment_find(guchar *data, guint size,
                                    guchar app_marker, const gchar *magic, guint magic_len,
                                    guint *seg_offset, guint *seg_length);
-gint exif_jpeg_parse_color(ExifData *exif, unsigned char *data, guint size);
+gint exif_jpeg_parse_color(ExifData *exif, guchar *data, guint size);
 
 /*raw support */
-gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
-				    unsigned char *header_data, const guint header_len,
+gint format_raw_img_exif_offsets_fd(gint fd, const gchar *path,
+				    guchar *header_data, const guint header_len,
 				    guint *image_offset, guint *exif_offset);
 
 

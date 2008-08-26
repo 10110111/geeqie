@@ -38,12 +38,12 @@
  *-----------------------------------------------------------------------------
  */
 
-static guint nikon_tiff_table(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+static guint nikon_tiff_table(guchar *data, const guint len, guint offset, ExifByteOrder bo,
 			      gint level,
 			      guint *image_offset, guint *jpeg_len);
 
 
-static void nikon_tiff_entry(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+static void nikon_tiff_entry(guchar *data, const guint len, guint offset, ExifByteOrder bo,
 			     gint level,
 			     guint *image_offset, guint *image_length, guint *jpeg_start, guint *jpeg_len)
 {
@@ -97,7 +97,7 @@ static void nikon_tiff_entry(unsigned char *data, const guint len, guint offset,
 		}
 }
 
-static guint nikon_tiff_table(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+static guint nikon_tiff_table(guchar *data, const guint len, guint offset, ExifByteOrder bo,
 			      gint level,
 			      guint *image_offset, guint *image_length)
 {
@@ -131,7 +131,7 @@ static guint nikon_tiff_table(unsigned char *data, const guint len, guint offset
 	return exif_byte_get_int32(data + offset + count * EXIF_TIFD_SIZE, bo);
 }
 
-gint format_nikon_raw(unsigned char *data, const guint len,
+gint format_nikon_raw(guchar *data, const guint len,
 		      guint *image_offset, guint *exif_offset)
 {
 	guint i_off = 0;
@@ -355,10 +355,10 @@ static ExifTextList NikonAFPoint[]= {
 };
 
 
-gint format_nikon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
+gint format_nikon_makernote(ExifData *exif, guchar *tiff, guint offset,
 			    guint size, ExifByteOrder bo)
 {
-	unsigned char *data;
+	guchar *data;
 	ExifItem *item;
 
 	if (offset + 8 + 4 >= size) return FALSE;

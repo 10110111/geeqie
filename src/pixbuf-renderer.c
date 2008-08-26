@@ -1412,10 +1412,10 @@ static gint pr_source_tile_visible(PixbufRenderer *pr, SourceTile *st)
 	x2 = ((pr->x_scroll + pr->vis_width) / pr->tile_width) * pr->tile_width + pr->tile_width;
 	y2 = ((pr->y_scroll + pr->vis_height) / pr->tile_height) * pr->tile_height + pr->tile_height;
 
-	return !((double)st->x * pr->scale > (double)x2 ||
-		 (double)(st->x + pr->source_tile_width) * pr->scale < (double)x1 ||
-		 (double)st->y * pr->scale > (double)y2 ||
-		 (double)(st->y + pr->source_tile_height) * pr->scale < (double)y1);
+	return !((gdouble)st->x * pr->scale > (gdouble)x2 ||
+		 (gdouble)(st->x + pr->source_tile_width) * pr->scale < (gdouble)x1 ||
+		 (gdouble)st->y * pr->scale > (gdouble)y2 ||
+		 (gdouble)(st->y + pr->source_tile_height) * pr->scale < (gdouble)y1);
 }
 
 static SourceTile *pr_source_tile_new(PixbufRenderer *pr, gint x, gint y)
@@ -1637,17 +1637,17 @@ static gint pr_source_tile_render(PixbufRenderer *pr, ImageTile *it,
 		}
 	else
 		{
-		double scale_x, scale_y;
+		gdouble scale_x, scale_y;
 		gint sx, sy, sw, sh;
 
 		if (pr->image_width == 0 || pr->image_height == 0) return FALSE;
-		scale_x = (double)pr->width / pr->image_width;
-		scale_y = (double)pr->height / pr->image_height;
+		scale_x = (gdouble)pr->width / pr->image_width;
+		scale_y = (gdouble)pr->height / pr->image_height;
 
-		sx = (double)(it->x + x) / scale_x;
-		sy = (double)(it->y + y) / scale_y;
-		sw = (double)w / scale_x;
-		sh = (double)h / scale_y;
+		sx = (gdouble)(it->x + x) / scale_x;
+		sy = (gdouble)(it->y + y) / scale_y;
+		sw = (gdouble)w / scale_x;
+		sh = (gdouble)h / scale_y;
 
 		if (pr->width < PR_MIN_SCALE_SIZE || pr->height < PR_MIN_SCALE_SIZE) fast = TRUE;
 
@@ -1667,10 +1667,10 @@ static gint pr_source_tile_render(PixbufRenderer *pr, ImageTile *it,
 			st = work->data;
 			work = work->next;
 
-			stx = floor((double)st->x * scale_x);
-			sty = floor((double)st->y * scale_y);
-			stw = ceil((double)(st->x + pr->source_tile_width) * scale_x) - stx;
-			sth = ceil((double)(st->y + pr->source_tile_height) * scale_y) - sty;
+			stx = floor((gdouble)st->x * scale_x);
+			sty = floor((gdouble)st->y * scale_y);
+			stw = ceil((gdouble)(st->x + pr->source_tile_width) * scale_x) - stx;
+			sth = ceil((gdouble)(st->y + pr->source_tile_height) * scale_y) - sty;
 
 			if (pr_clip_region(stx, sty, stw, sth,
 					   it->x + x, it->y + y, w, h,
@@ -1683,16 +1683,16 @@ static gint pr_source_tile_render(PixbufRenderer *pr, ImageTile *it,
 					}
 				else
 					{
-					double offset_x;
-					double offset_y;
+					gdouble offset_x;
+					gdouble offset_y;
 
 					/* may need to use unfloored stx,sty values here */
-					offset_x = (double)(stx - it->x);
-					offset_y = (double)(sty - it->y);
+					offset_x = (gdouble)(stx - it->x);
+					offset_y = (gdouble)(sty - it->y);
 
 					gdk_pixbuf_scale(st->pixbuf, it->pixbuf, rx - it->x, ry - it->y, rw, rh,
-						 (double) 0.0 + offset_x,
-						 (double) 0.0 + offset_y,
+						 (gdouble) 0.0 + offset_x,
+						 (gdouble) 0.0 + offset_y,
 						 scale_x, scale_y,
 						 (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality);
 					draw = TRUE;
@@ -1913,7 +1913,7 @@ static void pr_tile_free_space(PixbufRenderer *pr, guint space, ImageTile *it)
 
 		tiles = (pr->vis_width / pr->tile_width + 1) * (pr->vis_height / pr->tile_height + 1);
 		tile_max = MAX(tiles * pr->tile_width * pr->tile_height * 3,
-			       (gint)((double)pr->tile_cache_max * 1048576.0 * pr->scale));
+			       (gint)((gdouble)pr->tile_cache_max * 1048576.0 * pr->scale));
 		}
 	else
 		{
@@ -2060,10 +2060,10 @@ static void pr_tile_prepare(PixbufRenderer *pr, ImageTile *it)
 
 
 static void pr_tile_coords_map_orientation(PixbufRenderer *pr,
-				     double tile_x, double tile_y, /* coordinates of the tile */
+				     gdouble tile_x, gdouble tile_y, /* coordinates of the tile */
 				     gint image_w, gint image_h,
-				     double tile_w, double tile_h,
-				     double *res_x, double *res_y)
+				     gdouble tile_w, gdouble tile_h,
+				     gdouble *res_x, gdouble *res_y)
 {
 	*res_x = tile_x;
 	*res_y = tile_y;
@@ -2527,7 +2527,7 @@ static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 	else if (pr->zoom == 1.0 || pr->scale == 1.0)
 		{
 
-		double src_x, src_y;
+		gdouble src_x, src_y;
 		gint pb_x, pb_y;
 		gint pb_w, pb_h;
 		pr_tile_coords_map_orientation(pr, it->x, it->y,
@@ -2543,8 +2543,8 @@ static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 		if (has_alpha)
 			{
 			gdk_pixbuf_composite_color(pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
-					 (double) 0.0 - src_x,
-					 (double) 0.0 - src_y,
+					 (gdouble) 0.0 - src_x,
+					 (gdouble) 0.0 - src_y,
 					 1.0, 1.0, GDK_INTERP_NEAREST,
 					 255, it->x + pb_x, it->y + pb_y,
 					 PR_ALPHA_CHECK_SIZE, PR_ALPHA_CHECK1, PR_ALPHA_CHECK2);
@@ -2580,15 +2580,15 @@ static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 		}
 	else
 		{
-		double scale_x, scale_y;
-		double src_x, src_y;
+		gdouble scale_x, scale_y;
+		gdouble src_x, src_y;
 		gint pb_x, pb_y;
 		gint pb_w, pb_h;
 
 		if (pr->image_width == 0 || pr->image_height == 0) return;
 
-		scale_x = (double)pr->width / pr->image_width;
-		scale_y = (double)pr->height / pr->image_height;
+		scale_x = (gdouble)pr->width / pr->image_width;
+		scale_y = (gdouble)pr->height / pr->image_height;
 
 		pr_tile_coords_map_orientation(pr, it->x / scale_x, it->y /scale_y ,
 					    pr->image_width, pr->image_height,
@@ -2608,16 +2608,16 @@ static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 		if (!has_alpha)
 			{
 			gdk_pixbuf_scale(pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
-					 (double) 0.0 - src_x * scale_x,
-					 (double) 0.0 - src_y * scale_y,
+					 (gdouble) 0.0 - src_x * scale_x,
+					 (gdouble) 0.0 - src_y * scale_y,
 					 scale_x, scale_y,
 					 (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality);
 			}
 		else
 			{
 			gdk_pixbuf_composite_color(pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
-					 (double) 0.0 - src_x * scale_x,
-					 (double) 0.0 - src_y * scale_y,
+					 (gdouble) 0.0 - src_x * scale_x,
+					 (gdouble) 0.0 - src_y * scale_y,
 					 scale_x, scale_y,
 					 (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality,
 					 255, it->x + pb_x, it->y + pb_y,
@@ -3258,8 +3258,8 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 				break;
 			case PR_SCROLL_RESET_CENTER:
 				/* center new image */
-				pr->x_scroll = ((double)pr->image_width / 2.0 * pr->scale) - pr->vis_width / 2;
-				pr->y_scroll = ((double)pr->image_height / 2.0 * pr->scale) - pr->vis_height / 2;
+				pr->x_scroll = ((gdouble)pr->image_width / 2.0 * pr->scale) - pr->vis_width / 2;
+				pr->y_scroll = ((gdouble)pr->image_height / 2.0 * pr->scale) - pr->vis_height / 2;
 				break;
 			case PR_SCROLL_RESET_TOPLEFT:
 			default:
@@ -3543,10 +3543,10 @@ void pixbuf_renderer_set_scroll_center(PixbufRenderer *pr, gdouble x, gdouble y)
 	dst_x = x * pr->width  - pr->vis_width  / 2 - pr->x_scroll + CLAMP(pr->subpixel_x_scroll, -1.0, 1.0);
 	dst_y = y * pr->height - pr->vis_height / 2 - pr->y_scroll + CLAMP(pr->subpixel_y_scroll, -1.0, 1.0);
 
-	pr->subpixel_x_scroll = dst_x - (int)dst_x;
-	pr->subpixel_y_scroll = dst_y - (int)dst_y;
+	pr->subpixel_x_scroll = dst_x - (gint)dst_x;
+	pr->subpixel_y_scroll = dst_y - (gint)dst_y;
 
-	pixbuf_renderer_scroll(pr, (int)dst_x, (int)dst_y);
+	pixbuf_renderer_scroll(pr, (gint)dst_x, (gint)dst_y);
 }
 
 
@@ -3915,10 +3915,10 @@ void pixbuf_renderer_area_changed(PixbufRenderer *pr, gint src_x, gint src_y, gi
 		height += 2;
 		}
 
-	x1 = (gint)floor((double)x * pr->scale);
-	y1 = (gint)floor((double)y * pr->scale);
-	x2 = (gint)ceil((double)(x + width) * pr->scale);
-	y2 = (gint)ceil((double)(y + height) * pr->scale);
+	x1 = (gint)floor((gdouble)x * pr->scale);
+	y1 = (gint)floor((gdouble)y * pr->scale);
+	x2 = (gint)ceil((gdouble)(x + width) * pr->scale);
+	y2 = (gint)ceil((gdouble)(y + height) * pr->scale);
 
 	pr_queue(pr, x1, y1, x2 - x1, y2 - y1, FALSE, TILE_RENDER_AREA, TRUE, TRUE);
 }

@@ -25,7 +25,7 @@ void history_list_item_change(const gchar *key, const gchar *oldpath, const gcha
 void history_list_item_move(const gchar *key, const gchar *path, gint direction);
 void history_list_item_remove(const gchar *key, const gchar *path);
 
-const gchar *history_list_find_last_path_by_key(const gchar* key);
+const gchar *history_list_find_last_path_by_key(const gchar *key);
 
 /* the returned GList is internal, don't free it */
 GList *history_list_get_by_key(const gchar *key);

@@ -179,7 +179,7 @@ static void history_list_free(HistoryData *hd)
 	g_free(hd);
 }
 
-static HistoryData *history_list_find_by_key(const gchar* key)
+static HistoryData *history_list_find_by_key(const gchar *key)
 {
 	GList *work = history_list;
 
@@ -194,7 +194,7 @@ static HistoryData *history_list_find_by_key(const gchar* key)
 	return NULL;
 }
 
-const gchar *history_list_find_last_path_by_key(const gchar* key)
+const gchar *history_list_find_last_path_by_key(const gchar *key)
 {
 	HistoryData *hd;
 

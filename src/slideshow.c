@@ -76,7 +76,7 @@ static GList *generate_random_list(SlideShowData *ss)
 
 	while (src_list)
 		{
-		gint p = (double)rand() / ((double)RAND_MAX + 1.0) * g_list_length(src_list);
+		gint p = (gdouble)rand() / ((gdouble)RAND_MAX + 1.0) * g_list_length(src_list);
 		work = g_list_nth(src_list, p);
 		list = g_list_prepend(list, work->data);
 		src_list = g_list_remove(src_list, work->data);

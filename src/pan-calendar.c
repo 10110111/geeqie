@@ -239,7 +239,7 @@ void pan_calendar_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 
 	DEBUG_1("biggest day contains %d images", day_max);
 
-	grid = (gint)(sqrt((double)day_max) + 0.5) * (PAN_THUMB_SIZE + PAN_SHADOW_OFFSET * 2 + PAN_THUMB_GAP);
+	grid = (gint)(sqrt((gdouble)day_max) + 0.5) * (PAN_THUMB_SIZE + PAN_SHADOW_OFFSET * 2 + PAN_THUMB_GAP);
 	day_width = MAX(PAN_CAL_DAY_WIDTH, grid);
 	day_height = MAX(PAN_CAL_DAY_HEIGHT, grid);
 
@@ -323,7 +323,7 @@ void pan_calendar_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 			PanItem *pi_day;
 			gint dx, dy;
 			gint n = 0;
-			char fake_path[20];
+			gchar fake_path[20];
 
 			dt = pan_date_to_time(year, month, day);
 

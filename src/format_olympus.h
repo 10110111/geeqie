@@ -15,7 +15,7 @@
 #include "exif-int.h"
 
 
-gint format_olympus_raw(unsigned char *data, const guint len,
+gint format_olympus_raw(guchar *data, const guint len,
 			guint *image_offset, guint *exif_offset);
 
 
@@ -25,7 +25,7 @@ gint format_olympus_raw(unsigned char *data, const guint len,
 			     "Olympus raw", format_olympus_raw }
 
 
-gint format_olympus_makernote(ExifData *exif, unsigned char *tiff, guint offset,
+gint format_olympus_makernote(ExifData *exif, guchar *tiff, guint offset,
 			      guint size, ExifByteOrder bo);
 
 #define FORMAT_EXIF_OLYMPUS { FORMAT_EXIF_MATCH_MAKERNOTE, "OLYMP\x00\x01", 7, \

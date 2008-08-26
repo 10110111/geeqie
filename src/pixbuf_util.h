@@ -15,7 +15,7 @@
 #define PIXBUF_UTIL_H
 
 
-gboolean pixbuf_to_file_as_png (GdkPixbuf *pixbuf, const char *filename);
+gboolean pixbuf_to_file_as_png (GdkPixbuf *pixbuf, const gchar *filename);
 gboolean pixbuf_to_file_as_jpg(GdkPixbuf *pixbuf, const gchar *filename, gint quality);
 
 

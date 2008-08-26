@@ -43,7 +43,7 @@
  *-----------------------------------------------------------------------------
  */
 
-static gint canon_cr2_tiff_entry(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+static gint canon_cr2_tiff_entry(guchar *data, const guint len, guint offset, ExifByteOrder bo,
 				 guint *image_offset, gint *jpeg_encoding)
 {
 	guint tag;
@@ -92,7 +92,7 @@ static gint canon_cr2_tiff_entry(unsigned char *data, const guint len, guint off
 	return TRUE;
 }
 
-static gint canon_cr2_tiff_table(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+static gint canon_cr2_tiff_table(guchar *data, const guint len, guint offset, ExifByteOrder bo,
 				 guint *image_offset)
 {
 	gint jpeg_encoding = FALSE;
@@ -117,7 +117,7 @@ static gint canon_cr2_tiff_table(unsigned char *data, const guint len, guint off
 	return exif_byte_get_int32(data + offset + count * EXIF_TIFD_SIZE, bo);
 }
 
-gint format_canon_raw_cr2(unsigned char *data, const guint len,
+gint format_canon_raw_cr2(guchar *data, const guint len,
 			  guint *image_offset, guint *exif_offset)
 {
 	guint jpeg_offset = 0;
@@ -150,7 +150,7 @@ gint format_canon_raw_cr2(unsigned char *data, const guint len,
 #define CRW_HEADER_SIZE		26
 #define CRW_DIR_ENTRY_SIZE	10
 
-gint format_canon_raw_crw(unsigned char *data, const guint len,
+gint format_canon_raw_crw(guchar *data, const guint len,
 			  guint *image_offset, guint *exif_offset)
 {
 	guint block_offset;
@@ -601,7 +601,7 @@ static void canon_mknote_parse_convert(ExifData *exif)
 }
 #endif
 
-gint format_canon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
+gint format_canon_makernote(ExifData *exif, guchar *tiff, guint offset,
 			    guint size, ExifByteOrder bo)
 {
 	ExifItem *item;

@@ -82,7 +82,7 @@ static FormatExifEntry format_exif_list[] = {
 };
 
 
-static guint tiff_table(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+static guint tiff_table(guchar *data, const guint len, guint offset, ExifByteOrder bo,
 			guint tag, ExifFormatType type,
 			guint *result_offset, guint *result_count)
 {
@@ -133,7 +133,7 @@ static guint tiff_table(unsigned char *data, const guint len, guint offset, Exif
 	return exif_byte_get_int32(data + offset + count * 12, bo);
 }
 
-static gint format_tiff_find_tag_data(unsigned char *data, const guint len,
+static gint format_tiff_find_tag_data(guchar *data, const guint len,
 				      guint tag, ExifFormatType type,
 				      guint *result_offset, guint *result_count)
 {
@@ -179,7 +179,7 @@ static gint format_tiff_find_tag_data(unsigned char *data, const guint len,
 	return FALSE;
 }
 
-static FormatRawEntry *format_raw_find(unsigned char *data, const guint len)
+static FormatRawEntry *format_raw_find(guchar *data, const guint len)
 {
 	gint n;
 	gint tiff;
@@ -231,7 +231,7 @@ static FormatRawEntry *format_raw_find(unsigned char *data, const guint len)
 }
 
 static gint format_raw_parse(FormatRawEntry *entry,
-			     unsigned char *data, const guint len,
+			     guchar *data, const guint len,
 			     guint *image_offset, guint *exif_offset)
 {
 	guint io = 0;
@@ -257,7 +257,7 @@ static gint format_raw_parse(FormatRawEntry *entry,
 	return TRUE;
 }
 
-gint format_raw_img_exif_offsets(unsigned char *data, const guint len,
+gint format_raw_img_exif_offsets(guchar *data, const guint len,
 				 guint *image_offset, guint *exif_offset)
 {
 	FormatRawEntry *entry;
@@ -272,7 +272,7 @@ gint format_raw_img_exif_offsets(unsigned char *data, const guint len,
 }
 
 
-FormatRawExifType format_raw_exif_offset(unsigned char *data, const guint len, guint *exif_offset,
+FormatRawExifType format_raw_exif_offset(guchar *data, const guint len, guint *exif_offset,
 					 FormatRawExifParseFunc *exif_parse_func)
 {
 	FormatRawEntry *entry;
@@ -294,8 +294,8 @@ FormatRawExifType format_raw_exif_offset(unsigned char *data, const guint len, g
 }
 
 
-gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
-				    unsigned char *header_data, const guint header_len,
+gint format_raw_img_exif_offsets_fd(gint fd, const gchar *path,
+				    guchar *header_data, const guint header_len,
 				    guint *image_offset, guint *exif_offset)
 {
 	FormatRawEntry *entry;
@@ -377,7 +377,7 @@ gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
 }
 
 
-static FormatExifEntry *format_exif_makernote_find(ExifData *exif, unsigned char *tiff,
+static FormatExifEntry *format_exif_makernote_find(ExifData *exif, guchar *tiff,
 						   guint offset, guint size)
 {
 	ExifItem *make;
@@ -414,7 +414,7 @@ static FormatExifEntry *format_exif_makernote_find(ExifData *exif, unsigned char
 	return FALSE;
 }
 
-gint format_exif_makernote_parse(ExifData *exif, unsigned char *tiff, guint offset,
+gint format_exif_makernote_parse(ExifData *exif, guchar *tiff, guint offset,
 				 guint size, ExifByteOrder bo)
 {
 	FormatExifEntry *entry;
@@ -435,10 +435,10 @@ gint format_exif_makernote_parse(ExifData *exif, unsigned char *tiff, guint offs
  */
 #if DEBUG_RAW_TIFF
 
-static guint format_debug_tiff_table(unsigned char *data, const guint len, guint offset,
+static guint format_debug_tiff_table(guchar *data, const guint len, guint offset,
 				     ExifByteOrder bo, gint level);
 
-static void format_debug_tiff_entry(unsigned char *data, const guint len, guint offset,
+static void format_debug_tiff_entry(guchar *data, const guint len, guint offset,
 				    ExifByteOrder bo, gint level)
 {
 	guint tag;
@@ -497,7 +497,7 @@ static void format_debug_tiff_entry(unsigned char *data, const guint len, guint 
 		}
 }
 
-static guint format_debug_tiff_table(unsigned char *data, const guint len, guint offset,
+static guint format_debug_tiff_table(guchar *data, const guint len, guint offset,
 				     ExifByteOrder bo, gint level)
 {
 	guint count;
@@ -523,7 +523,7 @@ static guint format_debug_tiff_table(unsigned char *data, const guint len, guint
 	return exif_byte_get_int32(data + offset + count * EXIF_TIFD_SIZE, bo);
 }
 
-gint format_debug_tiff_raw(unsigned char *data, const guint len,
+gint format_debug_tiff_raw(guchar *data, const guint len,
 			   guint *image_offset, guint *exif_offset)
 {
 	ExifByteOrder bo;

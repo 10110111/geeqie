@@ -14,7 +14,7 @@
 
 #include "exif-int.h"
 
-gint format_nikon_raw(unsigned char *data, const guint len,
+gint format_nikon_raw(guchar *data, const guint len,
 		      guint *image_offset, guint *exif_offset);
 
 #define FORMAT_RAW_NIKON { "nef", \
@@ -35,7 +35,7 @@ gint format_nikon_raw(unsigned char *data, const guint len,
 			    FORMAT_RAW_EXIF_TIFF, NULL, \
 			    "Samsung raw", format_nikon_raw }
 
-gint format_nikon_makernote(ExifData *exif, unsigned char *tiff, guint offset,
+gint format_nikon_makernote(ExifData *exif, guchar *tiff, guint offset,
 			    guint size, ExifByteOrder bo);
 
 #define FORMAT_EXIF_NIKON { FORMAT_EXIF_MATCH_MAKERNOTE, "Nikon\x00", 6, "Nikon", format_nikon_makernote }, \

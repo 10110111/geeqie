@@ -189,7 +189,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 
 void layout_image_lirc_init(LayoutWindow *lw)
 {
-	int flags;
+	gint flags;
 	
 	DEBUG_1("Initializing LIRC...");
 	lirc_fd = lirc_init(GQ_APPNAME_LC, get_debug_level() > 0);

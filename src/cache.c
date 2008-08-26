@@ -535,7 +535,7 @@ void cache_sim_data_set_date(CacheData *cd, time_t date)
 	cd->have_date = TRUE;
 }
 
-void cache_sim_data_set_checksum(CacheData *cd, long checksum)
+void cache_sim_data_set_checksum(CacheData *cd, glong checksum)
 {
 	if (!cd) return;
 

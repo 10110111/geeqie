@@ -209,7 +209,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 	ColorManProfileType screen_type;
 	const gchar *input_file;
 	const gchar *screen_file;
-	unsigned char *profile = NULL;
+	guchar *profile = NULL;
 	guint profile_len;
 
 	if (imd->cm) return FALSE;

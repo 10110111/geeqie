@@ -2030,8 +2030,8 @@ static void button_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer data)
 	rx = ry = 0;
 	if (pr->scale)
 		{
-		rx = (double)(pr->x_scroll + event->x - pr->x_offset) / pr->scale;
-		ry = (double)(pr->y_scroll + event->y - pr->y_offset) / pr->scale;
+		rx = (gdouble)(pr->x_scroll + event->x - pr->x_offset) / pr->scale;
+		ry = (gdouble)(pr->y_scroll + event->y - pr->y_offset) / pr->scale;
 		}
 
 	pi = pan_item_find_by_coord(pw, PAN_ITEM_BOX, rx, ry, "info");

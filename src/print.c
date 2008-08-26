@@ -486,7 +486,7 @@ static gdouble print_paper_size_convert_units(gdouble value, PaperUnits src, Pap
 
 static PaperUnits paper_unit_default(void)
 {
-	const char *result;
+	const gchar *result;
 #if 0
 	/* this is not used because it is not even slightly portable */
 	#include <langinfo.h>
@@ -520,7 +520,7 @@ static gint print_layout_page_count(PrintWindow *pw);
 
 static gint print_preview_unit(gdouble points)
 {
-	return (int)(points / PRINT_PREVIEW_SCALE);
+	return (gint)(points / PRINT_PREVIEW_SCALE);
 }
 
 static void print_proof_size(PrintWindow *pw, gdouble *width, gdouble *height)
@@ -956,7 +956,7 @@ struct _PipeError {
 static sig_atomic_t pipe_handler_error = FALSE;
 static PipeError *pipe_handler_data = NULL;
 
-static void pipe_handler_sigpipe_cb(int fd)
+static void pipe_handler_sigpipe_cb(gint fd)
 {
 	pipe_handler_error = TRUE;
 }
@@ -1609,7 +1609,7 @@ static gdouble convert_pango_dpi(gdouble points)
 		klass = G_OBJECT_CLASS(GTK_SETTINGS_GET_CLASS(settings));
 		if (g_object_class_find_property(klass, "gtk-xft-dpi"))
 			{
-			int int_dpi;
+			gint int_dpi;
 			g_object_get(settings, "gtk-xft-dpi", &int_dpi, NULL);
 			dpi = (gdouble)int_dpi / PANGO_SCALE;
 			}

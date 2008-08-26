@@ -39,7 +39,7 @@
  */
 
 
-gint format_fuji_raw(unsigned char *data, const guint len,
+gint format_fuji_raw(guchar *data, const guint len,
 		     guint *image_offset, guint *exif_offset)
 {
 	guint io;
@@ -175,10 +175,10 @@ EXIF_MARKER_LIST_END
 
 
 
-gint format_fuji_makernote(ExifData *exif, unsigned char *tiff, guint offset,
+gint format_fuji_makernote(ExifData *exif, guchar *tiff, guint offset,
 			   guint size, ExifByteOrder bo)
 {
-	unsigned char *data;
+	guchar *data;
 	guint ifdstart;
 
 	if (offset + 8 + 4 >= size) return FALSE;

@@ -123,7 +123,7 @@ static gboolean remote_server_client_cb(GIOChannel *source, GIOCondition conditi
 	return TRUE;
 }
 
-static void remote_server_client_add(RemoteConnection *rc, int fd)
+static void remote_server_client_add(RemoteConnection *rc, gint fd)
 {
 	RemoteClient *client;
 	GIOChannel *channel;
@@ -165,8 +165,8 @@ static void remote_server_clients_close(RemoteConnection *rc)
 static gboolean remote_server_read_cb(GIOChannel *source, GIOCondition condition, gpointer data)
 {
 	RemoteConnection *rc = data;
-	int fd;
-	unsigned int alen;
+	gint fd;
+	guint alen;
 
 	fd = accept(rc->fd, NULL, &alen);
 	if (fd == -1)
@@ -200,7 +200,7 @@ static RemoteConnection *remote_server_open(const gchar *path)
 	RemoteConnection *rc;
 	struct sockaddr_un addr;
 	gint sun_path_len;
-	int fd;
+	gint fd;
 	GIOChannel *channel;
 
 	if (remote_server_exists(path))
@@ -256,7 +256,7 @@ static RemoteConnection *remote_client_open(const gchar *path)
 	struct stat st;
 	struct sockaddr_un addr;
 	gint sun_path_len;
-	int fd;
+	gint fd;
 
 	if (stat(path, &st) != 0 || !S_ISSOCK(st.st_mode)) return NULL;
 
@@ -286,7 +286,7 @@ static RemoteConnection *remote_client_open(const gchar *path)
 
 static sig_atomic_t sigpipe_occured = FALSE;
 
-static void sighandler_sigpipe(int sig)
+static void sighandler_sigpipe(gint sig)
 {
 	sigpipe_occured = TRUE;
 }
@@ -669,7 +669,7 @@ void remote_help(void)
 		}
 }
 
-GList *remote_build_list(GList *list, int argc, char *argv[], GList **errors)
+GList *remote_build_list(GList *list, gint argc, gchar *argv[], GList **errors)
 {
 	gint i;
 

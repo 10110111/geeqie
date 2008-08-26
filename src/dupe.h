@@ -41,7 +41,7 @@ struct _DupeItem
 
 	FileData *fd;
 
-	long checksum;
+	glong checksum;
 	gchar *md5sum;
 	gint width;
 	gint height;

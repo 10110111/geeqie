@@ -1335,7 +1335,7 @@ static void collection_table_insert_marker(CollectTable *ct, CollectInfo *info, 
 
 		parent = gtk_tree_view_get_bin_window(GTK_TREE_VIEW(ct->listview));
 
-		pb = gdk_pixbuf_new_from_xpm_data((const char **)marker_xpm);
+		pb = gdk_pixbuf_new_from_xpm_data((const gchar **)marker_xpm);
 		gdk_pixbuf_render_pixmap_and_mask(pb, &pixmap, &mask, 128);
 		gdk_pixbuf_unref(pb);
 

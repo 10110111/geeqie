@@ -19,7 +19,7 @@
  * Logging functions
  */
 
-gint log_domain_printf(const char *domain, const gchar *format, ...)
+gint log_domain_printf(const gchar *domain, const gchar *format, ...)
 {
 	va_list ap;
 	gchar buf[4096];
@@ -118,7 +118,7 @@ const gchar *get_exec_time(void)
 	previous = tv;
 	started = 1;
 
-	g_snprintf(timestr, sizeof(timestr), "%5d.%06d (+%05d.%06d)", (int)tv.tv_sec, (int)tv.tv_usec, (int)delta.tv_sec, (int)delta.tv_usec);
+	g_snprintf(timestr, sizeof(timestr), "%5d.%06d (+%05d.%06d)", (gint)tv.tv_sec, (gint)tv.tv_usec, (gint)delta.tv_sec, (gint)delta.tv_usec);
 
 	return timestr;
 }

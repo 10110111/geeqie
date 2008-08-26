@@ -123,8 +123,8 @@ static void pan_flower_position(FlowerGroup *group, FlowerGroup *parent,
 
 	a = 2*PI * group->diameter / parent->circumference;
 
-	x = (gint)((double)radius * cos(parent->angle + a / 2));
-	y = (gint)((double)radius * sin(parent->angle + a / 2));
+	x = (gint)((gdouble)radius * cos(parent->angle + a / 2));
+	y = (gint)((gdouble)radius * sin(parent->angle + a / 2));
 
 	parent->angle += a;
 
@@ -294,7 +294,7 @@ static FlowerGroup *pan_flower_group(PanWindow *pw, FileData *dir_fd, gint x, gi
 
 	group->width = pi_box->width;
 	group->height = pi_box->y + pi_box->height;
-	group->diameter = (int)sqrt(group->width * group->width + group->height * group->height);
+	group->diameter = (gint)sqrt(group->width * group->width + group->height * group->height);
 
 	group->children = NULL;
 

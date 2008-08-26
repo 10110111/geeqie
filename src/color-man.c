@@ -97,7 +97,7 @@ static void color_man_cache_unref(ColorManCache *cc)
 }
 
 static cmsHPROFILE color_man_cache_load_profile(ColorManProfileType type, const gchar *file,
-						unsigned char *data, guint data_len)
+						guchar *data, guint data_len)
 {
 	cmsHPROFILE profile = NULL;
 
@@ -134,7 +134,7 @@ static cmsHPROFILE color_man_cache_load_profile(ColorManProfileType type, const 
 }
 
 static ColorManCache *color_man_cache_new(ColorManProfileType in_type, const gchar *in_file,
-					  unsigned char *in_data, guint in_data_len,
+					  guchar *in_data, guint in_data_len,
 					  ColorManProfileType out_type, const gchar *out_file,
 					  gint has_alpha)
 {
@@ -251,7 +251,7 @@ static ColorManCache *color_man_cache_find(ColorManProfileType in_type, const gc
 }
 
 static ColorManCache *color_man_cache_get(ColorManProfileType in_type, const gchar *in_file,
-					  unsigned char *in_data, guint in_data_len,
+					  guchar *in_data, guint in_data_len,
 					  ColorManProfileType out_type, const gchar *out_file,
 					  gint has_alpha)
 {
@@ -355,7 +355,7 @@ static gint color_man_idle_cb(gpointer data)
 
 static ColorMan *color_man_new_real(ImageWindow *imd, GdkPixbuf *pixbuf,
 				    ColorManProfileType input_type, const gchar *input_file,
-				    unsigned char *input_data, guint input_data_len,
+				    guchar *input_data, guint input_data_len,
 				    ColorManProfileType screen_type, const gchar *screen_file)
 {
 	ColorMan *cm;
@@ -402,7 +402,7 @@ void color_man_start_bg(ColorMan *cm, ColorManDoneFunc done_func, gpointer done_
 }
 
 ColorMan *color_man_new_embedded(ImageWindow *imd, GdkPixbuf *pixbuf,
-				 unsigned char *input_data, guint input_data_len,
+				 guchar *input_data, guint input_data_len,
 				 ColorManProfileType screen_type, const gchar *screen_file)
 {
 	return color_man_new_real(imd, pixbuf,
@@ -440,7 +440,7 @@ ColorMan *color_man_new(ImageWindow *imd, GdkPixbuf *pixbuf,
 }
 
 ColorMan *color_man_new_embedded(ImageWindow *imd, GdkPixbuf *pixbuf,
-				 unsigned char *input_data, guint input_data_len,
+				 guchar *input_data, guint input_data_len,
 				 ColorManProfileType screen_type, const gchar *screen_file)
 {
 	/* no op */

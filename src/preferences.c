@@ -146,7 +146,7 @@ static void zoom_increment_cb(GtkWidget *spin, gpointer data)
 static void slideshow_delay_cb(GtkWidget *spin, gpointer data)
 {
 	c_options->slideshow.delay = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) *
-				   (double)SLIDESHOW_SUBSECOND_PRECISION + 0.01);
+				   (gdouble)SLIDESHOW_SUBSECOND_PRECISION + 0.01);
 }
 
 /*
@@ -959,7 +959,7 @@ static void config_tab_general(GtkWidget *notebook)
 	c_options->slideshow.delay = options->slideshow.delay;
 	spin = pref_spin_new(group, _("Delay between image change:"), _("seconds"),
 			     SLIDESHOW_MIN_SECONDS, SLIDESHOW_MAX_SECONDS, 1.0, 1,
-			     options->slideshow.delay ? (double)options->slideshow.delay / SLIDESHOW_SUBSECOND_PRECISION : 10.0,
+			     options->slideshow.delay ? (gdouble)options->slideshow.delay / SLIDESHOW_SUBSECOND_PRECISION : 10.0,
 			     G_CALLBACK(slideshow_delay_cb), NULL);
 	gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), GTK_UPDATE_ALWAYS);
 
@@ -1009,7 +1009,7 @@ static void config_tab_image(GtkWidget *notebook)
 
 	c_options->image.zoom_increment = options->image.zoom_increment;
 	spin = pref_spin_new(group, _("Zoom increment:"), NULL,
-			     0.1, 4.0, 0.1, 1, (double)options->image.zoom_increment / 10.0,
+			     0.1, 4.0, 0.1, 1, (gdouble)options->image.zoom_increment / 10.0,
 			     G_CALLBACK(zoom_increment_cb), NULL);
 	gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), GTK_UPDATE_ALWAYS);
 

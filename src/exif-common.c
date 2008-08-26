@@ -42,15 +42,15 @@
 #include "ui_fileops.h"
 
 
-static double exif_rational_to_double(ExifRational *r, gint sign)
+static gdouble exif_rational_to_double(ExifRational *r, gint sign)
 {
 	if (!r || r->den == 0.0) return 0.0;
 
-	if (sign) return (double)((int)r->num) / (double)((int)r->den);
-	return (double)r->num / r->den;
+	if (sign) return (gdouble)((gint)r->num) / (gdouble)((gint)r->den);
+	return (gdouble)r->num / r->den;
 }
 
-static double exif_get_rational_as_double(ExifData *exif, const gchar *key)
+static gdouble exif_get_rational_as_double(ExifData *exif, const gchar *key)
 {
 	ExifRational *r;
 	gint sign;
@@ -86,14 +86,14 @@ static gchar *remove_common_prefix(gchar *s, gchar *t)
 	return s;
 }
 
-static double get_crop_factor(ExifData *exif)
+static gdouble get_crop_factor(ExifData *exif)
 {
-	double res_unit_tbl[] = {0.0, 25.4, 25.4, 10.0, 1.0, 0.001 };
-	double xres = exif_get_rational_as_double(exif, "Exif.Photo.FocalPlaneXResolution");
-	double yres = exif_get_rational_as_double(exif, "Exif.Photo.FocalPlaneYResolution");
+	gdouble res_unit_tbl[] = {0.0, 25.4, 25.4, 10.0, 1.0, 0.001 };
+	gdouble xres = exif_get_rational_as_double(exif, "Exif.Photo.FocalPlaneXResolution");
+	gdouble yres = exif_get_rational_as_double(exif, "Exif.Photo.FocalPlaneYResolution");
 	gint res_unit;
 	gint w, h;
-	double xsize, ysize, size, ratio;
+	gdouble xsize, ysize, size, ratio;
 
 	if (xres == 0.0 || yres == 0.0) return 0.0;
 
@@ -211,17 +211,17 @@ static gchar *exif_build_formatted_ShutterSpeed(ExifData *exif)
 	r = exif_get_rational(exif, "Exif.Photo.ExposureTime", NULL);
 	if (r && r->num && r->den)
 		{
-		double n = (double)r->den / (double)r->num;
+		gdouble n = (gdouble)r->den / (gdouble)r->num;
 		return g_strdup_printf("%s%.0fs", n > 1.0 ? "1/" : "",
 						  n > 1.0 ? n : 1.0 / n);
 		}
 	r = exif_get_rational(exif, "Exif.Photo.ShutterSpeedValue", NULL);
 	if (r && r->num  && r->den)
 		{
-		double n = pow(2.0, exif_rational_to_double(r, TRUE));
+		gdouble n = pow(2.0, exif_rational_to_double(r, TRUE));
 
 		/* Correct exposure time to avoid values like 1/91s (seen on Minolta DImage 7) */
-		if (n > 1.0 && (int)n - ((int)(n/10))*10 == 1) n--;
+		if (n > 1.0 && (gint)n - ((gint)(n/10))*10 == 1) n--;
 
 		return g_strdup_printf("%s%.0fs", n > 1.0 ? "1/" : "",
 						  n > 1.0 ? floor(n) : 1.0 / n);
@@ -231,7 +231,7 @@ static gchar *exif_build_formatted_ShutterSpeed(ExifData *exif)
 
 static gchar *exif_build_formatted_Aperture(ExifData *exif)
 {
-	double n;
+	gdouble n;
 
 	n = exif_get_rational_as_double(exif, "Exif.Photo.FNumber");
 	if (n == 0.0) n = exif_get_rational_as_double(exif, "Exif.Photo.ApertureValue");
@@ -244,7 +244,7 @@ static gchar *exif_build_formatted_ExposureBias(ExifData *exif)
 {
 	ExifRational *r;
 	gint sign;
-	double n;
+	gdouble n;
 
 	r = exif_get_rational(exif, "Exif.Photo.ExposureBiasValue", &sign);
 	if (!r) return NULL;
@@ -255,7 +255,7 @@ static gchar *exif_build_formatted_ExposureBias(ExifData *exif)
 
 static gchar *exif_build_formatted_FocalLength(ExifData *exif)
 {
-	double n;
+	gdouble n;
 
 	n = exif_get_rational_as_double(exif, "Exif.Photo.FocalLength");
 	if (n == 0.0) return NULL;
@@ -265,7 +265,7 @@ static gchar *exif_build_formatted_FocalLength(ExifData *exif)
 static gchar *exif_build_formatted_FocalLength35mmFilm(ExifData *exif)
 {
 	gint n;
-	double f, c;
+	gdouble f, c;
 
 	if (exif_get_integer(exif, "Exif.Photo.FocalLengthIn35mmFilm", &n) && n != 0)
 		{
@@ -295,13 +295,13 @@ static gchar *exif_build_formatted_SubjectDistance(ExifData *exif)
 {
 	ExifRational *r;
 	gint sign;
-	double n;
+	gdouble n;
 
 	r = exif_get_rational(exif, "Exif.Photo.SubjectDistance", &sign);
 	if (!r) return NULL;
 
-	if ((long)r->num == (long)0xffffffff) return g_strdup(_("infinity"));
-	if ((long)r->num == 0) return g_strdup(_("unknown"));
+	if ((glong)r->num == (glong)0xffffffff) return g_strdup(_("infinity"));
+	if ((glong)r->num == 0) return g_strdup(_("unknown"));
 
 	n = exif_rational_to_double(r, sign);
 	if (n == 0.0) return _("unknown");
@@ -369,8 +369,8 @@ static gchar *exif_build_formatted_Resolution(ExifData *exif)
 	if (!rx || !ry) return NULL;
 
 	units = exif_get_data_as_text(exif, "Exif.Image.ResolutionUnit");
-	text = g_strdup_printf("%0.f x %0.f (%s/%s)", rx->den ? (double)rx->num / rx->den : 1.0,
-						      ry->den ? (double)ry->num / ry->den : 1.0,
+	text = g_strdup_printf("%0.f x %0.f (%s/%s)", rx->den ? (gdouble)rx->num / rx->den : 1.0,
+						      ry->den ? (gdouble)ry->num / ry->den : 1.0,
 						      _("dot"), (units) ? units : _("unknown"));
 
 	g_free(units);
@@ -586,7 +586,7 @@ void exif_free_fd(FileData *fd, ExifData *exif)
        NNN.: the data in this segment
  */
 
-gint exif_jpeg_segment_find(unsigned char *data, guint size,
+gint exif_jpeg_segment_find(guchar *data, guint size,
 			    guchar app_marker, const gchar *magic, guint magic_len,
 			    guint *seg_offset, guint *seg_length)
 {
@@ -625,7 +625,7 @@ gint exif_jpeg_segment_find(unsigned char *data, guint size,
 	return FALSE;
 }
 
-gint exif_jpeg_parse_color(ExifData *exif, unsigned char *data, guint size)
+gint exif_jpeg_parse_color(ExifData *exif, guchar *data, guint size)
 {
 	guint seg_offset = 0;
 	guint seg_length = 0;
@@ -674,7 +674,7 @@ gint exif_jpeg_parse_color(ExifData *exif, unsigned char *data, guint size)
 
 	if (chunk_count > 0)
 		{
-		unsigned char *cp_data;
+		guchar *cp_data;
 		guint cp_length = 0;
 		guint i;
 

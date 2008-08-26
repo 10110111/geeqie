@@ -1157,7 +1157,7 @@ static GtkRadioActionEntry menu_split_radio_entries[] = {
 
 #undef CB
 
-static const char *menu_ui_description =
+static const gchar *menu_ui_description =
 "<ui>"
 "  <menubar name='MainMenu'>"
 "    <menu action='FileMenu'>"

@@ -231,7 +231,7 @@ static void editor_verbose_window_progress(EditorData *ed, const gchar *text)
 
 	if (ed->total)
 		{
-		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(ed->vd->progress), (double)ed->count / ed->total);
+		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(ed->vd->progress), (gdouble)ed->count / ed->total);
 		}
 
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(ed->vd->progress), (text) ? text : "");

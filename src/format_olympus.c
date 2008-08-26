@@ -35,12 +35,12 @@
  *-----------------------------------------------------------------------------
  */
 
-static guint olympus_tiff_table(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+static guint olympus_tiff_table(guchar *data, const guint len, guint offset, ExifByteOrder bo,
 				gint level,
 				guint *image_offset, guint *exif_offset);
 
 
-static void olympus_tiff_entry(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+static void olympus_tiff_entry(guchar *data, const guint len, guint offset, ExifByteOrder bo,
 			       gint level,
 			       guint *image_offset, guint *exif_offset)
 {
@@ -81,7 +81,7 @@ static void olympus_tiff_entry(unsigned char *data, const guint len, guint offse
 		}
 }
 
-static guint olympus_tiff_table(unsigned char *data, const guint len, guint offset, ExifByteOrder bo,
+static guint olympus_tiff_table(guchar *data, const guint len, guint offset, ExifByteOrder bo,
 				gint level,
 				guint *image_offset, guint *exif_offset)
 {
@@ -105,7 +105,7 @@ static guint olympus_tiff_table(unsigned char *data, const guint len, guint offs
 	return exif_byte_get_int32(data + offset + count * EXIF_TIFD_SIZE, bo);
 }
 
-gint format_olympus_raw(unsigned char *data, const guint len,
+gint format_olympus_raw(guchar *data, const guint len,
 			guint *image_offset, guint *exif_offset)
 {
 	guint i_off = 0;
@@ -294,10 +294,10 @@ static ExifTextList OlympusWBColorTemp[]= {
 	EXIF_TEXT_LIST_END
 };
 
-gint format_olympus_makernote(ExifData *exif, unsigned char *tiff, guint offset,
+gint format_olympus_makernote(ExifData *exif, guchar *tiff, guint offset,
 			      guint size, ExifByteOrder bo)
 {
-	unsigned char *data;
+	guchar *data;
 	ExifItem *item;
 
 	if (offset + 8 + 4 >= size) return FALSE;

@@ -97,7 +97,7 @@ static gchar *command_result(const gchar *binary, const gchar *command)
 	f = popen(command, "r");
 	if (!f) return NULL;
 
-	while ((l = fread(buf, sizeof(char), sizeof(buf), f)) > 0)
+	while ((l = fread(buf, sizeof(gchar), sizeof(buf), f)) > 0)
 		{
 		if (!result)
 			{

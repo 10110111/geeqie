@@ -2031,7 +2031,7 @@ static gboolean file_util_rename_dir_scan(UtilityData *ud, FileData *fd)
 	return ok;
 }
 
-static gboolean file_util_rename_dir_prepare(UtilityData *ud, const char *new_path)
+static gboolean file_util_rename_dir_prepare(UtilityData *ud, const gchar *new_path)
 {
 	gboolean ok;
 	GList *work;
@@ -2081,7 +2081,7 @@ static gboolean file_util_rename_dir_prepare(UtilityData *ud, const char *new_pa
 }
 	
 
-static void file_util_rename_dir_full(FileData *fd, const char *new_path, GtkWidget *parent, UtilityPhase phase)
+static void file_util_rename_dir_full(FileData *fd, const gchar *new_path, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;
 
@@ -2112,7 +2112,7 @@ static void file_util_rename_dir_full(FileData *fd, const char *new_path, GtkWid
 	file_util_dialog_run(ud);
 }
 
-static void file_util_create_dir_full(FileData *fd, const char *dest_path, GtkWidget *parent, UtilityPhase phase)
+static void file_util_create_dir_full(FileData *fd, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;
 
