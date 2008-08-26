@@ -78,10 +78,11 @@ gint histogram_get_mode(Histogram *histogram)
 const gchar *histogram_label(Histogram *histogram)
 {
 	const gchar *t1 = "";
+	
 	if (!histogram) return NULL;
 
 	if (histogram->histogram_logmode)
-			switch (histogram->histogram_chan)
+		switch (histogram->histogram_chan)
 			{
 			case HCHAN_R:   t1 = _("logarithmical histogram on red"); break;
 			case HCHAN_G:   t1 = _("logarithmical histogram on green"); break;
@@ -90,8 +91,8 @@ const gchar *histogram_label(Histogram *histogram)
 			case HCHAN_RGB: t1 = _("logarithmical histogram on RGB"); break;
 			case HCHAN_MAX: t1 = _("logarithmical histogram on max value"); break;
 			}
-		else
-			switch (histogram->histogram_chan)
+	else
+		switch (histogram->histogram_chan)
 			{
 			case HCHAN_R:   t1 = _("linear histogram on red"); break;
 			case HCHAN_G:   t1 = _("linear histogram on green"); break;
@@ -171,14 +172,14 @@ gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gin
 		gint flag = 0;
 
 		switch (histogram->histogram_chan)
-		{
-		case HCHAN_RGB: if ((i%4) != 3) flag = 1; break;
-		case HCHAN_R:   if ((i%4) == 0) flag = 1; break;
-		case HCHAN_G:   if ((i%4) == 1) flag = 1; break;
-		case HCHAN_B:   if ((i%4) == 2) flag = 1; break;
-		case HCHAN_VAL: if ((i%4) == 3) flag = 1; break;
-		case HCHAN_MAX: if ((i%4) == 3) flag = 1; break;
-		}
+			{
+			case HCHAN_RGB: if ((i%4) != 3) flag = 1; break;
+			case HCHAN_R:   if ((i%4) == 0) flag = 1; break;
+			case HCHAN_G:   if ((i%4) == 1) flag = 1; break;
+			case HCHAN_B:   if ((i%4) == 2) flag = 1; break;
+			case HCHAN_VAL: if ((i%4) == 3) flag = 1; break;
+			case HCHAN_MAX: if ((i%4) == 3) flag = 1; break;
+			}
 		if (flag && histogram->histmap[i] > max) max = histogram->histmap[i];
 	}
 
