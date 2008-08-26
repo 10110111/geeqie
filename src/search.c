@@ -2564,7 +2564,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->match_keywords_enable = FALSE;
 
 	sd->search_similarity = 95;
-	sd->search_similarity_path = g_strdup(example_file->path);
+	sd->search_similarity_path = example_file ? g_strdup(example_file->path) : NULL;
 	sd->search_similarity_cd = NULL;
 
 	sd->search_idle_id = -1;
