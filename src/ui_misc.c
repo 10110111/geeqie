@@ -386,7 +386,7 @@ static GtkWidget *real_pref_radiobutton_new(GtkWidget *parent_box, GtkWidget *si
 					    GCallback func, gpointer data)
 {
 	GtkWidget *button;
-	GSList* group;
+	GSList *group;
 
 	if (sibling)
 		{

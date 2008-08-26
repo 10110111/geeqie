@@ -430,7 +430,7 @@ GdkPixbuf *pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
 	return dest;
 }
 
-GdkPixbuf* pixbuf_apply_orientation(GdkPixbuf *pixbuf, gint orientation)
+GdkPixbuf *pixbuf_apply_orientation(GdkPixbuf *pixbuf, gint orientation)
 {
 	GdkPixbuf *dest;
 	GdkPixbuf *tmp = NULL;

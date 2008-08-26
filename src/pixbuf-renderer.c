@@ -535,7 +535,7 @@ static void pixbuf_renderer_finalize(GObject *object)
 	pr_source_tile_free_all(pr);
 }
 
-PixbufRenderer* pixbuf_renderer_new(void)
+PixbufRenderer *pixbuf_renderer_new(void)
 {
 	return g_object_new(TYPE_PIXBUF_RENDERER, NULL);
 }

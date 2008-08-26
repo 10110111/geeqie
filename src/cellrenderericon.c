@@ -425,7 +425,7 @@ gqv_cell_renderer_icon_set_property(GObject		*object,
 		{
 		GdkPixbuf *pixbuf;
 
-		pixbuf = (GdkPixbuf*) g_value_get_object(value);
+		pixbuf = (GdkPixbuf *) g_value_get_object(value);
 		if (pixbuf) g_object_ref(pixbuf);
 		if (cellicon->pixbuf) g_object_unref(cellicon->pixbuf);
 		cellicon->pixbuf = pixbuf;

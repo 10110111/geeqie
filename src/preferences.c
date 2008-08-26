@@ -762,7 +762,7 @@ static void filter_default_cb(GtkWidget *widget, gpointer data)
 	gtk_widget_show(gd->dialog);
 }
 
-static void filter_disable_cb(GtkWidget* widget, gpointer data)
+static void filter_disable_cb(GtkWidget *widget, gpointer data)
 {
 	GtkWidget *frame = data;
 
@@ -805,7 +805,7 @@ static void editor_help_cb(GtkWidget *widget, gpointer data)
 	help_window_show("editors");
 }
 
-static void safe_delete_view_cb(GtkWidget* widget, gpointer data)
+static void safe_delete_view_cb(GtkWidget *widget, gpointer data)
 {
 	layout_set_path(NULL, gtk_entry_get_text(GTK_ENTRY(safe_delete_path_entry)));
 }
@@ -815,7 +815,7 @@ static void safe_delete_clear_ok_cb(GenericDialog *gd, gpointer data)
 	file_util_trash_clear();
 }
 
-static void safe_delete_clear_cb(GtkWidget* widget, gpointer data)
+static void safe_delete_clear_cb(GtkWidget *widget, gpointer data)
 {
 	GenericDialog *gd;
 	GtkWidget *entry;
@@ -834,10 +834,10 @@ static void safe_delete_clear_cb(GtkWidget* widget, gpointer data)
 	gtk_widget_show(gd->dialog);
 }
 
-static void image_overlay_template_view_changed_cb(GtkWidget* widget, gpointer data)
+static void image_overlay_template_view_changed_cb(GtkWidget *widget, gpointer data)
 {
 	GtkWidget *pTextView;
-	GtkTextBuffer* pTextBuffer;
+	GtkTextBuffer *pTextBuffer;
 	GtkTextIter iStart;
 	GtkTextIter iEnd;
 
