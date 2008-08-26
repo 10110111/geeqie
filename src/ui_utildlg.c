@@ -344,7 +344,7 @@ FileDialog *file_dialog_new(const gchar *title,
 
 	generic_dialog_setup(GENERIC_DIALOG(fdlg), title,
 			     wmclass, wmsubclass, parent, FALSE,
-			     (void *)cancel_cb, data);
+			     (gpointer)cancel_cb, data);
 
 	return fdlg;
 }
@@ -353,7 +353,7 @@ GtkWidget *file_dialog_add_button(FileDialog *fdlg, const gchar *stock_id, const
 				  void (*func_cb)(FileDialog *, gpointer), gint is_default)
 {
 	return generic_dialog_add_button(GENERIC_DIALOG(fdlg), stock_id, text,
-					 (void *)func_cb, is_default);
+					 (gpointer)func_cb, is_default);
 }
 
 static void file_dialog_entry_cb(GtkWidget *widget, gpointer data)

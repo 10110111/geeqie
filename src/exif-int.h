@@ -150,7 +150,7 @@ void exif_byte_put_int32(guchar *f, guint32 n, ExifByteOrder bo);
 
 ExifItem *exif_item_new(ExifFormatType format, guint tag,
 			guint elements, const ExifMarker *marker);
-void exif_item_copy_data(ExifItem *item, void *src, guint len,
+void exif_item_copy_data(ExifItem *item, gpointer src, guint len,
 			 ExifFormatType src_format, ExifByteOrder bo);
 
 gint exif_parse_IFD_table(ExifData *exif,

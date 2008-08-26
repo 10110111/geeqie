@@ -752,7 +752,7 @@ gint filelist_sort_compare_filedata_full(FileData *fa, FileData *fb, SortType me
 	return filelist_sort_compare_filedata(fa, fb);
 }
 
-static gint filelist_sort_file_cb(void *a, void *b)
+static gint filelist_sort_file_cb(gpointer a, gpointer b)
 {
 	return filelist_sort_compare_filedata(a, b);
 }
@@ -764,7 +764,7 @@ GList *filelist_sort_full(GList *list, SortType method, gint ascend, GCompareFun
 	return g_list_sort(list, cb);
 }
 
-GList *filelist_insert_sort_full(GList *list, void *data, SortType method, gint ascend, GCompareFunc cb)
+GList *filelist_insert_sort_full(GList *list, gpointer data, SortType method, gint ascend, GCompareFunc cb)
 {
 	filelist_sort_method = method;
 	filelist_sort_ascend = ascend;

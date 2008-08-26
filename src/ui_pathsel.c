@@ -145,7 +145,7 @@ static gint dest_check_filter(const gchar *filter, const gchar *file)
 #define CASE_SORT strcmp
 #endif
 
-static gint dest_sort_cb(void *a, void *b)
+static gint dest_sort_cb(gpointer a, gpointer b)
 {
 	return CASE_SORT((gchar *)a, (gchar *)b);
 }

@@ -713,7 +713,7 @@ static const ExifMarker *exif_marker_from_tag(guint16 tag, const ExifMarker *lis
 	return (list[i].tag == 0 ? NULL : &list[i]);
 }
 
-static void rational_from_data(ExifRational *r, void *src, ExifByteOrder bo)
+static void rational_from_data(ExifRational *r, gpointer src, ExifByteOrder bo)
 {
 	r->num = exif_byte_get_int32(src, bo);
 	r->den = exif_byte_get_int32(src + sizeof(guint32), bo);
@@ -722,7 +722,7 @@ static void rational_from_data(ExifRational *r, void *src, ExifByteOrder bo)
 /* src_format and item->format must be compatible
  * and not overrun src or item->data.
  */
-void exif_item_copy_data(ExifItem *item, void *src, guint len,
+void exif_item_copy_data(ExifItem *item, gpointer src, guint len,
 			 ExifFormatType src_format, ExifByteOrder bo)
 {
 	gint bs;
@@ -1132,7 +1132,7 @@ static gint map_file(const gchar *path, void **mapping, gint *size)
 	return 0;
 }
 
-static gint unmap_file(void *mapping, gint size)
+static gint unmap_file(gpointer mapping, gint size)
 {
 	if (munmap(mapping, size) == -1)
 		{
@@ -1164,7 +1164,7 @@ void exif_free(ExifData *exif)
 ExifData *exif_read(gchar *path, gchar *sidecar_path)
 {
 	ExifData *exif;
-	void *f;
+	gpointer f;
 	gint size, res;
 	gchar *pathl;
 

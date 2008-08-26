@@ -131,7 +131,7 @@ static void iconlist_free(GList *list)
 
 }
 
-gint iconlist_sort_file_cb(void *a, void *b)
+gint iconlist_sort_file_cb(gpointer a, gpointer b)
 {
 	IconData *ida = a;
 	IconData *idb = b;

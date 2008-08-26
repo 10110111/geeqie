@@ -49,7 +49,7 @@ gint filelist_sort_compare_filedata_full(FileData *fa, FileData *fb, SortType me
 GList *filelist_sort(GList *list, SortType method, gint ascend);
 GList *filelist_insert_sort(GList *list, FileData *fd, SortType method, gint ascend);
 GList *filelist_sort_full(GList *list, SortType method, gint ascend, GCompareFunc cb);
-GList *filelist_insert_sort_full(GList *list, void *data, SortType method, gint ascend, GCompareFunc cb);
+GList *filelist_insert_sort_full(GList *list, gpointer data, SortType method, gint ascend, GCompareFunc cb);
 
 gint filelist_read(FileData *dir_fd, GList **files, GList **dirs);
 gint filelist_read_lstat(FileData *dir_fd, GList **files, GList **dirs);

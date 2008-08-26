@@ -161,7 +161,7 @@ static void collection_save_or_load_dialog(const gchar *path,
 	CollectWindow *cw;
 	const gchar *title;
 	const gchar *btntext;
-	void *btnfunc;
+	gpointer btnfunc;
 	gchar *base;
 	const gchar *stock_id;
 

@@ -523,7 +523,7 @@ static void pan_window_zoom_limit(PanWindow *pw)
  *-----------------------------------------------------------------------------
  */
 
-static gint pan_cache_sort_file_cb(void *a, void *b)
+static gint pan_cache_sort_file_cb(gpointer a, gpointer b)
 {
 	PanCacheData *pca = a;
 	PanCacheData *pcb = b;
