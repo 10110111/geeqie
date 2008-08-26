@@ -149,22 +149,22 @@ void file_data_increment_version(FileData *fd)
 static void file_data_set_collate_keys(FileData *fd)
 {
 	gchar *caseless_name;
-
-	g_assert(g_utf8_validate(fd->name, -1, NULL));
-
-	caseless_name = g_utf8_casefold(fd->name, -1);
+	gchar *name = path_to_utf8(fd->name);
+	
+	caseless_name = g_utf8_casefold(name, -1);
 
 	g_free(fd->collate_key_name);
 	g_free(fd->collate_key_name_nocase);
 
 #if GLIB_CHECK_VERSION(2, 8, 0)
-	fd->collate_key_name = g_utf8_collate_key_for_filename(fd->name, -1);
+	fd->collate_key_name = g_utf8_collate_key_for_filename(name, -1);
 	fd->collate_key_name_nocase = g_utf8_collate_key_for_filename(caseless_name, -1);
 #else
-	fd->collate_key_name = g_utf8_collate_key(fd->name, -1);
+	fd->collate_key_name = g_utf8_collate_key(name, -1);
 	fd->collate_key_name_nocase = g_utf8_collate_key(caseless_name, -1);
 #endif
 	g_free(caseless_name);
+	g_free(name);
 }
 
 static void file_data_set_path(FileData *fd, const gchar *path)

@@ -172,20 +172,16 @@ gchar *path_from_utf8(const gchar *utf8)
 	return path;
 }
 
-/* first we try the HOME environment var, if that doesn't work, we try getpwuid(). */
+/* first we try the HOME environment var, if that doesn't work, we try g_get_homedir(). */
 const gchar *homedir(void)
 {
 	static gchar *home = NULL;
 
 	if (!home)
-		{
 		home = path_to_utf8(getenv("HOME"));
-		}
+	
 	if (!home)
-		{
-		struct passwd *pw = getpwuid(getuid());
-		if (pw) home = path_to_utf8(pw->pw_dir);
-		}
+		home = path_to_utf8(g_get_home_dir());
 
 	return home;
 }
