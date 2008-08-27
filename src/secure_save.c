@@ -373,7 +373,7 @@ secure_fprintf(SecureSaveInfo *ssi, const gchar *format, ...)
  * the number of elements to write. If ssi->err is set when called, it immediatly returns 0.
  */
 size_t
-secure_fwrite(const gpointer ptr, size_t size, size_t nmemb, SecureSaveInfo *ssi)
+secure_fwrite(gconstpointer ptr, size_t size, size_t nmemb, SecureSaveInfo *ssi)
 {
 	size_t ret;
 
