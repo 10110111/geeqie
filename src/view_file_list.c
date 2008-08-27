@@ -110,7 +110,7 @@ static gint vflist_find_row(ViewFile *vf, FileData *fd, GtkTreeIter *iter)
 }
 
 
-/*
+#if 0
 static gint vflist_find_sidecar_list_idx(GList *work, FileData *fd)
 {
 	gint i = 0;
@@ -134,7 +134,6 @@ static gint vflist_find_sidecar_list_idx(GList *work, FileData *fd)
 		}
 	return -1;
 }
-*/
 
 static gint vflist_sidecar_list_count(GList *work)
 {
@@ -154,6 +153,7 @@ static gint vflist_sidecar_list_count(GList *work)
 		}
 	return i;
 }
+#endif
 
 static gboolean vflist_store_clear_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {

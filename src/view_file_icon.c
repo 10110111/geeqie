@@ -1163,6 +1163,7 @@ static void vficon_set_focus(ViewFile *vf, IconData *id)
 		}
 }
 
+#if 0
 static void vficon_update_focus(ViewFile *vf)
 {
 	gint new_row = 0;
@@ -1181,6 +1182,7 @@ static void vficon_update_focus(ViewFile *vf)
 
 	vficon_move_focus(vf, new_row, new_col, FALSE);
 }
+#endif
 
 /* used to figure the page up/down distances */
 static gint page_height(ViewFile *vf)
