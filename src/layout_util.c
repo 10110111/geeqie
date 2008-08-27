@@ -1308,7 +1308,7 @@ static const gchar *menu_ui_description =
 
 static gchar *menu_translate(const gchar *path, gpointer data)
 {
-	return _(path);
+	return (gchar *)(_(path));
 }
 
 static void layout_actions_setup_mark(LayoutWindow *lw, gint mark, gchar *name_tmpl, gchar *label_tmpl, gchar *accel_tmpl,  GCallback cb)
