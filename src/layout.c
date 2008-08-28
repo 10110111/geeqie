@@ -314,6 +314,8 @@ static GtkWidget *layout_sort_button(LayoutWindow *lw)
  *-----------------------------------------------------------------------------
  */
 
+#ifdef HAVE_LCMS
+
 static void layout_color_menu_enable_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -375,6 +377,8 @@ static gchar *layout_color_name_parse(const gchar *name)
 	if (!name) return g_strdup(_("Empty"));
 	return g_strdelimit(g_strdup(name), "_", '-');
 }
+
+#endif /* HAVE_LCMS */
 
 static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 {
