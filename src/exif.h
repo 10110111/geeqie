@@ -158,10 +158,8 @@ gint exif_jpeg_segment_find(guchar *data, guint size,
 gint exif_jpeg_parse_color(ExifData *exif, guchar *data, guint size);
 
 /*raw support */
-gint format_raw_img_exif_offsets_fd(gint fd, const gchar *path,
-				    guchar *header_data, const guint header_len,
-				    guint *image_offset, guint *exif_offset);
-
+guchar *exif_get_preview(ExifData *exif, guint *data_len);
+void exif_free_preview(guchar *buf);
 
 
 #endif

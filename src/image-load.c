@@ -19,6 +19,7 @@
 #include "ui_fileops.h"
 
 #include <fcntl.h>
+#include <sys/mman.h>
 
 
 static const gchar *image_loader_path(ImageLoader *il)
@@ -155,10 +156,17 @@ static void image_loader_stop(ImageLoader *il)
 		il->loader = NULL;
 		}
 
-	if (il->load_fd != -1)
+	if (il->mapped_file)
 		{
-		close(il->load_fd);
-		il->load_fd = -1;
+		if (il->preview)
+			{
+			exif_free_preview(il->mapped_file);
+			}
+		else
+			{
+			munmap(il->mapped_file, il->bytes_total);
+			}
+		il->mapped_file = NULL;
 		}
 
 	il->done = TRUE;
@@ -208,7 +216,7 @@ static gint image_loader_idle_cb(gpointer data)
 	c = il->idle_read_loop_count ? il->idle_read_loop_count : 1;
 	while (c > 0)
 		{
-		b = read(il->load_fd, il->read_buffer, il->read_buffer_size);
+		b = MIN(il->read_buffer_size, il->bytes_total - il->bytes_read);
 
 		if (b == 0)
 			{
@@ -216,7 +224,7 @@ static gint image_loader_idle_cb(gpointer data)
 			return FALSE;
 			}
 
-		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, il->read_buffer, b, NULL)))
+		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, il->mapped_file + il->bytes_read, b, NULL)))
 			{
 			image_loader_error(il);
 			return FALSE;
@@ -238,19 +246,10 @@ static gint image_loader_idle_cb(gpointer data)
 static gint image_loader_begin(ImageLoader *il)
 {
 	gint b;
-	guint offset = 0;
 
 	if (!il->loader || il->pixbuf) return FALSE;
 
-	b = read(il->load_fd, il->read_buffer, il->read_buffer_size);
-
-	if (b > 0 &&
-	    format_raw_img_exif_offsets_fd(il->load_fd, image_loader_path(il), il->read_buffer, b, &offset, NULL))
-		{
-		DEBUG_1("Raw file %s contains embedded image", image_loader_path(il));
-
-		b = read(il->load_fd, il->read_buffer, il->read_buffer_size);
-		}
+	b = MIN(il->read_buffer_size, il->bytes_total - il->bytes_read);
 
 	if (b < 1)
 		{
@@ -258,19 +257,19 @@ static gint image_loader_begin(ImageLoader *il)
 		return FALSE;
 		}
 
-	if (!gdk_pixbuf_loader_write(il->loader, il->read_buffer, b, NULL))
+	if (!gdk_pixbuf_loader_write(il->loader, il->mapped_file + il->bytes_read, b, NULL))
 		{
 		image_loader_stop(il);
 		return FALSE;
 		}
 
-	il->bytes_read += b + offset;
+	il->bytes_read += b;
 
 	/* read until size is known */
 	while (il->loader && !gdk_pixbuf_loader_get_pixbuf(il->loader) && b > 0)
 		{
-		b = read(il->load_fd, il->read_buffer, il->read_buffer_size);
-		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, il->read_buffer, b, NULL)))
+		b = MIN(il->read_buffer_size, il->bytes_total - il->bytes_read);
+		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, il->mapped_file + il->bytes_read, b, NULL)))
 			{
 			image_loader_stop(il);
 			return FALSE;
@@ -307,17 +306,55 @@ static gint image_loader_setup(ImageLoader *il)
 	struct stat st;
 	gchar *pathl;
 
-	if (!il || il->load_fd != -1 || il->loader) return FALSE;
+	if (!il || il->loader || il->mapped_file) return FALSE;
 
-	pathl = path_from_utf8(image_loader_path(il));
-	il->load_fd = open(pathl, O_RDONLY | O_NONBLOCK);
-	g_free(pathl);
-	if (il->load_fd == -1) return FALSE;
+	il->mapped_file = NULL;
 
-	if (fstat(il->load_fd, &st) == 0)
+	if (il->fd)
 		{
-		il->bytes_total = st.st_size;
+		ExifData *exif = exif_read_fd(il->fd);
+
+		il->mapped_file = exif_get_preview(exif, &il->bytes_total);
+		
+		if (il->mapped_file)
+			{
+			il->preview = TRUE;
+			DEBUG_1("Raw file %s contains embedded image", image_loader_path(il));
+			}
+		exif_free_fd(il->fd, exif);
 		}
+
+	
+	if (!il->mapped_file)
+		{
+		/* normal file */
+		gint load_fd;
+	
+		pathl = path_from_utf8(image_loader_path(il));
+		load_fd = open(pathl, O_RDONLY | O_NONBLOCK);
+		g_free(pathl);
+		if (load_fd == -1) return FALSE;
+
+		if (fstat(load_fd, &st) == 0)
+			{
+			il->bytes_total = st.st_size;
+			}
+		else
+			{
+			close(load_fd);
+			return FALSE;
+			}
+		
+		il->mapped_file = mmap(0, il->bytes_total, PROT_READ|PROT_WRITE, MAP_PRIVATE, load_fd, 0);
+		close(load_fd);
+		if (il->mapped_file == MAP_FAILED)
+			{
+			il->mapped_file = 0;
+			return FALSE;
+			}
+		il->preview = FALSE;
+		}
+
 
 	il->loader = gdk_pixbuf_loader_new();
 	g_signal_connect(G_OBJECT(il->loader), "area_updated",
@@ -346,7 +383,6 @@ static ImageLoader *image_loader_new_real(FileData *fd, const gchar *path)
 	il->idle_priority = G_PRIORITY_DEFAULT_IDLE;
 	il->done = FALSE;
 	il->loader = NULL;
-	il->load_fd = -1;
 
 	il->bytes_read = 0;
 	il->bytes_total = 0;
@@ -355,7 +391,7 @@ static ImageLoader *image_loader_new_real(FileData *fd, const gchar *path)
 
 	il->idle_read_loop_count = options->image.idle_read_loop_count;
 	il->read_buffer_size = options->image.read_buffer_size;
-	il->read_buffer = g_new(guchar, il->read_buffer_size);
+	il->mapped_file = NULL;
 
 	il->requested_width = 0;
 	il->requested_height = 0;
@@ -383,7 +419,6 @@ void image_loader_free(ImageLoader *il)
 	if (il->pixbuf) gdk_pixbuf_unref(il->pixbuf);
 	if (il->fd) file_data_unref(il->fd);
 	if (il->path) g_free(il->path);
-	if (il->read_buffer) g_free(il->read_buffer);
 	DEBUG_1("freeing image loader %p bytes_read=%d", il, il->bytes_read);
 	g_free(il);
 }

@@ -30,6 +30,7 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 
+#if !EXIV2_TEST_VERSION(0,17,90)
 #include <exiv2/tiffparser.hpp>
 #include <exiv2/tiffcomposite.hpp>
 #include <exiv2/tiffvisitor.hpp>
@@ -43,7 +44,9 @@
 #include <exiv2/rafimage.hpp>
 #endif
 #include <exiv2/futils.hpp>
-
+#else
+#include <exiv2/preview.hpp>
+#endif
 
 
 extern "C" {
@@ -544,7 +547,7 @@ int exif_item_set_string(ExifItem *item, const char *str)
 		if (!item) return 0;
 		((Exiv2::Metadatum *)item)->setValue(std::string(str));
 		return 1;
-	}
+		}
 	catch (Exiv2::AnyError& e) {
 		return 0;
 	}
@@ -588,7 +591,7 @@ void exif_add_jpeg_color_profile(ExifData *exif, unsigned char *cp_data, guint c
 	exif->cp_length =cp_length;
 }
 
-unsigned char *exif_get_color_profile(ExifData *exif, guint *data_len)
+guchar *exif_get_color_profile(ExifData *exif, guint *data_len)
 {
 	if (exif->cp_data)
 		{
@@ -601,9 +604,41 @@ unsigned char *exif_get_color_profile(ExifData *exif, guint *data_len)
 	return NULL;
 }
 
+#if EXIV2_TEST_VERSION(0,17,90)
 
+guchar *exif_get_preview(ExifData *exif, guint *data_len)
+{
+	if (!exif) return NULL;
+	try {
+
+		Exiv2::PreviewImageList list(*exif->image);
+		list.read();
+
+		Exiv2::PreviewImageList::iterator pos = list.begin();
+		if (pos != list.end())
+			{
+			Exiv2::DataBuf buf = pos->copy();
+			std::pair<Exiv2::byte*, long> p = buf.release();
+
+			*data_len = p.second;
+		        return p.first;
+			}
+		return NULL;
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return NULL;
+	}
+}
+
+void exif_free_preview(guchar *buf)
+{
+	delete[] (Exiv2::byte*)buf;
+}
+#endif
 
 }
+#if !EXIV2_TEST_VERSION(0,17,90)
 
 /* This is a dirty hack to support raw file preview, bassed on
 tiffparse.cpp from Exiv2 examples */
@@ -611,7 +646,7 @@ tiffparse.cpp from Exiv2 examples */
 class RawFile {
 	public:
 
-	RawFile(int fd);
+	RawFile(Exiv2::BasicIo &io);
 	~RawFile();
 
 	const Exiv2::Value *find(uint16_t tag, uint16_t group);
@@ -621,15 +656,102 @@ class RawFile {
 	private:
 	int type;
 	Exiv2::TiffComponent::AutoPtr rootDir;
-	Exiv2::byte *map_data;
+	Exiv2::BasicIo &io_;
+	const Exiv2::byte *map_data;
 	size_t map_len;
 	unsigned long offset;
 };
 
+typedef struct _UnmapData UnmapData;
+struct _UnmapData
+{
+	guchar *ptr;
+	guchar *map_data;
+	size_t map_len;
+};
+
+static GList *exif_unmap_list = 0;
+
+extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len)
+{
+	int success;
+	unsigned long offset;
+
+	if (!exif) return NULL;
+	const char* path = exif->image->io().path().c_str();
+
+	/* given image pathname, first do simple (and fast) file extension test */
+	if (!filter_file_class(path, FORMAT_CLASS_RAWIMAGE)) return 0;
+
+	try {
+		struct stat st;
+		guchar *map_data;
+		size_t map_len;
+		UnmapData *ud;
+		int fd;
+		
+		RawFile rf(exif->image->io());
+		offset = rf.preview_offset();
+		DEBUG_1("%s: offset %lu", path, offset);
+		
+		fd = open(path, O_RDONLY);
+		if (fd == -1)
+			{
+			return 0;
+			}
+
+		if (fstat(fd, &st) == -1)
+			{
+			close(fd);
+			return 0;
+			}
+		map_len = st.st_size;
+		map_data = (guchar *) mmap(0, map_len, PROT_READ, MAP_PRIVATE, fd, 0);
+		close(fd);
+		if (map_data == MAP_FAILED)
+			{
+			return 0;
+			}
+		*data_len = map_len - offset;
+		ud = g_new(UnmapData, 1);
+		ud->ptr = map_data + offset;
+		ud->map_data = map_data;
+		ud->map_len = map_len;
+		
+		exif_unmap_list = g_list_prepend(exif_unmap_list, ud);
+		return ud->ptr;
+		
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+	}
+	return NULL;
+
+}
+
+void exif_free_preview(guchar *buf)
+{
+	GList *work = exif_unmap_list;
+	
+	while (work)
+		{
+		UnmapData *ud = (UnmapData *)work->data;
+		if (ud->ptr == buf)
+			{
+			munmap(ud->map_data, ud->map_len);
+			exif_unmap_list = g_list_remove_link(exif_unmap_list, work);
+			g_free(ud);
+			return;
+			}
+		}
+	g_assert_not_reached();
+}
+
 using namespace Exiv2;
 
-RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
+RawFile::RawFile(BasicIo &io) : io_(io), map_data(NULL), map_len(0), offset(0)
 {
+/*
 	struct stat st;
 	if (fstat(fd, &st) == -1)
 		{
@@ -641,6 +763,15 @@ RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 		{
 		throw Error(14);
 		}
+*/
+        if (io.open() != 0) {
+            throw Error(9, io.path(), strError());
+        }
+        
+        map_data = io.mmap();
+        map_len = io.size();
+
+
 	type = Exiv2::ImageFactory::getType(map_data, map_len);
 
 #if EXIV2_TEST_VERSION(0,16,0)
@@ -723,10 +854,8 @@ RawFile::RawFile(int fd) : map_data(NULL), map_len(0), offset(0)
 
 RawFile::~RawFile(void)
 {
-	if (map_data && munmap(map_data, map_len) == -1)
-		{
-		log_printf("Failed to unmap file \n");
-		}
+	io_.munmap();
+	io_.close();
 }
 
 const Value * RawFile::find(uint16_t tag, uint16_t group)
@@ -772,41 +901,7 @@ unsigned long RawFile::preview_offset(void)
 }
 
 
-extern "C" gint format_raw_img_exif_offsets_fd(int fd, const gchar *path,
-				    unsigned char *header_data, const guint header_len,
-				    guint *image_offset, guint *exif_offset)
-{
-	int success;
-	unsigned long offset;
-
-	/* given image pathname, first do simple (and fast) file extension test */
-	if (!filter_file_class(path, FORMAT_CLASS_RAWIMAGE)) return 0;
-
-	try {
-		RawFile rf(fd);
-		offset = rf.preview_offset();
-		DEBUG_1("%s: offset %lu", path, offset);
-	}
-	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
-		return 0;
-	}
-
-	if (image_offset && offset > 0)
-		{
-		*image_offset = offset;
-		if ((unsigned long) lseek(fd, *image_offset, SEEK_SET) != *image_offset)
-			{
-			log_printf("Failed to seek to embedded image\n");
-
-			*image_offset = 0;
-			if (*exif_offset) *exif_offset = 0;
-			success = FALSE;
-			}
-		}
-
-	return offset > 0;
-}
+#endif
 
 
 #endif

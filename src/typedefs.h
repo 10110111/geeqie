@@ -216,6 +216,8 @@ struct _ImageLoader
 	gint bytes_read;
 	gint bytes_total;
 
+	gint preview;
+
 	gint requested_width;
 	gint requested_height;
 	gint shrunk;
@@ -225,7 +227,6 @@ struct _ImageLoader
 	gint idle_priority;
 
 	GdkPixbufLoader *loader;
-	gint load_fd;
 
 	void (*func_area_ready)(ImageLoader *, guint x, guint y, guint w, guint h, gpointer);
 	void (*func_error)(ImageLoader *, gpointer);
@@ -239,7 +240,7 @@ struct _ImageLoader
 
 	gint idle_done_id;
 
-	guchar *read_buffer;
+	guchar *mapped_file;
 	gint read_buffer_size;
 	gint idle_read_loop_count;
 };
