@@ -207,43 +207,7 @@ struct _Editor {
 	gchar *command;
 };
 
-struct _ImageLoader
-{
-	GdkPixbuf *pixbuf;
-	FileData *fd;
-	gchar *path;
-
-	gint bytes_read;
-	gint bytes_total;
-
-	gint preview;
-
-	gint requested_width;
-	gint requested_height;
-	gint shrunk;
-
-	gint done;
-	gint idle_id;
-	gint idle_priority;
-
-	GdkPixbufLoader *loader;
-
-	void (*func_area_ready)(ImageLoader *, guint x, guint y, guint w, guint h, gpointer);
-	void (*func_error)(ImageLoader *, gpointer);
-	void (*func_done)(ImageLoader *, gpointer);
-	void (*func_percent)(ImageLoader *, gdouble, gpointer);
-
-	gpointer data_area_ready;
-	gpointer data_error;
-	gpointer data_done;
-	gpointer data_percent;
-
-	gint idle_done_id;
-
-	guchar *mapped_file;
-	gint read_buffer_size;
-	gint idle_read_loop_count;
-};
+struct _ImageLoader;
 
 typedef void (* ThumbLoaderFunc)(ThumbLoader *tl, gpointer data);
 

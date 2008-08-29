@@ -2209,7 +2209,8 @@ static gint print_job_render_image(PrintWindow *pw)
 	if (!fd) return FALSE;
 
 	pw->job_loader = image_loader_new(fd);
-	if (!image_loader_start(pw->job_loader, print_job_render_image_loader_done, pw))
+	g_signal_connect (G_OBJECT(pw->job_loader), "done", (GCallback)print_job_render_image_loader_done, pw);
+	if (!image_loader_start(pw->job_loader))
 		{
 		image_loader_free(pw->job_loader);
 		pw->job_loader= NULL;
@@ -2355,7 +2356,8 @@ static gint print_job_render_proof(PrintWindow *pw)
 
 	image_loader_free(pw->job_loader);
 	pw->job_loader = image_loader_new(fd);
-	if (!image_loader_start(pw->job_loader, print_job_render_proof_loader_done, pw))
+	g_signal_connect (G_OBJECT(pw->job_loader), "done", (GCallback)print_job_render_proof_loader_done, pw);
+	if (!image_loader_start(pw->job_loader))
 		{
 		image_loader_free(pw->job_loader);
 		pw->job_loader = NULL;

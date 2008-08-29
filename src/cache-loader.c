@@ -48,8 +48,9 @@ static gboolean cache_loader_process(CacheLoader *cl)
 		if (!cl->il && !cl->error)
 			{
 			cl->il = image_loader_new(cl->fd);
-			image_loader_set_error_func(cl->il, cache_loader_error_cb, cl);
-			if (image_loader_start(cl->il, cache_loader_done_cb, cl))
+			g_signal_connect (G_OBJECT(cl->il), "error", (GCallback)cache_loader_error_cb, cl);
+			g_signal_connect (G_OBJECT(cl->il), "done", (GCallback)cache_loader_done_cb, cl);
+			if (image_loader_start(cl->il))
 				{
 				return FALSE;
 				}

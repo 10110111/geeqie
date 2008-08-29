@@ -1583,8 +1583,9 @@ static gint search_file_do_extra(SearchData *sd, FileData *fd, gint *match,
 		    (sd->match_similarity_enable && !sd->img_cd->similarity))
 			{
 			sd->img_loader = image_loader_new(fd);
-			image_loader_set_error_func(sd->img_loader, search_file_load_done_cb, sd);
-			if (image_loader_start(sd->img_loader, search_file_load_done_cb, sd))
+			g_signal_connect (G_OBJECT(sd->img_loader), "error", (GCallback)search_file_load_done_cb, sd);
+			g_signal_connect (G_OBJECT(sd->img_loader), "done", (GCallback)search_file_load_done_cb, sd);
+			if (image_loader_start(sd->img_loader))
 				{
 				return TRUE;
 				}
@@ -2063,8 +2064,9 @@ static void search_start(SearchData *sd)
 				}
 
 			sd->img_loader = image_loader_new(file_data_new_simple(sd->search_similarity_path));
-			image_loader_set_error_func(sd->img_loader, search_similarity_load_done_cb, sd);
-			if (image_loader_start(sd->img_loader, search_similarity_load_done_cb, sd))
+			g_signal_connect (G_OBJECT(sd->img_loader), "error", (GCallback)search_similarity_load_done_cb, sd);
+			g_signal_connect (G_OBJECT(sd->img_loader), "done", (GCallback)search_similarity_load_done_cb, sd);
+			if (image_loader_start(sd->img_loader))
 				{
 				return;
 				}

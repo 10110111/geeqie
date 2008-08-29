@@ -451,8 +451,10 @@ static void image_read_ahead_start(ImageWindow *imd)
 
 	imd->read_ahead_il = image_loader_new(imd->read_ahead_fd);
 
-	image_loader_set_error_func(imd->read_ahead_il, image_read_ahead_error_cb, imd);
-	if (!image_loader_start(imd->read_ahead_il, image_read_ahead_done_cb, imd))
+	g_signal_connect (G_OBJECT(imd->read_ahead_il), "error", (GCallback)image_read_ahead_error_cb, imd);
+	g_signal_connect (G_OBJECT(imd->read_ahead_il), "error", (GCallback)image_read_ahead_done_cb, imd);
+
+	if (!image_loader_start(imd->read_ahead_il))
 		{
 		image_read_ahead_cancel(imd);
 		image_complete_util(imd, TRUE);
@@ -618,9 +620,10 @@ static gint image_read_ahead_check(ImageWindow *imd)
 		imd->read_ahead_il = NULL;
 
 		/* override the old signals */
-		image_loader_set_area_ready_func(imd->il, image_load_area_cb, imd);
-		image_loader_set_error_func(imd->il, image_load_error_cb, imd);
-		image_loader_set_done_func(imd->il, image_load_done_cb, imd);
+		g_signal_handlers_disconnect_matched(G_OBJECT(imd->il), G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, imd);
+		g_signal_connect (G_OBJECT(imd->il), "area_ready", (GCallback)image_load_area_cb, imd);
+		g_signal_connect (G_OBJECT(imd->il), "error", (GCallback)image_load_error_cb, imd);
+		g_signal_connect (G_OBJECT(imd->il), "done", (GCallback)image_load_done_cb, imd);
 		image_loader_set_buffer_size(imd->il, IMAGE_LOAD_BUFFER_COUNT);
 
 #ifdef IMAGE_THROTTLE_LARGER_IMAGES
@@ -688,11 +691,12 @@ static gint image_load_begin(ImageWindow *imd, FileData *fd)
 
 	imd->il = image_loader_new(fd);
 
-	image_loader_set_area_ready_func(imd->il, image_load_area_cb, imd);
-	image_loader_set_error_func(imd->il, image_load_error_cb, imd);
+	g_signal_connect (G_OBJECT(imd->il), "area_ready", (GCallback)image_load_area_cb, imd);
+	g_signal_connect (G_OBJECT(imd->il), "error", (GCallback)image_load_error_cb, imd);
+	g_signal_connect (G_OBJECT(imd->il), "done", (GCallback)image_load_done_cb, imd);
 	image_loader_set_buffer_size(imd->il, IMAGE_LOAD_BUFFER_COUNT);
 
-	if (!image_loader_start(imd->il, image_load_done_cb, imd))
+	if (!image_loader_start(imd->il))
 		{
 		DEBUG_1("image start error");
 
@@ -1098,14 +1102,25 @@ CollectionData *image_get_collection(ImageWindow *imd, CollectInfo **info)
 	return NULL;
 }
 
-static void image_loader_sync_data(ImageLoader *il, gpointer data)
+static void image_loader_sync_read_ahead_data(ImageLoader *il, gpointer old_data, gpointer data)
 {
-	/* change data for the callbacks directly */
+	if (g_signal_handlers_disconnect_by_func(G_OBJECT(il), (GCallback)image_read_ahead_error_cb, old_data))
+		g_signal_connect (G_OBJECT(il), "error", (GCallback)image_read_ahead_error_cb, data);
 
-	il->data_area_ready = data;
-	il->data_error = data;
-	il->data_done = data;
-	il->data_percent = data;
+	if (g_signal_handlers_disconnect_by_func(G_OBJECT(il), (GCallback)image_read_ahead_done_cb, old_data))
+		g_signal_connect (G_OBJECT(il), "done", (GCallback)image_read_ahead_done_cb, data);
+}
+
+static void image_loader_sync_data(ImageLoader *il, gpointer old_data, gpointer data)
+{		
+	if (g_signal_handlers_disconnect_by_func(G_OBJECT(il), (GCallback)image_load_area_cb, old_data))
+		g_signal_connect (G_OBJECT(il), "area_ready", (GCallback)image_load_area_cb, data);
+
+	if (g_signal_handlers_disconnect_by_func(G_OBJECT(il), (GCallback)image_load_error_cb, old_data))
+		g_signal_connect (G_OBJECT(il), "error", (GCallback)image_load_error_cb, data);
+
+	if (g_signal_handlers_disconnect_by_func(G_OBJECT(il), (GCallback)image_load_done_cb, old_data))
+		g_signal_connect (G_OBJECT(il), "done", (GCallback)image_load_done_cb, data);
 }
 
 /* this is more like a move function
@@ -1131,7 +1146,7 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 		imd->il = source->il;
 		source->il = NULL;
 
-		image_loader_sync_data(imd->il, imd);
+		image_loader_sync_data(imd->il, source, imd);
 
 		imd->delay_alter_type = source->delay_alter_type;
 		source->delay_alter_type = ALTER_NONE;
@@ -1158,7 +1173,7 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	image_loader_free(imd->read_ahead_il);
 	imd->read_ahead_il = source->read_ahead_il;
 	source->read_ahead_il = NULL;
-	if (imd->read_ahead_il) image_loader_sync_data(imd->read_ahead_il, imd);
+	if (imd->read_ahead_il) image_loader_sync_read_ahead_data(imd->read_ahead_il, source, imd);
 
 	file_data_unref(imd->read_ahead_fd);
 	imd->read_ahead_fd = source->read_ahead_fd;

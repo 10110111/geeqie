@@ -14,23 +14,58 @@
 #ifndef IMAGE_LOAD_H
 #define IMAGE_LOAD_H
 
+#define TYPE_IMAGE_LOADER		(image_loader_get_type())
+
+//typedef struct _ImageLoader ImageLoader;
+typedef struct _ImageLoaderClass ImageLoaderClass;
+
+struct _ImageLoader
+{
+	GObject parent;
+	
+	/*< private >*/
+	GdkPixbuf *pixbuf;
+	FileData *fd;
+	gchar *path;
+
+	gint bytes_read;
+	gint bytes_total;
+
+	gint preview;
+
+	gint requested_width;
+	gint requested_height;
+	gint shrunk;
+
+	gint done;
+	gint idle_id;
+	gint idle_priority;
+
+	GdkPixbufLoader *loader;
+
+	gint idle_done_id;
+
+	guchar *mapped_file;
+	gint read_buffer_size;
+	gint idle_read_loop_count;
+};
+
+struct _ImageLoaderClass {
+	GObjectClass parent;
+	
+	/* class members */
+	void (*area_ready)(ImageLoader *, guint x, guint y, guint w, guint h, gpointer);
+	void (*error)(ImageLoader *, gpointer);
+	void (*done)(ImageLoader *, gpointer);
+	void (*percent)(ImageLoader *, gdouble, gpointer);
+};
+
+GType image_loader_get_type(void);
 
 ImageLoader *image_loader_new(FileData *fd);
 
 void image_loader_free(ImageLoader *il);
 
-void image_loader_set_area_ready_func(ImageLoader *il,
-				      void (*func_area_ready)(ImageLoader *, guint, guint, guint, guint, gpointer),
-				      gpointer data_area_ready);
-void image_loader_set_error_func(ImageLoader *il,
-				 void (*func_error)(ImageLoader *, gpointer),
-				 gpointer data_error);
-void image_loader_set_done_func(ImageLoader *il,
-				void (*func_done)(ImageLoader *, gpointer),
-				gpointer data_done);
-void image_loader_set_percent_func(ImageLoader *il,
-				   void (*func_percent)(ImageLoader *, gdouble, gpointer),
-				   gpointer data_percent);
 
 /* Speed up loading when you only need at most width x height size image,
  * only the jpeg GdkPixbuf loader benefits from it - so there is no
@@ -45,7 +80,7 @@ void image_loader_set_buffer_size(ImageLoader *il, guint size);
  */
 void image_loader_set_priority(ImageLoader *il, gint priority);
 
-gint image_loader_start(ImageLoader *il, void (*func_done)(ImageLoader *, gpointer), gpointer data_done);
+gint image_loader_start(ImageLoader *il);
 
 
 GdkPixbuf *image_loader_get_pixbuf(ImageLoader *il);

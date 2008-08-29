@@ -121,6 +121,8 @@ geeqie_SOURCES = \
 	filedata.h	\
 	filefilter.c	\
 	filefilter.h	\
+	gq-marshal.c	\
+	gq-marshal.h	\
 	format_canon.c	\
 	format_canon.h	\
 	format_fuji.c	\
@@ -226,4 +228,12 @@ geeqie_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(INTLLIBS) $(LCMS_LIBS) $(EXIV2_LIBS)
 
 EXTRA_DIST = \
 	$(extra_SLIK)
+
+gq-marshal.h: gq-marshal.list
+	$(GLIB_GENMARSHAL) --prefix=gq_marshal gq-marshal.list --header >$@
+
+gq-marshal.c: gq-marshal.list
+	(echo "#include \"gq-marshal.h\"" ; $(GLIB_GENMARSHAL) --prefix=gq_marshal gq-marshal.list --body ) >$@
+
+
 

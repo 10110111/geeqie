@@ -620,13 +620,14 @@ static gint thumb_loader_std_setup(ThumbLoaderStd *tl, FileData *fd)
 			}
 		}
 
-	image_loader_set_error_func(tl->il, thumb_loader_std_error_cb, tl);
+	g_signal_connect (G_OBJECT(tl->il), "error", (GCallback)thumb_loader_std_error_cb, tl);
 	if (tl->func_progress)
 		{
-		image_loader_set_percent_func(tl->il, thumb_loader_std_progress_cb, tl);
+		g_signal_connect (G_OBJECT(tl->il), "percent", (GCallback)thumb_loader_std_progress_cb, tl);
 		}
+	g_signal_connect (G_OBJECT(tl->il), "done", (GCallback)thumb_loader_std_done_cb, tl);
 
-	if (image_loader_start(tl->il, thumb_loader_std_done_cb, tl))
+	if (image_loader_start(tl->il))
 		{
 		return TRUE;
 		}

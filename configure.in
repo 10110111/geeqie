@@ -191,6 +191,7 @@ fi
 
 AM_PATH_GTK_2_0(2.4.0,,AC_MSG_ERROR(GTK+ >= 2.4.0 not installed.))
 AC_PATH_PROGS(GDK_PIXBUF_CSOURCE, "gdk-pixbuf-csource")
+AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
 
 AC_ARG_WITH(readmedir, [  --with-readmedir=DIR    install path for readme files],
             readmedir=$withval, readmedir="$prefix/share/doc/geeqie-$VERSION")
