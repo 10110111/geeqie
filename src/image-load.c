@@ -22,13 +22,6 @@
 #include <sys/mman.h>
 
 
-static const gchar *image_loader_path(ImageLoader *il)
-{
-	if (il->fd)
-		return il->fd->path;
-	return il->path;
-}
-
 static void image_loader_sync_pixbuf(ImageLoader *il)
 {
 	GdkPixbuf *pb;
@@ -198,7 +191,7 @@ static void image_loader_error(ImageLoader *il)
 {
 	image_loader_stop(il);
 
-	DEBUG_1("pixbuf_loader reported load error for: %s", image_loader_path(il));
+	DEBUG_1("pixbuf_loader reported load error for: %s", il->fd->path);
 
 	if (il->func_error) il->func_error(il, il->data_error);
 }
@@ -319,7 +312,7 @@ static gint image_loader_setup(ImageLoader *il)
 		if (il->mapped_file)
 			{
 			il->preview = TRUE;
-			DEBUG_1("Raw file %s contains embedded image", image_loader_path(il));
+			DEBUG_1("Raw file %s contains embedded image", il->fd->path);
 			}
 		exif_free_fd(il->fd, exif);
 		}
@@ -330,7 +323,7 @@ static gint image_loader_setup(ImageLoader *il)
 		/* normal file */
 		gint load_fd;
 	
-		pathl = path_from_utf8(image_loader_path(il));
+		pathl = path_from_utf8(il->fd->path);
 		load_fd = open(pathl, O_RDONLY | O_NONBLOCK);
 		g_free(pathl);
 		if (load_fd == -1) return FALSE;
@@ -369,15 +362,14 @@ static gint image_loader_setup(ImageLoader *il)
 	return image_loader_begin(il);
 }
 
-static ImageLoader *image_loader_new_real(FileData *fd, const gchar *path)
+ImageLoader *image_loader_new(FileData *fd)
 {
 	ImageLoader *il;
 
-	if (!fd && !path) return NULL;
+	if (!fd) return NULL;
 
 	il = g_new0(ImageLoader, 1);
-	if (fd) il->fd = file_data_ref(fd);
-	if (path) il->path = g_strdup(path);
+	il->fd = file_data_ref(fd);
 	il->pixbuf = NULL;
 	il->idle_id = -1;
 	il->idle_priority = G_PRIORITY_DEFAULT_IDLE;
@@ -400,16 +392,6 @@ static ImageLoader *image_loader_new_real(FileData *fd, const gchar *path)
 	return il;
 }
 
-ImageLoader *image_loader_new(FileData *fd)
-{
-	return image_loader_new_real(fd, NULL);
-}
-
-ImageLoader *image_loader_new_from_path(const gchar *path)
-{
-	return image_loader_new_real(NULL, path);
-}
-
 void image_loader_free(ImageLoader *il)
 {
 	if (!il) return;
@@ -417,8 +399,7 @@ void image_loader_free(ImageLoader *il)
 	image_loader_stop(il);
 	if (il->idle_done_id != -1) g_source_remove(il->idle_done_id);
 	if (il->pixbuf) gdk_pixbuf_unref(il->pixbuf);
-	if (il->fd) file_data_unref(il->fd);
-	if (il->path) g_free(il->path);
+	file_data_unref(il->fd);
 	DEBUG_1("freeing image loader %p bytes_read=%d", il, il->bytes_read);
 	g_free(il);
 }
@@ -518,7 +499,7 @@ gint image_loader_start(ImageLoader *il, void (*func_done)(ImageLoader *, gpoint
 {
 	if (!il) return FALSE;
 
-	if (!image_loader_path(il)) return FALSE;
+	if (!il->fd) return FALSE;
 
 	image_loader_set_done_func(il, func_done, data_done);
 

@@ -355,6 +355,7 @@ gint thumb_loader_start(ThumbLoader *tl, FileData *fd)
 					{
 					DEBUG_1("Broken image mark found:%s", cache_path);
 					g_free(cache_path);
+					thumb_loader_set_fallback(tl);
 					return FALSE;
 					}
 

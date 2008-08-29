@@ -17,8 +17,6 @@
 
 ImageLoader *image_loader_new(FileData *fd);
 
-/* we don't want full FileData for thumbnails */
-ImageLoader *image_loader_new_from_path(const gchar *path);
 void image_loader_free(ImageLoader *il);
 
 void image_loader_set_area_ready_func(ImageLoader *il,

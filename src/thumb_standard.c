@@ -65,7 +65,8 @@
 
 
 static void thumb_loader_std_error_cb(ImageLoader *il, gpointer data);
-static gint thumb_loader_std_setup(ThumbLoaderStd *tl, const gchar *path);
+static gint thumb_loader_std_setup(ThumbLoaderStd *tl, FileData *fd);
+static gint thumb_loader_std_setup_path(ThumbLoaderStd *tl, const gchar *path);
 
 
 ThumbLoaderStd *thumb_loader_std_new(gint width, gint height)
@@ -519,7 +520,7 @@ static gint thumb_loader_std_next_source(ThumbLoaderStd *tl, gint remove_broken)
 		if (!tl->thumb_path_local)
 			{
 			tl->thumb_path = thumb_loader_std_cache_path(tl, TRUE, NULL, FALSE);
-			if (isfile(tl->thumb_path) && thumb_loader_std_setup(tl, tl->thumb_path))
+			if (isfile(tl->thumb_path) && thumb_loader_std_setup_path(tl, tl->thumb_path))
 				{
 				tl->thumb_path_local = TRUE;
 				return TRUE;
@@ -529,7 +530,7 @@ static gint thumb_loader_std_next_source(ThumbLoaderStd *tl, gint remove_broken)
 			tl->thumb_path = NULL;
 			}
 
-		if (thumb_loader_std_setup(tl, tl->fd->path)) return TRUE;
+		if (thumb_loader_std_setup(tl, tl->fd)) return TRUE;
 		}
 
 	thumb_loader_std_save(tl, NULL);
@@ -601,9 +602,9 @@ static void thumb_loader_std_progress_cb(ImageLoader *il, gdouble percent, gpoin
 	if (tl->func_progress) tl->func_progress(tl, tl->data);
 }
 
-static gint thumb_loader_std_setup(ThumbLoaderStd *tl, const gchar *path)
+static gint thumb_loader_std_setup(ThumbLoaderStd *tl, FileData *fd)
 {
-	tl->il = image_loader_new_from_path(path);
+	tl->il = image_loader_new(fd);
 
 	if (options->thumbnails.fast)
 		{
@@ -633,6 +634,14 @@ static gint thumb_loader_std_setup(ThumbLoaderStd *tl, const gchar *path)
 	image_loader_free(tl->il);
 	tl->il = NULL;
 	return FALSE;
+}
+
+static gint thumb_loader_std_setup_path(ThumbLoaderStd *tl, const gchar *path)
+{
+	FileData *fd = file_data_new_simple(path);
+	gint ret = thumb_loader_std_setup(tl, fd);
+	file_data_unref(fd);
+	return ret;
 }
 
 /*
@@ -687,7 +696,7 @@ gint thumb_loader_std_start(ThumbLoaderStd *tl, FileData *fd)
 		tl->thumb_path_local = FALSE;
 
 		found = isfile(tl->thumb_path);
-		if (found && thumb_loader_std_setup(tl, tl->thumb_path)) return TRUE;
+		if (found && thumb_loader_std_setup_path(tl, tl->thumb_path)) return TRUE;
 
 		if (thumb_loader_std_fail_check(tl) ||
 		    !thumb_loader_std_next_source(tl, found))
@@ -698,7 +707,7 @@ gint thumb_loader_std_start(ThumbLoaderStd *tl, FileData *fd)
 		return TRUE;
 		}
 
-	if (!thumb_loader_std_setup(tl, tl->fd->path))
+	if (!thumb_loader_std_setup(tl, tl->fd))
 		{
 		thumb_loader_std_save(tl, NULL);
 		thumb_loader_std_set_fallback(tl);
@@ -868,7 +877,7 @@ ThumbLoaderStd *thumb_loader_std_thumb_file_validate(const gchar *thumb_path, gi
 	tv->func_valid = func_valid;
 	tv->data = data;
 
-	if (!thumb_loader_std_setup(tv->tl, thumb_path))
+	if (!thumb_loader_std_setup_path(tv->tl, thumb_path))
 		{
 		tv->idle_id = g_idle_add(thumb_loader_std_thumb_file_validate_idle_cb, tv);
 		}
