@@ -1158,6 +1158,7 @@ void exif_free(ExifData *exif)
 		}
 
 	g_list_free(exif->items);
+	g_free(exif->path);
 	g_free(exif);
 }
 
@@ -1181,6 +1182,7 @@ ExifData *exif_read(gchar *path, gchar *sidecar_path)
 	exif = g_new0(ExifData, 1);
 	exif->items = NULL;
 	exif->current = NULL;
+	exif->path = g_strdup(path);
 
 	res = exif_jpeg_parse(exif, (guchar *)f, size, ExifKnownMarkersList);
 	if (res == -2)
@@ -1305,7 +1307,7 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 					}
 				else
 					{
-					val = (guchar)(((signed gchar *)data)[0]);
+					val = (guchar)(((gchar *)data)[0]);
 					}
 
 				result = exif_text_list_find_value(marker->list, (guint)val);
@@ -1542,6 +1544,89 @@ gint exif_item_set_string(ExifItem *item, const gchar *str)
 	return 0;
 }
 
+
+typedef struct _UnmapData UnmapData;
+struct _UnmapData
+{
+	guchar *ptr;
+	guchar *map_data;
+	size_t map_len;
+};
+
+static GList *exif_unmap_list = 0;
+
+guchar *exif_get_preview(ExifData *exif, guint *data_len)
+{
+	int success;
+	guint offset;
+	const gchar* path;
+	struct stat st;
+	guchar *map_data;
+	size_t map_len;
+	int fd;
+	
+	if (!exif) return NULL;
+	path = exif->path;
+
+	fd = open(path, O_RDONLY);
+		
+		
+	if (fd == -1)
+		{
+		return 0;
+		}
+
+	if (fstat(fd, &st) == -1)
+		{
+		close(fd);
+		return 0;
+		}
+	map_len = st.st_size;
+	map_data = (guchar *) mmap(0, map_len, PROT_READ, MAP_PRIVATE, fd, 0);
+	close(fd);
+
+	if (map_data == MAP_FAILED)
+		{
+		return 0;
+		}
+
+	if (format_raw_img_exif_offsets(map_data, map_len, &offset, NULL) && offset)
+		{
+		UnmapData *ud;
+
+		DEBUG_1("%s: offset %lu", path, offset);
+
+		*data_len = map_len - offset;
+		ud = g_new(UnmapData, 1);
+		ud->ptr = map_data + offset;
+		ud->map_data = map_data;
+		ud->map_len = map_len;
+		
+		exif_unmap_list = g_list_prepend(exif_unmap_list, ud);
+		return ud->ptr;
+		}
+
+	munmap(map_data, map_len);
+	return NULL;
+
+}
+
+void exif_free_preview(guchar *buf)
+{
+	GList *work = exif_unmap_list;
+	
+	while (work)
+		{
+		UnmapData *ud = (UnmapData *)work->data;
+		if (ud->ptr == buf)
+			{
+			exif_unmap_list = g_list_remove_link(exif_unmap_list, work);
+			g_free(ud);
+			return;
+			}
+		}
+	g_assert_not_reached();
+}
 
 
 #endif

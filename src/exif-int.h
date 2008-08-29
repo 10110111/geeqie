@@ -64,6 +64,7 @@ typedef struct _ExifTextList ExifTextList;
 
 struct _ExifData
 {
+	gchar *path;
 	GList *items;	/* list of (ExifItem *) */
 	GList *current; /* for exif_get_next_item */
 };
