@@ -24,6 +24,7 @@
 #include "pixbuf-renderer.h"
 #include "pixbuf_util.h"
 #include "ui_fileops.h"
+#include "image-load.h"
 
 /*
  *----------------------------------------------------------------------------
@@ -523,14 +524,15 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 		if (!imd->unknown)
 			{
 			gint w, h;
+			GdkPixbuf *load_pixbuf = image_loader_get_pixbuf(imd->il);
 
 			if (imd->delay_flip &&
-			    imd->il && imd->il->pixbuf &&
-			    image_get_pixbuf(imd) != imd->il->pixbuf)
+			    imd->il && load_pixbuf &&
+			    image_get_pixbuf(imd) != load_pixbuf)
 				{
-				w = gdk_pixbuf_get_width(imd->il->pixbuf);
-				h = gdk_pixbuf_get_height(imd->il->pixbuf);
-				imgpixbuf = imd->il->pixbuf;
+				w = gdk_pixbuf_get_width(load_pixbuf);
+				h = gdk_pixbuf_get_height(load_pixbuf);
+				imgpixbuf = load_pixbuf;
 				}
 			else
 				{
@@ -558,7 +560,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 		text = g_markup_escape_text(_("Untitled"), -1);
 	}
 
-	with_hist = (imgpixbuf && (osd->show & OSD_SHOW_HISTOGRAM) && osd->histogram && (!imd->il || imd->il->done));
+	with_hist = (imgpixbuf && (osd->show & OSD_SHOW_HISTOGRAM) && osd->histogram && (!imd->il || image_loader_get_is_done(imd->il)));
 	
 	{
 		gint active_marks = 0;
@@ -892,7 +894,7 @@ static gint image_osd_update_cb(gpointer data)
 		image_osd_icons_hide(osd);
 		}
 
-	if (osd->imd->il && osd->imd->il->done)
+	if (osd->imd->il && image_loader_get_is_done(osd->imd->il))
 		osd->changed_states = IMAGE_STATE_NONE;
 	osd->idle_id = -1;
 	return FALSE;

@@ -1518,13 +1518,13 @@ static void search_file_load_process(SearchData *sd, CacheData *cd)
 			}
 
 		if (options->thumbnails.enable_caching &&
-		    sd->img_loader && sd->img_loader->fd)
+		    sd->img_loader && image_loader_get_fd(sd->img_loader))
 			{
 			gchar *base;
 			const gchar *path;
 			mode_t mode = 0755;
 
-			path = sd->img_loader->fd->path;
+			path = image_loader_get_fd(sd->img_loader)->path;
 			base = cache_get_location(CACHE_TYPE_SIM, path, FALSE, &mode);
 			if (cache_ensure_dir_exists(base, mode))
 				{
@@ -1532,7 +1532,7 @@ static void search_file_load_process(SearchData *sd, CacheData *cd)
 				cd->path = cache_get_location(CACHE_TYPE_SIM, path, TRUE, NULL);
 				if (cache_sim_data_save(cd))
 					{
-					filetime_set(cd->path, filetime(sd->img_loader->fd->path));
+					filetime_set(cd->path, filetime(image_loader_get_fd(sd->img_loader)->path));
 					}
 				}
 			g_free(base);

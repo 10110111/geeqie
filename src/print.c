@@ -2033,7 +2033,7 @@ static gint print_job_text_image(PrintWindow *pw, const gchar *path,
 	if (pw->text_fields == 0) return TRUE;
 
 	string = g_string_new("");
-	path = pw->job_loader->fd->path;
+	path = image_loader_get_fd(pw->job_loader)->path;
 
 	if (pw->text_fields & TEXT_INFO_FILENAME)
 		{
@@ -2062,7 +2062,7 @@ static gint print_job_text_image(PrintWindow *pw, const gchar *path,
 		{
 		if (newline)  g_string_append(string, "\n");
 		if (space) g_string_append(string, " - ");
-		g_string_append(string, text_from_time(filetime(pw->job_loader->fd->path)));
+		g_string_append(string, text_from_time(filetime(image_loader_get_fd(pw->job_loader)->path)));
 		newline = proof;
 		space = !proof;
 		}
@@ -2072,7 +2072,7 @@ static gint print_job_text_image(PrintWindow *pw, const gchar *path,
 
 		if (newline)  g_string_append(string, "\n");
 		if (space) g_string_append(string, " - ");
-		size = text_from_size_abrev(filesize(pw->job_loader->fd->path));
+		size = text_from_size_abrev(filesize(image_loader_get_fd(pw->job_loader)->path));
 		g_string_append(string, size);
 		g_free(size);
 		}
@@ -2153,7 +2153,7 @@ static void print_job_render_image_loader_done(ImageLoader *il, gpointer data)
 		y = y + h + PRINT_TEXT_PADDING;
 
 		success = (success &&
-			   print_job_text_image(pw, pw->job_loader->fd->path, x, y, dw, sw, sh, FALSE));
+			   print_job_text_image(pw, image_loader_get_fd(pw->job_loader)->path, x, y, dw, sw, sh, FALSE));
 		}
 
 	image_loader_free(pw->job_loader);
@@ -2274,7 +2274,7 @@ static void print_job_render_proof_loader_done(ImageLoader *il, gpointer data)
 	y = y + icon_h + (pw->proof_height - icon_h) / 2 + PRINT_TEXT_PADDING;
 
 	success = (success &&
-		   print_job_text_image(pw, pw->job_loader->fd->path, x, y, icon_w + PRINT_PROOF_MARGIN * 2, w, h, TRUE));
+		   print_job_text_image(pw, image_loader_get_fd(pw->job_loader)->path, x, y, icon_w + PRINT_PROOF_MARGIN * 2, w, h, TRUE));
 
 	if (!success)
 		{

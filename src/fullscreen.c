@@ -19,6 +19,7 @@
 #include "ui_menu.h"
 #include "ui_misc.h"
 #include "window.h"
+#include "image-load.h"
 
 enum {
 	FULLSCREEN_CURSOR_HIDDEN = 1 << 0,
@@ -160,7 +161,7 @@ static void fullscreen_image_update_cb(ImageWindow *imd, gpointer data)
 	FullScreenData *fs = data;
 
 	if (fs->imd->il &&
-	    fs->imd->il->pixbuf != image_get_pixbuf(fs->imd))
+	    image_loader_get_pixbuf(fs->imd->il) != image_get_pixbuf(fs->imd))
 		{
 		fullscreen_mouse_set_busy_idle(fs);
 		}

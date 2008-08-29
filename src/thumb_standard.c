@@ -543,7 +543,7 @@ static void thumb_loader_std_done_cb(ImageLoader *il, gpointer data)
 	GdkPixbuf *pixbuf;
 
 	DEBUG_1("thumb image done: %s", tl->fd ? tl->fd->path : "???");
-	DEBUG_1("            from: %s", tl->il->path);
+	DEBUG_1("            from: %s", image_loader_get_fd(tl->il)->path);
 
 	pixbuf = image_loader_get_pixbuf(tl->il);
 	if (!pixbuf)
@@ -566,7 +566,7 @@ static void thumb_loader_std_done_cb(ImageLoader *il, gpointer data)
 	if (tl->fd)
 		{
 		if (tl->fd->thumb_pixbuf) g_object_unref(tl->fd->thumb_pixbuf);
-		tl->fd->thumb_pixbuf = thumb_loader_std_finish(tl, pixbuf, il->shrunk);
+		tl->fd->thumb_pixbuf = thumb_loader_std_finish(tl, pixbuf, image_loader_get_shrunk(il));
 		}
 
 	if (tl->func_done) tl->func_done(tl, tl->data);
@@ -584,7 +584,7 @@ static void thumb_loader_std_error_cb(ImageLoader *il, gpointer data)
 		}
 	
 	DEBUG_1("thumb image error: %s", tl->fd->path);
-	DEBUG_1("             from: %s", tl->il->fd->path);
+	DEBUG_1("             from: %s", image_loader_get_fd(tl->il)->path);
 
 	if (thumb_loader_std_next_source(tl, TRUE)) return;
 

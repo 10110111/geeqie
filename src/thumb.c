@@ -214,7 +214,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 			tl->fd->thumb_pixbuf = pixbuf;
 			gdk_pixbuf_ref(tl->fd->thumb_pixbuf);
 			}
-		save = il->shrunk;
+		save = image_loader_get_shrunk(il);
 		}
 
 	if (rotated) gdk_pixbuf_unref(rotated);

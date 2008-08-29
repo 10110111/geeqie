@@ -520,6 +520,23 @@ gint image_loader_get_is_done(ImageLoader *il)
 	return il->done;
 }
 
+FileData *image_loader_get_fd(ImageLoader *il)
+{
+	if (!il) return NULL;
+
+	return il->fd;
+	
+}
+
+gint image_loader_get_shrunk(ImageLoader *il)
+{
+	if (!il) return FALSE;
+
+	return il->shrunk;
+	
+}
+
+
 gint image_load_dimensions(FileData *fd, gint *width, gint *height)
 {
 	ImageLoader *il;
