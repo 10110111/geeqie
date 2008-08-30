@@ -617,6 +617,10 @@ static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 		write_int_option(ssi, (gchar *)ExifUIList[i].key, ExifUIList[i].current);
 		}
 
+	WRITE_SUBTITLE("Documentation Options");
+	WRITE_CHAR(documentation.helpdir);
+	WRITE_CHAR(documentation.htmldir);
+
 	WRITE_SEPARATOR();
 	WRITE_SEPARATOR();
 
@@ -980,6 +984,11 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 					ExifUIList[i].current = strtol(value, NULL, 10);
 			continue;
 			}
+		
+		/* Documentation */
+		READ_CHAR(documentation.helpdir);
+		READ_CHAR(documentation.htmldir);
+		
 		}
 
 	fclose(f);

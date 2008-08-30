@@ -246,6 +246,12 @@ struct _ConfOptions
 			gchar *command_line;
 		} html_browser;
 	} helpers;
+
+	/* Various paths and links to documentation */
+	struct {
+		gchar *helpdir;
+		gchar *htmldir;
+	} documentation;
 };
 
 ConfOptions *options;

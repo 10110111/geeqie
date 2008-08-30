@@ -177,6 +177,7 @@ static gchar *html_browsers[] =
 
 static void help_browser_run(void)
 {
+	gchar *path;
 	gchar *result;
 	gint i;
 
@@ -195,7 +196,9 @@ static void help_browser_run(void)
 		return;
 		}
 
-	help_browser_command(result, GQ_HTMLDIR G_DIR_SEPARATOR_S "index.html");
+	path = g_build_filename(options->documentation.htmldir, "index.html", NULL);
+	help_browser_command(result, path);
+	g_free(path);
 
 	g_free(result);
 }
@@ -215,6 +218,8 @@ static void help_window_destroy_cb(GtkWidget *window, gpointer data)
 
 void help_window_show(const gchar *key)
 {
+	gchar *path;
+
 	if (key && strcmp(key, "html_contents") == 0)
 		{
 		help_browser_run();
@@ -228,8 +233,9 @@ void help_window_show(const gchar *key)
 		return;
 		}
 
-	help_window = help_window_new(_("Help"), GQ_WMCLASS, "help",
-				      GQ_HELPDIR G_DIR_SEPARATOR_S "README", key);
+	path = g_build_filename(options->documentation.helpdir, "README", NULL);
+	help_window = help_window_new(_("Help"), GQ_WMCLASS, "help", path, key);
+	g_free(path);
 
 	g_signal_connect(G_OBJECT(help_window), "destroy",
 			 G_CALLBACK(help_window_destroy_cb), NULL);
