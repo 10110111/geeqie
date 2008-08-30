@@ -44,6 +44,7 @@ struct _ImageLoader
 	GdkPixbufLoader *loader;
 
 	gint idle_done_id;
+	GList *area_param_list;
 
 	guchar *mapped_file;
 	gint read_buffer_size;
