@@ -85,6 +85,10 @@ static void image_loader_init (GTypeInstance *instance, gpointer g_class)
 	il->requested_width = 0;
 	il->requested_height = 0;
 	il->shrunk = FALSE;
+
+#ifdef HAVE_GTHREAD
+	il->data_mutex = g_mutex_new();
+#endif
 	DEBUG_1("new image loader %p, bufsize=%u idle_loop=%u", il, il->read_buffer_size, il->idle_read_loop_count);
 }
 
@@ -167,6 +171,9 @@ static void image_loader_finalize(GObject *object)
 
 	if (il->pixbuf) gdk_pixbuf_unref(il->pixbuf);
 	file_data_unref(il->fd);
+#ifdef HAVE_GTHREAD
+	g_mutex_free(il->data_mutex);
+#endif
 }
 
 void image_loader_free(ImageLoader *il)
@@ -207,8 +214,10 @@ static gint image_loader_emit_area_ready_cb(gpointer data)
 	ImageLoaderAreaParam *par = data;
 	ImageLoader *il = par->il;
 	g_signal_emit(il, signals[SIGNAL_AREA_READY], 0, par->x, par->y, par->w, par->h);
+	g_mutex_lock(il->data_mutex);
 	il->area_param_list = g_list_remove(il->area_param_list, par);
 	g_free(par);
+	g_mutex_unlock(il->data_mutex);
 	
 	return FALSE;
 }
@@ -230,7 +239,7 @@ static gint image_loader_emit_error_cb(gpointer data)
 static gint image_loader_emit_percent_cb(gpointer data)
 {
 	ImageLoader *il = data;
-	g_signal_emit(il, signals[SIGNAL_PERCENT], 0, (gdouble)il->bytes_read / il->bytes_total);
+	g_signal_emit(il, signals[SIGNAL_PERCENT], 0, image_loader_get_percent(il));
 	return FALSE;
 }
 
@@ -262,7 +271,10 @@ static void image_loader_emit_area_ready(ImageLoader *il, guint x, guint y, guin
 	par->w = w;
 	par->h = h;
 	
+	g_mutex_lock(il->data_mutex);
 	il->area_param_list = g_list_prepend(il->area_param_list, par);
+	g_mutex_unlock(il->data_mutex);
+	
 	g_idle_add_full(G_PRIORITY_HIGH, image_loader_emit_area_ready_cb, par, NULL);
 }
 
@@ -272,16 +284,27 @@ static void image_loader_emit_area_ready(ImageLoader *il, guint x, guint y, guin
 static void image_loader_sync_pixbuf(ImageLoader *il)
 {
 	GdkPixbuf *pb;
-
-	if (!il->loader) return;
+	
+	g_mutex_lock(il->data_mutex);
+	
+	if (!il->loader) 
+		{
+		g_mutex_unlock(il->data_mutex);
+		return;
+		}
 
 	pb = gdk_pixbuf_loader_get_pixbuf(il->loader);
 
-	if (pb == il->pixbuf) return;
+	if (pb == il->pixbuf)
+		{
+		g_mutex_unlock(il->data_mutex);
+		return;
+		}
 
 	if (il->pixbuf) gdk_pixbuf_unref(il->pixbuf);
 	il->pixbuf = pb;
 	if (il->pixbuf) gdk_pixbuf_ref(il->pixbuf);
+	g_mutex_unlock(il->data_mutex);
 }
 
 static void image_loader_area_updated_cb(GdkPixbufLoader *loader,
@@ -290,10 +313,10 @@ static void image_loader_area_updated_cb(GdkPixbufLoader *loader,
 {
 	ImageLoader *il = data;
 
-	if (!il->pixbuf)
+	if (!image_loader_get_pixbuf(il))
 		{
 		image_loader_sync_pixbuf(il);
-		if (!il->pixbuf)
+		if (!image_loader_get_pixbuf(il))
 			{
 			log_printf("critical: area_ready signal with NULL pixbuf (out of mem?)\n");
 			}
@@ -336,7 +359,13 @@ static void image_loader_size_cb(GdkPixbufLoader *loader,
 	gint scale = FALSE;
 	gint n;
 
-	if (il->requested_width < 1 || il->requested_height < 1) return;
+	g_mutex_lock(il->data_mutex);
+	if (il->requested_width < 1 || il->requested_height < 1) 
+		{
+		g_mutex_unlock(il->data_mutex);
+		return;
+		}
+	g_mutex_unlock(il->data_mutex);
 
 	format = gdk_pixbuf_loader_get_format(loader);
 	if (!format) return;
@@ -351,6 +380,8 @@ static void image_loader_size_cb(GdkPixbufLoader *loader,
 	g_strfreev(mime_types);
 
 	if (!scale) return;
+
+	g_mutex_lock(il->data_mutex);
 
 	if (width > il->requested_width || height > il->requested_height)
 		{
@@ -372,6 +403,8 @@ static void image_loader_size_cb(GdkPixbufLoader *loader,
 		gdk_pixbuf_loader_set_size(loader, nw, nh);
 		il->shrunk = TRUE;
 		}
+	g_mutex_unlock(il->data_mutex);
+
 }
 
 static void image_loader_stop_loader(ImageLoader *il)
@@ -392,7 +425,10 @@ static void image_loader_stop_loader(ImageLoader *il)
 
 static void image_loader_setup_loader(ImageLoader *il)
 {
+	g_mutex_lock(il->data_mutex);
 	il->loader = gdk_pixbuf_loader_new();
+	g_mutex_unlock(il->data_mutex);
+
 	g_signal_connect(G_OBJECT(il->loader), "area_updated",
 			 G_CALLBACK(image_loader_area_updated_cb), il);
 	g_signal_connect(G_OBJECT(il->loader), "size_prepared",
@@ -606,6 +642,11 @@ static void image_loader_stop(ImageLoader *il)
 		il->idle_id = -1;
 		}
 		
+	if (il->thread)
+		{
+		il->stopping = TRUE;
+		g_thread_join(il->thread);
+		}
 
 	image_loader_stop_loader(il);
 	image_loader_stop_source(il);
@@ -647,6 +688,36 @@ gint image_loader_start_idle(ImageLoader *il)
 }
 
 /**************************************************************************************/
+/* execution via thread */
+
+gpointer image_loader_thread_run(gpointer data)
+{
+	ImageLoader *il = data;
+	gint cont = image_loader_begin(il);
+	
+	while (cont && !il->done && !il->stopping)
+		{
+		cont = image_loader_continue(il);
+		}
+	return NULL;
+}
+
+gint image_loader_start_thread(ImageLoader *il)
+{
+	if (!il) return FALSE;
+
+	if (!il->fd) return FALSE;
+
+	if (!image_loader_setup_source(il)) return FALSE;
+
+	il->thread = g_thread_create(image_loader_thread_run, il, TRUE, NULL);
+	if (!il->thread) return FALSE;
+		
+	return TRUE;
+}
+
+
+/**************************************************************************************/
 /* public interface */
 
 
@@ -656,16 +727,24 @@ gint image_loader_start(ImageLoader *il)
 
 	if (!il->fd) return FALSE;
 
+#ifdef HAVE_GTHREAD
+	return image_loader_start_thread(il);
+#else
 	return image_loader_start_idle(il);
+#endif
 }
 
 
 /* don't forget to gdk_pixbuf_ref() it if you want to use it after image_loader_free() */
 GdkPixbuf *image_loader_get_pixbuf(ImageLoader *il)
 {
+	GdkPixbuf *ret;
 	if (!il) return NULL;
-
-	return il->pixbuf;
+	
+	g_mutex_lock(il->data_mutex);
+	ret = il->pixbuf;
+	g_mutex_unlock(il->data_mutex);
+	return ret;
 }
 
 gchar *image_loader_get_format(ImageLoader *il)
@@ -693,53 +772,82 @@ void image_loader_set_requested_size(ImageLoader *il, gint width, gint height)
 {
 	if (!il) return;
 
+	g_mutex_lock(il->data_mutex);
 	il->requested_width = width;
 	il->requested_height = height;
+	g_mutex_unlock(il->data_mutex);
 }
 
 void image_loader_set_buffer_size(ImageLoader *il, guint count)
 {
 	if (!il) return;
 
+	g_mutex_lock(il->data_mutex);
 	il->idle_read_loop_count = count ? count : 1;
+	g_mutex_unlock(il->data_mutex);
 }
 
 void image_loader_set_priority(ImageLoader *il, gint priority)
 {
 	if (!il) return;
 
+	g_mutex_lock(il->data_mutex);
 	il->idle_priority = priority;
+	g_mutex_unlock(il->data_mutex);
 }
 
 
 gdouble image_loader_get_percent(ImageLoader *il)
 {
-	if (!il || il->bytes_total == 0) return 0.0;
-
-	return (gdouble)il->bytes_read / il->bytes_total;
+	gdouble ret;
+	if (!il) return 0.0;
+	
+	g_mutex_lock(il->data_mutex);
+	if (il->bytes_total == 0) 
+		{
+		ret = 0.0;
+		}
+	else
+		{
+		ret = (gdouble)il->bytes_read / il->bytes_total;
+		}
+	g_mutex_unlock(il->data_mutex);
+	return ret;
 }
 
 gint image_loader_get_is_done(ImageLoader *il)
 {
+	gint ret;
 	if (!il) return FALSE;
 
-	return il->done;
+	g_mutex_lock(il->data_mutex);
+	ret = il->done;
+	g_mutex_unlock(il->data_mutex);
+
+	return ret;
 }
 
 FileData *image_loader_get_fd(ImageLoader *il)
 {
+	FileData *ret;
 	if (!il) return NULL;
 
-	return il->fd;
-	
+	g_mutex_lock(il->data_mutex);
+	ret = il->fd;
+	g_mutex_unlock(il->data_mutex);
+
+	return ret;
 }
 
 gint image_loader_get_shrunk(ImageLoader *il)
 {
+	gint ret;
 	if (!il) return FALSE;
 
-	return il->shrunk;
-	
+	g_mutex_lock(il->data_mutex);
+	ret = il->shrunk;
+	g_mutex_unlock(il->data_mutex);
+	return ret;
 }
 
 

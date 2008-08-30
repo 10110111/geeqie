@@ -45,6 +45,10 @@ struct _ImageLoader
 
 	gint idle_done_id;
 	GList *area_param_list;
+	
+	GThread *thread;
+	GMutex *data_mutex;
+	gint stopping;
 
 	guchar *mapped_file;
 	gint read_buffer_size;

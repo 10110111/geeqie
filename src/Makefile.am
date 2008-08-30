@@ -123,6 +123,7 @@ geeqie_SOURCES = \
 	filefilter.h	\
 	gq-marshal.c	\
 	gq-marshal.h	\
+	gq-marshal.list \
 	format_canon.c	\
 	format_canon.h	\
 	format_fuji.c	\

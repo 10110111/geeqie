@@ -669,6 +669,10 @@ gint main(gint argc, gchar *argv[])
 	gchar *bufl;
 	CollectionData *cd = NULL;
 
+#ifdef HAVE_GTHREAD
+	g_thread_init (NULL);
+#endif
+	
 	/* init execution time counter (debug only) */
 	init_exec_time();
 
