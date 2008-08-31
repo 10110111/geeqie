@@ -15,9 +15,10 @@
 #include "bar_exif.h"
 
 #include "exif.h"
-#include "history_list.h"
-#include "ui_misc.h"
 #include "filedata.h"
+#include "history_list.h"
+#include "misc.h"
+#include "ui_misc.h"
 
 #include <math.h>
 

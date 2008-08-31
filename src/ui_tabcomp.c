@@ -30,6 +30,7 @@
 #include "ui_tabcomp.h"
 
 #include "history_list.h"
+#include "misc.h"	/* expand_tilde() */
 #include "ui_fileops.h"
 #include "ui_spinner.h"
 #include "ui_utildlg.h"

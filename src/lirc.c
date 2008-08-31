@@ -1,5 +1,7 @@
 #include "lirc.h"
 
+#include "misc.h"
+
 #ifdef HAVE_LIRC
 #include <lirc/lirc_client.h>
 #include "layout_image.h"

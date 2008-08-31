@@ -19,6 +19,7 @@
 #include "img-view.h"
 #include "layout.h"
 #include "layout_image.h"
+#include "misc.h"
 #include "slideshow.h"
 #include "ui_fileops.h"
 

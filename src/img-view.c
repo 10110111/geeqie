@@ -26,14 +26,15 @@
 #include "layout.h"
 #include "layout_image.h"
 #include "menu.h"
-#include "pixbuf-renderer.h"
+#include "misc.h"
 #include "pixbuf_util.h"
+#include "pixbuf-renderer.h"
 #include "print.h"
 #include "slideshow.h"
-#include "utilops.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "uri_utils.h"
+#include "utilops.h"
 #include "window.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */

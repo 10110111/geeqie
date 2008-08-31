@@ -16,10 +16,11 @@
 
 #include "filedata.h"
 #include "filefilter.h"
-#include "utilops.h"
+#include "misc.h"
 #include "ui_fileops.h"
 #include "ui_spinner.h"
 #include "ui_utildlg.h"
+#include "utilops.h"
 
 #include <errno.h>
 

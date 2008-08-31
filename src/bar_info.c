@@ -12,20 +12,19 @@
 
 
 #include "main.h"
-#include "exif.h"
-
 #include "bar_info.h"
 
 #include "cache.h"
+#include "exif.h"
 #include "filedata.h"
 #include "history_list.h"
 #include "info.h"
+#include "misc.h"
 #include "secure_save.h"
-#include "utilops.h"
 #include "ui_fileops.h"
 #include "ui_misc.h"
 #include "ui_utildlg.h"
-
+#include "utilops.h"
 
 #define BAR_KEYWORD_AUTOSAVE_TIME 10000
 

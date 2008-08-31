@@ -27,14 +27,15 @@
 #include "layout_image.h"
 #include "md5-util.h"
 #include "menu.h"
+#include "misc.h"
 #include "print.h"
 #include "thumb.h"
-#include "utilops.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "ui_misc.h"
 #include "ui_tree_edit.h"
 #include "uri_utils.h"
+#include "utilops.h"
 #include "window.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */

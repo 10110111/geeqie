@@ -23,11 +23,12 @@
 #include "info.h"
 #include "layout.h"
 #include "layout_image.h"
+#include "misc.h"
 #include "pixbuf_util.h"
 #include "print.h"
-#include "utilops.h"
 #include "ui_fileops.h"
 #include "ui_tree_edit.h"
+#include "utilops.h"
 #include "window.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */

@@ -168,6 +168,8 @@ geeqie_SOURCES = \
 	md5-util.h	\
 	menu.c		\
 	menu.h		\
+	misc.c		\
+	misc.h		\
 	options.c	\
 	options.h	\
 	pan-calendar.c	\

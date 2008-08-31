@@ -13,6 +13,7 @@
 #include "main.h"
 #include "logwindow.h"
 
+#include "misc.h"
 #include "window.h"
 
 #include <gdk/gdkkeysyms.h>
