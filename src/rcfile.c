@@ -643,6 +643,8 @@ void save_options(ConfOptions *options)
 {
 	gchar *rc_path;
 
+	sync_options_with_current_state(options);
+
 	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
 	save_options_to(rc_path, options);
 	g_free(rc_path);

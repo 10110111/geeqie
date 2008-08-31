@@ -612,7 +612,6 @@ static void exit_program_final(void)
 
 	collect_manager_flush();
 
-	sync_options_with_current_state(options);
 	save_options(options);
 	keys_save();
 	accel_map_save();
