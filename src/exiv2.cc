@@ -742,6 +742,7 @@ void exif_free_preview(guchar *buf)
 			g_free(ud);
 			return;
 			}
+		work = work->next;
 		}
 	g_assert_not_reached();
 }
