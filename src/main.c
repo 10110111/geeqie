@@ -565,11 +565,47 @@ static void check_for_home_path(gchar *path)
 	g_free(buf);
 }
 
-
-static void exit_program_final(void)
+static void accel_map_save(void)
 {
 	gchar *path;
 	gchar *pathl;
+
+	path = g_build_filename(homedir(), GQ_RC_DIR, "accels", NULL);
+	pathl = path_from_utf8(path);
+	gtk_accel_map_save(pathl);
+	g_free(pathl);
+	g_free(path);
+}
+
+static void accel_map_load(void)
+{
+	gchar *path;
+	gchar *pathl;
+
+	path = g_build_filename(homedir(), GQ_RC_DIR, "accels", NULL);
+	pathl = path_from_utf8(path);
+	gtk_accel_map_load(pathl);
+	g_free(pathl);
+	g_free(path);
+}
+
+static void gtkrc_load(void)
+{
+	gchar *path;
+	gchar *pathl;
+
+	/* If a gtkrc file exists in the rc directory, add it to the
+	 * list of files to be parsed at the end of gtk_init() */
+	path = g_build_filename(homedir(), GQ_RC_DIR, "gtkrc", NULL);
+	pathl = path_from_utf8(path);
+	if (access(pathl, R_OK) == 0)
+		gtk_rc_add_default_file(pathl);
+	g_free(pathl);
+	g_free(path);
+}
+
+static void exit_program_final(void)
+{
 	LayoutWindow *lw = NULL;
 
 	remote_close(remote_connection);
@@ -579,12 +615,7 @@ static void exit_program_final(void)
 	sync_options_with_current_state(options);
 	save_options(options);
 	keys_save();
-
-	path = g_build_filename(homedir(), GQ_RC_DIR, "accels", NULL);
-	pathl = path_from_utf8(path);
-	gtk_accel_map_save(pathl);
-	g_free(pathl);
-	g_free(path);
+	accel_map_save();
 
 	if (layout_valid(&lw))
 		{
@@ -666,7 +697,6 @@ gint main(gint argc, gchar *argv[])
 	CollectionData *first_collection = NULL;
 	gchar *geometry = NULL;
 	gchar *buf;
-	gchar *bufl;
 	CollectionData *cd = NULL;
 
 #ifdef HAVE_GTHREAD
@@ -705,15 +735,7 @@ gint main(gint argc, gchar *argv[])
 
 	parse_command_line(argc, argv, &cmd_path, &cmd_file, &cmd_list, &collection_list, &geometry);
 
-	/* If a gtkrc file exists in the rc directory, add it to the
-	 * list of files to be parsed at the end of gtk_init() */
-	buf = g_build_filename(homedir(), GQ_RC_DIR, "gtkrc", NULL);
-	bufl = path_from_utf8(buf);
-	if (access(bufl, R_OK) == 0)
-		gtk_rc_add_default_file(bufl);
-	g_free(bufl);
-	g_free(buf);
-
+	gtkrc_load();
 	gtk_init(&argc, &argv);
 
 	if (gtk_major_version < GTK_MAJOR_VERSION ||
@@ -735,11 +757,7 @@ gint main(gint argc, gchar *argv[])
 	filter_add_defaults();
 	filter_rebuild();
 
-	buf = g_build_filename(homedir(), GQ_RC_DIR, "accels", NULL);
-	bufl = path_from_utf8(buf);
-	gtk_accel_map_load(bufl);
-	g_free(bufl);
-	g_free(buf);
+	accel_map_load();
 
 	if (startup_blank)
 		{
