@@ -22,7 +22,7 @@
 #include "image-overlay.h"
 #include "layout.h"
 #include "layout_image.h"
-#include "rcfile.h"
+#include "options.h"
 #include "remote.h"
 #include "similar.h"
 #include "ui_fileops.h"

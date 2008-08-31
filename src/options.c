@@ -20,6 +20,7 @@
 #include "info.h"
 #include "layout.h"
 #include "layout_image.h"
+#include "rcfile.h"
 #include "ui_bookmark.h"
 #include "ui_fileops.h"
 #include "window.h"
@@ -209,7 +210,7 @@ void setup_default_options(ConfOptions *options)
 		ExifUIList[i].current = ExifUIList[i].default_value;
 }
 
-void sync_options_with_current_state(ConfOptions *options)
+static void sync_options_with_current_state(ConfOptions *options)
 {
 	LayoutWindow *lw = NULL;
 
@@ -250,4 +251,34 @@ void sync_options_with_current_state(ConfOptions *options)
 		g_free(options->startup.path);
 		options->startup.path = g_strdup(layout_get_path(NULL));
 		}
+}
+
+void save_options(ConfOptions *options)
+{
+	gchar *rc_path;
+
+	sync_options_with_current_state(options);
+
+	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
+	save_options_to(rc_path, options);
+	g_free(rc_path);
+}
+
+void load_options(ConfOptions *options)
+{
+	gboolean success;
+	gchar *rc_path;
+
+	if (isdir(GQ_SYSTEM_WIDE_DIR))
+		{
+		rc_path = g_build_filename(GQ_SYSTEM_WIDE_DIR, RC_FILE_NAME, NULL);
+		success = load_options_from(rc_path, options);
+		DEBUG_1("Loading options from %s ... %s", rc_path, success ? "done" : "failed");
+		g_free(rc_path);
+		}
+	
+	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
+	success = load_options_from(rc_path, options);
+	DEBUG_1("Loading options from %s ... %s", rc_path, success ? "done" : "failed");
+	g_free(rc_path);
 }

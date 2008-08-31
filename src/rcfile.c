@@ -305,7 +305,7 @@ static gboolean read_bool_option(FILE *f, gchar *option, gchar *label, gchar *va
  *-----------------------------------------------------------------------------
  */
 
-static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
+gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 {
 	SecureSaveInfo *ssi;
 	gchar *rc_pathl;
@@ -639,16 +639,6 @@ static gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	return TRUE;
 }
 
-void save_options(ConfOptions *options)
-{
-	gchar *rc_path;
-
-	sync_options_with_current_state(options);
-
-	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
-	save_options_to(rc_path, options);
-	g_free(rc_path);
-}
 
 
 
@@ -677,7 +667,7 @@ static gboolean is_numbered_option(const gchar *option, const gchar *prefix, gin
 
 #define OPTION_READ_BUFFER_SIZE 1024
 
-static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
+gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 {
 	FILE *f;
 	gchar *rc_pathl;
@@ -995,23 +985,4 @@ static gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 
 	fclose(f);
 	return TRUE;
-}
-
-void load_options(ConfOptions *options)
-{
-	gboolean success;
-	gchar *rc_path;
-
-	if (isdir(GQ_SYSTEM_WIDE_DIR))
-		{
-		rc_path = g_build_filename(GQ_SYSTEM_WIDE_DIR, RC_FILE_NAME, NULL);
-		success = load_options_from(rc_path, options);
-		DEBUG_1("Loading options from %s ... %s", rc_path, success ? "done" : "failed");
-		g_free(rc_path);
-		}
-	
-	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
-	success = load_options_from(rc_path, options);
-	DEBUG_1("Loading options from %s ... %s", rc_path, success ? "done" : "failed");
-	g_free(rc_path);
 }

@@ -258,6 +258,8 @@ ConfOptions *options;
 
 ConfOptions *init_options(ConfOptions *options);
 void setup_default_options(ConfOptions *options);
-void sync_options_with_current_state(ConfOptions *options);
+void save_options(ConfOptions *options);
+void load_options(ConfOptions *options);
+
 
 #endif /* OPTIONS_H */
