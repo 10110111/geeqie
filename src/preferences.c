@@ -417,6 +417,12 @@ static void config_window_apply_cb(GtkWidget *widget, gpointer data)
 	config_window_apply();
 }
 
+static void config_window_save_cb(GtkWidget *widget, gpointer data)
+{
+	config_window_apply();
+	save_options(options);
+}
+
 /*
  *-----------------------------------------------------------------------------
  * config window setup (private)
@@ -1648,6 +1654,12 @@ static void config_window_create(void)
 
 	ct_button = button;
 
+	button = pref_button_new(NULL, GTK_STOCK_SAVE, NULL, FALSE,
+				 G_CALLBACK(config_window_save_cb), NULL);
+	gtk_container_add(GTK_CONTAINER(hbox), button);
+	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_show(button);
+	
 	button = pref_button_new(NULL, GTK_STOCK_APPLY, NULL, FALSE,
 				 G_CALLBACK(config_window_apply_cb), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
