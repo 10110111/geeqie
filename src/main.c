@@ -700,6 +700,8 @@ gint main(gint argc, gchar *argv[])
 
 #ifdef HAVE_GTHREAD
 	g_thread_init (NULL);
+	gdk_threads_init();
+	gdk_threads_enter();
 #endif
 	
 	/* init execution time counter (debug only) */
@@ -884,7 +886,10 @@ gint main(gint argc, gchar *argv[])
 	buf = g_build_filename(homedir(), GQ_RC_DIR, ".command", NULL);
 	remote_connection = remote_server_init(buf, cd);
 	g_free(buf);
-
+	
 	gtk_main();
+#ifdef HAVE_GTHREAD
+	gdk_threads_leave();
+#endif
 	return 0;
 }

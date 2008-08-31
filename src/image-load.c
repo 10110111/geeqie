@@ -282,6 +282,18 @@ static void image_loader_emit_area_ready(ImageLoader *il, guint x, guint y, guin
 /**************************************************************************************/
 /* the following functions may be executed in separate thread */
 
+static gint image_loader_get_stopping(ImageLoader *il)
+{
+	gint ret;
+	if (!il) return FALSE;
+
+	g_mutex_lock(il->data_mutex);
+	ret = il->stopping;
+	g_mutex_unlock(il->data_mutex);
+
+	return ret;
+}
+
 static void image_loader_sync_pixbuf(ImageLoader *il)
 {
 	GdkPixbuf *pb;
@@ -420,15 +432,15 @@ static void image_loader_stop_loader(ImageLoader *il)
 		g_object_unref(G_OBJECT(il->loader));
 		il->loader = NULL;
 		}
-
+	g_mutex_lock(il->data_mutex);
 	il->done = TRUE;
+	g_mutex_unlock(il->data_mutex);
 }
 
 static void image_loader_setup_loader(ImageLoader *il)
 {
 	g_mutex_lock(il->data_mutex);
 	il->loader = gdk_pixbuf_loader_new();
-	g_mutex_unlock(il->data_mutex);
 
 	g_signal_connect(G_OBJECT(il->loader), "area_updated",
 			 G_CALLBACK(image_loader_area_updated_cb), il);
@@ -436,6 +448,7 @@ static void image_loader_setup_loader(ImageLoader *il)
 			 G_CALLBACK(image_loader_size_cb), il);
 	g_signal_connect(G_OBJECT(il->loader), "area_prepared",
 			 G_CALLBACK(image_loader_area_prepared_cb), il);
+	g_mutex_unlock(il->data_mutex);
 }
 
 
@@ -463,7 +476,7 @@ static gint image_loader_continue(ImageLoader *il)
 	if (!il) return FALSE;
 
 	c = il->idle_read_loop_count ? il->idle_read_loop_count : 1;
-	while (c > 0)
+	while (c > 0 && !image_loader_get_stopping(il))
 		{
 		b = MIN(il->read_buffer_size, il->bytes_total - il->bytes_read);
 
@@ -512,7 +525,7 @@ static gint image_loader_begin(ImageLoader *il)
 	il->bytes_read += b;
 
 	/* read until size is known */
-	while (il->loader && !gdk_pixbuf_loader_get_pixbuf(il->loader) && b > 0)
+	while (il->loader && !gdk_pixbuf_loader_get_pixbuf(il->loader) && b > 0 && !image_loader_get_stopping(il))
 		{
 		b = MIN(il->read_buffer_size, il->bytes_total - il->bytes_read);
 		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, il->mapped_file + il->bytes_read, b, NULL)))
@@ -623,16 +636,6 @@ static void image_loader_stop_source(ImageLoader *il)
 		}
 }
 
-
-/*
-static gint image_loader_setup(ImageLoader *il)
-{
-	if (!image_loader_setup_source(il)) return FALSE;
-	
-	return image_loader_begin(il);
-}
-*/
-
 static void image_loader_stop(ImageLoader *il)
 {
 	if (!il) return;
@@ -645,7 +648,9 @@ static void image_loader_stop(ImageLoader *il)
 		
 	if (il->thread)
 		{
+		g_mutex_lock(il->data_mutex);
 		il->stopping = TRUE;
+		g_mutex_unlock(il->data_mutex);
 		g_thread_join(il->thread);
 		}
 
@@ -696,10 +701,11 @@ gpointer image_loader_thread_run(gpointer data)
 	ImageLoader *il = data;
 	gint cont = image_loader_begin(il);
 	
-	while (cont && !il->done && !il->stopping)
+	while (cont && !image_loader_get_is_done(il) && !image_loader_get_stopping(il))
 		{
 		cont = image_loader_continue(il);
 		}
+	image_loader_stop_loader(il);
 	return NULL;
 }
 
