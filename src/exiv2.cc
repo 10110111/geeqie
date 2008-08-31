@@ -674,7 +674,6 @@ static GList *exif_unmap_list = 0;
 
 extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len)
 {
-	int success;
 	unsigned long offset;
 
 	if (!exif) return NULL;

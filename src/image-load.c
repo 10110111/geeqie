@@ -57,6 +57,7 @@ GType image_loader_get_type (void)
 			sizeof (ImageLoader),
 			0,      /* n_preallocs */
 			(GInstanceInitFunc)image_loader_init, /* instance_init */
+			NULL	/* value_table */
 			};
 		type = g_type_register_static (G_TYPE_OBJECT, "ImageLoaderType", &info, 0);
 		}
