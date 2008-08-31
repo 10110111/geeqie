@@ -15,11 +15,10 @@
 #include "filefilter.h"
 
 #include "cache.h"
-#include "rcfile.h"
+#include "misc.h"
 #include "secure_save.h"
 #include "thumb_standard.h"
 #include "ui_fileops.h"
-
 
 /*
  *-----------------------------------------------------------------------------

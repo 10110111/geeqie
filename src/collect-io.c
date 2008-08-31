@@ -17,11 +17,10 @@
 #include "collect.h"
 #include "filedata.h"
 #include "layout_util.h"
-#include "rcfile.h"
+#include "misc.h"
 #include "secure_save.h"
 #include "thumb.h"
 #include "ui_fileops.h"
-
 
 #define GQ_COLLECTION_MARKER "#" GQ_APPNAME
 

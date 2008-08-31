@@ -14,9 +14,6 @@
 #ifndef RCFILE_H
 #define RCFILE_H
 
-gchar *quoted_value(const gchar *text, const gchar **tail);
-gchar *escquote_value(const gchar *text);
-
 gboolean save_options_to(const gchar *utf8_path, ConfOptions *options);
 gboolean load_options_from(const gchar *utf8_path, ConfOptions *options);
 

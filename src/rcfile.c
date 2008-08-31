@@ -19,11 +19,11 @@
 #include "bar_exif.h"
 #include "editors.h"
 #include "filefilter.h"
+#include "misc.h"
 #include "pixbuf-renderer.h"
 #include "secure_save.h"
 #include "slideshow.h"
 #include "ui_fileops.h"
-
 
 /*
  *-----------------------------------------------------------------------------
@@ -31,83 +31,6 @@
  *-----------------------------------------------------------------------------
  */
 
-/*
-   returns text without quotes or NULL for empty or broken string
-   any text up to first '"' is skipped
-   tail is set to point at the char after the second '"'
-   or at the ending \0
-
-*/
-
-gchar *quoted_value(const gchar *text, const gchar **tail)
-{
-	const gchar *ptr;
-	gint c = 0;
-	gint l = strlen(text);
-	gchar *retval = NULL;
-
-	if (tail) *tail = text;
-
-	if (l == 0) return retval;
-
-	while (c < l && text[c] != '"') c++;
-	if (text[c] == '"')
-		{
-		gint e;
-		c++;
-		ptr = text + c;
-		e = c;
-		while (e < l)
-			{
-			if (text[e-1] != '\\' && text[e] == '"') break;
-			e++;
-			}
-		if (text[e] == '"')
-			{
-			if (e - c > 0)
-				{
-				gchar *substring = g_strndup(ptr, e - c);
-
-				if (substring)
-					{
-					retval = g_strcompress(substring);
-					g_free(substring);
-					}
-				}
-			}
-		if (tail) *tail = text + e + 1;
-		}
-	else
-		/* for compatibility with older formats (<0.3.7)
-		 * read a line without quotes too */
-		{
-		c = 0;
-		while (c < l && text[c] != '\n' && !g_ascii_isspace(text[c])) c++;
-		if (c != 0)
-			{
-			retval = g_strndup(text, c);
-			}
-		if (tail) *tail = text + c;
-		}
-
-	return retval;
-}
-
-gchar *escquote_value(const gchar *text)
-{
-	gchar *e;
-
-	if (!text) return g_strdup("\"\"");
-
-	e = g_strescape(text, "");
-	if (e)
-		{
-		gchar *retval = g_strdup_printf("\"%s\"", e);
-		g_free(e);
-		return retval;
-		}
-	return g_strdup("\"\"");
-}
 
 static void write_char_option(SecureSaveInfo *ssi, gchar *label, gchar *text)
 {
