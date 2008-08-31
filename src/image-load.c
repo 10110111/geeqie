@@ -89,6 +89,7 @@ static void image_loader_init (GTypeInstance *instance, gpointer g_class)
 
 #ifdef HAVE_GTHREAD
 	il->data_mutex = g_mutex_new();
+	il->can_destroy_cond = g_cond_new();
 #endif
 	DEBUG_1("new image loader %p, bufsize=%u idle_loop=%u", il, il->read_buffer_size, il->idle_read_loop_count);
 }
@@ -174,6 +175,7 @@ static void image_loader_finalize(GObject *object)
 	file_data_unref(il->fd);
 #ifdef HAVE_GTHREAD
 	g_mutex_free(il->data_mutex);
+	g_cond_free(il->can_destroy_cond);
 #endif
 }
 
@@ -648,10 +650,11 @@ static void image_loader_stop(ImageLoader *il)
 		
 	if (il->thread)
 		{
+		/* stop loader in the other thread */
 		g_mutex_lock(il->data_mutex);
 		il->stopping = TRUE;
+		while (!il->can_destroy) g_cond_wait(il->can_destroy_cond, il->data_mutex);
 		g_mutex_unlock(il->data_mutex);
-		g_thread_join(il->thread);
 		}
 
 	image_loader_stop_loader(il);
@@ -695,8 +698,9 @@ gint image_loader_start_idle(ImageLoader *il)
 
 /**************************************************************************************/
 /* execution via thread */
+static GThreadPool *image_loader_thread_pool = NULL;
 
-gpointer image_loader_thread_run(gpointer data)
+void image_loader_thread_run(gpointer data, gpointer user_data)
 {
 	ImageLoader *il = data;
 	gint cont = image_loader_begin(il);
@@ -706,8 +710,14 @@ gpointer image_loader_thread_run(gpointer data)
 		cont = image_loader_continue(il);
 		}
 	image_loader_stop_loader(il);
-	return NULL;
+
+	g_mutex_lock(il->data_mutex);
+	il->can_destroy = TRUE;
+	g_cond_signal(il->can_destroy_cond);
+	g_mutex_unlock(il->data_mutex);
+
 }
+
 
 gint image_loader_start_thread(ImageLoader *il)
 {
@@ -715,10 +725,17 @@ gint image_loader_start_thread(ImageLoader *il)
 
 	if (!il->fd) return FALSE;
 
+	il->thread = TRUE;
+	
 	if (!image_loader_setup_source(il)) return FALSE;
 
-	il->thread = g_thread_create(image_loader_thread_run, il, TRUE, NULL);
-	if (!il->thread) return FALSE;
+        if (!image_loader_thread_pool) 
+		{
+		image_loader_thread_pool = g_thread_pool_new(image_loader_thread_run, NULL, -1, FALSE, NULL);
+		}
+
+	g_thread_pool_push(image_loader_thread_pool, il, NULL);
+	DEBUG_1("Thread pool num threads: %d", g_thread_pool_get_num_threads(image_loader_thread_pool));
 		
 	return TRUE;
 }
