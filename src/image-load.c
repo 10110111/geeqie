@@ -87,6 +87,8 @@ static void image_loader_init (GTypeInstance *instance, gpointer g_class)
 	il->requested_height = 0;
 	il->shrunk = FALSE;
 
+	il->can_destroy = TRUE;
+
 #ifdef HAVE_GTHREAD
 	il->data_mutex = g_mutex_new();
 	il->can_destroy_cond = g_cond_new();
@@ -124,8 +126,7 @@ static void image_loader_class_init (ImageLoaderClass *class)
 			     G_STRUCT_OFFSET(ImageLoaderClass, error),
 			     NULL, NULL,
 			     g_cclosure_marshal_VOID__VOID,
-			     G_TYPE_NONE, 1,
-			     GDK_TYPE_EVENT);
+			     G_TYPE_NONE, 0);
 
 	signals[SIGNAL_DONE] =
 		g_signal_new("done",
@@ -705,6 +706,16 @@ void image_loader_thread_run(gpointer data, gpointer user_data)
 	ImageLoader *il = data;
 	gint cont = image_loader_begin(il);
 	
+	if (!cont && !image_loader_get_pixbuf(il))
+		{
+		/* 
+		loader failed, we have to send signal 
+		(idle mode returns the image_loader_begin return value directly)
+		(success is always reported indirectly from image_loader_begin)
+		*/
+		image_loader_emit_error(il);
+		}
+	
 	while (cont && !image_loader_get_is_done(il) && !image_loader_get_stopping(il))
 		{
 		cont = image_loader_continue(il);
@@ -733,6 +744,8 @@ gint image_loader_start_thread(ImageLoader *il)
 		{
 		image_loader_thread_pool = g_thread_pool_new(image_loader_thread_run, NULL, -1, FALSE, NULL);
 		}
+
+	il->can_destroy = FALSE; /* ImageLoader can't be freed until image_loader_thread_run finishes */
 
 	g_thread_pool_push(image_loader_thread_pool, il, NULL);
 	DEBUG_1("Thread pool num threads: %d", g_thread_pool_get_num_threads(image_loader_thread_pool));
