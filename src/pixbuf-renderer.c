@@ -221,6 +221,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 static void pr_signals_connect(PixbufRenderer *pr);
 static void pr_size_cb(GtkWidget *widget, GtkAllocation *allocation, gpointer data);
 static void pixbuf_renderer_paint(PixbufRenderer *pr, GdkRectangle *area);
+static gint pr_queue_draw_idle_cb(gpointer data);
 
 
 /*
@@ -2688,11 +2689,71 @@ static gint pr_tile_is_visible(PixbufRenderer *pr, ImageTile *it)
  *-------------------------------------------------------------------
  */
 
+static gint pr_get_queued_area(GList *work)
+{
+	gint area = 0;
+	
+	while (work) 
+		{
+		QueueData *qd = work->data;
+		area += qd->w * qd->h;
+		work = work->next;
+		}
+	return area;
+}
+
+
+static gint pr_queue_schedule_next_draw(PixbufRenderer *pr, gboolean force_set)
+{
+	gfloat percent;
+	gint visible_area = pr->vis_width * pr->vis_height;
+	
+	if (!pr->loading)
+		{
+		/* 2pass prio */ 
+		DEBUG_2("redraw priority 2pass\n");
+		pr->draw_idle_id = g_idle_add_full(G_PRIORITY_HIGH_IDLE, pr_queue_draw_idle_cb, pr, NULL);
+		return FALSE;
+		}
+	
+	if (visible_area == 0)
+		{
+		/* not known yet */
+		percent = 100.0;
+		}
+	else
+		{
+		percent = 100.0 * pr_get_queued_area(pr->draw_queue) / visible_area;
+		}
+	
+	if (percent > 10.0)
+		{
+		/* we have enough data for starting intensive redrawing */
+		DEBUG_2("redraw priority high %f\n", percent);
+		pr->draw_idle_id = g_idle_add_full(GDK_PRIORITY_REDRAW, pr_queue_draw_idle_cb, pr, NULL);
+		return FALSE;
+		}
+	
+	if (percent < 1.0 || force_set)
+		{
+		/* queue is (almost) empty, wait  50 ms*/
+		DEBUG_2("redraw priority wait %f\n", percent);
+		pr->draw_idle_id = g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE, 50, pr_queue_draw_idle_cb, pr, NULL);
+		return FALSE;
+		}
+	
+	/* keep the same priority as before */
+	DEBUG_2("redraw priority no change %f\n", percent);
+	return TRUE;
+}
+		
+
 static gint pr_queue_draw_idle_cb(gpointer data)
 {
 	PixbufRenderer *pr = data;
 	QueueData *qd;
 	gint fast;
+
 
 	if ((!pr->pixbuf && !pr->source_tiles_enabled) ||
 	    (!pr->draw_queue && !pr->draw_queue_2pass) ||
@@ -2715,10 +2776,7 @@ static gint pr_queue_draw_idle_cb(gpointer data)
 			{
 			/* still loading, wait till done (also drops the higher priority) */
 
-			pr->draw_idle_id = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE,
-							   pr_queue_draw_idle_cb, pr, NULL);
-			pr->draw_idle_high = FALSE;
-			return FALSE;
+			return pr_queue_schedule_next_draw(pr, FALSE);
 			}
 
 		qd = pr->draw_queue_2pass->data;
@@ -2779,7 +2837,7 @@ static gint pr_queue_draw_idle_cb(gpointer data)
 		return FALSE;
 		}
 
-	return TRUE;
+		return pr_queue_schedule_next_draw(pr, FALSE);
 }
 
 static void pr_queue_list_free(GList *list)
@@ -2967,12 +3025,10 @@ static void pr_queue(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
 	if (w < 1 || h < 1) return;
 
 	if (pr_queue_to_tiles(pr, nx, ny, w, h, clamp, render, new_data, only_existing) &&
-	    ((!pr->draw_queue && !pr->draw_queue_2pass) || pr->draw_idle_id == -1 || !pr->draw_idle_high))
+	    ((!pr->draw_queue && !pr->draw_queue_2pass) || pr->draw_idle_id == -1))
 		{
 		if (pr->draw_idle_id != -1) g_source_remove(pr->draw_idle_id);
-		pr->draw_idle_id = g_idle_add_full(GDK_PRIORITY_REDRAW,
-						   pr_queue_draw_idle_cb, pr, NULL);
-		pr->draw_idle_high = TRUE;
+		pr_queue_schedule_next_draw(pr, TRUE);
 		}
 }
 

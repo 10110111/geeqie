@@ -109,7 +109,6 @@ struct _PixbufRenderer
 	GList *draw_queue_2pass;/* list when 2 pass is enabled */
 
 	gint draw_idle_id;
-	gint draw_idle_high;	/* current idle_id has high priority */
 
 	gboolean in_drag;
 	gint drag_last_x;
