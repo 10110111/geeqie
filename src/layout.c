@@ -1323,8 +1323,8 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 			hints = 0;
 			}
 
-		geometry.min_width = 32;
-		geometry.min_height = 32;
+		geometry.min_width = DEFAULT_MINIMAL_WINDOW_SIZE;
+		geometry.min_height = DEFAULT_MINIMAL_WINDOW_SIZE;
 		geometry.base_width = TOOLWINDOW_DEF_WIDTH;
 		geometry.base_height = TOOLWINDOW_DEF_HEIGHT;
 		gtk_window_set_geometry_hints(GTK_WINDOW(lw->tools), NULL, &geometry,

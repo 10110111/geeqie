@@ -842,8 +842,8 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 
 	vw->window = window_new(GTK_WINDOW_TOPLEVEL, "view", PIXBUF_INLINE_ICON_VIEW, NULL, NULL);
 
-	geometry.min_width = 8;
-	geometry.min_height = 8;
+	geometry.min_width = DEFAULT_MINIMAL_WINDOW_SIZE;
+	geometry.min_height = DEFAULT_MINIMAL_WINDOW_SIZE;
 	gtk_window_set_geometry_hints(GTK_WINDOW(vw->window), NULL, &geometry, GDK_HINT_MIN_SIZE);
 
 	gtk_window_set_resizable(GTK_WINDOW(vw->window), TRUE);

@@ -2577,8 +2577,8 @@ void search_new(FileData *dir_fd, FileData *example_file)
 
 	gtk_window_set_resizable(GTK_WINDOW(sd->window), TRUE);
 
-	geometry.min_width = 32;
-	geometry.min_height = 32;
+	geometry.min_width = DEFAULT_MINIMAL_WINDOW_SIZE;
+	geometry.min_height = DEFAULT_MINIMAL_WINDOW_SIZE;
 	geometry.base_width = DEF_SEARCH_WIDTH;
 	geometry.base_height = DEF_SEARCH_HEIGHT;
 	gtk_window_set_geometry_hints(GTK_WINDOW(sd->window), NULL, &geometry,

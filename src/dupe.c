@@ -3125,8 +3125,8 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 
 	dw->window = window_new(GTK_WINDOW_TOPLEVEL, "dupe", NULL, NULL, _("Find duplicates"));
 
-	geometry.min_width = 32;
-	geometry.min_height = 32;
+	geometry.min_width = DEFAULT_MINIMAL_WINDOW_SIZE;
+	geometry.min_height = DEFAULT_MINIMAL_WINDOW_SIZE;
 	geometry.base_width = DUPE_DEF_WIDTH;
 	geometry.base_height = DUPE_DEF_HEIGHT;
 	gtk_window_set_geometry_hints(GTK_WINDOW(dw->window), NULL, &geometry,

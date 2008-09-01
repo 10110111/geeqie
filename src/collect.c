@@ -1181,8 +1181,8 @@ CollectWindow *collection_window_new(const gchar *path)
 
 	cw->window = window_new(GTK_WINDOW_TOPLEVEL, "collection", PIXBUF_INLINE_ICON_BOOK, NULL, NULL);
 
-	geometry.min_width = 32;
-	geometry.min_height = 32;
+	geometry.min_width = DEFAULT_MINIMAL_WINDOW_SIZE;
+	geometry.min_height = DEFAULT_MINIMAL_WINDOW_SIZE;
 	geometry.base_width = COLLECT_DEF_WIDTH;
 	geometry.base_height = COLLECT_DEF_HEIGHT;
 	gtk_window_set_geometry_hints(GTK_WINDOW(cw->window), NULL, &geometry,

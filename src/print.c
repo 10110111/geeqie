@@ -3375,8 +3375,8 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 				       parent, FALSE,
 				       print_window_cancel_cb, pw);
 
-	geometry.min_width = 32;
-	geometry.min_height = 32;
+	geometry.min_width = DEFAULT_MINIMAL_WINDOW_SIZE;
+	geometry.min_height = DEFAULT_MINIMAL_WINDOW_SIZE;
 	geometry.base_width = PRINT_DLG_WIDTH;
 	geometry.base_height = PRINT_DLG_HEIGHT;
 	gtk_window_set_geometry_hints(GTK_WINDOW(pw->dialog->dialog), NULL, &geometry,

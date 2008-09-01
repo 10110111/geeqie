@@ -860,8 +860,8 @@ void info_window_new(FileData *fd, GList *list, GtkWidget *parent)
 	}
 	gtk_window_set_resizable(GTK_WINDOW(id->window), TRUE);
 
-	geometry.min_width = 32;
-	geometry.min_height = 32;
+	geometry.min_width = DEFAULT_MINIMAL_WINDOW_SIZE;
+	geometry.min_height = DEFAULT_MINIMAL_WINDOW_SIZE;
 	geometry.base_width = DEF_PROPERTY_WIDTH;
 	geometry.base_height = DEF_PROPERTY_HEIGHT;
 	gtk_window_set_geometry_hints(GTK_WINDOW(id->window), NULL, &geometry,
