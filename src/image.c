@@ -32,21 +32,7 @@
 
 #include <math.h>
 
-
-/* size of the image loader buffer (512 bytes x defined number) */
-#define IMAGE_LOAD_BUFFER_COUNT 8
-
-/* define this so that more bytes are read per idle loop on larger images (> 1MB) */
-#define IMAGE_THROTTLE_LARGER_IMAGES 1
-
-/* throttle factor to increase read bytes by (2 is double, 3 is triple, etc.) */
-#define IMAGE_THROTTLE_FACTOR 32
-
-/* the file size at which throttling take place */
-#define IMAGE_THROTTLE_THRESHOLD 1048576
-
 static GList *image_list = NULL;
-
 
 static void image_update_title(ImageWindow *imd);
 static void image_read_ahead_start(ImageWindow *imd);
@@ -593,20 +579,6 @@ static void image_load_error_cb(ImageLoader *il, gpointer data)
 	image_load_done_cb(il, data);
 }
 
-#ifdef IMAGE_THROTTLE_LARGER_IMAGES
-static void image_load_buffer_throttle(ImageLoader *il)
-{
-	if (!il || il->bytes_total < IMAGE_THROTTLE_THRESHOLD) return;
-
-	/* Larger image files usually have larger chunks of data per pixel...
-	 * So increase the buffer read size so that the rendering chunks called
-	 * are also larger.
-	 */
-
-	image_loader_set_buffer_size(il, IMAGE_LOAD_BUFFER_COUNT * IMAGE_THROTTLE_FACTOR);
-}
-#endif
-
 /* this read ahead is located here merely for the callbacks, above */
 
 static gint image_read_ahead_check(ImageWindow *imd)
@@ -630,11 +602,6 @@ static gint image_read_ahead_check(ImageWindow *imd)
 		g_signal_connect (G_OBJECT(imd->il), "area_ready", (GCallback)image_load_area_cb, imd);
 		g_signal_connect (G_OBJECT(imd->il), "error", (GCallback)image_load_error_cb, imd);
 		g_signal_connect (G_OBJECT(imd->il), "done", (GCallback)image_load_done_cb, imd);
-		image_loader_set_buffer_size(imd->il, IMAGE_LOAD_BUFFER_COUNT);
-
-#ifdef IMAGE_THROTTLE_LARGER_IMAGES
-		image_load_buffer_throttle(imd->il);
-#endif
 
 		g_object_set(G_OBJECT(imd->pr), "loading", TRUE, NULL);
 		image_state_set(imd, IMAGE_STATE_LOADING);
@@ -700,7 +667,6 @@ static gint image_load_begin(ImageWindow *imd, FileData *fd)
 	g_signal_connect (G_OBJECT(imd->il), "area_ready", (GCallback)image_load_area_cb, imd);
 	g_signal_connect (G_OBJECT(imd->il), "error", (GCallback)image_load_error_cb, imd);
 	g_signal_connect (G_OBJECT(imd->il), "done", (GCallback)image_load_done_cb, imd);
-	image_loader_set_buffer_size(imd->il, IMAGE_LOAD_BUFFER_COUNT);
 
 	if (!image_loader_start(imd->il))
 		{
@@ -717,10 +683,6 @@ static gint image_load_begin(ImageWindow *imd, FileData *fd)
 		}
 
 	image_state_set(imd, IMAGE_STATE_LOADING);
-
-#ifdef IMAGE_THROTTLE_LARGER_IMAGES
-	image_load_buffer_throttle(imd->il);
-#endif
 
 	if (!imd->delay_flip && !image_get_pixbuf(imd)) image_load_pixbuf_ready(imd);
 
