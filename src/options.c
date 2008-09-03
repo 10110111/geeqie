@@ -31,7 +31,7 @@ ConfOptions *init_options(ConfOptions *options)
 
 	options->collections.rectangular_selection = FALSE;
 
-	options->color_profile.enabled = FALSE;
+	options->color_profile.enabled = TRUE;
 	options->color_profile.input_type = 0;
 	options->color_profile.screen_file = NULL;
 	options->color_profile.screen_type = 0;
@@ -73,9 +73,9 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image.fit_window_to_image = FALSE;
 	options->image.idle_read_loop_count = IMAGE_LOADER_IDLE_READ_LOOP_COUNT_DEFAULT;
 	options->image.limit_autofit_size = FALSE;
-	options->image.limit_window_size = FALSE;
+	options->image.limit_window_size = TRUE;
 	options->image.max_autofit_size = 100;
-	options->image.max_window_size = 100;
+	options->image.max_window_size = 90;
 	options->image.read_buffer_size = IMAGE_LOADER_READ_BUFFER_SIZE_DEFAULT;
 	options->image.scroll_reset_method = SCROLL_RESET_TOPLEFT;
 	options->image.tile_cache_max = 10;
@@ -83,9 +83,9 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image.use_custom_border_color = FALSE;
 	options->image.zoom_2pass = TRUE;
 	options->image.zoom_increment = 5;
-	options->image.zoom_mode = ZOOM_RESET_ORIGINAL;
+	options->image.zoom_mode = ZOOM_RESET_NONE;
 	options->image.zoom_quality = GDK_INTERP_BILINEAR;
-	options->image.zoom_to_fit_allow_expand = TRUE;
+	options->image.zoom_to_fit_allow_expand = FALSE;
 
 	options->image_overlay.common.state = OSD_SHOW_NOTHING;
 	options->image_overlay.common.show_at_startup = FALSE;
@@ -101,17 +101,17 @@ ConfOptions *init_options(ConfOptions *options)
 	options->layout.float_window.x = 0;
 	options->layout.float_window.y = 0;
 	options->layout.home_path = NULL;
-	options->layout.main_window.h = 400;
+	options->layout.main_window.h = 540;
 	options->layout.main_window.hdivider_pos = -1;
 	options->layout.main_window.maximized = FALSE;
 	options->layout.main_window.vdivider_pos = 200;
-	options->layout.main_window.w = 500;
+	options->layout.main_window.w = 720;
 	options->layout.main_window.x = 0;
 	options->layout.main_window.y = 0;
 	options->layout.order = NULL;
 	options->layout.properties_window.w = DEF_PROPERTY_WIDTH;
 	options->layout.properties_window.h = DEF_PROPERTY_HEIGHT;
-	options->layout.save_window_positions = FALSE;
+	options->layout.save_window_positions = TRUE;
 	options->layout.show_directory_date = FALSE;
 	options->layout.show_marks = FALSE;
 	options->layout.show_thumbnails = FALSE;
@@ -119,7 +119,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->layout.toolbar_hidden = FALSE;
 	options->layout.tools_float = FALSE;
 	options->layout.tools_hidden = FALSE;
-	options->layout.tools_restore_state = FALSE;
+	options->layout.tools_restore_state = TRUE;
 
 	options->lazy_image_sync = FALSE;
 	options->mousewheel_scrolls = FALSE;
@@ -135,14 +135,14 @@ ConfOptions *init_options(ConfOptions *options)
 	options->panels.sort.mode_state = 0;
 	options->panels.sort.selection_state = 0;
 
-	options->progressive_key_scrolling = FALSE;
+	options->progressive_key_scrolling = TRUE;
 	
 	options->save_metadata_in_image_file = FALSE;
 	
-	options->show_copy_path = FALSE;
+	options->show_copy_path = TRUE;
 	options->show_icon_names = TRUE;
 
-	options->slideshow.delay = 150;
+	options->slideshow.delay = 50;
 	options->slideshow.random = FALSE;
 	options->slideshow.repeat = FALSE;
 
