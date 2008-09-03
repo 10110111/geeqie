@@ -2712,7 +2712,7 @@ static gint pr_queue_schedule_next_draw(PixbufRenderer *pr, gboolean force_set)
 		{
 		/* 2pass prio */ 
 		DEBUG_2("redraw priority 2pass\n");
-		pr->draw_idle_id = g_idle_add_full(G_PRIORITY_HIGH_IDLE, pr_queue_draw_idle_cb, pr, NULL);
+		pr->draw_idle_id = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE, pr_queue_draw_idle_cb, pr, NULL);
 		return FALSE;
 		}
 	
