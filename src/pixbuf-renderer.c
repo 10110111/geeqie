@@ -2711,7 +2711,7 @@ static gint pr_queue_schedule_next_draw(PixbufRenderer *pr, gboolean force_set)
 	if (!pr->loading)
 		{
 		/* 2pass prio */ 
-		DEBUG_2("redraw priority 2pass\n");
+		DEBUG_2("redraw priority: 2pass");
 		pr->draw_idle_id = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE, pr_queue_draw_idle_cb, pr, NULL);
 		return FALSE;
 		}
@@ -2729,7 +2729,7 @@ static gint pr_queue_schedule_next_draw(PixbufRenderer *pr, gboolean force_set)
 	if (percent > 10.0)
 		{
 		/* we have enough data for starting intensive redrawing */
-		DEBUG_2("redraw priority high %f\n", percent);
+		DEBUG_2("redraw priority: high %.2f %%", percent);
 		pr->draw_idle_id = g_idle_add_full(GDK_PRIORITY_REDRAW, pr_queue_draw_idle_cb, pr, NULL);
 		return FALSE;
 		}
@@ -2737,13 +2737,13 @@ static gint pr_queue_schedule_next_draw(PixbufRenderer *pr, gboolean force_set)
 	if (percent < 1.0 || force_set)
 		{
 		/* queue is (almost) empty, wait  50 ms*/
-		DEBUG_2("redraw priority wait %f\n", percent);
+		DEBUG_2("redraw priority: wait %.2f %%", percent);
 		pr->draw_idle_id = g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE, 50, pr_queue_draw_idle_cb, pr, NULL);
 		return FALSE;
 		}
 	
 	/* keep the same priority as before */
-	DEBUG_2("redraw priority no change %f\n", percent);
+	DEBUG_2("redraw priority: no change %.2f %%", percent);
 	return TRUE;
 }
 		
