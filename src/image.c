@@ -422,10 +422,6 @@ static void image_read_ahead_done_cb(ImageLoader *il, gpointer data)
 			g_object_ref(imd->read_ahead_fd->pixbuf);
 			image_cache_set(imd, imd->read_ahead_fd);
 			}
-		else
-			{
-			imd->read_ahead_fd->pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
-			}
 		}
 	image_loader_free(imd->read_ahead_il);
 	imd->read_ahead_il = NULL;
@@ -562,7 +558,17 @@ static void image_load_done_cb(ImageLoader *il, gpointer data)
 		image_cache_set(imd, imd->image_fd);
 		}
 
-	if (imd->delay_flip &&
+	if (!image_loader_get_pixbuf(imd->il))
+		{
+		GdkPixbuf *pixbuf;
+
+		pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
+		image_change_pixbuf(imd, pixbuf, image_zoom_get(imd));
+		g_object_unref(pixbuf);
+
+		imd->unknown = TRUE;
+		}
+	else if (imd->delay_flip &&
 	    image_get_pixbuf(imd) != image_loader_get_pixbuf(imd->il))
 		{
 		g_object_set(G_OBJECT(imd->pr), "complete", FALSE, NULL);
