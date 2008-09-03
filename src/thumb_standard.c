@@ -605,6 +605,7 @@ static void thumb_loader_std_progress_cb(ImageLoader *il, gdouble percent, gpoin
 static gint thumb_loader_std_setup(ThumbLoaderStd *tl, FileData *fd)
 {
 	tl->il = image_loader_new(fd);
+	image_loader_set_priority(tl->il, G_PRIORITY_LOW);
 
 	if (options->thumbnails.fast)
 		{

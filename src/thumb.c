@@ -273,6 +273,7 @@ static void thumb_loader_setup(ThumbLoader *tl, const gchar *path)
 	image_loader_free(tl->il);
 	tl->il = image_loader_new(fd);
 	file_data_unref(fd);
+	image_loader_set_priority(tl->il, G_PRIORITY_LOW);
 
 	if (options->thumbnails.fast)
 		{
