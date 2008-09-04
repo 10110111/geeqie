@@ -102,7 +102,7 @@ static GtkWidget *sidecar_ext_entry;
 
 
 #define CONFIG_WINDOW_DEF_WIDTH		700
-#define CONFIG_WINDOW_DEF_HEIGHT	500
+#define CONFIG_WINDOW_DEF_HEIGHT	600
 
 /*
  *-----------------------------------------------------------------------------
@@ -120,22 +120,10 @@ static void home_path_set_current(GtkWidget *widget, gpointer data)
 	gtk_entry_set_text(GTK_ENTRY(home_path_entry), layout_get_path(NULL));
 }
 
-static void zoom_mode_original_cb(GtkWidget *widget, gpointer data)
+static void zoom_mode_cb(GtkWidget *widget, gpointer data)
 {
 	if (GTK_TOGGLE_BUTTON (widget)->active)
-		c_options->image.zoom_mode = ZOOM_RESET_ORIGINAL;
-}
-
-static void zoom_mode_fit_cb(GtkWidget *widget, gpointer data)
-{
-	if (GTK_TOGGLE_BUTTON (widget)->active)
-		c_options->image.zoom_mode = ZOOM_RESET_FIT_WINDOW;
-}
-
-static void zoom_mode_none_cb(GtkWidget *widget, gpointer data)
-{
-	if (GTK_TOGGLE_BUTTON (widget)->active)
-		c_options->image.zoom_mode = ZOOM_RESET_NONE;
+		c_options->image.zoom_mode = GPOINTER_TO_INT(data);
 }
 
 static void scroll_reset_cb(GtkWidget *widget, gpointer data)
@@ -894,10 +882,36 @@ static void image_overlay_help_cb(GtkWidget *widget, gpointer data)
 	help_window_show("overlay");
 }
 
+static GtkWidget *scrolled_notebook_page(GtkWidget *notebook, const gchar *title)
+{
+	GtkWidget *label;
+	GtkWidget *vbox;
+	GtkWidget *scrolled;
+	GtkWidget *viewport;
+
+	scrolled = gtk_scrolled_window_new(NULL, NULL);
+	gtk_container_set_border_width(GTK_CONTAINER(scrolled), PREF_PAD_BORDER);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
+				       GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	label = gtk_label_new(title);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), scrolled, label);
+	gtk_widget_show(scrolled);
+
+	viewport = gtk_viewport_new(NULL, NULL);
+	gtk_viewport_set_shadow_type(GTK_VIEWPORT(viewport), GTK_SHADOW_NONE);
+	gtk_container_add(GTK_CONTAINER(scrolled), viewport);
+	gtk_widget_show(viewport);
+
+	vbox = gtk_vbox_new(FALSE, 0);
+	gtk_container_add(GTK_CONTAINER(viewport), vbox);
+	gtk_widget_show(vbox);
+
+	return vbox;
+}
+
 /* general options tab */
 static void config_tab_general(GtkWidget *notebook)
 {
-	GtkWidget *label;
 	GtkWidget *hbox;
 	GtkWidget *vbox;
 	GtkWidget *subvbox;
@@ -909,11 +923,7 @@ static void config_tab_general(GtkWidget *notebook)
 	GtkWidget *table;
 	GtkWidget *spin;
 
-	vbox = gtk_vbox_new(FALSE, 0);
-	gtk_container_set_border_width(GTK_CONTAINER(vbox), PREF_PAD_BORDER);
-	gtk_widget_show(vbox);
-	label = gtk_label_new(_("General"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, label);
+	vbox = scrolled_notebook_page(notebook, _("General"));
 
 	group = pref_group_new(vbox, FALSE, _("Startup"), GTK_ORIENTATION_VERTICAL);
 
@@ -983,7 +993,6 @@ static void config_tab_general(GtkWidget *notebook)
 /* image tab */
 static void config_tab_image(GtkWidget *notebook)
 {
-	GtkWidget *label;
 	GtkWidget *hbox;
 	GtkWidget *vbox;
 	GtkWidget *group;
@@ -992,11 +1001,7 @@ static void config_tab_image(GtkWidget *notebook)
 	GtkWidget *table;
 	GtkWidget *spin;
 
-	vbox = gtk_vbox_new(FALSE, 0);
-	gtk_container_set_border_width(GTK_CONTAINER(vbox), PREF_PAD_BORDER);
-	gtk_widget_show(vbox);
-	label = gtk_label_new(_("Image"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, label);
+	vbox = scrolled_notebook_page(notebook, _("Image"));
 
 	group = pref_group_new(vbox, FALSE, _("Zoom"), GTK_ORIENTATION_VERTICAL);
 
@@ -1031,13 +1036,13 @@ static void config_tab_image(GtkWidget *notebook)
 	c_options->image.zoom_mode = options->image.zoom_mode;
 	button = pref_radiobutton_new(group, NULL, _("Zoom to original size"),
 				      (options->image.zoom_mode == ZOOM_RESET_ORIGINAL),
-				      G_CALLBACK(zoom_mode_original_cb), NULL);
+				      G_CALLBACK(zoom_mode_cb), GINT_TO_POINTER(ZOOM_RESET_ORIGINAL));
 	button = pref_radiobutton_new(group, button, _("Fit image to window"),
 				      (options->image.zoom_mode == ZOOM_RESET_FIT_WINDOW),
-				      G_CALLBACK(zoom_mode_fit_cb), NULL);
+				      G_CALLBACK(zoom_mode_cb), GINT_TO_POINTER(ZOOM_RESET_FIT_WINDOW));
 	button = pref_radiobutton_new(group, button, _("Leave Zoom at previous setting"),
 				      (options->image.zoom_mode == ZOOM_RESET_NONE),
-				      G_CALLBACK(zoom_mode_none_cb), NULL);
+				      G_CALLBACK(zoom_mode_cb), GINT_TO_POINTER(ZOOM_RESET_NONE));
 
 	group = pref_group_new(vbox, FALSE, _("Scroll reset method:"), GTK_ORIENTATION_VERTICAL);
 
@@ -1074,18 +1079,13 @@ static void config_tab_image(GtkWidget *notebook)
 /* windows tab */
 static void config_tab_windows(GtkWidget *notebook)
 {
-	GtkWidget *label;
 	GtkWidget *hbox;
 	GtkWidget *vbox;
 	GtkWidget *group;
 	GtkWidget *ct_button;
 	GtkWidget *spin;
 
-	vbox = gtk_vbox_new(FALSE, 0);
-	gtk_container_set_border_width(GTK_CONTAINER(vbox), PREF_PAD_BORDER);
-	gtk_widget_show(vbox);
-	label = gtk_label_new(_("Windows"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, label);
+	vbox = scrolled_notebook_page(notebook, _("Windows"));
 
 	group = pref_group_new(vbox, FALSE, _("State"), GTK_ORIENTATION_VERTICAL);
 
@@ -1120,7 +1120,6 @@ static void config_tab_filtering(GtkWidget *notebook)
 {
 	GtkWidget *hbox;
 	GtkWidget *frame;
-	GtkWidget *label;
 	GtkWidget *vbox;
 	GtkWidget *group;
 	GtkWidget *button;
@@ -1131,11 +1130,7 @@ static void config_tab_filtering(GtkWidget *notebook)
 	GtkTreeSelection *selection;
 	GtkTreeViewColumn *column;
 
-	vbox = gtk_vbox_new(FALSE, 0);
-	gtk_container_set_border_width(GTK_CONTAINER(vbox), PREF_PAD_BORDER);
-	gtk_widget_show(vbox);
-	label = gtk_label_new(_("Filtering"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, label);
+	vbox = scrolled_notebook_page(notebook, _("Filtering"));
 
 	group = pref_box_new(vbox, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 
@@ -1242,11 +1237,7 @@ static void config_tab_editors(GtkWidget *notebook)
 	GtkWidget *table;
 	gint i;
 
-	vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
-	gtk_container_set_border_width(GTK_CONTAINER(vbox), PREF_PAD_BORDER);
-	gtk_widget_show(vbox);
-	label = gtk_label_new(_("Editors"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, label);
+	vbox = scrolled_notebook_page(notebook, _("Editors"));
 
 	table = pref_table_new(vbox, 3, 9, FALSE, FALSE);
 	gtk_table_set_col_spacings(GTK_TABLE(table), PREF_PAD_GAP);
@@ -1320,27 +1311,9 @@ static void config_tab_properties(GtkWidget *notebook)
 	GtkWidget *vbox;
 	GtkWidget *group;
 	GtkWidget *table;
-	GtkWidget *scrolled;
-	GtkWidget *viewport;
 	gint i;
 
-	scrolled = gtk_scrolled_window_new(NULL, NULL);
-	gtk_container_set_border_width(GTK_CONTAINER(scrolled), PREF_PAD_BORDER);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-				       GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-
-	label = gtk_label_new(_("Properties"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), scrolled, label);
-	gtk_widget_show(scrolled);
-
-	viewport = gtk_viewport_new(NULL, NULL);
-	gtk_viewport_set_shadow_type(GTK_VIEWPORT(viewport), GTK_SHADOW_NONE);
-	gtk_container_add(GTK_CONTAINER(scrolled), viewport);
-	gtk_widget_show(viewport);
-
-	vbox = gtk_vbox_new(FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(viewport), vbox);
-	gtk_widget_show(vbox);
+	vbox = scrolled_notebook_page(notebook, _("Properties"));
 
 	group = pref_group_new(vbox, FALSE, _("Exif"),
 			       GTK_ORIENTATION_VERTICAL);
@@ -1374,28 +1347,12 @@ static void config_tab_advanced(GtkWidget *notebook)
 	GtkWidget *ct_button;
 	GtkWidget *table;
 	GtkWidget *spin;
-	GtkWidget *scrolled;
-	GtkWidget *viewport;
 	GtkWidget *image_overlay_template_view;
+	GtkWidget *scrolled;
 	GtkTextBuffer *buffer;
 	gint i;
 
-	scrolled = gtk_scrolled_window_new(NULL, NULL);
-	gtk_container_set_border_width(GTK_CONTAINER(scrolled), PREF_PAD_BORDER);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-				       GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-	label = gtk_label_new(_("Advanced"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), scrolled, label);
-	gtk_widget_show(scrolled);
-
-	viewport = gtk_viewport_new(NULL, NULL);
-	gtk_viewport_set_shadow_type(GTK_VIEWPORT(viewport), GTK_SHADOW_NONE);
-	gtk_container_add(GTK_CONTAINER(scrolled), viewport);
-	gtk_widget_show(viewport);
-
-	vbox = gtk_vbox_new(FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(viewport), vbox);
-	gtk_widget_show(vbox);
+	vbox = scrolled_notebook_page(notebook, _("Advanced"));
 
 	group = pref_group_new(vbox, FALSE, _("Full screen"), GTK_ORIENTATION_VERTICAL);
 
