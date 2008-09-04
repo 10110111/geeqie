@@ -511,6 +511,9 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 
 	pr->orientation = 1;
 
+	pr->norm_center_x = 0.5;
+	pr->norm_center_y = 0.5;
+
 	gtk_widget_set_double_buffered(box, FALSE);
 	g_signal_connect_after(G_OBJECT(box), "size_allocate",
 			       G_CALLBACK(pr_size_cb), pr);
@@ -3093,6 +3096,19 @@ static void pr_drag_signal(PixbufRenderer *pr, GdkEventButton *bevent)
  *-------------------------------------------------------------------
  */
 
+static void pixbuf_renderer_sync_scroll_center(PixbufRenderer *pr)
+{
+	gint src_x, src_y;
+	if (!pr->width || !pr->height) return;
+
+	src_x = pr->x_scroll + pr->vis_width / 2;
+	src_y = pr->y_scroll + pr->vis_height / 2;
+
+	pr->norm_center_x = (gdouble)src_x / pr->width;
+	pr->norm_center_y = (gdouble)src_y / pr->height;
+}
+
+
 static gint pr_scroll_clamp(PixbufRenderer *pr)
 {
 	gint old_xs;
@@ -3127,6 +3143,8 @@ static gint pr_scroll_clamp(PixbufRenderer *pr)
 		pr->y_scroll = CLAMP(pr->y_scroll, 0, pr->height - pr->vis_height);
 		}
 
+	pixbuf_renderer_sync_scroll_center(pr);
+
 	return (old_xs != pr->x_scroll || old_ys != pr->y_scroll);
 }
 
@@ -3158,6 +3176,8 @@ static gint pr_size_clamp(PixbufRenderer *pr)
 		pr->vis_height = pr->window_height;
 		pr->y_offset = 0;
 		}
+
+	pixbuf_renderer_sync_scroll_center(pr);
 
 	return (old_vw != pr->vis_width || old_vh != pr->vis_height);
 }
@@ -3268,6 +3288,8 @@ static gint pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
 		}
 	if (redrawn) *redrawn = (invalidate || invalid);
 
+	pixbuf_renderer_sync_scroll_center(pr);
+
 	return TRUE;
 }
 
@@ -3283,7 +3305,9 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 	gboolean force = !!(flags & PR_ZOOM_FORCE);
 	gboolean new = !!(flags & PR_ZOOM_NEW);
 	PrZoomFlags clamp_flags = flags;
-
+	gdouble old_center_x = pr->norm_center_x;
+	gdouble old_center_y = pr->norm_center_y;
+	
 	old_scale = pr->scale;
 	if (center_point)
 		{
@@ -3310,7 +3334,9 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 		switch (pr->scroll_reset)
 			{
 			case PR_SCROLL_RESET_NOCHANGE:
-				/* maintain old scroll position, do nothing */
+				/* maintain old scroll position */
+				pr->x_scroll = ((gdouble)pr->image_width * old_center_x * pr->scale) - pr->vis_width / 2;
+				pr->y_scroll = ((gdouble)pr->image_height * old_center_y * pr->scale) - pr->vis_height / 2;
 				break;
 			case PR_SCROLL_RESET_CENTER:
 				/* center new image */
@@ -3461,6 +3487,9 @@ void pixbuf_renderer_scroll(PixbufRenderer *pr, gint x, gint y)
 	pr->y_scroll += y;
 
 	pr_scroll_clamp(pr);
+	
+	pixbuf_renderer_sync_scroll_center(pr);
+	
 	if (pr->x_scroll == old_x && pr->y_scroll == old_y) return;
 
 	pr_scroll_notify_signal(pr);
@@ -3576,20 +3605,8 @@ void pixbuf_renderer_scroll_to_point(PixbufRenderer *pr, gint x, gint y,
 
 void pixbuf_renderer_get_scroll_center(PixbufRenderer *pr, gdouble *x, gdouble *y)
 {
-	gint src_x, src_y;
-
-	src_x = pr->x_scroll + pr->vis_width / 2;
-	src_y = pr->y_scroll + pr->vis_height / 2;
-
-	if (pr->width)
-		*x = (gdouble)src_x / pr->width;
-	else
-		*x = 0.5; /* center */
-		
-	if (pr->height)
-		*y = (gdouble)src_y / pr->height;
-	else
-		*y = 0.5; /* center */
+	*x = pr->norm_center_x;
+	*y = pr->norm_center_y;
 }
 
 void pixbuf_renderer_set_scroll_center(PixbufRenderer *pr, gdouble x, gdouble y)

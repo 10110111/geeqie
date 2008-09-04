@@ -919,14 +919,9 @@ gint layout_image_get_index(LayoutWindow *lw)
 
 void layout_image_set_fd(LayoutWindow *lw, FileData *fd)
 {
-	gdouble sx, sy;
 	if (!layout_valid(&lw)) return;
 
-	image_get_scroll_center(lw->image, &sx, &sy);
-
 	image_change_fd(lw->image, fd, image_zoom_get_default(lw->image));
-
-	image_set_scroll_center(lw->image, sx, sy);
 
 	layout_list_sync_fd(lw, fd);
 	layout_image_slideshow_continue_check(lw);
@@ -1045,12 +1040,9 @@ void layout_image_set_collection(LayoutWindow *lw, CollectionData *cd, CollectIn
 
 void layout_image_refresh(LayoutWindow *lw)
 {
-	gdouble sx, sy;
 	if (!layout_valid(&lw)) return;
 
-	image_get_scroll_center(lw->image, &sx, &sy);
 	image_reload(lw->image);
-	image_set_scroll_center(lw->image, sx, sy);
 }
 
 void layout_image_color_profile_set(LayoutWindow *lw,

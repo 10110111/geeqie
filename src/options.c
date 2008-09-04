@@ -77,7 +77,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image.max_autofit_size = 100;
 	options->image.max_window_size = 90;
 	options->image.read_buffer_size = IMAGE_LOADER_READ_BUFFER_SIZE_DEFAULT;
-	options->image.scroll_reset_method = SCROLL_RESET_TOPLEFT;
+	options->image.scroll_reset_method = SCROLL_RESET_NOCHANGE;
 	options->image.tile_cache_max = 10;
 	options->image.image_cache_max = 128; /* 4 x 10MPix */
 	options->image.use_custom_border_color = FALSE;
