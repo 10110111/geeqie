@@ -138,6 +138,12 @@ static void zoom_mode_none_cb(GtkWidget *widget, gpointer data)
 		c_options->image.zoom_mode = ZOOM_RESET_NONE;
 }
 
+static void scroll_reset_cb(GtkWidget *widget, gpointer data)
+{
+	if (GTK_TOGGLE_BUTTON (widget)->active)
+		c_options->image.scroll_reset_method = GPOINTER_TO_INT(data);
+}
+
 static void zoom_increment_cb(GtkWidget *spin, gpointer data)
 {
 	c_options->image.zoom_increment = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) * 10.0 + 0.01);
@@ -236,6 +242,7 @@ static void config_window_apply(void)
 	options->layout.tools_restore_state = c_options->layout.tools_restore_state;
 	options->layout.save_window_positions = c_options->layout.save_window_positions;
 	options->image.zoom_mode = c_options->image.zoom_mode;
+	options->image.scroll_reset_method = c_options->image.scroll_reset_method;
 	options->image.zoom_2pass = c_options->image.zoom_2pass;
 	options->image.fit_window_to_image = c_options->image.fit_window_to_image;
 	options->image.limit_window_size = c_options->image.limit_window_size;
@@ -1031,6 +1038,20 @@ static void config_tab_image(GtkWidget *notebook)
 	button = pref_radiobutton_new(group, button, _("Leave Zoom at previous setting"),
 				      (options->image.zoom_mode == ZOOM_RESET_NONE),
 				      G_CALLBACK(zoom_mode_none_cb), NULL);
+
+	group = pref_group_new(vbox, FALSE, _("Scroll reset method:"), GTK_ORIENTATION_VERTICAL);
+
+	c_options->image.scroll_reset_method = options->image.scroll_reset_method;
+	button = pref_radiobutton_new(group, NULL, _("Top left"),
+				      (options->image.scroll_reset_method == SCROLL_RESET_TOPLEFT),
+				      G_CALLBACK(scroll_reset_cb), GINT_TO_POINTER(SCROLL_RESET_TOPLEFT));
+	button = pref_radiobutton_new(group, button, _("Center"),
+				      (options->image.scroll_reset_method == SCROLL_RESET_CENTER),
+				      G_CALLBACK(scroll_reset_cb), GINT_TO_POINTER(SCROLL_RESET_CENTER));
+	button = pref_radiobutton_new(group, button, _("No change"),
+				      (options->image.scroll_reset_method == SCROLL_RESET_NOCHANGE),
+				      G_CALLBACK(scroll_reset_cb), GINT_TO_POINTER(SCROLL_RESET_NOCHANGE));
+
 
 	group = pref_group_new(vbox, FALSE, _("Appearance"), GTK_ORIENTATION_VERTICAL);
 
