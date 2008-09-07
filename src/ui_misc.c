@@ -718,6 +718,8 @@ GtkWidget *pref_table_spin(GtkWidget *table, gint column, gint row,
 	return spin;
 }
 
+#if ! GTK_CHECK_VERSION(2,12,0)
+
 static void pref_toolbar_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	GtkTooltips *tips = data;
@@ -725,11 +727,15 @@ static void pref_toolbar_destroy_cb(GtkWidget *widget, gpointer data)
 	g_object_unref(G_OBJECT(tips));
 }
 
+#endif
+
 GtkWidget *pref_toolbar_new(GtkWidget *parent_box, GtkToolbarStyle style)
 {
 	GtkWidget *tbar;
+#if ! GTK_CHECK_VERSION(2,12,0)
 	GtkTooltips *tips;
-
+#endif
+	
 	tbar = gtk_toolbar_new();
 	gtk_toolbar_set_style(GTK_TOOLBAR(tbar), style);
 
@@ -739,23 +745,25 @@ GtkWidget *pref_toolbar_new(GtkWidget *parent_box, GtkToolbarStyle style)
 		gtk_widget_show(tbar);
 		}
 
+#if ! GTK_CHECK_VERSION(2,12,0)
 	tips = gtk_tooltips_new();
 
 	/* take ownership of tooltips */
-#ifdef GTK_OBJECT_FLOATING
+#  ifdef GTK_OBJECT_FLOATING
 	/* GTK+ < 2.10 */
 	g_object_ref(G_OBJECT(tips));
 	gtk_object_sink(GTK_OBJECT(tips));
-#else
+#  else
 	/* GTK+ >= 2.10 */
 	g_object_ref_sink(G_OBJECT(tips));
-#endif
+#  endif
 
 	g_object_set_data(G_OBJECT(tbar), "tooltips", tips);
 	g_signal_connect(G_OBJECT(tbar), "destroy",
 			 G_CALLBACK(pref_toolbar_destroy_cb), tips);
 
 	gtk_tooltips_enable(tips);
+#endif
 
 	return tbar;
 }
@@ -799,11 +807,18 @@ GtkWidget *pref_toolbar_button(GtkWidget *toolbar,
 
 	if (description)
 		{
+
+#if GTK_CHECK_VERSION(2,12,0)
+
+		gtk_widget_set_tooltip_text(GTK_TOOL_ITEM(item), description);
+			
+#else
 		GtkTooltips *tips;
 
 		tips = g_object_get_data(G_OBJECT(toolbar), "tooltips");
 		gtk_tool_item_set_tooltip(GTK_TOOL_ITEM(item), tips, description, NULL);
-		}
+#endif
+	}
 
 	return item;
 }

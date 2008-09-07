@@ -214,12 +214,13 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 			{
 			if (tl->fd->thumb_pixbuf) g_object_unref(tl->fd->thumb_pixbuf);
 			tl->fd->thumb_pixbuf = pixbuf;
-			gdk_pixbuf_ref(tl->fd->thumb_pixbuf);
+
+			g_object_ref(tl->fd->thumb_pixbuf);
 			}
 		save = image_loader_get_shrunk(il);
 		}
 
-	if (rotated) gdk_pixbuf_unref(rotated);
+	if (rotated) g_object_unref(rotated);
 	
 	/* save it ? */
 	if (tl->cache_enable && save)
@@ -651,7 +652,7 @@ static GdkPixbuf *get_xv_thumbnail(gchar *thumb_filename, gint max_w, gint max_h
 
 			tmp = pixbuf;
 			pixbuf = gdk_pixbuf_scale_simple(tmp, width, height, GDK_INTERP_NEAREST);
-			gdk_pixbuf_unref(tmp);
+			g_object_unref(tmp);
 			}
 
 		return pixbuf;

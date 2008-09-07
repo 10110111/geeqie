@@ -1953,7 +1953,7 @@ static void dupe_display_stats(DupeWindow *dw, DupeItem *di)
 		gtk_box_pack_start(GTK_BOX(gd->vbox), image, FALSE, FALSE, 0);
 		gtk_widget_show(image);
 
-		gdk_pixbuf_unref(pixbuf);
+		g_object_unref(pixbuf);
 		}
 
 	gtk_widget_show(gd->dialog);

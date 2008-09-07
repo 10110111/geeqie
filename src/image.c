@@ -540,7 +540,7 @@ static void image_load_done_cb(ImageLoader *il, gpointer data)
 
 	if (options->image.enable_read_ahead && imd->image_fd && !imd->image_fd->pixbuf && image_loader_get_pixbuf(imd->il))
 		{
-		imd->image_fd->pixbuf = gdk_pixbuf_ref(image_loader_get_pixbuf(imd->il));
+		imd->image_fd->pixbuf = g_object_ref(image_loader_get_pixbuf(imd->il));
 		image_cache_set(imd, imd->image_fd);
 		}
 
@@ -1619,10 +1619,19 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 	if (frame)
 		{
 		imd->frame = gtk_frame_new(NULL);
-		gtk_widget_ref(imd->pr);
+#if GTK_CHECK_VERSION(2,12,0)
+        g_object_ref(imd->pr);
+#else
+        gtk_widget_ref(imd->pr);
+#endif
 		if (imd->has_frame != -1) gtk_container_remove(GTK_CONTAINER(imd->widget), imd->pr);
 		gtk_container_add(GTK_CONTAINER(imd->frame), imd->pr);
-		gtk_widget_unref(imd->pr);
+
+#if GTK_CHECK_VERSION(2,12,0)
+        g_object_unref(imd->pr);
+#else
+        gtk_widget_unref(imd->pr);
+#endif
 		g_signal_connect(G_OBJECT(imd->frame), "expose_event",
 		    		 G_CALLBACK(selectable_frame_expose_cb), NULL);
 
@@ -1641,7 +1650,11 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 		}
 	else
 		{
+#if GTK_CHECK_VERSION(2,12,0)
+		g_object_ref(imd->pr);
+#else
 		gtk_widget_ref(imd->pr);
+#endif
 		if (imd->frame)
 			{
 			gtk_container_remove(GTK_CONTAINER(imd->frame), imd->pr);
@@ -1649,7 +1662,12 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 			imd->frame = NULL;
 			}
 		gtk_box_pack_start_defaults(GTK_BOX(imd->widget), imd->pr);
-		gtk_widget_unref(imd->pr);
+
+#if GTK_CHECK_VERSION(2,12,0)
+	g_object_unref(imd->pr);
+#else
+	gtk_widget_unref(imd->pr);
+#endif
 		}
 
 	gtk_widget_show(imd->pr);

@@ -172,7 +172,8 @@ static void image_loader_finalize(GObject *object)
 		il->area_param_list = g_list_delete_link(il->area_param_list, il->area_param_list);
 		}
 
-	if (il->pixbuf) gdk_pixbuf_unref(il->pixbuf);
+	if (il->pixbuf) g_object_unref(il->pixbuf);
+
 	file_data_unref(il->fd);
 #ifdef HAVE_GTHREAD
 	g_mutex_free(il->data_mutex);
@@ -317,9 +318,11 @@ static void image_loader_sync_pixbuf(ImageLoader *il)
 		return;
 		}
 
-	if (il->pixbuf) gdk_pixbuf_unref(il->pixbuf);
+	if (il->pixbuf) g_object_unref(il->pixbuf);
+
 	il->pixbuf = pb;
-	if (il->pixbuf) gdk_pixbuf_ref(il->pixbuf);
+	if (il->pixbuf) g_object_ref(il->pixbuf);
+
 	g_mutex_unlock(il->data_mutex);
 }
 

@@ -1337,7 +1337,7 @@ static void collection_table_insert_marker(CollectTable *ct, CollectInfo *info, 
 
 		pb = gdk_pixbuf_new_from_xpm_data((const gchar **)marker_xpm);
 		gdk_pixbuf_render_pixmap_and_mask(pb, &pixmap, &mask, 128);
-		gdk_pixbuf_unref(pb);
+		g_object_unref(pb);
 
 		gdk_drawable_get_size(pixmap, &w, &h);
 

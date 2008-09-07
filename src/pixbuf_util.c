@@ -330,7 +330,7 @@ GdkPixbuf *pixbuf_copy_rotate_90(GdkPixbuf *src, gint counter_clockwise)
 			}
 		}
 
-	gdk_pixbuf_unref(buffer);
+	g_object_unref(buffer);
 
 #if 0
 	/* this is the simple version of rotation (roughly 2-4x slower) */
@@ -472,7 +472,7 @@ GdkPixbuf *pixbuf_apply_orientation(GdkPixbuf *pixbuf, gint orientation)
 			dest = gdk_pixbuf_copy(pixbuf);
 			break;
 		}
-	if (tmp) gdk_pixbuf_unref(tmp);
+	if (tmp) g_object_unref(tmp);
 	return dest;
 
 }

@@ -253,7 +253,11 @@ static void layout_sort_menu_ascend_cb(GtkWidget *widget, gpointer data)
 static void layout_sort_menu_hide_cb(GtkWidget *widget, gpointer data)
 {
 	/* destroy the menu */
+#if GTK_CHECK_VERSION(2,12,0)
+	g_object_unref(widget);
+#else
 	gtk_widget_unref(GTK_WIDGET(widget));
+#endif
 }
 
 static void layout_sort_button_press_cb(GtkWidget *widget, gpointer data)
@@ -1985,7 +1989,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 
 		pixbuf = pixbuf_inline(PIXBUF_INLINE_LOGO);
 		image_change_pixbuf(lw->image, pixbuf, 1.0);
-		gdk_pixbuf_unref(pixbuf);
+		g_object_unref(pixbuf);
 		}
 
 	if (geometry)

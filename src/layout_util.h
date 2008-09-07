@@ -34,9 +34,7 @@ void layout_actions_setup(LayoutWindow *lw);
 void layout_actions_add_window(LayoutWindow *lw, GtkWidget *window);
 GtkWidget *layout_actions_menu_bar(LayoutWindow *lw);
 
-GtkWidget *layout_button(GtkWidget *box, gchar **pixmap_data, const gchar *stock_id, gint toggle,
-			 GtkTooltips *tooltips, const gchar *tip_text,
-			 GtkSignalFunc func, gpointer data);
+
 GtkWidget *layout_button_bar(LayoutWindow *lw);
 
 void layout_keyboard_init(LayoutWindow *lw, GtkWidget *window);

@@ -205,8 +205,11 @@ static gint tab_completion_popup_key_press(GtkWidget *widget, GdkEventKey *event
 		/*close the menu */
 		gtk_menu_popdown(GTK_MENU(widget));
 		/* doing this does not emit the "selection done" signal, unref it ourselves */
+#if GTK_CHECK_VERSION(2,12,0)
+		g_object_unref(widget);
+#else
 		gtk_widget_unref(widget);
-
+#endif
 		return TRUE;
 		}
 
@@ -634,7 +637,8 @@ static GtkWidget *tab_completion_create_complete_button(GtkWidget *entry, GtkWid
 
 	pixbuf = gdk_pixbuf_new_from_inline(-1, icon_tabcomp, FALSE, NULL);
 	icon = gtk_image_new_from_pixbuf(pixbuf);
-	gdk_pixbuf_unref(pixbuf);
+	g_object_unref(pixbuf);
+
 	gtk_container_add(GTK_CONTAINER(button), icon);
 	gtk_widget_show(icon);
 

@@ -530,8 +530,9 @@ static void pixbuf_renderer_finalize(GObject *object)
 	pr_queue_clear(pr);
 	pr_tile_free_all(pr);
 
+
 	if (pr->pixbuf) g_object_unref(pr->pixbuf);
-	if (pr->spare_tile) gdk_pixbuf_unref(pr->spare_tile);
+	if (pr->spare_tile) g_object_unref(pr->spare_tile);
 
 	pr_scroller_timer_set(pr, FALSE);
 	pr_overlay_list_clear(pr);
@@ -1837,7 +1838,7 @@ static void pr_tile_free(ImageTile *it)
 {
 	if (!it) return;
 
-	if (it->pixbuf) gdk_pixbuf_unref(it->pixbuf);
+	if (it->pixbuf) g_object_unref(it->pixbuf);
 	if (it->pixmap) g_object_unref(it->pixmap);
 
 	g_free(it);

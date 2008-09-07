@@ -266,7 +266,11 @@ gint tree_view_get_cell_origin(GtkTreeView *widget, GtkTreePath *tpath, gint col
 	 * use x_offset instead for X scroll (sigh)
 	 */
 	gtk_tree_view_get_cell_area(widget, tpath, tv_column, &rect);
+#if GTK_CHECK_VERSION(2,12,0)
+	gtk_tree_view_convert_bin_window_to_widget_coords(widget, 0, 0, &x_offset, &y_offset);
+#else
 	gtk_tree_view_tree_to_widget_coords(widget, 0, 0, &x_offset, &y_offset);
+#endif
 	gdk_window_get_origin(GTK_WIDGET(widget)->window, &x_origin, &y_origin);
 
 	if (gtk_tree_view_get_headers_visible(widget))
@@ -358,7 +362,12 @@ gint tree_view_row_get_visibility(GtkTreeView *widget, GtkTreeIter *iter, gint f
 	gtk_tree_view_get_cell_area(widget, tpath, NULL, &crect);
 	gtk_tree_path_free(tpath);
 
+
+#if GTK_CHECK_VERSION(2,12,0)
+	gtk_tree_view_convert_bin_window_to_widget_coords(widget, crect.x, crect.y, &cx, &cy);
+#else
 	gtk_tree_view_widget_to_tree_coords(widget, crect.x, crect.y, &cx, &cy);
+#endif
 
 	if (fully_visible)
 		{

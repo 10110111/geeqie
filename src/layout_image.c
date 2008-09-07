@@ -1507,8 +1507,11 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 		{
 		lw->split_images[i] = image_new(TRUE);
 
+#if GTK_CHECK_VERSION(2,12,0)
+		g_object_ref(lw->split_images[i]->widget);
+#else
 		gtk_widget_ref(lw->split_images[i]->widget);
-
+#endif
 		image_background_set_color(lw->split_images[i], options->image.use_custom_border_color ? &options->image.border_color : NULL);
 
 		image_auto_refresh_enable(lw->split_images[i], TRUE);
@@ -1599,7 +1602,11 @@ GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
 		{
 		if (lw->split_images[i])
 			{
+#if GTK_CHECK_VERSION(2,12,0)
+			g_object_unref(lw->split_images[i]->widget);
+#else
 			gtk_widget_unref(lw->split_images[i]->widget);
+#endif
 			lw->split_images[i] = NULL;
 			}
 		}
@@ -1653,7 +1660,11 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 		{
 		if (lw->split_images[i])
 			{
+#if GTK_CHECK_VERSION(2,12,0)
+			g_object_unref(lw->split_images[i]->widget);
+#else
 			gtk_widget_unref(lw->split_images[i]->widget);
+#endif
 			lw->split_images[i] = NULL;
 			}
 		}
@@ -1729,7 +1740,11 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 		{
 		if (lw->split_images[i])
 			{
+#if GTK_CHECK_VERSION(2,12,0)
+			g_object_unref(lw->split_images[i]->widget);
+#else
 			gtk_widget_unref(lw->split_images[i]->widget);
+#endif
 			lw->split_images[i] = NULL;
 			}
 		}
