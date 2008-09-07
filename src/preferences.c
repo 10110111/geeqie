@@ -149,14 +149,26 @@ static void slideshow_delay_cb(GtkWidget *spin, gpointer data)
  *-----------------------------------------------------------------------------
  */
 
-static void config_window_apply(void)
+static void config_entry_to_option(GtkWidget *entry, gchar **option, gchar *(*func)(const gchar *))
 {
 	const gchar *buf;
-	gint new_style;
-	gint i;
-	gint refresh = FALSE;
 
-	{
+	g_free(*option);
+	*option = NULL;
+	buf = gtk_entry_get_text(GTK_ENTRY(entry));
+	if (buf && strlen(buf) > 0)
+		{
+		if (func)
+			*option = func(buf);
+		else
+			*option = g_strdup(buf);
+		}
+}
+
+static void config_parse_editor_entries(GtkWidget **editor_name_entry, GtkWidget **editor_command_entry)
+{
+	gint i;
+	const gchar *buf;
 	GString *errmsg = g_string_new("");
 
 	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
@@ -198,14 +210,20 @@ static void config_window_apply(void)
 		}
 
 	g_string_free(errmsg, TRUE);
-	}
+}
+
+
+static void config_window_apply(void)
+{
+	gint new_style;
+	gint i;
+	gint refresh = FALSE;
+
+	config_parse_editor_entries(editor_name_entry, editor_command_entry); 
 	layout_edit_update_all();
 
-	g_free(options->file_ops.safe_delete_path);
-	options->file_ops.safe_delete_path = NULL;
-	buf = gtk_entry_get_text(GTK_ENTRY(safe_delete_path_entry));
-	if (buf && strlen(buf) > 0) options->file_ops.safe_delete_path = remove_trailing_slash(buf);
-
+	config_entry_to_option(safe_delete_path_entry, &options->file_ops.safe_delete_path, remove_trailing_slash);
+	
 	if (options->file_filter.show_hidden_files != c_options->file_filter.show_hidden_files) refresh = TRUE;
 	if (options->file_filter.show_dot_directory != c_options->file_filter.show_dot_directory) refresh = TRUE;
 	if (options->file_sort.case_sensitive != c_options->file_sort.case_sensitive) refresh = TRUE;
@@ -213,15 +231,8 @@ static void config_window_apply(void)
 
 	options->startup.restore_path = c_options->startup.restore_path;
 	options->startup.use_last_path = c_options->startup.use_last_path;
-	g_free(options->startup.path);
-	options->startup.path = NULL;
-	buf = gtk_entry_get_text(GTK_ENTRY(startup_path_entry));
-	if (buf && strlen(buf) > 0) options->startup.path = remove_trailing_slash(buf);
-
-	g_free(options->layout.home_path);
-	options->layout.home_path = NULL;
-	buf = gtk_entry_get_text(GTK_ENTRY(home_path_entry));
-	if (buf && strlen(buf) > 0) options->layout.home_path = remove_trailing_slash(buf);
+	config_entry_to_option(startup_path_entry, &options->startup.path, remove_trailing_slash);
+	config_entry_to_option(home_path_entry, &options->layout.home_path, remove_trailing_slash);
 
 	options->file_ops.confirm_delete = c_options->file_ops.confirm_delete;
 	options->file_ops.enable_delete_key = c_options->file_ops.enable_delete_key;
@@ -323,20 +334,10 @@ static void config_window_apply(void)
 #ifdef HAVE_LCMS
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{
-		g_free(options->color_profile.input_name[i]);
-		options->color_profile.input_name[i] = NULL;
-		buf = gtk_entry_get_text(GTK_ENTRY(color_profile_input_name_entry[i]));
-		if (buf && strlen(buf) > 0) options->color_profile.input_name[i] = g_strdup(buf);
-
-		g_free(options->color_profile.input_file[i]);
-		options->color_profile.input_file[i] = NULL;
-		buf = gtk_entry_get_text(GTK_ENTRY(color_profile_input_file_entry[i]));
-		if (buf && strlen(buf) > 0) options->color_profile.input_file[i] = g_strdup(buf);
+		config_entry_to_option(color_profile_input_name_entry[i], &options->color_profile.input_name[i], NULL);
+		config_entry_to_option(color_profile_input_file_entry[i], &options->color_profile.input_file[i], NULL);
 		}
-	g_free(options->color_profile.screen_file);
-	options->color_profile.screen_file = NULL;
-	buf = gtk_entry_get_text(GTK_ENTRY(color_profile_screen_file_entry));
-	if (buf && strlen(buf) > 0) options->color_profile.screen_file = g_strdup(buf);
+	config_entry_to_option(color_profile_screen_file_entry, &options->color_profile.screen_file, NULL);
 #endif
 
 	for (i = 0; ExifUIList[i].key; i++)
