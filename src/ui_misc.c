@@ -810,7 +810,7 @@ GtkWidget *pref_toolbar_button(GtkWidget *toolbar,
 
 #if GTK_CHECK_VERSION(2,12,0)
 
-		gtk_widget_set_tooltip_text(GTK_TOOL_ITEM(item), description);
+		gtk_widget_set_tooltip_text(item, description);
 			
 #else
 		GtkTooltips *tips;
