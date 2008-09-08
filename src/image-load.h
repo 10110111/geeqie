@@ -45,6 +45,9 @@ struct _ImageLoader
 
 	gint idle_done_id;
 	GList *area_param_list;
+	GList *area_param_delayed_list;
+	
+	gint delay_area_ready;
 	
 	GMutex *data_mutex;
 	gint stopping;
@@ -73,6 +76,8 @@ ImageLoader *image_loader_new(FileData *fd);
 
 void image_loader_free(ImageLoader *il);
 
+/* delay area_ready signals */
+void image_loader_delay_area_ready(ImageLoader *il, gint enable);
 
 /* Speed up loading when you only need at most width x height size image,
  * only the jpeg GdkPixbuf loader benefits from it - so there is no

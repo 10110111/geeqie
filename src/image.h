@@ -56,7 +56,7 @@ void image_set_fd(ImageWindow *imd, FileData *fd);
 
 /* load a new image */
 void image_change_fd(ImageWindow *imd, FileData *fd, gdouble zoom);
-void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom);
+void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gint lazy);
 void image_change_from_collection(ImageWindow *imd, CollectionData *cd, CollectInfo *info, gdouble zoom);
 CollectionData *image_get_collection(ImageWindow *imd, CollectInfo **info);
 void image_change_from_image(ImageWindow *imd, ImageWindow *source);

@@ -181,6 +181,7 @@ typedef enum {
 	PR_ZOOM_NEW		= 1 << 1,
 	PR_ZOOM_CENTER		= 1 << 2,
 	PR_ZOOM_INVALIDATE	= 1 << 3,
+	PR_ZOOM_LAZY		= 1 << 4  /* wait with redraw for pixbuf_renderer_area_changed */
 } PrZoomFlags;
 
 static guint signals[SIGNAL_COUNT] = { 0 };
@@ -3192,6 +3193,7 @@ static gint pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
 	gboolean force = !!(flags & PR_ZOOM_FORCE);
 	gboolean new = !!(flags & PR_ZOOM_NEW);
 	gboolean invalidate = !!(flags & PR_ZOOM_INVALIDATE);
+	gboolean lazy = !!(flags & PR_ZOOM_LAZY);
 
 	zoom = CLAMP(zoom, pr->zoom_min, pr->zoom_max);
 
@@ -3285,7 +3287,7 @@ static gint pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
 	if (invalidate || invalid)
 		{
 		pr_tile_invalidate_all(pr);
-		pr_redraw(pr, TRUE);
+		if (!lazy) pr_redraw(pr, TRUE);
 		}
 	if (redrawn) *redrawn = (invalidate || invalid);
 
@@ -3305,6 +3307,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 	gboolean center_point = !!(flags & PR_ZOOM_CENTER);
 	gboolean force = !!(flags & PR_ZOOM_FORCE);
 	gboolean new = !!(flags & PR_ZOOM_NEW);
+	gboolean lazy = !!(flags & PR_ZOOM_LAZY);
 	PrZoomFlags clamp_flags = flags;
 	gdouble old_center_x = pr->norm_center_x;
 	gdouble old_center_y = pr->norm_center_y;
@@ -3325,6 +3328,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 		}
 
 	if (force) clamp_flags |= PR_ZOOM_INVALIDATE;
+	if (lazy) clamp_flags |= PR_ZOOM_LAZY;
 	if (!pr_zoom_clamp(pr, zoom, clamp_flags, &redrawn)) return;
 
 	clamped = pr_size_clamp(pr);
@@ -3374,7 +3378,15 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 	 * so redraw the window anyway :/
 	 */
 	if (sized || clamped) pr_border_clear(pr);
-	pr_redraw(pr, redrawn);
+	
+	if (lazy)
+		{
+		pr_queue_clear(pr);
+		}
+	else
+		{
+		pr_redraw(pr, redrawn);
+		}
 
 	pr_scroll_notify_signal(pr);
 	pr_zoom_signal(pr);
@@ -3820,8 +3832,12 @@ static void pr_pixbuf_size_sync(PixbufRenderer *pr)
 		}
 }
 
-static void pr_pixbuf_sync(PixbufRenderer *pr, gdouble zoom)
+static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, PrZoomFlags flags)
 {
+	if (pixbuf) g_object_ref(pixbuf);
+	if (pr->pixbuf) g_object_unref(pr->pixbuf);
+	pr->pixbuf = pixbuf;
+
 	if (!pr->pixbuf)
 		{
 		GtkWidget *box;
@@ -3845,16 +3861,7 @@ static void pr_pixbuf_sync(PixbufRenderer *pr, gdouble zoom)
 		}
 
 	pr_pixbuf_size_sync(pr);
-	pr_zoom_sync(pr, zoom, PR_ZOOM_FORCE | PR_ZOOM_NEW, 0, 0);
-}
-
-static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom)
-{
-	if (pixbuf) g_object_ref(pixbuf);
-	if (pr->pixbuf) g_object_unref(pr->pixbuf);
-	pr->pixbuf = pixbuf;
-
-	pr_pixbuf_sync(pr, zoom);
+	pr_zoom_sync(pr, zoom, flags | PR_ZOOM_FORCE | PR_ZOOM_NEW, 0, 0);
 }
 
 void pixbuf_renderer_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom)
@@ -3863,7 +3870,19 @@ void pixbuf_renderer_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble z
 
 	pr_source_tile_unset(pr);
 
-	pr_set_pixbuf(pr, pixbuf, zoom);
+	pr_set_pixbuf(pr, pixbuf, zoom, 0);
+
+	pr_update_signal(pr);
+}
+
+void pixbuf_renderer_set_pixbuf_lazy(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, gint orientation)
+{
+	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
+
+	pr_source_tile_unset(pr);
+
+	pr->orientation = orientation;
+	pr_set_pixbuf(pr, pixbuf, zoom, PR_ZOOM_LAZY);
 
 	pr_update_signal(pr);
 }

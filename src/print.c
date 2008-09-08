@@ -627,7 +627,7 @@ static void print_window_layout_size(PrintWindow *pw)
 	    gdk_pixbuf_get_height(pixbuf) != sh)
 		{
 		pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, sw, sh);
-		image_change_pixbuf(pw->layout_image, pixbuf, 0.0);
+		image_change_pixbuf(pw->layout_image, pixbuf, 0.0, FALSE);
 		g_object_unref(pixbuf);
 		}
 

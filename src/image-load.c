@@ -172,6 +172,12 @@ static void image_loader_finalize(GObject *object)
 		il->area_param_list = g_list_delete_link(il->area_param_list, il->area_param_list);
 		}
 
+	while (il->area_param_delayed_list) 
+		{
+		g_free(il->area_param_delayed_list->data);
+		il->area_param_delayed_list = g_list_delete_link(il->area_param_delayed_list, il->area_param_delayed_list);
+		}
+
 	if (il->pixbuf) g_object_unref(il->pixbuf);
 
 	file_data_unref(il->fd);
@@ -267,6 +273,7 @@ static void image_loader_emit_percent(ImageLoader *il)
 	g_idle_add_full(G_PRIORITY_HIGH, image_loader_emit_percent_cb, il, NULL);
 }
 
+/* this function expects that il->data_mutex is locked by caller */
 static void image_loader_emit_area_ready(ImageLoader *il, guint x, guint y, guint w, guint h)
 {
 	ImageLoaderAreaParam *par = g_new0(ImageLoaderAreaParam, 1);
@@ -276,15 +283,28 @@ static void image_loader_emit_area_ready(ImageLoader *il, guint x, guint y, guin
 	par->w = w;
 	par->h = h;
 	
-	g_mutex_lock(il->data_mutex);
 	il->area_param_list = g_list_prepend(il->area_param_list, par);
-	g_mutex_unlock(il->data_mutex);
 	
 	g_idle_add_full(G_PRIORITY_HIGH, image_loader_emit_area_ready_cb, par, NULL);
 }
 
 /**************************************************************************************/
 /* the following functions may be executed in separate thread */
+
+/* this function expects that il->data_mutex is locked by caller */
+static void image_loader_queue_delayed_erea_ready(ImageLoader *il, guint x, guint y, guint w, guint h)
+{
+	ImageLoaderAreaParam *par = g_new0(ImageLoaderAreaParam, 1);
+	par->il = il;
+	par->x = x;
+	par->y = y;
+	par->w = w;
+	par->h = h;
+	
+	il->area_param_delayed_list = g_list_prepend(il->area_param_delayed_list, par);
+}
+
+
 
 static gint image_loader_get_stopping(ImageLoader *il)
 {
@@ -297,6 +317,7 @@ static gint image_loader_get_stopping(ImageLoader *il)
 
 	return ret;
 }
+
 
 static void image_loader_sync_pixbuf(ImageLoader *il)
 {
@@ -340,7 +361,13 @@ static void image_loader_area_updated_cb(GdkPixbufLoader *loader,
 			log_printf("critical: area_ready signal with NULL pixbuf (out of mem?)\n");
 			}
 		}
-	image_loader_emit_area_ready(il, x, y, w, h);
+
+	g_mutex_lock(il->data_mutex);
+	if (il->delay_area_ready)
+		image_loader_queue_delayed_erea_ready(il, x, y, w, h);
+	else
+		image_loader_emit_area_ready(il, x, y, w, h);
+	g_mutex_unlock(il->data_mutex);
 }
 
 static void image_loader_area_prepared_cb(GdkPixbufLoader *loader, gpointer data)
@@ -665,6 +692,38 @@ static void image_loader_stop(ImageLoader *il)
 	image_loader_stop_source(il);
 	
 }
+
+void image_loader_delay_area_ready(ImageLoader *il, gint enable)
+{
+	g_mutex_lock(il->data_mutex);
+	il->delay_area_ready = enable;
+	if (!enable)
+		{
+		/* send delayed */
+		GList *list, *work;
+		list = g_list_reverse(il->area_param_delayed_list);
+		il->area_param_delayed_list = NULL;
+		g_mutex_unlock(il->data_mutex);
+
+		work = list;
+
+		while (work)
+			{
+			ImageLoaderAreaParam *par = work->data;
+			work = work->next;
+			
+			g_signal_emit(il, signals[SIGNAL_AREA_READY], 0, par->x, par->y, par->w, par->h);
+			g_free(par);
+			}
+		g_list_free(list);
+		}
+	else
+		{
+		/* just unlock */
+		g_mutex_unlock(il->data_mutex);
+		}
+}
+
 
 /**************************************************************************************/
 /* execution via idle calls */

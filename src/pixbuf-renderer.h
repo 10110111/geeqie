@@ -179,6 +179,11 @@ GtkWindow *pixbuf_renderer_get_parent(PixbufRenderer *pr);
 /* display a pixbuf */
 
 void pixbuf_renderer_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom);
+
+/* same as pixbuf_renderer_set_pixbuf but waits with redrawing for pixbuf_renderer_area_changed */
+void pixbuf_renderer_set_pixbuf_lazy(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, gint orientation);
+
+
 GdkPixbuf *pixbuf_renderer_get_pixbuf(PixbufRenderer *pr);
 
 void pixbuf_renderer_set_orientation(PixbufRenderer *pr, gint orientation);

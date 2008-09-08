@@ -432,6 +432,8 @@ static void image_read_ahead_start(ImageWindow *imd)
 	DEBUG_1("%s read ahead started for :%s", get_exec_time(), imd->read_ahead_fd->path);
 
 	imd->read_ahead_il = image_loader_new(imd->read_ahead_fd);
+	
+	image_loader_delay_area_ready(imd->read_ahead_il, TRUE); /* we will need the area_ready signals later */
 
 	g_signal_connect (G_OBJECT(imd->read_ahead_il), "error", (GCallback)image_read_ahead_error_cb, imd);
 	g_signal_connect (G_OBJECT(imd->read_ahead_il), "done", (GCallback)image_read_ahead_done_cb, imd);
@@ -491,7 +493,7 @@ static gint image_cache_get(ImageWindow *imd)
 	if (success)
 		{
 		g_assert(imd->image_fd->pixbuf);
-		image_change_pixbuf(imd, imd->image_fd->pixbuf, image_zoom_get(imd));
+		image_change_pixbuf(imd, imd->image_fd->pixbuf, image_zoom_get(imd), FALSE);
 		}
 	
 	file_cache_dump(image_get_cache());
@@ -508,7 +510,7 @@ static void image_load_pixbuf_ready(ImageWindow *imd)
 {
 	if (image_get_pixbuf(imd) || !imd->il) return;
 
-	image_change_pixbuf(imd, image_loader_get_pixbuf(imd->il), image_zoom_get(imd));
+	image_change_pixbuf(imd, image_loader_get_pixbuf(imd->il), image_zoom_get(imd), FALSE);
 }
 
 static void image_load_area_cb(ImageLoader *il, guint x, guint y, guint w, guint h, gpointer data)
@@ -524,7 +526,7 @@ static void image_load_area_cb(ImageLoader *il, guint x, guint y, guint w, guint
 		return;
 		}
 
-	if (!pr->pixbuf) image_load_pixbuf_ready(imd);
+	if (!pr->pixbuf) image_change_pixbuf(imd, image_loader_get_pixbuf(imd->il), image_zoom_get(imd), TRUE);
 
 	pixbuf_renderer_area_changed(pr, x, y, w, h);
 }
@@ -549,7 +551,7 @@ static void image_load_done_cb(ImageLoader *il, gpointer data)
 		GdkPixbuf *pixbuf;
 
 		pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
-		image_change_pixbuf(imd, pixbuf, image_zoom_get(imd));
+		image_change_pixbuf(imd, pixbuf, image_zoom_get(imd), FALSE);
 		g_object_unref(pixbuf);
 
 		imd->unknown = TRUE;
@@ -558,7 +560,7 @@ static void image_load_done_cb(ImageLoader *il, gpointer data)
 	    image_get_pixbuf(imd) != image_loader_get_pixbuf(imd->il))
 		{
 		g_object_set(G_OBJECT(imd->pr), "complete", FALSE, NULL);
-		image_change_pixbuf(imd, image_loader_get_pixbuf(imd->il), image_zoom_get(imd));
+		image_change_pixbuf(imd, image_loader_get_pixbuf(imd->il), image_zoom_get(imd), FALSE);
 		}
 
 	image_loader_free(imd->il);
@@ -608,8 +610,10 @@ static gint image_read_ahead_check(ImageWindow *imd)
 
 		if (!imd->delay_flip)
 			{
-			image_change_pixbuf(imd, image_loader_get_pixbuf(imd->il), image_zoom_get(imd));
+			image_change_pixbuf(imd, image_loader_get_pixbuf(imd->il), image_zoom_get(imd), TRUE);
 			}
+
+		image_loader_delay_area_ready(imd->il, FALSE); /* send the delayed area_ready signals */
 
 		file_data_unref(imd->read_ahead_fd);
 		imd->read_ahead_fd = NULL;
@@ -617,7 +621,7 @@ static gint image_read_ahead_check(ImageWindow *imd)
 		}
 	else if (imd->read_ahead_fd->pixbuf)
 		{
-		image_change_pixbuf(imd, imd->read_ahead_fd->pixbuf, image_zoom_get(imd));
+		image_change_pixbuf(imd, imd->read_ahead_fd->pixbuf, image_zoom_get(imd), FALSE);
 
 		file_data_unref(imd->read_ahead_fd);
 		imd->read_ahead_fd = NULL;
@@ -684,8 +688,12 @@ static gint image_load_begin(ImageWindow *imd, FileData *fd)
 
 	image_state_set(imd, IMAGE_STATE_LOADING);
 
-	if (!imd->delay_flip && !image_get_pixbuf(imd)) image_load_pixbuf_ready(imd);
-
+/*
+	if (!imd->delay_flip && !image_get_pixbuf(imd) && image_loader_get_pixbuf(imd->il))
+		{
+		image_change_pixbuf(imd, image_loader_get_pixbuf(imd->il), image_zoom_get(imd), TRUE);
+		}
+*/	
 	return TRUE;
 }
 
@@ -734,7 +742,7 @@ static void image_change_complete(ImageWindow *imd, gdouble zoom, gint new)
 			GdkPixbuf *pixbuf;
 
 			pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
-			image_change_pixbuf(imd, pixbuf, zoom);
+			image_change_pixbuf(imd, pixbuf, zoom, FALSE);
 			g_object_unref(pixbuf);
 
 			imd->unknown = TRUE;
@@ -747,12 +755,12 @@ static void image_change_complete(ImageWindow *imd, gdouble zoom, gint new)
 			GdkPixbuf *pixbuf;
 
 			pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
-			image_change_pixbuf(imd, pixbuf, zoom);
+			image_change_pixbuf(imd, pixbuf, zoom, FALSE);
 			g_object_unref(pixbuf);
 			}
 		else
 			{
-			image_change_pixbuf(imd, NULL, zoom);
+			image_change_pixbuf(imd, NULL, zoom, FALSE);
 			}
 		imd->unknown = TRUE;
 		}
@@ -988,7 +996,7 @@ GdkPixbuf *image_get_pixbuf(ImageWindow *imd)
 	return pixbuf_renderer_get_pixbuf((PixbufRenderer *)imd->pr);
 }
 
-void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
+void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gint lazy)
 {
 
 	ExifData *exif = NULL;
@@ -1023,8 +1031,15 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom)
 		imd->cm = NULL;
 		}
 
-	pixbuf_renderer_set_pixbuf((PixbufRenderer *)imd->pr, pixbuf, zoom);
-	pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, imd->orientation);
+	if (lazy)
+		{
+		pixbuf_renderer_set_pixbuf_lazy((PixbufRenderer *)imd->pr, pixbuf, zoom, imd->orientation);
+		}
+	else
+		{
+		pixbuf_renderer_set_pixbuf((PixbufRenderer *)imd->pr, pixbuf, zoom);
+		pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, imd->orientation);
+		}
 
 	if (imd->color_profile_enable)
 		{
