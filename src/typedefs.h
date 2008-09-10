@@ -476,8 +476,6 @@ struct _LayoutWindow
 	GtkWidget *split_image_widget;
 	GtkSizeGroup *split_image_sizegroup;
 
-	gint connect_zoom, connect_scroll;
-
 	/* tools window (float) */
 
 	GtkWidget *tools;

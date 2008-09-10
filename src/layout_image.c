@@ -283,27 +283,27 @@ static void li_pop_menu_zoom_in_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_adjust(lw, get_zoom_increment());
+	layout_image_zoom_adjust(lw, get_zoom_increment(), FALSE);
 }
 
 static void li_pop_menu_zoom_out_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
-	layout_image_zoom_adjust(lw, -get_zoom_increment());
+	layout_image_zoom_adjust(lw, -get_zoom_increment(), FALSE);
 }
 
 static void li_pop_menu_zoom_1_1_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set(lw, 1.0);
+	layout_image_zoom_set(lw, 1.0, FALSE);
 }
 
 static void li_pop_menu_zoom_fit_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set(lw, 0.0);
+	layout_image_zoom_set(lw, 0.0, FALSE);
 }
 
 static void li_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
@@ -788,7 +788,7 @@ void layout_image_to_root(LayoutWindow *lw)
  *----------------------------------------------------------------------------
  */
 
-void layout_image_scroll(LayoutWindow *lw, gint x, gint y)
+void layout_image_scroll(LayoutWindow *lw, gint x, gint y, gboolean connect_scroll)
 {
 	gdouble dx, dy;
 	gint width, height, i;
@@ -796,7 +796,7 @@ void layout_image_scroll(LayoutWindow *lw, gint x, gint y)
 
 	image_scroll(lw->image, x, y);
 
-	if (!lw->connect_scroll) return;
+	if (!connect_scroll) return;
 
 	image_get_image_size(lw->image, &width, &height);
 	dx = (gdouble) x / width;
@@ -816,14 +816,14 @@ void layout_image_scroll(LayoutWindow *lw, gint x, gint y)
 
 }
 
-void layout_image_zoom_adjust(LayoutWindow *lw, gdouble increment)
+void layout_image_zoom_adjust(LayoutWindow *lw, gdouble increment, gboolean connect_zoom)
 {
 	gint i;
 	if (!layout_valid(&lw)) return;
 
 	image_zoom_adjust(lw->image, increment);
 
-	if (!lw->connect_zoom) return;
+	if (!connect_zoom) return;
 
 	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
 		{
@@ -832,14 +832,14 @@ void layout_image_zoom_adjust(LayoutWindow *lw, gdouble increment)
 		}
 }
 
-void layout_image_zoom_adjust_at_point(LayoutWindow *lw, gdouble increment, gint x, gint y)
+void layout_image_zoom_adjust_at_point(LayoutWindow *lw, gdouble increment, gint x, gint y, gboolean connect_zoom)
 {
 	gint i;
 	if (!layout_valid(&lw)) return;
 
 	image_zoom_adjust_at_point(lw->image, increment, x, y);
 
-	if (!lw->connect_zoom) return;
+	if (!connect_zoom) return;
 
 	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
 		{
@@ -848,14 +848,14 @@ void layout_image_zoom_adjust_at_point(LayoutWindow *lw, gdouble increment, gint
 		}
 }
 
-void layout_image_zoom_set(LayoutWindow *lw, gdouble zoom)
+void layout_image_zoom_set(LayoutWindow *lw, gdouble zoom, gboolean connect_zoom)
 {
 	gint i;
 	if (!layout_valid(&lw)) return;
 
 	image_zoom_set(lw->image, zoom);
 
-	if (!lw->connect_zoom) return;
+	if (!connect_zoom) return;
 
 	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
 		{
@@ -864,11 +864,20 @@ void layout_image_zoom_set(LayoutWindow *lw, gdouble zoom)
 		}
 }
 
-void layout_image_zoom_set_fill_geometry(LayoutWindow *lw, gint vertical)
+void layout_image_zoom_set_fill_geometry(LayoutWindow *lw, gint vertical, gboolean connect_zoom)
 {
+	gint i;
 	if (!layout_valid(&lw)) return;
 
 	image_zoom_set_fill_geometry(lw->image, vertical);
+
+	if (!connect_zoom) return;
+
+	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
+		{
+		if (lw->split_images[i] && lw->split_images[i] != lw->image)
+			image_zoom_set_fill_geometry(lw->split_images[i], vertical);
+		}
 }
 
 void layout_image_alter(LayoutWindow *lw, AlterType type)
@@ -1360,16 +1369,16 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkEventScroll *event, gpoi
 		switch (event->direction)
 			{
 			case GDK_SCROLL_UP:
-				layout_image_zoom_adjust_at_point(lw, get_zoom_increment(), event->x, event->y);
+				layout_image_zoom_adjust_at_point(lw, get_zoom_increment(), event->x, event->y, event->state & GDK_SHIFT_MASK);
 				break;
 			case GDK_SCROLL_DOWN:
-				layout_image_zoom_adjust_at_point(lw, -get_zoom_increment(), event->x, event->y);
+				layout_image_zoom_adjust_at_point(lw, -get_zoom_increment(), event->x, event->y, event->state & GDK_SHIFT_MASK);
 				break;
 			default:
 				break;
 			}
 		}
-	else if ( (event->state & GDK_SHIFT_MASK) != (guint) (options->mousewheel_scrolls))
+	else if (options->mousewheel_scrolls)
 		{
 		switch (event->direction)
 			{
@@ -1410,7 +1419,7 @@ static void layout_image_drag_cb(ImageWindow *imd, GdkEventButton *event, gdoubl
 	gint i;
 	LayoutWindow *lw = data;
 
-	if (!lw->connect_scroll) return;
+	if (!(event->state & GDK_SHIFT_MASK)) return;
 
 	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
 		{

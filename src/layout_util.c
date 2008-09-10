@@ -156,14 +156,8 @@ gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 
 	if (x != 0 || y!= 0)
 		{
-		if (event->state & GDK_SHIFT_MASK)
-			{
-			x *= 3;
-			y *= 3;
-			}
-
 		keyboard_scroll_calc(&x, &y, event);
-		layout_image_scroll(lw, x, y);
+		layout_image_scroll(lw, x, y, (event->state & GDK_SHIFT_MASK));
 		}
 
 	return stop_signal;
@@ -392,87 +386,172 @@ static void layout_menu_wallpaper_cb(GtkAction *action, gpointer data)
 	layout_image_to_root(lw);
 }
 
+/* single window zoom */
 static void layout_menu_zoom_in_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_adjust(lw, get_zoom_increment());
+	layout_image_zoom_adjust(lw, get_zoom_increment(), FALSE);
 }
 
 static void layout_menu_zoom_out_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_adjust(lw, -get_zoom_increment());
+	layout_image_zoom_adjust(lw, -get_zoom_increment(), FALSE);
 }
 
 static void layout_menu_zoom_1_1_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set(lw, 1.0);
+	layout_image_zoom_set(lw, 1.0, FALSE);
 }
 
 static void layout_menu_zoom_fit_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set(lw, 0.0);
+	layout_image_zoom_set(lw, 0.0, FALSE);
 }
 
 static void layout_menu_zoom_fit_hor_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set_fill_geometry(lw, TRUE);
+	layout_image_zoom_set_fill_geometry(lw, TRUE, FALSE);
 }
 
 static void layout_menu_zoom_fit_vert_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set_fill_geometry(lw, FALSE);
+	layout_image_zoom_set_fill_geometry(lw, FALSE, FALSE);
 }
 
 static void layout_menu_zoom_2_1_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set(lw, 2.0);
+	layout_image_zoom_set(lw, 2.0, FALSE);
 }
 
 static void layout_menu_zoom_3_1_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set(lw, 3.0);
+	layout_image_zoom_set(lw, 3.0, FALSE);
 }
 static void layout_menu_zoom_4_1_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set(lw, 4.0);
+	layout_image_zoom_set(lw, 4.0, FALSE);
 }
 
 static void layout_menu_zoom_1_2_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set(lw, -2.0);
+	layout_image_zoom_set(lw, -2.0, FALSE);
 }
 
 static void layout_menu_zoom_1_3_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set(lw, -3.0);
+	layout_image_zoom_set(lw, -3.0, FALSE);
 }
 
 static void layout_menu_zoom_1_4_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set(lw, -4.0);
+	layout_image_zoom_set(lw, -4.0, FALSE);
+}
+
+/* connected zoom */
+static void layout_menu_connect_zoom_in_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_adjust(lw, get_zoom_increment(), TRUE);
+}
+
+static void layout_menu_connect_zoom_out_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_adjust(lw, -get_zoom_increment(), TRUE);
+}
+
+static void layout_menu_connect_zoom_1_1_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set(lw, 1.0, TRUE);
+}
+
+static void layout_menu_connect_zoom_fit_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set(lw, 0.0, TRUE);
+}
+
+static void layout_menu_connect_zoom_fit_hor_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set_fill_geometry(lw, TRUE, TRUE);
+}
+
+static void layout_menu_connect_zoom_fit_vert_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set_fill_geometry(lw, FALSE, TRUE);
+}
+
+static void layout_menu_connect_zoom_2_1_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set(lw, 2.0, TRUE);
+}
+
+static void layout_menu_connect_zoom_3_1_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set(lw, 3.0, TRUE);
+}
+static void layout_menu_connect_zoom_4_1_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set(lw, 4.0, TRUE);
+}
+
+static void layout_menu_connect_zoom_1_2_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set(lw, -2.0, TRUE);
+}
+
+static void layout_menu_connect_zoom_1_3_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set(lw, -3.0, TRUE);
+}
+
+static void layout_menu_connect_zoom_1_4_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_zoom_set(lw, -4.0, TRUE);
 }
 
 
@@ -487,18 +566,6 @@ static void layout_menu_split_cb(GtkRadioAction *action, GtkRadioAction *current
 	if (mode == lw->split_mode) mode = 0; /* toggle back */
 
 	layout_split_change(lw, mode);
-}
-
-static void layout_menu_connect_scroll_cb(GtkToggleAction *action, gpointer data)
-{
-	LayoutWindow *lw = data;
-	lw->connect_scroll = gtk_toggle_action_get_active(action);
-}
-
-static void layout_menu_connect_zoom_cb(GtkToggleAction *action, gpointer data)
-{
-	LayoutWindow *lw = data;
-	lw->connect_zoom = gtk_toggle_action_get_active(action);
 }
 
 
@@ -1030,6 +1097,7 @@ static GtkActionEntry menu_entries[] = {
   { "ViewMenu",		NULL,		N_("_View"),			NULL, 		NULL, 	NULL },
   { "DirMenu",          NULL,           N_("_View Directory as"),	NULL, 		NULL, 	NULL },
   { "ZoomMenu",		NULL,		N_("_Zoom"),			NULL, 		NULL, 	NULL },
+  { "ConnectZoomMenu",	NULL,		N_("_Connected Zoom"),		NULL, 		NULL, 	NULL },
   { "SplitMenu",	NULL,		N_("_Split"),			NULL, 		NULL, 	NULL },
   { "HelpMenu",		NULL,		N_("_Help"),			NULL, 		NULL, 	NULL },
 
@@ -1091,8 +1159,7 @@ static GtkActionEntry menu_entries[] = {
   { "Wallpaper",	NULL,		N_("Set as _wallpaper"),NULL,		NULL,	CB(layout_menu_wallpaper_cb) },
 
   { "ZoomIn",	GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"equal",	NULL,	CB(layout_menu_zoom_in_cb) },
-  { "ZoomInAlt1",GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"plus",		NULL,	CB(layout_menu_zoom_in_cb) },
-  { "ZoomInAlt2",GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"KP_Add",	NULL,	CB(layout_menu_zoom_in_cb) },
+  { "ZoomInAlt1",GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"KP_Add",	NULL,	CB(layout_menu_zoom_in_cb) },
   { "ZoomOut",	GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),	"minus",	NULL,	CB(layout_menu_zoom_out_cb) },
   { "ZoomOutAlt1",GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),	"KP_Subtract",	NULL,	CB(layout_menu_zoom_out_cb) },
   { "Zoom100",	GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),	"Z",		NULL,	CB(layout_menu_zoom_1_1_cb) },
@@ -1100,13 +1167,30 @@ static GtkActionEntry menu_entries[] = {
   { "ZoomFit",	GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),	"X",		NULL,	CB(layout_menu_zoom_fit_cb) },
   { "ZoomFitAlt1",GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),	"KP_Multiply",	NULL,	CB(layout_menu_zoom_fit_cb) },
   { "ZoomFillHor",	NULL,		N_("Fit _Horizontally"),"H",		NULL,	CB(layout_menu_zoom_fit_hor_cb) },
-  { "ZoomFillVert",	NULL,		N_("Fit _Vorizontally"),"W",		NULL,	CB(layout_menu_zoom_fit_vert_cb) },
+  { "ZoomFillVert",	NULL,		N_("Fit _Vertically"),	"W",		NULL,	CB(layout_menu_zoom_fit_vert_cb) },
   { "Zoom200",	        NULL,		N_("Zoom _2:1"),	NULL,		NULL,	CB(layout_menu_zoom_2_1_cb) },
   { "Zoom300",	        NULL,		N_("Zoom _3:1"),	NULL,		NULL,	CB(layout_menu_zoom_3_1_cb) },
   { "Zoom400",		NULL,		N_("Zoom _4:1"),	NULL,		NULL,	CB(layout_menu_zoom_4_1_cb) },
   { "Zoom50",		NULL,		N_("Zoom 1:2"),		NULL,		NULL,	CB(layout_menu_zoom_1_2_cb) },
   { "Zoom33",		NULL,		N_("Zoom 1:3"),		NULL,		NULL,	CB(layout_menu_zoom_1_3_cb) },
   { "Zoom25",		NULL,		N_("Zoom 1:4"),		NULL,		NULL,	CB(layout_menu_zoom_1_4_cb) },
+
+  { "ConnectZoomIn",	GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"plus",			NULL,	CB(layout_menu_connect_zoom_in_cb) },
+  { "ConnectZoomInAlt1",GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"<shift>KP_Add",	NULL,	CB(layout_menu_connect_zoom_in_cb) },
+  { "ConnectZoomOut",	GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),	"underscore",		NULL,	CB(layout_menu_connect_zoom_out_cb) },
+  { "ConnectZoomOutAlt1",GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),	"<shift>KP_Subtract",	NULL,	CB(layout_menu_connect_zoom_out_cb) },
+  { "ConnectZoom100",	GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),	"<shift>Z",		NULL,	CB(layout_menu_connect_zoom_1_1_cb) },
+  { "ConnectZoom100Alt1",GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),	"<shift>KP_Divide",	NULL,	CB(layout_menu_connect_zoom_1_1_cb) },
+  { "ConnectZoomFit",	GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),	"<shift>X",		NULL,	CB(layout_menu_connect_zoom_fit_cb) },
+  { "ConnectZoomFitAlt1",GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),	"<shift>KP_Multiply",	NULL,	CB(layout_menu_connect_zoom_fit_cb) },
+  { "ConnectZoomFillHor",	NULL,		N_("Fit _Horizontally"),"<shift>H",		NULL,	CB(layout_menu_connect_zoom_fit_hor_cb) },
+  { "ConnectZoomFillVert",	NULL,		N_("Fit _Vertically"),	"<shift>W",		NULL,	CB(layout_menu_connect_zoom_fit_vert_cb) },
+  { "ConnectZoom200",	        NULL,		N_("Zoom _2:1"),	NULL,			NULL,	CB(layout_menu_connect_zoom_2_1_cb) },
+  { "ConnectZoom300",	        NULL,		N_("Zoom _3:1"),	NULL,			NULL,	CB(layout_menu_connect_zoom_3_1_cb) },
+  { "ConnectZoom400",		NULL,		N_("Zoom _4:1"),	NULL,			NULL,	CB(layout_menu_connect_zoom_4_1_cb) },
+  { "ConnectZoom50",		NULL,		N_("Zoom 1:2"),		NULL,			NULL,	CB(layout_menu_connect_zoom_1_2_cb) },
+  { "ConnectZoom33",		NULL,		N_("Zoom 1:3"),		NULL,			NULL,	CB(layout_menu_connect_zoom_1_3_cb) },
+  { "ConnectZoom25",		NULL,		N_("Zoom 1:4"),		NULL,			NULL,	CB(layout_menu_connect_zoom_1_4_cb) },
 
 
   { "ViewInNewWindow",	NULL,		N_("_View in new window"),	"<control>V",		NULL,	CB(layout_menu_view_in_new_window_cb) },
@@ -1138,8 +1222,6 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "SBarKeywords",	NULL,		N_("_Keywords"),	"<control>K",	NULL,	CB(layout_menu_bar_info_cb),	 FALSE  },
   { "SBarExif",		NULL,		N_("E_xif data"),	"<control>E",	NULL,	CB(layout_menu_bar_exif_cb),	 FALSE  },
   { "SBarSort",		NULL,		N_("Sort _manager"),	"<control>S",	NULL,	CB(layout_menu_bar_sort_cb),	 FALSE  },
-  { "ConnectScroll",	NULL,		N_("Co_nnected scroll"),"<control>U",	NULL,	CB(layout_menu_connect_scroll_cb), FALSE  },
-  { "ConnectZoom",	NULL,		N_("C_onnected zoom"),	"<control>Y",	NULL,	CB(layout_menu_connect_zoom_cb), FALSE  },
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb),	 FALSE  },
 };
 
@@ -1242,6 +1324,20 @@ static const gchar *menu_ui_description =
 "        <menuitem action='Zoom33'/>"
 "        <menuitem action='Zoom25'/>"
 "      </menu>"
+"      <menu action='ConnectZoomMenu'>"
+"        <menuitem action='ConnectZoomIn'/>"
+"        <menuitem action='ConnectZoomOut'/>"
+"        <menuitem action='ConnectZoomFit'/>"
+"        <menuitem action='ConnectZoomFillHor'/>"
+"        <menuitem action='ConnectZoomFillVert'/>"
+"        <menuitem action='ConnectZoom100'/>"
+"        <menuitem action='ConnectZoom200'/>"
+"        <menuitem action='ConnectZoom300'/>"
+"        <menuitem action='ConnectZoom400'/>"
+"        <menuitem action='ConnectZoom50'/>"
+"        <menuitem action='ConnectZoom33'/>"
+"        <menuitem action='ConnectZoom25'/>"
+"      </menu>"
 "      <separator/>"
 "      <menu action='SplitMenu'>"
 "        <menuitem action='SplitHorizontal'/>"
@@ -1249,8 +1345,6 @@ static const gchar *menu_ui_description =
 "        <menuitem action='SplitQuad'/>"
 "        <menuitem action='SplitSingle'/>"
 "      </menu>"
-"      <menuitem action='ConnectScroll'/>"
-"      <menuitem action='ConnectZoom'/>"
 "      <separator/>"
 "      <menuitem action='Thumbnails'/>"
 "      <menuitem action='ViewList'/>"
@@ -1295,15 +1389,20 @@ static const gchar *menu_ui_description =
 "<accelerator action='NextImageAlt2'/>"
 "<accelerator action='DeleteAlt1'/>"
 "<accelerator action='DeleteAlt2'/>"
-"<accelerator action='ZoomInAlt1'/>"
-"<accelerator action='ZoomInAlt2'/>"
-"<accelerator action='ZoomOutAlt1'/>"
-"<accelerator action='Zoom100Alt1'/>"
-"<accelerator action='ZoomFitAlt1'/>"
 "<accelerator action='FullScreenAlt1'/>"
 "<accelerator action='FullScreenAlt2'/>"
 "<accelerator action='Escape'/>"
 "<accelerator action='EscapeAlt1'/>"
+
+"<accelerator action='ZoomInAlt1'/>"
+"<accelerator action='ZoomOutAlt1'/>"
+"<accelerator action='Zoom100Alt1'/>"
+"<accelerator action='ZoomFitAlt1'/>"
+
+"<accelerator action='ConnectZoomInAlt1'/>"
+"<accelerator action='ConnectZoomOutAlt1'/>"
+"<accelerator action='ConnectZoom100Alt1'/>"
+"<accelerator action='ConnectZoomFitAlt1'/>"
 "</ui>";
 
 
@@ -1486,28 +1585,28 @@ static void layout_button_zoom_in_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_adjust(lw, get_zoom_increment());
+	layout_image_zoom_adjust(lw, get_zoom_increment(), TRUE);
 }
 
 static void layout_button_zoom_out_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_adjust(lw, -get_zoom_increment());
+	layout_image_zoom_adjust(lw, -get_zoom_increment(), TRUE);
 }
 
 static void layout_button_zoom_fit_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set(lw, 0.0);
+	layout_image_zoom_set(lw, 0.0, TRUE);
 }
 
 static void layout_button_zoom_1_1_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set(lw, 1.0);
+	layout_image_zoom_set(lw, 1.0, TRUE);
 }
 
 static void layout_button_config_cb(GtkWidget *widget, gpointer data)

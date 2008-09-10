@@ -109,7 +109,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				fl_parm = atoi(ptr) / 10.0;
 				
 				if (fl_parm <= 0.01) fl_parm = get_zoom_increment();
-				layout_image_zoom_adjust(lw, fl_parm);
+				layout_image_zoom_adjust(lw, fl_parm, FALSE);
 				}
 			else if (g_ascii_strncasecmp("ZOOM_OUT", cmd, 8) == 0)
 				{
@@ -118,11 +118,11 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				fl_parm = atoi(ptr) / 10.0;
 				
 				if (fl_parm <= 0.01) fl_parm = get_zoom_increment();
-				layout_image_zoom_adjust(lw, -fl_parm);
+				layout_image_zoom_adjust(lw, -fl_parm, FALSE);
 				}
 			else if (g_ascii_strcasecmp("ZOOM_MAX", cmd) == 0)
 				{
-				layout_image_zoom_set(lw, 0.0);
+				layout_image_zoom_set(lw, 0.0, FALSE);
 				}
 			else if (g_ascii_strncasecmp("SET_ZOOM", cmd, 8) == 0)
 				{
@@ -131,7 +131,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				i_parm = atoi(ptr);
 				
 				if (i_parm <= 0) i_parm = 1;
-				layout_image_zoom_set(lw, 1.0);
+				layout_image_zoom_set(lw, 1.0, FALSE);
 				}
 			else if (g_ascii_strncasecmp("SET_INV_ZOOM", cmd, 12) == 0)
 				{
@@ -140,7 +140,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				i_parm = atoi(ptr);
 				
 				if (i_parm <= 0) i_parm = 1;
-				layout_image_zoom_set(lw, -i_parm);
+				layout_image_zoom_set(lw, -i_parm, FALSE);
 				}
 			else if (g_ascii_strcasecmp("FIRST", cmd) == 0)
 				{

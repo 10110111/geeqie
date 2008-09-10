@@ -3666,7 +3666,7 @@ static gint pr_mouse_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpoint
 		widget_set_cursor(widget, GDK_FLEUR);
 		}
 
-	if (bevent->state & GDK_SHIFT_MASK)
+	if (bevent->state & GDK_CONTROL_MASK)
 		{
 		accel = PR_PAN_SHIFT_MULTIPLIER;
 		}
@@ -3748,7 +3748,7 @@ static gint pr_mouse_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpoin
 
 	if (pr->drag_moved < PR_DRAG_SCROLL_THRESHHOLD)
 		{
-		if (bevent->button == MOUSE_BUTTON_LEFT && (bevent->state & GDK_SHIFT_MASK))
+		if (bevent->button == MOUSE_BUTTON_LEFT && (bevent->state & GDK_CONTROL_MASK))
 			{
 			pr_scroller_start(pr, bevent->x, bevent->y);
 			}
