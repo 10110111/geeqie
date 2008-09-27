@@ -609,19 +609,28 @@ guchar *exif_get_color_profile(ExifData *exif, guint *data_len)
 guchar *exif_get_preview(ExifData *exif, guint *data_len)
 {
 	if (!exif) return NULL;
+
+	const char* path = exif->image->io().path().c_str();
+	/* given image pathname, first do simple (and fast) file extension test */
+	if (!filter_file_class(path, FORMAT_CLASS_RAWIMAGE)) return NULL;
+
 	try {
 
-		Exiv2::PreviewImageList list(*exif->image);
-		list.read();
+		Exiv2::PreviewImageLoader loader(*exif->image);
 
-		Exiv2::PreviewImageList::iterator pos = list.begin();
-		if (pos != list.end())
+		Exiv2::PreviewPropertiesList list = loader.getPreviewPropertiesList();
+
+		if (!list.empty())
 			{
-			Exiv2::DataBuf buf = pos->copy();
+			Exiv2::PreviewPropertiesList::iterator pos = --list.end();
+
+			Exiv2::PreviewImage image = loader.getPreviewImage(*pos);
+
+			Exiv2::DataBuf &buf = image.data();
 			std::pair<Exiv2::byte*, long> p = buf.release();
 
 			*data_len = p.second;
-		        return p.first;
+			return p.first;
 			}
 		return NULL;
 	}
@@ -680,7 +689,7 @@ extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len)
 	const char* path = exif->image->io().path().c_str();
 
 	/* given image pathname, first do simple (and fast) file extension test */
-	if (!filter_file_class(path, FORMAT_CLASS_RAWIMAGE)) return 0;
+	if (!filter_file_class(path, FORMAT_CLASS_RAWIMAGE)) return NULL;
 
 	try {
 		struct stat st;
@@ -696,20 +705,20 @@ extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len)
 		fd = open(path, O_RDONLY);
 		if (fd == -1)
 			{
-			return 0;
+			return NULL;
 			}
 
 		if (fstat(fd, &st) == -1)
 			{
 			close(fd);
-			return 0;
+			return NULL;
 			}
 		map_len = st.st_size;
 		map_data = (guchar *) mmap(0, map_len, PROT_READ, MAP_PRIVATE, fd, 0);
 		close(fd);
 		if (map_data == MAP_FAILED)
 			{
-			return 0;
+			return NULL;
 			}
 		*data_len = map_len - offset;
 		ud = g_new(UnmapData, 1);
