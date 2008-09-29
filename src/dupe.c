@@ -44,7 +44,7 @@
 #include <math.h>
 
 
-#define DUPE_DEF_WIDTH 600
+#define DUPE_DEF_WIDTH 800
 #define DUPE_DEF_HEIGHT 400
 
 /* column assignment order (simply change them here) */
