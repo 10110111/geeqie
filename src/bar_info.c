@@ -147,7 +147,7 @@ static gint comment_file_read(gchar *path, GList **keywords, gchar **comment)
 		gchar *ptr = s_buf;
 
 		if (*ptr == '#') continue;
-		if (*ptr == '[')
+		if (*ptr == '[' && key != MK_COMMENT)
 			{
 			gchar *keystr = ++ptr;
 			
