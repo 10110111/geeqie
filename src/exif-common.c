@@ -429,6 +429,78 @@ static gchar *exif_build_formatted_ColorProfile(ExifData *exif)
 	return g_strdup_printf("%s (%s)", name, source);
 }
 
+static gchar *exif_build_formatted_GPSPosition(ExifData *exif)
+{
+	GString *string;
+	gchar *text, *ref;
+	ExifRational *value;
+	ExifItem *item;
+	guint i;
+	gdouble p, p3;
+	gulong p1, p2;
+
+	string = g_string_new("");
+
+	item = exif_get_item(exif, "Exif.GPSInfo.GPSLatitude");
+	ref = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSLatitudeRef");
+	if (item && ref)
+		{
+		p = 0;
+		for (i = 0; i < exif_item_get_elements(item); i++)
+			{
+			value = exif_item_get_rational(item, NULL, i);
+			if (value && value->num && value->den)
+				p += (gdouble)value->num / (gdouble)value->den / pow(60.0, (gdouble)i);
+			}
+		p1 = (gint)p;
+		p2 = (gint)((p - p1)*60);
+		p3 = ((p - p1)*60 - p2)*60;
+
+		g_string_append_printf(string, "%0d° %0d' %0.2f\" %.1s", p1, p2, p3, ref);
+		} // if (item && ref)
+
+	item = exif_get_item(exif, "Exif.GPSInfo.GPSLongitude");
+	ref = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSLongitudeRef");
+	if (item && ref)
+		{
+		p = 0;
+		for (i = 0; i < exif_item_get_elements(item); i++)
+			{
+			value = exif_item_get_rational(item, NULL, i);
+			if (value && value->num && value->den)
+			p += (gdouble)value->num / (gdouble)value->den / pow(60.0, (gdouble)i);
+			}
+		p1 = (gint)p;
+		p2 = (gint)((p - p1)*60);
+		p3 = ((p - p1)*60 - p2)*60;
+
+		g_string_append_printf(string, ", %0d° %0d' %0.2f\" %.1s", p1, p2, p3, ref);
+		} // if (item && ref)
+
+	text = string->str;
+	g_string_free(string, FALSE);
+
+	return text;
+} // static gchar *exif_build_forma...
+
+static gchar *exif_build_formatted_GPSAltitude(ExifData *exif)
+{
+	ExifRational *r;
+	ExifItem *item;
+	gdouble alt;
+	gint ref;
+
+	item = exif_get_item(exif, "Exif.GPSInfo.GPSAltitudeRef");
+	r = exif_get_rational(exif, "Exif.GPSInfo.GPSAltitude", NULL);
+
+	if (!r || !item) return NULL;
+
+	alt = exif_rational_to_double(r, 0);
+	exif_item_get_integer(item, &ref);
+
+	return g_strdup_printf("%0.f m %s", alt, (ref==0)?_("Above Sea Level"):_("Below Sea Level"));
+}
+
 
 /* List of custom formatted pseudo-exif tags */
 #define EXIF_FORMATTED_TAG(name, label) { "formatted."#name, label, exif_build_formatted##_##name }
@@ -446,6 +518,8 @@ ExifFormattedText ExifFormattedList[] = {
 	EXIF_FORMATTED_TAG(Flash,		N_("Flash")),
 	EXIF_FORMATTED_TAG(Resolution,		N_("Resolution")),
 	EXIF_FORMATTED_TAG(ColorProfile,	N_("Color profile")),
+	EXIF_FORMATTED_TAG(GPSPosition,		N_("GPS position")),
+	EXIF_FORMATTED_TAG(GPSAltitude,		N_("GPS altitude")),
 	{ NULL, NULL, NULL }
 };
 
@@ -497,7 +571,7 @@ ExifRational *exif_get_rational(ExifData *exif, const gchar *key, gint *sign)
 	ExifItem *item;
 
 	item = exif_get_item(exif, key);
-	return exif_item_get_rational(item, sign);
+	return exif_item_get_rational(item, sign, 0);
 }
 
 gchar *exif_get_data_as_text(ExifData *exif, const gchar *key)

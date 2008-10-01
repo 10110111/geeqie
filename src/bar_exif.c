@@ -46,6 +46,8 @@ ExifUI ExifUIList[]={
 	{ 0, 0, EXIF_UI_IFSET,	"formatted.SubjectDistance"},
 	{ 0, 0, EXIF_UI_IFSET,	"formatted.Resolution"},
 	{ 0, 0, EXIF_UI_IFSET,	"Exif.Image.Orientation"},
+	{ 0, 0, EXIF_UI_IFSET,  "formatted.GPSPosition"},
+	{ 0, 0, EXIF_UI_IFSET,  "formatted.GPSAltitude"},
 	{ 0, 0, EXIF_UI_IFSET,	"Exif.Image.ImageDescription"},
 	{ 0, 0, EXIF_UI_IFSET,	"Exif.Image.Copyright"},
 	{ 0, 0, EXIF_UI_OFF,	NULL}

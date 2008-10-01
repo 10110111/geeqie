@@ -28,12 +28,12 @@
  *  Unsupported at this time:
  *     IFD1 (thumbnail)
  *     MakerNote
- *     GPSInfo
  *
  *  TODO:
  *     Convert data to useable form in the ??_as_text function for:
  *        ComponentsConfiguration
  *        UserComment (convert this to UTF-8?)
+ *     Add support for marker tag 0x0000
  *
 
     This program is free software; you can redistribute it and/or modify
@@ -103,6 +103,7 @@ ExifFormatAttrib ExifFormatList[] = {
 /* tags that are special, or need special treatment */
 #define TAG_EXIFOFFSET          0x8769
 #define TAG_EXIFMAKERNOTE	0x927c
+#define TAG_GPSOFFSET		0x8825
 
 
 /*
@@ -435,6 +436,44 @@ ExifMarker ExifKnownMarkersList[] = {
 { 0x9216, EXIF_FORMAT_BYTE_UNSIGNED, 4,		"TIFF/EPStandardID",	NULL, NULL },
 
 EXIF_MARKER_LIST_END
+};
+
+ExifMarker ExifKnownGPSInfoMarkersList[] = {
+        /* The following do not work at the moment as the tag value 0x0000 has a
+         * special meaning. */
+        /* { 0x0000, EXIF_FORMAT_BYTE, -1, "Exif.GPSInfo.GPSVersionID", NULL, NULL }, */
+        { 0x0001, EXIF_FORMAT_STRING, 2, "Exif.GPSInfo.GPSLatitudeRef", NULL, NULL },
+        { 0x0002, EXIF_FORMAT_RATIONAL_UNSIGNED, 3, "Exif.GPSInfo.GPSLatitude", NULL, NULL },
+        { 0x0003, EXIF_FORMAT_STRING, 2, "Exif.GPSInfo.GPSLongitudeRef", NULL, NULL },
+        { 0x0004, EXIF_FORMAT_RATIONAL_UNSIGNED, 3, "Exif.GPSInfo.GPSLongitude", NULL, NULL },
+        { 0x0005, EXIF_FORMAT_BYTE_UNSIGNED, 1, "Exif.GPSInfo.GPSAltitudeRef", NULL, NULL },
+        { 0x0006, EXIF_FORMAT_RATIONAL_UNSIGNED, 1, "Exif.GPSInfo.GPSAltitude", NULL, NULL },
+        { 0x0007, EXIF_FORMAT_RATIONAL_UNSIGNED, 3, "Exif.GPSInfo.GPSTimeStamp", NULL, NULL },
+        { 0x0008, EXIF_FORMAT_STRING, -1, "Exif.GPSInfo.GPSSatellites", NULL, NULL },
+        { 0x0009, EXIF_FORMAT_STRING, -1, "Exif.GPSInfo.GPSStatus", NULL, NULL },
+        { 0x000a, EXIF_FORMAT_STRING, -1, "Exif.GPSInfo.GPSMeasureMode", NULL, NULL },
+        { 0x000b, EXIF_FORMAT_RATIONAL_UNSIGNED, -1, "Exif.GPSInfo.GPSDOP", NULL, NULL },
+        { 0x000c, EXIF_FORMAT_STRING, -1, "Exif.GPSInfo.GPSSpeedRef", NULL, NULL },
+        { 0x000d, EXIF_FORMAT_RATIONAL_UNSIGNED, -1, "Exif.GPSInfo.GPSSpeed", NULL, NULL },
+        { 0x000e, EXIF_FORMAT_STRING, -1, "Exif.GPSInfo.GPSTrackRef", NULL, NULL },
+        { 0x000f, EXIF_FORMAT_RATIONAL_UNSIGNED, -1, "Exif.GPSInfo.GPSTrack", NULL, NULL },
+        { 0x0010, EXIF_FORMAT_STRING, -1, "Exif.GPSInfo.GPSImgDirectionRef", NULL, NULL },
+        { 0x0011, EXIF_FORMAT_RATIONAL_UNSIGNED, -1, "Exif.GPSInfo.GPSImgDirection", NULL, NULL },
+        { 0x0012, EXIF_FORMAT_STRING, -1, "Exif.GPSInfo.GPSMapDatum", NULL, NULL },
+        { 0x0013, EXIF_FORMAT_STRING, -1, "Exif.GPSInfo.GPSDestLatitudeRef", NULL, NULL },
+        { 0x0014, EXIF_FORMAT_RATIONAL_UNSIGNED, -1, "Exif.GPSInfo.GPSDestLatitude", NULL, NULL },
+        { 0x0015, EXIF_FORMAT_STRING, -1, "Exif.GPSInfo.GPSDestLongitudeRef", NULL, NULL },
+        { 0x0016, EXIF_FORMAT_RATIONAL_UNSIGNED, -1, "Exif.GPSInfo.GPSDestLongitude", NULL, NULL },
+        { 0x0017, EXIF_FORMAT_STRING, -1, "Exif.GPSInfo.GPSDestBearingRef", NULL, NULL },
+        { 0x0018, EXIF_FORMAT_RATIONAL_UNSIGNED, -1, "Exif.GPSInfo.GPSDestBearing", NULL, NULL },
+        { 0x0019, EXIF_FORMAT_STRING, -1, "Exif.GPSInfo.GPSDestDistanceRef", NULL, NULL },
+        { 0x001a, EXIF_FORMAT_RATIONAL_UNSIGNED, -1, "Exif.GPSInfo.GPSDestDistance", NULL, NULL },
+        { 0x001b, EXIF_FORMAT_UNDEFINED, -1, "Exif.GPSInfo.GPSProcessingMethod", NULL, NULL },
+        { 0x001c, EXIF_FORMAT_UNDEFINED, -1, "Exif.GPSInfo.GPSAreaInformation", NULL, NULL },
+        { 0x001d, EXIF_FORMAT_RATIONAL_UNSIGNED, 3, "Exif.GPSInfo.GPSDateStamp", NULL, NULL },
+        { 0x001e, EXIF_FORMAT_SHORT, -1, "Exif.GPSInfo.GPSDifferential", NULL, NULL },
+
+        EXIF_MARKER_LIST_END
 };
 
 ExifMarker ExifUnknownMarkersList[] = {
@@ -910,6 +949,9 @@ static gint exif_parse_IFD_entry(ExifData *exif, guchar *tiff, guint offset,
 			{
 			case TAG_EXIFOFFSET:
 				exif_parse_IFD_table(exif, tiff, data_val, size, bo, level + 1, list);
+				break;
+			case TAG_GPSOFFSET:
+				exif_parse_IFD_table(exif, tiff, data_val, size, bo, level + 1, ExifKnownGPSInfoMarkersList);
 				break;
 			case TAG_EXIFMAKERNOTE:
 				format_exif_makernote_parse(exif, tiff, data_val, size, bo);
@@ -1436,15 +1478,16 @@ gint exif_item_get_integer(ExifItem *item, gint *value)
 }
 
 
-ExifRational *exif_item_get_rational(ExifItem *item, gint *sign)
+ExifRational *exif_item_get_rational(ExifItem *item, gint *sign, gint n)
 {
 	if (!item) return NULL;
+	if (n >= (gint)item->elements) return NULL;
 
 	if (item->format == EXIF_FORMAT_RATIONAL ||
 	    item->format == EXIF_FORMAT_RATIONAL_UNSIGNED)
 		{
 		if (sign) *sign = (item->format == EXIF_FORMAT_RATIONAL);
-		return &((ExifRational *)(item->data))[0];
+		return &((ExifRational *)(item->data))[n];
 		}
 
 	return NULL;
@@ -1462,6 +1505,13 @@ const gchar *exif_get_tag_description_by_key(const gchar *key)
 		if (strcmp(key, ExifKnownMarkersList[i].key) == 0) return _(ExifKnownMarkersList[i].description);
 		i++;
 		}
+
+	i = 0;
+	while (ExifKnownGPSInfoMarkersList[i].tag > 0)
+	{
+	   if (strcmp(key, ExifKnownGPSInfoMarkersList[i].key) == 0) return _(ExifKnownGPSInfoMarkersList[i].description);
+	   i++;
+	}
 
 	return NULL;
 }

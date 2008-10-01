@@ -512,11 +512,12 @@ gint exif_item_get_integer(ExifItem *item, gint *value)
 	}
 }
 
-ExifRational *exif_item_get_rational(ExifItem *item, gint *sign)
+ExifRational *exif_item_get_rational(ExifItem *item, gint *sign, gint n)
 {
 	try {
 		if (!item) return NULL;
-		Exiv2::Rational v = ((Exiv2::Metadatum *)item)->toRational();
+		if (n >= exif_item_get_elements(item)) return NULL;
+		Exiv2::Rational v = ((Exiv2::Metadatum *)item)->toRational(n);
 		static ExifRational ret;
 		ret.num = v.first;
 		ret.den = v.second;
