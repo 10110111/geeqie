@@ -375,7 +375,7 @@ char *exif_item_get_description(ExifItem *item)
 {
 	try {
 		if (!item) return NULL;
-		return g_strdup(((Exiv2::Metadatum *)item)->tagLabel().c_str());
+		return g_locale_to_utf8(((Exiv2::Metadatum *)item)->tagLabel().c_str(), -1, NULL, NULL, NULL);
 	}
 	catch (std::exception& e) {
 //		std::cout << "Caught Exiv2 exception '" << e << "'\n";
@@ -449,7 +449,7 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 		if (!item) return NULL;
 		Exiv2::Metadatum *metadatum = (Exiv2::Metadatum *)item;
 #if EXIV2_TEST_VERSION(0,17,0)
-		return g_strdup(metadatum->print().c_str());
+		return g_locale_to_utf8(metadatum->print().c_str(), -1, NULL, NULL, NULL);
 #else
 		std::stringstream str;
 		Exiv2::Exifdatum *exifdatum;
@@ -466,7 +466,7 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 			str << *xmpdatum;
 #endif
 
-		return g_strdup(str.str().c_str());
+		return g_locale_to_utf8(str.str().c_str(), -1, NULL, NULL, NULL);
 #endif
 	}
 	catch (Exiv2::AnyError& e) {
@@ -491,6 +491,7 @@ gchar *exif_item_get_string(ExifItem *item, int idx)
 			if (pos != std::string::npos) str = str.substr(pos+1);
 			}
 
+//		return g_locale_to_utf8(str.c_str(), -1, NULL, NULL, NULL); // FIXME
 		return g_strdup(str.c_str());
 	}
 	catch (Exiv2::AnyError& e) {
@@ -530,11 +531,11 @@ ExifRational *exif_item_get_rational(ExifItem *item, gint *sign, gint n)
 	}
 }
 
-const gchar *exif_get_tag_description_by_key(const gchar *key)
+gchar *exif_get_tag_description_by_key(const gchar *key)
 {
 	try {
 		Exiv2::ExifKey ekey(key);
-		return Exiv2::ExifTags::tagLabel(ekey.tag(), ekey.ifdId ());
+		return g_locale_to_utf8(Exiv2::ExifTags::tagLabel(ekey.tag(), ekey.ifdId ()), -1, NULL, NULL, NULL);
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";

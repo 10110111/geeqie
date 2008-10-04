@@ -1328,11 +1328,12 @@ static void config_tab_properties(GtkWidget *notebook)
 
 	for (i = 0; ExifUIList[i].key; i++)
 		{
-		const gchar *title;
+		gchar *title;
 
 		title = exif_get_description_by_key(ExifUIList[i].key);
 		exif_item(table, 0, i, title, ExifUIList[i].current,
 			  &ExifUIList[i].temp);
+		g_free(title);
 		}
 }
 

@@ -541,7 +541,7 @@ gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_val
 	return NULL;
 }
 
-const gchar *exif_get_description_by_key(const gchar *key)
+gchar *exif_get_description_by_key(const gchar *key)
 {
 	if (!key) return NULL;
 
@@ -552,7 +552,7 @@ const gchar *exif_get_description_by_key(const gchar *key)
 		key += 10;
 		for (i = 0; ExifFormattedList[i].key; i++)
 			if (strcmp(key, ExifFormattedList[i].key + 10) == 0)
-				return _(ExifFormattedList[i].description);
+				return g_strdup(_(ExifFormattedList[i].description));
 		}
 
 	return exif_get_tag_description_by_key(key);

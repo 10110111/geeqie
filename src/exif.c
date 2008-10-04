@@ -1493,7 +1493,7 @@ ExifRational *exif_item_get_rational(ExifItem *item, gint *sign, gint n)
 	return NULL;
 }
 
-const gchar *exif_get_tag_description_by_key(const gchar *key)
+gchar *exif_get_tag_description_by_key(const gchar *key)
 {
 	gint i;
 
@@ -1502,7 +1502,7 @@ const gchar *exif_get_tag_description_by_key(const gchar *key)
 	i = 0;
 	while (ExifKnownMarkersList[i].tag > 0)
 		{
-		if (strcmp(key, ExifKnownMarkersList[i].key) == 0) return _(ExifKnownMarkersList[i].description);
+		if (strcmp(key, ExifKnownMarkersList[i].key) == 0) return g_strdup(_(ExifKnownMarkersList[i].description));
 		i++;
 		}
 

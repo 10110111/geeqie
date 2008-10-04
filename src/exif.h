@@ -137,8 +137,8 @@ ExifRational *exif_item_get_rational(ExifItem *item, gint *sign, gint n);
 
 gchar *exif_item_get_string(ExifItem *item, gint idx);
 
-const gchar *exif_get_description_by_key(const gchar *key);
-const gchar *exif_get_tag_description_by_key(const gchar *key);
+gchar *exif_get_description_by_key(const gchar *key);
+gchar *exif_get_tag_description_by_key(const gchar *key);
 
 gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid);
 

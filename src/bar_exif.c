@@ -625,11 +625,12 @@ GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget 
 
 	for (i = 0; ExifUIList[i].key; i++)
 		{
-		const gchar *text;
+		gchar *text;
 
 		text = exif_get_description_by_key(ExifUIList[i].key);
 		eb->labels[i] = table_add_line(table, 0, i, text, NULL,
 		      &eb->keys[i]);
+		g_free(text);
 		}
 
 	eb->custom_sep = gtk_hseparator_new();
