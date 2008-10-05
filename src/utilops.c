@@ -2153,7 +2153,7 @@ static void file_util_create_dir_full(FileData *fd, const gchar *dest_path, GtkW
 
 void file_util_delete(FileData *source_fd, GList *source_list, GtkWidget *parent)
 {
-	file_util_delete_full(source_fd, source_list, parent, UTILITY_PHASE_START);
+	file_util_delete_full(source_fd, source_list, parent, options->file_ops.confirm_delete ? UTILITY_PHASE_START : UTILITY_PHASE_ENTERING);
 }
 
 void file_util_copy(FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent)
