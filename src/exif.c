@@ -1478,10 +1478,10 @@ gint exif_item_get_integer(ExifItem *item, gint *value)
 }
 
 
-ExifRational *exif_item_get_rational(ExifItem *item, gint *sign, gint n)
+ExifRational *exif_item_get_rational(ExifItem *item, gint *sign, guint n)
 {
 	if (!item) return NULL;
-	if (n >= (gint)item->elements) return NULL;
+	if (n >= item->elements) return NULL;
 
 	if (item->format == EXIF_FORMAT_RATIONAL ||
 	    item->format == EXIF_FORMAT_RATIONAL_UNSIGNED)

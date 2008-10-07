@@ -133,7 +133,7 @@ guint exif_item_get_format_id(ExifItem *item);
 const gchar *exif_item_get_format_name(ExifItem *item, gint brief);
 gchar *exif_item_get_data_as_text(ExifItem *item);
 gint exif_item_get_integer(ExifItem *item, gint *value);
-ExifRational *exif_item_get_rational(ExifItem *item, gint *sign, gint n);
+ExifRational *exif_item_get_rational(ExifItem *item, gint *sign, guint n);
 
 gchar *exif_item_get_string(ExifItem *item, gint idx);
 
