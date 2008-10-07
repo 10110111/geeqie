@@ -126,6 +126,10 @@ struct _SearchData
 	GtkWidget *menu_keywords;
 	GtkWidget *entry_keywords;
 
+	GtkWidget *check_comment;
+	GtkWidget *menu_comment;
+	GtkWidget *entry_comment;
+
 	FileData *search_dir_fd;
 	gint   search_path_recurse;
 	gchar *search_name;
@@ -146,6 +150,8 @@ struct _SearchData
 	gchar *search_similarity_path;
 	CacheData *search_similarity_cd;
 	GList *search_keyword_list;
+	gchar *search_comment;
+	gint   search_comment_match_case;
 
 	MatchType search_type;
 
@@ -154,6 +160,7 @@ struct _SearchData
 	MatchType match_date;
 	MatchType match_dimensions;
 	MatchType match_keywords;
+	MatchType match_comment;
 
 	gboolean match_name_enable;
 	gboolean match_size_enable;
@@ -161,6 +168,7 @@ struct _SearchData
 	gboolean match_dimensions_enable;
 	gboolean match_similarity_enable;
 	gboolean match_keywords_enable;
+	gboolean match_comment_enable;
 
 	GList *search_folder_list;
 	GList *search_done_list;
@@ -229,6 +237,11 @@ static const MatchList text_search_menu_keyword[] = {
 	{ N_("match all"),	SEARCH_MATCH_ALL },
 	{ N_("match any"),	SEARCH_MATCH_ANY },
 	{ N_("exclude"),	SEARCH_MATCH_NONE }
+};
+
+static const MatchList text_search_menu_comment[] = {
+	{ N_("contains"),	SEARCH_MATCH_CONTAINS },
+	{ N_("miss"),		SEARCH_MATCH_NONE }
 };
 
 static GList *search_window_list = NULL;
@@ -1857,7 +1870,39 @@ static gint search_file_next(SearchData *sd)
 			}
 		else
 			{
-			match = (sd->match_keywords == SEARCH_MATCH_NONE);
+			match = (sd->match_comment == SEARCH_MATCH_NONE);
+			}
+		}
+
+	if (match && sd->match_comment_enable && sd->search_comment && strlen(sd->search_comment))
+		{
+		gchar *comment;
+
+		tested = TRUE;
+		match = FALSE;
+
+		if (comment_read(fd, NULL, &comment))
+			{
+			if (! sd->search_comment_match_case)
+				{
+				gchar *tmp = g_utf8_strdown(comment, -1);
+				g_free(comment);
+				comment = tmp;
+				}
+
+			if (sd->match_comment == SEARCH_MATCH_CONTAINS)
+				{
+				match = (strstr(comment, sd->search_comment) != NULL);
+				}
+			else if (sd->match_comment == SEARCH_MATCH_NONE)
+				{
+				match = (strstr(comment, sd->search_comment) == NULL);
+				}
+			g_free(comment);
+			}
+		else
+			{
+			match = (sd->match_comment == SEARCH_MATCH_NONE);
 			}
 		}
 
@@ -2035,6 +2080,14 @@ static void search_start(SearchData *sd)
 		sd->search_name = tmp;
 		}
 
+	if (!sd->search_comment_match_case)
+		{
+		/* convert to lowercase here, so that this is only done once per search */
+		gchar *tmp = g_utf8_strdown(sd->search_comment, -1);
+		g_free(sd->search_comment);
+		sd->search_comment = tmp;
+		}
+
 	sd->search_count = 0;
 	sd->search_total = 0;
 
@@ -2096,6 +2149,10 @@ static void search_start_cb(GtkWidget *widget, gpointer data)
 	if (sd->match_name_enable) history_combo_append_history(sd->entry_name, NULL);
 	g_free(sd->search_name);
 	sd->search_name = g_strdup(gtk_entry_get_text(GTK_ENTRY(sd->entry_name)));
+
+	/* XXX */
+	g_free(sd->search_comment);
+	sd->search_comment = g_strdup(gtk_entry_get_text(GTK_ENTRY(sd->entry_comment)));
 
 	g_free(sd->search_similarity_path);
 	sd->search_similarity_path = g_strdup(gtk_entry_get_text(GTK_ENTRY(sd->entry_similarity)));
@@ -2374,6 +2431,13 @@ static void menu_choice_keyword_cb(GtkWidget *combo, gpointer data)
 	if (!menu_choice_get_match_type(combo, &sd->match_keywords)) return;
 }
 
+static void menu_choice_comment_cb(GtkWidget *combo, gpointer data)
+{
+	SearchData *sd = data;
+
+	if (!menu_choice_get_match_type(combo, &sd->match_comment)) return;
+}
+
 static void menu_choice_spin_cb(GtkAdjustment *adjustment, gpointer data)
 {
 	gint *value = data;
@@ -2516,6 +2580,7 @@ static void search_window_destroy_cb(GtkWidget *widget, gpointer data)
 	file_data_unref(sd->search_dir_fd);
 
 	g_free(sd->search_name);
+	g_free(sd->search_comment);
 	g_free(sd->search_similarity_path);
 	string_list_free(sd->search_keyword_list);
 
@@ -2550,6 +2615,8 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->search_height_end = 768;
 	sd->search_name = NULL;
 	sd->search_name_match_case = FALSE;
+	sd->search_comment = NULL;
+	sd->search_comment_match_case = FALSE;
 
 	sd->search_type = SEARCH_MATCH_NONE;
 
@@ -2558,6 +2625,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->match_date = SEARCH_MATCH_EQUAL;
 	sd->match_dimensions = SEARCH_MATCH_EQUAL;
 	sd->match_keywords = SEARCH_MATCH_ALL;
+	sd->match_comment = SEARCH_MATCH_CONTAINS;
 
 	sd->match_name_enable = TRUE;
 	sd->match_size_enable = FALSE;
@@ -2565,6 +2633,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->match_dimensions_enable = FALSE;
 	sd->match_similarity_enable = FALSE;
 	sd->match_keywords_enable = FALSE;
+	sd->match_comment_enable = FALSE;
 
 	sd->search_similarity = 95;
 	sd->search_similarity_path = example_file ? g_strdup(example_file->path) : NULL;
@@ -2620,6 +2689,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->check_recurse = pref_checkbox_new_int(hbox2, _("Recurse"),
 						  sd->search_path_recurse, &sd->search_path_recurse);
 
+	/* Search for file name */
 	hbox = menu_choice(sd->box_search, &sd->check_name, &sd->menu_name,
 			   _("File name"), &sd->match_name_enable,
 			   text_search_menu_name, sizeof(text_search_menu_name) / sizeof(MatchList),
@@ -2630,6 +2700,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	pref_checkbox_new_int(hbox, _("Match case"),
 			      sd->search_name_match_case, &sd->search_name_match_case);
 
+	/* Search for file size */
 	hbox = menu_choice(sd->box_search, &sd->check_size, &sd->menu_size,
 			   _("File size is"), &sd->match_size_enable,
 			   text_search_menu_size, sizeof(text_search_menu_size) / sizeof(MatchList),
@@ -2642,6 +2713,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->spin_size_end = menu_spin(hbox2, 0, 1024*1024*1024, sd->search_size_end,
 				      G_CALLBACK(menu_choice_spin_cb), &sd->search_size_end);
 
+	/* Search for file date */
 	hbox = menu_choice(sd->box_search, &sd->check_date, &sd->menu_date,
 			   _("File date is"), &sd->match_date_enable,
 			   text_search_menu_date, sizeof(text_search_menu_date) / sizeof(MatchList),
@@ -2659,6 +2731,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	gtk_box_pack_start(GTK_BOX(hbox2), sd->date_sel_end, FALSE, FALSE, 0);
 	gtk_widget_show(sd->date_sel_end);
 
+	/* Search for image dimensions */
 	hbox = menu_choice(sd->box_search, &sd->check_dimensions, &sd->menu_dimensions,
 			   _("Image dimensions are"), &sd->match_dimensions_enable,
 			   text_search_menu_size, sizeof(text_search_menu_size) / sizeof(MatchList),
@@ -2679,6 +2752,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->spin_height_end = menu_spin(hbox2, 0, 1000000, sd->search_height_end,
 					G_CALLBACK(menu_choice_spin_cb), &sd->search_height_end);
 
+	/* Search for image similarity */
 	hbox = menu_choice(sd->box_search, &sd->check_similarity, NULL,
 			   _("Image content is"), &sd->match_similarity_enable,
 			   NULL, 0, NULL, sd);
@@ -2695,6 +2769,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	gtk_box_pack_start(GTK_BOX(hbox), combo, TRUE, TRUE, 0);
 	gtk_widget_show(combo);
 
+	/* Search for image keywords */
 	hbox = menu_choice(sd->box_search, &sd->check_keywords, &sd->menu_keywords,
 			   _("Keywords"), &sd->match_keywords_enable,
 			   text_search_menu_keyword, sizeof(text_search_menu_keyword) / sizeof(MatchList),
@@ -2705,6 +2780,22 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	g_signal_connect(G_OBJECT(sd->check_keywords), "toggled",
 			 G_CALLBACK(menu_choice_check_cb), sd->entry_keywords);
 	gtk_widget_show(sd->entry_keywords);
+
+	/* Search for image comment */
+	hbox = menu_choice(sd->box_search, &sd->check_comment, &sd->menu_comment,
+			_("Comment"), &sd->match_comment_enable,
+			text_search_menu_comment, sizeof(text_search_menu_comment) / sizeof(MatchList),
+			G_CALLBACK(menu_choice_comment_cb), sd);
+	sd->entry_comment = gtk_entry_new();
+	gtk_box_pack_start(GTK_BOX(hbox), sd->entry_comment, TRUE, TRUE, 0);
+	gtk_widget_set_sensitive(sd->entry_comment, sd->match_comment_enable);
+	g_signal_connect(G_OBJECT(sd->check_comment), "toggled",
+			G_CALLBACK(menu_choice_check_cb), sd->entry_comment);
+	gtk_widget_show(sd->entry_comment);
+	pref_checkbox_new_int(hbox, _("Match case"),
+			      sd->search_comment_match_case, &sd->search_comment_match_case);
+
+	/* Done the types of searches */
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
