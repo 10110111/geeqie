@@ -1978,3 +1978,4 @@ void vflist_marks_set(ViewFile *vf, gint enable)
 	//vf_refresh(vf);
 }
 
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

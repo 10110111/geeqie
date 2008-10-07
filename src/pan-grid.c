@@ -81,3 +81,4 @@ void pan_grid_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *height
 
 	g_list_free(list);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -950,3 +950,4 @@ void info_window_new(FileData *fd, GList *list, GtkWidget *parent)
 
 	gtk_widget_show(id->window);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

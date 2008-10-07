@@ -968,3 +968,4 @@ void pan_text_alignment_calc(PanTextAlignment *ta, PanItem *box)
 		y += height;
 		}
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

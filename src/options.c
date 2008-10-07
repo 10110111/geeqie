@@ -282,3 +282,4 @@ void load_options(ConfOptions *options)
 	DEBUG_1("Loading options from %s ... %s", rc_path, success ? "done" : "failed");
 	g_free(rc_path);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

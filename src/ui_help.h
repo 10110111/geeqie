@@ -25,3 +25,4 @@ GtkWidget *help_window_get_box(GtkWidget *window);
 
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

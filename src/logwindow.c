@@ -278,3 +278,4 @@ void log_window_append(const gchar *str, LogType type)
 
 	logwindow->lines = gtk_text_buffer_get_line_count(buffer);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -1088,3 +1088,4 @@ void image_osd_icon(ImageWindow *imd, ImageOSDFlag flag, gint duration)
 	image_osd_update_schedule(osd, FALSE);
 	image_osd_timer_schedule(osd);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

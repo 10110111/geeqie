@@ -95,3 +95,4 @@ gint layout_toolbar_hidden(LayoutWindow *lw);
 void layout_split_change(LayoutWindow *lw, ImageSplitMode mode);
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

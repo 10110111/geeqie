@@ -22,3 +22,4 @@ void help_window_show(const gchar *key);
 
 
 #endif /* WINDOW_H */
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

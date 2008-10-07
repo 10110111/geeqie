@@ -64,3 +64,4 @@ void vf_mark_selected(ViewFile *vf, gint mark, gint value);
 void vf_refresh_idle_cancel(ViewFile *vf);
 void vf_notify_cb(FileData *fd, NotifyType type, gpointer data);
 #endif /* VIEW_FILE_H */
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

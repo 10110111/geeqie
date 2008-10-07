@@ -21,3 +21,4 @@ gchar *quoted_value(const gchar *text, const gchar **tail);
 gchar *escquote_value(const gchar *text);
 
 #endif /* MISC_H */
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

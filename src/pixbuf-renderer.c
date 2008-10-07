@@ -4147,3 +4147,4 @@ gint pixbuf_renderer_get_virtual_rect(PixbufRenderer *pr, GdkRectangle *rect)
 	rect->height = pr->vis_height;
 	return TRUE;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

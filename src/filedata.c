@@ -2148,3 +2148,4 @@ gint file_data_unregister_real_time_monitor(FileData *fd)
 	
 	return TRUE;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -794,3 +794,4 @@ gint cache_time_valid(const gchar *cache, const gchar *path)
 
 	return ret;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

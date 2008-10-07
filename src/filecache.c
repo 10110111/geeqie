@@ -185,3 +185,4 @@ static void file_cache_notify_cb(FileData *fd, NotifyType type, gpointer data)
 		file_cache_remove_fd(fc, fd);
 		}
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

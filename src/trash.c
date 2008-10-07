@@ -213,3 +213,4 @@ gchar *file_util_safe_delete_status(void)
 		
 	return buf;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

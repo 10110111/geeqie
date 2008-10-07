@@ -1678,3 +1678,4 @@ GtkWidget *pref_color_button_new(GtkWidget *parent_box,
 
 	return button;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

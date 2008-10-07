@@ -43,3 +43,4 @@ gint format_nikon_makernote(ExifData *exif, guchar *tiff, guint offset,
 
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

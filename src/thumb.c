@@ -660,3 +660,4 @@ static GdkPixbuf *get_xv_thumbnail(gchar *thumb_filename, gint max_w, gint max_h
 
 	return NULL;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

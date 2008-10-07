@@ -862,3 +862,4 @@ RemoteConnection *remote_server_init(gchar *path, CollectionData *command_collec
 	remote_server_subscribe(remote_connection, remote_cb, remote_data);
 	return remote_connection;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

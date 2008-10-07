@@ -729,3 +729,4 @@ gint file_in_path(const gchar *name)
 
 	return ret;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -415,3 +415,4 @@ secsave_strerror(SecureSaveErrno secsave_error)
 		return _("Secure file saving error");
 	}
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

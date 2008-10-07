@@ -166,3 +166,4 @@ void dnd_set_drag_icon(GtkWidget *widget, GdkDragContext *context, GdkPixbuf *pi
 	g_object_unref(pixmap);
 	if (mask) g_object_unref(mask);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

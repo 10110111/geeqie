@@ -1787,3 +1787,4 @@ void show_about_window(void)
 
 	gtk_widget_show(about);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

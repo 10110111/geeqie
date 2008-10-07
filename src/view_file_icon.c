@@ -2487,3 +2487,4 @@ ViewFile *vficon_new(ViewFile *vf, FileData *dir_fd)
 	return vf;
 }
 
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

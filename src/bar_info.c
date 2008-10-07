@@ -1495,3 +1495,4 @@ void bar_info_selection(GtkWidget *bar, gint count)
 	gtk_widget_set_sensitive(bd->button_set_comment_replace, enable);
 
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

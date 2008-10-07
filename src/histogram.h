@@ -34,3 +34,4 @@ gulong histogram_read(Histogram *histogram, GdkPixbuf *imgpixbuf);
 gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height);
 
 #endif /* HISTOGRAM_H */
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -258,3 +258,4 @@ gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gin
 
 	return TRUE;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

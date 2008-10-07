@@ -565,3 +565,4 @@ gint format_debug_tiff_raw(guchar *data, const guint len,
 
 #endif
 /* not HAVE_EXIV2 */
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

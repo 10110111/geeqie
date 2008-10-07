@@ -2494,3 +2494,4 @@ CollectInfo *collection_table_get_focus_info(CollectTable *ct)
 {
 	return collection_table_find_data(ct, ct->focus_row, ct->focus_column, NULL);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

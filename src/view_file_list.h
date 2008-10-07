@@ -63,3 +63,4 @@ void vflist_mark_selected(ViewFile *vf, gint mark, gint value);
 void vflist_color_set(ViewFile *vf, FileData *fd, gint color_set);
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

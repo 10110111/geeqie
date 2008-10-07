@@ -76,3 +76,4 @@ gchar *cache_find_location(CacheType type, const gchar *source);
 
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

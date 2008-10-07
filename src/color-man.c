@@ -468,3 +468,4 @@ void color_man_start_bg(ColorMan *cm, ColorManDoneFunc done_func, gpointer done_
 }
 
 #endif /* define HAVE_LCMS */
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

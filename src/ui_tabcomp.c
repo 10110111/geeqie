@@ -921,3 +921,4 @@ void tab_completion_add_select_button(GtkWidget *entry, const gchar *title, gint
 
 	gtk_widget_show(td->fd_button);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

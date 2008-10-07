@@ -1089,3 +1089,4 @@ static void vd_notify_cb(FileData *fd, NotifyType type, gpointer data)
 
 	g_free(base);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

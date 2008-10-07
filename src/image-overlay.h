@@ -48,3 +48,4 @@ void image_osd_toggle(ImageWindow *imd);
 
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

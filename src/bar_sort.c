@@ -645,3 +645,4 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 
 	return sd->vbox;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

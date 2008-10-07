@@ -56,3 +56,4 @@ void vficon_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode)
 void vficon_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode);
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

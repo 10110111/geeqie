@@ -205,3 +205,4 @@ gint popup_menu_position_clamp(GtkMenu *menu, gint *x, gint *y, gint height)
 
 	return adjusted;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

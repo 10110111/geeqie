@@ -64,3 +64,4 @@ void init_exec_time(void);
 
 
 #endif /* _DEBUG_H */
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -29,3 +29,4 @@ GtkWidget *submenu_add_alter(GtkWidget *menu, GtkSignalFunc func, gpointer data)
 
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

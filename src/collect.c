@@ -1246,3 +1246,4 @@ CollectWindow *collection_window_new(const gchar *path)
 
 	return cw;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

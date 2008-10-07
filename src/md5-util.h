@@ -59,3 +59,4 @@ gboolean md5_digest_from_text(const gchar *text, guchar digest[16]);
 
 
 #endif	/* MD5_UTILS_H */
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

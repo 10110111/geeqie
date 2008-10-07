@@ -2259,3 +2259,4 @@ void file_util_copy_path_list_to_clipboard(GList *list)
 	gtk_clipboard_set_text(clipboard, new->str, new->len);
 	g_string_free(new, TRUE);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

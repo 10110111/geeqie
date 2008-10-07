@@ -773,3 +773,4 @@ gint exif_jpeg_parse_color(ExifData *exif, guchar *data, guint size)
 
 	return FALSE;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

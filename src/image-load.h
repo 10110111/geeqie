@@ -105,3 +105,4 @@ gint image_loader_get_shrunk(ImageLoader *il);
 gint image_load_dimensions(FileData *fd, gint *width, gint *height);
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -2032,3 +2032,4 @@ void layout_bars_maint_renamed(LayoutWindow *lw)
 {
 	layout_bar_info_maint_renamed(lw);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

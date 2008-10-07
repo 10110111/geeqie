@@ -26,3 +26,4 @@ gint view_window_find_image(ImageWindow *imd, gint *index, gint *total);
 
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

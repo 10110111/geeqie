@@ -38,3 +38,4 @@ void history_combo_append_history(GtkWidget *widget, const gchar *text);
 
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -23,3 +23,4 @@ gchar *uri_text_from_list(GList *list, gint *len, gint plain_text);
 gchar *uri_text_from_filelist(GList *list, gint *len, gint plain_text);
 
 #endif /* URI_UTILS_H */
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -88,3 +88,4 @@ GtkCellRenderer *gqv_cell_renderer_icon_new      (void);
 #endif /* __cplusplus */
 
 #endif /* __GQV_CELL_RENDERER_ICON_H__ */
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

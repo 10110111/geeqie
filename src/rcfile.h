@@ -18,3 +18,4 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options);
 gboolean load_options_from(const gchar *utf8_path, ConfOptions *options);
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

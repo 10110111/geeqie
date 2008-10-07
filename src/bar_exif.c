@@ -687,3 +687,4 @@ GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget 
 
 	return eb->vbox;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

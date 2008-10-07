@@ -35,3 +35,4 @@ void keyword_list_push(GtkWidget *textview, GList *list);
 
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

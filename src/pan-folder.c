@@ -467,3 +467,4 @@ void pan_folder_tree_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint 
 	if (width) *width = w;
 	if (height) *height = h;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

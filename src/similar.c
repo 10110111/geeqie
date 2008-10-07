@@ -359,3 +359,4 @@ gdouble image_sim_compare_fast(ImageSimilarityData *a, ImageSimilarityData *b, g
 
 	return (1.0 - ((gdouble)sim / (255.0 * 1024.0 * 3.0)) );
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

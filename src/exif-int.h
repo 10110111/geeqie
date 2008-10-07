@@ -167,3 +167,4 @@ gint exif_tiff_parse(ExifData *exif, guchar *tiff, guint size, ExifMarker *list)
 gchar *exif_text_list_find_value(ExifTextList *list, guint value);
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

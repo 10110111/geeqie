@@ -213,3 +213,4 @@ void spinner_step(GtkWidget *spinner, gint reset)
 		spinner_increment_frame(sp);
 		}
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

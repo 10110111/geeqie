@@ -951,3 +951,4 @@ void history_combo_append_history(GtkWidget *widget, const gchar *text)
 
 	g_free(new_text);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

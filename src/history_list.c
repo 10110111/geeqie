@@ -349,3 +349,4 @@ GList *history_list_get_by_key(const gchar *key)
 
 	return hd->list;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

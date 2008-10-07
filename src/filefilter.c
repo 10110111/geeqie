@@ -499,3 +499,4 @@ void sidecar_ext_add_defaults(void)
 {
 	sidecar_ext_parse(".jpg;.cr2;.nef;.crw;.xmp", FALSE);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

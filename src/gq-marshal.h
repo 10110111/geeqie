@@ -24,3 +24,4 @@ G_END_DECLS
 
 #endif /* __gq_marshal_MARSHAL_H__ */
 
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

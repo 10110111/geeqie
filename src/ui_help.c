@@ -268,3 +268,4 @@ GtkWidget *help_window_get_box(GtkWidget *window)
 {
 	return g_object_get_data(G_OBJECT(window), "text_vbox");
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

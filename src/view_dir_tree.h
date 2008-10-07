@@ -42,3 +42,4 @@ gint vdtree_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 void vdtree_destroy_cb(GtkWidget *widget, gpointer data);
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

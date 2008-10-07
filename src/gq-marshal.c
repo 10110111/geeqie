@@ -93,3 +93,4 @@ gq_marshal_VOID__INT_INT_INT_INT (GClosure     *closure,
 
 /* VOID:DOUBLE (gq-marshal.list:3) */
 
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

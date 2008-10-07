@@ -186,3 +186,4 @@ gchar *escquote_value(const gchar *text)
 		}
 	return g_strdup("\"\"");
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

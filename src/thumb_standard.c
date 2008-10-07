@@ -1091,3 +1091,4 @@ void thumb_std_maint_moved(const gchar *source, const gchar *dest)
 		thumb_std_maint_move_tail = thumb_std_maint_move_list;
 		}
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

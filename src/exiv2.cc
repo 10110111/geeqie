@@ -917,3 +917,4 @@ unsigned long RawFile::preview_offset(void)
 
 #endif
 /* HAVE_EXIV2 */
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

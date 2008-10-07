@@ -250,3 +250,4 @@ void cache_loader_free(CacheLoader *cl)
 	file_data_unref(cl->fd);
 	g_free(cl);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

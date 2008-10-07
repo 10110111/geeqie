@@ -260,3 +260,4 @@ void pixbuf_renderer_overlay_remove(PixbufRenderer *pr, gint id);
 
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -241,3 +241,4 @@ void help_window_show(const gchar *key)
 			 G_CALLBACK(help_window_destroy_cb), NULL);
 }
 
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

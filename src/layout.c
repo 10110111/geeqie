@@ -2010,3 +2010,4 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 	return lw;
 }
 
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

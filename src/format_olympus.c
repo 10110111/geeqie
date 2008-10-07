@@ -384,3 +384,4 @@ gint format_olympus_makernote(ExifData *exif, guchar *tiff, guint offset,
 
 #endif
 /* not HAVE_EXIV2 */
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

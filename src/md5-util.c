@@ -418,3 +418,4 @@ gchar *md5_text_from_file_utf8(const gchar *path, const gchar *error_text)
 
 	return md5_digest_to_text(digest);
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

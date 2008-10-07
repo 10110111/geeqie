@@ -474,3 +474,4 @@ ViewDir *vdlist_new(ViewDir *vd, FileData *dir_fd)
 
 	return vd;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

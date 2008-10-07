@@ -788,3 +788,4 @@ gint main(gint argc, gchar *argv[])
 #endif
 	return 0;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

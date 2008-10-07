@@ -2995,3 +2995,4 @@ static void pan_window_dnd_init(PanWindow *pw)
  * maintenance (for rename, move, remove)
  *-----------------------------------------------------------------------------
  */
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

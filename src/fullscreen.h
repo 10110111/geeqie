@@ -56,3 +56,4 @@ GtkWidget *fullscreen_prefs_selection_new(const gchar *text, gint *screen_value,
 
 
 #endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

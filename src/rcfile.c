@@ -909,3 +909,4 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 	fclose(f);
 	return TRUE;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

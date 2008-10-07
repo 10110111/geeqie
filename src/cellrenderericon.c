@@ -815,3 +815,4 @@ gqv_cell_renderer_icon_activate (GtkCellRenderer      *cell,
 		}
 	return FALSE;
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

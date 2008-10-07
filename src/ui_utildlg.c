@@ -453,3 +453,4 @@ void file_dialog_sync_history(FileDialog *fdlg, gint dir_only)
 		g_free(buf);
 		}
 }
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
