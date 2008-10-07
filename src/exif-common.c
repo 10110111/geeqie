@@ -456,7 +456,7 @@ static gchar *exif_build_formatted_GPSPosition(ExifData *exif)
 		p2 = (gint)((p - p1)*60);
 		p3 = ((p - p1)*60 - p2)*60;
 
-		g_string_append_printf(string, "%0d° %0d' %0.2f\" %.1s", p1, p2, p3, ref);
+		g_string_append_printf(string, "%0dÂ° %0d' %0.2f\" %.1s", p1, p2, p3, ref);
 		} // if (item && ref)
 
 	item = exif_get_item(exif, "Exif.GPSInfo.GPSLongitude");
@@ -474,7 +474,7 @@ static gchar *exif_build_formatted_GPSPosition(ExifData *exif)
 		p2 = (gint)((p - p1)*60);
 		p3 = ((p - p1)*60 - p2)*60;
 
-		g_string_append_printf(string, ", %0d° %0d' %0.2f\" %.1s", p1, p2, p3, ref);
+		g_string_append_printf(string, ", %0dÂ° %0d' %0.2f\" %.1s", p1, p2, p3, ref);
 		} // if (item && ref)
 
 	text = string->str;
