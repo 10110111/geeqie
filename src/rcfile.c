@@ -403,6 +403,7 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_BOOL(thumbnails.use_xvpics);
 	WRITE_BOOL(thumbnails.spec_standard);
 	WRITE_UINT(thumbnails.quality);
+	WRITE_BOOL(thumbnails.use_exif);
 
 
 	WRITE_SUBTITLE("File sorting Options");
@@ -776,6 +777,7 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_BOOL(thumbnails.use_xvpics);
 		READ_BOOL(thumbnails.spec_standard);
 		READ_UINT_CLAMP(thumbnails.quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
+		READ_BOOL(thumbnails.use_exif);
 
 		/* file sorting options */
 		READ_UINT(file_sort.method);

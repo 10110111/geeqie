@@ -607,12 +607,15 @@ static gint image_loader_setup_source(ImageLoader *il)
 		{
 		ExifData *exif = exif_read_fd(il->fd);
 
-		il->mapped_file = exif_get_preview(exif, &il->bytes_total);
-		
+		if (options->thumbnails.use_exif)
+			il->mapped_file = exif_get_preview(exif, &il->bytes_total, il->requested_width, il->requested_height);
+		else
+			il->mapped_file = exif_get_preview(exif, &il->bytes_total, 0, 0); /* get the largest available preview image or NULL for normal images*/
+
 		if (il->mapped_file)
 			{
 			il->preview = TRUE;
-			DEBUG_1("Raw file %s contains embedded image", il->fd->path);
+			DEBUG_1("Usable reduced size (preview) image loaded from file %s", il->fd->path);
 			}
 		exif_free_fd(il->fd, exif);
 		}

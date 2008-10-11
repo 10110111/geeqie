@@ -1605,7 +1605,7 @@ struct _UnmapData
 
 static GList *exif_unmap_list = 0;
 
-guchar *exif_get_preview(ExifData *exif, guint *data_len)
+guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, gint requested_height)
 {
 	int success;
 	guint offset;

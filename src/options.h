@@ -94,6 +94,7 @@ struct _ConfOptions
 		gboolean use_xvpics;
 		gboolean spec_standard;
 		guint quality;
+		gboolean use_exif;
 	} thumbnails;
 
 	/* file filtering */

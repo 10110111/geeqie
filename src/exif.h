@@ -158,7 +158,7 @@ gint exif_jpeg_segment_find(guchar *data, guint size,
 gint exif_jpeg_parse_color(ExifData *exif, guchar *data, guint size);
 
 /*raw support */
-guchar *exif_get_preview(ExifData *exif, guint *data_len);
+guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, gint requested_height);
 void exif_free_preview(guchar *buf);
 
 

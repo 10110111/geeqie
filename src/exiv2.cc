@@ -608,13 +608,15 @@ guchar *exif_get_color_profile(ExifData *exif, guint *data_len)
 
 #if EXIV2_TEST_VERSION(0,17,90)
 
-guchar *exif_get_preview(ExifData *exif, guint *data_len)
+guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, gint requested_height)
 {
 	if (!exif) return NULL;
 
 	const char* path = exif->image->io().path().c_str();
 	/* given image pathname, first do simple (and fast) file extension test */
-	if (!filter_file_class(path, FORMAT_CLASS_RAWIMAGE)) return NULL;
+	gboolean is_raw = filter_file_class(path, FORMAT_CLASS_RAWIMAGE);
+	
+	if (!is_raw && requested_width == 0) return NULL;
 
 	try {
 
@@ -624,7 +626,29 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len)
 
 		if (!list.empty())
 			{
-			Exiv2::PreviewPropertiesList::iterator pos = --list.end();
+			Exiv2::PreviewPropertiesList::iterator pos;
+			Exiv2::PreviewPropertiesList::iterator last = --list.end();
+			
+			if (requested_width == 0)
+				{
+				pos = last; // the largest
+				}
+			else
+				{
+				pos = list.begin();
+				while (pos != last)
+					{
+					if (pos->width_ >= (uint32_t)requested_width &&
+					    pos->height_ >= (uint32_t)requested_height) break;
+					++pos;
+					}
+				
+				// we are not interested in smaller thumbnails in normal image formats - we can use full image instead
+				if (!is_raw) 
+					{
+					if (pos->width_ < (uint32_t)requested_width || pos->height_ < (uint32_t)requested_height) return NULL; 
+					}
+				}
 
 			Exiv2::PreviewImage image = loader.getPreviewImage(*pos);
 
@@ -683,7 +707,7 @@ struct _UnmapData
 
 static GList *exif_unmap_list = 0;
 
-extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len)
+extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, gint requested_height)
 {
 	unsigned long offset;
 

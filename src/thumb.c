@@ -471,7 +471,11 @@ ThumbLoader *thumb_loader_new(gint width, gint height)
 {
 	ThumbLoader *tl;
 
-	if (options->thumbnails.spec_standard)
+	/* non-std thumb loader is more effective for configurations with disabled caching
+	   because it loads the thumbnails at the required size. loader_std loads
+	   the thumbnails at the sizes appropriate for standard cache (typically 256x256 pixels)
+	   and then performs one additional scaling */
+	if (options->thumbnails.spec_standard && options->thumbnails.enable_caching)
 		{
 		return (ThumbLoader *)thumb_loader_std_new(width, height);
 		}

@@ -158,6 +158,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->thumbnails.quality = GDK_INTERP_TILES;
 	options->thumbnails.spec_standard = TRUE;
 	options->thumbnails.use_xvpics = TRUE;
+	options->thumbnails.use_exif = FALSE;
 
 	options->tree_descend_subdirs = FALSE;
 	options->update_on_time_change = TRUE;
