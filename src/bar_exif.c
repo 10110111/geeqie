@@ -62,7 +62,8 @@ ExifUI ExifUIList[]={
 
 static void table_add_line_custom(GtkWidget *table, gint x, gint y,
 				  const gchar *text1, const gchar *text2,
-				  GtkWidget **label1, GtkWidget **label2)
+				  GtkWidget **label1, GtkWidget **label2,
+				  GtkWidget **button)
 {
 	GtkWidget *label;
 	gchar *buf;
@@ -87,17 +88,26 @@ static void table_add_line_custom(GtkWidget *table, gint x, gint y,
 			 2, 2);
 	*label2 = label;
 
+	if (button)
+		{
+		*button = gtk_button_new_from_stock(GTK_STOCK_REMOVE);
+		gtk_table_attach(GTK_TABLE(table), *button,
+				 x + 2, x + 3, y, y + 1,
+				 GTK_FILL, GTK_FILL,
+				 2, 2);
+		}
+
 	g_free(buf);
 }
 
 static GtkWidget *table_add_line(GtkWidget *table, gint x, gint y,
 				 const gchar *description, const gchar *text,
-				GtkWidget **keyret)
+				 GtkWidget **keyret)
 {
 	GtkWidget *key;
 	GtkWidget *label;
 
-	table_add_line_custom(table, x, y, description, text, &key, &label);
+	table_add_line_custom(table, x, y, description, text, &key, &label, NULL);
 	gtk_widget_show(key);
 	gtk_widget_show(label);
 	if (keyret) *keyret = key;
@@ -126,6 +136,7 @@ struct _ExifBar
 	GtkWidget *custom_sep;
 	GtkWidget *custom_name[EXIF_BAR_CUSTOM_COUNT];
 	GtkWidget *custom_value[EXIF_BAR_CUSTOM_COUNT];
+	GtkWidget *custom_remove[EXIF_BAR_CUSTOM_COUNT];
 
 	FileData *fd;
 
@@ -230,7 +241,7 @@ static void bar_exif_update(ExifBar *eb)
 
 			name = list->data;
 			list = list->prev;
-
+			
 			text = exif_get_data_as_text(exif, name);
 			utf8_text = utf8_validate_or_convert(text);
 			g_free(text);
@@ -243,13 +254,18 @@ static void bar_exif_update(ExifBar *eb)
 
 			gtk_widget_show(eb->custom_name[i]);
 			gtk_widget_show(eb->custom_value[i]);
+			gtk_widget_show(eb->custom_remove[i]);
+			g_object_set_data(G_OBJECT(eb->custom_remove[i]), "key", name);
 
 			i++;
 			}
 		while (i < EXIF_BAR_CUSTOM_COUNT)
 			{
+			g_object_set_data(G_OBJECT(eb->custom_remove[i]), "key", NULL);
 			gtk_widget_hide(eb->custom_name[i]);
 			gtk_widget_hide(eb->custom_value[i]);
+			gtk_widget_hide(eb->custom_remove[i]);
+
 			i++;
 			}
 		}
@@ -384,6 +400,19 @@ static void bar_exif_row_toggled_cb(GtkCellRendererToggle *toggle, const gchar *
 		}
 
 	g_free(name);
+}
+
+static void bar_exif_remove_advanced_cb(GtkWidget *widget, gpointer data)
+{
+	ExifBar *eb = data;
+	const gchar *key;
+
+	key = g_object_get_data(G_OBJECT(widget), "key");
+	if (!key) return;
+
+	history_list_item_change("exif_extras", key, NULL);
+
+	bar_exif_update(eb);
 }
 
 static void bar_exif_add_column_check(GtkWidget *listview, const gchar *title, gint n)
@@ -619,7 +648,7 @@ GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget 
 		}
 
 
-	table = gtk_table_new(2, exif_len + 1 + EXIF_BAR_CUSTOM_COUNT, FALSE);
+	table = gtk_table_new(3, exif_len + 1 + EXIF_BAR_CUSTOM_COUNT, FALSE);
 
 	eb->table = table;
 
@@ -641,7 +670,10 @@ GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget 
 	for (i = 0; i < EXIF_BAR_CUSTOM_COUNT; i++)
 		{
 		table_add_line_custom(table, 0, exif_len + 1 + i,
-				      "", "",  &eb->custom_name[i], &eb->custom_value[i]);
+				      "", "",  &eb->custom_name[i], &eb->custom_value[i],
+				      &eb->custom_remove[i]);
+		g_signal_connect(G_OBJECT(eb->custom_remove[i]), "clicked", 
+				 G_CALLBACK(bar_exif_remove_advanced_cb), eb);
 		}
 
 	eb->scrolled = gtk_scrolled_window_new(NULL, NULL);
