@@ -24,6 +24,7 @@
 #include "layout_image.h"
 #include "options.h"
 #include "remote.h"
+#include "secure_save.h"
 #include "similar.h"
 #include "ui_fileops.h"
 #include "ui_utildlg.h"
@@ -460,15 +461,92 @@ static void check_for_home_path(gchar *path)
 	g_free(buf);
 }
 
+
+/* We add to duplicate and modify  gtk_accel_map_print() and gtk_accel_map_save()
+ * to improve the reliability in special cases (especially when disk is full)
+ * These functions are now using secure saving stuff.
+ */
+static void gq_accel_map_print(
+		    gpointer 	data,
+		    const gchar	*accel_path,
+		    guint	accel_key,
+		    GdkModifierType accel_mods,
+		    gboolean	changed)
+{
+	GString *gstring = g_string_new(changed ? NULL : "; ");
+	SecureSaveInfo *ssi = data;
+	gchar *tmp, *name;
+
+	g_string_append(gstring, "(gtk_accel_path \"");
+
+	tmp = g_strescape(accel_path, NULL);
+	g_string_append(gstring, tmp);
+	g_free(tmp);
+
+	g_string_append(gstring, "\" \"");
+
+	name = gtk_accelerator_name(accel_key, accel_mods);
+	tmp = g_strescape(name, NULL);
+	g_free(name);
+	g_string_append(gstring, tmp);
+	g_free(tmp);
+
+	g_string_append(gstring, "\")\n");
+
+	secure_fwrite(gstring->str, sizeof(*gstring->str), gstring->len, ssi);
+
+	g_string_free(gstring, TRUE);
+}
+
+static gboolean gq_accel_map_save(const gchar *path)
+{
+	gchar *pathl;
+	SecureSaveInfo *ssi;
+	GString *gstring;
+
+	pathl = path_from_utf8(path);
+	ssi = secure_open(pathl);
+	g_free(pathl);
+	if (!ssi)
+		{
+		log_printf(_("error saving file: %s\n"), path);
+		return FALSE;
+		}
+	
+	gstring = g_string_new("; ");
+	if (g_get_prgname())
+		g_string_append(gstring, g_get_prgname());
+	g_string_append(gstring, " GtkAccelMap rc-file         -*- scheme -*-\n");
+	g_string_append(gstring, "; this file is an automated accelerator map dump\n");
+	g_string_append(gstring, ";\n");
+
+	secure_fwrite(gstring->str, sizeof(*gstring->str), gstring->len, ssi);
+
+	g_string_free(gstring, TRUE);
+
+	gtk_accel_map_foreach((gpointer) ssi, gq_accel_map_print);
+
+	if (secure_close(ssi))
+		{
+		log_printf(_("error saving file: %s\nerror: %s\n"), path,
+			   secsave_strerror(secsave_errno));
+		return FALSE;
+		}
+
+	return TRUE;
+}
+
+static gchar *accep_map_filename(void)
+{
+	return g_build_filename(homedir(), GQ_RC_DIR, "accels", NULL);
+}
+
 static void accel_map_save(void)
 {
 	gchar *path;
-	gchar *pathl;
 
-	path = g_build_filename(homedir(), GQ_RC_DIR, "accels", NULL);
-	pathl = path_from_utf8(path);
-	gtk_accel_map_save(pathl);
-	g_free(pathl);
+	path = accep_map_filename();
+	gq_accel_map_save(path);
 	g_free(path);
 }
 
@@ -477,7 +555,7 @@ static void accel_map_load(void)
 	gchar *path;
 	gchar *pathl;
 
-	path = g_build_filename(homedir(), GQ_RC_DIR, "accels", NULL);
+	path = accep_map_filename();
 	pathl = path_from_utf8(path);
 	gtk_accel_map_load(pathl);
 	g_free(pathl);
