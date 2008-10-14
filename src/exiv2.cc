@@ -620,9 +620,9 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 
 	try {
 
-		Exiv2::PreviewImageLoader loader(*exif->image);
+		Exiv2::PreviewManager pm(*exif->image);
 
-		Exiv2::PreviewPropertiesList list = loader.getPreviewPropertiesList();
+		Exiv2::PreviewPropertiesList list = pm.getPreviewProperties();
 
 		if (!list.empty())
 			{
@@ -650,9 +650,9 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 					}
 				}
 
-			Exiv2::PreviewImage image = loader.getPreviewImage(*pos);
+			Exiv2::PreviewImage image = pm.getPreviewImage(*pos);
 
-			Exiv2::DataBuf &buf = image.data();
+			Exiv2::DataBuf buf = image.copy();
 			std::pair<Exiv2::byte*, long> p = buf.release();
 
 			*data_len = p.second;
