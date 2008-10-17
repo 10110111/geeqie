@@ -63,7 +63,7 @@ ExifUI ExifUIList[]={
 static void table_add_line_custom(GtkWidget *table, gint x, gint y,
 				  const gchar *text1, const gchar *text2,
 				  GtkWidget **label1, GtkWidget **label2,
-				  GtkWidget **button)
+				  GtkWidget **remove)
 {
 	GtkWidget *label;
 	gchar *buf;
@@ -75,7 +75,7 @@ static void table_add_line_custom(GtkWidget *table, gint x, gint y,
 	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.0);
 	pref_label_bold(label, TRUE, FALSE);
 	gtk_table_attach(GTK_TABLE(table), label,
-			 x, x + 1, y, y + 1,
+			 x + 1, x + 2, y, y + 1,
 			 GTK_FILL, GTK_FILL,
 			 2, 2);
 	*label1 = label;
@@ -83,16 +83,18 @@ static void table_add_line_custom(GtkWidget *table, gint x, gint y,
 	label = gtk_label_new(text2);
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 	gtk_table_attach(GTK_TABLE(table), label,
-			 x + 1, x + 2, y, y + 1,
+			 x + 2, x + 3, y, y + 1,
 			 GTK_FILL, GTK_FILL,
 			 2, 2);
 	*label2 = label;
 
-	if (button)
+	if (remove)
 		{
-		*button = gtk_button_new_from_stock(GTK_STOCK_REMOVE);
-		gtk_table_attach(GTK_TABLE(table), *button,
-				 x + 2, x + 3, y, y + 1,
+		*remove = gtk_check_button_new();
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(*remove), TRUE);
+
+		gtk_table_attach(GTK_TABLE(table), *remove,
+				 x, x + 1, y, y + 1,
 				 GTK_FILL, GTK_FILL,
 				 2, 2);
 		}
@@ -238,6 +240,7 @@ static void bar_exif_update(ExifBar *eb)
 			gchar *utf8_text;
 			gchar *name;
 			gchar *buf;
+			gchar *description;
 
 			name = list->data;
 			list = list->prev;
@@ -246,7 +249,11 @@ static void bar_exif_update(ExifBar *eb)
 			utf8_text = utf8_validate_or_convert(text);
 			g_free(text);
 
-			buf = g_strconcat(name, ":", NULL);
+			description = exif_get_tag_description_by_key(name);
+			if (!description) description = g_strdup(name);
+			buf = g_strconcat(description, ":", NULL);
+			g_free(description);
+			
 			gtk_label_set_text(GTK_LABEL(eb->custom_name[i]), buf);
 			g_free(buf);
 			gtk_label_set_text(GTK_LABEL(eb->custom_value[i]), utf8_text);
@@ -254,8 +261,9 @@ static void bar_exif_update(ExifBar *eb)
 
 			gtk_widget_show(eb->custom_name[i]);
 			gtk_widget_show(eb->custom_value[i]);
-			gtk_widget_show(eb->custom_remove[i]);
 			g_object_set_data(G_OBJECT(eb->custom_remove[i]), "key", name);
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(eb->custom_remove[i]), TRUE);
+			gtk_widget_show(eb->custom_remove[i]);
 
 			i++;
 			}
@@ -406,6 +414,9 @@ static void bar_exif_remove_advanced_cb(GtkWidget *widget, gpointer data)
 {
 	ExifBar *eb = data;
 	const gchar *key;
+
+	/* continue only if the toggle was deactivated */
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) return;
 
 	key = g_object_get_data(G_OBJECT(widget), "key");
 	if (!key) return;
