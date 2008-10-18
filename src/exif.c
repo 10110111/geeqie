@@ -1185,6 +1185,11 @@ static gint unmap_file(gpointer mapping, gint size)
 	return 0;
 }
 
+ExifData *exif_get_original(ExifData *processed)
+{
+	return processed;
+}
+
 void exif_free(ExifData *exif)
 {
 	GList *work;

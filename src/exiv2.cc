@@ -61,48 +61,77 @@ extern "C" {
 
 struct _ExifData
 {
-	Exiv2::Image::AutoPtr image;
-	Exiv2::Image::AutoPtr sidecar;
 	Exiv2::ExifData::const_iterator exifIter; /* for exif_get_next_item */
 	Exiv2::IptcData::const_iterator iptcIter; /* for exif_get_next_item */
 #if EXIV2_TEST_VERSION(0,16,0)
 	Exiv2::XmpData::const_iterator xmpIter; /* for exif_get_next_item */
 #endif
-	bool have_sidecar;
 
-	/* the icc profile in jpeg is not technically exif - store it here */
-	unsigned char *cp_data;
-	guint cp_length;
-
-	_ExifData(gchar *path, gchar *sidecar_path)
+	virtual ~_ExifData()
 	{
-		have_sidecar = false;
-		cp_data = NULL;
-		cp_length = 0;
-		gchar *pathl = path_from_utf8(path);
-		image = Exiv2::ImageFactory::open(pathl);
-		g_free(pathl);
-//		g_assert (image.get() != 0);
-		image->readMetadata();
+	}
+	
+	virtual void writeMetadata()
+	{
+		g_critical("Unsupported method of writing metadata");
+	}
+
+	virtual ExifData *original()
+	{
+		return NULL;
+	}
+
+	virtual Exiv2::Image *image() = 0;
+	
+	virtual Exiv2::ExifData &exifData() = 0;
+
+	virtual Exiv2::IptcData &iptcData() = 0;
 
 #if EXIV2_TEST_VERSION(0,16,0)
-		DEBUG_2("xmp count %li", image->xmpData().count());
-		if (sidecar_path && image->xmpData().empty())
-			{
-			gchar *sidecar_pathl = path_from_utf8(sidecar_path);
-			sidecar = Exiv2::ImageFactory::open(sidecar_pathl);
-			g_free(sidecar_pathl);
-			sidecar->readMetadata();
-			have_sidecar = sidecar->good();
-			DEBUG_2("sidecar xmp count %li", sidecar->xmpData().count());
-			}
-
+	virtual Exiv2::XmpData &xmpData() = 0;
 #endif
+
+	virtual void add_jpeg_color_profile(unsigned char *cp_data, guint cp_length) = 0;
+
+	virtual guchar *get_jpeg_color_profile(guint *data_len) = 0;
+};
+
+// This allows read-only access to the original metadata
+struct _ExifDataOriginal : public _ExifData
+{
+protected:
+	Exiv2::Image::AutoPtr image_;
+
+	/* the icc profile in jpeg is not technically exif - store it here */
+	unsigned char *cp_data_;
+	guint cp_length_;
+
+public:
+
+	_ExifDataOriginal(gchar *path)
+	{
+		cp_data_ = NULL;
+		cp_length_ = 0;
+		gchar *pathl = path_from_utf8(path);
+		image_ = Exiv2::ImageFactory::open(pathl);
+		g_free(pathl);
+//		g_assert (image.get() != 0);
+		image_->readMetadata();
+
+#if EXIV2_TEST_VERSION(0,16,0)
+		if (image_->mimeType() == "application/rdf+xml")
+			{
+			//Exiv2 sidecar converts xmp to exif and iptc, we don't want it.
+			image_->clearExifData();
+			image_->clearIptcData();
+			}
+#endif
+
 #if EXIV2_TEST_VERSION(0,14,0)
-		if (image->mimeType() == std::string("image/jpeg"))
+		if (image_->mimeType() == "image/jpeg")
 			{
 			/* try to get jpeg color profile */
-			Exiv2::BasicIo &io = image->io();
+			Exiv2::BasicIo &io = image_->io();
 			gint open = io.isopen();
 			if (!open) io.open();
 			unsigned char *mapped = (unsigned char*)io.mmap();
@@ -113,35 +142,148 @@ struct _ExifData
 #endif
 	}
 	
-	~_ExifData()
+	virtual ~_ExifDataOriginal()
 	{
-		if (cp_data) g_free(cp_data);
+		if (cp_data_) g_free(cp_data_);
 	}
 	
-	void writeMetadata()
+	virtual Exiv2::Image *image()
 	{
-		if (have_sidecar) sidecar->writeMetadata();
-		image->writeMetadata();
+		return image_.get();
 	}
 	
-	Exiv2::ExifData &exifData ()
+	virtual Exiv2::ExifData &exifData ()
 	{
-		return image->exifData();
+		return image_->exifData();
 	}
 
-	Exiv2::IptcData &iptcData ()
+	virtual Exiv2::IptcData &iptcData ()
 	{
-		return image->iptcData();
+		return image_->iptcData();
 	}
 
 #if EXIV2_TEST_VERSION(0,16,0)
-	Exiv2::XmpData &xmpData ()
+	virtual Exiv2::XmpData &xmpData ()
 	{
-		return have_sidecar ? sidecar->xmpData() : image->xmpData();
+		return image_->xmpData();
 	}
 #endif
 
+	virtual void add_jpeg_color_profile(unsigned char *cp_data, guint cp_length)
+	{
+		if (cp_data_) g_free(cp_data_);
+		cp_data_ = cp_data;
+		cp_length_ = cp_length;
+	}
+
+	virtual guchar *get_jpeg_color_profile(guint *data_len)
+	{
+		if (cp_data_)
+		{
+			if (data_len) *data_len = cp_length_;
+			return (unsigned char *) g_memdup(cp_data_, cp_length_);
+		}
+		return NULL;
+	}
 };
+
+// This allows read-write access to the metadata
+struct _ExifDataProcessed : public _ExifData
+{
+protected:
+	_ExifDataOriginal *imageData_;
+	_ExifDataOriginal *sidecarData_;
+
+	Exiv2::ExifData exifData_;
+	Exiv2::IptcData iptcData_;
+#if EXIV2_TEST_VERSION(0,16,0)
+	Exiv2::XmpData xmpData_;
+#endif
+
+public:
+	_ExifDataProcessed(gchar *path, gchar *sidecar_path)
+	{
+		imageData_ = new _ExifDataOriginal(path);
+		sidecarData_ = NULL;
+#if EXIV2_TEST_VERSION(0,16,0)
+		xmpData_ = imageData_->xmpData();
+		DEBUG_2("xmp count %li", xmpData_.count());
+		if (sidecar_path && xmpData_.empty())
+			{
+			sidecarData_ = new _ExifDataOriginal(sidecar_path);
+			xmpData_ = sidecarData_->xmpData();
+			}
+#endif
+		exifData_ = imageData_->exifData();
+		iptcData_ = imageData_->iptcData();
+	}
+
+	virtual ~_ExifDataProcessed()
+	{
+		if (imageData_) delete imageData_;
+		if (sidecarData_) delete sidecarData_;
+	}
+
+	virtual ExifData *original()
+	{
+		return imageData_;
+	}
+
+	virtual void writeMetadata()
+	{
+		
+		if (sidecarData_) 
+			{
+			sidecarData_->image()->setXmpData(xmpData_);
+			//Exiv2 sidecar converts xmp to exif and iptc, we don't want it.
+			sidecarData_->image()->clearExifData();
+			sidecarData_->image()->clearIptcData();
+			sidecarData_->image()->writeMetadata();
+			}
+		else
+			{
+			imageData_->image()->setExifData(exifData_);
+			imageData_->image()->setIptcData(iptcData_);
+			imageData_->image()->setXmpData(xmpData_);
+			imageData_->image()->writeMetadata();
+			}
+	}
+	
+	virtual Exiv2::Image *image()
+	{
+		return imageData_->image();
+	}
+	
+	virtual Exiv2::ExifData &exifData ()
+	{
+		return exifData_;
+	}
+
+	virtual Exiv2::IptcData &iptcData ()
+	{
+		return iptcData_;
+	}
+
+#if EXIV2_TEST_VERSION(0,16,0)
+	virtual Exiv2::XmpData &xmpData ()
+	{
+		return xmpData_;
+	}
+#endif
+
+	virtual void add_jpeg_color_profile(unsigned char *cp_data, guint cp_length)
+	{
+		imageData_->add_jpeg_color_profile(cp_data, cp_length);
+	}
+
+	virtual guchar *get_jpeg_color_profile(guint *data_len)
+	{
+		return imageData_->get_jpeg_color_profile(data_len);
+	}
+};
+
+
+
 
 extern "C" {
 
@@ -149,7 +291,7 @@ ExifData *exif_read(gchar *path, gchar *sidecar_path)
 {
 	DEBUG_1("exif read %s, sidecar: %s", path, sidecar_path ? sidecar_path : "-");
 	try {
-		return new ExifData(path, sidecar_path);
+		return new _ExifDataProcessed(path, sidecar_path);
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";
@@ -174,9 +316,15 @@ int exif_write(ExifData *exif)
 
 void exif_free(ExifData *exif)
 {
-	
+	g_assert(dynamic_cast<_ExifDataProcessed *>(exif)); // this should not be called on ExifDataOriginal
 	delete exif;
 }
+
+ExifData *exif_get_original(ExifData *exif)
+{
+	return exif->original();
+}
+
 
 ExifItem *exif_get_item(ExifData *exif, const gchar *key)
 {
@@ -588,22 +736,18 @@ int exif_item_delete(ExifData *exif, ExifItem *item)
 
 void exif_add_jpeg_color_profile(ExifData *exif, unsigned char *cp_data, guint cp_length)
 {
-	if (exif->cp_data) g_free(exif->cp_data);
-	exif->cp_data = cp_data;
-	exif->cp_length =cp_length;
+	exif->add_jpeg_color_profile(cp_data, cp_length);
 }
 
 guchar *exif_get_color_profile(ExifData *exif, guint *data_len)
 {
-	if (exif->cp_data)
-		{
-		if (data_len) *data_len = exif->cp_length;
-		return (unsigned char *) g_memdup(exif->cp_data, exif->cp_length);
-		}
+	guchar *ret = exif->get_jpeg_color_profile(data_len);
+	if (ret) return ret;
+
 	ExifItem *prof_item = exif_get_item(exif, "Exif.Image.InterColorProfile");
 	if (prof_item && exif_item_get_format_id(prof_item) == EXIF_FORMAT_UNDEFINED)
-		return (unsigned char *) exif_item_get_data(prof_item, data_len);
-	return NULL;
+		ret = (guchar *)exif_item_get_data(prof_item, data_len);
+	return ret;
 }
 
 #if EXIV2_TEST_VERSION(0,17,90)
@@ -612,7 +756,7 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 {
 	if (!exif) return NULL;
 
-	const char* path = exif->image->io().path().c_str();
+	const char* path = exif->image()->io().path().c_str();
 	/* given image pathname, first do simple (and fast) file extension test */
 	gboolean is_raw = filter_file_class(path, FORMAT_CLASS_RAWIMAGE);
 	
@@ -620,7 +764,7 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 
 	try {
 
-		Exiv2::PreviewManager pm(*exif->image);
+		Exiv2::PreviewManager pm(*exif->image());
 
 		Exiv2::PreviewPropertiesList list = pm.getPreviewProperties();
 
@@ -712,7 +856,7 @@ extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len, gint reques
 	unsigned long offset;
 
 	if (!exif) return NULL;
-	const char* path = exif->image->io().path().c_str();
+	const char* path = exif->image()->io().path().c_str();
 
 	/* given image pathname, first do simple (and fast) file extension test */
 	if (!filter_file_class(path, FORMAT_CLASS_RAWIMAGE)) return NULL;
@@ -724,7 +868,7 @@ extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len, gint reques
 		UnmapData *ud;
 		int fd;
 		
-		RawFile rf(exif->image->io());
+		RawFile rf(exif->image()->io());
 		offset = rf.preview_offset();
 		DEBUG_1("%s: offset %lu", path, offset);
 		

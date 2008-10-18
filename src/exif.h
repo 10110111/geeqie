@@ -110,6 +110,10 @@ ExifData *exif_read(gchar *path, gchar *sidecar_path);
 ExifData *exif_read_fd(FileData *fd);
 void exif_free_fd(FileData *fd, ExifData *exif);
 
+/* exif_read returns processed data (merged from image and sidecar, etc.)
+   this function gives access to the original data from the image.
+   original data are part of the processed data and should not be freed separately */
+ExifData *exif_get_original(ExifData *processed);
 
 gint exif_write(ExifData *exif);
 void exif_free(ExifData *exif);

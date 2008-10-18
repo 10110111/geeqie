@@ -180,15 +180,26 @@ static gint bar_exif_row_enabled(const gchar *name)
 
 static void bar_exif_update(ExifBar *eb)
 {
+	ExifData *exif_processed;
 	ExifData *exif;
 	gint i;
 
-	exif = exif_read_fd(eb->fd);
+	exif_processed = exif_read_fd(eb->fd);
 
-	if (!exif)
+	if (!exif_processed)
 		{
 		bar_exif_sensitive(eb, FALSE);
 		return;
+		}
+	
+	if (eb->advanced_scrolled)
+		{
+		/* show the original values from the file */
+		exif = exif_get_original(exif_processed);
+		}
+	else
+		{
+		exif = exif_processed;
 		}
 
 	bar_exif_sensitive(eb, TRUE);
@@ -334,7 +345,7 @@ static void bar_exif_update(ExifBar *eb)
 			}
 		}
 
-	exif_free_fd(eb->fd, exif);
+	exif_free_fd(eb->fd, exif_processed);
 }
 
 static void bar_exif_clear(ExifBar *eb)
