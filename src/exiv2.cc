@@ -50,6 +50,7 @@
 
 #if EXIV2_TEST_VERSION(0,17,0)
 #include <exiv2/convert.hpp>
+#include <exiv2/xmpsidecar.hpp>
 #endif
 
 
@@ -111,6 +112,12 @@ protected:
 	guint cp_length_;
 
 public:
+	_ExifDataOriginal(Exiv2::Image::AutoPtr image)
+	{
+		cp_data_ = NULL;
+		cp_length_ = 0;
+		image_ = image;
+	}
 
 	_ExifDataOriginal(gchar *path)
 	{
@@ -252,10 +259,29 @@ public:
 			}
 		else
 			{
-			imageData_->image()->setExifData(exifData_);
-			imageData_->image()->setIptcData(iptcData_);
-			imageData_->image()->setXmpData(xmpData_);
-			imageData_->image()->writeMetadata();
+			try 	{
+				imageData_->image()->setExifData(exifData_);
+				imageData_->image()->setIptcData(iptcData_);
+				imageData_->image()->setXmpData(xmpData_);
+				imageData_->image()->writeMetadata();
+				} 
+			catch (Exiv2::AnyError& e) 
+				{
+				// can't write into the image, create sidecar
+#if EXIV2_TEST_VERSION(0,17,0)
+				gchar *base = remove_extension_from_path(imageData_->image()->io().path().c_str());
+				gchar *pathl = g_strconcat(base, ".xmp", NULL);
+
+				Exiv2::Image::AutoPtr sidecar = Exiv2::ImageFactory::create(Exiv2::ImageType::xmp, pathl);
+				
+				g_free(base);
+				g_free(pathl);
+				
+				sidecarData_ = new _ExifDataOriginal(sidecar);
+				sidecarData_->image()->setXmpData(xmpData_);
+				sidecarData_->image()->writeMetadata();
+#endif
+				}
 			}
 	}
 	
