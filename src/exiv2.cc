@@ -48,6 +48,10 @@
 #include <exiv2/preview.hpp>
 #endif
 
+#if EXIV2_TEST_VERSION(0,17,0)
+#include <exiv2/convert.hpp>
+#endif
+
 
 extern "C" {
 #include <glib.h>
@@ -216,6 +220,9 @@ public:
 #endif
 		exifData_ = imageData_->exifData();
 		iptcData_ = imageData_->iptcData();
+#if EXIV2_TEST_VERSION(0,17,0)
+		syncExifWithXmp(exifData_, xmpData_);
+#endif
 	}
 
 	virtual ~_ExifDataProcessed()
@@ -231,7 +238,10 @@ public:
 
 	virtual void writeMetadata()
 	{
-		
+#if EXIV2_TEST_VERSION(0,17,0)
+		syncExifWithXmp(exifData_, xmpData_);
+		copyXmpToIptc(xmpData_, iptcData_); //FIXME it should be configurable
+#endif
 		if (sidecarData_) 
 			{
 			sidecarData_->image()->setXmpData(xmpData_);
