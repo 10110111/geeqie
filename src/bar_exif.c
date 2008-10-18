@@ -250,7 +250,11 @@ static void bar_exif_update(ExifBar *eb)
 			g_free(text);
 
 			description = exif_get_tag_description_by_key(name);
-			if (!description) description = g_strdup(name);
+			if (!description || *description == '\0') 
+				{
+				g_free(description);
+				description = g_strdup(name);
+				}
 			buf = g_strconcat(description, ":", NULL);
 			g_free(description);
 			
@@ -306,7 +310,11 @@ static void bar_exif_update(ExifBar *eb)
 			g_free(text);
 			elements = g_strdup_printf("%d", exif_item_get_elements(item));
 			description = exif_item_get_description(item);
-			if (!description) description = g_strdup(tag_name);
+			if (!description || *description == '\0') 
+				{
+				g_free(description);
+				description = g_strdup(tag_name);
+				}
 
 			gtk_list_store_append(store, &iter);
 			gtk_list_store_set(store, &iter,
@@ -492,12 +500,12 @@ static void bar_exif_advanced_build_view(ExifBar *eb)
 
 	bar_exif_add_column_check(eb->listview, "", EXIF_ADVCOL_ENABLED);
 
-	bar_exif_add_column(eb->listview, _("Tag"), EXIF_ADVCOL_TAG, FALSE);
-	bar_exif_add_column(eb->listview, _("Name"), EXIF_ADVCOL_NAME, FALSE);
+	bar_exif_add_column(eb->listview, _("Description"), EXIF_ADVCOL_DESCRIPTION, FALSE);
 	bar_exif_add_column(eb->listview, _("Value"), EXIF_ADVCOL_VALUE, TRUE);
+	bar_exif_add_column(eb->listview, _("Name"), EXIF_ADVCOL_NAME, FALSE);
+	bar_exif_add_column(eb->listview, _("Tag"), EXIF_ADVCOL_TAG, FALSE);
 	bar_exif_add_column(eb->listview, _("Format"), EXIF_ADVCOL_FORMAT, FALSE);
 	bar_exif_add_column(eb->listview, _("Elements"), EXIF_ADVCOL_ELEMENTS, FALSE);
-	bar_exif_add_column(eb->listview, _("Description"), EXIF_ADVCOL_DESCRIPTION, FALSE);
 
 	eb->advanced_scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(eb->advanced_scrolled), GTK_SHADOW_IN);
