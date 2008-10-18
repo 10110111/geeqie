@@ -679,7 +679,7 @@ GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget 
 		}
 
 	eb->custom_sep = gtk_hseparator_new();
-	gtk_table_attach(GTK_TABLE(table), eb->custom_sep, 0, 1,
+	gtk_table_attach(GTK_TABLE(table), eb->custom_sep, 0, 3,
 					   exif_len, exif_len + 1,
 					   GTK_FILL, GTK_FILL, 2, 2);
 
