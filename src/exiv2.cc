@@ -352,6 +352,7 @@ int exif_write(ExifData *exif)
 
 void exif_free(ExifData *exif)
 {
+	if (!exif) return;
 	g_assert(dynamic_cast<_ExifDataProcessed *>(exif)); // this should not be called on ExifDataOriginal
 	delete exif;
 }
