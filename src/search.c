@@ -1870,7 +1870,7 @@ static gint search_file_next(SearchData *sd)
 			}
 		else
 			{
-			match = (sd->match_comment == SEARCH_MATCH_NONE);
+			match = (sd->match_keywords == SEARCH_MATCH_NONE);
 			}
 		}
 
