@@ -15,6 +15,7 @@
 
 #include "cache.h"
 #include "filedata.h"
+#include "layout.h"
 #include "thumb.h"
 #include "thumb_standard.h"
 #include "ui_fileops.h"
@@ -1175,7 +1176,10 @@ static void cache_manager_main_clear_cb(GtkWidget *widget, gpointer data)
 
 static void cache_manager_render_cb(GtkWidget *widget, gpointer data)
 {
-	cache_manager_render_dialog(widget, homedir());
+	const gchar *path = layout_get_path(NULL);
+
+	if (!path || !*path) path = homedir();
+	cache_manager_render_dialog(widget, path);
 }
 
 static void cache_manager_metadata_clean_cb(GtkWidget *widget, gpointer data)
