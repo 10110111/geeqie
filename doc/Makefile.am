@@ -3,7 +3,7 @@
 helpdir = @htmldir@
 help_DATA = \
 	gnu_fdl.txt	\
-	gqview_faq.html	\
+	faq.html	\
 	index.html	\
 	1_introduction.html	\
 	2_main_window.html	\
