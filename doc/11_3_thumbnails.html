@@ -1,122 +1,168 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML>
-<HEAD>
-	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=iso-8859-1">
-	<TITLE>Thumbnails - Geeqie User Manual</TITLE>
-	<META NAME="CREATED" CONTENT="20040805;23590500">
-	<META NAME="CHANGED" CONTENT="20050131;9432500">
-</HEAD>
-<BODY LANG="en-US" DIR="LTR">
-<CENTER>
-	<TABLE WIDTH=100% BORDER=0 CELLPADDING=4 CELLSPACING=0 STYLE="page-break-before: always">
-		<COL WIDTH=85*>
-		<COL WIDTH=85*>
-		<COL WIDTH=85*>
-		<THEAD>
-			<TR VALIGN=TOP>
-				<TD WIDTH=33%>
-					<P><A HREF="11_2_keyboard_shortcuts.html">Previous</A></P>
-				</TD>
-				<TD WIDTH=33%>
-					<P ALIGN=CENTER>Thumbnails - Reference</P>
-				</TD>
-				<TD WIDTH=33%>
-					<P ALIGN=RIGHT><A HREF="11_4_management.html">Next</A></P>
-				</TD>
-			</TR>
-		</THEAD>
-	</TABLE>
-</CENTER>
-<HR>
-<H1>11.3 Thumbnails</H1>
-<P STYLE="text-decoration: none"><I>Note: This page only refers the
-Geeqie thumbnail caching mechanism, the shared thumbnail cache
-mechanism is not explained here.</I></P>
-<P><U>Format</U></P>
-<P STYLE="margin-left: 0.79in">Thumbnails are stored in PNG image
-format. The thumbnail name is the name of the source image with
-&ldquo;.png&rdquo; appended.</P>
-<P STYLE="margin-left: 0.79in">The modification time (mtime) of the
-thumbnail is set to match the source file. Thumbnails are regenerated
-when the timestamps of the thumbnail and source file do not match.</P>
-<P STYLE="margin-left: 0.79in"><BR><BR>
-</P>
-<P><U>Location</U></P>
-<P STYLE="margin-left: 0.79in">Thumbnails are stored in:</P>
-<P STYLE="margin-left: 1.58in">($HOME)/.geeqie/thumbnails</P>
-<P STYLE="margin-left: 0.79in">The directory structure of the
-thumbnail cache duplicates the location of the source files, for
-example a source file with the name:</P>
-<P STYLE="margin-left: 1.58in">/path/to/image.jpg</P>
-<P STYLE="margin-left: 0.79in">will store the thumbnail in:</P>
-<P STYLE="margin-left: 1.58in">($HOME)/.geeqie/thumbnails/path/to/image.jpg.png</P>
-<P STYLE="margin-left: 0.79in">When thumbnails are to be stored local
-to the source file, the thumbnail will be placed in:</P>
-<P STYLE="margin-left: 1.58in">/path/to/.thumbnails/image.jpg.png</P>
-<P STYLE="margin-left: 0.79in">Local thumbnail caching is enabled
-with the option &ldquo;Cache thumbnails into .thumbnails&rdquo; on
-the <A HREF="10_1_general.html">General</A> tab of the options
-dialog. If it is not possible to store the thumbnail local to the
-source file (usually due to no write permissions), Geeqie will fall
-back to saving the thumbnail in the user's ($HOME)/.geeqie/thumbnails
-folder.</P>
-<P><BR><BR>
-</P>
-<P><U>Size</U></P>
-<P STYLE="margin-left: 0.79in">Geeqie allows the following sizes for
-thumbnails:</P>
-<P STYLE="margin-left: 1.58in">24x24, 32x32, 48x48, 64x64, 96x72,
-96x96, 129x96, 128x128, 160x120, 160x160, 192x144, 192x192, 256x192,
-256x256</P>
-<P STYLE="margin-left: 0.79in">The thumbnail is scaled to fit within
-the preferred size maintaining the aspect ratio. Thumbnails are not
-cached for images that are equal to or smaller than the preferred
-thumbnail size.</P>
-<P STYLE="margin-left: 0.79in">When a cached thumbnail's width and
-height do not match the preferred size, the thumbnail is regenerated.</P>
-<P><BR><BR>
-</P>
-<P><BR><BR>
-</P>
-<P><BR><BR>
-</P>
-<HR>
-<CENTER>
-	<TABLE WIDTH=100% BORDER=0 CELLPADDING=4 CELLSPACING=0>
-		<COL WIDTH=85*>
-		<COL WIDTH=85*>
-		<COL WIDTH=85*>
-		<THEAD>
-			<TR VALIGN=TOP>
-				<TD WIDTH=33%>
-					<P><A HREF="11_2_keyboard_shortcuts.html">Previous</A></P>
-				</TD>
-				<TD WIDTH=33%>
-					<P ALIGN=CENTER><A HREF="index.html">Contents</A></P>
-				</TD>
-				<TD WIDTH=33%>
-					<P ALIGN=RIGHT><A HREF="11_4_management.html">Next</A></P>
-				</TD>
-			</TR>
-		</THEAD>
-		<TBODY>
-			<TR VALIGN=TOP>
-				<TD WIDTH=33%>
-					<P><BR>
-					</P>
-				</TD>
-				<TD WIDTH=33%>
-					<P ALIGN=CENTER><BR>
-					</P>
-				</TD>
-				<TD WIDTH=33%>
-					<P ALIGN=RIGHT>Geeqie User Manual</P>
-				</TD>
-			</TR>
-		</TBODY>
-	</TABLE>
-</CENTER>
-<P STYLE="margin-bottom: 0in"><BR>
-</P>
-</BODY>
-</HTML>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=iso-8859-1" />
+
+  <title>Thumbnails - Geeqie User Manual</title>
+  <meta name="CREATED" content="20040805;23590500" />
+  <meta name="CHANGED" content="20050131;9432500" />
+<style type="text/css">
+/*<![CDATA[*/
+ p.gq-thumbnails-8 {margin-bottom: 0in}
+ p.gq-thumbnails-7 {margin-left: 1.58in}
+ p.gq-thumbnails-6 {margin-left: 0.79in}
+ p.gq-thumbnails-5 {font-style: italic; text-decoration: none}
+ div.gq-thumbnails-4 {text-align: center}
+ table.gq-thumbnails-3 {page-break-before: always}
+ p.gq-thumbnails-2 {text-align: right}
+ p.gq-thumbnails-1 {text-align: center}
+/*]]>*/
+</style>
+</head>
+
+<body lang="en-US" dir="ltr" xml:lang="en-US">
+  <div class="gq-thumbnails-4">
+    <table width="100%" border="0" cellpadding="4" cellspacing="0" class="gq-thumbnails-3">
+      <col width="85*" />
+      <col width="85*" />
+      <col width="85*" />
+
+      <thead>
+        <tr valign="top">
+          <td width="33%">
+            <p><a href="11_2_keyboard_shortcuts.html">Previous</a>
+            </p>
+          </td>
+
+          <td width="33%">
+            <p class="gq-thumbnails-1">Thumbnails - Reference</p>
+          </td>
+
+          <td width="33%">
+            <p class="gq-thumbnails-2"><a href="11_4_management.html">Next</a>
+            </p>
+          </td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+
+  <hr />
+
+  <h1>11.3 Thumbnails</h1>
+
+  <p class="gq-thumbnails-5">Note: This page only refers the Geeqie thumbnail caching mechanism, the shared thumbnail cache mechanism is not explained here.</p>
+
+  <p><u>Format</u>
+  </p>
+
+  <p class="gq-thumbnails-6">Thumbnails are stored in PNG image format. The thumbnail name is the name of the source image with &ldquo;.png&rdquo; appended.</p>
+
+  <p class="gq-thumbnails-6">The modification time (mtime) of the thumbnail is set to match the source file. Thumbnails are regenerated when the timestamps of the thumbnail and source file do not match.</p>
+
+  <p class="gq-thumbnails-6"><br />
+  <br />
+  </p>
+
+  <p><u>Location</u>
+  </p>
+
+  <p class="gq-thumbnails-6">Thumbnails are stored in:</p>
+
+  <p class="gq-thumbnails-7">($HOME)/.geeqie/thumbnails</p>
+
+  <p class="gq-thumbnails-6">The directory structure of the thumbnail cache duplicates the location of the source files, for example a source file with the name:</p>
+
+  <p class="gq-thumbnails-7">/path/to/image.jpg</p>
+
+  <p class="gq-thumbnails-6">will store the thumbnail in:</p>
+
+  <p class="gq-thumbnails-7">($HOME)/.geeqie/thumbnails/path/to/image.jpg.png</p>
+
+  <p class="gq-thumbnails-6">When thumbnails are to be stored local to the source file, the thumbnail will be placed in:</p>
+
+  <p class="gq-thumbnails-7">/path/to/.thumbnails/image.jpg.png</p>
+
+  <p class="gq-thumbnails-6">Local thumbnail caching is enabled with the option &ldquo;Cache thumbnails into .thumbnails&rdquo; on the <a href="10_1_general.html">General</a> tab of the options dialog. If it is not possible to store the thumbnail local to the source file (usually due to no write permissions), Geeqie will fall back to saving the thumbnail in the user's ($HOME)/.geeqie/thumbnails folder.</p>
+
+  <p><br />
+  <br />
+  </p>
+
+  <p><u>Size</u>
+  </p>
+
+  <p class="gq-thumbnails-6">Geeqie allows the following sizes for thumbnails:</p>
+
+  <p class="gq-thumbnails-7">24x24, 32x32, 48x48, 64x64, 96x72, 96x96, 129x96, 128x128, 160x120, 160x160, 192x144, 192x192, 256x192, 256x256</p>
+
+  <p class="gq-thumbnails-6">The thumbnail is scaled to fit within the preferred size maintaining the aspect ratio. Thumbnails are not cached for images that are equal to or smaller than the preferred thumbnail size.</p>
+
+  <p class="gq-thumbnails-6">When a cached thumbnail's width and height do not match the preferred size, the thumbnail is regenerated.</p>
+
+  <p><br />
+  <br />
+  </p>
+
+  <p><br />
+  <br />
+  </p>
+
+  <p><br />
+  <br />
+  </p>
+
+  <hr />
+
+  <div class="gq-thumbnails-4">
+    <table width="100%" border="0" cellpadding="4" cellspacing="0">
+      <col width="85*" />
+      <col width="85*" />
+      <col width="85*" />
+
+      <thead>
+        <tr valign="top">
+          <td width="33%">
+            <p><a href="11_2_keyboard_shortcuts.html">Previous</a>
+            </p>
+          </td>
+
+          <td width="33%">
+            <p class="gq-thumbnails-1"><a href="index.html">Contents</a>
+            </p>
+          </td>
+
+          <td width="33%">
+            <p class="gq-thumbnails-2"><a href="11_4_management.html">Next</a>
+            </p>
+          </td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr valign="top">
+          <td width="33%">
+            <p><br />
+            </p>
+          </td>
+
+          <td width="33%">
+            <p class="gq-thumbnails-1"><br />
+            </p>
+          </td>
+
+          <td width="33%">
+            <p class="gq-thumbnails-2">Geeqie User Manual</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="gq-thumbnails-8"><br />
+  </p>
+</body>
+</html>
