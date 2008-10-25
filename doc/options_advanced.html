@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=iso-8859-1" />
+
+  <title>Advanced Options - Geeqie User Manual</title>
+  <meta name="CREATED" content="20040805;23590500" />
+  <meta name="CHANGED" content="20050208;14303200" />
+<style type="text/css">
+/*<![CDATA[*/
+ p.gq-advanced-14 {margin-bottom: 0in}
+ span.gq-advanced-13 {text-decoration: none}
+ p.gq-advanced-12 {margin-left: 1.58in}
+ p.gq-advanced-11 {margin-left: 0.79in; font-weight: medium}
+ p.gq-advanced-10 {font-style: italic; margin-left: 2.36in}
+ p.gq-advanced-9 {margin-left: 1.58in; font-style: normal}
+ p.gq-advanced-8 {margin-left: 0.79in; font-style: normal}
+ p.gq-advanced-7 {font-style: normal; font-weight: medium}
+ p.gq-advanced-6 {margin-left: 0.79in}
+ p.gq-advanced-5 {font-style: normal; text-decoration: none}
+ div.gq-advanced-4 {text-align: center}
+ table.gq-advanced-3 {page-break-before: always}
+ p.gq-advanced-2 {text-align: right}
+ p.gq-advanced-1 {text-align: center}
+/*]]>*/
+</style>
+</head>
+
+<body lang="en-US" dir="ltr" xml:lang="en-US">
+  <div class="gq-advanced-4">
+    <table width="100%" border="0" cellpadding="4" cellspacing="0" class="gq-advanced-3">
+      <col width="85*" />
+      <col width="85*" />
+      <col width="85*" />
+
+      <thead>
+        <tr valign="top">
+          <td width="33%">
+            <p><a href="options_editor_commands.html">Previous</a>
+            </p>
+          </td>
+
+          <td width="33%">
+            <p class="gq-advanced-1">Advanced &ndash; Options Explained</p>
+          </td>
+
+          <td width="33%">
+            <p class="gq-advanced-2"><a href="options_hidden.html">Next</a>
+            </p>
+          </td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+
+  <hr />
+
+  <h1>10.6 Advanced Options</h1>
+
+  <p class="gq-advanced-5">This section describes the options presented under the Advanced Tab of the preferences dialog.</p>
+
+  <p><br />
+  <br />
+  </p>
+
+  <p><u>Full Screen</u>
+  </p>
+
+  <p class="gq-advanced-6"><b>Location</b>: Selects the location and position of the full screen window. 'Determined by window manager' will leave the window placement up to the window manager. 'Active screen' places the window on the same screen as the Geeqie main window. 'Active monitor' does the same, but limits the full screen window size to the monitor containing the main window. The remaining choices are dependent on the multiple monitor configuration.</p>
+
+  <p class="gq-advanced-6"><b>Stay above other windows:</b> Enable this to have Geeqie ask the window manager to keep the full screen window above other windows. Note that the window manager may ignore the request. This option is not relevant when the full screen location is determined by the window manager.</p>
+
+  <p class="gq-advanced-6"><b>Smooth image flip</b>: This option delays the image change in full screen until the next image is entirely decoded into memory, the result is a smoother transition between images.</p>
+
+  <p class="gq-advanced-6"><b>Disable screen saver</b>: This option will execute <i>xscreensaver-command --deactivate</i> once per minute to avoid the screen saver from activating when Geeqie is displayed full screen.</p>
+
+  <p><br />
+  <br />
+  </p>
+
+  <p class="gq-advanced-7"><u>Delete</u>
+  </p>
+
+  <p class="gq-advanced-8"><b>Confirm file delete</b>: Prompts for confirmation before deleting files.</p>
+
+  <p class="gq-advanced-8"><b>Enable Delete key</b>: Disable this to disassociate the delete file function from the Delete key. This option does not effect the [Control] + D key sequence. May be useful in combination with &ldquo;confirm file delete&rdquo;, above, disabled so that accidentally hitting a single key will not result in deleted files.</p>
+
+  <p class="gq-advanced-8"><b>Safe Delete</b>: Moves deleted files to a temporary folder, for easy retrieval of deleted files. Files in the temporary folder are retained until the maximum size is reached, at which point deleting additional files will result in the removal of the oldest files to reclaim the space needed for the new files.</p>
+
+  <p class="gq-advanced-9"><i>Note:</i> Files moved to the Safe Delete folder are prefixed with a six digit number in the format:</p>
+
+  <p class="gq-advanced-10">nnnnnn_FILENAME</p>
+
+  <p class="gq-advanced-9">This is used by the delete feature to distinguish which files to remove first when clearing space for new files. The digit counter increments with each deleted file.</p>
+
+  <p class="gq-advanced-8"><b>Folder</b>: The location of the folder used by the Safe Delete feature.</p>
+
+  <p class="gq-advanced-6"><b>Maximum size</b>: The size to use for the Safe Delete folder, in megabytes.</p>
+
+  <p class="gq-advanced-6"><b>Clear</b> button: Removes all files contained in the Safe Delete folder.</p>
+
+  <p class="gq-advanced-6"><b>View</b> button: Changes the Geeqie main window to display the contents of the Safe Delete folder.</p>
+
+  <p><br />
+  <br />
+  </p>
+
+  <p><u>Behavior</u>
+  </p>
+
+  <p class="gq-advanced-11"><b>Rectangular selection in icon view:</b> Enable this to change the selection method used when selecting multiple items in an icon view.</p>
+
+  <p class="gq-advanced-6"><b>Descend folders in tree view</b>: This will allow Geeqie to read sub folder content to determine if it should display expander indicators in the folder tree view.</p>
+
+  <p class="gq-advanced-12"><i>Note:</i> Disable this if Geeqie wakes up auto mounted network shares, or takes too long to initially display the folder view.</p>
+
+  <p class="gq-advanced-6"><b>In place renaming</b>: When renaming a single file, this will allow the rename entry to appear directly over the original filename.</p>
+
+  <p><br />
+  <br />
+  </p>
+
+  <p><u>Navigation</u>
+  </p>
+
+  <p class="gq-advanced-6"><b>Progressive keyboard scrolling</b>: This will cause image panning speed to gradually accelerate when holding down the keyboard arrows.</p>
+
+  <p class="gq-advanced-6"><b>Mouse wheel scrolls image</b>: The default is for the mouse wheel to change the image, and to scroll the image when shift is used in combination with the wheel. Enabling this swaps the behavior so that operating the wheel will scroll the image, and holding down shift will change the image.</p>
+
+  <p><br />
+  <br />
+  </p>
+
+  <p><u>Miscellaneous</u>
+  </p>
+
+  <p class="gq-advanced-11"><b>Store keywords and comments local to source images:</b> When enabled, Geeqie attempts to store metadata such as keywords closer to the source image. The resulting location is the source image's folder, in a sub folder with the name "<b>.metadata"</b>. When the image source folder cannot be written, Geeqie falls back to saving the medata in "$HOME/.geeqie/metadata".</p>
+
+  <p class="gq-advanced-6"><b>Custom similarity threshold</b>: This setting is used by the compare method &ldquo;similarity (custom)&rdquo;, located in the Find Duplicates window.</p>
+
+  <p class="gq-advanced-6"><b>Offscreen cache size</b>: Geeqie only renders the visible portion of an image. To reduce rendering the same area frequently when panning an image, some memory is used to retain the recently rendered image data. This value controls the maximum amount of memory to use.</p>
+
+  <p class="gq-advanced-12"><i>Note:</i> This setting controls the amount of memory <span class="gq-advanced-13">for <u>each</u> image window.</span></p>
+
+  <p><br />
+  <br />
+  </p>
+
+  <p><br />
+  <br />
+  </p>
+
+  <hr />
+
+  <div class="gq-advanced-4">
+    <table width="100%" border="0" cellpadding="4" cellspacing="0">
+      <col width="85*" />
+      <col width="85*" />
+      <col width="85*" />
+
+      <thead>
+        <tr valign="top">
+          <td width="33%">
+            <p><a href="options_editor_commands.html">Previous</a>
+            </p>
+          </td>
+
+          <td width="33%">
+            <p class="gq-advanced-1"><a href="index.html">Contents</a>
+            </p>
+          </td>
+
+          <td width="33%">
+            <p class="gq-advanced-2"><a href="options_hidden.html">Next</a>
+            </p>
+          </td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr valign="top">
+          <td width="33%">
+            <p><br />
+            </p>
+          </td>
+
+          <td width="33%">
+            <p class="gq-advanced-1"><br />
+            </p>
+          </td>
+
+          <td width="33%">
+            <p class="gq-advanced-2">Geeqie User Manual</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="gq-advanced-14"><br />
+  </p>
+</body>
+</html>
