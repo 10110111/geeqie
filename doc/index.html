@@ -25,6 +25,9 @@
  table.gq-index-3 {page-break-before: always}
  p.gq-index-2 {text-align: right}
  p.gq-index-1 {text-align: center}
+ .menu ul {font-size: 110%; font-weight: bold; margin: 10px;}
+ .menu ul li {margin: 4px;}
+ .menu ul>ul {font-size: 90%; font-weight: normal}
 /*]]>*/
 </style>
 </head>
@@ -59,94 +62,70 @@
 
   <p class="gq-index-6">If you are having trouble finding a solution in the manual, try looking in the <a href="faq.html">FAQ</a>.</p>
 
-  <p>1. <a href="introduction.html">Introduction</a></p>
-
-  <p>2. <a href="main_window.html">Main Window</a></p>
-
-  <p class="gq-index-6">2.1 <a href="main_window_navigation.html">Navigation</a></p>
-
-  <p class="gq-index-6">2.2 <a href="main_window_menus.html">Menus</a></p>
-
-  <p class="gq-index-6">2.3 <a href="main_window_layout.html">Layout</a></p>
-
-  <p class="gq-index-6">2.4 <a href="main_window_file_pane.html">File Pane</a></p>
-
-  <p class="gq-index-6">2.5 <a href="main_window_folder_pane.html">Folder Pane</a></p>
-
-  <p class="gq-index-6">2.6 <a href="main_window_image_pane.html">Image Pane</a></p>
-
-  <p class="gq-index-6">2.7 <a href="main_window_status_bar.html">Status Bar</a></p>
-
-  <p>3. <a href="other_windows.html">Other Windows</a></p>
-
-  <p class="gq-index-6">3.1 <a href="other_windows_image_window.html">Image Window</a></p>
-
-  <p class="gq-index-6">3.2 <a href="other_windows_image_properties.html">Image Properties</a> Window</p>
-
-  <p>4. <a href="image_management.html">Image Management</a></p>
-
-  <p class="gq-index-6">4.1 <a href="image_management_copy_move.html">Copy and Move</a></p>
-
-  <p class="gq-index-6">4.2 <a href="image_management_rename.html">Rename</a></p>
-
-  <p class="gq-index-6">4.3 <a href="image_management_delete.html">Delete</a></p>
-
-  <p class="gq-index-6">4.4 <a href="image_management_external_editing.html">External Editing</a> Commands</p>
-
-  <p>5. <a href="image_search.html">Image Search</a></p>
-
-  <p class="gq-index-6">5.1 <a href="image_search_search.html">Search Window</a></p>
-
-  <p class="gq-index-6">5.2 <a href="image_search_finding_duplicates.html">Finding Duplicate</a> Images</p>
-
-  <p>6. <a href="collections.html">Collections</a></p>
-
-  <p>7. <a href="sidebars.html">Sidebars</a></p>
-
-  <p class="gq-index-6">7.1 <a href="sidebars_exif.html">EXIF</a></p>
-
-  <p class="gq-index-6">7.2 <a href="sidebars_sort_manager.html">Sort Manager</a></p>
-
-  <p class="gq-index-6">7.3 <a href="sidebars_keywords.html">Keywords</a></p>
-
-  <p>8. <a href="image_presentation.html">Image Presentation</a></p>
-
-  <p class="gq-index-6">8.1 <a href="image_presentation_slideshow.html">Slide show</a></p>
-
-  <p class="gq-index-6">8.2 <a href="image_presentation_fullscreen.html">Full screen</a></p>
-
-  <p>9. <a href="printing.html">Printing</a></p>
-
-  <p>10. <a href="options.html">Options</a> Explained</p>
-
-  <p class="gq-index-6">10.1 <a href="options_general.html">General Options</a></p>
-
-  <p class="gq-index-6">10.2 <a href="options_image.html">Image Options</a></p>
-
-  <p class="gq-index-6">10.3 <a href="options_window.html">Window Options</a></p>
-
-  <p class="gq-index-6">10.4 <a href="options_filtering.html">Filtering Options</a></p>
-
-  <p class="gq-index-6">10.5 <a href="options_editor_commands.html">Editor Commands</a></p>
-
-  <p class="gq-index-6">10.6 <a href="options_advanced.html">Advanced Options</a></p>
-
-  <p class="gq-index-6">10.7 <a href="options_hidden.html">Hidden Options</a></p>
-
-  <p>11. <a href="reference.html">Reference</a></p>
-
-  <p class="gq-index-6">11.1 <a href="reference_command_line.html">Command Line</a> Options</p>
-
-  <p class="gq-index-6">11.2 <a href="reference_keyboard_shortcuts.html">Keyboard Shortcuts</a></p>
-
-  <p class="gq-index-6">11.3 <a href="reference_thumbnails.html">Thumbnails</a></p>
-
-  <p class="gq-index-6">11.4 <a href="reference_management.html">Cache and Data Management</a></p>
-
-  <p>12. <a href="credits.html">Credits</a></p>
-
-  <p>13. <a href="gnu_fdl.txt">GNU Free Documentation License</a></p>
-
+  <div class="menu">
+    <ul>
+      <li><a href="introduction.html">Introduction</a></li>
+      <li><a href="main_window.html">Main Window</a></li>
+      <ul>
+	<li><a href="main_window_navigation.html">Navigation</a></li>
+	<li><a href="main_window_menus.html">Menus</a></li>
+	<li><a href="main_window_layout.html">Layout</a></li>
+	<li><a href="main_window_file_pane.html">File Pane</a></li>
+	<li><a href="main_window_folder_pane.html">Folder Pane</a></li>
+	<li><a href="main_window_image_pane.html">Image Pane</a></li>
+	<li><a href="main_window_status_bar.html">Status Bar</a></li>
+      </ul>
+      <li><a href="other_windows.html">Other Windows</a></li>
+      <ul>
+	<li><a href="other_windows_image_window.html">Image Window</a></li>
+	<li><a href="other_windows_image_properties.html">Image Properties</a> Window</li>
+      </ul>
+      <li><a href="image_management.html">Image Management</a></li>
+      <ul>
+	<li><a href="image_management_copy_move.html">Copy and Move</a></li>
+	<li><a href="image_management_rename.html">Rename</a></li>
+	<li><a href="image_management_delete.html">Delete</a></li>
+	<li><a href="image_management_external_editing.html">External Editing</a> Commands</li>
+      </ul>
+      <li><a href="image_search.html">Image Search</a></li>
+      <ul>
+	<li><a href="image_search_search.html">Search Window</a></li>
+	<li><a href="image_search_finding_duplicates.html">Finding Duplicate</a> Images</li>
+      </ul>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="sidebars.html">Sidebars</a></li>
+      <ul>
+	<li><a href="sidebars_exif.html">EXIF</a></li>
+	<li><a href="sidebars_sort_manager.html">Sort Manager</a></li>
+	<li><a href="sidebars_keywords.html">Keywords</a></li>
+      </ul>
+      <li><a href="image_presentation.html">Image Presentation</a></li>
+      <ul>
+	<li><a href="image_presentation_slideshow.html">Slide show</a></li>
+	<li><a href="image_presentation_fullscreen.html">Full screen</a></li>
+      </ul>
+      <li><a href="printing.html">Printing</a></li>
+      <li><a href="options.html">Options</a> Explained</li>
+      <ul>
+	<li><a href="options_general.html">General Options</a></li>
+	<li><a href="options_image.html">Image Options</a></li>
+	<li><a href="options_window.html">Window Options</a></li>
+	<li><a href="options_filtering.html">Filtering Options</a></li>
+	<li><a href="options_editor_commands.html">Editor Commands</a></li>
+	<li><a href="options_advanced.html">Advanced Options</a></li>
+	<li><a href="options_hidden.html">Hidden Options</a></li>
+      </ul>
+      <li><a href="reference.html">Reference</a></li>
+      <ul>
+	<li><a href="reference_command_line.html">Command Line</a> Options</li>
+	<li><a href="reference_keyboard_shortcuts.html">Keyboard Shortcuts</a></li>
+	<li><a href="reference_thumbnails.html">Thumbnails</a></li>
+	<li><a href="reference_management.html">Cache and Data Management</a></li>
+      </ul>
+      <li><a href="credits.html">Credits</a></li>
+      <li><a href="gnu_fdl.txt">GNU Free Documentation License</a></li>
+    </ul>
+  </div>
   <p><br />
   <br />
   </p>
