@@ -27,9 +27,6 @@ help_DATA = \
 	main_window_menus.html	\
 	main_window_navigation.html	\
 	main_window_status_bar.html	\
-	Makefile	\
-	Makefile.am	\
-	Makefile.in	\
 	options_advanced.html	\
 	options_editor_commands.html	\
 	options_filtering.html	\
