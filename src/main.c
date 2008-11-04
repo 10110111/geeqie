@@ -707,10 +707,10 @@ gint main(gint argc, gchar *argv[])
 	setup_default_options(options);
 	load_options(options);
 
-	parse_command_line(argc, argv, &cmd_path, &cmd_file, &cmd_list, &collection_list, &geometry);
-
 	gtkrc_load();
 	gtk_init(&argc, &argv);
+
+	parse_command_line(argc, argv, &cmd_path, &cmd_file, &cmd_list, &collection_list, &geometry);
 
 	if (gtk_major_version < GTK_MAJOR_VERSION ||
 	    (gtk_major_version == GTK_MAJOR_VERSION && gtk_minor_version < GTK_MINOR_VERSION) )
