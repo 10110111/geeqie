@@ -463,8 +463,13 @@ gint comment_read(FileData *fd, GList **keywords, gchar **comment)
 	if (res1 && (!comment || *comment != comment1)) g_free(comment1);
 	if (res2 && (!comment || *comment != comment2)) g_free(comment2);
 	
-	// return FALSE on failure
-	if (comment && !*comment)
+	// return FALSE in the following cases:
+	//  - only looking for a comment and didn't find one
+	//  - only looking for keywords and didn't find any
+	//  - looking for either a comment or keywords, but found nothing
+	if ((!keywords && comment   && !*comment)  ||
+	    (!comment  && keywords  && !*keywords) ||
+	    ( comment  && !*comment &&   keywords && !*keywords))
 		return FALSE;
 
 	return TRUE;
