@@ -2,9 +2,9 @@
  p.previous {text-align: left}
  div.navtop {text-align: center}
  div.navbottom {text-align: center}
+ div.bottomspacer { padding-bottom: 50px;}
 
 /* collections.html */
- p.gq-collections-9 {margin-bottom: 0in}
  p.gq-collections-8 {font-weight: bold; text-align: center}
  p.gq-collections-7 {margin-left: 0.79in}
  p.gq-collections-6 {font-family: Albany, sans-serif; margin-top: 0.17in; page-break-after: avoid}
@@ -15,7 +15,6 @@
  p.gq-collections-1 {text-align: center}
 
 /* credits.html */
- p.gq-credits-7 {margin-bottom: 0in}
  span.gq-credits-6 {font-family: Nimbus Roman No9 L}
  p.gq-credits-5 {font-weight: bold}
  table.gq-credits-3 {page-break-before: always}
@@ -23,7 +22,6 @@
  p.gq-credits-1 {text-align: center}
 
 /* faq.html */
- p.gq-faq-10 {margin-bottom: 0in}
  pre.gq-faq-9 {margin-left: 1.58in}
  p.gq-faq-8 {margin-left: 0.79in}
  p.gq-faq-7 {font-weight: bold}
@@ -34,7 +32,6 @@
  p.gq-faq-1 {text-align: center}
 
 /* image_management_copy_move.html */
- p.gq-copy-move-7 {margin-bottom: 0in}
  p.gq-copy-move-6 {margin-left: 0.79in; font-weight: medium}
  p.gq-copy-move-5 {margin-left: 0.79in}
  table.gq-copy-move-3 {page-break-before: always}
@@ -42,7 +39,6 @@
  p.gq-copy-move-1 {text-align: center}
 
 /* image_management_delete.html */
- p.gq-delete-10 {margin-bottom: 0in}
  p.gq-delete-9 {margin-left: 0.79in; font-style: normal}
  p.gq-delete-8 {font-style: italic; margin-left: 1.58in}
  span.gq-delete-7 {font-style: normal}
@@ -53,28 +49,24 @@
  p.gq-delete-1 {text-align: center}
 
 /* image_management_external_editing.html */
- p.gq-external-editing-6 {margin-bottom: 0in}
  p.gq-external-editing-5 {margin-left: 0.79in}
  table.gq-external-editing-3 {page-break-before: always}
  p.gq-external-editing-2 {text-align: right}
  p.gq-external-editing-1 {text-align: center}
 
 /* image_management.html */
- p.gq-image-management-6 {margin-bottom: 0in}
  p.gq-image-management-5 {margin-left: 0.79in}
  table.gq-image-management-3 {page-break-before: always}
  p.gq-image-management-2 {text-align: right}
  p.gq-image-management-1 {text-align: center}
 
 /* image_management_rename.html */
- p.gq-rename-6 {margin-bottom: 0in}
  p.gq-rename-5 {margin-left: 0.79in}
  table.gq-rename-3 {page-break-before: always}
  p.gq-rename-2 {text-align: right}
  p.gq-rename-1 {text-align: center}
 
 /* image_presentation_fullscreen.html */
- p.gq-fullscreen-12 {margin-bottom: 0in}
  p.gq-fullscreen-11 {font-weight: bold}
  span.gq-fullscreen-10 {text-decoration: none}
  p.gq-fullscreen-9 {text-align: left}
@@ -88,14 +80,12 @@
  p.gq-fullscreen-1 {text-align: center}
 
 /* image_presentation.html */
- p.gq-image-presentation-6 {margin-bottom: 0in}
  p.gq-image-presentation-5 {margin-left: 0.79in}
  table.gq-image-presentation-3 {page-break-before: always}
  p.gq-image-presentation-2 {text-align: right}
  p.gq-image-presentation-1 {text-align: center}
 
 /* image_presentation_slideshow.html */
- p.gq-slideshow-10 {margin-bottom: 0in}
  p.gq-slideshow-9 {margin-left: 0.79in}
  p.gq-slideshow-8 {margin-left: 0.79in; font-weight: medium; text-decoration: none}
  p.gq-slideshow-7 {margin-left: 0.79in; font-weight: medium}
@@ -106,7 +96,6 @@
  p.gq-slideshow-1 {text-align: center}
 
 /* image_search_finding_duplicates.html */
- p.gq-finding-duplicates-8 {margin-bottom: 0in}
  p.gq-finding-duplicates-7 {font-weight: bold; text-align: center}
  p.gq-finding-duplicates-6 {margin-left: 1.58in}
  p.gq-finding-duplicates-5 {margin-left: 0.79in}
@@ -116,14 +105,12 @@
  p.gq-finding-duplicates-1 {text-align: center}
 
 /* image_search.html */
- p.gq-image-search-6 {margin-bottom: 0in}
  p.gq-image-search-5 {margin-left: 0.79in}
  table.gq-image-search-3 {page-break-before: always}
  p.gq-image-search-2 {text-align: right}
  p.gq-image-search-1 {text-align: center}
 
 /* image_search_search.html */
- p.gq-search-8 {margin-bottom: 0in}
  p.gq-search-7 {font-weight: bold; text-align: center}
  p.gq-search-6 {margin-left: 1.58in}
  p.gq-search-5 {margin-left: 0.79in}
@@ -133,7 +120,6 @@
  p.gq-search-1 {text-align: center}
 
 /* index.html */
- p.gq-index-7 {margin-bottom: 0in}
  p.gq-index-6 {margin-left: 0.79in}
  p.gq-index-5 {font-weight: bold}
  table.gq-index-3 {page-break-before: always}
@@ -144,7 +130,6 @@
  .menu ul>ul {font-size: 90%; font-weight: normal}
 
 /* introduction.html */
- p.gq-introduction-8 {margin-bottom: 0in}
  p.gq-introduction-7 {font-weight: medium}
  span.gq-introduction-6 {font-family: Nimbus Roman No9 L}
  p.gq-introduction-5 {font-weight: bold}
@@ -153,7 +138,6 @@
  p.gq-introduction-1 {text-align: center}
 
 /* main_window_file_pane.html */
- p.gq-file-pane-8 {margin-bottom: 0in}
  p.gq-file-pane-7 {margin-left: 0.79in; font-weight: medium}
  p.gq-file-pane-6 {font-weight: bold; margin-left: 0.79in}
  p.gq-file-pane-5 {margin-left: 0.79in}
@@ -162,7 +146,6 @@
  p.gq-file-pane-1 {text-align: center}
 
 /* main_window_folder_pane.html */
- p.gq-folder-pane-12 {margin-bottom: 0in}
  p.gq-folder-pane-11 {font-style: italic; font-weight: medium; margin-left: 1.58in}
  p.gq-folder-pane-10 {margin-left: 0.79in; font-weight: medium}
  p.gq-folder-pane-9 {font-style: italic; margin-left: 1.58in}
@@ -175,14 +158,12 @@
  p.gq-folder-pane-1 {text-align: center}
 
 /* main_window.html */
- p.gq-main-window-6 {margin-bottom: 0in}
  p.gq-main-window-5 {margin-left: 0.79in}
  table.gq-main-window-3 {page-break-before: always}
  p.gq-main-window-2 {text-align: right}
  p.gq-main-window-1 {text-align: center}
 
 /* main_window_image_pane.html */
- p.gq-image-pane-10 {margin-bottom: 0in}
  p.gq-image-pane-9 {font-weight: medium}
  p.gq-image-pane-8 {font-style: italic; margin-left: 1.58in}
  p.gq-image-pane-7 {margin-left: 0.79in}
@@ -193,7 +174,6 @@
  p.gq-image-pane-1 {text-align: center}
 
 /* main_window_layout.html */
- p.gq-layout-8 {margin-bottom: 0in}
  p.gq-layout-7 {font-weight: bold}
  p.gq-layout-6 {font-style: italic; margin-left: 0.79in; text-decoration: none}
  p.gq-layout-5 {margin-left: 0.79in}
@@ -202,7 +182,6 @@
  p.gq-layout-1 {text-align: center}
 
 /* main_window_menus.html */
- p.gq-menus-11 {margin-bottom: 0in}
  p.gq-menus-10 {font-weight: bold; text-align: center}
  p.gq-menus-9 {text-decoration: none}
  span.gq-menus-8 {text-decoration: none}
@@ -214,7 +193,6 @@
  p.gq-menus-1 {text-align: center}
 
 /* main_window_navigation.html */
- p.gq-navigation-7 {margin-bottom: 0in}
  p.gq-navigation-6 {margin-left: 0.79in}
  p.gq-navigation-5 {font-weight: bold}
  table.gq-navigation-3 {page-break-before: always}
@@ -222,14 +200,12 @@
  p.gq-navigation-1 {text-align: center}
 
 /* main_window_status_bar.html */
- p.gq-status-bar-6 {margin-bottom: 0in}
  p.gq-status-bar-5 {margin-left: 0.79in}
  table.gq-status-bar-3 {page-break-before: always}
  p.gq-status-bar-2 {text-align: right}
  p.gq-status-bar-1 {text-align: center}
 
 /* options_advanced.html */
- p.gq-advanced-14 {margin-bottom: 0in}
  span.gq-advanced-13 {text-decoration: none}
  p.gq-advanced-12 {margin-left: 1.58in}
  p.gq-advanced-11 {margin-left: 0.79in; font-weight: medium}
@@ -244,7 +220,6 @@
  p.gq-advanced-1 {text-align: center}
 
 /* options_editor_commands.html */
- p.gq-editor-commands-7 {margin-bottom: 0in}
  p.gq-editor-commands-6 {font-weight: bold}
  p.gq-editor-commands-5 {font-weight: bold; text-align: center}
  table.gq-editor-commands-3 {page-break-before: always}
@@ -252,7 +227,6 @@
  p.gq-editor-commands-1 {text-align: center}
 
 /* options_filtering.html */
- p.gq-filtering-7 {margin-bottom: 0in}
  p.gq-filtering-6 {margin-left: 1.58in}
  p.gq-filtering-5 {margin-left: 0.79in}
  table.gq-filtering-3 {page-break-before: always}
@@ -260,7 +234,6 @@
  p.gq-filtering-1 {text-align: center}
 
 /* options_general.html */
- p.gq-general-11 {margin-bottom: 0in}
  dd.gq-general-10 {margin-left: 0in; margin-bottom: 0.2in; text-decoration: none}
  dd.gq-general-9 {margin-bottom: 0.2in}
  p.gq-general-8 {margin-left: 1.58in}
@@ -272,7 +245,6 @@
  p.gq-general-1 {text-align: center}
 
 /* options_hidden.html */
- p.gq-hidden-10 {margin-bottom: 0in}
  p.gq-hidden-9 {margin-left: 1.58in; font-style: normal; font-weight: medium; text-decoration: none}
  p.gq-hidden-8 {margin-left: 0.79in; font-style: normal; font-weight: medium; text-decoration: none}
  p.gq-hidden-7 {margin-left: 1.58in; font-weight: medium}
@@ -283,14 +255,12 @@
  p.gq-hidden-1 {text-align: center}
 
 /* options.html */
- p.gq-options-6 {margin-bottom: 0in}
  p.gq-options-5 {margin-left: 0.79in}
  table.gq-options-3 {page-break-before: always}
  p.gq-options-2 {text-align: right}
  p.gq-options-1 {text-align: center}
 
 /* options_image.html */
- p.gq-image-15 {margin-bottom: 0in}
  p.gq-image-14 {margin-bottom: 0.2in}
  p.gq-image-13 {margin-left: 0.79in; margin-bottom: 0.2in; text-decoration: none}
  dd.gq-image-12 {margin-bottom: 0.2in}
@@ -306,7 +276,6 @@
  p.gq-image-1 {text-align: center}
 
 /* options_window.html */
- p.gq-window-7 {margin-bottom: 0in}
  p.gq-window-6 {margin-left: 0.79in}
  p.gq-window-5 {font-style: normal; text-decoration: none}
  table.gq-window-3 {page-break-before: always}
@@ -314,14 +283,12 @@
  p.gq-window-1 {text-align: center}
 
 /* other_windows.html */
- p.gq-other-windows-6 {margin-bottom: 0in}
  p.gq-other-windows-5 {margin-left: 0.79in}
  table.gq-other-windows-3 {page-break-before: always}
  p.gq-other-windows-2 {text-align: right}
  p.gq-other-windows-1 {text-align: center}
 
 /* other_windows_image_properties.html */
- p.gq-image-properties-7 {margin-bottom: 0in}
  p.gq-image-properties-6 {margin-left: 1.58in}
  p.gq-image-properties-5 {margin-left: 0.79in}
  table.gq-image-properties-3 {page-break-before: always}
@@ -329,14 +296,12 @@
  p.gq-image-properties-1 {text-align: center}
 
 /* other_windows_image_window.html */
- p.gq-image-window-6 {margin-bottom: 0in}
  p.gq-image-window-5 {margin-left: 0.79in}
  table.gq-image-window-3 {page-break-before: always}
  p.gq-image-window-2 {text-align: right}
  p.gq-image-window-1 {text-align: center}
 
 /* printing.html */
- p.gq-printing-12 {margin-bottom: 0in}
  p.gq-printing-11 {margin-left: 2.36in}
  p.gq-printing-10 {margin-left: 1.58in; text-decoration: none}
  p.gq-printing-9 {margin-left: 0.79in; text-decoration: none}
@@ -357,14 +322,12 @@
  p.gq-command-line-1 {text-align: center}
 
 /* reference.html */
- p.gq-reference-6 {margin-bottom: 0in}
  p.gq-reference-5 {margin-left: 0.79in}
  table.gq-reference-3 {page-break-before: always}
  p.gq-reference-2 {text-align: right}
  p.gq-reference-1 {text-align: center}
 
 /* reference_keyboard_shortcuts.html */
- p.gq-keyboard-shortcuts-12 {margin-bottom: 0in}
  p.gq-keyboard-shortcuts-11 {margin-left: 0.79in}
  span.gq-keyboard-shortcuts-10 {text-decoration: none}
  p.gq-keyboard-shortcuts-9 {font-weight: medium}
@@ -378,7 +341,6 @@
  p.gq-keyboard-shortcuts-1 {text-align: center}
 
 /* reference_management.html */
- p.gq-management-10 {margin-bottom: 0in}
  span.gq-management-9 {font-weight: medium}
  span.gq-management-8 {font-style: normal}
  p.gq-management-7 {font-weight: bold}
@@ -390,7 +352,6 @@
  p.gq-management-1 {text-align: center}
 
 /* reference_thumbnails.html */
- p.gq-thumbnails-8 {margin-bottom: 0in}
  p.gq-thumbnails-7 {margin-left: 1.58in}
  p.gq-thumbnails-6 {margin-left: 0.79in}
  p.gq-thumbnails-5 {font-style: italic; text-decoration: none}
@@ -399,21 +360,18 @@
  p.gq-thumbnails-1 {text-align: center}
 
 /* sidebars_exif.html */
- p.gq-exif-6 {margin-bottom: 0in}
  p.gq-exif-5 {margin-left: 0.79in}
  table.gq-exif-3 {page-break-before: always}
  p.gq-exif-2 {text-align: right}
  p.gq-exif-1 {text-align: center}
 
 /* sidebars.html */
- p.gq-sidebars-6 {margin-bottom: 0in}
  p.gq-sidebars-5 {margin-left: 0.79in}
  table.gq-sidebars-3 {page-break-before: always}
  p.gq-sidebars-2 {text-align: right}
  p.gq-sidebars-1 {text-align: center}
 
 /* sidebars_keywords.html */
- p.gq-keywords-8 {margin-bottom: 0in}
  p.gq-keywords-7 {font-style: italic; margin-left: 0.79in}
  p.gq-keywords-6 {margin-left: 0.79in}
  span.gq-keywords-5 {font-weight: medium}
@@ -422,7 +380,6 @@
  p.gq-keywords-1 {text-align: center}
 
 /* sidebars_sort_manager.html */
- p.gq-sort-manager-10 {margin-bottom: 0in}
  p.gq-sort-manager-9 {margin-left: 1.58in}
  span.gq-sort-manager-8 {font-weight: medium}
  p.gq-sort-manager-7 {margin-left: 0.79in}
@@ -433,7 +390,6 @@
  p.gq-sort-manager-1 {text-align: center}
 
 /* template.html */
- p.gq-template-5 {margin-bottom: 0in}
  table.gq-template-3 {page-break-before: always}
  p.gq-template-2 {text-align: right}
  p.gq-template-1 {text-align: center}
