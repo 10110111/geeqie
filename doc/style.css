@@ -4,6 +4,7 @@
  div.navtop table { border: 5px}
  div.navbottom {text-align: center}
  div.bottomspacer { padding-bottom: 50px;}
+ div.footer { text-align: right}
 
 /* collections.html */
  p.gq-collections-8 {font-weight: bold; text-align: center}
