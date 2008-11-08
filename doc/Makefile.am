@@ -48,6 +48,7 @@ help_DATA = \
 	sidebars.html	\
 	sidebars_keywords.html	\
 	sidebars_sort_manager.html	\
+	style.css \
 	template.html
 
 EXTRA_DIST = $(help_DATA) template.html
