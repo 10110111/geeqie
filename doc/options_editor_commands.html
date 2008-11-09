@@ -57,76 +57,75 @@
 
   <p><b>Command Line</b>: This field is the command to execute. Several macros are available to position image file names within the command. If no macro is specified, the behavior will be to append the filenames onto the end of the command (the result will be the same as &ldquo;<i>command %f</i>&rdquo;).</p>
 
-  <dl>
-    <dd>
-      <dl>
-        <dd>
-          <table width="80%" border="0" cellpadding="4" cellspacing="0">
-
-            <tr valign="top">
-              <td width="20%">
+  <div class="macro_description">
+       <table width="80%" border="0" cellpadding="4" cellspacing="0" rules="ROWS">
+       <col id="macro_description_col1" width="20%"></col>
+       <col id="macro_description_col2" width="80%"></col>
+       
+       <thead>
+            <tr>
+              <td>
                 <p>Macro</p>
               </td>
 
-              <td width="80%">
+              <td>
                 <p>Description</p>
               </td>
             </tr>
-
-            <tr valign="top">
-              <td width="20%">
+       </thead>
+       <tbody>
+            <tr>
+              <td>
                 <p>%f</p>
               </td>
 
-              <td width="80%">
+              <td>
                 <p>Inserts list of selected files, may occur only once.</p>
               </td>
             </tr>
 
-            <tr valign="top">
-              <td width="20%">
+            <tr>
+              <td>
                 <p>%p</p>
               </td>
 
-              <td width="80%">
+              <td>
                 <p>Command is executed once for each selected file, may occur multiple times.</p>
               </td>
             </tr>
 
-            <tr valign="top">
-              <td width="20%">
+            <tr>
+              <td>
                 <p>%v</p>
               </td>
 
-              <td width="80%">
+              <td>
                 <p>Display the result of the command in an output window. Must occur as the first two characters, or immediately after the &ldquo;%w&rdquo; macro.</p>
               </td>
             </tr>
 
-            <tr valign="top">
-              <td width="20%">
+            <tr>
+              <td>
                 <p>%V</p>
               </td>
 
-              <td width="80%">
+              <td>
                 <p>Like %v above, but when used with %p, only displays output window when multiple files are selected; The output of a single file is suppressed.</p>
               </td>
             </tr>
 
-            <tr valign="top">
-              <td width="20%">
+            <tr>
+              <td>
                 <p>%w</p>
               </td>
 
-              <td width="80%">
+              <td>
                 <p>Prevent full screen from deactivating when command is executed. Must occur as the first two characters.</p>
               </td>
             </tr>
+	  </tbody>
           </table>
-        </dd>
-      </dl>
-    </dd>
-  </dl>
+  </div>
 
   <p><br />
   <br />

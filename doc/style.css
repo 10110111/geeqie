@@ -18,6 +18,8 @@
  .dialog_desc dt {font-weight: bold; padding-top: 0.3em}
  .dialog_desc dd {}
 
+ thead { font-weight: bold; }
+
 /* collections.html */
  div.gq-collections-4 {text-align: center}
 
