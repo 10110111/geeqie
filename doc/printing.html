@@ -112,20 +112,31 @@
 
   <h2>Printer tab</h2>
 
-  <p><b>Destination:</b> Use this to select the destination of the print output.</p>
+  <dl class="dialog_desc">
+  <dt>Destination</dt>
+  <dd><p>Use this to select the destination of the print output.</p>
+  <p>
+  <dl>
+  <dt>Default printer</dt><dd>Prints to the system default printer.</dd>
+  <dt>Custom printer</dt><dd>Prints to the printer using the command defined in Custom printer (below).</dd>
+  <dt>Postscript file</dt><dd>Writes using the postscript format to named File (below).</dd>
+  <dt>Image file</dt><dd>Writes using the selected File format (below) to named File (below).</dd>
+  </dl>
+  </p>
+  </dd>
 
-  <p>Default printer: Prints to the system default printer.<br />
-  Custom printer: Prints to the printer using the command defined in Custom printer (below).<br />
-  Postscript file: Writes using the postscript format to named File (below).<br />
-  Image file: Writes using the selected File format (below) to named File (below).</p>
+  <dt>Custom printer</dt>
+  <dd><p>The command to use when Destination is selected as Custom printer. For convenience, the drop down list includes printers available for use by the printing subsystem.</p></dd>
 
-  <p><b>Custom printer:</b> The command to use when Destination is selected as Custom printer. For convenience, the drop down list includes printers available for use by the printing subsystem.</p>
+  <dt>File</dt>
+  <dd><p>The file to use for output when Destination is Postscript file or Image file.</p></dd>
 
-  <p><b>File:</b> The file to use for output when Destination is Postscript file or Image file.</p>
+  <dt>File format</dt>
+  <dd><p>The image format to use when Destination is Image file.</p></dd>
 
-  <p><b>File format:</b> The image format to use when Destination is Image file.</p>
-
-  <p><b>DPI:</b> Abbreviation for Dots Per Inch. When the Destination is a printer or postscript file, this defines the maximum DPI to use when outputting image data. For example if the Destination printer is only capable of 600 DPI, but the resulting image to print is 1200 DPI, Geeqie will scale the image down to 600 DPI before sending it to the printer. This can greatly reduce the size of a print job when printing Proof Sheets or very large images.</p>
+  <dt>DPI</dt>
+  <dd><p>Abbreviation for Dots Per Inch. When the Destination is a printer or postscript file, this defines the maximum DPI to use when outputting image data. For example if the Destination printer is only capable of 600 DPI, but the resulting image to print is 1200 DPI, Geeqie will scale the image down to 600 DPI before sending it to the printer. This can greatly reduce the size of a print job when printing Proof Sheets or very large images.</p></dd>
+  </dl>
 
   <p><br />
   <br />
@@ -141,15 +152,23 @@
 
   <p>The preview includes several reference lines that are <i>not included</i> in the final print:</p>
 
-  <p><b>Reference grid:</b> Light gray lines that form a grid over the entire page, the spacing between these lines is dependent on the current measurement unit:</p>
+  <dl class="dialog_desc">
+  <dt>Reference grid</dt>
+  <dd><p>Light gray lines that form a grid over the entire page, the spacing between these lines is dependent on the current measurement unit:</p>
+  <dl>
+  <dt>Inch</dt><dd>1 inch.</dd>
+  <dt>Points</dt><dd>72 points.</dd>
+  <dt>Centimeters or Millimeters</dt><dd>1 centimeter.</dd>
+  </dl>
+  </dd>
 
-  <p>Inch: 1 inch.<br />
-  Points: 72 points.<br />
-  Centimeters or Millimeters: 1 centimeter.</p>
+  <dt>Margins</dt>
+  <dd><p>Blue lines along each edge of the page represent the location of the print margins, the non-printable area of the page is also gray.</p></dd>
 
-  <p><b>Margins:</b> Blue lines along each edge of the page represent the location of the print margins, the non-printable area of the page is also gray.</p>
-
-  <p><b>Proof sheet grid:</b> When the layout is set to Proof sheet, each proof location is indicated with a red rectangle.</p>
+  <dt>Proof sheet grid</dt>
+  <dd><p>When the layout is set to Proof sheet, each proof location is indicated with a red rectangle.</p></dd>
+  
+  </dl>
 
   <p><br />
   <br />
