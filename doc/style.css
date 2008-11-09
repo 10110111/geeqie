@@ -4,9 +4,14 @@
  div.navbottom {text-align: center}
  div.bottomspacer { padding-bottom: 5em;}
  div.footer { text-align: right}
+ /* menu descriptions */
  dl.menu_desc { padding-left: 2em;}
  .menu_desc dt {font-weight: bold; padding-top: 0.3em}
  .menu_desc dd {}
+ /* dialog descriptions */
+ dl.dialog_desc { padding-left: 2em;}
+ .dialog_desc dt {font-weight: bold; padding-top: 0.3em}
+ .dialog_desc dd {}
 
 /* collections.html */
  p.gq-collections-8 {font-weight: bold; text-align: center}

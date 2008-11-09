@@ -59,23 +59,23 @@
 
   <p class="gq-copy-move-5">This is the dialog that is displayed when initiating a Copy/Move operation. The dialog contains a row of buttons near the top, vertical list of bookmarks along the left side, a vertical list of folders in the current path, a text entry field, and a row of buttons along the bottom.</p>
 
-  <p class="gq-copy-move-5"><b>Home button:</b> Activate this button to change the active path to your home folder.</p>
+  <dl class="dialog_desc">
+  <dt>Home button</dt><dd>Activate this button to change the active path to your home folder.</dd>
 
-  <p class="gq-copy-move-5"><b>New Folder button:</b> Activate this to create a new empty folder as a sub folder of the active path. The new folder will appear in the folder list ready for you to type in the desired name.</p>
+  <dt>New Folder button</dt><dd>Activate this to create a new empty folder as a sub folder of the active path. The new folder will appear in the folder list ready for you to type in the desired name.</dd>
 
-  <p class="gq-copy-move-5"><b>Show Hidden check box:</b> Enabling this check box will cause hidden folders to appear in the folder list.</p>
+  <dt>Show Hidden check box</dt><dd>Enabling this check box will cause hidden folders to appear in the folder list.</dd>
 
-  <p class="gq-copy-move-5"><b>Bookmark list:</b> This list on the left side of the window allows you to save links to folders that are frequently used. Activating a bookmark will change the active path to that pointed to by the link. To add items to the bookmark list highlight a folder and press Control + B, select &ldquo;Add bookmark&rdquo; from the folder's context menu, or drag a folder onto the bookmark list.</p>
+  <dt>Bookmark list</dt><dd>This list on the left side of the window allows you to save links to folders that are frequently used. Activating a bookmark will change the active path to that pointed to by the link. To add items to the bookmark list highlight a folder and press Control + B, select &ldquo;Add bookmark&rdquo; from the folder's context menu, or drag a folder onto the bookmark list.<br />The bookmark has a context menu that can be displayed by clicking the right mouse button, or pressing the Menu key when a bookmark has the focus. From the context menu you can edit a bookmark, move it up or down in the list, or remove the bookmark from the list. A bookmark can also be moved by pressing Shift + Up or Shift + Down while it has the focus.</dd>
 
-  <p class="gq-copy-move-5">The bookmark has a context menu that can be displayed by clicking the right mouse button, or pressing the Menu key when a bookmark has the focus. From the context menu you can edit a bookmark, move it up or down in the list, or remove the bookmark from the list. A bookmark can also be moved by pressing Shift + Up or Shift + Down while it has the focus.</p>
+  <dt>Folder list</dt><dd>This is the list that displays the folders contained in the active path. To change the active path to a folder displayed in this list double click the primary mouse button or highlight the folder with the keyboard and press Enter or Space. This list has a context menu that allows renaming or bookmarking the selected folder. A folder can also be dragged onto the bookmark list to add a bookmark.</dd>
 
-  <p class="gq-copy-move-5"><b>Folder list:</b> This is the list that displays the folders contained in the active path. To change the active path to a folder displayed in this list double click the primary mouse button or highlight the folder with the keyboard and press Enter or Space. This list has a context menu that allows renaming or bookmarking the selected folder. A folder can also be dragged onto the bookmark list to add a bookmark.</p>
+  <dt>Path entry</dt><dd>This text entry displays the active path of the dialog. The path can be directly edited using this entry. Tab completion is supported, and the drop down arrow will display a list of recently selected folders.</dd>
 
-  <p class="gq-copy-move-5"><b>Path entry:</b> This text entry displays the active path of the dialog. The path can be directly edited using this entry. Tab completion is supported, and the drop down arrow will display a list of recently selected folders.</p>
+  <dt>Copy/Move button</dt><dd>The name of this button will differ depending on the selected operation, activating it will start the operation with the folder displayed in the path entry as the destination.</dd>
 
-  <p class="gq-copy-move-5"><b>Copy/Move button:</b> The name of this button will differ depending on the selected operation, activating it will start the operation with the folder displayed in the path entry as the destination.</p>
-
-  <p class="gq-copy-move-5"><b>Cancel button:</b> Activate this button to close the dialog, the operation will be aborted.</p>
+  <dt>Cancel button</dt><dd>Activate this button to close the dialog, the operation will be aborted.</dd>
+  </dl>
 
   <p><br />
   <br />
@@ -93,23 +93,21 @@
 
   <p class="gq-copy-move-5">If a file with the same name exists in the selected destination a dialog will appear to notify the user and ask how to resolve the conflict. The dialog will also display the source and destination images. The following possible solutions will be offered:</p>
 
-  <p class="gq-copy-move-5"><b>Auto rename:</b> Enabling this check box to have Geeqie select a unique name for the destination file, the proposed new name will appear in the rename entry field.</p>
+  <dl class="dialog_desc">
+  <dt>Auto rename</dt><dd>Enabling this check box to have Geeqie select a unique name for the destination file, the proposed new name will appear in the rename entry field.</dd>
 
-  <p class="gq-copy-move-5"><b>Rename:</b> Enable this check box to manually enter a new name for the file.</p>
+  <dt>Rename</dt><dd>Enable this check box to manually enter a new name for the file.</dd>
+  
+  <dt>Overwrite</dt><dd>Activate this will overwrite the existing file, or rename it if one of the rename check boxes are enabled.</dd>
 
-  <p class="gq-copy-move-5"><br />
-  <br />
-  </p>
+  <dt>Overwrite all</dt><dd>Activating this will perform the same operation as the Yes button, however any further file name conflicts will be handled quietly in the same method as is selected for the current file.</dd>
 
-  <p class="gq-copy-move-5"><b>Overwrite:</b> Activate this will overwrite the existing file, or rename it if one of the rename check boxes are enabled.</p>
+  <dt>Skip</dt><dd>This button will skip doing anything to the file in question, and resume the operation with the next file. The source file will remain untouched.</dd>
 
-  <p class="gq-copy-move-5"><b>Overwrite all:</b> Activating this will perform the same operation as the Yes button, however any further file name conflicts will be handled quietly in the same method as is selected for the current file.</p>
+  <dt>Skip All</dt><dd>This will perform the same as the Skip button, however any further file name conflicts will be quietly ignored for all remaining files.</dd>
 
-  <p class="gq-copy-move-6"><b>Skip:</b> This button will skip doing anything to the file in question, and resume the operation with the next file. The source file will remain untouched.</p>
-
-  <p class="gq-copy-move-6"><b>Skip All:</b> This will perform the same as the Skip button, however any further file name conflicts will be quietly ignored for all remaining files.</p>
-
-  <p class="gq-copy-move-6"><b>Cancel:</b> This will close the dialog and stop the operation, all remaining files will be ignored.</p>
+  <dt>Cancel</dt><dd>This will close the dialog and stop the operation, all remaining files will be ignored.</dd>
+  </dl>
 
   <p><br />
   <br />
