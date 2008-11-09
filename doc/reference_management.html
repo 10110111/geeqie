@@ -97,164 +97,165 @@
 
   <p>The various file locations and their use are listed below. <i>&lt;HOME&gt;</i> refers to your home folder and <i>&lt;SOURCE&gt;</i> refers to the folder containing the image.</p>
 
-  <div class="gq-management-4">
+  <div class="file_locations">
     <table width="80%" border="1" cellpadding="4" cellspacing="0">
+    <col id="file_locations_col1" width="50%"></col>
+    <col id="file_locations_col2" width="50%"></col>
 
-      <tr valign="top">
-        <th width="50%">
-          <p>Folder or File name</p>
-        </th>
-
-        <th width="50%">
-          <p>Description</p>
-        </th>
-      </tr>
-
+    <thead>
       <tr>
-        <td colspan="2" width="100%" valign="top">
+        <td>
+          <p>Folder or File name</p>
+        </td>
+
+        <td>
+          <p>Description</p>
+        </td>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td colspan="2" class="file_locations_subtitle">
           <p>Thumbnails</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="50%">
-          <p><i>&lt;HOME&gt;</i>/.thumbnails</p>
+      <tr>
+        <td>
+          <p><em>&lt;HOME&gt;</em>/.thumbnails</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Shared thumbnail cache folder.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="50%">
-          <p><i>&lt;HOME&gt;</i>/.geeqie/thumbnails</p>
+      <tr>
+        <td>
+          <p><em>&lt;HOME&gt;</em>/.geeqie/thumbnails</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Classic Geeqie thumbnail cache folder. Also used to cache data used for the search and find duplicates utilities to increase the speed for subsequent searches.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="50%">
-          <p><i>&lt;SOURCE&gt;/.</i><span class="gq-management-8">thumbnails</span>
+      <tr>
+        <td>
+          <p><em>&lt;SOURCE&gt;/.</em><span class="gq-management-8">thumbnails</span>
           </p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Local thumbnail cache folder.</p>
         </td>
       </tr>
 
       <tr>
-        <td colspan="2" width="100%" valign="top">
-          <p><b>Metadata</b> <span class="gq-management-9">(keywords and comments)</span></p>
+        <td colspan="2" class="file_locations_subtitle">
+          <p>Metadata (keywords and comments)</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="50%">
-          <p><i>&lt;HOME&gt;</i>/.geeqie/metadata</p>
+      <tr>
+        <td>
+          <p><em>&lt;HOME&gt;</em>/.geeqie/metadata</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Metadata stored in user's home folder.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="50%">
-          <p><i>&lt;SOURCE&gt;</i>/.metadata</p>
+      <tr>
+        <td>
+          <p><em>&lt;SOURCE&gt;</em>/.metadata</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Metadata stored local to source image. Requires option to be enabled in advanced preferences.</p>
         </td>
       </tr>
 
       <tr>
-        <td colspan="2" width="100%" valign="top">
+        <td colspan="2" class="file_locations_subtitle">
           <p>Collections</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="50%">
-          <p><i>&lt;HOME&gt;</i>/.geeqie/collections</p>
+      <tr>
+        <td>
+          <p><em>&lt;HOME&gt;</em>/.geeqie/collections</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Default location for Geeqie collections, collections in this folder will appear in the <a href="sidebars_sort_manager.html">sort manager</a> sidebar.</p>
         </td>
       </tr>
 
       <tr>
-        <td colspan="2" width="100%" valign="top">
+        <td colspan="2" class="file_locations_subtitle">
           <p>Preferences</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="50%">
-          <p><i>&lt;HOME&gt;</i>/.geeqie</p>
+      <tr>
+        <td>
+          <p><em>&lt;HOME&gt;</em>/.geeqie</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Geeqie preferences folder.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="50%">
-          <p><i>&lt;HOME&gt;</i>/.geeqie/geeqierc</p>
+      <tr>
+        <td>
+          <p><em>&lt;HOME&gt;</em>/.geeqie/geeqierc</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Geeqie preferences rc file.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="50%">
-          <p><i>&lt;HOME&gt;</i>/.geeqie/history</p>
+      <tr>
+        <td>
+          <p><em>&lt;HOME&gt;</em>/.geeqie/history</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Historic data such as last several folders visited, bookmarks, and recently used collections. Also contains default print settings.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="50%">
-          <p><i>&lt;HOME&gt;</i>/.geeqie/accels</p>
+      <tr>
+        <td>
+          <p><em>&lt;HOME&gt;</em>/.geeqie/accels</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Keyboard shortcut mapping.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="50%">
+      <tr>
+        <td colspan="2" class="file_locations_subtitle">
           <p>Safe Delete</p>
-        </td>
-
-        <td width="50%">
-          <p><br />
-          </p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="50%">
-          <p><span class="gq-management-9"><i>&lt;HOME&gt;</i></span>/.geeqie/trash</p>
+      <tr>
+        <td>
+          <p><em>&lt;HOME&gt;</em>/.geeqie/trash</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Default location of the safe delete folder.</p>
         </td>
       </tr>
+     </tbody>
     </table>
   </div>
 

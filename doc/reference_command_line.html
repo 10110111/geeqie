@@ -41,163 +41,169 @@
 
   <p>These are the command line options available to Geeqie:</p>
 
-  <div class="gq-command-line-4">
+  <div class="command_line_options">
     <table width="80%" border="1" cellpadding="4" cellspacing="0">
+    <col id="command_line_options_col1" width="20%"></col>
+    <col id="command_line_options_col2" width="30%"></col>
+    <col id="command_line_options_col3" width="50%"></col>
 
-      <tr valign="top">
-        <td width="20%">
+    <thead>
+      <tr>
+        <td>
           <p>Short Option</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>Long Option</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Description</p>
         </td>
       </tr>
-
-      <tr valign="top">
-        <td width="20%">
+    </thead>
+    <tbody>
+      <tr>
+        <td>
           <p>+t</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--with-tools</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Show file list, menu, and statusbar.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-t</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--without-tools</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Hide file list, menu, and statusbar. Window contains image only.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-f</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--fullscreen</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Start up in fullscreen.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-s</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--slideshow</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Start up in slideshow mode.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-l</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--list</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Open collection window containing images specified on the command line. Any collections on the command line will also be appended to this collection.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-r</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--remote</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Send command line options to existing Geeqie process.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-rh</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--remote-help</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>List command line options available to --remote.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-h</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--help</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Display brief command line option list.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-v</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--version</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Display version of Geeqie.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p><br />
           </p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--debug</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Enable Debug output to console.</p>
         </td>
       </tr>
+    </tbody>
     </table>
   </div>
 
@@ -213,264 +219,271 @@
 
   <p>The --remote command line option will send all entered commands to an existing Geeqie process, a new process will be started if one does not exist. These are the additional commands that can be used with the remote command:</p>
 
-  <div class="gq-command-line-4">
+  <div class="remote_commands">
     <table width="80%" border="1" cellpadding="4" cellspacing="0">
+    <col id="remote_commands_col1" width="20%"></col>
+    <col id="remote_commands_col2" width="30%"></col>
+    <col id="remote_commands_col3" width="50%"></col>
 
-      <tr valign="top">
-        <td width="20%">
+    <thead>
+      <tr>
+        <td>
           <p>Short Option</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>Long Option</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Description</p>
         </td>
       </tr>
+    </thead>
 
-      <tr valign="top">
-        <td width="20%">
+    <tbody>
+      <tr>
+        <td>
           <p>-n</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--next</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Change main window to display next image.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-b</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--back</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Change main window to display previous image.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p><br />
           </p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--first</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Change main window to display first image.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p><br />
           </p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--last</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Change main window to display last image.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-f</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--fullscreen</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Toggle full screen mode of the main window.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-fs</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--fullscreen-start</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Start full screen mode for main window.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-fS</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--fullscreen-stop</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Stop full screen mode for main window.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-s</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--slideshow</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Toggle slide show for main window.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-ss</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--slideshow-start</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Start slide show for main window.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-sS</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--slideshow-stop</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Stop slide show for main window.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-sr&lt;folder&gt;</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--slideshow-recurse&lt;folder&gt;</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Start recursive slide show for &lt;folder&gt; in main window.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-d&lt;n&gt;</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--delay=&lt;n&gt;</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Set slide show delay to &lt;n&gt; seconds, range is 0.1 to 3600</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>+t</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--tools-show</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Show tools for main window.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-t</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--tools-hide</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Hide tools for main window.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p>-q</p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>--quit</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Quit Geeqie.</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p><br />
           </p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>file:&lt;filename&gt;</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Change main window to display &lt;filename&gt;</p>
         </td>
       </tr>
 
-      <tr valign="top">
-        <td width="20%">
+      <tr>
+        <td>
           <p><br />
           </p>
         </td>
 
-        <td width="30%">
+        <td>
           <p>view:&lt;filename&gt;</p>
         </td>
 
-        <td width="50%">
+        <td>
           <p>Open new window containing &lt;filename&gt;</p>
         </td>
       </tr>
+      </tbody>
     </table>
   </div>
 
