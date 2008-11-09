@@ -21,6 +21,9 @@
  thead { font-weight: bold; }
 
  .file_locations_subtitle { font-weight: bold}
+ 
+ span.option_name { font-style: italic }
+
 
 /* collections.html */
  div.gq-collections-4 {text-align: center}

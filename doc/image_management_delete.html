@@ -41,9 +41,9 @@
 
   <h1>Delete</h1>
 
-  <p>To delete a file in Geeqie press Control + D, or select Delete from the file menu. Delete is also available in the context menu of all images and files. If <a href="options_advanced.html">Enable delete key</a> is enabled in Options, pressing the Delete key can also be used to delete files.</p>
+  <p>To delete a file in Geeqie press Control + D, or select Delete from the file menu. Delete is also available in the context menu of all images and files. If <a href="options_advanced.html" class="option_name">Enable delete key</a> is enabled in Options, pressing the Delete key can also be used to delete files.</p>
 
-  <p>The behavior when starting a delete operation depends on the <a href="options_advanced.html">Confirm file delete</a> option in Options. If the option is enabled a dialog will appear to confirm the operation, if it is not enabled the files will be deleted without further interaction. In all cases if the file is unable to be deleted you will be notified by a dialog.</p>
+  <p>The behavior when starting a delete operation depends on the <a href="options_advanced.html" class="option_name">Confirm file delete</a> option in Options. If the option is enabled a dialog will appear to confirm the operation, if it is not enabled the files will be deleted without further interaction. In all cases if the file is unable to be deleted you will be notified by a dialog.</p>
 
   <p><br />
   <br />
@@ -55,7 +55,7 @@
 
   <p>When deleting multiple files, the dialog will include two arrow buttons to step the image preview through the list of files to be deleted. Initially the preview will be blank, activate the right arrow to display the first file.</p>
 
-  <p>The dialog will also display the status of the <a href="options_advanced.html">Safe Delete</a> feature. Use this to determine if a file to be Deleted will be immediately lost, or if the file can possibly be recovered from the Safe Delete folder.</p>
+  <p>The dialog will also display the status of the <a href="options_advanced.html" class="option_name">Safe Delete</a> feature. Use this to determine if a file to be Deleted will be immediately lost, or if the file can possibly be recovered from the Safe Delete folder.</p>
 
   <p>If a file is unable to be deleted, a dialog will appear to notify you. If multiple files were selected and any remain, the dialog will include a Continue button, activating this button or pressing Enter will delete the remaining files. Pressing Escape or activating the Cancel button will close the dialog and the remaining files will not be deleted.</p>
 
@@ -65,15 +65,25 @@
 
   <h2>Safe Delete</h2>
 
-  <p>Geeqie includes a feature to temporarily store deleted files in a selected folder, to use this feature enable <a href="options_advanced.html">Safe Delete</a> on the advanced tab of the preferences dialog. Safe Delete includes these options:</p>
+  <p>Geeqie includes a feature to temporarily store deleted files in a selected folder, to use this feature enable <a href="options_advanced.html" class="option_name">Safe Delete</a> on the advanced tab of the preferences dialog.</p>
+  
+  <p>Safe Delete includes these options:</p>
 
-  <p><b>Folder:</b> The folder to use for temporarily retaining deleted files.</p>
+  <p>
+  <dl class="dialog_desc">
+  <dt>Folder</dt>
+  <dd><p>The folder to use for temporarily retaining deleted files.</p></dd>
 
-  <p><b>Maximum size:</b> The maximum amount of disk space to use when storing deleted files, in megabytes.</p>
+  <dt>Maximum size</dt>
+  <dd><p>The maximum amount of disk space to use when storing deleted files, in megabytes.</p>
 
-  <p>When the total size of the deleted files stored in the Safe Delete folder exceeds the Maximum size, the oldest files are removed from the folder to make space for the new deleted files. <span class="gq-delete-7">Files moved to the Safe Delete folder are prefixed with a six digit number in the format:</span></p>
+  <p>When the total size of the deleted files stored in the Safe Delete folder exceeds the Maximum size, the oldest files are removed from the folder to make space for the new deleted files.<p>
+  </dd>
+  </dl>
 
-  <p>nnnnnn_FILENAME</p>
+  <p>Files moved to the Safe Delete folder are prefixed with a six digit number in the format:
+  <code>nnnnnn_FILENAME</code>
+  </p>
 
   <p>This is used to distinguish which files to remove first when clearing space for new files. The digit counter increments with each deleted file.</p>
 

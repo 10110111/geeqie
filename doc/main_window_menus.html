@@ -122,7 +122,7 @@
 
   <dt>Zoom 1:1</dt><dd>Resets the zoom to the original size of the image.</dd>
 
-  <dt>Zoom to fit</dt><dd>Automatically adjusts the zoom so that the image will fit within the display pane. The effect on images with an original size smaller than the display pane can be changed with the <u>Allow enlargement of image for zoom to fit</u> <span class="gq-menus-8">option located on the <a href="options_image.html">Image tab</a> of the preferences dialog</span>.</dd>
+  <dt>Zoom to fit</dt><dd>Automatically adjusts the zoom so that the image will fit within the display pane. The effect on images with an original size smaller than the display pane can be changed with the <span class="option_name">Allow enlargement of image for zoom to fit</span> option located on the <a href="options_image.html">Image tab</a> of the preferences dialog.</dd>
 
   <dt>Thumbnails</dt><dd>Toggles the display of image thumbnails in the file list, this item is not available when the file list is in icon view mode. A check appears next to this item when thumbnails are enabled.</dd>
 
@@ -188,17 +188,17 @@
 
   <p>The keyboard shortcuts associated with the menu bar items can be changed by editing the accels file located in the Geeqie configuration folder <b>while the Geeqie application is not running</b>:</p>
 
-  <p><code><span class="gq-menus-8">($HOME)/.geeqie/accels</span></code>
+  <p><code>($HOME)/.geeqie/accels</code>
   </p>
 
-  <p><span class="gq-menus-8">To change a menu item, first find the line corresponding to the menu item</span> to change. For example the File menu Quit line originally looks like this:</p>
+  <p>To change a menu item, first find the line corresponding to the menu item to change. For example the File menu Quit line originally looks like this:</p>
 
-  <p><code><span class="gq-menus-8">; (gtk_accel_path "&lt;main&gt;/File/Quit" "&lt;Control&gt;q")</span></code>
+  <p><code>; (gtk_accel_path "&lt;main&gt;/File/Quit" "&lt;Control&gt;q")</code>
   </p>
 
   <p>To change this menu's keyboard shortcut, first remove the leading semicolon (;), removing the semicolon will tell Geeqie that this menu item has been customized. Then change the keyboard shortcut defined by the text in quotes at the end of the line, be sure to only change the text within the quotes; in this case the text &ldquo;&lt;control&gt;q&rdquo;. For example changing the shortcut associated with Quit to the Q key will result in this line:</p>
 
-  <p><code><span class="gq-menus-8">(gtk_accel_path "&lt;main&gt;/File/Quit" "q")</span></code>
+  <p><code>(gtk_accel_path "&lt;main&gt;/File/Quit" "q")</code>
   </p>
 
   <p>Please note the removed semicolon and the change of &ldquo;&lt;control&gt;q&rdquo; to &ldquo;q&rdquo;, be careful not to change any of the other text on the line or Geeqie may ignore the customization. The keyboard modifiers and their respective text are listed below:</p>

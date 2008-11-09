@@ -51,32 +51,42 @@
 
   <h2>Layout tab</h2>
 
-  <p><b>Source:</b> This selects the group of images to use for print output.</p>
+  <dl class="dialog_desc">
+  <dt>Source</dt>
+  <dd>
+  <p>This selects the group of images to use for print output.</p>
+	  <dl>
+	  <dt>Image</dt><dd>The file with the focus.</dd>
+	  <dt>Selection</dt><dd>The files selected in the main window.</dd>
+	  <dt>All</dt><dd>All files listed in the main window.</dd>
+	  </dl>
+  </dd>
 
-  <p><b>Image:</b> The file with the focus.<br />
-  <b>Selection:</b> The files selected in the main window.<br />
-  <b>All:</b> All files listed in the main window.</p>
-
-  <p><b>Layout:</b> Select one image per page, or a Proof sheet that will print multiple images per page.</p>
-
-  <p><b>Image size:</b> When print one image per page, the size of the image in relation to the available print area.<br />
-  <b>Proof size:</b> When printing a Proof sheet, the size of each image in Units (see Paper tab).</p>
-
+  <dt>Layout</dt>
+  <dd><p>Select one image per page, or a Proof sheet that will print multiple images per page.</p>
+	  <dl>
+	  <dt>Image size</dt><dd>When print one image per page, the size of the image in relation to the available print area.</dd>
+	  <dt>Proof size</dt><dd>When printing a Proof sheet, the size of each image in Units (see Paper tab).</dd>
+	  </dl>
+  </dl>
+  
   <p><br />
   <br />
   </p>
 
   <h2>Text tab</h2>
 
-  <p><b>Name:</b> Include the file name below each image.</p>
+  <dl class="dialog_desc">
+  <dt>Name</dt><dd><p>Include the file name below each image.</p></dd>
 
-  <p><b>Date:</b> Include the file date below each image.</p>
+  <dt>Date</dt><dd><p>Include the file date below each image.</p></dd>
 
-  <p><b>Size:</b> Include the file size below each image.</p>
+  <dt>Size</dt><dd><p>Include the file size below each image.</p></dd>
 
-  <p><b>Dimensions:</b> Include the source image's pixel width and height below each image.</p>
+  <dt>Dimensions</dt><dd><p>Include the source image's pixel width and height below each image.</p></dd>
 
-  <p><b>Font size:</b> The font size to use for the text description of each image, in points.</p>
+  <dt>Font size</dt><dd><p>The font size to use for the text description of each image, in points.</p></dd>
+  </dl>
 
   <p><br />
   <br />
@@ -84,15 +94,17 @@
 
   <h2>Paper tab</h2>
 
-  <p><b>Format:</b> The size of the paper in the printer's paper tray. Many common sizes are provided, however if the paper size is not listed selected the Custom format and enter the paper size in Size below.</p>
+  <dl class="dialog_desc">
+  <dt>Format</dt><dd><p>The size of the paper in the printer's paper tray. Many common sizes are provided, however if the paper size is not listed selected the Custom format and enter the paper size in Size below.</p></dd>
 
-  <p><b>Size:</b> The size of the selected paper format, in Units (below). These numbers can be changed when the paper Format is Custom.</p>
+  <dt>Size</dt><dd><p>The size of the selected paper format, in Units (below). These numbers can be changed when the paper Format is Custom.</p></dd>
 
-  <p><b>Units:</b> Select the units for Geeqie to use when conveying measurements of length for paper size, margins, and images sizes to the user.</p>
+  <dt>Units</dt><dd><p>Select the units for Geeqie to use when conveying measurements of length for paper size, margins, and images sizes to the user.</p></dd>
 
-  <p><b>Orientation:</b> Select portrait or landscape print output.</p>
+  <dt>Orientation</dt><dd><p>Select portrait or landscape print output.</p></dd>
 
-  <p><b><span class="gq-printing-8">Margins</span>:</b> These values specify the size of the paper edges not to be included in the print region, in Units (above).</p>
+  <dt>Margins</dt><dd><p>These values specify the size of the paper edges not to be included in the print region, in Units (above).</p></dd>
+  </dl>
 
   <p><br />
   <br />
@@ -107,13 +119,13 @@
   Postscript file: Writes using the postscript format to named File (below).<br />
   Image file: Writes using the selected File format (below) to named File (below).</p>
 
-  <p><span class="gq-printing-8"><b>Custom printer:</b></span> The command to use when Destination is selected as Custom printer. For convenience, the drop down list includes printers available for use by the printing subsystem.</p>
+  <p><b>Custom printer:</b> The command to use when Destination is selected as Custom printer. For convenience, the drop down list includes printers available for use by the printing subsystem.</p>
 
-  <p><span class="gq-printing-8"><b>File:</b></span> The file to use for output when Destination is Postscript file or Image file.</p>
+  <p><b>File:</b> The file to use for output when Destination is Postscript file or Image file.</p>
 
   <p><b>File format:</b> The image format to use when Destination is Image file.</p>
 
-  <p><span class="gq-printing-8"><b>DPI:</b> Abbreviation for Dots Per Inch. When the Destination is a printer or postscript file, this defines the maximum DPI to use when outputting image data.</span> For example if the Destination printer is only capable of 600 DPI, but the resulting image to print is 1200 DPI, Geeqie will scale the image down to 600 DPI before sending it to the printer. This can greatly reduce the size of a print job when printing Proof Sheets or very large images.</p>
+  <p><b>DPI:</b> Abbreviation for Dots Per Inch. When the Destination is a printer or postscript file, this defines the maximum DPI to use when outputting image data. For example if the Destination printer is only capable of 600 DPI, but the resulting image to print is 1200 DPI, Geeqie will scale the image down to 600 DPI before sending it to the printer. This can greatly reduce the size of a print job when printing Proof Sheets or very large images.</p>
 
   <p><br />
   <br />

@@ -61,13 +61,24 @@
 
   <p>One of several locations can be chosen as the source to use in the search.</p>
 
-  <p><b>Path:</b> The search will include files located in the selected folder, enable the Recurse check box to include the contents of all sub folders.</p>
+  <p>
+  <dl class="dialog_desc">
+  <dt>Path</dt>
+  <dd>
+  <p>The search will include files located in the selected folder, enable the Recurse check box to include the contents of all sub folders.</p>
+  </dd>
 
-  <p><b>Comments:</b> The search will include all files that have a keyword or comment associated to it.</p>
-
+  <dt>Comments</dt>
+  <dd>
+  <p>The search will include all files that have a keyword or comment associated to it.</p>
   <p>Note: Only keyword and comment associations stored in the user's home folder are included in this search type.</p>
+  </dd>
 
-  <p><b>Results:</b> The search will include all files currently listed in the results list, use this to refine a previous search.</p>
+  <dt>Results</dt>
+  <dd>
+  <p>The search will include all files currently listed in the results list, use this to refine a previous search.</p>
+  </dd>
+  </dl>
 
   <p><br />
   <br />
@@ -76,23 +87,40 @@
   <h2>Search parameters</h2>
 
   <p>Each search parameter can be enabled or disabled with the check box to it's left. For a file to be a match, all enabled parameters must be true.</p>
+  
+  <dl class="dialog_desc">
+  <dt>File name</dt>
+  <dd>
+  <p>The search will match if the entered text appears within the file name, or if the text exactly matches the file name, depending on the method selected from the drop down menu. The text comparison can be made to be case sensitive by enabling the Match case checkbox.</p>
+  </dd>
 
-  <p><b>File name:</b> The search will match if the entered text appears within the file name, or if the text exactly matches the file name, depending on the method selected from the drop down menu. The text comparison can be made to be case sensitive by enabling the Match case checkbox.</p>
+  <dt>File size</dt>
+  <dd><p>The search will match if the file size on disk is equal to, less than, greater than, or between the entered value, depending on the method selected from the drop down menu. The between test is inclusive, for example a file of size 10 will match if the size parameters are between 10 and 15.</p>
+  </dd>
 
-  <p><b>File size:</b> The search will match if the file size on disk is equal to, less than, greater than, or between the entered value, depending on the method selected from the drop down menu. The between test is inclusive, for example a file of size 10 will match if the size parameters are between 10 and 15.</p>
-
-  <p><b>File date:</b> The search will match if the file modification time on disk is equal to, before, after, or between the entered date, depending on the method selected from the drop down menu. The between test is inclusive, for example a file with date of 10/04/2003 will match if the date parameters are between 10/04/2003 and 12/31/2003.</p>
-
+  <dt>File date</dt>
+  <dd>
+  <p>The search will match if the file modification time on disk is equal to, before, after, or between the entered date, depending on the method selected from the drop down menu. The between test is inclusive, for example a file with date of 10/04/2003 will match if the date parameters are between 10/04/2003 and 12/31/2003.</p>
   <p>For convenience, the button with the down arrow displays a pop up calendar to enter the date.</p>
+  </dd>
 
-  <p><b>Image dimensions:</b> The search will match if the image dimensions are equal to, less than, greater than, or between the entered values, depending on the method selected from the drop down menu. The between test is inclusive.</p>
-
+  <dt>Image dimensions</dt>
+  <dd>
+  <p>The search will match if the image dimensions are equal to, less than, greater than, or between the entered values, depending on the method selected from the drop down menu. The between test is inclusive.</p>
   <p>The image dimensions test is simple, both width and height must be within the allowed values for a match.</p>
+  </dd>
 
-  <p><b>Image content:</b> The search will match if the image contents are similar within the percentage value, inclusive. This uses the same test and data that is used to determine image similarity when <a href="image_search_finding_duplicates.html">Finding Duplicates</a>. The entry is for entering the path for the image to use in this test.</p>
+  <dt>Image content</dt>
+  <dd>
+  <p>The search will match if the image contents are similar within the percentage value, inclusive. This uses the same test and data that is used to determine image similarity when <a href="image_search_finding_duplicates.html">Finding Duplicates</a>. The entry is for entering the path for the image to use in this test.</p>
+  </dd>
 
-  <p><b>Keywords:</b> The search will match if the file's associated keywords match all, match any, or exclude the entered keywords, depending on the method selected from the drop down menu. Keywords can be separated with a space, comma, or tab character.</p>
-
+  <dt>Keywords</dt>
+  <dd>
+  <p>The search will match if the file's associated keywords match all, match any, or exclude the entered keywords, depending on the method selected from the drop down menu. Keywords can be separated with a space, comma, or tab character.</p>
+  </dd>
+  </dl>
+  
   <p><br />
   <br />
   </p>
@@ -389,15 +417,32 @@
 
   <p>At the bottom of the search window is an area that includes the following items from left to right:</p>
 
-  <p><b>Thumbnails:</b> Enable this check box to display a thumbnail next to each image in the results list.</p>
+  <dl class="dialog_desc">
+  <dt>Thumbnails</dt>
+  <dd>
+  <p>Enable this check box to display a thumbnail next to each image in the results list.</p>
+  </dd>
 
-  <p><b>File count display:</b> Displays the total count of files in the results list, and their size on disk. The count of selected files will appear in parenthesis.</p>
+  <dt>File count display</dt>
+  <dd>
+  <p>Displays the total count of files in the results list, and their size on disk. The count of selected files will appear in parenthesis.</p>
+  </dd>
 
-  <p><b>Search progress:</b> When a search is active, the text &#8220;Searching...&#8221; will appear here. Two numbers in parenthesis will also be displayed, the first number is the number of files that match the search parameters and the second number is the total number of files that were searched.</p>
+  <dt>Search progress</dt>
+  <dd>
+  <p>When a search is active, the text &#8220;Searching...&#8221; will appear here. Two numbers in parenthesis will also be displayed, the first number is the number of files that match the search parameters and the second number is the total number of files that were searched.</p>
+  </dd>
 
-  <p><b>Find:</b> Activate the find button to start a search with the selected parameters.</p>
-
-  <p><b>Stop:</b> Activate the stop button to end a search that is in progress.</p>
+  <dt>Find</dt>
+  <dd>
+  <p>Activate the find button to start a search with the selected parameters.</p>
+  </dd>
+  
+  <dt>Stop</dt>
+  <dd>
+  <p>Activate the stop button to end a search that is in progress.</p>
+  </dd>
+  </dl>
 
   <p><br />
   <br />
