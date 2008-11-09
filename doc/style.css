@@ -1,10 +1,12 @@
 /* common */
  p.previous {text-align: left}
  div.navtop {text-align: center}
- div.navtop table { border: 5px}
  div.navbottom {text-align: center}
- div.bottomspacer { padding-bottom: 50px;}
+ div.bottomspacer { padding-bottom: 5em;}
  div.footer { text-align: right}
+ dl.menu_desc { padding-left: 2em;}
+ .menu_desc dt {font-weight: bold; padding-top: 0.3em}
+ .menu_desc dd {}
 
 /* collections.html */
  p.gq-collections-8 {font-weight: bold; text-align: center}
