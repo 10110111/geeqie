@@ -107,9 +107,6 @@ thead {
 	font-weight: bold;
 }
 
-.file_locations_subtitle {
-	font-weight: bold
-}
 
 p.note {
 	font-style: italic
@@ -158,3 +155,15 @@ div.search-shortcuts {text-align: center}
 
 /* reference_keyboard_shortcuts.html */
 div.keyboard-shortcuts {text-align: center}
+.keyboard-shortcuts p { margin: 0.1em }
+td.keyboard-shortcuts-separator {background-color: white; font-size: 110%}
+.keyboard-shortcuts td+td+td { text-align: left}
+
+/* reference_management.html */
+.file_locations_subtitle {
+	font-weight: bold;
+	background-color: white;
+	text-align: center;
+}
+.file_locations p { margin: 0.1em }
+
