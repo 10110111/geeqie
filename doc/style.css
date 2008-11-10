@@ -173,10 +173,16 @@ div.fullscreen-functions {
 div.find-duplicates-shortcuts {
 	text-align: center;
 }
+.find-duplicates-shortcuts p {
+	margin: 0.1em;
+}
 
 /* image_search_search.html */
 div.search-shortcuts {
 	text-align: center;
+}
+.search-shortcuts p {
+	margin: 0.1em;
 }
 
 /* index.html */
