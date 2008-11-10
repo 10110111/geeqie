@@ -9,18 +9,32 @@ body {
 	font-family: "Trebuchet MS", Verdana, "Lucida Grande", Tahoma, Helvetica, Sans-Serif;
 }
 
-table {page-break-before: always}
+table {
+	page-break-before: always;
+}
 
-a:hover {background-color: white}
+a:hover {
+	background-color: white;
+}
 
-a.bottomnote {text-decoration: none; color: black;}
+a.bottomnote {
+	text-decoration: none;
+	color: black;
+}
 
-.option_name { font-variant: small-caps; font-size: 90%; font-weight: bold }
+.option_name {
+	font-variant: small-caps;
+	font-size: 90%;
+	font-weight: bold;
+}
 
-dt { font-weight: bold }
+dt {
+	font-weight: bold;
+}
 
+/* Previous + Next */
 p.previous {
-	text-align: left
+	text-align: left;
 }
 p.navtop_title {
 	text-align: center;
@@ -31,36 +45,37 @@ p.navbottom_title {
 }
 
 p.next {
-	text-align: right
+	text-align: right;
 }
 
 div.navtop {
-	text-align: center
+	text-align: center;
 }
 	
 div.navbottom {
-	text-align: center
+	text-align: center;
 }
 
+/* Headings */
 h1 {
 	margin-top: 1.3em;
 	margin-bottom: 1.3em;
 	color: #820303;
-	background: #effefe
+	background: #effefe;
 }
 
 h2 {
 	margin-top: 1em;
 	margin-bottom: 1em;
 	color: #5A0202;
-	background: #f6fefe
+	background: #f6fefe;
 }
 
 h3 {
 	margin-top: 0.7em;
 	margin-bottom: 0.7em;
 	color: #270101;
-	background: #f8fefe
+	background: #f8fefe;
 }
 
 hr#bottomseparator {
@@ -72,7 +87,7 @@ div.bottomspacer {
 }
 
 div.footer {
-	text-align: right
+	text-align: right;
 }
 
 /* menu descriptions */
@@ -81,9 +96,10 @@ dl.menu_desc {
 }
 .menu_desc dt {
 	font-weight: bold;
-	padding-top: 0.3em
+	padding-top: 0.3em;
 }
-.menu_desc dd {}
+.menu_desc dd {
+}
 
 /* dialog descriptions */
 dl.dialog_desc {
@@ -96,9 +112,11 @@ dl.dialog_desc {
 	padding-right: 0.1em;
 	font-weight: bold;
 	margin-top: 0.3em;
-	border: 1px solid white
+	border: 1px solid white;
 }
-.dialog_desc dd { margin-bottom: 0.7em }
+.dialog_desc dd {
+	margin-bottom: 0.7em;
+}
 .dialog_desc dd dl {
 	font-size: 90%;
 	margin-bottom: 1em;
@@ -110,19 +128,19 @@ thead {
 
 
 p.note {
-	font-style: italic
+	font-style: italic;
 }
 .note em {
-	font-weight: bold
+	font-weight: bold;
 }
 
 p.bottomnote {
 	margin-top: 5em;
 	font-style: italic;
-	font-size: 90%
+	font-size: 90%;
 }
 .bottomnote em {
-	font-weight: bold
+	font-weight: bold;
 }
 
 span.note_label {
@@ -132,33 +150,71 @@ span.note_label {
 code {
 	margin-left: 0.3em;
 	padding: 0.1em;
-	background: white
+	background: white;
 }
 
 /* collections.html */
-div.collections-shortcuts {text-align: center}
+div.collections-shortcuts {
+	text-align: center;
+}
+.collections-shortcuts p {
+	margin: 0.1em;
+}
 
 /* image_presentation_fullscreen.html */
-div.fullscreen-shortcuts {text-align: center}
-div.fullscreen-functions {text-align: center}
-
+div.fullscreen-shortcuts {
+	text-align: center;
+}
+div.fullscreen-functions {
+	text-align: center;
+}
 
 /* image_search_finding_duplicates.html */
-div.find-duplicates-shortcuts {text-align: center}
+div.find-duplicates-shortcuts {
+	text-align: center;
+}
 
 /* image_search_search.html */
-div.search-shortcuts {text-align: center}
+div.search-shortcuts {
+	text-align: center;
+}
 
 /* index.html */
-.menu ul {font-size: 110%; font-weight: bold; margin: 10px;}
-.menu ul li {margin: 4px;}
-.menu ul li ul {font-size: 90%; font-weight: normal}
+.menu ul {
+	font-size: 110%;
+	font-weight: bold;
+	margin: 1em;
+}
+.menu ul li {
+	margin: 0.4em;
+}
+.menu ul li ul {
+	font-size: 90%;
+	font-weight: normal;
+}
+
+/* reference_command_line.html */
+.command_line_options p {
+	margin: 0.1em;
+}
+.remote_commands p {
+	margin: 0.1em;
+}
 
 /* reference_keyboard_shortcuts.html */
-div.keyboard-shortcuts {text-align: center}
-.keyboard-shortcuts p { margin: 0.1em }
-td.keyboard-shortcuts-separator {background-color: white; font-size: 110%}
-.keyboard-shortcuts td+td+td { text-align: left}
+div.keyboard-shortcuts {
+	text-align: center;
+}
+.keyboard-shortcuts p {
+	margin: 0.1em;
+}
+td.keyboard-shortcuts-separator {
+	background-color: white;
+	font-size: 110%;
+}
+.keyboard-shortcuts td+td+td {
+	text-align: left;
+}
 
 /* reference_management.html */
 .file_locations_subtitle {
@@ -166,5 +222,7 @@ td.keyboard-shortcuts-separator {background-color: white; font-size: 110%}
 	background-color: white;
 	text-align: center;
 }
-.file_locations p { margin: 0.1em }
+.file_locations p {
+	margin: 0.1em;
+}
 
