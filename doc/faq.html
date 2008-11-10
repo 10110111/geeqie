@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -51,23 +51,17 @@
 
   <p>Use the &ldquo;-r&rdquo; command line option to send commands to an existing Geeqie, for a list of commands supported by the remote switch run:</p>
 
-<code>
-geeqie --remote-help
-</code>
+<pre><code>geeqie --remote-help</code></pre>
 
   <h3 class="faq">How do I set the slide show delay when starting Geeqie in slide show from the command line ?</h3>
 
   <p>The delay can not be set when used with the standard -s command line switch, as -s uses the delay stored in the configuration file. For this use the remote command -ss to start the slide show after setting the delay with -d, the order of the command line is important, for example a 12 second slide show delay:</p>
 
-<code>
-geeqie -r -d12 -ss
-</code>
+<pre><code>geeqie -r -d12 -ss</code></pre>
 
   <p class="note"><span class="note_label">Note that if geeqie is running prior to this command, the slide show should also be stopped prior to changing the delay:</span></p>
 
-  <code>
-geeqie -r -sS -d12 -ss
-</code>
+<pre><code>geeqie -r -sS -d12 -ss</code></pre>
 
  
   <h2 class="faq">Miscellaneous</h2>
