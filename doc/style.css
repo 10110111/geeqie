@@ -173,8 +173,19 @@ div.collections-shortcuts {
 div.fullscreen-shortcuts {
 	text-align: center;
 }
+.fullscreen-shortcuts p {
+	margin: 0.1em;
+}
+td.fullscreen-shortcuts-separator {
+	background-color: white;
+	font-size: 110%;
+}
+
 div.fullscreen-functions {
 	text-align: center;
+}
+.fullscreen-functions p {
+	margin: 0.1em;
 }
 
 /* image_search_finding_duplicates.html */
