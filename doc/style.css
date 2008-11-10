@@ -126,7 +126,6 @@ thead {
 	font-weight: bold;
 }
 
-
 p.note {
 	font-style: italic;
 }
@@ -151,6 +150,11 @@ code {
 	margin-left: 0.3em;
 	padding: 0.1em;
 	background: white;
+}
+
+.submenu li {
+	margin: 0.4em;
+	list-style-type: circle;
 }
 
 /* collections.html */
@@ -190,6 +194,7 @@ div.search-shortcuts {
 	font-size: 110%;
 	font-weight: bold;
 	margin: 1em;
+	list-style-type: disc;
 }
 .menu ul li {
 	margin: 0.4em;
@@ -197,6 +202,7 @@ div.search-shortcuts {
 .menu ul li ul {
 	font-size: 90%;
 	font-weight: normal;
+	list-style-type: circle;
 }
 
 /* reference_command_line.html */
