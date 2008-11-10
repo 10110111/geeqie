@@ -27,7 +27,7 @@ p.next {
 div.navtop {
 	text-align: center
 }
-
+	
 div.navbottom {
 	text-align: center
 }
@@ -60,6 +60,7 @@ hr#bottomseparator {
 div.bottomspacer {
 	margin-bottom: 5em;
 }
+
 div.footer {
 	text-align: right
 }
@@ -157,7 +158,7 @@ div.gq-search-4 {text-align: center}
 /* index.html */
 .menu ul {font-size: 110%; font-weight: bold; margin: 10px;}
 .menu ul li {margin: 4px;}
-.menu ul>ul {font-size: 90%; font-weight: normal}
+.menu ul li ul {font-size: 90%; font-weight: normal}
 
 /* introduction.html */
 span.gq-introduction-6 {font-family: Nimbus Roman No9 L}
