@@ -88,6 +88,7 @@ dl.menu_desc {
 /* dialog descriptions */
 dl.dialog_desc {
 	margin-left: 2em;
+	margin-bottom: 1em;
 }
 .dialog_desc dt {
 	display: inline;
@@ -97,7 +98,7 @@ dl.dialog_desc {
 	margin-top: 0.3em;
 	border: 1px solid white
 }
-.dialog_desc dd {}
+.dialog_desc dd { margin-bottom: 0.7em }
 .dialog_desc dd dl {
 	font-size: 90%;
 	margin-bottom: 1em;
