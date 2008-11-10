@@ -23,7 +23,9 @@
  .file_locations_subtitle { font-weight: bold}
  
  span.option_name { font-style: italic }
-
+ 
+ p.note { font-style: italic }
+ .note em { font-weight: bold }
 
 /* collections.html */
  div.gq-collections-4 {text-align: center}

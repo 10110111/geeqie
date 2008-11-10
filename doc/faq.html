@@ -41,72 +41,42 @@
 
   <h1>Frequently Asked Questions</h1>
 
-  <p><span class="gq-faq-5">1. Image viewing</span>
-  </p>
+  <h2 class="faq">Image viewing</h2>
 
-  <p>1.1 How do I keep images smaller than the visible area from enlarging when the zoom is set to &ldquo;fit to window&rdquo; ?</p>
+  <h3 class="faq">How do I keep images smaller than the visible area from enlarging when the zoom is set to &ldquo;fit to window&rdquo; ?</h3>
 
   <p>In the preferences dialog, under the &ldquo;Image&rdquo; tab, disable &ldquo;Allow enlargement of image for zoom to fit&rdquo;.</p>
 
-  <p><br />
-  <br />
-  </p>
-
-  <p><br />
-  <br />
-  </p>
-
-  <p><span class="gq-faq-5">9. Command line</span>
-  </p>
-
-  <p>9.1 How do I open an image in an existing Geeqie application ?</p>
+  <h2 class="faq">Command line</h2>
+ 
+  <h3 class="faq">How do I open an image in an existing Geeqie application ?</h3>
 
   <p>Use the &ldquo;-r&rdquo; command line option to send commands to an existing Geeqie, for a list of commands supported by the remote switch run:</p>
 
-  <pre class="gq-faq-9">
+<code>
 geeqie --remote-help
-</pre>
+</code>
 
-  <p><br />
-  <br />
-  </p>
-
-  <p>9.2 How do I set the slide show delay when starting Geeqie in slide show from the command line ?</p>
+  <h3 class="faq">How do I set the slide show delay when starting Geeqie in slide show from the command line ?</h3>
 
   <p>The delay can not be set when used with the standard -s command line switch, as -s uses the delay stored in the configuration file. For this use the remote command -ss to start the slide show after setting the delay with -d, the order of the command line is important, for example a 12 second slide show delay:</p>
 
-  <pre class="gq-faq-9">
+<code>
 geeqie -r -d12 -ss
-</pre>
+</code>
 
-  <p><br />
-  <br />
-  </p>
+  <p class="note">Note that if geeqie is running prior to this command, the slide show should also be stopped prior to changing the delay:</p>
 
-  <p>Note that if geeqie is running prior to this command, the slide show should also be stopped prior to changing the delay:</p>
-
-  <pre class="gq-faq-9">
+  <code>
 geeqie -r -sS -d12 -ss
-</pre>
+</code>
 
-  <p><br />
-  <br />
-  </p>
-
-  <p><br />
-  <br />
-  </p>
-
-  <p><span class="gq-faq-5">10. Miscellaneous</span>
-  </p>
-
-  <p>10.1 I want to be able to edit images with Geeqie</p>
+ 
+  <h2 class="faq">Miscellaneous</h2>
+ 
+  <h3 class="faq">I want to be able to edit images with Geeqie</h3>
 
   <p>Geeqie is an image <i>viewer</i>. There is, and never will be, a plan to add editing features. I recommend gimp for image editing.</p>
-
-  <p><br />
-  <br />
-  </p>
 
   <hr />
 
