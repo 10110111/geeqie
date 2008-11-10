@@ -157,6 +157,10 @@ code {
 	list-style-type: circle;
 }
 
+.examples dt {
+	border: 0;
+}
+
 /* collections.html */
 div.collections-shortcuts {
 	text-align: center;

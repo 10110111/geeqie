@@ -57,6 +57,107 @@
   <dd><p>This option will execute <i>xscreensaver-command --deactivate</i> once per minute to avoid the screen saver from activating when Geeqie is displayed full screen.</p></dd>
   
   </dl>
+  
+  <h2>Overlay Screen Display</h2>
+
+  <dl class="dialog_desc">
+  <dt>Always show image overlay at startup</dt>
+  <dd><p>Enable this to have the image overlay info displayed by default</p></dd>
+
+  <dt>Image overlay template</dt>
+  <dd><p>Overlay info is customizable through this template</p>
+<p>Overlay info format string syntax is: <code>%tag[:max_length][:extra]%</code></p>
+
+<div class="overlay_tags">
+<table width="60%" border="1" cellpadding="2" cellspacing="0">
+<col id="overlay_tags_col1" width="30%"></col>
+<col id="overlay_tags_col2" width="70%"></col>
+<tr><th>Tag</th><th>Replaced by</th></tr>
+<tr><td>%name%</td><td>Filename of the picture</td></tr>
+<tr><td>%collection%</td><td>Name of the collection</td></tr>
+<tr><td>%number%</td><td>Current number of image in the list</td></tr>
+<tr><td>%total%</td><td>Total number of images</td></tr>
+<tr><td>%date%</td><td>File date</td></tr>
+<tr><td>%size%</td><td>File size</td></tr>
+<tr><td>%width%</td><td>Image width</td></tr>
+<tr><td>%height%</td><td>Image height</td></tr>
+<tr><td>%res%</td><td>Image resolution</td></tr>
+<tr><td>%keywords%</td><td>Image keywords from metadata</td></tr>
+<tr><td>%comment%</td><td>Image comment from metadata</td></tr>
+</table>
+</div>
+
+<p>To access exif data use the exif name, for example: <code>%Exif.Photo.DateTimeOriginal%</code> to get the date of the original shot</p>
+
+<p>Pre-formatted exif data is also available:</p>
+<div class="overlay_exif">
+<table width="60%" border="1" cellpadding="2" cellspacing="0">
+<col id="overlay_exif_col1" width="30%"></col>
+<col id="overlay_exif_col2" width="70%"></col>
+<tr><th>Tag</th><th>Replaced by exif data</th></tr>
+
+<tr><td>formatted.Camera</td><td>Camera and sofware name</td></tr>
+<tr><td>formatted.DateTime</td><td>Image Date</td></tr>
+<tr><td>formatted.ShutterSpeed</td><td>Shutter speed in seconds (ie. 1/60s)</td></tr>
+<tr><td>formatted.Aperture</td><td>Aperture (ie. f5.6)</td></tr>
+<tr><td>formatted.ExposureBias</td><td>Exposure bias (ie. +0.3)</td></tr>
+<tr><td>formatted.ISOSpeedRating</td><td>ISO sensitivity (ie. 100)</td></tr>
+<tr><td>formatted.FocalLength</td><td>Focal length</td></tr>
+<tr><td>formatted.FocalLength35mmFilm</td><td>Focal length 35mm</td></tr>
+<tr><td>formatted.SubjectDistance</td><td>Subject distance</td></tr>
+<tr><td>formatted.Flash</td><td>Flash</td></tr>
+<tr><td>formatted.Resolution</td><td>Resolution</td></tr>
+<tr><td>formatted.ColorProfile</td><td>Color profile</td></tr>
+</table>
+</div>
+
+<p>
+  You can limit the length of displayed data using :number notation:
+  <code>%formatted.Camera:20%</code> will truncate the displayed data to 20 characters
+  and will add 3 dots at the end to denote the truncation.</p>
+
+<p>
+  If two or more variables are connected with the |-sign, it prints available
+  variables with a separator:<br />
+  <code>%formatted.ShutterSpeed%|%formatted.ISOSpeedRating%|%formatted.FocalLength%</code><br />
+  could show:<br />
+    "1/20s - 400 - 80 mm"<br />
+  or<br />
+    "1/200 - 80 mm" if there's no ISO information in the Exif data.<br />
+</p>
+
+<p>
+  If a line is empty, it is removed.
+  This allows to add lines that totally disappear when no data is available.
+</p>
+
+<p>
+  Extra string uses special character '*' to mark the position of the data.
+  If no '*' is present, then extra string is just appended to data.
+  Any "\n" is replaced by a newline on display.
+  Pango mark up is accepted in left and right parts.
+  If data is empty, nothing will be displayed.
+</p>
+
+<p>Examples:</p>
+  <dl class="examples">
+  <dt><code>%name:&lt;i&gt;*&lt;/i&gt;\n%</code></dt><dd>name is displayed in italics ended with a newline</dd>
+  <dt><code>%size:\n%</code></dt><dd>size is displayed with a newline at end</dd>
+  <dt><code>%formatted.ISOSpeedRating:ISO *%</code></dt><dd>ie. "ISO 100"</dd>
+  <dt><code>Collection &lt;b&gt;*&lt;/b&gt;\n</code></dt><dd>display collection name in bold prefixed by "Collection " and a newline is appended</dd>
+  </dl>
+  
+  </dd>
+  
+  <dt>Help button</dt>
+  <dd><p>Show syntax help</p></dd>
+
+  <dt>Defaults button</dt>
+  <dd><p>Restore default image overlay template</p></dd> 
+  
+  </dl>
+
+  
 
   <h2>Delete</h2>
 

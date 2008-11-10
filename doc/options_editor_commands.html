@@ -45,12 +45,14 @@
 
   <dl class="dialog_desc">
   <dt>Menu name</dt>
-  <dd><p>This field is used to represent the command in the menus of Geeqie, it is intended to describe the application or function that results from executing the command in the <em>Command Line</em> field.</p></dd>
+  <dd><p>This field is used to represent the command in the menus of Geeqie, it is intended to describe the application or function that results from executing the command in the <em>Command Line</em> field.</p>
+  <p>External command Copy/Move/Rename/Delete/New Folder allows to specify commands to use for these operations. When set, internal operations will be disabled and these commands used instead.</p>
+  </dd>
 
  
   <dt>Command Line</dt>
   <dd><p>This field is the command to execute. Several macros are available to position image file names within the command. If no macro is specified, the behavior will be to append the filenames onto the end of the command (the result will be the same as &ldquo;<i>command %f</i>&rdquo;).</p>
-
+  
   <div class="macro_description">
        <table width="80%" border="0" cellpadding="4" cellspacing="0" rules="rows">
        <col id="macro_description_col1" width="20%"></col>
@@ -117,6 +119,25 @@
                 <p>Prevent full screen from deactivating when command is executed. Must occur as the first two characters.</p>
               </td>
             </tr>
+	    <tr>
+              <td>
+                <p>%%</p>
+              </td>
+
+              <td>
+                <p>This will be replaced by one '%'. This is the way to escape '%'.</p>
+              </td>
+            </tr>
+	    <tr>
+              <td>
+                <p>%d</p>
+              </td>
+
+              <td>
+                <p>This only makes sense for external commands like copy or move as this is replaced by the destination.</p>
+              </td>
+            </tr>
+
 	  </tbody>
           </table>
   </div>

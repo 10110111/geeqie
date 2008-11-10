@@ -61,6 +61,10 @@
   <dt>Allow enlargement of image for zoom to fit</dt>
   <dd><p>Enable this to allow Geeqie to increase the image size for images that are smaller than the current view area when the zoom is set to &ldquo;Fit to Window&rdquo;.</p></dd>
 
+  <dt>Limit image size when autofitting</dt>
+  <dd><p>This percentage will affect the size of the image when <span class="option_name">Fit image to window</span> is set, instead of using 100% of the window, it will use the specified percentage. It allows to keep a border around the image (values lower than 100%) or to auto zoom the image (values greater than 100%). It affects fullscreen mode too.</p></dd>
+
+
   <dt>Zoom increment</dt>
   <dd><p>Adjusts the step size when zooming in or out on an image. This value corresponds to the percentage of the original image.</p></dd>
 
@@ -80,12 +84,30 @@
   </dd>
   </dl>
 
+   <h2>Scroll control</h2>
+
+  <dl class="dialog_desc">
+  <dt>Scroll reset method</dt>
+  <dd><p>This controls the scroll initial position when changing the displayed image.</p>
+
+  <dl>
+  <dt>Top left</dt><dd>The new image is displayed from top left corner.</dd>
+  <dt>Center</dt><dd>The new image is centered</dd>
+  <dt>No change</dt><dd>The new image is positionned as the previous one, whenever possible.</dd>
+  </dl>
+  </dd>
+  </dl>
+
   <h2>Appearance</h2>
 
   <dl class="dialog_desc">
-  <dt>Black background</dt>
-  <dd><p>Enable this to draw the image background (the area around the image) in black.</p></dd>
+  <dt>Custom border color</dt>
+  <dd><p>Enable this to draw the image background (the area around the image) in the specified color.</p></dd>
+ <dt>Border color</dt>
+  <dd><p>Use this color chooser to define the color to use as image background.</p></dd>
+
   </dl>
+  <p class="note"><span class="note_label">Note:</span> You may use <span class="option_name">Limit image size when autofitting</span> option to keep a border around the image in fullscreen mode.</p>
 
   <h2>Convenience</h2>
 
