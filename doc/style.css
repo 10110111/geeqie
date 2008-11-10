@@ -11,7 +11,13 @@ body {
 
 table {page-break-before: always}
 
+a:hover {background-color: white}
+
+a.bottomnote {text-decoration: none; color: black;}
+
 .option_name { font-variant: small-caps; font-size: 90%; font-weight: bold }
+
+dt { font-weight: bold }
 
 p.previous {
 	text-align: left
@@ -112,7 +118,22 @@ p.note {
 	font-weight: bold
 }
 
+p.bottomnote {
+	margin-top: 5em;
+	font-style: italic;
+	font-size: 90%
+}
+.bottomnote em {
+	font-weight: bold
+}
+
+span.note_label {
+	font-weight: bold;
+}
+
 code {
+	margin-left: 0.3em;
+	padding: 0.1em;
 	background: white
 }
 
