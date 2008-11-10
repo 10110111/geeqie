@@ -49,18 +49,27 @@
 
   <h2>Zoom</h2>
 
-  <p><b>Quality</b>: Selects the method used to scale the size of an image.</p>
+  <dl class="dialog_desc">
+  <dt>Quality</dt>
+  <dd><p>Selects the method used to scale the size of an image.</p>
 
-  <p><b>Nearest</b>: Fastest scaler, but results in poor image quality.<br />
-  <b>Tiles</b>: Results are somewhat close to bilinear, with better speed.<br />
-  <b>Bilinear</b>: High quality results, moderately fast.<br />
-  <b>Hyper</b>: Slowest scaler, sometimes gives better results than bilinear.</p>
+  <dl>
+  <dt>Nearest</dt><dd>Fastest scaler, but results in poor image quality.</dd>
+  <dt>Tiles</dt><dd>Results are somewhat close to bilinear, with better speed.</dd>
+  <dt>Bilinear</dt><dd>High quality results, moderately fast.</dd>
+  <dt>Hyper</dt><dd>Slowest scaler, sometimes gives better results than bilinear.</dd>
+  </dl>
 
-  <p><b>Two pass zooming</b>: Enables Geeqie to first display a scaled image using the nearest zoom quality. After image decoding is complete, the image is scaled again using the selected &ldquo;Zoom (scaling)&rdquo; method. This allows faster display of an image as it is decoded from the source file.</p>
+  <dt>Two pass zooming</dt>
+  <dd><p>Enables Geeqie to first display a scaled image using the nearest zoom quality. After image decoding is complete, the image is scaled again using the selected &ldquo;Zoom (scaling)&rdquo; method. This allows faster display of an image as it is decoded from the source file.</p></dd>
 
-  <p><b>Allow enlargement of image for zoom to fit</b>: Enable this to allow Geeqie to increase the image size for images that are smaller than the current view area when the zoom is set to &ldquo;Fit to Window&rdquo;.</p>
+  <dt>Allow enlargement of image for zoom to fit</dt>
+  <dd><p>Enable this to allow Geeqie to increase the image size for images that are smaller than the current view area when the zoom is set to &ldquo;Fit to Window&rdquo;.</p></dd>
 
-  <p><b>Zoom increment</b>: Adjusts the step size when zooming in or out on an image. This value corresponds to the percentage of the original image.</p>
+  <dt>Zoom increment</dt>
+  <dd><p>Adjusts the step size when zooming in or out on an image. This value corresponds to the percentage of the original image.</p></dd>
+
+  </dl>
 
   <p><br />
   <br />
@@ -68,11 +77,17 @@
 
   <h2>Zoom control</h2>
 
-  <p><span class="gq-image-8"><b>When new image is selected</b>:</span> This controls the behavior of the zoom setting when changing the displayed image.</p>
+  <dl class="dialog_desc">
+  <dt>When new image is selected</dt>
+  <dd><p>This controls the behavior of the zoom setting when changing the displayed image.</p>
 
-  <p><b>Zoom to original size</b>: The new image is set to it's original size.<br />
-  <b>Fit image to window</b>: The new image's zoom is changed so that the image will fit within the current view area.<br />
-  <b>Leave zoom at previous setting</b>: The zoom setting is unchanged, the new image will be scaled the same as the previous image.</p>
+  <dl>
+  <dt>Zoom to original size</dt><dd>The new image is set to it's original size.</dd>
+  <dt>Fit image to window</dt><dd>The new image's zoom is changed so that the image will fit within the current view area.</dd>
+  <dt>Leave zoom at previous setting</dt><dd>The zoom setting is unchanged, the new image will be scaled the same as the previous image.</dd>
+  </dl>
+  </dd>
+  </dl>
 
   <p><br />
   <br />
@@ -80,7 +95,10 @@
 
   <h2>Appearance</h2>
 
-  <p><b>Black background</b>: Enable this to draw the image background (the area around the image) in black.</p>
+  <dl class="dialog_desc">
+  <dt>Black background</dt>
+  <dd><p>Enable this to draw the image background (the area around the image) in black.</p></dd>
+  </dl>
 
   <p><br />
   <br />
@@ -88,29 +106,19 @@
 
   <h2>Convenience</h2>
 
-  <p><b>Refresh on file change</b>: Geeqie will monitor currently active images and folders for changes in their modification time, and update the display if it changes.</p>
-
+  <dl class="dialog_desc">
+  <dt>Refresh on file change</dt>
+  <dd><p>Geeqie will monitor currently active images and folders for changes in their modification time, and update the display if it changes.</p>
   <p class="note">Note: Disable this if the system will not go into sleep mode due to occasional disk activity from the time check, or if Geeqie updates too often for folders with continuously changing content.</p>
+  </dd>
 
-  <p><b>Preload next image</b>: Enabling this option will cause Geeqie to read the next logical image from disk when idle, it will also retain the previously viewed image in memory. By reading the nearest images into memory, time to display the next image is reduced.</p>
+  <dt>Preload next image</dt>
+  <dd><p>Enabling this option will cause Geeqie to read the next logical image from disk when idle, it will also retain the previously viewed image in memory. By reading the nearest images into memory, time to display the next image is reduced.</p>
+ <p class="note">Note: This option will increase Geeqie memory requirements, and may cause performance issues with very large images. If the use of Geeqie results in the system noticeably swapping memory to disk, try disabling this feature.</p></dd>
 
-  <dl>
-    <dd>
-      <dl>
-        <dd>
-          <dl>
-            <dd>
-              <dl>
-                <dd class="gq-image-12"><p class="note">Note: This option will increase Geeqie memory requirements, and may cause performance issues with very large images. If the use of Geeqie results in the system noticeably swapping memory to disk, try disabling this feature.</p></dd>
-              </dl>
-            </dd>
-          </dl>
-        </dd>
-      </dl>
-    </dd>
+  <dt>Auto rotate image using EXIF information</dt>
+  <dd><p>Auto rotates images based on data stored in images that include EXIF data.</p></dd>
   </dl>
-
-  <p><b>Auto rotate image using EXIF information</b>: Auto rotates images based on data stored in images that include EXIF data.</p>
 
   <p><br />
   <br />

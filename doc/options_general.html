@@ -49,87 +49,60 @@
 
   <h2>Startup</h2>
 
-  <p><b>Change to folder</b>: Enabling this will cause Geeqie to initially open to the specified folder.</p>
+  <dl class="dialog_desc">
+  <dt>Change to folder</dt>
+  <dd><p>Enabling this will cause Geeqie to initially open to the specified folder.</p></dd>
 
-  <p><b>Use Current</b>: Activate this button to change the setting to the current folder.</p>
-
-  <dl>
-    <dd class="gq-general-6"><br />
-    <br />
-    </dd>
-  </dl>
-
+  <dt>Use Current</dt>
+  <dd><p>Activate this button to change the setting to the current folder.</p></dd>
+   </dl>
+ 
   <h2>Thumbnails</h2>
 
+  <dl class="dialog_desc">
+  <dt>Size</dt>
+  <dd><p>Selects the size of the thumbnails displayed throughout Geeqie, dimensions are width by height in pixels.</p></dd>
+
+  <dt>Quality</dt>
+  <dd><p>Selects the method to use when scaling an image down for thumbnails.</p>
   <dl>
-    <dd>
-      <dl>
-        <dd class="gq-general-7"><b>Size</b>: Selects the size of the thumbnails displayed throughout Geeqie, dimensions are width by height in pixels.</dd>
-
-        <dd class="gq-general-7"><b>Quality</b>: Selects the method to use when scaling an image down for thumbnails.</dd>
-      </dl>
-    </dd>
+  <dt>Nearest</dt><dd>Fastest scaler, but results in poor thumbnail quality.</dd>
+  <dt>Tiles</dt><dd>Thumbnail results are very close to bilinear, with better speed.</dd>
+  <dt>Bilinear</dt><dd>High quality results, moderately fast.</dd>
+  <dt>Hyper</dt><dd>Slowest scaler, sometimes gives better results than bilinear.</dd>
   </dl>
+  </dd>
+ 
+  <dt>Cache thumbnails</dt>
+  <dd><p>Enable this to save thumbnails to disk, subsequent requests for a thumbnail will be faster. Thumbnails are cached into ($HOME)/.geeqie/thumbnails. Refer to <a href="reference_thumbnails.html">Thumbnails Reference</a> for details.</p></dd>
 
-  <p><b>Nearest</b>: Fastest scaler, but results in poor thumbnail quality.<br />
-  <b>Tiles</b>: Thumbnail results are very close to bilinear, with better speed.<br />
-  <b>Bilinear</b>: High quality results, moderately fast.<br />
-  <b>Hyper</b>: Slowest scaler, sometimes gives better results than bilinear.</p>
+  <dt>Use shared thumbnail cache</dt>
+  <dd><p>This will use a thumbnail caching method that is compatible with applications that use the standard thumbnail specification. When this option is enabled thumbnails will be stored in ($HOME)/.thumbnails<p></dd>
 
-  <dl>
-    <dd>
-      <dl>
-        <dd class="gq-general-9"><b>Cache thumbnails</b>: Enable this to save thumbnails to disk, subsequent requests for a thumbnail will be faster. Thumbnails are cached into ($HOME)/.geeqie/thumbnails. Refer to <a href="reference_thumbnails.html">Thumbnails Reference</a> for details.</dd>
+  <dt>Cache thumbnails into .thumbnails</dt>
+  <dd><p>When enabled, Geeqie attempts to store cached thumbnails closer to the source image. This way multiple users can benefit from a single cache, thereby reducing wasted disk space. The resulting location is the source image's folder, in a sub folder with the name <b>.thumbnails</b>. When the image source folder cannot be written, Geeqie falls back to saving the thumbnail in the user's home folder.</p></dd>
 
-        <dd class="gq-general-9"><b>Use shared thumbnail cache:</b> This will use a thumbnail caching method that is compatible with applications that use the standard thumbnail specification. When this option is enabled thumbnails will be stored in ($HOME)/.thumbnails</dd>
-
-        <dd class="gq-general-9"><b>Cache thumbnails into .thumbnails</b>: When enabled, Geeqie attempts to store cached thumbnails closer to the source image. This way multiple users can benefit from a single cache, thereby reducing wasted disk space. The resulting location is the source image's folder, in a sub folder with the name <b>.thumbnails</b>. When the image source folder cannot be written, Geeqie falls back to saving the thumbnail in the user's home folder.</dd>
-
-        <dd class="gq-general-7"><b>Use xvpics thumbnails when found</b>: xvpics is a common thumbnail caching format used by several applications. Thumbnails are stored locally to the source image in a sub folder with the name <b>.xvpics</b>. Enabling this option will allow Geeqie to read thumbnails saved in the xvpics format.</dd>
-
-        <dd>
-          <dl>
-            <dd>
-              <dl>
-                <dd class="gq-general-7"><p class="note">Note: Support for xvpics is read only, Geeqie can not generate thumbnails in this format.</p></dd>
-              </dl>
-            </dd>
-          </dl>
-        </dd>
-      </dl>
-    </dd>
+  <dt>Use xvpics thumbnails when found</dt>
+  <dd><p>xvpics is a common thumbnail caching format used by several applications. Thumbnails are stored locally to the source image in a sub folder with the name <b>.xvpics</b>. Enabling this option will allow Geeqie to read thumbnails saved in the xvpics format.</p>
+  <p class="note">Note: Support for xvpics is read only, Geeqie can not generate thumbnails in this format.</p></dd>
   </dl>
-
+ 
   <p><br />
   <br />
   </p>
 
   <h2>Slide show</h2>
 
-  <dl>
-    <dd>
-      <dl>
-        <dd class="gq-general-7"><b>Delay between image change</b>: Specifies the delay between images for slide shows, in seconds.</dd>
+  <dl class="dialog_desc">
+  <dt>Delay between image change</dt>
+  <dd><p>Specifies the delay between images for slide shows, in seconds.</p></dd>
+  
+  <dt>Random</dt>
+  <dd><p>When enabled, slide show images will appear in random order.</p>
+  <p class="note">Note: Random images are displayed such that each image appears once per cycle of all images. When the slide show repeat option is enabled, the image order is randomized after completing each cycle.</p></dd>
 
-        <dd class="gq-general-7"><b>Random</b>: When enabled, slide show images will appear in random order.</dd>
-
-        <dd>
-          <dl>
-            <dd>
-              <dl>
-                <dd class="gq-general-7"><p class="note">Note: Random images are displayed such that each image appears once per cycle of all images. When the slide show repeat option is enabled, the image order is randomized after completing each cycle.</p></dd>
-              </dl>
-            </dd>
-          </dl>
-        </dd>
-
-        <dd class="gq-general-7"><b>Repeat</b>: When enabled, slide shows will continue at the beginning after the last image is displayed.</dd>
-      </dl>
-    </dd>
-
-    <dd class="gq-general-10"><br />
-    <br />
-    </dd>
+  <dt>Repeat</dt>
+  <dd><p>When enabled, slide shows will continue at the beginning after the last image is displayed.</p></dd>
   </dl>
 
   <p><br />
