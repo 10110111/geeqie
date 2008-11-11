@@ -96,9 +96,25 @@ dl.menu_desc {
 }
 .menu_desc dt {
 	font-weight: bold;
-	padding-top: 0.3em;
+	padding: 0.1em;
+	border-left: 1px solid gray;
+	border-bottom: 1px solid gray;
+	display: inline;
+	vertical-align: top;
 }
 .menu_desc dd {
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	font-size: small;
+}
+
+.menu_desc dd dl {
+	margin-top: 0.7em;
+	margin-bottom: 0.7em;
+}
+
+.menu_desc dd dl dd {
+	font-size: small;
 }
 
 /* dialog descriptions */
