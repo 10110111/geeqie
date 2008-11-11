@@ -50,11 +50,13 @@
 
   <dt>Open collection</dt><dd>Displays a dialog to open a collection stored on disk, the selected collection will then appear in a new window.</dd>
 
-  <dt>Open recent</dt><dd>This menu item lists the recently active collections, selecting an item from the list will open that collection in a new window. The most recent item will appear at the top of the list.</dd>
+  <dt>Open recent</dt><dd>This menu item lists the recently active collections, selecting an item from the list will open that collection in a new window. The most recent item will appear at the top of the list. Maximum number of entries can be modified through <a href="options_advanced.html" class="option_name">Open recent list maximum size</a></dd>
 
   <dt>Search...</dt><dd>Opens a new Search window.</dd>
 
   <dt>Find duplicates...</dt><dd>Opens a new Find Duplicates window.</dd>
+
+  <dt>Pan view</dt><dd>Open the pan view window.</dd>
 
   <dt>Print..</dt><dd>Opens a print dialog.</dd>
 
@@ -68,10 +70,43 @@
 
   <dt>Delete...</dt><dd>Deletes the current file selection.</dd>
 
+  <dt>Copy path</dt><dd>Copy selected item path to clipboard. Enabled by <a href="options_advanced.html" class="option_name">Show "Copy path" menu item</a></dd>
+
   <dt>Close window</dt><dd>Closes the window containing the menu, if the window is the last main window Geeqie will quit.</dd>
+
 
   <dt>Quit</dt><dd>Quits the Geeqie application, if collections have been changed but not saved, the user will be prompted for confirmation.</dd>
   </dl>
+
+  <h2>Go menu</h2>
+  <dl class="menu_desc">
+
+  <dt>First Image</dt><dd>Go to the first image</dd>
+  <dt>Previous Image</dt><dd>Go to the previous image</dd>
+  <dt>Next Image</dt><dd>Go to the next image</dd>
+  <dt>Last Image</dt><dd>Go to the last image</dd>
+
+  </dl>
+
+  <h2>Select menu</h2>
+  <dl class="menu_desc">
+  <dt>Select all</dt><dd>Select all files in the current list</dd>
+  <dt>Select none</dt><dd>Deselect all files</dd>
+  <dt>Invert Selection</dt><dd>Invert current selection</dd>
+  <dt>Show marks</dt><dd>Show marks</dd>
+  <dt>Mark n</dt><dd>Open submenu for manipulating mark n
+  	<dl class="menu_desc_sublevel1">
+  	<dt>Toggle mark n</dt><dd>Set or unset mark n on selected files</dd>
+	<dt>Set mark n</dt><dd>Set mark n on selected files</dd>
+	<dt>Reset mark n</dt><dd>Unset mark n on selected files</dd>
+	<dt>Select mark n</dt><dd>Select all files having mark n set</dd>
+	<dt>Add mark n</dt><dd>Add files having mark n set to selection</dd>
+	<dt>Intersection with mark n</dt><dd>Intersect current selection and mark n</dd>
+	<dt>Unselect mark n</dt><dd>Remove files having mark n set from current selection</dd>
+	</dl>
+  </dd>
+ </dl>
+
 
   <h2>Edit menu</h2>
 
@@ -81,23 +116,24 @@
 
   <dt>Adjust</dt><dd>
 	  <dl class="menu_desc_sublevel1">
-	  <dt>Rotate clockwise</dt><dd>Rotates the current image clockwise 90 degrees, does not effect the file on disk.</dd>
+	  <dt>Rotate clockwise</dt><dd>Rotates the current image clockwise 90 degrees, does not modify the file on disk.</dd>
 
-	  <dt>Rotate counterclockwise</dt><dd>Rotates the current image counterclockwise 90 degrees, does not effect the file on disk.</dd>
+	  <dt>Rotate counterclockwise</dt><dd>Rotates the current image counterclockwise 90 degrees, does not modify the file on disk.</dd>
 
-	  <dt>Rotate 180</dt><dd>Rotates the current image 180 degrees, does not effect the file on disk.</dd>
+	  <dt>Rotate 180</dt><dd>Rotates the current image 180 degrees, does not modify the file on disk.</dd>
 
-	  <dt>Mirror</dt><dd>Swaps the left and right sides of the image so that the result is similar to that of looking at the image in a mirror, does not effect the file on disk.</dd>
+	  <dt>Mirror</dt><dd>Swaps the left and right sides of the image so that the result is similar to that of looking at the image in a mirror, does not modify the file on disk.</dd>
 
-	  <dt>Flip</dt><dd>Swaps the top and bottom sides of the image, does not effect the file on disk.</dd>
+	  <dt>Flip</dt><dd>Swaps the top and bottom sides of the image, does not modify the file on disk.</dd>
+
+	  <dt>Toggle grayscale</dt><dd>Show images converted to grayscale, does not modify files on disk. It is applied to all files until toggle again.</dd>
+
+	  <dt>Original state</dt><dd>Remove all effects applied through the Adjust menu, reverting image to its original state.</dd>
+
 	  </dl>
   </dd>
 
   <dt>Properties</dt><dd>Opens a Properties Window for the currently selected files.</dd>
-
-  <dt>Select all</dt><dd>Selects all files displayed in the file list.</dd>
-
-  <dt>Select none</dt><dd>Clears the current file selection.</dd>
 
   <dt>Preferences...</dt><dd>Opens the <a href="options.html">Preferences Dialog</a> for changing of user preferences.</dd>
 
@@ -109,14 +145,24 @@
   <h2>View menu</h2>
 
   <dl class="menu_desc">
+ 
+  <dt>View in new window</dt><dd>Open selected image in its own window</dd>
 
-  <dt>Zoom in</dt><dd>Increases the zoom by one increment, resulting in a larger image.</dd>
+  <dt>Zoom</dt><dd>
+	  <dl class="menu_desc_sublevel1">
+	  <dt>Zoom in</dt><dd>Increases the zoom by one increment, resulting in a larger image.</dd>
 
-  <dt>Zoom out</dt><dd>Decreases the zoom by one increment, resulting in a smaller image.</dd>
+	  <dt>Zoom out</dt><dd>Decreases the zoom by one increment, resulting in a smaller image.</dd>
 
-  <dt>Zoom 1:1</dt><dd>Resets the zoom to the original size of the image.</dd>
-
-  <dt>Zoom to fit</dt><dd>Automatically adjusts the zoom so that the image will fit within the display pane. The effect on images with an original size smaller than the display pane can be changed with the <span class="option_name">Allow enlargement of image for zoom to fit</span> option located on the <a href="options_image.html">Image tab</a> of the preferences dialog.</dd>
+	  <dt>Zoom to fit</dt><dd>Automatically adjusts the zoom so that the image will fit within the display pane. The effect on images with an original size smaller than the display pane can be changed with the <span class="option_name">Allow enlargement of image for zoom to fit</span> option located on the <a href="options_image.html">Image tab</a> of the preferences dialog.</dd>
+	  
+	  <dt>Fit Horizontally</dt><dd>Adjust the zoom so image height fit within the display pane.</dd>
+	 
+	  <dt>Fit Vertically</dt><dd>Adjust the zoom so image width fit within the display pane.</dd>
+	 
+	  <dt>Zoom n:m</dt><dd>Set zoom to the n:m value. 1:1 is the original size of the image. When n is greater than m, zoom in occurs else zoom out occurs.</dd>
+	  </dl>
+  </dd>
 
   <dt>Thumbnails</dt><dd>Toggles the display of image thumbnails in the file list, this item is not available when the file list is in icon view mode. A check appears next to this item when thumbnails are enabled.</dd>
 
@@ -124,7 +170,16 @@
 
   <dt>Icons</dt><dd>Changes the file list to display files as icons.</dd>
 
-  <dt>Tree</dt><dd>Toggles the folder list between simple and tree modes. A check appears next to this item when the folder is in tree mode.</dd>
+  <dt>View Directory as</dt><dd>
+  	<dl class="menu_desc_sublevel1">
+	<dt>List</dt><dd>Set the folder view mode to list.</dd>
+	<dt>Tree</dt><dd>Set the folder view mode to tree.</dd>
+   	</dl>
+  </dd>
+
+  <dt>Image Overlay</dt><dd>Display Image Overlay information box, use twice to add histogram to it.</dd>
+  <dt>Histogram channels</dt><dd>Switch channels displayed in the histogram (red, green, blue, RGB, value, maximum value).</dd>
+  <dt>Histogram log mode</dt><dd>Toggle between linear and logarithmical histogram.</dd>
 
   <dt>Full screen</dt><dd>Toggles the full screen window display.</dd>
 
@@ -142,6 +197,8 @@
 
   <dt>Toggle slideshow</dt><dd>Begins or ends a slide show, the slide show status is displayed in the status bar.</dd>
 
+  <dt>Pause slideshow</dt><dd>Pause a slide show, the slide show status is displayed in the status bar.</dd>
+
   <dt>Refresh</dt><dd>Updates the contents of the folder and file lists to match what is currently on disk, the current image will also be reread from disk.</dd>
   </dl>
 
@@ -156,6 +213,8 @@
   <dt>Release notes</dt><dd>Displays a window containing the release notes for the version of Geeqie in use.</dd>
 
   <dt>About</dt><dd>Opens a window containing the Geeqie version, credits, website, and email contact information.</dd>
+
+  <dt>Log window</dt><dd>Open the log window, mostly use for debugging purposes.</dd>
    
   </dl>
   <h2>Tear off menus</h2>
