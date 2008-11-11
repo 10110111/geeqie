@@ -199,8 +199,24 @@
   <p>This will allow Geeqie to read sub folder content to determine if it should display expander indicators in the folder tree view.</p>
   <p class="note"><span class="note_label">Note:</span> Disable this if Geeqie wakes up auto mounted network shares, or takes too long to initially display the folder view.</p>
   </dd>
+  
+  <dt>Show date in directories list view</dt>
+  <dd><p>Enable this to display directory modification date along its name in the list view</p></dd>
+
   <dt>In place renaming</dt>
   <dd><p>When renaming a single file, this will allow the rename entry to appear directly over the original filename.</p></dd>
+
+  <dt>Show "Copy path" menu item...</dt>
+  <dd><p>Enable this option to show a "Copy path" menu item in applicable menus.</p>
+  <p>This allows to copy path to files or directories to the clipboard, names are enclosed with double quotes
+  and separated by space.</p>
+  </dd>
+
+  <dt>Open recent list maximum size</dt>
+  <dd><p>This is the number of entries saved in the recent open file list.</p></dd>
+
+  <dt>Drag'n drop icon size</dt>
+  <dd><p>This is the width and height of the icon generated from image and displayed when doing drap'n drop actions. High resolution screens may require to increase this number.</p></dd>
 
   </dl>
 
@@ -212,17 +228,32 @@
 
   <dt>Mouse wheel scrolls image</dt>
   <dd><p>The default is for the mouse wheel to change the image, and to scroll the image when shift is used in combination with the wheel. Enabling this swaps the behavior so that operating the wheel will scroll the image, and holding down shift will change the image.</p></dd>
+ 
+  <dt>Home button path</dt>
+  <dd><p>This defines the path to use for the "Home" button in the main window. By default or when this field is empty, this is the user's directory.</p></dd>
+
+  <dt>Use current</dt>
+  <dd><p>Pressing this button will set the <span class="option_name">Home button path</span> to the current open directory.</p></dd>
+  
   </dl>
 
   <h2>Miscellaneous</h2>
 
   <dl class="dialog_desc">
 
-  <dt>Store keywords and comments local to source images</dt>
+  <dt>Store metadata and cache files in source image's directory</dt>
   <dd><p> When enabled, Geeqie attempts to store metadata such as keywords closer to the source image. The resulting location is the source image's folder, in a sub folder with the name "<em>.metadata"</em>. When the image source folder cannot be written, Geeqie falls back to saving the medata in "$HOME/.geeqie/metadata".</p></dd>
+
+  <dt>Store keywords and comments as XMP tags in images files</dt>
+  <dd><p>When enabled, Geeqie attempts to store keywords and comments as XMP tags <em>in</em> the image file itself. Obviously, this will modify the concerned files.</p></dd>
 
   <dt>Custom similarity threshold</dt>
   <dd><p>This setting is used by the compare method &ldquo;similarity (custom)&rdquo;, located in the Find Duplicates window.</p></dd>
+  </dl>
+ 
+  <h2>Image loading and caching</h2>
+  
+  <dl class="dialog_desc">
 
   <dt>Offscreen cache size</dt>
   <dd><p>Geeqie only renders the visible portion of an image. To reduce rendering the same area frequently when panning an image, some memory is used to retain the recently rendered image data. This value controls the maximum amount of memory to use.</p>
@@ -230,6 +261,11 @@
   </dd>
 
   </dl>
+  
+  <h2>Color profiles</h2>
+
+  <h2>Debugging</h2>
+  
   <hr id="bottomseparator" />
 
   <div class="navbottom">
