@@ -73,17 +73,17 @@
 <col id="overlay_tags_col1" width="30%"></col>
 <col id="overlay_tags_col2" width="70%"></col>
 <tr><th>Tag</th><th>Replaced by</th></tr>
-<tr><td>%name%</td><td>Filename of the picture</td></tr>
-<tr><td>%collection%</td><td>Name of the collection</td></tr>
-<tr><td>%number%</td><td>Current number of image in the list</td></tr>
-<tr><td>%total%</td><td>Total number of images</td></tr>
-<tr><td>%date%</td><td>File date</td></tr>
-<tr><td>%size%</td><td>File size</td></tr>
-<tr><td>%width%</td><td>Image width</td></tr>
-<tr><td>%height%</td><td>Image height</td></tr>
-<tr><td>%res%</td><td>Image resolution</td></tr>
-<tr><td>%keywords%</td><td>Image keywords from metadata</td></tr>
-<tr><td>%comment%</td><td>Image comment from metadata</td></tr>
+<tr><td>name</td><td>Filename of the picture</td></tr>
+<tr><td>collection</td><td>Name of the collection</td></tr>
+<tr><td>number</td><td>Current number of image in the list</td></tr>
+<tr><td>total</td><td>Total number of images</td></tr>
+<tr><td>date</td><td>File date</td></tr>
+<tr><td>size</td><td>File size</td></tr>
+<tr><td>width</td><td>Image width</td></tr>
+<tr><td>height</td><td>Image height</td></tr>
+<tr><td>res</td><td>Image resolution</td></tr>
+<tr><td>keywords</td><td>Image keywords from metadata</td></tr>
+<tr><td>comment</td><td>Image comment from metadata</td></tr>
 </table>
 </div>
 
@@ -260,12 +260,40 @@
   <p class="note"><span class="note_label">Note:</span> This setting controls the amount of memory for <em>each</em> image window.</p>
   </dd>
 
+  <dt>Decoded image cache size</dt>
+  <dd><p>This is the cache size in megabytes used by Geeqie to store decoded images.</p></dd>
+
+  <dt>Image read buffer size</dt>
+  <dd><p>Number of bytes read by Geeqie in one pass, this is for fine tuning, do not modify if you don't know what it does.</p></dd>
+  
+  <dt>Image idle loop read count</dt>
+  <dd><p>This is for fine tuning, do not modify if you don't know what it does.</p></dd>
+
   </dl>
   
   <h2>Color profiles</h2>
 
+  <p>Here one can defined color profiles to use.</p>
+
+  <dl class="dialog_desc">
+  <dt>Type</dt>
+  <dd><p>Either input color profile or screen color profile.</p></dd>
+  <dt>Menu name</dt>
+  <dd><p>Name of the menu entry corresponding to the color profile.</p></dd>
+  <dt>File</dt>
+  <dd><p>Path to the color profile file.</p></dd>
+  </dl>
+
+  <dt>
+
   <h2>Debugging</h2>
   
+  <dl class="dialog_desc">
+  <dt>Debug level</dt>
+  <dd><p>This defines the verbosity of debug info sent to console and log window (0 disables the debug output).</p></dd>
+  </dl>
+
+
   <hr id="bottomseparator" />
 
   <div class="navbottom">
