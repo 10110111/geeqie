@@ -43,6 +43,9 @@
      You can pan the view as you pan an image in normal view mode, using left mouse button and drag.</p>
   <p>A left mouse button click on any image will display informations about the image. Right button will show a context menu.</p>
 
+  <p class="note"><span class="note_label">Note:</span>The pan view recursively visits each folder under the specified folder, so be careful it can eat a lot of ressources.</p>
+
+
   <h2>Select a folder</h2>
   <dl class="dialog_desc">
   <dt>Location</dt><dd>Set the top folder.</dd>
@@ -76,11 +79,9 @@
   <h2>Find</h2>
   <p>At the bottom of the window:</p>
   <dl class="dialog_desc">
-  <dt>Find button</dt><dd>Shows a text field for filename search</dd>
+  <dt>Find button</dt><dd>Shows a text field for image search. One can enter a filename or a part of it or a date (yyyy or yyyy-mm or yyyy-mm-dd format, separator can be '/','-',' ','.',','). Pressing Enter key will start the search, pressing it again will move to the next match. Matched file is made visible and details are shown for it.</dd>
   </dl>
-
-
-
+  
   <hr id="bottomseparator" />
 
   <div class="navbottom">
