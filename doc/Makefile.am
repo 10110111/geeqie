@@ -34,10 +34,12 @@ help_DATA = \
 	options_hidden.html	\
 	options.html	\
 	options_image.html	\
+	options_properties.html	\
 	options_window.html	\
 	other_windows.html	\
 	other_windows_image_properties.html	\
 	other_windows_image_window.html	\
+	other_windows_pan_view.html	\
 	printing.html	\
 	reference_command_line.html	\
 	reference.html	\
@@ -48,7 +50,6 @@ help_DATA = \
 	sidebars.html	\
 	sidebars_keywords.html	\
 	sidebars_sort_manager.html	\
-	style.css \
-	template.html
+	style.css
 
 EXTRA_DIST = $(help_DATA) template.html
