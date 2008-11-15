@@ -89,7 +89,6 @@ static void bar_sort_add_close(SortData *sd);
 
 static void bar_sort_collection_list_build(GtkWidget *bookmarks)
 {
-	gchar *collect_path;
 	FileData *dir_fd;
 	GList *list;
 	GList *work;
@@ -97,11 +96,9 @@ static void bar_sort_collection_list_build(GtkWidget *bookmarks)
 	history_list_free_key(SORT_KEY_COLLECTIONS);
 	bookmark_list_set_key(bookmarks, SORT_KEY_COLLECTIONS);
 
-	collect_path = g_build_filename(homedir(), GQ_RC_DIR_COLLECTIONS, NULL);
-	dir_fd = file_data_new_simple(collect_path);
+	dir_fd = file_data_new_simple(get_collections_dir());
 	filelist_read(dir_fd, &list, NULL);
 	file_data_unref(dir_fd);
-	g_free(collect_path);
 
 	list = filelist_sort_path(list);
 
@@ -436,7 +433,7 @@ static void bar_sort_add_ok_cb(FileDialog *fd, gpointer data)
 			name = tmp;
 			}
 
-		path = g_build_filename(homedir(), GQ_RC_DIR_COLLECTIONS, name, NULL);
+		path = g_build_filename(get_collections_dir(), name, NULL);
 		if (isfile(path))
 			{
 			gchar *text = g_strdup_printf(_("The collection:\n%s\nalready exists."), name);

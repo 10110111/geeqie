@@ -186,6 +186,39 @@ const gchar *homedir(void)
 	return home;
 }
 
+const gchar *get_rc_dir(void)
+{
+	static gchar *rc_dir = NULL;
+	
+	if (rc_dir) return rc_dir;
+
+	rc_dir = g_build_filename(homedir(), GQ_RC_DIR, NULL);
+	
+	return rc_dir;
+}
+
+const gchar *get_collections_dir(void)
+{
+	static gchar *collections_dir = NULL;
+
+	if (collections_dir) return collections_dir;
+
+	collections_dir = g_build_filename(get_rc_dir(), GQ_COLLECTIONS_DIR, NULL);
+	
+	return collections_dir;
+}
+
+const gchar *get_trash_dir(void)
+{
+	static gchar *trash_dir = NULL;
+
+	if (trash_dir) return trash_dir;
+
+	trash_dir = g_build_filename(get_rc_dir(), GQ_TRASH_DIR, NULL);
+	
+	return trash_dir;
+}
+
 gint stat_utf8(const gchar *s, struct stat *st)
 {
 	gchar *sl;

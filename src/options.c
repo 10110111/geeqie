@@ -183,12 +183,10 @@ void setup_default_options(ConfOptions *options)
 	path = g_build_filename(homedir(), "Desktop", NULL);
 	bookmark_add_default(_("Desktop"), path);
 	g_free(path);
-	path = g_build_filename(homedir(), GQ_RC_DIR_COLLECTIONS, NULL);
-	bookmark_add_default(_("Collections"), path);
-	g_free(path);
+	bookmark_add_default(_("Collections"), get_collections_dir());
 
 	g_free(options->file_ops.safe_delete_path);
-	options->file_ops.safe_delete_path = g_build_filename(homedir(), GQ_RC_DIR_TRASH, NULL);
+	options->file_ops.safe_delete_path = g_strdup(get_trash_dir());
 
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{
@@ -260,7 +258,7 @@ void save_options(ConfOptions *options)
 
 	sync_options_with_current_state(options);
 
-	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
+	rc_path = g_build_filename(get_rc_dir(), RC_FILE_NAME, NULL);
 	save_options_to(rc_path, options);
 	g_free(rc_path);
 }
@@ -278,7 +276,7 @@ void load_options(ConfOptions *options)
 		g_free(rc_path);
 		}
 	
-	rc_path = g_build_filename(homedir(), GQ_RC_DIR, RC_FILE_NAME, NULL);
+	rc_path = g_build_filename(get_rc_dir(), RC_FILE_NAME, NULL);
 	success = load_options_from(rc_path, options);
 	DEBUG_1("Loading options from %s ... %s", rc_path, success ? "done" : "failed");
 	g_free(rc_path);

@@ -35,6 +35,10 @@ gchar *path_to_utf8(const gchar *path);
 gchar *path_from_utf8(const gchar *path);
 
 const gchar *homedir(void);
+const gchar *get_rc_dir(void);
+const gchar *get_collections_dir(void);
+const gchar *get_trash_dir(void);
+
 gint stat_utf8(const gchar *s, struct stat *st);
 gint lstat_utf8(const gchar *s, struct stat *st);
 gint isname(const gchar *s);

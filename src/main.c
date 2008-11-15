@@ -430,7 +430,7 @@ static void keys_load(void)
 {
 	gchar *path;
 
-	path = g_build_filename(homedir(), GQ_RC_DIR, RC_HISTORY_NAME, NULL);
+	path = g_build_filename(get_rc_dir(), RC_HISTORY_NAME, NULL);
 	history_list_load(path);
 	g_free(path);
 }
@@ -439,26 +439,21 @@ static void keys_save(void)
 {
 	gchar *path;
 
-	path = g_build_filename(homedir(), GQ_RC_DIR, RC_HISTORY_NAME, NULL);
+	path = g_build_filename(get_rc_dir(), RC_HISTORY_NAME, NULL);
 	history_list_save(path);
 	g_free(path);
 }
 
-static void check_for_home_path(gchar *path)
+static void check_for_home_path(const gchar *path)
 {
-	gchar *buf;
+	if (isdir(path)) return;
 
-	buf = g_build_filename(homedir(), path, NULL);
-	if (!isdir(buf))
+	log_printf(_("Creating %s dir:%s\n"), GQ_APPNAME, path);
+
+	if (!mkdir_utf8(path, 0755))
 		{
-		log_printf(_("Creating %s dir:%s\n"), GQ_APPNAME, buf);
-
-		if (!mkdir_utf8(buf, 0755))
-			{
-			log_printf(_("Could not create dir:%s\n"), buf);
-			}
+		log_printf(_("Could not create dir:%s\n"), path);
 		}
-	g_free(buf);
 }
 
 
@@ -538,7 +533,7 @@ static gboolean gq_accel_map_save(const gchar *path)
 
 static gchar *accep_map_filename(void)
 {
-	return g_build_filename(homedir(), GQ_RC_DIR, "accels", NULL);
+	return g_build_filename(get_rc_dir(), "accels", NULL);
 }
 
 static void accel_map_save(void)
@@ -569,7 +564,7 @@ static void gtkrc_load(void)
 
 	/* If a gtkrc file exists in the rc directory, add it to the
 	 * list of files to be parsed at the end of gtk_init() */
-	path = g_build_filename(homedir(), GQ_RC_DIR, "gtkrc", NULL);
+	path = g_build_filename(get_rc_dir(), "gtkrc", NULL);
 	pathl = path_from_utf8(path);
 	if (access(pathl, R_OK) == 0)
 		gtk_rc_add_default_file(pathl);
@@ -722,10 +717,10 @@ gint main(gint argc, gchar *argv[])
 		log_printf("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
 		}
 
-	check_for_home_path(GQ_RC_DIR);
-	check_for_home_path(GQ_RC_DIR_COLLECTIONS);
-	check_for_home_path(GQ_CACHE_RC_THUMB);
-	check_for_home_path(GQ_CACHE_RC_METADATA);
+	check_for_home_path(get_rc_dir());
+	check_for_home_path(get_collections_dir());
+	check_for_home_path(get_thumbnails_cache_dir());
+	check_for_home_path(get_metadata_cache_dir());
 
 	keys_load();
 	filter_add_defaults();
@@ -856,7 +851,7 @@ gint main(gint argc, gchar *argv[])
 	if (startup_full_screen) layout_image_full_screen_start(lw);
 	if (startup_in_slideshow) layout_image_slideshow_start(lw);
 
-	buf = g_build_filename(homedir(), GQ_RC_DIR, ".command", NULL);
+	buf = g_build_filename(get_rc_dir(), ".command", NULL);
 	remote_connection = remote_server_init(buf, cd);
 	g_free(buf);
 	

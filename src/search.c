@@ -2219,12 +2219,8 @@ static void search_start_cb(GtkWidget *widget, gpointer data)
 	else if (sd->search_type == SEARCH_MATCH_ALL)
 		{
 		/* search metadata */
-		path = g_build_filename(homedir(), GQ_CACHE_RC_METADATA, NULL);
-
 		file_data_unref(sd->search_dir_fd);
-		sd->search_dir_fd = file_data_new_simple(path);
-		g_free(path);
-
+		sd->search_dir_fd = file_data_new_simple(get_metadata_cache_dir());
 		search_start(sd);
 		}
 	else if (sd->search_type == SEARCH_MATCH_CONTAINS)

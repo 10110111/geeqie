@@ -623,17 +623,17 @@ static void cache_path_parts(CacheType type,
 	switch (type)
 		{
 		case CACHE_TYPE_THUMB:
-			*cache_rc = GQ_CACHE_RC_THUMB;
+			*cache_rc = get_thumbnails_cache_dir();
 			*cache_local = GQ_CACHE_LOCAL_THUMB;
 			*cache_ext = GQ_CACHE_EXT_THUMB;
 			break;
 		case CACHE_TYPE_SIM:
-			*cache_rc = GQ_CACHE_RC_THUMB;
+			*cache_rc = get_thumbnails_cache_dir();
 			*cache_local = GQ_CACHE_LOCAL_THUMB;
 			*cache_ext = GQ_CACHE_EXT_SIM;
 			break;
 		case CACHE_TYPE_METADATA:
-			*cache_rc = GQ_CACHE_RC_METADATA;
+			*cache_rc = get_metadata_cache_dir();
 			*cache_local = GQ_CACHE_LOCAL_METADATA;
 			*cache_ext = GQ_CACHE_EXT_METADATA;
 			break;
@@ -669,7 +669,7 @@ gchar *cache_get_location(CacheType type, const gchar *source, gint include_name
 
 	if (!path)
 		{
-		path = g_build_filename(homedir(), cache_rc, base, name, NULL);
+		path = g_build_filename(cache_rc, base, name, NULL);
 		if (mode) *mode = 0755;
 		}
 
@@ -695,7 +695,7 @@ static gchar *cache_build_path_rc(const gchar *source, const gchar *cache_rc, co
 {
 	gchar *path;
 	gchar *name = g_strconcat(source, cache_ext, NULL);
-	path = g_build_filename(homedir(), cache_rc, name, NULL);
+	path = g_build_filename(cache_rc, name, NULL);
 	g_free(name);
 
 	return path;
@@ -794,4 +794,25 @@ gint cache_time_valid(const gchar *cache, const gchar *path)
 
 	return ret;
 }
+
+const gchar *get_thumbnails_cache_dir(void)
+{
+	static gchar *thumbnails_cache_dir = NULL;
+
+	if (thumbnails_cache_dir) return thumbnails_cache_dir;
+
+	thumbnails_cache_dir = g_build_filename(get_rc_dir(), GQ_CACHE_THUMB, NULL);
+	return thumbnails_cache_dir;
+}
+
+const gchar *get_metadata_cache_dir(void)
+{
+	static gchar *metadata_cache_dir = NULL;
+
+	if (metadata_cache_dir) return metadata_cache_dir;
+
+	metadata_cache_dir = g_build_filename(get_rc_dir(), GQ_CACHE_METADATA, NULL);
+	return metadata_cache_dir;
+}
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

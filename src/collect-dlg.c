@@ -162,7 +162,6 @@ static void collection_save_or_load_dialog(const gchar *path,
 	const gchar *title;
 	const gchar *btntext;
 	gpointer btnfunc;
-	gchar *base;
 	const gchar *stock_id;
 
 	if (type == DIALOG_SAVE || type == DIALOG_SAVE_CLOSE)
@@ -200,10 +199,8 @@ static void collection_save_or_load_dialog(const gchar *path,
 	generic_dialog_add_message(GENERIC_DIALOG(fd), NULL, title, NULL);
 	file_dialog_add_button(fd, stock_id, btntext, btnfunc, TRUE);
 
-	base = g_build_filename(homedir(), GQ_RC_DIR_COLLECTIONS, NULL);
-	file_dialog_add_path_widgets(fd, base, path,
+	file_dialog_add_path_widgets(fd, get_collections_dir(), path,
 				     "collection_load_save", GQ_COLLECTION_EXT, _("Collection Files"));
-	g_free(base);
 
 	fd->type = type;
 

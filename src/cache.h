@@ -18,8 +18,8 @@
 #include "similar.h"
 
 
-#define GQ_CACHE_RC_THUMB       GQ_RC_DIR G_DIR_SEPARATOR_S "thumbnails"
-#define GQ_CACHE_RC_METADATA    GQ_RC_DIR G_DIR_SEPARATOR_S "metadata"
+#define GQ_CACHE_THUMB		"thumbnails"
+#define GQ_CACHE_METADATA    	"metadata"
 
 #define GQ_CACHE_LOCAL_THUMB    ".thumbnails"
 #define GQ_CACHE_LOCAL_METADATA ".metadata"
@@ -74,6 +74,8 @@ gint cache_ensure_dir_exists(gchar *path, mode_t mode);
 gchar *cache_get_location(CacheType type, const gchar *source, gint include_name, mode_t *mode);
 gchar *cache_find_location(CacheType type, const gchar *source);
 
+const gchar *get_thumbnails_cache_dir(void);
+const gchar *get_metadata_cache_dir(void);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

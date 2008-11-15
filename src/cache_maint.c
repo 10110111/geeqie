@@ -143,20 +143,17 @@ static gint cache_maintain_home_cb(gpointer data)
 	gboolean still_have_a_file = TRUE;
 	gsize base_length;
 	const gchar *cache_folder;
-	gchar *base;
 
 	if (cm->metadata)
 		{
-		cache_folder = GQ_CACHE_RC_METADATA;
+		cache_folder = get_metadata_cache_dir();
 		}
 	else
 		{
-		cache_folder = GQ_CACHE_RC_THUMB;
+		cache_folder = get_thumbnails_cache_dir();
 		}
 
-	base = g_build_filename(homedir(), cache_folder, NULL);
-	base_length = strlen(base);
-	g_free(base);
+	base_length = strlen(cache_folder);
 
 	if (!cm->list)
 		{
@@ -276,7 +273,6 @@ void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
 {
 	CMData *cm;
 	GList *dlist;
-	gchar *base;
 	FileData *dir_fd;
 	const gchar *msg;
 	const gchar *cache_folder;
@@ -284,24 +280,21 @@ void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
 
 	if (metadata)
 		{
-		cache_folder = GQ_CACHE_RC_METADATA;
+		cache_folder = get_metadata_cache_dir();
 		}
 	else
 		{
-		cache_folder = GQ_CACHE_RC_THUMB;
+		cache_folder = get_thumbnails_cache_dir();
 		}
 
-	base = g_build_filename(homedir(), cache_folder, NULL);
-	dir_fd = file_data_new_simple(base);
+	dir_fd = file_data_new_simple(cache_folder);
 	if (!filelist_read(dir_fd, NULL, &dlist))
 		{
-		g_free(base);
 		file_data_unref(dir_fd);
 		return;
 		}
 
 	dlist = g_list_append(dlist, dir_fd);
-	g_free(base);
 
 	cm = g_new0(CMData, 1);
 	cm->list = dlist;
@@ -1246,7 +1239,7 @@ void cache_manager_show(void)
 
 	group = pref_group_new(gd->vbox, FALSE, _("Thumbnail cache"), GTK_ORIENTATION_VERTICAL);
 
-	cache_manager_location_label(group, GQ_CACHE_RC_THUMB);
+	cache_manager_location_label(group, get_thumbnails_cache_dir());
 
 	table = pref_table_new(group, 2, 2, FALSE, FALSE);
 
@@ -1288,7 +1281,7 @@ void cache_manager_show(void)
 
 	group = pref_group_new(gd->vbox, FALSE, _("Metadata"), GTK_ORIENTATION_VERTICAL);
 
-	cache_manager_location_label(group, GQ_CACHE_RC_METADATA);
+	cache_manager_location_label(group, get_metadata_cache_dir());
 
 	table = pref_table_new(group, 2, 1, FALSE, FALSE);
 
