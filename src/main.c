@@ -444,7 +444,7 @@ static void keys_save(void)
 	g_free(path);
 }
 
-static void check_for_home_path(const gchar *path)
+static void mkdir_if_not_exists(const gchar *path)
 {
 	if (isdir(path)) return;
 
@@ -717,10 +717,10 @@ gint main(gint argc, gchar *argv[])
 		log_printf("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
 		}
 
-	check_for_home_path(get_rc_dir());
-	check_for_home_path(get_collections_dir());
-	check_for_home_path(get_thumbnails_cache_dir());
-	check_for_home_path(get_metadata_cache_dir());
+	mkdir_if_not_exists(get_rc_dir());
+	mkdir_if_not_exists(get_collections_dir());
+	mkdir_if_not_exists(get_thumbnails_cache_dir());
+	mkdir_if_not_exists(get_metadata_cache_dir());
 
 	keys_load();
 	filter_add_defaults();
