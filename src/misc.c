@@ -186,4 +186,56 @@ gchar *escquote_value(const gchar *text)
 		}
 	return g_strdup("\"\"");
 }
+
+/* Run a command like system() but may output debug messages. */
+int runcmd(gchar *cmd)
+{
+#if 1
+	return system(cmd);
+	return 0;
+#else
+	/* For debugging purposes */
+	int retval = -1;
+	FILE *in;
+
+	DEBUG_1("Running command: %s", cmd);
+
+	in = popen(cmd, "r");
+	if (in)
+		{
+		int status;
+		const gchar *msg;
+		gchar buf[2048];
+
+		while (fgets(buf, sizeof(buf), in) != NULL )
+			{
+			DEBUG_1("Output: %s", buf);
+			}
+
+		status = pclose(in);
+
+		if (WIFEXITED(status))
+			{
+			msg = "Command terminated with exit code";
+			retval = WEXITSTATUS(status);
+			}
+		else if (WIFSIGNALED(status))
+			{
+			msg = "Command was killed by signal";
+			retval = WTERMSIG(status);
+			}
+		else
+			{
+			msg = "pclose() returned";
+			retval = status;
+			}
+
+		DEBUG_1("%s : %d\n", msg, retval);
+	}
+	
+	return retval;
+#endif
+}
+
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

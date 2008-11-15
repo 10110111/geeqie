@@ -743,7 +743,7 @@ void remote_control(const gchar *arg_exec, GList *remote_list, const gchar *path
 		if (get_debug_level()) g_string_append(command, " --debug");
 
 		g_string_append(command, " &");
-		system(command->str);
+		runcmd(command->str);
 		g_string_free(command, TRUE);
 
 		while (!rc && retry_count > 0)

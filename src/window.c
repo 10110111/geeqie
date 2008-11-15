@@ -12,6 +12,7 @@
 #include "main.h"
 #include "window.h"
 
+#include "misc.h"
 #include "pixbuf_util.h"
 #include "ui_fileops.h"
 #include "ui_help.h"
@@ -113,14 +114,15 @@ static gchar *command_result(const gchar *binary, const gchar *command)
 	return result;
 }
 
-static void help_browser_command(const gchar *command, const gchar *path)
+static int help_browser_command(const gchar *command, const gchar *path)
 {
 	gchar *result;
 	gchar *buf;
 	gchar *begin;
 	gchar *end;
+	int retval = -1;
 
-	if (!command || !path) return;
+	if (!command || !path) return retval;
 
 	DEBUG_1("Help command pre \"%s\", \"%s\"", command, path);
 
@@ -142,9 +144,11 @@ static void help_browser_command(const gchar *command, const gchar *path)
 
 	DEBUG_1("Help command post [%s]", result);
 
-	system(result);
+	retval = runcmd(result);
+	DEBUG_1("Help command exit code: %d", retval);
 
 	g_free(result);
+	return retval;
 }
 
 /*
@@ -177,17 +181,31 @@ static gchar *html_browsers[] =
 
 static void help_browser_run(void)
 {
-	gchar *path;
-	gchar *result;
+	gchar *name = options->helpers.html_browser.command_name;
+	gchar *cmd = options->helpers.html_browser.command_line;
+	gchar *path = g_build_filename(options->documentation.htmldir, "index.html", NULL);
+	gchar *result = NULL;
 	gint i;
 
-	result = command_result(options->helpers.html_browser.command_name, options->helpers.html_browser.command_line);
-
-	i = 0;
-	while (!result && html_browsers[i])
+	i = 0;	
+	while (!result)
 		{
-		result = command_result(html_browsers[i], html_browsers[i+1]);
-		i += 2;
+		if ((name && *name) || (cmd && *cmd)) {
+			DEBUG_1("Trying browser: name=%s command=%s", name, cmd);
+			result = command_result(name, cmd);
+			DEBUG_1("Result: %s", result);
+			if (result)
+				{
+				int ret = help_browser_command(result, path);
+				
+				if (ret == 0) break;
+				g_free(result);
+				result = NULL;
+			}
+		}
+		if (!html_browsers[i]) break;
+		name = html_browsers[i++];
+		cmd = html_browsers[i++];
 		}
 
 	if (!result)
@@ -196,10 +214,7 @@ static void help_browser_run(void)
 		return;
 		}
 
-	path = g_build_filename(options->documentation.htmldir, "index.html", NULL);
-	help_browser_command(result, path);
 	g_free(path);
-
 	g_free(result);
 }
 

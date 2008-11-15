@@ -15,6 +15,7 @@
 #include "fullscreen.h"
 
 #include "image.h"
+#include "misc.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "ui_misc.h"
@@ -190,7 +191,7 @@ static void fullscreen_saver_deactivate(void)
 
 	if (found)
 		{
-		system(XSCREENSAVER_COMMAND);
+		runcmd(XSCREENSAVER_COMMAND);
 		}
 }
 
