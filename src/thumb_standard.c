@@ -14,7 +14,6 @@
 #include "main.h"
 #include "thumb_standard.h"
 
-#include "cache.h"	/* for cache_ensure_dir_exists */
 #include "image-load.h"
 #include "md5-util.h"
 #include "pixbuf_util.h"
@@ -319,14 +318,14 @@ static void thumb_loader_std_save(ThumbLoaderStd *tl, GdkPixbuf *pixbuf)
 			source_base = remove_level_from_path(tl->fd->path);
 			if (stat_utf8(source_base, &st))
 				{
-				cache_ensure_dir_exists(base_path, st.st_mode);
+				recursive_mkdir_if_not_exists(base_path, st.st_mode);
 				}
 			g_free(source_base);
 			}
 		}
 	else
 		{
-		cache_ensure_dir_exists(base_path, THUMB_PERMS_FOLDER);
+		recursive_mkdir_if_not_exists(base_path, THUMB_PERMS_FOLDER);
 		}
 	g_free(base_path);
 

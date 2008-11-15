@@ -435,7 +435,7 @@ static void dupe_item_write_cache(DupeItem *di)
 	if (!di) return;
 
 	base = cache_get_location(CACHE_TYPE_SIM, di->fd->path, FALSE, &mode);
-	if (cache_ensure_dir_exists(base, mode))
+	if (recursive_mkdir_if_not_exists(base, mode))
 		{
 		CacheData *cd;
 

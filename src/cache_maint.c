@@ -524,7 +524,7 @@ static void cache_maint_moved(FileData *fd)
 	if (!src || !dest) return;
 
 	base = cache_get_location(CACHE_TYPE_THUMB, dest, FALSE, &mode);
-	if (cache_ensure_dir_exists(base, mode))
+	if (recursive_mkdir_if_not_exists(base, mode))
 		{
 		gchar *buf;
 		gchar *d;
@@ -548,7 +548,7 @@ static void cache_maint_moved(FileData *fd)
 	g_free(base);
 
 	base = cache_get_location(CACHE_TYPE_METADATA, dest, FALSE, &mode);
-	if (cache_ensure_dir_exists(base, mode))
+	if (recursive_mkdir_if_not_exists(base, mode))
 		{
 		gchar *buf;
 		gchar *d;
@@ -603,7 +603,7 @@ static void cache_maint_copied(FileData *fd)
 	if (!src_cache) return;
 
 	dest_base = cache_get_location(CACHE_TYPE_METADATA, fd->change->dest, FALSE, &mode);
-	if (cache_ensure_dir_exists(dest_base, mode))
+	if (recursive_mkdir_if_not_exists(dest_base, mode))
 		{
 		gchar *path;
 

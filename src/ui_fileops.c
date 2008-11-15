@@ -762,4 +762,49 @@ gint file_in_path(const gchar *name)
 
 	return ret;
 }
+
+gboolean recursive_mkdir_if_not_exists(gchar *path, mode_t mode)
+{
+	if (!path) return FALSE;
+
+	if (!isdir(path))
+		{
+		gchar *npath = g_strdup(path);
+		gchar *p = npath;
+
+		while (p[0] != '\0')
+			{
+			p++;
+			if (p[0] == G_DIR_SEPARATOR || p[0] == '\0')
+				{
+				gint end = TRUE;
+
+				if (p[0] != '\0')
+					{
+					p[0] = '\0';
+					end = FALSE;
+					}
+				
+				if (!isdir(npath))
+					{
+					DEBUG_1("creating sub dir:%s", npath);
+					if (!mkdir_utf8(npath, mode))
+						{
+						log_printf("create dir failed: %s\n", npath);
+						g_free(npath);
+						return FALSE;
+						}
+					}
+				
+				if (!end) p[0] = G_DIR_SEPARATOR;
+				}
+			}
+		g_free(npath);
+		}
+
+	return TRUE;
+}
+
+
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

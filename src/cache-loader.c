@@ -168,7 +168,7 @@ static gboolean cache_loader_process(CacheLoader *cl)
 			mode_t mode = 0755;
 
 			base = cache_get_location(CACHE_TYPE_SIM, cl->fd->path, FALSE, &mode);
-			if (cache_ensure_dir_exists(base, mode))
+			if (recursive_mkdir_if_not_exists(base, mode))
 				{
 				g_free(cl->cd->path);
 				cl->cd->path = cache_get_location(CACHE_TYPE_SIM, cl->fd->path, TRUE, NULL);

@@ -450,7 +450,7 @@ static void mkdir_if_not_exists(const gchar *path)
 
 	log_printf(_("Creating %s dir:%s\n"), GQ_APPNAME, path);
 
-	if (!mkdir_utf8(path, 0755))
+	if (!recursive_mkdir_if_not_exists(path, 0755))
 		{
 		log_printf(_("Could not create dir:%s\n"), path);
 		}

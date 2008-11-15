@@ -98,7 +98,7 @@ static gint comment_legacy_write(FileData *fd, GList *keywords, const gchar *com
 		mode_t mode = 0755;
 
 		comment_dir = cache_get_location(CACHE_TYPE_METADATA, fd->path, FALSE, &mode);
-		if (cache_ensure_dir_exists(comment_dir, mode))
+		if (recursive_mkdir_if_not_exists(comment_dir, mode))
 			{
 			gchar *filename = g_strconcat(fd->name, GQ_CACHE_EXT_METADATA, NULL);
 			

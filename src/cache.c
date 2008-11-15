@@ -582,40 +582,6 @@ gint cache_sim_data_filled(ImageSimilarityData *sd)
  *-------------------------------------------------------------------
  */
 
-/* warning: this func modifies path string contents!, on fail it is set to fail point */
-gint cache_ensure_dir_exists(gchar *path, mode_t mode)
-{
-	if (!path) return FALSE;
-
-	if (!isdir(path))
-		{
-		gchar *p = path;
-		while (p[0] != '\0')
-			{
-			p++;
-			if (p[0] == G_DIR_SEPARATOR || p[0] == '\0')
-				{
-				gint end = TRUE;
-				if (p[0] != '\0')
-					{
-					p[0] = '\0';
-					end = FALSE;
-					}
-				if (!isdir(path))
-					{
-					DEBUG_1("creating sub dir:%s", path);
-					if (!mkdir_utf8(path, mode))
-						{
-						log_printf("create dir failed: %s\n", path);
-						return FALSE;
-						}
-					}
-				if (!end) p[0] = G_DIR_SEPARATOR;
-				}
-			}
-		}
-	return TRUE;
-}
 
 static void cache_path_parts(CacheType type,
 			     const gchar **cache_rc, const gchar **cache_local, const gchar **cache_ext)

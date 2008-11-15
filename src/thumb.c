@@ -50,7 +50,7 @@ static gboolean thumb_loader_save_thumbnail(ThumbLoader *tl, gboolean mark_failu
 
 	cache_dir = cache_get_location(CACHE_TYPE_THUMB, tl->fd->path, FALSE, &mode);
 
-	if (cache_ensure_dir_exists(cache_dir, mode))
+	if (recursive_mkdir_if_not_exists(cache_dir, mode))
 		{
 		gchar *cache_path;
 		gchar *pathl;

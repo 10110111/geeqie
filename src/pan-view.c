@@ -638,7 +638,7 @@ static gint pan_cache_step(PanWindow *pw)
 			mode_t mode = 0755;
 
 			base = cache_get_location(CACHE_TYPE_SIM, fd->path, FALSE, &mode);
-			if (cache_ensure_dir_exists(base, mode))
+			if (recursive_mkdir_if_not_exists(base, mode))
 				{
 				g_free(cd->path);
 				cd->path = cache_get_location(CACHE_TYPE_SIM, fd->path, TRUE, NULL);
