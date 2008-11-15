@@ -186,14 +186,66 @@ const gchar *homedir(void)
 	return home;
 }
 
+static gchar *xdg_dir_get(const gchar *key, const gchar *fallback)
+{
+	gchar *dir = getenv(key);
+
+	if (!dir || dir[0] == '\0')
+		{
+    		return g_build_filename(homedir(), fallback, NULL);
+    		}
+	
+	return path_to_utf8(dir);
+}
+
+const gchar *xdg_data_home_get(void)
+{
+	static const gchar *xdg_data_home = NULL;
+
+	if (xdg_data_home) return xdg_data_home;
+    	
+	xdg_data_home = xdg_dir_get("XDG_DATA_HOME", ".local/share");
+
+	return xdg_data_home;
+}
+
+const gchar *xdg_config_home_get(void)
+{
+	static const gchar *xdg_config_home = NULL;
+
+	if (xdg_config_home) return xdg_config_home;
+    	
+	xdg_config_home = xdg_dir_get("XDG_CONFIG_HOME", ".config");
+
+	return xdg_config_home;
+}
+
+const gchar *xdg_cache_home_get(void)
+{
+	static const gchar *xdg_cache_home = NULL;
+
+	if (xdg_cache_home) return xdg_cache_home;
+    	
+	xdg_cache_home = xdg_dir_get("XDG_CACHE_HOME", ".cache");
+
+	return xdg_cache_home;
+}
+
 const gchar *get_rc_dir(void)
 {
 	static gchar *rc_dir = NULL;
 	
 	if (rc_dir) return rc_dir;
 
-	rc_dir = g_build_filename(homedir(), GQ_RC_DIR, NULL);
-	
+	if (USE_XDG)
+		{
+		rc_dir = g_build_filename(xdg_config_home_get(), GQ_APPNAME_LC, NULL);
+		}
+	else
+		{
+		rc_dir = g_build_filename(homedir(), GQ_RC_DIR, NULL);
+		}
+
 	return rc_dir;
 }
 
@@ -203,8 +255,15 @@ const gchar *get_collections_dir(void)
 
 	if (collections_dir) return collections_dir;
 
-	collections_dir = g_build_filename(get_rc_dir(), GQ_COLLECTIONS_DIR, NULL);
-	
+	if (USE_XDG)
+		{
+		collections_dir = g_build_filename(xdg_data_home_get(), GQ_APPNAME_LC, GQ_COLLECTIONS_DIR, NULL);
+		}
+	else
+		{
+		collections_dir = g_build_filename(get_rc_dir(), GQ_COLLECTIONS_DIR, NULL);
+		}
+
 	return collections_dir;
 }
 
@@ -213,9 +272,16 @@ const gchar *get_trash_dir(void)
 	static gchar *trash_dir = NULL;
 
 	if (trash_dir) return trash_dir;
-
-	trash_dir = g_build_filename(get_rc_dir(), GQ_TRASH_DIR, NULL);
 	
+	if (USE_XDG)
+		{
+		trash_dir = g_build_filename(xdg_data_home_get(), GQ_APPNAME_LC, GQ_TRASH_DIR, NULL);
+		}
+	else
+		{
+		trash_dir = g_build_filename(get_rc_dir(), GQ_TRASH_DIR, NULL);
+	}
+
 	return trash_dir;
 }
 

@@ -34,6 +34,9 @@ void print_term(const gchar *text_utf8);
 gchar *path_to_utf8(const gchar *path);
 gchar *path_from_utf8(const gchar *path);
 
+const gchar *xdg_data_home_get(void);
+const gchar *xdg_config_home_get(void);
+const gchar *xdg_cache_home_get(void);
 const gchar *homedir(void);
 const gchar *get_rc_dir(void);
 const gchar *get_collections_dir(void);

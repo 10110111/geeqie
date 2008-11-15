@@ -64,6 +64,8 @@
  *----------------------------------------------------------------------------
  */
 
+#define USE_XDG 0
+
 #define GQ_APPNAME "Geeqie"
 #define GQ_APPNAME_LC "geeqie"
 #define GQ_WEBSITE "geeqie.sourceforge.net"

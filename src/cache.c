@@ -767,7 +767,15 @@ const gchar *get_thumbnails_cache_dir(void)
 
 	if (thumbnails_cache_dir) return thumbnails_cache_dir;
 
-	thumbnails_cache_dir = g_build_filename(get_rc_dir(), GQ_CACHE_THUMB, NULL);
+	if (USE_XDG)
+		{
+		thumbnails_cache_dir = g_build_filename(xdg_cache_home_get(), GQ_APPNAME_LC, GQ_CACHE_THUMB, NULL);
+		}
+	else
+		{
+		thumbnails_cache_dir = g_build_filename(get_rc_dir(), GQ_CACHE_THUMB, NULL);
+		}
+
 	return thumbnails_cache_dir;
 }
 
@@ -777,7 +785,15 @@ const gchar *get_metadata_cache_dir(void)
 
 	if (metadata_cache_dir) return metadata_cache_dir;
 
-	metadata_cache_dir = g_build_filename(get_rc_dir(), GQ_CACHE_METADATA, NULL);
+	if (USE_XDG)
+		{
+		metadata_cache_dir = g_build_filename(xdg_cache_home_get(), GQ_APPNAME_LC, GQ_CACHE_METADATA, NULL);
+		}
+	else
+		{
+		metadata_cache_dir = g_build_filename(get_rc_dir(), GQ_CACHE_METADATA, NULL);
+		}
+
 	return metadata_cache_dir;
 }
 
