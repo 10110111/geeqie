@@ -1,0 +1,28 @@
+body {
+	background: white;
+	font-size: 12pt;
+}
+
+div.navtop {
+	display: none;
+}
+	
+div.navbottom {
+	display: none;
+}
+
+a:link, a:visited {
+	color: #520;
+	background: transparent;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+a:link:after, a:visited:after {
+	content: " (" attr(href) ") ";
+	font-size: 90%;
+  }
+
+a[href^="/"]:after {
+	content: " (http://www.alistapart.com" attr(href) ") ";
+}
