@@ -787,7 +787,11 @@ const gchar *get_metadata_cache_dir(void)
 
 	if (USE_XDG)
 		{
-		metadata_cache_dir = g_build_filename(xdg_cache_home_get(), GQ_APPNAME_LC, GQ_CACHE_METADATA, NULL);
+		/* Metadata go to $XDG_DATA_HOME.
+		 * "Keywords and comments, among other things, are irreplaceable and cannot be auto-generated,
+		 * so I don't think they'd be appropriate for the cache directory." -- Omari Stephens on geeqie-devel ml
+		 */
+		metadata_cache_dir = g_build_filename(xdg_data_home_get(), GQ_APPNAME_LC, GQ_CACHE_METADATA, NULL);
 		}
 	else
 		{
