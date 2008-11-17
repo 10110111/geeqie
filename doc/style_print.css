@@ -28,3 +28,23 @@ a[href^="/"]:after {
 	content: " (http://www.example.com" attr(href) ") ";
 }
 */
+
+h1 {
+	background: white;
+	border-bottom: 1px dotted gray;
+}
+
+h2 {
+	background: white;
+	border-bottom: 1px dotted gray;
+}
+
+h3 {
+	background: white;
+	border-bottom: 1px dotted gray;
+}
+
+.dialog_desc dt {
+	border: 1px dotted gray;
+}
+
