@@ -23,6 +23,8 @@ a:link:after, a:visited:after {
 	font-size: 90%;
   }
 
+/*
 a[href^="/"]:after {
-	content: " (http://www.alistapart.com" attr(href) ") ";
+	content: " (http://www.example.com" attr(href) ") ";
 }
+*/
