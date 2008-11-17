@@ -1,5 +1,5 @@
 body {
-	background: white;
+	background: transparent;
 	font-size: 12pt;
 }
 
@@ -11,17 +11,26 @@ div.navbottom {
 	display: none;
 }
 
-a:link, a:visited {
-	color: #520;
+a {
+	color: black;
 	background: transparent;
-	font-weight: bold;
 	text-decoration: underline;
+}
+
+a.bottomnote {
+	text-decoration: none;
+}
+
+a.bottomnote:link:after, a.bottomnote:visited:after {
+	text-decoration: none;
+	content: "";
 }
 
 a:link:after, a:visited:after {
 	content: " (" attr(href) ") ";
 	font-size: 90%;
-  }
+}
+
 
 /*
 a[href^="/"]:after {
@@ -30,17 +39,17 @@ a[href^="/"]:after {
 */
 
 h1 {
-	background: white;
+	background: transparent;
 	border-bottom: 1px dotted gray;
 }
 
 h2 {
-	background: white;
+	background: transparent;
 	border-bottom: 1px dotted gray;
 }
 
 h3 {
-	background: white;
+	background: transparent;
 	border-bottom: 1px dotted gray;
 }
 
