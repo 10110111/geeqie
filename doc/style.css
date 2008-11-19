@@ -236,3 +236,13 @@ div.fullscreen-functions {
 .file_locations p {
 	margin: 0.1em;
 }
+
+/* Keyboard key Z*/
+.key {
+	border:0.2em solid;
+	border-color:#ddd #bbb #bbb #ddd;
+	background:#eee;
+	padding:0.1em 0.4em;
+	font-size:0.8em;
+	white-space:nowrap;
+}
