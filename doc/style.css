@@ -142,6 +142,7 @@ thead {
 	font-weight: bold;
 }
 
+/* note */
 p.note {
 	font-style: italic;
 }
@@ -149,6 +150,7 @@ p.note {
 	font-weight: bold;
 }
 
+/* bottom page note */
 p.bottomnote {
 	margin-top: 5em;
 	font-style: italic;
@@ -177,46 +179,27 @@ code {
 	border: 0;
 }
 
-/* collections.html */
-div.collections-shortcuts {
+/* shortcuts tables */
+div.shortcuts {
 	text-align: center;
 }
-.collections-shortcuts p {
+.shortcuts p {
 	margin: 0.1em;
 }
+td.shortcuts-separator {
+	background-color: white;
+	font-size: 95%;
+}
+.shortcuts td+td+td {
+	text-align: left;
+}
+
 
 /* image_presentation_fullscreen.html */
-div.fullscreen-shortcuts {
-	text-align: center;
-}
-.fullscreen-shortcuts p {
-	margin: 0.1em;
-}
-td.fullscreen-shortcuts-separator {
-	background-color: white;
-	font-size: 110%;
-}
-
 div.fullscreen-functions {
 	text-align: center;
 }
 .fullscreen-functions p {
-	margin: 0.1em;
-}
-
-/* image_search_finding_duplicates.html */
-div.find-duplicates-shortcuts {
-	text-align: center;
-}
-.find-duplicates-shortcuts p {
-	margin: 0.1em;
-}
-
-/* image_search_search.html */
-div.search-shortcuts {
-	text-align: center;
-}
-.search-shortcuts p {
 	margin: 0.1em;
 }
 
@@ -244,21 +227,6 @@ div.search-shortcuts {
 	margin: 0.1em;
 }
 
-/* reference_keyboard_shortcuts.html */
-div.keyboard-shortcuts {
-	text-align: center;
-}
-.keyboard-shortcuts p {
-	margin: 0.1em;
-}
-td.keyboard-shortcuts-separator {
-	background-color: white;
-	font-size: 110%;
-}
-.keyboard-shortcuts td+td+td {
-	text-align: left;
-}
-
 /* reference_management.html */
 .file_locations_subtitle {
 	font-weight: bold;
@@ -268,4 +236,3 @@ td.keyboard-shortcuts-separator {
 .file_locations p {
 	margin: 0.1em;
 }
-
