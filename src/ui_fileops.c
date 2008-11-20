@@ -829,7 +829,7 @@ gint file_in_path(const gchar *name)
 	return ret;
 }
 
-gboolean recursive_mkdir_if_not_exists(gchar *path, mode_t mode)
+gboolean recursive_mkdir_if_not_exists(const gchar *path, mode_t mode)
 {
 	if (!path) return FALSE;
 

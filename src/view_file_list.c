@@ -246,7 +246,7 @@ static void vflist_dnd_get(GtkWidget *widget, GdkDragContext *context,
 	uri_text = uri_text_from_filelist(list, &total, (info == TARGET_TEXT_PLAIN));
 	filelist_free(list);
 
-	DEBUG_1(uri_text);
+	DEBUG_1("%s", uri_text);
 
 	gtk_selection_data_set(selection_data, selection_data->target,
 			       8, (guchar *)uri_text, total);

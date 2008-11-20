@@ -165,7 +165,7 @@ void file_cache_dump(FileCacheData *fc)
 {
 	GList *work;
 	work = fc->list;
-	guint n = 0;
+	gulong n = 0;
 	DEBUG_1("cache dump: fc=%p max size:%ld size:%ld", fc, fc->max_size, fc->size);
 		
 	while (work)

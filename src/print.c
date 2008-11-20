@@ -1223,7 +1223,7 @@ static void print_job_ps_page_image_pixel(FILE *f, guchar *pix)
 		}
 	text[6] = '\0';
 
-	fprintf(f, text);
+	fprintf(f, "%s", text);
 }
 static gint print_job_ps_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
 				    gdouble x, gdouble y, gdouble w, gdouble h,
@@ -1348,7 +1348,7 @@ static const gchar *ps_text_to_hex_array(FILE *f, const gchar *text, gdouble x, 
 		text[1] = hex_digits[*p & 0xf];
 		text[2] = '\0';
 
-		fprintf(f, text);
+		fprintf(f, "%s", text);
 
 		p++;
 		}

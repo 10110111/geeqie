@@ -84,7 +84,7 @@ void parse_out_relatives(gchar *path);
 
 gint file_in_path(const gchar *name);
 
-gboolean recursive_mkdir_if_not_exists(gchar *path, mode_t mode);
+gboolean recursive_mkdir_if_not_exists(const gchar *path, mode_t mode);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
