@@ -246,4 +246,6 @@ div.fullscreen-functions {
 	margin: 0;
 	font-size:0.8em;
 	white-space:nowrap;
+	font-weight:normal;
+	font-style:normal;
 }
