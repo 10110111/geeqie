@@ -237,12 +237,13 @@ div.fullscreen-functions {
 	margin: 0.1em;
 }
 
-/* Keyboard key Z*/
+/* Keyboard key style */
 .key {
 	border:0.2em solid;
 	border-color:#ddd #bbb #bbb #ddd;
-	background:#eee;
-	padding:0.1em 0.4em;
+	background:#f2f2f2;
+	padding:0em 0.4em;
+	margin: 0;
 	font-size:0.8em;
 	white-space:nowrap;
 }
