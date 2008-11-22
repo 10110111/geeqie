@@ -1596,14 +1596,39 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 	for (i = 0; i < n; i++)
 		if (!lw->split_images[i])
 			{
+			FileData *img_fd = NULL;
+			double zoom = 0.0;
+
 			layout_image_new(lw, i);
 			image_set_frame(lw->split_images[i], frame);
 			image_set_selectable(lw->split_images[i], 1);
-			if (lw->image)
+
+			if (layout_selection_count(lw, 0) > 1)
+				{
+				GList *work = layout_selection_list(lw);
+				gint j = 0;
+
+				while (work && j < i)
+					{
+					FileData *fd = work->data;
+					work = work->next;
+					
+					j++;
+					if (!fd || !*fd->path) continue;
+					img_fd = fd;
+					}
+				}
+
+			if (!img_fd && lw->image)
+				{
+				img_fd = image_get_fd(lw->image);
+				zoom = image_zoom_get(lw->image);
+				}
+
+			if (img_fd)
 				{
 				gdouble sx, sy;
-				image_change_fd(lw->split_images[i],
-					image_get_fd(lw->image), image_zoom_get(lw->image));
+				image_change_fd(lw->split_images[i], img_fd, zoom);
 				image_get_scroll_center(lw->image, &sx, &sy);
 				image_set_scroll_center(lw->split_images[i], sx, sy);
 				}
