@@ -1588,55 +1588,16 @@ void layout_image_activate(LayoutWindow *lw, gint i)
 }
 
 
-GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
-{
-	gint i;
-
-	lw->split_mode = SPLIT_NONE;
-
-	if (!lw->split_images[0])
-		{
-		layout_image_new(lw, 0);
-		image_set_frame(lw->split_images[0], (!lw->tools_float && !lw->tools_hidden));
-		image_set_selectable(lw->split_images[0], 0);
-		layout_image_activate(lw, 0);
-		}
-	else
-		{
-		image_set_frame(lw->split_images[0], (!lw->tools_float && !lw->tools_hidden));
-		image_set_selectable(lw->split_images[0], 0);
-		}
-
-	for (i = 1; i < MAX_SPLIT_IMAGES; i++)
-		{
-		if (lw->split_images[i])
-			{
-#if GTK_CHECK_VERSION(2,12,0)
-			g_object_unref(lw->split_images[i]->widget);
-#else
-			gtk_widget_unref(lw->split_images[i]->widget);
-#endif
-			lw->split_images[i] = NULL;
-			}
-		}
-
-
-	layout_image_activate(lw, 0);
-
-	lw->split_image_widget = lw->split_images[0]->widget;
-
-	return lw->split_image_widget;
-}
-
 static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 {
+	gboolean frame = (n == 1) ? (!lw->tools_float && !lw->tools_hidden) : 1;
 	gint i;
 
 	for (i = 0; i < n; i++)
 		if (!lw->split_images[i])
 			{
 			layout_image_new(lw, i);
-			image_set_frame(lw->split_images[i], 1);
+			image_set_frame(lw->split_images[i], frame);
 			image_set_selectable(lw->split_images[i], 1);
 			if (lw->image)
 				{
@@ -1650,7 +1611,7 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 			}
 		else
 			{
-			image_set_frame(lw->split_images[i], 1);
+			image_set_frame(lw->split_images[i], frame);
 			image_set_selectable(lw->split_images[i], 1);
 			}
 
@@ -1673,6 +1634,18 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 		}
 
 }
+
+GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
+{
+	lw->split_mode = SPLIT_NONE;
+	
+	layout_image_setup_split_common(lw, 1);
+
+	lw->split_image_widget = lw->split_images[0]->widget;
+
+	return lw->split_image_widget;
+}
+
 
 GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 {
