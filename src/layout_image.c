@@ -1632,7 +1632,7 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 {
 	gint i;
 
-	for (i = 1; i < n; i++)
+	for (i = 0; i < n; i++)
 		if (!lw->split_images[i])
 			{
 			layout_image_new(lw, i);
@@ -1680,13 +1680,6 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 	
 	lw->split_mode = horizontal ? SPLIT_HOR : SPLIT_VERT;
 
-	if (!lw->split_images[0])
-		{
-		layout_image_new(lw, 0);
-		}
-	image_set_frame(lw->split_images[0], 1);
-	image_set_selectable(lw->split_images[0], 1);
-
 	layout_image_setup_split_common(lw, 2);
 
 	/* horizontal split means vpaned and vice versa */
@@ -1716,21 +1709,7 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 
 	lw->split_mode = SPLIT_QUAD;
 
-	if (!lw->split_images[0])
-		{
-		layout_image_new(lw, 0);
-		}
-
-	image_set_frame(lw->split_images[0], 1);
-	image_set_selectable(lw->split_images[0], 1);
-
-	if (!lw->split_images[1])
-		{
-		layout_image_activate(lw, 0);
-		}
-
 	layout_image_setup_split_common(lw, 4);
-
 
 	hpaned = gtk_hpaned_new();
 	vpaned1 = gtk_vpaned_new();
