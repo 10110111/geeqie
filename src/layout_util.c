@@ -1556,6 +1556,34 @@ static void layout_button_thumb_cb(GtkWidget *widget, gpointer data)
 	layout_thumb_set(lw, gtk_toggle_tool_button_get_active(GTK_TOGGLE_TOOL_BUTTON(widget)));
 }
 
+/* Back button callback */
+static void layout_button_back_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw = data;
+	FileData *dir_fd;
+	gchar *path = NULL;
+	GList *list = history_list_get_by_key("path_list");
+	gint n = 0;
+
+	while (list)
+		{
+		if (n == 1) {
+			/* Previous path from history */
+			path = (gchar *)list->data;
+			break;
+		}
+		list = list->next;
+		n++;
+		}
+
+	if (!path) return;
+	
+	/* Open previous path */
+	dir_fd = file_data_new_simple(path);
+	layout_set_fd(lw, dir_fd);
+	file_data_unref(dir_fd);
+}
+
 static void layout_button_home_cb(GtkWidget *widget, gpointer data)
 {
 	const gchar *path;
@@ -1647,6 +1675,10 @@ GtkWidget *layout_button_bar(LayoutWindow *lw)
 				     _("Show thumbnails"), G_CALLBACK(layout_button_thumb_cb), lw);
 	layout_button_custom_icon(button, PIXBUF_INLINE_ICON_THUMB);
 	lw->thumb_button = button;
+	
+	lw->back_button = pref_toolbar_button(box, GTK_STOCK_GO_BACK, NULL, FALSE,
+			    _("Back to previous folder"), G_CALLBACK(layout_button_back_cb), lw);
+	gtk_widget_set_sensitive(lw->back_button, FALSE);
 
 	pref_toolbar_button(box, GTK_STOCK_HOME, NULL, FALSE,
 			    _("Change to home folder"), G_CALLBACK(layout_button_home_cb), lw);

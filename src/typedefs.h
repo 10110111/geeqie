@@ -493,6 +493,8 @@ struct _LayoutWindow
 	gint thumbs_enabled;
 	gint marks_enabled;
 
+	GtkWidget *back_button;
+
 	/* dir view */
 
 	LayoutLocation dir_location;

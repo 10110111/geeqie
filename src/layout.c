@@ -183,6 +183,25 @@ static void layout_vd_select_cb(ViewDir *vd, const gchar *path, gpointer data)
 	layout_set_path(lw, path);
 }
 
+static void layout_path_entry_tab_append_cb(const gchar *path, gpointer data, gint n)
+{
+	LayoutWindow *lw = data;
+
+	if (!lw || !lw->back_button) return;
+	if (!layout_valid(&lw)) return;
+
+	if (n >= 2)
+		{
+		/* Enable back button */
+		gtk_widget_set_sensitive(lw->back_button, TRUE);
+		}
+	else
+		{
+		/* Disable back button */
+		gtk_widget_set_sensitive(lw->back_button, FALSE);
+		}
+}
+
 static GtkWidget *layout_tool_setup(LayoutWindow *lw)
 {
 	GtkWidget *box;
@@ -202,6 +221,7 @@ static GtkWidget *layout_tool_setup(LayoutWindow *lw)
 	tabcomp = tab_completion_new_with_history(&lw->path_entry, NULL, "path_list", -1,
 						  layout_path_entry_cb, lw);
 	tab_completion_add_tab_func(lw->path_entry, layout_path_entry_tab_cb, lw);
+	tab_completion_add_append_func(lw->path_entry, layout_path_entry_tab_append_cb, lw);
 	gtk_box_pack_start(GTK_BOX(box), tabcomp, FALSE, FALSE, 0);
 	gtk_widget_show(tabcomp);
 

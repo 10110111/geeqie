@@ -63,9 +63,12 @@ struct _TabCompData
 	GList *file_list;
 	void (*enter_func)(const gchar *, gpointer);
 	void (*tab_func)(const gchar *, gpointer);
+	void (*tab_append_func)(const gchar *, gpointer, gint);
+
 	gpointer enter_data;
 	gpointer tab_data;
-
+	gpointer tab_append_data;
+	
 	GtkWidget *combo;
 	gint has_history;
 	gchar *history_key;
@@ -733,6 +736,7 @@ void tab_completion_append_to_history(GtkWidget *entry, const gchar *path)
 	TabCompData *td;
 	GtkTreeModel *store;
 	GList *work;
+	gint n = 0;
 
 	td = g_object_get_data(G_OBJECT(entry), "tab_completion_data");
 
@@ -752,7 +756,12 @@ void tab_completion_append_to_history(GtkWidget *entry, const gchar *path)
 		{
 		gtk_combo_box_append_text(GTK_COMBO_BOX(td->combo), (gchar *)work->data);
 		work = work->next;
+		n++;
 		}
+
+	if (td->tab_append_func) {
+		td->tab_append_func(path, td->tab_append_data, n);
+	}
 }
 
 GtkWidget *tab_completion_new(GtkWidget **entry, const gchar *text,
@@ -817,6 +826,17 @@ void tab_completion_add_tab_func(GtkWidget *entry, void (*tab_func)(const gchar 
 
 	td->tab_func = tab_func;
 	td->tab_data = data;
+}
+
+/* Add a callback function called when a new entry is appended to the list */
+void tab_completion_add_append_func(GtkWidget *entry, void (*tab_append_func)(const gchar *, gpointer, gint), gpointer data)
+{
+	TabCompData *td = g_object_get_data(G_OBJECT(entry), "tab_completion_data");
+
+	if (!td) return;
+
+	td->tab_append_func = tab_append_func;
+	td->tab_append_data = data;
 }
 
 gchar *remove_trailing_slash(const gchar *path)
