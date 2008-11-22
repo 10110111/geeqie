@@ -1628,44 +1628,33 @@ GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
 	return lw->split_image_widget;
 }
 
-GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
+static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 {
-	GtkWidget *paned;
 	gint i;
-	
-	lw->split_mode = horizontal ? SPLIT_HOR : SPLIT_VERT;
 
-	if (!lw->split_images[0])
-		{
-		layout_image_new(lw, 0);
-		}
-	image_set_frame(lw->split_images[0], 1);
-	image_set_selectable(lw->split_images[0], 1);
-
-	if (!lw->split_images[1])
-		{
-		layout_image_new(lw, 1);
-		image_set_frame(lw->split_images[1], 1);
-		image_set_selectable(lw->split_images[1], 1);
-		if (lw->image)
+	for (i = 1; i < n; i++)
+		if (!lw->split_images[i])
 			{
-			gdouble sx, sy;
-			image_change_fd(lw->split_images[1],
+			layout_image_new(lw, i);
+			image_set_frame(lw->split_images[i], 1);
+			image_set_selectable(lw->split_images[i], 1);
+			if (lw->image)
+				{
+				gdouble sx, sy;
+				image_change_fd(lw->split_images[i],
 					image_get_fd(lw->image), image_zoom_get(lw->image));
-			image_get_scroll_center(lw->image, &sx, &sy);
-			image_set_scroll_center(lw->split_images[1], sx, sy);
+				image_get_scroll_center(lw->image, &sx, &sy);
+				image_set_scroll_center(lw->split_images[i], sx, sy);
+				}
+			layout_image_deactivate(lw, i);
 			}
-		layout_image_deactivate(lw, 1);
-		layout_image_activate(lw, 0);
-		}
-	else
-		{
-		image_set_frame(lw->split_images[1], 1);
-		image_set_selectable(lw->split_images[1], 1);
-		}
+		else
+			{
+			image_set_frame(lw->split_images[i], 1);
+			image_set_selectable(lw->split_images[i], 1);
+			}
 
-
-	for (i = 2; i < MAX_SPLIT_IMAGES; i++)
+	for (i = n; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i])
 			{
@@ -1677,11 +1666,28 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 			lw->split_images[i] = NULL;
 			}
 		}
-
-	if (!lw->image || lw->active_split_image < 0 || lw->active_split_image > 1)
+	
+	if (!lw->image || lw->active_split_image < 0 || lw->active_split_image >= n)
 		{
 		layout_image_activate(lw, 0);
 		}
+
+}
+
+GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
+{
+	GtkWidget *paned;
+	
+	lw->split_mode = horizontal ? SPLIT_HOR : SPLIT_VERT;
+
+	if (!lw->split_images[0])
+		{
+		layout_image_new(lw, 0);
+		}
+	image_set_frame(lw->split_images[0], 1);
+	image_set_selectable(lw->split_images[0], 1);
+
+	layout_image_setup_split_common(lw, 2);
 
 	/* horizontal split means vpaned and vice versa */
 	if (horizontal)
@@ -1723,46 +1729,8 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 		layout_image_activate(lw, 0);
 		}
 
-	for (i = 1; i < 4; i++)
-		if (!lw->split_images[i])
-			{
-			layout_image_new(lw, i);
-			image_set_frame(lw->split_images[i], 1);
-			image_set_selectable(lw->split_images[i], 1);
-			if (lw->image)
-				{
-				gdouble sx, sy;
-				image_change_fd(lw->split_images[i],
-					image_get_fd(lw->image), image_zoom_get(lw->image));
-				image_get_scroll_center(lw->image, &sx, &sy);
-				image_set_scroll_center(lw->split_images[i], sx, sy);
-				}
-			layout_image_deactivate(lw, i);
-			}
-		else
-			{
-			image_set_frame(lw->split_images[i], 1);
-			image_set_selectable(lw->split_images[i], 1);
-			}
+	layout_image_setup_split_common(lw, 4);
 
-	for (i = 4; i < MAX_SPLIT_IMAGES; i++)
-		{
-		if (lw->split_images[i])
-			{
-#if GTK_CHECK_VERSION(2,12,0)
-			g_object_unref(lw->split_images[i]->widget);
-#else
-			gtk_widget_unref(lw->split_images[i]->widget);
-#endif
-			lw->split_images[i] = NULL;
-			}
-		}
-
-
-	if (!lw->image || lw->active_split_image < 0 || lw->active_split_image > 3)
-		{
-		layout_image_activate(lw, 0);
-		}
 
 	hpaned = gtk_hpaned_new();
 	vpaned1 = gtk_vpaned_new();
