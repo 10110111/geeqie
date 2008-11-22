@@ -1697,13 +1697,11 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 	gtk_paned_pack1(GTK_PANED(hpaned), vpaned1, TRUE, TRUE);
 	gtk_paned_pack2(GTK_PANED(hpaned), vpaned2, TRUE, TRUE);
 
-
 	for (i = 0; i < 4; i++)
 		gtk_widget_show(lw->split_images[i]->widget);
 
 	gtk_widget_show(vpaned1);
 	gtk_widget_show(vpaned2);
-
 
 	lw->split_image_widget = hpaned;
 
@@ -1736,10 +1734,7 @@ GtkWidget *layout_image_setup_split(LayoutWindow *lw, ImageSplitMode mode)
 
 static void layout_image_maint_renamed(LayoutWindow *lw, FileData *fd)
 {
-	FileData *img_fd;
-
-	img_fd = layout_image_get_fd(lw);
-	if (img_fd == fd)
+	if (fd == layout_image_get_fd(lw))
 		{
 		image_set_fd(lw->image, fd);
 		layout_bars_maint_renamed(lw);
@@ -1748,10 +1743,7 @@ static void layout_image_maint_renamed(LayoutWindow *lw, FileData *fd)
 
 static void layout_image_maint_removed(LayoutWindow *lw, FileData *fd)
 {
-	FileData *img_fd;
-
-	img_fd = layout_image_get_fd(lw);
-	if (img_fd == fd)
+	if (fd == layout_image_get_fd(lw))
 		{
 		CollectionData *cd;
 		CollectInfo *info;
