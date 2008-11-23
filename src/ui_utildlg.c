@@ -208,7 +208,7 @@ GtkWidget *generic_dialog_add_message(GenericDialog *gd, const gchar *icon_stock
 
 static void generic_dialog_setup(GenericDialog *gd,
 				 const gchar *title,
-				 const gchar *wmsubclass,
+				 const gchar *role,
 				 GtkWidget *parent, gint auto_close,
 				 void (*cancel_cb)(GenericDialog *, gpointer), gpointer data)
 {
@@ -218,7 +218,7 @@ static void generic_dialog_setup(GenericDialog *gd,
 	gd->data = data;
 	gd->cancel_cb = cancel_cb;
 
-	gd->dialog = window_new(GTK_WINDOW_TOPLEVEL, wmsubclass, NULL, NULL, title);
+	gd->dialog = window_new(GTK_WINDOW_TOPLEVEL, role, NULL, NULL, title);
 	gtk_window_set_type_hint(GTK_WINDOW(gd->dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 
 	if (parent)
@@ -281,14 +281,14 @@ static void generic_dialog_setup(GenericDialog *gd,
 }
 
 GenericDialog *generic_dialog_new(const gchar *title,
-				  const gchar *wmsubclass,
+				  const gchar *role,
 				  GtkWidget *parent, gint auto_close,
 				  void (*cancel_cb)(GenericDialog *, gpointer), gpointer data)
 {
 	GenericDialog *gd;
 
 	gd = g_new0(GenericDialog, 1);
-	generic_dialog_setup(gd, title, wmsubclass,
+	generic_dialog_setup(gd, title, role,
 			     parent, auto_close, cancel_cb, data);
 	return gd;
 }
@@ -334,7 +334,7 @@ void file_dialog_close(FileDialog *fdlg)
 }
 
 FileDialog *file_dialog_new(const gchar *title,
-			    const gchar *wmsubclass,
+			    const gchar *role,
 			    GtkWidget *parent,
 			    void (*cancel_cb)(FileDialog *, gpointer), gpointer data)
 {
@@ -343,7 +343,7 @@ FileDialog *file_dialog_new(const gchar *title,
 	fdlg = g_new0(FileDialog, 1);
 
 	generic_dialog_setup(GENERIC_DIALOG(fdlg), title,
-			     wmsubclass, parent, FALSE,
+			     role, parent, FALSE,
 			     (gpointer)cancel_cb, data);
 
 	return fdlg;

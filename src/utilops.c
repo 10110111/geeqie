@@ -152,13 +152,13 @@ static void generic_dialog_image_set(GenericDialog *gd, FileData *fd)
  */
 
 GenericDialog *file_util_gen_dlg(const gchar *title,
-				 const gchar *wmsubclass,
+				 const gchar *role,
 				 GtkWidget *parent, gint auto_close,
 				 void (*cancel_cb)(GenericDialog *, gpointer), gpointer data)
 {
 	GenericDialog *gd;
 
-	gd = generic_dialog_new(title, wmsubclass, parent, auto_close, cancel_cb, data);
+	gd = generic_dialog_new(title, role, parent, auto_close, cancel_cb, data);
 	if (options->place_dialogs_under_mouse)
 		{
 		gtk_window_set_position(GTK_WINDOW(gd->dialog), GTK_WIN_POS_MOUSE);
@@ -168,13 +168,13 @@ GenericDialog *file_util_gen_dlg(const gchar *title,
 }
 
 FileDialog *file_util_file_dlg(const gchar *title,
-			       const gchar *wmsubclass,
+			       const gchar *role,
 			       GtkWidget *parent,
 			       void (*cancel_cb)(FileDialog *, gpointer), gpointer data)
 {
 	FileDialog *fdlg;
 
-	fdlg = file_dialog_new(title, wmsubclass, parent, cancel_cb, data);
+	fdlg = file_dialog_new(title, role, parent, cancel_cb, data);
 	if (options->place_dialogs_under_mouse)
 		{
 		gtk_window_set_position(GTK_WINDOW(GENERIC_DIALOG(fdlg)->dialog), GTK_WIN_POS_MOUSE);

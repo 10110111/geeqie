@@ -53,7 +53,7 @@ struct _FileDialog
 
 /* When parent is not NULL, the dialog is set as a transient of the window containing parent */
 GenericDialog *generic_dialog_new(const gchar *title,
-				  const gchar *wmsubclass,
+				  const gchar *role,
 				  GtkWidget *parent, gint auto_close,
 				  void (*cancel_cb)(GenericDialog *, gpointer), gpointer data);
 void generic_dialog_close(GenericDialog *gd);
@@ -71,7 +71,7 @@ GenericDialog *warning_dialog(const gchar *heading, const gchar *text,
 			      const gchar *icon_stock_id, GtkWidget *parent);
 
 FileDialog *file_dialog_new(const gchar *title,
-			    const gchar *wmsubclass,
+			    const gchar *role,
 			    GtkWidget *parent,
 			    void (*cancel_cb)(FileDialog *, gpointer), gpointer data);
 void file_dialog_close(FileDialog *fd);

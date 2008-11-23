@@ -17,7 +17,7 @@
 #include "ui_fileops.h"
 #include "ui_help.h"
 
-GtkWidget *window_new(GtkWindowType type, const gchar *name, const gchar *icon,
+GtkWidget *window_new(GtkWindowType type, const gchar *role, const gchar *icon,
 		      const gchar *icon_file, const gchar *subtitle)
 {
 	gchar *title;
@@ -39,7 +39,7 @@ GtkWidget *window_new(GtkWindowType type, const gchar *name, const gchar *icon,
 	g_free(title);
 
 	window_set_icon(window, icon, icon_file);
-	gtk_window_set_role(GTK_WINDOW(window), name);
+	gtk_window_set_role(GTK_WINDOW(window), role);
 
 	return window;
 }
