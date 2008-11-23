@@ -1106,7 +1106,7 @@ static void collection_close_dlg_show(CollectWindow *cw)
 		}
 
 	gd = generic_dialog_new(_("Close collection"),
-				GQ_WMCLASS, "close_collection", cw->window, FALSE,
+				"close_collection", cw->window, FALSE,
 				collection_close_cancel_cb, cw);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION,
 				   _("Close collection"),

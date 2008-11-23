@@ -171,7 +171,7 @@ static EditorVerboseData *editor_verbose_window(EditorData *ed, const gchar *tex
 
 	vd = g_new0(EditorVerboseData, 1);
 
-	vd->gd = file_util_gen_dlg(_("Edit command results"), GQ_WMCLASS, "editor_results",
+	vd->gd = file_util_gen_dlg(_("Edit command results"), "editor_results",
 				   NULL, FALSE,
 				   NULL, ed);
 	buf = g_strdup_printf(_("Output of %s"), text);

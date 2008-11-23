@@ -757,7 +757,7 @@ static void filter_default_cb(GtkWidget *widget, gpointer data)
 	GenericDialog *gd;
 
 	gd = generic_dialog_new(_("Reset filters"),
-				GQ_WMCLASS, "reset_filter", widget, TRUE,
+				"reset_filter", widget, TRUE,
 				dummy_cancel_cb, NULL);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset filters"),
 				   _("This will reset the file filters to the defaults.\nContinue?"));
@@ -795,7 +795,7 @@ static void editor_default_cb(GtkWidget *widget, gpointer data)
 	GenericDialog *gd;
 
 	gd = generic_dialog_new(_("Reset editors"),
-				GQ_WMCLASS, "reset_filter", widget, TRUE,
+				"reset_filter", widget, TRUE,
 				dummy_cancel_cb, NULL);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset editors"),
 				   _("This will reset the edit commands to the defaults.\nContinue?"));
@@ -823,7 +823,7 @@ static void safe_delete_clear_cb(GtkWidget *widget, gpointer data)
 	GenericDialog *gd;
 	GtkWidget *entry;
 	gd = generic_dialog_new(_("Clear trash"),
-				GQ_WMCLASS, "clear_trash", widget, TRUE,
+				"clear_trash", widget, TRUE,
 				dummy_cancel_cb, NULL);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Clear trash"),
 				    _("This will remove the trash contents."));
@@ -871,7 +871,7 @@ static void image_overlay_default_template_cb(GtkWidget *widget, gpointer data)
 	GenericDialog *gd;
 
 	gd = generic_dialog_new(_("Reset image overlay template string"),
-				GQ_WMCLASS, "reset_image_overlay_template_string", widget, TRUE,
+				"reset_image_overlay_template_string", widget, TRUE,
 				dummy_cancel_cb, data);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset image overlay template string"),
 				   _("This will reset the image overlay template string to the default.\nContinue?"));

@@ -152,13 +152,13 @@ static void generic_dialog_image_set(GenericDialog *gd, FileData *fd)
  */
 
 GenericDialog *file_util_gen_dlg(const gchar *title,
-				 const gchar *wmclass, const gchar *wmsubclass,
+				 const gchar *wmsubclass,
 				 GtkWidget *parent, gint auto_close,
 				 void (*cancel_cb)(GenericDialog *, gpointer), gpointer data)
 {
 	GenericDialog *gd;
 
-	gd = generic_dialog_new(title, wmclass, wmsubclass, parent, auto_close, cancel_cb, data);
+	gd = generic_dialog_new(title, wmsubclass, parent, auto_close, cancel_cb, data);
 	if (options->place_dialogs_under_mouse)
 		{
 		gtk_window_set_position(GTK_WINDOW(gd->dialog), GTK_WIN_POS_MOUSE);
@@ -168,13 +168,13 @@ GenericDialog *file_util_gen_dlg(const gchar *title,
 }
 
 FileDialog *file_util_file_dlg(const gchar *title,
-			       const gchar *wmclass, const gchar *wmsubclass,
+			       const gchar *wmsubclass,
 			       GtkWidget *parent,
 			       void (*cancel_cb)(FileDialog *, gpointer), gpointer data)
 {
 	FileDialog *fdlg;
 
-	fdlg = file_dialog_new(title, wmclass, wmsubclass, parent, cancel_cb, data);
+	fdlg = file_dialog_new(title, wmsubclass, parent, cancel_cb, data);
 	if (options->place_dialogs_under_mouse)
 		{
 		gtk_window_set_position(GTK_WINDOW(GENERIC_DIALOG(fdlg)->dialog), GTK_WIN_POS_MOUSE);
@@ -197,7 +197,7 @@ GenericDialog *file_util_warning_dialog(const gchar *heading, const gchar *messa
 {
 	GenericDialog *gd;
 
-	gd = file_util_gen_dlg(heading, GQ_WMCLASS, "warning", parent, TRUE, NULL, NULL);
+	gd = file_util_gen_dlg(heading, "warning", parent, TRUE, NULL, NULL);
 	generic_dialog_add_message(gd, icon_stock_id, heading, message);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, file_util_warning_dialog_ok_cb, TRUE);
 	if (options->place_dialogs_under_mouse)
@@ -511,7 +511,7 @@ static gint file_util_perform_ci_cb(gpointer resume_data, gint flags, GList *lis
 		if (resume_data)
 			{
 			g_string_append(msg, _("\n Continue multiple file operation?"));
-			d = file_util_gen_dlg(ud->messages.fail, GQ_WMCLASS, "dlg_confirm",
+			d = file_util_gen_dlg(ud->messages.fail, "dlg_confirm",
 					      NULL, TRUE,
 					      file_util_abort_cb, ud);
 
@@ -900,7 +900,7 @@ void file_util_check_ci(UtilityData *ud)
 		/* just a warning */
 		GenericDialog *d;
 
-		d = file_util_gen_dlg(ud->messages.title, GQ_WMCLASS, "dlg_confirm",
+		d = file_util_gen_dlg(ud->messages.title, "dlg_confirm",
 					ud->parent, TRUE,
 					file_util_check_abort_cb, ud);
 
@@ -915,7 +915,7 @@ void file_util_check_ci(UtilityData *ud)
 		/* fatal error */
 		GenericDialog *d;
 
-		d = file_util_gen_dlg(ud->messages.title, GQ_WMCLASS, "dlg_confirm",
+		d = file_util_gen_dlg(ud->messages.title, "dlg_confirm",
 					ud->parent, TRUE,
 					file_util_check_abort_cb, ud);
 		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, _("This operation can't continue:"), desc);
@@ -1241,7 +1241,7 @@ static void file_util_dialog_init_simple_list(UtilityData *ud)
 	GtkTreeSelection *selection;
 	gchar *dir_msg;
 
-	ud->gd = file_util_gen_dlg(ud->messages.title, GQ_WMCLASS, "dlg_confirm",
+	ud->gd = file_util_gen_dlg(ud->messages.title, "dlg_confirm",
 				   ud->parent, FALSE,  file_util_cancel_cb, ud);
 	generic_dialog_add_button(ud->gd, GTK_STOCK_DELETE, NULL, file_util_ok_cb, TRUE);
 
@@ -1294,7 +1294,7 @@ static void file_util_dialog_init_dest_folder(UtilityData *ud)
 		stock_id = GTK_STOCK_OK;
 		}
 
-	fdlg = file_util_file_dlg(ud->messages.title, GQ_WMCLASS, "dlg_dest_folder", ud->parent,
+	fdlg = file_util_file_dlg(ud->messages.title, "dlg_dest_folder", ud->parent,
 				  file_util_fdlg_cancel_cb, ud);
 	
 	ud->fdlg = fdlg;
@@ -1344,7 +1344,7 @@ static void file_util_dialog_init_source_dest(UtilityData *ud)
 	GtkWidget *combo;
 	GtkWidget *page;
 
-	ud->gd = file_util_gen_dlg(ud->messages.title, GQ_WMCLASS, "dlg_confirm",
+	ud->gd = file_util_gen_dlg(ud->messages.title, "dlg_confirm",
 				   ud->parent, FALSE,  file_util_cancel_cb, ud);
 
 	box = generic_dialog_add_message(ud->gd, NULL, ud->messages.question, NULL);
@@ -1937,7 +1937,7 @@ static void file_util_delete_dir_full(FileData *fd, GtkWidget *parent, UtilityPh
 		GtkWidget *box;
 		gchar *text;
 
-		gd = file_util_gen_dlg(_("Folder contains subfolders"), GQ_WMCLASS, "dlg_warning",
+		gd = file_util_gen_dlg(_("Folder contains subfolders"), "dlg_warning",
 					parent, TRUE, NULL, NULL);
 		generic_dialog_add_button(gd, GTK_STOCK_CLOSE, NULL, NULL, TRUE);
 

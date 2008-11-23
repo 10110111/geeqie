@@ -208,7 +208,7 @@ GtkWidget *generic_dialog_add_message(GenericDialog *gd, const gchar *icon_stock
 
 static void generic_dialog_setup(GenericDialog *gd,
 				 const gchar *title,
-				 const gchar *wmclass, const gchar *wmsubclass,
+				 const gchar *wmsubclass,
 				 GtkWidget *parent, gint auto_close,
 				 void (*cancel_cb)(GenericDialog *, gpointer), gpointer data)
 {
@@ -281,14 +281,14 @@ static void generic_dialog_setup(GenericDialog *gd,
 }
 
 GenericDialog *generic_dialog_new(const gchar *title,
-				  const gchar *wmclass, const gchar *wmsubclass,
+				  const gchar *wmsubclass,
 				  GtkWidget *parent, gint auto_close,
 				  void (*cancel_cb)(GenericDialog *, gpointer), gpointer data)
 {
 	GenericDialog *gd;
 
 	gd = g_new0(GenericDialog, 1);
-	generic_dialog_setup(gd, title, wmclass, wmsubclass,
+	generic_dialog_setup(gd, title, wmsubclass,
 			     parent, auto_close, cancel_cb, data);
 	return gd;
 }
@@ -308,7 +308,7 @@ GenericDialog *warning_dialog(const gchar *heading, const gchar *text,
 {
 	GenericDialog *gd;
 
-	gd = generic_dialog_new(heading, GQ_WMCLASS, "warning", parent, TRUE, NULL, NULL);
+	gd = generic_dialog_new(heading, "warning", parent, TRUE, NULL, NULL);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, warning_dialog_ok_cb, TRUE);
 
 	generic_dialog_add_message(gd, icon_stock_id, heading, text);
@@ -334,7 +334,7 @@ void file_dialog_close(FileDialog *fdlg)
 }
 
 FileDialog *file_dialog_new(const gchar *title,
-			    const gchar *wmclass, const gchar *wmsubclass,
+			    const gchar *wmsubclass,
 			    GtkWidget *parent,
 			    void (*cancel_cb)(FileDialog *, gpointer), gpointer data)
 {
@@ -343,7 +343,7 @@ FileDialog *file_dialog_new(const gchar *title,
 	fdlg = g_new0(FileDialog, 1);
 
 	generic_dialog_setup(GENERIC_DIALOG(fdlg), title,
-			     wmclass, wmsubclass, parent, FALSE,
+			     wmsubclass, parent, FALSE,
 			     (gpointer)cancel_cb, data);
 
 	return fdlg;

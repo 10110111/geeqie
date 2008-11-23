@@ -630,7 +630,7 @@ static gint exit_confirm_dlg(void)
 
 	msg = g_strdup_printf("%s - %s", GQ_APPNAME, _("exit"));
 	exit_dialog = generic_dialog_new(msg,
-				GQ_WMCLASS, "exit", parent, FALSE,
+				"exit", parent, FALSE,
 				exit_confirm_cancel_cb, NULL);
 	g_free(msg);
 	msg = g_strdup_printf(_("Quit %s"), GQ_APPNAME);

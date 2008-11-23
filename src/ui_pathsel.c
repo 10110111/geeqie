@@ -534,7 +534,7 @@ static void dest_view_delete(Dest_Data *dd, GtkTreeView *view)
 		generic_dialog_close(gd);
 		}
 
-	dd->gd = generic_dialog_new(_("Delete file"), GQ_WMCLASS, "dlg_confirm",
+	dd->gd = generic_dialog_new(_("Delete file"), "dlg_confirm",
 				    dd->entry, TRUE,
 				    dest_view_delete_dlg_cancel, dl);
 

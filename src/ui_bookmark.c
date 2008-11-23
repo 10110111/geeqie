@@ -273,7 +273,7 @@ static void bookmark_edit(const gchar *key, const gchar *text, GtkWidget *parent
 	p->bb = bookmark_from_string(text);
 	p->bb->parent = g_strdup(key);
 
-	gd = generic_dialog_new(_("Edit Bookmark"), GQ_WMCLASS, "bookmark_edit",
+	gd = generic_dialog_new(_("Edit Bookmark"), "bookmark_edit",
 				parent, TRUE,
 				bookmark_edit_cancel_cb, p);
 	g_signal_connect(G_OBJECT(gd->dialog), "destroy",

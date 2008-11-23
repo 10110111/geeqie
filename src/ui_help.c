@@ -188,7 +188,7 @@ void help_window_set_file(GtkWidget *window, const gchar *path, const gchar *key
 }
 
 GtkWidget *help_window_new(const gchar *title,
-			   const gchar *wmclass, const gchar *subclass,
+			   const gchar *subclass,
 			   const gchar *path, const gchar *key)
 {
 	GtkWidget *window;

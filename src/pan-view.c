@@ -2596,7 +2596,7 @@ static gint pan_warning(FileData *dir_fd)
 	if (!pref_list_int_get(PAN_PREF_GROUP, PAN_PREF_HIDE_WARNING, &hide_dlg)) hide_dlg = FALSE;
 	if (hide_dlg) return FALSE;
 
-	gd = generic_dialog_new(_("Pan View Performance"), GQ_WMCLASS, "pan_view_warning", NULL, FALSE,
+	gd = generic_dialog_new(_("Pan View Performance"), "pan_view_warning", NULL, FALSE,
 				NULL, NULL);
 	gd->data = file_data_ref(dir_fd);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL,

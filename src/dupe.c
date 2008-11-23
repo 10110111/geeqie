@@ -1907,7 +1907,7 @@ static void dupe_display_stats(DupeWindow *dw, DupeItem *di)
 
 	if (!di) return;
 
-	gd = file_util_gen_dlg("Image thumbprint debug info", GQ_WMCLASS, "thumbprint",
+	gd = file_util_gen_dlg("Image thumbprint debug info", "thumbprint",
 			       dw->window, TRUE,
 			       NULL, NULL);
 	generic_dialog_add_button(gd, GTK_STOCK_CLOSE, NULL, NULL, TRUE);

@@ -40,7 +40,6 @@ GtkWidget *window_new(GtkWindowType type, const gchar *name, const gchar *icon,
 
 	window_set_icon(window, icon, icon_file);
 	gtk_window_set_role(GTK_WINDOW(window), name);
-	gtk_window_set_wmclass(GTK_WINDOW(window), name, GQ_WMCLASS);
 
 	return window;
 }
@@ -249,7 +248,7 @@ void help_window_show(const gchar *key)
 		}
 
 	path = g_build_filename(options->documentation.helpdir, "README", NULL);
-	help_window = help_window_new(_("Help"), GQ_WMCLASS, "help", path, key);
+	help_window = help_window_new(_("Help"), "help", path, key);
 	g_free(path);
 
 	g_signal_connect(G_OBJECT(help_window), "destroy",

@@ -818,7 +818,7 @@ static void keyword_dialog_show(void)
 	keyword_dialog = g_new0(KeywordDlg, 1);
 
 	keyword_dialog->gd = generic_dialog_new(_("Keyword Presets"),
-						GQ_WMCLASS, "keyword_presets", NULL, TRUE,
+						"keyword_presets", NULL, TRUE,
 						keyword_dialog_cancel_cb, keyword_dialog);
 	generic_dialog_add_message(keyword_dialog->gd, NULL, _("Favorite keywords list"), NULL);
 

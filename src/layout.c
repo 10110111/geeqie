@@ -1946,7 +1946,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 
 	/* window */
 
-	lw->window = window_new(GTK_WINDOW_TOPLEVEL, GQ_WMCLASS, NULL, NULL, NULL);
+	lw->window = window_new(GTK_WINDOW_TOPLEVEL, GQ_APPNAME_LC, NULL, NULL, NULL);
 	gtk_window_set_resizable(GTK_WINDOW(lw->window), TRUE);
 	gtk_container_set_border_width(GTK_CONTAINER(lw->window), 0);
 

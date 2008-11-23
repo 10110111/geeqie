@@ -71,8 +71,6 @@
 #define GQ_WEBSITE "geeqie.sourceforge.net"
 #define GQ_EMAIL_ADDRESS "geeqie-devel@lists.sourceforge.net"
 
-#define GQ_WMCLASS GQ_APPNAME_LC
-
 #define GQ_RC_DIR		"." GQ_APPNAME_LC
 #define GQ_COLLECTIONS_DIR	"collections"
 #define GQ_TRASH_DIR		"trash"
