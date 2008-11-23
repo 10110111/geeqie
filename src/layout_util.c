@@ -1008,8 +1008,22 @@ static void layout_menu_recent_update(LayoutWindow *lw)
 
 	while (list)
 		{
-		item = menu_item_add_simple(menu, filename_from_path((gchar *)list->data),
-					    G_CALLBACK(layout_menu_recent_cb), lw);
+		const gchar *filename = filename_from_path((gchar *)list->data);
+		gchar *name;
+		gboolean free_name = FALSE;
+
+		if (file_extension_match(filename, GQ_COLLECTION_EXT))
+			{
+			name = remove_extension_from_path(filename);
+			free_name = TRUE;
+			}
+		else
+			{
+			name = (gchar *) filename;
+			}
+
+		item = menu_item_add_simple(menu, name, G_CALLBACK(layout_menu_recent_cb), lw);
+		if (free_name) g_free(name);
 		g_object_set_data(G_OBJECT(item), "recent_index", GINT_TO_POINTER(n));
 		list = list->next;
 		n++;

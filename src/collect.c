@@ -983,11 +983,24 @@ static void collection_window_refresh(CollectWindow *cw)
 
 static void collection_window_update_title(CollectWindow *cw)
 {
+	gboolean free_name = FALSE;
+	gchar *name;
 	gchar *buf;
 
 	if (!cw) return;
 
-	buf = g_strdup_printf(_("%s - Collection - %s"), cw->cd->name, GQ_APPNAME);
+	if (file_extension_match(cw->cd->name, GQ_COLLECTION_EXT))
+		{
+		name = remove_extension_from_path(cw->cd->name);
+		free_name = TRUE;
+		}
+	else
+		{
+		name = cw->cd->name;
+		}
+
+	buf = g_strdup_printf(_("%s - Collection - %s"), name, GQ_APPNAME);
+	if (free_name) g_free(name);
 	gtk_window_set_title(GTK_WINDOW(cw->window), buf);
 	g_free(buf);
 }
