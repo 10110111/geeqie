@@ -1922,8 +1922,10 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 
 	layout_config_parse(options->layout.style, options->layout.order,
 			    &lw->dir_location,  &lw->file_location, &lw->image_location);
-	lw->dir_view_type = CLAMP(options->layout.dir_view_type, 0, VIEW_DIR_TYPES_COUNT - 1);
-	lw->file_view_type = CLAMP(options->layout.file_view_type, 0, VIEW_FILE_TYPES_COUNT - 1);
+	lw->dir_view_type = options->layout.dir_view_type;
+    if (lw->dir_view_type >= VIEW_DIR_TYPES_COUNT) lw->dir_view_type = 0;
+	lw->file_view_type = options->layout.file_view_type;
+    if (lw->file_view_type >= VIEW_FILE_TYPES_COUNT) lw->file_view_type = 0;
 
 	/* divider positions */
 

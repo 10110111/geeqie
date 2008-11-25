@@ -527,7 +527,7 @@ static void info_tab_get_order_string(gchar **dest)
 			{
 			if (t->func == info_tab_new_funcs[i])
 				{
-				g_assert(t->pos >= 0 && t->pos < G_N_ELEMENTS(info_tab_new_funcs));
+				g_assert(t->pos < G_N_ELEMENTS(info_tab_new_funcs));
 				str[t->pos] = i + '1';
 				}
 			}

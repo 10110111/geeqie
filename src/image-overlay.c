@@ -1079,7 +1079,7 @@ void image_osd_icon(ImageWindow *imd, ImageOSDFlag flag, gint duration)
 
 	if (!osd) return;
 
-	if (flag < IMAGE_OSD_NONE || flag >= IMAGE_OSD_COUNT) return;
+	if (flag >= IMAGE_OSD_COUNT) return;
 	if (duration < 0) duration = IMAGE_OSD_DEFAULT_DURATION;
 	if (duration > 1) duration += 1;
 

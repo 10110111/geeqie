@@ -332,7 +332,7 @@ static gint clip_region(gdouble x1, gdouble y1, gdouble w1, gdouble h1,
 
 static const gchar *print_output_name(PrintOutput output)
 {
-	if (output < 0 || output >= PRINT_OUTPUT_COUNT) return "";
+	if (output >= PRINT_OUTPUT_COUNT) return "";
 
 	return _(print_output_text[output]);
 }
@@ -2809,7 +2809,7 @@ static void print_paper_units_set(PrintWindow *pw, PaperUnits units)
 {
 	PaperUnits old_units;
 
-	if (units < 0 || units >= PAPER_UNIT_COUNT) return;
+	if (units >= PAPER_UNIT_COUNT) return;
 
 	old_units = pw->paper_units;
 	pw->paper_units = units;

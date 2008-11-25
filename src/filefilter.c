@@ -304,7 +304,7 @@ void filter_rebuild(void)
 			ext = filter_to_list(fe->extensions);
 			if (ext) extension_list = g_list_concat(extension_list, ext);
 
-			if (fe->file_class >= 0 && fe->file_class < FILE_FORMAT_CLASSES)
+			if (fe->file_class < FILE_FORMAT_CLASSES)
 				{
 				ext = filter_to_list(fe->extensions);
 				if (ext) file_class_extension_list[fe->file_class] = g_list_concat(file_class_extension_list[fe->file_class], ext);
@@ -347,7 +347,7 @@ gint filter_file_class(const gchar *name, FileFormatClass file_class)
 	GList *work;
 	guint ln;
 
-	if (file_class < 0 || file_class >= FILE_FORMAT_CLASSES)
+	if (file_class >= FILE_FORMAT_CLASSES)
 		{
 		log_printf("WARNING: invalid file class %d\n", file_class);
 		return FALSE;
