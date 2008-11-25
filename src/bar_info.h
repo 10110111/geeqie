@@ -26,10 +26,6 @@ void bar_info_selection(GtkWidget *bar, gint count);
 
 void bar_info_maint_renamed(GtkWidget *bar, FileData *fd);
 
-gint comment_write(FileData *fd, GList *keywords, const gchar *comment);
-
-gint comment_read(FileData *fd, GList **keywords, gchar **comment);
-
 GList *keyword_list_pull(GtkWidget *text_widget);
 void keyword_list_push(GtkWidget *textview, GList *list);
 

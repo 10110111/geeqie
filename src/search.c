@@ -27,6 +27,7 @@
 #include "info.h"
 #include "layout_image.h"
 #include "menu.h"
+#include "metadata.h"
 #include "misc.h"
 #include "print.h"
 #include "thumb.h"

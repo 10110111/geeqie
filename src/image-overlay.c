@@ -13,7 +13,6 @@
 #include "main.h"
 #include "image-overlay.h"
 
-#include "bar_info.h"
 #include "collect.h"
 #include "exif.h"
 #include "filedata.h"
@@ -21,6 +20,7 @@
 #include "image.h"
 #include "img-view.h"
 #include "layout.h"
+#include "metadata.h"
 #include "pixbuf-renderer.h"
 #include "pixbuf_util.h"
 #include "ui_fileops.h"
