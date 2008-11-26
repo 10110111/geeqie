@@ -275,8 +275,8 @@ secure_close(SecureSaveInfo *ssi)
 			/* set the dest file attributes to that of source (ignoring errors) */
 			if (ssi->preserve_perms)
 				{
-				chown(ssi->tmp_file_name, st.st_uid, st.st_gid);
-				chmod(ssi->tmp_file_name, st.st_mode);
+				if (chown(ssi->tmp_file_name, st.st_uid, st.st_gid) != 0) log_printf("chown('%s', %d, %d) failed", ssi->tmp_file_name, st.st_uid, st.st_gid);
+				if (chmod(ssi->tmp_file_name, st.st_mode) != 0) log_printf("chmod('%s', %o) failed", ssi->tmp_file_name, st.st_mode);
 				}
 
 			if (ssi->preserve_mtime)
