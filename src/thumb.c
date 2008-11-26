@@ -573,33 +573,32 @@ static guchar *load_xv_thumbnail(gchar *filename, gint *widthp, gint *heightp)
 {
 	FILE *file;
 	gchar buffer[XV_BUFFER];
-	guchar *data;
-	gint width, height, depth;
+	guchar *data = NULL;
 
 	file = fopen(filename, "rt");
 	if (!file) return NULL;
 
-	fgets(buffer, XV_BUFFER, file);
-	if (strncmp(buffer, "P7 332", 6) != 0)
+	if (fgets(buffer, XV_BUFFER, file) != NULL
+	    && strncmp(buffer, "P7 332", 6) == 0)
 		{
-		fclose(file);
-		return NULL;
+		gint width, height, depth;
+
+		while (fgets(buffer, XV_BUFFER, file) && buffer[0] == '#') /* do_nothing() */;
+
+		if (sscanf(buffer, "%d %d %d", &width, &height, &depth) == 3)
+			{
+			gsize size = width * height;
+			
+			data = g_new(guchar, size);
+			if (data && fread(data, 1, size, file) == size)
+				{
+				*widthp = width;
+				*heightp = height;
+				}
+			}
 		}
-
-	while (fgets(buffer, XV_BUFFER, file) && buffer[0] == '#') /* do_nothing() */;
-
-	if (sscanf(buffer, "%d %d %d", &width, &height, &depth) != 3)
-		{
-		fclose(file);
-		return NULL;
-		}
-
-	data = g_new(guchar, width * height);
-	fread(data, 1, width * height, file);
 
 	fclose(file);
-	*widthp = width;
-	*heightp = height;
 	return data;
 }
 #undef XV_BUFFER
