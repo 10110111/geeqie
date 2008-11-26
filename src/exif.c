@@ -1649,7 +1649,7 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 		{
 		UnmapData *ud;
 
-		DEBUG_1("%s: offset %lu", path, offset);
+		DEBUG_1("%s: offset %u", path, offset);
 
 		*data_len = map_len - offset;
 		ud = g_new(UnmapData, 1);
