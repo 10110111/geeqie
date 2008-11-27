@@ -771,14 +771,14 @@ static GMutex *image_loader_prio_mutex = NULL;
 static gint image_loader_prio_num = 0;
 
 
-static void image_loader_thread_enter_high()
+static void image_loader_thread_enter_high(void)
 {
 	g_mutex_lock(image_loader_prio_mutex);
 	image_loader_prio_num++;
 	g_mutex_unlock(image_loader_prio_mutex);
 }
 
-static void image_loader_thread_leave_high()
+static void image_loader_thread_leave_high(void)
 {
 	g_mutex_lock(image_loader_prio_mutex);
 	image_loader_prio_num--;
@@ -786,7 +786,7 @@ static void image_loader_thread_leave_high()
 	g_mutex_unlock(image_loader_prio_mutex);
 }
 
-static void image_loader_thread_wait_high()
+static void image_loader_thread_wait_high(void)
 {
 	g_mutex_lock(image_loader_prio_mutex);
 	while (image_loader_prio_num) 
