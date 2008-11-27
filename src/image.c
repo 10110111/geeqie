@@ -470,7 +470,7 @@ static void image_cache_release_cb(FileData *fd)
 	fd->pixbuf = NULL;
 }
 
-static FileCacheData *image_get_cache()
+static FileCacheData *image_get_cache(void)
 {
 	static FileCacheData *cache = NULL;
 	if (!cache) cache = file_cache_new(image_cache_release_cb, 1);
@@ -1659,9 +1659,12 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 		g_signal_connect_after(G_OBJECT(imd->frame), "expose_event",
 				       G_CALLBACK(image_focus_expose), imd);
 
-
-		gtk_box_pack_start_defaults(GTK_BOX(imd->widget), imd->frame);
-		gtk_widget_show(imd->frame);
+#if GTK_CHECK_VERSION(2,14,0)
+        gtk_box_pack_start(GTK_BOX(imd->widget), imd->frame, TRUE, TRUE, 0);
+#else
+        gtk_box_pack_start_defaults(GTK_BOX(imd->widget), imd->frame);
+#endif
+        gtk_widget_show(imd->frame);
 		}
 	else
 		{
@@ -1676,7 +1679,11 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 			gtk_widget_destroy(imd->frame);
 			imd->frame = NULL;
 			}
+#if GTK_CHECK_VERSION(2,14,0)
+        gtk_box_pack_start(GTK_BOX(imd->widget), imd->pr, TRUE, TRUE, 0);
+#else
 		gtk_box_pack_start_defaults(GTK_BOX(imd->widget), imd->pr);
+#endif
 
 #if GTK_CHECK_VERSION(2,12,0)
 	g_object_unref(imd->pr);
