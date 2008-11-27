@@ -503,7 +503,7 @@ static gchar *exif_build_formatted_GPSAltitude(ExifData *exif)
 
 
 /* List of custom formatted pseudo-exif tags */
-#define EXIF_FORMATTED_TAG(name, label) { "formatted."#name, label, exif_build_formatted##_##name }
+#define EXIF_FORMATTED_TAG(name, label) { EXIF_FORMATTED()#name, label, exif_build_formatted##_##name }
 
 ExifFormattedText ExifFormattedList[] = {
 	EXIF_FORMATTED_TAG(Camera,		N_("Camera")),
@@ -525,15 +525,15 @@ ExifFormattedText ExifFormattedList[] = {
 
 gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid)
 {
-	if (strncmp(key, "formatted.", 10) == 0)
+	if (strncmp(key, EXIF_FORMATTED(), EXIF_FORMATTED_LEN) == 0)
 		{
 		gint i;
 
 		if (key_valid) *key_valid = TRUE;
 
-		key += 10;
+		key += EXIF_FORMATTED_LEN;
 		for (i = 0; ExifFormattedList[i].key; i++)
-			if (strcmp(key, ExifFormattedList[i].key + 10) == 0)
+			if (strcmp(key, ExifFormattedList[i].key + EXIF_FORMATTED_LEN) == 0)
 				return ExifFormattedList[i].build_func(exif);
 		}
 
@@ -545,13 +545,13 @@ gchar *exif_get_description_by_key(const gchar *key)
 {
 	if (!key) return NULL;
 
-	if (strncmp(key, "formatted.", 10) == 0)
+	if (strncmp(key, EXIF_FORMATTED(), EXIF_FORMATTED_LEN) == 0)
 		{
 		gint i;
 
-		key += 10;
+		key += EXIF_FORMATTED_LEN;
 		for (i = 0; ExifFormattedList[i].key; i++)
-			if (strcmp(key, ExifFormattedList[i].key + 10) == 0)
+			if (strcmp(key, ExifFormattedList[i].key + EXIF_FORMATTED_LEN) == 0)
 				return g_strdup(_(ExifFormattedList[i].description));
 		}
 
