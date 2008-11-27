@@ -483,7 +483,7 @@ static void quality_menu_cb(GtkWidget *combo, gpointer data)
 }
 
 static void add_quality_menu(GtkWidget *table, gint column, gint row, const gchar *text,
-			     gint option, gint *option_c)
+			     guint option, guint *option_c)
 {
 	GtkWidget *combo;
 	gint current = 0;
@@ -1516,7 +1516,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 			      options->save_metadata_in_image_file, &c_options->save_metadata_in_image_file);
 
 	pref_spin_new_int(group, _("Custom similarity threshold:"), NULL,
-			  0, 100, 1, options->duplicates_similarity_threshold, &c_options->duplicates_similarity_threshold);
+			  0, 100, 1, options->duplicates_similarity_threshold, (int *)&c_options->duplicates_similarity_threshold);
 
 	group = pref_group_new(vbox, FALSE, _("Image loading and caching"), GTK_ORIENTATION_VERTICAL);
 
