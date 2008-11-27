@@ -17,15 +17,15 @@
 
 gpointer submenu_item_get_data(GtkWidget *menu);
 
-GtkWidget *submenu_add_edit(GtkWidget *menu, GtkWidget **menu_item, GtkSignalFunc func, gpointer data);
+GtkWidget *submenu_add_edit(GtkWidget *menu, GtkWidget **menu_item, GCallback func, gpointer data);
 
 gchar *sort_type_get_text(SortType method);
-GtkWidget *submenu_add_sort(GtkWidget *menu, GtkSignalFunc func, gpointer data,
+GtkWidget *submenu_add_sort(GtkWidget *menu, GCallback func, gpointer data,
 			    gint include_none, gint include_path,
 			    gint show_current, SortType type);
 
 gchar *alter_type_get_text(AlterType type);
-GtkWidget *submenu_add_alter(GtkWidget *menu, GtkSignalFunc func, gpointer data);
+GtkWidget *submenu_add_alter(GtkWidget *menu, GCallback func, gpointer data);
 
 
 #endif
