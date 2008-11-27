@@ -90,7 +90,7 @@ static guint tiff_table(guchar *data, const guint len, guint offset, ExifByteOrd
 	guint i;
 
 	if (len < offset + 2) return 0;
-	if (type < 0 || type > EXIF_FORMAT_COUNT) return 0;
+	if (type > EXIF_FORMAT_COUNT) return 0;
 
 	count = exif_byte_get_int16(data + offset, bo);
 	offset += 2;
