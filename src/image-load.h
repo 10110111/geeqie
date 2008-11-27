@@ -28,8 +28,8 @@ struct _ImageLoader
 	FileData *fd;
 	gchar *path;
 
-	gint bytes_read;
-	gint bytes_total;
+	gsize bytes_read;
+	gsize bytes_total;
 
 	gint preview;
 
@@ -56,7 +56,7 @@ struct _ImageLoader
 	gboolean thread;
 
 	guchar *mapped_file;
-	gint read_buffer_size;
+	gsize read_buffer_size;
 	gint idle_read_loop_count;
 };
 
