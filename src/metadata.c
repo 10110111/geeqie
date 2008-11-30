@@ -455,7 +455,7 @@ gint metadata_read(FileData *fd, GList **keywords, gchar **comment)
 	return TRUE;
 }
 
-void metadata_set_keywords(FileData *fd, GList *keywords_to_use, gchar *comment_to_use, gint add)
+void metadata_set(FileData *fd, GList *keywords_to_use, gchar *comment_to_use, gboolean append)
 {
 	gchar *comment = NULL;
 	GList *keywords = NULL;
@@ -465,7 +465,7 @@ void metadata_set_keywords(FileData *fd, GList *keywords_to_use, gchar *comment_
 	
 	if (comment_to_use)
 		{
-		if (add && comment && *comment)
+		if (append && comment && *comment)
 			{
 			gchar *tmp = comment;
 				
@@ -481,7 +481,7 @@ void metadata_set_keywords(FileData *fd, GList *keywords_to_use, gchar *comment_
 	
 	if (keywords_to_use)
 		{
-		if (add && keywords && g_list_length(keywords) > 0)
+		if (append && keywords && g_list_length(keywords) > 0)
 			{
 			GList *work;
 

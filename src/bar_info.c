@@ -652,7 +652,7 @@ static void bar_info_save(GtkWidget *button, gpointer data)
 	bar_info_write(bd);
 }
 
-static void bar_info_set_selection(BarInfoData *bd, gint set_keywords, gint set_comment, gint add)
+static void bar_info_set_selection(BarInfoData *bd, gboolean set_keywords, gboolean set_comment, gboolean append)
 {
 	GList *keywords = NULL;
 	GList *list = NULL;
@@ -671,7 +671,7 @@ static void bar_info_set_selection(BarInfoData *bd, gint set_keywords, gint set_
 		comment = comment_pull(bd->comment_view);
 		}
 
-	if (add && !keywords && !comment) return;
+	if (append && !keywords && !comment) return;
 
 	list = bd->list_func(bd->list_data);
 	work = list;
@@ -680,7 +680,7 @@ static void bar_info_set_selection(BarInfoData *bd, gint set_keywords, gint set_
 		FileData *fd = work->data;
 		work = work->next;
 
-		metadata_set_keywords(fd, keywords, comment, add);
+		metadata_set(fd, keywords, comment, append);
 		}
 
 	filelist_free(list);
