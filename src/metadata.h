@@ -14,9 +14,9 @@
 #ifndef METADATA_H
 #define METADATA_H
 
-gint comment_write(FileData *fd, GList *keywords, const gchar *comment);
+gint metadata_write(FileData *fd, GList *keywords, const gchar *comment);
 
-gint comment_read(FileData *fd, GList **keywords, gchar **comment);
+gint metadata_read(FileData *fd, GList **keywords, gchar **comment);
 
 void metadata_set_keywords(FileData *fd, GList *keywords_to_use, gchar *comment_to_use, gint add);
 gint keyword_list_find(GList *list, const gchar *keyword);

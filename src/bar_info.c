@@ -406,7 +406,7 @@ static void bar_info_write(BarInfoData *bd)
 	list = keyword_list_pull(bd->keyword_view);
 	comment = comment_pull(bd->comment_view);
 
-	comment_write(bd->fd, list, comment);
+	metadata_write(bd->fd, list, comment);
 
 	string_list_free(list);
 	g_free(comment);
@@ -511,7 +511,7 @@ static void bar_info_update(BarInfoData *bd)
 		gtk_label_set_text(GTK_LABEL(bd->label_file_time), (bd->fd) ? text_from_time(bd->fd->date) : "");
 		}
 
-	if (comment_read(bd->fd, &keywords, &comment))
+	if (metadata_read(bd->fd, &keywords, &comment))
 		{
 		keyword_list_push(bd->keyword_view, keywords);
 		gtk_text_buffer_set_text(gtk_text_view_get_buffer(GTK_TEXT_VIEW(bd->comment_view)),

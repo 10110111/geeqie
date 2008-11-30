@@ -178,7 +178,7 @@ static gchar *keywords_to_string(FileData *fd)
 
 	g_assert(fd);
 
-	if (comment_read(fd, &keywords, NULL))
+	if (metadata_read(fd, &keywords, NULL))
 		{
 		GList *work = keywords;
 
@@ -275,7 +275,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			}
 		else if (strcmp(name, "comment") == 0)
 			{
-			comment_read(imd->image_fd, NULL, &data);
+			metadata_read(imd->image_fd, NULL, &data);
 			}
 		else
 			{

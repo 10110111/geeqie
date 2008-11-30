@@ -1804,7 +1804,7 @@ static gint search_file_next(SearchData *sd)
 		tested = TRUE;
 		match = FALSE;
 
-		if (comment_read(fd, &list, NULL))
+		if (metadata_read(fd, &list, NULL))
 			{
 			GList *needle;
 			GList *haystack;
@@ -1882,7 +1882,7 @@ static gint search_file_next(SearchData *sd)
 		tested = TRUE;
 		match = FALSE;
 
-		if (comment_read(fd, NULL, &comment))
+		if (metadata_read(fd, NULL, &comment))
 			{
 			if (! sd->search_comment_match_case)
 				{

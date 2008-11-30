@@ -23,6 +23,12 @@
 #include "ui_misc.h"
 #include "utilops.h"
 
+typedef enum {
+	MK_NONE,
+	MK_KEYWORDS,
+	MK_COMMENT
+} MetadataKey;
+
 
 /*
  *-------------------------------------------------------------------
@@ -30,7 +36,7 @@
  *-------------------------------------------------------------------
  */
 
-static gint comment_file_write(gchar *path, GList *keywords, const gchar *comment)
+static gint metadata_file_write(gchar *path, GList *keywords, const gchar *comment)
 {
 	SecureSaveInfo *ssi;
 
@@ -57,61 +63,55 @@ static gint comment_file_write(gchar *path, GList *keywords, const gchar *commen
 	return (secure_close(ssi) == 0);
 }
 
-static gint comment_legacy_write(FileData *fd, GList *keywords, const gchar *comment)
+static gint metadata_legacy_write(FileData *fd, GList *keywords, const gchar *comment)
 {
-	gchar *comment_path;
+	gchar *metadata_path;
 	gint success = FALSE;
 
 	/* If an existing metadata file exists, we will try writing to
 	 * it's location regardless of the user's preference.
 	 */
-	comment_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
-	if (comment_path && !access_file(comment_path, W_OK))
+	metadata_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
+	if (metadata_path && !access_file(metadata_path, W_OK))
 		{
-		g_free(comment_path);
-		comment_path = NULL;
+		g_free(metadata_path);
+		metadata_path = NULL;
 		}
 
-	if (!comment_path)
+	if (!metadata_path)
 		{
-		gchar *comment_dir;
+		gchar *metadata_dir;
 		mode_t mode = 0755;
 
-		comment_dir = cache_get_location(CACHE_TYPE_METADATA, fd->path, FALSE, &mode);
-		if (recursive_mkdir_if_not_exists(comment_dir, mode))
+		metadata_dir = cache_get_location(CACHE_TYPE_METADATA, fd->path, FALSE, &mode);
+		if (recursive_mkdir_if_not_exists(metadata_dir, mode))
 			{
 			gchar *filename = g_strconcat(fd->name, GQ_CACHE_EXT_METADATA, NULL);
 			
-			comment_path = g_build_filename(comment_dir, filename, NULL);
+			metadata_path = g_build_filename(metadata_dir, filename, NULL);
 			g_free(filename);
 			}
-		g_free(comment_dir);
+		g_free(metadata_dir);
 		}
 
-	if (comment_path)
+	if (metadata_path)
 		{
-		gchar *comment_pathl;
+		gchar *metadata_pathl;
 
-		DEBUG_1("Saving comment: %s", comment_path);
+		DEBUG_1("Saving comment: %s", metadata_path);
 
-		comment_pathl = path_from_utf8(comment_path);
+		metadata_pathl = path_from_utf8(metadata_path);
 
-		success = comment_file_write(comment_pathl, keywords, comment);
+		success = metadata_file_write(metadata_pathl, keywords, comment);
 
-		g_free(comment_pathl);
-		g_free(comment_path);
+		g_free(metadata_pathl);
+		g_free(metadata_path);
 		}
 
 	return success;
 }
 
-typedef enum {
-	MK_NONE,
-	MK_KEYWORDS,
-	MK_COMMENT
-} MetadataKey;
-
-static gint comment_file_read(gchar *path, GList **keywords, gchar **comment)
+static gint metadata_file_read(gchar *path, GList **keywords, gchar **comment)
 {
 	FILE *f;
 	gchar s_buf[1024];
@@ -197,42 +197,42 @@ static gint comment_file_read(gchar *path, GList **keywords, gchar **comment)
 	return TRUE;
 }
 
-static gint comment_delete_legacy(FileData *fd)
+static gint metadata_legacy_delete(FileData *fd)
 {
-	gchar *comment_path;
-	gchar *comment_pathl;
+	gchar *metadata_path;
+	gchar *metadata_pathl;
 	gint success = FALSE;
 	if (!fd) return FALSE;
 
-	comment_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
-	if (!comment_path) return FALSE;
+	metadata_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
+	if (!metadata_path) return FALSE;
 
-	comment_pathl = path_from_utf8(comment_path);
+	metadata_pathl = path_from_utf8(metadata_path);
 
-	success = !unlink(comment_pathl);
+	success = !unlink(metadata_pathl);
 
-	g_free(comment_pathl);
-	g_free(comment_path);
+	g_free(metadata_pathl);
+	g_free(metadata_path);
 
 	return success;
 }
 
-static gint comment_legacy_read(FileData *fd, GList **keywords, gchar **comment)
+static gint metadata_legacy_read(FileData *fd, GList **keywords, gchar **comment)
 {
-	gchar *comment_path;
-	gchar *comment_pathl;
+	gchar *metadata_path;
+	gchar *metadata_pathl;
 	gint success = FALSE;
 	if (!fd) return FALSE;
 
-	comment_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
-	if (!comment_path) return FALSE;
+	metadata_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
+	if (!metadata_path) return FALSE;
 
-	comment_pathl = path_from_utf8(comment_path);
+	metadata_pathl = path_from_utf8(metadata_path);
 
-	success = comment_file_read(comment_pathl, keywords, comment);
+	success = metadata_file_read(metadata_pathl, keywords, comment);
 
-	g_free(comment_pathl);
-	g_free(comment_path);
+	g_free(metadata_pathl);
+	g_free(metadata_path);
 
 	return success;
 }
@@ -264,7 +264,7 @@ static GList *remove_duplicate_strings_from_list(GList *list)
 #define COMMENT_KEY "Xmp.dc.description"
 #define KEYWORD_KEY "Xmp.dc.subject"
 
-static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
+static gint metadata_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 {
 	ExifData *exif;
 
@@ -339,7 +339,7 @@ static gint comment_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 	return (comment && *comment) || (keywords && *keywords);
 }
 
-static gint comment_xmp_write(FileData *fd, GList *keywords, const gchar *comment)
+static gint metadata_xmp_write(FileData *fd, GList *keywords, const gchar *comment)
 {
 	gint success;
 	gint write_comment = (comment && comment[0]);
@@ -385,21 +385,21 @@ static gint comment_xmp_write(FileData *fd, GList *keywords, const gchar *commen
 	return success;
 }
 
-gint comment_write(FileData *fd, GList *keywords, const gchar *comment)
+gint metadata_write(FileData *fd, GList *keywords, const gchar *comment)
 {
 	if (!fd) return FALSE;
 
 	if (options->save_metadata_in_image_file &&
-	    comment_xmp_write(fd, keywords, comment))
+	    metadata_xmp_write(fd, keywords, comment))
 		{
-		comment_delete_legacy(fd);
+		metadata_legacy_delete(fd);
 		return TRUE;
 		}
 
-	return comment_legacy_write(fd, keywords, comment);
+	return metadata_legacy_write(fd, keywords, comment);
 }
 
-gint comment_read(FileData *fd, GList **keywords, gchar **comment)
+gint metadata_read(FileData *fd, GList **keywords, gchar **comment)
 {
 	GList *keywords1 = NULL;
 	GList *keywords2 = NULL;
@@ -409,8 +409,8 @@ gint comment_read(FileData *fd, GList **keywords, gchar **comment)
 
 	if (!fd) return FALSE;
 
-	res1 = comment_xmp_read(fd, &keywords1, &comment1);
-	res2 = comment_legacy_read(fd, &keywords2, &comment2);
+	res1 = metadata_xmp_read(fd, &keywords1, &comment1);
+	res2 = metadata_legacy_read(fd, &keywords2, &comment2);
 
 	if (!res1 && !res2)
 		{
@@ -461,7 +461,7 @@ void metadata_set_keywords(FileData *fd, GList *keywords_to_use, gchar *comment_
 	GList *keywords = NULL;
 	GList *save_list = NULL;
 
-	comment_read(fd, &keywords, &comment);
+	metadata_read(fd, &keywords, &comment);
 	
 	if (comment_to_use)
 		{
@@ -513,7 +513,7 @@ void metadata_set_keywords(FileData *fd, GList *keywords_to_use, gchar *comment_
 			}
 		}
 	
-	comment_write(fd, save_list, comment);
+	metadata_write(fd, save_list, comment);
 
 	string_list_free(keywords);
 	g_free(comment);
