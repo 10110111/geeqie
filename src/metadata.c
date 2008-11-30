@@ -519,13 +519,13 @@ void metadata_set(FileData *fd, GList *keywords_to_use, gchar *comment_to_use, g
 	g_free(comment);
 }
 
-gint keyword_list_find(GList *list, const gchar *keyword)
+gboolean find_string_in_list(GList *list, const gchar *string)
 {
 	while (list)
 		{
 		gchar *haystack = list->data;
 
-		if (haystack && keyword && strcmp(haystack, keyword) == 0) return TRUE;
+		if (haystack && string && strcmp(haystack, string) == 0) return TRUE;
 
 		list = list->next;
 		}
@@ -562,7 +562,7 @@ GList *string_to_keywords_list(const gchar *text)
 			gchar *keyword = g_strndup(begin, l);
 
 			/* only add if not already in the list */
-			if (keyword_list_find(list, keyword) == FALSE)
+			if (find_string_in_list(list, keyword) == FALSE)
 				list = g_list_append(list, keyword);
 			else
 				g_free(keyword);

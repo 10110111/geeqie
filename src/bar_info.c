@@ -471,7 +471,7 @@ static void bar_keyword_list_sync(BarInfoData *bd, GList *keywords)
 		gchar *key = list->data;
 
 		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store, &iter, KEYWORD_COLUMN_TOGGLE, keyword_list_find(keywords, key),
+		gtk_list_store_set(store, &iter, KEYWORD_COLUMN_TOGGLE, find_string_in_list(keywords, key),
 						 KEYWORD_COLUMN_TEXT, key, -1);
 
 		list = list->prev;
@@ -589,7 +589,7 @@ static void bar_info_keyword_set(BarInfoData *bd, const gchar *keyword, gint act
 	if (!keyword) return;
 
 	list = keyword_list_pull(bd->keyword_view);
-	found = keyword_list_find(list, keyword);
+	found = find_string_in_list(list, keyword);
 
 	if (active != found)
 		{

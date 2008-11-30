@@ -19,7 +19,7 @@ gint metadata_write(FileData *fd, GList *keywords, const gchar *comment);
 gint metadata_read(FileData *fd, GList **keywords, gchar **comment);
 
 void metadata_set(FileData *fd, GList *keywords_to_use, gchar *comment_to_use, gboolean append);
-gint keyword_list_find(GList *list, const gchar *keyword);
+gboolean find_string_in_list(GList *list, const gchar *keyword);
 GList *string_to_keywords_list(const gchar *text);
 
 #endif
