@@ -234,7 +234,7 @@ void filter_add_defaults(void)
 	 */
 	filter_add_if_missing("arw", "Sony raw format", ".arw;.srf;.sr2", FORMAT_CLASS_RAWIMAGE, TRUE);
 	filter_add_if_missing("crw", "Canon raw format", ".crw;.cr2", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("kdc", "Kodak raw format", ".kdc;.dcr", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("kdc", "Kodak raw format", ".kdc;.dcr;.k25", FORMAT_CLASS_RAWIMAGE, TRUE);
 	filter_add_if_missing("raf", "Fujifilm raw format", ".raf", FORMAT_CLASS_RAWIMAGE, TRUE);
 	filter_add_if_missing("mef", "Mamiya raw format", ".mef;.mos", FORMAT_CLASS_RAWIMAGE, TRUE);
 	filter_add_if_missing("mrw", "Minolta raw format", ".mrw", FORMAT_CLASS_RAWIMAGE, TRUE);
@@ -447,10 +447,9 @@ GList *sidecar_ext_get_list(void)
 	return sidecar_ext_list;
 }
 
-void sidecar_ext_parse(const gchar *text, gint quoted)
+static void sidecar_ext_free_list(void)
 {
 	GList *work;
-	gchar *value;
 
 	work = sidecar_ext_list;
 	while (work)
@@ -461,17 +460,24 @@ void sidecar_ext_parse(const gchar *text, gint quoted)
 		}
 	g_list_free(sidecar_ext_list);
 	sidecar_ext_list = NULL;
+}
+
+void sidecar_ext_parse(const gchar *text, gboolean quoted)
+{
+	gchar *value;
+
+	sidecar_ext_free_list();
 
 	if (quoted)
 		value = quoted_value(text, NULL);
 	else
-		value = g_strdup(text);
+		value = text;
 
 	if (value == NULL) return;
 
 	sidecar_ext_list = filter_to_list(value);
 
-	g_free(value);
+	if (quoted) g_free(value);
 }
 
 void sidecar_ext_write(SecureSaveInfo *ssi)
@@ -497,6 +503,7 @@ gchar *sidecar_ext_to_string(void)
 
 void sidecar_ext_add_defaults(void)
 {
-	sidecar_ext_parse(".jpg;.cr2;.nef;.crw;.xmp", FALSE);
+	sidecar_ext_parse(".jpg;.cr2;.nef;.crw;.pef;.dng;.arw;.xmp", FALSE);
 }
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
