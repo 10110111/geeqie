@@ -401,47 +401,48 @@ gint metadata_write(FileData *fd, GList *keywords, const gchar *comment)
 
 gint metadata_read(FileData *fd, GList **keywords, gchar **comment)
 {
-	GList *keywords1 = NULL;
-	GList *keywords2 = NULL;
-	gchar *comment1 = NULL;
-	gchar *comment2 = NULL;
-	gint res1, res2;
+	GList *keywords_xmp = NULL;
+	GList *keywords_legacy = NULL;
+	gchar *comment_xmp = NULL;
+	gchar *comment_legacy = NULL;
+	gint result_xmp, result_legacy;
 
 	if (!fd) return FALSE;
 
-	res1 = metadata_xmp_read(fd, &keywords1, &comment1);
-	res2 = metadata_legacy_read(fd, &keywords2, &comment2);
+	result_xmp = metadata_xmp_read(fd, &keywords_xmp, &comment_xmp);
+	result_legacy = metadata_legacy_read(fd, &keywords_legacy, &comment_legacy);
 
-	if (!res1 && !res2)
+	if (!result_xmp && !result_legacy)
 		{
 		return FALSE;
 		}
 
 	if (keywords)
 		{
-		if (res1 && res2)
-			*keywords = g_list_concat(keywords1, keywords2);
+		if (result_xmp && result_legacy)
+			*keywords = g_list_concat(keywords_xmp, keywords_legacy);
 		else
-			*keywords = res1 ? keywords1 : keywords2;
+			*keywords = result_xmp ? keywords_xmp : keywords_legacy;
 
 		*keywords = remove_duplicate_strings_from_list(*keywords);
 		}
 	else
 		{
-		if (res1) string_list_free(keywords1);
-		if (res2) string_list_free(keywords2);
+		if (result_xmp) string_list_free(keywords_xmp);
+		if (result_legacy) string_list_free(keywords_legacy);
 		}
 
 
 	if (comment)
 		{
-		if (res1 && res2 && comment1 && comment2 && comment1[0] && comment2[0])
-			*comment = g_strdup_printf("%s\n%s", comment1, comment2);
+		if (result_xmp && result_legacy && comment_xmp && comment_legacy && *comment_xmp && *comment_legacy)
+			*comment = g_strdup_printf("%s\n%s", comment_xmp, comment_legacy);
 		else
-			*comment = res1 ? comment1 : comment2;
+			*comment = result_xmp ? comment_xmp : comment_legacy;
 		}
-	if (res1 && (!comment || *comment != comment1)) g_free(comment1);
-	if (res2 && (!comment || *comment != comment2)) g_free(comment2);
+
+	if (result_xmp && (!comment || *comment != comment_xmp)) g_free(comment_xmp);
+	if (result_legacy && (!comment || *comment != comment_legacy)) g_free(comment_legacy);
 	
 	// return FALSE in the following cases:
 	//  - only looking for a comment and didn't find one
@@ -455,37 +456,37 @@ gint metadata_read(FileData *fd, GList **keywords, gchar **comment)
 	return TRUE;
 }
 
-void metadata_set(FileData *fd, GList *keywords_to_use, gchar *comment_to_use, gboolean append)
+void metadata_set(FileData *fd, GList *new_keywords, gchar *new_comment, gboolean append)
 {
 	gchar *comment = NULL;
 	GList *keywords = NULL;
-	GList *save_list = NULL;
+	GList *keywords_list = NULL;
 
 	metadata_read(fd, &keywords, &comment);
 	
-	if (comment_to_use)
+	if (new_comment)
 		{
 		if (append && comment && *comment)
 			{
 			gchar *tmp = comment;
 				
-			comment = g_strconcat(tmp, comment_to_use, NULL);
+			comment = g_strconcat(tmp, new_comment, NULL);
 			g_free(tmp);
 			}
 		else
 			{
 			g_free(comment);
-			comment = g_strdup(comment_to_use);
+			comment = g_strdup(new_comment);
 			}
 		}
 	
-	if (keywords_to_use)
+	if (new_keywords)
 		{
 		if (append && keywords && g_list_length(keywords) > 0)
 			{
 			GList *work;
 
-			work = keywords_to_use;
+			work = new_keywords;
 			while (work)
 				{
 				gchar *key;
@@ -505,15 +506,15 @@ void metadata_set(FileData *fd, GList *keywords_to_use, gchar *comment_to_use, g
 
 				if (key) keywords = g_list_append(keywords, g_strdup(key));
 				}
-			save_list = keywords;
+			keywords_list = keywords;
 			}
 		else
 			{
-			save_list = keywords_to_use;
+			keywords_list = new_keywords;
 			}
 		}
 	
-	metadata_write(fd, save_list, comment);
+	metadata_write(fd, keywords_list, comment);
 
 	string_list_free(keywords);
 	g_free(comment);
