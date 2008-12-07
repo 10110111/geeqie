@@ -145,9 +145,12 @@ public:
 			Exiv2::BasicIo &io = image_->io();
 			gint open = io.isopen();
 			if (!open) io.open();
-			unsigned char *mapped = (unsigned char*)io.mmap();
-			if (mapped) exif_jpeg_parse_color(this, mapped, io.size());
-			io.munmap();
+			if (io.isopen())
+				{
+				unsigned char *mapped = (unsigned char*)io.mmap();
+				if (mapped) exif_jpeg_parse_color(this, mapped, io.size());
+				io.munmap();
+				}
 			if (!open) io.close();
 			}
 #endif
