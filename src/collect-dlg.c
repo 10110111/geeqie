@@ -118,8 +118,33 @@ static void collection_save_cb(FileDialog *fd, gpointer data)
 static void real_collection_button_pressed(FileDialog *fd, gpointer data, gint append)
 {
 	CollectionData *cd = data;
+	gboolean err = FALSE;
+	gchar *text = NULL;
 
-	if (!fd->dest_path || isdir(fd->dest_path)) return;
+	if (!isname(fd->dest_path))
+		{
+		err = TRUE;
+		text = g_strdup_printf(_("No such file '%s'."), fd->dest_path);
+		}
+	if (!err && isdir(fd->dest_path))
+		{
+		err = TRUE;
+		text = g_strdup_printf(_("'%s' is a directory, not a collection file."), fd->dest_path);
+		}
+	if (!err && !access_file(fd->dest_path, R_OK))
+		{
+		err = TRUE;
+		text = g_strdup_printf(_("You do not have read permissions on the file '%s'."), fd->dest_path);
+		}
+
+	if (err) {
+		if  (text)
+			{
+			file_util_warning_dialog(_("Can not open collection file"), text, GTK_STOCK_DIALOG_ERROR, NULL);
+			g_free(text);
+		}
+		return;
+	}
 
 	if (append)
 		{
