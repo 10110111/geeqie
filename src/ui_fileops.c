@@ -329,14 +329,14 @@ gint isdir(const gchar *s)
 {
 	struct stat st;
 
-	return (stat_utf8(s ,&st) && S_ISDIR(st.st_mode));
+	return (stat_utf8(s, &st) && S_ISDIR(st.st_mode));
 }
 
 gint islink(const gchar *s)
 {
 	struct stat st;
 
-	return (lstat_utf8(s ,&st) && S_ISLNK(st.st_mode));
+	return (lstat_utf8(s, &st) && S_ISLNK(st.st_mode));
 }
 
 gint64 filesize(const gchar *s)
