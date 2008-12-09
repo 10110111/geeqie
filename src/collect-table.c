@@ -368,6 +368,37 @@ void collection_table_unselect_all(CollectTable *ct)
 	collection_table_update_status(ct);
 }
 
+/* Invert the current collection's selection */
+static void collection_table_select_invert_all(CollectTable *ct)
+{
+	GList *work;
+	GList *new_selection = NULL;
+
+	work = ct->cd->list;
+	while (work)
+		{
+		CollectInfo *info = work->data;
+
+		if (INFO_SELECTED(info))
+			{
+			collection_table_selection_remove(ct, info, SELECTION_SELECTED, NULL);
+			}
+		else
+			{
+			new_selection = g_list_append(new_selection, info);
+			collection_table_selection_add(ct, info, SELECTION_SELECTED, NULL);
+
+			}
+
+		work = work->next;
+		}
+
+	g_list_free(ct->selection);
+	ct->selection = new_selection;
+
+	collection_table_update_status(ct);
+}
+
 static void collection_table_select(CollectTable *ct, CollectInfo *info)
 {
 	ct->prev_selection = info;
@@ -731,6 +762,14 @@ static void collection_table_popup_unselectall_cb(GtkWidget *widget, gpointer da
 	ct->prev_selection= ct->click_info;
 }
 
+static void collection_table_popup_select_invert_cb(GtkWidget *widget, gpointer data)
+{
+	CollectTable *ct = data;
+
+	collection_table_select_invert_all(ct);
+	ct->prev_selection= ct->click_info;
+}
+
 static void collection_table_popup_remove_cb(GtkWidget *widget, gpointer data)
 {
 	CollectTable *ct = data;
@@ -815,6 +854,7 @@ static GtkWidget *collection_table_popup_menu(CollectTable *ct, gint over_icon)
 {
 	GtkWidget *menu;
 	GtkWidget *item;
+	GtkWidget *submenu;
 
 	menu = popup_menu_short_lived();
 
@@ -834,10 +874,16 @@ static GtkWidget *collection_table_popup_menu(CollectTable *ct, gint over_icon)
 	menu_item_add_stock(menu, _("Append from collection..."), GTK_STOCK_OPEN,
 			G_CALLBACK(collection_table_popup_add_collection_cb), ct);
 	menu_item_add_divider(menu);
-	menu_item_add(menu, _("Select all"),
+
+	item = menu_item_add(menu, _("_Selection"), NULL, NULL);
+	submenu = gtk_menu_new();
+	menu_item_add(submenu, _("Select all"),
 			G_CALLBACK(collection_table_popup_selectall_cb), ct);
-	menu_item_add(menu, _("Select none"),
+	menu_item_add(submenu, _("Select none"),
 			G_CALLBACK(collection_table_popup_unselectall_cb), ct);
+	menu_item_add(submenu, _("Invert selection"),
+			G_CALLBACK(collection_table_popup_select_invert_cb), ct);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 	menu_item_add_divider(menu);
 
 	submenu_add_edit(menu, &item,
