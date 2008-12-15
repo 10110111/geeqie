@@ -13,6 +13,7 @@
 #include "main.h"
 #include "view_file_icon.h"
 
+#include "bar_info.h"
 #include "cellrenderericon.h"
 #include "collect.h"
 #include "collect-io.h"
@@ -25,6 +26,7 @@
 #include "layout.h"
 #include "layout_image.h"
 #include "menu.h"
+#include "metadata.h"
 #include "thumb.h"
 #include "utilops.h"
 #include "ui_fileops.h"
@@ -551,6 +553,31 @@ static void vficon_dnd_get(GtkWidget *widget, GdkDragContext *context,
 	g_free(uri_text);
 }
 
+static void vficon_drag_data_received(GtkWidget *entry_widget, GdkDragContext *context,
+				      int x, int y, GtkSelectionData *selection,
+				      guint info, guint time, gpointer data)
+{
+	ViewFile *vf = data;
+
+	if (info == TARGET_TEXT_PLAIN) {
+		IconData *id = vficon_find_data_by_coord(vf, x, y, NULL);
+
+		if (id && id->fd) {
+			/* Add keywords to file */
+			FileData *fd = id->fd;
+			gchar *str = g_strndup(selection->data, selection->length);
+			GList *kw_list = string_to_keywords_list(str);
+			
+			metadata_set(fd, kw_list, NULL, TRUE);
+			string_list_free(kw_list);
+			g_free(str);
+			if (vf->layout && vf->layout->bar_info) {
+				bar_info_set(vf->layout->bar_info, id->fd);
+			}
+		}
+	}
+}
+
 static void vficon_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointer data)
 {
 	ViewFile *vf = data;
@@ -589,12 +616,18 @@ void vficon_dnd_init(ViewFile *vf)
 	gtk_drag_source_set(vf->listview, GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
 			    dnd_file_drag_types, dnd_file_drag_types_count,
 			    GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
+	gtk_drag_dest_set(vf->listview, GTK_DEST_DEFAULT_ALL,
+			    dnd_file_drag_types, dnd_file_drag_types_count,
+			    GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
+
 	g_signal_connect(G_OBJECT(vf->listview), "drag_data_get",
 			 G_CALLBACK(vficon_dnd_get), vf);
 	g_signal_connect(G_OBJECT(vf->listview), "drag_begin",
 			 G_CALLBACK(vficon_dnd_begin), vf);
 	g_signal_connect(G_OBJECT(vf->listview), "drag_end",
 			 G_CALLBACK(vficon_dnd_end), vf);
+	g_signal_connect(G_OBJECT(vf->listview), "drag_data_received",
+			 G_CALLBACK(vficon_drag_data_received), vf);
 }
 
 /*
