@@ -30,6 +30,26 @@ typedef enum {
 } MetadataKey;
 
 
+gint metadata_write_list(FileData *fd, const gchar *key, GList *values)
+{
+	if (!fd->modified_xmp)
+		{
+		fd->modified_xmp = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GDestroyNotify)string_list_free);
+		}
+	g_hash_table_insert(fd->modified_xmp, g_strdup(key), values);
+	if (fd->exif)
+		{
+		exif_update_metadata(fd->exif, key, values);
+		}
+	return TRUE;
+}
+	
+gint metadata_write_string(FileData *fd, const gchar *key, const char *value)
+{
+	return metadata_write_list(fd, key, g_list_append(NULL, g_strdup(value)));
+}
+
+
 /*
  *-------------------------------------------------------------------
  * keyword / comment read/write
@@ -341,46 +361,16 @@ static gint metadata_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 
 static gint metadata_xmp_write(FileData *fd, GList *keywords, const gchar *comment)
 {
-	gint success;
+	gint success = TRUE;
 	gint write_comment = (comment && comment[0]);
-	ExifData *exif;
-	ExifItem *item;
 
-	exif = exif_read_fd(fd);
-	if (!exif) return FALSE;
+	if (write_comment) success = success && metadata_write_string(fd, COMMENT_KEY, comment);
+	
+	if (keywords) success = success && metadata_write_list(fd, KEYWORD_KEY, string_list_copy(keywords));
 
-	item = exif_get_item(exif, COMMENT_KEY);
-	if (item && !write_comment)
-		{
-		exif_item_delete(exif, item);
-		item = NULL;
-		}
 
-	if (!item && write_comment) item = exif_add_item(exif, COMMENT_KEY);
-	if (item) exif_item_set_string(item, comment);
-
-	while ((item = exif_get_item(exif, KEYWORD_KEY)))
-		{
-		exif_item_delete(exif, item);
-		}
-
-	if (keywords)
-		{
-		GList *work;
-
-		item = exif_add_item(exif, KEYWORD_KEY);
-
-		work = keywords;
-		while (work)
-			{
-			exif_item_set_string(item, (gchar *) work->data);
-			work = work->next;
-			}
-		}
-
-	success = exif_write(exif);
-
-	exif_free_fd(fd, exif);
+/* FIXME - actual writting should be triggered in metadata_write_list and should be delayed */
+	success = exif_write_fd(fd);
 
 	return success;
 }

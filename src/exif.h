@@ -107,10 +107,11 @@ struct _ExifFormattedText
  *-----------------------------------------------------------------------------
  */
 
-ExifData *exif_read(gchar *path, gchar *sidecar_path);
+ExifData *exif_read(gchar *path, gchar *sidecar_path, GHashTable *modified_xmp);
 
 ExifData *exif_read_fd(FileData *fd);
 void exif_free_fd(FileData *fd, ExifData *exif);
+gint exif_write_fd(FileData *fd);
 
 /* exif_read returns processed data (merged from image and sidecar, etc.)
    this function gives access to the original data from the image.
@@ -125,7 +126,6 @@ gint exif_get_integer(ExifData *exif, const gchar *key, gint *value);
 ExifRational *exif_get_rational(ExifData *exif, const gchar *key, gint *sign);
 
 ExifItem *exif_get_item(ExifData *exif, const gchar *key);
-ExifItem *exif_add_item(ExifData *exif, const gchar *key);
 ExifItem *exif_get_first_item(ExifData *exif);
 ExifItem *exif_get_next_item(ExifData *exif);
 
@@ -148,8 +148,7 @@ gchar *exif_get_tag_description_by_key(const gchar *key);
 
 gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid);
 
-gint exif_item_delete(ExifData *exif, ExifItem *item);
-gint exif_item_set_string(ExifItem *item, const gchar *str);
+gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values);
 
 guchar *exif_get_color_profile(ExifData *exif, guint *data_len);
 

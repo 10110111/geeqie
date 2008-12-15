@@ -440,6 +440,7 @@ struct _FileData {
 	gint exif_orientation;
 	
 	ExifData *exif;
+	GHashTable *modified_xmp; // hash table which contains unwritten xmp metadata in format: key->list of string values
 };
 
 struct _LayoutWindow

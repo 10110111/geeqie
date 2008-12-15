@@ -1209,7 +1209,7 @@ void exif_free(ExifData *exif)
 	g_free(exif);
 }
 
-ExifData *exif_read(gchar *path, gchar *sidecar_path)
+ExifData *exif_read(gchar *path, gchar *sidecar_path, GHashTable *modified_xmp)
 {
 	ExifData *exif;
 	gpointer f;
@@ -1584,21 +1584,11 @@ gint exif_write(ExifData *exif)
 	return 0;
 }
 
-ExifItem *exif_add_item(ExifData *exif, const gchar *key)
-{
-	return NULL;
-}
 
-gint exif_item_delete(ExifData *exif, ExifItem *item)
+gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values)
 {
 	return 0;
 }
-
-gint exif_item_set_string(ExifItem *item, const gchar *str)
-{
-	return 0;
-}
-
 
 typedef struct _UnmapData UnmapData;
 struct _UnmapData

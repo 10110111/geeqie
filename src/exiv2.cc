@@ -201,6 +201,10 @@ public:
 	}
 };
 
+extern "C" {
+static void _ExifDataProcessed_update_xmp(gpointer key, gpointer value, gpointer data);
+}
+
 // This allows read-write access to the metadata
 struct _ExifDataProcessed : public _ExifData
 {
@@ -215,7 +219,7 @@ protected:
 #endif
 
 public:
-	_ExifDataProcessed(gchar *path, gchar *sidecar_path)
+	_ExifDataProcessed(gchar *path, gchar *sidecar_path, GHashTable *modified_xmp)
 	{
 		imageData_ = new _ExifDataOriginal(path);
 		sidecarData_ = NULL;
@@ -233,6 +237,10 @@ public:
 #if EXIV2_TEST_VERSION(0,17,0)
 		syncExifWithXmp(exifData_, xmpData_);
 #endif
+		if (modified_xmp)
+			{
+			g_hash_table_foreach(modified_xmp, _ExifDataProcessed_update_xmp, this);
+			}
 	}
 
 	virtual ~_ExifDataProcessed()
@@ -326,11 +334,16 @@ public:
 
 extern "C" {
 
-ExifData *exif_read(gchar *path, gchar *sidecar_path)
+static void _ExifDataProcessed_update_xmp(gpointer key, gpointer value, gpointer data)
+{
+	exif_update_metadata((ExifData *)data, (gchar *)key, (GList *)value);
+}
+
+ExifData *exif_read(gchar *path, gchar *sidecar_path, GHashTable *modified_xmp)
 {
 	DEBUG_1("exif read %s, sidecar: %s", path, sidecar_path ? sidecar_path : "-");
 	try {
-		return new _ExifDataProcessed(path, sidecar_path);
+		return new _ExifDataProcessed(path, sidecar_path, modified_xmp);
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";
@@ -731,48 +744,70 @@ gchar *exif_get_tag_description_by_key(const gchar *key)
 	}
 }
 
-int exif_item_set_string(ExifItem *item, const char *str)
+gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values)
 {
 	try {
-		if (!item) return 0;
-		((Exiv2::Metadatum *)item)->setValue(std::string(str));
-		return 1;
+		const GList *work = values;
+
+		Exiv2::Metadatum *item = NULL;
+		try {
+			Exiv2::ExifKey ekey(key);
+			
+			Exiv2::ExifData::iterator pos = exif->exifData().findKey(ekey);
+			while (pos != exif->exifData().end())
+				{
+				exif->exifData().erase(pos);
+				pos = exif->exifData().findKey(ekey);
+				}
+
+			while (work)
+				{
+				exif->exifData()[key] = (gchar *)work->data;
+				work = work->next;
+				}
 		}
+		catch (Exiv2::AnyError& e) {
+			try {
+				Exiv2::IptcKey ekey(key);
+				Exiv2::IptcData::iterator pos = exif->iptcData().findKey(ekey);
+				while (pos != exif->iptcData().end())
+					{
+					exif->iptcData().erase(pos);
+					pos = exif->iptcData().findKey(ekey);
+					}
+
+				while (work)
+					{
+					exif->iptcData()[key] = (gchar *)work->data;
+					work = work->next;
+					}
+			}
+			catch (Exiv2::AnyError& e) {
+#if EXIV2_TEST_VERSION(0,16,0)
+				Exiv2::XmpKey ekey(key);
+				Exiv2::XmpData::iterator pos = exif->xmpData().findKey(ekey);
+				while (pos != exif->xmpData().end())
+					{
+					exif->xmpData().erase(pos);
+					pos = exif->xmpData().findKey(ekey);
+					}
+
+				while (work)
+					{
+					exif->xmpData()[key] = (gchar *)work->data;
+					work = work->next;
+					}
+#endif
+			}
+		}
+		return 1;
+	}
 	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
 		return 0;
 	}
 }
 
-int exif_item_delete(ExifData *exif, ExifItem *item)
-{
-	try {
-		if (!item) return 0;
-		for (Exiv2::ExifData::iterator i = exif->exifData().begin(); i != exif->exifData().end(); ++i) {
-			if (((Exiv2::Metadatum *)item) == &*i) {
-				i = exif->exifData().erase(i);
-				return 1;
-			}
-		}
-		for (Exiv2::IptcData::iterator i = exif->iptcData().begin(); i != exif->iptcData().end(); ++i) {
-			if (((Exiv2::Metadatum *)item) == &*i) {
-				i = exif->iptcData().erase(i);
-				return 1;
-			}
-		}
-#if EXIV2_TEST_VERSION(0,16,0)
-		for (Exiv2::XmpData::iterator i = exif->xmpData().begin(); i != exif->xmpData().end(); ++i) {
-			if (((Exiv2::Metadatum *)item) == &*i) {
-				i = exif->xmpData().erase(i);
-				return 1;
-			}
-		}
-#endif
-		return 0;
-	}
-	catch (Exiv2::AnyError& e) {
-		return 0;
-	}
-}
 
 void exif_add_jpeg_color_profile(ExifData *exif, unsigned char *cp_data, guint cp_length)
 {
