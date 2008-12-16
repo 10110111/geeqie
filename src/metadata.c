@@ -29,6 +29,61 @@ typedef enum {
 	MK_COMMENT
 } MetadataKey;
 
+#define COMMENT_KEY "Xmp.dc.description"
+#define KEYWORD_KEY "Xmp.dc.subject"
+
+static gboolean metadata_write_queue_idle_cb(gpointer data);
+static gint metadata_legacy_write(FileData *fd);
+static gint metadata_legacy_delete(FileData *fd);
+
+
+/*
+ *-------------------------------------------------------------------
+ * write queue
+ *-------------------------------------------------------------------
+ */
+
+static GList *metadata_write_queue = NULL;
+static gint metadata_write_idle_id = -1;
+
+
+static void metadata_write_queue_add(FileData *fd)
+{
+	if (g_list_find(metadata_write_queue, fd)) return;
+	
+	metadata_write_queue = g_list_prepend(metadata_write_queue, fd);
+	file_data_ref(fd);
+
+	if (metadata_write_idle_id == -1) metadata_write_idle_id = g_idle_add(metadata_write_queue_idle_cb, NULL);
+}
+
+
+static void metadata_write_queue_commit(FileData *fd)
+{
+	if (options->save_metadata_in_image_file &&
+	    exif_write_fd(fd))
+		{
+		metadata_legacy_delete(fd);
+		}
+	else metadata_legacy_write(fd);
+	
+	g_hash_table_destroy(fd->modified_xmp);
+	fd->modified_xmp = NULL;
+
+	metadata_write_queue = g_list_remove(metadata_write_queue, fd);
+	file_data_unref(fd);
+}
+
+static gboolean metadata_write_queue_idle_cb(gpointer data)
+{
+	metadata_write_queue_commit(metadata_write_queue->data); /* the first entry */
+	
+	if (metadata_write_queue) return TRUE;
+
+	metadata_write_idle_id = -1;
+	return FALSE;
+}
+
 
 gint metadata_write_list(FileData *fd, const gchar *key, GList *values)
 {
@@ -41,6 +96,7 @@ gint metadata_write_list(FileData *fd, const gchar *key, GList *values)
 		{
 		exif_update_metadata(fd->exif, key, values);
 		}
+	metadata_write_queue_add(fd);
 	return TRUE;
 }
 	
@@ -56,9 +112,12 @@ gint metadata_write_string(FileData *fd, const gchar *key, const char *value)
  *-------------------------------------------------------------------
  */
 
-static gint metadata_file_write(gchar *path, GList *keywords, const gchar *comment)
+static gint metadata_file_write(gchar *path, GHashTable *modified_xmp)
 {
 	SecureSaveInfo *ssi;
+	GList *keywords = g_hash_table_lookup(modified_xmp, KEYWORD_KEY);
+	GList *comment_l = g_hash_table_lookup(modified_xmp, COMMENT_KEY);
+	gchar *comment = comment_l ? comment_l->data : NULL;
 
 	ssi = secure_open(path);
 	if (!ssi) return FALSE;
@@ -83,7 +142,7 @@ static gint metadata_file_write(gchar *path, GList *keywords, const gchar *comme
 	return (secure_close(ssi) == 0);
 }
 
-static gint metadata_legacy_write(FileData *fd, GList *keywords, const gchar *comment)
+static gint metadata_legacy_write(FileData *fd)
 {
 	gchar *metadata_path;
 	gint success = FALSE;
@@ -122,7 +181,7 @@ static gint metadata_legacy_write(FileData *fd, GList *keywords, const gchar *co
 
 		metadata_pathl = path_from_utf8(metadata_path);
 
-		success = metadata_file_write(metadata_pathl, keywords, comment);
+		success = metadata_file_write(metadata_pathl, fd->modified_xmp);
 
 		g_free(metadata_pathl);
 		g_free(metadata_path);
@@ -281,8 +340,6 @@ static GList *remove_duplicate_strings_from_list(GList *list)
 	return g_list_reverse(newlist);
 }
 
-#define COMMENT_KEY "Xmp.dc.description"
-#define KEYWORD_KEY "Xmp.dc.subject"
 
 static gint metadata_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 {
@@ -359,34 +416,18 @@ static gint metadata_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 	return (comment && *comment) || (keywords && *keywords);
 }
 
-static gint metadata_xmp_write(FileData *fd, GList *keywords, const gchar *comment)
+gint metadata_write(FileData *fd, GList *keywords, const gchar *comment)
 {
 	gint success = TRUE;
 	gint write_comment = (comment && comment[0]);
+
+	if (!fd) return FALSE;
 
 	if (write_comment) success = success && metadata_write_string(fd, COMMENT_KEY, comment);
 	
 	if (keywords) success = success && metadata_write_list(fd, KEYWORD_KEY, string_list_copy(keywords));
 
-
-/* FIXME - actual writting should be triggered in metadata_write_list and should be delayed */
-	success = exif_write_fd(fd);
-
 	return success;
-}
-
-gint metadata_write(FileData *fd, GList *keywords, const gchar *comment)
-{
-	if (!fd) return FALSE;
-
-	if (options->save_metadata_in_image_file &&
-	    metadata_xmp_write(fd, keywords, comment))
-		{
-		metadata_legacy_delete(fd);
-		return TRUE;
-		}
-
-	return metadata_legacy_write(fd, keywords, comment);
 }
 
 gint metadata_read(FileData *fd, GList **keywords, gchar **comment)

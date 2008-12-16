@@ -643,8 +643,6 @@ gint exif_write_fd(FileData *fd)
 	if (!exif) return FALSE;
 	success = exif_write(exif); /* write modified metadata */
 	exif_free_fd(fd, exif);
-	g_hash_table_destroy(fd->modified_xmp);
-	fd->modified_xmp = NULL;
 	return success;
 }
 
