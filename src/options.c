@@ -41,7 +41,6 @@ ConfOptions *init_options(ConfOptions *options)
 	options->documentation.htmldir = NULL;
 	options->documentation.helpdir = NULL;
 	options->duplicates_similarity_threshold = 99;
-	options->enable_metadata_dirs = FALSE;
 	
 	options->file_filter.disable = FALSE;
 	options->file_filter.show_dot_directory = FALSE;
@@ -137,7 +136,16 @@ ConfOptions *init_options(ConfOptions *options)
 
 	options->progressive_key_scrolling = TRUE;
 	
-	options->save_metadata_in_image_file = FALSE;
+	options->metadata.enable_metadata_dirs = FALSE;
+	options->metadata.save_in_image_file = FALSE;
+	options->metadata.save_legacy_IPTC = FALSE;
+	options->metadata.warn_on_write_problems = TRUE;
+	options->metadata.save_legacy_format = FALSE;
+	options->metadata.sync_grouped_files = TRUE;
+	options->metadata.confirm_write = TRUE;
+	options->metadata.confirm_timeout = 0;
+	options->metadata.confirm_on_image_change = FALSE;
+	options->metadata.confirm_on_dir_change = TRUE;
 	
 	options->show_copy_path = TRUE;
 	options->show_icon_names = TRUE;

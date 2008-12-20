@@ -260,7 +260,7 @@ static void config_window_apply(void)
 	options->thumbnails.use_xvpics = c_options->thumbnails.use_xvpics;
 #endif
 	options->thumbnails.spec_standard = c_options->thumbnails.spec_standard;
-	options->enable_metadata_dirs = c_options->enable_metadata_dirs;
+	options->metadata.enable_metadata_dirs = c_options->metadata.enable_metadata_dirs;
 	options->file_filter.show_hidden_files = c_options->file_filter.show_hidden_files;
 	options->file_filter.show_dot_directory = c_options->file_filter.show_dot_directory;
 
@@ -326,7 +326,7 @@ static void config_window_apply(void)
 		layout_copy_path_update_all();
 		}
 
-	options->save_metadata_in_image_file = c_options->save_metadata_in_image_file;
+	options->metadata.save_in_image_file = c_options->metadata.save_in_image_file;
 
 #ifdef DEBUG
 	set_debug_level(debug_c);
@@ -1510,10 +1510,10 @@ static void config_tab_advanced(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Miscellaneous"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Store metadata and cache files in source image's directory"),
-			      options->enable_metadata_dirs, &c_options->enable_metadata_dirs);
+			      options->metadata.enable_metadata_dirs, &c_options->metadata.enable_metadata_dirs);
 
 	pref_checkbox_new_int(group, _("Store keywords and comments as XMP tags in image files"),
-			      options->save_metadata_in_image_file, &c_options->save_metadata_in_image_file);
+			      options->metadata.save_in_image_file, &c_options->metadata.save_in_image_file);
 
 	pref_spin_new_int(group, _("Custom similarity threshold:"), NULL,
 			  0, 100, 1, options->duplicates_similarity_threshold, (int *)&c_options->duplicates_similarity_threshold);

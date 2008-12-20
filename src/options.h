@@ -24,8 +24,6 @@ struct _ConfOptions
 	gboolean show_copy_path;
 
 	/* various */
-	gboolean enable_metadata_dirs;
-
 	gboolean tree_descend_subdirs;
 
 	gboolean lazy_image_sync;
@@ -36,7 +34,6 @@ struct _ConfOptions
 	gint open_recent_list_maxsize;
 	gint dnd_icon_size;
 
-	gboolean save_metadata_in_image_file;
 
 	/* start up */
 	struct {
@@ -253,6 +250,25 @@ struct _ConfOptions
 		gchar *helpdir;
 		gchar *htmldir;
 	} documentation;
+	
+	/* Metadata */
+	struct {
+		gboolean enable_metadata_dirs;
+
+		gboolean save_in_image_file;
+		gboolean save_legacy_IPTC;
+		gboolean warn_on_write_problems;
+
+		gboolean save_legacy_format;
+		
+		gboolean sync_grouped_files;
+		
+		gboolean confirm_write;
+		gint confirm_timeout;
+		gboolean confirm_on_image_change;
+		gboolean confirm_on_dir_change;
+	} metadata;
+
 };
 
 ConfOptions *options;

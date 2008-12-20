@@ -274,8 +274,6 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_SEPARATOR();
 
 	WRITE_BOOL(progressive_key_scrolling);
-	WRITE_BOOL(enable_metadata_dirs);
-	WRITE_BOOL(save_metadata_in_image_file);
 
 	WRITE_UINT(duplicates_similarity_threshold);
 	WRITE_SEPARATOR();
@@ -541,6 +539,18 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 		write_int_option(ssi, (gchar *)ExifUIList[i].key, ExifUIList[i].current);
 		}
 
+	WRITE_SUBTITLE("Metadata Options");
+	WRITE_BOOL(metadata.enable_metadata_dirs);
+	WRITE_BOOL(metadata.save_in_image_file); 
+	WRITE_BOOL(metadata.save_legacy_IPTC);
+	WRITE_BOOL(metadata.warn_on_write_problems);
+	WRITE_BOOL(metadata.save_legacy_format);
+	WRITE_BOOL(metadata.sync_grouped_files);
+	WRITE_BOOL(metadata.confirm_write);
+	WRITE_INT(metadata.confirm_timeout);
+	WRITE_BOOL(metadata.confirm_on_image_change);
+	WRITE_BOOL(metadata.confirm_on_dir_change);
+
 	WRITE_SUBTITLE("Documentation Options");
 	WRITE_CHAR(documentation.helpdir);
 	WRITE_CHAR(documentation.htmldir);
@@ -662,9 +672,6 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_UINT_CLAMP(duplicates_similarity_threshold, 0, 100);
 
 		READ_BOOL(progressive_key_scrolling);
-
-		READ_BOOL(enable_metadata_dirs);
-		READ_BOOL(save_metadata_in_image_file);
 
 		READ_BOOL(mousewheel_scrolls);
 
@@ -901,7 +908,19 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 					ExifUIList[i].current = strtol(value, NULL, 10);
 			continue;
 			}
-		
+
+		/* metadata */		
+		COMPAT_READ_BOOL(enable_metadata_dirs, metadata.enable_metadata_dirs);
+		COMPAT_READ_BOOL(save_metadata_in_image_file, metadata.save_in_image_file); /* 2008/12/20 */
+		READ_BOOL(metadata.save_legacy_IPTC);
+		READ_BOOL(metadata.warn_on_write_problems);
+		READ_BOOL(metadata.save_legacy_format);
+		READ_BOOL(metadata.sync_grouped_files);
+		READ_BOOL(metadata.confirm_write);
+		READ_INT(metadata.confirm_timeout);
+		READ_BOOL(metadata.confirm_on_image_change);
+		READ_BOOL(metadata.confirm_on_dir_change);
+
 		/* Documentation */
 		READ_CHAR(documentation.helpdir);
 		READ_CHAR(documentation.htmldir);

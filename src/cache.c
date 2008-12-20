@@ -626,7 +626,7 @@ gchar *cache_get_location(CacheType type, const gchar *source, gint include_name
 		}
 
 	if (((type != CACHE_TYPE_METADATA && options->thumbnails.cache_into_dirs) ||
-	     (type == CACHE_TYPE_METADATA && options->enable_metadata_dirs)) &&
+	     (type == CACHE_TYPE_METADATA && options->metadata.enable_metadata_dirs)) &&
 	    access_file(base, W_OK))
 		{
 		path = g_build_filename(base, cache_local, name, NULL);
@@ -681,7 +681,7 @@ gchar *cache_find_location(CacheType type, const gchar *source)
 
 	if (type == CACHE_TYPE_METADATA)
 		{
-		prefer_local = options->enable_metadata_dirs;
+		prefer_local = options->metadata.enable_metadata_dirs;
 		}
 	else
 		{

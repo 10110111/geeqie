@@ -87,7 +87,7 @@ static gboolean metadata_write_queue_idle_cb(gpointer data)
 
 gboolean metadata_write_perform(FileData *fd)
 {
-	if (options->save_metadata_in_image_file &&
+	if (options->metadata.save_in_image_file &&
 	    exif_write_fd(fd))
 		{
 		metadata_legacy_delete(fd);
