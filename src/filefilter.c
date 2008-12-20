@@ -471,7 +471,7 @@ void sidecar_ext_parse(const gchar *text, gboolean quoted)
 	if (quoted)
 		value = quoted_value(text, NULL);
 	else
-		value = text;
+		value = (gchar *) text;
 
 	if (value == NULL) return;
 

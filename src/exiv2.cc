@@ -749,7 +749,6 @@ gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values)
 	try {
 		const GList *work = values;
 
-		Exiv2::Metadatum *item = NULL;
 		try {
 			Exiv2::ExifKey ekey(key);
 			
