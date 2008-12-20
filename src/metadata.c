@@ -58,7 +58,34 @@ static void metadata_write_queue_add(FileData *fd)
 }
 
 
-static void metadata_write_queue_commit(FileData *fd)
+gboolean metadata_write_queue_remove(FileData *fd)
+{
+	g_hash_table_destroy(fd->modified_xmp);
+	fd->modified_xmp = NULL;
+
+	metadata_write_queue = g_list_remove(metadata_write_queue, fd);
+	file_data_unref(fd);
+	return TRUE;
+}
+
+
+static gboolean metadata_write_queue_idle_cb(gpointer data)
+{
+	/* TODO:  the queue should not be passed to file_util_write_metadata directly:
+		  metatata under .geeqie/ can be written immediately, 
+	          for others we can decide if we write to the image file or to sidecar */
+	
+
+//	if (metadata_write_queue) return TRUE;
+
+	/* confirm writting */
+	file_util_write_metadata(NULL, metadata_write_queue, NULL);
+
+	metadata_write_idle_id = -1;
+	return FALSE;
+}
+
+gboolean metadata_write_perform(FileData *fd)
 {
 	if (options->save_metadata_in_image_file &&
 	    exif_write_fd(fd))
@@ -66,24 +93,8 @@ static void metadata_write_queue_commit(FileData *fd)
 		metadata_legacy_delete(fd);
 		}
 	else metadata_legacy_write(fd);
-	
-	g_hash_table_destroy(fd->modified_xmp);
-	fd->modified_xmp = NULL;
-
-	metadata_write_queue = g_list_remove(metadata_write_queue, fd);
-	file_data_unref(fd);
+	return TRUE;
 }
-
-static gboolean metadata_write_queue_idle_cb(gpointer data)
-{
-	metadata_write_queue_commit(metadata_write_queue->data); /* the first entry */
-	
-	if (metadata_write_queue) return TRUE;
-
-	metadata_write_idle_id = -1;
-	return FALSE;
-}
-
 
 gint metadata_write_list(FileData *fd, const gchar *key, GList *values)
 {

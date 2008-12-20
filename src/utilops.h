@@ -38,6 +38,7 @@ void file_util_delete(FileData *source_fd, GList *source_list, GtkWidget *parent
 void file_util_move(FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent);
 void file_util_copy(FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent);
 void file_util_rename(FileData *source_fd, GList *source_list, GtkWidget *parent);
+void file_util_write_metadata(FileData *source_fd, GList *source_list, GtkWidget *parent);
 
 void file_util_create_dir(FileData *dir_fd, GtkWidget *parent);
 void file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget *parent);

@@ -18,13 +18,13 @@
 #include "cache.h"
 #include "thumb_standard.h"
 #include "ui_fileops.h"
+#include "metadata.h"
 
 
 static GHashTable *file_data_pool = NULL;
 static GHashTable *file_data_planned_change_hash = NULL;
 
 static gint sidecar_file_priority(const gchar *path);
-static void file_data_apply_ci(FileData *fd);
 
 
 /*
@@ -1320,6 +1320,11 @@ gboolean file_data_sc_add_ci_unspecified(FileData *fd, const gchar *dest_path)
 	return TRUE;
 }
 
+gboolean file_data_add_ci_write_metadata(FileData *fd)
+{
+	return file_data_add_ci(fd, FILEDATA_CHANGE_WRITE_METADATA, NULL, NULL);
+}
+
 void file_data_sc_free_ci(FileData *fd)
 {
 	GList *work;
@@ -1407,6 +1412,37 @@ gboolean file_data_sc_add_ci_rename_list(GList *fd_list, const gchar *dest)
 gboolean file_data_sc_add_ci_unspecified_list(GList *fd_list, const gchar *dest)
 {
 	return file_data_sc_add_ci_list_call_func(fd_list, dest, file_data_sc_add_ci_unspecified);
+}
+
+gboolean file_data_add_ci_write_metadata_list(GList *fd_list)
+{
+	GList *work;
+	gboolean ret = TRUE;
+
+	work = fd_list;
+	while (work)
+		{
+		FileData *fd = work->data;
+	
+		if (!file_data_add_ci_write_metadata(fd)) ret = FALSE;
+		work = work->next;
+		}
+
+	return ret;
+}
+
+void file_data_free_ci_list(GList *fd_list)
+{
+	GList *work;
+	
+	work = fd_list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		
+		file_data_free_ci(fd);
+		work = work->next;
+		}
 }
 
 void file_data_sc_free_ci_list(GList *fd_list)
@@ -1796,7 +1832,7 @@ gchar *file_data_get_error_string(gint error)
 	return g_string_free(result, FALSE);
 }
 
-gint file_data_sc_verify_ci_list(GList *list, gchar **desc)
+gint file_data_verify_ci_list(GList *list, gchar **desc, gboolean with_sidecars)
 {
 	GList *work;
 	gint all_errors = 0;
@@ -1819,7 +1855,7 @@ gint file_data_sc_verify_ci_list(GList *list, gchar **desc)
 		fd = work->data;
 		work = work->next;
 			
-		error = file_data_sc_verify_ci(fd);
+		error = with_sidecars ? file_data_sc_verify_ci(fd) : file_data_verify_ci(fd);
 		all_errors |= error;
 		common_errors &= error;
 		
@@ -1896,7 +1932,7 @@ static gboolean file_data_perform_delete(FileData *fd)
 		return unlink_file(fd->path);
 }
 
-static gboolean file_data_perform_ci(FileData *fd)
+gboolean file_data_perform_ci(FileData *fd)
 {
 	FileDataChangeType type = fd->change->type;
 	switch (type)
@@ -1909,6 +1945,8 @@ static gboolean file_data_perform_ci(FileData *fd)
 			return file_data_perform_move(fd); /* the same as move */
 		case FILEDATA_CHANGE_DELETE:
 			return file_data_perform_delete(fd);
+		case FILEDATA_CHANGE_WRITE_METADATA:
+			return metadata_write_perform(fd);
 		case FILEDATA_CHANGE_UNSPECIFIED:
 			/* nothing to do here */
 			break;
@@ -1944,10 +1982,10 @@ gboolean file_data_sc_perform_ci(FileData *fd)
  * updates FileData structure according to FileDataChangeInfo
  */
 
-static void file_data_apply_ci(FileData *fd)
+gint file_data_apply_ci(FileData *fd)
 {
 	FileDataChangeType type = fd->change->type;
-	
+
 	/* FIXME delete ?*/
 	if (type == FILEDATA_CHANGE_MOVE || type == FILEDATA_CHANGE_RENAME)
 		{
@@ -1970,6 +2008,8 @@ static void file_data_apply_ci(FileData *fd)
 		}
 	file_data_increment_version(fd);
 	file_data_send_notification(fd, NOTIFY_TYPE_CHANGE);
+	
+	return TRUE;
 }
 
 gint file_data_sc_apply_ci(FileData *fd)

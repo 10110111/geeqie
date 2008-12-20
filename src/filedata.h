@@ -85,6 +85,7 @@ gboolean file_data_sc_add_ci_copy_list(GList *fd_list, const gchar *dest);
 gboolean file_data_sc_add_ci_move_list(GList *fd_list, const gchar *dest);
 gboolean file_data_sc_add_ci_rename_list(GList *fd_list, const gchar *dest);
 gboolean file_data_sc_add_ci_unspecified_list(GList *fd_list, const gchar *dest);
+gboolean file_data_add_ci_write_metadata_list(GList *fd_list);
 
 gboolean file_data_sc_update_ci_copy_list(GList *fd_list, const gchar *dest);
 gboolean file_data_sc_update_ci_move_list(GList *fd_list, const gchar *dest);
@@ -95,9 +96,19 @@ gint file_data_sc_update_ci_copy(FileData *fd, const gchar *dest_path);
 gint file_data_sc_update_ci_move(FileData *fd, const gchar *dest_path);
 gint file_data_sc_update_ci_rename(FileData *fd, const gchar *dest_path);
 gint file_data_sc_update_ci_unspecified(FileData *fd, const gchar *dest_path);
-gint file_data_sc_verify_ci(FileData *fd);
+
 gchar *file_data_get_error_string(gint error);
-gint file_data_sc_verify_ci_list(GList *list, gchar **desc);
+
+gint file_data_verify_ci(FileData *fd);
+gint file_data_verify_ci_list(GList *list, gchar **desc, gboolean with_sidecars);
+
+gboolean file_data_perform_ci(FileData *fd);
+gint file_data_apply_ci(FileData *fd);
+void file_data_free_ci(FileData *fd);
+void file_data_free_ci_list(GList *fd_list);
+
+
+gint file_data_sc_verify_ci(FileData *fd);
 
 gboolean file_data_sc_perform_ci(FileData *fd);
 gint file_data_sc_apply_ci(FileData *fd);

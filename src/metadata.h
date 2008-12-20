@@ -13,6 +13,9 @@
 
 #ifndef METADATA_H
 #define METADATA_H
+gboolean metadata_write_queue_remove(FileData *fd);
+gboolean metadata_write_perform(FileData *fd);
+
 
 gint metadata_write(FileData *fd, GList *keywords, const gchar *comment);
 
