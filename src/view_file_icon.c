@@ -1427,7 +1427,7 @@ gint vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 				{
 				gtk_widget_grab_focus(vf->listview);
 				}
-#if 0
+#if 1
 			if (bevent->type == GDK_2BUTTON_PRESS &&
 			    vf->layout)
 				{

@@ -605,7 +605,7 @@ gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 		return (gtk_tree_selection_count_selected_rows(selection) > 1);
 		}
 
-#if 0
+#if 1
 	if (bevent->button == MOUSE_BUTTON_LEFT && bevent->type == GDK_2BUTTON_PRESS)
 		{
 		if (vf->layout) layout_image_full_screen_start(vf->layout);
