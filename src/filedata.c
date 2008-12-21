@@ -19,6 +19,7 @@
 #include "thumb_standard.h"
 #include "ui_fileops.h"
 #include "metadata.h"
+#include "trash.h"
 
 
 static GHashTable *file_data_pool = NULL;
@@ -1949,7 +1950,10 @@ static gboolean file_data_perform_delete(FileData *fd)
 	if (isdir(fd->path) && !islink(fd->path))
 		return rmdir_utf8(fd->path);
 	else
-		return unlink_file(fd->path);
+		if (options->file_ops.safe_delete_enable)
+			return file_util_safe_unlink(fd->path);
+		else
+			return unlink_file(fd->path);
 }
 
 gboolean file_data_perform_ci(FileData *fd)
