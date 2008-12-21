@@ -910,8 +910,10 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 			}
 
 		/* metadata */		
-		COMPAT_READ_BOOL(enable_metadata_dirs, metadata.enable_metadata_dirs);
+		COMPAT_READ_BOOL(enable_metadata_dirs, metadata.enable_metadata_dirs); /* 2008/12/20 */
+		READ_BOOL(metadata.enable_metadata_dirs);
 		COMPAT_READ_BOOL(save_metadata_in_image_file, metadata.save_in_image_file); /* 2008/12/20 */
+		READ_BOOL(metadata.save_in_image_file);
 		READ_BOOL(metadata.save_legacy_IPTC);
 		READ_BOOL(metadata.warn_on_write_problems);
 		READ_BOOL(metadata.save_legacy_format);
