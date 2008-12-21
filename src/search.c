@@ -2955,6 +2955,7 @@ static void search_notify_cb(FileData *fd, NotifyType type, gpointer data)
 			break;
 		case FILEDATA_CHANGE_COPY:
 		case FILEDATA_CHANGE_UNSPECIFIED:
+		case FILEDATA_CHANGE_WRITE_METADATA:
 			break;
 		}
 }

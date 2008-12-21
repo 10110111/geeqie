@@ -1578,10 +1578,16 @@ void exif_write_data_list(ExifData *exif, FILE *f, gint human_readable_list)
 	fprintf(f, "----------------------------------------------------\n");
 }
 
-gint exif_write(ExifData *exif)
+gboolean exif_write(ExifData *exif)
 {
 	log_printf("Not compiled with EXIF write support");
-	return 0;
+	return FALSE;
+}
+
+gboolean exif_write_sidecar(ExifData *exif, gchar *path)
+{
+	log_printf("Not compiled with EXIF write support");
+	return FALSE;
 }
 
 

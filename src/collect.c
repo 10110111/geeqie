@@ -776,6 +776,7 @@ static void collection_notify_cb(FileData *fd, NotifyType type, gpointer data)
 			while (collection_remove(cd, fd));
 			break;
 		case FILEDATA_CHANGE_UNSPECIFIED:
+		case FILEDATA_CHANGE_WRITE_METADATA:
 			break;
 		}
 

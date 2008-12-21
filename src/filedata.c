@@ -1122,7 +1122,6 @@ void file_data_set_user_orientation(FileData *fd, gint value)
 }
 
 
-
 /*
  * file_data    - operates on the given fd
  * file_data_sc - operates on the given fd + sidecars - all fds linked via fd->sidecar_files or fd->parent
@@ -1638,7 +1637,8 @@ gint file_data_verify_ci(FileData *fd)
 		return ret;
 		}
 
-	if (!isname(fd->path))
+	if (!isname(fd->path) && 
+	    !filter_file_class(fd->extension, FORMAT_CLASS_META)) /* xmp sidecar can be eventually created from scratch */
 		{
 		/* this probably should not happen */
 		ret |= CHANGE_NO_SRC;
@@ -1649,6 +1649,7 @@ gint file_data_verify_ci(FileData *fd)
 	dir = remove_level_from_path(fd->path);
 	
 	if (fd->change->type != FILEDATA_CHANGE_DELETE &&
+	    fd->change->type != FILEDATA_CHANGE_WRITE_METADATA &&
 	    !access_file(fd->path, R_OK))
 		{
 		ret |= CHANGE_NO_READ_PERM;
@@ -1662,12 +1663,31 @@ gint file_data_verify_ci(FileData *fd)
 		}
 	else if (fd->change->type != FILEDATA_CHANGE_COPY &&
 		 fd->change->type != FILEDATA_CHANGE_UNSPECIFIED &&
+		 fd->change->type != FILEDATA_CHANGE_WRITE_METADATA &&
 		 !access_file(fd->path, W_OK))
 		{
 		ret |= CHANGE_WARN_NO_WRITE_PERM;
 		DEBUG_1("Change checked: no write permission: %s", fd->path);
 		}
-
+	/* WRITE_METADATA is special because it can be configured to silently write to ~/.geeqie/...
+	   - that means that there are no hard errors and warnings can be disabled
+	*/
+	else if (fd->change->type == FILEDATA_CHANGE_WRITE_METADATA && 
+	         options->metadata.save_in_image_file && options->metadata.warn_on_write_problems)
+		{
+		if (isname(fd->path) && !access_file(fd->path, W_OK))
+			{
+			ret |= CHANGE_WARN_NO_WRITE_PERM;
+			DEBUG_1("Change checked: file is readonly: %s", fd->path);
+			}
+		
+		else if (!access_file(dir, W_OK))
+			{
+			ret |= CHANGE_WARN_NO_WRITE_PERM;
+			DEBUG_1("Change checked: dir is readonly: %s", fd->path);
+			}
+		}
+		
 	if (fd->change->dest)
 		{
 		gboolean same;

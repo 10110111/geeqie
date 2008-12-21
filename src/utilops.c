@@ -402,7 +402,7 @@ static void file_util_dialog_list_select(GtkWidget *view, gint n)
 		}
 }
 
-static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gint full_paths)
+static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gint full_paths, gboolean with_sidecars)
 {
 	GtkWidget *scrolled;
 	GtkWidget *view;
@@ -443,7 +443,7 @@ static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gint fu
 		GtkTreeIter iter;
 		gchar *sidecars;
 		
-		sidecars = file_data_sc_list_to_string(fd);
+		sidecars = with_sidecars ? file_data_sc_list_to_string(fd) : NULL;
 
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter,
@@ -1303,8 +1303,8 @@ static void file_util_dialog_init_simple_list(UtilityData *ud)
 	
 	box = pref_group_new(box, TRUE, ud->messages.desc_flist, GTK_ORIENTATION_HORIZONTAL);
 
-	ud->listview = file_util_dialog_add_list(box, ud->flist, FALSE);
-	file_util_dialog_add_list_column(ud->listview, _("Sidecars"), FALSE, UTILITY_COLUMN_SIDECARS);
+	ud->listview = file_util_dialog_add_list(box, ud->flist, FALSE, ud->with_sidecars);
+	if (ud->with_sidecars) file_util_dialog_add_list_column(ud->listview, _("Sidecars"), FALSE, UTILITY_COLUMN_SIDECARS);
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(ud->listview));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
@@ -1395,7 +1395,7 @@ static void file_util_dialog_init_source_dest(UtilityData *ud)
 
 	box = pref_group_new(box, TRUE, ud->messages.desc_flist, GTK_ORIENTATION_HORIZONTAL);
 
-	ud->listview = file_util_dialog_add_list(box, ud->flist, FALSE);
+	ud->listview = file_util_dialog_add_list(box, ud->flist, FALSE, ud->with_sidecars);
 	file_util_dialog_add_list_column(ud->listview, _("Sidecars"), FALSE, UTILITY_COLUMN_SIDECARS);
 
 	file_util_dialog_add_list_column(ud->listview, _("New name"), FALSE, UTILITY_COLUMN_DEST_NAME);
@@ -1548,6 +1548,12 @@ void file_util_dialog_run(UtilityData *ud)
 			break;
 		case UTILITY_PHASE_CANCEL:
 		case UTILITY_PHASE_DONE:
+
+			/* FIXME: put it here for now */
+			if (ud->type == UTILITY_TYPE_WRITE_METADATA)
+				{
+				metadata_write_queue_remove_list(ud->flist);
+				}
 			if (ud->with_sidecars)
 				file_data_sc_free_ci_list(ud->flist);
 			else
@@ -2051,7 +2057,7 @@ static void file_util_delete_dir_full(FileData *fd, GtkWidget *parent, UtilityPh
 		box = pref_group_new(box, TRUE, _("Subfolders:"), GTK_ORIENTATION_VERTICAL);
 
 		rlist = filelist_sort_path(rlist);
-		file_util_dialog_add_list(box, rlist, FALSE);
+		file_util_dialog_add_list(box, rlist, FALSE, FALSE);
 
 		gtk_widget_show(gd->dialog);
 		}
@@ -2261,7 +2267,8 @@ void file_util_delete(FileData *source_fd, GList *source_list, GtkWidget *parent
 
 void file_util_write_metadata(FileData *source_fd, GList *source_list, GtkWidget *parent)
 {
-	file_util_write_metadata_full(source_fd, source_list, parent, UTILITY_PHASE_START);
+	file_util_write_metadata_full(source_fd, source_list, parent, 
+	                              (options->metadata.save_in_image_file && options->metadata.confirm_write) ? UTILITY_PHASE_START : UTILITY_PHASE_ENTERING);
 }
 
 void file_util_copy(FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent)

@@ -111,14 +111,16 @@ ExifData *exif_read(gchar *path, gchar *sidecar_path, GHashTable *modified_xmp);
 
 ExifData *exif_read_fd(FileData *fd);
 void exif_free_fd(FileData *fd, ExifData *exif);
-gint exif_write_fd(FileData *fd);
 
 /* exif_read returns processed data (merged from image and sidecar, etc.)
    this function gives access to the original data from the image.
    original data are part of the processed data and should not be freed separately */
 ExifData *exif_get_original(ExifData *processed);
 
-gint exif_write(ExifData *exif);
+
+gboolean exif_write(ExifData *exif);
+gboolean exif_write_sidecar(ExifData *exif, gchar *path);
+
 void exif_free(ExifData *exif);
 
 gchar *exif_get_data_as_text(ExifData *exif, const gchar *key);

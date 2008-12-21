@@ -22,6 +22,7 @@
 #include "ui_fileops.h"
 #include "ui_misc.h"
 #include "utilops.h"
+#include "filefilter.h"
 
 typedef enum {
 	MK_NONE,
@@ -37,6 +38,20 @@ static gint metadata_legacy_write(FileData *fd);
 static gint metadata_legacy_delete(FileData *fd);
 
 
+
+gboolean metadata_can_write_directly(FileData *fd)
+{
+	return (filter_file_class(fd->extension, FORMAT_CLASS_IMAGE));
+/* FIXME: detect what exiv2 really supports */
+}
+
+gboolean metadata_can_write_sidecar(FileData *fd)
+{
+	return (filter_file_class(fd->extension, FORMAT_CLASS_RAWIMAGE));
+/* FIXME: detect what exiv2 really supports */
+}
+
+
 /*
  *-------------------------------------------------------------------
  * write queue
@@ -45,6 +60,60 @@ static gint metadata_legacy_delete(FileData *fd);
 
 static GList *metadata_write_queue = NULL;
 static gint metadata_write_idle_id = -1;
+
+static FileData *metadata_xmp_sidecar_fd(FileData *fd)
+{
+	GList *work;
+	gchar *base, *new_name;
+	FileData *ret;
+	
+	if (!metadata_can_write_sidecar(fd)) return NULL;
+		
+	
+	if (fd->parent) fd = fd->parent;
+	
+	if (filter_file_class(fd->extension, FORMAT_CLASS_META))
+		return file_data_ref(fd);
+	
+	work = fd->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+		work = work->next;
+		if (filter_file_class(sfd->extension, FORMAT_CLASS_META))
+			return file_data_ref(sfd);
+		}
+	
+	/* sidecar does not exist yet */
+	base = remove_extension_from_path(fd->path);
+	new_name = g_strconcat(base, ".xmp", NULL);
+	g_free(base);
+	ret = file_data_new_simple(new_name);
+	g_free(new_name);
+	return ret;
+}
+
+static FileData *metadata_xmp_main_fd(FileData *fd)
+{
+	if (filter_file_class(fd->extension, FORMAT_CLASS_META) && !g_list_find(metadata_write_queue, fd))
+		{
+		/* fd is a sidecar, we have to find the original file */
+		
+		GList *work = metadata_write_queue;
+		while (work)
+			{
+			FileData *ofd = work->data;
+			FileData *osfd = metadata_xmp_sidecar_fd(ofd);
+			work = work->next;
+			file_data_unref(osfd);
+			if (fd == osfd)
+				{
+				return ofd; /* this is the main file */
+				}
+			}
+		}
+	return NULL;
+}
 
 
 static void metadata_write_queue_add(FileData *fd)
@@ -60,39 +129,102 @@ static void metadata_write_queue_add(FileData *fd)
 
 gboolean metadata_write_queue_remove(FileData *fd)
 {
+	FileData *main_fd = metadata_xmp_main_fd(fd);
+
+	if (main_fd) fd = main_fd;
+
 	g_hash_table_destroy(fd->modified_xmp);
 	fd->modified_xmp = NULL;
 
 	metadata_write_queue = g_list_remove(metadata_write_queue, fd);
+	
+	file_data_increment_version(fd);
+	file_data_send_notification(fd, NOTIFY_TYPE_REREAD);
+
 	file_data_unref(fd);
 	return TRUE;
+}
+
+gboolean metadata_write_queue_remove_list(GList *list)
+{
+	GList *work;
+	gboolean ret = TRUE;
+	
+	work = list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		ret = ret && metadata_write_queue_remove(fd);
+		}
+	return ret;
 }
 
 
 static gboolean metadata_write_queue_idle_cb(gpointer data)
 {
-	/* TODO:  the queue should not be passed to file_util_write_metadata directly:
-		  metatata under .geeqie/ can be written immediately, 
-	          for others we can decide if we write to the image file or to sidecar */
+	GList *work;
+	GList *to_approve = NULL;
 	
+	work = metadata_write_queue;
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		
+		if (fd->change) continue; /* another operation in progress, skip this file for now */
+		
+		FileData *to_approve_fd = metadata_xmp_sidecar_fd(fd);
+		
+		if (!to_approve_fd) to_approve_fd = file_data_ref(fd); /* this is not a sidecar */
 
-//	if (metadata_write_queue) return TRUE;
+		to_approve = g_list_prepend(to_approve, to_approve_fd);
+		}
 
-	/* confirm writting */
-	file_util_write_metadata(NULL, metadata_write_queue, NULL);
+	file_util_write_metadata(NULL, to_approve, NULL);
+	
+	filelist_free(to_approve);
 
 	metadata_write_idle_id = -1;
 	return FALSE;
 }
 
+gboolean metadata_write_exif(FileData *fd, FileData *sfd)
+{
+	gboolean success;
+	ExifData *exif;
+	
+	/*  we can either use cached metadata which have fd->modified_xmp already applied 
+	                             or read metadata from file and apply fd->modified_xmp
+	    metadata are read also if the file was modified meanwhile */
+	exif = exif_read_fd(fd); 
+	if (!exif) return FALSE;
+	success = sfd ? exif_write_sidecar(exif, sfd->path) : exif_write(exif); /* write modified metadata */
+	exif_free_fd(fd, exif);
+	return success;
+}
+
 gboolean metadata_write_perform(FileData *fd)
 {
+	FileData *sfd = NULL;
+	FileData *main_fd = metadata_xmp_main_fd(fd);
+
+	if (main_fd)
+		{
+		sfd = fd;
+		fd = main_fd;
+		}
+
 	if (options->metadata.save_in_image_file &&
-	    exif_write_fd(fd))
+	    metadata_write_exif(fd, sfd))
 		{
 		metadata_legacy_delete(fd);
+		if (sfd) metadata_legacy_delete(sfd);
 		}
-	else metadata_legacy_write(fd);
+	else
+		{
+		metadata_legacy_write(fd);
+		}
 	return TRUE;
 }
 
@@ -435,8 +567,23 @@ gint metadata_write(FileData *fd, GList *keywords, const gchar *comment)
 	if (!fd) return FALSE;
 
 	if (write_comment) success = success && metadata_write_string(fd, COMMENT_KEY, comment);
-	
 	if (keywords) success = success && metadata_write_list(fd, KEYWORD_KEY, string_list_copy(keywords));
+	
+	if (options->metadata.sync_grouped_files)
+		{
+		GList *work = fd->sidecar_files;
+		
+		while (work)
+			{
+			FileData *sfd = work->data;
+			work = work->next;
+			
+			if (filter_file_class(sfd->extension, FORMAT_CLASS_META)) continue; 
+
+			if (write_comment) success = success && metadata_write_string(sfd, COMMENT_KEY, comment);
+			if (keywords) success = success && metadata_write_list(sfd, KEYWORD_KEY, string_list_copy(keywords));
+			}
+		}
 
 	return success;
 }

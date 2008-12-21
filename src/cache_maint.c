@@ -636,6 +636,7 @@ void cache_notify_cb(FileData *fd, NotifyType type, gpointer data)
 			cache_maint_removed(fd);
 			break;
 		case FILEDATA_CHANGE_UNSPECIFIED:
+		case FILEDATA_CHANGE_WRITE_METADATA:
 			break;
 		}
 }

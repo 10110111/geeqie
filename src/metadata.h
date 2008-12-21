@@ -14,6 +14,7 @@
 #ifndef METADATA_H
 #define METADATA_H
 gboolean metadata_write_queue_remove(FileData *fd);
+gboolean metadata_write_queue_remove_list(GList *list);
 gboolean metadata_write_perform(FileData *fd);
 
 

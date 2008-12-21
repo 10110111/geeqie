@@ -631,20 +631,6 @@ ExifData *exif_read_fd(FileData *fd)
 	return fd->exif;
 }
 
-gint exif_write_fd(FileData *fd)
-{
-	gint success;
-	ExifData *exif;
-	
-	/*  exif_read_fd can either use cached metadata which have fd->modified_xmp already applied 
-	                             or read metadata from file and apply fd->modified_xmp
-	    metadata are read also if the file was modified meanwhile */
-	exif = exif_read_fd(fd); 
-	if (!exif) return FALSE;
-	success = exif_write(exif); /* write modified metadata */
-	exif_free_fd(fd, exif);
-	return success;
-}
 
 void exif_free_fd(FileData *fd, ExifData *exif)
 {

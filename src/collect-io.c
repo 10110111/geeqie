@@ -945,8 +945,8 @@ void collect_manager_notify_cb(FileData *fd, NotifyType type, gpointer data)
 			collect_manager_moved(fd);
 			break;
 		case FILEDATA_CHANGE_DELETE:
-			break;
 		case FILEDATA_CHANGE_UNSPECIFIED:
+		case FILEDATA_CHANGE_WRITE_METADATA:
 			break;
 		}
 

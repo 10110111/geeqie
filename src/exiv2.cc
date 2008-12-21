@@ -76,7 +76,7 @@ struct _ExifData
 	{
 	}
 	
-	virtual void writeMetadata()
+	virtual void writeMetadata(gchar *path = NULL)
 	{
 		g_critical("Unsupported method of writing metadata");
 	}
@@ -254,45 +254,35 @@ public:
 		return imageData_;
 	}
 
-	virtual void writeMetadata()
+	virtual void writeMetadata(gchar *path = NULL)
 	{
 #if EXIV2_TEST_VERSION(0,17,0)
 		syncExifWithXmp(exifData_, xmpData_);
-		copyXmpToIptc(xmpData_, iptcData_); //FIXME it should be configurable
 #endif
-		if (sidecarData_) 
+		if (!path)
 			{
-			sidecarData_->image()->setXmpData(xmpData_);
-			//Exiv2 sidecar converts xmp to exif and iptc, we don't want it.
-			sidecarData_->image()->clearExifData();
-			sidecarData_->image()->clearIptcData();
-			sidecarData_->image()->writeMetadata();
-			}
+#if EXIV2_TEST_VERSION(0,17,0)
+			if (options->metadata.save_legacy_IPTC) copyXmpToIptc(xmpData_, iptcData_);
+#endif
+			imageData_->image()->setExifData(exifData_);
+			imageData_->image()->setIptcData(iptcData_);
+			imageData_->image()->setXmpData(xmpData_);
+			imageData_->image()->writeMetadata();
+			} 
 		else
 			{
-			try 	{
-				imageData_->image()->setExifData(exifData_);
-				imageData_->image()->setIptcData(iptcData_);
-				imageData_->image()->setXmpData(xmpData_);
-				imageData_->image()->writeMetadata();
-				} 
-			catch (Exiv2::AnyError& e) 
-				{
-				// can't write into the image, create sidecar
 #if EXIV2_TEST_VERSION(0,17,0)
-				gchar *base = remove_extension_from_path(imageData_->image()->io().path().c_str());
-				gchar *pathl = g_strconcat(base, ".xmp", NULL);
+			gchar *pathl = path_from_utf8(path);;
 
-				Exiv2::Image::AutoPtr sidecar = Exiv2::ImageFactory::create(Exiv2::ImageType::xmp, pathl);
+			Exiv2::Image::AutoPtr sidecar = Exiv2::ImageFactory::create(Exiv2::ImageType::xmp, pathl);
 				
-				g_free(base);
-				g_free(pathl);
-				
-				sidecarData_ = new _ExifDataOriginal(sidecar);
-				sidecarData_->image()->setXmpData(xmpData_);
-				sidecarData_->image()->writeMetadata();
+			g_free(pathl);
+
+			sidecar->setXmpData(xmpData_);
+			sidecar->writeMetadata();
+#else
+			throw Exiv2::Error(3, "xmp");
 #endif
-				}
 			}
 	}
 	
@@ -352,15 +342,27 @@ ExifData *exif_read(gchar *path, gchar *sidecar_path, GHashTable *modified_xmp)
 	
 }
 
-int exif_write(ExifData *exif)
+gboolean exif_write(ExifData *exif)
 {
 	try {
 		exif->writeMetadata();
-		return 1;
+		return TRUE;
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";
-		return 0;
+		return FALSE;
+	}
+}
+
+gboolean exif_write_sidecar(ExifData *exif, gchar *path)
+{
+	try {
+		exif->writeMetadata(path);
+		return TRUE;
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		return FALSE;
 	}
 	
 }
