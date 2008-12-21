@@ -13,15 +13,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.0alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-09 20:09+0100\n"
-"PO-Revision-Date: 2008-12-09 20:11+0100\n"
+"POT-Creation-Date: 2008-12-21 10:17+0100\n"
+"PO-Revision-Date: 2008-12-21 10:25+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french <geeqie-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 #: src/bar_exif.c:514 src/preferences.c:1202
 msgid "Description"
@@ -32,8 +34,8 @@ msgid "Value"
 msgstr "Valeur"
 
 #: src/bar_exif.c:516 src/dupe.c:2649 src/dupe.c:3172 src/print.c:3230
-#: src/search.c:2848 src/utilops.c:429 src/view_file_list.c:1932
-#: src/view_file_list.c:1936
+#: src/search.c:2848 src/utilops.c:433 src/view_file_list.c:1986
+#: src/view_file_list.c:1990
 msgid "Name"
 msgstr "Nom"
 
@@ -192,11 +194,11 @@ msgstr "Dossiers"
 msgid "Collections"
 msgstr "Collections"
 
-#: src/bar_sort.c:594 src/utilops.c:1642
+#: src/bar_sort.c:594 src/utilops.c:1736
 msgid "Copy"
 msgstr "Copier"
 
-#: src/bar_sort.c:597 src/utilops.c:1604
+#: src/bar_sort.c:597 src/utilops.c:1696
 msgid "Move"
 msgstr "Déplacer"
 
@@ -587,8 +589,8 @@ msgid "Empty"
 msgstr "Vide"
 
 #: src/collect-table.c:238 src/dupe.c:1330 src/search.c:321
-#: src/view_file_icon.c:1886 src/view_file_icon.c:2000
-#: src/view_file_list.c:1030 src/view_file_list.c:1144
+#: src/view_file_icon.c:1919 src/view_file_icon.c:2033
+#: src/view_file_list.c:1084 src/view_file_list.c:1198
 msgid "Loading thumbs..."
 msgstr "Chargement des vignettes ..."
 
@@ -777,12 +779,12 @@ msgid "Name case-insensitive"
 msgstr "Nom insensible à la casse"
 
 #: src/dupe.c:2651 src/dupe.c:3173 src/preferences.c:1102 src/print.c:3236
-#: src/search.c:2849 src/view_file_list.c:1940
+#: src/search.c:2849 src/view_file_list.c:1994
 msgid "Size"
 msgstr "Taille"
 
 #: src/dupe.c:2652 src/dupe.c:3174 src/exif.c:340 src/exif-common.c:510
-#: src/print.c:3234 src/search.c:2850 src/view_file_list.c:1944
+#: src/print.c:3234 src/search.c:2850 src/view_file_list.c:1998
 msgid "Date"
 msgstr "Date"
 
@@ -1674,47 +1676,47 @@ msgstr "%.1f Mo"
 msgid "%.1f GB"
 msgstr "%.1f Go"
 
-#: src/filedata.c:1733
+#: src/filedata.c:1769
 msgid "file or directory does not exist"
 msgstr "fichier ou dossier inexistant"
 
-#: src/filedata.c:1739
+#: src/filedata.c:1775
 msgid "destination already exists"
 msgstr "la destination existe déjà."
 
-#: src/filedata.c:1745
+#: src/filedata.c:1781
 msgid "destination can't be overwritten"
 msgstr "la destination ne peut être écrasée"
 
-#: src/filedata.c:1751
+#: src/filedata.c:1787
 msgid "destination directory is not writable"
 msgstr "impossible d'écrire dans le dossier destination"
 
-#: src/filedata.c:1757
+#: src/filedata.c:1793
 msgid "destination directory does not exist"
 msgstr "le dossier de destination n'existe pas"
 
-#: src/filedata.c:1763
+#: src/filedata.c:1799
 msgid "source directory is not writable"
 msgstr "impossible d'écrire dans le dossier source "
 
-#: src/filedata.c:1769
+#: src/filedata.c:1805
 msgid "no read permission"
 msgstr "pas de permission en lecture"
 
-#: src/filedata.c:1775
+#: src/filedata.c:1811
 msgid "file is readonly"
 msgstr "fichier en lecture seule"
 
-#: src/filedata.c:1781
+#: src/filedata.c:1817
 msgid "destination already exists and will be overwritten"
 msgstr "la destination existe déjà et sera écrasée"
 
-#: src/filedata.c:1787
+#: src/filedata.c:1823
 msgid "source and destination are the same"
 msgstr "source et destination sont identiques"
 
-#: src/filedata.c:1793
+#: src/filedata.c:1829
 msgid "source and destination have different extension"
 msgstr "source et destination ont des extensions différentes"
 
@@ -3159,7 +3161,7 @@ msgstr ""
 "Si une ligne est vide, elle n'est pas affichée. Cela permet d'ajouter des "
 "lignes qui disparaitront totalement si aucune donnée n'est disponible.\n"
 
-#: src/preferences.c:1427 src/utilops.c:1565
+#: src/preferences.c:1427 src/utilops.c:1617
 msgid "Delete"
 msgstr "Suppression"
 
@@ -3913,7 +3915,7 @@ msgstr "Erreur de sauvegarde fiable du fichier"
 msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
 msgstr "Impossible de charger la vignette depuis le cache, regénération.\n"
 
-#: src/trash.c:80 src/utilops.c:1916 src/utilops.c:1927 src/utilops.c:1983
+#: src/trash.c:80 src/utilops.c:2015 src/utilops.c:2026 src/utilops.c:2083
 msgid "Delete failed"
 msgstr "Échec de la suppression"
 
@@ -4077,8 +4079,8 @@ msgstr ""
 "Impossible de lancer la commande :\n"
 "%s"
 
-#: src/ui_pathsel.c:433 src/ui_pathsel.c:439 src/utilops.c:1665
-#: src/utilops.c:1683 src/utilops.c:2101
+#: src/ui_pathsel.c:433 src/ui_pathsel.c:439 src/utilops.c:1759
+#: src/utilops.c:1779 src/utilops.c:2203
 msgid "Rename failed"
 msgstr "Echec de renommage"
 
@@ -4096,8 +4098,8 @@ msgstr ""
 "Impossible de supprimer le fichier :\n"
 "%s"
 
-#: src/ui_pathsel.c:495 src/utilops.c:1551 src/utilops.c:1569
-#: src/utilops.c:1976
+#: src/ui_pathsel.c:495 src/utilops.c:1601 src/utilops.c:1621
+#: src/utilops.c:2076
 msgid "File deletion failed"
 msgstr "La suppression du fichier a échoué"
 
@@ -4126,7 +4128,7 @@ msgstr "Ajouter un _signet"
 msgid "_Delete"
 msgstr "_Supprimer"
 
-#: src/ui_pathsel.c:748 src/ui_pathsel.c:1053 src/utilops.c:2134
+#: src/ui_pathsel.c:748 src/ui_pathsel.c:1053 src/utilops.c:2237
 msgid "New folder"
 msgstr "Nouveau dossier"
 
@@ -4163,11 +4165,11 @@ msgstr "Sélectionner un chemin"
 msgid "All files"
 msgstr "Tous les fichiers"
 
-#: src/utilops.c:425
+#: src/utilops.c:429
 msgid "Location"
 msgstr "Emplacement"
 
-#: src/utilops.c:513
+#: src/utilops.c:517
 msgid ""
 "\n"
 " Continue multiple file operation?"
@@ -4175,11 +4177,11 @@ msgstr ""
 "\n"
 " Continuer l'opération de suppression multiple ?"
 
-#: src/utilops.c:520 src/utilops.c:909
+#: src/utilops.c:524 src/utilops.c:934
 msgid "Co_ntinue"
 msgstr "Co_ntinuer"
 
-#: src/utilops.c:668
+#: src/utilops.c:688
 #, c-format
 msgid ""
 "Removal of folder contents failed at this file:\n"
@@ -4190,7 +4192,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/utilops.c:799
+#: src/utilops.c:823
 #, c-format
 msgid ""
 "%s\n"
@@ -4199,144 +4201,164 @@ msgstr ""
 "%s\n"
 "Impossible de démarrer la commande externe.\n"
 
-#: src/utilops.c:878
+#: src/utilops.c:902
 #, c-format
 msgid "%s is not a directory"
 msgstr "%s n'est pas un répertoire"
 
-#: src/utilops.c:907
+#: src/utilops.c:932
 msgid "Really continue?"
 msgstr "Vraiment continuer ?"
 
-#: src/utilops.c:921
+#: src/utilops.c:946
 msgid "This operation can't continue:"
 msgstr "Cette opération ne peut continuer:"
 
-#: src/utilops.c:1267 src/utilops.c:1356
+#: src/utilops.c:1307 src/utilops.c:1399
 msgid "Sidecars"
 msgstr "Sidecars"
 
-#: src/utilops.c:1304
+#: src/utilops.c:1347
 msgid "Choose the destination folder."
 msgstr "Choisir le dossier de destination."
 
-#: src/utilops.c:1358
+#: src/utilops.c:1401
 msgid "New name"
 msgstr "Nouveau nom"
 
-#: src/utilops.c:1388
+#: src/utilops.c:1431
 msgid "Manual rename"
 msgstr "Renommage manuel"
 
-#: src/utilops.c:1393
+#: src/utilops.c:1436
 msgid "Original name:"
 msgstr "Nom d'origine :"
 
-#: src/utilops.c:1396
+#: src/utilops.c:1439
 msgid "New name:"
 msgstr "Nouveau nom :"
 
-#: src/utilops.c:1409
+#: src/utilops.c:1452
 msgid "Auto rename"
 msgstr "Renommage auto"
 
-#: src/utilops.c:1415
+#: src/utilops.c:1458
 msgid "Begin text"
 msgstr "Texte de début"
 
-#: src/utilops.c:1423 src/utilops.c:1455
+#: src/utilops.c:1466 src/utilops.c:1498
 msgid "Start #"
 msgstr "N° début"
 
-#: src/utilops.c:1429
+#: src/utilops.c:1472
 msgid "End text"
 msgstr "Texte de fin"
 
-#: src/utilops.c:1437
+#: src/utilops.c:1480
 msgid "Padding:"
 msgstr "Bourrage :"
 
-#: src/utilops.c:1442
+#: src/utilops.c:1485
 msgid "Formatted rename"
 msgstr "Renommage formaté"
 
-#: src/utilops.c:1447
+#: src/utilops.c:1490
 msgid "Format (* = original name, ## = numbers)"
 msgstr "Format (* = nom original, ## = nombres)"
 
-#: src/utilops.c:1520
+#: src/utilops.c:1570
 msgid "Another operation in progress.\n"
 msgstr "Autre opération en cours\n"
 
-#: src/utilops.c:1566
+#: src/utilops.c:1618
 msgid "Delete files?"
 msgstr "Supprimer les fichiers ?"
 
-#: src/utilops.c:1567
+#: src/utilops.c:1619
 msgid "This will delete the following files"
 msgstr "Ceci supprimera les fichiers suivants"
 
-#: src/utilops.c:1588 src/utilops.c:1608
+#: src/utilops.c:1638
+msgid "Can't write metadata"
+msgstr "Impossible d'écrire les méta-données"
+
+#: src/utilops.c:1654
+msgid "Write metadata"
+msgstr "Ecrire les méta-données"
+
+#: src/utilops.c:1655
+msgid "Write metadata?"
+msgstr "Ecrire les méta-données ?"
+
+#: src/utilops.c:1656
+msgid "This will write the changed metadata into the following files"
+msgstr "Cela écrira les méta-données modifiées dans les fichiers suivants"
+
+#: src/utilops.c:1658
+msgid "Metadata writting failed"
+msgstr "Echec de l'écriture des méta-données"
+
+#: src/utilops.c:1678 src/utilops.c:1700
 msgid "Move failed"
 msgstr "Echec du déplacement"
 
-#: src/utilops.c:1605
+#: src/utilops.c:1697
 msgid "Move files?"
 msgstr "Déplacer les fichiers ?"
 
-#: src/utilops.c:1606
+#: src/utilops.c:1698
 msgid "This will move the following files"
 msgstr "Ceci déplacera les fichiers suivants"
 
-#: src/utilops.c:1626 src/utilops.c:1646
+#: src/utilops.c:1718 src/utilops.c:1740
 msgid "Copy failed"
 msgstr "Echec de la copie"
 
-#: src/utilops.c:1643
+#: src/utilops.c:1737
 msgid "Copy files?"
 msgstr "Copier les fichiers ?"
 
-#: src/utilops.c:1644 src/utilops.c:1729
+#: src/utilops.c:1738 src/utilops.c:1827
 msgid "This will copy the following files"
 msgstr "Ceci copiera les fichiers suivants"
 
-#: src/utilops.c:1679 src/utilops.c:2097
+#: src/utilops.c:1775 src/utilops.c:2199
 msgid "Rename"
 msgstr "Renommer"
 
-#: src/utilops.c:1680
+#: src/utilops.c:1776
 msgid "Rename files?"
 msgstr "Renommer les fichiers ?"
 
-#: src/utilops.c:1681
+#: src/utilops.c:1777
 msgid "This will rename the following files"
 msgstr "Ceci renommera les fichiers suivants"
 
-#: src/utilops.c:1702
+#: src/utilops.c:1798
 msgid "Can't run external editor"
 msgstr "Ne peut exécuter l'éditeur externe."
 
-#: src/utilops.c:1727
+#: src/utilops.c:1825
 msgid "Editor"
 msgstr "Éditeur"
 
-#: src/utilops.c:1728
+#: src/utilops.c:1826
 msgid "Run editor?"
 msgstr "Exécuter l'éditeur ?"
 
-#: src/utilops.c:1731
+#: src/utilops.c:1829
 msgid "External command failed"
 msgstr "Echec de la commande externe"
 
-#: src/utilops.c:1899 src/utilops.c:1971
+#: src/utilops.c:1998 src/utilops.c:2071
 msgid "Delete folder"
 msgstr "Supprimer un dossier"
 
-#: src/utilops.c:1900
+#: src/utilops.c:1999
 msgid "Delete symbolic link?"
 msgstr "Supprimer le lien symbolique ?"
 
-#: src/utilops.c:1902
+#: src/utilops.c:2001
 msgid ""
 "This will delete the symbolic link.\n"
 "The folder this link points to will not be deleted."
@@ -4344,11 +4366,11 @@ msgstr ""
 "Cela supprimera le lien symbolique.\n"
 "Le dossier pointé par ce lien symbolique ne sera pas supprimé."
 
-#: src/utilops.c:1904
+#: src/utilops.c:2003
 msgid "Link deletion failed"
 msgstr "La suppression du lien a échoué"
 
-#: src/utilops.c:1914
+#: src/utilops.c:2013
 #, c-format
 msgid ""
 "Unable to remove folder %s\n"
@@ -4357,16 +4379,16 @@ msgstr ""
 "Impossible de supprimer le dossier %s\n"
 "Pas de permission pour l'écriture."
 
-#: src/utilops.c:1926 src/utilops.c:1982
+#: src/utilops.c:2025 src/utilops.c:2082
 #, c-format
 msgid "Unable to list contents of folder %s"
 msgstr "Impossible de lister le contenu du dossier %s"
 
-#: src/utilops.c:1940 src/utilops.c:1948
+#: src/utilops.c:2039 src/utilops.c:2047
 msgid "Folder contains subfolders"
 msgstr "Dossier contenant des sous-dossiers"
 
-#: src/utilops.c:1944
+#: src/utilops.c:2043
 #, c-format
 msgid ""
 "Unable to delete the folder:\n"
@@ -4382,19 +4404,19 @@ msgstr ""
 "Ce dossier contient des sous-dossiers qui doivent être déplacés avant sa "
 "suppression."
 
-#: src/utilops.c:1952
+#: src/utilops.c:2051
 msgid "Subfolders:"
 msgstr "Sous-dossiers:"
 
-#: src/utilops.c:1972
+#: src/utilops.c:2072
 msgid "Delete folder?"
 msgstr "Supprimer le dossier ?"
 
-#: src/utilops.c:1973
+#: src/utilops.c:2073
 msgid "The folder contains these files:"
 msgstr "Ce dossier contient ces fichiers:"
 
-#: src/utilops.c:1974
+#: src/utilops.c:2074
 msgid ""
 "This will delete the folder.\n"
 "The contents of this folder will also be deleted."
@@ -4402,23 +4424,23 @@ msgstr ""
 "Cela supprimera le dossier.\n"
 "Le contenu de ce dossier sera aussi supprimé."
 
-#: src/utilops.c:2098
+#: src/utilops.c:2200
 msgid "Rename folder?"
 msgstr "Renommer le dossier ?"
 
-#: src/utilops.c:2099
+#: src/utilops.c:2201
 msgid "The folder contains the following files"
 msgstr "Ce dossier contient les fichiers suivants"
 
-#: src/utilops.c:2141
+#: src/utilops.c:2244
 msgid "Create Folder"
 msgstr "Créer un dossier"
 
-#: src/utilops.c:2142
+#: src/utilops.c:2245
 msgid "Create folder?"
 msgstr "Créer un dossier ?"
 
-#: src/utilops.c:2145
+#: src/utilops.c:2248
 msgid "Can't create folder"
 msgstr "Impossible de créer le dossier"
 
@@ -4482,7 +4504,7 @@ msgstr "Voir sous forme d'_icônes"
 msgid "Show _thumbnails"
 msgstr "Montrer les vigne_ttes"
 
-#: src/view_file_list.c:419
+#: src/view_file_list.c:473
 #, c-format
 msgid ""
 "Invalid file name:\n"
@@ -4491,7 +4513,7 @@ msgstr ""
 "Nom de fichier invalide :\n"
 "%s"
 
-#: src/view_file_list.c:420
+#: src/view_file_list.c:474
 msgid "Error renaming file"
 msgstr "Erreur pour renommer le fichier"
 
