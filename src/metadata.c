@@ -123,7 +123,16 @@ static void metadata_write_queue_add(FileData *fd)
 	metadata_write_queue = g_list_prepend(metadata_write_queue, fd);
 	file_data_ref(fd);
 
-	if (metadata_write_idle_id == -1) metadata_write_idle_id = g_idle_add(metadata_write_queue_idle_cb, NULL);
+	if (metadata_write_idle_id != -1) 
+		{
+		g_source_remove(metadata_write_idle_id);
+		metadata_write_idle_id = -1;
+		}
+	
+	if (options->metadata.confirm_timeout > 0)
+		{
+		metadata_write_idle_id = g_timeout_add(options->metadata.confirm_timeout * 1000, metadata_write_queue_idle_cb, NULL);
+		}
 }
 
 
@@ -161,7 +170,7 @@ gboolean metadata_write_queue_remove_list(GList *list)
 }
 
 
-static gboolean metadata_write_queue_idle_cb(gpointer data)
+gboolean metadata_write_queue_confirm()
 {
 	GList *work;
 	GList *to_approve = NULL;
@@ -184,10 +193,17 @@ static gboolean metadata_write_queue_idle_cb(gpointer data)
 	file_util_write_metadata(NULL, to_approve, NULL);
 	
 	filelist_free(to_approve);
+	
+	return (metadata_write_queue != NULL);
+}
 
+static gboolean metadata_write_queue_idle_cb(gpointer data)
+{
+	metadata_write_queue_confirm();
 	metadata_write_idle_id = -1;
 	return FALSE;
 }
+
 
 gboolean metadata_write_exif(FileData *fd, FileData *sfd)
 {

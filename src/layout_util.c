@@ -43,6 +43,7 @@
 #include "utilops.h"
 #include "view_dir.h"
 #include "window.h"
+#include "metadata.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -2036,6 +2037,10 @@ void layout_bars_new_image(LayoutWindow *lw)
 {
 	layout_bar_info_new_image(lw);
 	layout_bar_exif_new_image(lw);
+
+	/* this should be called here to handle the metadata edited in bars */
+	if (options->metadata.confirm_on_image_change)
+		metadata_write_queue_confirm();
 }
 
 void layout_bars_new_selection(LayoutWindow *lw, gint count)

@@ -32,6 +32,7 @@
 #include "ui_misc.h"
 #include "ui_tabcomp.h"
 #include "window.h"
+#include "metadata.h"
 
 #ifdef HAVE_LIRC
 #include "lirc.h"
@@ -1044,6 +1045,9 @@ gint layout_set_fd(LayoutWindow *lw, FileData *fd)
 		{
 		layout_image_set_index(lw, 0);
 		}
+
+	if (options->metadata.confirm_on_dir_change)
+		metadata_write_queue_confirm();
 
 	return TRUE;
 }

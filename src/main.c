@@ -30,6 +30,7 @@
 #include "ui_utildlg.h"
 #include "cache_maint.h"
 #include "thumb.h"
+#include "metadata.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -647,6 +648,8 @@ static gint exit_confirm_dlg(void)
 void exit_program(void)
 {
 	layout_image_full_screen_stop(NULL);
+
+	if (metadata_write_queue_confirm()) return;
 
 	if (exit_confirm_dlg()) return;
 

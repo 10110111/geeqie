@@ -16,6 +16,8 @@
 gboolean metadata_write_queue_remove(FileData *fd);
 gboolean metadata_write_queue_remove_list(GList *list);
 gboolean metadata_write_perform(FileData *fd);
+gboolean metadata_write_queue_confirm(void);
+
 
 
 gint metadata_write(FileData *fd, GList *keywords, const gchar *comment);
