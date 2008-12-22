@@ -72,8 +72,18 @@ static ThumbSize thumb_size_list[] =
 enum {
 	FE_ENABLE,
 	FE_EXTENSION,
-	FE_DESCRIPTION
+	FE_DESCRIPTION,
+	FE_CLASS
 };
+
+
+static gchar *format_class_list[] = {
+	N_("Unknown"),
+	N_("Image"),
+	N_("RAW Image"),
+	N_("Metadata")
+	};
+
 
 /* config memory values */
 static ConfOptions *c_options = NULL;
@@ -659,6 +669,35 @@ static void filter_store_ext_edit_cb(GtkCellRendererText *cell, gchar *path_str,
 	filter_rebuild();
 }
 
+static void filter_store_class_edit_cb(GtkCellRendererText *cell, gchar *path_str,
+				     gchar *new_text, gpointer data)
+{
+
+	GtkWidget *model = data;
+	FilterEntry *fe = data;
+	GtkTreePath *tpath;
+	GtkTreeIter iter;
+	gint i;
+
+	if (!new_text || strlen(new_text) < 1) return;
+
+	tpath = gtk_tree_path_new_from_string(path_str);
+	gtk_tree_model_get_iter(GTK_TREE_MODEL(model), &iter, tpath);
+	gtk_tree_model_get(GTK_TREE_MODEL(model), &iter, 0, &fe, -1);
+
+	for (i = 0; i < FILE_FORMAT_CLASSES; i++)
+		{
+		if (strcmp(new_text, _(format_class_list[i])) == 0)
+			{
+			fe->file_class = i;
+			break;
+			}
+		}
+
+	gtk_tree_path_free(tpath);
+	filter_rebuild();
+}
+
 static void filter_store_desc_edit_cb(GtkCellRendererText *cell, gchar *path_str,
 				      gchar *new_text, gpointer data)
 {
@@ -717,6 +756,10 @@ static void filter_set_func(GtkTreeViewColumn *tree_column, GtkCellRenderer *cel
 		case FE_DESCRIPTION:
 			g_object_set(GTK_CELL_RENDERER(cell),
 				     "text", fe->description, NULL);
+			break;
+		case FE_CLASS:
+			g_object_set(GTK_CELL_RENDERER(cell),
+				     "text", _(format_class_list[fe->file_class]), NULL);
 			break;
 		}
 }
@@ -1128,6 +1171,23 @@ static void config_tab_windows(GtkWidget *notebook)
 	gtk_widget_show(layout_widget);
 }
 
+static GtkTreeModel *create_class_model(void)
+{
+	GtkListStore *model;
+	GtkTreeIter iter;
+	gint i;
+
+	/* create list store */
+	model = gtk_list_store_new (1, G_TYPE_STRING);
+	for (i = 0; i < FILE_FORMAT_CLASSES; i++)
+		{
+		gtk_list_store_append (model, &iter);
+		gtk_list_store_set(model, &iter, 0, _(format_class_list[i]), -1);
+		}
+	return GTK_TREE_MODEL (model);
+}
+
+
 /* filtering tab */
 static void config_tab_filtering(GtkWidget *notebook)
 {
@@ -1217,6 +1277,25 @@ static void config_tab_filtering(GtkWidget *notebook)
 	gtk_tree_view_column_set_cell_data_func(column, renderer, filter_set_func,
 						GINT_TO_POINTER(FE_DESCRIPTION), NULL);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(filter_view), column);
+
+	column = gtk_tree_view_column_new();
+	gtk_tree_view_column_set_title(column, _("Class"));
+	gtk_tree_view_column_set_resizable(column, TRUE);
+	renderer = gtk_cell_renderer_combo_new();
+	g_object_set(G_OBJECT(renderer), "editable", (gboolean)TRUE,
+					 "model", create_class_model(),
+					 "text-column", 0,
+					 "has-entry", FALSE,
+					 NULL);
+
+	g_signal_connect(G_OBJECT(renderer), "edited",
+			 G_CALLBACK(filter_store_class_edit_cb), filter_store);
+	gtk_tree_view_column_pack_start(column, renderer, TRUE);
+	gtk_tree_view_column_set_cell_data_func(column, renderer, filter_set_func,
+						GINT_TO_POINTER(FE_CLASS), NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(filter_view), column);
+
+
 
 	filter_store_populate();
 	gtk_container_add(GTK_CONTAINER(scrolled), filter_view);
