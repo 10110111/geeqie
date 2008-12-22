@@ -327,6 +327,14 @@ static void config_window_apply(void)
 		}
 
 	options->metadata.save_in_image_file = c_options->metadata.save_in_image_file;
+	options->metadata.save_legacy_IPTC = c_options->metadata.save_legacy_IPTC;
+	options->metadata.warn_on_write_problems = c_options->metadata.warn_on_write_problems;
+	options->metadata.save_legacy_format = c_options->metadata.save_legacy_format;
+	options->metadata.sync_grouped_files = c_options->metadata.sync_grouped_files;
+	options->metadata.confirm_write = c_options->metadata.confirm_write;
+	options->metadata.confirm_timeout = c_options->metadata.confirm_timeout;
+	options->metadata.confirm_on_image_change = c_options->metadata.confirm_on_image_change;
+	options->metadata.confirm_on_dir_change = c_options->metadata.confirm_on_dir_change;
 
 #ifdef DEBUG
 	set_debug_level(debug_c);
@@ -1507,13 +1515,39 @@ static void config_tab_advanced(GtkWidget *notebook)
 				 G_CALLBACK(home_path_set_current), NULL);
 
 
-	group = pref_group_new(vbox, FALSE, _("Miscellaneous"), GTK_ORIENTATION_VERTICAL);
+	group = pref_group_new(vbox, FALSE, _("Metadata"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Store metadata and cache files in source image's directory"),
 			      options->metadata.enable_metadata_dirs, &c_options->metadata.enable_metadata_dirs);
 
 	pref_checkbox_new_int(group, _("Store keywords and comments as XMP tags in image files"),
 			      options->metadata.save_in_image_file, &c_options->metadata.save_in_image_file);
+
+	pref_checkbox_new_int(group, _("Store keywords and comments also in legacy IPTC tags"),
+			      options->metadata.save_legacy_IPTC, &c_options->metadata.save_legacy_IPTC);
+
+	pref_checkbox_new_int(group, _("Warn if the image files are unwritable"),
+			      options->metadata.warn_on_write_problems, &c_options->metadata.warn_on_write_problems);
+
+	pref_checkbox_new_int(group, _("Save metadata in GQview legacy metadata format"),
+			      options->metadata.save_legacy_format, &c_options->metadata.save_legacy_format);
+
+	pref_checkbox_new_int(group, _("Write the same keywords and comment to all files in a group"),
+			      options->metadata.sync_grouped_files, &c_options->metadata.sync_grouped_files);
+
+	pref_checkbox_new_int(group, _("Ask before writing to image files"),
+			      options->metadata.confirm_write, &c_options->metadata.confirm_write);
+
+	pref_spin_new_int(group, _("Write metadata after timeout (seconds):"), NULL, 0, 900, 1,
+			      options->metadata.confirm_timeout, &c_options->metadata.confirm_timeout);
+			      
+	pref_checkbox_new_int(group, _("Write metadata on image change"),
+			      options->metadata.confirm_on_image_change, &c_options->metadata.confirm_on_image_change);
+
+	pref_checkbox_new_int(group, _("Write metadata on directory change"),
+			      options->metadata.confirm_on_dir_change, &c_options->metadata.confirm_on_dir_change);
+
+	group = pref_group_new(vbox, FALSE, _("Miscellaneous"), GTK_ORIENTATION_VERTICAL);
 
 	pref_spin_new_int(group, _("Custom similarity threshold:"), NULL,
 			  0, 100, 1, options->duplicates_similarity_threshold, (int *)&c_options->duplicates_similarity_threshold);
