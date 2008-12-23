@@ -586,15 +586,15 @@ static gint metadata_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 	return (comment && *comment) || (keywords && *keywords);
 }
 
-gint metadata_write(FileData *fd, GList *keywords, const gchar *comment)
+gint metadata_write(FileData *fd, GList **keywords, gchar **comment)
 {
 	gint success = TRUE;
-	gint write_comment = (comment && comment[0]);
+	gint write_comment = (comment && *comment);
 
 	if (!fd) return FALSE;
 
-	if (write_comment) success = success && metadata_write_string(fd, COMMENT_KEY, comment);
-	if (keywords) success = success && metadata_write_list(fd, KEYWORD_KEY, string_list_copy(keywords));
+	if (write_comment) success = success && metadata_write_string(fd, COMMENT_KEY, *comment);
+	if (keywords) success = success && metadata_write_list(fd, KEYWORD_KEY, string_list_copy(*keywords));
 	
 	if (options->metadata.sync_grouped_files)
 		{
@@ -607,8 +607,8 @@ gint metadata_write(FileData *fd, GList *keywords, const gchar *comment)
 			
 			if (filter_file_class(sfd->extension, FORMAT_CLASS_META)) continue; 
 
-			if (write_comment) success = success && metadata_write_string(sfd, COMMENT_KEY, comment);
-			if (keywords) success = success && metadata_write_list(sfd, KEYWORD_KEY, string_list_copy(keywords));
+			if (write_comment) success = success && metadata_write_string(sfd, COMMENT_KEY, *comment);
+			if (keywords) success = success && metadata_write_list(sfd, KEYWORD_KEY, string_list_copy(*keywords));
 			}
 		}
 
@@ -730,7 +730,7 @@ void metadata_set(FileData *fd, GList *new_keywords, gchar *new_comment, gboolea
 			}
 		}
 	
-	metadata_write(fd, keywords_list, comment);
+	metadata_write(fd, &keywords_list, &comment);
 
 	string_list_free(keywords);
 	g_free(comment);

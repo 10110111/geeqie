@@ -20,7 +20,7 @@ gboolean metadata_write_queue_confirm(void);
 
 
 
-gint metadata_write(FileData *fd, GList *keywords, const gchar *comment);
+gint metadata_write(FileData *fd, GList **keywords, gchar **comment);
 
 gint metadata_read(FileData *fd, GList **keywords, gchar **comment);
 
