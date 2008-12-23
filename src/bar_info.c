@@ -24,9 +24,6 @@
 #include "ui_utildlg.h"
 #include "utilops.h"
 
-#define BAR_KEYWORD_AUTOSAVE_TIME 10000
-
-
 static const gchar *keyword_favorite_defaults[] = {
 	N_("Favorite"),
 	N_("Todo"),
@@ -40,6 +37,7 @@ static const gchar *keyword_favorite_defaults[] = {
 
 
 static void bar_info_keyword_update_all(void);
+static void bar_info_changed(GtkTextBuffer *buffer, gpointer data);
 
 /*
  *-------------------------------------------------------------------
@@ -377,16 +375,15 @@ struct _BarInfoData
 
 	GtkWidget *comment_view;
 
+#if 0
 	GtkWidget *button_save;
+#endif
 	GtkWidget *button_set_keywords_add;
 	GtkWidget *button_set_keywords_replace;
 	GtkWidget *button_set_comment_add;
 	GtkWidget *button_set_comment_replace;
 
 	FileData *fd;
-
-	gint changed;
-	gint save_timeout_id;
 
 	GList *(*list_func)(gpointer);
 	gpointer list_data;
@@ -410,33 +407,6 @@ static void bar_info_write(BarInfoData *bd)
 
 	string_list_free(list);
 	g_free(comment);
-
-	bd->changed = FALSE;
-	gtk_widget_set_sensitive(bd->button_save, FALSE);
-}
-
-static gint bar_info_autosave(gpointer data)
-{
-	BarInfoData *bd = data;
-
-	bar_info_write(bd);
-
-	bd->save_timeout_id = -1;
-
-	return FALSE;
-}
-
-static void bar_info_save_update(BarInfoData *bd, gint enable)
-{
-	if (bd->save_timeout_id != -1)
-		{
-		g_source_remove(bd->save_timeout_id);
-		bd->save_timeout_id = -1;
-		}
-	if (enable)
-		{
-		bd->save_timeout_id = g_timeout_add(BAR_KEYWORD_AUTOSAVE_TIME, bar_info_autosave, bd);
-		}
 }
 
 static void bar_keyword_list_sync(BarInfoData *bd, GList *keywords)
@@ -501,6 +471,11 @@ static void bar_info_update(BarInfoData *bd)
 {
 	GList *keywords = NULL;
 	gchar *comment = NULL;
+	GtkTextBuffer *keyword_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(bd->keyword_view));
+	GtkTextBuffer *comment_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(bd->comment_view));
+
+	g_signal_handlers_block_by_func(keyword_buffer, bar_info_changed, bd);
+	g_signal_handlers_block_by_func(comment_buffer, bar_info_changed, bd);
 
 	if (bd->label_file_name)
 		{
@@ -514,7 +489,7 @@ static void bar_info_update(BarInfoData *bd)
 	if (metadata_read(bd->fd, &keywords, &comment))
 		{
 		keyword_list_push(bd->keyword_view, keywords);
-		gtk_text_buffer_set_text(gtk_text_view_get_buffer(GTK_TEXT_VIEW(bd->comment_view)),
+		gtk_text_buffer_set_text(comment_buffer,
 					 (comment) ? comment : "", -1);
 
 		bar_keyword_list_sync(bd, keywords);
@@ -524,15 +499,14 @@ static void bar_info_update(BarInfoData *bd)
 		}
 	else
 		{
-		gtk_text_buffer_set_text(gtk_text_view_get_buffer(GTK_TEXT_VIEW(bd->keyword_view)), "", -1);
-		gtk_text_buffer_set_text(gtk_text_view_get_buffer(GTK_TEXT_VIEW(bd->comment_view)), "", -1);
+		gtk_text_buffer_set_text(keyword_buffer, "", -1);
+		gtk_text_buffer_set_text(comment_buffer, "", -1);
 
 		bar_keyword_list_sync(bd, NULL);
 		}
 
-	bar_info_save_update(bd, FALSE);
-	bd->changed = FALSE;
-	gtk_widget_set_sensitive(bd->button_save, FALSE);
+	g_signal_handlers_unblock_by_func(keyword_buffer, bar_info_changed, bd);
+	g_signal_handlers_unblock_by_func(comment_buffer, bar_info_changed, bd);
 
 	gtk_widget_set_sensitive(bd->group_box, (bd->fd != NULL));
 }
@@ -543,8 +517,6 @@ void bar_info_set(GtkWidget *bar, FileData *fd)
 
 	bd = g_object_get_data(G_OBJECT(bar), "bar_info_data");
 	if (!bd) return;
-
-	if (bd->changed) bar_info_write(bd);
 
 	file_data_unref(bd->fd);
 	bd->fd = file_data_ref(fd);
@@ -644,14 +616,6 @@ static void bar_info_keyword_toggle(GtkCellRendererToggle *toggle, const gchar *
 	g_free(key);
 }
 
-static void bar_info_save(GtkWidget *button, gpointer data)
-{
-	BarInfoData *bd = data;
-
-	bar_info_save_update(bd, FALSE);
-	bar_info_write(bd);
-}
-
 static void bar_info_set_selection(BarInfoData *bd, gboolean set_keywords, gboolean set_comment, gboolean append)
 {
 	GList *keywords = NULL;
@@ -720,10 +684,7 @@ static void bar_info_changed(GtkTextBuffer *buffer, gpointer data)
 {
 	BarInfoData *bd = data;
 
-	bd->changed = TRUE;
-	gtk_widget_set_sensitive(bd->button_save, TRUE);
-
-	bar_info_save_update(bd, TRUE);
+	bar_info_write(bd);
 }
 
 void bar_info_close(GtkWidget *bar)
@@ -739,9 +700,6 @@ void bar_info_close(GtkWidget *bar)
 static void bar_info_destroy(GtkWidget *widget, gpointer data)
 {
 	BarInfoData *bd = data;
-
-	if (bd->changed) bar_info_write(bd);
-	bar_info_save_update(bd, FALSE);
 
 	bar_list = g_list_remove(bar_list, bd);
 
@@ -925,12 +883,12 @@ GtkWidget *bar_info_new(FileData *fd, gint metadata_only, GtkWidget *bounding_wi
 			_("Add comment to selected files, replacing existing one"),
 			G_CALLBACK(bar_info_set_comment_replace), bd);
 
+#if 0
 	pref_toolbar_spacer(tbar);
 	bd->button_save = pref_toolbar_button(tbar, GTK_STOCK_SAVE, NULL, FALSE,
 			_("Save comment now"),
 			G_CALLBACK(bar_info_save), bd);
-
-	bd->save_timeout_id = -1;
+#endif
 
 	bd->fd = file_data_ref(fd);
 	bar_info_update(bd);
