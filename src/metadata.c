@@ -118,10 +118,11 @@ static FileData *metadata_xmp_main_fd(FileData *fd)
 
 static void metadata_write_queue_add(FileData *fd)
 {
-	if (g_list_find(metadata_write_queue, fd)) return;
-	
-	metadata_write_queue = g_list_prepend(metadata_write_queue, fd);
-	file_data_ref(fd);
+	if (!g_list_find(metadata_write_queue, fd))
+		{
+		metadata_write_queue = g_list_prepend(metadata_write_queue, fd);
+		file_data_ref(fd);
+		}
 
 	if (metadata_write_idle_id != -1) 
 		{
@@ -256,6 +257,9 @@ gint metadata_write_list(FileData *fd, const gchar *key, GList *values)
 		exif_update_metadata(fd->exif, key, values);
 		}
 	metadata_write_queue_add(fd);
+	file_data_increment_version(fd);
+	file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
+
 	return TRUE;
 }
 	
