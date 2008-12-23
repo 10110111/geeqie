@@ -546,30 +546,37 @@ static gint metadata_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 		 * and the only way to get all keywords is to iterate through
 		 * the item list.
 		 */
-		for (item = exif_get_first_item(exif);
-		     item;
-		     item = exif_get_next_item(exif))
+		 /* Read IPTC keywords only if there are no XMP keywords
+		  * IPTC does not have standard charset, thus the encoding may differ
+		  * from XMP and keyword merging is not reliable.
+		  */
+		 if (!*keywords)
 			{
-			guint tag;
-		
-			tag = exif_item_get_tag_id(item);
-			if (tag == 0x0019)
+			for (item = exif_get_first_item(exif);
+			     item;
+			     item = exif_get_next_item(exif))
 				{
-				gchar *tag_name = exif_item_get_tag_name(item);
-
-				if (strcmp(tag_name, "Iptc.Application2.Keywords") == 0)
+				guint tag;
+			
+				tag = exif_item_get_tag_id(item);
+				if (tag == 0x0019)
 					{
-					gchar *kw;
-					gchar *utf8_kw;
-
-					kw = exif_item_get_data_as_text(item);
-					if (!kw) continue;
-
-					utf8_kw = utf8_validate_or_convert(kw);
-					*keywords = g_list_append(*keywords, (gpointer) utf8_kw);
-					g_free(kw);
+					gchar *tag_name = exif_item_get_tag_name(item);
+        
+					if (strcmp(tag_name, "Iptc.Application2.Keywords") == 0)
+						{
+						gchar *kw;
+						gchar *utf8_kw;
+        
+						kw = exif_item_get_data_as_text(item);
+						if (!kw) continue;
+        
+						utf8_kw = utf8_validate_or_convert(kw);
+						*keywords = g_list_append(*keywords, (gpointer) utf8_kw);
+						g_free(kw);
+						}
+					g_free(tag_name);
 					}
-				g_free(tag_name);
 				}
 			}
 		}

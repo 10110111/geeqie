@@ -680,11 +680,19 @@ static void bar_info_set_comment_replace(GtkWidget *button, gpointer data)
 	bar_info_set_selection(bd, FALSE, TRUE, FALSE);
 }
 
+static void bar_info_notify_cb(FileData *fd, NotifyType type, gpointer data)
+{
+	BarInfoData *bd = data;
+	if (fd == bd->fd) bar_info_update(bd);
+}
+
 static void bar_info_changed(GtkTextBuffer *buffer, gpointer data)
 {
 	BarInfoData *bd = data;
 
+	file_data_unregister_notify_func(bar_info_notify_cb, bd);
 	bar_info_write(bd);
+	file_data_register_notify_func(bar_info_notify_cb, bd, NOTIFY_PRIORITY_LOW);
 }
 
 void bar_info_close(GtkWidget *bar)
@@ -701,6 +709,7 @@ static void bar_info_destroy(GtkWidget *widget, gpointer data)
 {
 	BarInfoData *bd = data;
 
+	file_data_unregister_notify_func(bar_info_notify_cb, bd);
 	bar_list = g_list_remove(bar_list, bd);
 
 	file_data_unref(bd->fd);
@@ -896,6 +905,8 @@ GtkWidget *bar_info_new(FileData *fd, gint metadata_only, GtkWidget *bounding_wi
 	bar_info_selection(bd->vbox, 0);
 
 	bar_list = g_list_append(bar_list, bd);
+
+	file_data_register_notify_func(bar_info_notify_cb, bd, NOTIFY_PRIORITY_LOW);
 
 	return bd->vbox;
 }
