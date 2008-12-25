@@ -285,6 +285,8 @@ struct _UtilityData {
 	
 	gint update_idle_id;
 
+	gint perform_idle_id;
+
 	gboolean with_sidecars; /* operate on grouped or single files; TRUE = use file_data_sc_, FALSE = use file_data_ functions */
 	
 	/* alternative dialog parts */
@@ -339,6 +341,7 @@ static UtilityData *file_util_data_new(UtilityType type)
 	ud->type = type;
 	ud->phase = UTILITY_PHASE_START;
 	ud->update_idle_id = -1;
+	ud->perform_idle_id = -1;
 	ud->external_command = -1;
 	return ud;
 }
@@ -348,6 +351,7 @@ static void file_util_data_free(UtilityData *ud)
 	if (!ud) return;
 
 	if (ud->update_idle_id != -1) g_source_remove(ud->update_idle_id);
+	if (ud->perform_idle_id != -1) g_source_remove(ud->perform_idle_id);
 
 	file_data_unref(ud->dir_fd);
 	filelist_free(ud->content_list);
@@ -464,7 +468,7 @@ static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gint fu
 }
 
 
-static void file_util_perform_ci_internal(UtilityData *ud);
+static gboolean file_util_perform_ci_internal(gpointer data);
 void file_util_dialog_run(UtilityData *ud);
 static gint file_util_perform_ci_cb(gpointer resume_data, gint flags, GList *list, gpointer data);
 
@@ -578,10 +582,16 @@ static gint file_util_perform_ci_cb(gpointer resume_data, gint flags, GList *lis
  */
 
 
-static void file_util_perform_ci_internal(UtilityData *ud)
+static gboolean file_util_perform_ci_internal(gpointer data)
 {
+	UtilityData *ud = data;
+
+	/* this is removed when ud is destroyed */
+	if (ud->perform_idle_id == -1) ud->perform_idle_id = g_idle_add(file_util_perform_ci_internal, ud);
+
+	g_assert(ud->flist);
 	
-	while (ud->flist)
+	if (ud->flist)
 		{
 		gint ret;
 		
@@ -597,16 +607,16 @@ static void file_util_perform_ci_internal(UtilityData *ud)
 		ret = file_util_perform_ci_cb(GINT_TO_POINTER(!last), status, single_entry, ud);
 		g_list_free(single_entry);
 		
-		if (ret == EDITOR_CB_SUSPEND || last) return;
+		if (ret == EDITOR_CB_SUSPEND || last) return FALSE;
 		
 		if (ret == EDITOR_CB_SKIP)
 			{
 			file_util_perform_ci_cb(NULL, EDITOR_ERROR_SKIPPED, ud->flist, ud);
+			return FALSE;
 			}
-		
-		/* FIXME: convert the loop to idle call */
-		
 		}
+	
+	return TRUE;
 }
 
 static void file_util_perform_ci_dir(UtilityData *ud, gboolean internal, gboolean ext_result)
