@@ -359,7 +359,8 @@ typedef enum {
 
 enum {
 	KEYWORD_COLUMN_TOGGLE = 0,
-	KEYWORD_COLUMN_TEXT
+	KEYWORD_COLUMN_TEXT,
+	KEYWORD_COLUMN_MARK
 };
 
 typedef struct _BarInfoData BarInfoData;
@@ -409,6 +410,26 @@ static void bar_info_write(BarInfoData *bd)
 	g_free(comment);
 }
 
+static gchar *bar_info_get_mark_text(const gchar *key)
+{
+	gint i;
+	static gchar buf[10];
+	
+	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
+		{
+		FileDataGetMarkFunc get_mark_func;
+		FileDataSetMarkFunc set_mark_func;
+		gpointer data;
+		file_data_get_registered_mark_func(i, &get_mark_func, &set_mark_func, &data);
+		if (get_mark_func == meta_data_get_keyword_mark && strcmp(data, key) == 0) 
+			{
+			sprintf(buf, " %d ", i + 1);
+			return buf;
+			}
+		}
+	return " ... ";
+}
+
 static void bar_keyword_list_sync(BarInfoData *bd, GList *keywords)
 {
 	GList *list;
@@ -442,7 +463,8 @@ static void bar_keyword_list_sync(BarInfoData *bd, GList *keywords)
 
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter, KEYWORD_COLUMN_TOGGLE, find_string_in_list(keywords, key),
-						 KEYWORD_COLUMN_TEXT, key, -1);
+						 KEYWORD_COLUMN_TEXT, key,
+						 KEYWORD_COLUMN_MARK, bar_info_get_mark_text(key), -1);
 
 		list = list->prev;
 		}
@@ -695,6 +717,52 @@ static void bar_info_changed(GtkTextBuffer *buffer, gpointer data)
 	file_data_register_notify_func(bar_info_notify_cb, bd, NOTIFY_PRIORITY_LOW);
 }
 
+static void bar_info_mark_edited (GtkCellRendererText *cell, const gchar *path, const gchar *text, gpointer data)
+{
+	BarInfoData *bd = data;
+	GtkTreeModel *store;
+	GtkTreeIter iter;
+	GtkTreePath *tpath;
+	gchar *key = NULL;
+	gint i;
+	FileDataGetMarkFunc get_mark_func;
+	FileDataSetMarkFunc set_mark_func;
+	gpointer mark_func_data;
+
+	file_data_unregister_notify_func(bar_info_notify_cb, bd);
+
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(bd->keyword_treeview));
+
+	tpath = gtk_tree_path_new_from_string(path);
+	gtk_tree_model_get_iter(store, &iter, tpath);
+	gtk_tree_path_free(tpath);
+
+	gtk_tree_model_get(store, &iter, KEYWORD_COLUMN_TEXT, &key, -1);
+
+	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
+		{
+		file_data_get_registered_mark_func(i, &get_mark_func, &set_mark_func, &mark_func_data);
+		if (get_mark_func == meta_data_get_keyword_mark && strcmp(mark_func_data, key) == 0) 
+			{
+			g_free(mark_func_data);
+			file_data_register_mark_func(i, NULL, NULL, NULL);
+			}
+		}
+
+	if (sscanf(text, " %d ", &i) &&i >=1 && i <= FILEDATA_MARKS_SIZE)
+		{
+		i--;
+		file_data_get_registered_mark_func(i, &get_mark_func, &set_mark_func, &mark_func_data);
+		if (get_mark_func == meta_data_get_keyword_mark && mark_func_data) g_free(mark_func_data); 
+		file_data_register_mark_func(i, meta_data_get_keyword_mark, meta_data_set_keyword_mark, g_strdup(key));
+		}
+
+	g_free(key);
+
+	file_data_register_notify_func(bar_info_notify_cb, bd, NOTIFY_PRIORITY_LOW);
+	bar_info_update(bd);
+}
+
 void bar_info_close(GtkWidget *bar)
 {
 	BarInfoData *bd;
@@ -715,6 +783,26 @@ static void bar_info_destroy(GtkWidget *widget, gpointer data)
 	file_data_unref(bd->fd);
 
 	g_free(bd);
+}
+
+static GtkTreeModel *create_marks_list(void)
+{
+	GtkListStore *model;
+	GtkTreeIter iter;
+	gint i;
+
+	/* create list store */
+	model = gtk_list_store_new (1, G_TYPE_STRING);
+	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
+		{
+		char str[10];
+		sprintf(str, " %d ", i + 1);
+		gtk_list_store_append (model, &iter);
+		gtk_list_store_set(model, &iter, 0, str, -1);
+		}
+	gtk_list_store_append (model, &iter);
+	gtk_list_store_set(model, &iter, 0, " ... ", -1);
+	return GTK_TREE_MODEL (model);
 }
 
 GtkWidget *bar_info_new(FileData *fd, gint metadata_only, GtkWidget *bounding_widget)
@@ -812,7 +900,7 @@ GtkWidget *bar_info_new(FileData *fd, gint metadata_only, GtkWidget *bounding_wi
 	gtk_box_pack_start(GTK_BOX(hbox), scrolled, TRUE, TRUE, 0);
 	gtk_widget_show(scrolled);
 
-	store = gtk_list_store_new(2, G_TYPE_BOOLEAN, G_TYPE_STRING);
+	store = gtk_list_store_new(3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING);
 	bd->keyword_treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
 	g_object_unref(store);
 
@@ -841,6 +929,23 @@ GtkWidget *bar_info_new(FileData *fd, gint metadata_only, GtkWidget *bounding_wi
 	gtk_tree_view_column_add_attribute(column, renderer, "text", KEYWORD_COLUMN_TEXT);
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(bd->keyword_treeview), column);
+
+	column = gtk_tree_view_column_new();
+	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
+
+	renderer = gtk_cell_renderer_combo_new();
+	g_object_set(G_OBJECT(renderer), "editable", (gboolean)TRUE,
+					 "model", create_marks_list(),
+					 "text-column", 0,
+					 "has-entry", FALSE,
+					 NULL);
+
+	gtk_tree_view_column_pack_start(column, renderer, TRUE);
+	gtk_tree_view_column_add_attribute(column, renderer, "text", KEYWORD_COLUMN_MARK);
+	g_signal_connect (renderer, "edited",
+			  G_CALLBACK (bar_info_mark_edited), bd);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(bd->keyword_treeview), column);
+
 
 	gtk_container_add(GTK_CONTAINER(scrolled), bd->keyword_treeview);
 	gtk_widget_show(bd->keyword_treeview);
