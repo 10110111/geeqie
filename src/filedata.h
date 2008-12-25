@@ -63,6 +63,12 @@ GList *filelist_filter(GList *list, gint is_dir_list);
 GList *filelist_sort_path(GList *list);
 GList *filelist_recursive(FileData *dir_fd);
 
+typedef gboolean (* FileDataGetMarkFunc)(FileData *fd, gint n, gpointer data);
+typedef gboolean (* FileDataSetMarkFunc)(FileData *fd, gint n, gboolean value, gpointer data);
+gboolean file_data_register_mark_func(gint n, FileDataGetMarkFunc get_mark_func, FileDataSetMarkFunc set_mark_func, gpointer data);
+void file_data_get_registered_mark_func(gint n, FileDataGetMarkFunc *get_mark_func, FileDataSetMarkFunc *set_mark_func, gpointer *data);
+
+
 gboolean file_data_get_mark(FileData *fd, gint n);
 guint file_data_get_marks(FileData *fd);
 void file_data_set_mark(FileData *fd, gint n, gboolean value);

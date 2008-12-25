@@ -789,4 +789,73 @@ GList *string_to_keywords_list(const gchar *text)
 	return list;
 }
 
+/*
+ * keywords to marks
+ */
+ 
+
+gboolean meta_data_get_keyword_mark(FileData *fd, gint n, gpointer data)
+{
+	GList *keywords;
+	gboolean found = FALSE;
+	if (metadata_read(fd, &keywords, NULL))
+		{
+		GList *work = keywords;
+
+		while (work)
+			{
+			gchar *kw = work->data;
+			work = work->next;
+			
+			if (strcmp(kw, data) == 0)
+				{
+				found = TRUE;
+				break;
+				}
+			}
+		string_list_free(keywords);
+		}
+	return found;
+}
+
+gboolean meta_data_set_keyword_mark(FileData *fd, gint n, gboolean value, gpointer data)
+{
+	GList *keywords = NULL;
+	gboolean found = FALSE;
+	gboolean changed = FALSE;
+	GList *work;
+	metadata_read(fd, &keywords, NULL);
+
+	work = keywords;
+
+	while (work)
+		{
+		gchar *kw = work->data;
+		
+		if (strcmp(kw, data) == 0)
+			{
+			found = TRUE;
+			if (!value) 
+				{
+				changed = TRUE;
+				keywords = g_list_delete_link(keywords, work);
+				g_free(kw);
+				}
+			break;
+			}
+		work = work->next;
+		}
+	if (value && !found) 
+		{
+		changed = TRUE;
+		keywords = g_list_append(keywords, g_strdup(data));
+		}
+	
+	if (changed) metadata_write(fd, &keywords, NULL);
+
+	string_list_free(keywords);
+	return TRUE;
+}
+
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

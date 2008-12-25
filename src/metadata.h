@@ -28,5 +28,8 @@ void metadata_set(FileData *fd, GList *new_keywords, gchar *new_comment, gboolea
 gboolean find_string_in_list(GList *list, const gchar *keyword);
 GList *string_to_keywords_list(const gchar *text);
 
+gboolean meta_data_get_keyword_mark(FileData *fd, gint n, gpointer data);
+gboolean meta_data_set_keyword_mark(FileData *fd, gint n, gboolean value, gpointer data);
+
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

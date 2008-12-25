@@ -1050,14 +1050,25 @@ GList *filelist_recursive(FileData *dir_fd)
  * marks and orientation
  */
 
+static FileDataGetMarkFunc file_data_get_mark_func[FILEDATA_MARKS_SIZE];
+static FileDataSetMarkFunc file_data_set_mark_func[FILEDATA_MARKS_SIZE];
+static gpointer file_data_mark_func_data[FILEDATA_MARKS_SIZE];
 
 gboolean file_data_get_mark(FileData *fd, gint n)
 {
+	if (file_data_get_mark_func[n]) 
+		{
+		gboolean value = (file_data_get_mark_func[n])(fd, n, file_data_mark_func_data[n]);
+		if (!value != !(fd->marks & (1 << n))) fd->marks = fd->marks ^ (1 << n);
+		}
+
 	return !!(fd->marks & (1 << n));
 }
 
 guint file_data_get_marks(FileData *fd)
 {
+	gint i;
+	for (i = 0; i < FILEDATA_MARKS_SIZE; i++) file_data_get_mark(fd, i);
 	return fd->marks;
 }
 
@@ -1065,6 +1076,11 @@ void file_data_set_mark(FileData *fd, gint n, gboolean value)
 {
 	guint old = fd->marks;
 	if (!value == !(fd->marks & (1 << n))) return;
+
+	if (file_data_set_mark_func[n]) 
+		{
+		(file_data_set_mark_func[n])(fd, n, value, file_data_mark_func_data[n]);
+		}
 
 	fd->marks = fd->marks ^ (1 << n);
 	
@@ -1083,6 +1099,8 @@ void file_data_set_mark(FileData *fd, gint n, gboolean value)
 
 gboolean file_data_filter_marks(FileData *fd, guint filter)
 {
+	gint i;
+	for (i = 0; i < FILEDATA_MARKS_SIZE; i++) if (filter & (1 << i)) file_data_get_mark(fd, i);
 	return ((fd->marks & filter) == filter);
 }
 
@@ -1106,6 +1124,37 @@ GList *file_data_filter_marks_list(GList *list, guint filter)
 		}
 
 	return list;
+}
+
+static void file_data_notify_mark_func(gpointer key, gpointer value, gpointer user_data)
+{
+	FileData *fd = value;
+	file_data_increment_version(fd);
+	file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
+}
+
+gboolean file_data_register_mark_func(gint n, FileDataGetMarkFunc get_mark_func, FileDataSetMarkFunc set_mark_func, gpointer data)
+{
+	if (n < 0 || n >= FILEDATA_MARKS_SIZE) return FALSE;
+		
+	file_data_get_mark_func[n] = get_mark_func;
+        file_data_set_mark_func[n] = set_mark_func;
+        file_data_mark_func_data[n] = data;
+        
+        if (get_mark_func)
+    		{
+    		/* this effectively changes all known files */
+    		g_hash_table_foreach(file_data_pool, file_data_notify_mark_func, NULL);
+    		}
+        
+        return TRUE;
+}
+
+void file_data_get_registered_mark_func(gint n, FileDataGetMarkFunc *get_mark_func, FileDataSetMarkFunc *set_mark_func, gpointer *data)
+{
+	if (get_mark_func) *get_mark_func = file_data_get_mark_func[n];
+	if (set_mark_func) *set_mark_func = file_data_set_mark_func[n];
+	if (data) *data = file_data_mark_func_data[n];
 }
 
 gint file_data_get_user_orientation(FileData *fd)
