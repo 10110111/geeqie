@@ -180,7 +180,7 @@ static void file_cache_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	FileCacheData *fc = data;
 
-	if (type == NOTIFY_TYPE_REREAD)
+	if (type != NOTIFY_TYPE_INTERNAL) /* invalidate the entry on each file change */
 		{
 		file_cache_remove_fd(fc, fd);
 		}
