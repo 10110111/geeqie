@@ -112,7 +112,7 @@ gboolean metadata_write_queue_confirm()
 		
 		if (fd->change) continue; /* another operation in progress, skip this file for now */
 		
-		to_approve = g_list_prepend(to_approve, fd);
+		to_approve = g_list_prepend(to_approve, file_data_ref(fd));
 		}
 
 	file_util_write_metadata(NULL, to_approve, NULL);
