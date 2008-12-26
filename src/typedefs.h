@@ -424,7 +424,11 @@ struct _FileData {
 	gint64 size;
 	time_t date;
 	mode_t mode; /* this is needed at least for notification in view_dir because it is preserved after the file/directory is deleted */
-	guint marks;
+	
+	guint marks; /* each bit represents one mark */
+	guint valid_marks; /* zero bit means that the corresponding mark needs to be reread */
+
+
 	GList *sidecar_files;
 	FileData *parent; /* parent file if this is a sidecar file, NULL otherwise */
 	FileDataChangeInfo *change; /* for rename, move ... */

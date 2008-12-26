@@ -142,7 +142,12 @@ FileData *file_data_disconnect_sidecar_file(FileData *target, FileData *sfd);
 void file_data_increment_version(FileData *fd)
 {
 	fd->version++;
-	if (fd->parent) fd->parent->version++;
+	fd->valid_marks = 0;
+	if (fd->parent) 
+		{
+		fd->parent->version++;
+		fd->parent->valid_marks = 0;
+		}
 }
 
 static void file_data_set_collate_keys(FileData *fd)
@@ -1094,10 +1099,24 @@ static gpointer file_data_mark_func_data[FILEDATA_MARKS_SIZE];
 
 gboolean file_data_get_mark(FileData *fd, gint n)
 {
-	if (file_data_get_mark_func[n]) 
+	gboolean valid = (fd->valid_marks & (1 << n));
+	if (file_data_get_mark_func[n] && !valid) 
 		{
+		guint old = fd->marks;
 		gboolean value = (file_data_get_mark_func[n])(fd, n, file_data_mark_func_data[n]);
-		if (!value != !(fd->marks & (1 << n))) fd->marks = fd->marks ^ (1 << n);
+		if (!value != !(fd->marks & (1 << n))) 
+			{
+			fd->marks = fd->marks ^ (1 << n);
+			}
+		fd->valid_marks |= (1 << n);
+		if (old && !fd->marks) /* keep files with non-zero marks in memory */
+			{
+			file_data_unref(fd);
+			}
+		else if (!old && fd->marks)
+			{
+			file_data_ref(fd);
+			}
 		}
 
 	return !!(fd->marks & (1 << n));
@@ -1112,13 +1131,15 @@ guint file_data_get_marks(FileData *fd)
 
 void file_data_set_mark(FileData *fd, gint n, gboolean value)
 {
-	guint old = fd->marks;
-	if (!value == !(fd->marks & (1 << n))) return;
-
+	guint old;
+	if (!value == !file_data_get_mark(fd, n)) return;
+	
 	if (file_data_set_mark_func[n]) 
 		{
 		(file_data_set_mark_func[n])(fd, n, value, file_data_mark_func_data[n]);
 		}
+	
+	old = fd->marks;
 
 	fd->marks = fd->marks ^ (1 << n);
 	
