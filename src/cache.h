@@ -27,12 +27,14 @@
 #define GQ_CACHE_EXT_THUMB      ".png"
 #define GQ_CACHE_EXT_SIM        ".sim"
 #define GQ_CACHE_EXT_METADATA   ".meta"
+#define GQ_CACHE_EXT_XMP_METADATA   ".gq.xmp"
 
 
 typedef enum {
 	CACHE_TYPE_THUMB,
 	CACHE_TYPE_SIM,
-	CACHE_TYPE_METADATA
+	CACHE_TYPE_METADATA,
+	CACHE_TYPE_XMP_METADATA
 } CacheType;
 
 typedef struct _CacheData CacheData;

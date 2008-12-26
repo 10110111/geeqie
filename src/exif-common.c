@@ -40,6 +40,7 @@
 #include "filecache.h"
 #include "format_raw.h"
 #include "ui_fileops.h"
+#include "cache.h"
 
 
 static gdouble exif_rational_to_double(ExifRational *r, gint sign)
@@ -602,32 +603,23 @@ void exif_release_cb(FileData *fd)
 
 ExifData *exif_read_fd(FileData *fd)
 {
-	gchar *sidecar_path = NULL;
+	gchar *sidecar_path;
 
 	if (!fd) return NULL;
 	
 	if (!exif_cache) exif_cache = file_cache_new(exif_release_cb, 4);
 	
 	if (file_cache_get(exif_cache, fd)) return fd->exif;
+	
+	/* CACHE_TYPE_XMP_METADATA file should exist only if the metadata are
+	 * not writable directly, thus it should contain the most up-to-date version */
+	sidecar_path = cache_find_location(CACHE_TYPE_XMP_METADATA, fd->path);
 
-	if (filter_file_class(fd->extension, FORMAT_CLASS_RAWIMAGE))
-		{
-		GList *work;
-		
-		work = fd->parent ? fd->parent->sidecar_files : fd->sidecar_files;
-		while (work)
-			{
-			FileData *sfd = work->data;
-			work = work->next;
-			if (strcasecmp(sfd->extension, ".xmp") == 0)
-				{
-				sidecar_path = sfd->path;
-				break;
-				}
-			}
-		}
+	if (!sidecar_path) sidecar_path = file_data_get_sidecar_path(fd, TRUE);
 
 	fd->exif = exif_read(fd->path, sidecar_path, fd->modified_xmp);
+
+	g_free(sidecar_path);
 	return fd->exif;
 }
 

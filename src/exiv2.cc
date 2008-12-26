@@ -224,13 +224,16 @@ public:
 		imageData_ = new _ExifDataOriginal(path);
 		sidecarData_ = NULL;
 #if EXIV2_TEST_VERSION(0,16,0)
-		xmpData_ = imageData_->xmpData();
-		DEBUG_2("xmp count %li", xmpData_.count());
-		if (sidecar_path && xmpData_.empty())
+		if (sidecar_path)
 			{
 			sidecarData_ = new _ExifDataOriginal(sidecar_path);
 			xmpData_ = sidecarData_->xmpData();
 			}
+		else
+			{
+			xmpData_ = imageData_->xmpData();
+			}
+
 #endif
 		exifData_ = imageData_->exifData();
 		iptcData_ = imageData_->iptcData();

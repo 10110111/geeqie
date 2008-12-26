@@ -661,7 +661,45 @@ void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd)
 		fd->change = NULL;
 }
 
+static gboolean file_data_can_write_directly(FileData *fd)
+{
+	return (filter_file_class(fd->extension, FORMAT_CLASS_IMAGE));
+/* FIXME: detect what exiv2 really supports */
+}
 
+static gboolean file_data_can_write_sidecar(FileData *fd)
+{
+	return (filter_file_class(fd->extension, FORMAT_CLASS_RAWIMAGE));
+/* FIXME: detect what exiv2 really supports */
+}
+
+gchar *file_data_get_sidecar_path(FileData *fd, gboolean existing_only)
+{
+	gchar *sidecar_path = NULL;
+	GList *work;
+	if (!file_data_can_write_sidecar(fd)) return NULL;
+	
+	work = fd->parent ? fd->parent->sidecar_files : fd->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+		work = work->next;
+		if (strcasecmp(sfd->extension, ".xmp") == 0)
+			{
+			sidecar_path = g_strdup(sfd->path);
+			break;
+			}
+		}
+	
+	if (!existing_only && !sidecar_path)
+		{
+		gchar *base = remove_extension_from_path(fd->path);
+		sidecar_path = g_strconcat(base, ".xmp", NULL);
+		g_free(base);
+		}
+
+	return sidecar_path;
+}
 
 
 /*
@@ -1687,8 +1725,7 @@ gint file_data_verify_ci(FileData *fd)
 		return ret;
 		}
 
-	if (!isname(fd->path) && 
-	    !filter_file_class(fd->extension, FORMAT_CLASS_META)) /* xmp sidecar can be eventually created from scratch */
+	if (!isname(fd->path))
 		{
 		/* this probably should not happen */
 		ret |= CHANGE_NO_SRC;
@@ -1721,24 +1758,98 @@ gint file_data_verify_ci(FileData *fd)
 		}
 	/* WRITE_METADATA is special because it can be configured to silently write to ~/.geeqie/...
 	   - that means that there are no hard errors and warnings can be disabled
+	   - the destination is determined during the check
 	*/
-	else if (fd->change->type == FILEDATA_CHANGE_WRITE_METADATA && 
-	         options->metadata.save_in_image_file && options->metadata.warn_on_write_problems)
+	else if (fd->change->type == FILEDATA_CHANGE_WRITE_METADATA)
 		{
-		if (isname(fd->path) && !access_file(fd->path, W_OK))
+		/* determine destination file */
+		gboolean have_dest = FALSE;
+		gchar *dest_dir = NULL;
+		
+		if (options->metadata.save_in_image_file)
 			{
-			ret |= CHANGE_WARN_NO_WRITE_PERM;
-			DEBUG_1("Change checked: file is readonly: %s", fd->path);
+			if (file_data_can_write_directly(fd)) 
+				{
+				/* we can write the file directly */
+				if (access_file(fd->path, W_OK))
+					{
+					have_dest = TRUE;
+					}
+				else
+					{
+					if (options->metadata.warn_on_write_problems)
+						{
+						ret |= CHANGE_WARN_NO_WRITE_PERM;
+						DEBUG_1("Change checked: file is not writable: %s", fd->path);
+						}
+					}
+				}
+			else if (file_data_can_write_sidecar(fd)) 
+				{
+				/* we can write sidecar */
+				gchar *sidecar = file_data_get_sidecar_path(fd, FALSE);
+				if (access_file(sidecar, W_OK) || (!isname(sidecar) && access_file(dir, W_OK)))
+					{
+					file_data_update_ci_dest(fd, sidecar);
+					have_dest = TRUE;
+					}
+				else
+					{
+					if (options->metadata.warn_on_write_problems)
+						{
+						ret |= CHANGE_WARN_NO_WRITE_PERM;
+						DEBUG_1("Change checked: file is not writable: %s", sidecar);
+						}
+					}
+				g_free(sidecar);
+				}
 			}
 		
-		else if (!access_file(dir, W_OK))
+		if (!have_dest)
 			{
-			ret |= CHANGE_WARN_NO_WRITE_PERM;
-			DEBUG_1("Change checked: dir is readonly: %s", fd->path);
+			/* write private metadata file under ~/.geeqie */
+
+			/* If an existing metadata file exists, we will try writing to
+			 * it's location regardless of the user's preference.
+			 */
+			gchar *metadata_path = cache_find_location(CACHE_TYPE_XMP_METADATA, fd->path);
+			if (!metadata_path) metadata_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
+			
+			if (metadata_path && !access_file(metadata_path, W_OK))
+				{
+				g_free(metadata_path);
+				metadata_path = NULL;
+				}
+
+			if (!metadata_path)
+				{
+				mode_t mode = 0755;
+
+				dest_dir = cache_get_location(CACHE_TYPE_METADATA, fd->path, FALSE, &mode);
+				if (recursive_mkdir_if_not_exists(dest_dir, mode))
+					{
+					gchar *filename = g_strconcat(fd->name, options->metadata.save_legacy_format ? GQ_CACHE_EXT_METADATA : GQ_CACHE_EXT_XMP_METADATA, NULL);
+			
+					metadata_path = g_build_filename(dest_dir, filename, NULL);
+					g_free(filename);
+					}
+				}
+			if (access_file(metadata_path, W_OK) || (!isname(metadata_path) && access_file(dest_dir, W_OK)))
+				{
+				file_data_update_ci_dest(fd, metadata_path);
+				have_dest = TRUE;
+				}
+			else
+				{
+				ret |= CHANGE_NO_WRITE_PERM_DEST;
+				DEBUG_1("Change checked: file is not writable: %s", metadata_path);
+				}
+			g_free(metadata_path);
 			}
+		g_free(dest_dir);
 		}
 		
-	if (fd->change->dest)
+	if (fd->change->dest && fd->change->type != FILEDATA_CHANGE_WRITE_METADATA)
 		{
 		gboolean same;
 		gchar *dest_dir;

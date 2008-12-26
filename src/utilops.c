@@ -448,11 +448,11 @@ static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gint fu
 		gchar *sidecars;
 		
 		sidecars = with_sidecars ? file_data_sc_list_to_string(fd) : NULL;
-
+		GdkPixbuf *icon = file_util_get_error_icon(fd, view);
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter,
 				   UTILITY_COLUMN_FD, fd,
-				   UTILITY_COLUMN_PIXBUF, file_util_get_error_icon(fd, view),
+				   UTILITY_COLUMN_PIXBUF, icon,
 				   UTILITY_COLUMN_PATH, fd->path,
 				   UTILITY_COLUMN_NAME, fd->name,
 				   UTILITY_COLUMN_SIDECARS, sidecars,
@@ -1315,6 +1315,8 @@ static void file_util_dialog_init_simple_list(UtilityData *ud)
 
 	ud->listview = file_util_dialog_add_list(box, ud->flist, FALSE, ud->with_sidecars);
 	if (ud->with_sidecars) file_util_dialog_add_list_column(ud->listview, _("Sidecars"), FALSE, UTILITY_COLUMN_SIDECARS);
+
+	if (ud->type == UTILITY_TYPE_WRITE_METADATA) file_util_dialog_add_list_column(ud->listview, _("Write to file"), FALSE, UTILITY_COLUMN_DEST_NAME);
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(ud->listview));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);

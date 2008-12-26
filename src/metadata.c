@@ -35,21 +35,8 @@ typedef enum {
 
 static gboolean metadata_write_queue_idle_cb(gpointer data);
 static gint metadata_legacy_write(FileData *fd);
-static gint metadata_legacy_delete(FileData *fd);
+static void metadata_legacy_delete(FileData *fd, const gchar *except);
 
-
-
-gboolean metadata_can_write_directly(FileData *fd)
-{
-	return (filter_file_class(fd->extension, FORMAT_CLASS_IMAGE));
-/* FIXME: detect what exiv2 really supports */
-}
-
-gboolean metadata_can_write_sidecar(FileData *fd)
-{
-	return (filter_file_class(fd->extension, FORMAT_CLASS_RAWIMAGE));
-/* FIXME: detect what exiv2 really supports */
-}
 
 
 /*
@@ -60,61 +47,6 @@ gboolean metadata_can_write_sidecar(FileData *fd)
 
 static GList *metadata_write_queue = NULL;
 static gint metadata_write_idle_id = -1;
-
-static FileData *metadata_xmp_sidecar_fd(FileData *fd)
-{
-	GList *work;
-	gchar *base, *new_name;
-	FileData *ret;
-	
-	if (!metadata_can_write_sidecar(fd)) return NULL;
-		
-	
-	if (fd->parent) fd = fd->parent;
-	
-	if (filter_file_class(fd->extension, FORMAT_CLASS_META))
-		return file_data_ref(fd);
-	
-	work = fd->sidecar_files;
-	while (work)
-		{
-		FileData *sfd = work->data;
-		work = work->next;
-		if (filter_file_class(sfd->extension, FORMAT_CLASS_META))
-			return file_data_ref(sfd);
-		}
-	
-	/* sidecar does not exist yet */
-	base = remove_extension_from_path(fd->path);
-	new_name = g_strconcat(base, ".xmp", NULL);
-	g_free(base);
-	ret = file_data_new_simple(new_name);
-	g_free(new_name);
-	return ret;
-}
-
-static FileData *metadata_xmp_main_fd(FileData *fd)
-{
-	if (filter_file_class(fd->extension, FORMAT_CLASS_META) && !g_list_find(metadata_write_queue, fd))
-		{
-		/* fd is a sidecar, we have to find the original file */
-		
-		GList *work = metadata_write_queue;
-		while (work)
-			{
-			FileData *ofd = work->data;
-			FileData *osfd = metadata_xmp_sidecar_fd(ofd);
-			work = work->next;
-			file_data_unref(osfd);
-			if (fd == osfd)
-				{
-				return ofd; /* this is the main file */
-				}
-			}
-		}
-	return NULL;
-}
-
 
 static void metadata_write_queue_add(FileData *fd)
 {
@@ -139,10 +71,6 @@ static void metadata_write_queue_add(FileData *fd)
 
 gboolean metadata_write_queue_remove(FileData *fd)
 {
-	FileData *main_fd = metadata_xmp_main_fd(fd);
-
-	if (main_fd) fd = main_fd;
-
 	g_hash_table_destroy(fd->modified_xmp);
 	fd->modified_xmp = NULL;
 
@@ -184,11 +112,7 @@ gboolean metadata_write_queue_confirm()
 		
 		if (fd->change) continue; /* another operation in progress, skip this file for now */
 		
-		FileData *to_approve_fd = metadata_xmp_sidecar_fd(fd);
-		
-		if (!to_approve_fd) to_approve_fd = file_data_ref(fd); /* this is not a sidecar */
-
-		to_approve = g_list_prepend(to_approve, to_approve_fd);
+		to_approve = g_list_prepend(to_approve, fd);
 		}
 
 	file_util_write_metadata(NULL, to_approve, NULL);
@@ -205,44 +129,33 @@ static gboolean metadata_write_queue_idle_cb(gpointer data)
 	return FALSE;
 }
 
-
-gboolean metadata_write_exif(FileData *fd, FileData *sfd)
+gboolean metadata_write_perform(FileData *fd)
 {
 	gboolean success;
 	ExifData *exif;
 	
+	g_assert(fd->change);
+	
+	if (fd->change->dest && 
+	    strcmp(extension_from_path(fd->path), GQ_CACHE_EXT_METADATA) == 0)
+		{
+		success = metadata_legacy_write(fd);
+		if (success) metadata_legacy_delete(fd, fd->change->dest);
+		return success;
+		}
+
+	/* write via exiv2 */
 	/*  we can either use cached metadata which have fd->modified_xmp already applied 
 	                             or read metadata from file and apply fd->modified_xmp
 	    metadata are read also if the file was modified meanwhile */
 	exif = exif_read_fd(fd); 
 	if (!exif) return FALSE;
-	success = sfd ? exif_write_sidecar(exif, sfd->path) : exif_write(exif); /* write modified metadata */
+
+	success = (fd->change->dest) ? exif_write_sidecar(exif, fd->change->dest) : exif_write(exif); /* write modified metadata */
 	exif_free_fd(fd, exif);
+
+	if (success) metadata_legacy_delete(fd, fd->change->dest);
 	return success;
-}
-
-gboolean metadata_write_perform(FileData *fd)
-{
-	FileData *sfd = NULL;
-	FileData *main_fd = metadata_xmp_main_fd(fd);
-
-	if (main_fd)
-		{
-		sfd = fd;
-		fd = main_fd;
-		}
-
-	if (options->metadata.save_in_image_file &&
-	    metadata_write_exif(fd, sfd))
-		{
-		metadata_legacy_delete(fd);
-		if (sfd) metadata_legacy_delete(sfd);
-		}
-	else
-		{
-		metadata_legacy_write(fd);
-		}
-	return TRUE;
 }
 
 gint metadata_write_list(FileData *fd, const gchar *key, GList *values)
@@ -307,48 +220,18 @@ static gint metadata_file_write(gchar *path, GHashTable *modified_xmp)
 
 static gint metadata_legacy_write(FileData *fd)
 {
-	gchar *metadata_path;
 	gint success = FALSE;
 
-	/* If an existing metadata file exists, we will try writing to
-	 * it's location regardless of the user's preference.
-	 */
-	metadata_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
-	if (metadata_path && !access_file(metadata_path, W_OK))
-		{
-		g_free(metadata_path);
-		metadata_path = NULL;
-		}
+	g_assert(fd->change && fd->change->dest);
+	gchar *metadata_pathl;
 
-	if (!metadata_path)
-		{
-		gchar *metadata_dir;
-		mode_t mode = 0755;
+	DEBUG_1("Saving comment: %s", fd->change->dest);
 
-		metadata_dir = cache_get_location(CACHE_TYPE_METADATA, fd->path, FALSE, &mode);
-		if (recursive_mkdir_if_not_exists(metadata_dir, mode))
-			{
-			gchar *filename = g_strconcat(fd->name, GQ_CACHE_EXT_METADATA, NULL);
-			
-			metadata_path = g_build_filename(metadata_dir, filename, NULL);
-			g_free(filename);
-			}
-		g_free(metadata_dir);
-		}
+	metadata_pathl = path_from_utf8(fd->change->dest);
 
-	if (metadata_path)
-		{
-		gchar *metadata_pathl;
+	success = metadata_file_write(metadata_pathl, fd->modified_xmp);
 
-		DEBUG_1("Saving comment: %s", metadata_path);
-
-		metadata_pathl = path_from_utf8(metadata_path);
-
-		success = metadata_file_write(metadata_pathl, fd->modified_xmp);
-
-		g_free(metadata_pathl);
-		g_free(metadata_path);
-		}
+	g_free(metadata_pathl);
 
 	return success;
 }
@@ -439,24 +322,28 @@ static gint metadata_file_read(gchar *path, GList **keywords, gchar **comment)
 	return TRUE;
 }
 
-static gint metadata_legacy_delete(FileData *fd)
+static void metadata_legacy_delete(FileData *fd, const gchar *except)
 {
 	gchar *metadata_path;
 	gchar *metadata_pathl;
-	gint success = FALSE;
-	if (!fd) return FALSE;
+	if (!fd) return;
 
 	metadata_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
-	if (!metadata_path) return FALSE;
-
-	metadata_pathl = path_from_utf8(metadata_path);
-
-	success = !unlink(metadata_pathl);
-
-	g_free(metadata_pathl);
-	g_free(metadata_path);
-
-	return success;
+	if (metadata_path && (!except || strcmp(metadata_path, except) != 0)) 
+		{
+		metadata_pathl = path_from_utf8(metadata_path);
+		unlink(metadata_pathl);
+		g_free(metadata_pathl);
+		g_free(metadata_path);
+		}
+	metadata_path = cache_find_location(CACHE_TYPE_XMP_METADATA, fd->path);
+	if (metadata_path && (!except || strcmp(metadata_path, except) != 0)) 
+		{
+		metadata_pathl = path_from_utf8(metadata_path);
+		unlink(metadata_pathl);
+		g_free(metadata_pathl);
+		g_free(metadata_path);
+		}
 }
 
 static gint metadata_legacy_read(FileData *fd, GList **keywords, gchar **comment)

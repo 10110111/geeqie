@@ -603,6 +603,11 @@ static void cache_path_parts(CacheType type,
 			*cache_local = GQ_CACHE_LOCAL_METADATA;
 			*cache_ext = GQ_CACHE_EXT_METADATA;
 			break;
+		case CACHE_TYPE_XMP_METADATA:
+			*cache_rc = get_metadata_cache_dir();
+			*cache_local = GQ_CACHE_LOCAL_METADATA;
+			*cache_ext = GQ_CACHE_EXT_XMP_METADATA;
+			break;
 		}
 }
 
@@ -625,8 +630,8 @@ gchar *cache_get_location(CacheType type, const gchar *source, gint include_name
 		name = g_strconcat(filename_from_path(source), cache_ext, NULL);
 		}
 
-	if (((type != CACHE_TYPE_METADATA && options->thumbnails.cache_into_dirs) ||
-	     (type == CACHE_TYPE_METADATA && options->metadata.enable_metadata_dirs)) &&
+	if (((type != CACHE_TYPE_METADATA && type != CACHE_TYPE_XMP_METADATA && options->thumbnails.cache_into_dirs) ||
+	     ((type == CACHE_TYPE_METADATA || type == CACHE_TYPE_XMP_METADATA) && options->metadata.enable_metadata_dirs)) &&
 	    access_file(base, W_OK))
 		{
 		path = g_build_filename(base, cache_local, name, NULL);
@@ -679,7 +684,7 @@ gchar *cache_find_location(CacheType type, const gchar *source)
 
 	cache_path_parts(type, &cache_rc, &cache_local, &cache_ext);
 
-	if (type == CACHE_TYPE_METADATA)
+	if (type == CACHE_TYPE_METADATA || type == CACHE_TYPE_XMP_METADATA)
 		{
 		prefer_local = options->metadata.enable_metadata_dirs;
 		}

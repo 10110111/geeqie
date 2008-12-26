@@ -79,6 +79,10 @@ gint file_data_get_user_orientation(FileData *fd);
 void file_data_set_user_orientation(FileData *fd, gint value);
 
 gchar *file_data_sc_list_to_string(FileData *fd);
+
+gchar *file_data_get_sidecar_path(FileData *fd, gboolean existing_only);
+
+
 gboolean file_data_add_ci(FileData *fd, FileDataChangeType type, const gchar *src, const gchar *dest);
 gboolean file_data_sc_add_ci_copy(FileData *fd, const gchar *dest_path);
 gboolean file_data_sc_add_ci_move(FileData *fd, const gchar *dest_path);
