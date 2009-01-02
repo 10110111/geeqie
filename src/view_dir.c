@@ -231,11 +231,6 @@ static gint vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, g
 
 	file_util_rename_dir(fd, new_path, vd->view);
 	
-	if (vd->layout && vd->dir_fd != fd)
-		{
-		layout_set_path(vd->layout, new_path);
-		}
-
 	g_free(new_path);
 
 	return FALSE;

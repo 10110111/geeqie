@@ -357,6 +357,22 @@ static NodeData *vdtree_find_iter_by_name(ViewDir *vd, GtkTreeIter *parent, cons
 	return NULL;
 }
 
+static NodeData *vdtree_find_iter_by_fd(ViewDir *vd, GtkTreeIter *parent, FileData *fd, GtkTreeIter *iter)
+{
+	GtkTreeModel *store;
+
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
+	if (!fd || !gtk_tree_model_iter_children(store, iter, parent)) return NULL;
+	do	{
+		NodeData *nd;
+
+		gtk_tree_model_get(store, iter, DIR_COLUMN_POINTER, &nd, -1);
+		if (nd && nd->fd == fd) return nd;
+		} while (gtk_tree_model_iter_next(store, iter));
+
+	return NULL;
+}
+
 static void vdtree_add_by_data(ViewDir *vd, FileData *fd, GtkTreeIter *parent)
 {
 	GtkTreeStore *store;
@@ -512,17 +528,17 @@ gint vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gint force, Fi
 			{
 			NodeData *cnd;
 
-			cnd = vdtree_find_iter_by_name(vd, iter, fd->name, &child);
+			cnd = vdtree_find_iter_by_fd(vd, iter, fd, &child);
 			if (cnd)
 				{
-				old = g_list_remove(old, cnd);
-				if (cnd->expanded &&  cnd->version != fd->version &&
-				    vdtree_populate_path_by_iter(vd, &child, FALSE, target_fd))
+				if (cnd->expanded && cnd->version != fd->version)
 					{
-					gtk_tree_store_set(GTK_TREE_STORE(store), &child, DIR_COLUMN_NAME, fd->name, -1);
-					cnd->version = fd->version;
+					vdtree_populate_path_by_iter(vd, &child, FALSE, target_fd);
 					}
 
+				gtk_tree_store_set(GTK_TREE_STORE(store), &child, DIR_COLUMN_NAME, fd->name, -1);
+				cnd->version = fd->version;
+				old = g_list_remove(old, cnd);
 				file_data_unref(fd);
 				}
 			else
