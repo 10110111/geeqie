@@ -311,6 +311,51 @@ gint lstat_utf8(const gchar *s, struct stat *st)
 	return ret;
 }
 
+/* extension must contain only ASCII characters */
+gint stat_utf8_case_insensitive_ext(GString *base, const gchar *ext, struct stat *st)
+{
+	gchar *sl;
+	gchar *extl;
+	gint ret = 0;
+	gint ext_len;
+	gint base_len = strlen(base->str);
+
+	g_string_append(base, ext);
+	sl = path_from_utf8(base->str);
+	
+	extl = strrchr(sl, '.');
+	if (extl)
+		{
+		gint i, j;
+		extl++; /* the first char after . */
+		ext_len = strlen(extl);
+	
+		for (i = 0; i < (1 << ext_len); i++)
+			{
+			for (j = 0; j < ext_len; j++)
+				{
+				if (i & (1 << j)) 
+					extl[j] = g_ascii_toupper(extl[j]);
+				else
+					extl[j] = g_ascii_tolower(extl[j]);
+				}
+			ret = (stat(sl, st) == 0);
+			if (ret) break;
+			}
+		
+		if (ret)
+			{
+			/* append the found extension to base */
+			base = g_string_truncate(base, base_len);
+			extl--;
+			g_string_append(base, extl);
+			}
+		}
+	g_free(sl);
+
+	return ret;
+}
+
 gint isname(const gchar *s)
 {
 	struct stat st;

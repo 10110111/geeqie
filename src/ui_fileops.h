@@ -44,6 +44,9 @@ const gchar *get_trash_dir(void);
 
 gint stat_utf8(const gchar *s, struct stat *st);
 gint lstat_utf8(const gchar *s, struct stat *st);
+gint stat_utf8_case_insensitive_ext(GString *base, const gchar *ext, struct stat *st);
+
+
 gint isname(const gchar *s);
 gint isfile(const gchar *s);
 gint isdir(const gchar *s);

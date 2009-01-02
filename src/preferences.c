@@ -277,7 +277,8 @@ static void config_window_apply(void)
 	options->file_sort.case_sensitive = c_options->file_sort.case_sensitive;
 	options->file_filter.disable = c_options->file_filter.disable;
 
-	sidecar_ext_parse(gtk_entry_get_text(GTK_ENTRY(sidecar_ext_entry)), FALSE);
+	config_entry_to_option(sidecar_ext_entry, &options->sidecar.ext, NULL);
+	sidecar_ext_parse(options->sidecar.ext, FALSE);
 
 	options->slideshow.random = c_options->slideshow.random;
 	options->slideshow.repeat = c_options->slideshow.repeat;
@@ -1221,7 +1222,7 @@ static void config_tab_filtering(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Grouping sidecar extensions"), GTK_ORIENTATION_VERTICAL);
 
 	sidecar_ext_entry = gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(sidecar_ext_entry), sidecar_ext_to_string());
+	gtk_entry_set_text(GTK_ENTRY(sidecar_ext_entry), options->sidecar.ext);
 	gtk_box_pack_start(GTK_BOX(group), sidecar_ext_entry, FALSE, FALSE, 0);
 	gtk_widget_show(sidecar_ext_entry);
 

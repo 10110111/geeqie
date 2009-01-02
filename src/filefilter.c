@@ -260,6 +260,8 @@ GList *filter_to_list(const gchar *extensions)
 	while (*p != '\0')
 		{
 		const gchar *b;
+		const gchar *ext;
+		gint file_class = -1;
 		guint l = 0;
 
 		b = p;
@@ -268,7 +270,23 @@ GList *filter_to_list(const gchar *extensions)
 			p++;
 			l++;
 			}
-		list = g_list_append(list, g_strndup(b, l));
+		
+		ext = g_strndup(b, l);
+		
+		if (strcasecmp(ext, "%image") == 0) file_class = FORMAT_CLASS_IMAGE;
+		else if (strcasecmp(ext, "%raw") == 0) file_class = FORMAT_CLASS_RAWIMAGE;
+		else if (strcasecmp(ext, "%meta") == 0) file_class = FORMAT_CLASS_META;
+		
+		if (file_class == -1) 
+			{
+			list = g_list_append(list, ext);
+			}
+		else
+			{
+			list = g_list_concat(list, string_list_copy(file_class_extension_list[file_class]));
+			g_free(ext);
+			}
+			
 		if (*p == ';') p++;
 		}
 
@@ -315,6 +333,8 @@ void filter_rebuild(void)
 				}
 			}
 		}
+
+	sidecar_ext_parse(options->sidecar.ext, FALSE); /* this must be updated after changed file extensions */
 }
 
 gint filter_name_exists(const gchar *name)
@@ -480,30 +500,5 @@ void sidecar_ext_parse(const gchar *text, gboolean quoted)
 	if (quoted) g_free(value);
 }
 
-void sidecar_ext_write(SecureSaveInfo *ssi)
-{
-	secure_fprintf(ssi, "sidecar.ext: \"%s\"\n", sidecar_ext_to_string());
-}
-
-gchar *sidecar_ext_to_string(void)
-{
-	GList *work;
-	GString *str = g_string_new("");
-
-	work = sidecar_ext_list;
-	while (work)
-		{
-		gchar *ext = work->data;
-		work = work->next;
-		g_string_append(str, ext);
-		if (work) g_string_append(str, ";");
-		}
-	return g_string_free(str, FALSE);
-}
-
-void sidecar_ext_add_defaults(void)
-{
-	sidecar_ext_parse(".jpg;.cr2;.nef;.crw;.pef;.dng;.arw;.xmp", FALSE);
-}
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -395,7 +395,7 @@ static void file_data_check_sidecars(FileData *fd)
 
 		work = work->next;
 
-		if (strcmp(ext, fd->extension) == 0)
+		if (strcasecmp(ext, fd->extension) == 0)
 			{
 			new_fd = fd; /* processing the original file */
 			}
@@ -403,9 +403,8 @@ static void file_data_check_sidecars(FileData *fd)
 			{
 			struct stat nst;
 			g_string_truncate(fname, base_len);
-			g_string_append(fname, ext);
 
-			if (!stat_utf8(fname->str, &nst))
+			if (!stat_utf8_case_insensitive_ext(fname, ext, &nst))
 				continue;
 
 			new_fd = file_data_new(fname->str, &nst, FALSE);
@@ -730,7 +729,7 @@ static gint sidecar_file_priority(const gchar *path)
 		gchar *ext = work->data;
 		
 		work = work->next;
-		if (strcmp(extension, ext) == 0) return i;
+		if (strcasecmp(extension, ext) == 0) return i;
 		i++;
 	}
 	return 0;

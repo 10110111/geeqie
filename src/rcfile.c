@@ -463,8 +463,7 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 
 	WRITE_SUBTITLE("Sidecars Options");
 
-	sidecar_ext_write(ssi);
-
+	WRITE_CHAR(sidecar.ext);
 
 	WRITE_SUBTITLE("Color Profiles");
 
@@ -842,11 +841,7 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 			continue;
 			}
 
-		if (g_ascii_strcasecmp(option, "sidecar.ext") == 0)
-			{
-			sidecar_ext_parse(value_all, TRUE);
-			continue;
-			}
+		READ_CHAR(sidecar.ext);
 
 		/* Color Profiles */
 

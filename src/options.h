@@ -101,6 +101,10 @@ struct _ConfOptions
 		gboolean disable;
 	} file_filter;
 
+	struct {
+		gchar *ext;
+	} sidecar;
+	
 	/* collections */
 	struct {
 		gboolean rectangular_selection;

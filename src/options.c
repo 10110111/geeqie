@@ -203,7 +203,7 @@ void setup_default_options(ConfOptions *options)
 		}
 
 	set_default_image_overlay_template_string(&options->image_overlay.common.template_string);
-	sidecar_ext_add_defaults();
+	options->sidecar.ext = g_strdup(".jpg;%raw;.xmp");
 	options->layout.order = g_strdup("123");
 	options->properties.tabs_order = g_strdup(info_tab_default_order());
 

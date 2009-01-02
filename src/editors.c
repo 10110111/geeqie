@@ -56,12 +56,12 @@ struct _EditorData {
 
 
 static Editor editor_slot_defaults[GQ_EDITOR_SLOTS] = {
-	{ N_("The Gimp"), "gimp-remote %{.cr2;.crw;.nef;.raw;*}f" },
+	{ N_("The Gimp"), "gimp-remote %{%raw;*}f" },
 	{ N_("XV"), "xv %f" },
 	{ N_("Xpaint"), "xpaint %f" },
-	{ N_("UFraw"), "ufraw %{.cr2;.crw;.nef;.raw}p" },
-	{ N_("Add XMP sidecar"), "%vFILE=%{.cr2;.crw;.nef;.raw}p;XMP=`echo \"$FILE\"|sed -e 's|\\.[^.]*$|.xmp|'`; exiftool -tagsfromfile \"$FILE\" \"$XMP\"" },
+	{ N_("UFraw"), "ufraw %{%raw}p" },
 	{ N_("Symlink"), "ln -s %p %d"},
+	{ NULL, NULL },
 	{ NULL, NULL },
 	{ NULL, NULL },
 	{ N_("Rotate jpeg clockwise"), "%vif jpegtran -rotate 90 -copy all -outfile %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p; then mv %{.jpg;.jpeg}p_tmp %{.jpg;.jpeg}p;else rm %{.jpg;.jpeg}p_tmp;fi" },
