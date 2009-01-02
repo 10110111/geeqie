@@ -17,7 +17,7 @@
 gboolean metadata_write_queue_remove(FileData *fd);
 gboolean metadata_write_queue_remove_list(GList *list);
 gboolean metadata_write_perform(FileData *fd);
-gboolean metadata_write_queue_confirm(void);
+gboolean metadata_write_queue_confirm(FileUtilDoneFunc done_func, gpointer done_data);
 
 
 

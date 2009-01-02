@@ -251,7 +251,7 @@ static void layout_menu_dir_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	file_util_create_dir(lw->dir_fd, layout_window(lw));
+	file_util_create_dir(lw->dir_fd, layout_window(lw), NULL, NULL);
 }
 
 static void layout_menu_copy_cb(GtkAction *action, gpointer data)
@@ -2040,7 +2040,7 @@ void layout_bars_new_image(LayoutWindow *lw)
 
 	/* this should be called here to handle the metadata edited in bars */
 	if (options->metadata.confirm_on_image_change)
-		metadata_write_queue_confirm();
+		metadata_write_queue_confirm(NULL, NULL);
 }
 
 void layout_bars_new_selection(LayoutWindow *lw, gint count)

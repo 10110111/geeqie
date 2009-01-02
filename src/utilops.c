@@ -314,6 +314,9 @@ struct _UtilityData {
 	
 	gint external_command;
 	gpointer resume_data;
+	
+	FileUtilDoneFunc done_func;
+	gpointer done_data;
 };
 
 enum {
@@ -1566,6 +1569,10 @@ void file_util_dialog_run(UtilityData *ud)
 				{
 				metadata_write_queue_remove_list(ud->flist);
 				}
+			
+			if (ud->done_func)
+				ud->done_func((ud->phase == UTILITY_PHASE_DONE), ud->dest_path, ud->done_data);
+				
 			if (ud->with_sidecars)
 				file_data_sc_free_ci_list(ud->flist);
 			else
@@ -1641,7 +1648,7 @@ static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWi
 	file_util_dialog_run(ud);
 }
 
-static void file_util_write_metadata_full(FileData *source_fd, GList *source_list, GtkWidget *parent, UtilityPhase phase)
+static void file_util_write_metadata_full(FileData *source_fd, GList *source_list, GtkWidget *parent, UtilityPhase phase, FileUtilDoneFunc done_func, gpointer done_data)
 {
 	UtilityData *ud;
 	GList *flist = filelist_copy(source_list);
@@ -1668,6 +1675,9 @@ static void file_util_write_metadata_full(FileData *source_fd, GList *source_lis
 	ud->flist = flist;
 	ud->content_list = NULL;
 	ud->parent = parent;
+	
+	ud->done_func = done_func;
+	ud->done_data = done_data;
 	
 	ud->messages.title = _("Write metadata");
 	ud->messages.question = _("Write metadata?");
@@ -2232,7 +2242,7 @@ static void file_util_rename_dir_full(FileData *fd, const gchar *new_path, GtkWi
 	file_util_dialog_run(ud);
 }
 
-static void file_util_create_dir_full(FileData *fd, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase)
+static void file_util_create_dir_full(FileData *fd, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase, FileUtilDoneFunc done_func, gpointer done_data)
 {
 	UtilityData *ud; 
 
@@ -2258,6 +2268,9 @@ static void file_util_create_dir_full(FileData *fd, const gchar *dest_path, GtkW
 		}
 	
 	ud->dir_fd = file_data_new_simple(ud->dest_path);
+
+	ud->done_func = done_func;
+	ud->done_data = done_data;
 	
 	ud->messages.title = _("Create Folder");
 	ud->messages.question = _("Create folder?");
@@ -2277,10 +2290,11 @@ void file_util_delete(FileData *source_fd, GList *source_list, GtkWidget *parent
 	file_util_delete_full(source_fd, source_list, parent, options->file_ops.confirm_delete ? UTILITY_PHASE_START : UTILITY_PHASE_ENTERING);
 }
 
-void file_util_write_metadata(FileData *source_fd, GList *source_list, GtkWidget *parent)
+void file_util_write_metadata(FileData *source_fd, GList *source_list, GtkWidget *parent, FileUtilDoneFunc done_func, gpointer done_data)
 {
 	file_util_write_metadata_full(source_fd, source_list, parent, 
-	                              (options->metadata.save_in_image_file && options->metadata.confirm_write) ? UTILITY_PHASE_START : UTILITY_PHASE_ENTERING);
+	                              (options->metadata.save_in_image_file && options->metadata.confirm_write) ? UTILITY_PHASE_START : UTILITY_PHASE_ENTERING,
+	                              done_func, done_data);
 }
 
 void file_util_copy(FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent)
@@ -2342,9 +2356,9 @@ void file_util_delete_dir(FileData *fd, GtkWidget *parent)
 	file_util_delete_dir_full(fd, parent, UTILITY_PHASE_START);
 }
 
-void file_util_create_dir(FileData *dir_fd, GtkWidget *parent)
+void file_util_create_dir(FileData *dir_fd, GtkWidget *parent, FileUtilDoneFunc done_func, gpointer done_data)
 {
-	file_util_create_dir_full(dir_fd, NULL, parent, UTILITY_PHASE_ENTERING);
+	file_util_create_dir_full(dir_fd, NULL, parent, UTILITY_PHASE_ENTERING, done_func, done_data);
 }
 
 void file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget *parent)

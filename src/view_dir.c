@@ -506,6 +506,31 @@ static void vd_toggle_show_hidden_files_cb(GtkWidget *widget, gpointer data)
 	if (vd->layout) layout_refresh(vd->layout);
 }
 
+static void vd_pop_menu_new_rename_cb(gboolean success, const gchar *new_path, gpointer data)
+{
+	ViewDir *vd = data;
+	FileData *fd = NULL;
+	if (!success) return;
+
+	switch(vd->type)
+		{
+		case DIRVIEW_LIST:
+			{
+			vd_refresh(vd);
+			fd = vdlist_row_by_path(vd, new_path, NULL);
+			};
+			break;
+		case DIRVIEW_TREE:
+			{
+			FileData *new_fd = file_data_new_simple(new_path);
+			fd = vdtree_populate_path(vd, new_fd, TRUE, TRUE);
+			file_data_unref(new_fd);
+			}
+			break;
+		}
+	vd_rename_by_data(vd, fd);
+}
+
 static void vd_pop_menu_new_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
@@ -527,41 +552,7 @@ static void vd_pop_menu_new_cb(GtkWidget *widget, gpointer data)
 			break;
 		}
 
-	file_util_create_dir(dir_fd, widget);
-
-/* FIXME:*/
-#if 0
-	if (!mkdir_utf8(new_path, 0755))
-		{
-		gchar *text;
-
-		text = g_strdup_printf(_("Unable to create folder:\n%s"), new_path);
-		file_util_warning_dialog(_("Error creating folder"), text, GTK_STOCK_DIALOG_ERROR, vd->view);
-		g_free(text);
-		}
-	else
-		{
-		FileData *fd = NULL;
-
-		switch(vd->type)
-			{
-			case DIRVIEW_LIST:
-				{
-				vd_refresh(vd);
-				fd = vdlist_row_by_path(vd, new_path, NULL);
-				};
-				break;
-			case DIRVIEW_TREE:
-				{
-				FileData *new_fd = file_data_new_simple(new_path);
-				fd = vdtree_populate_path(vd, new_fd, TRUE, TRUE);
-				file_data_unref(new_fd);
-				}
-				break;
-			}
-		vd_rename_by_data(vd, fd);
-		}
-#endif
+	file_util_create_dir(dir_fd, widget, vd_pop_menu_new_rename_cb, vd);
 }
 
 static void vd_pop_menu_rename_cb(GtkWidget *widget, gpointer data)

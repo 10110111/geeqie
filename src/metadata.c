@@ -99,7 +99,7 @@ gboolean metadata_write_queue_remove_list(GList *list)
 }
 
 
-gboolean metadata_write_queue_confirm()
+gboolean metadata_write_queue_confirm(FileUtilDoneFunc done_func, gpointer done_data)
 {
 	GList *work;
 	GList *to_approve = NULL;
@@ -115,7 +115,7 @@ gboolean metadata_write_queue_confirm()
 		to_approve = g_list_prepend(to_approve, file_data_ref(fd));
 		}
 
-	file_util_write_metadata(NULL, to_approve, NULL);
+	file_util_write_metadata(NULL, to_approve, NULL, done_func, done_data);
 	
 	filelist_free(to_approve);
 	
@@ -124,7 +124,7 @@ gboolean metadata_write_queue_confirm()
 
 static gboolean metadata_write_queue_idle_cb(gpointer data)
 {
-	metadata_write_queue_confirm();
+	metadata_write_queue_confirm(NULL, NULL);
 	metadata_write_idle_id = -1;
 	return FALSE;
 }

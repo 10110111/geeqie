@@ -645,11 +645,16 @@ static gint exit_confirm_dlg(void)
 	return TRUE;
 }
 
+static void exit_program_write_metadata_cb(gint success, const gchar *dest_path, gpointer data)
+{
+	if (success) exit_program();
+}
+
 void exit_program(void)
 {
 	layout_image_full_screen_stop(NULL);
 
-	if (metadata_write_queue_confirm()) return;
+	if (metadata_write_queue_confirm(exit_program_write_metadata_cb, NULL)) return;
 
 	if (exit_confirm_dlg()) return;
 

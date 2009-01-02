@@ -212,6 +212,8 @@ struct _ImageLoader;
 
 typedef void (* ThumbLoaderFunc)(ThumbLoader *tl, gpointer data);
 
+typedef void (* FileUtilDoneFunc)(gboolean success, const gchar *done_path, gpointer data);
+
 struct _ThumbLoader
 {
 	gint standard_loader;

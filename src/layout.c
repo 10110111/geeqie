@@ -1047,7 +1047,7 @@ gint layout_set_fd(LayoutWindow *lw, FileData *fd)
 		}
 
 	if (options->metadata.confirm_on_dir_change)
-		metadata_write_queue_confirm();
+		metadata_write_queue_confirm(NULL, NULL);
 
 	return TRUE;
 }
