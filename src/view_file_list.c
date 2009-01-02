@@ -1518,6 +1518,7 @@ void vflist_select_by_fd(ViewFile *vf, FileData *fd)
 static void vflist_select_closest(ViewFile *vf, FileData *sel_fd)
 {
 	GList *work;
+	FileData *fd = NULL;
 	
 	if (sel_fd->parent) sel_fd = sel_fd->parent;
 	work = vf->list;
@@ -1525,18 +1526,15 @@ static void vflist_select_closest(ViewFile *vf, FileData *sel_fd)
 	while (work)
 		{
 		gint match;
-		FileData *fd = work->data;
+		fd = work->data;
 		work = work->next;
-		
 
 		match = filelist_sort_compare_filedata_full(fd, sel_fd, vf->sort_method, vf->sort_ascend);
 		
-		if (match >= 0)
-			{
-			vflist_select_by_fd(vf, fd);
-			break;
-			}
+		if (match >= 0) break;
 		}
+
+	if (fd) vflist_select_by_fd(vf, fd);
 
 }
 

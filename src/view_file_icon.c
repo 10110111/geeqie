@@ -1036,6 +1036,7 @@ void vficon_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 static void vficon_select_closest(ViewFile *vf, FileData *sel_fd)
 {
 	GList *work;
+	IconData *id = NULL;
 	
 	if (sel_fd->parent) sel_fd = sel_fd->parent;
 	work = vf->list;
@@ -1043,21 +1044,22 @@ static void vficon_select_closest(ViewFile *vf, FileData *sel_fd)
 	while (work)
 		{
 		gint match;
-		IconData *id = work->data;
-		FileData *fd = id->fd;
-		work = work->next;
+		FileData *fd;
 		
+		id = work->data;
+		fd = id->fd;
+		work = work->next;
 
 		match = filelist_sort_compare_filedata_full(fd, sel_fd, vf->sort_method, vf->sort_ascend);
 		
-		if (match >= 0)
-			{
-			vficon_select(vf, id);
-			vficon_send_layout_select(vf, id);
-			break;
-			}
+		if (match >= 0) break;
 		}
-
+	
+	if (id)
+		{
+		vficon_select(vf, id);
+		vficon_send_layout_select(vf, id);
+		}
 }
 
 
