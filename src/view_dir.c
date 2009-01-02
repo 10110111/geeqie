@@ -133,11 +133,15 @@ gint vd_set_fd(ViewDir *vd, FileData *dir_fd)
 {
 	gint ret = FALSE;
 
+	file_data_unregister_notify_func(vd_notify_cb, vd);
+
 	switch(vd->type)
 	{
 	case DIRVIEW_LIST: ret = vdlist_set_fd(vd, dir_fd); break;
 	case DIRVIEW_TREE: ret = vdtree_set_fd(vd, dir_fd); break;
 	}
+
+	file_data_register_notify_func(vd_notify_cb, vd, NOTIFY_PRIORITY_HIGH);
 
 	return ret;
 }
