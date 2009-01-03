@@ -260,7 +260,7 @@ GList *filter_to_list(const gchar *extensions)
 	while (*p != '\0')
 		{
 		const gchar *b;
-		const gchar *ext;
+		gchar *ext;
 		gint file_class = -1;
 		guint l = 0;
 
