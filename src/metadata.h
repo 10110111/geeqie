@@ -14,6 +14,9 @@
 #ifndef METADATA_H
 #define METADATA_H
 
+#define COMMENT_KEY "Xmp.dc.description"
+#define KEYWORD_KEY "Xmp.dc.subject"
+
 gboolean metadata_write_queue_remove(FileData *fd);
 gboolean metadata_write_queue_remove_list(GList *list);
 gboolean metadata_write_perform(FileData *fd);
@@ -21,7 +24,8 @@ gboolean metadata_write_queue_confirm(FileUtilDoneFunc done_func, gpointer done_
 
 
 
-gint metadata_write(FileData *fd, GList **keywords, gchar **comment);
+gboolean metadata_write_list(FileData *fd, const gchar *key, const GList *values);
+gboolean metadata_write_string(FileData *fd, const gchar *key, const char *value);
 
 gint metadata_read(FileData *fd, GList **keywords, gchar **comment);
 

@@ -30,8 +30,7 @@ typedef enum {
 	MK_COMMENT
 } MetadataKey;
 
-#define COMMENT_KEY "Xmp.dc.description"
-#define KEYWORD_KEY "Xmp.dc.subject"
+static const gchar *group_keys[] = {KEYWORD_KEY, COMMENT_KEY, NULL}; /* tags that will be written to all files in a group */
 
 static gboolean metadata_write_queue_idle_cb(gpointer data);
 static gint metadata_legacy_write(FileData *fd);
@@ -158,13 +157,25 @@ gboolean metadata_write_perform(FileData *fd)
 	return success;
 }
 
-gint metadata_write_list(FileData *fd, const gchar *key, GList *values)
+static gboolean metadata_check_key(const gchar *keys[], const gchar *key)
+{
+	const gchar **k = keys;
+	
+	while (k)
+		{
+		if (strcmp(key, *k) == 0) return TRUE;
+		k++;
+		}
+	return FALSE;
+}
+
+gboolean metadata_write_list(FileData *fd, const gchar *key, const GList *values)
 {
 	if (!fd->modified_xmp)
 		{
 		fd->modified_xmp = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GDestroyNotify)string_list_free);
 		}
-	g_hash_table_insert(fd->modified_xmp, g_strdup(key), values);
+	g_hash_table_insert(fd->modified_xmp, g_strdup(key), string_list_copy((GList *)values));
 	if (fd->exif)
 		{
 		exif_update_metadata(fd->exif, key, values);
@@ -173,12 +184,31 @@ gint metadata_write_list(FileData *fd, const gchar *key, GList *values)
 	file_data_increment_version(fd);
 	file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
 
+	if (options->metadata.sync_grouped_files && metadata_check_key(group_keys, key))
+		{
+		GList *work = fd->sidecar_files;
+		
+		while (work)
+			{
+			FileData *sfd = work->data;
+			work = work->next;
+			
+			if (filter_file_class(sfd->extension, FORMAT_CLASS_META)) continue; 
+
+			metadata_write_list(sfd, key, values);
+			}
+		}
+
+
 	return TRUE;
 }
 	
-gint metadata_write_string(FileData *fd, const gchar *key, const char *value)
+gboolean metadata_write_string(FileData *fd, const gchar *key, const char *value)
 {
-	return metadata_write_list(fd, key, g_list_append(NULL, g_strdup(value)));
+	GList *list = g_list_append(NULL, g_strdup(value));
+	gboolean ret = metadata_write_list(fd, key, list);
+	string_list_free(list);
+	return ret;
 }
 
 
@@ -473,35 +503,6 @@ static gint metadata_xmp_read(FileData *fd, GList **keywords, gchar **comment)
 	return (comment && *comment) || (keywords && *keywords);
 }
 
-gint metadata_write(FileData *fd, GList **keywords, gchar **comment)
-{
-	gint success = TRUE;
-	gint write_comment = (comment && *comment);
-
-	if (!fd) return FALSE;
-
-	if (write_comment) success = success && metadata_write_string(fd, COMMENT_KEY, *comment);
-	if (keywords) success = success && metadata_write_list(fd, KEYWORD_KEY, string_list_copy(*keywords));
-	
-	if (options->metadata.sync_grouped_files)
-		{
-		GList *work = fd->sidecar_files;
-		
-		while (work)
-			{
-			FileData *sfd = work->data;
-			work = work->next;
-			
-			if (filter_file_class(sfd->extension, FORMAT_CLASS_META)) continue; 
-
-			if (write_comment) success = success && metadata_write_string(sfd, COMMENT_KEY, *comment);
-			if (keywords) success = success && metadata_write_list(sfd, KEYWORD_KEY, string_list_copy(*keywords));
-			}
-		}
-
-	return success;
-}
-
 gint metadata_read(FileData *fd, GList **keywords, gchar **comment)
 {
 	GList *keywords_xmp = NULL;
@@ -617,7 +618,8 @@ void metadata_set(FileData *fd, GList *new_keywords, gchar *new_comment, gboolea
 			}
 		}
 	
-	metadata_write(fd, &keywords_list, &comment);
+	metadata_write_string(fd, COMMENT_KEY, comment);
+	metadata_write_list(fd, KEYWORD_KEY, keywords);
 
 	string_list_free(keywords);
 	g_free(comment);
@@ -738,7 +740,7 @@ gboolean meta_data_set_keyword_mark(FileData *fd, gint n, gboolean value, gpoint
 		keywords = g_list_append(keywords, g_strdup(data));
 		}
 	
-	if (changed) metadata_write(fd, &keywords, NULL);
+	if (changed) metadata_write_list(fd, KEYWORD_KEY, keywords);
 
 	string_list_free(keywords);
 	return TRUE;

@@ -404,7 +404,8 @@ static void bar_info_write(BarInfoData *bd)
 	list = keyword_list_pull(bd->keyword_view);
 	comment = comment_pull(bd->comment_view);
 
-	metadata_write(bd->fd, &list, &comment);
+	metadata_write_string(bd->fd, COMMENT_KEY, comment);
+	metadata_write_list(bd->fd, KEYWORD_KEY, list);
 
 	string_list_free(list);
 	g_free(comment);
