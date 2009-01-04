@@ -103,6 +103,16 @@
 
 #define PRINT_PREF_PRINTERC	"custom_printer"
 
+#define PRINT_PREF_TEXT			"text"
+#define PRINT_PREF_TEXTSIZE		"textsize"
+#define PRINT_PREF_TEXTCOLOR_R		"textcolor_r"
+#define PRINT_PREF_TEXTCOLOR_G		"textcolor_g"
+#define PRINT_PREF_TEXTCOLOR_B		"textcolor_b"
+
+#define PRINT_PREF_SOURCE		"source"
+#define PRINT_PREF_LAYOUT		"layout"
+
+#define PRINT_PREF_IMAGE_SCALE		"image_scale"
 
 typedef enum {
 	PRINT_SOURCE_IMAGE = 0,
@@ -226,7 +236,7 @@ struct _PrintWindow
 
 	gint layout_idle_id;
 
-	gint image_scale;
+	gdouble image_scale;
 
 	GtkWidget *image_scale_spin;
 
@@ -2119,10 +2129,10 @@ static void print_job_render_image_loader_done(ImageLoader *il, gpointer data)
 			scale = h / sh;
 			}
 
-		if (pw->image_scale >= 5)
+		if (pw->image_scale >= 5.0)
 			{
-			w = w * (gdouble)pw->image_scale / 100.0;
-			h = h * (gdouble)pw->image_scale / 100.0;
+			w = w * pw->image_scale / 100.0;
+			h = h * pw->image_scale / 100.0;
 			}
 
 		x = pw->margin_left + (dw / 2) - (w / 2);
@@ -2586,6 +2596,17 @@ static void print_pref_store(PrintWindow *pw)
 		{
 		tab_completion_append_to_history(pw->path_entry, pw->output_path);
 		}
+
+	pref_list_int_set(PRINT_PREF_GROUP, PRINT_PREF_TEXT, pw->text_fields);
+	pref_list_int_set(PRINT_PREF_GROUP, PRINT_PREF_TEXTSIZE, pw->text_points);
+	pref_list_int_set(PRINT_PREF_GROUP, PRINT_PREF_TEXTCOLOR_R, pw->text_r);
+	pref_list_int_set(PRINT_PREF_GROUP, PRINT_PREF_TEXTCOLOR_G, pw->text_g);
+	pref_list_int_set(PRINT_PREF_GROUP, PRINT_PREF_TEXTCOLOR_B, pw->text_b);
+
+	pref_list_int_set(PRINT_PREF_GROUP, PRINT_PREF_SOURCE, pw->source);
+	pref_list_int_set(PRINT_PREF_GROUP, PRINT_PREF_LAYOUT, pw->layout);
+
+	pref_list_double_set(PRINT_PREF_GROUP, PRINT_PREF_IMAGE_SCALE, pw->image_scale);
 }
 
 static gint print_job_start(PrintWindow *pw, RenderFormat format, PrintOutput output)
@@ -2940,7 +2961,7 @@ static void print_image_scale_cb(GtkWidget *spin, gpointer data)
 {
 	PrintWindow *pw = data;
 
-	pw->image_scale = (gint)gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin));
+	pw->image_scale = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin));
 
 	print_window_layout_set_size(pw, pw->paper_width, pw->paper_height);
 }
@@ -3339,9 +3360,11 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 	pw->source_selection = selection;
 	pw->source_list = list;
 
-	pw->source = PRINT_SOURCE_SELECTION;
-	pw->layout = PRINT_LAYOUT_IMAGE;
-
+	pw->source = print_pref_int(PRINT_PREF_SOURCE, PRINT_SOURCE_SELECTION);
+	pw->layout = print_pref_int(PRINT_PREF_LAYOUT, PRINT_LAYOUT_IMAGE);
+	
+	pw->image_scale = print_pref_double(PRINT_PREF_IMAGE_SCALE, 100.0);
+	
 	pw->output = print_pref_int(PRINT_PREF_OUTPUT, PRINT_OUTPUT_PS_LPR);
 	pw->output_format = print_pref_int(PRINT_PREF_FORMAT, PRINT_FILE_JPG_NORMAL);
 
@@ -3365,9 +3388,11 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 	pw->proof_width = print_pref_double(PRINT_PREF_PROOF_WIDTH, PRINT_PROOF_DEFAULT_SIZE);
 	pw->proof_height = print_pref_double(PRINT_PREF_PROOF_HEIGHT, PRINT_PROOF_DEFAULT_SIZE);
 
-	pw->text_fields = TEXT_INFO_FILENAME;
-	pw->text_points = 10;
-	pw->text_r = pw->text_g = pw->text_b = 0;
+	pw->text_fields = print_pref_int(PRINT_PREF_TEXT, TEXT_INFO_FILENAME);
+	pw->text_points = print_pref_int(PRINT_PREF_TEXTSIZE, 10);
+	pw->text_r = print_pref_int(PRINT_PREF_TEXTCOLOR_R, 0);
+	pw->text_g = print_pref_int(PRINT_PREF_TEXTCOLOR_G, 0);
+	pw->text_b = print_pref_int(PRINT_PREF_TEXTCOLOR_B, 0);
 
 	pw->save_settings = print_pref_int(PRINT_PREF_SAVE, TRUE);
 
@@ -3411,7 +3436,7 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 	table = pref_table_new(box, 2, 2, FALSE, FALSE);
 
 	pw->image_scale_spin = pref_table_spin(table, 0, 0, _("Image size:"), "%",
-					       5.0, 100.0, 1.0, 0, 100.0,
+					       5.0, 100.0, 1.0, 0, pw->image_scale,
 					       G_CALLBACK(print_image_scale_cb), pw);
 
 	label = pref_table_label(table, 0, 1, _("Proof size:"), 1.0);
