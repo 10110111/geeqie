@@ -568,7 +568,7 @@ static void vficon_drag_data_received(GtkWidget *entry_widget, GdkDragContext *c
 			gchar *str = g_strndup(selection->data, selection->length);
 			GList *kw_list = string_to_keywords_list(str);
 			
-			metadata_set(fd, kw_list, NULL, TRUE);
+			metadata_append_list(fd, KEYWORD_KEY, kw_list);
 			string_list_free(kw_list);
 			g_free(str);
 			if (vf->layout && vf->layout->bar_info) {

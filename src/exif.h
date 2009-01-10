@@ -151,6 +151,7 @@ gchar *exif_get_tag_description_by_key(const gchar *key);
 gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid);
 
 gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values);
+GList *exif_get_metadata(ExifData *exif, const gchar *key);
 
 guchar *exif_get_color_profile(ExifData *exif, guint *data_len);
 

@@ -53,7 +53,6 @@
 #include <exiv2/xmpsidecar.hpp>
 #endif
 
-
 extern "C" {
 #include <glib.h>
 
@@ -62,7 +61,27 @@ extern "C" {
 
 #include "filefilter.h"
 #include "ui_fileops.h"
+
+#include "misc.h"
 }
+
+typedef struct _AltKey AltKey;
+
+struct _AltKey
+{
+	const gchar *xmp_key;
+	const gchar *exif_key;
+	const gchar *iptc_key;
+};
+
+/* this is a list of keys that should be converted, even with the older Exiv2 which does not support it directly */
+static const AltKey alt_keys[] = {
+	{"Xmp.tiff.Orientation", "Exif.Image.Orientation", NULL},
+	{"Xmp.dc.subject", NULL, "Iptc.Application2.Keywords"},
+	{"Xmp.dc.description", NULL, "Iptc.Application2.Caption"},
+	{NULL, NULL, NULL}
+	};
+
 
 struct _ExifData
 {
@@ -259,13 +278,15 @@ public:
 
 	virtual void writeMetadata(gchar *path = NULL)
 	{
-#if EXIV2_TEST_VERSION(0,17,0)
-		syncExifWithXmp(exifData_, xmpData_);
-#endif
 		if (!path)
 			{
 #if EXIV2_TEST_VERSION(0,17,0)
-			if (options->metadata.save_legacy_IPTC) copyXmpToIptc(xmpData_, iptcData_);
+			if (options->metadata.save_legacy_IPTC) 
+				copyXmpToIptc(xmpData_, iptcData_);
+			else
+				iptcData_.clear();
+
+			copyXmpToExif(xmpData_, exifData_);
 #endif
 			imageData_->image()->setExifData(exifData_);
 			imageData_->image()->setIptcData(iptcData_);
@@ -749,7 +770,19 @@ gchar *exif_get_tag_description_by_key(const gchar *key)
 	}
 }
 
-gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values)
+static const AltKey *find_alt_key(const gchar *xmp_key)
+{
+	gint i = 0;
+	
+	while (alt_keys[i].xmp_key)
+		{
+		if (strcmp(xmp_key, alt_keys[i].xmp_key) == 0) return &alt_keys[i];
+		i++;
+		}
+	return NULL;
+}
+
+static gint exif_update_metadata_simple(ExifData *exif, const gchar *key, const GList *values)
 {
 	try {
 		const GList *work = values;
@@ -801,6 +834,8 @@ gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values)
 					exif->xmpData()[key] = (gchar *)work->data;
 					work = work->next;
 					}
+#else
+				throw e;
 #endif
 			}
 		}
@@ -810,6 +845,127 @@ gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values)
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";
 		return 0;
 	}
+}
+
+gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values)
+{
+	gint ret = exif_update_metadata_simple(exif, key, values);
+	
+	if (
+#if !EXIV2_TEST_VERSION(0,17,0)
+	    TRUE || /* no conversion support */
+#endif
+	    !values || /* deleting item */
+	    !ret  /* writing to the explicitely given xmp tag failed */
+	    )
+		{
+		/* deleted xmp metadatum can't be converted, we have to delete also the corresponding legacy tag */
+		/* if we can't write xmp, update at least the legacy tag */
+		const AltKey *alt_key = find_alt_key(key);
+		if (alt_key && alt_key->iptc_key)
+			ret = exif_update_metadata_simple(exif, alt_key->iptc_key, values);
+
+		if (alt_key && alt_key->exif_key)
+			ret = exif_update_metadata_simple(exif, alt_key->exif_key, values);
+		}
+	return ret;
+}
+
+
+static GList *exif_add_value_to_glist(GList *list, Exiv2::Metadatum &item)
+{
+	Exiv2::TypeId id = item.typeId();
+	if (id == Exiv2::asciiString ||
+	    id == Exiv2::undefined ||
+	    id == Exiv2::string ||
+	    id == Exiv2::date ||
+	    id == Exiv2::time ||
+#if EXIV2_TEST_VERSION(0,16,0)
+	    id == Exiv2::xmpText ||
+	    id == Exiv2::langAlt ||
+#endif 
+	    id == Exiv2::comment
+	    )
+		{
+		/* read as a single entry */
+		std::string str = item.toString();
+		if (str.length() > 5 && str.substr(0, 5) == "lang=")
+			{
+			std::string::size_type pos = str.find_first_of(' ');
+			if (pos != std::string::npos) str = str.substr(pos+1);
+			}
+		list = g_list_append(list, utf8_validate_or_convert(str.c_str())); 
+		}
+	else
+		{
+		/* read as a list */
+		gint i;
+		for (i = 0; i < item.count(); i++)
+			list = g_list_append(list, utf8_validate_or_convert(item.toString(i).c_str())); 
+		}
+	return list;
+}
+
+static GList *exif_get_metadata_simple(ExifData *exif, const gchar *key)
+{
+	GList *list = NULL;
+	try {
+		try {
+			Exiv2::ExifKey ekey(key);
+			
+			Exiv2::ExifData::iterator pos = exif->exifData().findKey(ekey);
+			if (pos != exif->exifData().end())
+				list = exif_add_value_to_glist(list, *pos);
+
+		}
+		catch (Exiv2::AnyError& e) {
+			try {
+				Exiv2::IptcKey ekey(key);
+				Exiv2::IptcData::iterator pos = exif->iptcData().begin();
+				while (pos != exif->iptcData().end())
+					{
+					if (pos->key() == key)
+						list = exif_add_value_to_glist(list, *pos);
+					++pos;
+					}
+
+			}
+			catch (Exiv2::AnyError& e) {
+#if EXIV2_TEST_VERSION(0,16,0)
+				Exiv2::XmpKey ekey(key);
+				Exiv2::XmpData::iterator pos = exif->xmpData().findKey(ekey);
+				if (pos != exif->xmpData().end())
+					list = exif_add_value_to_glist(list, *pos);
+#endif
+			}
+		}
+	}
+	catch (Exiv2::AnyError& e) {
+		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+	}
+	return list;
+}
+
+GList *exif_get_metadata(ExifData *exif, const gchar *key)
+{
+	GList *list = NULL;
+	
+	list = exif_get_metadata_simple(exif, key);
+	
+	/* the following code can be ifdefed out as soon as Exiv2 supports it */
+	if (!list)
+		{
+		const AltKey *alt_key = find_alt_key(key);
+		if (alt_key && alt_key->iptc_key)
+			list = exif_get_metadata_simple(exif, alt_key->iptc_key);
+
+#if !EXIV2_TEST_VERSION(0,17,0)	
+		/* with older Exiv2 versions exif is not synced */
+		if (!list && alt_key && alt_key->exif_key)
+			list = exif_get_metadata_simple(exif, alt_key->exif_key);
+#endif
+		}
+	return list;
 }
 
 

@@ -1367,7 +1367,7 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 				}
 			break;
 		case EXIF_FORMAT_STRING:
-			string = g_string_append(string, (gchar *)(item->data));
+			if (item->data) string = g_string_append(string, (gchar *)(item->data));
 			break;
 		case EXIF_FORMAT_SHORT_UNSIGNED:
 			if (ne == 1 && marker->list)
@@ -1594,6 +1594,19 @@ gboolean exif_write_sidecar(ExifData *exif, gchar *path)
 gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values)
 {
 	return 0;
+}
+
+GList *exif_get_metadata(ExifData *exif, const gchar *key)
+{
+	gchar *str;
+	ExifItem *item = exif_get_item(exif, key);
+	if (!item) return NULL;
+	
+	str = exif_item_get_string(item, 0);
+	
+	if (!str) return NULL;
+	
+	return g_list_append(NULL, str);
 }
 
 typedef struct _UnmapData UnmapData;

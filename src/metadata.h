@@ -27,9 +27,12 @@ gboolean metadata_write_queue_confirm(FileUtilDoneFunc done_func, gpointer done_
 gboolean metadata_write_list(FileData *fd, const gchar *key, const GList *values);
 gboolean metadata_write_string(FileData *fd, const gchar *key, const char *value);
 
-gint metadata_read(FileData *fd, GList **keywords, gchar **comment);
+GList *metadata_read_list(FileData *fd, const gchar *key);
+gchar *metadata_read_string(FileData *fd, const gchar *key);
 
-void metadata_set(FileData *fd, GList *new_keywords, gchar *new_comment, gboolean append);
+gboolean metadata_append_string(FileData *fd, const gchar *key, const char *value);
+gboolean metadata_append_list(FileData *fd, const gchar *key, const GList *values);
+
 gboolean find_string_in_list(GList *list, const gchar *keyword);
 GList *string_to_keywords_list(const gchar *text);
 

@@ -509,25 +509,16 @@ static void bar_info_update(BarInfoData *bd)
 		gtk_label_set_text(GTK_LABEL(bd->label_file_time), (bd->fd) ? text_from_time(bd->fd->date) : "");
 		}
 
-	if (metadata_read(bd->fd, &keywords, &comment))
-		{
-		keyword_list_push(bd->keyword_view, keywords);
-		gtk_text_buffer_set_text(comment_buffer,
-					 (comment) ? comment : "", -1);
-
-		bar_keyword_list_sync(bd, keywords);
-
-		string_list_free(keywords);
-		g_free(comment);
-		}
-	else
-		{
-		gtk_text_buffer_set_text(keyword_buffer, "", -1);
-		gtk_text_buffer_set_text(comment_buffer, "", -1);
-
-		bar_keyword_list_sync(bd, NULL);
-		}
-
+	comment = metadata_read_string(bd->fd, COMMENT_KEY);
+	gtk_text_buffer_set_text(comment_buffer,
+				 (comment) ? comment : "", -1);
+	g_free(comment);
+	
+	keywords = metadata_read_list(bd->fd, KEYWORD_KEY);
+	keyword_list_push(bd->keyword_view, keywords);
+	bar_keyword_list_sync(bd, keywords);
+	string_list_free(keywords);
+	
 	g_signal_handlers_unblock_by_func(keyword_buffer, bar_info_changed, bd);
 	g_signal_handlers_unblock_by_func(comment_buffer, bar_info_changed, bd);
 
@@ -667,7 +658,16 @@ static void bar_info_set_selection(BarInfoData *bd, gboolean set_keywords, gbool
 		FileData *fd = work->data;
 		work = work->next;
 
-		metadata_set(fd, keywords, comment, append);
+		if (append)
+			{
+			if (comment) metadata_append_string(fd, COMMENT_KEY, comment);
+			if (keywords) metadata_append_list(fd, KEYWORD_KEY, keywords);
+			}
+		else
+			{
+			if (comment) metadata_write_string(fd, COMMENT_KEY, comment);
+			if (keywords) metadata_write_list(fd, KEYWORD_KEY, keywords);
+			}
 		}
 
 	filelist_free(list);

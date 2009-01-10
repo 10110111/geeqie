@@ -325,7 +325,15 @@ static gint metadata_file_read(gchar *path, GList **keywords, gchar **comment)
 	
 	fclose(f);
 
-	*keywords = g_list_reverse(list);
+	if (keywords) 
+		{
+		*keywords = g_list_reverse(list);
+		}
+	else
+		{
+		string_list_free(list);
+		}
+		
 	if (comment_build)
 		{
 		if (comment)
@@ -420,209 +428,93 @@ static GList *remove_duplicate_strings_from_list(GList *list)
 	return g_list_reverse(newlist);
 }
 
-
-static gint metadata_xmp_read(FileData *fd, GList **keywords, gchar **comment)
+GList *metadata_read_list(FileData *fd, const gchar *key)
 {
 	ExifData *exif;
+	GList *list = NULL;
+	if (!fd) return NULL;
 
-	exif = exif_read_fd(fd);
-	if (!exif) return FALSE;
-
-	if (comment)
+	/* unwritten data overide everything */
+	if (fd->modified_xmp)
 		{
-		gchar *text;
-		ExifItem *item = exif_get_item(exif, COMMENT_KEY);
-
-		text = exif_item_get_string(item, 0);
-		*comment = utf8_validate_or_convert(text);
-		g_free(text);
+	        list = g_hash_table_lookup(fd->modified_xmp, key);
+		if (list) return string_list_copy(list);
 		}
 
-	if (keywords)
+	/* 
+	    Legacy metadata file is the primary source if it exists.
+	    Merging the lists does not make much sense, because the existence of
+	    legacy metadata file indicates that the other metadata sources are not
+	    writable and thus it would not be possible to delete the keywords
+	    that comes from the image file.
+	*/
+	if (strcmp(key, KEYWORD_KEY) == 0)
 		{
-		ExifItem *item;
-		guint i;
-		
-		*keywords = NULL;
-		item = exif_get_item(exif, KEYWORD_KEY);
-		for (i = 0; i < exif_item_get_elements(item); i++)
-			{
-			gchar *kw = exif_item_get_string(item, i);
-			gchar *utf8_kw;
+	        if (metadata_legacy_read(fd, &list, NULL)) return list;
+	        }
 
-			if (!kw) break;
-
-			utf8_kw = utf8_validate_or_convert(kw);
-			*keywords = g_list_append(*keywords, (gpointer) utf8_kw);
-			g_free(kw);
-			}
-
-		/* FIXME:
-		 * Exiv2 handles Iptc keywords as multiple entries with the
-		 * same key, thus exif_get_item returns only the first keyword
-		 * and the only way to get all keywords is to iterate through
-		 * the item list.
-		 */
-		 /* Read IPTC keywords only if there are no XMP keywords
-		  * IPTC does not have standard charset, thus the encoding may differ
-		  * from XMP and keyword merging is not reliable.
-		  */
-		 if (!*keywords)
-			{
-			for (item = exif_get_first_item(exif);
-			     item;
-			     item = exif_get_next_item(exif))
-				{
-				guint tag;
-			
-				tag = exif_item_get_tag_id(item);
-				if (tag == 0x0019)
-					{
-					gchar *tag_name = exif_item_get_tag_name(item);
-        
-					if (strcmp(tag_name, "Iptc.Application2.Keywords") == 0)
-						{
-						gchar *kw;
-						gchar *utf8_kw;
-        
-						kw = exif_item_get_data_as_text(item);
-						if (!kw) continue;
-        
-						utf8_kw = utf8_validate_or_convert(kw);
-						*keywords = g_list_append(*keywords, (gpointer) utf8_kw);
-						g_free(kw);
-						}
-					g_free(tag_name);
-					}
-				}
-			}
-		}
-
+	if (strcmp(key, COMMENT_KEY) == 0)
+		{
+		gchar *comment = NULL;
+	        if (metadata_legacy_read(fd, NULL, &comment)) return g_list_append(NULL, comment);
+	        }
+	
+	exif = exif_read_fd(fd); /* this is cached, thus inexpensive */
+	if (!exif) return NULL;
+	list = exif_get_metadata(exif, key);
 	exif_free_fd(fd, exif);
-
-	return (comment && *comment) || (keywords && *keywords);
+	return list;
 }
 
-gint metadata_read(FileData *fd, GList **keywords, gchar **comment)
+gchar *metadata_read_string(FileData *fd, const gchar *key)
 {
-	GList *keywords_xmp = NULL;
-	GList *keywords_legacy = NULL;
-	gchar *comment_xmp = NULL;
-	gchar *comment_legacy = NULL;
-	gint result_xmp, result_legacy;
-
-	if (!fd) return FALSE;
-
-	result_xmp = metadata_xmp_read(fd, &keywords_xmp, &comment_xmp);
-	result_legacy = metadata_legacy_read(fd, &keywords_legacy, &comment_legacy);
-
-	if (!result_xmp && !result_legacy)
+	GList *string_list = metadata_read_list(fd, key);
+	if (string_list)
 		{
-		return FALSE;
+		gchar *str = string_list->data;
+		string_list->data = NULL;
+		string_list_free(string_list);
+		return str;
 		}
-
-	if (keywords)
+	return NULL;
+}
+	
+gboolean metadata_append_string(FileData *fd, const gchar *key, const char *value)
+{
+	gchar *str = metadata_read_string(fd, key);
+	
+	if (!str) 
 		{
-		if (result_xmp && result_legacy)
-			*keywords = g_list_concat(keywords_xmp, keywords_legacy);
-		else
-			*keywords = result_xmp ? keywords_xmp : keywords_legacy;
-
-		*keywords = remove_duplicate_strings_from_list(*keywords);
+		return metadata_write_string(fd, key, value);
 		}
 	else
 		{
-		if (result_xmp) string_list_free(keywords_xmp);
-		if (result_legacy) string_list_free(keywords_legacy);
+		gchar *new_string = g_strconcat(str, value, NULL);
+		gboolean ret = metadata_write_string(fd, key, new_string);
+		g_free(str);
+		g_free(new_string);
+		return ret;
 		}
-
-
-	if (comment)
-		{
-		if (result_xmp && result_legacy && comment_xmp && comment_legacy && *comment_xmp && *comment_legacy)
-			*comment = g_strdup_printf("%s\n%s", comment_xmp, comment_legacy);
-		else
-			*comment = result_xmp ? comment_xmp : comment_legacy;
-		}
-
-	if (result_xmp && (!comment || *comment != comment_xmp)) g_free(comment_xmp);
-	if (result_legacy && (!comment || *comment != comment_legacy)) g_free(comment_legacy);
-	
-	// return FALSE in the following cases:
-	//  - only looking for a comment and didn't find one
-	//  - only looking for keywords and didn't find any
-	//  - looking for either a comment or keywords, but found nothing
-	if ((!keywords && comment   && !*comment)  ||
-	    (!comment  && keywords  && !*keywords) ||
-	    ( comment  && !*comment &&   keywords && !*keywords))
-		return FALSE;
-
-	return TRUE;
 }
 
-void metadata_set(FileData *fd, GList *new_keywords, gchar *new_comment, gboolean append)
+gboolean metadata_append_list(FileData *fd, const gchar *key, const GList *values)
 {
-	gchar *comment = NULL;
-	GList *keywords = NULL;
-	GList *keywords_list = NULL;
-
-	metadata_read(fd, &keywords, &comment);
+	GList *list = metadata_read_list(fd, key);
 	
-	if (new_comment)
+	if (!list) 
 		{
-		if (append && comment && *comment)
-			{
-			gchar *tmp = comment;
-				
-			comment = g_strconcat(tmp, new_comment, NULL);
-			g_free(tmp);
-			}
-		else
-			{
-			g_free(comment);
-			comment = g_strdup(new_comment);
-			}
+		return metadata_write_list(fd, key, values);
 		}
-	
-	if (new_keywords)
+	else
 		{
-		if (append && keywords && g_list_length(keywords) > 0)
-			{
-			GList *work;
-
-			work = new_keywords;
-			while (work)
-				{
-				gchar *key;
-				GList *p;
-
-				key = work->data;
-				work = work->next;
-
-				p = keywords;
-				while (p && key)
-					{
-					gchar *needle = p->data;
-					p = p->next;
-
-					if (strcmp(needle, key) == 0) key = NULL;
-					}
-
-				if (key) keywords = g_list_append(keywords, g_strdup(key));
-				}
-			keywords_list = keywords;
-			}
-		else
-			{
-			keywords_list = new_keywords;
-			}
+		gboolean ret;
+		list = g_list_concat(list, string_list_copy(values));
+		list = remove_duplicate_strings_from_list(list);
+		
+		ret = metadata_write_list(fd, key, list);
+		string_list_free(list);
+		return ret;
 		}
-	
-	metadata_write_string(fd, COMMENT_KEY, comment);
-	metadata_write_list(fd, KEYWORD_KEY, keywords);
-
-	string_list_free(keywords);
-	g_free(comment);
 }
 
 gboolean find_string_in_list(GList *list, const gchar *string)
@@ -687,7 +579,8 @@ gboolean meta_data_get_keyword_mark(FileData *fd, gint n, gpointer data)
 {
 	GList *keywords;
 	gboolean found = FALSE;
-	if (metadata_read(fd, &keywords, NULL))
+	keywords = metadata_read_list(fd, KEYWORD_KEY);
+	if (keywords)
 		{
 		GList *work = keywords;
 
@@ -713,7 +606,7 @@ gboolean meta_data_set_keyword_mark(FileData *fd, gint n, gboolean value, gpoint
 	gboolean found = FALSE;
 	gboolean changed = FALSE;
 	GList *work;
-	metadata_read(fd, &keywords, NULL);
+	keywords = metadata_read_list(fd, KEYWORD_KEY);
 
 	work = keywords;
 

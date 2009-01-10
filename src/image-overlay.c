@@ -178,7 +178,9 @@ static gchar *keywords_to_string(FileData *fd)
 
 	g_assert(fd);
 
-	if (metadata_read(fd, &keywords, NULL))
+	keywords = metadata_read_list(fd, KEYWORD_KEY);
+
+	if (keywords)
 		{
 		GList *work = keywords;
 
@@ -195,6 +197,7 @@ static gchar *keywords_to_string(FileData *fd)
 			
 			g_string_append(kwstr, kw);
 			}
+		string_list_free(keywords);
 		}
 
 	if (kwstr)
@@ -275,7 +278,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			}
 		else if (strcmp(name, "comment") == 0)
 			{
-			metadata_read(imd->image_fd, NULL, &data);
+			data = metadata_read_string(imd->image_fd, COMMENT_KEY);
 			}
 		else
 			{

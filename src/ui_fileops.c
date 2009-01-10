@@ -656,7 +656,7 @@ void string_list_free(GList *list)
 	g_list_free(list);
 }
 
-GList *string_list_copy(GList *list)
+GList *string_list_copy(const GList *list)
 {
 	GList *new_list = NULL;
 	GList *work;
