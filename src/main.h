@@ -117,6 +117,7 @@
 				"%formatted.Aperture%|%formatted.ShutterSpeed%|%formatted.ISOSpeedRating:ISO *%|%formatted.FocalLength%|%formatted.ExposureBias:* Ev%\n" \
 				"%formatted.Camera:40%|%formatted.Flash%"
 
+#define GQ_LINK_STR "↗"
 #include "typedefs.h"
 #include "debug.h"
 #include "options.h"

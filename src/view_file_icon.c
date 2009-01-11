@@ -2349,13 +2349,18 @@ static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer 
 		{
 		if (id)
 			{
-			gchar *name_sidecars = (gchar *)id->fd->name;
+			gchar *name_sidecars;
 			gchar *sidecars = NULL;
+			gchar *link = islink(id->fd->path) ? GQ_LINK_STR : "";
 
 			if (id->fd->sidecar_files)
 				{
 				sidecars = file_data_sc_list_to_string(id->fd);
-				name_sidecars = g_strdup_printf("%s %s", id->fd->name, sidecars);
+				name_sidecars = g_strdup_printf("%s%s %s", link, id->fd->name, sidecars);
+				}
+			else
+				{
+				name_sidecars = g_strdup_printf("%s%s", link, id->fd->name);
 				}
 
 			g_object_set(cell,	"pixbuf", id->fd->thumb_pixbuf,
@@ -2367,11 +2372,8 @@ static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer 
 						"foreground-gdk", &color_fg,
 						"foreground-set", TRUE,
 						"has-focus", (VFICON(vf)->focus_id == id), NULL);
-			if (sidecars)
-				{
-				g_free(sidecars);
-				g_free(name_sidecars);
-				}
+			g_free(sidecars);
+			g_free(name_sidecars);
 			}
 		else
 			{

@@ -783,12 +783,17 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 	gchar *name_sidecars;
 	gchar *multiline;
 	const gchar *time = text_from_time(fd->date);
-	name_sidecars = (gchar *)fd->name;
+	gchar *link = islink(fd->path) ? GQ_LINK_STR : "";
+
 
 	if (fd->sidecar_files)
 		{
 		sidecars = file_data_sc_list_to_string(fd);
-		name_sidecars = g_strdup_printf("%s %s", fd->name, sidecars);
+		name_sidecars = g_strdup_printf("%s%s %s", link, fd->name, sidecars);
+		}
+	else
+		{
+		name_sidecars = g_strdup_printf("%s%s", link, fd->name);
 		}
 	size = text_from_size(fd->size);
 	
@@ -824,11 +829,8 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 	}
 #endif
 	g_free(size);
-	if (sidecars)
-		{
-		g_free(sidecars);
-		g_free(name_sidecars);
-		}
+	g_free(sidecars);
+	g_free(name_sidecars);
 	g_free(multiline);
 }
 
