@@ -36,7 +36,10 @@ gint layout_set_fd(LayoutWindow *lw, FileData *fd);
 void layout_status_update_progress(LayoutWindow *lw, gdouble val, const gchar *text);
 void layout_status_update_info(LayoutWindow *lw, const gchar *text);
 void layout_status_update_image(LayoutWindow *lw);
+void layout_status_update_write(LayoutWindow *lw);
 void layout_status_update_all(LayoutWindow *lw);
+
+void layout_status_update_write_all(void);
 
 GList *layout_list(LayoutWindow *lw);
 guint layout_list_count(LayoutWindow *lw, gint64 *bytes);

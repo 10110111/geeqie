@@ -22,7 +22,7 @@ gboolean metadata_write_queue_remove_list(GList *list);
 gboolean metadata_write_perform(FileData *fd);
 gboolean metadata_write_queue_confirm(FileUtilDoneFunc done_func, gpointer done_data);
 
-
+gint metadata_queue_length(void);
 
 gboolean metadata_write_list(FileData *fd, const gchar *key, const GList *values);
 gboolean metadata_write_string(FileData *fd, const gchar *key, const char *value);

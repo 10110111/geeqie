@@ -523,12 +523,66 @@ static GtkWidget *layout_color_button(LayoutWindow *lw)
 	return button;
 }
 
+/*
+ *-----------------------------------------------------------------------------
+ * write button
+ *-----------------------------------------------------------------------------
+ */
+
+static void layout_write_button_press_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw = data;
+	metadata_write_queue_confirm(NULL, NULL);
+}
+
+static GtkWidget *layout_write_button(LayoutWindow *lw)
+{
+	GtkWidget *button;
+	GtkWidget *image;
+
+	button = gtk_button_new();
+	image = gtk_image_new_from_stock(GTK_STOCK_SAVE, GTK_ICON_SIZE_MENU);
+	gtk_container_add(GTK_CONTAINER(button), image);
+	gtk_widget_show(image);
+	g_signal_connect(G_OBJECT(button), "clicked",
+			 G_CALLBACK(layout_write_button_press_cb), lw);
+	gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+	
+	gtk_widget_set_sensitive(button, metadata_queue_length() > 0);
+	
+	return button;
+}
+
 
 /*
  *-----------------------------------------------------------------------------
  * status bar
  *-----------------------------------------------------------------------------
  */
+
+void layout_status_update_write(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return;
+	if (!lw->info_write) return;
+
+	gtk_widget_set_sensitive(lw->info_write, metadata_queue_length() > 0);
+	/* FIXME: maybe show also the number of files */
+}
+
+void layout_status_update_write_all(void)
+{
+	GList *work;
+
+	work = layout_window_list;
+	while (work)
+		{
+		LayoutWindow *lw = work->data;
+		work = work->next;
+
+		layout_status_update_write(lw);
+		}
+}
+
 
 void layout_status_update_progress(LayoutWindow *lw, gdouble val, const gchar *text)
 {
@@ -667,6 +721,7 @@ void layout_status_update_all(LayoutWindow *lw)
 	layout_status_update_progress(lw, 0.0, NULL);
 	layout_status_update_info(lw, NULL);
 	layout_status_update_image(lw);
+	layout_status_update_write(lw);
 }
 
 static GtkWidget *layout_status_label(gchar *text, GtkWidget *box, gint start, gint size, gint expand)
@@ -733,7 +788,11 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gint small_for
 	lw->info_color = layout_color_button(lw);
 	gtk_widget_show(lw->info_color);
 
+	lw->info_write = layout_write_button(lw);
+	gtk_widget_show(lw->info_write);
+
 	if (small_format) gtk_box_pack_end(GTK_BOX(hbox), lw->info_color, FALSE, FALSE, 0);
+	if (small_format) gtk_box_pack_end(GTK_BOX(hbox), lw->info_write, FALSE, FALSE, 0);
 
 	lw->info_status = layout_status_label(NULL, lw->info_box, TRUE, 0, (!small_format));
 
@@ -749,6 +808,7 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gint small_for
 		}
 	lw->info_details = layout_status_label(NULL, hbox, TRUE, 0, TRUE);
 	if (!small_format) gtk_box_pack_start(GTK_BOX(hbox), lw->info_color, FALSE, FALSE, 0);
+	if (!small_format) gtk_box_pack_start(GTK_BOX(hbox), lw->info_write, FALSE, FALSE, 0);
 	lw->info_zoom = layout_status_label(NULL, hbox, FALSE, ZOOM_LABEL_WIDTH, FALSE);
 }
 

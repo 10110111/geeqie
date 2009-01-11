@@ -533,6 +533,7 @@ struct _LayoutWindow
 	GtkWidget *info_status;
 	GtkWidget *info_details;
 	GtkWidget *info_zoom;
+	GtkWidget *info_write;
 
 	/* slide show */
 
