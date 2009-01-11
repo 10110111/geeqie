@@ -23,6 +23,7 @@
 #include "ui_misc.h"
 #include "utilops.h"
 #include "filefilter.h"
+#include "layout.h"
 
 typedef enum {
 	MK_NONE,
