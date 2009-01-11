@@ -667,14 +667,12 @@ void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd)
 
 static gboolean file_data_can_write_directly(FileData *fd)
 {
-	return (filter_file_class(fd->extension, FORMAT_CLASS_IMAGE));
-/* FIXME: detect what exiv2 really supports */
+	return filter_name_is_writable(fd->extension);
 }
 
 static gboolean file_data_can_write_sidecar(FileData *fd)
 {
-	return (filter_file_class(fd->extension, FORMAT_CLASS_RAWIMAGE));
-/* FIXME: detect what exiv2 really supports */
+	return filter_name_allow_sidecar(fd->extension) && !filter_name_is_writable(fd->extension);
 }
 
 gchar *file_data_get_sidecar_path(FileData *fd, gboolean existing_only)

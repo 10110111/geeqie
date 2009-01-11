@@ -22,21 +22,25 @@ struct _FilterEntry {
 	gchar *extensions;
 	FileFormatClass file_class;
 	gboolean enabled;
+	gboolean writable;
+	gboolean allow_sidecar;
 };
 
 /* you can change, but not add or remove entries from the returned list */
 GList *filter_get_list(void);
 void filter_remove_entry(FilterEntry *fe);
 
-void filter_add(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gint enabled);
-void filter_add_unique(const gchar *description, const gchar *extensions, FileFormatClass file_class, gint enabled);
+void filter_add(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gint enabled);
+void filter_add_unique(const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gint enabled);
 void filter_add_defaults(void);
 void filter_reset(void);
 void filter_rebuild(void);
 GList *filter_to_list(const gchar *extensions);
 
-gint filter_name_exists(const gchar *name);
-gint filter_file_class(const gchar *name, FileFormatClass file_class);
+gboolean filter_name_exists(const gchar *name);
+gboolean filter_file_class(const gchar *name, FileFormatClass file_class);
+gboolean filter_name_is_writable(const gchar *name);
+gboolean filter_name_allow_sidecar(const gchar *name);
 
 void filter_write_list(SecureSaveInfo *ssi);
 void filter_parse(const gchar *text);

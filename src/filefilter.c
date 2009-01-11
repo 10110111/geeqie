@@ -32,6 +32,9 @@ static GList *sidecar_ext_list = NULL;
 
 static GList *file_class_extension_list[FILE_FORMAT_CLASSES];
 
+static GList *file_writable_list = NULL; /* writable files */
+static GList *file_sidecar_list = NULL; /* files with allowed sidecar */
+
 
 gint ishidden(const gchar *name)
 {
@@ -41,7 +44,8 @@ gint ishidden(const gchar *name)
 }
 
 static FilterEntry *filter_entry_new(const gchar *key, const gchar *description,
-				     const gchar *extensions, FileFormatClass file_class, gboolean enabled)
+				     const gchar *extensions, FileFormatClass file_class, 
+				     gboolean writable, gboolean allow_sidecar, gboolean enabled)
 {
 	FilterEntry *fe;
 
@@ -51,6 +55,8 @@ static FilterEntry *filter_entry_new(const gchar *key, const gchar *description,
 	fe->extensions = g_strdup(extensions);
 	fe->enabled = enabled;
 	fe->file_class = file_class;
+	fe->writable = writable;
+	fe->allow_sidecar = allow_sidecar;
 
 	return fe;
 }
@@ -101,12 +107,12 @@ static gint filter_key_exists(const gchar *key)
 	return (filter_get_by_key(key) == NULL ? FALSE : TRUE);
 }
 
-void filter_add(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gint enabled)
+void filter_add(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gint enabled)
 {
-	filter_list = g_list_append(filter_list, filter_entry_new(key, description, extensions, file_class, enabled));
+	filter_list = g_list_append(filter_list, filter_entry_new(key, description, extensions, file_class, writable, allow_sidecar, enabled));
 }
 
-void filter_add_unique(const gchar *description, const gchar *extensions, FileFormatClass file_class, gint enabled)
+void filter_add_unique(const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gint enabled)
 {
 	gchar *key;
 	guint n;
@@ -121,11 +127,11 @@ void filter_add_unique(const gchar *description, const gchar *extensions, FileFo
 		n++;
 		}
 
-	filter_add(key, description, extensions, file_class, enabled);
+	filter_add(key, description, extensions, file_class, writable, allow_sidecar, enabled);
 	g_free(key);
 }
 
-static void filter_add_if_missing(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gint enabled)
+static void filter_add_if_missing(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gint enabled)
 {
 	GList *work;
 
@@ -140,11 +146,17 @@ static void filter_add_if_missing(const gchar *key, const gchar *description, co
 			{
 			if (fe->file_class == FORMAT_CLASS_UNKNOWN)
 				fe->file_class = file_class;	/* for compatibility */
+				
+			if (fe->writable && fe->allow_sidecar)
+				{
+				fe->writable = writable;
+				fe->allow_sidecar = allow_sidecar;
+				}
 			return;
 			}
 		}
 
-	filter_add(key, description, extensions, file_class, enabled);
+	filter_add(key, description, extensions, file_class, writable, allow_sidecar, enabled);
 }
 
 void filter_reset(void)
@@ -203,7 +215,7 @@ void filter_add_defaults(void)
 
 		DEBUG_1("loader reported [%s] [%s] [%s]", name, desc, filter->str);
 
-		filter_add_if_missing(name, desc, filter->str, FORMAT_CLASS_IMAGE, TRUE);
+		filter_add_if_missing(name, desc, filter->str, FORMAT_CLASS_IMAGE, TRUE, FALSE, TRUE);
 
 		g_free(name);
 		g_free(desc);
@@ -213,40 +225,40 @@ void filter_add_defaults(void)
 	g_slist_free(list);
 
 	/* add defaults even if gdk-pixbuf does not have them, but disabled */
-	filter_add_if_missing("jpeg", "JPEG group", ".jpg;.jpeg;.jpe", FORMAT_CLASS_IMAGE, FALSE);
-	filter_add_if_missing("png", "Portable Network Graphic", ".png", FORMAT_CLASS_IMAGE, FALSE);
-	filter_add_if_missing("tiff", "Tiff", ".tif;.tiff", FORMAT_CLASS_IMAGE, FALSE);
-	filter_add_if_missing("pnm", "Packed Pixel formats", ".pbm;.pgm;.pnm;.ppm", FORMAT_CLASS_IMAGE, FALSE);
-	filter_add_if_missing("gif", "Graphics Interchange Format", ".gif", FORMAT_CLASS_IMAGE, FALSE);
-	filter_add_if_missing("xbm", "X bitmap", ".xbm", FORMAT_CLASS_IMAGE, FALSE);
-	filter_add_if_missing("xpm", "X pixmap", ".xpm", FORMAT_CLASS_IMAGE, FALSE);
-	filter_add_if_missing("bmp", "Bitmap", ".bmp", FORMAT_CLASS_IMAGE, FALSE);
-	filter_add_if_missing("ico", "Icon file", ".ico;.cur", FORMAT_CLASS_IMAGE, FALSE);
-	filter_add_if_missing("ras", "Raster", ".ras", FORMAT_CLASS_IMAGE, FALSE);
-	filter_add_if_missing("svg", "Scalable Vector Graphics", ".svg", FORMAT_CLASS_IMAGE, FALSE);
+	filter_add_if_missing("jpeg", "JPEG group", ".jpg;.jpeg;.jpe", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
+	filter_add_if_missing("png", "Portable Network Graphic", ".png", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
+	filter_add_if_missing("tiff", "Tiff", ".tif;.tiff", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
+	filter_add_if_missing("pnm", "Packed Pixel formats", ".pbm;.pgm;.pnm;.ppm", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
+	filter_add_if_missing("gif", "Graphics Interchange Format", ".gif", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
+	filter_add_if_missing("xbm", "X bitmap", ".xbm", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
+	filter_add_if_missing("xpm", "X pixmap", ".xpm", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
+	filter_add_if_missing("bmp", "Bitmap", ".bmp", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
+	filter_add_if_missing("ico", "Icon file", ".ico;.cur", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
+	filter_add_if_missing("ras", "Raster", ".ras", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
+	filter_add_if_missing("svg", "Scalable Vector Graphics", ".svg", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
 
 	/* non-image files that might be desirable to show */
-	filter_add_if_missing("xmp", "XMP sidecar", ".xmp", FORMAT_CLASS_META, TRUE);
-	filter_add_if_missing("gqv", GQ_APPNAME " image collection", GQ_COLLECTION_EXT, FORMAT_CLASS_META, TRUE);
+	filter_add_if_missing("xmp", "XMP sidecar", ".xmp", FORMAT_CLASS_META, TRUE, FALSE, TRUE);
+	filter_add_if_missing("gqv", GQ_APPNAME " image collection", GQ_COLLECTION_EXT, FORMAT_CLASS_META, FALSE, FALSE, TRUE);
 
 	/* These are the raw camera formats with embedded jpeg/exif.
 	 * (see format_raw.c and/or exiv2.cc)
 	 */
-	filter_add_if_missing("arw", "Sony raw format", ".arw;.srf;.sr2", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("crw", "Canon raw format", ".crw;.cr2", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("kdc", "Kodak raw format", ".kdc;.dcr;.k25", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("raf", "Fujifilm raw format", ".raf", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("mef", "Mamiya raw format", ".mef;.mos", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("mrw", "Minolta raw format", ".mrw", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("nef", "Nikon raw format", ".nef", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("orf", "Olympus raw format", ".orf", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("pef", "Pentax or Samsung raw format", ".pef;.ptx", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("dng", "Adobe Digital Negative raw format", ".dng", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("x3f", "Sigma raw format", ".x3f", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("raw", "Panasonic raw format", ".raw", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("r3d", "Red raw format", ".r3d", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("3fr", "Hasselblad raw format", ".3fr", FORMAT_CLASS_RAWIMAGE, TRUE);
-	filter_add_if_missing("erf", "Epson raw format", ".erf", FORMAT_CLASS_RAWIMAGE, TRUE);
+	filter_add_if_missing("arw", "Sony raw format", ".arw;.srf;.sr2", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("crw", "Canon raw format", ".crw;.cr2", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("kdc", "Kodak raw format", ".kdc;.dcr;.k25", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("raf", "Fujifilm raw format", ".raf", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("mef", "Mamiya raw format", ".mef;.mos", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("mrw", "Minolta raw format", ".mrw", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("nef", "Nikon raw format", ".nef", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("orf", "Olympus raw format", ".orf", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("pef", "Pentax or Samsung raw format", ".pef;.ptx", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("dng", "Adobe Digital Negative raw format", ".dng", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("x3f", "Sigma raw format", ".x3f", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("raw", "Panasonic raw format", ".raw", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("r3d", "Red raw format", ".r3d", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("3fr", "Hasselblad raw format", ".3fr", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("erf", "Epson raw format", ".erf", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
 }
 
 GList *filter_to_list(const gchar *extensions)
@@ -301,6 +313,12 @@ void filter_rebuild(void)
 	string_list_free(extension_list);
 	extension_list = NULL;
 
+	string_list_free(file_writable_list);
+	file_writable_list = NULL;
+
+	string_list_free(file_sidecar_list);
+	file_sidecar_list = NULL;
+
 	for (i = 0; i < FILE_FORMAT_CLASSES; i++)
 		{
 		string_list_free(file_class_extension_list[i]);
@@ -331,21 +349,32 @@ void filter_rebuild(void)
 				{
 				log_printf("WARNING: invalid file class %d\n", fe->file_class);
 				}
+				
+			if (fe->writable)
+				{
+				ext = filter_to_list(fe->extensions);
+				if (ext) file_writable_list = g_list_concat(file_writable_list, ext);
+				}
+
+			if (fe->allow_sidecar)
+				{
+				ext = filter_to_list(fe->extensions);
+				if (ext) file_sidecar_list = g_list_concat(file_sidecar_list, ext);
+				}
+			
 			}
 		}
 
 	sidecar_ext_parse(options->sidecar.ext, FALSE); /* this must be updated after changed file extensions */
 }
 
-gint filter_name_exists(const gchar *name)
+static gboolean filter_name_find(GList *filter, const gchar *name)
 {
 	GList *work;
 	guint ln;
 
-	if (!extension_list || options->file_filter.disable) return TRUE;
-
 	ln = strlen(name);
-	work = extension_list;
+	work = filter;
 	while (work)
 		{
 		gchar *filter = work->data;
@@ -362,33 +391,33 @@ gint filter_name_exists(const gchar *name)
 	return FALSE;
 }
 
-gint filter_file_class(const gchar *name, FileFormatClass file_class)
-{
-	GList *work;
-	guint ln;
 
+gboolean filter_name_exists(const gchar *name)
+{
+	if (!extension_list || options->file_filter.disable) return TRUE;
+
+	return filter_name_find(extension_list, name);
+}
+
+gboolean filter_file_class(const gchar *name, FileFormatClass file_class)
+{
 	if (file_class >= FILE_FORMAT_CLASSES)
 		{
 		log_printf("WARNING: invalid file class %d\n", file_class);
 		return FALSE;
 		}
 
-	ln = strlen(name);
-	work = file_class_extension_list[file_class];
-	while (work)
-		{
-		gchar *filter = work->data;
-		guint lf = strlen(filter);
+	return filter_name_find(file_class_extension_list[file_class], name);
+}
 
-		if (ln >= lf)
-			{
-			/* FIXME: utf8 */
-			if (strncasecmp(name + ln - lf, filter, lf) == 0) return TRUE;
-			}
-		work = work->next;
-		}
+gboolean filter_name_is_writable(const gchar *name)
+{
+	return filter_name_find(file_writable_list, name);
+}
 
-	return FALSE;
+gboolean filter_name_allow_sidecar(const gchar *name)
+{
+	return filter_name_find(file_sidecar_list, name);
 }
 
 void filter_write_list(SecureSaveInfo *ssi)
@@ -404,9 +433,9 @@ void filter_write_list(SecureSaveInfo *ssi)
 		gchar *extensions = escquote_value(fe->extensions);
 		gchar *description = escquote_value(fe->description);
 
-		secure_fprintf(ssi, "file_filter.ext: \"%s%s\" %s %s %d\n",
+		secure_fprintf(ssi, "file_filter.ext: \"%s%s\" %s %s %d %d %d\n",
 			       (fe->enabled) ? "" : "#",
-			       fe->key, extensions, description, fe->file_class);
+			       fe->key, extensions, description, fe->file_class, fe->writable, fe->allow_sidecar);
 		g_free(extensions);
 		g_free(description);
 		}
@@ -419,7 +448,9 @@ void filter_parse(const gchar *text)
 	gchar *ext;
 	gchar *desc;
 	gint enabled = TRUE;
-	guint file_class;
+	guint file_class = FORMAT_CLASS_UNKNOWN;
+	gboolean writable = TRUE;
+	gboolean allow_sidecar = TRUE;
 
 	if (!text || text[0] != '"') return;
 
@@ -429,7 +460,7 @@ void filter_parse(const gchar *text)
 	ext = quoted_value(p, &p);
 	desc = quoted_value(p, &p);
 
-	file_class = strtoul(p, NULL, 10);
+	sscanf(p, "%u %d %d", &file_class, &writable, &allow_sidecar);
 
 	if (file_class >= FILE_FORMAT_CLASSES) file_class = FORMAT_CLASS_UNKNOWN;
 
@@ -448,7 +479,7 @@ void filter_parse(const gchar *text)
 		FilterEntry *fe = filter_get_by_key(key);
 
 		if (fe != NULL) filter_remove_entry(fe);
-		filter_add(key, desc, ext, file_class, enabled);
+		filter_add(key, desc, ext, file_class, writable, allow_sidecar, enabled);
 		}
 
 	g_free(key);

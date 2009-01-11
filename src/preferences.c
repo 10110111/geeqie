@@ -73,7 +73,9 @@ enum {
 	FE_ENABLE,
 	FE_EXTENSION,
 	FE_DESCRIPTION,
-	FE_CLASS
+	FE_CLASS,
+	FE_WRITABLE,
+	FE_ALLOW_SIDECAR
 };
 
 
@@ -737,6 +739,44 @@ static void filter_store_enable_cb(GtkCellRendererToggle *renderer,
 	filter_rebuild();
 }
 
+static void filter_store_writable_cb(GtkCellRendererToggle *renderer,
+				   gchar *path_str, gpointer data)
+{
+	GtkWidget *model = data;
+	FilterEntry *fe;
+	GtkTreePath *tpath;
+	GtkTreeIter iter;
+
+	tpath = gtk_tree_path_new_from_string(path_str);
+	gtk_tree_model_get_iter(GTK_TREE_MODEL(model), &iter, tpath);
+	gtk_tree_model_get(GTK_TREE_MODEL(model), &iter, 0, &fe, -1);
+
+	fe->writable = !fe->writable;
+	if (fe->writable) fe->allow_sidecar = FALSE;
+
+	gtk_tree_path_free(tpath);
+	filter_rebuild();
+}
+
+static void filter_store_sidecar_cb(GtkCellRendererToggle *renderer,
+				   gchar *path_str, gpointer data)
+{
+	GtkWidget *model = data;
+	FilterEntry *fe;
+	GtkTreePath *tpath;
+	GtkTreeIter iter;
+
+	tpath = gtk_tree_path_new_from_string(path_str);
+	gtk_tree_model_get_iter(GTK_TREE_MODEL(model), &iter, tpath);
+	gtk_tree_model_get(GTK_TREE_MODEL(model), &iter, 0, &fe, -1);
+
+	fe->allow_sidecar = !fe->allow_sidecar;
+	if (fe->allow_sidecar) fe->writable = FALSE;
+
+	gtk_tree_path_free(tpath);
+	filter_rebuild();
+}
+
 static void filter_set_func(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell,
 			    GtkTreeModel *tree_model, GtkTreeIter *iter, gpointer data)
 {
@@ -762,12 +802,20 @@ static void filter_set_func(GtkTreeViewColumn *tree_column, GtkCellRenderer *cel
 			g_object_set(GTK_CELL_RENDERER(cell),
 				     "text", _(format_class_list[fe->file_class]), NULL);
 			break;
+		case FE_WRITABLE:
+			g_object_set(GTK_CELL_RENDERER(cell),
+				     "active", fe->writable, NULL);
+			break;
+		case FE_ALLOW_SIDECAR:
+			g_object_set(GTK_CELL_RENDERER(cell),
+				     "active", fe->allow_sidecar, NULL);
+			break;
 		}
 }
 
 static void filter_add_cb(GtkWidget *widget, gpointer data)
 {
-	filter_add_unique("description", ".new", FORMAT_CLASS_IMAGE, TRUE);
+	filter_add_unique("description", ".new", FORMAT_CLASS_IMAGE, TRUE, FALSE, TRUE);
 	filter_store_populate();
 
 	/* FIXME: implement the scroll to/select row stuff for tree view */
@@ -1296,6 +1344,27 @@ static void config_tab_filtering(GtkWidget *notebook)
 						GINT_TO_POINTER(FE_CLASS), NULL);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(filter_view), column);
 
+	column = gtk_tree_view_column_new();
+	gtk_tree_view_column_set_title(column, _("Writable"));
+	gtk_tree_view_column_set_resizable(column, FALSE);
+	renderer = gtk_cell_renderer_toggle_new();
+	g_signal_connect(G_OBJECT(renderer), "toggled",
+			 G_CALLBACK(filter_store_writable_cb), filter_store);
+	gtk_tree_view_column_pack_start(column, renderer, FALSE);
+	gtk_tree_view_column_set_cell_data_func(column, renderer, filter_set_func,
+						GINT_TO_POINTER(FE_WRITABLE), NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(filter_view), column);
+
+	column = gtk_tree_view_column_new();
+	gtk_tree_view_column_set_title(column, _("Sidecar is allowed"));
+	gtk_tree_view_column_set_resizable(column, FALSE);
+	renderer = gtk_cell_renderer_toggle_new();
+	g_signal_connect(G_OBJECT(renderer), "toggled",
+			 G_CALLBACK(filter_store_sidecar_cb), filter_store);
+	gtk_tree_view_column_pack_start(column, renderer, FALSE);
+	gtk_tree_view_column_set_cell_data_func(column, renderer, filter_set_func,
+						GINT_TO_POINTER(FE_ALLOW_SIDECAR), NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(filter_view), column);
 
 
 	filter_store_populate();
