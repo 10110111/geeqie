@@ -64,7 +64,7 @@ static void metadata_write_queue_add(FileData *fd)
 		metadata_write_idle_id = -1;
 		}
 	
-	if (options->metadata.confirm_timeout > 0)
+	if (options->metadata.confirm_after_timeout)
 		{
 		metadata_write_idle_id = g_timeout_add(options->metadata.confirm_timeout * 1000, metadata_write_queue_idle_cb, NULL);
 		}

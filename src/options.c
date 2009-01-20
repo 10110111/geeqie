@@ -143,7 +143,8 @@ ConfOptions *init_options(ConfOptions *options)
 	options->metadata.save_legacy_format = FALSE;
 	options->metadata.sync_grouped_files = TRUE;
 	options->metadata.confirm_write = TRUE;
-	options->metadata.confirm_timeout = 0;
+	options->metadata.confirm_after_timeout = FALSE;
+	options->metadata.confirm_timeout = 10;
 	options->metadata.confirm_on_image_change = FALSE;
 	options->metadata.confirm_on_dir_change = TRUE;
 	

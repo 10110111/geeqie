@@ -547,6 +547,7 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_BOOL(metadata.sync_grouped_files);
 	WRITE_BOOL(metadata.confirm_write);
 	WRITE_INT(metadata.confirm_timeout);
+	WRITE_BOOL(metadata.confirm_after_timeout);
 	WRITE_BOOL(metadata.confirm_on_image_change);
 	WRITE_BOOL(metadata.confirm_on_dir_change);
 
@@ -914,6 +915,7 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_BOOL(metadata.save_legacy_format);
 		READ_BOOL(metadata.sync_grouped_files);
 		READ_BOOL(metadata.confirm_write);
+		READ_BOOL(metadata.confirm_after_timeout);
 		READ_INT(metadata.confirm_timeout);
 		READ_BOOL(metadata.confirm_on_image_change);
 		READ_BOOL(metadata.confirm_on_dir_change);

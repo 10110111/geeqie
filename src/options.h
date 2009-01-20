@@ -269,6 +269,7 @@ struct _ConfOptions
 		
 		gboolean confirm_write;
 		gint confirm_timeout;
+		gboolean confirm_after_timeout;
 		gboolean confirm_on_image_change;
 		gboolean confirm_on_dir_change;
 	} metadata;
