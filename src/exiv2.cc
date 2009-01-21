@@ -290,7 +290,9 @@ public:
 #endif
 			imageData_->image()->setExifData(exifData_);
 			imageData_->image()->setIptcData(iptcData_);
+#if EXIV2_TEST_VERSION(0,16,0)
 			imageData_->image()->setXmpData(xmpData_);
+#endif
 			imageData_->image()->writeMetadata();
 			} 
 		else
@@ -804,7 +806,10 @@ static gint exif_update_metadata_simple(ExifData *exif, const gchar *key, const 
 				}
 		}
 		catch (Exiv2::AnyError& e) {
-			try {
+#if EXIV2_TEST_VERSION(0,16,0)
+			try 
+#endif
+			{
 				Exiv2::IptcKey ekey(key);
 				Exiv2::IptcData::iterator pos = exif->iptcData().findKey(ekey);
 				while (pos != exif->iptcData().end())
@@ -819,8 +824,8 @@ static gint exif_update_metadata_simple(ExifData *exif, const gchar *key, const 
 					work = work->next;
 					}
 			}
-			catch (Exiv2::AnyError& e) {
 #if EXIV2_TEST_VERSION(0,16,0)
+			catch (Exiv2::AnyError& e) {
 				Exiv2::XmpKey ekey(key);
 				Exiv2::XmpData::iterator pos = exif->xmpData().findKey(ekey);
 				while (pos != exif->xmpData().end())
@@ -834,10 +839,8 @@ static gint exif_update_metadata_simple(ExifData *exif, const gchar *key, const 
 					exif->xmpData()[key] = (gchar *)work->data;
 					work = work->next;
 					}
-#else
-				throw e;
-#endif
 			}
+#endif
 		}
 		return 1;
 	}
@@ -874,19 +877,19 @@ gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values)
 
 static GList *exif_add_value_to_glist(GList *list, Exiv2::Metadatum &item)
 {
+#if EXIV2_TEST_VERSION(0,16,0)
 	Exiv2::TypeId id = item.typeId();
 	if (id == Exiv2::asciiString ||
 	    id == Exiv2::undefined ||
 	    id == Exiv2::string ||
 	    id == Exiv2::date ||
 	    id == Exiv2::time ||
-#if EXIV2_TEST_VERSION(0,16,0)
 	    id == Exiv2::xmpText ||
 	    id == Exiv2::langAlt ||
-#endif 
 	    id == Exiv2::comment
 	    )
 		{
+#endif 
 		/* read as a single entry */
 		std::string str = item.toString();
 		if (str.length() > 5 && str.substr(0, 5) == "lang=")
@@ -895,6 +898,7 @@ static GList *exif_add_value_to_glist(GList *list, Exiv2::Metadatum &item)
 			if (pos != std::string::npos) str = str.substr(pos+1);
 			}
 		list = g_list_append(list, utf8_validate_or_convert(str.c_str())); 
+#if EXIV2_TEST_VERSION(0,16,0)
 		}
 	else
 		{
@@ -903,6 +907,7 @@ static GList *exif_add_value_to_glist(GList *list, Exiv2::Metadatum &item)
 		for (i = 0; i < item.count(); i++)
 			list = g_list_append(list, utf8_validate_or_convert(item.toString(i).c_str())); 
 		}
+#endif 
 	return list;
 }
 
