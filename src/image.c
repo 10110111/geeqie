@@ -1003,6 +1003,10 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gint
 	gint read_exif_for_color_profile = (imd->color_profile_enable && imd->color_profile_use_image);
 	gint read_exif_for_orientation = FALSE;
 
+	/* read_exif and similar functions can actually notice that the file has changed and triger a notification
+	that removes the pixbuf	from cache and unref it. Therefore we must ref it here before it is taken over by the renderer. */
+	g_object_ref(pixbuf); 
+	
 	if (imd->image_fd && imd->image_fd->user_orientation)
 		imd->orientation = imd->image_fd->user_orientation;
 	else if (options->image.exif_rotate_enable)
@@ -1040,6 +1044,8 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gint
 		pixbuf_renderer_set_pixbuf((PixbufRenderer *)imd->pr, pixbuf, zoom);
 		pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, imd->orientation);
 		}
+
+	g_object_unref(pixbuf);
 
 	if (imd->color_profile_enable)
 		{
