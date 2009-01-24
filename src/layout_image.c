@@ -112,7 +112,7 @@ void layout_image_full_screen_stop(LayoutWindow *lw)
 	if (!layout_valid(&lw)) return;
 	if (!lw->full_screen) return;
 
-	if (image_osd_get(lw->full_screen->normal_imd) & OSD_SHOW_INFO)
+	if (image_osd_get(lw->image) & OSD_SHOW_INFO)
 		image_osd_set(lw->full_screen->normal_imd, image_osd_get(lw->image));
 
 	fullscreen_stop(lw->full_screen);
