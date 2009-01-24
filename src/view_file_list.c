@@ -1887,7 +1887,7 @@ static void vflist_listview_add_column_toggle(ViewFile *vf, gint n, const gchar 
 	g_object_set_data(G_OBJECT(renderer), "column_store_idx", GUINT_TO_POINTER(n));
 
 	index = gtk_tree_view_append_column(GTK_TREE_VIEW(vf->listview), column);
-	gtk_tree_view_column_set_fixed_width(column, 18);
+	gtk_tree_view_column_set_fixed_width(column, 22);
 	gtk_tree_view_column_set_visible(column, vf->marks_enabled);
 
 
