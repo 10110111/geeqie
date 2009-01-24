@@ -659,9 +659,8 @@ void string_list_free(GList *list)
 GList *string_list_copy(const GList *list)
 {
 	GList *new_list = NULL;
-	GList *work;
+	GList *work = (GList *) list;
 
-	work = list;
 	while (work)
 		{
 		gchar *path;

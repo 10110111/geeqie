@@ -531,7 +531,6 @@ static GtkWidget *layout_color_button(LayoutWindow *lw)
 
 static void layout_write_button_press_cb(GtkWidget *widget, gpointer data)
 {
-	LayoutWindow *lw = data;
 	metadata_write_queue_confirm(NULL, NULL);
 }
 
