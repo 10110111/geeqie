@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.0alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-24 08:32+0100\n"
-"PO-Revision-Date: 2009-01-24 08:33+0100\n"
+"POT-Creation-Date: 2009-01-24 14:37+0100\n"
+"PO-Revision-Date: 2009-01-24 14:37+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french <geeqie-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1950,49 +1950,49 @@ msgstr "Écran sRGB"
 msgid "_Screen profile"
 msgstr "_Profil d'écran"
 
-#: src/layout.c:619
+#: src/layout.c:618
 msgid " Slideshow"
 msgstr " Diaporama"
 
-#: src/layout.c:623
+#: src/layout.c:622
 msgid " Paused"
 msgstr " En pause"
 
-#: src/layout.c:639
+#: src/layout.c:638
 #, c-format
 msgid "%s, %d files (%s, %d)%s"
 msgstr "%s, %d fichiers (%s, %d)%s"
 
-#: src/layout.c:646
+#: src/layout.c:645
 #, c-format
 msgid "%s, %d files%s"
 msgstr "%s, %d fichiers%s"
 
-#: src/layout.c:651
+#: src/layout.c:650
 #, c-format
 msgid "%d files%s"
 msgstr "%d fichiers%s"
 
-#: src/layout.c:696
+#: src/layout.c:695
 #, c-format
 msgid "(no read permission) %s bytes"
 msgstr "(pas de permission en lecture) %s octets"
 
-#: src/layout.c:700
+#: src/layout.c:699
 #, c-format
 msgid "( ? x ? ) %s bytes"
 msgstr "( ? x ? ) %s octets"
 
-#: src/layout.c:708
+#: src/layout.c:707
 #, c-format
 msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s octets"
 
-#: src/layout.c:1400 src/layout_config.c:58
+#: src/layout.c:1399 src/layout_config.c:58
 msgid "Tools"
 msgstr "Outils"
 
-#: src/layout.c:2085
+#: src/layout.c:2084
 msgid "Invalid geometry\n"
 msgstr "Géométrie invalide\n"
 
@@ -3298,7 +3298,7 @@ msgstr ""
 
 #: src/preferences.c:1694
 msgid "Write metadata after timeout"
-msgstr "Ecrire les méta-données après un délai de"
+msgstr "Ecrire les méta-données après un délai"
 
 #: src/preferences.c:1700
 msgid "Timeout (seconds):"
