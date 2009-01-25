@@ -1,4 +1,1434 @@
 ------------------------------------------------------------------------
+r1351 | nadvornik | 2009-01-25 17:58:19 +0100 (Ne, 25 led 2009) | 2 lines
+
+fixed gthread detection
+
+------------------------------------------------------------------------
+r1350 | nadvornik | 2009-01-25 10:27:27 +0100 (Ne, 25 led 2009) | 2 lines
+
+do not ignore newly created sidecars
+
+------------------------------------------------------------------------
+r1349 | nadvornik | 2009-01-24 14:46:08 +0100 (So, 24 led 2009) | 2 lines
+
+adjusted marks spacing to align them with the marks filter
+
+------------------------------------------------------------------------
+r1348 | zas_ | 2009-01-24 14:38:53 +0100 (So, 24 led 2009) | 1 line
+
+Fix incorrect translation.
+------------------------------------------------------------------------
+r1347 | nadvornik | 2009-01-24 14:05:06 +0100 (So, 24 led 2009) | 4 lines
+
+fixed restoring of OSD at layout_image_full_screen_stop
+https://sourceforge.net/tracker/index.php?func=detail&aid=2039839&group_id=222125&atid=1054680
+
+
+------------------------------------------------------------------------
+r1346 | nadvornik | 2009-01-24 13:15:01 +0100 (So, 24 led 2009) | 2 lines
+
+fixed glib warning
+
+------------------------------------------------------------------------
+r1345 | nadvornik | 2009-01-24 11:09:29 +0100 (So, 24 led 2009) | 2 lines
+
+updated version string
+
+------------------------------------------------------------------------
+r1344 | zas_ | 2009-01-24 08:41:23 +0100 (So, 24 led 2009) | 1 line
+
+Silent two compilation warnings.
+------------------------------------------------------------------------
+r1343 | zas_ | 2009-01-24 08:36:21 +0100 (So, 24 led 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1342 | nadvornik | 2009-01-23 23:53:02 +0100 (Pá, 23 led 2009) | 2 lines
+
+fixed possible crash
+
+------------------------------------------------------------------------
+r1341 | nadvornik | 2009-01-21 19:30:54 +0100 (St, 21 led 2009) | 2 lines
+
+enable threads by default
+
+------------------------------------------------------------------------
+r1340 | nadvornik | 2009-01-21 19:16:26 +0100 (St, 21 led 2009) | 2 lines
+
+compilation fixes for older exiv2
+
+------------------------------------------------------------------------
+r1339 | nadvornik | 2009-01-20 23:53:09 +0100 (Út, 20 led 2009) | 2 lines
+
+improved metadata preferences
+
+------------------------------------------------------------------------
+r1338 | nadvornik | 2009-01-20 23:29:31 +0100 (Út, 20 led 2009) | 2 lines
+
+fixed possible segfault
+
+------------------------------------------------------------------------
+r1337 | nadvornik | 2009-01-11 22:28:03 +0100 (Ne, 11 led 2009) | 2 lines
+
+show symlinks in filelist
+
+------------------------------------------------------------------------
+r1336 | nadvornik | 2009-01-11 22:24:58 +0100 (Ne, 11 led 2009) | 2 lines
+
+fixed includes
+
+------------------------------------------------------------------------
+r1335 | nadvornik | 2009-01-11 19:58:05 +0100 (Ne, 11 led 2009) | 2 lines
+
+added a status bar button for writting metadata immediately
+
+------------------------------------------------------------------------
+r1334 | nadvornik | 2009-01-11 13:13:30 +0100 (Ne, 11 led 2009) | 3 lines
+
+metadata write mode (direct or sidecar) made configurable for each file
+format
+
+------------------------------------------------------------------------
+r1333 | nadvornik | 2009-01-10 21:40:37 +0100 (So, 10 led 2009) | 3 lines
+
+simplified metadata interface, dropped metadata_read,
+fixes for older exiv2 versions
+
+------------------------------------------------------------------------
+r1332 | zas_ | 2009-01-04 18:14:34 +0100 (Ne, 04 led 2009) | 1 line
+
+When "Remember print settings" is checked, save _all_ settings. Before this patch, text fields, text size, source, layout and image scale properties were not saved.
+------------------------------------------------------------------------
+r1331 | zas_ | 2009-01-04 11:32:47 +0100 (Ne, 04 led 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1330 | zas_ | 2009-01-03 18:13:20 +0100 (So, 03 led 2009) | 1 line
+
+Silent warnings.
+------------------------------------------------------------------------
+r1329 | nadvornik | 2009-01-03 16:29:08 +0100 (So, 03 led 2009) | 2 lines
+
+write keywords and comments with separate functions
+
+------------------------------------------------------------------------
+r1328 | nadvornik | 2009-01-03 00:14:01 +0100 (So, 03 led 2009) | 2 lines
+
+fixed updating of selection after deleting the last image from the list
+
+------------------------------------------------------------------------
+r1327 | nadvornik | 2009-01-02 23:57:09 +0100 (Pá, 02 led 2009) | 5 lines
+
+do not enter a directory after rename
+fixed dir tree updating
+http://sourceforge.net/tracker/index.php?func=detail&aid=2481287&group_id=222125&atid=1054680
+
+
+------------------------------------------------------------------------
+r1326 | nadvornik | 2009-01-02 15:58:21 +0100 (Pá, 02 led 2009) | 4 lines
+
+added done callback to utilops
+used the callback for metadata writting at exit and for renaming new
+folder
+
+------------------------------------------------------------------------
+r1325 | nadvornik | 2009-01-02 10:39:14 +0100 (Pá, 02 led 2009) | 2 lines
+
+fixed view_dir notification
+
+------------------------------------------------------------------------
+r1324 | nadvornik | 2009-01-02 10:26:23 +0100 (Pá, 02 led 2009) | 4 lines
+
+sidecar files grouping was made case-insensitive
+added possibility to use macros %raw, %image, %meta in extensions lists
+
+
+------------------------------------------------------------------------
+r1323 | nadvornik | 2008-12-27 23:53:07 +0100 (So, 27 pro 2008) | 2 lines
+
+fixed writting of legacy metadata
+
+------------------------------------------------------------------------
+r1322 | nadvornik | 2008-12-26 20:04:36 +0100 (Pá, 26 pro 2008) | 3 lines
+
+optimized get_mark_func
+fixed reference counting bug
+
+------------------------------------------------------------------------
+r1321 | nadvornik | 2008-12-26 19:54:07 +0100 (Pá, 26 pro 2008) | 2 lines
+
+remove cached entries on all changes
+
+------------------------------------------------------------------------
+r1320 | nadvornik | 2008-12-26 18:38:52 +0100 (Pá, 26 pro 2008) | 2 lines
+
+fixed previous change
+
+------------------------------------------------------------------------
+r1319 | nadvornik | 2008-12-26 15:12:36 +0100 (Pá, 26 pro 2008) | 3 lines
+
+improved sidecar writting
+private metadata can be saved in xmp format
+
+------------------------------------------------------------------------
+r1318 | nadvornik | 2008-12-25 13:39:34 +0100 (Čt, 25 pro 2008) | 2 lines
+
+implemented a possibility to connect keywords with marks
+
+------------------------------------------------------------------------
+r1317 | nadvornik | 2008-12-25 13:28:04 +0100 (Čt, 25 pro 2008) | 2 lines
+
+low-level keyword-to-mark functionality
+
+------------------------------------------------------------------------
+r1316 | nadvornik | 2008-12-25 13:19:37 +0100 (Čt, 25 pro 2008) | 2 lines
+
+perform internal commands in idle call
+
+------------------------------------------------------------------------
+r1315 | nadvornik | 2008-12-23 23:42:57 +0100 (Út, 23 pro 2008) | 2 lines
+
+allow writing of empty keywords/comment
+
+------------------------------------------------------------------------
+r1314 | nadvornik | 2008-12-23 21:53:44 +0100 (Út, 23 pro 2008) | 2 lines
+
+added change notification to bar_info.c
+
+------------------------------------------------------------------------
+r1313 | nadvornik | 2008-12-23 20:15:12 +0100 (Út, 23 pro 2008) | 2 lines
+
+improved buffering and notifications
+
+------------------------------------------------------------------------
+r1312 | nadvornik | 2008-12-23 20:13:48 +0100 (Út, 23 pro 2008) | 3 lines
+
+write changes immediately, the necessary buffering is done on lower
+level in metadata.c
+
+------------------------------------------------------------------------
+r1311 | nadvornik | 2008-12-23 00:25:15 +0100 (Út, 23 pro 2008) | 2 lines
+
+file class made configurable in preferences
+
+------------------------------------------------------------------------
+r1310 | zas_ | 2008-12-22 20:43:46 +0100 (Po, 22 pro 2008) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1309 | nadvornik | 2008-12-22 19:29:25 +0100 (Po, 22 pro 2008) | 2 lines
+
+write metadata after timeout, image change or dir change
+
+------------------------------------------------------------------------
+r1308 | nadvornik | 2008-12-22 19:15:26 +0100 (Po, 22 pro 2008) | 2 lines
+
+show metadata options in preferences dialog
+
+------------------------------------------------------------------------
+r1307 | nadvornik | 2008-12-21 22:36:58 +0100 (Ne, 21 pro 2008) | 2 lines
+
+fixed safe delete
+
+------------------------------------------------------------------------
+r1306 | nadvornik | 2008-12-21 22:20:36 +0100 (Ne, 21 pro 2008) | 2 lines
+
+most of the metadata options now works
+
+------------------------------------------------------------------------
+r1305 | nadvornik | 2008-12-21 17:26:03 +0100 (Ne, 21 pro 2008) | 2 lines
+
+fixed new options
+
+------------------------------------------------------------------------
+r1304 | zas_ | 2008-12-21 10:28:16 +0100 (Ne, 21 pro 2008) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1303 | nadvornik | 2008-12-21 00:18:20 +0100 (Ne, 21 pro 2008) | 2 lines
+
+added options for metadata - not yet used
+
+------------------------------------------------------------------------
+r1302 | zas_ | 2008-12-20 22:47:04 +0100 (So, 20 pro 2008) | 1 line
+
+Fix two minor compilation warnings.
+------------------------------------------------------------------------
+r1301 | zas_ | 2008-12-20 22:30:27 +0100 (So, 20 pro 2008) | 1 line
+
+Switch to fullscreen when double clicking on file in icon or list view. Feature request 1966042. The code was there since a long time but disabled, please report any issue.
+------------------------------------------------------------------------
+r1300 | nadvornik | 2008-12-20 21:43:56 +0100 (So, 20 pro 2008) | 3 lines
+
+use the workflow in utilops.c for metadata approving and writting
+TODO: configuration
+
+------------------------------------------------------------------------
+r1299 | nadvornik | 2008-12-16 13:59:23 +0100 (Út, 16 pro 2008) | 2 lines
+
+queue metadata and write them in an idle callback 
+
+------------------------------------------------------------------------
+r1298 | nadvornik | 2008-12-15 23:47:31 +0100 (Po, 15 pro 2008) | 5 lines
+
+prepared infrastructure for delayed metadata writting - refreshing
+metadata immediately before writting is now possible
+
+modified metadata are stored in fd->modified_xmp
+
+------------------------------------------------------------------------
+r1297 | zas_ | 2008-12-15 19:04:42 +0100 (Po, 15 pro 2008) | 1 line
+
+Allow to drag keywords on files in list or icon view. Dragged text is appended to keywords list of the destination file.
+------------------------------------------------------------------------
+r1296 | zas_ | 2008-12-09 20:12:38 +0100 (Út, 09 pro 2008) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1295 | zas_ | 2008-12-09 18:51:28 +0100 (Út, 09 pro 2008) | 1 line
+
+Allow to invert the current selection in Collection view. A new Selection submenu was added to the contextual menu, Select All and Select None were moved to it, and Invert selection was added.
+------------------------------------------------------------------------
+r1294 | zas_ | 2008-12-08 22:34:32 +0100 (Po, 08 pro 2008) | 1 line
+
+Display error dialog with appropriate message when user is trying to open an invalid collection file.
+------------------------------------------------------------------------
+r1293 | zas_ | 2008-12-08 22:33:14 +0100 (Po, 08 pro 2008) | 1 line
+
+Cosmetic fix.
+------------------------------------------------------------------------
+r1292 | zas_ | 2008-12-07 16:51:50 +0100 (Ne, 07 pro 2008) | 1 line
+
+Fix patch 1290: we only want to remove unused parameter warnings not all warnings produced by -Wextra, so just disable then using -Wno-unused-parameter and re-add -Wextra (was -W, but this is the old name).
+------------------------------------------------------------------------
+r1291 | nadvornik | 2008-12-07 14:28:04 +0100 (Ne, 07 pro 2008) | 2 lines
+
+handle the case when io.open() fails
+
+------------------------------------------------------------------------
+r1290 | nadvornik | 2008-12-06 22:24:38 +0100 (So, 06 pro 2008) | 4 lines
+
+disabled the "unused parameter" warnings, they are harmless and nobody
+is going to fix it ;) 
+(note: -W is equivalent to -Wextra) 
+
+------------------------------------------------------------------------
+r1289 | zas_ | 2008-12-02 20:34:53 +0100 (Út, 02 pro 2008) | 1 line
+
+Rename few variables to make the code more readable.
+------------------------------------------------------------------------
+r1288 | zas_ | 2008-11-30 22:59:28 +0100 (Ne, 30 lis 2008) | 1 line
+
+keyword_list_find() -> find_string_in_list(), return gboolean.
+------------------------------------------------------------------------
+r1287 | zas_ | 2008-11-30 22:52:37 +0100 (Ne, 30 lis 2008) | 1 line
+
+metadata_set_keywords() -> metadata_set(). Use gboolean type for boolean parameters.
+------------------------------------------------------------------------
+r1286 | zas_ | 2008-11-30 22:43:01 +0100 (Ne, 30 lis 2008) | 1 line
+
+Rename most comment_*() functions to more appropriate metadata_*().
+------------------------------------------------------------------------
+r1285 | zas_ | 2008-11-30 12:46:34 +0100 (Ne, 30 lis 2008) | 1 line
+
+File filters cleanup: add .pef .dng and .arw extensions to default sidecar extensions list, add .k25 in Kodak raw extensions, simplify and optimize sidecar_ext_parse().
+------------------------------------------------------------------------
+r1284 | zas_ | 2008-11-27 20:10:59 +0100 (Čt, 27 lis 2008) | 1 line
+
+Do not hardcode exif formatted prefix.
+------------------------------------------------------------------------
+r1283 | zas_ | 2008-11-27 13:34:39 +0100 (Čt, 27 lis 2008) | 1 line
+
+Fix up sign-related  warning.
+------------------------------------------------------------------------
+r1282 | zas_ | 2008-11-27 13:34:03 +0100 (Čt, 27 lis 2008) | 1 line
+
+Fix up unsigned expression always true warning.
+------------------------------------------------------------------------
+r1281 | zas_ | 2008-11-27 13:33:07 +0100 (Čt, 27 lis 2008) | 1 line
+
+Resync .h with .c declarations.
+------------------------------------------------------------------------
+r1280 | zas_ | 2008-11-27 13:31:27 +0100 (Čt, 27 lis 2008) | 1 line
+
+Fix up pointer signedness warnings.
+------------------------------------------------------------------------
+r1279 | zas_ | 2008-11-27 13:30:49 +0100 (Čt, 27 lis 2008) | 1 line
+
+Fix up not a prototype warning.
+------------------------------------------------------------------------
+r1278 | zas_ | 2008-11-27 13:30:10 +0100 (Čt, 27 lis 2008) | 1 line
+
+Remove unused variable.
+------------------------------------------------------------------------
+r1277 | zas_ | 2008-11-27 13:29:38 +0100 (Čt, 27 lis 2008) | 1 line
+
+Fix up deprecated function and not a prototype warnings.
+------------------------------------------------------------------------
+r1276 | zas_ | 2008-11-26 21:39:50 +0100 (St, 26 lis 2008) | 1 line
+
+Handle return values better to silent some warnings.
+------------------------------------------------------------------------
+r1275 | zas_ | 2008-11-26 21:38:47 +0100 (St, 26 lis 2008) | 1 line
+
+Print a message if chown() or chmod() fail.
+------------------------------------------------------------------------
+r1274 | zas_ | 2008-11-26 21:37:14 +0100 (St, 26 lis 2008) | 1 line
+
+Fix up format vs type warning.
+------------------------------------------------------------------------
+r1273 | zas_ | 2008-11-25 18:32:51 +0100 (Út, 25 lis 2008) | 1 line
+
+Move comments/keywords read and write stuff to new metadata.{c,h}.
+------------------------------------------------------------------------
+r1272 | zas_ | 2008-11-25 18:01:03 +0100 (Út, 25 lis 2008) | 1 line
+
+Fix up unsigned expression always true/false warnings.
+------------------------------------------------------------------------
+r1271 | zas_ | 2008-11-23 23:05:27 +0100 (Ne, 23 lis 2008) | 1 line
+
+Hide .gqv extension from collection name in collection window title and recent menu list.
+------------------------------------------------------------------------
+r1270 | zas_ | 2008-11-23 17:16:09 +0100 (Ne, 23 lis 2008) | 1 line
+
+Rename wmsubclass and name to role, which corresponds better to the purpose of the parameter as it ends to be passed to gtk_window_set_role().
+------------------------------------------------------------------------
+r1269 | zas_ | 2008-11-23 17:10:29 +0100 (Ne, 23 lis 2008) | 1 line
+
+Drop useless wmclass stuff. Gtk will take care of it and as said in the documentation using gtk_window_set_wmclass() is sort of pointless.
+------------------------------------------------------------------------
+r1268 | zas_ | 2008-11-22 23:54:51 +0100 (So, 22 lis 2008) | 1 line
+
+Use the last selected images for the splitted views. Ie. when 5 images are selected, the last one is displayed, split quad while open images 5,4,3,2. It seems better to me.
+------------------------------------------------------------------------
+r1267 | zas_ | 2008-11-22 23:43:18 +0100 (So, 22 lis 2008) | 1 line
+
+When more than one image is selected, Split Horizontal, Vertical and Quad will use selected images when initialized.
+------------------------------------------------------------------------
+r1266 | zas_ | 2008-11-22 23:10:10 +0100 (So, 22 lis 2008) | 1 line
+
+Tidy up.
+------------------------------------------------------------------------
+r1265 | zas_ | 2008-11-22 23:04:21 +0100 (So, 22 lis 2008) | 1 line
+
+Use common code for layout_image_setup_split_none() too.
+------------------------------------------------------------------------
+r1264 | zas_ | 2008-11-22 22:58:07 +0100 (So, 22 lis 2008) | 1 line
+
+layout_image_setup_split_*(): simplify code.
+------------------------------------------------------------------------
+r1263 | zas_ | 2008-11-22 22:11:09 +0100 (So, 22 lis 2008) | 1 line
+
+layout_image_setup_split_*(): move common code to a new function layout_image_setup_split_common().
+------------------------------------------------------------------------
+r1262 | zas_ | 2008-11-22 17:24:23 +0100 (So, 22 lis 2008) | 1 line
+
+Add a back button in the toolbar: it allows to go back and forth between two directories. Experimental, please test and comment on ml.
+------------------------------------------------------------------------
+r1261 | zas_ | 2008-11-20 18:28:34 +0100 (Čt, 20 lis 2008) | 1 line
+
+Force font weight and style to normal for keys.
+------------------------------------------------------------------------
+r1260 | zas_ | 2008-11-20 18:23:46 +0100 (Čt, 20 lis 2008) | 1 line
+
+Fix up yet unmarked keys.
+------------------------------------------------------------------------
+r1259 | zas_ | 2008-11-20 12:46:43 +0100 (Čt, 20 lis 2008) | 1 line
+
+Fix compilation warnings.
+------------------------------------------------------------------------
+r1258 | zas_ | 2008-11-20 08:22:56 +0100 (Čt, 20 lis 2008) | 1 line
+
+Fix up some missing html code.
+------------------------------------------------------------------------
+r1257 | zas_ | 2008-11-19 23:57:40 +0100 (St, 19 lis 2008) | 1 line
+
+More keys.
+------------------------------------------------------------------------
+r1256 | zas_ | 2008-11-19 23:46:27 +0100 (St, 19 lis 2008) | 1 line
+
+Fix text wrongly marked as key.
+------------------------------------------------------------------------
+r1255 | zas_ | 2008-11-19 23:42:20 +0100 (St, 19 lis 2008) | 1 line
+
+Mark keyboard keys with a span and make them look like a key through css style.
+------------------------------------------------------------------------
+r1254 | zas_ | 2008-11-19 22:36:02 +0100 (St, 19 lis 2008) | 1 line
+
+Replace [Control] by shorter and more common [Ctrl].
+------------------------------------------------------------------------
+r1253 | zas_ | 2008-11-19 22:16:27 +0100 (St, 19 lis 2008) | 1 line
+
+Unify [Shift] and [Control] notation.
+------------------------------------------------------------------------
+r1252 | zas_ | 2008-11-19 21:53:53 +0100 (St, 19 lis 2008) | 1 line
+
+Move (and update) image pane shortcuts to a table. Simplify css styles for those tables.
+------------------------------------------------------------------------
+r1251 | zas_ | 2008-11-19 18:42:36 +0100 (St, 19 lis 2008) | 1 line
+
+Update documentation.
+------------------------------------------------------------------------
+r1250 | zas_ | 2008-11-17 19:05:42 +0100 (Po, 17 lis 2008) | 1 line
+
+Fix up links and various enhancements.
+------------------------------------------------------------------------
+r1249 | zas_ | 2008-11-17 18:17:47 +0100 (Po, 17 lis 2008) | 1 line
+
+Remove colored background in headings for printable version.
+------------------------------------------------------------------------
+r1248 | zas_ | 2008-11-17 18:09:44 +0100 (Po, 17 lis 2008) | 1 line
+
+Change metadata directory to be $XDG_DATA_HOME instead of $XDG_CACHE_HOME as discussed on the ml (obviously it has impact only when XDG support is set). Suggestion by Omari Stephens.
+------------------------------------------------------------------------
+r1247 | zas_ | 2008-11-17 08:10:32 +0100 (Po, 17 lis 2008) | 1 line
+
+Comment out css code that slipped through by cut'n paste error. It may be useful at some time though.
+------------------------------------------------------------------------
+r1246 | zas_ | 2008-11-16 20:58:43 +0100 (Ne, 16 lis 2008) | 1 line
+
+Add specific css for print media(has to be improved).
+------------------------------------------------------------------------
+r1245 | zas_ | 2008-11-16 17:32:14 +0100 (Ne, 16 lis 2008) | 1 line
+
+Update svn:ignore property: add some files and replace gqview by geeqie where applicable.
+------------------------------------------------------------------------
+r1244 | zas_ | 2008-11-15 21:17:14 +0100 (So, 15 lis 2008) | 21 lines
+
+Implement preliminary support for XDG Base Directory Specification.
+See http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html.
+
+This feature was requested for a long time (feature requests #1950978 and #2289481).
+For now, it is disabled since it breaks compatibility with previous versions.
+To be able to test it, you have to enable it by defining USE_XDG to 1 in main.h.
+
+geeqierc and other conf files are going to:
+$XDG_CONFIG_HOME/geeqie/ (default to $HOME/.config/geeqie/).
+
+metadata and thumbnails cache (if std is not used) are going to:
+$XDG_CACHE_HOME/geeqie/metadata/ (default to $HOME/.cache/geeqie/metadata/)
+and $XDG_CACHE_HOME/geeqie/thumbnails/ (default to $HOME/.cache/geeqie/thumbnails/)
+
+collections are going to:
+$XDG_DATA_HOME/geeqie/collections/ (default to $HOME/.local/share/geeqie/collections/)
+
+
+Please test and report any issue.
+
+
+------------------------------------------------------------------------
+r1243 | zas_ | 2008-11-15 21:01:25 +0100 (So, 15 lis 2008) | 1 line
+
+Replace cache_ensure_dir_exists() by new recursive_mkdir_if_not_exists().
+------------------------------------------------------------------------
+r1242 | nadvornik | 2008-11-15 20:13:43 +0100 (So, 15 lis 2008) | 2 lines
+
+fixed usage of deprecated functions - patch by Omari Stephens
+
+------------------------------------------------------------------------
+r1241 | zas_ | 2008-11-15 18:48:31 +0100 (So, 15 lis 2008) | 1 line
+
+Rename check_for_home_path() to mkdir_if_not_exists().
+------------------------------------------------------------------------
+r1240 | zas_ | 2008-11-15 18:30:45 +0100 (So, 15 lis 2008) | 11 lines
+
+Use functions to return directories instead of constants.
+Following functions were added:
+get_collections_dir()
+get_metadata_cache_dir()
+get_rc_dir()
+get_thumbnails_cache_dir()
+get_trash_dir()
+
+They return the full directory path.
+
+
+------------------------------------------------------------------------
+r1239 | zas_ | 2008-11-15 11:35:43 +0100 (So, 15 lis 2008) | 1 line
+
+Add a wrapper around system() call named runcmd() which allows easier debugging. Improve the code launching the help browser.
+------------------------------------------------------------------------
+r1238 | zas_ | 2008-11-14 02:10:18 +0100 (Pá, 14 lis 2008) | 1 line
+
+Fix up Makefile.am: add missing files and do not install template.html.
+------------------------------------------------------------------------
+r1237 | zas_ | 2008-11-12 22:38:00 +0100 (St, 12 lis 2008) | 1 line
+
+Fix a cut'n'paste error.
+------------------------------------------------------------------------
+r1236 | zas_ | 2008-11-12 22:34:55 +0100 (St, 12 lis 2008) | 1 line
+
+More precise description of the pan view find feature and a note about ressources eating was added.
+------------------------------------------------------------------------
+r1235 | zas_ | 2008-11-12 22:15:12 +0100 (St, 12 lis 2008) | 1 line
+
+Add some information about the pan view.
+------------------------------------------------------------------------
+r1234 | zas_ | 2008-11-12 18:59:14 +0100 (St, 12 lis 2008) | 1 line
+
+Add a note about splitted view.
+------------------------------------------------------------------------
+r1233 | zas_ | 2008-11-12 18:48:16 +0100 (St, 12 lis 2008) | 1 line
+
+Add Connected zoom and Split menu items.
+------------------------------------------------------------------------
+r1232 | zas_ | 2008-11-12 00:35:39 +0100 (St, 12 lis 2008) | 1 line
+
+Add missing s...
+------------------------------------------------------------------------
+r1231 | zas_ | 2008-11-12 00:30:13 +0100 (St, 12 lis 2008) | 1 line
+
+Minor fixes.
+------------------------------------------------------------------------
+r1230 | zas_ | 2008-11-11 22:50:42 +0100 (Út, 11 lis 2008) | 1 line
+
+Give a new style to menus.
+------------------------------------------------------------------------
+r1229 | zas_ | 2008-11-11 22:49:33 +0100 (Út, 11 lis 2008) | 1 line
+
+Fix missing parts.
+------------------------------------------------------------------------
+r1228 | zas_ | 2008-11-11 22:17:55 +0100 (Út, 11 lis 2008) | 1 line
+
+Update main window menus description to match current Geeqie.
+------------------------------------------------------------------------
+r1227 | zas_ | 2008-11-11 22:17:03 +0100 (Út, 11 lis 2008) | 1 line
+
+Drop dots.
+------------------------------------------------------------------------
+r1226 | zas_ | 2008-11-11 11:32:03 +0100 (Út, 11 lis 2008) | 1 line
+
+Update exif pane documentation a bit.
+------------------------------------------------------------------------
+r1225 | zas_ | 2008-11-11 11:24:04 +0100 (Út, 11 lis 2008) | 1 line
+
+Add Properties Options page.
+------------------------------------------------------------------------
+r1224 | zas_ | 2008-11-11 11:09:09 +0100 (Út, 11 lis 2008) | 1 line
+
+Advanced options documentation is now almost in sync with current geeqie.
+------------------------------------------------------------------------
+r1223 | zas_ | 2008-11-11 10:12:10 +0100 (Út, 11 lis 2008) | 1 line
+
+More updates to advanced options documentation. Not yet finished.
+------------------------------------------------------------------------
+r1222 | zas_ | 2008-11-11 00:36:12 +0100 (Út, 11 lis 2008) | 1 line
+
+Page cleanup and fixed. Remove obsolete note.
+------------------------------------------------------------------------
+r1221 | zas_ | 2008-11-11 00:15:42 +0100 (Út, 11 lis 2008) | 1 line
+
+Add missing link.
+------------------------------------------------------------------------
+r1220 | zas_ | 2008-11-11 00:05:50 +0100 (Út, 11 lis 2008) | 1 line
+
+Update documentation a bit: General, Image, Windows, Filtering, Editors and a part of Advanced (Image Overlay) options.
+------------------------------------------------------------------------
+r1219 | zas_ | 2008-11-10 22:33:38 +0100 (Po, 10 lis 2008) | 1 line
+
+Let subsection menus match index style.
+------------------------------------------------------------------------
+r1218 | zas_ | 2008-11-10 22:14:34 +0100 (Po, 10 lis 2008) | 1 line
+
+Cosmetic changes in image search and find duplicates shortcuts tables.
+------------------------------------------------------------------------
+r1217 | zas_ | 2008-11-10 21:42:44 +0100 (Po, 10 lis 2008) | 1 line
+
+Tidy up.
+------------------------------------------------------------------------
+r1216 | zas_ | 2008-11-10 21:40:50 +0100 (Po, 10 lis 2008) | 1 line
+
+Move from xhtml transitional to xhtml strict.
+------------------------------------------------------------------------
+r1215 | zas_ | 2008-11-10 21:16:45 +0100 (Po, 10 lis 2008) | 1 line
+
+Minor cleanup.
+------------------------------------------------------------------------
+r1214 | zas_ | 2008-11-10 20:37:17 +0100 (Po, 10 lis 2008) | 1 line
+
+Tidy up and minor fixes.
+------------------------------------------------------------------------
+r1213 | zas_ | 2008-11-10 19:02:09 +0100 (Po, 10 lis 2008) | 1 line
+
+Notes cleanup and minor stylistic fixes.
+------------------------------------------------------------------------
+r1212 | zas_ | 2008-11-10 18:16:16 +0100 (Po, 10 lis 2008) | 1 line
+
+Various fixes and cleanup.
+------------------------------------------------------------------------
+r1211 | zas_ | 2008-11-10 17:11:28 +0100 (Po, 10 lis 2008) | 1 line
+
+Fix up some errors.
+------------------------------------------------------------------------
+r1210 | zas_ | 2008-11-10 16:20:13 +0100 (Po, 10 lis 2008) | 1 line
+
+Fix up unvalid xhtml.
+------------------------------------------------------------------------
+r1209 | zas_ | 2008-11-10 15:56:11 +0100 (Po, 10 lis 2008) | 1 line
+
+Fix up a broken link.
+------------------------------------------------------------------------
+r1208 | zas_ | 2008-11-10 15:10:39 +0100 (Po, 10 lis 2008) | 1 line
+
+Beautify the manual.
+------------------------------------------------------------------------
+r1207 | zas_ | 2008-11-10 14:00:29 +0100 (Po, 10 lis 2008) | 1 line
+
+Reformat more pages.
+------------------------------------------------------------------------
+r1206 | zas_ | 2008-11-10 13:06:05 +0100 (Po, 10 lis 2008) | 1 line
+
+Reformat remaining options pages.
+------------------------------------------------------------------------
+r1205 | zas_ | 2008-11-10 11:26:51 +0100 (Po, 10 lis 2008) | 1 line
+
+Reformatting: notes, advanced options page and more.
+------------------------------------------------------------------------
+r1204 | zas_ | 2008-11-09 22:53:33 +0100 (Ne, 09 lis 2008) | 1 line
+
+Reformatting.
+------------------------------------------------------------------------
+r1203 | zas_ | 2008-11-09 18:17:19 +0100 (Ne, 09 lis 2008) | 1 line
+
+Reformat and cleanup.
+------------------------------------------------------------------------
+r1202 | zas_ | 2008-11-09 14:37:39 +0100 (Ne, 09 lis 2008) | 1 line
+
+More cleanup of tables.
+------------------------------------------------------------------------
+r1201 | zas_ | 2008-11-09 14:06:16 +0100 (Ne, 09 lis 2008) | 1 line
+
+Cleanup some tables.
+------------------------------------------------------------------------
+r1200 | zas_ | 2008-11-09 13:48:00 +0100 (Ne, 09 lis 2008) | 1 line
+
+Drop most old css classes.
+------------------------------------------------------------------------
+r1199 | zas_ | 2008-11-09 10:39:14 +0100 (Ne, 09 lis 2008) | 1 line
+
+Move dialog descriptions to definitions lists, first step.
+------------------------------------------------------------------------
+r1198 | zas_ | 2008-11-09 10:33:01 +0100 (Ne, 09 lis 2008) | 1 line
+
+Index cleanup.
+------------------------------------------------------------------------
+r1197 | zas_ | 2008-11-09 10:28:59 +0100 (Ne, 09 lis 2008) | 1 line
+
+Move menu descriptions to definitions lists.
+------------------------------------------------------------------------
+r1196 | zas_ | 2008-11-08 23:11:51 +0100 (So, 08 lis 2008) | 1 line
+
+Re-introduce Geeqie User Manual footer.
+------------------------------------------------------------------------
+r1195 | zas_ | 2008-11-08 18:38:36 +0100 (So, 08 lis 2008) | 1 line
+
+Simplify bottom navigation table.
+------------------------------------------------------------------------
+r1194 | zas_ | 2008-11-08 18:24:02 +0100 (So, 08 lis 2008) | 1 line
+
+Use col tags with id in top and bottom navigation tables.
+------------------------------------------------------------------------
+r1193 | zas_ | 2008-11-08 12:37:17 +0100 (So, 08 lis 2008) | 1 line
+
+Add a generic spacer at the bottom of the page, remove now unused css classes.
+------------------------------------------------------------------------
+r1192 | zas_ | 2008-11-08 11:59:45 +0100 (So, 08 lis 2008) | 1 line
+
+Add two css classes navtop and navbottom and remove unused ones.
+------------------------------------------------------------------------
+r1191 | zas_ | 2008-11-08 11:49:18 +0100 (So, 08 lis 2008) | 1 line
+
+Add style.css to list of files to install.
+------------------------------------------------------------------------
+r1190 | zas_ | 2008-11-08 11:47:31 +0100 (So, 08 lis 2008) | 1 line
+
+Move css styles to an external stylesheet.
+------------------------------------------------------------------------
+r1189 | zas_ | 2008-11-07 00:49:31 +0100 (Pá, 07 lis 2008) | 1 line
+
+Remove reference to numbered section.
+------------------------------------------------------------------------
+r1188 | zas_ | 2008-11-07 00:43:46 +0100 (Pá, 07 lis 2008) | 1 line
+
+Remove references to numbered sections.
+------------------------------------------------------------------------
+r1187 | zas_ | 2008-11-07 00:39:22 +0100 (Pá, 07 lis 2008) | 1 line
+
+Simplify the table.
+------------------------------------------------------------------------
+r1186 | zas_ | 2008-11-06 21:01:32 +0100 (Čt, 06 lis 2008) | 10 lines
+
+Previous patch (revision 1185) for the comments-related segfault was incomplete, and as such, it broke keywords in files whose metadata had keywords but no comments.
+
+This patch fixes that (and still fixes the case where one searches on 
+comments and hits a file with keywords but no comments).  Lastly, I would 
+imagine that there exists a failure mode where one searches for a keyword and 
+hits a file with a comment but no keyword, and I imagine this patch should fix 
+that case as well.
+
+Patch by Omari Stephens (aka xsdg).
+
+------------------------------------------------------------------------
+r1185 | zas_ | 2008-11-04 18:26:46 +0100 (Út, 04 lis 2008) | 1 line
+
+Fix a segfault occuring when searching for comments in a directory where at least one photo doesn't have a comment. The fix modifies comment_read() function to return FALSE when a comment doesn't exist. Patch by Omari Stephens.
+------------------------------------------------------------------------
+r1184 | zas_ | 2008-11-04 18:11:53 +0100 (Út, 04 lis 2008) | 1 line
+
+Do a gtk_init before the parsing of command line arguments to allow gtk specific options. (See http://library.gnome.org/devel/gtk/2.14/gtk-running.html). Patch by Klaus Ethgen.
+------------------------------------------------------------------------
+r1183 | zas_ | 2008-10-27 14:31:39 +0100 (Po, 27 říj 2008) | 1 line
+
+Do not install doc/Makefile*. Reported and fixed by Krzysztof Kotlenga.
+------------------------------------------------------------------------
+r1182 | zas_ | 2008-10-26 20:27:20 +0100 (Ne, 26 říj 2008) | 1 line
+
+Use h2/h3 tags where appropriate.
+------------------------------------------------------------------------
+r1181 | bruclik | 2008-10-26 14:43:10 +0100 (Ne, 26 říj 2008) | 2 lines
+
+Fixed doc/Makefile.am according to renamed doc files.
+
+------------------------------------------------------------------------
+r1180 | zas_ | 2008-10-25 16:42:52 +0200 (So, 25 říj 2008) | 1 line
+
+Keyboard table cleanup attempt. Need more work.
+------------------------------------------------------------------------
+r1179 | zas_ | 2008-10-25 15:14:00 +0200 (So, 25 říj 2008) | 1 line
+
+Move menus to unordered lists - step 2.
+------------------------------------------------------------------------
+r1178 | zas_ | 2008-10-25 13:02:09 +0200 (So, 25 říj 2008) | 1 line
+
+Move menus to unordered lists - step 1.
+------------------------------------------------------------------------
+r1177 | zas_ | 2008-10-25 10:49:07 +0200 (So, 25 říj 2008) | 1 line
+
+Align Previous to the left, drop useless col tags.
+------------------------------------------------------------------------
+r1176 | zas_ | 2008-10-25 10:14:34 +0200 (So, 25 říj 2008) | 1 line
+
+Drop meta CREATED and CHANGED since they will never be updated and svn takes care of versions.
+------------------------------------------------------------------------
+r1175 | zas_ | 2008-10-25 10:10:11 +0200 (So, 25 říj 2008) | 1 line
+
+Fix page titles.
+------------------------------------------------------------------------
+r1174 | zas_ | 2008-10-25 10:07:57 +0200 (So, 25 říj 2008) | 1 line
+
+Drop chapters numbers from h1 title, and reformat top title a bit.
+------------------------------------------------------------------------
+r1173 | zas_ | 2008-10-25 09:47:47 +0200 (So, 25 říj 2008) | 1 line
+
+Get rid off of chapters numbers in html documentation filenames. It will ease re-ordering.
+------------------------------------------------------------------------
+r1172 | zas_ | 2008-10-24 00:45:44 +0200 (Pá, 24 říj 2008) | 1 line
+
+Update legal notice and copyright to mention The Geeqie Team.
+------------------------------------------------------------------------
+r1171 | zas_ | 2008-10-23 21:06:23 +0200 (Čt, 23 říj 2008) | 1 line
+
+With the help of tidy and sed, move html files to xhtml+css. Css classes were prefixed to ease future changes (like a common css file).
+------------------------------------------------------------------------
+r1170 | zas_ | 2008-10-23 20:06:28 +0200 (Čt, 23 říj 2008) | 1 line
+
+Change occurences of GQview and gqview to Geeqie and geeqie. Rename gqview_faq.html to faq.html
+------------------------------------------------------------------------
+r1169 | zas_ | 2008-10-22 21:56:29 +0200 (St, 22 říj 2008) | 1 line
+
+Let Create thumbnails start in current directory (fallback to home directory if not available) as requested by Marcin Zajaczkowski (feature request 2166691).
+------------------------------------------------------------------------
+r1168 | nadvornik | 2008-10-20 23:00:18 +0200 (Po, 20 říj 2008) | 3 lines
+
+Fix a cut and paste error when implementing the comment search (Klaus
+Ethgen)
+
+------------------------------------------------------------------------
+r1167 | nadvornik | 2008-10-20 19:13:32 +0200 (Po, 20 říj 2008) | 2 lines
+
+fixed failed assertion in exif_free
+
+------------------------------------------------------------------------
+r1166 | nadvornik | 2008-10-18 22:17:55 +0200 (So, 18 říj 2008) | 2 lines
+
+create xmp sidecar when needed
+
+------------------------------------------------------------------------
+r1165 | nadvornik | 2008-10-18 21:20:27 +0200 (So, 18 říj 2008) | 2 lines
+
+simple synchronization XMP <-> Exif, IPTC
+
+------------------------------------------------------------------------
+r1164 | nadvornik | 2008-10-18 20:22:57 +0200 (So, 18 říj 2008) | 2 lines
+
+infrastructure for preprocessing of metadata
+
+------------------------------------------------------------------------
+r1163 | nadvornik | 2008-10-18 11:07:52 +0200 (So, 18 říj 2008) | 2 lines
+
+fixed bar_exif separator
+
+------------------------------------------------------------------------
+r1162 | nadvornik | 2008-10-18 10:40:32 +0200 (So, 18 říj 2008) | 2 lines
+
+reordered advanced exif columns
+
+------------------------------------------------------------------------
+r1161 | nadvornik | 2008-10-18 10:31:25 +0200 (So, 18 říj 2008) | 2 lines
+
+no need to validate description, it is in utf8
+
+------------------------------------------------------------------------
+r1160 | nadvornik | 2008-10-18 00:00:07 +0200 (So, 18 říj 2008) | 4 lines
+
+improved custom exif look:
+- use toggle instead of remove button 
+- display description instead of property key
+
+------------------------------------------------------------------------
+r1159 | nadvornik | 2008-10-14 23:24:34 +0200 (Út, 14 říj 2008) | 2 lines
+
+follow Exiv2 SVN changes
+
+------------------------------------------------------------------------
+r1158 | zas_ | 2008-10-12 10:49:45 +0200 (Ne, 12 říj 2008) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1157 | zas_ | 2008-10-12 10:43:14 +0200 (Ne, 12 říj 2008) | 1 line
+
+Add a button for each advanced entry in Properties Exif Panel that allow to remove it from display. It fixes bug 1962611.
+------------------------------------------------------------------------
+r1156 | zas_ | 2008-10-12 10:36:53 +0200 (Ne, 12 říj 2008) | 6 lines
+
+Better handling of accels map file writing errors.
+Secure save is also used for those now, at the expense of
+a bit of duplication of gtk functions.
+It should fix bug 2146917 (debian BTS #501131), reported by
+Stanislav Maslovski.
+
+------------------------------------------------------------------------
+r1155 | nadvornik | 2008-10-11 22:19:48 +0200 (So, 11 říj 2008) | 6 lines
+
+added option to use exif thumbnails
+- it requires exiv2 0.18 or the current svn 
+- it is disabled by default because the exif thumbnails
+  may be outdated if the image was edited
+
+
+------------------------------------------------------------------------
+r1154 | zas_ | 2008-10-07 21:34:11 +0200 (Út, 07 říj 2008) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1153 | zas_ | 2008-10-07 21:29:13 +0200 (Út, 07 říj 2008) | 1 line
+
+Fix up few signed vs unsigned warnings: exif_item_get_rational() last parameter is now of guint type.
+------------------------------------------------------------------------
+r1152 | nadvornik | 2008-10-07 20:37:32 +0200 (Út, 07 říj 2008) | 2 lines
+
+Implement the search for image comment - patch by Klaus Ethgen
+
+------------------------------------------------------------------------
+r1151 | nadvornik | 2008-10-07 20:22:58 +0200 (Út, 07 říj 2008) | 2 lines
+
+Fixed degree symbol encoding
+
+------------------------------------------------------------------------
+r1150 | nadvornik | 2008-10-07 20:20:22 +0200 (Út, 07 říj 2008) | 2 lines
+
+Adding a vim modeline to all files - patch by Klaus Ethgen
+
+------------------------------------------------------------------------
+r1149 | nadvornik | 2008-10-05 20:25:44 +0200 (Ne, 05 říj 2008) | 2 lines
+
+fixed confirm_delete option
+
+------------------------------------------------------------------------
+r1148 | nadvornik | 2008-10-04 22:28:31 +0200 (So, 04 říj 2008) | 2 lines
+
+fixed charset of exiv2 strings in non-utf8 locales
+
+------------------------------------------------------------------------
+r1147 | nadvornik | 2008-10-01 22:57:56 +0200 (St, 01 říj 2008) | 2 lines
+
+Add support for GPSInfo - patch by Klaus Ethgen
+
+------------------------------------------------------------------------
+r1146 | nadvornik | 2008-09-29 23:17:19 +0200 (Po, 29 zář 2008) | 4 lines
+
+The comment section in the meta file is the last section. However it do
+not accept comment lines starting with a '['. This patch will fix that.
+- patch by Klaus Ethgen
+
+------------------------------------------------------------------------
+r1145 | nadvornik | 2008-09-29 23:09:48 +0200 (Po, 29 zář 2008) | 2 lines
+
+fixes executable right of images
+
+------------------------------------------------------------------------
+r1144 | nadvornik | 2008-09-29 23:01:30 +0200 (Po, 29 zář 2008) | 2 lines
+
+enlarge the dupe window - patch by Klaus Ethgen
+
+------------------------------------------------------------------------
+r1143 | nadvornik | 2008-09-27 20:48:32 +0200 (So, 27 zář 2008) | 2 lines
+
+updated preview loader to work with current svn version of libexiv2
+
+------------------------------------------------------------------------
+r1142 | nadvornik | 2008-09-10 22:37:30 +0200 (St, 10 zář 2008) | 8 lines
+
+use SHIFT for connected scroll and zoom
+
+SHIFT + keys or mouse: affects all split windows
+keys or mouse: affects only active window
+
+CONTROL + mouse: moves fast (originally it was SHIFT + mouse)
+
+
+------------------------------------------------------------------------
+r1141 | nadvornik | 2008-09-09 21:46:44 +0200 (Út, 09 zář 2008) | 3 lines
+
+reverted buggy part of rev. 1138 - it made the filelist jump
+unexpectedly
+
+------------------------------------------------------------------------
+r1140 | nadvornik | 2008-09-08 21:57:51 +0200 (Po, 08 zář 2008) | 3 lines
+
+added possibility to redraw only the parts of image that are already
+loaded
+
+------------------------------------------------------------------------
+r1139 | zas_ | 2008-09-08 17:53:01 +0200 (Po, 08 zář 2008) | 1 line
+
+Fix a compiler warning regarding argument type.
+------------------------------------------------------------------------
+r1138 | bruclik | 2008-09-08 01:01:30 +0200 (Po, 08 zář 2008) | 2 lines
+
+Replaced gtk depreceated code.
+
+------------------------------------------------------------------------
+r1137 | zas_ | 2008-09-07 21:42:19 +0200 (Ne, 07 zář 2008) | 1 line
+
+Shorten config_window_apply() a bit, reduce code redunancy.
+------------------------------------------------------------------------
+r1136 | zas_ | 2008-09-05 00:35:33 +0200 (Pá, 05 zář 2008) | 1 line
+
+Update translations stats.
+------------------------------------------------------------------------
+r1135 | zas_ | 2008-09-05 00:29:32 +0200 (Pá, 05 zář 2008) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1134 | zas_ | 2008-09-05 00:04:32 +0200 (Pá, 05 zář 2008) | 1 line
+
+Allow all Preferences pages to scroll vertically. Reduce code redundancy.
+------------------------------------------------------------------------
+r1133 | zas_ | 2008-09-04 23:38:28 +0200 (Čt, 04 zář 2008) | 1 line
+
+Allow to change image.scroll_reset_method in Preferences > Image.
+------------------------------------------------------------------------
+r1132 | nadvornik | 2008-09-04 23:19:09 +0200 (Čt, 04 zář 2008) | 4 lines
+
+fixed various problems with preserving viewport on image change,
+options->image.scroll_reset_method should work again (it needs to be
+added to the preferences dialog)
+
+------------------------------------------------------------------------
+r1131 | nadvornik | 2008-09-03 23:54:49 +0200 (St, 03 zář 2008) | 3 lines
+
+load thumbnails with lower priority
+TODO: maybe implement an exception for visible thumbnails
+
+------------------------------------------------------------------------
+r1130 | zas_ | 2008-09-03 23:13:02 +0200 (St, 03 zář 2008) | 1 line
+
+Improve debug messages.
+------------------------------------------------------------------------
+r1129 | nadvornik | 2008-09-03 22:43:10 +0200 (St, 03 zář 2008) | 2 lines
+
+adjusted default options
+
+------------------------------------------------------------------------
+r1128 | nadvornik | 2008-09-03 22:29:32 +0200 (St, 03 zář 2008) | 2 lines
+
+adjusted redraw priority relative to icon drawing
+
+------------------------------------------------------------------------
+r1127 | nadvornik | 2008-09-03 21:58:21 +0200 (St, 03 zář 2008) | 2 lines
+
+dropped IMAGE_THROTTLE_LARGER_IMAGES code
+
+------------------------------------------------------------------------
+r1126 | nadvornik | 2008-09-03 21:52:11 +0200 (St, 03 zář 2008) | 2 lines
+
+fixed handling of broken images
+
+------------------------------------------------------------------------
+r1125 | nadvornik | 2008-09-01 21:18:32 +0200 (Po, 01 zář 2008) | 2 lines
+
+improved pixbuf draw priority control
+
+------------------------------------------------------------------------
+r1124 | zas_ | 2008-09-01 19:29:07 +0200 (Po, 01 zář 2008) | 1 line
+
+Use a constant for minimal window size. Set it to 32 for all dialogs.
+------------------------------------------------------------------------
+r1123 | zas_ | 2008-09-01 19:22:19 +0200 (Po, 01 zář 2008) | 1 line
+
+Remove redundant debug.h inclusion.
+------------------------------------------------------------------------
+r1122 | nadvornik | 2008-08-31 23:19:00 +0200 (Ne, 31 srp 2008) | 2 lines
+
+fixed read ahead callback
+
+------------------------------------------------------------------------
+r1121 | nadvornik | 2008-08-31 23:02:09 +0200 (Ne, 31 srp 2008) | 2 lines
+
+fixed error handling in image loader
+
+------------------------------------------------------------------------
+r1120 | nadvornik | 2008-08-31 20:53:11 +0200 (Ne, 31 srp 2008) | 2 lines
+
+fixed possible endless loop
+
+------------------------------------------------------------------------
+r1119 | zas_ | 2008-08-31 14:29:49 +0200 (Ne, 31 srp 2008) | 1 line
+
+Add a Save button to Preferences dialog, which allow to save options to file without quitting the application.
+------------------------------------------------------------------------
+r1118 | zas_ | 2008-08-31 13:27:24 +0200 (Ne, 31 srp 2008) | 1 line
+
+Move quoted_value() and escquote_value() to misc.[ch].
+------------------------------------------------------------------------
+r1117 | zas_ | 2008-08-31 12:51:41 +0200 (Ne, 31 srp 2008) | 1 line
+
+Move miscellaneous functions to their own files (new misc.[ch]).
+------------------------------------------------------------------------
+r1116 | nadvornik | 2008-08-31 12:08:48 +0200 (Ne, 31 srp 2008) | 2 lines
+
+use GThreadPool
+
+------------------------------------------------------------------------
+r1115 | nadvornik | 2008-08-31 11:20:29 +0200 (Ne, 31 srp 2008) | 2 lines
+
+improved thread support in image loader
+
+------------------------------------------------------------------------
+r1114 | zas_ | 2008-08-31 11:13:42 +0200 (Ne, 31 srp 2008) | 1 line
+
+Move save/load_options() to options.[ch].
+------------------------------------------------------------------------
+r1113 | zas_ | 2008-08-31 10:59:39 +0200 (Ne, 31 srp 2008) | 1 line
+
+Move sync_options_with_current_state() call to save_options().
+------------------------------------------------------------------------
+r1112 | zas_ | 2008-08-31 10:41:42 +0200 (Ne, 31 srp 2008) | 1 line
+
+Move some code to new functions, to simplify main().
+------------------------------------------------------------------------
+r1111 | zas_ | 2008-08-31 10:13:36 +0200 (Ne, 31 srp 2008) | 1 line
+
+Fix two minor compilation warnings.
+------------------------------------------------------------------------
+r1110 | nadvornik | 2008-08-30 22:15:47 +0200 (So, 30 srp 2008) | 4 lines
+
+run image loader in separate thread
+this feature is disabled by default for now, it must be enabled by 
+configure --enable-threads 
+
+------------------------------------------------------------------------
+r1109 | nadvornik | 2008-08-30 15:04:06 +0200 (So, 30 srp 2008) | 2 lines
+
+prepared image loader code for threads
+
+------------------------------------------------------------------------
+r1108 | zas_ | 2008-08-30 12:39:35 +0200 (So, 30 srp 2008) | 5 lines
+
+Allow to override documentation paths through options:
+- documentation.helpdir
+- documentation.htmldir
+Default values are set at configure time.
+
+------------------------------------------------------------------------
+r1107 | nadvornik | 2008-08-29 22:53:53 +0200 (Pá, 29 srp 2008) | 2 lines
+
+converted image loader to a GObject and use signals for notification
+
+------------------------------------------------------------------------
+r1106 | nadvornik | 2008-08-29 14:35:13 +0200 (Pá, 29 srp 2008) | 2 lines
+
+do not access image_loader directly
+
+------------------------------------------------------------------------
+r1105 | nadvornik | 2008-08-29 11:59:20 +0200 (Pá, 29 srp 2008) | 2 lines
+
+added new raw preview interface for legacy exif
+
+------------------------------------------------------------------------
+r1104 | nadvornik | 2008-08-29 11:38:10 +0200 (Pá, 29 srp 2008) | 2 lines
+
+fixed thumbnail loader for the new raw preview interface
+
+------------------------------------------------------------------------
+r1103 | nadvornik | 2008-08-29 00:26:09 +0200 (Pá, 29 srp 2008) | 4 lines
+
+use mmaped files image loader 
+implemented new interface for extracting raw previews
+experiments with previews support in SVN version of Exiv2
+
+------------------------------------------------------------------------
+r1102 | bruclik | 2008-08-28 14:51:02 +0200 (Čt, 28 srp 2008) | 2 lines
+
+Removed converting fd->name to utf8 from file_data_set_collate_keys(), because fd->name is utf8. 
+
+------------------------------------------------------------------------
+r1101 | zas_ | 2008-08-28 12:50:02 +0200 (Čt, 28 srp 2008) | 1 line
+
+Silent warnings about unused functions when lcms is not used.
+------------------------------------------------------------------------
+r1100 | zas_ | 2008-08-27 19:02:14 +0200 (St, 27 srp 2008) | 1 line
+
+Comment out unused functions.
+------------------------------------------------------------------------
+r1099 | zas_ | 2008-08-27 18:42:59 +0200 (St, 27 srp 2008) | 1 line
+
+Silent a compiler warning.
+------------------------------------------------------------------------
+r1098 | zas_ | 2008-08-27 18:40:21 +0200 (St, 27 srp 2008) | 1 line
+
+const gpointer -> gconstpointer.
+------------------------------------------------------------------------
+r1097 | zas_ | 2008-08-27 00:37:18 +0200 (St, 27 srp 2008) | 1 line
+
+Use gpointer instead of void *.
+------------------------------------------------------------------------
+r1096 | zas_ | 2008-08-27 00:30:40 +0200 (St, 27 srp 2008) | 1 line
+
+Consistency: type * instead of type*.
+------------------------------------------------------------------------
+r1095 | zas_ | 2008-08-27 00:22:51 +0200 (St, 27 srp 2008) | 1 line
+
+For the sake of consistency, use glib basic types everywhere.
+------------------------------------------------------------------------
+r1094 | zas_ | 2008-08-26 23:19:33 +0200 (Út, 26 srp 2008) | 1 line
+
+Indentation fixes.
+------------------------------------------------------------------------
+r1093 | bruclik | 2008-08-26 22:21:30 +0200 (Út, 26 srp 2008) | 3 lines
+
+Fixed segfault when is run inside directory with non valid uft-8 image
+filename.
+
+------------------------------------------------------------------------
+r1092 | bruclik | 2008-08-26 15:56:56 +0200 (Út, 26 srp 2008) | 2 lines
+
+Fixed calling "Image search" function in a directory without image. 
+
+------------------------------------------------------------------------
+r1091 | nadvornik | 2008-08-26 00:45:38 +0200 (Út, 26 srp 2008) | 2 lines
+
+correctly maintain selection during iconlist refresh
+
+------------------------------------------------------------------------
+r1090 | zas_ | 2008-08-26 00:20:45 +0200 (Út, 26 srp 2008) | 1 line
+
+Whitespaces cleanup.
+------------------------------------------------------------------------
+r1089 | bruclik | 2008-08-25 20:13:33 +0200 (Po, 25 srp 2008) | 3 lines
+
+Fixed segfaulting when alter image in directory without images.
+
+
+------------------------------------------------------------------------
+r1088 | nadvornik | 2008-08-25 18:58:27 +0200 (Po, 25 srp 2008) | 2 lines
+
+removed unused code
+
+------------------------------------------------------------------------
+r1087 | zas_ | 2008-08-24 16:40:18 +0200 (Ne, 24 srp 2008) | 1 line
+
+Typo fixes.
+------------------------------------------------------------------------
+r1086 | zas_ | 2008-08-24 16:33:03 +0200 (Ne, 24 srp 2008) | 1 line
+
+Slight code redundancy reduction.
+------------------------------------------------------------------------
+r1085 | zas_ | 2008-08-24 16:14:37 +0200 (Ne, 24 srp 2008) | 1 line
+
+Drop redundant variable affectation.
+------------------------------------------------------------------------
+r1084 | zas_ | 2008-08-24 15:22:08 +0200 (Ne, 24 srp 2008) | 2 lines
+
+Fix untranslated messages. French translation and POTFILES.in were updated.
+
+------------------------------------------------------------------------
+r1083 | zas_ | 2008-08-24 12:00:40 +0200 (Ne, 24 srp 2008) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1082 | zas_ | 2008-08-24 12:00:02 +0200 (Ne, 24 srp 2008) | 1 line
+
+Mark forgotten string for translation.
+------------------------------------------------------------------------
+r1081 | zas_ | 2008-08-23 23:07:25 +0200 (So, 23 srp 2008) | 1 line
+
+Fix another missing separator bug in image overlay. This one was occuring with default string when no ISO data was available from exif.
+------------------------------------------------------------------------
+r1080 | zas_ | 2008-08-23 22:46:31 +0200 (So, 23 srp 2008) | 1 line
+
+Minor optimization: no need to copy the whole remaining of the string, just copy next char.
+------------------------------------------------------------------------
+r1079 | zas_ | 2008-08-23 19:35:57 +0200 (So, 23 srp 2008) | 2 lines
+
+Only display status if there is at least one file in the file list.
+
+------------------------------------------------------------------------
+r1078 | zas_ | 2008-08-23 19:00:59 +0200 (So, 23 srp 2008) | 1 line
+
+Remove unneeded type casting.
+------------------------------------------------------------------------
+r1077 | nadvornik | 2008-08-23 10:42:12 +0200 (So, 23 srp 2008) | 2 lines
+
+fixed vd_refresh
+
+------------------------------------------------------------------------
+r1076 | zas_ | 2008-08-23 00:09:54 +0200 (So, 23 srp 2008) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1075 | zas_ | 2008-08-22 23:52:13 +0200 (Pá, 22 srp 2008) | 7 lines
+
+Add an option named layout.home_path which modifies the behavior of the Home button.
+By default, pressing this button goes to the user's home directory.
+When this option is set to a path, this path is used instead.
+One can change the option value through Preferences > Advanced > Navigation
+or directly in .geeqierc.
+Feature proposed by Colin Clark.
+
+------------------------------------------------------------------------
+r1074 | zas_ | 2008-08-22 00:49:30 +0200 (Pá, 22 srp 2008) | 1 line
+
+Typo fix: vf -> vd
+------------------------------------------------------------------------
+r1073 | zas_ | 2008-08-22 00:47:49 +0200 (Pá, 22 srp 2008) | 1 line
+
+Replace macros VDLIST_INFO() and VDTREE_INFO() by shorter VDLIST() and VDTREE(). VDLIST_INFO(vd, part) becomes VDLIST(vd)->part.
+------------------------------------------------------------------------
+r1072 | zas_ | 2008-08-22 00:36:20 +0200 (Pá, 22 srp 2008) | 1 line
+
+Indentation fix.
+------------------------------------------------------------------------
+r1071 | zas_ | 2008-08-21 00:26:34 +0200 (Čt, 21 srp 2008) | 1 line
+
+Use constants instead of enum since value (0xffff0000) overflow INT_MAX on some platforms (seen on Solaris 10 SPARC system using the native Sun version 5.9 compilers). Reported by Jeffery Small.
+------------------------------------------------------------------------
+r1070 | zas_ | 2008-08-21 00:19:35 +0200 (Čt, 21 srp 2008) | 1 line
+
+Do not return values of void functions. Reported by Jeffery Small.
+------------------------------------------------------------------------
+r1069 | nadvornik | 2008-08-20 22:36:36 +0200 (St, 20 srp 2008) | 2 lines
+
+update the FileData structure when a new folder is created
+
+------------------------------------------------------------------------
+r1068 | nadvornik | 2008-08-20 00:58:31 +0200 (St, 20 srp 2008) | 2 lines
+
+improved refresh in view_dir_list
+
+------------------------------------------------------------------------
+r1067 | nadvornik | 2008-08-19 23:01:29 +0200 (Út, 19 srp 2008) | 2 lines
+
+set fallback pixbuf in case of missing file
+
+------------------------------------------------------------------------
+r1066 | nadvornik | 2008-08-19 22:58:23 +0200 (Út, 19 srp 2008) | 2 lines
+
+fixed possible segfault
+
+------------------------------------------------------------------------
+r1065 | nadvornik | 2008-08-17 16:18:51 +0200 (Ne, 17 srp 2008) | 3 lines
+
+removed code for maintaining filelist position, gtk_tree_view itself handles it
+better
+
+------------------------------------------------------------------------
+r1064 | zas_ | 2008-08-17 11:36:02 +0200 (Ne, 17 srp 2008) | 2 lines
+
+French translation was updated.
+
+------------------------------------------------------------------------
+r1063 | zas_ | 2008-08-17 11:30:45 +0200 (Ne, 17 srp 2008) | 11 lines
+
+Simplify things related to ViewFileInfoList * and ViewFileInfoIcon * type casting:
+- drop VFICON_INFO() and VFLIST_INFO() macros
+- rename VFLIST_INFO_POINTER() and VFICON_INFO_POINTER() to shorter VFLIST() and VFICON().
+- replace all related occurrences by shorter expressions.
+
+For example:
+VFICON_INFO(vf, columns) becomes VFICON(vf)->columns
+VFLIST_INFO(vf, click_fd) becomes VFLIST(vf)->click_fd
+
+
+
+------------------------------------------------------------------------
+r1062 | zas_ | 2008-08-17 11:00:33 +0200 (Ne, 17 srp 2008) | 2 lines
+
+Move variable declaration at start of block.
+
+------------------------------------------------------------------------
+r1061 | nadvornik | 2008-08-17 01:37:26 +0200 (Ne, 17 srp 2008) | 2 lines
+
+marks in iconview made clickable
+
+------------------------------------------------------------------------
+r1060 | nadvornik | 2008-08-16 22:57:40 +0200 (So, 16 srp 2008) | 2 lines
+
+keep files with non-zero marks in memory
+
+------------------------------------------------------------------------
+r1059 | nadvornik | 2008-08-16 22:34:14 +0200 (So, 16 srp 2008) | 2 lines
+
+implemented marks filter
+
+------------------------------------------------------------------------
+r1058 | zas_ | 2008-08-16 09:18:16 +0200 (So, 16 srp 2008) | 3 lines
+
+Fix double escaping of image overlay text.
+Bug 2051955, reported by Emmanuel Dupuis.
+
+------------------------------------------------------------------------
+r1057 | nadvornik | 2008-08-13 23:07:06 +0200 (St, 13 srp 2008) | 2 lines
+
+added keyboard map generator
+
+------------------------------------------------------------------------
+r1056 | nadvornik | 2008-08-13 22:46:06 +0200 (St, 13 srp 2008) | 2 lines
+
+a workaround for http://bugzilla.gnome.org/show_bug.cgi?id=547669
+
+------------------------------------------------------------------------
+r1055 | nadvornik | 2008-08-12 22:21:25 +0200 (Út, 12 srp 2008) | 2 lines
+
+fixed crash with float file list and geeqie --blank
+
+------------------------------------------------------------------------
+r1054 | nadvornik | 2008-08-11 20:53:19 +0200 (Po, 11 srp 2008) | 2 lines
+
+fixed crash in geeqie --blank
+
+------------------------------------------------------------------------
+r1053 | nadvornik | 2008-08-11 19:45:26 +0200 (Po, 11 srp 2008) | 2 lines
+
+fixed setting visible entry in view_dir_tree
+
+------------------------------------------------------------------------
+r1051 | nadvornik | 2008-07-30 20:44:49 +0200 (St, 30 čec 2008) | 2 lines
+
+updated ChangeLog from svn log
+
+------------------------------------------------------------------------
 r1050 | zas_ | 2008-07-28 20:35:19 +0200 (Po, 28 čec 2008) | 2 lines
 
 Move declarations at the beginning of blocks.
