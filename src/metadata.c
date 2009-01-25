@@ -158,6 +158,15 @@ gboolean metadata_write_perform(FileData *fd)
 	success = (fd->change->dest) ? exif_write_sidecar(exif, fd->change->dest) : exif_write(exif); /* write modified metadata */
 	exif_free_fd(fd, exif);
 
+	if (fd->change->dest)
+		/* this will create a FileData for the sidecar and link it to the main file 
+		   (we can't wait until the sidecar is discovered by directory scanning because
+		    exif_read_fd is called before that and it would read the main file only and 
+		    store the metadata in the cache)
+		    FIXME: this does not catch new sidecars created by independent external programs
+		*/
+		file_data_unref(file_data_new_simple(fd->change->dest)); 
+		
 	if (success) metadata_legacy_delete(fd, fd->change->dest);
 	return success;
 }
