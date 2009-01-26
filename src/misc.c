@@ -44,6 +44,11 @@ gint utf8_compare(const gchar *s1, const gchar *s2, gboolean case_sensitive)
 		s1_t = g_utf8_casefold(s1, -1);
 		s2_t = g_utf8_casefold(s2, -1);
 		}
+	else
+		{
+		s1_t = (gchar *) s1;
+		s2_t = (gchar *) s2;
+		}
 
 	s1_key = g_utf8_collate_key(s1_t, -1);
 	s2_key = g_utf8_collate_key(s2_t, -1);
