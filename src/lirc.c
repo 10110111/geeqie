@@ -176,7 +176,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 		}
 	if (x != 0 || y != 0)
 		{
-		layout_image_scroll(lw, x, y);
+		layout_image_scroll(lw, x, y, FALSE);
 		}
 
 	if (ret == -1)
