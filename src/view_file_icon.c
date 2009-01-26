@@ -565,7 +565,7 @@ static void vficon_drag_data_received(GtkWidget *entry_widget, GdkDragContext *c
 		if (id && id->fd) {
 			/* Add keywords to file */
 			FileData *fd = id->fd;
-			gchar *str = g_strndup(selection->data, selection->length);
+			gchar *str = g_strndup((gchar *)selection->data, selection->length);
 			GList *kw_list = string_to_keywords_list(str);
 			
 			metadata_append_list(fd, KEYWORD_KEY, kw_list);
