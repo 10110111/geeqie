@@ -68,13 +68,14 @@ AC_HELP_STRING([--enable-debug-log], [enable debugging messages [default=yes]])]
 
 if test "x${enable_debug_flags}" != "xno"
 then
-  CXXFLAGS="${CXXFLAGS} -g -O0 -Wunused-value -Wunused-variable -Wunused-function -Wunused-label -Wcomment -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -Wextra -Wno-unused-parameter -Wformat -Wformat-security"
-  CFLAGS="${CFLAGS} -g -O0 -Wunused-value -Wunused-variable -Wunused-function -Wunused-label -Wcomment -Wimplicit-int -Werror-implicit-function-declaration -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -Wextra -Wno-unused-parameter -Wformat -Wformat-security"
   if test "x${enable_developer}" == "xyes"
   then
-  CXXFLAGS="${CXXFLAGS} -Wall"
-  CFLAGS="${CFLAGS} -Wstrict-prototypes -Wall"
+    CXXFLAGS="${CXXFLAGS} -Wall"
+    CFLAGS="${CFLAGS} -Wstrict-prototypes -Wall"
   fi
+  __COMMONFLAGS="-g -O0 -Wextra -Wunused-value -Wunused-variable -Wunused-function -Wunused-label -Wcomment -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -Wno-unused-parameter -Wformat -Wformat-security"
+  CXXFLAGS="${CXXFLAGS} ${__COMMONFLAGS}"
+  CFLAGS="${CFLAGS} ${__COMMONFLAGS} -Wimplicit-int -Werror-implicit-function-declaration"
   __IS_DEBUG_FLAGS=yes
 else
   __IS_DEBUG_FLAGS=no
