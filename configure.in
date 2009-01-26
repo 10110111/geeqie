@@ -68,8 +68,8 @@ AC_HELP_STRING([--enable-debug-log], [enable debugging messages [default=yes]])]
 
 if test "x${enable_debug_flags}" != "xno"
 then
-  CXXFLAGS="${CXXFLAGS} -g -O0 -Wunused-value -Wunused-variable -Wunused-function -Wunused-label -Wcomment -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -Wextra -Wno-unused-parameter"
-  CFLAGS="${CFLAGS} -g -O0 -Wunused-value -Wunused-variable -Wunused-function -Wunused-label -Wcomment -Wimplicit-int -Werror-implicit-function-declaration -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -Wextra -Wno-unused-parameter"
+  CXXFLAGS="${CXXFLAGS} -g -O2 -Wunused-value -Wunused-variable -Wunused-function -Wunused-label -Wcomment -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -Wextra -Wno-unused-parameter -Wformat -Wformat-security"
+  CFLAGS="${CFLAGS} -g -O2 -Wunused-value -Wunused-variable -Wunused-function -Wunused-label -Wcomment -Wimplicit-int -Werror-implicit-function-declaration -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -Wextra -Wno-unused-parameter -Wformat -Wformat-security"
   if test "x${enable_developer}" == "xyes"
   then
   CXXFLAGS="${CXXFLAGS} -Wall"
