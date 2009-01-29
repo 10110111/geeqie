@@ -420,14 +420,14 @@ static void layout_menu_zoom_fit_hor_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set_fill_geometry(lw, TRUE, FALSE);
+	layout_image_zoom_set_fill_geometry(lw, FALSE, FALSE);
 }
 
 static void layout_menu_zoom_fit_vert_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set_fill_geometry(lw, FALSE, FALSE);
+	layout_image_zoom_set_fill_geometry(lw, TRUE, FALSE);
 }
 
 static void layout_menu_zoom_2_1_cb(GtkAction *action, gpointer data)
@@ -504,14 +504,14 @@ static void layout_menu_connect_zoom_fit_hor_cb(GtkAction *action, gpointer data
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set_fill_geometry(lw, TRUE, TRUE);
+	layout_image_zoom_set_fill_geometry(lw, FALSE, TRUE);
 }
 
 static void layout_menu_connect_zoom_fit_vert_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_zoom_set_fill_geometry(lw, FALSE, TRUE);
+	layout_image_zoom_set_fill_geometry(lw, TRUE, TRUE);
 }
 
 static void layout_menu_connect_zoom_2_1_cb(GtkAction *action, gpointer data)
