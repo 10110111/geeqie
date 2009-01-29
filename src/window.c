@@ -182,7 +182,7 @@ static void help_browser_run(void)
 {
 	gchar *name = options->helpers.html_browser.command_name;
 	gchar *cmd = options->helpers.html_browser.command_line;
-	gchar *path = g_build_filename(options->documentation.htmldir, "index.html", NULL);
+	gchar *path = g_build_filename(GQ_HTMLDIR, "index.html", NULL);
 	gchar *result = NULL;
 	gint i;
 
@@ -247,7 +247,7 @@ void help_window_show(const gchar *key)
 		return;
 		}
 
-	path = g_build_filename(options->documentation.helpdir, "README", NULL);
+	path = g_build_filename(GQ_HELPDIR, "README", NULL);
 	help_window = help_window_new(_("Help"), "help", path, key);
 	g_free(path);
 

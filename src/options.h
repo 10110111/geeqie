@@ -249,12 +249,6 @@ struct _ConfOptions
 		} html_browser;
 	} helpers;
 
-	/* Various paths and links to documentation */
-	struct {
-		gchar *helpdir;
-		gchar *htmldir;
-	} documentation;
-	
 	/* Metadata */
 	struct {
 		gboolean enable_metadata_dirs;

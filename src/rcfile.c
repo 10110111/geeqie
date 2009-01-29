@@ -551,10 +551,6 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_BOOL(metadata.confirm_on_image_change);
 	WRITE_BOOL(metadata.confirm_on_dir_change);
 
-	WRITE_SUBTITLE("Documentation Options");
-	WRITE_CHAR(documentation.helpdir);
-	WRITE_CHAR(documentation.htmldir);
-
 	WRITE_SEPARATOR();
 	WRITE_SEPARATOR();
 
@@ -920,10 +916,6 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_BOOL(metadata.confirm_on_image_change);
 		READ_BOOL(metadata.confirm_on_dir_change);
 
-		/* Documentation */
-		READ_CHAR(documentation.helpdir);
-		READ_CHAR(documentation.htmldir);
-		
 		}
 
 	fclose(f);

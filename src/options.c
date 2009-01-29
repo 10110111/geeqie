@@ -38,8 +38,6 @@ ConfOptions *init_options(ConfOptions *options)
 	options->color_profile.use_image = TRUE;
 
 	options->dnd_icon_size = 48;
-	options->documentation.htmldir = NULL;
-	options->documentation.helpdir = NULL;
 	options->duplicates_similarity_threshold = 99;
 	
 	options->file_filter.disable = FALSE;
@@ -211,9 +209,6 @@ void setup_default_options(ConfOptions *options)
 	options->shell.path = g_strdup(GQ_DEFAULT_SHELL_PATH);
 	options->shell.options = g_strdup(GQ_DEFAULT_SHELL_OPTIONS);
 	
-	options->documentation.htmldir = g_strdup(GQ_HTMLDIR);
-	options->documentation.helpdir = g_strdup(GQ_HELPDIR);
-
 	for (i = 0; ExifUIList[i].key; i++)
 		ExifUIList[i].current = ExifUIList[i].default_value;
 }
