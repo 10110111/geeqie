@@ -1239,7 +1239,7 @@ void image_zoom_set(ImageWindow *imd, gdouble zoom)
 	pixbuf_renderer_zoom_set((PixbufRenderer *)imd->pr, zoom);
 }
 
-void image_zoom_set_fill_geometry(ImageWindow *imd, gint vertical)
+void image_zoom_set_fill_geometry(ImageWindow *imd, gboolean vertical)
 {
 	PixbufRenderer *pr;
 	gdouble zoom;

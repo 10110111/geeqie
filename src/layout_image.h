@@ -50,7 +50,7 @@ void layout_image_scroll(LayoutWindow *lw, gint x, gint y, gboolean connect_scro
 void layout_image_zoom_adjust(LayoutWindow *lw, gdouble increment, gboolean connect_zoom);
 void layout_image_zoom_adjust_at_point(LayoutWindow *lw, gdouble increment, gint x, gint y, gboolean connect_zoom);
 void layout_image_zoom_set(LayoutWindow *lw, gdouble zoom, gboolean connect_zoom);
-void layout_image_zoom_set_fill_geometry(LayoutWindow *lw, gint vertical, gboolean connect_zoom);
+void layout_image_zoom_set_fill_geometry(LayoutWindow *lw, gboolean vertical, gboolean connect_zoom);
 void layout_image_alter(LayoutWindow *lw, AlterType type);
 
 void layout_image_next(LayoutWindow *lw);

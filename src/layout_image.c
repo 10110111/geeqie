@@ -864,7 +864,7 @@ void layout_image_zoom_set(LayoutWindow *lw, gdouble zoom, gboolean connect_zoom
 		}
 }
 
-void layout_image_zoom_set_fill_geometry(LayoutWindow *lw, gint vertical, gboolean connect_zoom)
+void layout_image_zoom_set_fill_geometry(LayoutWindow *lw, gboolean vertical, gboolean connect_zoom)
 {
 	gint i;
 	if (!layout_valid(&lw)) return;

@@ -79,7 +79,7 @@ void image_zoom_adjust(ImageWindow *imd, gdouble increment);
 void image_zoom_adjust_at_point(ImageWindow *imd, gdouble increment, gint x, gint y);
 void image_zoom_set_limits(ImageWindow *imd, gdouble min, gdouble max);
 void image_zoom_set(ImageWindow *imd, gdouble zoom);
-void image_zoom_set_fill_geometry(ImageWindow *imd, gint vertical);
+void image_zoom_set_fill_geometry(ImageWindow *imd, gboolean vertical);
 gdouble image_zoom_get(ImageWindow *imd);
 gdouble image_zoom_get_real(ImageWindow *imd);
 gchar *image_zoom_get_as_text(ImageWindow *imd);
