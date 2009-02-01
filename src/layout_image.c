@@ -1658,7 +1658,12 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 		{
 		layout_image_activate(lw, 0);
 		}
-
+	else
+		{
+		/* this will draw the frame around selected image (image_select)
+		   on switch from single to split images */
+		layout_image_activate(lw, lw->active_split_image);
+		}
 }
 
 GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
