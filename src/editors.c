@@ -151,6 +151,7 @@ static gboolean editor_read_desktop_file(const gchar *path)
 	gchar *extensions;
 	const gchar *key = filename_from_path(path);
 	gchar **categories, **only_show_in, **not_show_in;
+	gchar *try_exec;
 
 	if (g_hash_table_lookup(editors, key)) return FALSE; /* the file found earlier wins */
 	
@@ -219,6 +220,16 @@ static gboolean editor_read_desktop_file(const gchar *path)
 				}
 		if (found) editor->hidden = TRUE;
 		g_strfreev(not_show_in);
+		}
+		
+		
+	try_exec = g_key_file_get_string(key_file, DESKTOP_GROUP, "TryExec", NULL);
+	if (try_exec && !editor->hidden)
+		{
+		gchar *try_exec_res = g_find_program_in_path(try_exec);
+		if (!try_exec_res) editor->hidden = TRUE;
+		g_free(try_exec_res);
+		g_free(try_exec);
 		}
 		
 	if (editor->hidden) 
@@ -326,7 +337,7 @@ void editor_load_descriptions(void)
 	else
 		xdg_data_dirs = g_strdup("/usr/share");
 	
-	all_dirs = g_strconcat(get_rc_dir(), ":", GQ_APP_DIR, ":", xdg_data_dirs, NULL);
+	all_dirs = g_strconcat(get_rc_dir(), ":", GQ_APP_DIR, ":", xdg_data_home_get(), ":", xdg_data_dirs, NULL);
 	
 	g_free(xdg_data_dirs);
 
