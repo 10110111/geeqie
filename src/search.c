@@ -657,12 +657,12 @@ static void search_result_remove_selection(SearchData *sd)
 	search_status_update(sd);
 }
 
-static void search_result_edit_selected(SearchData *sd, gint n)
+static void search_result_edit_selected(SearchData *sd, const gchar *key)
 {
 	GList *list;
 
 	list = search_result_selection_list(sd);
-	file_util_start_editor_from_filelist(n, list, sd->window);
+	file_util_start_editor_from_filelist(key, list, sd->window);
 	filelist_free(list);
 }
 
@@ -908,13 +908,12 @@ static void sr_menu_select_none_cb(GtkWidget *widget, gpointer data)
 static void sr_menu_edit_cb(GtkWidget *widget, gpointer data)
 {
 	SearchData *sd;
-	gint n;
+	const gchar *key = data;
 
 	sd = submenu_item_get_data(widget);
-	n = GPOINTER_TO_INT(data);
 	if (!sd) return;
 
-	search_result_edit_selected(sd, n);
+	search_result_edit_selected(sd, key);
 }
 
 static void sr_menu_info_cb(GtkWidget *widget, gpointer data)
@@ -1282,11 +1281,12 @@ static gint search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpo
 				stop_signal = FALSE;
 				break;
 			}
-
+#if 0
 		if (edit_val >= 0)
 			{
 			search_result_edit_selected(sd, edit_val);
 			}
+#endif
 		}
 	else
 		{

@@ -31,6 +31,7 @@
 #include "cache_maint.h"
 #include "thumb.h"
 #include "metadata.h"
+#include "editors.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -770,6 +771,8 @@ gint main(gint argc, gchar *argv[])
 	keys_load();
 	filter_add_defaults();
 	filter_rebuild();
+
+	editor_load_descriptions();
 
 	accel_map_load();
 

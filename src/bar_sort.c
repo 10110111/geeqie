@@ -44,7 +44,7 @@ typedef enum {
 	BAR_SORT_COPY = 0,
 	BAR_SORT_MOVE,
 	BAR_SORT_FILTER,
-	BAR_SORT_ACTION_COUNT = BAR_SORT_FILTER + GQ_EDITOR_GENERIC_SLOTS
+	BAR_SORT_ACTION_COUNT
 } SortActionType;
 
 typedef enum {
@@ -65,6 +65,8 @@ struct _SortData
 
 	SortModeType mode;
 	SortActionType action;
+	const gchar *filter_key;
+	
 	SortSelectionType selection;
 
 	GtkWidget *folder_group;
@@ -282,13 +284,12 @@ static void bar_sort_bookmark_select_folder(SortData *sd, FileData *source, cons
 			file_util_move_simple(list, path, sd->lw->window);
 			list = NULL;
 			break;
+		case BAR_SORT_FILTER:
+			file_util_start_filter_from_filelist(sd->filter_key, list, path, sd->lw->window);
+			list = NULL;
+			layout_image_next(sd->lw);
+			break;
 		default:
-			if (sd->action >= BAR_SORT_FILTER && sd->action < BAR_SORT_ACTION_COUNT)
-				{
-				file_util_start_filter_from_filelist(sd->action - BAR_SORT_FILTER, list, path, sd->lw->window);
-				list = NULL;
-				layout_image_next(sd->lw);
-				}
 			break;
 		}
 
@@ -348,35 +349,46 @@ static void bar_sort_bookmark_select(const gchar *path, gpointer data)
 		}
 }
 
-static void bar_sort_set_action(SortData *sd, SortActionType action)
+static void bar_sort_set_action(SortData *sd, SortActionType action, const gchar *filter_key)
 {
 	options->panels.sort.action_state = sd->action = action;
+	if (action == BAR_SORT_FILTER)
+		{
+		if (!filter_key) filter_key = "";
+		sd->filter_key = filter_key;
+		g_free(options->panels.sort.action_filter);
+		options->panels.sort.action_filter = g_strdup(filter_key);
+		}
+	else
+		{
+		sd->filter_key = NULL;
+		g_free(options->panels.sort.action_filter);
+		options->panels.sort.action_filter = g_strdup("");
+		}
 }
 
 static void bar_sort_set_copy_cb(GtkWidget *button, gpointer data)
 {
 	SortData *sd = data;
 	if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))) return;
-	bar_sort_set_action(sd, BAR_SORT_COPY);
+	bar_sort_set_action(sd, BAR_SORT_COPY, NULL);
 }
 
 static void bar_sort_set_move_cb(GtkWidget *button, gpointer data)
 {
 	SortData *sd = data;
 	if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))) return;
-	bar_sort_set_action(sd, BAR_SORT_MOVE);
+	bar_sort_set_action(sd, BAR_SORT_MOVE, NULL);
 }
 
 static void bar_sort_set_filter_cb(GtkWidget *button, gpointer data)
 {
 	SortData *sd = data;
-	guint n;
+	const gchar *key;
 
 	if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))) return;
-	n = GPOINTER_TO_UINT(g_object_get_data(G_OBJECT(button), "filter_idx"));
-	if (n == 0) return;
-	n--;
-	bar_sort_set_action(sd, BAR_SORT_FILTER + n);
+	key = g_object_get_data(G_OBJECT(button), "filter_key");
+	bar_sort_set_action(sd, BAR_SORT_FILTER, key);
 }
 
 static void bar_sort_set_selection(SortData *sd, SortSelectionType selection)
@@ -551,7 +563,8 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 	GtkWidget *tbar;
 	GtkWidget *combo;
 	SortModeType mode;
-	guint i;
+	GList *editors_list, *work;
+	gboolean have_filter;
 
 	if (!lw) return NULL;
 
@@ -562,7 +575,9 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 	mode = CLAMP(options->panels.sort.mode_state, 0, BAR_SORT_MODE_COUNT - 1);
 	sd->action = CLAMP(options->panels.sort.action_state, 0, BAR_SORT_ACTION_COUNT - 1);
 	
-	while (sd->action >= BAR_SORT_FILTER && !editor_is_filter(sd->action - BAR_SORT_FILTER)) sd->action--;
+	if (sd->action == BAR_SORT_FILTER && 
+	    (!options->panels.sort.action_filter || !options->panels.sort.action_filter[0]))
+		sd->action = BAR_SORT_COPY;
 	
 	sd->selection = CLAMP(options->panels.sort.selection_state, 0, BAR_SORT_SELECTION_COUNT - 1);
 	sd->undo_src = NULL;
@@ -598,21 +613,35 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 			     G_CALLBACK(bar_sort_set_move_cb), sd);
 
 
-	for (i = 0; i < GQ_EDITOR_GENERIC_SLOTS; i++)
+	have_filter = FALSE;
+	editors_list = editor_list_get();
+	work = editors_list;
+	while (work)
 		{
 		GtkWidget *button;
+		EditorDescription *editor = work->data;
+		work = work->next;
+		gboolean select = FALSE;
+		
+		if (!editor_is_filter(editor->key)) continue;
 
-		const gchar *name = editor_get_name(i);
-		if (!name || !editor_is_filter(i)) continue;
+		if (sd->action == BAR_SORT_FILTER && strcmp(editor->key, options->panels.sort.action_filter) == 0)
+			{
+			bar_sort_set_action(sd, sd->action, editor->key);
+			select = TRUE;
+			have_filter = TRUE;
+			}
 
 		button = pref_radiobutton_new(sd->folder_group, buttongrp,
-					      name, (sd->action == BAR_SORT_FILTER + i),
+					      editor->name, select,
 					      G_CALLBACK(bar_sort_set_filter_cb), sd);
 
 
-		g_object_set_data(G_OBJECT(button), "filter_idx", GUINT_TO_POINTER(i + 1));
+		g_object_set_data(G_OBJECT(button), "filter_key", editor->key);
 		}
-
+	g_list_free(editors_list);
+	
+	if (sd->action == BAR_SORT_FILTER && !have_filter) sd->action = BAR_SORT_COPY;
 
 	sd->collection_group = pref_box_new(sd->vbox, FALSE, GTK_ORIENTATION_VERTICAL, 0);
 

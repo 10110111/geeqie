@@ -1,0 +1,24 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Symlink
+#Name[cs]=
+
+# FIXME: this can't be an oneliner, it needs to be changed to a full
+# featured script in separate file, with error handling etc.
+# expansion of environment variables directly in Exec is not supported 
+# by the specification and it will be removed
+Exec=ln -s %f "$GEEQIE_DESTINATION"
+
+# Desktop files that are usable only in Geeqie should be marked like this:
+Categories=X-Geeqie;
+OnlyShowIn=X-Geeqie;
+
+# Show in menu "File"
+X-Geeqie-Menu-Path=FileMenu
+
+# This is a filter - $GEEQIE_DESTINATION is required
+X-Geeqie-Filter=true
+
+# It can be made verbose
+# X-Geeqie-Verbose=true

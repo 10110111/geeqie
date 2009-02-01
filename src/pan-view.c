@@ -1330,7 +1330,7 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 				stop_signal = FALSE;
 				break;
 			}
-
+#if 0
 		if (n != -1 && fd)
 			{
 			if (!editor_window_flag_set(n))
@@ -1339,6 +1339,7 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 				}
 			file_util_start_editor_from_file(n, fd, GTK_WIDGET(pr));
 			}
+#endif
 		}
 	else
 		{
@@ -2669,20 +2670,19 @@ static void pan_edit_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw;
 	FileData *fd;
-	gint n;
+	const gchar *key = data;
 
 	pw = submenu_item_get_data(widget);
-	n = GPOINTER_TO_INT(data);
 	if (!pw) return;
 
 	fd = pan_menu_click_fd(pw);
 	if (fd)
 		{
-		if (!editor_window_flag_set(n))
+		if (!editor_window_flag_set(key))
 			{
 			pan_fullscreen_toggle(pw, TRUE);
 			}
-		file_util_start_editor_from_file(n, fd, pw->imd->widget);
+		file_util_start_editor_from_file(key, fd, pw->imd->widget);
 		}
 }
 

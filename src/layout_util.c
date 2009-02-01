@@ -902,18 +902,17 @@ static void layout_menu_edit_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 	GList *list;
-	gint n;
-
-	n = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "edit_index"));
-
-	if (!editor_window_flag_set(n))
+	const gchar *key = gtk_action_get_name(action);
+	
+	if (!editor_window_flag_set(key))
 		layout_exit_fullscreen(lw);
 
 	list = layout_selection_list(lw);
-	file_util_start_editor_from_filelist(n, list, lw->window);
+	file_util_start_editor_from_filelist(key, list, lw->window);
 	filelist_free(list);
 }
 
+#if 0
 static void layout_menu_edit_update(LayoutWindow *lw)
 {
 	gint i;
@@ -968,6 +967,8 @@ void layout_edit_update_all(void)
 		layout_menu_edit_update(lw);
 		}
 }
+
+#endif
 
 /*
  *-----------------------------------------------------------------------------
@@ -1109,6 +1110,7 @@ static GtkActionEntry menu_entries[] = {
   { "EditMenu",		NULL,		N_("_Edit"),			NULL, 		NULL, 	NULL },
   { "SelectMenu",	NULL,		N_("_Select"),			NULL, 		NULL, 	NULL },
   { "AdjustMenu",	NULL,		N_("_Adjust"),			NULL, 		NULL, 	NULL },
+  { "ExternalMenu",	NULL,		N_("E_xternal Editors"),	NULL, 		NULL, 	NULL },
   { "ViewMenu",		NULL,		N_("_View"),			NULL, 		NULL, 	NULL },
   { "DirMenu",          NULL,           N_("_View Directory as"),	NULL, 		NULL, 	NULL },
   { "ZoomMenu",		NULL,		N_("_Zoom"),			NULL, 		NULL, 	NULL },
@@ -1144,17 +1146,6 @@ static GtkActionEntry menu_entries[] = {
   { "CopyPath",		NULL,		N_("_Copy path"),	NULL,		NULL,	CB(layout_menu_copy_path_cb) },
   { "CloseWindow",	GTK_STOCK_CLOSE,N_("C_lose window"),	"<control>W",	NULL,	CB(layout_menu_close_cb) },
   { "Quit",		GTK_STOCK_QUIT, N_("_Quit"),		"<control>Q",	NULL,	CB(layout_menu_exit_cb) },
-
-  { "Editor0",		NULL,		"editor0",		NULL,		NULL,	CB(layout_menu_edit_cb) },
-  { "Editor1",		NULL,		"editor1",		NULL,		NULL,	CB(layout_menu_edit_cb) },
-  { "Editor2",		NULL,		"editor2",		NULL,		NULL,	CB(layout_menu_edit_cb) },
-  { "Editor3",		NULL,		"editor3",		NULL,		NULL,	CB(layout_menu_edit_cb) },
-  { "Editor4",		NULL,		"editor4",		NULL,		NULL,	CB(layout_menu_edit_cb) },
-  { "Editor5",		NULL,		"editor5",		NULL,		NULL,	CB(layout_menu_edit_cb) },
-  { "Editor6",		NULL,		"editor6",		NULL,		NULL,	CB(layout_menu_edit_cb) },
-  { "Editor7",		NULL,		"editor7",		NULL,		NULL,	CB(layout_menu_edit_cb) },
-  { "Editor8",		NULL,		"editor8",		NULL,		NULL,	CB(layout_menu_edit_cb) },
-  { "Editor9",		NULL,		"editor9",		NULL,		NULL,	CB(layout_menu_edit_cb) },
 
   { "RotateCW",		NULL,	N_("_Rotate clockwise"),	"bracketright",	NULL,	CB(layout_menu_alter_90_cb) },
   { "RotateCCW",	NULL,	N_("Rotate _counterclockwise"),	"bracketleft",	NULL,	CB(layout_menu_alter_90cc_cb) },
@@ -1279,12 +1270,14 @@ static const gchar *menu_ui_description =
 "      <separator/>"
 "      <menuitem action='CloseWindow'/>"
 "      <menuitem action='Quit'/>"
+"      <separator/>"
 "    </menu>"
 "    <menu action='GoMenu'>"
 "      <menuitem action='FirstImage'/>"
 "      <menuitem action='PrevImage'/>"
 "      <menuitem action='NextImage'/>"
 "      <menuitem action='LastImage'/>"
+"      <separator/>"
 "    </menu>"
 "    <menu action='SelectMenu'>"
 "      <menuitem action='SelectAll'/>"
@@ -1295,17 +1288,6 @@ static const gchar *menu_ui_description =
 "      <separator/>"
 "    </menu>"
 "    <menu action='EditMenu'>"
-"      <menuitem action='Editor0'/>"
-"      <menuitem action='Editor1'/>"
-"      <menuitem action='Editor2'/>"
-"      <menuitem action='Editor3'/>"
-"      <menuitem action='Editor4'/>"
-"      <menuitem action='Editor5'/>"
-"      <menuitem action='Editor6'/>"
-"      <menuitem action='Editor7'/>"
-"      <menuitem action='Editor8'/>"
-"      <menuitem action='Editor9'/>"
-"      <separator/>"
 "      <menu action='AdjustMenu'>"
 "        <menuitem action='RotateCW'/>"
 "        <menuitem action='RotateCCW'/>"
@@ -1321,6 +1303,9 @@ static const gchar *menu_ui_description =
 "      <menuitem action='Maintenance'/>"
 "      <separator/>"
 "      <menuitem action='Wallpaper'/>"
+"      <separator/>"
+"      <menu action='ExternalMenu'>"
+"      </menu>"
 "    </menu>"
 "    <menu action='ViewMenu'>"
 "      <menuitem action='ViewInNewWindow'/>"
@@ -1386,6 +1371,7 @@ static const gchar *menu_ui_description =
 "      <menuitem action='SlideShow'/>"
 "      <menuitem action='SlideShowPause'/>"
 "      <menuitem action='Refresh'/>"
+"      <separator/>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
 "      <separator/>"
@@ -1396,6 +1382,7 @@ static const gchar *menu_ui_description =
 "      <menuitem action='About'/>"
 "      <separator/>"
 "      <menuitem action='LogWindow'/>"
+"      <separator/>"
 "    </menu>"
 "  </menubar>"
 "<accelerator action='PrevImageAlt1'/>"
@@ -1503,6 +1490,116 @@ static void layout_actions_setup_marks(LayoutWindow *lw)
 	g_string_free(desc, TRUE);
 }
 
+static gint layout_actions_editor_sort(gconstpointer a, gconstpointer b)
+{
+	const EditorDescription *ea = a;
+	const EditorDescription *eb = b;
+	int ret;
+	
+	ret = strcmp(ea->menu_path, eb->menu_path);
+	if (ret != 0) return ret;
+	
+	return g_utf8_collate(ea->name, eb->name);
+}
+
+static GList *layout_actions_editor_menu_path(EditorDescription *editor)
+{
+	gchar **split = g_strsplit(editor->menu_path, "/", 0);
+	gint i = 0;
+	GList *ret = NULL;
+	
+	if (split[0] == NULL) 
+		{
+		g_strfreev(split);
+		return NULL;
+		}
+	
+	while(split[i])
+		{
+		ret = g_list_prepend(ret, g_strdup(split[i]));
+		i++;
+		}
+	
+	g_strfreev(split);
+	
+	ret = g_list_prepend(ret, g_strdup(editor->key));
+	
+	return g_list_reverse(ret);
+}
+
+static void layout_actions_editor_add(GString *desc, GList *path, GList *old_path)
+{
+	gint to_open, to_close, i;
+	while (path && old_path && strcmp((gchar *)path->data, (gchar *)old_path->data) == 0)
+		{
+		path = path->next;
+		old_path = old_path->next;
+		}
+	to_open = g_list_length(path) - 1;
+	to_close = g_list_length(old_path) - 1;
+	
+	for (i =  0; i < to_close; i++)
+		{
+		g_string_append(desc,	"    </menu>");
+		}
+
+	for (i =  0; i < to_open; i++)
+		{
+		g_string_append_printf(desc,	"    <menu action='%s'>", (gchar *)path->data);
+		path = path->next;
+		}
+	
+	if (path)
+		g_string_append_printf(desc, "      <menuitem action='%s'/>", (gchar *)path->data);
+}
+
+static void layout_actions_setup_editors(LayoutWindow *lw)
+{
+	GError *error;
+	GList *editors_list;
+	GList *work;
+	GList *old_path;
+	GString *desc = g_string_new(
+				"<ui>"
+				"  <menubar name='MainMenu'>");
+
+	editors_list = editor_list_get();
+	editors_list = g_list_sort(editors_list, layout_actions_editor_sort);
+	
+	old_path = NULL;
+	work = editors_list;
+	while(work)
+		{
+		GList *path;
+		EditorDescription *editor = work->data;
+		GtkActionEntry entry = { editor->key, NULL, editor->name, editor->hotkey, NULL, G_CALLBACK(layout_menu_edit_cb) };
+		gtk_action_group_add_actions(lw->action_group, &entry, 1, lw);
+		
+		path = layout_actions_editor_menu_path(editor);
+		layout_actions_editor_add(desc, path, old_path);
+		
+		string_list_free(old_path);
+		old_path = path;
+		work = work->next;
+		}
+
+	layout_actions_editor_add(desc, NULL, old_path);
+	string_list_free(old_path);
+
+	g_string_append(desc,   "  </menubar>"
+				"</ui>" );
+
+	error = NULL;
+	if (!gtk_ui_manager_add_ui_from_string(lw->ui_manager, desc->str, -1, &error))
+		{
+		g_message("building menus failed: %s", error->message);
+		g_error_free(error);
+		exit(EXIT_FAILURE);
+		}
+	g_string_free(desc, TRUE);
+	g_list_free(editors_list);
+}
+
 void layout_actions_setup(LayoutWindow *lw)
 {
 	GError *error;
@@ -1539,6 +1636,7 @@ void layout_actions_setup(LayoutWindow *lw)
 		}
 	
 	layout_actions_setup_marks(lw);
+	layout_actions_setup_editors(lw);
 	layout_copy_path_update(lw);
 }
 
@@ -1775,7 +1873,7 @@ void layout_util_sync(LayoutWindow *lw)
 	layout_util_sync_views(lw);
 	layout_util_sync_thumb(lw);
 	layout_menu_recent_update(lw);
-	layout_menu_edit_update(lw);
+//	layout_menu_edit_update(lw);
 }
 
 /*

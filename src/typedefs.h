@@ -38,14 +38,11 @@ typedef enum {
 	FILEVIEW_ICON
 } FileViewType;
 
-typedef enum {
-	CMD_COPY = GQ_EDITOR_GENERIC_SLOTS,
-	CMD_MOVE,
-	CMD_RENAME,
-	CMD_DELETE,
-	CMD_FOLDER,
-	GQ_EDITOR_SLOTS
-} SpecialEditor;
+#define	CMD_COPY     "geeqie-copy-command.desktop"
+#define	CMD_MOVE     "geeqie-move-command.desktop"
+#define	CMD_RENAME   "geeqie-rename-command.desktop"
+#define	CMD_DELETE   "geeqie-delete-command.desktop"
+#define	CMD_FOLDER   "geeqie-folder-command.desktop"
 
 typedef enum {
 	SORT_NONE,
@@ -202,11 +199,21 @@ typedef struct _SecureSaveInfo SecureSaveInfo;
 
 typedef struct _ExifData ExifData;
 
-typedef struct _Editor Editor;
-struct _Editor {
-	gchar *name;
-	gchar *command;
+typedef struct _EditorDescription EditorDescription;
+
+struct _EditorDescription {
+	gchar *key; /* desktop file name, not including path, including extension */
+	gchar *name; /* localized name presented to user */
+	gchar *exec;
+	gchar *menu_path;
+	gchar *hotkey;
+	GList *ext_list;
+	gchar *icon;
+	gchar *file;
+	gint flags;
+	gboolean hidden;
 };
+
 
 struct _ImageLoader;
 
@@ -744,7 +751,6 @@ struct _SecureSaveInfo {
 	gint preserve_mtime; /**< whether to preserve mtime, FALSE by default */
 	gint unlink_on_error; /**< whether to remove temporary file on save failure, TRUE by default */
 };
-
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

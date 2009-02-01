@@ -431,6 +431,7 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 				stop_signal = FALSE;
 				break;
 			}
+#if 0
 		if (n != -1)
 			{
 			if (!editor_window_flag_set(n))
@@ -440,6 +441,7 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 			imd = view_window_active_image(vw);
 			file_util_start_editor_from_file(n, image_get_fd(imd), imd->widget);
 			}
+#endif
 		}
 	else if (event->state & GDK_SHIFT_MASK)
 		{
@@ -1074,19 +1076,18 @@ static void view_edit_cb(GtkWidget *widget, gpointer data)
 {
 	ViewWindow *vw;
 	ImageWindow *imd;
-	gint n;
+	const gchar *key = data;
 
 	vw = submenu_item_get_data(widget);
-	n = GPOINTER_TO_INT(data);
 	if (!vw) return;
 
-	if (!editor_window_flag_set(n))
+	if (!editor_window_flag_set(key))
 		{
 		view_fullscreen_toggle(vw, TRUE);
 		}
 
 	imd = view_window_active_image(vw);
-	file_util_start_editor_from_file(n, image_get_fd(imd), imd->widget);
+	file_util_start_editor_from_file(key, image_get_fd(imd), imd->widget);
 }
 
 static void view_alter_cb(GtkWidget *widget, gpointer data)

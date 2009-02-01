@@ -309,16 +309,15 @@ static void li_pop_menu_zoom_fit_cb(GtkWidget *widget, gpointer data)
 static void li_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw;
-	gint n;
+	const gchar *key = data;
 
 	lw = submenu_item_get_data(widget);
-	n = GPOINTER_TO_INT(data);
 
-	if (!editor_window_flag_set(n))
+	if (!editor_window_flag_set(key))
 		{
 		layout_image_full_screen_stop(lw);
 		}
-	file_util_start_editor_from_file(n, layout_image_get_fd(lw), lw->window);
+	file_util_start_editor_from_file(key, layout_image_get_fd(lw), lw->window);
 }
 
 static void li_pop_menu_wallpaper_cb(GtkWidget *widget, gpointer data)

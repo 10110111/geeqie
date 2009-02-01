@@ -327,20 +327,18 @@ static void vd_drop_menu_filter_cb(GtkWidget *widget, gpointer data)
 	ViewDir *vd = data;
 	const gchar *path;
 	GList *list;
-	guint n;
-
+	const gchar *key;
+	
 	if (!vd->drop_fd) return;
 	
-	n = GPOINTER_TO_UINT(g_object_get_data(G_OBJECT(widget), "filter_idx"));
-	if (n == 0) return;
-	n--;
+	key = g_object_get_data(G_OBJECT(widget), "filter_key");
 
 	path = vd->drop_fd->path;
 	list = vd->drop_list;
 
 	vd->drop_list = NULL;
 
-	file_util_start_filter_from_filelist(n, list, path, vd->widget);
+	file_util_start_filter_from_filelist(key, list, path, vd->widget);
 }
 
 
@@ -348,7 +346,8 @@ static void vd_drop_menu_filter_cb(GtkWidget *widget, gpointer data)
 GtkWidget *vd_drop_menu(ViewDir *vd, gint active)
 {
 	GtkWidget *menu;
-	guint i;
+	GList *editors_list = editor_list_get();
+	GList *work = editors_list;
 
 	menu = popup_menu_short_lived();
 	g_signal_connect(G_OBJECT(menu), "destroy",
@@ -358,17 +357,19 @@ GtkWidget *vd_drop_menu(ViewDir *vd, gint active)
 				      G_CALLBACK(vd_drop_menu_copy_cb), vd);
 	menu_item_add_sensitive(menu, _("_Move"), active, G_CALLBACK(vd_drop_menu_move_cb), vd);
 
-	for (i = 0; i < GQ_EDITOR_GENERIC_SLOTS; i++)
+	while (work)
 		{
 		GtkWidget *item;
+		const EditorDescription *editor = work->data;
+		work = work->next;
+		
+		if (!editor_is_filter(editor->key)) continue;
+		item = menu_item_add_sensitive(menu, editor->name, active, G_CALLBACK(vd_drop_menu_filter_cb), vd);
 
-		const gchar *name = editor_get_name(i);
-		if (!name || !editor_is_filter(i)) continue;
-
-		item = menu_item_add_sensitive(menu, name, active, G_CALLBACK(vd_drop_menu_filter_cb), vd);
-
-		g_object_set_data(G_OBJECT(item), "filter_idx", GUINT_TO_POINTER(i + 1));
+		g_object_set_data(G_OBJECT(item), "filter_key", editor->key);
 		}
+	
+	g_list_free(editors_list);
 
 	menu_item_add_divider(menu);
 	menu_item_add_stock(menu, _("Cancel"), GTK_STOCK_CANCEL, NULL, vd);

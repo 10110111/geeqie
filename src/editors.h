@@ -18,6 +18,7 @@
 #define	EDITOR_KEEP_FS            0x00000001
 #define	EDITOR_VERBOSE            0x00000002
 #define	EDITOR_VERBOSE_MULTI      0x00000004
+#define EDITOR_TERMINAL		  0x00000008
 
 #define	EDITOR_DEST               0x00000100
 #define	EDITOR_FOR_EACH           0x00000200
@@ -42,6 +43,11 @@ enum {
 				   must be called later */
 };
 
+extern GHashTable *editors;
+
+void editor_load_descriptions(void);
+GList *editor_list_get(void);
+
 
 /*
 Callback is called even on skipped files, with the EDITOR_ERROR_SKIPPED flag set.
@@ -54,28 +60,23 @@ data - generic pointer
 */
 typedef gint (*EditorCallback) (gpointer ed, gint flags, GList *list, gpointer data);
 
-void editor_set_name(gint n, gchar *name);
-void editor_set_command(gint n, gchar *command);
-
 
 void editor_resume(gpointer ed);
 void editor_skip(gpointer ed);
 
 
-gint editor_command_parse(const gchar *template, GList *list, gchar **output);
 
-void editor_reset_defaults(void);
-gint start_editor_from_file(gint n, FileData *fd);
-gint start_editor_from_filelist(gint n, GList *list);
-gint start_editor_from_file_full(gint n, FileData *fd, EditorCallback cb, gpointer data);
-gint start_editor_from_filelist_full(gint n, GList *list, EditorCallback cb, gpointer data);
-gint editor_window_flag_set(gint n);
-gint editor_is_filter(gint n);
+gint start_editor_from_file(const gchar *key, FileData *fd);
+gint start_editor_from_filelist(const gchar *key, GList *list);
+gint start_editor_from_file_full(const gchar *key, FileData *fd, EditorCallback cb, gpointer data);
+gint start_editor_from_filelist_full(const gchar *key, GList *list, EditorCallback cb, gpointer data);
+gint editor_window_flag_set(const gchar *key);
+gint editor_is_filter(const gchar *key);
 const gchar *editor_get_error_str(gint flags);
 
-const gchar *editor_get_name(gint n);
+const gchar *editor_get_name(const gchar *key);
 
-gboolean is_valid_editor_command(gint n);
+gboolean is_valid_editor_command(const gchar *key);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -110,9 +110,6 @@ struct _ConfOptions
 		gboolean rectangular_selection;
 	} collections;
 
-	/* editors */
-	Editor editor[GQ_EDITOR_SLOTS];
-
 	/* shell */
 	struct {
 		gchar *path;
@@ -221,6 +218,7 @@ struct _ConfOptions
 			gint mode_state;
 			gint action_state;
 			gint selection_state;
+			gchar *action_filter;
 		} sort;
 	} panels;
 

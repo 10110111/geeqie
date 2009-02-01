@@ -64,26 +64,22 @@ gpointer submenu_item_get_data(GtkWidget *menu)
  *-----------------------------------------------------------------------------
  */
 
-static void add_edit_items(GtkWidget *menu, GCallback func, GtkAccelGroup *accel_grp)
+static void add_edit_items(GtkWidget *menu, GCallback func)
 {
-	gint i;
+	GList *editors_list = editor_list_get();
+	GList *work = editors_list;
 
-	for (i = 0; i < GQ_EDITOR_GENERIC_SLOTS; i++)
+	while (work)
 		{
-		gchar *text;
-		const gchar *name = editor_get_name(i);
-
-		if (!name) continue;
-
-		text = g_strdup_printf(_("_%d %s..."), i, name);
-		if (accel_grp)
-			add_menu_item(menu, text, accel_grp, i + 49, GDK_CONTROL_MASK, func, GINT_TO_POINTER(i));
-		else
-			menu_item_add(menu, text, func, GINT_TO_POINTER(i));
-		g_free(text);
+		const EditorDescription *editor = work->data;
+		work = work->next;
 		
+		menu_item_add(menu, editor->name, func, editor->key);
 		}
+	
+	g_list_free(editors_list);
 }
+
 
 GtkWidget *submenu_add_edit(GtkWidget *menu, GtkWidget **menu_item, GCallback func, gpointer data)
 {
@@ -94,7 +90,7 @@ GtkWidget *submenu_add_edit(GtkWidget *menu, GtkWidget **menu_item, GCallback fu
 
 	submenu = gtk_menu_new();
 	g_object_set_data(G_OBJECT(submenu), "submenu_data", data);
-	add_edit_items(submenu, func, NULL);
+	add_edit_items(submenu, func);
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 

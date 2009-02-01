@@ -99,8 +99,6 @@ static GtkWidget *configwindow = NULL;
 static GtkWidget *startup_path_entry;
 static GtkWidget *home_path_entry;
 static GtkListStore *filter_store = NULL;
-static GtkWidget *editor_name_entry[GQ_EDITOR_SLOTS];
-static GtkWidget *editor_command_entry[GQ_EDITOR_SLOTS];
 
 static GtkWidget *layout_widget;
 
@@ -177,6 +175,7 @@ static void config_entry_to_option(GtkWidget *entry, gchar **option, gchar *(*fu
 		}
 }
 
+#if 0
 static void config_parse_editor_entries(GtkWidget **editor_name_entry, GtkWidget **editor_command_entry)
 {
 	gint i;
@@ -223,7 +222,7 @@ static void config_parse_editor_entries(GtkWidget **editor_name_entry, GtkWidget
 
 	g_string_free(errmsg, TRUE);
 }
-
+#endif
 
 static void config_window_apply(void)
 {
@@ -231,8 +230,8 @@ static void config_window_apply(void)
 	gint i;
 	gint refresh = FALSE;
 
-	config_parse_editor_entries(editor_name_entry, editor_command_entry); 
-	layout_edit_update_all();
+//	config_parse_editor_entries(editor_name_entry, editor_command_entry); 
+//	layout_edit_update_all();
 
 	config_entry_to_option(safe_delete_path_entry, &options->file_ops.safe_delete_path, remove_trailing_slash);
 	
@@ -874,6 +873,7 @@ static void filter_disable_cb(GtkWidget *widget, gpointer data)
 				 !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
 }
 
+#if 0
 static void editor_default_ok_cb(GenericDialog *gd, gpointer data)
 {
 	gint i;
@@ -908,6 +908,7 @@ static void editor_help_cb(GtkWidget *widget, gpointer data)
 {
 	help_window_show("editors");
 }
+#endif
 
 static void safe_delete_view_cb(GtkWidget *widget, gpointer data)
 {
@@ -1389,7 +1390,7 @@ static void config_tab_filtering(GtkWidget *notebook)
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 }
-
+#if 0
 /* editors tab */
 static void config_tab_editors(GtkWidget *notebook)
 {
@@ -1466,6 +1467,7 @@ static void config_tab_editors(GtkWidget *notebook)
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 }
+#endif
 
 /* properties tab */
 static void config_tab_properties(GtkWidget *notebook)
@@ -1756,7 +1758,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 		entry = gtk_entry_new();
 		gtk_entry_set_max_length(GTK_ENTRY(entry), EDITOR_NAME_MAX_LENGTH);
-		gtk_widget_set_size_request(editor_name_entry[i], 30, -1);
+//		gtk_widget_set_size_request(editor_name_entry[i], 30, -1);
 		if (options->color_profile.input_name[i])
 			{
 			gtk_entry_set_text(GTK_ENTRY(entry), options->color_profile.input_name[i]);
@@ -1862,7 +1864,7 @@ static void config_window_create(void)
 	config_tab_image(notebook);
 	config_tab_windows(notebook);
 	config_tab_filtering(notebook);
-	config_tab_editors(notebook);
+//	config_tab_editors(notebook);
 	config_tab_properties(notebook);
 	config_tab_advanced(notebook);
 

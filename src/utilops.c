@@ -312,7 +312,7 @@ struct _UtilityData {
 	/* data for the operation itself, internal or external */
 	gboolean external; /* TRUE for external command, FALSE for internal */
 	
-	gint external_command;
+	gchar *external_command;
 	gpointer resume_data;
 	
 	FileUtilDoneFunc done_func;
@@ -345,7 +345,7 @@ static UtilityData *file_util_data_new(UtilityType type)
 	ud->phase = UTILITY_PHASE_START;
 	ud->update_idle_id = -1;
 	ud->perform_idle_id = -1;
-	ud->external_command = -1;
+	ud->external_command = NULL;
 	return ud;
 }
 
@@ -363,6 +363,7 @@ static void file_util_data_free(UtilityData *ud)
 	if (ud->gd) generic_dialog_close(ud->gd);
 	
 	g_free(ud->dest_path);
+	g_free(ud->external_command);
 
 	g_free(ud);
 }
@@ -791,29 +792,29 @@ void file_util_perform_ci(UtilityData *ud)
 	switch (ud->type)
 		{
 		case UTILITY_TYPE_COPY:
-			ud->external_command = CMD_COPY;
+			ud->external_command = g_strdup(CMD_COPY);
 			break;
 		case UTILITY_TYPE_MOVE:
-			ud->external_command = CMD_MOVE;
+			ud->external_command = g_strdup(CMD_MOVE);
 			break;
 		case UTILITY_TYPE_RENAME:
 		case UTILITY_TYPE_RENAME_FOLDER:
-			ud->external_command = CMD_RENAME;
+			ud->external_command = g_strdup(CMD_RENAME);
 			break;
 		case UTILITY_TYPE_DELETE:
 		case UTILITY_TYPE_DELETE_LINK:
 		case UTILITY_TYPE_DELETE_FOLDER:
-			ud->external_command = CMD_DELETE;
+			ud->external_command = g_strdup(CMD_DELETE);
 			break;
 		case UTILITY_TYPE_CREATE_FOLDER:
-			ud->external_command = CMD_FOLDER;
+			ud->external_command = g_strdup(CMD_FOLDER);
 			break;
 		case UTILITY_TYPE_FILTER:
 		case UTILITY_TYPE_EDITOR:
-			g_assert(ud->external_command != -1); /* it should be already set */
+			g_assert(ud->external_command != NULL); /* it should be already set */
 			break;
 		case UTILITY_TYPE_WRITE_METADATA:
-			ud->external_command = -1;
+			ud->external_command = NULL;
 		}
 
 	if (is_valid_editor_command(ud->external_command))
@@ -1809,7 +1810,7 @@ static void file_util_rename_full(FileData *source_fd, GList *source_list, const
 	file_util_dialog_run(ud);
 }
 
-static void file_util_start_editor_full(gint n, FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase)
+static void file_util_start_editor_full(const gchar *key, FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;
 	GList *flist = filelist_copy(source_list);
@@ -1828,7 +1829,7 @@ static void file_util_start_editor_full(gint n, FileData *source_fd, GList *sour
 		return;
 		}
 
-	if (editor_is_filter(n))
+	if (editor_is_filter(key))
 		ud = file_util_data_new(UTILITY_TYPE_FILTER);
 	else
 		ud = file_util_data_new(UTILITY_TYPE_EDITOR);
@@ -1841,7 +1842,7 @@ static void file_util_start_editor_full(gint n, FileData *source_fd, GList *sour
 
 	ud->with_sidecars = TRUE;
 	
-	ud->external_command = n;
+	ud->external_command = g_strdup(key);
 
 	ud->dir_fd = NULL;
 	ud->flist = flist;
@@ -2331,24 +2332,24 @@ void file_util_rename_simple(FileData *fd, const gchar *dest_path, GtkWidget *pa
 }
 
 
-void file_util_start_editor_from_file(gint n, FileData *fd, GtkWidget *parent)
+void file_util_start_editor_from_file(const gchar *key, FileData *fd, GtkWidget *parent)
 {
-	file_util_start_editor_full(n, fd, NULL, NULL, parent, UTILITY_PHASE_ENTERING);
+	file_util_start_editor_full(key, fd, NULL, NULL, parent, UTILITY_PHASE_ENTERING);
 }
 
-void file_util_start_editor_from_filelist(gint n, GList *list, GtkWidget *parent)
+void file_util_start_editor_from_filelist(const gchar *key, GList *list, GtkWidget *parent)
 {
-	file_util_start_editor_full(n, NULL, list, NULL, parent, UTILITY_PHASE_ENTERING);
+	file_util_start_editor_full(key, NULL, list, NULL, parent, UTILITY_PHASE_ENTERING);
 }
 
-void file_util_start_filter_from_file(gint n, FileData *fd, const gchar *dest_path, GtkWidget *parent)
+void file_util_start_filter_from_file(const gchar *key, FileData *fd, const gchar *dest_path, GtkWidget *parent)
 {
-	file_util_start_editor_full(n, fd, NULL, dest_path, parent, UTILITY_PHASE_ENTERING);
+	file_util_start_editor_full(key, fd, NULL, dest_path, parent, UTILITY_PHASE_ENTERING);
 }
 
-void file_util_start_filter_from_filelist(gint n, GList *list, const gchar *dest_path, GtkWidget *parent)
+void file_util_start_filter_from_filelist(const gchar *key, GList *list, const gchar *dest_path, GtkWidget *parent)
 {
-	file_util_start_editor_full(n, NULL, list, dest_path, parent, UTILITY_PHASE_ENTERING);
+	file_util_start_editor_full(key, NULL, list, dest_path, parent, UTILITY_PHASE_ENTERING);
 }
 
 void file_util_delete_dir(FileData *fd, GtkWidget *parent)

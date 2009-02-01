@@ -208,6 +208,9 @@ AC_DEFINE_UNQUOTED(GQ_HTMLDIR, "$htmldir", [Location of html documentation])
 AC_SUBST(readmedir)
 AC_SUBST(htmldir)
 
+eval "eval appdir=${datadir}/${PACKAGE}"
+AC_DEFINE_UNQUOTED([GQ_APP_DIR], "$appdir", [Location of application data])
+
 #  LIRC support
 # ----------------------------------------------------------------------
 
@@ -351,6 +354,8 @@ AC_CONFIG_FILES([
     src/icons/svg/Makefile
     po/Makefile.in
     doc/Makefile
+    plugins/Makefile
+    plugins/symlink/Makefile
     geeqie.spec
 ])
 

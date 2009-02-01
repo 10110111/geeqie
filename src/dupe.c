@@ -2051,13 +2051,13 @@ static void dupe_window_remove_selection(DupeWindow *dw, GtkWidget *listview)
 	dupe_listview_realign_colors(dw);
 }
 
-static void dupe_window_edit_selected(DupeWindow *dw, gint n)
+static void dupe_window_edit_selected(DupeWindow *dw, const gchar *key)
 {
 	GList *list;
 
 	list = dupe_listview_get_selection(dw, dw->listview);
 
-	file_util_start_editor_from_filelist(n, list, dw->window);
+	file_util_start_editor_from_filelist(key, list, dw->window);
 
 	filelist_free(list);
 }
@@ -2139,13 +2139,12 @@ static void dupe_menu_select_dupes_set2_cb(GtkWidget *widget, gpointer data)
 static void dupe_menu_edit_cb(GtkWidget *widget, gpointer data)
 {
 	DupeWindow *dw;
-	gint n;
+	const gchar *key = data;
 
 	dw = submenu_item_get_data(widget);
-	n = GPOINTER_TO_INT(data);
 	if (!dw) return;
 
-	dupe_window_edit_selected(dw, n);
+	dupe_window_edit_selected(dw, key);
 }
 
 static void dupe_menu_info_cb(GtkWidget *widget, gpointer data)
@@ -2990,11 +2989,12 @@ static gint dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 					break;
 				}
 			}
-
+#if 0
 		if (edit_val >= 0)
 			{
 			dupe_window_edit_selected(dw, edit_val);
 			}
+#endif
 		}
 	else
 		{

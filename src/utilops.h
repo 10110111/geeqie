@@ -50,10 +50,10 @@ void file_util_move_simple(GList *list, const gchar *dest_path, GtkWidget *paren
 void file_util_copy_simple(GList *list, const gchar *dest_path, GtkWidget *parent);
 void file_util_rename_simple(FileData *fd, const gchar *dest_path, GtkWidget *parent);
 
-void file_util_start_editor_from_file(gint n, FileData *fd, GtkWidget *parent);
-void file_util_start_editor_from_filelist(gint n, GList *list, GtkWidget *parent);
-void file_util_start_filter_from_file(gint n, FileData *fd, const gchar *dest_path, GtkWidget *parent);
-void file_util_start_filter_from_filelist(gint n, GList *list, const gchar *dest_path, GtkWidget *parent);
+void file_util_start_editor_from_file(const gchar *key, FileData *fd, GtkWidget *parent);
+void file_util_start_editor_from_filelist(const gchar *key, GList *list, GtkWidget *parent);
+void file_util_start_filter_from_file(const gchar *key, FileData *fd, const gchar *dest_path, GtkWidget *parent);
+void file_util_start_filter_from_filelist(const gchar *key, GList *list, const gchar *dest_path, GtkWidget *parent);
 
 void file_util_delete_dir(FileData *source_fd, GtkWidget *parent);
 

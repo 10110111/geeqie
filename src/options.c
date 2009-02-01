@@ -131,7 +131,8 @@ ConfOptions *init_options(ConfOptions *options)
 	options->panels.sort.enabled = FALSE;
 	options->panels.sort.mode_state = 0;
 	options->panels.sort.selection_state = 0;
-
+	options->panels.sort.action_filter = NULL;
+	
 	options->progressive_key_scrolling = TRUE;
 	
 	options->metadata.enable_metadata_dirs = FALSE;
@@ -177,14 +178,6 @@ void setup_default_options(ConfOptions *options)
 {
 	gchar *path;
 	gint i;
-
-	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
-		{
-		editor_set_name(i, NULL);
-		editor_set_command(i, NULL);
-		}
-
-	editor_reset_defaults();
 
 	bookmark_add_default(_("Home"), homedir());
 	path = g_build_filename(homedir(), "Desktop", NULL);

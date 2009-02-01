@@ -654,18 +654,17 @@ static GList *collection_table_popup_file_list(CollectTable *ct)
 static void collection_table_popup_edit_cb(GtkWidget *widget, gpointer data)
 {
 	CollectTable *ct;
-	gint n;
+	const gchar *key = data;
 	GList *list;
 
 	ct = submenu_item_get_data(widget);
 
 	if (!ct) return;
-	n = GPOINTER_TO_INT(data);
 
 	list = collection_table_popup_file_list(ct);
 	if (list)
 		{
-		file_util_start_editor_from_filelist(n, list, ct->listview);
+		file_util_start_editor_from_filelist(key, list, ct->listview);
 		filelist_free(list);
 		}
 }

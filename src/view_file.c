@@ -299,16 +299,15 @@ GList *vf_pop_menu_file_list(ViewFile *vf)
 static void vf_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf;
-	gint n;
+	const gchar *key = data;
 	GList *list;
 
 	vf = submenu_item_get_data(widget);
-	n = GPOINTER_TO_INT(data);
 
 	if (!vf) return;
 
 	list = vf_pop_menu_file_list(vf);
-	file_util_start_editor_from_filelist(n, list, vf->listview);
+	file_util_start_editor_from_filelist(key, list, vf->listview);
 	filelist_free(list);
 }
 

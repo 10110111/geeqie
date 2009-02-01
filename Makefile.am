@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in.
 
-SUBDIRS = src po doc
-DIST_SUBDIRS = src po doc
+SUBDIRS = src po doc plugins
+DIST_SUBDIRS = src po doc plugins
 
 man_MANS = geeqie.1
 

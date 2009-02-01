@@ -353,6 +353,7 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_INT(panels.sort.action_state);
 	WRITE_INT(panels.sort.mode_state);
 	WRITE_INT(panels.sort.selection_state);
+	WRITE_CHAR(panels.sort.action_filter);
 
 	WRITE_SUBTITLE("Properties dialog Options");
 	WRITE_CHAR(properties.tabs_order);
@@ -511,7 +512,7 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_CHAR(helpers.html_browser.command_name);
 	WRITE_CHAR(helpers.html_browser.command_line);
 
-
+#if 0
 	WRITE_SUBTITLE("External Programs");
 	secure_fprintf(ssi, "# Maximum of %d programs (external_1 through external_%d)\n", GQ_EDITOR_GENERIC_SLOTS, GQ_EDITOR_GENERIC_SLOTS);
 	secure_fprintf(ssi, "# external_%d through external_%d are used for file ops\n", GQ_EDITOR_GENERIC_SLOTS + 1, GQ_EDITOR_SLOTS);
@@ -526,7 +527,7 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 		g_free(qname);
 		g_free(qcommand);
 		}
-
+#endif
 
 	WRITE_SUBTITLE("Exif Options");
 	secure_fprintf(ssi, "# Display: 0: never\n"
@@ -734,6 +735,7 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_INT(panels.sort.action_state);
 		READ_INT(panels.sort.mode_state);
 		READ_INT(panels.sort.selection_state);
+		READ_CHAR(panels.sort.action_filter);
 
 		/* properties dialog options */
 		READ_CHAR(properties.tabs_order);
@@ -878,7 +880,7 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		READ_CHAR(helpers.html_browser.command_line);
 
 		/* External Programs */
-
+#if 0
 		if (is_numbered_option(option, "external_", &i))
 			{
 			if (i > 0 && i <= GQ_EDITOR_SLOTS)
@@ -891,7 +893,7 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 				}
 			continue;
 			}
-
+#endif
 		/* Exif */
 		if (0 == g_ascii_strncasecmp(option, "exif.display.", 13))
 			{

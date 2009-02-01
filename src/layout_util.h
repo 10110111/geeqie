@@ -23,7 +23,7 @@ void layout_util_sync_thumb(LayoutWindow *lw);
 void layout_util_sync(LayoutWindow *lw);
 
 
-void layout_edit_update_all(void);
+//void layout_edit_update_all(void);
 
 void layout_recent_update_all(void);
 void layout_recent_add_path(const gchar *path);
