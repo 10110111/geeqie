@@ -1254,20 +1254,24 @@ static const gchar *menu_ui_description =
 "      <menuitem action='NewCollection'/>"
 "      <menuitem action='OpenCollection'/>"
 "      <menuitem action='OpenRecent'/>"
+"      <placeholder name='OpenSection'/>"
 "      <separator/>"
 "      <menuitem action='Search'/>"
 "      <menuitem action='FindDupes'/>"
 "      <menuitem action='PanView'/>"
+"      <placeholder name='SearchSection'/>"
 "      <separator/>"
 "      <menuitem action='Print'/>"
-"      <menuitem action='NewFolder'/>"
+"      <placeholder name='PrintSection'/>"
 "      <separator/>"
+"      <menuitem action='NewFolder'/>"
 "      <menuitem action='Copy'/>"
 "      <menuitem action='Move'/>"
 "      <menuitem action='Rename'/>"
 "      <menuitem action='Delete'/>"
-"      <menuitem action='CopyPath'/>"
+"      <placeholder name='FileOpsSection'/>"
 "      <separator/>"
+"      <placeholder name='QuitSection'/>"
 "      <menuitem action='CloseWindow'/>"
 "      <menuitem action='Quit'/>"
 "      <separator/>"
@@ -1283,11 +1287,20 @@ static const gchar *menu_ui_description =
 "      <menuitem action='SelectAll'/>"
 "      <menuitem action='SelectNone'/>"
 "      <menuitem action='SelectInvert'/>"
+"      <placeholder name='SelectSection'/>"
+"      <separator/>"
+"      <menuitem action='CopyPath'/>"
+"      <placeholder name='ClipboardSection'/>"
 "      <separator/>"
 "      <menuitem action='ShowMarks'/>"
+"      <placeholder name='MarksSection'/>"
 "      <separator/>"
 "    </menu>"
 "    <menu action='EditMenu'>"
+"      <menu action='ExternalMenu'>"
+"      </menu>"
+"      <placeholder name='EditSection'/>"
+"      <separator/>"
 "      <menu action='AdjustMenu'>"
 "        <menuitem action='RotateCW'/>"
 "        <menuitem action='RotateCCW'/>"
@@ -1298,17 +1311,18 @@ static const gchar *menu_ui_description =
 "        <menuitem action='AlterNone'/>"
 "      </menu>"
 "      <menuitem action='Properties'/>"
+"      <placeholder name='PropertiesSection'/>"
 "      <separator/>"
 "      <menuitem action='Preferences'/>"
 "      <menuitem action='Maintenance'/>"
+"      <placeholder name='PreferencesSection'/>"
 "      <separator/>"
 "      <menuitem action='Wallpaper'/>"
 "      <separator/>"
-"      <menu action='ExternalMenu'>"
-"      </menu>"
 "    </menu>"
 "    <menu action='ViewMenu'>"
 "      <menuitem action='ViewInNewWindow'/>"
+"      <placeholder name='WindowSection'/>"
 "      <separator/>"
 "      <menu action='ZoomMenu'>"
 "        <menuitem action='ZoomIn'/>"
@@ -1338,6 +1352,7 @@ static const gchar *menu_ui_description =
 "        <menuitem action='ConnectZoom33'/>"
 "        <menuitem action='ConnectZoom25'/>"
 "      </menu>"
+"      <placeholder name='ZoomSection'/>"
 "      <separator/>"
 "      <menu action='SplitMenu'>"
 "        <menuitem action='SplitHorizontal'/>"
@@ -1346,31 +1361,37 @@ static const gchar *menu_ui_description =
 "        <menuitem action='SplitSingle'/>"
 "      </menu>"
 "      <separator/>"
-"      <menuitem action='Thumbnails'/>"
 "      <menuitem action='ViewList'/>"
 "      <menuitem action='ViewIcons'/>"
+"      <menuitem action='Thumbnails'/>"
+"      <placeholder name='ListSection'/>"
 "      <separator/>"
 "      <menu action='DirMenu'>"
 "        <menuitem action='FolderList'/>"
 "        <menuitem action='FolderTree'/>"
 "      </menu>"
+"      <placeholder name='DirSection'/>"
 "      <separator/>"
 "      <menuitem action='ImageOverlay'/>"
 "      <menuitem action='HistogramChan'/>"
 "      <menuitem action='HistogramLog'/>"
 "      <menuitem action='FullScreen'/>"
+"      <placeholder name='OverlaySection'/>"
 "      <separator/>"
 "      <menuitem action='FloatTools'/>"
 "      <menuitem action='HideTools'/>"
 "      <menuitem action='HideToolbar'/>"
+"      <placeholder name='ToolsSection'/>"
 "      <separator/>"
 "      <menuitem action='SBarKeywords'/>"
 "      <menuitem action='SBarExif'/>"
 "      <menuitem action='SBarSort'/>"
+"      <placeholder name='SideBarSection'/>"
 "      <separator/>"
 "      <menuitem action='SlideShow'/>"
 "      <menuitem action='SlideShowPause'/>"
 "      <menuitem action='Refresh'/>"
+"      <placeholder name='SlideShowSection'/>"
 "      <separator/>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
@@ -1378,6 +1399,7 @@ static const gchar *menu_ui_description =
 "      <menuitem action='HelpContents'/>"
 "      <menuitem action='HelpShortcuts'/>"
 "      <menuitem action='HelpNotes'/>"
+"      <placeholder name='HelpSection'/>"
 "      <separator/>"
 "      <menuitem action='About'/>"
 "      <separator/>"
@@ -1538,14 +1560,45 @@ static void layout_actions_editor_add(GString *desc, GList *path, GList *old_pat
 	to_open = g_list_length(path) - 1;
 	to_close = g_list_length(old_path) - 1;
 	
+	if (to_close > 0)
+		{
+		old_path = g_list_last(old_path);
+		old_path = old_path->prev;
+		}
+	
 	for (i =  0; i < to_close; i++)
 		{
-		g_string_append(desc,	"    </menu>");
+		gchar *name = old_path->data;
+		if (g_str_has_suffix(name, "Section"))
+			{
+			g_string_append(desc,	"      </placeholder>");
+			}
+		else if (g_str_has_suffix(name, "Menu"))
+			{
+			g_string_append(desc,	"    </menu>");
+			}
+		else
+			{
+			g_warning("invalid menu path item %s", name);
+			}
+		old_path = old_path->prev;
 		}
 
 	for (i =  0; i < to_open; i++)
 		{
-		g_string_append_printf(desc,	"    <menu action='%s'>", (gchar *)path->data);
+		gchar *name = path->data;
+		if (g_str_has_suffix(name, "Section"))
+			{
+			g_string_append_printf(desc,	"      <placeholder name='%s'>", name);
+			}
+		else if (g_str_has_suffix(name, "Menu"))
+			{
+			g_string_append_printf(desc,	"    <menu action='%s'>", name);
+			}
+		else
+			{
+			g_warning("invalid menu path item %s", name);
+			}
 		path = path->next;
 		}
 	

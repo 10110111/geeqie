@@ -15,7 +15,7 @@ Categories=X-Geeqie;
 OnlyShowIn=X-Geeqie;
 
 # Show in menu "File"
-X-Geeqie-Menu-Path=FileMenu
+X-Geeqie-Menu-Path=FileMenu/FileOpsSection
 
 # This is a filter - $GEEQIE_DESTINATION is required
 X-Geeqie-Filter=true
