@@ -1613,7 +1613,7 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 		GList *path;
 		EditorDescription *editor = work->data;
 		GtkActionEntry entry = { editor->key, NULL, editor->name, editor->hotkey, NULL, G_CALLBACK(layout_menu_edit_cb) };
-		gtk_action_group_add_actions(lw->action_group, &entry, 1, lw);
+		gtk_action_group_add_actions(lw->action_group_external, &entry, 1, lw);
 		
 		path = layout_actions_editor_menu_path(editor);
 		layout_actions_editor_add(desc, path, old_path);
@@ -1648,6 +1648,8 @@ void layout_actions_setup(LayoutWindow *lw)
 
 	lw->action_group = gtk_action_group_new("MenuActions");
 	gtk_action_group_set_translate_func(lw->action_group, menu_translate, NULL, NULL);
+	lw->action_group_external = gtk_action_group_new("MenuActionsExternal");
+	/* lw->action_group_external contains translated entries, no translate func is required */
 
 	gtk_action_group_add_actions(lw->action_group,
 				     menu_entries, G_N_ELEMENTS(menu_entries), lw);
@@ -1666,6 +1668,7 @@ void layout_actions_setup(LayoutWindow *lw)
 	lw->ui_manager = gtk_ui_manager_new();
 	gtk_ui_manager_set_add_tearoffs(lw->ui_manager, TRUE);
 	gtk_ui_manager_insert_action_group(lw->ui_manager, lw->action_group, 0);
+	gtk_ui_manager_insert_action_group(lw->ui_manager, lw->action_group_external, 1);
 
 	error = NULL;
 	if (!gtk_ui_manager_add_ui_from_string(lw->ui_manager, menu_ui_description, -1, &error))

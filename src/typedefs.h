@@ -474,6 +474,7 @@ struct _LayoutWindow
 	/* menus, path selector */
 
 	GtkActionGroup *action_group;
+	GtkActionGroup *action_group_external;
 	GtkUIManager *ui_manager;
 
 	GtkWidget *path_entry;
