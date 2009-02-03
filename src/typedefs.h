@@ -202,15 +202,15 @@ typedef struct _ExifData ExifData;
 typedef struct _EditorDescription EditorDescription;
 
 struct _EditorDescription {
-	gchar *key; /* desktop file name, not including path, including extension */
-	gchar *name; /* localized name presented to user */
-	gchar *exec;
-	gchar *menu_path;
+	gchar *key; 		/* desktop file name, not including path, including extension */
+	gchar *name; 		/* Name, localized name presented to user */
+	gchar *icon;		/* Icon */
+	gchar *exec;		/* Exec */
+	gchar *menu_path;	
 	gchar *hotkey;
 	GList *ext_list;
-	gchar *icon;
 	gchar *file;
-	gint flags;
+	guint flags;
 	gboolean hidden;
 };
 
