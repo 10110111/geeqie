@@ -1512,18 +1512,6 @@ static void layout_actions_setup_marks(LayoutWindow *lw)
 	g_string_free(desc, TRUE);
 }
 
-static gint layout_actions_editor_sort(gconstpointer a, gconstpointer b)
-{
-	const EditorDescription *ea = a;
-	const EditorDescription *eb = b;
-	int ret;
-	
-	ret = strcmp(ea->menu_path, eb->menu_path);
-	if (ret != 0) return ret;
-	
-	return g_utf8_collate(ea->name, eb->name);
-}
-
 static GList *layout_actions_editor_menu_path(EditorDescription *editor)
 {
 	gchar **split = g_strsplit(editor->menu_path, "/", 0);
@@ -1617,7 +1605,6 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 				"  <menubar name='MainMenu'>");
 
 	editors_list = editor_list_get();
-	editors_list = g_list_sort(editors_list, layout_actions_editor_sort);
 	
 	old_path = NULL;
 	work = editors_list;

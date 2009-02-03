@@ -372,10 +372,24 @@ static void editor_list_add_cb(gpointer key, gpointer value, gpointer data)
 	*listp = g_list_prepend(*listp, editor);
 }
 
+static gint editor_sort(gconstpointer a, gconstpointer b)
+{
+	const EditorDescription *ea = a;
+	const EditorDescription *eb = b;
+	int ret;
+	
+	ret = strcmp(ea->menu_path, eb->menu_path);
+	if (ret != 0) return ret;
+	
+	return g_utf8_collate(ea->name, eb->name);
+}
+
 GList *editor_list_get(void)
 {
 	GList *editors_list = NULL;
 	g_hash_table_foreach(editors, editor_list_add_cb, &editors_list);
+	editors_list = g_list_sort(editors_list, editor_sort);
+
 	return editors_list;
 }
 
