@@ -81,11 +81,11 @@ void editor_description_free(EditorDescription *editor)
 	
 	g_free(editor->key);
 	g_free(editor->name);
+	g_free(editor->icon);
 	g_free(editor->exec);
 	g_free(editor->menu_path);
 	g_free(editor->hotkey);
 	string_list_free(editor->ext_list);
-	g_free(editor->icon);
 	g_free(editor->file);
 	g_free(editor);
 }
@@ -149,6 +149,7 @@ static gboolean editor_read_desktop_file(const gchar *path)
 	GKeyFile *key_file;
 	EditorDescription *editor;
 	gchar *extensions;
+	gchar *type;
 	const gchar *key = filename_from_path(path);
 	gchar **categories, **only_show_in, **not_show_in;
 	gchar *try_exec;
@@ -161,6 +162,13 @@ static gboolean editor_read_desktop_file(const gchar *path)
 		g_key_file_free(key_file);
 		return FALSE;
 		}
+
+	type = g_key_file_get_string(key_file, DESKTOP_GROUP, "Type", NULL);
+	if (!type || strcmp(type, "Application") != 0)
+		{
+		/* We only consider desktop entries of Application type */
+		return FALSE;
+		}
 	
 	editor = g_new0(EditorDescription, 1);
 	
@@ -169,7 +177,11 @@ static gboolean editor_read_desktop_file(const gchar *path)
 
 	g_hash_table_insert(editors, editor->key, editor);
 
-	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "Hidden", NULL)) editor->hidden = TRUE;
+	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "Hidden", NULL)
+	    || g_key_file_get_boolean(key_file, DESKTOP_GROUP, "NoDisplay", NULL))
+	    	{
+	    	editor->hidden = TRUE;
+		}
 
 	categories = g_key_file_get_string_list(key_file, DESKTOP_GROUP, "Categories", NULL, NULL);
 	if (categories)
