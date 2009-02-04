@@ -665,7 +665,10 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
      
      Carles Pina i Estany
          for copy path to clipboard patch
-  
+ 
+     Kjell Morgenstern
+         for random slide show speedup patch
+
      And...
          Thanks to the users for finding Geeqie useful.
 

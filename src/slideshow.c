@@ -66,22 +66,57 @@ static GList *generate_list(SlideShowData *ss)
 	return list;
 }
 
+static void ptr_array_add(gpointer data, GPtrArray *array)
+{
+	g_ptr_array_add(array, data);
+}
+
+static void list_prepend(gpointer data, GList **list)
+{
+	*list = g_list_prepend(*list, data);
+}
+
+static GPtrArray *generate_ptr_array_from_list(GList *src_list)
+{
+	GPtrArray *arr = g_ptr_array_sized_new(g_list_length(src_list));
+
+	g_list_foreach(src_list, (GFunc) ptr_array_add, arr);
+
+	return arr;
+}
+
+static void swap(GPtrArray *array, guint index1, guint index2)
+{
+	gpointer temp = g_ptr_array_index(array, index1);
+	
+	g_ptr_array_index(array, index1) = g_ptr_array_index(array, index2);
+	g_ptr_array_index(array, index2) = temp;
+}
+
+static void ptr_array_random_shuffle(GPtrArray *array)
+{
+	guint i;
+	for (i = 0; i < array->len; ++i)
+		{
+		guint p = (double)rand() / ((double)RAND_MAX + 1.0) * array->len;
+		swap(array, i, p);
+		}
+}
+
 static GList *generate_random_list(SlideShowData *ss)
 {
-	GList *src_list = NULL;
+	GList *src_list;
+	GPtrArray *src_array;
 	GList *list = NULL;
-	GList *work;
 
 	src_list = generate_list(ss);
+	src_array = generate_ptr_array_from_list(src_list);
+	g_list_free(src_list);
 
-	while (src_list)
-		{
-		gint p = (gdouble)rand() / ((gdouble)RAND_MAX + 1.0) * g_list_length(src_list);
-		work = g_list_nth(src_list, p);
-		list = g_list_prepend(list, work->data);
-		src_list = g_list_remove(src_list, work->data);
-		}
-
+	ptr_array_random_shuffle(src_array);
+	g_ptr_array_foreach(src_array, (GFunc) list_prepend, &list);
+	g_ptr_array_free(src_array, TRUE);
+	
 	return list;
 }
 
