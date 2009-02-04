@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 The Geeqie Team
+ * Copyright (C) 2008 - 2009 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -1955,7 +1955,7 @@ void show_about_window(void)
 	buf = g_strdup_printf(_("%s %s\n\nCopyright (c) 2006 John Ellis\nCopyright (c) %s The Geeqie Team\nwebsite: %s\nemail: %s\n\nReleased under the GNU General Public License"),
 			      GQ_APPNAME,
 			      VERSION,
-			      "2008",
+			      "2008 - 2009",
 			      GQ_WEBSITE,
 			      GQ_EMAIL_ADDRESS);
 	label = gtk_label_new(buf);

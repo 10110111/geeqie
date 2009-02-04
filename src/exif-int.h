@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- *  Copyright (C) 2008 The Geeqie Team
+ *  Copyright (C) 2008 - 2009 The Geeqie Team
  *
  *  Authors:
  *    Support for Exif file format, originally written by Eric Swalens.

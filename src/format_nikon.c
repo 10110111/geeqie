@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2005 John Ellis
- * Copyright (C) 2008 The Geeqie Team
+ * Copyright (C) 2008 - 2009 The Geeqie Team
  *
  *  Authors:
  *    Raw NEF jpeg extraction based on nefextract.c by Joseph Heled,

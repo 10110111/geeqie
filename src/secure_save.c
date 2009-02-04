@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * Copyright (C) 2008 The Geeqie Team
+ * Copyright (C) 2008 - 2009 The Geeqie Team
  *
  * based on the code developped for ELinks by Laurent Monin
  *
