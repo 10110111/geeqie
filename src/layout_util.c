@@ -1143,7 +1143,7 @@ static GtkActionEntry menu_entries[] = {
   { "Delete",	GTK_STOCK_DELETE,	N_("_Delete..."),	"<control>D",	NULL,	CB(layout_menu_delete_cb) },
   { "DeleteAlt1",GTK_STOCK_DELETE,	N_("_Delete..."),	"Delete",	NULL,	CB(layout_menu_delete_cb) },
   { "DeleteAlt2",GTK_STOCK_DELETE,	N_("_Delete..."),	"KP_Delete",	NULL,	CB(layout_menu_delete_cb) },
-  { "CopyPath",		NULL,		N_("_Copy path"),	NULL,		NULL,	CB(layout_menu_copy_path_cb) },
+  { "CopyPath",		NULL,		N_("_Copy path to clipboard"),	NULL,		NULL,	CB(layout_menu_copy_path_cb) },
   { "CloseWindow",	GTK_STOCK_CLOSE,N_("C_lose window"),	"<control>W",	NULL,	CB(layout_menu_close_cb) },
   { "Quit",		GTK_STOCK_QUIT, N_("_Quit"),		"<control>Q",	NULL,	CB(layout_menu_exit_cb) },
 
@@ -1221,7 +1221,7 @@ static GtkActionEntry menu_entries[] = {
 };
 
 static GtkToggleActionEntry menu_toggle_entries[] = {
-  { "Thumbnails",	NULL,		N_("_Thumbnails"),	"T",		NULL,	CB(layout_menu_thumb_cb),	 FALSE },
+  { "Thumbnails",	NULL,		N_("Show _Thumbnails"),	"T",		NULL,	CB(layout_menu_thumb_cb),	 FALSE },
   { "ShowMarks",        NULL,		N_("Show _Marks"),	"M",		NULL,	CB(layout_menu_marks_cb),	 FALSE  },
   { "FloatTools",	NULL,		N_("_Float file list"),	"L",		NULL,	CB(layout_menu_float_cb),	 FALSE  },
   { "HideToolbar",	NULL,		N_("Hide tool_bar"),	NULL,		NULL,	CB(layout_menu_toolbar_cb),	 FALSE  },
@@ -1232,8 +1232,8 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
-  { "ViewList",		NULL,		N_("_List"),		"<control>L",	NULL,	0 },
-  { "ViewIcons",	NULL,		N_("I_cons"),		"<control>I",	NULL,	1 }
+  { "ViewList",		NULL,		N_("View Images as _List"),		"<control>L",	NULL,	0 },
+  { "ViewIcons",	NULL,		N_("View Images as I_cons"),		"<control>I",	NULL,	1 }
 };
 
 static GtkRadioActionEntry menu_split_radio_entries[] = {
@@ -1258,7 +1258,6 @@ static const gchar *menu_ui_description =
 "      <separator/>"
 "      <menuitem action='Search'/>"
 "      <menuitem action='FindDupes'/>"
-"      <menuitem action='PanView'/>"
 "      <placeholder name='SearchSection'/>"
 "      <separator/>"
 "      <menuitem action='Print'/>"
@@ -1322,6 +1321,7 @@ static const gchar *menu_ui_description =
 "    </menu>"
 "    <menu action='ViewMenu'>"
 "      <menuitem action='ViewInNewWindow'/>"
+"      <menuitem action='PanView'/>"
 "      <placeholder name='WindowSection'/>"
 "      <separator/>"
 "      <menu action='ZoomMenu'>"
