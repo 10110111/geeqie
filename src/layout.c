@@ -2074,7 +2074,10 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 		GdkPixbuf *pixbuf;
 
 		pixbuf = pixbuf_inline(PIXBUF_INLINE_LOGO);
-		image_change_pixbuf(lw->image, pixbuf, 1.0, FALSE);
+		
+		/* FIXME: the zoom value set here is the value, which is then copied again and again
+		   in "Leave Zoom at previous setting" mode. This is not ideal.  */
+		image_change_pixbuf(lw->image, pixbuf, 0.0, FALSE);
 		g_object_unref(pixbuf);
 		}
 
