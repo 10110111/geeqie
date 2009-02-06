@@ -1332,10 +1332,12 @@ static void layout_image_button_cb(ImageWindow *imd, GdkEventButton *event, gpoi
 	switch (event->button)
 		{
 		case MOUSE_BUTTON_LEFT:
-			layout_image_next(lw);
+			if (lw->split_mode == SPLIT_NONE)
+				layout_image_next(lw);
 			break;
 		case MOUSE_BUTTON_MIDDLE:
-			layout_image_prev(lw);
+			if (lw->split_mode == SPLIT_NONE)
+				layout_image_prev(lw);
 			break;
 		case MOUSE_BUTTON_RIGHT:
 			menu = layout_image_pop_menu(lw);
