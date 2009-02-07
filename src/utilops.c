@@ -590,8 +590,16 @@ static gboolean file_util_perform_ci_internal(gpointer data)
 {
 	UtilityData *ud = data;
 
-	/* this is removed when ud is destroyed */
-	if (ud->perform_idle_id == -1) ud->perform_idle_id = g_idle_add(file_util_perform_ci_internal, ud);
+	if (ud->perform_idle_id == -1) 
+		{
+		/* this function was called directly
+		   just setup idle callback and wait until we are called again
+		*/
+		
+		/* this is removed when ud is destroyed */
+		ud->perform_idle_id = g_idle_add(file_util_perform_ci_internal, ud);
+		return TRUE;
+		}
 
 	g_assert(ud->flist);
 	
