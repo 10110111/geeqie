@@ -32,6 +32,7 @@
 #include "thumb.h"
 #include "metadata.h"
 #include "editors.h"
+#include "exif.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -728,6 +729,8 @@ gint main(gint argc, gchar *argv[])
 	textdomain(PACKAGE);
 #endif
 
+	exif_init();
+	
 	/* setup random seed for random slideshow */
 	srand(time(NULL));
 

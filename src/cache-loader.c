@@ -16,6 +16,7 @@
 
 #include "filedata.h"
 #include "exif.h"
+#include "metadata.h"
 #include "md5-util.h"
 #include "ui_fileops.h"
 
@@ -125,31 +126,24 @@ static gboolean cache_loader_process(CacheLoader *cl)
 		 !cl->cd->have_date)
 		{
 		time_t date = -1;
-		ExifData *exif;
+		gchar *text;
 
-		exif = exif_read_fd(cl->fd);
-		if (exif)
+		text =  metadata_read_string(cl->fd, "formatted.DateTime", METADATA_FORMATTED);
+		if (text)
 			{
-			gchar *text;
+			struct tm t;
 
-			text = exif_get_data_as_text(exif, "formatted.DateTime");
-			if (text)
+			memset(&t, 0, sizeof(t));
+
+			if (sscanf(text, "%d:%d:%d %d:%d:%d", &t.tm_year, &t.tm_mon, &t.tm_mday,
+				   &t.tm_hour, &t.tm_min, &t.tm_sec) == 6)
 				{
-				struct tm t;
-
-				memset(&t, 0, sizeof(t));
-
-				if (sscanf(text, "%d:%d:%d %d:%d:%d", &t.tm_year, &t.tm_mon, &t.tm_mday,
-					   &t.tm_hour, &t.tm_min, &t.tm_sec) == 6)
-					{
-					t.tm_year -= 1900;
-					t.tm_mon -= 1;
-					t.tm_isdst = -1;
-					date = mktime(&t);
-					}
-				g_free(text);
+				t.tm_year -= 1900;
+				t.tm_mon -= 1;
+				t.tm_isdst = -1;
+				date = mktime(&t);
 				}
-			exif_free_fd(cl->fd, exif);
+			g_free(text);
 			}
 
 		cl->cd->date = date;

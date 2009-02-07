@@ -447,14 +447,14 @@ static GList *remove_duplicate_strings_from_list(GList *list)
 	return g_list_reverse(newlist);
 }
 
-GList *metadata_read_list(FileData *fd, const gchar *key)
+GList *metadata_read_list(FileData *fd, const gchar *key, MetadataFormat format)
 {
 	ExifData *exif;
 	GList *list = NULL;
 	if (!fd) return NULL;
 
 	/* unwritten data overide everything */
-	if (fd->modified_xmp)
+	if (fd->modified_xmp && format == METADATA_PLAIN)
 		{
 	        list = g_hash_table_lookup(fd->modified_xmp, key);
 		if (list) return string_list_copy(list);
@@ -480,14 +480,14 @@ GList *metadata_read_list(FileData *fd, const gchar *key)
 	
 	exif = exif_read_fd(fd); /* this is cached, thus inexpensive */
 	if (!exif) return NULL;
-	list = exif_get_metadata(exif, key);
+	list = exif_get_metadata(exif, key, format);
 	exif_free_fd(fd, exif);
 	return list;
 }
 
-gchar *metadata_read_string(FileData *fd, const gchar *key)
+gchar *metadata_read_string(FileData *fd, const gchar *key, MetadataFormat format)
 {
-	GList *string_list = metadata_read_list(fd, key);
+	GList *string_list = metadata_read_list(fd, key, format);
 	if (string_list)
 		{
 		gchar *str = string_list->data;
@@ -497,10 +497,23 @@ gchar *metadata_read_string(FileData *fd, const gchar *key)
 		}
 	return NULL;
 }
+
+guint64 metadata_read_int(FileData *fd, const gchar *key, guint64 fallback)
+{
+	guint64 ret;
+	gchar *endptr;
+	gchar *string = metadata_read_string(fd, key, METADATA_PLAIN);
+	if (!string) return fallback;
+	
+	ret = g_ascii_strtoull(string, &endptr, 10);
+	if (string == endptr) ret = fallback;
+	g_free(string);
+	return ret;
+}
 	
 gboolean metadata_append_string(FileData *fd, const gchar *key, const char *value)
 {
-	gchar *str = metadata_read_string(fd, key);
+	gchar *str = metadata_read_string(fd, key, METADATA_PLAIN);
 	
 	if (!str) 
 		{
@@ -518,7 +531,7 @@ gboolean metadata_append_string(FileData *fd, const gchar *key, const char *valu
 
 gboolean metadata_append_list(FileData *fd, const gchar *key, const GList *values)
 {
-	GList *list = metadata_read_list(fd, key);
+	GList *list = metadata_read_list(fd, key, METADATA_PLAIN);
 	
 	if (!list) 
 		{
@@ -598,7 +611,7 @@ gboolean meta_data_get_keyword_mark(FileData *fd, gint n, gpointer data)
 {
 	GList *keywords;
 	gboolean found = FALSE;
-	keywords = metadata_read_list(fd, KEYWORD_KEY);
+	keywords = metadata_read_list(fd, KEYWORD_KEY, METADATA_PLAIN);
 	if (keywords)
 		{
 		GList *work = keywords;
@@ -625,7 +638,7 @@ gboolean meta_data_set_keyword_mark(FileData *fd, gint n, gboolean value, gpoint
 	gboolean found = FALSE;
 	gboolean changed = FALSE;
 	GList *work;
-	keywords = metadata_read_list(fd, KEYWORD_KEY);
+	keywords = metadata_read_list(fd, KEYWORD_KEY, METADATA_PLAIN);
 
 	work = keywords;
 

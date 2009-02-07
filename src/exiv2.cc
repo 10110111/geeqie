@@ -350,6 +350,16 @@ public:
 
 extern "C" {
 
+
+void exif_init(void)
+{
+#ifdef EXV_ENABLE_NLS
+	bind_textdomain_codeset (EXV_PACKAGE, "UTF-8");
+#endif
+}
+
+
+
 static void _ExifDataProcessed_update_xmp(gpointer key, gpointer value, gpointer data)
 {
 	exif_update_metadata((ExifData *)data, (gchar *)key, (GList *)value);
@@ -604,7 +614,7 @@ char *exif_item_get_description(ExifItem *item)
 {
 	try {
 		if (!item) return NULL;
-		return g_locale_to_utf8(((Exiv2::Metadatum *)item)->tagLabel().c_str(), -1, NULL, NULL, NULL);
+		return utf8_validate_or_convert(((Exiv2::Metadatum *)item)->tagLabel().c_str());
 	}
 	catch (std::exception& e) {
 //		std::cout << "Caught Exiv2 exception '" << e << "'\n";
@@ -678,7 +688,7 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 		if (!item) return NULL;
 		Exiv2::Metadatum *metadatum = (Exiv2::Metadatum *)item;
 #if EXIV2_TEST_VERSION(0,17,0)
-		return g_locale_to_utf8(metadatum->print().c_str(), -1, NULL, NULL, NULL);
+		return utf8_validate_or_convert(metadatum->print().c_str());
 #else
 		std::stringstream str;
 		Exiv2::Exifdatum *exifdatum;
@@ -695,7 +705,7 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 			str << *xmpdatum;
 #endif
 
-		return g_locale_to_utf8(str.str().c_str(), -1, NULL, NULL, NULL);
+		return utf8_validate_or_convert(str.str().c_str());
 #endif
 	}
 	catch (Exiv2::AnyError& e) {
@@ -720,8 +730,7 @@ gchar *exif_item_get_string(ExifItem *item, int idx)
 			if (pos != std::string::npos) str = str.substr(pos+1);
 			}
 
-//		return g_locale_to_utf8(str.c_str(), -1, NULL, NULL, NULL); // FIXME
-		return g_strdup(str.c_str());
+		return utf8_validate_or_convert(str.c_str());
 	}
 	catch (Exiv2::AnyError& e) {
 		return NULL;
@@ -764,7 +773,7 @@ gchar *exif_get_tag_description_by_key(const gchar *key)
 {
 	try {
 		Exiv2::ExifKey ekey(key);
-		return g_locale_to_utf8(Exiv2::ExifTags::tagLabel(ekey.tag(), ekey.ifdId ()), -1, NULL, NULL, NULL);
+		return utf8_validate_or_convert(Exiv2::ExifTags::tagLabel(ekey.tag(), ekey.ifdId ()));
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";
@@ -875,11 +884,12 @@ gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values)
 }
 
 
-static GList *exif_add_value_to_glist(GList *list, Exiv2::Metadatum &item)
+static GList *exif_add_value_to_glist(GList *list, Exiv2::Metadatum &item, MetadataFormat format, const Exiv2::ExifData *metadata)
 {
 #if EXIV2_TEST_VERSION(0,16,0)
 	Exiv2::TypeId id = item.typeId();
-	if (id == Exiv2::asciiString ||
+	if (format == METADATA_FORMATTED ||
+	    id == Exiv2::asciiString ||
 	    id == Exiv2::undefined ||
 	    id == Exiv2::string ||
 	    id == Exiv2::date ||
@@ -891,11 +901,48 @@ static GList *exif_add_value_to_glist(GList *list, Exiv2::Metadatum &item)
 		{
 #endif 
 		/* read as a single entry */
-		std::string str = item.toString();
-		if (str.length() > 5 && str.substr(0, 5) == "lang=")
+		std::string str;
+		
+		if (format == METADATA_FORMATTED)
 			{
-			std::string::size_type pos = str.find_first_of(' ');
-			if (pos != std::string::npos) str = str.substr(pos+1);
+#if EXIV2_TEST_VERSION(0,17,0)
+			str = item.print(
+#if EXIV2_TEST_VERSION(0,18,0)
+					metadata
+#endif 
+					);
+#else
+			std::stringstream stream;
+			Exiv2::Exifdatum *exifdatum;
+			Exiv2::Iptcdatum *iptcdatum;
+#if EXIV2_TEST_VERSION(0,16,0)
+			Exiv2::Xmpdatum *xmpdatum;
+#endif
+			if ((exifdatum = dynamic_cast<Exiv2::Exifdatum *>(metadatum)))
+				stream << *exifdatum;
+			else if ((iptcdatum = dynamic_cast<Exiv2::Iptcdatum *>(metadatum)))
+				stream << *iptcdatum;
+#if EXIV2_TEST_VERSION(0,16,0)
+			else if ((xmpdatum = dynamic_cast<Exiv2::Xmpdatum *>(metadatum)))
+				stream << *xmpdatum;
+#endif
+			str = stream.str();
+#endif
+			if (str.length() > 1024)
+				{
+				/* truncate very long strings, they cause problems in gui */
+				str.erase(1024);
+				str.append("...");
+				}
+			}
+		else
+			{
+			str = item.toString();
+			if (str.length() > 5 && str.substr(0, 5) == "lang=")
+				{
+				std::string::size_type pos = str.find_first_of(' ');
+				if (pos != std::string::npos) str = str.substr(pos+1);
+				}
 			}
 		list = g_list_append(list, utf8_validate_or_convert(str.c_str())); 
 #if EXIV2_TEST_VERSION(0,16,0)
@@ -911,16 +958,15 @@ static GList *exif_add_value_to_glist(GList *list, Exiv2::Metadatum &item)
 	return list;
 }
 
-static GList *exif_get_metadata_simple(ExifData *exif, const gchar *key)
+static GList *exif_get_metadata_simple(ExifData *exif, const gchar *key, MetadataFormat format)
 {
 	GList *list = NULL;
 	try {
 		try {
 			Exiv2::ExifKey ekey(key);
-			
 			Exiv2::ExifData::iterator pos = exif->exifData().findKey(ekey);
 			if (pos != exif->exifData().end())
-				list = exif_add_value_to_glist(list, *pos);
+				list = exif_add_value_to_glist(list, *pos, format, &exif->exifData());
 
 		}
 		catch (Exiv2::AnyError& e) {
@@ -930,7 +976,7 @@ static GList *exif_get_metadata_simple(ExifData *exif, const gchar *key)
 				while (pos != exif->iptcData().end())
 					{
 					if (pos->key() == key)
-						list = exif_add_value_to_glist(list, *pos);
+						list = exif_add_value_to_glist(list, *pos, format, NULL);
 					++pos;
 					}
 
@@ -940,7 +986,7 @@ static GList *exif_get_metadata_simple(ExifData *exif, const gchar *key)
 				Exiv2::XmpKey ekey(key);
 				Exiv2::XmpData::iterator pos = exif->xmpData().findKey(ekey);
 				if (pos != exif->xmpData().end())
-					list = exif_add_value_to_glist(list, *pos);
+					list = exif_add_value_to_glist(list, *pos, format, NULL);
 #endif
 			}
 		}
@@ -951,23 +997,33 @@ static GList *exif_get_metadata_simple(ExifData *exif, const gchar *key)
 	return list;
 }
 
-GList *exif_get_metadata(ExifData *exif, const gchar *key)
+GList *exif_get_metadata(ExifData *exif, const gchar *key, MetadataFormat format)
 {
 	GList *list = NULL;
-	
-	list = exif_get_metadata_simple(exif, key);
+
+	if (!key) return NULL;
+
+	if (format == METADATA_FORMATTED)
+		{
+		gchar *text;
+		gint key_valid;
+		text = exif_get_formatted_by_key(exif, key, &key_valid);
+		if (key_valid) return g_list_append(NULL, text);
+		}
+		
+	list = exif_get_metadata_simple(exif, key, format);
 	
 	/* the following code can be ifdefed out as soon as Exiv2 supports it */
 	if (!list)
 		{
 		const AltKey *alt_key = find_alt_key(key);
 		if (alt_key && alt_key->iptc_key)
-			list = exif_get_metadata_simple(exif, alt_key->iptc_key);
+			list = exif_get_metadata_simple(exif, alt_key->iptc_key, format);
 
 #if !EXIV2_TEST_VERSION(0,17,0)	
 		/* with older Exiv2 versions exif is not synced */
 		if (!list && alt_key && alt_key->exif_key)
-			list = exif_get_metadata_simple(exif, alt_key->exif_key);
+			list = exif_get_metadata_simple(exif, alt_key->exif_key, format);
 #endif
 		}
 	return list;

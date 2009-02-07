@@ -21,6 +21,7 @@
 #include "thumb_standard.h"
 #include "ui_fileops.h"
 #include "exif.h"
+#include "metadata.h"
 
 #include <utime.h>
 
@@ -141,14 +142,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 		{
 		if (!tl->fd->exif_orientation)
 			{
-			ExifData *exif = exif_read_fd(tl->fd);
-			gint orientation;
-
-			if (exif && exif_get_integer(exif, "Exif.Image.Orientation", &orientation))
-				tl->fd->exif_orientation = orientation;
-			else
-				tl->fd->exif_orientation = EXIF_ORIENTATION_TOP_LEFT;
-			exif_free_fd(tl->fd, exif);
+			tl->fd->exif_orientation = metadata_read_int(tl->fd, "Exif.Image.Orientation", EXIF_ORIENTATION_TOP_LEFT);
 			}
 		
 		if (tl->fd->exif_orientation != EXIF_ORIENTATION_TOP_LEFT)

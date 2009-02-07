@@ -92,7 +92,6 @@ typedef enum {
 	EXIF_UNIT_CENTIMETER	= 3
 } ExifUnitType;
 
-
 typedef struct _ExifFormattedText ExifFormattedText;
 struct _ExifFormattedText
 {
@@ -106,6 +105,8 @@ struct _ExifFormattedText
  * functions
  *-----------------------------------------------------------------------------
  */
+
+void exif_init(void);
 
 ExifData *exif_read(gchar *path, gchar *sidecar_path, GHashTable *modified_xmp);
 
@@ -151,7 +152,7 @@ gchar *exif_get_tag_description_by_key(const gchar *key);
 gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid);
 
 gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values);
-GList *exif_get_metadata(ExifData *exif, const gchar *key);
+GList *exif_get_metadata(ExifData *exif, const gchar *key, MetadataFormat format);
 
 guchar *exif_get_color_profile(ExifData *exif, guint *data_len);
 

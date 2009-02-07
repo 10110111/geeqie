@@ -1804,7 +1804,7 @@ static gint search_file_next(SearchData *sd)
 		tested = TRUE;
 		match = FALSE;
 
-		list = metadata_read_list(fd, KEYWORD_KEY);
+		list = metadata_read_list(fd, KEYWORD_KEY, METADATA_PLAIN);
 
 		if (list)
 			{
@@ -1884,7 +1884,7 @@ static gint search_file_next(SearchData *sd)
 		tested = TRUE;
 		match = FALSE;
 
-		comment = metadata_read_string(fd, COMMENT_KEY);
+		comment = metadata_read_string(fd, COMMENT_KEY, METADATA_PLAIN);
 
 		if (comment)
 			{

@@ -18,6 +18,7 @@
 #include "collect.h"
 #include "color-man.h"
 #include "exif.h"
+#include "metadata.h"
 #include "histogram.h"
 #include "image-load.h"
 #include "image-overlay.h"
@@ -999,31 +1000,20 @@ GdkPixbuf *image_get_pixbuf(ImageWindow *imd)
 void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gint lazy)
 {
 
-	ExifData *exif = NULL;
-	gint read_exif_for_color_profile = (imd->color_profile_enable && imd->color_profile_use_image);
-	gint read_exif_for_orientation = FALSE;
 
 	/* read_exif and similar functions can actually notice that the file has changed and triger a notification
 	that removes the pixbuf	from cache and unref it. Therefore we must ref it here before it is taken over by the renderer. */
 	if (pixbuf) g_object_ref(pixbuf); 
 	
-	if (imd->image_fd && imd->image_fd->user_orientation)
-		imd->orientation = imd->image_fd->user_orientation;
-	else if (options->image.exif_rotate_enable)
-		read_exif_for_orientation = TRUE;
-
-	if (read_exif_for_color_profile || read_exif_for_orientation)
+	if (imd->image_fd)
 		{
-		gint orientation;
-
-		exif = exif_read_fd(imd->image_fd);
-
-		if (exif && read_exif_for_orientation)
+		if (imd->image_fd->user_orientation)
 			{
-			if (exif_get_integer(exif, "Exif.Image.Orientation", &orientation))
-				imd->orientation = orientation;
-			else
-				imd->orientation = 1;
+			imd->orientation = imd->image_fd->user_orientation;
+			}
+		else if (options->image.exif_rotate_enable)
+			{
+			imd->orientation = metadata_read_int(imd->image_fd, "Exif.Image.Orientation", EXIF_ORIENTATION_TOP_LEFT);
 			imd->image_fd->exif_orientation = imd->orientation;
 			}
 		}
@@ -1049,15 +1039,18 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gint
 
 	if (imd->color_profile_enable)
 		{
+		ExifData *exif = NULL;
+
+		if (imd->color_profile_use_image) exif = exif_read_fd(imd->image_fd);
+
 		if (!image_post_process_color(imd, 0, exif, FALSE))
 			{
 			/* fixme: note error to user */
 //			image_state_set(imd, IMAGE_STATE_COLOR_ADJ);
 			}
-		}
+		if (exif) exif_free_fd(imd->image_fd, exif);
 
-	if (read_exif_for_color_profile || read_exif_for_orientation)
-		exif_free_fd(imd->image_fd, exif);
+		}
 
 	if (imd->cm || imd->desaturate)
 		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, image_post_process_tile_color_cb, (gpointer) imd, (imd->cm != NULL) );

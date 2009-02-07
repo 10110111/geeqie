@@ -164,6 +164,12 @@ typedef enum {
 	CHANGE_GENERIC_ERROR           = 1 << 16
 } ChangeError;
 
+typedef enum {
+	METADATA_PLAIN		= 0, /* format that can be edited and written back */
+	METADATA_FORMATTED	= 1  /* for display only */
+} MetadataFormat;
+
+
 #define MAX_SPLIT_IMAGES 4
 
 typedef struct _ImageLoader ImageLoader;

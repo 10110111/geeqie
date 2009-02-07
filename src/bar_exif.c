@@ -15,6 +15,7 @@
 #include "bar_exif.h"
 
 #include "exif.h"
+#include "metadata.h"
 #include "filedata.h"
 #include "history_list.h"
 #include "misc.h"
@@ -180,27 +181,25 @@ static gint bar_exif_row_enabled(const gchar *name)
 
 static void bar_exif_update(ExifBar *eb)
 {
-	ExifData *exif_processed;
 	ExifData *exif;
 	gint i;
 
-	exif_processed = exif_read_fd(eb->fd);
+	/* do we have any exif at all ? */
+	exif = exif_read_fd(eb->fd);
 
-	if (!exif_processed)
+	if (!exif)
 		{
 		bar_exif_sensitive(eb, FALSE);
 		return;
 		}
-	
-	if (eb->advanced_scrolled)
-		{
-		/* show the original values from the file */
-		exif = exif_get_original(exif_processed);
-		}
 	else
 		{
-		exif = exif_processed;
+		/* we will use high level functions so we can release it for now.
+		   it will stay in the cache */
+		exif_free_fd(eb->fd, exif);
+		exif = NULL;
 		}
+	
 
 	bar_exif_sensitive(eb, TRUE);
 
@@ -210,7 +209,6 @@ static void bar_exif_update(ExifBar *eb)
 		for (i = 0; ExifUIList[i].key; i++)
 			{
 			gchar *text;
-			gchar *utf8_text;
 
 			if (ExifUIList[i].current == EXIF_UI_OFF)
 				{
@@ -218,21 +216,19 @@ static void bar_exif_update(ExifBar *eb)
 				gtk_widget_hide(eb->keys[i]);
 				continue;
 				}
-			text = exif_get_data_as_text(exif, ExifUIList[i].key);
-			utf8_text = utf8_validate_or_convert(text);
-			g_free(text);
+			text =  metadata_read_string(eb->fd, ExifUIList[i].key, METADATA_FORMATTED);
 			if (ExifUIList[i].current == EXIF_UI_IFSET
-			    && (!utf8_text || !*utf8_text))
+			    && (!text || !*text))
 				{
 				gtk_widget_hide(eb->labels[i]);
 				gtk_widget_hide(eb->keys[i]);
-				g_free(utf8_text);
+				g_free(text);
 				continue;
 				}
 			gtk_widget_show(eb->labels[i]);
 			gtk_widget_show(eb->keys[i]);
-			gtk_label_set_text(GTK_LABEL(eb->labels[i]), utf8_text);
-			g_free(utf8_text);
+			gtk_label_set_text(GTK_LABEL(eb->labels[i]), text);
+			g_free(text);
 			}
 
 		list = g_list_last(history_list_get_by_key("exif_extras"));
@@ -248,7 +244,6 @@ static void bar_exif_update(ExifBar *eb)
 		while (list && i < EXIF_BAR_CUSTOM_COUNT)
 			{
 			gchar *text;
-			gchar *utf8_text;
 			gchar *name;
 			gchar *buf;
 			gchar *description;
@@ -256,9 +251,7 @@ static void bar_exif_update(ExifBar *eb)
 			name = list->data;
 			list = list->prev;
 			
-			text = exif_get_data_as_text(exif, name);
-			utf8_text = utf8_validate_or_convert(text);
-			g_free(text);
+			text =  metadata_read_string(eb->fd, name, METADATA_FORMATTED);
 
 			description = exif_get_tag_description_by_key(name);
 			if (!description || *description == '\0') 
@@ -271,8 +264,8 @@ static void bar_exif_update(ExifBar *eb)
 			
 			gtk_label_set_text(GTK_LABEL(eb->custom_name[i]), buf);
 			g_free(buf);
-			gtk_label_set_text(GTK_LABEL(eb->custom_value[i]), utf8_text);
-			g_free(utf8_text);
+			gtk_label_set_text(GTK_LABEL(eb->custom_value[i]), text);
+			g_free(text);
 
 			gtk_widget_show(eb->custom_name[i]);
 			gtk_widget_show(eb->custom_value[i]);
@@ -297,12 +290,18 @@ static void bar_exif_update(ExifBar *eb)
 		{
 		GtkListStore *store;
 		GtkTreeIter iter;
+		ExifData *exif_original;
 		ExifItem *item;
+
+		exif = exif_read_fd(eb->fd);
+		if (!exif) return;
+		
+		exif_original = exif_get_original(exif);
 
 		store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(eb->listview)));
 		gtk_list_store_clear(store);
 
-		item = exif_get_first_item(exif);
+		item = exif_get_first_item(exif_original);
 		while (item)
 			{
 			gchar *tag;
@@ -341,11 +340,11 @@ static void bar_exif_update(ExifBar *eb)
 			g_free(elements);
 			g_free(description);
 			g_free(tag_name);
-			item = exif_get_next_item(exif);
+			item = exif_get_next_item(exif_original);
 			}
+		exif_free_fd(eb->fd, exif);
 		}
 
-	exif_free_fd(eb->fd, exif_processed);
 }
 
 static void bar_exif_clear(ExifBar *eb)

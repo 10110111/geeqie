@@ -509,12 +509,12 @@ static void bar_info_update(BarInfoData *bd)
 		gtk_label_set_text(GTK_LABEL(bd->label_file_time), (bd->fd) ? text_from_time(bd->fd->date) : "");
 		}
 
-	comment = metadata_read_string(bd->fd, COMMENT_KEY);
+	comment = metadata_read_string(bd->fd, COMMENT_KEY, METADATA_PLAIN);
 	gtk_text_buffer_set_text(comment_buffer,
 				 (comment) ? comment : "", -1);
 	g_free(comment);
 	
-	keywords = metadata_read_list(bd->fd, KEYWORD_KEY);
+	keywords = metadata_read_list(bd->fd, KEYWORD_KEY, METADATA_PLAIN);
 	keyword_list_push(bd->keyword_view, keywords);
 	bar_keyword_list_sync(bd, keywords);
 	string_list_free(keywords);

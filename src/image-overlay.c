@@ -178,7 +178,7 @@ static gchar *keywords_to_string(FileData *fd)
 
 	g_assert(fd);
 
-	keywords = metadata_read_list(fd, KEYWORD_KEY);
+	keywords = metadata_read_list(fd, KEYWORD_KEY, METADATA_PLAIN);
 
 	if (keywords)
 		{
@@ -278,24 +278,14 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			}
 		else if (strcmp(name, "comment") == 0)
 			{
-			data = metadata_read_string(imd->image_fd, COMMENT_KEY);
+			data = metadata_read_string(imd->image_fd, COMMENT_KEY, METADATA_PLAIN);
 			}
 		else
 			{
-			/*
-			   keywords and comment can't be read between exif_read_fd and exif_free_fd calls
-			   because fd->exif does not count references
-			   on the other hand, it is OK to call it in the loop because it is cached
-			*/
-			   
-			ExifData *exif;
-			exif = exif_read_fd(imd->image_fd);
-
 			data = g_strdup(g_hash_table_lookup(vars, name));
 			if (data && strcmp(name, "zoom") == 0) imd->overlay_show_zoom = TRUE;
-			if (!data && exif)
-				data = exif_get_data_as_text(exif, name);
-			exif_free_fd(imd->image_fd, exif);
+			if (!data)
+				data = metadata_read_string(imd->image_fd, name, METADATA_FORMATTED);
 			}
 	
 		if (data && *data && limit > 0 && strlen(data) > limit + 3)

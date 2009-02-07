@@ -1311,13 +1311,8 @@ ExifItem *exif_get_item(ExifData *exif, const gchar *key)
 
 #define EXIF_DATA_AS_TEXT_MAX_COUNT 16
 
-gchar *exif_item_get_string(ExifItem *item, gint idx)
-{
-	return exif_item_get_data_as_text(item);
-}
 
-
-gchar *exif_item_get_data_as_text(ExifItem *item)
+static gchar *exif_item_get_data_as_text_full(ExifItem *item, MetadataFormat format)
 {
 	const ExifMarker *marker;
 	gpointer data;
@@ -1342,7 +1337,7 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 		case EXIF_FORMAT_BYTE_UNSIGNED:
 		case EXIF_FORMAT_BYTE:
 		case EXIF_FORMAT_UNDEFINED:
-			if (ne == 1 && marker->list)
+			if (ne == 1 && marker->list && format == METADATA_FORMATTED)
 				{
 				gchar *result;
 				guchar val;
@@ -1370,7 +1365,7 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 			if (item->data) string = g_string_append(string, (gchar *)(item->data));
 			break;
 		case EXIF_FORMAT_SHORT_UNSIGNED:
-			if (ne == 1 && marker->list)
+			if (ne == 1 && marker->list && format == METADATA_FORMATTED)
 				{
 				gchar *result;
 
@@ -1451,6 +1446,16 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 	g_string_free(string, FALSE);
 
 	return text;
+}
+
+gchar *exif_item_get_string(ExifItem *item, gint idx)
+{
+	return exif_item_get_data_as_text_full(item, METADATA_PLAIN);
+}
+
+gchar *exif_item_get_data_as_text(ExifItem *item)
+{
+	return exif_item_get_data_as_text_full(item, METADATA_FORMATTED);
 }
 
 gint exif_item_get_integer(ExifItem *item, gint *value)
@@ -1596,13 +1601,25 @@ gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values)
 	return 0;
 }
 
-GList *exif_get_metadata(ExifData *exif, const gchar *key)
+GList *exif_get_metadata(ExifData *exif, const gchar *key, MetadataFormat format)
 {
 	gchar *str;
-	ExifItem *item = exif_get_item(exif, key);
+	ExifItem *item;
+	
+	if (!key) return NULL;
+	
+	if (format == METADATA_FORMATTED)
+		{
+		gchar *text;
+		gint key_valid;
+		text = exif_get_formatted_by_key(exif, key, &key_valid);
+		if (key_valid) return g_list_append(NULL, text);
+		}
+
+	item = exif_get_item(exif, key);
 	if (!item) return NULL;
 	
-	str = exif_item_get_string(item, 0);
+	str = exif_item_get_data_as_text_full(item, format);
 	
 	if (!str) return NULL;
 	
@@ -1692,6 +1709,9 @@ void exif_free_preview(guchar *buf)
 	g_assert_not_reached();
 }
 
+void exif_init(void)
+{
+}
 
 #endif
 /* not HAVE_EXIV2 */
