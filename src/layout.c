@@ -1979,8 +1979,8 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 	lw->bar_exif_enabled = options->panels.exif.enabled;
 	lw->bar_exif_advanced = FALSE;
 	
-	lw->bar_info = NULL;
-	lw->bar_info_enabled = options->panels.info.enabled;
+	lw->bar = NULL;
+	lw->bar_enabled = options->panels.info.enabled;
 
 	/* default layout */
 
@@ -1999,7 +1999,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 		lw->div_v = options->layout.main_window.vdivider_pos;
 		lw->div_float = options->layout.float_window.vdivider_pos;
 		lw->bar_exif_width = options->panels.exif.width;
-		lw->bar_info_width = options->panels.info.width;
+		lw->bar_width = options->panels.info.width;
 		}
 	else
 		{
@@ -2007,7 +2007,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 		lw->div_v = MAIN_WINDOW_DIV_VPOS;
 		lw->div_float = MAIN_WINDOW_DIV_VPOS;
 		lw->bar_exif_width = PANEL_DEFAULT_WIDTH;
-		lw->bar_info_width = PANEL_DEFAULT_WIDTH;
+		lw->bar_width = PANEL_DEFAULT_WIDTH;
 		}
 
 	/* window */

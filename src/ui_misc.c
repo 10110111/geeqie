@@ -1678,4 +1678,34 @@ GtkWidget *pref_color_button_new(GtkWidget *parent_box,
 
 	return button;
 }
+
+/*
+ *-----------------------------------------------------------------------------
+ * text widget
+ *-----------------------------------------------------------------------------
+ */
+
+gchar *text_widget_text_pull(GtkWidget *text_widget)
+{
+	if (GTK_IS_TEXT_VIEW(text_widget))
+		{
+		GtkTextBuffer *buffer;
+		GtkTextIter start, end;
+
+		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_widget));
+		gtk_text_buffer_get_bounds(buffer, &start, &end);
+
+		return gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+		}
+	else if (GTK_IS_ENTRY(text_widget))
+		{
+		return g_strdup(gtk_entry_get_text(GTK_ENTRY(text_widget)));
+		}
+	else
+		{
+		return NULL;
+		}
+
+}
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

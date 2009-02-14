@@ -235,6 +235,8 @@ static RemoteConnection *remote_server_open(const gchar *path)
 	rc->clients = NULL;
 
 	channel = g_io_channel_unix_new(rc->fd);
+	g_io_channel_set_flags(channel, G_IO_FLAG_NONBLOCK, NULL); 
+	
 	rc->channel_id = g_io_add_watch_full(channel, G_PRIORITY_DEFAULT, G_IO_IN,
 					     remote_server_read_cb, rc, NULL);
 	g_io_channel_unref(channel);

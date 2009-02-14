@@ -568,15 +568,15 @@ struct _LayoutWindow
 	GtkWidget *utility_box;
 	GtkWidget *bar_sort;
 	GtkWidget *bar_exif;
-	GtkWidget *bar_info;
+	GtkWidget *bar;
 
 	gint bar_sort_enabled;
 	gint bar_exif_enabled;
-	gint bar_info_enabled;
+	gint bar_enabled;
 
 	gint bar_exif_width;
 	gint bar_exif_advanced;
-	gint bar_info_width;
+	gint bar_width;
 };
 
 struct _ViewDir

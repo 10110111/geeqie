@@ -14,6 +14,7 @@
 #include "view_file_icon.h"
 
 #include "bar_info.h"
+#include "bar.h"
 #include "cellrenderericon.h"
 #include "collect.h"
 #include "collect-io.h"
@@ -571,9 +572,12 @@ static void vficon_drag_data_received(GtkWidget *entry_widget, GdkDragContext *c
 			metadata_append_list(fd, KEYWORD_KEY, kw_list);
 			string_list_free(kw_list);
 			g_free(str);
+/*
+file notification should handle this automatically			
 			if (vf->layout && vf->layout->bar_info) {
-				bar_info_set(vf->layout->bar_info, id->fd);
+				bar_set_fd(vf->layout->bar_info, id->fd);
 			}
+*/
 		}
 	}
 }

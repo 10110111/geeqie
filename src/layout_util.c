@@ -15,8 +15,8 @@
 #include "layout_util.h"
 
 #include "bar_exif.h"
-#include "bar_info.h"
 #include "bar_sort.h"
+#include "bar.h"
 #include "cache_maint.h"
 #include "collect.h"
 #include "collect-dlg.h"
@@ -104,8 +104,8 @@ gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 		{
 		return TRUE;
 		}
-	if (lw->bar_info &&
-	    bar_info_event(lw->bar_info, (GdkEvent *)event))
+	if (lw->bar &&
+	    bar_event(lw->bar, (GdkEvent *)event))
 		{
 		return TRUE;
 		}
@@ -677,14 +677,14 @@ static void layout_menu_toolbar_cb(GtkToggleAction *action, gpointer data)
 	layout_toolbar_toggle(lw);
 }
 
-static void layout_menu_bar_info_cb(GtkToggleAction *action, gpointer data)
+static void layout_menu_bar_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
 	layout_exit_fullscreen(lw);
 
-	if (lw->bar_info_enabled == gtk_toggle_action_get_active(action)) return;
-	layout_bar_info_toggle(lw);
+	if (lw->bar_enabled == gtk_toggle_action_get_active(action)) return;
+	layout_bar_toggle(lw);
 }
 
 static void layout_menu_bar_exif_cb(GtkToggleAction *action, gpointer data)
@@ -1225,7 +1225,7 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "ShowMarks",        NULL,		N_("Show _Marks"),	"M",		NULL,	CB(layout_menu_marks_cb),	 FALSE  },
   { "FloatTools",	NULL,		N_("_Float file list"),	"L",		NULL,	CB(layout_menu_float_cb),	 FALSE  },
   { "HideToolbar",	NULL,		N_("Hide tool_bar"),	NULL,		NULL,	CB(layout_menu_toolbar_cb),	 FALSE  },
-  { "SBarKeywords",	NULL,		N_("_Keywords"),	"<control>K",	NULL,	CB(layout_menu_bar_info_cb),	 FALSE  },
+  { "SBar",		NULL,		N_("_Info"),		"<control>K",	NULL,	CB(layout_menu_bar_cb),		 FALSE  },
   { "SBarExif",		NULL,		N_("E_xif data"),	"<control>E",	NULL,	CB(layout_menu_bar_exif_cb),	 FALSE  },
   { "SBarSort",		NULL,		N_("Sort _manager"),	"<control>S",	NULL,	CB(layout_menu_bar_sort_cb),	 FALSE  },
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb),	 FALSE  },
@@ -1383,7 +1383,7 @@ static const gchar *menu_ui_description =
 "      <menuitem action='HideToolbar'/>"
 "      <placeholder name='ToolsSection'/>"
 "      <separator/>"
-"      <menuitem action='SBarKeywords'/>"
+"      <menuitem action='SBar'/>"
 "      <menuitem action='SBarExif'/>"
 "      <menuitem action='SBarSort'/>"
 "      <placeholder name='SideBarSection'/>"
@@ -1878,8 +1878,8 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	action = gtk_action_group_get_action(lw->action_group, "FloatTools");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->tools_float);
 
-	action = gtk_action_group_get_action(lw->action_group, "SBarKeywords");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->bar_info_enabled);
+	action = gtk_action_group_get_action(lw->action_group, "SBar");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->bar_enabled);
 
 	action = gtk_action_group_get_action(lw->action_group, "SBarExif");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->bar_exif_enabled);
@@ -1957,96 +1957,97 @@ void folder_icons_free(PixmapFolders *pf)
  *-----------------------------------------------------------------------------
  */
 
-static void layout_bar_info_destroyed(GtkWidget *widget, gpointer data)
+static void layout_bar_destroyed(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	lw->bar_info = NULL;
+	lw->bar = NULL;
 
 	if (lw->utility_box)
 		{
 		/* destroyed from within itself */
-		lw->bar_info_enabled = FALSE;
+		lw->bar_enabled = FALSE;
 		layout_util_sync_views(lw);
 		}
 }
 
-static GList *layout_bar_info_list_cb(gpointer data)
+static GList *layout_bar_list_cb(gpointer data)
 {
 	LayoutWindow *lw = data;
 
 	return layout_selection_list(lw);
 }
 
-static void layout_bar_info_sized(GtkWidget *widget, GtkAllocation *allocation, gpointer data)
+static void layout_bar_sized(GtkWidget *widget, GtkAllocation *allocation, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	if (!lw->bar_info) return;
+	if (!lw->bar) return;
 	
-	options->panels.info.width = lw->bar_info_width = allocation->width;
+	options->panels.info.width = lw->bar_width = allocation->width;
 }
 
-static void layout_bar_info_new(LayoutWindow *lw)
+static void layout_bar_new(LayoutWindow *lw)
 {
 	if (!lw->utility_box) return;
 
-	lw->bar_info = bar_info_new(layout_image_get_fd(lw), FALSE, lw->utility_box);
-	bar_info_set_selection_func(lw->bar_info, layout_bar_info_list_cb, lw);
-	bar_info_selection(lw->bar_info, layout_selection_count(lw, NULL) - 1);
-	g_signal_connect(G_OBJECT(lw->bar_info), "destroy",
-			 G_CALLBACK(layout_bar_info_destroyed), lw);
-	g_signal_connect(G_OBJECT(lw->bar_info), "size_allocate",
-			 G_CALLBACK(layout_bar_info_sized), lw);
+	lw->bar = bar_new(lw->utility_box);
+	bar_set_selection_func(lw->bar, layout_bar_list_cb, lw);
+	g_signal_connect(G_OBJECT(lw->bar), "destroy",
+			 G_CALLBACK(layout_bar_destroyed), lw);
+	g_signal_connect(G_OBJECT(lw->bar), "size_allocate",
+			 G_CALLBACK(layout_bar_sized), lw);
 
-	options->panels.info.enabled = lw->bar_info_enabled = TRUE;
-	gtk_widget_set_size_request(lw->bar_info, lw->bar_info_width, -1);
+	options->panels.info.enabled = lw->bar_enabled = TRUE;
+	gtk_widget_set_size_request(lw->bar, lw->bar_width, -1);
 
-	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->bar_info, FALSE, FALSE, 0);
-	gtk_widget_show(lw->bar_info);
+	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->bar, FALSE, FALSE, 0);
+	
+	bar_set_fd(lw->bar, layout_image_get_fd(lw));
+	gtk_widget_show(lw->bar);
 }
 
-static void layout_bar_info_close(LayoutWindow *lw)
+static void layout_bar_close(LayoutWindow *lw)
 {
-	if (lw->bar_info)
+	if (lw->bar)
 		{
-		bar_info_close(lw->bar_info);
-		lw->bar_info = NULL;
+		bar_close(lw->bar);
+		lw->bar = NULL;
 		}
-	options->panels.info.enabled = lw->bar_info_enabled = FALSE;
+	options->panels.info.enabled = lw->bar_enabled = FALSE;
 }
 
-void layout_bar_info_toggle(LayoutWindow *lw)
+void layout_bar_toggle(LayoutWindow *lw)
 {
-	if (lw->bar_info_enabled)
+	if (lw->bar_enabled)
 		{
-		layout_bar_info_close(lw);
+		layout_bar_close(lw);
 		}
 	else
 		{
-		layout_bar_info_new(lw);
+		layout_bar_new(lw);
 		}
 }
 
-static void layout_bar_info_new_image(LayoutWindow *lw)
+static void layout_bar_new_image(LayoutWindow *lw)
 {
-	if (!lw->bar_info || !lw->bar_info_enabled) return;
+	if (!lw->bar || !lw->bar_enabled) return;
 
-	bar_info_set(lw->bar_info, layout_image_get_fd(lw));
+	bar_set_fd(lw->bar, layout_image_get_fd(lw));
 }
 
-static void layout_bar_info_new_selection(LayoutWindow *lw, gint count)
+static void layout_bar_new_selection(LayoutWindow *lw, gint count)
 {
-	if (!lw->bar_info || !lw->bar_info_enabled) return;
+	if (!lw->bar || !lw->bar_enabled) return;
 
-	bar_info_selection(lw->bar_info, count - 1);
+//	bar_info_selection(lw->bar_info, count - 1);
 }
 
-static void layout_bar_info_maint_renamed(LayoutWindow *lw)
+static void layout_bar_maint_renamed(LayoutWindow *lw)
 {
-	if (!lw->bar_info || !lw->bar_info_enabled) return;
+	if (!lw->bar || !lw->bar_enabled) return;
 
-	bar_info_maint_renamed(lw->bar_info, layout_image_get_fd(lw));
+//	bar_maint_renamed(lw->bar_info, layout_image_get_fd(lw));
 }
 
 static void layout_bar_exif_destroyed(GtkWidget *widget, gpointer data)
@@ -2091,7 +2092,7 @@ static void layout_bar_exif_new(LayoutWindow *lw)
 	gtk_widget_set_size_request(lw->bar_exif, lw->bar_exif_width, -1);
 
 	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->bar_exif, FALSE, FALSE, 0);
-	if (lw->bar_info) gtk_box_reorder_child(GTK_BOX(lw->utility_box), lw->bar_exif, 1);
+	if (lw->bar) gtk_box_reorder_child(GTK_BOX(lw->utility_box), lw->bar_exif, 1);
 	gtk_widget_show(lw->bar_exif);
 }
 
@@ -2176,7 +2177,7 @@ void layout_bar_sort_toggle(LayoutWindow *lw)
 
 void layout_bars_new_image(LayoutWindow *lw)
 {
-	layout_bar_info_new_image(lw);
+	layout_bar_new_image(lw);
 	layout_bar_exif_new_image(lw);
 
 	/* this should be called here to handle the metadata edited in bars */
@@ -2186,7 +2187,7 @@ void layout_bars_new_image(LayoutWindow *lw)
 
 void layout_bars_new_selection(LayoutWindow *lw, gint count)
 {
-	layout_bar_info_new_selection(lw, count);
+	layout_bar_new_selection(lw, count);
 }
 
 GtkWidget *layout_bars_prepare(LayoutWindow *lw, GtkWidget *image)
@@ -2200,9 +2201,9 @@ GtkWidget *layout_bars_prepare(LayoutWindow *lw, GtkWidget *image)
 		layout_bar_sort_new(lw);
 		}
 
-	if (lw->bar_info_enabled)
+	if (lw->bar_enabled)
 		{
-		layout_bar_info_new(lw);
+		layout_bar_new(lw);
 		}
 
 	if (lw->bar_exif_enabled)
@@ -2217,11 +2218,11 @@ void layout_bars_close(LayoutWindow *lw)
 {
 	layout_bar_sort_close(lw);
 	layout_bar_exif_close(lw);
-	layout_bar_info_close(lw);
+	layout_bar_close(lw);
 }
 
 void layout_bars_maint_renamed(LayoutWindow *lw)
 {
-	layout_bar_info_maint_renamed(lw);
+	layout_bar_maint_renamed(lw);
 }
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

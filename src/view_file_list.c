@@ -14,6 +14,7 @@
 #include "view_file_list.h"
 
 #include "bar_info.h"
+#include "bar.h"
 #include "cache_maint.h"
 #include "dnd.h"
 #include "editors.h"
@@ -326,9 +327,12 @@ static void vflist_drag_data_received(GtkWidget *entry_widget, GdkDragContext *c
 			metadata_append_list(fd, KEYWORD_KEY, kw_list);
 			string_list_free(kw_list);
 			g_free(str);
+/*
+file notification should handle this automatically
 			if (vf->layout && vf->layout->bar_info) {
-				bar_info_set(vf->layout->bar_info, fd);
+				bar_set_fd(vf->layout->bar_info, fd);
 			}
+*/
 		}
 	}
 }
