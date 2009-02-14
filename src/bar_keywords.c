@@ -16,7 +16,6 @@
 
 #include "filedata.h"
 #include "history_list.h"
-#include "info.h"
 #include "metadata.h"
 #include "misc.h"
 #include "ui_fileops.h"
@@ -48,7 +47,7 @@ static void bar_pane_keywords_changed(GtkTextBuffer *buffer, gpointer data);
  */
 
 
-static GList *keyword_list_pull(GtkWidget *text_widget)
+GList *keyword_list_pull(GtkWidget *text_widget)
 {
 	GList *list;
 	gchar *text;

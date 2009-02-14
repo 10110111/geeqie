@@ -22,7 +22,6 @@
 #include "editors.h"
 #include "filedata.h"
 #include "img-view.h"
-#include "info.h"
 #include "layout.h"
 #include "layout_image.h"
 #include "menu.h"
@@ -669,13 +668,6 @@ static void collection_table_popup_edit_cb(GtkWidget *widget, gpointer data)
 		}
 }
 
-static void collection_table_popup_info_cb(GtkWidget *widget, gpointer data)
-{
-	CollectTable *ct = data;
-
-	info_window_new(NULL, collection_table_popup_file_list(ct), NULL);
-}
-
 static void collection_table_popup_copy_cb(GtkWidget *widget, gpointer data)
 {
 	CollectTable *ct = data;
@@ -889,8 +881,6 @@ static GtkWidget *collection_table_popup_menu(CollectTable *ct, gint over_icon)
 			G_CALLBACK(collection_table_popup_edit_cb), ct);
 	gtk_widget_set_sensitive(item, over_icon);
 
-	menu_item_add_sensitive(menu, _("_Properties"), over_icon,
-			G_CALLBACK(collection_table_popup_info_cb), ct);
 	menu_item_add_divider(menu);
 	menu_item_add_stock_sensitive(menu, _("_Copy..."), GTK_STOCK_COPY, over_icon,
 			G_CALLBACK(collection_table_popup_copy_cb), ct);

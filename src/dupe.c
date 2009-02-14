@@ -22,7 +22,6 @@
 #include "filedata.h"
 #include "image-load.h"
 #include "img-view.h"
-#include "info.h"
 #include "layout.h"
 #include "layout_image.h"
 #include "md5-util.h"
@@ -2147,13 +2146,6 @@ static void dupe_menu_edit_cb(GtkWidget *widget, gpointer data)
 	dupe_window_edit_selected(dw, key);
 }
 
-static void dupe_menu_info_cb(GtkWidget *widget, gpointer data)
-{
-	DupeWindow *dw = data;
-
-	info_window_new(NULL, dupe_listview_get_selection(dw, dw->listview), NULL);
-}
-
 static void dupe_menu_collection_cb(GtkWidget *widget, gpointer data)
 {
 	DupeWindow *dw = data;
@@ -2254,8 +2246,6 @@ static GtkWidget *dupe_menu_popup_main(DupeWindow *dw, DupeItem *di)
 	menu_item_add_divider(menu);
 	submenu_add_edit(menu, &item, G_CALLBACK(dupe_menu_edit_cb), dw);
 	if (!on_row) gtk_widget_set_sensitive(item, FALSE);
-	menu_item_add_stock_sensitive(menu, _("_Properties"), GTK_STOCK_PROPERTIES, on_row,
-				G_CALLBACK(dupe_menu_info_cb), dw);
 	menu_item_add_stock_sensitive(menu, _("Add to new collection"), GTK_STOCK_INDEX, on_row,
 				G_CALLBACK(dupe_menu_collection_cb), dw);
 	menu_item_add_stock_sensitive(menu, _("Print..."), GTK_STOCK_PRINT, on_row,
@@ -2938,9 +2928,6 @@ static gint dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 					break;
 				case 'D': case 'd':
 					file_util_delete(NULL, dupe_listview_get_selection(dw, listview), dw->window);
-					break;
-				case 'P': case 'p':
-					info_window_new(NULL, dupe_listview_get_selection(dw, listview), NULL);
 					break;
 				default:
 					stop_signal = FALSE;

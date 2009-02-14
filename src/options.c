@@ -17,7 +17,6 @@
 #include "filefilter.h"
 #include "histogram.h" /* HCHAN_RGB */
 #include "image-overlay.h" /* OSD_SHOW_NOTHING */
-#include "info.h"
 #include "layout.h"
 #include "layout_image.h"
 #include "rcfile.h"
@@ -106,8 +105,6 @@ ConfOptions *init_options(ConfOptions *options)
 	options->layout.main_window.x = 0;
 	options->layout.main_window.y = 0;
 	options->layout.order = NULL;
-	options->layout.properties_window.w = DEF_PROPERTY_WIDTH;
-	options->layout.properties_window.h = DEF_PROPERTY_HEIGHT;
 	options->layout.save_window_positions = TRUE;
 	options->layout.show_directory_date = FALSE;
 	options->layout.show_marks = FALSE;
@@ -197,7 +194,6 @@ void setup_default_options(ConfOptions *options)
 	set_default_image_overlay_template_string(&options->image_overlay.common.template_string);
 	options->sidecar.ext = g_strdup(".jpg;%raw;.xmp");
 	options->layout.order = g_strdup("123");
-	options->properties.tabs_order = g_strdup(info_tab_default_order());
 
 	options->shell.path = g_strdup(GQ_DEFAULT_SHELL_PATH);
 	options->shell.options = g_strdup(GQ_DEFAULT_SHELL_OPTIONS);

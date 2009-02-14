@@ -16,5 +16,9 @@
 
 GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key);
 
+
+/* used in search.c */
+GList *keyword_list_pull(GtkWidget *text_widget);
+
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

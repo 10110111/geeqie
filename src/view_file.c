@@ -13,7 +13,6 @@
 #include "view_file.h"
 
 #include "editors.h"
-#include "info.h"
 #include "layout.h"
 #include "menu.h"
 #include "ui_menu.h"
@@ -311,13 +310,6 @@ static void vf_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
 	filelist_free(list);
 }
 
-static void vf_pop_menu_info_cb(GtkWidget *widget, gpointer data)
-{
-	ViewFile *vf = data;
-
-	info_window_new(NULL, vf_pop_menu_file_list(vf), NULL);
-}
-
 static void vf_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
@@ -558,8 +550,6 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 	submenu_add_edit(menu, &item, G_CALLBACK(vf_pop_menu_edit_cb), vf);
 	gtk_widget_set_sensitive(item, active);
 
-	menu_item_add_stock_sensitive(menu, _("_Properties"), GTK_STOCK_PROPERTIES, active,
-				      G_CALLBACK(vf_pop_menu_info_cb), vf);
 	menu_item_add_stock_sensitive(menu, _("View in _new window"), GTK_STOCK_NEW, active,
 				      G_CALLBACK(vf_pop_menu_view_cb), vf);
 

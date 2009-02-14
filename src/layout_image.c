@@ -21,7 +21,6 @@
 #include "image.h"
 #include "image-overlay.h"
 #include "img-view.h"
-#include "info.h"
 #include "layout.h"
 #include "layout_util.h"
 #include "menu.h"
@@ -338,13 +337,6 @@ static void li_pop_menu_alter_cb(GtkWidget *widget, gpointer data)
 	image_alter(lw->image, type);
 }
 
-static void li_pop_menu_info_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	info_window_new(layout_image_get_fd(lw), NULL, lw->full_screen ? lw->full_screen->window : NULL);
-}
-
 static void li_pop_menu_new_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -493,9 +485,6 @@ static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 	menu_item_add(submenu, _("Set as _wallpaper"), G_CALLBACK(li_pop_menu_wallpaper_cb), lw);
 
 	item = submenu_add_alter(menu, G_CALLBACK(li_pop_menu_alter_cb), lw);
-
-	item = menu_item_add_stock(menu, _("_Properties"), GTK_STOCK_PROPERTIES, G_CALLBACK(li_pop_menu_info_cb), lw);
-	if (!path) gtk_widget_set_sensitive(item, FALSE);
 
 	item = menu_item_add_stock(menu, _("View in _new window"), GTK_STOCK_NEW, G_CALLBACK(li_pop_menu_new_cb), lw);
 	if (!path || fullscreen) gtk_widget_set_sensitive(item, FALSE);

@@ -13,13 +13,11 @@
 #include "main.h"
 #include "view_file_list.h"
 
-#include "bar_info.h"
 #include "bar.h"
 #include "cache_maint.h"
 #include "dnd.h"
 #include "editors.h"
 #include "img-view.h"
-#include "info.h"
 #include "layout.h"
 #include "layout_image.h"
 #include "menu.h"

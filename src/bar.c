@@ -16,7 +16,6 @@
 
 #include "filedata.h"
 #include "history_list.h"
-#include "info.h"
 #include "metadata.h"
 #include "misc.h"
 #include "ui_fileops.h"

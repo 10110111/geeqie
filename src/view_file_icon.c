@@ -13,7 +13,6 @@
 #include "main.h"
 #include "view_file_icon.h"
 
-#include "bar_info.h"
 #include "bar.h"
 #include "cellrenderericon.h"
 #include "collect.h"
@@ -22,7 +21,6 @@
 #include "dnd.h"
 #include "editors.h"
 #include "img-view.h"
-#include "info.h"
 #include "filedata.h"
 #include "layout.h"
 #include "layout_image.h"

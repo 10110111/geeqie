@@ -22,7 +22,6 @@
 #include "fullscreen.h"
 #include "history_list.h"
 #include "img-view.h"
-#include "info.h"
 #include "menu.h"
 #include "misc.h"
 #include "pan-types.h"
@@ -1314,9 +1313,6 @@ static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoin
 				break;
 			case 'D': case 'd':
 				if (fd) file_util_delete(fd, NULL, GTK_WIDGET(pr));
-				break;
-			case 'P': case 'p':
-				if (fd) info_window_new(fd, NULL, NULL);
 				break;
 			case 'F': case 'f':
 				pan_search_toggle_visible(pw, TRUE);
@@ -2677,15 +2673,6 @@ static void pan_edit_cb(GtkWidget *widget, gpointer data)
 		}
 }
 
-static void pan_info_cb(GtkWidget *widget, gpointer data)
-{
-	PanWindow *pw = data;
-	FileData *fd;
-
-	fd = pan_menu_click_fd(pw);
-	if (fd) info_window_new(fd, NULL, NULL);
-}
-
 static void pan_zoom_in_cb(GtkWidget *widget, gpointer data)
 {
 	PanWindow *pw = data;
@@ -2811,9 +2798,6 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 
 	submenu_add_edit(menu, &item, G_CALLBACK(pan_edit_cb), pw);
 	gtk_widget_set_sensitive(item, active);
-
-	menu_item_add_stock_sensitive(menu, _("_Properties"), GTK_STOCK_PROPERTIES, active,
-				      G_CALLBACK(pan_info_cb), pw);
 
 	menu_item_add_stock_sensitive(menu, _("View in _new window"), GTK_STOCK_NEW, active,
 				      G_CALLBACK(pan_new_window_cb), pw);

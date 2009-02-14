@@ -20,7 +20,6 @@
 #include "editors.h"
 #include "filedata.h"
 #include "img-view.h"
-#include "info.h"
 #include "layout.h"
 #include "layout_image.h"
 #include "misc.h"
@@ -860,9 +859,6 @@ static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gp
 				break;
 			case 'D': case 'd':
 				file_util_delete(NULL, collection_table_selection_get_list(cw->table), cw->window);
-				break;
-			case 'P': case 'p':
-				info_window_new(NULL, collection_table_selection_get_list(cw->table), NULL);
 				break;
 			case 'S': case 's':
 				collection_dialog_save_as(NULL, cw->cd);

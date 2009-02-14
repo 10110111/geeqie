@@ -14,7 +14,6 @@
 #include "main.h"
 #include "search.h"
 
-#include "bar_info.h"
 #include "cache.h"
 #include "collect.h"
 #include "collect-table.h"
@@ -24,7 +23,6 @@
 #include "filedata.h"
 #include "image-load.h"
 #include "img-view.h"
-#include "info.h"
 #include "layout_image.h"
 #include "menu.h"
 #include "metadata.h"
@@ -41,6 +39,7 @@
 #include "uri_utils.h"
 #include "utilops.h"
 #include "window.h"
+#include "bar_keywords.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -916,13 +915,6 @@ static void sr_menu_edit_cb(GtkWidget *widget, gpointer data)
 	search_result_edit_selected(sd, key);
 }
 
-static void sr_menu_info_cb(GtkWidget *widget, gpointer data)
-{
-	SearchData *sd = data;
-
-	info_window_new(NULL, search_result_selection_list(sd), NULL);
-}
-
 static void sr_menu_collection_cb(GtkWidget *widget, gpointer data)
 {
 	SearchData *sd = data;
@@ -1005,8 +997,6 @@ static GtkWidget *search_result_menu(SearchData *sd, gint on_row, gint empty)
 	menu_item_add_divider(menu);
 	submenu_add_edit(menu, &item, G_CALLBACK(sr_menu_edit_cb), sd);
 	if (!on_row) gtk_widget_set_sensitive(item, FALSE);
-	menu_item_add_stock_sensitive(menu, _("_Properties"), GTK_STOCK_PROPERTIES, on_row,
-				      G_CALLBACK(sr_menu_info_cb), sd);
 	menu_item_add_stock_sensitive(menu, _("Add to new collection"), GTK_STOCK_INDEX, on_row,
 				      G_CALLBACK(sr_menu_collection_cb), sd);
 	menu_item_add_stock_sensitive(menu, _("Print..."), GTK_STOCK_PRINT, on_row,
@@ -1260,9 +1250,6 @@ static gint search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpo
 				break;
 			case 'D': case 'd':
 				file_util_delete(NULL, search_result_selection_list(sd), widget);
-				break;
-			case 'P': case 'p':
-				info_window_new(NULL,  search_result_selection_list(sd), NULL);
 				break;
 			case 'A': case 'a':
 				if (event->state & GDK_SHIFT_MASK)

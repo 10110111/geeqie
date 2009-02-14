@@ -80,8 +80,6 @@ geeqie_SOURCES = \
 	bar.h		\
 	bar_comment.c	\
 	bar_comment.h	\
-	bar_info.c	\
-	bar_info.h	\
 	bar_keywords.c	\
 	bar_keywords.h	\
 	bar_exif.c	\
@@ -154,8 +152,6 @@ geeqie_SOURCES = \
 	image-overlay.h	\
 	img-view.c	\
 	img-view.h	\
-	info.c		\
-	info.h		\
 	layout.c	\
 	layout.h	\
 	layout_config.c	\

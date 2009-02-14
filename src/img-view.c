@@ -22,7 +22,6 @@
 #include "fullscreen.h"
 #include "image.h"
 #include "image-overlay.h"
-#include "info.h"
 #include "layout.h"
 #include "layout_image.h"
 #include "menu.h"
@@ -420,9 +419,6 @@ static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpoi
 				break;
 			case 'D': case 'd':
 				file_util_delete(image_get_fd(imd), NULL, imd->widget);
-				break;
-			case 'P': case 'p':
-				info_window_new(image_get_fd(imd), NULL, vw->fs ? vw->fs->window : NULL);
 				break;
 			case 'W': case 'w':
 				view_window_close(vw);
@@ -1102,15 +1098,6 @@ static void view_alter_cb(GtkWidget *widget, gpointer data)
 	image_alter(vw->imd, type);
 }
 
-static void view_info_cb(GtkWidget *widget, gpointer data)
-{
-	ViewWindow *vw = data;
-	ImageWindow *imd;
-
-	imd = view_window_active_image(vw);
-	info_window_new(image_get_fd(imd), NULL, vw->fs ? vw->fs->window : NULL);
-}
-
 static void view_wallpaper_cb(GtkWidget *widget, gpointer data)
 {
 	ViewWindow *vw = data;
@@ -1275,8 +1262,6 @@ static GtkWidget *view_popup_menu(ViewWindow *vw)
 	menu_item_add(item, _("Set as _wallpaper"), G_CALLBACK(view_wallpaper_cb), vw);
 
 	submenu_add_alter(menu, G_CALLBACK(view_alter_cb), vw);
-
-	menu_item_add_stock(menu, _("_Properties"), GTK_STOCK_PROPERTIES, G_CALLBACK(view_info_cb), vw);
 
 	menu_item_add_stock(menu, _("View in _new window"), GTK_STOCK_NEW, G_CALLBACK(view_new_window_cb), vw);
 	item = menu_item_add(menu, _("_Go to directory view"), G_CALLBACK(view_set_layout_path_cb), vw);

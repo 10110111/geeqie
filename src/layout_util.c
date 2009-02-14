@@ -27,7 +27,6 @@
 #include "history_list.h"
 #include "image-overlay.h"
 #include "img-view.h"
-#include "info.h"
 #include "layout_image.h"
 #include "logwindow.h"
 #include "misc.h"
@@ -350,19 +349,6 @@ static void layout_menu_alter_none_cb(GtkAction *action, gpointer data)
 
 	layout_image_alter(lw, ALTER_NONE);
 }
-
-static void layout_menu_info_cb(GtkAction *action, gpointer data)
-{
-	LayoutWindow *lw = data;
-	GList *list;
-	FileData *fd = NULL;
-
-	list = layout_selection_list(lw);
-	if (!list) fd = layout_image_get_fd(lw);
-
-	info_window_new(fd, list, NULL);
-}
-
 
 static void layout_menu_config_cb(GtkAction *action, gpointer data)
 {
@@ -1155,7 +1141,6 @@ static GtkActionEntry menu_entries[] = {
   { "Grayscale",	NULL,		N_("Toggle _grayscale"),"<shift>G",	NULL,	CB(layout_menu_alter_desaturate_cb) },
   { "AlterNone",	NULL,		N_("_Original state"),  "<shift>O",	NULL,	CB(layout_menu_alter_none_cb) },
 
-  { "Properties",GTK_STOCK_PROPERTIES,	N_("_Properties"),	"<control>P",	NULL,	CB(layout_menu_info_cb) },
   { "SelectAll",	NULL,		N_("Select _all"),	"<control>A",	NULL,	CB(layout_menu_select_all_cb) },
   { "SelectNone",	NULL,		N_("Select _none"), "<control><shift>A",NULL,	CB(layout_menu_unselect_all_cb) },
   { "SelectInvert",	NULL,		N_("_Invert Selection"), "<control><shift>I",	NULL,	CB(layout_menu_invert_selection_cb) },
@@ -1309,7 +1294,6 @@ static const gchar *menu_ui_description =
 "        <menuitem action='Grayscale'/>"
 "        <menuitem action='AlterNone'/>"
 "      </menu>"
-"      <menuitem action='Properties'/>"
 "      <placeholder name='PropertiesSection'/>"
 "      <separator/>"
 "      <menuitem action='Preferences'/>"
