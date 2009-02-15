@@ -1921,7 +1921,8 @@ void layout_free(LayoutWindow *lw)
 
 	layout_window_list = g_list_remove(layout_window_list, lw);
 
-	
+	if (lw->exif_window) g_signal_handlers_disconnect_matched(G_OBJECT(lw->exif_window), G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, lw);
+		
 	layout_bars_close(lw);
 
 	gtk_widget_destroy(lw->window);
@@ -1975,13 +1976,10 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 	lw->bar_sort = NULL;
 	lw->bar_sort_enabled = options->panels.sort.enabled;
 
-	lw->bar_exif = NULL;
-	lw->bar_exif_enabled = options->panels.exif.enabled;
-	lw->bar_exif_advanced = FALSE;
-	
 	lw->bar = NULL;
 	lw->bar_enabled = options->panels.info.enabled;
 
+	lw->exif_window = NULL;
 	/* default layout */
 
 	layout_config_parse(options->layout.style, options->layout.order,
@@ -1998,7 +1996,6 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 		lw->div_h = options->layout.main_window.hdivider_pos;
 		lw->div_v = options->layout.main_window.vdivider_pos;
 		lw->div_float = options->layout.float_window.vdivider_pos;
-		lw->bar_exif_width = options->panels.exif.width;
 		lw->bar_width = options->panels.info.width;
 		}
 	else
@@ -2006,7 +2003,6 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 		lw->div_h = MAIN_WINDOW_DIV_HPOS;
 		lw->div_v = MAIN_WINDOW_DIV_VPOS;
 		lw->div_float = MAIN_WINDOW_DIV_VPOS;
-		lw->bar_exif_width = PANEL_DEFAULT_WIDTH;
 		lw->bar_width = PANEL_DEFAULT_WIDTH;
 		}
 

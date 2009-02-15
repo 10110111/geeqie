@@ -25,6 +25,7 @@
 #include "ui_menu.h"
 #include "bar_comment.h"
 #include "bar_keywords.h"
+#include "bar_exif.h"
 
 #define BAR_SIZE_INCREMENT 48
 #define BAR_ARROW_SIZE 7
@@ -321,7 +322,7 @@ GtkWidget *bar_new(GtkWidget *bounding_widget)
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	gtk_box_pack_start(GTK_BOX(bd->widget), scrolled, TRUE, TRUE, 0);
 	gtk_widget_show(scrolled);
 
@@ -341,6 +342,9 @@ GtkWidget *bar_new(GtkWidget *bounding_widget)
 	bar_add(bd->widget, widget);
 	
 	widget = bar_pane_comment_new(_("Comment"), "Xmp.dc.description", 150);
+	bar_add(bd->widget, widget);
+
+	widget = bar_pane_exif_new(_("Exif"));
 	bar_add(bd->widget, widget);
 
 	return bd->widget;

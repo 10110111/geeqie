@@ -27,13 +27,10 @@ struct _ExifUI {
 };
 extern ExifUI ExifUIList[];
 
+#define EXIF_BAR_CUSTOM_COUNT 20
 
-GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget *bounding_widget);
-void bar_exif_close(GtkWidget *bar);
 
-void bar_exif_set(GtkWidget *bar, FileData *fd);
-
-gint bar_exif_is_advanced(GtkWidget *bar);
+GtkWidget *bar_pane_exif_new(const gchar *title);
 
 
 /* these are exposed for when duplication of the exif bar's text is needed */

@@ -76,6 +76,8 @@ geeqie_SOURCES = \
 	$(module_SLIK)	\
 	ClayRGB1998.icc \
 	ClayRGB1998_icc.h \
+	advanced_exif.c	\
+	advanced_exif.h	\
 	bar.c		\
 	bar.h		\
 	bar_comment.c	\

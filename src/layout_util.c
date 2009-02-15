@@ -14,7 +14,7 @@
 #include "main.h"
 #include "layout_util.h"
 
-#include "bar_exif.h"
+#include "advanced_exif.h"
 #include "bar_sort.h"
 #include "bar.h"
 #include "cache_maint.h"
@@ -679,8 +679,7 @@ static void layout_menu_bar_exif_cb(GtkToggleAction *action, gpointer data)
 	
 	layout_exit_fullscreen(lw);
 
-	if (lw->bar_exif_enabled == gtk_toggle_action_get_active(action)) return;
-	layout_bar_exif_toggle(lw);
+	layout_exif_window_new(lw);
 }
 
 static void layout_menu_bar_sort_cb(GtkToggleAction *action, gpointer data)
@@ -1211,7 +1210,7 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "FloatTools",	NULL,		N_("_Float file list"),	"L",		NULL,	CB(layout_menu_float_cb),	 FALSE  },
   { "HideToolbar",	NULL,		N_("Hide tool_bar"),	NULL,		NULL,	CB(layout_menu_toolbar_cb),	 FALSE  },
   { "SBar",		NULL,		N_("_Info"),		"<control>K",	NULL,	CB(layout_menu_bar_cb),		 FALSE  },
-  { "SBarExif",		NULL,		N_("E_xif data"),	"<control>E",	NULL,	CB(layout_menu_bar_exif_cb),	 FALSE  },
+  { "ExifWin",		NULL,		N_("E_xif window"),	"<control>E",	NULL,	CB(layout_menu_bar_exif_cb),	 FALSE  },
   { "SBarSort",		NULL,		N_("Sort _manager"),	"<control>S",	NULL,	CB(layout_menu_bar_sort_cb),	 FALSE  },
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb),	 FALSE  },
 };
@@ -1368,7 +1367,7 @@ static const gchar *menu_ui_description =
 "      <placeholder name='ToolsSection'/>"
 "      <separator/>"
 "      <menuitem action='SBar'/>"
-"      <menuitem action='SBarExif'/>"
+"      <menuitem action='ExifWin'/>"
 "      <menuitem action='SBarSort'/>"
 "      <placeholder name='SideBarSection'/>"
 "      <separator/>"
@@ -1865,9 +1864,6 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	action = gtk_action_group_get_action(lw->action_group, "SBar");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->bar_enabled);
 
-	action = gtk_action_group_get_action(lw->action_group, "SBarExif");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->bar_exif_enabled);
-
 	action = gtk_action_group_get_action(lw->action_group, "SBarSort");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->bar_sort_enabled);
 
@@ -1879,6 +1875,10 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "SlideShow");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), layout_image_slideshow_active(lw));
+
+	action = gtk_action_group_get_action(lw->action_group, "ExifWin");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), !!lw->exif_window);
+
 }
 
 void layout_util_sync_thumb(LayoutWindow *lw)
@@ -2034,81 +2034,6 @@ static void layout_bar_maint_renamed(LayoutWindow *lw)
 //	bar_maint_renamed(lw->bar_info, layout_image_get_fd(lw));
 }
 
-static void layout_bar_exif_destroyed(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	if (lw->bar_exif)
-		{
-		lw->bar_exif_advanced = bar_exif_is_advanced(lw->bar_exif);
-		}
-
-	lw->bar_exif = NULL;
-	if (lw->utility_box)
-		{
-		/* destroyed from within itself */
-		lw->bar_exif_enabled = FALSE;
-		layout_util_sync_views(lw);
-		}
-}
-
-static void layout_bar_exif_sized(GtkWidget *widget, GtkAllocation *allocation, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	if (!lw->bar_exif) return;
-	
-	options->panels.exif.width = lw->bar_exif_width = allocation->width;
-}
-
-static void layout_bar_exif_new(LayoutWindow *lw)
-{
-	if (!lw->utility_box) return;
-
-	lw->bar_exif = bar_exif_new(TRUE, layout_image_get_fd(lw),
-				    lw->bar_exif_advanced, lw->utility_box);
-	g_signal_connect(G_OBJECT(lw->bar_exif), "destroy",
-			 G_CALLBACK(layout_bar_exif_destroyed), lw);
-	g_signal_connect(G_OBJECT(lw->bar_exif), "size_allocate",
-			 G_CALLBACK(layout_bar_exif_sized), lw);
-
-	options->panels.exif.enabled = lw->bar_exif_enabled = TRUE;
-	gtk_widget_set_size_request(lw->bar_exif, lw->bar_exif_width, -1);
-
-	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->bar_exif, FALSE, FALSE, 0);
-	if (lw->bar) gtk_box_reorder_child(GTK_BOX(lw->utility_box), lw->bar_exif, 1);
-	gtk_widget_show(lw->bar_exif);
-}
-
-static void layout_bar_exif_close(LayoutWindow *lw)
-{
-	if (lw->bar_exif)
-		{
-		bar_exif_close(lw->bar_exif);
-		lw->bar_exif = NULL;
-		}
-	options->panels.exif.enabled = lw->bar_exif_enabled = FALSE;
-}
-
-void layout_bar_exif_toggle(LayoutWindow *lw)
-{
-	if (lw->bar_exif_enabled)
-		{
-		layout_bar_exif_close(lw);
-		}
-	else
-		{
-		layout_bar_exif_new(lw);
-		}
-}
-
-static void layout_bar_exif_new_image(LayoutWindow *lw)
-{
-	if (!lw->bar_exif || !lw->bar_exif_enabled) return;
-
-	bar_exif_set(lw->bar_exif, layout_image_get_fd(lw));
-}
-
 static void layout_bar_sort_destroyed(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -2162,7 +2087,8 @@ void layout_bar_sort_toggle(LayoutWindow *lw)
 void layout_bars_new_image(LayoutWindow *lw)
 {
 	layout_bar_new_image(lw);
-	layout_bar_exif_new_image(lw);
+
+	if (lw->exif_window) advanced_exif_set_fd(lw->exif_window, layout_image_get_fd(lw));
 
 	/* this should be called here to handle the metadata edited in bars */
 	if (options->metadata.confirm_on_image_change)
@@ -2190,18 +2116,12 @@ GtkWidget *layout_bars_prepare(LayoutWindow *lw, GtkWidget *image)
 		layout_bar_new(lw);
 		}
 
-	if (lw->bar_exif_enabled)
-		{
-		layout_bar_exif_new(lw);
-		}
-
 	return lw->utility_box;
 }
 
 void layout_bars_close(LayoutWindow *lw)
 {
 	layout_bar_sort_close(lw);
-	layout_bar_exif_close(lw);
 	layout_bar_close(lw);
 }
 
@@ -2209,4 +2129,23 @@ void layout_bars_maint_renamed(LayoutWindow *lw)
 {
 	layout_bar_maint_renamed(lw);
 }
+
+static void layout_exif_window_destroy(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw = data;
+	lw->exif_window = NULL;
+}
+
+void layout_exif_window_new(LayoutWindow *lw)
+{
+	if (!lw->exif_window) 
+		{
+		lw->exif_window = advanced_exif_new();
+		if (!lw->exif_window) return;
+		g_signal_connect(G_OBJECT(lw->exif_window), "destroy",
+				 G_CALLBACK(layout_exif_window_destroy), lw);
+		advanced_exif_set_fd(lw->exif_window, layout_image_get_fd(lw));
+		}
+}
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

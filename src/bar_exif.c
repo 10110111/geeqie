@@ -20,15 +20,10 @@
 #include "history_list.h"
 #include "misc.h"
 #include "ui_misc.h"
+#include "bar.h"
+
 
 #include <math.h>
-
-#define EXIF_BAR_SIZE_INCREMENT 48
-#define EXIF_BAR_ARROW_SIZE 7
-
-#define EXIF_BAR_CUSTOM_COUNT 20
-
-#define BAR_EXIF_DATA_COLUMN_WIDTH 250
 
 ExifUI ExifUIList[]={
 	{ 0, 0, EXIF_UI_IFSET,	EXIF_FORMATTED("Camera")},
@@ -121,18 +116,17 @@ static GtkWidget *table_add_line(GtkWidget *table, gint x, gint y,
 
 /*
  *-------------------------------------------------------------------
- * EXIF bar
+ * EXIF widget
  *-------------------------------------------------------------------
  */
 
-typedef struct _ExifBar ExifBar;
-struct _ExifBar
+typedef struct _PaneExifData PaneExifData;
+struct _PaneExifData
 {
+	PaneData pane;
 	GtkWidget *vbox;
 	GtkWidget *scrolled;
 	GtkWidget *table;
-	GtkWidget *advanced_scrolled;
-	GtkWidget *listview;
 	GtkWidget **keys;
 	GtkWidget **labels;
 
@@ -146,288 +140,150 @@ struct _ExifBar
 	gint allow_search;
 };
 
-enum {
-	EXIF_ADVCOL_ENABLED = 0,
-	EXIF_ADVCOL_TAG,
-	EXIF_ADVCOL_NAME,
-	EXIF_ADVCOL_VALUE,
-	EXIF_ADVCOL_FORMAT,
-	EXIF_ADVCOL_ELEMENTS,
-	EXIF_ADVCOL_DESCRIPTION,
-	EXIF_ADVCOL_COUNT
-};
-
-static void bar_exif_sensitive(ExifBar *eb, gint enable)
+static void bar_pane_exif_sensitive(PaneExifData *ped, gint enable)
 {
-	gtk_widget_set_sensitive(eb->table, enable);
-	if (eb->advanced_scrolled) gtk_widget_set_sensitive(eb->advanced_scrolled, enable);
+	gtk_widget_set_sensitive(ped->table, enable);
 }
 
-static gint bar_exif_row_enabled(const gchar *name)
-{
-	GList *list;
-
-	if (!name) return FALSE;
-
-	list = history_list_get_by_key("exif_extras");
-	while (list)
-		{
-		if (strcmp(name, (gchar *)(list->data)) == 0) return TRUE;
-		list = list->next;
-	}
-
-	return FALSE;
-}
-
-static void bar_exif_update(ExifBar *eb)
+static void bar_pane_exif_update(PaneExifData *ped)
 {
 	ExifData *exif;
 	gint i;
+	GList *list;
 
 	/* do we have any exif at all ? */
-	exif = exif_read_fd(eb->fd);
+	exif = exif_read_fd(ped->fd);
 
 	if (!exif)
 		{
-		bar_exif_sensitive(eb, FALSE);
+		bar_pane_exif_sensitive(ped, FALSE);
 		return;
 		}
 	else
 		{
 		/* we will use high level functions so we can release it for now.
 		   it will stay in the cache */
-		exif_free_fd(eb->fd, exif);
+		exif_free_fd(ped->fd, exif);
 		exif = NULL;
 		}
 	
 
-	bar_exif_sensitive(eb, TRUE);
-
-	if (GTK_WIDGET_VISIBLE(eb->scrolled))
-		{
-		GList *list;
-		for (i = 0; ExifUIList[i].key; i++)
-			{
-			gchar *text;
-
-			if (ExifUIList[i].current == EXIF_UI_OFF)
-				{
-				gtk_widget_hide(eb->labels[i]);
-				gtk_widget_hide(eb->keys[i]);
-				continue;
-				}
-			text =  metadata_read_string(eb->fd, ExifUIList[i].key, METADATA_FORMATTED);
-			if (ExifUIList[i].current == EXIF_UI_IFSET
-			    && (!text || !*text))
-				{
-				gtk_widget_hide(eb->labels[i]);
-				gtk_widget_hide(eb->keys[i]);
-				g_free(text);
-				continue;
-				}
-			gtk_widget_show(eb->labels[i]);
-			gtk_widget_show(eb->keys[i]);
-			gtk_label_set_text(GTK_LABEL(eb->labels[i]), text);
-			g_free(text);
-			}
-
-		list = g_list_last(history_list_get_by_key("exif_extras"));
-		if (list)
-			{
-			gtk_widget_show(eb->custom_sep);
-			}
-		else
-			{
-			gtk_widget_hide(eb->custom_sep);
-			}
-		i = 0;
-		while (list && i < EXIF_BAR_CUSTOM_COUNT)
-			{
-			gchar *text;
-			gchar *name;
-			gchar *buf;
-			gchar *description;
-
-			name = list->data;
-			list = list->prev;
-			
-			text =  metadata_read_string(eb->fd, name, METADATA_FORMATTED);
-
-			description = exif_get_tag_description_by_key(name);
-			if (!description || *description == '\0') 
-				{
-				g_free(description);
-				description = g_strdup(name);
-				}
-			buf = g_strconcat(description, ":", NULL);
-			g_free(description);
-			
-			gtk_label_set_text(GTK_LABEL(eb->custom_name[i]), buf);
-			g_free(buf);
-			gtk_label_set_text(GTK_LABEL(eb->custom_value[i]), text);
-			g_free(text);
-
-			gtk_widget_show(eb->custom_name[i]);
-			gtk_widget_show(eb->custom_value[i]);
-			g_object_set_data(G_OBJECT(eb->custom_remove[i]), "key", name);
-			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(eb->custom_remove[i]), TRUE);
-			gtk_widget_show(eb->custom_remove[i]);
-
-			i++;
-			}
-		while (i < EXIF_BAR_CUSTOM_COUNT)
-			{
-			g_object_set_data(G_OBJECT(eb->custom_remove[i]), "key", NULL);
-			gtk_widget_hide(eb->custom_name[i]);
-			gtk_widget_hide(eb->custom_value[i]);
-			gtk_widget_hide(eb->custom_remove[i]);
-
-			i++;
-			}
-		}
-
-	if (eb->advanced_scrolled && GTK_WIDGET_VISIBLE(eb->advanced_scrolled))
-		{
-		GtkListStore *store;
-		GtkTreeIter iter;
-		ExifData *exif_original;
-		ExifItem *item;
-
-		exif = exif_read_fd(eb->fd);
-		if (!exif) return;
-		
-		exif_original = exif_get_original(exif);
-
-		store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(eb->listview)));
-		gtk_list_store_clear(store);
-
-		item = exif_get_first_item(exif_original);
-		while (item)
-			{
-			gchar *tag;
-			gchar *tag_name;
-			gchar *text;
-			gchar *utf8_text;
-			const gchar *format;
-			gchar *elements;
-			gchar *description;
-
-			tag = g_strdup_printf("0x%04x", exif_item_get_tag_id(item));
-			tag_name = exif_item_get_tag_name(item);
-			format = exif_item_get_format_name(item, TRUE);
-			text = exif_item_get_data_as_text(item);
-			utf8_text = utf8_validate_or_convert(text);
-			g_free(text);
-			elements = g_strdup_printf("%d", exif_item_get_elements(item));
-			description = exif_item_get_description(item);
-			if (!description || *description == '\0') 
-				{
-				g_free(description);
-				description = g_strdup(tag_name);
-				}
-
-			gtk_list_store_append(store, &iter);
-			gtk_list_store_set(store, &iter,
-					EXIF_ADVCOL_ENABLED, bar_exif_row_enabled(tag_name),
-					EXIF_ADVCOL_TAG, tag,
-					EXIF_ADVCOL_NAME, tag_name,
-					EXIF_ADVCOL_VALUE, utf8_text,
-					EXIF_ADVCOL_FORMAT, format,
-					EXIF_ADVCOL_ELEMENTS, elements,
-					EXIF_ADVCOL_DESCRIPTION, description, -1);
-			g_free(tag);
-			g_free(utf8_text);
-			g_free(elements);
-			g_free(description);
-			g_free(tag_name);
-			item = exif_get_next_item(exif_original);
-			}
-		exif_free_fd(eb->fd, exif);
-		}
-
-}
-
-static void bar_exif_clear(ExifBar *eb)
-{
-	gint i;
-
-	if (!GTK_WIDGET_SENSITIVE(eb->labels[0])) return;
+	bar_pane_exif_sensitive(ped, TRUE);
 
 	for (i = 0; ExifUIList[i].key; i++)
 		{
-		gtk_label_set_text(GTK_LABEL(eb->labels[i]), "");
-		}
-	for (i = 0; i < EXIF_BAR_CUSTOM_COUNT; i++)
-		{
-		gtk_label_set_text(GTK_LABEL(eb->custom_value[i]), "");
-		}
+		gchar *text;
 
-	if (eb->listview)
-		{
-		GtkListStore *store;
-
-		store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(eb->listview)));
-		gtk_list_store_clear(store);
-		}
-}
-
-void bar_exif_set(GtkWidget *bar, FileData *fd)
-{
-	ExifBar *eb;
-
-	eb = g_object_get_data(G_OBJECT(bar), "bar_exif_data");
-	if (!eb) return;
-
-	/* store this, advanced view toggle needs to reload data */
-	file_data_unref(eb->fd);
-	eb->fd = file_data_ref(fd);
-
-	bar_exif_clear(eb);
-	bar_exif_update(eb);
-}
-
-static void bar_exif_row_toggled_cb(GtkCellRendererToggle *toggle, const gchar *path, gpointer data)
-{
-	GtkWidget *listview = data;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
-	GtkTreePath *tpath;
-	gchar *name = NULL;
-	gboolean active;
-
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
-
-	tpath = gtk_tree_path_new_from_string(path);
-	gtk_tree_model_get_iter(store, &iter, tpath);
-	gtk_tree_path_free(tpath);
-
-	gtk_tree_model_get(store, &iter, EXIF_ADVCOL_ENABLED, &active,
-					 EXIF_ADVCOL_NAME, &name, -1);
-	active = (!active);
-
-	if (active &&
-	    g_list_length(history_list_get_by_key("exif_extras")) >= EXIF_BAR_CUSTOM_COUNT)
-		{
-		active = FALSE;
+		if (ExifUIList[i].current == EXIF_UI_OFF)
+			{
+			gtk_widget_hide(ped->labels[i]);
+			gtk_widget_hide(ped->keys[i]);
+			continue;
+			}
+		text =  metadata_read_string(ped->fd, ExifUIList[i].key, METADATA_FORMATTED);
+		if (ExifUIList[i].current == EXIF_UI_IFSET
+		    && (!text || !*text))
+			{
+			gtk_widget_hide(ped->labels[i]);
+			gtk_widget_hide(ped->keys[i]);
+			g_free(text);
+			continue;
+			}
+		gtk_widget_show(ped->labels[i]);
+		gtk_widget_show(ped->keys[i]);
+		gtk_label_set_text(GTK_LABEL(ped->labels[i]), text);
+		g_free(text);
 		}
 
-	gtk_list_store_set(GTK_LIST_STORE(store), &iter, EXIF_ADVCOL_ENABLED, active, -1);
-
-	if (active)
+	list = g_list_last(history_list_get_by_key("exif_extras"));
+	if (list)
 		{
-		history_list_add_to_key("exif_extras", name, EXIF_BAR_CUSTOM_COUNT);
+		gtk_widget_show(ped->custom_sep);
 		}
 	else
 		{
-		history_list_item_change("exif_extras", name, NULL);
+		gtk_widget_hide(ped->custom_sep);
 		}
+	i = 0;
+	while (list && i < EXIF_BAR_CUSTOM_COUNT)
+		{
+		gchar *text;
+		gchar *name;
+		gchar *buf;
+		gchar *description;
 
-	g_free(name);
+		name = list->data;
+		list = list->prev;
+		
+		text =  metadata_read_string(ped->fd, name, METADATA_FORMATTED);
+
+		description = exif_get_tag_description_by_key(name);
+		if (!description || *description == '\0') 
+			{
+			g_free(description);
+			description = g_strdup(name);
+			}
+		buf = g_strconcat(description, ":", NULL);
+		g_free(description);
+		
+		gtk_label_set_text(GTK_LABEL(ped->custom_name[i]), buf);
+		g_free(buf);
+		gtk_label_set_text(GTK_LABEL(ped->custom_value[i]), text);
+		g_free(text);
+
+		gtk_widget_show(ped->custom_name[i]);
+		gtk_widget_show(ped->custom_value[i]);
+		g_object_set_data(G_OBJECT(ped->custom_remove[i]), "key", name);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ped->custom_remove[i]), TRUE);
+		gtk_widget_show(ped->custom_remove[i]);
+
+		i++;
+		}
+	while (i < EXIF_BAR_CUSTOM_COUNT)
+		{
+		g_object_set_data(G_OBJECT(ped->custom_remove[i]), "key", NULL);
+		gtk_widget_hide(ped->custom_name[i]);
+		gtk_widget_hide(ped->custom_value[i]);
+		gtk_widget_hide(ped->custom_remove[i]);
+
+		i++;
+		}
 }
 
-static void bar_exif_remove_advanced_cb(GtkWidget *widget, gpointer data)
+static void bar_pane_exif_clear(PaneExifData *ped)
 {
-	ExifBar *eb = data;
+	gint i;
+
+	if (!GTK_WIDGET_SENSITIVE(ped->labels[0])) return;
+
+	for (i = 0; ExifUIList[i].key; i++)
+		{
+		gtk_label_set_text(GTK_LABEL(ped->labels[i]), "");
+		}
+	for (i = 0; i < EXIF_BAR_CUSTOM_COUNT; i++)
+		{
+		gtk_label_set_text(GTK_LABEL(ped->custom_value[i]), "");
+		}
+}
+
+void bar_pane_exif_set_fd(GtkWidget *widget, FileData *fd)
+{
+	PaneExifData *ped;
+
+	ped = g_object_get_data(G_OBJECT(widget), "pane_data");
+	if (!ped) return;
+
+	/* store this, advanced view toggle needs to reload data */
+	file_data_unref(ped->fd);
+	ped->fd = file_data_ref(fd);
+
+	bar_pane_exif_clear(ped);
+	bar_pane_exif_update(ped);
+}
+
+static void bar_pane_exif_remove_advanced_cb(GtkWidget *widget, gpointer data)
+{
+	PaneExifData *ped = data;
 	const gchar *key;
 
 	/* continue only if the toggle was deactivated */
@@ -438,311 +294,105 @@ static void bar_exif_remove_advanced_cb(GtkWidget *widget, gpointer data)
 
 	history_list_item_change("exif_extras", key, NULL);
 
-	bar_exif_update(eb);
+	bar_pane_exif_update(ped);
 }
 
-static void bar_exif_add_column_check(GtkWidget *listview, const gchar *title, gint n)
+void bar_pane_exif_close(GtkWidget *widget)
 {
-	GtkTreeViewColumn *column;
-	GtkCellRenderer *renderer;
+	PaneExifData *ped;
 
-	column = gtk_tree_view_column_new();
-	gtk_tree_view_column_set_title(column, title);
-	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+	ped = g_object_get_data(G_OBJECT(widget), "pane_data");
+	if (!ped) return;
 
-	renderer = gtk_cell_renderer_toggle_new();
-	gtk_tree_view_column_pack_start(column, renderer, TRUE);
-	gtk_tree_view_column_add_attribute(column, renderer, "active", n);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(listview), column);
-
-	g_signal_connect(G_OBJECT(renderer), "toggled",
-			 G_CALLBACK(bar_exif_row_toggled_cb), listview);
+	gtk_widget_destroy(ped->vbox);
 }
 
-static void bar_exif_add_column(GtkWidget *listview, const gchar *title, gint n, gint sizable)
+static void bar_pane_exif_destroy(GtkWidget *widget, gpointer data)
 {
-	GtkTreeViewColumn *column;
-	GtkCellRenderer *renderer;
+	PaneExifData *ped = data;
 
-	column = gtk_tree_view_column_new();
-	gtk_tree_view_column_set_title(column, title);
-
-	if (sizable)
-		{
-		gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
-		gtk_tree_view_column_set_fixed_width(column, BAR_EXIF_DATA_COLUMN_WIDTH);
-		gtk_tree_view_column_set_resizable(column, TRUE);
-		}
-	else
-		{
-		gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
-		}
-
-	renderer = gtk_cell_renderer_text_new();
-	gtk_tree_view_column_pack_start(column, renderer, TRUE);
-	gtk_tree_view_column_add_attribute(column, renderer, "text", n);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(listview), column);
+	g_free(ped->keys);
+	g_free(ped->labels);
+	file_data_unref(ped->fd);
+	g_free(ped);
 }
 
-static void bar_exif_advanced_build_view(ExifBar *eb)
+GtkWidget *bar_pane_exif_new(const gchar *title)
 {
-	GtkListStore *store;
-
-	if (eb->listview) return;
-
-	store = gtk_list_store_new(7, G_TYPE_BOOLEAN,
-				      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
-				      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
-	eb->listview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
-	g_object_unref(store);
-
-	gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(eb->listview), TRUE);
-	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(eb->listview), TRUE);
-
-	if (eb->allow_search)
-		{
-		gtk_tree_view_set_search_column(GTK_TREE_VIEW(eb->listview), EXIF_ADVCOL_NAME);
-		}
-	else
-		{
-		gtk_tree_view_set_enable_search(GTK_TREE_VIEW(eb->listview), FALSE);
-		}
-
-	bar_exif_add_column_check(eb->listview, "", EXIF_ADVCOL_ENABLED);
-
-	bar_exif_add_column(eb->listview, _("Description"), EXIF_ADVCOL_DESCRIPTION, FALSE);
-	bar_exif_add_column(eb->listview, _("Value"), EXIF_ADVCOL_VALUE, TRUE);
-	bar_exif_add_column(eb->listview, _("Name"), EXIF_ADVCOL_NAME, FALSE);
-	bar_exif_add_column(eb->listview, _("Tag"), EXIF_ADVCOL_TAG, FALSE);
-	bar_exif_add_column(eb->listview, _("Format"), EXIF_ADVCOL_FORMAT, FALSE);
-	bar_exif_add_column(eb->listview, _("Elements"), EXIF_ADVCOL_ELEMENTS, FALSE);
-
-	eb->advanced_scrolled = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(eb->advanced_scrolled), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(eb->advanced_scrolled),
-				       GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-	gtk_box_pack_start(GTK_BOX(eb->vbox), eb->advanced_scrolled, TRUE, TRUE, 0);
-	gtk_container_add(GTK_CONTAINER(eb->advanced_scrolled), eb->listview);
-	gtk_widget_show(eb->listview);
-}
-
-static void bar_exif_advanced_cb(GtkWidget *widget, gpointer data)
-{
-	ExifBar *eb = data;
-	gint advanced;
-
-	advanced = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-
-	if (advanced)
-		{
-		gtk_widget_hide(eb->scrolled);
-		bar_exif_advanced_build_view(eb);
-		gtk_widget_show(eb->advanced_scrolled);
-		}
-	else
-		{
-		gtk_widget_hide(eb->advanced_scrolled);
-		gtk_widget_show(eb->scrolled);
-		}
-
-	bar_exif_update(eb);
-}
-
-gint bar_exif_is_advanced(GtkWidget *bar)
-{
-	ExifBar *eb;
-
-	eb = g_object_get_data(G_OBJECT(bar), "bar_exif_data");
-	if (!eb) return FALSE;
-
-	return (eb->advanced_scrolled && GTK_WIDGET_VISIBLE(eb->advanced_scrolled));
-}
-
-void bar_exif_close(GtkWidget *bar)
-{
-	ExifBar *eb;
-
-	eb = g_object_get_data(G_OBJECT(bar), "bar_exif_data");
-	if (!eb) return;
-
-	gtk_widget_destroy(eb->vbox);
-}
-
-static void bar_exif_width(ExifBar *eb, gint val)
-{
-	gint size;
-
-	size = eb->vbox->allocation.width;
-	size = CLAMP(size + val, EXIF_BAR_SIZE_INCREMENT * 2, EXIF_BAR_SIZE_INCREMENT * 16);
-
-	gtk_widget_set_size_request(eb->vbox, size, -1);
-	options->panels.exif.width = eb->vbox->allocation.width;
-}
-
-static void bar_exif_larger(GtkWidget *widget, gpointer data)
-{
-	ExifBar *eb = data;
-
-	bar_exif_width(eb, EXIF_BAR_SIZE_INCREMENT);
-}
-
-static void bar_exif_smaller(GtkWidget *widget, gpointer data)
-{
-	ExifBar *eb = data;
-
-	bar_exif_width(eb, -EXIF_BAR_SIZE_INCREMENT);
-}
-
-static void bar_exif_destroy(GtkWidget *widget, gpointer data)
-{
-	ExifBar *eb = data;
-
-	g_free(eb->keys);
-	g_free(eb->labels);
-	file_data_unref(eb->fd);
-	g_free(eb);
-}
-
-GtkWidget *bar_exif_new(gint show_title, FileData *fd, gint advanced, GtkWidget *bounding_widget)
-{
-	ExifBar *eb;
+	PaneExifData *ped;
 	GtkWidget *table;
 	GtkWidget *viewport;
 	GtkWidget *hbox;
-	GtkWidget *button;
 	gint i;
 	gint exif_len;
 
 	for (exif_len = 0; ExifUIList[exif_len].key; exif_len++)
 	      ;
 
-	eb = g_new0(ExifBar, 1);
+	ped = g_new0(PaneExifData, 1);
 
-	eb->keys = g_new0(GtkWidget *, exif_len);
-	eb->labels = g_new0(GtkWidget *, exif_len);
+	ped->pane.pane_set_fd = bar_pane_exif_set_fd;
+	ped->pane.title = g_strdup(title);
 
-	eb->vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
-	g_object_set_data(G_OBJECT(eb->vbox), "bar_exif_data", eb);
-	g_signal_connect_after(G_OBJECT(eb->vbox), "destroy",
-			       G_CALLBACK(bar_exif_destroy), eb);
+	ped->keys = g_new0(GtkWidget *, exif_len);
+	ped->labels = g_new0(GtkWidget *, exif_len);
 
-	eb->allow_search = !show_title;
-
-	if (show_title)
-		{
-		GtkWidget *box;
-		GtkWidget *label;
-		GtkWidget *button;
-		GtkWidget *arrow;
-
-		box = gtk_hbox_new(FALSE, 0);
-
-		label = sizer_new(eb->vbox, bounding_widget, SIZER_POS_LEFT);
-		sizer_set_limits(label, EXIF_BAR_SIZE_INCREMENT * 2, -1, -1 , -1);
-		gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 0);
-		gtk_widget_show(label);
-
-		label = gtk_label_new(_("Exif"));
-		pref_label_bold(label, TRUE, FALSE);
-		gtk_box_pack_start(GTK_BOX(box), label, TRUE, TRUE, 0);
-		gtk_widget_show(label);
-
-		button = gtk_button_new();
-		gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-		g_signal_connect(G_OBJECT(button), "clicked",
-				 G_CALLBACK(bar_exif_smaller), eb);
-		gtk_box_pack_end(GTK_BOX(box), button, FALSE, FALSE, 0);
-		arrow = gtk_arrow_new(GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
-		gtk_widget_set_size_request(arrow, EXIF_BAR_ARROW_SIZE, EXIF_BAR_ARROW_SIZE);
-		gtk_container_add(GTK_CONTAINER(button), arrow);
-		gtk_widget_show(arrow);
-		gtk_widget_show(button);
-
-		button = gtk_button_new();
-		gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-		g_signal_connect(G_OBJECT(button), "clicked",
-				 G_CALLBACK(bar_exif_larger), eb);
-		gtk_box_pack_end(GTK_BOX(box), button, FALSE, FALSE, 0);
-		arrow = gtk_arrow_new(GTK_ARROW_LEFT, GTK_SHADOW_NONE);
-		gtk_widget_set_size_request(arrow, EXIF_BAR_ARROW_SIZE, EXIF_BAR_ARROW_SIZE);
-		gtk_container_add(GTK_CONTAINER(button), arrow);
-		gtk_widget_show(arrow);
-		gtk_widget_show(button);
-
-		gtk_box_pack_start(GTK_BOX(eb->vbox), box, FALSE, FALSE, 0);
-		gtk_widget_show(box);
-		}
+	ped->vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
+	g_object_set_data(G_OBJECT(ped->vbox), "pane_data", ped);
+	g_signal_connect_after(G_OBJECT(ped->vbox), "destroy",
+			       G_CALLBACK(bar_pane_exif_destroy), ped);
 
 
 	table = gtk_table_new(3, exif_len + 1 + EXIF_BAR_CUSTOM_COUNT, FALSE);
 
-	eb->table = table;
+	ped->table = table;
 
 	for (i = 0; ExifUIList[i].key; i++)
 		{
 		gchar *text;
 
 		text = exif_get_description_by_key(ExifUIList[i].key);
-		eb->labels[i] = table_add_line(table, 0, i, text, NULL,
-		      &eb->keys[i]);
+		ped->labels[i] = table_add_line(table, 0, i, text, NULL,
+		      &ped->keys[i]);
 		g_free(text);
 		}
 
-	eb->custom_sep = gtk_hseparator_new();
-	gtk_table_attach(GTK_TABLE(table), eb->custom_sep, 0, 3,
+	ped->custom_sep = gtk_hseparator_new();
+	gtk_table_attach(GTK_TABLE(table), ped->custom_sep, 0, 3,
 					   exif_len, exif_len + 1,
 					   GTK_FILL, GTK_FILL, 2, 2);
 
 	for (i = 0; i < EXIF_BAR_CUSTOM_COUNT; i++)
 		{
 		table_add_line_custom(table, 0, exif_len + 1 + i,
-				      "", "",  &eb->custom_name[i], &eb->custom_value[i],
-				      &eb->custom_remove[i]);
-		g_signal_connect(G_OBJECT(eb->custom_remove[i]), "clicked", 
-				 G_CALLBACK(bar_exif_remove_advanced_cb), eb);
+				      "", "",  &ped->custom_name[i], &ped->custom_value[i],
+				      &ped->custom_remove[i]);
+		g_signal_connect(G_OBJECT(ped->custom_remove[i]), "clicked", 
+				 G_CALLBACK(bar_pane_exif_remove_advanced_cb), ped);
 		}
 
-	eb->scrolled = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(eb->scrolled),
-				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	ped->scrolled = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(ped->scrolled),
+				       GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
 
 	viewport = gtk_viewport_new(NULL, NULL);
 	gtk_viewport_set_shadow_type(GTK_VIEWPORT(viewport), GTK_SHADOW_NONE);
-	gtk_container_add(GTK_CONTAINER(eb->scrolled), viewport);
+	gtk_container_add(GTK_CONTAINER(ped->scrolled), viewport);
 	gtk_widget_show(viewport);
 
 	gtk_container_add(GTK_CONTAINER(viewport), table);
 	gtk_widget_show(table);
 
-	gtk_box_pack_start(GTK_BOX(eb->vbox), eb->scrolled, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(ped->vbox), ped->scrolled, TRUE, TRUE, 0);
 
 	hbox = gtk_hbox_new(FALSE, PREF_PAD_SPACE);
-	gtk_box_pack_end(GTK_BOX(eb->vbox), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_end(GTK_BOX(ped->vbox), hbox, FALSE, FALSE, 0);
 	gtk_widget_show(hbox);
 
-	button = gtk_check_button_new_with_label(_("Advanced view"));
-	if (advanced) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
-	g_signal_connect(G_OBJECT(button), "toggled",
-			 G_CALLBACK(bar_exif_advanced_cb), eb);
-	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
+	gtk_widget_show(ped->scrolled);
 
-	eb->advanced_scrolled = NULL;
-	eb->listview = NULL;
+	gtk_widget_show(ped->vbox);
 
-	if (advanced)
-		{
-		bar_exif_advanced_build_view(eb);
-		gtk_widget_show(eb->advanced_scrolled);
-		}
-	else
-		{
-		gtk_widget_show(eb->scrolled);
-		}
-
-	eb->fd = file_data_ref(fd);
-	bar_exif_update(eb);
-
-	return eb->vbox;
+	return ped->vbox;
 }
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
