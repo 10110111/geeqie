@@ -598,8 +598,8 @@ static void bar_pane_keywords_populate_popup_cb(GtkTextView *textview, GtkMenu *
 	PaneKeywordsData *pkd = data;
 
 	menu_item_add_divider(GTK_WIDGET(menu));
-	menu_item_add_stock(GTK_WIDGET(menu), _("Add keywords to selected files"), GTK_STOCK_ADD, G_CALLBACK(bar_pane_keywords_sel_add_cb), data);
-	menu_item_add_stock(GTK_WIDGET(menu), _("Replace existing keywords in selected files"), GTK_STOCK_CONVERT, G_CALLBACK(bar_pane_keywords_sel_replace_cb), data);
+	menu_item_add_stock(GTK_WIDGET(menu), _("Add keywords to selected files"), GTK_STOCK_ADD, G_CALLBACK(bar_pane_keywords_sel_add_cb), pkd);
+	menu_item_add_stock(GTK_WIDGET(menu), _("Replace existing keywords in selected files"), GTK_STOCK_CONVERT, G_CALLBACK(bar_pane_keywords_sel_replace_cb), pkd);
 }
 
 
@@ -709,13 +709,9 @@ static GtkTreeModel *create_marks_list(void)
 GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key)
 {
 	PaneKeywordsData *pkd;
-	GtkWidget *box;
 	GtkWidget *hbox;
-	GtkWidget *table;
 	GtkWidget *scrolled;
 	GtkTextBuffer *buffer;
-	GtkWidget *label;
-	GtkWidget *tbar;
 	GtkListStore *store;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
