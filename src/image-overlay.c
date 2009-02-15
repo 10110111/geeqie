@@ -840,7 +840,10 @@ static gint image_osd_update_cb(gpointer data)
 
 	if (osd->show & OSD_SHOW_INFO)
 		{
-		if (osd->changed_states & IMAGE_STATE_IMAGE)
+		/* redraw when the image was changed, 
+		   with histogram we have to redraw also when loading is finished */
+		if (osd->changed_states & IMAGE_STATE_IMAGE ||
+		    (osd->changed_states & IMAGE_STATE_LOADING && osd->show & OSD_SHOW_HISTOGRAM)) 
 			{
 			GdkPixbuf *pixbuf;
 
