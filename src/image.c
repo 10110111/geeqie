@@ -538,14 +538,14 @@ static void image_load_done_cb(ImageLoader *il, gpointer data)
 
 	DEBUG_1("%s image done", get_exec_time());
 
-	g_object_set(G_OBJECT(imd->pr), "loading", FALSE, NULL);
-	image_state_unset(imd, IMAGE_STATE_LOADING);
-
 	if (options->image.enable_read_ahead && imd->image_fd && !imd->image_fd->pixbuf && image_loader_get_pixbuf(imd->il))
 		{
 		imd->image_fd->pixbuf = g_object_ref(image_loader_get_pixbuf(imd->il));
 		image_cache_set(imd, imd->image_fd);
 		}
+	/* call the callback triggered by image_state after fd->pixbuf is set */
+	g_object_set(G_OBJECT(imd->pr), "loading", FALSE, NULL);
+	image_state_unset(imd, IMAGE_STATE_LOADING);
 
 	if (!image_loader_get_pixbuf(imd->il))
 		{

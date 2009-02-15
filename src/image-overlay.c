@@ -442,6 +442,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	gchar *text;
 	GdkPixbuf *imgpixbuf = NULL;
 	gboolean with_hist;
+	HistMap *histmap;
 	ImageWindow *imd = osd->imd;
 	FileData *fd = image_get_fd(imd);
 
@@ -553,7 +554,13 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 		text = g_markup_escape_text(_("Untitled"), -1);
 	}
 
-	with_hist = (imgpixbuf && (osd->show & OSD_SHOW_HISTOGRAM) && osd->histogram && (!imd->il || image_loader_get_is_done(imd->il)));
+	with_hist = ((osd->show & OSD_SHOW_HISTOGRAM) && osd->histogram);
+	if (with_hist)
+		{
+		histmap = histmap_get(imd->image_fd);
+		if (!histmap) with_hist = FALSE;
+		}
+	
 	
 	{
 		gint active_marks = 0;
@@ -611,7 +618,6 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 
 	if (with_hist)
 		{
-		histogram_read(osd->histogram, imgpixbuf);
 		if (width < HISTOGRAM_WIDTH + 10) width = HISTOGRAM_WIDTH + 10;
 		height += HISTOGRAM_HEIGHT + 5;
 		}
@@ -649,7 +655,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 				xoffset += add+d;
 				}
 						
-			histogram_draw(osd->histogram, pixbuf, x, y, w, HISTOGRAM_HEIGHT);
+			histogram_draw(osd->histogram, histmap, pixbuf, x, y, w, HISTOGRAM_HEIGHT);
 			}
 		pixbuf_draw_layout(pixbuf, layout, imd->pr, 5, 5, 0, 0, 0, 255);
 	}

@@ -200,6 +200,7 @@ typedef struct _FullScreenData FullScreenData;
 
 typedef struct _PixmapFolders PixmapFolders;
 typedef struct _Histogram Histogram;
+typedef struct _HistMap HistMap;
 
 typedef struct _SecureSaveInfo SecureSaveInfo;
 
@@ -451,6 +452,8 @@ struct _FileData {
 
 	GdkPixbuf *pixbuf; /* full-size image, only complete images, NULL during loading
 			      all FileData with non-NULL pixbuf are referenced by image_cache */
+			      
+	HistMap *histmap;
 
 	gint ref;
 	gint version; /* increased when any field in this structure is changed */

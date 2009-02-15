@@ -23,10 +23,22 @@
  *----------------------------------------------------------------------------
  */
 
-#define HISTOGRAM_SIZE 256
+#define HISTMAP_SIZE 256
+typedef enum {
+	HISTMAP_CHANNEL_R = 0,
+	HISTMAP_CHANNEL_G,
+	HISTMAP_CHANNEL_B,
+	HISTMAP_CHANNEL_AVG,
+	HISTMAP_CHANNEL_MAX,
+	HISTMAP_CHANNELS
+} HistMapChannels;
+
+struct _HistMap {
+	gulong histmap[HISTMAP_SIZE * HISTMAP_CHANNELS];
+	gulong area;
+};
 
 struct _Histogram {
-	gulong histmap[HISTOGRAM_SIZE*4];
 	gint histogram_chan;
 	gint histogram_logmode;
 };
@@ -104,83 +116,83 @@ const gchar *histogram_label(Histogram *histogram)
 	return t1;
 }
 
-gulong histogram_read(Histogram *histogram, GdkPixbuf *imgpixbuf)
+static HistMap *histmap_read(GdkPixbuf *imgpixbuf)
 {
 	gint w, h, i, j, srs, has_alpha, step;
 	guchar *s_pix;
 
-	if (!histogram) return 0;
-
+	HistMap *histmap;
+	
 	w = gdk_pixbuf_get_width(imgpixbuf);
 	h = gdk_pixbuf_get_height(imgpixbuf);
 	srs = gdk_pixbuf_get_rowstride(imgpixbuf);
 	s_pix = gdk_pixbuf_get_pixels(imgpixbuf);
 	has_alpha = gdk_pixbuf_get_has_alpha(imgpixbuf);
 
-	memset(histogram->histmap, 0, sizeof(histogram->histmap));
+	histmap = g_new0(HistMap, 1);
 
-	/* code duplication is here to speed up the calculation */
 	step = 3 + !!(has_alpha);
-	if (histogram->histogram_chan == HCHAN_MAX)
+	for (i = 0; i < h; i++)
 		{
-		for (i = 0; i < h; i++)
+		guchar *sp = s_pix + (i * srs); /* 8bit */
+		for (j = 0; j < w; j++)
 			{
-			guchar *sp = s_pix + (i * srs); /* 8bit */
-			for (j = 0; j < w; j++)
-				{
-				guchar t = sp[0];
-				if (sp[1]>t) t = sp[1];
-				if (sp[2]>t) t = sp[2];
+			guint avg = (sp[0] + sp[1] + sp[2]) / 3;
+			guint max = sp[0];
+			if (sp[1] > max) max = sp[1];
+			if (sp[2] > max) max = sp[2];
 
-				histogram->histmap[sp[0] + 0 * HISTOGRAM_SIZE]++;
-				histogram->histmap[sp[1] + 1 * HISTOGRAM_SIZE]++;
-				histogram->histmap[sp[2] + 2 * HISTOGRAM_SIZE]++;
-				histogram->histmap[t + 3 * HISTOGRAM_SIZE]++;
-				sp += step;
-				}
+			histmap->histmap[sp[0] * HISTMAP_CHANNELS + HISTMAP_CHANNEL_R]++;
+			histmap->histmap[sp[1] * HISTMAP_CHANNELS + HISTMAP_CHANNEL_G]++;
+			histmap->histmap[sp[2] * HISTMAP_CHANNELS + HISTMAP_CHANNEL_B]++;
+			histmap->histmap[avg   * HISTMAP_CHANNELS + HISTMAP_CHANNEL_AVG]++;
+			histmap->histmap[max   * HISTMAP_CHANNELS + HISTMAP_CHANNEL_MAX]++;
+			sp += step;
 			}
 		}
-	else
-		{
-		for (i = 0; i < h; i++)
-			{
-			guchar *sp = s_pix + (i * srs); /* 8bit */
-			for (j = 0; j < w; j++)
-				{
-				histogram->histmap[sp[0] + 0 * HISTOGRAM_SIZE]++;
-				histogram->histmap[sp[1] + 1 * HISTOGRAM_SIZE]++;
-				histogram->histmap[sp[2] + 2 * HISTOGRAM_SIZE]++;
-				histogram->histmap[3 * HISTOGRAM_SIZE + (sp[0]+sp[1]+sp[2])/3]++;
-				sp += step;
-				}
-			}
-		}
-
-	return w*h;
+	histmap->area = w * h;
+	return histmap;
 }
 
-gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
+HistMap *histmap_get(FileData *fd)
+{
+	if (fd->histmap) return fd->histmap;
+	
+	if (fd->pixbuf) 
+		{
+		fd->histmap = histmap_read(fd->pixbuf);
+		return fd->histmap;
+		}
+	return NULL;
+}
+
+gint histogram_draw(Histogram *histogram, HistMap *histmap, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
 {
 	/* FIXME: use the coordinates correctly */
 	gint i;
 	gulong max = 0;
 	gdouble logmax;
 
-	if (!histogram) return 0;
+	if (!histogram || !histmap) return 0;
 
 	for (i = 0; i < 1024; i++) {
+#if 0
+		/* this is probably broken for MAX or VAL mode */
 		gint flag = 0;
 
 		switch (histogram->histogram_chan)
 			{
-			case HCHAN_RGB: if ((i%4) != 3) flag = 1; break;
-			case HCHAN_R:   if ((i%4) == 0) flag = 1; break;
-			case HCHAN_G:   if ((i%4) == 1) flag = 1; break;
-			case HCHAN_B:   if ((i%4) == 2) flag = 1; break;
-			case HCHAN_VAL: if ((i%4) == 3) flag = 1; break;
-			case HCHAN_MAX: if ((i%4) == 3) flag = 1; break;
+			case HCHAN_RGB: if ((i % HISTMAP_CHANNELS) < 3) flag = 1; break;
+			case HCHAN_R:   if ((i % HISTMAP_CHANNELS) == HISTMAP_CHANNEL_R) flag = 1; break;
+			case HCHAN_G:   if ((i % HISTMAP_CHANNELS) == HISTMAP_CHANNEL_G) flag = 1; break;
+			case HCHAN_B:   if ((i % HISTMAP_CHANNELS) == HISTMAP_CHANNEL_B) flag = 1; break;
+			case HCHAN_VAL: if ((i % HISTMAP_CHANNELS) == HISTMAP_CHANNEL_AVG) flag = 1; break;
+			case HCHAN_MAX: if ((i % HISTMAP_CHANNELS) == HISTMAP_CHANNEL_MAX) flag = 1; break;
 			}
-		if (flag && histogram->histmap[i] > max) max = histogram->histmap[i];
+		if (flag && histmap->histmap[i] > max) max = histmap->histmap[i];
+#else
+		if (histmap->histmap[i] > max) max = histmap->histmap[i];
+#endif
 	}
 
 	logmax = log(max);
@@ -191,15 +203,21 @@ gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gin
 		gint rplus = 0;
 		gint gplus = 0;
 		gint bplus = 0;
-		gint ii = i * HISTOGRAM_SIZE / width;
-		gint combine  = (HISTOGRAM_SIZE - 1) / width + 1;
+		gint ii = i * HISTMAP_SIZE / width;
+		gint combine  = (HISTMAP_SIZE - 1) / width + 1;
 
 		for (j = 0; j < combine; j++)
 			{
-			v[0] += histogram->histmap[ii + j + 0 * HISTOGRAM_SIZE]; // r
-			v[1] += histogram->histmap[ii + j + 1 * HISTOGRAM_SIZE]; // g
-			v[2] += histogram->histmap[ii + j + 2 * HISTOGRAM_SIZE]; // b
-			v[3] += histogram->histmap[ii + j + 3 * HISTOGRAM_SIZE]; // value, max
+			v[0] += histmap->histmap[(ii + j) * HISTMAP_CHANNELS + HISTMAP_CHANNEL_R]; // r
+			v[1] += histmap->histmap[(ii + j) * HISTMAP_CHANNELS + HISTMAP_CHANNEL_G]; // g
+			v[2] += histmap->histmap[(ii + j) * HISTMAP_CHANNELS + HISTMAP_CHANNEL_B]; // b
+			v[3] += histmap->histmap[(ii + j) * HISTMAP_CHANNELS + 
+			        ((histogram->histogram_chan == HCHAN_VAL) ? HISTMAP_CHANNEL_AVG : HISTMAP_CHANNEL_MAX)]; // value, max
+			}
+			
+		for (j = 0; j < 4; j++)
+			{
+			v[j] /= combine;
 			}
 
 		for (j = 0; j < 4; j++)
@@ -258,4 +276,14 @@ gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gin
 
 	return TRUE;
 }
+
+void histogram_notify_cb(FileData *fd, NotifyType type, gpointer data)
+{
+	if (type != NOTIFY_TYPE_INTERNAL && fd->histmap)
+		{
+		g_free(fd->histmap);
+		fd->histmap = NULL;
+		}
+}
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -33,6 +33,7 @@
 #include "metadata.h"
 #include "editors.h"
 #include "exif.h"
+#include "histogram.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -743,6 +744,7 @@ gint main(gint argc, gchar *argv[])
 	/* register global notify functions */
 	file_data_register_notify_func(cache_notify_cb, NULL, NOTIFY_PRIORITY_HIGH);
 	file_data_register_notify_func(thumb_notify_cb, NULL, NOTIFY_PRIORITY_HIGH);
+	file_data_register_notify_func(histogram_notify_cb, NULL, NOTIFY_PRIORITY_HIGH);
 	file_data_register_notify_func(collect_manager_notify_cb, NULL, NOTIFY_PRIORITY_LOW);
 
 	parse_command_line_for_debug_option(argc, argv);

@@ -515,7 +515,8 @@ static void file_data_free(FileData *fd)
 	g_free(fd->collate_key_name);
 	g_free(fd->collate_key_name_nocase);
 	if (fd->thumb_pixbuf) g_object_unref(fd->thumb_pixbuf);
-
+	g_free(fd->histmap);
+	
 	g_assert(fd->sidecar_files == NULL); /* sidecar files must be freed before calling this */
 
 	file_data_change_info_free(NULL, fd);

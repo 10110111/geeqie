@@ -30,8 +30,10 @@ gint histogram_get_channel(Histogram *histogram);
 gint histogram_set_mode(Histogram *histogram, gint mode);
 gint histogram_get_mode(Histogram *histogram);
 const gchar *histogram_label(Histogram *histogram);
-gulong histogram_read(Histogram *histogram, GdkPixbuf *imgpixbuf);
-gint histogram_draw(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height);
+HistMap *histmap_get(FileData *fd);
+gint histogram_draw(Histogram *histogram, HistMap *histmap, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height);
+
+void histogram_notify_cb(FileData *fd, NotifyType type, gpointer data);
 
 #endif /* HISTOGRAM_H */
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
