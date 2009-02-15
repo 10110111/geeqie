@@ -1730,7 +1730,6 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 
 	lw->file_view = NULL;
 	lw->vf = NULL;
-	lw->vf = NULL;
 
 	lw->info_box = NULL;
 	lw->info_progress_bar = NULL;
