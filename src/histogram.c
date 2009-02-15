@@ -154,7 +154,7 @@ static HistMap *histmap_read(GdkPixbuf *imgpixbuf)
 	return histmap;
 }
 
-HistMap *histmap_get(FileData *fd)
+const HistMap *histmap_get(FileData *fd)
 {
 	if (fd->histmap) return fd->histmap;
 	
@@ -166,7 +166,7 @@ HistMap *histmap_get(FileData *fd)
 	return NULL;
 }
 
-gint histogram_draw(Histogram *histogram, HistMap *histmap, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
+gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
 {
 	/* FIXME: use the coordinates correctly */
 	gint i;

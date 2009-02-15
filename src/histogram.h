@@ -30,8 +30,8 @@ gint histogram_get_channel(Histogram *histogram);
 gint histogram_set_mode(Histogram *histogram, gint mode);
 gint histogram_get_mode(Histogram *histogram);
 const gchar *histogram_label(Histogram *histogram);
-HistMap *histmap_get(FileData *fd);
-gint histogram_draw(Histogram *histogram, HistMap *histmap, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height);
+const HistMap *histmap_get(FileData *fd);
+gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height);
 
 void histogram_notify_cb(FileData *fd, NotifyType type, gpointer data);
 

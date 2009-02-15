@@ -82,6 +82,8 @@ geeqie_SOURCES = \
 	bar.h		\
 	bar_comment.c	\
 	bar_comment.h	\
+	bar_histogram.c	\
+	bar_histogram.h	\
 	bar_keywords.c	\
 	bar_keywords.h	\
 	bar_exif.c	\

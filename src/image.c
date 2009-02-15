@@ -484,6 +484,7 @@ static void image_cache_set(ImageWindow *imd, FileData *fd)
 	g_assert(fd->pixbuf);
 
 	file_cache_put(image_get_cache(), fd, (gulong)gdk_pixbuf_get_rowstride(fd->pixbuf) * (gulong)gdk_pixbuf_get_height(fd->pixbuf));
+	file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL); /* to update histogram */
 }
 
 static gint image_cache_get(ImageWindow *imd)

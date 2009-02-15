@@ -442,7 +442,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	gchar *text;
 	GdkPixbuf *imgpixbuf = NULL;
 	gboolean with_hist;
-	HistMap *histmap;
+	const HistMap *histmap;
 	ImageWindow *imd = osd->imd;
 	FileData *fd = image_get_fd(imd);
 

@@ -26,6 +26,7 @@
 #include "bar_comment.h"
 #include "bar_keywords.h"
 #include "bar_exif.h"
+#include "bar_histogram.h"
 
 #define BAR_SIZE_INCREMENT 48
 #define BAR_ARROW_SIZE 7
@@ -334,6 +335,8 @@ GtkWidget *bar_new(GtkWidget *bounding_widget)
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_NONE);
 	gtk_widget_show(bd->vbox);
 	
+	widget = bar_pane_histogram_new(_("Histogram"), 80);
+	bar_add(bd->widget, widget);
 
 	widget = bar_pane_comment_new(_("Title"), "Xmp.dc.title", 40);
 	bar_add(bd->widget, widget);
