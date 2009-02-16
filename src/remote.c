@@ -60,6 +60,7 @@ static gboolean remote_server_client_cb(GIOChannel *source, GIOCondition conditi
 {
 	RemoteClient *client = data;
 	RemoteConnection *rc;
+	GIOStatus status = G_IO_STATUS_NORMAL;
 
 	rc = client->rc;
 
@@ -71,7 +72,7 @@ static gboolean remote_server_client_cb(GIOChannel *source, GIOCondition conditi
 		GError *error = NULL;
 		guint termpos;
 
-		while (g_io_channel_read_line(source, &buffer, NULL, &termpos, &error) == G_IO_STATUS_NORMAL)
+		while ((status = g_io_channel_read_line(source, &buffer, NULL, &termpos, &error)) == G_IO_STATUS_NORMAL)
 			{
 			if (buffer)
 				{
@@ -109,7 +110,7 @@ static gboolean remote_server_client_cb(GIOChannel *source, GIOCondition conditi
 		g_list_free(queue);
 		}
 
-	if (condition & G_IO_HUP)
+	if (condition & G_IO_HUP || status == G_IO_STATUS_EOF || status == G_IO_STATUS_ERROR)
 		{
 		rc->clients = g_list_remove(rc->clients, client);
 
