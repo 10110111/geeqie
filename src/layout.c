@@ -1085,7 +1085,8 @@ gint layout_set_fd(LayoutWindow *lw, FileData *fd)
 
 	if (lw->path_entry) tab_completion_append_to_history(lw->path_entry, lw->dir_fd->path);
 	layout_sync_path(lw);
-
+	layout_list_sync_sort(lw);
+	
 	if (have_file)
 		{
 		gint row;
@@ -1752,7 +1753,6 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	layout_grid_setup(lw);
 	layout_tools_hide(lw, lw->tools_hidden);
 
-	layout_list_sync_sort(lw);
 	layout_util_sync(lw);
 	layout_status_update_all(lw);
 
