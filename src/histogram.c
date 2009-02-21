@@ -39,10 +39,16 @@ struct _HistMap {
 };
 
 struct _Histogram {
-	gint channel_mode;
-	gint log_mode;
+	gint channel_mode; /* drawing mode for histogram */
+	gint log_mode;     /* logarithmical or not */
 	guint vgrid; /* number of vertical divisions, 0 for none */
 	guint hgrid; /* number of horizontal divisions, 0 for none */
+	struct {
+		int R; /* red */
+		int G; /* green */
+		int B; /* blue */
+		int A; /* alpha */
+	} grid_color;  /* grid color */
 
 };
 
@@ -53,8 +59,14 @@ Histogram *histogram_new(void)
 	histogram = g_new0(Histogram, 1);
 	histogram->channel_mode = options->histogram.last_channel_mode;
 	histogram->log_mode = options->histogram.last_log_mode;
+
+	/* grid */
 	histogram->vgrid = 5;
 	histogram->hgrid = 3;
+	histogram->grid_color.R	= 160;
+	histogram->grid_color.G	= 160;
+	histogram->grid_color.B	= 160;
+	histogram->grid_color.A	= 250;
 
 	return histogram;
 }
@@ -172,8 +184,6 @@ const HistMap *histmap_get(FileData *fd)
 
 static void histogram_vgrid(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
 {
-	static gint c = 160;
-	static gint alpha = 250;
 	guint i;
 	float add;
 	
@@ -185,14 +195,16 @@ static void histogram_vgrid(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gin
 		{
 		gint xpos = x + (int)(i * add + 0.5);
 
-		pixbuf_draw_line(pixbuf, x, y, width, height, xpos, y, xpos, y + height, c, c, c, alpha);
+		pixbuf_draw_line(pixbuf, x, y, width, height, xpos, y, xpos, y + height,
+				 histogram->grid_color.R,
+				 histogram->grid_color.G,
+				 histogram->grid_color.B,
+				 histogram->grid_color.A);
 		}
 }
 
 static void histogram_hgrid(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
 {
-	static gint c = 160;
-	static gint alpha = 250;
 	guint i;
 	float add;
 	
@@ -204,7 +216,11 @@ static void histogram_hgrid(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gin
 		{
 		gint ypos = y + (int)(i * add + 0.5);
 	
-		pixbuf_draw_line(pixbuf, x, y, width, height, x, ypos, x + width, ypos, c, c, c, alpha);
+		pixbuf_draw_line(pixbuf, x, y, width, height, x, ypos, x + width, ypos,
+				 histogram->grid_color.R,
+				 histogram->grid_color.G,
+				 histogram->grid_color.B,
+				 histogram->grid_color.A);
 		}
 }
 
