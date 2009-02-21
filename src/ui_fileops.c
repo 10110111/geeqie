@@ -781,7 +781,7 @@ gint file_extension_match(const gchar *path, const gchar *ext)
 	e = strlen(ext);
 
 	/* FIXME: utf8 */
-	return (p > e && strncasecmp(path + p - e, ext, e) == 0);
+	return (p > e && g_ascii_strncasecmp(path + p - e, ext, e) == 0);
 }
 
 gchar *remove_extension_from_path(const gchar *path)

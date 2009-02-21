@@ -395,7 +395,7 @@ static void file_data_check_sidecars(FileData *fd)
 
 		work = work->next;
 
-		if (strcasecmp(ext, fd->extension) == 0)
+		if (g_ascii_strcasecmp(ext, fd->extension) == 0)
 			{
 			new_fd = fd; /* processing the original file */
 			}
@@ -687,7 +687,7 @@ gchar *file_data_get_sidecar_path(FileData *fd, gboolean existing_only)
 		{
 		FileData *sfd = work->data;
 		work = work->next;
-		if (strcasecmp(sfd->extension, ".xmp") == 0)
+		if (g_ascii_strcasecmp(sfd->extension, ".xmp") == 0)
 			{
 			sidecar_path = g_strdup(sfd->path);
 			break;
@@ -728,7 +728,7 @@ static gint sidecar_file_priority(const gchar *path)
 		gchar *ext = work->data;
 		
 		work = work->next;
-		if (strcasecmp(extension, ext) == 0) return i;
+		if (g_ascii_strcasecmp(extension, ext) == 0) return i;
 		i++;
 	}
 	return 0;
@@ -1880,7 +1880,7 @@ gint file_data_verify_ci(FileData *fd)
 			const gchar *dest_ext = extension_from_path(fd->change->dest);
 			if (!dest_ext) dest_ext = "";
 
-			if (strcasecmp(fd->extension, dest_ext) != 0)
+			if (g_ascii_strcasecmp(fd->extension, dest_ext) != 0)
 				{
 				ret |= CHANGE_WARN_CHANGED_EXT;
 				DEBUG_1("Change checked: source and destination have different extensions: %s -> %s", fd->path, fd->change->dest);

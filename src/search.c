@@ -1702,7 +1702,7 @@ static gint search_file_next(SearchData *sd)
 				}
 			else
 				{
-				match = (strcasecmp(fd->name, sd->search_name) == 0);
+				match = (g_ascii_strcasecmp(fd->name, sd->search_name) == 0);
 				}
 			}
 		else if (sd->match_name == SEARCH_MATCH_CONTAINS)
@@ -1809,7 +1809,7 @@ static gint search_file_next(SearchData *sd)
 					haystack = list;
 					while (haystack && !found)
 						{
-						found = (strcasecmp((gchar *)needle->data,
+						found = (g_ascii_strcasecmp((gchar *)needle->data,
 								    (gchar *)haystack->data) == 0);
 						haystack = haystack->next;
 						}
@@ -1828,7 +1828,7 @@ static gint search_file_next(SearchData *sd)
 					haystack = list;
 					while (haystack && !found)
 						{
-						found = (strcasecmp((gchar *)needle->data,
+						found = (g_ascii_strcasecmp((gchar *)needle->data,
 								    (gchar *)haystack->data) == 0);
 						haystack = haystack->next;
 						}
@@ -1847,7 +1847,7 @@ static gint search_file_next(SearchData *sd)
 					haystack = list;
 					while (haystack && !found)
 						{
-						found = (strcasecmp((gchar *)needle->data,
+						found = (g_ascii_strcasecmp((gchar *)needle->data,
 								    (gchar *)haystack->data) == 0);
 						haystack = haystack->next;
 						}

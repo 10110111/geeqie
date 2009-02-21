@@ -321,7 +321,7 @@ gint format_raw_img_exif_offsets_fd(gint fd, const gchar *path,
 		while (!match && format_raw_list[i].magic_pattern)
 			{
 			if (format_raw_list[i].extension &&
-			    strcasecmp(format_raw_list[i].extension, ext) == 0)
+			    g_ascii_strcasecmp(format_raw_list[i].extension, ext) == 0)
 				{
 				match = TRUE;
 				}

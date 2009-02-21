@@ -762,7 +762,7 @@ static GList *pan_item_find_by_path_l(GList *list, GList *search_list,
 					}
 				else if (ignore_case)
 					{
-					if (strcasecmp(path, pi->fd->name) == 0) match = TRUE;
+					if (g_ascii_strcasecmp(path, pi->fd->name) == 0) match = TRUE;
 					}
 				else
 					{

@@ -429,7 +429,7 @@ static void gr_slideshow_delay(const gchar *text, gpointer data)
 {
 	gdouble n;
 
-	n = strtod(text, NULL);
+	n = g_ascii_strtod(text, NULL);
 	if (n < SLIDESHOW_MIN_SECONDS || n > SLIDESHOW_MAX_SECONDS)
 		{
 		printf_term("Remote slideshow delay out of range (%.1f to %.1f)\n",

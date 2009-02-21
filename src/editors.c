@@ -318,7 +318,7 @@ static void editor_read_desktop_dir(const gchar *path)
 		gchar *namel = dir->d_name;
 		size_t len = strlen(namel);
 		
-		if (len > 8 && strncasecmp(namel + len - 8, ".desktop", 8) == 0)
+		if (len > 8 && g_ascii_strncasecmp(namel + len - 8, ".desktop", 8) == 0)
 			{
 			gchar *name = path_to_utf8(namel);
 			gchar *dpath = g_build_filename(path, name, NULL);
@@ -594,7 +594,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 				work = work->next;
 
 				if (strcmp(ext, "*") == 0 ||
-				    strcasecmp(ext, fd->extension) == 0)
+				    g_ascii_strcasecmp(ext, fd->extension) == 0)
 					{
 					p = fd->path;
 					break;
@@ -606,7 +606,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 					FileData *sfd = work2->data;
 					work2 = work2->next;
 
-					if (strcasecmp(ext, sfd->extension) == 0)
+					if (g_ascii_strcasecmp(ext, sfd->extension) == 0)
 						{
 						p = sfd->path;
 						break;

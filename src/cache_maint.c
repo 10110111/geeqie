@@ -182,7 +182,7 @@ static gint cache_maintain_home_cb(gpointer data)
 			while (work)
 				{
 				FileData *fd_list = work->data;
-				gchar *path_buf = strdup(fd_list->path);
+				gchar *path_buf = g_strdup(fd_list->path);
 				gchar *dot;
 
 				dot = extension_find_dot(path_buf);

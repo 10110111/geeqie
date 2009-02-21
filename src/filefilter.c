@@ -285,9 +285,9 @@ GList *filter_to_list(const gchar *extensions)
 		
 		ext = g_strndup(b, l);
 		
-		if (strcasecmp(ext, "%image") == 0) file_class = FORMAT_CLASS_IMAGE;
-		else if (strcasecmp(ext, "%raw") == 0) file_class = FORMAT_CLASS_RAWIMAGE;
-		else if (strcasecmp(ext, "%meta") == 0) file_class = FORMAT_CLASS_META;
+		if (g_ascii_strcasecmp(ext, "%image") == 0) file_class = FORMAT_CLASS_IMAGE;
+		else if (g_ascii_strcasecmp(ext, "%raw") == 0) file_class = FORMAT_CLASS_RAWIMAGE;
+		else if (g_ascii_strcasecmp(ext, "%meta") == 0) file_class = FORMAT_CLASS_META;
 		
 		if (file_class == -1) 
 			{
@@ -383,7 +383,7 @@ static gboolean filter_name_find(GList *filter, const gchar *name)
 		if (ln >= lf)
 			{
 			/* FIXME: utf8 */
-			if (strncasecmp(name + ln - lf, filter, lf) == 0) return TRUE;
+			if (g_ascii_strncasecmp(name + ln - lf, filter, lf) == 0) return TRUE;
 			}
 		work = work->next;
 		}
