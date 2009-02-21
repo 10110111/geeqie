@@ -14,7 +14,7 @@
 #include "main.h"
 #include "pan-types.h"
 
-
+#include <glib/gprintf.h>
 #include <math.h>
 
 

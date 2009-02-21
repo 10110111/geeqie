@@ -10,6 +10,7 @@
  * This software comes with no warranty of any kind, use at your own risk!
  */
 
+#include <glib/gprintf.h>
 
 #include "main.h"
 #include "bar_keywords.h"
@@ -378,7 +379,7 @@ static gchar *bar_pane_keywords_get_mark_text(const gchar *key)
 		file_data_get_registered_mark_func(i, &get_mark_func, &set_mark_func, &data);
 		if (get_mark_func == meta_data_get_keyword_mark && strcmp(data, key) == 0) 
 			{
-			sprintf(buf, " %d ", i + 1);
+			g_sprintf(buf, " %d ", i + 1);
 			return buf;
 			}
 		}
@@ -693,17 +694,17 @@ static GtkTreeModel *create_marks_list(void)
 	gint i;
 
 	/* create list store */
-	model = gtk_list_store_new (1, G_TYPE_STRING);
+	model = gtk_list_store_new(1, G_TYPE_STRING);
 	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
 		{
-		char str[10];
-		sprintf(str, " %d ", i + 1);
+		gchar str[10];
+		g_sprintf(str, " %d ", i + 1);
 		gtk_list_store_append (model, &iter);
 		gtk_list_store_set(model, &iter, 0, str, -1);
 		}
 	gtk_list_store_append (model, &iter);
 	gtk_list_store_set(model, &iter, 0, " ... ", -1);
-	return GTK_TREE_MODEL (model);
+	return GTK_TREE_MODEL(model);
 }
 
 GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key)

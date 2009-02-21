@@ -1,3 +1,11 @@
+/*
+ * Geeqie
+ * Copyright (C) 2008 - 2009 The Geeqie Team
+ *
+ */
+
+#include <glib/gprintf.h>
+
 #include "lirc.h"
 
 #include "misc.h"
@@ -182,7 +190,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 	if (ret == -1)
 		{
 		/* something went badly wrong */
-		fprintf(stderr, _("disconnected from LIRC\n"));
+		g_fprintf(stderr, _("disconnected from LIRC\n"));
 		lirc_cleanup();
 		return (gboolean)FALSE;
 		}
@@ -197,13 +205,13 @@ void layout_image_lirc_init(LayoutWindow *lw)
 	lirc_fd = lirc_init(GQ_APPNAME_LC, get_debug_level() > 0);
 	if (lirc_fd == -1)
 		{
-		fprintf(stderr, _("Could not init LIRC support\n"));
+		g_fprintf(stderr, _("Could not init LIRC support\n"));
 		return;
 		}
 	if (lirc_readconfig(NULL, &config, NULL) == -1)
 		{
 		lirc_deinit();
-		fprintf(stderr,
+		g_fprintf(stderr,
 			_("could not read LIRC config file\n"
 			"please read the documentation of LIRC to \n"
 			"know how to create a proper config file\n"));

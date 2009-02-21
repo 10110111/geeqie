@@ -67,6 +67,7 @@
 #include <math.h>
 
 #include <glib.h>
+#include <glib/gprintf.h>
 
 #include "intl.h"
 
@@ -1534,7 +1535,7 @@ static void exif_write_item(FILE *f, ExifItem *item)
 	if (text)
 		{
 		gchar *tag = exif_item_get_tag_name(item);
-		fprintf(f, "%4x %9s %30s %s\n", item->tag, ExifFormatList[item->format].short_name,
+		g_fprintf(f, "%4x %9s %30s %s\n", item->tag, ExifFormatList[item->format].short_name,
 			tag, text);
 		g_free(tag);
 		}
@@ -1545,8 +1546,8 @@ void exif_write_data_list(ExifData *exif, FILE *f, gint human_readable_list)
 {
 	if (!f || !exif) return;
 
-	fprintf(f, " tag   format                             key value\n");
-	fprintf(f, "----------------------------------------------------\n");
+	g_fprintf(f, " tag   format                             key value\n");
+	g_fprintf(f, "----------------------------------------------------\n");
 
 	if (human_readable_list)
 		{
@@ -1560,7 +1561,7 @@ void exif_write_data_list(ExifData *exif, FILE *f, gint human_readable_list)
 			text = exif_get_formatted_by_key(exif, ExifFormattedList[i].key, NULL);
 			if (text)
 				{
-				fprintf(f, "     %9s %30s %s\n", "string", ExifFormattedList[i].key, text);
+				g_fprintf(f, "     %9s %30s %s\n", "string", ExifFormattedList[i].key, text);
 				}
 			i++;
 			}
@@ -1580,7 +1581,7 @@ void exif_write_data_list(ExifData *exif, FILE *f, gint human_readable_list)
 			exif_write_item(f, item);
 			}
 		}
-	fprintf(f, "----------------------------------------------------\n");
+	g_fprintf(f, "----------------------------------------------------\n");
 }
 
 gboolean exif_write(ExifData *exif)

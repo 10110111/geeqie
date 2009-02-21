@@ -9,6 +9,7 @@
  * This software comes with no warranty of any kind, use at your own risk!
  */
 
+#include <glib/gprintf.h>
 #include <glib/gstdio.h>
 #include <errno.h>
 #include <utime.h>
@@ -362,8 +363,7 @@ secure_fprintf(SecureSaveInfo *ssi, const gchar *format, ...)
 	if (!ssi || !ssi->fp || ssi->err) return -1;
 
 	va_start(ap, format);
-	ret = vfprintf(ssi->fp, format, ap);
-	if (ret < 0) ssi->err = errno;
+	ret = g_vfprintf(ssi->fp, format, ap);
 	va_end(ap);
 
 	return ret;

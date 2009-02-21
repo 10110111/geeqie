@@ -15,6 +15,9 @@
 #include "logwindow.h"
 #include "ui_fileops.h"
 
+#include <glib/gprintf.h>
+
+
 /*
  * Logging functions
  */
@@ -26,7 +29,7 @@ gint log_domain_printf(const gchar *domain, const gchar *format, ...)
 	gint ret;
 
 	va_start(ap, format);
-	ret = vsnprintf(buf, sizeof(buf), format, ap);
+	ret = g_vsnprintf(buf, sizeof(buf), format, ap);
 	va_end(ap);
 
 	print_term(buf);

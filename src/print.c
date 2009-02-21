@@ -10,7 +10,6 @@
  * This software comes with no warranty of any kind, use at your own risk!
  */
 
-
 #include "main.h"
 #include "print.h"
 
@@ -28,10 +27,9 @@
 #include "ui_spinner.h"
 #include "ui_tabcomp.h"
 
-
 #include <locale.h>
 #include <signal.h>
-
+#include <glib/gprintf.h>
 
 #define PRINT_LPR_COMMAND "lpr"
 #define PRINT_LPR_CUSTOM  "lpr -P %s"
@@ -1108,29 +1106,29 @@ static gint print_job_ps_init(PrintWindow *pw)
 	pe = pipe_handler_new();
 
 	/* comments, etc. */
-	fprintf(f, "%%!PS-Adobe-3.0\n");
-	fprintf(f, "%%%%Creator: %s Version %s\n", GQ_APPNAME, VERSION);
-	fprintf(f, "%%%%CreationDate: \n");
-	fprintf(f, "%%%%LanguageLevel 2\n");
-	fprintf(f, "%%%%DocumentMedia: \n");
-	fprintf(f, "%%%%Orientation: %s\n",
+	g_fprintf(f, "%%!PS-Adobe-3.0\n");
+	g_fprintf(f, "%%%%Creator: %s Version %s\n", GQ_APPNAME, VERSION);
+	g_fprintf(f, "%%%%CreationDate: \n");
+	g_fprintf(f, "%%%%LanguageLevel 2\n");
+	g_fprintf(f, "%%%%DocumentMedia: \n");
+	g_fprintf(f, "%%%%Orientation: %s\n",
 		(pw->paper_orientation == PAPER_ORIENTATION_PORTRAIT) ? "Portrait" : "Landscape");
-	fprintf(f, "%%%%BoundingBox: %f %f %f %f\n",
+	g_fprintf(f, "%%%%BoundingBox: %f %f %f %f\n",
 		0.0, 0.0, pw->paper_width, pw->paper_height);
-	fprintf(f, "%%%%Pages: %d\n", print_layout_page_count(pw));
-	fprintf(f, "%%%%PageOrder: Ascend\n");
-	fprintf(f, "%%%%Title:\n");
+	g_fprintf(f, "%%%%Pages: %d\n", print_layout_page_count(pw));
+	g_fprintf(f, "%%%%PageOrder: Ascend\n");
+	g_fprintf(f, "%%%%Title:\n");
 
 	/* setup page size, coordinates (do we really need this?) */
 #if 0
-	fprintf(f, "<<\n");
-	fprintf(f, "/PageSize [%f %f]\n", pw->layout_width, pw->layout_height);
-	fprintf(f, "/ImagingBBox [%f %f %f %f]\n", /* l b r t */
+	g_fprintf(f, "<<\n");
+	g_fprintf(f, "/PageSize [%f %f]\n", pw->layout_width, pw->layout_height);
+	g_fprintf(f, "/ImagingBBox [%f %f %f %f]\n", /* l b r t */
 		pw->margin_left, pw->margin_bottom,
 		pw->layout_width - pw->margin_right, pw->layout_height - pw->margin_top);
-	fprintf(f, "/Orientation %d\n",
+	g_fprintf(f, "/Orientation %d\n",
 		(pw->paper_orientation == PAPER_ORIENTATION_PORTRAIT) ? 0 : 1);
-	fprintf(f, ">> setpagedevice\n");
+	g_fprintf(f, ">> setpagedevice\n");
 #endif
 
 	ret = !pipe_handler_check(pe);
@@ -1162,12 +1160,12 @@ static gint print_job_ps_page_new(PrintWindow *pw, gint page)
 
 	pe = pipe_handler_new();
 
-	fprintf(f, "%%%% page %d\n", page + 1);
+	g_fprintf(f, "%%%% page %d\n", page + 1);
 
 	if (pw->paper_orientation == PAPER_ORIENTATION_LANDSCAPE)
 		{
-		fprintf(f, "/pagelevel save def\n");
-		fprintf(f, "%d 0 translate 90 rotate\n", (gint)pw->layout_height);
+		g_fprintf(f, "/pagelevel save def\n");
+		g_fprintf(f, "%d 0 translate 90 rotate\n", (gint)pw->layout_height);
 		}
 
 	ret = !pipe_handler_check(pe);
@@ -1201,10 +1199,10 @@ static gint print_job_ps_page_done(PrintWindow *pw)
 
 	if (pw->paper_orientation == PAPER_ORIENTATION_LANDSCAPE)
 		{
-		fprintf(f, "pagelevel restore\n");
+		g_fprintf(f, "pagelevel restore\n");
 		}
 
-	fprintf(f, "showpage\n");
+	g_fprintf(f, "showpage\n");
 
 	ret = !pipe_handler_check(pe);
 	pipe_handler_free(pe);
@@ -1233,7 +1231,7 @@ static void print_job_ps_page_image_pixel(FILE *f, guchar *pix)
 		}
 	text[6] = '\0';
 
-	fprintf(f, "%s", text);
+	g_fprintf(f, "%s", text);
 }
 static gint print_job_ps_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
 				    gdouble x, gdouble y, gdouble w, gdouble h,
@@ -1284,13 +1282,13 @@ static gint print_job_ps_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
 
 	pe = pipe_handler_new();
 
-	fprintf(f, "gsave\n");
-	fprintf(f, "[%f 0 0 %f %f %f] concat\n", w, h, x, pw->layout_height - h - y);
-	fprintf(f, "/buf %d string def\n", sw * 3);
-	fprintf(f, "%d %d %d\n", sw, sh, 8);
-	fprintf(f, "[%d 0 0 -%d 0 %d]\n", sw, sh, sh);
-	fprintf(f, "{ currentfile buf readhexstring pop }\n");
-	fprintf(f, "false %d colorimage\n", 3);
+	g_fprintf(f, "gsave\n");
+	g_fprintf(f, "[%f 0 0 %f %f %f] concat\n", w, h, x, pw->layout_height - h - y);
+	g_fprintf(f, "/buf %d string def\n", sw * 3);
+	g_fprintf(f, "%d %d %d\n", sw, sh, 8);
+	g_fprintf(f, "[%d 0 0 -%d 0 %d]\n", sw, sh, sh);
+	g_fprintf(f, "{ currentfile buf readhexstring pop }\n");
+	g_fprintf(f, "false %d colorimage\n", 3);
 
 	c = 0;
 	for (j = 0; j < sh; j++)
@@ -1313,13 +1311,13 @@ static gint print_job_ps_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
 			c++;
 			if (c > 11)
 				{
-				fprintf(f, "\n");
+				g_fprintf(f, "\n");
 				c = 0;
 				}
 			}
 		}
-	if (c > 0) fprintf(f, "\n");
-	fprintf(f, "grestore\n");
+	if (c > 0) g_fprintf(f, "\n");
+	g_fprintf(f, "grestore\n");
 
 	ret = !pipe_handler_check(pe);
 	pipe_handler_free(pe);
@@ -1344,8 +1342,8 @@ static const gchar *ps_text_to_hex_array(FILE *f, const gchar *text, gdouble x, 
 
 	if (!text) return NULL;
 
-	fprintf(f, "%f %f moveto\n", x, y);
-	fprintf(f, "<");
+	g_fprintf(f, "%f %f moveto\n", x, y);
+	g_fprintf(f, "<");
 
 	/* fixme: convert utf8 to ascii or proper locale string.. */
 
@@ -1358,13 +1356,13 @@ static const gchar *ps_text_to_hex_array(FILE *f, const gchar *text, gdouble x, 
 		text[1] = hex_digits[*p & 0xf];
 		text[2] = '\0';
 
-		fprintf(f, "%s", text);
+		g_fprintf(f, "%s", text);
 
 		p++;
 		}
 
-	fprintf(f, ">\n");
-	fprintf(f, "dup stringwidth pop 2 div neg 0 rmoveto show\n");
+	g_fprintf(f, ">\n");
+	g_fprintf(f, "dup stringwidth pop 2 div neg 0 rmoveto show\n");
 
 	return p;
 }
@@ -1375,7 +1373,7 @@ static void ps_text_parse(FILE *f, const gchar *text, gdouble x, gdouble y, gdou
 
 	if (!text) return;
 
-	fprintf(f, "newpath\n");
+	g_fprintf(f, "newpath\n");
 
 	p = text;
 	while (p && *p != '\0')
@@ -1385,7 +1383,7 @@ static void ps_text_parse(FILE *f, const gchar *text, gdouble x, gdouble y, gdou
 		y -= point_size;
 		}
 
-	fprintf(f, "closepath\n");
+	g_fprintf(f, "closepath\n");
 }
 
 static gint print_job_ps_page_text(PrintWindow *pw, const gchar *text, gdouble point_size,
@@ -1407,11 +1405,11 @@ static gint print_job_ps_page_text(PrintWindow *pw, const gchar *text, gdouble p
 
 	pe = pipe_handler_new();
 
-	fprintf(f, "/Sans findfont\n");
-	fprintf(f, "%f scalefont\n", point_size);
-	fprintf(f, "setfont\n");
+	g_fprintf(f, "/Sans findfont\n");
+	g_fprintf(f, "%f scalefont\n", point_size);
+	g_fprintf(f, "setfont\n");
 
-	fprintf(f, "%f %f %f setrgbcolor\n", (gdouble)r / 255.0, (gdouble)g / 255.0, (gdouble)b / 255.0);
+	g_fprintf(f, "%f %f %f setrgbcolor\n", (gdouble)r / 255.0, (gdouble)g / 255.0, (gdouble)b / 255.0);
 	ps_text_parse(f, text, x, pw->layout_height - y - point_size, point_size);
 
 	ret = !pipe_handler_check(pe);
@@ -1443,7 +1441,7 @@ static gint print_job_ps_end(PrintWindow *pw)
 
 	pe = pipe_handler_new();
 
-	fprintf(f, "%%%%EOF\n");
+	g_fprintf(f, "%%%%EOF\n");
 
 	ret = !pipe_handler_check(pe);
 	pipe_handler_free(pe);
