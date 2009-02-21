@@ -41,8 +41,10 @@ struct _HistMap {
 struct _Histogram {
 	gint histogram_chan;
 	gint histogram_logmode;
-};
+	guint histogram_vgrid; /* number of vertical divisions, 0 for none */
+	guint histogram_hgrid; /* number of horizontal divisions, 0 for none */
 
+};
 
 Histogram *histogram_new(void)
 {
@@ -51,6 +53,8 @@ Histogram *histogram_new(void)
 	histogram = g_new0(Histogram, 1);
 	histogram->histogram_chan = options->histogram.last_channel_mode;
 	histogram->histogram_logmode = options->histogram.last_log_mode;
+	histogram->histogram_vgrid = 5;
+	histogram->histogram_hgrid = 3;
 
 	return histogram;
 }
@@ -166,6 +170,44 @@ const HistMap *histmap_get(FileData *fd)
 	return NULL;
 }
 
+static void histogram_vgrid(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
+{
+	static gint c = 160;
+	static gint alpha = 250;
+	guint i;
+	float add;
+	
+	if (histogram->histogram_vgrid == 0) return;
+
+	add = width / (float)histogram->histogram_vgrid;
+
+	for (i = 1; i < histogram->histogram_vgrid; i++)
+		{
+		gint xpos = x + (int)(i * add + 0.5);
+
+		pixbuf_draw_line(pixbuf, x, y, width, height, xpos, y, xpos, y + height, c, c, c, alpha);
+		}
+}
+
+static void histogram_hgrid(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
+{
+	static gint c = 160;
+	static gint alpha = 250;
+	guint i;
+	float add;
+	
+	if (histogram->histogram_hgrid == 0) return;
+
+	add = height / (float)histogram->histogram_hgrid;
+
+	for (i = 1; i < histogram->histogram_hgrid; i++)
+		{
+		gint ypos = y + (int)(i * add + 0.5);
+	
+		pixbuf_draw_line(pixbuf, x, y, width, height, x, ypos, x + width, ypos, c, c, c, alpha);
+		}
+}
+
 gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
 {
 	/* FIXME: use the coordinates correctly */
@@ -174,6 +216,10 @@ gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pix
 	gdouble logmax;
 
 	if (!histogram || !histmap) return 0;
+	
+	/* Draw the grid */
+	histogram_vgrid(histogram, pixbuf, x, y, width, height);
+	histogram_hgrid(histogram, pixbuf, x, y, width, height);
 
 	for (i = 0; i < 1024; i++) {
 #if 0
