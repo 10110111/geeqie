@@ -39,10 +39,10 @@ struct _HistMap {
 };
 
 struct _Histogram {
-	gint histogram_chan;
-	gint histogram_logmode;
-	guint histogram_vgrid; /* number of vertical divisions, 0 for none */
-	guint histogram_hgrid; /* number of horizontal divisions, 0 for none */
+	gint channel_mode;
+	gint log_mode;
+	guint vgrid; /* number of vertical divisions, 0 for none */
+	guint hgrid; /* number of horizontal divisions, 0 for none */
 
 };
 
@@ -51,10 +51,10 @@ Histogram *histogram_new(void)
 	Histogram *histogram;
 
 	histogram = g_new0(Histogram, 1);
-	histogram->histogram_chan = options->histogram.last_channel_mode;
-	histogram->histogram_logmode = options->histogram.last_log_mode;
-	histogram->histogram_vgrid = 5;
-	histogram->histogram_hgrid = 3;
+	histogram->channel_mode = options->histogram.last_channel_mode;
+	histogram->log_mode = options->histogram.last_log_mode;
+	histogram->vgrid = 5;
+	histogram->hgrid = 3;
 
 	return histogram;
 }
@@ -68,27 +68,27 @@ void histogram_free(Histogram *histogram)
 gint histogram_set_channel(Histogram *histogram, gint chan)
 {
 	if (!histogram) return 0;
-	options->histogram.last_channel_mode = histogram->histogram_chan = chan;
+	options->histogram.last_channel_mode = histogram->channel_mode = chan;
 	return chan;
 }
 
 gint histogram_get_channel(Histogram *histogram)
 {
 	if (!histogram) return 0;
-	return histogram->histogram_chan;
+	return histogram->channel_mode;
 }
 
 gint histogram_set_mode(Histogram *histogram, gint mode)
 {
 	if (!histogram) return 0;
-	options->histogram.last_log_mode = histogram->histogram_logmode = mode;
+	options->histogram.last_log_mode = histogram->log_mode = mode;
 	return mode;
 }
 
 gint histogram_get_mode(Histogram *histogram)
 {
 	if (!histogram) return 0;
-	return histogram->histogram_logmode;
+	return histogram->log_mode;
 }
 
 const gchar *histogram_label(Histogram *histogram)
@@ -97,8 +97,8 @@ const gchar *histogram_label(Histogram *histogram)
 	
 	if (!histogram) return NULL;
 
-	if (histogram->histogram_logmode)
-		switch (histogram->histogram_chan)
+	if (histogram->log_mode)
+		switch (histogram->channel_mode)
 			{
 			case HCHAN_R:   t1 = _("logarithmical histogram on red"); break;
 			case HCHAN_G:   t1 = _("logarithmical histogram on green"); break;
@@ -108,7 +108,7 @@ const gchar *histogram_label(Histogram *histogram)
 			case HCHAN_MAX: t1 = _("logarithmical histogram on max value"); break;
 			}
 	else
-		switch (histogram->histogram_chan)
+		switch (histogram->channel_mode)
 			{
 			case HCHAN_R:   t1 = _("linear histogram on red"); break;
 			case HCHAN_G:   t1 = _("linear histogram on green"); break;
@@ -177,11 +177,11 @@ static void histogram_vgrid(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gin
 	guint i;
 	float add;
 	
-	if (histogram->histogram_vgrid == 0) return;
+	if (histogram->vgrid == 0) return;
 
-	add = width / (float)histogram->histogram_vgrid;
+	add = width / (float)histogram->vgrid;
 
-	for (i = 1; i < histogram->histogram_vgrid; i++)
+	for (i = 1; i < histogram->vgrid; i++)
 		{
 		gint xpos = x + (int)(i * add + 0.5);
 
@@ -196,11 +196,11 @@ static void histogram_hgrid(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gin
 	guint i;
 	float add;
 	
-	if (histogram->histogram_hgrid == 0) return;
+	if (histogram->hgrid == 0) return;
 
-	add = height / (float)histogram->histogram_hgrid;
+	add = height / (float)histogram->hgrid;
 
-	for (i = 1; i < histogram->histogram_hgrid; i++)
+	for (i = 1; i < histogram->hgrid; i++)
 		{
 		gint ypos = y + (int)(i * add + 0.5);
 	
@@ -226,7 +226,7 @@ gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pix
 		/* this is probably broken for MAX or VAL mode */
 		gint flag = 0;
 
-		switch (histogram->histogram_chan)
+		switch (histogram->channel_mode)
 			{
 			case HCHAN_RGB: if ((i % HISTMAP_CHANNELS) < 3) flag = 1; break;
 			case HCHAN_R:   if ((i % HISTMAP_CHANNELS) == HISTMAP_CHANNEL_R) flag = 1; break;
@@ -258,7 +258,7 @@ gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pix
 			v[1] += histmap->histmap[(ii + j) * HISTMAP_CHANNELS + HISTMAP_CHANNEL_G]; // g
 			v[2] += histmap->histmap[(ii + j) * HISTMAP_CHANNELS + HISTMAP_CHANNEL_B]; // b
 			v[3] += histmap->histmap[(ii + j) * HISTMAP_CHANNELS + 
-			        ((histogram->histogram_chan == HCHAN_VAL) ? HISTMAP_CHANNEL_AVG : HISTMAP_CHANNEL_MAX)]; // value, max
+			        ((histogram->channel_mode == HCHAN_VAL) ? HISTMAP_CHANNEL_AVG : HISTMAP_CHANNEL_MAX)]; // value, max
 			}
 			
 		for (j = 0; j < 4; j++)
@@ -274,8 +274,8 @@ gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pix
 			for (k = 1; k < 4; k++)
 				if (v[k] > v[max2]) max2 = k;
 			
-			if (histogram->histogram_chan >= HCHAN_RGB
-			    || max2 == histogram->histogram_chan)
+			if (histogram->channel_mode >= HCHAN_RGB
+			    || max2 == histogram->channel_mode)
 			    	{
 				gulong pt;
 				gint r = rplus;
@@ -289,7 +289,7 @@ gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pix
 					case HCHAN_B: bplus = b = 255; break;
 					}
 
-				switch (histogram->histogram_chan)
+				switch (histogram->channel_mode)
 					{
 					case HCHAN_RGB:
 						if (r == 255 && g == 255 && b == 255)
@@ -306,7 +306,7 @@ gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pix
 				
 				if (v[max2] == 0)
 					pt = 0;
-				else if (histogram->histogram_logmode)
+				else if (histogram->log_mode)
 					pt = ((float)log(v[max2])) / logmax * (height - 1);
 				else
 					pt = ((float)v[max2])/ max * (height - 1);
