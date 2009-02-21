@@ -1,5 +1,7 @@
-./src/bar_exif.c
-./src/bar_info.c
+./src/advanced_exif.c
+./src/bar.c
+./src/bar_comment.c
+./src/bar_keywords.c
 ./src/bar_sort.c
 ./src/cache.c
 ./src/cache_maint.c
@@ -19,7 +21,6 @@
 ./src/image.c
 ./src/image-overlay.c
 ./src/img-view.c
-./src/info.c
 ./src/layout.c
 ./src/layout_config.c
 ./src/layout_image.c
