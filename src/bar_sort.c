@@ -171,7 +171,7 @@ static void bar_sort_mode_cb(GtkWidget *combo, gpointer data)
 		{
 		bar_sort_mode_sync(sd, BAR_SORT_MODE_COLLECTION);
 		}
-	options->panels.sort.mode_state = sd->mode;
+	options->layout.panels.sort.mode_state = sd->mode;
 }
 
 /* this takes control of src_list */
@@ -351,19 +351,19 @@ static void bar_sort_bookmark_select(const gchar *path, gpointer data)
 
 static void bar_sort_set_action(SortData *sd, SortActionType action, const gchar *filter_key)
 {
-	options->panels.sort.action_state = sd->action = action;
+	options->layout.panels.sort.action_state = sd->action = action;
 	if (action == BAR_SORT_FILTER)
 		{
 		if (!filter_key) filter_key = "";
 		sd->filter_key = filter_key;
-		g_free(options->panels.sort.action_filter);
-		options->panels.sort.action_filter = g_strdup(filter_key);
+		g_free(options->layout.panels.sort.action_filter);
+		options->layout.panels.sort.action_filter = g_strdup(filter_key);
 		}
 	else
 		{
 		sd->filter_key = NULL;
-		g_free(options->panels.sort.action_filter);
-		options->panels.sort.action_filter = g_strdup("");
+		g_free(options->layout.panels.sort.action_filter);
+		options->layout.panels.sort.action_filter = g_strdup("");
 		}
 }
 
@@ -393,7 +393,7 @@ static void bar_sort_set_filter_cb(GtkWidget *button, gpointer data)
 
 static void bar_sort_set_selection(SortData *sd, SortSelectionType selection)
 {
-	options->panels.sort.selection_state = sd->selection = selection;
+	options->layout.panels.sort.selection_state = sd->selection = selection;
 }
 
 static void bar_sort_set_selection_image_cb(GtkWidget *button, gpointer data)
@@ -572,14 +572,14 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 
 	sd->lw = lw;
 
-	mode = CLAMP(options->panels.sort.mode_state, 0, BAR_SORT_MODE_COUNT - 1);
-	sd->action = CLAMP(options->panels.sort.action_state, 0, BAR_SORT_ACTION_COUNT - 1);
+	mode = CLAMP(options->layout.panels.sort.mode_state, 0, BAR_SORT_MODE_COUNT - 1);
+	sd->action = CLAMP(options->layout.panels.sort.action_state, 0, BAR_SORT_ACTION_COUNT - 1);
 	
 	if (sd->action == BAR_SORT_FILTER && 
-	    (!options->panels.sort.action_filter || !options->panels.sort.action_filter[0]))
+	    (!options->layout.panels.sort.action_filter || !options->layout.panels.sort.action_filter[0]))
 		sd->action = BAR_SORT_COPY;
 	
-	sd->selection = CLAMP(options->panels.sort.selection_state, 0, BAR_SORT_SELECTION_COUNT - 1);
+	sd->selection = CLAMP(options->layout.panels.sort.selection_state, 0, BAR_SORT_SELECTION_COUNT - 1);
 	sd->undo_src = NULL;
 	sd->undo_dest = NULL;
 
@@ -625,7 +625,7 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 		
 		if (!editor_is_filter(editor->key)) continue;
 
-		if (sd->action == BAR_SORT_FILTER && strcmp(editor->key, options->panels.sort.action_filter) == 0)
+		if (sd->action == BAR_SORT_FILTER && strcmp(editor->key, options->layout.panels.sort.action_filter) == 0)
 			{
 			bar_sort_set_action(sd, sd->action, editor->key);
 			select = TRUE;

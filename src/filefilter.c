@@ -19,6 +19,7 @@
 #include "secure_save.h"
 #include "thumb_standard.h"
 #include "ui_fileops.h"
+#include "rcfile.h"
 
 /*
  *-----------------------------------------------------------------------------
@@ -420,9 +421,13 @@ gboolean filter_name_allow_sidecar(const gchar *name)
 	return filter_name_find(file_sidecar_list, name);
 }
 
-void filter_write_list(SecureSaveInfo *ssi)
+void filter_write_list(GString *outstr, gint indent)
 {
 	GList *work;
+
+	write_indent(outstr, indent);
+	g_string_append_printf(outstr, "<filter>\n");
+	indent++;
 
 	work = filter_list;
 	while (work)
@@ -430,62 +435,59 @@ void filter_write_list(SecureSaveInfo *ssi)
 		FilterEntry *fe = work->data;
 		work = work->next;
 
-		gchar *extensions = escquote_value(fe->extensions);
-		gchar *description = escquote_value(fe->description);
-
-		secure_fprintf(ssi, "file_filter.ext: \"%s%s\" %s %s %d %d %d\n",
-			       (fe->enabled) ? "" : "#",
-			       fe->key, extensions, description, fe->file_class, fe->writable, fe->allow_sidecar);
-		g_free(extensions);
-		g_free(description);
+		write_indent(outstr, indent);
+		g_string_append_printf(outstr, "<file_type\n");
+		indent++;
+		WRITE_CHAR(*fe, key);
+		WRITE_BOOL(*fe, enabled);
+		WRITE_CHAR(*fe, extensions);
+		WRITE_CHAR(*fe, description);
+		WRITE_UINT(*fe, file_class);
+		WRITE_BOOL(*fe, writable);
+		WRITE_BOOL(*fe, allow_sidecar);
+		indent--;
+		write_indent(outstr, indent);
+		g_string_append_printf(outstr, "/>\n");
 		}
+	indent--;
+	write_indent(outstr, indent);
+	g_string_append_printf(outstr, "</filter>\n");
 }
 
-void filter_parse(const gchar *text)
+void filter_load_file_type(const gchar **attribute_names, const gchar **attribute_values)
 {
-	const gchar *p;
-	gchar *key;
-	gchar *ext;
-	gchar *desc;
-	gint enabled = TRUE;
-	guint file_class = FORMAT_CLASS_UNKNOWN;
-	gboolean writable = TRUE;
-	gboolean allow_sidecar = TRUE;
-
-	if (!text || text[0] != '"') return;
-
-	key = quoted_value(text, &p);
-	if (!key) return;
-
-	ext = quoted_value(p, &p);
-	desc = quoted_value(p, &p);
-
-	sscanf(p, "%u %d %d", &file_class, &writable, &allow_sidecar);
-
-	if (file_class >= FILE_FORMAT_CLASSES) file_class = FORMAT_CLASS_UNKNOWN;
-
-	if (key && key[0] == '#')
+	FilterEntry fe;
+	FilterEntry *old_fe;
+	memset(&fe, 0, sizeof(fe));
+	while (*attribute_names)
 		{
-		gchar *tmp;
-		tmp = g_strdup(key + 1);
-		g_free(key);
-		key = tmp;
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
 
-		enabled = FALSE;
+		READ_CHAR(fe, key);
+		READ_BOOL(fe, enabled);
+		READ_CHAR(fe, extensions);
+		READ_CHAR(fe, description);
+		READ_UINT(fe, file_class);
+		READ_BOOL(fe, writable);
+		READ_BOOL(fe, allow_sidecar);
+
+		printf("unknown attribute %s = %s\n", option, value);
 		}
-
-	if (key && strlen(key) > 0 && ext)
+	if (fe.file_class >= FILE_FORMAT_CLASSES) fe.file_class = FORMAT_CLASS_UNKNOWN;
+	
+	if (fe.key && fe.key[0] != 0)
 		{
-		FilterEntry *fe = filter_get_by_key(key);
+		old_fe = filter_get_by_key(fe.key);
 
-		if (fe != NULL) filter_remove_entry(fe);
-		filter_add(key, desc, ext, file_class, writable, allow_sidecar, enabled);
+		if (old_fe != NULL) filter_remove_entry(old_fe);
+		filter_add(fe.key, fe.description, fe.extensions, fe.file_class, fe.writable, fe.allow_sidecar, fe.enabled);
 		}
-
-	g_free(key);
-	g_free(ext);
-	g_free(desc);
+	g_free(fe.key);
+	g_free(fe.extensions);
+	g_free(fe.description);
 }
+
 
 /*
  *-----------------------------------------------------------------------------

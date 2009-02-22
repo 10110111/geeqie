@@ -25,6 +25,7 @@
 #include "utilops.h"
 #include "bar.h"
 #include "ui_menu.h"
+#include "rcfile.h"
 
 static const gchar *keyword_favorite_defaults[] = {
 	N_("Favorite"),
@@ -474,6 +475,24 @@ void bar_pane_keywords_set_fd(GtkWidget *pane, FileData *fd)
 	bar_pane_keywords_update(pkd);
 }
 
+static void bar_pane_keywords_write_config(GtkWidget *pane, GString *outstr, gint indent)
+{
+	PaneKeywordsData *pkd;
+
+	pkd = g_object_get_data(G_OBJECT(pane), "pane_data");
+	if (!pkd) return;
+
+	write_indent(outstr, indent);
+	g_string_append_printf(outstr, "<pane_keywords\n");
+	indent++;
+	WRITE_CHAR(*pkd, pane.title);
+	WRITE_BOOL(*pkd, pane.expanded);
+	WRITE_CHAR(*pkd, key);
+	indent--;
+	write_indent(outstr, indent);
+	g_string_append_printf(outstr, "/>\n");
+}
+
 gint bar_pane_keywords_event(GtkWidget *bar, GdkEvent *event)
 {
 	PaneKeywordsData *pkd;
@@ -707,7 +726,7 @@ static GtkTreeModel *create_marks_list(void)
 	return GTK_TREE_MODEL(model);
 }
 
-GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key)
+GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key, gboolean expanded)
 {
 	PaneKeywordsData *pkd;
 	GtkWidget *hbox;
@@ -721,7 +740,9 @@ GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key)
 
 	pkd->pane.pane_set_fd = bar_pane_keywords_set_fd;
 	pkd->pane.pane_event = bar_pane_keywords_event;
+	pkd->pane.pane_write_config = bar_pane_keywords_write_config;
 	pkd->pane.title = g_strdup(title);
+	pkd->pane.expanded = expanded;
 
 	pkd->key = g_strdup(key);
 	
@@ -807,4 +828,27 @@ GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key)
 
 	return pkd->widget;
 }
+
+GtkWidget *bar_pane_keywords_new_from_config(const gchar **attribute_names, const gchar **attribute_values)
+{
+	gchar *title = g_strdup(_("NoName"));
+	gchar *key = g_strdup(COMMENT_KEY);
+	gboolean expanded = TRUE;
+
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+
+		READ_CHAR_FULL("pane.title", title);
+		READ_CHAR_FULL("key", key);
+		READ_BOOL_FULL("pane.expanded", expanded);
+		
+
+		DEBUG_1("unknown attribute %s = %s", option, value);
+		}
+	
+	return bar_pane_keywords_new(title, key, expanded);
+}
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

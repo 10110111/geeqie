@@ -543,7 +543,7 @@ static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 
 	menu_item_add_divider(menu);
 
-	item = menu_item_add_check(menu, _("Hide file _list"), lw->tools_hidden,
+	item = menu_item_add_check(menu, _("Hide file _list"), lw->options.tools_hidden,
 				   G_CALLBACK(li_pop_menu_hide_cb), lw);
 	if (fullscreen) gtk_widget_set_sensitive(item, FALSE);
 
@@ -1580,7 +1580,7 @@ void layout_image_activate(LayoutWindow *lw, gint i)
 
 static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 {
-	gboolean frame = (n == 1) ? (!lw->tools_float && !lw->tools_hidden) : 1;
+	gboolean frame = (n == 1) ? (!lw->options.tools_float && !lw->options.tools_hidden) : 1;
 	gint i;
 
 	for (i = 0; i < n; i++)

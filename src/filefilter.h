@@ -42,8 +42,9 @@ gboolean filter_file_class(const gchar *name, FileFormatClass file_class);
 gboolean filter_name_is_writable(const gchar *name);
 gboolean filter_name_allow_sidecar(const gchar *name);
 
-void filter_write_list(SecureSaveInfo *ssi);
-void filter_parse(const gchar *text);
+void filter_write_list(GString *outstr, gint indent);
+void filter_load_file_type(const gchar **attribute_names, const gchar **attribute_values);
+
 
 void sidecar_ext_parse(const gchar *text, gboolean quoted);
 gchar *sidecar_ext_to_string(void);

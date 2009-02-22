@@ -14,8 +14,8 @@
 #ifndef BAR_KEYWORDS_H
 #define BAR_KEYWORDS_H
 
-GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key);
-
+GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key, gboolean expanded);
+GtkWidget *bar_pane_keywords_new_from_config(const gchar **attribute_names, const gchar **attribute_values);
 
 /* used in search.c */
 GList *keyword_list_pull(GtkWidget *text_widget);

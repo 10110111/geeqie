@@ -666,6 +666,30 @@ void exit_program(void)
 	exit_program_final();
 }
 
+void init_after_global_options(void)
+{
+
+	if (gtk_major_version < GTK_MAJOR_VERSION ||
+	    (gtk_major_version == GTK_MAJOR_VERSION && gtk_minor_version < GTK_MINOR_VERSION) )
+		{
+		log_printf("!!! This is a friendly warning.\n");
+		log_printf("!!! The version of GTK+ in use now is older than when %s was compiled.\n", GQ_APPNAME);
+		log_printf("!!!  compiled with GTK+-%d.%d\n", GTK_MAJOR_VERSION, GTK_MINOR_VERSION);
+		log_printf("!!!   running with GTK+-%d.%d\n", gtk_major_version, gtk_minor_version);
+		log_printf("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
+		}
+
+	mkdir_if_not_exists(get_rc_dir());
+	mkdir_if_not_exists(get_collections_dir());
+	mkdir_if_not_exists(get_thumbnails_cache_dir());
+	mkdir_if_not_exists(get_metadata_cache_dir());
+
+	keys_load();
+
+	editor_load_descriptions();
+
+	accel_map_load();
+}
 
 
 /* This code is supposed to handle situation when a file mmaped by image_loader 
@@ -751,35 +775,19 @@ gint main(gint argc, gchar *argv[])
 
 	options = init_options(NULL);
 	setup_default_options(options);
-	load_options(options);
 
-	gtkrc_load();
+	gtkrc_load(); //FIXME: move to init_after_global_options()
 	gtk_init(&argc, &argv);
 
+
+	load_options(options);
+	/* ^^^ this calls init_after_global_options(); at the right moment*/
+
+	if (!layout_window_list) 
+	{ // FIXME: commandline handling does not work at all, this is a quick workaround for missing rc file
+	
+	init_after_global_options();
 	parse_command_line(argc, argv, &cmd_path, &cmd_file, &cmd_list, &collection_list, &geometry);
-
-	if (gtk_major_version < GTK_MAJOR_VERSION ||
-	    (gtk_major_version == GTK_MAJOR_VERSION && gtk_minor_version < GTK_MINOR_VERSION) )
-		{
-		log_printf("!!! This is a friendly warning.\n");
-		log_printf("!!! The version of GTK+ in use now is older than when %s was compiled.\n", GQ_APPNAME);
-		log_printf("!!!  compiled with GTK+-%d.%d\n", GTK_MAJOR_VERSION, GTK_MINOR_VERSION);
-		log_printf("!!!   running with GTK+-%d.%d\n", gtk_major_version, gtk_minor_version);
-		log_printf("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
-		}
-
-	mkdir_if_not_exists(get_rc_dir());
-	mkdir_if_not_exists(get_collections_dir());
-	mkdir_if_not_exists(get_thumbnails_cache_dir());
-	mkdir_if_not_exists(get_metadata_cache_dir());
-
-	keys_load();
-	filter_add_defaults();
-	filter_rebuild();
-
-	editor_load_descriptions();
-
-	accel_map_load();
 
 	if (startup_blank)
 		{
@@ -807,7 +815,7 @@ gint main(gint argc, gchar *argv[])
 		path = get_current_dir();
 		}
 
-	lw = layout_new_with_geometry(NULL, options->layout.tools_float, options->layout.tools_hidden, geometry);
+	lw = layout_new_with_geometry(NULL, NULL, geometry);
 	layout_sort_set(lw, options->file_sort.method, options->file_sort.ascending);
 
 	if (collection_list && !startup_command_line_collection)
@@ -893,6 +901,8 @@ gint main(gint argc, gchar *argv[])
 		}
 
 	image_osd_set(lw->image, options->image_overlay.common.state | (options->image_overlay.common.show_at_startup ? OSD_SHOW_INFO : OSD_SHOW_NOTHING));
+
+	}
 
 	g_free(geometry);
 	g_free(cmd_path);

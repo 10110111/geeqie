@@ -45,6 +45,9 @@ void folder_icons_free(PixmapFolders *pf);
 
 
 void layout_bar_toggle(LayoutWindow *lw);
+void layout_bar_new(LayoutWindow *lw, gboolean populate);
+void layout_bar_close(LayoutWindow *lw);
+
 void layout_bar_exif_toggle(LayoutWindow *lw);
 void layout_bar_sort_toggle(LayoutWindow *lw);
 

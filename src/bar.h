@@ -19,7 +19,9 @@ typedef struct _PaneData PaneData;
 struct _PaneData {
 	void (*pane_set_fd)(GtkWidget *pane, FileData *fd);
 	gint (*pane_event)(GtkWidget *pane, GdkEvent *event);
+	void (*pane_write_config)(GtkWidget *pane, GString *outstr, gint indent);
 	gchar *title;
+	gboolean expanded;
 	
 	GList *(*list_func)(gpointer);
 	gpointer list_data;
@@ -29,7 +31,15 @@ struct _PaneData {
 
 
 GtkWidget *bar_new(GtkWidget *bounding_widget);
+
+void bar_populate_default(GtkWidget *bar);
+
 void bar_close(GtkWidget *bar);
+
+void bar_write_config(GtkWidget *bar, GString *outstr, gint indent);
+
+void bar_add(GtkWidget *bar, GtkWidget *pane);
+
 
 void bar_set_fd(GtkWidget *bar, FileData *fd);
 gint bar_event(GtkWidget *bar, GdkEvent *event);

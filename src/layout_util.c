@@ -97,7 +97,7 @@ gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 			return TRUE;
 			}
 		}
-	if (lw->vd && lw->dir_view_type == DIRVIEW_TREE && GTK_WIDGET_HAS_FOCUS(lw->vd->view) &&
+	if (lw->vd && lw->options.dir_view_type == DIRVIEW_TREE && GTK_WIDGET_HAS_FOCUS(lw->vd->view) &&
 	    !layout_key_match(event->keyval) &&
 	    gtk_widget_event(lw->vd->view, (GdkEvent *)event))
 		{
@@ -194,7 +194,7 @@ static void layout_menu_new_window_cb(GtkAction *action, gpointer data)
 
 	layout_exit_fullscreen(lw);
 
-	nw = layout_new(NULL, FALSE, FALSE);
+	nw = layout_new(NULL, NULL);
 	layout_sort_set(nw, options->file_sort.method, options->file_sort.ascending);
 	layout_set_fd(nw, lw->dir_fd);
 }
@@ -569,7 +569,7 @@ static void layout_menu_list_cb(GtkRadioAction *action, GtkRadioAction *current,
 	LayoutWindow *lw = data;
 	
 	layout_exit_fullscreen(lw);
-	layout_views_set(lw, lw->dir_view_type, (gtk_radio_action_get_current_value(action) == 1) ? FILEVIEW_ICON : FILEVIEW_LIST);
+	layout_views_set(lw, lw->options.dir_view_type, (gtk_radio_action_get_current_value(action) == 1) ? FILEVIEW_ICON : FILEVIEW_LIST);
 }
 
 static void layout_menu_view_dir_as_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
@@ -641,7 +641,7 @@ static void layout_menu_float_cb(GtkToggleAction *action, gpointer data)
 	
 	layout_exit_fullscreen(lw);
 
-	if (lw->tools_float == gtk_toggle_action_get_active(action)) return;
+	if (lw->options.tools_float == gtk_toggle_action_get_active(action)) return;
 	layout_tools_float_toggle(lw);
 }
 
@@ -659,7 +659,7 @@ static void layout_menu_toolbar_cb(GtkToggleAction *action, gpointer data)
 
 	layout_exit_fullscreen(lw);
 
-	if (lw->toolbar_hidden == gtk_toggle_action_get_active(action)) return;
+	if (lw->options.toolbar_hidden == gtk_toggle_action_get_active(action)) return;
 	layout_toolbar_toggle(lw);
 }
 
@@ -669,7 +669,7 @@ static void layout_menu_bar_cb(GtkToggleAction *action, gpointer data)
 
 	layout_exit_fullscreen(lw);
 
-	if (lw->bar_enabled == gtk_toggle_action_get_active(action)) return;
+	if (lw->options.panels.info.enabled == gtk_toggle_action_get_active(action)) return;
 	layout_bar_toggle(lw);
 }
 
@@ -688,7 +688,7 @@ static void layout_menu_bar_sort_cb(GtkToggleAction *action, gpointer data)
 
 	layout_exit_fullscreen(lw);
 
-	if (lw->bar_sort_enabled == gtk_toggle_action_get_active(action)) return;
+	if (lw->options.panels.sort.enabled == gtk_toggle_action_get_active(action)) return;
 	layout_bar_sort_toggle(lw);
 }
 
@@ -1853,25 +1853,25 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	if (!lw->action_group) return;
 
 	action = gtk_action_group_get_action(lw->action_group, "FolderTree");
-	radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->dir_view_type);
+	radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->options.dir_view_type);
 
 	action = gtk_action_group_get_action(lw->action_group, "ViewIcons");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->file_view_type);
 
 	action = gtk_action_group_get_action(lw->action_group, "FloatTools");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->tools_float);
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.tools_float);
 
 	action = gtk_action_group_get_action(lw->action_group, "SBar");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->bar_enabled);
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.panels.info.enabled);
 
 	action = gtk_action_group_get_action(lw->action_group, "SBarSort");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->bar_sort_enabled);
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.panels.sort.enabled);
 
 	action = gtk_action_group_get_action(lw->action_group, "HideToolbar");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->toolbar_hidden);
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.toolbar_hidden);
 
 	action = gtk_action_group_get_action(lw->action_group, "ShowMarks");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->marks_enabled);
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.show_marks);
 
 	action = gtk_action_group_get_action(lw->action_group, "SlideShow");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), layout_image_slideshow_active(lw));
@@ -1888,10 +1888,10 @@ void layout_util_sync_thumb(LayoutWindow *lw)
 	if (!lw->action_group) return;
 
 	action = gtk_action_group_get_action(lw->action_group, "Thumbnails");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->thumbs_enabled);
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.show_thumbnails);
 	g_object_set(action, "sensitive", (lw->file_view_type == FILEVIEW_LIST), NULL);
 
-	gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(lw->thumb_button), lw->thumbs_enabled);
+	gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(lw->thumb_button), lw->options.show_thumbnails);
 	gtk_widget_set_sensitive(lw->thumb_button, (lw->file_view_type == FILEVIEW_LIST));
 }
 
@@ -1950,7 +1950,7 @@ static void layout_bar_destroyed(GtkWidget *widget, gpointer data)
 	if (lw->utility_box)
 		{
 		/* destroyed from within itself */
-		lw->bar_enabled = FALSE;
+		lw->options.panels.info.enabled = FALSE;
 		layout_util_sync_views(lw);
 		}
 }
@@ -1968,68 +1968,86 @@ static void layout_bar_sized(GtkWidget *widget, GtkAllocation *allocation, gpoin
 
 	if (!lw->bar) return;
 	
-	options->panels.info.width = lw->bar_width = allocation->width;
+	lw->options.panels.info.width = allocation->width;
 }
 
-static void layout_bar_new(LayoutWindow *lw)
+void layout_bar_new(LayoutWindow *lw, gboolean populate)
 {
 	if (!lw->utility_box) return;
 
-	lw->bar = bar_new(lw->utility_box);
-	bar_set_selection_func(lw->bar, layout_bar_list_cb, lw);
-	g_signal_connect(G_OBJECT(lw->bar), "destroy",
-			 G_CALLBACK(layout_bar_destroyed), lw);
-	g_signal_connect(G_OBJECT(lw->bar), "size_allocate",
-			 G_CALLBACK(layout_bar_sized), lw);
+	if (!lw->bar)
+		{
+		lw->bar = bar_new(lw->utility_box);
 
-	options->panels.info.enabled = lw->bar_enabled = TRUE;
-	gtk_widget_set_size_request(lw->bar, lw->bar_width, -1);
+		if (populate)
+			{
+			bar_populate_default(lw->bar);
+			}
 
-	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->bar, FALSE, FALSE, 0);
-	
+		bar_set_selection_func(lw->bar, layout_bar_list_cb, lw);
+		g_signal_connect(G_OBJECT(lw->bar), "destroy",
+				 G_CALLBACK(layout_bar_destroyed), lw);
+		g_signal_connect(G_OBJECT(lw->bar), "size_allocate",
+				 G_CALLBACK(layout_bar_sized), lw);
+
+
+		gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->bar, FALSE, FALSE, 0);
+		}
+
+	lw->options.panels.info.enabled  = TRUE;
+	gtk_widget_set_size_request(lw->bar, lw->options.panels.info.width, -1);
 	bar_set_fd(lw->bar, layout_image_get_fd(lw));
 	gtk_widget_show(lw->bar);
 }
 
-static void layout_bar_close(LayoutWindow *lw)
+void layout_bar_close(LayoutWindow *lw)
 {
 	if (lw->bar)
 		{
 		bar_close(lw->bar);
 		lw->bar = NULL;
 		}
-	options->panels.info.enabled = lw->bar_enabled = FALSE;
+	lw->options.panels.info.enabled = FALSE;
+}
+
+static void layout_bar_hide(LayoutWindow *lw)
+{
+	if (lw->bar)
+		{
+		gtk_widget_hide(lw->bar);
+		}
+	lw->options.panels.info.enabled = FALSE;
 }
 
 void layout_bar_toggle(LayoutWindow *lw)
 {
-	if (lw->bar_enabled)
+	if (lw->options.panels.info.enabled)
 		{
-		layout_bar_close(lw);
+		layout_bar_hide(lw);
 		}
 	else
 		{
-		layout_bar_new(lw);
+		layout_bar_new(lw, TRUE);
 		}
 }
 
 static void layout_bar_new_image(LayoutWindow *lw)
 {
-	if (!lw->bar || !lw->bar_enabled) return;
+	if (!lw->bar || !lw->options.panels.info.enabled) return;
 
 	bar_set_fd(lw->bar, layout_image_get_fd(lw));
 }
 
 static void layout_bar_new_selection(LayoutWindow *lw, gint count)
 {
-	if (!lw->bar || !lw->bar_enabled) return;
+	if (!lw->bar || !lw->options.panels.info.enabled) return;
 
 //	bar_info_selection(lw->bar_info, count - 1);
 }
 
 static void layout_bar_maint_renamed(LayoutWindow *lw)
 {
-	if (!lw->bar || !lw->bar_enabled) return;
+	if (!lw->bar || !lw->options.panels.info.enabled) return;
 
 //	bar_maint_renamed(lw->bar_info, layout_image_get_fd(lw));
 }
@@ -2043,7 +2061,7 @@ static void layout_bar_sort_destroyed(GtkWidget *widget, gpointer data)
 	if (lw->utility_box)
 		{
 		/* destroyed from within itself */
-		lw->bar_sort_enabled = FALSE;
+		lw->options.panels.sort.enabled = FALSE;
 
 		layout_util_sync_views(lw);
 		}
@@ -2056,7 +2074,7 @@ static void layout_bar_sort_new(LayoutWindow *lw)
 	lw->bar_sort = bar_sort_new(lw);
 	g_signal_connect(G_OBJECT(lw->bar_sort), "destroy",
 			 G_CALLBACK(layout_bar_sort_destroyed), lw);
-	options->panels.sort.enabled = lw->bar_sort_enabled = TRUE;
+	lw->options.panels.sort.enabled = TRUE;
 
 	gtk_box_pack_end(GTK_BOX(lw->utility_box), lw->bar_sort, FALSE, FALSE, 0);
 	gtk_widget_show(lw->bar_sort);
@@ -2069,12 +2087,12 @@ static void layout_bar_sort_close(LayoutWindow *lw)
 		bar_sort_close(lw->bar_sort);
 		lw->bar_sort = NULL;
 		}
-	options->panels.sort.enabled = lw->bar_sort_enabled = FALSE;
+	lw->options.panels.sort.enabled = FALSE;
 }
 
 void layout_bar_sort_toggle(LayoutWindow *lw)
 {
-	if (lw->bar_sort_enabled)
+	if (lw->options.panels.sort.enabled)
 		{
 		layout_bar_sort_close(lw);
 		}
@@ -2106,14 +2124,14 @@ GtkWidget *layout_bars_prepare(LayoutWindow *lw, GtkWidget *image)
 	gtk_box_pack_start(GTK_BOX(lw->utility_box), image, TRUE, TRUE, 0);
 	gtk_widget_show(image);
 
-	if (lw->bar_sort_enabled)
+	if (lw->options.panels.sort.enabled)
 		{
 		layout_bar_sort_new(lw);
 		}
 
-	if (lw->bar_enabled)
+	if (lw->options.panels.info.enabled)
 		{
-		layout_bar_new(lw);
+		layout_bar_new(lw, TRUE);
 		}
 
 	return lw->utility_box;

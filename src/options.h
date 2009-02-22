@@ -156,71 +156,11 @@ struct _ConfOptions
 	} image_overlay;
 
 	/* layout */
-	struct {
-		gchar *order;
-		gint style;
-
-		DirViewType dir_view_type;
-		FileViewType file_view_type;
-
-		gboolean show_thumbnails;
-		gboolean show_marks;
-		gboolean show_directory_date;
-
-		struct {
-			gint w;
-			gint h;
-			gint x;
-			gint y;
-			gboolean maximized;
-			gint hdivider_pos;
-			gint vdivider_pos;
-		} main_window;
-
-		struct {
-			gint w;
-			gint h;
-			gint x;
-			gint y;
-			gint vdivider_pos;
-		} float_window;
-
-		struct {
-			gint w;
-			gint h;
-		} properties_window;
-
-		gboolean save_window_positions;
-
-		gboolean tools_float;
-		gboolean tools_hidden;
-		gboolean tools_restore_state;
-
-		gboolean toolbar_hidden;
-		
-		gchar *home_path;
-	} layout;
-
-	/* panels */
-	struct {
-		struct {
-			gboolean enabled;
-			gint width;
-		} info;
-
-		struct {
-			gboolean enabled;
-			gint width;
-		} exif;
-
-		struct {
-			gboolean enabled;
-			gint mode_state;
-			gint action_state;
-			gint selection_state;
-			gchar *action_filter;
-		} sort;
-	} panels;
+	/* FIXME: this is here for 2 reasons:
+	   - I don't want to break preferences dialog now
+	   - it might be useful as defaults for new windows (I am not sure about this)
+	*/
+	LayoutOptions layout;
 
 	/* properties dialog */
 	struct {
@@ -274,6 +214,9 @@ ConfOptions *init_options(ConfOptions *options);
 void setup_default_options(ConfOptions *options);
 void save_options(ConfOptions *options);
 void load_options(ConfOptions *options);
+
+void copy_layout_options(LayoutOptions *dest, const LayoutOptions *src);
+void free_layout_options_content(LayoutOptions *dest);
 
 
 #endif /* OPTIONS_H */

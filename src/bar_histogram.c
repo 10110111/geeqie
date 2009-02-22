@@ -20,6 +20,7 @@
 #include "ui_menu.h"
 #include "ui_misc.h"
 #include "histogram.h"
+#include "rcfile.h"
 
 /*
  *-------------------------------------------------------------------
@@ -76,6 +77,24 @@ static void bar_pane_histogram_set_fd(GtkWidget *pane, FileData *fd)
 	bar_pane_histogram_update(phd);
 }
 
+static void bar_pane_histogram_write_config(GtkWidget *pane, GString *outstr, gint indent)
+{
+	PaneHistogramData *phd;
+
+	phd = g_object_get_data(G_OBJECT(pane), "pane_data");
+	if (!phd) return;
+
+	write_indent(outstr, indent);
+	g_string_append_printf(outstr, "<pane_histogram\n");
+	indent++;
+	WRITE_CHAR(*phd, pane.title);
+	WRITE_BOOL(*phd, pane.expanded);
+	indent--;
+	write_indent(outstr, indent);
+	g_string_append_printf(outstr, "/>\n");
+}
+
+
 static void bar_pane_histogram_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneHistogramData *phd = data;
@@ -131,14 +150,16 @@ static void bar_pane_histogram_destroy(GtkWidget *widget, gpointer data)
 }
 
 
-GtkWidget *bar_pane_histogram_new(const gchar *title, gint height)
+GtkWidget *bar_pane_histogram_new(const gchar *title, gint height, gint expanded)
 {
 	PaneHistogramData *phd;
 
 	phd = g_new0(PaneHistogramData, 1);
 	
 	phd->pane.pane_set_fd = bar_pane_histogram_set_fd;
+	phd->pane.pane_write_config = bar_pane_histogram_write_config;
 	phd->pane.title = g_strdup(title);
+	phd->pane.expanded = expanded;
 	
 	phd->histogram = histogram_new();
 	
@@ -168,5 +189,27 @@ GtkWidget *bar_pane_histogram_new(const gchar *title, gint height)
 
 	return phd->widget;
 }
+
+GtkWidget *bar_pane_histogram_new_from_config(const gchar **attribute_names, const gchar **attribute_values)
+{
+	gchar *title = g_strdup(_("NoName"));
+	gboolean expanded = TRUE;
+	gint height = 80;
+
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+
+		READ_CHAR_FULL("pane.title", title);
+		READ_BOOL_FULL("pane.expanded", expanded);
+		
+
+		DEBUG_1("unknown attribute %s = %s", option, value);
+		}
+	
+	return bar_pane_histogram_new(title, height, expanded);
+}
+
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

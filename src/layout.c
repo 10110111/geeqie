@@ -33,6 +33,8 @@
 #include "ui_tabcomp.h"
 #include "window.h"
 #include "metadata.h"
+#include "rcfile.h"
+#include "bar.h"
 
 #ifdef HAVE_LIRC
 #include "lirc.h"
@@ -217,7 +219,7 @@ static GtkWidget *layout_tool_setup(LayoutWindow *lw)
 
 	lw->toolbar = layout_button_bar(lw);
 	gtk_box_pack_start(GTK_BOX(box), lw->toolbar, FALSE, FALSE, 0);
-	if (!lw->toolbar_hidden) gtk_widget_show(lw->toolbar);
+	if (!lw->options.toolbar_hidden) gtk_widget_show(lw->toolbar);
 
 	tabcomp = tab_completion_new_with_history(&lw->path_entry, NULL, "path_list", -1,
 						  layout_path_entry_cb, lw);
@@ -229,7 +231,7 @@ static GtkWidget *layout_tool_setup(LayoutWindow *lw)
 	g_signal_connect(G_OBJECT(lw->path_entry->parent), "changed",
 			 G_CALLBACK(layout_path_entry_changed_cb), lw);
 
-	lw->vd = vd_new(lw->dir_view_type, lw->dir_fd);
+	lw->vd = vd_new(lw->options.dir_view_type, lw->dir_fd);
 	vd_set_layout(lw->vd, lw);
 	vd_set_select_func(lw->vd, layout_vd_select_cb, lw);
 
@@ -845,14 +847,14 @@ static GtkWidget *layout_list_new(LayoutWindow *lw)
 	vf_set_status_func(lw->vf, layout_list_status_cb, lw);
 	vf_set_thumb_status_func(lw->vf, layout_list_thumb_cb, lw);
 
-	vf_marks_set(lw->vf, lw->marks_enabled);
+	vf_marks_set(lw->vf, lw->options.show_marks);
 
 	switch (lw->file_view_type)
 	{
 	case FILEVIEW_ICON:
 		break;
 	case FILEVIEW_LIST:
-		vf_thumb_set(lw->vf, lw->thumbs_enabled);
+		vf_thumb_set(lw->vf, lw->options.show_thumbnails);
 		break;
 	}
 
@@ -861,12 +863,12 @@ static GtkWidget *layout_list_new(LayoutWindow *lw)
 
 static void layout_list_sync_thumb(LayoutWindow *lw)
 {
-	if (lw->vf) vf_thumb_set(lw->vf, lw->thumbs_enabled);
+	if (lw->vf) vf_thumb_set(lw->vf, lw->options.show_thumbnails);
 }
 
 static void layout_list_sync_marks(LayoutWindow *lw)
 {
-	if (lw->vf) vf_marks_set(lw->vf, lw->marks_enabled);
+	if (lw->vf) vf_marks_set(lw->vf, lw->options.show_marks);
 }
 
 static void layout_list_scroll_to_subpart(LayoutWindow *lw, const gchar *needle)
@@ -1134,9 +1136,9 @@ void layout_thumb_set(LayoutWindow *lw, gint enable)
 {
 	if (!layout_valid(&lw)) return;
 
-	if (lw->thumbs_enabled == enable) return;
+	if (lw->options.show_thumbnails == enable) return;
 
-	lw->thumbs_enabled = enable;
+	lw->options.show_thumbnails = enable;
 
 	layout_util_sync_thumb(lw);
 	layout_list_sync_thumb(lw);
@@ -1146,9 +1148,9 @@ void layout_marks_set(LayoutWindow *lw, gint enable)
 {
 	if (!layout_valid(&lw)) return;
 
-	if (lw->marks_enabled == enable) return;
+	if (lw->options.show_marks == enable) return;
 
-	lw->marks_enabled = enable;
+	lw->options.show_marks = enable;
 
 //	layout_util_sync_marks(lw);
 	layout_list_sync_marks(lw);
@@ -1158,14 +1160,14 @@ gint layout_thumb_get(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
-	return lw->thumbs_enabled;
+	return lw->options.show_thumbnails;
 }
 
 gint layout_marks_get(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
-	return lw->marks_enabled;
+	return lw->options.show_marks;
 }
 
 void layout_sort_set(LayoutWindow *lw, SortType type, gint ascend)
@@ -1209,18 +1211,18 @@ gint layout_geometry_get_dividers(LayoutWindow *lw, gint *h, gint *v)
 		{
 		*h = GTK_PANED(lw->h_pane)->child1->allocation.width;
 		}
-	else if (h != &lw->div_h)
+	else if (h != &lw->options.main_window.hdivider_pos)
 		{
-		*h = lw->div_h;
+		*h = lw->options.main_window.hdivider_pos;
 		}
 
 	if (lw->v_pane && GTK_PANED(lw->v_pane)->child1->allocation.x >= 0)
 		{
 		*v = GTK_PANED(lw->v_pane)->child1->allocation.height;
 		}
-	else if (v != &lw->div_v)
+	else if (v != &lw->options.main_window.vdivider_pos)
 		{
-		*v = lw->div_v;
+		*v = lw->options.main_window.vdivider_pos;
 		}
 
 	return TRUE;
@@ -1230,9 +1232,9 @@ void layout_views_set(LayoutWindow *lw, DirViewType dir_view_type, FileViewType 
 {
 	if (!layout_valid(&lw)) return;
 
-	if (lw->dir_view_type == dir_view_type && lw->file_view_type == file_view_type) return;
+	if (lw->options.dir_view_type == dir_view_type && lw->file_view_type == file_view_type) return;
 
-	lw->dir_view_type = dir_view_type;
+	lw->options.dir_view_type = dir_view_type;
 	lw->file_view_type = file_view_type;
 
 	layout_style_set(lw, -1, NULL);
@@ -1242,7 +1244,7 @@ gint layout_views_get(LayoutWindow *lw, DirViewType *dir_view_type, FileViewType
 {
 	if (!layout_valid(&lw)) return FALSE;
 
-	*dir_view_type = lw->dir_view_type;
+	*dir_view_type = lw->options.dir_view_type;
 	*file_view_type = lw->file_view_type;
 
 	return TRUE;
@@ -1316,7 +1318,7 @@ gint layout_geometry_get_tools(LayoutWindow *lw, gint *x, gint *y, gint *w, gint
 		{
 		/* use the stored values (sort of breaks success return value) */
 
-		*divider_pos = lw->div_float;
+		*divider_pos = lw->options.float_window.vdivider_pos;
 
 		return FALSE;
 		}
@@ -1339,7 +1341,7 @@ gint layout_geometry_get_tools(LayoutWindow *lw, gint *x, gint *y, gint *w, gint
 static void layout_tools_geometry_sync(LayoutWindow *lw)
 {
 	layout_geometry_get_tools(lw, &options->layout.float_window.x, &options->layout.float_window.x,
-				  &options->layout.float_window.w, &options->layout.float_window.h, &lw->div_float);
+				  &options->layout.float_window.w, &options->layout.float_window.h, &lw->options.float_window.vdivider_pos);
 }
 
 static void layout_tools_hide(LayoutWindow *lw, gint hide)
@@ -1363,7 +1365,7 @@ static void layout_tools_hide(LayoutWindow *lw, gint hide)
 			}
 		}
 
-	lw->tools_hidden = hide;
+	lw->options.tools_hidden = hide;
 }
 
 static gint layout_tools_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer data)
@@ -1482,15 +1484,15 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 		{
 		if (vertical)
 			{
-			lw->div_float = MAIN_WINDOW_DIV_VPOS;
+			lw->options.float_window.vdivider_pos = MAIN_WINDOW_DIV_VPOS;
 			}
 		else
 			{
-			lw->div_float = MAIN_WINDOW_DIV_HPOS;
+			lw->options.float_window.vdivider_pos = MAIN_WINDOW_DIV_HPOS;
 			}
 		}
 
-	gtk_paned_set_position(GTK_PANED(lw->tools_pane), lw->div_float);
+	gtk_paned_set_position(GTK_PANED(lw->tools_pane), lw->options.float_window.vdivider_pos);
 }
 
 /*
@@ -1597,7 +1599,7 @@ static void layout_grid_setup(LayoutWindow *lw)
 
 	image = layout_bars_prepare(lw, image);
 
-	if (lw->tools_float || lw->tools_hidden)
+	if (lw->options.tools_float || lw->options.tools_hidden)
 		{
 		gtk_box_pack_start(GTK_BOX(lw->group_box), image, TRUE, TRUE, 0);
 		gtk_widget_show(image);
@@ -1660,7 +1662,7 @@ static void layout_grid_setup(LayoutWindow *lw)
 	gtk_widget_show(h);
 
 	/* fix to have image pane visible when it is left and priority widget */
-	if (lw->div_h == -1 &&
+	if (lw->options.main_window.hdivider_pos == -1 &&
 	    w1 == image &&
 	    !layout_location_vertical(priority_location) &&
 	    layout_location_first(priority_location))
@@ -1668,8 +1670,8 @@ static void layout_grid_setup(LayoutWindow *lw)
 		gtk_widget_set_size_request(image, 200, -1);
 		}
 
-	gtk_paned_set_position(GTK_PANED(lw->h_pane), lw->div_h);
-	gtk_paned_set_position(GTK_PANED(lw->v_pane), lw->div_v);
+	gtk_paned_set_position(GTK_PANED(lw->h_pane), lw->options.main_window.hdivider_pos);
+	gtk_paned_set_position(GTK_PANED(lw->v_pane), lw->options.main_window.vdivider_pos);
 
 	gtk_widget_grab_focus(lw->image->widget);
 }
@@ -1707,7 +1709,7 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	lw->image = NULL;
 	lw->utility_box = NULL;
 
-	layout_geometry_get_dividers(lw, &lw->div_h, &lw->div_v);
+	layout_geometry_get_dividers(lw, &lw->options.main_window.hdivider_pos, &lw->options.main_window.vdivider_pos);
 
 	/* clear it all */
 
@@ -1751,7 +1753,7 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	/* re-fill */
 
 	layout_grid_setup(lw);
-	layout_tools_hide(lw, lw->tools_hidden);
+	layout_tools_hide(lw, lw->options.tools_hidden);
 
 	layout_util_sync(lw);
 	layout_status_update_all(lw);
@@ -1766,7 +1768,7 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 		{
 		layout_set_fd(lw, dir_fd);
 		}
-	image_top_window_set_sync(lw->image, (lw->tools_float || lw->tools_hidden));
+	image_top_window_set_sync(lw->image, (lw->options.tools_float || lw->options.tools_hidden));
 
 	/* clean up */
 
@@ -1808,25 +1810,25 @@ void layout_tools_float_toggle(LayoutWindow *lw)
 
 	if (!lw) return;
 
-	if (!lw->tools_hidden)
+	if (!lw->options.tools_hidden)
 		{
-		popped = !lw->tools_float;
+		popped = !lw->options.tools_float;
 		}
 	else
 		{
 		popped = TRUE;
 		}
 
-	if (lw->tools_float == popped)
+	if (lw->options.tools_float == popped)
 		{
-		if (popped && lw->tools_hidden)
+		if (popped && lw->options.tools_hidden)
 			{
 			layout_tools_float_set(lw, popped, FALSE);
 			}
 		}
 	else
 		{
-		if (lw->tools_float)
+		if (lw->options.tools_float)
 			{
 			layout_tools_float_set(lw, FALSE, FALSE);
 			}
@@ -1841,23 +1843,23 @@ void layout_tools_hide_toggle(LayoutWindow *lw)
 {
 	if (!lw) return;
 
-	layout_tools_float_set(lw, lw->tools_float, !lw->tools_hidden);
+	layout_tools_float_set(lw, lw->options.tools_float, !lw->options.tools_hidden);
 }
 
 void layout_tools_float_set(LayoutWindow *lw, gint popped, gint hidden)
 {
 	if (!layout_valid(&lw)) return;
 
-	if (lw->tools_float == popped && lw->tools_hidden == hidden) return;
+	if (lw->options.tools_float == popped && lw->options.tools_hidden == hidden) return;
 
-	if (lw->tools_float == popped && lw->tools_float && lw->tools)
+	if (lw->options.tools_float == popped && lw->options.tools_float && lw->tools)
 		{
 		layout_tools_hide(lw, hidden);
 		return;
 		}
 
-	lw->tools_float = popped;
-	lw->tools_hidden = hidden;
+	lw->options.tools_float = popped;
+	lw->options.tools_hidden = hidden;
 
 	layout_style_set(lw, -1, NULL);
 }
@@ -1866,8 +1868,8 @@ gint layout_tools_float_get(LayoutWindow *lw, gint *popped, gint *hidden)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
-	*popped = lw->tools_float;
-	*hidden = lw->tools_hidden;
+	*popped = lw->options.tools_float;
+	*hidden = lw->options.tools_hidden;
 
 	return TRUE;
 }
@@ -1877,9 +1879,9 @@ void layout_toolbar_toggle(LayoutWindow *lw)
 	if (!layout_valid(&lw)) return;
 	if (!lw->toolbar) return;
 
-	lw->toolbar_hidden = !lw->toolbar_hidden;
+	lw->options.toolbar_hidden = !lw->options.toolbar_hidden;
 
-	if (lw->toolbar_hidden)
+	if (lw->options.toolbar_hidden)
 		{
 		if (GTK_WIDGET_VISIBLE(lw->toolbar)) gtk_widget_hide(lw->toolbar);
 		}
@@ -1893,7 +1895,7 @@ gint layout_toolbar_hidden(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return TRUE;
 
-	return lw->toolbar_hidden;
+	return lw->options.toolbar_hidden;
 }
 
 /*
@@ -1901,6 +1903,32 @@ gint layout_toolbar_hidden(LayoutWindow *lw)
  * base
  *-----------------------------------------------------------------------------
  */
+
+void layout_sync_options_with_current_state(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return;
+
+	lw->options.main_window.maximized =  window_maximized(lw->window);
+	if (!lw->options.main_window.maximized)
+		{
+		layout_geometry_get(lw, &lw->options.main_window.x, &lw->options.main_window.y,
+				    &lw->options.main_window.w, &lw->options.main_window.h);
+		}
+
+	layout_geometry_get_dividers(lw, &lw->options.main_window.hdivider_pos, &lw->options.main_window.vdivider_pos);
+
+//	layout_sort_get(NULL, &options->file_sort.method, &options->file_sort.ascending);
+
+	layout_geometry_get_tools(lw, &lw->options.float_window.x, &lw->options.float_window.y,
+				  &lw->options.float_window.w, &lw->options.float_window.h, &lw->options.float_window.vdivider_pos);
+
+//	if (options->startup.restore_path && options->startup.use_last_path)
+//		{
+//		g_free(options->startup.path);
+//		options->startup.path = g_strdup(layout_get_path(NULL));
+//		}
+}
+
 
 void layout_close(LayoutWindow *lw)
 {
@@ -1936,6 +1964,7 @@ void layout_free(LayoutWindow *lw)
 		file_data_unref(lw->dir_fd);
 		}
 
+	free_layout_options_content(&lw->options);
 	g_free(lw);
 }
 
@@ -1947,12 +1976,12 @@ static gint layout_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer dat
 	return TRUE;
 }
 
-LayoutWindow *layout_new(FileData *dir_fd, gint popped, gint hidden)
+LayoutWindow *layout_new(FileData *dir_fd, LayoutOptions *lop)
 {
-	return layout_new_with_geometry(dir_fd, popped, hidden, NULL);
+	return layout_new_with_geometry(dir_fd, lop, NULL);
 }
 
-LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidden,
+LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 				       const gchar *geometry)
 {
 	LayoutWindow *lw;
@@ -1961,48 +1990,40 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 
 	lw = g_new0(LayoutWindow, 1);
 
-	lw->thumbs_enabled = options->layout.show_thumbnails;
-	lw->marks_enabled = options->layout.show_marks;
+	if (lop)
+		copy_layout_options(&lw->options, lop);
+	else
+		copy_layout_options(&lw->options, &options->layout);
+
 	lw->sort_method = SORT_NAME;
 	lw->sort_ascend = TRUE;
 
-	lw->tools_float = popped;
-	lw->tools_hidden = hidden;
-
-	lw->toolbar_hidden = options->layout.toolbar_hidden;
+//	lw->options.tools_float = popped;
+//	lw->options.tools_hidden = hidden;
 
 	lw->utility_box = NULL;
 	lw->bar_sort = NULL;
-	lw->bar_sort_enabled = options->panels.sort.enabled;
+//	lw->bar_sort_enabled = options->panels.sort.enabled;
 
 	lw->bar = NULL;
-	lw->bar_enabled = options->panels.info.enabled;
+//	lw->bar_enabled = options->panels.info.enabled;
 
 	lw->exif_window = NULL;
 	/* default layout */
 
-	layout_config_parse(options->layout.style, options->layout.order,
+	layout_config_parse(lw->options.style, lw->options.order,
 			    &lw->dir_location,  &lw->file_location, &lw->image_location);
-	lw->dir_view_type = options->layout.dir_view_type;
-    if (lw->dir_view_type >= VIEW_DIR_TYPES_COUNT) lw->dir_view_type = 0;
-	lw->file_view_type = options->layout.file_view_type;
-    if (lw->file_view_type >= VIEW_FILE_TYPES_COUNT) lw->file_view_type = 0;
+	if (lw->options.dir_view_type >= VIEW_DIR_TYPES_COUNT) lw->options.dir_view_type = 0;
+	if (lw->options.file_view_type >= VIEW_FILE_TYPES_COUNT) lw->options.file_view_type = 0;
 
 	/* divider positions */
 
-	if (options->layout.save_window_positions)
+	if (!lw->options.save_window_positions)
 		{
-		lw->div_h = options->layout.main_window.hdivider_pos;
-		lw->div_v = options->layout.main_window.vdivider_pos;
-		lw->div_float = options->layout.float_window.vdivider_pos;
-		lw->bar_width = options->panels.info.width;
-		}
-	else
-		{
-		lw->div_h = MAIN_WINDOW_DIV_HPOS;
-		lw->div_v = MAIN_WINDOW_DIV_VPOS;
-		lw->div_float = MAIN_WINDOW_DIV_VPOS;
-		lw->bar_width = PANEL_DEFAULT_WIDTH;
+		lw->options.main_window.hdivider_pos = MAIN_WINDOW_DIV_HPOS;
+		lw->options.main_window.vdivider_pos = MAIN_WINDOW_DIV_VPOS;
+		lw->options.float_window.vdivider_pos = MAIN_WINDOW_DIV_VPOS;
+		lw->options.panels.info.width = PANEL_DEFAULT_WIDTH;
 		}
 
 	/* window */
@@ -2011,7 +2032,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 	gtk_window_set_resizable(GTK_WINDOW(lw->window), TRUE);
 	gtk_container_set_border_width(GTK_CONTAINER(lw->window), 0);
 
-	if (options->layout.save_window_positions)
+	if (lw->options.save_window_positions)
 		{
 		hint_mask = GDK_HINT_USER_POS;
 		}
@@ -2027,14 +2048,14 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 	gtk_window_set_geometry_hints(GTK_WINDOW(lw->window), NULL, &hint,
 				      GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE | hint_mask);
 
-	if (options->layout.save_window_positions)
+	if (lw->options.save_window_positions)
 		{
-		gtk_window_set_default_size(GTK_WINDOW(lw->window), options->layout.main_window.w, options->layout.main_window.h);
-		if (!layout_window_list)
-			{
-			gtk_window_move(GTK_WINDOW(lw->window), options->layout.main_window.x, options->layout.main_window.y);
-			if (options->layout.main_window.maximized) gtk_window_maximize(GTK_WINDOW(lw->window));
-			}
+		gtk_window_set_default_size(GTK_WINDOW(lw->window), lw->options.main_window.w, lw->options.main_window.h);
+//		if (!layout_window_list)
+//			{
+		gtk_window_move(GTK_WINDOW(lw->window), lw->options.main_window.x, lw->options.main_window.y);
+		if (lw->options.main_window.maximized) gtk_window_maximize(GTK_WINDOW(lw->window));
+//			}
 		}
 	else
 		{
@@ -2055,7 +2076,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 	gtk_widget_show(lw->main_box);
 
 	layout_grid_setup(lw);
-	image_top_window_set_sync(lw->image, (lw->tools_float || lw->tools_hidden));
+	image_top_window_set_sync(lw->image, (lw->options.tools_float || lw->options.tools_hidden));
 
 	layout_util_sync(lw);
 	layout_status_update_all(lw);
@@ -2085,7 +2106,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 		}
 
 	gtk_widget_show(lw->window);
-	layout_tools_hide(lw, lw->tools_hidden);
+	layout_tools_hide(lw, lw->options.tools_hidden);
 
 	layout_window_list = g_list_append(layout_window_list, lw);
 
@@ -2093,5 +2114,155 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidde
 
 	return lw;
 }
+
+void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent)
+{
+	WRITE_INT(*layout, style);
+	WRITE_CHAR(*layout, order);
+	WRITE_UINT(*layout, dir_view_type);
+	WRITE_UINT(*layout, file_view_type);
+	WRITE_BOOL(*layout, show_marks);
+	WRITE_BOOL(*layout, show_thumbnails);
+	WRITE_BOOL(*layout, show_directory_date);
+	WRITE_CHAR(*layout, home_path);
+	WRITE_SEPARATOR();
+
+	WRITE_BOOL(*layout, save_window_positions);
+	WRITE_SEPARATOR();
+
+	WRITE_INT(*layout, main_window.x);
+	WRITE_INT(*layout, main_window.y);
+	WRITE_INT(*layout, main_window.w);
+	WRITE_INT(*layout, main_window.h);
+	WRITE_BOOL(*layout, main_window.maximized);
+	WRITE_INT(*layout, main_window.hdivider_pos);
+	WRITE_INT(*layout, main_window.vdivider_pos);
+	WRITE_SEPARATOR();
+
+	WRITE_INT(*layout, float_window.x);
+	WRITE_INT(*layout, float_window.y);
+	WRITE_INT(*layout, float_window.w);
+	WRITE_INT(*layout, float_window.h);
+	WRITE_INT(*layout, float_window.vdivider_pos);
+	WRITE_SEPARATOR();
+
+	WRITE_INT(*layout, properties_window.w);
+	WRITE_INT(*layout, properties_window.h);
+	WRITE_SEPARATOR();
+
+	WRITE_BOOL(*layout, tools_float);
+	WRITE_BOOL(*layout, tools_hidden);
+	WRITE_BOOL(*layout, tools_restore_state);
+	WRITE_SEPARATOR();
+
+	WRITE_BOOL(*layout, toolbar_hidden);
+
+	WRITE_BOOL(*layout, panels.exif.enabled);
+	WRITE_INT(*layout, panels.exif.width);
+	WRITE_BOOL(*layout, panels.info.enabled);
+	WRITE_INT(*layout, panels.info.width);
+	WRITE_BOOL(*layout, panels.sort.enabled);
+	WRITE_INT(*layout, panels.sort.action_state);
+	WRITE_INT(*layout, panels.sort.mode_state);
+	WRITE_INT(*layout, panels.sort.selection_state);
+	WRITE_CHAR(*layout, panels.sort.action_filter);
+}
+
+
+void layout_write_config(LayoutWindow *lw, GString *outstr, gint indent)
+{
+	layout_sync_options_with_current_state(lw);
+	write_indent(outstr, indent);
+	g_string_append_printf(outstr, "<layout\n");
+	layout_write_attributes(&lw->options, outstr, indent + 1);
+	write_indent(outstr, indent);
+	g_string_append_printf(outstr, ">\n");
+
+	bar_write_config(lw->bar, outstr, indent + 1);
+	
+	write_indent(outstr, indent);
+	g_string_append_printf(outstr, "</layout>\n");
+}
+
+void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names, const gchar **attribute_values)
+{
+	
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+
+		/* layout options */
+
+		READ_INT(*layout, style);
+		READ_CHAR(*layout, order);
+		
+		READ_UINT(*layout, dir_view_type);
+		READ_UINT(*layout, file_view_type);
+		READ_BOOL(*layout, show_marks);
+		READ_BOOL(*layout, show_thumbnails);
+		READ_BOOL(*layout, show_directory_date);
+		READ_CHAR(*layout, home_path);
+
+		/* window positions */
+
+		READ_BOOL(*layout, save_window_positions);
+
+		READ_INT(*layout, main_window.x);
+		READ_INT(*layout, main_window.y);
+		READ_INT(*layout, main_window.w);
+		READ_INT(*layout, main_window.h);
+		READ_BOOL(*layout, main_window.maximized);
+		READ_INT(*layout, main_window.hdivider_pos);
+		READ_INT(*layout, main_window.vdivider_pos);
+
+		READ_INT(*layout, float_window.x);
+		READ_INT(*layout, float_window.y);
+		READ_INT(*layout, float_window.w);
+		READ_INT(*layout, float_window.h);
+		READ_INT(*layout, float_window.vdivider_pos);
+	
+		READ_INT(*layout, properties_window.w);
+		READ_INT(*layout, properties_window.h);
+
+		READ_BOOL(*layout, tools_float);
+		READ_BOOL(*layout, tools_hidden);
+		READ_BOOL(*layout, tools_restore_state);
+		READ_BOOL(*layout, toolbar_hidden);
+
+		/* panels */
+		READ_BOOL(*layout, panels.exif.enabled);
+		READ_INT_CLAMP(*layout, panels.exif.width, PANEL_MIN_WIDTH, PANEL_MAX_WIDTH);
+		READ_BOOL(*layout, panels.info.enabled);
+		READ_INT_CLAMP(*layout, panels.info.width, PANEL_MIN_WIDTH, PANEL_MAX_WIDTH);
+		READ_BOOL(*layout, panels.sort.enabled);
+		READ_INT(*layout, panels.sort.action_state);
+		READ_INT(*layout, panels.sort.mode_state);
+		READ_INT(*layout, panels.sort.selection_state);
+		READ_CHAR(*layout, panels.sort.action_filter);
+
+
+		DEBUG_1("unknown attribute %s = %s", option, value);
+		}
+
+}
+
+
+LayoutWindow *layout_new_from_config(const gchar **attribute_names, const gchar **attribute_values)
+{
+	LayoutOptions lop;
+	LayoutWindow *lw;
+	memset(&lop, 0, sizeof(LayoutOptions));
+	copy_layout_options(&lop, &options->layout);
+
+	layout_load_attributes(&lop, attribute_names, attribute_values);
+	lw = layout_new(NULL, &lop);
+	layout_sort_set(lw, options->file_sort.method, options->file_sort.ascending);
+	layout_set_path(lw, get_current_dir()); // FIXME: use options / cmdline
+		
+	free_layout_options_content(&lop);
+	return lw;
+}
+
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

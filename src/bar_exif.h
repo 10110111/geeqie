@@ -30,8 +30,8 @@ extern ExifUI ExifUIList[];
 #define EXIF_BAR_CUSTOM_COUNT 20
 
 
-GtkWidget *bar_pane_exif_new(const gchar *title);
-
+GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded);
+GtkWidget *bar_pane_exif_new_from_config(const gchar **attribute_names, const gchar **attribute_values);
 
 /* these are exposed for when duplication of the exif bar's text is needed */
 

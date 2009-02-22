@@ -17,14 +17,21 @@
 extern GList *layout_window_list;
 
 
-LayoutWindow *layout_new(FileData *dir_fd, gint popped, gint hidden);
-LayoutWindow *layout_new_with_geometry(FileData *dir_fd, gint popped, gint hidden,
+LayoutWindow *layout_new(FileData *dir_fd, LayoutOptions *lop);
+LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 				       const gchar *geometry);
+LayoutWindow *layout_new_from_config(const gchar **attribute_names, const gchar **attribute_values);
 
 void layout_close(LayoutWindow *lw);
 void layout_free(LayoutWindow *lw);
 
 gint layout_valid(LayoutWindow **lw);
+
+void layout_sync_options_with_current_state(LayoutWindow *lw);
+void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names, const gchar **attribute_values);
+void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent);
+void layout_write_config(LayoutWindow *lw, GString *outstr, gint indent);
+
 
 LayoutWindow *layout_find_by_image(ImageWindow *imd);
 LayoutWindow *layout_find_by_image_fd(ImageWindow *imd);

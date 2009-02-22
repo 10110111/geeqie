@@ -27,6 +27,7 @@
 #include "bar_keywords.h"
 #include "bar_exif.h"
 #include "bar_histogram.h"
+#include "rcfile.h"
 
 #define BAR_SIZE_INCREMENT 48
 #define BAR_ARROW_SIZE 7
@@ -147,6 +148,40 @@ gint bar_event(GtkWidget *bar, GdkEvent *event)
 	return ret;
 }
 
+void bar_write_config(GtkWidget *bar, GString *outstr, gint indent)
+{
+	BarData *bd;
+	GList *list, *work;
+	if (!bar) return;
+	bd = g_object_get_data(G_OBJECT(bar), "bar_data");
+	if (!bd) return;
+
+	write_indent(outstr, indent);
+	g_string_append_printf(outstr, "<bar>\n");
+
+	list = gtk_container_get_children(GTK_CONTAINER(bd->vbox));	
+	work = list;
+	while (work)
+		{
+		GtkWidget *expander = work->data;
+		GtkWidget *widget = gtk_bin_get_child(GTK_BIN(expander));
+		PaneData *pd = g_object_get_data(G_OBJECT(widget), "pane_data");
+		if (!pd) continue;
+
+		pd->expanded = gtk_expander_get_expanded(GTK_EXPANDER(expander));
+
+		if (pd->pane_write_config)
+			pd->pane_write_config(widget, outstr, indent + 1);
+
+		work = work->next;
+		}
+	g_list_free(list);
+
+	write_indent(outstr, indent);
+	g_string_append_printf(outstr, "</bar>\n");
+}
+
+
 void bar_pane_set_selection_func(GtkWidget *pane, GList *(*list_func)(gpointer data), gpointer data)
 {
 	PaneData *pd;
@@ -187,7 +222,7 @@ void bar_set_selection_func(GtkWidget *bar, GList *(*list_func)(gpointer data), 
 
 
 
-static void bar_add(GtkWidget *bar, GtkWidget *pane)
+void bar_add(GtkWidget *bar, GtkWidget *pane)
 {
 	GtkWidget *expander;
 	GtkWidget *label;
@@ -208,13 +243,32 @@ static void bar_add(GtkWidget *bar, GtkWidget *pane)
 
 	gtk_container_add(GTK_CONTAINER(expander), pane);
 	
-	gtk_expander_set_expanded(GTK_EXPANDER(expander), TRUE);
+	gtk_expander_set_expanded(GTK_EXPANDER(expander), pd->expanded);
 
 	gtk_widget_show(expander);
 
 	if (bd->list_func) bar_pane_set_selection_func(pane, bd->list_func, bd->list_data);
 	if (bd->fd && pd && pd->pane_set_fd) pd->pane_set_fd(pane, bd->fd);
 
+}
+
+void bar_populate_default(GtkWidget *bar)
+{
+	GtkWidget *widget;
+	widget = bar_pane_histogram_new(_("Histogram"), 80, TRUE);
+	bar_add(bar, widget);
+
+	widget = bar_pane_comment_new(_("Title"), "Xmp.dc.title", TRUE, 40);
+	bar_add(bar, widget);
+
+	widget = bar_pane_keywords_new(_("Keywords"), KEYWORD_KEY, TRUE);
+	bar_add(bar, widget);
+
+	widget = bar_pane_comment_new(_("Comment"), "Xmp.dc.description", TRUE, 150);
+	bar_add(bar, widget);
+
+	widget = bar_pane_exif_new(_("Exif"), TRUE);
+	bar_add(bar, widget);
 }
 
 static void bar_width(BarData *bd, gint val)
@@ -225,7 +279,7 @@ static void bar_width(BarData *bd, gint val)
 	size = CLAMP(size + val, BAR_SIZE_INCREMENT * 2, BAR_SIZE_INCREMENT * 16);
 
 	gtk_widget_set_size_request(bd->widget, size, -1);
-	options->panels.info.width = bd->widget->allocation.width;
+	options->layout.panels.info.width = bd->widget->allocation.width;
 }
 
 static void bar_larger(GtkWidget *widget, gpointer data)
@@ -269,7 +323,6 @@ GtkWidget *bar_new(GtkWidget *bounding_widget)
 	GtkWidget *button;
 	GtkWidget *arrow;
 	GtkWidget *scrolled;
-	GtkWidget *widget;
 
 	bd = g_new0(BarData, 1);
 
@@ -334,25 +387,8 @@ GtkWidget *bar_new(GtkWidget *bounding_widget)
 	
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_NONE);
 	gtk_widget_show(bd->vbox);
-	
-	widget = bar_pane_histogram_new(_("Histogram"), 80);
-	bar_add(bd->widget, widget);
-
-	widget = bar_pane_comment_new(_("Title"), "Xmp.dc.title", 40);
-	bar_add(bd->widget, widget);
-
-	widget = bar_pane_keywords_new(_("Keywords"), KEYWORD_KEY);
-	bar_add(bd->widget, widget);
-	
-	widget = bar_pane_comment_new(_("Comment"), "Xmp.dc.description", 150);
-	bar_add(bd->widget, widget);
-
-	widget = bar_pane_exif_new(_("Exif"));
-	bar_add(bd->widget, widget);
-
 	return bd->widget;
 }
-
 
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

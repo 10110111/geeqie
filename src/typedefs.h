@@ -186,6 +186,7 @@ typedef struct _FileData FileData;
 typedef struct _FileDataChangeInfo FileDataChangeInfo;
 
 typedef struct _LayoutWindow LayoutWindow;
+typedef struct _LayoutOptions LayoutOptions;
 
 typedef struct _ViewDir ViewDir;
 typedef struct _ViewDirInfoList ViewDirInfoList;
@@ -466,8 +467,78 @@ struct _FileData {
 	GHashTable *modified_xmp; // hash table which contains unwritten xmp metadata in format: key->list of string values
 };
 
+struct _LayoutOptions
+{
+	gchar *order;
+	gint style;
+
+	DirViewType dir_view_type;
+	FileViewType file_view_type;
+
+	gboolean show_thumbnails;
+	gboolean show_marks;
+	gboolean show_directory_date;
+
+	struct {
+		gint w;
+		gint h;
+		gint x;
+		gint y;
+		gboolean maximized;
+		gint hdivider_pos;
+		gint vdivider_pos;
+	} main_window;
+
+	struct {
+		gint w;
+		gint h;
+		gint x;
+		gint y;
+		gint vdivider_pos;
+	} float_window;
+
+	struct {
+		gint w;
+		gint h;
+	} properties_window;
+
+	gboolean save_window_positions;
+
+	gboolean tools_float;
+	gboolean tools_hidden;
+	gboolean tools_restore_state;
+
+	gboolean toolbar_hidden;
+	
+	gchar *home_path;
+
+	/* panels */
+	struct {
+		struct {
+			gboolean enabled;
+			gint width;
+		} info;
+
+		struct {
+			gboolean enabled;
+			gint width;
+		} exif;
+
+		struct {
+			gboolean enabled;
+			gint mode_state;
+			gint action_state;
+			gint selection_state;
+			gchar *action_filter;
+		} sort;
+	} panels;
+
+};
+
 struct _LayoutWindow
 {
+	LayoutOptions options;
+
 	FileData *dir_fd;
 
 	/* base */
@@ -506,17 +577,17 @@ struct _LayoutWindow
 	GtkWidget *tools;
 	GtkWidget *tools_pane;
 
-	gint tools_float;
-	gint tools_hidden;
+//	gint tools_float;
+//	gint tools_hidden;
 
 	/* toolbar */
 
 	GtkWidget *toolbar;
-	gint toolbar_hidden;
+//	gint toolbar_hidden;
 
 	GtkWidget *thumb_button;
-	gint thumbs_enabled;
-	gint marks_enabled;
+//	gint thumbs_enabled;
+//	gint marks_enabled;
 
 	GtkWidget *back_button;
 
@@ -527,7 +598,7 @@ struct _LayoutWindow
 	ViewDir *vd;
 	GtkWidget *dir_view;
 
-	DirViewType dir_view_type;
+//	DirViewType dir_view_type;
 
 	/* file view */
 
@@ -562,9 +633,9 @@ struct _LayoutWindow
 
 	/* dividers */
 
-	gint div_h;
-	gint div_v;
-	gint div_float;
+//	gint div_h;
+//	gint div_v;
+//	gint div_float;
 
 	/* misc */
 
@@ -572,10 +643,10 @@ struct _LayoutWindow
 	GtkWidget *bar_sort;
 	GtkWidget *bar;
 
-	gint bar_sort_enabled;
-	gint bar_enabled;
+//	gint bar_sort_enabled;
+//	gint bar_enabled;
 
-	gint bar_width;
+//	gint bar_width;
 
 	GtkWidget *exif_window;
 };

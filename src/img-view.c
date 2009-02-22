@@ -1219,7 +1219,7 @@ static LayoutWindow *view_new_layout_with_fd(FileData *fd)
 {
 	LayoutWindow *nw;
 
-	nw = layout_new(NULL, FALSE, FALSE);
+	nw = layout_new(NULL, NULL);
 	layout_sort_set(nw, options->file_sort.method, options->file_sort.ascending);
 	layout_set_fd(nw, fd);
 	return nw;

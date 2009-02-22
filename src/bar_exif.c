@@ -21,6 +21,7 @@
 #include "misc.h"
 #include "ui_misc.h"
 #include "bar.h"
+#include "rcfile.h"
 
 
 #include <math.h>
@@ -281,6 +282,24 @@ void bar_pane_exif_set_fd(GtkWidget *widget, FileData *fd)
 	bar_pane_exif_update(ped);
 }
 
+static void bar_pane_exif_write_config(GtkWidget *pane, GString *outstr, gint indent)
+{
+	PaneExifData *ped;
+
+	ped = g_object_get_data(G_OBJECT(pane), "pane_data");
+	if (!ped) return;
+
+	write_indent(outstr, indent);
+	g_string_append_printf(outstr, "<pane_exif\n");
+	indent++;
+	WRITE_CHAR(*ped, pane.title);
+	WRITE_BOOL(*ped, pane.expanded);
+	indent--;
+	write_indent(outstr, indent);
+	g_string_append_printf(outstr, "/>\n");
+}
+
+
 static void bar_pane_exif_remove_advanced_cb(GtkWidget *widget, gpointer data)
 {
 	PaneExifData *ped = data;
@@ -317,7 +336,7 @@ static void bar_pane_exif_destroy(GtkWidget *widget, gpointer data)
 	g_free(ped);
 }
 
-GtkWidget *bar_pane_exif_new(const gchar *title)
+GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded)
 {
 	PaneExifData *ped;
 	GtkWidget *table;
@@ -332,7 +351,9 @@ GtkWidget *bar_pane_exif_new(const gchar *title)
 	ped = g_new0(PaneExifData, 1);
 
 	ped->pane.pane_set_fd = bar_pane_exif_set_fd;
+	ped->pane.pane_write_config = bar_pane_exif_write_config;
 	ped->pane.title = g_strdup(title);
+	ped->pane.expanded = expanded;
 
 	ped->keys = g_new0(GtkWidget *, exif_len);
 	ped->labels = g_new0(GtkWidget *, exif_len);
@@ -395,4 +416,26 @@ GtkWidget *bar_pane_exif_new(const gchar *title)
 
 	return ped->vbox;
 }
+
+GtkWidget *bar_pane_exif_new_from_config(const gchar **attribute_names, const gchar **attribute_values)
+{
+	gchar *title = g_strdup(_("NoName"));
+	gboolean expanded = TRUE;
+
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+
+		READ_CHAR_FULL("pane.title", title);
+		READ_BOOL_FULL("pane.expanded", expanded);
+		
+
+		DEBUG_1("unknown attribute %s = %s", option, value);
+		}
+	
+	return bar_pane_exif_new(title, expanded);
+}
+
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

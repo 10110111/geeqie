@@ -77,7 +77,7 @@
 
 #define GQ_SYSTEM_WIDE_DIR    "/etc/" GQ_APPNAME_LC
 
-#define RC_FILE_NAME GQ_APPNAME_LC "rc"
+#define RC_FILE_NAME GQ_APPNAME_LC "rc.xml"
 
 #define GQ_COLLECTION_EXT ".gqv"
 
@@ -135,6 +135,8 @@ void keyboard_scroll_calc(gint *x, gint *y, GdkEventKey *event);
 gint key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
 
 void exit_program(void);
+
+void init_after_global_options(void);
 
 #define CASE_SORT(a, b) ( (options->file_sort.case_sensitive) ? strcmp((a), (b)) : strcasecmp((a), (b)) )
 

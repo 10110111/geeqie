@@ -120,15 +120,15 @@ ConfOptions *init_options(ConfOptions *options)
 	options->open_recent_list_maxsize = 10;
 	options->place_dialogs_under_mouse = FALSE;
 
-	options->panels.exif.enabled = FALSE;
-	options->panels.exif.width = PANEL_DEFAULT_WIDTH;
-	options->panels.info.enabled = FALSE;
-	options->panels.info.width = PANEL_DEFAULT_WIDTH;
-	options->panels.sort.action_state = 0;
-	options->panels.sort.enabled = FALSE;
-	options->panels.sort.mode_state = 0;
-	options->panels.sort.selection_state = 0;
-	options->panels.sort.action_filter = NULL;
+	options->layout.panels.exif.enabled = FALSE;
+	options->layout.panels.exif.width = PANEL_DEFAULT_WIDTH;
+	options->layout.panels.info.enabled = FALSE;
+	options->layout.panels.info.width = PANEL_DEFAULT_WIDTH;
+	options->layout.panels.sort.action_state = 0;
+	options->layout.panels.sort.enabled = FALSE;
+	options->layout.panels.sort.mode_state = 0;
+	options->layout.panels.sort.selection_state = 0;
+	options->layout.panels.sort.action_filter = NULL;
 	
 	options->progressive_key_scrolling = TRUE;
 	
@@ -202,47 +202,49 @@ void setup_default_options(ConfOptions *options)
 		ExifUIList[i].current = ExifUIList[i].default_value;
 }
 
+void copy_layout_options(LayoutOptions *dest, const LayoutOptions *src)
+{
+	free_layout_options_content(dest);
+	
+	*dest = *src;
+	dest->order = g_strdup(src->order);
+	dest->home_path = g_strdup(src->home_path);
+	dest->panels.sort.action_filter = g_strdup(src->panels.sort.action_filter);
+}
+
+void free_layout_options_content(LayoutOptions *dest)
+{
+	if (dest->order) g_free(dest->order);
+	if (dest->home_path) g_free(dest->home_path);
+	if (dest->panels.sort.action_filter) g_free(dest->panels.sort.action_filter);
+}
+
 static void sync_options_with_current_state(ConfOptions *options)
 {
 	LayoutWindow *lw = NULL;
 
 	if (layout_valid(&lw))
 		{
-		options->layout.main_window.maximized =  window_maximized(lw->window);
-		if (!options->layout.main_window.maximized)
-			{
-			layout_geometry_get(NULL, &options->layout.main_window.x, &options->layout.main_window.y,
-					    &options->layout.main_window.w, &options->layout.main_window.h);
-			}
-
+		layout_sync_options_with_current_state(lw);
+		copy_layout_options(&options->layout, &lw->options);
 		options->image_overlay.common.state = image_osd_get(lw->image);
+		layout_sort_get(lw, &options->file_sort.method, &options->file_sort.ascending);
+
+	
+
+		options->color_profile.enabled = layout_image_color_profile_get_use(lw);
+		layout_image_color_profile_get(lw,
+					       &options->color_profile.input_type,
+					       &options->color_profile.screen_type,
+					       &options->color_profile.use_image);
+
+		if (options->startup.restore_path && options->startup.use_last_path)
+			{
+			g_free(options->startup.path);
+			options->startup.path = g_strdup(layout_get_path(lw));
+			}
 		}
 
-	layout_geometry_get_dividers(NULL, &options->layout.main_window.hdivider_pos, &options->layout.main_window.vdivider_pos);
-
-	layout_views_get(NULL, &options->layout.dir_view_type, &options->layout.file_view_type);
-
-	options->layout.show_thumbnails = layout_thumb_get(NULL);
-	options->layout.show_marks = layout_marks_get(NULL);
-
-	layout_sort_get(NULL, &options->file_sort.method, &options->file_sort.ascending);
-
-	layout_geometry_get_tools(NULL, &options->layout.float_window.x, &options->layout.float_window.y,
-				  &options->layout.float_window.w, &options->layout.float_window.h, &options->layout.float_window.vdivider_pos);
-	layout_tools_float_get(NULL, &options->layout.tools_float, &options->layout.tools_hidden);
-	options->layout.toolbar_hidden = layout_toolbar_hidden(NULL);
-
-	options->color_profile.enabled = layout_image_color_profile_get_use(NULL);
-	layout_image_color_profile_get(NULL,
-				       &options->color_profile.input_type,
-				       &options->color_profile.screen_type,
-				       &options->color_profile.use_image);
-
-	if (options->startup.restore_path && options->startup.use_last_path)
-		{
-		g_free(options->startup.path);
-		options->startup.path = g_strdup(layout_get_path(NULL));
-		}
 }
 
 void save_options(ConfOptions *options)
