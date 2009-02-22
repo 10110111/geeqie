@@ -18,8 +18,7 @@
 #define HCHAN_G 1
 #define HCHAN_B 2
 #define HCHAN_RGB 3
-#define HCHAN_VAL 4
-#define HCHAN_MAX 5
+#define HCHAN_MAX 4
 #define HCHAN_COUNT (HCHAN_MAX+1)
 
 
