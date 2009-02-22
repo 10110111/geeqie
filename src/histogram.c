@@ -24,18 +24,13 @@
  */
 
 #define HISTMAP_SIZE 256
-typedef enum {
-	HISTMAP_CHANNEL_R = 0,
-	HISTMAP_CHANNEL_G,
-	HISTMAP_CHANNEL_B,
-	HISTMAP_CHANNEL_AVG,
-	HISTMAP_CHANNEL_MAX,
-	HISTMAP_CHANNELS
-} HistMapChannels;
 
 struct _HistMap {
-	gulong histmap[HISTMAP_SIZE * HISTMAP_CHANNELS];
-	gulong area;
+	gulong r[HISTMAP_SIZE];
+	gulong g[HISTMAP_SIZE];
+	gulong b[HISTMAP_SIZE];
+	gulong avg[HISTMAP_SIZE];
+	gulong max[HISTMAP_SIZE];
 };
 
 struct _Histogram {
@@ -157,16 +152,17 @@ static HistMap *histmap_read(GdkPixbuf *imgpixbuf)
 			guint max = sp[0];
 			if (sp[1] > max) max = sp[1];
 			if (sp[2] > max) max = sp[2];
-
-			histmap->histmap[sp[0] * HISTMAP_CHANNELS + HISTMAP_CHANNEL_R]++;
-			histmap->histmap[sp[1] * HISTMAP_CHANNELS + HISTMAP_CHANNEL_G]++;
-			histmap->histmap[sp[2] * HISTMAP_CHANNELS + HISTMAP_CHANNEL_B]++;
-			histmap->histmap[avg   * HISTMAP_CHANNELS + HISTMAP_CHANNEL_AVG]++;
-			histmap->histmap[max   * HISTMAP_CHANNELS + HISTMAP_CHANNEL_MAX]++;
+	
+			histmap->r[sp[0]]++;
+			histmap->g[sp[1]]++;
+			histmap->b[sp[2]]++;
+			histmap->avg[avg]++;
+			histmap->max[max]++;
+			
 			sp += step;
 			}
 		}
-	histmap->area = w * h;
+	
 	return histmap;
 }
 
@@ -230,6 +226,8 @@ gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pix
 	gint i;
 	gulong max = 0;
 	gdouble logmax;
+	gint combine = (HISTMAP_SIZE - 1) / width + 1;
+	gint ypos = y + height;
 
 	if (!histogram || !histmap) return 0;
 	
@@ -237,25 +235,22 @@ gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pix
 	histogram_vgrid(histogram, pixbuf, x, y, width, height);
 	histogram_hgrid(histogram, pixbuf, x, y, width, height);
 
-	for (i = 0; i < 1024; i++) {
-#if 0
-		/* this is probably broken for MAX or VAL mode */
-		gint flag = 0;
-
-		switch (histogram->channel_mode)
-			{
-			case HCHAN_RGB: if ((i % HISTMAP_CHANNELS) < 3) flag = 1; break;
-			case HCHAN_R:   if ((i % HISTMAP_CHANNELS) == HISTMAP_CHANNEL_R) flag = 1; break;
-			case HCHAN_G:   if ((i % HISTMAP_CHANNELS) == HISTMAP_CHANNEL_G) flag = 1; break;
-			case HCHAN_B:   if ((i % HISTMAP_CHANNELS) == HISTMAP_CHANNEL_B) flag = 1; break;
-			case HCHAN_VAL: if ((i % HISTMAP_CHANNELS) == HISTMAP_CHANNEL_AVG) flag = 1; break;
-			case HCHAN_MAX: if ((i % HISTMAP_CHANNELS) == HISTMAP_CHANNEL_MAX) flag = 1; break;
-			}
-		if (flag && histmap->histmap[i] > max) max = histmap->histmap[i];
-#else
-		if (histmap->histmap[i] > max) max = histmap->histmap[i];
-#endif
-	}
+	switch (histogram->channel_mode)
+		{
+		case HCHAN_VAL:
+		case HCHAN_MAX:
+		case HCHAN_RGB:
+			for (i = 0; i < HISTMAP_SIZE; i++)
+				{
+				if (histmap->r[i] > max) max = histmap->r[i];
+				if (histmap->g[i] > max) max = histmap->g[i];
+				if (histmap->b[i] > max) max = histmap->b[i];
+				}
+			break;
+		case HCHAN_R: for (i = 0; i < HISTMAP_SIZE; i++) if (histmap->r[i] > max) max = histmap->r[i]; break;
+		case HCHAN_G: for (i = 0; i < HISTMAP_SIZE; i++) if (histmap->g[i] > max) max = histmap->g[i]; break;
+		case HCHAN_B: for (i = 0; i < HISTMAP_SIZE; i++) if (histmap->b[i] > max) max = histmap->b[i]; break;
+		}
 
 	logmax = log(max);
 	for (i = 0; i < width; i++)
@@ -266,43 +261,45 @@ gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pix
 		gint gplus = 0;
 		gint bplus = 0;
 		gint ii = i * HISTMAP_SIZE / width;
-		gint combine  = (HISTMAP_SIZE - 1) / width + 1;
+		gint xpos = x + i;
 
 		for (j = 0; j < combine; j++)
 			{
-			v[0] += histmap->histmap[(ii + j) * HISTMAP_CHANNELS + HISTMAP_CHANNEL_R]; // r
-			v[1] += histmap->histmap[(ii + j) * HISTMAP_CHANNELS + HISTMAP_CHANNEL_G]; // g
-			v[2] += histmap->histmap[(ii + j) * HISTMAP_CHANNELS + HISTMAP_CHANNEL_B]; // b
-			v[3] += histmap->histmap[(ii + j) * HISTMAP_CHANNELS + 
-			        ((histogram->channel_mode == HCHAN_VAL) ? HISTMAP_CHANNEL_AVG : HISTMAP_CHANNEL_MAX)]; // value, max
-			}
-			
-		for (j = 0; j < 4; j++)
-			{
-			v[j] /= combine;
+			guint p = ii + j;
+			v[0] += histmap->r[p];
+			v[1] += histmap->g[p];
+			v[2] += histmap->b[p];
+			if (histogram->channel_mode == HCHAN_VAL)
+				{
+				v[3] += histmap->avg[p];
+				}
+			else
+				{
+				v[3] += histmap->max[p];
+				}
 			}
 
 		for (j = 0; j < 4; j++)
 			{
-			gint max2 = 0;
 			gint k;
+			gint chanmax = 0;
 		
 			for (k = 1; k < 4; k++)
-				if (v[k] > v[max2]) max2 = k;
-			
+				if (v[k] > v[chanmax]) chanmax = k;
+				
 			if (histogram->channel_mode >= HCHAN_RGB
-			    || max2 == histogram->channel_mode)
+			    || chanmax == histogram->channel_mode)
 			    	{
 				gulong pt;
 				gint r = rplus;
 				gint g = gplus;
 				gint b = bplus;
 
-				switch (max2)
+				switch (chanmax)
 					{
-					case HCHAN_R: rplus = r = 255; break;
-					case HCHAN_G: gplus = g = 255; break;
-					case HCHAN_B: bplus = b = 255; break;
+					case 0: rplus = r = 255; break;
+					case 1: gplus = g = 255; break;
+					case 2: bplus = b = 255; break;
 					}
 
 				switch (histogram->channel_mode)
@@ -320,19 +317,20 @@ gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pix
 					case HCHAN_VAL: r = 0; b = 0; g = 0; break;
 					}
 				
-				if (v[max2] == 0)
+				if (v[chanmax] == 0)
 					pt = 0;
 				else if (histogram->log_mode)
-					pt = ((float)log(v[max2])) / logmax * (height - 1);
+					pt = ((gdouble)log(v[chanmax])) / logmax * (height - 1);
 				else
-					pt = ((float)v[max2])/ max * (height - 1);
+					pt = ((gdouble)v[chanmax]) / max * (height - 1);
 
 				pixbuf_draw_line(pixbuf,
 					x, y, width, height,
-					x + i, y + height, x + i, y + height - pt,
+					xpos, ypos, xpos, ypos - pt,
 					r, g, b, 255);
 				}
-			v[max2] = -1;
+
+			v[chanmax] = -1;
 			}
 		}
 
