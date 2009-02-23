@@ -130,7 +130,7 @@ void image_osd_histogram_chan_toggle(ImageWindow *imd)
 
 	if (!osd || !osd->histogram) return;
 
-	histogram_set_channel(osd->histogram, (histogram_get_channel(osd->histogram) +1)%HCHAN_COUNT);
+	histogram_toggle_channel(osd->histogram);
 	image_osd_update(imd);
 }
 
@@ -140,7 +140,7 @@ void image_osd_histogram_log_toggle(ImageWindow *imd)
 
 	if (!osd || !osd->histogram) return;
 
-	histogram_set_mode(osd->histogram, !histogram_get_mode(osd->histogram));
+	histogram_toggle_mode(osd->histogram);
 	image_osd_update(imd);
 }
 

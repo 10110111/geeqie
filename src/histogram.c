@@ -97,6 +97,18 @@ gint histogram_get_mode(Histogram *histogram)
 	return histogram->log_mode;
 }
 
+gint histogram_toggle_channel(Histogram *histogram)
+{
+	if (!histogram) return 0;
+	return histogram_set_channel(histogram, (histogram_get_channel(histogram)+1)%HCHAN_COUNT);
+}
+
+gint histogram_toggle_mode(Histogram *histogram)
+{
+	if (!histogram) return 0;
+	return histogram_set_mode(histogram, !histogram_get_mode(histogram));
+}
+
 const gchar *histogram_label(Histogram *histogram)
 {
 	const gchar *t1 = "";

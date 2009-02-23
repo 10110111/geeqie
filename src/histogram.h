@@ -28,6 +28,8 @@ gint histogram_set_channel(Histogram *histogram, gint chan);
 gint histogram_get_channel(Histogram *histogram);
 gint histogram_set_mode(Histogram *histogram, gint mode);
 gint histogram_get_mode(Histogram *histogram);
+gint histogram_toggle_channel(Histogram *histogram);
+gint histogram_toggle_mode(Histogram *histogram);
 const gchar *histogram_label(Histogram *histogram);
 const HistMap *histmap_get(FileData *fd);
 gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height);
