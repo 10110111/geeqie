@@ -40,7 +40,7 @@ gboolean read_bool_option(const gchar *option, const gchar *label, const gchar *
 
 #define WRITE_SEPARATOR() g_string_append(outstr, "\n")
 #define WRITE_SUBTITLE(_title_) g_string_append_printf(outstr, "\n\n<!-- "_title_" -->\n\n")
-
+#define WRITE_STRING(_str_) {write_indent(outstr, indent);g_string_append_printf(outstr, _str_);}
 
 #define READ_BOOL(target, _name_) if (read_bool_option(option, #_name_, value, &(target)._name_)) continue;
 #define READ_INT(target, _name_) if (read_int_option(option, #_name_, value, &(target)._name_)) continue;

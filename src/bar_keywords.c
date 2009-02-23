@@ -482,15 +482,13 @@ static void bar_pane_keywords_write_config(GtkWidget *pane, GString *outstr, gin
 	pkd = g_object_get_data(G_OBJECT(pane), "pane_data");
 	if (!pkd) return;
 
-	write_indent(outstr, indent);
-	g_string_append_printf(outstr, "<pane_keywords\n");
+	WRITE_STRING("<pane_keywords\n");
 	indent++;
 	WRITE_CHAR(*pkd, pane.title);
 	WRITE_BOOL(*pkd, pane.expanded);
 	WRITE_CHAR(*pkd, key);
 	indent--;
-	write_indent(outstr, indent);
-	g_string_append_printf(outstr, "/>\n");
+	WRITE_STRING("/>\n");
 }
 
 gint bar_pane_keywords_event(GtkWidget *bar, GdkEvent *event)

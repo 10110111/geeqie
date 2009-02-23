@@ -2174,16 +2174,13 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 void layout_write_config(LayoutWindow *lw, GString *outstr, gint indent)
 {
 	layout_sync_options_with_current_state(lw);
-	write_indent(outstr, indent);
-	g_string_append_printf(outstr, "<layout\n");
+	WRITE_STRING("<layout\n");
 	layout_write_attributes(&lw->options, outstr, indent + 1);
-	write_indent(outstr, indent);
-	g_string_append_printf(outstr, ">\n");
+	WRITE_STRING(">\n");
 
 	bar_write_config(lw->bar, outstr, indent + 1);
 	
-	write_indent(outstr, indent);
-	g_string_append_printf(outstr, "</layout>\n");
+	WRITE_STRING("</layout>\n");
 }
 
 void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names, const gchar **attribute_values)

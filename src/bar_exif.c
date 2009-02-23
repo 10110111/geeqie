@@ -289,14 +289,12 @@ static void bar_pane_exif_write_config(GtkWidget *pane, GString *outstr, gint in
 	ped = g_object_get_data(G_OBJECT(pane), "pane_data");
 	if (!ped) return;
 
-	write_indent(outstr, indent);
-	g_string_append_printf(outstr, "<pane_exif\n");
+	WRITE_STRING("<pane_exif\n");
 	indent++;
 	WRITE_CHAR(*ped, pane.title);
 	WRITE_BOOL(*ped, pane.expanded);
 	indent--;
-	write_indent(outstr, indent);
-	g_string_append_printf(outstr, "/>\n");
+	WRITE_STRING("/>\n");
 }
 
 

@@ -151,16 +151,14 @@ static void bar_pane_comment_write_config(GtkWidget *pane, GString *outstr, gint
 	pcd = g_object_get_data(G_OBJECT(pane), "pane_data");
 	if (!pcd) return;
 
-	write_indent(outstr, indent);
-	g_string_append_printf(outstr, "<pane_comment\n");
+	WRITE_STRING("<pane_comment\n");
 	indent++;
 	WRITE_CHAR(*pcd, pane.title);
 	WRITE_BOOL(*pcd, pane.expanded);
 	WRITE_CHAR(*pcd, key);
 	WRITE_INT(*pcd, height); 
 	indent--;
-	write_indent(outstr, indent);
-	g_string_append_printf(outstr, "/>\n");
+	WRITE_STRING("/>\n");
 }
 
 static void bar_pane_comment_notify_cb(FileData *fd, NotifyType type, gpointer data)

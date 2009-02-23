@@ -84,14 +84,12 @@ static void bar_pane_histogram_write_config(GtkWidget *pane, GString *outstr, gi
 	phd = g_object_get_data(G_OBJECT(pane), "pane_data");
 	if (!phd) return;
 
-	write_indent(outstr, indent);
-	g_string_append_printf(outstr, "<pane_histogram\n");
+	WRITE_STRING("<pane_histogram\n");
 	indent++;
 	WRITE_CHAR(*phd, pane.title);
 	WRITE_BOOL(*phd, pane.expanded);
 	indent--;
-	write_indent(outstr, indent);
-	g_string_append_printf(outstr, "/>\n");
+	WRITE_STRING("/>\n");
 }
 
 
