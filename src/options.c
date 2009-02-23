@@ -258,7 +258,7 @@ void save_options(ConfOptions *options)
 	g_free(rc_path);
 }
 
-void load_options(ConfOptions *options)
+gboolean load_options(ConfOptions *options)
 {
 	gboolean success;
 	gchar *rc_path;
@@ -266,14 +266,15 @@ void load_options(ConfOptions *options)
 	if (isdir(GQ_SYSTEM_WIDE_DIR))
 		{
 		rc_path = g_build_filename(GQ_SYSTEM_WIDE_DIR, RC_FILE_NAME, NULL);
-		success = load_options_from(rc_path, options);
+		success = load_options_from(rc_path, options, TRUE);
 		DEBUG_1("Loading options from %s ... %s", rc_path, success ? "done" : "failed");
 		g_free(rc_path);
 		}
 	
 	rc_path = g_build_filename(get_rc_dir(), RC_FILE_NAME, NULL);
-	success = load_options_from(rc_path, options);
+	success = load_options_from(rc_path, options, TRUE);
 	DEBUG_1("Loading options from %s ... %s", rc_path, success ? "done" : "failed");
 	g_free(rc_path);
+	return(success);
 }
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -2108,6 +2108,8 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 	gtk_widget_show(lw->window);
 	layout_tools_hide(lw, lw->options.tools_hidden);
 
+	image_osd_set(lw->image, options->image_overlay.common.state | (options->image_overlay.common.show_at_startup ? OSD_SHOW_INFO : OSD_SHOW_NOTHING));
+
 	layout_window_list = g_list_append(layout_window_list, lw);
 
 	file_data_register_notify_func(layout_image_notify_cb, lw, NOTIFY_PRIORITY_LOW);
@@ -2247,19 +2249,73 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 
 }
 
+static void layout_config_commandline(LayoutOptions *lop, gchar **path)
+{
+	if (command_line->startup_blank)
+		{
+		*path = NULL;
+		}
+	else if (command_line->file)
+		{
+		*path = g_strdup(command_line->file);
+		}
+	else if (command_line->path)
+		{
+		*path = g_strdup(command_line->path);
+		}
+	else if (options->startup.restore_path && options->startup.path && isdir(options->startup.path))
+		{
+		*path = g_strdup(options->startup.path);
+		}
+	else
+		{
+		*path = get_current_dir();
+		}
+	
+	if (command_line->tools_show)
+		{
+		lop->tools_float = FALSE;
+		lop->tools_hidden = FALSE;
+		}
+	else if (command_line->tools_hide)
+		{
+		lop->tools_hidden = TRUE;
+		}
+}
 
-LayoutWindow *layout_new_from_config(const gchar **attribute_names, const gchar **attribute_values)
+LayoutWindow *layout_new_from_config(const gchar **attribute_names, const gchar **attribute_values, gboolean use_commandline)
 {
 	LayoutOptions lop;
 	LayoutWindow *lw;
+	gchar *path = NULL;
+	
 	memset(&lop, 0, sizeof(LayoutOptions));
 	copy_layout_options(&lop, &options->layout);
 
-	layout_load_attributes(&lop, attribute_names, attribute_values);
-	lw = layout_new(NULL, &lop);
+	if (attribute_names) layout_load_attributes(&lop, attribute_names, attribute_values);
+	
+	if (use_commandline)
+		{
+		layout_config_commandline(&lop, &path);
+		}
+	else if (options->startup.restore_path && options->startup.path && isdir(options->startup.path))
+		{
+		path = g_strdup(options->startup.path);
+		}
+	else
+		{
+		path = get_current_dir();
+		}
+
+	lw = layout_new_with_geometry(NULL, &lop, use_commandline ? command_line->geometry : NULL);
 	layout_sort_set(lw, options->file_sort.method, options->file_sort.ascending);
-	layout_set_path(lw, get_current_dir()); // FIXME: use options / cmdline
-		
+	layout_set_path(lw, path);
+
+	if (use_commandline && command_line->startup_full_screen) layout_image_full_screen_start(lw);
+	if (use_commandline && command_line->startup_in_slideshow) layout_image_slideshow_start(lw);
+
+
+	g_free(path);
 	free_layout_options_content(&lop);
 	return lw;
 }

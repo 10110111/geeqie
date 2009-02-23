@@ -102,12 +102,6 @@ void keyboard_scroll_calc(gint *x, gint *y, GdkEventKey *event)
  *-----------------------------------------------------------------------------
  */
 
-static gint startup_blank = FALSE;
-static gint startup_full_screen = FALSE;
-static gint startup_in_slideshow = FALSE;
-static gint startup_command_line_collection = FALSE;
-
-
 static void parse_command_line_add_file(const gchar *file_path, gchar **path, gchar **file,
 					GList **list, GList **collection_list)
 {
@@ -198,15 +192,18 @@ static void parse_command_line_process_file(const gchar *file_path, gchar **path
 	parse_command_line_add_file(file_path, path, file, list, collection_list);
 }
 
-static void parse_command_line(gint argc, gchar *argv[], gchar **path, gchar **file,
-			       GList **cmd_list, GList **collection_list,
-			       gchar **geometry)
+static void parse_command_line(gint argc, gchar *argv[])
 {
 	GList *list = NULL;
 	GList *remote_list = NULL;
 	GList *remote_errors = NULL;
 	gint remote_do = FALSE;
 	gchar *first_dir = NULL;
+	
+	command_line = g_new0(CommandLine, 1);
+	
+	command_line->argc = argc;
+	command_line->argv = argv;
 
 	if (argc > 1)
 		{
@@ -220,21 +217,21 @@ static void parse_command_line(gint argc, gchar *argv[], gchar **path, gchar **f
 
 			if (cmd_line[0] == G_DIR_SEPARATOR && isdir(cmd_line))
 				{
-				parse_command_line_process_dir(cmd_line, path, file, &list, &first_dir);
+				parse_command_line_process_dir(cmd_line, &command_line->path, &command_line->file, &list, &first_dir);
 				}
 			else if (isdir(cmd_all))
 				{
-				parse_command_line_process_dir(cmd_all, path, file, &list, &first_dir);
+				parse_command_line_process_dir(cmd_all, &command_line->path, &command_line->file, &list, &first_dir);
 				}
 			else if (cmd_line[0] == G_DIR_SEPARATOR && isfile(cmd_line))
 				{
-				parse_command_line_process_file(cmd_line, path, file,
-								&list, collection_list, &first_dir);
+				parse_command_line_process_file(cmd_line, &command_line->path, &command_line->file,
+								&list, &command_line->collection_list, &first_dir);
 				}
 			else if (isfile(cmd_all))
 				{
-				parse_command_line_process_file(cmd_all, path, file,
-								&list, collection_list, &first_dir);
+				parse_command_line_process_file(cmd_all, &command_line->path, &command_line->file,
+								&list, &command_line->collection_list, &first_dir);
 				}
 			else if (strncmp(cmd_line, "--debug", 7) == 0 && (cmd_line[7] == '\0' || cmd_line[7] == '='))
 				{
@@ -243,36 +240,35 @@ static void parse_command_line(gint argc, gchar *argv[], gchar **path, gchar **f
 			else if (strcmp(cmd_line, "+t") == 0 ||
 				 strcmp(cmd_line, "--with-tools") == 0)
 				{
-				options->layout.tools_float = FALSE;
-				options->layout.tools_hidden = FALSE;
+				command_line->tools_show = TRUE;
 
 				remote_list = g_list_append(remote_list, "+t");
 				}
 			else if (strcmp(cmd_line, "-t") == 0 ||
 				 strcmp(cmd_line, "--without-tools") == 0)
 				{
-				options->layout.tools_hidden = TRUE;
+				command_line->tools_hide = TRUE;
 
 				remote_list = g_list_append(remote_list, "-t");
 				}
 			else if (strcmp(cmd_line, "-f") == 0 ||
 				 strcmp(cmd_line, "--fullscreen") == 0)
 				{
-				startup_full_screen = TRUE;
+				command_line->startup_full_screen = TRUE;
 				}
 			else if (strcmp(cmd_line, "-s") == 0 ||
 				 strcmp(cmd_line, "--slideshow") == 0)
 				{
-				startup_in_slideshow = TRUE;
+				command_line->startup_in_slideshow = TRUE;
 				}
 			else if (strcmp(cmd_line, "-l") == 0 ||
 				 strcmp(cmd_line, "--list") == 0)
 				{
-				startup_command_line_collection = TRUE;
+				command_line->startup_command_line_collection = TRUE;
 				}
 			else if (strncmp(cmd_line, "--geometry=", 11) == 0)
 				{
-				if (!*geometry) *geometry = g_strdup(cmd_line + 11);
+				if (!command_line->geometry) command_line->geometry = g_strdup(cmd_line + 11);
 				}
 			else if (strcmp(cmd_line, "-r") == 0 ||
 				 strcmp(cmd_line, "--remote") == 0)
@@ -291,7 +287,7 @@ static void parse_command_line(gint argc, gchar *argv[], gchar **path, gchar **f
 				}
 			else if (strcmp(cmd_line, "--blank") == 0)
 				{
-				startup_blank = TRUE;
+				command_line->startup_blank = TRUE;
 				}
 			else if (strcmp(cmd_line, "-v") == 0 ||
 				 strcmp(cmd_line, "--version") == 0)
@@ -342,18 +338,18 @@ static void parse_command_line(gint argc, gchar *argv[], gchar **path, gchar **f
 			i++;
 			}
 		g_free(base_dir);
-		parse_out_relatives(*path);
-		parse_out_relatives(*file);
+		parse_out_relatives(command_line->path);
+		parse_out_relatives(command_line->file);
 		}
 
 	list = g_list_reverse(list);
 
-	if (!*path && first_dir)
+	if (!command_line->path && first_dir)
 		{
-		*path = first_dir;
+		command_line->path = first_dir;
 		first_dir = NULL;
 
-		parse_out_relatives(*path);
+		parse_out_relatives(command_line->path);
 		}
 	g_free(first_dir);
 
@@ -375,18 +371,30 @@ static void parse_command_line(gint argc, gchar *argv[], gchar **path, gchar **f
 			printf_term(_("\nUse --remote-help for valid remote options.\n"));
 			}
 
-		remote_control(argv[0], remote_list, *path, list, *collection_list);
+		remote_control(argv[0], remote_list, command_line->path, list, command_line->collection_list);
 		}
 	g_list_free(remote_list);
 
 	if (list && list->next)
 		{
-		*cmd_list = list;
+		command_line->cmd_list = list;
 		}
 	else
 		{
 		filelist_free(list);
-		*cmd_list = NULL;
+		command_line->cmd_list = NULL;
+		}
+
+	if (command_line->startup_blank)
+		{
+		g_free(command_line->path);
+		command_line->path = NULL;
+		g_free(command_line->file);
+		command_line->file = NULL;
+		filelist_free(command_line->cmd_list);
+		command_line->cmd_list = NULL;
+		string_list_free(command_line->collection_list);
+		command_line->collection_list = NULL;
 		}
 }
 
@@ -669,16 +677,6 @@ void exit_program(void)
 void init_after_global_options(void)
 {
 
-	if (gtk_major_version < GTK_MAJOR_VERSION ||
-	    (gtk_major_version == GTK_MAJOR_VERSION && gtk_minor_version < GTK_MINOR_VERSION) )
-		{
-		log_printf("!!! This is a friendly warning.\n");
-		log_printf("!!! The version of GTK+ in use now is older than when %s was compiled.\n", GQ_APPNAME);
-		log_printf("!!!  compiled with GTK+-%d.%d\n", GTK_MAJOR_VERSION, GTK_MINOR_VERSION);
-		log_printf("!!!   running with GTK+-%d.%d\n", gtk_major_version, gtk_minor_version);
-		log_printf("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
-		}
-
 	mkdir_if_not_exists(get_rc_dir());
 	mkdir_if_not_exists(get_collections_dir());
 	mkdir_if_not_exists(get_thumbnails_cache_dir());
@@ -725,14 +723,7 @@ static void setup_sigbus_handler(void)
 
 gint main(gint argc, gchar *argv[])
 {
-	LayoutWindow *lw;
-	gchar *path = NULL;
-	gchar *cmd_path = NULL;
-	gchar *cmd_file = NULL;
-	GList *cmd_list = NULL;
-	GList *collection_list = NULL;
 	CollectionData *first_collection = NULL;
-	gchar *geometry = NULL;
 	gchar *buf;
 	CollectionData *cd = NULL;
 
@@ -771,58 +762,41 @@ gint main(gint argc, gchar *argv[])
 	file_data_register_notify_func(histogram_notify_cb, NULL, NOTIFY_PRIORITY_HIGH);
 	file_data_register_notify_func(collect_manager_notify_cb, NULL, NOTIFY_PRIORITY_LOW);
 
+	gtkrc_load();
+	gtk_init(&argc, &argv);
+
+	if (gtk_major_version < GTK_MAJOR_VERSION ||
+	    (gtk_major_version == GTK_MAJOR_VERSION && gtk_minor_version < GTK_MINOR_VERSION) )
+		{
+		log_printf("!!! This is a friendly warning.\n");
+		log_printf("!!! The version of GTK+ in use now is older than when %s was compiled.\n", GQ_APPNAME);
+		log_printf("!!!  compiled with GTK+-%d.%d\n", GTK_MAJOR_VERSION, GTK_MINOR_VERSION);
+		log_printf("!!!   running with GTK+-%d.%d\n", gtk_major_version, gtk_minor_version);
+		log_printf("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
+		}
+
 	parse_command_line_for_debug_option(argc, argv);
+	parse_command_line(argc, argv);
 
 	options = init_options(NULL);
 	setup_default_options(options);
 
-	gtkrc_load(); //FIXME: move to init_after_global_options()
-	gtk_init(&argc, &argv);
 
 
-	load_options(options);
-	/* ^^^ this calls init_after_global_options(); at the right moment*/
+	/* load_options calls init_after_global_options() after it parses global options, we have to call it here if it fails*/
+	if (!load_options(options)) init_after_global_options();
 
 	if (!layout_window_list) 
-	{ // FIXME: commandline handling does not work at all, this is a quick workaround for missing rc file
-	
-	init_after_global_options();
-	parse_command_line(argc, argv, &cmd_path, &cmd_file, &cmd_list, &collection_list, &geometry);
-
-	if (startup_blank)
 		{
-		g_free(cmd_path);
-		cmd_path = NULL;
-		g_free(cmd_file);
-		cmd_file = NULL;
-		filelist_free(cmd_list);
-		cmd_list = NULL;
-		string_list_free(collection_list);
-		collection_list = NULL;
-
-		path = NULL;
-		}
-	else if (cmd_path)
-		{
-		path = g_strdup(cmd_path);
-		}
-	else if (options->startup.restore_path && options->startup.path && isdir(options->startup.path))
-		{
-		path = g_strdup(options->startup.path);
-		}
-	else
-		{
-		path = get_current_dir();
+		/* broken or no config file */
+		layout_new_from_config(NULL, NULL, TRUE);
 		}
 
-	lw = layout_new_with_geometry(NULL, NULL, geometry);
-	layout_sort_set(lw, options->file_sort.method, options->file_sort.ascending);
-
-	if (collection_list && !startup_command_line_collection)
+	if (command_line->collection_list && !command_line->startup_command_line_collection)
 		{
 		GList *work;
 
-		work = collection_list;
+		work = command_line->collection_list;
 		while (work)
 			{
 			CollectWindow *cw;
@@ -836,12 +810,12 @@ gint main(gint argc, gchar *argv[])
 			}
 		}
 
-	if (cmd_list ||
-	    (startup_command_line_collection && collection_list))
+	if (command_line->cmd_list ||
+	    (command_line->startup_command_line_collection && command_line->collection_list))
 		{
 		GList *work;
 
-		if (startup_command_line_collection)
+		if (command_line->startup_command_line_collection)
 			{
 			CollectWindow *cw;
 
@@ -860,22 +834,21 @@ gint main(gint argc, gchar *argv[])
 
 		collection_path_changed(cd);
 
-		work = cmd_list;
+		work = command_line->cmd_list;
 		while (work)
 			{
 			collection_add(cd, file_data_new_simple((gchar *)work->data), FALSE);
 			work = work->next;
 			}
 
-		work = collection_list;
+		work = command_line->collection_list;
 		while (work)
 			{
 			collection_load(cd, (gchar *)work->data, COLLECTION_LOAD_APPEND);
 			work = work->next;
 			}
 
-		layout_set_path(lw, path);
-		if (cd->list) layout_image_set_collection(lw, cd, cd->list->data);
+		if (cd->list) layout_image_set_collection(NULL, cd, cd->list->data);
 
 		/* mem leak, we never unref this collection when !startup_command_line_collection
 		 * (the image view of the main window does not hold a ref to the collection)
@@ -886,33 +859,11 @@ gint main(gint argc, gchar *argv[])
 		 */
 
 		}
-	else if (cmd_file)
+	else if (first_collection)
 		{
-		layout_set_path(lw, cmd_file);
+		layout_image_set_collection(NULL, first_collection,
+					    collection_get_first(first_collection));
 		}
-	else
-		{
-		layout_set_path(lw, path);
-		if (first_collection)
-			{
-			layout_image_set_collection(lw, first_collection,
-						    collection_get_first(first_collection));
-			}
-		}
-
-	image_osd_set(lw->image, options->image_overlay.common.state | (options->image_overlay.common.show_at_startup ? OSD_SHOW_INFO : OSD_SHOW_NOTHING));
-
-	}
-
-	g_free(geometry);
-	g_free(cmd_path);
-	g_free(cmd_file);
-	filelist_free(cmd_list);
-	string_list_free(collection_list);
-	g_free(path);
-
-	if (startup_full_screen) layout_image_full_screen_start(lw);
-	if (startup_in_slideshow) layout_image_slideshow_start(lw);
 
 	buf = g_build_filename(get_rc_dir(), ".command", NULL);
 	remote_connection = remote_server_init(buf, cd);

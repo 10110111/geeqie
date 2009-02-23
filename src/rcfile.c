@@ -773,6 +773,12 @@ static void options_load_profile(GQParserData *parser_data, GMarkupParseContext 
  * xml file structure (private)
  *-----------------------------------------------------------------------------
  */
+struct _GQParserData
+{
+	GList *parse_func_stack;
+	gboolean startup; /* reading config for the first time - add commandline and call init_after_global_options() */
+	gboolean global_found;
+};
 
 
 void options_parse_leaf(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
@@ -839,12 +845,6 @@ static void options_parse_global(GQParserData *parser_data, GMarkupParseContext 
 		}
 }
 
-static void options_parse_global_end(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, gpointer data, GError **error)
-{
-	DEBUG_1(" global end");
-	init_after_global_options();
-}
-
 static void options_parse_bar(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
 {
 	GtkWidget *bar = data;
@@ -901,12 +901,21 @@ static void options_parse_toplevel(GQParserData *parser_data, GMarkupParseContex
 	if (g_ascii_strcasecmp(element_name, "global") == 0)
 		{
 		load_global_params(attribute_names, attribute_values);
-		options_parse_func_push(parser_data, options_parse_global, options_parse_global_end, NULL);
+		options_parse_func_push(parser_data, options_parse_global, NULL, NULL);
+		return;
 		}
-	else if (g_ascii_strcasecmp(element_name, "layout") == 0)
+	
+	if (parser_data->startup && !parser_data->global_found)
+		{
+		DEBUG_1(" global end");
+		parser_data->global_found = TRUE;
+		init_after_global_options();
+		}
+	
+	if (g_ascii_strcasecmp(element_name, "layout") == 0)
 		{
 		LayoutWindow *lw;
-		lw = layout_new_from_config(attribute_names, attribute_values);
+		lw = layout_new_from_config(attribute_names, attribute_values, parser_data->startup);
 		options_parse_func_push(parser_data, options_parse_layout, NULL, lw);
 		}
 	else
@@ -933,11 +942,6 @@ struct _GQParserFuncData
 	GQParserEndFunc end_func;
 //	GQParserTextFunc text_func;
 	gpointer data;
-};
-
-struct _GQParserData
-{
-	GList *parse_func_stack;
 };
 
 void options_parse_func_push(GQParserData *parser_data, GQParserStartFunc start_func, GQParserEndFunc end_func, gpointer data)
@@ -1007,7 +1011,7 @@ static GMarkupParser parser = {
  *-----------------------------------------------------------------------------
  */
 
-gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
+gboolean load_options_from(const gchar *utf8_path, ConfOptions *options, gboolean startup)
 {
 	gsize size;
 	gchar *buf;
@@ -1021,6 +1025,8 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options)
 		}
 	
 	parser_data = g_new0(GQParserData, 1);
+	
+	parser_data->startup = startup;
 	options_parse_func_push(parser_data, options_parse_toplevel, NULL, NULL);
 	
 	context = g_markup_parse_context_new(&parser, 0, parser_data, NULL);

@@ -73,7 +73,7 @@ void options_parse_func_set_data(GQParserData *parser_data, gpointer data);
 
 
 gboolean save_options_to(const gchar *utf8_path, ConfOptions *options);
-gboolean load_options_from(const gchar *utf8_path, ConfOptions *options);
+gboolean load_options_from(const gchar *utf8_path, ConfOptions *options, gboolean startup);
 
 
 #endif

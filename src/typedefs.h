@@ -209,6 +209,8 @@ typedef struct _ExifData ExifData;
 
 typedef struct _EditorDescription EditorDescription;
 
+typedef struct _CommandLine CommandLine;
+
 struct _EditorDescription {
 	gchar *key; 		/* desktop file name, not including path, including extension */
 	gchar *name; 		/* Name, localized name presented to user */
@@ -829,6 +831,23 @@ struct _SecureSaveInfo {
 	gint preserve_perms; /**< whether to preserve perms, TRUE by default */
 	gint preserve_mtime; /**< whether to preserve mtime, FALSE by default */
 	gint unlink_on_error; /**< whether to remove temporary file on save failure, TRUE by default */
+};
+
+struct _CommandLine
+{
+	int argc;
+	gchar **argv;
+	gboolean startup_blank;
+	gboolean startup_full_screen;
+	gboolean startup_in_slideshow;
+	gboolean startup_command_line_collection;
+	gboolean tools_hide;
+	gboolean tools_show;
+	gchar *path;
+	gchar *file;
+	GList *cmd_list;
+	GList *collection_list;
+	gchar *geometry;
 };
 
 #endif

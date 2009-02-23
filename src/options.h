@@ -209,11 +209,12 @@ struct _ConfOptions
 };
 
 ConfOptions *options;
+CommandLine *command_line;
 
 ConfOptions *init_options(ConfOptions *options);
 void setup_default_options(ConfOptions *options);
 void save_options(ConfOptions *options);
-void load_options(ConfOptions *options);
+gboolean load_options(ConfOptions *options);
 
 void copy_layout_options(LayoutOptions *dest, const LayoutOptions *src);
 void free_layout_options_content(LayoutOptions *dest);
