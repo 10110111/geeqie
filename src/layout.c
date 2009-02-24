@@ -2023,7 +2023,6 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 		lw->options.main_window.hdivider_pos = MAIN_WINDOW_DIV_HPOS;
 		lw->options.main_window.vdivider_pos = MAIN_WINDOW_DIV_VPOS;
 		lw->options.float_window.vdivider_pos = MAIN_WINDOW_DIV_VPOS;
-		lw->options.panels.info.width = PANEL_DEFAULT_WIDTH;
 		}
 
 	/* window */
@@ -2159,10 +2158,6 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 
 	WRITE_BOOL(*layout, toolbar_hidden);
 
-	WRITE_BOOL(*layout, panels.exif.enabled);
-	WRITE_INT(*layout, panels.exif.width);
-	WRITE_BOOL(*layout, panels.info.enabled);
-	WRITE_INT(*layout, panels.info.width);
 	WRITE_BOOL(*layout, panels.sort.enabled);
 	WRITE_INT(*layout, panels.sort.action_state);
 	WRITE_INT(*layout, panels.sort.mode_state);
@@ -2230,10 +2225,6 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		if (READ_BOOL(*layout, toolbar_hidden)) continue;
 
 		/* panels */
-		if (READ_BOOL(*layout, panels.exif.enabled)) continue;
-		if (READ_INT_CLAMP(*layout, panels.exif.width, PANEL_MIN_WIDTH, PANEL_MAX_WIDTH)) continue;
-		if (READ_BOOL(*layout, panels.info.enabled)) continue;
-		if (READ_INT_CLAMP(*layout, panels.info.width, PANEL_MIN_WIDTH, PANEL_MAX_WIDTH)) continue;
 		if (READ_BOOL(*layout, panels.sort.enabled)) continue;
 		if (READ_INT(*layout, panels.sort.action_state)) continue;
 		if (READ_INT(*layout, panels.sort.mode_state)) continue;

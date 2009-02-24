@@ -31,8 +31,8 @@ struct _PaneData {
 
 
 GtkWidget *bar_new(GtkWidget *bounding_widget);
-
-void bar_populate_default(GtkWidget *bar);
+GtkWidget *bar_new_default(GtkWidget *bounding_widget);
+GtkWidget *bar_new_from_config(GtkWidget *bounding_widget, const gchar **attribute_names, const gchar **attribute_values);
 
 void bar_close(GtkWidget *bar);
 

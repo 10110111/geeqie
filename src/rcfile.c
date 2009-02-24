@@ -877,9 +877,8 @@ static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext 
 	LayoutWindow *lw = data;
 	if (g_ascii_strcasecmp(element_name, "bar") == 0)
 		{
-		if (lw->bar) 
-			layout_bar_close(lw);
-		layout_bar_new(lw, FALSE);
+		GtkWidget *bar = bar_new_from_config(lw->utility_box, attribute_names, attribute_values);
+		layout_bar_set(lw, bar);
 		options_parse_func_push(parser_data, options_parse_bar, NULL, lw->bar);
 		}
 	else
@@ -887,6 +886,12 @@ static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext 
 		DEBUG_1("unexpected in <layout>: <%s>", element_name);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
+}
+
+static void options_parse_layout_end(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, gpointer data, GError **error)
+{
+	LayoutWindow *lw = data;
+	layout_util_sync(lw);
 }
 
 static void options_parse_toplevel(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
@@ -909,7 +914,7 @@ static void options_parse_toplevel(GQParserData *parser_data, GMarkupParseContex
 		{
 		LayoutWindow *lw;
 		lw = layout_new_from_config(attribute_names, attribute_values, parser_data->startup);
-		options_parse_func_push(parser_data, options_parse_layout, NULL, lw);
+		options_parse_func_push(parser_data, options_parse_layout, options_parse_layout_end, lw);
 		}
 	else
 		{

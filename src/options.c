@@ -120,10 +120,6 @@ ConfOptions *init_options(ConfOptions *options)
 	options->open_recent_list_maxsize = 10;
 	options->place_dialogs_under_mouse = FALSE;
 
-	options->layout.panels.exif.enabled = FALSE;
-	options->layout.panels.exif.width = PANEL_DEFAULT_WIDTH;
-	options->layout.panels.info.enabled = FALSE;
-	options->layout.panels.info.width = PANEL_DEFAULT_WIDTH;
 	options->layout.panels.sort.action_state = 0;
 	options->layout.panels.sort.enabled = FALSE;
 	options->layout.panels.sort.mode_state = 0;

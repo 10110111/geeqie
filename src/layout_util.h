@@ -45,8 +45,7 @@ void folder_icons_free(PixmapFolders *pf);
 
 
 void layout_bar_toggle(LayoutWindow *lw);
-void layout_bar_new(LayoutWindow *lw, gboolean populate);
-void layout_bar_close(LayoutWindow *lw);
+void layout_bar_set(LayoutWindow *lw, GtkWidget *bar);
 
 void layout_bar_exif_toggle(LayoutWindow *lw);
 void layout_bar_sort_toggle(LayoutWindow *lw);
@@ -56,8 +55,6 @@ void layout_bars_new_selection(LayoutWindow *lw, gint count);
 
 GtkWidget *layout_bars_prepare(LayoutWindow *lw, GtkWidget *image);
 void layout_bars_close(LayoutWindow *lw);
-
-void layout_bars_maint_renamed(LayoutWindow *lw);
 
 void layout_exif_window_new(LayoutWindow *lw);
 

@@ -518,16 +518,6 @@ struct _LayoutOptions
 	struct {
 		struct {
 			gboolean enabled;
-			gint width;
-		} info;
-
-		struct {
-			gboolean enabled;
-			gint width;
-		} exif;
-
-		struct {
-			gboolean enabled;
 			gint mode_state;
 			gint action_state;
 			gint selection_state;

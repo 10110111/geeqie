@@ -1759,7 +1759,6 @@ static void layout_image_maint_renamed(LayoutWindow *lw, FileData *fd)
 	if (fd == layout_image_get_fd(lw))
 		{
 		image_set_fd(lw->image, fd);
-		layout_bars_maint_renamed(lw);
 		}
 }
 

@@ -49,6 +49,7 @@
 
 #define MENU_EDIT_ACTION_OFFSET 16
 
+static gboolean layout_bar_enabled(LayoutWindow *lw);
 
 /*
  *-----------------------------------------------------------------------------
@@ -669,7 +670,7 @@ static void layout_menu_bar_cb(GtkToggleAction *action, gpointer data)
 
 	layout_exit_fullscreen(lw);
 
-	if (lw->options.panels.info.enabled == gtk_toggle_action_get_active(action)) return;
+	if (layout_bar_enabled(lw) == gtk_toggle_action_get_active(action)) return;
 	layout_bar_toggle(lw);
 }
 
@@ -1862,7 +1863,7 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.tools_float);
 
 	action = gtk_action_group_get_action(lw->action_group, "SBar");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.panels.info.enabled);
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), layout_bar_enabled(lw));
 
 	action = gtk_action_group_get_action(lw->action_group, "SBarSort");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.panels.sort.enabled);
@@ -1941,18 +1942,22 @@ void folder_icons_free(PixmapFolders *pf)
  *-----------------------------------------------------------------------------
  */
 
+static gboolean layout_bar_enabled(LayoutWindow *lw)
+{
+	return lw->bar && GTK_WIDGET_VISIBLE(lw->bar);
+}
+
 static void layout_bar_destroyed(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
 	lw->bar = NULL;
+/* 
+    do not call layout_util_sync_views(lw) here
+    this is called either when whole layout is destroyed - no need for update
+    or when the bar is replaced - sync is called by upper function at the end of whole operation
 
-	if (lw->utility_box)
-		{
-		/* destroyed from within itself */
-		lw->options.panels.info.enabled = FALSE;
-		layout_util_sync_views(lw);
-		}
+*/
 }
 
 static GList *layout_bar_list_cb(gpointer data)
@@ -1962,94 +1967,76 @@ static GList *layout_bar_list_cb(gpointer data)
 	return layout_selection_list(lw);
 }
 
-static void layout_bar_sized(GtkWidget *widget, GtkAllocation *allocation, gpointer data)
+static void layout_bar_set_default(LayoutWindow *lw)
 {
-	LayoutWindow *lw = data;
-
-	if (!lw->bar) return;
+	GtkWidget *bar;
 	
-	lw->options.panels.info.width = allocation->width;
-}
-
-void layout_bar_new(LayoutWindow *lw, gboolean populate)
-{
 	if (!lw->utility_box) return;
 
-	if (!lw->bar)
-		{
-		lw->bar = bar_new(lw->utility_box);
-
-		if (populate)
-			{
-			bar_populate_default(lw->bar);
-			}
-
-		bar_set_selection_func(lw->bar, layout_bar_list_cb, lw);
-		g_signal_connect(G_OBJECT(lw->bar), "destroy",
-				 G_CALLBACK(layout_bar_destroyed), lw);
-		g_signal_connect(G_OBJECT(lw->bar), "size_allocate",
-				 G_CALLBACK(layout_bar_sized), lw);
-
-
-		gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->bar, FALSE, FALSE, 0);
-		}
-
-	lw->options.panels.info.enabled  = TRUE;
-	gtk_widget_set_size_request(lw->bar, lw->options.panels.info.width, -1);
-	bar_set_fd(lw->bar, layout_image_get_fd(lw));
-	gtk_widget_show(lw->bar);
+	bar = bar_new_default(lw->utility_box);
+	
+	layout_bar_set(lw, bar);
 }
 
-void layout_bar_close(LayoutWindow *lw)
+static void layout_bar_close(LayoutWindow *lw)
 {
 	if (lw->bar)
 		{
 		bar_close(lw->bar);
 		lw->bar = NULL;
 		}
-	lw->options.panels.info.enabled = FALSE;
 }
 
-static void layout_bar_hide(LayoutWindow *lw)
+
+void layout_bar_set(LayoutWindow *lw, GtkWidget *bar)
 {
-	if (lw->bar)
-		{
-		gtk_widget_hide(lw->bar);
-		}
-	lw->options.panels.info.enabled = FALSE;
+	if (!lw->utility_box) return;
+
+	layout_bar_close(lw); /* if any */
+
+	if (!bar) return;
+	lw->bar = bar;
+
+	bar_set_selection_func(lw->bar, layout_bar_list_cb, lw);
+	g_signal_connect(G_OBJECT(lw->bar), "destroy",
+			 G_CALLBACK(layout_bar_destroyed), lw);
+
+
+	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->bar, FALSE, FALSE, 0);
+
+	bar_set_fd(lw->bar, layout_image_get_fd(lw));
 }
+
 
 void layout_bar_toggle(LayoutWindow *lw)
 {
-	if (lw->options.panels.info.enabled)
+	if (layout_bar_enabled(lw))
 		{
-		layout_bar_hide(lw);
+		gtk_widget_hide(lw->bar);
 		}
 	else
 		{
-		layout_bar_new(lw, TRUE);
+		if (!lw->bar)
+			{
+			layout_bar_set_default(lw);
+			}
+		gtk_widget_show(lw->bar);
 		}
+	layout_util_sync_views(lw);
 }
 
 static void layout_bar_new_image(LayoutWindow *lw)
 {
-	if (!lw->bar || !lw->options.panels.info.enabled) return;
+	if (!layout_bar_enabled(lw)) return;
 
 	bar_set_fd(lw->bar, layout_image_get_fd(lw));
 }
 
 static void layout_bar_new_selection(LayoutWindow *lw, gint count)
 {
-	if (!lw->bar || !lw->options.panels.info.enabled) return;
+	if (!layout_bar_enabled(lw)) return;
 
 //	bar_info_selection(lw->bar_info, count - 1);
-}
-
-static void layout_bar_maint_renamed(LayoutWindow *lw)
-{
-	if (!lw->bar || !lw->options.panels.info.enabled) return;
-
-//	bar_maint_renamed(lw->bar_info, layout_image_get_fd(lw));
 }
 
 static void layout_bar_sort_destroyed(GtkWidget *widget, gpointer data)
@@ -2129,11 +2116,6 @@ GtkWidget *layout_bars_prepare(LayoutWindow *lw, GtkWidget *image)
 		layout_bar_sort_new(lw);
 		}
 
-	if (lw->options.panels.info.enabled)
-		{
-		layout_bar_new(lw, TRUE);
-		}
-
 	return lw->utility_box;
 }
 
@@ -2141,11 +2123,6 @@ void layout_bars_close(LayoutWindow *lw)
 {
 	layout_bar_sort_close(lw);
 	layout_bar_close(lw);
-}
-
-void layout_bars_maint_renamed(LayoutWindow *lw)
-{
-	layout_bar_maint_renamed(lw);
 }
 
 static void layout_exif_window_destroy(GtkWidget *widget, gpointer data)

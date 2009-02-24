@@ -43,6 +43,7 @@ struct _BarData
 
 	GList *(*list_func)(gpointer);
 	gpointer list_data;
+	gint width;
 };
 
 static void bar_expander_move(GtkWidget *widget, gpointer data, gboolean up)
@@ -156,7 +157,12 @@ void bar_write_config(GtkWidget *bar, GString *outstr, gint indent)
 	bd = g_object_get_data(G_OBJECT(bar), "bar_data");
 	if (!bd) return;
 
-	WRITE_STRING("<bar>\n");
+	WRITE_STRING("<bar\n");
+	indent++;
+	write_bool_option(outstr, indent, "enabled", GTK_WIDGET_VISIBLE(bar));
+	write_uint_option(outstr, indent, "width", bd->width);
+	indent--;
+	WRITE_STRING(">\n");
 
 	list = gtk_container_get_children(GTK_CONTAINER(bd->vbox));	
 	work = list;
@@ -250,7 +256,7 @@ void bar_add(GtkWidget *bar, GtkWidget *pane)
 
 }
 
-void bar_populate_default(GtkWidget *bar)
+static void bar_populate_default(GtkWidget *bar)
 {
 	GtkWidget *widget;
 	widget = bar_pane_histogram_new(_("Histogram"), 80, TRUE);
@@ -269,6 +275,13 @@ void bar_populate_default(GtkWidget *bar)
 	bar_add(bar, widget);
 }
 
+static void bar_sized(GtkWidget *widget, GtkAllocation *allocation, gpointer data)
+{
+	BarData *bd = data;
+	bd->width = allocation->width;
+}
+
+
 static void bar_width(BarData *bd, gint val)
 {
 	gint size;
@@ -277,7 +290,6 @@ static void bar_width(BarData *bd, gint val)
 	size = CLAMP(size + val, BAR_SIZE_INCREMENT * 2, BAR_SIZE_INCREMENT * 16);
 
 	gtk_widget_set_size_request(bd->widget, size, -1);
-	options->layout.panels.info.width = bd->widget->allocation.width;
 }
 
 static void bar_larger(GtkWidget *widget, gpointer data)
@@ -328,6 +340,12 @@ GtkWidget *bar_new(GtkWidget *bounding_widget)
 	g_object_set_data(G_OBJECT(bd->widget), "bar_data", bd);
 	g_signal_connect(G_OBJECT(bd->widget), "destroy",
 			 G_CALLBACK(bar_destroy), bd);
+
+	g_signal_connect(G_OBJECT(bd->widget), "size_allocate",
+			 G_CALLBACK(bar_sized), bd);
+
+	bd->width = PANEL_DEFAULT_WIDTH;
+	gtk_widget_set_size_request(bd->widget, bd->width, -1);
 
 	box = gtk_hbox_new(FALSE, 0);
 
@@ -386,6 +404,41 @@ GtkWidget *bar_new(GtkWidget *bounding_widget)
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_NONE);
 	gtk_widget_show(bd->vbox);
 	return bd->widget;
+}
+
+GtkWidget *bar_new_default(GtkWidget *bounding_widget)
+{
+	GtkWidget *bar = bar_new(bounding_widget);
+	
+	bar_populate_default(bar);
+	
+	gtk_widget_show(bar);
+	
+	return bar;
+}
+
+GtkWidget *bar_new_from_config(GtkWidget *bounding_widget, const gchar **attribute_names, const gchar **attribute_values)
+{
+	GtkWidget *bar = bar_new(bounding_widget);
+	
+	gboolean enabled = TRUE;
+	gint width = PANEL_DEFAULT_WIDTH;
+
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+
+		if (READ_BOOL_FULL("enabled", enabled)) continue;
+		if (READ_INT_FULL("width", width)) continue;
+		
+
+		DEBUG_1("unknown attribute %s = %s", option, value);
+		}
+	
+	gtk_widget_set_size_request(bar, width, -1);
+	if (enabled) gtk_widget_show(bar);
+	return bar;
 }
 
 
