@@ -2193,52 +2193,52 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 
 		/* layout options */
 
-		READ_INT(*layout, style);
-		READ_CHAR(*layout, order);
+		if (READ_INT(*layout, style)) continue;
+		if (READ_CHAR(*layout, order)) continue;
 		
-		READ_UINT(*layout, dir_view_type);
-		READ_UINT(*layout, file_view_type);
-		READ_BOOL(*layout, show_marks);
-		READ_BOOL(*layout, show_thumbnails);
-		READ_BOOL(*layout, show_directory_date);
-		READ_CHAR(*layout, home_path);
+		if (READ_UINT(*layout, dir_view_type)) continue;
+		if (READ_UINT(*layout, file_view_type)) continue;
+		if (READ_BOOL(*layout, show_marks)) continue;
+		if (READ_BOOL(*layout, show_thumbnails)) continue;
+		if (READ_BOOL(*layout, show_directory_date)) continue;
+		if (READ_CHAR(*layout, home_path)) continue;
 
 		/* window positions */
 
-		READ_BOOL(*layout, save_window_positions);
+		if (READ_BOOL(*layout, save_window_positions)) continue;
 
-		READ_INT(*layout, main_window.x);
-		READ_INT(*layout, main_window.y);
-		READ_INT(*layout, main_window.w);
-		READ_INT(*layout, main_window.h);
-		READ_BOOL(*layout, main_window.maximized);
-		READ_INT(*layout, main_window.hdivider_pos);
-		READ_INT(*layout, main_window.vdivider_pos);
+		if (READ_INT(*layout, main_window.x)) continue;
+		if (READ_INT(*layout, main_window.y)) continue;
+		if (READ_INT(*layout, main_window.w)) continue;
+		if (READ_INT(*layout, main_window.h)) continue;
+		if (READ_BOOL(*layout, main_window.maximized)) continue;
+		if (READ_INT(*layout, main_window.hdivider_pos)) continue;
+		if (READ_INT(*layout, main_window.vdivider_pos)) continue;
 
-		READ_INT(*layout, float_window.x);
-		READ_INT(*layout, float_window.y);
-		READ_INT(*layout, float_window.w);
-		READ_INT(*layout, float_window.h);
-		READ_INT(*layout, float_window.vdivider_pos);
+		if (READ_INT(*layout, float_window.x)) continue;
+		if (READ_INT(*layout, float_window.y)) continue;
+		if (READ_INT(*layout, float_window.w)) continue;
+		if (READ_INT(*layout, float_window.h)) continue;
+		if (READ_INT(*layout, float_window.vdivider_pos)) continue;
 	
-		READ_INT(*layout, properties_window.w);
-		READ_INT(*layout, properties_window.h);
+		if (READ_INT(*layout, properties_window.w)) continue;
+		if (READ_INT(*layout, properties_window.h)) continue;
 
-		READ_BOOL(*layout, tools_float);
-		READ_BOOL(*layout, tools_hidden);
-		READ_BOOL(*layout, tools_restore_state);
-		READ_BOOL(*layout, toolbar_hidden);
+		if (READ_BOOL(*layout, tools_float)) continue;
+		if (READ_BOOL(*layout, tools_hidden)) continue;
+		if (READ_BOOL(*layout, tools_restore_state)) continue;
+		if (READ_BOOL(*layout, toolbar_hidden)) continue;
 
 		/* panels */
-		READ_BOOL(*layout, panels.exif.enabled);
-		READ_INT_CLAMP(*layout, panels.exif.width, PANEL_MIN_WIDTH, PANEL_MAX_WIDTH);
-		READ_BOOL(*layout, panels.info.enabled);
-		READ_INT_CLAMP(*layout, panels.info.width, PANEL_MIN_WIDTH, PANEL_MAX_WIDTH);
-		READ_BOOL(*layout, panels.sort.enabled);
-		READ_INT(*layout, panels.sort.action_state);
-		READ_INT(*layout, panels.sort.mode_state);
-		READ_INT(*layout, panels.sort.selection_state);
-		READ_CHAR(*layout, panels.sort.action_filter);
+		if (READ_BOOL(*layout, panels.exif.enabled)) continue;
+		if (READ_INT_CLAMP(*layout, panels.exif.width, PANEL_MIN_WIDTH, PANEL_MAX_WIDTH)) continue;
+		if (READ_BOOL(*layout, panels.info.enabled)) continue;
+		if (READ_INT_CLAMP(*layout, panels.info.width, PANEL_MIN_WIDTH, PANEL_MAX_WIDTH)) continue;
+		if (READ_BOOL(*layout, panels.sort.enabled)) continue;
+		if (READ_INT(*layout, panels.sort.action_state)) continue;
+		if (READ_INT(*layout, panels.sort.mode_state)) continue;
+		if (READ_INT(*layout, panels.sort.selection_state)) continue;
+		if (READ_CHAR(*layout, panels.sort.action_filter)) continue;
 
 
 		DEBUG_1("unknown attribute %s = %s", option, value);

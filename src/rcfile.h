@@ -40,24 +40,24 @@ gboolean read_bool_option(const gchar *option, const gchar *label, const gchar *
 
 #define WRITE_SEPARATOR() g_string_append(outstr, "\n")
 #define WRITE_SUBTITLE(_title_) g_string_append_printf(outstr, "\n\n<!-- "_title_" -->\n\n")
-#define WRITE_STRING(_str_) {write_indent(outstr, indent);g_string_append_printf(outstr, _str_);}
+#define WRITE_STRING(_str_) do { write_indent(outstr, indent); g_string_append_printf(outstr, _str_); } while (0)
 
-#define READ_BOOL(target, _name_) if (read_bool_option(option, #_name_, value, &(target)._name_)) continue;
-#define READ_INT(target, _name_) if (read_int_option(option, #_name_, value, &(target)._name_)) continue;
-#define READ_UINT(target, _name_) if (read_uint_option(option, #_name_, value, &(target)._name_)) continue;
-#define READ_INT_CLAMP(target, _name_, _min_, _max_) if (read_int_option_clamp(option, #_name_, value, &(target)._name_, _min_, _max_)) continue;
-#define READ_UINT_CLAMP(target, _name_, _min_, _max_) if (read_uint_option_clamp(option, #_name_, value, &(target)._name_, _min_, _max_)) continue;
-#define READ_INT_UNIT(target, _name_, _unit_) if (read_int_unit_option(option, #_name_, value, &(target)._name_, _unit_)) continue;
-#define READ_CHAR(target, _name_) if (read_char_option(option, #_name_, value, &(target)._name_)) continue;
-#define READ_COLOR(target, _name_) if (read_color_option(option, #_name_, value, &(target)._name_)) continue;
+#define READ_BOOL(target, _name_) read_bool_option(option, #_name_, value, &(target)._name_)
+#define READ_INT(target, _name_) read_int_option(option, #_name_, value, &(target)._name_)
+#define READ_UINT(target, _name_) read_uint_option(option, #_name_, value, &(target)._name_)
+#define READ_INT_CLAMP(target, _name_, _min_, _max_) read_int_option_clamp(option, #_name_, value, &(target)._name_, _min_, _max_)
+#define READ_UINT_CLAMP(target, _name_, _min_, _max_) read_uint_option_clamp(option, #_name_, value, &(target)._name_, _min_, _max_)
+#define READ_INT_UNIT(target, _name_, _unit_) read_int_unit_option(option, #_name_, value, &(target)._name_, _unit_)
+#define READ_CHAR(target, _name_) read_char_option(option, #_name_, value, &(target)._name_)
+#define READ_COLOR(target, _name_) read_color_option(option, #_name_, value, &(target)._name_)
 
-#define READ_BOOL_FULL(name, target) if (read_bool_option(option, name, value, &(target))) continue;
-#define READ_INT_FULL(name, target) if (read_int_option(option, name, value, &(target))) continue;
-#define READ_UINT_FULL(name, target) if (read_uint_option(option, name, value, &(target))) continue;
-#define READ_INT_CLAMP_FULL(name, target, _min_, _max_) if (read_int_option_clamp(option, name, value, &(target), _min_, _max_)) continue;
-#define READ_INT_UNIT_FULL(name, target, _unit_) if (read_int_unit_option(option, name, value, &(target), _unit_)) continue;
-#define READ_CHAR_FULL(name, target) if (read_char_option(option, name, value, &(target))) continue;
-#define READ_COLOR_FULL(name, target) if (read_color_option(option, name, value, &(target))) continue;
+#define READ_BOOL_FULL(name, target) read_bool_option(option, name, value, &(target))
+#define READ_INT_FULL(name, target) read_int_option(option, name, value, &(target))
+#define READ_UINT_FULL(name, target) read_uint_option(option, name, value, &(target))
+#define READ_INT_CLAMP_FULL(name, target, _min_, _max_) read_int_option_clamp(option, name, value, &(target), _min_, _max_)
+#define READ_INT_UNIT_FULL(name, target, _unit_) read_int_unit_option(option, name, value, &(target), _unit_)
+#define READ_CHAR_FULL(name, target) read_char_option(option, name, value, &(target))
+#define READ_COLOR_FULL(name, target) read_color_option(option, name, value, &(target))
 
 
 

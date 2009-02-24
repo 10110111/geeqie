@@ -460,13 +460,13 @@ void filter_load_file_type(const gchar **attribute_names, const gchar **attribut
 		const gchar *option = *attribute_names++;
 		const gchar *value = *attribute_values++;
 
-		READ_CHAR(fe, key);
-		READ_BOOL(fe, enabled);
-		READ_CHAR(fe, extensions);
-		READ_CHAR(fe, description);
-		READ_UINT(fe, file_class);
-		READ_BOOL(fe, writable);
-		READ_BOOL(fe, allow_sidecar);
+		if (READ_CHAR(fe, key)) continue;
+		if (READ_BOOL(fe, enabled)) continue;
+		if (READ_CHAR(fe, extensions)) continue;
+		if (READ_CHAR(fe, description)) continue;
+		if (READ_UINT(fe, file_class)) continue;
+		if (READ_BOOL(fe, writable)) continue;
+		if (READ_BOOL(fe, allow_sidecar)) continue;
 
 		printf("unknown attribute %s = %s\n", option, value);
 		}

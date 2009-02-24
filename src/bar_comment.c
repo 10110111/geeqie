@@ -271,10 +271,10 @@ GtkWidget *bar_pane_comment_new_from_config(const gchar **attribute_names, const
 		const gchar *option = *attribute_names++;
 		const gchar *value = *attribute_values++;
 
-		READ_CHAR_FULL("pane.title", title);
-		READ_CHAR_FULL("key", key);
-		READ_BOOL_FULL("pane.expanded", expanded);
-		READ_INT_FULL("height", height);
+		if (READ_CHAR_FULL("pane.title", title)) continue;
+		if (READ_CHAR_FULL("key", key)) continue;
+		if (READ_BOOL_FULL("pane.expanded", expanded)) continue;
+		if (READ_INT_FULL("height", height)) continue;
 		
 
 		DEBUG_1("unknown attribute %s = %s", option, value);

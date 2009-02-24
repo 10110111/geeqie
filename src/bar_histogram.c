@@ -199,8 +199,8 @@ GtkWidget *bar_pane_histogram_new_from_config(const gchar **attribute_names, con
 		const gchar *option = *attribute_names++;
 		const gchar *value = *attribute_values++;
 
-		READ_CHAR_FULL("pane.title", title);
-		READ_BOOL_FULL("pane.expanded", expanded);
+		if (READ_CHAR_FULL("pane.title", title)) continue;
+		if (READ_BOOL_FULL("pane.expanded", expanded)) continue;
 		
 
 		DEBUG_1("unknown attribute %s = %s", option, value);

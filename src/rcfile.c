@@ -570,127 +570,127 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 
 
 		/* general options */
-		READ_BOOL(*options, show_icon_names);
-		READ_BOOL(*options, show_copy_path);
+		if (READ_BOOL(*options, show_icon_names)) continue;
+		if (READ_BOOL(*options, show_copy_path)) continue;
 
-		READ_BOOL(*options, tree_descend_subdirs);
-		READ_BOOL(*options, lazy_image_sync);
-		READ_BOOL(*options, update_on_time_change);
+		if (READ_BOOL(*options, tree_descend_subdirs)) continue;
+		if (READ_BOOL(*options, lazy_image_sync)) continue;
+		if (READ_BOOL(*options, update_on_time_change)) continue;
 
-		READ_UINT_CLAMP(*options, duplicates_similarity_threshold, 0, 100);
+		if (READ_UINT_CLAMP(*options, duplicates_similarity_threshold, 0, 100)) continue;
 
-		READ_BOOL(*options, progressive_key_scrolling);
+		if (READ_BOOL(*options, progressive_key_scrolling)) continue;
 
-		READ_BOOL(*options, mousewheel_scrolls);
+		if (READ_BOOL(*options, mousewheel_scrolls)) continue;
 
-		READ_INT(*options, open_recent_list_maxsize);
-		READ_INT(*options, dnd_icon_size);
-		READ_BOOL(*options, place_dialogs_under_mouse);
+		if (READ_INT(*options, open_recent_list_maxsize)) continue;
+		if (READ_INT(*options, dnd_icon_size)) continue;
+		if (READ_BOOL(*options, place_dialogs_under_mouse)) continue;
 
 		/* startup options */
 		
-		READ_BOOL(*options, startup.restore_path);
+		if (READ_BOOL(*options, startup.restore_path)) continue;
 
-		READ_BOOL(*options, startup.use_last_path);
+		if (READ_BOOL(*options, startup.use_last_path)) continue;
 
-		READ_CHAR(*options, startup.path);
+		if (READ_CHAR(*options, startup.path)) continue;
 	
 
 		/* properties dialog options */
-		READ_CHAR(*options, properties.tabs_order);
+		if (READ_CHAR(*options, properties.tabs_order)) continue;
 
 		/* image options */
-		READ_UINT_CLAMP(*options, image.zoom_mode, 0, ZOOM_RESET_NONE);
-		READ_BOOL(*options, image.zoom_2pass);
-		READ_BOOL(*options, image.zoom_to_fit_allow_expand);
-		READ_BOOL(*options, image.fit_window_to_image);
-		READ_BOOL(*options, image.limit_window_size);
-		READ_INT(*options, image.max_window_size);
-		READ_BOOL(*options, image.limit_autofit_size);
-		READ_INT(*options, image.max_autofit_size);
-		READ_UINT_CLAMP(*options, image.scroll_reset_method, 0, PR_SCROLL_RESET_COUNT - 1);
-		READ_INT(*options, image.tile_cache_max);
-		READ_INT(*options, image.image_cache_max);
-		READ_UINT_CLAMP(*options, image.zoom_quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
-		READ_UINT_CLAMP(*options, image.dither_quality, GDK_RGB_DITHER_NONE, GDK_RGB_DITHER_MAX);
-		READ_INT(*options, image.zoom_increment);
-		READ_BOOL(*options, image.enable_read_ahead);
-		READ_BOOL(*options, image.exif_rotate_enable);
-		READ_BOOL(*options, image.use_custom_border_color);
-		READ_COLOR(*options, image.border_color);
-		READ_INT_CLAMP(*options, image.read_buffer_size, IMAGE_LOADER_READ_BUFFER_SIZE_MIN, IMAGE_LOADER_READ_BUFFER_SIZE_MAX);
-		READ_INT_CLAMP(*options, image.idle_read_loop_count, IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MIN, IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MAX);
+		if (READ_UINT_CLAMP(*options, image.zoom_mode, 0, ZOOM_RESET_NONE)) continue;
+		if (READ_BOOL(*options, image.zoom_2pass)) continue;
+		if (READ_BOOL(*options, image.zoom_to_fit_allow_expand)) continue;
+		if (READ_BOOL(*options, image.fit_window_to_image)) continue;
+		if (READ_BOOL(*options, image.limit_window_size)) continue;
+		if (READ_INT(*options, image.max_window_size)) continue;
+		if (READ_BOOL(*options, image.limit_autofit_size)) continue;
+		if (READ_INT(*options, image.max_autofit_size)) continue;
+		if (READ_UINT_CLAMP(*options, image.scroll_reset_method, 0, PR_SCROLL_RESET_COUNT - 1)) continue;
+		if (READ_INT(*options, image.tile_cache_max)) continue;
+		if (READ_INT(*options, image.image_cache_max)) continue;
+		if (READ_UINT_CLAMP(*options, image.zoom_quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER)) continue;
+		if (READ_UINT_CLAMP(*options, image.dither_quality, GDK_RGB_DITHER_NONE, GDK_RGB_DITHER_MAX)) continue;
+		if (READ_INT(*options, image.zoom_increment)) continue;
+		if (READ_BOOL(*options, image.enable_read_ahead)) continue;
+		if (READ_BOOL(*options, image.exif_rotate_enable)) continue;
+		if (READ_BOOL(*options, image.use_custom_border_color)) continue;
+		if (READ_COLOR(*options, image.border_color)) continue;
+		if (READ_INT_CLAMP(*options, image.read_buffer_size, IMAGE_LOADER_READ_BUFFER_SIZE_MIN, IMAGE_LOADER_READ_BUFFER_SIZE_MAX)) continue;
+		if (READ_INT_CLAMP(*options, image.idle_read_loop_count, IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MIN, IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MAX)) continue;
 
 
 		/* thumbnails options */
-		READ_INT_CLAMP(*options, thumbnails.max_width, 16, 512);
-		READ_INT_CLAMP(*options, thumbnails.max_height, 16, 512);
+		if (READ_INT_CLAMP(*options, thumbnails.max_width, 16, 512)) continue;
+		if (READ_INT_CLAMP(*options, thumbnails.max_height, 16, 512)) continue;
 
-		READ_BOOL(*options, thumbnails.enable_caching);
-		READ_BOOL(*options, thumbnails.cache_into_dirs);
-		READ_BOOL(*options, thumbnails.fast);
-		READ_BOOL(*options, thumbnails.use_xvpics);
-		READ_BOOL(*options, thumbnails.spec_standard);
-		READ_UINT_CLAMP(*options, thumbnails.quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER);
-		READ_BOOL(*options, thumbnails.use_exif);
+		if (READ_BOOL(*options, thumbnails.enable_caching)) continue;
+		if (READ_BOOL(*options, thumbnails.cache_into_dirs)) continue;
+		if (READ_BOOL(*options, thumbnails.fast)) continue;
+		if (READ_BOOL(*options, thumbnails.use_xvpics)) continue;
+		if (READ_BOOL(*options, thumbnails.spec_standard)) continue;
+		if (READ_UINT_CLAMP(*options, thumbnails.quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER)) continue;
+		if (READ_BOOL(*options, thumbnails.use_exif)) continue;
 
 		/* file sorting options */
-		READ_UINT(*options, file_sort.method);
-		READ_BOOL(*options, file_sort.ascending);
-		READ_BOOL(*options, file_sort.case_sensitive);
+		if (READ_UINT(*options, file_sort.method)) continue;
+		if (READ_BOOL(*options, file_sort.ascending)) continue;
+		if (READ_BOOL(*options, file_sort.case_sensitive)) continue;
 
 		/* file operations *options */
-		READ_BOOL(*options, file_ops.enable_in_place_rename);
-		READ_BOOL(*options, file_ops.confirm_delete);
-		READ_BOOL(*options, file_ops.enable_delete_key);
-		READ_BOOL(*options, file_ops.safe_delete_enable);
-		READ_CHAR(*options, file_ops.safe_delete_path);
-		READ_INT(*options, file_ops.safe_delete_folder_maxsize);
+		if (READ_BOOL(*options, file_ops.enable_in_place_rename)) continue;
+		if (READ_BOOL(*options, file_ops.confirm_delete)) continue;
+		if (READ_BOOL(*options, file_ops.enable_delete_key)) continue;
+		if (READ_BOOL(*options, file_ops.safe_delete_enable)) continue;
+		if (READ_CHAR(*options, file_ops.safe_delete_path)) continue;
+		if (READ_INT(*options, file_ops.safe_delete_folder_maxsize)) continue;
 
 		/* fullscreen options */
-		READ_INT(*options, fullscreen.screen);
-		READ_BOOL(*options, fullscreen.clean_flip);
-		READ_BOOL(*options, fullscreen.disable_saver);
-		READ_BOOL(*options, fullscreen.above);
+		if (READ_INT(*options, fullscreen.screen)) continue;
+		if (READ_BOOL(*options, fullscreen.clean_flip)) continue;
+		if (READ_BOOL(*options, fullscreen.disable_saver)) continue;
+		if (READ_BOOL(*options, fullscreen.above)) continue;
 
 		/* histogram */
-		READ_UINT(*options, histogram.last_channel_mode);
-		READ_UINT(*options, histogram.last_log_mode);
+		if (READ_UINT(*options, histogram.last_channel_mode)) continue;
+		if (READ_UINT(*options, histogram.last_log_mode)) continue;
 
 		/* image overlay */
-		READ_UINT(*options, image_overlay.common.state);
-		READ_BOOL(*options, image_overlay.common.show_at_startup);
-		READ_CHAR(*options, image_overlay.common.template_string);
+		if (READ_UINT(*options, image_overlay.common.state)) continue;
+		if (READ_BOOL(*options, image_overlay.common.show_at_startup)) continue;
+		if (READ_CHAR(*options, image_overlay.common.template_string)) continue;
 
-		READ_INT(*options, image_overlay.common.x);
-		READ_INT(*options, image_overlay.common.y);
+		if (READ_INT(*options, image_overlay.common.x)) continue;
+		if (READ_INT(*options, image_overlay.common.y)) continue;
 
 
 		/* slideshow options */
-		READ_INT_UNIT(*options, slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION);
-		READ_BOOL(*options, slideshow.random);
-		READ_BOOL(*options, slideshow.repeat);
+		if (READ_INT_UNIT(*options, slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION)) continue;
+		if (READ_BOOL(*options, slideshow.random)) continue;
+		if (READ_BOOL(*options, slideshow.repeat)) continue;
 
 		/* collection options */
 
-		READ_BOOL(*options, collections.rectangular_selection);
+		if (READ_BOOL(*options, collections.rectangular_selection)) continue;
 
 		/* filtering options */
 
-		READ_BOOL(*options, file_filter.show_hidden_files);
-		READ_BOOL(*options, file_filter.show_dot_directory);
-		READ_BOOL(*options, file_filter.disable);
-		READ_CHAR(*options, sidecar.ext);
+		if (READ_BOOL(*options, file_filter.show_hidden_files)) continue;
+		if (READ_BOOL(*options, file_filter.show_dot_directory)) continue;
+		if (READ_BOOL(*options, file_filter.disable)) continue;
+		if (READ_CHAR(*options, sidecar.ext)) continue;
 
 		/* Color Profiles */
 
 		/* Shell command */
-		READ_CHAR(*options, shell.path);
-		READ_CHAR(*options, shell.options);
+		if (READ_CHAR(*options, shell.path)) continue;
+		if (READ_CHAR(*options, shell.options)) continue;
 
 		/* Helpers */
-		READ_CHAR(*options, helpers.html_browser.command_name);
-		READ_CHAR(*options, helpers.html_browser.command_line);
+		if (READ_CHAR(*options, helpers.html_browser.command_name)) continue;
+		if (READ_CHAR(*options, helpers.html_browser.command_line)) continue;
 		/* Exif */
 /*
 		if (0 == g_ascii_strncasecmp(option, "exif.display.", 13))
@@ -702,17 +702,17 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 			}
 */
 		/* metadata */		
-		READ_BOOL(*options, metadata.enable_metadata_dirs);
-		READ_BOOL(*options, metadata.save_in_image_file);
-		READ_BOOL(*options, metadata.save_legacy_IPTC);
-		READ_BOOL(*options, metadata.warn_on_write_problems);
-		READ_BOOL(*options, metadata.save_legacy_format);
-		READ_BOOL(*options, metadata.sync_grouped_files);
-		READ_BOOL(*options, metadata.confirm_write);
-		READ_BOOL(*options, metadata.confirm_after_timeout);
-		READ_INT(*options, metadata.confirm_timeout);
-		READ_BOOL(*options, metadata.confirm_on_image_change);
-		READ_BOOL(*options, metadata.confirm_on_dir_change);
+		if (READ_BOOL(*options, metadata.enable_metadata_dirs)) continue;
+		if (READ_BOOL(*options, metadata.save_in_image_file)) continue;
+		if (READ_BOOL(*options, metadata.save_legacy_IPTC)) continue;
+		if (READ_BOOL(*options, metadata.warn_on_write_problems)) continue;
+		if (READ_BOOL(*options, metadata.save_legacy_format)) continue;
+		if (READ_BOOL(*options, metadata.sync_grouped_files)) continue;
+		if (READ_BOOL(*options, metadata.confirm_write)) continue;
+		if (READ_BOOL(*options, metadata.confirm_after_timeout)) continue;
+		if (READ_INT(*options, metadata.confirm_timeout)) continue;
+		if (READ_BOOL(*options, metadata.confirm_on_image_change)) continue;
+		if (READ_BOOL(*options, metadata.confirm_on_dir_change)) continue;
 
 		DEBUG_1("unknown attribute %s = %s", option, value);
 		}
@@ -728,11 +728,11 @@ static void options_load_color_profiles(GQParserData *parser_data, GMarkupParseC
 		const gchar *value = *attribute_values++;
 
 
-		READ_BOOL(options->color_profile, enabled);
-		READ_BOOL(options->color_profile, use_image);
-		READ_INT(options->color_profile, input_type);
-		READ_INT(options->color_profile, screen_type);
-		READ_CHAR(options->color_profile, screen_file);
+		if (READ_BOOL(options->color_profile, enabled)) continue;
+		if (READ_BOOL(options->color_profile, use_image)) continue;
+		if (READ_INT(options->color_profile, input_type)) continue;
+		if (READ_INT(options->color_profile, screen_type)) continue;
+		if (READ_CHAR(options->color_profile, screen_file)) continue;
 
 		DEBUG_1("unknown attribute %s = %s", option, value);
 		}
@@ -748,8 +748,8 @@ static void options_load_profile(GQParserData *parser_data, GMarkupParseContext 
 		const gchar *option = *attribute_names++;
 		const gchar *value = *attribute_values++;
 
-		READ_CHAR_FULL("input_file", options->color_profile.input_file[i]);
-		READ_CHAR_FULL("input_name", options->color_profile.input_name[i]);
+		if (READ_CHAR_FULL("input_file", options->color_profile.input_file[i])) continue;
+		if (READ_CHAR_FULL("input_name", options->color_profile.input_name[i])) continue;
 		
 
 		DEBUG_1("unknown attribute %s = %s", option, value);
