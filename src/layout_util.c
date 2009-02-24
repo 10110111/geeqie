@@ -639,10 +639,10 @@ static void layout_menu_refresh_cb(GtkAction *action, gpointer data)
 static void layout_menu_float_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	
-	layout_exit_fullscreen(lw);
 
 	if (lw->options.tools_float == gtk_toggle_action_get_active(action)) return;
+
+	layout_exit_fullscreen(lw);
 	layout_tools_float_toggle(lw);
 }
 
@@ -658,19 +658,20 @@ static void layout_menu_toolbar_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_exit_fullscreen(lw);
-
 	if (lw->options.toolbar_hidden == gtk_toggle_action_get_active(action)) return;
+
+	layout_exit_fullscreen(lw);
 	layout_toolbar_toggle(lw);
 }
 
+/* NOTE: these callbacks are called also from layout_util_sync_views */
 static void layout_menu_bar_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_exit_fullscreen(lw);
-
 	if (layout_bar_enabled(lw) == gtk_toggle_action_get_active(action)) return;
+
+	layout_exit_fullscreen(lw);
 	layout_bar_toggle(lw);
 }
 
@@ -687,9 +688,9 @@ static void layout_menu_bar_sort_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_exit_fullscreen(lw);
-
 	if (lw->options.panels.sort.enabled == gtk_toggle_action_get_active(action)) return;
+
+	layout_exit_fullscreen(lw);
 	layout_bar_sort_toggle(lw);
 }
 
