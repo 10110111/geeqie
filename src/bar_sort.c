@@ -26,6 +26,7 @@
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "ui_misc.h"
+#include "rcfile.h"
 
 
 /*
@@ -171,7 +172,6 @@ static void bar_sort_mode_cb(GtkWidget *combo, gpointer data)
 		{
 		bar_sort_mode_sync(sd, BAR_SORT_MODE_COLLECTION);
 		}
-	options->layout.panels.sort.mode_state = sd->mode;
 }
 
 /* this takes control of src_list */
@@ -351,19 +351,15 @@ static void bar_sort_bookmark_select(const gchar *path, gpointer data)
 
 static void bar_sort_set_action(SortData *sd, SortActionType action, const gchar *filter_key)
 {
-	options->layout.panels.sort.action_state = sd->action = action;
+	sd->action = action;
 	if (action == BAR_SORT_FILTER)
 		{
 		if (!filter_key) filter_key = "";
 		sd->filter_key = filter_key;
-		g_free(options->layout.panels.sort.action_filter);
-		options->layout.panels.sort.action_filter = g_strdup(filter_key);
 		}
 	else
 		{
 		sd->filter_key = NULL;
-		g_free(options->layout.panels.sort.action_filter);
-		options->layout.panels.sort.action_filter = g_strdup("");
 		}
 }
 
@@ -393,7 +389,7 @@ static void bar_sort_set_filter_cb(GtkWidget *button, gpointer data)
 
 static void bar_sort_set_selection(SortData *sd, SortSelectionType selection)
 {
-	options->layout.panels.sort.selection_state = sd->selection = selection;
+	sd->selection = selection;
 }
 
 static void bar_sort_set_selection_image_cb(GtkWidget *button, gpointer data)
@@ -555,14 +551,13 @@ static void bar_sort_destroy(GtkWidget *widget, gpointer data)
 	g_free(sd);
 }
 
-GtkWidget *bar_sort_new(LayoutWindow *lw)
+static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action, SortModeType mode, SortSelectionType selection, const gchar *filter_key)
 {
 	SortData *sd;
 	GtkWidget *buttongrp;
 	GtkWidget *label;
 	GtkWidget *tbar;
 	GtkWidget *combo;
-	SortModeType mode;
 	GList *editors_list, *work;
 	gboolean have_filter;
 
@@ -572,14 +567,14 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 
 	sd->lw = lw;
 
-	mode = CLAMP(options->layout.panels.sort.mode_state, 0, BAR_SORT_MODE_COUNT - 1);
-	sd->action = CLAMP(options->layout.panels.sort.action_state, 0, BAR_SORT_ACTION_COUNT - 1);
+	sd->action = action;
 	
-	if (sd->action == BAR_SORT_FILTER && 
-	    (!options->layout.panels.sort.action_filter || !options->layout.panels.sort.action_filter[0]))
+	if (sd->action == BAR_SORT_FILTER && (!filter_key || !filter_key[0]))
+		{
 		sd->action = BAR_SORT_COPY;
+		}
 	
-	sd->selection = CLAMP(options->layout.panels.sort.selection_state, 0, BAR_SORT_SELECTION_COUNT - 1);
+	sd->selection = selection;
 	sd->undo_src = NULL;
 	sd->undo_dest = NULL;
 
@@ -625,7 +620,7 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 		
 		if (!editor_is_filter(editor->key)) continue;
 
-		if (sd->action == BAR_SORT_FILTER && strcmp(editor->key, options->layout.panels.sort.action_filter) == 0)
+		if (sd->action == BAR_SORT_FILTER && strcmp(editor->key, filter_key) == 0)
 			{
 			bar_sort_set_action(sd, sd->action, editor->key);
 			select = TRUE;
@@ -671,4 +666,60 @@ GtkWidget *bar_sort_new(LayoutWindow *lw)
 
 	return sd->vbox;
 }
+
+GtkWidget *bar_sort_new_from_config(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values)
+{
+	GtkWidget *bar;
+	
+	gboolean enabled = TRUE;
+	gint action = 0;
+	gint mode = 0;
+	gint selection = 0;
+	gchar *filter_key = NULL;
+
+	while (attribute_names && *attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+
+		if (READ_BOOL_FULL("enabled", enabled)) continue;
+		if (READ_INT_CLAMP_FULL("action", action, 0, BAR_SORT_ACTION_COUNT - 1)) continue;
+		if (READ_INT_CLAMP_FULL("mode", mode, 0, BAR_SORT_MODE_COUNT - 1)) continue;
+		if (READ_INT_CLAMP_FULL("selection", selection, 0, BAR_SORT_SELECTION_COUNT - 1)) continue;
+		if (READ_CHAR_FULL("filter_key", filter_key)) continue;
+
+		DEBUG_1("unknown attribute %s = %s", option, value);
+		}
+	bar = bar_sort_new(lw, action, mode, selection, filter_key);
+
+	g_free(filter_key);
+	if (enabled) gtk_widget_show(bar);
+	return bar;
+}
+
+GtkWidget *bar_sort_new_default(LayoutWindow *lw)
+{
+	return bar_sort_new_from_config(lw, NULL, NULL);
+}
+
+void bar_sort_write_config(GtkWidget *bar, GString *outstr, gint indent)
+{
+	SortData *sd;
+
+	if (!bar) return;
+	sd = g_object_get_data(G_OBJECT(bar), "bar_sort_data");
+	if (!sd) return;
+
+	WRITE_STRING("<bar_sort\n");
+	indent++;
+	write_bool_option(outstr, indent, "enabled", GTK_WIDGET_VISIBLE(bar));
+	WRITE_INT(*sd, mode);
+	WRITE_INT(*sd, action);
+	WRITE_INT(*sd, selection);
+	WRITE_CHAR(*sd, filter_key);
+	indent--;
+	WRITE_STRING("/>\n");
+}
+
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

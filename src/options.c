@@ -120,12 +120,6 @@ ConfOptions *init_options(ConfOptions *options)
 	options->open_recent_list_maxsize = 10;
 	options->place_dialogs_under_mouse = FALSE;
 
-	options->layout.panels.sort.action_state = 0;
-	options->layout.panels.sort.enabled = FALSE;
-	options->layout.panels.sort.mode_state = 0;
-	options->layout.panels.sort.selection_state = 0;
-	options->layout.panels.sort.action_filter = NULL;
-	
 	options->progressive_key_scrolling = TRUE;
 	
 	options->metadata.enable_metadata_dirs = FALSE;
@@ -205,14 +199,12 @@ void copy_layout_options(LayoutOptions *dest, const LayoutOptions *src)
 	*dest = *src;
 	dest->order = g_strdup(src->order);
 	dest->home_path = g_strdup(src->home_path);
-	dest->panels.sort.action_filter = g_strdup(src->panels.sort.action_filter);
 }
 
 void free_layout_options_content(LayoutOptions *dest)
 {
 	if (dest->order) g_free(dest->order);
 	if (dest->home_path) g_free(dest->home_path);
-	if (dest->panels.sort.action_filter) g_free(dest->panels.sort.action_filter);
 }
 
 static void sync_options_with_current_state(ConfOptions *options)

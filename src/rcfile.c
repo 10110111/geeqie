@@ -21,6 +21,7 @@
 #include "bar_exif.h"
 #include "bar_histogram.h"
 #include "bar_keywords.h"
+#include "bar_sort.h"
 #include "editors.h"
 #include "filefilter.h"
 #include "misc.h"
@@ -880,6 +881,12 @@ static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext 
 		GtkWidget *bar = bar_new_from_config(lw->utility_box, attribute_names, attribute_values);
 		layout_bar_set(lw, bar);
 		options_parse_func_push(parser_data, options_parse_bar, NULL, lw->bar);
+		}
+	else if (g_ascii_strcasecmp(element_name, "bar_sort") == 0)
+		{
+		GtkWidget *bar = bar_sort_new_from_config(lw, attribute_names, attribute_values);
+		layout_bar_sort_set(lw, bar);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 	else
 		{

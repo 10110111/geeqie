@@ -35,6 +35,7 @@
 #include "metadata.h"
 #include "rcfile.h"
 #include "bar.h"
+#include "bar_sort.h"
 
 #ifdef HAVE_LIRC
 #include "lirc.h"
@@ -2157,12 +2158,6 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 	WRITE_SEPARATOR();
 
 	WRITE_BOOL(*layout, toolbar_hidden);
-
-	WRITE_BOOL(*layout, panels.sort.enabled);
-	WRITE_INT(*layout, panels.sort.action_state);
-	WRITE_INT(*layout, panels.sort.mode_state);
-	WRITE_INT(*layout, panels.sort.selection_state);
-	WRITE_CHAR(*layout, panels.sort.action_filter);
 }
 
 
@@ -2173,6 +2168,7 @@ void layout_write_config(LayoutWindow *lw, GString *outstr, gint indent)
 	layout_write_attributes(&lw->options, outstr, indent + 1);
 	WRITE_STRING(">\n");
 
+	bar_sort_write_config(lw->bar_sort, outstr, indent + 1);
 	bar_write_config(lw->bar, outstr, indent + 1);
 	
 	WRITE_STRING("</layout>\n");
@@ -2223,14 +2219,6 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		if (READ_BOOL(*layout, tools_hidden)) continue;
 		if (READ_BOOL(*layout, tools_restore_state)) continue;
 		if (READ_BOOL(*layout, toolbar_hidden)) continue;
-
-		/* panels */
-		if (READ_BOOL(*layout, panels.sort.enabled)) continue;
-		if (READ_INT(*layout, panels.sort.action_state)) continue;
-		if (READ_INT(*layout, panels.sort.mode_state)) continue;
-		if (READ_INT(*layout, panels.sort.selection_state)) continue;
-		if (READ_CHAR(*layout, panels.sort.action_filter)) continue;
-
 
 		DEBUG_1("unknown attribute %s = %s", option, value);
 		}

@@ -513,18 +513,6 @@ struct _LayoutOptions
 	gboolean toolbar_hidden;
 	
 	gchar *home_path;
-
-	/* panels */
-	struct {
-		struct {
-			gboolean enabled;
-			gint mode_state;
-			gint action_state;
-			gint selection_state;
-			gchar *action_filter;
-		} sort;
-	} panels;
-
 };
 
 struct _LayoutWindow

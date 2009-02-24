@@ -50,6 +50,7 @@
 #define MENU_EDIT_ACTION_OFFSET 16
 
 static gboolean layout_bar_enabled(LayoutWindow *lw);
+static gboolean layout_bar_sort_enabled(LayoutWindow *lw);
 
 /*
  *-----------------------------------------------------------------------------
@@ -688,7 +689,7 @@ static void layout_menu_bar_sort_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	if (lw->options.panels.sort.enabled == gtk_toggle_action_get_active(action)) return;
+	if (layout_bar_sort_enabled(lw) == gtk_toggle_action_get_active(action)) return;
 
 	layout_exit_fullscreen(lw);
 	layout_bar_sort_toggle(lw);
@@ -1867,7 +1868,7 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), layout_bar_enabled(lw));
 
 	action = gtk_action_group_get_action(lw->action_group, "SBarSort");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.panels.sort.enabled);
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), layout_bar_sort_enabled(lw));
 
 	action = gtk_action_group_get_action(lw->action_group, "HideToolbar");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.toolbar_hidden);
@@ -2040,32 +2041,35 @@ static void layout_bar_new_selection(LayoutWindow *lw, gint count)
 //	bar_info_selection(lw->bar_info, count - 1);
 }
 
+static gboolean layout_bar_sort_enabled(LayoutWindow *lw)
+{
+	return lw->bar_sort && GTK_WIDGET_VISIBLE(lw->bar_sort);
+}
+
+
 static void layout_bar_sort_destroyed(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
 	lw->bar_sort = NULL;
 
-	if (lw->utility_box)
-		{
-		/* destroyed from within itself */
-		lw->options.panels.sort.enabled = FALSE;
+/* 
+    do not call layout_util_sync_views(lw) here
+    this is called either when whole layout is destroyed - no need for update
+    or when the bar is replaced - sync is called by upper function at the end of whole operation
 
-		layout_util_sync_views(lw);
-		}
+*/
 }
 
-static void layout_bar_sort_new(LayoutWindow *lw)
+static void layout_bar_sort_set_default(LayoutWindow *lw)
 {
+	GtkWidget *bar;
+	
 	if (!lw->utility_box) return;
 
-	lw->bar_sort = bar_sort_new(lw);
-	g_signal_connect(G_OBJECT(lw->bar_sort), "destroy",
-			 G_CALLBACK(layout_bar_sort_destroyed), lw);
-	lw->options.panels.sort.enabled = TRUE;
-
-	gtk_box_pack_end(GTK_BOX(lw->utility_box), lw->bar_sort, FALSE, FALSE, 0);
-	gtk_widget_show(lw->bar_sort);
+	bar = bar_sort_new_default(lw);
+	
+	layout_bar_sort_set(lw, bar);
 }
 
 static void layout_bar_sort_close(LayoutWindow *lw)
@@ -2075,19 +2079,38 @@ static void layout_bar_sort_close(LayoutWindow *lw)
 		bar_sort_close(lw->bar_sort);
 		lw->bar_sort = NULL;
 		}
-	lw->options.panels.sort.enabled = FALSE;
+}
+
+void layout_bar_sort_set(LayoutWindow *lw, GtkWidget *bar)
+{
+	if (!lw->utility_box) return;
+
+	layout_bar_sort_close(lw); /* if any */
+
+	if (!bar) return;
+	lw->bar_sort = bar;
+
+	g_signal_connect(G_OBJECT(lw->bar_sort), "destroy",
+			 G_CALLBACK(layout_bar_sort_destroyed), lw);
+
+	gtk_box_pack_end(GTK_BOX(lw->utility_box), lw->bar_sort, FALSE, FALSE, 0);
 }
 
 void layout_bar_sort_toggle(LayoutWindow *lw)
 {
-	if (lw->options.panels.sort.enabled)
+	if (layout_bar_sort_enabled(lw))
 		{
-		layout_bar_sort_close(lw);
+		gtk_widget_hide(lw->bar_sort);
 		}
 	else
 		{
-		layout_bar_sort_new(lw);
+		if (!lw->bar_sort)
+			{
+			layout_bar_sort_set_default(lw);
+			}
+		gtk_widget_show(lw->bar_sort);
 		}
+	layout_util_sync_views(lw);
 }
 
 void layout_bars_new_image(LayoutWindow *lw)
@@ -2111,11 +2134,6 @@ GtkWidget *layout_bars_prepare(LayoutWindow *lw, GtkWidget *image)
 	lw->utility_box = gtk_hbox_new(FALSE, PREF_PAD_GAP);
 	gtk_box_pack_start(GTK_BOX(lw->utility_box), image, TRUE, TRUE, 0);
 	gtk_widget_show(image);
-
-	if (lw->options.panels.sort.enabled)
-		{
-		layout_bar_sort_new(lw);
-		}
 
 	return lw->utility_box;
 }
