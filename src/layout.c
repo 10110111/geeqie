@@ -1580,7 +1580,7 @@ static void layout_grid_setup(LayoutWindow *lw)
 	GtkWidget *v;
 	GtkWidget *w1, *w2, *w3;
 
-	GtkWidget *image;
+	GtkWidget *image_sb; /* image together with sidebars in utility box */
 	GtkWidget *tools;
 	GtkWidget *files;
 
@@ -1593,17 +1593,25 @@ static void layout_grid_setup(LayoutWindow *lw)
 
 	priority_location = layout_grid_compass(lw);
 
-	image = layout_image_setup_split(lw, lw->split_mode);
-
+	if (lw->utility_box)
+		{
+		image_sb = lw->utility_box;
+		}
+	else
+		{
+		GtkWidget *image; /* image or split images together */
+		image = layout_image_setup_split(lw, lw->split_mode);
+		image_sb = layout_bars_prepare(lw, image);
+		}
+	
 	tools = layout_tools_new(lw);
 	files = layout_list_new(lw);
 
-	image = layout_bars_prepare(lw, image);
 
 	if (lw->options.tools_float || lw->options.tools_hidden)
 		{
-		gtk_box_pack_start(GTK_BOX(lw->group_box), image, TRUE, TRUE, 0);
-		gtk_widget_show(image);
+		gtk_box_pack_start(GTK_BOX(lw->group_box), image_sb, TRUE, TRUE, 0);
+		gtk_widget_show(image_sb);
 
 		layout_tools_setup(lw, tools, files);
 
@@ -1621,7 +1629,7 @@ static void layout_grid_setup(LayoutWindow *lw)
 
 	layout_status_setup(lw, lw->group_box, FALSE);
 
-	layout_grid_compute(lw, image, tools, files, &w1, &w2, &w3);
+	layout_grid_compute(lw, image_sb, tools, files, &w1, &w2, &w3);
 
 	v = lw->v_pane = gtk_vpaned_new();
 
@@ -1655,7 +1663,7 @@ static void layout_grid_setup(LayoutWindow *lw)
 		gtk_paned_pack2(GTK_PANED(h), w3, TRUE, TRUE);
 		}
 
-	gtk_widget_show(image);
+	gtk_widget_show(image_sb);
 	gtk_widget_show(tools);
 	gtk_widget_show(files);
 
@@ -1664,11 +1672,11 @@ static void layout_grid_setup(LayoutWindow *lw)
 
 	/* fix to have image pane visible when it is left and priority widget */
 	if (lw->options.main_window.hdivider_pos == -1 &&
-	    w1 == image &&
+	    w1 == image_sb &&
 	    !layout_location_vertical(priority_location) &&
 	    layout_location_first(priority_location))
 		{
-		gtk_widget_set_size_request(image, 200, -1);
+		gtk_widget_set_size_request(image_sb, 200, -1);
 		}
 
 	gtk_paned_set_position(GTK_PANED(lw->h_pane), lw->options.main_window.hdivider_pos);
@@ -1680,7 +1688,6 @@ static void layout_grid_setup(LayoutWindow *lw)
 void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 {
 	FileData *dir_fd;
-	gint i;
 
 	if (!layout_valid(&lw)) return;
 
@@ -1707,21 +1714,19 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	dir_fd = lw->dir_fd;
 	if (dir_fd) file_data_unregister_real_time_monitor(dir_fd);
 	lw->dir_fd = NULL;
-	lw->image = NULL;
-	lw->utility_box = NULL;
+
+	/* lw->image is preserved together with lw->utility_box */
+	if (lw->utility_box)
+		{
+		/* preserve utility_box (image + sidebars) to be reused later in layout_grid_setup */
+		gtk_widget_hide(lw->utility_box);
+		g_object_ref(lw->utility_box);
+		gtk_container_remove(GTK_CONTAINER(lw->utility_box->parent), lw->utility_box);
+		}
 
 	layout_geometry_get_dividers(lw, &lw->options.main_window.hdivider_pos, &lw->options.main_window.vdivider_pos);
 
 	/* clear it all */
-
-	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
-		{
-		if (lw->split_images[i])
-			{
-			gtk_widget_hide(lw->split_images[i]->widget);
-			gtk_container_remove(GTK_CONTAINER(lw->split_images[i]->widget->parent), lw->split_images[i]->widget);
-			}
-		}
 
 	lw->h_pane = NULL;
 	lw->v_pane = NULL;
