@@ -65,7 +65,7 @@ void write_char_option(GString *str, gint indent, const gchar *label, const gcha
 		'"',  0 /* '"' is handled in g_markup_escape_text */
 	};
 
-	gchar *escval1 = g_strescape(text ? text : "", no_quote_utf); 
+	gchar *escval1 = g_strescape(text ? text : "", (gchar *) no_quote_utf); 
 	gchar *escval2 = g_markup_escape_text(escval1, -1);
 	write_indent(str, indent);
 	g_string_append_printf(str, "%s = \"%s\"\n", label, escval2);
