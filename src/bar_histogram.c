@@ -153,11 +153,15 @@ static void bar_pane_histogram_popup_channels_cb(GtkWidget *widget, gpointer dat
 	PaneHistogramData *phd;
 	gint channel;
 
+	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) return;
+
 	phd = submenu_item_get_data(widget);
 
 	if (!phd) return;
 
 	channel = GPOINTER_TO_INT(data);
+	if (channel == histogram_get_channel(phd->histogram)) return;
+
 	histogram_set_channel(phd->histogram, channel);
 	bar_pane_histogram_update(phd);
 }
@@ -166,12 +170,16 @@ static void bar_pane_histogram_popup_logmode_cb(GtkWidget *widget, gpointer data
 {
 	PaneHistogramData *phd;
 	gint logmode;
+	
+	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) return;
 
 	phd = submenu_item_get_data(widget);
 
 	if (!phd) return;
 
 	logmode = GPOINTER_TO_INT(data);
+	if (logmode == histogram_get_mode(phd->histogram)) return;
+
 	histogram_set_mode(phd->histogram, logmode);
 	bar_pane_histogram_update(phd);
 }
@@ -179,14 +187,14 @@ static void bar_pane_histogram_popup_logmode_cb(GtkWidget *widget, gpointer data
 static GtkWidget *bar_pane_histogram_add_radio(GtkWidget *menu, GtkWidget *parent,
 					const gchar *label,
 					GCallback func, gint value,
-					gboolean show_current, gint show_value)
+					gboolean show_current, gint current_value)
 {
 	GtkWidget *item;
 
 	if (show_current)
 		{
 		item = menu_item_add_radio(menu, parent,
-					   label, (value == show_value),
+					   label, (value == current_value),
 					   func, GINT_TO_POINTER((gint)value));
 		}
 	else
@@ -199,7 +207,7 @@ static GtkWidget *bar_pane_histogram_add_radio(GtkWidget *menu, GtkWidget *paren
 }
 
 GtkWidget *bar_pane_histogram_add_channels(GtkWidget *menu, GCallback func, gpointer data,
-			    		   gboolean show_current, gint value)
+			    		   gboolean show_current, gint current_value)
 {
 	GtkWidget *submenu;
 	GtkWidget *parent;
@@ -207,11 +215,11 @@ GtkWidget *bar_pane_histogram_add_channels(GtkWidget *menu, GCallback func, gpoi
 	submenu = gtk_menu_new();
 	g_object_set_data(G_OBJECT(submenu), "submenu_data", data);
 
-	parent = bar_pane_histogram_add_radio(submenu, NULL, _("_Red"), func, HCHAN_R, show_current, value);
-	bar_pane_histogram_add_radio(submenu, parent, _("_Green"), func, HCHAN_G, show_current, value);
-	bar_pane_histogram_add_radio(submenu, parent, _("_Blue"),func, HCHAN_B, show_current, value);
-	bar_pane_histogram_add_radio(submenu, parent, _("_RGB"),func, HCHAN_RGB, show_current, value);
-	bar_pane_histogram_add_radio(submenu, parent, _("_Value"),func, HCHAN_MAX, show_current, value);
+	parent = bar_pane_histogram_add_radio(submenu, NULL, _("_Red"), func, HCHAN_R, show_current, current_value);
+	bar_pane_histogram_add_radio(submenu, parent, _("_Green"), func, HCHAN_G, show_current, current_value);
+	bar_pane_histogram_add_radio(submenu, parent, _("_Blue"),func, HCHAN_B, show_current, current_value);
+	bar_pane_histogram_add_radio(submenu, parent, _("_RGB"),func, HCHAN_RGB, show_current, current_value);
+	bar_pane_histogram_add_radio(submenu, parent, _("_Value"),func, HCHAN_MAX, show_current, current_value);
 
 	if (menu)
 		{
@@ -225,7 +233,7 @@ GtkWidget *bar_pane_histogram_add_channels(GtkWidget *menu, GCallback func, gpoi
 	return submenu;
 }
 GtkWidget *bar_pane_histogram_add_logmode(GtkWidget *menu, GCallback func, gpointer data,
-			    		   gboolean show_current, gint value)
+			    		   gboolean show_current, gint current_value)
 {
 	GtkWidget *submenu;
 	GtkWidget *parent;
@@ -233,8 +241,8 @@ GtkWidget *bar_pane_histogram_add_logmode(GtkWidget *menu, GCallback func, gpoin
 	submenu = gtk_menu_new();
 	g_object_set_data(G_OBJECT(submenu), "submenu_data", data);
 
-	parent = bar_pane_histogram_add_radio(submenu, NULL, _("_Linear"), func, 0, show_current, value);
-	bar_pane_histogram_add_radio(submenu, parent, _("Lo_garithmical"), func, 1, show_current, value);
+	parent = bar_pane_histogram_add_radio(submenu, NULL, _("_Linear"), func, 0, show_current, current_value);
+	bar_pane_histogram_add_radio(submenu, parent, _("Lo_garithmical"), func, 1, show_current, current_value);
 
 	if (menu)
 		{
@@ -252,7 +260,7 @@ GtkWidget *bar_pane_histogram_add_logmode(GtkWidget *menu, GCallback func, gpoin
 static GtkWidget *bar_pane_histogram_menu(PaneHistogramData *phd)
 {
 	GtkWidget *menu;
-	static gboolean show_current = FALSE; /* FIXME: TRUE -> buggy behavior */
+	static gboolean show_current = TRUE;
 
 	menu = popup_menu_short_lived();
 	bar_pane_histogram_add_channels(menu, G_CALLBACK(bar_pane_histogram_popup_channels_cb), phd,
