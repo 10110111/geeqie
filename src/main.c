@@ -684,6 +684,9 @@ void init_after_global_options(void)
 
 	keys_load();
 
+	filter_add_defaults();
+	filter_rebuild(); 
+
 	editor_load_descriptions();
 
 	accel_map_load();

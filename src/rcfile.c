@@ -811,9 +811,8 @@ static void options_parse_filter(GQParserData *parser_data, GMarkupParseContext 
 
 static void options_parse_filter_end(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, gpointer data, GError **error)
 {
-	DEBUG_1(" filter end");
-	filter_add_defaults();
-	filter_rebuild();
+	if (!parser_data->startup) filter_rebuild(); 
+	/* else this is called in init_after_global_options */
 }
 
 static void options_parse_global(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
