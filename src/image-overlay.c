@@ -131,6 +131,7 @@ void image_osd_histogram_chan_toggle(ImageWindow *imd)
 	if (!osd || !osd->histogram) return;
 
 	histogram_toggle_channel(osd->histogram);
+	options->image_overlay.common.histogram_channel = histogram_get_channel(osd->histogram);
 	image_osd_update(imd);
 }
 
@@ -141,6 +142,7 @@ void image_osd_histogram_log_toggle(ImageWindow *imd)
 	if (!osd || !osd->histogram) return;
 
 	histogram_toggle_mode(osd->histogram);
+	options->image_overlay.common.histogram_mode = histogram_get_mode(osd->histogram);
 	image_osd_update(imd);
 }
 
@@ -1020,7 +1022,11 @@ static void image_osd_enable(ImageWindow *imd, OsdShowFlags show)
 		}
 
 	if (show & OSD_SHOW_HISTOGRAM)
+		{
 		osd->histogram = histogram_new();
+		histogram_set_channel(osd->histogram, options->image_overlay.common.histogram_channel);
+		histogram_set_mode(osd->histogram, options->image_overlay.common.histogram_mode);
+		}
 	else if (osd->histogram)
 		{
 		histogram_free(osd->histogram);

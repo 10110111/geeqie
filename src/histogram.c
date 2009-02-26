@@ -32,27 +32,14 @@ struct _HistMap {
 	gulong max[HISTMAP_SIZE];
 };
 
-struct _Histogram {
-	gint channel_mode; /* drawing mode for histogram */
-	gint log_mode;     /* logarithmical or not */
-	guint vgrid; /* number of vertical divisions, 0 for none */
-	guint hgrid; /* number of horizontal divisions, 0 for none */
-	struct {
-		int R; /* red */
-		int G; /* green */
-		int B; /* blue */
-		int A; /* alpha */
-	} grid_color;  /* grid color */
-
-};
 
 Histogram *histogram_new(void)
 {
 	Histogram *histogram;
 
 	histogram = g_new0(Histogram, 1);
-	histogram->channel_mode = options->histogram.last_channel_mode;
-	histogram->log_mode = options->histogram.last_log_mode;
+	histogram->histogram_channel = HCHAN_RGB;
+	histogram->histogram_mode = 0;
 
 	/* grid */
 	histogram->vgrid = 5;
@@ -74,27 +61,27 @@ void histogram_free(Histogram *histogram)
 gint histogram_set_channel(Histogram *histogram, gint chan)
 {
 	if (!histogram) return 0;
-	options->histogram.last_channel_mode = histogram->channel_mode = chan;
+	histogram->histogram_channel = chan;
 	return chan;
 }
 
 gint histogram_get_channel(Histogram *histogram)
 {
 	if (!histogram) return 0;
-	return histogram->channel_mode;
+	return histogram->histogram_channel;
 }
 
 gint histogram_set_mode(Histogram *histogram, gint mode)
 {
 	if (!histogram) return 0;
-	options->histogram.last_log_mode = histogram->log_mode = mode;
+	histogram->histogram_mode = mode;
 	return mode;
 }
 
 gint histogram_get_mode(Histogram *histogram)
 {
 	if (!histogram) return 0;
-	return histogram->log_mode;
+	return histogram->histogram_mode;
 }
 
 gint histogram_toggle_channel(Histogram *histogram)
@@ -115,8 +102,8 @@ const gchar *histogram_label(Histogram *histogram)
 	
 	if (!histogram) return NULL;
 
-	if (histogram->log_mode)
-		switch (histogram->channel_mode)
+	if (histogram->histogram_mode)
+		switch (histogram->histogram_channel)
 			{
 			case HCHAN_R:   t1 = _("logarithmical histogram on red"); break;
 			case HCHAN_G:   t1 = _("logarithmical histogram on green"); break;
@@ -125,7 +112,7 @@ const gchar *histogram_label(Histogram *histogram)
 			case HCHAN_MAX: t1 = _("logarithmical histogram on max value"); break;
 			}
 	else
-		switch (histogram->channel_mode)
+		switch (histogram->histogram_channel)
 			{
 			case HCHAN_R:   t1 = _("linear histogram on red"); break;
 			case HCHAN_G:   t1 = _("linear histogram on green"); break;
@@ -277,15 +264,13 @@ gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pix
 		
 		for (j = 0; j < 4; j++)
 			{
-			gint k;
-			gint chanmax = 0;
+			gint chanmax = HCHAN_R;
 		
-			for (k = 1; k < 3; k++)
-				if (v[k] > v[chanmax])
-					chanmax = k;
+			if (v[HCHAN_G] > v[HCHAN_R]) chanmax = HCHAN_G;
+			if (v[HCHAN_B] > v[HCHAN_G]) chanmax = HCHAN_B;
 				
-			if (histogram->channel_mode >= HCHAN_RGB
-			    || chanmax == histogram->channel_mode)
+			if (histogram->histogram_channel >= HCHAN_RGB
+			    || chanmax == histogram->histogram_channel)
 			    	{
 				gulong pt;
 				gint r = rplus;
@@ -294,28 +279,28 @@ gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pix
 
 				switch (chanmax)
 					{
-					case 0: rplus = r = 255; break;
-					case 1: gplus = g = 255; break;
-					case 2: bplus = b = 255; break;
+					case HCHAN_R: rplus = r = 255; break;
+					case HCHAN_G: gplus = g = 255; break;
+					case HCHAN_B: bplus = b = 255; break;
 					}
 
-				switch (histogram->channel_mode)
+				switch (histogram->histogram_channel)
 					{
 					case HCHAN_RGB:
 						if (r == 255 && g == 255 && b == 255)
 							{
-							r = 0; b = 0; g = 0;
+							r = 0; 	b = 0; 	g = 0;
 							}
 						break;
-					case HCHAN_R:	  b = 0; g = 0; break;
-					case HCHAN_G:   r = 0; b = 0;	break;
-					case HCHAN_B:   r = 0;	g = 0; break;
-					case HCHAN_MAX: r = 0; b = 0; g = 0; break;
+					case HCHAN_R:	  	b = 0; 	g = 0; 	break;
+					case HCHAN_G:   r = 0; 	b = 0;		break;
+					case HCHAN_B:   r = 0;		g = 0; 	break;
+					case HCHAN_MAX: r = 0; 	b = 0; 	g = 0; 	break;
 					}
 				
 				if (v[chanmax] == 0)
 					pt = 0;
-				else if (histogram->log_mode)
+				else if (histogram->histogram_mode)
 					pt = ((gdouble)log(v[chanmax])) / logmax * (height - 1);
 				else
 					pt = ((gdouble)v[chanmax]) / max * (height - 1);

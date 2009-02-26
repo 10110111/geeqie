@@ -211,6 +211,21 @@ typedef struct _EditorDescription EditorDescription;
 
 typedef struct _CommandLine CommandLine;
 
+struct _Histogram {
+	gint histogram_channel; /* drawing mode for histogram */
+	gint histogram_mode;     /* logarithmical or not */
+	guint vgrid; /* number of vertical divisions, 0 for none */
+	guint hgrid; /* number of horizontal divisions, 0 for none */
+	struct {
+		int R; /* red */
+		int G; /* green */
+		int B; /* blue */
+		int A; /* alpha */
+	} grid_color;  /* grid color */
+
+};
+
+
 struct _EditorDescription {
 	gchar *key; 		/* desktop file name, not including path, including extension */
 	gchar *name; 		/* Name, localized name presented to user */

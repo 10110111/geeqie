@@ -59,8 +59,8 @@ ConfOptions *init_options(ConfOptions *options)
 	options->fullscreen.disable_saver = TRUE;
 	options->fullscreen.screen = -1;
 
-	options->histogram.last_channel_mode = HCHAN_RGB;
-	options->histogram.last_log_mode = 1;
+	options->image_overlay.common.histogram_channel = HCHAN_RGB;
+	options->image_overlay.common.histogram_mode = 1;
 	
 	memset(&options->image.border_color, 0, sizeof(options->image.border_color));
 	options->image.dither_quality = GDK_RGB_DITHER_NORMAL;

@@ -40,8 +40,6 @@ struct _PaneHistogramData
 	Histogram *histogram;
 	gint histogram_width;
 	gint histogram_height;
-	gint histogram_channel;
-	gint histogram_logmode;
 	GdkPixbuf *pixbuf;
 	FileData *fd;
 };
@@ -91,8 +89,8 @@ static void bar_pane_histogram_write_config(GtkWidget *pane, GString *outstr, gi
 	indent++;
 	WRITE_CHAR(*phd, pane.title);
 	WRITE_BOOL(*phd, pane.expanded);
-	WRITE_INT(*phd, histogram_channel);
-	WRITE_INT(*phd, histogram_logmode);
+	WRITE_INT(*phd->histogram, histogram_channel);
+	WRITE_INT(*phd->histogram, histogram_mode);
 	indent--;
 	WRITE_STRING("/>\n");
 }
@@ -167,7 +165,6 @@ static void bar_pane_histogram_popup_channels_cb(GtkWidget *widget, gpointer dat
 	if (channel == histogram_get_channel(phd->histogram)) return;
 
 	histogram_set_channel(phd->histogram, channel);
-	phd->histogram_channel = channel;
 	bar_pane_histogram_update(phd);
 }
 
@@ -186,7 +183,6 @@ static void bar_pane_histogram_popup_logmode_cb(GtkWidget *widget, gpointer data
 	if (logmode == histogram_get_mode(phd->histogram)) return;
 
 	histogram_set_mode(phd->histogram, logmode);
-	phd->histogram_logmode = logmode;
 	bar_pane_histogram_update(phd);
 }
 
@@ -294,7 +290,7 @@ static gboolean bar_pane_histogram_press_cb(GtkWidget *widget, GdkEventButton *b
 }
 
 
-GtkWidget *bar_pane_histogram_new(const gchar *title, gint height, gint expanded, gint histogram_channel, gint histogram_logmode)
+GtkWidget *bar_pane_histogram_new(const gchar *title, gint height, gint expanded, gint histogram_channel, gint histogram_mode)
 {
 	PaneHistogramData *phd;
 
@@ -308,7 +304,7 @@ GtkWidget *bar_pane_histogram_new(const gchar *title, gint height, gint expanded
 	phd->histogram = histogram_new();
 
 	histogram_set_channel(phd->histogram, histogram_channel);
-	histogram_set_mode(phd->histogram, histogram_logmode);
+	histogram_set_mode(phd->histogram, histogram_mode);
 
 	phd->widget = gtk_vbox_new(FALSE, PREF_PAD_GAP);
 
@@ -345,7 +341,7 @@ GtkWidget *bar_pane_histogram_new_from_config(const gchar **attribute_names, con
 	gboolean expanded = TRUE;
 	gint height = 80;
 	gint histogram_channel = HCHAN_RGB;
-	gint histogram_logmode = 0;
+	gint histogram_mode = 0;
 
 	while (*attribute_names)
 		{
@@ -355,13 +351,13 @@ GtkWidget *bar_pane_histogram_new_from_config(const gchar **attribute_names, con
 		if (READ_CHAR_FULL("pane.title", title)) continue;
 		if (READ_BOOL_FULL("pane.expanded", expanded)) continue;
 		if (READ_INT_FULL("histogram_channel", histogram_channel)) continue;
-		if (READ_INT_FULL("histogram_logmode", histogram_logmode)) continue;
+		if (READ_INT_FULL("histogram_mode", histogram_mode)) continue;
 
 		
 		DEBUG_1("unknown attribute %s = %s", option, value);
 		}
 	
-	return bar_pane_histogram_new(title, height, expanded, histogram_channel, histogram_logmode);
+	return bar_pane_histogram_new(title, height, expanded, histogram_channel, histogram_mode);
 }
 
 

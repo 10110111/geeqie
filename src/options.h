@@ -138,12 +138,6 @@ struct _ConfOptions
 		gboolean above;
 	} fullscreen;
 
-	/* histogram */
-	struct {
-		guint last_channel_mode;
-		guint last_log_mode;
-	} histogram;
-	
 	/* image overlay */
 	struct {
 		struct {
@@ -152,6 +146,8 @@ struct _ConfOptions
 			gchar *template_string;
 			gint x;
 			gint y;
+			gint histogram_channel;
+			gint histogram_mode;
 		} common;
 	} image_overlay;
 

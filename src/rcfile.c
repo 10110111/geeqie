@@ -371,15 +371,12 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_BOOL(*options, fullscreen.above);
 
 
-//	WRITE_SUBTITLE("Histogram Options");
-	WRITE_UINT(*options, histogram.last_channel_mode);
-	WRITE_UINT(*options, histogram.last_log_mode);
-
-
 //	WRITE_SUBTITLE("Image Overlay Options");
 	WRITE_UINT(*options, image_overlay.common.state);
 	WRITE_BOOL(*options, image_overlay.common.show_at_startup);
 	WRITE_CHAR(*options, image_overlay.common.template_string);
+	WRITE_INT(*options, image_overlay.common.histogram_channel);
+	WRITE_INT(*options, image_overlay.common.histogram_mode);
 	WRITE_SEPARATOR();
 
 //	g_string_append_printf(outstr, "# these are relative positions:\n");
@@ -674,14 +671,12 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_BOOL(*options, fullscreen.disable_saver)) continue;
 		if (READ_BOOL(*options, fullscreen.above)) continue;
 
-		/* histogram */
-		if (READ_UINT(*options, histogram.last_channel_mode)) continue;
-		if (READ_UINT(*options, histogram.last_log_mode)) continue;
-
 		/* image overlay */
 		if (READ_UINT(*options, image_overlay.common.state)) continue;
 		if (READ_BOOL(*options, image_overlay.common.show_at_startup)) continue;
 		if (READ_CHAR(*options, image_overlay.common.template_string)) continue;
+		if (READ_INT(*options, image_overlay.common.histogram_channel)) continue;
+		if (READ_INT(*options, image_overlay.common.histogram_mode)) continue;
 
 		if (READ_INT(*options, image_overlay.common.x)) continue;
 		if (READ_INT(*options, image_overlay.common.y)) continue;
