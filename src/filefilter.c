@@ -366,7 +366,7 @@ void filter_rebuild(void)
 			}
 		}
 
-	sidecar_ext_parse(options->sidecar.ext, FALSE); /* this must be updated after changed file extensions */
+	sidecar_ext_parse(options->sidecar.ext); /* this must be updated after changed file extensions */
 }
 
 static gboolean filter_name_find(GList *filter, const gchar *name)
@@ -511,22 +511,12 @@ static void sidecar_ext_free_list(void)
 	sidecar_ext_list = NULL;
 }
 
-void sidecar_ext_parse(const gchar *text, gboolean quoted)
+void sidecar_ext_parse(const gchar *text)
 {
-	gchar *value;
-
 	sidecar_ext_free_list();
+	if (text == NULL) return;
 
-	if (quoted)
-		value = quoted_value(text, NULL);
-	else
-		value = (gchar *) text;
-
-	if (value == NULL) return;
-
-	sidecar_ext_list = filter_to_list(value);
-
-	if (quoted) g_free(value);
+	sidecar_ext_list = filter_to_list(text);
 }
 
 

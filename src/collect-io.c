@@ -148,8 +148,12 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 		if (only_geometry) continue;
 
 		/* Read filenames */
-		buf = quoted_value(p, NULL);
-		if (buf)
+		while (*p && *p != '"') p++;
+		if (*p) p++;
+		buf = p;
+		while (*p && *p != '"') p++;
+		*p = 0;
+		if (*buf)
 			{
 			gint valid;
 
@@ -158,7 +162,6 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 
 			valid = (buf[0] == G_DIR_SEPARATOR && collection_add_check(cd, file_data_new_simple(buf), FALSE, TRUE));
 			if (!valid) DEBUG_1("collection invalid file: %s", buf);
-			g_free(buf);
 
 			total++;
 			if (!valid)

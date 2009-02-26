@@ -279,7 +279,7 @@ static void config_window_apply(void)
 	options->file_filter.disable = c_options->file_filter.disable;
 
 	config_entry_to_option(sidecar_ext_entry, &options->sidecar.ext, NULL);
-	sidecar_ext_parse(options->sidecar.ext, FALSE);
+	sidecar_ext_parse(options->sidecar.ext);
 
 	options->slideshow.random = c_options->slideshow.random;
 	options->slideshow.repeat = c_options->slideshow.repeat;

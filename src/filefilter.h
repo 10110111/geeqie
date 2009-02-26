@@ -46,7 +46,7 @@ void filter_write_list(GString *outstr, gint indent);
 void filter_load_file_type(const gchar **attribute_names, const gchar **attribute_values);
 
 
-void sidecar_ext_parse(const gchar *text, gboolean quoted);
+void sidecar_ext_parse(const gchar *text);
 gchar *sidecar_ext_to_string(void);
 GList *sidecar_ext_get_list(void);
 
