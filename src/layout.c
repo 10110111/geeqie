@@ -469,7 +469,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 		gchar *end;
 
 		name = options->color_profile.input_name[i];
-		if (!name) name = filename_from_path(options->color_profile.input_file[i]);
+		if (!name || !name[0]) name = filename_from_path(options->color_profile.input_file[i]);
 
 		end = layout_color_name_parse(name);
 		buf = g_strdup_printf(_("Input _%d: %s"), i + COLOR_PROFILE_FILE, end);
@@ -480,7 +480,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 					   G_CALLBACK(layout_color_menu_input_cb), lw);
 		g_free(buf);
 		g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(i + COLOR_PROFILE_FILE));
-		gtk_widget_set_sensitive(item, active && options->color_profile.input_file[i] && !from_image);
+		gtk_widget_set_sensitive(item, active && !from_image && options->color_profile.input_file[i][0]);
 		}
 
 	menu_item_add_divider(menu);
@@ -496,7 +496,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 				   _("_Screen profile"), (screen == 1),
 				   G_CALLBACK(layout_color_menu_screen_cb), lw);
 	g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(1));
-	gtk_widget_set_sensitive(item, active && options->color_profile.screen_file);
+	gtk_widget_set_sensitive(item, active && options->color_profile.screen_file[0]);
 
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
 #endif /* HAVE_LCMS */
