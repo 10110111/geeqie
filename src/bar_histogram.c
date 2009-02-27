@@ -42,22 +42,46 @@ struct _PaneHistogramData
 	gint histogram_height;
 	GdkPixbuf *pixbuf;
 	FileData *fd;
+	gboolean need_update;
+	gint idle_id;
 };
+
+static gboolean bar_pane_histogram_update_cb(gpointer data);
 
 
 static void bar_pane_histogram_update(PaneHistogramData *phd)
 {
-	const HistMap *histmap;
 	if (phd->pixbuf) g_object_unref(phd->pixbuf);
 	phd->pixbuf = NULL;
 
 	if (!phd->histogram_width || !phd->histogram_height || !phd->fd) return;
 
+	/* histmap_get is relatively expensive, run it only when we really need it
+	   and with lower priority than pixbuf_renderer 
+	   FIXME: this does not work for fullscreen*/
+	if (GTK_WIDGET_DRAWABLE(phd->drawing_area))
+		{
+		if (phd->idle_id == -1) phd->idle_id = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE, bar_pane_histogram_update_cb, phd, NULL);
+		}
+	else
+		{
+		phd->need_update = TRUE;
+		}
+}
+
+static gboolean bar_pane_histogram_update_cb(gpointer data)
+{
+	const HistMap *histmap;
+	PaneHistogramData *phd = data;
+
+	phd->idle_id = -1;
+	phd->need_update = FALSE;
+	
 	gtk_widget_queue_draw_area(GTK_WIDGET(phd->drawing_area), 0, 0, phd->histogram_width, phd->histogram_height);
 	
 	histmap = histmap_get(phd->fd);
 	
-	if (!histmap) return;
+	if (!histmap) return FALSE;
 	
 	phd->pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, phd->histogram_width, phd->histogram_height);
 	gdk_pixbuf_fill(phd->pixbuf, 0xffffffff);
@@ -66,6 +90,7 @@ static void bar_pane_histogram_update(PaneHistogramData *phd)
 #if GTK_CHECK_VERSION(2,12,0)
 	gtk_widget_set_tooltip_text(phd->drawing_area, histogram_label(phd->histogram));
 #endif
+	return FALSE;
 }
 
 
@@ -109,7 +134,14 @@ static void bar_pane_histogram_notify_cb(FileData *fd, NotifyType type, gpointer
 static gboolean bar_pane_histogram_expose_event_cb (GtkWidget *widget, GdkEventExpose *event, gpointer data)
 {
 	PaneHistogramData *phd = data;
-	if (!phd || !phd->pixbuf) return TRUE;
+	if (!phd) return TRUE;
+	
+	if (phd->need_update)
+		{
+		bar_pane_histogram_update(phd);
+		}
+	
+	if (!phd->pixbuf) return TRUE;
 	
 	gdk_draw_pixbuf(widget->window,
 			widget->style->fg_gc[GTK_WIDGET_STATE (widget)],
@@ -143,7 +175,8 @@ static void bar_pane_histogram_close(GtkWidget *pane)
 static void bar_pane_histogram_destroy(GtkWidget *widget, gpointer data)
 {
 	PaneHistogramData *phd = data;
-
+	
+	g_source_remove(phd->idle_id);
 	file_data_unregister_notify_func(bar_pane_histogram_notify_cb, phd);
 
 	file_data_unref(phd->fd);
@@ -304,6 +337,7 @@ GtkWidget *bar_pane_histogram_new(const gchar *title, gint height, gint expanded
 	phd->pane.pane_write_config = bar_pane_histogram_write_config;
 	phd->pane.title = g_strdup(title);
 	phd->pane.expanded = expanded;
+	phd->idle_id = -1;
 	
 	phd->histogram = histogram_new();
 
