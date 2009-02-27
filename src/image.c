@@ -207,7 +207,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 		gint n;
 
 		n = imd->color_profile_input - COLOR_PROFILE_FILE;
-		if (!options->color_profile.input_file[n]) return FALSE;
+		if (!options->color_profile.input_file[n] || !options->color_profile.input_file[n][0]) return FALSE;
 
 		input_type = COLOR_PROFILE_FILE;
 		input_file = options->color_profile.input_file[n];
@@ -224,7 +224,8 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 		}
 
 	if (imd->color_profile_screen == 1 &&
-	    options->color_profile.screen_file)
+	    options->color_profile.screen_file &&
+	    options->color_profile.screen_file[0])
 		{
 		screen_type = COLOR_PROFILE_FILE;
 		screen_file = options->color_profile.screen_file;

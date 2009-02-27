@@ -402,7 +402,7 @@ static void layout_color_menu_screen_cb(GtkWidget *widget, gpointer data)
 
 static gchar *layout_color_name_parse(const gchar *name)
 {
-	if (!name) return g_strdup(_("Empty"));
+	if (!name || !*name) return g_strdup(_("Empty"));
 	return g_strdelimit(g_strdup(name), "_", '-');
 }
 
@@ -427,11 +427,13 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 	gint screen = 0;
 	gint use_image = 0;
 	gint from_image = 0;
+	gint image_profile;
 	gint i;
 	
 	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
 
-	from_image = use_image && (layout_image_color_profile_get_from_image(lw) != COLOR_PROFILE_NONE);
+	image_profile = layout_image_color_profile_get_from_image(lw);
+	from_image = use_image && (image_profile != COLOR_PROFILE_NONE);
 	menu = popup_menu_short_lived();
 
 	active = layout_image_color_profile_get_use(lw);
@@ -454,7 +456,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 			case COLOR_PROFILE_ADOBERGB:	label = _("AdobeRGB compatible"); break;
 			default:			label = "fixme"; break;
 			}
-		buf = g_strdup_printf(_("Input _%d: %s"), i, label);
+		buf = g_strdup_printf(_("Input _%d: %s%s"), i, label, (i == image_profile) ? " *" : "");
 	  	item = menu_item_add_radio(menu, (i == COLOR_PROFILE_SRGB) ? NULL : item,
 				   buf, (input == i),
 				   G_CALLBACK(layout_color_menu_input_cb), lw);
@@ -480,7 +482,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 					   G_CALLBACK(layout_color_menu_input_cb), lw);
 		g_free(buf);
 		g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(i + COLOR_PROFILE_FILE));
-		gtk_widget_set_sensitive(item, active && !from_image && options->color_profile.input_file[i][0]);
+		gtk_widget_set_sensitive(item, active && !from_image && options->color_profile.input_file[i] && options->color_profile.input_file[i][0]);
 		}
 
 	menu_item_add_divider(menu);
@@ -496,7 +498,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 				   _("_Screen profile"), (screen == 1),
 				   G_CALLBACK(layout_color_menu_screen_cb), lw);
 	g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(1));
-	gtk_widget_set_sensitive(item, active && options->color_profile.screen_file[0]);
+	gtk_widget_set_sensitive(item, active && options->color_profile.screen_file && options->color_profile.screen_file[0]);
 
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
 #endif /* HAVE_LCMS */
