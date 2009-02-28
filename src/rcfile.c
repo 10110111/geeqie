@@ -844,6 +844,21 @@ static void options_parse_global(GQParserData *parser_data, GMarkupParseContext 
 		}
 }
 
+static void options_parse_pane_exif(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
+{
+	GtkWidget *pane = data;
+	if (g_ascii_strcasecmp(element_name, "entry") == 0)
+		{
+		bar_pane_exif_entry_add_from_config(pane, attribute_names, attribute_values);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+	else
+		{
+		DEBUG_1("unexpected in <pane_exif>: <%s>", element_name);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+}
+
 static void options_parse_bar(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
 {
 	GtkWidget *bar = data;
@@ -857,7 +872,7 @@ static void options_parse_bar(GQParserData *parser_data, GMarkupParseContext *co
 		{
 		GtkWidget *pane = bar_pane_exif_new_from_config(attribute_names, attribute_values);
 		bar_add(bar, pane);
-		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		options_parse_func_push(parser_data, options_parse_pane_exif, NULL, pane);
 		}
 	else if (g_ascii_strcasecmp(element_name, "pane_histogram") == 0)
 		{

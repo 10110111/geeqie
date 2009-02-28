@@ -274,7 +274,7 @@ static void bar_populate_default(GtkWidget *bar)
 	widget = bar_pane_comment_new(_("Comment"), "Xmp.dc.description", TRUE, 150);
 	bar_add(bar, widget);
 
-	widget = bar_pane_exif_new(_("Exif"), TRUE);
+	widget = bar_pane_exif_new(_("Exif"), TRUE, TRUE);
 	bar_add(bar, widget);
 }
 
