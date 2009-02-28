@@ -109,7 +109,7 @@ const gchar *histogram_label(Histogram *histogram)
 			case HCHAN_G:   t1 = _("Log Histogram on Green"); break;
 			case HCHAN_B:   t1 = _("Log Histogram on Blue"); break;
 			case HCHAN_RGB: t1 = _("Log Histogram on RGB"); break;
-			case HCHAN_MAX: t1 = _("Log Histogram on max value"); break;
+			case HCHAN_MAX: t1 = _("Log Histogram on value"); break;
 			}
 	else
 		switch (histogram->histogram_channel)
@@ -118,7 +118,7 @@ const gchar *histogram_label(Histogram *histogram)
 			case HCHAN_G:   t1 = _("Linear Histogram on Green"); break;
 			case HCHAN_B:   t1 = _("Linear Histogram on Blue"); break;
 			case HCHAN_RGB: t1 = _("Linear Histogram on RGB"); break;
-			case HCHAN_MAX: t1 = _("Linear Histogram on max value"); break;
+			case HCHAN_MAX: t1 = _("Linear Histogram on value"); break;
 			}
 	return t1;
 }
