@@ -27,6 +27,7 @@
 #include "bar_keywords.h"
 #include "bar_exif.h"
 #include "bar_histogram.h"
+#include "histogram.h"
 #include "rcfile.h"
 
 #define BAR_SIZE_INCREMENT 48
@@ -259,7 +260,7 @@ void bar_add(GtkWidget *bar, GtkWidget *pane)
 static void bar_populate_default(GtkWidget *bar)
 {
 	GtkWidget *widget;
-	widget = bar_pane_histogram_new(_("Histogram"), 80, TRUE);
+	widget = bar_pane_histogram_new(_("Histogram"), 80, TRUE, HCHAN_RGB, 0);
 	bar_add(bar, widget);
 
 	widget = bar_pane_comment_new(_("Title"), "Xmp.dc.title", TRUE, 40);
