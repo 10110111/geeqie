@@ -584,6 +584,20 @@ static void image_load_error_cb(ImageLoader *il, gpointer data)
 	image_load_done_cb(il, data);
 }
 
+static void image_load_set_signals(ImageWindow *imd, gboolean override_old_signals)
+{
+	g_assert(imd->il);
+	if (override_old_signals)
+		{
+		/* override the old signals */
+		g_signal_handlers_disconnect_matched(G_OBJECT(imd->il), G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, imd);
+		}
+
+	g_signal_connect(G_OBJECT(imd->il), "area_ready", (GCallback)image_load_area_cb, imd);
+	g_signal_connect(G_OBJECT(imd->il), "error", (GCallback)image_load_error_cb, imd);
+	g_signal_connect(G_OBJECT(imd->il), "done", (GCallback)image_load_done_cb, imd);
+}
+
 /* this read ahead is located here merely for the callbacks, above */
 
 static gint image_read_ahead_check(ImageWindow *imd)
@@ -602,11 +616,7 @@ static gint image_read_ahead_check(ImageWindow *imd)
 		imd->il = imd->read_ahead_il;
 		imd->read_ahead_il = NULL;
 
-		/* override the old signals */
-		g_signal_handlers_disconnect_matched(G_OBJECT(imd->il), G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, imd);
-		g_signal_connect (G_OBJECT(imd->il), "area_ready", (GCallback)image_load_area_cb, imd);
-		g_signal_connect (G_OBJECT(imd->il), "error", (GCallback)image_load_error_cb, imd);
-		g_signal_connect (G_OBJECT(imd->il), "done", (GCallback)image_load_done_cb, imd);
+		image_load_set_signals(imd, TRUE);
 
 		g_object_set(G_OBJECT(imd->pr), "loading", TRUE, NULL);
 		image_state_set(imd, IMAGE_STATE_LOADING);
@@ -671,9 +681,7 @@ static gint image_load_begin(ImageWindow *imd, FileData *fd)
 
 	imd->il = image_loader_new(fd);
 
-	g_signal_connect (G_OBJECT(imd->il), "area_ready", (GCallback)image_load_area_cb, imd);
-	g_signal_connect (G_OBJECT(imd->il), "error", (GCallback)image_load_error_cb, imd);
-	g_signal_connect (G_OBJECT(imd->il), "done", (GCallback)image_load_done_cb, imd);
+	image_load_set_signals(imd, FALSE);
 
 	if (!image_loader_start(imd->il))
 		{
@@ -1081,22 +1089,22 @@ CollectionData *image_get_collection(ImageWindow *imd, CollectInfo **info)
 static void image_loader_sync_read_ahead_data(ImageLoader *il, gpointer old_data, gpointer data)
 {
 	if (g_signal_handlers_disconnect_by_func(G_OBJECT(il), (GCallback)image_read_ahead_error_cb, old_data))
-		g_signal_connect (G_OBJECT(il), "error", (GCallback)image_read_ahead_error_cb, data);
+		g_signal_connect(G_OBJECT(il), "error", (GCallback)image_read_ahead_error_cb, data);
 
 	if (g_signal_handlers_disconnect_by_func(G_OBJECT(il), (GCallback)image_read_ahead_done_cb, old_data))
-		g_signal_connect (G_OBJECT(il), "done", (GCallback)image_read_ahead_done_cb, data);
+		g_signal_connect(G_OBJECT(il), "done", (GCallback)image_read_ahead_done_cb, data);
 }
 
 static void image_loader_sync_data(ImageLoader *il, gpointer old_data, gpointer data)
 {		
 	if (g_signal_handlers_disconnect_by_func(G_OBJECT(il), (GCallback)image_load_area_cb, old_data))
-		g_signal_connect (G_OBJECT(il), "area_ready", (GCallback)image_load_area_cb, data);
+		g_signal_connect(G_OBJECT(il), "area_ready", (GCallback)image_load_area_cb, data);
 
 	if (g_signal_handlers_disconnect_by_func(G_OBJECT(il), (GCallback)image_load_error_cb, old_data))
-		g_signal_connect (G_OBJECT(il), "error", (GCallback)image_load_error_cb, data);
+		g_signal_connect(G_OBJECT(il), "error", (GCallback)image_load_error_cb, data);
 
 	if (g_signal_handlers_disconnect_by_func(G_OBJECT(il), (GCallback)image_load_done_cb, old_data))
-		g_signal_connect (G_OBJECT(il), "done", (GCallback)image_load_done_cb, data);
+		g_signal_connect(G_OBJECT(il), "done", (GCallback)image_load_done_cb, data);
 }
 
 /* this is more like a move function
