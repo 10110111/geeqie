@@ -549,19 +549,36 @@ gboolean metadata_append_list(FileData *fd, const gchar *key, const GList *value
 		}
 }
 
-gboolean find_string_in_list(GList *list, const gchar *string)
+gchar *find_string_in_list_utf8nocase(GList *list, const gchar *string)
 {
+	gchar *string_casefold = g_utf8_casefold(string, -1);
+
 	while (list)
 		{
 		gchar *haystack = list->data;
+		
+		if (haystack)
+			{
+			gboolean equal;
+			gchar *haystack_casefold = g_utf8_casefold(haystack, -1);
 
-		if (haystack && string && strcmp(haystack, string) == 0) return TRUE;
+			equal = (strcmp(haystack_casefold, string_casefold) == 0);
+			g_free(haystack_casefold);
 
+			if (equal)
+				{
+				g_free(string_casefold);
+				return haystack;
+				}
+			}
+	
 		list = list->next;
 		}
-
-	return FALSE;
+	
+	g_free(string_casefold);
+	return NULL;
 }
+
 
 #define KEYWORDS_SEPARATOR(c) ((c) == ',' || (c) == ';' || (c) == '\n' || (c) == '\r' || (c) == '\b')
 
@@ -592,7 +609,7 @@ GList *string_to_keywords_list(const gchar *text)
 			gchar *keyword = g_strndup(begin, l);
 
 			/* only add if not already in the list */
-			if (find_string_in_list(list, keyword) == FALSE)
+			if (!find_string_in_list_utf8nocase(list, keyword))
 				list = g_list_append(list, keyword);
 			else
 				g_free(keyword);

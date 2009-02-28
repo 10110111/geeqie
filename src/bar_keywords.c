@@ -419,7 +419,7 @@ static void bar_keyword_list_sync(PaneKeywordsData *pkd, GList *keywords)
 		gchar *key = list->data;
 
 		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store, &iter, KEYWORD_COLUMN_TOGGLE, find_string_in_list(keywords, key),
+		gtk_list_store_set(store, &iter, KEYWORD_COLUMN_TOGGLE, !!find_string_in_list_utf8nocase(keywords, key),
 						 KEYWORD_COLUMN_TEXT, key,
 						 KEYWORD_COLUMN_MARK, bar_pane_keywords_get_mark_text(key), -1);
 
@@ -506,30 +506,19 @@ gint bar_pane_keywords_event(GtkWidget *bar, GdkEvent *event)
 static void bar_pane_keywords_keyword_set(PaneKeywordsData *pkd, const gchar *keyword, gint active)
 {
 	GList *list;
-	gint found;
+	gchar *found;
 
 	if (!keyword) return;
 
 	list = keyword_list_pull(pkd->keyword_view);
-	found = find_string_in_list(list, keyword);
+	found = find_string_in_list_utf8nocase(list, keyword);
 
-	if (active != found)
+	if ((!active && found) || (active && !found))
 		{
 		if (found)
 			{
-			GList *work = list;
-
-			while (work)
-				{
-				gchar *key = work->data;
-				work = work->next;
-
-				if (key && keyword && strcmp(key, keyword) == 0)
-					{
-					list = g_list_remove(list, key);
-					g_free(key);
-					}
-				}
+			list = g_list_remove(list, found);
+			g_free(found);
 			}
 		else
 			{
