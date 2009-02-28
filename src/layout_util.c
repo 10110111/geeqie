@@ -1562,7 +1562,7 @@ static GList *layout_actions_editor_menu_path(EditorDescription *editor)
 		return NULL;
 		}
 	
-	while(split[i])
+	while (split[i])
 		{
 		ret = g_list_prepend(ret, g_strdup(split[i]));
 		i++;
@@ -1646,7 +1646,7 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 	
 	old_path = NULL;
 	work = editors_list;
-	while(work)
+	while (work)
 		{
 		GList *path;
 		EditorDescription *editor = work->data;
