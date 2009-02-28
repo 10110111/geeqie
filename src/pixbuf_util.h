@@ -19,6 +19,7 @@ gboolean pixbuf_to_file_as_png (GdkPixbuf *pixbuf, const gchar *filename);
 gboolean pixbuf_to_file_as_jpg(GdkPixbuf *pixbuf, const gchar *filename, gint quality);
 
 void pixbuf_inline_register_stock_icons(void);
+gboolean register_theme_icon_as_stock(const gchar *key, const gchar *icon);
 
 GdkPixbuf *pixbuf_inline(const gchar *key);
 GdkPixbuf *pixbuf_fallback(FileData *fd, gint requested_width, gint requested_height);

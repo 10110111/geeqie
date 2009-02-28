@@ -1651,6 +1651,11 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 		GList *path;
 		EditorDescription *editor = work->data;
 		GtkActionEntry entry = { editor->key, NULL, editor->name, editor->hotkey, NULL, G_CALLBACK(layout_menu_edit_cb) };
+		
+		if (register_theme_icon_as_stock(editor->key, editor->icon))
+			{
+			entry.stock_id = editor->key;
+			}
 		gtk_action_group_add_actions(lw->action_group_external, &entry, 1, lw);
 		
 		path = layout_actions_editor_menu_path(editor);

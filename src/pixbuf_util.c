@@ -131,7 +131,7 @@ GdkPixbuf *pixbuf_inline(const gchar *key)
 	return NULL;
 }
 
-static void pixbuf_inline_register_icon(const gchar *key)
+static void register_stock_icon(const gchar *key, GdkPixbuf *pixbuf)
 {
 	static GtkIconFactory *icon_factory = NULL;
 	GtkIconSet *icon_set;
@@ -142,7 +142,7 @@ static void pixbuf_inline_register_icon(const gchar *key)
 		gtk_icon_factory_add_default(icon_factory);
 		}
 	
-	icon_set = gtk_icon_set_new_from_pixbuf(pixbuf_inline(key));
+	icon_set = gtk_icon_set_new_from_pixbuf(pixbuf);
 	gtk_icon_factory_add(icon_factory, key, icon_set);
 }
 
@@ -154,9 +154,32 @@ void pixbuf_inline_register_stock_icons(void)
 	i = 0;
 	while (inline_pixbuf_data[i].key)
 		{
-		pixbuf_inline_register_icon(inline_pixbuf_data[i].key);
+		register_stock_icon(inline_pixbuf_data[i].key, pixbuf_inline(inline_pixbuf_data[i].key));
 		i++;
 		}
+}
+
+gboolean register_theme_icon_as_stock(const gchar *key, const gchar *icon)
+{
+	GtkIconTheme *icon_theme;
+	GdkPixbuf *pixbuf;
+	GError *error = NULL;
+
+	icon_theme = gtk_icon_theme_get_default();
+	pixbuf = gtk_icon_theme_load_icon (icon_theme,
+                           icon, /* icon name */
+                           64, /* size */
+                           0,  /* flags */
+                           &error);
+	if (!pixbuf) 
+		{
+		DEBUG_1("Couldn't load icon: %s", error->message);
+		g_error_free(error);
+		return FALSE;
+		}
+	
+	register_stock_icon(key, pixbuf);
+	return TRUE;
 }
 
 gint pixbuf_scale_aspect(gint req_w, gint req_h, gint old_w, gint old_h,
