@@ -728,44 +728,36 @@ static void image_reset(ImageWindow *imd)
 static void image_change_complete(ImageWindow *imd, gdouble zoom, gint new)
 {
 	image_reset(imd);
+	imd->unknown = TRUE;
 
-	if (imd->image_fd && isfile(imd->image_fd->path))
+	if (!imd->image_fd)
 		{
-		PixbufRenderer *pr;
-
-		pr = PIXBUF_RENDERER(imd->pr);
-		pr->zoom = zoom;	/* store the zoom, needed by the loader */
-
-		if (image_load_begin(imd, imd->image_fd))
-			{
-			imd->unknown = FALSE;
-			}
-		else
-			{
-			GdkPixbuf *pixbuf;
-
-			pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
-			image_change_pixbuf(imd, pixbuf, zoom, FALSE);
-			g_object_unref(pixbuf);
-
-			imd->unknown = TRUE;
-			}
+		image_change_pixbuf(imd, NULL, zoom, FALSE);
 		}
 	else
 		{
-		if (imd->image_fd)
+
+		if (isfile(imd->image_fd->path))
+			{
+			PixbufRenderer *pr;
+	
+			pr = PIXBUF_RENDERER(imd->pr);
+			pr->zoom = zoom;	/* store the zoom, needed by the loader */
+
+			if (image_load_begin(imd, imd->image_fd))
+				{
+				imd->unknown = FALSE;
+				}
+			}
+
+		if (imd->unknown == TRUE)
 			{
 			GdkPixbuf *pixbuf;
-
+	
 			pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
 			image_change_pixbuf(imd, pixbuf, zoom, FALSE);
 			g_object_unref(pixbuf);
 			}
-		else
-			{
-			image_change_pixbuf(imd, NULL, zoom, FALSE);
-			}
-		imd->unknown = TRUE;
 		}
 
 	image_update_util(imd);
