@@ -166,15 +166,18 @@ gboolean register_theme_icon_as_stock(const gchar *key, const gchar *icon)
 	GError *error = NULL;
 
 	icon_theme = gtk_icon_theme_get_default();
-	pixbuf = gtk_icon_theme_load_icon (icon_theme,
+	pixbuf = gtk_icon_theme_load_icon(icon_theme,
                            icon, /* icon name */
                            64, /* size */
                            0,  /* flags */
                            &error);
 	if (!pixbuf) 
 		{
-		DEBUG_1("Couldn't load icon: %s", error->message);
-		g_error_free(error);
+		if (error)
+			{
+			DEBUG_1("Couldn't load icon: %s", error->message);
+			g_error_free(error);
+			}
 		return FALSE;
 		}
 	
