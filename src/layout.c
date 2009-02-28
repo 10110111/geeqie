@@ -467,11 +467,11 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{
-		const gchar *name;
+		const gchar *name = options->color_profile.input_name[i];
+		const gchar *file = options->color_profile.input_file[i];
 		gchar *end;
 
-		name = options->color_profile.input_name[i];
-		if (!name || !name[0]) name = filename_from_path(options->color_profile.input_file[i]);
+		if (!name || !name[0]) name = filename_from_path(file);
 
 		end = layout_color_name_parse(name);
 		buf = g_strdup_printf(_("Input _%d: %s"), i + COLOR_PROFILE_FILE, end);
@@ -482,7 +482,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 					   G_CALLBACK(layout_color_menu_input_cb), lw);
 		g_free(buf);
 		g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(i + COLOR_PROFILE_FILE));
-		gtk_widget_set_sensitive(item, active && !from_image && options->color_profile.input_file[i] && options->color_profile.input_file[i][0]);
+		gtk_widget_set_sensitive(item, active && !from_image && file && file[0] && access_file(file, R_OK));
 		}
 
 	menu_item_add_divider(menu);
