@@ -551,6 +551,8 @@ struct _LayoutWindow
 	GtkActionGroup *action_group;
 	GtkActionGroup *action_group_external;
 	GtkUIManager *ui_manager;
+	guint toolbar_merge_id;
+	GList *toolbar_actions;
 
 	GtkWidget *path_entry;
 

@@ -218,7 +218,7 @@ static GtkWidget *layout_tool_setup(LayoutWindow *lw)
 	gtk_box_pack_start(GTK_BOX(box), menu_bar, FALSE, FALSE, 0);
 	gtk_widget_show(menu_bar);
 
-	lw->toolbar = layout_button_bar(lw);
+	lw->toolbar = layout_actions_toolbar(lw);
 	gtk_box_pack_start(GTK_BOX(box), lw->toolbar, FALSE, FALSE, 0);
 	if (!lw->options.toolbar_hidden) gtk_widget_show(lw->toolbar);
 
@@ -1971,6 +1971,7 @@ void layout_free(LayoutWindow *lw)
 		file_data_unref(lw->dir_fd);
 		}
 
+	string_list_free(lw->toolbar_actions);
 	free_layout_options_content(&lw->options);
 	g_free(lw);
 }
@@ -2177,6 +2178,8 @@ void layout_write_config(LayoutWindow *lw, GString *outstr, gint indent)
 	bar_sort_write_config(lw->bar_sort, outstr, indent + 1);
 	bar_write_config(lw->bar, outstr, indent + 1);
 	
+	layout_toolbar_write_config(lw, outstr, indent + 1);
+
 	WRITE_STRING("</layout>\n");
 }
 

@@ -43,6 +43,7 @@
 #include "view_dir.h"
 #include "window.h"
 #include "metadata.h"
+#include "rcfile.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -1444,17 +1445,6 @@ static const gchar *menu_ui_description =
 "    </menu>"
 "  </menubar>"
 "  <toolbar name='ToolBar'>"
-"    <toolitem action='Thumbnails'/>"
-"    <toolitem action='Back'/>"
-"    <toolitem action='Home'/>"
-"    <toolitem action='Refresh'/>"
-"    <toolitem action='ZoomIn'/>"
-"    <toolitem action='ZoomOut'/>"
-"    <toolitem action='ZoomFit'/>"
-"    <toolitem action='ZoomFit'/>"
-"    <toolitem action='Zoom100'/>"
-"    <toolitem action='Preferences'/>"
-"    <toolitem action='FloatTools'/>"
 "  </toolbar>"
 "<accelerator action='PrevImageAlt1'/>"
 "<accelerator action='PrevImageAlt2'/>"
@@ -1477,7 +1467,6 @@ static const gchar *menu_ui_description =
 "<accelerator action='ConnectZoom100Alt1'/>"
 "<accelerator action='ConnectZoomFitAlt1'/>"
 "</ui>";
-
 
 static gchar *menu_translate(const gchar *path, gpointer data)
 {
@@ -1727,6 +1716,9 @@ void layout_actions_setup(LayoutWindow *lw)
 		exit(EXIT_FAILURE);
 		}
 	
+	layout_toolbar_clear(lw);
+	layout_toolbar_add_default(lw);
+	
 	layout_actions_setup_marks(lw);
 	layout_actions_setup_editors(lw);
 	layout_copy_path_update(lw);
@@ -1747,12 +1739,83 @@ GtkWidget *layout_actions_menu_bar(LayoutWindow *lw)
 	return gtk_ui_manager_get_widget(lw->ui_manager, "/MainMenu");
 }
 
-GtkWidget *layout_button_bar(LayoutWindow *lw)
+GtkWidget *layout_actions_toolbar(LayoutWindow *lw)
 {
 	GtkWidget *bar = gtk_ui_manager_get_widget(lw->ui_manager, "/ToolBar");
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(bar), GTK_ICON_SIZE_SMALL_TOOLBAR);
 	gtk_toolbar_set_style(GTK_TOOLBAR(bar), GTK_TOOLBAR_ICONS);
 	return bar;
+}
+
+void layout_toolbar_clear(LayoutWindow *lw)
+{
+	if (lw->toolbar_merge_id) 
+		{
+		gtk_ui_manager_remove_ui(lw->ui_manager, lw->toolbar_merge_id);
+		gtk_ui_manager_ensure_update(lw->ui_manager);
+		}
+	string_list_free(lw->toolbar_actions);
+	lw->toolbar_actions = NULL;
+	
+	lw->toolbar_merge_id = gtk_ui_manager_new_merge_id(lw->ui_manager);
+}
+	
+
+void layout_toolbar_add(LayoutWindow *lw, const gchar *action)
+{
+	if (!action || !lw->ui_manager) return;
+	gtk_ui_manager_add_ui(lw->ui_manager, lw->toolbar_merge_id, "/ToolBar", action, action, GTK_UI_MANAGER_TOOLITEM, FALSE); 
+	lw->toolbar_actions = g_list_append(lw->toolbar_actions, g_strdup(action));
+}
+
+
+void layout_toolbar_add_default(LayoutWindow *lw)
+{
+	layout_toolbar_add(lw, "Thumbnails");
+	layout_toolbar_add(lw, "Back");
+	layout_toolbar_add(lw, "Home");
+	layout_toolbar_add(lw, "Refresh");
+	layout_toolbar_add(lw, "ZoomIn");
+	layout_toolbar_add(lw, "ZoomOut");
+	layout_toolbar_add(lw, "ZoomFit");
+	layout_toolbar_add(lw, "Zoom100");
+	layout_toolbar_add(lw, "Preferences");
+	layout_toolbar_add(lw, "FloatTools");
+}
+
+void layout_toolbar_write_config(LayoutWindow *lw, GString *outstr, gint indent)
+{
+	GList *work = lw->toolbar_actions;
+	WRITE_STRING("<toolbar>\n");
+	indent++;
+	while (work)
+		{
+		gchar *action = work->data;
+		work = work->next;
+		WRITE_STRING("<toolitem\n");
+		write_char_option(outstr, indent + 1, "action", action);
+		WRITE_STRING("/>\n");
+		}
+	indent--;
+	WRITE_STRING("</toolbar>\n");
+}
+
+void layout_toolbar_add_from_config(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values)
+{
+	gchar *action = NULL;
+	
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+
+		if (READ_CHAR_FULL("action", action)) continue;
+
+		DEBUG_1("unknown attribute %s = %s", option, value);
+		}
+
+	layout_toolbar_add(lw, action);
+	g_free(action);	
 }
 
 /*

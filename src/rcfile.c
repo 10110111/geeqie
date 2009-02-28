@@ -887,6 +887,21 @@ static void options_parse_bar(GQParserData *parser_data, GMarkupParseContext *co
 		}
 }
 
+static void options_parse_toolbar(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
+{
+	LayoutWindow *lw = data;
+	if (g_ascii_strcasecmp(element_name, "toolitem") == 0)
+		{
+		layout_toolbar_add_from_config(lw, attribute_names, attribute_values);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+	else
+		{
+		DEBUG_1("unexpected in <toolbar>: <%s>", element_name);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+}
+
 static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
 {
 	LayoutWindow *lw = data;
@@ -901,6 +916,11 @@ static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext 
 		GtkWidget *bar = bar_sort_new_from_config(lw, attribute_names, attribute_values);
 		layout_bar_sort_set(lw, bar);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+	else if (g_ascii_strcasecmp(element_name, "toolbar") == 0)
+		{
+		layout_toolbar_clear(lw);
+		options_parse_func_push(parser_data, options_parse_toolbar, NULL, lw);
 		}
 	else
 		{
