@@ -54,6 +54,8 @@ static void bar_pane_histogram_update(PaneHistogramData *phd)
 	if (phd->pixbuf) g_object_unref(phd->pixbuf);
 	phd->pixbuf = NULL;
 
+	gtk_label_set_text(GTK_LABEL(phd->pane.title), histogram_label(phd->histogram));
+
 	if (!phd->histogram_width || !phd->histogram_height || !phd->fd) return;
 
 	/* histmap_get is relatively expensive, run it only when we really need it
@@ -87,9 +89,6 @@ static gboolean bar_pane_histogram_update_cb(gpointer data)
 	gdk_pixbuf_fill(phd->pixbuf, 0xffffffff);
 	histogram_draw(phd->histogram, histmap, phd->pixbuf, 0, 0, phd->histogram_width, phd->histogram_height);
 
-#if GTK_CHECK_VERSION(2,12,0)
-	gtk_widget_set_tooltip_text(phd->drawing_area, histogram_label(phd->histogram));
-#endif
 	return FALSE;
 }
 
@@ -365,9 +364,6 @@ GtkWidget *bar_pane_histogram_new(const gchar *title, gint height, gboolean expa
 
 	g_signal_connect(G_OBJECT(phd->drawing_area), "button_press_event", G_CALLBACK(bar_pane_histogram_press_cb), phd);
 
-#if GTK_CHECK_VERSION(2,12,0)
-	gtk_widget_set_tooltip_text(phd->drawing_area, histogram_label(phd->histogram));
-#endif
 	gtk_widget_show(phd->widget);
 
 	file_data_register_notify_func(bar_pane_histogram_notify_cb, phd, NOTIFY_PRIORITY_LOW);
