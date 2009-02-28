@@ -230,7 +230,6 @@ void bar_set_selection_func(GtkWidget *bar, GList *(*list_func)(gpointer data), 
 void bar_add(GtkWidget *bar, GtkWidget *pane)
 {
 	GtkWidget *expander;
-	GtkWidget *label;
 	BarData *bd = g_object_get_data(G_OBJECT(bar), "bar_data");
 	PaneData *pd = g_object_get_data(G_OBJECT(pane), "pane_data");
 
@@ -238,14 +237,17 @@ void bar_add(GtkWidget *bar, GtkWidget *pane)
 	if (!bd) return;
 
 	expander = gtk_expander_new(pd ? pd->title : "");
+	if (pd && pd->title)
+		{
+		gtk_expander_set_label_widget(GTK_EXPANDER(expander), pd->title);
+		gtk_widget_show(pd->title);
+		pref_label_bold(pd->title, TRUE, FALSE);
+		}
+		
 	gtk_box_pack_start(GTK_BOX(bd->vbox), expander, FALSE, TRUE, 0);
 	
 	g_signal_connect(expander, "button_press_event", G_CALLBACK(bar_expander_menu_cb), bd); 
 	
-	label = gtk_expander_get_label_widget(GTK_EXPANDER(expander));
-//	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-	pref_label_bold(label, TRUE, FALSE);
-
 	gtk_container_add(GTK_CONTAINER(expander), pane);
 	
 	gtk_expander_set_expanded(GTK_EXPANDER(expander), pd->expanded);

@@ -291,7 +291,7 @@ static void bar_pane_exif_write_config(GtkWidget *pane, GString *outstr, gint in
 
 	WRITE_STRING("<pane_exif\n");
 	indent++;
-	WRITE_CHAR(*ped, pane.title);
+	write_char_option(outstr, indent, "pane.title", gtk_label_get_text(GTK_LABEL(ped->pane.title)));
 	WRITE_BOOL(*ped, pane.expanded);
 	indent--;
 	WRITE_STRING("/>\n");
@@ -350,7 +350,7 @@ GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded)
 
 	ped->pane.pane_set_fd = bar_pane_exif_set_fd;
 	ped->pane.pane_write_config = bar_pane_exif_write_config;
-	ped->pane.title = g_strdup(title);
+	ped->pane.title = gtk_label_new(title);
 	ped->pane.expanded = expanded;
 
 	ped->keys = g_new0(GtkWidget *, exif_len);

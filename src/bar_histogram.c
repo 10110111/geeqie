@@ -116,7 +116,7 @@ static void bar_pane_histogram_write_config(GtkWidget *pane, GString *outstr, gi
 
 	WRITE_STRING("<pane_histogram\n");
 	indent++;
-	WRITE_CHAR(*phd, pane.title);
+	write_char_option(outstr, indent, "pane.title", gtk_label_get_text(GTK_LABEL(phd->pane.title)));
 	WRITE_BOOL(*phd, pane.expanded);
 	WRITE_INT(*phd->histogram, histogram_channel);
 	WRITE_INT(*phd->histogram, histogram_mode);
@@ -180,7 +180,6 @@ static void bar_pane_histogram_destroy(GtkWidget *widget, gpointer data)
 	file_data_unregister_notify_func(bar_pane_histogram_notify_cb, phd);
 
 	file_data_unref(phd->fd);
-	g_free(phd->pane.title);
 	histogram_free(phd->histogram);
 	if (phd->pixbuf) g_object_unref(phd->pixbuf);
 
@@ -335,7 +334,7 @@ GtkWidget *bar_pane_histogram_new(const gchar *title, gint height, gboolean expa
 	
 	phd->pane.pane_set_fd = bar_pane_histogram_set_fd;
 	phd->pane.pane_write_config = bar_pane_histogram_write_config;
-	phd->pane.title = g_strdup(title);
+	phd->pane.title = gtk_label_new(title);
 	phd->pane.expanded = expanded;
 	phd->idle_id = -1;
 	

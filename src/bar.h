@@ -20,7 +20,7 @@ struct _PaneData {
 	void (*pane_set_fd)(GtkWidget *pane, FileData *fd);
 	gint (*pane_event)(GtkWidget *pane, GdkEvent *event);
 	void (*pane_write_config)(GtkWidget *pane, GString *outstr, gint indent);
-	gchar *title;
+	GtkWidget *title;
 	gboolean expanded;
 	
 	GList *(*list_func)(gpointer);

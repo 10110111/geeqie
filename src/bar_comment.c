@@ -153,7 +153,7 @@ static void bar_pane_comment_write_config(GtkWidget *pane, GString *outstr, gint
 
 	WRITE_STRING("<pane_comment\n");
 	indent++;
-	WRITE_CHAR(*pcd, pane.title);
+	write_char_option(outstr, indent, "pane.title", gtk_label_get_text(GTK_LABEL(pcd->pane.title)));
 	WRITE_BOOL(*pcd, pane.expanded);
 	WRITE_CHAR(*pcd, key);
 	WRITE_INT(*pcd, height); 
@@ -204,7 +204,6 @@ static void bar_pane_comment_destroy(GtkWidget *widget, gpointer data)
 	file_data_unregister_notify_func(bar_pane_comment_notify_cb, pcd);
 
 	file_data_unref(pcd->fd);
-	g_free(pcd->pane.title);
 	g_free(pcd->key);
 	
 
@@ -223,7 +222,7 @@ GtkWidget *bar_pane_comment_new(const gchar *title, const gchar *key, gboolean e
 	pcd->pane.pane_set_fd = bar_pane_comment_set_fd;
 	pcd->pane.pane_event = bar_pane_comment_event;
 	pcd->pane.pane_write_config = bar_pane_comment_write_config;
-	pcd->pane.title = g_strdup(title);
+	pcd->pane.title = gtk_label_new(title);
 	pcd->pane.expanded = expanded;
 	
 	pcd->key = g_strdup(key);

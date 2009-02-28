@@ -484,7 +484,7 @@ static void bar_pane_keywords_write_config(GtkWidget *pane, GString *outstr, gin
 
 	WRITE_STRING("<pane_keywords\n");
 	indent++;
-	WRITE_CHAR(*pkd, pane.title);
+	write_char_option(outstr, indent, "pane.title", gtk_label_get_text(GTK_LABEL(pkd->pane.title)));
 	WRITE_BOOL(*pkd, pane.expanded);
 	WRITE_CHAR(*pkd, key);
 	indent--;
@@ -728,7 +728,7 @@ GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key, gboolean 
 	pkd->pane.pane_set_fd = bar_pane_keywords_set_fd;
 	pkd->pane.pane_event = bar_pane_keywords_event;
 	pkd->pane.pane_write_config = bar_pane_keywords_write_config;
-	pkd->pane.title = g_strdup(title);
+	pkd->pane.title = gtk_label_new(title);
 	pkd->pane.expanded = expanded;
 
 	pkd->key = g_strdup(key);
