@@ -2679,7 +2679,7 @@ static void print_window_print_start(PrintWindow *pw)
 {
 	RenderFormat format;
 
-	switch(pw->output)
+	switch (pw->output)
 		{
 		case PRINT_OUTPUT_RGB_FILE:
 			format = RENDER_FORMAT_RGB;

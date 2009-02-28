@@ -1679,7 +1679,7 @@ static void view_window_notify_cb(FileData *fd, NotifyType type, gpointer data)
 
 	if (type != NOTIFY_TYPE_CHANGE || !fd->change) return;
 	
-	switch(fd->change->type)
+	switch (fd->change->type)
 		{
 		case FILEDATA_CHANGE_MOVE:
 		case FILEDATA_CHANGE_RENAME:

@@ -783,7 +783,7 @@ static void filter_set_func(GtkTreeViewColumn *tree_column, GtkCellRenderer *cel
 
 	gtk_tree_model_get(tree_model, iter, 0, &fe, -1);
 
-	switch(GPOINTER_TO_INT(data))
+	switch (GPOINTER_TO_INT(data))
 		{
 		case FE_ENABLE:
 			g_object_set(GTK_CELL_RENDERER(cell),

@@ -40,7 +40,7 @@ void vf_send_update(ViewFile *vf)
 
 void vf_sort_set(ViewFile *vf, SortType type, gint ascend)
 {
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_sort_set(vf, type, ascend); break;
 	case FILEVIEW_ICON: vficon_sort_set(vf, type, ascend); break;
@@ -57,7 +57,7 @@ FileData *vf_index_get_data(ViewFile *vf, gint row)
 {
 	FileData *fd = NULL;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: fd = vflist_index_get_data(vf, row); break;
 	case FILEVIEW_ICON: fd = vficon_index_get_data(vf, row); break;
@@ -70,7 +70,7 @@ gint vf_index_by_path(ViewFile *vf, const gchar *path)
 {
 	gint index = -1;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: index = vflist_index_by_path(vf, path); break;
 	case FILEVIEW_ICON: index = vficon_index_by_path(vf, path); break;
@@ -83,7 +83,7 @@ guint vf_count(ViewFile *vf, gint64 *bytes)
 {
 	guint count = 0;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: count = vflist_count(vf, bytes); break;
 	case FILEVIEW_ICON: count = vficon_count(vf, bytes); break;
@@ -96,7 +96,7 @@ GList *vf_get_list(ViewFile *vf)
 {
 	GList *list = NULL;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: list = vflist_get_list(vf); break;
 	case FILEVIEW_ICON: list = vficon_get_list(vf); break;
@@ -117,7 +117,7 @@ static gint vf_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data
 	ViewFile *vf = data;
 	gint ret = FALSE;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: ret = vflist_press_key_cb(widget, event, data); break;
 	case FILEVIEW_ICON: ret = vficon_press_key_cb(widget, event, data); break;
@@ -137,7 +137,7 @@ static gint vf_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data
 	ViewFile *vf = data;
 	gint ret = FALSE;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: ret = vflist_press_cb(widget, bevent, data); break;
 	case FILEVIEW_ICON: ret = vficon_press_cb(widget, bevent, data); break;
@@ -151,7 +151,7 @@ static gint vf_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer da
 	ViewFile *vf = data;
 	gint ret = FALSE;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: ret = vflist_release_cb(widget, bevent, data); break;
 	case FILEVIEW_ICON: ret = vficon_release_cb(widget, bevent, data); break;
@@ -171,7 +171,7 @@ guint vf_selection_count(ViewFile *vf, gint64 *bytes)
 {
 	guint count = 0;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: count = vflist_selection_count(vf, bytes); break;
 	case FILEVIEW_ICON: count = vficon_selection_count(vf, bytes); break;
@@ -184,7 +184,7 @@ GList *vf_selection_get_list(ViewFile *vf)
 {
 	GList *list = NULL;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: list = vflist_selection_get_list(vf); break;
 	case FILEVIEW_ICON: list = vficon_selection_get_list(vf); break;
@@ -197,7 +197,7 @@ GList *vf_selection_get_list_by_index(ViewFile *vf)
 {
 	GList *list = NULL;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: list = vflist_selection_get_list_by_index(vf); break;
 	case FILEVIEW_ICON: list = vficon_selection_get_list_by_index(vf); break;
@@ -208,7 +208,7 @@ GList *vf_selection_get_list_by_index(ViewFile *vf)
 
 void vf_select_all(ViewFile *vf)
 {
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_select_all(vf); break;
 	case FILEVIEW_ICON: vficon_select_all(vf); break;
@@ -217,7 +217,7 @@ void vf_select_all(ViewFile *vf)
 
 void vf_select_none(ViewFile *vf)
 {
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_select_none(vf); break;
 	case FILEVIEW_ICON: vficon_select_none(vf); break;
@@ -226,7 +226,7 @@ void vf_select_none(ViewFile *vf)
 
 void vf_select_invert(ViewFile *vf)
 {
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_select_invert(vf); break;
 	case FILEVIEW_ICON: vficon_select_invert(vf); break;
@@ -235,7 +235,7 @@ void vf_select_invert(ViewFile *vf)
 
 void vf_select_by_fd(ViewFile *vf, FileData *fd)
 {
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_select_by_fd(vf, fd); break;
 	case FILEVIEW_ICON: vficon_select_by_fd(vf, fd); break;
@@ -244,7 +244,7 @@ void vf_select_by_fd(ViewFile *vf, FileData *fd)
 
 void vf_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode)
 {
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_mark_to_selection(vf, mark, mode); break;
 	case FILEVIEW_ICON: vficon_mark_to_selection(vf, mark, mode); break;
@@ -253,7 +253,7 @@ void vf_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode)
 
 void vf_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 {
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_selection_to_mark(vf, mark, mode); break;
 	case FILEVIEW_ICON: vficon_selection_to_mark(vf, mark, mode); break;
@@ -269,7 +269,7 @@ void vf_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 
 static void vf_dnd_init(ViewFile *vf)
 {
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_dnd_init(vf); break;
 	case FILEVIEW_ICON: vficon_dnd_init(vf); break;
@@ -286,7 +286,7 @@ GList *vf_pop_menu_file_list(ViewFile *vf)
 {
 	GList *ret = NULL;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: ret = vflist_pop_menu_file_list(vf); break;
 	case FILEVIEW_ICON: ret = vficon_pop_menu_file_list(vf); break;
@@ -314,7 +314,7 @@ static void vf_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_pop_menu_view_cb(widget, data); break;
 	case FILEVIEW_ICON: vficon_pop_menu_view_cb(widget, data); break;
@@ -339,7 +339,7 @@ static void vf_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_pop_menu_rename_cb(widget, data); break;
 	case FILEVIEW_ICON: vficon_pop_menu_rename_cb(widget, data); break;
@@ -444,7 +444,7 @@ static void vf_pop_menu_toggle_view_type_cb(GtkWidget *widget, gpointer data)
 	
 	if (!vf->layout) return;
 
-	switch(vf->layout->file_view_type)
+	switch (vf->layout->file_view_type)
 	{
 	case FILEVIEW_LIST:
 		layout_views_set(vf->layout, vf->layout->options.dir_view_type, FILEVIEW_ICON);
@@ -459,7 +459,7 @@ static void vf_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_pop_menu_refresh_cb(widget, data); break;
 	case FILEVIEW_ICON: vficon_pop_menu_refresh_cb(widget, data); break;
@@ -470,7 +470,7 @@ static void vf_popup_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_popup_destroy_cb(widget, data); break;
 	case FILEVIEW_ICON: vficon_popup_destroy_cb(widget, data); break;
@@ -484,7 +484,7 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 	GtkWidget *submenu;
 	gint active = 0;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST:
 		vflist_color_set(vf, VFLIST(vf)->click_fd, TRUE);
@@ -580,7 +580,7 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 	menu_item_add_check(menu, _("View as _icons"), (vf->type == FILEVIEW_ICON),
 			    G_CALLBACK(vf_pop_menu_toggle_view_type_cb), vf);
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST:
 		menu_item_add_check(menu, _("Show _thumbnails"), VFLIST(vf)->thumbs_enabled,
@@ -601,7 +601,7 @@ gint vf_refresh(ViewFile *vf)
 {
 	gint ret = FALSE;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: ret = vflist_refresh(vf); break;
 	case FILEVIEW_ICON: ret = vficon_refresh(vf); break;
@@ -614,7 +614,7 @@ gint vf_set_fd(ViewFile *vf, FileData *dir_fd)
 {
 	gint ret = FALSE;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: ret = vflist_set_fd(vf, dir_fd); break;
 	case FILEVIEW_ICON: ret = vficon_set_fd(vf, dir_fd); break;
@@ -627,7 +627,7 @@ static void vf_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_destroy_cb(widget, data); break;
 	case FILEVIEW_ICON: vficon_destroy_cb(widget, data); break;
@@ -711,7 +711,7 @@ ViewFile *vf_new(FileViewType type, FileData *dir_fd)
 	g_signal_connect(G_OBJECT(vf->widget), "destroy",
 			 G_CALLBACK(vf_destroy_cb), vf);
 
-	switch(type)
+	switch (type)
 	{
 	case FILEVIEW_LIST: vf = vflist_new(vf, dir_fd); break;
 	case FILEVIEW_ICON: vf = vficon_new(vf, dir_fd); break;
@@ -748,7 +748,7 @@ void vf_set_thumb_status_func(ViewFile *vf, void (*func)(ViewFile *vf, gdouble v
 
 void vf_thumb_set(ViewFile *vf, gint enable)
 {
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_thumb_set(vf, enable); break;
 	case FILEVIEW_ICON: /*vficon_thumb_set(vf, enable);*/ break;
@@ -761,7 +761,7 @@ void vf_marks_set(ViewFile *vf, gint enable)
 
 	vf->marks_enabled = enable;
 
-	switch(vf->type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_marks_set(vf, enable); break;
 	case FILEVIEW_ICON: vficon_marks_set(vf, enable); break;

@@ -46,7 +46,7 @@ static void vd_destroy_cb(GtkWidget *widget, gpointer data)
 		gtk_widget_destroy(vd->popup);
 		}
 
-	switch(vd->type)
+	switch (vd->type)
 	{
 	case DIRVIEW_LIST: vdlist_destroy_cb(widget, data); break;
 	case DIRVIEW_TREE: vdtree_destroy_cb(widget, data); break;
@@ -87,7 +87,7 @@ ViewDir *vd_new(DirViewType type, FileData *dir_fd)
 
 	vd->pf = folder_icons_new();
 
-	switch(type)
+	switch (type)
 	{
 	case DIRVIEW_LIST: vd = vdlist_new(vd, dir_fd); break;
 	case DIRVIEW_TREE: vd = vdtree_new(vd, dir_fd); break;
@@ -135,7 +135,7 @@ gint vd_set_fd(ViewDir *vd, FileData *dir_fd)
 
 	file_data_unregister_notify_func(vd_notify_cb, vd);
 
-	switch(vd->type)
+	switch (vd->type)
 	{
 	case DIRVIEW_LIST: ret = vdlist_set_fd(vd, dir_fd); break;
 	case DIRVIEW_TREE: ret = vdtree_set_fd(vd, dir_fd); break;
@@ -148,7 +148,7 @@ gint vd_set_fd(ViewDir *vd, FileData *dir_fd)
 
 void vd_refresh(ViewDir *vd)
 {
-	switch(vd->type)
+	switch (vd->type)
 	{
 	case DIRVIEW_LIST: vdlist_refresh(vd); break;
 	case DIRVIEW_TREE: vdtree_refresh(vd); break;
@@ -159,7 +159,7 @@ const gchar *vd_row_get_path(ViewDir *vd, gint row)
 {
 	const gchar *ret = NULL;
 
-	switch(vd->type)
+	switch (vd->type)
 	{
 	case DIRVIEW_LIST: ret = vdlist_row_get_path(vd, row); break;
 	case DIRVIEW_TREE: ret = vdtree_row_get_path(vd, row); break;
@@ -170,7 +170,7 @@ const gchar *vd_row_get_path(ViewDir *vd, gint row)
 
 void vd_select_row(ViewDir *vd, FileData *fd)
 {
-	switch(vd->type)
+	switch (vd->type)
 	{
 	case DIRVIEW_LIST: vdlist_select_row(vd, fd); break;
 	case DIRVIEW_TREE: vdtree_select_row(vd, fd); break;
@@ -181,7 +181,7 @@ gint vd_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
 {
 	gint ret = FALSE;
 
-	switch(vd->type)
+	switch (vd->type)
 	{
 	case DIRVIEW_LIST: ret = vdlist_find_row(vd, fd, iter); break;
 	case DIRVIEW_TREE: ret = vdtree_find_row(vd, fd, iter, NULL); break;
@@ -260,7 +260,7 @@ void vd_color_set(ViewDir *vd, FileData *fd, gint color_set)
 	if (vd_find_row(vd, fd, &iter) < 0) return;
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
 
-	switch(vd->type)
+	switch (vd->type)
 	{
 	case DIRVIEW_LIST:
 		gtk_list_store_set(GTK_LIST_STORE(store), &iter, DIR_COLUMN_COLOR, color_set, -1);
@@ -508,7 +508,7 @@ static void vd_pop_menu_new_rename_cb(gboolean success, const gchar *new_path, g
 	FileData *fd = NULL;
 	if (!success) return;
 
-	switch(vd->type)
+	switch (vd->type)
 		{
 		case DIRVIEW_LIST:
 			{
@@ -532,7 +532,7 @@ static void vd_pop_menu_new_cb(GtkWidget *widget, gpointer data)
 	ViewDir *vd = data;
 	FileData *dir_fd = NULL;
 
-	switch(vd->type)
+	switch (vd->type)
 		{
 		case DIRVIEW_LIST:
 			{
@@ -569,7 +569,7 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 	gint i;
 
 	active = (fd != NULL);
-	switch(vd->type)
+	switch (vd->type)
 		{
 		case DIRVIEW_LIST:
 			{
@@ -1003,7 +1003,7 @@ gint vd_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 	ViewDir *vd = data;
 	gint ret = FALSE;
 
-	switch(vd->type)
+	switch (vd->type)
 	{
 	case DIRVIEW_LIST: ret = vdlist_press_key_cb(widget, event, data); break;
 	case DIRVIEW_TREE: ret = vdtree_press_key_cb(widget, event, data); break;
@@ -1017,7 +1017,7 @@ gint vd_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 	ViewDir *vd = data;
 	gint ret = FALSE;
 
-	switch(vd->type)
+	switch (vd->type)
 	{
 	case DIRVIEW_LIST: ret = vdlist_press_cb(widget, bevent, data); break;
 	case DIRVIEW_TREE: ret = vdtree_press_cb(widget, bevent, data); break;

@@ -319,7 +319,7 @@ static gint metadata_file_read(gchar *path, GList **keywords, gchar **comment)
 			continue;
 			}
 		
-		switch(key)
+		switch (key)
 			{
 			case MK_NONE:
 				break;
