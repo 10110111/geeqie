@@ -879,6 +879,51 @@ static void layout_menu_image_last_cb(GtkAction *action, gpointer data)
 	layout_image_last(lw);
 }
 
+static void layout_menu_back_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	FileData *dir_fd;
+	gchar *path = NULL;
+	GList *list = history_list_get_by_key("path_list");
+	gint n = 0;
+
+	while (list)
+		{
+		if (n == 1) {
+			/* Previous path from history */
+			path = (gchar *)list->data;
+			break;
+		}
+		list = list->next;
+		n++;
+		}
+
+	if (!path) return;
+	
+	/* Open previous path */
+	dir_fd = file_data_new_simple(path);
+	layout_set_fd(lw, dir_fd);
+	file_data_unref(dir_fd);
+}
+
+static void layout_menu_home_cb(GtkAction *action, gpointer data)
+{
+	const gchar *path;
+	
+	if (options->layout.home_path && *options->layout.home_path)
+		path = options->layout.home_path;
+	else
+		path = homedir();
+
+	if (path)
+		{
+		LayoutWindow *lw = data;
+		FileData *dir_fd = file_data_new_simple(path);
+		layout_set_fd(lw, dir_fd);
+		file_data_unref(dir_fd);
+		}
+}
+
 
 /*
  *-----------------------------------------------------------------------------
@@ -1114,6 +1159,8 @@ static GtkActionEntry menu_entries[] = {
   { "NextImageAlt1",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),	"Page_Down",	NULL,	CB(layout_menu_image_next_cb) },
   { "NextImageAlt2",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),	"KP_Page_Down",	NULL,	CB(layout_menu_image_next_cb) },
   { "LastImage",	GTK_STOCK_GOTO_BOTTOM,	N_("_Last Image"),	"End",		NULL,	CB(layout_menu_image_last_cb) },
+  { "Back",		GTK_STOCK_GO_BACK,	N_("_Back"),		NULL,		N_("Back"),	CB(layout_menu_back_cb) },
+  { "Home",		GTK_STOCK_HOME,		N_("_Home"),		NULL,		N_("Home"),	CB(layout_menu_home_cb) },
 
 
   { "NewWindow",	GTK_STOCK_NEW,	N_("New _window"),	NULL,		NULL,	CB(layout_menu_new_window_cb) },
@@ -1151,14 +1198,14 @@ static GtkActionEntry menu_entries[] = {
   { "Maintenance",	NULL,		N_("_Thumbnail maintenance..."),NULL,	NULL,	CB(layout_menu_remove_thumb_cb) },
   { "Wallpaper",	NULL,		N_("Set as _wallpaper"),NULL,		NULL,	CB(layout_menu_wallpaper_cb) },
 
-  { "ZoomIn",	GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"equal",	NULL,	CB(layout_menu_zoom_in_cb) },
-  { "ZoomInAlt1",GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"KP_Add",	NULL,	CB(layout_menu_zoom_in_cb) },
-  { "ZoomOut",	GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),	"minus",	NULL,	CB(layout_menu_zoom_out_cb) },
-  { "ZoomOutAlt1",GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),	"KP_Subtract",	NULL,	CB(layout_menu_zoom_out_cb) },
-  { "Zoom100",	GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),	"Z",		NULL,	CB(layout_menu_zoom_1_1_cb) },
-  { "Zoom100Alt1",GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),	"KP_Divide",		NULL,	CB(layout_menu_zoom_1_1_cb) },
-  { "ZoomFit",	GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),	"X",		NULL,	CB(layout_menu_zoom_fit_cb) },
-  { "ZoomFitAlt1",GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),	"KP_Multiply",	NULL,	CB(layout_menu_zoom_fit_cb) },
+  { "ZoomIn",	GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"equal",	N_("Zoom in"),	CB(layout_menu_zoom_in_cb) },
+  { "ZoomInAlt1",GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"KP_Add",	N_("Zoom in"),	CB(layout_menu_zoom_in_cb) },
+  { "ZoomOut",	GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),	"minus",	N_("Zoom out"),	CB(layout_menu_zoom_out_cb) },
+  { "ZoomOutAlt1",GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),	"KP_Subtract",	N_("Zoom out"),	CB(layout_menu_zoom_out_cb) },
+  { "Zoom100",	GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),	"Z",		N_("Zoom 1:1"),	CB(layout_menu_zoom_1_1_cb) },
+  { "Zoom100Alt1",GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),	"KP_Divide",	N_("Zoom 1:1"),	CB(layout_menu_zoom_1_1_cb) },
+  { "ZoomFit",	GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),	"X",		N_("Zoom to fit"),	CB(layout_menu_zoom_fit_cb) },
+  { "ZoomFitAlt1",GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),	"KP_Multiply",	N_("Zoom to fit"),	CB(layout_menu_zoom_fit_cb) },
   { "ZoomFillHor",	NULL,		N_("Fit _Horizontally"),"H",		NULL,	CB(layout_menu_zoom_fit_hor_cb) },
   { "ZoomFillVert",	NULL,		N_("Fit _Vertically"),	"W",		NULL,	CB(layout_menu_zoom_fit_vert_cb) },
   { "Zoom200",	        NULL,		N_("Zoom _2:1"),	NULL,		NULL,	CB(layout_menu_zoom_2_1_cb) },
@@ -1208,9 +1255,9 @@ static GtkActionEntry menu_entries[] = {
 };
 
 static GtkToggleActionEntry menu_toggle_entries[] = {
-  { "Thumbnails",	NULL,		N_("Show _Thumbnails"),	"T",		NULL,	CB(layout_menu_thumb_cb),	 FALSE },
+  { "Thumbnails",	PIXBUF_INLINE_ICON_THUMB,		N_("Show _Thumbnails"),	"T",		N_("Show Thumbnails"),	CB(layout_menu_thumb_cb),	 FALSE },
   { "ShowMarks",        NULL,		N_("Show _Marks"),	"M",		NULL,	CB(layout_menu_marks_cb),	 FALSE  },
-  { "FloatTools",	NULL,		N_("_Float file list"),	"L",		NULL,	CB(layout_menu_float_cb),	 FALSE  },
+  { "FloatTools",	PIXBUF_INLINE_ICON_FLOAT,		N_("_Float file list"),	"L",		NULL,	CB(layout_menu_float_cb),	 FALSE  },
   { "HideToolbar",	NULL,		N_("Hide tool_bar"),	NULL,		NULL,	CB(layout_menu_toolbar_cb),	 FALSE  },
   { "SBar",		NULL,		N_("_Info"),		"<control>K",	NULL,	CB(layout_menu_bar_cb),		 FALSE  },
   { "ExifWin",		NULL,		N_("E_xif window"),	"<control>E",	NULL,	CB(layout_menu_bar_exif_cb),	 FALSE  },
@@ -1267,6 +1314,9 @@ static const gchar *menu_ui_description =
 "      <menuitem action='PrevImage'/>"
 "      <menuitem action='NextImage'/>"
 "      <menuitem action='LastImage'/>"
+"      <separator/>"
+"      <menuitem action='Back'/>"
+"      <menuitem action='Home'/>"
 "      <separator/>"
 "    </menu>"
 "    <menu action='SelectMenu'>"
@@ -1393,6 +1443,19 @@ static const gchar *menu_ui_description =
 "      <separator/>"
 "    </menu>"
 "  </menubar>"
+"  <toolbar name='ToolBar'>"
+"    <toolitem action='Thumbnails'/>"
+"    <toolitem action='Back'/>"
+"    <toolitem action='Home'/>"
+"    <toolitem action='Refresh'/>"
+"    <toolitem action='ZoomIn'/>"
+"    <toolitem action='ZoomOut'/>"
+"    <toolitem action='ZoomFit'/>"
+"    <toolitem action='ZoomFit'/>"
+"    <toolitem action='Zoom100'/>"
+"    <toolitem action='Preferences'/>"
+"    <toolitem action='FloatTools'/>"
+"  </toolbar>"
 "<accelerator action='PrevImageAlt1'/>"
 "<accelerator action='PrevImageAlt2'/>"
 "<accelerator action='NextImageAlt1'/>"
@@ -1684,163 +1747,12 @@ GtkWidget *layout_actions_menu_bar(LayoutWindow *lw)
 	return gtk_ui_manager_get_widget(lw->ui_manager, "/MainMenu");
 }
 
-
-/*
- *-----------------------------------------------------------------------------
- * toolbar
- *-----------------------------------------------------------------------------
- */
-
-static void layout_button_thumb_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	layout_thumb_set(lw, gtk_toggle_tool_button_get_active(GTK_TOGGLE_TOOL_BUTTON(widget)));
-}
-
-/* Back button callback */
-static void layout_button_back_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-	FileData *dir_fd;
-	gchar *path = NULL;
-	GList *list = history_list_get_by_key("path_list");
-	gint n = 0;
-
-	while (list)
-		{
-		if (n == 1) {
-			/* Previous path from history */
-			path = (gchar *)list->data;
-			break;
-		}
-		list = list->next;
-		n++;
-		}
-
-	if (!path) return;
-	
-	/* Open previous path */
-	dir_fd = file_data_new_simple(path);
-	layout_set_fd(lw, dir_fd);
-	file_data_unref(dir_fd);
-}
-
-static void layout_button_home_cb(GtkWidget *widget, gpointer data)
-{
-	const gchar *path;
-	
-	if (options->layout.home_path && *options->layout.home_path)
-		path = options->layout.home_path;
-	else
-		path = homedir();
-
-	if (path)
-		{
-		LayoutWindow *lw = data;
-		FileData *dir_fd = file_data_new_simple(path);
-		layout_set_fd(lw, dir_fd);
-		file_data_unref(dir_fd);
-		}
-}
-
-static void layout_button_refresh_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	layout_refresh(lw);
-}
-
-static void layout_button_zoom_in_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	layout_image_zoom_adjust(lw, get_zoom_increment(), TRUE);
-}
-
-static void layout_button_zoom_out_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	layout_image_zoom_adjust(lw, -get_zoom_increment(), TRUE);
-}
-
-static void layout_button_zoom_fit_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	layout_image_zoom_set(lw, 0.0, TRUE);
-}
-
-static void layout_button_zoom_1_1_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	layout_image_zoom_set(lw, 1.0, TRUE);
-}
-
-static void layout_button_config_cb(GtkWidget *widget, gpointer data)
-{
-	show_config_window();
-}
-
-static void layout_button_float_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	layout_tools_float_toggle(lw);
-}
-
-static void layout_button_custom_icon(GtkWidget *button, const gchar *key)
-{
-	GtkWidget *icon;
-	GdkPixbuf *pixbuf;
-
-	pixbuf = pixbuf_inline(key);
-	if (!pixbuf) return;
-
-	icon = gtk_image_new_from_pixbuf(pixbuf);
-	g_object_unref(pixbuf);
-
-	pref_toolbar_button_set_icon(button, icon, NULL);
-	gtk_widget_show(icon);
-}
-
 GtkWidget *layout_button_bar(LayoutWindow *lw)
 {
-	GtkWidget *box;
-	GtkWidget *button;
-
-	box =  pref_toolbar_new(NULL, GTK_TOOLBAR_ICONS);
-
-	button = pref_toolbar_button(box, NULL, _("_Thumbnails"), TRUE,
-				     _("Show thumbnails"), G_CALLBACK(layout_button_thumb_cb), lw);
-	layout_button_custom_icon(button, PIXBUF_INLINE_ICON_THUMB);
-	lw->thumb_button = button;
-	
-	lw->back_button = pref_toolbar_button(box, GTK_STOCK_GO_BACK, NULL, FALSE,
-			    _("Back to previous folder"), G_CALLBACK(layout_button_back_cb), lw);
-	gtk_widget_set_sensitive(lw->back_button, FALSE);
-
-	pref_toolbar_button(box, GTK_STOCK_HOME, NULL, FALSE,
-			    _("Change to home folder"), G_CALLBACK(layout_button_home_cb), lw);
-	pref_toolbar_button(box, GTK_STOCK_REFRESH, NULL, FALSE,
-			    _("Refresh file list"), G_CALLBACK(layout_button_refresh_cb), lw);
-	pref_toolbar_button(box, GTK_STOCK_ZOOM_IN, NULL, FALSE,
-			    _("Zoom in"), G_CALLBACK(layout_button_zoom_in_cb), lw);
-	pref_toolbar_button(box, GTK_STOCK_ZOOM_OUT, NULL, FALSE,
-			    _("Zoom out"), G_CALLBACK(layout_button_zoom_out_cb), lw);
-	pref_toolbar_button(box, GTK_STOCK_ZOOM_FIT, NULL, FALSE,
-			    _("Fit image to window"), G_CALLBACK(layout_button_zoom_fit_cb), lw);
-	pref_toolbar_button(box, GTK_STOCK_ZOOM_100, NULL, FALSE,
-			    _("Set zoom 1:1"), G_CALLBACK(layout_button_zoom_1_1_cb), lw);
-	pref_toolbar_button(box, GTK_STOCK_PREFERENCES, NULL, FALSE,
-			    _("Preferences"), G_CALLBACK(layout_button_config_cb), lw);
-	button = pref_toolbar_button(box, NULL, _("_Float"), FALSE,
-				     _("Float file list"), G_CALLBACK(layout_button_float_cb), lw);
-	layout_button_custom_icon(button, PIXBUF_INLINE_ICON_FLOAT);
-
-	return box;
+	GtkWidget *bar = gtk_ui_manager_get_widget(lw->ui_manager, "/ToolBar");
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(bar), GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_style(GTK_TOOLBAR(bar), GTK_TOOLBAR_ICONS);
+	return bar;
 }
 
 /*
@@ -1893,9 +1805,6 @@ void layout_util_sync_thumb(LayoutWindow *lw)
 	action = gtk_action_group_get_action(lw->action_group, "Thumbnails");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.show_thumbnails);
 	g_object_set(action, "sensitive", (lw->file_view_type == FILEVIEW_LIST), NULL);
-
-	gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(lw->thumb_button), lw->options.show_thumbnails);
-	gtk_widget_set_sensitive(lw->thumb_button, (lw->file_view_type == FILEVIEW_LIST));
 }
 
 void layout_util_sync(LayoutWindow *lw)

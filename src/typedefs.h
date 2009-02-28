@@ -580,7 +580,7 @@ struct _LayoutWindow
 	GtkWidget *toolbar;
 //	gint toolbar_hidden;
 
-	GtkWidget *thumb_button;
+//	GtkWidget *thumb_button;
 //	gint thumbs_enabled;
 //	gint marks_enabled;
 

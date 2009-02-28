@@ -1734,7 +1734,6 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	lw->v_pane = NULL;
 
 	lw->toolbar = NULL;
-	lw->thumb_button = NULL;
 	lw->path_entry = NULL;
 	lw->dir_view = NULL;
 	lw->vd = NULL;

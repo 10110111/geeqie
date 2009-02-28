@@ -34,6 +34,7 @@
 #include "editors.h"
 #include "exif.h"
 #include "histogram.h"
+#include "pixbuf_util.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -777,6 +778,8 @@ gint main(gint argc, gchar *argv[])
 		log_printf("!!!   running with GTK+-%d.%d\n", gtk_major_version, gtk_minor_version);
 		log_printf("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
 		}
+
+	pixbuf_inline_register_stock_icons();
 
 	parse_command_line_for_debug_option(argc, argv);
 	parse_command_line(argc, argv);

@@ -131,6 +131,34 @@ GdkPixbuf *pixbuf_inline(const gchar *key)
 	return NULL;
 }
 
+static void pixbuf_inline_register_icon(const gchar *key)
+{
+	static GtkIconFactory *icon_factory = NULL;
+	GtkIconSet *icon_set;
+	
+	if (!icon_factory)
+		{
+		icon_factory = gtk_icon_factory_new();
+		gtk_icon_factory_add_default(icon_factory);
+		}
+	
+	icon_set = gtk_icon_set_new_from_pixbuf(pixbuf_inline(key));
+	gtk_icon_factory_add(icon_factory, key, icon_set);
+}
+
+
+void pixbuf_inline_register_stock_icons(void)
+{
+	gint i;
+
+	i = 0;
+	while (inline_pixbuf_data[i].key)
+		{
+		pixbuf_inline_register_icon(inline_pixbuf_data[i].key);
+		i++;
+		}
+}
+
 gint pixbuf_scale_aspect(gint req_w, gint req_h, gint old_w, gint old_h,
 					  gint *new_w, gint *new_h)
 {
