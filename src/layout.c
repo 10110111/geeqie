@@ -1913,6 +1913,7 @@ gint layout_toolbar_hidden(LayoutWindow *lw)
 
 void layout_sync_options_with_current_state(LayoutWindow *lw)
 {
+	Histogram *histogram;
 	if (!layout_valid(&lw)) return;
 
 	lw->options.main_window.maximized =  window_maximized(lw->window);
@@ -1928,6 +1929,12 @@ void layout_sync_options_with_current_state(LayoutWindow *lw)
 
 	layout_geometry_get_tools(lw, &lw->options.float_window.x, &lw->options.float_window.y,
 				  &lw->options.float_window.w, &lw->options.float_window.h, &lw->options.float_window.vdivider_pos);
+
+	lw->options.image_overlay.state = image_osd_get(lw->image);
+	histogram = image_osd_get_histogram(lw->image);
+	
+	lw->options.image_overlay.histogram_channel = histogram->histogram_channel;
+	lw->options.image_overlay.histogram_mode = histogram->histogram_mode;
 
 //	if (options->startup.restore_path && options->startup.use_last_path)
 //		{
@@ -1995,6 +2002,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 	LayoutWindow *lw;
 	GdkGeometry hint;
 	GdkWindowHints hint_mask;
+	Histogram *histogram;
 
 	lw = g_new0(LayoutWindow, 1);
 
@@ -2115,7 +2123,11 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 	gtk_widget_show(lw->window);
 	layout_tools_hide(lw, lw->options.tools_hidden);
 
-	image_osd_set(lw->image, options->image_overlay.common.state | (options->image_overlay.common.show_at_startup ? OSD_SHOW_INFO : OSD_SHOW_NOTHING));
+	image_osd_set(lw->image, lw->options.image_overlay.state);
+	histogram = image_osd_get_histogram(lw->image);
+	
+	histogram->histogram_channel = lw->options.image_overlay.histogram_channel;
+	histogram->histogram_mode = lw->options.image_overlay.histogram_mode;
 
 	layout_window_list = g_list_append(layout_window_list, lw);
 
@@ -2137,8 +2149,6 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 	WRITE_SEPARATOR();
 
 	WRITE_BOOL(*layout, save_window_positions);
-	WRITE_SEPARATOR();
-
 	WRITE_INT(*layout, main_window.x);
 	WRITE_INT(*layout, main_window.y);
 	WRITE_INT(*layout, main_window.w);
@@ -2165,6 +2175,10 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 	WRITE_SEPARATOR();
 
 	WRITE_BOOL(*layout, toolbar_hidden);
+	
+	WRITE_UINT(*layout, image_overlay.state);
+	WRITE_INT(*layout, image_overlay.histogram_channel);
+	WRITE_INT(*layout, image_overlay.histogram_mode);
 }
 
 
@@ -2228,6 +2242,10 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		if (READ_BOOL(*layout, tools_hidden)) continue;
 		if (READ_BOOL(*layout, tools_restore_state)) continue;
 		if (READ_BOOL(*layout, toolbar_hidden)) continue;
+
+		if (READ_UINT(*layout, image_overlay.state)) continue;
+		if (READ_INT(*layout, image_overlay.histogram_channel)) continue;
+		if (READ_INT(*layout, image_overlay.histogram_mode)) continue;
 
 		DEBUG_1("unknown attribute %s = %s", option, value);
 		}

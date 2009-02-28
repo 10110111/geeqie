@@ -131,7 +131,6 @@ void image_osd_histogram_chan_toggle(ImageWindow *imd)
 	if (!osd || !osd->histogram) return;
 
 	histogram_toggle_channel(osd->histogram);
-	options->image_overlay.common.histogram_channel = histogram_get_channel(osd->histogram);
 	image_osd_update(imd);
 }
 
@@ -142,7 +141,6 @@ void image_osd_histogram_log_toggle(ImageWindow *imd)
 	if (!osd || !osd->histogram) return;
 
 	histogram_toggle_mode(osd->histogram);
-	options->image_overlay.common.histogram_mode = histogram_get_mode(osd->histogram);
 	image_osd_update(imd);
 }
 
@@ -153,13 +151,12 @@ void image_osd_toggle(ImageWindow *imd)
 	if (!imd) return;
 
 	osd = image_get_osd_data(imd);
-	if (!osd)
+	if (osd->show == OSD_SHOW_NOTHING)
 		{
 		image_osd_set(imd, OSD_SHOW_INFO | OSD_SHOW_STATUS);
 		return;
 		}
-
-	if (osd->show != OSD_SHOW_NOTHING)
+	else
 		{
 		if (osd->show & OSD_SHOW_HISTOGRAM)
 			{
@@ -548,7 +545,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	 		osd_template_insert(vars, "res", NULL, OSDT_NONE);
 			}
 
-	 	text = image_osd_mkinfo(options->image_overlay.common.template_string, imd, vars);
+	 	text = image_osd_mkinfo(options->image_overlay.template_string, imd, vars);
 		g_hash_table_destroy(vars);
 
 	} else {
@@ -1011,26 +1008,16 @@ static void image_osd_enable(ImageWindow *imd, OsdShowFlags show)
 		osd->timer_id = -1;
 		osd->show = OSD_SHOW_NOTHING;
 		osd->histogram = NULL;
-		osd->x = options->image_overlay.common.x;
-		osd->y = options->image_overlay.common.y;
+		osd->x = options->image_overlay.x;
+		osd->y = options->image_overlay.y;
 		
+		osd->histogram = histogram_new();
+
 		osd->destroy_id = g_signal_connect(G_OBJECT(imd->pr), "destroy",
 						   G_CALLBACK(image_osd_destroy_cb), osd);
 		image_set_osd_data(imd, osd);
 
 		image_set_state_func(osd->imd, image_osd_state_cb, osd);
-		}
-
-	if (show & OSD_SHOW_HISTOGRAM)
-		{
-		osd->histogram = histogram_new();
-		histogram_set_channel(osd->histogram, options->image_overlay.common.histogram_channel);
-		histogram_set_mode(osd->histogram, options->image_overlay.common.histogram_mode);
-		}
-	else if (osd->histogram)
-		{
-		histogram_free(osd->histogram);
-		osd->histogram = NULL;
 		}
 
 	if (show & OSD_SHOW_STATUS)
@@ -1046,12 +1033,6 @@ void image_osd_set(ImageWindow *imd, OsdShowFlags show)
 {
 	if (!imd) return;
 
-	if (show == OSD_SHOW_NOTHING)
-		{
-		image_osd_remove(imd);
-		return;
-		}
-
 	image_osd_enable(imd, show);
 }
 
@@ -1060,6 +1041,26 @@ OsdShowFlags image_osd_get(ImageWindow *imd)
 	OverlayStateData *osd = image_get_osd_data(imd);
 
 	return osd ? osd->show : OSD_SHOW_NOTHING;
+}
+
+Histogram *image_osd_get_histogram(ImageWindow *imd)
+{
+	OverlayStateData *osd = image_get_osd_data(imd);
+
+	return osd ? osd->histogram : NULL;
+}
+
+void image_osd_copy_status(ImageWindow *src, ImageWindow *dest)
+{
+	Histogram *h_src, *h_dest;
+	image_osd_set(dest, image_osd_get(src));
+	
+	h_src = image_osd_get_histogram(src);
+	h_dest = image_osd_get_histogram(dest);
+	
+	h_dest->histogram_mode = h_src->histogram_mode;
+	h_dest->histogram_channel = h_src->histogram_channel;
+	
 }
 
 /* duration:

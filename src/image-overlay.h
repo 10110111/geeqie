@@ -37,6 +37,10 @@ void set_default_image_overlay_template_string(gchar **template_string);
 void image_osd_set(ImageWindow *imd, OsdShowFlags show);
 OsdShowFlags image_osd_get(ImageWindow *imd);
 
+Histogram *image_osd_get_histogram(ImageWindow *imd);
+
+void image_osd_copy_status(ImageWindow *src, ImageWindow *dest);
+
 void image_osd_update(ImageWindow *imd);
 
 void image_osd_icon(ImageWindow *imd, ImageOSDFlag flag, gint duration);

@@ -140,15 +140,9 @@ struct _ConfOptions
 
 	/* image overlay */
 	struct {
-		struct {
-			guint state;
-			gboolean show_at_startup;
-			gchar *template_string;
-			gint x;
-			gint y;
-			gint histogram_channel;
-			gint histogram_mode;
-		} common;
+		gchar *template_string;
+		gint x;
+		gint y;
 	} image_overlay;
 
 	/* layout */

@@ -317,10 +317,9 @@ static void config_window_apply(void)
 	options->fullscreen.clean_flip = c_options->fullscreen.clean_flip;
 	options->fullscreen.disable_saver = c_options->fullscreen.disable_saver;
 	options->fullscreen.above = c_options->fullscreen.above;
-	options->image_overlay.common.show_at_startup = c_options->image_overlay.common.show_at_startup;
-	if (c_options->image_overlay.common.template_string)
-		set_image_overlay_template_string(&options->image_overlay.common.template_string,
-						  c_options->image_overlay.common.template_string);
+	if (c_options->image_overlay.template_string)
+		set_image_overlay_template_string(&options->image_overlay.template_string,
+						  c_options->image_overlay.template_string);
 		
 	options->update_on_time_change = c_options->update_on_time_change;
 	options->image.exif_rotate_enable = c_options->image.exif_rotate_enable;
@@ -952,7 +951,7 @@ static void image_overlay_template_view_changed_cb(GtkWidget *widget, gpointer d
 	gtk_text_buffer_get_start_iter(pTextBuffer, &iStart);
 	gtk_text_buffer_get_end_iter(pTextBuffer, &iEnd);
 
-	set_image_overlay_template_string(&c_options->image_overlay.common.template_string,
+	set_image_overlay_template_string(&c_options->image_overlay.template_string,
 					  gtk_text_buffer_get_text(pTextBuffer, &iStart, &iEnd, TRUE));
 }
 
@@ -961,11 +960,11 @@ static void image_overlay_default_template_ok_cb(GenericDialog *gd, gpointer dat
 	GtkTextView *text_view = data;
 	GtkTextBuffer *buffer;
 
-	set_default_image_overlay_template_string(&options->image_overlay.common.template_string);
+	set_default_image_overlay_template_string(&options->image_overlay.template_string);
 	if (!configwindow) return;
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view));
-	gtk_text_buffer_set_text(buffer, options->image_overlay.common.template_string, -1);
+	gtk_text_buffer_set_text(buffer, options->image_overlay.template_string, -1);
 }
 
 static void image_overlay_default_template_cb(GtkWidget *widget, gpointer data)
@@ -1536,8 +1535,6 @@ static void config_tab_advanced(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Overlay Screen Display"), GTK_ORIENTATION_VERTICAL);
 
-	pref_checkbox_new_int(group, _("Always show image overlay at startup"),
-			      options->image_overlay.common.show_at_startup, &c_options->image_overlay.common.show_at_startup);
 	pref_label_new(group, _("Image overlay template"));
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
@@ -1580,7 +1577,7 @@ static void config_tab_advanced(GtkWidget *notebook)
 	gtk_widget_show(button);
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(image_overlay_template_view));
-	if (options->image_overlay.common.template_string) gtk_text_buffer_set_text(buffer, options->image_overlay.common.template_string, -1);
+	if (options->image_overlay.template_string) gtk_text_buffer_set_text(buffer, options->image_overlay.template_string, -1);
 	g_signal_connect(G_OBJECT(buffer), "changed",
 			 G_CALLBACK(image_overlay_template_view_changed_cb), image_overlay_template_view);
 

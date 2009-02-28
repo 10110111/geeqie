@@ -519,6 +519,12 @@ struct _LayoutOptions
 		gint h;
 	} properties_window;
 
+	struct {
+		guint state;
+		gint histogram_channel;
+		gint histogram_mode;
+	} image_overlay;
+
 	gboolean save_window_positions;
 
 	gboolean tools_float;

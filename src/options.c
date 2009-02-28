@@ -59,9 +59,6 @@ ConfOptions *init_options(ConfOptions *options)
 	options->fullscreen.disable_saver = TRUE;
 	options->fullscreen.screen = -1;
 
-	options->image_overlay.common.histogram_channel = HCHAN_RGB;
-	options->image_overlay.common.histogram_mode = 1;
-	
 	memset(&options->image.border_color, 0, sizeof(options->image.border_color));
 	options->image.dither_quality = GDK_RGB_DITHER_NORMAL;
 	options->image.enable_read_ahead = TRUE;
@@ -83,11 +80,9 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image.zoom_quality = GDK_INTERP_BILINEAR;
 	options->image.zoom_to_fit_allow_expand = FALSE;
 
-	options->image_overlay.common.state = OSD_SHOW_NOTHING;
-	options->image_overlay.common.show_at_startup = FALSE;
-	options->image_overlay.common.template_string = NULL;
-	options->image_overlay.common.x = 10;
-	options->image_overlay.common.y = -10;
+	options->image_overlay.template_string = NULL;
+	options->image_overlay.x = 10;
+	options->image_overlay.y = -10;
 
 	options->layout.dir_view_type = DIRVIEW_LIST;
 	options->layout.file_view_type = FILEVIEW_LIST;
@@ -114,7 +109,10 @@ ConfOptions *init_options(ConfOptions *options)
 	options->layout.tools_float = FALSE;
 	options->layout.tools_hidden = FALSE;
 	options->layout.tools_restore_state = TRUE;
-
+	options->layout.image_overlay.histogram_channel = HCHAN_RGB;
+	options->layout.image_overlay.histogram_mode = 1;
+	options->layout.image_overlay.state = OSD_SHOW_NOTHING;
+	
 	options->lazy_image_sync = FALSE;
 	options->mousewheel_scrolls = FALSE;
 	options->open_recent_list_maxsize = 10;
@@ -181,7 +179,7 @@ void setup_default_options(ConfOptions *options)
 		options->color_profile.input_name[i] = NULL;
 		}
 
-	set_default_image_overlay_template_string(&options->image_overlay.common.template_string);
+	set_default_image_overlay_template_string(&options->image_overlay.template_string);
 	options->sidecar.ext = g_strdup(".jpg;%raw;.xmp");
 	options->layout.order = g_strdup("123");
 
@@ -215,7 +213,6 @@ static void sync_options_with_current_state(ConfOptions *options)
 		{
 		layout_sync_options_with_current_state(lw);
 		copy_layout_options(&options->layout, &lw->options);
-		options->image_overlay.common.state = image_osd_get(lw->image);
 		layout_sort_get(lw, &options->file_sort.method, &options->file_sort.ascending);
 
 	
