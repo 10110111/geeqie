@@ -37,12 +37,12 @@ typedef struct _MD5Context {
 
 
 /* raw routines */
-void md5_init (MD5Context *ctx);
-void md5_update (MD5Context *ctx, const guchar *buf, guint32 len);
-void md5_final (MD5Context *ctx, guchar digest[16]);
+void md5_init(MD5Context *ctx);
+void md5_update(MD5Context *ctx, const guchar *buf, guint32 len);
+void md5_final(MD5Context *ctx, guchar digest[16]);
 
 /* generate digest from memory buffer */
-void md5_get_digest (const guchar *buffer, gint buffer_size, guchar digest[16]);
+void md5_get_digest(const guchar *buffer, gint buffer_size, guchar digest[16]);
 
 /* generate digest from file */
 gboolean md5_get_digest_from_file(const gchar *path, guchar digest[16]);

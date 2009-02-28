@@ -163,7 +163,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 
 		thumb_loader_setup(tl, tl->fd->path);
 	
-		g_signal_connect (G_OBJECT(tl->il), "done", (GCallback)thumb_loader_done_cb, tl);
+		g_signal_connect(G_OBJECT(tl->il), "done", (GCallback)thumb_loader_done_cb, tl);
 
 		if (!image_loader_start(tl->il))
 			{
@@ -276,8 +276,8 @@ static void thumb_loader_setup(ThumbLoader *tl, const gchar *path)
 		image_loader_set_requested_size(tl->il, tl->max_w, tl->max_h);
 		}
 
-	g_signal_connect (G_OBJECT(tl->il), "error", (GCallback)thumb_loader_error_cb, tl);
-	if (tl->func_progress) g_signal_connect (G_OBJECT(tl->il), "percent", (GCallback)thumb_loader_percent_cb, tl);
+	g_signal_connect(G_OBJECT(tl->il), "error", (GCallback)thumb_loader_error_cb, tl);
+	if (tl->func_progress) g_signal_connect(G_OBJECT(tl->il), "percent", (GCallback)thumb_loader_percent_cb, tl);
 }
 
 void thumb_loader_set_callbacks(ThumbLoader *tl,
@@ -389,7 +389,7 @@ gint thumb_loader_start(ThumbLoader *tl, FileData *fd)
 		thumb_loader_setup(tl, tl->fd->path);
 		}
 
-	g_signal_connect (G_OBJECT(tl->il), "done", (GCallback)thumb_loader_done_cb, tl);
+	g_signal_connect(G_OBJECT(tl->il), "done", (GCallback)thumb_loader_done_cb, tl);
 	if (!image_loader_start(tl->il))
 		{
 		/* try from original if cache attempt */
@@ -399,7 +399,7 @@ gint thumb_loader_start(ThumbLoader *tl, FileData *fd)
 			log_printf("%s", _("Thumbnail image in cache failed to load, trying to recreate.\n"));
 
 			thumb_loader_setup(tl, tl->fd->path);
-			g_signal_connect (G_OBJECT(tl->il), "done", (GCallback)thumb_loader_done_cb, tl);
+			g_signal_connect(G_OBJECT(tl->il), "done", (GCallback)thumb_loader_done_cb, tl);
 			if (image_loader_start(tl->il)) return TRUE;
 			}
 		/* mark failed thumbnail in cache with 0 byte file */

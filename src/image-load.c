@@ -24,7 +24,7 @@
 
 
 /**************************************************************************************/
-/* image looader class */
+/* image loader class */
 
 
 enum {
@@ -37,34 +37,34 @@ enum {
 
 static guint signals[SIGNAL_COUNT] = { 0 };
 
-static void image_loader_init (GTypeInstance *instance, gpointer g_class);
-static void image_loader_class_init (ImageLoaderClass *class);
+static void image_loader_init(GTypeInstance *instance, gpointer g_class);
+static void image_loader_class_init(ImageLoaderClass *class);
 static void image_loader_finalize(GObject *object);
 static void image_loader_stop(ImageLoader *il);
 
-GType image_loader_get_type (void)
+GType image_loader_get_type(void)
 {
 	static GType type = 0;
 	if (type == 0) 
 		{
 		static const GTypeInfo info = {
-			sizeof (ImageLoaderClass),
+			sizeof(ImageLoaderClass),
 			NULL,   /* base_init */
 			NULL,   /* base_finalize */
 			(GClassInitFunc)image_loader_class_init, /* class_init */
 			NULL,   /* class_finalize */
 			NULL,   /* class_data */
-			sizeof (ImageLoader),
+			sizeof(ImageLoader),
 			0,      /* n_preallocs */
 			(GInstanceInitFunc)image_loader_init, /* instance_init */
 			NULL	/* value_table */
 			};
-		type = g_type_register_static (G_TYPE_OBJECT, "ImageLoaderType", &info, 0);
+		type = g_type_register_static(G_TYPE_OBJECT, "ImageLoaderType", &info, 0);
 		}
 	return type;
 }
 
-static void image_loader_init (GTypeInstance *instance, gpointer g_class)
+static void image_loader_init(GTypeInstance *instance, gpointer g_class)
 {
 	ImageLoader *il = (ImageLoader *)instance;
 
@@ -96,7 +96,7 @@ static void image_loader_init (GTypeInstance *instance, gpointer g_class)
 	DEBUG_1("new image loader %p, bufsize=%u idle_loop=%u", il, il->read_buffer_size, il->idle_read_loop_count);
 }
 
-static void image_loader_class_init (ImageLoaderClass *class)
+static void image_loader_class_init(ImageLoaderClass *class)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (class);
 

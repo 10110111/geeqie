@@ -437,8 +437,8 @@ static void image_read_ahead_start(ImageWindow *imd)
 	
 	image_loader_delay_area_ready(imd->read_ahead_il, TRUE); /* we will need the area_ready signals later */
 
-	g_signal_connect (G_OBJECT(imd->read_ahead_il), "error", (GCallback)image_read_ahead_error_cb, imd);
-	g_signal_connect (G_OBJECT(imd->read_ahead_il), "done", (GCallback)image_read_ahead_done_cb, imd);
+	g_signal_connect(G_OBJECT(imd->read_ahead_il), "error", (GCallback)image_read_ahead_error_cb, imd);
+	g_signal_connect(G_OBJECT(imd->read_ahead_il), "done", (GCallback)image_read_ahead_done_cb, imd);
 
 	if (!image_loader_start(imd->read_ahead_il))
 		{

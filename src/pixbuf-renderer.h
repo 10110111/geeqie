@@ -169,7 +169,7 @@ struct _PixbufRendererClass
 };
 
 
-GType pixbuf_renderer_get_type (void);
+GType pixbuf_renderer_get_type(void);
 
 PixbufRenderer *pixbuf_renderer_new(void);
 

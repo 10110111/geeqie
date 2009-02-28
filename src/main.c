@@ -732,7 +732,7 @@ gint main(gint argc, gchar *argv[])
 	CollectionData *cd = NULL;
 
 #ifdef HAVE_GTHREAD
-	g_thread_init (NULL);
+	g_thread_init(NULL);
 	gdk_threads_init();
 	gdk_threads_enter();
 #endif

@@ -34,7 +34,7 @@
 #include "ui_fileops.h"	/* for utf-8 filename conversion */
 
 
-static void md5_transform (guint32 buf[4], const guint32 in[16]);
+static void md5_transform(guint32 buf[4], const guint32 in[16]);
 
 static gint _ie = 0x44332211;
 static union _endian { gint i; gchar b[4]; } *_endian = (union _endian *)&_ie;

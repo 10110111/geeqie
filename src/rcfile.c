@@ -1049,7 +1049,7 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options, gboolea
 	gboolean ret = TRUE;
 	GQParserData *parser_data;
 
-	if (g_file_get_contents (utf8_path, &buf, &size, NULL) == FALSE) 
+	if (g_file_get_contents(utf8_path, &buf, &size, NULL) == FALSE) 
 		{
 		return FALSE;
 		}
@@ -1061,7 +1061,7 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options, gboolea
 	
 	context = g_markup_parse_context_new(&parser, 0, parser_data, NULL);
 
-	if (g_markup_parse_context_parse (context, buf, size, NULL) == FALSE)
+	if (g_markup_parse_context_parse(context, buf, size, NULL) == FALSE)
 		{
 		ret = FALSE;
 		DEBUG_1("Parse failed");
@@ -1070,7 +1070,7 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options, gboolea
 	g_free(parser_data);
 
 	g_free(buf);
-	g_markup_parse_context_free (context);
+	g_markup_parse_context_free(context);
 	return ret;
 }
 	

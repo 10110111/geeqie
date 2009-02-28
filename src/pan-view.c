@@ -210,8 +210,8 @@ static gint pan_queue_step(PanWindow *pw)
 #if 0
 		image_loader_set_area_ready_func(pw->il, pan_queue_image_area_cb, pw);
 #endif
-		g_signal_connect (G_OBJECT(pw->il), "error", (GCallback)pan_queue_image_done_cb, pw);
-		g_signal_connect (G_OBJECT(pw->il), "done", (GCallback)pan_queue_image_done_cb, pw);
+		g_signal_connect(G_OBJECT(pw->il), "error", (GCallback)pan_queue_image_done_cb, pw);
+		g_signal_connect(G_OBJECT(pw->il), "done", (GCallback)pan_queue_image_done_cb, pw);
 
 		if (image_loader_start(pw->il)) return FALSE;
 

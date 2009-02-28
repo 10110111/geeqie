@@ -56,13 +56,13 @@ static void gqv_cell_renderer_icon_render(GtkCellRenderer	*cell,
 					   GdkRectangle		*expose_area,
 					   GtkCellRendererState	flags);
 
-static gint gqv_cell_renderer_icon_activate (GtkCellRenderer      *cell,
-					     GdkEvent             *event,
-					     GtkWidget            *widget,
-					     const gchar          *path,
-					     GdkRectangle         *background_area,
-					     GdkRectangle         *cell_area,
-					     GtkCellRendererState  flags);
+static gint gqv_cell_renderer_icon_activate(GtkCellRenderer      *cell,
+					    GdkEvent             *event,
+					    GtkWidget            *widget,
+					    const gchar          *path,
+					    GdkRectangle         *background_area,
+					    GdkRectangle         *cell_area,
+					    GtkCellRendererState  flags);
 
 enum {
   TOGGLED,
@@ -263,7 +263,7 @@ gqv_cell_renderer_icon_class_init(GQvCellRendererIconClass *class)
 							0,
 							G_PARAM_READWRITE));
 	toggle_cell_signals[TOGGLED] =
-		g_signal_new ("toggled",
+		g_signal_new("toggled",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GQvCellRendererIconClass, toggled),
@@ -746,7 +746,7 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 			{
 			for (i = 0; i < cellicon->num_marks; i++)
 				{
-				gtk_paint_check (widget->style, window,
+				gtk_paint_check(widget->style, window,
 					 state, (cellicon->marks & (1 << i)) ? GTK_SHADOW_IN : GTK_SHADOW_OUT,
 					 cell_area, widget, "cellcheck",
 					 pix_rect.x + i * TOGGLE_SPACING + (TOGGLE_WIDTH - TOGGLE_SPACING) / 2,
@@ -768,16 +768,16 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 }
 
 static gint
-gqv_cell_renderer_icon_activate (GtkCellRenderer      *cell,
-				 GdkEvent             *event,
-				 GtkWidget            *widget,
-				 const gchar          *path,
-				 GdkRectangle         *background_area,
-				 GdkRectangle         *cell_area,
-				 GtkCellRendererState  flags)
+gqv_cell_renderer_icon_activate(GtkCellRenderer      *cell,
+			 	GdkEvent             *event,
+				GtkWidget            *widget,
+				const gchar          *path,
+				GdkRectangle         *background_area,
+				GdkRectangle         *cell_area,
+				GtkCellRendererState  flags)
 {
 	GQvCellRendererIcon *cellicon = (GQvCellRendererIcon *) cell;
-	GdkEventButton      *bevent = &event->button;
+	GdkEventButton *bevent = &event->button;
 
 	if (cellicon->show_marks &&
 	    event->type == GDK_BUTTON_PRESS &&
@@ -808,7 +808,7 @@ gqv_cell_renderer_icon_activate (GtkCellRenderer      *cell,
 			    bevent->y >= rect.y && bevent->y < rect.y + rect.height)
 				{
 				cellicon->toggled_mark = i;
-				g_signal_emit (cell, toggle_cell_signals[TOGGLED], 0, path);
+				g_signal_emit(cell, toggle_cell_signals[TOGGLED], 0, path);
 				break;
 				}
 			}

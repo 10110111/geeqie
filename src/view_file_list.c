@@ -227,7 +227,7 @@ static gint vflist_column_idx(ViewFile *vf, gint store_idx)
 	while (work)
 		{
 		GtkTreeViewColumn *column = work->data;
-		if (store_idx == GPOINTER_TO_INT(g_object_get_data (G_OBJECT(column), "column_store_idx")))
+		if (store_idx == GPOINTER_TO_INT(g_object_get_data(G_OBJECT(column), "column_store_idx")))
 			break;
 		work = work->next;
 		i++;

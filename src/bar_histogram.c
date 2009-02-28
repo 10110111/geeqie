@@ -130,7 +130,7 @@ static void bar_pane_histogram_notify_cb(FileData *fd, NotifyType type, gpointer
 	if (fd == phd->fd) bar_pane_histogram_update(phd);
 }
 
-static gboolean bar_pane_histogram_expose_event_cb (GtkWidget *widget, GdkEventExpose *event, gpointer data)
+static gboolean bar_pane_histogram_expose_event_cb(GtkWidget *widget, GdkEventExpose *event, gpointer data)
 {
 	PaneHistogramData *phd = data;
 	if (!phd) return TRUE;

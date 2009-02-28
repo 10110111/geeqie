@@ -625,7 +625,7 @@ static void bar_pane_keywords_changed(GtkTextBuffer *buffer, gpointer data)
 	file_data_register_notify_func(bar_pane_keywords_notify_cb, pkd, NOTIFY_PRIORITY_LOW);
 }
 
-static void bar_pane_keywords_mark_edited (GtkCellRendererText *cell, const gchar *path, const gchar *text, gpointer data)
+static void bar_pane_keywords_mark_edited(GtkCellRendererText *cell, const gchar *path, const gchar *text, gpointer data)
 {
 	PaneKeywordsData *pkd = data;
 	GtkTreeModel *store;
@@ -705,10 +705,10 @@ static GtkTreeModel *create_marks_list(void)
 		{
 		gchar str[10];
 		g_sprintf(str, " %d ", i + 1);
-		gtk_list_store_append (model, &iter);
+		gtk_list_store_append(model, &iter);
 		gtk_list_store_set(model, &iter, 0, str, -1);
 		}
-	gtk_list_store_append (model, &iter);
+	gtk_list_store_append(model, &iter);
 	gtk_list_store_set(model, &iter, 0, " ... ", -1);
 	return GTK_TREE_MODEL(model);
 }
@@ -803,7 +803,7 @@ GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key, gboolean 
 
 	gtk_tree_view_column_pack_start(column, renderer, TRUE);
 	gtk_tree_view_column_add_attribute(column, renderer, "text", KEYWORD_COLUMN_MARK);
-	g_signal_connect (renderer, "edited",
+	g_signal_connect(renderer, "edited",
 			  G_CALLBACK (bar_pane_keywords_mark_edited), pkd);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(pkd->keyword_treeview), column);
 

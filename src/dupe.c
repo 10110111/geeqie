@@ -1534,8 +1534,8 @@ static gint dupe_check_cb(gpointer data)
 
 					dw->img_loader = image_loader_new(di->fd);
 					image_loader_set_buffer_size(dw->img_loader, 8);
-					g_signal_connect (G_OBJECT(dw->img_loader), "error", (GCallback)dupe_loader_done_cb, dw);
-					g_signal_connect (G_OBJECT(dw->img_loader), "done", (GCallback)dupe_loader_done_cb, dw);
+					g_signal_connect(G_OBJECT(dw->img_loader), "error", (GCallback)dupe_loader_done_cb, dw);
+					g_signal_connect(G_OBJECT(dw->img_loader), "done", (GCallback)dupe_loader_done_cb, dw);
 
 					if (!image_loader_start(dw->img_loader))
 						{
