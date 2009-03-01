@@ -605,7 +605,7 @@ ExifData *exif_read_fd(FileData *fd)
 {
 	gchar *sidecar_path;
 
-	if (!fd) return NULL;
+	if (!fd || !is_readable_file(fd->path)) return NULL;
 	
 	if (!exif_cache) exif_cache = file_cache_new(exif_release_cb, 4);
 	
