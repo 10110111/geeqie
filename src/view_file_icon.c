@@ -2475,16 +2475,7 @@ ViewFile *vficon_new(ViewFile *vf, FileData *dir_fd)
 
 	vf->info = g_new0(ViewFileInfoIcon, 1);
 
-	VFICON(vf)->selection = NULL;
-	VFICON(vf)->prev_selection = NULL;
-
-	VFICON(vf)->tip_window = NULL;
 	VFICON(vf)->tip_delay_id = -1;
-
-	VFICON(vf)->focus_row = 0;
-	VFICON(vf)->focus_column = 0;
-	VFICON(vf)->focus_id = NULL;
-
 	VFICON(vf)->show_text = options->show_icon_names;
 
 	store = gtk_list_store_new(1, G_TYPE_POINTER);

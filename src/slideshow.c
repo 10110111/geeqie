@@ -358,21 +358,10 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 	ss = g_new0(SlideShowData, 1);
 
 	ss->imd = imd;
-
 	ss->filelist = filelist;
 	ss->cd = cd;
 	ss->layout = lw;
-	ss->dir_fd = NULL;
-
-	ss->list = NULL;
-	ss->list_done = NULL;
-
-	ss->from_selection = FALSE;
-
-	ss->stop_func = NULL;
-
 	ss->timeout_id = -1;
-	ss->paused = FALSE;
 
 	if (ss->filelist)
 		{

@@ -67,18 +67,7 @@ ViewDir *vd_new(DirViewType type, FileData *dir_fd)
 
 	ViewDir *vd = g_new0(ViewDir, 1);
 
-	vd->dir_fd = NULL;
-	vd->click_fd = NULL;
-
-	vd->drop_fd = NULL;
-	vd->drop_list = NULL;
 	vd->drop_scroll_id = -1;
-	vd->drop_list = NULL;
-
-	vd->popup = NULL;
-
-	vd->dnd_drop_leave_func = NULL;
-	vd->dnd_drop_update_func = NULL;
 
 	vd->widget = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(vd->widget), GTK_SHADOW_IN);

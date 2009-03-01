@@ -1033,10 +1033,6 @@ GtkWidget *path_selection_new_with_files(GtkWidget *entry, const gchar *path,
 	GtkCellRenderer *renderer;
 
 	dd = g_new0(Dest_Data, 1);
-	dd->show_hidden = FALSE;
-	dd->select_func = NULL;
-	dd->select_data = NULL;
-	dd->gd = NULL;
 
 	table = gtk_table_new(4, (filter != NULL) ? 3 : 1, FALSE);
 	gtk_table_set_col_spacings(GTK_TABLE(table), PREF_PAD_GAP);

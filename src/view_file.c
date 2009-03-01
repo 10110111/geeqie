@@ -679,21 +679,10 @@ ViewFile *vf_new(FileViewType type, FileData *dir_fd)
 	ViewFile *vf;
 
 	vf = g_new0(ViewFile, 1);
+	
 	vf->type = type;
-
-	vf->info = NULL;
-	vf->dir_fd = NULL;
-	vf->list = NULL;
-
 	vf->sort_method = SORT_NAME;
 	vf->sort_ascend = TRUE;
-	
-	vf->thumbs_running = FALSE;
-	vf->thumbs_loader = NULL;
-	vf->thumbs_filedata = NULL;
-
-	vf->popup = NULL;
-
 	vf->refresh_idle_id = -1;
 
 	vf->scrolled = gtk_scrolled_window_new(NULL, NULL);

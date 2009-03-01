@@ -957,10 +957,9 @@ ViewDir *vdtree_new(ViewDir *vd, FileData *dir_fd)
 	GtkCellRenderer *renderer;
 
 	vd->info = g_new0(ViewDirInfoTree, 1);
-	vd->type = DIRVIEW_TREE;
 
+	vd->type = DIRVIEW_TREE;
 	VDTREE(vd)->drop_expand_id = -1;
-	VDTREE(vd)->busy_ref = 0;
 
 	vd->dnd_drop_leave_func = vdtree_dnd_drop_expand_cancel;
 	vd->dnd_drop_update_func = vdtree_dnd_drop_expand;

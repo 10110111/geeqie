@@ -475,16 +475,11 @@ ThumbLoader *thumb_loader_new(gint width, gint height)
 		}
 
 	tl = g_new0(ThumbLoader, 1);
-	tl->standard_loader = FALSE;
-	tl->fd = NULL;
+	
 	tl->cache_enable = options->thumbnails.enable_caching;
-	tl->cache_hit = FALSE;
 	tl->percent_done = 0.0;
 	tl->max_w = width;
 	tl->max_h = height;
-
-	tl->il = NULL;
-
 	tl->idle_done_id = -1;
 
 	return tl;

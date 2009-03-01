@@ -438,9 +438,8 @@ ViewDir *vdlist_new(ViewDir *vd, FileData *dir_fd)
 	GtkCellRenderer *renderer;
 
 	vd->info = g_new0(ViewDirInfoList, 1);
-	vd->type = DIRVIEW_LIST;
 
-	VDLIST(vd)->list = NULL;
+	vd->type = DIRVIEW_LIST;
 
 	store = gtk_list_store_new(5, G_TYPE_POINTER, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_STRING);
 	vd->view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));

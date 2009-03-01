@@ -1711,48 +1711,16 @@ ImageWindow *image_new(gint frame)
 
 	imd = g_new0(ImageWindow, 1);
 
-	imd->top_window = NULL;
-	imd->title = NULL;
-	imd->title_right = NULL;
-	imd->title_show_zoom = FALSE;
-
 	imd->unknown = TRUE;
-
 	imd->has_frame = -1; /* not initialized; for image_set_frame */
-	imd->top_window_sync = FALSE;
-
 	imd->delay_alter_type = ALTER_NONE;
-
-	imd->read_ahead_il = NULL;
-	imd->read_ahead_fd = NULL;
-
-	imd->completed = FALSE;
 	imd->state = IMAGE_STATE_NONE;
-
-	imd->color_profile_enable = FALSE;
-	imd->color_profile_input = 0;
-	imd->color_profile_screen = 0;
-	imd->color_profile_use_image = FALSE;
 	imd->color_profile_from_image = COLOR_PROFILE_NONE;
-
-	imd->auto_refresh = FALSE;
-
-	imd->delay_flip = FALSE;
-
-	imd->func_update = NULL;
-	imd->func_complete = NULL;
-	imd->func_tile_request = NULL;
-	imd->func_tile_dispose = NULL;
-
-	imd->func_button = NULL;
-	imd->func_scroll = NULL;
-
 	imd->orientation = 1;
 
 	imd->pr = GTK_WIDGET(pixbuf_renderer_new());
 
 	image_options_set(imd);
-
 
 	imd->widget = gtk_vbox_new(0, 0);
 

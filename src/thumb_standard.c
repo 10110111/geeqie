@@ -76,16 +76,9 @@ ThumbLoaderStd *thumb_loader_std_new(gint width, gint height)
 	tl = g_new0(ThumbLoaderStd, 1);
 
 	tl->standard_loader = TRUE;
-
 	tl->requested_width = width;
 	tl->requested_height = height;
-
-	tl->il = NULL;
-	tl->fd = NULL;
-
 	tl->cache_enable = options->thumbnails.enable_caching;
-	tl->cache_local = FALSE;
-	tl->cache_retry = FALSE;
 
 	return tl;
 }

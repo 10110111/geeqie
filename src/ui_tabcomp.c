@@ -798,17 +798,10 @@ void tab_completion_add_to_entry(GtkWidget *entry, void (*enter_func)(const gcha
 		}
 
 	td = g_new0(TabCompData, 1);
+
 	td->entry = entry;
-	td->dir_path = NULL;
-	td->file_list = NULL;
 	td->enter_func = enter_func;
 	td->enter_data = data;
-	td->tab_func = NULL;
-	td->tab_data = NULL;
-
-	td->has_history = FALSE;
-	td->history_key = NULL;
-	td->history_levels = 0;
 
 	g_object_set_data(G_OBJECT(td->entry), "tab_completion_data", td);
 

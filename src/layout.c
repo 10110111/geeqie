@@ -2016,15 +2016,9 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 
 //	lw->options.tools_float = popped;
 //	lw->options.tools_hidden = hidden;
-
-	lw->utility_box = NULL;
-	lw->bar_sort = NULL;
 //	lw->bar_sort_enabled = options->panels.sort.enabled;
-
-	lw->bar = NULL;
 //	lw->bar_enabled = options->panels.info.enabled;
 
-	lw->exif_window = NULL;
 	/* default layout */
 
 	layout_config_parse(lw->options.style, lw->options.order,

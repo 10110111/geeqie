@@ -1936,17 +1936,12 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 {
 	GtkTreeStore *store;
 	GtkTreeSelection *selection;
-
 	GType flist_types[FILE_COLUMN_COUNT];
 	gint i;
 	gint column;
 
 	vf->info = g_new0(ViewFileInfoList, 1);
 	
-	VFLIST(vf)->click_fd = NULL;
-	VFLIST(vf)->select_fd = NULL;
-	VFLIST(vf)->thumbs_enabled = FALSE;
-
 	VFLIST(vf)->select_idle_id = -1;
 
 	flist_types[FILE_COLUMN_POINTER] = G_TYPE_POINTER;
