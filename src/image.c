@@ -1501,35 +1501,23 @@ void image_to_root_window(ImageWindow *imd, gint scaled)
 
 void image_select(ImageWindow *imd, gboolean select)
 {
-	if (imd->has_frame)
+	if (!imd->has_frame) return;
+	
+	if (select)
 		{
-		if (select)
-			{
-			gtk_widget_set_state(imd->widget, GTK_STATE_SELECTED);
-			gtk_widget_set_state(imd->pr, GTK_STATE_NORMAL); /* do not propagate */
-			}
-		else
-			gtk_widget_set_state(imd->widget, GTK_STATE_NORMAL);
+		gtk_widget_set_state(imd->widget, GTK_STATE_SELECTED);
+		gtk_widget_set_state(imd->pr, GTK_STATE_NORMAL); /* do not propagate */
 		}
+	else
+		gtk_widget_set_state(imd->widget, GTK_STATE_NORMAL);
 }
-
-
 
 void image_set_selectable(ImageWindow *imd, gboolean selectable)
 {
-	if (imd->has_frame)
-		{
-		if (selectable)
-			{
-			gtk_frame_set_shadow_type(GTK_FRAME(imd->frame), GTK_SHADOW_NONE);
-			gtk_container_set_border_width(GTK_CONTAINER(imd->frame), 4);
-			}
-		else
-			{
-			gtk_frame_set_shadow_type(GTK_FRAME(imd->frame), GTK_SHADOW_NONE);
-			gtk_container_set_border_width(GTK_CONTAINER(imd->frame), 0);
-			}
-		}
+	if (!imd->has_frame) return;
+	
+	gtk_frame_set_shadow_type(GTK_FRAME(imd->frame), GTK_SHADOW_NONE);
+	gtk_container_set_border_width(GTK_CONTAINER(imd->frame), selectable ? 4 : 0);
 }
 
 /*
