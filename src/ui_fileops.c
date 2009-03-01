@@ -424,7 +424,7 @@ gint access_file(const gchar *s, gint mode)
 	gchar *sl;
 	gint ret;
 
-	if (!s) return FALSE;
+	if (!s || !s[0]) return FALSE;
 
 	sl = path_from_utf8(s);
 	ret = (access(sl, mode) == 0);
