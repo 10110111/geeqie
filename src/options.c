@@ -185,9 +185,11 @@ void setup_default_options(ConfOptions *options)
 
 	options->shell.path = g_strdup(GQ_DEFAULT_SHELL_PATH);
 	options->shell.options = g_strdup(GQ_DEFAULT_SHELL_OPTIONS);
-	
+
+#if 0	
 	for (i = 0; ExifUIList[i].key; i++)
 		ExifUIList[i].current = ExifUIList[i].default_value;
+#endif
 }
 
 void copy_layout_options(LayoutOptions *dest, const LayoutOptions *src)

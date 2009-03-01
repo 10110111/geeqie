@@ -1437,7 +1437,7 @@ static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 	if (!fd) return;
 
 	pan_text_alignment_add(ta, NULL, NULL);
-
+#if 0
 	for (i = 0; ExifUIList[i].key; i++)
 		{
 		gchar *label;
@@ -1481,7 +1481,9 @@ static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 			g_free(text);
 			}
 		}
+#endif
 }
+
 
 static void pan_info_update(PanWindow *pw, PanItem *pi)
 {

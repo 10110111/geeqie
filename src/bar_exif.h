@@ -14,22 +14,6 @@
 #ifndef BAR_EXIF_H
 #define BAR_EXIF_H
 
-#define EXIF_UI_OFF     0
-#define EXIF_UI_IFSET   1
-#define EXIF_UI_ON      2
-
-typedef struct _ExifUI ExifUI;
-struct _ExifUI {
-	gint         current;
-	gint         temp;
-	gint         default_value;
-	const gchar *key;
-};
-extern ExifUI ExifUIList[];
-
-#define EXIF_BAR_CUSTOM_COUNT 20
-
-
 GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded, gboolean populate);
 GtkWidget *bar_pane_exif_new_from_config(const gchar **attribute_names, const gchar **attribute_values);
 void bar_pane_exif_entry_add_from_config(GtkWidget *pane, const gchar **attribute_names, const gchar **attribute_values);

@@ -361,11 +361,13 @@ static void config_window_apply(void)
 	config_entry_to_option(color_profile_screen_file_entry, &options->color_profile.screen_file, NULL);
 #endif
 
+#if 0
 	for (i = 0; ExifUIList[i].key; i++)
 		{
 		ExifUIList[i].current = ExifUIList[i].temp;
 		}
 
+#endif
 	{
 	gchar *layout_order = layout_config_get(layout_widget, &new_style);
 
@@ -1489,6 +1491,7 @@ static void config_tab_properties(GtkWidget *notebook)
 
 	table = pref_table_new(group, 2, 2, FALSE, FALSE);
 
+#if 0
 	for (i = 0; ExifUIList[i].key; i++)
 		{
 		gchar *title;
@@ -1498,6 +1501,7 @@ static void config_tab_properties(GtkWidget *notebook)
 			  &ExifUIList[i].temp);
 		g_free(title);
 		}
+#endif
 }
 
 /* advanced entry tab */

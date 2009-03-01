@@ -161,6 +161,7 @@ void advanced_exif_set_fd(GtkWidget *window, FileData *fd)
 	advanced_exif_update(ew);
 }
 
+#if 0
 static void advanced_exif_row_toggled_cb(GtkCellRendererToggle *toggle, const gchar *path, gpointer data)
 {
 	GtkWidget *listview = data;
@@ -199,7 +200,9 @@ static void advanced_exif_row_toggled_cb(GtkCellRendererToggle *toggle, const gc
 
 	g_free(name);
 }
+#endif 
 
+#if 0
 static void advanced_exif_add_column_check(GtkWidget *listview, const gchar *title, gint n)
 {
 	GtkTreeViewColumn *column;
@@ -217,6 +220,7 @@ static void advanced_exif_add_column_check(GtkWidget *listview, const gchar *tit
 	g_signal_connect(G_OBJECT(renderer), "toggled",
 			 G_CALLBACK(advanced_exif_row_toggled_cb), listview);
 }
+#endif
 
 static void advanced_exif_add_column(GtkWidget *listview, const gchar *title, gint n, gint sizable)
 {
@@ -297,7 +301,7 @@ GtkWidget *advanced_exif_new(void)
 
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(ew->listview), EXIF_ADVCOL_NAME);
 
-	advanced_exif_add_column_check(ew->listview, "", EXIF_ADVCOL_ENABLED);
+//	advanced_exif_add_column_check(ew->listview, "", EXIF_ADVCOL_ENABLED);
 
 	advanced_exif_add_column(ew->listview, _("Description"), EXIF_ADVCOL_DESCRIPTION, FALSE);
 	advanced_exif_add_column(ew->listview, _("Value"), EXIF_ADVCOL_VALUE, TRUE);
