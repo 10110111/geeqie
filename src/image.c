@@ -198,6 +198,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, gint run_
 	const gchar *screen_file;
 	guchar *profile = NULL;
 	guint profile_len;
+	ExifData *exif;
 
 	if (imd->cm) return FALSE;
 
@@ -237,52 +238,61 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, gint run_
 		{
 		return FALSE;
 		}
+
+
 	imd->color_profile_from_image = COLOR_PROFILE_NONE;
 
-	if (imd->color_profile_use_image)
-		{
-		ExifData *exif = exif_read_fd(imd->image_fd);
+	exif = exif_read_fd(imd->image_fd);
 		
-		if (exif)
+	if (exif)
+		{
+		gint cs;
+		gchar *interop_index;
+
+		/* ColorSpace == 1 specifies sRGB per EXIF 2.2 */
+		if (!exif_get_integer(exif, "Exif.Photo.ColorSpace", &cs)) cs = 0;
+		interop_index = exif_get_data_as_text(exif, "Exif.Iop.InteroperabilityIndex");
+
+		if (cs == 1)
 			{
-			profile = exif_get_color_profile(exif, &profile_len);
-			if (!profile)
+			if (imd->color_profile_use_image)
 				{
-				gint cs;
-				gchar *interop_index;
-
-				/* ColorSpace == 1 specifies sRGB per EXIF 2.2 */
-				if (!exif_get_integer(exif, "Exif.Photo.ColorSpace", &cs)) cs = 0;
-				interop_index = exif_get_data_as_text(exif, "Exif.Iop.InteroperabilityIndex");
-
-				if (cs == 1)
-					{
-					input_type = COLOR_PROFILE_SRGB;
-					input_file = NULL;
-					imd->color_profile_from_image = COLOR_PROFILE_SRGB;
-
-					DEBUG_1("Found EXIF ColorSpace of sRGB");
-					}
-				if (cs == 2 || (interop_index && !strcmp(interop_index, "R03")))
-					{
-					input_type = COLOR_PROFILE_ADOBERGB;
-					input_file = NULL;
-					imd->color_profile_from_image = COLOR_PROFILE_ADOBERGB;
-
-					DEBUG_1("Found EXIF ColorSpace of AdobeRGB");
-					}
-
-				g_free(interop_index);
+				input_type = COLOR_PROFILE_SRGB;
+				input_file = NULL;
 				}
-			else
-				{
-				DEBUG_1("Found embedded color profile");
-				imd->color_profile_from_image = COLOR_PROFILE_MEM;
-				}
-			
-			exif_free_fd(imd->image_fd, exif);
+			imd->color_profile_from_image = COLOR_PROFILE_SRGB;
+
+			DEBUG_1("Found EXIF ColorSpace of sRGB");
 			}
+		if (cs == 2 || (interop_index && !strcmp(interop_index, "R03")))
+			{
+			if (imd->color_profile_use_image)
+				{
+				input_type = COLOR_PROFILE_ADOBERGB;
+				input_file = NULL;
+				}
+			imd->color_profile_from_image = COLOR_PROFILE_ADOBERGB;
+
+			DEBUG_1("Found EXIF ColorSpace of AdobeRGB");
+			}
+
+		g_free(interop_index);
+			
+		profile = exif_get_color_profile(exif, &profile_len);
+		if (profile)
+			{
+			if (!imd->color_profile_use_image)
+				{
+				g_free(profile);
+				profile = NULL;
+				}
+			DEBUG_1("Found embedded color profile");
+			imd->color_profile_from_image = COLOR_PROFILE_MEM;
+			}
+		
+		exif_free_fd(imd->image_fd, exif);
 		}
+	
 
 	if (profile)
 		{

@@ -444,7 +444,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 
 	item = menu_item_add_check(menu, _("Use profile from _image"), use_image,
 			    G_CALLBACK(layout_color_menu_use_image_cb), lw);
-	gtk_widget_set_sensitive(item, active);
+	gtk_widget_set_sensitive(item, image_profile == COLOR_PROFILE_MEM || (image_profile > COLOR_PROFILE_NONE && image_profile < COLOR_PROFILE_FILE));
 
 	for (i = COLOR_PROFILE_SRGB; i < COLOR_PROFILE_FILE; i++)
 		{
