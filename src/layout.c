@@ -482,7 +482,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 					   G_CALLBACK(layout_color_menu_input_cb), lw);
 		g_free(buf);
 		g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(i + COLOR_PROFILE_FILE));
-		gtk_widget_set_sensitive(item, active && !from_image && access_file(file, R_OK));
+		gtk_widget_set_sensitive(item, active && !from_image && is_readable_file(file));
 		}
 
 	menu_item_add_divider(menu);
@@ -498,7 +498,7 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 				   _("_Screen profile"), (screen == 1),
 				   G_CALLBACK(layout_color_menu_screen_cb), lw);
 	g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(1));
-	gtk_widget_set_sensitive(item, active && access_file(options->color_profile.screen_file, R_OK));
+	gtk_widget_set_sensitive(item, active && is_readable_file(options->color_profile.screen_file));
 
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
 #endif /* HAVE_LCMS */

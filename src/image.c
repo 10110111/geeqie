@@ -206,7 +206,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, gint run_
 		{
 		const gchar *file = options->color_profile.input_file[imd->color_profile_input - COLOR_PROFILE_FILE];
 	
-		if (!access_file(file, R_OK)) return FALSE;
+		if (!is_readable_file(file)) return FALSE;
 
 		input_type = COLOR_PROFILE_FILE;
 		input_file = file;
@@ -223,7 +223,7 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, gint run_
 		}
 
 	if (imd->color_profile_screen == 1 &&
-	    access_file(options->color_profile.screen_file, R_OK))
+	    is_readable_file(options->color_profile.screen_file))
 		{
 		screen_type = COLOR_PROFILE_FILE;
 		screen_file = options->color_profile.screen_file;
@@ -752,7 +752,7 @@ static void image_change_complete(ImageWindow *imd, gdouble zoom, gint new)
 	else
 		{
 
-		if (isfile(imd->image_fd->path))
+		if (is_readable_file(imd->image_fd->path))
 			{
 			PixbufRenderer *pr;
 	
