@@ -341,11 +341,12 @@ static UtilityData *file_util_data_new(UtilityType type)
 	UtilityData *ud;
 
 	ud = g_new0(UtilityData, 1);
+	
 	ud->type = type;
 	ud->phase = UTILITY_PHASE_START;
 	ud->update_idle_id = -1;
 	ud->perform_idle_id = -1;
-	ud->external_command = NULL;
+	
 	return ud;
 }
 

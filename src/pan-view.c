@@ -791,7 +791,6 @@ static void pan_grid_build(PanWindow *pw, gint width, gint height, gint grid_siz
 			pg->y = j * ch / 2;
 			pg->w = cw;
 			pg->h = ch;
-			pg->list = NULL;
 
 			pw->list_grid = g_list_prepend(pw->list_grid, pg);
 
@@ -2360,11 +2359,6 @@ static void pan_window_new_real(FileData *dir_fd)
 
 	pw->ignore_symlinks = TRUE;
 
-	pw->list = NULL;
-	pw->list_static = NULL;
-	pw->list_grid = NULL;
-
-	pw->fs = NULL;
 	pw->overlay_id = -1;
 	pw->idle_id = -1;
 

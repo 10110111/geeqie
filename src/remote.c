@@ -226,14 +226,10 @@ static RemoteConnection *remote_server_open(const gchar *path)
 		}
 
 	rc = g_new0(RemoteConnection, 1);
+	
 	rc->server = TRUE;
 	rc->fd = fd;
 	rc->path = g_strdup(path);
-
-	rc->read_func = NULL;
-	rc->read_data = NULL;
-
-	rc->clients = NULL;
 
 	channel = g_io_channel_unix_new(rc->fd);
 	g_io_channel_set_flags(channel, G_IO_FLAG_NONBLOCK, NULL); 

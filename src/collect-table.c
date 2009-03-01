@@ -2437,34 +2437,13 @@ CollectTable *collection_table_new(CollectionData *cd)
 	gint i;
 
 	ct = g_new0(CollectTable, 1);
+	
 	ct->cd = cd;
-	ct->columns = 0;
-	ct->rows = 0;
-
-	ct->selection = NULL;
-	ct->prev_selection = NULL;
-
-	ct->tip_window = NULL;
 	ct->tip_delay_id = -1;
-
-	ct->marker_window = NULL;
-	ct->marker_info = NULL;
-
-	ct->status_label = NULL;
-	ct->extra_label = NULL;
-
-	ct->focus_row = 0;
-	ct->focus_column = 0;
-	ct->focus_info = NULL;
-
 	ct->show_text = options->show_icon_names;
 
 	ct->sync_idle_id = -1;
 	ct->drop_idle_id = -1;
-
-	ct->popup = NULL;
-	ct->drop_info = NULL;
-	ct->drop_list = NULL;
 
 	ct->scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(ct->scrolled), GTK_SHADOW_IN);

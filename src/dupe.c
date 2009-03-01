@@ -288,17 +288,7 @@ static DupeItem *dupe_item_new(FileData *fd)
 	di = g_new0(DupeItem, 1);
 
 	di->fd = file_data_ref(fd);
-
-	di->group = NULL;
 	di->group_rank = 0.0;
-
-	di->simd = NULL;
-	di->checksum = 0;
-	di->md5sum = NULL;
-	di->width = 0;
-	di->height = 0;
-
-	di->second = FALSE;
 
 	return di;
 }

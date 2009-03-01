@@ -833,10 +833,6 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 	if (!fd && !list && (!cd || !info)) return NULL;
 
 	vw = g_new0(ViewWindow, 1);
-	vw->fs = NULL;
-	vw->ss = NULL;
-	vw->list = NULL;
-	vw->list_pointer = NULL;
 
 	vw->window = window_new(GTK_WINDOW_TOPLEVEL, "view", PIXBUF_INLINE_ICON_VIEW, NULL, NULL);
 

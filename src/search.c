@@ -2601,10 +2601,6 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->search_height = 480;
 	sd->search_width_end = 1024;
 	sd->search_height_end = 768;
-	sd->search_name = NULL;
-	sd->search_name_match_case = FALSE;
-	sd->search_comment = NULL;
-	sd->search_comment_match_case = FALSE;
 
 	sd->search_type = SEARCH_MATCH_NONE;
 
@@ -2616,16 +2612,13 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->match_comment = SEARCH_MATCH_CONTAINS;
 
 	sd->match_name_enable = TRUE;
-	sd->match_size_enable = FALSE;
-	sd->match_date_enable = FALSE;
-	sd->match_dimensions_enable = FALSE;
-	sd->match_similarity_enable = FALSE;
-	sd->match_keywords_enable = FALSE;
-	sd->match_comment_enable = FALSE;
 
 	sd->search_similarity = 95;
-	sd->search_similarity_path = example_file ? g_strdup(example_file->path) : NULL;
-	sd->search_similarity_cd = NULL;
+	
+	if (example_file)
+		{
+		sd->search_similarity_path = g_strdup(example_file->path);
+		}
 
 	sd->search_idle_id = -1;
 	sd->update_idle_id = -1;

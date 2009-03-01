@@ -346,17 +346,9 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 
 	fd = g_new0(FileData, 1);
 	
-	fd->path = NULL;
-	fd->name = NULL;
-	fd->collate_key_name = NULL;
-	fd->collate_key_name_nocase = NULL;
-	fd->original_path = NULL;
-
 	fd->size = st->st_size;
 	fd->date = st->st_mtime;
 	fd->mode = st->st_mode;
-	fd->thumb_pixbuf = NULL;
-	fd->sidecar_files = NULL;
 	fd->ref = 1;
 	fd->magick = 0x12345678;
 

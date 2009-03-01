@@ -511,8 +511,6 @@ ExifItem *exif_item_new(ExifFormatType format, guint tag,
 	item->tag = tag;
 	item->marker = marker;
 	item->elements = elements;
-	item->data = NULL;
-	item->data_len = 0;
 
 	switch (format)
 		{
@@ -1228,8 +1226,6 @@ ExifData *exif_read(gchar *path, gchar *sidecar_path, GHashTable *modified_xmp)
 	g_free(pathl);
 
 	exif = g_new0(ExifData, 1);
-	exif->items = NULL;
-	exif->current = NULL;
 	exif->path = g_strdup(path);
 
 	res = exif_jpeg_parse(exif, (guchar *)f, size, ExifKnownMarkersList);

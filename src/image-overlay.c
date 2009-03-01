@@ -1007,7 +1007,6 @@ static void image_osd_enable(ImageWindow *imd, OsdShowFlags show)
 		osd->idle_id = -1;
 		osd->timer_id = -1;
 		osd->show = OSD_SHOW_NOTHING;
-		osd->histogram = NULL;
 		osd->x = options->image_overlay.x;
 		osd->y = options->image_overlay.y;
 		

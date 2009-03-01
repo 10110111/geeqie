@@ -450,16 +450,13 @@ PanItem *pan_item_thumb_new(PanWindow *pw, FileData *fd, gint x, gint y)
 	PanItem *pi;
 
 	pi = g_new0(PanItem, 1);
+	
 	pi->type = PAN_ITEM_THUMB;
 	pi->fd = fd;
 	pi->x = x;
 	pi->y = y;
 	pi->width = PAN_THUMB_SIZE + PAN_SHADOW_OFFSET * 2;
 	pi->height = PAN_THUMB_SIZE + PAN_SHADOW_OFFSET * 2;
-
-	pi->pixbuf = NULL;
-
-	pi->queued = FALSE;
 
 	pw->list = g_list_prepend(pw->list, pi);
 
@@ -849,8 +846,6 @@ PanTextAlignment *pan_text_alignment_new(PanWindow *pw, gint x, gint y, const gc
 	ta = g_new0(PanTextAlignment, 1);
 
 	ta->pw = pw;
-	ta->column1 = NULL;
-	ta->column2 = NULL;
 	ta->x = x;
 	ta->y = y;
 	ta->key = g_strdup(key);

@@ -323,23 +323,10 @@ CollectionData *collection_new(const gchar *path)
 
 	cd = g_new0(CollectionData, 1);
 
-	collection_list = g_list_append(collection_list, cd);
-
 	cd->ref = 1;	/* starts with a ref of 1 */
-
-	cd->list = NULL;
 	cd->sort_method = SORT_NONE;
-	cd->thumb_loader = NULL;
-	cd->info_updated_func = NULL;
-
-	cd->window_read = FALSE;
-	cd->window_x = 0;
-	cd->window_y = 0;
 	cd->window_w = COLLECT_DEF_WIDTH;
 	cd->window_h = COLLECT_DEF_HEIGHT;
-
-	cd->changed = FALSE;
-
 	cd->existence = g_hash_table_new(NULL, NULL);
 
 	if (path)
@@ -350,8 +337,6 @@ CollectionData *collection_new(const gchar *path)
 		}
 	else
 		{
-		cd->path = NULL;
-
 		if (untitled_counter == 0)
 			{
 			cd->name = g_strdup(_("Untitled"));
@@ -366,6 +351,9 @@ CollectionData *collection_new(const gchar *path)
 
 	file_data_register_notify_func(collection_notify_cb, cd, NOTIFY_PRIORITY_MEDIUM);
 
+
+	collection_list = g_list_append(collection_list, cd);
+	
 	return cd;
 }
 
@@ -1182,8 +1170,6 @@ CollectWindow *collection_window_new(const gchar *path)
 	GdkGeometry geometry;
 
 	cw = g_new0(CollectWindow, 1);
-
-	cw->close_dialog = NULL;
 
 	collection_window_list = g_list_append(collection_window_list, cw);
 

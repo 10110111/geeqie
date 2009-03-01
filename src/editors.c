@@ -1057,8 +1057,6 @@ static gint editor_command_start(const EditorDescription *editor, const gchar *t
 	ed->flags = flags;
 	ed->editor = editor;
 	ed->total = (flags & EDITOR_SINGLE_COMMAND) ? 1 : g_list_length(list);
-	ed->count = 0;
-	ed->stopping = FALSE;
 	ed->callback = cb;
 	ed->data =  data;
 

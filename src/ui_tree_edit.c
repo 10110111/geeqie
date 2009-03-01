@@ -209,7 +209,6 @@ gint tree_edit_by_path(GtkTreeView *tree, GtkTreePath *tpath, gint column, const
 	ted = g_new0(TreeEditData, 1);
 
 	ted->old_name = g_strdup(text);
-	ted->new_name = NULL;
 
 	ted->edit_func = edit_func;
 	ted->edit_data = data;
