@@ -332,7 +332,6 @@ GtkWidget *bar_new(GtkWidget *bounding_widget)
 	BarData *bd;
 	GtkWidget *box;
 	GtkWidget *sizer;
-	GtkWidget *label;
 	GtkWidget *button;
 	GtkWidget *arrow;
 	GtkWidget *scrolled;
@@ -357,14 +356,9 @@ GtkWidget *bar_new(GtkWidget *bounding_widget)
 	gtk_box_pack_start(GTK_BOX(box), sizer, FALSE, FALSE, 0);
 	gtk_widget_show(sizer);
 
-	label = gtk_label_new(_("Filename:"));
-	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.0);
-	gtk_box_pack_start(GTK_BOX(box), label, TRUE, TRUE, 0);
-	gtk_widget_show(label);
-
 	bd->label_file_name = gtk_label_new("");
-	pref_label_bold(bd->label_file_name, TRUE, FALSE);
-	gtk_misc_set_alignment(GTK_MISC(bd->label_file_name), 0.0, 0.0);
+	gtk_label_set_selectable(GTK_LABEL(bd->label_file_name), TRUE);
+	gtk_misc_set_alignment(GTK_MISC(bd->label_file_name), 0.5, 0.5);
 	gtk_box_pack_start(GTK_BOX(box), bd->label_file_name, TRUE, TRUE, 0);
 	gtk_widget_show(bd->label_file_name);
 
