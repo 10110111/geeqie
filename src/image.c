@@ -1633,17 +1633,17 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 		{
 		imd->frame = gtk_frame_new(NULL);
 #if GTK_CHECK_VERSION(2,12,0)
-        g_object_ref(imd->pr);
+        	g_object_ref(imd->pr);
 #else
-        gtk_widget_ref(imd->pr);
+        	gtk_widget_ref(imd->pr);
 #endif
 		if (imd->has_frame != -1) gtk_container_remove(GTK_CONTAINER(imd->widget), imd->pr);
 		gtk_container_add(GTK_CONTAINER(imd->frame), imd->pr);
 
 #if GTK_CHECK_VERSION(2,12,0)
-        g_object_unref(imd->pr);
+        	g_object_unref(imd->pr);
 #else
-        gtk_widget_unref(imd->pr);
+        	gtk_widget_unref(imd->pr);
 #endif
 		g_signal_connect(G_OBJECT(imd->frame), "expose_event",
 		    		 G_CALLBACK(selectable_frame_expose_cb), NULL);
@@ -1658,11 +1658,11 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 				       G_CALLBACK(image_focus_expose), imd);
 
 #if GTK_CHECK_VERSION(2,14,0)
-        gtk_box_pack_start(GTK_BOX(imd->widget), imd->frame, TRUE, TRUE, 0);
+        	gtk_box_pack_start(GTK_BOX(imd->widget), imd->frame, TRUE, TRUE, 0);
 #else
-        gtk_box_pack_start_defaults(GTK_BOX(imd->widget), imd->frame);
+        	gtk_box_pack_start_defaults(GTK_BOX(imd->widget), imd->frame);
 #endif
-        gtk_widget_show(imd->frame);
+        	gtk_widget_show(imd->frame);
 		}
 	else
 		{
@@ -1678,15 +1678,15 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 			imd->frame = NULL;
 			}
 #if GTK_CHECK_VERSION(2,14,0)
-        gtk_box_pack_start(GTK_BOX(imd->widget), imd->pr, TRUE, TRUE, 0);
+        	gtk_box_pack_start(GTK_BOX(imd->widget), imd->pr, TRUE, TRUE, 0);
 #else
 		gtk_box_pack_start_defaults(GTK_BOX(imd->widget), imd->pr);
 #endif
 
 #if GTK_CHECK_VERSION(2,12,0)
-	g_object_unref(imd->pr);
+		g_object_unref(imd->pr);
 #else
-	gtk_widget_unref(imd->pr);
+		gtk_widget_unref(imd->pr);
 #endif
 		}
 
