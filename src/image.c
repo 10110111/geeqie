@@ -189,7 +189,7 @@ static void image_update_title(ImageWindow *imd)
  *-------------------------------------------------------------------
  */
 
-static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData *exif, gint run_in_bg)
+static gint image_post_process_color(ImageWindow *imd, gint start_row, gint run_in_bg)
 {
 	ColorMan *cm;
 	ColorManProfileType input_type;
@@ -239,44 +239,53 @@ static gint image_post_process_color(ImageWindow *imd, gint start_row, ExifData 
 		}
 	imd->color_profile_from_image = COLOR_PROFILE_NONE;
 
-	if (imd->color_profile_use_image && exif)
+	if (imd->color_profile_use_image)
 		{
-		profile = exif_get_color_profile(exif, &profile_len);
-		if (!profile)
+		ExifData *exif = exif_read_fd(imd->image_fd);
+		
+		if (exif)
 			{
-			gint cs;
-			gchar *interop_index;
-
-			/* ColorSpace == 1 specifies sRGB per EXIF 2.2 */
-			if (!exif_get_integer(exif, "Exif.Photo.ColorSpace", &cs)) cs = 0;
-			interop_index = exif_get_data_as_text(exif, "Exif.Iop.InteroperabilityIndex");
-
-			if (cs == 1)
+			profile = exif_get_color_profile(exif, &profile_len);
+			if (!profile)
 				{
-				input_type = COLOR_PROFILE_SRGB;
-				input_file = NULL;
-				imd->color_profile_from_image = COLOR_PROFILE_SRGB;
+				gint cs;
+				gchar *interop_index;
 
-				DEBUG_1("Found EXIF ColorSpace of sRGB");
+				/* ColorSpace == 1 specifies sRGB per EXIF 2.2 */
+				if (!exif_get_integer(exif, "Exif.Photo.ColorSpace", &cs)) cs = 0;
+				interop_index = exif_get_data_as_text(exif, "Exif.Iop.InteroperabilityIndex");
+
+				if (cs == 1)
+					{
+					input_type = COLOR_PROFILE_SRGB;
+					input_file = NULL;
+					imd->color_profile_from_image = COLOR_PROFILE_SRGB;
+
+					DEBUG_1("Found EXIF ColorSpace of sRGB");
+					}
+				if (cs == 2 || (interop_index && !strcmp(interop_index, "R03")))
+					{
+					input_type = COLOR_PROFILE_ADOBERGB;
+					input_file = NULL;
+					imd->color_profile_from_image = COLOR_PROFILE_ADOBERGB;
+
+					DEBUG_1("Found EXIF ColorSpace of AdobeRGB");
+					}
+
+				g_free(interop_index);
 				}
-			if (cs == 2 || (interop_index && !strcmp(interop_index, "R03")))
+			else
 				{
-				input_type = COLOR_PROFILE_ADOBERGB;
-				input_file = NULL;
-				imd->color_profile_from_image = COLOR_PROFILE_ADOBERGB;
-
-				DEBUG_1("Found EXIF ColorSpace of AdobeRGB");
+				DEBUG_1("Found embedded color profile");
+				imd->color_profile_from_image = COLOR_PROFILE_MEM;
 				}
-
-			g_free(interop_index);
+			
+			exif_free_fd(imd->image_fd, exif);
 			}
 		}
 
 	if (profile)
 		{
-		DEBUG_1("Found embedded color profile");
-		imd->color_profile_from_image = COLOR_PROFILE_MEM;
-
 		cm = color_man_new_embedded(run_in_bg ? imd : NULL, NULL,
 					    profile, profile_len,
 					    screen_type, screen_file);
@@ -1039,17 +1048,7 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gint
 
 	if (imd->color_profile_enable)
 		{
-		ExifData *exif = NULL;
-
-		if (imd->color_profile_use_image) exif = exif_read_fd(imd->image_fd);
-
-		if (!image_post_process_color(imd, 0, exif, FALSE))
-			{
-			/* fixme: note error to user */
-//			image_state_set(imd, IMAGE_STATE_COLOR_ADJ);
-			}
-		if (exif) exif_free_fd(imd->image_fd, exif);
-
+		image_post_process_color(imd, 0, FALSE); /* TODO: error handling */
 		}
 
 	if (imd->cm || imd->desaturate)
