@@ -26,12 +26,6 @@
 
 #include <math.h>
 
-ExifUI ExifUIList[]={
-	{ 0, 0, EXIF_UI_OFF,	NULL}
-};
-
-
-
 /*
  *-------------------------------------------------------------------
  * EXIF widget
@@ -61,10 +55,9 @@ struct _PaneExifData
 	GtkSizeGroup *size_group;
 
 	FileData *fd;
-	GList *entries;
 };
 
-static void bar_pane_exif_update_entry(PaneExifData *ped, ExifEntry *ee, gboolean update_title);
+static void bar_pane_exif_update_entry(PaneExifData *ped, GtkWidget *entry, gboolean update_title);
 
 static void bar_pane_exif_entry_destroy(GtkWidget *widget, gpointer data)
 {
@@ -94,6 +87,7 @@ static void bar_pane_exif_add_entry(PaneExifData *ped, const gchar *key, const g
 	ee->if_set = if_set;
 	
 	ee->hbox = gtk_hbox_new(FALSE, 0);
+	g_object_set_data(G_OBJECT(ee->hbox), "entry_data", ee);
 	g_signal_connect_after(G_OBJECT(ee->hbox), "destroy",
 			       G_CALLBACK(bar_pane_exif_entry_destroy), ee);
 	
@@ -112,8 +106,7 @@ static void bar_pane_exif_add_entry(PaneExifData *ped, const gchar *key, const g
 	gtk_widget_show(ee->value_label);
 	
 	gtk_box_pack_start(GTK_BOX(ped->vbox), ee->hbox, TRUE, TRUE, 0);
-	ped->entries = g_list_append(ped->entries, ee);
-	bar_pane_exif_update_entry(ped, ee, TRUE);
+	bar_pane_exif_update_entry(ped, ee->hbox, TRUE);
 }
 	
 static void bar_pane_exif_entry_update_title(ExifEntry *ee)
@@ -125,9 +118,12 @@ static void bar_pane_exif_entry_update_title(ExifEntry *ee)
 	g_free(markup);
 }
 
-static void bar_pane_exif_update_entry(PaneExifData *ped, ExifEntry *ee, gboolean update_title)
+static void bar_pane_exif_update_entry(PaneExifData *ped, GtkWidget *entry, gboolean update_title)
 {
-	gchar *text =  metadata_read_string(ped->fd, ee->key, METADATA_FORMATTED);
+	gchar *text;
+	ExifEntry *ee = g_object_get_data(G_OBJECT(entry), "entry_data");
+	if (!ee) return;
+	text = metadata_read_string(ped->fd, ee->key, METADATA_FORMATTED);
 
 	if (ee->if_set && (!text || !*text))
 		{
@@ -150,7 +146,7 @@ static void bar_pane_exif_update_entry(PaneExifData *ped, ExifEntry *ee, gboolea
 
 static void bar_pane_exif_update(PaneExifData *ped)
 {
-	GList *work;
+	GList *list, *work;
 
 #if 0
 	ExifData *exif;
@@ -172,15 +168,16 @@ static void bar_pane_exif_update(PaneExifData *ped)
 
 	bar_pane_exif_sensitive(ped, TRUE);
 #endif	
-
-	work = ped->entries;
+	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));	
+	work = list;
 	while (work)
 		{
-		ExifEntry *ee = work->data;
+		GtkWidget *entry = work->data;
 		work = work->next;
 		
-		bar_pane_exif_update_entry(ped, ee, FALSE);
+		bar_pane_exif_update_entry(ped, entry, FALSE);
 		}
+	g_list_free(list);
 }
 
 void bar_pane_exif_set_fd(GtkWidget *widget, FileData *fd)
@@ -196,8 +193,11 @@ void bar_pane_exif_set_fd(GtkWidget *widget, FileData *fd)
 	bar_pane_exif_update(ped);
 }
 
-static void bar_pane_exif_entry_write_config(ExifEntry *ee, GString *outstr, gint indent)
+static void bar_pane_exif_entry_write_config(GtkWidget *entry, GString *outstr, gint indent)
 {
+	ExifEntry *ee = g_object_get_data(G_OBJECT(entry), "entry_data");
+	if (!ee) return;
+
 	WRITE_STRING("<entry\n");
 	indent++;
 	WRITE_CHAR(*ee, key);
@@ -210,7 +210,7 @@ static void bar_pane_exif_entry_write_config(ExifEntry *ee, GString *outstr, gin
 static void bar_pane_exif_write_config(GtkWidget *pane, GString *outstr, gint indent)
 {
 	PaneExifData *ped;
-	GList *work;
+	GList *work, *list;
 	
 	ped = g_object_get_data(G_OBJECT(pane), "pane_data");
 	if (!ped) return;
@@ -222,14 +222,17 @@ static void bar_pane_exif_write_config(GtkWidget *pane, GString *outstr, gint in
 	indent--;
 	WRITE_STRING(">\n");
 	indent++;
-	work = ped->entries;
+	
+	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));	
+	work = list;
 	while (work)
 		{
-		ExifEntry *ee = work->data;
+		GtkWidget *entry = work->data;
 		work = work->next;
 		
-		bar_pane_exif_entry_write_config(ee, outstr, indent);
+		bar_pane_exif_entry_write_config(entry, outstr, indent);
 		}
+	g_list_free(list);
 	indent--;
 	WRITE_STRING("</pane_exif>\n");
 }
@@ -249,7 +252,6 @@ static void bar_pane_exif_destroy(GtkWidget *widget, gpointer data)
 {
 	PaneExifData *ped = data;
 
-	g_list_free(ped->entries);
 	g_object_unref(ped->size_group);
 	file_data_unref(ped->fd);
 	g_free(ped);
