@@ -26,6 +26,7 @@
 
 #include <math.h>
 
+#define MIN_HEIGHT 25
 /*
  *-------------------------------------------------------------------
  * EXIF widget
@@ -54,6 +55,8 @@ struct _PaneExifData
 	GtkWidget *widget;
 	GtkSizeGroup *size_group;
 
+	gint min_height;
+	
 	FileData *fd;
 };
 
@@ -257,6 +260,21 @@ static void bar_pane_exif_destroy(GtkWidget *widget, gpointer data)
 	g_free(ped);
 }
 
+static void bar_pane_exif_size_request(GtkWidget *pane, GtkRequisition *requisition, gpointer data)
+{
+	PaneExifData *ped = data;
+	if (requisition->height < ped->min_height)
+		{
+		requisition->height = ped->min_height;
+		}
+}
+
+static void bar_pane_exif_size_allocate(GtkWidget *pane, GtkAllocation *alloc, gpointer data)
+{
+	PaneExifData *ped = data;
+	ped->min_height = alloc->height;
+}
+
 GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded, gboolean populate)
 {
 	PaneExifData *ped;
@@ -271,10 +289,14 @@ GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded, gboolean pop
 	ped->size_group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 	ped->vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
 	ped->widget = ped->vbox;
+	ped->min_height = MIN_HEIGHT;
 	g_object_set_data(G_OBJECT(ped->widget), "pane_data", ped);
 	g_signal_connect_after(G_OBJECT(ped->widget), "destroy",
 			       G_CALLBACK(bar_pane_exif_destroy), ped);
-
+	g_signal_connect(G_OBJECT(ped->widget), "size-request",
+			 G_CALLBACK(bar_pane_exif_size_request), ped);
+	g_signal_connect(G_OBJECT(ped->widget), "size-allocate",
+			 G_CALLBACK(bar_pane_exif_size_allocate), ped);
 
 	if (populate)
 		{
