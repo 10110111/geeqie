@@ -236,7 +236,7 @@ void bar_add(GtkWidget *bar, GtkWidget *pane)
 	
 	if (!bd) return;
 
-	expander = gtk_expander_new(pd ? pd->title : "");
+	expander = gtk_expander_new(NULL);
 	if (pd && pd->title)
 		{
 		gtk_expander_set_label_widget(GTK_EXPANDER(expander), pd->title);
