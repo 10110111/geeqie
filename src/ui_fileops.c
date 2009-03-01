@@ -419,6 +419,12 @@ gint filetime_set(const gchar *s, time_t tval)
 	return ret;
 }
 
+gboolean is_readable_file(const gchar *s)
+{
+	if (!s || !s[0] || !isfile(s)) return FALSE;
+	return access_file(s, R_OK);
+}
+
 gint access_file(const gchar *s, gint mode)
 {
 	gchar *sl;

@@ -54,6 +54,7 @@ gint islink(const gchar *s);
 gint64 filesize(const gchar *s);
 time_t filetime(const gchar *s);
 gint filetime_set(const gchar *s, time_t tval);
+gboolean is_readable_file(const gchar *s);
 gint access_file(const gchar *s, gint mode);
 gint unlink_file(const gchar *s);
 gint symlink_utf8(const gchar *source, const gchar *target);
