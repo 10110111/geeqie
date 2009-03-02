@@ -104,9 +104,9 @@ LayoutWindow *layout_find_by_image_fd(ImageWindow *imd)
 		{
 		LayoutWindow *lw = work->data;
 		work = work->next;
+
 		if (lw->image->image_fd == imd->image_fd)
 			return lw;
-
 		}
 
 	return NULL;
@@ -126,13 +126,10 @@ static void layout_path_entry_changed_cb(GtkWidget *widget, gpointer data)
 	if (gtk_combo_box_get_active(GTK_COMBO_BOX(widget)) < 0) return;
 
 	buf = g_strdup(gtk_entry_get_text(GTK_ENTRY(lw->path_entry)));
-	if (!buf || (lw->dir_fd && strcmp(buf, lw->dir_fd->path) == 0))
+	if (!lw->dir_fd || strcmp(buf, lw->dir_fd->path) != 0)
 		{
-		g_free(buf);
-		return;
+		layout_set_path(lw, buf);
 		}
-
-	layout_set_path(lw, buf);
 
 	g_free(buf);
 }
@@ -141,12 +138,10 @@ static void layout_path_entry_tab_cb(const gchar *path, gpointer data)
 {
 	LayoutWindow *lw = data;
 	gchar *buf;
-	gchar *base;
 
 	buf = g_strdup(path);
 	parse_out_relatives(buf);
-	base = remove_level_from_path(buf);
-
+	
 	if (isdir(buf))
 		{
 		if ((!lw->dir_fd || strcmp(lw->dir_fd->path, buf) != 0) && layout_set_path(lw, buf))
@@ -158,12 +153,17 @@ static void layout_path_entry_tab_cb(const gchar *path, gpointer data)
 						  strlen(gtk_entry_get_text(GTK_ENTRY(lw->path_entry))));
 			}
 		}
-	else if (lw->dir_fd && strcmp(lw->dir_fd->path, base) == 0)
+	else if (lw->dir_fd)
 		{
-		layout_list_scroll_to_subpart(lw, filename_from_path(buf));
-		}
+		gchar *base = remove_level_from_path(buf);
 
-	g_free(base);
+		if (strcmp(lw->dir_fd->path, base) == 0)
+			{
+			layout_list_scroll_to_subpart(lw, filename_from_path(buf));
+			}
+		g_free(base);
+		}
+		
 	g_free(buf);
 }
 
@@ -194,16 +194,8 @@ static void layout_path_entry_tab_append_cb(const gchar *path, gpointer data, gi
 	if (!lw || !lw->back_button) return;
 	if (!layout_valid(&lw)) return;
 
-	if (n >= 2)
-		{
-		/* Enable back button */
-		gtk_widget_set_sensitive(lw->back_button, TRUE);
-		}
-	else
-		{
-		/* Disable back button */
-		gtk_widget_set_sensitive(lw->back_button, FALSE);
-		}
+	/* Enable back button if it makes sense */
+	gtk_widget_set_sensitive(lw->back_button, (n > 1));
 }
 
 static GtkWidget *layout_tool_setup(LayoutWindow *lw)
@@ -1022,17 +1014,20 @@ static void layout_sync_path(LayoutWindow *lw)
 	if (!lw->dir_fd) return;
 
 	if (lw->path_entry) gtk_entry_set_text(GTK_ENTRY(lw->path_entry), lw->dir_fd->path);
-	if (lw->vd) vd_set_fd(lw->vd, lw->dir_fd);
 
+	if (lw->vd) vd_set_fd(lw->vd, lw->dir_fd);
 	if (lw->vf) vf_set_fd(lw->vf, lw->dir_fd);
 }
 
 gint layout_set_path(LayoutWindow *lw, const gchar *path)
 {
 	FileData *fd;
+	gint ret;
+
 	if (!path) return FALSE;
+	
 	fd = file_data_new_simple(path);
-	gint ret = layout_set_fd(lw, fd);
+	ret = layout_set_fd(lw, fd);
 	file_data_unref(fd);
 	return ret;
 }
