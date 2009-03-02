@@ -124,7 +124,18 @@ static void tab_completion_read_dir(TabCompData *td, const gchar *path)
 		gchar *name = dir->d_name;
 		if (strcmp(name, ".") != 0 && strcmp(name, "..") != 0)
 			{
-			list = g_list_prepend(list, path_to_utf8(name));
+			gchar *abspath = g_build_filename(path, name, NULL);
+
+			if (isdir(abspath))
+				{
+				gchar *dname = g_strconcat(name, G_DIR_SEPARATOR_S, NULL);
+				list = g_list_prepend(list, path_to_utf8(dname));
+				}
+			else
+				{
+				list = g_list_prepend(list, path_to_utf8(name));
+				}
+			g_free(abspath);
 			}
 		}
 	closedir(dp);
