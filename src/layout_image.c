@@ -1588,6 +1588,11 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 			image_set_frame(lw->split_images[i], frame);
 			image_set_selectable(lw->split_images[i], 1);
 			
+			if (lw->image)
+				{
+				image_osd_copy_status(lw->image, lw->split_images[i]);
+				}
+
 			if (layout_selection_count(lw, 0) > 1)
 				{
 				GList *work = g_list_last(layout_selection_list(lw));

@@ -221,6 +221,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 
 static void pr_signals_connect(PixbufRenderer *pr);
 static void pr_size_cb(GtkWidget *widget, GtkAllocation *allocation, gpointer data);
+static void pr_unmap_cb(GtkWidget *widget, gpointer data);
 static void pixbuf_renderer_paint(PixbufRenderer *pr, GdkRectangle *area);
 static gint pr_queue_draw_idle_cb(gpointer data);
 
@@ -518,6 +519,9 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 	gtk_widget_set_double_buffered(box, FALSE);
 	g_signal_connect_after(G_OBJECT(box), "size_allocate",
 			       G_CALLBACK(pr_size_cb), pr);
+
+	g_signal_connect(G_OBJECT(pr), "unmap",
+			 G_CALLBACK(pr_unmap_cb), pr);
 
 	pr_signals_connect(pr);
 }
@@ -852,6 +856,27 @@ static void pr_overlay_get_position(PixbufRenderer *pr, OverlayData *od,
 	if (h) *h = ph;
 }
 
+static void pr_overlay_init_window(PixbufRenderer *pr, OverlayData *od)
+{
+	gint px, py, pw, ph;
+	GdkWindowAttr attributes;
+	gint attributes_mask;
+
+	pr_overlay_get_position(pr, od, &px, &py, &pw, &ph);
+
+	attributes.window_type = GDK_WINDOW_CHILD;
+	attributes.wclass = GDK_INPUT_OUTPUT;
+	attributes.width = pw;
+	attributes.height = ph;
+	attributes.event_mask = GDK_EXPOSURE_MASK;
+	attributes_mask = 0;
+
+	od->window = gdk_window_new(GTK_WIDGET(pr)->window, &attributes, attributes_mask);
+	gdk_window_set_user_data(od->window, pr);
+	gdk_window_move(od->window, px, py);
+	gdk_window_show(od->window);
+}
+
 static void pr_overlay_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
 			    ImageTile *it)
 {
@@ -870,6 +895,8 @@ static void pr_overlay_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
 		od = work->data;
 		work = work->next;
 
+		if (!od->window) pr_overlay_init_window(pr, od);
+		
 		pr_overlay_get_position(pr, od, &px, &py, &pw, &ph);
 		if (pr_clip_region(x, y, w, h, px, py, pw, ph, &rx, &ry, &rw, &rh))
 			{
@@ -965,7 +992,7 @@ static void pr_overlay_update_sizes(PixbufRenderer *pr)
 		OverlayData *od = work->data;
 		work = work->next;
 		
-		if (!od->window) continue;
+		if (!od->window) pr_overlay_init_window(pr, od);
 		
 		if (od->flags & OVL_RELATIVE)
 			{
@@ -993,14 +1020,12 @@ static OverlayData *pr_overlay_find(PixbufRenderer *pr, gint id)
 	return NULL;
 }
 
+
 gint pixbuf_renderer_overlay_add(PixbufRenderer *pr, GdkPixbuf *pixbuf, gint x, gint y,
 				 OverlayRendererFlags flags)
 {
 	OverlayData *od;
 	gint id;
-	gint px, py, pw, ph;
-	GdkWindowAttr attributes;
-	gint attributes_mask;
 
 	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), -1);
 	g_return_val_if_fail(pixbuf != NULL, -1);
@@ -1016,20 +1041,8 @@ gint pixbuf_renderer_overlay_add(PixbufRenderer *pr, GdkPixbuf *pixbuf, gint x, 
 	od->y = y;
 	od->flags = flags;
 
-	pr_overlay_get_position(pr, od, &px, &py, &pw, &ph);
-
-	attributes.window_type = GDK_WINDOW_CHILD;
-	attributes.wclass = GDK_INPUT_OUTPUT;
-	attributes.width = pw;
-	attributes.height = ph;
-	attributes.event_mask = GDK_EXPOSURE_MASK;
-	attributes_mask = 0;
-
-	od->window = gdk_window_new(GTK_WIDGET(pr)->window, &attributes, attributes_mask);
-	gdk_window_set_user_data(od->window, pr);
-	gdk_window_move(od->window, px, py);
-	gdk_window_show(od->window);
-
+	pr_overlay_init_window(pr, od);
+	
 	pr->overlay_list = g_list_append(pr->overlay_list, od);
 
 	pr_overlay_queue_draw(pr, od);
@@ -1060,6 +1073,23 @@ static void pr_overlay_list_clear(PixbufRenderer *pr)
 
 		od = pr->overlay_list->data;
 		pr_overlay_free(pr, od);
+		}
+}
+
+static void pr_overlay_list_reset_window(PixbufRenderer *pr)
+{
+	GList *work;
+
+	if (pr->overlay_buffer) g_object_unref(pr->overlay_buffer);
+	pr->overlay_buffer = NULL;
+
+	work = pr->overlay_list;
+	while (work)
+		{
+		OverlayData *od = work->data;
+		work = work->next;
+		if (od->window) gdk_window_destroy(od->window);
+		od->window = NULL;
 		}
 }
 
@@ -1114,6 +1144,13 @@ void pixbuf_renderer_overlay_remove(PixbufRenderer *pr, gint id)
 {
 	pixbuf_renderer_overlay_set(pr, id, NULL, 0, 0);
 }
+
+static void pr_unmap_cb(GtkWidget *widget, gpointer data)
+{
+	PixbufRenderer *pr = data;
+	pr_overlay_list_reset_window(pr);
+}
+
 
 /*
  *-------------------------------------------------------------------
@@ -3799,6 +3836,8 @@ static void pr_signals_connect(PixbufRenderer *pr)
 			 G_CALLBACK(pr_mouse_release_cb), pr);
 	g_signal_connect(G_OBJECT(pr), "leave_notify_event",
 			 G_CALLBACK(pr_mouse_leave_cb), pr);
+	g_signal_connect(G_OBJECT(pr), "unmap",
+			 G_CALLBACK(pr_unmap_cb), pr);
 
 	gtk_widget_set_events(GTK_WIDGET(pr), GDK_POINTER_MOTION_MASK |
 					      GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK |
