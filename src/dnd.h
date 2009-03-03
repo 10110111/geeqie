@@ -15,9 +15,11 @@
 #define DND_H
 
 #define TARGET_APP_COLLECTION_MEMBER_STRING "application/x-" GQ_APPNAME_LC "-collection-member"
+#define TARGET_APP_EXIF_ENTRY_STRING "application/x-" GQ_APPNAME_LC "-exif-entry"
 
 enum {
 	TARGET_APP_COLLECTION_MEMBER,
+	TARGET_APP_EXIF_ENTRY,
 	TARGET_URI_LIST,
 	TARGET_TEXT_PLAIN
 };
