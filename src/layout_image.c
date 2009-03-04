@@ -1482,42 +1482,58 @@ static void layout_image_set_buttons_inactive(LayoutWindow *lw, gint i)
 	image_set_scroll_func(lw->split_images[i], layout_image_scroll_cb, lw);
 }
 
+/* Returns the length of an integer */
+static gint num_length(gint num)
+{
+    gint len = 0;
+    if (num < 0) num = -num;
+    while (num)
+    	{
+        num /= 10;
+        len++;
+    	}
+    return len;
+}
 
 void layout_status_update_pixel_cb(PixbufRenderer *pr, gpointer data)
 {
 	LayoutWindow *lw = data;
-	gchar *text;
+	gint x_pixel, y_pixel;
+
+	if (!data || !layout_valid(&lw) || !lw->image
+	    || lw->options.info_pixel_hidden || lw->image->unknown) return;
 	
-	if (!data || !layout_valid(&lw) || !lw->image || lw->options.info_pixel_hidden) return;
-
-	if (!lw->image->unknown)
+	pixbuf_renderer_get_mouse_position(pr, &x_pixel, &y_pixel);
+	
+	if(x_pixel > 0 && y_pixel > 0)
 		{
-		gint x_pixel, y_pixel;
-		
-		pixbuf_renderer_get_mouse_position(pr, &x_pixel, &y_pixel);
-		
-		if(x_pixel > 0 && y_pixel > 0)
-			{
-			gint r_mouse, g_mouse, b_mouse;
-			gint width, height, slen_width, slen_height;
-			gchar str_temp[10];
-
-			pixbuf_renderer_get_pixel_colors(pr, x_pixel, y_pixel,
-			                                 &r_mouse, &g_mouse, &b_mouse);			
-			pixbuf_renderer_get_image_size(pr, &width, &height);
-			slen_width = sprintf(str_temp, "%d", width - 1);
-			slen_height = sprintf(str_temp, "%d", height - 1);
+		gint r_mouse, g_mouse, b_mouse;
+		gint width, height;
+		gchar *text;
+		PangoAttrList *attrs;
 			
-			text = g_strdup_printf(_("<tt>pos(%*d,%*d) rgb(%3d,%3d,%3d)</tt>"), 
-			                         slen_width, x_pixel, slen_height, y_pixel,
-			                         r_mouse, g_mouse, b_mouse);
-			}
-		else
-			{
-			text = g_strdup("");
-			}
-		gtk_label_set_markup(GTK_LABEL(lw->info_pixel), text);
+		pixbuf_renderer_get_image_size(pr, &width, &height);
+		if (width < 1 || height < 1) return;
+		
+		pixbuf_renderer_get_pixel_colors(pr, x_pixel, y_pixel,
+						 &r_mouse, &g_mouse, &b_mouse);			
+		
+		attrs = pango_attr_list_new();
+		pango_attr_list_insert(attrs, pango_attr_family_new("Monospace"));
+		
+		text = g_strdup_printf(_("pos(%*d,%*d) rgb(%3d,%3d,%3d)"),
+					 num_length(width - 1), x_pixel,
+					 num_length(height - 1), y_pixel,
+					 r_mouse, g_mouse, b_mouse);
+		
+		gtk_label_set_text(GTK_LABEL(lw->info_pixel), text);
+		gtk_label_set_attributes(GTK_LABEL(lw->info_pixel), attrs);
+		pango_attr_list_unref(attrs);
 		g_free(text);
+		}
+	else
+		{
+		gtk_label_set_text(GTK_LABEL(lw->info_pixel), "");
 		}
 }
 
