@@ -26,6 +26,7 @@
 #include "menu.h"
 #include "misc.h"
 #include "pixbuf_util.h"
+#include "pixbuf-renderer.h"
 #include "slideshow.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
@@ -1481,6 +1482,46 @@ static void layout_image_set_buttons_inactive(LayoutWindow *lw, gint i)
 	image_set_scroll_func(lw->split_images[i], layout_image_scroll_cb, lw);
 }
 
+
+void layout_status_update_pixel_cb(PixbufRenderer *pr, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gchar *text;
+	
+	if (!data || !layout_valid(&lw) || !lw->image || lw->options.info_pixel_hidden) return;
+
+	if (!lw->image->unknown)
+		{
+		gint x_pixel, y_pixel;
+		
+		pixbuf_renderer_get_mouse_position(pr, &x_pixel, &y_pixel);
+		
+		if(x_pixel > 0 && y_pixel > 0)
+			{
+			gint r_mouse, g_mouse, b_mouse;
+			gint width, height, slen_width, slen_height;
+			gchar str_temp[10];
+
+			pixbuf_renderer_get_pixel_colors(pr, x_pixel, y_pixel,
+			                                 &r_mouse, &g_mouse, &b_mouse);			
+			pixbuf_renderer_get_image_size(pr, &width, &height);
+			slen_width = sprintf(str_temp, "%d", width - 1);
+			slen_height = sprintf(str_temp, "%d", height - 1);
+			
+			text = g_strdup_printf(_("<tt>pos(%*d,%*d) rgb(%3d,%3d,%3d)</tt>"), 
+			                         slen_width, x_pixel, slen_height, y_pixel,
+			                         r_mouse, g_mouse, b_mouse);
+			}
+		else
+			{
+			text = g_strdup("");
+			}
+		gtk_label_set_markup(GTK_LABEL(lw->info_pixel), text);
+		g_free(text);
+		}
+}
+
+
 /*
  *----------------------------------------------------------------------------
  * setup
@@ -1506,6 +1547,10 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 #else
 		gtk_widget_ref(lw->split_images[i]->widget);
 #endif
+
+		g_signal_connect(G_OBJECT(lw->split_images[i]->pr), "update-pixel",
+				 G_CALLBACK(layout_status_update_pixel_cb), lw);
+
 		image_background_set_color(lw->split_images[i], options->image.use_custom_border_color ? &options->image.border_color : NULL);
 
 		image_auto_refresh_enable(lw->split_images[i], TRUE);

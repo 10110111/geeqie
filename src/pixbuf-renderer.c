@@ -15,8 +15,11 @@
 #include <string.h>
 #include <math.h>
 
+#include "main.h"
 #include "pixbuf-renderer.h"
+
 #include "intl.h"
+#include "layout.h"
 
 #include <gtk/gtk.h>
 
@@ -151,6 +154,7 @@ enum {
 	SIGNAL_SCROLL_NOTIFY,
 	SIGNAL_RENDER_COMPLETE,
 	SIGNAL_DRAG,
+	SIGNAL_UPDATE_PIXEL,
 	SIGNAL_COUNT
 };
 
@@ -475,6 +479,15 @@ static void pixbuf_renderer_class_init(PixbufRendererClass *class)
 			     g_cclosure_marshal_VOID__BOXED,
 			     G_TYPE_NONE, 1,
 			     GDK_TYPE_EVENT);
+			     
+	signals[SIGNAL_UPDATE_PIXEL] =
+		g_signal_new("update-pixel",
+			     G_OBJECT_CLASS_TYPE(gobject_class),
+			     G_SIGNAL_RUN_LAST,
+			     G_STRUCT_OFFSET(PixbufRendererClass, update_pixel),
+			     NULL, NULL,
+			     g_cclosure_marshal_VOID__VOID,
+			     G_TYPE_NONE, 0);
 }
 
 static void pixbuf_renderer_init(PixbufRenderer *pr)
@@ -507,6 +520,9 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 
 	pr->scroller_id = -1;
 	pr->scroller_overlay = -1;
+	
+	pr->x_mouse = -1;
+	pr->y_mouse = -1;
 
 	pr->source_tiles_enabled = FALSE;
 	pr->source_tiles = NULL;
@@ -3129,6 +3145,11 @@ static void pr_drag_signal(PixbufRenderer *pr, GdkEventButton *bevent)
 	g_signal_emit(pr, signals[SIGNAL_DRAG], 0, bevent);
 }
 
+static void pr_update_pixel_signal(PixbufRenderer *pr)
+{
+	g_signal_emit(pr, signals[SIGNAL_UPDATE_PIXEL], 0);
+}
+
 /*
  *-------------------------------------------------------------------
  * sync and clamp
@@ -3672,7 +3693,6 @@ void pixbuf_renderer_set_scroll_center(PixbufRenderer *pr, gdouble x, gdouble y)
 	pixbuf_renderer_scroll(pr, (gint)dst_x, (gint)dst_y);
 }
 
-
 /*
  *-------------------------------------------------------------------
  * mouse
@@ -3691,7 +3711,11 @@ static gint pr_mouse_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpoint
 		pr->scroller_xpos = bevent->x;
 		pr->scroller_ypos = bevent->y;
 		}
-
+	
+	pr->x_mouse = bevent->x;
+	pr->y_mouse = bevent->y;
+	pr_update_pixel_signal(pr);
+	
 	if (!pr->in_drag || !gdk_pointer_is_grabbed()) return FALSE;
 
 	if (pr->drag_moved < PR_DRAG_SCROLL_THRESHHOLD)
@@ -3980,6 +4004,8 @@ void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source)
 
 	pr->x_scroll = source->x_scroll;
 	pr->y_scroll = source->y_scroll;
+	pr->x_mouse  = source->x_mouse;
+	pr->y_mouse  = source->y_mouse;
 
 	scroll_reset = pr->scroll_reset;
 	pr->scroll_reset = PR_SCROLL_RESET_NOCHANGE;
@@ -4108,6 +4134,82 @@ void pixbuf_renderer_zoom_set_limits(PixbufRenderer *pr, gdouble min, gdouble ma
 		pr->zoom_max = max;
 		g_object_notify(G_OBJECT(pr), "zoom_max");
 		}
+}
+
+gint pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint y_pixel, 
+                                      gint *r_mouse, gint *g_mouse, gint *b_mouse)
+{
+	GdkPixbuf *pb = pr->pixbuf;
+	gint p_alpha, prs;
+	guchar *p_pix, *pp;
+	gint map_x, map_y, map_w, map_h;
+	
+	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), FALSE);
+	g_return_val_if_fail(r_mouse != NULL && g_mouse != NULL && b_mouse != NULL, FALSE);
+
+	if (!pr->pixbuf && !pr->source_tiles_enabled)
+		{
+		*r_mouse = -1;
+		*g_mouse = -1;
+		*b_mouse = -1;
+		return FALSE;
+		}
+	
+	if (!pb) return FALSE;
+
+	pr_tile_region_map_orientation(pr,
+					x_pixel, y_pixel,
+					pr->image_width, pr->image_height,
+					1, 1, /*single pixel */
+					&map_x, &map_y,
+					&map_w, &map_h);
+
+	if (map_x < 0 || map_x > gdk_pixbuf_get_width(pr->pixbuf) - 1) return  FALSE;
+	if (map_y < 0 || map_y > gdk_pixbuf_get_height(pr->pixbuf) - 1) return  FALSE;
+	
+	p_alpha = gdk_pixbuf_get_has_alpha(pb);
+	prs = gdk_pixbuf_get_rowstride(pb);
+	p_pix = gdk_pixbuf_get_pixels(pb);
+
+	pp = p_pix + map_y * prs + (map_x * (p_alpha ? 4 : 3));
+	*r_mouse = *pp;
+	pp++;
+	*g_mouse = *pp;
+	pp++;
+	*b_mouse = *pp;
+	
+	return TRUE;
+}
+
+gint pixbuf_renderer_get_mouse_position(PixbufRenderer *pr, gint *x_pixel_return, gint *y_pixel_return)
+{
+	gint x_pixel, y_pixel, x_pixel_clamped, y_pixel_clamped;
+	     
+	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), FALSE);
+	g_return_val_if_fail(x_pixel_return != NULL && y_pixel_return != NULL, FALSE);
+
+	if (!pr->pixbuf && !pr->source_tiles_enabled)
+		{
+		*x_pixel_return = -1;
+		*y_pixel_return = -1;
+		return FALSE;
+		}
+	
+	x_pixel = (gint)((gdouble)(pr->x_mouse - pr->x_offset + pr->x_scroll) / pr->scale);
+	y_pixel = (gint)((gdouble)(pr->y_mouse - pr->y_offset + pr->y_scroll) / pr->scale);
+	x_pixel_clamped = CLAMP(x_pixel, 0, pr->image_width - 1);
+	y_pixel_clamped = CLAMP(y_pixel, 0, pr->image_height - 1);
+	
+	if(x_pixel != x_pixel_clamped || y_pixel != y_pixel_clamped)
+		{
+		/* mouse is not on pr */
+		x_pixel = y_pixel = -1;
+		}
+
+	*x_pixel_return = x_pixel;
+	*y_pixel_return = y_pixel;
+	
+	return TRUE;
 }
 
 gint pixbuf_renderer_get_image_size(PixbufRenderer *pr, gint *width, gint *height)

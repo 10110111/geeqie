@@ -105,6 +105,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->layout.show_marks = FALSE;
 	options->layout.show_thumbnails = FALSE;
 	options->layout.style = 0;
+	options->layout.info_pixel_hidden = TRUE;
 	options->layout.toolbar_hidden = FALSE;
 	options->layout.tools_float = FALSE;
 	options->layout.tools_hidden = FALSE;

@@ -51,6 +51,7 @@
 #define TOOLWINDOW_DEF_HEIGHT 450
 
 #define PROGRESS_WIDTH 150
+#define PIXEL_LABEL_WIDTH 130
 #define ZOOM_LABEL_WIDTH 64
 
 #define PANE_DIVIDER_SIZE 10
@@ -705,6 +706,8 @@ void layout_status_update_image(LayoutWindow *lw)
 					       width, height, b);
 			}
 
+		g_signal_emit_by_name (lw->image->pr, "update-pixel");
+		
 		g_free(b);
 		
 		gtk_label_set_text(GTK_LABEL(lw->info_details), text);
@@ -805,6 +808,8 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gint small_for
 	lw->info_details = layout_status_label(NULL, hbox, TRUE, 0, TRUE);
 	if (!small_format) gtk_box_pack_start(GTK_BOX(hbox), lw->info_color, FALSE, FALSE, 0);
 	if (!small_format) gtk_box_pack_start(GTK_BOX(hbox), lw->info_write, FALSE, FALSE, 0);
+	lw->info_pixel = layout_status_label(NULL, hbox, FALSE, PIXEL_LABEL_WIDTH, TRUE);
+	if (lw->options.info_pixel_hidden) gtk_widget_hide(gtk_widget_get_parent(lw->info_pixel));
 	lw->info_zoom = layout_status_label(NULL, hbox, FALSE, ZOOM_LABEL_WIDTH, FALSE);
 }
 
@@ -1742,6 +1747,7 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	lw->info_color = NULL;
 	lw->info_status = NULL;
 	lw->info_details = NULL;
+	lw->info_pixel = NULL;
 	lw->info_zoom = NULL;
 
 	if (lw->ui_manager) g_object_unref(lw->ui_manager);
@@ -1898,6 +1904,33 @@ gint layout_toolbar_hidden(LayoutWindow *lw)
 	if (!layout_valid(&lw)) return TRUE;
 
 	return lw->options.toolbar_hidden;
+}
+
+void layout_info_pixel_toggle(LayoutWindow *lw)
+{
+	GtkWidget *frame;
+	
+	if (!layout_valid(&lw)) return;
+	if (!lw->info_pixel) return;
+
+	lw->options.info_pixel_hidden = !lw->options.info_pixel_hidden;
+
+	frame = gtk_widget_get_parent(lw->info_pixel);
+	if (lw->options.info_pixel_hidden)
+		{
+		if (GTK_WIDGET_VISIBLE(frame)) gtk_widget_hide(frame);
+		}
+	else
+		{
+		if (!GTK_WIDGET_VISIBLE(frame)) gtk_widget_show(frame);
+		}
+}
+
+gint layout_info_pixel_hidden(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return TRUE;
+
+	return lw->options.info_pixel_hidden;
 }
 
 /*
@@ -2164,7 +2197,8 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 	WRITE_SEPARATOR();
 
 	WRITE_BOOL(*layout, toolbar_hidden);
-	
+	WRITE_BOOL(*layout, info_pixel_hidden);
+
 	WRITE_UINT(*layout, image_overlay.state);
 	WRITE_INT(*layout, image_overlay.histogram_channel);
 	WRITE_INT(*layout, image_overlay.histogram_mode);
@@ -2231,6 +2265,7 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		if (READ_BOOL(*layout, tools_hidden)) continue;
 		if (READ_BOOL(*layout, tools_restore_state)) continue;
 		if (READ_BOOL(*layout, toolbar_hidden)) continue;
+		if (READ_BOOL(*layout, info_pixel_hidden)) continue;
 
 		if (READ_UINT(*layout, image_overlay.state)) continue;
 		if (READ_INT(*layout, image_overlay.histogram_channel)) continue;

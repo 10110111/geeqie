@@ -532,7 +532,8 @@ struct _LayoutOptions
 	gboolean tools_restore_state;
 
 	gboolean toolbar_hidden;
-	
+	gboolean info_pixel_hidden;
+
 	gchar *home_path;
 };
 
@@ -625,7 +626,8 @@ struct _LayoutWindow
 	GtkWidget *info_details;
 	GtkWidget *info_zoom;
 	GtkWidget *info_write;
-
+	GtkWidget *info_pixel;
+	
 	/* slide show */
 
 	SlideShowData *slideshow;

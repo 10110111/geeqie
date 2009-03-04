@@ -58,6 +58,9 @@ struct _PixbufRenderer
 
 	gint x_offset;		/* offset of image start (non-zero when image < window) */
 	gint y_offset;
+	
+	gint x_mouse; /* coordinates of the mouse taken from GtkEvent */
+	gint y_mouse;
 
 	gint vis_width;		/* dimensions of visible part of image */
 	gint vis_height;
@@ -163,6 +166,7 @@ struct _PixbufRendererClass
 	void (*zoom)(PixbufRenderer *pr, gdouble zoom);
 	void (*clicked)(PixbufRenderer *pr, GdkEventButton *event);
 	void (*scroll_notify)(PixbufRenderer *pr);
+	void (*update_pixel)(PixbufRenderer *pr);
 
 	void (*render_complete)(PixbufRenderer *pr);
 	void (*drag)(PixbufRenderer *pr, GdkEventButton *event);
@@ -258,6 +262,10 @@ void pixbuf_renderer_overlay_set(PixbufRenderer *pr, gint id, GdkPixbuf *pixbuf,
 gint pixbuf_renderer_overlay_get(PixbufRenderer *pr, gint id, GdkPixbuf **pixbuf, gint *x, gint *y);
 void pixbuf_renderer_overlay_remove(PixbufRenderer *pr, gint id);
 
+gint pixbuf_renderer_get_mouse_position(PixbufRenderer *pr, gint *x_pixel, gint *y_pixel);
+/* x_pixel and y_pixel are the pixel coordinates \see pixbuf_renderer_get_mouse_position */
+gint pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint y_pixel,
+															 				gint *r_mouse, gint *g_mouse, gint *b_mouse);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
