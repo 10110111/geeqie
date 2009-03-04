@@ -60,11 +60,14 @@ struct _PaneExifData
 
 	gint min_height;
 	
+	gboolean all_hidden;
+	
 	FileData *fd;
 };
 
 static void bar_pane_exif_entry_dnd_init(GtkWidget *entry);
-static void bar_pane_exif_update_entry(PaneExifData *ped, GtkWidget *entry, gboolean update_title);
+static void bar_pane_exif_entry_update_title(ExifEntry *ee);
+static void bar_pane_exif_update(PaneExifData *ped);
 
 static void bar_pane_exif_entry_destroy(GtkWidget *widget, gpointer data)
 {
@@ -119,7 +122,9 @@ static GtkWidget *bar_pane_exif_add_entry(PaneExifData *ped, const gchar *key, c
 
 	bar_pane_exif_entry_dnd_init(ee->ebox);
 	
-	bar_pane_exif_update_entry(ped, ee->ebox, TRUE);
+	bar_pane_exif_entry_update_title(ee);
+	bar_pane_exif_update(ped);
+	
 	return ee->ebox;
 }
 
@@ -168,6 +173,7 @@ static void bar_pane_exif_update_entry(PaneExifData *ped, GtkWidget *entry, gboo
     		gtk_widget_set_tooltip_text(ee->hbox, text);
 #endif
 		gtk_widget_show(entry);
+		ped->all_hidden = FALSE;
 		}
 		
 	g_free(text);
@@ -179,26 +185,8 @@ static void bar_pane_exif_update(PaneExifData *ped)
 {
 	GList *list, *work;
 
-#if 0
-	ExifData *exif;
-	/* do we have any exif at all ? */
-	exif = exif_read_fd(ped->fd);
+	ped->all_hidden = TRUE;
 
-	if (!exif)
-		{
-		bar_pane_exif_sensitive(ped, FALSE);
-		return;
-		}
-	else
-		{
-		/* we will use high level functions so we can release it for now.
-		   it will stay in the cache */
-		exif_free_fd(ped->fd, exif);
-		exif = NULL;
-		}
-
-	bar_pane_exif_sensitive(ped, TRUE);
-#endif	
 	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));	
 	work = list;
 	while (work)
@@ -210,6 +198,8 @@ static void bar_pane_exif_update(PaneExifData *ped)
 		bar_pane_exif_update_entry(ped, entry, FALSE);
 		}
 	g_list_free(list);
+
+	gtk_widget_set_sensitive(ped->pane.title, !ped->all_hidden);
 }
 
 void bar_pane_exif_set_fd(GtkWidget *widget, FileData *fd)
