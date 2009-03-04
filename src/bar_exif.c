@@ -20,6 +20,7 @@
 #include "history_list.h"
 #include "misc.h"
 #include "ui_misc.h"
+#include "ui_menu.h"
 #include "bar.h"
 #include "rcfile.h"
 #include "dnd.h"
@@ -114,7 +115,7 @@ static GtkWidget *bar_pane_exif_add_entry(PaneExifData *ped, const gchar *key, c
 	gtk_misc_set_alignment(GTK_MISC(ee->value_label), 0.0, 0.5);
 	gtk_box_pack_start(GTK_BOX(ee->hbox), ee->value_label, TRUE, TRUE, 1);
 	gtk_widget_show(ee->value_label);
-	gtk_box_pack_start(GTK_BOX(ped->vbox), ee->ebox, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(ped->vbox), ee->ebox, FALSE, FALSE, 0);
 
 	bar_pane_exif_entry_dnd_init(ee->ebox);
 	
@@ -136,7 +137,7 @@ static void bar_pane_exif_reparent_entry(GtkWidget *entry, GtkWidget *pane)
 	gtk_container_remove(GTK_CONTAINER(old_ped->vbox), entry);
 	
 	gtk_size_group_add_widget(ped->size_group, ee->title_label);
-	gtk_box_pack_start(GTK_BOX(ped->vbox), entry, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(ped->vbox), entry, FALSE, FALSE, 0);
 }
 
 static void bar_pane_exif_entry_update_title(ExifEntry *ee)
@@ -349,6 +350,31 @@ static void bar_pane_exif_dnd_init(GtkWidget *pane)
 }
 
 
+
+static void bar_pane_exif_menu_popup(GtkWidget *data)
+{
+	GtkWidget *menu;
+
+	menu = popup_menu_short_lived();
+
+	menu_item_add_stock(menu, _("Configure"), GTK_STOCK_GO_UP, NULL, data);
+	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, data, 0, GDK_CURRENT_TIME);
+}
+
+
+static gboolean bar_pane_exif_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data) 
+{ 
+	if (bevent->button == MOUSE_BUTTON_RIGHT)
+		{
+		bar_pane_exif_menu_popup(widget);
+		return TRUE;
+		}
+	return FALSE;
+} 
+
+
+
+
 static void bar_pane_exif_entry_write_config(GtkWidget *entry, GString *outstr, gint indent)
 {
 	ExifEntry *ee = g_object_get_data(G_OBJECT(entry), "entry_data");
@@ -440,8 +466,11 @@ GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded, gboolean pop
 	ped->pane.expanded = expanded;
 
 	ped->size_group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
+	ped->widget = gtk_event_box_new();;
 	ped->vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
-	ped->widget = ped->vbox;
+	gtk_container_add(GTK_CONTAINER(ped->widget), ped->vbox);
+	gtk_widget_show(ped->vbox);
+
 	ped->min_height = MIN_HEIGHT;
 	g_object_set_data(G_OBJECT(ped->widget), "pane_data", ped);
 	g_signal_connect_after(G_OBJECT(ped->widget), "destroy",
@@ -452,6 +481,7 @@ GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded, gboolean pop
 			 G_CALLBACK(bar_pane_exif_size_allocate), ped);
 	
 	bar_pane_exif_dnd_init(ped->widget);
+	g_signal_connect(ped->widget, "button_press_event", G_CALLBACK(bar_pane_exif_menu_cb), ped);
 
 	if (populate)
 		{
