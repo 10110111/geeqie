@@ -21,6 +21,7 @@
 #include "misc.h"
 #include "ui_misc.h"
 #include "window.h"
+#include "dnd.h"
 
 /* FIXME: not needed when bar_exif.c is improved */
 #include "bar_exif.h"
@@ -44,6 +45,7 @@ struct _ExifWin
 	GtkWidget *listview;
 
 	FileData *fd;
+	gchar *sel_key;
 };
 
 enum {
@@ -222,6 +224,46 @@ static void advanced_exif_add_column_check(GtkWidget *listview, const gchar *tit
 }
 #endif
 
+static GtkTargetEntry advanced_exif_drag_types[] = {
+	{ "text/plain", 0, TARGET_TEXT_PLAIN }
+};
+static gint n_exif_drag_types = 1;
+
+
+static void advanced_exif_dnd_get(GtkWidget *entry, GdkDragContext *context,
+				     GtkSelectionData *selection_data, guint info,
+				     guint time, gpointer data)
+{
+	ExifWin *ew = data;
+
+	gtk_selection_data_set_text(selection_data, ew->sel_key, -1);
+}
+
+static void advanced_exif_dnd_begin(GtkWidget *listview, GdkDragContext *context, gpointer data)
+{
+	ExifWin *ew = data;
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview)); 
+	GtkTreeIter iter;
+	ew->sel_key = NULL;
+
+	if (gtk_tree_selection_get_selected(sel, NULL, &iter)) 
+		{
+		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
+
+		gtk_tree_model_get(store, &iter, EXIF_ADVCOL_NAME, &ew->sel_key, -1);
+		printf("%s\n",ew->sel_key);
+		}
+		
+}
+
+static void advanced_exif_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer data)
+{
+	ExifWin *ew = data;
+	g_free(ew->sel_key);
+	ew->sel_key = NULL;
+}
+
+
 static void advanced_exif_add_column(GtkWidget *listview, const gchar *title, gint n, gint sizable)
 {
 	GtkTreeViewColumn *column;
@@ -309,6 +351,19 @@ GtkWidget *advanced_exif_new(void)
 	advanced_exif_add_column(ew->listview, _("Tag"), EXIF_ADVCOL_TAG, FALSE);
 	advanced_exif_add_column(ew->listview, _("Format"), EXIF_ADVCOL_FORMAT, FALSE);
 	advanced_exif_add_column(ew->listview, _("Elements"), EXIF_ADVCOL_ELEMENTS, FALSE);
+
+	gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(ew->listview),
+					       GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
+					       advanced_exif_drag_types, n_exif_drag_types,
+					       GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
+
+	g_signal_connect(G_OBJECT(ew->listview), "drag_data_get",
+			 G_CALLBACK(advanced_exif_dnd_get), ew);
+
+	g_signal_connect(G_OBJECT(ew->listview), "drag_begin",
+			 G_CALLBACK(advanced_exif_dnd_begin), ew);
+	g_signal_connect(G_OBJECT(ew->listview), "drag_end",
+			 G_CALLBACK(advanced_exif_dnd_end), ew);
 
 	ew->scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(ew->scrolled), GTK_SHADOW_IN);
