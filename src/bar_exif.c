@@ -73,6 +73,7 @@ struct _ConfDialogData
 	GtkWidget *widget; /* pane or entry, devidet by presenceof "pane_data" or "entry_data" */
 
 	/* dialog parts */
+	GenericDialog *gd;
 	GtkWidget *key_entry;
 	GtkWidget *title_entry;
 	gboolean if_set;
@@ -354,16 +355,23 @@ static void bar_pane_exif_dnd_init(GtkWidget *pane)
 			 G_CALLBACK(bar_pane_exif_dnd_receive), NULL);
 }
 
+static void bar_pane_exif_edit_close_cb(GtkWidget *widget, gpointer data)
+{
+	GenericDialog *gd = data;
+	generic_dialog_close(gd);
+}
 
 static void bar_pane_exif_edit_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ConfDialogData *cdd = data;
+	g_signal_handlers_disconnect_by_func(cdd->widget, G_CALLBACK(bar_pane_exif_edit_close_cb), cdd->gd);
 	g_free(cdd);
 }
 
 static void bar_pane_exif_edit_cancel_cb(GenericDialog *gd, gpointer data)
 {
 }
+
 
 static void bar_pane_exif_edit_ok_cb(GenericDialog *gd, gpointer data)
 {
@@ -427,11 +435,15 @@ static void bar_pane_exif_conf_dialog(GtkWidget *widget)
 
 	cdd->if_set = ee ? ee->if_set : TRUE;
 
-	gd = generic_dialog_new(ee ? _("Configure entry") : _("Add entry"), "exif_entry_edit",
+	cdd->gd = gd = generic_dialog_new(ee ? _("Configure entry") : _("Add entry"), "exif_entry_edit",
 				widget, TRUE,
 				bar_pane_exif_edit_cancel_cb, cdd);
 	g_signal_connect(G_OBJECT(gd->dialog), "destroy",
 			 G_CALLBACK(bar_pane_exif_edit_destroy_cb), cdd);
+
+	/* in case the entry is deleted during editing */
+	g_signal_connect(G_OBJECT(widget), "destroy",
+			 G_CALLBACK(bar_pane_exif_edit_close_cb), gd);
 
 	generic_dialog_add_message(gd, NULL, ee ? _("Configure entry") : _("Add entry"), NULL);
 
