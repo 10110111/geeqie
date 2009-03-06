@@ -45,6 +45,7 @@ void bar_set_fd(GtkWidget *bar, FileData *fd);
 gint bar_event(GtkWidget *bar, GdkEvent *event);
 
 void bar_set_selection_func(GtkWidget *bar, GList *(*list_func)(gpointer data), gpointer data); 
+gint bar_get_width(GtkWidget *bar);
 
 /* following functions are common for all panes */
 void bar_pane_set_selection_func(GtkWidget *pane, GList *(*list_func)(gpointer data), gpointer data); 

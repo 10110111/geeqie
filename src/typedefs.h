@@ -645,6 +645,7 @@ struct _LayoutWindow
 	/* misc */
 
 	GtkWidget *utility_box;
+	GtkWidget *utility_paned; /* between image and bar */
 	GtkWidget *bar_sort;
 	GtkWidget *bar;
 

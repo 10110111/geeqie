@@ -1996,7 +1996,8 @@ void layout_bar_set(LayoutWindow *lw, GtkWidget *bar)
 			 G_CALLBACK(layout_bar_destroyed), lw);
 
 
-	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->bar, FALSE, FALSE, 0);
+//	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->bar, FALSE, FALSE, 0);
+	gtk_paned_pack2(GTK_PANED(lw->utility_paned), lw->bar, FALSE, TRUE); 
 
 	bar_set_fd(lw->bar, layout_image_get_fd(lw));
 }
@@ -2124,7 +2125,12 @@ void layout_bars_new_selection(LayoutWindow *lw, gint count)
 GtkWidget *layout_bars_prepare(LayoutWindow *lw, GtkWidget *image)
 {
 	lw->utility_box = gtk_hbox_new(FALSE, PREF_PAD_GAP);
-	gtk_box_pack_start(GTK_BOX(lw->utility_box), image, TRUE, TRUE, 0);
+	lw->utility_paned = gtk_hpaned_new();
+	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->utility_paned, TRUE, TRUE, 0);
+
+	gtk_paned_pack1(GTK_PANED(lw->utility_paned), image, TRUE, FALSE); 
+	gtk_widget_show(lw->utility_paned);
+	
 	gtk_widget_show(image);
 
 	return lw->utility_box;

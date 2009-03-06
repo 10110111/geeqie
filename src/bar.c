@@ -30,8 +30,8 @@
 #include "histogram.h"
 #include "rcfile.h"
 
-#define BAR_SIZE_INCREMENT 48
-#define BAR_ARROW_SIZE 7
+//#define BAR_SIZE_INCREMENT 48
+//#define BAR_ARROW_SIZE 7
 
 
 typedef struct _BarData BarData;
@@ -223,10 +223,6 @@ void bar_set_selection_func(GtkWidget *bar, GList *(*list_func)(gpointer data), 
 	return;
 }
 
-
-
-
-
 void bar_add(GtkWidget *bar, GtkWidget *pane)
 {
 	GtkWidget *expander;
@@ -278,35 +274,18 @@ static void bar_populate_default(GtkWidget *bar)
 	bar_add(bar, widget);
 }
 
-static void bar_sized(GtkWidget *widget, GtkAllocation *allocation, gpointer data)
+static void bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation, gpointer data)
 {
 	BarData *bd = data;
+	
 	bd->width = allocation->width;
 }
 
-
-static void bar_width(BarData *bd, gint val)
+gint bar_get_width(GtkWidget *bar)
 {
-	gint size;
-
-	size = bd->widget->allocation.width;
-	size = CLAMP(size + val, BAR_SIZE_INCREMENT * 2, BAR_SIZE_INCREMENT * 16);
-
-	gtk_widget_set_size_request(bd->widget, size, -1);
-}
-
-static void bar_larger(GtkWidget *widget, gpointer data)
-{
-	BarData *bd = data;
-
-	bar_width(bd, BAR_SIZE_INCREMENT);
-}
-
-static void bar_smaller(GtkWidget *widget, gpointer data)
-{
-	BarData *bd = data;
-
-	bar_width(bd, -BAR_SIZE_INCREMENT);
+	BarData *bd = g_object_get_data(G_OBJECT(bar), "bar_data");
+	if (!bd) return 0;
+	return bd->width;
 }
 
 void bar_close(GtkWidget *bar)
@@ -343,18 +322,13 @@ GtkWidget *bar_new(GtkWidget *bounding_widget)
 	g_signal_connect(G_OBJECT(bd->widget), "destroy",
 			 G_CALLBACK(bar_destroy), bd);
 
-	g_signal_connect(G_OBJECT(bd->widget), "size_allocate",
-			 G_CALLBACK(bar_sized), bd);
+	g_signal_connect(G_OBJECT(bd->widget), "size-allocate",
+			 G_CALLBACK(bar_size_allocate), bd);
 
-	bd->width = PANEL_DEFAULT_WIDTH;
+	bd->width = SIDEBAR_DEFAULT_WIDTH;
 	gtk_widget_set_size_request(bd->widget, bd->width, -1);
 
 	box = gtk_hbox_new(FALSE, 0);
-
-	sizer = sizer_new(bd->widget, bounding_widget, SIZER_POS_LEFT);
-	sizer_set_limits(sizer, BAR_SIZE_INCREMENT * 2, -1, -1 , -1);
-	gtk_box_pack_start(GTK_BOX(box), sizer, FALSE, FALSE, 0);
-	gtk_widget_show(sizer);
 
 	bd->label_file_name = gtk_label_new("");
 	gtk_label_set_ellipsize(GTK_LABEL(bd->label_file_name), PANGO_ELLIPSIZE_END);
@@ -362,28 +336,6 @@ GtkWidget *bar_new(GtkWidget *bounding_widget)
 	gtk_misc_set_alignment(GTK_MISC(bd->label_file_name), 0.5, 0.5);
 	gtk_box_pack_start(GTK_BOX(box), bd->label_file_name, TRUE, TRUE, 0);
 	gtk_widget_show(bd->label_file_name);
-
-	button = gtk_button_new();
-	gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(bar_smaller), bd);
-	gtk_box_pack_end(GTK_BOX(box), button, FALSE, FALSE, 0);
-	arrow = gtk_arrow_new(GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
-	gtk_widget_set_size_request(arrow, BAR_ARROW_SIZE, BAR_ARROW_SIZE);
-	gtk_container_add(GTK_CONTAINER(button), arrow);
-	gtk_widget_show(arrow);
-	gtk_widget_show(button);
-
-	button = gtk_button_new();
-	gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(bar_larger), bd);
-	gtk_box_pack_end(GTK_BOX(box), button, FALSE, FALSE, 0);
-	arrow = gtk_arrow_new(GTK_ARROW_LEFT, GTK_SHADOW_NONE);
-	gtk_widget_set_size_request(arrow, BAR_ARROW_SIZE, BAR_ARROW_SIZE);
-	gtk_container_add(GTK_CONTAINER(button), arrow);
-	gtk_widget_show(arrow);
-	gtk_widget_show(button);
 
 	gtk_box_pack_start(GTK_BOX(bd->widget), box, FALSE, FALSE, 0);
 	gtk_widget_show(box);
@@ -420,7 +372,7 @@ GtkWidget *bar_new_from_config(GtkWidget *bounding_widget, const gchar **attribu
 	GtkWidget *bar = bar_new(bounding_widget);
 	
 	gboolean enabled = TRUE;
-	gint width = PANEL_DEFAULT_WIDTH;
+	gint width = SIDEBAR_DEFAULT_WIDTH;
 
 	while (*attribute_names)
 		{

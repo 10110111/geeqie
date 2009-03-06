@@ -1562,16 +1562,17 @@ void layout_split_change(LayoutWindow *lw, ImageSplitMode mode)
 		if (lw->split_images[i])
 			{
 			gtk_widget_hide(lw->split_images[i]->widget);
-			if (lw->split_images[i]->widget->parent != lw->utility_box)
+			if (lw->split_images[i]->widget->parent != lw->utility_paned)
 				gtk_container_remove(GTK_CONTAINER(lw->split_images[i]->widget->parent), lw->split_images[i]->widget);
 			}
 		}
-	gtk_container_remove(GTK_CONTAINER(lw->utility_box), lw->split_image_widget);
+	gtk_container_remove(GTK_CONTAINER(lw->utility_paned), lw->split_image_widget);
 
 	image = layout_image_setup_split(lw, mode);
 
-	gtk_box_pack_start(GTK_BOX(lw->utility_box), image, TRUE, TRUE, 0);
-	gtk_box_reorder_child(GTK_BOX(lw->utility_box), image, 0);
+//	gtk_box_pack_start(GTK_BOX(lw->utility_box), image, TRUE, TRUE, 0);
+//	gtk_box_reorder_child(GTK_BOX(lw->utility_box), image, 0);
+	gtk_paned_pack1(GTK_PANED(lw->utility_paned), image, TRUE, FALSE);
 	gtk_widget_show(image);
 }
 

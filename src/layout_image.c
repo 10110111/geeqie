@@ -1579,6 +1579,8 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 		image_color_profile_set_use(lw->split_images[i], options->color_profile.enabled);
 
 		gtk_size_group_add_widget(lw->split_image_sizegroup, lw->split_images[i]->widget);
+		gtk_widget_set_size_request(lw->split_images[i]->widget, IMAGE_MIN_WIDTH, -1);
+
 		}
 
 	return lw->split_images[i]->widget;
