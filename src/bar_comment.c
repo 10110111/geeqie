@@ -243,6 +243,7 @@ GtkWidget *bar_pane_comment_new(const gchar *title, const gchar *key, gboolean e
 	gtk_widget_show(scrolled);
 
 	pcd->comment_view = gtk_text_view_new();
+	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(pcd->comment_view), GTK_WRAP_WORD);
 	gtk_container_add(GTK_CONTAINER(scrolled), pcd->comment_view);
 	g_signal_connect(G_OBJECT(pcd->comment_view), "populate-popup",
 			 G_CALLBACK(bar_pane_comment_populate_popup), pcd);
