@@ -42,7 +42,7 @@
  * #define TAB_COMPLETION_ENABLE_POPUP_MENU
  */
 #define TAB_COMPLETION_ENABLE_POPUP_MENU 1
-#define TAB_COMP_POPUP_MAX 500
+#define TAB_COMP_POPUP_MAX 1000
 
 #ifdef TAB_COMPLETION_ENABLE_POPUP_MENU
 #include "ui_menu.h"
@@ -78,10 +78,13 @@ struct _TabCompData
 	gchar *fd_title;
 	gint fd_folders_only;
 	GtkWidget *fd_button;
+
+	guint choices;
 };
 
 
 static void tab_completion_select_show(TabCompData *td);
+static gint tab_completion_do(TabCompData *td);
 
 static void tab_completion_free_list(TabCompData *td)
 {
@@ -198,6 +201,32 @@ static void tab_completion_emit_tab_signal(TabCompData *td)
 }
 
 #ifdef TAB_COMPLETION_ENABLE_POPUP_MENU
+void tab_completion_iter_menu_items(GtkWidget *widget, gpointer data)
+{
+	TabCompData *td = data;
+	GtkWidget *child;
+
+	if (!GTK_WIDGET_VISIBLE(widget)) return;
+
+	child = gtk_bin_get_child(GTK_BIN(widget));
+	if (GTK_IS_LABEL(child)) {
+		const gchar *text = gtk_label_get_text(GTK_LABEL(child));
+		const gchar *entry_text = gtk_entry_get_text(GTK_ENTRY(td->entry));
+		const gchar *prefix = filename_from_path(entry_text);
+		guint prefix_len = strlen(prefix);
+		
+		if (strlen(text) < prefix_len || strncmp(text, prefix, prefix_len))
+			{
+			/* Hide menu items not matching */
+			gtk_widget_hide(widget);
+			}
+		else
+			{
+			/* Count how many choices are left in the menu */
+			td->choices++;
+			}
+	}
+}
 
 static gint tab_completion_popup_key_press(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
@@ -216,9 +245,15 @@ static gint tab_completion_popup_key_press(GtkWidget *widget, GdkEventKey *event
 			buf[1] = '\0';
 			gtk_editable_insert_text(GTK_EDITABLE(td->entry), buf, 1, &p);
 			gtk_editable_set_position(GTK_EDITABLE(td->entry), -1);
+		
+			/* Reduce the number of entries in the menu */
+			td->choices = 0;
+			gtk_container_foreach(GTK_CONTAINER(widget), tab_completion_iter_menu_items, (gpointer) td);
+			if (td->choices > 1) return TRUE; /* multiple choices */
+			if (td->choices > 0) tab_completion_do(td); /* one choice */
 			}
-
-		/*close the menu */
+		
+		/* close the menu */
 		gtk_menu_popdown(GTK_MENU(widget));
 		/* doing this does not emit the "selection done" signal, unref it ourselves */
 #if GTK_CHECK_VERSION(2,12,0)
@@ -375,6 +410,15 @@ static gint tab_completion_do(TabCompData *td)
 	gchar *entry_dir;
 	gchar *ptr;
 	gint home_exp = FALSE;
+
+	if (entry_text[0] == '\0')
+		{
+		entry_dir = g_strdup(G_DIR_SEPARATOR_S); /* FIXME: root directory win32 */
+		gtk_entry_set_text(GTK_ENTRY(td->entry), entry_dir);
+		gtk_editable_set_position(GTK_EDITABLE(td->entry), strlen(entry_dir));
+		g_free(entry_dir);
+		return FALSE;
+		}
 
 	/* home dir expansion */
 	if (entry_text[0] == '~')
