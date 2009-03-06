@@ -113,10 +113,10 @@ static void tab_completion_read_dir(TabCompData *td, const gchar *path)
 
 	pathl = path_from_utf8(path);
 	dp = opendir(pathl);
-	g_free(pathl);
 	if (!dp)
 		{
 		/* dir not found */
+		g_free(pathl);
 		return;
 		}
 	while ((dir = readdir(dp)) != NULL)
@@ -124,9 +124,9 @@ static void tab_completion_read_dir(TabCompData *td, const gchar *path)
 		gchar *name = dir->d_name;
 		if (strcmp(name, ".") != 0 && strcmp(name, "..") != 0)
 			{
-			gchar *abspath = g_build_filename(path, name, NULL);
+			gchar *abspath = g_build_filename(pathl, name, NULL);
 
-			if (isdir(abspath))
+			if (g_file_test(abspath, G_FILE_TEST_IS_DIR))
 				{
 				gchar *dname = g_strconcat(name, G_DIR_SEPARATOR_S, NULL);
 				list = g_list_prepend(list, path_to_utf8(dname));
@@ -143,6 +143,7 @@ static void tab_completion_read_dir(TabCompData *td, const gchar *path)
 
 	td->dir_path = g_strdup(path);
 	td->file_list = list;
+	g_free(pathl);
 }
 
 static void tab_completion_destroy(GtkWidget *widget, gpointer data)
