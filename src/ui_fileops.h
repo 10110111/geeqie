@@ -31,8 +31,15 @@ void print_term(const gchar *text_utf8);
 		g_free(msg); \
 	} while (0)
 
+#if GQ_DEBUG_PATH_UTF8
+#define path_to_utf8(path) path_to_utf8_debug(path, __FILE__, __LINE__)
+#define path_from_utf8(utf8) path_from_utf8_debug(utf8, __FILE__, __LINE__)
+gchar *path_to_utf8_debug(const gchar *path, const gchar *file, gint line);
+gchar *path_from_utf8_debug(const gchar *utf8, const gchar *file, gint line);
+#else
 gchar *path_to_utf8(const gchar *path);
-gchar *path_from_utf8(const gchar *path);
+gchar *path_from_utf8(const gchar *utf8);
+#endif
 
 const gchar *xdg_data_home_get(void);
 const gchar *xdg_config_home_get(void);

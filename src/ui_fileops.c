@@ -127,7 +127,11 @@ static void encoding_dialog(const gchar *path)
 	g_string_free(string, TRUE);
 }
 
+#if GQ_DEBUG_PATH_UTF8
+gchar *path_to_utf8_debug(const gchar *path, const gchar *file, gint line)
+#else
 gchar *path_to_utf8(const gchar *path)
+#endif
 {
 	gchar *utf8;
 	GError *error = NULL;
@@ -137,7 +141,11 @@ gchar *path_to_utf8(const gchar *path)
 	utf8 = g_filename_to_utf8(path, -1, NULL, NULL, &error);
 	if (error)
 		{
+#if GQ_DEBUG_PATH_UTF8
+		log_printf("%s:%d: Unable to convert filename to UTF-8:\n%s\n%s\n", file, line, path, error->message);
+#else
 		log_printf("Unable to convert filename to UTF-8:\n%s\n%s\n", path, error->message);
+#endif
 		g_error_free(error);
 		encoding_dialog(path);
 		}
@@ -150,7 +158,11 @@ gchar *path_to_utf8(const gchar *path)
 	return utf8;
 }
 
+#if GQ_DEBUG_PATH_UTF8
+gchar *path_from_utf8_debug(const gchar *utf8, const gchar *file, gint line)
+#else
 gchar *path_from_utf8(const gchar *utf8)
+#endif
 {
 	gchar *path;
 	GError *error = NULL;
@@ -160,7 +172,11 @@ gchar *path_from_utf8(const gchar *utf8)
 	path = g_filename_from_utf8(utf8, -1, NULL, NULL, &error);
 	if (error)
 		{
+#if GQ_DEBUG_PATH_UTF8
+		log_printf("%s:%d: Unable to convert filename to locale from UTF-8:\n%s\n%s\n", file, line, utf8, error->message);
+#else
 		log_printf("Unable to convert filename to locale from UTF-8:\n%s\n%s\n", utf8, error->message);
+#endif
 		g_error_free(error);
 		}
 	if (!path)

@@ -73,7 +73,7 @@ then
     CXXFLAGS="${CXXFLAGS} -Wall"
     CFLAGS="${CFLAGS} -Wstrict-prototypes -Wall"
   fi
-  __COMMONFLAGS="-g -O0 -Wextra -Wunused-value -Wunused-variable -Wunused-function -Wunused-label -Wcomment -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -Wno-unused-parameter -Wformat -Wformat-security"
+  __COMMONFLAGS="-g -O0 -Wextra -Wunused-value -Wunused-variable -Wunused-function -Wunused-label -Wcomment -Wmissing-braces -Wparentheses -Wreturn-type -Wswitch -Wstrict-aliasing -Wno-unused-parameter -Wformat -Wformat-security -DGQ_DEBUG_PATH_UTF8=1"
   CXXFLAGS="${CXXFLAGS} ${__COMMONFLAGS}"
   CFLAGS="${CFLAGS} ${__COMMONFLAGS} -Wimplicit-int -Werror-implicit-function-declaration"
   __IS_DEBUG_FLAGS=yes
