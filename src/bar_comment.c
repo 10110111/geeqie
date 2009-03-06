@@ -20,6 +20,7 @@
 #include "ui_menu.h"
 #include "ui_misc.h"
 #include "rcfile.h"
+#include "layout.h"
 
 static void bar_pane_comment_changed(GtkTextBuffer *buffer, gpointer data);
 
@@ -79,11 +80,9 @@ static void bar_pane_comment_set_selection(PaneCommentData *pcd, gboolean append
 	GList *work;
 	gchar *comment = NULL;
 
-	if (!pcd->pane.list_func) return;
-
 	comment = text_widget_text_pull(pcd->comment_view);
 
-	list = pcd->pane.list_func(pcd->pane.list_data);
+	list = layout_selection_list(pcd->pane.lw);
 	work = list;
 	while (work)
 		{
@@ -223,6 +222,8 @@ GtkWidget *bar_pane_comment_new(const gchar *title, const gchar *key, gboolean e
 	pcd->pane.pane_event = bar_pane_comment_event;
 	pcd->pane.pane_write_config = bar_pane_comment_write_config;
 	pcd->pane.title = gtk_label_new(title);
+	pref_label_bold(pcd->pane.title, TRUE, FALSE);
+
 	pcd->pane.expanded = expanded;
 	
 	pcd->key = g_strdup(key);

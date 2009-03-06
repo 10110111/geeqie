@@ -17,22 +17,23 @@
 typedef struct _PaneData PaneData;
 
 struct _PaneData {
+	/* filled in by pane */
 	void (*pane_set_fd)(GtkWidget *pane, FileData *fd);
 	gint (*pane_event)(GtkWidget *pane, GdkEvent *event);
 	void (*pane_write_config)(GtkWidget *pane, GString *outstr, gint indent);
 	GtkWidget *title;
 	gboolean expanded;
 	
-	GList *(*list_func)(gpointer);
-	gpointer list_data;
-
+	/* filled in by bar */
+	GtkWidget *bar;
+	LayoutWindow *lw;
 };
 
 
 
-GtkWidget *bar_new(GtkWidget *bounding_widget);
-GtkWidget *bar_new_default(GtkWidget *bounding_widget);
-GtkWidget *bar_new_from_config(GtkWidget *bounding_widget, const gchar **attribute_names, const gchar **attribute_values);
+GtkWidget *bar_new(LayoutWindow *lw);
+GtkWidget *bar_new_default(LayoutWindow *lw);
+GtkWidget *bar_new_from_config(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values);
 
 void bar_close(GtkWidget *bar);
 
@@ -44,11 +45,7 @@ void bar_add(GtkWidget *bar, GtkWidget *pane);
 void bar_set_fd(GtkWidget *bar, FileData *fd);
 gint bar_event(GtkWidget *bar, GdkEvent *event);
 
-void bar_set_selection_func(GtkWidget *bar, GList *(*list_func)(gpointer data), gpointer data); 
 gint bar_get_width(GtkWidget *bar);
-
-/* following functions are common for all panes */
-void bar_pane_set_selection_func(GtkWidget *pane, GList *(*list_func)(gpointer data), gpointer data); 
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -26,6 +26,7 @@
 #include "bar.h"
 #include "ui_menu.h"
 #include "rcfile.h"
+#include "layout.h"
 
 static const gchar *keyword_favorite_defaults[] = {
 	N_("Favorite"),
@@ -561,11 +562,9 @@ static void bar_pane_keywords_set_selection(PaneKeywordsData *pkd, gboolean appe
 	GList *list = NULL;
 	GList *work;
 
-	if (!pkd->pane.list_func) return;
-
 	keywords = keyword_list_pull(pkd->keyword_view);
 
-	list = pkd->pane.list_func(pkd->pane.list_data);
+	list = layout_selection_list(pkd->pane.lw);
 	work = list;
 	while (work)
 		{
@@ -729,6 +728,8 @@ GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key, gboolean 
 	pkd->pane.pane_event = bar_pane_keywords_event;
 	pkd->pane.pane_write_config = bar_pane_keywords_write_config;
 	pkd->pane.title = gtk_label_new(title);
+	pref_label_bold(pkd->pane.title, TRUE, FALSE);
+
 	pkd->pane.expanded = expanded;
 
 	pkd->key = g_strdup(key);

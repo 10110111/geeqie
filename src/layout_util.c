@@ -1954,20 +1954,13 @@ static void layout_bar_destroyed(GtkWidget *widget, gpointer data)
 */
 }
 
-static GList *layout_bar_list_cb(gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	return layout_selection_list(lw);
-}
-
 static void layout_bar_set_default(LayoutWindow *lw)
 {
 	GtkWidget *bar;
 	
 	if (!lw->utility_box) return;
 
-	bar = bar_new_default(lw->utility_box);
+	bar = bar_new_default(lw);
 	
 	layout_bar_set(lw, bar);
 }
@@ -1991,7 +1984,6 @@ void layout_bar_set(LayoutWindow *lw, GtkWidget *bar)
 	if (!bar) return;
 	lw->bar = bar;
 
-	bar_set_selection_func(lw->bar, layout_bar_list_cb, lw);
 	g_signal_connect(G_OBJECT(lw->bar), "destroy",
 			 G_CALLBACK(layout_bar_destroyed), lw);
 

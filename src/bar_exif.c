@@ -623,6 +623,7 @@ GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded, gboolean pop
 	ped->pane.pane_set_fd = bar_pane_exif_set_fd;
 	ped->pane.pane_write_config = bar_pane_exif_write_config;
 	ped->pane.title = gtk_label_new(title);
+	pref_label_bold(ped->pane.title, TRUE, FALSE);
 	ped->pane.expanded = expanded;
 
 	ped->size_group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);

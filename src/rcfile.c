@@ -913,7 +913,7 @@ static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext 
 	LayoutWindow *lw = data;
 	if (g_ascii_strcasecmp(element_name, "bar") == 0)
 		{
-		GtkWidget *bar = bar_new_from_config(lw->utility_box, attribute_names, attribute_values);
+		GtkWidget *bar = bar_new_from_config(lw, attribute_names, attribute_values);
 		layout_bar_set(lw, bar);
 		options_parse_func_push(parser_data, options_parse_bar, NULL, lw->bar);
 		}
