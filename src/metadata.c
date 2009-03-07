@@ -688,5 +688,243 @@ gboolean meta_data_set_keyword_mark(FileData *fd, gint n, gboolean value, gpoint
 	return TRUE;
 }
 
+/*
+ *-------------------------------------------------------------------
+ * keyword tree
+ *-------------------------------------------------------------------
+ */
+
+
+
+GtkTreeStore *keyword_tree;
+
+gchar *keyword_get_name(GtkTreeModel *keyword_tree, GtkTreeIter *iter)
+{
+	gchar *name;
+	gtk_tree_model_get(keyword_tree, iter, KEYWORD_COLUMN_NAME, &name, -1);
+	return name;
+}
+
+gchar *keyword_get_casefold(GtkTreeModel *keyword_tree, GtkTreeIter *iter)
+{
+	gchar *casefold;
+	gtk_tree_model_get(keyword_tree, iter, KEYWORD_COLUMN_CASEFOLD, &casefold, -1);
+	return casefold;
+}
+
+gboolean keyword_get_is_keyword(GtkTreeModel *keyword_tree, GtkTreeIter *iter)
+{
+	gboolean is_keyword;
+	gtk_tree_model_get(keyword_tree, iter, KEYWORD_COLUMN_IS_KEYWORD, &is_keyword, -1);
+	return is_keyword;
+}
+
+void keyword_set(GtkTreeStore *keyword_tree, GtkTreeIter *iter, const gchar *name, gboolean is_keyword)
+{
+	gchar *casefold = g_utf8_casefold(name, -1);
+	gtk_tree_store_set(keyword_tree, iter, KEYWORD_COLUMN_MARK, "",
+						KEYWORD_COLUMN_NAME, name,
+						KEYWORD_COLUMN_CASEFOLD, casefold,
+						KEYWORD_COLUMN_IS_KEYWORD, is_keyword, -1);
+	g_free(casefold);
+}
+
+static gboolean keyword_tree_is_set_casefold(GtkTreeModel *keyword_tree, GtkTreeIter iter, GList *casefold_list)
+{
+	if (!casefold_list) return FALSE;
+	
+	while (TRUE)
+		{
+		GtkTreeIter parent;
+
+		if (keyword_get_is_keyword(keyword_tree, &iter))
+			{
+			GList *work = casefold_list;
+			gboolean found = FALSE;
+			gchar *iter_casefold = keyword_get_casefold(keyword_tree, &iter);
+			while (work)
+				{
+				const gchar *casefold = work->data;
+				work = work->next;
+
+				if (strcmp(iter_casefold, casefold) == 0)
+					{
+					found = TRUE;
+					break;
+					}
+				}
+			g_free(iter_casefold);
+			if (!found) return FALSE;
+			}
+		
+		if (!gtk_tree_model_iter_parent(keyword_tree, &parent, &iter)) return TRUE;
+		iter = parent;
+		}
+}
+
+gboolean keyword_tree_is_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter, GList *kw_list)
+{
+	gboolean ret;
+	GList *casefold_list = NULL;
+	GList *work;
+
+	if (!keyword_get_is_keyword(keyword_tree, iter)) return FALSE;
+	
+	work = kw_list;
+	while (work)
+		{
+		const gchar *kw = work->data;
+		work = work->next;
+		
+		casefold_list = g_list_prepend(casefold_list, g_utf8_casefold(kw, -1));
+		}
+	
+	ret = keyword_tree_is_set_casefold(keyword_tree, *iter, casefold_list);
+	
+	string_list_free(casefold_list);
+	return ret;
+}
+
+void keyword_tree_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList **kw_list)
+{
+	GtkTreeIter iter = *iter_ptr;
+	while (TRUE)
+		{
+		GtkTreeIter parent;
+
+		if (keyword_get_is_keyword(keyword_tree, &iter))
+			{
+			gchar *name = keyword_get_name(keyword_tree, &iter);
+			if (!find_string_in_list_utf8nocase(*kw_list, name))
+				{
+				*kw_list = g_list_append(*kw_list, name);
+				printf("set %s\n", name);
+				}
+			else
+				{
+				g_free(name);
+				}
+			}
+
+		if (!gtk_tree_model_iter_parent(keyword_tree, &parent, &iter)) return;
+		iter = parent;
+		}
+}
+
+static void keyword_tree_reset1(GtkTreeModel *keyword_tree, GtkTreeIter *iter, GList **kw_list)
+{
+	gchar *found;
+	gchar *name;
+	if (!keyword_get_is_keyword(keyword_tree, iter)) return;
+
+	name = keyword_get_name(keyword_tree, iter);
+	found = find_string_in_list_utf8nocase(*kw_list, name);
+
+	if (found)
+		{
+		*kw_list = g_list_remove(*kw_list, found);
+		printf("remove %s\n", found);
+		g_free(found);
+		}
+	g_free(name);
+}
+
+static void keyword_tree_reset_recursive(GtkTreeModel *keyword_tree, GtkTreeIter *iter, GList **kw_list)
+{
+	GtkTreeIter child;
+	keyword_tree_reset1(keyword_tree, iter, kw_list);
+	
+	if (!gtk_tree_model_iter_children(keyword_tree, &child, iter)) return;
+
+	while (TRUE)
+		{
+		keyword_tree_reset_recursive(keyword_tree, &child, kw_list);
+		if (!gtk_tree_model_iter_next(keyword_tree, &child)) return;
+		}
+}
+
+static gboolean keyword_tree_check_empty_children(GtkTreeModel *keyword_tree, GtkTreeIter *parent, GList *kw_list)
+{
+	GtkTreeIter iter;
+	
+	if (!gtk_tree_model_iter_children(keyword_tree, &iter, parent)) 
+		return TRUE; /* this should happen only on empty helpers */
+
+	while (TRUE)
+		{
+		if (keyword_get_is_keyword(keyword_tree, &iter))
+			{
+			if (keyword_tree_is_set(keyword_tree, &iter, kw_list)) return FALSE;
+			}
+		else
+			{
+			/* for helpers we have to check recursively */
+			if (!keyword_tree_check_empty_children(keyword_tree, &iter, kw_list)) return FALSE;
+			}
+		
+		if (!gtk_tree_model_iter_next(keyword_tree, &iter))
+			{
+			return TRUE;
+			}
+		}
+}
+
+void keyword_tree_reset(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList **kw_list)
+{
+	GtkTreeIter iter = *iter_ptr;
+	GtkTreeIter parent;
+	keyword_tree_reset_recursive(keyword_tree, &iter, kw_list);
+
+	if (!gtk_tree_model_iter_parent(keyword_tree, &parent, &iter)) return;
+	iter = parent;
+	
+	while (keyword_tree_check_empty_children(keyword_tree, &iter, *kw_list))
+		{
+		GtkTreeIter parent;
+		keyword_tree_reset1(keyword_tree, &iter, kw_list);
+		if (!gtk_tree_model_iter_parent(keyword_tree, &parent, &iter)) return;
+		iter = parent;
+		}
+}
+
+
+void keyword_tree_new_default(void)
+{
+	keyword_tree = gtk_tree_store_new(KEYWORD_COLUMN_COUNT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN);
+
+	GtkTreeIter i1, i2, i3;
+
+	gtk_tree_store_append(keyword_tree, &i1, NULL);
+	keyword_set(keyword_tree, &i1, "animal", TRUE);
+
+		gtk_tree_store_append(keyword_tree, &i2, &i1);
+		keyword_set(keyword_tree, &i2, "mammal", TRUE);
+
+			gtk_tree_store_append(keyword_tree, &i3, &i2);
+			keyword_set(keyword_tree, &i3, "dog", TRUE);
+
+			gtk_tree_store_append(keyword_tree, &i3, &i2);
+			keyword_set(keyword_tree, &i3, "cat", TRUE);
+
+		gtk_tree_store_append(keyword_tree, &i2, &i1);
+		keyword_set(keyword_tree, &i2, "insect", TRUE);
+
+			gtk_tree_store_append(keyword_tree, &i3, &i2);
+			keyword_set(keyword_tree, &i3, "fly", TRUE);
+
+			gtk_tree_store_append(keyword_tree, &i3, &i2);
+			keyword_set(keyword_tree, &i3, "dragonfly", TRUE);
+
+	gtk_tree_store_append(keyword_tree, &i1, NULL);
+	keyword_set(keyword_tree, &i1, "daytime", FALSE);
+
+		gtk_tree_store_append(keyword_tree, &i2, &i1);
+		keyword_set(keyword_tree, &i2, "morning", TRUE);
+
+		gtk_tree_store_append(keyword_tree, &i2, &i1);
+		keyword_set(keyword_tree, &i2, "noon", TRUE);
+
+}
+
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

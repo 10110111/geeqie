@@ -40,5 +40,27 @@ gchar *find_string_in_list_utf8nocase(GList *list, const gchar *string);
 gboolean meta_data_get_keyword_mark(FileData *fd, gint n, gpointer data);
 gboolean meta_data_set_keyword_mark(FileData *fd, gint n, gboolean value, gpointer data);
 
+
+enum {
+	KEYWORD_COLUMN_MARK,
+	KEYWORD_COLUMN_NAME,
+	KEYWORD_COLUMN_CASEFOLD,
+	KEYWORD_COLUMN_IS_KEYWORD,
+	KEYWORD_COLUMN_COUNT
+};
+
+extern GtkTreeStore *keyword_tree;
+
+gchar *keyword_get_name(GtkTreeModel *keyword_tree, GtkTreeIter *iter);
+gchar *keyword_get_casefold(GtkTreeModel *keyword_tree, GtkTreeIter *iter);
+gboolean keyword_get_is_keyword(GtkTreeModel *keyword_tree, GtkTreeIter *iter);
+void keyword_set(GtkTreeStore *keyword_tree, GtkTreeIter *iter, const gchar *name, gboolean is_keyword);
+gboolean keyword_tree_is_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter, GList *kw_list);
+void keyword_tree_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList **kw_list);
+void keyword_tree_reset(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList **kw_list);
+
+void keyword_tree_new_default(void);
+
+
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
