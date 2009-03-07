@@ -47,5 +47,7 @@ gint bar_event(GtkWidget *bar, GdkEvent *event);
 
 gint bar_get_width(GtkWidget *bar);
 
+GtkWidget *bar_pane_expander_title(const gchar *title);
+
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -727,8 +727,7 @@ GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key, gboolean 
 	pkd->pane.pane_set_fd = bar_pane_keywords_set_fd;
 	pkd->pane.pane_event = bar_pane_keywords_event;
 	pkd->pane.pane_write_config = bar_pane_keywords_write_config;
-	pkd->pane.title = gtk_label_new(title);
-	pref_label_bold(pkd->pane.title, TRUE, FALSE);
+	pkd->pane.title = bar_pane_expander_title(title);
 
 	pkd->pane.expanded = expanded;
 

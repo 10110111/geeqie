@@ -221,8 +221,7 @@ GtkWidget *bar_pane_comment_new(const gchar *title, const gchar *key, gboolean e
 	pcd->pane.pane_set_fd = bar_pane_comment_set_fd;
 	pcd->pane.pane_event = bar_pane_comment_event;
 	pcd->pane.pane_write_config = bar_pane_comment_write_config;
-	pcd->pane.title = gtk_label_new(title);
-	pref_label_bold(pcd->pane.title, TRUE, FALSE);
+	pcd->pane.title = bar_pane_expander_title(title);
 
 	pcd->pane.expanded = expanded;
 	

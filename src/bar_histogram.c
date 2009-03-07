@@ -333,8 +333,7 @@ GtkWidget *bar_pane_histogram_new(const gchar *title, gint height, gboolean expa
 	
 	phd->pane.pane_set_fd = bar_pane_histogram_set_fd;
 	phd->pane.pane_write_config = bar_pane_histogram_write_config;
-	phd->pane.title = gtk_label_new(title);
-	pref_label_bold(phd->pane.title, TRUE, FALSE);
+	phd->pane.title = bar_pane_expander_title(title);
 
 	phd->pane.expanded = expanded;
 	phd->idle_id = -1;

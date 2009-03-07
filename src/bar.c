@@ -354,5 +354,14 @@ GtkWidget *bar_new_from_config(LayoutWindow *lw, const gchar **attribute_names, 
 	return bar;
 }
 
+GtkWidget *bar_pane_expander_title(const gchar *title)
+{
+	GtkWidget *widget = gtk_label_new(title);
+
+	pref_label_bold(widget, TRUE, FALSE);
+	//gtk_label_set_ellipsize(GTK_LABEL(widget), PANGO_ELLIPSIZE_END); //FIXME: do not work
+
+	return widget;
+}
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
