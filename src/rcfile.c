@@ -32,6 +32,7 @@
 #include "layout.h"
 #include "layout_util.h"
 #include "bar.h"
+#include "metadata.h"
 
 
 /*
@@ -537,7 +538,7 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_STRING("<layout\n");
 	layout_write_attributes(&options->layout, outstr, indent + 1);
 	WRITE_STRING("/>\n");
-
+	keyword_tree_write_config(outstr, indent);
 	indent--;
 	WRITE_STRING("</global>\n");
 
@@ -821,6 +822,45 @@ static void options_parse_filter_end(GQParserData *parser_data, GMarkupParseCont
 	/* else this is called in init_after_global_options */
 }
 
+static void options_parse_keyword_end(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, gpointer data, GError **error)
+{
+	GtkTreeIter *iter_ptr = data;
+	gtk_tree_iter_free(iter_ptr);
+}
+
+
+static void options_parse_keyword(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
+{
+	GtkTreeIter *iter_ptr = data;
+	if (g_ascii_strcasecmp(element_name, "keyword") == 0)
+		{
+		GtkTreeIter *child = keyword_add_from_config(keyword_tree, iter_ptr, attribute_names, attribute_values);
+		options_parse_func_push(parser_data, options_parse_keyword, options_parse_keyword_end, child);
+		}
+	else
+		{
+		DEBUG_1("unexpected in <keyword>: <%s>", element_name);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+}
+
+
+
+static void options_parse_keyword_tree(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
+{
+	if (g_ascii_strcasecmp(element_name, "keyword") == 0)
+		{
+		GtkTreeIter *iter_ptr = keyword_add_from_config(keyword_tree, NULL, attribute_names, attribute_values);
+		options_parse_func_push(parser_data, options_parse_keyword, options_parse_keyword_end, iter_ptr);
+		}
+	else
+		{
+		DEBUG_1("unexpected in <keyword_tree>: <%s>", element_name);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+}
+
+
 static void options_parse_global(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
 {
 	if (g_ascii_strcasecmp(element_name, "color_profiles") == 0)
@@ -831,6 +871,11 @@ static void options_parse_global(GQParserData *parser_data, GMarkupParseContext 
 	else if (g_ascii_strcasecmp(element_name, "filter") == 0)
 		{
 		options_parse_func_push(parser_data, options_parse_filter, options_parse_filter_end, NULL);
+		}
+	else if (g_ascii_strcasecmp(element_name, "keyword_tree") == 0)
+		{
+		if (!keyword_tree) keyword_tree_new();
+		options_parse_func_push(parser_data, options_parse_keyword_tree, NULL, NULL);
 		}
 	else if (g_ascii_strcasecmp(element_name, "layout") == 0)
 		{

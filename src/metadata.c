@@ -24,6 +24,7 @@
 #include "utilops.h"
 #include "filefilter.h"
 #include "layout.h"
+#include "rcfile.h"
 
 typedef enum {
 	MK_NONE,
@@ -982,10 +983,19 @@ void keyword_tree_reset(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList
 		}
 }
 
+void keyword_tree_new(void)
+{
+	if (keyword_tree) return;
+	
+	keyword_tree = gtk_tree_store_new(KEYWORD_COLUMN_COUNT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN);
+}
+
 
 void keyword_tree_new_default(void)
 {
-	keyword_tree = gtk_tree_store_new(KEYWORD_COLUMN_COUNT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN);
+	if (keyword_tree) return;
+	
+	keyword_tree_new();
 
 	GtkTreeIter i1, i2, i3;
 
@@ -1021,5 +1031,73 @@ void keyword_tree_new_default(void)
 
 }
 
+
+static void keyword_tree_node_write_config(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GString *outstr, gint indent)
+{
+	GtkTreeIter iter = *iter_ptr;
+	while (TRUE)
+		{
+		GtkTreeIter children;
+		gchar *name;
+
+		WRITE_STRING("<keyword\n");
+		indent++;
+		name = keyword_get_name(keyword_tree, &iter);
+		write_char_option(outstr, indent, "name", name);
+		g_free(name);
+		write_bool_option(outstr, indent, "kw", keyword_get_is_keyword(keyword_tree, &iter));
+		indent--;
+		WRITE_STRING(">\n");
+		indent++;
+		if (gtk_tree_model_iter_children(keyword_tree, &children, &iter)) 
+			{
+			keyword_tree_node_write_config(keyword_tree, &children, outstr, indent);
+			}
+		indent--;
+		WRITE_STRING("</keyword>\n");
+		if (!gtk_tree_model_iter_next(keyword_tree, &iter)) return;
+		}
+}
+
+void keyword_tree_write_config(GString *outstr, gint indent)
+{
+	GtkTreeIter iter;
+	WRITE_STRING("<keyword_tree>\n");
+	indent++;
+	
+	if (keyword_tree && gtk_tree_model_get_iter_first(GTK_TREE_MODEL(keyword_tree), &iter))
+		{
+		keyword_tree_node_write_config(GTK_TREE_MODEL(keyword_tree), &iter, outstr, indent);
+		}
+	indent--;
+	WRITE_STRING("</keyword_tree>\n");
+}
+
+GtkTreeIter *keyword_add_from_config(GtkTreeStore *keyword_tree, GtkTreeIter *parent, const gchar **attribute_names, const gchar **attribute_values)
+{
+	gchar *name = NULL;
+	gboolean is_kw = TRUE;
+
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+
+		if (READ_CHAR_FULL("name", name)) continue;
+		if (READ_BOOL_FULL("kw", is_kw)) continue;
+
+		DEBUG_1("unknown attribute %s = %s", option, value);
+		}
+	if (name && name[0]) 
+		{
+		GtkTreeIter iter;
+		gtk_tree_store_append(keyword_tree, &iter, parent);
+		keyword_set(keyword_tree, &iter, name, is_kw);
+		g_free(name);
+		return gtk_tree_iter_copy(&iter);
+		}
+	g_free(name);
+	return NULL;
+}
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
