@@ -830,7 +830,7 @@ static gint editor_command_one(const EditorDescription *editor, GList *list, Edi
 	ed->pid = -1;
 	ed->flags = editor->flags | editor_command_parse(editor, list, &command);
 
-	ok = !(ed->flags & EDITOR_ERROR_MASK);
+	ok = !EDITOR_ERRORS(ed->flags);
 
 	if (ok)
 		{
@@ -924,7 +924,7 @@ static gint editor_command_one(const EditorDescription *editor, GList *list, Edi
 
 	g_free(command);
 
-	return ed->flags & EDITOR_ERROR_MASK;
+	return EDITOR_ERRORS(ed->flags);
 }
 
 static gint editor_command_next_start(EditorData *ed)
@@ -995,12 +995,15 @@ static gint editor_command_next_finish(EditorData *ed, gint status)
 		ed->list = NULL;
 		}
 
-	if (cont == EDITOR_CB_SUSPEND)
-		return ed->flags & EDITOR_ERROR_MASK;
-	else if (cont == EDITOR_CB_SKIP)
-		return editor_command_done(ed);
-	else
-		return editor_command_next_start(ed);
+	switch (cont)
+		{
+		case EDITOR_CB_SUSPEND:
+			return EDITOR_ERRORS(ed->flags);
+		case EDITOR_CB_SKIP:
+			return editor_command_done(ed);
+		}
+	
+	return editor_command_next_start(ed);
 }
 
 static gint editor_command_done(EditorData *ed)
@@ -1034,7 +1037,7 @@ static gint editor_command_done(EditorData *ed)
 
 	ed->count = 0;
 
-	flags = ed->flags & EDITOR_ERROR_MASK;
+	flags = EDITOR_ERRORS(ed->flags);
 
 	if (!ed->vd) editor_data_free(ed);
 
@@ -1056,7 +1059,7 @@ static gint editor_command_start(const EditorDescription *editor, const gchar *t
 	EditorData *ed;
 	gint flags = editor->flags;
 
-	if (flags & EDITOR_ERROR_MASK) return flags & EDITOR_ERROR_MASK;
+	if (EDITOR_ERRORS(flags)) return EDITOR_ERRORS(flags);
 
 	ed = g_new0(EditorData, 1);
 	ed->list = filelist_copy(list);
@@ -1074,7 +1077,7 @@ static gint editor_command_start(const EditorDescription *editor, const gchar *t
 
 	editor_command_next_start(ed);
 	/* errors from editor_command_next_start will be handled via callback */
-	return flags & EDITOR_ERROR_MASK;
+	return EDITOR_ERRORS(flags);
 }
 
 gboolean is_valid_editor_command(const gchar *key)
@@ -1096,7 +1099,7 @@ gint start_editor_from_filelist_full(const gchar *key, GList *list, EditorCallba
 
 	error = editor_command_start(editor, editor->name, list, cb, data);
 
-	if (error & EDITOR_ERROR_MASK)
+	if (EDITOR_ERRORS(error))
 		{
 		gchar *text = g_strdup_printf(_("%s\n\"%s\""), editor_get_error_str(error), editor->file);
 		

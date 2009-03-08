@@ -201,7 +201,7 @@ static void config_parse_editor_entries(GtkWidget **editor_name_entry, GtkWidget
 			{
 			gint flags = editor_command_parse(buf, NULL, NULL);
 		
-			if (flags & EDITOR_ERROR_MASK)
+			if (EDITOR_ERRORS(flags))
 				{
 				if (errmsg->str[0]) g_string_append(errmsg, "\n\n");
 				g_string_append_printf(errmsg, _("%s\n#%d \"%s\":\n%s"), editor_get_error_str(flags),

@@ -34,6 +34,8 @@
 
 #define	EDITOR_ERROR_MASK         0xffff0000
 
+#define EDITOR_ERRORS(flags) ((flags) & EDITOR_ERROR_MASK)
+#define EDITOR_ERRORS_BUT_SKIPPED(flags) (((flags) & EDITOR_ERROR_MASK) && !((flags) & EDITOR_ERROR_SKIPPED))
 
 /* return values from callback function */
 enum {

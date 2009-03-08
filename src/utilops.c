@@ -503,10 +503,11 @@ static void file_util_abort_cb(GenericDialog *gd, gpointer data)
 static gint file_util_perform_ci_cb(gpointer resume_data, gint flags, GList *list, gpointer data)
 {
 	UtilityData *ud = data;
+	gint ret = EDITOR_CB_CONTINUE;
+
 	ud->resume_data = resume_data;
 	
-	gint ret = EDITOR_CB_CONTINUE;
-	if ((flags & EDITOR_ERROR_MASK) && !(flags & EDITOR_ERROR_SKIPPED))
+	if (EDITOR_ERRORS_BUT_SKIPPED(flags))
 		{
 		GString *msg = g_string_new(editor_get_error_str(flags));
 		GenericDialog *d;
@@ -548,7 +549,7 @@ static gint file_util_perform_ci_cb(gpointer resume_data, gint flags, GList *lis
 		FileData *fd = list->data;
 		list = list->next;
 
-		if (!(flags & EDITOR_ERROR_MASK)) /* files were successfully deleted, call the maint functions */
+		if (!EDITOR_ERRORS(flags)) /* files were successfully deleted, call the maint functions */
 			{
 			if (ud->with_sidecars) 
 				file_data_sc_apply_ci(fd);
@@ -792,7 +793,7 @@ static void file_util_perform_ci_dir(UtilityData *ud, gboolean internal, gboolea
 static gint file_util_perform_ci_dir_cb(gpointer resume_data, gint flags, GList *list, gpointer data)
 {
 	UtilityData *ud = data;
-	file_util_perform_ci_dir(ud, FALSE, !((flags & EDITOR_ERROR_MASK) && !(flags & EDITOR_ERROR_SKIPPED)));
+	file_util_perform_ci_dir(ud, FALSE, !EDITOR_ERRORS_BUT_SKIPPED(flags));
 	return EDITOR_CB_CONTINUE; /* does not matter, there was just single directory */
 }
 
