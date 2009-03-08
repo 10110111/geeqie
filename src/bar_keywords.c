@@ -27,6 +27,7 @@
 #include "ui_menu.h"
 #include "rcfile.h"
 #include "layout.h"
+#include "dnd.h"
 
 static const gchar *keyword_favorite_defaults[] = {
 	N_("Favorite"),
@@ -285,7 +286,10 @@ static void bar_pane_keywords_keyword_toggle(GtkCellRendererToggle *toggle, cons
 		
 	keyword_list_push(pkd->keyword_view, list);
 	string_list_free(list);
+	/*
+	  keyword_list_push triggers bar_pane_keywords_change which calls bar_keyword_tree_sync, no need to do it again
 	bar_keyword_tree_sync(pkd);
+	*/
 }
 
 void bar_pane_keywords_filter_modify(GtkTreeModel *model, GtkTreeIter *iter, GValue *value, gint column, gpointer data)
@@ -293,7 +297,7 @@ void bar_pane_keywords_filter_modify(GtkTreeModel *model, GtkTreeIter *iter, GVa
 	PaneKeywordsData *pkd = data;
 	GtkTreeModel *keyword_tree = gtk_tree_model_filter_get_model(GTK_TREE_MODEL_FILTER(model));
 	GtkTreeIter child_iter;
-	
+
 	gtk_tree_model_filter_convert_iter_to_child_iter(GTK_TREE_MODEL_FILTER(model), &child_iter, iter);
 	
 	memset(value, 0, sizeof (GValue));
@@ -439,6 +443,180 @@ static void bar_pane_keywords_mark_edited(GtkCellRendererText *cell, const gchar
 	bar_pane_keywords_update(pkd);
 */
 }
+
+
+static GtkTargetEntry bar_pane_keywords_drag_types[] = {
+	{ TARGET_APP_KEYWORD_PATH_STRING, GTK_TARGET_SAME_WIDGET, TARGET_APP_KEYWORD_PATH },
+	{ "text/plain", 0, TARGET_TEXT_PLAIN }
+};
+static gint n_keywords_drag_types = 2;
+
+
+static GtkTargetEntry bar_pane_keywords_drop_types[] = {
+	{ TARGET_APP_KEYWORD_PATH_STRING, GTK_TARGET_SAME_WIDGET, TARGET_APP_KEYWORD_PATH },
+	{ "text/plain", 0, TARGET_TEXT_PLAIN }
+};
+static gint n_keywords_drop_types = 2;
+
+
+static void bar_pane_keywords_dnd_get(GtkWidget *tree_view, GdkDragContext *context,
+				     GtkSelectionData *selection_data, guint info,
+				     guint time, gpointer data)
+{
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	GtkTreeIter child_iter;
+	GtkTreeModel *keyword_tree;
+
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view)); 
+
+        if (!gtk_tree_selection_get_selected(sel, &model, &iter)) return;
+
+	keyword_tree = gtk_tree_model_filter_get_model(GTK_TREE_MODEL_FILTER(model));
+	gtk_tree_model_filter_convert_iter_to_child_iter(GTK_TREE_MODEL_FILTER(model), &child_iter, &iter);
+
+	switch (info)
+		{
+		case TARGET_APP_KEYWORD_PATH:
+			{
+			GList *path = keyword_tree_get_path(keyword_tree, &child_iter);
+			gtk_selection_data_set(selection_data, selection_data->target,
+					       8, (gpointer) &path, sizeof(path));
+			break;
+			}
+
+		case TARGET_TEXT_PLAIN:
+		default:
+			{
+			gchar *name = keyword_get_name(keyword_tree, &child_iter);
+			gtk_selection_data_set_text(selection_data, name, -1);
+printf("name %s\n", name);
+			g_free(name);
+			}
+			break;
+		}
+}
+
+static void bar_pane_keywords_dnd_begin(GtkWidget *treeview, GdkDragContext *context, gpointer data)
+{
+}
+
+static void bar_pane_keywords_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer data)
+{
+}
+
+static void bar_pane_keywords_dnd_receive(GtkWidget *tree_view, GdkDragContext *context,
+					  gint x, gint y,
+					  GtkSelectionData *selection_data, guint info,
+					  guint time, gpointer data)
+{
+	GtkTreePath *tpath = NULL;
+        GtkTreeViewDropPosition pos;
+	GtkTreeModel *model;
+
+	GtkTreeModel *keyword_tree;
+	gboolean src_valid = FALSE;
+	gchar *new_keyword = NULL;
+
+	/* iterators for keyword_tree */
+	GtkTreeIter src_kw_iter;
+	GtkTreeIter dest_kw_iter;
+	GtkTreeIter new_kw_iter;
+
+	g_signal_stop_emission_by_name(tree_view, "drag_data_received");
+
+	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW(tree_view), NULL, pos);
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view));
+	keyword_tree = gtk_tree_model_filter_get_model(GTK_TREE_MODEL_FILTER(model));
+
+	gtk_tree_view_get_dest_row_at_pos(GTK_TREE_VIEW(tree_view), x, y, &tpath, &pos);
+
+
+	switch (info)
+		{
+		case TARGET_APP_KEYWORD_PATH:
+			{
+			GList *path = *(gpointer *)selection_data->data;
+			src_valid = keyword_tree_get_iter(keyword_tree, &src_kw_iter, path);
+			string_list_free(path);
+			break;
+			}
+		default:
+			new_keyword = (gchar *)selection_data->data;
+			break;
+		}
+
+	if (tpath)
+		{
+		GtkTreeIter dest_iter;
+                gtk_tree_model_get_iter(model, &dest_iter, tpath);
+		gtk_tree_path_free(tpath);
+		gtk_tree_model_filter_convert_iter_to_child_iter(GTK_TREE_MODEL_FILTER(model), &dest_kw_iter, &dest_iter);
+
+
+		if ((pos == GTK_TREE_VIEW_DROP_INTO_OR_BEFORE || pos == GTK_TREE_VIEW_DROP_INTO_OR_AFTER) &&
+		    !gtk_tree_model_iter_has_child(keyword_tree, &dest_kw_iter))
+			{
+			gtk_tree_store_append(GTK_TREE_STORE(keyword_tree), &new_kw_iter, &dest_kw_iter);
+			}
+		else
+			{
+			switch (pos)
+				{
+				case GTK_TREE_VIEW_DROP_INTO_OR_BEFORE:
+				case GTK_TREE_VIEW_DROP_BEFORE:
+					gtk_tree_store_insert_before(GTK_TREE_STORE(keyword_tree), &new_kw_iter, NULL, &dest_kw_iter);
+					break;
+				case GTK_TREE_VIEW_DROP_INTO_OR_AFTER:
+				case GTK_TREE_VIEW_DROP_AFTER:
+					gtk_tree_store_insert_after(GTK_TREE_STORE(keyword_tree), &new_kw_iter, NULL, &dest_kw_iter);
+					break;
+				}
+			}
+		}
+	else
+		{
+		gtk_tree_store_append(GTK_TREE_STORE(keyword_tree), &new_kw_iter, NULL);
+		}
+		
+		
+	if (src_valid)
+		{
+		keyword_move_recursive(GTK_TREE_STORE(keyword_tree), &new_kw_iter, &src_kw_iter);
+		}
+	
+	if (new_keyword)
+		{
+		keyword_set(GTK_TREE_STORE(keyword_tree), &new_kw_iter, new_keyword, TRUE);
+		}
+}
+
+static gint bar_pane_keywords_dnd_motion(GtkWidget *tree_view, GdkDragContext *context,
+					gint x, gint y, guint time, gpointer data)
+{
+	GtkTreePath *tpath = NULL;
+        GtkTreeViewDropPosition pos;
+	gtk_tree_view_get_dest_row_at_pos(GTK_TREE_VIEW(tree_view), x, y, &tpath, &pos);
+	if (tpath)
+		{
+		GtkTreeModel *model;
+		GtkTreeIter dest_iter;
+		model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view));
+                gtk_tree_model_get_iter(model, &dest_iter, tpath);
+		if (pos == GTK_TREE_VIEW_DROP_INTO_OR_BEFORE && gtk_tree_model_iter_has_child(model, &dest_iter))
+			pos = GTK_TREE_VIEW_DROP_BEFORE;
+		
+		if (pos == GTK_TREE_VIEW_DROP_INTO_OR_AFTER && gtk_tree_model_iter_has_child(model, &dest_iter))
+			pos = GTK_TREE_VIEW_DROP_AFTER;
+		}
+
+	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW(tree_view), tpath, pos);
+	gtk_tree_path_free(tpath);
+	gdk_drag_status(context, GDK_ACTION_COPY, time);
+	return TRUE;
+}
+
 
 void bar_pane_keywords_close(GtkWidget *bar)
 {
@@ -590,6 +768,30 @@ GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key, gboolean 
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(pkd->keyword_treeview), column);
 	gtk_tree_view_set_expander_column(GTK_TREE_VIEW(pkd->keyword_treeview), column);
+
+	gtk_drag_source_set(pkd->keyword_treeview,
+			    GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
+			    bar_pane_keywords_drag_types, n_keywords_drag_types,
+			    GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
+
+	g_signal_connect(G_OBJECT(pkd->keyword_treeview), "drag_data_get",
+			 G_CALLBACK(bar_pane_keywords_dnd_get), pkd);
+
+	g_signal_connect(G_OBJECT(pkd->keyword_treeview), "drag_begin",
+			 G_CALLBACK(bar_pane_keywords_dnd_begin), pkd);
+	g_signal_connect(G_OBJECT(pkd->keyword_treeview), "drag_end",
+			 G_CALLBACK(bar_pane_keywords_dnd_end), pkd);
+
+	gtk_drag_dest_set(pkd->keyword_treeview,
+			  GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_HIGHLIGHT | GTK_DEST_DEFAULT_DROP,
+			  bar_pane_keywords_drop_types, n_keywords_drop_types,
+			  GDK_ACTION_COPY | GDK_ACTION_MOVE);
+			  
+	g_signal_connect(G_OBJECT(pkd->keyword_treeview), "drag_data_received",
+			 G_CALLBACK(bar_pane_keywords_dnd_receive), pkd);
+
+	g_signal_connect(G_OBJECT(pkd->keyword_treeview), "drag_motion",
+			 G_CALLBACK(bar_pane_keywords_dnd_motion), pkd);
 
 	gtk_container_add(GTK_CONTAINER(scrolled), pkd->keyword_treeview);
 	gtk_widget_show(pkd->keyword_treeview);

@@ -45,7 +45,6 @@ struct _ExifWin
 	GtkWidget *listview;
 
 	FileData *fd;
-	gchar *sel_key;
 };
 
 enum {
@@ -230,13 +229,31 @@ static GtkTargetEntry advanced_exif_drag_types[] = {
 static gint n_exif_drag_types = 1;
 
 
-static void advanced_exif_dnd_get(GtkWidget *entry, GdkDragContext *context,
+static void advanced_exif_dnd_get(GtkWidget *listview, GdkDragContext *context,
 				     GtkSelectionData *selection_data, guint info,
 				     guint time, gpointer data)
 {
 	ExifWin *ew = data;
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview)); 
+	GtkTreeIter iter;
 
-	gtk_selection_data_set_text(selection_data, ew->sel_key, -1);
+	if (gtk_tree_selection_get_selected(sel, NULL, &iter)) 
+		{
+		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
+		gchar *key;
+
+		gtk_tree_model_get(store, &iter, EXIF_ADVCOL_NAME, &key, -1);
+		gtk_selection_data_set_text(selection_data, key, -1);
+		printf("%s\n",key);
+		g_free(key);
+		}
+
+}
+
+static void advanced_exif_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer data)
+{
+	GtkWidget *window = data;
+	gtk_widget_destroy(window);
 }
 
 static void advanced_exif_dnd_begin(GtkWidget *listview, GdkDragContext *context, gpointer data)
@@ -244,24 +261,30 @@ static void advanced_exif_dnd_begin(GtkWidget *listview, GdkDragContext *context
 	ExifWin *ew = data;
 	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview)); 
 	GtkTreeIter iter;
-	ew->sel_key = NULL;
 
 	if (gtk_tree_selection_get_selected(sel, NULL, &iter)) 
 		{
 		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
+		gchar *key;
+		GtkWidget *window;
+		GtkWidget *label;
 
-		gtk_tree_model_get(store, &iter, EXIF_ADVCOL_NAME, &ew->sel_key, -1);
-		printf("%s\n",ew->sel_key);
+		gtk_tree_model_get(store, &iter, EXIF_ADVCOL_NAME, &key, -1);
+
+		window = gtk_window_new(GTK_WINDOW_POPUP);
+		gtk_widget_realize (window);
+
+		label = gtk_label_new(key);
+		gtk_container_add(GTK_CONTAINER (window), label);
+		gtk_widget_show(label);
+		gtk_drag_set_icon_widget(context, window, -15, 10);
+		g_signal_connect(G_OBJECT(listview), "drag_end",
+				 G_CALLBACK(advanced_exif_dnd_end), window);
+
+		g_free(key);
 		}
-		
 }
 
-static void advanced_exif_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer data)
-{
-	ExifWin *ew = data;
-	g_free(ew->sel_key);
-	ew->sel_key = NULL;
-}
 
 
 static void advanced_exif_add_column(GtkWidget *listview, const gchar *title, gint n, gint sizable)
@@ -343,8 +366,6 @@ GtkWidget *advanced_exif_new(void)
 
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(ew->listview), EXIF_ADVCOL_NAME);
 
-//	advanced_exif_add_column_check(ew->listview, "", EXIF_ADVCOL_ENABLED);
-
 	advanced_exif_add_column(ew->listview, _("Description"), EXIF_ADVCOL_DESCRIPTION, FALSE);
 	advanced_exif_add_column(ew->listview, _("Value"), EXIF_ADVCOL_VALUE, TRUE);
 	advanced_exif_add_column(ew->listview, _("Name"), EXIF_ADVCOL_NAME, FALSE);
@@ -352,18 +373,16 @@ GtkWidget *advanced_exif_new(void)
 	advanced_exif_add_column(ew->listview, _("Format"), EXIF_ADVCOL_FORMAT, FALSE);
 	advanced_exif_add_column(ew->listview, _("Elements"), EXIF_ADVCOL_ELEMENTS, FALSE);
 
-	gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(ew->listview),
-					       GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
-					       advanced_exif_drag_types, n_exif_drag_types,
-					       GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
+	gtk_drag_source_set(ew->listview,
+			   GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
+			   advanced_exif_drag_types, n_exif_drag_types,
+			   GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
 
 	g_signal_connect(G_OBJECT(ew->listview), "drag_data_get",
 			 G_CALLBACK(advanced_exif_dnd_get), ew);
 
 	g_signal_connect(G_OBJECT(ew->listview), "drag_begin",
 			 G_CALLBACK(advanced_exif_dnd_begin), ew);
-	g_signal_connect(G_OBJECT(ew->listview), "drag_end",
-			 G_CALLBACK(advanced_exif_dnd_end), ew);
 
 	ew->scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(ew->scrolled), GTK_SHADOW_IN);

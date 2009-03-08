@@ -54,6 +54,14 @@ extern GtkTreeStore *keyword_tree;
 gchar *keyword_get_name(GtkTreeModel *keyword_tree, GtkTreeIter *iter);
 gchar *keyword_get_casefold(GtkTreeModel *keyword_tree, GtkTreeIter *iter);
 gboolean keyword_get_is_keyword(GtkTreeModel *keyword_tree, GtkTreeIter *iter);
+
+void keyword_copy(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from);
+void keyword_copy_recursive(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from);
+void keyword_move_recursive(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from);
+
+GList *keyword_tree_get_path(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr);
+gboolean keyword_tree_get_iter(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList *path);
+
 void keyword_set(GtkTreeStore *keyword_tree, GtkTreeIter *iter, const gchar *name, gboolean is_keyword);
 gboolean keyword_tree_is_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter, GList *kw_list);
 void keyword_tree_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList **kw_list);

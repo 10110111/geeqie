@@ -729,6 +729,93 @@ void keyword_set(GtkTreeStore *keyword_tree, GtkTreeIter *iter, const gchar *nam
 	g_free(casefold);
 }
 
+void keyword_copy(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from)
+{
+
+	gchar *mark, *name, *casefold;
+	gboolean is_keyword;
+
+	gtk_tree_model_get(GTK_TREE_MODEL(keyword_tree), from, KEYWORD_COLUMN_MARK, &mark,
+						KEYWORD_COLUMN_NAME, &name,
+						KEYWORD_COLUMN_CASEFOLD, &casefold,
+						KEYWORD_COLUMN_IS_KEYWORD, &is_keyword, -1);
+
+	gtk_tree_store_set(keyword_tree, to, KEYWORD_COLUMN_MARK, mark,
+						KEYWORD_COLUMN_NAME, name,
+						KEYWORD_COLUMN_CASEFOLD, casefold,
+						KEYWORD_COLUMN_IS_KEYWORD, is_keyword, -1);
+	g_free(mark);
+	g_free(name);
+	g_free(casefold);
+}
+
+void keyword_copy_recursive(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from)
+{
+	GtkTreeIter from_child;
+	
+	keyword_copy(keyword_tree, to, from);
+	
+	if (!gtk_tree_model_iter_children(GTK_TREE_MODEL(keyword_tree), &from_child, from)) return;
+	
+	while (TRUE)
+		{
+		GtkTreeIter to_child;
+		gtk_tree_store_append(keyword_tree, &to_child, to);
+		keyword_copy_recursive(keyword_tree, &to_child, &from_child);
+		if (!gtk_tree_model_iter_next(GTK_TREE_MODEL(keyword_tree), &from_child)) return;
+		}
+}
+
+void keyword_move_recursive(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from)
+{
+	keyword_copy_recursive(keyword_tree, to, from);
+	gtk_tree_store_remove(keyword_tree, from);
+}
+
+GList *keyword_tree_get_path(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr)
+{
+	GList *path = NULL;
+	GtkTreeIter iter = *iter_ptr;
+	
+	while (TRUE)
+		{
+		GtkTreeIter parent;
+		path = g_list_prepend(path, keyword_get_name(keyword_tree, &iter));
+		if (!gtk_tree_model_iter_parent(keyword_tree, &parent, &iter)) break;
+		iter = parent;
+		}
+	return path;
+}
+
+gboolean keyword_tree_get_iter(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList *path)
+{
+	GtkTreeIter iter;
+
+	if (!gtk_tree_model_get_iter_first(keyword_tree, &iter)) return FALSE;
+	
+	while (TRUE)
+		{
+		GtkTreeIter children;
+		while (TRUE)
+			{
+			gchar *name = keyword_get_name(keyword_tree, &iter);
+			if (strcmp(name, path->data) == 0) break;
+			g_free(name);
+			if (!gtk_tree_model_iter_next(keyword_tree, &iter)) return FALSE;
+			}
+		path = path->next;
+		if (!path) 
+			{
+			*iter_ptr = iter;
+			return TRUE;
+			}
+			
+	    	if (!gtk_tree_model_iter_children(keyword_tree, &children, &iter)) return FALSE;
+	    	iter = children;
+		}
+}
+
+
 static gboolean keyword_tree_is_set_casefold(GtkTreeModel *keyword_tree, GtkTreeIter iter, GList *casefold_list)
 {
 	if (!casefold_list) return FALSE;
@@ -798,7 +885,6 @@ void keyword_tree_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList *
 			if (!find_string_in_list_utf8nocase(*kw_list, name))
 				{
 				*kw_list = g_list_append(*kw_list, name);
-				printf("set %s\n", name);
 				}
 			else
 				{
@@ -823,7 +909,6 @@ static void keyword_tree_reset1(GtkTreeModel *keyword_tree, GtkTreeIter *iter, G
 	if (found)
 		{
 		*kw_list = g_list_remove(*kw_list, found);
-		printf("remove %s\n", found);
 		g_free(found);
 		}
 	g_free(name);
