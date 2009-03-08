@@ -226,19 +226,6 @@ struct _Histogram {
 };
 
 
-struct _EditorDescription {
-	gchar *key; 		/* desktop file name, not including path, including extension */
-	gchar *name; 		/* Name, localized name presented to user */
-	gchar *icon;		/* Icon */
-	gchar *exec;		/* Exec */
-	gchar *menu_path;	
-	gchar *hotkey;
-	GList *ext_list;
-	gchar *file;
-	guint flags;
-	gboolean hidden;
-};
-
 
 struct _ImageLoader;
 

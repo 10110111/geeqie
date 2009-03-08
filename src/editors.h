@@ -15,27 +15,43 @@
 #define EDITORS_H
 
 
-#define	EDITOR_KEEP_FS            0x00000001
-#define	EDITOR_VERBOSE            0x00000002
-#define	EDITOR_VERBOSE_MULTI      0x00000004
-#define EDITOR_TERMINAL		  0x00000008
+typedef enum {
+	EDITOR_KEEP_FS            = 0x00000001,
+	EDITOR_VERBOSE            = 0x00000002,
+	EDITOR_VERBOSE_MULTI      = 0x00000004,
+	EDITOR_TERMINAL		  = 0x00000008,
 
-#define	EDITOR_DEST               0x00000100
-#define	EDITOR_FOR_EACH           0x00000200
-#define	EDITOR_SINGLE_COMMAND     0x00000400
+	EDITOR_DEST               = 0x00000100,
+	EDITOR_FOR_EACH           = 0x00000200,
+	EDITOR_SINGLE_COMMAND     = 0x00000400,
+	/* below are errors */
+	EDITOR_ERROR_EMPTY        = 0x00020000,
+	EDITOR_ERROR_SYNTAX       = 0x00040000,
+	EDITOR_ERROR_INCOMPATIBLE = 0x00080000,
+	EDITOR_ERROR_NO_FILE      = 0x00100000,
+	EDITOR_ERROR_CANT_EXEC    = 0x00200000,
+	EDITOR_ERROR_STATUS       = 0x00400000,
+	EDITOR_ERROR_SKIPPED      = 0x00800000,
+	/* mask to match errors only */
+	EDITOR_ERROR_MASK         = 0xffff0000,
+} EditorFlags;
 
-#define	EDITOR_ERROR_EMPTY        0x00020000
-#define	EDITOR_ERROR_SYNTAX       0x00040000
-#define	EDITOR_ERROR_INCOMPATIBLE 0x00080000
-#define	EDITOR_ERROR_NO_FILE      0x00100000
-#define	EDITOR_ERROR_CANT_EXEC    0x00200000
-#define	EDITOR_ERROR_STATUS       0x00400000
-#define	EDITOR_ERROR_SKIPPED      0x00800000
-
-#define	EDITOR_ERROR_MASK         0xffff0000
+struct _EditorDescription {
+	gchar *key; 		/* desktop file name, not including path, including extension */
+	gchar *name; 		/* Name, localized name presented to user */
+	gchar *icon;		/* Icon */
+	gchar *exec;		/* Exec */
+	gchar *menu_path;	
+	gchar *hotkey;
+	GList *ext_list;
+	gchar *file;
+	EditorFlags flags;
+	gboolean hidden;
+};
 
 #define EDITOR_ERRORS(flags) ((flags) & EDITOR_ERROR_MASK)
-#define EDITOR_ERRORS_BUT_SKIPPED(flags) (((flags) & EDITOR_ERROR_MASK) && !((flags) & EDITOR_ERROR_SKIPPED))
+#define EDITOR_ERRORS_BUT_SKIPPED(flags) (!!(((flags) & EDITOR_ERROR_MASK) && !((flags) & EDITOR_ERROR_SKIPPED)))
+
 
 /* return values from callback function */
 enum {
@@ -60,7 +76,7 @@ flags - flags above
 list - list of procesed FileData structures, typically single file or whole list passed to start_editor_*
 data - generic pointer
 */
-typedef gint (*EditorCallback) (gpointer ed, gint flags, GList *list, gpointer data);
+typedef gint (*EditorCallback) (gpointer ed, EditorFlags flags, GList *list, gpointer data);
 
 
 void editor_resume(gpointer ed);
@@ -68,18 +84,18 @@ void editor_skip(gpointer ed);
 
 
 
-gint start_editor_from_file(const gchar *key, FileData *fd);
-gint start_editor_from_filelist(const gchar *key, GList *list);
-gint start_editor_from_file_full(const gchar *key, FileData *fd, EditorCallback cb, gpointer data);
-gint start_editor_from_filelist_full(const gchar *key, GList *list, EditorCallback cb, gpointer data);
-gint editor_window_flag_set(const gchar *key);
-gint editor_is_filter(const gchar *key);
-const gchar *editor_get_error_str(gint flags);
+EditorFlags start_editor_from_file(const gchar *key, FileData *fd);
+EditorFlags start_editor_from_filelist(const gchar *key, GList *list);
+EditorFlags start_editor_from_file_full(const gchar *key, FileData *fd, EditorCallback cb, gpointer data);
+EditorFlags start_editor_from_filelist_full(const gchar *key, GList *list, EditorCallback cb, gpointer data);
+gboolean editor_window_flag_set(const gchar *key);
+gboolean editor_is_filter(const gchar *key);
+const gchar *editor_get_error_str(EditorFlags flags);
 
 const gchar *editor_get_name(const gchar *key);
 
 gboolean is_valid_editor_command(const gchar *key);
-gint editor_command_parse(const EditorDescription *editor, GList *list, gchar **output);
+EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, gchar **output);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

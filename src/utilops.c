@@ -475,7 +475,7 @@ static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gint fu
 
 static gboolean file_util_perform_ci_internal(gpointer data);
 void file_util_dialog_run(UtilityData *ud);
-static gint file_util_perform_ci_cb(gpointer resume_data, gint flags, GList *list, gpointer data);
+static gint file_util_perform_ci_cb(gpointer resume_data, EditorFlags flags, GList *list, gpointer data);
 
 /* call file_util_perform_ci_internal or start_editor_from_filelist_full */
 
@@ -500,7 +500,7 @@ static void file_util_abort_cb(GenericDialog *gd, gpointer data)
 }
 
 
-static gint file_util_perform_ci_cb(gpointer resume_data, gint flags, GList *list, gpointer data)
+static gint file_util_perform_ci_cb(gpointer resume_data, EditorFlags flags, GList *list, gpointer data)
 {
 	UtilityData *ud = data;
 	gint ret = EDITOR_CB_CONTINUE;
@@ -612,7 +612,7 @@ static gboolean file_util_perform_ci_internal(gpointer data)
 		/* take a single entry each time, this allows better control over the operation */
 		GList *single_entry = g_list_append(NULL, ud->flist->data);
 		gboolean last = !ud->flist->next;
-		gint status = EDITOR_ERROR_STATUS;
+		EditorFlags status = EDITOR_ERROR_STATUS;
 	
 		if (ud->with_sidecars ? file_data_sc_perform_ci(single_entry->data) 
 		                      : file_data_perform_ci(single_entry->data))
@@ -790,7 +790,7 @@ static void file_util_perform_ci_dir(UtilityData *ud, gboolean internal, gboolea
 	file_util_dialog_run(ud);
 }
 
-static gint file_util_perform_ci_dir_cb(gpointer resume_data, gint flags, GList *list, gpointer data)
+static gint file_util_perform_ci_dir_cb(gpointer resume_data, EditorFlags flags, GList *list, gpointer data)
 {
 	UtilityData *ud = data;
 	file_util_perform_ci_dir(ud, FALSE, !EDITOR_ERRORS_BUT_SKIPPED(flags));
@@ -829,7 +829,7 @@ void file_util_perform_ci(UtilityData *ud)
 
 	if (is_valid_editor_command(ud->external_command))
 		{
-		gint flags;
+		EditorFlags flags;
 		
 		ud->external = TRUE;
 		

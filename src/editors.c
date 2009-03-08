@@ -42,7 +42,7 @@ struct _EditorVerboseData {
 
 typedef struct _EditorData EditorData;
 struct _EditorData {
-	gint flags;
+	EditorFlags flags;
 	GPid pid;
 	GList *list;
 	gint count;
@@ -56,9 +56,9 @@ struct _EditorData {
 
 
 static void editor_verbose_window_progress(EditorData *ed, const gchar *text);
-static gint editor_command_next_start(EditorData *ed);
-static gint editor_command_next_finish(EditorData *ed, gint status);
-static gint editor_command_done(EditorData *ed);
+static EditorFlags editor_command_next_start(EditorData *ed);
+static EditorFlags editor_command_next_finish(EditorData *ed, gint status);
+static EditorFlags editor_command_done(EditorData *ed);
 
 /*
  *-----------------------------------------------------------------------------
@@ -648,9 +648,9 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 }
 
 
-gint editor_command_parse(const EditorDescription *editor, GList *list, gchar **output)
+EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, gchar **output)
 {
-	gint flags = 0;
+	EditorFlags flags = 0;
 	const gchar *p;
 	GString *result = NULL;
 
@@ -821,7 +821,7 @@ static void editor_child_exit_cb(GPid pid, gint status, gpointer data)
 }
 
 
-static gint editor_command_one(const EditorDescription *editor, GList *list, EditorData *ed)
+static EditorFlags editor_command_one(const EditorDescription *editor, GList *list, EditorData *ed)
 {
 	gchar *command;
 	FileData *fd = list->data;
@@ -831,7 +831,8 @@ static gint editor_command_one(const EditorDescription *editor, GList *list, Edi
 	gboolean ok;
 
 	ed->pid = -1;
-	ed->flags = editor->flags | editor_command_parse(editor, list, &command);
+	ed->flags = editor->flags;
+	ed->flags |= editor_command_parse(editor, list, &command);
 
 	ok = !EDITOR_ERRORS(ed->flags);
 
@@ -930,14 +931,14 @@ static gint editor_command_one(const EditorDescription *editor, GList *list, Edi
 	return EDITOR_ERRORS(ed->flags);
 }
 
-static gint editor_command_next_start(EditorData *ed)
+static EditorFlags editor_command_next_start(EditorData *ed)
 {
 	if (ed->vd) editor_verbose_window_fill(ed->vd, "\n", 1);
 
 	if (ed->list && ed->count < ed->total)
 		{
 		FileData *fd;
-		gint error;
+		EditorFlags error;
 
 		fd = ed->list->data;
 
@@ -972,7 +973,7 @@ static gint editor_command_next_start(EditorData *ed)
 	return editor_command_done(ed);
 }
 
-static gint editor_command_next_finish(EditorData *ed, gint status)
+static EditorFlags editor_command_next_finish(EditorData *ed, gint status)
 {
 	gint cont = ed->stopping ? EDITOR_CB_SKIP : EDITOR_CB_CONTINUE;
 
@@ -1012,9 +1013,9 @@ static gint editor_command_next_finish(EditorData *ed, gint status)
 	return editor_command_next_start(ed);
 }
 
-static gint editor_command_done(EditorData *ed)
+static EditorFlags editor_command_done(EditorData *ed)
 {
-	gint flags;
+	EditorFlags flags;
 
 	if (ed->vd)
 		{
@@ -1057,10 +1058,10 @@ void editor_skip(gpointer ed)
 	editor_command_done(ed);
 }
 
-static gint editor_command_start(const EditorDescription *editor, const gchar *text, GList *list, EditorCallback cb, gpointer data)
+static EditorFlags editor_command_start(const EditorDescription *editor, const gchar *text, GList *list, EditorCallback cb, gpointer data)
 {
 	EditorData *ed;
-	gint flags = editor->flags;
+	EditorFlags flags = editor->flags;
 
 	if (EDITOR_ERRORS(flags)) return EDITOR_ERRORS(flags);
 
@@ -1089,9 +1090,9 @@ gboolean is_valid_editor_command(const gchar *key)
 	return g_hash_table_lookup(editors, key) != NULL;
 }
 
-gint start_editor_from_filelist_full(const gchar *key, GList *list, EditorCallback cb, gpointer data)
+EditorFlags start_editor_from_filelist_full(const gchar *key, GList *list, EditorCallback cb, gpointer data)
 {
-	gint error;
+	EditorFlags error;
 	EditorDescription *editor;
 	if (!key) return FALSE;
 	
@@ -1113,15 +1114,15 @@ gint start_editor_from_filelist_full(const gchar *key, GList *list, EditorCallba
 	return error;
 }
 
-gint start_editor_from_filelist(const gchar *key, GList *list)
+EditorFlags start_editor_from_filelist(const gchar *key, GList *list)
 {
 	return start_editor_from_filelist_full(key, list,  NULL, NULL);
 }
 
-gint start_editor_from_file_full(const gchar *key, FileData *fd, EditorCallback cb, gpointer data)
+EditorFlags start_editor_from_file_full(const gchar *key, FileData *fd, EditorCallback cb, gpointer data)
 {
 	GList *list;
-	gint error;
+	EditorFlags error;
 
 	if (!fd) return FALSE;
 
@@ -1131,12 +1132,12 @@ gint start_editor_from_file_full(const gchar *key, FileData *fd, EditorCallback 
 	return error;
 }
 
-gint start_editor_from_file(const gchar *key, FileData *fd)
+EditorFlags start_editor_from_file(const gchar *key, FileData *fd)
 {
 	return start_editor_from_file_full(key, fd, NULL, NULL);
 }
 
-gint editor_window_flag_set(const gchar *key)
+gboolean editor_window_flag_set(const gchar *key)
 {
 	EditorDescription *editor;
 	if (!key) return TRUE;
@@ -1144,10 +1145,10 @@ gint editor_window_flag_set(const gchar *key)
 	editor = g_hash_table_lookup(editors, key);
 	if (!editor) return TRUE;
 
-	return (editor->flags & EDITOR_KEEP_FS);
+	return !!(editor->flags & EDITOR_KEEP_FS);
 }
 
-gint editor_is_filter(const gchar *key)
+gboolean editor_is_filter(const gchar *key)
 {
 	EditorDescription *editor;
 	if (!key) return TRUE;
@@ -1155,10 +1156,10 @@ gint editor_is_filter(const gchar *key)
 	editor = g_hash_table_lookup(editors, key);
 	if (!editor) return TRUE;
 
-	return (editor->flags & EDITOR_DEST);
+	return !!(editor->flags & EDITOR_DEST);
 }
 
-const gchar *editor_get_error_str(gint flags)
+const gchar *editor_get_error_str(EditorFlags flags)
 {
 	if (flags & EDITOR_ERROR_EMPTY) return _("Editor template is empty.");
 	if (flags & EDITOR_ERROR_SYNTAX) return _("Editor template has incorrect syntax.");
