@@ -533,7 +533,8 @@ static void bar_pane_keywords_dnd_receive(GtkWidget *tree_view, GdkDragContext *
 
 	GtkTreeModel *keyword_tree;
 	gboolean src_valid = FALSE;
-	gchar *new_keyword = NULL;
+	GList *new_keywords = NULL;
+	GList *work;
 
 	/* iterators for keyword_tree */
 	GtkTreeIter src_kw_iter;
@@ -560,7 +561,7 @@ static void bar_pane_keywords_dnd_receive(GtkWidget *tree_view, GdkDragContext *
 			break;
 			}
 		default:
-			new_keyword = (gchar *)selection_data->data;
+			new_keywords = string_to_keywords_list((gchar *)selection_data->data);
 			break;
 		}
 
@@ -603,10 +604,19 @@ static void bar_pane_keywords_dnd_receive(GtkWidget *tree_view, GdkDragContext *
 		keyword_move_recursive(GTK_TREE_STORE(keyword_tree), &new_kw_iter, &src_kw_iter);
 		}
 	
-	if (new_keyword)
+	work = new_keywords;
+	while (work)
 		{
-		keyword_set(GTK_TREE_STORE(keyword_tree), &new_kw_iter, new_keyword, TRUE);
+		keyword_set(GTK_TREE_STORE(keyword_tree), &new_kw_iter, work->data, TRUE);
+		work = work->next;
+		if (work)
+			{
+			GtkTreeIter add;
+			gtk_tree_store_insert_after(GTK_TREE_STORE(keyword_tree), &add, NULL, &new_kw_iter);
+			new_kw_iter = add;
+			}
 		}
+	string_list_free(new_keywords);
 }
 
 static gint bar_pane_keywords_dnd_motion(GtkWidget *tree_view, GdkDragContext *context,
