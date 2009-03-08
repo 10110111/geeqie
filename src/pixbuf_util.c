@@ -166,6 +166,9 @@ gboolean register_theme_icon_as_stock(const gchar *key, const gchar *icon)
 	GError *error = NULL;
 
 	icon_theme = gtk_icon_theme_get_default();
+	
+	if (gtk_icon_theme_has_icon(icon_theme, key)) return FALSE;
+
 	pixbuf = gtk_icon_theme_load_icon(icon_theme,
                            icon, /* icon name */
                            64, /* size */

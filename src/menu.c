@@ -21,6 +21,7 @@
 #include "editors.h"
 #include "filedata.h"
 #include "img-view.h"
+#include "pixbuf_util.h"
 #include "preferences.h"
 #include "slideshow.h"
 #include "utilops.h"
@@ -83,7 +84,13 @@ static void add_edit_items(GtkWidget *menu, GCallback func, GList *fd_list)
 			}
 
 		if (active)
-			menu_item_add(menu, editor->name, func, editor->key);
+			{
+			const gchar *stock_id = NULL;
+			if (editor->icon && register_theme_icon_as_stock(editor->key, editor->icon))
+				stock_id = editor->key;
+
+			menu_item_add_stock(menu, editor->name, stock_id, func, editor->key);
+			}
 		}
 	
 	g_list_free(editors_list);
