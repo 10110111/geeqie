@@ -1718,6 +1718,8 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	if (dir_fd) file_data_unregister_real_time_monitor(dir_fd);
 	lw->dir_fd = NULL;
 
+	layout_geometry_get_dividers(lw, &lw->options.main_window.hdivider_pos, &lw->options.main_window.vdivider_pos);
+
 	/* lw->image is preserved together with lw->utility_box */
 	if (lw->utility_box)
 		{
@@ -1726,8 +1728,6 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 		g_object_ref(lw->utility_box);
 		gtk_container_remove(GTK_CONTAINER(lw->utility_box->parent), lw->utility_box);
 		}
-
-	layout_geometry_get_dividers(lw, &lw->options.main_window.hdivider_pos, &lw->options.main_window.vdivider_pos);
 
 	/* clear it all */
 
