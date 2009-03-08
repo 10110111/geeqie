@@ -572,6 +572,11 @@ static void bar_pane_keywords_dnd_receive(GtkWidget *tree_view, GdkDragContext *
 		gtk_tree_path_free(tpath);
 		gtk_tree_model_filter_convert_iter_to_child_iter(GTK_TREE_MODEL_FILTER(model), &dest_kw_iter, &dest_iter);
 
+		if (src_valid && gtk_tree_store_is_ancestor(GTK_TREE_STORE(keyword_tree), &src_kw_iter, &dest_kw_iter))
+			{
+			/* can't move to it's own child */
+			return;
+			}
 
 		if ((pos == GTK_TREE_VIEW_DROP_INTO_OR_BEFORE || pos == GTK_TREE_VIEW_DROP_INTO_OR_AFTER) &&
 		    !gtk_tree_model_iter_has_child(keyword_tree, &dest_kw_iter))
@@ -640,7 +645,12 @@ static gint bar_pane_keywords_dnd_motion(GtkWidget *tree_view, GdkDragContext *c
 
 	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW(tree_view), tpath, pos);
 	gtk_tree_path_free(tpath);
-	gdk_drag_status(context, GDK_ACTION_COPY, time);
+	
+	if (tree_view == gtk_drag_get_source_widget(context))
+		gdk_drag_status(context, GDK_ACTION_MOVE, time);
+	else
+		gdk_drag_status(context, GDK_ACTION_COPY, time);
+	
 	return TRUE;
 }
 
