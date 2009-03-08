@@ -320,9 +320,11 @@ static void bar_pane_exif_dnd_receive(GtkWidget *pane, GdkDragContext *context,
 	gtk_box_reorder_child(GTK_BOX(ped->vbox), new_entry, pos);
 }
 
-static void bar_pane_exif_entry_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointer data)
+static void bar_pane_exif_entry_dnd_begin(GtkWidget *entry, GdkDragContext *context, gpointer data)
 {
-//	gtk_drag_set_icon_default(context);
+	ExifEntry *ee = g_object_get_data(G_OBJECT(entry), "entry_data");
+	if (!ee) return;
+	dnd_set_drag_label(entry, context, ee->key);
 }
 
 static void bar_pane_exif_entry_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer data)

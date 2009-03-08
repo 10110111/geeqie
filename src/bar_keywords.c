@@ -490,15 +490,32 @@ static void bar_pane_keywords_dnd_get(GtkWidget *tree_view, GdkDragContext *cont
 			{
 			gchar *name = keyword_get_name(keyword_tree, &child_iter);
 			gtk_selection_data_set_text(selection_data, name, -1);
-printf("name %s\n", name);
 			g_free(name);
 			}
 			break;
 		}
 }
 
-static void bar_pane_keywords_dnd_begin(GtkWidget *treeview, GdkDragContext *context, gpointer data)
+static void bar_pane_keywords_dnd_begin(GtkWidget *tree_view, GdkDragContext *context, gpointer data)
 {
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	GtkTreeIter child_iter;
+	GtkTreeModel *keyword_tree;
+	gchar *name;
+
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view)); 
+
+        if (!gtk_tree_selection_get_selected(sel, &model, &iter)) return;
+
+	keyword_tree = gtk_tree_model_filter_get_model(GTK_TREE_MODEL_FILTER(model));
+	gtk_tree_model_filter_convert_iter_to_child_iter(GTK_TREE_MODEL_FILTER(model), &child_iter, &iter);
+
+	name = keyword_get_name(keyword_tree, &child_iter);
+
+	dnd_set_drag_label(tree_view, context, name);
+	g_free(name);
+
 }
 
 static void bar_pane_keywords_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer data)

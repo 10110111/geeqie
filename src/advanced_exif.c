@@ -250,11 +250,6 @@ static void advanced_exif_dnd_get(GtkWidget *listview, GdkDragContext *context,
 
 }
 
-static void advanced_exif_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer data)
-{
-	GtkWidget *window = data;
-	gtk_widget_destroy(window);
-}
 
 static void advanced_exif_dnd_begin(GtkWidget *listview, GdkDragContext *context, gpointer data)
 {
@@ -266,21 +261,10 @@ static void advanced_exif_dnd_begin(GtkWidget *listview, GdkDragContext *context
 		{
 		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
 		gchar *key;
-		GtkWidget *window;
-		GtkWidget *label;
 
 		gtk_tree_model_get(store, &iter, EXIF_ADVCOL_NAME, &key, -1);
 
-		window = gtk_window_new(GTK_WINDOW_POPUP);
-		gtk_widget_realize (window);
-
-		label = gtk_label_new(key);
-		gtk_container_add(GTK_CONTAINER (window), label);
-		gtk_widget_show(label);
-		gtk_drag_set_icon_widget(context, window, -15, 10);
-		g_signal_connect(G_OBJECT(listview), "drag_end",
-				 G_CALLBACK(advanced_exif_dnd_end), window);
-
+		dnd_set_drag_label(listview, context, key);
 		g_free(key);
 		}
 }

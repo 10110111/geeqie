@@ -167,4 +167,29 @@ void dnd_set_drag_icon(GtkWidget *widget, GdkDragContext *context, GdkPixbuf *pi
 	g_object_unref(pixmap);
 	if (mask) g_object_unref(mask);
 }
+
+static void dnd_set_drag_label_end_cb(GtkWidget *widget, GdkDragContext *context, gpointer data)
+{
+	GtkWidget *window = data;
+	g_signal_handlers_disconnect_by_func(widget, dnd_set_drag_label_end_cb, data);
+	gtk_widget_destroy(window);
+}
+
+void dnd_set_drag_label(GtkWidget *widget, GdkDragContext *context, const gchar *text)
+{
+	GtkWidget *window;
+	GtkWidget *label;
+
+	window = gtk_window_new(GTK_WINDOW_POPUP);
+	gtk_widget_realize (window);
+
+	label = gtk_label_new(text);
+	gtk_container_add(GTK_CONTAINER (window), label);
+	gtk_widget_show(label);
+	gtk_drag_set_icon_widget(context, window, -15, 10);
+	g_signal_connect(G_OBJECT(widget), "drag_end",
+			 G_CALLBACK(dnd_set_drag_label_end_cb), window);
+}
+
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
