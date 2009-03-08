@@ -275,16 +275,13 @@ static gboolean editor_read_desktop_file(const gchar *path)
 			g_strfreev(mime_types);
 			if (!editor->ext_list) editor->hidden = TRUE; 
 			}
-		
 		}
 		
-
 	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "X-Geeqie-Keep-Fullscreen", NULL)) editor->flags |= EDITOR_KEEP_FS;
 	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "X-Geeqie-Verbose", NULL)) editor->flags |= EDITOR_VERBOSE;
 	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "X-Geeqie-Verbose-Multi", NULL)) editor->flags |= EDITOR_VERBOSE_MULTI;
 	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "X-Geeqie-Filter", NULL)) editor->flags |= EDITOR_DEST;
 	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "Terminal", NULL)) editor->flags |= EDITOR_TERMINAL;
-
 	
 	editor->flags |= editor_command_parse(editor, NULL, NULL);
 	g_key_file_free(key_file);
@@ -315,9 +312,8 @@ static void editor_read_desktop_dir(const gchar *path)
 	while ((dir = readdir(dp)) != NULL)
 		{
 		gchar *namel = dir->d_name;
-		size_t len = strlen(namel);
 		
-		if (len > 8 && g_ascii_strncasecmp(namel + len - 8, ".desktop", 8) == 0)
+		if (g_str_has_suffix(namel, ".desktop"))
 			{
 			gchar *name = path_to_utf8(namel);
 			gchar *dpath = g_build_filename(path, name, NULL);
@@ -373,7 +369,7 @@ static void editor_list_add_cb(gpointer key, gpointer value, gpointer data)
 	GList **listp = data;
 	EditorDescription *editor = value;
 	
-	/* do not show the special commands in any list, they are called explicitelly */ 
+	/* do not show the special commands in any list, they are called explicitly */ 
 	if (strcmp(editor->key, CMD_COPY) == 0 ||
 	    strcmp(editor->key, CMD_MOVE) == 0 ||  
 	    strcmp(editor->key, CMD_RENAME) == 0 ||
@@ -387,7 +383,7 @@ static gint editor_sort(gconstpointer a, gconstpointer b)
 {
 	const EditorDescription *ea = a;
 	const EditorDescription *eb = b;
-	int ret;
+	gint ret;
 	
 	ret = strcmp(ea->menu_path, eb->menu_path);
 	if (ret != 0) return ret;
@@ -574,7 +570,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 {
 	GString *string;
 	gchar *pathl;
-	const gchar *p = NULL;
+	const gchar *p;
 
 	string = g_string_new("");
 
@@ -624,6 +620,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 			p = "";
 		}
 
+	g_assert(p);
 	while (*p != '\0')
 		{
 		/* must escape \, ", `, and $ to avoid problems,
@@ -640,6 +637,12 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 	if (type == PATH_FILE_URL) g_string_prepend(string, "file://");
 	pathl = path_from_utf8(string->str);
 	g_string_free(string, TRUE);
+
+	if (pathl && !pathl[0]) /* empty string case */
+		{
+		g_free(pathl);
+		pathl = NULL;
+		}
 
 	return pathl;
 }
@@ -861,11 +864,11 @@ static gint editor_command_one(const EditorDescription *editor, GList *list, Edi
 
 		if ((ed->flags & EDITOR_DEST) && fd->change && fd->change->dest) /* FIXME: error handling */
 			{
-			setenv("GEEQIE_DESTINATION", fd->change->dest, TRUE);
+			g_setenv("GEEQIE_DESTINATION", fd->change->dest, TRUE);
 			}
 		else
 			{
-			unsetenv("GEEQIE_DESTINATION");
+			g_unsetenv("GEEQIE_DESTINATION");
 			}
 
 		ok = g_spawn_async_with_pipes(working_directory, args, NULL,
@@ -940,7 +943,10 @@ static gint editor_command_next_start(EditorData *ed)
 
 		if (ed->vd)
 			{
-			editor_verbose_window_progress(ed, (ed->flags & EDITOR_FOR_EACH) ? fd->path : _("running..."));
+			if (ed->flags & EDITOR_FOR_EACH)
+				editor_verbose_window_progress(ed, fd->path);
+			else
+				editor_verbose_window_progress(ed, _("running..."));
 			}
 		ed->count++;
 
@@ -957,9 +963,9 @@ static gint editor_command_next_start(EditorData *ed)
 
 		if (!error)
 			return 0;
-		else
-			/* command was not started, call the finish immediately */
-			return editor_command_next_finish(ed, 0);
+		
+		/* command was not started, call the finish immediately */
+		return editor_command_next_finish(ed, 0);
 		}
 
 	/* everything is done */
@@ -1012,17 +1018,14 @@ static gint editor_command_done(EditorData *ed)
 
 	if (ed->vd)
 		{
-		const gchar *text;
-
 		if (ed->count == ed->total)
 			{
-			text = _("done");
+			editor_verbose_window_progress(ed, _("done"));
 			}
 		else
 			{
-			text = _("stopped by user");
+			editor_verbose_window_progress(ed, _("stopped by user"));
 			}
-		editor_verbose_window_progress(ed, text);
 		editor_verbose_window_enable_close(ed->vd);
 		}
 
