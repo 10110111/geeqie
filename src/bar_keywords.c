@@ -527,6 +527,7 @@ static void bar_pane_keywords_dnd_receive(GtkWidget *tree_view, GdkDragContext *
 					  GtkSelectionData *selection_data, guint info,
 					  guint time, gpointer data)
 {
+	PaneKeywordsData *pkd = data;
 	GtkTreePath *tpath = NULL;
         GtkTreeViewDropPosition pos;
 	GtkTreeModel *model;
@@ -578,6 +579,12 @@ static void bar_pane_keywords_dnd_receive(GtkWidget *tree_view, GdkDragContext *
 			return;
 			}
 
+		if (src_valid && keyword_compare(keyword_tree, &src_kw_iter, &dest_kw_iter) == 0)
+			{
+			/* can't move to itself */
+			return;
+			}
+
 		if ((pos == GTK_TREE_VIEW_DROP_INTO_OR_BEFORE || pos == GTK_TREE_VIEW_DROP_INTO_OR_AFTER) &&
 		    !gtk_tree_model_iter_has_child(keyword_tree, &dest_kw_iter))
 			{
@@ -622,6 +629,7 @@ static void bar_pane_keywords_dnd_receive(GtkWidget *tree_view, GdkDragContext *
 			}
 		}
 	string_list_free(new_keywords);
+	bar_keyword_tree_sync(pkd);
 }
 
 static gint bar_pane_keywords_dnd_motion(GtkWidget *tree_view, GdkDragContext *context,

@@ -55,6 +55,8 @@ gchar *keyword_get_name(GtkTreeModel *keyword_tree, GtkTreeIter *iter);
 gchar *keyword_get_casefold(GtkTreeModel *keyword_tree, GtkTreeIter *iter);
 gboolean keyword_get_is_keyword(GtkTreeModel *keyword_tree, GtkTreeIter *iter);
 
+gboolean keyword_compare(GtkTreeModel *keyword_tree, GtkTreeIter *a, GtkTreeIter *b);
+
 void keyword_copy(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from);
 void keyword_copy_recursive(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from);
 void keyword_move_recursive(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from);

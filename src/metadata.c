@@ -729,6 +729,16 @@ void keyword_set(GtkTreeStore *keyword_tree, GtkTreeIter *iter, const gchar *nam
 	g_free(casefold);
 }
 
+gboolean keyword_compare(GtkTreeModel *keyword_tree, GtkTreeIter *a, GtkTreeIter *b)
+{
+	GtkTreePath *pa = gtk_tree_model_get_path(keyword_tree, a);
+	GtkTreePath *pb = gtk_tree_model_get_path(keyword_tree, b);
+	gint ret = gtk_tree_path_compare(pa, pb);
+	gtk_tree_path_free(pa);
+	gtk_tree_path_free(pb);
+	return ret;
+}
+
 void keyword_copy(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from)
 {
 
