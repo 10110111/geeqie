@@ -688,28 +688,30 @@ gint editor_command_parse(const EditorDescription *editor, GList *list, gchar **
 						flags |= EDITOR_ERROR_INCOMPATIBLE;
 						goto err;
 						}
-					/* use the first file from the list */
-					if (!list || !list->data)
+					if (list)
 						{
-						flags |= EDITOR_ERROR_NO_FILE;
-						goto err;
+						/* use the first file from the list */
+						if (!list->data)
+							{
+							flags |= EDITOR_ERROR_NO_FILE;
+							goto err;
+							}
+						pathl = editor_command_path_parse((FileData *)list->data,
+										  (*p == 'f') ? PATH_FILE : PATH_FILE_URL,
+										  editor);
+						if (!pathl)
+							{
+							flags |= EDITOR_ERROR_NO_FILE;
+							goto err;
+							}
+						if (output)
+							{
+							result = g_string_append_c(result, '"');
+							result = g_string_append(result, pathl);
+							result = g_string_append_c(result, '"');
+							}
+						g_free(pathl);
 						}
-					pathl = editor_command_path_parse((FileData *)list->data,
-									  (*p == 'f') ? PATH_FILE : PATH_FILE_URL,
-									  editor);
-					if (!pathl)
-						{
-						flags |= EDITOR_ERROR_NO_FILE;
-						goto err;
-						}
-					if (output)
-						{
-						result = g_string_append_c(result, '"');
-						result = g_string_append(result, pathl);
-						result = g_string_append_c(result, '"');
-						}
-					g_free(pathl);
-
 					break;
 
 				case 'F':
@@ -721,6 +723,7 @@ gint editor_command_parse(const EditorDescription *editor, GList *list, gchar **
 						goto err;
 						}
 
+					if (list)
 						{
 						/* use whole list */
 						GList *work = list;
