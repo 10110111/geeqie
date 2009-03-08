@@ -64,7 +64,7 @@ gpointer submenu_item_get_data(GtkWidget *menu)
  *-----------------------------------------------------------------------------
  */
 
-static void add_edit_items(GtkWidget *menu, GCallback func)
+static void add_edit_items(GtkWidget *menu, GCallback func, GList *fd_list)
 {
 	GList *editors_list = editor_list_get();
 	GList *work = editors_list;
@@ -73,15 +73,24 @@ static void add_edit_items(GtkWidget *menu, GCallback func)
 		{
 		const EditorDescription *editor = work->data;
 		work = work->next;
-		
-		menu_item_add(menu, editor->name, func, editor->key);
+		gboolean active = TRUE;
+
+		if (fd_list)
+			{
+			gint flags = editor_command_parse(editor, fd_list, NULL);
+			if ((flags & EDITOR_ERROR_MASK) != 0)
+				active = FALSE;
+			}
+
+		if (active)
+			menu_item_add(menu, editor->name, func, editor->key);
 		}
 	
 	g_list_free(editors_list);
 }
 
 
-GtkWidget *submenu_add_edit(GtkWidget *menu, GtkWidget **menu_item, GCallback func, gpointer data)
+GtkWidget *submenu_add_edit(GtkWidget *menu, GtkWidget **menu_item, GCallback func, gpointer data, GList *fd_list)
 {
 	GtkWidget *item;
 	GtkWidget *submenu;
@@ -90,7 +99,7 @@ GtkWidget *submenu_add_edit(GtkWidget *menu, GtkWidget **menu_item, GCallback fu
 
 	submenu = gtk_menu_new();
 	g_object_set_data(G_OBJECT(submenu), "submenu_data", data);
-	add_edit_items(submenu, func);
+	add_edit_items(submenu, func, fd_list);
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 

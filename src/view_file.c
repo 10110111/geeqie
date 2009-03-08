@@ -475,6 +475,9 @@ static void vf_popup_destroy_cb(GtkWidget *widget, gpointer data)
 	case FILEVIEW_LIST: vflist_popup_destroy_cb(widget, data); break;
 	case FILEVIEW_ICON: vficon_popup_destroy_cb(widget, data); break;
 	}
+
+	filelist_free(vf->editmenu_fd_list);
+	vf->editmenu_fd_list = NULL;
 }
 
 GtkWidget *vf_pop_menu(ViewFile *vf)
@@ -547,7 +550,8 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 		g_free(str_sel_mark_minus);
 		}
 
-	submenu_add_edit(menu, &item, G_CALLBACK(vf_pop_menu_edit_cb), vf);
+	vf->editmenu_fd_list = vf_selection_get_list(vf);
+	submenu_add_edit(menu, &item, G_CALLBACK(vf_pop_menu_edit_cb), vf, vf->editmenu_fd_list);
 	gtk_widget_set_sensitive(item, active);
 
 	menu_item_add_stock_sensitive(menu, _("View in _new window"), GTK_STOCK_NEW, active,

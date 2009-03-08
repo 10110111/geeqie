@@ -190,6 +190,10 @@ struct _SearchData
 	ThumbLoader *thumb_loader;
 	gint thumb_enable;
 	FileData *thumb_fd;
+
+	/* file list for edit menu */
+	GList *editmenu_fd_list;
+
 };
 
 typedef struct _MatchFileData MatchFileData;
@@ -979,12 +983,23 @@ static void sr_menu_clear_cb(GtkWidget *widget, gpointer data)
 	search_result_clear(sd);
 }
 
+static void search_result_menu_destroy_cb(GtkWidget *widget, gpointer data)
+{
+	SearchData *sd = data;
+
+	filelist_free(sd->editmenu_fd_list);
+	sd->editmenu_fd_list = NULL;
+}
+
 static GtkWidget *search_result_menu(SearchData *sd, gint on_row, gint empty)
 {
 	GtkWidget *menu;
 	GtkWidget *item;
 
 	menu = popup_menu_short_lived();
+	g_signal_connect(G_OBJECT(menu), "destroy",
+			 G_CALLBACK(search_result_menu_destroy_cb), sd);
+
 	menu_item_add_sensitive(menu, _("_View"), on_row,
 				G_CALLBACK(sr_menu_view_cb), sd);
 	menu_item_add_stock_sensitive(menu, _("View in _new window"), GTK_STOCK_NEW, on_row,
@@ -995,7 +1010,9 @@ static GtkWidget *search_result_menu(SearchData *sd, gint on_row, gint empty)
 	menu_item_add_sensitive(menu, _("Select none"), !empty,
 				G_CALLBACK(sr_menu_select_none_cb), sd);
 	menu_item_add_divider(menu);
-	submenu_add_edit(menu, &item, G_CALLBACK(sr_menu_edit_cb), sd);
+
+	sd->editmenu_fd_list = search_result_selection_list(sd);
+	submenu_add_edit(menu, &item, G_CALLBACK(sr_menu_edit_cb), sd, sd->editmenu_fd_list);
 	if (!on_row) gtk_widget_set_sensitive(item, FALSE);
 	menu_item_add_stock_sensitive(menu, _("Add to new collection"), GTK_STOCK_INDEX, on_row,
 				      G_CALLBACK(sr_menu_collection_cb), sd);

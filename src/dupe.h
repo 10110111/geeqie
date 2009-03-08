@@ -109,6 +109,10 @@ struct _DupeWindow
 	GtkWidget *second_status_label;
 
 	gint color_frozen;
+	
+	/* file list for edit menu */
+	GList *editmenu_fd_list;
+
 };
 
 

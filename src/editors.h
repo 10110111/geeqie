@@ -77,6 +77,7 @@ const gchar *editor_get_error_str(gint flags);
 const gchar *editor_get_name(const gchar *key);
 
 gboolean is_valid_editor_command(const gchar *key);
+gint editor_command_parse(const EditorDescription *editor, GList *list, gchar **output);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

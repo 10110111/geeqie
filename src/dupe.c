@@ -2211,6 +2211,30 @@ static void dupe_menu_close_cb(GtkWidget *widget, gpointer data)
 	dupe_window_close(dw);
 }
 
+static void dupe_menu_popup_destroy_cb(GtkWidget *widget, gpointer data)
+{
+	DupeWindow *dw = data;
+
+	filelist_free(dw->editmenu_fd_list);
+	dw->editmenu_fd_list = NULL;
+}	
+
+static GList *dupe_window_get_fd_list(DupeWindow *dw)
+{
+	GList *list;
+
+	if (GTK_WIDGET_HAS_FOCUS(dw->second_listview))
+		{
+		list = dupe_listview_get_selection(dw, dw->second_listview);
+		}
+	else
+		{
+		list = dupe_listview_get_selection(dw, dw->listview);
+		}
+
+	return list;
+}
+
 static GtkWidget *dupe_menu_popup_main(DupeWindow *dw, DupeItem *di)
 {
 	GtkWidget *menu;
@@ -2220,6 +2244,9 @@ static GtkWidget *dupe_menu_popup_main(DupeWindow *dw, DupeItem *di)
 	on_row = (di != NULL);
 
 	menu = popup_menu_short_lived();
+	g_signal_connect(G_OBJECT(menu), "destroy",
+			 G_CALLBACK(dupe_menu_popup_destroy_cb), dw);
+
 	menu_item_add_sensitive(menu, _("_View"), on_row,
 				G_CALLBACK(dupe_menu_view_cb), dw);
 	menu_item_add_stock_sensitive(menu, _("View in _new window"), GTK_STOCK_NEW, on_row,
@@ -2234,7 +2261,9 @@ static GtkWidget *dupe_menu_popup_main(DupeWindow *dw, DupeItem *di)
 	menu_item_add_sensitive(menu, _("Select group _2 duplicates"), (dw->dupes != NULL),
 				G_CALLBACK(dupe_menu_select_dupes_set2_cb), dw);
 	menu_item_add_divider(menu);
-	submenu_add_edit(menu, &item, G_CALLBACK(dupe_menu_edit_cb), dw);
+	
+	dw->editmenu_fd_list = dupe_window_get_fd_list(dw);
+	submenu_add_edit(menu, &item, G_CALLBACK(dupe_menu_edit_cb), dw, dw->editmenu_fd_list);
 	if (!on_row) gtk_widget_set_sensitive(item, FALSE);
 	menu_item_add_stock_sensitive(menu, _("Add to new collection"), GTK_STOCK_INDEX, on_row,
 				G_CALLBACK(dupe_menu_collection_cb), dw);

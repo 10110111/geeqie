@@ -340,6 +340,9 @@ struct _CollectTable
 	gint drop_idle_id;
 
 	gint show_text;
+
+	/* file list for edit menu */
+	GList *editmenu_fd_list;
 };
 
 struct _CollectWindow
@@ -655,6 +658,9 @@ struct _LayoutWindow
 //	gint bar_width;
 
 	GtkWidget *exif_window;
+
+	/* file list for edit menu */
+	GList *editmenu_fd_list;
 };
 
 struct _ViewDir
@@ -739,6 +745,9 @@ struct _ViewFile
 	
 	/* refresh */
 	gint refresh_idle_id;
+
+	/* file list for edit menu */
+	GList *editmenu_fd_list;
 };
 
 struct _ViewFileInfoList

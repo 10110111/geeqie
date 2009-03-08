@@ -59,7 +59,6 @@ static void editor_verbose_window_progress(EditorData *ed, const gchar *text);
 static gint editor_command_next_start(EditorData *ed);
 static gint editor_command_next_finish(EditorData *ed, gint status);
 static gint editor_command_done(EditorData *ed);
-static gint editor_command_parse(const EditorDescription *editor, GList *list, gchar **output);
 
 /*
  *-----------------------------------------------------------------------------
@@ -646,7 +645,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 }
 
 
-static gint editor_command_parse(const EditorDescription *editor, GList *list, gchar **output)
+gint editor_command_parse(const EditorDescription *editor, GList *list, gchar **output)
 {
 	gint flags = 0;
 	const gchar *p;
@@ -689,27 +688,28 @@ static gint editor_command_parse(const EditorDescription *editor, GList *list, g
 						flags |= EDITOR_ERROR_INCOMPATIBLE;
 						goto err;
 						}
+					/* use the first file from the list */
+					if (!list || !list->data)
+						{
+						flags |= EDITOR_ERROR_NO_FILE;
+						goto err;
+						}
+					pathl = editor_command_path_parse((FileData *)list->data,
+									  (*p == 'f') ? PATH_FILE : PATH_FILE_URL,
+									  editor);
+					if (!pathl)
+						{
+						flags |= EDITOR_ERROR_NO_FILE;
+						goto err;
+						}
 					if (output)
 						{
-						/* use the first file from the list */
-						if (!list || !list->data)
-							{
-							flags |= EDITOR_ERROR_NO_FILE;
-							goto err;
-							}
-						pathl = editor_command_path_parse((FileData *)list->data,
-										  (*p == 'f') ? PATH_FILE : PATH_FILE_URL,
-										  editor);
-						if (!pathl)
-							{
-							flags |= EDITOR_ERROR_NO_FILE;
-							goto err;
-							}
 						result = g_string_append_c(result, '"');
 						result = g_string_append(result, pathl);
-						g_free(pathl);
 						result = g_string_append_c(result, '"');
 						}
+					g_free(pathl);
+
 					break;
 
 				case 'F':
@@ -721,7 +721,6 @@ static gint editor_command_parse(const EditorDescription *editor, GList *list, g
 						goto err;
 						}
 
-					if (output)
 						{
 						/* use whole list */
 						GList *work = list;
@@ -731,15 +730,19 @@ static gint editor_command_parse(const EditorDescription *editor, GList *list, g
 							{
 							FileData *fd = work->data;
 							pathl = editor_command_path_parse(fd, (*p == 'F') ? PATH_FILE : PATH_FILE_URL, editor);
-
 							if (pathl)
 								{
 								ok = TRUE;
-								if (work != list) g_string_append_c(result, ' ');
-								result = g_string_append_c(result, '"');
-								result = g_string_append(result, pathl);
+
+								if (output)
+									{
+									ok = TRUE;
+									if (work != list) g_string_append_c(result, ' ');
+									result = g_string_append_c(result, '"');
+									result = g_string_append(result, pathl);
+									result = g_string_append_c(result, '"');
+									}
 								g_free(pathl);
-								result = g_string_append_c(result, '"');
 								}
 							work = work->next;
 							}
@@ -802,7 +805,7 @@ err:
 }
 
 
-static void editor_child_exit_cb (GPid pid, gint status, gpointer data)
+static void editor_child_exit_cb(GPid pid, gint status, gpointer data)
 {
 	EditorData *ed = data;
 	g_spawn_close_pid(pid);

@@ -839,6 +839,9 @@ static void collection_table_popup_destroy_cb(GtkWidget *widget, gpointer data)
 	filelist_free(ct->drop_list);
 	ct->drop_list = NULL;
 	ct->drop_info = NULL;
+
+	filelist_free(ct->editmenu_fd_list);
+	ct->editmenu_fd_list = NULL;
 }
 
 static GtkWidget *collection_table_popup_menu(CollectTable *ct, gint over_icon)
@@ -877,8 +880,10 @@ static GtkWidget *collection_table_popup_menu(CollectTable *ct, gint over_icon)
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 	menu_item_add_divider(menu);
 
+	
+	ct->editmenu_fd_list = collection_table_selection_get_list(ct);
 	submenu_add_edit(menu, &item,
-			G_CALLBACK(collection_table_popup_edit_cb), ct);
+			G_CALLBACK(collection_table_popup_edit_cb), ct, ct->editmenu_fd_list);
 	gtk_widget_set_sensitive(item, over_icon);
 
 	menu_item_add_divider(menu);

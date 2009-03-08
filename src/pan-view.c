@@ -2773,6 +2773,24 @@ static void pan_close_cb(GtkWidget *widget, gpointer data)
 	pan_window_close(pw);
 }
 
+static void pan_popup_menu_destroy_cb(GtkWidget *widget, gpointer data)
+{
+	PanWindow *pw = data;
+
+	filelist_free(pw->editmenu_fd_list);
+	pw->editmenu_fd_list = NULL;
+}
+
+static GList *pan_view_get_fd_list(PanWindow *pw)
+{
+	GList *list = NULL;
+	FileData *fd = pan_menu_click_fd(pw);
+	
+	if (fd) list = g_list_append(NULL, file_data_ref(fd));
+	
+	return list;
+}
+
 static GtkWidget *pan_popup_menu(PanWindow *pw)
 {
 	GtkWidget *menu;
@@ -2783,6 +2801,8 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 	active = (pw->click_pi != NULL);
 
 	menu = popup_menu_short_lived();
+	g_signal_connect(G_OBJECT(menu), "destroy",
+			 G_CALLBACK(pan_popup_menu_destroy_cb), pw);
 
 	menu_item_add_stock(menu, _("Zoom _in"), GTK_STOCK_ZOOM_IN,
 			    G_CALLBACK(pan_zoom_in_cb), pw);
@@ -2792,9 +2812,10 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 			    G_CALLBACK(pan_zoom_1_1_cb), pw);
 	menu_item_add_divider(menu);
 
-	submenu_add_edit(menu, &item, G_CALLBACK(pan_edit_cb), pw);
+	pw->editmenu_fd_list = pan_view_get_fd_list(pw);
+	submenu_add_edit(menu, &item, G_CALLBACK(pan_edit_cb), pw, pw->editmenu_fd_list);
 	gtk_widget_set_sensitive(item, active);
-
+	
 	menu_item_add_stock_sensitive(menu, _("View in _new window"), GTK_STOCK_NEW, active,
 				      G_CALLBACK(pan_new_window_cb), pw);
 
