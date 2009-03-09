@@ -152,6 +152,7 @@ static gboolean editor_read_desktop_file(const gchar *path)
 	const gchar *key = filename_from_path(path);
 	gchar **categories, **only_show_in, **not_show_in;
 	gchar *try_exec;
+	gboolean hidden = FALSE;
 
 	if (g_hash_table_lookup(editors, key)) return FALSE; /* the file found earlier wins */
 	
@@ -169,17 +170,10 @@ static gboolean editor_read_desktop_file(const gchar *path)
 		return FALSE;
 		}
 	
-	editor = g_new0(EditorDescription, 1);
-	
-	editor->key = g_strdup(key);
-	editor->file = g_strdup(path);
-
-	g_hash_table_insert(editors, editor->key, editor);
-
 	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "Hidden", NULL)
 	    || g_key_file_get_boolean(key_file, DESKTOP_GROUP, "NoDisplay", NULL))
 	    	{
-	    	editor->hidden = TRUE;
+	    	hidden = TRUE;
 		}
 
 	categories = g_key_file_get_string_list(key_file, DESKTOP_GROUP, "Categories", NULL, NULL);
@@ -195,12 +189,12 @@ static gboolean editor_read_desktop_file(const gchar *path)
 				found = TRUE;
 				break;
 				}
-		if (!found) editor->hidden = TRUE;
+		if (!found) hidden = TRUE;
 		g_strfreev(categories);
 		}
 	else
 		{
-		editor->hidden = TRUE;
+		hidden = TRUE;
 		}
 
 	only_show_in = g_key_file_get_string_list(key_file, DESKTOP_GROUP, "OnlyShowIn", NULL, NULL);
@@ -214,7 +208,7 @@ static gboolean editor_read_desktop_file(const gchar *path)
 				found = TRUE;
 				break;
 				}
-		if (!found) editor->hidden = TRUE;
+		if (!found) hidden = TRUE;
 		g_strfreev(only_show_in);
 		}
 
@@ -229,27 +223,34 @@ static gboolean editor_read_desktop_file(const gchar *path)
 				found = TRUE;
 				break;
 				}
-		if (found) editor->hidden = TRUE;
+		if (found) hidden = TRUE;
 		g_strfreev(not_show_in);
 		}
-		
 		
 	try_exec = g_key_file_get_string(key_file, DESKTOP_GROUP, "TryExec", NULL);
 	if (try_exec && !editor->hidden)
 		{
 		gchar *try_exec_res = g_find_program_in_path(try_exec);
-		if (!try_exec_res) editor->hidden = TRUE;
+		if (!try_exec_res) hidden = TRUE;
 		g_free(try_exec_res);
 		g_free(try_exec);
 		}
 		
-	if (editor->hidden) 
+	if (hidden) 
 		{
 		/* hidden editors will be deleted, no need to parse the rest */
 		g_key_file_free(key_file);
-		return TRUE;
+		return FALSE;
 		}
+
+	editor = g_new0(EditorDescription, 1);
 	
+	editor->key = g_strdup(key);
+	editor->file = g_strdup(path);
+	editor->hidden = hidden;
+
+	g_hash_table_insert(editors, editor->key, editor);
+
 	editor->name = g_key_file_get_locale_string(key_file, DESKTOP_GROUP, "Name", NULL, NULL);
 	editor->icon = g_key_file_get_string(key_file, DESKTOP_GROUP, "Icon", NULL);
 
@@ -570,7 +571,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 {
 	GString *string;
 	gchar *pathl;
-	const gchar *p;
+	const gchar *p = NULL;
 
 	string = g_string_new("");
 
@@ -620,7 +621,6 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 			p = "";
 		}
 
-	g_assert(p);
 	while (*p != '\0')
 		{
 		/* must escape \, ", `, and $ to avoid problems,
