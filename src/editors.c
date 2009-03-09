@@ -570,7 +570,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 {
 	GString *string;
 	gchar *pathl;
-	const gchar *p;
+	const gchar *p = NULL;
 
 	string = g_string_new("");
 
