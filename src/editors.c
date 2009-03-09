@@ -166,6 +166,7 @@ static gboolean editor_read_desktop_file(const gchar *path)
 	if (!type || strcmp(type, "Application") != 0)
 		{
 		/* We only consider desktop entries of Application type */
+		g_key_file_free(key_file);
 		return FALSE;
 		}
 	
