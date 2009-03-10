@@ -1263,7 +1263,7 @@ static GtkActionEntry menu_entries[] = {
   { "About",		NULL,		N_("_About"),		NULL,		NULL,	CB(layout_menu_about_cb) },
   { "LogWindow",	NULL,		N_("_Log Window"),	NULL,		NULL,	CB(layout_menu_log_window_cb) },
   
-  { "ExifWin",		NULL,		N_("E_xif window"),	"<control>E",	NULL,	CB(layout_menu_bar_exif_cb),	 FALSE  },
+  { "ExifWin",		NULL,		N_("E_xif window"),	"<control>E",	NULL,	CB(layout_menu_bar_exif_cb) },
 
 };
 
