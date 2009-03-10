@@ -444,7 +444,7 @@ static void vf_pop_menu_toggle_view_type_cb(GtkWidget *widget, gpointer data)
 	
 	if (!vf->layout) return;
 
-	switch (vf->layout->file_view_type)
+	switch (vf->type)
 	{
 	case FILEVIEW_LIST:
 		layout_views_set(vf->layout, vf->layout->options.dir_view_type, FILEVIEW_ICON);

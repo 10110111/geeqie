@@ -580,7 +580,7 @@ static void layout_menu_view_dir_as_cb(GtkRadioAction *action, GtkRadioAction *c
 	LayoutWindow *lw = data;
 
 	layout_exit_fullscreen(lw);
-	layout_views_set(lw, (DirViewType) gtk_radio_action_get_current_value(action), lw->file_view_type);
+	layout_views_set(lw, (DirViewType) gtk_radio_action_get_current_value(action), lw->options.file_view_type);
 }
 
 static void layout_menu_view_in_new_window_cb(GtkAction *action, gpointer data)
@@ -1852,7 +1852,7 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->options.dir_view_type);
 
 	action = gtk_action_group_get_action(lw->action_group, "ViewIcons");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->file_view_type);
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.file_view_type);
 
 	action = gtk_action_group_get_action(lw->action_group, "FloatTools");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.tools_float);
@@ -1885,7 +1885,7 @@ void layout_util_sync_thumb(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "Thumbnails");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.show_thumbnails);
-	g_object_set(action, "sensitive", (lw->file_view_type == FILEVIEW_LIST), NULL);
+	g_object_set(action, "sensitive", (lw->options.file_view_type == FILEVIEW_LIST), NULL);
 }
 
 void layout_util_sync(LayoutWindow *lw)

@@ -599,7 +599,7 @@ struct _LayoutWindow
 	LayoutLocation file_location;
 
 	ViewFile *vf;
-	FileViewType file_view_type;
+//	FileViewType file_view_type;
 
 	GtkWidget *file_view;
 

@@ -473,7 +473,7 @@ static void vd_pop_submenu_dir_view_as_cb(GtkWidget *widget, gpointer data)
 	ViewDir *vd = data;
 
 	DirViewType new_type = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), VIEW_DIR_AS_SUBMENU_KEY));
-	layout_views_set(vd->layout, new_type, vd->layout->file_view_type);
+	layout_views_set(vd->layout, new_type, vd->layout->options.file_view_type);
 }
 
 static void vd_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)

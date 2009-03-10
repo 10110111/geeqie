@@ -841,7 +841,7 @@ static void layout_list_thumb_cb(ViewFile *vf, gdouble val, const gchar *text, g
 
 static GtkWidget *layout_list_new(LayoutWindow *lw)
 {
-	lw->vf = vf_new(lw->file_view_type, NULL);
+	lw->vf = vf_new(lw->options.file_view_type, NULL);
 	vf_set_layout(lw->vf, lw);
 
 	vf_set_status_func(lw->vf, layout_list_status_cb, lw);
@@ -849,7 +849,7 @@ static GtkWidget *layout_list_new(LayoutWindow *lw)
 
 	vf_marks_set(lw->vf, lw->options.show_marks);
 
-	switch (lw->file_view_type)
+	switch (lw->options.file_view_type)
 	{
 	case FILEVIEW_ICON:
 		break;
@@ -1235,10 +1235,10 @@ void layout_views_set(LayoutWindow *lw, DirViewType dir_view_type, FileViewType 
 {
 	if (!layout_valid(&lw)) return;
 
-	if (lw->options.dir_view_type == dir_view_type && lw->file_view_type == file_view_type) return;
+	if (lw->options.dir_view_type == dir_view_type && lw->options.file_view_type == file_view_type) return;
 
 	lw->options.dir_view_type = dir_view_type;
-	lw->file_view_type = file_view_type;
+	lw->options.file_view_type = file_view_type;
 
 	layout_style_set(lw, -1, NULL);
 }
@@ -1248,7 +1248,7 @@ gint layout_views_get(LayoutWindow *lw, DirViewType *dir_view_type, FileViewType
 	if (!layout_valid(&lw)) return FALSE;
 
 	*dir_view_type = lw->options.dir_view_type;
-	*file_view_type = lw->file_view_type;
+	*file_view_type = lw->options.file_view_type;
 
 	return TRUE;
 }
