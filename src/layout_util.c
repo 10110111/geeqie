@@ -638,6 +638,14 @@ static void layout_menu_refresh_cb(GtkAction *action, gpointer data)
 	layout_refresh(lw);
 }
 
+static void layout_menu_bar_exif_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	
+	layout_exit_fullscreen(lw);
+	layout_exif_window_new(lw);
+}
+
 static void layout_menu_float_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -685,15 +693,6 @@ static void layout_menu_bar_cb(GtkToggleAction *action, gpointer data)
 
 	layout_exit_fullscreen(lw);
 	layout_bar_toggle(lw);
-}
-
-static void layout_menu_bar_exif_cb(GtkToggleAction *action, gpointer data)
-{
-	LayoutWindow *lw = data;
-	
-	layout_exit_fullscreen(lw);
-
-	layout_exif_window_new(lw);
 }
 
 static void layout_menu_bar_sort_cb(GtkToggleAction *action, gpointer data)
@@ -1262,7 +1261,10 @@ static GtkActionEntry menu_entries[] = {
   { "HelpShortcuts",	NULL,		N_("_Keyboard shortcuts"),NULL,		NULL,	CB(layout_menu_help_keys_cb) },
   { "HelpNotes",	NULL,		N_("_Release notes"),	NULL,		NULL,	CB(layout_menu_notes_cb) },
   { "About",		NULL,		N_("_About"),		NULL,		NULL,	CB(layout_menu_about_cb) },
-  { "LogWindow",	NULL,		N_("_Log Window"),	NULL,		NULL,	CB(layout_menu_log_window_cb) }
+  { "LogWindow",	NULL,		N_("_Log Window"),	NULL,		NULL,	CB(layout_menu_log_window_cb) },
+  
+  { "ExifWin",		NULL,		N_("E_xif window"),	"<control>E",	NULL,	CB(layout_menu_bar_exif_cb),	 FALSE  },
+
 };
 
 static GtkToggleActionEntry menu_toggle_entries[] = {
@@ -1272,7 +1274,6 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "HideToolbar",	NULL,		N_("Hide tool_bar"),	NULL,		NULL,	CB(layout_menu_toolbar_cb),	 FALSE  },
   { "HideInfoPixel",	NULL,		N_("Hide Pi_xel Info"),	NULL,		NULL,	CB(layout_menu_info_pixel_cb),	 FALSE  },
   { "SBar",		NULL,		N_("_Info"),		"<control>K",	NULL,	CB(layout_menu_bar_cb),		 FALSE  },
-  { "ExifWin",		NULL,		N_("E_xif window"),	"<control>E",	NULL,	CB(layout_menu_bar_exif_cb),	 FALSE  },
   { "SBarSort",		NULL,		N_("Sort _manager"),	"<control>S",	NULL,	CB(layout_menu_bar_sort_cb),	 FALSE  },
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb),	 FALSE  },
 };
@@ -1873,9 +1874,6 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "SlideShow");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), layout_image_slideshow_active(lw));
-
-	action = gtk_action_group_get_action(lw->action_group, "ExifWin");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), !!lw->exif_window);
 
 }
 
