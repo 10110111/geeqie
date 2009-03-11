@@ -69,6 +69,8 @@ gboolean keyword_tree_is_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter, GLis
 void keyword_tree_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList **kw_list);
 void keyword_tree_reset(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList **kw_list);
 
+void keyword_delete(GtkTreeStore *keyword_tree, GtkTreeIter *iter_ptr);
+
 void keyword_tree_new_default(void);
 void keyword_tree_new(void);
 

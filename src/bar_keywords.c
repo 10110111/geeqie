@@ -114,6 +114,8 @@ struct _PaneKeywordsData
 	GtkWidget *keyword_view;
 	GtkWidget *keyword_treeview;
 
+	GtkTreePath *click_tpath;
+
 	FileData *fd;
 	gchar *key;
 };
@@ -662,6 +664,80 @@ static gint bar_pane_keywords_dnd_motion(GtkWidget *tree_view, GdkDragContext *c
 	return TRUE;
 }
 
+static void bar_pane_keywords_conf_dialog_cb(GtkWidget *menu_widget, gpointer data)
+{
+}
+
+static void bar_pane_keywords_delete_cb(GtkWidget *menu_widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	GtkTreeModel *keyword_tree;
+	GtkTreeIter kw_iter;
+
+        if (!pkd->click_tpath) return;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
+	keyword_tree = gtk_tree_model_filter_get_model(GTK_TREE_MODEL_FILTER(model));
+
+        if (!gtk_tree_model_get_iter(model, &iter, pkd->click_tpath)) return;
+	gtk_tree_model_filter_convert_iter_to_child_iter(GTK_TREE_MODEL_FILTER(model), &kw_iter, &iter);
+	
+	keyword_delete(GTK_TREE_STORE(keyword_tree), &kw_iter);
+}
+
+static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pkd, gint x, gint y)
+{
+	GtkWidget *menu;
+        GtkTreeViewDropPosition pos;
+        
+        if (pkd->click_tpath) gtk_tree_path_free(pkd->click_tpath);
+        pkd->click_tpath = NULL;
+	gtk_tree_view_get_dest_row_at_pos(GTK_TREE_VIEW(pkd->keyword_treeview), x, y, &pkd->click_tpath, &pos);
+
+	menu = popup_menu_short_lived();
+
+	if (pkd->click_tpath)
+		{
+		/* for the entry */
+		GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
+		
+		GtkTreeIter iter;
+                gtk_tree_model_get_iter(model, &iter, pkd->click_tpath);
+		gchar *name;
+		
+		gtk_tree_model_get(model, &iter, FILTER_KEYWORD_COLUMN_NAME, &name, -1);
+		
+		gchar *conf = g_strdup_printf(_("Configure \"%s\""), name);
+		gchar *del = g_strdup_printf(_("Delete \"%s\""), name);
+		menu_item_add_stock(menu, conf, GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_conf_dialog_cb), pkd);
+		menu_item_add_stock(menu, del, GTK_STOCK_DELETE, G_CALLBACK(bar_pane_keywords_delete_cb), pkd);
+		menu_item_add_divider(menu);
+		g_free(conf);
+		g_free(del);
+		g_free(name);
+		}
+	/* for the pane */
+//	menu_item_add_stock(menu, _("Add entry"), GTK_STOCK_ADD, G_CALLBACK(bar_pane_keywords_conf_dialog_cb), pkd);
+//	menu_item_add_check(menu, _("Show hidden entries"), pkd->show_all, G_CALLBACK(bar_pane_keywords_toggle_show_all_cb), pkd);
+	
+	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
+}
+
+
+static gboolean bar_pane_keywords_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data) 
+{ 
+	PaneKeywordsData *pkd = data;
+	if (bevent->button == MOUSE_BUTTON_RIGHT)
+		{
+		bar_pane_keywords_menu_popup(widget, pkd, bevent->x, bevent->y);
+		return TRUE;
+		}
+	return FALSE;
+} 
+
 
 void bar_pane_keywords_close(GtkWidget *bar)
 {
@@ -676,6 +752,8 @@ void bar_pane_keywords_close(GtkWidget *bar)
 static void bar_pane_keywords_destroy(GtkWidget *widget, gpointer data)
 {
 	PaneKeywordsData *pkd = data;
+
+        if (pkd->click_tpath) gtk_tree_path_free(pkd->click_tpath);
 
 	file_data_unregister_notify_func(bar_pane_keywords_notify_cb, pkd);
 
@@ -838,6 +916,9 @@ GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key, gboolean 
 	g_signal_connect(G_OBJECT(pkd->keyword_treeview), "drag_motion",
 			 G_CALLBACK(bar_pane_keywords_dnd_motion), pkd);
 
+	g_signal_connect(G_OBJECT(pkd->keyword_treeview), "button_press_event", 
+			 G_CALLBACK(bar_pane_keywords_menu_cb), pkd);
+	
 	gtk_container_add(GTK_CONTAINER(scrolled), pkd->keyword_treeview);
 	gtk_widget_show(pkd->keyword_treeview);
 

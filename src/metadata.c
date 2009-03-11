@@ -983,6 +983,12 @@ void keyword_tree_reset(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList
 		}
 }
 
+void keyword_delete(GtkTreeStore *keyword_tree, GtkTreeIter *iter_ptr)
+{
+	gtk_tree_store_remove(keyword_tree, iter_ptr);
+}
+
+
 void keyword_tree_new(void)
 {
 	if (keyword_tree) return;
