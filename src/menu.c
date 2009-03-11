@@ -64,6 +64,10 @@ gpointer submenu_item_get_data(GtkWidget *menu)
  * edit menu
  *-----------------------------------------------------------------------------
  */
+static void edit_item_destroy_cb(GtkWidget *widget, gpointer data)
+{
+	g_free(data);
+}
 
 static void add_edit_items(GtkWidget *menu, GCallback func, GList *fd_list)
 {
@@ -81,11 +85,15 @@ static void add_edit_items(GtkWidget *menu, GCallback func, GList *fd_list)
 
 		if (active)
 			{
+			GtkWidget *item;
 			const gchar *stock_id = NULL;
-			if (editor->icon && register_theme_icon_as_stock(editor->key, editor->icon))
-				stock_id = editor->key;
+			gchar *key = g_strdup(editor->key);
 
-			menu_item_add_stock(menu, editor->name, stock_id, func, editor->key);
+			if (editor->icon && register_theme_icon_as_stock(key, editor->icon))
+				stock_id = key;
+
+			item = menu_item_add_stock(menu, editor->name, stock_id, func, key);
+			g_signal_connect(G_OBJECT(item), "destroy", G_CALLBACK(edit_item_destroy_cb), key);
 			}
 		}
 	

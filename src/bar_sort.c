@@ -66,7 +66,7 @@ struct _SortData
 
 	SortModeType mode;
 	SortActionType action;
-	const gchar *filter_key;
+	gchar *filter_key;
 	
 	SortSelectionType selection;
 
@@ -355,7 +355,7 @@ static void bar_sort_set_action(SortData *sd, SortActionType action, const gchar
 	if (action == BAR_SORT_FILTER)
 		{
 		if (!filter_key) filter_key = "";
-		sd->filter_key = filter_key;
+		sd->filter_key = g_strdup(filter_key);
 		}
 	else
 		{
@@ -546,9 +546,15 @@ static void bar_sort_destroy(GtkWidget *widget, gpointer data)
 
 	bar_sort_add_close(sd);
 
+	g_free(sd->filter_key);
 	g_free(sd->undo_src);
 	g_free(sd->undo_dest);
 	g_free(sd);
+}
+
+static void bar_sort_edit_button_free(gpointer data)
+{
+	g_free(data);
 }
 
 static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action, SortModeType mode, SortSelectionType selection, const gchar *filter_key)
@@ -615,24 +621,26 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action, SortMode
 		{
 		GtkWidget *button;
 		EditorDescription *editor = work->data;
-		work = work->next;
+		gchar *key;
 		gboolean select = FALSE;
-		
-		if (!editor_is_filter(editor->key)) continue;
 
-		if (sd->action == BAR_SORT_FILTER && strcmp(editor->key, filter_key) == 0)
+		work = work->next;
+			
+		if (!editor_is_filter(editor->key)) continue;
+		
+		key = g_strdup(editor->key);
+		if (sd->action == BAR_SORT_FILTER && strcmp(key, filter_key) == 0)
 			{
-			bar_sort_set_action(sd, sd->action, editor->key);
+			bar_sort_set_action(sd, sd->action, key);
 			select = TRUE;
 			have_filter = TRUE;
 			}
-
+		
 		button = pref_radiobutton_new(sd->folder_group, buttongrp,
 					      editor->name, select,
 					      G_CALLBACK(bar_sort_set_filter_cb), sd);
 
-
-		g_object_set_data(G_OBJECT(button), "filter_key", editor->key);
+		g_object_set_data_full(G_OBJECT(button), "filter_key", key, bar_sort_edit_button_free);
 		}
 	g_list_free(editors_list);
 	

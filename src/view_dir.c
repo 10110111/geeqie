@@ -330,7 +330,10 @@ static void vd_drop_menu_filter_cb(GtkWidget *widget, gpointer data)
 	file_util_start_filter_from_filelist(key, list, path, vd->widget);
 }
 
-
+static void vd_drop_menu_edit_item_free(gpointer data)
+{
+	g_free(data);
+}
 
 GtkWidget *vd_drop_menu(ViewDir *vd, gint active)
 {
@@ -350,12 +353,13 @@ GtkWidget *vd_drop_menu(ViewDir *vd, gint active)
 		{
 		GtkWidget *item;
 		const EditorDescription *editor = work->data;
+		gchar *key;
 		work = work->next;
 		
 		if (!editor_is_filter(editor->key)) continue;
+		key = g_strdup(editor->key);
 		item = menu_item_add_sensitive(menu, editor->name, active, G_CALLBACK(vd_drop_menu_filter_cb), vd);
-
-		g_object_set_data(G_OBJECT(item), "filter_key", editor->key);
+		g_object_set_data_full(G_OBJECT(item), "filter_key", key, vd_drop_menu_edit_item_free);
 		}
 	
 	g_list_free(editors_list);
