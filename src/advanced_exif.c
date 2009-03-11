@@ -58,7 +58,7 @@ enum {
 	EXIF_ADVCOL_COUNT
 };
 
-static gint advanced_exif_row_enabled(const gchar *name)
+static gboolean advanced_exif_row_enabled(const gchar *name)
 {
 	GList *list;
 
@@ -230,10 +230,10 @@ static gint n_exif_drag_types = 1;
 
 
 static void advanced_exif_dnd_get(GtkWidget *listview, GdkDragContext *context,
-				     GtkSelectionData *selection_data, guint info,
-				     guint time, gpointer data)
+				  GtkSelectionData *selection_data, guint info,
+				  guint time, gpointer data)
 {
-	ExifWin *ew = data;
+	//ExifWin *ew = data;
 	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview)); 
 	GtkTreeIter iter;
 
@@ -244,7 +244,7 @@ static void advanced_exif_dnd_get(GtkWidget *listview, GdkDragContext *context,
 
 		gtk_tree_model_get(store, &iter, EXIF_ADVCOL_NAME, &key, -1);
 		gtk_selection_data_set_text(selection_data, key, -1);
-		printf("%s\n",key);
+		//printf("%s\n",key);
 		g_free(key);
 		}
 
@@ -253,7 +253,7 @@ static void advanced_exif_dnd_get(GtkWidget *listview, GdkDragContext *context,
 
 static void advanced_exif_dnd_begin(GtkWidget *listview, GdkDragContext *context, gpointer data)
 {
-	ExifWin *ew = data;
+	//ExifWin *ew = data;
 	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview)); 
 	GtkTreeIter iter;
 
@@ -271,7 +271,7 @@ static void advanced_exif_dnd_begin(GtkWidget *listview, GdkDragContext *context
 
 
 
-static void advanced_exif_add_column(GtkWidget *listview, const gchar *title, gint n, gint sizable)
+static void advanced_exif_add_column(GtkWidget *listview, const gchar *title, gint n, gboolean sizable)
 {
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;

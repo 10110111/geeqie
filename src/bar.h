@@ -43,7 +43,7 @@ void bar_add(GtkWidget *bar, GtkWidget *pane);
 
 
 void bar_set_fd(GtkWidget *bar, FileData *fd);
-gint bar_event(GtkWidget *bar, GdkEvent *event);
+gboolean bar_event(GtkWidget *bar, GdkEvent *event);
 
 gint bar_get_width(GtkWidget *bar);
 

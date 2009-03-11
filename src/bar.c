@@ -51,6 +51,7 @@ static void bar_expander_move(GtkWidget *widget, gpointer data, gboolean up)
 	GtkWidget *expander = data;
 	GtkWidget *box;
 	gint pos;
+
 	if (!expander) return;
 	box = gtk_widget_get_ancestor(expander, GTK_TYPE_BOX);
 	if (!box) return;
@@ -121,11 +122,12 @@ void bar_set_fd(GtkWidget *bar, FileData *fd)
 
 }
 
-gint bar_event(GtkWidget *bar, GdkEvent *event)
+gboolean bar_event(GtkWidget *bar, GdkEvent *event)
 {
 	BarData *bd;
 	GList *list, *work;
-	gint ret = FALSE;
+	gboolean ret = FALSE;
+	
 	bd = g_object_get_data(G_OBJECT(bar), "bar_data");
 	if (!bd) return FALSE;
 
@@ -153,7 +155,9 @@ void bar_write_config(GtkWidget *bar, GString *outstr, gint indent)
 {
 	BarData *bd;
 	GList *list, *work;
+
 	if (!bar) return;
+	
 	bd = g_object_get_data(G_OBJECT(bar), "bar_data");
 	if (!bd) return;
 
@@ -191,7 +195,6 @@ void bar_add(GtkWidget *bar, GtkWidget *pane)
 	GtkWidget *expander;
 	BarData *bd = g_object_get_data(G_OBJECT(bar), "bar_data");
 	PaneData *pd = g_object_get_data(G_OBJECT(pane), "pane_data");
-
 	
 	if (!bd) return;
 
@@ -222,6 +225,7 @@ void bar_add(GtkWidget *bar, GtkWidget *pane)
 static void bar_populate_default(GtkWidget *bar)
 {
 	GtkWidget *widget;
+	
 	widget = bar_pane_histogram_new(_("Histogram"), 80, TRUE, HCHAN_RGB, 0);
 	bar_add(bar, widget);
 
@@ -247,8 +251,11 @@ static void bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation, gpoi
 
 gint bar_get_width(GtkWidget *bar)
 {
-	BarData *bd = g_object_get_data(G_OBJECT(bar), "bar_data");
+	BarData *bd;
+	
+	bd = g_object_get_data(G_OBJECT(bar), "bar_data");
 	if (!bd) return 0;
+
 	return bd->width;
 }
 
