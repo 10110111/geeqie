@@ -131,7 +131,7 @@ static void bar_sort_collection_list_build(GtkWidget *bookmarks)
 
 static void bar_sort_mode_sync(SortData *sd, SortModeType mode)
 {
-	gint folder_mode;
+	gboolean folder_mode;
 
 	if (sd->mode == mode) return;
 	sd->mode = mode;
@@ -416,12 +416,13 @@ static void bar_sort_add_close(SortData *sd)
 static void bar_sort_add_ok_cb(FileDialog *fd, gpointer data)
 {
 	SortData *sd = data;
-	const gchar *name;
+	const gchar *name = gtk_entry_get_text(GTK_ENTRY(sd->dialog_name_entry));
+	gboolean empty_name = (name[0] == '\0');
 
 	name = gtk_entry_get_text(GTK_ENTRY(sd->dialog_name_entry));
 	if (sd->mode == BAR_SORT_MODE_FOLDER)
 		{
-		if (strlen(name) == 0)
+		if (empty_name)
 			{
 			name = filename_from_path(fd->dest_path);
 			}
@@ -431,20 +432,21 @@ static void bar_sort_add_ok_cb(FileDialog *fd, gpointer data)
 	else
 		{
 		gchar *path;
-	
-		if (strlen(name) == 0) return;
+		gboolean has_extension;
+		gchar *filename = (gchar *) name;
 
-		if (!file_extension_match(name, GQ_COLLECTION_EXT))
+		if (empty_name) return;
+
+		has_extension = file_extension_match(name, GQ_COLLECTION_EXT);
+		if (!has_extension)
 			{
-			gchar *tmp = g_strconcat(name, GQ_COLLECTION_EXT, NULL);
-			g_free((gpointer) name);
-			name = tmp;
+			filename = g_strconcat(name, GQ_COLLECTION_EXT, NULL);
 			}
 
-		path = g_build_filename(get_collections_dir(), name, NULL);
+		path = g_build_filename(get_collections_dir(), filename, NULL);
 		if (isfile(path))
 			{
-			gchar *text = g_strdup_printf(_("The collection:\n%s\nalready exists."), name);
+			gchar *text = g_strdup_printf(_("The collection:\n%s\nalready exists."), filename);
 			file_util_warning_dialog(_("Collection exists"), text, GTK_STOCK_DIALOG_INFO, NULL);
 			g_free(text);
 			}
@@ -467,6 +469,7 @@ static void bar_sort_add_ok_cb(FileDialog *fd, gpointer data)
 			collection_unref(cd);
 			}
 
+		if (!has_extension) g_free(filename);
 		g_free(path);
 		}
 
@@ -557,7 +560,9 @@ static void bar_sort_edit_button_free(gpointer data)
 	g_free(data);
 }
 
-static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action, SortModeType mode, SortSelectionType selection, const gchar *filter_key)
+static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
+			       SortModeType mode, SortSelectionType selection,
+			       const gchar *filter_key)
 {
 	SortData *sd;
 	GtkWidget *buttongrp;
