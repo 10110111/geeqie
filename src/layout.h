@@ -25,7 +25,7 @@ LayoutWindow *layout_new_from_config(const gchar **attribute_names, const gchar 
 void layout_close(LayoutWindow *lw);
 void layout_free(LayoutWindow *lw);
 
-gint layout_valid(LayoutWindow **lw);
+gboolean layout_valid(LayoutWindow **lw);
 
 void layout_sync_options_with_current_state(LayoutWindow *lw);
 void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names, const gchar **attribute_values);
@@ -37,8 +37,8 @@ LayoutWindow *layout_find_by_image(ImageWindow *imd);
 LayoutWindow *layout_find_by_image_fd(ImageWindow *imd);
 
 const gchar *layout_get_path(LayoutWindow *lw);
-gint layout_set_path(LayoutWindow *lw, const gchar *path);
-gint layout_set_fd(LayoutWindow *lw, FileData *fd);
+gboolean layout_set_path(LayoutWindow *lw, const gchar *path);
+gboolean layout_set_fd(LayoutWindow *lw, FileData *fd);
 
 void layout_status_update_progress(LayoutWindow *lw, gdouble val, const gchar *text);
 void layout_status_update_info(LayoutWindow *lw, const gchar *text);
@@ -67,20 +67,20 @@ void layout_selection_to_mark(LayoutWindow *lw, gint mark, SelectionToMarkMode m
 
 void layout_refresh(LayoutWindow *lw);
 
-void layout_thumb_set(LayoutWindow *lw, gint enable);
-gint layout_thumb_get(LayoutWindow *lw);
+void layout_thumb_set(LayoutWindow *lw, gboolean enable);
+gboolean layout_thumb_get(LayoutWindow *lw);
 
-void layout_marks_set(LayoutWindow *lw, gint enable);
-gint layout_marks_get(LayoutWindow *lw);
+void layout_marks_set(LayoutWindow *lw, gboolean enable);
+gboolean layout_marks_get(LayoutWindow *lw);
 
-void layout_sort_set(LayoutWindow *lw, SortType type, gint ascend);
-gint layout_sort_get(LayoutWindow *lw, SortType *type, gint *ascend);
+void layout_sort_set(LayoutWindow *lw, SortType type, gboolean ascend);
+gboolean layout_sort_get(LayoutWindow *lw, SortType *type, gboolean *ascend);
 
-gint layout_geometry_get(LayoutWindow *lw, gint *x, gint *y, gint *w, gint *h);
-gint layout_geometry_get_dividers(LayoutWindow *lw, gint *h, gint *v);
+gboolean layout_geometry_get(LayoutWindow *lw, gint *x, gint *y, gint *w, gint *h);
+gboolean layout_geometry_get_dividers(LayoutWindow *lw, gint *h, gint *v);
 
 void layout_views_set(LayoutWindow *lw, DirViewType dir_view_type, FileViewType file_view_type);
-gint layout_views_get(LayoutWindow *lw, DirViewType *dir_view_type, FileViewType *file_view_type);
+gboolean layout_views_get(LayoutWindow *lw, DirViewType *dir_view_type, FileViewType *file_view_type);
 
 void layout_status_update(LayoutWindow *lw, const gchar *text);
 
@@ -91,9 +91,9 @@ void layout_styles_update(void);
 void layout_colors_update(void);
 
 
-gint layout_geometry_get_tools(LayoutWindow *lw, gint *x, gint *y, gint *w, gint *h, gint *divider_pos);
-void layout_tools_float_set(LayoutWindow *lw, gint popped, gint hidden);
-gint layout_tools_float_get(LayoutWindow *lw, gint *popped, gint *hidden);
+gboolean layout_geometry_get_tools(LayoutWindow *lw, gint *x, gint *y, gint *w, gint *h, gint *divider_pos);
+void layout_tools_float_set(LayoutWindow *lw, gboolean popped, gboolean hidden);
+gboolean layout_tools_float_get(LayoutWindow *lw, gboolean *popped, gboolean *hidden);
 
 void layout_tools_float_toggle(LayoutWindow *lw);
 void layout_tools_hide_toggle(LayoutWindow *lw);

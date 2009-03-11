@@ -437,8 +437,8 @@ static void gr_slideshow_delay(const gchar *text, gpointer data)
 
 static void gr_tools_show(const gchar *text, gpointer data)
 {
-	gint popped;
-	gint hidden;
+	gboolean popped;
+	gboolean hidden;
 
 	if (layout_tools_float_get(NULL, &popped, &hidden) && hidden)
 		{
@@ -448,8 +448,8 @@ static void gr_tools_show(const gchar *text, gpointer data)
 
 static void gr_tools_hide(const gchar *text, gpointer data)
 {
-	gint popped;
-	gint hidden;
+	gboolean popped;
+	gboolean hidden;
 
 	if (layout_tools_float_get(NULL, &popped, &hidden) && !hidden)
 		{
