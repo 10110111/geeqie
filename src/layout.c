@@ -1900,13 +1900,6 @@ void layout_toolbar_toggle(LayoutWindow *lw)
 		}
 }
 
-gint layout_toolbar_hidden(LayoutWindow *lw)
-{
-	if (!layout_valid(&lw)) return TRUE;
-
-	return lw->options.toolbar_hidden;
-}
-
 void layout_info_pixel_toggle(LayoutWindow *lw)
 {
 	GtkWidget *frame;
@@ -1925,13 +1918,6 @@ void layout_info_pixel_toggle(LayoutWindow *lw)
 		{
 		if (!GTK_WIDGET_VISIBLE(frame)) gtk_widget_show(frame);
 		}
-}
-
-gint layout_info_pixel_hidden(LayoutWindow *lw)
-{
-	if (!layout_valid(&lw)) return TRUE;
-
-	return lw->options.info_pixel_hidden;
 }
 
 /*

@@ -100,9 +100,7 @@ void layout_tools_hide_toggle(LayoutWindow *lw);
 
 
 void layout_toolbar_toggle(LayoutWindow *lw);
-gint layout_toolbar_hidden(LayoutWindow *lw);
 void layout_info_pixel_toggle(LayoutWindow *lw);
-gint layout_info_pixel_hidden(LayoutWindow *lw);
 
 void layout_split_change(LayoutWindow *lw, ImageSplitMode mode);
 
