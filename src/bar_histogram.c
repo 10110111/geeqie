@@ -123,7 +123,6 @@ static void bar_pane_histogram_write_config(GtkWidget *pane, GString *outstr, gi
 	WRITE_STRING("/>\n");
 }
 
-
 static void bar_pane_histogram_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneHistogramData *phd = data;
@@ -390,12 +389,10 @@ GtkWidget *bar_pane_histogram_new_from_config(const gchar **attribute_names, con
 		if (READ_INT_FULL("histogram_channel", histogram_channel)) continue;
 		if (READ_INT_FULL("histogram_mode", histogram_mode)) continue;
 
-		
 		DEBUG_1("unknown attribute %s = %s", option, value);
 		}
 	
 	return bar_pane_histogram_new(title, height, expanded, histogram_channel, histogram_mode);
 }
-
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -150,6 +150,7 @@ static void bar_pane_exif_reparent_entry(GtkWidget *entry, GtkWidget *pane)
 	PaneExifData *ped = g_object_get_data(G_OBJECT(pane), "pane_data");
 	PaneExifData *old_ped = g_object_get_data(G_OBJECT(old_pane), "pane_data");
 	ExifEntry *ee = g_object_get_data(G_OBJECT(entry), "entry_data");
+	
 	if (!ped || !old_ped || !ee) return;
 	
 	g_object_ref(entry);
@@ -174,6 +175,7 @@ static void bar_pane_exif_update_entry(PaneExifData *ped, GtkWidget *entry, gboo
 {
 	gchar *text;
 	ExifEntry *ee = g_object_get_data(G_OBJECT(entry), "entry_data");
+	
 	if (!ee) return;
 	text = metadata_read_string(ped->fd, ee->key, METADATA_FORMATTED);
 
@@ -209,7 +211,6 @@ static void bar_pane_exif_update(PaneExifData *ped)
 		{
 		GtkWidget *entry = work->data;
 		work = work->next;
-	
 		
 		bar_pane_exif_update_entry(ped, entry, FALSE);
 		}
@@ -258,7 +259,6 @@ static void bar_pane_exif_entry_dnd_get(GtkWidget *entry, GdkDragContext *contex
 
 	switch (info)
 		{
-
 		case TARGET_APP_EXIF_ENTRY:
 			gtk_selection_data_set(selection_data, selection_data->target,
 					       8, (gpointer) &entry, sizeof(entry));
@@ -281,6 +281,7 @@ static void bar_pane_exif_dnd_receive(GtkWidget *pane, GdkDragContext *context,
 	GList *work, *list;
 	gint pos;
 	GtkWidget *new_entry = NULL;
+	
 	ped = g_object_get_data(G_OBJECT(pane), "pane_data");
 	if (!ped) return;
 
@@ -297,7 +298,6 @@ static void bar_pane_exif_dnd_receive(GtkWidget *pane, GdkDragContext *context,
 			new_entry = bar_pane_exif_add_entry(ped, (gchar *)selection_data->data, NULL, TRUE);
 			break;
 		}
-
 
 	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));	
 	work = list;
@@ -323,6 +323,7 @@ static void bar_pane_exif_dnd_receive(GtkWidget *pane, GdkDragContext *context,
 static void bar_pane_exif_entry_dnd_begin(GtkWidget *entry, GdkDragContext *context, gpointer data)
 {
 	ExifEntry *ee = g_object_get_data(G_OBJECT(entry), "entry_data");
+	
 	if (!ee) return;
 	dnd_set_drag_label(entry, context, ee->key);
 }
@@ -374,7 +375,6 @@ static void bar_pane_exif_edit_cancel_cb(GenericDialog *gd, gpointer data)
 {
 }
 
-
 static void bar_pane_exif_edit_ok_cb(GenericDialog *gd, gpointer data)
 {
 	ConfDialogData *cdd = data;
@@ -390,10 +390,12 @@ static void bar_pane_exif_edit_ok_cb(GenericDialog *gd, gpointer data)
 					gtk_entry_get_text(GTK_ENTRY(cdd->title_entry)),
 					cdd->if_set);
 		}
+
 	if (ee)
 		{
 		const gchar *title;
 		GtkWidget *pane = cdd->widget->parent;
+		
 		while (pane)
 			{
 			ped = g_object_get_data(G_OBJECT(pane), "pane_data");
@@ -509,19 +511,21 @@ static void bar_pane_exif_menu_popup(GtkWidget *widget, PaneExifData *ped)
 		/* for the entry */
 		gchar *conf = g_strdup_printf(_("Configure \"%s\""), ee->title);
 		gchar *del = g_strdup_printf(_("Delete \"%s\""), ee->title);
+		
 		menu_item_add_stock(menu, conf, GTK_STOCK_EDIT, G_CALLBACK(bar_pane_exif_conf_dialog_cb), widget);
 		menu_item_add_stock(menu, del, GTK_STOCK_DELETE, G_CALLBACK(bar_pane_exif_delete_entry_cb), widget);
 		menu_item_add_divider(menu);
+		
 		g_free(conf);
 		g_free(del);
 		}
+
 	/* for the pane */
 	menu_item_add_stock(menu, _("Add entry"), GTK_STOCK_ADD, G_CALLBACK(bar_pane_exif_conf_dialog_cb), ped->widget);
 	menu_item_add_check(menu, _("Show hidden entries"), ped->show_all, G_CALLBACK(bar_pane_exif_toggle_show_all_cb), ped);
 	
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
 }
-
 
 static gboolean bar_pane_exif_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data) 
 { 
@@ -533,9 +537,6 @@ static gboolean bar_pane_exif_menu_cb(GtkWidget *widget, GdkEventButton *bevent,
 		}
 	return FALSE;
 } 
-
-
-
 
 static void bar_pane_exif_entry_write_config(GtkWidget *entry, GString *outstr, gint indent)
 {
@@ -628,7 +629,7 @@ GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded, gboolean pop
 	ped->pane.expanded = expanded;
 
 	ped->size_group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
-	ped->widget = gtk_event_box_new();;
+	ped->widget = gtk_event_box_new();
 	ped->vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
 	gtk_container_add(GTK_CONTAINER(ped->widget), ped->vbox);
 	gtk_widget_show(ped->vbox);
@@ -686,7 +687,6 @@ GtkWidget *bar_pane_exif_new_from_config(const gchar **attribute_names, const gc
 
 		if (READ_CHAR_FULL("pane.title", title)) continue;
 		if (READ_BOOL_FULL("pane.expanded", expanded)) continue;
-		
 
 		DEBUG_1("unknown attribute %s = %s", option, value);
 		}
@@ -713,9 +713,9 @@ void bar_pane_exif_entry_add_from_config(GtkWidget *pane, const gchar **attribut
 		if (READ_CHAR_FULL("title", title)) continue;
 		if (READ_BOOL_FULL("if_set", if_set)) continue;
 		
-
 		DEBUG_1("unknown attribute %s = %s", option, value);
 		}
+	
 	if (key && key[0]) bar_pane_exif_add_entry(ped, key, title, if_set);
 }
 
