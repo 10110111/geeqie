@@ -120,6 +120,19 @@ struct _PaneKeywordsData
 	gchar *key;
 };
 
+typedef struct _ConfDialogData ConfDialogData;
+struct _ConfDialogData
+{
+	PaneKeywordsData *pkd;
+	GtkTreePath *click_tpath;
+	
+	/* dialog parts */
+	GenericDialog *gd;
+	GtkWidget *edit_widget;
+	gboolean is_keyword;
+	
+	gboolean edit_existing;
+};
 
 static GList *bar_list = NULL;
 
@@ -446,6 +459,12 @@ static void bar_pane_keywords_mark_edited(GtkCellRendererText *cell, const gchar
 */
 }
 
+/*
+ *-------------------------------------------------------------------
+ * dnd
+ *-------------------------------------------------------------------
+ */
+
 
 static GtkTargetEntry bar_pane_keywords_drag_types[] = {
 	{ TARGET_APP_KEYWORD_PATH_STRING, GTK_TARGET_SAME_WIDGET, TARGET_APP_KEYWORD_PATH },
@@ -664,8 +683,193 @@ static gint bar_pane_keywords_dnd_motion(GtkWidget *tree_view, GdkDragContext *c
 	return TRUE;
 }
 
-static void bar_pane_keywords_conf_dialog_cb(GtkWidget *menu_widget, gpointer data)
+/*
+ *-------------------------------------------------------------------
+ * edit dialog
+ *-------------------------------------------------------------------
+ */
+
+static void bar_pane_keywords_edit_destroy_cb(GtkWidget *widget, gpointer data)
 {
+	ConfDialogData *cdd = data;
+	gtk_tree_path_free(cdd->click_tpath);
+	g_free(cdd);
+}
+
+
+static void bar_pane_keywords_edit_cancel_cb(GenericDialog *gd, gpointer data)
+{
+}
+
+
+static void bar_pane_keywords_edit_ok_cb(GenericDialog *gd, gpointer data)
+{
+	ConfDialogData *cdd = data;
+	PaneKeywordsData *pkd = cdd->pkd;
+	GtkTreeModel *model;
+
+	GtkTreeModel *keyword_tree;
+	GtkTreeIter kw_iter;
+	
+	gboolean have_dest = FALSE;
+	
+	GList *keywords;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
+	keyword_tree = gtk_tree_model_filter_get_model(GTK_TREE_MODEL_FILTER(model));
+	
+        if (cdd->click_tpath)
+		{
+		GtkTreeIter iter;
+		if (gtk_tree_model_get_iter(model, &iter, cdd->click_tpath))
+			{
+			gtk_tree_model_filter_convert_iter_to_child_iter(GTK_TREE_MODEL_FILTER(model), &kw_iter, &iter);
+			have_dest = TRUE;
+			}
+		}
+	
+	if (cdd->edit_existing && !have_dest) return;
+	
+	keywords = keyword_list_pull(cdd->edit_widget);
+	
+	if (cdd->edit_existing)
+		{
+		if (keywords && keywords->data) /* there should be one keyword */
+			{
+			keyword_set(GTK_TREE_STORE(keyword_tree), &kw_iter, keywords->data, cdd->is_keyword);
+			}
+		}
+	else
+		{
+		GList *work = keywords;
+
+		while (work)
+			{
+			GtkTreeIter add;
+			if (have_dest)
+				{
+				gtk_tree_store_insert_after(GTK_TREE_STORE(keyword_tree), &add, NULL, &kw_iter);
+				}
+			else
+				{
+				gtk_tree_store_append(GTK_TREE_STORE(keyword_tree), &add, NULL);
+				have_dest = TRUE;
+				}
+			kw_iter = add;
+			keyword_set(GTK_TREE_STORE(keyword_tree), &kw_iter, work->data, cdd->is_keyword);
+			work = work->next;
+			}
+		}
+	string_list_free(keywords);
+}
+
+static void bar_pane_keywords_conf_set_helper(GtkWidget *widget, gpointer data)
+{
+	ConfDialogData *cdd = data;
+	cdd->is_keyword = FALSE;
+}
+
+static void bar_pane_keywords_conf_set_kw(GtkWidget *widget, gpointer data)
+{
+	ConfDialogData *cdd = data;
+	cdd->is_keyword = TRUE;
+}
+
+
+
+static void bar_pane_keywords_edit_dialog(PaneKeywordsData *pkd, gboolean edit_existing)
+{
+	ConfDialogData *cdd;
+	GenericDialog *gd;
+	GtkWidget *table;
+	GtkWidget *group;
+	GtkWidget *button;
+	
+	gchar *name = NULL;
+	gboolean is_keyword = TRUE;
+	
+
+        if (edit_existing && pkd->click_tpath)
+		{
+		GtkTreeModel *model;
+		GtkTreeIter iter;
+		model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
+
+	        if (gtk_tree_model_get_iter(model, &iter, pkd->click_tpath))
+			{
+			gtk_tree_model_get(model, &iter, FILTER_KEYWORD_COLUMN_NAME, &name,
+							 FILTER_KEYWORD_COLUMN_IS_KEYWORD, &is_keyword, -1);
+			}
+		else
+			{
+			return;
+			}
+		}
+		
+	if (edit_existing && !name) return;
+	
+
+	cdd = g_new0(ConfDialogData, 1);
+	cdd->pkd =pkd;
+	cdd->click_tpath = pkd->click_tpath;
+	pkd->click_tpath = NULL;
+	cdd->is_keyword = is_keyword;
+	cdd->edit_existing = edit_existing;
+
+	cdd->gd = gd = generic_dialog_new(name ? _("Edit keyword") : _("Add keywords"), "keyword_edit",
+				pkd->widget, TRUE,
+				bar_pane_keywords_edit_cancel_cb, cdd);
+	g_signal_connect(G_OBJECT(gd->dialog), "destroy",
+			 G_CALLBACK(bar_pane_keywords_edit_destroy_cb), cdd);
+
+
+	generic_dialog_add_message(gd, NULL, name ? _("Configure keyword") : _("Add keyword"), NULL);
+
+	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL,
+				  bar_pane_keywords_edit_ok_cb, TRUE);
+
+	table = pref_table_new(gd->vbox, 3, 1, FALSE, TRUE);
+	pref_table_label(table, 0, 0, _("Keyword:"), 1.0);
+	cdd->edit_widget = gtk_entry_new();
+	gtk_widget_set_size_request(cdd->edit_widget, 300, -1);
+	if (name) gtk_entry_set_text(GTK_ENTRY(cdd->edit_widget), name);
+	gtk_table_attach_defaults(GTK_TABLE(table), cdd->edit_widget, 1, 2, 0, 1);
+	/* here could eventually be a text view instead of entry */
+	generic_dialog_attach_default(gd, cdd->edit_widget);
+	gtk_widget_show(cdd->edit_widget);
+
+	group = pref_group_new(gd->vbox, FALSE, _("Keyword type:"), GTK_ORIENTATION_VERTICAL);
+
+	button = pref_radiobutton_new(group, NULL, _("Active keyword"),
+				      (cdd->is_keyword),
+				      G_CALLBACK(bar_pane_keywords_conf_set_kw), cdd);
+	button = pref_radiobutton_new(group, button, _("Helper"),
+				      (!cdd->is_keyword),
+				      G_CALLBACK(bar_pane_keywords_conf_set_helper), cdd);
+	g_free(name);
+
+	gtk_widget_show(gd->dialog);
+}
+
+
+
+
+/*
+ *-------------------------------------------------------------------
+ * popup menu
+ *-------------------------------------------------------------------
+ */
+
+static void bar_pane_keywords_edit_dialog_cb(GtkWidget *menu_widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+	bar_pane_keywords_edit_dialog(pkd, TRUE);
+}
+
+static void bar_pane_keywords_add_dialog_cb(GtkWidget *menu_widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+	bar_pane_keywords_edit_dialog(pkd, FALSE);
 }
 
 static void bar_pane_keywords_delete_cb(GtkWidget *menu_widget, gpointer data)
@@ -710,9 +914,9 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 		
 		gtk_tree_model_get(model, &iter, FILTER_KEYWORD_COLUMN_NAME, &name, -1);
 		
-		gchar *conf = g_strdup_printf(_("Configure \"%s\""), name);
+		gchar *conf = g_strdup_printf(_("Edit \"%s\""), name);
 		gchar *del = g_strdup_printf(_("Delete \"%s\""), name);
-		menu_item_add_stock(menu, conf, GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_conf_dialog_cb), pkd);
+		menu_item_add_stock(menu, conf, GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_edit_dialog_cb), pkd);
 		menu_item_add_stock(menu, del, GTK_STOCK_DELETE, G_CALLBACK(bar_pane_keywords_delete_cb), pkd);
 		menu_item_add_divider(menu);
 		g_free(conf);
@@ -720,8 +924,7 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 		g_free(name);
 		}
 	/* for the pane */
-//	menu_item_add_stock(menu, _("Add entry"), GTK_STOCK_ADD, G_CALLBACK(bar_pane_keywords_conf_dialog_cb), pkd);
-//	menu_item_add_check(menu, _("Show hidden entries"), pkd->show_all, G_CALLBACK(bar_pane_keywords_toggle_show_all_cb), pkd);
+	menu_item_add_stock(menu, _("Add keyword"), GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_add_dialog_cb), pkd);
 	
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
 }
@@ -738,6 +941,11 @@ static gboolean bar_pane_keywords_menu_cb(GtkWidget *widget, GdkEventButton *bev
 	return FALSE;
 } 
 
+/*
+ *-------------------------------------------------------------------
+ * init
+ *-------------------------------------------------------------------
+ */
 
 void bar_pane_keywords_close(GtkWidget *bar)
 {
