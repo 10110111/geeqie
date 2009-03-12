@@ -119,7 +119,7 @@ static gdouble get_crop_factor(ExifData *exif)
 
 }
 
-static gint remove_suffix(gchar *str, const gchar *suffix, gint suffix_len)
+static gboolean remove_suffix(gchar *str, const gchar *suffix, gint suffix_len)
 {
 	gint str_len = strlen(str);
 	
@@ -189,8 +189,11 @@ static gchar *exif_build_formatted_DateTime(ExifData *exif)
 	gchar *text = exif_get_data_as_text(exif, "Exif.Photo.DateTimeOriginal");
 	gchar *subsec = NULL;
 
-	if (text) subsec = exif_get_data_as_text(exif, "Exif.Photo.SubSecTimeOriginal");
-	if (!text)
+	if (text)
+		{
+		subsec = exif_get_data_as_text(exif, "Exif.Photo.SubSecTimeOriginal");
+		}
+	else
 		{
 		text = exif_get_data_as_text(exif, "Exif.Image.DateTime");
 		if (text) subsec = exif_get_data_as_text(exif, "Exif.Photo.SubSecTime");
@@ -524,7 +527,7 @@ ExifFormattedText ExifFormattedList[] = {
 	{ NULL, NULL, NULL }
 };
 
-gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid)
+gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gboolean *key_valid)
 {
 	if (strncmp(key, EXIF_FORMATTED(), EXIF_FORMATTED_LEN) == 0)
 		{
@@ -579,7 +582,7 @@ gchar *exif_get_data_as_text(ExifData *exif, const gchar *key)
 {
 	ExifItem *item;
 	gchar *text;
-	gint key_valid;
+	gboolean key_valid;
 
 	if (!key) return NULL;
 
@@ -653,7 +656,7 @@ void exif_free_fd(FileData *fd, ExifData *exif)
        NNN.: the data in this segment
  */
 
-gint exif_jpeg_segment_find(guchar *data, guint size,
+gboolean exif_jpeg_segment_find(guchar *data, guint size,
 			    guchar app_marker, const gchar *magic, guint magic_len,
 			    guint *seg_offset, guint *seg_length)
 {
@@ -692,7 +695,7 @@ gint exif_jpeg_segment_find(guchar *data, guint size,
 	return FALSE;
 }
 
-gint exif_jpeg_parse_color(ExifData *exif, guchar *data, guint size)
+gboolean exif_jpeg_parse_color(ExifData *exif, guchar *data, guint size)
 {
 	guint seg_offset = 0;
 	guint seg_length = 0;

@@ -669,7 +669,7 @@ guint exif_item_get_format_id(ExifItem *item)
 	}
 }
 
-const char *exif_item_get_format_name(ExifItem *item, gint brief)
+const char *exif_item_get_format_name(ExifItem *item, gboolean brief)
 {
 	try {
 		if (!item) return NULL;

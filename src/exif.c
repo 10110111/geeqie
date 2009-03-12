@@ -607,7 +607,7 @@ gchar *exif_item_get_description(ExifItem *item)
 	return g_strdup(_(item->marker->description));
 }
 
-const gchar *exif_item_get_format_name(ExifItem *item, gint brief)
+const gchar *exif_item_get_format_name(ExifItem *item, gboolean brief)
 {
 	if (!item || !item->marker) return NULL;
 	return (brief) ? ExifFormatList[item->format].short_name : ExifFormatList[item->format].description;

@@ -139,7 +139,7 @@ guint exif_item_get_elements(ExifItem *item);
 gchar *exif_item_get_data(ExifItem *item, guint *data_len);
 gchar *exif_item_get_description(ExifItem *item);
 guint exif_item_get_format_id(ExifItem *item);
-const gchar *exif_item_get_format_name(ExifItem *item, gint brief);
+const gchar *exif_item_get_format_name(ExifItem *item, gboolean brief);
 gchar *exif_item_get_data_as_text(ExifItem *item);
 gint exif_item_get_integer(ExifItem *item, gint *value);
 ExifRational *exif_item_get_rational(ExifItem *item, gint *sign, guint n);
@@ -149,7 +149,7 @@ gchar *exif_item_get_string(ExifItem *item, gint idx);
 gchar *exif_get_description_by_key(const gchar *key);
 gchar *exif_get_tag_description_by_key(const gchar *key);
 
-gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gint *key_valid);
+gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gboolean *key_valid);
 
 gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values);
 GList *exif_get_metadata(ExifData *exif, const gchar *key, MetadataFormat format);
@@ -161,10 +161,10 @@ guchar *exif_get_color_profile(ExifData *exif, guint *data_len);
 void exif_add_jpeg_color_profile(ExifData *exif, guchar *cp_data, guint cp_length);
 
 
-gint exif_jpeg_segment_find(guchar *data, guint size,
-                                   guchar app_marker, const gchar *magic, guint magic_len,
-                                   guint *seg_offset, guint *seg_length);
-gint exif_jpeg_parse_color(ExifData *exif, guchar *data, guint size);
+gboolean exif_jpeg_segment_find(guchar *data, guint size,
+                                guchar app_marker, const gchar *magic, guint magic_len,
+                                guint *seg_offset, guint *seg_length);
+gboolean exif_jpeg_parse_color(ExifData *exif, guchar *data, guint size);
 
 /*raw support */
 guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, gint requested_height);

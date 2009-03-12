@@ -23,19 +23,20 @@ struct _FileCacheData {
 	GList *list;
 	gulong max_size;
 	gulong size;
-	};
+};
 
 typedef struct _FileCacheEntry FileCacheEntry;
 struct _FileCacheEntry {
 	FileData *fd;
 	gulong size;
-	};
+};
 
 static void file_cache_notify_cb(FileData *fd, NotifyType type, gpointer data);
 
 FileCacheData *file_cache_new(FileCacheReleaseFunc release, gulong max_size)
 {
 	FileCacheData *fc = g_new(FileCacheData, 1);
+
 	fc->release = release;
 	fc->list = NULL;
 	fc->max_size = max_size;
@@ -163,9 +164,9 @@ static void file_cache_remove_fd(FileCacheData *fc, FileData *fd)
 
 void file_cache_dump(FileCacheData *fc)
 {
-	GList *work;
-	work = fc->list;
+	GList *work = fc->list;
 	gulong n = 0;
+
 	DEBUG_1("cache dump: fc=%p max size:%ld size:%ld", fc, fc->max_size, fc->size);
 		
 	while (work)
