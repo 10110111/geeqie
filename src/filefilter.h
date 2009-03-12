@@ -50,7 +50,5 @@ void sidecar_ext_parse(const gchar *text);
 gchar *sidecar_ext_to_string(void);
 GList *sidecar_ext_get_list(void);
 
-gint ishidden(const gchar *name);
-
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

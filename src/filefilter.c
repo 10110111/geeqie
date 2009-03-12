@@ -37,13 +37,6 @@ static GList *file_writable_list = NULL; /* writable files */
 static GList *file_sidecar_list = NULL; /* files with allowed sidecar */
 
 
-gint ishidden(const gchar *name)
-{
-	if (name[0] != '.') return FALSE;
-	if (name[1] == '\0' || (name[1] == '.' && name[2] == '\0')) return FALSE;
-	return TRUE;
-}
-
 static FilterEntry *filter_entry_new(const gchar *key, const gchar *description,
 				     const gchar *extensions, FileFormatClass file_class, 
 				     gboolean writable, gboolean allow_sidecar, gboolean enabled)

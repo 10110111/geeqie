@@ -829,6 +829,13 @@ static GList *filelist_filter_out_sidecars(GList *flist)
 	return flist_filtered;
 }
 
+static gboolean is_hidden_file(const gchar *name)
+{
+	if (name[0] != '.') return FALSE;
+	if (name[1] == '\0' || (name[1] == '.' && name[2] == '\0')) return FALSE;
+	return TRUE;
+}
+
 static gboolean filelist_read_real(FileData *dir_fd, GList **files, GList **dirs, gboolean follow_symlinks)
 {
 	DIR *dp;
@@ -864,7 +871,7 @@ static gboolean filelist_read_real(FileData *dir_fd, GList **files, GList **dirs
 		const gchar *name = dir->d_name;
 		gchar *filepath;
 
-		if (!options->file_filter.show_hidden_files && ishidden(name))
+		if (!options->file_filter.show_hidden_files && is_hidden_file(name))
 			continue;
 
 		filepath = g_build_filename(pathl, name, NULL);
@@ -997,7 +1004,7 @@ GList *filelist_filter(GList *list, gboolean is_dir_list)
 		FileData *fd = (FileData *)(work->data);
 		const gchar *name = fd->name;
 
-		if ((!options->file_filter.show_hidden_files && ishidden(name)) ||
+		if ((!options->file_filter.show_hidden_files && is_hidden_file(name)) ||
 		    (!is_dir_list && !filter_name_exists(name)) ||
 		    (is_dir_list && name[0] == '.' && (strcmp(name, GQ_CACHE_LOCAL_THUMB) == 0 ||
 						       strcmp(name, GQ_CACHE_LOCAL_METADATA) == 0)) )
