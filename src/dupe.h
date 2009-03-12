@@ -79,7 +79,7 @@ struct _DupeWindow
 	GtkWidget *extra_label;
 	GtkWidget *button_thumbs;
 
-	gint show_thumbs;
+	gboolean show_thumbs;
 
 	gint idle_id;
 	GList *working;
@@ -100,15 +100,15 @@ struct _DupeWindow
 
 	/* second set comparison stuff */
 
-	gint second_set;		/* second set enabled ? */
+	gboolean second_set;		/* second set enabled ? */
 	GList *second_list;		/* second set dropped files */
-	gint second_drop;		/* drop is on second set */
+	gboolean second_drop;		/* drop is on second set */
 
 	GtkWidget *second_vbox;		/* box of second widgets */
 	GtkWidget *second_listview;
 	GtkWidget *second_status_label;
 
-	gint color_frozen;
+	gboolean color_frozen;
 	
 	/* file list for edit menu */
 	GList *editmenu_fd_list;
@@ -122,7 +122,7 @@ void dupe_window_clear(DupeWindow *dw);
 void dupe_window_close(DupeWindow *dw);
 
 void dupe_window_add_collection(DupeWindow *dw, CollectionData *collection);
-void dupe_window_add_files(DupeWindow *dw, GList *list, gint recurse);
+void dupe_window_add_files(DupeWindow *dw, GList *list, gboolean recurse);
 
 /* cell max with/height hack utility */
 void cell_renderer_height_override(GtkCellRenderer *renderer);

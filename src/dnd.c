@@ -38,7 +38,7 @@ gint dnd_file_drop_types_count = 3;
 
 static void pixbuf_draw_border(GdkPixbuf *pixbuf, gint w, gint h)
 {
-	gint alpha;
+	gboolean alpha;
 	gint rs;
 	guchar *pix;
 	guchar *p;
@@ -74,7 +74,7 @@ static void pixbuf_draw_border(GdkPixbuf *pixbuf, gint w, gint h)
 
 static void pixbuf_draw_rect(GdkPixbuf *pixbuf, gint x, gint y, gint w, gint h, guint8 val)
 {
-	gint alpha;
+	gboolean alpha;
 	gint rs;
 	guchar *pix;
 	guchar *p;

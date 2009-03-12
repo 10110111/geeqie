@@ -74,7 +74,7 @@ void cache_sim_data_free(CacheData *cd)
  *-------------------------------------------------------------------
  */
 
-static gint cache_sim_write_dimensions(SecureSaveInfo *ssi, CacheData *cd)
+static gboolean cache_sim_write_dimensions(SecureSaveInfo *ssi, CacheData *cd)
 {
 	if (!cd || !cd->dimensions) return FALSE;
 
@@ -83,7 +83,7 @@ static gint cache_sim_write_dimensions(SecureSaveInfo *ssi, CacheData *cd)
 	return TRUE;
 }
 
-static gint cache_sim_write_date(SecureSaveInfo *ssi, CacheData *cd)
+static gboolean cache_sim_write_date(SecureSaveInfo *ssi, CacheData *cd)
 {
 	if (!cd || !cd->have_date) return FALSE;
 
@@ -92,7 +92,7 @@ static gint cache_sim_write_date(SecureSaveInfo *ssi, CacheData *cd)
 	return TRUE;
 }
 
-static gint cache_sim_write_checksum(SecureSaveInfo *ssi, CacheData *cd)
+static gboolean cache_sim_write_checksum(SecureSaveInfo *ssi, CacheData *cd)
 {
 	if (!cd || !cd->have_checksum) return FALSE;
 
@@ -101,7 +101,7 @@ static gint cache_sim_write_checksum(SecureSaveInfo *ssi, CacheData *cd)
 	return TRUE;
 }
 
-static gint cache_sim_write_md5sum(SecureSaveInfo *ssi, CacheData *cd)
+static gboolean cache_sim_write_md5sum(SecureSaveInfo *ssi, CacheData *cd)
 {
 	gchar *text;
 
@@ -114,7 +114,7 @@ static gint cache_sim_write_md5sum(SecureSaveInfo *ssi, CacheData *cd)
 	return TRUE;
 }
 
-static gint cache_sim_write_similarity(SecureSaveInfo *ssi, CacheData *cd)
+static gboolean cache_sim_write_similarity(SecureSaveInfo *ssi, CacheData *cd)
 {
 	guint x, y;
 	guint8 buf[3 * 32];
@@ -145,7 +145,7 @@ static gint cache_sim_write_similarity(SecureSaveInfo *ssi, CacheData *cd)
 	return TRUE;
 }
 
-gint cache_sim_data_save(CacheData *cd)
+gboolean cache_sim_data_save(CacheData *cd)
 {
 	SecureSaveInfo *ssi;
 	gchar *pathl;
@@ -185,7 +185,7 @@ gint cache_sim_data_save(CacheData *cd)
  *-------------------------------------------------------------------
  */
 
-static gint cache_sim_read_skipline(FILE *f, gint s)
+static gboolean cache_sim_read_skipline(FILE *f, gint s)
 {
 	if (!f) return FALSE;
 
@@ -202,7 +202,7 @@ static gint cache_sim_read_skipline(FILE *f, gint s)
 	return FALSE;
 }
 
-static gint cache_sim_read_comment(FILE *f, gchar *buf, gint s, CacheData *cd)
+static gboolean cache_sim_read_comment(FILE *f, gchar *buf, gint s, CacheData *cd)
 {
 	if (!f || !buf || !cd) return FALSE;
 
@@ -211,7 +211,7 @@ static gint cache_sim_read_comment(FILE *f, gchar *buf, gint s, CacheData *cd)
 	return cache_sim_read_skipline(f, s - 1);
 }
 
-static gint cache_sim_read_dimensions(FILE *f, gchar *buf, gint s, CacheData *cd)
+static gboolean cache_sim_read_dimensions(FILE *f, gchar *buf, gint s, CacheData *cd)
 {
 	if (!f || !buf || !cd) return FALSE;
 
@@ -254,7 +254,7 @@ static gint cache_sim_read_dimensions(FILE *f, gchar *buf, gint s, CacheData *cd
 	return FALSE;
 }
 
-static gint cache_sim_read_date(FILE *f, gchar *buf, gint s, CacheData *cd)
+static gboolean cache_sim_read_date(FILE *f, gchar *buf, gint s, CacheData *cd)
 {
 	if (!f || !buf || !cd) return FALSE;
 
@@ -294,7 +294,7 @@ static gint cache_sim_read_date(FILE *f, gchar *buf, gint s, CacheData *cd)
 	return FALSE;
 }
 
-static gint cache_sim_read_checksum(FILE *f, gchar *buf, gint s, CacheData *cd)
+static gboolean cache_sim_read_checksum(FILE *f, gchar *buf, gint s, CacheData *cd)
 {
 	if (!f || !buf || !cd) return FALSE;
 
@@ -334,7 +334,7 @@ static gint cache_sim_read_checksum(FILE *f, gchar *buf, gint s, CacheData *cd)
 	return FALSE;
 }
 
-static gint cache_sim_read_md5sum(FILE *f, gchar *buf, gint s, CacheData *cd)
+static gboolean cache_sim_read_md5sum(FILE *f, gchar *buf, gint s, CacheData *cd)
 {
 	if (!f || !buf || !cd) return FALSE;
 
@@ -371,7 +371,7 @@ static gint cache_sim_read_md5sum(FILE *f, gchar *buf, gint s, CacheData *cd)
 	return FALSE;
 }
 
-static gint cache_sim_read_similarity(FILE *f, gchar *buf, gint s, CacheData *cd)
+static gboolean cache_sim_read_similarity(FILE *f, gchar *buf, gint s, CacheData *cd)
 {
 	if (!f || !buf || !cd) return FALSE;
 
@@ -570,7 +570,7 @@ void cache_sim_data_set_similarity(CacheData *cd, ImageSimilarityData *sd)
 	cd->similarity = TRUE;
 }
 
-gint cache_sim_data_filled(ImageSimilarityData *sd)
+gboolean cache_sim_data_filled(ImageSimilarityData *sd)
 {
 	if (!sd) return FALSE;
 	return sd->filled;
@@ -678,7 +678,7 @@ gchar *cache_find_location(CacheType type, const gchar *source)
 	const gchar *cache_rc;
 	const gchar *cache_local;
 	const gchar *cache_ext;
-	gint prefer_local;
+	gboolean prefer_local;
 
 	if (!source) return NULL;
 
@@ -726,13 +726,13 @@ gchar *cache_find_location(CacheType type, const gchar *source)
 	return path;
 }
 
-gint cache_time_valid(const gchar *cache, const gchar *path)
+gboolean cache_time_valid(const gchar *cache, const gchar *path)
 {
 	struct stat cache_st;
 	struct stat path_st;
 	gchar *cachel;
 	gchar *pathl;
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	if (!cache || !path) return FALSE;
 

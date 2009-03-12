@@ -38,7 +38,7 @@ static void collect_manager_entry_reset(CollectManagerEntry *entry);
 static gint collect_manager_process_action(CollectManagerEntry *entry, gchar **path_ptr);
 
 
-static gint scan_geometry(gchar *buffer, gint *x, gint *y, gint *w, gint *h)
+static gboolean scan_geometry(gchar *buffer, gint *x, gint *y, gint *w, gint *h)
 {
 	gint nx, ny, nw, nh;
 
@@ -52,17 +52,17 @@ static gint scan_geometry(gchar *buffer, gint *x, gint *y, gint *w, gint *h)
 	return TRUE;
 }
 
-static gint collection_load_private(CollectionData *cd, const gchar *path, CollectionLoadFlags flags)
+static gboolean collection_load_private(CollectionData *cd, const gchar *path, CollectionLoadFlags flags)
 {
 	gchar s_buf[GQ_COLLECTION_READ_BUFSIZE];
 	FILE *f;
 	gchar *pathl;
-	gint limit_failures = TRUE;
-	gint success = TRUE;
-	gint has_official_header = FALSE;
-	gint has_geometry_header = FALSE;
-	gint has_gqview_header   = FALSE;
-	gint need_header	 = TRUE;
+	gboolean limit_failures = TRUE;
+	gboolean success = TRUE;
+	gboolean has_official_header = FALSE;
+	gboolean has_geometry_header = FALSE;
+	gboolean has_gqview_header   = FALSE;
+	gboolean need_header	 = TRUE;
 	guint total = 0;
 	guint fail = 0;
 	gboolean changed = FALSE;
@@ -210,7 +210,7 @@ static gint collection_load_private(CollectionData *cd, const gchar *path, Colle
 	return success;
 }
 
-gint collection_load(CollectionData *cd, const gchar *path, CollectionLoadFlags flags)
+gboolean collection_load(CollectionData *cd, const gchar *path, CollectionLoadFlags flags)
 {
 	if (collection_load_private(cd, path, flags | COLLECTION_LOAD_FLUSH))
 		{
@@ -307,7 +307,7 @@ void collection_load_thumb_idle(CollectionData *cd)
 	if (!cd->thumb_loader) collection_load_thumb_step(cd);
 }
 
-gint collection_load_begin(CollectionData *cd, const gchar *path, CollectionLoadFlags flags)
+gboolean collection_load_begin(CollectionData *cd, const gchar *path, CollectionLoadFlags flags)
 {
 	if (!collection_load(cd, path, flags)) return FALSE;
 
@@ -324,7 +324,7 @@ void collection_load_stop(CollectionData *cd)
 	cd->thumb_loader = NULL;
 }
 
-static gint collection_save_private(CollectionData *cd, const gchar *path)
+static gboolean collection_save_private(CollectionData *cd, const gchar *path)
 {
 	SecureSaveInfo *ssi;
 	GList *work;
@@ -391,7 +391,7 @@ static gint collection_save_private(CollectionData *cd, const gchar *path)
 	return TRUE;
 }
 
-gint collection_save(CollectionData *cd, const gchar *path)
+gboolean collection_save(CollectionData *cd, const gchar *path)
 {
 	if (collection_save_private(cd, path))
 		{
@@ -402,7 +402,7 @@ gint collection_save(CollectionData *cd, const gchar *path)
 	return FALSE;
 }
 
-gint collection_load_only_geometry(CollectionData *cd, const gchar *path)
+gboolean collection_load_only_geometry(CollectionData *cd, const gchar *path)
 {
 	return collection_load(cd, path, COLLECTION_LOAD_GEOMETRY);
 }
@@ -633,7 +633,7 @@ static void collect_manager_entry_add_action(CollectManagerEntry *entry, Collect
 	collect_manager_action_ref(action);
 }
 
-static gint collect_manager_process_action(CollectManagerEntry *entry, gchar **path_ptr)
+static gboolean collect_manager_process_action(CollectManagerEntry *entry, gchar **path_ptr)
 {
 	gchar *path = *path_ptr;
 	CollectManagerAction *action;
@@ -781,10 +781,10 @@ static void collect_manager_process_actions(gint max)
 		}
 }
 
-static gint collect_manager_process_entry(CollectManagerEntry *entry)
+static gboolean collect_manager_process_entry(CollectManagerEntry *entry)
 {
 	CollectionData *cd;
-	gint success;
+	gboolean success;
 
 	if (entry->empty) return FALSE;
 
@@ -796,7 +796,7 @@ static gint collect_manager_process_entry(CollectManagerEntry *entry)
 	return TRUE;
 }
 
-static gint collect_manager_process_entry_list(void)
+static gboolean collect_manager_process_entry_list(void)
 {
 	GList *work;
 
@@ -815,7 +815,7 @@ static gint collect_manager_process_entry_list(void)
 
 
 
-static gint collect_manager_process_cb(gpointer data)
+static gboolean collect_manager_process_cb(gpointer data)
 {
 	if (collection_manager_action_list) collect_manager_refresh();
 	collect_manager_process_actions(COLLECT_MANAGER_ACTIONS_PER_IDLE);
@@ -827,7 +827,7 @@ static gint collect_manager_process_cb(gpointer data)
 	return FALSE;
 }
 
-static gint collect_manager_timer_cb(gpointer data)
+static gboolean collect_manager_timer_cb(gpointer data)
 {
 	DEBUG_1("collection manager timer expired");
 
@@ -934,7 +934,6 @@ void collect_manager_flush(void)
 
 void collect_manager_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
-
 	if (type != NOTIFY_TYPE_CHANGE || !fd->change) return;
 	
 	switch (fd->change->type)

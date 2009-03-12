@@ -22,7 +22,7 @@ struct _ImageSimilarityData
 	guint8 avg_g[1024];
 	guint8 avg_b[1024];
 
-	gint filled;
+	gboolean filled;
 };
 
 
@@ -36,8 +36,8 @@ gdouble image_sim_compare(ImageSimilarityData *a, ImageSimilarityData *b);
 gdouble image_sim_compare_fast(ImageSimilarityData *a, ImageSimilarityData *b, gdouble min);
 
 
-void image_sim_alternate_set(gint enable);
-gint image_sim_alternate_enabled(void);
+void image_sim_alternate_set(gboolean enable);
+gboolean image_sim_alternate_enabled(void);
 void image_sim_alternate_processing(ImageSimilarityData *sd);
 
 

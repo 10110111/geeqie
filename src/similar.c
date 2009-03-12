@@ -44,14 +44,14 @@
  * improve the result, and hopes to reduce false positives.
  */
 
-static gint alternate_enabled = FALSE;
+static gboolean alternate_enabled = FALSE;
 
-void image_sim_alternate_set(gint enable)
+void image_sim_alternate_set(gboolean enable)
 {
 	alternate_enabled = enable;
 }
 
-gint image_sim_alternate_enabled(void)
+gboolean image_sim_alternate_enabled(void)
 {
 	return alternate_enabled;
 }
@@ -183,8 +183,8 @@ void image_sim_fill_data(ImageSimilarityData *sd, GdkPixbuf *pixbuf)
 	gint x_inc, y_inc, xy_inc;
 	gint xs, ys;
 
-	gint x_small = FALSE;	/* if less than 32 w or h, set TRUE */
-	gint y_small = FALSE;
+	gboolean x_small = FALSE;	/* if less than 32 w or h, set TRUE */
+	gboolean y_small = FALSE;
 
 	if (!sd || !pixbuf) return;
 

@@ -94,7 +94,7 @@ void collection_info_set_thumb(CollectInfo *ci, GdkPixbuf *pixbuf)
 	ci->pixbuf = pixbuf;
 }
 
-gint collection_info_load_thumb(CollectInfo *ci)
+gboolean collection_info_load_thumb(CollectInfo *ci)
 {
 	if (!ci) return FALSE;
 
@@ -595,10 +595,10 @@ static CollectInfo *collection_info_new_if_not_exists(CollectionData *cd, struct
 	return ci;
 }
 
-gint collection_add_check(CollectionData *cd, FileData *fd, gint sorted, gint must_exist)
+gboolean collection_add_check(CollectionData *cd, FileData *fd, gboolean sorted, gboolean must_exist)
 {
 	struct stat st;
-	gint valid;
+	gboolean valid;
 
 	if (must_exist)
 		{
@@ -635,12 +635,12 @@ gint collection_add_check(CollectionData *cd, FileData *fd, gint sorted, gint mu
 	return valid;
 }
 
-gint collection_add(CollectionData *cd, FileData *fd, gint sorted)
+gboolean collection_add(CollectionData *cd, FileData *fd, gboolean sorted)
 {
 	return collection_add_check(cd, fd, sorted, TRUE);
 }
 
-gint collection_insert(CollectionData *cd, FileData *fd, CollectInfo *insert_ci, gint sorted)
+gboolean collection_insert(CollectionData *cd, FileData *fd, CollectInfo *insert_ci, gboolean sorted)
 {
 	struct stat st;
 
@@ -666,7 +666,7 @@ gint collection_insert(CollectionData *cd, FileData *fd, CollectInfo *insert_ci,
 	return FALSE;
 }
 
-gint collection_remove(CollectionData *cd, FileData *fd)
+gboolean collection_remove(CollectionData *cd, FileData *fd)
 {
 	CollectInfo *ci;
 
@@ -720,7 +720,7 @@ void collection_remove_by_info_list(CollectionData *cd, GList *list)
 	collection_window_refresh(collection_window_find(cd));
 }
 
-gint collection_rename(CollectionData *cd, FileData *fd)
+gboolean collection_rename(CollectionData *cd, FileData *fd)
 {
 	CollectInfo *ci;
 	ci = collection_list_find_fd(cd->list, fd);
@@ -776,10 +776,10 @@ static void collection_notify_cb(FileData *fd, NotifyType type, gpointer data)
  *-------------------------------------------------------------------
  */
 
-static gint collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	CollectWindow *cw = data;
-	gint stop_signal = FALSE;
+	gboolean stop_signal = FALSE;
 	gint edit_val = -1;
 	GList *list;
 
@@ -1137,7 +1137,7 @@ void collection_window_close_by_collection(CollectionData *cd)
 	if (cw) collection_window_close_final(cw);
 }
 
-gint collection_window_modified_exists(void)
+gboolean collection_window_modified_exists(void)
 {
 	GList *work;
 
@@ -1152,7 +1152,7 @@ gint collection_window_modified_exists(void)
 	return FALSE;
 }
 
-static gint collection_window_delete(GtkWidget *widget, GdkEvent *event, gpointer data)
+static gboolean collection_window_delete(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
 	CollectWindow *cw = data;
 	collection_window_close(cw);

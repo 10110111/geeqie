@@ -21,16 +21,16 @@ typedef enum {
 	COLLECTION_LOAD_GEOMETRY= 1 << 2,
 } CollectionLoadFlags;
 
-gint collection_load(CollectionData *cd, const gchar *path, CollectionLoadFlags flags);
+gboolean collection_load(CollectionData *cd, const gchar *path, CollectionLoadFlags flags);
 
-gint collection_load_begin(CollectionData *cd, const gchar *path, CollectionLoadFlags flags);
+gboolean collection_load_begin(CollectionData *cd, const gchar *path, CollectionLoadFlags flags);
 void collection_load_stop(CollectionData *cd);
 
 void collection_load_thumb_idle(CollectionData *cd);
 
-gint collection_save(CollectionData *cd, const gchar *path);
+gboolean collection_save(CollectionData *cd, const gchar *path);
 
-gint collection_load_only_geometry(CollectionData *cd, const gchar *path);
+gboolean collection_load_only_geometry(CollectionData *cd, const gchar *path);
 
 
 /* these are used to update collections contained in user's collection

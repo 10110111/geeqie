@@ -36,7 +36,7 @@ struct _ColorManCache {
 	ColorManProfileType profile_out_type;
 	gchar *profile_out_file;
 
-	gint has_alpha;
+	gboolean has_alpha;
 
 	gint refcount;
 };
@@ -47,7 +47,7 @@ struct _ColorManCache {
 
 static void color_man_lib_init(void)
 {
-	static gint init_done = FALSE;
+	static gboolean init_done = FALSE;
 
 	if (init_done) return;
 	init_done = TRUE;
@@ -136,7 +136,7 @@ static cmsHPROFILE color_man_cache_load_profile(ColorManProfileType type, const 
 static ColorManCache *color_man_cache_new(ColorManProfileType in_type, const gchar *in_file,
 					  guchar *in_data, guint in_data_len,
 					  ColorManProfileType out_type, const gchar *out_file,
-					  gint has_alpha)
+					  gboolean has_alpha)
 {
 	ColorManCache *cc;
 
@@ -213,7 +213,7 @@ static void color_man_cache_reset(void)
 
 static ColorManCache *color_man_cache_find(ColorManProfileType in_type, const gchar *in_file,
 					   ColorManProfileType out_type, const gchar *out_file,
-					   gint has_alpha)
+					   gboolean has_alpha)
 {
 	GList *work;
 
@@ -221,7 +221,7 @@ static ColorManCache *color_man_cache_find(ColorManProfileType in_type, const gc
 	while (work)
 		{
 		ColorManCache *cc;
-		gint match = FALSE;
+		gboolean match = FALSE;
 
 		cc = work->data;
 		work = work->next;
@@ -253,7 +253,7 @@ static ColorManCache *color_man_cache_find(ColorManProfileType in_type, const gc
 static ColorManCache *color_man_cache_get(ColorManProfileType in_type, const gchar *in_file,
 					  guchar *in_data, guint in_data_len,
 					  ColorManProfileType out_type, const gchar *out_file,
-					  gint has_alpha)
+					  gboolean has_alpha)
 {
 	ColorManCache *cc;
 
@@ -315,11 +315,12 @@ void color_man_correct_region(ColorMan *cm, GdkPixbuf *pixbuf, gint x, gint y, g
 
 }
 
-static gint color_man_idle_cb(gpointer data)
+static gboolean color_man_idle_cb(gpointer data)
 {
 	ColorMan *cm = data;
 	gint width, height;
 	gint rh;
+
 	if (!cm->pixbuf) return FALSE;
 
 	if (cm->imd &&
@@ -359,7 +360,7 @@ static ColorMan *color_man_new_real(ImageWindow *imd, GdkPixbuf *pixbuf,
 				    ColorManProfileType screen_type, const gchar *screen_file)
 {
 	ColorMan *cm;
-	gint has_alpha;
+	gboolean has_alpha;
 
 	if (imd) pixbuf = image_get_pixbuf(imd);
 

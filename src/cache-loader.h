@@ -42,7 +42,7 @@ struct _CacheLoader {
 	CacheLoaderDoneFunc done_func;
 	gpointer done_data;
 
-	gint error;
+	gboolean error;
 
 	ImageLoader *il;
 	gint idle_id;

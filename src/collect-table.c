@@ -65,7 +65,7 @@ typedef enum {
 #define INFO_SELECTED(x) (x->flag_mask & SELECTION_SELECTED)
 
 
-static void collection_table_populate_at_new_size(CollectTable *ct, gint w, gint h, gint force);
+static void collection_table_populate_at_new_size(CollectTable *ct, gint w, gint h, gboolean force);
 
 
 /*
@@ -74,7 +74,7 @@ static void collection_table_populate_at_new_size(CollectTable *ct, gint w, gint
  *-------------------------------------------------------------------
  */
 
-static gint collection_table_find_position(CollectTable *ct, CollectInfo *info, gint *row, gint *col)
+static gboolean collection_table_find_position(CollectTable *ct, CollectInfo *info, gint *row, gint *col)
 {
 	gint n;
 
@@ -88,7 +88,7 @@ static gint collection_table_find_position(CollectTable *ct, CollectInfo *info, 
 	return TRUE;
 }
 
-static gint collection_table_find_iter(CollectTable *ct, CollectInfo *info, GtkTreeIter *iter, gint *column)
+static gboolean collection_table_find_iter(CollectTable *ct, CollectInfo *info, GtkTreeIter *iter, gint *column)
 {
 	GtkTreeModel *store;
 	gint row, col;
@@ -227,7 +227,7 @@ static void collection_table_update_status(CollectTable *ct)
 	g_free(buf);
 }
 
-static void collection_table_update_extras(CollectTable *ct, gint loading, gdouble value)
+static void collection_table_update_extras(CollectTable *ct, gboolean loading, gdouble value)
 {
 	gchar *text;
 
@@ -422,7 +422,7 @@ static void collection_table_unselect(CollectTable *ct, CollectInfo *info)
 	collection_table_update_status(ct);
 }
 
-static void collection_table_select_util(CollectTable *ct, CollectInfo *info, gint select)
+static void collection_table_select_util(CollectTable *ct, CollectInfo *info, gboolean select)
 {
 	if (select)
 		{
@@ -434,7 +434,7 @@ static void collection_table_select_util(CollectTable *ct, CollectInfo *info, gi
 		}
 }
 
-static void collection_table_select_region_util(CollectTable *ct, CollectInfo *start, CollectInfo *end, gint select)
+static void collection_table_select_region_util(CollectTable *ct, CollectInfo *start, CollectInfo *end, gboolean select)
 {
 	gint row1, col1;
 	gint row2, col2;
@@ -548,7 +548,7 @@ static void tip_hide(CollectTable *ct)
 	ct->tip_window = NULL;
 }
 
-static gint tip_schedule_cb(gpointer data)
+static gboolean tip_schedule_cb(gpointer data)
 {
 	CollectTable *ct = data;
 
@@ -844,7 +844,7 @@ static void collection_table_popup_destroy_cb(GtkWidget *widget, gpointer data)
 	ct->editmenu_fd_list = NULL;
 }
 
-static GtkWidget *collection_table_popup_menu(CollectTable *ct, gint over_icon)
+static GtkWidget *collection_table_popup_menu(CollectTable *ct, gboolean over_icon)
 {
 	GtkWidget *menu;
 	GtkWidget *item;
@@ -969,7 +969,7 @@ static void collection_table_set_focus(CollectTable *ct, CollectInfo *info)
 		}
 }
 
-static void collection_table_move_focus(CollectTable *ct, gint row, gint col, gint relative)
+static void collection_table_move_focus(CollectTable *ct, gint row, gint col, gboolean relative)
 {
 	gint new_row;
 	gint new_col;
@@ -1115,15 +1115,14 @@ static void collection_table_menu_pos_cb(GtkMenu *menu, gint *x, gint *y, gboole
 	popup_menu_position_clamp(menu, x, y, 0);
 }
 
-static gint collection_table_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean collection_table_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	CollectTable *ct = data;
 	gint focus_row = 0;
 	gint focus_col = 0;
 	CollectInfo *info;
-	gint stop_signal;
+	gboolean stop_signal = TRUE;
 
-	stop_signal = TRUE;
 	switch (event->keyval)
 		{
 		case GDK_Left: case GDK_KP_Left:
@@ -1240,8 +1239,8 @@ static gint collection_table_press_key_cb(GtkWidget *widget, GdkEventKey *event,
  *-------------------------------------------------------------------
  */
 
-static CollectInfo *collection_table_insert_find(CollectTable *ct, CollectInfo *source, gint *after, GdkRectangle *cell,
-						 gint use_coord, gint x, gint y)
+static CollectInfo *collection_table_insert_find(CollectTable *ct, CollectInfo *source, gboolean *after, GdkRectangle *cell,
+						 gboolean use_coord, gint x, gint y)
 {
 	CollectInfo *info = NULL;
 	GtkTreeModel *store;
@@ -1264,7 +1263,7 @@ static CollectInfo *collection_table_insert_find(CollectTable *ct, CollectInfo *
 			gtk_tree_path_free(tpath);
 
 			info = source;
-			*after = (x > cell->x + (cell->width / 2));
+			*after = !!(x > cell->x + (cell->width / 2));
 			}
 		return info;
 		}
@@ -1284,7 +1283,7 @@ static CollectInfo *collection_table_insert_find(CollectTable *ct, CollectInfo *
 		if (info)
 			{
 			gtk_tree_view_get_background_area(GTK_TREE_VIEW(ct->listview), tpath, column, cell);
-			*after = (x > cell->x + (cell->width / 2));
+			*after = !!(x > cell->x + (cell->width / 2));
 			}
 
 		gtk_tree_path_free(tpath);
@@ -1319,7 +1318,7 @@ static CollectInfo *collection_table_insert_point(CollectTable *ct, gint x, gint
 {
 	CollectInfo *info;
 	GdkRectangle cell;
-	gint after = FALSE;
+	gboolean after = FALSE;
 
 	info = collection_table_insert_find(ct, NULL, &after, &cell, TRUE, x, y);
 
@@ -1341,10 +1340,10 @@ static CollectInfo *collection_table_insert_point(CollectTable *ct, gint x, gint
 	return info;
 }
 
-static void collection_table_insert_marker(CollectTable *ct, CollectInfo *info, gint enable)
+static void collection_table_insert_marker(CollectTable *ct, CollectInfo *info, gboolean enable)
 {
 	gint row, col;
-	gint after = FALSE;
+	gboolean after = FALSE;
 	GdkRectangle cell;
 
 	if (!enable)
@@ -1430,7 +1429,7 @@ static void collection_table_insert_marker(CollectTable *ct, CollectInfo *info, 
  *-------------------------------------------------------------------
  */
 
-static void collection_table_motion_update(CollectTable *ct, gint x, gint y, gint drop_event)
+static void collection_table_motion_update(CollectTable *ct, gint x, gint y, gboolean drop_event)
 {
 	CollectInfo *info;
 
@@ -1447,7 +1446,7 @@ static void collection_table_motion_update(CollectTable *ct, gint x, gint y, gin
 		}
 }
 
-static gint collection_table_auto_scroll_idle_cb(gpointer data)
+static gboolean collection_table_auto_scroll_idle_cb(gpointer data)
 {
 	CollectTable *ct = data;
 	GdkWindow *window;
@@ -1468,7 +1467,7 @@ static gint collection_table_auto_scroll_idle_cb(gpointer data)
 	return FALSE;
 }
 
-static gint collection_table_auto_scroll_notify_cb(GtkWidget *widget, gint x, gint y, gpointer data)
+static gboolean collection_table_auto_scroll_notify_cb(GtkWidget *widget, gint x, gint y, gpointer data)
 {
 	CollectTable *ct = data;
 
@@ -1477,7 +1476,7 @@ static gint collection_table_auto_scroll_notify_cb(GtkWidget *widget, gint x, gi
 	return TRUE;
 }
 
-static void collection_table_scroll(CollectTable *ct, gint scroll)
+static void collection_table_scroll(CollectTable *ct, gboolean scroll)
 {
 	if (!scroll)
 		{
@@ -1503,7 +1502,7 @@ static void collection_table_scroll(CollectTable *ct, gint scroll)
  *-------------------------------------------------------------------
  */
 
-static gint collection_table_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+static gboolean collection_table_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	CollectTable *ct = data;
 
@@ -1512,7 +1511,7 @@ static gint collection_table_motion_cb(GtkWidget *widget, GdkEventButton *bevent
 	return FALSE;
 }
 
-static gint collection_table_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+static gboolean collection_table_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	CollectTable *ct = data;
 	GtkTreeIter iter;
@@ -1551,7 +1550,7 @@ static gint collection_table_press_cb(GtkWidget *widget, GdkEventButton *bevent,
 	return TRUE;
 }
 
-static gint collection_table_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+static gboolean collection_table_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	CollectTable *ct = data;
 	GtkTreeIter iter;
@@ -1559,7 +1558,7 @@ static gint collection_table_release_cb(GtkWidget *widget, GdkEventButton *beven
 
 	tip_schedule(ct);
 
-	if ((gint)bevent->x != 0 || (gint) bevent->y != 0)
+	if ((gint)bevent->x != 0 || (gint)bevent->y != 0)
 		{
 		info = collection_table_find_data_by_coord(ct, (gint)bevent->x, (gint)bevent->y, &iter);
 		}
@@ -1576,9 +1575,8 @@ static gint collection_table_release_cb(GtkWidget *widget, GdkEventButton *beven
 
 		if (bevent->state & GDK_CONTROL_MASK)
 			{
-			gint select;
+			gboolean select = !INFO_SELECTED(info);
 
-			select = !INFO_SELECTED(info);
 			if ((bevent->state & GDK_SHIFT_MASK) && ct->prev_selection)
 				{
 				collection_table_select_region_util(ct, ct->prev_selection, info, select);
@@ -1612,7 +1610,7 @@ static gint collection_table_release_cb(GtkWidget *widget, GdkEventButton *beven
 	return TRUE;
 }
 
-static gint collection_table_leave_cb(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
+static gboolean collection_table_leave_cb(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 {
 	CollectTable *ct = data;
 
@@ -1661,7 +1659,7 @@ static GList *collection_table_add_row(CollectTable *ct, GtkTreeIter *iter)
 	return list;
 }
 
-static void collection_table_populate(CollectTable *ct, gint resize)
+static void collection_table_populate(CollectTable *ct, gboolean resize)
 {
 	gint row;
 	GList *work;
@@ -1725,7 +1723,7 @@ static void collection_table_populate(CollectTable *ct, gint resize)
 	collection_table_update_status(ct);
 }
 
-static void collection_table_populate_at_new_size(CollectTable *ct, gint w, gint h, gint force)
+static void collection_table_populate_at_new_size(CollectTable *ct, gint w, gint h, gboolean force)
 {
 	gint new_cols;
 	gint thumb_width;
@@ -1809,7 +1807,7 @@ static void collection_table_sync(CollectTable *ct)
 	collection_table_update_status(ct);
 }
 
-static gint collection_table_sync_idle_cb(gpointer data)
+static gboolean collection_table_sync_idle_cb(gpointer data)
 {
 	CollectTable *ct = data;
 
@@ -1993,7 +1991,7 @@ void collection_table_refresh(CollectTable *ct)
  *-------------------------------------------------------------------
  */
 
-static void collection_table_add_dir_recursive(CollectTable *ct, FileData *dir_fd, gint recursive)
+static void collection_table_add_dir_recursive(CollectTable *ct, FileData *dir_fd, gboolean recursive)
 {
 	GList *d;
 	GList *f;
@@ -2021,7 +2019,7 @@ static void collection_table_add_dir_recursive(CollectTable *ct, FileData *dir_f
 	filelist_free(d);
 }
 
-static void confirm_dir_list_do(CollectTable *ct, GList *list, gint recursive)
+static void confirm_dir_list_do(CollectTable *ct, GList *list, gboolean recursive)
 {
 	GList *work = list;
 	while (work)
@@ -2102,7 +2100,7 @@ static void collection_table_dnd_get(GtkWidget *widget, GdkDragContext *context,
 				     guint time, gpointer data)
 {
 	CollectTable *ct = data;
-	gint selected;
+	gboolean selected;
 	GList *list = NULL;
 	gchar *uri_text = NULL;
 	gint total;
@@ -2513,4 +2511,5 @@ CollectInfo *collection_table_get_focus_info(CollectTable *ct)
 {
 	return collection_table_find_data(ct, ct->focus_row, ct->focus_column, NULL);
 }
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

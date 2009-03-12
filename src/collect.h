@@ -21,7 +21,7 @@ void collection_info_free_thumb(CollectInfo *ci);
 void collection_info_free(CollectInfo *ci);
 
 void collection_info_set_thumb(CollectInfo *ci, GdkPixbuf *pixbuf);
-gint collection_info_load_thumb(CollectInfo *ci);
+gboolean collection_info_load_thumb(CollectInfo *ci);
 
 void collection_list_free(GList *list);
 
@@ -62,12 +62,12 @@ void collection_set_sort_method(CollectionData *cd, SortType method);
 void collection_set_update_info_func(CollectionData *cd,
 				     void (*func)(CollectionData *, CollectInfo *, gpointer), gpointer data);
 
-gint collection_add(CollectionData *cd, FileData *fd, gint sorted);
-gint collection_add_check(CollectionData *cd, FileData *fd, gint sorted, gint must_exist);
-gint collection_insert(CollectionData *cd, FileData *fd, CollectInfo *insert_ci, gint sorted);
-gint collection_remove(CollectionData *cd, FileData *fd);
+gboolean collection_add(CollectionData *cd, FileData *fd, gboolean sorted);
+gboolean collection_add_check(CollectionData *cd, FileData *fd, gboolean sorted, gboolean must_exist);
+gboolean collection_insert(CollectionData *cd, FileData *fd, CollectInfo *insert_ci, gboolean sorted);
+gboolean collection_remove(CollectionData *cd, FileData *fd);
 void collection_remove_by_info_list(CollectionData *cd, GList *list);
-gint collection_rename(CollectionData *cd, FileData *fd);
+gboolean collection_rename(CollectionData *cd, FileData *fd);
 
 void collection_update_geometry(CollectionData *cd);
 
@@ -75,7 +75,7 @@ CollectWindow *collection_window_new(const gchar *path);
 void collection_window_close_by_collection(CollectionData *cd);
 CollectWindow *collection_window_find(CollectionData *cd);
 CollectWindow *collection_window_find_by_path(const gchar *path);
-gint collection_window_modified_exists(void);
+gboolean collection_window_modified_exists(void);
 
 
 #endif

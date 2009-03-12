@@ -36,8 +36,8 @@ struct _CMData
 	GtkWidget *spinner;
 	GtkWidget *button_stop;
 	GtkWidget *button_close;
-	gint clear;
-	gint metadata;
+	gboolean clear;
+	gboolean metadata;
 };
 
 #define PURGE_DIALOG_WIDTH 400
@@ -83,7 +83,7 @@ static gchar *extension_find_dot(gchar *path)
 	return dot;
 }
 
-static gint isempty(const gchar *path)
+static gboolean isempty(const gchar *path)
 {
 	DIR *dp;
 	struct dirent *dir;
@@ -133,7 +133,7 @@ static void cache_maintain_home_stop(CMData *cm)
 	gtk_widget_set_sensitive(cm->button_close, TRUE);
 }
 
-static gint cache_maintain_home_cb(gpointer data)
+static gboolean cache_maintain_home_cb(gpointer data)
 {
 	CMData *cm = data;
 	GList *dlist = NULL;
@@ -269,7 +269,7 @@ static void cache_maintain_home_stop_cb(GenericDialog *gd, gpointer data)
 }
 
 /* sorry for complexity (cm->done_list), but need it to remove empty dirs */
-void cache_maintain_home(gint metadata, gint clear, GtkWidget *parent)
+void cache_maintain_home(gboolean metadata, gboolean clear, GtkWidget *parent)
 {
 	CMData *cm;
 	GList *dlist;
@@ -671,7 +671,7 @@ struct _CleanData
 	GList *list_dir;
 
 	gint days;
-	gint clear;
+	gboolean clear;
 
 	GtkWidget *button_close;
 	GtkWidget *button_stop;
@@ -685,8 +685,8 @@ struct _CleanData
 	gint count_total;
 	gint count_done;
 
-	gint local;
-	gint recurse;
+	gboolean local;
+	gboolean recurse;
 
 	gint idle_id;
 };
@@ -755,7 +755,7 @@ static void cache_manager_render_folder(CleanData *cd, FileData *dir_fd)
 	cd->list_dir = g_list_concat(list_d, cd->list_dir);
 }
 
-static gint cache_manager_render_file(CleanData *cd);
+static gboolean cache_manager_render_file(CleanData *cd);
 
 static void cache_manager_render_thumb_done_cb(ThumbLoader *tl, gpointer data)
 {
@@ -767,7 +767,7 @@ static void cache_manager_render_thumb_done_cb(ThumbLoader *tl, gpointer data)
 	while (cache_manager_render_file(cd));
 }
 
-static gint cache_manager_render_file(CleanData *cd)
+static gboolean cache_manager_render_file(CleanData *cd)
 {
 	if (cd->list)
 		{
@@ -987,7 +987,7 @@ static gint cache_manager_standard_clean_clear_cb(gpointer data)
 	return FALSE;
 }
 
-static void cache_manager_standard_clean_valid_cb(const gchar *path, gint valid, gpointer data)
+static void cache_manager_standard_clean_valid_cb(const gchar *path, gboolean valid, gpointer data)
 {
 	CleanData *cd = data;
 
@@ -1075,7 +1075,7 @@ static void cache_manager_standard_clean_start_cb(GenericDialog *gd, gpointer da
 		}
 }
 
-static void cache_manager_standard_process(GtkWidget *widget, gint clear)
+static void cache_manager_standard_process(GtkWidget *widget, gboolean clear)
 {
 	CleanData *cd;
 	const gchar *stock_id;
