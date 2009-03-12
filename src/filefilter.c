@@ -96,17 +96,17 @@ static FilterEntry *filter_get_by_key(const gchar *key)
 	return NULL;
 }
 
-static gint filter_key_exists(const gchar *key)
+static gboolean filter_key_exists(const gchar *key)
 {
-	return (filter_get_by_key(key) == NULL ? FALSE : TRUE);
+	return (filter_get_by_key(key) != NULL);
 }
 
-void filter_add(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gint enabled)
+void filter_add(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gboolean enabled)
 {
 	filter_list = g_list_append(filter_list, filter_entry_new(key, description, extensions, file_class, writable, allow_sidecar, enabled));
 }
 
-void filter_add_unique(const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gint enabled)
+void filter_add_unique(const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gboolean enabled)
 {
 	gchar *key;
 	guint n;
@@ -125,7 +125,7 @@ void filter_add_unique(const gchar *description, const gchar *extensions, FileFo
 	g_free(key);
 }
 
-static void filter_add_if_missing(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gint enabled)
+static void filter_add_if_missing(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gboolean enabled)
 {
 	GList *work;
 

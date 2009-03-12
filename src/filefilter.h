@@ -30,8 +30,8 @@ struct _FilterEntry {
 GList *filter_get_list(void);
 void filter_remove_entry(FilterEntry *fe);
 
-void filter_add(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gint enabled);
-void filter_add_unique(const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gint enabled);
+void filter_add(const gchar *key, const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gboolean enabled);
+void filter_add_unique(const gchar *description, const gchar *extensions, FileFormatClass file_class, gboolean writable, gboolean allow_sidecar, gboolean enabled);
 void filter_add_defaults(void);
 void filter_reset(void);
 void filter_rebuild(void);
