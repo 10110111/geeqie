@@ -514,6 +514,53 @@ static void bar_pane_keywords_dnd_end(GtkWidget *widget, GdkDragContext *context
 {
 }
 
+
+static gboolean bar_pane_keywords_dnd_can_move(GtkTreeModel *keyword_tree, GtkTreeIter *src_kw_iter, GtkTreeIter *dest_kw_iter)
+{
+	gchar *src_name;
+	GtkTreeIter parent;
+	
+	if (dest_kw_iter && keyword_same_parent(keyword_tree, src_kw_iter, dest_kw_iter)) 
+		{
+		return TRUE; /* reordering of siblings is ok */
+		}
+	if (!dest_kw_iter && !gtk_tree_model_iter_parent(keyword_tree, &parent, src_kw_iter))
+		{
+		return TRUE; /* reordering of top-level siblings is ok */
+		}
+
+	src_name = keyword_get_name(keyword_tree, src_kw_iter);
+	if (keyword_exists(keyword_tree, NULL, dest_kw_iter, src_name, FALSE))
+		{
+		g_free(src_name);
+		return FALSE;
+	}
+	g_free(src_name);
+	return TRUE;
+}
+
+static gboolean bar_pane_keywords_dnd_skip_existing(GtkTreeModel *keyword_tree, GtkTreeIter *dest_kw_iter, GList **keywords)
+{
+	/* we have to find at least one keyword that does not already exist as a sibling of dest_kw_iter */
+	GList *work = *keywords;
+	while (work)
+		{
+		gchar *keyword = work->data;
+		if (keyword_exists(keyword_tree, NULL, dest_kw_iter, keyword, FALSE))
+			{
+			GList *next = work->next;
+			g_free(keyword);
+			*keywords = g_list_delete_link(*keywords, work);
+			work = next;
+			}
+		else
+			{
+			work = work->next;
+			}
+		}
+	return !!*keywords;
+}
+
 static void bar_pane_keywords_dnd_receive(GtkWidget *tree_view, GdkDragContext *context,
 					  gint x, gint y,
 					  GtkSelectionData *selection_data, guint info,
@@ -580,10 +627,22 @@ static void bar_pane_keywords_dnd_receive(GtkWidget *tree_view, GdkDragContext *
 		if ((pos == GTK_TREE_VIEW_DROP_INTO_OR_BEFORE || pos == GTK_TREE_VIEW_DROP_INTO_OR_AFTER) &&
 		    !gtk_tree_model_iter_has_child(keyword_tree, &dest_kw_iter))
 			{
+			/* the node has no children, all keywords can be added */
 			gtk_tree_store_append(GTK_TREE_STORE(keyword_tree), &new_kw_iter, &dest_kw_iter);
 			}
 		else
 			{
+			if (src_valid && !bar_pane_keywords_dnd_can_move(keyword_tree, &src_kw_iter, &dest_kw_iter))
+				{
+				/* the keyword can't be moved if the same name already exist */
+				return;
+				}
+			if (new_keywords && !bar_pane_keywords_dnd_skip_existing(keyword_tree, &dest_kw_iter, &new_keywords))
+				{
+				/* the keywords can't be added if the same name already exist */
+				return;
+				}
+				
 			switch (pos)
 				{
 				case GTK_TREE_VIEW_DROP_INTO_OR_BEFORE:
@@ -596,9 +655,20 @@ static void bar_pane_keywords_dnd_receive(GtkWidget *tree_view, GdkDragContext *
 					break;
 				}
 			}
+			
 		}
 	else
 		{
+		if (src_valid && !bar_pane_keywords_dnd_can_move(keyword_tree, &src_kw_iter, NULL))
+			{
+			/* the keyword can't be moved if the same name already exist */
+			return;
+			}
+		if (new_keywords && !bar_pane_keywords_dnd_skip_existing(keyword_tree, NULL, &new_keywords))
+			{
+			/* the keywords can't be added if the same name already exist */
+			return;
+			}
 		gtk_tree_store_append(GTK_TREE_STORE(keyword_tree), &new_kw_iter, NULL);
 		}
 		
@@ -611,8 +681,10 @@ static void bar_pane_keywords_dnd_receive(GtkWidget *tree_view, GdkDragContext *
 	work = new_keywords;
 	while (work)
 		{
-		keyword_set(GTK_TREE_STORE(keyword_tree), &new_kw_iter, work->data, TRUE);
+		gchar *keyword = work->data;
+		keyword_set(GTK_TREE_STORE(keyword_tree), &new_kw_iter, keyword, TRUE);
 		work = work->next;
+
 		if (work)
 			{
 			GtkTreeIter add;
@@ -705,7 +777,8 @@ static void bar_pane_keywords_edit_ok_cb(GenericDialog *gd, gpointer data)
 	
 	if (cdd->edit_existing)
 		{
-		if (keywords && keywords->data) /* there should be one keyword */
+		if (keywords && keywords->data && /* there should be one keyword */
+		    !keyword_exists(keyword_tree, NULL, &kw_iter, keywords->data, TRUE))
 			{
 			keyword_set(GTK_TREE_STORE(keyword_tree), &kw_iter, keywords->data, cdd->is_keyword);
 			}
@@ -717,6 +790,11 @@ static void bar_pane_keywords_edit_ok_cb(GenericDialog *gd, gpointer data)
 		while (work)
 			{
 			GtkTreeIter add;
+			if (keyword_exists(keyword_tree, NULL, have_dest ? &kw_iter : NULL, work->data, FALSE))
+				{
+				work = work->next;
+				continue;
+				}
 			if (have_dest)
 				{
 				gtk_tree_store_insert_after(GTK_TREE_STORE(keyword_tree), &add, NULL, &kw_iter);

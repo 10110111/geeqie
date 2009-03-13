@@ -765,6 +765,66 @@ gboolean keyword_compare(GtkTreeModel *keyword_tree, GtkTreeIter *a, GtkTreeIter
 	return ret;
 }
 
+gboolean keyword_same_parent(GtkTreeModel *keyword_tree, GtkTreeIter *a, GtkTreeIter *b)
+{
+	GtkTreeIter parent_a;
+	GtkTreeIter parent_b;
+	
+	gboolean valid_pa = gtk_tree_model_iter_parent(keyword_tree, &parent_a, a);
+	gboolean valid_pb = gtk_tree_model_iter_parent(keyword_tree, &parent_b, b);
+
+	if (valid_pa && valid_pb)
+		{
+		return keyword_compare(keyword_tree, &parent_a, &parent_b) == 0;
+		}
+	else
+		{
+		return (!valid_pa && !valid_pb); /* both are toplevel */
+		}
+}
+
+gboolean keyword_exists(GtkTreeModel *keyword_tree, GtkTreeIter *parent_ptr, GtkTreeIter *sibling, const gchar *name, gboolean exclude_sibling)
+{
+	GtkTreeIter parent;
+	GtkTreeIter iter;
+	gboolean toplevel = FALSE;
+	gboolean ret;
+	gchar *casefold;
+	
+	if (parent_ptr)
+		{
+		parent = *parent_ptr;
+		}
+	else if (sibling)
+		{
+		toplevel = !gtk_tree_model_iter_parent(keyword_tree, &parent, sibling);
+		}
+	else
+		{
+		toplevel = TRUE;
+		}
+	
+	if (!gtk_tree_model_iter_children(GTK_TREE_MODEL(keyword_tree), &iter, toplevel ? NULL : &parent)) return FALSE;
+	
+	casefold = g_utf8_casefold(name, -1);
+	ret = FALSE;
+	
+	while (TRUE)
+		{
+		if (!(exclude_sibling && sibling && keyword_compare(keyword_tree, &iter, sibling) == 0))
+			{
+			gchar *iter_casefold = keyword_get_casefold(keyword_tree, &iter);
+			ret = strcmp(casefold, iter_casefold) == 0;
+			g_free(iter_casefold);
+			}
+		if (ret) break;
+		if (!gtk_tree_model_iter_next(keyword_tree, &iter)) break;
+		}
+	g_free(casefold);
+	return ret;
+}
+
+
 void keyword_copy(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from)
 {
 
