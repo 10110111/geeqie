@@ -43,6 +43,7 @@ struct _ExifWin
 	GtkWidget *vbox;
 	GtkWidget *scrolled;
 	GtkWidget *listview;
+	GtkWidget *label_file_name;
 
 	FileData *fd;
 };
@@ -157,6 +158,8 @@ void advanced_exif_set_fd(GtkWidget *window, FileData *fd)
 	/* store this, advanced view toggle needs to reload data */
 	file_data_unref(ew->fd);
 	ew->fd = file_data_ref(fd);
+
+	gtk_label_set_text(GTK_LABEL(ew->label_file_name), (ew->fd) ? ew->fd->path : "");
 
 	advanced_exif_clear(ew);
 	advanced_exif_update(ew);
@@ -362,6 +365,7 @@ GtkWidget *advanced_exif_new(void)
 	GtkListStore *store;
 	GdkGeometry geometry;
 	GtkTreeSortable *sortable;
+	GtkWidget *box;
 	gint n;
 
 	ew = g_new0(ExifWin, 1);
@@ -381,6 +385,18 @@ GtkWidget *advanced_exif_new(void)
 	ew->vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
 	gtk_container_add(GTK_CONTAINER(ew->window), ew->vbox);
 	gtk_widget_show(ew->vbox);
+
+	box = gtk_hbox_new(FALSE, 0);
+
+	ew->label_file_name = gtk_label_new("");
+	gtk_label_set_ellipsize(GTK_LABEL(ew->label_file_name), PANGO_ELLIPSIZE_START);
+	gtk_label_set_selectable(GTK_LABEL(ew->label_file_name), TRUE);
+	gtk_misc_set_alignment(GTK_MISC(ew->label_file_name), 0.5, 0.5);
+	gtk_box_pack_start(GTK_BOX(box), ew->label_file_name, TRUE, TRUE, 0);
+	gtk_widget_show(ew->label_file_name);
+
+	gtk_box_pack_start(GTK_BOX(ew->vbox), box, FALSE, FALSE, 0);
+	gtk_widget_show(box);
 
 
 	store = gtk_list_store_new(7, G_TYPE_BOOLEAN,
