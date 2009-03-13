@@ -129,6 +129,13 @@ protected:
 	/* the icc profile in jpeg is not technically exif - store it here */
 	unsigned char *cp_data_;
 	guint cp_length_;
+	gboolean valid_;
+
+	Exiv2::ExifData emptyExifData_;
+	Exiv2::IptcData emptyIptcData_;
+#if EXIV2_TEST_VERSION(0,16,0)
+	Exiv2::XmpData emptyXmpData_;
+#endif
 
 public:
 	_ExifDataOriginal(Exiv2::Image::AutoPtr image)
@@ -136,43 +143,53 @@ public:
 		cp_data_ = NULL;
 		cp_length_ = 0;
 		image_ = image;
+		valid_ = TRUE;
 	}
 
 	_ExifDataOriginal(gchar *path)
 	{
 		cp_data_ = NULL;
 		cp_length_ = 0;
+		valid_ = TRUE;
+		
 		gchar *pathl = path_from_utf8(path);
-		image_ = Exiv2::ImageFactory::open(pathl);
-		g_free(pathl);
-//		g_assert (image.get() != 0);
-		image_->readMetadata();
+		try 
+			{
+			image_ = Exiv2::ImageFactory::open(pathl);
+//			g_assert (image.get() != 0);
+			image_->readMetadata();
 
 #if EXIV2_TEST_VERSION(0,16,0)
-		if (image_->mimeType() == "application/rdf+xml")
-			{
-			//Exiv2 sidecar converts xmp to exif and iptc, we don't want it.
-			image_->clearExifData();
-			image_->clearIptcData();
-			}
+			if (image_->mimeType() == "application/rdf+xml")
+				{
+				//Exiv2 sidecar converts xmp to exif and iptc, we don't want it.
+				image_->clearExifData();
+				image_->clearIptcData();
+				}
 #endif
 
 #if EXIV2_TEST_VERSION(0,14,0)
-		if (image_->mimeType() == "image/jpeg")
-			{
-			/* try to get jpeg color profile */
-			Exiv2::BasicIo &io = image_->io();
-			gint open = io.isopen();
-			if (!open) io.open();
-			if (io.isopen())
+			if (image_->mimeType() == "image/jpeg")
 				{
-				unsigned char *mapped = (unsigned char*)io.mmap();
-				if (mapped) exif_jpeg_parse_color(this, mapped, io.size());
-				io.munmap();
+				/* try to get jpeg color profile */
+				Exiv2::BasicIo &io = image_->io();
+				gint open = io.isopen();
+				if (!open) io.open();
+				if (io.isopen())
+					{
+					unsigned char *mapped = (unsigned char*)io.mmap();
+					if (mapped) exif_jpeg_parse_color(this, mapped, io.size());
+					io.munmap();
+					}
+				if (!open) io.close();
 				}
-			if (!open) io.close();
-			}
 #endif
+			}
+		catch (Exiv2::AnyError& e) 
+			{
+			valid_ = FALSE;
+			}
+		g_free(pathl);
 	}
 	
 	virtual ~_ExifDataOriginal()
@@ -182,22 +199,26 @@ public:
 	
 	virtual Exiv2::Image *image()
 	{
+		if (!valid_) return NULL;
 		return image_.get();
 	}
 	
 	virtual Exiv2::ExifData &exifData ()
 	{
+		if (!valid_) return emptyExifData_;
 		return image_->exifData();
 	}
 
 	virtual Exiv2::IptcData &iptcData ()
 	{
+		if (!valid_) return emptyIptcData_;
 		return image_->iptcData();
 	}
 
 #if EXIV2_TEST_VERSION(0,16,0)
 	virtual Exiv2::XmpData &xmpData ()
 	{
+		if (!valid_) return emptyXmpData_;
 		return image_->xmpData();
 	}
 #endif
@@ -288,12 +309,15 @@ public:
 
 			copyXmpToExif(xmpData_, exifData_);
 #endif
-			imageData_->image()->setExifData(exifData_);
-			imageData_->image()->setIptcData(iptcData_);
+			Exiv2::Image *image = imageData_->image();
+			
+			if (!image) Exiv2::Error(21);
+			image->setExifData(exifData_);
+			image->setIptcData(iptcData_);
 #if EXIV2_TEST_VERSION(0,16,0)
-			imageData_->image()->setXmpData(xmpData_);
+			image->setXmpData(xmpData_);
 #endif
-			imageData_->image()->writeMetadata();
+			image->writeMetadata();
 			} 
 		else
 			{
@@ -1052,6 +1076,8 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 {
 	if (!exif) return NULL;
 
+	if (!exif->image()) return NULL;
+	
 	const char* path = exif->image()->io().path().c_str();
 	/* given image pathname, first do simple (and fast) file extension test */
 	gboolean is_raw = filter_file_class(path, FORMAT_CLASS_RAWIMAGE);
@@ -1152,6 +1178,8 @@ extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len, gint reques
 	unsigned long offset;
 
 	if (!exif) return NULL;
+	if (!exif->image()) return NULL;
+
 	const char* path = exif->image()->io().path().c_str();
 
 	/* given image pathname, first do simple (and fast) file extension test */
