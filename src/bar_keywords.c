@@ -150,26 +150,6 @@ static void bar_pane_keywords_write(PaneKeywordsData *pkd)
 	string_list_free(list);
 }
 
-static gchar *bar_pane_keywords_get_mark_text(const gchar *key)
-{
-	gint i;
-	static gchar buf[10];
-	
-	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
-		{
-		FileDataGetMarkFunc get_mark_func;
-		FileDataSetMarkFunc set_mark_func;
-		gpointer data;
-		file_data_get_registered_mark_func(i, &get_mark_func, &set_mark_func, &data);
-		if (get_mark_func == meta_data_get_keyword_mark && strcmp(data, key) == 0) 
-			{
-			g_sprintf(buf, " %d ", i + 1);
-			return buf;
-			}
-		}
-	return " ... ";
-}
-
 gboolean bar_keyword_tree_expand_if_set(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
 	PaneKeywordsData *pkd = data;
@@ -412,52 +392,6 @@ static void bar_pane_keywords_changed(GtkTextBuffer *buffer, gpointer data)
 	file_data_register_notify_func(bar_pane_keywords_notify_cb, pkd, NOTIFY_PRIORITY_LOW);
 }
 
-static void bar_pane_keywords_mark_edited(GtkCellRendererText *cell, const gchar *path, const gchar *text, gpointer data)
-{
-/*	PaneKeywordsData *pkd = data;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
-	GtkTreePath *tpath;
-	gchar *key = NULL;
-	gint i;
-	FileDataGetMarkFunc get_mark_func;
-	FileDataSetMarkFunc set_mark_func;
-	gpointer mark_func_data;
-
-	file_data_unregister_notify_func(bar_pane_keywords_notify_cb, pkd);
-
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
-
-	tpath = gtk_tree_path_new_from_string(path);
-	gtk_tree_model_get_iter(store, &iter, tpath);
-	gtk_tree_path_free(tpath);
-
-	gtk_tree_model_get(store, &iter, FILTER_KEYWORD_COLUMN_TEXT, &key, -1);
-
-	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
-		{
-		file_data_get_registered_mark_func(i, &get_mark_func, &set_mark_func, &mark_func_data);
-		if (get_mark_func == meta_data_get_keyword_mark && strcmp(mark_func_data, key) == 0) 
-			{
-			g_free(mark_func_data);
-			file_data_register_mark_func(i, NULL, NULL, NULL);
-			}
-		}
-
-	if (sscanf(text, " %d ", &i) &&i >=1 && i <= FILEDATA_MARKS_SIZE)
-		{
-		i--;
-		file_data_get_registered_mark_func(i, &get_mark_func, &set_mark_func, &mark_func_data);
-		if (get_mark_func == meta_data_get_keyword_mark && mark_func_data) g_free(mark_func_data); 
-		file_data_register_mark_func(i, meta_data_get_keyword_mark, meta_data_set_keyword_mark, g_strdup(key));
-		}
-
-	g_free(key);
-
-	file_data_register_notify_func(bar_pane_keywords_notify_cb, pkd, NOTIFY_PRIORITY_LOW);
-	bar_pane_keywords_update(pkd);
-*/
-}
 
 /*
  *-------------------------------------------------------------------
@@ -872,6 +806,35 @@ static void bar_pane_keywords_add_dialog_cb(GtkWidget *menu_widget, gpointer dat
 	bar_pane_keywords_edit_dialog(pkd, FALSE);
 }
 
+static void bar_pane_keywords_connect_mark_cb(GtkWidget *menu_widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	GtkTreeModel *keyword_tree;
+	GtkTreeIter kw_iter;
+
+	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(menu_widget), "mark")) - 1;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
+	keyword_tree = gtk_tree_model_filter_get_model(GTK_TREE_MODEL_FILTER(model));
+	
+        if (!pkd->click_tpath) return;
+        if (!gtk_tree_model_get_iter(model, &iter, pkd->click_tpath)) return;
+
+	gtk_tree_model_filter_convert_iter_to_child_iter(GTK_TREE_MODEL_FILTER(model), &kw_iter, &iter);
+
+	file_data_unregister_notify_func(bar_pane_keywords_notify_cb, pkd);
+
+	meta_data_connect_mark_with_keyword(keyword_tree, &kw_iter, mark);
+
+	file_data_register_notify_func(bar_pane_keywords_notify_cb, pkd, NOTIFY_PRIORITY_LOW);
+//	bar_pane_keywords_update(pkd);
+}
+
+
 static void bar_pane_keywords_delete_cb(GtkWidget *menu_widget, gpointer data)
 {
 	PaneKeywordsData *pkd = data;
@@ -906,21 +869,51 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 	if (pkd->click_tpath)
 		{
 		/* for the entry */
+		GtkWidget *item;
+		GtkWidget *submenu;
+		gchar *text;
+		gchar *mark;
+		gint i;
+		
 		GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
 		
 		GtkTreeIter iter;
                 gtk_tree_model_get_iter(model, &iter, pkd->click_tpath);
 		gchar *name;
 		
-		gtk_tree_model_get(model, &iter, FILTER_KEYWORD_COLUMN_NAME, &name, -1);
+		gtk_tree_model_get(model, &iter, FILTER_KEYWORD_COLUMN_NAME, &name,
+						 FILTER_KEYWORD_COLUMN_MARK, &mark, -1);
 		
-		gchar *conf = g_strdup_printf(_("Edit \"%s\""), name);
-		gchar *del = g_strdup_printf(_("Delete \"%s\""), name);
-		menu_item_add_stock(menu, conf, GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_edit_dialog_cb), pkd);
-		menu_item_add_stock(menu, del, GTK_STOCK_DELETE, G_CALLBACK(bar_pane_keywords_delete_cb), pkd);
+		text = g_strdup_printf(_("Edit \"%s\""), name);
+		menu_item_add_stock(menu, text, GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_edit_dialog_cb), pkd);
+		g_free(text);
+		text = g_strdup_printf(_("Delete \"%s\""), name);
+		menu_item_add_stock(menu, text, GTK_STOCK_DELETE, G_CALLBACK(bar_pane_keywords_delete_cb), pkd);
+		g_free(text);
+		
+		submenu = gtk_menu_new();
+		for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
+			{
+			text = g_strdup_printf(_("Mark %d"), i + 1);
+			item = menu_item_add(submenu, text, G_CALLBACK(bar_pane_keywords_connect_mark_cb), pkd);
+			g_object_set_data(G_OBJECT(item), "mark", GINT_TO_POINTER(i + 1));
+			g_free(text);
+			}
+
+		text = g_strdup_printf(_("Connect \"%s\" to mark"), name);
+		item = menu_item_add(menu, text, NULL, NULL);
+		gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
+		g_free(text);
+		
+		if (mark && mark[0])
+			{
+			text = g_strdup_printf(_("Disconnect \"%s\" from mark %s"), name, mark);
+			menu_item_add_stock(menu, text, GTK_STOCK_DELETE, G_CALLBACK(bar_pane_keywords_connect_mark_cb), pkd);
+			g_free(text);
+			}
+
 		menu_item_add_divider(menu);
-		g_free(conf);
-		g_free(del);
+		g_free(mark);
 		g_free(name);
 		}
 	/* for the pane */
@@ -969,26 +962,6 @@ static void bar_pane_keywords_destroy(GtkWidget *widget, gpointer data)
 	g_free(pkd->key);
 
 	g_free(pkd);
-}
-
-static GtkTreeModel *create_marks_list(void)
-{
-	GtkListStore *model;
-	GtkTreeIter iter;
-	gint i;
-
-	/* create list store */
-	model = gtk_list_store_new(1, G_TYPE_STRING);
-	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
-		{
-		gchar str[10];
-		g_sprintf(str, " %d ", i + 1);
-		gtk_list_store_append(model, &iter);
-		gtk_list_store_set(model, &iter, 0, str, -1);
-		}
-	gtk_list_store_append(model, &iter);
-	gtk_list_store_set(model, &iter, 0, " ... ", -1);
-	return GTK_TREE_MODEL(model);
 }
 
 
@@ -1070,19 +1043,12 @@ GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key, gboolean 
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
 
-	renderer = gtk_cell_renderer_combo_new();
-	g_object_set(G_OBJECT(renderer), "editable", (gboolean)TRUE,
-					 "model", create_marks_list(),
-					 "text-column", 0,
-					 "has-entry", FALSE,
-					 NULL);
-
+	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, TRUE);
-	gtk_tree_view_column_add_attribute(column, renderer, "text", FILTER_KEYWORD_COLUMN_MARK);
-	g_signal_connect(renderer, "edited",
-			  G_CALLBACK (bar_pane_keywords_mark_edited), pkd);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(pkd->keyword_treeview), column);
 
+	gtk_tree_view_column_add_attribute(column, renderer, "text", FILTER_KEYWORD_COLUMN_MARK);
+
+	gtk_tree_view_append_column(GTK_TREE_VIEW(pkd->keyword_treeview), column);
 
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);

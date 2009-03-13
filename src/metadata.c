@@ -627,67 +627,92 @@ GList *string_to_keywords_list(const gchar *text)
 
 gboolean meta_data_get_keyword_mark(FileData *fd, gint n, gpointer data)
 {
+	/* FIXME: do not use global keyword_tree */
+	GList *path = data;
 	GList *keywords;
 	gboolean found = FALSE;
 	keywords = metadata_read_list(fd, KEYWORD_KEY, METADATA_PLAIN);
 	if (keywords)
 		{
-		GList *work = keywords;
+		GtkTreeIter iter;
+		if (keyword_tree_get_iter(GTK_TREE_MODEL(keyword_tree), &iter, path) &&
+		    keyword_tree_is_set(GTK_TREE_MODEL(keyword_tree), &iter, keywords))
+			found = TRUE;
 
-		while (work)
-			{
-			gchar *kw = work->data;
-			work = work->next;
-			
-			if (strcmp(kw, data) == 0)
-				{
-				found = TRUE;
-				break;
-				}
-			}
-		string_list_free(keywords);
 		}
 	return found;
 }
 
 gboolean meta_data_set_keyword_mark(FileData *fd, gint n, gboolean value, gpointer data)
 {
+	GList *path = data;
 	GList *keywords = NULL;
-	gboolean found = FALSE;
-	gboolean changed = FALSE;
-	GList *work;
+	GtkTreeIter iter;
+	
+	if (!keyword_tree_get_iter(GTK_TREE_MODEL(keyword_tree), &iter, path)) return FALSE;
+
 	keywords = metadata_read_list(fd, KEYWORD_KEY, METADATA_PLAIN);
 
-	work = keywords;
-
-	while (work)
+	if (!!keyword_tree_is_set(GTK_TREE_MODEL(keyword_tree), &iter, keywords) != !!value)
 		{
-		gchar *kw = work->data;
-		
-		if (strcmp(kw, data) == 0)
+		if (value) 
 			{
-			found = TRUE;
-			if (!value) 
-				{
-				changed = TRUE;
-				keywords = g_list_delete_link(keywords, work);
-				g_free(kw);
-				}
-			break;
+			keyword_tree_set(GTK_TREE_MODEL(keyword_tree), &iter, &keywords);
 			}
-		work = work->next;
+		else
+			{
+			keyword_tree_reset(GTK_TREE_MODEL(keyword_tree), &iter, &keywords);
+			}
+		metadata_write_list(fd, KEYWORD_KEY, keywords);
 		}
-	if (value && !found) 
-		{
-		changed = TRUE;
-		keywords = g_list_append(keywords, g_strdup(data));
-		}
-	
-	if (changed) metadata_write_list(fd, KEYWORD_KEY, keywords);
 
 	string_list_free(keywords);
 	return TRUE;
 }
+
+
+
+void meta_data_connect_mark_with_keyword(GtkTreeModel *keyword_tree, GtkTreeIter *kw_iter, gint mark)
+{
+
+	FileDataGetMarkFunc get_mark_func;
+	FileDataSetMarkFunc set_mark_func;
+	gpointer mark_func_data;
+
+	gint i;
+
+	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
+		{
+		file_data_get_registered_mark_func(i, &get_mark_func, &set_mark_func, &mark_func_data);
+		if (get_mark_func == meta_data_get_keyword_mark) 
+			{
+			GtkTreeIter old_kw_iter;
+			GList *old_path = mark_func_data;
+			
+			if (keyword_tree_get_iter(keyword_tree, &old_kw_iter, old_path) && 
+			    (i == mark || /* release any previous connection of given mark */
+			     keyword_compare(keyword_tree, &old_kw_iter, kw_iter) == 0)) /* or given keyword */
+				{
+				file_data_register_mark_func(i, NULL, NULL, NULL, NULL);
+				gtk_tree_store_set(GTK_TREE_STORE(keyword_tree), &old_kw_iter, KEYWORD_COLUMN_MARK, "", -1);
+				}
+			}
+		}
+
+
+	if (mark >= 0 && mark < FILEDATA_MARKS_SIZE)
+		{
+		GList *path;
+		gchar *mark_str;
+		path = keyword_tree_get_path(keyword_tree, kw_iter);
+		file_data_register_mark_func(mark, meta_data_get_keyword_mark, meta_data_set_keyword_mark, path, (GDestroyNotify)string_list_free);
+		
+		mark_str = g_strdup_printf("%d", mark + 1);
+		gtk_tree_store_set(GTK_TREE_STORE(keyword_tree), kw_iter, KEYWORD_COLUMN_MARK, mark_str, -1);
+		g_free(mark_str);
+		}
+}
+
 
 /*
  *-------------------------------------------------------------------

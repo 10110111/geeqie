@@ -1090,6 +1090,7 @@ GList *filelist_recursive(FileData *dir_fd)
 static FileDataGetMarkFunc file_data_get_mark_func[FILEDATA_MARKS_SIZE];
 static FileDataSetMarkFunc file_data_set_mark_func[FILEDATA_MARKS_SIZE];
 static gpointer file_data_mark_func_data[FILEDATA_MARKS_SIZE];
+static GDestroyNotify file_data_destroy_mark_func[FILEDATA_MARKS_SIZE];
 
 gboolean file_data_get_mark(FileData *fd, gint n)
 {
@@ -1189,20 +1190,23 @@ static void file_data_notify_mark_func(gpointer key, gpointer value, gpointer us
 	file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
 }
 
-gboolean file_data_register_mark_func(gint n, FileDataGetMarkFunc get_mark_func, FileDataSetMarkFunc set_mark_func, gpointer data)
+gboolean file_data_register_mark_func(gint n, FileDataGetMarkFunc get_mark_func, FileDataSetMarkFunc set_mark_func, gpointer data, GDestroyNotify notify)
 {
 	if (n < 0 || n >= FILEDATA_MARKS_SIZE) return FALSE;
+	
+	if (file_data_destroy_mark_func[n]) (file_data_destroy_mark_func[n])(file_data_mark_func_data[n]);
 		
 	file_data_get_mark_func[n] = get_mark_func;
         file_data_set_mark_func[n] = set_mark_func;
         file_data_mark_func_data[n] = data;
-        
+        file_data_destroy_mark_func[n] = notify;
+
         if (get_mark_func)
-    		{
-    		/* this effectively changes all known files */
-    		g_hash_table_foreach(file_data_pool, file_data_notify_mark_func, NULL);
-    		}
-        
+		{
+		/* this effectively changes all known files */
+		g_hash_table_foreach(file_data_pool, file_data_notify_mark_func, NULL);
+		}
+
         return TRUE;
 }
 
