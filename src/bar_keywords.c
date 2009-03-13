@@ -116,6 +116,10 @@ struct _PaneKeywordsData
 
 	GtkTreePath *click_tpath;
 
+	gboolean expand_checked;
+	gboolean collapse_unchecked;
+	gboolean hide_unchecked;
+	
 	FileData *fd;
 	gchar *key;
 };
@@ -150,7 +154,7 @@ static void bar_pane_keywords_write(PaneKeywordsData *pkd)
 	string_list_free(list);
 }
 
-gboolean bar_keyword_tree_expand_if_set(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+gboolean bar_keyword_tree_expand_if_set_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
 	PaneKeywordsData *pkd = data;
 	gboolean set;
@@ -164,15 +168,41 @@ gboolean bar_keyword_tree_expand_if_set(GtkTreeModel *model, GtkTreePath *path, 
 	return FALSE;
 }
 
+gboolean bar_keyword_tree_collapse_if_unset_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+	gboolean set;
+	gboolean is_keyword;
+
+	gtk_tree_model_get(model, iter, FILTER_KEYWORD_COLUMN_TOGGLE, &set,
+					FILTER_KEYWORD_COLUMN_IS_KEYWORD, &is_keyword, -1);
+	
+	if (is_keyword && !set && gtk_tree_view_row_expanded(GTK_TREE_VIEW(pkd->keyword_treeview), path))
+		{
+		gtk_tree_view_collapse_row(GTK_TREE_VIEW(pkd->keyword_treeview), path);
+		}
+	return FALSE;
+}
+
 static void bar_keyword_tree_sync(PaneKeywordsData *pkd)
 {
-	GtkTreeModelFilter *store;
+	GtkTreeModel *model;
 
-	store = GTK_TREE_MODEL_FILTER(gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview)));
+	GtkTreeModel *keyword_tree;
+	GList *keywords;
 
-	gtk_tree_model_filter_refilter(store);
-	gtk_tree_model_foreach(GTK_TREE_MODEL(store), bar_keyword_tree_expand_if_set, pkd);
-	
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
+	keyword_tree = gtk_tree_model_filter_get_model(GTK_TREE_MODEL_FILTER(model));
+
+	keywords = keyword_list_pull(pkd->keyword_view);
+	keyword_show_set_in(GTK_TREE_STORE(keyword_tree), model, keywords);
+	if (pkd->hide_unchecked) keyword_hide_unset_in(GTK_TREE_STORE(keyword_tree), model, keywords);
+	string_list_free(keywords);
+
+	gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(model));
+
+	if (pkd->expand_checked) gtk_tree_model_foreach(model, bar_keyword_tree_expand_if_set_cb, pkd);
+	if (pkd->collapse_unchecked) gtk_tree_model_foreach(model, bar_keyword_tree_collapse_if_unset_cb, pkd);
 }
 
 static void bar_pane_keywords_keyword_update_all(void)
@@ -321,6 +351,13 @@ void bar_pane_keywords_filter_modify(GtkTreeModel *model, GtkTreeIter *iter, GVa
 		}
 	return;
 
+}
+
+gboolean bar_pane_keywords_filter_visible(GtkTreeModel *keyword_tree, GtkTreeIter *iter, gpointer data)
+{
+	GtkTreeModel *filter = data;
+	
+	return !keyword_is_hidden_in(keyword_tree, iter, filter);
 }
 
 static void bar_pane_keywords_set_selection(PaneKeywordsData *pkd, gboolean append)
@@ -855,9 +892,103 @@ static void bar_pane_keywords_delete_cb(GtkWidget *menu_widget, gpointer data)
 	keyword_delete(GTK_TREE_STORE(keyword_tree), &kw_iter);
 }
 
+static void bar_pane_keywords_hide_cb(GtkWidget *menu_widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	GtkTreeModel *keyword_tree;
+	GtkTreeIter kw_iter;
+
+        if (!pkd->click_tpath) return;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
+	keyword_tree = gtk_tree_model_filter_get_model(GTK_TREE_MODEL_FILTER(model));
+
+        if (!gtk_tree_model_get_iter(model, &iter, pkd->click_tpath)) return;
+	gtk_tree_model_filter_convert_iter_to_child_iter(GTK_TREE_MODEL_FILTER(model), &kw_iter, &iter);
+	
+	keyword_hide_in(GTK_TREE_STORE(keyword_tree), &kw_iter, model);
+}
+
+static void bar_pane_keywords_show_all_cb(GtkWidget *menu_widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+	GtkTreeModel *model;
+
+	GtkTreeModel *keyword_tree;
+
+	pkd->hide_unchecked = FALSE;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
+	keyword_tree = gtk_tree_model_filter_get_model(GTK_TREE_MODEL_FILTER(model));
+
+	keyword_show_all_in(GTK_TREE_STORE(keyword_tree), model);
+	bar_keyword_tree_sync(pkd);
+}
+
+static void bar_pane_keywords_expand_checked_cb(GtkWidget *menu_widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+	GtkTreeModel *model;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
+	gtk_tree_model_foreach(model, bar_keyword_tree_expand_if_set_cb, pkd);
+}
+
+static void bar_pane_keywords_collapse_unchecked_cb(GtkWidget *menu_widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+	GtkTreeModel *model;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
+	gtk_tree_model_foreach(model, bar_keyword_tree_collapse_if_unset_cb, pkd);
+}
+
+static void bar_pane_keywords_hide_unchecked_cb(GtkWidget *menu_widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+	GtkTreeModel *model;
+
+	GtkTreeModel *keyword_tree;
+	GList *keywords;
+	
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
+	keyword_tree = gtk_tree_model_filter_get_model(GTK_TREE_MODEL_FILTER(model));
+
+	keywords = keyword_list_pull(pkd->keyword_view);
+	keyword_hide_unset_in(GTK_TREE_STORE(keyword_tree), model, keywords);
+	string_list_free(keywords);
+	bar_keyword_tree_sync(pkd);
+}
+
+static void bar_pane_keywords_expand_checked_toggle_cb(GtkWidget *menu_widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+	pkd->expand_checked = !pkd->expand_checked;
+	bar_keyword_tree_sync(pkd);
+}
+
+static void bar_pane_keywords_collapse_unchecked_toggle_cb(GtkWidget *menu_widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+	pkd->collapse_unchecked = !pkd->collapse_unchecked;
+	bar_keyword_tree_sync(pkd);
+}
+
+static void bar_pane_keywords_hide_unchecked_toggle_cb(GtkWidget *menu_widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+	pkd->hide_unchecked = !pkd->hide_unchecked;
+	bar_keyword_tree_sync(pkd);
+}
+
 static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pkd, gint x, gint y)
 {
 	GtkWidget *menu;
+	GtkWidget *item;
+	GtkWidget *submenu;
         GtkTreeViewDropPosition pos;
         
         if (pkd->click_tpath) gtk_tree_path_free(pkd->click_tpath);
@@ -869,8 +1000,6 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 	if (pkd->click_tpath)
 		{
 		/* for the entry */
-		GtkWidget *item;
-		GtkWidget *submenu;
 		gchar *text;
 		gchar *mark;
 		gint i;
@@ -884,11 +1013,8 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 		gtk_tree_model_get(model, &iter, FILTER_KEYWORD_COLUMN_NAME, &name,
 						 FILTER_KEYWORD_COLUMN_MARK, &mark, -1);
 		
-		text = g_strdup_printf(_("Edit \"%s\""), name);
-		menu_item_add_stock(menu, text, GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_edit_dialog_cb), pkd);
-		g_free(text);
-		text = g_strdup_printf(_("Delete \"%s\""), name);
-		menu_item_add_stock(menu, text, GTK_STOCK_DELETE, G_CALLBACK(bar_pane_keywords_delete_cb), pkd);
+		text = g_strdup_printf(_("Hide \"%s\""), name);
+		menu_item_add_stock(menu, text, GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_hide_cb), pkd);
 		g_free(text);
 		
 		submenu = gtk_menu_new();
@@ -899,11 +1025,20 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 			g_object_set_data(G_OBJECT(item), "mark", GINT_TO_POINTER(i + 1));
 			g_free(text);
 			}
-
 		text = g_strdup_printf(_("Connect \"%s\" to mark"), name);
 		item = menu_item_add(menu, text, NULL, NULL);
 		gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 		g_free(text);
+
+		menu_item_add_divider(menu);
+
+		text = g_strdup_printf(_("Edit \"%s\""), name);
+		menu_item_add_stock(menu, text, GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_edit_dialog_cb), pkd);
+		g_free(text);
+		text = g_strdup_printf(_("Delete \"%s\""), name);
+		menu_item_add_stock(menu, text, GTK_STOCK_DELETE, G_CALLBACK(bar_pane_keywords_delete_cb), pkd);
+		g_free(text);
+
 		
 		if (mark && mark[0])
 			{
@@ -917,6 +1052,23 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 		g_free(name);
 		}
 	/* for the pane */
+
+
+	menu_item_add(menu, _("Expand checked"), G_CALLBACK(bar_pane_keywords_expand_checked_cb), pkd);
+	menu_item_add(menu, _("Collapse unchecked"), G_CALLBACK(bar_pane_keywords_collapse_unchecked_cb), pkd);
+	menu_item_add(menu, _("Hide unchecked"), G_CALLBACK(bar_pane_keywords_hide_unchecked_cb), pkd);
+	menu_item_add(menu, _("Show all"), G_CALLBACK(bar_pane_keywords_show_all_cb), pkd);
+
+	submenu = gtk_menu_new();
+	item = menu_item_add(menu, _("On any change"), NULL, NULL);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
+
+	menu_item_add_check(submenu, _("Expand checked"), pkd->expand_checked, G_CALLBACK(bar_pane_keywords_expand_checked_toggle_cb), pkd);
+	menu_item_add_check(submenu, _("Collapse unchecked"), pkd->collapse_unchecked, G_CALLBACK(bar_pane_keywords_collapse_unchecked_toggle_cb), pkd);
+	menu_item_add_check(submenu, _("Hide unchecked"), pkd->hide_unchecked, G_CALLBACK(bar_pane_keywords_hide_unchecked_toggle_cb), pkd);
+
+	menu_item_add_divider(menu);
+
 	menu_item_add_stock(menu, _("Add keyword"), GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_add_dialog_cb), pkd);
 	
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
@@ -986,6 +1138,7 @@ GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key, gboolean 
 
 	pkd->key = g_strdup(key);
 	
+	pkd->expand_checked = TRUE;
 
 	hbox = gtk_hbox_new(FALSE, PREF_PAD_GAP);
 
@@ -1030,6 +1183,10 @@ GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key, gboolean 
 					      bar_pane_keywords_filter_modify,
 					      pkd,
 					      NULL);
+	gtk_tree_model_filter_set_visible_func(GTK_TREE_MODEL_FILTER(store),
+					       bar_pane_keywords_filter_visible,
+					       store,
+					       NULL);
 
 	pkd->keyword_treeview = gtk_tree_view_new_with_model(store);
 	g_object_unref(store);

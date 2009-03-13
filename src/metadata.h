@@ -46,6 +46,7 @@ enum {
 	KEYWORD_COLUMN_NAME,
 	KEYWORD_COLUMN_CASEFOLD,
 	KEYWORD_COLUMN_IS_KEYWORD,
+	KEYWORD_COLUMN_HIDE_IN,
 	KEYWORD_COLUMN_COUNT
 };
 
@@ -73,6 +74,14 @@ void keyword_tree_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList *
 void keyword_tree_reset(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList **kw_list);
 
 void keyword_delete(GtkTreeStore *keyword_tree, GtkTreeIter *iter_ptr);
+
+
+void keyword_hide_in(GtkTreeStore *keyword_tree, GtkTreeIter *iter, gpointer id);
+void keyword_show_in(GtkTreeStore *keyword_tree, GtkTreeIter *iter, gpointer id);
+gboolean keyword_is_hidden_in(GtkTreeModel *keyword_tree, GtkTreeIter *iter, gpointer id);
+void keyword_show_all_in(GtkTreeStore *keyword_tree, gpointer id);
+void keyword_hide_unset_in(GtkTreeStore *keyword_tree, gpointer id, GList *keywords);
+void keyword_show_set_in(GtkTreeStore *keyword_tree, gpointer id, GList *keywords);
 
 void keyword_tree_new_default(void);
 void keyword_tree_new(void);

@@ -771,6 +771,7 @@ void keyword_copy(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from
 	gchar *mark, *name, *casefold;
 	gboolean is_keyword;
 
+	/* do not copy KEYWORD_COLUMN_HIDE_IN, it fully shows the new subtree */
 	gtk_tree_model_get(GTK_TREE_MODEL(keyword_tree), from, KEYWORD_COLUMN_MARK, &mark,
 						KEYWORD_COLUMN_NAME, &name,
 						KEYWORD_COLUMN_CASEFOLD, &casefold,
@@ -805,7 +806,7 @@ void keyword_copy_recursive(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTree
 void keyword_move_recursive(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from)
 {
 	keyword_copy_recursive(keyword_tree, to, from);
-	gtk_tree_store_remove(keyword_tree, from);
+	keyword_delete(keyword_tree, from);
 }
 
 GList *keyword_tree_get_path(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr)
@@ -898,7 +899,7 @@ gboolean keyword_tree_is_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter, GLis
 		{
 		const gchar *kw = work->data;
 		work = work->next;
-		
+
 		casefold_list = g_list_prepend(casefold_list, g_utf8_casefold(kw, -1));
 		}
 	
@@ -1010,7 +1011,114 @@ void keyword_tree_reset(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList
 
 void keyword_delete(GtkTreeStore *keyword_tree, GtkTreeIter *iter_ptr)
 {
+	GList *list;
+	GtkTreeIter child;
+	while (gtk_tree_model_iter_children(GTK_TREE_MODEL(keyword_tree), &child, iter_ptr))
+		{
+		keyword_delete(keyword_tree, &child);
+		}
+	
+	meta_data_connect_mark_with_keyword(GTK_TREE_MODEL(keyword_tree), iter_ptr, -1);
+
+	gtk_tree_model_get(GTK_TREE_MODEL(keyword_tree), iter_ptr, KEYWORD_COLUMN_HIDE_IN, &list, -1);
+	g_list_free(list);
+	
 	gtk_tree_store_remove(keyword_tree, iter_ptr);
+}
+
+
+void keyword_hide_in(GtkTreeStore *keyword_tree, GtkTreeIter *iter, gpointer id)
+{
+	GList *list;
+	gtk_tree_model_get(GTK_TREE_MODEL(keyword_tree), iter, KEYWORD_COLUMN_HIDE_IN, &list, -1);
+	if (!g_list_find(list, id))
+		{
+		list = g_list_prepend(list, id);
+		gtk_tree_store_set(keyword_tree, iter, KEYWORD_COLUMN_HIDE_IN, list, -1);
+		}
+}
+
+void keyword_show_in(GtkTreeStore *keyword_tree, GtkTreeIter *iter, gpointer id)
+{
+	GList *list;
+	gtk_tree_model_get(GTK_TREE_MODEL(keyword_tree), iter, KEYWORD_COLUMN_HIDE_IN, &list, -1);
+	list = g_list_remove(list, id);
+	gtk_tree_store_set(keyword_tree, iter, KEYWORD_COLUMN_HIDE_IN, list, -1);
+}
+
+gboolean keyword_is_hidden_in(GtkTreeModel *keyword_tree, GtkTreeIter *iter, gpointer id)
+{
+	GList *list;
+	gtk_tree_model_get(keyword_tree, iter, KEYWORD_COLUMN_HIDE_IN, &list, -1);
+	return !!g_list_find(list, id);
+}
+
+static gboolean keyword_show_all_in_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	keyword_show_in(GTK_TREE_STORE(model), iter, data);
+	return FALSE;
+}
+
+void keyword_show_all_in(GtkTreeStore *keyword_tree, gpointer id)
+{
+	gtk_tree_model_foreach(GTK_TREE_MODEL(keyword_tree), keyword_show_all_in_cb, id);
+}
+
+static void keyword_hide_unset_in_recursive(GtkTreeStore *keyword_tree, GtkTreeIter *iter_ptr, gpointer id, GList *keywords)
+{
+	GtkTreeIter iter = *iter_ptr;
+	while (TRUE)
+		{
+		if (keyword_get_is_keyword(GTK_TREE_MODEL(keyword_tree), &iter) && 
+		    !keyword_tree_is_set(GTK_TREE_MODEL(keyword_tree), &iter, keywords))
+			{
+			keyword_hide_in(keyword_tree, &iter, id);
+			/* no need to check children of hidden node */
+			}
+		else
+			{
+			GtkTreeIter child;
+			if (gtk_tree_model_iter_children(GTK_TREE_MODEL(keyword_tree), &child, &iter)) 
+				{
+				keyword_hide_unset_in_recursive(keyword_tree, &child, id, keywords);
+				}
+			}
+		if (!gtk_tree_model_iter_next(GTK_TREE_MODEL(keyword_tree), &iter)) return;
+		}
+}
+
+void keyword_hide_unset_in(GtkTreeStore *keyword_tree, gpointer id, GList *keywords)
+{
+	GtkTreeIter iter;
+	gtk_tree_model_get_iter_first(GTK_TREE_MODEL(keyword_tree), &iter);
+	keyword_hide_unset_in_recursive(keyword_tree, &iter, id, keywords);
+}
+
+static gboolean keyword_show_set_in_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter_ptr, gpointer data)
+{
+	GtkTreeIter iter = *iter_ptr;
+	GList *keywords = data;
+	gpointer id = keywords->data;
+	keywords = keywords->next; /* hack */
+	if (keyword_tree_is_set(model, &iter, keywords))
+		{
+		while (TRUE)
+			{
+			GtkTreeIter parent;
+			keyword_show_in(GTK_TREE_STORE(model), &iter, id);
+			if (!gtk_tree_model_iter_parent(GTK_TREE_MODEL(keyword_tree), &parent, &iter)) break;
+			iter = parent;
+			}
+		}
+	return FALSE;
+}
+
+void keyword_show_set_in(GtkTreeStore *keyword_tree, gpointer id, GList *keywords)
+{
+	/* hack: pass id to keyword_hide_unset_in_cb in the list */
+	keywords = g_list_prepend(keywords, id);
+	gtk_tree_model_foreach(GTK_TREE_MODEL(keyword_tree), keyword_show_set_in_cb, keywords);
+	keywords = g_list_delete_link(keywords, keywords);
 }
 
 
@@ -1018,7 +1126,7 @@ void keyword_tree_new(void)
 {
 	if (keyword_tree) return;
 	
-	keyword_tree = gtk_tree_store_new(KEYWORD_COLUMN_COUNT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN);
+	keyword_tree = gtk_tree_store_new(KEYWORD_COLUMN_COUNT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_POINTER);
 }
 
 
