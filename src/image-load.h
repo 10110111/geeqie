@@ -31,13 +31,13 @@ struct _ImageLoader
 	gsize bytes_read;
 	gsize bytes_total;
 
-	gint preview;
+	gboolean preview;
 
 	gint requested_width;
 	gint requested_height;
-	gint shrunk;
+	gboolean shrunk;
 
-	gint done;
+	gboolean done;
 	gint idle_id;
 	gint idle_priority;
 
@@ -47,11 +47,11 @@ struct _ImageLoader
 	GList *area_param_list;
 	GList *area_param_delayed_list;
 	
-	gint delay_area_ready;
+	gboolean delay_area_ready;
 	
 	GMutex *data_mutex;
-	gint stopping;
-	gint can_destroy;
+	gboolean stopping;
+	gboolean can_destroy;
 	GCond *can_destroy_cond;
 	gboolean thread;
 
@@ -77,7 +77,7 @@ ImageLoader *image_loader_new(FileData *fd);
 void image_loader_free(ImageLoader *il);
 
 /* delay area_ready signals */
-void image_loader_delay_area_ready(ImageLoader *il, gint enable);
+void image_loader_delay_area_ready(ImageLoader *il, gboolean enable);
 
 /* Speed up loading when you only need at most width x height size image,
  * only the jpeg GdkPixbuf loader benefits from it - so there is no
@@ -92,17 +92,17 @@ void image_loader_set_buffer_size(ImageLoader *il, guint size);
  */
 void image_loader_set_priority(ImageLoader *il, gint priority);
 
-gint image_loader_start(ImageLoader *il);
+gboolean image_loader_start(ImageLoader *il);
 
 
 GdkPixbuf *image_loader_get_pixbuf(ImageLoader *il);
 gchar *image_loader_get_format(ImageLoader *il);
 gdouble image_loader_get_percent(ImageLoader *il);
-gint image_loader_get_is_done(ImageLoader *il);
+gboolean image_loader_get_is_done(ImageLoader *il);
 FileData *image_loader_get_fd(ImageLoader *il);
-gint image_loader_get_shrunk(ImageLoader *il);
+gboolean image_loader_get_shrunk(ImageLoader *il);
 
-gint image_load_dimensions(FileData *fd, gint *width, gint *height);
+gboolean image_load_dimensions(FileData *fd, gint *width, gint *height);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

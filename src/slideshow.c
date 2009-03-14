@@ -434,21 +434,21 @@ SlideShowData *slideshow_start(ImageWindow *imd, LayoutWindow *lw, gint start_po
 	return real_slideshow_start(imd, lw, NULL, start_point, NULL, NULL, stop_func, stop_data);
 }
 
-gint slideshow_paused(SlideShowData *ss)
+gboolean slideshow_paused(SlideShowData *ss)
 {
 	if (!ss) return FALSE;
 
 	return ss->paused;
 }
 
-void slideshow_pause_set(SlideShowData *ss, gint paused)
+void slideshow_pause_set(SlideShowData *ss, gboolean paused)
 {
 	if (!ss) return;
 
 	ss->paused = paused;
 }
 
-gint slideshow_pause_toggle(SlideShowData *ss)
+gboolean slideshow_pause_toggle(SlideShowData *ss)
 {
 	slideshow_pause_set(ss, !slideshow_paused(ss));
 	return slideshow_paused(ss);

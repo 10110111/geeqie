@@ -65,15 +65,15 @@ void layout_image_to_root(LayoutWindow *lw);
 void layout_image_full_screen_start(LayoutWindow *lw);
 void layout_image_full_screen_stop(LayoutWindow *lw);
 void layout_image_full_screen_toggle(LayoutWindow *lw);
-gint layout_image_full_screen_active(LayoutWindow *lw);
+gboolean layout_image_full_screen_active(LayoutWindow *lw);
 
 void layout_image_slideshow_start(LayoutWindow *lw);
 void layout_image_slideshow_start_from_list(LayoutWindow *lw, GList *list);
 void layout_image_slideshow_stop(LayoutWindow *lw);
 void layout_image_slideshow_toggle(LayoutWindow *lw);
-gint layout_image_slideshow_active(LayoutWindow *lw);
-gint layout_image_slideshow_pause_toggle(LayoutWindow *lw);
-gint layout_image_slideshow_paused(LayoutWindow *lw);
+gboolean layout_image_slideshow_active(LayoutWindow *lw);
+gboolean layout_image_slideshow_pause_toggle(LayoutWindow *lw);
+gboolean layout_image_slideshow_paused(LayoutWindow *lw);
 
 
 void layout_image_overlay_toggle(LayoutWindow *lw);

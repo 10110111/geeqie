@@ -798,7 +798,7 @@ struct _SlideShowData
 	void (*stop_func)(SlideShowData *, gpointer);
 	gpointer stop_data;
 
-	gint paused;
+	gboolean paused;
 };
 
 struct _FullScreenData

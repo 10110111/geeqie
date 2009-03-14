@@ -59,7 +59,7 @@ static GList *view_window_list = NULL;
 
 
 static GtkWidget *view_popup_menu(ViewWindow *vw);
-static void view_fullscreen_toggle(ViewWindow *vw, gint force_off);
+static void view_fullscreen_toggle(ViewWindow *vw, gboolean force_off);
 static void view_overlay_toggle(ViewWindow *vw);
 
 static void view_slideshow_next(ViewWindow *vw);
@@ -96,7 +96,7 @@ static void view_window_set_list(ViewWindow *vw, GList *list)
 	vw->list = filelist_copy(list);
 }
 
-static gint view_window_contains_collection(ViewWindow *vw)
+static gboolean view_window_contains_collection(ViewWindow *vw)
 {
 	CollectionData *cd;
 	CollectInfo *info;
@@ -106,7 +106,7 @@ static gint view_window_contains_collection(ViewWindow *vw)
 	return (cd && info);
 }
 
-static void view_collection_step(ViewWindow *vw, gint next)
+static void view_collection_step(ViewWindow *vw, gboolean next)
 {
 	ImageWindow *imd = view_window_active_image(vw);
 	CollectionData *cd;
@@ -145,7 +145,7 @@ static void view_collection_step(ViewWindow *vw, gint next)
 
 }
 
-static void view_collection_step_to_end(ViewWindow *vw, gint last)
+static void view_collection_step_to_end(ViewWindow *vw, gboolean last)
 {
 	ImageWindow *imd = view_window_active_image(vw);
 	CollectionData *cd;
@@ -174,7 +174,7 @@ static void view_collection_step_to_end(ViewWindow *vw, gint last)
 		}
 }
 
-static void view_list_step(ViewWindow *vw, gint next)
+static void view_list_step(ViewWindow *vw, gboolean next)
 {
 	ImageWindow *imd = view_window_active_image(vw);
 	FileData *fd;
@@ -192,7 +192,7 @@ static void view_list_step(ViewWindow *vw, gint next)
 		}
 	else
 		{
-		gint found = FALSE;
+		gboolean found = FALSE;
 
 		work = vw->list;
 		while (work && !found)
@@ -238,7 +238,7 @@ static void view_list_step(ViewWindow *vw, gint next)
 		}
 }
 
-static void view_list_step_to_end(ViewWindow *vw, gint last)
+static void view_list_step_to_end(ViewWindow *vw, gboolean last)
 {
 	ImageWindow *imd = view_window_active_image(vw);
 	FileData *fd;
@@ -301,7 +301,7 @@ static void view_step_prev(ViewWindow *vw)
 		}
 }
 
-static void view_step_to_end(ViewWindow *vw, gint last)
+static void view_step_to_end(ViewWindow *vw, gboolean last)
 {
 	if (vw->list)
 		{
@@ -329,7 +329,7 @@ static void view_window_menu_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolean *p
 	popup_menu_position_clamp(menu, x, y, 0);
 }
 
-static gint view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	ViewWindow *vw = data;
 	ImageWindow *imd;
@@ -690,7 +690,7 @@ static void view_fullscreen_stop_func(FullScreenData *fs, gpointer data)
 	if (vw->ss) vw->ss->imd = vw->imd;
 }
 
-static void view_fullscreen_toggle(ViewWindow *vw, gint force_off)
+static void view_fullscreen_toggle(ViewWindow *vw, gboolean force_off)
 {
 	if (force_off && !vw->fs) return;
 
@@ -818,7 +818,7 @@ static void view_window_close(ViewWindow *vw)
 	gtk_widget_destroy(vw->window);
 }
 
-static gint view_window_delete_cb(GtkWidget *w, GdkEventAny *event, gpointer data)
+static gboolean view_window_delete_cb(GtkWidget *w, GdkEventAny *event, gpointer data)
 {
 	ViewWindow *vw = data;
 
@@ -1007,7 +1007,7 @@ void view_window_colors_update(void)
 		}
 }
 
-gint view_window_find_image(ImageWindow *imd, gint *index, gint *total)
+gboolean view_window_find_image(ImageWindow *imd, gint *index, gint *total)
 {
 	GList *work;
 
@@ -1354,7 +1354,7 @@ static void view_dir_list_cancel(GtkWidget *widget, gpointer data)
 	/* do nothing */
 }
 
-static void view_dir_list_do(ViewWindow *vw, GList *list, gint skip, gint recurse)
+static void view_dir_list_do(ViewWindow *vw, GList *list, gboolean skip, gboolean recurse)
 {
 	GList *work;
 
@@ -1561,7 +1561,7 @@ static void view_window_set_dnd_data(GtkWidget *widget, GdkDragContext *context,
 		{
 		gchar *text = NULL;
 		gint len;
-		gint plain_text;
+		gboolean plain_text;
 		GList *list;
 
 		switch (info)

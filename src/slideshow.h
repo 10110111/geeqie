@@ -39,9 +39,9 @@ SlideShowData *slideshow_start_from_collection(ImageWindow *imd, CollectionData 
 SlideShowData *slideshow_start(ImageWindow *imd, LayoutWindow *lw, gint start_point,
 			       void (*stop_func)(SlideShowData *, gpointer), gpointer stop_data);
 
-gint slideshow_paused(SlideShowData *ss);
-void slideshow_pause_set(SlideShowData *ss, gint paused);
-gint slideshow_pause_toggle(SlideShowData *ss);
+gboolean slideshow_paused(SlideShowData *ss);
+void slideshow_pause_set(SlideShowData *ss, gboolean paused);
+gboolean slideshow_pause_toggle(SlideShowData *ss);
 
 
 #endif

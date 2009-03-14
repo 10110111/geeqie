@@ -726,7 +726,7 @@ void layout_status_update_all(LayoutWindow *lw)
 	layout_status_update_write(lw);
 }
 
-static GtkWidget *layout_status_label(gchar *text, GtkWidget *box, gint start, gint size, gint expand)
+static GtkWidget *layout_status_label(gchar *text, GtkWidget *box, gboolean start, gint size, gboolean expand)
 {
 	GtkWidget *label;
 	GtkWidget *frame;
@@ -751,7 +751,7 @@ static GtkWidget *layout_status_label(gchar *text, GtkWidget *box, gint start, g
 	return label;
 }
 
-static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gint small_format)
+static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gboolean small_format)
 {
 	GtkWidget *hbox;
 
@@ -1374,7 +1374,7 @@ static void layout_tools_hide(LayoutWindow *lw, gboolean hide)
 	lw->options.tools_hidden = hide;
 }
 
-static gint layout_tools_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer data)
+static gboolean layout_tools_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer data)
 {
 	LayoutWindow *lw = data;
 
@@ -1387,7 +1387,7 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 {
 	GtkWidget *vbox;
 	GtkWidget *w1, *w2;
-	gint vertical;
+	gboolean vertical;
 	gboolean new_window = FALSE;
 
 	vertical = (layout_location_single(lw->image_location) && !layout_location_vertical(lw->image_location)) ||
@@ -2001,7 +2001,7 @@ void layout_free(LayoutWindow *lw)
 	g_free(lw);
 }
 
-static gint layout_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer data)
+static gboolean layout_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer data)
 {
 	LayoutWindow *lw = data;
 

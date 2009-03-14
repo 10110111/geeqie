@@ -132,7 +132,7 @@ void layout_image_full_screen_toggle(LayoutWindow *lw)
 		}
 }
 
-gint layout_image_full_screen_active(LayoutWindow *lw)
+gboolean layout_image_full_screen_active(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
@@ -229,16 +229,16 @@ void layout_image_slideshow_toggle(LayoutWindow *lw)
 		}
 }
 
-gint layout_image_slideshow_active(LayoutWindow *lw)
+gboolean layout_image_slideshow_active(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
 	return (lw->slideshow != NULL);
 }
 
-gint layout_image_slideshow_pause_toggle(LayoutWindow *lw)
+gboolean layout_image_slideshow_pause_toggle(LayoutWindow *lw)
 {
-	gint ret;
+	gboolean ret;
 
 	if (!layout_valid(&lw)) return FALSE;
 
@@ -249,14 +249,14 @@ gint layout_image_slideshow_pause_toggle(LayoutWindow *lw)
 	return ret;
 }
 
-gint layout_image_slideshow_paused(LayoutWindow *lw)
+gboolean layout_image_slideshow_paused(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
 	return (slideshow_paused(lw->slideshow));
 }
 
-static gint layout_image_slideshow_continue_check(LayoutWindow *lw)
+static gboolean layout_image_slideshow_continue_check(LayoutWindow *lw)
 {
 	if (!lw->slideshow) return FALSE;
 
@@ -444,10 +444,10 @@ static void li_set_layout_path_cb(GtkWidget *widget, gpointer data)
 	if (fd) layout_set_fd(lw, fd);
 }
 
-static gint li_check_if_current_path(LayoutWindow *lw, const gchar *path)
+static gboolean li_check_if_current_path(LayoutWindow *lw, const gchar *path)
 {
 	gchar *dirname;
-	gint ret;
+	gboolean ret;
 
 	if (!path || !layout_valid(&lw) || !lw->dir_fd) return FALSE;
 
@@ -482,7 +482,7 @@ static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 	GtkWidget *item;
 	GtkWidget *submenu;
 	const gchar *path;
-	gint fullscreen;
+	gboolean fullscreen;
 
 	path = layout_image_get_path(lw);
 	fullscreen = layout_image_full_screen_active(lw);
@@ -700,7 +700,7 @@ static void layout_image_dnd_get(GtkWidget *widget, GdkDragContext *context,
 		{
 		gchar *text = NULL;
 		gint len;
-		gint plain_text;
+		gboolean plain_text;
 		GList *list;
 
 		switch (info)
@@ -1023,7 +1023,7 @@ void layout_image_set_index(LayoutWindow *lw, gint index)
 	layout_image_set_with_ahead(lw, fd, read_ahead_fd);
 }
 
-static void layout_image_set_collection_real(LayoutWindow *lw, CollectionData *cd, CollectInfo *info, gint forward)
+static void layout_image_set_collection_real(LayoutWindow *lw, CollectionData *cd, CollectInfo *info, gboolean forward)
 {
 	if (!layout_valid(&lw)) return;
 
@@ -1508,14 +1508,14 @@ static void layout_image_set_buttons_inactive(LayoutWindow *lw, gint i)
 /* Returns the length of an integer */
 static gint num_length(gint num)
 {
-    gint len = 0;
-    if (num < 0) num = -num;
-    while (num)
-    	{
-        num /= 10;
-        len++;
-    	}
-    return len;
+	gint len = 0;
+	if (num < 0) num = -num;
+	while (num)
+		{
+		num /= 10;
+		len++;
+		}
+	return len;
 }
 
 void layout_status_update_pixel_cb(PixbufRenderer *pr, gpointer data)
@@ -1611,7 +1611,6 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 
 void layout_image_deactivate(LayoutWindow *lw, gint i)
 {
-
 	if (!lw->split_images[i]) return;
 	image_set_update_func(lw->split_images[i], NULL, NULL);
 	layout_image_set_buttons_inactive(lw, i);

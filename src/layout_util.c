@@ -78,10 +78,10 @@ static gboolean layout_key_match(guint keyval)
 	return FALSE;
 }
 
-gint layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	LayoutWindow *lw = data;
-	gint stop_signal = FALSE;
+	gboolean stop_signal = FALSE;
 	gint x = 0;
 	gint y = 0;
 
@@ -1486,7 +1486,8 @@ static gchar *menu_translate(const gchar *path, gpointer data)
 	return (gchar *)(_(path));
 }
 
-static void layout_actions_setup_mark(LayoutWindow *lw, gint mark, gchar *name_tmpl, gchar *label_tmpl, gchar *accel_tmpl,  GCallback cb)
+static void layout_actions_setup_mark(LayoutWindow *lw, gint mark, gchar *name_tmpl,
+				      gchar *label_tmpl, gchar *accel_tmpl, GCallback cb)
 {
 	gchar name[50];
 	gchar label[100];
@@ -2140,14 +2141,13 @@ static void layout_exif_window_destroy(GtkWidget *widget, gpointer data)
 
 void layout_exif_window_new(LayoutWindow *lw)
 {
-	if (!lw->exif_window) 
-		{
-		lw->exif_window = advanced_exif_new();
-		if (!lw->exif_window) return;
-		g_signal_connect(G_OBJECT(lw->exif_window), "destroy",
-				 G_CALLBACK(layout_exif_window_destroy), lw);
-		advanced_exif_set_fd(lw->exif_window, layout_image_get_fd(lw));
-		}
+	if (lw->exif_window) return; 
+	
+	lw->exif_window = advanced_exif_new();
+	if (!lw->exif_window) return;
+	g_signal_connect(G_OBJECT(lw->exif_window), "destroy",
+			 G_CALLBACK(layout_exif_window_destroy), lw);
+	advanced_exif_set_fd(lw->exif_window, layout_image_get_fd(lw));
 }
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

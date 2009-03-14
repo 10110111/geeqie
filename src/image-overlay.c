@@ -58,7 +58,7 @@ struct _OverlayStateData {
 
 typedef struct _OSDIcon OSDIcon;
 struct _OSDIcon {
-	gint reset;	/* reset on new image */
+	gboolean reset;	/* reset on new image */
 	gint x;		/* x, y offset */
 	gint y;
 	gchar *key;	/* inline pixbuf */
@@ -818,7 +818,7 @@ static void image_osd_info_hide(OverlayStateData *osd)
 	osd->ovl_info = 0;
 }
 
-static gint image_osd_update_cb(gpointer data)
+static gboolean image_osd_update_cb(gpointer data)
 {
 	OverlayStateData *osd = data;
 
@@ -888,7 +888,7 @@ static gint image_osd_update_cb(gpointer data)
 	return FALSE;
 }
 
-static void image_osd_update_schedule(OverlayStateData *osd, gint force)
+static void image_osd_update_schedule(OverlayStateData *osd, gboolean force)
 {
 	if (force) osd->changed_states |= IMAGE_STATE_IMAGE;
 
@@ -907,11 +907,11 @@ void image_osd_update(ImageWindow *imd)
 	image_osd_update_schedule(osd, TRUE);
 }
 
-static gint image_osd_timer_cb(gpointer data)
+static gboolean image_osd_timer_cb(gpointer data)
 {
 	OverlayStateData *osd = data;
-	gint done = TRUE;
-	gint changed = FALSE;
+	gboolean done = TRUE;
+	gboolean changed = FALSE;
 	gint i;
 
 	for (i = 0; i < IMAGE_OSD_COUNT; i++)
