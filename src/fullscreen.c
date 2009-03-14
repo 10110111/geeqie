@@ -70,7 +70,7 @@ static void clear_mouse_cursor(GtkWidget *widget, gint state)
 		}
 }
 
-static gint fullscreen_hide_mouse_cb(gpointer data)
+static gboolean fullscreen_hide_mouse_cb(gpointer data)
 {
 	FullScreenData *fs = data;
 
@@ -98,7 +98,7 @@ static void fullscreen_hide_mouse_reset(FullScreenData *fs)
 	fs->hide_mouse_id = g_timeout_add(FULL_SCREEN_HIDE_MOUSE_DELAY, fullscreen_hide_mouse_cb, fs);
 }
 
-static gint fullscreen_mouse_moved(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+static gboolean fullscreen_mouse_moved(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	FullScreenData *fs = data;
 
@@ -121,11 +121,11 @@ static void fullscreen_busy_mouse_disable(FullScreenData *fs)
 		}
 }
 
-static void fullscreen_mouse_set_busy(FullScreenData *fs, gint busy)
+static void fullscreen_mouse_set_busy(FullScreenData *fs, gboolean busy)
 {
 	fullscreen_busy_mouse_disable(fs);
 
-	if ((fs->cursor_state & FULLSCREEN_CURSOR_BUSY) == (busy)) return;
+	if (!!(fs->cursor_state & FULLSCREEN_CURSOR_BUSY) == (busy)) return;
 
 	if (busy)
 		{
@@ -168,7 +168,7 @@ static void fullscreen_image_update_cb(ImageWindow *imd, gpointer data)
 		}
 }
 
-static void fullscreen_image_complete_cb(ImageWindow *imd, gint preload, gpointer data)
+static void fullscreen_image_complete_cb(ImageWindow *imd, gboolean preload, gpointer data)
 {
 	FullScreenData *fs = data;
 
@@ -205,7 +205,7 @@ static gboolean fullscreen_saver_block_cb(gpointer data)
 	return TRUE;
 }
 
-static gint fullscreen_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer data)
+static gboolean fullscreen_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer data)
 {
 	FullScreenData *fs = data;
 
@@ -218,7 +218,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 {
 	FullScreenData *fs;
 	GdkScreen *screen;
-	gint same;
+	gboolean same;
 	gint x, y;
 	gint w, h;
 	GdkGeometry geometry;
@@ -467,7 +467,7 @@ ScreenData *fullscreen_prefs_list_find(GList *list, gint screen)
  * same_region: the returned region will overlap the current location of widget.
  */
 void fullscreen_prefs_get_geometry(gint screen, GtkWidget *widget, gint *x, gint *y, gint *width, gint *height,
-				   GdkScreen **dest_screen, gint *same_region)
+				   GdkScreen **dest_screen, gboolean *same_region)
 {
 	GList *list;
 	ScreenData *sd;
@@ -610,7 +610,7 @@ static void fullscreen_prefs_selection_add(GtkListStore *store, const gchar *tex
 					 FS_MENU_COLUMN_VALUE, value, -1);
 }
 
-GtkWidget *fullscreen_prefs_selection_new(const gchar *text, gint *screen_value, gint *above_value)
+GtkWidget *fullscreen_prefs_selection_new(const gchar *text, gint *screen_value, gboolean *above_value)
 {
 	GtkWidget *vbox;
 	GtkWidget *hbox;

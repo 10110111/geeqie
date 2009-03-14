@@ -101,7 +101,7 @@ static void image_zoom_cb(PixbufRenderer *pr, gdouble zoom, gpointer data)
 	image_update_util(imd);
 }
 
-static void image_complete_util(ImageWindow *imd, gint preload)
+static void image_complete_util(ImageWindow *imd, gboolean preload)
 {
 	if (imd->il && image_get_pixbuf(imd) != image_loader_get_pixbuf(imd->il)) return;
 
@@ -189,7 +189,7 @@ static void image_update_title(ImageWindow *imd)
  *-------------------------------------------------------------------
  */
 
-static gint image_post_process_color(ImageWindow *imd, gint start_row, gint run_in_bg)
+static gboolean image_post_process_color(ImageWindow *imd, gint start_row, gboolean run_in_bg)
 {
 	ColorMan *cm;
 	ColorManProfileType input_type;
@@ -629,7 +629,7 @@ static void image_load_set_signals(ImageWindow *imd, gboolean override_old_signa
 
 /* this read ahead is located here merely for the callbacks, above */
 
-static gint image_read_ahead_check(ImageWindow *imd)
+static gboolean image_read_ahead_check(ImageWindow *imd)
 {
 	if (!imd->read_ahead_fd) return FALSE;
 	if (imd->il) return FALSE;
@@ -676,7 +676,7 @@ static gint image_read_ahead_check(ImageWindow *imd)
 	return FALSE;
 }
 
-static gint image_load_begin(ImageWindow *imd, FileData *fd)
+static gboolean image_load_begin(ImageWindow *imd, FileData *fd)
 {
 	DEBUG_1("%s image begin", get_exec_time());
 
@@ -762,7 +762,7 @@ static void image_reset(ImageWindow *imd)
  *-------------------------------------------------------------------
  */
 
-static void image_change_complete(ImageWindow *imd, gdouble zoom, gint new)
+static void image_change_complete(ImageWindow *imd, gdouble zoom)
 {
 	image_reset(imd);
 	imd->unknown = TRUE;
@@ -814,7 +814,7 @@ static void image_change_real(ImageWindow *imd, FileData *fd,
 	imd->image_fd = file_data_ref(fd);
 
 
-	image_change_complete(imd, zoom, TRUE);
+	image_change_complete(imd, zoom);
 
 	image_update_title(imd);
 	image_state_set(imd, IMAGE_STATE_IMAGE);
@@ -829,7 +829,7 @@ static void image_change_real(ImageWindow *imd, FileData *fd,
  *-------------------------------------------------------------------
  */
 
-static void image_focus_paint(ImageWindow *imd, gint has_focus, GdkRectangle *area)
+static void image_focus_paint(ImageWindow *imd, gboolean has_focus, GdkRectangle *area)
 {
 	GtkWidget *widget;
 
@@ -852,7 +852,7 @@ static void image_focus_paint(ImageWindow *imd, gint has_focus, GdkRectangle *ar
 		}
 }
 
-static gint image_focus_expose(GtkWidget *widget, GdkEventExpose *event, gpointer data)
+static gboolean image_focus_expose(GtkWidget *widget, GdkEventExpose *event, gpointer data)
 {
 	ImageWindow *imd = data;
 
@@ -860,7 +860,7 @@ static gint image_focus_expose(GtkWidget *widget, GdkEventExpose *event, gpointe
 	return TRUE;
 }
 
-static gint image_focus_in_cb(GtkWidget *widget, GdkEventFocus *event, gpointer data)
+static gboolean image_focus_in_cb(GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
 	ImageWindow *imd = data;
 
@@ -870,7 +870,7 @@ static gint image_focus_in_cb(GtkWidget *widget, GdkEventFocus *event, gpointer 
 	return TRUE;
 }
 
-static gint image_focus_out_cb(GtkWidget *widget, GdkEventFocus *event, gpointer data)
+static gboolean image_focus_out_cb(GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
 	ImageWindow *imd = data;
 
@@ -880,7 +880,7 @@ static gint image_focus_out_cb(GtkWidget *widget, GdkEventFocus *event, gpointer
 	return TRUE;
 }
 
-static gint image_scroll_cb(GtkWidget *widget, GdkEventScroll *event, gpointer data)
+static gboolean image_scroll_cb(GtkWidget *widget, GdkEventScroll *event, gpointer data)
 {
 	ImageWindow *imd = data;
 
@@ -901,7 +901,7 @@ static gint image_scroll_cb(GtkWidget *widget, GdkEventScroll *event, gpointer d
  */
 
 void image_attach_window(ImageWindow *imd, GtkWidget *window,
-			 const gchar *title, const gchar *title_right, gint show_zoom)
+			 const gchar *title, const gchar *title_right, gboolean show_zoom)
 {
 	imd->top_window = window;
 	g_free(imd->title);
@@ -926,7 +926,7 @@ void image_set_update_func(ImageWindow *imd,
 }
 
 void image_set_complete_func(ImageWindow *imd,
-			     void (*func)(ImageWindow *imd, gint preload, gpointer data),
+			     void (*func)(ImageWindow *imd, gboolean preload, gpointer data),
 			     gpointer data)
 {
 	imd->func_complete = func;
@@ -1018,7 +1018,7 @@ void image_change_fd(ImageWindow *imd, FileData *fd, gdouble zoom)
 	image_change_real(imd, fd, NULL, NULL, zoom);
 }
 
-gint image_get_image_size(ImageWindow *imd, gint *width, gint *height)
+gboolean image_get_image_size(ImageWindow *imd, gint *width, gint *height)
 {
 	return pixbuf_renderer_get_image_size(PIXBUF_RENDERER(imd->pr), width, height);
 }
@@ -1028,7 +1028,7 @@ GdkPixbuf *image_get_pixbuf(ImageWindow *imd)
 	return pixbuf_renderer_get_pixbuf((PixbufRenderer *)imd->pr);
 }
 
-void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gint lazy)
+void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboolean lazy)
 {
 
 
@@ -1209,7 +1209,7 @@ void image_reload(ImageWindow *imd)
 {
 	if (pixbuf_renderer_get_tiles((PixbufRenderer *)imd->pr)) return;
 
-	image_change_complete(imd, image_zoom_get(imd), FALSE);
+	image_change_complete(imd, image_zoom_get(imd));
 }
 
 void image_scroll(ImageWindow *imd, gint x, gint y)
@@ -1396,7 +1396,7 @@ void image_auto_refresh_enable(ImageWindow *imd, gboolean enable)
 	imd->auto_refresh = enable;
 }
 
-void image_top_window_set_sync(ImageWindow *imd, gint allow_sync)
+void image_top_window_set_sync(ImageWindow *imd, gboolean allow_sync)
 {
 	imd->top_window_sync = allow_sync;
 
@@ -1410,7 +1410,7 @@ void image_background_set_color(ImageWindow *imd, GdkColor *color)
 
 void image_color_profile_set(ImageWindow *imd,
 			     gint input_type, gint screen_type,
-			     gint use_image)
+			     gboolean use_image)
 {
 	if (!imd) return;
 
@@ -1425,9 +1425,9 @@ void image_color_profile_set(ImageWindow *imd,
 	imd->color_profile_use_image = use_image;
 }
 
-gint image_color_profile_get(ImageWindow *imd,
-			     gint *input_type, gint *screen_type,
-			     gint *use_image)
+gboolean image_color_profile_get(ImageWindow *imd,
+			 	 gint *input_type, gint *screen_type,
+			     	 gboolean *use_image)
 {
 	if (!imd) return FALSE;
 
@@ -1438,7 +1438,7 @@ gint image_color_profile_get(ImageWindow *imd,
 	return TRUE;
 }
 
-void image_color_profile_set_use(ImageWindow *imd, gint enable)
+void image_color_profile_set_use(ImageWindow *imd, gboolean enable)
 {
 	if (!imd) return;
 
@@ -1447,7 +1447,7 @@ void image_color_profile_set_use(ImageWindow *imd, gint enable)
 	imd->color_profile_enable = enable;
 }
 
-gint image_color_profile_get_use(ImageWindow *imd)
+gboolean image_color_profile_get_use(ImageWindow *imd)
 {
 	if (!imd) return FALSE;
 
@@ -1456,12 +1456,12 @@ gint image_color_profile_get_use(ImageWindow *imd)
 
 gint image_color_profile_get_from_image(ImageWindow *imd)
 {
-	if (!imd) return FALSE;
+	if (!imd) return COLOR_PROFILE_NONE;
 
 	return imd->color_profile_from_image;
 }
 
-void image_set_delay_flip(ImageWindow *imd, gint delay)
+void image_set_delay_flip(ImageWindow *imd, gboolean delay)
 {
 	if (!imd ||
 	    imd->delay_flip == delay) return;
@@ -1482,7 +1482,7 @@ void image_set_delay_flip(ImageWindow *imd, gint delay)
 		}
 }
 
-void image_to_root_window(ImageWindow *imd, gint scaled)
+void image_to_root_window(ImageWindow *imd, gboolean scaled)
 {
 	GdkScreen *screen;
 	GdkWindow *rootwindow;
@@ -1705,7 +1705,7 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 	imd->has_frame = frame;
 }
 
-ImageWindow *image_new(gint frame)
+ImageWindow *image_new(gboolean frame)
 {
 	ImageWindow *imd;
 

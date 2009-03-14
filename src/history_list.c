@@ -62,7 +62,7 @@ static gchar *quoted_from_text(const gchar *text)
 	return NULL;
 }
 
-gint history_list_load(const gchar *path)
+gboolean history_list_load(const gchar *path)
 {
 	FILE *f;
 	gchar *key = NULL;
@@ -117,7 +117,7 @@ gint history_list_load(const gchar *path)
 	return TRUE;
 }
 
-gint history_list_save(const gchar *path)
+gboolean history_list_save(const gchar *path)
 {
 	SecureSaveInfo *ssi;
 	GList *list;

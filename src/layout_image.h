@@ -30,12 +30,12 @@ void layout_image_refresh(LayoutWindow *lw);
 
 void layout_image_color_profile_set(LayoutWindow *lw,
 				    gint input_type, gint screen_type,
-				    gint use_image);
-gint layout_image_color_profile_get(LayoutWindow *lw,
+				    gboolean use_image);
+gboolean layout_image_color_profile_get(LayoutWindow *lw,
 				    gint *input_type, gint *screen_type,
-				    gint *use_image);
+				    gboolean *use_image);
 void layout_image_color_profile_set_use(LayoutWindow *lw, gint enable);
-gint layout_image_color_profile_get_use(LayoutWindow *lw);
+gboolean layout_image_color_profile_get_use(LayoutWindow *lw);
 gint layout_image_color_profile_get_from_image(LayoutWindow *lw);
 
 

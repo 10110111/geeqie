@@ -16,11 +16,11 @@
 
 
 void image_set_frame(ImageWindow *imd, gboolean frame);
-ImageWindow *image_new(gint frame);
+ImageWindow *image_new(gboolean frame);
 
 /* additional setup */
 void image_attach_window(ImageWindow *imd, GtkWidget *window,
-			 const gchar *title, const gchar *title_right, gint show_zoom);
+			 const gchar *title, const gchar *title_right, gboolean show_zoom);
 void image_set_update_func(ImageWindow *imd,
 			   void (*func)(ImageWindow *imd, gpointer data),
 			   gpointer data);
@@ -56,12 +56,12 @@ void image_set_fd(ImageWindow *imd, FileData *fd);
 
 /* load a new image */
 void image_change_fd(ImageWindow *imd, FileData *fd, gdouble zoom);
-void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gint lazy);
+void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboolean lazy);
 void image_change_from_collection(ImageWindow *imd, CollectionData *cd, CollectInfo *info, gdouble zoom);
 CollectionData *image_get_collection(ImageWindow *imd, CollectInfo **info);
 void image_change_from_image(ImageWindow *imd, ImageWindow *source);
 
-gint image_get_image_size(ImageWindow *imd, gint *width, gint *height);
+gboolean image_get_image_size(ImageWindow *imd, gint *width, gint *height);
 GdkPixbuf *image_get_pixbuf(ImageWindow *imd);
 
 /* manipulation */
@@ -92,7 +92,7 @@ void image_prebuffer_set(ImageWindow *imd, FileData *fd);
 void image_auto_refresh_enable(ImageWindow *imd, gboolean enable);
 
 /* allow top window to be resized ? */
-void image_top_window_set_sync(ImageWindow *imd, gint allow_sync);
+void image_top_window_set_sync(ImageWindow *imd, gboolean allow_sync);
 
 /* background of image */
 void image_background_set_color(ImageWindow *imd, GdkColor *color);
@@ -100,19 +100,19 @@ void image_background_set_color(ImageWindow *imd, GdkColor *color);
 /* color profiles */
 void image_color_profile_set(ImageWindow *imd,
 			     gint input_type, gint screen_type,
-			     gint use_embedded);
-gint image_color_profile_get(ImageWindow *imd,
+			     gboolean use_image);
+gboolean image_color_profile_get(ImageWindow *imd,
 			     gint *input_type, gint *screen_type,
-			     gint *use_image);
-void image_color_profile_set_use(ImageWindow *imd, gint enable);
-gint image_color_profile_get_use(ImageWindow *imd);
+			     gboolean *use_image);
+void image_color_profile_set_use(ImageWindow *imd, gboolean enable);
+gboolean image_color_profile_get_use(ImageWindow *imd);
 gint image_color_profile_get_from_image(ImageWindow *imd);
 
 /* set delayed page flipping */
 void image_set_delay_flip(ImageWindow *imd, gint delay);
 
 /* wallpaper util */
-void image_to_root_window(ImageWindow *imd, gint scaled);
+void image_to_root_window(ImageWindow *imd, gboolean scaled);
 
 
 

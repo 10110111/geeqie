@@ -348,7 +348,8 @@ static void layout_color_menu_enable_cb(GtkWidget *widget, gpointer data)
 static void layout_color_menu_use_image_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
-	gint input, screen, use_image;
+	gint input, screen;
+	gboolean use_image;
 
 	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
 	layout_image_color_profile_set(lw, input, screen, !use_image);
@@ -361,7 +362,8 @@ static void layout_color_menu_input_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 	gint type;
-	gint input, screen, use_image;
+	gint input, screen;
+	gboolean use_image;
 
 	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) return;
 
@@ -379,7 +381,8 @@ static void layout_color_menu_screen_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 	gint type;
-	gint input, screen, use_image;
+	gint input, screen;
+	gboolean use_image;
 
 	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) return;
 
@@ -418,8 +421,8 @@ static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
 	gboolean active;
 	gint input = 0;
 	gint screen = 0;
-	gint use_image = 0;
-	gboolean from_image = FALSE;
+	gboolean use_image = FALSE;
+	gboolean from_image;
 	gint image_profile;
 	gint i;
 	

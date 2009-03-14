@@ -213,7 +213,7 @@ static void histogram_hgrid(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gin
 		}
 }
 
-gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
+gboolean histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
 {
 	/* FIXME: use the coordinates correctly */
 	gint i;
@@ -222,7 +222,7 @@ gint histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pix
 	gint combine = (HISTMAP_SIZE - 1) / width + 1;
 	gint ypos = y + height;
 	
-	if (!histogram || !histmap) return 0;
+	if (!histogram || !histmap) return FALSE;
 	
 	/* Draw the grid */
 	histogram_vgrid(histogram, pixbuf, x, y, width, height);

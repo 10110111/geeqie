@@ -4212,7 +4212,7 @@ gint pixbuf_renderer_get_mouse_position(PixbufRenderer *pr, gint *x_pixel_return
 	return TRUE;
 }
 
-gint pixbuf_renderer_get_image_size(PixbufRenderer *pr, gint *width, gint *height)
+gboolean pixbuf_renderer_get_image_size(PixbufRenderer *pr, gint *width, gint *height)
 {
 	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), FALSE);
 	g_return_val_if_fail(width != NULL && height != NULL, FALSE);

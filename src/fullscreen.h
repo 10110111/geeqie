@@ -48,11 +48,11 @@ void fullscreen_prefs_list_free(GList *list);
 ScreenData *fullscreen_prefs_list_find(GList *list, gint screen);
 
 void fullscreen_prefs_get_geometry(gint screen, GtkWidget *widget, gint *x, gint *y, gint *width, gint *height,
-				   GdkScreen **dest_screen, gint *same_region);
+				   GdkScreen **dest_screen, gboolean *same_region);
 
 gint fullscreen_prefs_find_screen_for_widget(GtkWidget *widget);
 
-GtkWidget *fullscreen_prefs_selection_new(const gchar *text, gint *screen_value, gint *above_value);
+GtkWidget *fullscreen_prefs_selection_new(const gchar *text, gint *screen_value, gboolean *above_value);
 
 
 #endif

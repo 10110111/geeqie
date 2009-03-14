@@ -14,8 +14,8 @@
 
 /* history lists */
 
-gint history_list_load(const gchar *path);
-gint history_list_save(const gchar *path);
+gboolean history_list_load(const gchar *path);
+gboolean history_list_save(const gchar *path);
 
 void history_list_free_key(const gchar *key);
 

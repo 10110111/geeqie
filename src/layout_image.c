@@ -14,6 +14,7 @@
 #include "layout_image.h"
 
 #include "collect.h"
+#include "color-man.h"
 #include "dnd.h"
 #include "editors.h"
 #include "filedata.h"
@@ -1062,23 +1063,23 @@ void layout_image_refresh(LayoutWindow *lw)
 
 void layout_image_color_profile_set(LayoutWindow *lw,
 				    gint input_type, gint screen_type,
-				    gint use_image)
+				    gboolean use_image)
 {
 	if (!layout_valid(&lw)) return;
 
 	image_color_profile_set(lw->image, input_type, screen_type, use_image);
 }
 
-gint layout_image_color_profile_get(LayoutWindow *lw,
-				    gint *input_type, gint *screen_type,
-				    gint *use_image)
+gboolean layout_image_color_profile_get(LayoutWindow *lw,
+				    	gint *input_type, gint *screen_type,
+				    	gboolean *use_image)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
 	return image_color_profile_get(lw->image, input_type, screen_type, use_image);
 }
 
-void layout_image_color_profile_set_use(LayoutWindow *lw, gint enable)
+void layout_image_color_profile_set_use(LayoutWindow *lw, gboolean enable)
 {
 	if (!layout_valid(&lw)) return;
 
@@ -1093,7 +1094,7 @@ void layout_image_color_profile_set_use(LayoutWindow *lw, gint enable)
 		}
 }
 
-gint layout_image_color_profile_get_use(LayoutWindow *lw)
+gboolean layout_image_color_profile_get_use(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
@@ -1102,7 +1103,7 @@ gint layout_image_color_profile_get_use(LayoutWindow *lw)
 
 gint layout_image_color_profile_get_from_image(LayoutWindow *lw)
 {
-	if (!layout_valid(&lw)) return FALSE;
+	if (!layout_valid(&lw)) return COLOR_PROFILE_NONE;
 
 	return image_color_profile_get_from_image(lw->image);
 }

@@ -357,21 +357,21 @@ struct _ImageWindow
 
 	FileData *image_fd;
 
-	gint unknown;		/* failed to load image */
+	gboolean unknown;		/* failed to load image */
 
 	ImageLoader *il;        /* FIXME - image loader should probably go to FileData, but it must first support
 				   sending callbacks to multiple ImageWindows in parallel */
 
-	gint has_frame;
+	gint has_frame;  /* not boolean, see image_new() */
 
 	/* top level (not necessarily parent) window */
-	gint top_window_sync;	/* resize top_window when image dimensions change */
+	gboolean top_window_sync;	/* resize top_window when image dimensions change */
 	GtkWidget *top_window;	/* window that gets title, and window to resize when 'fitting' */
 	gchar *title;		/* window title to display left of file name */
 	gchar *title_right;	/* window title to display right of file name */
-	gint title_show_zoom;	/* option to include zoom in window title */
+	gboolean title_show_zoom;	/* option to include zoom in window title */
 
-	gint completed;
+	gboolean completed;
 	ImageState state;	/* mask of IMAGE_STATE_* flags about current image */
 
 	void (*func_update)(ImageWindow *imd, gpointer data);
@@ -404,10 +404,10 @@ struct _ImageWindow
 	CollectInfo *collection_info;
 
 	/* color profiles */
-	gint color_profile_enable;
+	gboolean color_profile_enable;
 	gint color_profile_input;
 	gint color_profile_screen;
-	gint color_profile_use_image;
+	gboolean color_profile_use_image;
 	gint color_profile_from_image;
 	gpointer cm;
 
@@ -418,13 +418,13 @@ struct _ImageWindow
 
 	gint prev_color_row;
 
-	gint auto_refresh;
+	gboolean auto_refresh;
 
-	gint delay_flip;
+	gboolean delay_flip;
 	gint orientation;
-	gint desaturate;
+	gboolean desaturate;
 
-	gint overlay_show_zoom; /* set to true if overlay is showing zoom ratio */
+	gboolean overlay_show_zoom; /* set to true if overlay is showing zoom ratio */
 };
 
 #define FILEDATA_MARKS_SIZE 6
