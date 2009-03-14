@@ -193,7 +193,7 @@ GdkPixbuf *pixbuf_renderer_get_pixbuf(PixbufRenderer *pr);
 void pixbuf_renderer_set_orientation(PixbufRenderer *pr, gint orientation);
 gint pixbuf_renderer_get_orientation(PixbufRenderer *pr);
 
-void pixbuf_renderer_set_post_process_func(PixbufRenderer *pr, PixbufRendererPostProcessFunc func, gpointer user_data, gint slow);
+void pixbuf_renderer_set_post_process_func(PixbufRenderer *pr, PixbufRendererPostProcessFunc func, gpointer user_data, gboolean slow);
 
 /* display an on-request array of pixbuf tiles */
 
@@ -236,15 +236,15 @@ void pixbuf_renderer_zoom_set_limits(PixbufRenderer *pr, gdouble min, gdouble ma
 /* sizes */
 
 gboolean pixbuf_renderer_get_image_size(PixbufRenderer *pr, gint *width, gint *height);
-gint pixbuf_renderer_get_scaled_size(PixbufRenderer *pr, gint *width, gint *height);
+gboolean pixbuf_renderer_get_scaled_size(PixbufRenderer *pr, gint *width, gint *height);
 
 /* region of image in pixel coordinates */
-gint pixbuf_renderer_get_visible_rect(PixbufRenderer *pr, GdkRectangle *rect);
+gboolean pixbuf_renderer_get_visible_rect(PixbufRenderer *pr, GdkRectangle *rect);
 
 /* actual size of the PixbufRenderer window minus borders,
  * x and y are the scroll offset and include zoom factor.
  */
-gint pixbuf_renderer_get_virtual_rect(PixbufRenderer *pr, GdkRectangle *rect);
+gboolean pixbuf_renderer_get_virtual_rect(PixbufRenderer *pr, GdkRectangle *rect);
 
 /* background color */
 void pixbuf_renderer_set_color(PixbufRenderer *pr, GdkColor *color);
@@ -259,12 +259,12 @@ typedef enum {
 gint pixbuf_renderer_overlay_add(PixbufRenderer *pr, GdkPixbuf *pixbuf, gint x, gint y,
 				 OverlayRendererFlags flags);
 void pixbuf_renderer_overlay_set(PixbufRenderer *pr, gint id, GdkPixbuf *pixbuf, gint x, gint y);
-gint pixbuf_renderer_overlay_get(PixbufRenderer *pr, gint id, GdkPixbuf **pixbuf, gint *x, gint *y);
+gboolean pixbuf_renderer_overlay_get(PixbufRenderer *pr, gint id, GdkPixbuf **pixbuf, gint *x, gint *y);
 void pixbuf_renderer_overlay_remove(PixbufRenderer *pr, gint id);
 
-gint pixbuf_renderer_get_mouse_position(PixbufRenderer *pr, gint *x_pixel, gint *y_pixel);
+gboolean pixbuf_renderer_get_mouse_position(PixbufRenderer *pr, gint *x_pixel, gint *y_pixel);
 /* x_pixel and y_pixel are the pixel coordinates \see pixbuf_renderer_get_mouse_position */
-gint pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint y_pixel,
+gboolean pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint y_pixel,
 															 				gint *r_mouse, gint *g_mouse, gint *b_mouse);
 
 #endif

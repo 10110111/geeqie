@@ -200,25 +200,25 @@ static void pixbuf_renderer_set_property(GObject *object, guint prop_id,
 					 const GValue *value, GParamSpec *pspec);
 static void pixbuf_renderer_get_property(GObject *object, guint prop_id,
 					 GValue *value, GParamSpec *pspec);
-static gint pixbuf_renderer_expose(GtkWidget *widget, GdkEventExpose *event);
+static gboolean pixbuf_renderer_expose(GtkWidget *widget, GdkEventExpose *event);
 
 static void pr_render_complete_signal(PixbufRenderer *pr);
 
 static void pr_overlay_list_clear(PixbufRenderer *pr);
-static void pr_scroller_timer_set(PixbufRenderer *pr, gint start);
+static void pr_scroller_timer_set(PixbufRenderer *pr, gboolean start);
 static void pr_border_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h);
 
 
 static void pr_source_tile_free_all(PixbufRenderer *pr);
 static void pr_tile_free_all(PixbufRenderer *pr);
 static void pr_tile_invalidate_region(PixbufRenderer *pr, gint x, gint y, gint w, gint h);
-static gint pr_tile_is_visible(PixbufRenderer *pr, ImageTile *it);
+static gboolean pr_tile_is_visible(PixbufRenderer *pr, ImageTile *it);
 static void pr_queue_clear(PixbufRenderer *pr);
 static void pr_queue_merge(QueueData *parent, QueueData *qd);
 static void pr_queue(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
-		     gint clamp, ImageTileRenderType render, gint new_data, gint only_existing);
+		     gint clamp, ImageTileRenderType render, gboolean new_data, gboolean only_existing);
 
-static void pr_redraw(PixbufRenderer *pr, gint new_data);
+static void pr_redraw(PixbufRenderer *pr, gboolean new_data);
 
 static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 			 PrZoomFlags flags, gint px, gint py);
@@ -698,7 +698,7 @@ static void pixbuf_renderer_get_property(GObject *object, guint prop_id,
 		}
 }
 
-static gint pixbuf_renderer_expose(GtkWidget *widget, GdkEventExpose *event)
+static gboolean pixbuf_renderer_expose(GtkWidget *widget, GdkEventExpose *event)
 {
 	if (GTK_WIDGET_DRAWABLE(widget))
 		{
@@ -761,9 +761,9 @@ static gint pixmap_calc_size(GdkPixmap *pixmap)
 	return w * h * (d / 8);
 }
 
-static gint pr_clip_region(gint x, gint y, gint w, gint h,
-			   gint clip_x, gint clip_y, gint clip_w, gint clip_h,
-			   gint *rx, gint *ry, gint *rw, gint *rh)
+static gboolean pr_clip_region(gint x, gint y, gint w, gint h,
+			       gint clip_x, gint clip_y, gint clip_w, gint clip_h,
+			       gint *rx, gint *ry, gint *rw, gint *rh)
 {
 	if (clip_x + clip_w <= x ||
 	    clip_x >= x + w ||
@@ -782,7 +782,7 @@ static gint pr_clip_region(gint x, gint y, gint w, gint h,
 	return TRUE;
 }
 
-static gint pr_parent_window_sizable(PixbufRenderer *pr)
+static gboolean pr_parent_window_sizable(PixbufRenderer *pr)
 {
 	GdkWindowState state;
 
@@ -797,7 +797,7 @@ static gint pr_parent_window_sizable(PixbufRenderer *pr)
 	return TRUE;
 }
 
-static gint pr_parent_window_resize(PixbufRenderer *pr, gint w, gint h)
+static gboolean pr_parent_window_resize(PixbufRenderer *pr, gint w, gint h)
 {
 	GtkWidget *widget;
 	GtkWidget *parent;
@@ -1140,7 +1140,7 @@ void pixbuf_renderer_overlay_set(PixbufRenderer *pr, gint id, GdkPixbuf *pixbuf,
 		}
 }
 
-gint pixbuf_renderer_overlay_get(PixbufRenderer *pr, gint id, GdkPixbuf **pixbuf, gint *x, gint *y)
+gboolean pixbuf_renderer_overlay_get(PixbufRenderer *pr, gint id, GdkPixbuf **pixbuf, gint *x, gint *y)
 {
 	OverlayData *od;
 
@@ -1262,7 +1262,7 @@ static gboolean pr_scroller_update_cb(gpointer data)
 	return TRUE;
 }
 
-static void pr_scroller_timer_set(PixbufRenderer *pr, gint start)
+static void pr_scroller_timer_set(PixbufRenderer *pr, gboolean start)
 {
 	if (pr->scroller_id != -1)
 		{
@@ -1460,7 +1460,7 @@ static void pr_source_tile_unset(PixbufRenderer *pr)
 	pr->source_tiles_enabled = FALSE;
 }
 
-static gint pr_source_tile_visible(PixbufRenderer *pr, SourceTile *st)
+static gboolean pr_source_tile_visible(PixbufRenderer *pr, SourceTile *st)
 {
 	gint x1, y1, x2, y2;
 
@@ -1586,7 +1586,7 @@ static SourceTile *pr_source_tile_find(PixbufRenderer *pr, gint x, gint y)
 	return NULL;
 }
 
-static GList *pr_source_tile_compute_region(PixbufRenderer *pr, gint x, gint y, gint w, gint h, gint request)
+static GList *pr_source_tile_compute_region(PixbufRenderer *pr, gint x, gint y, gint w, gint h, gboolean request)
 {
 	gint x1, y1;
 	GList *list = NULL;
@@ -1649,14 +1649,14 @@ static void pr_source_tile_changed(PixbufRenderer *pr, gint x, gint y, gint widt
 		}
 }
 
-static gint pr_source_tile_render(PixbufRenderer *pr, ImageTile *it,
-				  gint x, gint y, gint w, gint h,
-				  gint new_data, gint fast)
+static gboolean pr_source_tile_render(PixbufRenderer *pr, ImageTile *it,
+				      gint x, gint y, gint w, gint h,
+				      gboolean new_data, gboolean fast)
 {
 	GtkWidget *box;
 	GList *list;
 	GList *work;
-	gint draw = FALSE;
+	gboolean draw = FALSE;
 
 	box = GTK_WIDGET(pr);
 
@@ -2040,7 +2040,7 @@ static void pr_tile_invalidate_region(PixbufRenderer *pr, gint x, gint y, gint w
 		}
 }
 
-static ImageTile *pr_tile_get(PixbufRenderer *pr, gint x, gint y, gint only_existing)
+static ImageTile *pr_tile_get(PixbufRenderer *pr, gint x, gint y, gboolean only_existing)
 {
 	GList *work;
 
@@ -2538,11 +2538,11 @@ static void pr_tile_apply_orientation(PixbufRenderer *pr, GdkPixbuf **pixbuf, gi
 
 static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 			   gint x, gint y, gint w, gint h,
-			   gint new_data, gint fast)
+			   gboolean new_data, gboolean fast)
 {
 	GtkWidget *box;
-	gint has_alpha;
-	gint draw = FALSE;
+	gboolean has_alpha;
+	gboolean draw = FALSE;
 
 	if (it->render_todo == TILE_RENDER_NONE && it->pixmap && !new_data) return;
 
@@ -2713,7 +2713,7 @@ static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 
 static void pr_tile_expose(PixbufRenderer *pr, ImageTile *it,
 			   gint x, gint y, gint w, gint h,
-			   gint new_data, gint fast)
+			   gboolean new_data, gboolean fast)
 {
 	GtkWidget *box;
 
@@ -2735,7 +2735,7 @@ static void pr_tile_expose(PixbufRenderer *pr, ImageTile *it,
 }
 
 
-static gint pr_tile_is_visible(PixbufRenderer *pr, ImageTile *it)
+static gboolean pr_tile_is_visible(PixbufRenderer *pr, ImageTile *it)
 {
 	return (it->x + it->w >= pr->x_scroll && it->x < pr->x_scroll + pr->vis_width &&
 		it->y + it->h >= pr->y_scroll && it->y < pr->y_scroll + pr->vis_height);
@@ -2761,7 +2761,7 @@ static gint pr_get_queued_area(GList *work)
 }
 
 
-static gint pr_queue_schedule_next_draw(PixbufRenderer *pr, gboolean force_set)
+static gboolean pr_queue_schedule_next_draw(PixbufRenderer *pr, gboolean force_set)
 {
 	gfloat percent;
 	gint visible_area = pr->vis_width * pr->vis_height;
@@ -2806,11 +2806,11 @@ static gint pr_queue_schedule_next_draw(PixbufRenderer *pr, gboolean force_set)
 }
 		
 
-static gint pr_queue_draw_idle_cb(gpointer data)
+static gboolean pr_queue_draw_idle_cb(gpointer data)
 {
 	PixbufRenderer *pr = data;
 	QueueData *qd;
-	gint fast;
+	gboolean fast;
 
 
 	if ((!pr->pixbuf && !pr->source_tiles_enabled) ||
@@ -2955,7 +2955,7 @@ static void pr_queue_merge(QueueData *parent, QueueData *qd)
 	parent->new_data |= qd->new_data;
 }
 
-static gint pr_clamp_to_visible(PixbufRenderer *pr, gint *x, gint *y, gint *w, gint *h)
+static gboolean pr_clamp_to_visible(PixbufRenderer *pr, gint *x, gint *y, gint *w, gint *h)
 {
 	gint nx, ny;
 	gint nw, nh;
@@ -2985,8 +2985,9 @@ static gint pr_clamp_to_visible(PixbufRenderer *pr, gint *x, gint *y, gint *w, g
 	return TRUE;
 }
 
-static gint pr_queue_to_tiles(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
-			      gint clamp, ImageTileRenderType render, gint new_data, gint only_existing)
+static gboolean pr_queue_to_tiles(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
+				  gboolean clamp, ImageTileRenderType render,
+			      	  gboolean new_data, gboolean only_existing)
 {
 	gint i, j;
 	gint x1, x2;
@@ -3070,7 +3071,8 @@ static gint pr_queue_to_tiles(PixbufRenderer *pr, gint x, gint y, gint w, gint h
 }
 
 static void pr_queue(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
-		     gint clamp, ImageTileRenderType render, gint new_data, gint only_existing)
+		     gboolean clamp, ImageTileRenderType render,
+		     gboolean new_data, gboolean only_existing)
 {
 	gint nx, ny;
 
@@ -3090,7 +3092,7 @@ static void pr_queue(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
 		}
 }
 
-static void pr_redraw(PixbufRenderer *pr, gint new_data)
+static void pr_redraw(PixbufRenderer *pr, gboolean new_data)
 {
 	pr_queue_clear(pr);
 	pr_queue(pr, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, new_data, FALSE);
@@ -3169,7 +3171,7 @@ static void pixbuf_renderer_sync_scroll_center(PixbufRenderer *pr)
 }
 
 
-static gint pr_scroll_clamp(PixbufRenderer *pr)
+static gboolean pr_scroll_clamp(PixbufRenderer *pr)
 {
 	gint old_xs;
 	gint old_ys;
@@ -3208,7 +3210,7 @@ static gint pr_scroll_clamp(PixbufRenderer *pr)
 	return (old_xs != pr->x_scroll || old_ys != pr->y_scroll);
 }
 
-static gint pr_size_clamp(PixbufRenderer *pr)
+static gboolean pr_size_clamp(PixbufRenderer *pr)
 {
 	gint old_vw, old_vh;
 
@@ -3242,8 +3244,8 @@ static gint pr_size_clamp(PixbufRenderer *pr)
 	return (old_vw != pr->vis_width || old_vh != pr->vis_height);
 }
 
-static gint pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
-			  PrZoomFlags flags, gboolean *redrawn)
+static gboolean pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
+			      PrZoomFlags flags, gboolean *redrawn)
 {
 	gint w, h;
 	gdouble scale;
@@ -3359,8 +3361,8 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 {
 	gdouble old_scale;
 	gint old_cx, old_cy;
-	gint clamped;
-	gint sized;
+	gboolean clamped;
+	gboolean sized;
 	gboolean redrawn = FALSE;
 	gboolean center_point = !!(flags & PR_ZOOM_CENTER);
 	gboolean force = !!(flags & PR_ZOOM_FORCE);
@@ -3453,7 +3455,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 
 static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 {
-	gint zoom_changed = FALSE;
+	gboolean zoom_changed = FALSE;
 
 	if (pr->window_width == new_width && pr->window_height == new_height) return;
 
@@ -3475,7 +3477,7 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 	/* ensure scroller remains visible */
 	if (pr->scroller_overlay != -1)
 		{
-		gint update = FALSE;
+		gboolean update = FALSE;
 
 		if (pr->scroller_x > new_width)
 			{
@@ -3699,7 +3701,7 @@ void pixbuf_renderer_set_scroll_center(PixbufRenderer *pr, gdouble x, gdouble y)
  *-------------------------------------------------------------------
  */
 
-static gint pr_mouse_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+static gboolean pr_mouse_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	PixbufRenderer *pr;
 	gint accel;
@@ -3748,7 +3750,7 @@ static gint pr_mouse_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpoint
 	return FALSE;
 }
 
-static gint pr_mouse_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+static gboolean pr_mouse_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	PixbufRenderer *pr;
 	GtkWidget *parent;
@@ -3788,7 +3790,7 @@ static gint pr_mouse_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointe
 	return FALSE;
 }
 
-static gint pr_mouse_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+static gboolean pr_mouse_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	PixbufRenderer *pr;
 
@@ -3824,7 +3826,7 @@ static gint pr_mouse_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpoin
 	return FALSE;
 }
 
-static gint pr_mouse_leave_cb(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
+static gboolean pr_mouse_leave_cb(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 {
 	PixbufRenderer *pr;
 
@@ -3973,7 +3975,7 @@ gint pixbuf_renderer_get_orientation(PixbufRenderer *pr)
 	return pr->orientation;
 }
 
-void pixbuf_renderer_set_post_process_func(PixbufRenderer *pr, PixbufRendererPostProcessFunc func, gpointer user_data, gint slow)
+void pixbuf_renderer_set_post_process_func(PixbufRenderer *pr, PixbufRendererPostProcessFunc func, gpointer user_data, gboolean slow)
 {
 	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
 
@@ -4136,8 +4138,8 @@ void pixbuf_renderer_zoom_set_limits(PixbufRenderer *pr, gdouble min, gdouble ma
 		}
 }
 
-gint pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint y_pixel, 
-                                      gint *r_mouse, gint *g_mouse, gint *b_mouse)
+gboolean pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint y_pixel, 
+                                          gint *r_mouse, gint *g_mouse, gint *b_mouse)
 {
 	GdkPixbuf *pb = pr->pixbuf;
 	gint p_alpha, prs;
@@ -4181,7 +4183,7 @@ gint pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint y_p
 	return TRUE;
 }
 
-gint pixbuf_renderer_get_mouse_position(PixbufRenderer *pr, gint *x_pixel_return, gint *y_pixel_return)
+gboolean pixbuf_renderer_get_mouse_position(PixbufRenderer *pr, gint *x_pixel_return, gint *y_pixel_return)
 {
 	gint x_pixel, y_pixel, x_pixel_clamped, y_pixel_clamped;
 	     
@@ -4229,7 +4231,7 @@ gboolean pixbuf_renderer_get_image_size(PixbufRenderer *pr, gint *width, gint *h
 	return TRUE;
 }
 
-gint pixbuf_renderer_get_scaled_size(PixbufRenderer *pr, gint *width, gint *height)
+gboolean pixbuf_renderer_get_scaled_size(PixbufRenderer *pr, gint *width, gint *height)
 {
 	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), FALSE);
 	g_return_val_if_fail(width != NULL && height != NULL, FALSE);
@@ -4246,7 +4248,7 @@ gint pixbuf_renderer_get_scaled_size(PixbufRenderer *pr, gint *width, gint *heig
 	return TRUE;
 }
 
-gint pixbuf_renderer_get_visible_rect(PixbufRenderer *pr, GdkRectangle *rect)
+gboolean pixbuf_renderer_get_visible_rect(PixbufRenderer *pr, GdkRectangle *rect)
 {
 	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), FALSE);
 	g_return_val_if_fail(rect != NULL, FALSE);
@@ -4268,7 +4270,7 @@ gint pixbuf_renderer_get_visible_rect(PixbufRenderer *pr, GdkRectangle *rect)
 	return TRUE;
 }
 
-gint pixbuf_renderer_get_virtual_rect(PixbufRenderer *pr, GdkRectangle *rect)
+gboolean pixbuf_renderer_get_virtual_rect(PixbufRenderer *pr, GdkRectangle *rect)
 {
 	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), FALSE);
 	g_return_val_if_fail(rect != NULL, FALSE);
