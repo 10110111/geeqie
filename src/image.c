@@ -514,7 +514,7 @@ static void image_cache_set(ImageWindow *imd, FileData *fd)
 	g_assert(fd->pixbuf);
 
 	file_cache_put(image_get_cache(), fd, (gulong)gdk_pixbuf_get_rowstride(fd->pixbuf) * (gulong)gdk_pixbuf_get_height(fd->pixbuf));
-	file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL); /* to update histogram */
+	file_data_send_notification(fd, NOTIFY_PIXBUF); /* to update histogram */
 }
 
 static gint image_cache_get(ImageWindow *imd)
@@ -1379,7 +1379,7 @@ static void image_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	    imd->state == IMAGE_STATE_NONE /* loading not started, no need to reload */
 	    ) return;
 
-	if (type == NOTIFY_TYPE_REREAD && fd == imd->image_fd)
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE)) && fd == imd->image_fd)
 		{
 		image_reload(imd);
 		}

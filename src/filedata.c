@@ -243,7 +243,7 @@ static gboolean file_data_check_changed_files_recursive(FileData *fd, struct sta
 		if (fd->thumb_pixbuf) g_object_unref(fd->thumb_pixbuf);
 		fd->thumb_pixbuf = NULL;
 		file_data_increment_version(fd);
-		file_data_send_notification(fd, NOTIFY_TYPE_REREAD);
+		file_data_send_notification(fd, NOTIFY_REREAD);
 		ret = TRUE;
 		}
 
@@ -295,7 +295,7 @@ gboolean file_data_check_changed_files(FileData *fd)
 			file_data_disconnect_sidecar_file(fd, sfd);
 			}
 		if (sfd) file_data_check_sidecars(sfd); /* this will group the sidecars back together */
-		file_data_send_notification(fd, NOTIFY_TYPE_REREAD);
+		file_data_send_notification(fd, NOTIFY_REREAD);
 		}
 	else
 		{
@@ -601,8 +601,8 @@ void file_data_disable_grouping(FileData *fd, gboolean disable)
 			{
 			FileData *parent = file_data_ref(fd->parent);
 			file_data_disconnect_sidecar_file(parent, fd);
-			file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
-			file_data_send_notification(parent, NOTIFY_TYPE_INTERNAL);
+			file_data_send_notification(fd, NOTIFY_GROUPING);
+			file_data_send_notification(parent, NOTIFY_GROUPING);
 			file_data_unref(parent);
 			}
 		else if (fd->sidecar_files)
@@ -614,9 +614,9 @@ void file_data_disable_grouping(FileData *fd, gboolean disable)
 				FileData *sfd = work->data;
 				work = work->next;
 				file_data_disconnect_sidecar_file(fd, sfd);
-				file_data_send_notification(sfd, NOTIFY_TYPE_INTERNAL);
+				file_data_send_notification(sfd, NOTIFY_GROUPING);
 				}
-			file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
+			file_data_send_notification(fd, NOTIFY_GROUPING);
 			file_data_check_sidecars((FileData *)sidecar_files->data); /* this will group the sidecars back together */
 			filelist_free(sidecar_files);
 			}
@@ -624,7 +624,7 @@ void file_data_disable_grouping(FileData *fd, gboolean disable)
 	else
 		{
 		file_data_check_sidecars(fd);
-		file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
+		file_data_send_notification(fd, NOTIFY_GROUPING);
 		}
 }
 
@@ -1151,7 +1151,7 @@ void file_data_set_mark(FileData *fd, gint n, gboolean value)
 		}
 	
 	file_data_increment_version(fd);
-	file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
+	file_data_send_notification(fd, NOTIFY_MARKS);
 }
 
 gboolean file_data_filter_marks(FileData *fd, guint filter)
@@ -1187,7 +1187,7 @@ static void file_data_notify_mark_func(gpointer key, gpointer value, gpointer us
 {
 	FileData *fd = value;
 	file_data_increment_version(fd);
-	file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
+	file_data_send_notification(fd, NOTIFY_MARKS);
 }
 
 gboolean file_data_register_mark_func(gint n, FileDataGetMarkFunc get_mark_func, FileDataSetMarkFunc set_mark_func, gpointer data, GDestroyNotify notify)
@@ -1228,7 +1228,7 @@ void file_data_set_user_orientation(FileData *fd, gint value)
 
 	fd->user_orientation = value;
 	file_data_increment_version(fd);
-	file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
+	file_data_send_notification(fd, NOTIFY_ORIENTATION);
 }
 
 
@@ -2213,7 +2213,7 @@ gboolean file_data_apply_ci(FileData *fd)
 			}
 		}
 	file_data_increment_version(fd);
-	file_data_send_notification(fd, NOTIFY_TYPE_CHANGE);
+	file_data_send_notification(fd, NOTIFY_CHANGE);
 	
 	return TRUE;
 }

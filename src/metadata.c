@@ -80,7 +80,7 @@ gboolean metadata_write_queue_remove(FileData *fd)
 	metadata_write_queue = g_list_remove(metadata_write_queue, fd);
 	
 	file_data_increment_version(fd);
-	file_data_send_notification(fd, NOTIFY_TYPE_REREAD);
+	file_data_send_notification(fd, NOTIFY_REREAD);
 
 	file_data_unref(fd);
 
@@ -202,7 +202,7 @@ gboolean metadata_write_list(FileData *fd, const gchar *key, const GList *values
 		}
 	metadata_write_queue_add(fd);
 	file_data_increment_version(fd);
-	file_data_send_notification(fd, NOTIFY_TYPE_INTERNAL);
+	file_data_send_notification(fd, NOTIFY_METADATA);
 
 	if (options->metadata.sync_grouped_files && metadata_check_key(group_keys, key))
 		{

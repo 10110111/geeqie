@@ -1038,7 +1038,7 @@ static void vd_notify_cb(FileData *fd, NotifyType type, gpointer data)
 			refresh = (strcmp(base, vd->dir_fd->path) == 0);
 			}
 
-		if (type == NOTIFY_TYPE_CHANGE && fd->change)
+		if ((type & NOTIFY_CHANGE) && fd->change)
 			{
 			if (!refresh && fd->change->dest)
 				{

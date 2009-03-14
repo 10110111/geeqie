@@ -621,7 +621,7 @@ static void cache_maint_copied(FileData *fd)
 
 void cache_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
-	if (type != NOTIFY_TYPE_CHANGE || !fd->change) return;
+	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
 	
 	switch (fd->change->type)
 		{

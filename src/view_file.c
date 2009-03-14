@@ -824,10 +824,12 @@ void vf_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	ViewFile *vf = data;
 	gboolean refresh;
 
-	if (vf->refresh_idle_id != -1) return;
+	NotifyType interested = NOTIFY_CHANGE | NOTIFY_REREAD | NOTIFY_GROUPING;
+	if (vf->marks_enabled) interested |= NOTIFY_MARKS | NOTIFY_METADATA;
+	/* FIXME: NOTIFY_METADATA should be checked by the keyword-to-mark functions and converted to NOTIFY_MARKS only if there was a change */
 
-	if (!vf->dir_fd) return;
-
+	if (!(type & interested) || vf->refresh_idle_id != -1 || !vf->dir_fd) return;
+	
 	refresh = (fd == vf->dir_fd);
 
 	if (!refresh)
@@ -837,7 +839,7 @@ void vf_notify_cb(FileData *fd, NotifyType type, gpointer data)
 		g_free(base);
 		}
 
-	if (type == NOTIFY_TYPE_CHANGE && fd->change)
+	if ((type & NOTIFY_CHANGE) && fd->change)
 		{
 		if (!refresh && fd->change->dest)
 			{

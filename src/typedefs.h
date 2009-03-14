@@ -142,9 +142,14 @@ typedef enum {
 } NotifyPriority;
 	
 typedef enum {
-	NOTIFY_TYPE_INTERNAL = 0, /* changed internal data only, like marks */
-	NOTIFY_TYPE_REREAD,       /* changed file size, date, etc., file name remains unchanged */
-	NOTIFY_TYPE_CHANGE        /* generic change described by fd->change */
+	NOTIFY_MARKS		= 1 << 1, /* changed marks */
+	NOTIFY_PIXBUF		= 1 << 2, /* image was read into fd->pixbuf */
+	NOTIFY_HISTMAP		= 1 << 3, /* histmap was read into fd->histmap */
+	NOTIFY_ORIENTATION	= 1 << 4, /* image was rotated */
+	NOTIFY_METADATA		= 1 << 5, /* changed image metadata, not yet written */
+	NOTIFY_GROUPING		= 1 << 6, /* change in fd->sidecar_files or fd->parent */
+	NOTIFY_REREAD		= 1 << 7, /* changed file size, date, etc., file name remains unchanged */
+	NOTIFY_CHANGE		= 1 << 8  /* generic change described by fd->change */
 } NotifyType;
 
 typedef enum {

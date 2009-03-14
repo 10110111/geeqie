@@ -320,7 +320,7 @@ gboolean histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf 
 
 void histogram_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
-	if (type != NOTIFY_TYPE_INTERNAL && fd->histmap)
+	if ((type & (NOTIFY_CHANGE || NOTIFY_REREAD)) && fd->histmap)
 		{
 		g_free(fd->histmap);
 		fd->histmap = NULL;
