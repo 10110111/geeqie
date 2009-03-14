@@ -29,17 +29,6 @@
 #include "layout.h"
 #include "dnd.h"
 
-static const gchar *keyword_favorite_defaults[] = {
-	N_("Favorite"),
-	N_("Todo"),
-	N_("People"),
-	N_("Places"),
-	N_("Art"),
-	N_("Nature"),
-	N_("Possessions"),
-	NULL
-};
-
 
 static void bar_pane_keywords_keyword_update_all(void);
 static void bar_pane_keywords_changed(GtkTextBuffer *buffer, gpointer data);
@@ -583,13 +572,11 @@ static void bar_pane_keywords_dnd_receive(GtkWidget *tree_view, GdkDragContext *
 
 	g_signal_stop_emission_by_name(tree_view, "drag_data_received");
 
-	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW(tree_view), NULL, pos);
-
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view));
 	keyword_tree = gtk_tree_model_filter_get_model(GTK_TREE_MODEL_FILTER(model));
 
 	gtk_tree_view_get_dest_row_at_pos(GTK_TREE_VIEW(tree_view), x, y, &tpath, &pos);
-
+	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW(tree_view), NULL, pos);
 
 	switch (info)
 		{
@@ -1003,6 +990,8 @@ static void bar_pane_keywords_show_all_cb(GtkWidget *menu_widget, gpointer data)
 	keyword_tree = gtk_tree_model_filter_get_model(GTK_TREE_MODEL_FILTER(model));
 
 	keyword_show_all_in(GTK_TREE_STORE(keyword_tree), model);
+	
+	if (!pkd->collapse_unchecked) gtk_tree_view_expand_all(GTK_TREE_VIEW(pkd->keyword_treeview));
 	bar_keyword_tree_sync(pkd);
 }
 
