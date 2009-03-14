@@ -36,6 +36,7 @@
 #include "rcfile.h"
 #include "bar.h"
 #include "bar_sort.h"
+#include "preferences.h"
 
 #ifdef HAVE_LIRC
 #include "lirc.h"
@@ -1346,8 +1347,8 @@ gboolean layout_geometry_get_tools(LayoutWindow *lw, gint *x, gint *y, gint *w, 
 
 static void layout_tools_geometry_sync(LayoutWindow *lw)
 {
-	layout_geometry_get_tools(lw, &options->layout.float_window.x, &options->layout.float_window.x,
-				  &options->layout.float_window.w, &options->layout.float_window.h, &lw->options.float_window.vdivider_pos);
+	layout_geometry_get_tools(lw, &lw->options.float_window.x, &lw->options.float_window.x,
+				  &lw->options.float_window.w, &lw->options.float_window.h, &lw->options.float_window.vdivider_pos);
 }
 
 static void layout_tools_hide(LayoutWindow *lw, gboolean hide)
@@ -1410,7 +1411,7 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 				 G_CALLBACK(layout_tools_delete_cb), lw);
 		layout_keyboard_init(lw, lw->tools);
 
-		if (options->layout.save_window_positions)
+		if (options->save_window_positions)
 			{
 			hints = GDK_HINT_USER_POS;
 			}
@@ -1466,10 +1467,10 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 
 	if (new_window)
 		{
-		if (options->layout.save_window_positions)
+		if (options->save_window_positions)
 			{
-			gtk_window_set_default_size(GTK_WINDOW(lw->tools), options->layout.float_window.w, options->layout.float_window.h);
-			gtk_window_move(GTK_WINDOW(lw->tools), options->layout.float_window.x, options->layout.float_window.y);
+			gtk_window_set_default_size(GTK_WINDOW(lw->tools), lw->options.float_window.w, lw->options.float_window.h);
+			gtk_window_move(GTK_WINDOW(lw->tools), lw->options.float_window.x, lw->options.float_window.y);
 			}
 		else
 			{
@@ -1486,7 +1487,7 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 			}
 		}
 
-	if (!options->layout.save_window_positions)
+	if (!options->save_window_positions)
 		{
 		if (vertical)
 			{
@@ -1787,20 +1788,6 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	file_data_unref(dir_fd);
 }
 
-void layout_styles_update(void)
-{
-	GList *work;
-
-	work = layout_window_list;
-	while (work)
-		{
-		LayoutWindow *lw = work->data;
-		work = work->next;
-
-		layout_style_set(lw, options->layout.style, options->layout.order);
-		}
-}
-
 void layout_colors_update(void)
 {
 	GList *work;
@@ -1925,6 +1912,180 @@ void layout_info_pixel_toggle(LayoutWindow *lw)
 
 /*
  *-----------------------------------------------------------------------------
+ * configuration
+ *-----------------------------------------------------------------------------
+ */
+
+#define CONFIG_WINDOW_DEF_WIDTH		600
+#define CONFIG_WINDOW_DEF_HEIGHT	400
+
+typedef struct _LayoutConfig LayoutConfig;
+struct _LayoutConfig
+{
+	LayoutWindow *lw;
+
+	GtkWidget *configwindow;
+	GtkWidget *home_path_entry;
+	GtkWidget *layout_widget;
+	
+	LayoutOptions options;
+};
+
+static gint layout_config_delete_cb(GtkWidget *w, GdkEventAny *event, gpointer data);
+
+static void layout_config_close_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutConfig *lc = data;
+	
+	gtk_widget_destroy(lc->configwindow);
+	free_layout_options_content(&lc->options);
+	g_free(lc);
+}
+
+static gint layout_config_delete_cb(GtkWidget *w, GdkEventAny *event, gpointer data)
+{
+	layout_config_close_cb(w, data);
+	return TRUE;
+}
+
+static void layout_config_apply_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutConfig *lc = data;
+	
+	g_free(lc->options.order);
+	lc->options.order = layout_config_get(lc->layout_widget, &lc->options.style);
+
+	config_entry_to_option(lc->home_path_entry, &lc->options.home_path, remove_trailing_slash);
+
+	layout_apply_options(lc->lw, &lc->options);
+}
+
+static void layout_config_ok_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutConfig *lc = data;
+	layout_config_apply_cb(widget, lc);
+	layout_config_close_cb(widget, lc);
+}
+
+static void home_path_set_current_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutConfig *lc = data;
+	gtk_entry_set_text(GTK_ENTRY(lc->home_path_entry), layout_get_path(lc->lw));
+}
+
+/*
+static void layout_config_save_cb(GtkWidget *widget, gpointer data)
+{
+	layout_config_apply();
+	save_options(options);
+}
+*/
+
+void layout_show_config_window(LayoutWindow *lw)
+{
+	LayoutConfig *lc;
+	GtkWidget *win_vbox;
+	GtkWidget *hbox;
+	GtkWidget *vbox;
+	GtkWidget *button;
+	GtkWidget *ct_button;
+	GtkWidget *group;
+	GtkWidget *frame;
+	GtkWidget *tabcomp;
+
+	lc = g_new0(LayoutConfig, 1);
+	lc->lw = lw;
+	layout_sync_options_with_current_state(lw);
+	copy_layout_options(&lc->options, &lw->options);
+
+	lc->configwindow = window_new(GTK_WINDOW_TOPLEVEL, "Layout", PIXBUF_INLINE_ICON_CONFIG, NULL, _("Window options and layout"));
+	gtk_window_set_type_hint(GTK_WINDOW(lc->configwindow), GDK_WINDOW_TYPE_HINT_DIALOG);
+
+	g_signal_connect(G_OBJECT(lc->configwindow), "delete_event",
+			 G_CALLBACK(layout_config_delete_cb), lc);
+
+	gtk_window_set_default_size(GTK_WINDOW(lc->configwindow), CONFIG_WINDOW_DEF_WIDTH, CONFIG_WINDOW_DEF_HEIGHT);
+	gtk_window_set_resizable(GTK_WINDOW(lc->configwindow), TRUE);
+	gtk_container_set_border_width(GTK_CONTAINER(lc->configwindow), PREF_PAD_BORDER);
+
+	win_vbox = gtk_vbox_new(FALSE, PREF_PAD_SPACE);
+	gtk_container_add(GTK_CONTAINER(lc->configwindow), win_vbox);
+	gtk_widget_show(win_vbox);
+
+	hbox = gtk_hbutton_box_new();
+	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_END);
+	gtk_box_set_spacing(GTK_BOX(hbox), PREF_PAD_BUTTON_GAP);
+	gtk_box_pack_end(GTK_BOX(win_vbox), hbox, FALSE, FALSE, 0);
+	gtk_widget_show(hbox);
+
+	button = pref_button_new(NULL, GTK_STOCK_OK, NULL, FALSE,
+				 G_CALLBACK(layout_config_ok_cb), lc);
+	gtk_container_add(GTK_CONTAINER(hbox), button);
+	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_grab_default(button);
+	gtk_widget_show(button);
+
+	ct_button = button;
+/*
+	button = pref_button_new(NULL, GTK_STOCK_SAVE, NULL, FALSE,
+				 G_CALLBACK(layout_config_save_cb), NULL);
+	gtk_container_add(GTK_CONTAINER(hbox), button);
+	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_show(button);
+*/	
+	button = pref_button_new(NULL, GTK_STOCK_APPLY, NULL, FALSE,
+				 G_CALLBACK(layout_config_apply_cb), lc);
+	gtk_container_add(GTK_CONTAINER(hbox), button);
+	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_show(button);
+
+	button = pref_button_new(NULL, GTK_STOCK_CANCEL, NULL, FALSE,
+				 G_CALLBACK(layout_config_close_cb), lc);
+	gtk_container_add(GTK_CONTAINER(hbox), button);
+	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_show(button);
+
+	if (!generic_dialog_get_alternative_button_order(lc->configwindow))
+		{
+		gtk_box_reorder_child(GTK_BOX(hbox), ct_button, -1);
+		}
+
+	frame = pref_frame_new(win_vbox, TRUE, NULL, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
+	
+	vbox = gtk_vbox_new(FALSE, PREF_PAD_SPACE);
+	gtk_container_add(GTK_CONTAINER(frame), vbox);
+	gtk_widget_show(vbox);
+
+	group = pref_group_new(vbox, FALSE, _("General options"), GTK_ORIENTATION_VERTICAL);
+
+	pref_label_new(group, _("Home button path (empty to use your home directory)"));
+	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+
+	tabcomp = tab_completion_new(&lc->home_path_entry, lc->options.home_path, NULL, NULL);
+	tab_completion_add_select_button(lc->home_path_entry, NULL, TRUE);
+	gtk_box_pack_start(GTK_BOX(hbox), tabcomp, TRUE, TRUE, 0);
+	gtk_widget_show(tabcomp);
+
+	button = pref_button_new(hbox, NULL, _("Use current"), FALSE,
+				 G_CALLBACK(home_path_set_current_cb), lc);
+
+	group = pref_group_new(vbox, FALSE, _("Behavior"), GTK_ORIENTATION_VERTICAL);
+
+	pref_checkbox_new_int(group, _("Show date in directories list view"),
+			      lc->options.show_directory_date, &lc->options.show_directory_date);
+
+	group = pref_group_new(vbox, FALSE, _("Layout"), GTK_ORIENTATION_VERTICAL);
+
+	lc->layout_widget = layout_config_new();
+	layout_config_set(lc->layout_widget, lw->options.style, lw->options.order);
+	gtk_box_pack_start(GTK_BOX(group), lc->layout_widget, TRUE, TRUE, 0);
+
+	gtk_widget_show(lc->layout_widget);
+	gtk_widget_show(lc->configwindow);
+}
+
+/*
+ *-----------------------------------------------------------------------------
  * base
  *-----------------------------------------------------------------------------
  */
@@ -1959,6 +2120,23 @@ void layout_sync_options_with_current_state(LayoutWindow *lw)
 //		g_free(options->startup.path);
 //		options->startup.path = g_strdup(layout_get_path(NULL));
 //		}
+}
+
+void layout_apply_options(LayoutWindow *lw, LayoutOptions *lop)
+{
+	gint refresh_style;
+	gint refresh_lists;
+
+	if (!layout_valid(&lw)) return;
+/* FIXME: add other options too */
+
+	refresh_style = (lop->style != lw->options.style || strcmp(lop->order, lw->options.order) != 0);
+	refresh_lists = (lop->show_directory_date != lw->options.show_directory_date);
+
+	copy_layout_options(&lw->options, lop);
+
+	if (refresh_style) layout_style_set(lw, lw->options.style, lw->options.order);
+	if (refresh_lists) layout_refresh(lw);
 }
 
 
@@ -2027,7 +2205,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 	if (lop)
 		copy_layout_options(&lw->options, lop);
 	else
-		copy_layout_options(&lw->options, &options->layout);
+		init_layout_options(&lw->options);
 
 	lw->sort_method = SORT_NAME;
 	lw->sort_ascend = TRUE;
@@ -2046,7 +2224,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 
 	/* divider positions */
 
-	if (!lw->options.save_window_positions)
+	if (!options->save_window_positions)
 		{
 		lw->options.main_window.hdivider_pos = MAIN_WINDOW_DIV_HPOS;
 		lw->options.main_window.vdivider_pos = MAIN_WINDOW_DIV_VPOS;
@@ -2059,7 +2237,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 	gtk_window_set_resizable(GTK_WINDOW(lw->window), TRUE);
 	gtk_container_set_border_width(GTK_CONTAINER(lw->window), 0);
 
-	if (lw->options.save_window_positions)
+	if (options->save_window_positions)
 		{
 		hint_mask = GDK_HINT_USER_POS;
 		}
@@ -2075,7 +2253,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 	gtk_window_set_geometry_hints(GTK_WINDOW(lw->window), NULL, &hint,
 				      GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE | hint_mask);
 
-	if (lw->options.save_window_positions)
+	if (options->save_window_positions)
 		{
 		gtk_window_set_default_size(GTK_WINDOW(lw->window), lw->options.main_window.w, lw->options.main_window.h);
 //		if (!layout_window_list)
@@ -2160,7 +2338,6 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 	WRITE_CHAR(*layout, home_path);
 	WRITE_SEPARATOR();
 
-	WRITE_BOOL(*layout, save_window_positions);
 	WRITE_INT(*layout, main_window.x);
 	WRITE_INT(*layout, main_window.y);
 	WRITE_INT(*layout, main_window.w);
@@ -2183,7 +2360,6 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 
 	WRITE_BOOL(*layout, tools_float);
 	WRITE_BOOL(*layout, tools_hidden);
-	WRITE_BOOL(*layout, tools_restore_state);
 	WRITE_SEPARATOR();
 
 	WRITE_BOOL(*layout, toolbar_hidden);
@@ -2232,8 +2408,6 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 
 		/* window positions */
 
-		if (READ_BOOL(*layout, save_window_positions)) continue;
-
 		if (READ_INT(*layout, main_window.x)) continue;
 		if (READ_INT(*layout, main_window.y)) continue;
 		if (READ_INT(*layout, main_window.w)) continue;
@@ -2253,7 +2427,6 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 
 		if (READ_BOOL(*layout, tools_float)) continue;
 		if (READ_BOOL(*layout, tools_hidden)) continue;
-		if (READ_BOOL(*layout, tools_restore_state)) continue;
 		if (READ_BOOL(*layout, toolbar_hidden)) continue;
 		if (READ_BOOL(*layout, info_pixel_hidden)) continue;
 
@@ -2306,8 +2479,7 @@ LayoutWindow *layout_new_from_config(const gchar **attribute_names, const gchar 
 	LayoutWindow *lw;
 	gchar *path = NULL;
 	
-	memset(&lop, 0, sizeof(LayoutOptions));
-	copy_layout_options(&lop, &options->layout);
+	init_layout_options(&lop);
 
 	if (attribute_names) layout_load_attributes(&lop, attribute_names, attribute_values);
 	

@@ -27,6 +27,10 @@ void layout_free(LayoutWindow *lw);
 
 gboolean layout_valid(LayoutWindow **lw);
 
+void layout_show_config_window(LayoutWindow *lw);
+
+void layout_apply_options(LayoutWindow *lw, LayoutOptions *lop);
+
 void layout_sync_options_with_current_state(LayoutWindow *lw);
 void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names, const gchar **attribute_values);
 void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent);

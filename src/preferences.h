@@ -18,6 +18,9 @@
 void show_config_window(void);
 void show_about_window(void);
 
+/* reusable helper functions */
+void config_entry_to_option(GtkWidget *entry, gchar **option, gchar *(*func)(const gchar *));
+
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

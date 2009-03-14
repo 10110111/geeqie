@@ -194,12 +194,16 @@ static void layout_menu_new_window_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 	LayoutWindow *nw;
-
+	gboolean tmp = options->save_window_positions;
+	options->save_window_positions = FALSE; /* let the windowmanager decide for the first time */
+	
 	layout_exit_fullscreen(lw);
 
-	nw = layout_new(NULL, NULL);
+	layout_sync_options_with_current_state(lw);
+	nw = layout_new(NULL, &lw->options);
 	layout_sort_set(nw, options->file_sort.method, options->file_sort.ascending);
 	layout_set_fd(nw, lw->dir_fd);
+	options->save_window_positions = tmp;
 }
 
 static void layout_menu_new_cb(GtkAction *action, gpointer data)
@@ -359,6 +363,14 @@ static void layout_menu_config_cb(GtkAction *action, gpointer data)
 
 	layout_exit_fullscreen(lw);
 	show_config_window();
+}
+
+static void layout_menu_layout_config_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_exit_fullscreen(lw);
+	layout_show_config_window(lw);
 }
 
 static void layout_menu_remove_thumb_cb(GtkAction *action, gpointer data)
@@ -918,16 +930,16 @@ static void layout_menu_back_cb(GtkAction *action, gpointer data)
 
 static void layout_menu_home_cb(GtkAction *action, gpointer data)
 {
+	LayoutWindow *lw = data;
 	const gchar *path;
 	
-	if (options->layout.home_path && *options->layout.home_path)
-		path = options->layout.home_path;
+	if (lw->options.home_path && *lw->options.home_path)
+		path = lw->options.home_path;
 	else
 		path = homedir();
 
 	if (path)
 		{
-		LayoutWindow *lw = data;
 		FileData *dir_fd = file_data_new_simple(path);
 		layout_set_fd(lw, dir_fd);
 		file_data_unref(dir_fd);
@@ -1205,6 +1217,7 @@ static GtkActionEntry menu_entries[] = {
   { "SelectInvert",	NULL,		N_("_Invert Selection"), "<control><shift>I",	NULL,	CB(layout_menu_invert_selection_cb) },
 
   { "Preferences",GTK_STOCK_PREFERENCES,N_("P_references..."),	"<control>O",	NULL,	CB(layout_menu_config_cb) },
+  { "LayoutConfig",GTK_STOCK_PREFERENCES,N_("_Configure this window..."),	NULL,	NULL,	CB(layout_menu_layout_config_cb) },
   { "Maintenance",	NULL,		N_("_Thumbnail maintenance..."),NULL,	NULL,	CB(layout_menu_remove_thumb_cb) },
   { "Wallpaper",	NULL,		N_("Set as _wallpaper"),NULL,		NULL,	CB(layout_menu_wallpaper_cb) },
 
@@ -1362,6 +1375,7 @@ static const gchar *menu_ui_description =
 "      <placeholder name='PropertiesSection'/>"
 "      <separator/>"
 "      <menuitem action='Preferences'/>"
+"      <menuitem action='LayoutConfig'/>"
 "      <menuitem action='Maintenance'/>"
 "      <placeholder name='PreferencesSection'/>"
 "      <separator/>"

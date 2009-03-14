@@ -285,6 +285,8 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_INT(*options, dnd_icon_size);
 	WRITE_BOOL(*options, place_dialogs_under_mouse);
 
+	WRITE_BOOL(*options, save_window_positions);
+	WRITE_BOOL(*options, tools_restore_state);
 
 //	WRITE_SUBTITLE("Startup Options");
 
@@ -534,10 +536,6 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	filter_write_list(outstr, indent);
 
 	WRITE_SEPARATOR();
-	WRITE_SUBTITLE("Layout Options - defaults");
-	WRITE_STRING("<layout\n");
-	layout_write_attributes(&options->layout, outstr, indent + 1);
-	WRITE_STRING("/>\n");
 	keyword_tree_write_config(outstr, indent);
 	indent--;
 	WRITE_STRING("</global>\n");
@@ -601,6 +599,9 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_INT(*options, open_recent_list_maxsize)) continue;
 		if (READ_INT(*options, dnd_icon_size)) continue;
 		if (READ_BOOL(*options, place_dialogs_under_mouse)) continue;
+
+		if (READ_BOOL(*options, save_window_positions)) continue;
+		if (READ_BOOL(*options, tools_restore_state)) continue;
 
 		/* startup options */
 		
@@ -876,11 +877,6 @@ static void options_parse_global(GQParserData *parser_data, GMarkupParseContext 
 		{
 		if (!keyword_tree) keyword_tree_new();
 		options_parse_func_push(parser_data, options_parse_keyword_tree, NULL, NULL);
-		}
-	else if (g_ascii_strcasecmp(element_name, "layout") == 0)
-		{
-		layout_load_attributes(&options->layout, attribute_names, attribute_values);
-		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 	else
 		{

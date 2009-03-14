@@ -43,6 +43,9 @@ ConfOptions *init_options(ConfOptions *options)
 	options->file_filter.show_dot_directory = FALSE;
 	options->file_filter.show_hidden_files = FALSE;
 
+	options->save_window_positions = TRUE;
+	options->tools_restore_state = TRUE;
+
 	options->file_ops.confirm_delete = TRUE;
 	options->file_ops.enable_delete_key = TRUE;
 	options->file_ops.enable_in_place_rename = TRUE;
@@ -84,36 +87,6 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image_overlay.x = 10;
 	options->image_overlay.y = -10;
 
-	options->layout.dir_view_type = DIRVIEW_LIST;
-	options->layout.file_view_type = FILEVIEW_LIST;
-	options->layout.float_window.h = 450;
-	options->layout.float_window.vdivider_pos = -1;
-	options->layout.float_window.w = 260;
-	options->layout.float_window.x = 0;
-	options->layout.float_window.y = 0;
-	options->layout.home_path = NULL;
-	options->layout.main_window.h = 540;
-	options->layout.main_window.hdivider_pos = -1;
-	options->layout.main_window.maximized = FALSE;
-	options->layout.main_window.vdivider_pos = 200;
-	options->layout.main_window.w = 720;
-	options->layout.main_window.x = 0;
-	options->layout.main_window.y = 0;
-	options->layout.order = NULL;
-	options->layout.save_window_positions = TRUE;
-	options->layout.show_directory_date = FALSE;
-	options->layout.show_marks = FALSE;
-	options->layout.show_thumbnails = FALSE;
-	options->layout.style = 0;
-	options->layout.info_pixel_hidden = TRUE;
-	options->layout.toolbar_hidden = FALSE;
-	options->layout.tools_float = FALSE;
-	options->layout.tools_hidden = FALSE;
-	options->layout.tools_restore_state = TRUE;
-	options->layout.image_overlay.histogram_channel = HCHAN_RGB;
-	options->layout.image_overlay.histogram_mode = 1;
-	options->layout.image_overlay.state = OSD_SHOW_NOTHING;
-	
 	options->lazy_image_sync = FALSE;
 	options->mousewheel_scrolls = FALSE;
 	options->open_recent_list_maxsize = 10;
@@ -182,7 +155,6 @@ void setup_default_options(ConfOptions *options)
 
 	set_default_image_overlay_template_string(&options->image_overlay.template_string);
 	options->sidecar.ext = g_strdup(".jpg;%raw;.xmp");
-	options->layout.order = g_strdup("123");
 
 	options->shell.path = g_strdup(GQ_DEFAULT_SHELL_PATH);
 	options->shell.options = g_strdup(GQ_DEFAULT_SHELL_OPTIONS);
@@ -208,6 +180,40 @@ void free_layout_options_content(LayoutOptions *dest)
 	if (dest->home_path) g_free(dest->home_path);
 }
 
+LayoutOptions *init_layout_options(LayoutOptions *options)
+{
+	memset(options, 0, sizeof(LayoutOptions));
+
+	options->dir_view_type = DIRVIEW_LIST;
+	options->file_view_type = FILEVIEW_LIST;
+	options->float_window.h = 450;
+	options->float_window.vdivider_pos = -1;
+	options->float_window.w = 260;
+	options->float_window.x = 0;
+	options->float_window.y = 0;
+	options->home_path = NULL;
+	options->main_window.h = 540;
+	options->main_window.hdivider_pos = -1;
+	options->main_window.maximized = FALSE;
+	options->main_window.vdivider_pos = 200;
+	options->main_window.w = 720;
+	options->main_window.x = 0;
+	options->main_window.y = 0;
+	options->order = g_strdup("123");
+	options->show_directory_date = FALSE;
+	options->show_marks = FALSE;
+	options->show_thumbnails = FALSE;
+	options->style = 0;
+	options->info_pixel_hidden = TRUE;
+	options->toolbar_hidden = FALSE;
+	options->tools_float = FALSE;
+	options->tools_hidden = FALSE;
+	options->image_overlay.histogram_channel = HCHAN_RGB;
+	options->image_overlay.histogram_mode = 1;
+	options->image_overlay.state = OSD_SHOW_NOTHING;
+	return options;
+}
+
 static void sync_options_with_current_state(ConfOptions *options)
 {
 	LayoutWindow *lw = NULL;
@@ -215,10 +221,7 @@ static void sync_options_with_current_state(ConfOptions *options)
 	if (layout_valid(&lw))
 		{
 		layout_sync_options_with_current_state(lw);
-		copy_layout_options(&options->layout, &lw->options);
 		layout_sort_get(lw, &options->file_sort.method, &options->file_sort.ascending);
-
-	
 
 		options->color_profile.enabled = layout_image_color_profile_get_use(lw);
 		layout_image_color_profile_get(lw,

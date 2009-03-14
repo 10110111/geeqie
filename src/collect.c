@@ -1185,7 +1185,7 @@ CollectWindow *collection_window_new(const gchar *path)
 				      GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
 
 
-	if (options->layout.save_window_positions && path && collection_load_only_geometry(cw->cd, path))
+	if (options->save_window_positions && path && collection_load_only_geometry(cw->cd, path))
 		{
 		/* FIXME: x, y is not implemented */
 		gtk_window_set_default_size(GTK_WINDOW(cw->window), cw->cd->window_w, cw->cd->window_h);

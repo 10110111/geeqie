@@ -97,10 +97,7 @@ static gint debug_c;
 
 static GtkWidget *configwindow = NULL;
 static GtkWidget *startup_path_entry;
-static GtkWidget *home_path_entry;
 static GtkListStore *filter_store = NULL;
-
-static GtkWidget *layout_widget;
 
 static GtkWidget *safe_delete_path_entry;
 
@@ -123,11 +120,6 @@ static GtkWidget *sidecar_ext_entry;
 static void startup_path_set_current(GtkWidget *widget, gpointer data)
 {
 	gtk_entry_set_text(GTK_ENTRY(startup_path_entry), layout_get_path(NULL));
-}
-
-static void home_path_set_current(GtkWidget *widget, gpointer data)
-{
-	gtk_entry_set_text(GTK_ENTRY(home_path_entry), layout_get_path(NULL));
 }
 
 static void zoom_mode_cb(GtkWidget *widget, gpointer data)
@@ -159,7 +151,7 @@ static void slideshow_delay_cb(GtkWidget *spin, gpointer data)
  *-----------------------------------------------------------------------------
  */
 
-static void config_entry_to_option(GtkWidget *entry, gchar **option, gchar *(*func)(const gchar *))
+void config_entry_to_option(GtkWidget *entry, gchar **option, gchar *(*func)(const gchar *))
 {
 	const gchar *buf;
 
@@ -226,7 +218,6 @@ static void config_parse_editor_entries(GtkWidget **editor_name_entry, GtkWidget
 
 static void config_window_apply(void)
 {
-	gint new_style;
 	gint i;
 	gint refresh = FALSE;
 
@@ -243,14 +234,13 @@ static void config_window_apply(void)
 	options->startup.restore_path = c_options->startup.restore_path;
 	options->startup.use_last_path = c_options->startup.use_last_path;
 	config_entry_to_option(startup_path_entry, &options->startup.path, remove_trailing_slash);
-	config_entry_to_option(home_path_entry, &options->layout.home_path, remove_trailing_slash);
 
 	options->file_ops.confirm_delete = c_options->file_ops.confirm_delete;
 	options->file_ops.enable_delete_key = c_options->file_ops.enable_delete_key;
 	options->file_ops.safe_delete_enable = c_options->file_ops.safe_delete_enable;
 	options->file_ops.safe_delete_folder_maxsize = c_options->file_ops.safe_delete_folder_maxsize;
-	options->layout.tools_restore_state = c_options->layout.tools_restore_state;
-	options->layout.save_window_positions = c_options->layout.save_window_positions;
+	options->tools_restore_state = c_options->tools_restore_state;
+	options->save_window_positions = c_options->save_window_positions;
 	options->image.zoom_mode = c_options->image.zoom_mode;
 	options->image.scroll_reset_method = c_options->image.scroll_reset_method;
 	options->image.zoom_2pass = c_options->image.zoom_2pass;
@@ -368,35 +358,6 @@ static void config_window_apply(void)
 		}
 
 #endif
-	{
-	gchar *layout_order = layout_config_get(layout_widget, &new_style);
-
-	if (new_style != options->layout.style ||
-	    (layout_order == NULL) != (options->layout.order == NULL) ||
-	    !options->layout.order ||
-	    strcmp(layout_order, options->layout.order) != 0)
-		{
-		if (refresh) filter_rebuild();
-		refresh = FALSE;
-
-		g_free(options->layout.order);
-		options->layout.order = layout_order;
-		layout_order = NULL; /* g_free() later */
-
-		options->layout.style = new_style;
-
-		layout_styles_update();
-		}
-
-	g_free(layout_order);
-	}
-
-	if (options->layout.show_directory_date != c_options->layout.show_directory_date)
-		{
-		options->layout.show_directory_date = c_options->layout.show_directory_date;
-		refresh = TRUE;
-		}
-
 	image_options_sync();
 
 	if (refresh)
@@ -447,40 +408,6 @@ static void config_window_save_cb(GtkWidget *widget, gpointer data)
  * config window setup (private)
  *-----------------------------------------------------------------------------
  */
-
-static void exif_item_cb(GtkWidget *combo, gpointer data)
-{
-	gint *option = data;
-	*option = gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
-}
-
-static void exif_item(GtkWidget *table, gint column, gint row,
-		      const gchar *text, gint option, gint *option_c)
-{
-	GtkWidget *combo;
-
-	*option_c = option;
-
-	pref_table_label(table, column, row, text, 0.0);
-
-	combo = gtk_combo_box_new_text();
-
-	/* note: the order is important, it must match the values of
-	 * EXIF_UI_OFF, _IFSET, _ON */
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Never"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("If set"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Always"));
-
-	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), option);
-
-	g_signal_connect(G_OBJECT(combo), "changed",
-			 G_CALLBACK(exif_item_cb), option_c);
-
-	gtk_table_attach(GTK_TABLE(table), combo,
-			 column + 1, column + 2, row, row + 1,
-			 GTK_EXPAND | GTK_FILL, 0, 0, 0);
-	gtk_widget_show(combo);
-}
 
 static void quality_menu_cb(GtkWidget *combo, gpointer data)
 {
@@ -1198,9 +1125,9 @@ static void config_tab_windows(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("State"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Remember window positions"),
-			      options->layout.save_window_positions, &c_options->layout.save_window_positions);
+			      options->save_window_positions, &c_options->save_window_positions);
 	pref_checkbox_new_int(group, _("Remember tool state (float/hidden)"),
-			      options->layout.tools_restore_state, &c_options->layout.tools_restore_state);
+			      options->tools_restore_state, &c_options->tools_restore_state);
 
 	group = pref_group_new(vbox, FALSE, _("Size"), GTK_ORIENTATION_VERTICAL);
 
@@ -1214,13 +1141,6 @@ static void config_tab_windows(GtkWidget *notebook)
 				 10, 150, 1,
 				 options->image.max_window_size, &c_options->image.max_window_size);
 	pref_checkbox_link_sensitivity(ct_button, spin);
-
-	group = pref_group_new(vbox, FALSE, _("Layout"), GTK_ORIENTATION_VERTICAL);
-
-	layout_widget = layout_config_new();
-	layout_config_set(layout_widget, options->layout.style, options->layout.order);
-	gtk_box_pack_start(GTK_BOX(group), layout_widget, FALSE, FALSE, 0);
-	gtk_widget_show(layout_widget);
 }
 
 static GtkTreeModel *create_class_model(void)
@@ -1634,9 +1554,6 @@ static void config_tab_advanced(GtkWidget *notebook)
 	pref_checkbox_new_int(group, _("Descend folders in tree view"),
 			      options->tree_descend_subdirs, &c_options->tree_descend_subdirs);
 
-	pref_checkbox_new_int(group, _("Show date in directories list view"),
-			      options->layout.show_directory_date, &c_options->layout.show_directory_date);
-
 	pref_checkbox_new_int(group, _("In place renaming"),
 			      options->file_ops.enable_in_place_rename, &c_options->file_ops.enable_in_place_rename);
 
@@ -1655,18 +1572,6 @@ static void config_tab_advanced(GtkWidget *notebook)
 			      options->progressive_key_scrolling, &c_options->progressive_key_scrolling);
 	pref_checkbox_new_int(group, _("Mouse wheel scrolls image"),
 			      options->mousewheel_scrolls, &c_options->mousewheel_scrolls);
-
-	pref_label_new(group, _("Home button path (empty to use your home directory)"));
-	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
-
-	tabcomp = tab_completion_new(&home_path_entry, options->layout.home_path, NULL, NULL);
-	tab_completion_add_select_button(home_path_entry, NULL, TRUE);
-	gtk_box_pack_start(GTK_BOX(hbox), tabcomp, TRUE, TRUE, 0);
-	gtk_widget_show(tabcomp);
-
-	button = pref_button_new(hbox, NULL, _("Use current"), FALSE,
-				 G_CALLBACK(home_path_set_current), NULL);
-
 
 	group = pref_group_new(vbox, FALSE, _("Metadata"), GTK_ORIENTATION_VERTICAL);
 

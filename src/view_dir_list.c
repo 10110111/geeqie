@@ -203,7 +203,7 @@ static gint vdlist_populate(ViewDir *vd, gboolean clear)
 			else
 				{
 				pixbuf = vd->pf->close;
-				if (options->layout.show_directory_date)
+				if (vd->layout && vd->layout->options.show_directory_date)
 					date = text_from_time(fd->date);
 				}
 			}

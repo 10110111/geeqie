@@ -520,12 +520,8 @@ struct _LayoutOptions
 		gint histogram_mode;
 	} image_overlay;
 
-	gboolean save_window_positions;
-
 	gboolean tools_float;
 	gboolean tools_hidden;
-	gboolean tools_restore_state;
-
 	gboolean toolbar_hidden;
 	gboolean info_pixel_hidden;
 

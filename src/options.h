@@ -34,6 +34,8 @@ struct _ConfOptions
 	gint open_recent_list_maxsize;
 	gint dnd_icon_size;
 
+	gboolean save_window_positions;
+	gboolean tools_restore_state;
 
 	/* start up */
 	struct {
@@ -145,13 +147,6 @@ struct _ConfOptions
 		gint y;
 	} image_overlay;
 
-	/* layout */
-	/* FIXME: this is here for 2 reasons:
-	   - I don't want to break preferences dialog now
-	   - it might be useful as defaults for new windows (I am not sure about this)
-	*/
-	LayoutOptions layout;
-
 	/* properties dialog */
 	struct {
 		gchar *tabs_order;
@@ -208,7 +203,7 @@ gboolean load_options(ConfOptions *options);
 
 void copy_layout_options(LayoutOptions *dest, const LayoutOptions *src);
 void free_layout_options_content(LayoutOptions *dest);
-
+LayoutOptions *init_layout_options(LayoutOptions *options);
 
 #endif /* OPTIONS_H */
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
