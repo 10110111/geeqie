@@ -60,9 +60,9 @@ static GList *pan_window_list = NULL;
 
 static void pan_layout_update_idle(PanWindow *pw);
 
-static void pan_fullscreen_toggle(PanWindow *pw, gint force_off);
+static void pan_fullscreen_toggle(PanWindow *pw, gboolean force_off);
 
-static void pan_search_toggle_visible(PanWindow *pw, gint enable);
+static void pan_search_toggle_visible(PanWindow *pw, gboolean enable);
 static void pan_search_activate(PanWindow *pw);
 
 static void pan_window_close(PanWindow *pw);
@@ -78,7 +78,7 @@ static void pan_window_dnd_init(PanWindow *pw);
  *-----------------------------------------------------------------------------
  */
 
-static gint pan_queue_step(PanWindow *pw);
+static gboolean pan_queue_step(PanWindow *pw);
 
 
 static void pan_queue_thumb_done_cb(ThumbLoader *tl, gpointer data)
@@ -176,7 +176,7 @@ static void pan_queue_image_area_cb(ImageLoader *il, guint x, guint y,
 }
 #endif
 
-static gint pan_queue_step(PanWindow *pw)
+static gboolean pan_queue_step(PanWindow *pw)
 {
 	PanItem *pi;
 
@@ -269,8 +269,8 @@ static void pan_queue_add(PanWindow *pw, PanItem *pi)
  *-----------------------------------------------------------------------------
  */
 
-static gint pan_window_request_tile_cb(PixbufRenderer *pr, gint x, gint y,
-				       gint width, gint height, GdkPixbuf *pixbuf, gpointer data)
+static gboolean pan_window_request_tile_cb(PixbufRenderer *pr, gint x, gint y,
+				       	   gint width, gint height, GdkPixbuf *pixbuf, gpointer data)
 {
 	PanWindow *pw = data;
 	GList *list;
@@ -313,7 +313,7 @@ static gint pan_window_request_tile_cb(PixbufRenderer *pr, gint x, gint y,
 	while (work)
 		{
 		PanItem *pi;
-		gint queue = FALSE;
+		gboolean queue = FALSE;
 
 		pi = work->data;
 		work = work->next;
@@ -531,7 +531,7 @@ static gint pan_cache_sort_file_cb(gpointer a, gpointer b)
 	PanCacheData *pcb = b;
 	return filelist_sort_compare_filedata(pca->fd, pcb->fd);
 }
-GList *pan_cache_sort(GList *list, SortType method, gint ascend)
+GList *pan_cache_sort(GList *list, SortType method, gboolean ascend)
 {
 	return filelist_sort_full(list, method, ascend, (GCompareFunc) pan_cache_sort_file_cb);
 }
@@ -602,7 +602,7 @@ static void pan_cache_step_done_cb(CacheLoader *cl, gint error, gpointer data)
 	pan_layout_update_idle(pw);
 }
 
-static gint pan_cache_step(PanWindow *pw)
+static gboolean pan_cache_step(PanWindow *pw)
 {
 	FileData *fd;
 	PanCacheData *pc;
@@ -1197,12 +1197,12 @@ static void pan_window_menu_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolean *pu
 	popup_menu_position_clamp(menu, x, y, 0);
 }
 
-static gint pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	PanWindow *pw = data;
 	PixbufRenderer *pr;
 	FileData *fd;
-	gint stop_signal = FALSE;
+	gboolean stop_signal = FALSE;
 	GtkWidget *menu;
 	gint x = 0;
 	gint y = 0;
@@ -1658,7 +1658,7 @@ static gint pan_search_by_path(PanWindow *pw, const gchar *path)
 	return TRUE;
 }
 
-static gint pan_search_by_partial(PanWindow *pw, const gchar *text)
+static gboolean pan_search_by_partial(PanWindow *pw, const gchar *text)
 {
 	PanItem *pi;
 	GList *list;
@@ -1706,7 +1706,7 @@ static gint pan_search_by_partial(PanWindow *pw, const gchar *text)
 	return TRUE;
 }
 
-static gint valid_date_separator(gchar c)
+static gboolean valid_date_separator(gchar c)
 {
 	return (c == '/' || c == '-' || c == ' ' || c == '.' || c == ',');
 }
@@ -1748,7 +1748,7 @@ static GList *pan_search_by_date_val(PanWindow *pw, PanItemType type,
 	return g_list_reverse(list);
 }
 
-static gint pan_search_by_date(PanWindow *pw, const gchar *text)
+static gboolean pan_search_by_date(PanWindow *pw, const gchar *text)
 {
 	PanItem *pi = NULL;
 	GList *list = NULL;
@@ -1961,7 +1961,7 @@ static void pan_search_activate(PanWindow *pw)
 static void pan_search_toggle_cb(GtkWidget *button, gpointer data)
 {
 	PanWindow *pw = data;
-	gint visible;
+	gboolean visible;
 
 	visible = GTK_WIDGET_VISIBLE(pw->search_box);
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button)) == visible) return;
@@ -1979,7 +1979,7 @@ static void pan_search_toggle_cb(GtkWidget *button, gpointer data)
 		}
 }
 
-static void pan_search_toggle_visible(PanWindow *pw, gint enable)
+static void pan_search_toggle_visible(PanWindow *pw, gboolean enable)
 {
 	if (pw->fs) return;
 
@@ -2131,7 +2131,7 @@ static void pan_fullscreen_stop_func(FullScreenData *fs, gpointer data)
 	pw->imd = pw->imd_normal;
 }
 
-static void pan_fullscreen_toggle(PanWindow *pw, gint force_off)
+static void pan_fullscreen_toggle(PanWindow *pw, gboolean force_off)
 {
 	if (force_off && !pw->fs) return;
 
@@ -2317,7 +2317,7 @@ static void pan_window_close(PanWindow *pw)
 	g_free(pw);
 }
 
-static gint pan_window_delete_cb(GtkWidget *w, GdkEventAny *event, gpointer data)
+static gboolean pan_window_delete_cb(GtkWidget *w, GdkEventAny *event, gpointer data)
 {
 	PanWindow *pw = data;
 
@@ -2553,20 +2553,20 @@ static void pan_warning_ok_cb(GenericDialog *gd, gpointer data)
 
 static void pan_warning_hide_cb(GtkWidget *button, gpointer data)
 {
-	gint hide_dlg;
+	gboolean hide_dlg;
 
 	hide_dlg = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button));
 	pref_list_int_set(PAN_PREF_GROUP, PAN_PREF_HIDE_WARNING, hide_dlg);
 }
 
-static gint pan_warning(FileData *dir_fd)
+static gboolean pan_warning(FileData *dir_fd)
 {
 	GenericDialog *gd;
 	GtkWidget *box;
 	GtkWidget *group;
 	GtkWidget *button;
 	GtkWidget *ct_button;
-	gint hide_dlg;
+	gboolean hide_dlg;
 
 	if (dir_fd && strcmp(dir_fd->path, G_DIR_SEPARATOR_S) == 0)
 		{
@@ -2796,7 +2796,7 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 	GtkWidget *menu;
 	GtkWidget *submenu;
 	GtkWidget *item;
-	gint active;
+	gboolean active;
 
 	active = (pw->click_pi != NULL);
 
@@ -2932,7 +2932,7 @@ static void pan_window_set_dnd_data(GtkWidget *widget, GdkDragContext *context,
 		{
 		gchar *text = NULL;
 		gint len;
-		gint plain_text;
+		gboolean plain_text;
 		GList *list;
 
 		switch (info)
@@ -2982,9 +2982,4 @@ static void pan_window_dnd_init(PanWindow *pw)
 			 G_CALLBACK(pan_window_get_dnd_data), pw);
 }
 
-/*
- *-----------------------------------------------------------------------------
- * maintenance (for rename, move, remove)
- *-----------------------------------------------------------------------------
- */
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

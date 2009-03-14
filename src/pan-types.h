@@ -165,7 +165,7 @@ struct _PanItem {
 
 	gpointer data;
 
-	gint queued;
+	gboolean queued;
 };
 
 typedef struct _PanWindow PanWindow;
@@ -200,12 +200,12 @@ struct _PanWindow
 	gint thumb_size;
 	gint thumb_gap;
 	gint image_size;
-	gint exif_date_enable;
+	gboolean exif_date_enable;
 
 	gint info_image_size;
-	gint info_includes_exif;
+	gboolean info_includes_exif;
 
-	gint ignore_symlinks;
+	gboolean ignore_symlinks;
 
 	GList *list;
 	GList *list_static;
@@ -255,7 +255,7 @@ void pan_layout_resize(PanWindow *pw);
 
 void pan_cache_sync_date(PanWindow *pw, GList *list);
 
-GList *pan_cache_sort(GList *list, SortType method, gint ascend);
+GList *pan_cache_sort(GList *list, SortType method, gboolean ascend);
 /* pan-item.c */
 
 void pan_item_free(PanItem *pi);
@@ -270,9 +270,9 @@ void pan_item_size_coordinates(PanItem *pi, gint border, gint *w, gint *h);
 
 PanItem *pan_item_find_by_key(PanWindow *pw, PanItemType type, const gchar *key);
 GList *pan_item_find_by_path(PanWindow *pw, PanItemType type, const gchar *path,
-			     gint ignore_case, gint partial);
+			     gboolean ignore_case, gboolean partial);
 GList *pan_item_find_by_fd(PanWindow *pw, PanItemType type, FileData *fd,
-			     gint ignore_case, gint partial);
+			     gboolean ignore_case, gboolean partial);
 PanItem *pan_item_find_by_coord(PanWindow *pw, PanItemType type,
 				gint x, gint y, const gchar *key);
 
@@ -338,15 +338,15 @@ typedef enum {
 	PAN_DATE_LENGTH_YEAR
 } PanDateLengthType;
 
-gint pan_date_compare(time_t a, time_t b, PanDateLengthType length);
+gboolean pan_date_compare(time_t a, time_t b, PanDateLengthType length);
 gint pan_date_value(time_t d, PanDateLengthType length);
 gchar *pan_date_value_string(time_t d,  PanDateLengthType length);
 time_t pan_date_to_time(gint year, gint month, gint day);
 
-gint pan_is_link_loop(const gchar *s);
-gint pan_is_ignored(const gchar *s, gint ignore_symlinks);
-GList *pan_list_tree(FileData *dir_fd, SortType sort, gint ascend,
-		     gint ignore_symlinks);
+gboolean pan_is_link_loop(const gchar *s);
+gboolean pan_is_ignored(const gchar *s, gboolean ignore_symlinks);
+GList *pan_list_tree(FileData *dir_fd, SortType sort, gboolean ascend,
+		     gboolean ignore_symlinks);
 
 
 /* the different view types */

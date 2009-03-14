@@ -109,7 +109,7 @@ static void pan_flower_move(FlowerGroup *group, gint x, gint y)
 	group->y += y;
 }
 
-#define PI 3.14159
+#define PI 3.14159265
 
 static void pan_flower_position(FlowerGroup *group, FlowerGroup *parent,
 							     gint *result_x, gint *result_y)

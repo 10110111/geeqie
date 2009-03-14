@@ -35,7 +35,7 @@ typedef enum {
 static const gchar *group_keys[] = {KEYWORD_KEY, COMMENT_KEY, NULL}; /* tags that will be written to all files in a group */
 
 static gboolean metadata_write_queue_idle_cb(gpointer data);
-static gint metadata_legacy_write(FileData *fd);
+static gboolean metadata_legacy_write(FileData *fd);
 static void metadata_legacy_delete(FileData *fd, const gchar *except);
 
 
@@ -238,7 +238,7 @@ gboolean metadata_write_string(FileData *fd, const gchar *key, const char *value
  *-------------------------------------------------------------------
  */
 
-static gint metadata_file_write(gchar *path, GHashTable *modified_xmp)
+static gboolean metadata_file_write(gchar *path, GHashTable *modified_xmp)
 {
 	SecureSaveInfo *ssi;
 	GList *keywords = g_hash_table_lookup(modified_xmp, KEYWORD_KEY);
@@ -268,12 +268,12 @@ static gint metadata_file_write(gchar *path, GHashTable *modified_xmp)
 	return (secure_close(ssi) == 0);
 }
 
-static gint metadata_legacy_write(FileData *fd)
+static gboolean metadata_legacy_write(FileData *fd)
 {
-	gint success = FALSE;
+	gboolean success = FALSE;
+	gchar *metadata_pathl;
 
 	g_assert(fd->change && fd->change->dest);
-	gchar *metadata_pathl;
 
 	DEBUG_1("Saving comment: %s", fd->change->dest);
 
@@ -286,7 +286,7 @@ static gint metadata_legacy_write(FileData *fd)
 	return success;
 }
 
-static gint metadata_file_read(gchar *path, GList **keywords, gchar **comment)
+static gboolean metadata_file_read(gchar *path, GList **keywords, gchar **comment)
 {
 	FILE *f;
 	gchar s_buf[1024];
@@ -404,11 +404,12 @@ static void metadata_legacy_delete(FileData *fd, const gchar *except)
 		}
 }
 
-static gint metadata_legacy_read(FileData *fd, GList **keywords, gchar **comment)
+static gboolean metadata_legacy_read(FileData *fd, GList **keywords, gchar **comment)
 {
 	gchar *metadata_path;
 	gchar *metadata_pathl;
-	gint success = FALSE;
+	gboolean success = FALSE;
+	
 	if (!fd) return FALSE;
 
 	metadata_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);

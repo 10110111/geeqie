@@ -722,7 +722,7 @@ PanItem *pan_item_find_by_key(PanWindow *pw, PanItemType type, const gchar *key)
 /* when ignore_case and partial are TRUE, path should be converted to lower case */
 static GList *pan_item_find_by_path_l(GList *list, GList *search_list,
 				      PanItemType type, const gchar *path,
-				      gint ignore_case, gint partial)
+				      gboolean ignore_case, gboolean partial)
 {
 	GList *work;
 
@@ -734,7 +734,7 @@ static GList *pan_item_find_by_path_l(GList *list, GList *search_list,
 		pi = work->data;
 		if ((pi->type == type || type == PAN_ITEM_NONE) && pi->fd)
 			{
-			gint match = FALSE;
+			gboolean match = FALSE;
 
 			if (path[0] == G_DIR_SEPARATOR)
 				{
@@ -777,7 +777,7 @@ static GList *pan_item_find_by_path_l(GList *list, GList *search_list,
 
 /* when ignore_case and partial are TRUE, path should be converted to lower case */
 GList *pan_item_find_by_path(PanWindow *pw, PanItemType type, const gchar *path,
-			     gint ignore_case, gint partial)
+			     gboolean ignore_case, gboolean partial)
 {
 	GList *list = NULL;
 
@@ -791,7 +791,7 @@ GList *pan_item_find_by_path(PanWindow *pw, PanItemType type, const gchar *path,
 }
 
 GList *pan_item_find_by_fd(PanWindow *pw, PanItemType type, FileData *fd,
-			     gint ignore_case, gint partial)
+			   gboolean ignore_case, gboolean partial)
 {
 	if (!fd) return NULL;
 	return pan_item_find_by_path(pw, type, fd->path, ignore_case, partial);

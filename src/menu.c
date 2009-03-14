@@ -155,7 +155,7 @@ gchar *sort_type_get_text(SortType method)
 
 static GtkWidget *submenu_add_sort_item(GtkWidget *menu, GtkWidget *parent,
 					GCallback func, SortType type,
-					gint show_current, SortType show_type)
+					gboolean show_current, SortType show_type)
 {
 	GtkWidget *item;
 
@@ -175,8 +175,8 @@ static GtkWidget *submenu_add_sort_item(GtkWidget *menu, GtkWidget *parent,
 }
 
 GtkWidget *submenu_add_sort(GtkWidget *menu, GCallback func, gpointer data,
-			    gint include_none, gint include_path,
-			    gint show_current, SortType type)
+			    gboolean include_none, gboolean include_path,
+			    gboolean show_current, SortType type)
 {
 	GtkWidget *submenu;
 	GtkWidget *parent;

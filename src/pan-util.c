@@ -22,7 +22,7 @@
  *-----------------------------------------------------------------------------
  */
 
-gint pan_date_compare(time_t a, time_t b, PanDateLengthType length)
+gboolean pan_date_compare(time_t a, time_t b, PanDateLengthType length)
 {
 	struct tm ta;
 	struct tm tb;
@@ -134,11 +134,11 @@ time_t pan_date_to_time(gint year, gint month, gint day)
  *-----------------------------------------------------------------------------
  */
 
-gint pan_is_link_loop(const gchar *s)
+gboolean pan_is_link_loop(const gchar *s)
 {
 	gchar *sl;
 	struct stat st;
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	sl = path_from_utf8(s);
 
@@ -185,7 +185,7 @@ gint pan_is_link_loop(const gchar *s)
 	return ret;
 }
 
-gint pan_is_ignored(const gchar *s, gint ignore_symlinks)
+gboolean pan_is_ignored(const gchar *s, gboolean ignore_symlinks)
 {
 	struct stat st;
 	const gchar *n;
@@ -208,8 +208,8 @@ gint pan_is_ignored(const gchar *s, gint ignore_symlinks)
 	return FALSE;
 }
 
-GList *pan_list_tree(FileData *dir_fd, SortType sort, gint ascend,
-		     gint ignore_symlinks)
+GList *pan_list_tree(FileData *dir_fd, SortType sort, gboolean ascend,
+		     gboolean ignore_symlinks)
 {
 	GList *flist;
 	GList *dlist;
