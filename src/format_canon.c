@@ -95,7 +95,7 @@ static gint canon_cr2_tiff_entry(guchar *data, const guint len, guint offset, Ex
 static gint canon_cr2_tiff_table(guchar *data, const guint len, guint offset, ExifByteOrder bo,
 				 guint *image_offset)
 {
-	gint jpeg_encoding = FALSE;
+	gboolean jpeg_encoding = FALSE;
 	guint count;
 	guint i;
 

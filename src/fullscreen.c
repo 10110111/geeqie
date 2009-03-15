@@ -180,8 +180,8 @@ static void fullscreen_image_complete_cb(ImageWindow *imd, gboolean preload, gpo
 
 static void fullscreen_saver_deactivate(void)
 {
-	static gint checked = FALSE;
-	static gint found = FALSE;
+	static gboolean checked = FALSE;
+	static gboolean found = FALSE;
 
 	if (!checked)
 		{

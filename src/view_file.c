@@ -115,7 +115,7 @@ GList *vf_get_list(ViewFile *vf)
 static gint vf_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	ViewFile *vf = data;
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	switch (vf->type)
 	{
@@ -135,7 +135,7 @@ static gint vf_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data
 static gint vf_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	ViewFile *vf = data;
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	switch (vf->type)
 	{
@@ -149,7 +149,7 @@ static gint vf_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data
 static gint vf_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	ViewFile *vf = data;
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	switch (vf->type)
 	{
@@ -603,7 +603,7 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 
 gint vf_refresh(ViewFile *vf)
 {
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	switch (vf->type)
 	{
@@ -616,7 +616,7 @@ gint vf_refresh(ViewFile *vf)
 
 gint vf_set_fd(ViewFile *vf, FileData *dir_fd)
 {
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	switch (vf->type)
 	{

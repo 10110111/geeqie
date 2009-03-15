@@ -860,7 +860,7 @@ void pixbuf_draw_triangle(GdkPixbuf *pb,
 	gint slope1_x, slope1_y;
 	gint y;
 	gint t;
-	gint middle = FALSE;
+	gboolean middle = FALSE;
 
 	if (!pb) return;
 
@@ -961,7 +961,7 @@ static gint util_clip_line(gdouble clip_x, gdouble clip_y, gdouble clip_w, gdoub
 			   gdouble x1, gdouble y1, gdouble x2, gdouble y2,
 			   gdouble *rx1, gdouble *ry1, gdouble *rx2, gdouble *ry2)
 {
-	gint flip = FALSE;
+	gboolean flip = FALSE;
 	gdouble d;
 
 	if (x1 > x2)

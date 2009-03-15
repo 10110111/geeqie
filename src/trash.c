@@ -33,8 +33,8 @@ static gint file_util_safe_number(gint64 free_space)
 	gint64 total = 0;
 	GList *list;
 	GList *work;
-	gint sorted = FALSE;
-	gint warned = FALSE;
+	gboolean sorted = FALSE;
+	gboolean warned = FALSE;
 	FileData *dir_fd;
 
 	dir_fd = file_data_new_simple(options->file_ops.safe_delete_path);
@@ -126,7 +126,7 @@ gint file_util_safe_unlink(const gchar *path)
 {
 	static GenericDialog *gd = NULL;
 	gchar *result = NULL;
-	gint success = TRUE;
+	gboolean success = TRUE;
 
 	if (!isfile(path)) return FALSE;
 

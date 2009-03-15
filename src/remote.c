@@ -294,7 +294,7 @@ static void sighandler_sigpipe(gint sig)
 static gint remote_client_send(RemoteConnection *rc, const gchar *text)
 {
 	struct sigaction new_action, old_action;
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	if (!rc || rc->server) return FALSE;
 	if (!text) return TRUE;
@@ -521,7 +521,7 @@ static void gr_list_clear(const gchar *text, gpointer data)
 static void gr_list_add(const gchar *text, gpointer data)
 {
 	RemoteData *remote_data = data;
-	gint new = TRUE;
+	gboolean new = TRUE;
 
 	if (!remote_data->command_collection)
 		{
@@ -595,7 +595,7 @@ static RemoteCommandEntry remote_commands[] = {
 
 static RemoteCommandEntry *remote_command_find(const gchar *text, const gchar **offset)
 {
-	gint match = FALSE;
+	gboolean match = FALSE;
 	gint i;
 
 	i = 0;
@@ -697,7 +697,7 @@ void remote_control(const gchar *arg_exec, GList *remote_list, const gchar *path
 		    GList *cmd_list, GList *collection_list)
 {
 	RemoteConnection *rc;
-	gint started = FALSE;
+	gboolean started = FALSE;
 	gchar *buf;
 
 	buf = g_build_filename(get_rc_dir(), ".command", NULL);
@@ -707,7 +707,7 @@ void remote_control(const gchar *arg_exec, GList *remote_list, const gchar *path
 		GString *command;
 		GList *work;
 		gint retry_count = 12;
-		gint blank = FALSE;
+		gboolean blank = FALSE;
 
 		printf_term(_("Remote %s not running, starting..."), GQ_APPNAME);
 
@@ -763,8 +763,8 @@ void remote_control(const gchar *arg_exec, GList *remote_list, const gchar *path
 		{
 		GList *work;
 		const gchar *prefix;
-		gint use_path = TRUE;
-		gint sent = FALSE;
+		gboolean use_path = TRUE;
+		gboolean sent = FALSE;
 
 		work = remote_list;
 		while (work)

@@ -2124,8 +2124,8 @@ void layout_sync_options_with_current_state(LayoutWindow *lw)
 
 void layout_apply_options(LayoutWindow *lw, LayoutOptions *lop)
 {
-	gint refresh_style;
-	gint refresh_lists;
+	gboolean refresh_style;
+	gboolean refresh_lists;
 
 	if (!layout_valid(&lw)) return;
 /* FIXME: add other options too */

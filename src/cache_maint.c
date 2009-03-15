@@ -360,7 +360,7 @@ gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear)
 	GList *dlist = NULL;
 	FileData *dir_fd;
 	GList *flist = NULL;
-	gint still_have_a_file = FALSE;
+	gboolean still_have_a_file = FALSE;
 
 	DEBUG_1("maintainance check: %s", dir);
 
@@ -434,7 +434,7 @@ gint cache_maintain_dir(FileData *dir_fd, gint recursive, gint clear)
 	GList *list = NULL;
 	gchar *cachedir;
 	FileData *cachedir_fd;
-	gint still_have_a_file = FALSE;
+	gboolean still_have_a_file = FALSE;
 	GList *work;
 
 	cachedir = g_build_filename(dir, GQ_CACHE_LOCAL_THUMB, NULL);

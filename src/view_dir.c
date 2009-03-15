@@ -120,7 +120,7 @@ void vd_set_layout(ViewDir *vd, LayoutWindow *layout)
 
 gint vd_set_fd(ViewDir *vd, FileData *dir_fd)
 {
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	file_data_unregister_notify_func(vd_notify_cb, vd);
 
@@ -168,7 +168,7 @@ void vd_select_row(ViewDir *vd, FileData *fd)
 
 gint vd_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
 {
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	switch (vd->type)
 	{
@@ -557,8 +557,8 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 	GtkWidget *submenu;
 	GtkWidget *item;
 	gint active;
-	gint rename_delete_active = FALSE;
-	gint new_folder_active = FALSE;
+	gboolean rename_delete_active = FALSE;
+	gboolean new_folder_active = FALSE;
 	gint i;
 
 	active = (fd != NULL);
@@ -746,7 +746,7 @@ static void vd_dnd_drop_receive(GtkWidget *widget,
 		{
 		GList *list;
 		gint active;
-		gint done = FALSE;
+		gboolean done = FALSE;
 
 		list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
 		if (!list) return;
@@ -994,7 +994,7 @@ gint vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 gint vd_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	ViewDir *vd = data;
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	switch (vd->type)
 	{
@@ -1008,7 +1008,7 @@ gint vd_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 gint vd_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	ViewDir *vd = data;
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	switch (vd->type)
 	{

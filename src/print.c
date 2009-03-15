@@ -1525,7 +1525,7 @@ static gint print_job_rgb_page_new(PrintWindow *pw, gint page)
 static gint print_job_rgb_page_done(PrintWindow *pw)
 {
 	gchar *pathl;
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	if (!pw->job_pixbuf) return FALSE;
 
@@ -1624,7 +1624,7 @@ static gdouble convert_pango_dpi(gdouble points)
 
 		if (dpi < 25.0)
 			{
-			static gint warned = FALSE;
+			static gboolean warned = FALSE;
 			gdouble fallback_dpi = 96.0;
 
 			if (!warned)
@@ -1909,7 +1909,7 @@ static gint print_job_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
 				 gdouble x, gdouble y, gdouble w, gdouble h,
 				 gdouble offx, gdouble offy)
 {
-	gint success = FALSE;
+	gboolean success = FALSE;
 
 	if (w <= 0.0 || h <= 0.0) return TRUE;
 
@@ -1933,7 +1933,7 @@ static gint print_job_page_text(PrintWindow *pw, const gchar *text, gdouble poin
 				gdouble x, gdouble y, gdouble width,
 				guint8 r, guint8 g, guint8 b)
 {
-	gint success = TRUE;
+	gboolean success = TRUE;
 
 	if (!text) return TRUE;
 
@@ -2034,8 +2034,8 @@ static gint print_job_text_image(PrintWindow *pw, const gchar *path,
 				 gint sw, gint sh, gint proof)
 {
 	GString *string;
-	gint space = FALSE;
-	gint newline = FALSE;
+	gboolean space = FALSE;
+	gboolean newline = FALSE;
 	gint ret;
 
 	if (pw->text_fields == 0) return TRUE;
@@ -2097,7 +2097,7 @@ static void print_job_render_image_loader_done(ImageLoader *il, gpointer data)
 {
 	PrintWindow *pw = data;
 	GdkPixbuf *pixbuf;
-	gint success = TRUE;
+	gboolean success = TRUE;
 
 	pixbuf = image_loader_get_pixbuf(il);
 	if (pixbuf)
@@ -2236,7 +2236,7 @@ static void print_job_render_proof_loader_done(ImageLoader *il, gpointer data)
 	gdouble proof_w, proof_h;
 	gdouble icon_w, icon_h;
 	gdouble scale;
-	gint success = TRUE;
+	gboolean success = TRUE;
 
 	if (pw->proof_columns < 1 || pw->proof_rows < 1)
 		{
@@ -2436,7 +2436,7 @@ static void print_job_render(PrintWindow *pw)
 
 static gint print_job_init(PrintWindow *pw)
 {
-	gint success = FALSE;
+	gboolean success = FALSE;
 
 	pw->job_page = 0;
 
@@ -2459,7 +2459,7 @@ static gint print_job_init(PrintWindow *pw)
 
 static gint print_job_finish(PrintWindow *pw)
 {
-	gint success = FALSE;
+	gboolean success = FALSE;
 
 	switch (pw->job_format)
 		{
@@ -3046,9 +3046,9 @@ static void print_custom_entry_set(PrintWindow *pw, GtkWidget *combo)
 
 static void print_output_set(PrintWindow *pw, PrintOutput output)
 {
-	gint use_file = FALSE;
-	gint use_custom = FALSE;
-	gint use_format = FALSE;
+	gboolean use_file = FALSE;
+	gboolean use_custom = FALSE;
+	gboolean use_format = FALSE;
 
 	pw->output = output;
 

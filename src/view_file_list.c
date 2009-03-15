@@ -851,7 +851,7 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 		{
 		gint match;
 		FileData *fd = work->data;
-		gint done = FALSE;
+		gboolean done = FALSE;
 
 		while (!done)
 			{
@@ -1124,7 +1124,7 @@ static gint vflist_thumb_next(ViewFile *vf)
 		{
 		GtkTreeModel *store;
 		GtkTreeIter iter;
-		gint valid = TRUE;
+		gboolean valid = TRUE;
 
 		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
 		gtk_tree_model_get_iter(store, &iter, tpath);
@@ -1286,7 +1286,7 @@ static gint vflist_row_is_selected(ViewFile *vf, FileData *fd)
 	GtkTreeSelection *selection;
 	GList *slist;
 	GList *work;
-	gint found = FALSE;
+	gboolean found = FALSE;
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vf->listview));
 	slist = gtk_tree_selection_get_selected_rows(selection, &store);
@@ -1724,7 +1724,7 @@ static void vflist_populate_view(ViewFile *vf)
 gint vflist_refresh(ViewFile *vf)
 {
 	GList *old_list;
-	gint ret = TRUE;
+	gboolean ret = TRUE;
 
 	old_list = vf->list;
 	vf->list = NULL;

@@ -165,7 +165,7 @@ GtkWidget *popup_menu_short_lived(void)
 
 gint popup_menu_position_clamp(GtkMenu *menu, gint *x, gint *y, gint height)
 {
-	gint adjusted = FALSE;
+	gboolean adjusted = FALSE;
 	gint w, h;
 	gint xw, xh;
 

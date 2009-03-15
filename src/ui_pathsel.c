@@ -735,7 +735,7 @@ static void dest_new_dir_cb(GtkWidget *widget, gpointer data)
 	gchar *path;
 	gchar *buf;
 	const gchar *tmp;
-	gint from_text = FALSE;
+	gboolean from_text = FALSE;
 
 	tmp = gtk_entry_get_text(GTK_ENTRY(dd->entry));
 	if (!isname(tmp))

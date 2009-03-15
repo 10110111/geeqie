@@ -198,7 +198,7 @@ static void parse_command_line(gint argc, gchar *argv[])
 	GList *list = NULL;
 	GList *remote_list = NULL;
 	GList *remote_errors = NULL;
-	gint remote_do = FALSE;
+	gboolean remote_do = FALSE;
 	gchar *first_dir = NULL;
 	
 	command_line = g_new0(CommandLine, 1);

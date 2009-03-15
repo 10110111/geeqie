@@ -69,7 +69,7 @@ static gint encoding_dialog_delay(gpointer data)
 
 static void encoding_dialog(const gchar *path)
 {
-	static gint warned_user = FALSE;
+	static gboolean warned_user = FALSE;
 	GenericDialog *gd;
 	GString *string;
 	const gchar *lc;
@@ -418,7 +418,7 @@ time_t filetime(const gchar *s)
 
 gint filetime_set(const gchar *s, time_t tval)
 {
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	if (tval > 0)
 		{
@@ -519,7 +519,7 @@ gint copy_file_attributes(const gchar *s, const gchar *t, gint perms, gint mtime
 {
 	struct stat st;
 	gchar *sl, *tl;
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	if (!s || !t) return FALSE;
 
@@ -615,7 +615,7 @@ gint copy_file(const gchar *s, const gchar *t)
 gint move_file(const gchar *s, const gchar *t)
 {
 	gchar *sl, *tl;
-	gint ret = TRUE;
+	gboolean ret = TRUE;
 
 	if (!s || !t) return FALSE;
 
@@ -868,7 +868,7 @@ gint file_in_path(const gchar *name)
 	gchar *path;
 	gchar *namel;
 	gint p, l;
-	gint ret = FALSE;
+	gboolean ret = FALSE;
 
 	if (!name) return FALSE;
 	path = g_strdup(getenv("PATH"));
@@ -909,7 +909,7 @@ gboolean recursive_mkdir_if_not_exists(const gchar *path, mode_t mode)
 			p++;
 			if (p[0] == G_DIR_SEPARATOR || p[0] == '\0')
 				{
-				gint end = TRUE;
+				gboolean end = TRUE;
 
 				if (p[0] != '\0')
 					{

@@ -1962,7 +1962,7 @@ static gint vficon_thumb_next(ViewFile *vf)
 		{
 		GtkTreeModel *store;
 		GtkTreeIter iter;
-		gint valid = TRUE;
+		gboolean valid = TRUE;
 
 		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
 		gtk_tree_model_get_iter(store, &iter, tpath);
@@ -2162,7 +2162,7 @@ GList *vficon_get_list(ViewFile *vf)
 
 static gint vficon_refresh_real(ViewFile *vf, gint keep_position)
 {
-	gint ret = TRUE;
+	gboolean ret = TRUE;
 	GList *work, *work_fd;
 	IconData *focus_id;
 	GList *new_filelist = NULL;

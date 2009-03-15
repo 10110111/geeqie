@@ -409,7 +409,7 @@ static gint tab_completion_do(TabCompData *td)
 	const gchar *entry_file;
 	gchar *entry_dir;
 	gchar *ptr;
-	gint home_exp = FALSE;
+	gboolean home_exp = FALSE;
 
 	if (entry_text[0] == '\0')
 		{
@@ -547,7 +547,7 @@ static gint tab_completion_do(TabCompData *td)
 			else
 				{
 				gsize c = strlen(entry_file);
-				gint done = FALSE;
+				gboolean done = FALSE;
 				gchar *test_file = poss->data;
 
 				while (!done)
@@ -602,7 +602,7 @@ static gint tab_completion_do(TabCompData *td)
 static gint tab_completion_key_pressed(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	TabCompData *td = data;
-	gint stop_signal = FALSE;
+	gboolean stop_signal = FALSE;
 
 	switch (event->keyval)
 		{

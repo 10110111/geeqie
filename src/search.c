@@ -371,7 +371,7 @@ static gint search_result_row_selected(SearchData *sd, FileData *fd)
 	GtkTreeSelection *selection;
 	GList *slist;
 	GList *work;
-	gint found = FALSE;
+	gboolean found = FALSE;
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(sd->result_view));
 	slist = gtk_tree_selection_get_selected_rows(selection, &store);
@@ -1195,7 +1195,7 @@ static gint search_result_release_cb(GtkWidget *widget, GdkEventButton *bevent, 
 static gint search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	SearchData *sd = data;
-	gint stop_signal = FALSE;
+	gboolean stop_signal = FALSE;
 	GtkTreeModel *store;
 	GtkTreeSelection *selection;
 	GList *slist;
@@ -1338,7 +1338,7 @@ static gint search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpo
 static gint search_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	SearchData *sd = data;
-	gint stop_signal = FALSE;
+	gboolean stop_signal = FALSE;
 
 	if (event->state & GDK_CONTROL_MASK)
 		{
@@ -1573,9 +1573,9 @@ static void search_file_load_done_cb(ImageLoader *il, gpointer data)
 static gint search_file_do_extra(SearchData *sd, FileData *fd, gint *match,
 				 gint *width, gint *height, gint *simval)
 {
-	gint new_data = FALSE;
-	gint tmatch = TRUE;
-	gint tested = FALSE;
+	gboolean new_data = FALSE;
+	gboolean tmatch = TRUE;
+	gboolean tested = FALSE;
 
 	if (!sd->img_cd)
 		{
@@ -1684,9 +1684,9 @@ static gint search_file_do_extra(SearchData *sd, FileData *fd, gint *match,
 static gint search_file_next(SearchData *sd)
 {
 	FileData *fd;
-	gint match = TRUE;
-	gint tested = FALSE;
-	gint extra_only = FALSE;
+	gboolean match = TRUE;
+	gboolean tested = FALSE;
+	gboolean extra_only = FALSE;
 	gint width = 0;
 	gint height = 0;
 	gint sim = 0;
@@ -1817,7 +1817,7 @@ static gint search_file_next(SearchData *sd)
 
 			if (sd->match_keywords == SEARCH_MATCH_ALL)
 				{
-				gint found = TRUE;
+				gboolean found = TRUE;
 
 				needle = sd->search_keyword_list;
 				while (needle && found)
@@ -1837,7 +1837,7 @@ static gint search_file_next(SearchData *sd)
 				}
 			else if (sd->match_keywords == SEARCH_MATCH_ANY)
 				{
-				gint found = FALSE;
+				gboolean found = FALSE;
 
 				needle = sd->search_keyword_list;
 				while (needle && !found)
@@ -1856,7 +1856,7 @@ static gint search_file_next(SearchData *sd)
 				}
 			else if (sd->match_keywords == SEARCH_MATCH_NONE)
 				{
-				gint found = FALSE;
+				gboolean found = FALSE;
 
 				needle = sd->search_keyword_list;
 				while (needle && !found)
@@ -1991,7 +1991,7 @@ static gint search_step_cb(gpointer data)
 		{
 		GList *list = NULL;
 		GList *dlist = NULL;
-		gint success = FALSE;
+		gboolean success = FALSE;
 
 		sd->search_done_list = g_list_prepend(sd->search_done_list, fd);
 

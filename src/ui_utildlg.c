@@ -125,7 +125,7 @@ gint generic_dialog_get_alternative_button_order(GtkWidget *widget)
 {
 	GtkSettings *settings;
 	GObjectClass *klass;
-	gint alternative_order = FALSE;
+	gboolean alternative_order = FALSE;
 
 	settings = gtk_settings_get_for_screen(gtk_widget_get_screen(widget));
 	klass = G_OBJECT_CLASS(GTK_SETTINGS_GET_CLASS(settings));

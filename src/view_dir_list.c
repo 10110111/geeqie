@@ -188,7 +188,7 @@ static gint vdlist_populate(ViewDir *vd, gboolean clear)
 		GdkPixbuf *pixbuf;
 		const gchar *date = "";
 		fd = work->data;
-		gint done = FALSE;
+		gboolean done = FALSE;
 
 		if (access_file(fd->path, R_OK | X_OK) && fd->name)
 			{

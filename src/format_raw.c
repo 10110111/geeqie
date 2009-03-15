@@ -310,7 +310,7 @@ gint format_raw_img_exif_offsets_fd(gint fd, const gchar *path,
 	if (path)
 		{
 		const gchar *ext;
-		gint match = FALSE;
+		gboolean match = FALSE;
 		gint i;
 
 		ext = strrchr(path, '.');

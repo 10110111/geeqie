@@ -197,7 +197,7 @@ static gchar *thumb_loader_std_cache_path(ThumbLoaderStd *tl, gint local, GdkPix
 static gint thumb_loader_std_fail_check(ThumbLoaderStd *tl)
 {
 	gchar *fail_path;
-	gint result = FALSE;
+	gboolean result = FALSE;
 
 	fail_path = thumb_loader_std_cache_path(tl, FALSE, NULL, TRUE);
 	if (isfile(fail_path))
@@ -776,7 +776,7 @@ static void thumb_loader_std_thumb_file_validate_done_cb(ThumbLoaderStd *tl, gpo
 {
 	ThumbValidate *tv = data;
 	GdkPixbuf *pixbuf;
-	gint valid = FALSE;
+	gboolean valid = FALSE;
 
 	/* this function is called on success, so the pixbuf should not be a fallback*/
 	pixbuf = thumb_loader_std_get_pixbuf(tv->tl);

@@ -219,7 +219,7 @@ static void config_parse_editor_entries(GtkWidget **editor_name_entry, GtkWidget
 static void config_window_apply(void)
 {
 	gint i;
-	gint refresh = FALSE;
+	gboolean refresh = FALSE;
 
 //	config_parse_editor_entries(editor_name_entry, editor_command_entry); 
 //	layout_edit_update_all();

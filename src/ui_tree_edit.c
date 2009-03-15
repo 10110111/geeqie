@@ -410,7 +410,7 @@ gint tree_view_move_cursor_away(GtkTreeView *widget, GtkTreeIter *iter, gint onl
 	GtkTreeModel *store;
 	GtkTreePath *tpath;
 	GtkTreePath *fpath;
-	gint move = FALSE;
+	gboolean move = FALSE;
 
 	if (!iter) return FALSE;
 

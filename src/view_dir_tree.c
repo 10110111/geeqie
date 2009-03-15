@@ -665,7 +665,7 @@ FileData *vdtree_populate_path(ViewDir *vd, FileData *target_fd, gint expand, gi
  *----------------------------------------------------------------------------
  */
 
-static gint selection_is_ok = FALSE;
+static gboolean selection_is_ok = FALSE;
 
 static gboolean vdtree_select_cb(GtkTreeSelection *selection, GtkTreeModel *store, GtkTreePath *tpath,
 				 gboolean path_currently_selected, gpointer data)
