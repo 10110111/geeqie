@@ -797,12 +797,27 @@ gchar *exif_get_tag_description_by_key(const gchar *key)
 {
 	try {
 		Exiv2::ExifKey ekey(key);
-		return utf8_validate_or_convert(Exiv2::ExifTags::tagLabel(ekey.tag(), ekey.ifdId ()));
+		return utf8_validate_or_convert(ekey.tagLabel().c_str());
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
-		return NULL;
+		try {
+			Exiv2::IptcKey ikey(key);
+			return utf8_validate_or_convert(ikey.tagLabel().c_str());
+		}
+		catch (Exiv2::AnyError& e) {
+			try {
+#if EXIV2_TEST_VERSION(0,16,0)
+				Exiv2::XmpKey xkey(key);
+				return utf8_validate_or_convert(xkey.tagLabel().c_str());
+#endif
+			}
+			catch (Exiv2::AnyError& e) {
+				std::cout << "Caught Exiv2 exception '" << e << "'\n";
+				return NULL;
+			}
+		}
 	}
+	return NULL;
 }
 
 static const AltKey *find_alt_key(const gchar *xmp_key)
