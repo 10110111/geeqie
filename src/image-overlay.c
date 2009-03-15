@@ -888,8 +888,7 @@ static gboolean image_osd_update_cb(gpointer data)
 		image_osd_icons_hide(osd);
 		}
 
-	if (osd->imd->il && image_loader_get_is_done(osd->imd->il))
-		osd->changed_states = IMAGE_STATE_NONE;
+	osd->changed_states = IMAGE_STATE_NONE;
 	osd->notify = 0;
 	osd->idle_id = -1;
 	return FALSE;
