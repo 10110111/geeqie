@@ -413,7 +413,7 @@ static void bar_pane_keywords_populate_popup_cb(GtkTextView *textview, GtkMenu *
 static void bar_pane_keywords_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneKeywordsData *pkd = data;
-	if (fd == pkd->fd) bar_pane_keywords_update(pkd);
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == pkd->fd) bar_pane_keywords_update(pkd);
 }
 
 static void bar_pane_keywords_changed(GtkTextBuffer *buffer, gpointer data)
