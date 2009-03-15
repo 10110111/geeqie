@@ -146,7 +146,7 @@ static void help_window_load_text(GtkWidget *text, const gchar *path)
 	gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(text), &iter, 0.0, TRUE, 0, 0);
 }
 
-static gint help_window_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer data)
+static gboolean help_window_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer data)
 {
 	gtk_widget_destroy(widget);
 	return TRUE;

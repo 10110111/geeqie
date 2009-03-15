@@ -19,14 +19,14 @@ GtkWidget *menu_item_add(GtkWidget *menu, const gchar *label,
 			 GCallback func, gpointer data);
 GtkWidget *menu_item_add_stock(GtkWidget *menu, const gchar *label, const gchar *stock_id,
 			       GCallback func, gpointer data);
-GtkWidget *menu_item_add_sensitive(GtkWidget *menu, const gchar *label, gint sensitive,
+GtkWidget *menu_item_add_sensitive(GtkWidget *menu, const gchar *label, gboolean sensitive,
 				   GCallback func, gpointer data);
-GtkWidget *menu_item_add_stock_sensitive(GtkWidget *menu, const gchar *label, const gchar *stock_id, gint sensitive,
+GtkWidget *menu_item_add_stock_sensitive(GtkWidget *menu, const gchar *label, const gchar *stock_id, gboolean sensitive,
 					 GCallback func, gpointer data);
-GtkWidget *menu_item_add_check(GtkWidget *menu, const gchar *label, gint active,
+GtkWidget *menu_item_add_check(GtkWidget *menu, const gchar *label, gboolean active,
 			       GCallback func, gpointer data);
 GtkWidget *menu_item_add_radio(GtkWidget *menu, GtkWidget *parent,
-			       const gchar *label, gint active,
+			       const gchar *label, gboolean active,
 			       GCallback func, gpointer data);
 void menu_item_add_divider(GtkWidget *menu);
 
@@ -39,7 +39,7 @@ GtkWidget *popup_menu_short_lived(void);
 /* clamp a menu's position to within the screen
  * if menu will attempt to stay out of region y to y+height
  */
-gint popup_menu_position_clamp(GtkMenu *menu, gint *x, gint *y, gint height);
+gboolean popup_menu_position_clamp(GtkMenu *menu, gint *x, gint *y, gint height);
 
 
 #endif

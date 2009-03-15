@@ -67,7 +67,7 @@ struct _Dest_Data
 	GList *filter_text_list;
 	GtkWidget *filter_combo;
 
-	gint show_hidden;
+	gboolean show_hidden;
 	GtkWidget *hidden_button;
 
 	GtkWidget *bookmark_list;
@@ -114,7 +114,7 @@ static void dest_free_data(GtkWidget *widget, gpointer data)
 	g_free(dd);
 }
 
-static gint dest_check_filter(const gchar *filter, const gchar *file)
+static gboolean dest_check_filter(const gchar *filter, const gchar *file)
 {
 	const gchar *f_ptr = filter;
 	const gchar *strt_ptr;
@@ -150,7 +150,7 @@ static gint dest_sort_cb(gpointer a, gpointer b)
 	return CASE_SORT((gchar *)a, (gchar *)b);
 }
 
-static gint is_hidden(const gchar *name)
+static gboolean is_hidden(const gchar *name)
 {
 	if (name[0] != '.') return FALSE;
 	if (name[1] == '\0') return FALSE;
@@ -273,7 +273,7 @@ static void dest_populate(Dest_Data *dd, const gchar *path)
 	dd->path = g_strdup(path);
 }
 
-static void dest_change_dir(Dest_Data *dd, const gchar *path, gint retain_name)
+static void dest_change_dir(Dest_Data *dd, const gchar *path, gboolean retain_name)
 {
 	const gchar *old_name = NULL;
 	gchar *full_path;
@@ -608,8 +608,8 @@ static void dest_popup_position_cb(GtkMenu *menu, gint *x, gint *y,
 	popup_menu_position_clamp(menu, x, y, 0);
 }
 
-static gint dest_popup_menu(Dest_Data *dd, GtkTreeView *view,
-			    gint button, guint32 time, gint local)
+static gboolean dest_popup_menu(Dest_Data *dd, GtkTreeView *view,
+			        guint button, guint32 time, gboolean local)
 {
 	GtkWidget *menu;
 
@@ -620,7 +620,7 @@ static gint dest_popup_menu(Dest_Data *dd, GtkTreeView *view,
 		GtkTreeModel *model;
 		GtkTreeIter iter;
 		gchar *text;
-		gint normal_dir;
+		gboolean normal_dir;
 
 		model = gtk_tree_view_get_model(view);
 		gtk_tree_model_get_iter(model, &iter, dd->right_click_path);
@@ -661,7 +661,7 @@ static gint dest_popup_menu(Dest_Data *dd, GtkTreeView *view,
 	return TRUE;
 }
 
-static gint dest_press_cb(GtkWidget *view, GdkEventButton *event, gpointer data)
+static gboolean dest_press_cb(GtkWidget *view, GdkEventButton *event, gpointer data)
 {
 	Dest_Data *dd = data;
 	GtkTreePath *tpath;
@@ -931,7 +931,7 @@ static void dest_filter_list_sync(Dest_Data *dd)
 	g_free(old_text);
 }
 
-static void dest_filter_add(Dest_Data *dd, const gchar *filter, const gchar *description, gint set)
+static void dest_filter_add(Dest_Data *dd, const gchar *filter, const gchar *description, gboolean set)
 {
 	GList *work;
 	gchar *buf;
@@ -1279,7 +1279,7 @@ void path_selection_add_select_func(GtkWidget *entry,
 	dd->select_data = data;
 }
 
-void path_selection_add_filter(GtkWidget *entry, const gchar *filter, const gchar *description, gint set)
+void path_selection_add_filter(GtkWidget *entry, const gchar *filter, const gchar *description, gboolean set)
 {
 	Dest_Data *dd = g_object_get_data(G_OBJECT(entry), "destination_data");
 

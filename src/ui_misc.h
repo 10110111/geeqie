@@ -53,49 +53,49 @@
 #define PREF_PAD_BUTTON_ICON_GAP 2
 
 
-GtkWidget *pref_box_new(GtkWidget *parent_box, gint fill,
-			GtkOrientation orientation, gint padding);
+GtkWidget *pref_box_new(GtkWidget *parent_box, gboolean fill,
+			GtkOrientation orientation, gboolean padding);
 
-GtkWidget *pref_group_new(GtkWidget *parent_box, gint fill,
+GtkWidget *pref_group_new(GtkWidget *parent_box, gboolean fill,
 			  const gchar *text, GtkOrientation orientation);
 GtkWidget *pref_group_parent(GtkWidget *child);
 
-GtkWidget *pref_frame_new(GtkWidget *parent_box, gint fill,
+GtkWidget *pref_frame_new(GtkWidget *parent_box, gboolean fill,
 			  const gchar *text,
-			  GtkOrientation orientation, gint padding);
+			  GtkOrientation orientation, gboolean padding);
 
-GtkWidget *pref_spacer(GtkWidget *parent_box, gint padding);
-GtkWidget *pref_line(GtkWidget *parent_box, gint padding);
+GtkWidget *pref_spacer(GtkWidget *parent_box, gboolean padding);
+GtkWidget *pref_line(GtkWidget *parent_box, gboolean padding);
 
 GtkWidget *pref_label_new(GtkWidget *parent_box, const gchar *text);
 GtkWidget *pref_label_new_mnemonic(GtkWidget *parent_box, const gchar *text, GtkWidget *widget);
-void pref_label_bold(GtkWidget *label, gint bold, gint increase_size);
+void pref_label_bold(GtkWidget *label, gboolean bold, gboolean increase_size);
 
 GtkWidget *pref_button_new(GtkWidget *parent_box, const gchar *stock_id,
-			   const gchar *text, gint hide_stock_text,
+			   const gchar *text, gboolean hide_stock_text,
 			   GCallback func, gpointer data);
 
-GtkWidget *pref_checkbox_new(GtkWidget *parent_box, const gchar *text, gint active,
+GtkWidget *pref_checkbox_new(GtkWidget *parent_box, const gchar *text, gboolean active,
 			     GCallback func, gpointer data);
-GtkWidget *pref_checkbox_new_mnemonic(GtkWidget *parent_box, const gchar *text, gint active,
+GtkWidget *pref_checkbox_new_mnemonic(GtkWidget *parent_box, const gchar *text, gboolean active,
 				      GCallback func, gpointer data);
 
-GtkWidget *pref_checkbox_new_int(GtkWidget *parent_box, const gchar *text, gint active,
-				 gint *result);
+GtkWidget *pref_checkbox_new_int(GtkWidget *parent_box, const gchar *text, gboolean active,
+				 gboolean *result);
 
 void pref_checkbox_link_sensitivity(GtkWidget *button, GtkWidget *widget);
 void pref_checkbox_link_sensitivity_swap(GtkWidget *button, GtkWidget *widget);
 
 GtkWidget *pref_radiobutton_new(GtkWidget *parent_box, GtkWidget *sibling,
-				const gchar *text, gint active,
+				const gchar *text, gboolean active,
 				GCallback func, gpointer data);
 GtkWidget *pref_radiobutton_new_mnemonic(GtkWidget *parent_box, GtkWidget *sibling,
-					 const gchar *text, gint active,
+					 const gchar *text, gboolean active,
 					 GCallback func, gpointer data);
 
 GtkWidget *pref_radiobutton_new_int(GtkWidget *parent_box, GtkWidget *sibling,
-				    const gchar *text, gint active,
-				    gint *result, gint value,
+				    const gchar *text, gboolean active,
+				    gboolean *result, gboolean value,
 				    GCallback func, gpointer data);
 
 GtkWidget *pref_spin_new(GtkWidget *parent_box, const gchar *text, const gchar *suffix,
@@ -118,7 +118,7 @@ void pref_signal_unblock_data(GtkWidget *widget, gpointer data);
 
 
 GtkWidget *pref_table_new(GtkWidget *parent_box, gint columns, gint rows,
-			  gint homogenious, gint fill);
+			  gboolean homegeneous, gboolean fill);
 
 GtkWidget *pref_table_box(GtkWidget *table, gint column, gint row,
 			  GtkOrientation orientation, const gchar *text);
@@ -127,7 +127,7 @@ GtkWidget *pref_table_label(GtkWidget *table, gint column, gint row,
 			    const gchar *text, gfloat alignment);
 
 GtkWidget *pref_table_button(GtkWidget *table, gint column, gint row,
-			     const gchar *stock_id, const gchar *text, gint hide_stock_text,
+			     const gchar *stock_id, const gchar *text, gboolean hide_stock_text,
 			     GCallback func, gpointer data);
 
 GtkWidget *pref_table_spin(GtkWidget *table, gint column, gint row,
@@ -139,7 +139,7 @@ GtkWidget *pref_table_spin(GtkWidget *table, gint column, gint row,
 
 GtkWidget *pref_toolbar_new(GtkWidget *parent_box, GtkToolbarStyle style);
 GtkWidget *pref_toolbar_button(GtkWidget *toolbar,
-			       const gchar *stock_id, const gchar *label, gint toggle,
+			       const gchar *stock_id, const gchar *label, gboolean toggle,
 			       const gchar *description,
 			       GCallback func, gpointer data);
 void pref_toolbar_button_set_icon(GtkWidget *button, GtkWidget *widget, const gchar *stock_id);
@@ -171,13 +171,13 @@ void sizer_set_limits(GtkWidget *sizer,
 
 
 void pref_list_int_set(const gchar *group, const gchar *key, gint value);
-gint pref_list_int_get(const gchar *group, const gchar *key, gint *result);
+gboolean pref_list_int_get(const gchar *group, const gchar *key, gint *result);
 
 void pref_list_double_set(const gchar *group, const gchar *key, gdouble value);
-gint pref_list_double_get(const gchar *group, const gchar *key, gdouble *result);
+gboolean pref_list_double_get(const gchar *group, const gchar *key, gdouble *result);
 
 void pref_list_string_set(const gchar *group, const gchar *key, const gchar *value);
-gint pref_list_string_get(const gchar *group, const gchar *key, const gchar **result);
+gboolean pref_list_string_get(const gchar *group, const gchar *key, const gchar **result);
 
 
 void pref_color_button_set_cb(GtkWidget *widget, gpointer data);

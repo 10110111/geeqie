@@ -34,8 +34,8 @@
  *-----------------------------------------------------------------------------
  */
 
-GtkWidget *pref_box_new(GtkWidget *parent_box, gint fill,
-			GtkOrientation orientation, gint padding)
+GtkWidget *pref_box_new(GtkWidget *parent_box, gboolean fill,
+			GtkOrientation orientation, gboolean padding)
 {
 	GtkWidget *box;
 
@@ -54,7 +54,7 @@ GtkWidget *pref_box_new(GtkWidget *parent_box, gint fill,
 	return box;
 }
 
-GtkWidget *pref_group_new(GtkWidget *parent_box, gint fill,
+GtkWidget *pref_group_new(GtkWidget *parent_box, gboolean fill,
 			  const gchar *text, GtkOrientation orientation)
 {
 	GtkWidget *box;
@@ -121,9 +121,9 @@ GtkWidget *pref_group_parent(GtkWidget *child)
 	return child;
 }
 
-GtkWidget *pref_frame_new(GtkWidget *parent_box, gint fill,
+GtkWidget *pref_frame_new(GtkWidget *parent_box, gboolean fill,
 			  const gchar *text,
-			  GtkOrientation orientation, gint padding)
+			  GtkOrientation orientation, gboolean padding)
 {
 	GtkWidget *box;
 	GtkWidget *frame = NULL;
@@ -147,7 +147,7 @@ GtkWidget *pref_frame_new(GtkWidget *parent_box, gint fill,
 	return box;
 }
 
-GtkWidget *pref_spacer(GtkWidget *parent_box, gint padding)
+GtkWidget *pref_spacer(GtkWidget *parent_box, gboolean padding)
 {
 	GtkWidget *spacer;
 
@@ -158,7 +158,7 @@ GtkWidget *pref_spacer(GtkWidget *parent_box, gint padding)
 	return spacer;
 }
 
-GtkWidget *pref_line(GtkWidget *parent_box, gint padding)
+GtkWidget *pref_line(GtkWidget *parent_box, gboolean padding)
 {
 	GtkWidget *spacer;
 
@@ -200,7 +200,7 @@ GtkWidget *pref_label_new_mnemonic(GtkWidget *parent_box, const gchar *text, Gtk
 	return label;
 }
 
-void pref_label_bold(GtkWidget *label, gint bold, gint increase_size)
+void pref_label_bold(GtkWidget *label, gboolean bold, gboolean increase_size)
 {
 	PangoAttrList *pal;
 	PangoAttribute *pa;
@@ -230,7 +230,7 @@ void pref_label_bold(GtkWidget *label, gint bold, gint increase_size)
 }
 
 GtkWidget *pref_button_new(GtkWidget *parent_box, const gchar *stock_id,
-			   const gchar *text, gint hide_stock_text,
+			   const gchar *text, gboolean hide_stock_text,
 			   GCallback func, gpointer data)
 {
 	GtkWidget *button;
@@ -298,8 +298,8 @@ GtkWidget *pref_button_new(GtkWidget *parent_box, const gchar *stock_id,
 	return button;
 }
 
-static GtkWidget *real_pref_checkbox_new(GtkWidget *parent_box, const gchar *text, gint mnemonic_text,
-					 gint active, GCallback func, gpointer data)
+static GtkWidget *real_pref_checkbox_new(GtkWidget *parent_box, const gchar *text, gboolean mnemonic_text,
+					 gboolean active, GCallback func, gpointer data)
 {
 	GtkWidget *button;
 
@@ -320,13 +320,13 @@ static GtkWidget *real_pref_checkbox_new(GtkWidget *parent_box, const gchar *tex
 	return button;
 }
 
-GtkWidget *pref_checkbox_new(GtkWidget *parent_box, const gchar *text, gint active,
+GtkWidget *pref_checkbox_new(GtkWidget *parent_box, const gchar *text, gboolean active,
 			     GCallback func, gpointer data)
 {
 	return real_pref_checkbox_new(parent_box, text, FALSE, active, func, data);
 }
 
-GtkWidget *pref_checkbox_new_mnemonic(GtkWidget *parent_box, const gchar *text, gint active,
+GtkWidget *pref_checkbox_new_mnemonic(GtkWidget *parent_box, const gchar *text, gboolean active,
 				      GCallback func, gpointer data)
 {
 	return real_pref_checkbox_new(parent_box, text, TRUE, active, func, data);
@@ -334,13 +334,13 @@ GtkWidget *pref_checkbox_new_mnemonic(GtkWidget *parent_box, const gchar *text, 
 
 static void pref_checkbox_int_cb(GtkWidget *widget, gpointer data)
 {
-	gint *result = data;
+	gboolean *result = data;
 
 	*result = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 }
 
-GtkWidget *pref_checkbox_new_int(GtkWidget *parent_box, const gchar *text, gint active,
-				 gint *result)
+GtkWidget *pref_checkbox_new_int(GtkWidget *parent_box, const gchar *text, gboolean active,
+				 gboolean *result)
 {
 	GtkWidget *button;
 
@@ -382,7 +382,7 @@ void pref_checkbox_link_sensitivity_swap(GtkWidget *button, GtkWidget *widget)
 }
 
 static GtkWidget *real_pref_radiobutton_new(GtkWidget *parent_box, GtkWidget *sibling,
-					    const gchar *text, gint mnemonic_text, gint active,
+					    const gchar *text, gboolean mnemonic_text, gboolean active,
 					    GCallback func, gpointer data)
 {
 	GtkWidget *button;
@@ -416,14 +416,14 @@ static GtkWidget *real_pref_radiobutton_new(GtkWidget *parent_box, GtkWidget *si
 }
 
 GtkWidget *pref_radiobutton_new(GtkWidget *parent_box, GtkWidget *sibling,
-				const gchar *text, gint active,
+				const gchar *text, gboolean active,
 				GCallback func, gpointer data)
 {
 	return real_pref_radiobutton_new(parent_box, sibling, text, FALSE, active, func, data);
 }
 
 GtkWidget *pref_radiobutton_new_mnemonic(GtkWidget *parent_box, GtkWidget *sibling,
-					 const gchar *text, gint active,
+					 const gchar *text, gboolean active,
 					 GCallback func, gpointer data)
 {
 	return real_pref_radiobutton_new(parent_box, sibling, text, TRUE, active, func, data);
@@ -433,7 +433,7 @@ GtkWidget *pref_radiobutton_new_mnemonic(GtkWidget *parent_box, GtkWidget *sibli
 
 static void pref_radiobutton_int_cb(GtkWidget *widget, gpointer data)
 {
-	gint *result = data;
+	gboolean *result = data;
 
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
 		{
@@ -442,8 +442,8 @@ static void pref_radiobutton_int_cb(GtkWidget *widget, gpointer data)
 }
 
 GtkWidget *pref_radiobutton_new_int(GtkWidget *parent_box, GtkWidget *sibling,
-				    const gchar *text, gint active,
-				    gint *result, gint value,
+				    const gchar *text, gboolean active,
+				    gboolean *result, gboolean value,
 				    GCallback func, gpointer data)
 {
 	GtkWidget *button;
@@ -457,7 +457,7 @@ GtkWidget *pref_radiobutton_new_int(GtkWidget *parent_box, GtkWidget *sibling,
 }
 
 static GtkWidget *real_pref_spin_new(GtkWidget *parent_box, const gchar *text, const gchar *suffix,
-				     gint mnemonic_text,
+				     gboolean mnemonic_text,
 				     gdouble min, gdouble max, gdouble step, gint digits,
 				     gdouble value,
 				     GCallback func, gpointer data)
@@ -573,11 +573,11 @@ void pref_signal_unblock_data(GtkWidget *widget, gpointer data)
 }
 
 GtkWidget *pref_table_new(GtkWidget *parent_box, gint columns, gint rows,
-			  gint homogenious, gint fill)
+			  gboolean homogeneous, gboolean fill)
 {
 	GtkWidget *table;
 
-	table = gtk_table_new(rows, columns, homogenious);
+	table = gtk_table_new(rows, columns, homogeneous);
 	gtk_table_set_row_spacings(GTK_TABLE(table), PREF_PAD_GAP);
 	gtk_table_set_col_spacings(GTK_TABLE(table), PREF_PAD_SPACE);
 
@@ -640,7 +640,7 @@ GtkWidget *pref_table_label(GtkWidget *table, gint column, gint row,
 }
 
 GtkWidget *pref_table_button(GtkWidget *table, gint column, gint row,
-			     const gchar *stock_id, const gchar *text, gint hide_stock_text,
+			     const gchar *stock_id, const gchar *text, gboolean hide_stock_text,
 			     GCallback func, gpointer data)
 {
 	GtkWidget *button;
@@ -769,7 +769,7 @@ GtkWidget *pref_toolbar_new(GtkWidget *parent_box, GtkToolbarStyle style)
 }
 
 GtkWidget *pref_toolbar_button(GtkWidget *toolbar,
-			       const gchar *stock_id, const gchar *label, gint toggle,
+			       const gchar *stock_id, const gchar *label, gboolean toggle,
 			       const gchar *description,
 			       GCallback func, gpointer data)
 {
@@ -892,7 +892,7 @@ static void date_selection_popup_hide(DateSelection *ds)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ds->button), FALSE);
 }
 
-static gint date_selection_popup_release_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
+static gboolean date_selection_popup_release_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	DateSelection *ds = data;
 
@@ -900,7 +900,7 @@ static gint date_selection_popup_release_cb(GtkWidget *widget, GdkEventButton *e
 	return TRUE;
 }
 
-static gint date_selection_popup_press_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
+static gboolean date_selection_popup_press_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	DateSelection *ds = data;
 	gint x, y;
@@ -931,7 +931,7 @@ static void date_selection_popup_sync(DateSelection *ds)
 	date_selection_set(ds->box, day, month + 1, year);
 }
 
-static gint date_selection_popup_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean date_selection_popup_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	DateSelection *ds = data;
 
@@ -1178,13 +1178,13 @@ struct _SizerData
 	gint vsize_min;
 	gint vsize_max;
 
-	gint in_drag;
+	gboolean in_drag;
 	gint press_x;
 	gint press_y;
 	gint press_width;
 	gint press_height;
 
-	gint handle_prelit;
+	gboolean handle_prelit;
 };
 
 
@@ -1205,7 +1205,7 @@ static gint sizer_default_handle_size(void)
 	return handle_size;
 }
 
-static gint sizer_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+static gboolean sizer_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	SizerData *sd = data;
 	gint x, y;
@@ -1262,7 +1262,7 @@ static gint sizer_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 	return TRUE;
 }
 
-static gint sizer_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+static gboolean sizer_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	SizerData *sd = data;
 
@@ -1283,7 +1283,7 @@ static gint sizer_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer d
 	return TRUE;
 }
 
-static gint sizer_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+static gboolean sizer_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	SizerData *sd = data;
 
@@ -1300,14 +1300,14 @@ static gint sizer_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer
 	return TRUE;
 }
 
-static void sizer_set_prelight(SizerData *sd, gint prelit)
+static void sizer_set_prelight(SizerData *sd, gboolean prelit)
 {
 	sd->handle_prelit = prelit;
 	gtk_widget_queue_draw_area(sd->sizer, 0, 0,
 				   sd->sizer->allocation.width, sd->sizer->allocation.height);
 }
 
-static gint sizer_enter_cb(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
+static gboolean sizer_enter_cb(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 {
 	SizerData *sd = data;
 
@@ -1315,7 +1315,7 @@ static gint sizer_enter_cb(GtkWidget *widget, GdkEventCrossing *event, gpointer 
 	return TRUE;
 }
 
-static gint sizer_leave_cb(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
+static gboolean sizer_leave_cb(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 {
 	SizerData *sd = data;
 
@@ -1323,7 +1323,7 @@ static gint sizer_leave_cb(GtkWidget *widget, GdkEventCrossing *event, gpointer 
 	return TRUE;
 }
 
-static gint sizer_expose_cb(GtkWidget *widget, GdkEventExpose *event, gpointer data)
+static gboolean sizer_expose_cb(GtkWidget *widget, GdkEventExpose *event, gpointer data)
 {
 	SizerData *sd = data;
 	GdkRectangle clip;
@@ -1494,11 +1494,11 @@ static GList *pref_list_find(const gchar *group, const gchar *token)
 	return NULL;
 }
 
-static gint pref_list_get(const gchar *group, const gchar *key, const gchar *marker, const gchar **result)
+static gboolean pref_list_get(const gchar *group, const gchar *key, const gchar *marker, const gchar **result)
 {
 	gchar *token;
 	GList *work;
-	gint ret;
+	gboolean ret;
 
 	if (!group || !key || !marker)
 		{
@@ -1572,7 +1572,7 @@ void pref_list_int_set(const gchar *group, const gchar *key, gint value)
 	g_free(text);
 }
 
-gint pref_list_int_get(const gchar *group, const gchar *key, gint *result)
+gboolean pref_list_int_get(const gchar *group, const gchar *key, gint *result)
 {
 	const gchar *text;
 
@@ -1600,7 +1600,7 @@ void pref_list_double_set(const gchar *group, const gchar *key, gdouble value)
 	pref_list_set(group, key, PREF_LIST_MARKER_DOUBLE, text);
 }
 
-gint pref_list_double_get(const gchar *group, const gchar *key, gdouble *result)
+gboolean pref_list_double_get(const gchar *group, const gchar *key, gdouble *result)
 {
 	const gchar *text;
 
@@ -1625,7 +1625,7 @@ void pref_list_string_set(const gchar *group, const gchar *key, const gchar *val
 	pref_list_set(group, key, PREF_LIST_MARKER_STRING, value);
 }
 
-gint pref_list_string_get(const gchar *group, const gchar *key, const gchar **result)
+gboolean pref_list_string_get(const gchar *group, const gchar *key, const gchar **result)
 {
 	return pref_list_get(group, key, PREF_LIST_MARKER_STRING, result);
 }

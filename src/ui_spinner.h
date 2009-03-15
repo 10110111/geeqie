@@ -37,7 +37,7 @@ extern const guint8 icon_tabcomp[];
 GtkWidget *spinner_new(const gchar *path, gint interval);
 
 void spinner_set_interval(GtkWidget *spinner, gint interval);
-void spinner_step(GtkWidget *spinner, gint reset);
+void spinner_step(GtkWidget *spinner, gboolean reset);
 
 
 #endif

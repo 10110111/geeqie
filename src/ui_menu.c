@@ -63,7 +63,7 @@ GtkWidget *menu_item_add_stock(GtkWidget *menu, const gchar *label, const gchar 
 	return item;
 }
 
-GtkWidget *menu_item_add_sensitive(GtkWidget *menu, const gchar *label, gint sensitive,
+GtkWidget *menu_item_add_sensitive(GtkWidget *menu, const gchar *label, gboolean sensitive,
 				   GCallback func, gpointer data)
 {
 	GtkWidget *item;
@@ -74,7 +74,7 @@ GtkWidget *menu_item_add_sensitive(GtkWidget *menu, const gchar *label, gint sen
 	return item;
 }
 
-GtkWidget *menu_item_add_stock_sensitive(GtkWidget *menu, const gchar *label, const gchar *stock_id, gint sensitive,
+GtkWidget *menu_item_add_stock_sensitive(GtkWidget *menu, const gchar *label, const gchar *stock_id, gboolean sensitive,
 					 GCallback func, gpointer data)
 {
 	GtkWidget *item;
@@ -85,7 +85,7 @@ GtkWidget *menu_item_add_stock_sensitive(GtkWidget *menu, const gchar *label, co
 	return item;
 }
 
-GtkWidget *menu_item_add_check(GtkWidget *menu, const gchar *label, gint active,
+GtkWidget *menu_item_add_check(GtkWidget *menu, const gchar *label, gboolean active,
 			       GCallback func, gpointer data)
 {
 	GtkWidget *item;
@@ -98,7 +98,7 @@ GtkWidget *menu_item_add_check(GtkWidget *menu, const gchar *label, gint active,
 }
 
 GtkWidget *menu_item_add_radio(GtkWidget *menu, GtkWidget *parent,
-			       const gchar *label, gint active,
+			       const gchar *label, gboolean active,
 			       GCallback func, gpointer data)
 {
 	GtkWidget *item;
@@ -163,7 +163,7 @@ GtkWidget *popup_menu_short_lived(void)
 	return menu;
 }
 
-gint popup_menu_position_clamp(GtkMenu *menu, gint *x, gint *y, gint height)
+gboolean popup_menu_position_clamp(GtkMenu *menu, gint *x, gint *y, gint height)
 {
 	gboolean adjusted = FALSE;
 	gint w, h;

@@ -70,13 +70,13 @@ struct _TabCompData
 	gpointer tab_append_data;
 	
 	GtkWidget *combo;
-	gint has_history;
+	gboolean has_history;
 	gchar *history_key;
 	gint history_levels;
 
 	FileDialog *fd;
 	gchar *fd_title;
-	gint fd_folders_only;
+	gboolean fd_folders_only;
 	GtkWidget *fd_button;
 
 	guint choices;
@@ -178,7 +178,7 @@ static gchar *tab_completion_get_text(TabCompData *td)
 	return text;
 }
 
-static gint tab_completion_emit_enter_signal(TabCompData *td)
+static gboolean tab_completion_emit_enter_signal(TabCompData *td)
 {
 	gchar *text;
 	if (!td->enter_func) return FALSE;
@@ -228,7 +228,7 @@ void tab_completion_iter_menu_items(GtkWidget *widget, gpointer data)
 	}
 }
 
-static gint tab_completion_popup_key_press(GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean tab_completion_popup_key_press(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	TabCompData *td = data;
 
@@ -403,7 +403,7 @@ static gint simple_sort(gconstpointer a, gconstpointer b)
 
 #endif
 
-static gint tab_completion_do(TabCompData *td)
+static gboolean tab_completion_do(TabCompData *td)
 {
 	const gchar *entry_text = gtk_entry_get_text(GTK_ENTRY(td->entry));
 	const gchar *entry_file;
@@ -599,7 +599,7 @@ static gint tab_completion_do(TabCompData *td)
 	return FALSE;
 }
 
-static gint tab_completion_key_pressed(GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean tab_completion_key_pressed(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	TabCompData *td = data;
 	gboolean stop_signal = FALSE;
@@ -951,7 +951,7 @@ static void tab_completion_select_pressed(GtkWidget *widget, gpointer data)
 	tab_completion_select_show(td);
 }
 
-void tab_completion_add_select_button(GtkWidget *entry, const gchar *title, gint folders_only)
+void tab_completion_add_select_button(GtkWidget *entry, const gchar *title, gboolean folders_only)
 {
 	TabCompData *td;
 	GtkWidget *parent;

@@ -26,7 +26,7 @@ void tab_completion_add_to_entry(GtkWidget *entry, void (*enter_func)(const gcha
 void tab_completion_add_tab_func(GtkWidget *entry, void (*tab_func)(const gchar *, gpointer), gpointer data);
 gchar *remove_trailing_slash(const gchar *path);
 
-void tab_completion_add_select_button(GtkWidget *entry, const gchar *title, gint folders_only);
+void tab_completion_add_select_button(GtkWidget *entry, const gchar *title, gboolean folders_only);
 void tab_completion_add_append_func(GtkWidget *entry, void (*tab_append_func)(const gchar *, gpointer, gint), gpointer data);
 
 

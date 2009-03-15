@@ -50,7 +50,7 @@ void print_term(const gchar *text_utf8)
 
 static void encoding_dialog(const gchar *path);
 
-static gint encoding_dialog_idle(gpointer data)
+static gboolean encoding_dialog_idle(gpointer data)
 {
 	gchar *path = data;
 
@@ -301,10 +301,10 @@ const gchar *get_trash_dir(void)
 	return trash_dir;
 }
 
-gint stat_utf8(const gchar *s, struct stat *st)
+gboolean stat_utf8(const gchar *s, struct stat *st)
 {
 	gchar *sl;
-	gint ret;
+	gboolean ret;
 
 	if (!s) return FALSE;
 	sl = path_from_utf8(s);
@@ -314,10 +314,10 @@ gint stat_utf8(const gchar *s, struct stat *st)
 	return ret;
 }
 
-gint lstat_utf8(const gchar *s, struct stat *st)
+gboolean lstat_utf8(const gchar *s, struct stat *st)
 {
 	gchar *sl;
-	gint ret;
+	gboolean ret;
 
 	if (!s) return FALSE;
 	sl = path_from_utf8(s);
@@ -328,11 +328,11 @@ gint lstat_utf8(const gchar *s, struct stat *st)
 }
 
 /* extension must contain only ASCII characters */
-gint stat_utf8_case_insensitive_ext(GString *base, const gchar *ext, struct stat *st)
+gboolean stat_utf8_case_insensitive_ext(GString *base, const gchar *ext, struct stat *st)
 {
 	gchar *sl;
 	gchar *extl;
-	gint ret = 0;
+	gboolean ret = FALSE;
 	gint ext_len;
 	gint base_len = strlen(base->str);
 
@@ -372,28 +372,28 @@ gint stat_utf8_case_insensitive_ext(GString *base, const gchar *ext, struct stat
 	return ret;
 }
 
-gint isname(const gchar *s)
+gboolean isname(const gchar *s)
 {
 	struct stat st;
 
 	return stat_utf8(s, &st);
 }
 
-gint isfile(const gchar *s)
+gboolean isfile(const gchar *s)
 {
 	struct stat st;
 
 	return (stat_utf8(s, &st) && S_ISREG(st.st_mode));
 }
 
-gint isdir(const gchar *s)
+gboolean isdir(const gchar *s)
 {
 	struct stat st;
 
 	return (stat_utf8(s, &st) && S_ISDIR(st.st_mode));
 }
 
-gint islink(const gchar *s)
+gboolean islink(const gchar *s)
 {
 	struct stat st;
 
@@ -416,7 +416,7 @@ time_t filetime(const gchar *s)
 	return st.st_mtime;
 }
 
-gint filetime_set(const gchar *s, time_t tval)
+gboolean filetime_set(const gchar *s, time_t tval)
 {
 	gboolean ret = FALSE;
 
@@ -441,7 +441,7 @@ gboolean is_readable_file(const gchar *s)
 	return access_file(s, R_OK);
 }
 
-gint access_file(const gchar *s, gint mode)
+gboolean access_file(const gchar *s, gint mode)
 {
 	gchar *sl;
 	gint ret;
@@ -455,10 +455,10 @@ gint access_file(const gchar *s, gint mode)
 	return ret;
 }
 
-gint unlink_file(const gchar *s)
+gboolean unlink_file(const gchar *s)
 {
 	gchar *sl;
-	gint ret;
+	gboolean ret;
 
 	if (!s) return FALSE;
 
@@ -469,11 +469,11 @@ gint unlink_file(const gchar *s)
 	return ret;
 }
 
-gint symlink_utf8(const gchar *source, const gchar *target)
+gboolean symlink_utf8(const gchar *source, const gchar *target)
 {
 	gchar *sl;
 	gchar *tl;
-	gint ret;
+	gboolean ret;
 
 	if (!source || !target) return FALSE;
 
@@ -488,10 +488,10 @@ gint symlink_utf8(const gchar *source, const gchar *target)
 	return ret;
 }
 
-gint mkdir_utf8(const gchar *s, gint mode)
+gboolean mkdir_utf8(const gchar *s, gint mode)
 {
 	gchar *sl;
-	gint ret;
+	gboolean ret;
 
 	if (!s) return FALSE;
 
@@ -501,10 +501,10 @@ gint mkdir_utf8(const gchar *s, gint mode)
 	return ret;
 }
 
-gint rmdir_utf8(const gchar *s)
+gboolean rmdir_utf8(const gchar *s)
 {
 	gchar *sl;
-	gint ret;
+	gboolean ret;
 
 	if (!s) return FALSE;
 
@@ -515,7 +515,7 @@ gint rmdir_utf8(const gchar *s)
 	return ret;
 }
 
-gint copy_file_attributes(const gchar *s, const gchar *t, gint perms, gint mtime)
+gboolean copy_file_attributes(const gchar *s, const gchar *t, gint perms, gint mtime)
 {
 	struct stat st;
 	gchar *sl, *tl;
@@ -549,7 +549,7 @@ gint copy_file_attributes(const gchar *s, const gchar *t, gint perms, gint mtime
 }
 
 /* paths are in filesystem encoding */
-static gint hard_linked(const gchar *a, const gchar *b)
+static gboolean hard_linked(const gchar *a, const gchar *b)
 {
 	struct stat sta;
 	struct stat stb;
@@ -560,7 +560,7 @@ static gint hard_linked(const gchar *a, const gchar *b)
 		sta.st_ino == stb.st_ino);
 }
 
-gint copy_file(const gchar *s, const gchar *t)
+gboolean copy_file(const gchar *s, const gchar *t)
 {
 	FILE *fi = NULL;
 	FILE *fo = NULL;
@@ -612,7 +612,7 @@ gint copy_file(const gchar *s, const gchar *t)
 	return TRUE;
 }
 
-gint move_file(const gchar *s, const gchar *t)
+gboolean move_file(const gchar *s, const gchar *t)
 {
 	gchar *sl, *tl;
 	gboolean ret = TRUE;
@@ -644,10 +644,10 @@ gint move_file(const gchar *s, const gchar *t)
 	return ret;
 }
 
-gint rename_file(const gchar *s, const gchar *t)
+gboolean rename_file(const gchar *s, const gchar *t)
 {
 	gchar *sl, *tl;
-	gint ret;
+	gboolean ret;
 
 	if (!s || !t) return FALSE;
 
@@ -696,7 +696,7 @@ GList *string_list_copy(const GList *list)
 	return g_list_reverse(new_list);
 }
 
-gchar *unique_filename(const gchar *path, const gchar *ext, const gchar *divider, gint pad)
+gchar *unique_filename(const gchar *path, const gchar *ext, const gchar *divider, gboolean pad)
 {
 	gchar *unique;
 	gint n = 1;
@@ -791,7 +791,7 @@ const gchar *extension_from_path(const gchar *path)
 	return strrchr(path, '.');
 }
 
-gint file_extension_match(const gchar *path, const gchar *ext)
+gboolean file_extension_match(const gchar *path, const gchar *ext)
 {
 	gint p;
 	gint e;
@@ -863,7 +863,7 @@ void parse_out_relatives(gchar *path)
 	path[t] = '\0';
 }
 
-gint file_in_path(const gchar *name)
+gboolean file_in_path(const gchar *name)
 {
 	gchar *path;
 	gchar *namel;

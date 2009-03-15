@@ -37,28 +37,28 @@ struct _TreeEditData
 /*
  * edit_func: return TRUE if rename successful, FALSE on failure.
  */
-gint tree_edit_by_path(GtkTreeView *tree, GtkTreePath *tpath, gint column, const gchar *text,
-		       gint (*edit_func)(TreeEditData *, const gchar *, const gchar *, gpointer), gpointer data);
+gboolean tree_edit_by_path(GtkTreeView *tree, GtkTreePath *tpath, gint column, const gchar *text,
+		           gboolean (*edit_func)(TreeEditData *, const gchar *, const gchar *, gpointer), gpointer data);
 
 
 /* returns location of cell in screen coordinates */
-gint tree_view_get_cell_origin(GtkTreeView *widget, GtkTreePath *tpath, gint column, gint text_cell_only,
-			       gint *x, gint *y, gint *width, gint *height);
+gboolean tree_view_get_cell_origin(GtkTreeView *widget, GtkTreePath *tpath, gint column, gboolean text_cell_only,
+			           gint *x, gint *y, gint *width, gint *height);
 /* similar to above, but limits the returned area to that of the tree window */
-void tree_view_get_cell_clamped(GtkTreeView *widget, GtkTreePath *tpath, gint column, gint text_cell_only,
+void tree_view_get_cell_clamped(GtkTreeView *widget, GtkTreePath *tpath, gint column, gboolean text_cell_only,
 			       gint *x, gint *y, gint *width, gint *height);
 
 /* return 0 = row visible, -1 = row is above, 1 = row is below visible region
  * if fully_visible is TRUE, the bahavior changes to return -1/1 if _any_ part of the cell is out of view */
-gint tree_view_row_get_visibility(GtkTreeView *widget, GtkTreeIter *iter, gint fully_visible);
+gint tree_view_row_get_visibility(GtkTreeView *widget, GtkTreeIter *iter, gboolean fully_visible);
 
 /* scrolls to make row visible, if necessary
  * return is same as above (before the scroll)
  */
-gint tree_view_row_make_visible(GtkTreeView *widget, GtkTreeIter *iter, gint center);
+gint tree_view_row_make_visible(GtkTreeView *widget, GtkTreeIter *iter, gboolean center);
 
 /* if iter is location of cursor, moves cursor to nearest row */
-gint tree_view_move_cursor_away(GtkTreeView *widget, GtkTreeIter *iter, gint only_selected);
+gboolean tree_view_move_cursor_away(GtkTreeView *widget, GtkTreeIter *iter, gboolean only_selected);
 
 /* utility to return row position of given GtkTreePath
  */

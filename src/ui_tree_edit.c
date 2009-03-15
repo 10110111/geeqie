@@ -61,7 +61,7 @@ static void tree_edit_do(TreeEditData *ted)
 		}
 }
 
-static gint tree_edit_click_end_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
+static gboolean tree_edit_click_end_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	TreeEditData *ted = data;
 
@@ -71,7 +71,7 @@ static gint tree_edit_click_end_cb(GtkWidget *widget, GdkEventButton *event, gpo
 	return TRUE;
 }
 
-static gint tree_edit_click_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
+static gboolean tree_edit_click_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	TreeEditData *ted = data;
 
@@ -96,7 +96,7 @@ static gint tree_edit_click_cb(GtkWidget *widget, GdkEventButton *event, gpointe
 	return FALSE;
 }
 
-static gint tree_edit_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean tree_edit_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	TreeEditData *ted = data;
 
@@ -174,8 +174,8 @@ static gboolean tree_edit_by_path_idle_cb(gpointer data)
 	return FALSE;
 }
 
-gint tree_edit_by_path(GtkTreeView *tree, GtkTreePath *tpath, gint column, const gchar *text,
-		       gint (*edit_func)(TreeEditData *, const gchar *, const gchar *, gpointer), gpointer data)
+gboolean tree_edit_by_path(GtkTreeView *tree, GtkTreePath *tpath, gint column, const gchar *text,
+		           gboolean (*edit_func)(TreeEditData *, const gchar *, const gchar *, gpointer), gpointer data)
 {
 	TreeEditData *ted;
 	GtkTreeViewColumn *tcolumn;
@@ -249,8 +249,8 @@ gint tree_edit_by_path(GtkTreeView *tree, GtkTreePath *tpath, gint column, const
  *-------------------------------------------------------------------
  */
 
-gint tree_view_get_cell_origin(GtkTreeView *widget, GtkTreePath *tpath, gint column, gint text_cell_only,
-			       gint *x, gint *y, gint *width, gint *height)
+gboolean tree_view_get_cell_origin(GtkTreeView *widget, GtkTreePath *tpath, gint column, gboolean text_cell_only,
+			           gint *x, gint *y, gint *width, gint *height)
 {
 	gint x_origin, y_origin;
 	gint x_offset, y_offset;
@@ -319,7 +319,7 @@ gint tree_view_get_cell_origin(GtkTreeView *widget, GtkTreePath *tpath, gint col
 	return TRUE;
 }
 
-void tree_view_get_cell_clamped(GtkTreeView *widget, GtkTreePath *tpath, gint column, gint text_cell_only,
+void tree_view_get_cell_clamped(GtkTreeView *widget, GtkTreePath *tpath, gint column, gboolean text_cell_only,
 				gint *x, gint *y, gint *width, gint *height)
 {
 	gint wx, wy, ww, wh;
@@ -343,7 +343,7 @@ void tree_view_get_cell_clamped(GtkTreeView *widget, GtkTreePath *tpath, gint co
 	*height = MIN(*height, wy + wh - (*y));
 }
 
-gint tree_view_row_get_visibility(GtkTreeView *widget, GtkTreeIter *iter, gint fully_visible)
+gint tree_view_row_get_visibility(GtkTreeView *widget, GtkTreeIter *iter, gboolean fully_visible)
 {
 	GtkTreeModel *store;
 	GtkTreePath *tpath;
@@ -380,7 +380,7 @@ gint tree_view_row_get_visibility(GtkTreeView *widget, GtkTreeIter *iter, gint f
 	return 0;
 }
 
-gint tree_view_row_make_visible(GtkTreeView *widget, GtkTreeIter *iter, gint center)
+gint tree_view_row_make_visible(GtkTreeView *widget, GtkTreeIter *iter, gboolean center)
 {
 	GtkTreePath *tpath;
 	gint vis;
@@ -405,7 +405,7 @@ gint tree_view_row_make_visible(GtkTreeView *widget, GtkTreeIter *iter, gint cen
 	return vis;
 }
 
-gint tree_view_move_cursor_away(GtkTreeView *widget, GtkTreeIter *iter, gint only_selected)
+gboolean tree_view_move_cursor_away(GtkTreeView *widget, GtkTreeIter *iter, gboolean only_selected)
 {
 	GtkTreeModel *store;
 	GtkTreePath *tpath;
@@ -546,7 +546,7 @@ void widget_auto_scroll_stop(GtkWidget *widget)
 	g_free(sd);
 }
 
-static gint widget_auto_scroll_cb(gpointer data)
+static gboolean widget_auto_scroll_cb(gpointer data)
 {
 	AutoScrollData *sd = data;
 	GdkWindow *window;

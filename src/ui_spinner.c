@@ -193,7 +193,7 @@ void spinner_set_interval(GtkWidget *spinner, gint interval)
 	spinner_set_timeout(sp, interval);
 }
 
-void spinner_step(GtkWidget *spinner, gint reset)
+void spinner_step(GtkWidget *spinner, gboolean reset)
 {
 	SpinnerData *sp;
 

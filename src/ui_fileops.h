@@ -49,28 +49,28 @@ const gchar *get_rc_dir(void);
 const gchar *get_collections_dir(void);
 const gchar *get_trash_dir(void);
 
-gint stat_utf8(const gchar *s, struct stat *st);
-gint lstat_utf8(const gchar *s, struct stat *st);
-gint stat_utf8_case_insensitive_ext(GString *base, const gchar *ext, struct stat *st);
+gboolean stat_utf8(const gchar *s, struct stat *st);
+gboolean lstat_utf8(const gchar *s, struct stat *st);
+gboolean stat_utf8_case_insensitive_ext(GString *base, const gchar *ext, struct stat *st);
 
 
-gint isname(const gchar *s);
-gint isfile(const gchar *s);
-gint isdir(const gchar *s);
-gint islink(const gchar *s);
+gboolean isname(const gchar *s);
+gboolean isfile(const gchar *s);
+gboolean isdir(const gchar *s);
+gboolean islink(const gchar *s);
 gint64 filesize(const gchar *s);
 time_t filetime(const gchar *s);
-gint filetime_set(const gchar *s, time_t tval);
+gboolean filetime_set(const gchar *s, time_t tval);
 gboolean is_readable_file(const gchar *s);
-gint access_file(const gchar *s, gint mode);
-gint unlink_file(const gchar *s);
-gint symlink_utf8(const gchar *source, const gchar *target);
-gint mkdir_utf8(const gchar *s, gint mode);
-gint rmdir_utf8(const gchar *s);
-gint copy_file_attributes(const gchar *s, const gchar *t, gint perms, gint mtime);
-gint copy_file(const gchar *s, const gchar *t);
-gint move_file(const gchar *s, const gchar *t);
-gint rename_file(const gchar *s, const gchar *t);
+gboolean access_file(const gchar *s, gint mode);
+gboolean unlink_file(const gchar *s);
+gboolean symlink_utf8(const gchar *source, const gchar *target);
+gboolean mkdir_utf8(const gchar *s, gint mode);
+gboolean rmdir_utf8(const gchar *s);
+gboolean copy_file_attributes(const gchar *s, const gchar *t, gint perms, gint mtime);
+gboolean copy_file(const gchar *s, const gchar *t);
+gboolean move_file(const gchar *s, const gchar *t);
+gboolean rename_file(const gchar *s, const gchar *t);
 gchar *get_current_dir(void);
 
 /* return True on success, it is up to you to free
@@ -79,7 +79,7 @@ gchar *get_current_dir(void);
 void string_list_free(GList *list);
 GList *string_list_copy(const GList *list);
 
-gchar *unique_filename(const gchar *path, const gchar *ext, const gchar *divider, gint pad);
+gchar *unique_filename(const gchar *path, const gchar *ext, const gchar *divider, gboolean pad);
 gchar *unique_filename_simple(const gchar *path);
 
 const gchar *filename_from_path(const gchar *path);
@@ -88,12 +88,12 @@ gchar *remove_level_from_path(const gchar *path);
 const gchar *extension_from_path(const gchar *path);
 gchar *remove_extension_from_path(const gchar *path);
 
-gint file_extension_match(const gchar *path, const gchar *ext);
+gboolean file_extension_match(const gchar *path, const gchar *ext);
 
 /* warning note: this modifies path string! */
 void parse_out_relatives(gchar *path);
 
-gint file_in_path(const gchar *name);
+gboolean file_in_path(const gchar *name);
 
 gboolean recursive_mkdir_if_not_exists(const gchar *path, mode_t mode);
 
