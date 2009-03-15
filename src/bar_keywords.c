@@ -53,6 +53,7 @@ GList *keyword_list_pull(GtkWidget *text_widget)
 	return list;
 }
 
+/* the "changed" signal should be blocked before calling this */
 static void keyword_list_push(GtkWidget *textview, GList *list)
 {
 	GtkTextBuffer *buffer;
@@ -279,6 +280,8 @@ static void bar_pane_keywords_keyword_toggle(GtkCellRendererToggle *toggle, cons
 	GtkTreeIter child_iter;
 	GtkTreeModel *keyword_tree;
 	
+	GtkTextBuffer *keyword_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(pkd->keyword_view));
+
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
 
 	tpath = gtk_tree_path_new_from_string(path);
@@ -297,11 +300,16 @@ static void bar_pane_keywords_keyword_toggle(GtkCellRendererToggle *toggle, cons
 		keyword_tree_set(keyword_tree, &child_iter, &list);
 	else
 		keyword_tree_reset(keyword_tree, &child_iter, &list);
-		
+	
+	g_signal_handlers_block_by_func(keyword_buffer, bar_pane_keywords_changed, pkd);
 	keyword_list_push(pkd->keyword_view, list);
 	string_list_free(list);
+	g_signal_handlers_unblock_by_func(keyword_buffer, bar_pane_keywords_changed, pkd);
+
+	/* call this just once in the end */
+	bar_pane_keywords_changed(keyword_buffer, pkd);
 	/*
-	  keyword_list_push triggers bar_pane_keywords_change which calls bar_keyword_tree_sync, no need to do it again
+	  bar_pane_keywords_change calls bar_keyword_tree_sync, no need to do it again
 	bar_keyword_tree_sync(pkd);
 	*/
 }
