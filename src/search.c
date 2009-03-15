@@ -131,9 +131,9 @@ struct _SearchData
 	GtkWidget *entry_comment;
 
 	FileData *search_dir_fd;
-	gint   search_path_recurse;
+	gboolean   search_path_recurse;
 	gchar *search_name;
-	gint   search_name_match_case;
+	gboolean   search_name_match_case;
 	gint64 search_size;
 	gint64 search_size_end;
 	gint   search_date_y;
@@ -151,7 +151,7 @@ struct _SearchData
 	CacheData *search_similarity_cd;
 	GList *search_keyword_list;
 	gchar *search_comment;
-	gint   search_comment_match_case;
+	gboolean   search_comment_match_case;
 
 	MatchType search_type;
 
@@ -188,7 +188,7 @@ struct _SearchData
 	FileData *click_fd;
 
 	ThumbLoader *thumb_loader;
-	gint thumb_enable;
+	gboolean thumb_enable;
 	FileData *thumb_fd;
 
 	/* file list for edit menu */
@@ -310,7 +310,7 @@ static void search_status_update(SearchData *sd)
 	g_free(buf);
 }
 
-static void search_progress_update(SearchData *sd, gint search, gdouble thumbs)
+static void search_progress_update(SearchData *sd, gboolean search, gdouble thumbs)
 {
 
 	if (search || thumbs >= 0.0)
@@ -347,7 +347,7 @@ static void search_progress_update(SearchData *sd, gint search, gdouble thumbs)
 static gint search_result_find_row(SearchData *sd, FileData *fd, GtkTreeIter *iter)
 {
 	GtkTreeModel *store;
-	gint valid;
+	gboolean valid;
 	gint n = 0;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(sd->result_view));
@@ -365,7 +365,7 @@ static gint search_result_find_row(SearchData *sd, FileData *fd, GtkTreeIter *it
 	return -1;
 }
 
-static gint search_result_row_selected(SearchData *sd, FileData *fd)
+static gboolean search_result_row_selected(SearchData *sd, FileData *fd)
 {
 	GtkTreeModel *store;
 	GtkTreeSelection *selection;
@@ -452,7 +452,7 @@ static gint search_result_util(SearchData *sd, gint64 *bytes, GList **list)
 {
 	GtkTreeModel *store;
 	GtkTreeIter iter;
-	gint valid;
+	gboolean valid;
 	gint n = 0;
 	gint64 total = 0;
 	GList *plist = NULL;
@@ -531,7 +531,7 @@ static GList *search_result_refine_list(SearchData *sd)
 	GList *list = NULL;
 	GtkTreeModel *store;
 	GtkTreeIter iter;
-	gint valid;
+	gboolean valid;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(sd->result_view));
 
@@ -603,7 +603,7 @@ static void search_result_remove(SearchData *sd, FileData *fd)
 {
 	GtkTreeModel *store;
 	GtkTreeIter iter;
-	gint valid;
+	gboolean valid;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(sd->result_view));
 	valid = gtk_tree_model_get_iter_first(store, &iter);
@@ -680,7 +680,7 @@ static void search_result_collection_from_selection(SearchData *sd)
 	filelist_free(list);
 }
 
-static gint search_result_update_idle_cb(gpointer data)
+static gboolean search_result_update_idle_cb(gpointer data)
 {
 	SearchData *sd = data;
 
@@ -755,7 +755,7 @@ static void search_result_thumb_step(SearchData *sd)
 	GtkTreeModel *store;
 	GtkTreeIter iter;
 	MatchFileData *mfd = NULL;
-	gint valid;
+	gboolean valid;
 	gint row = 0;
 	gint length = 0;
 
@@ -838,7 +838,7 @@ static void search_result_thumb_height(SearchData *sd)
 	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(sd->result_view));
 }
 
-static void search_result_thumb_enable(SearchData *sd, gint enable)
+static void search_result_thumb_enable(SearchData *sd, gboolean enable)
 {
 	if (sd->thumb_enable == enable) return;
 
@@ -846,7 +846,7 @@ static void search_result_thumb_enable(SearchData *sd, gint enable)
 		{
 		GtkTreeModel *store;
 		GtkTreeIter iter;
-		gint valid;
+		gboolean valid;
 
 		thumb_loader_free(sd->thumb_loader);
 		sd->thumb_loader = NULL;
@@ -991,7 +991,7 @@ static void search_result_menu_destroy_cb(GtkWidget *widget, gpointer data)
 	sd->editmenu_fd_list = NULL;
 }
 
-static GtkWidget *search_result_menu(SearchData *sd, gint on_row, gint empty)
+static GtkWidget *search_result_menu(SearchData *sd, gboolean on_row, gboolean empty)
 {
 	GtkWidget *menu;
 	GtkWidget *item;
@@ -1063,7 +1063,7 @@ static void search_result_menu_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolean 
  *-------------------------------------------------------------------
  */
 
-static gint search_result_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+static gboolean search_result_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	SearchData *sd = data;
 	GtkTreeModel *store;
@@ -1130,7 +1130,7 @@ static gint search_result_press_cb(GtkWidget *widget, GdkEventButton *bevent, gp
 	return FALSE;
 }
 
-static gint search_result_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+static gboolean search_result_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	SearchData *sd = data;
 	GtkTreeModel *store;
@@ -1192,7 +1192,7 @@ static gint search_result_release_cb(GtkWidget *widget, GdkEventButton *bevent, 
 	return FALSE;
 }
 
-static gint search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	SearchData *sd = data;
 	gboolean stop_signal = FALSE;
@@ -1335,7 +1335,7 @@ static gint search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpo
 	return stop_signal;
 }
 
-static gint search_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean search_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	SearchData *sd = data;
 	gboolean stop_signal = FALSE;
@@ -1457,7 +1457,7 @@ static void search_dnd_init(SearchData *sd)
 
 #define MATCH_IS_BETWEEN(val, a, b)  (b > a ? (val >= a && val <= b) : (val >= b && val <= a))
 
-static gint search_step_cb(gpointer data);
+static gboolean search_step_cb(gpointer data);
 
 
 static void search_buffer_flush(SearchData *sd)
@@ -1570,8 +1570,8 @@ static void search_file_load_done_cb(ImageLoader *il, gpointer data)
 	search_file_load_process(sd, sd->img_cd);
 }
 
-static gint search_file_do_extra(SearchData *sd, FileData *fd, gint *match,
-				 gint *width, gint *height, gint *simval)
+static gboolean search_file_do_extra(SearchData *sd, FileData *fd, gint *match,
+				     gint *width, gint *height, gint *simval)
 {
 	gboolean new_data = FALSE;
 	gboolean tmatch = TRUE;
@@ -1681,7 +1681,7 @@ static gint search_file_do_extra(SearchData *sd, FileData *fd, gint *match,
 	return FALSE;
 }
 
-static gint search_file_next(SearchData *sd)
+static gboolean search_file_next(SearchData *sd)
 {
 	FileData *fd;
 	gboolean match = TRUE;
@@ -1892,7 +1892,7 @@ static gint search_file_next(SearchData *sd)
 
 		if (comment)
 			{
-			if (! sd->search_comment_match_case)
+			if (!sd->search_comment_match_case)
 				{
 				gchar *tmp = g_utf8_strdown(comment, -1);
 				g_free(comment);
@@ -1954,7 +1954,7 @@ static gint search_file_next(SearchData *sd)
 	return FALSE;
 }
 
-static gint search_step_cb(gpointer data)
+static gboolean search_step_cb(gpointer data)
 {
 	SearchData *sd = data;
 	FileData *fd;
@@ -2326,7 +2326,7 @@ static gint search_result_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIt
 	return 0;
 }
 
-static void search_result_add_column(SearchData * sd, gint n, const gchar *title, gint image, gint right_justify)
+static void search_result_add_column(SearchData * sd, gint n, const gchar *title, gboolean image, gboolean right_justify)
 {
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
@@ -2359,7 +2359,7 @@ static void search_result_add_column(SearchData * sd, gint n, const gchar *title
 	gtk_tree_view_append_column(GTK_TREE_VIEW(sd->result_view), column);
 }
 
-static void menu_choice_set_visible(GtkWidget *widget, gint visible)
+static void menu_choice_set_visible(GtkWidget *widget, gboolean visible)
 {
 	if (visible)
 		{
@@ -2560,7 +2560,7 @@ static void search_window_close(SearchData *sd)
 	gtk_widget_destroy(sd->window);
 }
 
-static gint search_window_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer data)
+static gboolean search_window_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer data)
 {
 	SearchData *sd = data;
 
@@ -2912,7 +2912,7 @@ static void search_result_change_path(SearchData *sd, FileData *fd)
 {
 	GtkTreeModel *store;
 	GtkTreeIter iter;
-	gint valid;
+	gboolean valid;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(sd->result_view));
 	valid = gtk_tree_model_get_iter_first(store, &iter);

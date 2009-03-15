@@ -245,7 +245,7 @@ static void dupe_listview_realign_colors(DupeWindow *dw)
 	GtkTreeIter iter;
 	gboolean color_set = TRUE;
 	DupeItem *parent = NULL;
-	gint valid;
+	gboolean valid;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(dw->listview));
 	valid = gtk_tree_model_get_iter_first(store, &iter);
@@ -457,7 +457,7 @@ static void dupe_item_write_cache(DupeItem *di)
 
 static gint dupe_listview_find_item(GtkListStore *store, DupeItem *item, GtkTreeIter *iter)
 {
-	gint valid;
+	gboolean valid;
 	gint row = 0;
 
 	valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), iter);
@@ -632,7 +632,7 @@ static GList *dupe_listview_get_filelist(DupeWindow *dw, GtkWidget *listview)
 {
 	GtkTreeModel *store;
 	GtkTreeIter iter;
-	gint valid;
+	gboolean valid;
 	GList *list = NULL;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
@@ -714,7 +714,7 @@ static void dupe_listview_select_dupes(DupeWindow *dw, gint parents)
 	GtkTreeModel *store;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
-	gint valid;
+	gboolean valid;
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(dw->listview));
 	gtk_tree_selection_unselect_all(selection);
@@ -1280,7 +1280,7 @@ static void dupe_thumb_step(DupeWindow *dw)
 	GtkTreeModel *store;
 	GtkTreeIter iter;
 	DupeItem *di = NULL;
-	gint valid;
+	gboolean valid;
 	gint row = 0;
 	gint length = 0;
 
@@ -2806,7 +2806,7 @@ static void dupe_window_show_thumb_cb(GtkWidget *widget, gpointer data)
 		{
 		GtkTreeModel *store;
 		GtkTreeIter iter;
-		gint valid;
+		gboolean valid;
 
 		thumb_loader_free(dw->thumb_loader);
 		dw->thumb_loader = NULL;

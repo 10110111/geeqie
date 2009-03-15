@@ -182,7 +182,7 @@ static gboolean remote_server_read_cb(GIOChannel *source, GIOCondition condition
 	return TRUE;
 }
 
-static gint remote_server_exists(const gchar *path)
+static gboolean remote_server_exists(const gchar *path)
 {
 	RemoteConnection *rc;
 
@@ -291,7 +291,7 @@ static void sighandler_sigpipe(gint sig)
 	sigpipe_occured = TRUE;
 }
 
-static gint remote_client_send(RemoteConnection *rc, const gchar *text)
+static gboolean remote_client_send(RemoteConnection *rc, const gchar *text)
 {
 	struct sigaction new_action, old_action;
 	gboolean ret = FALSE;
@@ -457,7 +457,7 @@ static void gr_tools_hide(const gchar *text, gpointer data)
 		}
 }
 
-static gint gr_quit_idle_cb(gpointer data)
+static gboolean gr_quit_idle_cb(gpointer data)
 {
 	exit_program();
 
@@ -563,8 +563,8 @@ struct _RemoteCommandEntry {
 	gchar *opt_s;
 	gchar *opt_l;
 	void (*func)(const gchar *text, gpointer data);
-	gint needs_extra;
-	gint prefer_command_line;
+	gboolean needs_extra;
+	gboolean prefer_command_line;
 	gchar *description;
 };
 

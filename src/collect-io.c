@@ -155,7 +155,7 @@ static gboolean collection_load_private(CollectionData *cd, const gchar *path, C
 		*p = 0;
 		if (*buf)
 			{
-			gint valid;
+			gboolean valid;
 
 			if (!flush)
 				changed |= collect_manager_process_action(entry, &buf);

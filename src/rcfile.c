@@ -549,10 +549,7 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 		LayoutWindow *lw = work->data;
 		layout_write_config(lw, outstr, indent);
 		work = work->next;
-
 		}
-
-
 
 	secure_fputs(ssi, outstr->str);
 	g_string_free(outstr, TRUE);
@@ -735,7 +732,6 @@ static void options_load_color_profiles(GQParserData *parser_data, GMarkupParseC
 		{
 		const gchar *option = *attribute_names++;
 		const gchar *value = *attribute_values++;
-
 
 		if (READ_BOOL(options->color_profile, enabled)) continue;
 		if (READ_BOOL(options->color_profile, use_image)) continue;

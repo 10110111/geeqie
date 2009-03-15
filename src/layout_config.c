@@ -110,7 +110,7 @@ static void layout_config_list_order_set(LayoutConfig *lc, gint src, gint dest)
 {
 	GtkListStore *store;
 	GtkTreeIter iter;
-	gint valid;
+	gboolean valid;
 	gint n;
 
 	store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(lc->listview)));
@@ -133,7 +133,7 @@ static gint layout_config_list_order_get(LayoutConfig *lc, gint n)
 {
 	GtkTreeModel *store;
 	GtkTreeIter iter;
-	gint valid;
+	gboolean valid;
 	gint c = 0;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(lc->listview));
