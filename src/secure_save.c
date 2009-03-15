@@ -233,7 +233,7 @@ secure_close(SecureSaveInfo *ssi)
 	 * while closing file releases file descriptor we need to call fsync(). */
 #if defined(HAVE_FFLUSH) || defined(HAVE_FSYNC)
 	if (ssi->secure_save) {
-		gint fail = 0;
+		gboolean fail = FALSE;
 
 #ifdef HAVE_FFLUSH
 		fail = (fflush(ssi->fp) == EOF);

@@ -240,13 +240,13 @@ typedef void (* FileUtilDoneFunc)(gboolean success, const gchar *done_path, gpoi
 
 struct _ThumbLoader
 {
-	gint standard_loader;
+	gboolean standard_loader;
 
 	ImageLoader *il;
 	FileData *fd;           /* fd->pixbuf contains final (scaled) image when done */
 
-	gint cache_enable;
-	gint cache_hit;
+	gboolean cache_enable;
+	gboolean cache_hit;
 	gdouble percent_done;
 
 	gint max_w;
@@ -291,7 +291,7 @@ struct _CollectionData
 	gint window_h;
 
 	/* contents changed since save flag */
-	gint changed;
+	gboolean changed;
 
 	GHashTable *existence;
 };
@@ -331,7 +331,7 @@ struct _CollectTable
 	gint sync_idle_id;
 	gint drop_idle_id;
 
-	gint show_text;
+	gboolean show_text;
 
 	/* file list for edit menu */
 	GList *editmenu_fd_list;
@@ -828,10 +828,10 @@ struct _SecureSaveInfo {
 	gchar *file_name; /**< final file name */
 	gchar *tmp_file_name; /**< temporary file name */
 	gint err; /**< set to non-zero value in case of error */
-	gint secure_save; /**< use secure save for this file, internal use only */
-	gint preserve_perms; /**< whether to preserve perms, TRUE by default */
-	gint preserve_mtime; /**< whether to preserve mtime, FALSE by default */
-	gint unlink_on_error; /**< whether to remove temporary file on save failure, TRUE by default */
+	gboolean secure_save; /**< use secure save for this file, internal use only */
+	gboolean preserve_perms; /**< whether to preserve perms, TRUE by default */
+	gboolean preserve_mtime; /**< whether to preserve mtime, FALSE by default */
+	gboolean unlink_on_error; /**< whether to remove temporary file on save failure, TRUE by default */
 };
 
 struct _CommandLine

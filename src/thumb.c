@@ -246,7 +246,7 @@ static void thumb_loader_error_cb(ImageLoader *il, gpointer data)
 	if (tl->func_error) tl->func_error(tl, tl->data);
 }
 
-static gint thumb_loader_done_delay_cb(gpointer data)
+static gboolean thumb_loader_done_delay_cb(gpointer data)
 {
 	ThumbLoader *tl = data;
 
@@ -305,7 +305,7 @@ void thumb_loader_set_callbacks(ThumbLoader *tl,
 	tl->data = data;
 }
 
-void thumb_loader_set_cache(ThumbLoader *tl, gint enable_cache, gint local, gint retry_failed)
+void thumb_loader_set_cache(ThumbLoader *tl, gboolean enable_cache, gboolean local, gboolean retry_failed)
 {
 	if (!tl) return;
 
@@ -323,7 +323,7 @@ void thumb_loader_set_cache(ThumbLoader *tl, gint enable_cache, gint local, gint
 }
 
 
-gint thumb_loader_start(ThumbLoader *tl, FileData *fd)
+gboolean thumb_loader_start(ThumbLoader *tl, FileData *fd)
 {
 	gchar *cache_path = NULL;
 

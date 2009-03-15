@@ -14,7 +14,7 @@
 #include "ui_utildlg.h"
 
 void file_util_trash_clear(void);
-gint file_util_safe_unlink(const gchar *path);
+gboolean file_util_safe_unlink(const gchar *path);
 gchar *file_util_safe_delete_status(void);
 
 #endif /* TRASH_H */

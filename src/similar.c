@@ -174,7 +174,7 @@ void image_sim_fill_data(ImageSimilarityData *sd, GdkPixbuf *pixbuf)
 	gint w, h;
 	gint rs;
 	guchar *pix;
-	gint has_alpha;
+	gboolean has_alpha;
 	gint p_step;
 
 	guchar *p;

@@ -28,7 +28,7 @@ typedef void (* ThumbLoaderStdFunc)(ThumbLoaderStd *tl, gpointer data);
 
 struct _ThumbLoaderStd
 {
-	gint standard_loader;
+	gboolean standard_loader;
 
 	ImageLoader *il;
 	FileData *fd;
@@ -41,15 +41,15 @@ struct _ThumbLoaderStd
 	gchar *thumb_uri;
 	const gchar *local_uri;
 
-	gint thumb_path_local;
+	gboolean thumb_path_local;
 
 	gint requested_width;
 	gint requested_height;
 
-	gint cache_enable;
-	gint cache_local;
-	gint cache_hit;
-	gint cache_retry;
+	gboolean cache_enable;
+	gboolean cache_local;
+	gboolean cache_hit;
+	gboolean cache_retry;
 
 	gdouble progress;
 
@@ -67,8 +67,8 @@ void thumb_loader_std_set_callbacks(ThumbLoaderStd *tl,
 				    ThumbLoaderStdFunc func_error,
 				    ThumbLoaderStdFunc func_progress,
 				    gpointer data);
-void thumb_loader_std_set_cache(ThumbLoaderStd *tl, gint enable_cache, gint local, gint retry_failed);
-gint thumb_loader_std_start(ThumbLoaderStd *tl, FileData *fd);
+void thumb_loader_std_set_cache(ThumbLoaderStd *tl, gboolean enable_cache, gboolean local, gboolean retry_failed);
+gboolean thumb_loader_std_start(ThumbLoaderStd *tl, FileData *fd);
 void thumb_loader_std_free(ThumbLoaderStd *tl);
 
 GdkPixbuf *thumb_loader_std_get_pixbuf(ThumbLoaderStd *tl);
@@ -79,7 +79,7 @@ GdkPixbuf *thumb_loader_std_get_pixbuf(ThumbLoaderStd *tl);
  * for thumbnail's without a file: uri, validates against allowed_age in days
  */
 ThumbLoaderStd *thumb_loader_std_thumb_file_validate(const gchar *thumb_path, gint allowed_age,
-						     void (*func_valid)(const gchar *path, gint valid, gpointer data),
+						     void (*func_valid)(const gchar *path, gboolean valid, gpointer data),
 						     gpointer data);
 void thumb_loader_std_thumb_file_validate_cancel(ThumbLoaderStd *tl);
 

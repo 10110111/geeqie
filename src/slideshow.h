@@ -26,7 +26,7 @@
 
 void slideshow_free(SlideShowData *ss);
 
-gint slideshow_should_continue(SlideShowData *ss);
+gboolean slideshow_should_continue(SlideShowData *ss);
 
 void slideshow_next(SlideShowData *ss);
 void slideshow_prev(SlideShowData *ss);

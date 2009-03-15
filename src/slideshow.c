@@ -152,7 +152,7 @@ static void slideshow_list_init(SlideShowData *ss, gint start_index)
 		}
 }
 
-gint slideshow_should_continue(SlideShowData *ss)
+gboolean slideshow_should_continue(SlideShowData *ss)
 {
 	FileData *imd_fd;
 	FileData *dir_fd;
@@ -186,7 +186,7 @@ gint slideshow_should_continue(SlideShowData *ss)
 	return FALSE;
 }
 
-static gint slideshow_step(SlideShowData *ss, gboolean forward)
+static gboolean slideshow_step(SlideShowData *ss, gboolean forward)
 {
 	gint row;
 
@@ -289,7 +289,7 @@ static gint slideshow_step(SlideShowData *ss, gboolean forward)
 	return TRUE;
 }
 
-static gint slideshow_loop_cb(gpointer data)
+static gboolean slideshow_loop_cb(gpointer data)
 {
 	SlideShowData *ss = data;
 

@@ -61,9 +61,9 @@ struct _BookMarkData
 	void (*select_func)(const gchar *path, gpointer data);
 	gpointer select_data;
 
-	gint no_defaults;
-	gint editable;
-	gint only_directories;
+	gboolean no_defaults;
+	gboolean editable;
+	gboolean only_directories;
 
 	BookButtonData *active_button;
 };
@@ -389,7 +389,7 @@ static void bookmark_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gint *pus
 }
 
 static void bookmark_menu_popup(BookMarkData *bm, GtkWidget *button,
-				gint button_n, guint32 time, gint local)
+				gint button_n, guint32 time, gboolean local)
 {
 	GtkWidget *menu;
 	BookButtonData *b;
@@ -420,7 +420,7 @@ static void bookmark_menu_popup(BookMarkData *bm, GtkWidget *button,
 		}
 }
 
-static gint bookmark_press_cb(GtkWidget *button, GdkEventButton *event, gpointer data)
+static gboolean bookmark_press_cb(GtkWidget *button, GdkEventButton *event, gpointer data)
 {
 	BookMarkData *bm = data;
 
@@ -431,7 +431,7 @@ static gint bookmark_press_cb(GtkWidget *button, GdkEventButton *event, gpointer
 	return TRUE;
 }
 
-static gint bookmark_keypress_cb(GtkWidget *button, GdkEventKey *event, gpointer data)
+static gboolean bookmark_keypress_cb(GtkWidget *button, GdkEventKey *event, gpointer data)
 {
 	BookMarkData *bm = data;
 
@@ -784,7 +784,7 @@ void bookmark_list_set_key(GtkWidget *list, const gchar *key)
 	bookmark_populate(bm);
 }
 
-void bookmark_list_set_no_defaults(GtkWidget *list, gint no_defaults)
+void bookmark_list_set_no_defaults(GtkWidget *list, gboolean no_defaults)
 {
 	BookMarkData *bm;
 
@@ -794,7 +794,7 @@ void bookmark_list_set_no_defaults(GtkWidget *list, gint no_defaults)
 	bm->no_defaults = no_defaults;
 }
 
-void bookmark_list_set_editable(GtkWidget *list, gint editable)
+void bookmark_list_set_editable(GtkWidget *list, gboolean editable)
 {
 	BookMarkData *bm;
 
@@ -804,7 +804,7 @@ void bookmark_list_set_editable(GtkWidget *list, gint editable)
 	bm->editable = editable;
 }
 
-void bookmark_list_set_only_directories(GtkWidget *list, gint only_directories)
+void bookmark_list_set_only_directories(GtkWidget *list, gboolean only_directories)
 {
 	BookMarkData *bm;
 
