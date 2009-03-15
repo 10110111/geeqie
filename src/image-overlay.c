@@ -147,25 +147,25 @@ void image_osd_histogram_log_toggle(ImageWindow *imd)
 
 void image_osd_toggle(ImageWindow *imd)
 {
-	OverlayStateData *osd;
+	OsdShowFlags show;
 
 	if (!imd) return;
 
-	osd = image_get_osd_data(imd);
-	if (osd->show == OSD_SHOW_NOTHING)
+	show = image_osd_get(imd);
+	if (show == OSD_SHOW_NOTHING)
 		{
 		image_osd_set(imd, OSD_SHOW_INFO | OSD_SHOW_STATUS);
 		return;
 		}
 	else
 		{
-		if (osd->show & OSD_SHOW_HISTOGRAM)
+		if (show & OSD_SHOW_HISTOGRAM)
 			{
 			image_osd_set(imd, OSD_SHOW_NOTHING);
 			}
 		else
 			{
-			image_osd_set(imd, osd->show | OSD_SHOW_HISTOGRAM);
+			image_osd_set(imd, show | OSD_SHOW_HISTOGRAM);
 			}
 		}
 }
