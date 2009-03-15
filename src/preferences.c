@@ -380,7 +380,7 @@ static void config_window_close_cb(GtkWidget *widget, gpointer data)
 	filter_store = NULL;
 }
 
-static gint config_window_delete(GtkWidget *w, GdkEventAny *event, gpointer data)
+static gboolean config_window_delete(GtkWidget *widget, GdkEventAny *event, gpointer data)
 {
 	config_window_close_cb(NULL, NULL);
 	return TRUE;
@@ -601,16 +601,15 @@ static void filter_store_ext_edit_cb(GtkCellRendererText *cell, gchar *path_str,
 }
 
 static void filter_store_class_edit_cb(GtkCellRendererText *cell, gchar *path_str,
-				     gchar *new_text, gpointer data)
+				       gchar *new_text, gpointer data)
 {
-
 	GtkWidget *model = data;
 	FilterEntry *fe = data;
 	GtkTreePath *tpath;
 	GtkTreeIter iter;
 	gint i;
 
-	if (!new_text || strlen(new_text) < 1) return;
+	if (!new_text || !new_text[0]) return;
 
 	tpath = gtk_tree_path_new_from_string(path_str);
 	gtk_tree_model_get_iter(GTK_TREE_MODEL(model), &iter, tpath);
@@ -637,7 +636,7 @@ static void filter_store_desc_edit_cb(GtkCellRendererText *cell, gchar *path_str
 	GtkTreePath *tpath;
 	GtkTreeIter iter;
 
-	if (!new_text || strlen(new_text) < 1) return;
+	if (!new_text || !new_text[0]) return;
 
 	tpath = gtk_tree_path_new_from_string(path_str);
 	gtk_tree_model_get_iter(GTK_TREE_MODEL(model), &iter, tpath);
@@ -668,7 +667,7 @@ static void filter_store_enable_cb(GtkCellRendererToggle *renderer,
 }
 
 static void filter_store_writable_cb(GtkCellRendererToggle *renderer,
-				   gchar *path_str, gpointer data)
+				     gchar *path_str, gpointer data)
 {
 	GtkWidget *model = data;
 	FilterEntry *fe;
@@ -687,7 +686,7 @@ static void filter_store_writable_cb(GtkCellRendererToggle *renderer,
 }
 
 static void filter_store_sidecar_cb(GtkCellRendererToggle *renderer,
-				   gchar *path_str, gpointer data)
+				    gchar *path_str, gpointer data)
 {
 	GtkWidget *model = data;
 	FilterEntry *fe;
@@ -1804,7 +1803,7 @@ void show_config_window(void)
 
 static GtkWidget *about = NULL;
 
-static gint about_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer data)
+static gboolean about_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer data)
 {
 	gtk_widget_destroy(about);
 	about = NULL;

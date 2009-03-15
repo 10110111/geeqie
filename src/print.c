@@ -319,9 +319,9 @@ static void print_window_close(PrintWindow *pw);
 
 /* misc utils */
 
-static gint clip_region(gdouble x1, gdouble y1, gdouble w1, gdouble h1,
-			gdouble x2, gdouble y2, gdouble w2, gdouble h2,
-			gdouble *rx, gdouble *ry, gdouble *rw, gdouble *rh)
+static gboolean clip_region(gdouble x1, gdouble y1, gdouble w1, gdouble h1,
+			    gdouble x2, gdouble y2, gdouble w2, gdouble h2,
+			    gdouble *rx, gdouble *ry, gdouble *rw, gdouble *rh)
 {
 	if (x2 + w2 <= x1 || x2 >= x1 + w1 ||
 	    y2 + h2 <= y1 || y2 >= y1 + h1)
@@ -1008,10 +1008,10 @@ static void pipe_handler_free(PipeError *pe)
 	g_free(pe);
 }
 
-static gint pipe_handler_check(PipeError *pe)
+static gboolean pipe_handler_check(PipeError *pe)
 {
 	if (!pe) return FALSE;
-	return *pe->error;
+	return !!(*pe->error);
 }
 
 static FILE *print_job_ps_fd(PrintWindow *pw)
@@ -1021,14 +1021,14 @@ static FILE *print_job_ps_fd(PrintWindow *pw)
 	return NULL;
 }
 
-static gint print_job_ps_init(PrintWindow *pw)
+static gboolean print_job_ps_init(PrintWindow *pw)
 {
 	FILE *f;
 	PipeError *pe;
 	const gchar *cmd = NULL;
 	const gchar *path = NULL;
 	gchar *lc_pointer;
-	gint ret;
+	gboolean ret;
 
 	if (pw->job_file != NULL || pw->job_pipe != NULL) return FALSE;
 
@@ -1145,12 +1145,12 @@ static gint print_job_ps_init(PrintWindow *pw)
 	return ret;
 }
 
-static gint print_job_ps_page_new(PrintWindow *pw, gint page)
+static gboolean print_job_ps_page_new(PrintWindow *pw, gint page)
 {
 	FILE *f;
 	PipeError *pe;
 	gchar *lc_pointer;
-	gint ret;
+	gboolean ret;
 
 	f= print_job_ps_fd(pw);
 	if (!f) return FALSE;
@@ -1182,12 +1182,12 @@ static gint print_job_ps_page_new(PrintWindow *pw, gint page)
 	return ret;
 }
 
-static gint print_job_ps_page_done(PrintWindow *pw)
+static gboolean print_job_ps_page_done(PrintWindow *pw)
 {
 	FILE *f;
 	PipeError *pe;
 	gchar *lc_pointer;
-	gint ret;
+	gboolean ret;
 
 	f = print_job_ps_fd(pw);
 	if (!f) return FALSE;
@@ -1233,9 +1233,9 @@ static void print_job_ps_page_image_pixel(FILE *f, guchar *pix)
 
 	g_fprintf(f, "%s", text);
 }
-static gint print_job_ps_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
-				    gdouble x, gdouble y, gdouble w, gdouble h,
-				    gdouble offx, gdouble offy)
+static gboolean print_job_ps_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
+				        gdouble x, gdouble y, gdouble w, gdouble h,
+				        gdouble offx, gdouble offy)
 {
 	FILE *f;
 	PipeError *pe;
@@ -1248,7 +1248,7 @@ static gint print_job_ps_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
 	gint c;
 	guchar *p;
 	guchar bps_buf[3];
-	gint ret;
+	gboolean ret;
 
 	if (!pixbuf) return TRUE;
 
@@ -1386,14 +1386,14 @@ static void ps_text_parse(FILE *f, const gchar *text, gdouble x, gdouble y, gdou
 	g_fprintf(f, "closepath\n");
 }
 
-static gint print_job_ps_page_text(PrintWindow *pw, const gchar *text, gdouble point_size,
-				   gdouble x, gdouble y, gdouble width,
-				   guint8 r, guint8 g, guint8 b)
+static gboolean print_job_ps_page_text(PrintWindow *pw, const gchar *text, gdouble point_size,
+				       gdouble x, gdouble y, gdouble width,
+				       guint8 r, guint8 g, guint8 b)
 {
 	FILE *f;
 	PipeError *pe;
 	gchar *lc_pointer;
-	gint ret;
+	gboolean ret;
 
 	if (!text) return TRUE;
 
@@ -1426,12 +1426,12 @@ static gint print_job_ps_page_text(PrintWindow *pw, const gchar *text, gdouble p
 	return ret;
 }
 
-static gint print_job_ps_end(PrintWindow *pw)
+static gboolean print_job_ps_end(PrintWindow *pw)
 {
 	FILE *f;
 	PipeError *pe;
 	gchar *lc_pointer;
-	gint ret;
+	gboolean ret;
 
 	f = print_job_ps_fd(pw);
 	if (!f) return FALSE;
@@ -1463,7 +1463,7 @@ static gint print_job_ps_end(PrintWindow *pw)
  *-----------------------------------------------------------------------------
  */
 
-static gint print_job_rgb_page_new(PrintWindow *pw, gint page)
+static gboolean print_job_rgb_page_new(PrintWindow *pw, gint page)
 {
 	gint total;
 
@@ -1522,7 +1522,7 @@ static gint print_job_rgb_page_new(PrintWindow *pw, gint page)
 	return (pw->job_path != NULL);
 }
 
-static gint print_job_rgb_page_done(PrintWindow *pw)
+static gboolean print_job_rgb_page_done(PrintWindow *pw)
 {
 	gchar *pathl;
 	gboolean ret = FALSE;
@@ -1574,9 +1574,9 @@ static gint print_job_rgb_page_done(PrintWindow *pw)
 	return ret;
 }
 
-static gint print_job_rgb_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
-				     gdouble x, gdouble y, gdouble w, gdouble h,
-				     gdouble offx, gdouble offy)
+static gboolean print_job_rgb_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
+				         gdouble x, gdouble y, gdouble w, gdouble h,
+				         gdouble offx, gdouble offy)
 {
 	gdouble sw, sh;
 	gdouble dw, dh;
@@ -1648,9 +1648,9 @@ static gdouble convert_pango_dpi(gdouble points)
 	return points * 72.0 / dpi;
 }
 
-static gint print_job_rgb_page_text(PrintWindow *pw, const gchar *text, gdouble point_size,
-				    gdouble x, gdouble y, gdouble width,
-				    guint8 r, guint8 g, guint8 b)
+static gboolean print_job_rgb_page_text(PrintWindow *pw, const gchar *text, gdouble point_size,
+				        gdouble x, gdouble y, gdouble width,
+				        guint8 r, guint8 g, guint8 b)
 {
 	PangoLayout *layout;
 	PangoFontDescription *desc;
@@ -1677,7 +1677,7 @@ static gint print_job_rgb_page_text(PrintWindow *pw, const gchar *text, gdouble 
 	return TRUE;
 }
 
-static gint print_job_rgb_init(PrintWindow *pw)
+static gboolean print_job_rgb_init(PrintWindow *pw)
 {
 	if (pw->job_pixbuf) g_object_unref(pw->job_pixbuf);
 	pw->job_pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8,
@@ -1692,7 +1692,7 @@ static gint print_job_rgb_init(PrintWindow *pw)
  *-----------------------------------------------------------------------------
  */
 
-static gint print_job_preview_page_new(PrintWindow *pw, gint page)
+static gboolean print_job_preview_page_new(PrintWindow *pw, gint page)
 {
 	GdkPixbuf *pixbuf;
 	gint w, h;
@@ -1780,14 +1780,14 @@ static gint print_job_preview_page_new(PrintWindow *pw, gint page)
 	return TRUE;
 }
 
-static gint print_job_preview_page_done(PrintWindow *pw)
+static gboolean print_job_preview_page_done(PrintWindow *pw)
 {
 	return TRUE;
 }
 
-static gint print_job_preview_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
-					 gdouble x, gdouble y, gdouble w, gdouble h,
-					 gdouble offx, gdouble offy)
+static gboolean print_job_preview_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
+					     gdouble x, gdouble y, gdouble w, gdouble h,
+					     gdouble offx, gdouble offy)
 {
 	gdouble sw, sh;
 	gdouble dw, dh;
@@ -1824,9 +1824,9 @@ static gint print_job_preview_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
 	return TRUE;
 }
 
-static gint print_job_preview_page_text(PrintWindow *pw, const gchar *text, gdouble point_size,
-					gdouble x, gdouble y, gdouble width,
-					guint8 r, guint8 g, guint8 b)
+static gboolean print_job_preview_page_text(PrintWindow *pw, const gchar *text, gdouble point_size,
+					    gdouble x, gdouble y, gdouble width,
+					    guint8 r, guint8 g, guint8 b)
 {
 	PangoLayout *layout;
 	PangoFontDescription *desc;
@@ -1859,7 +1859,7 @@ static gint print_job_preview_page_text(PrintWindow *pw, const gchar *text, gdou
 	return TRUE;
 }
 
-static gint print_job_preview_init(PrintWindow *pw)
+static gboolean print_job_preview_init(PrintWindow *pw)
 {
 	if (pw->job_pixbuf) g_object_unref(pw->job_pixbuf);
 	pw->job_pixbuf = image_get_pixbuf(pw->layout_image);
@@ -1875,7 +1875,7 @@ static gint print_job_preview_init(PrintWindow *pw)
  *-----------------------------------------------------------------------------
  */
 
-static gint print_job_page_new(PrintWindow *pw)
+static gboolean print_job_page_new(PrintWindow *pw)
 {
 	switch (pw->job_format)
 		{
@@ -1890,7 +1890,7 @@ static gint print_job_page_new(PrintWindow *pw)
 	return FALSE;
 }
 
-static gint print_job_page_done(PrintWindow *pw)
+static gboolean print_job_page_done(PrintWindow *pw)
 {
 	switch (pw->job_format)
 		{
@@ -1905,9 +1905,9 @@ static gint print_job_page_done(PrintWindow *pw)
 	return FALSE;
 }
 
-static gint print_job_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
-				 gdouble x, gdouble y, gdouble w, gdouble h,
-				 gdouble offx, gdouble offy)
+static gboolean print_job_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
+				     gdouble x, gdouble y, gdouble w, gdouble h,
+				     gdouble offx, gdouble offy)
 {
 	gboolean success = FALSE;
 
@@ -1929,9 +1929,9 @@ static gint print_job_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
 	return success;
 }
 
-static gint print_job_page_text(PrintWindow *pw, const gchar *text, gdouble point_size,
-				gdouble x, gdouble y, gdouble width,
-				guint8 r, guint8 g, guint8 b)
+static gboolean print_job_page_text(PrintWindow *pw, const gchar *text, gdouble point_size,
+				    gdouble x, gdouble y, gdouble width,
+				    guint8 r, guint8 g, guint8 b)
 {
 	gboolean success = TRUE;
 
@@ -1959,8 +1959,8 @@ static gint print_job_page_text(PrintWindow *pw, const gchar *text, gdouble poin
  *-----------------------------------------------------------------------------
  */
 
-static gint print_job_render_image(PrintWindow *pw);
-static gint print_job_render_proof(PrintWindow *pw);
+static gboolean print_job_render_image(PrintWindow *pw);
+static gboolean print_job_render_proof(PrintWindow *pw);
 
 
 static void print_job_status(PrintWindow *pw)
@@ -2029,14 +2029,14 @@ static void print_job_done(PrintWindow *pw)
 	print_job_close(pw, FALSE);
 }
 
-static gint print_job_text_image(PrintWindow *pw, const gchar *path,
-				 gdouble x, gdouble y, gdouble width,
-				 gint sw, gint sh, gint proof)
+static gboolean print_job_text_image(PrintWindow *pw, const gchar *path,
+				     gdouble x, gdouble y, gdouble width,
+				     gint sw, gint sh, gint proof)
 {
 	GString *string;
 	gboolean space = FALSE;
 	gboolean newline = FALSE;
-	gint ret;
+	gboolean ret;
 
 	if (pw->text_fields == 0) return TRUE;
 
@@ -2193,7 +2193,7 @@ static void print_job_render_image_loader_done(ImageLoader *il, gpointer data)
 		}
 }
 
-static gint print_job_render_image(PrintWindow *pw)
+static gboolean print_job_render_image(PrintWindow *pw)
 {
 	FileData *fd = NULL;
 
@@ -2344,7 +2344,7 @@ static void print_job_render_proof_loader_done(ImageLoader *il, gpointer data)
 		}
 }
 
-static gint print_job_render_proof(PrintWindow *pw)
+static gboolean print_job_render_proof(PrintWindow *pw)
 {
 	FileData *fd = NULL;
 
@@ -2377,7 +2377,7 @@ static gint print_job_render_proof(PrintWindow *pw)
 static void print_job_render(PrintWindow *pw)
 {
 	gdouble proof_w, proof_h;
-	gint finished;
+	gboolean finished;
 
 	pw->proof_position = 0;
 
@@ -2434,7 +2434,7 @@ static void print_job_render(PrintWindow *pw)
 	if (finished) print_job_done(pw);
 }
 
-static gint print_job_init(PrintWindow *pw)
+static gboolean print_job_init(PrintWindow *pw)
 {
 	gboolean success = FALSE;
 
@@ -2457,7 +2457,7 @@ static gint print_job_init(PrintWindow *pw)
 	return success;
 }
 
-static gint print_job_finish(PrintWindow *pw)
+static gboolean print_job_finish(PrintWindow *pw)
 {
 	gboolean success = FALSE;
 
@@ -2607,7 +2607,7 @@ static void print_pref_store(PrintWindow *pw)
 	pref_list_double_set(PRINT_PREF_GROUP, PRINT_PREF_IMAGE_SCALE, pw->image_scale);
 }
 
-static gint print_job_start(PrintWindow *pw, RenderFormat format, PrintOutput output)
+static gboolean print_job_start(PrintWindow *pw, RenderFormat format, PrintOutput output)
 {
 	GtkWidget *hbox;
 	GtkWidget *spinner;
@@ -2733,7 +2733,7 @@ static GtkWidget *print_combo_menu(const gchar *text[], gint count, gint preferr
  */
 
 static GtkWidget *print_paper_menu(GtkWidget *table, gint column, gint row,
-				   gint preferred, GCallback func, gpointer data)
+				   PaperOrientation preferred, GCallback func, gpointer data)
 {
 	GtkWidget *combo;
 	gint i;
@@ -3173,7 +3173,7 @@ static void print_output_dpi_cb(GtkWidget *combo, gpointer data)
 	pw->max_dpi = (gdouble)n;
 }
 
-static void print_text_field_set(PrintWindow *pw, TextInfo field, gint active)
+static void print_text_field_set(PrintWindow *pw, TextInfo field, gboolean active)
 {
 	if (active)
 		{
@@ -3190,7 +3190,7 @@ static void print_text_field_set(PrintWindow *pw, TextInfo field, gint active)
 static void print_text_cb_name(GtkWidget *widget, gpointer data)
 {
 	PrintWindow *pw = data;
-	gint active;
+	gboolean active;
 
 	active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 	print_text_field_set(pw, TEXT_INFO_FILENAME, active);
@@ -3199,7 +3199,7 @@ static void print_text_cb_name(GtkWidget *widget, gpointer data)
 static void print_text_cb_path(GtkWidget *widget, gpointer data)
 {
 	PrintWindow *pw = data;
-	gint active;
+	gboolean active;
 
 	active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 	print_text_field_set(pw, TEXT_INFO_FILEPATH, active);
@@ -3208,7 +3208,7 @@ static void print_text_cb_path(GtkWidget *widget, gpointer data)
 static void print_text_cb_date(GtkWidget *widget, gpointer data)
 {
 	PrintWindow *pw = data;
-	gint active;
+	gboolean active;
 
 	active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 	print_text_field_set(pw, TEXT_INFO_FILEDATE, active);
@@ -3217,7 +3217,7 @@ static void print_text_cb_date(GtkWidget *widget, gpointer data)
 static void print_text_cb_size(GtkWidget *widget, gpointer data)
 {
 	PrintWindow *pw = data;
-	gint active;
+	gboolean active;
 
 	active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 	print_text_field_set(pw, TEXT_INFO_FILESIZE, active);
@@ -3226,7 +3226,7 @@ static void print_text_cb_size(GtkWidget *widget, gpointer data)
 static void print_text_cb_dims(GtkWidget *widget, gpointer data)
 {
 	PrintWindow *pw = data;
-	gint active;
+	gboolean active;
 
 	active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 	print_text_field_set(pw, TEXT_INFO_DIMENSIONS, active);

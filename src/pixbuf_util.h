@@ -24,7 +24,7 @@ gboolean register_theme_icon_as_stock(const gchar *key, const gchar *icon);
 GdkPixbuf *pixbuf_inline(const gchar *key);
 GdkPixbuf *pixbuf_fallback(FileData *fd, gint requested_width, gint requested_height);
 
-gint pixbuf_scale_aspect(gint req_w, gint req_h, gint old_w, gint old_h, gint *new_w, gint *new_h);
+gboolean pixbuf_scale_aspect(gint req_w, gint req_h, gint old_w, gint old_h, gint *new_w, gint *new_h);
 
 #define PIXBUF_INLINE_FOLDER_CLOSED	"folder_closed"
 #define PIXBUF_INLINE_FOLDER_LOCKED	"folder_locked"
@@ -44,8 +44,8 @@ gint pixbuf_scale_aspect(gint req_w, gint req_h, gint old_w, gint old_h, gint *n
 #define PIXBUF_INLINE_ICON_VIEW		"icon_view"
 
 
-GdkPixbuf *pixbuf_copy_rotate_90(GdkPixbuf *src, gint counter_clockwise);
-GdkPixbuf *pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip);
+GdkPixbuf *pixbuf_copy_rotate_90(GdkPixbuf *src, gboolean counter_clockwise);
+GdkPixbuf *pixbuf_copy_mirror(GdkPixbuf *src, gboolean mirror, gboolean flip);
 GdkPixbuf* pixbuf_apply_orientation(GdkPixbuf *pixbuf, gint orientation);
 
 void pixbuf_draw_rect_fill(GdkPixbuf *pb,
@@ -95,9 +95,9 @@ void pixbuf_desaturate_rect(GdkPixbuf *pb,
 
 /* clipping utils */
 
-gint util_clip_region(gint x, gint y, gint w, gint h,
-		      gint clip_x, gint clip_y, gint clip_w, gint clip_h,
-		      gint *rx, gint *ry, gint *rw, gint *rh);
+gboolean util_clip_region(gint x, gint y, gint w, gint h,
+		          gint clip_x, gint clip_y, gint clip_w, gint clip_h,
+		          gint *rx, gint *ry, gint *rw, gint *rh);
 void util_clip_triangle(gint x1, gint y1, gint x2, gint y2, gint x3, gint y3,
 			gint *rx, gint *ry, gint *rw, gint *rh);
 
