@@ -232,6 +232,12 @@ void bar_pane_exif_set_fd(GtkWidget *widget, FileData *fd)
 	bar_pane_exif_update(ped);
 }
 
+static void bar_pane_exif_notify_cb(FileData *fd, NotifyType type, gpointer data)
+{
+	PaneExifData *ped = data;
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == ped->fd) bar_pane_exif_update(ped);
+}
+
 /*
  *-------------------------------------------------------------------
  * dnd
@@ -597,6 +603,7 @@ static void bar_pane_exif_destroy(GtkWidget *widget, gpointer data)
 {
 	PaneExifData *ped = data;
 
+	file_data_unregister_notify_func(bar_pane_exif_notify_cb, ped);
 	g_object_unref(ped->size_group);
 	file_data_unref(ped->fd);
 	g_free(ped);
@@ -645,6 +652,8 @@ GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded, gboolean pop
 	
 	bar_pane_exif_dnd_init(ped->widget);
 	g_signal_connect(ped->widget, "button_press_event", G_CALLBACK(bar_pane_exif_menu_cb), ped);
+
+	file_data_register_notify_func(bar_pane_exif_notify_cb, ped, NOTIFY_PRIORITY_LOW);
 
 	if (populate)
 		{
