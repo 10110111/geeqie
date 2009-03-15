@@ -20,6 +20,7 @@
 #include "ui_fileops.h"
 #include "metadata.h"
 #include "trash.h"
+#include "histogram.h"
 
 
 static GHashTable *file_data_pool = NULL;
@@ -509,7 +510,7 @@ static void file_data_free(FileData *fd)
 	g_free(fd->collate_key_name);
 	g_free(fd->collate_key_name_nocase);
 	if (fd->thumb_pixbuf) g_object_unref(fd->thumb_pixbuf);
-	g_free(fd->histmap);
+	histmap_free(fd->histmap);
 	
 	g_assert(fd->sidecar_files == NULL); /* sidecar files must be freed before calling this */
 

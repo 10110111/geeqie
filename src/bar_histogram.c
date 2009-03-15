@@ -83,7 +83,11 @@ static gboolean bar_pane_histogram_update_cb(gpointer data)
 	
 	histmap = histmap_get(phd->fd);
 	
-	if (!histmap) return FALSE;
+	if (!histmap) 
+		{
+		histmap_start_idle(phd->fd);
+		return FALSE;
+		}
 	
 	phd->pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, phd->histogram_width, phd->histogram_height);
 	gdk_pixbuf_fill(phd->pixbuf, 0xffffffff);
@@ -126,7 +130,7 @@ static void bar_pane_histogram_write_config(GtkWidget *pane, GString *outstr, gi
 static void bar_pane_histogram_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneHistogramData *phd = data;
-	if (fd == phd->fd) bar_pane_histogram_update(phd);
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_HISTMAP | NOTIFY_PIXBUF)) && fd == phd->fd) bar_pane_histogram_update(phd);
 }
 
 static gboolean bar_pane_histogram_expose_event_cb(GtkWidget *widget, GdkEventExpose *event, gpointer data)

@@ -31,7 +31,12 @@ gint histogram_get_mode(Histogram *histogram);
 gint histogram_toggle_channel(Histogram *histogram);
 gint histogram_toggle_mode(Histogram *histogram);
 const gchar *histogram_label(Histogram *histogram);
+
+void histmap_free(HistMap *histmap);
+
 const HistMap *histmap_get(FileData *fd);
+gboolean histmap_start_idle(FileData *fd);
+
 gboolean histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height);
 
 void histogram_notify_cb(FileData *fd, NotifyType type, gpointer data);

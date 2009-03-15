@@ -37,6 +37,7 @@ typedef struct _OverlayStateData OverlayStateData;
 struct _OverlayStateData {
 	ImageWindow *imd;
 	ImageState changed_states;
+	NotifyType notify;
 
 	Histogram *histogram;
 
@@ -557,7 +558,11 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	if (with_hist)
 		{
 		histmap = histmap_get(imd->image_fd);
-		if (!histmap) with_hist = FALSE;
+		if (!histmap) 
+			{
+			histmap_start_idle(imd->image_fd);
+			with_hist = FALSE;
+			}
 		}
 	
 	
@@ -829,7 +834,8 @@ static gboolean image_osd_update_cb(gpointer data)
 		/* redraw when the image was changed, 
 		   with histogram we have to redraw also when loading is finished */
 		if (osd->changed_states & IMAGE_STATE_IMAGE ||
-		    (osd->changed_states & IMAGE_STATE_LOADING && osd->show & OSD_SHOW_HISTOGRAM)) 
+		    (osd->changed_states & IMAGE_STATE_LOADING && osd->show & OSD_SHOW_HISTOGRAM) ||
+		    osd->notify & NOTIFY_HISTMAP)
 			{
 			GdkPixbuf *pixbuf;
 
@@ -884,6 +890,7 @@ static gboolean image_osd_update_cb(gpointer data)
 
 	if (osd->imd->il && image_loader_get_is_done(osd->imd->il))
 		osd->changed_states = IMAGE_STATE_NONE;
+	osd->notify = 0;
 	osd->idle_id = -1;
 	return FALSE;
 }
@@ -958,12 +965,26 @@ static void image_osd_state_cb(ImageWindow *imd, ImageState state, gpointer data
 	image_osd_update_schedule(osd, FALSE);
 }
 
+static void image_osd_notify_cb(FileData *fd, NotifyType type, gpointer data)
+{
+	OverlayStateData *osd = data;
+
+	if ((type & (NOTIFY_HISTMAP)) && osd->imd && fd == osd->imd->image_fd)
+		{
+		osd->notify |= type;
+		image_osd_update_schedule(osd, FALSE);
+		}
+}
+
+
 static void image_osd_free(OverlayStateData *osd)
 {
 	if (!osd) return;
 
 	if (osd->idle_id != -1) g_source_remove(osd->idle_id);
 	if (osd->timer_id != -1) g_source_remove(osd->timer_id);
+
+	file_data_unregister_notify_func(image_osd_notify_cb, osd);
 
 	if (osd->imd)
 		{
@@ -1017,6 +1038,7 @@ static void image_osd_enable(ImageWindow *imd, OsdShowFlags show)
 		image_set_osd_data(imd, osd);
 
 		image_set_state_func(osd->imd, image_osd_state_cb, osd);
+		file_data_register_notify_func(image_osd_notify_cb, osd, NOTIFY_PRIORITY_LOW);
 		}
 
 	if (show & OSD_SHOW_STATUS)

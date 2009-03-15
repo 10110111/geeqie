@@ -14,6 +14,7 @@
 #include "histogram.h"
 
 #include "pixbuf_util.h"
+#include "filedata.h"
 
 #include <math.h>
 
@@ -30,6 +31,10 @@ struct _HistMap {
 	gulong g[HISTMAP_SIZE];
 	gulong b[HISTMAP_SIZE];
 	gulong max[HISTMAP_SIZE];
+	
+	gint idle_id;
+	GdkPixbuf *pixbuf;
+	gint y;
 };
 
 
@@ -123,22 +128,46 @@ const gchar *histogram_label(Histogram *histogram)
 	return t1;
 }
 
-static HistMap *histmap_read(GdkPixbuf *imgpixbuf)
+static HistMap *histmap_new(void)
 {
-	gint w, h, i, j, srs, has_alpha, step;
+	HistMap *histmap = g_new0(HistMap, 1);
+	histmap->idle_id = -1;
+	return histmap;
+}
+
+void histmap_free(HistMap *histmap)
+{
+	if (!histmap) return;
+	if (histmap->idle_id != -1) g_source_remove(histmap->idle_id);
+	if (histmap->pixbuf) g_object_unref(histmap->pixbuf);
+	g_free(histmap);
+}
+
+static gboolean histmap_read(HistMap *histmap, gboolean whole)
+{
+	gint w, h, i, j, srs, has_alpha, step, end_line;
 	guchar *s_pix;
-	HistMap *histmap;
+	GdkPixbuf *imgpixbuf = histmap->pixbuf;
 	
 	w = gdk_pixbuf_get_width(imgpixbuf);
 	h = gdk_pixbuf_get_height(imgpixbuf);
 	srs = gdk_pixbuf_get_rowstride(imgpixbuf);
 	s_pix = gdk_pixbuf_get_pixels(imgpixbuf);
 	has_alpha = gdk_pixbuf_get_has_alpha(imgpixbuf);
-
-	histmap = g_new0(HistMap, 1);
+	
+	if (whole)
+		{
+		end_line = h;
+		}
+	else
+		{
+		gint lines = 1 + 16384 / w;
+		end_line = histmap->y + lines;
+		if (end_line > h) end_line = h;
+		}
 
 	step = 3 + !!(has_alpha);
-	for (i = 0; i < h; i++)
+	for (i = histmap->y; i < end_line; i++)
 		{
 		guchar *sp = s_pix + (i * srs); /* 8bit */
 		for (j = 0; j < w; j++)
@@ -155,21 +184,44 @@ static HistMap *histmap_read(GdkPixbuf *imgpixbuf)
 			sp += step;
 			}
 		}
-	
-	return histmap;
+	histmap->y = end_line;
+	return end_line >= h;	
 }
 
 const HistMap *histmap_get(FileData *fd)
 {
-	if (fd->histmap) return fd->histmap;
+	if (fd->histmap && fd->histmap->idle_id == -1) return fd->histmap; /* histmap exists and is finished */
 	
-	if (fd->pixbuf)
-		{
-		fd->histmap = histmap_read(fd->pixbuf);
-		return fd->histmap;
-		}
 	return NULL;
 }
+
+static gboolean histmap_idle_cb(gpointer data)
+{
+	FileData *fd = data;
+	if (histmap_read(fd->histmap, FALSE))
+		{
+		/* finished */
+		g_object_unref(fd->histmap->pixbuf); /*pixbuf is no longer needed */
+		fd->histmap->pixbuf = NULL;
+		fd->histmap->idle_id = -1;
+		file_data_send_notification(fd, NOTIFY_HISTMAP);
+		return FALSE;
+		}
+	return TRUE;
+}
+
+gboolean histmap_start_idle(FileData *fd)
+{
+	if (fd->histmap || !fd->pixbuf) return FALSE;
+
+	fd->histmap = histmap_new();
+	fd->histmap->pixbuf = fd->pixbuf;
+	g_object_ref(fd->histmap->pixbuf);
+
+	fd->histmap->idle_id = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE, histmap_idle_cb, fd, NULL);
+	return TRUE;
+}
+
 
 static void histogram_vgrid(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gint y, gint width, gint height)
 {
@@ -322,7 +374,7 @@ void histogram_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	if ((type & (NOTIFY_CHANGE || NOTIFY_REREAD)) && fd->histmap)
 		{
-		g_free(fd->histmap);
+		histmap_free(fd->histmap);
 		fd->histmap = NULL;
 		}
 }
