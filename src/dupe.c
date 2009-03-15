@@ -1993,7 +1993,7 @@ static void dupe_menu_view(DupeWindow *dw, DupeItem *di, GtkWidget *listview, gi
 			}
 		else
 			{
-			layout_image_set_fd(NULL, di->fd);
+			layout_set_fd(NULL, di->fd);
 			}
 		}
 }

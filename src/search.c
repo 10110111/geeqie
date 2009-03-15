@@ -23,7 +23,7 @@
 #include "filedata.h"
 #include "image-load.h"
 #include "img-view.h"
-#include "layout_image.h"
+#include "layout.h"
 #include "menu.h"
 #include "metadata.h"
 #include "misc.h"
@@ -877,7 +877,7 @@ static void sr_menu_view_cb(GtkWidget *widget, gpointer data)
 {
 	SearchData *sd = data;
 
-	if (sd->click_fd) layout_image_set_fd(NULL, sd->click_fd);
+	if (sd->click_fd) layout_set_fd(NULL, sd->click_fd);
 }
 
 static void sr_menu_viewnew_cb(GtkWidget *widget, gpointer data)
@@ -1095,7 +1095,7 @@ static gboolean search_result_press_cb(GtkWidget *widget, GdkEventButton *bevent
 
 	if (bevent->button == MOUSE_BUTTON_LEFT && bevent->type == GDK_2BUTTON_PRESS)
 		{
-		layout_image_set_fd(NULL, mfd->fd);
+		layout_set_fd(NULL, mfd->fd);
 		}
 
 	if (bevent->button == MOUSE_BUTTON_MIDDLE) return TRUE;
@@ -1298,7 +1298,7 @@ static gboolean search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event,
 		switch (event->keyval)
 			{
 			case GDK_Return: case GDK_KP_Enter:
-				if (mfd) layout_image_set_fd(NULL, mfd->fd);
+				if (mfd) layout_set_fd(NULL, mfd->fd);
 				break;
 			case 'V': case 'v':
 				{
