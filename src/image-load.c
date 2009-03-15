@@ -786,7 +786,7 @@ static void image_loader_thread_leave_high(void)
 {
 	g_mutex_lock(image_loader_prio_mutex);
 	image_loader_prio_num--;
-	if (image_loader_prio_num == 0) g_cond_signal(image_loader_prio_cond);
+	if (image_loader_prio_num == 0) g_cond_broadcast(image_loader_prio_cond); /* wake up all low prio threads */
 	g_mutex_unlock(image_loader_prio_mutex);
 }
 
