@@ -18,17 +18,17 @@ ViewDir *vdlist_new(ViewDir *vd, FileData *dir_fd);
 
 void vdlist_select_row(ViewDir *vd, FileData *fd);
 
-gint vdlist_set_fd(ViewDir *vd, FileData *dir_fd);
+gboolean vdlist_set_fd(ViewDir *vd, FileData *dir_fd);
 void vdlist_refresh(ViewDir *vd);
 
 const gchar *vdlist_row_get_path(ViewDir *vd, gint row);
-gint vdlist_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter);
+gboolean vdlist_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter);
 
 void vdlist_rename_by_row(ViewDir *vd, FileData *fd);
 FileData *vdlist_row_by_path(ViewDir *vd, const gchar *path, gint *row);
 
-gint vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
-gint vdlist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
+gboolean vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
+gboolean vdlist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 
 void vdlist_destroy_cb(GtkWidget *widget, gpointer data);
 

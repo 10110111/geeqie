@@ -118,7 +118,7 @@ void vd_set_layout(ViewDir *vd, LayoutWindow *layout)
 	vd->layout = layout;
 }
 
-gint vd_set_fd(ViewDir *vd, FileData *dir_fd)
+gboolean vd_set_fd(ViewDir *vd, FileData *dir_fd)
 {
 	gboolean ret = FALSE;
 
@@ -166,7 +166,7 @@ void vd_select_row(ViewDir *vd, FileData *fd)
 	}
 }
 
-gint vd_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
+gboolean vd_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
 {
 	gboolean ret = FALSE;
 
@@ -204,7 +204,7 @@ FileData *vd_get_fd_from_tree_path(ViewDir *vd, GtkTreeView *tview, GtkTreePath 
 	return fd;
 }
 
-static gint vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, gpointer data)
+static gboolean vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, gpointer data)
 {
 	ViewDir *vd = data;
 	FileData *fd;
@@ -556,7 +556,7 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 	GtkWidget *menu;
 	GtkWidget *submenu;
 	GtkWidget *item;
-	gint active;
+	gboolean active;
 	gboolean rename_delete_active = FALSE;
 	gboolean new_folder_active = FALSE;
 	gint i;
@@ -808,7 +808,7 @@ void vd_dnd_drop_scroll_cancel(ViewDir *vd)
 	vd->drop_scroll_id = -1;
 }
 
-static gint vd_auto_scroll_idle_cb(gpointer data)
+static gboolean vd_auto_scroll_idle_cb(gpointer data)
 {
 	ViewDir *vd = data;
 
@@ -831,7 +831,7 @@ static gint vd_auto_scroll_idle_cb(gpointer data)
 	return FALSE;
 }
 
-static gint vd_auto_scroll_notify_cb(GtkWidget *widget, gint x, gint y, gpointer data)
+static gboolean vd_auto_scroll_notify_cb(GtkWidget *widget, gint x, gint y, gpointer data)
 {
 	ViewDir *vd = data;
 
@@ -842,7 +842,7 @@ static gint vd_auto_scroll_notify_cb(GtkWidget *widget, gint x, gint y, gpointer
 	return TRUE;
 }
 
-static gint vd_dnd_drop_motion(GtkWidget *widget, GdkDragContext *context,
+static gboolean vd_dnd_drop_motion(GtkWidget *widget, GdkDragContext *context,
 				   gint x, gint y, guint time, gpointer data)
 {
 	ViewDir *vd = data;
@@ -964,7 +964,7 @@ void vd_color_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell,
 		     "cell-background-set", set, NULL);
 }
 
-gint vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+gboolean vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	ViewDir *vd = data;
 	GtkTreePath *tpath;
@@ -991,7 +991,7 @@ gint vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 	return FALSE;
 }
 
-gint vd_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean vd_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	ViewDir *vd = data;
 	gboolean ret = FALSE;
@@ -1005,7 +1005,7 @@ gint vd_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 	return ret;
 }
 
-gint vd_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+gboolean vd_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	ViewDir *vd = data;
 	gboolean ret = FALSE;

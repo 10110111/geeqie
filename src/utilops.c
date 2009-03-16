@@ -47,7 +47,7 @@ static GdkPixbuf *file_util_get_error_icon(FileData *fd, GtkWidget *widget);
 static void generic_dialog_add_image(GenericDialog *gd, GtkWidget *box,
 				     FileData *fd1, const gchar *header1,
 				     FileData *fd2, const gchar *header2,
-				     gint show_filename)
+				     gboolean show_filename)
 {
 	ImageWindow *imd;
 	GtkWidget *hbox = NULL;
@@ -154,7 +154,7 @@ static void generic_dialog_image_set(GenericDialog *gd, FileData *fd)
 
 GenericDialog *file_util_gen_dlg(const gchar *title,
 				 const gchar *role,
-				 GtkWidget *parent, gint auto_close,
+				 GtkWidget *parent, gboolean auto_close,
 				 void (*cancel_cb)(GenericDialog *, gpointer), gpointer data)
 {
 	GenericDialog *gd;
@@ -411,7 +411,7 @@ static void file_util_dialog_list_select(GtkWidget *view, gint n)
 		}
 }
 
-static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gint full_paths, gboolean with_sidecars)
+static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gboolean full_paths, gboolean with_sidecars)
 {
 	GtkWidget *scrolled;
 	GtkWidget *view;
@@ -1131,7 +1131,7 @@ static void file_util_rename_preview_update(UtilityData *ud)
 	const gchar *front;
 	const gchar *end;
 	const gchar *format;
-	gint valid;
+	gboolean valid;
 	gint start_n;
 	gint padding;
 	gint n;
@@ -1231,7 +1231,7 @@ static gboolean file_util_rename_idle_cb(gpointer data)
 }
 
 static void file_util_rename_preview_order_cb(GtkTreeModel *treemodel, GtkTreePath *tpath,
-						       GtkTreeIter *iter, gpointer data)
+					      GtkTreeIter *iter, gpointer data)
 {
 	UtilityData *ud = data;
 
@@ -1242,8 +1242,8 @@ static void file_util_rename_preview_order_cb(GtkTreeModel *treemodel, GtkTreePa
 
 
 static gboolean file_util_preview_cb(GtkTreeSelection *selection, GtkTreeModel *store,
-						GtkTreePath *tpath, gboolean path_currently_selected,
-						gpointer data)
+				     GtkTreePath *tpath, gboolean path_currently_selected,
+				     gpointer data)
 {
 	UtilityData *ud = data;
 	GtkTreeIter iter;
@@ -1385,7 +1385,7 @@ static void file_util_dialog_init_dest_folder(UtilityData *ud)
 }
 
 
-static GtkWidget *furm_simple_vlabel(GtkWidget *box, const gchar *text, gint expand)
+static GtkWidget *furm_simple_vlabel(GtkWidget *box, const gchar *text, gboolean expand)
 {
 	GtkWidget *vbox;
 	GtkWidget *label;
@@ -1740,6 +1740,7 @@ static void file_util_move_full(FileData *source_fd, GList *source_list, const g
 
 	file_util_dialog_run(ud);
 }
+
 static void file_util_copy_full(FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;

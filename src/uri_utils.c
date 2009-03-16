@@ -49,7 +49,7 @@ static gint escape_char_list[] = {
 
 static gchar *hex_char = "0123456789ABCDEF";
 
-static gint escape_test(guchar c)
+static gboolean escape_test(guchar c)
 {
 	if (c < 32 || c > 127) return TRUE;
 	return (escape_char_list[c] != 0);
@@ -169,7 +169,7 @@ static void uri_list_parse_encoded_chars(GList *list)
 		}
 }
 
-GList *uri_list_from_text(gchar *data, gint files_only)
+GList *uri_list_from_text(gchar *data, gboolean files_only)
 {
 	GList *list = NULL;
 	gint b, e;
@@ -205,7 +205,7 @@ GList *uri_list_from_text(gchar *data, gint files_only)
 	return list;
 }
 
-GList *uri_filelist_from_text(gchar *data, gint files_only)
+GList *uri_filelist_from_text(gchar *data, gboolean files_only)
 {
 	GList *path_list = uri_list_from_text(data, files_only);
 	GList *filelist = filelist_from_path_list(path_list);
@@ -213,7 +213,7 @@ GList *uri_filelist_from_text(gchar *data, gint files_only)
 	return filelist;
 }
 
-gchar *uri_text_from_list(GList *list, gint *len, gint plain_text)
+gchar *uri_text_from_list(GList *list, gint *len, gboolean plain_text)
 {
 	gchar *uri_text = NULL;
 	GString *string;
@@ -261,7 +261,7 @@ gchar *uri_text_from_list(GList *list, gint *len, gint plain_text)
 	return uri_text;
 }
 
-gchar *uri_text_from_filelist(GList *list, gint *len, gint plain_text)
+gchar *uri_text_from_filelist(GList *list, gint *len, gboolean plain_text)
 {
 	GList *path_list = filelist_to_path_list(list);
 	gchar *ret = uri_text_from_list(path_list, len, plain_text);

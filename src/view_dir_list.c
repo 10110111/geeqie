@@ -37,10 +37,10 @@
  *-----------------------------------------------------------------------------
  */
 
-gint vdlist_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
+gboolean vdlist_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
 {
 	GtkTreeModel *store;
-	gint valid;
+	gboolean valid;
 	gint row = 0;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
@@ -142,15 +142,15 @@ const gchar *vdlist_row_get_path(ViewDir *vd, gint row)
 	return NULL;
 }
 
-static gint vdlist_populate(ViewDir *vd, gboolean clear)
+static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 {
 	GtkListStore *store;
 	GList *work;
 	GtkTreeIter iter;
-	gint valid;
+	gboolean valid;
 	gchar *filepath;
 	GList *old_list;
-	gint ret;
+	gboolean ret;
 	FileData *fd;
 
 	old_list = VDLIST(vd)->list;
@@ -187,8 +187,9 @@ static gint vdlist_populate(ViewDir *vd, gboolean clear)
 		gint match;
 		GdkPixbuf *pixbuf;
 		const gchar *date = "";
-		fd = work->data;
 		gboolean done = FALSE;
+		
+		fd = work->data;
 
 		if (access_file(fd->path, R_OK | X_OK) && fd->name)
 			{
@@ -297,9 +298,9 @@ static gint vdlist_populate(ViewDir *vd, gboolean clear)
 	return ret;
 }
 
-gint vdlist_set_fd(ViewDir *vd, FileData *dir_fd)
+gboolean vdlist_set_fd(ViewDir *vd, FileData *dir_fd)
 {
-	gint ret;
+	gboolean ret;
 	gchar *old_path = NULL;
 
 	if (!dir_fd) return FALSE;
@@ -355,7 +356,7 @@ void vdlist_refresh(ViewDir *vd)
 	vdlist_populate(vd, FALSE);
 }
 
-gint vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	ViewDir *vd = data;
 	GtkTreePath *tpath;
@@ -388,7 +389,7 @@ gint vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 	return TRUE;
 }
 
-gint vdlist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+gboolean vdlist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	ViewDir *vd = data;
 	GtkTreePath *tpath;

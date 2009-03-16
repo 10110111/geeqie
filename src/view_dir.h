@@ -30,9 +30,9 @@ void vd_set_select_func(ViewDir *vdl, void (*func)(ViewDir *vdl, const gchar *pa
 
 void vd_set_layout(ViewDir *vdl, LayoutWindow *layout);
 
-gint vd_set_fd(ViewDir *vdl, FileData *dir_fd);
+gboolean vd_set_fd(ViewDir *vdl, FileData *dir_fd);
 void vd_refresh(ViewDir *vdl);
-gint vd_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter);
+gboolean vd_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter);
 
 const gchar *vd_row_get_path(ViewDir *vdl, gint row);
 
@@ -50,9 +50,9 @@ void vd_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
 void vd_activate_cb(GtkTreeView *tview, GtkTreePath *tpath, GtkTreeViewColumn *column, gpointer data);
 void vd_color_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model, GtkTreeIter *iter, gpointer data);
 
-gint vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
-gint vd_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
-gint vd_press_cb(GtkWidget *widget,  GdkEventButton *bevent, gpointer data);
+gboolean vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
+gboolean vd_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
+gboolean vd_press_cb(GtkWidget *widget,  GdkEventButton *bevent, gpointer data);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

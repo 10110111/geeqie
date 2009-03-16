@@ -17,10 +17,10 @@
 gchar *uri_text_escape(const gchar *text);
 void uri_text_decode(gchar *text);
 
-GList *uri_list_from_text(gchar *data, gint files_only);
-GList *uri_filelist_from_text(gchar *data, gint files_only);
-gchar *uri_text_from_list(GList *list, gint *len, gint plain_text);
-gchar *uri_text_from_filelist(GList *list, gint *len, gint plain_text);
+GList *uri_list_from_text(gchar *data, gboolean files_only);
+GList *uri_filelist_from_text(gchar *data, gboolean files_only);
+gchar *uri_text_from_list(GList *list, gint *len, gboolean plain_text);
+gchar *uri_text_from_filelist(GList *list, gint *len, gboolean plain_text);
 
 #endif /* URI_UTILS_H */
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
