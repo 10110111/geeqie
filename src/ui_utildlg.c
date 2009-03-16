@@ -49,7 +49,7 @@ static void generic_dialog_click_cb(GtkWidget *widget, gpointer data)
 {
 	GenericDialog *gd = data;
 	void (*func)(GenericDialog *, gpointer);
-	gint auto_close;
+	gboolean auto_close;
 
 	func = g_object_get_data(G_OBJECT(widget), "dialog_function");
 	auto_close = gd->auto_close;
@@ -58,14 +58,14 @@ static void generic_dialog_click_cb(GtkWidget *widget, gpointer data)
 	if (auto_close) generic_dialog_close(gd);
 }
 
-static gint generic_dialog_default_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean generic_dialog_default_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	GenericDialog *gd = data;
 
 	if (event->keyval == GDK_Return && GTK_WIDGET_HAS_FOCUS(widget)
 	    && gd->default_cb)
 		{
-		gint auto_close;
+		gboolean auto_close;
 
 		auto_close = gd->auto_close;
 		gd->default_cb(gd, gd->data);
@@ -83,7 +83,7 @@ void generic_dialog_attach_default(GenericDialog *gd, GtkWidget *widget)
 			 G_CALLBACK(generic_dialog_default_key_press_cb), gd);
 }
 
-static gint generic_dialog_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean generic_dialog_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	GenericDialog *gd = data;
 
@@ -96,10 +96,10 @@ static gint generic_dialog_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 	return FALSE;
 }
 
-static gint generic_dialog_delete_cb(GtkWidget *w, GdkEventAny *event, gpointer data)
+static gboolean generic_dialog_delete_cb(GtkWidget *w, GdkEventAny *event, gpointer data)
 {
 	GenericDialog *gd = data;
-	gint auto_close;
+	gboolean auto_close;
 
 	auto_close = gd->auto_close;
 
@@ -121,7 +121,7 @@ static void generic_dialog_show_cb(GtkWidget *widget, gpointer data)
 					     G_CALLBACK(generic_dialog_show_cb), gd);
 }
 
-gint generic_dialog_get_alternative_button_order(GtkWidget *widget)
+gboolean generic_dialog_get_alternative_button_order(GtkWidget *widget)
 {
 	GtkSettings *settings;
 	GObjectClass *klass;
@@ -138,10 +138,10 @@ gint generic_dialog_get_alternative_button_order(GtkWidget *widget)
 }
 
 GtkWidget *generic_dialog_add_button(GenericDialog *gd, const gchar *stock_id, const gchar *text,
-				     void (*func_cb)(GenericDialog *, gpointer), gint is_default)
+				     void (*func_cb)(GenericDialog *, gpointer), gboolean is_default)
 {
 	GtkWidget *button;
-	gint alternative_order;
+	gboolean alternative_order;
 
 	button = pref_button_new(NULL, stock_id, text, FALSE,
 				 G_CALLBACK(generic_dialog_click_cb), gd);
@@ -209,7 +209,7 @@ GtkWidget *generic_dialog_add_message(GenericDialog *gd, const gchar *icon_stock
 static void generic_dialog_setup(GenericDialog *gd,
 				 const gchar *title,
 				 const gchar *role,
-				 GtkWidget *parent, gint auto_close,
+				 GtkWidget *parent, gboolean auto_close,
 				 void (*cancel_cb)(GenericDialog *, gpointer), gpointer data)
 {
 	GtkWidget *vbox;
@@ -282,7 +282,7 @@ static void generic_dialog_setup(GenericDialog *gd,
 
 GenericDialog *generic_dialog_new(const gchar *title,
 				  const gchar *role,
-				  GtkWidget *parent, gint auto_close,
+				  GtkWidget *parent, gboolean auto_close,
 				  void (*cancel_cb)(GenericDialog *, gpointer), gpointer data)
 {
 	GenericDialog *gd;
@@ -350,7 +350,7 @@ FileDialog *file_dialog_new(const gchar *title,
 }
 
 GtkWidget *file_dialog_add_button(FileDialog *fdlg, const gchar *stock_id, const gchar *text,
-				  void (*func_cb)(FileDialog *, gpointer), gint is_default)
+				  void (*func_cb)(FileDialog *, gpointer), gboolean is_default)
 {
 	return generic_dialog_add_button(GENERIC_DIALOG(fdlg), stock_id, text,
 					 (gpointer)func_cb, is_default);
@@ -425,7 +425,7 @@ void file_dialog_add_path_widgets(FileDialog *fdlg, const gchar *default_path, c
 			 G_CALLBACK(file_dialog_entry_cb), fdlg);
 }
 
-void file_dialog_add_filter(FileDialog *fdlg, const gchar *filter, const gchar *filter_desc, gint set)
+void file_dialog_add_filter(FileDialog *fdlg, const gchar *filter, const gchar *filter_desc, gboolean set)
 {
 	if (!fdlg->entry) return;
 	path_selection_add_filter(fdlg->entry, filter, filter_desc, set);
@@ -437,7 +437,7 @@ void file_dialog_clear_filter(FileDialog *fdlg)
 	path_selection_clear_filter(fdlg->entry);
 }
 
-void file_dialog_sync_history(FileDialog *fdlg, gint dir_only)
+void file_dialog_sync_history(FileDialog *fdlg, gboolean dir_only)
 {
 	if (!fdlg->dest_path) return;
 
