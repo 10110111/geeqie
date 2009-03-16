@@ -31,17 +31,17 @@ typedef enum {
 	FORMAT_RAW_EXIF_PROPRIETARY
 } FormatRawExifType;
 
-typedef gint (* FormatRawParseFunc)(guchar *data, const guint len,
-				    guint *image_offset, guint *exif_offset);
+typedef gboolean (* FormatRawParseFunc)(guchar *data, const guint len,
+				        guint *image_offset, guint *exif_offset);
 
-typedef gint (* FormatRawExifParseFunc)(guchar *data, const guint len,
-					ExifData *exif);
+typedef gboolean (* FormatRawExifParseFunc)(guchar *data, const guint len,
+					    ExifData *exif);
 
-gint format_raw_img_exif_offsets(guchar *data, const guint len,
-				 guint *image_offset, guint *exif_offset);
-gint format_raw_img_exif_offsets_fd(gint fd, const gchar *path,
-				    guchar *header_data, const guint header_len,
-				    guint *image_offset, guint *exif_offset);
+gboolean format_raw_img_exif_offsets(guchar *data, const guint len,
+				     guint *image_offset, guint *exif_offset);
+gboolean format_raw_img_exif_offsets_fd(gint fd, const gchar *path,
+				        guchar *header_data, const guint header_len,
+				        guint *image_offset, guint *exif_offset);
 
 FormatRawExifType format_raw_exif_offset(guchar *data, const guint len, guint *exif_offset,
 					 FormatRawExifParseFunc *exif_parse_func);
@@ -53,10 +53,10 @@ typedef enum {
 } FormatExifMatchType;
 
 typedef gint (* FormatExifParseFunc)(ExifData *exif, guchar *tiff, guint offset,
-				    guint size, ExifByteOrder bo);
+				     guint size, ExifByteOrder bo);
 
-gint format_exif_makernote_parse(ExifData *exif, guchar *tiff, guint offset,
-				 guint size, ExifByteOrder bo);
+gboolean format_exif_makernote_parse(ExifData *exif, guchar *tiff, guint offset,
+				     guint size, ExifByteOrder bo);
 
 
 #define DEBUG_RAW_TIFF 0

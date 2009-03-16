@@ -23,11 +23,11 @@
 #include "exif-int.h"
 
 
-gint format_canon_raw_crw(guchar *data, const guint len,
-			  guint *image_offset, guint *exif_offset);
+gboolean format_canon_raw_crw(guchar *data, const guint len,
+			      guint *image_offset, guint *exif_offset);
 
-gint format_canon_raw_cr2(guchar *data, const guint len,
-			  guint *image_offset, guint *exif_offset);
+gboolean format_canon_raw_cr2(guchar *data, const guint len,
+			      guint *image_offset, guint *exif_offset);
 
 #define FORMAT_RAW_CANON { "crw", \
 			   FORMAT_RAW_MATCH_MAGIC,     6, "HEAPCCDR", 8, \
@@ -39,8 +39,8 @@ gint format_canon_raw_cr2(guchar *data, const guint len,
 			   "Canon cr2", format_canon_raw_cr2 }
 
 
-gint format_canon_makernote(ExifData *exif, guchar *tiff, guint offset,
-			    guint size, ExifByteOrder bo);
+gboolean format_canon_makernote(ExifData *exif, guchar *tiff, guint offset,
+			        guint size, ExifByteOrder bo);
 
 #define FORMAT_EXIF_CANON { FORMAT_EXIF_MATCH_MAKE, "Canon", 5, "Canon", format_canon_makernote }
 

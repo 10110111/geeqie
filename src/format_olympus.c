@@ -105,8 +105,8 @@ static guint olympus_tiff_table(guchar *data, const guint len, guint offset, Exi
 	return exif_byte_get_int32(data + offset + count * EXIF_TIFD_SIZE, bo);
 }
 
-gint format_olympus_raw(guchar *data, const guint len,
-			guint *image_offset, guint *exif_offset)
+gboolean format_olympus_raw(guchar *data, const guint len,
+			    guint *image_offset, guint *exif_offset)
 {
 	guint i_off = 0;
 	guint e_off = 0;
@@ -294,8 +294,8 @@ static ExifTextList OlympusWBColorTemp[]= {
 	EXIF_TEXT_LIST_END
 };
 
-gint format_olympus_makernote(ExifData *exif, guchar *tiff, guint offset,
-			      guint size, ExifByteOrder bo)
+gboolean format_olympus_makernote(ExifData *exif, guchar *tiff, guint offset,
+			          guint size, ExifByteOrder bo)
 {
 	guchar *data;
 	ExifItem *item;

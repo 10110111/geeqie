@@ -133,9 +133,9 @@ static guint tiff_table(guchar *data, const guint len, guint offset, ExifByteOrd
 	return exif_byte_get_int32(data + offset + count * 12, bo);
 }
 
-static gint format_tiff_find_tag_data(guchar *data, const guint len,
-				      guint tag, ExifFormatType type,
-				      guint *result_offset, guint *result_count)
+static gboolean format_tiff_find_tag_data(guchar *data, const guint len,
+				          guint tag, ExifFormatType type,
+				          guint *result_offset, guint *result_count)
 {
 	ExifByteOrder bo;
 	guint offset;
@@ -182,7 +182,7 @@ static gint format_tiff_find_tag_data(guchar *data, const guint len,
 static FormatRawEntry *format_raw_find(guchar *data, const guint len)
 {
 	gint n;
-	gint tiff;
+	gboolean tiff;
 	guint make_count = 0;
 	guint make_offset = 0;
 
@@ -230,13 +230,13 @@ static FormatRawEntry *format_raw_find(guchar *data, const guint len)
 	return NULL;
 }
 
-static gint format_raw_parse(FormatRawEntry *entry,
-			     guchar *data, const guint len,
-			     guint *image_offset, guint *exif_offset)
+static gboolean format_raw_parse(FormatRawEntry *entry,
+			         guchar *data, const guint len,
+			         guint *image_offset, guint *exif_offset)
 {
 	guint io = 0;
 	guint eo = 0;
-	gint found;
+	gboolean found;
 
 	if (!entry || !entry->func_parse) return FALSE;
 
@@ -257,8 +257,8 @@ static gint format_raw_parse(FormatRawEntry *entry,
 	return TRUE;
 }
 
-gint format_raw_img_exif_offsets(guchar *data, const guint len,
-				 guint *image_offset, guint *exif_offset)
+gboolean format_raw_img_exif_offsets(guchar *data, const guint len,
+				     guint *image_offset, guint *exif_offset)
 {
 	FormatRawEntry *entry;
 
@@ -294,15 +294,15 @@ FormatRawExifType format_raw_exif_offset(guchar *data, const guint len, guint *e
 }
 
 
-gint format_raw_img_exif_offsets_fd(gint fd, const gchar *path,
-				    guchar *header_data, const guint header_len,
-				    guint *image_offset, guint *exif_offset)
+gboolean format_raw_img_exif_offsets_fd(gint fd, const gchar *path,
+				        guchar *header_data, const guint header_len,
+				        guint *image_offset, guint *exif_offset)
 {
 	FormatRawEntry *entry;
 	gpointer map_data = NULL;
 	size_t map_len = 0;
 	struct stat st;
-	gint success;
+	gboolean success;
 
 	if (!header_data || fd < 0) return FALSE;
 
@@ -414,8 +414,8 @@ static FormatExifEntry *format_exif_makernote_find(ExifData *exif, guchar *tiff,
 	return FALSE;
 }
 
-gint format_exif_makernote_parse(ExifData *exif, guchar *tiff, guint offset,
-				 guint size, ExifByteOrder bo)
+gboolean format_exif_makernote_parse(ExifData *exif, guchar *tiff, guint offset,
+				     guint size, ExifByteOrder bo)
 {
 	FormatExifEntry *entry;
 
@@ -523,8 +523,8 @@ static guint format_debug_tiff_table(guchar *data, const guint len, guint offset
 	return exif_byte_get_int32(data + offset + count * EXIF_TIFD_SIZE, bo);
 }
 
-gint format_debug_tiff_raw(guchar *data, const guint len,
-			   guint *image_offset, guint *exif_offset)
+gboolean format_debug_tiff_raw(guchar *data, const guint len,
+			       guint *image_offset, guint *exif_offset)
 {
 	ExifByteOrder bo;
 	gint level;

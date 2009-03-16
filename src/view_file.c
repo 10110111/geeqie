@@ -38,7 +38,7 @@ void vf_send_update(ViewFile *vf)
  *-----------------------------------------------------------------------------
  */
 
-void vf_sort_set(ViewFile *vf, SortType type, gint ascend)
+void vf_sort_set(ViewFile *vf, SortType type, gboolean ascend)
 {
 	switch (vf->type)
 	{
@@ -112,7 +112,7 @@ GList *vf_get_list(ViewFile *vf)
  *-------------------------------------------------------------------
  */
 
-static gint vf_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean vf_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	ViewFile *vf = data;
 	gboolean ret = FALSE;
@@ -132,7 +132,7 @@ static gint vf_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data
  *-------------------------------------------------------------------
  */
 
-static gint vf_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+static gboolean vf_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	ViewFile *vf = data;
 	gboolean ret = FALSE;
@@ -146,7 +146,7 @@ static gint vf_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data
 	return ret;
 }
 
-static gint vf_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+static gboolean vf_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	ViewFile *vf = data;
 	gboolean ret = FALSE;
@@ -166,6 +166,20 @@ static gint vf_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer da
  * selections
  *-----------------------------------------------------------------------------
  */
+
+gboolean vf_index_is_selected(ViewFile *vf, gint row)
+{
+	gboolean ret = FALSE;
+
+	switch (vf->type)
+	{
+	case FILEVIEW_LIST: ret = vflist_index_is_selected(vf, row); break;
+	case FILEVIEW_ICON: ret = vficon_index_is_selected(vf, row); break;
+	}
+
+	return ret;
+}
+
 
 guint vf_selection_count(ViewFile *vf, gint64 *bytes)
 {
@@ -485,7 +499,7 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 	GtkWidget *menu;
 	GtkWidget *item;
 	GtkWidget *submenu;
-	gint active = 0;
+	gboolean active = FALSE;
 
 	switch (vf->type)
 	{
@@ -601,7 +615,7 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 	return menu;
 }
 
-gint vf_refresh(ViewFile *vf)
+gboolean vf_refresh(ViewFile *vf)
 {
 	gboolean ret = FALSE;
 
@@ -614,7 +628,7 @@ gint vf_refresh(ViewFile *vf)
 	return ret;
 }
 
-gint vf_set_fd(ViewFile *vf, FileData *dir_fd)
+gboolean vf_set_fd(ViewFile *vf, FileData *dir_fd)
 {
 	gboolean ret = FALSE;
 
@@ -739,7 +753,7 @@ void vf_set_thumb_status_func(ViewFile *vf, void (*func)(ViewFile *vf, gdouble v
 	vf->data_thumb_status = data;
 }
 
-void vf_thumb_set(ViewFile *vf, gint enable)
+void vf_thumb_set(ViewFile *vf, gboolean enable)
 {
 	switch (vf->type)
 	{
@@ -748,7 +762,7 @@ void vf_thumb_set(ViewFile *vf, gint enable)
 	}
 }
 
-void vf_marks_set(ViewFile *vf, gint enable)
+void vf_marks_set(ViewFile *vf, gboolean enable)
 {
 	if (vf->marks_enabled == enable) return;
 
@@ -795,7 +809,7 @@ void vf_set_layout(ViewFile *vf, LayoutWindow *layout)
  *-----------------------------------------------------------------------------
  */
 
-static gint vf_refresh_idle_cb(gpointer data)
+static gboolean vf_refresh_idle_cb(gpointer data)
 {
 	ViewFile *vf = data;
 

@@ -39,8 +39,8 @@
  */
 
 
-gint format_fuji_raw(guchar *data, const guint len,
-		     guint *image_offset, guint *exif_offset)
+gboolean format_fuji_raw(guchar *data, const guint len,
+		         guint *image_offset, guint *exif_offset)
 {
 	guint io;
 	guint eo;
@@ -175,8 +175,8 @@ EXIF_MARKER_LIST_END
 
 
 
-gint format_fuji_makernote(ExifData *exif, guchar *tiff, guint offset,
-			   guint size, ExifByteOrder bo)
+gboolean format_fuji_makernote(ExifData *exif, guchar *tiff, guint offset,
+			       guint size, ExifByteOrder bo)
 {
 	guchar *data;
 	guint ifdstart;

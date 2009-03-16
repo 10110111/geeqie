@@ -16,7 +16,7 @@
 GtkWidget *window_new(GtkWindowType type, const gchar *role, const gchar *icon,
 		      const gchar *icon_file, const gchar *subtitle);
 void window_set_icon(GtkWidget *window, const gchar *icon, const gchar *file);
-gint window_maximized(GtkWidget *window);
+gboolean window_maximized(GtkWidget *window);
 
 void help_window_show(const gchar *key);
 

@@ -16,21 +16,21 @@
 
 #include "filedata.h"
 
-gint vflist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
-gint vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
-gint vflist_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
+gboolean vflist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
+gboolean vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
+gboolean vflist_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 
 void vflist_dnd_init(ViewFile *vf);
 
 void vflist_destroy_cb(GtkWidget *widget, gpointer data);
 ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd);
 
-gint vflist_set_fd(ViewFile *vf, FileData *dir_fd);
-gint vflist_refresh(ViewFile *vf);
+gboolean vflist_set_fd(ViewFile *vf, FileData *dir_fd);
+gboolean vflist_refresh(ViewFile *vf);
 
-void vflist_thumb_set(ViewFile *vf, gint enable);
-void vflist_marks_set(ViewFile *vf, gint enable);
-void vflist_sort_set(ViewFile *vf, SortType type, gint ascend);
+void vflist_thumb_set(ViewFile *vf, gboolean enable);
+void vflist_marks_set(ViewFile *vf, gboolean enable);
+void vflist_sort_set(ViewFile *vf, SortType type, gboolean ascend);
 
 GList *vflist_pop_menu_file_list(ViewFile *vf);
 void vflist_pop_menu_view_cb(GtkWidget *widget, gpointer data);
@@ -44,7 +44,7 @@ gint vflist_index_by_path(ViewFile *vf, const gchar *path);
 guint vflist_count(ViewFile *vf, gint64 *bytes);
 GList *vflist_get_list(ViewFile *vf);
 
-gint vflist_index_is_selected(ViewFile *vf, gint row);
+gboolean vflist_index_is_selected(ViewFile *vf, gint row);
 guint vflist_selection_count(ViewFile *vf, gint64 *bytes);
 GList *vflist_selection_get_list(ViewFile *vf);
 GList *vflist_selection_get_list_by_index(ViewFile *vf);
@@ -57,10 +57,7 @@ void vflist_select_by_fd(ViewFile *vf, FileData *fd);
 void vflist_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode);
 void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode);
 
-void vflist_select_marked(ViewFile *vf, gint mark);
-void vflist_mark_selected(ViewFile *vf, gint mark, gint value);
-
-void vflist_color_set(ViewFile *vf, FileData *fd, gint color_set);
+void vflist_color_set(ViewFile *vf, FileData *fd, gboolean color_set);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

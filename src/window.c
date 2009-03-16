@@ -65,14 +65,14 @@ void window_set_icon(GtkWidget *window, const gchar *icon, const gchar *file)
 		}
 }
 
-gint window_maximized(GtkWidget *window)
+gboolean window_maximized(GtkWidget *window)
 {
 	GdkWindowState state;
 
 	if (!window || !window->window) return FALSE;
 
 	state = gdk_window_get_state(window->window);
-	return (state & GDK_WINDOW_STATE_MAXIMIZED);
+	return !!(state & GDK_WINDOW_STATE_MAXIMIZED);
 }
 
 /*

@@ -470,7 +470,7 @@ struct _FileData {
 
 	gint ref;
 	gint version; /* increased when any field in this structure is changed */
-	gint disable_grouping;
+	gboolean disable_grouping;
 
 	gint user_orientation;
 	gint exif_orientation;
@@ -605,7 +605,7 @@ struct _LayoutWindow
 	GtkWidget *file_view;
 
 	SortType sort_method;
-	gint sort_ascend;
+	gboolean sort_ascend;
 
 	/* status bar */
 
@@ -708,7 +708,7 @@ struct _ViewFile
 	GList *list;
 
 	SortType sort_method;
-	gint sort_ascend;
+	gboolean sort_ascend;
 
 	/* func list */
 	void (*func_thumb_status)(ViewFile *vf, gdouble val, const gchar *text, gpointer data);
@@ -722,12 +722,12 @@ struct _ViewFile
 	GtkWidget *popup;
 
 	/* thumbs updates*/
-	gint thumbs_running;
+	gboolean thumbs_running;
 	ThumbLoader *thumbs_loader;
 	FileData *thumbs_filedata;
 
 	/* marks */
-	gint marks_enabled;
+	gboolean marks_enabled;
 	gint active_mark;
 	gint clicked_mark;
 	
@@ -743,7 +743,7 @@ struct _ViewFileInfoList
 	FileData *click_fd;
 	FileData *select_fd;
 
-	gint thumbs_enabled;
+	gboolean thumbs_enabled;
 
 	gint select_idle_id;
 };
@@ -769,7 +769,7 @@ struct _ViewFileInfoIcon
 	gint focus_row;
 	gint focus_column;
 
-	gint show_text;
+	gboolean show_text;
 };
 
 struct _SlideShowData
@@ -789,7 +789,7 @@ struct _SlideShowData
 	guint slide_count;
 	gint timeout_id;
 
-	gint from_selection;
+	gboolean from_selection;
 
 	void (*stop_func)(SlideShowData *, gpointer);
 	gpointer stop_data;

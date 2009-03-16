@@ -26,13 +26,13 @@ void vf_set_thumb_status_func(ViewFile *vf, void (*func)(ViewFile *vf, gdouble v
 
 void vf_set_layout(ViewFile *vf, LayoutWindow *layout);
 
-gint vf_set_fd(ViewFile *vf, FileData *fd);
-gint vf_refresh(ViewFile *vf);
+gboolean vf_set_fd(ViewFile *vf, FileData *fd);
+gboolean vf_refresh(ViewFile *vf);
 void vf_refresh_idle(ViewFile *vf);
 
-void vf_thumb_set(ViewFile *vf, gint enable);
-void vf_marks_set(ViewFile *vf, gint enable);
-void vf_sort_set(ViewFile *vf, SortType type, gint ascend);
+void vf_thumb_set(ViewFile *vf, gboolean enable);
+void vf_marks_set(ViewFile *vf, gboolean enable);
+void vf_sort_set(ViewFile *vf, SortType type, gboolean ascend);
 
 guint vf_marks_get_filter(ViewFile *vf);
 
@@ -58,10 +58,8 @@ void vf_select_by_fd(ViewFile *vf, FileData *fd);
 void vf_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode);
 void vf_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode);
 
-void vf_select_marked(ViewFile *vf, gint mark);
-void vf_mark_selected(ViewFile *vf, gint mark, gint value);
-
 void vf_refresh_idle_cancel(ViewFile *vf);
 void vf_notify_cb(FileData *fd, NotifyType type, gpointer data);
+
 #endif /* VIEW_FILE_H */
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

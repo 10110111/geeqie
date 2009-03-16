@@ -18,8 +18,8 @@
 #include "exif-int.h"
 
 
-gint format_fuji_raw(guchar *data, const guint len,
-		     guint *image_offset, guint *exif_offset);
+gboolean format_fuji_raw(guchar *data, const guint len,
+		         guint *image_offset, guint *exif_offset);
 
 
 #define FORMAT_RAW_FUJI { "raf", \
@@ -28,8 +28,8 @@ gint format_fuji_raw(guchar *data, const guint len,
 			  "Fuji raw", format_fuji_raw }
 
 
-gint format_fuji_makernote(ExifData *exif, guchar *tiff, guint offset,
-			   guint size, ExifByteOrder bo);
+gboolean format_fuji_makernote(ExifData *exif, guchar *tiff, guint offset,
+			       guint size, ExifByteOrder bo);
 
 #define FORMAT_EXIF_FUJI { FORMAT_EXIF_MATCH_MAKERNOTE, "FUJIFILM", 8, "Fujifilm", format_fuji_makernote }
 
