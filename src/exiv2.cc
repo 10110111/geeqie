@@ -76,12 +76,30 @@ struct _AltKey
 
 /* this is a list of keys that should be converted, even with the older Exiv2 which does not support it directly */
 static const AltKey alt_keys[] = {
-	{"Xmp.tiff.Orientation", "Exif.Image.Orientation", NULL},
-	{"Xmp.dc.subject", NULL, "Iptc.Application2.Keywords"},
-	{"Xmp.dc.description", NULL, "Iptc.Application2.Caption"},
+	{"Xmp.tiff.Orientation",		"Exif.Image.Orientation", 	NULL},
+	{"Xmp.dc.title",			NULL,				"Iptc.Application2.ObjectName"		},
+	{"Xmp.photoshop.Urgency",		NULL,				"Iptc.Application2.Urgency"		},
+	{"Xmp.photoshop.Category",		NULL,				"Iptc.Application2.Category"		},
+	{"Xmp.photoshop.SupplementalCategory",	NULL,				"Iptc.Application2.SuppCategory"	},
+	{"Xmp.dc.subject",			NULL,				"Iptc.Application2.Keywords"		},
+	{"Xmp.iptc.Location",			NULL,				"Iptc.Application2.LocationName"	},
+	{"Xmp.photoshop.Instruction",		NULL,				"Iptc.Application2.SpecialInstructions"	},
+	{"Xmp.photoshop.DateCreated",		NULL,				"Iptc.Application2.DateCreated"		},
+	{"Xmp.dc.creator",			NULL,				"Iptc.Application2.Byline"		},
+	{"Xmp.photoshop.AuthorsPosition",	NULL,				"Iptc.Application2.BylineTitle"		},
+	{"Xmp.photoshop.City",			NULL,				"Iptc.Application2.City"		},
+	{"Xmp.photoshop.State",			NULL,				"Iptc.Application2.ProvinceState"	},
+	{"Xmp.iptc.CountryCode",		NULL,				"Iptc.Application2.CountryCode"		},
+	{"Xmp.photoshop.Country",		NULL,				"Iptc.Application2.CountryName"		},
+	{"Xmp.photoshop.TransmissionReference",	NULL,				"Iptc.Application2.TransmissionReference"},
+	{"Xmp.photoshop.Headline",		NULL,				"Iptc.Application2.Headline"		},
+	{"Xmp.photoshop.Credit",		NULL,				"Iptc.Application2.Credit"		},
+	{"Xmp.photoshop.Source",		NULL,				"Iptc.Application2.Source"		},
+	{"Xmp.dc.rights",			NULL,				"Iptc.Application2.Copyright"		},
+	{"Xmp.dc.description",			NULL,				"Iptc.Application2.Caption"		},
+	{"Xmp.photoshop.CaptionWriter",		NULL,				"Iptc.Application2.Writer"		},
 	{NULL, NULL, NULL}
 	};
-
 
 struct _ExifData
 {
