@@ -1047,20 +1047,8 @@ static gboolean keyword_tree_check_empty_children(GtkTreeModel *keyword_tree, Gt
 
 	while (TRUE)
 		{
-		if (keyword_get_is_keyword(keyword_tree, &iter))
-			{
-			if (keyword_tree_is_set(keyword_tree, &iter, kw_list)) return FALSE;
-			}
-		else
-			{
-			/* for helpers we have to check recursively */
-			if (!keyword_tree_check_empty_children(keyword_tree, &iter, kw_list)) return FALSE;
-			}
-		
-		if (!gtk_tree_model_iter_next(keyword_tree, &iter))
-			{
-			return TRUE;
-			}
+		if (keyword_tree_is_set(keyword_tree, &iter, kw_list)) return FALSE;
+		if (!gtk_tree_model_iter_next(keyword_tree, &iter)) return TRUE;
 		}
 }
 
