@@ -163,12 +163,10 @@ gboolean bar_keyword_tree_collapse_if_unset_cb(GtkTreeModel *model, GtkTreePath 
 {
 	PaneKeywordsData *pkd = data;
 	gboolean set;
-	gboolean is_keyword;
 
-	gtk_tree_model_get(model, iter, FILTER_KEYWORD_COLUMN_TOGGLE, &set,
-					FILTER_KEYWORD_COLUMN_IS_KEYWORD, &is_keyword, -1);
+	gtk_tree_model_get(model, iter, FILTER_KEYWORD_COLUMN_TOGGLE, &set, -1);
 	
-	if (is_keyword && !set && gtk_tree_view_row_expanded(GTK_TREE_VIEW(pkd->keyword_treeview), path))
+	if (!set && gtk_tree_view_row_expanded(GTK_TREE_VIEW(pkd->keyword_treeview), path))
 		{
 		gtk_tree_view_collapse_row(GTK_TREE_VIEW(pkd->keyword_treeview), path);
 		}

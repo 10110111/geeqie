@@ -917,6 +917,20 @@ gboolean keyword_tree_get_iter(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr
 static gboolean keyword_tree_is_set_casefold(GtkTreeModel *keyword_tree, GtkTreeIter iter, GList *casefold_list)
 {
 	if (!casefold_list) return FALSE;
+
+	if (!keyword_get_is_keyword(keyword_tree, &iter))
+		{
+		/* for the purpose of expanding and hiding, a helper is set if it has any children set */
+		GtkTreeIter child;
+		if (!gtk_tree_model_iter_children(keyword_tree, &child, &iter)) 
+			return FALSE; /* this should happen only on empty helpers */
+
+		while (TRUE)
+			{
+			if (keyword_tree_is_set_casefold(keyword_tree, child, casefold_list)) return TRUE;
+			if (!gtk_tree_model_iter_next(keyword_tree, &child)) return FALSE;
+			}
+		}
 	
 	while (TRUE)
 		{
@@ -953,8 +967,6 @@ gboolean keyword_tree_is_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter, GLis
 	GList *casefold_list = NULL;
 	GList *work;
 
-	if (!keyword_get_is_keyword(keyword_tree, iter)) return FALSE;
-	
 	work = kw_list;
 	while (work)
 		{
@@ -1130,8 +1142,7 @@ static void keyword_hide_unset_in_recursive(GtkTreeStore *keyword_tree, GtkTreeI
 	GtkTreeIter iter = *iter_ptr;
 	while (TRUE)
 		{
-		if (keyword_get_is_keyword(GTK_TREE_MODEL(keyword_tree), &iter) && 
-		    !keyword_tree_is_set(GTK_TREE_MODEL(keyword_tree), &iter, keywords))
+		if (!keyword_tree_is_set(GTK_TREE_MODEL(keyword_tree), &iter, keywords))
 			{
 			keyword_hide_in(keyword_tree, &iter, id);
 			/* no need to check children of hidden node */
