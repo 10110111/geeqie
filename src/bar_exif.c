@@ -37,21 +37,25 @@
  */
 
 typedef struct _ExifEntry ExifEntry;
+typedef struct _PaneExifData PaneExifData;
+
 struct _ExifEntry
 {
 	GtkWidget *ebox;
-	GtkWidget *hbox;
+	GtkWidget *box;
 	GtkWidget *title_label;
-	GtkWidget *value_label;
+	GtkWidget *value_widget;
 
 	gchar *key;
 	gchar *title;
 	gboolean if_set;
 	gboolean auto_title;
+	gboolean editable;
+
+	PaneExifData *ped;
 };
 	
 	
-typedef struct _PaneExifData PaneExifData;
 struct _PaneExifData
 {
 	PaneData pane;
@@ -77,12 +81,26 @@ struct _ConfDialogData
 	GtkWidget *key_entry;
 	GtkWidget *title_entry;
 	gboolean if_set;
+	gboolean editable;
 };
 
 static void bar_pane_exif_entry_dnd_init(GtkWidget *entry);
 static void bar_pane_exif_entry_update_title(ExifEntry *ee);
 static void bar_pane_exif_update(PaneExifData *ped);
 static gboolean bar_pane_exif_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
+static void bar_pane_exif_notify_cb(FileData *fd, NotifyType type, gpointer data);
+
+
+static void bar_pane_exif_entry_changed(GtkEntry *text_entry, gpointer data)
+{
+	ExifEntry *ee = data;
+	gchar *text;
+	if (!ee->ped->fd) return;
+
+	text = text_widget_text_pull(ee->value_widget);
+	metadata_write_string(ee->ped->fd, ee->key, text);
+	g_free(text);
+}
 
 static void bar_pane_exif_entry_destroy(GtkWidget *widget, gpointer data)
 {
@@ -93,8 +111,44 @@ static void bar_pane_exif_entry_destroy(GtkWidget *widget, gpointer data)
 	g_free(ee);
 }
 
+static void bar_pane_exif_setup_entry_box(PaneExifData *ped, ExifEntry *ee)
+{
+	gboolean horizontal = !ee->editable;
+	gboolean editable = ee->editable;
 
-static GtkWidget *bar_pane_exif_add_entry(PaneExifData *ped, const gchar *key, const gchar *title, gint if_set)
+	if (ee->box) gtk_widget_destroy(ee->box);
+
+	ee->box = horizontal ? gtk_hbox_new(FALSE, 0) : gtk_vbox_new(FALSE, 0);
+	gtk_container_add(GTK_CONTAINER(ee->ebox), ee->box);
+	gtk_widget_show(ee->box);
+
+	ee->title_label = gtk_label_new(NULL);
+	gtk_misc_set_alignment(GTK_MISC(ee->title_label), horizontal ? 1.0 : 0.0, 0.5);
+	gtk_size_group_add_widget(ped->size_group, ee->title_label);
+	gtk_box_pack_start(GTK_BOX(ee->box), ee->title_label, FALSE, TRUE, 0);
+	gtk_widget_show(ee->title_label);
+
+	if (editable)
+		{
+		ee->value_widget = gtk_entry_new();
+		g_signal_connect(G_OBJECT(ee->value_widget), "changed",
+			 G_CALLBACK(bar_pane_exif_entry_changed), ee);
+
+		}
+	else
+		{
+		ee->value_widget = gtk_label_new(NULL);
+//		gtk_label_set_width_chars(GTK_LABEL(ee->value_widget), 20);
+		gtk_label_set_ellipsize(GTK_LABEL(ee->value_widget), PANGO_ELLIPSIZE_END);
+//		gtk_widget_set_size_request(ee->value_widget, 100, -1);
+		gtk_misc_set_alignment(GTK_MISC(ee->value_widget), 0.0, 0.5);
+		}
+		
+	gtk_box_pack_start(GTK_BOX(ee->box), ee->value_widget, TRUE, TRUE, 1);
+	gtk_widget_show(ee->value_widget);
+}
+
+static GtkWidget *bar_pane_exif_add_entry(PaneExifData *ped, const gchar *key, const gchar *title, gboolean if_set, gboolean editable)
 {
 	ExifEntry *ee = g_new0(ExifEntry, 1);
 	
@@ -110,34 +164,22 @@ static GtkWidget *bar_pane_exif_add_entry(PaneExifData *ped, const gchar *key, c
 		}
 		
 	ee->if_set = if_set;
+	ee->editable = editable;
+	
+	ee->ped = ped;
 	
 	ee->ebox = gtk_event_box_new();
 	g_object_set_data(G_OBJECT(ee->ebox), "entry_data", ee);
 	g_signal_connect_after(G_OBJECT(ee->ebox), "destroy",
 			       G_CALLBACK(bar_pane_exif_entry_destroy), ee);
 	
-	ee->hbox = gtk_hbox_new(FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(ee->ebox), ee->hbox);
-	gtk_widget_show(ee->hbox);
-
-	ee->title_label = gtk_label_new(NULL);
-	gtk_misc_set_alignment(GTK_MISC(ee->title_label), 1.0, 0.5);
-	gtk_size_group_add_widget(ped->size_group, ee->title_label);
-	gtk_box_pack_start(GTK_BOX(ee->hbox), ee->title_label, FALSE, TRUE, 0);
-	gtk_widget_show(ee->title_label);
-	
-	ee->value_label = gtk_label_new(NULL);
-//	gtk_label_set_width_chars(GTK_LABEL(ee->value_label), 20);
-	gtk_label_set_ellipsize(GTK_LABEL(ee->value_label), PANGO_ELLIPSIZE_END);
-//	gtk_widget_set_size_request(ee->value_label, 100, -1);
-	gtk_misc_set_alignment(GTK_MISC(ee->value_label), 0.0, 0.5);
-	gtk_box_pack_start(GTK_BOX(ee->hbox), ee->value_label, TRUE, TRUE, 1);
-	gtk_widget_show(ee->value_label);
 	gtk_box_pack_start(GTK_BOX(ped->vbox), ee->ebox, FALSE, FALSE, 0);
 
 	bar_pane_exif_entry_dnd_init(ee->ebox);
 	g_signal_connect(ee->ebox, "button_press_event", G_CALLBACK(bar_pane_exif_menu_cb), ped);
 	
+	bar_pane_exif_setup_entry_box(ped, ee);
+	 
 	bar_pane_exif_entry_update_title(ee);
 	bar_pane_exif_update(ped);
 	
@@ -146,18 +188,20 @@ static GtkWidget *bar_pane_exif_add_entry(PaneExifData *ped, const gchar *key, c
 
 static void bar_pane_exif_reparent_entry(GtkWidget *entry, GtkWidget *pane)
 {
-	GtkWidget *old_pane = entry->parent;
 	PaneExifData *ped = g_object_get_data(G_OBJECT(pane), "pane_data");
-	PaneExifData *old_ped = g_object_get_data(G_OBJECT(old_pane), "pane_data");
+	PaneExifData *old_ped;
 	ExifEntry *ee = g_object_get_data(G_OBJECT(entry), "entry_data");
 	
-	if (!ped || !old_ped || !ee) return;
+	if (!ped || !ee) return;
+	
+	old_ped = ee->ped;
 	
 	g_object_ref(entry);
 	
 	gtk_size_group_remove_widget(old_ped->size_group, ee->title_label);
 	gtk_container_remove(GTK_CONTAINER(old_ped->vbox), entry);
 	
+	ee->ped = ped;
 	gtk_size_group_add_widget(ped->size_group, ee->title_label);
 	gtk_box_pack_start(GTK_BOX(ped->vbox), entry, FALSE, FALSE, 0);
 }
@@ -177,19 +221,31 @@ static void bar_pane_exif_update_entry(PaneExifData *ped, GtkWidget *entry, gboo
 	ExifEntry *ee = g_object_get_data(G_OBJECT(entry), "entry_data");
 	
 	if (!ee) return;
-	text = metadata_read_string(ped->fd, ee->key, METADATA_FORMATTED);
+	text = metadata_read_string(ped->fd, ee->key, ee->editable ? METADATA_PLAIN : METADATA_FORMATTED);
 
-	if (!ped->show_all && ee->if_set && (!text || !*text))
+	if (!ped->show_all && ee->if_set && !ee->editable && (!text || !*text))
 		{
-		gtk_label_set_text(GTK_LABEL(ee->value_label), NULL);
+		gtk_label_set_text(GTK_LABEL(ee->value_widget), NULL);
 		gtk_widget_hide(entry);
 		}
 	else
 		{
-		gtk_label_set_text(GTK_LABEL(ee->value_label), text);
+		if (ee->editable)
+			{
+			g_signal_handlers_block_by_func(ee->value_widget, bar_pane_exif_entry_changed, ee);
+			gtk_entry_set_text(GTK_ENTRY(ee->value_widget), text ? text : "");
+			g_signal_handlers_unblock_by_func(ee->value_widget, bar_pane_exif_entry_changed, ee);
 #if GTK_CHECK_VERSION(2,12,0)
-    		gtk_widget_set_tooltip_text(ee->hbox, text);
+			gtk_widget_set_tooltip_text(ee->box, NULL);
 #endif
+			}
+		else
+			{
+			gtk_label_set_text(GTK_LABEL(ee->value_widget), text);
+#if GTK_CHECK_VERSION(2,12,0)
+			gtk_widget_set_tooltip_text(ee->box, text);
+#endif
+			}
 		gtk_widget_show(entry);
 		ped->all_hidden = FALSE;
 		}
@@ -232,11 +288,35 @@ void bar_pane_exif_set_fd(GtkWidget *widget, FileData *fd)
 	bar_pane_exif_update(ped);
 }
 
+gint bar_pane_exif_event(GtkWidget *bar, GdkEvent *event)
+{
+	PaneExifData *ped;
+	gboolean ret = FALSE;
+	GList *list, *work;
+
+	ped = g_object_get_data(G_OBJECT(bar), "pane_data");
+	if (!ped) return FALSE;
+
+	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));	
+	work = list;
+	while (!ret && work)
+		{
+		GtkWidget *entry = work->data;
+		ExifEntry *ee = g_object_get_data(G_OBJECT(entry), "entry_data");
+		work = work->next;
+
+		if (ee->editable && GTK_WIDGET_HAS_FOCUS(ee->value_widget)) ret = gtk_widget_event(ee->value_widget, event);
+		}
+	g_list_free(list);
+	return ret;
+}
+
 static void bar_pane_exif_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneExifData *ped = data;
 	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == ped->fd) bar_pane_exif_update(ped);
 }
+
 
 /*
  *-------------------------------------------------------------------
@@ -301,7 +381,7 @@ static void bar_pane_exif_dnd_receive(GtkWidget *pane, GdkDragContext *context,
 			break;
 		default:
 			/* FIXME: this needs a check for valid exif keys */
-			new_entry = bar_pane_exif_add_entry(ped, (gchar *)selection_data->data, NULL, TRUE);
+			new_entry = bar_pane_exif_add_entry(ped, (gchar *)selection_data->data, NULL, TRUE, FALSE);
 			break;
 		}
 
@@ -394,7 +474,7 @@ static void bar_pane_exif_edit_ok_cb(GenericDialog *gd, gpointer data)
 		bar_pane_exif_add_entry(ped, 
 					gtk_entry_get_text(GTK_ENTRY(cdd->key_entry)),
 					gtk_entry_get_text(GTK_ENTRY(cdd->title_entry)),
-					cdd->if_set);
+					cdd->if_set, cdd->editable);
 		}
 
 	if (ee)
@@ -422,6 +502,9 @@ static void bar_pane_exif_edit_ok_cb(GenericDialog *gd, gpointer data)
 			}
 		
 		ee->if_set = cdd->if_set;
+		ee->editable = cdd->editable;
+		
+		bar_pane_exif_setup_entry_box(ped, ee);
 
 		bar_pane_exif_entry_update_title(ee);
 		bar_pane_exif_update(ped);
@@ -444,7 +527,8 @@ static void bar_pane_exif_conf_dialog(GtkWidget *widget)
 
 
 	cdd->if_set = ee ? ee->if_set : TRUE;
-
+	cdd->editable = ee ? ee->editable : FALSE;
+	
 	cdd->gd = gd = generic_dialog_new(ee ? _("Configure entry") : _("Add entry"), "exif_entry_edit",
 				widget, TRUE,
 				bar_pane_exif_edit_cancel_cb, cdd);
@@ -480,6 +564,7 @@ static void bar_pane_exif_conf_dialog(GtkWidget *widget)
 	gtk_widget_show(cdd->title_entry);
 
 	pref_checkbox_new_int(gd->vbox, _("Show only if set"), cdd->if_set, &cdd->if_set);
+	pref_checkbox_new_int(gd->vbox, _("Editable (supported only for XMP)"), cdd->editable, &cdd->editable);
 
 	gtk_widget_show(gd->dialog);
 }
@@ -544,6 +629,8 @@ static gboolean bar_pane_exif_menu_cb(GtkWidget *widget, GdkEventButton *bevent,
 	return FALSE;
 } 
 
+
+
 static void bar_pane_exif_entry_write_config(GtkWidget *entry, GString *outstr, gint indent)
 {
 	ExifEntry *ee = g_object_get_data(G_OBJECT(entry), "entry_data");
@@ -554,6 +641,7 @@ static void bar_pane_exif_entry_write_config(GtkWidget *entry, GString *outstr, 
 	WRITE_CHAR(*ee, key);
 	if (!ee->auto_title) WRITE_CHAR(*ee, title);
 	WRITE_BOOL(*ee, if_set);
+	WRITE_BOOL(*ee, editable);
 	indent--;
 	WRITE_STRING("/>\n");
 }
@@ -632,6 +720,7 @@ GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded, gboolean pop
 
 	ped->pane.pane_set_fd = bar_pane_exif_set_fd;
 	ped->pane.pane_write_config = bar_pane_exif_write_config;
+	ped->pane.pane_event = bar_pane_exif_event;
 	ped->pane.title = bar_pane_expander_title(title);
 	ped->pane.expanded = expanded;
 
@@ -657,26 +746,26 @@ GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded, gboolean pop
 
 	if (populate)
 		{
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("Camera"), NULL, TRUE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("DateTime"), NULL, TRUE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("ShutterSpeed"), NULL, TRUE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("Aperture"), NULL, TRUE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("ExposureBias"), NULL, TRUE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("ISOSpeedRating"), NULL, TRUE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("FocalLength"), NULL, TRUE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("FocalLength35mmFilm"), NULL, TRUE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("Flash"), NULL, TRUE);
-		bar_pane_exif_add_entry(ped, "Exif.Photo.ExposureProgram", NULL, TRUE);
-		bar_pane_exif_add_entry(ped, "Exif.Photo.MeteringMode", NULL, TRUE);
-		bar_pane_exif_add_entry(ped, "Exif.Photo.LightSource", NULL, TRUE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("ColorProfile"), NULL, TRUE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("SubjectDistance"), NULL, TRUE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("Resolution"), NULL, TRUE);
-		bar_pane_exif_add_entry(ped, "Exif.Image.Orientation", NULL, TRUE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("GPSPosition"), NULL, TRUE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("GPSAltitude"), NULL, TRUE);
-		bar_pane_exif_add_entry(ped, "Exif.Image.ImageDescription", NULL, TRUE);
-		bar_pane_exif_add_entry(ped, "Exif.Image.Copyright", NULL, TRUE);
+		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("Camera"), NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("DateTime"), NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("ShutterSpeed"), NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("Aperture"), NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("ExposureBias"), NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("ISOSpeedRating"), NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("FocalLength"), NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("FocalLength35mmFilm"), NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("Flash"), NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, "Exif.Photo.ExposureProgram", NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, "Exif.Photo.MeteringMode", NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, "Exif.Photo.LightSource", NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("ColorProfile"), NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("SubjectDistance"), NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("Resolution"), NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, "Exif.Image.Orientation", NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("GPSPosition"), NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("GPSAltitude"), NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, "Exif.Image.ImageDescription", NULL, TRUE, FALSE);
+		bar_pane_exif_add_entry(ped, "Exif.Image.Copyright", NULL, TRUE, FALSE);
 		}
 	
 	gtk_widget_show(ped->widget);
@@ -709,6 +798,7 @@ void bar_pane_exif_entry_add_from_config(GtkWidget *pane, const gchar **attribut
 	gchar *key = NULL;
 	gchar *title = NULL;
 	gboolean if_set = TRUE;
+	gboolean editable = FALSE;
 
 	ped = g_object_get_data(G_OBJECT(pane), "pane_data");
 	if (!ped) return;
@@ -721,11 +811,12 @@ void bar_pane_exif_entry_add_from_config(GtkWidget *pane, const gchar **attribut
 		if (READ_CHAR_FULL("key", key)) continue;
 		if (READ_CHAR_FULL("title", title)) continue;
 		if (READ_BOOL_FULL("if_set", if_set)) continue;
+		if (READ_BOOL_FULL("editable", editable)) continue;
 		
 		DEBUG_1("unknown attribute %s = %s", option, value);
 		}
 	
-	if (key && key[0]) bar_pane_exif_add_entry(ped, key, title, if_set);
+	if (key && key[0]) bar_pane_exif_add_entry(ped, key, title, if_set, editable);
 }
 
 
