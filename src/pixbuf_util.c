@@ -14,6 +14,7 @@
 #include "main.h"
 #include "pixbuf_util.h"
 #include "exif.h"
+#include "ui_fileops.h"
 
 #include "icons/icons_inline.h"
 
@@ -178,11 +179,30 @@ gboolean register_theme_icon_as_stock(const gchar *key, const gchar *icon)
 		{
 		if (error)
 			{
-			DEBUG_1("Couldn't load icon: %s", error->message);
+			DEBUG_1("Couldn't load icon %s: %s", icon, error->message);
 			g_error_free(error);
+			error = NULL;
 			}
-		return FALSE;
+			
+		if (strchr(icon, '.'))
+			{
+			/* try again without extension */
+			gchar *icon2 = remove_extension_from_path(icon);
+			pixbuf = gtk_icon_theme_load_icon(icon_theme,
+		                           icon2, /* icon name */
+		                           64, /* size */
+		                           0,  /* flags */
+		                           &error);
+			if (error)
+				{
+				DEBUG_1("Couldn't load icon %s: %s", icon2, error->message);
+				g_error_free(error);
+				}
+			g_free(icon2);
+			}
 		}
+
+	if (!pixbuf) return FALSE;
 	
 	register_stock_icon(key, pixbuf);
 	return TRUE;
