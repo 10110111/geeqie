@@ -1819,18 +1819,18 @@ void layout_toolbar_add_default(LayoutWindow *lw)
 void layout_toolbar_write_config(LayoutWindow *lw, GString *outstr, gint indent)
 {
 	GList *work = lw->toolbar_actions;
-	WRITE_STRING("<toolbar>\n");
+	WRITE_NL(); WRITE_STRING("<toolbar>");
 	indent++;
 	while (work)
 		{
 		gchar *action = work->data;
 		work = work->next;
-		WRITE_STRING("<toolitem\n");
+		WRITE_NL(); WRITE_STRING("<toolitem ");
 		write_char_option(outstr, indent + 1, "action", action);
-		WRITE_STRING("/>\n");
+		WRITE_STRING("/>");
 		}
 	indent--;
-	WRITE_STRING("</toolbar>\n");
+	WRITE_NL(); WRITE_STRING("</toolbar>");
 }
 
 void layout_toolbar_add_from_config(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values)

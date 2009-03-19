@@ -723,15 +723,13 @@ void bar_sort_write_config(GtkWidget *bar, GString *outstr, gint indent)
 	sd = g_object_get_data(G_OBJECT(bar), "bar_sort_data");
 	if (!sd) return;
 
-	WRITE_STRING("<bar_sort\n");
-	indent++;
+	WRITE_NL(); WRITE_STRING("<bar_sort ");
 	write_bool_option(outstr, indent, "enabled", GTK_WIDGET_VISIBLE(bar));
 	WRITE_INT(*sd, mode);
 	WRITE_INT(*sd, action);
 	WRITE_INT(*sd, selection);
 	WRITE_CHAR(*sd, filter_key);
-	indent--;
-	WRITE_STRING("/>\n");
+	WRITE_STRING("/>");
 }
 
 

@@ -38,9 +38,10 @@ gboolean read_bool_option(const gchar *option, const gchar *label, const gchar *
 #define WRITE_CHAR(_source_, _name_) write_char_option(outstr, indent, #_name_, (_source_)._name_)
 #define WRITE_COLOR(_source_, _name_) write_color_option(outstr, indent, #_name_, &(_source_)._name_)
 
+#define WRITE_NL() write_indent(outstr, indent)
 #define WRITE_SEPARATOR() g_string_append(outstr, "\n")
 #define WRITE_SUBTITLE(_title_) g_string_append_printf(outstr, "\n\n<!-- "_title_" -->\n\n")
-#define WRITE_STRING(_str_) do { write_indent(outstr, indent); g_string_append_printf(outstr, _str_); } while (0)
+#define WRITE_STRING(_str_) g_string_append_printf(outstr, _str_)
 
 #define READ_BOOL(_target_, _name_) read_bool_option(option, #_name_, value, &(_target_)._name_)
 #define READ_INT(_target_, _name_) read_int_option(option, #_name_, value, &(_target_)._name_)

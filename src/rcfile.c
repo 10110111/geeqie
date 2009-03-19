@@ -43,7 +43,7 @@
 
 void write_indent(GString *str, gint indent)
 {
-	g_string_append_printf(str, "%*s", indent * 4, "");
+	g_string_append_printf(str, "\n%*s", indent * 4, "");
 }
 
 void write_char_option(GString *str, gint indent, const gchar *label, const gchar *text)
@@ -68,8 +68,7 @@ void write_char_option(GString *str, gint indent, const gchar *label, const gcha
 
 	gchar *escval1 = g_strescape(text ? text : "", (gchar *) no_quote_utf); 
 	gchar *escval2 = g_markup_escape_text(escval1, -1);
-	write_indent(str, indent);
-	g_string_append_printf(str, "%s = \"%s\"\n", label, escval2);
+	g_string_append_printf(str, "%s = \"%s\" ", label, escval2);
 	g_free(escval2);
 	g_free(escval1);
 }
@@ -116,8 +115,7 @@ gboolean read_color_option(const gchar *option, const gchar *label, const gchar 
 
 void write_int_option(GString *str, gint indent, const gchar *label, gint n)
 {
-	write_indent(str, indent);
-	g_string_append_printf(str, "%s = \"%d\"\n", label, n);
+	g_string_append_printf(str, "%s = \"%d\" ", label, n);
 }
 
 gboolean read_int_option(const gchar *option, const gchar *label, const gchar *value, gint *n)
@@ -142,8 +140,7 @@ gboolean read_int_option(const gchar *option, const gchar *label, const gchar *v
 
 void write_uint_option(GString *str, gint indent, const gchar *label, guint n)
 {
-	write_indent(str, indent);
-	g_string_append_printf(str, "%s = \"%u\"\n", label, n);
+	g_string_append_printf(str, "%s = \"%u\" ", label, n);
 }
 
 gboolean read_uint_option(const gchar *option, const gchar *label, const gchar *value, guint *n)
@@ -202,8 +199,7 @@ void write_int_unit_option(GString *str, gint indent, gchar *label, gint n, gint
 		r = 0;
 		}
 
-	write_indent(str, indent);
-	g_string_append_printf(str, "%s = \"%d.%d\"\n", label, l, r);
+	g_string_append_printf(str, "%s = \"%d.%d\" ", label, l, r);
 }
 
 gboolean read_int_unit_option(const gchar *option, const gchar *label, const gchar *value, gint *n, gint subunits)
@@ -239,8 +235,7 @@ gboolean read_int_unit_option(const gchar *option, const gchar *label, const gch
 
 void write_bool_option(GString *str, gint indent, gchar *label, gint n)
 {
-	write_indent(str, indent);
-	g_string_append_printf(str, "%s = \"%s\"\n", label, n ? "true" : "false");
+	g_string_append_printf(str, "%s = \"%s\" ", label, n ? "true" : "false");
 }
 
 gboolean read_bool_option(const gchar *option, const gchar *label, const gchar *value, gint *n)
@@ -266,53 +261,53 @@ static void write_global_attributes(GString *outstr, gint indent)
 {
 //	WRITE_SUBTITLE("General Options");
 
-	WRITE_BOOL(*options, show_icon_names);
-	WRITE_BOOL(*options, show_copy_path);
+	WRITE_NL(); WRITE_BOOL(*options, show_icon_names);
+	WRITE_NL(); WRITE_BOOL(*options, show_copy_path);
 	WRITE_SEPARATOR();
 
-	WRITE_BOOL(*options, tree_descend_subdirs);
-	WRITE_BOOL(*options, lazy_image_sync);
-	WRITE_BOOL(*options, update_on_time_change);
+	WRITE_NL(); WRITE_BOOL(*options, tree_descend_subdirs);
+	WRITE_NL(); WRITE_BOOL(*options, lazy_image_sync);
+	WRITE_NL(); WRITE_BOOL(*options, update_on_time_change);
 	WRITE_SEPARATOR();
 
-	WRITE_BOOL(*options, progressive_key_scrolling);
+	WRITE_NL(); WRITE_BOOL(*options, progressive_key_scrolling);
 
-	WRITE_UINT(*options, duplicates_similarity_threshold);
+	WRITE_NL(); WRITE_UINT(*options, duplicates_similarity_threshold);
 	WRITE_SEPARATOR();
 
-	WRITE_BOOL(*options, mousewheel_scrolls);
-	WRITE_INT(*options, open_recent_list_maxsize);
-	WRITE_INT(*options, dnd_icon_size);
-	WRITE_BOOL(*options, place_dialogs_under_mouse);
+	WRITE_NL(); WRITE_BOOL(*options, mousewheel_scrolls);
+	WRITE_NL(); WRITE_INT(*options, open_recent_list_maxsize);
+	WRITE_NL(); WRITE_INT(*options, dnd_icon_size);
+	WRITE_NL(); WRITE_BOOL(*options, place_dialogs_under_mouse);
 
-	WRITE_BOOL(*options, save_window_positions);
-	WRITE_BOOL(*options, tools_restore_state);
+	WRITE_NL(); WRITE_BOOL(*options, save_window_positions);
+	WRITE_NL(); WRITE_BOOL(*options, tools_restore_state);
 
 //	WRITE_SUBTITLE("Startup Options");
 
-	WRITE_BOOL(*options, startup.restore_path);
-	WRITE_BOOL(*options, startup.use_last_path);
-	WRITE_CHAR(*options, startup.path);
+	WRITE_NL(); WRITE_BOOL(*options, startup.restore_path);
+	WRITE_NL(); WRITE_BOOL(*options, startup.use_last_path);
+	WRITE_NL(); WRITE_CHAR(*options, startup.path);
 
 
 //	WRITE_SUBTITLE("File operations Options");
 
-	WRITE_BOOL(*options, file_ops.enable_in_place_rename);
-	WRITE_BOOL(*options, file_ops.confirm_delete);
-	WRITE_BOOL(*options, file_ops.enable_delete_key);
-	WRITE_BOOL(*options, file_ops.safe_delete_enable);
-	WRITE_CHAR(*options, file_ops.safe_delete_path);
-	WRITE_INT(*options, file_ops.safe_delete_folder_maxsize);
+	WRITE_NL(); WRITE_BOOL(*options, file_ops.enable_in_place_rename);
+	WRITE_NL(); WRITE_BOOL(*options, file_ops.confirm_delete);
+	WRITE_NL(); WRITE_BOOL(*options, file_ops.enable_delete_key);
+	WRITE_NL(); WRITE_BOOL(*options, file_ops.safe_delete_enable);
+	WRITE_NL(); WRITE_CHAR(*options, file_ops.safe_delete_path);
+	WRITE_NL(); WRITE_INT(*options, file_ops.safe_delete_folder_maxsize);
 
 
 
 
 //	WRITE_SUBTITLE("Properties dialog Options");
-	WRITE_CHAR(*options, properties.tabs_order);
+	WRITE_NL(); WRITE_CHAR(*options, properties.tabs_order);
 
 //	WRITE_SUBTITLE("Image Options");
 
-	WRITE_UINT(*options, image.zoom_mode);
+	WRITE_NL(); WRITE_UINT(*options, image.zoom_mode);
 
 //	g_string_append_printf(outstr, "# image.zoom_mode possible values are:\n"
 //			    "#   original\n"
@@ -326,96 +321,96 @@ static void write_global_attributes(GString *outstr, gint indent)
 //	case ZOOM_RESET_NONE: g_string_append_printf(outstr, "dont_change\n"); break;
 //	}
 	WRITE_SEPARATOR();
-	WRITE_BOOL(*options, image.zoom_2pass);
-	WRITE_BOOL(*options, image.zoom_to_fit_allow_expand);
-	WRITE_UINT(*options, image.zoom_quality);
-	WRITE_INT(*options, image.zoom_increment);
-	WRITE_BOOL(*options, image.fit_window_to_image);
-	WRITE_BOOL(*options, image.limit_window_size);
-	WRITE_INT(*options, image.max_window_size);
-	WRITE_BOOL(*options, image.limit_autofit_size);
-	WRITE_INT(*options, image.max_autofit_size);
-	WRITE_UINT(*options, image.scroll_reset_method);
-	WRITE_INT(*options, image.tile_cache_max);
-	WRITE_INT(*options, image.image_cache_max);
-	WRITE_UINT(*options, image.dither_quality);
-	WRITE_BOOL(*options, image.enable_read_ahead);
-	WRITE_BOOL(*options, image.exif_rotate_enable);
-	WRITE_BOOL(*options, image.use_custom_border_color);
-	WRITE_COLOR(*options, image.border_color);
-	WRITE_INT(*options, image.read_buffer_size);
-	WRITE_INT(*options, image.idle_read_loop_count);
+	WRITE_NL(); WRITE_BOOL(*options, image.zoom_2pass);
+	WRITE_NL(); WRITE_BOOL(*options, image.zoom_to_fit_allow_expand);
+	WRITE_NL(); WRITE_UINT(*options, image.zoom_quality);
+	WRITE_NL(); WRITE_INT(*options, image.zoom_increment);
+	WRITE_NL(); WRITE_BOOL(*options, image.fit_window_to_image);
+	WRITE_NL(); WRITE_BOOL(*options, image.limit_window_size);
+	WRITE_NL(); WRITE_INT(*options, image.max_window_size);
+	WRITE_NL(); WRITE_BOOL(*options, image.limit_autofit_size);
+	WRITE_NL(); WRITE_INT(*options, image.max_autofit_size);
+	WRITE_NL(); WRITE_UINT(*options, image.scroll_reset_method);
+	WRITE_NL(); WRITE_INT(*options, image.tile_cache_max);
+	WRITE_NL(); WRITE_INT(*options, image.image_cache_max);
+	WRITE_NL(); WRITE_UINT(*options, image.dither_quality);
+	WRITE_NL(); WRITE_BOOL(*options, image.enable_read_ahead);
+	WRITE_NL(); WRITE_BOOL(*options, image.exif_rotate_enable);
+	WRITE_NL(); WRITE_BOOL(*options, image.use_custom_border_color);
+	WRITE_NL(); WRITE_COLOR(*options, image.border_color);
+	WRITE_NL(); WRITE_INT(*options, image.read_buffer_size);
+	WRITE_NL(); WRITE_INT(*options, image.idle_read_loop_count);
 
 //	WRITE_SUBTITLE("Thumbnails Options");
 
-	WRITE_INT(*options, thumbnails.max_width);
-	WRITE_INT(*options, thumbnails.max_height);
-	WRITE_BOOL(*options, thumbnails.enable_caching);
-	WRITE_BOOL(*options, thumbnails.cache_into_dirs);
-	WRITE_BOOL(*options, thumbnails.fast);
-	WRITE_BOOL(*options, thumbnails.use_xvpics);
-	WRITE_BOOL(*options, thumbnails.spec_standard);
-	WRITE_UINT(*options, thumbnails.quality);
-	WRITE_BOOL(*options, thumbnails.use_exif);
+	WRITE_NL(); WRITE_INT(*options, thumbnails.max_width);
+	WRITE_NL(); WRITE_INT(*options, thumbnails.max_height);
+	WRITE_NL(); WRITE_BOOL(*options, thumbnails.enable_caching);
+	WRITE_NL(); WRITE_BOOL(*options, thumbnails.cache_into_dirs);
+	WRITE_NL(); WRITE_BOOL(*options, thumbnails.fast);
+	WRITE_NL(); WRITE_BOOL(*options, thumbnails.use_xvpics);
+	WRITE_NL(); WRITE_BOOL(*options, thumbnails.spec_standard);
+	WRITE_NL(); WRITE_UINT(*options, thumbnails.quality);
+	WRITE_NL(); WRITE_BOOL(*options, thumbnails.use_exif);
 
 
 //	WRITE_SUBTITLE("File sorting Options");
 
-	WRITE_INT(*options, file_sort.method);
-	WRITE_BOOL(*options, file_sort.ascending);
-	WRITE_BOOL(*options, file_sort.case_sensitive);
+	WRITE_NL(); WRITE_INT(*options, file_sort.method);
+	WRITE_NL(); WRITE_BOOL(*options, file_sort.ascending);
+	WRITE_NL(); WRITE_BOOL(*options, file_sort.case_sensitive);
 
 
 //	WRITE_SUBTITLE("Fullscreen Options");
 
-	WRITE_INT(*options, fullscreen.screen);
-	WRITE_BOOL(*options, fullscreen.clean_flip);
-	WRITE_BOOL(*options, fullscreen.disable_saver);
-	WRITE_BOOL(*options, fullscreen.above);
+	WRITE_NL(); WRITE_INT(*options, fullscreen.screen);
+	WRITE_NL(); WRITE_BOOL(*options, fullscreen.clean_flip);
+	WRITE_NL(); WRITE_BOOL(*options, fullscreen.disable_saver);
+	WRITE_NL(); WRITE_BOOL(*options, fullscreen.above);
 
 	WRITE_SEPARATOR();
 
 //	WRITE_SUBTITLE("Image Overlay Options");
-	WRITE_CHAR(*options, image_overlay.template_string);
+	WRITE_NL(); WRITE_CHAR(*options, image_overlay.template_string);
 
 //	g_string_append_printf(outstr, "# these are relative positions:\n");
 //	g_string_append_printf(outstr, "# x >= 0: |x| pixels from left border\n");
 //	g_string_append_printf(outstr, "# x < 0 : |x| pixels from right border\n");
 //	g_string_append_printf(outstr, "# y >= 0: |y| pixels from top border\n");
 //	g_string_append_printf(outstr, "# y < 0 : |y| pixels from bottom border\n");
-	WRITE_INT(*options, image_overlay.x);
-	WRITE_INT(*options, image_overlay.y);
+	WRITE_NL(); WRITE_INT(*options, image_overlay.x);
+	WRITE_NL(); WRITE_INT(*options, image_overlay.y);
 
 
 //	WRITE_SUBTITLE("Slideshow Options");
 
-	WRITE_INT_UNIT(*options, slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION);
-	WRITE_BOOL(*options, slideshow.random);
-	WRITE_BOOL(*options, slideshow.repeat);
+	WRITE_NL(); WRITE_INT_UNIT(*options, slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION);
+	WRITE_NL(); WRITE_BOOL(*options, slideshow.random);
+	WRITE_NL(); WRITE_BOOL(*options, slideshow.repeat);
 
 
 //	WRITE_SUBTITLE("Collection Options");
 
-	WRITE_BOOL(*options, collections.rectangular_selection);
+	WRITE_NL(); WRITE_BOOL(*options, collections.rectangular_selection);
 
 
 //	WRITE_SUBTITLE("Filtering Options");
 
-	WRITE_BOOL(*options, file_filter.show_hidden_files);
-	WRITE_BOOL(*options, file_filter.show_dot_directory);
-	WRITE_BOOL(*options, file_filter.disable);
+	WRITE_NL(); WRITE_BOOL(*options, file_filter.show_hidden_files);
+	WRITE_NL(); WRITE_BOOL(*options, file_filter.show_dot_directory);
+	WRITE_NL(); WRITE_BOOL(*options, file_filter.disable);
 	WRITE_SEPARATOR();
 
 
 //	WRITE_SUBTITLE("Sidecars Options");
 
-	WRITE_CHAR(*options, sidecar.ext);
+	WRITE_NL(); WRITE_CHAR(*options, sidecar.ext);
 
 
 
 //	WRITE_SUBTITLE("Shell command");
-	WRITE_CHAR(*options, shell.path);
-	WRITE_CHAR(*options, shell.options);
+	WRITE_NL(); WRITE_CHAR(*options, shell.path);
+	WRITE_NL(); WRITE_CHAR(*options, shell.options);
 
 
 //	WRITE_SUBTITLE("Helpers");
@@ -426,8 +421,8 @@ static void write_global_attributes(GString *outstr, gint indent)
 //	g_string_append_printf(outstr, "# \"\" (empty string)  = execute binary with html file path as command line\n");
 //	g_string_append_printf(outstr, "# \"string\"           = execute string and use results for command line\n");
 //	g_string_append_printf(outstr, "# \"!string\"          = use text following ! as command line, replacing optional %%s with html file path\n");
-	WRITE_CHAR(*options, helpers.html_browser.command_name);
-	WRITE_CHAR(*options, helpers.html_browser.command_line);
+	WRITE_NL(); WRITE_CHAR(*options, helpers.html_browser.command_name);
+	WRITE_NL(); WRITE_CHAR(*options, helpers.html_browser.command_line);
 
 /* FIXME:
 	WRITE_SUBTITLE("Exif Options");
@@ -442,17 +437,17 @@ static void write_global_attributes(GString *outstr, gint indent)
 */
 
 //	WRITE_SUBTITLE("Metadata Options");
-	WRITE_BOOL(*options, metadata.enable_metadata_dirs);
-	WRITE_BOOL(*options, metadata.save_in_image_file); 
-	WRITE_BOOL(*options, metadata.save_legacy_IPTC);
-	WRITE_BOOL(*options, metadata.warn_on_write_problems);
-	WRITE_BOOL(*options, metadata.save_legacy_format);
-	WRITE_BOOL(*options, metadata.sync_grouped_files);
-	WRITE_BOOL(*options, metadata.confirm_write);
-	WRITE_INT(*options, metadata.confirm_timeout);
-	WRITE_BOOL(*options, metadata.confirm_after_timeout);
-	WRITE_BOOL(*options, metadata.confirm_on_image_change);
-	WRITE_BOOL(*options, metadata.confirm_on_dir_change);
+	WRITE_NL(); WRITE_BOOL(*options, metadata.enable_metadata_dirs);
+	WRITE_NL(); WRITE_BOOL(*options, metadata.save_in_image_file); 
+	WRITE_NL(); WRITE_BOOL(*options, metadata.save_legacy_IPTC);
+	WRITE_NL(); WRITE_BOOL(*options, metadata.warn_on_write_problems);
+	WRITE_NL(); WRITE_BOOL(*options, metadata.save_legacy_format);
+	WRITE_NL(); WRITE_BOOL(*options, metadata.sync_grouped_files);
+	WRITE_NL(); WRITE_BOOL(*options, metadata.confirm_write);
+	WRITE_NL(); WRITE_INT(*options, metadata.confirm_timeout);
+	WRITE_NL(); WRITE_BOOL(*options, metadata.confirm_after_timeout);
+	WRITE_NL(); WRITE_BOOL(*options, metadata.confirm_on_image_change);
+	WRITE_NL(); WRITE_BOOL(*options, metadata.confirm_on_dir_change);
 
 }
 
@@ -464,28 +459,24 @@ static void write_color_profile(GString *outstr, gint indent)
 			    "         color profile options will have no effect.\n-->\n", GQ_APPNAME);
 #endif
 
-	WRITE_STRING("<color_profiles\n");
-	indent++;
+	WRITE_NL(); WRITE_STRING("<color_profiles ");
 	WRITE_INT(options->color_profile, screen_type);
 	WRITE_CHAR(options->color_profile, screen_file);
 	WRITE_BOOL(options->color_profile, enabled);
 	WRITE_BOOL(options->color_profile, use_image);
 	WRITE_INT(options->color_profile, input_type);
-	indent--;
-	WRITE_STRING(">\n");
+	WRITE_STRING(">");
 
 	indent++;
 	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{
-		WRITE_STRING("<profile\n");
-		indent++;
+		WRITE_NL(); WRITE_STRING("<profile ");
 		write_char_option(outstr, indent, "input_file", options->color_profile.input_file[i]);
 		write_char_option(outstr, indent, "input_name", options->color_profile.input_name[i]);
-		indent--;
-		WRITE_STRING("/>\n");
+		WRITE_STRING("/>");
 		}
 	indent--;
-	WRITE_STRING("</color_profiles>\n");
+	WRITE_NL(); WRITE_STRING("</color_profiles>");
 }
 
 
@@ -524,8 +515,14 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_SEPARATOR();
 	WRITE_STRING("-->\n");
 	WRITE_SEPARATOR();
-	WRITE_STRING("<global\n");
+
+	WRITE_STRING("<gq>\n");
+	indent++;
+	
+	WRITE_NL(); WRITE_STRING("<global\n");
+	indent++;
 	write_global_attributes(outstr, indent + 1);
+	indent--;
 	WRITE_STRING(">\n");
 
 	indent++;
@@ -538,7 +535,7 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 	WRITE_SEPARATOR();
 	keyword_tree_write_config(outstr, indent);
 	indent--;
-	WRITE_STRING("</global>\n");
+	WRITE_NL(); WRITE_STRING("</global>\n");
 
 	WRITE_SEPARATOR();
 	WRITE_SUBTITLE("Layout Options");
@@ -550,6 +547,10 @@ gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
 		layout_write_config(lw, outstr, indent);
 		work = work->next;
 		}
+
+	indent--;
+	WRITE_NL(); WRITE_STRING("</gq>\n");
+	WRITE_SEPARATOR();
 
 	secure_fputs(ssi, outstr->str);
 	g_string_free(outstr, TRUE);
@@ -980,6 +981,12 @@ static void options_parse_layout_end(GQParserData *parser_data, GMarkupParseCont
 
 static void options_parse_toplevel(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
 {
+	if (g_ascii_strcasecmp(element_name, "gq") == 0)
+		{
+		/* optional top-level node */
+		options_parse_func_push(parser_data, options_parse_toplevel, NULL, NULL);
+		return;
+		}
 	if (g_ascii_strcasecmp(element_name, "global") == 0)
 		{
 		load_global_params(attribute_names, attribute_values);

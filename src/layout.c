@@ -2328,62 +2328,62 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 
 void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent)
 {
-	WRITE_INT(*layout, style);
-	WRITE_CHAR(*layout, order);
-	WRITE_UINT(*layout, dir_view_type);
-	WRITE_UINT(*layout, file_view_type);
-	WRITE_BOOL(*layout, show_marks);
-	WRITE_BOOL(*layout, show_thumbnails);
-	WRITE_BOOL(*layout, show_directory_date);
-	WRITE_CHAR(*layout, home_path);
+	WRITE_NL(); WRITE_INT(*layout, style);
+	WRITE_NL(); WRITE_CHAR(*layout, order);
+	WRITE_NL(); WRITE_UINT(*layout, dir_view_type);
+	WRITE_NL(); WRITE_UINT(*layout, file_view_type);
+	WRITE_NL(); WRITE_BOOL(*layout, show_marks);
+	WRITE_NL(); WRITE_BOOL(*layout, show_thumbnails);
+	WRITE_NL(); WRITE_BOOL(*layout, show_directory_date);
+	WRITE_NL(); WRITE_CHAR(*layout, home_path);
 	WRITE_SEPARATOR();
 
-	WRITE_INT(*layout, main_window.x);
-	WRITE_INT(*layout, main_window.y);
-	WRITE_INT(*layout, main_window.w);
-	WRITE_INT(*layout, main_window.h);
-	WRITE_BOOL(*layout, main_window.maximized);
-	WRITE_INT(*layout, main_window.hdivider_pos);
-	WRITE_INT(*layout, main_window.vdivider_pos);
+	WRITE_NL(); WRITE_INT(*layout, main_window.x);
+	WRITE_NL(); WRITE_INT(*layout, main_window.y);
+	WRITE_NL(); WRITE_INT(*layout, main_window.w);
+	WRITE_NL(); WRITE_INT(*layout, main_window.h);
+	WRITE_NL(); WRITE_BOOL(*layout, main_window.maximized);
+	WRITE_NL(); WRITE_INT(*layout, main_window.hdivider_pos);
+	WRITE_NL(); WRITE_INT(*layout, main_window.vdivider_pos);
 	WRITE_SEPARATOR();
 
-	WRITE_INT(*layout, float_window.x);
-	WRITE_INT(*layout, float_window.y);
-	WRITE_INT(*layout, float_window.w);
-	WRITE_INT(*layout, float_window.h);
-	WRITE_INT(*layout, float_window.vdivider_pos);
+	WRITE_NL(); WRITE_INT(*layout, float_window.x);
+	WRITE_NL(); WRITE_INT(*layout, float_window.y);
+	WRITE_NL(); WRITE_INT(*layout, float_window.w);
+	WRITE_NL(); WRITE_INT(*layout, float_window.h);
+	WRITE_NL(); WRITE_INT(*layout, float_window.vdivider_pos);
 	WRITE_SEPARATOR();
 
-	WRITE_INT(*layout, properties_window.w);
-	WRITE_INT(*layout, properties_window.h);
+	WRITE_NL(); WRITE_INT(*layout, properties_window.w);
+	WRITE_NL(); WRITE_INT(*layout, properties_window.h);
 	WRITE_SEPARATOR();
 
-	WRITE_BOOL(*layout, tools_float);
-	WRITE_BOOL(*layout, tools_hidden);
+	WRITE_NL(); WRITE_BOOL(*layout, tools_float);
+	WRITE_NL(); WRITE_BOOL(*layout, tools_hidden);
 	WRITE_SEPARATOR();
 
-	WRITE_BOOL(*layout, toolbar_hidden);
-	WRITE_BOOL(*layout, info_pixel_hidden);
+	WRITE_NL(); WRITE_BOOL(*layout, toolbar_hidden);
+	WRITE_NL(); WRITE_BOOL(*layout, info_pixel_hidden);
 
-	WRITE_UINT(*layout, image_overlay.state);
-	WRITE_INT(*layout, image_overlay.histogram_channel);
-	WRITE_INT(*layout, image_overlay.histogram_mode);
+	WRITE_NL(); WRITE_UINT(*layout, image_overlay.state);
+	WRITE_NL(); WRITE_INT(*layout, image_overlay.histogram_channel);
+	WRITE_NL(); WRITE_INT(*layout, image_overlay.histogram_mode);
 }
 
 
 void layout_write_config(LayoutWindow *lw, GString *outstr, gint indent)
 {
 	layout_sync_options_with_current_state(lw);
-	WRITE_STRING("<layout\n");
+	WRITE_NL(); WRITE_STRING("<layout");
 	layout_write_attributes(&lw->options, outstr, indent + 1);
-	WRITE_STRING(">\n");
+	WRITE_STRING(">");
 
 	bar_sort_write_config(lw->bar_sort, outstr, indent + 1);
 	bar_write_config(lw->bar, outstr, indent + 1);
 	
 	layout_toolbar_write_config(lw, outstr, indent + 1);
 
-	WRITE_STRING("</layout>\n");
+	WRITE_NL(); WRITE_STRING("</layout>");
 }
 
 void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names, const gchar **attribute_values)

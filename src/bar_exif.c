@@ -636,14 +636,12 @@ static void bar_pane_exif_entry_write_config(GtkWidget *entry, GString *outstr, 
 	ExifEntry *ee = g_object_get_data(G_OBJECT(entry), "entry_data");
 	if (!ee) return;
 
-	WRITE_STRING("<entry\n");
-	indent++;
+	WRITE_NL(); WRITE_STRING("<entry ");
 	WRITE_CHAR(*ee, key);
 	if (!ee->auto_title) WRITE_CHAR(*ee, title);
 	WRITE_BOOL(*ee, if_set);
 	WRITE_BOOL(*ee, editable);
-	indent--;
-	WRITE_STRING("/>\n");
+	WRITE_STRING("/>");
 }
 
 static void bar_pane_exif_write_config(GtkWidget *pane, GString *outstr, gint indent)
@@ -654,12 +652,10 @@ static void bar_pane_exif_write_config(GtkWidget *pane, GString *outstr, gint in
 	ped = g_object_get_data(G_OBJECT(pane), "pane_data");
 	if (!ped) return;
 
-	WRITE_STRING("<pane_exif\n");
-	indent++;
+	WRITE_NL(); WRITE_STRING("<pane_exif ");
 	write_char_option(outstr, indent, "pane.title", gtk_label_get_text(GTK_LABEL(ped->pane.title)));
 	WRITE_BOOL(*ped, pane.expanded);
-	indent--;
-	WRITE_STRING(">\n");
+	WRITE_STRING(">");
 	indent++;
 	
 	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));	
@@ -673,7 +669,7 @@ static void bar_pane_exif_write_config(GtkWidget *pane, GString *outstr, gint in
 		}
 	g_list_free(list);
 	indent--;
-	WRITE_STRING("</pane_exif>\n");
+	WRITE_NL(); WRITE_STRING("</pane_exif>");
 }
 
 

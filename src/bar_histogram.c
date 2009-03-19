@@ -117,14 +117,12 @@ static void bar_pane_histogram_write_config(GtkWidget *pane, GString *outstr, gi
 	phd = g_object_get_data(G_OBJECT(pane), "pane_data");
 	if (!phd) return;
 
-	WRITE_STRING("<pane_histogram\n");
-	indent++;
+	WRITE_NL(); WRITE_STRING("<pane_histogram ");
 	write_char_option(outstr, indent, "pane.title", gtk_label_get_text(GTK_LABEL(phd->pane.title)));
 	WRITE_BOOL(*phd, pane.expanded);
 	WRITE_INT(*phd->histogram, histogram_channel);
 	WRITE_INT(*phd->histogram, histogram_mode);
-	indent--;
-	WRITE_STRING("/>\n");
+	WRITE_STRING("/>");
 }
 
 static void bar_pane_histogram_notify_cb(FileData *fd, NotifyType type, gpointer data)

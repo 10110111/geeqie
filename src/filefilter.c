@@ -418,7 +418,7 @@ void filter_write_list(GString *outstr, gint indent)
 {
 	GList *work;
 
-	WRITE_STRING("<filter>\n");
+	WRITE_NL(); WRITE_STRING("<filter>");
 	indent++;
 
 	work = filter_list;
@@ -427,8 +427,7 @@ void filter_write_list(GString *outstr, gint indent)
 		FilterEntry *fe = work->data;
 		work = work->next;
 
-		WRITE_STRING("<file_type\n");
-		indent++;
+		WRITE_NL(); WRITE_STRING("<file_type ");
 		WRITE_CHAR(*fe, key);
 		WRITE_BOOL(*fe, enabled);
 		WRITE_CHAR(*fe, extensions);
@@ -436,11 +435,10 @@ void filter_write_list(GString *outstr, gint indent)
 		WRITE_UINT(*fe, file_class);
 		WRITE_BOOL(*fe, writable);
 		WRITE_BOOL(*fe, allow_sidecar);
-		indent--;
-		WRITE_STRING("/>\n");
+		WRITE_STRING("/>");
 		}
 	indent--;
-	WRITE_STRING("</filter>\n");
+	WRITE_NL(); WRITE_STRING("</filter>");
 }
 
 void filter_load_file_type(const gchar **attribute_names, const gchar **attribute_values)

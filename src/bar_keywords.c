@@ -247,13 +247,11 @@ static void bar_pane_keywords_write_config(GtkWidget *pane, GString *outstr, gin
 	pkd = g_object_get_data(G_OBJECT(pane), "pane_data");
 	if (!pkd) return;
 
-	WRITE_STRING("<pane_keywords\n");
-	indent++;
+	WRITE_NL(); WRITE_STRING("<pane_keywords ");
 	write_char_option(outstr, indent, "pane.title", gtk_label_get_text(GTK_LABEL(pkd->pane.title)));
 	WRITE_BOOL(*pkd, pane.expanded);
 	WRITE_CHAR(*pkd, key);
-	indent--;
-	WRITE_STRING("/>\n");
+	WRITE_STRING("/>");
 }
 
 gint bar_pane_keywords_event(GtkWidget *bar, GdkEvent *event)

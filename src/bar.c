@@ -161,12 +161,10 @@ void bar_write_config(GtkWidget *bar, GString *outstr, gint indent)
 	bd = g_object_get_data(G_OBJECT(bar), "bar_data");
 	if (!bd) return;
 
-	WRITE_STRING("<bar\n");
-	indent++;
+	WRITE_NL(); WRITE_STRING("<bar ");
 	write_bool_option(outstr, indent, "enabled", GTK_WIDGET_VISIBLE(bar));
 	write_uint_option(outstr, indent, "width", bd->width);
-	indent--;
-	WRITE_STRING(">\n");
+	WRITE_STRING(">");
 
 	list = gtk_container_get_children(GTK_CONTAINER(bd->vbox));	
 	work = list;
@@ -186,7 +184,7 @@ void bar_write_config(GtkWidget *bar, GString *outstr, gint indent)
 		}
 	g_list_free(list);
 
-	WRITE_STRING("</bar>\n");
+	WRITE_NL(); WRITE_STRING("</bar>");
 }
 
 
