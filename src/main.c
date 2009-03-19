@@ -677,20 +677,10 @@ void exit_program(void)
 
 void init_after_global_options(void)
 {
-
-	mkdir_if_not_exists(get_rc_dir());
-	mkdir_if_not_exists(get_collections_dir());
-	mkdir_if_not_exists(get_thumbnails_cache_dir());
-	mkdir_if_not_exists(get_metadata_cache_dir());
-
-	keys_load();
-
 	filter_add_defaults();
 	filter_rebuild(); 
 
 	editor_load_descriptions();
-
-	accel_map_load();
 }
 
 
@@ -784,14 +774,24 @@ gint main(gint argc, gchar *argv[])
 	parse_command_line_for_debug_option(argc, argv);
 	parse_command_line(argc, argv);
 
+	/* these functions don't depend on config file */
+	mkdir_if_not_exists(get_rc_dir());
+	mkdir_if_not_exists(get_collections_dir());
+	mkdir_if_not_exists(get_thumbnails_cache_dir());
+	mkdir_if_not_exists(get_metadata_cache_dir());
+
+	keys_load();
+	accel_map_load();
+
+	/* restore session from the config file */
+
 	options = init_options(NULL);
 	setup_default_options(options);
-
-
 
 	/* load_options calls init_after_global_options() after it parses global options, we have to call it here if it fails*/
 	if (!load_options(options)) init_after_global_options();
 
+	/* handle missing config file and commandline additions*/
 	if (!layout_window_list) 
 		{
 		/* broken or no config file */
