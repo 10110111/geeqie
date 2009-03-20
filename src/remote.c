@@ -22,6 +22,7 @@
 #include "misc.h"
 #include "slideshow.h"
 #include "ui_fileops.h"
+#include "rcfile.h"
 
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -499,6 +500,22 @@ static void gr_file_load(const gchar *text, gpointer data)
 	g_free(filename);
 }
 
+static void gr_config_load(const gchar *text, gpointer data)
+{
+	gchar *filename = expand_tilde(text);
+
+	if (isfile(filename))
+		{
+		load_options_from(filename, options, FALSE);
+		}
+	else
+		{
+		log_printf("remote sent filename that does not exist:\"%s\"\n", filename);
+		}
+
+	g_free(filename);
+}
+
 static void gr_file_view(const gchar *text, gpointer data)
 {
 	gchar *filename = expand_tilde(text);
@@ -585,6 +602,7 @@ static RemoteCommandEntry remote_commands[] = {
 	{ "+t", "--tools-show",         gr_tools_show,          FALSE, TRUE,  N_("show tools") },
 	{ "-t", "--tools-hide",	        gr_tools_hide,          FALSE, TRUE,  N_("hide tools") },
 	{ "-q", "--quit",               gr_quit,                FALSE, FALSE, N_("quit") },
+	{ "-cl","--config-load",        gr_config_load,         TRUE,  FALSE, N_("load config file") },
 	{ NULL, "file:",                gr_file_load,           TRUE,  FALSE, N_("open file") },
 	{ NULL, "view:",		gr_file_view,		TRUE,  FALSE, N_("open file in new window") },
 	{ NULL, "--list-clear",         gr_list_clear,          FALSE, FALSE, NULL },
