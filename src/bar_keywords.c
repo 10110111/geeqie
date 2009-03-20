@@ -535,7 +535,7 @@ static gboolean bar_pane_keywords_dnd_can_move(GtkTreeModel *keyword_tree, GtkTr
 		}
 
 	src_name = keyword_get_name(keyword_tree, src_kw_iter);
-	if (keyword_exists(keyword_tree, NULL, dest_kw_iter, src_name, FALSE))
+	if (keyword_exists(keyword_tree, NULL, dest_kw_iter, src_name, FALSE, NULL))
 		{
 		g_free(src_name);
 		return FALSE;
@@ -551,7 +551,7 @@ static gboolean bar_pane_keywords_dnd_skip_existing(GtkTreeModel *keyword_tree, 
 	while (work)
 		{
 		gchar *keyword = work->data;
-		if (keyword_exists(keyword_tree, NULL, dest_kw_iter, keyword, FALSE))
+		if (keyword_exists(keyword_tree, NULL, dest_kw_iter, keyword, FALSE, NULL))
 			{
 			GList *next = work->next;
 			g_free(keyword);
@@ -781,7 +781,7 @@ static void bar_pane_keywords_edit_ok_cb(GenericDialog *gd, gpointer data)
 	if (cdd->edit_existing)
 		{
 		if (keywords && keywords->data && /* there should be one keyword */
-		    !keyword_exists(keyword_tree, NULL, &kw_iter, keywords->data, TRUE))
+		    !keyword_exists(keyword_tree, NULL, &kw_iter, keywords->data, TRUE, NULL))
 			{
 			keyword_set(GTK_TREE_STORE(keyword_tree), &kw_iter, keywords->data, cdd->is_keyword);
 			}
@@ -793,7 +793,7 @@ static void bar_pane_keywords_edit_ok_cb(GenericDialog *gd, gpointer data)
 		while (work)
 			{
 			GtkTreeIter add;
-			if (keyword_exists(keyword_tree, NULL, have_dest ? &kw_iter : NULL, work->data, FALSE))
+			if (keyword_exists(keyword_tree, NULL, have_dest ? &kw_iter : NULL, work->data, FALSE, NULL))
 				{
 				work = work->next;
 				continue;

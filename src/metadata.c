@@ -784,7 +784,7 @@ gboolean keyword_same_parent(GtkTreeModel *keyword_tree, GtkTreeIter *a, GtkTree
 		}
 }
 
-gboolean keyword_exists(GtkTreeModel *keyword_tree, GtkTreeIter *parent_ptr, GtkTreeIter *sibling, const gchar *name, gboolean exclude_sibling)
+gboolean keyword_exists(GtkTreeModel *keyword_tree, GtkTreeIter *parent_ptr, GtkTreeIter *sibling, const gchar *name, gboolean exclude_sibling, GtkTreeIter *result)
 {
 	GtkTreeIter parent;
 	GtkTreeIter iter;
@@ -818,7 +818,11 @@ gboolean keyword_exists(GtkTreeModel *keyword_tree, GtkTreeIter *parent_ptr, Gtk
 			ret = strcmp(casefold, iter_casefold) == 0;
 			g_free(iter_casefold);
 			}
-		if (ret) break;
+		if (ret) 
+			{
+			if (result) *result = iter;
+			break;
+			}
 		if (!gtk_tree_model_iter_next(keyword_tree, &iter)) break;
 		}
 	g_free(casefold);
@@ -1292,7 +1296,11 @@ GtkTreeIter *keyword_add_from_config(GtkTreeStore *keyword_tree, GtkTreeIter *pa
 	if (name && name[0]) 
 		{
 		GtkTreeIter iter;
-		gtk_tree_store_append(keyword_tree, &iter, parent);
+		/* re-use existing keyword if any */
+		if (!keyword_exists(GTK_TREE_MODEL(keyword_tree), parent, NULL, name, FALSE, &iter))
+			{
+			gtk_tree_store_append(keyword_tree, &iter, parent);
+			}
 		keyword_set(keyword_tree, &iter, name, is_kw);
 		g_free(name);
 		return gtk_tree_iter_copy(&iter);
