@@ -777,6 +777,19 @@ struct _GQParserData
 	gboolean startup; /* reading config for the first time - add commandline and defaults */
 };
 
+static const gchar *options_get_id(const gchar **attribute_names, const gchar **attribute_values)
+{
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+		
+		if (strcmp(option, "id") == 0) return value;
+
+		}
+	return NULL;
+}
+
 
 void options_parse_leaf(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
 {
@@ -1001,7 +1014,15 @@ static void options_parse_toplevel(GQParserData *parser_data, GMarkupParseContex
 	if (g_ascii_strcasecmp(element_name, "layout") == 0)
 		{
 		LayoutWindow *lw;
-		lw = layout_new_from_config(attribute_names, attribute_values, parser_data->startup);
+		lw = layout_find_by_layout_id(options_get_id(attribute_names, attribute_values));
+		if (lw) 
+			{
+			layout_update_from_config(lw, attribute_names, attribute_values);
+			}
+		else
+			{
+			lw = layout_new_from_config(attribute_names, attribute_values, parser_data->startup);
+			}
 		options_parse_func_push(parser_data, options_parse_layout, options_parse_layout_end, lw);
 		}
 	else

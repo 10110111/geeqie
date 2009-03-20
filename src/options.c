@@ -170,14 +170,16 @@ void copy_layout_options(LayoutOptions *dest, const LayoutOptions *src)
 	free_layout_options_content(dest);
 	
 	*dest = *src;
+	dest->id = g_strdup(src->id);
 	dest->order = g_strdup(src->order);
 	dest->home_path = g_strdup(src->home_path);
 }
 
 void free_layout_options_content(LayoutOptions *dest)
 {
-	if (dest->order) g_free(dest->order);
-	if (dest->home_path) g_free(dest->home_path);
+	g_free(dest->id);
+	g_free(dest->order);
+	g_free(dest->home_path);
 }
 
 LayoutOptions *init_layout_options(LayoutOptions *options)

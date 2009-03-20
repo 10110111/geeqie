@@ -481,6 +481,8 @@ struct _FileData {
 
 struct _LayoutOptions
 {
+	gchar *id;
+
 	gchar *order;
 	gint style;
 

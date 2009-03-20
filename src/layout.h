@@ -21,6 +21,7 @@ LayoutWindow *layout_new(FileData *dir_fd, LayoutOptions *lop);
 LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 				       const gchar *geometry);
 LayoutWindow *layout_new_from_config(const gchar **attribute_names, const gchar **attribute_values, gboolean use_commandline);
+void layout_update_from_config(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values);
 
 void layout_close(LayoutWindow *lw);
 void layout_free(LayoutWindow *lw);
@@ -39,6 +40,8 @@ void layout_write_config(LayoutWindow *lw, GString *outstr, gint indent);
 
 LayoutWindow *layout_find_by_image(ImageWindow *imd);
 LayoutWindow *layout_find_by_image_fd(ImageWindow *imd);
+LayoutWindow *layout_find_by_layout_id(const gchar *id);
+
 
 const gchar *layout_get_path(LayoutWindow *lw);
 gboolean layout_set_path(LayoutWindow *lw, const gchar *path);

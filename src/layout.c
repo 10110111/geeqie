@@ -114,6 +114,52 @@ LayoutWindow *layout_find_by_image_fd(ImageWindow *imd)
 	return NULL;
 }
 
+LayoutWindow *layout_find_by_layout_id(const gchar *id)
+{
+	GList *work;
+
+	if (!id || !id[0]) return NULL;
+	work = layout_window_list;
+	while (work)
+		{
+		LayoutWindow *lw = work->data;
+		work = work->next;
+
+		if (lw->options.id && strcmp(id, lw->options.id) == 0)
+			return lw;
+		}
+
+	return NULL;
+}
+
+static void layout_set_unique_id(LayoutWindow *lw)
+{
+	char id[10];
+	gint i;
+	if (lw->options.id && lw->options.id[0]) return; /* id is already set */
+	
+	g_free(lw->options.id);
+	lw->options.id = NULL;
+	
+	if (!layout_find_by_layout_id("main"))
+		{
+		lw->options.id = g_strdup("main");
+		return;
+		}
+	
+	i = 1;
+	while (TRUE)
+		{
+		g_snprintf(id, sizeof(id), "lw%d", i);
+		if (!layout_find_by_layout_id(id))
+			{
+			lw->options.id = g_strdup(id);
+			return;
+			}
+		i++;
+		}
+}
+
 /*
  *-----------------------------------------------------------------------------
  * menu, toolbar, and dir view
@@ -2210,6 +2256,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 	lw->sort_method = SORT_NAME;
 	lw->sort_ascend = TRUE;
 
+	layout_set_unique_id(lw);
 //	lw->options.tools_float = popped;
 //	lw->options.tools_hidden = hidden;
 //	lw->bar_sort_enabled = options->panels.sort.enabled;
@@ -2328,6 +2375,8 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 
 void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent)
 {
+	WRITE_NL(); WRITE_CHAR(*layout, id);
+
 	WRITE_NL(); WRITE_INT(*layout, style);
 	WRITE_NL(); WRITE_CHAR(*layout, order);
 	WRITE_NL(); WRITE_UINT(*layout, dir_view_type);
@@ -2395,6 +2444,7 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		const gchar *value = *attribute_values++;
 
 		/* layout options */
+		if (READ_CHAR(*layout, id)) continue;
 
 		if (READ_INT(*layout, style)) continue;
 		if (READ_CHAR(*layout, order)) continue;
@@ -2507,6 +2557,19 @@ LayoutWindow *layout_new_from_config(const gchar **attribute_names, const gchar 
 	g_free(path);
 	free_layout_options_content(&lop);
 	return lw;
+}
+
+void layout_update_from_config(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values)
+{
+	LayoutOptions lop;
+	
+	init_layout_options(&lop);
+
+	if (attribute_names) layout_load_attributes(&lop, attribute_names, attribute_values);
+
+	layout_apply_options(lw, &lop);
+		
+	free_layout_options_content(&lop);
 }
 
 
