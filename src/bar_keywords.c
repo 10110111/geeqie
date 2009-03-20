@@ -248,8 +248,9 @@ static void bar_pane_keywords_write_config(GtkWidget *pane, GString *outstr, gin
 	if (!pkd) return;
 
 	WRITE_NL(); WRITE_STRING("<pane_keywords ");
-	write_char_option(outstr, indent, "pane.title", gtk_label_get_text(GTK_LABEL(pkd->pane.title)));
-	WRITE_BOOL(*pkd, pane.expanded);
+	write_char_option(outstr, indent, "id", pkd->pane.id);
+	write_char_option(outstr, indent, "title", gtk_label_get_text(GTK_LABEL(pkd->pane.title)));
+	WRITE_BOOL(pkd->pane, expanded);
 	WRITE_CHAR(*pkd, key);
 	WRITE_STRING("/>");
 }
@@ -1181,7 +1182,8 @@ void bar_pane_keywords_close(GtkWidget *bar)
 
 	pkd = g_object_get_data(G_OBJECT(bar), "pane_data");
 	if (!pkd) return;
-
+	
+	g_free(pkd->pane.id);
 	gtk_widget_destroy(pkd->widget);
 }
 
@@ -1200,7 +1202,7 @@ static void bar_pane_keywords_destroy(GtkWidget *widget, gpointer data)
 }
 
 
-GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key, gboolean expanded)
+GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, const gchar *key, gboolean expanded)
 {
 	PaneKeywordsData *pkd;
 	GtkWidget *hbox;
@@ -1216,6 +1218,8 @@ GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key, gboolean 
 	pkd->pane.pane_event = bar_pane_keywords_event;
 	pkd->pane.pane_write_config = bar_pane_keywords_write_config;
 	pkd->pane.title = bar_pane_expander_title(title);
+	pkd->pane.id = g_strdup(id);
+	pkd->pane.type = PANE_KEYWORDS;
 
 	pkd->pane.expanded = expanded;
 
@@ -1345,24 +1349,65 @@ GtkWidget *bar_pane_keywords_new(const gchar *title, const gchar *key, gboolean 
 
 GtkWidget *bar_pane_keywords_new_from_config(const gchar **attribute_names, const gchar **attribute_values)
 {
-	gchar *title = g_strdup(_("NoName"));
+	gchar *id = g_strdup("keywords");
+	gchar *title = g_strdup(_("Keywords"));
 	gchar *key = g_strdup(COMMENT_KEY);
 	gboolean expanded = TRUE;
+	GtkWidget *ret;
 
 	while (*attribute_names)
 		{
 		const gchar *option = *attribute_names++;
 		const gchar *value = *attribute_values++;
 
-		if (READ_CHAR_FULL("pane.title", title)) continue;
+		if (READ_CHAR_FULL("id", id)) continue;
+		if (READ_CHAR_FULL("title", title)) continue;
 		if (READ_CHAR_FULL("key", key)) continue;
-		if (READ_BOOL_FULL("pane.expanded", expanded)) continue;
+		if (READ_BOOL_FULL("expanded", expanded)) continue;
 		
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	
-	return bar_pane_keywords_new(title, key, expanded);
+	ret = bar_pane_keywords_new(id, title, key, expanded);
+	g_free(id);
+	g_free(title);
+	g_free(key);
+	return ret;
 }
+
+void bar_pane_keywords_update_from_config(GtkWidget *pane, const gchar **attribute_names, const gchar **attribute_values)
+{
+	PaneKeywordsData *pkd;
+
+	pkd = g_object_get_data(G_OBJECT(pane), "pane_data");
+	if (!pkd) return;
+
+	gchar *title = NULL;
+
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+
+		if (READ_CHAR_FULL("title", title)) continue;
+		if (READ_CHAR_FULL("key", pkd->key)) continue;
+		if (READ_BOOL_FULL("expanded", pkd->pane.expanded)) continue;
+		if (READ_CHAR_FULL("id", pkd->pane.id)) continue;
+		
+
+		log_printf("unknown attribute %s = %s\n", option, value);
+		}
+
+	if (title)
+		{
+		gtk_label_set_text(GTK_LABEL(pkd->pane.title), title);
+		g_free(title);
+		}
+
+	bar_update_expander(pane);
+	bar_pane_keywords_update(pkd);
+}
+
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

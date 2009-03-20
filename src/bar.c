@@ -151,6 +151,57 @@ gboolean bar_event(GtkWidget *bar, GdkEvent *event)
 	return ret;
 }
 
+GtkWidget *bar_find_pane_by_id(GtkWidget *bar, PaneType type, const gchar *id)
+{
+	BarData *bd;
+	GList *list, *work;
+	GtkWidget *ret = NULL;
+	
+	if (!id || !id[0]) return NULL;
+	
+	bd = g_object_get_data(G_OBJECT(bar), "bar_data");
+	if (!bd) return NULL;
+
+	list = gtk_container_get_children(GTK_CONTAINER(bd->vbox));
+	
+	work = list;
+	while (work)
+		{
+		GtkWidget *widget = gtk_bin_get_child(GTK_BIN(work->data));
+		PaneData *pd = g_object_get_data(G_OBJECT(widget), "pane_data");
+		if (!pd) continue;
+	
+		if (type == pd->type && strcmp(id, pd->id) == 0)
+			{
+			ret = widget;
+			break;
+			}
+		work = work->next;
+		}
+	g_list_free(list);
+	return ret;
+}
+
+void bar_clear(GtkWidget *bar)
+{
+	BarData *bd;
+	GList *list, *work;
+	
+	bd = g_object_get_data(G_OBJECT(bar), "bar_data");
+	if (!bd) return;
+
+	list = gtk_container_get_children(GTK_CONTAINER(bd->vbox));
+	
+	work = list;
+	while (work)
+		{
+		GtkWidget *widget = work->data;
+		gtk_widget_destroy(widget);
+		work = work->next;
+		}
+	g_list_free(list);
+}
+
 void bar_write_config(GtkWidget *bar, GString *outstr, gint indent)
 {
 	BarData *bd;
@@ -165,6 +216,9 @@ void bar_write_config(GtkWidget *bar, GString *outstr, gint indent)
 	write_bool_option(outstr, indent, "enabled", GTK_WIDGET_VISIBLE(bar));
 	write_uint_option(outstr, indent, "width", bd->width);
 	WRITE_STRING(">");
+	
+	indent++;
+	WRITE_NL(); WRITE_STRING("<clear/>");
 
 	list = gtk_container_get_children(GTK_CONTAINER(bd->vbox));	
 	work = list;
@@ -178,15 +232,26 @@ void bar_write_config(GtkWidget *bar, GString *outstr, gint indent)
 		pd->expanded = gtk_expander_get_expanded(GTK_EXPANDER(expander));
 
 		if (pd->pane_write_config)
-			pd->pane_write_config(widget, outstr, indent + 1);
+			pd->pane_write_config(widget, outstr, indent);
 
 		work = work->next;
 		}
 	g_list_free(list);
-
+	indent--;
 	WRITE_NL(); WRITE_STRING("</bar>");
 }
 
+void bar_update_expander(GtkWidget *pane)
+{
+	PaneData *pd = g_object_get_data(G_OBJECT(pane), "pane_data");
+	GtkWidget *expander;
+	
+	if (!pd) return;
+
+	expander = pane->parent;
+	
+	gtk_expander_set_expanded(GTK_EXPANDER(expander), pd->expanded);
+}
 
 void bar_add(GtkWidget *bar, GtkWidget *pane)
 {
@@ -224,19 +289,19 @@ static void bar_populate_default(GtkWidget *bar)
 {
 	GtkWidget *widget;
 	
-	widget = bar_pane_histogram_new(_("Histogram"), 80, TRUE, HCHAN_RGB, 0);
+	widget = bar_pane_histogram_new("histogram", _("Histogram"), 80, TRUE, HCHAN_RGB, 0);
 	bar_add(bar, widget);
 
-	widget = bar_pane_comment_new(_("Title"), "Xmp.dc.title", TRUE, 40);
+	widget = bar_pane_comment_new("title", _("Title"), "Xmp.dc.title", TRUE, 40);
 	bar_add(bar, widget);
 
-	widget = bar_pane_keywords_new(_("Keywords"), KEYWORD_KEY, TRUE);
+	widget = bar_pane_keywords_new("keywords", _("Keywords"), KEYWORD_KEY, TRUE);
 	bar_add(bar, widget);
 
-	widget = bar_pane_comment_new(_("Comment"), "Xmp.dc.description", TRUE, 150);
+	widget = bar_pane_comment_new("comment", _("Comment"), "Xmp.dc.description", TRUE, 150);
 	bar_add(bar, widget);
 
-	widget = bar_pane_exif_new(_("Exif"), TRUE, TRUE);
+	widget = bar_pane_exif_new("exif", _("Exif"), TRUE, TRUE);
 	bar_add(bar, widget);
 }
 
@@ -335,10 +400,8 @@ GtkWidget *bar_new_default(LayoutWindow *lw)
 	return bar;
 }
 
-GtkWidget *bar_new_from_config(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values)
+GtkWidget *bar_update_from_config(GtkWidget *bar, const gchar **attribute_names, const gchar **attribute_values)
 {
-	GtkWidget *bar = bar_new(lw);
-	
 	gboolean enabled = TRUE;
 	gint width = SIDEBAR_DEFAULT_WIDTH;
 
@@ -355,8 +418,21 @@ GtkWidget *bar_new_from_config(LayoutWindow *lw, const gchar **attribute_names, 
 		}
 	
 	gtk_widget_set_size_request(bar, width, -1);
-	if (enabled) gtk_widget_show(bar);
+	if (enabled) 
+		{
+		gtk_widget_show(bar);
+		}
+	else
+		{
+		gtk_widget_hide(bar);
+		}
 	return bar;
+}
+
+GtkWidget *bar_new_from_config(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values)
+{
+	GtkWidget *bar = bar_new(lw);
+	return bar_update_from_config(bar, attribute_names, attribute_values);
 }
 
 GtkWidget *bar_pane_expander_title(const gchar *title)

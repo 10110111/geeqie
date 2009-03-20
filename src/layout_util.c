@@ -1828,6 +1828,9 @@ void layout_toolbar_clear(LayoutWindow *lw)
 void layout_toolbar_add(LayoutWindow *lw, const gchar *action)
 {
 	if (!action || !lw->ui_manager) return;
+	
+	if (g_list_find_custom(lw->toolbar_actions, action, (GCompareFunc)strcmp)) return;
+	
 	gtk_ui_manager_add_ui(lw->ui_manager, lw->toolbar_merge_id, "/ToolBar", action, action, GTK_UI_MANAGER_TOOLITEM, FALSE); 
 	lw->toolbar_actions = g_list_append(lw->toolbar_actions, g_strdup(action));
 }
@@ -1852,6 +1855,7 @@ void layout_toolbar_write_config(LayoutWindow *lw, GString *outstr, gint indent)
 	GList *work = lw->toolbar_actions;
 	WRITE_NL(); WRITE_STRING("<toolbar>");
 	indent++;
+	WRITE_NL(); WRITE_STRING("<clear/>");
 	while (work)
 		{
 		gchar *action = work->data;

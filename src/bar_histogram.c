@@ -118,8 +118,9 @@ static void bar_pane_histogram_write_config(GtkWidget *pane, GString *outstr, gi
 	if (!phd) return;
 
 	WRITE_NL(); WRITE_STRING("<pane_histogram ");
-	write_char_option(outstr, indent, "pane.title", gtk_label_get_text(GTK_LABEL(phd->pane.title)));
-	WRITE_BOOL(*phd, pane.expanded);
+	write_char_option(outstr, indent, "id", phd->pane.id);
+	write_char_option(outstr, indent, "title", gtk_label_get_text(GTK_LABEL(phd->pane.title)));
+	WRITE_BOOL(phd->pane, expanded);
 	WRITE_INT(*phd->histogram, histogram_channel);
 	WRITE_INT(*phd->histogram, histogram_mode);
 	WRITE_STRING("/>");
@@ -182,6 +183,7 @@ static void bar_pane_histogram_destroy(GtkWidget *widget, gpointer data)
 	file_data_unref(phd->fd);
 	histogram_free(phd->histogram);
 	if (phd->pixbuf) g_object_unref(phd->pixbuf);
+	g_free(phd->pane.id);
 
 	g_free(phd);
 }
@@ -326,7 +328,7 @@ static gboolean bar_pane_histogram_press_cb(GtkWidget *widget, GdkEventButton *b
 }
 
 
-GtkWidget *bar_pane_histogram_new(const gchar *title, gint height, gboolean expanded, gint histogram_channel, gint histogram_mode)
+GtkWidget *bar_pane_histogram_new(const gchar *id, const gchar *title, gint height, gboolean expanded, gint histogram_channel, gint histogram_mode)
 {
 	PaneHistogramData *phd;
 
@@ -335,6 +337,8 @@ GtkWidget *bar_pane_histogram_new(const gchar *title, gint height, gboolean expa
 	phd->pane.pane_set_fd = bar_pane_histogram_set_fd;
 	phd->pane.pane_write_config = bar_pane_histogram_write_config;
 	phd->pane.title = bar_pane_expander_title(title);
+	phd->pane.id = g_strdup(id);
+	phd->pane.type = PANE_HISTOGRAM;
 
 	phd->pane.expanded = expanded;
 	phd->idle_id = -1;
@@ -376,25 +380,64 @@ GtkWidget *bar_pane_histogram_new(const gchar *title, gint height, gboolean expa
 GtkWidget *bar_pane_histogram_new_from_config(const gchar **attribute_names, const gchar **attribute_values)
 {
 	gchar *title = g_strdup(_("NoName"));
+	gchar *id = g_strdup("histogram");
 	gboolean expanded = TRUE;
 	gint height = 80;
 	gint histogram_channel = HCHAN_RGB;
 	gint histogram_mode = 0;
+	GtkWidget *ret;
 
 	while (*attribute_names)
 		{
 		const gchar *option = *attribute_names++;
 		const gchar *value = *attribute_values++;
 
-		if (READ_CHAR_FULL("pane.title", title)) continue;
-		if (READ_BOOL_FULL("pane.expanded", expanded)) continue;
+		if (READ_CHAR_FULL("id", id)) continue;
+		if (READ_CHAR_FULL("title", title)) continue;
+		if (READ_BOOL_FULL("expanded", expanded)) continue;
 		if (READ_INT_FULL("histogram_channel", histogram_channel)) continue;
 		if (READ_INT_FULL("histogram_mode", histogram_mode)) continue;
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	
-	return bar_pane_histogram_new(title, height, expanded, histogram_channel, histogram_mode);
+	ret = bar_pane_histogram_new(id, title, height, expanded, histogram_channel, histogram_mode);
+	g_free(title);
+	g_free(id);
+	return ret;
 }
+
+void bar_pane_histogram_update_from_config(GtkWidget *pane, const gchar **attribute_names, const gchar **attribute_values)
+{
+	PaneHistogramData *phd;
+
+	phd = g_object_get_data(G_OBJECT(pane), "pane_data");
+	if (!phd) return;
+
+	gint histogram_channel = phd->histogram->histogram_channel;
+	gint histogram_mode = phd->histogram->histogram_mode;
+
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+
+		if (READ_CHAR_FULL("id", phd->pane.id)) continue;
+//		if (READ_CHAR_FULL("pane.title", title)) continue;
+		if (READ_BOOL_FULL("expanded", phd->pane.expanded)) continue;
+		if (READ_INT_FULL("histogram_channel", histogram_channel)) continue;
+		if (READ_INT_FULL("histogram_mode", histogram_mode)) continue;
+		
+
+		log_printf("unknown attribute %s = %s\n", option, value);
+		}
+	
+	histogram_set_channel(phd->histogram, histogram_channel);
+	histogram_set_mode(phd->histogram, histogram_mode);
+
+	bar_update_expander(pane);
+	bar_pane_histogram_update(phd);
+}
+
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

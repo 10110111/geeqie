@@ -919,26 +919,63 @@ static void options_parse_bar(GQParserData *parser_data, GMarkupParseContext *co
 	GtkWidget *bar = data;
 	if (g_ascii_strcasecmp(element_name, "pane_comment") == 0)
 		{
-		GtkWidget *pane = bar_pane_comment_new_from_config(attribute_names, attribute_values);
-		bar_add(bar, pane);
+		GtkWidget *pane = bar_find_pane_by_id(bar, PANE_COMMENT, options_get_id(attribute_names, attribute_values));
+		if (pane)
+			{
+			bar_pane_comment_update_from_config(pane, attribute_names, attribute_values);
+			}
+		else
+			{
+			pane = bar_pane_comment_new_from_config(attribute_names, attribute_values);
+			bar_add(bar, pane);
+			}
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 	else if (g_ascii_strcasecmp(element_name, "pane_exif") == 0)
 		{
-		GtkWidget *pane = bar_pane_exif_new_from_config(attribute_names, attribute_values);
-		bar_add(bar, pane);
+		GtkWidget *pane = bar_find_pane_by_id(bar, PANE_EXIF, options_get_id(attribute_names, attribute_values));
+		if (pane)
+			{
+			bar_pane_exif_update_from_config(pane, attribute_names, attribute_values);
+			}
+		else
+			{
+			pane = bar_pane_exif_new_from_config(attribute_names, attribute_values);
+			bar_add(bar, pane);
+			}
 		options_parse_func_push(parser_data, options_parse_pane_exif, NULL, pane);
 		}
 	else if (g_ascii_strcasecmp(element_name, "pane_histogram") == 0)
 		{
-		GtkWidget *pane = bar_pane_histogram_new_from_config(attribute_names, attribute_values);
-		bar_add(bar, pane);
+		GtkWidget *pane = bar_find_pane_by_id(bar, PANE_HISTOGRAM, options_get_id(attribute_names, attribute_values));
+		if (pane)
+			{
+			bar_pane_histogram_update_from_config(pane, attribute_names, attribute_values);
+			}
+		else
+			{
+			pane = bar_pane_histogram_new_from_config(attribute_names, attribute_values);
+			bar_add(bar, pane);
+			}
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 	else if (g_ascii_strcasecmp(element_name, "pane_keywords") == 0)
 		{
-		GtkWidget *pane = bar_pane_keywords_new_from_config(attribute_names, attribute_values);
-		bar_add(bar, pane);
+		GtkWidget *pane = bar_find_pane_by_id(bar, PANE_KEYWORDS, options_get_id(attribute_names, attribute_values));
+		if (pane)
+			{
+			bar_pane_keywords_update_from_config(pane, attribute_names, attribute_values);
+			}
+		else
+			{
+			pane = bar_pane_keywords_new_from_config(attribute_names, attribute_values);
+			bar_add(bar, pane);
+			}
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+	else if (g_ascii_strcasecmp(element_name, "clear") == 0)
+		{
+		bar_clear(bar);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 	else
@@ -956,6 +993,11 @@ static void options_parse_toolbar(GQParserData *parser_data, GMarkupParseContext
 		layout_toolbar_add_from_config(lw, attribute_names, attribute_values);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
+	else if (g_ascii_strcasecmp(element_name, "clear") == 0)
+		{
+		layout_toolbar_clear(lw);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
 	else
 		{
 		log_printf("unexpected in <toolbar>: <%s>\n", element_name);
@@ -968,8 +1010,16 @@ static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext 
 	LayoutWindow *lw = data;
 	if (g_ascii_strcasecmp(element_name, "bar") == 0)
 		{
-		GtkWidget *bar = bar_new_from_config(lw, attribute_names, attribute_values);
-		layout_bar_set(lw, bar);
+		if (!lw->bar)
+			{
+			GtkWidget *bar = bar_new_from_config(lw, attribute_names, attribute_values);
+			layout_bar_set(lw, bar);
+			}
+		else
+			{
+			bar_update_from_config(lw->bar, attribute_names, attribute_values);
+			}
+			
 		options_parse_func_push(parser_data, options_parse_bar, NULL, lw->bar);
 		}
 	else if (g_ascii_strcasecmp(element_name, "bar_sort") == 0)
@@ -980,7 +1030,6 @@ static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext 
 		}
 	else if (g_ascii_strcasecmp(element_name, "toolbar") == 0)
 		{
-		layout_toolbar_clear(lw);
 		options_parse_func_push(parser_data, options_parse_toolbar, NULL, lw);
 		}
 	else

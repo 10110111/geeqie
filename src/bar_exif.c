@@ -653,8 +653,9 @@ static void bar_pane_exif_write_config(GtkWidget *pane, GString *outstr, gint in
 	if (!ped) return;
 
 	WRITE_NL(); WRITE_STRING("<pane_exif ");
-	write_char_option(outstr, indent, "pane.title", gtk_label_get_text(GTK_LABEL(ped->pane.title)));
-	WRITE_BOOL(*ped, pane.expanded);
+	write_char_option(outstr, indent, "id", ped->pane.id);
+	write_char_option(outstr, indent, "title", gtk_label_get_text(GTK_LABEL(ped->pane.title)));
+	WRITE_BOOL(ped->pane, expanded);
 	WRITE_STRING(">");
 	indent++;
 	
@@ -690,6 +691,7 @@ static void bar_pane_exif_destroy(GtkWidget *widget, gpointer data)
 	file_data_unregister_notify_func(bar_pane_exif_notify_cb, ped);
 	g_object_unref(ped->size_group);
 	file_data_unref(ped->fd);
+	g_free(ped->pane.id);
 	g_free(ped);
 }
 
@@ -708,7 +710,7 @@ static void bar_pane_exif_size_allocate(GtkWidget *pane, GtkAllocation *alloc, g
 	ped->min_height = alloc->height;
 }
 
-GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded, gboolean populate)
+GtkWidget *bar_pane_exif_new(const gchar *id, const gchar *title, gboolean expanded, gboolean populate)
 {
 	PaneExifData *ped;
 
@@ -718,7 +720,9 @@ GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded, gboolean pop
 	ped->pane.pane_write_config = bar_pane_exif_write_config;
 	ped->pane.pane_event = bar_pane_exif_event;
 	ped->pane.title = bar_pane_expander_title(title);
+	ped->pane.id = g_strdup(id);
 	ped->pane.expanded = expanded;
+	ped->pane.type = PANE_EXIF;
 
 	ped->size_group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 	ped->widget = gtk_event_box_new();
@@ -771,22 +775,61 @@ GtkWidget *bar_pane_exif_new(const gchar *title, gboolean expanded, gboolean pop
 
 GtkWidget *bar_pane_exif_new_from_config(const gchar **attribute_names, const gchar **attribute_values)
 {
-	gchar *title = g_strdup(_("NoName"));
+	gchar *title = g_strdup(_("Exif"));
+	gchar *id = g_strdup("exif");
 	gboolean expanded = TRUE;
+	GtkWidget *ret;
 
 	while (*attribute_names)
 		{
 		const gchar *option = *attribute_names++;
 		const gchar *value = *attribute_values++;
 
-		if (READ_CHAR_FULL("pane.title", title)) continue;
-		if (READ_BOOL_FULL("pane.expanded", expanded)) continue;
+		if (READ_CHAR_FULL("id", id)) continue;
+		if (READ_CHAR_FULL("title", title)) continue;
+		if (READ_BOOL_FULL("expanded", expanded)) continue;
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	
-	return bar_pane_exif_new(title, expanded, FALSE);
+	ret = bar_pane_exif_new(id, title, expanded, FALSE);
+	g_free(title);
+	g_free(id);
+	return ret;
 }
+
+void bar_pane_exif_update_from_config(GtkWidget *pane, const gchar **attribute_names, const gchar **attribute_values)
+{
+	PaneExifData *ped;
+
+	ped = g_object_get_data(G_OBJECT(pane), "pane_data");
+	if (!ped) return;
+
+	gchar *title = NULL;
+
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+
+		if (READ_CHAR_FULL("title", title)) continue;
+		if (READ_BOOL_FULL("expanded", ped->pane.expanded)) continue;
+		if (READ_CHAR_FULL("id", ped->pane.id)) continue;
+		
+
+		log_printf("unknown attribute %s = %s\n", option, value);
+		}
+
+	if (title)
+		{
+		gtk_label_set_text(GTK_LABEL(ped->pane.title), title);
+		g_free(title);
+		}
+
+	bar_update_expander(pane);
+	bar_pane_exif_update(ped);
+}
+
 
 void bar_pane_exif_entry_add_from_config(GtkWidget *pane, const gchar **attribute_names, const gchar **attribute_values)
 {
