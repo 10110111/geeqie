@@ -775,8 +775,7 @@ static void options_load_profile(GQParserData *parser_data, GMarkupParseContext 
 struct _GQParserData
 {
 	GList *parse_func_stack;
-	gboolean startup; /* reading config for the first time - add commandline and call init_after_global_options() */
-	gboolean global_found;
+	gboolean startup; /* reading config for the first time - add commandline and defaults */
 };
 
 
@@ -816,8 +815,8 @@ static void options_parse_filter(GQParserData *parser_data, GMarkupParseContext 
 
 static void options_parse_filter_end(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, gpointer data, GError **error)
 {
-	if (!parser_data->startup) filter_rebuild(); 
-	/* else this is called in init_after_global_options */
+	if (parser_data->startup) filter_add_defaults();
+	filter_rebuild(); 
 }
 
 static void options_parse_keyword_end(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, gpointer data, GError **error)
@@ -880,6 +879,12 @@ static void options_parse_global(GQParserData *parser_data, GMarkupParseContext 
 		DEBUG_1("unexpected global: %s", element_name);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
+}
+
+static void options_parse_global_end(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, gpointer data, GError **error)
+{
+	/* on startup there are no layout windows and this just loads the editors */
+	layout_editors_reload_all();
 }
 
 static void options_parse_pane_exif(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
@@ -990,15 +995,8 @@ static void options_parse_toplevel(GQParserData *parser_data, GMarkupParseContex
 	if (g_ascii_strcasecmp(element_name, "global") == 0)
 		{
 		load_global_params(attribute_names, attribute_values);
-		options_parse_func_push(parser_data, options_parse_global, NULL, NULL);
+		options_parse_func_push(parser_data, options_parse_global, options_parse_global_end, NULL);
 		return;
-		}
-	
-	if (parser_data->startup && !parser_data->global_found)
-		{
-		DEBUG_1(" global end");
-		parser_data->global_found = TRUE;
-		init_after_global_options();
 		}
 	
 	if (g_ascii_strcasecmp(element_name, "layout") == 0)

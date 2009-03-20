@@ -1758,7 +1758,7 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	if (lw->ui_manager) g_object_unref(lw->ui_manager);
 	lw->ui_manager = NULL;
 	lw->action_group = NULL;
-	lw->action_group_external = NULL;
+	lw->action_group_editors = NULL;
 
 	gtk_container_remove(GTK_CONTAINER(lw->main_box), lw->group_box);
 	lw->group_box = NULL;

@@ -136,8 +136,6 @@ gint key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
 
 void exit_program(void);
 
-void init_after_global_options(void);
-
 #define CASE_SORT(a, b) ( (options->file_sort.case_sensitive) ? strcmp((a), (b)) : strcasecmp((a), (b)) )
 
 

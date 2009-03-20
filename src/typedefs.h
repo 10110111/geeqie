@@ -547,7 +547,8 @@ struct _LayoutWindow
 	/* menus, path selector */
 
 	GtkActionGroup *action_group;
-	GtkActionGroup *action_group_external;
+	GtkActionGroup *action_group_editors;
+	guint ui_editors_id;
 	GtkUIManager *ui_manager;
 	guint toolbar_merge_id;
 	GList *toolbar_actions;

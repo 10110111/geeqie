@@ -30,6 +30,7 @@ void layout_recent_add_path(const gchar *path);
 
 void layout_copy_path_update_all(void);
 
+void layout_editors_reload_all(void);
 void layout_actions_setup(LayoutWindow *lw);
 void layout_actions_add_window(LayoutWindow *lw, GtkWidget *window);
 GtkWidget *layout_actions_menu_bar(LayoutWindow *lw);

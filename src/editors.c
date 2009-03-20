@@ -167,8 +167,10 @@ static gboolean editor_read_desktop_file(const gchar *path)
 		{
 		/* We only consider desktop entries of Application type */
 		g_key_file_free(key_file);
+		g_free(type);
 		return FALSE;
 		}
+	g_free(type);
 	
 	editor = g_new0(EditorDescription, 1);
 	
@@ -334,10 +336,11 @@ void editor_load_descriptions(void)
 	gchar **split_dirs;
 	gint i;
 	
-	if (!editors)
+	if (editors)
 		{
-		editors = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, (GDestroyNotify)editor_description_free);
+		g_hash_table_destroy(editors);
 		}
+	editors = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, (GDestroyNotify)editor_description_free);
 
 	xdg_data_dirs = getenv("XDG_DATA_DIRS");
 	if (xdg_data_dirs && xdg_data_dirs[0])

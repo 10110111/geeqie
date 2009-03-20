@@ -675,15 +675,6 @@ void exit_program(void)
 	exit_program_final();
 }
 
-void init_after_global_options(void)
-{
-	filter_add_defaults();
-	filter_rebuild(); 
-
-	editor_load_descriptions();
-}
-
-
 /* This code is supposed to handle situation when a file mmaped by image_loader 
  * or by exif loader is truncated by some other process.
  * This is probably not completely correct according to posix, because
@@ -788,8 +779,14 @@ gint main(gint argc, gchar *argv[])
 	options = init_options(NULL);
 	setup_default_options(options);
 
-	/* load_options calls init_after_global_options() after it parses global options, we have to call it here if it fails*/
-	if (!load_options(options)) init_after_global_options();
+	if (!load_options(options))
+		{
+		/* load_options calls these functions after it parses global options, we have to call it here if it fails */
+		filter_add_defaults();
+		filter_rebuild(); 
+
+		editor_load_descriptions();
+		}
 
 	/* handle missing config file and commandline additions*/
 	if (!layout_window_list) 
