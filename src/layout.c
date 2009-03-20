@@ -2434,7 +2434,7 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		if (READ_INT(*layout, image_overlay.histogram_channel)) continue;
 		if (READ_INT(*layout, image_overlay.histogram_mode)) continue;
 
-		DEBUG_1("unknown attribute %s = %s", option, value);
+		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 
 }

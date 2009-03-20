@@ -701,7 +701,7 @@ GtkWidget *bar_sort_new_from_config(LayoutWindow *lw, const gchar **attribute_na
 		if (READ_INT_CLAMP_FULL("selection", selection, 0, BAR_SORT_SELECTION_COUNT - 1)) continue;
 		if (READ_CHAR_FULL("filter_key", filter_key)) continue;
 
-		DEBUG_1("unknown attribute %s = %s", option, value);
+		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	bar = bar_sort_new(lw, action, mode, selection, filter_key);
 

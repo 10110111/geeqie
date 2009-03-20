@@ -1875,7 +1875,7 @@ void layout_toolbar_add_from_config(LayoutWindow *lw, const gchar **attribute_na
 
 		if (READ_CHAR_FULL("action", action)) continue;
 
-		DEBUG_1("unknown attribute %s = %s", option, value);
+		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 
 	layout_toolbar_add(lw, action);

@@ -459,7 +459,7 @@ void filter_load_file_type(const gchar **attribute_names, const gchar **attribut
 		if (READ_BOOL(fe, writable)) continue;
 		if (READ_BOOL(fe, allow_sidecar)) continue;
 
-		printf("unknown attribute %s = %s\n", option, value);
+		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	if (fe.file_class >= FILE_FORMAT_CLASSES) fe.file_class = FORMAT_CLASS_UNKNOWN;
 	

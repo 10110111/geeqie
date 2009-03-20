@@ -782,7 +782,7 @@ GtkWidget *bar_pane_exif_new_from_config(const gchar **attribute_names, const gc
 		if (READ_CHAR_FULL("pane.title", title)) continue;
 		if (READ_BOOL_FULL("pane.expanded", expanded)) continue;
 
-		DEBUG_1("unknown attribute %s = %s", option, value);
+		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	
 	return bar_pane_exif_new(title, expanded, FALSE);
@@ -809,7 +809,7 @@ void bar_pane_exif_entry_add_from_config(GtkWidget *pane, const gchar **attribut
 		if (READ_BOOL_FULL("if_set", if_set)) continue;
 		if (READ_BOOL_FULL("editable", editable)) continue;
 		
-		DEBUG_1("unknown attribute %s = %s", option, value);
+		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	
 	if (key && key[0]) bar_pane_exif_add_entry(ped, key, title, if_set, editable);

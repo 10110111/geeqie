@@ -721,7 +721,7 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_BOOL(*options, metadata.confirm_on_image_change)) continue;
 		if (READ_BOOL(*options, metadata.confirm_on_dir_change)) continue;
 
-		DEBUG_1("unknown attribute %s = %s", option, value);
+		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 
 	return TRUE;
@@ -740,7 +740,7 @@ static void options_load_color_profiles(GQParserData *parser_data, GMarkupParseC
 		if (READ_INT(options->color_profile, screen_type)) continue;
 		if (READ_CHAR(options->color_profile, screen_file)) continue;
 
-		DEBUG_1("unknown attribute %s = %s", option, value);
+		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 
 }
@@ -756,9 +756,8 @@ static void options_load_profile(GQParserData *parser_data, GMarkupParseContext 
 
 		if (READ_CHAR_FULL("input_file", options->color_profile.input_file[i])) continue;
 		if (READ_CHAR_FULL("input_name", options->color_profile.input_name[i])) continue;
-		
 
-		DEBUG_1("unknown attribute %s = %s", option, value);
+		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	i++;
 	options_parse_func_set_data(parser_data, GINT_TO_POINTER(i));
@@ -781,7 +780,7 @@ struct _GQParserData
 
 void options_parse_leaf(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
 {
-	DEBUG_1("unexpected: %s", element_name);
+	log_printf("unexpected: %s\n", element_name);
 	options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 }
 
@@ -794,7 +793,7 @@ static void options_parse_color_profiles(GQParserData *parser_data, GMarkupParse
 		}
 	else
 		{
-		DEBUG_1("unexpected profile: %s", element_name);
+		log_printf("unexpected in <profile>: <%s>\n", element_name);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 }
@@ -808,7 +807,7 @@ static void options_parse_filter(GQParserData *parser_data, GMarkupParseContext 
 		}
 	else
 		{
-		DEBUG_1("unexpected filter: %s", element_name);
+		log_printf("unexpected in <filter>: <%s>\n", element_name);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 }
@@ -836,7 +835,7 @@ static void options_parse_keyword(GQParserData *parser_data, GMarkupParseContext
 		}
 	else
 		{
-		DEBUG_1("unexpected in <keyword>: <%s>", element_name);
+		log_printf("unexpected in <keyword>: <%s>\n", element_name);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 }
@@ -852,7 +851,7 @@ static void options_parse_keyword_tree(GQParserData *parser_data, GMarkupParseCo
 		}
 	else
 		{
-		DEBUG_1("unexpected in <keyword_tree>: <%s>", element_name);
+		log_printf("unexpected in <keyword_tree>: <%s>\n", element_name);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 }
@@ -876,7 +875,7 @@ static void options_parse_global(GQParserData *parser_data, GMarkupParseContext 
 		}
 	else
 		{
-		DEBUG_1("unexpected global: %s", element_name);
+		log_printf("unexpected in <global>: <%s>\n", element_name);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 }
@@ -897,7 +896,7 @@ static void options_parse_pane_exif(GQParserData *parser_data, GMarkupParseConte
 		}
 	else
 		{
-		DEBUG_1("unexpected in <pane_exif>: <%s>", element_name);
+		log_printf("unexpected in <pane_exif>: <%s>\n", element_name);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 }
@@ -931,7 +930,7 @@ static void options_parse_bar(GQParserData *parser_data, GMarkupParseContext *co
 		}
 	else
 		{
-		DEBUG_1("unexpected in <bar>: <%s>", element_name);
+		log_printf("unexpected in <bar>: <%s>\n", element_name);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 }
@@ -946,7 +945,7 @@ static void options_parse_toolbar(GQParserData *parser_data, GMarkupParseContext
 		}
 	else
 		{
-		DEBUG_1("unexpected in <toolbar>: <%s>", element_name);
+		log_printf("unexpected in <toolbar>: <%s>\n", element_name);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 }
@@ -973,7 +972,7 @@ static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext 
 		}
 	else
 		{
-		DEBUG_1("unexpected in <layout>: <%s>", element_name);
+		log_printf("unexpected in <layout>: <%s>\n", element_name);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 }
@@ -1007,7 +1006,7 @@ static void options_parse_toplevel(GQParserData *parser_data, GMarkupParseContex
 		}
 	else
 		{
-		DEBUG_1("unexpected in <toplevel>: <%s>", element_name);
+		log_printf("unexpected in <toplevel>: <%s>\n", element_name);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 }

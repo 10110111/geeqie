@@ -351,7 +351,7 @@ GtkWidget *bar_new_from_config(LayoutWindow *lw, const gchar **attribute_names, 
 		if (READ_INT_FULL("width", width)) continue;
 		
 
-		DEBUG_1("unknown attribute %s = %s", option, value);
+		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	
 	gtk_widget_set_size_request(bar, width, -1);

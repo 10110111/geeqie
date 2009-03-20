@@ -1359,7 +1359,7 @@ GtkWidget *bar_pane_keywords_new_from_config(const gchar **attribute_names, cons
 		if (READ_BOOL_FULL("pane.expanded", expanded)) continue;
 		
 
-		DEBUG_1("unknown attribute %s = %s", option, value);
+		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	
 	return bar_pane_keywords_new(title, key, expanded);

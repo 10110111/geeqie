@@ -1287,7 +1287,7 @@ GtkTreeIter *keyword_add_from_config(GtkTreeStore *keyword_tree, GtkTreeIter *pa
 		if (READ_CHAR_FULL("name", name)) continue;
 		if (READ_BOOL_FULL("kw", is_kw)) continue;
 
-		DEBUG_1("unknown attribute %s = %s", option, value);
+		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	if (name && name[0]) 
 		{
