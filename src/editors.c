@@ -84,6 +84,7 @@ void editor_description_free(EditorDescription *editor)
 	g_free(editor->exec);
 	g_free(editor->menu_path);
 	g_free(editor->hotkey);
+	g_free(editor->comment);
 	string_list_free(editor->ext_list);
 	g_free(editor->file);
 	g_free(editor);
@@ -265,6 +266,8 @@ static gboolean editor_read_desktop_file(const gchar *path)
 	if (!editor->menu_path) editor->menu_path = g_strdup("EditMenu/ExternalMenu");
 	
 	editor->hotkey = g_key_file_get_string(key_file, DESKTOP_GROUP, "X-Geeqie-Hotkey", NULL);
+
+	editor->comment = g_key_file_get_string(key_file, DESKTOP_GROUP, "Comment", NULL);
 
 	extensions = g_key_file_get_string(key_file, DESKTOP_GROUP, "X-Geeqie-File-Extensions", NULL);
 	if (extensions)

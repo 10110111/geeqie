@@ -45,6 +45,7 @@ struct _EditorDescription {
 	gchar *hotkey;
 	GList *ext_list;
 	gchar *file;
+	gchar *comment;		/* .desktop Comment key, used to show a tooltip */
 	EditorFlags flags;
 	gboolean hidden;
 };
