@@ -258,7 +258,7 @@ static GtkWidget *layout_tool_setup(LayoutWindow *lw)
 	gtk_box_pack_start(GTK_BOX(box), menu_bar, FALSE, FALSE, 0);
 	gtk_widget_show(menu_bar);
 
-	lw->toolbar = layout_actions_toolbar(lw);
+	layout_actions_toolbar(lw);
 	gtk_box_pack_start(GTK_BOX(box), lw->toolbar, FALSE, FALSE, 0);
 	if (!lw->options.toolbar_hidden) gtk_widget_show(lw->toolbar);
 
@@ -1638,7 +1638,6 @@ static void layout_grid_setup(LayoutWindow *lw)
 	GtkWidget *files;
 
 	layout_actions_setup(lw);
-	layout_actions_add_window(lw, lw->window);
 
 	lw->group_box = gtk_vbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(lw->main_box), lw->group_box, TRUE, TRUE, 0);
@@ -1770,21 +1769,17 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 
 	layout_geometry_get_dividers(lw, &lw->options.main_window.hdivider_pos, &lw->options.main_window.vdivider_pos);
 
+	/* preserve utility_box (image + sidebars), menu_bar and toolbar to be reused later in layout_grid_setup */
 	/* lw->image is preserved together with lw->utility_box */
-	if (lw->utility_box)
-		{
-		/* preserve utility_box (image + sidebars) to be reused later in layout_grid_setup */
-		gtk_widget_hide(lw->utility_box);
-		g_object_ref(lw->utility_box);
-		gtk_container_remove(GTK_CONTAINER(lw->utility_box->parent), lw->utility_box);
-		}
+	if (lw->utility_box) gtk_container_remove(GTK_CONTAINER(lw->utility_box->parent), lw->utility_box);
+	if (lw->menu_bar) gtk_container_remove(GTK_CONTAINER(lw->menu_bar->parent), lw->menu_bar);
+	if (lw->toolbar) gtk_container_remove(GTK_CONTAINER(lw->toolbar->parent), lw->toolbar);
 
 	/* clear it all */
 
 	lw->h_pane = NULL;
 	lw->v_pane = NULL;
 
-	lw->toolbar = NULL;
 	lw->path_entry = NULL;
 	lw->dir_view = NULL;
 	lw->vd = NULL;
@@ -1801,10 +1796,12 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	lw->info_pixel = NULL;
 	lw->info_zoom = NULL;
 
+/*
 	if (lw->ui_manager) g_object_unref(lw->ui_manager);
 	lw->ui_manager = NULL;
 	lw->action_group = NULL;
 	lw->action_group_editors = NULL;
+*/
 
 	gtk_container_remove(GTK_CONTAINER(lw->main_box), lw->group_box);
 	lw->group_box = NULL;
@@ -1816,6 +1813,9 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 
 	layout_util_sync(lw);
 	layout_status_update_all(lw);
+
+
+	// printf("%d %d %d \n", G_OBJECT(lw->utility_box)->ref_count, G_OBJECT(lw->menu_bar)->ref_count, G_OBJECT(lw->toolbar)->ref_count);
 
 	/* sync */
 
@@ -2208,6 +2208,10 @@ void layout_free(LayoutWindow *lw)
 		
 	layout_bars_close(lw);
 
+	g_object_unref(lw->menu_bar);
+	g_object_unref(lw->toolbar);
+	g_object_unref(lw->utility_box);
+	
 	gtk_widget_destroy(lw->window);
 	
 	if (lw->split_image_sizegroup) g_object_unref(lw->split_image_sizegroup);

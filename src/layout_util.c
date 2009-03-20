@@ -1760,6 +1760,8 @@ void layout_actions_setup(LayoutWindow *lw)
 	layout_actions_setup_marks(lw);
 	layout_actions_setup_editors(lw);
 	layout_copy_path_update(lw);
+
+	layout_actions_add_window(lw, lw->window);
 }
 
 void layout_editors_reload_all(void)
@@ -1800,15 +1802,20 @@ void layout_actions_add_window(LayoutWindow *lw, GtkWidget *window)
 
 GtkWidget *layout_actions_menu_bar(LayoutWindow *lw)
 {
-	return gtk_ui_manager_get_widget(lw->ui_manager, "/MainMenu");
+	if (lw->menu_bar) return lw->menu_bar;
+	lw->menu_bar = gtk_ui_manager_get_widget(lw->ui_manager, "/MainMenu");
+	g_object_ref(lw->menu_bar);
+	return lw->menu_bar;
 }
 
 GtkWidget *layout_actions_toolbar(LayoutWindow *lw)
 {
-	GtkWidget *bar = gtk_ui_manager_get_widget(lw->ui_manager, "/ToolBar");
-	gtk_toolbar_set_icon_size(GTK_TOOLBAR(bar), GTK_ICON_SIZE_SMALL_TOOLBAR);
-	gtk_toolbar_set_style(GTK_TOOLBAR(bar), GTK_TOOLBAR_ICONS);
-	return bar;
+	if (lw->toolbar) return lw->toolbar;
+	lw->toolbar = gtk_ui_manager_get_widget(lw->ui_manager, "/ToolBar");
+	g_object_ref(lw->toolbar);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(lw->toolbar), GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_style(GTK_TOOLBAR(lw->toolbar), GTK_TOOLBAR_ICONS);
+	return lw->toolbar;
 }
 
 void layout_toolbar_clear(LayoutWindow *lw)
@@ -2164,6 +2171,7 @@ void layout_bars_new_selection(LayoutWindow *lw, gint count)
 
 GtkWidget *layout_bars_prepare(LayoutWindow *lw, GtkWidget *image)
 {
+	if (lw->utility_box) return lw->utility_box;
 	lw->utility_box = gtk_hbox_new(FALSE, PREF_PAD_GAP);
 	lw->utility_paned = gtk_hpaned_new();
 	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->utility_paned, TRUE, TRUE, 0);
@@ -2173,6 +2181,7 @@ GtkWidget *layout_bars_prepare(LayoutWindow *lw, GtkWidget *image)
 	
 	gtk_widget_show(image);
 
+	g_object_ref(lw->utility_box);
 	return lw->utility_box;
 }
 

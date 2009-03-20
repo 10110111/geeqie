@@ -578,9 +578,10 @@ struct _LayoutWindow
 //	gint tools_float;
 //	gint tools_hidden;
 
+	GtkWidget *menu_bar; /* referenced by lw, exist during whole lw lifetime */
 	/* toolbar */
 
-	GtkWidget *toolbar;
+	GtkWidget *toolbar; /* referenced by lw, exist during whole lw lifetime */
 //	gint toolbar_hidden;
 
 //	GtkWidget *thumb_button;
@@ -638,7 +639,7 @@ struct _LayoutWindow
 
 	/* misc */
 
-	GtkWidget *utility_box;
+	GtkWidget *utility_box; /* referenced by lw, exist during whole lw lifetime */
 	GtkWidget *utility_paned; /* between image and bar */
 	GtkWidget *bar_sort;
 	GtkWidget *bar;
