@@ -59,7 +59,7 @@
 
 
 GList *layout_window_list = NULL;
-
+LayoutWindow *current_lw = NULL;
 
 static void layout_list_scroll_to_subpart(LayoutWindow *lw, const gchar *needle);
 
@@ -74,10 +74,10 @@ gboolean layout_valid(LayoutWindow **lw)
 {
 	if (*lw == NULL)
 		{
-		if (layout_window_list) *lw = layout_window_list->data;
+		if (current_lw) *lw = current_lw;
+		else if (layout_window_list) *lw = layout_window_list->data;
 		return (*lw != NULL);
 		}
-
 	return (g_list_find(layout_window_list, *lw) != NULL);
 }
 
@@ -119,6 +119,14 @@ LayoutWindow *layout_find_by_layout_id(const gchar *id)
 	GList *work;
 
 	if (!id || !id[0]) return NULL;
+	
+	if (strcmp(id, LAYOUT_ID_CURRENT) == 0)
+		{
+		if (current_lw) return current_lw;
+		if (layout_window_list) return layout_window_list->data;
+		return NULL;
+		}
+
 	work = layout_window_list;
 	while (work)
 		{
@@ -158,6 +166,13 @@ static void layout_set_unique_id(LayoutWindow *lw)
 			}
 		i++;
 		}
+}
+
+static gboolean layout_set_current_cb(GtkWidget *widget, GdkEventFocus *event, gpointer data)
+{
+	LayoutWindow *lw = data;
+	current_lw = lw;
+	return FALSE;
 }
 
 /*
@@ -2203,6 +2218,7 @@ void layout_free(LayoutWindow *lw)
 	if (!lw) return;
 
 	layout_window_list = g_list_remove(layout_window_list, lw);
+	if (current_lw == lw) current_lw = NULL;
 
 	if (lw->exif_window) g_signal_handlers_disconnect_matched(G_OBJECT(lw->exif_window), G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, lw);
 		
@@ -2320,6 +2336,9 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 
 	g_signal_connect(G_OBJECT(lw->window), "delete_event",
 			 G_CALLBACK(layout_delete_cb), lw);
+
+	g_signal_connect(G_OBJECT(lw->window), "focus-in-event",
+			 G_CALLBACK(layout_set_current_cb), lw);
 
 	layout_keyboard_init(lw, lw->window);
 
@@ -2441,6 +2460,7 @@ void layout_write_config(LayoutWindow *lw, GString *outstr, gint indent)
 
 void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names, const gchar **attribute_values)
 {
+	gchar *id = NULL;
 	
 	while (*attribute_names)
 		{
@@ -2448,7 +2468,7 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		const gchar *value = *attribute_values++;
 
 		/* layout options */
-		if (READ_CHAR(*layout, id)) continue;
+		if (READ_CHAR_FULL("id", id)) continue;
 
 		if (READ_INT(*layout, style)) continue;
 		if (READ_CHAR(*layout, order)) continue;
@@ -2490,7 +2510,15 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
-
+	if (id && strcmp(id, LAYOUT_ID_CURRENT) != 0)
+		{
+		g_free(layout->id);
+		layout->id = id;
+		}
+	else
+		{
+		g_free(id);
+		}
 }
 
 static void layout_config_commandline(LayoutOptions *lop, gchar **path)
