@@ -30,9 +30,24 @@
 #include "histogram.h"
 #include "rcfile.h"
 
-//#define BAR_SIZE_INCREMENT 48
-//#define BAR_ARROW_SIZE 7
+typedef struct _KnownPanes KnownPanes;
+struct _KnownPanes
+{
+	PaneType type;
+	gchar *id;
+	gchar *title;
+};
 
+static const KnownPanes known_panes[] = {
+/* default sidebar */
+	{PANE_HISTOGRAM,	"histogram",	N_("Histogram")},
+	{PANE_COMMENT,		"title",	N_("Title")},
+	{PANE_KEYWORDS,		"keywords",	N_("Keywords")},
+	{PANE_COMMENT,		"comment",	N_("Comment")},
+	{PANE_EXIF,		"exif",		N_("Exif")},
+
+	{PANE_UNDEF,		NULL,		NULL}
+};
 
 typedef struct _BarData BarData;
 struct _BarData
@@ -445,4 +460,23 @@ GtkWidget *bar_pane_expander_title(const gchar *title)
 	return widget;
 }
 
+gboolean bar_pane_translate_title(PaneType type, const gchar *id, gchar **title)
+{
+	const KnownPanes *pane = known_panes;
+	
+	if (!title) return FALSE;
+	while (pane->id)
+		{
+		if (pane->type == type && strcmp(pane->id, id) == 0) break;
+		pane++;
+		}
+	if (!pane->id) return FALSE;
+	
+	if (*title && **title && strcmp(pane->title, *title) != 0) return FALSE;
+	
+	g_free(*title);
+	*title = g_strdup(_(pane->title));
+	return TRUE;
+}
+	
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

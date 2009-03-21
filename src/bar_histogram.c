@@ -379,7 +379,7 @@ GtkWidget *bar_pane_histogram_new(const gchar *id, const gchar *title, gint heig
 
 GtkWidget *bar_pane_histogram_new_from_config(const gchar **attribute_names, const gchar **attribute_values)
 {
-	gchar *title = g_strdup(_("NoName"));
+	gchar *title = NULL;
 	gchar *id = g_strdup("histogram");
 	gboolean expanded = TRUE;
 	gint height = 80;
@@ -401,6 +401,7 @@ GtkWidget *bar_pane_histogram_new_from_config(const gchar **attribute_names, con
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	
+	bar_pane_translate_title(PANE_HISTOGRAM, id, &title);
 	ret = bar_pane_histogram_new(id, title, height, expanded, histogram_channel, histogram_mode);
 	g_free(title);
 	g_free(id);

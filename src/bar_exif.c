@@ -775,7 +775,7 @@ GtkWidget *bar_pane_exif_new(const gchar *id, const gchar *title, gboolean expan
 
 GtkWidget *bar_pane_exif_new_from_config(const gchar **attribute_names, const gchar **attribute_values)
 {
-	gchar *title = g_strdup(_("Exif"));
+	gchar *title = NULL;
 	gchar *id = g_strdup("exif");
 	gboolean expanded = TRUE;
 	GtkWidget *ret;
@@ -792,6 +792,7 @@ GtkWidget *bar_pane_exif_new_from_config(const gchar **attribute_names, const gc
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	
+	bar_pane_translate_title(PANE_EXIF, id, &title);
 	ret = bar_pane_exif_new(id, title, expanded, FALSE);
 	g_free(title);
 	g_free(id);
@@ -822,6 +823,7 @@ void bar_pane_exif_update_from_config(GtkWidget *pane, const gchar **attribute_n
 
 	if (title)
 		{
+		bar_pane_translate_title(PANE_EXIF, ped->pane.id, &title);
 		gtk_label_set_text(GTK_LABEL(ped->pane.title), title);
 		g_free(title);
 		}

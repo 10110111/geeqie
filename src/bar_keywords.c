@@ -1350,7 +1350,7 @@ GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, const gcha
 GtkWidget *bar_pane_keywords_new_from_config(const gchar **attribute_names, const gchar **attribute_values)
 {
 	gchar *id = g_strdup("keywords");
-	gchar *title = g_strdup(_("Keywords"));
+	gchar *title = NULL;
 	gchar *key = g_strdup(COMMENT_KEY);
 	gboolean expanded = TRUE;
 	GtkWidget *ret;
@@ -1369,6 +1369,7 @@ GtkWidget *bar_pane_keywords_new_from_config(const gchar **attribute_names, cons
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	
+	bar_pane_translate_title(PANE_KEYWORDS, id, &title);
 	ret = bar_pane_keywords_new(id, title, key, expanded);
 	g_free(id);
 	g_free(title);
@@ -1401,6 +1402,7 @@ void bar_pane_keywords_update_from_config(GtkWidget *pane, const gchar **attribu
 
 	if (title)
 		{
+		bar_pane_translate_title(PANE_KEYWORDS, pkd->pane.id, &title);
 		gtk_label_set_text(GTK_LABEL(pkd->pane.title), title);
 		g_free(title);
 		}

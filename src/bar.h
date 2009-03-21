@@ -15,6 +15,7 @@
 #define BAR_H
 
 typedef enum {
+	PANE_UNDEF = 0,
 	PANE_COMMENT,
 	PANE_EXIF,
 	PANE_HISTOGRAM,
@@ -62,5 +63,6 @@ gint bar_get_width(GtkWidget *bar);
 
 GtkWidget *bar_pane_expander_title(const gchar *title);
 void bar_update_expander(GtkWidget *pane);
+gboolean bar_pane_translate_title(PaneType type, const gchar *id, gchar **title);
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

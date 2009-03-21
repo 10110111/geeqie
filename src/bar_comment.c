@@ -263,7 +263,7 @@ GtkWidget *bar_pane_comment_new(const gchar *id, const gchar *title, const gchar
 
 GtkWidget *bar_pane_comment_new_from_config(const gchar **attribute_names, const gchar **attribute_values)
 {
-	gchar *title = g_strdup(_("Comment"));
+	gchar *title = NULL;
 	gchar *key = g_strdup(COMMENT_KEY);
 	gboolean expanded = TRUE;
 	gint height = 50;
@@ -285,6 +285,7 @@ GtkWidget *bar_pane_comment_new_from_config(const gchar **attribute_names, const
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	
+	bar_pane_translate_title(PANE_COMMENT, id, &title);
 	ret = bar_pane_comment_new(id, title, key, expanded, height);
 	g_free(title);
 	g_free(key);
@@ -318,6 +319,7 @@ void bar_pane_comment_update_from_config(GtkWidget *pane, const gchar **attribut
 
 	if (title)
 		{
+		bar_pane_translate_title(PANE_COMMENT, pcd->pane.id, &title);
 		gtk_label_set_text(GTK_LABEL(pcd->pane.title), title);
 		g_free(title);
 		}
