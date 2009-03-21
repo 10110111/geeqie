@@ -194,13 +194,17 @@ static void layout_menu_new_window_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 	LayoutWindow *nw;
+	LayoutOptions lop;
 	gboolean tmp = options->save_window_positions;
 	options->save_window_positions = FALSE; /* let the windowmanager decide for the first time */
-	
+
 	layout_exit_fullscreen(lw);
 
 	layout_sync_options_with_current_state(lw);
-	nw = layout_new(NULL, &lw->options);
+	lop = lw->options; /* we can copy it directly, no strings are modified */
+
+	lop.id = NULL; /* get a new id */
+	nw = layout_new(NULL, &lop);
 	layout_sort_set(nw, options->file_sort.method, options->file_sort.ascending);
 	layout_set_fd(nw, lw->dir_fd);
 	options->save_window_positions = tmp;
