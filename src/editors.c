@@ -144,6 +144,36 @@ static GList *editor_mime_types_to_extensions(gchar **mime_types)
 	return list;
 }
 
+static gboolean editor_accepts_parameters(EditorDescription *editor)
+{
+	const gchar *p = editor->exec;
+
+	if (!p) return FALSE;
+
+	while (*p)
+		{
+		if (*p == '%' && p[1])
+			{
+			switch (p[1])
+				{
+				case 'F':
+				case 'f':
+				case 'U':
+				case 'u':
+				case 'i':
+				case 'k':
+				case 'c':
+			    		return TRUE;
+				default:
+					break;
+				}
+			}
+		p++;
+		}
+	
+	return FALSE;
+}
+
 static gboolean editor_read_desktop_file(const gchar *path)
 {
 	GKeyFile *key_file;
@@ -256,12 +286,28 @@ static gboolean editor_read_desktop_file(const gchar *path)
 	
 	editor->name = g_key_file_get_locale_string(key_file, DESKTOP_GROUP, "Name", NULL, NULL);
 	editor->icon = g_key_file_get_string(key_file, DESKTOP_GROUP, "Icon", NULL);
+	
+	/* Icon key can be either a full path (absolute with file name extension) or an icon name (without extension) */
+	if (editor->icon && !g_path_is_absolute(editor->icon))
+		{
+		gchar *ext = strrchr(editor->icon, '.');
+		
+		if (ext && strlen(ext) == 4 && 
+		    (!strcmp(ext, ".png") || !strcmp(ext, ".xpm") || !strcmp(ext, ".svg")))
+			{
+			log_printf(_("Desktop file '%s' should not include extension in Icon key: '%s'\n"),
+				   editor->file, editor->icon);
+	  		
+			// drop extension
+			*ext = '\0';
+			}
+		}
 
 	editor->exec = g_key_file_get_string(key_file, DESKTOP_GROUP, "Exec", NULL);
 	
-	/* we take only editors that accept parameters, FIXME: the test can be improved */
-	if (!strchr(editor->exec, '%')) editor->hidden = TRUE; 
-	
+	/* we take only editors that accept parameters */
+	if (!editor_accepts_parameters(editor)) editor->hidden = TRUE;
+
 	editor->menu_path = g_key_file_get_string(key_file, DESKTOP_GROUP, "X-Geeqie-Menu-Path", NULL);
 	if (!editor->menu_path) editor->menu_path = g_strdup("EditMenu/ExternalMenu");
 	
@@ -628,18 +674,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 		}
 
 	g_assert(p);
-	while (*p != '\0')
-		{
-		/* must escape \, ", `, and $ to avoid problems,
-		 * we assume system shell supports bash-like escaping
-		 */
-		if (strchr("\\\"`$", *p) != NULL)
-			{
-			string = g_string_append_c(string, '\\');
-			}
-		string = g_string_append_c(string, *p);
-		p++;
-		}
+	string = g_string_append(string, p);
 
 	if (type == PATH_FILE_URL) g_string_prepend(string, "file://");
 	pathl = path_from_utf8(string->str);
@@ -654,12 +689,46 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 	return pathl;
 }
 
+static GString *append_quoted(GString *str, const char *s, gboolean single_quotes, gboolean double_quotes)
+{
+	const char *p;
+	
+	if (!single_quotes)
+		{
+		if (!double_quotes)
+			g_string_append_c(str, '\'');
+		else
+			g_string_append(str, "\"'");
+		}
+
+	for (p = s; *p != '\0'; p++)
+		{
+		if (*p == '\'')
+			g_string_append(str, "'\\''");
+		else
+			g_string_append_c(str, *p);
+		}
+	
+	if (!single_quotes)
+		{
+		if (!double_quotes)
+			g_string_append_c(str, '\'');
+		else
+			g_string_append(str, "'\"");
+		}
+
+	return str;
+}
+
 
 EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, gchar **output)
 {
 	EditorFlags flags = 0;
 	const gchar *p;
 	GString *result = NULL;
+	gboolean escape = FALSE;
+	gboolean single_quotes = FALSE;
+	gboolean double_quotes = FALSE;
 
 	if (output)
 		result = g_string_new("");
@@ -678,11 +747,33 @@ EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, g
 
 	while (*p)
 		{
-		if (*p != '%')
+		if (escape)
 			{
+			escape = FALSE;
 			if (output) result = g_string_append_c(result, *p);
 			}
-		else /* *p == '%' */
+		else if (*p == '\\')
+			{
+			if (!single_quotes) escape = TRUE;
+			if (output) result = g_string_append_c(result, *p);
+			}
+		else if (*p == '\'')
+			{
+			if (output) result = g_string_append_c(result, *p);
+			if (!single_quotes && !double_quotes)
+				single_quotes = TRUE;
+			else if (single_quotes)
+				single_quotes = FALSE;
+			}
+		else if (*p == '"')
+			{
+			if (output) result = g_string_append_c(result, *p);
+			if (!single_quotes && !double_quotes)
+				double_quotes = TRUE;
+			else if (double_quotes)
+				double_quotes = FALSE;
+			}
+		else if (*p == '%' && p[1])
 			{
 			gchar *pathl = NULL;
 
@@ -716,9 +807,7 @@ EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, g
 							}
 						if (output)
 							{
-							result = g_string_append_c(result, '"');
-							result = g_string_append(result, pathl);
-							result = g_string_append_c(result, '"');
+							result = append_quoted(result, pathl, single_quotes, double_quotes);
 							}
 						g_free(pathl);
 						}
@@ -751,9 +840,7 @@ EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, g
 									{
 									ok = TRUE;
 									if (work != list) g_string_append_c(result, ' ');
-									result = g_string_append_c(result, '"');
-									result = g_string_append(result, pathl);
-									result = g_string_append_c(result, '"');
+									result = append_quoted(result, pathl, single_quotes, double_quotes);
 									}
 								g_free(pathl);
 								}
@@ -767,21 +854,25 @@ EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, g
 						}
 					break;
 				case 'i':
-					if (output)
+					if (editor->icon && *editor->icon)
 						{
-						result = g_string_append(result, editor->icon);
+						if (output)
+							{
+							result = g_string_append(result, "--icon ");
+							result = append_quoted(result, editor->icon, single_quotes, double_quotes);
+							}
 						}
 					break;
 				case 'c':
 					if (output)
 						{
-						result = g_string_append(result, editor->name);
+						result = append_quoted(result, editor->name, single_quotes, double_quotes);
 						}
 					break;
 				case 'k':
 					if (output)
 						{
-						result = g_string_append(result, editor->file);
+						result = append_quoted(result, editor->file, single_quotes, double_quotes);
 						}
 					break;
 				case '%':
@@ -801,10 +892,19 @@ EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, g
 					goto err;
 				}
 			}
+		else
+			{
+			if (output) result = g_string_append_c(result, *p);
+			}
 		p++;
 		}
 
-	if (output) *output = g_string_free(result, FALSE);
+	if (output)
+		{
+		*output = g_string_free(result, FALSE);
+		DEBUG_3("Editor cmd: %s", *output);
+		}
+
 	return flags;
 
 
