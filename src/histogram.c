@@ -280,11 +280,13 @@ gboolean histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf 
 	histogram_vgrid(histogram, pixbuf, x, y, width, height);
 	histogram_hgrid(histogram, pixbuf, x, y, width, height);
 
-	for (i = 0; i < HISTMAP_SIZE; i++)
+	/* exclude overexposed and underexposed */
+	for (i = 1; i < HISTMAP_SIZE - 1; i++)
 		{
 		if (histmap->r[i] > max) max = histmap->r[i];
 		if (histmap->g[i] > max) max = histmap->g[i];
 		if (histmap->b[i] > max) max = histmap->b[i];
+		if (histmap->max[i] > max) max = histmap->max[i];
 		}
 
 	if (max > 0)
@@ -301,6 +303,7 @@ gboolean histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf 
 		gint bplus = 0;
 		gint ii = i * HISTMAP_SIZE / width;
 		gint xpos = x + i;
+		gint num_chan;
 
 		for (j = 0; j < combine; j++)
 			{
@@ -314,15 +317,21 @@ gboolean histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf 
 		for (j = 0; combine > 1 && j < 4; j++)
 			v[j] /= combine;
 		
-		for (j = 0; j < 4; j++)
+		num_chan = (histogram->histogram_channel == HCHAN_RGB) ? 3 : 1;
+		for (j = 0; j < num_chan; j++)
 			{
-			gint chanmax = HCHAN_R;
-		
-			if (v[HCHAN_G] > v[HCHAN_R]) chanmax = HCHAN_G;
-			if (v[HCHAN_B] > v[HCHAN_G]) chanmax = HCHAN_B;
-				
-			if (histogram->histogram_channel >= HCHAN_RGB
-			    || chanmax == histogram->histogram_channel)
+			gint chanmax;
+			if (histogram->histogram_channel == HCHAN_RGB) 
+				{
+				chanmax = HCHAN_R;
+				if (v[HCHAN_G] > v[HCHAN_R]) chanmax = HCHAN_G;
+				if (v[HCHAN_B] > v[chanmax]) chanmax = HCHAN_B;
+				}
+			else
+				{
+				chanmax = histogram->histogram_channel;
+				}
+			
 			    	{
 				gulong pt;
 				gint r = rplus;
