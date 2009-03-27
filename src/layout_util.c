@@ -44,6 +44,7 @@
 #include "window.h"
 #include "metadata.h"
 #include "rcfile.h"
+#include "desktop_file.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -367,6 +368,14 @@ static void layout_menu_config_cb(GtkAction *action, gpointer data)
 
 	layout_exit_fullscreen(lw);
 	show_config_window();
+}
+
+static void layout_menu_editors_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_exit_fullscreen(lw);
+	show_editor_list_window();
 }
 
 static void layout_menu_layout_config_cb(GtkAction *action, gpointer data)
@@ -1221,6 +1230,7 @@ static GtkActionEntry menu_entries[] = {
   { "SelectInvert",	NULL,		N_("_Invert Selection"), "<control><shift>I",	NULL,	CB(layout_menu_invert_selection_cb) },
 
   { "Preferences",GTK_STOCK_PREFERENCES,N_("P_references..."),	"<control>O",	NULL,	CB(layout_menu_config_cb) },
+  { "Editors",GTK_STOCK_PREFERENCES,N_("Configure _Editors..."),	NULL,	NULL,	CB(layout_menu_editors_cb) },
   { "LayoutConfig",GTK_STOCK_PREFERENCES,N_("_Configure this window..."),	NULL,	NULL,	CB(layout_menu_layout_config_cb) },
   { "Maintenance",	NULL,		N_("_Thumbnail maintenance..."),NULL,	NULL,	CB(layout_menu_remove_thumb_cb) },
   { "Wallpaper",	NULL,		N_("Set as _wallpaper"),NULL,		NULL,	CB(layout_menu_wallpaper_cb) },
@@ -1379,6 +1389,7 @@ static const gchar *menu_ui_description =
 "      <placeholder name='PropertiesSection'/>"
 "      <separator/>"
 "      <menuitem action='Preferences'/>"
+"      <menuitem action='Editors'/>"
 "      <menuitem action='LayoutConfig'/>"
 "      <menuitem action='Maintenance'/>"
 "      <placeholder name='PreferencesSection'/>"

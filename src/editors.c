@@ -67,6 +67,8 @@ static EditorFlags editor_command_done(EditorData *ed);
  */
 
 GHashTable *editors = NULL;
+GtkListStore *desktop_file_list;
+
 
 #ifdef G_KEY_FILE_DESKTOP_GROUP
 #define DESKTOP_GROUP G_KEY_FILE_DESKTOP_GROUP
@@ -183,6 +185,7 @@ static gboolean editor_read_desktop_file(const gchar *path)
 	const gchar *key = filename_from_path(path);
 	gchar **categories, **only_show_in, **not_show_in;
 	gchar *try_exec;
+	GtkTreeIter iter;
 
 	if (g_hash_table_lookup(editors, key)) return FALSE; /* the file found earlier wins */
 	
@@ -229,12 +232,12 @@ static gboolean editor_read_desktop_file(const gchar *path)
 				found = TRUE;
 				break;
 				}
-		if (!found) editor->hidden = TRUE;
+		if (!found) editor->ignored = TRUE;
 		g_strfreev(categories);
 		}
 	else
 		{
-		editor->hidden = TRUE;
+		editor->ignored = TRUE;
 		}
 
 	only_show_in = g_key_file_get_string_list(key_file, DESKTOP_GROUP, "OnlyShowIn", NULL, NULL);
@@ -248,7 +251,7 @@ static gboolean editor_read_desktop_file(const gchar *path)
 				found = TRUE;
 				break;
 				}
-		if (!found) editor->hidden = TRUE;
+		if (!found) editor->ignored = TRUE;
 		g_strfreev(only_show_in);
 		}
 
@@ -263,23 +266,23 @@ static gboolean editor_read_desktop_file(const gchar *path)
 				found = TRUE;
 				break;
 				}
-		if (found) editor->hidden = TRUE;
+		if (found) editor->ignored = TRUE;
 		g_strfreev(not_show_in);
 		}
 		
 		
 	try_exec = g_key_file_get_string(key_file, DESKTOP_GROUP, "TryExec", NULL);
-	if (try_exec && !editor->hidden)
+	if (try_exec && !editor->hidden && !editor->ignored)
 		{
 		gchar *try_exec_res = g_find_program_in_path(try_exec);
 		if (!try_exec_res) editor->hidden = TRUE;
 		g_free(try_exec_res);
 		g_free(try_exec);
 		}
-		
-	if (editor->hidden) 
+
+	if (editor->ignored) 
 		{
-		/* hidden editors will be deleted, no need to parse the rest */
+		/* ignored editors will be deleted, no need to parse the rest */
 		g_key_file_free(key_file);
 		return TRUE;
 		}
@@ -337,6 +340,16 @@ static gboolean editor_read_desktop_file(const gchar *path)
 	
 	editor->flags |= editor_command_parse(editor, NULL, NULL);
 	g_key_file_free(key_file);
+
+	if (editor->ignored) return TRUE;
+	
+	gtk_list_store_append(desktop_file_list, &iter);
+	gtk_list_store_set(desktop_file_list, &iter, 
+			   DESKTOP_FILE_COLUMN_KEY, key,
+			   DESKTOP_FILE_COLUMN_NAME, editor->name,
+			   DESKTOP_FILE_COLUMN_HIDDEN, editor->hidden,
+			   DESKTOP_FILE_COLUMN_WRITABLE, access_file(path, W_OK),
+			   DESKTOP_FILE_COLUMN_PATH, path, -1);
 	
 	return TRUE;	
 }
@@ -344,7 +357,7 @@ static gboolean editor_read_desktop_file(const gchar *path)
 static gboolean editor_remove_desktop_file_cb(gpointer key, gpointer value, gpointer user_data)
 {
 	EditorDescription *editor = value;
-	return editor->hidden;
+	return editor->hidden || editor->ignored;
 }
 
 static void editor_read_desktop_dir(const gchar *path)
@@ -385,6 +398,14 @@ void editor_load_descriptions(void)
 	gchar **split_dirs;
 	gint i;
 	
+	if (desktop_file_list)
+		{
+		gtk_list_store_clear(desktop_file_list);
+		}
+	else 
+		{
+		desktop_file_list = gtk_list_store_new(DESKTOP_FILE_COLUMN_COUNT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_STRING);
+		}
 	if (editors)
 		{
 		g_hash_table_destroy(editors);

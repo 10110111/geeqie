@@ -47,7 +47,8 @@ struct _EditorDescription {
 	gchar *file;
 	gchar *comment;		/* .desktop Comment key, used to show a tooltip */
 	EditorFlags flags;
-	gboolean hidden;
+	gboolean hidden;	/* explicitly hidden, shown in configuration dialog */
+	gboolean ignored;	/* not interesting, do not show at all */
 };
 
 #define EDITOR_ERRORS(flags) ((flags) & EDITOR_ERROR_MASK)
@@ -61,6 +62,18 @@ enum {
 	EDITOR_CB_SUSPEND       /* suspend execution, one of editor_resume or editor_skip
 				   must be called later */
 };
+
+enum {
+	DESKTOP_FILE_COLUMN_KEY,
+	DESKTOP_FILE_COLUMN_NAME,
+	DESKTOP_FILE_COLUMN_HIDDEN,
+	DESKTOP_FILE_COLUMN_WRITABLE,
+	DESKTOP_FILE_COLUMN_PATH,
+	DESKTOP_FILE_COLUMN_COUNT
+};
+
+extern GtkListStore *desktop_file_list;
+
 
 extern GHashTable *editors;
 

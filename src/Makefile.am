@@ -112,6 +112,8 @@ geeqie_SOURCES = \
 	compat.h	\
 	debug.c		\
 	debug.h		\
+	desktop_file.c	\
+	desktop_file.h	\
 	dnd.c		\
 	dnd.h		\
 	dupe.c		\
