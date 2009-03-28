@@ -394,10 +394,12 @@ struct _ImageWindow
 	void (*func_button)(ImageWindow *, GdkEventButton *event, gpointer);
 	void (*func_drag)(ImageWindow *, GdkEventButton *event, gdouble dx, gdouble dy, gpointer);
 	void (*func_scroll)(ImageWindow *, GdkEventScroll *event, gpointer);
+	void (*func_focus_in)(ImageWindow *, gpointer);
 
 	gpointer data_button;
 	gpointer data_drag;
 	gpointer data_scroll;
+	gpointer data_focus_in;
 
 	/* scroll notification (for scroll bar implementation) */
 	void (*func_scroll_notify)(ImageWindow *, gint x, gint y, gint width, gint height, gpointer);

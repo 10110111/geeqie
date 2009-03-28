@@ -33,6 +33,9 @@ void image_set_drag_func(ImageWindow *imd,
 void image_set_scroll_func(ImageWindow *imd,
 	void (*func)(ImageWindow *, GdkEventScroll *event, gpointer),
 	gpointer data);
+void image_set_focus_in_func(ImageWindow *imd,
+	void (*func)(ImageWindow *, gpointer),
+	gpointer data);
 void image_set_scroll_notify_func(ImageWindow *imd,
 				  void (*func)(ImageWindow *imd, gint x, gint y, gint width, gint height, gpointer data),
 				  gpointer data);

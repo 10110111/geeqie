@@ -1331,6 +1331,19 @@ static gint image_idx(LayoutWindow *lw, ImageWindow *imd)
 	return -1;
 }
 
+static void layout_image_focus_in_cb(ImageWindow *imd, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	gint i = image_idx(lw, imd);
+
+	if (i != -1)
+		{
+		DEBUG_1("image activate focus_in %d", i);
+		layout_image_activate(lw, i);
+		}
+}
+
 
 static void layout_image_button_cb(ImageWindow *imd, GdkEventButton *event, gpointer data)
 {
@@ -1603,6 +1616,8 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 
 		gtk_size_group_add_widget(lw->split_image_sizegroup, lw->split_images[i]->widget);
 		gtk_widget_set_size_request(lw->split_images[i]->widget, IMAGE_MIN_WIDTH, -1);
+
+		image_set_focus_in_func(lw->split_images[i], layout_image_focus_in_cb, lw);
 
 		}
 

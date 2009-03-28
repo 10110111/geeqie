@@ -867,6 +867,11 @@ static gboolean image_focus_in_cb(GtkWidget *widget, GdkEventFocus *event, gpoin
 	GTK_WIDGET_SET_FLAGS(imd->widget, GTK_HAS_FOCUS);
 	image_focus_paint(imd, TRUE, NULL);
 
+	if (imd->func_focus_in)
+		{
+		imd->func_focus_in(imd, imd->data_focus_in);
+		}
+
 	return TRUE;
 }
 
@@ -972,6 +977,14 @@ void image_set_scroll_notify_func(ImageWindow *imd,
 {
 	imd->func_scroll_notify = func;
 	imd->data_scroll_notify = data;
+}
+
+void image_set_focus_in_func(ImageWindow *imd,
+			   void (*func)(ImageWindow *, gpointer),
+			   gpointer data)
+{
+	imd->func_focus_in = func;
+	imd->data_focus_in = data;
 }
 
 /* path, name */
