@@ -576,10 +576,7 @@ static void layout_menu_split_cb(GtkRadioAction *action, GtkRadioAction *current
 	ImageSplitMode mode;
 
 	layout_exit_fullscreen(lw);
-
 	mode = gtk_radio_action_get_current_value(action);
-	if (mode == lw->split_mode) mode = 0; /* toggle back */
-
 	layout_split_change(lw, mode);
 }
 
@@ -1922,6 +1919,9 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "FolderTree");
 	radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->options.dir_view_type);
+
+	action = gtk_action_group_get_action(lw->action_group, "SplitSingle");
+	radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->split_mode);
 
 	action = gtk_action_group_get_action(lw->action_group, "ViewIcons");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.file_view_type);

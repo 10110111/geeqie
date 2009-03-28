@@ -1662,6 +1662,7 @@ static void layout_grid_setup(LayoutWindow *lw)
 
 	if (lw->utility_box)
 		{
+		layout_split_change(lw, lw->split_mode); /* this re-creates image frame for the new configuration */
 		image_sb = lw->utility_box;
 		}
 	else
