@@ -1555,6 +1555,19 @@ void image_set_selectable(ImageWindow *imd, gboolean selectable)
 	gtk_container_set_border_width(GTK_CONTAINER(imd->frame), selectable ? 4 : 0);
 }
 
+void image_grab_focus(ImageWindow *imd)
+{
+	if (imd->has_frame)
+		{
+		gtk_widget_grab_focus(imd->frame);
+		}
+	else
+		{
+		gtk_widget_grab_focus(imd->widget);
+		}
+}
+
+
 /*
  *-------------------------------------------------------------------
  * prefs sync

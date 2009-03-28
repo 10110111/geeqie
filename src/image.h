@@ -49,6 +49,7 @@ void image_set_state_func(ImageWindow *imd,
 void image_select(ImageWindow *imd, gboolean select);
 void image_set_selectable(ImageWindow *imd, gboolean selectable);
 
+void image_grab_focus(ImageWindow *imd);
 /* path, name */
 const gchar *image_get_path(ImageWindow *imd);
 const gchar *image_get_name(ImageWindow *imd);

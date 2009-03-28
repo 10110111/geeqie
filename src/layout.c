@@ -1683,7 +1683,7 @@ static void layout_grid_setup(LayoutWindow *lw)
 
 		layout_tools_setup(lw, tools, files);
 
-		gtk_widget_grab_focus(lw->image->widget);
+		image_grab_focus(lw->image);
 
 		return;
 		}
@@ -1750,7 +1750,7 @@ static void layout_grid_setup(LayoutWindow *lw)
 	gtk_paned_set_position(GTK_PANED(lw->h_pane), lw->options.main_window.hdivider_pos);
 	gtk_paned_set_position(GTK_PANED(lw->v_pane), lw->options.main_window.vdivider_pos);
 
-	gtk_widget_grab_focus(lw->image->widget);
+	image_grab_focus(lw->image);
 }
 
 void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
