@@ -1202,7 +1202,7 @@ static void bar_pane_keywords_destroy(GtkWidget *widget, gpointer data)
 }
 
 
-GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, const gchar *key, gboolean expanded)
+static GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, const gchar *key, gboolean expanded)
 {
 	PaneKeywordsData *pkd;
 	GtkWidget *hbox;

@@ -710,7 +710,7 @@ static void bar_pane_exif_size_allocate(GtkWidget *pane, GtkAllocation *alloc, g
 	ped->min_height = alloc->height;
 }
 
-GtkWidget *bar_pane_exif_new(const gchar *id, const gchar *title, gboolean expanded, gboolean populate)
+static GtkWidget *bar_pane_exif_new(const gchar *id, const gchar *title, gboolean expanded)
 {
 	PaneExifData *ped;
 
@@ -744,30 +744,6 @@ GtkWidget *bar_pane_exif_new(const gchar *id, const gchar *title, gboolean expan
 
 	file_data_register_notify_func(bar_pane_exif_notify_cb, ped, NOTIFY_PRIORITY_LOW);
 
-	if (populate)
-		{
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("Camera"), NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("DateTime"), NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("ShutterSpeed"), NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("Aperture"), NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("ExposureBias"), NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("ISOSpeedRating"), NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("FocalLength"), NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("FocalLength35mmFilm"), NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("Flash"), NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, "Exif.Photo.ExposureProgram", NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, "Exif.Photo.MeteringMode", NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, "Exif.Photo.LightSource", NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("ColorProfile"), NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("SubjectDistance"), NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("Resolution"), NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, "Exif.Image.Orientation", NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("GPSPosition"), NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, EXIF_FORMATTED("GPSAltitude"), NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, "Exif.Image.ImageDescription", NULL, TRUE, FALSE);
-		bar_pane_exif_add_entry(ped, "Exif.Image.Copyright", NULL, TRUE, FALSE);
-		}
-	
 	gtk_widget_show(ped->widget);
 
 	return ped->widget;
@@ -793,7 +769,7 @@ GtkWidget *bar_pane_exif_new_from_config(const gchar **attribute_names, const gc
 		}
 	
 	bar_pane_translate_title(PANE_EXIF, id, &title);
-	ret = bar_pane_exif_new(id, title, expanded, FALSE);
+	ret = bar_pane_exif_new(id, title, expanded);
 	g_free(title);
 	g_free(id);
 	return ret;

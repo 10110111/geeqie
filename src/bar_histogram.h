@@ -14,7 +14,6 @@
 #ifndef BAR_HISTOGRAM_H
 #define BAR_HISTOGRAM_H
 
-GtkWidget *bar_pane_histogram_new(const gchar *id, const gchar *title, gint height, gboolean expanded, gint histogram_channel, gint histogram_mode);
 GtkWidget *bar_pane_histogram_new_from_config(const gchar **attribute_names, const gchar **attribute_values);
 void bar_pane_histogram_update_from_config(GtkWidget *pane, const gchar **attribute_names, const gchar **attribute_values);
 

@@ -210,7 +210,7 @@ static void bar_pane_comment_destroy(GtkWidget *widget, gpointer data)
 }
 
 
-GtkWidget *bar_pane_comment_new(const gchar *id, const gchar *title, const gchar *key, gboolean expanded, gint height)
+static GtkWidget *bar_pane_comment_new(const gchar *id, const gchar *title, const gchar *key, gboolean expanded, gint height)
 {
 	PaneCommentData *pcd;
 	GtkWidget *scrolled;

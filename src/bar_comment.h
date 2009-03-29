@@ -14,7 +14,6 @@
 #ifndef BAR_COMMENT_H
 #define BAR_COMMENT_H
 
-GtkWidget *bar_pane_comment_new(const gchar *id, const gchar *title, const gchar *key, gboolean expanded, gint height);
 GtkWidget *bar_pane_comment_new_from_config(const gchar **attribute_names, const gchar **attribute_values);
 void bar_pane_comment_update_from_config(GtkWidget *pane, const gchar **attribute_names, const gchar **attribute_values);
 

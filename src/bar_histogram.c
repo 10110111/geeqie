@@ -329,7 +329,7 @@ static gboolean bar_pane_histogram_press_cb(GtkWidget *widget, GdkEventButton *b
 }
 
 
-GtkWidget *bar_pane_histogram_new(const gchar *id, const gchar *title, gint height, gboolean expanded, gint histogram_channel, gint histogram_mode)
+static GtkWidget *bar_pane_histogram_new(const gchar *id, const gchar *title, gint height, gboolean expanded, gint histogram_channel, gint histogram_mode)
 {
 	PaneHistogramData *phd;
 
