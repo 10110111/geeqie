@@ -43,13 +43,14 @@ struct _PaneData {
 
 
 GtkWidget *bar_new(LayoutWindow *lw);
-GtkWidget *bar_new_default(LayoutWindow *lw);
 GtkWidget *bar_new_from_config(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values);
 GtkWidget *bar_update_from_config(GtkWidget *bar, const gchar **attribute_names, const gchar **attribute_values);
 
 void bar_close(GtkWidget *bar);
 
 void bar_write_config(GtkWidget *bar, GString *outstr, gint indent);
+
+void bar_populate_default(GtkWidget *bar);
 
 void bar_add(GtkWidget *bar, GtkWidget *pane);
 GtkWidget *bar_find_pane_by_id(GtkWidget *bar, PaneType type, const gchar *id);
@@ -64,5 +65,7 @@ gint bar_get_width(GtkWidget *bar);
 GtkWidget *bar_pane_expander_title(const gchar *title);
 void bar_update_expander(GtkWidget *pane);
 gboolean bar_pane_translate_title(PaneType type, const gchar *id, gchar **title);
+const gchar *bar_pane_get_default_config(const gchar *id);
+
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

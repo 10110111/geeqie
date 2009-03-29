@@ -2030,9 +2030,11 @@ static void layout_bar_set_default(LayoutWindow *lw)
 	
 	if (!lw->utility_box) return;
 
-	bar = bar_new_default(lw);
+	bar = bar_new(lw);
 	
 	layout_bar_set(lw, bar);
+	
+	bar_populate_default(bar);
 }
 
 static void layout_bar_close(LayoutWindow *lw)

@@ -506,7 +506,7 @@ static void gr_config_load(const gchar *text, gpointer data)
 
 	if (isfile(filename))
 		{
-		load_options_from(filename, options, FALSE);
+		load_config_from_file(filename, FALSE);
 		}
 	else
 		{

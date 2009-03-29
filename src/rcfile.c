@@ -486,7 +486,7 @@ static void write_color_profile(GString *outstr, gint indent)
  *-----------------------------------------------------------------------------
  */
 
-gboolean save_options_to(const gchar *utf8_path, ConfOptions *options)
+gboolean save_config_to_file(const gchar *utf8_path, ConfOptions *options)
 {
 	SecureSaveInfo *ssi;
 	gchar *rc_pathl;
@@ -1167,19 +1167,12 @@ static GMarkupParser parser = {
  *-----------------------------------------------------------------------------
  */
 
-gboolean load_options_from(const gchar *utf8_path, ConfOptions *options, gboolean startup)
+gboolean load_config_from_buf(const gchar *buf, gsize size, gboolean startup)
 {
-	gsize size;
-	gchar *buf;
 	GMarkupParseContext *context;
 	gboolean ret = TRUE;
 	GQParserData *parser_data;
 
-	if (g_file_get_contents(utf8_path, &buf, &size, NULL) == FALSE) 
-		{
-		return FALSE;
-		}
-	
 	parser_data = g_new0(GQParserData, 1);
 	
 	parser_data->startup = startup;
@@ -1195,8 +1188,22 @@ gboolean load_options_from(const gchar *utf8_path, ConfOptions *options, gboolea
 		
 	g_free(parser_data);
 
-	g_free(buf);
 	g_markup_parse_context_free(context);
+	return ret;
+}
+
+gboolean load_config_from_file(const gchar *utf8_path, gboolean startup)
+{
+	gsize size;
+	gchar *buf;
+	gboolean ret = TRUE;
+
+	if (g_file_get_contents(utf8_path, &buf, &size, NULL) == FALSE) 
+		{
+		return FALSE;
+		}
+	ret = load_config_from_buf(buf, size, startup);
+	g_free(buf);
 	return ret;
 }
 	

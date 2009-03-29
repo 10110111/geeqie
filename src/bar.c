@@ -36,17 +36,127 @@ struct _KnownPanes
 	PaneType type;
 	gchar *id;
 	gchar *title;
+	const gchar *config;
 };
+
+static const gchar default_config_histogram[] = 
+"<gq>"
+"    <layout id = '_current_'>"
+"        <bar>"
+"            <pane_histogram id = 'histogram' expanded = 'true' histogram_channel = '4' histogram_mode = '0' />"
+"        </bar>"
+"    </layout>"
+"</gq>";
+
+static const gchar default_config_title[] = 
+"<gq>"
+"    <layout id = '_current_'>"
+"        <bar>"
+"            <pane_comment id = 'title' expanded = 'true' key = 'Xmp.dc.title' height = '40' />"
+"        </bar>"
+"    </layout>"
+"</gq>";
+
+static const gchar default_config_keywords[] = 
+"<gq>"
+"    <layout id = '_current_'>"
+"        <bar>"
+"            <pane_keywords id = 'keywords' expanded = 'true' key = '" KEYWORD_KEY "' />"
+"        </bar>"
+"    </layout>"
+"</gq>";
+
+static const gchar default_config_comment[] = 
+"<gq>"
+"    <layout id = '_current_'>"
+"        <bar>"
+"            <pane_comment id = 'comment' expanded = 'true' key = '" COMMENT_KEY "' height = '150' />"
+"        </bar>"
+"    </layout>"
+"</gq>";
+
+static const gchar default_config_exif[] = 
+"<gq>"
+"    <layout id = '_current_'>"
+"        <bar>"
+"            <pane_exif id = 'exif' expanded = 'true' >"
+"                <entry key = 'formatted.Camera' if_set = 'true' editable = 'false' />"
+"                <entry key = 'formatted.DateTime' if_set = 'true' editable = 'false' />"
+"                <entry key = 'formatted.ShutterSpeed' if_set = 'true' editable = 'false' />"
+"                <entry key = 'formatted.Aperture' if_set = 'true' editable = 'false' />"
+"                <entry key = 'formatted.ExposureBias' if_set = 'true' editable = 'false' />"
+"                <entry key = 'formatted.ISOSpeedRating' if_set = 'true' editable = 'false' />"
+"                <entry key = 'formatted.FocalLength' if_set = 'true' editable = 'false' />"
+"                <entry key = 'formatted.FocalLength35mmFilm' if_set = 'true' editable = 'false' />"
+"                <entry key = 'formatted.Flash' if_set = 'true' editable = 'false' />"
+"                <entry key = 'Exif.Photo.ExposureProgram' if_set = 'true' editable = 'false' />"
+"                <entry key = 'Exif.Photo.MeteringMode' if_set = 'true' editable = 'false' />"
+"                <entry key = 'Exif.Photo.LightSource' if_set = 'true' editable = 'false' />"
+"                <entry key = 'formatted.ColorProfile' if_set = 'true' editable = 'false' />"
+"                <entry key = 'formatted.SubjectDistance' if_set = 'true' editable = 'false' />"
+"                <entry key = 'formatted.Resolution' if_set = 'true' editable = 'false' />"
+"                <entry key = 'Exif.Image.Orientation' if_set = 'true' editable = 'false' />"
+"            </pane_exif>"
+"        </bar>"
+"    </layout>"
+"</gq>";
+
+static const gchar default_config_file_info[] = 
+"<gq>"
+"    <layout id = '_current_'>"
+"        <bar>"
+"            <pane_exif id = 'file_info' expanded = 'true' >"
+"                <entry key = 'file.mode' if_set = 'false' editable = 'false' />"
+"                <entry key = 'file.date' if_set = 'false' editable = 'false' />"
+"                <entry key = 'file.size' if_set = 'false' editable = 'false' />"
+"            </pane_exif>"
+"        </bar>"
+"    </layout>"
+"</gq>";
+
+static const gchar default_config_location[] = 
+"<gq>"
+"    <layout id = '_current_'>"
+"        <bar>"
+"            <pane_exif id = 'location' expanded = 'true' >"
+"                <entry key = 'formatted.GPSPosition' if_set = 'true' editable = 'false' />"
+"                <entry key = 'formatted.GPSAltitude' if_set = 'true' editable = 'false' />"
+"                <entry key = 'Xmp.photoshop.Country' if_set = 'false' editable = 'true' />"
+"                <entry key = 'Xmp.iptc.CountryCode' if_set = 'false' editable = 'true' />"
+"                <entry key = 'Xmp.photoshop.State' if_set = 'false' editable = 'true' />"
+"                <entry key = 'Xmp.photoshop.City' if_set = 'false' editable = 'true' />"
+"                <entry key = 'Xmp.iptc.Location' if_set = 'false' editable = 'true' />"
+"            </pane_exif>"
+"        </bar>"
+"    </layout>"
+"</gq>";
+
+static const gchar default_config_copyright[] = 
+"<gq>"
+"    <layout id = '_current_'>"
+"        <bar>"
+"            <pane_exif id = 'copyright' expanded = 'true' >"
+"                <entry key = 'Xmp.dc.creator' if_set = 'true' editable = 'false' />"
+"                <entry key = 'Xmp.dc.contributor' if_set = 'true' editable = 'false' />"
+"                <entry key = 'Xmp.dc.rights' if_set = 'false' editable = 'false' />"
+"            </pane_exif>"
+"        </bar>"
+"    </layout>"
+"</gq>";
 
 static const KnownPanes known_panes[] = {
 /* default sidebar */
-	{PANE_HISTOGRAM,	"histogram",	N_("Histogram")},
-	{PANE_COMMENT,		"title",	N_("Title")},
-	{PANE_KEYWORDS,		"keywords",	N_("Keywords")},
-	{PANE_COMMENT,		"comment",	N_("Comment")},
-	{PANE_EXIF,		"exif",		N_("Exif")},
+	{PANE_HISTOGRAM,	"histogram",	N_("Histogram"),	default_config_histogram},
+	{PANE_COMMENT,		"title",	N_("Title"),		default_config_title},
+	{PANE_KEYWORDS,		"keywords",	N_("Keywords"),		default_config_keywords},
+	{PANE_COMMENT,		"comment",	N_("Comment"),		default_config_comment},
+	{PANE_EXIF,		"exif",		N_("Exif"),		default_config_exif},
+/* other pre-configured panes */
+	{PANE_EXIF,		"file_info",	N_("File info"),	default_config_file_info},
+	{PANE_EXIF,		"location",	N_("Location"),		default_config_location},
+	{PANE_EXIF,		"copyright",	N_("Copyright"),	default_config_copyright},
 
-	{PANE_UNDEF,		NULL,		NULL}
+	{PANE_UNDEF,		NULL,		NULL,			NULL}
 };
 
 typedef struct _BarData BarData;
@@ -61,7 +171,7 @@ struct _BarData
 	gint width;
 };
 
-static void bar_expander_move(GtkWidget *widget, gpointer data, gboolean up)
+static void bar_expander_move(GtkWidget *widget, gpointer data, gboolean up, gboolean single_step)
 {
 	GtkWidget *expander = data;
 	GtkWidget *box;
@@ -73,8 +183,15 @@ static void bar_expander_move(GtkWidget *widget, gpointer data, gboolean up)
 	
 	gtk_container_child_get(GTK_CONTAINER(box), expander, "position", &pos, NULL);
 	
-	pos = up ? (pos - 1) : (pos + 1);
-	if (pos < 0) pos = 0;
+	if (single_step)
+		{
+		pos = up ? (pos - 1) : (pos + 1);
+		if (pos < 0) pos = 0;
+		}
+	else
+		{
+		pos = up ? 0 : -1;
+		}
 	
 	gtk_box_reorder_child(GTK_BOX(box), expander, pos);
 }
@@ -82,32 +199,105 @@ static void bar_expander_move(GtkWidget *widget, gpointer data, gboolean up)
 
 static void bar_expander_move_up_cb(GtkWidget *widget, gpointer data)
 {
-	bar_expander_move(widget, data, TRUE);
+	bar_expander_move(widget, data, TRUE, TRUE);
 }
 
 static void bar_expander_move_down_cb(GtkWidget *widget, gpointer data)
 {
-	bar_expander_move(widget, data, FALSE);
+	bar_expander_move(widget, data, FALSE, TRUE);
+}
+
+static void bar_expander_move_top_cb(GtkWidget *widget, gpointer data)
+{
+	bar_expander_move(widget, data, TRUE, FALSE);
+}
+
+static void bar_expander_move_bottom_cb(GtkWidget *widget, gpointer data)
+{
+	bar_expander_move(widget, data, FALSE, FALSE);
+}
+
+static void bar_expander_delete_cb(GtkWidget *widget, gpointer data)
+{
+	GtkWidget *expander = data;
+	gtk_widget_destroy(expander);
+}
+
+static void bar_expander_add_cb(GtkWidget *widget, gpointer data)
+{
+	//GtkWidget *bar = data;
+	const KnownPanes *pane = known_panes;
+	const gchar *id = g_object_get_data(G_OBJECT(widget), "pane_add_id");
+	const gchar *config;
+
+	if (!id) return;
+	
+	while (pane->id)
+		{
+		if (strcmp(pane->id, id) == 0) break;
+		pane++;
+		}
+	if (!pane->id) return;
+	
+	config = bar_pane_get_default_config(id);
+	if (config) load_config_from_buf(config, strlen(config), FALSE);
+
 }
 
 
-static void bar_expander_menu_popup(GtkWidget *data)
+static void bar_menu_popup(GtkWidget *widget)
 {
 	GtkWidget *menu;
+	GtkWidget *bar;
+	GtkWidget *expander;
+	const KnownPanes *pane = known_panes;
+	BarData *bd;
 
+	bd = g_object_get_data(G_OBJECT(widget), "bar_data");
+	if (bd) 
+		{
+		expander = NULL;
+		bar = widget; 
+		}
+	else
+		{
+		expander = widget;
+		bar = widget->parent;
+		while (bar && !g_object_get_data(G_OBJECT(bar), "bar_data"))
+			bar = bar->parent;
+		if (!bar) return;
+		}
+ 
 	menu = popup_menu_short_lived();
 
-	menu_item_add_stock(menu, _("Move _up"), GTK_STOCK_GO_UP, G_CALLBACK(bar_expander_move_up_cb), data);
-	menu_item_add_stock(menu, _("Move _down"), GTK_STOCK_GO_DOWN, G_CALLBACK(bar_expander_move_down_cb), data);
-	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, data, 0, GDK_CURRENT_TIME);
+	if (expander)
+		{
+		menu_item_add_stock(menu, _("Move to _top"), GTK_STOCK_GOTO_TOP, G_CALLBACK(bar_expander_move_top_cb), expander);
+		menu_item_add_stock(menu, _("Move _up"), GTK_STOCK_GO_UP, G_CALLBACK(bar_expander_move_up_cb), expander);
+		menu_item_add_stock(menu, _("Move _down"), GTK_STOCK_GO_DOWN, G_CALLBACK(bar_expander_move_down_cb), expander);
+		menu_item_add_stock(menu, _("Move to _bottom"), GTK_STOCK_GOTO_BOTTOM, G_CALLBACK(bar_expander_move_bottom_cb), expander);
+		menu_item_add_divider(menu);
+		menu_item_add_stock(menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK(bar_expander_delete_cb), expander);
+		menu_item_add_divider(menu);
+		}
+
+	while (pane->id)
+		{
+		GtkWidget *item;
+		item = menu_item_add_stock(menu, _(pane->title), GTK_STOCK_ADD, G_CALLBACK(bar_expander_add_cb), bar);
+		g_object_set_data(G_OBJECT(item), "pane_add_id", pane->id);
+		pane++;
+		}
+	
+	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, bar, 0, GDK_CURRENT_TIME);
 }
 
 
-static gboolean bar_expander_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data) 
+static gboolean bar_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data) 
 { 
 	if (bevent->button == MOUSE_BUTTON_RIGHT)
 		{
-		bar_expander_menu_popup(widget);
+		bar_menu_popup(widget);
 		return TRUE;
 		}
 	return FALSE;
@@ -288,7 +478,7 @@ void bar_add(GtkWidget *bar, GtkWidget *pane)
 		
 	gtk_box_pack_start(GTK_BOX(bd->vbox), expander, FALSE, TRUE, 0);
 	
-	g_signal_connect(expander, "button_press_event", G_CALLBACK(bar_expander_menu_cb), bd); 
+	g_signal_connect(expander, "button_press_event", G_CALLBACK(bar_menu_cb), bd); 
 	
 	gtk_container_add(GTK_CONTAINER(expander), pane);
 	
@@ -300,24 +490,17 @@ void bar_add(GtkWidget *bar, GtkWidget *pane)
 
 }
 
-static void bar_populate_default(GtkWidget *bar)
+void bar_populate_default(GtkWidget *bar)
 {
-	GtkWidget *widget;
+	const gchar *populate_id[] = {"histogram", "title", "keywords", "comment", "exif", NULL};
+	const gchar **id = populate_id;
 	
-	widget = bar_pane_histogram_new("histogram", _("Histogram"), 80, TRUE, HCHAN_RGB, 0);
-	bar_add(bar, widget);
-
-	widget = bar_pane_comment_new("title", _("Title"), "Xmp.dc.title", TRUE, 40);
-	bar_add(bar, widget);
-
-	widget = bar_pane_keywords_new("keywords", _("Keywords"), KEYWORD_KEY, TRUE);
-	bar_add(bar, widget);
-
-	widget = bar_pane_comment_new("comment", _("Comment"), "Xmp.dc.description", TRUE, 150);
-	bar_add(bar, widget);
-
-	widget = bar_pane_exif_new("exif", _("Exif"), TRUE, TRUE);
-	bar_add(bar, widget);
+	while (*id)
+		{
+		const gchar *config = bar_pane_get_default_config(*id);
+		if (config) load_config_from_buf(config, strlen(config), FALSE);
+		id++;
+		}
 }
 
 static void bar_size_allocate(GtkWidget *widget, GtkAllocation *allocation, gpointer data)
@@ -373,6 +556,8 @@ GtkWidget *bar_new(LayoutWindow *lw)
 	g_signal_connect(G_OBJECT(bd->widget), "size-allocate",
 			 G_CALLBACK(bar_size_allocate), bd);
 
+	g_signal_connect(G_OBJECT(bd->widget), "button_press_event", G_CALLBACK(bar_menu_cb), bd); 
+
 	bd->width = SIDEBAR_DEFAULT_WIDTH;
 	gtk_widget_set_size_request(bd->widget, bd->width, -1);
 
@@ -404,16 +589,6 @@ GtkWidget *bar_new(LayoutWindow *lw)
 	return bd->widget;
 }
 
-GtkWidget *bar_new_default(LayoutWindow *lw)
-{
-	GtkWidget *bar = bar_new(lw);
-	
-	bar_populate_default(bar);
-	
-	gtk_widget_show(bar);
-	
-	return bar;
-}
 
 GtkWidget *bar_update_from_config(GtkWidget *bar, const gchar **attribute_names, const gchar **attribute_values)
 {
@@ -477,6 +652,19 @@ gboolean bar_pane_translate_title(PaneType type, const gchar *id, gchar **title)
 	g_free(*title);
 	*title = g_strdup(_(pane->title));
 	return TRUE;
+}
+
+const gchar *bar_pane_get_default_config(const gchar *id)
+{
+	const KnownPanes *pane = known_panes;
+	
+	while (pane->id)
+		{
+		if (strcmp(pane->id, id) == 0) break;
+		pane++;
+		}
+	if (!pane->id) return NULL;
+	return pane->config;
 }
 	
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
