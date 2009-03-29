@@ -1159,7 +1159,7 @@ static void keyword_hide_unset_in_recursive(GtkTreeStore *keyword_tree, GtkTreeI
 void keyword_hide_unset_in(GtkTreeStore *keyword_tree, gpointer id, GList *keywords)
 {
 	GtkTreeIter iter;
-	gtk_tree_model_get_iter_first(GTK_TREE_MODEL(keyword_tree), &iter);
+	if (!gtk_tree_model_get_iter_first(GTK_TREE_MODEL(keyword_tree), &iter)) return;
 	keyword_hide_unset_in_recursive(keyword_tree, &iter, id, keywords);
 }
 
