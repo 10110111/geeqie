@@ -524,6 +524,9 @@ ExifFormattedText ExifFormattedList[] = {
 	EXIF_FORMATTED_TAG(ColorProfile,	N_("Color profile")),
 	EXIF_FORMATTED_TAG(GPSPosition,		N_("GPS position")),
 	EXIF_FORMATTED_TAG(GPSAltitude,		N_("GPS altitude")),
+	{"file.size",				N_("File size"), 	NULL},
+	{"file.date",				N_("File date"), 	NULL},
+	{"file.mode",				N_("File mode"), 	NULL},
 	{ NULL, NULL, NULL }
 };
 
@@ -537,7 +540,7 @@ gchar *exif_get_formatted_by_key(ExifData *exif, const gchar *key, gboolean *key
 
 		key += EXIF_FORMATTED_LEN;
 		for (i = 0; ExifFormattedList[i].key; i++)
-			if (strcmp(key, ExifFormattedList[i].key + EXIF_FORMATTED_LEN) == 0)
+			if (ExifFormattedList[i].build_func && strcmp(key, ExifFormattedList[i].key + EXIF_FORMATTED_LEN) == 0)
 				return ExifFormattedList[i].build_func(exif);
 		}
 
@@ -549,13 +552,13 @@ gchar *exif_get_description_by_key(const gchar *key)
 {
 	if (!key) return NULL;
 
-	if (strncmp(key, EXIF_FORMATTED(), EXIF_FORMATTED_LEN) == 0)
+	if (strncmp(key, EXIF_FORMATTED(), EXIF_FORMATTED_LEN) == 0 ||
+	    strncmp(key, "file.", 5) == 0)
 		{
 		gint i;
 
-		key += EXIF_FORMATTED_LEN;
 		for (i = 0; ExifFormattedList[i].key; i++)
-			if (strcmp(key, ExifFormattedList[i].key + EXIF_FORMATTED_LEN) == 0)
+			if (strcmp(key, ExifFormattedList[i].key) == 0)
 				return g_strdup(_(ExifFormattedList[i].description));
 		}
 
@@ -769,4 +772,70 @@ gboolean exif_jpeg_parse_color(ExifData *exif, guchar *data, guint size)
 
 	return FALSE;
 }
+
+/*
+ *-------------------------------------------------------------------
+ * file info
+ * it is here because it shares tag neming infrastructure with exif
+ * we should probably not invest too much effort into this because
+ * new exiv2 will support the same functionality
+ * http://dev.exiv2.org/issues/show/505
+ *-------------------------------------------------------------------
+ */
+
+static gchar *mode_number(mode_t m)
+{
+	gint mb, mu, mg, mo;
+	gchar pbuf[12];
+
+	mb = mu = mg = mo = 0;
+
+	if (m & S_ISUID) mb |= 4;
+	if (m & S_ISGID) mb |= 2;
+	if (m & S_ISVTX) mb |= 1;
+
+	if (m & S_IRUSR) mu |= 4;
+	if (m & S_IWUSR) mu |= 2;
+	if (m & S_IXUSR) mu |= 1;
+
+	if (m & S_IRGRP) mg |= 4;
+	if (m & S_IWGRP) mg |= 2;
+	if (m & S_IXGRP) mg |= 1;
+
+	if (m & S_IROTH) mo |= 4;
+	if (m & S_IWOTH) mo |= 2;
+	if (m & S_IXOTH) mo |= 1;
+
+	pbuf[0] = (m & S_IRUSR) ? 'r' : '-';
+	pbuf[1] = (m & S_IWUSR) ? 'w' : '-';
+	pbuf[2] = (m & S_IXUSR) ? 'x' : '-';
+	pbuf[3] = (m & S_IRGRP) ? 'r' : '-';
+	pbuf[4] = (m & S_IWGRP) ? 'w' : '-';
+	pbuf[5] = (m & S_IXGRP) ? 'x' : '-';
+	pbuf[6] = (m & S_IROTH) ? 'r' : '-';
+	pbuf[7] = (m & S_IWOTH) ? 'w' : '-';
+	pbuf[8] = (m & S_IXOTH) ? 'x' : '-';
+	pbuf[9] = '\0';
+
+	return g_strdup_printf("%s (%d%d%d%d)", pbuf, mb, mu, mg, mo);
+}
+
+gchar *metadata_file_info(FileData *fd, const gchar *key, MetadataFormat format)
+{
+	if (strcmp(key, "file.size") == 0)
+		{
+		return g_strdup_printf("%ld", (long)fd->size);
+		}
+	if (strcmp(key, "file.date") == 0)
+		{
+		return g_strdup(text_from_time(fd->date));
+		}
+	if (strcmp(key, "file.mode") == 0)
+		{
+		return mode_number(fd->mode);
+		}
+	return g_strdup("");
+}
+
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

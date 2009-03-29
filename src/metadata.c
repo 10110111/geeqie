@@ -480,6 +480,11 @@ GList *metadata_read_list(FileData *fd, const gchar *key, MetadataFormat format)
 	        if (metadata_legacy_read(fd, NULL, &comment)) return g_list_append(NULL, comment);
 	        }
 	
+	if (strncmp(key, "file.", 5) == 0)
+		{
+	        return g_list_append(NULL, metadata_file_info(fd, key, format));
+		}
+	
 	exif = exif_read_fd(fd); /* this is cached, thus inexpensive */
 	if (!exif) return NULL;
 	list = exif_get_metadata(exif, key, format);
