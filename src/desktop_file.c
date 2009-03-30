@@ -118,7 +118,12 @@ static void editor_window_entry_changed_cb(GtkWidget *widget, gpointer data)
 {
 	EditorWindow *ew = data;
 	const gchar *content = gtk_entry_get_text(GTK_ENTRY(ew->entry));
-	gboolean modified = (!ew->desktop_name && *content);
+	gboolean modified = ew->modified;
+
+	if (!modified)
+		{
+		modified = (!ew->desktop_name && *content);
+		}
 
 	if (!modified)
 		{
