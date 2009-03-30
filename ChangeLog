@@ -1,4 +1,956 @@
 ------------------------------------------------------------------------
+r1588 | zas_ | 2009-03-30 21:01:09 +0200 (Mon, 30 Mar 2009) | 7 lines
+
+Fixed bug where pixel/color information at x=0 coordinates werent shown:
+- pixel-coordinates now calculated with floor
+- guard for update in layout does not apply for 0 coordinates anymore
+
+Patch by Ruben Stein.
+
+
+------------------------------------------------------------------------
+r1587 | zas_ | 2009-03-30 19:52:14 +0200 (Mon, 30 Mar 2009) | 1 line
+
+Fix up previous patch.
+------------------------------------------------------------------------
+r1586 | zas_ | 2009-03-30 19:05:31 +0200 (Mon, 30 Mar 2009) | 1 line
+
+Desktop files window: make columns sortable, replace Apply and OK buttons by one Save button which is made sensitive when needed.
+------------------------------------------------------------------------
+r1585 | nadvornik | 2009-03-29 22:06:21 +0200 (Sun, 29 Mar 2009) | 2 lines
+
+improved bar_pane_comment_notify_cb
+
+------------------------------------------------------------------------
+r1584 | nadvornik | 2009-03-29 21:57:19 +0200 (Sun, 29 Mar 2009) | 2 lines
+
+fixed a typo
+
+------------------------------------------------------------------------
+r1583 | nadvornik | 2009-03-29 21:40:16 +0200 (Sun, 29 Mar 2009) | 2 lines
+
+fixed possible crash
+
+------------------------------------------------------------------------
+r1582 | nadvornik | 2009-03-29 18:39:42 +0200 (Sun, 29 Mar 2009) | 2 lines
+
+added UfRaw ID files to known filetypes
+
+------------------------------------------------------------------------
+r1581 | nadvornik | 2009-03-29 16:26:44 +0200 (Sun, 29 Mar 2009) | 2 lines
+
+pane interface cleanup
+
+------------------------------------------------------------------------
+r1580 | nadvornik | 2009-03-29 16:20:44 +0200 (Sun, 29 Mar 2009) | 2 lines
+
+improved sidebar configuration
+
+------------------------------------------------------------------------
+r1579 | nadvornik | 2009-03-29 12:36:13 +0200 (Sun, 29 Mar 2009) | 2 lines
+
+re-added possibility to display basic file info (size, mode, date)
+
+------------------------------------------------------------------------
+r1578 | nadvornik | 2009-03-28 16:51:21 +0100 (Sat, 28 Mar 2009) | 3 lines
+
+fixed keyboard focus on start-up
+https://sourceforge.net/tracker/?func=detail&aid=2707025&group_id=222125&atid=1054680
+
+------------------------------------------------------------------------
+r1577 | nadvornik | 2009-03-28 16:31:04 +0100 (Sat, 28 Mar 2009) | 2 lines
+
+active image follows keyboard focus
+
+------------------------------------------------------------------------
+r1576 | nadvornik | 2009-03-28 16:09:09 +0100 (Sat, 28 Mar 2009) | 2 lines
+
+split-mode cleanup and improvements
+
+------------------------------------------------------------------------
+r1575 | nadvornik | 2009-03-27 09:05:14 +0100 (Fri, 27 Mar 2009) | 2 lines
+
+added simple desktop file editor
+
+------------------------------------------------------------------------
+r1574 | zas_ | 2009-03-26 22:49:20 +0100 (Thu, 26 Mar 2009) | 7 lines
+
+Improve editors through .desktop files implementation:
+- stricter Exec parameters detection
+- correct Icon key handling (absolute file vs name and --icon prefix)
+- improved escape, single, double quotes handling and escaping
+
+
+
+------------------------------------------------------------------------
+r1573 | nadvornik | 2009-03-26 08:56:01 +0100 (Thu, 26 Mar 2009) | 2 lines
+
+fixed histogram drawing
+
+------------------------------------------------------------------------
+r1572 | zas_ | 2009-03-23 19:49:23 +0100 (Mon, 23 Mar 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1571 | nadvornik | 2009-03-22 00:16:38 +0100 (Sun, 22 Mar 2009) | 2 lines
+
+more consistent remote options naming
+
+------------------------------------------------------------------------
+r1570 | nadvornik | 2009-03-21 21:19:11 +0100 (Sat, 21 Mar 2009) | 3 lines
+
+fixed segfault in histogram
+http://sourceforge.net/tracker/index.php?func=detail&aid=2690498&group_id=222125&atid=1054680
+
+------------------------------------------------------------------------
+r1569 | nadvornik | 2009-03-21 20:51:07 +0100 (Sat, 21 Mar 2009) | 2 lines
+
+layout id "_current_" matches the currently active layout window
+
+------------------------------------------------------------------------
+r1568 | nadvornik | 2009-03-21 19:22:04 +0100 (Sat, 21 Mar 2009) | 2 lines
+
+do not copy existing layout id to new window
+
+------------------------------------------------------------------------
+r1567 | nadvornik | 2009-03-21 18:47:50 +0100 (Sat, 21 Mar 2009) | 2 lines
+
+update translated pane titles
+
+------------------------------------------------------------------------
+r1566 | nadvornik | 2009-03-20 23:48:01 +0100 (Fri, 20 Mar 2009) | 2 lines
+
+do not re-create ui_manager at layout change
+
+------------------------------------------------------------------------
+r1565 | nadvornik | 2009-03-20 22:28:31 +0100 (Fri, 20 Mar 2009) | 2 lines
+
+added a possibility to update existing bars from config
+
+------------------------------------------------------------------------
+r1564 | nadvornik | 2009-03-20 18:02:00 +0100 (Fri, 20 Mar 2009) | 3 lines
+
+added tooltips to external editors on toolbar
+- patch by Colin Clark
+
+------------------------------------------------------------------------
+r1563 | nadvornik | 2009-03-20 17:28:43 +0100 (Fri, 20 Mar 2009) | 2 lines
+
+added "load config" command to remote control
+
+------------------------------------------------------------------------
+r1562 | nadvornik | 2009-03-20 15:36:59 +0100 (Fri, 20 Mar 2009) | 2 lines
+
+added possibility to update existing layout window from config
+
+------------------------------------------------------------------------
+r1561 | nadvornik | 2009-03-20 12:52:29 +0100 (Fri, 20 Mar 2009) | 2 lines
+
+do not add duplicate keywords from config file
+
+------------------------------------------------------------------------
+r1560 | nadvornik | 2009-03-20 11:12:29 +0100 (Fri, 20 Mar 2009) | 2 lines
+
+be more verbose on parse errors
+
+------------------------------------------------------------------------
+r1559 | nadvornik | 2009-03-20 10:46:35 +0100 (Fri, 20 Mar 2009) | 3 lines
+
+added function to reload external editors at any time
+eliminated init_after_global_options()
+
+------------------------------------------------------------------------
+r1558 | nadvornik | 2009-03-19 23:58:28 +0100 (Thu, 19 Mar 2009) | 2 lines
+
+initialization clean-up
+
+------------------------------------------------------------------------
+r1557 | nadvornik | 2009-03-19 23:12:14 +0100 (Thu, 19 Mar 2009) | 2 lines
+
+improved config file formatting
+
+------------------------------------------------------------------------
+r1556 | nadvornik | 2009-03-18 00:03:07 +0100 (Wed, 18 Mar 2009) | 2 lines
+
+added more IPTC tags
+
+------------------------------------------------------------------------
+r1555 | nadvornik | 2009-03-17 23:41:09 +0100 (Tue, 17 Mar 2009) | 2 lines
+
+implemented editing support in exif pane
+
+------------------------------------------------------------------------
+r1554 | nadvornik | 2009-03-17 20:52:56 +0100 (Tue, 17 Mar 2009) | 2 lines
+
+fixed loading of desktop file icons, gtk seems to expect an icon name without extension
+
+------------------------------------------------------------------------
+r1553 | nadvornik | 2009-03-17 20:09:34 +0100 (Tue, 17 Mar 2009) | 2 lines
+
+simplified code
+
+------------------------------------------------------------------------
+r1552 | nadvornik | 2009-03-17 19:58:15 +0100 (Tue, 17 Mar 2009) | 2 lines
+
+improved expanding and hiding of helper keywords
+
+------------------------------------------------------------------------
+r1551 | nadvornik | 2009-03-17 19:30:53 +0100 (Tue, 17 Mar 2009) | 2 lines
+
+fixed keyword tree redrawing
+
+------------------------------------------------------------------------
+r1550 | zas_ | 2009-03-17 01:05:13 +0100 (Tue, 17 Mar 2009) | 1 line
+
+Preliminary support for doxygen: make doxygen-doc will create documentation from sources in doc/doxygen directory.
+------------------------------------------------------------------------
+r1549 | zas_ | 2009-03-16 21:39:09 +0100 (Mon, 16 Mar 2009) | 1 line
+
+gint -> gboolean where applicable. The end (ouf!).
+------------------------------------------------------------------------
+r1548 | zas_ | 2009-03-16 20:11:39 +0100 (Mon, 16 Mar 2009) | 1 line
+
+gint -> gboolean where applicable.
+------------------------------------------------------------------------
+r1547 | zas_ | 2009-03-16 19:19:11 +0100 (Mon, 16 Mar 2009) | 1 line
+
+gint -> gboolean where applicable.
+------------------------------------------------------------------------
+r1546 | nadvornik | 2009-03-16 00:22:17 +0100 (Mon, 16 Mar 2009) | 2 lines
+
+improved pane_keywords notification
+
+------------------------------------------------------------------------
+r1545 | nadvornik | 2009-03-15 23:46:25 +0100 (Sun, 15 Mar 2009) | 4 lines
+
+call the notify function just once when the keywords are pushed to the
+textarea
+
+
+------------------------------------------------------------------------
+r1544 | zas_ | 2009-03-15 21:16:20 +0100 (Sun, 15 Mar 2009) | 1 line
+
+gint -> gboolean.
+------------------------------------------------------------------------
+r1543 | nadvornik | 2009-03-15 19:41:25 +0100 (Sun, 15 Mar 2009) | 3 lines
+
+fixed segfault in osd called from img-view
+http://sourceforge.net/tracker/index.php?func=detail&aid=2684068&group_id=222125&atid=1054680
+
+------------------------------------------------------------------------
+r1542 | zas_ | 2009-03-15 19:06:41 +0100 (Sun, 15 Mar 2009) | 1 line
+
+gint -> gboolean.
+------------------------------------------------------------------------
+r1541 | nadvornik | 2009-03-15 18:40:04 +0100 (Sun, 15 Mar 2009) | 2 lines
+
+fixed viewing image from dupe and search windows
+
+------------------------------------------------------------------------
+r1540 | zas_ | 2009-03-15 16:01:07 +0100 (Sun, 15 Mar 2009) | 1 line
+
+gint -> gboolean.
+------------------------------------------------------------------------
+r1539 | zas_ | 2009-03-15 14:33:56 +0100 (Sun, 15 Mar 2009) | 1 line
+
+gint -> gboolean.
+------------------------------------------------------------------------
+r1538 | nadvornik | 2009-03-15 13:41:39 +0100 (Sun, 15 Mar 2009) | 2 lines
+
+fixed XMP and IPTC entry names in exif pane
+
+------------------------------------------------------------------------
+r1537 | nadvornik | 2009-03-15 13:20:14 +0100 (Sun, 15 Mar 2009) | 2 lines
+
+added notification to the exif pane
+
+------------------------------------------------------------------------
+r1536 | nadvornik | 2009-03-15 12:58:46 +0100 (Sun, 15 Mar 2009) | 2 lines
+
+fixed a bug in osd updating, it seems that the osd icons work again
+
+------------------------------------------------------------------------
+r1535 | nadvornik | 2009-03-15 12:34:09 +0100 (Sun, 15 Mar 2009) | 2 lines
+
+compute histogram in idle time
+
+------------------------------------------------------------------------
+r1534 | nadvornik | 2009-03-15 10:06:13 +0100 (Sun, 15 Mar 2009) | 2 lines
+
+fixed possible deadlock with multiple thumb loaders in parallel
+
+------------------------------------------------------------------------
+r1533 | zas_ | 2009-03-15 08:07:52 +0100 (Sun, 15 Mar 2009) | 1 line
+
+gint -> gboolean.
+------------------------------------------------------------------------
+r1532 | nadvornik | 2009-03-15 00:26:42 +0100 (Sun, 15 Mar 2009) | 3 lines
+
+completely separated global and layout window options
+layout window configuration is available under separate menu entry
+
+------------------------------------------------------------------------
+r1531 | zas_ | 2009-03-14 22:12:55 +0100 (Sat, 14 Mar 2009) | 1 line
+
+gint -> gboolean.
+------------------------------------------------------------------------
+r1530 | zas_ | 2009-03-14 21:07:23 +0100 (Sat, 14 Mar 2009) | 1 line
+
+More gboolean.
+------------------------------------------------------------------------
+r1529 | zas_ | 2009-03-14 20:25:21 +0100 (Sat, 14 Mar 2009) | 1 line
+
+Use gboolean where applicable, minor cleanup and indentations fixes.
+------------------------------------------------------------------------
+r1528 | nadvornik | 2009-03-14 18:21:35 +0100 (Sat, 14 Mar 2009) | 2 lines
+
+improved notification system
+
+------------------------------------------------------------------------
+r1527 | zas_ | 2009-03-14 12:26:43 +0100 (Sat, 14 Mar 2009) | 1 line
+
+More gboolean and tidy up.
+------------------------------------------------------------------------
+r1526 | nadvornik | 2009-03-14 11:34:42 +0100 (Sat, 14 Mar 2009) | 2 lines
+
+cleanup, small fixes
+
+------------------------------------------------------------------------
+r1525 | nadvornik | 2009-03-14 00:19:58 +0100 (Sat, 14 Mar 2009) | 2 lines
+
+do not allow to add keywords with the same name as siblings
+
+------------------------------------------------------------------------
+r1524 | nadvornik | 2009-03-13 17:45:21 +0100 (Fri, 13 Mar 2009) | 2 lines
+
+added keyword tree filtering
+
+------------------------------------------------------------------------
+r1523 | nadvornik | 2009-03-13 13:06:01 +0100 (Fri, 13 Mar 2009) | 2 lines
+
+show file name in advanced_exif
+
+------------------------------------------------------------------------
+r1522 | nadvornik | 2009-03-13 11:36:32 +0100 (Fri, 13 Mar 2009) | 2 lines
+
+handle sidecar files for raw formats that are not known to exiv2
+
+------------------------------------------------------------------------
+r1521 | nadvornik | 2009-03-13 10:03:06 +0100 (Fri, 13 Mar 2009) | 2 lines
+
+fixed keyword to mark connection
+
+------------------------------------------------------------------------
+r1520 | zas_ | 2009-03-12 23:44:21 +0100 (Thu, 12 Mar 2009) | 1 line
+
+Use gboolean where applicable.
+------------------------------------------------------------------------
+r1519 | zas_ | 2009-03-12 23:39:06 +0100 (Thu, 12 Mar 2009) | 1 line
+
+Make ishidden() static to filedata.c and rename it is_hidden_file().
+------------------------------------------------------------------------
+r1518 | zas_ | 2009-03-12 23:35:45 +0100 (Thu, 12 Mar 2009) | 1 line
+
+gint -> gboolean and tidy up.
+------------------------------------------------------------------------
+r1517 | nadvornik | 2009-03-12 22:27:13 +0100 (Thu, 12 Mar 2009) | 2 lines
+
+added a dialog for editing keyword tree
+
+------------------------------------------------------------------------
+r1516 | zas_ | 2009-03-12 22:06:37 +0100 (Thu, 12 Mar 2009) | 1 line
+
+Use gboolean where applicable, for the sake of consistency.
+------------------------------------------------------------------------
+r1515 | zas_ | 2009-03-12 00:36:01 +0100 (Thu, 12 Mar 2009) | 1 line
+
+Code cleanup.
+------------------------------------------------------------------------
+r1514 | zas_ | 2009-03-12 00:35:31 +0100 (Thu, 12 Mar 2009) | 1 line
+
+Fix bug when adding a new collection through sort manager. Tidy up.
+------------------------------------------------------------------------
+r1513 | zas_ | 2009-03-12 00:04:30 +0100 (Thu, 12 Mar 2009) | 1 line
+
+Tidy up.
+------------------------------------------------------------------------
+r1512 | zas_ | 2009-03-11 23:56:56 +0100 (Wed, 11 Mar 2009) | 1 line
+
+Use gboolean pseudo type where applicable.
+------------------------------------------------------------------------
+r1511 | zas_ | 2009-03-11 23:28:37 +0100 (Wed, 11 Mar 2009) | 1 line
+
+Remove useless functions.
+------------------------------------------------------------------------
+r1510 | nadvornik | 2009-03-11 22:54:54 +0100 (Wed, 11 Mar 2009) | 2 lines
+
+added a popup menu in keyword tree
+
+------------------------------------------------------------------------
+r1509 | zas_ | 2009-03-11 18:38:20 +0100 (Wed, 11 Mar 2009) | 1 line
+
+Use dynamic allocation for editor key passed to various callbacks.
+------------------------------------------------------------------------
+r1508 | nadvornik | 2009-03-10 23:52:12 +0100 (Tue, 10 Mar 2009) | 2 lines
+
+fixed saving of file_view_type
+
+------------------------------------------------------------------------
+r1507 | zas_ | 2009-03-10 18:58:30 +0100 (Tue, 10 Mar 2009) | 1 line
+
+Remove now useless element.
+------------------------------------------------------------------------
+r1506 | zas_ | 2009-03-10 18:22:17 +0100 (Tue, 10 Mar 2009) | 1 line
+
+Remove the toggle on advanced exif window menu item.
+------------------------------------------------------------------------
+r1505 | zas_ | 2009-03-09 20:37:58 +0100 (Mon, 09 Mar 2009) | 1 line
+
+Add missing g_key_file_free() call.
+------------------------------------------------------------------------
+r1504 | zas_ | 2009-03-09 20:35:53 +0100 (Mon, 09 Mar 2009) | 1 line
+
+Fix editor_command_path_parse().
+------------------------------------------------------------------------
+r1503 | zas_ | 2009-03-09 20:34:26 +0100 (Mon, 09 Mar 2009) | 1 line
+
+Revert changeset 1502. It brokes the spec: hidden desktop files from user directory should hide files from system directory with the same name.
+------------------------------------------------------------------------
+r1502 | zas_ | 2009-03-09 13:44:06 +0100 (Mon, 09 Mar 2009) | 1 line
+
+Only store editors if they match criterias to not be hidden from start, it makes more sense. Fix editor_command_path_parse().
+------------------------------------------------------------------------
+r1501 | zas_ | 2009-03-09 00:12:49 +0100 (Mon, 09 Mar 2009) | 1 line
+
+Introduce EditorFlags type, cleanup.
+------------------------------------------------------------------------
+r1500 | nadvornik | 2009-03-09 00:09:27 +0100 (Mon, 09 Mar 2009) | 2 lines
+
+save and restore the keyword tree
+
+------------------------------------------------------------------------
+r1499 | nadvornik | 2009-03-08 22:12:45 +0100 (Sun, 08 Mar 2009) | 2 lines
+
+fixed crash with certain layout configurations
+
+------------------------------------------------------------------------
+r1498 | zas_ | 2009-03-08 21:49:48 +0100 (Sun, 08 Mar 2009) | 1 line
+
+Cleanup and minor fixes.
+------------------------------------------------------------------------
+r1497 | zas_ | 2009-03-08 18:51:03 +0100 (Sun, 08 Mar 2009) | 1 line
+
+Advanced exif window: make all columns sortable and resizable.
+------------------------------------------------------------------------
+r1496 | zas_ | 2009-03-08 16:30:15 +0100 (Sun, 08 Mar 2009) | 1 line
+
+Add helper macros EDITOR_ERRORS() and EDITOR_ERRORS_BUT_SKIPPED() to clean up the code a bit. Minor tidy up.
+------------------------------------------------------------------------
+r1495 | zas_ | 2009-03-08 16:02:18 +0100 (Sun, 08 Mar 2009) | 1 line
+
+Fix up editor execution.
+------------------------------------------------------------------------
+r1494 | zas_ | 2009-03-08 15:27:19 +0100 (Sun, 08 Mar 2009) | 1 line
+
+Display icons in edit contextual menu.
+------------------------------------------------------------------------
+r1493 | zas_ | 2009-03-08 14:23:25 +0100 (Sun, 08 Mar 2009) | 1 line
+
+In various Edit context menus, only display editors that match the file types in the selection.
+------------------------------------------------------------------------
+r1492 | nadvornik | 2009-03-08 13:42:23 +0100 (Sun, 08 Mar 2009) | 2 lines
+
+dnd fixes
+
+------------------------------------------------------------------------
+r1491 | nadvornik | 2009-03-08 12:32:12 +0100 (Sun, 08 Mar 2009) | 2 lines
+
+dnd fixes
+
+------------------------------------------------------------------------
+r1490 | nadvornik | 2009-03-08 11:38:51 +0100 (Sun, 08 Mar 2009) | 2 lines
+
+allow dropping of multiple keywords
+
+------------------------------------------------------------------------
+r1489 | nadvornik | 2009-03-08 11:25:24 +0100 (Sun, 08 Mar 2009) | 2 lines
+
+show a label instead of the default drag icon
+
+------------------------------------------------------------------------
+r1488 | nadvornik | 2009-03-08 10:56:40 +0100 (Sun, 08 Mar 2009) | 3 lines
+
+dnd in keywords tree
+improved dnd in advanced exif
+
+------------------------------------------------------------------------
+r1487 | nadvornik | 2009-03-07 18:02:59 +0100 (Sat, 07 Mar 2009) | 5 lines
+
+implemented keywords editor as described at
+http://geeqie.wiki.sourceforge.net/keywords
+keyword tree is hardcoded for now
+TODO: configuration
+
+------------------------------------------------------------------------
+r1486 | zas_ | 2009-03-07 11:32:04 +0100 (Sat, 07 Mar 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1485 | zas_ | 2009-03-07 11:31:30 +0100 (Sat, 07 Mar 2009) | 1 line
+
+Use a common function bar_pane_expander_title() to set expanders title widget.
+------------------------------------------------------------------------
+r1484 | zas_ | 2009-03-06 23:34:38 +0100 (Fri, 06 Mar 2009) | 1 line
+
+Try to improve tab completion: when a key is pressed while tab completion menu is shown, the number of entries is reduced, dhowing all matching entries but the menu is no more closed after each key pressure. Number of possible entries in this menu was increased from 500 to 1000. Pressing TAB when path entry is empty now adds / (root directory).
+------------------------------------------------------------------------
+r1483 | nadvornik | 2009-03-06 16:52:47 +0100 (Fri, 06 Mar 2009) | 2 lines
+
+simplified bar interface
+
+------------------------------------------------------------------------
+r1482 | zas_ | 2009-03-06 16:04:35 +0100 (Fri, 06 Mar 2009) | 1 line
+
+Add debug versions of path_to_utf8() and path_from_utf8() which allows to report the caller file and line, this is enabled with --enable-debug-flags (and developer mode too).
+------------------------------------------------------------------------
+r1481 | zas_ | 2009-03-06 15:53:32 +0100 (Fri, 06 Mar 2009) | 1 line
+
+Fix utf8/locale conversion warning: the path passed to isdir() is not in UTF8 (if local fs is not in UFT8) so do not use it (isdir() uses stat_utf8() which calls path_from_utf8()).
+------------------------------------------------------------------------
+r1480 | nadvornik | 2009-03-06 15:42:32 +0100 (Fri, 06 Mar 2009) | 2 lines
+
+enable wrap mode in comment pane
+
+------------------------------------------------------------------------
+r1479 | nadvornik | 2009-03-06 15:24:11 +0100 (Fri, 06 Mar 2009) | 2 lines
+
+use standard GtkHPaned for sidebar width
+
+------------------------------------------------------------------------
+r1478 | zas_ | 2009-03-06 12:42:25 +0100 (Fri, 06 Mar 2009) | 1 line
+
+Fix tab completion when entering "/et[TAB]" it was changed to "et", this is fixed.
+------------------------------------------------------------------------
+r1477 | nadvornik | 2009-03-06 00:32:56 +0100 (Fri, 06 Mar 2009) | 2 lines
+
+do not crash if an exif entry is deleted during editing
+
+------------------------------------------------------------------------
+r1476 | nadvornik | 2009-03-06 00:02:15 +0100 (Fri, 06 Mar 2009) | 2 lines
+
+added popup menu to the exif pane
+
+------------------------------------------------------------------------
+r1475 | nadvornik | 2009-03-04 23:44:35 +0100 (Wed, 04 Mar 2009) | 2 lines
+
+indicate that the exif pane is empty
+
+------------------------------------------------------------------------
+r1474 | nadvornik | 2009-03-04 23:34:11 +0100 (Wed, 04 Mar 2009) | 2 lines
+
+prepared exif pane for popup menu
+
+------------------------------------------------------------------------
+r1473 | zas_ | 2009-03-04 22:33:19 +0100 (Wed, 04 Mar 2009) | 1 line
+
+layout_status_update_pixel_cb(): cleanup and optimization, drop pango markup in i18n string, use a small function to calculate numbers length, only allocate text when needed.
+------------------------------------------------------------------------
+r1472 | nadvornik | 2009-03-04 22:19:12 +0100 (Wed, 04 Mar 2009) | 2 lines
+
+dnd from advanced exif window to exif pane
+
+------------------------------------------------------------------------
+r1471 | nadvornik | 2009-03-04 19:53:47 +0100 (Wed, 04 Mar 2009) | 2 lines
+
+Display pixel coordinates and rgb - patch by Ruben Stein
+
+------------------------------------------------------------------------
+r1470 | nadvornik | 2009-03-04 00:17:07 +0100 (Wed, 04 Mar 2009) | 2 lines
+
+reorder exif pane entries with drag and drop
+
+------------------------------------------------------------------------
+r1469 | nadvornik | 2009-03-02 23:48:04 +0100 (Mon, 02 Mar 2009) | 2 lines
+
+overlay now survives image split
+
+------------------------------------------------------------------------
+r1468 | zas_ | 2009-03-02 22:06:32 +0100 (Mon, 02 Mar 2009) | 1 line
+
+Random tidy up.
+------------------------------------------------------------------------
+r1467 | zas_ | 2009-03-02 22:05:57 +0100 (Mon, 02 Mar 2009) | 1 line
+
+Fix memleak in previous patch.
+------------------------------------------------------------------------
+r1466 | zas_ | 2009-03-02 22:04:38 +0100 (Mon, 02 Mar 2009) | 1 line
+
+Add a directory separator at the end of names in tab completion list to indicate directories.
+------------------------------------------------------------------------
+r1465 | zas_ | 2009-03-02 00:38:36 +0100 (Mon, 02 Mar 2009) | 1 line
+
+Align exif labels vertically (visually better since name is now smaller than value).
+------------------------------------------------------------------------
+r1464 | zas_ | 2009-03-02 00:28:53 +0100 (Mon, 02 Mar 2009) | 1 line
+
+Update POTFILES.in and french translation.
+------------------------------------------------------------------------
+r1463 | zas_ | 2009-03-02 00:14:19 +0100 (Mon, 02 Mar 2009) | 1 line
+
+When g_new0() is used, drop redundant initializations to NULL, FALSE or 0, second pass.
+------------------------------------------------------------------------
+r1462 | nadvornik | 2009-03-01 22:35:18 +0100 (Sun, 01 Mar 2009) | 2 lines
+
+make the exif pane grow-only - this reduces sidebar jumping
+
+------------------------------------------------------------------------
+r1461 | zas_ | 2009-03-01 22:06:55 +0100 (Sun, 01 Mar 2009) | 1 line
+
+When g_new0() is used, drop redundant initializations to NULL, FALSE or 0.
+------------------------------------------------------------------------
+r1460 | zas_ | 2009-03-01 20:48:38 +0100 (Sun, 01 Mar 2009) | 1 line
+
+Clarify colorspace determination (exif 2.2/2.21).
+------------------------------------------------------------------------
+r1459 | zas_ | 2009-03-01 18:58:19 +0100 (Sun, 01 Mar 2009) | 1 line
+
+Enable 'Use profile from image' item of color management menu only if such profile information is available from image.
+------------------------------------------------------------------------
+r1458 | zas_ | 2009-03-01 18:13:14 +0100 (Sun, 01 Mar 2009) | 1 line
+
+Improve file checks using is_readable_file().
+------------------------------------------------------------------------
+r1457 | zas_ | 2009-03-01 18:11:51 +0100 (Sun, 01 Mar 2009) | 1 line
+
+Only attempt to read exif if the file is readable.
+------------------------------------------------------------------------
+r1456 | zas_ | 2009-03-01 18:10:45 +0100 (Sun, 01 Mar 2009) | 1 line
+
+Introduce is_readable_file() which test if file exists, is regular and readable.
+------------------------------------------------------------------------
+r1455 | zas_ | 2009-03-01 17:46:40 +0100 (Sun, 01 Mar 2009) | 1 line
+
+image_select(), image_set_selectable(): tidy up.
+------------------------------------------------------------------------
+r1454 | zas_ | 2009-03-01 17:43:48 +0100 (Sun, 01 Mar 2009) | 1 line
+
+Indentation fixes.
+------------------------------------------------------------------------
+r1453 | zas_ | 2009-03-01 16:54:37 +0100 (Sun, 01 Mar 2009) | 1 line
+
+image_post_process_color(): remove exif parameter, just extract it when needed.
+------------------------------------------------------------------------
+r1452 | zas_ | 2009-03-01 16:41:51 +0100 (Sun, 01 Mar 2009) | 1 line
+
+Slightly modify access_file() and use it to test profile files existence and read access.
+------------------------------------------------------------------------
+r1451 | zas_ | 2009-03-01 16:28:06 +0100 (Sun, 01 Mar 2009) | 1 line
+
+Add an ellipse when the file name is truncated.
+------------------------------------------------------------------------
+r1450 | zas_ | 2009-03-01 16:15:37 +0100 (Sun, 01 Mar 2009) | 1 line
+
+In the side bar, display the filename without the 'Filename:' prefix and makes it centered. Allow to select it for copy'n'paste.
+------------------------------------------------------------------------
+r1449 | nadvornik | 2009-03-01 14:37:30 +0100 (Sun, 01 Mar 2009) | 2 lines
+
+dropped ExifUIList
+
+------------------------------------------------------------------------
+r1448 | nadvornik | 2009-03-01 12:59:32 +0100 (Sun, 01 Mar 2009) | 2 lines
+
+do not use separate list of entries, rely on vbox
+
+------------------------------------------------------------------------
+r1447 | nadvornik | 2009-03-01 01:10:00 +0100 (Sun, 01 Mar 2009) | 2 lines
+
+fixed possible crash
+
+------------------------------------------------------------------------
+r1446 | nadvornik | 2009-03-01 00:59:02 +0100 (Sun, 01 Mar 2009) | 2 lines
+
+rewritten exif pane to support arbitrary number of entries
+
+------------------------------------------------------------------------
+r1445 | zas_ | 2009-02-28 21:57:26 +0100 (Sat, 28 Feb 2009) | 1 line
+
+max value -> value. Shorter.
+------------------------------------------------------------------------
+r1444 | zas_ | 2009-02-28 21:53:59 +0100 (Sat, 28 Feb 2009) | 1 line
+
+Add missing space between while and first parenthesis.
+------------------------------------------------------------------------
+r1443 | zas_ | 2009-02-28 21:52:51 +0100 (Sat, 28 Feb 2009) | 1 line
+
+Add missing space between switch and first parenthesis.
+------------------------------------------------------------------------
+r1442 | zas_ | 2009-02-28 21:48:47 +0100 (Sat, 28 Feb 2009) | 1 line
+
+No space between function name and first parenthesis, it eases greping (see CODING).
+------------------------------------------------------------------------
+r1441 | zas_ | 2009-02-28 21:24:42 +0100 (Sat, 28 Feb 2009) | 1 line
+
+Prevent Gtk assertion failures when no icon is set.
+------------------------------------------------------------------------
+r1440 | nadvornik | 2009-02-28 21:13:11 +0100 (Sat, 28 Feb 2009) | 3 lines
+
+show histogram label in the title
+adjusted label texts
+
+------------------------------------------------------------------------
+r1439 | nadvornik | 2009-02-28 20:44:58 +0100 (Sat, 28 Feb 2009) | 2 lines
+
+give the panes more control over expander title
+
+------------------------------------------------------------------------
+r1438 | zas_ | 2009-02-28 20:41:23 +0100 (Sat, 28 Feb 2009) | 1 line
+
+Color profiles menu: test for file access before allowing to select it as input profile.
+------------------------------------------------------------------------
+r1437 | nadvornik | 2009-02-28 19:51:25 +0100 (Sat, 28 Feb 2009) | 2 lines
+
+load icons for external editors
+
+------------------------------------------------------------------------
+r1436 | zas_ | 2009-02-28 19:01:16 +0100 (Sat, 28 Feb 2009) | 1 line
+
+Use g_utf8_casefold() to compare keywords, uppercased/lowercased keywords are now matched against predefined list.
+------------------------------------------------------------------------
+r1435 | nadvornik | 2009-02-28 18:20:16 +0100 (Sat, 28 Feb 2009) | 2 lines
+
+fixed bar_histogram headers
+
+------------------------------------------------------------------------
+r1434 | zas_ | 2009-02-28 18:12:00 +0100 (Sat, 28 Feb 2009) | 1 line
+
+Minor simplification and cleanup.
+------------------------------------------------------------------------
+r1433 | zas_ | 2009-02-28 17:59:20 +0100 (Sat, 28 Feb 2009) | 1 line
+
+image_change_complete(): reduce code redundancy and implify.
+------------------------------------------------------------------------
+r1432 | nadvornik | 2009-02-28 15:40:22 +0100 (Sat, 28 Feb 2009) | 3 lines
+
+fixed overlay configuration
+split overlay options between global and layout window
+
+------------------------------------------------------------------------
+r1431 | nadvornik | 2009-02-28 13:50:39 +0100 (Sat, 28 Feb 2009) | 2 lines
+
+save and restore toolbar configuration
+
+------------------------------------------------------------------------
+r1430 | nadvornik | 2009-02-28 10:59:27 +0100 (Sat, 28 Feb 2009) | 2 lines
+
+create toolbar from ui_manager
+
+------------------------------------------------------------------------
+r1429 | zas_ | 2009-02-28 00:25:31 +0100 (Sat, 28 Feb 2009) | 1 line
+
+Really fix up color profiles options tests. Add an indicator of the embedded color profile when recognized (a * just after sRGB or AdobeRGB compatible).
+------------------------------------------------------------------------
+r1428 | zas_ | 2009-02-27 23:28:17 +0100 (Fri, 27 Feb 2009) | 1 line
+
+Fix up color profiles menu: mark empty entries (but not NULL) as inactive.
+------------------------------------------------------------------------
+r1427 | nadvornik | 2009-02-27 22:30:28 +0100 (Fri, 27 Feb 2009) | 2 lines
+
+compute histmap in idle callback and only if the histogram is expanded
+
+------------------------------------------------------------------------
+r1426 | zas_ | 2009-02-26 22:46:27 +0100 (Thu, 26 Feb 2009) | 1 line
+
+Add a tooltip showing current histogram state on bar histogram.
+------------------------------------------------------------------------
+r1425 | zas_ | 2009-02-26 21:50:36 +0100 (Thu, 26 Feb 2009) | 1 line
+
+Clean up histogram stuff: options saving/restoring, osd histogram separation, tidy up.
+------------------------------------------------------------------------
+r1424 | zas_ | 2009-02-26 18:34:14 +0100 (Thu, 26 Feb 2009) | 1 line
+
+Add .bak and .mo extensions to svn:ignore.
+------------------------------------------------------------------------
+r1423 | nadvornik | 2009-02-26 09:04:52 +0100 (Thu, 26 Feb 2009) | 2 lines
+
+quoted_value is no longer needed
+
+------------------------------------------------------------------------
+r1422 | zas_ | 2009-02-26 00:04:08 +0100 (Thu, 26 Feb 2009) | 1 line
+
+Silent a minor warning.
+------------------------------------------------------------------------
+r1421 | nadvornik | 2009-02-25 22:09:17 +0100 (Wed, 25 Feb 2009) | 2 lines
+
+correctly save and restore overlay string
+
+------------------------------------------------------------------------
+r1420 | zas_ | 2009-02-25 21:54:38 +0100 (Wed, 25 Feb 2009) | 1 line
+
+Save bar pane histogram state to rc file.
+------------------------------------------------------------------------
+r1419 | zas_ | 2009-02-25 21:42:35 +0100 (Wed, 25 Feb 2009) | 1 line
+
+Fix up bar pane histogram contextual menu: show current state for channel and log mode.
+------------------------------------------------------------------------
+r1418 | nadvornik | 2009-02-25 20:46:03 +0100 (Wed, 25 Feb 2009) | 3 lines
+
+reuse original utility_box (image + sidebars) on layout change (switch
+from list to icon view etc.)
+
+------------------------------------------------------------------------
+r1417 | nadvornik | 2009-02-25 19:21:20 +0100 (Wed, 25 Feb 2009) | 2 lines
+
+fixed filter initialization
+
+------------------------------------------------------------------------
+r1416 | nadvornik | 2009-02-24 23:21:28 +0100 (Tue, 24 Feb 2009) | 2 lines
+
+improved bar_sort configuration
+
+------------------------------------------------------------------------
+r1415 | zas_ | 2009-02-24 22:08:16 +0100 (Tue, 24 Feb 2009) | 1 line
+
+Add a contextual menu on bar pane histogram allowing to change channels and mode. More work needed.
+------------------------------------------------------------------------
+r1414 | nadvornik | 2009-02-24 21:47:38 +0100 (Tue, 24 Feb 2009) | 2 lines
+
+fixed --fullscreen option together with enabled bar 
+
+------------------------------------------------------------------------
+r1413 | nadvornik | 2009-02-24 21:34:39 +0100 (Tue, 24 Feb 2009) | 2 lines
+
+simplified and improved bar configuration
+
+------------------------------------------------------------------------
+r1412 | zas_ | 2009-02-24 19:00:45 +0100 (Tue, 24 Feb 2009) | 1 line
+
+Enclose macro parameters names with _ to differentiate them from variable names.
+------------------------------------------------------------------------
+r1411 | zas_ | 2009-02-24 18:47:45 +0100 (Tue, 24 Feb 2009) | 5 lines
+
+Since READ_*() macros are now exported, do not hide
+the if() continue; statement in them.
+Wrap WRITE_STRING() instructions in a safer do {} while (0).
+
+
+------------------------------------------------------------------------
+r1410 | nadvornik | 2009-02-23 23:13:09 +0100 (Mon, 23 Feb 2009) | 2 lines
+
+simplified config writing 
+
+------------------------------------------------------------------------
+r1409 | nadvornik | 2009-02-23 22:21:15 +0100 (Mon, 23 Feb 2009) | 2 lines
+
+enabled commandline again
+
+------------------------------------------------------------------------
+r1408 | zas_ | 2009-02-23 18:20:40 +0100 (Mon, 23 Feb 2009) | 1 line
+
+Introduce helpers histogram_toggle_channel() and histogram_toggle_mode().
+------------------------------------------------------------------------
+r1407 | zas_ | 2009-02-22 18:46:42 +0100 (Sun, 22 Feb 2009) | 1 line
+
+Set svn:ignore on Makefile and Makefile.in.
+------------------------------------------------------------------------
+r1406 | zas_ | 2009-02-22 18:40:32 +0100 (Sun, 22 Feb 2009) | 1 line
+
+Fix and simplify histogram code, drop histogram based on mean value.
+------------------------------------------------------------------------
+r1405 | nadvornik | 2009-02-22 16:35:37 +0100 (Sun, 22 Feb 2009) | 4 lines
+
+config file format changed to XML
+save and restore all layout windows
+save and restore sidebar configuration
+
+------------------------------------------------------------------------
+r1404 | zas_ | 2009-02-22 14:29:49 +0100 (Sun, 22 Feb 2009) | 1 line
+
+Attempt to simplify and fix histrogram code.
+------------------------------------------------------------------------
+r1403 | zas_ | 2009-02-21 21:43:35 +0100 (Sat, 21 Feb 2009) | 1 line
+
+Glibification again.
+------------------------------------------------------------------------
+r1402 | zas_ | 2009-02-21 19:28:53 +0100 (Sat, 21 Feb 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1401 | zas_ | 2009-02-21 19:04:52 +0100 (Sat, 21 Feb 2009) | 1 line
+
+Glibification.
+------------------------------------------------------------------------
+r1400 | zas_ | 2009-02-21 11:53:18 +0100 (Sat, 21 Feb 2009) | 1 line
+
+Move grid color setting to histogram_new().
+------------------------------------------------------------------------
+r1399 | zas_ | 2009-02-21 11:33:56 +0100 (Sat, 21 Feb 2009) | 1 line
+
+Remove histogram_ prefix from struct _Histogram fields names and rename them more properly.
+------------------------------------------------------------------------
+r1398 | zas_ | 2009-02-21 11:29:13 +0100 (Sat, 21 Feb 2009) | 1 line
+
+Add grid to bar histogram, simplify the code and draw horizontal lines too.
+------------------------------------------------------------------------
+r1397 | zas_ | 2009-02-19 18:36:38 +0100 (Thu, 19 Feb 2009) | 1 line
+
+Fix bug 2599857: file list sort order was wrong in many cases.
+------------------------------------------------------------------------
+r1396 | nadvornik | 2009-02-16 23:48:30 +0100 (Mon, 16 Feb 2009) | 2 lines
+
+fixed compiler warning
+
+------------------------------------------------------------------------
+r1395 | nadvornik | 2009-02-16 22:01:27 +0100 (Mon, 16 Feb 2009) | 2 lines
+
+hopefully fixed a freeze on solaris
+
+------------------------------------------------------------------------
+r1394 | nadvornik | 2009-02-15 20:25:55 +0100 (Sun, 15 Feb 2009) | 2 lines
+
+added histogram pane
+
+------------------------------------------------------------------------
+r1393 | nadvornik | 2009-02-15 18:27:48 +0100 (Sun, 15 Feb 2009) | 2 lines
+
+fixed histogram drawing
+
+------------------------------------------------------------------------
+r1392 | zas_ | 2009-02-15 16:58:01 +0100 (Sun, 15 Feb 2009) | 1 line
+
+Remove redundant line of code.
+------------------------------------------------------------------------
+r1391 | zas_ | 2009-02-15 16:56:48 +0100 (Sun, 15 Feb 2009) | 1 line
+
+Fix up few compilation warnings.
+------------------------------------------------------------------------
+r1390 | nadvornik | 2009-02-15 14:11:21 +0100 (Sun, 15 Feb 2009) | 3 lines
+
+histogram caching
+histogram interface prepared for histogram pane
+
+------------------------------------------------------------------------
+r1389 | nadvornik | 2009-02-15 10:36:53 +0100 (Sun, 15 Feb 2009) | 3 lines
+
+separated "normal" and advanced exif, "Normal" exif is now in the
+generic bar, advanced exif is in separate window.
+
+------------------------------------------------------------------------
+r1388 | nadvornik | 2009-02-14 21:26:30 +0100 (Sat, 14 Feb 2009) | 2 lines
+
+droped Preferences dialog, sidebar should replace it completely
+
+------------------------------------------------------------------------
+r1387 | nadvornik | 2009-02-14 20:50:54 +0100 (Sat, 14 Feb 2009) | 4 lines
+
+replaced bar_info with an universal bar, restored the original
+functionality (more or less)
+bar configuration is not yet saved
+
+------------------------------------------------------------------------
+r1386 | zas_ | 2009-02-09 10:02:04 +0100 (Mon, 09 Feb 2009) | 1 line
+
+Update ChangeLog using C locale date format, add a script to ease future updates.
+------------------------------------------------------------------------
 r1385 | nadvornik | 2009-02-07 22:03:11 +0100 (Sat, 07 Feb 2009) | 4 lines
 
 force at least one idle call before writting metadata
