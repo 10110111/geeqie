@@ -1541,7 +1541,7 @@ void layout_status_update_pixel_cb(PixbufRenderer *pr, gpointer data)
 	
 	pixbuf_renderer_get_mouse_position(pr, &x_pixel, &y_pixel);
 	
-	if(x_pixel > 0 && y_pixel > 0)
+	if(x_pixel >= 0 && y_pixel >= 0)
 		{
 		gint r_mouse, g_mouse, b_mouse;
 		gint width, height;

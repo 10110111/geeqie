@@ -4197,8 +4197,8 @@ gboolean pixbuf_renderer_get_mouse_position(PixbufRenderer *pr, gint *x_pixel_re
 		return FALSE;
 		}
 	
-	x_pixel = (gint)((gdouble)(pr->x_mouse - pr->x_offset + pr->x_scroll) / pr->scale);
-	y_pixel = (gint)((gdouble)(pr->y_mouse - pr->y_offset + pr->y_scroll) / pr->scale);
+	x_pixel = floor((gdouble)(pr->x_mouse - pr->x_offset + pr->x_scroll) / pr->scale);
+	y_pixel = floor((gdouble)(pr->y_mouse - pr->y_offset + pr->y_scroll) / pr->scale);
 	x_pixel_clamped = CLAMP(x_pixel, 0, pr->image_width - 1);
 	y_pixel_clamped = CLAMP(y_pixel, 0, pr->image_height - 1);
 	
