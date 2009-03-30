@@ -12,6 +12,7 @@
 ./src/collect-dlg.c
 ./src/collect-io.c
 ./src/collect-table.c
+./src/desktop_file.c
 ./src/dupe.c
 ./src/editors.c
 ./src/exif.c

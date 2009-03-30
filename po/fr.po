@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.0alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-30 21:57+0200\n"
-"PO-Revision-Date: 2009-03-30 22:00+0100\n"
+"POT-Creation-Date: 2009-03-30 22:38+0200\n"
+"PO-Revision-Date: 2009-03-30 22:41+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french <geeqie-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -38,9 +38,9 @@ msgstr "Description"
 msgid "Value"
 msgstr "Valeur"
 
-#: src/advanced_exif.c:423 src/dupe.c:2654 src/dupe.c:3175 src/print.c:3249
-#: src/search.c:2849 src/utilops.c:442 src/view_file_list.c:1984
-#: src/view_file_list.c:1988
+#: src/advanced_exif.c:423 src/desktop_file.c:406 src/dupe.c:2654
+#: src/dupe.c:3175 src/print.c:3249 src/search.c:2849 src/utilops.c:442
+#: src/view_file_list.c:1984 src/view_file_list.c:1988
 msgid "Name"
 msgstr "Nom"
 
@@ -839,6 +839,35 @@ msgstr "Omettre les dossier_s"
 msgid "Cancel"
 msgstr "Annuler"
 
+#: src/desktop_file.c:59 src/desktop_file.c:70
+msgid "Can't save"
+msgstr "Sauvegarde impossible"
+
+#: src/desktop_file.c:59
+msgid "Please specify file name."
+msgstr "Merci d'indiquer un nom de fichier."
+
+#: src/desktop_file.c:153 src/desktop_file.c:388
+msgid "Desktop file"
+msgstr "Fichier .desktop"
+
+#: src/desktop_file.c:267
+msgid "new.desktop"
+msgstr "nouveau.desktop"
+
+#: src/desktop_file.c:337 src/preferences.c:1324
+msgid "Editors"
+msgstr "Éditeurs"
+
+#: src/desktop_file.c:397
+msgid "Hidden"
+msgstr "Caché"
+
+#: src/desktop_file.c:415 src/dupe.c:2660 src/dupe.c:3179 src/print.c:3251
+#: src/search.c:2853 src/ui_pathsel.c:1111
+msgid "Path"
+msgstr "Chemin"
+
 #: src/dupe.c:100
 msgid "Drop files to compare them."
 msgstr "Glisser des fichiers pour les comparer."
@@ -923,11 +952,6 @@ msgstr "Dimensions"
 #: src/dupe.c:2659
 msgid "Checksum"
 msgstr "Somme de contrôle"
-
-#: src/dupe.c:2660 src/dupe.c:3179 src/print.c:3251 src/search.c:2853
-#: src/ui_pathsel.c:1111
-msgid "Path"
-msgstr "Chemin"
 
 #: src/dupe.c:2661
 msgid "Similarity (high)"
@@ -3171,10 +3195,6 @@ msgstr "Sidecar permis"
 #: src/preferences.c:1298 src/preferences.c:1380 src/preferences.c:1492
 msgid "Defaults"
 msgstr "Configuration par défaut"
-
-#: src/preferences.c:1324
-msgid "Editors"
-msgstr "Éditeurs"
 
 #: src/preferences.c:1329
 msgid "#"
