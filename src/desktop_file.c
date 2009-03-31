@@ -494,10 +494,16 @@ static void editor_list_window_create(void)
 	gtk_tree_view_column_set_title(column, _("Hidden"));
 	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 	renderer = gtk_cell_renderer_toggle_new();
-	gtk_tree_view_column_pack_start(column, renderer, FALSE);
+	g_object_set(G_OBJECT(renderer),
+		     "activatable", FALSE, 	// not clickable for now
+		     "xalign", 0.5, 		// centered
+		     NULL);
+	gtk_tree_view_column_pack_start(column, renderer, TRUE); // TRUE needed for centering
 	gtk_tree_view_column_add_attribute(column, renderer, "active", DESKTOP_FILE_COLUMN_HIDDEN);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(ewl->view), column);
 	gtk_tree_view_column_set_sort_column_id(column, DESKTOP_FILE_COLUMN_HIDDEN);
+	gtk_tree_view_column_set_alignment(column, 0.5); 
+
 
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, _("Name"));
