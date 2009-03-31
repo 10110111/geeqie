@@ -72,7 +72,7 @@ static void vdtree_busy_pop(ViewDir *vd)
 	if (VDTREE(vd)->busy_ref > 0) VDTREE(vd)->busy_ref--;
 }
 
-gint vdtree_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter, GtkTreeIter *parent)
+gboolean vdtree_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter, GtkTreeIter *parent)
 {
 	GtkTreeModel *store;
 	gboolean valid;

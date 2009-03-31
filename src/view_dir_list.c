@@ -41,7 +41,6 @@ gboolean vdlist_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
 {
 	GtkTreeModel *store;
 	gboolean valid;
-	gint row = 0;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
 	valid = gtk_tree_model_get_iter_first(store, iter);
@@ -49,13 +48,12 @@ gboolean vdlist_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
 		{
 		FileData *fd_n;
 		gtk_tree_model_get(GTK_TREE_MODEL(store), iter, DIR_COLUMN_POINTER, &fd_n, -1);
-		if (fd_n == fd) return row;
+		if (fd_n == fd) return TRUE;
 
 		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), iter);
-		row++;
 		}
 
-	return -1;
+	return FALSE;
 }
 
 
