@@ -162,7 +162,12 @@ static void bar_pane_comment_write_config(GtkWidget *pane, GString *outstr, gint
 static void bar_pane_comment_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneCommentData *pcd = data;
-	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == pcd->fd) bar_pane_comment_update(pcd);
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == pcd->fd) 
+		{
+		DEBUG_1("Notify pane_comment: %s %04x", fd->path, type);
+
+		bar_pane_comment_update(pcd);
+		}
 }
 
 static void bar_pane_comment_changed(GtkTextBuffer *buffer, gpointer data)

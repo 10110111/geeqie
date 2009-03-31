@@ -528,7 +528,7 @@ static gint image_cache_get(ImageWindow *imd)
 		image_change_pixbuf(imd, imd->image_fd->pixbuf, image_zoom_get(imd), FALSE);
 		}
 	
-	file_cache_dump(image_get_cache());
+//	file_cache_dump(image_get_cache());
 	return success;
 }
 
@@ -1394,6 +1394,7 @@ static void image_notify_cb(FileData *fd, NotifyType type, gpointer data)
 
 	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE)) && fd == imd->image_fd)
 		{
+		DEBUG_1("Notify image: %s %04x", fd->path, type);
 		image_reload(imd);
 		}
 }

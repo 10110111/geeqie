@@ -130,7 +130,11 @@ static void bar_pane_histogram_write_config(GtkWidget *pane, GString *outstr, gi
 static void bar_pane_histogram_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneHistogramData *phd = data;
-	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_HISTMAP | NOTIFY_PIXBUF)) && fd == phd->fd) bar_pane_histogram_update(phd);
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_HISTMAP | NOTIFY_PIXBUF)) && fd == phd->fd) 
+		{
+		DEBUG_1("Notify pane_histogram: %s %04x", fd->path, type);
+		bar_pane_histogram_update(phd);
+		}
 }
 
 static gboolean bar_pane_histogram_expose_event_cb(GtkWidget *widget, GdkEventExpose *event, gpointer data)

@@ -2281,7 +2281,7 @@ gboolean file_data_register_notify_func(FileDataNotifyFunc func, gpointer data, 
 	nd->priority = priority;
 
 	notify_func_list = g_list_insert_sorted(notify_func_list, nd, file_data_notify_sort);
-	DEBUG_1("Notify func registered: %p", nd);
+	DEBUG_2("Notify func registered: %p", nd);
 	
 	return TRUE;
 }
@@ -2298,7 +2298,7 @@ gboolean file_data_unregister_notify_func(FileDataNotifyFunc func, gpointer data
 			{
 			notify_func_list = g_list_delete_link(notify_func_list, work);
 			g_free(nd);
-			DEBUG_1("Notify func unregistered: %p", nd);
+			DEBUG_2("Notify func unregistered: %p", nd);
 			return TRUE;
 			}
 		work = work->next;
@@ -2316,7 +2316,6 @@ void file_data_send_notification(FileData *fd, NotifyType type)
 		{
 		NotifyData *nd = (NotifyData *)work->data;
 		
-		DEBUG_1("Notify func calling: %p %s", nd, fd->path);
 		nd->func(fd, type, nd->data);
 		work = work->next;
 		}

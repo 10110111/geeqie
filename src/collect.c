@@ -750,6 +750,8 @@ static void collection_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	CollectionData *cd = data;
 
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
+
+	DEBUG_1("Notify collection: %s %04x", fd->path, type);
 	
 	switch (fd->change->type)
 		{

@@ -1704,6 +1704,8 @@ static void view_window_notify_cb(FileData *fd, NotifyType type, gpointer data)
 
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
 	
+	DEBUG_1("Notify view_window: %s %04x", fd->path, type);
+
 	switch (fd->change->type)
 		{
 		case FILEDATA_CHANGE_MOVE:

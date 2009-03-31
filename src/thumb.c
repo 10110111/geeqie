@@ -536,6 +536,7 @@ void thumb_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE)) && fd->thumb_pixbuf)
 		{
+		DEBUG_1("Notify thumb: %s %04x", fd->path, type);
 		g_object_unref(fd->thumb_pixbuf);
 		fd->thumb_pixbuf = NULL;
 		}

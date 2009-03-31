@@ -3572,6 +3572,8 @@ static void dupe_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	DupeWindow *dw = data;
 
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
+
+	DEBUG_1("Notify dupe: %s %04x", fd->path, type);
 	
 	switch (fd->change->type)
 		{

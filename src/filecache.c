@@ -60,10 +60,10 @@ gboolean file_cache_get(FileCacheData *fc, FileData *fd)
 		if (fce->fd == fd)
 			{
 			/* entry exists */
-			DEBUG_1("cache hit: fc=%p %s", fc, fd->path);
+			DEBUG_2("cache hit: fc=%p %s", fc, fd->path);
 			if (work == fc->list) return TRUE; /* already at the beginning */
 			/* move it to the beginning */
-			DEBUG_1("cache move to front: fc=%p %s", fc, fd->path);
+			DEBUG_2("cache move to front: fc=%p %s", fc, fd->path);
 			fc->list = g_list_remove_link(fc->list, work);
 			fc->list = g_list_concat(work, fc->list);
 			
@@ -75,7 +75,7 @@ gboolean file_cache_get(FileCacheData *fc, FileData *fd)
 			}
 		work = work->next;
 		}
-	DEBUG_1("cache miss: fc=%p %s", fc, fd->path);
+	DEBUG_2("cache miss: fc=%p %s", fc, fd->path);
 	return FALSE;
 }
 
@@ -95,7 +95,7 @@ void file_cache_set_size(FileCacheData *fc, gulong size)
 		fc->list = g_list_delete_link(fc->list, work);
 		work = prev;
 		
-		DEBUG_1("file changed - cache remove: fc=%p %s", fc, last_fe->fd->path);
+		DEBUG_2("file changed - cache remove: fc=%p %s", fc, last_fe->fd->path);
 		fc->size -= last_fe->size;
 		fc->release(last_fe->fd);
 		file_data_unref(last_fe->fd);
@@ -109,7 +109,7 @@ void file_cache_put(FileCacheData *fc, FileData *fd, gulong size)
 
 	if (file_cache_get(fc, fd)) return;
 	
-	DEBUG_1("cache add: fc=%p %s", fc, fd->path);
+	DEBUG_2("cache add: fc=%p %s", fc, fd->path);
 	fe = g_new(FileCacheEntry, 1);
 	fe->fd = file_data_ref(fd);
 	fe->size = size;
@@ -183,6 +183,7 @@ static void file_cache_notify_cb(FileData *fd, NotifyType type, gpointer data)
 
 	if (type & (NOTIFY_REREAD | NOTIFY_CHANGE)) /* invalidate the entry on each file change */
 		{
+		DEBUG_1("Notify cache: %s %04x", fd->path, type);
 		file_cache_remove_fd(fc, fd);
 		}
 }

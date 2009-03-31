@@ -1894,6 +1894,8 @@ void layout_image_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	LayoutWindow *lw = data;
 
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
+
+	DEBUG_1("Notify layout_image: %s %04x", fd->path, type);
 	
 	switch (fd->change->type)
 		{

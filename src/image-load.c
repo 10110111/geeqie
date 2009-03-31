@@ -163,7 +163,7 @@ static void image_loader_finalize(GObject *object)
 
 	while (g_source_remove_by_user_data(il)) 
 		{
-		DEBUG_1("pending signals detected");
+		DEBUG_2("pending signals detected");
 		}
 	
 	while (il->area_param_list) 

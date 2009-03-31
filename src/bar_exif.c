@@ -314,7 +314,11 @@ gint bar_pane_exif_event(GtkWidget *bar, GdkEvent *event)
 static void bar_pane_exif_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneExifData *ped = data;
-	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == ped->fd) bar_pane_exif_update(ped);
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == ped->fd) 
+		{
+		DEBUG_1("Notify pane_exif: %s %04x", fd->path, type);
+		bar_pane_exif_update(ped);
+		}
 }
 
 

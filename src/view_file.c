@@ -872,6 +872,7 @@ void vf_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	
 	if (refresh)
 		{
+		DEBUG_1("Notify vf: %s %04x", fd->path, type);
 		vf_refresh_idle(vf);
 		}
 }

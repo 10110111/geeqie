@@ -1027,6 +1027,8 @@ static void vd_notify_cb(FileData *fd, NotifyType type, gpointer data)
 
 	if (!S_ISDIR(fd->mode)) return; /* this gives correct results even on recently deleted files/directories */
 
+	DEBUG_1("Notify vd: %s %04x", fd->path, type);
+
 	base = remove_level_from_path(fd->path);
 
 	if (vd->type == DIRVIEW_LIST)
