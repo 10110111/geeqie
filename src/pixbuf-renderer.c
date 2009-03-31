@@ -225,7 +225,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 
 static void pr_signals_connect(PixbufRenderer *pr);
 static void pr_size_cb(GtkWidget *widget, GtkAllocation *allocation, gpointer data);
-static void pr_unmap_cb(GtkWidget *widget, gpointer data);
+static void pr_hierarchy_changed_cb(GtkWidget *widget, GtkWidget *previous_toplevel, gpointer data);
 static void pixbuf_renderer_paint(PixbufRenderer *pr, GdkRectangle *area);
 static gint pr_queue_draw_idle_cb(gpointer data);
 
@@ -536,8 +536,8 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 	g_signal_connect_after(G_OBJECT(box), "size_allocate",
 			       G_CALLBACK(pr_size_cb), pr);
 
-	g_signal_connect(G_OBJECT(pr), "unmap",
-			 G_CALLBACK(pr_unmap_cb), pr);
+	g_signal_connect(G_OBJECT(pr), "hierarchy-changed",
+			 G_CALLBACK(pr_hierarchy_changed_cb), pr);
 
 	pr_signals_connect(pr);
 }
@@ -1161,7 +1161,7 @@ void pixbuf_renderer_overlay_remove(PixbufRenderer *pr, gint id)
 	pixbuf_renderer_overlay_set(pr, id, NULL, 0, 0);
 }
 
-static void pr_unmap_cb(GtkWidget *widget, gpointer data)
+static void pr_hierarchy_changed_cb(GtkWidget *widget, GtkWidget *previous_toplevel, gpointer data)
 {
 	PixbufRenderer *pr = data;
 	pr_overlay_list_reset_window(pr);
@@ -3862,8 +3862,8 @@ static void pr_signals_connect(PixbufRenderer *pr)
 			 G_CALLBACK(pr_mouse_release_cb), pr);
 	g_signal_connect(G_OBJECT(pr), "leave_notify_event",
 			 G_CALLBACK(pr_mouse_leave_cb), pr);
-	g_signal_connect(G_OBJECT(pr), "unmap",
-			 G_CALLBACK(pr_unmap_cb), pr);
+	g_signal_connect(G_OBJECT(pr), "hierarchy-changed",
+			 G_CALLBACK(pr_hierarchy_changed_cb), pr);
 
 	gtk_widget_set_events(GTK_WIDGET(pr), GDK_POINTER_MOTION_MASK |
 					      GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK |
