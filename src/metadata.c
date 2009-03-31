@@ -473,14 +473,12 @@ GList *metadata_read_list(FileData *fd, const gchar *key, MetadataFormat format)
 		{
 	        if (metadata_legacy_read(fd, &list, NULL)) return list;
 	        }
-
-	if (strcmp(key, COMMENT_KEY) == 0)
+	else if (strcmp(key, COMMENT_KEY) == 0)
 		{
 		gchar *comment = NULL;
 	        if (metadata_legacy_read(fd, NULL, &comment)) return g_list_append(NULL, comment);
 	        }
-	
-	if (strncmp(key, "file.", 5) == 0)
+	else if (strncmp(key, "file.", 5) == 0)
 		{
 	        return g_list_append(NULL, metadata_file_info(fd, key, format));
 		}

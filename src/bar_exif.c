@@ -782,11 +782,10 @@ GtkWidget *bar_pane_exif_new_from_config(const gchar **attribute_names, const gc
 void bar_pane_exif_update_from_config(GtkWidget *pane, const gchar **attribute_names, const gchar **attribute_values)
 {
 	PaneExifData *ped;
+	gchar *title = NULL;
 
 	ped = g_object_get_data(G_OBJECT(pane), "pane_data");
 	if (!ped) return;
-
-	gchar *title = NULL;
 
 	while (*attribute_names)
 		{
