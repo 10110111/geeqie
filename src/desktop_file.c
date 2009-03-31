@@ -40,10 +40,22 @@ struct _EditorWindow
 	gboolean modified;
 };
 
+typedef struct _EditorListWindow EditorListWindow;
+struct _EditorListWindow
+{
+	GtkWidget *window;
+	GtkWidget *view;
+	GenericDialog *gd;	/* any open confirm dialogs ? */
+};
 
-static GtkWidget *editor_list_window = NULL;
-GtkWidget *editor_list_view = NULL;
+typedef struct _EditorWindowDel_Data EditorWindowDel_Data;
+struct _EditorWindowDel_Data
+{
+	EditorListWindow *ewl;
+	gchar *path;
+};
 
+static EditorListWindow *editor_list_window = NULL;
 
 static gboolean editor_window_save(EditorWindow *ew)
 {
@@ -231,9 +243,9 @@ static void editor_window_new(const gchar *src_path, const gchar *desktop_name)
 
 static void editor_list_window_close_cb(GtkWidget *widget, gpointer data)
 {
-	gtk_widget_destroy(editor_list_window);
+	gtk_widget_destroy(editor_list_window->window);
+	g_free(editor_list_window);
 	editor_list_window = NULL;
-	editor_list_view = NULL;
 }
 
 static gboolean editor_list_window_delete(GtkWidget *widget, GdkEventAny *event, gpointer data)
@@ -242,14 +254,90 @@ static gboolean editor_list_window_delete(GtkWidget *widget, GdkEventAny *event,
 	return TRUE;
 }
 
-static void editor_list_window_edit_cb(GtkWidget *widget, gpointer data)
+static void editor_list_window_delete_dlg_cancel(GenericDialog *gd, gpointer data);
+
+static void editor_list_window_delete_dlg_cancel(GenericDialog *gd, gpointer data)
 {
-	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(editor_list_view)); 
+	EditorWindowDel_Data *ewdl = data;
+
+	ewdl->ewl->gd = NULL;
+	g_free(ewdl->path);
+	g_free(ewdl);
+}
+
+static void editor_list_window_delete_dlg_ok_cb(GenericDialog *gd, gpointer data)
+{
+	EditorWindowDel_Data *ewdl = data;
+
+	if (!unlink_file(ewdl->path))
+		{
+		gchar *text = g_strdup_printf(_("Unable to delete file:\n%s"), ewdl->path);
+		warning_dialog(_("File deletion failed"), text, GTK_STOCK_DIALOG_WARNING, NULL);
+		g_free(text);
+		}
+	else
+		{
+		/* refresh list */
+		layout_editors_reload_all();
+		}
+
+	editor_list_window_delete_dlg_cancel(gd, data);
+}
+
+static void editor_list_window_delete_cb(GtkWidget *widget, gpointer data)
+{
+	EditorListWindow *ewl = data;
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view)); 
 	GtkTreeIter iter;
 
 	if (gtk_tree_selection_get_selected(sel, NULL, &iter)) 
 		{
-		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(editor_list_view));
+		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(ewl->view));
+		gchar *path;
+		gchar *key;
+		gchar *text;
+		EditorWindowDel_Data *ewdl;
+
+		gtk_tree_model_get(store, &iter,
+				   DESKTOP_FILE_COLUMN_PATH, &path,
+				   DESKTOP_FILE_COLUMN_KEY, &key, -1);
+
+
+		ewdl = g_new(EditorWindowDel_Data, 1);
+		ewdl->ewl = ewl;
+		ewdl->path = path;
+	
+		if (ewl->gd)
+			{
+			GenericDialog *gd = ewl->gd;
+			editor_list_window_delete_dlg_cancel(ewl->gd, ewl->gd->data);
+			generic_dialog_close(gd);
+			}
+
+		ewl->gd = generic_dialog_new(_("Delete file"), "dlg_confirm",
+					    NULL, TRUE,
+					    editor_list_window_delete_dlg_cancel, ewdl);
+
+		generic_dialog_add_button(ewl->gd, GTK_STOCK_DELETE, NULL, editor_list_window_delete_dlg_ok_cb, TRUE);
+
+		text = g_strdup_printf(_("About to delete the file:\n %s"), path);
+		generic_dialog_add_message(ewl->gd, GTK_STOCK_DIALOG_QUESTION,
+					   _("Delete file"), text);
+		g_free(text);
+
+		gtk_widget_show(ewl->gd->dialog);
+		}
+}
+
+static void editor_list_window_edit_cb(GtkWidget *widget, gpointer data)
+{
+	EditorListWindow *ewl = data;
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view)); 
+	GtkTreeIter iter;
+
+	if (gtk_tree_selection_get_selected(sel, NULL, &iter)) 
+		{
+		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(ewl->view));
 		gchar *path;
 		gchar *key;
 
@@ -333,17 +421,20 @@ static void editor_list_window_create(void)
 	GtkTreeViewColumn *column;
 	GtkTreeModel *store;
 	GtkTreeSortable *sortable;
+	EditorListWindow *ewl;
+
+	editor_list_window = ewl = g_new0(EditorListWindow, 1);
 	
-	editor_list_window = window_new(GTK_WINDOW_TOPLEVEL, "editors", PIXBUF_INLINE_ICON_CONFIG, NULL, _("Editors"));
-	gtk_window_set_type_hint(GTK_WINDOW(editor_list_window), GDK_WINDOW_TYPE_HINT_DIALOG);
-	g_signal_connect(G_OBJECT(editor_list_window), "delete_event",
+	ewl->window = window_new(GTK_WINDOW_TOPLEVEL, "editors", PIXBUF_INLINE_ICON_CONFIG, NULL, _("Editors"));
+	gtk_window_set_type_hint(GTK_WINDOW(ewl->window), GDK_WINDOW_TYPE_HINT_DIALOG);
+	g_signal_connect(G_OBJECT(ewl->window), "delete_event",
 			 G_CALLBACK(editor_list_window_delete), NULL);
-	gtk_window_set_default_size(GTK_WINDOW(editor_list_window), CONFIG_WINDOW_DEF_WIDTH, CONFIG_WINDOW_DEF_HEIGHT);
-	gtk_window_set_resizable(GTK_WINDOW(editor_list_window), TRUE);
-	gtk_container_set_border_width(GTK_CONTAINER(editor_list_window), PREF_PAD_BORDER);
+	gtk_window_set_default_size(GTK_WINDOW(ewl->window), CONFIG_WINDOW_DEF_WIDTH, CONFIG_WINDOW_DEF_HEIGHT);
+	gtk_window_set_resizable(GTK_WINDOW(ewl->window), TRUE);
+	gtk_container_set_border_width(GTK_CONTAINER(ewl->window), PREF_PAD_BORDER);
 
 	win_vbox = gtk_vbox_new(FALSE, PREF_PAD_SPACE);
-	gtk_container_add(GTK_CONTAINER(editor_list_window), win_vbox);
+	gtk_container_add(GTK_CONTAINER(ewl->window), win_vbox);
 	gtk_widget_show(win_vbox);
 
 	hbox = gtk_hbutton_box_new();
@@ -354,19 +445,25 @@ static void editor_list_window_create(void)
 
 
 	button = pref_button_new(NULL, GTK_STOCK_NEW, NULL, FALSE,
-				 G_CALLBACK(editor_list_window_new_cb), NULL);
+				 G_CALLBACK(editor_list_window_new_cb), ewl);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
 	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
 	gtk_widget_show(button);
 
 	button = pref_button_new(NULL, GTK_STOCK_EDIT, NULL, FALSE,
-				 G_CALLBACK(editor_list_window_edit_cb), NULL);
+				 G_CALLBACK(editor_list_window_edit_cb), ewl);
+	gtk_container_add(GTK_CONTAINER(hbox), button);
+	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_show(button);
+
+	button = pref_button_new(NULL, GTK_STOCK_DELETE, NULL, FALSE,
+				 G_CALLBACK(editor_list_window_delete_cb), ewl);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
 	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
 	gtk_widget_show(button);
 
 	button = pref_button_new(NULL, GTK_STOCK_CLOSE, NULL, FALSE,
-				 G_CALLBACK(editor_list_window_close_cb), NULL);
+				 G_CALLBACK(editor_list_window_close_cb), ewl);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
 	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
 	gtk_widget_show(button);
@@ -378,11 +475,11 @@ static void editor_list_window_create(void)
 	gtk_box_pack_start(GTK_BOX(win_vbox), scrolled, TRUE, TRUE, 5);
 	gtk_widget_show(scrolled);
 
-	editor_list_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(desktop_file_list));
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(editor_list_view));
+	ewl->view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(desktop_file_list));
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view));
 	gtk_tree_selection_set_mode(GTK_TREE_SELECTION(selection), GTK_SELECTION_SINGLE);
 
-	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(editor_list_view), FALSE);
+	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(ewl->view), FALSE);
 
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, _("Desktop file"));
@@ -390,7 +487,7 @@ static void editor_list_window_create(void)
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
 	gtk_tree_view_column_add_attribute(column, renderer, "text", DESKTOP_FILE_COLUMN_KEY);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(editor_list_view), column);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(ewl->view), column);
 	gtk_tree_view_column_set_sort_column_id(column, DESKTOP_FILE_COLUMN_KEY);
 
 	column = gtk_tree_view_column_new();
@@ -399,7 +496,7 @@ static void editor_list_window_create(void)
 	renderer = gtk_cell_renderer_toggle_new();
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
 	gtk_tree_view_column_add_attribute(column, renderer, "active", DESKTOP_FILE_COLUMN_HIDDEN);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(editor_list_view), column);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(ewl->view), column);
 	gtk_tree_view_column_set_sort_column_id(column, DESKTOP_FILE_COLUMN_HIDDEN);
 
 	column = gtk_tree_view_column_new();
@@ -408,7 +505,7 @@ static void editor_list_window_create(void)
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
 	gtk_tree_view_column_add_attribute(column, renderer, "text", DESKTOP_FILE_COLUMN_NAME);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(editor_list_view), column);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(ewl->view), column);
 	gtk_tree_view_column_set_sort_column_id(column, DESKTOP_FILE_COLUMN_NAME);
 
 	column = gtk_tree_view_column_new();
@@ -417,11 +514,11 @@ static void editor_list_window_create(void)
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
 	gtk_tree_view_column_add_attribute(column, renderer, "text", DESKTOP_FILE_COLUMN_PATH);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(editor_list_view), column);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(ewl->view), column);
 	gtk_tree_view_column_set_sort_column_id(column, DESKTOP_FILE_COLUMN_PATH);
 
 	/* set up sorting */
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(editor_list_view));
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(ewl->view));
 	sortable = GTK_TREE_SORTABLE(store);
 	gtk_tree_sortable_set_sort_func(sortable, DESKTOP_FILE_COLUMN_KEY, editor_list_window_sort_cb,
 					GINT_TO_POINTER(DESKTOP_FILE_COLUMN_KEY), NULL);
@@ -433,12 +530,12 @@ static void editor_list_window_create(void)
 					GINT_TO_POINTER(DESKTOP_FILE_COLUMN_PATH), NULL);
 
 	/* set initial sort order */
-    	gtk_tree_sortable_set_sort_column_id(sortable, DESKTOP_FILE_COLUMN_KEY, GTK_SORT_ASCENDING);
+    	//gtk_tree_sortable_set_sort_column_id(sortable, DESKTOP_FILE_COLUMN_KEY, GTK_SORT_ASCENDING);
 
-	gtk_container_add(GTK_CONTAINER(scrolled), editor_list_view);
-	gtk_widget_show(editor_list_view);
+	gtk_container_add(GTK_CONTAINER(scrolled), ewl->view);
+	gtk_widget_show(ewl->view);
 
-	gtk_widget_show(editor_list_window);
+	gtk_widget_show(ewl->window);
 }
 
 /*
