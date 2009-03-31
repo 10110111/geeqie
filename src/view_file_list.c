@@ -1217,18 +1217,28 @@ FileData *vflist_index_get_data(ViewFile *vf, gint row)
 	return g_list_nth_data(vf->list, row);
 }
 
-gint vflist_index_by_path(ViewFile *vf, const gchar *path)
+gint vflist_index_by_fd(ViewFile *vf, FileData *fd)
 {
 	gint p = 0;
-	GList *work;
-
-	if (!path) return -1;
+	GList *work, *work2;
 
 	work = vf->list;
 	while (work)
 		{
-		FileData *fd = work->data;
-		if (strcmp(path, fd->path) == 0) return p;
+		FileData *list_fd = work->data;
+		if (list_fd == fd) return p;
+		
+		work2 = list_fd->sidecar_files;
+		while (work2)
+			{
+			/* FIXME: return the same index also for sidecars
+			   it is sufficient for next/prev navigation but it should be rewritten 
+			   without using indexes at all
+			*/
+			FileData *sidecar_fd = work2->data;
+			if (sidecar_fd == fd) return p;
+			work2 = work2->next;
+			}
 		
 		work = work->next;
 		p++;

@@ -66,14 +66,14 @@ FileData *vf_index_get_data(ViewFile *vf, gint row)
 	return fd;
 }
 
-gint vf_index_by_path(ViewFile *vf, const gchar *path)
+gint vf_index_by_fd(ViewFile *vf, FileData *fd)
 {
 	gint index = -1;
 
 	switch (vf->type)
 	{
-	case FILEVIEW_LIST: index = vflist_index_by_path(vf, path); break;
-	case FILEVIEW_ICON: index = vficon_index_by_path(vf, path); break;
+	case FILEVIEW_LIST: index = vflist_index_by_fd(vf, fd); break;
+	case FILEVIEW_ICON: index = vficon_index_by_fd(vf, fd); break;
 	}
 
 	return index;

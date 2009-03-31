@@ -40,7 +40,7 @@ void vflist_popup_destroy_cb(GtkWidget *widget, gpointer data);
 void vflist_pop_menu_thumbs_cb(GtkWidget *widget, gpointer data);
 
 FileData *vflist_index_get_data(ViewFile *vf, gint row);
-gint vflist_index_by_path(ViewFile *vf, const gchar *path);
+gint vflist_index_by_fd(ViewFile *vf, FileData *fd);
 guint vflist_count(ViewFile *vf, gint64 *bytes);
 GList *vflist_get_list(ViewFile *vf);
 

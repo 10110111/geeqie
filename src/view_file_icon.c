@@ -2054,25 +2054,6 @@ FileData *vficon_index_get_data(ViewFile *vf, gint row)
 	return id ? id->fd : NULL;
 }
 
-gint vficon_index_by_path(ViewFile *vf, const gchar *path)
-{
-	gint p = 0;
-	GList *work;
-
-	if (!path) return -1;
-
-	work = vf->list;
-	while (work)
-		{
-		IconData *id = work->data;
-		FileData *fd = id->fd;
-		if (strcmp(path, fd->path) == 0) return p;
-		work = work->next;
-		p++;
-		}
-
-	return -1;
-}
 
 gint vficon_index_by_fd(ViewFile *vf, FileData *in_fd)
 {

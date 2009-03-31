@@ -975,7 +975,7 @@ gint layout_list_get_index(LayoutWindow *lw, FileData *fd)
 {
 	if (!layout_valid(&lw) || !fd) return -1;
 
-	if (lw->vf) return vf_index_by_path(lw->vf, fd->path);
+	if (lw->vf) return vf_index_by_fd(lw->vf, fd);
 
 	return -1;
 }
