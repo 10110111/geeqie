@@ -155,6 +155,8 @@ static void image_loader_finalize(GObject *object)
 
 	image_loader_stop(il);
 
+	if (il->error) DEBUG_1("%s", image_loader_get_error(il));
+
 	DEBUG_1("freeing image loader %p bytes_read=%d", il, il->bytes_read);
 
 	if (il->idle_done_id != -1) g_source_remove(il->idle_done_id);
@@ -179,6 +181,8 @@ static void image_loader_finalize(GObject *object)
 		}
 
 	if (il->pixbuf) g_object_unref(il->pixbuf);
+	
+	if (il->error) g_error_free(il->error);
 
 	file_data_unref(il->fd);
 #ifdef HAVE_GTHREAD
@@ -460,7 +464,7 @@ static void image_loader_stop_loader(ImageLoader *il)
 	if (il->loader)
 		{
 		/* some loaders do not have a pixbuf till close, order is important here */
-		gdk_pixbuf_loader_close(il->loader, NULL);
+		gdk_pixbuf_loader_close(il->loader, il->error ? NULL : &il->error); /* we are interested in the first error only */
 		image_loader_sync_pixbuf(il);
 		g_object_unref(G_OBJECT(il->loader));
 		il->loader = NULL;
@@ -519,7 +523,7 @@ static gboolean image_loader_continue(ImageLoader *il)
 			return FALSE;
 			}
 
-		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, il->mapped_file + il->bytes_read, b, NULL)))
+		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, il->mapped_file + il->bytes_read, b, &il->error)))
 			{
 			image_loader_error(il);
 			return FALSE;
@@ -549,7 +553,7 @@ static gboolean image_loader_begin(ImageLoader *il)
 
 	image_loader_setup_loader(il);
 
-	if (!gdk_pixbuf_loader_write(il->loader, il->mapped_file + il->bytes_read, b, NULL))
+	if (!gdk_pixbuf_loader_write(il->loader, il->mapped_file + il->bytes_read, b, &il->error))
 		{
 		image_loader_stop_loader(il);
 		return FALSE;
@@ -561,7 +565,7 @@ static gboolean image_loader_begin(ImageLoader *il)
 	while (il->loader && !gdk_pixbuf_loader_get_pixbuf(il->loader) && b > 0 && !image_loader_get_stopping(il))
 		{
 		b = MIN(il->read_buffer_size, il->bytes_total - il->bytes_read);
-		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, il->mapped_file + il->bytes_read, b, NULL)))
+		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, il->mapped_file + il->bytes_read, b, &il->error)))
 			{
 			image_loader_stop_loader(il);
 			return FALSE;
@@ -1009,6 +1013,16 @@ gboolean image_loader_get_shrunk(ImageLoader *il)
 
 	g_mutex_lock(il->data_mutex);
 	ret = il->shrunk;
+	g_mutex_unlock(il->data_mutex);
+	return ret;
+}
+
+const gchar *image_loader_get_error(ImageLoader *il)
+{
+	const gchar *ret = NULL;
+	if (!il) return NULL;
+	g_mutex_lock(il->data_mutex);
+	if (il->error) ret = il->error->message;
 	g_mutex_unlock(il->data_mutex);
 	return ret;
 }
