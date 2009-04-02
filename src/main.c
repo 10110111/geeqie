@@ -46,9 +46,8 @@
 #include <pwd.h>
 #endif
 
-
+gboolean thumb_format_changed = FALSE;
 static RemoteConnection *remote_connection = NULL;
-
 
 /*
  *-----------------------------------------------------------------------------

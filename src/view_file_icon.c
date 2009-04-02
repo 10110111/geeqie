@@ -154,7 +154,6 @@ static void vficon_toggle_filenames(ViewFile *vf);
 static void vficon_selection_remove(ViewFile *vf, IconData *id, SelectionType mask, GtkTreeIter *iter);
 static void vficon_move_focus(ViewFile *vf, gint row, gint col, gboolean relative);
 static void vficon_set_focus(ViewFile *vf, IconData *id);
-static void vficon_thumb_update(ViewFile *vf);
 static void vficon_populate_at_new_size(ViewFile *vf, gint w, gint h, gboolean force);
 
 
@@ -2030,12 +2029,30 @@ static gboolean vficon_thumb_next(ViewFile *vf)
 	return FALSE;
 }
 
-static void vficon_thumb_update(ViewFile *vf)
+void vficon_thumb_update(ViewFile *vf)
 {
 	vficon_thumb_stop(vf);
 
 	vficon_thumb_status(vf, 0.0, _("Loading thumbs..."));
 	vf->thumbs_running = TRUE;
+	
+	if (thumb_format_changed)
+		{
+		GList *work = vf->list;
+		while (work)
+			{
+			IconData *id = work->data;
+			FileData *fd = id->fd;
+			if (fd->thumb_pixbuf)
+				{
+				g_object_unref(fd->thumb_pixbuf);
+				fd->thumb_pixbuf = NULL;
+				}
+			work = work->next;
+			}
+
+		thumb_format_changed = FALSE;
+		}
 
 	while (vficon_thumb_next(vf));
 }

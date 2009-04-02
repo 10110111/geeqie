@@ -60,5 +60,7 @@ void vf_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode);
 void vf_refresh_idle_cancel(ViewFile *vf);
 void vf_notify_cb(FileData *fd, NotifyType type, gpointer data);
 
+void vf_thumb_update(ViewFile *vf);
+
 #endif /* VIEW_FILE_H */
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

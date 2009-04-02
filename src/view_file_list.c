@@ -1126,15 +1126,18 @@ static gboolean vflist_thumb_next(ViewFile *vf)
 		GtkTreeModel *store;
 		GtkTreeIter iter;
 		gboolean valid = TRUE;
-
+	
 		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
 		gtk_tree_model_get_iter(store, &iter, tpath);
 		gtk_tree_path_free(tpath);
 
 		while (!fd && valid && tree_view_row_get_visibility(GTK_TREE_VIEW(vf->listview), &iter, FALSE) == 0)
 			{
-			gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &fd, -1);
-			if (fd->thumb_pixbuf) fd = NULL;
+			FileData *nfd;
+
+			gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &nfd, -1);
+
+			if (!nfd->thumb_pixbuf) fd = nfd;
 
 			valid = gtk_tree_model_iter_next(store, &iter);
 			}
@@ -1195,13 +1198,30 @@ static gboolean vflist_thumb_next(ViewFile *vf)
 	return FALSE;
 }
 
-static void vflist_thumb_update(ViewFile *vf)
+void vflist_thumb_update(ViewFile *vf)
 {
 	vflist_thumb_stop(vf);
 	if (!VFLIST(vf)->thumbs_enabled) return;
 
 	vflist_thumb_status(vf, 0.0, _("Loading thumbs..."));
 	vf->thumbs_running = TRUE;
+
+	if (thumb_format_changed)
+		{
+		GList *work = vf->list;
+		while (work)
+			{
+			FileData *fd = work->data;
+			if (fd->thumb_pixbuf)
+				{
+				g_object_unref(fd->thumb_pixbuf);
+				fd->thumb_pixbuf = NULL;
+				}
+			work = work->next;
+			}
+
+		thumb_format_changed = FALSE;
+		}
 
 	while (vflist_thumb_next(vf));
 }

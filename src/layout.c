@@ -904,6 +904,11 @@ static void layout_list_thumb_cb(ViewFile *vf, gdouble val, const gchar *text, g
 	layout_status_update_progress(lw, val, text);
 }
 
+static void layout_list_sync_thumb(LayoutWindow *lw)
+{
+	if (lw->vf) vf_thumb_set(lw->vf, lw->options.show_thumbnails);
+}
+
 static GtkWidget *layout_list_new(LayoutWindow *lw)
 {
 	lw->vf = vf_new(lw->options.file_view_type, NULL);
@@ -913,22 +918,10 @@ static GtkWidget *layout_list_new(LayoutWindow *lw)
 	vf_set_thumb_status_func(lw->vf, layout_list_thumb_cb, lw);
 
 	vf_marks_set(lw->vf, lw->options.show_marks);
-
-	switch (lw->options.file_view_type)
-	{
-	case FILEVIEW_ICON:
-		break;
-	case FILEVIEW_LIST:
-		vf_thumb_set(lw->vf, lw->options.show_thumbnails);
-		break;
-	}
+	
+	layout_list_sync_thumb(lw);
 
 	return lw->vf->widget;
-}
-
-static void layout_list_sync_thumb(LayoutWindow *lw)
-{
-	if (lw->vf) vf_thumb_set(lw->vf, lw->options.show_thumbnails);
 }
 
 static void layout_list_sync_marks(LayoutWindow *lw)
@@ -1186,7 +1179,11 @@ static void layout_refresh_lists(LayoutWindow *lw)
 {
 	if (lw->vd) vd_refresh(lw->vd);
 
-	if (lw->vf) vf_refresh(lw->vf);
+	if (lw->vf)
+		{
+		vf_refresh(lw->vf);
+		vf_thumb_update(lw->vf);
+		}
 }
 
 void layout_refresh(LayoutWindow *lw)

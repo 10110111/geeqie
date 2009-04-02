@@ -251,8 +251,16 @@ static void config_window_apply(void)
 	options->image.limit_autofit_size = c_options->image.limit_autofit_size;
 	options->image.max_autofit_size = c_options->image.max_autofit_size;
 	options->progressive_key_scrolling = c_options->progressive_key_scrolling;
-	options->thumbnails.max_width = c_options->thumbnails.max_width;
-	options->thumbnails.max_height = c_options->thumbnails.max_height;
+	if (options->thumbnails.max_width != c_options->thumbnails.max_width
+	    || options->thumbnails.max_height != c_options->thumbnails.max_height
+	    || options->thumbnails.quality != c_options->thumbnails.quality)
+	        {
+	    	thumb_format_changed = TRUE;
+		refresh = TRUE;
+		options->thumbnails.max_width = c_options->thumbnails.max_width;
+		options->thumbnails.max_height = c_options->thumbnails.max_height;
+		options->thumbnails.quality = c_options->thumbnails.quality;
+		}
 	options->thumbnails.enable_caching = c_options->thumbnails.enable_caching;
 	options->thumbnails.cache_into_dirs = c_options->thumbnails.cache_into_dirs;
 	options->thumbnails.fast = c_options->thumbnails.fast;
@@ -287,7 +295,6 @@ static void config_window_apply(void)
 	options->image.read_buffer_size = c_options->image.read_buffer_size;
 	options->image.idle_read_loop_count = c_options->image.idle_read_loop_count;
 
-	options->thumbnails.quality = c_options->thumbnails.quality;
 	options->image.zoom_quality = c_options->image.zoom_quality;
 
 	options->image.zoom_increment = c_options->image.zoom_increment;

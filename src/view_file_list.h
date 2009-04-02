@@ -58,6 +58,7 @@ void vflist_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode)
 void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode);
 
 void vflist_color_set(ViewFile *vf, FileData *fd, gboolean color_set);
+void vflist_thumb_update(ViewFile *vf);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

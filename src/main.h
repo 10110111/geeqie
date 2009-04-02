@@ -132,6 +132,8 @@
  * This also doubles as the main.c header.
  */
 
+extern gboolean thumb_format_changed;
+
 void keyboard_scroll_calc(gint *x, gint *y, GdkEventKey *event);
 gint key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
 

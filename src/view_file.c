@@ -615,6 +615,15 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 	return menu;
 }
 
+void vf_thumb_update(ViewFile *vf)
+{
+	switch (vf->type)
+	{
+	case FILEVIEW_LIST: vflist_thumb_update(vf); break;
+	case FILEVIEW_ICON: vficon_thumb_update(vf); break;
+	}
+}
+
 gboolean vf_refresh(ViewFile *vf)
 {
 	gboolean ret = FALSE;
