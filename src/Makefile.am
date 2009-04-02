@@ -243,10 +243,10 @@ EXTRA_DIST = \
 	$(extra_SLIK)
 
 gq-marshal.h: gq-marshal.list
-	$(GLIB_GENMARSHAL) --prefix=gq_marshal gq-marshal.list --header >$@
+	$(GLIB_GENMARSHAL) --prefix=gq_marshal $(srcdir)/gq-marshal.list --header >$@
 
 gq-marshal.c: gq-marshal.list
-	(echo "#include \"gq-marshal.h\"" ; $(GLIB_GENMARSHAL) --prefix=gq_marshal gq-marshal.list --body ) >$@
+	(echo "#include \"gq-marshal.h\"" ; $(GLIB_GENMARSHAL) --prefix=gq_marshal $(srcdir)/gq-marshal.list --body ) >$@
 
 
 
