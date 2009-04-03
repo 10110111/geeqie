@@ -212,7 +212,7 @@ static void parse_command_line(gint argc, gchar *argv[])
 		i = 1;
 		while (i < argc)
 			{
-			const gchar *cmd_line = argv[i];
+			gchar *cmd_line = path_to_utf8(argv[i]);
 			gchar *cmd_all = g_build_filename(base_dir, cmd_line, NULL);
 
 			if (cmd_line[0] == G_DIR_SEPARATOR && isdir(cmd_line))
@@ -335,6 +335,7 @@ static void parse_command_line(gint argc, gchar *argv[])
 				}
 
 			g_free(cmd_all);
+			g_free(cmd_line);
 			i++;
 			}
 		g_free(base_dir);
