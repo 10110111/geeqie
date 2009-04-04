@@ -807,43 +807,6 @@ static void filter_disable_cb(GtkWidget *widget, gpointer data)
 				 !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
 }
 
-#if 0
-static void editor_default_ok_cb(GenericDialog *gd, gpointer data)
-{
-	gint i;
-
-	editor_reset_defaults();
-	if (!configwindow) return;
-
-	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
-		{
-		if (i < GQ_EDITOR_GENERIC_SLOTS)
-			gtk_entry_set_text(GTK_ENTRY(editor_name_entry[i]),
-				   (options->editor[i].name) ? options->editor[i].name : "");
-		gtk_entry_set_text(GTK_ENTRY(editor_command_entry[i]),
-				   (options->editor[i].command) ? options->editor[i].command : "");
-		}
-}
-
-static void editor_default_cb(GtkWidget *widget, gpointer data)
-{
-	GenericDialog *gd;
-
-	gd = generic_dialog_new(_("Reset editors"),
-				"reset_filter", widget, TRUE,
-				dummy_cancel_cb, NULL);
-	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset editors"),
-				   _("This will reset the edit commands to the defaults.\nContinue?"));
-	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, editor_default_ok_cb, TRUE);
-	gtk_widget_show(gd->dialog);
-}
-
-static void editor_help_cb(GtkWidget *widget, gpointer data)
-{
-	help_window_show("editors");
-}
-#endif
-
 static void safe_delete_view_cb(GtkWidget *widget, gpointer data)
 {
 	layout_set_path(NULL, gtk_entry_get_text(GTK_ENTRY(safe_delete_path_entry)));
@@ -1029,6 +992,25 @@ static void config_tab_general(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Random"), options->slideshow.random, &c_options->slideshow.random);
 	pref_checkbox_new_int(group, _("Repeat"), options->slideshow.repeat, &c_options->slideshow.repeat);
+
+	group = pref_group_new(vbox, FALSE, _("Image loading and caching"), GTK_ORIENTATION_VERTICAL);
+
+	pref_spin_new_int(group, _("Offscreen cache size (Mb per image):"), NULL,
+			  0, 128, 1, options->image.tile_cache_max, &c_options->image.tile_cache_max);
+
+	pref_spin_new_int(group, _("Decoded image cache size (Mb):"), NULL,
+			  0, 1024, 1, options->image.image_cache_max, &c_options->image.image_cache_max);
+
+	pref_spin_new_int(group, _("Image read buffer size (bytes):"), NULL,
+			  IMAGE_LOADER_READ_BUFFER_SIZE_MIN, IMAGE_LOADER_READ_BUFFER_SIZE_MAX, 512,
+			  options->image.read_buffer_size, &c_options->image.read_buffer_size);
+
+	pref_spin_new_int(group, _("Image idle loop read count:"), NULL,
+			  IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MIN, IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MAX, 1,
+			  options->image.idle_read_loop_count, &c_options->image.idle_read_loop_count);
+
+
+
 }
 
 /* image tab */
@@ -1123,8 +1105,12 @@ static void config_tab_windows(GtkWidget *notebook)
 	GtkWidget *hbox;
 	GtkWidget *vbox;
 	GtkWidget *group;
+	GtkWidget *button;
 	GtkWidget *ct_button;
 	GtkWidget *spin;
+	GtkWidget *image_overlay_template_view;
+	GtkWidget *scrolled;
+	GtkTextBuffer *buffer;
 
 	vbox = scrolled_notebook_page(notebook, _("Windows"));
 
@@ -1147,6 +1133,70 @@ static void config_tab_windows(GtkWidget *notebook)
 				 10, 150, 1,
 				 options->image.max_window_size, &c_options->image.max_window_size);
 	pref_checkbox_link_sensitivity(ct_button, spin);
+
+	group = pref_group_new(vbox, FALSE, _("Full screen"), GTK_ORIENTATION_VERTICAL);
+
+	c_options->fullscreen.screen = options->fullscreen.screen;
+	c_options->fullscreen.above = options->fullscreen.above;
+	hbox = fullscreen_prefs_selection_new(_("Location:"), &c_options->fullscreen.screen, &c_options->fullscreen.above);
+	gtk_box_pack_start(GTK_BOX(group), hbox, FALSE, FALSE, 0);
+	gtk_widget_show(hbox);
+
+	pref_checkbox_new_int(group, _("Smooth image flip"),
+			      options->fullscreen.clean_flip, &c_options->fullscreen.clean_flip);
+	pref_checkbox_new_int(group, _("Disable screen saver"),
+			      options->fullscreen.disable_saver, &c_options->fullscreen.disable_saver);
+
+
+	group = pref_group_new(vbox, FALSE, _("Overlay Screen Display"), GTK_ORIENTATION_VERTICAL);
+
+	pref_label_new(group, _("Image overlay template"));
+
+	scrolled = gtk_scrolled_window_new(NULL, NULL);
+	gtk_widget_set_size_request(scrolled, 200, 150);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
+				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_box_pack_start(GTK_BOX(group), scrolled, TRUE, TRUE, 5);
+	gtk_widget_show(scrolled);
+
+	image_overlay_template_view = gtk_text_view_new();
+
+#if GTK_CHECK_VERSION(2,12,0)
+	gtk_widget_set_tooltip_markup(image_overlay_template_view,
+	_("<i>%name%</i> results in the filename of the picture.\n"
+	  "Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>%date%</i>,\n"
+	  "<i>%size%</i> (filesize), <i>%width%</i>, <i>%height%</i>, <i>%res%</i> (resolution)\n"
+	  "To access exif data use the exif name, e. g. <i>%formatted.Camera%</i> is the formatted camera name,\n"
+	  "<i>%Exif.Photo.DateTimeOriginal%</i> the date of the original shot.\n"
+	  "<i>%formatted.Camera:20</i> notation will truncate the displayed data to 20 characters and will add 3 dots at the end to denote the truncation.\n"
+	  "If two or more variables are connected with the |-sign, it prints available variables with a separator.\n"
+	  "<i>%formatted.ShutterSpeed%</i>|<i>%formatted.ISOSpeedRating%</i>|<i>%formatted.FocalLength%</i> could show \"1/20s - 400 - 80 mm\" or \"1/200 - 80 mm\",\n"
+	  "if there's no ISO information in the Exif data.\n"
+	  "If a line is empty, it is removed. This allows to add lines that totally disappear when no data is available.\n"
+));
+#endif
+	gtk_container_add(GTK_CONTAINER(scrolled), image_overlay_template_view);
+	gtk_widget_show(image_overlay_template_view);
+
+	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
+
+	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
+				 G_CALLBACK(image_overlay_default_template_cb), image_overlay_template_view);
+	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+	gtk_widget_show(button);
+
+	button = pref_button_new(NULL, GTK_STOCK_HELP, NULL, FALSE,
+				 G_CALLBACK(image_overlay_help_cb), NULL);
+	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+	gtk_widget_show(button);
+
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(image_overlay_template_view));
+	if (options->image_overlay.template_string) gtk_text_buffer_set_text(buffer, options->image_overlay.template_string, -1);
+	g_signal_connect(G_OBJECT(buffer), "changed",
+			 G_CALLBACK(image_overlay_template_view_changed_cb), image_overlay_template_view);
+
+
 }
 
 static GtkTreeModel *create_class_model(void)
@@ -1317,199 +1367,141 @@ static void config_tab_filtering(GtkWidget *notebook)
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 }
-#if 0
-/* editors tab */
-static void config_tab_editors(GtkWidget *notebook)
+
+/* metadata tab */
+static void config_tab_metadata(GtkWidget *notebook)
 {
+	GtkWidget *vbox;
 	GtkWidget *hbox;
+	GtkWidget *group;
+	GtkWidget *ct_button;
+
+	vbox = scrolled_notebook_page(notebook, _("Metadata"));
+
+	group = pref_group_new(vbox, FALSE, _("Metadata"), GTK_ORIENTATION_VERTICAL);
+
+	pref_checkbox_new_int(group, _("Store metadata and cache files in source image's directory"),
+			      options->metadata.enable_metadata_dirs, &c_options->metadata.enable_metadata_dirs);
+
+	ct_button = pref_checkbox_new_int(group, _("Store keywords and comments as XMP tags in image files"),
+			      options->metadata.save_in_image_file, &c_options->metadata.save_in_image_file);
+
+	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_SPACE);
+	pref_checkbox_link_sensitivity(ct_button, hbox);
+
+	pref_checkbox_new_int(hbox, _("Store keywords and comments also in legacy IPTC tags"),
+			      options->metadata.save_legacy_IPTC, &c_options->metadata.save_legacy_IPTC);
+
+	pref_checkbox_new_int(hbox, _("Warn if the image files are unwritable"),
+			      options->metadata.warn_on_write_problems, &c_options->metadata.warn_on_write_problems);
+
+	pref_checkbox_new_int(hbox, _("Ask before writing to image files"),
+			      options->metadata.confirm_write, &c_options->metadata.confirm_write);
+
+	pref_checkbox_new_int(group, _("Save metadata in GQview legacy metadata format"),
+			      options->metadata.save_legacy_format, &c_options->metadata.save_legacy_format);
+
+	pref_checkbox_new_int(group, _("Write the same keywords and comment to all files in a group"),
+			      options->metadata.sync_grouped_files, &c_options->metadata.sync_grouped_files);
+
+	ct_button = pref_checkbox_new_int(group, _("Write metadata after timeout"),
+			      options->metadata.confirm_after_timeout, &c_options->metadata.confirm_after_timeout);
+
+	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+	pref_checkbox_link_sensitivity(ct_button, hbox);
+
+	pref_spin_new_int(hbox, _("Timeout (seconds):"), NULL, 0, 900, 1,
+			      options->metadata.confirm_timeout, &c_options->metadata.confirm_timeout);
+			      
+	pref_checkbox_new_int(group, _("Write metadata on image change"),
+			      options->metadata.confirm_on_image_change, &c_options->metadata.confirm_on_image_change);
+
+	pref_checkbox_new_int(group, _("Write metadata on directory change"),
+			      options->metadata.confirm_on_dir_change, &c_options->metadata.confirm_on_dir_change);
+}
+
+/* metadata tab */
+static void config_tab_color(GtkWidget *notebook)
+{
 	GtkWidget *label;
 	GtkWidget *vbox;
-	GtkWidget *button;
+	GtkWidget *group;
+	GtkWidget *tabcomp;
 	GtkWidget *table;
 	gint i;
 
-	vbox = scrolled_notebook_page(notebook, _("Editors"));
+	vbox = scrolled_notebook_page(notebook, _("Color"));
 
-	table = pref_table_new(vbox, 3, 9, FALSE, FALSE);
+	group =  pref_group_new(vbox, FALSE, _("Color profiles"), GTK_ORIENTATION_VERTICAL);
+#ifndef HAVE_LCMS
+	gtk_widget_set_sensitive(pref_group_parent(group), FALSE);
+#endif
+
+	table = pref_table_new(group, 3, COLOR_PROFILE_INPUTS + 2, FALSE, FALSE);
 	gtk_table_set_col_spacings(GTK_TABLE(table), PREF_PAD_GAP);
 
-	label = pref_table_label(table, 0, 0, _("#"), 1.0);
+	label = pref_table_label(table, 0, 0, _("Type"), 0.0);
 	pref_label_bold(label, TRUE, FALSE);
 
 	label = pref_table_label(table, 1, 0, _("Menu name"), 0.0);
 	pref_label_bold(label, TRUE, FALSE);
 
-	label = pref_table_label(table, 2, 0, _("Command Line"), 0.0);
+	label = pref_table_label(table, 2, 0, _("File"), 0.0);
 	pref_label_bold(label, TRUE, FALSE);
 
-	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
+	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
 		{
 		GtkWidget *entry;
+		gchar *buf;
 
-		if (i < GQ_EDITOR_GENERIC_SLOTS)
-			{
-			gchar *buf;
-
-			buf = g_strdup_printf("%d", i+1);
-			pref_table_label(table, 0, i+1, buf, 1.0);
-			g_free(buf);
-			entry = gtk_entry_new();
-			gtk_entry_set_max_length(GTK_ENTRY(entry), EDITOR_NAME_MAX_LENGTH);
-			gtk_widget_set_size_request(entry, 80, -1);
-			if (options->editor[i].name)
-				gtk_entry_set_text(GTK_ENTRY(entry), options->editor[i].name);
-			}
-		else
-			{
-			entry = gtk_label_new(options->editor[i].name);
-			gtk_misc_set_alignment(GTK_MISC(entry), 0.0, 0.5);
-			}
-
-		gtk_table_attach(GTK_TABLE(table), entry, 1, 2, i+1, i+2,
-				 GTK_FILL | GTK_SHRINK, 0, 0, 0);
-		gtk_widget_show(entry);
-		editor_name_entry[i] = entry;
+		buf = g_strdup_printf("Input %d:", i + COLOR_PROFILE_FILE);
+		pref_table_label(table, 0, i + 1, buf, 1.0);
+		g_free(buf);
 
 		entry = gtk_entry_new();
-		gtk_entry_set_max_length(GTK_ENTRY(entry), EDITOR_COMMAND_MAX_LENGTH);
-		gtk_widget_set_size_request(entry, 160, -1);
-		tab_completion_add_to_entry(entry, NULL, NULL);
-		if (options->editor[i].command)
-			gtk_entry_set_text(GTK_ENTRY(entry), options->editor[i].command);
-		gtk_table_attach(GTK_TABLE(table), entry, 2, 3, i+1, i+2,
+		gtk_entry_set_max_length(GTK_ENTRY(entry), EDITOR_NAME_MAX_LENGTH);
+//		gtk_widget_set_size_request(editor_name_entry[i], 30, -1);
+		if (options->color_profile.input_name[i])
+			{
+			gtk_entry_set_text(GTK_ENTRY(entry), options->color_profile.input_name[i]);
+			}
+		gtk_table_attach(GTK_TABLE(table), entry, 1, 2, i + 1, i + 2,
 				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
 		gtk_widget_show(entry);
-		editor_command_entry[i] = entry;
+		color_profile_input_name_entry[i] = entry;
+
+		tabcomp = tab_completion_new(&entry, options->color_profile.input_file[i], NULL, NULL);
+		tab_completion_add_select_button(entry, _("Select color profile"), FALSE);
+		gtk_widget_set_size_request(entry, 160, -1);
+		gtk_table_attach(GTK_TABLE(table), tabcomp, 2, 3, i + 1, i + 2,
+				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
+		gtk_widget_show(tabcomp);
+		color_profile_input_file_entry[i] = entry;
 		}
 
-	hbox = pref_box_new(vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
-
-	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
-				 G_CALLBACK(editor_default_cb), NULL);
-	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
-
-	button = pref_button_new(NULL, GTK_STOCK_HELP, NULL, FALSE,
-				 G_CALLBACK(editor_help_cb), NULL);
-	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
-}
-#endif
-
-/* properties tab */
-static void config_tab_properties(GtkWidget *notebook)
-{
-	GtkWidget *label;
-	GtkWidget *vbox;
-	GtkWidget *group;
-	GtkWidget *table;
-	gint i;
-
-	vbox = scrolled_notebook_page(notebook, _("Properties"));
-
-	group = pref_group_new(vbox, FALSE, _("Exif"),
-			       GTK_ORIENTATION_VERTICAL);
-
-
-	pref_spacer(group, PREF_PAD_INDENT - PREF_PAD_SPACE);
-	label = pref_label_new(group, _("What to show in properties dialog:"));
-	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-
-	table = pref_table_new(group, 2, 2, FALSE, FALSE);
-
-#if 0
-	for (i = 0; ExifUIList[i].key; i++)
-		{
-		gchar *title;
-
-		title = exif_get_description_by_key(ExifUIList[i].key);
-		exif_item(table, 0, i, title, ExifUIList[i].current,
-			  &ExifUIList[i].temp);
-		g_free(title);
-		}
-#endif
+	pref_table_label(table, 0, COLOR_PROFILE_INPUTS + 1, _("Screen:"), 1.0);
+	tabcomp = tab_completion_new(&color_profile_screen_file_entry,
+				     options->color_profile.screen_file, NULL, NULL);
+	tab_completion_add_select_button(color_profile_screen_file_entry, _("Select color profile"), FALSE);
+	gtk_widget_set_size_request(color_profile_screen_file_entry, 160, -1);
+	gtk_table_attach(GTK_TABLE(table), tabcomp, 2, 3,
+			 COLOR_PROFILE_INPUTS + 1, COLOR_PROFILE_INPUTS + 2,
+			 GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_widget_show(tabcomp);
 }
 
 /* advanced entry tab */
-static void config_tab_advanced(GtkWidget *notebook)
+static void config_tab_behavior(GtkWidget *notebook)
 {
-	GtkWidget *label;
 	GtkWidget *hbox;
 	GtkWidget *vbox;
 	GtkWidget *group;
 	GtkWidget *button;
 	GtkWidget *tabcomp;
 	GtkWidget *ct_button;
-	GtkWidget *table;
 	GtkWidget *spin;
-	GtkWidget *image_overlay_template_view;
-	GtkWidget *scrolled;
-	GtkTextBuffer *buffer;
-	gint i;
 
-	vbox = scrolled_notebook_page(notebook, _("Advanced"));
-
-	group = pref_group_new(vbox, FALSE, _("Full screen"), GTK_ORIENTATION_VERTICAL);
-
-	c_options->fullscreen.screen = options->fullscreen.screen;
-	c_options->fullscreen.above = options->fullscreen.above;
-	hbox = fullscreen_prefs_selection_new(_("Location:"), &c_options->fullscreen.screen, &c_options->fullscreen.above);
-	gtk_box_pack_start(GTK_BOX(group), hbox, FALSE, FALSE, 0);
-	gtk_widget_show(hbox);
-
-	pref_checkbox_new_int(group, _("Smooth image flip"),
-			      options->fullscreen.clean_flip, &c_options->fullscreen.clean_flip);
-	pref_checkbox_new_int(group, _("Disable screen saver"),
-			      options->fullscreen.disable_saver, &c_options->fullscreen.disable_saver);
-
-
-	group = pref_group_new(vbox, FALSE, _("Overlay Screen Display"), GTK_ORIENTATION_VERTICAL);
-
-	pref_label_new(group, _("Image overlay template"));
-
-	scrolled = gtk_scrolled_window_new(NULL, NULL);
-	gtk_widget_set_size_request(scrolled, 200, 150);
-	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_box_pack_start(GTK_BOX(group), scrolled, TRUE, TRUE, 5);
-	gtk_widget_show(scrolled);
-
-	image_overlay_template_view = gtk_text_view_new();
-
-#if GTK_CHECK_VERSION(2,12,0)
-	gtk_widget_set_tooltip_markup(image_overlay_template_view,
-	_("<i>%name%</i> results in the filename of the picture.\n"
-	  "Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>%date%</i>,\n"
-	  "<i>%size%</i> (filesize), <i>%width%</i>, <i>%height%</i>, <i>%res%</i> (resolution)\n"
-	  "To access exif data use the exif name, e. g. <i>%formatted.Camera%</i> is the formatted camera name,\n"
-	  "<i>%Exif.Photo.DateTimeOriginal%</i> the date of the original shot.\n"
-	  "<i>%formatted.Camera:20</i> notation will truncate the displayed data to 20 characters and will add 3 dots at the end to denote the truncation.\n"
-	  "If two or more variables are connected with the |-sign, it prints available variables with a separator.\n"
-	  "<i>%formatted.ShutterSpeed%</i>|<i>%formatted.ISOSpeedRating%</i>|<i>%formatted.FocalLength%</i> could show \"1/20s - 400 - 80 mm\" or \"1/200 - 80 mm\",\n"
-	  "if there's no ISO information in the Exif data.\n"
-	  "If a line is empty, it is removed. This allows to add lines that totally disappear when no data is available.\n"
-));
-#endif
-	gtk_container_add(GTK_CONTAINER(scrolled), image_overlay_template_view);
-	gtk_widget_show(image_overlay_template_view);
-
-	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
-
-	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
-				 G_CALLBACK(image_overlay_default_template_cb), image_overlay_template_view);
-	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
-
-	button = pref_button_new(NULL, GTK_STOCK_HELP, NULL, FALSE,
-				 G_CALLBACK(image_overlay_help_cb), NULL);
-	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
-
-	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(image_overlay_template_view));
-	if (options->image_overlay.template_string) gtk_text_buffer_set_text(buffer, options->image_overlay.template_string, -1);
-	g_signal_connect(G_OBJECT(buffer), "changed",
-			 G_CALLBACK(image_overlay_template_view_changed_cb), image_overlay_template_view);
+	vbox = scrolled_notebook_page(notebook, _("Behavior"));
 
 	group = pref_group_new(vbox, FALSE, _("Delete"), GTK_ORIENTATION_VERTICAL);
 
@@ -1579,125 +1571,11 @@ static void config_tab_advanced(GtkWidget *notebook)
 	pref_checkbox_new_int(group, _("Mouse wheel scrolls image"),
 			      options->mousewheel_scrolls, &c_options->mousewheel_scrolls);
 
-	group = pref_group_new(vbox, FALSE, _("Metadata"), GTK_ORIENTATION_VERTICAL);
-
-	pref_checkbox_new_int(group, _("Store metadata and cache files in source image's directory"),
-			      options->metadata.enable_metadata_dirs, &c_options->metadata.enable_metadata_dirs);
-
-	ct_button = pref_checkbox_new_int(group, _("Store keywords and comments as XMP tags in image files"),
-			      options->metadata.save_in_image_file, &c_options->metadata.save_in_image_file);
-
-	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_SPACE);
-	pref_checkbox_link_sensitivity(ct_button, hbox);
-
-	pref_checkbox_new_int(hbox, _("Store keywords and comments also in legacy IPTC tags"),
-			      options->metadata.save_legacy_IPTC, &c_options->metadata.save_legacy_IPTC);
-
-	pref_checkbox_new_int(hbox, _("Warn if the image files are unwritable"),
-			      options->metadata.warn_on_write_problems, &c_options->metadata.warn_on_write_problems);
-
-	pref_checkbox_new_int(hbox, _("Ask before writing to image files"),
-			      options->metadata.confirm_write, &c_options->metadata.confirm_write);
-
-	pref_checkbox_new_int(group, _("Save metadata in GQview legacy metadata format"),
-			      options->metadata.save_legacy_format, &c_options->metadata.save_legacy_format);
-
-	pref_checkbox_new_int(group, _("Write the same keywords and comment to all files in a group"),
-			      options->metadata.sync_grouped_files, &c_options->metadata.sync_grouped_files);
-
-	ct_button = pref_checkbox_new_int(group, _("Write metadata after timeout"),
-			      options->metadata.confirm_after_timeout, &c_options->metadata.confirm_after_timeout);
-
-	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
-	pref_checkbox_link_sensitivity(ct_button, hbox);
-
-	pref_spin_new_int(hbox, _("Timeout (seconds):"), NULL, 0, 900, 1,
-			      options->metadata.confirm_timeout, &c_options->metadata.confirm_timeout);
-			      
-	pref_checkbox_new_int(group, _("Write metadata on image change"),
-			      options->metadata.confirm_on_image_change, &c_options->metadata.confirm_on_image_change);
-
-	pref_checkbox_new_int(group, _("Write metadata on directory change"),
-			      options->metadata.confirm_on_dir_change, &c_options->metadata.confirm_on_dir_change);
-
 	group = pref_group_new(vbox, FALSE, _("Miscellaneous"), GTK_ORIENTATION_VERTICAL);
 
 	pref_spin_new_int(group, _("Custom similarity threshold:"), NULL,
 			  0, 100, 1, options->duplicates_similarity_threshold, (int *)&c_options->duplicates_similarity_threshold);
 
-	group = pref_group_new(vbox, FALSE, _("Image loading and caching"), GTK_ORIENTATION_VERTICAL);
-
-	pref_spin_new_int(group, _("Offscreen cache size (Mb per image):"), NULL,
-			  0, 128, 1, options->image.tile_cache_max, &c_options->image.tile_cache_max);
-
-	pref_spin_new_int(group, _("Decoded image cache size (Mb):"), NULL,
-			  0, 1024, 1, options->image.image_cache_max, &c_options->image.image_cache_max);
-
-	pref_spin_new_int(group, _("Image read buffer size (bytes):"), NULL,
-			  IMAGE_LOADER_READ_BUFFER_SIZE_MIN, IMAGE_LOADER_READ_BUFFER_SIZE_MAX, 512,
-			  options->image.read_buffer_size, &c_options->image.read_buffer_size);
-
-	pref_spin_new_int(group, _("Image idle loop read count:"), NULL,
-			  IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MIN, IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MAX, 1,
-			  options->image.idle_read_loop_count, &c_options->image.idle_read_loop_count);
-
-
-	group =  pref_group_new(vbox, FALSE, _("Color profiles"), GTK_ORIENTATION_VERTICAL);
-#ifndef HAVE_LCMS
-	gtk_widget_set_sensitive(pref_group_parent(group), FALSE);
-#endif
-
-	table = pref_table_new(group, 3, COLOR_PROFILE_INPUTS + 2, FALSE, FALSE);
-	gtk_table_set_col_spacings(GTK_TABLE(table), PREF_PAD_GAP);
-
-	label = pref_table_label(table, 0, 0, _("Type"), 0.0);
-	pref_label_bold(label, TRUE, FALSE);
-
-	label = pref_table_label(table, 1, 0, _("Menu name"), 0.0);
-	pref_label_bold(label, TRUE, FALSE);
-
-	label = pref_table_label(table, 2, 0, _("File"), 0.0);
-	pref_label_bold(label, TRUE, FALSE);
-
-	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
-		{
-		GtkWidget *entry;
-		gchar *buf;
-
-		buf = g_strdup_printf("Input %d:", i + COLOR_PROFILE_FILE);
-		pref_table_label(table, 0, i + 1, buf, 1.0);
-		g_free(buf);
-
-		entry = gtk_entry_new();
-		gtk_entry_set_max_length(GTK_ENTRY(entry), EDITOR_NAME_MAX_LENGTH);
-//		gtk_widget_set_size_request(editor_name_entry[i], 30, -1);
-		if (options->color_profile.input_name[i])
-			{
-			gtk_entry_set_text(GTK_ENTRY(entry), options->color_profile.input_name[i]);
-			}
-		gtk_table_attach(GTK_TABLE(table), entry, 1, 2, i + 1, i + 2,
-				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
-		gtk_widget_show(entry);
-		color_profile_input_name_entry[i] = entry;
-
-		tabcomp = tab_completion_new(&entry, options->color_profile.input_file[i], NULL, NULL);
-		tab_completion_add_select_button(entry, _("Select color profile"), FALSE);
-		gtk_widget_set_size_request(entry, 160, -1);
-		gtk_table_attach(GTK_TABLE(table), tabcomp, 2, 3, i + 1, i + 2,
-				 GTK_FILL | GTK_EXPAND, 0, 0, 0);
-		gtk_widget_show(tabcomp);
-		color_profile_input_file_entry[i] = entry;
-		}
-
-	pref_table_label(table, 0, COLOR_PROFILE_INPUTS + 1, _("Screen:"), 1.0);
-	tabcomp = tab_completion_new(&color_profile_screen_file_entry,
-				     options->color_profile.screen_file, NULL, NULL);
-	tab_completion_add_select_button(color_profile_screen_file_entry, _("Select color profile"), FALSE);
-	gtk_widget_set_size_request(color_profile_screen_file_entry, 160, -1);
-	gtk_table_attach(GTK_TABLE(table), tabcomp, 2, 3,
-			 COLOR_PROFILE_INPUTS + 1, COLOR_PROFILE_INPUTS + 2,
-			 GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	gtk_widget_show(tabcomp);
 
 #ifdef DEBUG
 	group = pref_group_new(vbox, FALSE, _("Debugging"), GTK_ORIENTATION_VERTICAL);
@@ -1776,9 +1654,9 @@ static void config_window_create(void)
 	config_tab_image(notebook);
 	config_tab_windows(notebook);
 	config_tab_filtering(notebook);
-//	config_tab_editors(notebook);
-	config_tab_properties(notebook);
-	config_tab_advanced(notebook);
+	config_tab_metadata(notebook);
+	config_tab_color(notebook);
+	config_tab_behavior(notebook);
 
 	gtk_widget_show(notebook);
 
