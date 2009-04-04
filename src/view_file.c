@@ -580,9 +580,8 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 				G_CALLBACK(vf_pop_menu_rename_cb), vf);
 	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
 				      G_CALLBACK(vf_pop_menu_delete_cb), vf);
-	if (options->show_copy_path)
-		menu_item_add_sensitive(menu, _("_Copy path"), active,
-					G_CALLBACK(vf_pop_menu_copy_path_cb), vf);
+	menu_item_add_sensitive(menu, _("_Copy path"), active,
+				G_CALLBACK(vf_pop_menu_copy_path_cb), vf);
 
 	menu_item_add_divider(menu);
 

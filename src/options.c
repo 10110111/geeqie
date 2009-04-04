@@ -104,7 +104,6 @@ ConfOptions *init_options(ConfOptions *options)
 	options->metadata.confirm_on_image_change = FALSE;
 	options->metadata.confirm_on_dir_change = TRUE;
 	
-	options->show_copy_path = TRUE;
 	options->show_icon_names = TRUE;
 
 	options->slideshow.delay = 50;

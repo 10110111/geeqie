@@ -1027,9 +1027,8 @@ static GtkWidget *search_result_menu(SearchData *sd, gboolean on_row, gboolean e
 				G_CALLBACK(sr_menu_rename_cb), sd);
 	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, on_row,
 				      G_CALLBACK(sr_menu_delete_cb), sd);
-	if (options->show_copy_path)
-		menu_item_add_sensitive(menu, _("_Copy path"), on_row,
-					G_CALLBACK(sr_menu_copy_path_cb), sd);
+	menu_item_add_sensitive(menu, _("_Copy path"), on_row,
+				G_CALLBACK(sr_menu_copy_path_cb), sd);
 	menu_item_add_divider(menu);
 	menu_item_add_stock_sensitive(menu, _("Rem_ove"), GTK_STOCK_REMOVE, on_row,
 				      G_CALLBACK(sr_menu_remove_cb), sd);

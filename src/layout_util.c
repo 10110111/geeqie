@@ -1131,38 +1131,6 @@ void layout_recent_add_path(const gchar *path)
 
 /*
  *-----------------------------------------------------------------------------
- * copy path
- *-----------------------------------------------------------------------------
- */
-
-static void layout_copy_path_update(LayoutWindow *lw)
-{
-	GtkWidget *item = gtk_ui_manager_get_widget(lw->ui_manager, "/MainMenu/FileMenu/CopyPath");
-
-	if (!item) return;
-	
-	if (options->show_copy_path)
-		gtk_widget_show(item);
-	else
-		gtk_widget_hide(item);
-}
-
-void layout_copy_path_update_all(void)
-{
-	GList *work;
-
-	work = layout_window_list;
-	while (work)
-		{
-		LayoutWindow *lw = work->data;
-		work = work->next;
-
-		layout_copy_path_update(lw);
-		}
-}
-
-/*
- *-----------------------------------------------------------------------------
  * menu
  *-----------------------------------------------------------------------------
  */
@@ -1771,7 +1739,6 @@ void layout_actions_setup(LayoutWindow *lw)
 	
 	layout_actions_setup_marks(lw);
 	layout_actions_setup_editors(lw);
-	layout_copy_path_update(lw);
 
 	layout_actions_add_window(lw, lw->window);
 }

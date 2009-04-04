@@ -315,12 +315,6 @@ static void config_window_apply(void)
 	options->open_recent_list_maxsize = c_options->open_recent_list_maxsize;
 	options->dnd_icon_size = c_options->dnd_icon_size;
 	
-	if (options->show_copy_path != c_options->show_copy_path)
-		{
-		options->show_copy_path = c_options->show_copy_path;
-		layout_copy_path_update_all();
-		}
-
 	options->metadata.save_in_image_file = c_options->metadata.save_in_image_file;
 	options->metadata.save_legacy_IPTC = c_options->metadata.save_legacy_IPTC;
 	options->metadata.warn_on_write_problems = c_options->metadata.warn_on_write_problems;
@@ -1504,9 +1498,6 @@ static void config_tab_behavior(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("In place renaming"),
 			      options->file_ops.enable_in_place_rename, &c_options->file_ops.enable_in_place_rename);
-
-	pref_checkbox_new_int(group, _("Show \"Copy path\" menu item which write the path of selected files to clipboard"),
-			      options->show_copy_path, &c_options->show_copy_path);
 
 	pref_spin_new_int(group, _("Open recent list maximum size"), NULL,
 			  1, 50, 1, options->open_recent_list_maxsize, &c_options->open_recent_list_maxsize);

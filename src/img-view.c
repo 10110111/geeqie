@@ -1296,8 +1296,7 @@ static GtkWidget *view_popup_menu(ViewWindow *vw)
 	menu_item_add(menu, _("_Move..."), G_CALLBACK(view_move_cb), vw);
 	menu_item_add(menu, _("_Rename..."), G_CALLBACK(view_rename_cb), vw);
 	menu_item_add_stock(menu, _("_Delete..."), GTK_STOCK_DELETE, G_CALLBACK(view_delete_cb), vw);
-	if (options->show_copy_path)
-		menu_item_add(menu, _("_Copy path"), G_CALLBACK(view_copy_path_cb), vw);
+	menu_item_add(menu, _("_Copy path"), G_CALLBACK(view_copy_path_cb), vw);
 
 	menu_item_add_divider(menu);
 

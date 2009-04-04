@@ -262,7 +262,6 @@ static void write_global_attributes(GString *outstr, gint indent)
 //	WRITE_SUBTITLE("General Options");
 
 	WRITE_NL(); WRITE_BOOL(*options, show_icon_names);
-	WRITE_NL(); WRITE_BOOL(*options, show_copy_path);
 	WRITE_SEPARATOR();
 
 	WRITE_NL(); WRITE_BOOL(*options, tree_descend_subdirs);
@@ -573,7 +572,6 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 
 		/* general options */
 		if (READ_BOOL(*options, show_icon_names)) continue;
-		if (READ_BOOL(*options, show_copy_path)) continue;
 
 		if (READ_BOOL(*options, tree_descend_subdirs)) continue;
 		if (READ_BOOL(*options, lazy_image_sync)) continue;

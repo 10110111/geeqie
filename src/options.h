@@ -21,7 +21,6 @@ struct _ConfOptions
 	gboolean place_dialogs_under_mouse;
 	gboolean mousewheel_scrolls;
 	gboolean show_icon_names;
-	gboolean show_copy_path;
 
 	/* various */
 	gboolean tree_descend_subdirs;
