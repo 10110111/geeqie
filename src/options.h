@@ -37,13 +37,6 @@ struct _ConfOptions
 	gboolean save_window_positions;
 	gboolean tools_restore_state;
 
-	/* start up */
-	struct {
-		gboolean restore_path;
-		gboolean use_last_path;
-		gchar *path;
-	} startup;
-
 	/* file ops */
 	struct {
 		gboolean enable_in_place_rename;

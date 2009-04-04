@@ -174,6 +174,11 @@ typedef enum {
 	METADATA_FORMATTED	= 1  /* for display only */
 } MetadataFormat;
 
+typedef enum {
+	STARTUP_PATH_CURRENT	= 0,
+	STARTUP_PATH_LAST,
+	STARTUP_PATH_HOME,
+} StartUpPath;
 
 #define MAX_SPLIT_IMAGES 4
 
@@ -530,6 +535,9 @@ struct _LayoutOptions
 	gboolean info_pixel_hidden;
 
 	gchar *home_path;
+	gchar *last_path;
+
+	StartUpPath startup_path;
 };
 
 struct _LayoutWindow

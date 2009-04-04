@@ -2032,6 +2032,25 @@ static void home_path_set_current_cb(GtkWidget *widget, gpointer data)
 	gtk_entry_set_text(GTK_ENTRY(lc->home_path_entry), layout_get_path(lc->lw));
 }
 
+static void startup_path_set_current_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutConfig *lc = data;
+	lc->options.startup_path = STARTUP_PATH_CURRENT;
+}
+
+static void startup_path_set_last_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutConfig *lc = data;
+	lc->options.startup_path = STARTUP_PATH_LAST;
+}
+
+static void startup_path_set_home_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutConfig *lc = data;
+	lc->options.startup_path = STARTUP_PATH_HOME;
+}
+
+
 /*
 static void layout_config_save_cb(GtkWidget *widget, gpointer data)
 {
@@ -2115,9 +2134,10 @@ void layout_show_config_window(LayoutWindow *lw)
 	gtk_container_add(GTK_CONTAINER(frame), vbox);
 	gtk_widget_show(vbox);
 
+
 	group = pref_group_new(vbox, FALSE, _("General options"), GTK_ORIENTATION_VERTICAL);
 
-	pref_label_new(group, _("Home button path (empty to use your home directory)"));
+	pref_label_new(group, _("Home path (empty to use your home directory)"));
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 
 	tabcomp = tab_completion_new(&lc->home_path_entry, lc->options.home_path, NULL, NULL);
@@ -2128,10 +2148,20 @@ void layout_show_config_window(LayoutWindow *lw)
 	button = pref_button_new(hbox, NULL, _("Use current"), FALSE,
 				 G_CALLBACK(home_path_set_current_cb), lc);
 
-	group = pref_group_new(vbox, FALSE, _("Behavior"), GTK_ORIENTATION_VERTICAL);
-
 	pref_checkbox_new_int(group, _("Show date in directories list view"),
 			      lc->options.show_directory_date, &lc->options.show_directory_date);
+
+	group = pref_group_new(vbox, FALSE, _("Start-up directory:"), GTK_ORIENTATION_VERTICAL);
+
+	button = pref_radiobutton_new(group, NULL, _("No change"),
+				      (lc->options.startup_path == STARTUP_PATH_CURRENT),
+				      G_CALLBACK(startup_path_set_current_cb), lc);
+	button = pref_radiobutton_new(group, button, _("Restore last path"),
+				      (lc->options.startup_path == STARTUP_PATH_LAST),
+				      G_CALLBACK(startup_path_set_last_cb), lc);
+	button = pref_radiobutton_new(group, button, _("Home path"),
+				      (lc->options.startup_path == STARTUP_PATH_HOME),
+				      G_CALLBACK(startup_path_set_home_cb), lc);
 
 	group = pref_group_new(vbox, FALSE, _("Layout"), GTK_ORIENTATION_VERTICAL);
 
@@ -2174,11 +2204,8 @@ void layout_sync_options_with_current_state(LayoutWindow *lw)
 	lw->options.image_overlay.histogram_channel = histogram->histogram_channel;
 	lw->options.image_overlay.histogram_mode = histogram->histogram_mode;
 
-//	if (options->startup.restore_path && options->startup.use_last_path)
-//		{
-//		g_free(options->startup.path);
-//		options->startup.path = g_strdup(layout_get_path(NULL));
-//		}
+	g_free(lw->options.last_path);
+	lw->options.last_path = g_strdup(layout_get_path(lw));
 }
 
 void layout_apply_options(LayoutWindow *lw, LayoutOptions *lop)
@@ -2406,6 +2433,8 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 	WRITE_NL(); WRITE_BOOL(*layout, show_thumbnails);
 	WRITE_NL(); WRITE_BOOL(*layout, show_directory_date);
 	WRITE_NL(); WRITE_CHAR(*layout, home_path);
+	WRITE_NL(); WRITE_CHAR(*layout, last_path);
+	WRITE_NL(); WRITE_UINT(*layout, startup_path);
 	WRITE_SEPARATOR();
 
 	WRITE_NL(); WRITE_INT(*layout, main_window.x);
@@ -2477,6 +2506,8 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		if (READ_BOOL(*layout, show_thumbnails)) continue;
 		if (READ_BOOL(*layout, show_directory_date)) continue;
 		if (READ_CHAR(*layout, home_path)) continue;
+		if (READ_CHAR(*layout, last_path)) continue;
+		if (READ_UINT_CLAMP(*layout, startup_path, 0, STARTUP_PATH_HOME)) continue;
 
 		/* window positions */
 
@@ -2519,6 +2550,23 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		}
 }
 
+static void layout_config_startup_path(LayoutOptions *lop, gchar **path)
+{
+	switch (lop->startup_path)
+		{
+		case STARTUP_PATH_LAST:
+			*path = (lop->last_path && isdir(lop->last_path)) ? g_strdup(lop->last_path) : get_current_dir();
+			break;
+		case STARTUP_PATH_HOME:
+			*path = (lop->home_path && isdir(lop->home_path)) ? g_strdup(lop->home_path) : g_strdup(homedir());
+			break;
+		default:
+			*path = get_current_dir();
+			break;
+		}
+}	
+
+
 static void layout_config_commandline(LayoutOptions *lop, gchar **path)
 {
 	if (command_line->startup_blank)
@@ -2533,14 +2581,7 @@ static void layout_config_commandline(LayoutOptions *lop, gchar **path)
 		{
 		*path = g_strdup(command_line->path);
 		}
-	else if (options->startup.restore_path && options->startup.path && isdir(options->startup.path))
-		{
-		*path = g_strdup(options->startup.path);
-		}
-	else
-		{
-		*path = get_current_dir();
-		}
+	else layout_config_startup_path(lop, path);
 	
 	if (command_line->tools_show)
 		{
@@ -2567,13 +2608,9 @@ LayoutWindow *layout_new_from_config(const gchar **attribute_names, const gchar 
 		{
 		layout_config_commandline(&lop, &path);
 		}
-	else if (options->startup.restore_path && options->startup.path && isdir(options->startup.path))
+	else 
 		{
-		path = g_strdup(options->startup.path);
-		}
-	else
-		{
-		path = get_current_dir();
+		layout_config_startup_path(&lop, &path);
 		}
 
 	lw = layout_new_with_geometry(NULL, &lop, use_commandline ? command_line->geometry : NULL);

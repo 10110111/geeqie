@@ -113,10 +113,6 @@ ConfOptions *init_options(ConfOptions *options)
 	options->slideshow.random = FALSE;
 	options->slideshow.repeat = FALSE;
 
-	options->startup.path = NULL;
-	options->startup.restore_path = FALSE;
-	options->startup.use_last_path = FALSE;
-
 	options->thumbnails.cache_into_dirs = FALSE;
 	options->thumbnails.enable_caching = TRUE;
 	options->thumbnails.fast = TRUE;
@@ -173,6 +169,7 @@ void copy_layout_options(LayoutOptions *dest, const LayoutOptions *src)
 	dest->id = g_strdup(src->id);
 	dest->order = g_strdup(src->order);
 	dest->home_path = g_strdup(src->home_path);
+	dest->last_path = g_strdup(src->last_path);
 }
 
 void free_layout_options_content(LayoutOptions *dest)
@@ -180,6 +177,7 @@ void free_layout_options_content(LayoutOptions *dest)
 	g_free(dest->id);
 	g_free(dest->order);
 	g_free(dest->home_path);
+	g_free(dest->last_path);
 }
 
 LayoutOptions *init_layout_options(LayoutOptions *options)
@@ -230,12 +228,6 @@ static void sync_options_with_current_state(ConfOptions *options)
 					       &options->color_profile.input_type,
 					       &options->color_profile.screen_type,
 					       &options->color_profile.use_image);
-
-		if (options->startup.restore_path && options->startup.use_last_path)
-			{
-			g_free(options->startup.path);
-			options->startup.path = g_strdup(layout_get_path(lw));
-			}
 		}
 
 }

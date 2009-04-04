@@ -283,13 +283,6 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_BOOL(*options, save_window_positions);
 	WRITE_NL(); WRITE_BOOL(*options, tools_restore_state);
 
-//	WRITE_SUBTITLE("Startup Options");
-
-	WRITE_NL(); WRITE_BOOL(*options, startup.restore_path);
-	WRITE_NL(); WRITE_BOOL(*options, startup.use_last_path);
-	WRITE_NL(); WRITE_CHAR(*options, startup.path);
-
-
 //	WRITE_SUBTITLE("File operations Options");
 
 	WRITE_NL(); WRITE_BOOL(*options, file_ops.enable_in_place_rename);
@@ -600,15 +593,6 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 
 		if (READ_BOOL(*options, save_window_positions)) continue;
 		if (READ_BOOL(*options, tools_restore_state)) continue;
-
-		/* startup options */
-		
-		if (READ_BOOL(*options, startup.restore_path)) continue;
-
-		if (READ_BOOL(*options, startup.use_last_path)) continue;
-
-		if (READ_CHAR(*options, startup.path)) continue;
-	
 
 		/* properties dialog options */
 		if (READ_CHAR(*options, properties.tabs_order)) continue;
