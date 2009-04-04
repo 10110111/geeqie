@@ -2826,7 +2826,7 @@ static gboolean pr_queue_draw_idle_cb(gpointer data)
 	if (pr->draw_queue)
 		{
 		qd = pr->draw_queue->data;
-		fast = ((pr->zoom_2pass && pr->zoom_quality != GDK_INTERP_NEAREST && pr->scale != 1.0) || pr->post_process_slow);
+		fast = (pr->zoom_2pass && ((pr->zoom_quality != GDK_INTERP_NEAREST && pr->scale != 1.0) || pr->post_process_slow));
 		}
 	else
 		{
