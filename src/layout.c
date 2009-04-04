@@ -2151,6 +2151,9 @@ void layout_show_config_window(LayoutWindow *lw)
 	pref_checkbox_new_int(group, _("Show date in directories list view"),
 			      lc->options.show_directory_date, &lc->options.show_directory_date);
 
+	pref_checkbox_new_int(group, _("Exit program when this window is closed"),
+			      lc->options.exit_on_close, &lc->options.exit_on_close);
+
 	group = pref_group_new(vbox, FALSE, _("Start-up directory:"), GTK_ORIENTATION_VERTICAL);
 
 	button = pref_radiobutton_new(group, NULL, _("No change"),
@@ -2228,7 +2231,7 @@ void layout_apply_options(LayoutWindow *lw, LayoutOptions *lop)
 
 void layout_close(LayoutWindow *lw)
 {
-	if (layout_window_list && layout_window_list->next)
+	if (!lw->options.exit_on_close && layout_window_list && layout_window_list->next)
 		{
 		layout_free(lw);
 		}
@@ -2435,6 +2438,7 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 	WRITE_NL(); WRITE_CHAR(*layout, home_path);
 	WRITE_NL(); WRITE_CHAR(*layout, last_path);
 	WRITE_NL(); WRITE_UINT(*layout, startup_path);
+	WRITE_NL(); WRITE_BOOL(*layout, exit_on_close);
 	WRITE_SEPARATOR();
 
 	WRITE_NL(); WRITE_INT(*layout, main_window.x);
@@ -2508,6 +2512,7 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		if (READ_CHAR(*layout, home_path)) continue;
 		if (READ_CHAR(*layout, last_path)) continue;
 		if (READ_UINT_CLAMP(*layout, startup_path, 0, STARTUP_PATH_HOME)) continue;
+		if (READ_BOOL(*layout, exit_on_close)) continue;
 
 		/* window positions */
 

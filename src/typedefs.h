@@ -538,6 +538,8 @@ struct _LayoutOptions
 	gchar *last_path;
 
 	StartUpPath startup_path;
+
+	gboolean exit_on_close;
 };
 
 struct _LayoutWindow
