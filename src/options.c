@@ -67,12 +67,10 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image.enable_read_ahead = TRUE;
 	options->image.exif_rotate_enable = TRUE;
 	options->image.fit_window_to_image = FALSE;
-	options->image.idle_read_loop_count = IMAGE_LOADER_IDLE_READ_LOOP_COUNT_DEFAULT;
 	options->image.limit_autofit_size = FALSE;
 	options->image.limit_window_size = TRUE;
 	options->image.max_autofit_size = 100;
 	options->image.max_window_size = 90;
-	options->image.read_buffer_size = IMAGE_LOADER_READ_BUFFER_SIZE_DEFAULT;
 	options->image.scroll_reset_method = SCROLL_RESET_NOCHANGE;
 	options->image.tile_cache_max = 10;
 	options->image.image_cache_max = 128; /* 4 x 10MPix */

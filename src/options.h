@@ -71,9 +71,6 @@ struct _ConfOptions
 
 		gint use_custom_border_color;
 		GdkColor border_color;
-
-		gint read_buffer_size; /* bytes to read from file per read() */
-		gint idle_read_loop_count; /* the number of bytes to read per idle call (define x image.read_buffer_size) */
 	} image;
 
 	/* thumbnails */

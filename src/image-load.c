@@ -22,6 +22,9 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 
+#define IMAGE_LOADER_READ_BUFFER_SIZE_DEFAULT 	4096
+#define IMAGE_LOADER_IDLE_READ_LOOP_COUNT_DEFAULT 	1
+
 
 /**************************************************************************************/
 /* image loader class */
@@ -79,8 +82,8 @@ static void image_loader_init(GTypeInstance *instance, gpointer g_class)
 
 	il->idle_done_id = -1;
 
-	il->idle_read_loop_count = options->image.idle_read_loop_count;
-	il->read_buffer_size = options->image.read_buffer_size;
+	il->idle_read_loop_count = IMAGE_LOADER_IDLE_READ_LOOP_COUNT_DEFAULT;
+	il->read_buffer_size = IMAGE_LOADER_READ_BUFFER_SIZE_DEFAULT;
 	il->mapped_file = NULL;
 
 	il->requested_width = 0;

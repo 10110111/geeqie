@@ -282,9 +282,6 @@ static void config_window_apply(void)
 	options->image.tile_cache_max = c_options->image.tile_cache_max;
 	options->image.image_cache_max = c_options->image.image_cache_max;
 
-	options->image.read_buffer_size = c_options->image.read_buffer_size;
-	options->image.idle_read_loop_count = c_options->image.idle_read_loop_count;
-
 	options->image.zoom_quality = c_options->image.zoom_quality;
 
 	options->image.zoom_increment = c_options->image.zoom_increment;
@@ -964,17 +961,6 @@ static void config_tab_general(GtkWidget *notebook)
 
 	pref_spin_new_int(group, _("Decoded image cache size (Mb):"), NULL,
 			  0, 1024, 1, options->image.image_cache_max, &c_options->image.image_cache_max);
-
-	pref_spin_new_int(group, _("Image read buffer size (bytes):"), NULL,
-			  IMAGE_LOADER_READ_BUFFER_SIZE_MIN, IMAGE_LOADER_READ_BUFFER_SIZE_MAX, 512,
-			  options->image.read_buffer_size, &c_options->image.read_buffer_size);
-
-	pref_spin_new_int(group, _("Image idle loop read count:"), NULL,
-			  IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MIN, IMAGE_LOADER_IDLE_READ_LOOP_COUNT_MAX, 1,
-			  options->image.idle_read_loop_count, &c_options->image.idle_read_loop_count);
-
-
-
 }
 
 /* image tab */
