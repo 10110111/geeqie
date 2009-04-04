@@ -515,6 +515,43 @@ guint64 metadata_read_int(FileData *fd, const gchar *key, guint64 fallback)
 	g_free(string);
 	return ret;
 }
+
+gdouble metadata_read_GPS_coord(FileData *fd, const gchar *key, gdouble fallback)
+{
+	gdouble coord;
+	gchar *endptr;
+	gdouble deg, min, sec;
+	gboolean ok = FALSE;
+	gchar *string = metadata_read_string(fd, key, METADATA_PLAIN);
+	if (!string) return fallback;
+	
+	deg = g_ascii_strtod(string, &endptr);
+	if (*endptr == ',')
+		{
+		min = g_ascii_strtod(endptr + 1, &endptr);
+		if (*endptr == ',')
+			sec = g_ascii_strtod(endptr + 1, &endptr);
+		else 
+			sec = 0.0;
+		
+		
+		if (*endptr == 'S' || *endptr == 'W' || *endptr == 'N' || *endptr == 'E') 
+			{
+			coord = deg + min /60.0 + sec / 3600.0;
+			ok = TRUE;
+			if (*endptr == 'S' || *endptr == 'W') coord = -coord;
+			}
+		}
+	
+	if (!ok)
+		{
+		coord = fallback;
+		log_printf("unable to parse GPS coordinate '%s'\n", string);
+		}
+	
+	g_free(string);
+	return coord;
+}
 	
 gboolean metadata_append_string(FileData *fd, const gchar *key, const char *value)
 {
