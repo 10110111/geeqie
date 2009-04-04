@@ -2080,6 +2080,7 @@ void layout_bar_toggle(LayoutWindow *lw)
 			layout_bar_set_default(lw);
 			}
 		gtk_widget_show(lw->bar);
+		bar_set_fd(lw->bar, layout_image_get_fd(lw));
 		}
 	layout_util_sync_views(lw);
 }
