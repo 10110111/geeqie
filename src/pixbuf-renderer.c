@@ -1129,6 +1129,8 @@ void pixbuf_renderer_overlay_set(PixbufRenderer *pr, gint id, GdkPixbuf *pixbuf,
 		od->x = x;
 		od->y = y;
 
+		if (!od->window) pr_overlay_init_window(pr, od);
+
 		pr_overlay_queue_draw(pr, od);
 		pr_overlay_get_position(pr, od, &px, &py, &pw, &ph);
 		gdk_window_move_resize(od->window, px, py, pw, ph);
