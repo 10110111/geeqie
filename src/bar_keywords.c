@@ -794,26 +794,31 @@ static void bar_pane_keywords_edit_ok_cb(GenericDialog *gd, gpointer data)
 	else
 		{
 		GList *work = keywords;
+		gboolean append_to = FALSE;
 
 		while (work)
 			{
 			GtkTreeIter add;
-			if (keyword_exists(keyword_tree, NULL, have_dest ? &kw_iter : NULL, work->data, FALSE, NULL))
+			if (keyword_exists(keyword_tree, NULL, (have_dest || append_to) ? &kw_iter : NULL, work->data, FALSE, NULL))
 				{
 				work = work->next;
 				continue;
 				}
 			if (have_dest)
 				{
+				gtk_tree_store_append(GTK_TREE_STORE(keyword_tree), &add, &kw_iter);
+				}
+			else if (append_to)
+				{
 				gtk_tree_store_insert_after(GTK_TREE_STORE(keyword_tree), &add, NULL, &kw_iter);
 				}
 			else
 				{
 				gtk_tree_store_append(GTK_TREE_STORE(keyword_tree), &add, NULL);
-				have_dest = TRUE;
+				append_to = TRUE;
+				kw_iter = add;
 				}
-			kw_iter = add;
-			keyword_set(GTK_TREE_STORE(keyword_tree), &kw_iter, work->data, cdd->is_keyword);
+			keyword_set(GTK_TREE_STORE(keyword_tree), &add, work->data, cdd->is_keyword);
 			work = work->next;
 			}
 		}
