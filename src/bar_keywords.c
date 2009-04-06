@@ -870,7 +870,6 @@ static void bar_pane_keywords_edit_dialog(PaneKeywordsData *pkd, gboolean edit_e
 	cdd->pkd =pkd;
 	cdd->click_tpath = pkd->click_tpath;
 	pkd->click_tpath = NULL;
-	cdd->is_keyword = is_keyword;
 	cdd->edit_existing = edit_existing;
 
 	cdd->gd = gd = generic_dialog_new(name ? _("Edit keyword") : _("Add keywords"), "keyword_edit",
@@ -898,11 +897,14 @@ static void bar_pane_keywords_edit_dialog(PaneKeywordsData *pkd, gboolean edit_e
 	group = pref_group_new(gd->vbox, FALSE, _("Keyword type:"), GTK_ORIENTATION_VERTICAL);
 
 	button = pref_radiobutton_new(group, NULL, _("Active keyword"),
-				      (cdd->is_keyword),
+				      (is_keyword),
 				      G_CALLBACK(bar_pane_keywords_conf_set_kw), cdd);
 	button = pref_radiobutton_new(group, button, _("Helper"),
-				      (!cdd->is_keyword),
+				      (!is_keyword),
 				      G_CALLBACK(bar_pane_keywords_conf_set_helper), cdd);
+
+	cdd->is_keyword = is_keyword;
+
 	g_free(name);
 
 	gtk_widget_grab_focus(cdd->edit_widget);
