@@ -905,6 +905,8 @@ static void bar_pane_keywords_edit_dialog(PaneKeywordsData *pkd, gboolean edit_e
 				      G_CALLBACK(bar_pane_keywords_conf_set_helper), cdd);
 	g_free(name);
 
+	gtk_widget_grab_focus(cdd->edit_widget);
+
 	gtk_widget_show(gd->dialog);
 }
 
