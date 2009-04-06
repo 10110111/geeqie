@@ -915,13 +915,13 @@ static void config_tab_general(GtkWidget *notebook)
 	subgroup = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 	pref_checkbox_link_sensitivity(ct_button, subgroup);
 
-	button = pref_checkbox_new_int(subgroup, _("Use shared thumbnail cache"),
+	button = pref_checkbox_new_int(subgroup, _("Use standard thumbnail cache, shared with other applications"),
 				       options->thumbnails.spec_standard, &c_options->thumbnails.spec_standard);
 
 	subgroup = pref_box_new(subgroup, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 	pref_checkbox_link_sensitivity_swap(button, subgroup);
 
-	pref_checkbox_new_int(subgroup, _("Cache thumbnails into .thumbnails"),
+	pref_checkbox_new_int(subgroup, _("Store thumbnails in '.thumbnails' folder, local to image folder (non-standard)"),
 			      options->thumbnails.cache_into_dirs, &c_options->thumbnails.cache_into_dirs);
 
 #if 0
@@ -929,7 +929,7 @@ static void config_tab_general(GtkWidget *notebook)
 			      options->thumbnails.use_xvpics, &c_options->thumbnails.use_xvpics);
 #endif
 
-	pref_checkbox_new_int(group, _("Use EXIF thumbnails when available"),
+	pref_checkbox_new_int(group, _("Use EXIF thumbnails when available (EXIF thumbnails may be outdated)"),
 			      options->thumbnails.use_exif, &c_options->thumbnails.use_exif);
 
 	group = pref_group_new(vbox, FALSE, _("Slide show"), GTK_ORIENTATION_VERTICAL);
@@ -946,11 +946,18 @@ static void config_tab_general(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Image loading and caching"), GTK_ORIENTATION_VERTICAL);
 
+#if 0
 	pref_spin_new_int(group, _("Offscreen cache size (Mb per image):"), NULL,
 			  0, 128, 1, options->image.tile_cache_max, &c_options->image.tile_cache_max);
+#endif
 
 	pref_spin_new_int(group, _("Decoded image cache size (Mb):"), NULL,
 			  0, 1024, 1, options->image.image_cache_max, &c_options->image.image_cache_max);
+	pref_checkbox_new_int(group, _("Preload next image"),
+			      options->image.enable_read_ahead, &c_options->image.enable_read_ahead);
+
+	pref_checkbox_new_int(group, _("Refresh on file change"),
+			      options->update_on_time_change, &c_options->update_on_time_change);
 }
 
 /* image tab */
@@ -1032,10 +1039,6 @@ static void config_tab_image(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Convenience"), GTK_ORIENTATION_VERTICAL);
 
-	pref_checkbox_new_int(group, _("Refresh on file change"),
-			      options->update_on_time_change, &c_options->update_on_time_change);
-	pref_checkbox_new_int(group, _("Preload next image"),
-			      options->image.enable_read_ahead, &c_options->image.enable_read_ahead);
 	pref_checkbox_new_int(group, _("Auto rotate image using Exif information"),
 			      options->image.exif_rotate_enable, &c_options->image.exif_rotate_enable);
 }
@@ -1158,7 +1161,7 @@ static GtkTreeModel *create_class_model(void)
 
 
 /* filtering tab */
-static void config_tab_filtering(GtkWidget *notebook)
+static void config_tab_files(GtkWidget *notebook)
 {
 	GtkWidget *hbox;
 	GtkWidget *frame;
@@ -1172,14 +1175,16 @@ static void config_tab_filtering(GtkWidget *notebook)
 	GtkTreeSelection *selection;
 	GtkTreeViewColumn *column;
 
-	vbox = scrolled_notebook_page(notebook, _("Filtering"));
+	vbox = scrolled_notebook_page(notebook, _("Files"));
 
 	group = pref_box_new(vbox, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 
 	pref_checkbox_new_int(group, _("Show hidden files or folders"),
 			      options->file_filter.show_hidden_files, &c_options->file_filter.show_hidden_files);
+#if 0
 	pref_checkbox_new_int(group, _("Show dot directory"),
 			      options->file_filter.show_dot_directory, &c_options->file_filter.show_dot_directory);
+#endif
 	pref_checkbox_new_int(group, _("Case sensitive sort"),
 			      options->file_sort.case_sensitive, &c_options->file_sort.case_sensitive);
 
@@ -1321,10 +1326,10 @@ static void config_tab_metadata(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Metadata"), GTK_ORIENTATION_VERTICAL);
 
-	pref_checkbox_new_int(group, _("Store metadata and cache files in source image's directory"),
+	pref_checkbox_new_int(group, _("Store metadata in '.metadata' folder, local to image folder (non-standard)"),
 			      options->metadata.enable_metadata_dirs, &c_options->metadata.enable_metadata_dirs);
 
-	ct_button = pref_checkbox_new_int(group, _("Store keywords and comments as XMP tags in image files"),
+	ct_button = pref_checkbox_new_int(group, _("Store keywords and comments as XMP tags in image files (standard)"),
 			      options->metadata.save_in_image_file, &c_options->metadata.save_in_image_file);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_SPACE);
@@ -1371,7 +1376,7 @@ static void config_tab_color(GtkWidget *notebook)
 	GtkWidget *table;
 	gint i;
 
-	vbox = scrolled_notebook_page(notebook, _("Color"));
+	vbox = scrolled_notebook_page(notebook, _("Color management"));
 
 	group =  pref_group_new(vbox, FALSE, _("Color profiles"), GTK_ORIENTATION_VERTICAL);
 #ifndef HAVE_LCMS
@@ -1591,7 +1596,7 @@ static void config_window_create(void)
 	config_tab_general(notebook);
 	config_tab_image(notebook);
 	config_tab_windows(notebook);
-	config_tab_filtering(notebook);
+	config_tab_files(notebook);
 	config_tab_metadata(notebook);
 	config_tab_color(notebook);
 	config_tab_behavior(notebook);
