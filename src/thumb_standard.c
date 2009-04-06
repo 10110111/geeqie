@@ -738,7 +738,7 @@ struct _ThumbValidate
 	void (*func_valid)(const gchar *path, gboolean valid, gpointer data);
 	gpointer data;
 
-	gint idle_id;
+	guint idle_id; /* event source id */
 };
 
 static void thumb_loader_std_thumb_file_validate_free(ThumbValidate *tv)
@@ -756,8 +756,11 @@ void thumb_loader_std_thumb_file_validate_cancel(ThumbLoaderStd *tl)
 
 	tv = tl->data;
 
-	if (tv->idle_id != -1) g_source_remove(tv->idle_id);
-	tv->idle_id = -1;
+	if (tv->idle_id)
+		{
+		g_source_remove(tv->idle_id);
+		tv->idle_id = 0;
+		}
 
 	thumb_loader_std_thumb_file_validate_free(tv);
 }
@@ -835,7 +838,7 @@ static gboolean thumb_loader_std_thumb_file_validate_idle_cb(gpointer data)
 {
 	ThumbValidate *tv = data;
 
-	tv->idle_id = -1;
+	tv->idle_id = 0;
 	thumb_loader_std_thumb_file_validate_finish(tv, FALSE);
 
 	return FALSE;
@@ -868,7 +871,7 @@ ThumbLoaderStd *thumb_loader_std_thumb_file_validate(const gchar *thumb_path, gi
 		}
 	else
 		{
-		tv->idle_id = -1;
+		tv->idle_id = 0;
 		}
 
 	return tv->tl;

@@ -174,7 +174,7 @@ static gboolean cache_loader_process(CacheLoader *cl)
 			g_free(base);
 			}
 
-		cl->idle_id = -1;
+		cl->idle_id = 0;
 
 		if (cl->done_func)
 			{
@@ -232,10 +232,10 @@ void cache_loader_free(CacheLoader *cl)
 {
 	if (!cl) return;
 
-	if (cl->idle_id != -1)
+	if (cl->idle_id)
 		{
 		g_source_remove(cl->idle_id);
-		cl->idle_id = -1;
+		cl->idle_id = 0;
 		}
 
 	image_loader_free(cl->il);

@@ -67,8 +67,6 @@ ViewDir *vd_new(DirViewType type, FileData *dir_fd)
 
 	ViewDir *vd = g_new0(ViewDir, 1);
 
-	vd->drop_scroll_id = -1;
-
 	vd->widget = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(vd->widget), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(vd->widget),
@@ -803,8 +801,11 @@ static void vd_dnd_drop_update(ViewDir *vd, gint x, gint y)
 
 void vd_dnd_drop_scroll_cancel(ViewDir *vd)
 {
-	if (vd->drop_scroll_id != -1) g_source_remove(vd->drop_scroll_id);
-	vd->drop_scroll_id = -1;
+	if (vd->drop_scroll_id)
+		{
+		g_source_remove(vd->drop_scroll_id);
+		vd->drop_scroll_id = 0;
+		}
 }
 
 static gboolean vd_auto_scroll_idle_cb(gpointer data)
@@ -826,7 +827,7 @@ static gboolean vd_auto_scroll_idle_cb(gpointer data)
 			}
 		}
 
-	vd->drop_scroll_id = -1;
+	vd->drop_scroll_id = 0;
 	return FALSE;
 }
 
@@ -836,7 +837,7 @@ static gboolean vd_auto_scroll_notify_cb(GtkWidget *widget, gint x, gint y, gpoi
 
 	if (!vd->drop_fd || vd->drop_list) return FALSE;
 
-	if (vd->drop_scroll_id == -1) vd->drop_scroll_id = g_idle_add(vd_auto_scroll_idle_cb, vd);
+	if (!vd->drop_scroll_id) vd->drop_scroll_id = g_idle_add(vd_auto_scroll_idle_cb, vd);
 
 	return TRUE;
 }

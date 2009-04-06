@@ -173,14 +173,17 @@ static gboolean vdtree_dnd_drop_expand_cb(gpointer data)
 		vdtree_expand_by_data(vd, vd->drop_fd, TRUE);
 		}
 
-	VDTREE(vd)->drop_expand_id = -1;
+	VDTREE(vd)->drop_expand_id = 0;
 	return FALSE;
 }
 
 static void vdtree_dnd_drop_expand_cancel(ViewDir *vd)
 {
-	if (VDTREE(vd)->drop_expand_id != -1) g_source_remove(VDTREE(vd)->drop_expand_id);
-	VDTREE(vd)->drop_expand_id = -1;
+	if (VDTREE(vd)->drop_expand_id)
+		{
+		g_source_remove(VDTREE(vd)->drop_expand_id);
+		VDTREE(vd)->drop_expand_id = 0;
+		}
 }
 
 static void vdtree_dnd_drop_expand(ViewDir *vd)
@@ -959,7 +962,6 @@ ViewDir *vdtree_new(ViewDir *vd, FileData *dir_fd)
 	vd->info = g_new0(ViewDirInfoTree, 1);
 
 	vd->type = DIRVIEW_TREE;
-	VDTREE(vd)->drop_expand_id = -1;
 
 	vd->dnd_drop_leave_func = vdtree_dnd_drop_expand_cancel;
 	vd->dnd_drop_update_func = vdtree_dnd_drop_expand;

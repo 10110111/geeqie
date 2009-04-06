@@ -552,11 +552,11 @@ static gboolean tip_schedule_cb(gpointer data)
 {
 	CollectTable *ct = data;
 
-	if (ct->tip_delay_id == -1) return FALSE;
+	if (!ct->tip_delay_id) return FALSE;
 
 	tip_show(ct);
 
-	ct->tip_delay_id = -1;
+	ct->tip_delay_id = 0;
 	return FALSE;
 }
 
@@ -564,10 +564,10 @@ static void tip_schedule(CollectTable *ct)
 {
 	tip_hide(ct);
 
-	if (ct->tip_delay_id != -1)
+	if (ct->tip_delay_id)
 		{
 		g_source_remove(ct->tip_delay_id);
-		ct->tip_delay_id = -1;
+		ct->tip_delay_id = 0;
 		}
 
 	ct->tip_delay_id = g_timeout_add(ct->show_text ? COLLECT_TABLE_TIP_DELAY_PATH : COLLECT_TABLE_TIP_DELAY, tip_schedule_cb, ct);
@@ -577,8 +577,11 @@ static void tip_unschedule(CollectTable *ct)
 {
 	tip_hide(ct);
 
-	if (ct->tip_delay_id != -1) g_source_remove(ct->tip_delay_id);
-	ct->tip_delay_id = -1;
+	if (ct->tip_delay_id)
+		{
+		g_source_remove(ct->tip_delay_id);
+		ct->tip_delay_id = 0;
+		}
 }
 
 static void tip_update(CollectTable *ct, CollectInfo *info)
@@ -1452,7 +1455,7 @@ static gboolean collection_table_auto_scroll_idle_cb(gpointer data)
 	gint x, y;
 	gint w, h;
 
-	if (ct->drop_idle_id == -1) return FALSE;
+	if (!ct->drop_idle_id) return FALSE;
 
 	window = ct->listview->window;
 	gdk_window_get_pointer(window, &x, &y, NULL);
@@ -1462,7 +1465,7 @@ static gboolean collection_table_auto_scroll_idle_cb(gpointer data)
 		collection_table_motion_update(ct, x, y, TRUE);
 		}
 
-	ct->drop_idle_id = -1;
+	ct->drop_idle_id = 0;
 	return FALSE;
 }
 
@@ -1470,7 +1473,10 @@ static gboolean collection_table_auto_scroll_notify_cb(GtkWidget *widget, gint x
 {
 	CollectTable *ct = data;
 
-	if (ct->drop_idle_id == -1) ct->drop_idle_id = g_idle_add(collection_table_auto_scroll_idle_cb, ct);
+	if (!ct->drop_idle_id)
+		{
+		ct->drop_idle_id = g_idle_add(collection_table_auto_scroll_idle_cb, ct);
+		}
 
 	return TRUE;
 }
@@ -1479,10 +1485,10 @@ static void collection_table_scroll(CollectTable *ct, gboolean scroll)
 {
 	if (!scroll)
 		{
-		if (ct->drop_idle_id != -1)
+		if (ct->drop_idle_id)
 			{
 			g_source_remove(ct->drop_idle_id);
-			ct->drop_idle_id = -1;
+			ct->drop_idle_id = 0;
 			}
 		widget_auto_scroll_stop(ct->listview);
 		collection_table_insert_marker(ct, NULL, FALSE);
@@ -1810,8 +1816,9 @@ static gboolean collection_table_sync_idle_cb(gpointer data)
 {
 	CollectTable *ct = data;
 
-	if (ct->sync_idle_id == -1) return FALSE;
-	ct->sync_idle_id = -1;
+	if (!ct->sync_idle_id) return FALSE;
+	g_source_remove(ct->sync_idle_id);
+	ct->sync_idle_id = 0;
 
 	collection_table_sync(ct);
 	return FALSE;
@@ -1819,7 +1826,7 @@ static gboolean collection_table_sync_idle_cb(gpointer data)
 
 static void collection_table_sync_idle(CollectTable *ct)
 {
-	if (ct->sync_idle_id == -1)
+	if (!ct->sync_idle_id)
 		{
 		/* high priority, the view needs to be resynced before a redraw
 		 * may contain invalid pointers at this time
@@ -2416,7 +2423,7 @@ static void collection_table_destroy(GtkWidget *widget, gpointer data)
 		gtk_widget_destroy(ct->popup);
 		}
 
-	if (ct->sync_idle_id != -1) g_source_remove(ct->sync_idle_id);
+	if (ct->sync_idle_id) g_source_remove(ct->sync_idle_id);
 
 	tip_unschedule(ct);
 	collection_table_scroll(ct, FALSE);
@@ -2441,11 +2448,7 @@ CollectTable *collection_table_new(CollectionData *cd)
 	ct = g_new0(CollectTable, 1);
 	
 	ct->cd = cd;
-	ct->tip_delay_id = -1;
 	ct->show_text = options->show_icon_names;
-
-	ct->sync_idle_id = -1;
-	ct->drop_idle_id = -1;
 
 	ct->scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(ct->scrolled), GTK_SHADOW_IN);

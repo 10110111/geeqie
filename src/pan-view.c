@@ -1107,7 +1107,7 @@ static gint pan_layout_update_idle_cb(gpointer data)
 
 			if (pan_cache_step(pw)) return TRUE;
 
-			pw->idle_id = -1;
+			pw->idle_id = 0;
 			return FALSE;
 			}
 		}
@@ -1142,13 +1142,13 @@ static gint pan_layout_update_idle_cb(gpointer data)
 
 	pan_window_message(pw, NULL);
 
-	pw->idle_id = -1;
+	pw->idle_id = 0;
 	return FALSE;
 }
 
 static void pan_layout_update_idle(PanWindow *pw)
 {
-	if (pw->idle_id == -1)
+	if (!pw->idle_id)
 		{
 		pw->idle_id = g_idle_add(pan_layout_update_idle_cb, pw);
 		}
@@ -2301,7 +2301,7 @@ static void pan_window_close(PanWindow *pw)
 	pref_list_int_set(PAN_PREF_GROUP, PAN_PREF_INFO_IMAGE, pw->info_image_size);
 	pref_list_int_set(PAN_PREF_GROUP, PAN_PREF_INFO_EXIF, pw->info_includes_exif);
 
-	if (pw->idle_id != -1)
+	if (pw->idle_id)
 		{
 		g_source_remove(pw->idle_id);
 		}
@@ -2359,8 +2359,7 @@ static void pan_window_new_real(FileData *dir_fd)
 
 	pw->ignore_symlinks = TRUE;
 
-	pw->overlay_id = -1;
-	pw->idle_id = -1;
+	pw->idle_id = 0;
 
 	pw->window = window_new(GTK_WINDOW_TOPLEVEL, "panview", NULL, NULL, _("Pan View"));
 

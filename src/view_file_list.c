@@ -718,7 +718,7 @@ static gboolean vflist_select_idle_cb(gpointer data)
 
 	if (!vf->layout)
 		{
-		VFLIST(vf)->select_idle_id = -1;
+		VFLIST(vf)->select_idle_id = 0;
 		return FALSE;
 		}
 
@@ -730,14 +730,17 @@ static gboolean vflist_select_idle_cb(gpointer data)
 		VFLIST(vf)->select_fd = NULL;
 		}
 
-	VFLIST(vf)->select_idle_id = -1;
+	VFLIST(vf)->select_idle_id = 0;
 	return FALSE;
 }
 
 static void vflist_select_idle_cancel(ViewFile *vf)
 {
-	if (VFLIST(vf)->select_idle_id != -1) g_source_remove(VFLIST(vf)->select_idle_id);
-	VFLIST(vf)->select_idle_id = -1;
+	if (VFLIST(vf)->select_idle_id)
+		{
+		g_source_remove(VFLIST(vf)->select_idle_id);
+		VFLIST(vf)->select_idle_id = 0;
+		}
 }
 
 static gboolean vflist_select_cb(GtkTreeSelection *selection, GtkTreeModel *store, GtkTreePath *tpath,
@@ -757,7 +760,7 @@ static gboolean vflist_select_cb(GtkTreeSelection *selection, GtkTreeModel *stor
 		}
 
 	if (vf->layout &&
-	    VFLIST(vf)->select_idle_id == -1)
+	    !VFLIST(vf)->select_idle_id)
 		{
 		VFLIST(vf)->select_idle_id = g_idle_add(vflist_select_idle_cb, vf);
 		}
@@ -1973,8 +1976,6 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 
 	vf->info = g_new0(ViewFileInfoList, 1);
 	
-	VFLIST(vf)->select_idle_id = -1;
-
 	flist_types[FILE_COLUMN_POINTER] = G_TYPE_POINTER;
 	flist_types[FILE_COLUMN_VERSION] = G_TYPE_INT;
 	flist_types[FILE_COLUMN_THUMB] = GDK_TYPE_PIXBUF;

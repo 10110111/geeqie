@@ -263,7 +263,7 @@ struct _ThumbLoader
 
 	gpointer data;
 
-	gint idle_done_id;
+	guint idle_done_id; /* event source id */
 };
 
 struct _CollectInfo
@@ -316,7 +316,7 @@ struct _CollectTable
 	CollectInfo *click_info;
 
 	GtkWidget *tip_window;
-	gint tip_delay_id;
+	guint tip_delay_id; /* event source id */
 	CollectInfo *tip_info;
 
 	GdkWindow *marker_window;
@@ -333,8 +333,8 @@ struct _CollectTable
 	CollectInfo *drop_info;
 	GList *drop_list;
 
-	gint sync_idle_id;
-	gint drop_idle_id;
+	guint sync_idle_id; /* event source id */
+	guint drop_idle_id; /* event source id */
 
 	gboolean show_text;
 
@@ -681,7 +681,7 @@ struct _ViewDir
 
 	FileData *drop_fd;
 	GList *drop_list;
-	gint drop_scroll_id;
+	guint drop_scroll_id; /* event source id */
 
 	/* func list */
 	void (*select_func)(ViewDir *vd, const gchar *path, gpointer data);
@@ -704,7 +704,7 @@ struct _ViewDirInfoList
 
 struct _ViewDirInfoTree
 {
-	gint drop_expand_id;
+	guint drop_expand_id; /* event source id */
 	gint busy_ref;
 };
 
@@ -748,7 +748,7 @@ struct _ViewFile
 	gint clicked_mark;
 	
 	/* refresh */
-	gint refresh_idle_id;
+	guint refresh_idle_id; /* event source id */
 
 	/* file list for edit menu */
 	GList *editmenu_fd_list;
@@ -761,7 +761,7 @@ struct _ViewFileInfoList
 
 	gboolean thumbs_enabled;
 
-	gint select_idle_id;
+	guint select_idle_id; /* event source id */
 };
 
 struct _IconData;
@@ -776,7 +776,7 @@ struct _ViewFileInfoIcon
 	struct _IconData *prev_selection;
 
 	GtkWidget *tip_window;
-	gint tip_delay_id;
+	guint tip_delay_id; /* event source id */
 	struct _IconData *tip_id;
 
 	struct _IconData *click_id;
@@ -803,7 +803,7 @@ struct _SlideShowData
 	FileData *slide_fd;
 
 	guint slide_count;
-	gint timeout_id;
+	guint timeout_id; /* event source id */
 
 	gboolean from_selection;
 
@@ -821,11 +821,12 @@ struct _FullScreenData
 	GtkWidget *normal_window;
 	ImageWindow *normal_imd;
 
-	gint hide_mouse_id;
-	gint busy_mouse_id;
+	guint hide_mouse_id; /* event source id */
+	guint busy_mouse_id; /* event source id */
+
 	gint cursor_state;
 
-	gint saver_block_id;
+	guint saver_block_id; /* event source id */
 
 	void (*stop_func)(FullScreenData *, gpointer);
 	gpointer stop_data;

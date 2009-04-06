@@ -250,7 +250,7 @@ static gboolean thumb_loader_done_delay_cb(gpointer data)
 {
 	ThumbLoader *tl = data;
 
-	tl->idle_done_id = -1;
+	tl->idle_done_id = 0;
 
 	if (tl->func_done) tl->func_done(tl, tl->data);
 
@@ -259,7 +259,7 @@ static gboolean thumb_loader_done_delay_cb(gpointer data)
 
 static void thumb_loader_delay_done(ThumbLoader *tl)
 {
-	if (tl->idle_done_id == -1) tl->idle_done_id = g_idle_add(thumb_loader_done_delay_cb, tl);
+	if (!tl->idle_done_id) tl->idle_done_id = g_idle_add(thumb_loader_done_delay_cb, tl);
 }
 
 static void thumb_loader_setup(ThumbLoader *tl, const gchar *path)
@@ -477,7 +477,6 @@ ThumbLoader *thumb_loader_new(gint width, gint height)
 	tl->percent_done = 0.0;
 	tl->max_w = width;
 	tl->max_h = height;
-	tl->idle_done_id = -1;
 
 	return tl;
 }
@@ -495,7 +494,7 @@ void thumb_loader_free(ThumbLoader *tl)
 	image_loader_free(tl->il);
 	file_data_unref(tl->fd);
 
-	if (tl->idle_done_id != -1) g_source_remove(tl->idle_done_id);
+	if (tl->idle_done_id) g_source_remove(tl->idle_done_id);
 
 	g_free(tl);
 }

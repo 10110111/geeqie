@@ -38,13 +38,13 @@ struct _ImageLoader
 	gboolean shrunk;
 
 	gboolean done;
-	gint idle_id;
+	guint idle_id; /* event source id */
 	gint idle_priority;
 
 	GdkPixbufLoader *loader;
 	GError *error;
 
-	gint idle_done_id;
+	guint idle_done_id; /* event source id */
 	GList *area_param_list;
 	GList *area_param_delayed_list;
 	

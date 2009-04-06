@@ -32,7 +32,7 @@ struct _HistMap {
 	gulong b[HISTMAP_SIZE];
 	gulong max[HISTMAP_SIZE];
 	
-	gint idle_id;
+	guint idle_id; /* event source id */
 	GdkPixbuf *pixbuf;
 	gint y;
 };
@@ -131,14 +131,13 @@ const gchar *histogram_label(Histogram *histogram)
 static HistMap *histmap_new(void)
 {
 	HistMap *histmap = g_new0(HistMap, 1);
-	histmap->idle_id = -1;
 	return histmap;
 }
 
 void histmap_free(HistMap *histmap)
 {
 	if (!histmap) return;
-	if (histmap->idle_id != -1) g_source_remove(histmap->idle_id);
+	if (histmap->idle_id) g_source_remove(histmap->idle_id);
 	if (histmap->pixbuf) g_object_unref(histmap->pixbuf);
 	g_free(histmap);
 }
@@ -190,7 +189,7 @@ static gboolean histmap_read(HistMap *histmap, gboolean whole)
 
 const HistMap *histmap_get(FileData *fd)
 {
-	if (fd->histmap && fd->histmap->idle_id == -1) return fd->histmap; /* histmap exists and is finished */
+	if (fd->histmap && !fd->histmap->idle_id) return fd->histmap; /* histmap exists and is finished */
 	
 	return NULL;
 }
@@ -203,7 +202,7 @@ static gboolean histmap_idle_cb(gpointer data)
 		/* finished */
 		g_object_unref(fd->histmap->pixbuf); /*pixbuf is no longer needed */
 		fd->histmap->pixbuf = NULL;
-		fd->histmap->idle_id = -1;
+		fd->histmap->idle_id = 0;
 		file_data_send_notification(fd, NOTIFY_HISTMAP);
 		return FALSE;
 		}

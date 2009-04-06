@@ -709,7 +709,6 @@ ViewFile *vf_new(FileViewType type, FileData *dir_fd)
 	vf->type = type;
 	vf->sort_method = SORT_NAME;
 	vf->sort_ascend = TRUE;
-	vf->refresh_idle_id = -1;
 
 	vf->scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(vf->scrolled), GTK_SHADOW_IN);
@@ -822,20 +821,23 @@ static gboolean vf_refresh_idle_cb(gpointer data)
 	ViewFile *vf = data;
 
 	vf_refresh(vf);
-	vf->refresh_idle_id = -1;
+	vf->refresh_idle_id = 0;
 	return FALSE;
 }
 
 void vf_refresh_idle_cancel(ViewFile *vf)
 {
-	if (vf->refresh_idle_id != -1) g_source_remove(vf->refresh_idle_id);
-	vf->refresh_idle_id = -1;
+	if (vf->refresh_idle_id)
+		{
+		g_source_remove(vf->refresh_idle_id);
+		vf->refresh_idle_id = 0;
+		}
 }
 
 
 void vf_refresh_idle(ViewFile *vf)
 {
-	if (vf->refresh_idle_id == -1)
+	if (!vf->refresh_idle_id)
 		{
 		vf->refresh_idle_id = g_idle_add(vf_refresh_idle_cb, vf);
 		}
@@ -850,7 +852,7 @@ void vf_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	if (vf->marks_enabled) interested |= NOTIFY_MARKS | NOTIFY_METADATA;
 	/* FIXME: NOTIFY_METADATA should be checked by the keyword-to-mark functions and converted to NOTIFY_MARKS only if there was a change */
 
-	if (!(type & interested) || vf->refresh_idle_id != -1 || !vf->dir_fd) return;
+	if (!(type & interested) || vf->refresh_idle_id || !vf->dir_fd) return;
 	
 	refresh = (fd == vf->dir_fd);
 

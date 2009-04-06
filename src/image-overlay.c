@@ -51,8 +51,8 @@ struct _OverlayStateData {
 	gint icon_time[IMAGE_OSD_COUNT];
 	gint icon_id[IMAGE_OSD_COUNT];
 
-	gint idle_id;
-	gint timer_id;
+	guint idle_id; /* event source id */
+	guint timer_id; /* event source id */
 	gulong destroy_id;
 };
 
@@ -890,7 +890,7 @@ static gboolean image_osd_update_cb(gpointer data)
 
 	osd->changed_states = IMAGE_STATE_NONE;
 	osd->notify = 0;
-	osd->idle_id = -1;
+	osd->idle_id = 0;
 	return FALSE;
 }
 
@@ -898,7 +898,7 @@ static void image_osd_update_schedule(OverlayStateData *osd, gboolean force)
 {
 	if (force) osd->changed_states |= IMAGE_STATE_IMAGE;
 
-	if (osd->idle_id == -1)
+	if (!osd->idle_id)
 		{
 		osd->idle_id = g_idle_add_full(G_PRIORITY_HIGH, image_osd_update_cb, osd, NULL);
 		}
@@ -941,7 +941,7 @@ static gboolean image_osd_timer_cb(gpointer data)
 
 	if (done)
 		{
-		osd->timer_id = -1;
+		osd->timer_id = 0;
 		return FALSE;
 		}
 
@@ -950,7 +950,7 @@ static gboolean image_osd_timer_cb(gpointer data)
 
 static void image_osd_timer_schedule(OverlayStateData *osd)
 {
-	if (osd->timer_id == -1)
+	if (!osd->timer_id)
 		{
 		osd->timer_id = g_timeout_add(100, image_osd_timer_cb, osd);
 		}
@@ -981,8 +981,8 @@ static void image_osd_free(OverlayStateData *osd)
 {
 	if (!osd) return;
 
-	if (osd->idle_id != -1) g_source_remove(osd->idle_id);
-	if (osd->timer_id != -1) g_source_remove(osd->timer_id);
+	if (osd->idle_id) g_source_remove(osd->idle_id);
+	if (osd->timer_id) g_source_remove(osd->timer_id);
 
 	file_data_unregister_notify_func(image_osd_notify_cb, osd);
 
@@ -1025,8 +1025,6 @@ static void image_osd_enable(ImageWindow *imd, OsdShowFlags show)
 		{
 		osd = g_new0(OverlayStateData, 1);
 		osd->imd = imd;
-		osd->idle_id = -1;
-		osd->timer_id = -1;
 		osd->show = OSD_SHOW_NOTHING;
 		osd->x = options->image_overlay.x;
 		osd->y = options->image_overlay.y;

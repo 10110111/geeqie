@@ -114,7 +114,7 @@ struct _PixbufRenderer
 	GList *draw_queue;	/* list of areas to redraw */
 	GList *draw_queue_2pass;/* list when 2 pass is enabled */
 
-	gint draw_idle_id;
+	guint draw_idle_id; /* event source id */
 
 	gboolean in_drag;
 	gint drag_last_x;
@@ -142,7 +142,7 @@ struct _PixbufRenderer
 	gboolean complete;
 	gboolean debug_updated; /* debug only */
 
-	gint scroller_id;
+	guint scroller_id; /* event source id */
 	gint scroller_overlay;
 	gint scroller_x;
 	gint scroller_y;

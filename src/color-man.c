@@ -326,7 +326,7 @@ static gboolean color_man_idle_cb(gpointer data)
 	if (cm->imd &&
 	    cm->pixbuf != image_get_pixbuf(cm->imd))
 		{
-		cm->idle_id = -1;
+		cm->idle_id = 0;
 		color_man_done(cm, COLOR_RETURN_IMAGE_CHANGED);
 		return FALSE;
 		}
@@ -341,7 +341,7 @@ static gboolean color_man_idle_cb(gpointer data)
 			image_area_changed(cm->imd, 0, 0, width, height);
 			}
 
-		cm->idle_id = -1;
+		cm->idle_id = 0;
 		color_man_done(cm, COLOR_RETURN_SUCCESS);
 		return FALSE;
 		}
@@ -368,10 +368,6 @@ static ColorMan *color_man_new_real(ImageWindow *imd, GdkPixbuf *pixbuf,
 	cm->imd = imd;
 	cm->pixbuf = pixbuf;
 	if (cm->pixbuf) g_object_ref(cm->pixbuf);
-
-	cm->incremental_sync = FALSE;
-	cm->row = 0;
-	cm->idle_id = -1;
 
 	has_alpha = pixbuf ? gdk_pixbuf_get_has_alpha(pixbuf) : FALSE;
 
@@ -415,7 +411,7 @@ void color_man_free(ColorMan *cm)
 {
 	if (!cm) return;
 
-	if (cm->idle_id != -1) g_source_remove(cm->idle_id);
+	if (cm->idle_id) g_source_remove(cm->idle_id);
 	if (cm->pixbuf) g_object_unref(cm->pixbuf);
 
 	color_man_cache_unref(cm->profile);

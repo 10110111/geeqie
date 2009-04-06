@@ -179,8 +179,8 @@ struct _SearchData
 	gint search_total;
 	gint search_buffer_count;
 
-	gint search_idle_id;
-	gint update_idle_id;
+	guint search_idle_id; /* event source id */
+	guint update_idle_id; /* event source id */
 
 	ImageLoader *img_loader;
 	CacheData   *img_cd;
@@ -686,14 +686,17 @@ static gboolean search_result_update_idle_cb(gpointer data)
 
 	search_status_update(sd);
 
-	sd->update_idle_id = -1;
+	sd->update_idle_id = 0;
 	return FALSE;
 }
 
 static void search_result_update_idle_cancel(SearchData *sd)
 {
-	if (sd->update_idle_id != -1) g_source_remove(sd->update_idle_id);
-	sd->update_idle_id = -1;
+	if (sd->update_idle_id)
+		{
+		g_source_remove(sd->update_idle_id);
+		sd->update_idle_id = 0;
+		}
 }
 
 static gboolean search_result_select_cb(GtkTreeSelection *selection, GtkTreeModel *store,
@@ -701,7 +704,7 @@ static gboolean search_result_select_cb(GtkTreeSelection *selection, GtkTreeMode
 {
 	SearchData *sd = data;
 
-	if (sd->update_idle_id == -1)
+	if (!sd->update_idle_id)
 		{
 		sd->update_idle_id = g_idle_add(search_result_update_idle_cb, sd);
 		}
@@ -1479,10 +1482,10 @@ static void search_buffer_flush(SearchData *sd)
 
 static void search_stop(SearchData *sd)
 {
-	if (sd->search_idle_id != -1)
+	if (sd->search_idle_id)
 		{
 		g_source_remove(sd->search_idle_id);
-		sd->search_idle_id = -1;
+		sd->search_idle_id = 0;
 		}
 
 	image_loader_free(sd->img_loader);
@@ -1968,7 +1971,7 @@ static gboolean search_step_cb(gpointer data)
 		{
 		if (search_file_next(sd))
 			{
-			sd->search_idle_id = -1;
+			sd->search_idle_id = 0;
 			return FALSE;
 			}
 		return TRUE;
@@ -1976,7 +1979,7 @@ static gboolean search_step_cb(gpointer data)
 
 	if (!sd->search_file_list && !sd->search_folder_list)
 		{
-		sd->search_idle_id = -1;
+		sd->search_idle_id = 0;
 
 		search_stop(sd);
 		search_result_thumb_step(sd);
@@ -2635,9 +2638,6 @@ void search_new(FileData *dir_fd, FileData *example_file)
 		{
 		sd->search_similarity_path = g_strdup(example_file->path);
 		}
-
-	sd->search_idle_id = -1;
-	sd->update_idle_id = -1;
 
 	sd->window = window_new(GTK_WINDOW_TOPLEVEL, "search", NULL, NULL, _("Image search"));
 

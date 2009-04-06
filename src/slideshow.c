@@ -297,7 +297,7 @@ static gboolean slideshow_loop_cb(gpointer data)
 
 	if (!slideshow_step(ss, TRUE))
 		{
-		ss->timeout_id = -1;
+		ss->timeout_id = 0;
 		slideshow_free(ss);
 		return FALSE;
 		}
@@ -307,17 +307,17 @@ static gboolean slideshow_loop_cb(gpointer data)
 
 static void slideshow_timer_stop(SlideShowData *ss)
 {
-	if (ss->timeout_id == -1) return;
+	if (!ss->timeout_id) return;
 
 	g_source_remove(ss->timeout_id);
-	ss->timeout_id = -1;
+	ss->timeout_id = 0;
 }
 
 static void slideshow_timer_reset(SlideShowData *ss)
 {
 	if (options->slideshow.delay < 1) options->slideshow.delay = 1;
 
-	if (ss->timeout_id != -1) g_source_remove(ss->timeout_id);
+	if (ss->timeout_id) g_source_remove(ss->timeout_id);
 	ss->timeout_id = g_timeout_add(options->slideshow.delay * 1000 / SLIDESHOW_SUBSECOND_PRECISION,
 				       slideshow_loop_cb, ss);
 }
@@ -361,7 +361,6 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 	ss->filelist = filelist;
 	ss->cd = cd;
 	ss->layout = lw;
-	ss->timeout_id = -1;
 
 	if (ss->filelist)
 		{

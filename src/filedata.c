@@ -2398,7 +2398,7 @@ void file_data_send_notification(FileData *fd, NotifyType type)
 }
 
 static GHashTable *file_data_monitor_pool = NULL;
-static gint realtime_monitor_id = -1;
+static guint realtime_monitor_id = 0; /* event source id */
 
 static void realtime_monitor_check_cb(gpointer key, gpointer value, gpointer data)
 {
@@ -2432,7 +2432,7 @@ gboolean file_data_register_real_time_monitor(FileData *fd)
 	count++;
 	g_hash_table_insert(file_data_monitor_pool, fd, GINT_TO_POINTER(count));
 	
-	if (realtime_monitor_id == -1)
+	if (!realtime_monitor_id)
 		{
 		realtime_monitor_id = g_timeout_add(5000, realtime_monitor_cb, NULL);
 		}
@@ -2464,7 +2464,7 @@ gboolean file_data_unregister_real_time_monitor(FileData *fd)
 	if (g_hash_table_size(file_data_monitor_pool) == 0)
 		{
 		g_source_remove(realtime_monitor_id);
-		realtime_monitor_id = -1;
+		realtime_monitor_id = 0;
 		return FALSE;
 		}
 	

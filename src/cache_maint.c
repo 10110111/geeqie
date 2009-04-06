@@ -30,7 +30,7 @@ struct _CMData
 {
 	GList *list;
 	GList *done_list;
-	gint idle_id;
+	guint idle_id; /* event source id */
 	GenericDialog *gd;
 	GtkWidget *entry;
 	GtkWidget *spinner;
@@ -111,7 +111,7 @@ static gboolean isempty(const gchar *path)
 
 static void cache_maintain_home_close(CMData *cm)
 {
-	if (cm->idle_id != -1) g_source_remove(cm->idle_id);
+	if (cm->idle_id) g_source_remove(cm->idle_id);
 	if (cm->gd) generic_dialog_close(cm->gd);
 	filelist_free(cm->list);
 	g_list_free(cm->done_list);
@@ -120,10 +120,10 @@ static void cache_maintain_home_close(CMData *cm)
 
 static void cache_maintain_home_stop(CMData *cm)
 {
-	if (cm->idle_id != -1)
+	if (cm->idle_id)
 		{
 		g_source_remove(cm->idle_id);
-		cm->idle_id = -1;
+		cm->idle_id = 0;
 		}
 
 	gtk_entry_set_text(GTK_ENTRY(cm->entry), _("done"));
@@ -158,7 +158,7 @@ static gboolean cache_maintain_home_cb(gpointer data)
 	if (!cm->list)
 		{
 		DEBUG_1("purge chk done.");
-		cm->idle_id = -1;
+		cm->idle_id = 0;
 		cache_maintain_home_stop(cm);
 		return FALSE;
 		}
@@ -689,7 +689,7 @@ struct _CleanData
 	gboolean local;
 	gboolean recurse;
 
-	gint idle_id;
+	guint idle_id; /* event source id */
 };
 
 static void cache_manager_render_reset(CleanData *cd)
@@ -937,10 +937,10 @@ static void cache_manager_standard_clean_done(CleanData *cd)
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(cd->progress), 1.0);
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(cd->progress), _("done"));
 
-	if (cd->idle_id != -1)
+	if (cd->idle_id)
 		{
 		g_source_remove(cd->idle_id);
-		cd->idle_id = -1;
+		cd->idle_id = 0;
 		}
 
 	thumb_loader_std_thumb_file_validate_cancel(cd->tl);
@@ -983,7 +983,7 @@ static gint cache_manager_standard_clean_clear_cb(gpointer data)
 		return TRUE;
 		}
 
-	cd->idle_id = -1;
+	cd->idle_id = 0;
 	cache_manager_standard_clean_done(cd);
 	return FALSE;
 }
@@ -1118,7 +1118,7 @@ static void cache_manager_standard_process(GtkWidget *widget, gboolean clear)
 
 	cd->days = 30;
 	cd->tl = NULL;
-	cd->idle_id = -1;
+	cd->idle_id = 0;
 
 	gtk_widget_show(cd->gd->dialog);
 }

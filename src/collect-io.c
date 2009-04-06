@@ -447,7 +447,7 @@ struct _CollectManagerAction
 static GList *collection_manager_entry_list = NULL;
 static GList *collection_manager_action_list = NULL;
 static GList *collection_manager_action_tail = NULL;
-static gint collection_manager_timer_id = -1;
+static guint collection_manager_timer_id = 0; /* event source id */
 
 
 static CollectManagerAction *collect_manager_action_new(const gchar *oldpath, const gchar *newpath,
@@ -833,18 +833,18 @@ static gboolean collect_manager_timer_cb(gpointer data)
 
 	g_idle_add_full(G_PRIORITY_LOW, collect_manager_process_cb, NULL, NULL);
 
-	collection_manager_timer_id = -1;
+	collection_manager_timer_id = 0;
 	return FALSE;
 }
 
 static void collect_manager_timer_push(gint stop)
 {
-	if (collection_manager_timer_id != -1)
+	if (collection_manager_timer_id)
 		{
 		if (!stop) return;
 
 		g_source_remove(collection_manager_timer_id);
-		collection_manager_timer_id = -1;
+		collection_manager_timer_id = 0;
 		}
 
 	if (!stop)

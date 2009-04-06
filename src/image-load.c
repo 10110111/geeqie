@@ -72,7 +72,7 @@ static void image_loader_init(GTypeInstance *instance, gpointer g_class)
 	ImageLoader *il = (ImageLoader *)instance;
 
 	il->pixbuf = NULL;
-	il->idle_id = -1;
+	il->idle_id = 0;
 	il->idle_priority = G_PRIORITY_DEFAULT_IDLE;
 	il->done = FALSE;
 	il->loader = NULL;
@@ -80,7 +80,7 @@ static void image_loader_init(GTypeInstance *instance, gpointer g_class)
 	il->bytes_read = 0;
 	il->bytes_total = 0;
 
-	il->idle_done_id = -1;
+	il->idle_done_id = 0;
 
 	il->idle_read_loop_count = IMAGE_LOADER_IDLE_READ_LOOP_COUNT_DEFAULT;
 	il->read_buffer_size = IMAGE_LOADER_READ_BUFFER_SIZE_DEFAULT;
@@ -162,7 +162,11 @@ static void image_loader_finalize(GObject *object)
 
 	DEBUG_1("freeing image loader %p bytes_read=%d", il, il->bytes_read);
 
-	if (il->idle_done_id != -1) g_source_remove(il->idle_done_id);
+	if (il->idle_done_id)
+		{
+		g_source_remove(il->idle_done_id);
+		il->idle_done_id = 0;
+		}
 
 	while (g_source_remove_by_user_data(il)) 
 		{
@@ -683,10 +687,10 @@ static void image_loader_stop(ImageLoader *il)
 {
 	if (!il) return;
 
-	if (il->idle_id != -1)
+	if (il->idle_id)
 		{
 		g_source_remove(il->idle_id);
-		il->idle_id = -1;
+		il->idle_id = 0;
 		}
 		
 	if (il->thread)
@@ -743,7 +747,7 @@ static gboolean image_loader_idle_cb(gpointer data)
 	gboolean ret = FALSE;
 	ImageLoader *il = data;
 
-	if (il->idle_id != -1)
+	if (il->idle_id)
 		{
 		ret = image_loader_continue(il);
 		}

@@ -232,7 +232,7 @@ struct _PrintWindow
 	gdouble layout_width;
 	gdouble layout_height;
 
-	gint layout_idle_id;
+	guint layout_idle_id; /* event source id */
 
 	gdouble image_scale;
 
@@ -570,10 +570,10 @@ static void print_window_layout_status(PrintWindow *pw)
 
 static void print_window_layout_render_stop(PrintWindow *pw)
 {
-	if (pw->layout_idle_id != -1)
+	if (pw->layout_idle_id)
 		{
 		g_source_remove(pw->layout_idle_id);
-		pw->layout_idle_id = -1;
+		pw->layout_idle_id = 0;
 		}
 }
 
@@ -584,7 +584,7 @@ static gboolean print_window_layout_render_idle(gpointer data)
 	print_job_close(pw, FALSE);
 	print_job_start(pw, RENDER_FORMAT_PREVIEW, 0);
 
-	pw->layout_idle_id = -1;
+	pw->layout_idle_id = 0;
 	return FALSE;
 }
 
@@ -598,7 +598,7 @@ static void print_window_layout_render(PrintWindow *pw)
 
 	print_window_layout_status(pw);
 
-	if (pw->layout_idle_id == -1)
+	if (!pw->layout_idle_id)
 		{
 		pw->layout_idle_id = g_idle_add(print_window_layout_render_idle, pw);
 		}
@@ -750,7 +750,7 @@ static GtkWidget *print_window_layout_setup(PrintWindow *pw, GtkWidget *box)
 	vbox = pref_box_new(box, TRUE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 	group = pref_frame_new(vbox, TRUE, _("Preview"), GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 
-	pw->layout_idle_id = -1;
+	pw->layout_idle_id = 0;
 
 	pw->layout_image = image_new(FALSE);
 	gtk_widget_set_size_request(pw->layout_image->widget, PRINT_DLG_PREVIEW_WIDTH, PRINT_DLG_PREVIEW_HEIGHT);

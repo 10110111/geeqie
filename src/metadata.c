@@ -47,7 +47,7 @@ static void metadata_legacy_delete(FileData *fd, const gchar *except);
  */
 
 static GList *metadata_write_queue = NULL;
-static gint metadata_write_idle_id = -1;
+static guint metadata_write_idle_id = 0; /* event source id */
 
 static void metadata_write_queue_add(FileData *fd)
 {
@@ -59,10 +59,10 @@ static void metadata_write_queue_add(FileData *fd)
 		layout_status_update_write_all();
 		}
 
-	if (metadata_write_idle_id != -1) 
+	if (metadata_write_idle_id) 
 		{
 		g_source_remove(metadata_write_idle_id);
-		metadata_write_idle_id = -1;
+		metadata_write_idle_id = 0;
 		}
 	
 	if (options->metadata.confirm_after_timeout)
@@ -130,7 +130,7 @@ gboolean metadata_write_queue_confirm(FileUtilDoneFunc done_func, gpointer done_
 static gboolean metadata_write_queue_idle_cb(gpointer data)
 {
 	metadata_write_queue_confirm(NULL, NULL);
-	metadata_write_idle_id = -1;
+	metadata_write_idle_id = 0;
 	return FALSE;
 }
 

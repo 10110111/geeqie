@@ -524,7 +524,7 @@ void style_shift_color(GtkStyle *style, GtkStateType type, gshort shift_value, g
 typedef struct _AutoScrollData AutoScrollData;
 struct _AutoScrollData
 {
-	gint timer_id;
+	guint timer_id; /* event source id */
 	gint region_size;
 	GtkWidget *widget;
 	GtkAdjustment *adj;
@@ -542,7 +542,7 @@ void widget_auto_scroll_stop(GtkWidget *widget)
 	if (!sd) return;
 	g_object_set_data(G_OBJECT(widget), "autoscroll", NULL);
 
-	if (sd->timer_id != -1) g_source_remove(sd->timer_id);
+	if (sd->timer_id) g_source_remove(sd->timer_id);
 	g_free(sd);
 }
 
@@ -565,7 +565,7 @@ static gboolean widget_auto_scroll_cb(gpointer data)
 
 	if (x < 0 || x >= w || y < 0 || y >= h)
 		{
-		sd->timer_id = -1;
+		sd->timer_id = 0;
 		widget_auto_scroll_stop(sd->widget);
 		return FALSE;
 		}
@@ -596,7 +596,7 @@ static gboolean widget_auto_scroll_cb(gpointer data)
 			/* only notify when scrolling is needed */
 			if (sd->notify_func && !sd->notify_func(sd->widget, x, y, sd->notify_data))
 				{
-				sd->timer_id = -1;
+				sd->timer_id = 0;
 				widget_auto_scroll_stop(sd->widget);
 				return FALSE;
 				}

@@ -508,7 +508,7 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 
 	pr->scroll_reset = PR_SCROLL_RESET_TOPLEFT;
 
-	pr->draw_idle_id = -1;
+	pr->draw_idle_id = 0;
 
 	pr->tile_width = PR_TILE_SIZE;
 	pr->tile_height = PR_TILE_SIZE;
@@ -518,7 +518,7 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 
 	pr->tile_cache_max = PR_CACHE_SIZE_DEFAULT;
 
-	pr->scroller_id = -1;
+	pr->scroller_id = 0;
 	pr->scroller_overlay = -1;
 	
 	pr->x_mouse = -1;
@@ -1266,10 +1266,10 @@ static gboolean pr_scroller_update_cb(gpointer data)
 
 static void pr_scroller_timer_set(PixbufRenderer *pr, gboolean start)
 {
-	if (pr->scroller_id != -1)
+	if (pr->scroller_id)
 		{
 		g_source_remove(pr->scroller_id);
-		pr->scroller_id = -1;
+		pr->scroller_id = 0;
 		}
 
 	if (start)
@@ -1309,7 +1309,7 @@ static void pr_scroller_start(PixbufRenderer *pr, gint x, gint y)
 
 static void pr_scroller_stop(PixbufRenderer *pr)
 {
-	if (pr->scroller_id == -1) return;
+	if (!pr->scroller_id) return;
 
 	pixbuf_renderer_overlay_remove(pr, pr->scroller_overlay);
 	pr->scroller_overlay = -1;
@@ -2817,11 +2817,11 @@ static gboolean pr_queue_draw_idle_cb(gpointer data)
 
 	if ((!pr->pixbuf && !pr->source_tiles_enabled) ||
 	    (!pr->draw_queue && !pr->draw_queue_2pass) ||
-	    pr->draw_idle_id == -1)
+	    !pr->draw_idle_id)
 		{
 		pr_render_complete_signal(pr);
 
-		pr->draw_idle_id = -1;
+		pr->draw_idle_id = 0;
 		return FALSE;
 		}
 
@@ -2893,7 +2893,7 @@ static gboolean pr_queue_draw_idle_cb(gpointer data)
 		{
 		pr_render_complete_signal(pr);
 
-		pr->draw_idle_id = -1;
+		pr->draw_idle_id = 0;
 		return FALSE;
 		}
 
@@ -2928,8 +2928,11 @@ static void pr_queue_clear(PixbufRenderer *pr)
 	pr_queue_list_free(pr->draw_queue_2pass);
 	pr->draw_queue_2pass = NULL;
 
-	if (pr->draw_idle_id != -1) g_source_remove(pr->draw_idle_id);
-	pr->draw_idle_id = -1;
+	if (pr->draw_idle_id)
+		{
+		g_source_remove(pr->draw_idle_id);
+		pr->draw_idle_id = 0;
+		}
 }
 
 static void pr_queue_merge(QueueData *parent, QueueData *qd)
@@ -3087,9 +3090,13 @@ static void pr_queue(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
 	if (w < 1 || h < 1) return;
 
 	if (pr_queue_to_tiles(pr, nx, ny, w, h, clamp, render, new_data, only_existing) &&
-	    ((!pr->draw_queue && !pr->draw_queue_2pass) || pr->draw_idle_id == -1))
+	    ((!pr->draw_queue && !pr->draw_queue_2pass) || !pr->draw_idle_id))
 		{
-		if (pr->draw_idle_id != -1) g_source_remove(pr->draw_idle_id);
+		if (pr->draw_idle_id)
+			{
+			g_source_remove(pr->draw_idle_id);
+			pr->draw_idle_id = 0;
+			}
 		pr_queue_schedule_next_draw(pr, TRUE);
 		}
 }
@@ -3710,7 +3717,7 @@ static gboolean pr_mouse_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gp
 
 	pr = PIXBUF_RENDERER(widget);
 
-	if (pr->scroller_id != -1)
+	if (pr->scroller_id)
 		{
 		pr->scroller_xpos = bevent->x;
 		pr->scroller_ypos = bevent->y;
@@ -3759,7 +3766,7 @@ static gboolean pr_mouse_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpo
 
 	pr = PIXBUF_RENDERER(widget);
 
-	if (pr->scroller_id != -1) return TRUE;
+	if (pr->scroller_id) return TRUE;
 
 	switch (bevent->button)
 		{
@@ -3798,7 +3805,7 @@ static gboolean pr_mouse_release_cb(GtkWidget *widget, GdkEventButton *bevent, g
 
 	pr = PIXBUF_RENDERER(widget);
 
-	if (pr->scroller_id != -1)
+	if (pr->scroller_id)
 		{
 		pr_scroller_stop(pr);
 		return TRUE;
@@ -3834,7 +3841,7 @@ static gboolean pr_mouse_leave_cb(GtkWidget *widget, GdkEventCrossing *event, gp
 
 	pr = PIXBUF_RENDERER(widget);
 
-	if (pr->scroller_id != -1)
+	if (pr->scroller_id)
 		{
 		pr->scroller_xpos = pr->scroller_x;
 		pr->scroller_ypos = pr->scroller_y;

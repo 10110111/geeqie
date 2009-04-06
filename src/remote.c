@@ -47,7 +47,7 @@ static gint remote_client_send(RemoteConnection *rc, const gchar *text);
 typedef struct _RemoteClient RemoteClient;
 struct _RemoteClient {
 	gint fd;
-	gint channel_id;
+	guint channel_id; /* event source id */
 	RemoteConnection *rc;
 };
 

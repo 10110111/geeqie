@@ -110,7 +110,7 @@ struct _PaneKeywordsData
 	gboolean collapse_unchecked;
 	gboolean hide_unchecked;
 
-	gint idle_id;	
+	guint idle_id; /* event source id */	
 	FileData *fd;
 	gchar *key;
 };
@@ -426,7 +426,7 @@ static gboolean bar_pane_keywords_changed_idle_cb(gpointer data)
 	bar_pane_keywords_write(pkd);
 	bar_keyword_tree_sync(pkd);
 	file_data_register_notify_func(bar_pane_keywords_notify_cb, pkd, NOTIFY_PRIORITY_LOW);
-	pkd->idle_id = -1;
+	pkd->idle_id = 0;
 	return FALSE;
 }
 
@@ -434,7 +434,7 @@ static void bar_pane_keywords_changed(GtkTextBuffer *buffer, gpointer data)
 {
 	PaneKeywordsData *pkd = data;
 
-	if (pkd->idle_id != -1) return;
+	if (pkd->idle_id) return;
 	/* higher prio than redraw */
 	pkd->idle_id = g_idle_add_full(G_PRIORITY_HIGH_IDLE, bar_pane_keywords_changed_idle_cb, pkd, NULL);
 }
@@ -1196,7 +1196,7 @@ static void bar_pane_keywords_destroy(GtkWidget *widget, gpointer data)
 	PaneKeywordsData *pkd = data;
 
         if (pkd->click_tpath) gtk_tree_path_free(pkd->click_tpath);
-	if (pkd->idle_id != -1) g_source_remove(pkd->idle_id);
+	if (pkd->idle_id) g_source_remove(pkd->idle_id);
 	file_data_unregister_notify_func(bar_pane_keywords_notify_cb, pkd);
 
 	file_data_unref(pkd->fd);
@@ -1231,8 +1231,6 @@ static GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, con
 	
 	pkd->expand_checked = TRUE;
 	
-	pkd->idle_id = -1;
-
 	hbox = gtk_hbox_new(FALSE, PREF_PAD_GAP);
 
 	pkd->widget = hbox;

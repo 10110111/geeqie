@@ -74,21 +74,22 @@ static gboolean fullscreen_hide_mouse_cb(gpointer data)
 {
 	FullScreenData *fs = data;
 
-	if (fs->hide_mouse_id == -1) return FALSE;
+	if (!fs->hide_mouse_id) return FALSE;
 
 	fs->cursor_state &= ~FULLSCREEN_CURSOR_NORMAL;
 	if (!(fs->cursor_state & FULLSCREEN_CURSOR_BUSY)) clear_mouse_cursor(fs->window, fs->cursor_state);
 
-	fs->hide_mouse_id = -1;
+	g_source_remove(fs->hide_mouse_id);
+	fs->hide_mouse_id = 0;
 	return FALSE;
 }
 
 static void fullscreen_hide_mouse_disable(FullScreenData *fs)
 {
-	if (fs->hide_mouse_id != -1)
+	if (fs->hide_mouse_id)
 		{
 		g_source_remove(fs->hide_mouse_id);
-		fs->hide_mouse_id = -1;
+		fs->hide_mouse_id = 0;
 		}
 }
 
@@ -114,10 +115,10 @@ static gboolean fullscreen_mouse_moved(GtkWidget *widget, GdkEventButton *bevent
 
 static void fullscreen_busy_mouse_disable(FullScreenData *fs)
 {
-	if (fs->busy_mouse_id != -1)
+	if (fs->busy_mouse_id)
 		{
 		g_source_remove(fs->busy_mouse_id);
-		fs->busy_mouse_id = -1;
+		fs->busy_mouse_id = 0;
 		}
 }
 
@@ -143,14 +144,14 @@ static gboolean fullscreen_mouse_set_busy_cb(gpointer data)
 {
 	FullScreenData *fs = data;
 
-	fs->busy_mouse_id = -1;
+	fs->busy_mouse_id = 0;
 	fullscreen_mouse_set_busy(fs, TRUE);
 	return FALSE;
 }
 
 static void fullscreen_mouse_set_busy_idle(FullScreenData *fs)
 {
-	if (fs->busy_mouse_id == -1)
+	if (!fs->busy_mouse_id)
 		{
 		fs->busy_mouse_id = g_timeout_add(FULL_SCREEN_BUSY_MOUSE_DELAY,
 						  fullscreen_mouse_set_busy_cb, fs);
@@ -227,8 +228,6 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 
 	fs = g_new0(FullScreenData, 1);
 
-	fs->hide_mouse_id = -1;
-	fs->busy_mouse_id = -1;
 	fs->cursor_state = FULLSCREEN_CURSOR_HIDDEN;
 
 	fs->normal_window = window;
@@ -335,7 +334,7 @@ void fullscreen_stop(FullScreenData *fs)
 {
 	if (!fs) return;
 
-	g_source_remove(fs->saver_block_id);
+	if (fs->saver_block_id) g_source_remove(fs->saver_block_id);
 
 	fullscreen_hide_mouse_disable(fs);
 	fullscreen_busy_mouse_disable(fs);

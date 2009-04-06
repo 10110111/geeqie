@@ -283,9 +283,8 @@ struct _UtilityData {
 	GenericDialog *gd;
 	FileDialog *fdlg;
 	
-	gint update_idle_id;
-
-	gint perform_idle_id;
+	guint update_idle_id; /* event source id */
+	guint perform_idle_id; /* event source id */
 
 	gboolean with_sidecars; /* operate on grouped or single files; TRUE = use file_data_sc_, FALSE = use file_data_ functions */
 	
@@ -344,8 +343,6 @@ static UtilityData *file_util_data_new(UtilityType type)
 	
 	ud->type = type;
 	ud->phase = UTILITY_PHASE_START;
-	ud->update_idle_id = -1;
-	ud->perform_idle_id = -1;
 	
 	return ud;
 }
@@ -354,8 +351,8 @@ static void file_util_data_free(UtilityData *ud)
 {
 	if (!ud) return;
 
-	if (ud->update_idle_id != -1) g_source_remove(ud->update_idle_id);
-	if (ud->perform_idle_id != -1) g_source_remove(ud->perform_idle_id);
+	if (ud->update_idle_id) g_source_remove(ud->update_idle_id);
+	if (ud->perform_idle_id) g_source_remove(ud->perform_idle_id);
 
 	file_data_unref(ud->dir_fd);
 	filelist_free(ud->content_list);
@@ -592,7 +589,7 @@ static gboolean file_util_perform_ci_internal(gpointer data)
 {
 	UtilityData *ud = data;
 
-	if (ud->perform_idle_id == -1) 
+	if (!ud->perform_idle_id) 
 		{
 		/* this function was called directly
 		   just setup idle callback and wait until we are called again
@@ -1226,7 +1223,7 @@ static gboolean file_util_rename_idle_cb(gpointer data)
 
 	file_util_rename_preview_update(ud);
 
-	ud->update_idle_id = -1;
+	ud->update_idle_id = 0;
 	return FALSE;
 }
 
@@ -1235,7 +1232,7 @@ static void file_util_rename_preview_order_cb(GtkTreeModel *treemodel, GtkTreePa
 {
 	UtilityData *ud = data;
 
-	if (ud->update_idle_id != -1) return;
+	if (ud->update_idle_id) return;
 
 	ud->update_idle_id = g_idle_add(file_util_rename_idle_cb, ud);
 }

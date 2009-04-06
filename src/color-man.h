@@ -40,7 +40,7 @@ struct _ColorMan {
 
 	gpointer profile;
 
-	gint idle_id;
+	guint idle_id; /* event source id */
 
 	ColorManDoneFunc func_done;
 	gpointer func_done_data;

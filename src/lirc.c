@@ -16,7 +16,7 @@
 
 gint lirc_fd = -1;
 struct lirc_config *config = NULL;
-guint input_tag;
+guint input_tag = 0; /* event source id */
 GIOChannel *gio_chan;
 
 /*

@@ -442,7 +442,7 @@ static gboolean tip_schedule_cb(gpointer data)
 	ViewFile *vf = data;
 	GtkWidget *window;
 
-	if (VFICON(vf)->tip_delay_id == -1) return FALSE;
+	if (!VFICON(vf)->tip_delay_id) return FALSE;
 
 	window = gtk_widget_get_toplevel(vf->listview);
 
@@ -452,7 +452,7 @@ static gboolean tip_schedule_cb(gpointer data)
 		tip_show(vf);
 		}
 
-	VFICON(vf)->tip_delay_id = -1;
+	VFICON(vf)->tip_delay_id = 0;
 	return FALSE;
 }
 
@@ -460,10 +460,10 @@ static void tip_schedule(ViewFile *vf)
 {
 	tip_hide(vf);
 
-	if (VFICON(vf)->tip_delay_id != -1)
+	if (VFICON(vf)->tip_delay_id)
 		{
 		g_source_remove(VFICON(vf)->tip_delay_id);
-		VFICON(vf)->tip_delay_id = -1;
+		VFICON(vf)->tip_delay_id = 0;
 		}
 
 	if (!VFICON(vf)->show_text)
@@ -476,8 +476,11 @@ static void tip_unschedule(ViewFile *vf)
 {
 	tip_hide(vf);
 
-	if (VFICON(vf)->tip_delay_id != -1) g_source_remove(VFICON(vf)->tip_delay_id);
-	VFICON(vf)->tip_delay_id = -1;
+	if (VFICON(vf)->tip_delay_id)
+		{
+		g_source_remove(VFICON(vf)->tip_delay_id);
+		VFICON(vf)->tip_delay_id = 0;
+		}
 }
 
 static void tip_update(ViewFile *vf, IconData *id)
@@ -2466,7 +2469,6 @@ ViewFile *vficon_new(ViewFile *vf, FileData *dir_fd)
 
 	vf->info = g_new0(ViewFileInfoIcon, 1);
 
-	VFICON(vf)->tip_delay_id = -1;
 	VFICON(vf)->show_text = options->show_icon_names;
 
 	store = gtk_list_store_new(1, G_TYPE_POINTER);

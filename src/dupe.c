@@ -1347,10 +1347,10 @@ static void dupe_thumb_step(DupeWindow *dw)
 
 static void dupe_check_stop(DupeWindow *dw)
 {
-	if (dw->idle_id != -1 || dw->img_loader || dw->thumb_loader)
+	if (dw->idle_id || dw->img_loader || dw->thumb_loader)
 		{
 		g_source_remove(dw->idle_id);
-		dw->idle_id = -1;
+		dw->idle_id = 0;
 		dupe_window_update_progress(dw, NULL, 0.0, FALSE);
 		widget_set_cursor(dw->listview, -1);
 		}
@@ -1424,7 +1424,7 @@ static gboolean dupe_check_cb(gpointer data)
 {
 	DupeWindow *dw = data;
 
-	if (dw->idle_id == -1) return FALSE;
+	if (!dw->idle_id) return FALSE;
 
 	if (!dw->setup_done)
 		{
@@ -1535,7 +1535,7 @@ static gboolean dupe_check_cb(gpointer data)
 						dw->img_loader = NULL;
 						return TRUE;
 						}
-					dw->idle_id = -1;
+					dw->idle_id = 0;
 					return FALSE;
 					}
 
@@ -1559,7 +1559,7 @@ static gboolean dupe_check_cb(gpointer data)
 			dupe_window_update_progress(dw, _("Sorting..."), 1.0, TRUE);
 			return TRUE;
 			}
-		dw->idle_id = -1;
+		dw->idle_id = 0;
 		dupe_window_update_progress(dw, NULL, 0.0, FALSE);
 
 		dupe_match_rank(dw);
@@ -1599,7 +1599,7 @@ static void dupe_check_start(DupeWindow *dw)
 	dupe_window_update_count(dw, TRUE);
 	widget_set_cursor(dw->listview, GDK_WATCH);
 
-	if (dw->idle_id != -1) return;
+	if (dw->idle_id) return;
 
 	dw->idle_id = g_idle_add(dupe_check_cb, dw);
 }
@@ -3116,14 +3116,7 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 
 	dw = g_new0(DupeWindow, 1);
 
-	dw->list = NULL;
-	dw->dupes = NULL;
 	dw->match_mask = match_mask;
-	dw->show_thumbs = FALSE;
-
-	dw->idle_id = -1;
-
-	dw->second_set = FALSE;
 
 	dw->window = window_new(GTK_WINDOW_TOPLEVEL, "dupe", NULL, NULL, _("Find duplicates"));
 

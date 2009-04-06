@@ -192,8 +192,6 @@ struct _PanWindow
 	GtkWidget *scrollbar_h;
 	GtkWidget *scrollbar_v;
 
-	gint overlay_id;
-
 	FileData *dir_fd;
 	PanLayoutType layout;
 	PanImageSize size;

@@ -42,7 +42,7 @@ struct _SpinnerData {
 	GtkWidget *image;
 	GList *list;		/* list of pixbufs */
 	guint frame;
-	gint timer_id;
+	guint timer_id; /* event source id */
 };
 
 static void spinner_set_frame(SpinnerData *sp, guint frame)
@@ -75,10 +75,10 @@ static void spinner_set_timeout(SpinnerData *sp, gint interval)
 {
 	if (!sp) return;
 
-	if (sp->timer_id != -1)
+	if (sp->timer_id)
 		{
 		g_source_remove(sp->timer_id);
-		sp->timer_id = -1;
+		sp->timer_id = 0;
 		}
 
 	if (interval > 0)
@@ -117,8 +117,6 @@ GtkWidget *spinner_new(const gchar *path, gint interval)
 	SpinnerData *sp;
 
 	sp = g_new0(SpinnerData, 1);
-	sp->list = NULL;
-	sp->timer_id = -1;
 
 	if (path)
 		{
@@ -198,7 +196,7 @@ void spinner_step(GtkWidget *spinner, gboolean reset)
 	SpinnerData *sp;
 
 	sp = g_object_get_data(G_OBJECT(spinner), "spinner");
-	if (sp->timer_id != -1)
+	if (sp->timer_id)
 		{
 		log_printf("spinner warning: attempt to step with timer set\n");
 		return;

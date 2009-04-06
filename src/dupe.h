@@ -81,7 +81,7 @@ struct _DupeWindow
 
 	gboolean show_thumbs;
 
-	gint idle_id;
+	guint idle_id; /* event source id */
 	GList *working;
 	gint setup_done;
 	gint setup_count;
