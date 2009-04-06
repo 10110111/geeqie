@@ -62,7 +62,6 @@ typedef struct _IconData IconData;
 struct _IconData
 {
 	SelectionType selected;
-	gint row;
 	FileData *fd;
 };
 
@@ -104,7 +103,6 @@ static gint iconlist_read(FileData *dir_fd, GList **list)
 		id = g_new0(IconData, 1);
 
 		id->selected = SELECTION_NONE;
-		id->row = -1;
 		id->fd = fd;
 
 		work->data = id;
@@ -1683,8 +1681,6 @@ static void vficon_populate(ViewFile *vf, gboolean resize, gboolean keep_positio
 				id = work->data;
 				work = work->next;
 				c++;
-
-				id->row = r;
 				}
 			else
 				{
@@ -1793,8 +1789,6 @@ static void vficon_sync(ViewFile *vf)
 				id = work->data;
 				work = work->next;
 				c++;
-
-				id->row = r;
 				}
 			else
 				{
@@ -2249,7 +2243,6 @@ static gboolean vficon_refresh_real(ViewFile *vf, gboolean keep_position)
 			id = g_new0(IconData, 1);
 
 			id->selected = SELECTION_NONE;
-			id->row = -1;
 			id->fd = file_data_ref(new_fd);
 			if (work)
 				vf->list = g_list_insert_before(vf->list, work, id);
