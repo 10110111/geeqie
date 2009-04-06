@@ -270,11 +270,8 @@ static void thumb_loader_setup(ThumbLoader *tl, const gchar *path)
 	file_data_unref(fd);
 	image_loader_set_priority(tl->il, G_PRIORITY_LOW);
 
-	if (options->thumbnails.fast)
-		{
-		/* this will speed up jpegs by up to 3x in some cases */
-		image_loader_set_requested_size(tl->il, tl->max_w, tl->max_h);
-		}
+	/* this will speed up jpegs by up to 3x in some cases */
+	image_loader_set_requested_size(tl->il, tl->max_w, tl->max_h);
 
 	g_signal_connect(G_OBJECT(tl->il), "error", (GCallback)thumb_loader_error_cb, tl);
 	if (tl->func_progress) g_signal_connect(G_OBJECT(tl->il), "percent", (GCallback)thumb_loader_percent_cb, tl);

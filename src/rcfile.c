@@ -337,7 +337,6 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_INT(*options, thumbnails.max_height);
 	WRITE_NL(); WRITE_BOOL(*options, thumbnails.enable_caching);
 	WRITE_NL(); WRITE_BOOL(*options, thumbnails.cache_into_dirs);
-	WRITE_NL(); WRITE_BOOL(*options, thumbnails.fast);
 	WRITE_NL(); WRITE_BOOL(*options, thumbnails.use_xvpics);
 	WRITE_NL(); WRITE_BOOL(*options, thumbnails.spec_standard);
 	WRITE_NL(); WRITE_UINT(*options, thumbnails.quality);
@@ -619,7 +618,6 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 
 		if (READ_BOOL(*options, thumbnails.enable_caching)) continue;
 		if (READ_BOOL(*options, thumbnails.cache_into_dirs)) continue;
-		if (READ_BOOL(*options, thumbnails.fast)) continue;
 		if (READ_BOOL(*options, thumbnails.use_xvpics)) continue;
 		if (READ_BOOL(*options, thumbnails.spec_standard)) continue;
 		if (READ_UINT_CLAMP(*options, thumbnails.quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER)) continue;

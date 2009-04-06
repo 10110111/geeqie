@@ -253,7 +253,6 @@ static void config_window_apply(void)
 		}
 	options->thumbnails.enable_caching = c_options->thumbnails.enable_caching;
 	options->thumbnails.cache_into_dirs = c_options->thumbnails.cache_into_dirs;
-	options->thumbnails.fast = c_options->thumbnails.fast;
 	options->thumbnails.use_exif = c_options->thumbnails.use_exif;
 #if 0
 	options->thumbnails.use_xvpics = c_options->thumbnails.use_xvpics;
@@ -929,9 +928,6 @@ static void config_tab_general(GtkWidget *notebook)
 	pref_checkbox_new_int(subgroup, _("Use xvpics thumbnails when found (read only)"),
 			      options->thumbnails.use_xvpics, &c_options->thumbnails.use_xvpics);
 #endif
-
-	pref_checkbox_new_int(group, _("Faster jpeg thumbnailing (may reduce quality)"),
-			      options->thumbnails.fast, &c_options->thumbnails.fast);
 
 	pref_checkbox_new_int(group, _("Use EXIF thumbnails when available"),
 			      options->thumbnails.use_exif, &c_options->thumbnails.use_exif);

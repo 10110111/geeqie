@@ -593,18 +593,15 @@ static gboolean thumb_loader_std_setup(ThumbLoaderStd *tl, FileData *fd)
 	tl->il = image_loader_new(fd);
 	image_loader_set_priority(tl->il, G_PRIORITY_LOW);
 
-	if (options->thumbnails.fast)
+	/* this will speed up jpegs by up to 3x in some cases */
+	if (tl->requested_width <= THUMB_SIZE_NORMAL &&
+	    tl->requested_height <= THUMB_SIZE_NORMAL)
 		{
-		/* this will speed up jpegs by up to 3x in some cases */
-		if (tl->requested_width <= THUMB_SIZE_NORMAL &&
-		    tl->requested_height <= THUMB_SIZE_NORMAL)
-			{
-			image_loader_set_requested_size(tl->il, THUMB_SIZE_NORMAL, THUMB_SIZE_NORMAL);
-			}
-		else
-			{
-			image_loader_set_requested_size(tl->il, THUMB_SIZE_LARGE, THUMB_SIZE_LARGE);
-			}
+		image_loader_set_requested_size(tl->il, THUMB_SIZE_NORMAL, THUMB_SIZE_NORMAL);
+		}
+	else
+		{
+		image_loader_set_requested_size(tl->il, THUMB_SIZE_LARGE, THUMB_SIZE_LARGE);
 		}
 
 	g_signal_connect(G_OBJECT(tl->il), "error", (GCallback)thumb_loader_std_error_cb, tl);
