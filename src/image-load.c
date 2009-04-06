@@ -779,6 +779,8 @@ static gboolean image_loader_start_idle(ImageLoader *il)
 
 /**************************************************************************************/
 /* execution via thread */
+
+#ifdef HAVE_GTHREAD
 static GThreadPool *image_loader_thread_pool = NULL;
 
 static GCond *image_loader_prio_cond = NULL;
@@ -890,6 +892,7 @@ static gboolean image_loader_start_thread(ImageLoader *il)
 		
 	return TRUE;
 }
+#endif /* HAVE_GTHREAD */
 
 
 /**************************************************************************************/
