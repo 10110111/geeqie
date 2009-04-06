@@ -304,7 +304,7 @@ static gboolean bar_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 } 
 
 
-void bar_pane_set_fd_cb(GtkWidget *expander, gpointer data)
+static void bar_pane_set_fd_cb(GtkWidget *expander, gpointer data)
 {
 	GtkWidget *widget = gtk_bin_get_child(GTK_BIN(expander));
 	PaneData *pd = g_object_get_data(G_OBJECT(widget), "pane_data");
@@ -325,6 +325,23 @@ void bar_set_fd(GtkWidget *bar, FileData *fd)
 	
 	gtk_label_set_text(GTK_LABEL(bd->label_file_name), (bd->fd) ? bd->fd->name : "");
 
+}
+
+static void bar_pane_notify_selection_cb(GtkWidget *expander, gpointer data)
+{
+	GtkWidget *widget = gtk_bin_get_child(GTK_BIN(expander));
+	PaneData *pd = g_object_get_data(G_OBJECT(widget), "pane_data");
+	if (!pd) return;
+	if (pd->pane_notify_selection) pd->pane_notify_selection(widget, GPOINTER_TO_INT(data));
+}
+
+void bar_notify_selection(GtkWidget *bar, gint count)
+{
+	BarData *bd;
+	bd = g_object_get_data(G_OBJECT(bar), "bar_data");
+	if (!bd) return;
+
+	gtk_container_foreach(GTK_CONTAINER(bd->vbox), bar_pane_notify_selection_cb, GINT_TO_POINTER(count));
 }
 
 gboolean bar_event(GtkWidget *bar, GdkEvent *event)

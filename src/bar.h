@@ -27,6 +27,7 @@ typedef struct _PaneData PaneData;
 struct _PaneData {
 	/* filled in by pane */
 	void (*pane_set_fd)(GtkWidget *pane, FileData *fd);
+	void (*pane_notify_selection)(GtkWidget *pane, gint count);
 	gint (*pane_event)(GtkWidget *pane, GdkEvent *event);
 	void (*pane_write_config)(GtkWidget *pane, GString *outstr, gint indent);
 	GtkWidget *title;
@@ -58,6 +59,7 @@ GtkWidget *bar_find_pane_by_id(GtkWidget *bar, PaneType type, const gchar *id);
 void bar_clear(GtkWidget *bar);
 
 void bar_set_fd(GtkWidget *bar, FileData *fd);
+void bar_notify_selection(GtkWidget *bar, gint count);
 gboolean bar_event(GtkWidget *bar, GdkEvent *event);
 
 gint bar_get_width(GtkWidget *bar);

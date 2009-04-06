@@ -2063,7 +2063,7 @@ static void layout_bar_new_selection(LayoutWindow *lw, gint count)
 {
 	if (!layout_bar_enabled(lw)) return;
 
-//	bar_info_selection(lw->bar_info, count - 1);
+	bar_notify_selection(lw->bar, count);
 }
 
 static gboolean layout_bar_sort_enabled(LayoutWindow *lw)
