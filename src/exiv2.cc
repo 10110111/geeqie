@@ -101,6 +101,13 @@ static const AltKey alt_keys[] = {
 	{NULL, NULL, NULL}
 	};
 
+static void debug_exception(Exiv2::AnyError& e)
+{
+	gchar *str = g_locale_from_utf8(e.what(), -1, NULL, NULL, NULL);
+	DEBUG_1("Exiv2: %s", str);
+	g_free(str);
+}
+
 struct _ExifData
 {
 	Exiv2::ExifData::const_iterator exifIter; /* for exif_get_next_item */
@@ -414,7 +421,7 @@ ExifData *exif_read(gchar *path, gchar *sidecar_path, GHashTable *modified_xmp)
 		return new _ExifDataProcessed(path, sidecar_path, modified_xmp);
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return NULL;
 	}
 	
@@ -427,7 +434,7 @@ gboolean exif_write(ExifData *exif)
 		return TRUE;
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return FALSE;
 	}
 }
@@ -439,7 +446,7 @@ gboolean exif_write_sidecar(ExifData *exif, gchar *path)
 		return TRUE;
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return FALSE;
 	}
 	
@@ -488,7 +495,7 @@ ExifItem *exif_get_item(ExifData *exif, const gchar *key)
 		return (ExifItem *)item;
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return NULL;
 	}
 }
@@ -525,7 +532,7 @@ ExifItem *exif_add_item(ExifData *exif, const gchar *key)
 		return (ExifItem *)item;
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return NULL;
 	}
 }
@@ -563,7 +570,7 @@ ExifItem *exif_get_first_item(ExifData *exif)
 			
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return NULL;
 	}
 }
@@ -594,7 +601,7 @@ ExifItem *exif_get_next_item(ExifData *exif)
 		return NULL;
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return NULL;
 	}
 }
@@ -606,7 +613,7 @@ char *exif_item_get_tag_name(ExifItem *item)
 		return g_strdup(((Exiv2::Metadatum *)item)->key().c_str());
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return NULL;
 	}
 }
@@ -618,7 +625,7 @@ guint exif_item_get_tag_id(ExifItem *item)
 		return ((Exiv2::Metadatum *)item)->tag();
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return 0;
 	}
 }
@@ -630,7 +637,7 @@ guint exif_item_get_elements(ExifItem *item)
 		return ((Exiv2::Metadatum *)item)->count();
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return 0;
 	}
 }
@@ -647,7 +654,7 @@ char *exif_item_get_data(ExifItem *item, guint *data_len)
 		return data;
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return NULL;
 	}
 }
@@ -659,7 +666,7 @@ char *exif_item_get_description(ExifItem *item)
 		return utf8_validate_or_convert(((Exiv2::Metadatum *)item)->tagLabel().c_str());
 	}
 	catch (std::exception& e) {
-//		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+//		debug_exception(e);
 		return NULL;
 	}
 }
@@ -706,7 +713,7 @@ guint exif_item_get_format_id(ExifItem *item)
 		return format_id_trans_tbl[id];
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return EXIF_FORMAT_UNKNOWN;
 	}
 }
@@ -718,7 +725,7 @@ const char *exif_item_get_format_name(ExifItem *item, gboolean brief)
 		return ((Exiv2::Metadatum *)item)->typeName();
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return NULL;
 	}
 }
@@ -788,7 +795,7 @@ gint exif_item_get_integer(ExifItem *item, gint *value)
 		return 1;
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return 0;
 	}
 }
@@ -806,7 +813,7 @@ ExifRational *exif_item_get_rational(ExifItem *item, gint *sign, guint n)
 		return &ret;
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return NULL;
 	}
 }
@@ -830,7 +837,7 @@ gchar *exif_get_tag_description_by_key(const gchar *key)
 #endif
 			}
 			catch (Exiv2::AnyError& e) {
-				std::cout << "Caught Exiv2 exception '" << e << "'\n";
+				debug_exception(e);
 				return NULL;
 			}
 		}
@@ -911,7 +918,7 @@ static gint exif_update_metadata_simple(ExifData *exif, const gchar *key, const 
 		return 1;
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return 0;
 	}
 }
@@ -1049,7 +1056,7 @@ static GList *exif_get_metadata_simple(ExifData *exif, const gchar *key, Metadat
 		}
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 	}
 	return list;
 }
@@ -1160,7 +1167,7 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 		return NULL;
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 		return NULL;
 	}
 }
@@ -1258,7 +1265,7 @@ extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len, gint reques
 		
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		debug_exception(e);
 	}
 	return NULL;
 
