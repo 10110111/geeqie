@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.0alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-09 22:06+0200\n"
+"POT-Creation-Date: 2009-04-09 22:23+0200\n"
 "PO-Revision-Date: 2009-04-09 22:06+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french <geeqie-devel@lists.sourceforge.net>\n"
@@ -147,12 +147,12 @@ msgstr "Modifiable (seulement pour XMP)"
 #: src/bar_exif.c:607
 #, c-format
 msgid "Configure \"%s\""
-msgstr "Configurer «%s»"
+msgstr "Configurer « %s »"
 
 #: src/bar_exif.c:608 src/bar_keywords.c:1135
 #, c-format
 msgid "Delete \"%s\""
-msgstr "Supprimer «%s»"
+msgstr "Supprimer « %s »"
 
 #: src/bar_exif.c:620
 msgid "Show hidden entries"
@@ -237,7 +237,7 @@ msgstr "Assistant"
 #: src/bar_keywords.c:1113
 #, c-format
 msgid "Hide \"%s\""
-msgstr "Cacher «%s»"
+msgstr "Cacher « %s »"
 
 #: src/bar_keywords.c:1120
 #, c-format
@@ -247,17 +247,17 @@ msgstr "Marque %d"
 #: src/bar_keywords.c:1125
 #, c-format
 msgid "Connect \"%s\" to mark"
-msgstr "Connecter «%s» à la marque"
+msgstr "Connecter « %s » à la marque"
 
 #: src/bar_keywords.c:1132
 #, c-format
 msgid "Edit \"%s\""
-msgstr "Editer «%s»"
+msgstr "Éditer « %s »"
 
 #: src/bar_keywords.c:1142
 #, c-format
 msgid "Disconnect \"%s\" from mark %s"
-msgstr "Déconnecter «%s» de la marque %s"
+msgstr "Déconnecter « %s » de la marque %s"
 
 #. for the pane
 #: src/bar_keywords.c:1154 src/bar_keywords.c:1163
@@ -466,7 +466,7 @@ msgstr "Éliminer les vignettes orphelines ou plus à jour."
 
 #: src/cache_maint.c:1256 src/cache_maint.c:1273
 msgid "Delete all cached thumbnails."
-msgstr "Effacer toutes les vignettes en cache."
+msgstr "Éffacer toutes les vignettes en cache."
 
 #: src/cache_maint.c:1259
 msgid "Shared thumbnail cache"
@@ -697,7 +697,7 @@ msgstr "La collection courante est vide, enregistrement annulé."
 #: src/collect-io.c:346
 #, c-format
 msgid "failed to open collection (write) \"%s\"\n"
-msgstr "impossible d'ouvrir la collection (écriture) «%s»\n"
+msgstr "impossible d'ouvrir la collection (écriture) « %s »\n"
 
 #: src/collect-io.c:371
 #, c-format
@@ -1043,7 +1043,7 @@ msgid ""
 "Failed to run command:\n"
 "%s\n"
 msgstr ""
-"Echec de l'exécution de la commande :\n"
+"Échec de l'exécution de la commande :\n"
 "%s\n"
 
 #: src/editors.c:1156
@@ -1057,7 +1057,7 @@ msgid ""
 "\"%s\""
 msgstr ""
 "%s\n"
-"«%s»"
+"« %s »"
 
 #: src/editors.c:1238 src/preferences.c:206
 msgid "Invalid editor command"
@@ -1888,43 +1888,43 @@ msgstr "Écran actif"
 msgid "Active monitor"
 msgstr "Moniteur actif"
 
-#: src/histogram.c:114
+#: src/histogram.c:113
 msgid "Log Histogram on Red"
 msgstr "Histogramme log. sur le rouge"
 
-#: src/histogram.c:115
+#: src/histogram.c:114
 msgid "Log Histogram on Green"
 msgstr "Histogramme log. sur le vert"
 
-#: src/histogram.c:116
+#: src/histogram.c:115
 msgid "Log Histogram on Blue"
 msgstr "Histogramme log. sur le bleu"
 
-#: src/histogram.c:117
+#: src/histogram.c:116
 msgid "Log Histogram on RGB"
 msgstr "Histogramme log. RVB"
 
-#: src/histogram.c:118
+#: src/histogram.c:117
 msgid "Log Histogram on value"
 msgstr "Histogramme log. sur la valeur"
 
-#: src/histogram.c:123
+#: src/histogram.c:122
 msgid "Linear Histogram on Red"
 msgstr "Histogramme linéaire sur le rouge"
 
-#: src/histogram.c:124
+#: src/histogram.c:123
 msgid "Linear Histogram on Green"
 msgstr "Histogramme linéaire sur le vert"
 
-#: src/histogram.c:125
+#: src/histogram.c:124
 msgid "Linear Histogram on Blue"
 msgstr "Histogramme linéaire sur le bleu"
 
-#: src/histogram.c:126
+#: src/histogram.c:125
 msgid "Linear Histogram on RGB"
 msgstr "Histogramme linéaire RVB"
 
-#: src/histogram.c:127
+#: src/histogram.c:126
 msgid "Linear Histogram on value"
 msgstr "Histogramme linéaire sur la valeur"
 
@@ -2186,7 +2186,7 @@ msgstr "_Ajuster"
 
 #: src/layout_util.c:1146
 msgid "E_xternal Editors"
-msgstr "Editeurs e_xternes"
+msgstr "Éditeurs e_xternes"
 
 #: src/layout_util.c:1148
 msgid "_View Directory as"
@@ -2327,7 +2327,7 @@ msgstr "P_références ..."
 
 #: src/layout_util.c:1198
 msgid "Configure _Editors..."
-msgstr "Configurer les _Editeurs"
+msgstr "Configur_er les éditeurs"
 
 #: src/layout_util.c:1199
 msgid "_Configure this window..."
@@ -2753,7 +2753,7 @@ msgstr "%d images, %s"
 #: src/pan-view.c:482
 #, c-format
 msgid "The pan view does not support the folder \"%s\"."
-msgstr "Affichage panoramique impossible pour le dossier «%s». "
+msgstr "Affichage panoramique impossible pour le dossier « %s ». "
 
 #: src/pan-view.c:483
 msgid "Folder not supported"
@@ -2769,7 +2769,7 @@ msgstr "Tri des images ..."
 
 #: src/pan-view.c:1542 src/print.c:2649
 msgid "Filename:"
-msgstr "Nom du fichier:"
+msgstr "Nom du fichier :"
 
 #: src/pan-view.c:1544 src/pan-view.c:2380 src/preferences.c:1085
 msgid "Location:"
@@ -2946,7 +2946,7 @@ msgid ""
 "%s"
 msgstr ""
 "%s\n"
-"n°%d «%s»:\n"
+"n°%d « %s »:\n"
 "%s"
 
 #: src/preferences.c:433
@@ -3025,15 +3025,15 @@ msgstr "Qualité :"
 #: src/preferences.c:918
 msgid "Use standard thumbnail cache, shared with other applications"
 msgstr ""
-"Utiliser le cache de vignettes standart, partagé avec les autres applications"
+"Utiliser le cache de vignettes standard, partagé avec les autres applications"
 
 #: src/preferences.c:924
 msgid ""
 "Store thumbnails in '.thumbnails' folder, local to image folder (non-"
 "standard)"
 msgstr ""
-"Sauver les vignettes dans le dossier «.thumbnails», local au dossier de "
-"l'image (non-standart)"
+"Sauver les vignettes dans le dossier « .thumbnails », local au dossier de "
+"l'image (non-standard)"
 
 #: src/preferences.c:928
 msgid "Use xvpics thumbnails when found (read only)"
@@ -3199,7 +3199,7 @@ msgstr "Affichage en surimpression (OSD)"
 
 #: src/preferences.c:1097
 msgid "Image overlay template"
-msgstr " Modèle pour l'affichage en surimpression"
+msgstr "Modèle pour l'affichage en surimpression"
 
 #: src/preferences.c:1111
 msgid ""
@@ -3264,7 +3264,7 @@ msgstr "Désactiver les filtres de fichiers"
 
 #: src/preferences.c:1195
 msgid "Grouping sidecar extensions"
-msgstr "Groupement des extensions de fichiers sidecar"
+msgstr "Groupage des extensions de fichiers sidecar"
 
 #: src/preferences.c:1202
 msgid "File types"
@@ -3290,14 +3290,14 @@ msgstr "Sidecar permis"
 msgid ""
 "Store metadata in '.metadata' folder, local to image folder (non-standard)"
 msgstr ""
-"Stocker les métadonnées dans le dossier «.metadata», local au dossier de "
-"l'image (non-standart)"
+"Sauver les métadonnées dans le dossier « .metadata », local au dossier de "
+"l'image (non-standard)"
 
 #: src/preferences.c:1332
 msgid "Store keywords and comments as XMP tags in image files (standard)"
 msgstr ""
 "Enregistrer les mots-clés et commentaires en tant que balises XMP dans les "
-"fichiers images (standart)"
+"fichiers images (standard)"
 
 #: src/preferences.c:1338
 msgid "Store keywords and comments also in legacy IPTC tags"
@@ -3305,11 +3305,11 @@ msgstr "Enregistrer aussi les mots-clés et commentaires dans les tags IPTC"
 
 #: src/preferences.c:1341
 msgid "Warn if the image files are unwritable"
-msgstr "Prévenir si les fichiers d'images sont protégés en écriture"
+msgstr "Prévenir si les images sont protégés en écriture"
 
 #: src/preferences.c:1344
 msgid "Ask before writing to image files"
-msgstr "Demander avant l'écriture dans les fichiers d'images"
+msgstr "Demander avant l'écriture dans les images"
 
 #: src/preferences.c:1347
 msgid "Save metadata in GQview legacy metadata format"
@@ -3318,11 +3318,11 @@ msgstr "Sauver les méta-données dans le format de GQview"
 #: src/preferences.c:1350
 msgid "Write the same keywords and comment to all files in a group"
 msgstr ""
-"Ecrire les mêmes mots-clés et commentaires dans tous les fichiers d'un groupe"
+"Écrire les mêmes mots-clés et commentaires dans tous les fichiers d'un groupe"
 
 #: src/preferences.c:1353
 msgid "Write metadata after timeout"
-msgstr "Ecrire les méta-données après un délai"
+msgstr "Écrire les méta-données après un délai"
 
 #: src/preferences.c:1359
 msgid "Timeout (seconds):"
@@ -3330,11 +3330,11 @@ msgstr "Délai (secondes):"
 
 #: src/preferences.c:1362
 msgid "Write metadata on image change"
-msgstr "Ecrire les méta-données en cas de modification d'image"
+msgstr "Écrire les méta-données en cas de modification d'image"
 
 #: src/preferences.c:1365
 msgid "Write metadata on directory change"
-msgstr "Ecrire les méta-données après une modification de dossier"
+msgstr "Écrire les méta-données après une modification de dossier"
 
 #: src/preferences.c:1379
 msgid "Color management"
@@ -3630,7 +3630,7 @@ msgstr "Tabloïd"
 #: src/print.c:559
 #, c-format
 msgid "page %d of %d"
-msgstr "page %d de %d"
+msgstr "page %d sur %d"
 
 #: src/print.c:751
 msgid "Preview"
@@ -3643,7 +3643,7 @@ msgid ""
 "\"%s\""
 msgstr ""
 "Impossible d'ouvrir le tube en écriture.\n"
-"«%s»"
+"« %s »"
 
 #: src/print.c:1074 src/print.c:1514 src/ui_pathsel.c:432
 #, c-format
@@ -3791,7 +3791,7 @@ msgid ""
 "error: %s\n"
 msgstr ""
 "erreur à la sauvegarde du fichier de configuration : %s\n"
-"erreur: %s\n"
+"erreur : %s\n"
 
 #. short, long                  callback,               extra, prefer,description
 #: src/remote.c:590
@@ -4044,7 +4044,7 @@ msgstr "Manque de mémoire"
 
 #: src/secure_save.c:411
 msgid "Cannot write the file"
-msgstr "Ecriture du fichier impossible"
+msgstr "Écriture du fichier impossible"
 
 #: src/secure_save.c:415
 msgid "Secure file saving error"
@@ -4077,7 +4077,7 @@ msgid ""
 "\"%s\""
 msgstr ""
 "Impossible de créer ou d'accéder à la corbeille.\n"
-"«%s»"
+"« %s »"
 
 #: src/trash.c:174
 msgid "Turn off safe delete"
@@ -4132,7 +4132,7 @@ msgstr "_Propriétés ..."
 
 #: src/ui_bookmark.c:409
 msgid "_Remove"
-msgstr "Efface_r"
+msgstr "Éfface_r"
 
 #: src/ui_fileops.c:93
 msgid ""
@@ -4172,7 +4172,7 @@ msgid ""
 "The locale appears to be set to \"%s\"\n"
 "(set by the LANG environment variable)\n"
 msgstr ""
-"La locale a pour valeur «%s»\n"
+"La locale a pour valeur « %s »\n"
 "(configurée par la variable d'environnement LANG)\n"
 
 #: src/ui_fileops.c:107
@@ -4190,12 +4190,12 @@ msgstr "[nom impossible à afficher]"
 #: src/ui_fileops.c:111
 #, c-format
 msgid "\"%s\" is encoded in valid UTF-8."
-msgstr "«%s» est encodé en UTF-8 valide."
+msgstr "« %s » est encodé en UTF-8 valide."
 
 #: src/ui_fileops.c:113
 #, c-format
 msgid "\"%s\" is not encoded in valid UTF-8."
-msgstr "«%s» n'est pas encodé en UTF-8 valide."
+msgstr "« %s » n'est pas encodé en UTF-8 valide."
 
 #: src/ui_fileops.c:118 src/ui_fileops.c:123
 msgid "Filename encoding locale mismatch"
@@ -4213,7 +4213,7 @@ msgstr ""
 #: src/ui_pathsel.c:433 src/ui_pathsel.c:439 src/utilops.c:1796
 #: src/utilops.c:1816 src/utilops.c:2240
 msgid "Rename failed"
-msgstr "Echec de renommage"
+msgstr "Échec de renommage"
 
 #: src/ui_pathsel.c:438
 #, c-format
@@ -4320,7 +4320,7 @@ msgstr "Sidecars"
 
 #: src/utilops.c:1330
 msgid "Write to file"
-msgstr "Ecrire dans le fichier"
+msgstr "Écrire dans le fichier"
 
 #: src/utilops.c:1370
 msgid "Choose the destination folder."
@@ -4388,11 +4388,11 @@ msgstr "Impossible d'écrire les méta-données"
 
 #: src/utilops.c:1690
 msgid "Write metadata"
-msgstr "Ecrire les méta-données"
+msgstr "Écrire les méta-données"
 
 #: src/utilops.c:1691
 msgid "Write metadata?"
-msgstr "Ecrire les méta-données ?"
+msgstr "Écrire les méta-données ?"
 
 #: src/utilops.c:1692
 msgid "This will write the changed metadata into the following files"
@@ -4400,11 +4400,11 @@ msgstr "Cela écrira les méta-données modifiées dans les fichiers suivants"
 
 #: src/utilops.c:1694
 msgid "Metadata writting failed"
-msgstr "Echec de l'écriture des méta-données"
+msgstr "Échec de l'écriture des méta-données"
 
 #: src/utilops.c:1714 src/utilops.c:1736
 msgid "Move failed"
-msgstr "Echec du déplacement"
+msgstr "Échec du déplacement"
 
 #: src/utilops.c:1733
 msgid "Move files?"
@@ -4416,7 +4416,7 @@ msgstr "Ceci déplacera les fichiers suivants"
 
 #: src/utilops.c:1755 src/utilops.c:1777
 msgid "Copy failed"
-msgstr "Echec de la copie"
+msgstr "Échec de la copie"
 
 #: src/utilops.c:1774
 msgid "Copy files?"
@@ -4452,7 +4452,7 @@ msgstr "Exécuter l'éditeur ?"
 
 #: src/utilops.c:1866
 msgid "External command failed"
-msgstr "Echec de la commande externe"
+msgstr "Échec de la commande externe"
 
 #: src/utilops.c:2035 src/utilops.c:2108
 msgid "Delete folder"
