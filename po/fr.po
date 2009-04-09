@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.0alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-09 21:31+0200\n"
-"PO-Revision-Date: 2009-04-09 21:48+0100\n"
+"POT-Creation-Date: 2009-04-09 22:06+0200\n"
+"PO-Revision-Date: 2009-04-09 22:06+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french <geeqie-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1888,43 +1888,43 @@ msgstr "Écran actif"
 msgid "Active monitor"
 msgstr "Moniteur actif"
 
-#: src/histogram.c:113
-msgid "Log Histogram on Red"
-msgstr "Histogramme linéaire sur le rouge"
-
 #: src/histogram.c:114
-msgid "Log Histogram on Green"
-msgstr "Histogramme linéaire sur le vert"
+msgid "Log Histogram on Red"
+msgstr "Histogramme log. sur le rouge"
 
 #: src/histogram.c:115
-msgid "Log Histogram on Blue"
-msgstr "Histogramme linéaire sur le bleu"
+msgid "Log Histogram on Green"
+msgstr "Histogramme log. sur le vert"
 
 #: src/histogram.c:116
-msgid "Log Histogram on RGB"
-msgstr "Histogramme linéaire RVB"
+msgid "Log Histogram on Blue"
+msgstr "Histogramme log. sur le bleu"
 
 #: src/histogram.c:117
-msgid "Log Histogram on value"
-msgstr "Histogramme linéaire sur la valeur"
+msgid "Log Histogram on RGB"
+msgstr "Histogramme log. RVB"
 
-#: src/histogram.c:122
+#: src/histogram.c:118
+msgid "Log Histogram on value"
+msgstr "Histogramme log. sur la valeur"
+
+#: src/histogram.c:123
 msgid "Linear Histogram on Red"
 msgstr "Histogramme linéaire sur le rouge"
 
-#: src/histogram.c:123
+#: src/histogram.c:124
 msgid "Linear Histogram on Green"
 msgstr "Histogramme linéaire sur le vert"
 
-#: src/histogram.c:124
+#: src/histogram.c:125
 msgid "Linear Histogram on Blue"
 msgstr "Histogramme linéaire sur le bleu"
 
-#: src/histogram.c:125
+#: src/histogram.c:126
 msgid "Linear Histogram on RGB"
 msgstr "Histogramme linéaire RVB"
 
-#: src/histogram.c:126
+#: src/histogram.c:127
 msgid "Linear Histogram on value"
 msgstr "Histogramme linéaire sur la valeur"
 
