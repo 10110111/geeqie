@@ -720,6 +720,17 @@ static void collection_table_popup_sort_cb(GtkWidget *widget, gpointer data)
 	collection_set_sort_method(ct->cd, type);
 }
 
+static void collection_table_popup_randomize_cb(GtkWidget *widget, gpointer data)
+{
+	CollectTable *ct;
+
+	ct = submenu_item_get_data(widget);
+
+	if (!ct) return;
+
+	collection_randomize(ct->cd);
+}
+
 static void collection_table_popup_view_new_cb(GtkWidget *widget, gpointer data)
 {
 	CollectTable *ct = data;
@@ -902,7 +913,13 @@ static GtkWidget *collection_table_popup_menu(CollectTable *ct, gboolean over_ic
 				G_CALLBACK(collection_table_popup_copy_path_cb), ct);
 	menu_item_add_divider(menu);
 
-	submenu_add_sort(menu, G_CALLBACK(collection_table_popup_sort_cb), ct, FALSE, TRUE, FALSE, 0);
+	submenu = submenu_add_sort(NULL, G_CALLBACK(collection_table_popup_sort_cb), ct, FALSE, TRUE, FALSE, 0);
+	menu_item_add_divider(submenu);
+	menu_item_add(submenu, _("Randomize"),
+			G_CALLBACK(collection_table_popup_randomize_cb), ct);
+	item = menu_item_add(menu, _("_Sort"), NULL, NULL);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
+
 	menu_item_add_check(menu, _("Show filename _text"), ct->show_text,
 			G_CALLBACK(collection_table_popup_show_names_cb), ct);
 	menu_item_add_divider(menu);

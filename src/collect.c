@@ -176,6 +176,30 @@ GList *collection_list_sort(GList *list, SortType method)
 	return g_list_sort(list, collection_list_sort_cb);
 }
 
+GList *collection_list_randomize(GList *list)
+{
+	guint random, length, i;
+	gpointer tmp;
+	GList *nlist, *olist;
+
+	length = g_list_length(list);
+	if (!length) return NULL;
+
+	srand((unsigned int)time(NULL)); // Initialize random generator (hasn't to be that much strong)
+
+	for (i = 0; i < length; i++)
+		{
+		random = (guint) (1.0 * length * rand()/(RAND_MAX + 1.0));
+		olist = g_list_nth(list, i);
+		nlist = g_list_nth(list, random);
+		tmp = olist->data;
+		olist->data = nlist->data;
+		nlist->data = tmp;
+		}
+
+	return list;
+}
+
 GList *collection_list_add(GList *list, CollectInfo *ci, SortType method)
 {
 	if (method != SORT_NONE)
@@ -572,6 +596,16 @@ void collection_set_sort_method(CollectionData *cd, SortType method)
 
 	cd->sort_method = method;
 	cd->list = collection_list_sort(cd->list, cd->sort_method);
+	if (cd->list) cd->changed = TRUE;
+
+	collection_window_refresh(collection_window_find(cd));
+}
+
+void collection_randomize(CollectionData *cd)
+{
+	if (!cd) return;
+
+	cd->list = collection_list_randomize(cd->list);
 	if (cd->list) cd->changed = TRUE;
 
 	collection_window_refresh(collection_window_find(cd));

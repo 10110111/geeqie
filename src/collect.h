@@ -59,6 +59,7 @@ CollectInfo *collection_get_first(CollectionData *cd);
 CollectInfo *collection_get_last(CollectionData *cd);
 
 void collection_set_sort_method(CollectionData *cd, SortType method);
+void collection_randomize(CollectionData *cd);
 void collection_set_update_info_func(CollectionData *cd,
 				     void (*func)(CollectionData *, CollectInfo *, gpointer), gpointer data);
 
