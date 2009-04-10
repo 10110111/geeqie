@@ -606,6 +606,7 @@ void collection_randomize(CollectionData *cd)
 	if (!cd) return;
 
 	cd->list = collection_list_randomize(cd->list);
+	cd->sort_method = SORT_NONE;
 	if (cd->list) cd->changed = TRUE;
 
 	collection_window_refresh(collection_window_find(cd));
