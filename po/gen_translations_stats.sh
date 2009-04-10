@@ -17,12 +17,16 @@ echo
 (echo "Language  Comp(%) Trans Fuzzy Untrans Total"; \
 for i in *.po; do
 	msgfmt --statistics -o /dev/null $i 2>&1 \
-	| sed 's/^\([0-9]\+ \)[^0-9]*\([0-9]\+ \)\?[^0-9]*\([0-9]\+ \)\?[^0-9]*$/\1\2\3/g' \
-	| awk '{ \
-		tot = $1 + $2 + $3; \
-		if (tot != 0) \
-			printf "%8.0f|%s|%7.2f|%5d|%5d|%7d|%5d\n",\
-			($1*100/tot)*100, "'"${i%%.po}"'", $1*100/tot, tot-($2+$3), $2, $3, tot}' ;
+	| perl -ne '
+		my ($tr_done, $tr_fuzz, $tr_un) = (0, 0, 0);
+		$tr_done = $1 if /(\d+) translated messages/;
+		$tr_fuzz = $1 if /(\d+) fuzzy translations/;
+		$tr_un = $1 if /(\d+) untranslated messages/;
+		my $tr_tot = $tr_done + $tr_fuzz + $tr_un;
+		printf "%8.0f|%s|%7.2f|%5d|%5d|%7d|%5d\n",
+			10000*$tr_done/$tr_tot, "'"${i%%.po}"'",
+			100*$tr_done/$tr_tot, $tr_done, $tr_fuzz, $tr_un,
+			$tr_tot if $tr_tot;';
 done | sort -t '|' -b -k1,1nr -k2,2 | sed 's/^ *[0-9]*//' | tr ' |' '| '
 ) | column -t -c 80 | tr '|' ' '
 echo
