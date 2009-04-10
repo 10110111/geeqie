@@ -2,7 +2,8 @@
 #define __INTL_H__
 
 #ifdef ENABLE_NLS
-#  include <libintl.h>
+#  include <locale.h>
+#  include "gettext.h"
 #  define _(String) dgettext(PACKAGE,String)
 #  ifdef gettext_noop
 #    define N_(String) gettext_noop(String)
@@ -18,6 +19,7 @@
 #  define dcgettext(Domain,String,Type) (String)
 #  define bindtextdomain(Domain,Directory) (Domain)
 #  define bind_textdomain_codeset(Domain,String) (Domain)
+#  define pgettext(Context,String) (String)
 #endif /* ENABLE_NLS */
 
 #endif

@@ -1449,7 +1449,7 @@ static void config_tab_behavior(GtkWidget *notebook)
 
 	vbox = scrolled_notebook_page(notebook, _("Behavior"));
 
-	group = pref_group_new(vbox, FALSE, _("Delete"), GTK_ORIENTATION_VERTICAL);
+	group = pref_group_new(vbox, FALSE, pgettext("physical","Delete"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Confirm file delete"),
 			      options->file_ops.confirm_delete, &c_options->file_ops.confirm_delete);
