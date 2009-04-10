@@ -442,6 +442,8 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
   formatted.Flash               Flash
   formatted.Resolution          Resolution
   formatted.ColorProfile        Color profile
+  formatted.GPSPosition		GPS position
+  formatted.GPSAltitude		GPS altitude
 
   You can limit the length of displayed data using :number notation:
   %formatted.Camera:20% will truncate the displayed data to 20 characters
@@ -553,6 +555,7 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
      Thomas Klausner <wiz@danbala.ifoer.tuwien.ac.at>
      Danny Milosavljevic <danny_milo@yahoo.com>
      Ronny Steiner <Post@SIRSteiner.de>
+     Klaus Ethgen <Klaus@Ethgen.de>
          for German translation
 
      Matej Erman <matej.erman@guest.arnes.si>
@@ -668,6 +671,9 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
  
      Kjell Morgenstern
          for random slide show speedup patch
+
+     Klaus Ethgen <Klaus@Ethgen.de>
+         for GPS integration, Search enhancement and other patches
 
      And...
          Thanks to the users for finding Geeqie useful.
