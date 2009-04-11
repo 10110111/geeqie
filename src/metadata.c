@@ -854,9 +854,18 @@ gboolean keyword_exists(GtkTreeModel *keyword_tree, GtkTreeIter *parent_ptr, Gtk
 		{
 		if (!(exclude_sibling && sibling && keyword_compare(keyword_tree, &iter, sibling) == 0))
 			{
-			gchar *iter_casefold = keyword_get_casefold(keyword_tree, &iter);
-			ret = strcmp(casefold, iter_casefold) == 0;
-			g_free(iter_casefold);
+			if (options->metadata.tags_case_sensitive)
+				{
+				gchar *iter_name = keyword_get_name(keyword_tree, &iter);
+				ret = strcmp(name, iter_name) == 0;
+				g_free(iter_name);
+				}
+			else
+				{
+				gchar *iter_casefold = keyword_get_casefold(keyword_tree, &iter);
+				ret = strcmp(casefold, iter_casefold) == 0;
+				g_free(iter_casefold);
+				} // if (options->metadata.tags_cas...
 			}
 		if (ret) 
 			{
@@ -1005,24 +1014,79 @@ static gboolean keyword_tree_is_set_casefold(GtkTreeModel *keyword_tree, GtkTree
 		}
 }
 
+static gboolean keyword_tree_is_set_casefull(GtkTreeModel *keyword_tree, GtkTreeIter iter, GList *kw_list)
+{
+	if (!kw_list) return FALSE;
+
+	if (!keyword_get_is_keyword(keyword_tree, &iter))
+		{
+		/* for the purpose of expanding and hiding, a helper is set if it has any children set */
+		GtkTreeIter child;
+		if (!gtk_tree_model_iter_children(keyword_tree, &child, &iter))
+			return FALSE; /* this should happen only on empty helpers */
+
+		while (TRUE)
+			{
+			if (keyword_tree_is_set_casefull(keyword_tree, child, kw_list)) return TRUE;
+			if (!gtk_tree_model_iter_next(keyword_tree, &child)) return FALSE;
+			}
+		}
+
+	while (TRUE)
+		{
+		GtkTreeIter parent;
+
+		if (keyword_get_is_keyword(keyword_tree, &iter))
+			{
+			GList *work = kw_list;
+			gboolean found = FALSE;
+			gchar *iter_name = keyword_get_name(keyword_tree, &iter);
+			while (work)
+				{
+				const gchar *name = work->data;
+				work = work->next;
+
+				if (strcmp(iter_name, name) == 0)
+					{
+					found = TRUE;
+					break;
+					}
+				}
+			g_free(iter_name);
+			if (!found) return FALSE;
+			}
+
+		if (!gtk_tree_model_iter_parent(keyword_tree, &parent, &iter)) return TRUE;
+		iter = parent;
+		}
+}
+
 gboolean keyword_tree_is_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter, GList *kw_list)
 {
 	gboolean ret;
 	GList *casefold_list = NULL;
 	GList *work;
 
-	work = kw_list;
-	while (work)
+	if (options->metadata.tags_case_sensitive)
 		{
-		const gchar *kw = work->data;
-		work = work->next;
-
-		casefold_list = g_list_prepend(casefold_list, g_utf8_casefold(kw, -1));
+		ret = keyword_tree_is_set_casefull(keyword_tree, *iter, kw_list);
 		}
-	
-	ret = keyword_tree_is_set_casefold(keyword_tree, *iter, casefold_list);
-	
-	string_list_free(casefold_list);
+	else
+		{
+		work = kw_list;
+		while (work)
+			{
+			const gchar *kw = work->data;
+			work = work->next;
+
+			casefold_list = g_list_prepend(casefold_list, g_utf8_casefold(kw, -1));
+			}
+
+		ret = keyword_tree_is_set_casefold(keyword_tree, *iter, casefold_list);
+
+		string_list_free(casefold_list);
+		}
+
 	return ret;
 }
 

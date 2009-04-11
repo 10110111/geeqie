@@ -177,6 +177,7 @@ struct _ConfOptions
 		gboolean confirm_after_timeout;
 		gboolean confirm_on_image_change;
 		gboolean confirm_on_dir_change;
+		gboolean tags_case_sensitive;
 	} metadata;
 
 };
