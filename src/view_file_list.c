@@ -1658,11 +1658,14 @@ void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 			{
 			vf_refresh_idle(vf);
 			}
+		else
+			{
+			/* mark functions can have various side effects - update all columns to be sure */
+			vflist_setup_iter(vf, GTK_TREE_STORE(store), &iter, fd);
+			}
 
 		
 		file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
-
-		gtk_tree_store_set(GTK_TREE_STORE(store), &iter, FILE_COLUMN_MARKS + n, file_data_get_mark(fd, n), -1);
 
 		work = work->next;
 		}
@@ -1900,9 +1903,13 @@ static void vflist_listview_mark_toggled_cb(GtkCellRendererToggle *cell, gchar *
 		{
 		vf_refresh_idle(vf);
 		}
+	else
+		{
+		/* mark functions can have various side effects - update all columns to be sure */
+		vflist_setup_iter(vf, GTK_TREE_STORE(store), &iter, fd);
+		}
 	file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
-	gtk_tree_store_set(store, &iter, col_idx, marked, -1);
 	gtk_tree_path_free(path);
 }
 
