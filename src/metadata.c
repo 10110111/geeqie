@@ -1297,6 +1297,13 @@ void keyword_tree_new(void)
 	keyword_tree = gtk_tree_store_new(KEYWORD_COLUMN_COUNT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_POINTER);
 }
 
+static GtkTreeIter keyword_tree_default_append(GtkTreeStore *keyword_tree, GtkTreeIter *parent, const gchar *name, gboolean is_keyword)
+{
+	GtkTreeIter iter;
+	gtk_tree_store_append(keyword_tree, &iter, parent);
+	keyword_set(keyword_tree, &iter, name, is_keyword);
+	return iter;
+}
 
 void keyword_tree_new_default(void)
 {
@@ -1306,36 +1313,66 @@ void keyword_tree_new_default(void)
 
 	GtkTreeIter i1, i2, i3;
 
-	gtk_tree_store_append(keyword_tree, &i1, NULL);
-	keyword_set(keyword_tree, &i1, "animal", TRUE);
-
-		gtk_tree_store_append(keyword_tree, &i2, &i1);
-		keyword_set(keyword_tree, &i2, "mammal", TRUE);
-
-			gtk_tree_store_append(keyword_tree, &i3, &i2);
-			keyword_set(keyword_tree, &i3, "dog", TRUE);
-
-			gtk_tree_store_append(keyword_tree, &i3, &i2);
-			keyword_set(keyword_tree, &i3, "cat", TRUE);
-
-		gtk_tree_store_append(keyword_tree, &i2, &i1);
-		keyword_set(keyword_tree, &i2, "insect", TRUE);
-
-			gtk_tree_store_append(keyword_tree, &i3, &i2);
-			keyword_set(keyword_tree, &i3, "fly", TRUE);
-
-			gtk_tree_store_append(keyword_tree, &i3, &i2);
-			keyword_set(keyword_tree, &i3, "dragonfly", TRUE);
-
-	gtk_tree_store_append(keyword_tree, &i1, NULL);
-	keyword_set(keyword_tree, &i1, "daytime", FALSE);
-
-		gtk_tree_store_append(keyword_tree, &i2, &i1);
-		keyword_set(keyword_tree, &i2, "morning", TRUE);
-
-		gtk_tree_store_append(keyword_tree, &i2, &i1);
-		keyword_set(keyword_tree, &i2, "noon", TRUE);
-
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("People"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Family"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Free time"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Children"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Sport"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Culture"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Festival"), TRUE); 
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Nature"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Animal"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Bird"), TRUE); 
+ 			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Insect"), TRUE); 
+ 			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Pets"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Wildlife"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Zoo"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Plant"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Tree"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Flower"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Water"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("River"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Lake"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Sea"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Landscape"), TRUE); 
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Art"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Statue"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Painting"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Historic"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Modern"), TRUE); 
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("City"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Park"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Street"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Square"), TRUE); 
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Architecture"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Buildings"), FALSE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("House"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Cathedral"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Palace"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Castle"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Bridge"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Interior"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Historic"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Modern"), TRUE); 
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Places"), FALSE); 
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Conditions"), FALSE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Night"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Lights"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Reflections"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Sun"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Weather"), FALSE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Fog"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Rain"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Clouds"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Snow"), TRUE); 
+			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Sunny weather"), TRUE); 
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Photo"), FALSE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Edited"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Detail"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Macro"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Portrait"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Black and White"), TRUE); 
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Perspective"), TRUE); 
 }
 
 
