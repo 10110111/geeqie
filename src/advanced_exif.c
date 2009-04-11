@@ -301,14 +301,11 @@ static void advanced_exif_add_column(GtkWidget *listview, const gchar *title, gi
 	gtk_tree_view_append_column(GTK_TREE_VIEW(listview), column);
 }
 
-void advanced_exif_close(GtkWidget *window)
+void advanced_exif_close(ExifWin *ew)
 {
-	ExifWin *ew;
-
-	ew = g_object_get_data(G_OBJECT(window), "advanced_exif_data");
 	if (!ew) return;
 
-	gtk_widget_destroy(ew->vbox);
+	gtk_widget_destroy(ew->window);
 }
 
 static void advanced_exif_destroy(GtkWidget *widget, gpointer data)
@@ -358,6 +355,25 @@ static gint advanced_exif_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIt
 
 	return ret;
 }
+
+static gboolean advanced_exif_keypress(GtkWidget *widget, GdkEventKey *event, gpointer data)
+{
+	ExifWin *ew = data;
+	gboolean stop_signal = FALSE;
+
+	if (event->state & GDK_CONTROL_MASK)
+		{
+		switch (event->keyval)
+			{
+			case 'W': case 'w':
+				advanced_exif_close(ew);
+				stop_signal = TRUE;
+				break;
+			}
+		} // if (event->state & GDK_CONTROL...
+
+	return stop_signal;
+} // static gboolean advanced_exif_...
 
 GtkWidget *advanced_exif_new(void)
 {
@@ -436,6 +452,9 @@ GtkWidget *advanced_exif_new(void)
 
 	g_signal_connect(G_OBJECT(ew->listview), "drag_begin",
 			 G_CALLBACK(advanced_exif_dnd_begin), ew);
+
+	g_signal_connect(G_OBJECT(ew->window), "key_press_event",
+			 G_CALLBACK(advanced_exif_keypress), ew);
 
 	ew->scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(ew->scrolled), GTK_SHADOW_IN);

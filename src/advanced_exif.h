@@ -16,7 +16,6 @@
 
 
 GtkWidget *advanced_exif_new(void);
-void advanced_exif_close(GtkWidget *bar);
 
 void advanced_exif_set_fd(GtkWidget *bar, FileData *fd);
 
