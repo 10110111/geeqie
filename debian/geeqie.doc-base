@@ -1,0 +1,10 @@
+Document: Geeqie
+Title: Geeqie Manual
+Author: The Geeqie Team
+Abstract: The Geeqie User Manual
+Section: unknown
+
+Format: HTML
+Index: /usr/share/doc/geeqie/html/index.html
+Files: /usr/share/doc/geeqie/html/*.html
+

@@ -1,0 +1,3 @@
+?package(geeqie):needs="X11" section="Applications/Viewers"\
+  title="Geeqie" command="/usr/bin/geeqie"\
+  icon="/usr/share/pixmaps/geeqie.png"

@@ -1,0 +1,15 @@
+Source: geeqie
+Section: graphics
+Priority: optional
+Maintainer: Klaus Ethgen <Klaus@Ethgen.de>
+Build-Depends: debhelper (>= 7), autotools-dev, libpng12-dev, libgtk2.0-dev (>= 2.4), liblcms1-dev, liblircclient-dev, libexiv2-dev, binutils (>= 2.17)
+Standards-Version: 3.7.3
+Homepage: http://geeqie.sourceforge.net/
+
+Package: geeqie
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Graphics file browser utility
+ Geeqie is a fork of GQview to go on with development and maintenance.
+ .
+ Geeqie is a image viewer and collection management system.
