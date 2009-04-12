@@ -605,7 +605,7 @@ static void bar_pane_exif_menu_popup(GtkWidget *widget, PaneExifData *ped)
 		{
 		/* for the entry */
 		gchar *conf = g_strdup_printf(_("Configure \"%s\""), ee->title);
-		gchar *del = g_strdup_printf(_("Delete \"%s\""), ee->title);
+		gchar *del = g_strdup_printf(_("Remove \"%s\""), ee->title);
 		
 		menu_item_add_stock(menu, conf, GTK_STOCK_EDIT, G_CALLBACK(bar_pane_exif_conf_dialog_cb), widget);
 		menu_item_add_stock(menu, del, GTK_STOCK_DELETE, G_CALLBACK(bar_pane_exif_delete_entry_cb), widget);

@@ -153,7 +153,7 @@ static const KnownPanes known_panes[] = {
 	{PANE_EXIF,		"exif",		N_("Exif"),		default_config_exif},
 /* other pre-configured panes */
 	{PANE_EXIF,		"file_info",	N_("File info"),	default_config_file_info},
-	{PANE_EXIF,		"location",	N_("Location"),		default_config_location},
+	{PANE_EXIF,		"location",	N_("Location and GPS"),	default_config_location},
 	{PANE_EXIF,		"copyright",	N_("Copyright"),	default_config_copyright},
 
 	{PANE_UNDEF,		NULL,		NULL,			NULL}
@@ -277,7 +277,7 @@ static void bar_menu_popup(GtkWidget *widget)
 		menu_item_add_stock(menu, _("Move _down"), GTK_STOCK_GO_DOWN, G_CALLBACK(bar_expander_move_down_cb), expander);
 		menu_item_add_stock(menu, _("Move to _bottom"), GTK_STOCK_GOTO_BOTTOM, G_CALLBACK(bar_expander_move_bottom_cb), expander);
 		menu_item_add_divider(menu);
-		menu_item_add_stock(menu, pgettext("virtual","Delete"), GTK_STOCK_DELETE, G_CALLBACK(bar_expander_delete_cb), expander);
+		menu_item_add_stock(menu, _("Remove"), GTK_STOCK_DELETE, G_CALLBACK(bar_expander_delete_cb), expander);
 		menu_item_add_divider(menu);
 		}
 

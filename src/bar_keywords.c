@@ -1132,7 +1132,7 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 		text = g_strdup_printf(_("Edit \"%s\""), name);
 		menu_item_add_stock(menu, text, GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_edit_dialog_cb), pkd);
 		g_free(text);
-		text = g_strdup_printf(_("Delete \"%s\""), name);
+		text = g_strdup_printf(_("Remove \"%s\""), name);
 		menu_item_add_stock(menu, text, GTK_STOCK_DELETE, G_CALLBACK(bar_pane_keywords_delete_cb), pkd);
 		g_free(text);
 
