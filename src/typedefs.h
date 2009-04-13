@@ -418,7 +418,6 @@ struct _ImageWindow
 	/* color profiles */
 	gboolean color_profile_enable;
 	gint color_profile_input;
-	gint color_profile_screen;
 	gboolean color_profile_use_image;
 	gint color_profile_from_image;
 	gpointer cm;

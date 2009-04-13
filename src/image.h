@@ -103,10 +103,10 @@ void image_background_set_color(ImageWindow *imd, GdkColor *color);
 
 /* color profiles */
 void image_color_profile_set(ImageWindow *imd,
-			     gint input_type, gint screen_type,
+			     gint input_type,
 			     gboolean use_image);
 gboolean image_color_profile_get(ImageWindow *imd,
-			     gint *input_type, gint *screen_type,
+			     gint *input_type,
 			     gboolean *use_image);
 void image_color_profile_set_use(ImageWindow *imd, gboolean enable);
 gboolean image_color_profile_get_use(ImageWindow *imd);

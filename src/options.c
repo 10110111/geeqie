@@ -33,8 +33,8 @@ ConfOptions *init_options(ConfOptions *options)
 	options->color_profile.enabled = TRUE;
 	options->color_profile.input_type = 0;
 	options->color_profile.screen_file = NULL;
-	options->color_profile.screen_type = 0;
 	options->color_profile.use_image = TRUE;
+	options->color_profile.use_x11_screen_profile = TRUE;
 
 	options->dnd_icon_size = 48;
 	options->duplicates_similarity_threshold = 99;
@@ -223,7 +223,6 @@ static void sync_options_with_current_state(ConfOptions *options)
 		options->color_profile.enabled = layout_image_color_profile_get_use(lw);
 		layout_image_color_profile_get(lw,
 					       &options->color_profile.input_type,
-					       &options->color_profile.screen_type,
 					       &options->color_profile.use_image);
 		}
 

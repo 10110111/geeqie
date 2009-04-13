@@ -146,9 +146,9 @@ struct _ConfOptions
 		gint input_type;
 		gchar *input_file[COLOR_PROFILE_INPUTS];
 		gchar *input_name[COLOR_PROFILE_INPUTS];
-		gint screen_type;
 		gchar *screen_file;
 		gboolean use_image;
+		gboolean use_x11_screen_profile;
 
 	} color_profile;
 

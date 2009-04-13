@@ -49,10 +49,12 @@ struct _ColorMan {
 
 ColorMan *color_man_new(ImageWindow *imd, GdkPixbuf *pixbuf,
 			ColorManProfileType input_type, const gchar *input_file,
-			ColorManProfileType screen_type, const gchar *screen_file);
+			ColorManProfileType screen_type, const gchar *screen_file,
+			guchar *screen_data, guint screen_data_len);
 ColorMan *color_man_new_embedded(ImageWindow *imd, GdkPixbuf *pixbuf,
 				 guchar *input_data, guint input_data_len,
-				 ColorManProfileType screen_type, const gchar *screen_file);
+				 ColorManProfileType screen_type, const gchar *screen_file,
+				 guchar *screen_data, guint screen_data_len);
 void color_man_free(ColorMan *cm);
 
 void color_man_update(void);

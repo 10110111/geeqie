@@ -188,16 +188,30 @@ static void image_update_title(ImageWindow *imd)
  * rotation, flip, etc.
  *-------------------------------------------------------------------
  */
+static gboolean image_get_x11_screen_profile(ImageWindow *imd, guchar **screen_profile, gint *screen_profile_len)
+{
+	GdkScreen *screen = gtk_widget_get_screen(imd->widget);;
+	GdkAtom    type   = GDK_NONE;
+	gint       format = 0;
+
+	return (gdk_property_get(gdk_screen_get_root_window(screen),
+				 gdk_atom_intern ("_ICC_PROFILE", FALSE),
+				 GDK_NONE,
+				 0, 64 * 1024 * 1024, FALSE,
+				 &type, &format, screen_profile_len, screen_profile) && *screen_profile_len > 0);
+}
 
 static gboolean image_post_process_color(ImageWindow *imd, gint start_row, gboolean run_in_bg)
 {
 	ColorMan *cm;
 	ColorManProfileType input_type;
 	ColorManProfileType screen_type;
-	const gchar *input_file;
-	const gchar *screen_file;
+	const gchar *input_file = NULL;
+	const gchar *screen_file = NULL;
 	guchar *profile = NULL;
 	guint profile_len;
+	guchar *screen_profile = NULL;
+	gint screen_profile_len;
 	ExifData *exif;
 
 	if (imd->cm) return FALSE;
@@ -223,20 +237,22 @@ static gboolean image_post_process_color(ImageWindow *imd, gint start_row, gbool
 		return FALSE;
 		}
 
-	if (imd->color_profile_screen == 1 &&
+	if (options->color_profile.use_x11_screen_profile &&
+	    image_get_x11_screen_profile(imd, &screen_profile, &screen_profile_len))
+		{
+		screen_type = COLOR_PROFILE_MEM;
+		DEBUG_1("Using X11 screen profile, length: %d", screen_profile_len);
+		}
+	if (options->color_profile.screen_file &&
 	    is_readable_file(options->color_profile.screen_file))
 		{
 		screen_type = COLOR_PROFILE_FILE;
 		screen_file = options->color_profile.screen_file;
 		}
-	else if (imd->color_profile_screen == 0)
+	else
 		{
 		screen_type = COLOR_PROFILE_SRGB;
 		screen_file = NULL;
-		}
-	else
-		{
-		return FALSE;
 		}
 
 
@@ -310,14 +326,14 @@ static gboolean image_post_process_color(ImageWindow *imd, gint start_row, gbool
 		{
 		cm = color_man_new_embedded(run_in_bg ? imd : NULL, NULL,
 					    profile, profile_len,
-					    screen_type, screen_file);
+					    screen_type, screen_file, screen_profile, screen_profile_len);
 		g_free(profile);
 		}
 	else
 		{
 		cm = color_man_new(run_in_bg ? imd : NULL, NULL,
 				   input_type, input_file,
-				   screen_type, screen_file);
+				   screen_type, screen_file, screen_profile, screen_profile_len);
 		}
 
 	if (cm)
@@ -1170,7 +1186,6 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 
 	imd->color_profile_enable = source->color_profile_enable;
 	imd->color_profile_input = source->color_profile_input;
-	imd->color_profile_screen = source->color_profile_screen;
 	imd->color_profile_use_image = source->color_profile_use_image;
 	color_man_free((ColorMan *)imd->cm);
 	imd->cm = NULL;
@@ -1423,30 +1438,27 @@ void image_background_set_color(ImageWindow *imd, GdkColor *color)
 }
 
 void image_color_profile_set(ImageWindow *imd,
-			     gint input_type, gint screen_type,
+			     gint input_type,
 			     gboolean use_image)
 {
 	if (!imd) return;
 
-	if (input_type < 0 || input_type >= COLOR_PROFILE_FILE + COLOR_PROFILE_INPUTS ||
-	    screen_type < 0 || screen_type > 1)
+	if (input_type < 0 || input_type >= COLOR_PROFILE_FILE + COLOR_PROFILE_INPUTS)
 		{
 		return;
 		}
 
 	imd->color_profile_input = input_type;
-	imd->color_profile_screen = screen_type;
 	imd->color_profile_use_image = use_image;
 }
 
 gboolean image_color_profile_get(ImageWindow *imd,
-			 	 gint *input_type, gint *screen_type,
+			 	 gint *input_type,
 			     	 gboolean *use_image)
 {
 	if (!imd) return FALSE;
 
 	if (input_type) *input_type = imd->color_profile_input;
-	if (screen_type) *screen_type = imd->color_profile_screen;
 	if (use_image) *use_image = imd->color_profile_use_image;
 
 	return TRUE;

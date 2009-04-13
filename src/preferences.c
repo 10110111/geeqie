@@ -337,6 +337,7 @@ static void config_window_apply(void)
 		config_entry_to_option(color_profile_input_file_entry[i], &options->color_profile.input_file[i], NULL);
 		}
 	config_entry_to_option(color_profile_screen_file_entry, &options->color_profile.screen_file, NULL);
+	options->color_profile.use_x11_screen_profile = c_options->color_profile.use_x11_screen_profile;
 #endif
 
 #if 0
@@ -1382,12 +1383,12 @@ static void config_tab_color(GtkWidget *notebook)
 
 	vbox = scrolled_notebook_page(notebook, _("Color management"));
 
-	group =  pref_group_new(vbox, FALSE, _("Color profiles"), GTK_ORIENTATION_VERTICAL);
+	group =  pref_group_new(vbox, FALSE, _("Input profiles"), GTK_ORIENTATION_VERTICAL);
 #ifndef HAVE_LCMS
 	gtk_widget_set_sensitive(pref_group_parent(group), FALSE);
 #endif
 
-	table = pref_table_new(group, 3, COLOR_PROFILE_INPUTS + 2, FALSE, FALSE);
+	table = pref_table_new(group, 3, COLOR_PROFILE_INPUTS + 1, FALSE, FALSE);
 	gtk_table_set_col_spacings(GTK_TABLE(table), PREF_PAD_GAP);
 
 	label = pref_table_label(table, 0, 0, _("Type"), 0.0);
@@ -1429,13 +1430,22 @@ static void config_tab_color(GtkWidget *notebook)
 		color_profile_input_file_entry[i] = entry;
 		}
 
-	pref_table_label(table, 0, COLOR_PROFILE_INPUTS + 1, _("Screen:"), 1.0);
+	group =  pref_group_new(vbox, FALSE, _("Screen profile"), GTK_ORIENTATION_VERTICAL);
+#ifndef HAVE_LCMS
+	gtk_widget_set_sensitive(pref_group_parent(group), FALSE);
+#endif
+	pref_checkbox_new_int(group, _("Use system screen profile if available"),
+			      options->color_profile.use_x11_screen_profile, &c_options->color_profile.use_x11_screen_profile);
+
+	table = pref_table_new(group, 2, 1, FALSE, FALSE);
+
+	pref_table_label(table, 0, 0, _("Screen:"), 1.0);
 	tabcomp = tab_completion_new(&color_profile_screen_file_entry,
 				     options->color_profile.screen_file, NULL, NULL);
 	tab_completion_add_select_button(color_profile_screen_file_entry, _("Select color profile"), FALSE);
 	gtk_widget_set_size_request(color_profile_screen_file_entry, 160, -1);
-	gtk_table_attach(GTK_TABLE(table), tabcomp, 2, 3,
-			 COLOR_PROFILE_INPUTS + 1, COLOR_PROFILE_INPUTS + 2,
+	gtk_table_attach(GTK_TABLE(table), tabcomp, 1, 2,
+			 0, 1,
 			 GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	gtk_widget_show(tabcomp);
 }

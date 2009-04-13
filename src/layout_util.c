@@ -1059,11 +1059,11 @@ static void layout_color_menu_use_image_cb(GtkToggleAction *action, gpointer dat
 {
 #ifdef HAVE_LCMS
 	LayoutWindow *lw = data;
-	gint input, screen;
+	gint input;
 	gboolean use_image;
 
-	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
-	layout_image_color_profile_set(lw, input, screen, gtk_toggle_action_get_active(action));
+	if (!layout_image_color_profile_get(lw, &input, &use_image)) return;
+	layout_image_color_profile_set(lw, input, gtk_toggle_action_get_active(action));
 	layout_util_sync_color(lw);
 	layout_image_refresh(lw);
 #endif
@@ -1074,16 +1074,16 @@ static void layout_color_menu_input_cb(GtkRadioAction *action, GtkRadioAction *c
 #ifdef HAVE_LCMS
 	LayoutWindow *lw = data;
 	gint type;
-	gint input, screen;
+	gint input;
 	gboolean use_image;
 
 	type = gtk_radio_action_get_current_value(action);
 	if (type < 0 || type >= COLOR_PROFILE_FILE + COLOR_PROFILE_INPUTS) return;
 
-	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
+	if (!layout_image_color_profile_get(lw, &input, &use_image)) return;
 	if (type == input) return;
 
-	layout_image_color_profile_set(lw, type, screen, use_image);
+	layout_image_color_profile_set(lw, type, use_image);
 	layout_image_refresh(lw);
 #endif
 }
@@ -2071,14 +2071,13 @@ static void layout_util_sync_color(LayoutWindow *lw)
 {
 	GtkAction *action;
 	gint input = 0;
-	gint screen = 0;
 	gboolean use_color;
 	gboolean use_image = FALSE;
 	gint i;
 	gchar action_name[15];
 
 	if (!lw->action_group) return;
-	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
+	if (!layout_image_color_profile_get(lw, &input, &use_image)) return;
 	
 	use_color = layout_image_color_profile_get_use(lw);
 

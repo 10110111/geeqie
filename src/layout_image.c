@@ -1059,21 +1059,21 @@ void layout_image_refresh(LayoutWindow *lw)
 }
 
 void layout_image_color_profile_set(LayoutWindow *lw,
-				    gint input_type, gint screen_type,
+				    gint input_type,
 				    gboolean use_image)
 {
 	if (!layout_valid(&lw)) return;
 
-	image_color_profile_set(lw->image, input_type, screen_type, use_image);
+	image_color_profile_set(lw->image, input_type, use_image);
 }
 
 gboolean layout_image_color_profile_get(LayoutWindow *lw,
-				    	gint *input_type, gint *screen_type,
+				    	gint *input_type,
 				    	gboolean *use_image)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
-	return image_color_profile_get(lw->image, input_type, screen_type, use_image);
+	return image_color_profile_get(lw->image, input_type, use_image);
 }
 
 void layout_image_color_profile_set_use(LayoutWindow *lw, gboolean enable)
@@ -1607,7 +1607,6 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 		layout_image_dnd_init(lw, i);
 		image_color_profile_set(lw->split_images[i],
 					options->color_profile.input_type,
-					options->color_profile.screen_type,
 					options->color_profile.use_image);
 		image_color_profile_set_use(lw->split_images[i], options->color_profile.enabled);
 

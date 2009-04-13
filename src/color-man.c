@@ -136,6 +136,7 @@ static cmsHPROFILE color_man_cache_load_profile(ColorManProfileType type, const 
 static ColorManCache *color_man_cache_new(ColorManProfileType in_type, const gchar *in_file,
 					  guchar *in_data, guint in_data_len,
 					  ColorManProfileType out_type, const gchar *out_file,
+					  guchar *out_data, guint out_data_len,
 					  gboolean has_alpha)
 {
 	ColorManCache *cc;
@@ -156,7 +157,7 @@ static ColorManCache *color_man_cache_new(ColorManProfileType in_type, const gch
 	cc->profile_in = color_man_cache_load_profile(cc->profile_in_type, cc->profile_in_file,
 						      in_data, in_data_len);
 	cc->profile_out = color_man_cache_load_profile(cc->profile_out_type, cc->profile_out_file,
-						       NULL, 0);
+						       out_data, out_data_len);
 
 	if (!cc->profile_in || !cc->profile_out)
 		{
@@ -183,7 +184,7 @@ static ColorManCache *color_man_cache_new(ColorManProfileType in_type, const gch
 		return NULL;
 		}
 
-	if (cc->profile_in_type != COLOR_PROFILE_MEM)
+	if (cc->profile_in_type != COLOR_PROFILE_MEM && cc->profile_out_type != COLOR_PROFILE_MEM )
 		{
 		cm_cache_list = g_list_append(cm_cache_list, cc);
 		color_man_cache_ref(cc);
@@ -253,6 +254,7 @@ static ColorManCache *color_man_cache_find(ColorManProfileType in_type, const gc
 static ColorManCache *color_man_cache_get(ColorManProfileType in_type, const gchar *in_file,
 					  guchar *in_data, guint in_data_len,
 					  ColorManProfileType out_type, const gchar *out_file,
+					  guchar *out_data, guint out_data_len,
 					  gboolean has_alpha)
 {
 	ColorManCache *cc;
@@ -265,7 +267,7 @@ static ColorManCache *color_man_cache_get(ColorManProfileType in_type, const gch
 		}
 
 	return color_man_cache_new(in_type, in_file, in_data, in_data_len,
-				   out_type, out_file, has_alpha);
+				   out_type, out_file, out_data, out_data_len, has_alpha);
 }
 
 
@@ -357,7 +359,8 @@ static gboolean color_man_idle_cb(gpointer data)
 static ColorMan *color_man_new_real(ImageWindow *imd, GdkPixbuf *pixbuf,
 				    ColorManProfileType input_type, const gchar *input_file,
 				    guchar *input_data, guint input_data_len,
-				    ColorManProfileType screen_type, const gchar *screen_file)
+				    ColorManProfileType screen_type, const gchar *screen_file,
+				    guchar *screen_data, guint screen_data_len)
 {
 	ColorMan *cm;
 	gboolean has_alpha;
@@ -372,7 +375,7 @@ static ColorMan *color_man_new_real(ImageWindow *imd, GdkPixbuf *pixbuf,
 	has_alpha = pixbuf ? gdk_pixbuf_get_has_alpha(pixbuf) : FALSE;
 
 	cm->profile = color_man_cache_get(input_type, input_file, input_data, input_data_len,
-					  screen_type, screen_file, has_alpha);
+					  screen_type, screen_file, screen_data, screen_data_len, has_alpha);
 	if (!cm->profile)
 		{
 		color_man_free(cm);
@@ -384,11 +387,12 @@ static ColorMan *color_man_new_real(ImageWindow *imd, GdkPixbuf *pixbuf,
 
 ColorMan *color_man_new(ImageWindow *imd, GdkPixbuf *pixbuf,
 			ColorManProfileType input_type, const gchar *input_file,
-			ColorManProfileType screen_type, const gchar *screen_file)
+			ColorManProfileType screen_type, const gchar *screen_file,
+			guchar *screen_data, guint screen_data_len)
 {
 	return color_man_new_real(imd, pixbuf,
 				  input_type, input_file, NULL, 0,
-				  screen_type, screen_file);
+				  screen_type, screen_file, screen_data, screen_data_len);
 }
 
 void color_man_start_bg(ColorMan *cm, ColorManDoneFunc done_func, gpointer done_data)
@@ -400,11 +404,12 @@ void color_man_start_bg(ColorMan *cm, ColorManDoneFunc done_func, gpointer done_
 
 ColorMan *color_man_new_embedded(ImageWindow *imd, GdkPixbuf *pixbuf,
 				 guchar *input_data, guint input_data_len,
-				 ColorManProfileType screen_type, const gchar *screen_file)
+				 ColorManProfileType screen_type, const gchar *screen_file,
+				 guchar *screen_data, guint screen_data_len)
 {
 	return color_man_new_real(imd, pixbuf,
 				  COLOR_PROFILE_MEM, NULL, input_data, input_data_len,
-				  screen_type, screen_file);
+				  screen_type, screen_file, screen_data, screen_data_len);
 }
 
 void color_man_free(ColorMan *cm)
@@ -430,7 +435,8 @@ void color_man_update(void)
 
 ColorMan *color_man_new(ImageWindow *imd, GdkPixbuf *pixbuf,
 			ColorManProfileType input_type, const gchar *input_file,
-			ColorManProfileType screen_type, const gchar *screen_file)
+			ColorManProfileType screen_type, const gchar *screen_file,
+			guchar *screen_data, guint screen_data_len)
 {
 	/* no op */
 	return NULL;
@@ -438,7 +444,8 @@ ColorMan *color_man_new(ImageWindow *imd, GdkPixbuf *pixbuf,
 
 ColorMan *color_man_new_embedded(ImageWindow *imd, GdkPixbuf *pixbuf,
 				 guchar *input_data, guint input_data_len,
-				 ColorManProfileType screen_type, const gchar *screen_file)
+				 ColorManProfileType screen_type, const gchar *screen_file,
+				 guchar *screen_data, guint screen_data_len)
 {
 	/* no op */
 	return NULL;
