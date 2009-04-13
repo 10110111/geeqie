@@ -391,177 +391,7 @@ static GtkWidget *layout_sort_button(LayoutWindow *lw)
 	return button;
 }
 
-/*
- *-----------------------------------------------------------------------------
- * color profile button (and menu)
- *-----------------------------------------------------------------------------
- */
-
-#ifdef HAVE_LCMS
-
-static void layout_color_menu_enable_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-
-	layout_image_color_profile_set_use(lw, (!layout_image_color_profile_get_use(lw)));
-	layout_image_refresh(lw);
-}
-
-static void layout_color_menu_use_image_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-	gint input, screen;
-	gboolean use_image;
-
-	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
-	layout_image_color_profile_set(lw, input, screen, !use_image);
-	layout_image_refresh(lw);
-}
-
-#define COLOR_MENU_KEY "color_menu_key"
-
-static void layout_color_menu_input_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-	gint type;
-	gint input, screen;
-	gboolean use_image;
-
-	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) return;
-
-	type = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), COLOR_MENU_KEY));
-	if (type < 0 || type >= COLOR_PROFILE_FILE + COLOR_PROFILE_INPUTS) return;
-
-	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
-	if (type == input) return;
-
-	layout_image_color_profile_set(lw, type, screen, use_image);
-	layout_image_refresh(lw);
-}
-
-static void layout_color_menu_screen_cb(GtkWidget *widget, gpointer data)
-{
-	LayoutWindow *lw = data;
-	gint type;
-	gint input, screen;
-	gboolean use_image;
-
-	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) return;
-
-	type = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), COLOR_MENU_KEY));
-	if (type < 0 || type > 1) return;
-
-	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
-	if (type == screen) return;
-
-	layout_image_color_profile_set(lw, input, type, use_image);
-	layout_image_refresh(lw);
-}
-
-static gchar *layout_color_name_parse(const gchar *name)
-{
-	if (!name || !*name) return g_strdup(_("Empty"));
-	return g_strdelimit(g_strdup(name), "_", '-');
-}
-
-#endif /* HAVE_LCMS */
-
-static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
-{
-#ifndef HAVE_LCMS
-	gchar *msg = g_strdup_printf(_("This installation of %s was not built with support for color profiles."), GQ_APPNAME);
-	file_util_warning_dialog(_("Color profiles not supported"),
-				 msg,
-				 GTK_STOCK_DIALOG_INFO, widget);
-	g_free(msg);
-	return;
-#else
-	LayoutWindow *lw = data;
-	GtkWidget *menu;
-	GtkWidget *item;
-	gchar *buf;
-	gboolean active;
-	gint input = 0;
-	gint screen = 0;
-	gboolean use_image = FALSE;
-	gboolean from_image;
-	gint image_profile;
-	gint i;
-	
-	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
-
-	image_profile = layout_image_color_profile_get_from_image(lw);
-	from_image = use_image && (image_profile != COLOR_PROFILE_NONE);
-	menu = popup_menu_short_lived();
-
-	active = layout_image_color_profile_get_use(lw);
-	menu_item_add_check(menu, _("Use _color profiles"), active,
-			    G_CALLBACK(layout_color_menu_enable_cb), lw);
-
-	menu_item_add_divider(menu);
-
-	item = menu_item_add_check(menu, _("Use profile from _image"), use_image,
-			    G_CALLBACK(layout_color_menu_use_image_cb), lw);
-	gtk_widget_set_sensitive(item, image_profile == COLOR_PROFILE_MEM || (image_profile > COLOR_PROFILE_NONE && image_profile < COLOR_PROFILE_FILE));
-
-	for (i = COLOR_PROFILE_SRGB; i < COLOR_PROFILE_FILE; i++)
-		{
-		const gchar *label;
-
-		switch (i)
-			{
-			case COLOR_PROFILE_SRGB: 	label = _("sRGB"); break;
-			case COLOR_PROFILE_ADOBERGB:	label = _("AdobeRGB compatible"); break;
-			default:			label = "fixme"; break;
-			}
-		buf = g_strdup_printf(_("Input _%d: %s%s"), i, label, (i == image_profile) ? " *" : "");
-	  	item = menu_item_add_radio(menu, (i == COLOR_PROFILE_SRGB) ? NULL : item,
-				   buf, (input == i),
-				   G_CALLBACK(layout_color_menu_input_cb), lw);
-		g_free(buf);
-		g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(i));
-		gtk_widget_set_sensitive(item, active && !from_image);
-		}
-
-	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
-		{
-		const gchar *name = options->color_profile.input_name[i];
-		const gchar *file = options->color_profile.input_file[i];
-		gchar *end;
-
-		if (!name || !name[0]) name = filename_from_path(file);
-
-		end = layout_color_name_parse(name);
-		buf = g_strdup_printf(_("Input _%d: %s"), i + COLOR_PROFILE_FILE, end);
-		g_free(end);
-
-		item = menu_item_add_radio(menu, item,
-					   buf, (i + COLOR_PROFILE_FILE == input),
-					   G_CALLBACK(layout_color_menu_input_cb), lw);
-		g_free(buf);
-		g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(i + COLOR_PROFILE_FILE));
-		gtk_widget_set_sensitive(item, active && !from_image && is_readable_file(file));
-		}
-
-	menu_item_add_divider(menu);
-
-	item = menu_item_add_radio(menu, NULL,
-				   _("Screen sRGB"), (screen == 0),
-				   G_CALLBACK(layout_color_menu_screen_cb), lw);
-
-	g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(0));
-	gtk_widget_set_sensitive(item, active);
-
-	item = menu_item_add_radio(menu, item,
-				   _("_Screen profile"), (screen == 1),
-				   G_CALLBACK(layout_color_menu_screen_cb), lw);
-	g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(1));
-	gtk_widget_set_sensitive(item, active && is_readable_file(options->color_profile.screen_file));
-
-	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
-#endif /* HAVE_LCMS */
-}
-
+#if 0
 static GtkWidget *layout_color_button(LayoutWindow *lw)
 {
 	GtkWidget *button;
@@ -585,7 +415,7 @@ static GtkWidget *layout_color_button(LayoutWindow *lw)
 
 	return button;
 }
-
+#endif
 /*
  *-----------------------------------------------------------------------------
  * write button
@@ -849,13 +679,9 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gboolean small
 	gtk_box_pack_start(GTK_BOX(hbox), lw->info_sort, FALSE, FALSE, 0);
 	gtk_widget_show(lw->info_sort);
 
-	lw->info_color = layout_color_button(lw);
-	gtk_widget_show(lw->info_color);
-
 	lw->info_write = layout_write_button(lw);
 	gtk_widget_show(lw->info_write);
 
-	if (small_format) gtk_box_pack_end(GTK_BOX(hbox), lw->info_color, FALSE, FALSE, 0);
 	if (small_format) gtk_box_pack_end(GTK_BOX(hbox), lw->info_write, FALSE, FALSE, 0);
 
 	lw->info_status = layout_status_label(NULL, lw->info_box, TRUE, 0, (!small_format));
@@ -871,7 +697,6 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gboolean small
 		hbox = lw->info_box;
 		}
 	lw->info_details = layout_status_label(NULL, hbox, TRUE, 0, TRUE);
-	if (!small_format) gtk_box_pack_start(GTK_BOX(hbox), lw->info_color, FALSE, FALSE, 0);
 	if (!small_format) gtk_box_pack_start(GTK_BOX(hbox), lw->info_write, FALSE, FALSE, 0);
 	lw->info_pixel = layout_status_label(NULL, hbox, FALSE, PIXEL_LABEL_WIDTH, TRUE);
 	if (lw->options.info_pixel_hidden) gtk_widget_hide(gtk_widget_get_parent(lw->info_pixel));
@@ -1803,7 +1628,6 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	lw->info_box = NULL;
 	lw->info_progress_bar = NULL;
 	lw->info_sort = NULL;
-	lw->info_color = NULL;
 	lw->info_status = NULL;
 	lw->info_details = NULL;
 	lw->info_pixel = NULL;

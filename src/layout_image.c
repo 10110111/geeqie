@@ -1082,13 +1082,13 @@ void layout_image_color_profile_set_use(LayoutWindow *lw, gboolean enable)
 
 	image_color_profile_set_use(lw->image, enable);
 
-	if (lw->info_color)
-		{
+//	if (lw->info_color)
+//		{
 #ifndef HAVE_LCMS
-		enable = FALSE;
+//		enable = FALSE;
 #endif
-		gtk_widget_set_sensitive(GTK_BIN(lw->info_color)->child, enable);
-		}
+//		gtk_widget_set_sensitive(GTK_BIN(lw->info_color)->child, enable);
+//		}
 }
 
 gboolean layout_image_color_profile_get_use(LayoutWindow *lw)

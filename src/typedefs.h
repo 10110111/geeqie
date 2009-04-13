@@ -628,7 +628,6 @@ struct _LayoutWindow
 	GtkWidget *info_box;
 	GtkWidget *info_progress_bar;
 	GtkWidget *info_sort;
-	GtkWidget *info_color;
 	GtkWidget *info_status;
 	GtkWidget *info_details;
 	GtkWidget *info_zoom;

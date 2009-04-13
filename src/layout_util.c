@@ -21,6 +21,7 @@
 #include "collect.h"
 #include "collect-dlg.h"
 #include "compat.h"
+#include "color-man.h"
 #include "dupe.h"
 #include "editors.h"
 #include "filedata.h"
@@ -53,6 +54,7 @@
 
 static gboolean layout_bar_enabled(LayoutWindow *lw);
 static gboolean layout_bar_sort_enabled(LayoutWindow *lw);
+static void layout_util_sync_color(LayoutWindow *lw);
 
 /*
  *-----------------------------------------------------------------------------
@@ -1035,6 +1037,163 @@ void layout_edit_update_all(void)
 
 #endif
 
+
+/*
+ *-----------------------------------------------------------------------------
+ * color profile button (and menu)
+ *-----------------------------------------------------------------------------
+ */
+
+static void layout_color_menu_enable_cb(GtkToggleAction *action, gpointer data)
+{
+#ifdef HAVE_LCMS
+	LayoutWindow *lw = data;
+
+	layout_image_color_profile_set_use(lw, gtk_toggle_action_get_active(action));
+	layout_util_sync_color(lw);
+	layout_image_refresh(lw);
+#endif
+}
+
+static void layout_color_menu_use_image_cb(GtkToggleAction *action, gpointer data)
+{
+#ifdef HAVE_LCMS
+	LayoutWindow *lw = data;
+	gint input, screen;
+	gboolean use_image;
+
+	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
+	layout_image_color_profile_set(lw, input, screen, gtk_toggle_action_get_active(action));
+	layout_util_sync_color(lw);
+	layout_image_refresh(lw);
+#endif
+}
+
+static void layout_color_menu_input_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
+{
+#ifdef HAVE_LCMS
+	LayoutWindow *lw = data;
+	gint type;
+	gint input, screen;
+	gboolean use_image;
+
+	type = gtk_radio_action_get_current_value(action);
+	if (type < 0 || type >= COLOR_PROFILE_FILE + COLOR_PROFILE_INPUTS) return;
+
+	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
+	if (type == input) return;
+
+	layout_image_color_profile_set(lw, type, screen, use_image);
+	layout_image_refresh(lw);
+#endif
+}
+
+#if 0
+static gchar *layout_color_name_parse(const gchar *name)
+{
+	if (!name || !*name) return g_strdup(_("Empty"));
+	return g_strdelimit(g_strdup(name), "_", '-');
+}
+
+
+static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
+{
+#ifndef HAVE_LCMS
+	gchar *msg = g_strdup_printf(_("This installation of %s was not built with support for color profiles."), GQ_APPNAME);
+	file_util_warning_dialog(_("Color profiles not supported"),
+				 msg,
+				 GTK_STOCK_DIALOG_INFO, widget);
+	g_free(msg);
+	return;
+#else
+	LayoutWindow *lw = data;
+	GtkWidget *menu;
+	GtkWidget *item;
+	gchar *buf;
+	gboolean active;
+	gint input = 0;
+	gint screen = 0;
+	gboolean use_image = FALSE;
+	gboolean from_image;
+	gint image_profile;
+	gint i;
+	
+	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
+
+	image_profile = layout_image_color_profile_get_from_image(lw);
+	from_image = use_image && (image_profile != COLOR_PROFILE_NONE);
+	menu = popup_menu_short_lived();
+
+	active = layout_image_color_profile_get_use(lw);
+	menu_item_add_check(menu, _("Use _color profiles"), active,
+			    G_CALLBACK(layout_color_menu_enable_cb), lw);
+
+	menu_item_add_divider(menu);
+
+	item = menu_item_add_check(menu, _("Use profile from _image"), use_image,
+			    G_CALLBACK(layout_color_menu_use_image_cb), lw);
+	gtk_widget_set_sensitive(item, image_profile == COLOR_PROFILE_MEM || (image_profile > COLOR_PROFILE_NONE && image_profile < COLOR_PROFILE_FILE));
+
+	for (i = COLOR_PROFILE_SRGB; i < COLOR_PROFILE_FILE; i++)
+		{
+		const gchar *label;
+
+		switch (i)
+			{
+			case COLOR_PROFILE_SRGB: 	label = _("sRGB"); break;
+			case COLOR_PROFILE_ADOBERGB:	label = _("AdobeRGB compatible"); break;
+			default:			label = "fixme"; break;
+			}
+		buf = g_strdup_printf(_("Input _%d: %s%s"), i, label, (i == image_profile) ? " *" : "");
+	  	item = menu_item_add_radio(menu, (i == COLOR_PROFILE_SRGB) ? NULL : item,
+				   buf, (input == i),
+				   G_CALLBACK(layout_color_menu_input_cb), lw);
+		g_free(buf);
+		g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(i));
+		gtk_widget_set_sensitive(item, active && !from_image);
+		}
+
+	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
+		{
+		const gchar *name = options->color_profile.input_name[i];
+		const gchar *file = options->color_profile.input_file[i];
+		gchar *end;
+
+		if (!name || !name[0]) name = filename_from_path(file);
+
+		end = layout_color_name_parse(name);
+		buf = g_strdup_printf(_("Input _%d: %s"), i + COLOR_PROFILE_FILE, end);
+		g_free(end);
+
+		item = menu_item_add_radio(menu, item,
+					   buf, (i + COLOR_PROFILE_FILE == input),
+					   G_CALLBACK(layout_color_menu_input_cb), lw);
+		g_free(buf);
+		g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(i + COLOR_PROFILE_FILE));
+		gtk_widget_set_sensitive(item, active && !from_image && is_readable_file(file));
+		}
+
+	menu_item_add_divider(menu);
+
+	item = menu_item_add_radio(menu, NULL,
+				   _("Screen sRGB"), (screen == 0),
+				   G_CALLBACK(layout_color_menu_screen_cb), lw);
+
+	g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(0));
+	gtk_widget_set_sensitive(item, active);
+
+	item = menu_item_add_radio(menu, item,
+				   _("_Screen profile"), (screen == 1),
+				   G_CALLBACK(layout_color_menu_screen_cb), lw);
+	g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(1));
+	gtk_widget_set_sensitive(item, active && is_readable_file(options->color_profile.screen_file));
+
+	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
+#endif /* HAVE_LCMS */
+}
+
+#endif
+
 /*
  *-----------------------------------------------------------------------------
  * recent menu
@@ -1147,6 +1306,7 @@ static GtkActionEntry menu_entries[] = {
   { "ViewMenu",		NULL,		N_("_View"),			NULL, 		NULL, 	NULL },
   { "DirMenu",          NULL,           N_("_View Directory as"),	NULL, 		NULL, 	NULL },
   { "ZoomMenu",		NULL,		N_("_Zoom"),			NULL, 		NULL, 	NULL },
+  { "ColorMenu",	NULL,		N_("Color _Management"),	NULL, 		NULL, 	NULL },
   { "ConnectZoomMenu",	NULL,		N_("_Connected Zoom"),		NULL, 		NULL, 	NULL },
   { "SplitMenu",	NULL,		N_("_Split"),			NULL, 		NULL, 	NULL },
   { "HelpMenu",		NULL,		N_("_Help"),			NULL, 		NULL, 	NULL },
@@ -1268,6 +1428,8 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "SBar",		NULL,		N_("_Info"),		"<control>K",	NULL,	CB(layout_menu_bar_cb),		 FALSE  },
   { "SBarSort",		NULL,		N_("Sort _manager"),	"<control>S",	NULL,	CB(layout_menu_bar_sort_cb),	 FALSE  },
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb),	 FALSE  },
+  { "UseColorProfiles",	NULL,		N_("Use _color profiles"), NULL,	NULL,	CB(layout_color_menu_enable_cb), FALSE},
+  { "UseImageProfile",	NULL,		N_("Use profile from _image"), NULL,	NULL,	CB(layout_color_menu_use_image_cb), FALSE},
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
@@ -1282,6 +1444,14 @@ static GtkRadioActionEntry menu_split_radio_entries[] = {
   { "SplitSingle",	NULL,		N_("Single"),		"Y",		NULL,	SPLIT_NONE }
 };
 
+static GtkRadioActionEntry menu_color_radio_entries[] = {
+  { "ColorProfile0",	NULL,		N_("Input _0: sRGB"),			NULL,	NULL,	COLOR_PROFILE_SRGB },
+  { "ColorProfile1",	NULL,		N_("Input _1: AdobeRGB compatible"),	NULL,	NULL,	COLOR_PROFILE_ADOBERGB },
+  { "ColorProfile2",	NULL,		N_("Input _2"),				NULL,	NULL,	COLOR_PROFILE_FILE },
+  { "ColorProfile3",	NULL,		N_("Input _3"),				NULL,	NULL,	COLOR_PROFILE_FILE + 1 },
+  { "ColorProfile4",	NULL,		N_("Input _4"),				NULL,	NULL,	COLOR_PROFILE_FILE + 2 },
+  { "ColorProfile5",	NULL,		N_("Input _5"),				NULL,	NULL,	COLOR_PROFILE_FILE + 3 }
+};
 
 #undef CB
 
@@ -1367,6 +1537,16 @@ static const gchar *menu_ui_description =
 "      <menuitem action='PanView'/>"
 "      <placeholder name='WindowSection'/>"
 "      <separator/>"
+"      <menu action='ColorMenu'>"
+"        <menuitem action='UseColorProfiles'/>"
+"        <menuitem action='UseImageProfile'/>"
+"        <menuitem action='ColorProfile0'/>"
+"        <menuitem action='ColorProfile1'/>"
+"        <menuitem action='ColorProfile2'/>"
+"        <menuitem action='ColorProfile3'/>"
+"        <menuitem action='ColorProfile4'/>"
+"        <menuitem action='ColorProfile5'/>"
+"      </menu>"
 "      <menu action='ZoomMenu'>"
 "        <menuitem action='ZoomIn'/>"
 "        <menuitem action='ZoomOut'/>"
@@ -1721,6 +1901,10 @@ void layout_actions_setup(LayoutWindow *lw)
 	gtk_action_group_add_radio_actions(lw->action_group,
 					   menu_view_dir_radio_entries, VIEW_DIR_TYPES_COUNT,
 					   0, G_CALLBACK(layout_menu_view_dir_as_cb), lw);
+	gtk_action_group_add_radio_actions(lw->action_group,
+					   menu_color_radio_entries, COLOR_PROFILE_FILE + COLOR_PROFILE_INPUTS,
+					   0, G_CALLBACK(layout_color_menu_input_cb), lw);
+
 
 	lw->ui_manager = gtk_ui_manager_new();
 	gtk_ui_manager_set_add_tearoffs(lw->ui_manager, TRUE);
@@ -1877,6 +2061,62 @@ void layout_toolbar_add_from_config(LayoutWindow *lw, const gchar **attribute_na
  * misc
  *-----------------------------------------------------------------------------
  */
+static gchar *layout_color_name_parse(const gchar *name)
+{
+	if (!name || !*name) return g_strdup(_("Empty"));
+	return g_strdelimit(g_strdup(name), "_", '-');
+}
+
+static void layout_util_sync_color(LayoutWindow *lw)
+{
+	GtkAction *action;
+	gint input = 0;
+	gint screen = 0;
+	gboolean use_color;
+	gboolean use_image = FALSE;
+	gint i;
+	gchar action_name[15];
+
+	if (!lw->action_group) return;
+	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
+	
+	use_color = layout_image_color_profile_get_use(lw);
+
+	action = gtk_action_group_get_action(lw->action_group, "UseColorProfiles");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), use_color);
+
+	action = gtk_action_group_get_action(lw->action_group, "UseImageProfile");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), use_image);
+	gtk_action_set_sensitive(action, use_color);
+
+	for (i = 0; i < COLOR_PROFILE_FILE + COLOR_PROFILE_INPUTS; i++)
+		{
+		sprintf(action_name, "ColorProfile%d", i);
+		action = gtk_action_group_get_action(lw->action_group, action_name);
+		
+		if (i >= COLOR_PROFILE_FILE)
+			{
+			const gchar *name = options->color_profile.input_name[i - COLOR_PROFILE_FILE];
+			const gchar *file = options->color_profile.input_file[i - COLOR_PROFILE_FILE];
+			gchar *end;
+			gchar *buf;
+
+			if (!name || !name[0]) name = filename_from_path(file);
+
+			end = layout_color_name_parse(name);
+			buf = g_strdup_printf(_("Input _%d: %s"), i, end);
+			g_free(end);
+
+			g_object_set(G_OBJECT(action), "label", buf, NULL);
+			g_free(buf);
+
+			gtk_action_set_visible(action, file && file[0]);
+			}
+
+		gtk_action_set_sensitive(action, !use_image);
+		gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), (i == input));
+		}
+}
 
 static void layout_util_sync_views(LayoutWindow *lw)
 {
@@ -1914,6 +2154,7 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	action = gtk_action_group_get_action(lw->action_group, "SlideShow");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), layout_image_slideshow_active(lw));
 
+	layout_util_sync_color(lw);
 }
 
 void layout_util_sync_thumb(LayoutWindow *lw)
