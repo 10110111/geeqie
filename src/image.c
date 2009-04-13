@@ -243,7 +243,7 @@ static gboolean image_post_process_color(ImageWindow *imd, gint start_row, gbool
 		screen_type = COLOR_PROFILE_MEM;
 		DEBUG_1("Using X11 screen profile, length: %d", screen_profile_len);
 		}
-	if (options->color_profile.screen_file &&
+	else if (options->color_profile.screen_file &&
 	    is_readable_file(options->color_profile.screen_file))
 		{
 		screen_type = COLOR_PROFILE_FILE;
@@ -348,10 +348,10 @@ static gboolean image_post_process_color(ImageWindow *imd, gint start_row, gbool
 #if 0
 		if (run_in_bg) color_man_start_bg(imd->cm, image_post_process_color_cb, imd);
 #endif
-		return TRUE;
 		}
 
-	return FALSE;
+	image_update_util(imd);
+	return !!cm;
 }
 
 
