@@ -391,31 +391,21 @@ static GtkWidget *layout_sort_button(LayoutWindow *lw)
 	return button;
 }
 
-#if 0
 static GtkWidget *layout_color_button(LayoutWindow *lw)
 {
 	GtkWidget *button;
 	GtkWidget *image;
-	gboolean enable;
 
 	button = gtk_button_new();
 	image = gtk_image_new_from_stock(GTK_STOCK_SELECT_COLOR, GTK_ICON_SIZE_MENU);
 	gtk_container_add(GTK_CONTAINER(button), image);
 	gtk_widget_show(image);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(layout_color_button_press_cb), lw);
 	gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
 
-#ifdef HAVE_LCMS
-	enable = (lw->image) ? lw->image->color_profile_enable : FALSE;
-#else
-	enable = FALSE;
-#endif
-	gtk_widget_set_sensitive(image, enable);
+	gtk_widget_set_sensitive(GTK_BIN(button)->child, FALSE);
 
 	return button;
 }
-#endif
 /*
  *-----------------------------------------------------------------------------
  * write button
@@ -560,7 +550,9 @@ void layout_status_update_info(LayoutWindow *lw, const gchar *text)
 void layout_status_update_image(LayoutWindow *lw)
 {
 	guint64 n;
-
+	gchar *image_profile;
+	gchar *screen_profile;
+	
 	if (!layout_valid(&lw) || !lw->image) return;
 
 	n = layout_list_count(lw, NULL);
@@ -607,6 +599,23 @@ void layout_status_update_image(LayoutWindow *lw)
 		
 		gtk_label_set_text(GTK_LABEL(lw->info_details), text);
 		g_free(text);
+		}
+	
+	if (layout_image_color_profile_get_status(lw, &image_profile, &screen_profile))
+		{
+		gchar *buf;
+		gtk_widget_set_sensitive(GTK_BIN(lw->info_color)->child, TRUE);
+		buf = g_strdup_printf(_("Image profile: %s\nScreen profile: %s"), image_profile, screen_profile);
+		/* FIXME: not sure if a tooltip is the best form of presentation */
+		gtk_widget_set_tooltip_text(GTK_WIDGET(lw->info_color), buf);
+		g_free(image_profile);
+		g_free(screen_profile);
+		g_free(buf);
+		}
+	else
+		{
+		gtk_widget_set_sensitive(GTK_BIN(lw->info_color)->child, FALSE);
+		gtk_widget_set_tooltip_text(GTK_WIDGET(lw->info_color), NULL);
 		}
 }
 
@@ -679,9 +688,13 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gboolean small
 	gtk_box_pack_start(GTK_BOX(hbox), lw->info_sort, FALSE, FALSE, 0);
 	gtk_widget_show(lw->info_sort);
 
+	lw->info_color = layout_color_button(lw);
+	gtk_widget_show(lw->info_color);
+
 	lw->info_write = layout_write_button(lw);
 	gtk_widget_show(lw->info_write);
 
+	if (small_format) gtk_box_pack_end(GTK_BOX(hbox), lw->info_color, FALSE, FALSE, 0);
 	if (small_format) gtk_box_pack_end(GTK_BOX(hbox), lw->info_write, FALSE, FALSE, 0);
 
 	lw->info_status = layout_status_label(NULL, lw->info_box, TRUE, 0, (!small_format));
@@ -697,6 +710,7 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gboolean small
 		hbox = lw->info_box;
 		}
 	lw->info_details = layout_status_label(NULL, hbox, TRUE, 0, TRUE);
+	if (!small_format) gtk_box_pack_start(GTK_BOX(hbox), lw->info_color, FALSE, FALSE, 0);
 	if (!small_format) gtk_box_pack_start(GTK_BOX(hbox), lw->info_write, FALSE, FALSE, 0);
 	lw->info_pixel = layout_status_label(NULL, hbox, FALSE, PIXEL_LABEL_WIDTH, TRUE);
 	if (lw->options.info_pixel_hidden) gtk_widget_hide(gtk_widget_get_parent(lw->info_pixel));
@@ -1628,6 +1642,7 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 	lw->info_box = NULL;
 	lw->info_progress_bar = NULL;
 	lw->info_sort = NULL;
+	lw->info_color = NULL;
 	lw->info_status = NULL;
 	lw->info_details = NULL;
 	lw->info_pixel = NULL;

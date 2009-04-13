@@ -110,7 +110,7 @@ gboolean image_color_profile_get(ImageWindow *imd,
 			     gboolean *use_image);
 void image_color_profile_set_use(ImageWindow *imd, gboolean enable);
 gboolean image_color_profile_get_use(ImageWindow *imd);
-gint image_color_profile_get_from_image(ImageWindow *imd);
+gboolean image_color_profile_get_status(ImageWindow *imd, gchar **image_profile, gchar **screen_profile);
 
 /* set delayed page flipping */
 void image_set_delay_flip(ImageWindow *imd, gint delay);

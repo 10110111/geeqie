@@ -1081,14 +1081,6 @@ void layout_image_color_profile_set_use(LayoutWindow *lw, gboolean enable)
 	if (!layout_valid(&lw)) return;
 
 	image_color_profile_set_use(lw->image, enable);
-
-//	if (lw->info_color)
-//		{
-#ifndef HAVE_LCMS
-//		enable = FALSE;
-#endif
-//		gtk_widget_set_sensitive(GTK_BIN(lw->info_color)->child, enable);
-//		}
 }
 
 gboolean layout_image_color_profile_get_use(LayoutWindow *lw)
@@ -1098,11 +1090,11 @@ gboolean layout_image_color_profile_get_use(LayoutWindow *lw)
 	return image_color_profile_get_use(lw->image);
 }
 
-gint layout_image_color_profile_get_from_image(LayoutWindow *lw)
+gboolean layout_image_color_profile_get_status(LayoutWindow *lw, gchar **image_profile, gchar **screen_profile)
 {
-	if (!layout_valid(&lw)) return COLOR_PROFILE_NONE;
+	if (!layout_valid(&lw)) return FALSE;
 
-	return image_color_profile_get_from_image(lw->image);
+	return image_color_profile_get_status(lw->image, image_profile, screen_profile);
 }
 
 /*

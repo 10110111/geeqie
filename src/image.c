@@ -1480,11 +1480,15 @@ gboolean image_color_profile_get_use(ImageWindow *imd)
 	return imd->color_profile_enable;
 }
 
-gint image_color_profile_get_from_image(ImageWindow *imd)
+gboolean image_color_profile_get_status(ImageWindow *imd, gchar **image_profile, gchar **screen_profile)
 {
-	if (!imd) return COLOR_PROFILE_NONE;
+	ColorMan *cm;
+	if (!imd) return FALSE;
+	
+	cm = imd->cm;
+	if (!cm) return FALSE;
+	return color_man_get_status(cm, image_profile, screen_profile);
 
-	return imd->color_profile_from_image;
 }
 
 void image_set_delay_flip(ImageWindow *imd, gboolean delay)

@@ -412,6 +412,41 @@ ColorMan *color_man_new_embedded(ImageWindow *imd, GdkPixbuf *pixbuf,
 				  screen_type, screen_file, screen_data, screen_data_len);
 }
 
+static gchar *color_man_get_profile_name(ColorManProfileType type, cmsHPROFILE profile)
+{
+	switch (type)
+		{
+		case COLOR_PROFILE_SRGB:
+			return g_strdup(_("sRGB"));
+		case COLOR_PROFILE_ADOBERGB:
+			return g_strdup(_("Adobe RGB compatible"));
+			break;
+		case COLOR_PROFILE_MEM:
+		case COLOR_PROFILE_FILE:
+			if (profile)
+				{
+				return g_strdup(cmsTakeProductName(profile));
+				}
+			return g_strdup(_("Custom profile"));
+			break;
+		case COLOR_PROFILE_NONE:
+		default:
+			return g_strdup("");
+		}
+}
+
+gboolean color_man_get_status(ColorMan *cm, gchar **image_profile, gchar **screen_profile)
+{
+	ColorManCache *cc;
+	if (!cm) return FALSE;
+
+	cc = cm->profile;
+	
+	if (image_profile) *image_profile = color_man_get_profile_name(cc->profile_in_type, cc->profile_in);
+	if (screen_profile) *screen_profile = color_man_get_profile_name(cc->profile_out_type, cc->profile_out);
+	return TRUE;
+}
+
 void color_man_free(ColorMan *cm)
 {
 	if (!cm) return;
@@ -469,6 +504,11 @@ void color_man_correct_region(ColorMan *cm, GdkPixbuf *pixbuf, gint x, gint y, g
 void color_man_start_bg(ColorMan *cm, ColorManDoneFunc done_func, gpointer done_data)
 {
 	/* no op */
+}
+
+gboolean color_man_get_status(ColorMan *cm, gchar **image_profile, gchar **screen_profile)
+{
+	return FALSE;
 }
 
 #endif /* define HAVE_LCMS */
