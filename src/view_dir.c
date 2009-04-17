@@ -229,7 +229,7 @@ static void vd_rename_by_data(ViewDir *vd, FileData *fd)
 	GtkTreePath *tpath;
 	GtkTreeIter iter;
 
-	if (!fd || vd_find_row(vd, fd, &iter) < 0) return;
+	if (!fd || !vd_find_row(vd, fd, &iter)) return;
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
 	tpath = gtk_tree_model_get_path(store, &iter);
 
@@ -244,7 +244,7 @@ void vd_color_set(ViewDir *vd, FileData *fd, gint color_set)
 	GtkTreeModel *store;
 	GtkTreeIter iter;
 
-	if (vd_find_row(vd, fd, &iter) < 0) return;
+	if (!vd_find_row(vd, fd, &iter)) return;
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
 
 	switch (vd->type)
@@ -917,7 +917,7 @@ void vd_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
 	GtkTreePath *tpath;
 	gint cw, ch;
 
-	if (vd_find_row(vd, vd->click_fd, &iter) < 0) return;
+	if (!vd_find_row(vd, vd->click_fd, &iter)) return;
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
 	tpath = gtk_tree_model_get_path(store, &iter);
 	tree_view_get_cell_clamped(GTK_TREE_VIEW(vd->view), tpath, 0, TRUE, x, y, &cw, &ch);

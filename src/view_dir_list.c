@@ -96,7 +96,7 @@ static void vdlist_scroll_to_row(ViewDir *vd, FileData *fd, gfloat y_align)
 {
 	GtkTreeIter iter;
 
-	if (GTK_WIDGET_REALIZED(vd->view) && vd_find_row(vd, fd, &iter) >= 0)
+	if (GTK_WIDGET_REALIZED(vd->view) && vd_find_row(vd, fd, &iter))
 		{
 		GtkTreeModel *store;
 		GtkTreePath *tpath;
