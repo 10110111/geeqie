@@ -321,6 +321,7 @@ static gboolean remote_client_send(RemoteConnection *rc, const gchar *text)
 				if (buffer[0] == '\n') /* empty line finishes the command */
 					{
 					g_free(buffer);
+					fflush(stdout);
 					break;
 					}
 				buffer[termpos] = '\0';
@@ -528,6 +529,42 @@ static void gr_config_load(const gchar *text, GIOChannel *channel, gpointer data
 	g_free(filename);
 }
 
+static void gr_get_sidecars(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	gchar *filename = expand_tilde(text);
+	FileData *fd = file_data_new_simple(filename);
+	
+	GList *work;
+	if (fd->parent) fd = fd->parent;
+
+	g_io_channel_write_chars(channel, fd->path, -1, NULL, NULL);
+	g_io_channel_write_chars(channel, "\n", -1, NULL, NULL);
+
+	work = fd->sidecar_files;
+
+	while (work)
+		{
+		fd = work->data;
+		work = work->next;
+		g_io_channel_write_chars(channel, fd->path, -1, NULL, NULL);
+		g_io_channel_write_chars(channel, "\n", -1, NULL, NULL);
+		}
+	g_free(filename);
+}
+
+static void gr_get_destination(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	gchar *filename = expand_tilde(text);
+	FileData *fd = file_data_new_simple(filename);
+	
+	if (fd->change && fd->change->dest)
+		{
+		g_io_channel_write_chars(channel, fd->change->dest, -1, NULL, NULL);
+		g_io_channel_write_chars(channel, "\n", -1, NULL, NULL);
+		}
+	g_free(filename);
+}
+
 static void gr_file_view(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *filename = expand_tilde(text);
@@ -615,6 +652,8 @@ static RemoteCommandEntry remote_commands[] = {
 	{ "-t", "--tools-hide",	        gr_tools_hide,          FALSE, TRUE,  N_("hide tools") },
 	{ "-q", "--quit",               gr_quit,                FALSE, FALSE, N_("quit") },
 	{ NULL, "--config-load:",       gr_config_load,         TRUE,  FALSE, N_("load config file") },
+	{ NULL, "--get-sidecars:",      gr_get_sidecars,        TRUE,  FALSE, N_("get list of sidecars of the given file") },
+	{ NULL, "--get-destination:",  	gr_get_destination,     TRUE,  FALSE, N_("get destination path for the given file") },
 	{ NULL, "file:",                gr_file_load,           TRUE,  FALSE, N_("open file") },
 	{ NULL, "view:",		gr_file_view,		TRUE,  FALSE, N_("open file in new window") },
 	{ NULL, "--list-clear",         gr_list_clear,          FALSE, FALSE, NULL },

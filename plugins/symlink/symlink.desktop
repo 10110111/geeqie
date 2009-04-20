@@ -4,11 +4,8 @@ Type=Application
 Name=Symlink
 #Name[cs]=
 
-# FIXME: this can't be an oneliner, it needs to be changed to a full
-# featured script in separate file, with error handling etc.
-# expansion of environment variables directly in Exec is not supported 
-# by the specification and it will be removed
-Exec=ln -s %f "$GEEQIE_DESTINATION"
+# call the helper script
+Exec=geeqie-symlink %f
 
 # Desktop files that are usable only in Geeqie should be marked like this:
 Categories=X-Geeqie;
