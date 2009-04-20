@@ -67,8 +67,6 @@ static gboolean remote_server_client_cb(GIOChannel *source, GIOCondition conditi
 
 	if (condition & G_IO_IN)
 		{
-		GList *queue = NULL;
-		GList *work;
 		gchar *buffer = NULL;
 		GError *error = NULL;
 		gsize termpos;
@@ -81,12 +79,11 @@ static gboolean remote_server_client_cb(GIOChannel *source, GIOCondition conditi
 
 				if (strlen(buffer) > 0)
 					{
-					queue = g_list_append(queue, buffer);
+					if (rc->read_func) rc->read_func(rc, buffer, source, rc->read_data);
+					g_io_channel_write_chars(source, "\n", -1, NULL, NULL); /* empty line finishes the command */
+					g_io_channel_flush(source, NULL);
 					}
-				else
-					{
-					g_free(buffer);
-					}
+				g_free(buffer);
 
 				buffer = NULL;
 				}
@@ -97,18 +94,6 @@ static gboolean remote_server_client_cb(GIOChannel *source, GIOCondition conditi
 			log_printf("error reading socket: %s\n", error->message);
 			g_error_free(error);
 			}
-
-		work = queue;
-		while (work)
-			{
-			gchar *command = work->data;
-			work = work->next;
-
-			if (rc->read_func) rc->read_func(rc, command, rc->read_data);
-			g_free(command);
-			}
-
-		g_list_free(queue);
 		}
 
 	if (condition & G_IO_HUP || status == G_IO_STATUS_EOF || status == G_IO_STATUS_ERROR)
@@ -279,9 +264,6 @@ static RemoteConnection *remote_client_open(const gchar *path)
 	rc->fd = fd;
 	rc->path = g_strdup(path);
 
-	/* this might fix the freezes on freebsd, solaris, etc. - completely untested */
-	remote_client_send(rc, "\n");
-
 	return rc;
 }
 
@@ -296,6 +278,8 @@ static gboolean remote_client_send(RemoteConnection *rc, const gchar *text)
 {
 	struct sigaction new_action, old_action;
 	gboolean ret = FALSE;
+	GError *error = NULL;
+	GIOChannel *channel;
 
 	if (!rc || rc->server) return FALSE;
 	if (!text) return TRUE;
@@ -309,17 +293,16 @@ static gboolean remote_client_send(RemoteConnection *rc, const gchar *text)
 	/* setup our signal handler */
 	sigaction(SIGPIPE, &new_action, &old_action);
 
-	if (write(rc->fd, text, strlen(text)) == -1 ||
-	    write(rc->fd, "\n", 1) == -1)
+	channel = g_io_channel_unix_new(rc->fd);
+
+	g_io_channel_write_chars(channel, text, -1, NULL, &error);
+	g_io_channel_write_chars(channel, "\n", -1, NULL, &error);
+	g_io_channel_flush(channel, &error);
+
+	if (error)
 		{
-		if (sigpipe_occured)
-			{
-			log_printf("SIGPIPE writing to socket: %s\n", rc->path);
-			}
-		else
-			{
-			log_printf("error writing to socket: %s\n", strerror(errno));
-			}
+		log_printf("error reading socket: %s\n", error->message);
+		g_error_free(error);
 		ret = FALSE;;
 		}
 	else
@@ -327,9 +310,38 @@ static gboolean remote_client_send(RemoteConnection *rc, const gchar *text)
 		ret = TRUE;
 		}
 
+	if (ret)
+		{
+		gchar *buffer = NULL;
+		gsize termpos;
+		while (g_io_channel_read_line(channel, &buffer, NULL, &termpos, &error) == G_IO_STATUS_NORMAL)
+			{
+			if (buffer)
+				{
+				if (buffer[0] == '\n') /* empty line finishes the command */
+					{
+					g_free(buffer);
+					break;
+					}
+				buffer[termpos] = '\0';
+				printf("%s\n", buffer);
+				g_free(buffer);
+				buffer = NULL;
+				}
+			}
+
+		if (error)
+			{
+			log_printf("error reading socket: %s\n", error->message);
+			g_error_free(error);
+			ret = FALSE;
+			}
+		}
+		
+
 	/* restore the original signal handler */
 	sigaction(SIGPIPE, &old_action, NULL);
-
+	g_io_channel_unref(channel);
 	return ret;
 }
 
@@ -360,42 +372,42 @@ void remote_close(RemoteConnection *rc)
  *-----------------------------------------------------------------------------
  */
 
-static void gr_image_next(const gchar *text, gpointer data)
+static void gr_image_next(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	layout_image_next(NULL);
 }
 
-static void gr_image_prev(const gchar *text, gpointer data)
+static void gr_image_prev(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	layout_image_prev(NULL);
 }
 
-static void gr_image_first(const gchar *text, gpointer data)
+static void gr_image_first(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	layout_image_first(NULL);
 }
 
-static void gr_image_last(const gchar *text, gpointer data)
+static void gr_image_last(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	layout_image_last(NULL);
 }
 
-static void gr_fullscreen_toggle(const gchar *text, gpointer data)
+static void gr_fullscreen_toggle(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	layout_image_full_screen_toggle(NULL);
 }
 
-static void gr_fullscreen_start(const gchar *text, gpointer data)
+static void gr_fullscreen_start(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	layout_image_full_screen_start(NULL);
 }
 
-static void gr_fullscreen_stop(const gchar *text, gpointer data)
+static void gr_fullscreen_stop(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	layout_image_full_screen_stop(NULL);
 }
 
-static void gr_slideshow_start_rec(const gchar *text, gpointer data)
+static void gr_slideshow_start_rec(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	GList *list;
 	FileData *dir_fd = file_data_new_simple(text);
@@ -407,22 +419,22 @@ static void gr_slideshow_start_rec(const gchar *text, gpointer data)
 	layout_image_slideshow_start_from_list(NULL, list);
 }
 
-static void gr_slideshow_toggle(const gchar *text, gpointer data)
+static void gr_slideshow_toggle(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	layout_image_slideshow_toggle(NULL);
 }
 
-static void gr_slideshow_start(const gchar *text, gpointer data)
+static void gr_slideshow_start(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	layout_image_slideshow_start(NULL);
 }
 
-static void gr_slideshow_stop(const gchar *text, gpointer data)
+static void gr_slideshow_stop(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	layout_image_slideshow_stop(NULL);
 }
 
-static void gr_slideshow_delay(const gchar *text, gpointer data)
+static void gr_slideshow_delay(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gdouble n;
 
@@ -436,7 +448,7 @@ static void gr_slideshow_delay(const gchar *text, gpointer data)
 	options->slideshow.delay = (gint)(n * 10.0 + 0.01);
 }
 
-static void gr_tools_show(const gchar *text, gpointer data)
+static void gr_tools_show(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gboolean popped;
 	gboolean hidden;
@@ -447,7 +459,7 @@ static void gr_tools_show(const gchar *text, gpointer data)
 		}
 }
 
-static void gr_tools_hide(const gchar *text, gpointer data)
+static void gr_tools_hide(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gboolean popped;
 	gboolean hidden;
@@ -465,7 +477,7 @@ static gboolean gr_quit_idle_cb(gpointer data)
 	return FALSE;
 }
 
-static void gr_quit(const gchar *text, gpointer data)
+static void gr_quit(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	/* schedule exit when idle, if done from within a
 	 * remote handler remote_close will crash
@@ -473,7 +485,7 @@ static void gr_quit(const gchar *text, gpointer data)
 	g_idle_add(gr_quit_idle_cb, NULL);
 }
 
-static void gr_file_load(const gchar *text, gpointer data)
+static void gr_file_load(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *filename = expand_tilde(text);
 
@@ -500,7 +512,7 @@ static void gr_file_load(const gchar *text, gpointer data)
 	g_free(filename);
 }
 
-static void gr_config_load(const gchar *text, gpointer data)
+static void gr_config_load(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *filename = expand_tilde(text);
 
@@ -516,7 +528,7 @@ static void gr_config_load(const gchar *text, gpointer data)
 	g_free(filename);
 }
 
-static void gr_file_view(const gchar *text, gpointer data)
+static void gr_file_view(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *filename = expand_tilde(text);
 
@@ -524,7 +536,7 @@ static void gr_file_view(const gchar *text, gpointer data)
 	g_free(filename);
 }
 
-static void gr_list_clear(const gchar *text, gpointer data)
+static void gr_list_clear(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	RemoteData *remote_data = data;
 
@@ -535,7 +547,7 @@ static void gr_list_clear(const gchar *text, gpointer data)
 		}
 }
 
-static void gr_list_add(const gchar *text, gpointer data)
+static void gr_list_add(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	RemoteData *remote_data = data;
 	gboolean new = TRUE;
@@ -565,7 +577,7 @@ static void gr_list_add(const gchar *text, gpointer data)
 		}
 }
 
-static void gr_raise(const gchar *text, gpointer data)
+static void gr_raise(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	LayoutWindow *lw = NULL;
 
@@ -579,7 +591,7 @@ typedef struct _RemoteCommandEntry RemoteCommandEntry;
 struct _RemoteCommandEntry {
 	gchar *opt_s;
 	gchar *opt_l;
-	void (*func)(const gchar *text, gpointer data);
+	void (*func)(const gchar *text, GIOChannel *channel, gpointer data);
 	gboolean needs_extra;
 	gboolean prefer_command_line;
 	gchar *description;
@@ -650,7 +662,7 @@ static RemoteCommandEntry *remote_command_find(const gchar *text, const gchar **
 	return NULL;
 }
 
-static void remote_cb(RemoteConnection *rc, const gchar *text, gpointer data)
+static void remote_cb(RemoteConnection *rc, const gchar *text, GIOChannel *channel, gpointer data)
 {
 	RemoteCommandEntry *entry;
 	const gchar *offset;
@@ -658,7 +670,7 @@ static void remote_cb(RemoteConnection *rc, const gchar *text, gpointer data)
 	entry = remote_command_find(text, &offset);
 	if (entry && entry->func)
 		{
-		entry->func(offset, data);
+		entry->func(offset, channel, data);
 		}
 	else
 		{

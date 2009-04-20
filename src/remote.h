@@ -17,7 +17,7 @@
 
 typedef struct _RemoteConnection RemoteConnection;
 
-typedef void RemoteReadFunc(RemoteConnection *rc, const gchar *text, gpointer data);
+typedef void RemoteReadFunc(RemoteConnection *rc, const gchar *text, GIOChannel *channel, gpointer data);
 
 struct _RemoteConnection {
 	gint server;
