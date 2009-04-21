@@ -32,6 +32,7 @@
 #include "ui_tabcomp.h"
 #include "editors.h"
 #include "metadata.h"
+#include "exif.h"
 
 static GdkPixbuf *file_util_get_error_icon(FileData *fd, GtkWidget *widget);
 
@@ -278,6 +279,8 @@ struct _UtilityData {
 	FileData *dir_fd;
 	GList *content_list;
 	GList *flist;
+	
+	FileData *sel_fd;
 
 	GtkWidget *parent;
 	GenericDialog *gd;
@@ -315,6 +318,7 @@ struct _UtilityData {
 	gpointer resume_data;
 	
 	FileUtilDoneFunc done_func;
+	void (*details_func)(FileData *fd, GtkWidget *parent);
 	gpointer done_data;
 };
 
@@ -1252,6 +1256,8 @@ static gboolean file_util_preview_cb(GtkTreeSelection *selection, GtkTreeModel *
 	gtk_tree_model_get(store, &iter, UTILITY_COLUMN_FD, &fd, -1);
 	generic_dialog_image_set(ud->gd, fd);
 	
+	ud->sel_fd = fd;
+	
 	if (ud->type == UTILITY_TYPE_RENAME)
 		{
 		const gchar *name = filename_from_path(fd->change->dest);
@@ -1282,6 +1288,14 @@ static void box_append_safe_delete_status(GenericDialog *gd)
 	gtk_widget_set_sensitive(label, FALSE);
 }
 
+static void file_util_details_cb(GenericDialog *gd, gpointer data)
+{
+	UtilityData *ud = data;
+	if (ud->details_func && ud->sel_fd)
+		{
+		ud->details_func(ud->sel_fd, ud->gd->dialog);
+		}
+}
 
 static void file_util_dialog_init_simple_list(UtilityData *ud)
 {
@@ -1291,6 +1305,7 @@ static void file_util_dialog_init_simple_list(UtilityData *ud)
 
 	const gchar *stock_id;
 
+	/* FIXME: use ud->stock_id */
 	if (ud->type == UTILITY_TYPE_DELETE ||
 	    ud->type == UTILITY_TYPE_DELETE_LINK ||
 	    ud->type == UTILITY_TYPE_DELETE_FOLDER)
@@ -1304,8 +1319,9 @@ static void file_util_dialog_init_simple_list(UtilityData *ud)
 
 	ud->gd = file_util_gen_dlg(ud->messages.title, "dlg_confirm",
 				   ud->parent, FALSE,  file_util_cancel_cb, ud);
-	generic_dialog_add_button(ud->gd, stock_id, NULL, file_util_ok_cb, TRUE);
+	if (ud->details_func) generic_dialog_add_button(ud->gd, GTK_STOCK_INFO, _("File details"), file_util_details_cb, FALSE);
 
+	generic_dialog_add_button(ud->gd, stock_id, NULL, file_util_ok_cb, TRUE);
 
 	if (ud->dir_fd)
 		{
@@ -1414,6 +1430,9 @@ static void file_util_dialog_init_source_dest(UtilityData *ud)
 				   ud->parent, FALSE,  file_util_cancel_cb, ud);
 
 	box = generic_dialog_add_message(ud->gd, NULL, ud->messages.question, NULL);
+
+	if (ud->details_func) generic_dialog_add_button(ud->gd, GTK_STOCK_INFO, _("File details"), file_util_details_cb, FALSE);
+
 	generic_dialog_add_button(ud->gd, GTK_STOCK_OK, ud->messages.title, file_util_ok_cb, TRUE);
 
 	box = pref_group_new(box, TRUE, ud->messages.desc_flist, GTK_ORIENTATION_HORIZONTAL);
@@ -1656,6 +1675,75 @@ static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWi
 	file_util_dialog_run(ud);
 }
 
+static void file_util_write_metadata_details_dialog_ok_cb(GenericDialog *gd, gpointer data)
+{
+	/* no op */
+}
+
+static void file_util_write_metadata_details_dialog(FileData *fd, GtkWidget *parent)
+{
+	GenericDialog *gd;
+	GtkWidget *table;
+	GList *keys = NULL;
+	GList *work;
+	gchar *message = g_strdup_printf(_("This is a list of modified metadata tags that will be written for file '%s'"), fd->name);
+	gint i;
+	
+	if (fd && fd->modified_xmp)
+		{
+		keys = g_hash_table_get_keys(fd->modified_xmp);
+		}
+	
+	g_assert(keys);
+	
+	
+	gd = file_util_gen_dlg(_("Overview of changed metadata"), "details", parent, TRUE, NULL, NULL);
+	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_INFO, _("Overview of changed metadata"), message);
+	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, file_util_write_metadata_details_dialog_ok_cb, TRUE);
+
+	table = pref_table_new(gd->vbox, 2, g_list_length(keys), FALSE, TRUE);
+
+	work = keys;
+	i = 0;
+	while (work)
+		{
+		GtkWidget *label;
+		const gchar *key = work->data;
+		gchar *title = exif_get_description_by_key(key);
+		gchar *title_f = g_strdup_printf("%s:", title);
+		gchar *value = metadata_read_string(fd, key, METADATA_FORMATTED);
+		work = work->next;
+		
+		
+		label = gtk_label_new(title_f);
+		gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.0);
+		pref_label_bold(label, TRUE, FALSE);
+		gtk_table_attach(GTK_TABLE(table), label,
+				 0, 1, i, i + 1,
+				 GTK_FILL, GTK_FILL,
+				 2, 2);
+		gtk_widget_show(label);
+
+		label = gtk_label_new(value);
+		gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
+		gtk_table_attach(GTK_TABLE(table), label,
+				 1, 2, i, i + 1,
+				 GTK_FILL, GTK_FILL,
+				 2, 2);
+		gtk_widget_show(label);
+
+		g_free(title);
+		g_free(title_f);
+		g_free(value);
+		i++;
+		}
+
+	gtk_widget_show(gd->dialog);
+	
+	g_list_free(keys);
+	g_free(message);
+}
+
 static void file_util_write_metadata_full(FileData *source_fd, GList *source_list, GtkWidget *parent, UtilityPhase phase, FileUtilDoneFunc done_func, gpointer done_data)
 {
 	UtilityData *ud;
@@ -1686,6 +1774,8 @@ static void file_util_write_metadata_full(FileData *source_fd, GList *source_lis
 	
 	ud->done_func = done_func;
 	ud->done_data = done_data;
+	
+	ud->details_func = file_util_write_metadata_details_dialog;
 	
 	ud->messages.title = _("Write metadata");
 	ud->messages.question = _("Write metadata?");
