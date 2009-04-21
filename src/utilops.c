@@ -1666,7 +1666,7 @@ static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWi
 	ud->content_list = NULL;
 	ud->parent = parent;
 	
-	ud->messages.title = pgettext("physical","Delete");
+	ud->messages.title = (gchar *)pgettext("physical","Delete");
 	ud->messages.question = _("Delete files?");
 	ud->messages.desc_flist = _("This will delete the following files");
 	ud->messages.desc_source_fd = "";

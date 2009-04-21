@@ -96,7 +96,7 @@ static void image_loader_init(GTypeInstance *instance, gpointer g_class)
 	il->data_mutex = g_mutex_new();
 	il->can_destroy_cond = g_cond_new();
 #endif
-	DEBUG_1("new image loader %p, bufsize=%u idle_loop=%u", il, il->read_buffer_size, il->idle_read_loop_count);
+	DEBUG_1("new image loader %p, bufsize=%" G_GSIZE_FORMAT " idle_loop=%u", il, il->read_buffer_size, il->idle_read_loop_count);
 }
 
 static void image_loader_class_init(ImageLoaderClass *class)
@@ -160,7 +160,7 @@ static void image_loader_finalize(GObject *object)
 
 	if (il->error) DEBUG_1("%s", image_loader_get_error(il));
 
-	DEBUG_1("freeing image loader %p bytes_read=%d", il, il->bytes_read);
+	DEBUG_1("freeing image loader %p bytes_read=%" G_GSIZE_FORMAT, il, il->bytes_read);
 
 	if (il->idle_done_id)
 		{
@@ -619,9 +619,9 @@ static gboolean image_loader_setup_source(ImageLoader *il)
 		ExifData *exif = exif_read_fd(il->fd);
 
 		if (options->thumbnails.use_exif)
-			il->mapped_file = exif_get_preview(exif, &il->bytes_total, il->requested_width, il->requested_height);
+			il->mapped_file = exif_get_preview(exif, (guint *)&il->bytes_total, il->requested_width, il->requested_height);
 		else
-			il->mapped_file = exif_get_preview(exif, &il->bytes_total, 0, 0); /* get the largest available preview image or NULL for normal images*/
+			il->mapped_file = exif_get_preview(exif, (guint *)&il->bytes_total, 0, 0); /* get the largest available preview image or NULL for normal images*/
 
 		if (il->mapped_file)
 			{

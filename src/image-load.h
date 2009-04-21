@@ -58,7 +58,7 @@ struct _ImageLoader
 
 	guchar *mapped_file;
 	gsize read_buffer_size;
-	gint idle_read_loop_count;
+	guint idle_read_loop_count;
 };
 
 struct _ImageLoaderClass {
