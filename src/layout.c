@@ -938,6 +938,7 @@ gboolean layout_set_path(LayoutWindow *lw, const gchar *path)
 gboolean layout_set_fd(LayoutWindow *lw, FileData *fd)
 {
 	gboolean have_file = FALSE;
+	gboolean dir_changed = TRUE;
 
 	if (!layout_valid(&lw)) return FALSE;
 
@@ -965,6 +966,7 @@ gboolean layout_set_fd(LayoutWindow *lw, FileData *fd)
 		if (lw->dir_fd && strcmp(lw->dir_fd->path, base) == 0)
 			{
 			g_free(base);
+			dir_changed = FALSE;
 			}
 		else if (isdir(base))
 			{
@@ -1008,7 +1010,7 @@ gboolean layout_set_fd(LayoutWindow *lw, FileData *fd)
 		layout_image_set_index(lw, 0);
 		}
 
-	if (options->metadata.confirm_on_dir_change)
+	if (options->metadata.confirm_on_dir_change && dir_changed)
 		metadata_write_queue_confirm(NULL, NULL);
 
 	return TRUE;
