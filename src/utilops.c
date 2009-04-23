@@ -1626,8 +1626,9 @@ void file_util_dialog_run(UtilityData *ud)
 
 			file_util_finalize_all(ud);
 			
+			/* both DISCARD and DONE finishes the operation for good */
 			if (ud->done_func)
-				ud->done_func((ud->phase == UTILITY_PHASE_DONE), ud->dest_path, ud->done_data);
+				ud->done_func((ud->phase != UTILITY_PHASE_CANCEL), ud->dest_path, ud->done_data);
 				
 			if (ud->with_sidecars)
 				file_data_sc_free_ci_list(ud->flist);
