@@ -1712,6 +1712,7 @@ static void file_util_write_metadata_details_dialog_ok_cb(GenericDialog *gd, gpo
 static void file_util_write_metadata_details_dialog(FileData *fd, GtkWidget *parent)
 {
 	GenericDialog *gd;
+	GtkWidget *box;
 	GtkWidget *table;
 	GList *keys = NULL;
 	GList *work;
@@ -1727,10 +1728,13 @@ static void file_util_write_metadata_details_dialog(FileData *fd, GtkWidget *par
 	
 	
 	gd = file_util_gen_dlg(_("Overview of changed metadata"), "details", parent, TRUE, NULL, NULL);
-	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_INFO, _("Overview of changed metadata"), message);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, file_util_write_metadata_details_dialog_ok_cb, TRUE);
 
-	table = pref_table_new(gd->vbox, 2, g_list_length(keys), FALSE, TRUE);
+	box = generic_dialog_add_message(gd, GTK_STOCK_DIALOG_INFO, _("Overview of changed metadata"), message);
+
+	box = pref_group_new(box, TRUE, NULL, GTK_ORIENTATION_HORIZONTAL);
+
+	table = pref_table_new(box, 2, g_list_length(keys), FALSE, TRUE);
 
 	work = keys;
 	i = 0;
@@ -1766,6 +1770,8 @@ static void file_util_write_metadata_details_dialog(FileData *fd, GtkWidget *par
 		g_free(value);
 		i++;
 		}
+
+	generic_dialog_add_image(gd, box, fd, NULL, NULL, NULL, FALSE);
 
 	gtk_widget_show(gd->dialog);
 	
