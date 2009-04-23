@@ -252,7 +252,8 @@ typedef enum {
 	UTILITY_PHASE_ENTERING,
 	UTILITY_PHASE_CHECKED,
 	UTILITY_PHASE_DONE,
-	UTILITY_PHASE_CANCEL
+	UTILITY_PHASE_CANCEL,
+	UTILITY_PHASE_DISCARD
 } UtilityPhase;
 
 enum {
@@ -319,6 +320,8 @@ struct _UtilityData {
 	
 	FileUtilDoneFunc done_func;
 	void (*details_func)(FileData *fd, GtkWidget *parent);
+	gboolean (*finalize_func)(FileData *fd);
+	gboolean (*discard_func)(FileData *fd);
 	gpointer done_data;
 };
 
@@ -560,10 +563,9 @@ static gint file_util_perform_ci_cb(gpointer resume_data, EditorFlags flags, GLi
 		
 		ud->flist = g_list_remove(ud->flist, fd);
 		
-		/* FIXME: put it here for now */
-		if (ud->type == UTILITY_TYPE_WRITE_METADATA)
+		if (ud->finalize_func)
 			{
-			metadata_write_queue_remove(fd);
+			ud->finalize_func(fd);
 			}
 
 		if (ud->with_sidecars) 
@@ -991,6 +993,18 @@ static void file_util_cancel_cb(GenericDialog *gd, gpointer data)
 	file_util_dialog_run(ud);
 }
 
+static void file_util_discard_cb(GenericDialog *gd, gpointer data)
+{
+	UtilityData *ud = data;
+	
+	generic_dialog_close(gd);
+
+	ud->gd = NULL;
+	
+	ud->phase = UTILITY_PHASE_DISCARD;
+	file_util_dialog_run(ud);
+}
+
 static void file_util_ok_cb(GenericDialog *gd, gpointer data)
 {
 	UtilityData *ud = data;
@@ -1319,6 +1333,7 @@ static void file_util_dialog_init_simple_list(UtilityData *ud)
 
 	ud->gd = file_util_gen_dlg(ud->messages.title, "dlg_confirm",
 				   ud->parent, FALSE,  file_util_cancel_cb, ud);
+	if (ud->discard_func) generic_dialog_add_button(ud->gd, GTK_STOCK_REVERT_TO_SAVED, _("Discard changes"), file_util_discard_cb, FALSE);
 	if (ud->details_func) generic_dialog_add_button(ud->gd, GTK_STOCK_INFO, _("File details"), file_util_details_cb, FALSE);
 
 	generic_dialog_add_button(ud->gd, stock_id, NULL, file_util_ok_cb, TRUE);
@@ -1431,6 +1446,7 @@ static void file_util_dialog_init_source_dest(UtilityData *ud)
 
 	box = generic_dialog_add_message(ud->gd, NULL, ud->messages.question, NULL);
 
+	if (ud->discard_func) generic_dialog_add_button(ud->gd, GTK_STOCK_REVERT_TO_SAVED, _("Discard changes"), file_util_discard_cb, FALSE);
 	if (ud->details_func) generic_dialog_add_button(ud->gd, GTK_STOCK_INFO, _("File details"), file_util_details_cb, FALSE);
 
 	generic_dialog_add_button(ud->gd, GTK_STOCK_OK, ud->messages.title, file_util_ok_cb, TRUE);
@@ -1548,6 +1564,22 @@ static void file_util_dialog_init_source_dest(UtilityData *ud)
 	file_util_dialog_list_select(ud->listview, 0);
 }
 
+static void file_util_finalize_all(UtilityData *ud)
+{
+	GList *work = ud->flist;
+	
+	if (ud->phase == UTILITY_PHASE_CANCEL) return;
+	if (ud->phase == UTILITY_PHASE_DONE && !ud->finalize_func) return;
+	if (ud->phase == UTILITY_PHASE_DISCARD && !ud->discard_func) return;
+	
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		if (ud->phase == UTILITY_PHASE_DONE) ud->finalize_func(fd);
+		else if (ud->phase == UTILITY_PHASE_DISCARD) ud->discard_func(fd);
+		}
+}
 
 void file_util_dialog_run(UtilityData *ud)
 {
@@ -1590,12 +1622,9 @@ void file_util_dialog_run(UtilityData *ud)
 			break;
 		case UTILITY_PHASE_CANCEL:
 		case UTILITY_PHASE_DONE:
+		case UTILITY_PHASE_DISCARD:
 
-			/* FIXME: put it here for now */
-			if (ud->type == UTILITY_TYPE_WRITE_METADATA)
-				{
-				metadata_write_queue_remove_list(ud->flist);
-				}
+			file_util_finalize_all(ud);
 			
 			if (ud->done_func)
 				ud->done_func((ud->phase == UTILITY_PHASE_DONE), ud->dest_path, ud->done_data);
@@ -1776,6 +1805,8 @@ static void file_util_write_metadata_full(FileData *source_fd, GList *source_lis
 	ud->done_data = done_data;
 	
 	ud->details_func = file_util_write_metadata_details_dialog;
+	ud->finalize_func = metadata_write_queue_remove;
+	ud->discard_func = metadata_write_queue_remove;
 	
 	ud->messages.title = _("Write metadata");
 	ud->messages.question = _("Write metadata?");
