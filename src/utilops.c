@@ -319,7 +319,7 @@ struct _UtilityData {
 	gpointer resume_data;
 	
 	FileUtilDoneFunc done_func;
-	void (*details_func)(FileData *fd, GtkWidget *parent);
+	void (*details_func)(UtilityData *ud, FileData *fd);
 	gboolean (*finalize_func)(FileData *fd);
 	gboolean (*discard_func)(FileData *fd);
 	gpointer done_data;
@@ -1307,7 +1307,7 @@ static void file_util_details_cb(GenericDialog *gd, gpointer data)
 	UtilityData *ud = data;
 	if (ud->details_func && ud->sel_fd)
 		{
-		ud->details_func(ud->sel_fd, ud->gd->dialog);
+		ud->details_func(ud, ud->sel_fd);
 		}
 }
 
@@ -1581,6 +1581,40 @@ static void file_util_finalize_all(UtilityData *ud)
 		}
 }
 
+static gboolean file_util_exclude_fd(UtilityData *ud, FileData *fd)
+{
+	GtkTreeModel *store;
+	GtkTreeIter iter;
+	gboolean valid;
+
+	if (!g_list_find(ud->flist, fd)) return FALSE;
+
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(ud->listview));
+	valid = gtk_tree_model_get_iter_first(store, &iter);
+	while (valid)
+		{
+		FileData *store_fd;
+		gtk_tree_model_get(store, &iter, UTILITY_COLUMN_FD, &store_fd, -1);
+
+		if (store_fd == fd)
+			{
+			gtk_list_store_remove(GTK_LIST_STORE(store), &iter);
+			break;
+			}
+		valid = gtk_tree_model_iter_next(store, &iter);
+		}
+
+	ud->flist = g_list_remove(ud->flist, fd);
+
+	if (ud->with_sidecars)
+		file_data_sc_free_ci(fd);
+	else
+		file_data_free_ci(fd);
+	
+	file_data_unref(fd);
+	return TRUE;
+}
+
 void file_util_dialog_run(UtilityData *ud)
 {
 	switch (ud->phase)
@@ -1705,12 +1739,56 @@ static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWi
 	file_util_dialog_run(ud);
 }
 
-static void file_util_write_metadata_details_dialog_ok_cb(GenericDialog *gd, gpointer data)
+static void file_util_details_dialog_close_cb(GtkWidget *widget, gpointer data)
+{
+	gtk_widget_destroy(data);
+
+}
+
+static void file_util_details_dialog_destroy_cb(GtkWidget *widget, gpointer data)
+{
+	UtilityData *ud = data;
+	g_signal_handlers_disconnect_by_func(ud->gd->dialog, G_CALLBACK(file_util_details_dialog_close_cb), widget);
+}
+
+
+static void file_util_details_dialog_ok_cb(GenericDialog *gd, gpointer data)
 {
 	/* no op */
 }
 
-static void file_util_write_metadata_details_dialog(FileData *fd, GtkWidget *parent)
+static void file_util_write_metadata_details_dialog_exclude(GenericDialog *gd, gpointer data, gboolean discard)
+{
+	UtilityData *ud = data;
+	FileData *fd = g_object_get_data(G_OBJECT(gd->dialog), "file_data");
+	
+	if (!fd) return;
+	file_util_exclude_fd(ud, fd);
+	
+	if (discard && ud->discard_func) ud->discard_func(fd);
+	
+	/* all files were excluded, this has the same effect as pressing the cancel button in the confirmation dialog*/
+	if (!ud->flist) 
+		{
+		/* both dialogs will be closed anyway, the signals would cause duplicate calls */
+		g_signal_handlers_disconnect_by_func(ud->gd->dialog, G_CALLBACK(file_util_details_dialog_close_cb), gd->dialog);
+		g_signal_handlers_disconnect_by_func(gd->dialog, G_CALLBACK(file_util_details_dialog_destroy_cb), ud);
+
+		file_util_cancel_cb(ud->gd, ud);
+		}
+}
+
+static void file_util_write_metadata_details_dialog_exclude_cb(GenericDialog *gd, gpointer data)
+{
+	file_util_write_metadata_details_dialog_exclude(gd, data, FALSE);
+}
+
+static void file_util_write_metadata_details_dialog_discard_cb(GenericDialog *gd, gpointer data)
+{
+	file_util_write_metadata_details_dialog_exclude(gd, data, TRUE);
+}
+
+static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *fd)
 {
 	GenericDialog *gd;
 	GtkWidget *box;
@@ -1728,8 +1806,21 @@ static void file_util_write_metadata_details_dialog(FileData *fd, GtkWidget *par
 	g_assert(keys);
 	
 	
-	gd = file_util_gen_dlg(_("Overview of changed metadata"), "details", parent, TRUE, NULL, NULL);
-	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, file_util_write_metadata_details_dialog_ok_cb, TRUE);
+	gd = file_util_gen_dlg(_("Overview of changed metadata"), "details", ud->gd->dialog, TRUE, NULL, ud);
+	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, file_util_details_dialog_ok_cb, TRUE);
+	generic_dialog_add_button(gd, GTK_STOCK_CANCEL, _("Exclude file"), file_util_write_metadata_details_dialog_exclude_cb, FALSE);
+	generic_dialog_add_button(gd, GTK_STOCK_REVERT_TO_SAVED, _("Discard changes"), file_util_write_metadata_details_dialog_discard_cb, FALSE);
+
+	g_object_set_data(G_OBJECT(gd->dialog), "file_data", fd);
+
+	g_signal_connect(G_OBJECT(gd->dialog), "destroy",
+			 G_CALLBACK(file_util_details_dialog_destroy_cb), ud);
+
+	/* in case the ud->gd->dialog is closed during editing */
+	g_signal_connect(G_OBJECT(ud->gd->dialog), "destroy",
+			 G_CALLBACK(file_util_details_dialog_close_cb), gd->dialog);
+
+
 
 	box = generic_dialog_add_message(gd, GTK_STOCK_DIALOG_INFO, _("Overview of changed metadata"), message);
 
