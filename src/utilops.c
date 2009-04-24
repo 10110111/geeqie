@@ -1700,45 +1700,6 @@ static void file_util_disable_grouping_sc_list(GList *list)
 		
 }
 
-static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWidget *parent, UtilityPhase phase)
-{
-	UtilityData *ud;
-	GList *flist = filelist_copy(source_list);
-	
-	if (source_fd)
-		flist = g_list_append(flist, file_data_ref(source_fd));
-
-	if (!flist) return;
-	
-	file_util_disable_grouping_sc_list(flist);
-	
-	if (!file_data_sc_add_ci_delete_list(flist))
-		{
-		file_util_warn_op_in_progress(_("File deletion failed"));
-		filelist_free(flist);
-		return;
-		}
-
-	ud = file_util_data_new(UTILITY_TYPE_DELETE);
-	
-	ud->phase = phase;
-	
-	ud->with_sidecars = TRUE;
-
-	ud->dir_fd = NULL;
-	ud->flist = flist;
-	ud->content_list = NULL;
-	ud->parent = parent;
-	
-	ud->messages.title = (gchar *)pgettext("physical","Delete");
-	ud->messages.question = _("Delete files?");
-	ud->messages.desc_flist = _("This will delete the following files");
-	ud->messages.desc_source_fd = "";
-	ud->messages.fail = _("File deletion failed");
-
-	file_util_dialog_run(ud);
-}
-
 static void file_util_details_dialog_close_cb(GtkWidget *widget, gpointer data)
 {
 	gtk_widget_destroy(data);
@@ -1757,7 +1718,7 @@ static void file_util_details_dialog_ok_cb(GenericDialog *gd, gpointer data)
 	/* no op */
 }
 
-static void file_util_write_metadata_details_dialog_exclude(GenericDialog *gd, gpointer data, gboolean discard)
+static void file_util_details_dialog_exclude(GenericDialog *gd, gpointer data, gboolean discard)
 {
 	UtilityData *ud = data;
 	FileData *fd = g_object_get_data(G_OBJECT(gd->dialog), "file_data");
@@ -1778,14 +1739,58 @@ static void file_util_write_metadata_details_dialog_exclude(GenericDialog *gd, g
 		}
 }
 
-static void file_util_write_metadata_details_dialog_exclude_cb(GenericDialog *gd, gpointer data)
+static void file_util_details_dialog_exclude_cb(GenericDialog *gd, gpointer data)
 {
-	file_util_write_metadata_details_dialog_exclude(gd, data, FALSE);
+	file_util_details_dialog_exclude(gd, data, FALSE);
 }
 
-static void file_util_write_metadata_details_dialog_discard_cb(GenericDialog *gd, gpointer data)
+static void file_util_details_dialog_discard_cb(GenericDialog *gd, gpointer data)
 {
-	file_util_write_metadata_details_dialog_exclude(gd, data, TRUE);
+	file_util_details_dialog_exclude(gd, data, TRUE);
+}
+
+static void file_util_details_dialog(UtilityData *ud, FileData *fd)
+{
+	GenericDialog *gd;
+	GtkWidget *box;
+	gchar *message;
+	gint error;
+	const gchar *stock_id;
+	
+	gd = file_util_gen_dlg(_("File details"), "details", ud->gd->dialog, TRUE, NULL, ud);
+	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, file_util_details_dialog_ok_cb, TRUE);
+	generic_dialog_add_button(gd, GTK_STOCK_CANCEL, _("Exclude file"), file_util_details_dialog_exclude_cb, FALSE);
+
+	g_object_set_data(G_OBJECT(gd->dialog), "file_data", fd);
+
+	g_signal_connect(G_OBJECT(gd->dialog), "destroy",
+			 G_CALLBACK(file_util_details_dialog_destroy_cb), ud);
+
+	/* in case the ud->gd->dialog is closed during editing */
+	g_signal_connect(G_OBJECT(ud->gd->dialog), "destroy",
+			 G_CALLBACK(file_util_details_dialog_close_cb), gd->dialog);
+
+
+	error = ud->with_sidecars ? file_data_sc_verify_ci(fd) : file_data_verify_ci(fd);
+
+	if (error)
+		{
+		message = file_data_get_error_string(error);
+		stock_id = (error & CHANGE_ERROR_MASK) ? GTK_STOCK_DIALOG_ERROR : GTK_STOCK_DIALOG_WARNING;
+		}
+	else
+		{
+		message = g_strdup(_("No problem detected"));
+		stock_id = GTK_STOCK_APPLY;
+		}
+
+	box = generic_dialog_add_message(gd, stock_id, _("File details"), message);
+
+	generic_dialog_add_image(gd, box, fd, NULL, NULL, NULL, FALSE);
+
+	gtk_widget_show(gd->dialog);
+	
+	g_free(message);
 }
 
 static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *fd)
@@ -1808,8 +1813,8 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 	
 	gd = file_util_gen_dlg(_("Overview of changed metadata"), "details", ud->gd->dialog, TRUE, NULL, ud);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, file_util_details_dialog_ok_cb, TRUE);
-	generic_dialog_add_button(gd, GTK_STOCK_CANCEL, _("Exclude file"), file_util_write_metadata_details_dialog_exclude_cb, FALSE);
-	generic_dialog_add_button(gd, GTK_STOCK_REVERT_TO_SAVED, _("Discard changes"), file_util_write_metadata_details_dialog_discard_cb, FALSE);
+	generic_dialog_add_button(gd, GTK_STOCK_CANCEL, _("Exclude file"), file_util_details_dialog_exclude_cb, FALSE);
+	generic_dialog_add_button(gd, GTK_STOCK_REVERT_TO_SAVED, _("Discard changes"), file_util_details_dialog_discard_cb, FALSE);
 
 	g_object_set_data(G_OBJECT(gd->dialog), "file_data", fd);
 
@@ -1870,6 +1875,48 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 	g_list_free(keys);
 	g_free(message);
 }
+
+static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWidget *parent, UtilityPhase phase)
+{
+	UtilityData *ud;
+	GList *flist = filelist_copy(source_list);
+	
+	if (source_fd)
+		flist = g_list_append(flist, file_data_ref(source_fd));
+
+	if (!flist) return;
+	
+	file_util_disable_grouping_sc_list(flist);
+	
+	if (!file_data_sc_add_ci_delete_list(flist))
+		{
+		file_util_warn_op_in_progress(_("File deletion failed"));
+		filelist_free(flist);
+		return;
+		}
+
+	ud = file_util_data_new(UTILITY_TYPE_DELETE);
+	
+	ud->phase = phase;
+	
+	ud->with_sidecars = TRUE;
+
+	ud->dir_fd = NULL;
+	ud->flist = flist;
+	ud->content_list = NULL;
+	ud->parent = parent;
+	
+	ud->details_func = file_util_details_dialog;
+
+	ud->messages.title = (gchar *)pgettext("physical","Delete");
+	ud->messages.question = _("Delete files?");
+	ud->messages.desc_flist = _("This will delete the following files");
+	ud->messages.desc_source_fd = "";
+	ud->messages.fail = _("File deletion failed");
+
+	file_util_dialog_run(ud);
+}
+
 
 static void file_util_write_metadata_full(FileData *source_fd, GList *source_list, GtkWidget *parent, UtilityPhase phase, FileUtilDoneFunc done_func, gpointer done_data)
 {
@@ -2027,6 +2074,8 @@ static void file_util_rename_full(FileData *source_fd, GList *source_list, const
 	ud->flist = flist;
 	ud->content_list = NULL;
 	ud->parent = parent;
+
+	ud->details_func = file_util_details_dialog;
 	
 	ud->messages.title = _("Rename");
 	ud->messages.question = _("Rename files?");
@@ -2075,6 +2124,8 @@ static void file_util_start_editor_full(const gchar *key, FileData *source_fd, G
 	ud->flist = flist;
 	ud->content_list = NULL;
 	ud->parent = parent;
+
+	ud->details_func = file_util_details_dialog;
 
 	if (dest_path) ud->dest_path = g_strdup(dest_path);
 	
