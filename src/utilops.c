@@ -1749,17 +1749,54 @@ static void file_util_details_dialog_discard_cb(GenericDialog *gd, gpointer data
 	file_util_details_dialog_exclude(gd, data, TRUE);
 }
 
+static gchar *file_util_details_get_message(UtilityData *ud, FileData *fd, const gchar **stock_id)
+{
+	GString *message = g_string_new("");
+	gint error;
+	g_string_append_printf(message, _("File: '%s'\n"), fd->path);
+	
+	if (ud->with_sidecars && fd->sidecar_files)
+		{
+		GList *work = fd->sidecar_files;
+		g_string_append(message, _("with sidecar files:\n"));
+		
+		while (work)
+			{
+			FileData *sfd = work->data;
+			work =work->next;
+			g_string_append_printf(message, _(" '%s'\n"), sfd->path);
+			}
+		}
+	
+	g_string_append(message, _("\nStatus: "));
+	
+	error = ud->with_sidecars ? file_data_sc_verify_ci(fd) : file_data_verify_ci(fd);
+
+	if (error)
+		{
+		gchar *err_msg = file_data_get_error_string(error);
+		g_string_append(message, err_msg);
+		if (stock_id) *stock_id = (error & CHANGE_ERROR_MASK) ? GTK_STOCK_DIALOG_ERROR : GTK_STOCK_DIALOG_WARNING;
+		}
+	else
+		{
+		g_string_append(message, _("no problem detected"));
+		if (stock_id) *stock_id = GTK_STOCK_DIALOG_INFO;
+		}
+
+	return g_string_free(message, FALSE);;
+}
+
 static void file_util_details_dialog(UtilityData *ud, FileData *fd)
 {
 	GenericDialog *gd;
 	GtkWidget *box;
 	gchar *message;
-	gint error;
 	const gchar *stock_id;
 	
 	gd = file_util_gen_dlg(_("File details"), "details", ud->gd->dialog, TRUE, NULL, ud);
-	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, file_util_details_dialog_ok_cb, TRUE);
-	generic_dialog_add_button(gd, GTK_STOCK_CANCEL, _("Exclude file"), file_util_details_dialog_exclude_cb, FALSE);
+	generic_dialog_add_button(gd, GTK_STOCK_CLOSE, NULL, file_util_details_dialog_ok_cb, TRUE);
+	generic_dialog_add_button(gd, GTK_STOCK_REMOVE, _("Exclude file"), file_util_details_dialog_exclude_cb, FALSE);
 
 	g_object_set_data(G_OBJECT(gd->dialog), "file_data", fd);
 
@@ -1771,18 +1808,7 @@ static void file_util_details_dialog(UtilityData *ud, FileData *fd)
 			 G_CALLBACK(file_util_details_dialog_close_cb), gd->dialog);
 
 
-	error = ud->with_sidecars ? file_data_sc_verify_ci(fd) : file_data_verify_ci(fd);
-
-	if (error)
-		{
-		message = file_data_get_error_string(error);
-		stock_id = (error & CHANGE_ERROR_MASK) ? GTK_STOCK_DIALOG_ERROR : GTK_STOCK_DIALOG_WARNING;
-		}
-	else
-		{
-		message = g_strdup(_("No problem detected"));
-		stock_id = GTK_STOCK_APPLY;
-		}
+	message = file_util_details_get_message(ud, fd, &stock_id);
 
 	box = generic_dialog_add_message(gd, stock_id, _("File details"), message);
 
@@ -1798,10 +1824,13 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 	GenericDialog *gd;
 	GtkWidget *box;
 	GtkWidget *table;
+	GtkWidget *frame;
 	GList *keys = NULL;
 	GList *work;
-	gchar *message = g_strdup_printf(_("This is a list of modified metadata tags that will be written for file '%s'"), fd->name);
+	gchar *message1;
+	gchar *message2;
 	gint i;
+	const gchar *stock_id;
 	
 	if (fd && fd->modified_xmp)
 		{
@@ -1812,8 +1841,8 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 	
 	
 	gd = file_util_gen_dlg(_("Overview of changed metadata"), "details", ud->gd->dialog, TRUE, NULL, ud);
-	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, file_util_details_dialog_ok_cb, TRUE);
-	generic_dialog_add_button(gd, GTK_STOCK_CANCEL, _("Exclude file"), file_util_details_dialog_exclude_cb, FALSE);
+	generic_dialog_add_button(gd, GTK_STOCK_CLOSE, NULL, file_util_details_dialog_ok_cb, TRUE);
+	generic_dialog_add_button(gd, GTK_STOCK_REMOVE, _("Exclude file"), file_util_details_dialog_exclude_cb, FALSE);
 	generic_dialog_add_button(gd, GTK_STOCK_REVERT_TO_SAVED, _("Discard changes"), file_util_details_dialog_discard_cb, FALSE);
 
 	g_object_set_data(G_OBJECT(gd->dialog), "file_data", fd);
@@ -1825,13 +1854,23 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 	g_signal_connect(G_OBJECT(ud->gd->dialog), "destroy",
 			 G_CALLBACK(file_util_details_dialog_close_cb), gd->dialog);
 
+	message1 = file_util_details_get_message(ud, fd, &stock_id);
 
+	if (fd->change && fd->change->dest)
+		{
+		message2 = g_strdup_printf(_("The following metadata tags will be written to '%s'."), fd->change->dest);
+		}
+	else
+		{
+		message2 = g_strdup_printf(_("The following metadata tags will be written to the image file itself."));
+		}
 
-	box = generic_dialog_add_message(gd, GTK_STOCK_DIALOG_INFO, _("Overview of changed metadata"), message);
+	box = generic_dialog_add_message(gd, stock_id, _("Overview of changed metadata"), message1);
 
-	box = pref_group_new(box, TRUE, NULL, GTK_ORIENTATION_HORIZONTAL);
+	box = pref_group_new(box, TRUE, message2, GTK_ORIENTATION_HORIZONTAL);
 
-	table = pref_table_new(box, 2, g_list_length(keys), FALSE, TRUE);
+	frame = pref_frame_new(box, TRUE, NULL, GTK_ORIENTATION_HORIZONTAL, 2);
+	table = pref_table_new(frame, 2, g_list_length(keys), FALSE, TRUE);
 
 	work = keys;
 	i = 0;
@@ -1855,6 +1894,7 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 		gtk_widget_show(label);
 
 		label = gtk_label_new(value);
+		
 		gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 		gtk_table_attach(GTK_TABLE(table), label,
 				 1, 2, i, i + 1,
@@ -1873,7 +1913,8 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 	gtk_widget_show(gd->dialog);
 	
 	g_list_free(keys);
-	g_free(message);
+	g_free(message1);
+	g_free(message2);
 }
 
 static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWidget *parent, UtilityPhase phase)
