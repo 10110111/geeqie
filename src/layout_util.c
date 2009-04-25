@@ -319,49 +319,49 @@ static void layout_menu_alter_90_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_alter(lw, ALTER_ROTATE_90);
+	layout_image_alter_orientation(lw, ALTER_ROTATE_90);
 }
 
 static void layout_menu_alter_90cc_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_alter(lw, ALTER_ROTATE_90_CC);
+	layout_image_alter_orientation(lw, ALTER_ROTATE_90_CC);
 }
 
 static void layout_menu_alter_180_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_alter(lw, ALTER_ROTATE_180);
+	layout_image_alter_orientation(lw, ALTER_ROTATE_180);
 }
 
 static void layout_menu_alter_mirror_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_alter(lw, ALTER_MIRROR);
+	layout_image_alter_orientation(lw, ALTER_MIRROR);
 }
 
 static void layout_menu_alter_flip_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_alter(lw, ALTER_FLIP);
+	layout_image_alter_orientation(lw, ALTER_FLIP);
 }
 
-static void layout_menu_alter_desaturate_cb(GtkAction *action, gpointer data)
+static void layout_menu_alter_desaturate_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_alter(lw, ALTER_DESATURATE);
+	layout_image_set_desaturate(lw, gtk_toggle_action_get_active(action));
 }
 
 static void layout_menu_alter_none_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_image_alter(lw, ALTER_NONE);
+	layout_image_alter_orientation(lw, ALTER_NONE);
 }
 
 static void layout_menu_config_cb(GtkAction *action, gpointer data)
@@ -1301,7 +1301,7 @@ static GtkActionEntry menu_entries[] = {
   { "GoMenu",		NULL,		N_("_Go"),			NULL, 		NULL, 	NULL },
   { "EditMenu",		NULL,		N_("_Edit"),			NULL, 		NULL, 	NULL },
   { "SelectMenu",	NULL,		N_("_Select"),			NULL, 		NULL, 	NULL },
-  { "AdjustMenu",	NULL,		N_("_Adjust"),			NULL, 		NULL, 	NULL },
+  { "OrientationMenu",	NULL,		N_("_Orientation"),			NULL, 		NULL, 	NULL },
   { "ExternalMenu",	NULL,		N_("E_xternal Editors"),	NULL, 		NULL, 	NULL },
   { "ViewMenu",		NULL,		N_("_View"),			NULL, 		NULL, 	NULL },
   { "DirMenu",          NULL,           N_("_View Directory as"),	NULL, 		NULL, 	NULL },
@@ -1347,7 +1347,6 @@ static GtkActionEntry menu_entries[] = {
   { "Rotate180",	NULL,		N_("Rotate 1_80"),	"<shift>R",	NULL,	CB(layout_menu_alter_180_cb) },
   { "Mirror",		NULL,		N_("_Mirror"),		"<shift>M",	NULL,	CB(layout_menu_alter_mirror_cb) },
   { "Flip",		NULL,		N_("_Flip"),		"<shift>F",	NULL,	CB(layout_menu_alter_flip_cb) },
-  { "Grayscale",	NULL,		N_("Toggle _grayscale"),"<shift>G",	NULL,	CB(layout_menu_alter_desaturate_cb) },
   { "AlterNone",	NULL,		N_("_Original state"),  "<shift>O",	NULL,	CB(layout_menu_alter_none_cb) },
 
   { "SelectAll",	NULL,		N_("Select _all"),	"<control>A",	NULL,	CB(layout_menu_select_all_cb) },
@@ -1430,6 +1429,7 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb),	 FALSE  },
   { "UseColorProfiles",	NULL,		N_("Use _color profiles"), NULL,	NULL,	CB(layout_color_menu_enable_cb), FALSE},
   { "UseImageProfile",	NULL,		N_("Use profile from _image"), NULL,	NULL,	CB(layout_color_menu_use_image_cb), FALSE},
+  { "Grayscale",	NULL,		N_("Toggle _grayscale"),"<shift>G",	NULL,	CB(layout_menu_alter_desaturate_cb), FALSE},
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
@@ -1512,13 +1512,12 @@ static const gchar *menu_ui_description =
 "      </menu>"
 "      <placeholder name='EditSection'/>"
 "      <separator/>"
-"      <menu action='AdjustMenu'>"
+"      <menu action='OrientationMenu'>"
 "        <menuitem action='RotateCW'/>"
 "        <menuitem action='RotateCCW'/>"
 "        <menuitem action='Rotate180'/>"
 "        <menuitem action='Mirror'/>"
 "        <menuitem action='Flip'/>"
-"        <menuitem action='Grayscale'/>"
 "        <menuitem action='AlterNone'/>"
 "      </menu>"
 "      <placeholder name='PropertiesSection'/>"
@@ -1546,6 +1545,8 @@ static const gchar *menu_ui_description =
 "        <menuitem action='ColorProfile3'/>"
 "        <menuitem action='ColorProfile4'/>"
 "        <menuitem action='ColorProfile5'/>"
+"        <separator/>"
+"        <menuitem action='Grayscale'/>"
 "      </menu>"
 "      <menu action='ZoomMenu'>"
 "        <menuitem action='ZoomIn'/>"
@@ -2115,6 +2116,9 @@ static void layout_util_sync_color(LayoutWindow *lw)
 		gtk_action_set_sensitive(action, !use_image);
 		gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), (i == input));
 		}
+
+	action = gtk_action_group_get_action(lw->action_group, "Grayscale");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), layout_image_get_desaturate(lw));
 }
 
 static void layout_util_sync_views(LayoutWindow *lw)

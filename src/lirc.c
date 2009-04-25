@@ -164,11 +164,11 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				}
 			else if (g_ascii_strcasecmp("ROTATE_90", cmd) == 0)
 				{
-				layout_image_alter(lw, ALTER_ROTATE_90);
+				layout_image_alter_orientation(lw, ALTER_ROTATE_90);
 				}
 			else if (g_ascii_strcasecmp("ROTATE_90_CC", cmd) == 0)
 				{
-				layout_image_alter(lw, ALTER_ROTATE_90_CC);
+				layout_image_alter_orientation(lw, ALTER_ROTATE_90_CC);
 				}
 			else if (g_ascii_strcasecmp("INFO", cmd) == 0)
 				{

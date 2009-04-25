@@ -230,9 +230,6 @@ gchar *alter_type_get_text(AlterType type)
 		case ALTER_FLIP:
 			return _("_Flip");
 			break;
-		case ALTER_DESATURATE:
-			return _("Toggle _grayscale");
-			break;
 		case ALTER_NONE:
 			return _("_Original state");
 			break;
@@ -271,14 +268,13 @@ static GtkWidget *real_submenu_add_alter(GtkWidget *menu, GCallback func, gpoint
 	submenu_add_alter_item(submenu, func, ALTER_ROTATE_180, accel_group, 'R', GDK_SHIFT_MASK);
 	submenu_add_alter_item(submenu, func, ALTER_MIRROR, accel_group, 'M', GDK_SHIFT_MASK);
 	submenu_add_alter_item(submenu, func, ALTER_FLIP, accel_group, 'F', GDK_SHIFT_MASK);
-	submenu_add_alter_item(submenu, func, ALTER_DESATURATE, accel_group, 'G', GDK_SHIFT_MASK);
 	submenu_add_alter_item(submenu, func, ALTER_NONE, accel_group, 'O', GDK_SHIFT_MASK);
 
 	if (menu)
 		{
 		GtkWidget *item;
 
-		item = menu_item_add(menu, _("_Adjust"), NULL, NULL);
+		item = menu_item_add(menu, _("_Orientation"), NULL, NULL);
 		gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 		return item;
 		}

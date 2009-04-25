@@ -76,7 +76,9 @@ void image_scroll_to_point(ImageWindow *imd, gint x, gint y,
 			   gdouble x_align, gdouble y_align);
 void image_get_scroll_center(ImageWindow *imd, gdouble *x, gdouble *y);
 void image_set_scroll_center(ImageWindow *imd, gdouble x, gdouble y);
-void image_alter(ImageWindow *imd, AlterType type);
+void image_alter_orientation(ImageWindow *imd, AlterType type);
+void image_set_desaturate(ImageWindow *imd, gboolean desaturate);
+gboolean image_get_desaturate(ImageWindow *imd);
 
 /* zoom */
 void image_zoom_adjust(ImageWindow *imd, gdouble increment);

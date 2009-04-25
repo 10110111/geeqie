@@ -331,7 +331,7 @@ static void li_pop_menu_alter_cb(GtkWidget *widget, gpointer data)
 	lw = submenu_item_get_data(widget);
 	type = (AlterType)GPOINTER_TO_INT(data);
 
-	image_alter(lw->image, type);
+	image_alter_orientation(lw->image, type);
 }
 
 static void li_pop_menu_new_cb(GtkWidget *widget, gpointer data)
@@ -884,12 +884,28 @@ void layout_image_zoom_set_fill_geometry(LayoutWindow *lw, gboolean vertical, gb
 		}
 }
 
-void layout_image_alter(LayoutWindow *lw, AlterType type)
+void layout_image_alter_orientation(LayoutWindow *lw, AlterType type)
 {
 	if (!layout_valid(&lw)) return;
 
-	image_alter(lw->image, type);
+	image_alter_orientation(lw->image, type);
 }
+
+void layout_image_set_desaturate(LayoutWindow *lw, gboolean desaturate)
+{
+	if (!layout_valid(&lw)) return;
+
+	image_set_desaturate(lw->image, desaturate);
+}
+
+gboolean layout_image_get_desaturate(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return FALSE;
+
+	return image_get_desaturate(lw->image);
+}
+
+
 
 const gchar *layout_image_get_path(LayoutWindow *lw)
 {

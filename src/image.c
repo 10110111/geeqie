@@ -363,7 +363,7 @@ static void image_post_process_tile_color_cb(PixbufRenderer *pr, GdkPixbuf **pix
 
 }
 
-void image_alter(ImageWindow *imd, AlterType type)
+void image_alter_orientation(ImageWindow *imd, AlterType type)
 {
 	static const gint rotate_90[]    = {1,   6, 7, 8, 5, 2, 3, 4, 1};
 	static const gint rotate_90_cc[] = {1,   8, 5, 6, 7, 4, 1, 2, 3};
@@ -393,19 +393,15 @@ void image_alter(ImageWindow *imd, AlterType type)
 		case ALTER_FLIP:
 			imd->orientation = flip[imd->orientation];
 			break;
-		case ALTER_DESATURATE:
-			imd->desaturate = !imd->desaturate;
-			break;
 		case ALTER_NONE:
 			imd->orientation = imd->image_fd->exif_orientation ? imd->image_fd->exif_orientation : 1;
-			imd->desaturate = FALSE;
 			break;
 		default:
 			return;
 			break;
 		}
 
-	if (type != ALTER_NONE && type != ALTER_DESATURATE)
+	if (type != ALTER_NONE)
 		{
 		if (imd->image_fd->user_orientation == 0) file_data_ref(imd->image_fd);
 		imd->image_fd->user_orientation = imd->orientation;
@@ -417,12 +413,22 @@ void image_alter(ImageWindow *imd, AlterType type)
 		}
 
 	pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, imd->orientation);
+}
+
+void image_set_desaturate(ImageWindow *imd, gboolean desaturate)
+{
+	imd->desaturate = desaturate;
 	if (imd->cm || imd->desaturate)
 		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, image_post_process_tile_color_cb, (gpointer) imd, (imd->cm != NULL) );
 	else
 		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, NULL, NULL, TRUE);
+	pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, imd->orientation);
 }
 
+gboolean image_get_desaturate(ImageWindow *imd)
+{
+	return imd->desaturate;
+}
 
 /*
  *-------------------------------------------------------------------

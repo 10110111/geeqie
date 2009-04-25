@@ -448,16 +448,16 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 		switch (event->keyval)
 			{
 			case 'R': case 'r':
-				image_alter(imd, ALTER_ROTATE_180);
+				image_alter_orientation(imd, ALTER_ROTATE_180);
 				break;
 			case 'M': case 'm':
-				image_alter(imd, ALTER_MIRROR);
+				image_alter_orientation(imd, ALTER_MIRROR);
 				break;
 			case 'F': case 'f':
-				image_alter(imd, ALTER_FLIP);
+				image_alter_orientation(imd, ALTER_FLIP);
 				break;
 			case 'G': case 'g':
-				image_alter(imd, ALTER_DESATURATE);
+				image_set_desaturate(imd, !image_get_desaturate(imd));
 				break;
 			case 'P': case 'p':
 				{
@@ -558,10 +558,10 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 				view_overlay_toggle(vw);
 				break;
 			case ']':
-				image_alter(imd, ALTER_ROTATE_90);
+				image_alter_orientation(imd, ALTER_ROTATE_90);
 				break;
 			case '[':
-				image_alter(imd, ALTER_ROTATE_90_CC);
+				image_alter_orientation(imd, ALTER_ROTATE_90_CC);
 				break;
 			case GDK_Delete: case GDK_KP_Delete:
 				if (options->file_ops.enable_delete_key)
@@ -1094,7 +1094,7 @@ static void view_alter_cb(GtkWidget *widget, gpointer data)
 	type = GPOINTER_TO_INT(data);
 
 	if (!vw) return;
-	image_alter(vw->imd, type);
+	image_alter_orientation(vw->imd, type);
 }
 
 static void view_wallpaper_cb(GtkWidget *widget, gpointer data)
