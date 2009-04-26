@@ -113,6 +113,9 @@ static void editor_window_save_cb(GtkWidget *widget, gpointer data)
 		{
 		editor_window_save(ew);
 		}
+
+	gtk_widget_set_sensitive(ew->save_button, FALSE);
+	ew->modified = FALSE;
 }
 
 static void editor_window_text_modified_cb(GtkWidget *widget, gpointer data)
@@ -205,7 +208,7 @@ static void editor_window_new(const gchar *src_path, const gchar *desktop_name)
 	gtk_widget_show(ew->save_button);
 	ct_button = ew->save_button;
 
-	button = pref_button_new(NULL, GTK_STOCK_CANCEL, NULL, FALSE,
+	button = pref_button_new(NULL, GTK_STOCK_CLOSE, NULL, FALSE,
 				 G_CALLBACK(editor_window_close_cb), ew);
 	gtk_container_add(GTK_CONTAINER(button_hbox), button);
 	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
