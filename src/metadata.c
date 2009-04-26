@@ -205,6 +205,7 @@ gboolean metadata_write_revert(FileData *fd, const gchar *key)
 		file_data_increment_version(fd);
 		file_data_send_notification(fd, NOTIFY_REREAD);
 		}
+	return TRUE;
 }
 
 gboolean metadata_write_list(FileData *fd, const gchar *key, const GList *values)
