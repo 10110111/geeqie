@@ -1605,6 +1605,9 @@ GList *exif_get_metadata(ExifData *exif, const gchar *key, MetadataFormat format
 	
 	if (!key) return NULL;
 	
+	/* convert xmp key to exif key */
+	if (strcmp(key, ORIENTATION_KEY) == 0) key = "Exif.Image.Orientation";
+	
 	if (format == METADATA_FORMATTED)
 		{
 		gchar *text;

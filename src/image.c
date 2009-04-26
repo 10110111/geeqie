@@ -401,15 +401,35 @@ void image_alter_orientation(ImageWindow *imd, AlterType type)
 			break;
 		}
 
-	if (type != ALTER_NONE)
+	if (imd->orientation != imd->image_fd->exif_orientation ? imd->image_fd->exif_orientation : 1)
 		{
-		if (imd->image_fd->user_orientation == 0) file_data_ref(imd->image_fd);
-		imd->image_fd->user_orientation = imd->orientation;
+		if (!options->metadata.write_orientation)
+			{
+			/* user_orientation does not work together with options->metadata.write_orientation,
+			   use either one or the other.
+			   we must however handle switching metadata.write_orientation on and off, therefore
+			   we just disable referencing new fd's, not unreferencing the old ones
+			*/
+			if (imd->image_fd->user_orientation == 0) file_data_ref(imd->image_fd);
+			imd->image_fd->user_orientation = imd->orientation;
+			}
 		}
 	else
 		{
 		if (imd->image_fd->user_orientation != 0) file_data_unref(imd->image_fd);
 		imd->image_fd->user_orientation = 0;
+		}
+
+	if (options->metadata.write_orientation)
+		{
+		if (type == ALTER_NONE)
+			{
+			metadata_write_revert(imd->image_fd, ORIENTATION_KEY);
+			}
+		else
+			{
+			metadata_write_int(imd->image_fd, ORIENTATION_KEY, imd->orientation);
+			}
 		}
 
 	pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, imd->orientation);
@@ -1079,7 +1099,7 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboo
 			}
 		else if (options->image.exif_rotate_enable)
 			{
-			imd->orientation = metadata_read_int(imd->image_fd, "Exif.Image.Orientation", EXIF_ORIENTATION_TOP_LEFT);
+			imd->orientation = metadata_read_int(imd->image_fd, ORIENTATION_KEY, EXIF_ORIENTATION_TOP_LEFT);
 			imd->image_fd->exif_orientation = imd->orientation;
 			}
 		}

@@ -325,6 +325,7 @@ static void config_window_apply(void)
 	options->metadata.confirm_on_image_change = c_options->metadata.confirm_on_image_change;
 	options->metadata.confirm_on_dir_change = c_options->metadata.confirm_on_dir_change;
 	options->metadata.tags_case_sensitive = c_options->metadata.tags_case_sensitive;
+	options->metadata.write_orientation = c_options->metadata.write_orientation;
 
 #ifdef DEBUG
 	set_debug_level(debug_c);
@@ -1369,6 +1370,9 @@ static void config_tab_metadata(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Allow keywords to differ only in case"),
 			      options->metadata.tags_case_sensitive, &c_options->metadata.tags_case_sensitive);
+
+	pref_checkbox_new_int(group, _("Write altered image orientation to the metadata"),
+			      options->metadata.write_orientation, &c_options->metadata.write_orientation);
 }
 
 /* metadata tab */

@@ -142,7 +142,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 		{
 		if (!tl->fd->exif_orientation)
 			{
-			tl->fd->exif_orientation = metadata_read_int(tl->fd, "Exif.Image.Orientation", EXIF_ORIENTATION_TOP_LEFT);
+			tl->fd->exif_orientation = metadata_read_int(tl->fd, ORIENTATION_KEY, EXIF_ORIENTATION_TOP_LEFT);
 			}
 		
 		if (tl->fd->exif_orientation != EXIF_ORIENTATION_TOP_LEFT)

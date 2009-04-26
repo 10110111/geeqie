@@ -95,7 +95,7 @@ static const gchar default_config_exif[] =
 "                <entry key = 'formatted.ColorProfile' if_set = 'true' editable = 'false' />"
 "                <entry key = 'formatted.SubjectDistance' if_set = 'true' editable = 'false' />"
 "                <entry key = 'formatted.Resolution' if_set = 'true' editable = 'false' />"
-"                <entry key = 'Exif.Image.Orientation' if_set = 'true' editable = 'false' />"
+"                <entry key = '" ORIENTATION_KEY "' if_set = 'true' editable = 'false' />"
 "            </pane_exif>"
 "        </bar>"
 "    </layout>"

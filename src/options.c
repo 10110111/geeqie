@@ -104,6 +104,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->metadata.confirm_on_image_change = FALSE;
 	options->metadata.confirm_on_dir_change = TRUE;
 	options->metadata.tags_case_sensitive = FALSE;
+	options->metadata.write_orientation = TRUE;
 	
 	options->show_icon_names = TRUE;
 

@@ -189,6 +189,24 @@ static gboolean metadata_check_key(const gchar *keys[], const gchar *key)
 	return FALSE;
 }
 
+gboolean metadata_write_revert(FileData *fd, const gchar *key)
+{
+	if (!fd->modified_xmp) return FALSE;
+	
+	g_hash_table_remove(fd->modified_xmp, key);
+	
+	if (g_hash_table_size(fd->modified_xmp) == 0)
+		{
+		metadata_write_queue_remove(fd);
+		}
+	else
+		{
+		/* reread the metadata to restore the original value */
+		file_data_increment_version(fd);
+		file_data_send_notification(fd, NOTIFY_REREAD);
+		}
+}
+
 gboolean metadata_write_list(FileData *fd, const gchar *key, const GList *values)
 {
 	if (!fd->modified_xmp)
@@ -231,6 +249,13 @@ gboolean metadata_write_string(FileData *fd, const gchar *key, const char *value
 	return ret;
 }
 
+gboolean metadata_write_int(FileData *fd, const gchar *key, guint64 value)
+{
+	gchar string[50];
+	
+	g_snprintf(string, sizeof(string), "%ld", value);
+	return metadata_write_string(fd, key, string);
+}
 
 /*
  *-------------------------------------------------------------------

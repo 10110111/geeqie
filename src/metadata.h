@@ -16,6 +16,7 @@
 
 #define COMMENT_KEY "Xmp.dc.description"
 #define KEYWORD_KEY "Xmp.dc.subject"
+#define ORIENTATION_KEY "Xmp.tiff.Orientation"
 
 gboolean metadata_write_queue_remove(FileData *fd);
 gboolean metadata_write_queue_remove_list(GList *list);
@@ -24,8 +25,10 @@ gboolean metadata_write_queue_confirm(FileUtilDoneFunc done_func, gpointer done_
 
 gint metadata_queue_length(void);
 
+gboolean metadata_write_revert(FileData *fd, const gchar *key);
 gboolean metadata_write_list(FileData *fd, const gchar *key, const GList *values);
 gboolean metadata_write_string(FileData *fd, const gchar *key, const char *value);
+gboolean metadata_write_int(FileData *fd, const gchar *key, guint64 value);
 
 GList *metadata_read_list(FileData *fd, const gchar *key, MetadataFormat format);
 gchar *metadata_read_string(FileData *fd, const gchar *key, MetadataFormat format);

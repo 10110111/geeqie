@@ -388,7 +388,7 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 		{
 		if (!tl->fd->exif_orientation)
 			{
-			tl->fd->exif_orientation = metadata_read_int(tl->fd, "Exif.Image.Orientation", EXIF_ORIENTATION_TOP_LEFT);
+			tl->fd->exif_orientation = metadata_read_int(tl->fd, ORIENTATION_KEY, EXIF_ORIENTATION_TOP_LEFT);
 			}
 		
 		if (tl->fd->exif_orientation != EXIF_ORIENTATION_TOP_LEFT)

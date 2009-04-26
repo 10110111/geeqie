@@ -178,6 +178,7 @@ struct _ConfOptions
 		gboolean confirm_on_image_change;
 		gboolean confirm_on_dir_change;
 		gboolean tags_case_sensitive;
+		gboolean write_orientation;
 	} metadata;
 
 };
