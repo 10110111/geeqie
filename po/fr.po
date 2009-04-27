@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.0alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-26 15:55+0200\n"
-"PO-Revision-Date: 2009-04-26 16:06+0100\n"
+"POT-Creation-Date: 2009-04-28 01:04+0200\n"
+"PO-Revision-Date: 2009-04-28 01:04+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french <geeqie-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2189,7 +2189,7 @@ msgstr "_Fichier"
 
 #: src/layout_util.c:1301
 msgid "_Go"
-msgstr "_Aller"
+msgstr "A_ller"
 
 #: src/layout_util.c:1302 src/menu.c:109
 msgid "_Edit"
@@ -2217,7 +2217,7 @@ msgstr "_Zoom"
 
 #: src/layout_util.c:1309
 msgid "Color _Management"
-msgstr "Gestion colori_métrie"
+msgstr "Gestion des _couleurs"
 
 #: src/layout_util.c:1310
 msgid "_Connected Zoom"
@@ -2229,7 +2229,7 @@ msgstr "_Séparer"
 
 #: src/layout_util.c:1312
 msgid "_Help"
-msgstr "_Aide"
+msgstr "A_ide"
 
 #: src/layout_util.c:1314
 msgid "_First Image"
@@ -2427,7 +2427,7 @@ msgstr "Aff_ichage en surimpression"
 
 #: src/layout_util.c:1405
 msgid "Histogram _channels"
-msgstr "_Canaux histogramme"
+msgstr "Canaux _histogramme"
 
 #: src/layout_util.c:1406
 msgid "Histogram _log mode"
