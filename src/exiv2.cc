@@ -982,12 +982,12 @@ static GList *exif_add_value_to_glist(GList *list, Exiv2::Metadatum &item, Metad
 #if EXIV2_TEST_VERSION(0,16,0)
 			Exiv2::Xmpdatum *xmpdatum;
 #endif
-			if ((exifdatum = dynamic_cast<Exiv2::Exifdatum *>(metadatum)))
+			if ((exifdatum = dynamic_cast<Exiv2::Exifdatum *>(&item)))
 				stream << *exifdatum;
-			else if ((iptcdatum = dynamic_cast<Exiv2::Iptcdatum *>(metadatum)))
+			else if ((iptcdatum = dynamic_cast<Exiv2::Iptcdatum *>(&item)))
 				stream << *iptcdatum;
 #if EXIV2_TEST_VERSION(0,16,0)
-			else if ((xmpdatum = dynamic_cast<Exiv2::Xmpdatum *>(metadatum)))
+			else if ((xmpdatum = dynamic_cast<Exiv2::Xmpdatum *>(&item)))
 				stream << *xmpdatum;
 #endif
 			str = stream.str();
