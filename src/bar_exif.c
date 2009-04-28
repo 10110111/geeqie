@@ -235,16 +235,12 @@ static void bar_pane_exif_update_entry(PaneExifData *ped, GtkWidget *entry, gboo
 			g_signal_handlers_block_by_func(ee->value_widget, bar_pane_exif_entry_changed, ee);
 			gtk_entry_set_text(GTK_ENTRY(ee->value_widget), text ? text : "");
 			g_signal_handlers_unblock_by_func(ee->value_widget, bar_pane_exif_entry_changed, ee);
-#if GTK_CHECK_VERSION(2,12,0)
 			gtk_widget_set_tooltip_text(ee->box, NULL);
-#endif
 			}
 		else
 			{
 			gtk_label_set_text(GTK_LABEL(ee->value_widget), text);
-#if GTK_CHECK_VERSION(2,12,0)
 			gtk_widget_set_tooltip_text(ee->box, text);
-#endif
 			}
 		gtk_widget_show(entry);
 		ped->all_hidden = FALSE;

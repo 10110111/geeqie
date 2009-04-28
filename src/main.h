@@ -57,6 +57,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 
+#include "compat.h"
 
 /*
  *----------------------------------------------------------------------------

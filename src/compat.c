@@ -35,4 +35,24 @@ void radio_action_set_current_value(GtkRadioAction *action, gint current_value)
 		}
 #endif
 }
+
+#if !GLIB_CHECK_VERSION(2, 14, 0)
+static void hash_table_add(gpointer key, gpointer value, gpointer user_data)
+{
+	GList **list = user_data;
+	*list = g_list_prepend(*list, key);
+}
+#endif
+
+GList* hash_table_get_keys(GHashTable *hash_table)
+{
+#if GLIB_CHECK_VERSION(2, 14, 0)
+	return g_hash_table_get_keys(hash_table);
+#else
+	GList *list = NULL;
+	g_hash_table_foreach(hash_table, hash_table_add, &list);
+	return list;
+#endif
+}
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
