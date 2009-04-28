@@ -83,7 +83,8 @@ make install DESTDIR=%{buildroot}
 %files 
 %defattr(-,root,root)
 %doc %{_docdir}/%{docname}
-%{_bindir}/geeqie
+%{_bindir}/geeqie*
+%{_datadir}/geeqie
 %{_datadir}/locale/*/LC_MESSAGES/*.mo
 %{_datadir}/applications/geeqie.desktop
 %{_datadir}/pixmaps/geeqie.png
