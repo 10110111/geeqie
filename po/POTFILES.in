@@ -7,11 +7,11 @@
 ./src/bar_sort.c
 ./src/cache.c
 ./src/cache_maint.c
-./src/cellrenderericon.c
 ./src/collect-dlg.c
 ./src/collect-io.c
 ./src/collect-table.c
 ./src/collect.c
+./src/color-man.c
 ./src/desktop_file.c
 ./src/dupe.c
 ./src/editors.c
