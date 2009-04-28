@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.0alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-28 01:04+0200\n"
-"PO-Revision-Date: 2009-04-28 01:04+0100\n"
+"POT-Creation-Date: 2009-04-28 23:29+0200\n"
+"PO-Revision-Date: 2009-04-28 23:30+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french <geeqie-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -119,43 +119,43 @@ msgstr "Ajouter un texte aux fichiers sélectionnés"
 msgid "Replace existing text in selected files"
 msgstr "Remplacer le texte existant dans les fichiers sélectionnés"
 
-#: src/bar_exif.c:536 src/bar_exif.c:546
+#: src/bar_exif.c:532 src/bar_exif.c:542
 msgid "Configure entry"
 msgstr "Configurer l'entrée"
 
 #. for the pane
-#: src/bar_exif.c:536 src/bar_exif.c:546 src/bar_exif.c:619
+#: src/bar_exif.c:532 src/bar_exif.c:542 src/bar_exif.c:615
 msgid "Add entry"
 msgstr "Ajouter l'entrée"
 
-#: src/bar_exif.c:552
+#: src/bar_exif.c:548
 msgid "Key:"
 msgstr "Clé:"
 
-#: src/bar_exif.c:561
+#: src/bar_exif.c:557
 msgid "Title:"
 msgstr "Titre:"
 
-#: src/bar_exif.c:570
+#: src/bar_exif.c:566
 msgid "Show only if set"
 msgstr "Montrer seulement si défini"
 
-#: src/bar_exif.c:571
+#: src/bar_exif.c:567
 msgid "Editable (supported only for XMP)"
 msgstr "Modifiable (seulement pour XMP)"
 
 #. for the entry
-#: src/bar_exif.c:607
+#: src/bar_exif.c:603
 #, c-format
 msgid "Configure \"%s\""
 msgstr "Configurer « %s »"
 
-#: src/bar_exif.c:608 src/bar_keywords.c:1135
+#: src/bar_exif.c:604 src/bar_keywords.c:1135
 #, c-format
 msgid "Remove \"%s\""
 msgstr "Enlever « %s »"
 
-#: src/bar_exif.c:620
+#: src/bar_exif.c:616
 msgid "Show hidden entries"
 msgstr "Montrer les entrées cachées"
 
@@ -485,110 +485,6 @@ msgstr "Générer les vignettes pour un dossier spécifique."
 msgid "Remove orphaned keywords and comments."
 msgstr "Supprimer les mots-clés et commentaires orphelins."
 
-#: src/cellrenderericon.c:152
-msgid "Pixbuf Object"
-msgstr "Objet Pixbuf"
-
-#: src/cellrenderericon.c:153
-msgid "The pixbuf to render"
-msgstr "Le pixbuf à rendre"
-
-#: src/cellrenderericon.c:160 src/print.c:3456
-msgid "Text"
-msgstr "Texte"
-
-#: src/cellrenderericon.c:161
-msgid "Text to render"
-msgstr "Texte à rendre"
-
-#: src/cellrenderericon.c:168
-msgid "Background color"
-msgstr "Couleur du fond"
-
-#: src/cellrenderericon.c:169
-msgid "Background color as a GdkColor"
-msgstr "Couleur d'arrière-plan en tant que GdkColor"
-
-#: src/cellrenderericon.c:176
-msgid "Foreground color"
-msgstr "Couleur de premier plan"
-
-#: src/cellrenderericon.c:177
-msgid "Foreground color as a GdkColor"
-msgstr "Couleur de premier plan en tant que GdkColor"
-
-#: src/cellrenderericon.c:184
-msgid "Focus"
-msgstr "Focus"
-
-#: src/cellrenderericon.c:185
-msgid "Draw focus indicator"
-msgstr "Dessiner l'indicateur de focus"
-
-#: src/cellrenderericon.c:192
-msgid "Fixed width"
-msgstr "Largeur fixe"
-
-#: src/cellrenderericon.c:193
-msgid "Width of cell"
-msgstr "Largeur de cellule"
-
-#: src/cellrenderericon.c:201
-msgid "Fixed height"
-msgstr "Hauteur fixe"
-
-#: src/cellrenderericon.c:202
-msgid "Height of icon excluding text"
-msgstr "Hauteur de l'icone sans le texte"
-
-#: src/cellrenderericon.c:210
-msgid "Background set"
-msgstr "Arrière-plan défini"
-
-#: src/cellrenderericon.c:211
-msgid "Whether this tag affects the background color"
-msgstr "Indique si cette balise affecte la couleur de fond"
-
-#: src/cellrenderericon.c:218
-msgid "Foreground set"
-msgstr "Premier plan défini"
-
-#: src/cellrenderericon.c:219
-msgid "Whether this tag affects the foreground color"
-msgstr "Indique si cette balise affecte la couleur d'avant-plan"
-
-#: src/cellrenderericon.c:226
-msgid "Show text"
-msgstr "Montrer le texte"
-
-#: src/cellrenderericon.c:227
-msgid "Whether the text is displayed"
-msgstr "Indique si ce texte est caché."
-
-#: src/cellrenderericon.c:234
-msgid "Show marks"
-msgstr "Montrer les marques"
-
-#: src/cellrenderericon.c:235
-msgid "Whether the marks are displayed"
-msgstr "Indique si les marques doivent être affichées"
-
-#: src/cellrenderericon.c:242 src/cellrenderericon.c:243
-msgid "Number of marks"
-msgstr "Nombre de marques"
-
-#: src/cellrenderericon.c:251
-msgid "Marks"
-msgstr "Marques"
-
-#: src/cellrenderericon.c:252
-msgid "Marks bit array"
-msgstr "Tableau de bits pour les marques"
-
-#: src/cellrenderericon.c:260 src/cellrenderericon.c:261
-msgid "Toggled mark"
-msgstr "Marque basculée"
-
 #: src/collect-dlg.c:59
 #, c-format
 msgid ""
@@ -848,6 +744,19 @@ msgstr ""
 #: src/collect.c:1151
 msgid "_Discard"
 msgstr "_Ignorer"
+
+#: src/color-man.c:420 src/exif-common.c:403 src/exif.c:232
+#: src/layout_util.c:1143
+msgid "sRGB"
+msgstr "sRGB"
+
+#: src/color-man.c:422
+msgid "Adobe RGB compatible"
+msgstr "compatible Adobe RGB"
+
+#: src/color-man.c:430
+msgid "Custom profile"
+msgstr "Profil utilisateur"
 
 #: src/desktop_file.c:71 src/desktop_file.c:82
 msgid "Can't save"
@@ -1157,10 +1066,6 @@ msgstr "anti-yeux rouges"
 #: src/exif-common.c:378
 msgid "dot"
 msgstr "point"
-
-#: src/exif-common.c:403 src/exif.c:232 src/layout_util.c:1143
-msgid "sRGB"
-msgstr "sRGB"
 
 #: src/exif-common.c:408
 msgid "AdobeRGB"
@@ -4023,6 +3928,10 @@ msgstr "Taille de l'image :"
 msgid "Proof size:"
 msgstr "Taille de l'aperçu :"
 
+#: src/print.c:3456
+msgid "Text"
+msgstr "Texte"
+
 #: src/print.c:3466
 msgid "Paper"
 msgstr "Papier"
@@ -4981,76 +4890,3 @@ msgstr "Erreur pour renommer le fichier"
 #: src/window.c:251
 msgid "Help"
 msgstr "Aide"
-
-#~ msgid "_Adjust"
-#~ msgstr "_Ajuster"
-
-#~ msgid "Delete \"%s\""
-#~ msgstr "Supprimer « %s »"
-
-#~ msgid "Reset editors"
-#~ msgstr "RAZ des éditeurs"
-
-#~ msgid ""
-#~ "This will reset the edit commands to the defaults.\n"
-#~ "Continue?"
-#~ msgstr ""
-#~ "Ceci va remettre les commandes d'édition à leur état par défaut.\n"
-#~ "Continuer ?"
-
-#~ msgid "Startup"
-#~ msgstr "Démarrage"
-
-#~ msgid "Restore folder on startup"
-#~ msgstr "Restaurer le répertoire au démarrage"
-
-#~ msgid "Cache thumbnails into .thumbnails"
-#~ msgstr "Mettre en cache les vignettes dans .thumbnails"
-
-#~ msgid "Faster jpeg thumbnailing (may reduce quality)"
-#~ msgstr "Vignettes JPEG plus rapides (qualité dégradée)"
-
-#~ msgid "Two pass zooming"
-#~ msgstr "Zoom en 2 passes"
-
-#~ msgid "Scroll reset method:"
-#~ msgstr "Méthode de ré-initialisation du défilement:"
-
-#~ msgid "Top left"
-#~ msgstr "Haut gauche"
-
-#~ msgid "Center"
-#~ msgstr "Centre"
-
-#~ msgid "Filtering"
-#~ msgstr "Filtres"
-
-#~ msgid "#"
-#~ msgstr "N°"
-
-#~ msgid "Command Line"
-#~ msgstr "Ligne de commande"
-
-#~ msgid "What to show in properties dialog:"
-#~ msgstr "Que montrer dans le dialogue Propriétés:"
-
-#~ msgid "Advanced"
-#~ msgstr "Avancées"
-
-#~ msgid ""
-#~ "Show \"Copy path\" menu item which write the path of selected files to "
-#~ "clipboard"
-#~ msgstr ""
-#~ "Montrer l'entrée de menu \"Copier chemin\"  qui écrit le chemin des "
-#~ "fichiers sélectionnés dans le presse-papiers"
-
-#~ msgid "Store metadata and cache files in source image's directory"
-#~ msgstr ""
-#~ "Enregistrer les fichiers de cache et de méta-données dans le répertoire "
-#~ "des images source"
-
-#~ msgid "Image read buffer size (bytes):"
-#~ msgstr "Taille du tampon de lecture des images (octets):"
-
-#~ msgid "Image idle loop read count:"
-#~ msgstr "Compteur de la boucle de lecture des images lorsque inoccupé:"
