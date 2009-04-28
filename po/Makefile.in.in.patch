@@ -1,10 +1,20 @@
---- Makefile.in.in	2008-04-19 14:36:53.000000000 +0200
-+++ Makefile.in.in.new	2008-04-19 14:39:19.000000000 +0200
-@@ -216,7 +216,30 @@
+--- Makefile.in.in	2009-04-28 23:27:08.000000000 +0200
++++ Makefile.in.in.new	2009-04-28 23:25:22.000000000 +0200
+@@ -92,7 +92,7 @@
+ all-yes: $(CATALOGS)
+ all-no:
+ 
+-$(srcdir)/$(GETTEXT_PACKAGE).pot: $(POTFILES)
++$(srcdir)/$(GETTEXT_PACKAGE).pot: $(POTFILES) $(srcdir)/POTFILES.in
+ 	$(XGETTEXT) --default-domain=$(GETTEXT_PACKAGE) --directory=$(top_srcdir) \
+ 	  --add-comments --keyword=_ --keyword=N_ \
+           --flag=g_strdup_printf:1:c-format \
+@@ -216,8 +216,31 @@
  	    || cp -p $(srcdir)/$$file $(distdir); \
  	done
  
 -update-po: Makefile
+-	$(MAKE) $(GETTEXT_PACKAGE).pot
 +### Updating po and gmo files
 +#
 +# Update by merging all .po files with the .po template master file.
@@ -12,11 +22,11 @@
 +# It is possible to update only a single .po file by setting the PO variable to
 +# either <lang> or <lang>.po when calling make. Example: make update-po PO=is
 +
-+update-po: Makefile $(GETTEXT_PACKAGE).pot
++update-po: Makefile $(srcdir)/$(GETTEXT_PACKAGE).pot
 +	@cd $(srcdir); \
 +	$(foreach lang,$(basename $(if $(strip $(PO)),$(PO),$(CATALOGS))), \
 +	  echo -n "$(lang): "; \
-+	  if $(MSGMERGE) $(lang).po $(GETTEXT_PACKAGE).pot -o $(lang).new.po; then \
++	  if $(MSGMERGE) $(lang).po $(srcdir)/$(GETTEXT_PACKAGE).pot -o $(lang).new.po; then \
 +	    mv -f $(lang).new.po $(lang).po; \
 +	  else \
 +	    echo "msgmerge failed!"; \
@@ -29,6 +39,16 @@
 +	@:
 +
 +update-po-orig: Makefile
- 	$(MAKE) $(GETTEXT_PACKAGE).pot
++	$(MAKE) $(srcdir)/$(GETTEXT_PACKAGE).pot
  	tmpdir=`pwd`; \
  	cd $(srcdir); \
+ 	catalogs='$(CATALOGS)'; \
+@@ -225,7 +248,7 @@
+ 	  cat=`basename $$cat`; \
+ 	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
+ 	  echo "$$lang:"; \
+-	  if $(MSGMERGE) $$lang.po $(GETTEXT_PACKAGE).pot -o $$tmpdir/$$lang.new.po; then \
++	  if $(MSGMERGE) $$lang.po $(srcdir)/$(GETTEXT_PACKAGE).pot -o $$tmpdir/$$lang.new.po; then \
+ 	    if cmp $$lang.po $$tmpdir/$$lang.new.po >/dev/null 2>&1; then \
+ 	      rm -f $$tmpdir/$$lang.new.po; \
+             else \
