@@ -1257,7 +1257,7 @@ static GtkActionEntry menu_entries[] = {
   { "LayoutConfig",GTK_STOCK_PREFERENCES,N_("_Configure this window..."),	NULL,	NULL,	CB(layout_menu_layout_config_cb) },
   { "Maintenance",	NULL,		N_("_Thumbnail maintenance..."),NULL,	NULL,	CB(layout_menu_remove_thumb_cb) },
   { "Wallpaper",	NULL,		N_("Set as _wallpaper"),NULL,		NULL,	CB(layout_menu_wallpaper_cb) },
-  { "SaveMetadata",	GTK_STOCK_SAVE,		N_("Save metadata"),NULL,		NULL,	CB(layout_menu_metadata_write_cb) },
+  { "SaveMetadata",	GTK_STOCK_SAVE,		N_("Save metadata"),"<control>S",		NULL,	CB(layout_menu_metadata_write_cb) },
 
   { "ZoomIn",	GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"equal",	N_("Zoom in"),	CB(layout_menu_zoom_in_cb) },
   { "ZoomInAlt1",GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"KP_Add",	N_("Zoom in"),	CB(layout_menu_zoom_in_cb) },
@@ -1325,7 +1325,7 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "HideToolbar",	NULL,		N_("Hide tool_bar"),	NULL,		NULL,	CB(layout_menu_toolbar_cb),	 FALSE  },
   { "HideInfoPixel",	NULL,		N_("Hide Pi_xel Info"),	NULL,		NULL,	CB(layout_menu_info_pixel_cb),	 FALSE  },
   { "SBar",		NULL,		N_("_Info"),		"<control>K",	NULL,	CB(layout_menu_bar_cb),		 FALSE  },
-  { "SBarSort",		NULL,		N_("Sort _manager"),	"<control>S",	NULL,	CB(layout_menu_bar_sort_cb),	 FALSE  },
+  { "SBarSort",		NULL,		N_("Sort _manager"),	"<shift>S",	NULL,	CB(layout_menu_bar_sort_cb),	 FALSE  },
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb),	 FALSE  },
   { "UseColorProfiles",	GTK_STOCK_SELECT_COLOR,		N_("Use _color profiles"), NULL,	NULL,	CB(layout_color_menu_enable_cb), FALSE},
   { "UseImageProfile",	NULL,		N_("Use profile from _image"), NULL,	NULL,	CB(layout_color_menu_use_image_cb), FALSE},
