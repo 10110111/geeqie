@@ -179,6 +179,12 @@ typedef enum {
 	STARTUP_PATH_HOME,
 } StartUpPath;
 
+typedef enum {
+	TOOLBAR_MAIN,
+	TOOLBAR_STATUS,
+	TOOLBAR_COUNT
+} ToolbarType;
+
 #define MAX_SPLIT_IMAGES 4
 
 typedef struct _ImageLoader ImageLoader;
@@ -562,8 +568,8 @@ struct _LayoutWindow
 	GtkActionGroup *action_group_editors;
 	guint ui_editors_id;
 	GtkUIManager *ui_manager;
-	guint toolbar_merge_id;
-	GList *toolbar_actions;
+	guint toolbar_merge_id[TOOLBAR_COUNT];
+	GList *toolbar_actions[TOOLBAR_COUNT];
 
 	GtkWidget *path_entry;
 
@@ -591,7 +597,7 @@ struct _LayoutWindow
 	GtkWidget *menu_bar; /* referenced by lw, exist during whole lw lifetime */
 	/* toolbar */
 
-	GtkWidget *toolbar; /* referenced by lw, exist during whole lw lifetime */
+	GtkWidget *toolbar[TOOLBAR_COUNT]; /* referenced by lw, exist during whole lw lifetime */
 //	gint toolbar_hidden;
 
 //	GtkWidget *thumb_button;
@@ -626,11 +632,9 @@ struct _LayoutWindow
 	GtkWidget *info_box;
 	GtkWidget *info_progress_bar;
 	GtkWidget *info_sort;
-	GtkWidget *info_color;
 	GtkWidget *info_status;
 	GtkWidget *info_details;
 	GtkWidget *info_zoom;
-	GtkWidget *info_write;
 	GtkWidget *info_pixel;
 	
 	/* slide show */

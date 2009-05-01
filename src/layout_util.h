@@ -20,8 +20,11 @@
 gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
 
 void layout_util_sync_thumb(LayoutWindow *lw);
+void layout_util_sync_color(LayoutWindow *lw);
 void layout_util_sync(LayoutWindow *lw);
 
+void layout_util_status_update_write(LayoutWindow *lw);
+void layout_util_status_update_write_all(void);
 
 //void layout_edit_update_all(void);
 
@@ -34,14 +37,14 @@ void layout_editors_reload_all(void);
 void layout_actions_setup(LayoutWindow *lw);
 void layout_actions_add_window(LayoutWindow *lw, GtkWidget *window);
 GtkWidget *layout_actions_menu_bar(LayoutWindow *lw);
-void layout_toolbar_add_from_config(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values);
+void layout_toolbar_add_from_config(LayoutWindow *lw, ToolbarType type, const gchar **attribute_names, const gchar **attribute_values);
 
-GtkWidget *layout_actions_toolbar(LayoutWindow *lw);
+GtkWidget *layout_actions_toolbar(LayoutWindow *lw, ToolbarType type);
 
-void layout_toolbar_clear(LayoutWindow *lw);
-void layout_toolbar_add(LayoutWindow *lw, const gchar *action);
-void layout_toolbar_add_default(LayoutWindow *lw);
-void layout_toolbar_write_config(LayoutWindow *lw, GString *outstr, gint indent);
+void layout_toolbar_clear(LayoutWindow *lw, ToolbarType type);
+void layout_toolbar_add(LayoutWindow *lw, ToolbarType type, const gchar *action);
+void layout_toolbar_add_default(LayoutWindow *lw, ToolbarType type);
+void layout_toolbar_write_config(LayoutWindow *lw, ToolbarType type, GString *outstr, gint indent);
 
 
 void layout_keyboard_init(LayoutWindow *lw, GtkWidget *window);

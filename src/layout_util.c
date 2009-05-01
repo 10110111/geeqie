@@ -54,7 +54,6 @@
 
 static gboolean layout_bar_enabled(LayoutWindow *lw);
 static gboolean layout_bar_sort_enabled(LayoutWindow *lw);
-static void layout_util_sync_color(LayoutWindow *lw);
 
 /*
  *-----------------------------------------------------------------------------
@@ -1037,6 +1036,11 @@ void layout_edit_update_all(void)
 
 #endif
 
+static void layout_menu_metadata_write_cb(GtkAction *action, gpointer data)
+{
+	metadata_write_queue_confirm(NULL, NULL);
+}
+
 
 /*
  *-----------------------------------------------------------------------------
@@ -1088,111 +1092,6 @@ static void layout_color_menu_input_cb(GtkRadioAction *action, GtkRadioAction *c
 #endif
 }
 
-#if 0
-static gchar *layout_color_name_parse(const gchar *name)
-{
-	if (!name || !*name) return g_strdup(_("Empty"));
-	return g_strdelimit(g_strdup(name), "_", '-');
-}
-
-
-static void layout_color_button_press_cb(GtkWidget *widget, gpointer data)
-{
-#ifndef HAVE_LCMS
-	gchar *msg = g_strdup_printf(_("This installation of %s was not built with support for color profiles."), GQ_APPNAME);
-	file_util_warning_dialog(_("Color profiles not supported"),
-				 msg,
-				 GTK_STOCK_DIALOG_INFO, widget);
-	g_free(msg);
-	return;
-#else
-	LayoutWindow *lw = data;
-	GtkWidget *menu;
-	GtkWidget *item;
-	gchar *buf;
-	gboolean active;
-	gint input = 0;
-	gint screen = 0;
-	gboolean use_image = FALSE;
-	gboolean from_image;
-	gint image_profile;
-	gint i;
-	
-	if (!layout_image_color_profile_get(lw, &input, &screen, &use_image)) return;
-
-	image_profile = layout_image_color_profile_get_from_image(lw);
-	from_image = use_image && (image_profile != COLOR_PROFILE_NONE);
-	menu = popup_menu_short_lived();
-
-	active = layout_image_color_profile_get_use(lw);
-	menu_item_add_check(menu, _("Use _color profiles"), active,
-			    G_CALLBACK(layout_color_menu_enable_cb), lw);
-
-	menu_item_add_divider(menu);
-
-	item = menu_item_add_check(menu, _("Use profile from _image"), use_image,
-			    G_CALLBACK(layout_color_menu_use_image_cb), lw);
-	gtk_widget_set_sensitive(item, image_profile == COLOR_PROFILE_MEM || (image_profile > COLOR_PROFILE_NONE && image_profile < COLOR_PROFILE_FILE));
-
-	for (i = COLOR_PROFILE_SRGB; i < COLOR_PROFILE_FILE; i++)
-		{
-		const gchar *label;
-
-		switch (i)
-			{
-			case COLOR_PROFILE_SRGB: 	label = _("sRGB"); break;
-			case COLOR_PROFILE_ADOBERGB:	label = _("AdobeRGB compatible"); break;
-			default:			label = "fixme"; break;
-			}
-		buf = g_strdup_printf(_("Input _%d: %s%s"), i, label, (i == image_profile) ? " *" : "");
-	  	item = menu_item_add_radio(menu, (i == COLOR_PROFILE_SRGB) ? NULL : item,
-				   buf, (input == i),
-				   G_CALLBACK(layout_color_menu_input_cb), lw);
-		g_free(buf);
-		g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(i));
-		gtk_widget_set_sensitive(item, active && !from_image);
-		}
-
-	for (i = 0; i < COLOR_PROFILE_INPUTS; i++)
-		{
-		const gchar *name = options->color_profile.input_name[i];
-		const gchar *file = options->color_profile.input_file[i];
-		gchar *end;
-
-		if (!name || !name[0]) name = filename_from_path(file);
-
-		end = layout_color_name_parse(name);
-		buf = g_strdup_printf(_("Input _%d: %s"), i + COLOR_PROFILE_FILE, end);
-		g_free(end);
-
-		item = menu_item_add_radio(menu, item,
-					   buf, (i + COLOR_PROFILE_FILE == input),
-					   G_CALLBACK(layout_color_menu_input_cb), lw);
-		g_free(buf);
-		g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(i + COLOR_PROFILE_FILE));
-		gtk_widget_set_sensitive(item, active && !from_image && is_readable_file(file));
-		}
-
-	menu_item_add_divider(menu);
-
-	item = menu_item_add_radio(menu, NULL,
-				   _("Screen sRGB"), (screen == 0),
-				   G_CALLBACK(layout_color_menu_screen_cb), lw);
-
-	g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(0));
-	gtk_widget_set_sensitive(item, active);
-
-	item = menu_item_add_radio(menu, item,
-				   _("_Screen profile"), (screen == 1),
-				   G_CALLBACK(layout_color_menu_screen_cb), lw);
-	g_object_set_data(G_OBJECT(item), COLOR_MENU_KEY, GINT_TO_POINTER(1));
-	gtk_widget_set_sensitive(item, active && is_readable_file(options->color_profile.screen_file));
-
-	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
-#endif /* HAVE_LCMS */
-}
-
-#endif
 
 /*
  *-----------------------------------------------------------------------------
@@ -1358,6 +1257,7 @@ static GtkActionEntry menu_entries[] = {
   { "LayoutConfig",GTK_STOCK_PREFERENCES,N_("_Configure this window..."),	NULL,	NULL,	CB(layout_menu_layout_config_cb) },
   { "Maintenance",	NULL,		N_("_Thumbnail maintenance..."),NULL,	NULL,	CB(layout_menu_remove_thumb_cb) },
   { "Wallpaper",	NULL,		N_("Set as _wallpaper"),NULL,		NULL,	CB(layout_menu_wallpaper_cb) },
+  { "SaveMetadata",	GTK_STOCK_SAVE,		N_("Save metadata"),NULL,		NULL,	CB(layout_menu_metadata_write_cb) },
 
   { "ZoomIn",	GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"equal",	N_("Zoom in"),	CB(layout_menu_zoom_in_cb) },
   { "ZoomInAlt1",GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),		"KP_Add",	N_("Zoom in"),	CB(layout_menu_zoom_in_cb) },
@@ -1427,7 +1327,7 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "SBar",		NULL,		N_("_Info"),		"<control>K",	NULL,	CB(layout_menu_bar_cb),		 FALSE  },
   { "SBarSort",		NULL,		N_("Sort _manager"),	"<control>S",	NULL,	CB(layout_menu_bar_sort_cb),	 FALSE  },
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb),	 FALSE  },
-  { "UseColorProfiles",	NULL,		N_("Use _color profiles"), NULL,	NULL,	CB(layout_color_menu_enable_cb), FALSE},
+  { "UseColorProfiles",	GTK_STOCK_SELECT_COLOR,		N_("Use _color profiles"), NULL,	NULL,	CB(layout_color_menu_enable_cb), FALSE},
   { "UseImageProfile",	NULL,		N_("Use profile from _image"), NULL,	NULL,	CB(layout_color_menu_use_image_cb), FALSE},
   { "Grayscale",	NULL,		N_("Toggle _grayscale"),"<shift>G",	NULL,	CB(layout_menu_alter_desaturate_cb), FALSE},
 };
@@ -1520,6 +1420,7 @@ static const gchar *menu_ui_description =
 "        <menuitem action='Flip'/>"
 "        <menuitem action='AlterNone'/>"
 "      </menu>"
+"      <menuitem action='SaveMetadata'/>"
 "      <placeholder name='PropertiesSection'/>"
 "      <separator/>"
 "      <menuitem action='Preferences'/>"
@@ -1633,6 +1534,8 @@ static const gchar *menu_ui_description =
 "    </menu>"
 "  </menubar>"
 "  <toolbar name='ToolBar'>"
+"  </toolbar>"
+"  <toolbar name='StatusBar'>"
 "  </toolbar>"
 "<accelerator action='PrevImageAlt1'/>"
 "<accelerator action='PrevImageAlt2'/>"
@@ -1883,6 +1786,7 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 void layout_actions_setup(LayoutWindow *lw)
 {
 	GError *error;
+	gint i;
 
 	if (lw->ui_manager) return;
 
@@ -1919,12 +1823,17 @@ void layout_actions_setup(LayoutWindow *lw)
 		exit(EXIT_FAILURE);
 		}
 	
-	layout_toolbar_clear(lw);
-	layout_toolbar_add_default(lw);
+	for (i = 0; i < TOOLBAR_COUNT; i++)
+		{
+		layout_toolbar_clear(lw, i);
+		layout_toolbar_add_default(lw, i);
+		}
 	
 	layout_actions_setup_marks(lw);
 	layout_actions_setup_editors(lw);
 
+	layout_util_status_update_write(lw);
+	
 	layout_actions_add_window(lw, lw->window);
 }
 
@@ -1972,59 +1881,110 @@ GtkWidget *layout_actions_menu_bar(LayoutWindow *lw)
 	return lw->menu_bar;
 }
 
-GtkWidget *layout_actions_toolbar(LayoutWindow *lw)
+GtkWidget *layout_actions_toolbar(LayoutWindow *lw, ToolbarType type)
 {
-	if (lw->toolbar) return lw->toolbar;
-	lw->toolbar = gtk_ui_manager_get_widget(lw->ui_manager, "/ToolBar");
-	g_object_ref(lw->toolbar);
-	gtk_toolbar_set_icon_size(GTK_TOOLBAR(lw->toolbar), GTK_ICON_SIZE_SMALL_TOOLBAR);
-	gtk_toolbar_set_style(GTK_TOOLBAR(lw->toolbar), GTK_TOOLBAR_ICONS);
-	return lw->toolbar;
+	if (lw->toolbar[type]) return lw->toolbar[type];
+	switch (type)
+		{
+		case TOOLBAR_MAIN:
+			lw->toolbar[type] = gtk_ui_manager_get_widget(lw->ui_manager, "/ToolBar");
+			gtk_toolbar_set_icon_size(GTK_TOOLBAR(lw->toolbar[type]), GTK_ICON_SIZE_SMALL_TOOLBAR);
+			gtk_toolbar_set_style(GTK_TOOLBAR(lw->toolbar[type]), GTK_TOOLBAR_ICONS);
+			break;
+		case TOOLBAR_STATUS:
+			lw->toolbar[type] = gtk_ui_manager_get_widget(lw->ui_manager, "/StatusBar");
+			gtk_toolbar_set_icon_size(GTK_TOOLBAR(lw->toolbar[type]), GTK_ICON_SIZE_MENU);
+			gtk_toolbar_set_style(GTK_TOOLBAR(lw->toolbar[type]), GTK_TOOLBAR_ICONS);
+			gtk_toolbar_set_show_arrow(GTK_TOOLBAR(lw->toolbar[type]), FALSE);
+			break;
+		default:
+			break;
+		}
+	g_object_ref(lw->toolbar[type]);
+	return lw->toolbar[type];
 }
 
-void layout_toolbar_clear(LayoutWindow *lw)
+void layout_toolbar_clear(LayoutWindow *lw, ToolbarType type)
 {
-	if (lw->toolbar_merge_id) 
+	if (lw->toolbar_merge_id[type]) 
 		{
-		gtk_ui_manager_remove_ui(lw->ui_manager, lw->toolbar_merge_id);
+		gtk_ui_manager_remove_ui(lw->ui_manager, lw->toolbar_merge_id[type]);
 		gtk_ui_manager_ensure_update(lw->ui_manager);
 		}
-	string_list_free(lw->toolbar_actions);
-	lw->toolbar_actions = NULL;
+	string_list_free(lw->toolbar_actions[type]);
+	lw->toolbar_actions[type] = NULL;
 	
-	lw->toolbar_merge_id = gtk_ui_manager_new_merge_id(lw->ui_manager);
+	lw->toolbar_merge_id[type] = gtk_ui_manager_new_merge_id(lw->ui_manager);
 }
 	
 
-void layout_toolbar_add(LayoutWindow *lw, const gchar *action)
+void layout_toolbar_add(LayoutWindow *lw, ToolbarType type, const gchar *action)
 {
+	const gchar *path = NULL;
 	if (!action || !lw->ui_manager) return;
 	
-	if (g_list_find_custom(lw->toolbar_actions, action, (GCompareFunc)strcmp)) return;
+	if (g_list_find_custom(lw->toolbar_actions[type], action, (GCompareFunc)strcmp)) return;
+
+	switch (type)
+		{
+		case TOOLBAR_MAIN:
+			path = "/ToolBar";
+			break;
+		case TOOLBAR_STATUS:
+			path = "/StatusBar";
+			break;
+		default:
+			break;
+		}
 	
-	gtk_ui_manager_add_ui(lw->ui_manager, lw->toolbar_merge_id, "/ToolBar", action, action, GTK_UI_MANAGER_TOOLITEM, FALSE); 
-	lw->toolbar_actions = g_list_append(lw->toolbar_actions, g_strdup(action));
+	gtk_ui_manager_add_ui(lw->ui_manager, lw->toolbar_merge_id[type], path, action, action, GTK_UI_MANAGER_TOOLITEM, FALSE); 
+	lw->toolbar_actions[type] = g_list_append(lw->toolbar_actions[type], g_strdup(action));
 }
 
 
-void layout_toolbar_add_default(LayoutWindow *lw)
+void layout_toolbar_add_default(LayoutWindow *lw, ToolbarType type)
 {
-	layout_toolbar_add(lw, "Thumbnails");
-	layout_toolbar_add(lw, "Back");
-	layout_toolbar_add(lw, "Home");
-	layout_toolbar_add(lw, "Refresh");
-	layout_toolbar_add(lw, "ZoomIn");
-	layout_toolbar_add(lw, "ZoomOut");
-	layout_toolbar_add(lw, "ZoomFit");
-	layout_toolbar_add(lw, "Zoom100");
-	layout_toolbar_add(lw, "Preferences");
-	layout_toolbar_add(lw, "FloatTools");
+	switch (type)
+		{
+		case TOOLBAR_MAIN:
+			layout_toolbar_add(lw, type, "Thumbnails");
+			layout_toolbar_add(lw, type, "Back");
+			layout_toolbar_add(lw, type, "Home");
+			layout_toolbar_add(lw, type, "Refresh");
+			layout_toolbar_add(lw, type, "ZoomIn");
+			layout_toolbar_add(lw, type, "ZoomOut");
+			layout_toolbar_add(lw, type, "ZoomFit");
+			layout_toolbar_add(lw, type, "Zoom100");
+			layout_toolbar_add(lw, type, "Preferences");
+			layout_toolbar_add(lw, type, "FloatTools");
+			break;
+		case TOOLBAR_STATUS:
+			layout_toolbar_add(lw, type, "UseColorProfiles");
+			layout_toolbar_add(lw, type, "SaveMetadata");
+			break;
+		default:
+			break;
+		}
 }
 
-void layout_toolbar_write_config(LayoutWindow *lw, GString *outstr, gint indent)
+void layout_toolbar_write_config(LayoutWindow *lw, ToolbarType type, GString *outstr, gint indent)
 {
-	GList *work = lw->toolbar_actions;
-	WRITE_NL(); WRITE_STRING("<toolbar>");
+	const gchar *name = NULL;
+	GList *work = lw->toolbar_actions[type];
+
+	switch (type)
+		{
+		case TOOLBAR_MAIN:
+			name = "toolbar";
+			break;
+		case TOOLBAR_STATUS:
+			name = "statusbar";
+			break;
+		default:
+			break;
+		}
+
+	WRITE_NL(); WRITE_STRING("<%s>", name);
 	indent++;
 	WRITE_NL(); WRITE_STRING("<clear/>");
 	while (work)
@@ -2036,10 +1996,10 @@ void layout_toolbar_write_config(LayoutWindow *lw, GString *outstr, gint indent)
 		WRITE_STRING("/>");
 		}
 	indent--;
-	WRITE_NL(); WRITE_STRING("</toolbar>");
+	WRITE_NL(); WRITE_STRING("</%s>", name);
 }
 
-void layout_toolbar_add_from_config(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values)
+void layout_toolbar_add_from_config(LayoutWindow *lw, ToolbarType type, const gchar **attribute_names, const gchar **attribute_values)
 {
 	gchar *action = NULL;
 	
@@ -2053,7 +2013,7 @@ void layout_toolbar_add_from_config(LayoutWindow *lw, const gchar **attribute_na
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 
-	layout_toolbar_add(lw, action);
+	layout_toolbar_add(lw, type, action);
 	g_free(action);	
 }
 
@@ -2062,13 +2022,46 @@ void layout_toolbar_add_from_config(LayoutWindow *lw, const gchar **attribute_na
  * misc
  *-----------------------------------------------------------------------------
  */
+
+void layout_util_status_update_write(LayoutWindow *lw)
+{
+	GtkAction *action;
+	gint n = metadata_queue_length();
+	action = gtk_action_group_get_action(lw->action_group, "SaveMetadata");
+	gtk_action_set_sensitive(action, n > 0);
+	if (n > 0)
+		{
+		gchar *buf = g_strdup_printf(_("Number of files with unsaved metadata: %d"), n);
+		g_object_set(G_OBJECT(action), "tooltip", buf, NULL);
+		g_free(buf);
+		}
+	else
+		{
+		g_object_set(G_OBJECT(action), "tooltip", _("No unsaved metadata"), NULL);
+		}
+}
+
+void layout_util_status_update_write_all(void)
+{
+	GList *work;
+
+	work = layout_window_list;
+	while (work)
+		{
+		LayoutWindow *lw = work->data;
+		work = work->next;
+
+		layout_util_status_update_write(lw);
+		}
+}
+
 static gchar *layout_color_name_parse(const gchar *name)
 {
 	if (!name || !*name) return g_strdup(_("Empty"));
 	return g_strdelimit(g_strdup(name), "_", '-');
 }
 
-static void layout_util_sync_color(LayoutWindow *lw)
+void layout_util_sync_color(LayoutWindow *lw)
 {
 	GtkAction *action;
 	gint input = 0;
@@ -2076,6 +2069,9 @@ static void layout_util_sync_color(LayoutWindow *lw)
 	gboolean use_image = FALSE;
 	gint i;
 	gchar action_name[15];
+	gchar *image_profile;
+	gchar *screen_profile;
+
 
 	if (!lw->action_group) return;
 	if (!layout_image_color_profile_get(lw, &input, &use_image)) return;
@@ -2084,6 +2080,20 @@ static void layout_util_sync_color(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "UseColorProfiles");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), use_color);
+	
+	if (layout_image_color_profile_get_status(lw, &image_profile, &screen_profile))
+		{
+		gchar *buf;
+		buf = g_strdup_printf(_("Image profile: %s\nScreen profile: %s"), image_profile, screen_profile);
+		g_object_set(G_OBJECT(action), "tooltip", buf, NULL);
+		g_free(image_profile);
+		g_free(screen_profile);
+		g_free(buf);
+		}
+	else
+		{
+		g_object_set(G_OBJECT(action), "tooltip", _("Click to enable color management"), NULL);
+		}
 
 	action = gtk_action_group_get_action(lw->action_group, "UseImageProfile");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), use_image);

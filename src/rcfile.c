@@ -969,17 +969,37 @@ static void options_parse_toolbar(GQParserData *parser_data, GMarkupParseContext
 	LayoutWindow *lw = data;
 	if (g_ascii_strcasecmp(element_name, "toolitem") == 0)
 		{
-		layout_toolbar_add_from_config(lw, attribute_names, attribute_values);
+		layout_toolbar_add_from_config(lw, TOOLBAR_MAIN, attribute_names, attribute_values);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 	else if (g_ascii_strcasecmp(element_name, "clear") == 0)
 		{
-		layout_toolbar_clear(lw);
+		layout_toolbar_clear(lw, TOOLBAR_MAIN);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 	else
 		{
 		log_printf("unexpected in <toolbar>: <%s>\n", element_name);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+}
+
+static void options_parse_statusbar(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
+{
+	LayoutWindow *lw = data;
+	if (g_ascii_strcasecmp(element_name, "toolitem") == 0)
+		{
+		layout_toolbar_add_from_config(lw, TOOLBAR_STATUS, attribute_names, attribute_values);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+	else if (g_ascii_strcasecmp(element_name, "clear") == 0)
+		{
+		layout_toolbar_clear(lw, TOOLBAR_STATUS);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+	else
+		{
+		log_printf("unexpected in <statusbar>: <%s>\n", element_name);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 }
@@ -1010,6 +1030,10 @@ static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext 
 	else if (g_ascii_strcasecmp(element_name, "toolbar") == 0)
 		{
 		options_parse_func_push(parser_data, options_parse_toolbar, NULL, lw);
+		}
+	else if (g_ascii_strcasecmp(element_name, "statusbar") == 0)
+		{
+		options_parse_func_push(parser_data, options_parse_statusbar, NULL, lw);
 		}
 	else
 		{
