@@ -24,6 +24,7 @@ typedef enum {
 	EDITOR_DEST               = 0x00000100,
 	EDITOR_FOR_EACH           = 0x00000200,
 	EDITOR_SINGLE_COMMAND     = 0x00000400,
+	EDITOR_NO_PARAM           = 0x00000800,
 	/* below are errors */
 	EDITOR_ERROR_EMPTY        = 0x00020000,
 	EDITOR_ERROR_SYNTAX       = 0x00040000,
@@ -98,12 +99,14 @@ void editor_skip(gpointer ed);
 
 
 
+EditorFlags start_editor(const gchar *key);
 EditorFlags start_editor_from_file(const gchar *key, FileData *fd);
 EditorFlags start_editor_from_filelist(const gchar *key, GList *list);
 EditorFlags start_editor_from_file_full(const gchar *key, FileData *fd, EditorCallback cb, gpointer data);
 EditorFlags start_editor_from_filelist_full(const gchar *key, GList *list, EditorCallback cb, gpointer data);
 gboolean editor_window_flag_set(const gchar *key);
 gboolean editor_is_filter(const gchar *key);
+gboolean editor_no_param(const gchar *key);
 const gchar *editor_get_error_str(EditorFlags flags);
 
 const gchar *editor_get_name(const gchar *key);

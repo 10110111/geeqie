@@ -2130,7 +2130,16 @@ static void file_util_rename_full(FileData *source_fd, GList *source_list, const
 static void file_util_start_editor_full(const gchar *key, FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;
-	GList *flist = filelist_copy(source_list);
+	GList *flist;
+	
+	if (editor_no_param(key))
+		{
+		/* just start the editor, don't care about files */
+		start_editor(key);
+		return;
+		}
+	
+	flist = filelist_copy(source_list);
 	
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));

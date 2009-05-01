@@ -146,36 +146,6 @@ static GList *editor_mime_types_to_extensions(gchar **mime_types)
 	return list;
 }
 
-static gboolean editor_accepts_parameters(EditorDescription *editor)
-{
-	const gchar *p = editor->exec;
-
-	if (!p) return FALSE;
-
-	while (*p)
-		{
-		if (*p == '%' && p[1])
-			{
-			switch (p[1])
-				{
-				case 'F':
-				case 'f':
-				case 'U':
-				case 'u':
-				case 'i':
-				case 'k':
-				case 'c':
-			    		return TRUE;
-				default:
-					break;
-				}
-			}
-		p++;
-		}
-	
-	return FALSE;
-}
-
 static gboolean editor_read_desktop_file(const gchar *path)
 {
 	GKeyFile *key_file;
@@ -186,6 +156,7 @@ static gboolean editor_read_desktop_file(const gchar *path)
 	gchar **categories, **only_show_in, **not_show_in;
 	gchar *try_exec;
 	GtkTreeIter iter;
+	gboolean category_geeqie = FALSE;
 
 	if (g_hash_table_lookup(editors, key)) return FALSE; /* the file found earlier wins */
 	
@@ -225,13 +196,19 @@ static gboolean editor_read_desktop_file(const gchar *path)
 		gboolean found = FALSE;
 		gint i;
 		for (i = 0; categories[i]; i++) 
+			{
 			/* IMHO "Graphics" is exactly the category that we are interested in, so this does not have to be configurable */
-			if (strcmp(categories[i], "Graphics") == 0 ||
-			    strcmp(categories[i], "X-Geeqie") == 0) 
+			if (strcmp(categories[i], "Graphics") == 0)
 				{
 				found = TRUE;
+				}
+			if (strcmp(categories[i], "X-Geeqie") == 0) 
+				{
+				found = TRUE;
+				category_geeqie = TRUE;
 				break;
 				}
+			}
 		if (!found) editor->ignored = TRUE;
 		g_strfreev(categories);
 		}
@@ -308,9 +285,6 @@ static gboolean editor_read_desktop_file(const gchar *path)
 
 	editor->exec = g_key_file_get_string(key_file, DESKTOP_GROUP, "Exec", NULL);
 	
-	/* we take only editors that accept parameters */
-	if (!editor_accepts_parameters(editor)) editor->hidden = TRUE;
-
 	editor->menu_path = g_key_file_get_string(key_file, DESKTOP_GROUP, "X-Geeqie-Menu-Path", NULL);
 	if (!editor->menu_path) editor->menu_path = g_strdup("EditMenu/ExternalMenu");
 	
@@ -339,6 +313,9 @@ static gboolean editor_read_desktop_file(const gchar *path)
 	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "Terminal", NULL)) editor->flags |= EDITOR_TERMINAL;
 	
 	editor->flags |= editor_command_parse(editor, NULL, NULL);
+
+	if ((editor->flags & EDITOR_NO_PARAM) && !category_geeqie) editor->hidden = TRUE;
+
 	g_key_file_free(key_file);
 
 	if (editor->ignored) return TRUE;
@@ -920,6 +897,8 @@ EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, g
 		p++;
 		}
 
+	if (!(flags & (EDITOR_FOR_EACH | EDITOR_SINGLE_COMMAND))) flags |= EDITOR_NO_PARAM;
+
 	if (output)
 		{
 		*output = g_string_free(result, FALSE);
@@ -952,7 +931,7 @@ static void editor_child_exit_cb(GPid pid, gint status, gpointer data)
 static EditorFlags editor_command_one(const EditorDescription *editor, GList *list, EditorData *ed)
 {
 	gchar *command;
-	FileData *fd = list->data;
+	FileData *fd = (ed->flags & EDITOR_NO_PARAM) ? NULL : list->data;;
 	GPid pid;
 	gint standard_output;
 	gint standard_error;
@@ -984,7 +963,7 @@ static EditorFlags editor_command_one(const EditorDescription *editor, GList *li
 		gchar *args[4];
 		guint n = 0;
 
-		working_directory = remove_level_from_path(fd->path);
+		working_directory = fd ? remove_level_from_path(fd->path) : NULL;
 		args[n++] = options->shell.path;
 		if (options->shell.options && *options->shell.options)
 			args[n++] = options->shell.options;
@@ -1063,16 +1042,16 @@ static EditorFlags editor_command_next_start(EditorData *ed)
 {
 	if (ed->vd) editor_verbose_window_fill(ed->vd, "\n", 1);
 
-	if (ed->list && ed->count < ed->total)
+	if ((ed->list || (ed->flags & EDITOR_NO_PARAM)) && ed->count < ed->total)
 		{
 		FileData *fd;
 		EditorFlags error;
 
-		fd = ed->list->data;
+		fd = (ed->flags & EDITOR_NO_PARAM) ? NULL : ed->list->data;
 
 		if (ed->vd)
 			{
-			if (ed->flags & EDITOR_FOR_EACH)
+			if ((ed->flags & EDITOR_FOR_EACH) && fd)
 				editor_verbose_window_progress(ed, fd->path);
 			else
 				editor_verbose_window_progress(ed, _("running..."));
@@ -1083,7 +1062,7 @@ static EditorFlags editor_command_next_start(EditorData *ed)
 		if (!error && ed->vd)
 			{
 			gtk_widget_set_sensitive(ed->vd->button_stop, (ed->list != NULL) );
-			if (ed->flags & EDITOR_FOR_EACH)
+			if ((ed->flags & EDITOR_FOR_EACH) && fd)
 				{
 				editor_verbose_window_fill(ed->vd, fd->path, strlen(fd->path));
 				editor_verbose_window_fill(ed->vd, "\n", 1);
@@ -1197,7 +1176,7 @@ static EditorFlags editor_command_start(const EditorDescription *editor, const g
 	ed->list = filelist_copy(list);
 	ed->flags = flags;
 	ed->editor = editor;
-	ed->total = (flags & EDITOR_SINGLE_COMMAND) ? 1 : g_list_length(list);
+	ed->total = (flags & (EDITOR_SINGLE_COMMAND | EDITOR_NO_PARAM)) ? 1 : g_list_length(list);
 	ed->callback = cb;
 	ed->data =  data;
 
@@ -1226,8 +1205,8 @@ EditorFlags start_editor_from_filelist_full(const gchar *key, GList *list, Edito
 	
 	editor = g_hash_table_lookup(editors, key);
 
-	if (!list) return FALSE;
 	if (!editor) return FALSE;
+	if (!list && !(editor->flags & EDITOR_NO_PARAM)) return FALSE;
 
 	error = editor_command_start(editor, editor->name, list, cb, data);
 
@@ -1265,6 +1244,11 @@ EditorFlags start_editor_from_file(const gchar *key, FileData *fd)
 	return start_editor_from_file_full(key, fd, NULL, NULL);
 }
 
+EditorFlags start_editor(const gchar *key)
+{
+	return start_editor_from_filelist_full(key, NULL, NULL, NULL);
+}
+
 gboolean editor_window_flag_set(const gchar *key)
 {
 	EditorDescription *editor;
@@ -1285,6 +1269,17 @@ gboolean editor_is_filter(const gchar *key)
 	if (!editor) return TRUE;
 
 	return !!(editor->flags & EDITOR_DEST);
+}
+
+gboolean editor_no_param(const gchar *key)
+{
+	EditorDescription *editor;
+	if (!key) return FALSE;
+	
+	editor = g_hash_table_lookup(editors, key);
+	if (!editor) return FALSE;
+
+	return !!(editor->flags & EDITOR_NO_PARAM);
 }
 
 const gchar *editor_get_error_str(EditorFlags flags)
