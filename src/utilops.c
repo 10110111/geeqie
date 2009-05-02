@@ -2619,10 +2619,10 @@ void file_util_delete(FileData *source_fd, GList *source_list, GtkWidget *parent
 	file_util_delete_full(source_fd, source_list, parent, options->file_ops.confirm_delete ? UTILITY_PHASE_START : UTILITY_PHASE_ENTERING);
 }
 
-void file_util_write_metadata(FileData *source_fd, GList *source_list, GtkWidget *parent, FileUtilDoneFunc done_func, gpointer done_data)
+void file_util_write_metadata(FileData *source_fd, GList *source_list, GtkWidget *parent, gboolean force_dialog, FileUtilDoneFunc done_func, gpointer done_data)
 {
 	file_util_write_metadata_full(source_fd, source_list, parent, 
-	                              (options->metadata.save_in_image_file && options->metadata.confirm_write) ? UTILITY_PHASE_START : UTILITY_PHASE_ENTERING,
+	                              ((options->metadata.save_in_image_file && options->metadata.confirm_write) || force_dialog) ? UTILITY_PHASE_START : UTILITY_PHASE_ENTERING,
 	                              done_func, done_data);
 }
 

@@ -926,7 +926,7 @@ gboolean layout_set_fd(LayoutWindow *lw, FileData *fd)
 		}
 
 	if (options->metadata.confirm_on_dir_change && dir_changed)
-		metadata_write_queue_confirm(NULL, NULL);
+		metadata_write_queue_confirm(FALSE, NULL, NULL);
 
 	return TRUE;
 }

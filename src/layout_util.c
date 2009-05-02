@@ -1038,7 +1038,7 @@ void layout_edit_update_all(void)
 
 static void layout_menu_metadata_write_cb(GtkAction *action, gpointer data)
 {
-	metadata_write_queue_confirm(NULL, NULL);
+	metadata_write_queue_confirm(TRUE, NULL, NULL);
 }
 
 
@@ -2390,7 +2390,7 @@ void layout_bars_new_image(LayoutWindow *lw)
 
 	/* this should be called here to handle the metadata edited in bars */
 	if (options->metadata.confirm_on_image_change)
-		metadata_write_queue_confirm(NULL, NULL);
+		metadata_write_queue_confirm(FALSE, NULL, NULL);
 }
 
 void layout_bars_new_selection(LayoutWindow *lw, gint count)

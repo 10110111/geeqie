@@ -668,7 +668,7 @@ void exit_program(void)
 {
 	layout_image_full_screen_stop(NULL);
 
-	if (metadata_write_queue_confirm(exit_program_write_metadata_cb, NULL)) return;
+	if (metadata_write_queue_confirm(FALSE, exit_program_write_metadata_cb, NULL)) return;
 
 	if (exit_confirm_dlg()) return;
 
