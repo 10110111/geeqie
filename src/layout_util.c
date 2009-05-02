@@ -701,10 +701,10 @@ static void layout_menu_info_pixel_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	if (lw->options.info_pixel_hidden == gtk_toggle_action_get_active(action)) return;
+	if (lw->options.show_info_pixel == gtk_toggle_action_get_active(action)) return;
 
 	layout_exit_fullscreen(lw);
-	layout_info_pixel_toggle(lw);
+	layout_info_pixel_set(lw, !lw->options.show_info_pixel);
 }
 
 /* NOTE: these callbacks are called also from layout_util_sync_views */
@@ -1321,9 +1321,9 @@ static GtkActionEntry menu_entries[] = {
 static GtkToggleActionEntry menu_toggle_entries[] = {
   { "Thumbnails",	PIXBUF_INLINE_ICON_THUMB,		N_("Show _Thumbnails"),	"T",		N_("Show Thumbnails"),	CB(layout_menu_thumb_cb),	 FALSE },
   { "ShowMarks",        NULL,		N_("Show _Marks"),	"M",		NULL,	CB(layout_menu_marks_cb),	 FALSE  },
+  { "ShowInfoPixel",	GTK_STOCK_COLOR_PICKER,		N_("Show Pi_xel Info"),	NULL,		NULL,	CB(layout_menu_info_pixel_cb),	 FALSE  },
   { "FloatTools",	PIXBUF_INLINE_ICON_FLOAT,		N_("_Float file list"),	"L",		NULL,	CB(layout_menu_float_cb),	 FALSE  },
   { "HideToolbar",	NULL,		N_("Hide tool_bar"),	NULL,		NULL,	CB(layout_menu_toolbar_cb),	 FALSE  },
-  { "HideInfoPixel",	NULL,		N_("Hide Pi_xel Info"),	NULL,		NULL,	CB(layout_menu_info_pixel_cb),	 FALSE  },
   { "SBar",		NULL,		N_("_Info"),		"<control>K",	NULL,	CB(layout_menu_bar_cb),		 FALSE  },
   { "SBarSort",		NULL,		N_("Sort _manager"),	"<shift>S",	NULL,	CB(layout_menu_bar_sort_cb),	 FALSE  },
   { "SlideShow",	NULL,		N_("Toggle _slideshow"),"S",		NULL,	CB(layout_menu_slideshow_cb),	 FALSE  },
@@ -1506,7 +1506,7 @@ static const gchar *menu_ui_description =
 "      <menuitem action='FloatTools'/>"
 "      <menuitem action='HideTools'/>"
 "      <menuitem action='HideToolbar'/>"
-"      <menuitem action='HideInfoPixel'/>"
+"      <menuitem action='ShowInfoPixel'/>"
 "      <placeholder name='ToolsSection'/>"
 "      <separator/>"
 "      <menuitem action='SBar'/>"
@@ -1959,6 +1959,7 @@ void layout_toolbar_add_default(LayoutWindow *lw, ToolbarType type)
 			layout_toolbar_add(lw, type, "FloatTools");
 			break;
 		case TOOLBAR_STATUS:
+			layout_toolbar_add(lw, type, "ShowInfoPixel");
 			layout_toolbar_add(lw, type, "UseColorProfiles");
 			layout_toolbar_add(lw, type, "SaveMetadata");
 			break;
@@ -2158,8 +2159,8 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	action = gtk_action_group_get_action(lw->action_group, "HideToolbar");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.toolbar_hidden);
 	
-	action = gtk_action_group_get_action(lw->action_group, "HideInfoPixel");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.info_pixel_hidden);
+	action = gtk_action_group_get_action(lw->action_group, "ShowInfoPixel");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.show_info_pixel);
 
 	action = gtk_action_group_get_action(lw->action_group, "ShowMarks");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.show_marks);

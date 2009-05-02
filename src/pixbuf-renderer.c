@@ -3759,6 +3759,18 @@ static gboolean pr_mouse_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gp
 	return FALSE;
 }
 
+static gboolean pr_leave_notify_cb(GtkWidget *widget, GdkEventCrossing *cevent, gpointer data)
+{
+	PixbufRenderer *pr;
+
+	pr = PIXBUF_RENDERER(widget);
+	pr->x_mouse = -1;
+	pr->y_mouse = -1;
+
+	pr_update_pixel_signal(pr);
+	return FALSE;
+}
+
 static gboolean pr_mouse_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	PixbufRenderer *pr;
@@ -3873,6 +3885,8 @@ static void pr_signals_connect(PixbufRenderer *pr)
 			 G_CALLBACK(pr_mouse_leave_cb), pr);
 	g_signal_connect(G_OBJECT(pr), "hierarchy-changed",
 			 G_CALLBACK(pr_hierarchy_changed_cb), pr);
+	g_signal_connect(G_OBJECT(pr), "leave_notify_event",
+			 G_CALLBACK(pr_leave_notify_cb), pr);
 
 	gtk_widget_set_events(GTK_WIDGET(pr), GDK_POINTER_MOTION_MASK |
 					      GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK |

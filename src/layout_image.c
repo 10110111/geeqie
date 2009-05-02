@@ -1540,42 +1540,44 @@ void layout_status_update_pixel_cb(PixbufRenderer *pr, gpointer data)
 {
 	LayoutWindow *lw = data;
 	gint x_pixel, y_pixel;
+	gint width, height;
+	gchar *text;
+	PangoAttrList *attrs;
 
 	if (!data || !layout_valid(&lw) || !lw->image
-	    || lw->options.info_pixel_hidden || lw->image->unknown) return;
-	
+	    || !lw->options.show_info_pixel || lw->image->unknown) return;
+
+	pixbuf_renderer_get_image_size(pr, &width, &height);
+	if (width < 1 || height < 1) return;
+
 	pixbuf_renderer_get_mouse_position(pr, &x_pixel, &y_pixel);
 	
 	if(x_pixel >= 0 && y_pixel >= 0)
 		{
 		gint r_mouse, g_mouse, b_mouse;
-		gint width, height;
-		gchar *text;
-		PangoAttrList *attrs;
 			
-		pixbuf_renderer_get_image_size(pr, &width, &height);
-		if (width < 1 || height < 1) return;
-		
 		pixbuf_renderer_get_pixel_colors(pr, x_pixel, y_pixel,
 						 &r_mouse, &g_mouse, &b_mouse);			
 		
-		attrs = pango_attr_list_new();
-		pango_attr_list_insert(attrs, pango_attr_family_new("Monospace"));
-		
-		text = g_strdup_printf(_("pos(%*d,%*d) rgb(%3d,%3d,%3d)"),
+		text = g_strdup_printf(_("[%*d,%*d]: RGB(%3d,%3d,%3d)"),
 					 num_length(width - 1), x_pixel,
 					 num_length(height - 1), y_pixel,
 					 r_mouse, g_mouse, b_mouse);
 		
-		gtk_label_set_text(GTK_LABEL(lw->info_pixel), text);
-		gtk_label_set_attributes(GTK_LABEL(lw->info_pixel), attrs);
-		pango_attr_list_unref(attrs);
-		g_free(text);
 		}
 	else
 		{
-		gtk_label_set_text(GTK_LABEL(lw->info_pixel), "");
+		text = g_strdup_printf(_("[%*s,%*s]: RGB(---,---,---)"),
+					 num_length(width - 1), " ",
+					 num_length(height - 1), " ");
 		}
+
+	attrs = pango_attr_list_new();
+	pango_attr_list_insert(attrs, pango_attr_family_new("Monospace"));
+	gtk_label_set_text(GTK_LABEL(lw->info_pixel), text);
+	gtk_label_set_attributes(GTK_LABEL(lw->info_pixel), attrs);
+	pango_attr_list_unref(attrs);
+	g_free(text);
 }
 
 

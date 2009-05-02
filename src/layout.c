@@ -52,7 +52,6 @@
 #define TOOLWINDOW_DEF_HEIGHT 450
 
 #define PROGRESS_WIDTH 150
-#define PIXEL_LABEL_WIDTH 130
 #define ZOOM_LABEL_WIDTH 64
 
 #define PANE_DIVIDER_SIZE 10
@@ -605,16 +604,6 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gboolean small
 	gtk_box_pack_start(GTK_BOX(hbox), lw->info_sort, FALSE, FALSE, 0);
 	gtk_widget_show(lw->info_sort);
 
-	toolbar = layout_actions_toolbar(lw, TOOLBAR_STATUS);
-	
-	toolbar_frame = gtk_frame_new(NULL);
-	gtk_frame_set_shadow_type(GTK_FRAME(toolbar_frame), GTK_SHADOW_IN);
-	gtk_container_add(GTK_CONTAINER(toolbar_frame), toolbar);
-	gtk_widget_show(toolbar_frame);
-	gtk_widget_show(toolbar);
-
-	if (small_format) gtk_box_pack_end(GTK_BOX(hbox), toolbar_frame, FALSE, FALSE, 0);
-
 	lw->info_status = layout_status_label(NULL, lw->info_box, TRUE, 0, (!small_format));
 
 	if (small_format)
@@ -623,15 +612,24 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gboolean small
 		gtk_box_pack_start(GTK_BOX(lw->info_box), hbox, FALSE, FALSE, 0);
 		gtk_widget_show(hbox);
 		}
-	else
-		{
-		hbox = lw->info_box;
-		}
 	lw->info_details = layout_status_label(NULL, hbox, TRUE, 0, TRUE);
-	if (!small_format) gtk_box_pack_end(GTK_BOX(hbox), toolbar_frame, FALSE, FALSE, 0);
-	lw->info_pixel = layout_status_label(NULL, hbox, FALSE, PIXEL_LABEL_WIDTH, TRUE);
-	if (lw->options.info_pixel_hidden) gtk_widget_hide(gtk_widget_get_parent(lw->info_pixel));
+	toolbar = layout_actions_toolbar(lw, TOOLBAR_STATUS);
+	
+	toolbar_frame = gtk_frame_new(NULL);
+	gtk_frame_set_shadow_type(GTK_FRAME(toolbar_frame), GTK_SHADOW_IN);
+	gtk_container_add(GTK_CONTAINER(toolbar_frame), toolbar);
+	gtk_widget_show(toolbar_frame);
+	gtk_widget_show(toolbar);
+	gtk_box_pack_end(GTK_BOX(hbox), toolbar_frame, FALSE, FALSE, 0);
 	lw->info_zoom = layout_status_label(NULL, hbox, FALSE, ZOOM_LABEL_WIDTH, FALSE);
+	if (small_format)
+		{
+		hbox = gtk_hbox_new(FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(lw->info_box), hbox, FALSE, FALSE, 0);
+		gtk_widget_show(hbox);
+		}
+	lw->info_pixel = layout_status_label(NULL, hbox, FALSE, 0, small_format); /* expand only in small format */
+	if (!lw->options.show_info_pixel) gtk_widget_hide(gtk_widget_get_parent(lw->info_pixel));
 }
 
 /*
@@ -1708,24 +1706,26 @@ void layout_toolbar_toggle(LayoutWindow *lw)
 		}
 }
 
-void layout_info_pixel_toggle(LayoutWindow *lw)
+void layout_info_pixel_set(LayoutWindow *lw, gboolean show)
 {
 	GtkWidget *frame;
 	
 	if (!layout_valid(&lw)) return;
 	if (!lw->info_pixel) return;
 
-	lw->options.info_pixel_hidden = !lw->options.info_pixel_hidden;
+	lw->options.show_info_pixel = show;
 
 	frame = gtk_widget_get_parent(lw->info_pixel);
-	if (lw->options.info_pixel_hidden)
+	if (!lw->options.show_info_pixel)
 		{
-		if (GTK_WIDGET_VISIBLE(frame)) gtk_widget_hide(frame);
+		gtk_widget_hide(frame);
 		}
 	else
 		{
-		if (!GTK_WIDGET_VISIBLE(frame)) gtk_widget_show(frame);
+		gtk_widget_show(frame);
 		}
+	
+	g_signal_emit_by_name (lw->image->pr, "update-pixel");
 }
 
 /*
@@ -2230,7 +2230,7 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 	WRITE_SEPARATOR();
 
 	WRITE_NL(); WRITE_BOOL(*layout, toolbar_hidden);
-	WRITE_NL(); WRITE_BOOL(*layout, info_pixel_hidden);
+	WRITE_NL(); WRITE_BOOL(*layout, show_info_pixel);
 
 	WRITE_NL(); WRITE_UINT(*layout, image_overlay.state);
 	WRITE_NL(); WRITE_INT(*layout, image_overlay.histogram_channel);
@@ -2301,7 +2301,7 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		if (READ_BOOL(*layout, tools_float)) continue;
 		if (READ_BOOL(*layout, tools_hidden)) continue;
 		if (READ_BOOL(*layout, toolbar_hidden)) continue;
-		if (READ_BOOL(*layout, info_pixel_hidden)) continue;
+		if (READ_BOOL(*layout, show_info_pixel)) continue;
 
 		if (READ_UINT(*layout, image_overlay.state)) continue;
 		if (READ_INT(*layout, image_overlay.histogram_channel)) continue;

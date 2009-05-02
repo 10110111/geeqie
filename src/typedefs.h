@@ -503,6 +503,7 @@ struct _LayoutOptions
 	gboolean show_thumbnails;
 	gboolean show_marks;
 	gboolean show_directory_date;
+	gboolean show_info_pixel;
 
 	struct {
 		gint w;
@@ -536,7 +537,6 @@ struct _LayoutOptions
 	gboolean tools_float;
 	gboolean tools_hidden;
 	gboolean toolbar_hidden;
-	gboolean info_pixel_hidden;
 
 	gchar *home_path;
 	gchar *last_path;

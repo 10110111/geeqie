@@ -202,7 +202,7 @@ LayoutOptions *init_layout_options(LayoutOptions *options)
 	options->show_marks = FALSE;
 	options->show_thumbnails = FALSE;
 	options->style = 0;
-	options->info_pixel_hidden = TRUE;
+	options->show_info_pixel = FALSE;
 	options->toolbar_hidden = FALSE;
 	options->tools_float = FALSE;
 	options->tools_hidden = FALSE;
