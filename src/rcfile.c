@@ -437,7 +437,7 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_BOOL(*options, metadata.confirm_after_timeout);
 	WRITE_NL(); WRITE_BOOL(*options, metadata.confirm_on_image_change);
 	WRITE_NL(); WRITE_BOOL(*options, metadata.confirm_on_dir_change);
-	WRITE_NL(); WRITE_BOOL(*options, metadata.tags_case_sensitive);
+	WRITE_NL(); WRITE_BOOL(*options, metadata.keywords_case_sensitive);
 	WRITE_NL(); WRITE_BOOL(*options, metadata.write_orientation);
 
 }
@@ -697,7 +697,7 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_INT(*options, metadata.confirm_timeout)) continue;
 		if (READ_BOOL(*options, metadata.confirm_on_image_change)) continue;
 		if (READ_BOOL(*options, metadata.confirm_on_dir_change)) continue;
-		if (READ_BOOL(*options, metadata.tags_case_sensitive)) continue;
+		if (READ_BOOL(*options, metadata.keywords_case_sensitive)) continue;
 		if (READ_BOOL(*options, metadata.write_orientation)) continue;
 
 		log_printf("unknown attribute %s = %s\n", option, value);

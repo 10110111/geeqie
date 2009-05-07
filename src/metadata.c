@@ -880,7 +880,7 @@ gboolean keyword_exists(GtkTreeModel *keyword_tree, GtkTreeIter *parent_ptr, Gtk
 		{
 		if (!(exclude_sibling && sibling && keyword_compare(keyword_tree, &iter, sibling) == 0))
 			{
-			if (options->metadata.tags_case_sensitive)
+			if (options->metadata.keywords_case_sensitive)
 				{
 				gchar *iter_name = keyword_get_name(keyword_tree, &iter);
 				ret = strcmp(name, iter_name) == 0;
@@ -1093,7 +1093,7 @@ gboolean keyword_tree_is_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter, GLis
 	GList *casefold_list = NULL;
 	GList *work;
 
-	if (options->metadata.tags_case_sensitive)
+	if (options->metadata.keywords_case_sensitive)
 		{
 		ret = keyword_tree_is_set_casefull(keyword_tree, *iter, kw_list);
 		}
