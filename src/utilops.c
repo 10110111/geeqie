@@ -34,6 +34,9 @@
 #include "metadata.h"
 #include "exif.h"
 
+#define DIALOG_WIDTH 750
+
+
 static GdkPixbuf *file_util_get_error_icon(FileData *fd, GtkWidget *widget);
 
 /*
@@ -1825,6 +1828,7 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 	GtkWidget *box;
 	GtkWidget *table;
 	GtkWidget *frame;
+	GtkWidget *label;
 	GList *keys = NULL;
 	GList *work;
 	gchar *message1;
@@ -1858,7 +1862,7 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 
 	if (fd->change && fd->change->dest)
 		{
-		message2 = g_strdup_printf(_("The following metadata tags will be written to '%s'."), fd->change->dest);
+		message2 = g_strdup_printf(_("The following metadata tags will be written to\n'%s'."), fd->change->dest);
 		}
 	else
 		{
@@ -1876,7 +1880,6 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 	i = 0;
 	while (work)
 		{
-		GtkWidget *label;
 		const gchar *key = work->data;
 		gchar *title = exif_get_description_by_key(key);
 		gchar *title_f = g_strdup_printf("%s:", title);
@@ -1896,6 +1899,7 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 		label = gtk_label_new(value);
 		
 		gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
+		gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 		gtk_table_attach(GTK_TABLE(table), label,
 				 1, 2, i, i + 1,
 				 GTK_FILL, GTK_FILL,
@@ -1910,6 +1914,7 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 
 	generic_dialog_add_image(gd, box, fd, NULL, NULL, NULL, FALSE);
 
+	gtk_widget_set_size_request(gd->dialog, DIALOG_WIDTH, -1);
 	gtk_widget_show(gd->dialog);
 	
 	g_list_free(keys);
