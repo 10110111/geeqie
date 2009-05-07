@@ -1333,11 +1333,9 @@ static GtkTreeIter keyword_tree_default_append(GtkTreeStore *keyword_tree, GtkTr
 
 void keyword_tree_new_default(void)
 {
-	if (keyword_tree) return;
-	
-	keyword_tree_new();
-
 	GtkTreeIter i1, i2, i3;
+
+	if (!keyword_tree) keyword_tree_new();
 
 	i1 = keyword_tree_default_append(keyword_tree, NULL, _("People"), TRUE); 
 		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Family"), TRUE); 

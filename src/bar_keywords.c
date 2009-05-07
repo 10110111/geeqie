@@ -1224,6 +1224,7 @@ static GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, con
 	GtkTreeModel *store;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
+	GtkTreeIter iter;
 
 	pkd = g_new0(PaneKeywordsData, 1);
 
@@ -1273,7 +1274,11 @@ static GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, con
 	gtk_widget_show(scrolled);
 
 
-	if (!keyword_tree) keyword_tree_new_default();
+	if (!keyword_tree || !gtk_tree_model_get_iter_first(GTK_TREE_MODEL(keyword_tree), &iter))
+		{
+		/* keyword tree does not exist or is empty - fill with defaults */
+		keyword_tree_new_default();
+		}
 
 	store = gtk_tree_model_filter_new(GTK_TREE_MODEL(keyword_tree), NULL);
 
