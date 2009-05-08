@@ -2069,8 +2069,8 @@ void layout_util_sync_color(LayoutWindow *lw)
 	use_color = layout_image_color_profile_get_use(lw);
 
 	action = gtk_action_group_get_action(lw->action_group, "UseColorProfiles");
+#ifdef HAVE_LCMS
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), use_color);
-	
 	if (layout_image_color_profile_get_status(lw, &image_profile, &screen_profile))
 		{
 		gchar *buf;
@@ -2084,6 +2084,11 @@ void layout_util_sync_color(LayoutWindow *lw)
 		{
 		g_object_set(G_OBJECT(action), "tooltip", _("Click to enable color management"), NULL);
 		}
+#else
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), FALSE);
+	gtk_action_set_sensitive(action, FALSE);
+	g_object_set(G_OBJECT(action), "tooltip", _("Color profiles not supported"), NULL);
+#endif
 
 	action = gtk_action_group_get_action(lw->action_group, "UseImageProfile");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), use_image);
