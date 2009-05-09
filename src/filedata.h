@@ -43,6 +43,7 @@ gboolean file_data_add_change_info(FileData *fd, FileDataChangeType type, const 
 void file_data_change_info_free(FileDataChangeInfo *fdci, FileData *fd);
 
 void file_data_disable_grouping(FileData *fd, gboolean disable);
+void file_data_disable_grouping_list(GList *fd_list, gboolean disable);
 
 gint filelist_sort_compare_filedata(FileData *fa, FileData *fb);
 gint filelist_sort_compare_filedata_full(FileData *fa, FileData *fb, SortType method, gboolean ascend);

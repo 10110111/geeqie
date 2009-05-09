@@ -799,7 +799,8 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 		}
 	else
 		{
-		name_sidecars = g_strdup_printf("%s%s", link, fd->name);
+		gchar *disabled_grouping = fd->disable_grouping ? _(" [NO GROUPING]") : "";
+		name_sidecars = g_strdup_printf("%s%s%s", link, fd->name, disabled_grouping);
 		}
 	size = text_from_size(fd->size);
 	

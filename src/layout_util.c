@@ -301,6 +301,20 @@ static void layout_menu_delete_cb(GtkAction *action, gpointer data)
 	file_util_delete(NULL, layout_selection_list(lw), layout_window(lw));
 }
 
+static void layout_menu_disable_grouping_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	file_data_disable_grouping_list(layout_selection_list(lw), TRUE);
+}
+
+static void layout_menu_enable_grouping_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	file_data_disable_grouping_list(layout_selection_list(lw), FALSE);
+}
+
 static void layout_menu_close_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1236,6 +1250,8 @@ static GtkActionEntry menu_entries[] = {
   { "Delete",		GTK_STOCK_DELETE,	N_("_Delete..."),			"<control>D",		N_("Delete..."),			CB(layout_menu_delete_cb) },
   { "DeleteAlt1",	GTK_STOCK_DELETE,	N_("_Delete..."),			"Delete",		N_("Delete..."),			CB(layout_menu_delete_cb) },
   { "DeleteAlt2",	GTK_STOCK_DELETE,	N_("_Delete..."),			"KP_Delete",		N_("Delete..."),			CB(layout_menu_delete_cb) },
+  { "EnableGrouping",	NULL,			N_("Enable file _grouping"),		NULL,			N_("Enable file grouping"),		CB(layout_menu_enable_grouping_cb) },
+  { "DisableGrouping",	NULL,			N_("Disable file groupi_ng"),		NULL,			N_("Disable file grouping"),		CB(layout_menu_disable_grouping_cb) },
   { "CopyPath",		NULL,			N_("_Copy path to clipboard"),		NULL,			N_("Copy path to clipboard"),		CB(layout_menu_copy_path_cb) },
   { "CloseWindow",	GTK_STOCK_CLOSE,	N_("C_lose window"),			"<control>W",		N_("Close window"),			CB(layout_menu_close_cb) },
   { "Quit",		GTK_STOCK_QUIT, 	N_("_Quit"),				"<control>Q",		N_("Quit"),				CB(layout_menu_exit_cb) },

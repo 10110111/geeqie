@@ -670,6 +670,7 @@ FileData *file_data_disconnect_sidecar_file(FileData *target, FileData *sfd)
 void file_data_disable_grouping(FileData *fd, gboolean disable)
 {
 	if (!fd->disable_grouping == !disable) return;
+	
 	fd->disable_grouping = !!disable;
 	
 	if (disable)
@@ -678,7 +679,6 @@ void file_data_disable_grouping(FileData *fd, gboolean disable)
 			{
 			FileData *parent = file_data_ref(fd->parent);
 			file_data_disconnect_sidecar_file(parent, fd);
-			file_data_send_notification(fd, NOTIFY_GROUPING);
 			file_data_send_notification(parent, NOTIFY_GROUPING);
 			file_data_unref(parent);
 			}
@@ -693,17 +693,36 @@ void file_data_disable_grouping(FileData *fd, gboolean disable)
 				file_data_disconnect_sidecar_file(fd, sfd);
 				file_data_send_notification(sfd, NOTIFY_GROUPING);
 				}
-			file_data_send_notification(fd, NOTIFY_GROUPING);
 			file_data_check_sidecars((FileData *)sidecar_files->data, FALSE); /* this will group the sidecars back together */
 			filelist_free(sidecar_files);
+			}
+		else
+			{
+			file_data_increment_version(fd); /* the functions called in the cases above increments the version too */
 			}
 		}
 	else
 		{
+		file_data_increment_version(fd);
 		file_data_check_sidecars(fd, FALSE);
-		file_data_send_notification(fd, NOTIFY_GROUPING);
+		}
+	file_data_send_notification(fd, NOTIFY_GROUPING);
+}
+
+void file_data_disable_grouping_list(GList *fd_list, gboolean disable)
+{
+	GList *work;
+	
+	work = fd_list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		
+		file_data_disable_grouping(fd, disable);
+		work = work->next;
 		}
 }
+
 
 /* compare name without extension */
 gint file_data_compare_name_without_ext(FileData *fd1, FileData *fd2)

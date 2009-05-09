@@ -2356,7 +2356,8 @@ static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer 
 				}
 			else
 				{
-				name_sidecars = g_strdup_printf("%s%s", link, id->fd->name);
+				gchar *disabled_grouping = id->fd->disable_grouping ? _(" [NO GROUPING]") : "";
+				name_sidecars = g_strdup_printf("%s%s%s", link, id->fd->name, disabled_grouping);
 				}
 
 			g_object_set(cell,	"pixbuf", id->fd->thumb_pixbuf,

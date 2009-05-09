@@ -374,6 +374,20 @@ static void vf_pop_menu_copy_path_cb(GtkWidget *widget, gpointer data)
 	file_util_copy_path_list_to_clipboard(vf_pop_menu_file_list(vf));
 }
 
+static void vf_pop_menu_enable_grouping_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	file_data_disable_grouping_list(vf_pop_menu_file_list(vf), FALSE);
+}
+
+static void vf_pop_menu_disable_grouping_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	file_data_disable_grouping_list(vf_pop_menu_file_list(vf), TRUE);
+}
+
 static void vf_pop_menu_sort_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf;
@@ -582,6 +596,11 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 				      G_CALLBACK(vf_pop_menu_delete_cb), vf);
 	menu_item_add_sensitive(menu, _("_Copy path"), active,
 				G_CALLBACK(vf_pop_menu_copy_path_cb), vf);
+
+	menu_item_add_sensitive(menu, _("Enable file _grouping"), active,
+				G_CALLBACK(vf_pop_menu_enable_grouping_cb), vf);
+	menu_item_add_sensitive(menu, _("Disable file groupi_ng"), active,
+				G_CALLBACK(vf_pop_menu_disable_grouping_cb), vf);
 
 	menu_item_add_divider(menu);
 
