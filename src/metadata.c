@@ -32,7 +32,29 @@ typedef enum {
 	MK_COMMENT
 } MetadataKey;
 
-static const gchar *group_keys[] = {KEYWORD_KEY, COMMENT_KEY, NULL}; /* tags that will be written to all files in a group */
+static const gchar *group_keys[] = { /* tags that will be written to all files in a group, options->metadata.sync_grouped_files */
+	"Xmp.dc.title",
+	"Xmp.photoshop.Urgency",
+	"Xmp.photoshop.Category",
+	"Xmp.photoshop.SupplementalCategory",
+	"Xmp.dc.subject",
+	"Xmp.iptc.Location",
+	"Xmp.photoshop.Instruction",
+	"Xmp.photoshop.DateCreated",
+	"Xmp.dc.creator",
+	"Xmp.photoshop.AuthorsPosition",
+	"Xmp.photoshop.City",
+	"Xmp.photoshop.State",
+	"Xmp.iptc.CountryCode",
+	"Xmp.photoshop.Country",
+	"Xmp.photoshop.TransmissionReference",
+	"Xmp.photoshop.Headline",
+	"Xmp.photoshop.Credit",
+	"Xmp.photoshop.Source",
+	"Xmp.dc.rights",
+	"Xmp.dc.description",
+	"Xmp.photoshop.CaptionWriter",
+	NULL};
 
 static gboolean metadata_write_queue_idle_cb(gpointer data);
 static gboolean metadata_legacy_write(FileData *fd);
