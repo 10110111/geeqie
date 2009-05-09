@@ -1324,21 +1324,36 @@ static void config_tab_metadata(GtkWidget *notebook)
 	GtkWidget *hbox;
 	GtkWidget *group;
 	GtkWidget *ct_button;
+	GtkWidget *label;
+	gchar *text;
 
 	vbox = scrolled_notebook_page(notebook, _("Metadata"));
 
-	group = pref_group_new(vbox, FALSE, _("Metadata"), GTK_ORIENTATION_VERTICAL);
+#ifndef HAVE_EXIV2
+	gtk_widget_set_sensitive(vbox, FALSE);
+#endif
 
-	pref_checkbox_new_int(group, _("Store metadata in '.metadata' folder, local to image folder (non-standard)"),
+	group = pref_group_new(vbox, FALSE, _("Metadata writing process"), GTK_ORIENTATION_VERTICAL);
+	label = pref_label_new(group, _("Metadata are written in the following order. The process ends after first success."));
+	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+
+	ct_button = pref_checkbox_new_int(group, _("1) Save metadata in image files, resp. sidecar files, according to the XMP standard"),
+			      options->metadata.save_in_image_file, &c_options->metadata.save_in_image_file);
+
+	pref_checkbox_new_int(group, _("2) Save metadata in '.metadata' folder, local to image folder (non-standard)"),
 			      options->metadata.enable_metadata_dirs, &c_options->metadata.enable_metadata_dirs);
 
-	ct_button = pref_checkbox_new_int(group, _("Store keywords and comments as XMP tags in image files (standard)"),
-			      options->metadata.save_in_image_file, &c_options->metadata.save_in_image_file);
+	text = g_strdup_printf(_("3) Save metadata in Geeqie private directory '%s'"), get_metadata_cache_dir());
+	label = pref_label_new(group, text);
+	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+	g_free(text);
+
+	group = pref_group_new(vbox, FALSE, _("Step 1: Write to image files"), GTK_ORIENTATION_VERTICAL);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_SPACE);
 	pref_checkbox_link_sensitivity(ct_button, hbox);
 
-	pref_checkbox_new_int(hbox, _("Store keywords and comments also in legacy IPTC tags"),
+	pref_checkbox_new_int(hbox, _("Store metadata also in legacy IPTC tags (converted according to IPTC4XMP standard)"),
 			      options->metadata.save_legacy_IPTC, &c_options->metadata.save_legacy_IPTC);
 
 	pref_checkbox_new_int(hbox, _("Warn if the image files are unwritable"),
@@ -1347,11 +1362,23 @@ static void config_tab_metadata(GtkWidget *notebook)
 	pref_checkbox_new_int(hbox, _("Ask before writing to image files"),
 			      options->metadata.confirm_write, &c_options->metadata.confirm_write);
 
-	pref_checkbox_new_int(group, _("Save metadata in GQview legacy metadata format"),
+	group = pref_group_new(vbox, FALSE, _("Step 2 and 3: write to Geeqie private files"), GTK_ORIENTATION_VERTICAL);
+
+	pref_checkbox_new_int(group, _("Use GQview legacy metadata format (supports only keywords and comments) instead of XMP"),
 			      options->metadata.save_legacy_format, &c_options->metadata.save_legacy_format);
 
-	pref_checkbox_new_int(group, _("Write the same keywords and comment to all files in a group"),
+
+	group = pref_group_new(vbox, FALSE, _("Miscellaneous"), GTK_ORIENTATION_VERTICAL);
+	pref_checkbox_new_int(group, _("Write the same description tags (keywords, comment, etc.) to all files in a group"),
 			      options->metadata.sync_grouped_files, &c_options->metadata.sync_grouped_files);
+
+	pref_checkbox_new_int(group, _("Allow keywords to differ only in case"),
+			      options->metadata.keywords_case_sensitive, &c_options->metadata.keywords_case_sensitive);
+
+	pref_checkbox_new_int(group, _("Write altered image orientation to the metadata"),
+			      options->metadata.write_orientation, &c_options->metadata.write_orientation);
+
+	group = pref_group_new(vbox, FALSE, _("Auto-save options"), GTK_ORIENTATION_VERTICAL);
 
 	ct_button = pref_checkbox_new_int(group, _("Write metadata after timeout"),
 			      options->metadata.confirm_after_timeout, &c_options->metadata.confirm_after_timeout);
@@ -1367,12 +1394,6 @@ static void config_tab_metadata(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Write metadata on directory change"),
 			      options->metadata.confirm_on_dir_change, &c_options->metadata.confirm_on_dir_change);
-
-	pref_checkbox_new_int(group, _("Allow keywords to differ only in case"),
-			      options->metadata.keywords_case_sensitive, &c_options->metadata.keywords_case_sensitive);
-
-	pref_checkbox_new_int(group, _("Write altered image orientation to the metadata"),
-			      options->metadata.write_orientation, &c_options->metadata.write_orientation);
 }
 
 /* metadata tab */
