@@ -79,6 +79,12 @@ enum {
 	FE_ALLOW_SIDECAR
 };
 
+enum {
+	AE_ACTION,
+	AE_KEY,
+	AE_TOOLTIP,
+	AE_ACCEL
+};
 
 static gchar *format_class_list[] = {
 	N_("Unknown"),
@@ -86,7 +92,6 @@ static gchar *format_class_list[] = {
 	N_("RAW Image"),
 	N_("Metadata")
 	};
-
 
 /* config memory values */
 static ConfOptions *c_options = NULL;
@@ -98,6 +103,7 @@ static gint debug_c;
 
 static GtkWidget *configwindow = NULL;
 static GtkListStore *filter_store = NULL;
+static GtkTreeStore *accel_store = NULL;
 
 static GtkWidget *safe_delete_path_entry;
 
@@ -210,6 +216,26 @@ static void config_parse_editor_entries(GtkWidget **editor_name_entry, GtkWidget
 	g_string_free(errmsg, TRUE);
 }
 #endif
+
+static gboolean accel_apply_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	gchar *accel_path, *accel;
+
+	gtk_tree_model_get(model, iter, AE_ACCEL, &accel_path, AE_KEY, &accel, -1);
+	
+	if (accel_path && accel_path[0])
+		{
+		GtkAccelKey key;
+		gtk_accelerator_parse(accel, &key.accel_key, &key.accel_mods);
+		gtk_accel_map_change_entry(accel_path, key.accel_key, key.accel_mods, TRUE);
+		}
+		
+	g_free(accel_path);
+	g_free(accel);
+
+	return FALSE;
+}
+
 
 static void config_window_apply(void)
 {
@@ -356,6 +382,8 @@ static void config_window_apply(void)
 		filter_rebuild();
 		layout_refresh(NULL);
 		}
+	
+	if (accel_store) gtk_tree_model_foreach(GTK_TREE_MODEL(accel_store), accel_apply_cb, NULL);
 }
 
 /*
@@ -866,6 +894,268 @@ static void image_overlay_help_cb(GtkWidget *widget, gpointer data)
 {
 	help_window_show("overlay");
 }
+
+static void accel_store_populate(void)
+{
+	LayoutWindow *lw;
+	GList *groups, *actions;
+	GtkAction *action;
+	const gchar *accel_path;
+	GtkAccelKey key;
+	GtkTreeIter iter;
+
+	if (!accel_store || !layout_window_list || !layout_window_list->data) return;
+
+	gtk_tree_store_clear(accel_store);
+	lw = layout_window_list->data; /* get the actions from the first window, it should not matter, they should be the same in all windows */
+
+	g_assert(lw && lw->ui_manager);
+	groups = gtk_ui_manager_get_action_groups(lw->ui_manager);
+	while (groups)
+		{
+		actions = gtk_action_group_list_actions(GTK_ACTION_GROUP(groups->data));
+		while (actions)
+			{
+			action = GTK_ACTION(actions->data);
+			accel_path = gtk_action_get_accel_path(action);
+			if (accel_path && gtk_accel_map_lookup_entry(accel_path, &key))
+				{
+				gchar *label, *label2, *tooltip, *accel;
+				g_object_get(action,
+					     "tooltip", &tooltip,
+					     "label", &label,
+					     NULL);
+
+				if (pango_parse_markup(label, -1, '_', NULL, &label2, NULL, NULL) && label2) 
+					{
+					g_free(label);
+					label = label2;
+					}
+
+				accel = gtk_accelerator_name(key.accel_key, key.accel_mods);
+				gtk_tree_store_append(accel_store, &iter, NULL);
+				gtk_tree_store_set(accel_store, &iter,
+						   AE_ACTION, label,
+						   AE_KEY, accel,
+						   AE_TOOLTIP, tooltip ? tooltip : "",
+						   AE_ACCEL, accel_path,
+						   -1);
+
+				g_free(accel);
+				g_free(label);
+				g_free(tooltip);
+				}
+			actions = actions->next;
+			}
+
+		groups = groups->next;
+		}
+}
+
+static void accel_store_cleared_cb(GtkCellRendererAccel *accel, gchar *path_string, gpointer user_data)
+{
+    
+}
+
+static gboolean accel_remove_key_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	gchar *accel1 = data;
+	gchar *accel2;
+	GtkAccelKey key1;
+	GtkAccelKey key2;
+
+	gtk_tree_model_get(model, iter, AE_KEY, &accel2, -1);
+	
+	gtk_accelerator_parse(accel1, &key1.accel_key, &key1.accel_mods);
+	gtk_accelerator_parse(accel2, &key2.accel_key, &key2.accel_mods);
+	
+	if (key1.accel_key == key2.accel_key && key1.accel_mods == key2.accel_mods)
+		{
+		gtk_tree_store_set(accel_store, iter, AE_KEY, "",  -1);
+		DEBUG_1("accelerator key '%s' is already used, removing.", accel1);
+		}
+	
+	g_free(accel2);
+
+	return FALSE;
+}
+
+
+static void accel_store_edited_cb(GtkCellRendererAccel *accel, gchar *path_string, guint accel_key, GdkModifierType accel_mods, guint hardware_keycode, gpointer user_data)
+{
+	GtkTreeModel *model = (GtkTreeModel *)accel_store;
+	GtkTreeIter iter;
+	gchar *acc;
+	GtkTreePath *path = gtk_tree_path_new_from_string(path_string);
+
+	gtk_tree_model_get_iter(model, &iter, path);
+	acc = gtk_accelerator_name(accel_key, accel_mods);
+
+	gtk_tree_model_foreach(GTK_TREE_MODEL(accel_store), accel_remove_key_cb, acc);
+
+	gtk_tree_store_set(accel_store, &iter, AE_KEY, acc, -1);
+	gtk_tree_path_free(path);
+	g_free(acc);
+}
+
+static void accel_default_cb(GtkWidget *widget, gpointer data)
+{
+	accel_store_populate();
+
+	/* FIXME: implement the scroll to/select row stuff for tree view */
+}
+
+void accel_remove_selection(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	gtk_tree_store_set(accel_store, iter, AE_KEY, "", -1);    
+}
+
+#if 0    
+static void accel_remove_cb(GtkWidget *widget, gpointer data)
+{
+	GtkTreeSelection *selection;
+
+	if (!accel_store) return;
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(data));
+	gtk_tree_selection_selected_foreach(selection, &accel_remove_selection, NULL);
+}
+#endif
+
+void accel_reset_selection(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	GtkAccelKey key;
+	gchar *accel_path, *accel;
+
+	gtk_tree_model_get(model, iter, AE_ACCEL, &accel_path, -1);
+	gtk_accel_map_lookup_entry(accel_path, &key);
+	accel = gtk_accelerator_name(key.accel_key, key.accel_mods);
+
+	gtk_tree_model_foreach(GTK_TREE_MODEL(accel_store), accel_remove_key_cb, accel);
+
+	gtk_tree_store_set(accel_store, iter, AE_KEY, accel, -1);
+	g_free(accel_path);
+	g_free(accel);
+}
+
+static void accel_reset_cb(GtkWidget *widget, gpointer data)
+{
+	GtkTreeSelection *selection;
+
+	if (!accel_store) return;
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(data));
+	gtk_tree_selection_selected_foreach(selection, &accel_reset_selection, NULL);
+}
+
+
+#if 0
+static void accel_alternate_activate_cb(GtkWidget *widget, gpointer data)
+{
+	gtk_action_activate((GtkAction*)data);
+}
+
+#define DUPL "-alt-"
+
+void accel_add_alt_selection(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	LayoutWindow *lw;
+	GList *groups, *actions;
+	GtkAction *action;
+	GtkAccelKey key, *key2;
+	GtkAccelMap *map;
+	gchar *accel_path2, *accel;
+	const gchar *accel_path;
+	gint freeduplnum = 1;    
+	gint len;
+	GClosure* closure;
+	GtkAccelGroup *group;
+	GtkAction *action_new, *action_new2;
+	gchar *name, *accel_path_new, *accel_path_new2;
+
+ 	if (!accel_store || !layout_window_list || !layout_window_list->data) return;
+
+	gtk_tree_model_get(model, iter, AE_ACCEL, &accel_path2, -1);
+	len = strlen(accel_path2);
+ 
+	gtk_tree_store_clear(accel_store);
+	lw = layout_window_list->data;
+    
+	g_assert(lw && lw->ui_manager);
+	groups = gtk_ui_manager_get_action_groups(lw->ui_manager);
+	group = gtk_ui_manager_get_accel_group(lw->ui_manager);
+
+	while (groups)
+		{
+		actions = gtk_action_group_list_actions(GTK_ACTION_GROUP(groups->data));
+		while (actions)
+			{
+			gchar *dupl;
+			guint64 num;
+
+			action = GTK_ACTION(actions->data);
+			actions = actions->next;
+
+			accel_path = gtk_action_get_accel_path(action);
+			if (!accel_path) continue;
+
+			dupl = g_strrstr(accel_path, DUPL);
+
+			printf("D: %s %s %s\n", accel_path, accel_path2, dupl);
+
+			if ((dupl && (len != (dupl - accel_path)) ) ||
+			    g_ascii_strncasecmp(accel_path, accel_path2, len) != 0)
+				continue;
+
+			if (dupl && (num = g_ascii_strtoull(dupl + strlen(DUPL), NULL, 10)) > 0 &&
+			    num > freeduplnum)
+				{
+				freeduplnum = num + 1;
+				}
+			else
+				{
+				closure = gtk_action_get_accel_closure(action);
+				name = gtk_action_get_name(action);
+				accel_path_new = g_strdup(accel_path);
+				action_new2 = action;
+				}
+			}
+		groups = groups->next;
+		}
+
+	action_new = gtk_action_new(name, NULL, NULL, NULL);
+	gtk_action_set_accel_group(action_new, group);
+
+	g_signal_connect(G_OBJECT(action_new), "activate",
+			 G_CALLBACK(accel_alternate_activate_cb), action_new2);
+
+//	accel_path_new2 = g_strdup_printf("%s%s%d", accel_path_new, dupl, freeduplnum);
+	g_free(accel_path_new);
+
+	gtk_action_set_accel_path(action_new, accel_path_new);
+
+//	gtk_tree_store_set(accel_store, iter, AE_KEY, "", -1);
+	printf("D: %s\n", accel_path_new2);
+
+	g_free(accel_path_new2);
+	gtk_action_connect_accelerator(action_new);
+}
+    
+static void accel_add_alt_cb(GtkWidget *widget, gpointer data)
+{
+	GtkWidget *accel_view = data;
+	GtkTreeSelection *selection;
+
+	if (!accel_store) return;
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(data));
+	gtk_tree_selection_selected_foreach(selection, &accel_add_alt_selection, NULL);
+}
+
+static void accel_default_ok_cb(GenericDialog *gd, gpointer data)
+{
+	accel_store_populate();
+}
+
+#endif
 
 static GtkWidget *scrolled_notebook_page(GtkWidget *notebook, const gchar *title)
 {
@@ -1568,6 +1858,125 @@ static void config_tab_behavior(GtkWidget *notebook)
 #endif
 }
 
+/* accelerators tab */
+static void config_tab_accelerators(GtkWidget *notebook)
+{
+	GtkWidget *hbox;
+	GtkWidget *vbox;
+	GtkWidget *group;
+	GtkWidget *button;
+	GtkWidget *scrolled;
+	GtkWidget *accel_view;
+	GtkCellRenderer *renderer;
+	GtkTreeSelection *selection;
+	GtkTreeViewColumn *column;
+
+	vbox = scrolled_notebook_page(notebook, _("Keyboard"));
+
+	group = pref_group_new(vbox, TRUE, _("Accelerators"), GTK_ORIENTATION_VERTICAL);
+
+	scrolled = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+	gtk_box_pack_start(GTK_BOX(group), scrolled, TRUE, TRUE, 0);
+	gtk_widget_show(scrolled);
+
+	accel_store = gtk_tree_store_new(4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+
+	accel_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(accel_store));
+	g_object_unref(accel_store);
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(accel_view));
+	gtk_tree_selection_set_mode(GTK_TREE_SELECTION(selection), GTK_SELECTION_MULTIPLE);
+
+	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(accel_view), FALSE);
+
+	renderer = gtk_cell_renderer_text_new();
+
+	column = gtk_tree_view_column_new_with_attributes(_("Action"),
+        	                                      renderer,
+                                                      "text", AE_ACTION,
+                                                      NULL);
+
+	gtk_tree_view_column_set_sort_column_id(column, AE_ACTION);
+	gtk_tree_view_column_set_resizable(column, TRUE);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(accel_view), column);
+
+
+	renderer = gtk_cell_renderer_accel_new();
+	g_signal_connect(G_OBJECT(renderer), "accel-cleared",
+			 G_CALLBACK(accel_store_cleared_cb), accel_store);
+	g_signal_connect(G_OBJECT(renderer), "accel-edited",
+			 G_CALLBACK(accel_store_edited_cb), accel_store);
+
+
+	g_object_set (renderer,
+                  "editable", TRUE,
+                  "accel-mode", GTK_CELL_RENDERER_ACCEL_MODE_OTHER,
+                  NULL);
+    
+	column = gtk_tree_view_column_new_with_attributes(_("KEY"),
+                                                      renderer,
+                                                      "text", AE_KEY,
+                                                      NULL);
+
+	gtk_tree_view_column_set_sort_column_id(column, AE_KEY);
+	gtk_tree_view_column_set_resizable(column, TRUE);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(accel_view), column);
+
+	renderer = gtk_cell_renderer_text_new();
+
+	column = gtk_tree_view_column_new_with_attributes(_("Tooltip"),
+                                                      renderer,
+                                                      "text", AE_TOOLTIP,
+                                                      NULL);
+
+	gtk_tree_view_column_set_sort_column_id(column, AE_TOOLTIP);
+	gtk_tree_view_column_set_resizable(column, TRUE);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(accel_view), column);
+
+	renderer = gtk_cell_renderer_text_new();
+
+	column = gtk_tree_view_column_new_with_attributes("Accel",
+                                                      renderer,
+                                                      "text", AE_ACCEL,
+                                                      NULL);
+ 
+	gtk_tree_view_column_set_sort_column_id(column, AE_ACCEL);
+	gtk_tree_view_column_set_resizable(column, TRUE);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(accel_view), column);
+    
+	accel_store_populate();
+	gtk_container_add(GTK_CONTAINER(scrolled), accel_view);
+	gtk_widget_show(accel_view);
+
+	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
+
+	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
+				 G_CALLBACK(accel_default_cb), NULL);
+	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+	gtk_widget_show(button);
+
+#if 0
+	button = pref_button_new(NULL, GTK_STOCK_REMOVE, NULL, FALSE,
+				 G_CALLBACK(accel_remove_cb), accel_view);
+	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+	gtk_widget_show(button);
+#endif
+
+	button = pref_button_new(NULL, NULL, _("Reset selected"), FALSE,
+				 G_CALLBACK(accel_reset_cb), accel_view);
+	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+	gtk_widget_show(button);
+
+#if 0
+	button = pref_button_new(NULL, _("Add Alt"), NULL, FALSE,
+                 G_CALLBACK(accel_add_alt_cb), accel_view);
+	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+	gtk_widget_show(button);
+#endif
+}
+
+
 /* Main preferences window */
 static void config_window_create(void)
 {
@@ -1636,6 +2045,7 @@ static void config_window_create(void)
 	config_tab_general(notebook);
 	config_tab_image(notebook);
 	config_tab_windows(notebook);
+	config_tab_accelerators(notebook);
 	config_tab_files(notebook);
 	config_tab_metadata(notebook);
 	config_tab_color(notebook);
