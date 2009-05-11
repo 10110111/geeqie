@@ -15,6 +15,7 @@
 #include "preferences.h"
 
 #include "bar_exif.h"
+#include "cache.h"
 #include "cache_maint.h"
 #include "editors.h"
 #include "exif.h"
