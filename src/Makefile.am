@@ -5,6 +5,8 @@ AM_CFLAGS =				\
 	$(GLIB_CFLAGS) $(GTK_CFLAGS)	\
 	$(LCMS_CFLAGS)			\
 	$(EXIV2_CFLAGS)			\
+	$(LIBCHAMPLAIN_CFLAGS)	\
+	$(LIBCHAMPLAIN_GTK_CFLAGS)
 	-I$(top_srcdir)			\
 	-I$(top_builddir)
 
@@ -13,6 +15,8 @@ AM_CXXFLAGS =				\
 	$(GLIB_CFLAGS) $(GTK_CFLAGS)	\
 	$(LCMS_CFLAGS)			\
 	$(EXIV2_CFLAGS)			\
+	$(LIBCHAMPLAIN_CFLAGS)	\
+	$(LIBCHAMPLAIN_GTK_CFLAGS)	
 	-I$(top_srcdir)			\
 	-I$(top_builddir)
 
@@ -83,6 +87,8 @@ geeqie_SOURCES = \
 	bar.h		\
 	bar_comment.c	\
 	bar_comment.h	\
+	bar_gps.c	\
+	bar_gps.h	\
 	bar_histogram.c	\
 	bar_histogram.h	\
 	bar_keywords.c	\
@@ -238,7 +244,7 @@ geeqie_SOURCES = \
 	window.c	\
 	window.h
 
-geeqie_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(INTLLIBS) $(LCMS_LIBS) $(EXIV2_LIBS)
+geeqie_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(INTLLIBS) $(LCMS_LIBS) $(EXIV2_LIBS) $(LIBCHAMPLAIN_LIBS) $(LIBCHAMPLAIN_GTK_LIBS)
 
 EXTRA_DIST = \
 	$(extra_SLIK)

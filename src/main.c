@@ -37,6 +37,11 @@
 #include "pixbuf_util.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
+#ifdef HAVE_LIBCHAMPLAIN
+#ifdef HAVE_LIBCHAMPLAIN_GTK
+#include <clutter-gtk/gtk-clutter-embed.h>
+#endif
+#endif
 
 #include <signal.h>
 #include <sys/mman.h>
@@ -748,7 +753,16 @@ gint main(gint argc, gchar *argv[])
 	file_data_register_notify_func(collect_manager_notify_cb, NULL, NOTIFY_PRIORITY_LOW);
 
 	gtkrc_load();
+	 
+#ifdef HAVE_LIBCHAMPLAIN
+#ifdef HAVE_LIBCHAMPLAIN_GTK
+	gtk_clutter_init(&argc, &argv);
+#else
 	gtk_init(&argc, &argv);
+#endif
+#else
+	gtk_init(&argc, &argv);
+#endif
 
 	if (gtk_major_version < GTK_MAJOR_VERSION ||
 	    (gtk_major_version == GTK_MAJOR_VERSION && gtk_minor_version < GTK_MINOR_VERSION) )

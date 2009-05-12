@@ -29,6 +29,7 @@
 #include "bar_histogram.h"
 #include "histogram.h"
 #include "rcfile.h"
+#include "bar_gps.h"
 
 typedef struct _KnownPanes KnownPanes;
 struct _KnownPanes
@@ -144,6 +145,23 @@ static const gchar default_config_copyright[] =
 "    </layout>"
 "</gq>";
 
+#ifdef HAVE_LIBCHAMPLAIN
+#ifdef HAVE_LIBCHAMPLAIN_GTK
+static const gchar default_config_gps[] = 
+"<gq>"
+"    <layout id = '_current_'>"
+"        <bar>"
+"            <pane_gps id = 'gps' expanded = 'true'"
+"                      map-id = 'osm::mapnik'"
+"                      zoom-level = '8'"
+"                      latitude = '50116666'"
+"                      longitude = '8683333' />"
+"        </bar>"
+"    </layout>"
+"</gq>";
+#endif
+#endif
+
 static const KnownPanes known_panes[] = {
 /* default sidebar */
 	{PANE_HISTOGRAM,	"histogram",	N_("Histogram"),	default_config_histogram},
@@ -155,7 +173,11 @@ static const KnownPanes known_panes[] = {
 	{PANE_EXIF,		"file_info",	N_("File info"),	default_config_file_info},
 	{PANE_EXIF,		"location",	N_("Location and GPS"),	default_config_location},
 	{PANE_EXIF,		"copyright",	N_("Copyright"),	default_config_copyright},
-
+#ifdef HAVE_LIBCHAMPLAIN
+#ifdef HAVE_LIBCHAMPLAIN_GTK
+	{PANE_GPS,		"gps",	N_("GPS Map"),	default_config_gps},
+#endif
+#endif
 	{PANE_UNDEF,		NULL,		NULL,			NULL}
 };
 

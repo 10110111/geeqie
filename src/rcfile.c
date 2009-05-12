@@ -33,6 +33,7 @@
 #include "layout_util.h"
 #include "bar.h"
 #include "metadata.h"
+#include "bar_gps.h"
 
 
 /*
@@ -910,6 +911,24 @@ static void options_parse_bar(GQParserData *parser_data, GMarkupParseContext *co
 			}
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
+#ifdef HAVE_LIBCHAMPLAIN
+#ifdef HAVE_LIBCHAMPLAIN_GTK
+	else if (g_ascii_strcasecmp(element_name, "pane_gps") == 0)
+		{
+		GtkWidget *pane = bar_find_pane_by_id(bar, PANE_GPS, options_get_id(attribute_names, attribute_values));
+		if (pane)
+			{
+			bar_pane_gps_update_from_config(pane, attribute_names, attribute_values);
+			}
+		else
+			{
+			pane = bar_pane_gps_new_from_config(attribute_names, attribute_values);
+			bar_add(bar, pane);
+			}
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+#endif
+#endif
 	else if (g_ascii_strcasecmp(element_name, "pane_exif") == 0)
 		{
 		GtkWidget *pane = bar_find_pane_by_id(bar, PANE_EXIF, options_get_id(attribute_names, attribute_values));
