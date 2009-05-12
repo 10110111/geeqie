@@ -895,6 +895,7 @@ static void image_overlay_help_cb(GtkWidget *widget, gpointer data)
 	help_window_show("overlay");
 }
 
+#if GTK_CHECK_VERSION(2, 10, 0)
 static void accel_store_populate(void)
 {
 	LayoutWindow *lw;
@@ -1155,6 +1156,7 @@ static void accel_default_ok_cb(GenericDialog *gd, gpointer data)
 	accel_store_populate();
 }
 
+#endif
 #endif
 
 static GtkWidget *scrolled_notebook_page(GtkWidget *notebook, const gchar *title)
@@ -1861,6 +1863,7 @@ static void config_tab_behavior(GtkWidget *notebook)
 /* accelerators tab */
 static void config_tab_accelerators(GtkWidget *notebook)
 {
+#if GTK_CHECK_VERSION(2, 10, 0)
 	GtkWidget *hbox;
 	GtkWidget *vbox;
 	GtkWidget *group;
@@ -1974,8 +1977,8 @@ static void config_tab_accelerators(GtkWidget *notebook)
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 #endif
+#endif
 }
-
 
 /* Main preferences window */
 static void config_window_create(void)
