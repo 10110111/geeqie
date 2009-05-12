@@ -17,9 +17,9 @@ possible to contact gqview author and the only maintainer.
 Geeqie projects goal is to move the development forward and 
 also integrate the existing patches.
 
-Geeqie is currently in alpha state. Everybody is encouraged 
-to try the new features, however for stable software look at 
-the original project.
+Geeqie is currently in beta state. All planed features for 1.0 are implemented,
+but there are bugs. Please report any crash or odd behavior to the bugtracker:
+https://sourceforge.net/tracker/?group_id=222125&atid=1054680
 
 For more info see:
 http://geeqie.sourceforge.net
@@ -48,17 +48,28 @@ geeqie-devel@lists.sourceforge.net
 ======== Requirements
 
   Required libraries:
-    GTK+ 2.4.x: ftp://ftp.gtk.org/pub/gtk
+    GTK+ 2.??.x: ftp://ftp.gtk.org/pub/gtk
+FIXME: determine realistic requirements.
+It compiles with GTK 2.10, but some features are disabled and the testing was
+minimal. Please report success or  falilures.
 
   Optional libraries:
     lcms, for color management support: http://www.littlecms.com
         (disable with configure option: '--without-lcms')
     exiv2, for enhanced exif support: http://www.exiv2.org/
         (disable with configure option: '--without-exiv2')
+        - due to fast development, newer versions work significantly better
+        FIXME: minimal version ?
     lirc, for remote control support: http://www.lirc.org/
     	(disable with configure option: '--disable-lirc')
 
 ======== Notes and changes for this release            [section:release_notes]
+
+!!! FIXME Geeqie changes !!!
+See http://geeqie.wiki.sourceforge.net/new_features
+
+The list for Geeqie is quite long - maybe use separate file?
+
 
   Changes:
 
@@ -85,7 +96,7 @@ geeqie-devel@lists.sourceforge.net
 
     Version in parentheses indicates first appearance of feature or change.
 
-!!! FIXME Geeqie changes !!!
+
    	
     Below are GQView releases:
     (2.1.5) Add support for color profiles when lcms is installed. To
@@ -228,6 +239,9 @@ geeqie-devel@lists.sourceforge.net
     - EXIF support.
 
 ======== Documentation (brief)                         [section:documentation]
+
+FIXME: do we need this section? The keyboard configuration dialog should provide
+correct up-to-date list.
 
   Keyboard commands:
     [PageDown], [Keypad PageDown]      next image
@@ -388,27 +402,11 @@ geeqie-devel@lists.sourceforge.net
 
 ======== Editor command macros                               [section:editors]
 
- Any one of the following filename markers may be used:
+Editors are configured via standard desktop files, see
+http://standards.freedesktop.org/desktop-entry-spec/latest/
 
-    %f  Replaced with list of selected files, may occur once.
-    %p  Command is run once for each selected file, may occur multiple times.
-   
- Use of the following to display output window for the command:
+FIXME: Geeqie extensions
 
-    %v  Display result of command in output window, must occur as first two
-        characters in the command, or immediately after the "%w" macro.
-    %V  Like v above, but when used with %p, only displays output window for
-        multiple files. The output of a single file is suppressed.
-
- Additional macros:
-
-    %w  Prevent full screen from deactivating when command is executed,
-        must occur as the first two characters.
-
-    %%  This will be replaced by one '%'. This is the way to escape '%'.
-
-    %d  This only makes sense for external commands like copy or move as this
-        is replaced by the destination.
 
 ======== Overlay Info                                        [section:overlay]
 
@@ -475,6 +473,8 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
 
 
 ======== Additional comments:
+
+FIXME: here are some changes
 
   Hidden options:
     These options are not adjustable in the preferences window, to change
