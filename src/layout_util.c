@@ -1219,7 +1219,7 @@ static GtkActionEntry menu_entries[] = {
   { "ViewMenu",		NULL,			N_("_View"),				NULL, 			N_("View"),				NULL },
   { "DirMenu",          NULL,			N_("_View Directory as"),		NULL, 			N_("View Directory as"),		NULL },
   { "ZoomMenu",		NULL,			N_("_Zoom"),				NULL, 			N_("Zoom"),				NULL },
-  { "ColorMenu",	NULL,			N_("Color _Management"),		NULL, 			N_("Color _Management"),		NULL },
+  { "ColorMenu",	NULL,			N_("Color _Management"),		NULL, 			N_("Color Management"),			NULL },
   { "ConnectZoomMenu",	NULL,			N_("_Connected Zoom"),			NULL, 			N_("Connected Zoom"),			NULL },
   { "SplitMenu",	NULL,			N_("_Split"),				NULL, 			N_("Split"),				NULL },
   { "HelpMenu",		NULL,			N_("_Help"),				NULL, 			N_("Help"),				NULL },
