@@ -865,7 +865,6 @@ static void vf_thumb_done_cb(ThumbLoader *tl, gpointer data)
 static gboolean vf_thumb_next(ViewFile *vf)
 {
 	FileData *fd = NULL;
-	gint ret;
 
 	if (!GTK_WIDGET_REALIZED(vf->listview))
 		{

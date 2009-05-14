@@ -1430,13 +1430,16 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 
 static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 {
-	GList *work;
-	gint i;
 
 	if (!fd) return;
 
 	pan_text_alignment_add(ta, NULL, NULL);
 #if 0
+	{
+	GList *work;
+	gint i;
+
+
 	for (i = 0; ExifUIList[i].key; i++)
 		{
 		gchar *label;
@@ -1480,6 +1483,7 @@ static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 			g_free(text);
 			}
 		}
+	}
 #endif
 }
 
