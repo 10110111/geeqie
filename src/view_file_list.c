@@ -1023,9 +1023,8 @@ void vflist_sort_set(ViewFile *vf, SortType type, gboolean ascend)
  *-----------------------------------------------------------------------------
  */
 
-static gboolean vflist_thumb_next(ViewFile *vf);
 
-static void vflist_thumb_progress_count(GList *list, gint *count, gint *done)
+void vflist_thumb_progress_count(GList *list, gint *count, gint *done)
 {
 	GList *work = list;
 	while (work)
@@ -1043,44 +1042,7 @@ static void vflist_thumb_progress_count(GList *list, gint *count, gint *done)
 		}
 }
 
-static gdouble vflist_thumb_progress(ViewFile *vf)
-{
-	gint count = 0;
-	gint done = 0;
-	
-	vflist_thumb_progress_count(vf->list, &count, &done);
-
-	DEBUG_1("thumb progress: %d of %d", done, count);
-	return (gdouble)done / count;
-}
-
-
-static void vflist_thumb_status(ViewFile *vf, gdouble val, const gchar *text)
-{
-	if (vf->func_thumb_status)
-		{
-		vf->func_thumb_status(vf, val, text, vf->data_thumb_status);
-		}
-}
-
-static void vflist_thumb_cleanup(ViewFile *vf)
-{
-	vflist_thumb_status(vf, 0.0, NULL);
-
-	vf->thumbs_running = FALSE;
-
-	thumb_loader_free(vf->thumbs_loader);
-	vf->thumbs_loader = NULL;
-
-	vf->thumbs_filedata = NULL;
-}
-
-static void vflist_thumb_stop(ViewFile *vf)
-{
-	if (vf->thumbs_running) vflist_thumb_cleanup(vf);
-}
-
-static void vflist_thumb_do(ViewFile *vf, ThumbLoader *tl, FileData *fd)
+void vflist_set_thumb_fd(ViewFile *vf, FileData *fd)
 {
 	GtkTreeStore *store;
 	GtkTreeIter iter;
@@ -1089,43 +1051,16 @@ static void vflist_thumb_do(ViewFile *vf, ThumbLoader *tl, FileData *fd)
 
 	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
 	gtk_tree_store_set(store, &iter, FILE_COLUMN_THUMB, fd->thumb_pixbuf, -1);
-
-	vflist_thumb_status(vf, vflist_thumb_progress(vf), _("Loading thumbs..."));
 }
 
-static void vflist_thumb_error_cb(ThumbLoader *tl, gpointer data)
-{
-	ViewFile *vf = data;
-
-	if (vf->thumbs_filedata && vf->thumbs_loader == tl)
-		{
-		vflist_thumb_do(vf, tl, vf->thumbs_filedata);
-		}
-
-	while (vflist_thumb_next(vf));
-}
-
-static void vflist_thumb_done_cb(ThumbLoader *tl, gpointer data)
-{
-	ViewFile *vf = data;
-
-	if (vf->thumbs_filedata && vf->thumbs_loader == tl)
-		{
-		vflist_thumb_do(vf, tl, vf->thumbs_filedata);
-		}
-
-	while (vflist_thumb_next(vf));
-}
-
-static gboolean vflist_thumb_next(ViewFile *vf)
+FileData *vflist_thumb_next_fd(ViewFile *vf)
 {
 	GtkTreePath *tpath;
 	FileData *fd = NULL;
 
 	/* first check the visible files */
 
-	if (GTK_WIDGET_REALIZED(vf->listview) &&
-	    gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(vf->listview), 0, 0, &tpath, NULL, NULL, NULL))
+	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(vf->listview), 0, 0, &tpath, NULL, NULL, NULL))
 		{
 		GtkTreeModel *store;
 		GtkTreeIter iter;
@@ -1172,62 +1107,23 @@ static gboolean vflist_thumb_next(ViewFile *vf)
 			}
 		}
 
-	if (!fd)
-		{
-		/* done */
-		vflist_thumb_cleanup(vf);
-		return FALSE;
-		}
-
-	vf->thumbs_filedata = fd;
-
-	thumb_loader_free(vf->thumbs_loader);
-
-	vf->thumbs_loader = thumb_loader_new(options->thumbnails.max_width, options->thumbnails.max_height);
-	thumb_loader_set_callbacks(vf->thumbs_loader,
-				   vflist_thumb_done_cb,
-				   vflist_thumb_error_cb,
-				   NULL,
-				   vf);
-
-	if (!thumb_loader_start(vf->thumbs_loader, fd))
-		{
-		/* set icon to unknown, continue */
-		DEBUG_1("thumb loader start failed %s", fd->path);
-		vflist_thumb_do(vf, vf->thumbs_loader, fd);
-
-		return TRUE;
-		}
-
-	return FALSE;
+	return fd;
 }
 
-void vflist_thumb_update(ViewFile *vf)
+
+void vflist_thumb_reset_all(ViewFile *vf)
 {
-	vflist_thumb_stop(vf);
-	if (!VFLIST(vf)->thumbs_enabled) return;
-
-	vflist_thumb_status(vf, 0.0, _("Loading thumbs..."));
-	vf->thumbs_running = TRUE;
-
-	if (thumb_format_changed)
+	GList *work = vf->list;
+	while (work)
 		{
-		GList *work = vf->list;
-		while (work)
+		FileData *fd = work->data;
+		if (fd->thumb_pixbuf)
 			{
-			FileData *fd = work->data;
-			if (fd->thumb_pixbuf)
-				{
-				g_object_unref(fd->thumb_pixbuf);
-				fd->thumb_pixbuf = NULL;
-				}
-			work = work->next;
+			g_object_unref(fd->thumb_pixbuf);
+			fd->thumb_pixbuf = NULL;
 			}
-
-		thumb_format_changed = FALSE;
+		work = work->next;
 		}
-
-	while (vflist_thumb_next(vf));
 }
 
 /*
@@ -1732,7 +1628,7 @@ static void vflist_populate_view(ViewFile *vf)
 	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
 	thumbs_enabled = VFLIST(vf)->thumbs_enabled;
 
-	vflist_thumb_stop(vf);
+	vf_thumb_stop(vf);
 
 	if (!vf->list)
 		{
@@ -1756,7 +1652,7 @@ static void vflist_populate_view(ViewFile *vf)
 	filelist_free(selected);
 	
 	vf_send_update(vf);
-	vflist_thumb_update(vf);
+	vf_thumb_update(vf);
 }
 
 gboolean vflist_refresh(ViewFile *vf)
@@ -1969,7 +1865,7 @@ void vflist_destroy_cb(GtkWidget *widget, gpointer data)
 
 	vflist_select_idle_cancel(vf);
 	vf_refresh_idle_cancel(vf);
-	vflist_thumb_stop(vf);
+	vf_thumb_stop(vf);
 
 	filelist_free(vf->list);
 }

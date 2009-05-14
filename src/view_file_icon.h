@@ -54,7 +54,11 @@ void vficon_select_by_fd(ViewFile *vf, FileData *fd);
 void vficon_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode);
 void vficon_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode);
 
-void vficon_thumb_update(ViewFile *vf);
+
+void vficon_thumb_progress_count(GList *list, gint *count, gint *done);
+void vficon_set_thumb_fd(ViewFile *vf, FileData *fd);
+FileData *vficon_thumb_next_fd(ViewFile *vf);
+void vficon_thumb_reset_all(ViewFile *vf);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

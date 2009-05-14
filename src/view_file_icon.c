@@ -1561,20 +1561,6 @@ static void vficon_clear_store(ViewFile *vf)
 	gtk_list_store_clear(GTK_LIST_STORE(store));
 }
 
-static void vficon_set_thumb(ViewFile *vf, FileData *fd)
-{
-	GtkTreeModel *store;
-	GtkTreeIter iter;
-	GList *list;
-
-	if (!vficon_find_iter(vf, vficon_icon_data(vf, fd), &iter, NULL)) return;
-
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
-
-	gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &list, -1);
-	gtk_list_store_set(GTK_LIST_STORE(store), &iter, FILE_COLUMN_POINTER, list, -1);
-}
-
 static GList *vficon_add_row(ViewFile *vf, GtkTreeIter *iter)
 {
 	GtkListStore *store;
@@ -1727,7 +1713,7 @@ static void vficon_populate(ViewFile *vf, gboolean resize, gboolean keep_positio
 
 
 	vf_send_update(vf);
-	vficon_thumb_update(vf);
+	vf_thumb_update(vf);
 }
 
 static void vficon_populate_at_new_size(ViewFile *vf, gint w, gint h, gboolean force)
@@ -1864,95 +1850,39 @@ void vficon_sort_set(ViewFile *vf, SortType type, gboolean ascend)
  *-----------------------------------------------------------------------------
  */
 
-static gboolean vficon_thumb_next(ViewFile *vf);
-
-static gdouble vficon_thumb_progress(ViewFile *vf)
+void vficon_thumb_progress_count(GList *list, gint *count, gint *done)
 {
-	gint count = 0;
-	gint done = 0;
-	
-	GList *work = vf->list;
+	GList *work = list;
 	while (work)
 		{
 		IconData *id = work->data;
 		FileData *fd = id->fd;
 		work = work->next;
 
-		if (fd->thumb_pixbuf) done++;
-		count++;
-		}
-	DEBUG_1("thumb progress: %d of %d", done, count);
-	return (gdouble)done / count;
-}
-
-static void vficon_thumb_status(ViewFile *vf, gdouble val, const gchar *text)
-{
-	if (vf->func_thumb_status)
-		{
-		vf->func_thumb_status(vf, val, text, vf->data_thumb_status);
+		if (fd->thumb_pixbuf) (*done)++;
+		(*count)++;
 		}
 }
 
-static void vficon_thumb_cleanup(ViewFile *vf)
+void vficon_set_thumb_fd(ViewFile *vf, FileData *fd)
 {
-	vficon_thumb_status(vf, 0.0, NULL);
+	GtkTreeModel *store;
+	GtkTreeIter iter;
+	GList *list;
 
-	vf->thumbs_running = FALSE;
+	if (!vficon_find_iter(vf, vficon_icon_data(vf, fd), &iter, NULL)) return;
 
-	thumb_loader_free(vf->thumbs_loader);
-	vf->thumbs_loader = NULL;
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
 
-	vf->thumbs_filedata = NULL;
+	gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &list, -1);
+	gtk_list_store_set(GTK_LIST_STORE(store), &iter, FILE_COLUMN_POINTER, list, -1);
 }
 
-static void vficon_thumb_stop(ViewFile *vf)
-{
-	if (vf->thumbs_running) vficon_thumb_cleanup(vf);
-}
 
-static void vficon_thumb_do(ViewFile *vf, ThumbLoader *tl, FileData *fd)
-{
-	if (!fd) return;
-
-	vficon_set_thumb(vf, fd);
-
-	vficon_thumb_status(vf, vficon_thumb_progress(vf), _("Loading thumbs..."));
-}
-
-static void vficon_thumb_error_cb(ThumbLoader *tl, gpointer data)
-{
-	ViewFile *vf = data;
-
-	if (vf->thumbs_filedata && vf->thumbs_loader == tl)
-		{
-		vficon_thumb_do(vf, tl, vf->thumbs_filedata);
-		}
-
-	while (vficon_thumb_next(vf));
-}
-
-static void vficon_thumb_done_cb(ThumbLoader *tl, gpointer data)
-{
-	ViewFile *vf = data;
-
-	if (vf->thumbs_filedata && vf->thumbs_loader == tl)
-		{
-		vficon_thumb_do(vf, tl, vf->thumbs_filedata);
-		}
-
-	while (vficon_thumb_next(vf));
-}
-
-static gboolean vficon_thumb_next(ViewFile *vf)
+FileData *vficon_thumb_next_fd(ViewFile *vf)
 {
 	GtkTreePath *tpath;
 	FileData *fd = NULL;
-
-	if (!GTK_WIDGET_REALIZED(vf->listview))
-		{
-		vficon_thumb_status(vf, 0.0, NULL);
-		return FALSE;
-		}
 
 	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(vf->listview), 0, 0, &tpath, NULL, NULL, NULL))
 		{
@@ -1996,63 +1926,26 @@ static gboolean vficon_thumb_next(ViewFile *vf)
 			}
 		}
 
-	if (!fd)
-		{
-		/* done */
-		vficon_thumb_cleanup(vf);
-		return FALSE;
-		}
-
-	vf->thumbs_filedata = fd;
-
-	thumb_loader_free(vf->thumbs_loader);
-
-	vf->thumbs_loader = thumb_loader_new(options->thumbnails.max_width, options->thumbnails.max_height);
-	thumb_loader_set_callbacks(vf->thumbs_loader,
-				   vficon_thumb_done_cb,
-				   vficon_thumb_error_cb,
-				   NULL,
-				   vf);
-
-	if (!thumb_loader_start(vf->thumbs_loader, fd))
-		{
-		/* set icon to unknown, continue */
-		DEBUG_1("thumb loader start failed %s", fd->path);
-		vficon_thumb_do(vf, vf->thumbs_loader, fd);
-
-		return TRUE;
-		}
-
-	return FALSE;
+	return fd;
 }
 
-void vficon_thumb_update(ViewFile *vf)
+void vficon_thumb_reset_all(ViewFile *vf)
 {
-	vficon_thumb_stop(vf);
+	GList *work = vf->list;
 
-	vficon_thumb_status(vf, 0.0, _("Loading thumbs..."));
-	vf->thumbs_running = TRUE;
-	
-	if (thumb_format_changed)
+	while (work)
 		{
-		GList *work = vf->list;
-		while (work)
+		IconData *id = work->data;
+		FileData *fd = id->fd;
+		if (fd->thumb_pixbuf)
 			{
-			IconData *id = work->data;
-			FileData *fd = id->fd;
-			if (fd->thumb_pixbuf)
-				{
-				g_object_unref(fd->thumb_pixbuf);
-				fd->thumb_pixbuf = NULL;
-				}
-			work = work->next;
+			g_object_unref(fd->thumb_pixbuf);
+			fd->thumb_pixbuf = NULL;
 			}
-
-		thumb_format_changed = FALSE;
+		work = work->next;
 		}
-
-	while (vficon_thumb_next(vf));
 }
+
 
 /*
  *-----------------------------------------------------------------------------
@@ -2456,7 +2349,7 @@ void vficon_destroy_cb(GtkWidget *widget, gpointer data)
 
 	tip_unschedule(vf);
 
-	vficon_thumb_cleanup(vf);
+	vf_thumb_cleanup(vf);
 
 	iconlist_free(vf->list);
 	g_list_free(VFICON(vf)->selection);

@@ -15,6 +15,7 @@
 #include "editors.h"
 #include "layout.h"
 #include "menu.h"
+#include "thumb.h"
 #include "ui_menu.h"
 #include "ui_fileops.h"
 #include "utilops.h"
@@ -633,15 +634,6 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 	return menu;
 }
 
-void vf_thumb_update(ViewFile *vf)
-{
-	switch (vf->type)
-	{
-	case FILEVIEW_LIST: vflist_thumb_update(vf); break;
-	case FILEVIEW_ICON: vficon_thumb_update(vf); break;
-	}
-}
-
 gboolean vf_refresh(ViewFile *vf)
 {
 	gboolean ret = FALSE;
@@ -787,6 +779,163 @@ void vf_thumb_set(ViewFile *vf, gboolean enable)
 	case FILEVIEW_ICON: /*vficon_thumb_set(vf, enable);*/ break;
 	}
 }
+
+
+static gboolean vf_thumb_next(ViewFile *vf);
+
+static gdouble vf_thumb_progress(ViewFile *vf)
+{
+	gint count = 0;
+	gint done = 0;
+	
+	switch (vf->type)
+	{
+	case FILEVIEW_LIST: vflist_thumb_progress_count(vf->list, &count, &done); break;
+	case FILEVIEW_ICON: vficon_thumb_progress_count(vf->list, &count, &done); break;
+	}
+	
+	DEBUG_1("thumb progress: %d of %d", done, count);
+	return (gdouble)done / count;
+}
+
+static void vf_set_thumb_fd(ViewFile *vf, FileData *fd)
+{	
+	switch (vf->type)
+	{
+	case FILEVIEW_LIST: vflist_set_thumb_fd(vf, fd); break;
+	case FILEVIEW_ICON: vficon_set_thumb_fd(vf, fd); break;
+	}
+}
+
+static void vf_thumb_status(ViewFile *vf, gdouble val, const gchar *text)
+{
+	if (vf->func_thumb_status)
+		{
+		vf->func_thumb_status(vf, val, text, vf->data_thumb_status);
+		}
+}
+
+static void vf_thumb_do(ViewFile *vf, FileData *fd)
+{
+	if (!fd) return;
+
+	vf_set_thumb_fd(vf, fd);
+	vf_thumb_status(vf, vf_thumb_progress(vf), _("Loading thumbs..."));
+}
+
+void vf_thumb_cleanup(ViewFile *vf)
+{
+	vf_thumb_status(vf, 0.0, NULL);
+
+	vf->thumbs_running = FALSE;
+
+	thumb_loader_free(vf->thumbs_loader);
+	vf->thumbs_loader = NULL;
+
+	vf->thumbs_filedata = NULL;
+}
+
+void vf_thumb_stop(ViewFile *vf)
+{
+	if (vf->thumbs_running) vf_thumb_cleanup(vf);
+}
+
+static void vf_thumb_common_cb(ThumbLoader *tl, gpointer data)
+{
+	ViewFile *vf = data;
+
+	if (vf->thumbs_filedata && vf->thumbs_loader == tl)
+		{
+		vf_thumb_do(vf, vf->thumbs_filedata);
+		}
+
+	while (vf_thumb_next(vf));
+}
+
+static void vf_thumb_error_cb(ThumbLoader *tl, gpointer data)
+{
+	vf_thumb_common_cb(tl, data);
+}
+
+static void vf_thumb_done_cb(ThumbLoader *tl, gpointer data)
+{
+	vf_thumb_common_cb(tl, data);
+}
+
+static gboolean vf_thumb_next(ViewFile *vf)
+{
+	FileData *fd = NULL;
+	gint ret;
+
+	if (!GTK_WIDGET_REALIZED(vf->listview))
+		{
+		vf_thumb_status(vf, 0.0, NULL);
+		return FALSE;
+		}
+
+	switch (vf->type)
+	{
+	case FILEVIEW_LIST: fd = vflist_thumb_next_fd(vf); break;
+	case FILEVIEW_ICON: fd = vficon_thumb_next_fd(vf); break;
+	}
+
+	if (!fd)
+		{
+		/* done */
+		vf_thumb_cleanup(vf);
+		return FALSE;
+		}
+
+	vf->thumbs_filedata = fd;
+
+	thumb_loader_free(vf->thumbs_loader);
+
+	vf->thumbs_loader = thumb_loader_new(options->thumbnails.max_width, options->thumbnails.max_height);
+	thumb_loader_set_callbacks(vf->thumbs_loader,
+				   vf_thumb_done_cb,
+				   vf_thumb_error_cb,
+				   NULL,
+				   vf);
+
+	if (!thumb_loader_start(vf->thumbs_loader, fd))
+		{
+		/* set icon to unknown, continue */
+		DEBUG_1("thumb loader start failed %s", fd->path);
+		vf_thumb_do(vf, fd);
+
+		return TRUE;
+		}
+
+	return FALSE;
+}
+
+static void vf_thumb_reset_all(ViewFile *vf)
+{
+	switch (vf->type)
+	{
+	case FILEVIEW_LIST: vflist_thumb_reset_all(vf); break;
+	case FILEVIEW_ICON: vficon_thumb_reset_all(vf); break;
+	}
+}
+
+void vf_thumb_update(ViewFile *vf)
+{
+	vf_thumb_stop(vf);
+	
+	if (vf->type == FILEVIEW_LIST && !VFLIST(vf)->thumbs_enabled) return;
+
+	vf_thumb_status(vf, 0.0, _("Loading thumbs..."));
+	vf->thumbs_running = TRUE;
+
+	if (thumb_format_changed)
+		{
+		vf_thumb_reset_all(vf);
+		thumb_format_changed = FALSE;
+		}
+
+	while (vf_thumb_next(vf));
+}
+
 
 void vf_marks_set(ViewFile *vf, gboolean enable)
 {
