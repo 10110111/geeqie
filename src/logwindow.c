@@ -112,7 +112,7 @@ static void log_window_init(LogWindow *logwin)
 {
 	GtkTextBuffer *buffer;
 	GdkColormap *colormap;
-	gboolean success[LOG_COUNT - 1];
+	gboolean success[LOG_COUNT];
 	gint i;
 
 	g_assert(logwin != NULL);
