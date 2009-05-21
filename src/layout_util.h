@@ -50,10 +50,6 @@ void layout_toolbar_write_config(LayoutWindow *lw, ToolbarType type, GString *ou
 void layout_keyboard_init(LayoutWindow *lw, GtkWidget *window);
 
 
-PixmapFolders *folder_icons_new(void);
-void folder_icons_free(PixmapFolders *pf);
-
-
 void layout_bar_toggle(LayoutWindow *lw);
 void layout_bar_set(LayoutWindow *lw, GtkWidget *bar);
 

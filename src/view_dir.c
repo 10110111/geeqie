@@ -18,6 +18,7 @@
 #include "filedata.h"
 #include "layout_image.h"
 #include "layout_util.h"
+#include "pixbuf_util.h"
 #include "ui_fileops.h"
 #include "ui_tree_edit.h"
 #include "ui_menu.h"
@@ -25,6 +26,43 @@
 #include "uri_utils.h"
 #include "view_dir_list.h"
 #include "view_dir_tree.h"
+
+/* Folders icons to be used in tree or list directory view */
+static PixmapFolders *folder_icons_new(GtkWidget *widget)
+{
+	PixmapFolders *pf = g_new0(PixmapFolders, 1);
+	
+#if 1
+	GtkIconSize size = GTK_ICON_SIZE_MENU;
+
+	/* Attempt to use stock gtk icons */
+	pf->close  = gtk_widget_render_icon(widget, GTK_STOCK_DIRECTORY, size, NULL);
+	pf->open   = gtk_widget_render_icon(widget, GTK_STOCK_OPEN, size, NULL);
+	pf->deny   = gtk_widget_render_icon(widget, GTK_STOCK_STOP, size, NULL);
+	pf->parent = gtk_widget_render_icon(widget, GTK_STOCK_GO_UP, size, NULL);
+#else
+	/* GQView legacy icons */
+	pf->close  = pixbuf_inline(PIXBUF_INLINE_FOLDER_CLOSED);
+	pf->open   = pixbuf_inline(PIXBUF_INLINE_FOLDER_OPEN);
+	pf->deny   = pixbuf_inline(PIXBUF_INLINE_FOLDER_LOCKED);
+	pf->parent = pixbuf_inline(PIXBUF_INLINE_FOLDER_UP);
+#endif
+	return pf;
+}
+
+static void folder_icons_free(PixmapFolders *pf)
+{
+	if (!pf) return;
+
+	g_object_unref(pf->close);
+	g_object_unref(pf->open);
+	g_object_unref(pf->deny);
+	g_object_unref(pf->parent);
+
+	g_free(pf);
+}
+
+
 
 static void vd_notify_cb(FileData *fd, NotifyType type, gpointer data);
 
@@ -72,7 +110,7 @@ ViewDir *vd_new(DirViewType type, FileData *dir_fd)
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(vd->widget),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
 
-	vd->pf = folder_icons_new();
+	vd->pf = folder_icons_new(vd->widget);
 
 	switch (type)
 	{

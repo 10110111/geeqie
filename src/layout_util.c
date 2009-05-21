@@ -2200,37 +2200,6 @@ void layout_util_sync(LayoutWindow *lw)
 //	layout_menu_edit_update(lw);
 }
 
-/*
- *-----------------------------------------------------------------------------
- * icons (since all the toolbar icons are included here, best place as any)
- *-----------------------------------------------------------------------------
- */
-
-PixmapFolders *folder_icons_new(void)
-{
-	PixmapFolders *pf;
-
-	pf = g_new0(PixmapFolders, 1);
-
-	pf->close = pixbuf_inline(PIXBUF_INLINE_FOLDER_CLOSED);
-	pf->open = pixbuf_inline(PIXBUF_INLINE_FOLDER_OPEN);
-	pf->deny = pixbuf_inline(PIXBUF_INLINE_FOLDER_LOCKED);
-	pf->parent = pixbuf_inline(PIXBUF_INLINE_FOLDER_UP);
-
-	return pf;
-}
-
-void folder_icons_free(PixmapFolders *pf)
-{
-	if (!pf) return;
-
-	g_object_unref(pf->close);
-	g_object_unref(pf->open);
-	g_object_unref(pf->deny);
-	g_object_unref(pf->parent);
-
-	g_free(pf);
-}
 
 /*
  *-----------------------------------------------------------------------------
