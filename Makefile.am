@@ -21,7 +21,8 @@ EXTRA_DIST = \
 	$(desktop_DATA)	\
 	$(icon_DATA)	\
 	geeqie.spec.in	\
-	geeqie.1
+	geeqie.1	\
+	doxygen.conf
 
 dist-hook: geeqie.spec
 	cp $(top_builddir)/geeqie.spec $(distdir)
