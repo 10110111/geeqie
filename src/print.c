@@ -1120,7 +1120,8 @@ static gboolean print_job_ps_init(PrintWindow *pw)
 	g_fprintf(f, "%%%%Title:\n");
 
 	/* setup page size, coordinates (do we really need this?) */
-#if 0
+	/* enabled for 1.0beta2  https://bugzilla.redhat.com/222639 */
+#if 1
 	g_fprintf(f, "<<\n");
 	g_fprintf(f, "/PageSize [%f %f]\n", pw->layout_width, pw->layout_height);
 	g_fprintf(f, "/ImagingBBox [%f %f %f %f]\n", /* l b r t */
