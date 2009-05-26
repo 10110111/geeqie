@@ -1,6 +1,5 @@
-SUBDIRS = symlink
+SUBDIRS = rotate symlink
 qq_desktoptemplatedir = $(pkgdatadir)
 qq_desktoptemplate_DATA = template.desktop
 
-EXTRA_DIST = \
-	$(qq_desktoptemplate_DATA)
+EXTRA_DIST = $(qq_desktoptemplate_DATA)

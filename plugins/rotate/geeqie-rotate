@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# This is a helper script that rotate jpeg files using jpegtran
+
+rotation=$1
+shift
+
+for file in "$@" ; do
+	tmp="$file".$$
+	if jpegtran -rotate "$rotation" -copy all -outfile "$tmp" "$file"; then
+		mv -f "$tmp" "$file";
+	else
+		rm -f "$tmp";
+	fi
+done

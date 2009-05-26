@@ -1,0 +1,20 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Rotate 180 degrees
+Name[fr]=Rotation 180°
+
+# call the helper script
+Exec=geeqie-rotate 180 %f
+
+# Desktop files that are usable only in Geeqie should be marked like this:
+Categories=X-Geeqie;
+OnlyShowIn=X-Geeqie;
+
+# Show in menu "File"
+X-Geeqie-Menu-Path=FileMenu/FileOpsSection
+
+# It can be made verbose
+#X-Geeqie-Verbose=true
+
+MimeType=image/jpeg;image/jpg;

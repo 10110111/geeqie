@@ -406,6 +406,7 @@ AC_CONFIG_FILES([
     doc/Makefile
     plugins/Makefile
     plugins/symlink/Makefile
+    plugins/rotate/Makefile
     geeqie.spec
 ])
 

@@ -1,0 +1,20 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Rotate 90 degrees clockwise
+Name[fr]=Rotation 90° vers la droite
+
+# call the helper script
+Exec=geeqie-rotate 90 %f
+
+# Desktop files that are usable only in Geeqie should be marked like this:
+Categories=X-Geeqie;
+OnlyShowIn=X-Geeqie;
+
+# Show in menu "File"
+X-Geeqie-Menu-Path=FileMenu/FileOpsSection
+
+# It can be made verbose
+#X-Geeqie-Verbose=true
+
+MimeType=image/jpeg;image/jpg;
