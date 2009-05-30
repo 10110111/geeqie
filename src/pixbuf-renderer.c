@@ -3172,11 +3172,23 @@ static void pixbuf_renderer_sync_scroll_center(PixbufRenderer *pr)
 	gint src_x, src_y;
 	if (!pr->width || !pr->height) return;
 
-	src_x = pr->x_scroll + pr->vis_width / 2;
-	src_y = pr->y_scroll + pr->vis_height / 2;
+	/* 
+	 * Update norm_center only if the image is bigger than the window.
+	 * With this condition the stored center survives also a temporary display
+	 * of the "broken image" icon.
+	*/
 
-	pr->norm_center_x = (gdouble)src_x / pr->width;
-	pr->norm_center_y = (gdouble)src_y / pr->height;
+	if (pr->width > pr->window_width)
+		{
+		src_x = pr->x_scroll + pr->vis_width / 2;
+		pr->norm_center_x = (gdouble)src_x / pr->width;
+		}
+	
+	if (pr->height > pr->window_height)
+		{
+		src_y = pr->y_scroll + pr->vis_height / 2;
+		pr->norm_center_y = (gdouble)src_y / pr->height;
+		}
 }
 
 
