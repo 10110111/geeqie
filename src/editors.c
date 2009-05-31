@@ -1282,6 +1282,23 @@ gboolean editor_no_param(const gchar *key)
 	return !!(editor->flags & EDITOR_NO_PARAM);
 }
 
+gboolean editor_blocks_file(const gchar *key)
+{
+	EditorDescription *editor;
+	if (!key) return FALSE;
+	
+	editor = g_hash_table_lookup(editors, key);
+	if (!editor) return FALSE;
+
+	/* Decide if the image file should be blocked during editor execution
+	   Editors like gimp can be used long time after the original file was
+	   saved, for editing unrelated files.
+	   %f vs. %F seems to be a good heuristic to detect this kind of editors.
+	*/
+	   
+	return !(editor->flags & EDITOR_SINGLE_COMMAND);
+}
+
 const gchar *editor_get_error_str(EditorFlags flags)
 {
 	if (flags & EDITOR_ERROR_EMPTY) return _("Editor template is empty.");

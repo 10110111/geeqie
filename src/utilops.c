@@ -845,7 +845,18 @@ void file_util_perform_ci(UtilityData *ud)
 			}
 		else
 			{
-			flags = start_editor_from_filelist_full(ud->external_command, ud->flist, file_util_perform_ci_cb, ud);
+			if (editor_blocks_file(ud->external_command))
+				{
+				DEBUG_1("Starting %s and waiting for results", ud->external_command);
+				flags = start_editor_from_filelist_full(ud->external_command, ud->flist, file_util_perform_ci_cb, ud);
+				}
+			else
+				{
+				/* start the editor without callback and finish the operation internally */
+				DEBUG_1("Starting %s and finishing the operation", ud->external_command);
+				flags = start_editor_from_filelist(ud->external_command, ud->flist);
+				file_util_perform_ci_internal(ud);
+				}
 			}
 
 		if (flags)
