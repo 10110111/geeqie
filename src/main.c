@@ -854,7 +854,7 @@ gint main(gint argc, gchar *argv[])
 		work = command_line->cmd_list;
 		while (work)
 			{
-			collection_add(cd, file_data_new_simple((gchar *)work->data), FALSE);
+			collection_add(cd, (FileData *)work->data, FALSE);
 			work = work->next;
 			}
 
