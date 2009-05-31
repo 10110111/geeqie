@@ -934,13 +934,17 @@ static void accel_store_populate(void)
 					}
 
 				accel = gtk_accelerator_name(key.accel_key, key.accel_mods);
-				gtk_tree_store_append(accel_store, &iter, NULL);
-				gtk_tree_store_set(accel_store, &iter,
-						   AE_ACTION, label,
-						   AE_KEY, accel,
-						   AE_TOOLTIP, tooltip ? tooltip : "",
-						   AE_ACCEL, accel_path,
-						   -1);
+				
+				if (tooltip) 
+					{
+					gtk_tree_store_append(accel_store, &iter, NULL);
+					gtk_tree_store_set(accel_store, &iter,
+							   AE_ACTION, label,
+							   AE_KEY, accel,
+							   AE_TOOLTIP, tooltip ? tooltip : "",
+							   AE_ACCEL, accel_path,
+							   -1);
+					}
 
 				g_free(accel);
 				g_free(label);

@@ -1210,19 +1210,19 @@ void layout_recent_add_path(const gchar *path)
 #define CB G_CALLBACK
 
 static GtkActionEntry menu_entries[] = {
-  { "FileMenu",		NULL,			N_("_File"),				NULL, 			N_("File"),				NULL },
-  { "GoMenu",		NULL,			N_("_Go"),				NULL, 			N_("Go"),				NULL },
-  { "EditMenu",		NULL,			N_("_Edit"),				NULL, 			N_("Edit"),				NULL },
-  { "SelectMenu",	NULL,			N_("_Select"),				NULL, 			N_("Select"),				NULL },
-  { "OrientationMenu",	NULL,			N_("_Orientation"),			NULL, 			N_("Orientation"),			NULL },
-  { "ExternalMenu",	NULL,			N_("E_xternal Editors"),		NULL, 			N_("External Editors"),			NULL },
-  { "ViewMenu",		NULL,			N_("_View"),				NULL, 			N_("View"),				NULL },
-  { "DirMenu",          NULL,			N_("_View Directory as"),		NULL, 			N_("View Directory as"),		NULL },
-  { "ZoomMenu",		NULL,			N_("_Zoom"),				NULL, 			N_("Zoom"),				NULL },
-  { "ColorMenu",	NULL,			N_("Color _Management"),		NULL, 			N_("Color Management"),			NULL },
-  { "ConnectZoomMenu",	NULL,			N_("_Connected Zoom"),			NULL, 			N_("Connected Zoom"),			NULL },
-  { "SplitMenu",	NULL,			N_("_Split"),				NULL, 			N_("Split"),				NULL },
-  { "HelpMenu",		NULL,			N_("_Help"),				NULL, 			N_("Help"),				NULL },
+  { "FileMenu",		NULL,			N_("_File"),				NULL, 			NULL,					NULL },
+  { "GoMenu",		NULL,			N_("_Go"),				NULL, 			NULL,					NULL },
+  { "EditMenu",		NULL,			N_("_Edit"),				NULL, 			NULL,					NULL },
+  { "SelectMenu",	NULL,			N_("_Select"),				NULL, 			NULL,					NULL },
+  { "OrientationMenu",	NULL,			N_("_Orientation"),			NULL, 			NULL,					NULL },
+  { "ExternalMenu",	NULL,			N_("E_xternal Editors"),		NULL, 			NULL,					NULL },
+  { "ViewMenu",		NULL,			N_("_View"),				NULL, 			NULL,					NULL },
+  { "DirMenu",          NULL,			N_("_View Directory as"),		NULL, 			NULL,					NULL },
+  { "ZoomMenu",		NULL,			N_("_Zoom"),				NULL, 			NULL,					NULL },
+  { "ColorMenu",	NULL,			N_("Color _Management"),		NULL, 			NULL,					NULL },
+  { "ConnectZoomMenu",	NULL,			N_("_Connected Zoom"),			NULL, 			NULL,					NULL },
+  { "SplitMenu",	NULL,			N_("_Split"),				NULL, 			NULL,					NULL },
+  { "HelpMenu",		NULL,			N_("_Help"),				NULL, 			NULL,					NULL },
 
   { "FirstImage",	GTK_STOCK_GOTO_TOP,	N_("_First Image"),			"Home",			N_("First Image"),			CB(layout_menu_image_first_cb) },
   { "PrevImage",	GTK_STOCK_GO_UP,   	N_("_Previous Image"),			"BackSpace",		N_("Previous Image"),			CB(layout_menu_image_prev_cb) },
@@ -1286,28 +1286,28 @@ static GtkActionEntry menu_entries[] = {
   { "Zoom50",		NULL,			N_("Zoom 1:2"),				NULL,			N_("Zoom 1:2"),				CB(layout_menu_zoom_1_2_cb) },
   { "Zoom33",		NULL,			N_("Zoom 1:3"),				NULL,			N_("Zoom 1:3"),				CB(layout_menu_zoom_1_3_cb) },
   { "Zoom25",		NULL,			N_("Zoom 1:4"),				NULL,			N_("Zoom 1:4"),				CB(layout_menu_zoom_1_4_cb) },
-  { "ConnectZoomIn",	GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),				"plus",			N_("Zoom in"),				CB(layout_menu_connect_zoom_in_cb) },
-  { "ConnectZoomInAlt1",GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),				"<shift>KP_Add",	N_("Zoom in"),				CB(layout_menu_connect_zoom_in_cb) },
-  { "ConnectZoomOut",	GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),			"underscore",		N_("Zoom out"),				CB(layout_menu_connect_zoom_out_cb) },
-  { "ConnectZoomOutAlt1",GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),			"<shift>KP_Subtract",	N_("Zoom out"),				CB(layout_menu_connect_zoom_out_cb) },
-  { "ConnectZoom100",	GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),			"<shift>Z",		N_("Zoom 1:1"),				CB(layout_menu_connect_zoom_1_1_cb) },
-  { "ConnectZoom100Alt1",GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),			"<shift>KP_Divide",	N_("Zoom 1:1"),				CB(layout_menu_connect_zoom_1_1_cb) },
-  { "ConnectZoomFit",	GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),			"<shift>X",		N_("Zoom to fit"),			CB(layout_menu_connect_zoom_fit_cb) },
-  { "ConnectZoomFitAlt1",GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),			"<shift>KP_Multiply",	N_("Zoom to fit"),			CB(layout_menu_connect_zoom_fit_cb) },
-  { "ConnectZoomFillHor",NULL,			N_("Fit _Horizontally"),		"<shift>H",		N_("Fit Horizontally"),			CB(layout_menu_connect_zoom_fit_hor_cb) },
-  { "ConnectZoomFillVert",NULL,			N_("Fit _Vertically"),			"<shift>W",		N_("Fit Vertically"),			CB(layout_menu_connect_zoom_fit_vert_cb) },
-  { "ConnectZoom200",	NULL,			N_("Zoom _2:1"),			NULL,			N_("Zoom 2:1"),				CB(layout_menu_connect_zoom_2_1_cb) },
-  { "ConnectZoom300",	NULL,			N_("Zoom _3:1"),			NULL,			N_("Zoom 3:1"),				CB(layout_menu_connect_zoom_3_1_cb) },
-  { "ConnectZoom400",	NULL,			N_("Zoom _4:1"),			NULL,			N_("Zoom 4:1"),				CB(layout_menu_connect_zoom_4_1_cb) },
-  { "ConnectZoom50",	NULL,			N_("Zoom 1:2"),				NULL,			N_("Zoom 1:2"),				CB(layout_menu_connect_zoom_1_2_cb) },
-  { "ConnectZoom33",	NULL,			N_("Zoom 1:3"),				NULL,			N_("Zoom 1:3"),				CB(layout_menu_connect_zoom_1_3_cb) },
-  { "ConnectZoom25",	NULL,			N_("Zoom 1:4"),				NULL,			N_("Zoom 1:4"),				CB(layout_menu_connect_zoom_1_4_cb) },
+  { "ConnectZoomIn",	GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),				"plus",			N_("Connected Zoom in"),		CB(layout_menu_connect_zoom_in_cb) },
+  { "ConnectZoomInAlt1",GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),				"<shift>KP_Add",	N_("Connected Zoom in"),		CB(layout_menu_connect_zoom_in_cb) },
+  { "ConnectZoomOut",	GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),			"underscore",		N_("Connected Zoom out"),		CB(layout_menu_connect_zoom_out_cb) },
+  { "ConnectZoomOutAlt1",GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),			"<shift>KP_Subtract",	N_("Connected Zoom out"),		CB(layout_menu_connect_zoom_out_cb) },
+  { "ConnectZoom100",	GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),			"<shift>Z",		N_("Connected Zoom 1:1"),		CB(layout_menu_connect_zoom_1_1_cb) },
+  { "ConnectZoom100Alt1",GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),			"<shift>KP_Divide",	N_("Connected Zoom 1:1"),		CB(layout_menu_connect_zoom_1_1_cb) },
+  { "ConnectZoomFit",	GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),			"<shift>X",		N_("Connected Zoom to fit"),		CB(layout_menu_connect_zoom_fit_cb) },
+  { "ConnectZoomFitAlt1",GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),			"<shift>KP_Multiply",	N_("Connected Zoom to fit"),		CB(layout_menu_connect_zoom_fit_cb) },
+  { "ConnectZoomFillHor",NULL,			N_("Fit _Horizontally"),		"<shift>H",		N_("Connected Fit Horizontally"),	CB(layout_menu_connect_zoom_fit_hor_cb) },
+  { "ConnectZoomFillVert",NULL,			N_("Fit _Vertically"),			"<shift>W",		N_("Connected Fit Vertically"),		CB(layout_menu_connect_zoom_fit_vert_cb) },
+  { "ConnectZoom200",	NULL,			N_("Zoom _2:1"),			NULL,			N_("Connected Zoom 2:1"),		CB(layout_menu_connect_zoom_2_1_cb) },
+  { "ConnectZoom300",	NULL,			N_("Zoom _3:1"),			NULL,			N_("Connected Zoom 3:1"),		CB(layout_menu_connect_zoom_3_1_cb) },
+  { "ConnectZoom400",	NULL,			N_("Zoom _4:1"),			NULL,			N_("Connected Zoom 4:1"),		CB(layout_menu_connect_zoom_4_1_cb) },
+  { "ConnectZoom50",	NULL,			N_("Zoom 1:2"),				NULL,			N_("Connected Zoom 1:2"),		CB(layout_menu_connect_zoom_1_2_cb) },
+  { "ConnectZoom33",	NULL,			N_("Zoom 1:3"),				NULL,			N_("Connected Zoom 1:3"),		CB(layout_menu_connect_zoom_1_3_cb) },
+  { "ConnectZoom25",	NULL,			N_("Zoom 1:4"),				NULL,			N_("Connected Zoom 1:4"),		CB(layout_menu_connect_zoom_1_4_cb) },
   { "ViewInNewWindow",	NULL,			N_("_View in new window"),		"<control>V",		N_("View in new window"),		CB(layout_menu_view_in_new_window_cb) },
   { "FullScreen",	GTK_STOCK_FULLSCREEN,	N_("F_ull screen"),			"F",			N_("Full screen"),			CB(layout_menu_fullscreen_cb) },
   { "FullScreenAlt1",	GTK_STOCK_FULLSCREEN,	N_("F_ull screen"),			"V",			N_("Full screen"),			CB(layout_menu_fullscreen_cb) },
   { "FullScreenAlt2",	GTK_STOCK_FULLSCREEN,	N_("F_ull screen"),			"F11",			N_("Full screen"),			CB(layout_menu_fullscreen_cb) },
-  { "Escape",		GTK_STOCK_LEAVE_FULLSCREEN,N_("_Leave full screen"),		"Escape",		N_("Leave full screen"),				CB(layout_menu_escape_cb) },
-  { "EscapeAlt1",	GTK_STOCK_LEAVE_FULLSCREEN,N_("_Leave full screen"),		"Q",			N_("Leave full screen"),				CB(layout_menu_escape_cb) },
+  { "Escape",		GTK_STOCK_LEAVE_FULLSCREEN,N_("_Leave full screen"),		"Escape",		N_("Leave full screen"),		CB(layout_menu_escape_cb) },
+  { "EscapeAlt1",	GTK_STOCK_LEAVE_FULLSCREEN,N_("_Leave full screen"),		"Q",			N_("Leave full screen"),		CB(layout_menu_escape_cb) },
   { "ImageOverlay",	NULL,			N_("_Image Overlay"),			"I",			N_("Image Overlay"),			CB(layout_menu_overlay_cb) },
   { "HistogramChan",	NULL,			N_("Histogram _channels"),		"K",			N_("Histogram channels"),		CB(layout_menu_histogram_chan_cb) },
   { "HistogramLog",	NULL,			N_("Histogram _log mode"),		"J",			N_("Histogram log mode"),		CB(layout_menu_histogram_log_cb) },
@@ -1343,10 +1343,10 @@ static GtkRadioActionEntry menu_radio_entries[] = {
 };
 
 static GtkRadioActionEntry menu_split_radio_entries[] = {
-  { "SplitHorizontal",	NULL,			N_("_Horizontal"),			"E",			N_("Horizontal"),			SPLIT_HOR },
-  { "SplitVertical",	NULL,			N_("_Vertical"),			"U",			N_("Vertical"),				SPLIT_VERT },
-  { "SplitQuad",	NULL,			N_("_Quad"),				NULL,			N_("Quad"),				SPLIT_QUAD },
-  { "SplitSingle",	NULL,			N_("_Single"),				"Y",			N_("Single"),				SPLIT_NONE }
+  { "SplitHorizontal",	NULL,			N_("_Horizontal"),			"E",			N_("Split Horizontal"),			SPLIT_HOR },
+  { "SplitVertical",	NULL,			N_("_Vertical"),			"U",			N_("Split Vertical"),				SPLIT_VERT },
+  { "SplitQuad",	NULL,			N_("_Quad"),				NULL,			N_("Split Quad"),				SPLIT_QUAD },
+  { "SplitSingle",	NULL,			N_("_Single"),				"Y",			N_("Split Single"),				SPLIT_NONE }
 };
 
 static GtkRadioActionEntry menu_color_radio_entries[] = {
@@ -1570,20 +1570,28 @@ static gchar *menu_translate(const gchar *path, gpointer data)
 }
 
 static void layout_actions_setup_mark(LayoutWindow *lw, gint mark, gchar *name_tmpl,
-				      gchar *label_tmpl, gchar *accel_tmpl, GCallback cb)
+				      gchar *label_tmpl, gchar *accel_tmpl, gchar *tooltip_tmpl, GCallback cb)
 {
 	gchar name[50];
 	gchar label[100];
 	gchar accel[50];
-	GtkActionEntry entry = { name, NULL, label, accel, NULL, cb };
+	gchar tooltip[100];
+	GtkActionEntry entry = { name, NULL, label, accel, tooltip, cb };
 	GtkAction *action;
 
 	g_snprintf(name, sizeof(name), name_tmpl, mark);
 	g_snprintf(label, sizeof(label), label_tmpl, mark);
+		
 	if (accel_tmpl)
 		g_snprintf(accel, sizeof(accel), accel_tmpl, mark % 10);
 	else
-		accel[0] = 0;
+		entry.accelerator = NULL;
+
+	if (tooltip_tmpl)
+		g_snprintf(tooltip, sizeof(tooltip), tooltip_tmpl, mark);
+	else
+		entry.tooltip = NULL;
+		
 	gtk_action_group_add_actions(lw->action_group, &entry, 1, lw);
 	action = gtk_action_group_get_action(lw->action_group, name);
 	g_object_set_data(G_OBJECT(action), "mark_num", GINT_TO_POINTER(mark));
@@ -1600,16 +1608,16 @@ static void layout_actions_setup_marks(LayoutWindow *lw)
 
 	for (mark = 1; mark <= FILEDATA_MARKS_SIZE; mark++)
 		{
-		layout_actions_setup_mark(lw, mark, "Mark%d", 		_("Mark _%d"), NULL, NULL);
-		layout_actions_setup_mark(lw, mark, "SetMark%d", 	_("_Set mark %d"), 			NULL, G_CALLBACK(layout_menu_set_mark_sel_cb));
-		layout_actions_setup_mark(lw, mark, "ResetMark%d", 	_("_Reset mark %d"), 			NULL, G_CALLBACK(layout_menu_res_mark_sel_cb));
-		layout_actions_setup_mark(lw, mark, "ToggleMark%d", 	_("_Toggle mark %d"), 			"%d", G_CALLBACK(layout_menu_toggle_mark_sel_cb));
-		layout_actions_setup_mark(lw, mark, "ToggleMark%dAlt1",	_("_Toggle mark %d"), 			"KP_%d", G_CALLBACK(layout_menu_toggle_mark_sel_cb));
-		layout_actions_setup_mark(lw, mark, "SelectMark%d", 	_("_Select mark %d"), 			"<control>%d", G_CALLBACK(layout_menu_sel_mark_cb));
-		layout_actions_setup_mark(lw, mark, "SelectMark%dAlt1",	_("_Select mark %d"), 			"<control>KP_%d", G_CALLBACK(layout_menu_sel_mark_cb));
-		layout_actions_setup_mark(lw, mark, "AddMark%d", 	_("_Add mark %d"), 			NULL, G_CALLBACK(layout_menu_sel_mark_or_cb));
-		layout_actions_setup_mark(lw, mark, "IntMark%d", 	_("_Intersection with mark %d"), 	NULL, G_CALLBACK(layout_menu_sel_mark_and_cb));
-		layout_actions_setup_mark(lw, mark, "UnselMark%d", 	_("_Unselect mark %d"), 		NULL, G_CALLBACK(layout_menu_sel_mark_minus_cb));
+		layout_actions_setup_mark(lw, mark, "Mark%d", 		_("Mark _%d"), NULL, NULL, NULL);
+		layout_actions_setup_mark(lw, mark, "SetMark%d", 	_("_Set mark %d"), 			NULL, 		_("Set mark %d"), G_CALLBACK(layout_menu_set_mark_sel_cb));
+		layout_actions_setup_mark(lw, mark, "ResetMark%d", 	_("_Reset mark %d"), 			NULL, 		_("Reset mark %d"), G_CALLBACK(layout_menu_res_mark_sel_cb));
+		layout_actions_setup_mark(lw, mark, "ToggleMark%d", 	_("_Toggle mark %d"), 			"%d",  		_("Toggle mark %d"), G_CALLBACK(layout_menu_toggle_mark_sel_cb));
+		layout_actions_setup_mark(lw, mark, "ToggleMark%dAlt1",	_("_Toggle mark %d"), 			"KP_%d", 	_("Toggle mark %d"), G_CALLBACK(layout_menu_toggle_mark_sel_cb));
+		layout_actions_setup_mark(lw, mark, "SelectMark%d", 	_("_Select mark %d"), 			"<control>%d", 	_("Select mark %d"), G_CALLBACK(layout_menu_sel_mark_cb));
+		layout_actions_setup_mark(lw, mark, "SelectMark%dAlt1",	_("_Select mark %d"), 			"<control>KP_%d", _("Select mark %d"), G_CALLBACK(layout_menu_sel_mark_cb));
+		layout_actions_setup_mark(lw, mark, "AddMark%d", 	_("_Add mark %d"), 			NULL, 		_("Add mark %d"), G_CALLBACK(layout_menu_sel_mark_or_cb));
+		layout_actions_setup_mark(lw, mark, "IntMark%d", 	_("_Intersection with mark %d"), 	NULL, 		_("Intersection with mark %d"), G_CALLBACK(layout_menu_sel_mark_and_cb));
+		layout_actions_setup_mark(lw, mark, "UnselMark%d", 	_("_Unselect mark %d"), 		NULL, 		_("Unselect mark %d"), G_CALLBACK(layout_menu_sel_mark_minus_cb));
 
 		g_string_append_printf(desc,
 				"      <menu action='Mark%d'>"
