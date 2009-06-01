@@ -2198,82 +2198,74 @@ struct _ColumnData
 static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell,
 				GtkTreeModel *tree_model, GtkTreeIter *iter, gpointer data)
 {
-	ColumnData *cd = data;
-	ViewFile *vf;
-	GtkStyle *style;
 	GList *list;
-	GdkColor color_fg;
-	GdkColor color_bg;
 	IconData *id;
+	ColumnData *cd = data;
+	ViewFile *vf = cd->vf;
 
-	vf = cd->vf;
+	if (!GQV_IS_CELL_RENDERER_ICON(cell)) return;
 
 	gtk_tree_model_get(tree_model, iter, FILE_COLUMN_POINTER, &list, -1);
 
 	id = g_list_nth_data(list, cd->number);
-
-	if (id) g_assert(id->fd->magick == 0x12345678);
-
-	style = gtk_widget_get_style(vf->listview);
-	if (id && id->selected & SELECTION_SELECTED)
+	
+	if (id)
 		{
-		memcpy(&color_fg, &style->text[GTK_STATE_SELECTED], sizeof(color_fg));
-		memcpy(&color_bg, &style->base[GTK_STATE_SELECTED], sizeof(color_bg));
-		}
-	else
-		{
-		memcpy(&color_fg, &style->text[GTK_STATE_NORMAL], sizeof(color_fg));
-		memcpy(&color_bg, &style->base[GTK_STATE_NORMAL], sizeof(color_bg));
-		}
+		GdkColor color_fg;
+		GdkColor color_bg;
+		GtkStyle *style;
+		gchar *name_sidecars;
+		gchar *link;
+		GtkStateType state = GTK_STATE_NORMAL;
 
-	if (id && id->selected & SELECTION_PRELIGHT)
-		{
-#if 0
-		shift_color(&color_fg, -1, 0);
-#endif
-		shift_color(&color_bg, -1, 0);
-		}
+		g_assert(id->fd->magick == 0x12345678);
 
-	if (GQV_IS_CELL_RENDERER_ICON(cell))
-		{
-		if (id)
+		link = islink(id->fd->path) ? GQ_LINK_STR : "";
+		if (id->fd->sidecar_files)
 			{
-			gchar *name_sidecars;
-			gchar *sidecars = NULL;
-			gchar *link = islink(id->fd->path) ? GQ_LINK_STR : "";
-
-			if (id->fd->sidecar_files)
-				{
-				sidecars = file_data_sc_list_to_string(id->fd);
-				name_sidecars = g_strdup_printf("%s%s %s", link, id->fd->name, sidecars);
-				}
-			else
-				{
-				gchar *disabled_grouping = id->fd->disable_grouping ? _(" [NO GROUPING]") : "";
-				name_sidecars = g_strdup_printf("%s%s%s", link, id->fd->name, disabled_grouping);
-				}
-
-			g_object_set(cell,	"pixbuf", id->fd->thumb_pixbuf,
-						"text", name_sidecars,
-						"marks", file_data_get_marks(id->fd),
-						"show_marks", vf->marks_enabled,
-						"cell-background-gdk", &color_bg,
-						"cell-background-set", TRUE,
-						"foreground-gdk", &color_fg,
-						"foreground-set", TRUE,
-						"has-focus", (VFICON(vf)->focus_id == id), NULL);
+			gchar *sidecars = file_data_sc_list_to_string(id->fd);
+			name_sidecars = g_strdup_printf("%s%s %s", link, id->fd->name, sidecars);
 			g_free(sidecars);
-			g_free(name_sidecars);
 			}
 		else
 			{
-			g_object_set(cell,	"pixbuf", NULL,
-						"text", NULL,
-						"show_marks", FALSE,
-						"cell-background-set", FALSE,
-						"foreground-set", FALSE,
-						"has-focus", FALSE, NULL);
+			gchar *disabled_grouping = id->fd->disable_grouping ? _(" [NO GROUPING]") : "";
+			name_sidecars = g_strdup_printf("%s%s%s", link, id->fd->name, disabled_grouping);
 			}
+		
+		style = gtk_widget_get_style(vf->listview);
+		if (id->selected & SELECTION_SELECTED)
+			{
+			state = GTK_STATE_SELECTED;
+			}
+		
+		memcpy(&color_fg, &style->text[state], sizeof(color_fg));
+		memcpy(&color_bg, &style->base[state], sizeof(color_bg));
+
+		if (id->selected & SELECTION_PRELIGHT)
+			{
+			shift_color(&color_bg, -1, 0);
+			}
+		
+		g_object_set(cell,	"pixbuf", id->fd->thumb_pixbuf,
+					"text", name_sidecars,
+					"marks", file_data_get_marks(id->fd),
+					"show_marks", vf->marks_enabled,
+					"cell-background-gdk", &color_bg,
+					"cell-background-set", TRUE,
+					"foreground-gdk", &color_fg,
+					"foreground-set", TRUE,
+					"has-focus", (VFICON(vf)->focus_id == id), NULL);
+		g_free(name_sidecars);
+		}
+	else
+		{
+		g_object_set(cell,	"pixbuf", NULL,
+					"text", NULL,
+					"show_marks", FALSE,
+					"cell-background-set", FALSE,
+					"foreground-set", FALSE,
+					"has-focus", FALSE, NULL);
 		}
 }
 
