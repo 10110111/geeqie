@@ -126,6 +126,9 @@ gboolean file_data_sc_apply_ci(FileData *fd);
 void file_data_sc_free_ci(FileData *fd);
 void file_data_sc_free_ci_list(GList *fd_list);
 
+GList *file_data_process_groups(GList *list);
+
+
 typedef void (*FileDataNotifyFunc)(FileData *fd, NotifyType type, gpointer data);
 gboolean file_data_register_notify_func(FileDataNotifyFunc func, gpointer data, NotifyPriority priority);
 gboolean file_data_unregister_notify_func(FileDataNotifyFunc func, gpointer data);

@@ -2335,8 +2335,89 @@ gboolean file_data_sc_apply_ci(FileData *fd)
 	return TRUE;
 }
 
+static gboolean file_data_list_contains_whole_group(GList *list, FileData *fd)
+{
+	GList *work;
+	if (fd->parent) fd = fd->parent;
+	if (!g_list_find(list, fd)) return FALSE;
+	
+	work = fd->sidecar_files;
+	while (work)
+		{
+		if (!g_list_find(list, work->data)) return FALSE;
+		work = work->next;
+		}
+	return TRUE;
+}
+
+#if 0
+static gboolean file_data_list_dump(GList *list)
+{
+	GList *work, *work2;
+
+	work = list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		printf("%s\n", fd->name);
+		work2 = fd->sidecar_files;
+		while (work2)
+			{
+			FileData *fd = work2->data;
+			printf("       %s\n", fd->name);
+			work2 = work2->next;
+			}
+		work = work->next;
+		}
+	return TRUE;
+}
+#endif
+
+GList *file_data_process_groups(GList *list)
+{
+	GList *out = NULL;
+	GList *work = list;
+
+	/* change partial groups to independent files */
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		
+		if (!file_data_list_contains_whole_group(list, fd)) 
+			file_data_disable_grouping(fd, TRUE);
+		}
+	
+	/* remove sidecars from the list, 
+	   they can be still acessed via main_fd->sidecar_files */
+	work = list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		
+		if (!fd->parent)
+			{
+			out = g_list_prepend(out, fd);
+			}
+		else
+			{
+			file_data_unref(fd);
+			}
+		}
+		
+	g_list_free(list);
+	out = g_list_reverse(out);
+
+	return out;
+}
+
+
+
+
+
 /*
- * notify other modules about the change described by FileFataChangeInfo
+ * notify other modules about the change described by FileDataChangeInfo
  */
 
 /* might use file_maint_ functions for now, later it should be changed to a system of callbacks

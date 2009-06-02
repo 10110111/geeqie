@@ -170,7 +170,8 @@ GList *vficon_pop_menu_file_list(ViewFile *vf)
 		return vf_selection_get_list(vf);
 		}
 
-	return g_list_append(NULL, file_data_ref(VFICON(vf)->click_id->fd));
+	
+	return g_list_prepend(filelist_copy(VFICON(vf)->click_id->fd->sidecar_files), file_data_ref(VFICON(vf)->click_id->fd));
 }
 
 void vficon_pop_menu_view_cb(GtkWidget *widget, gpointer data)
@@ -907,7 +908,7 @@ guint vficon_selection_count(ViewFile *vf, gint64 *bytes)
 GList *vficon_selection_get_list(ViewFile *vf)
 {
 	GList *list = NULL;
-	GList *work;
+	GList *work, *work2;
 
 	work = VFICON(vf)->selection;
 	while (work)
@@ -917,6 +918,14 @@ GList *vficon_selection_get_list(ViewFile *vf)
 		g_assert(fd->magick == 0x12345678);
 
 		list = g_list_prepend(list, file_data_ref(fd));
+		
+		work2 = fd->sidecar_files;
+		while (work2)
+			{
+			fd = work2->data;
+			list = g_list_prepend(list, file_data_ref(fd));
+			work2 = work2->next;
+			}
 
 		work = work->next;
 		}

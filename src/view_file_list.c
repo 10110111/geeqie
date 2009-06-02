@@ -362,6 +362,7 @@ void vflist_dnd_init(ViewFile *vf)
 
 GList *vflist_pop_menu_file_list(ViewFile *vf)
 {
+	GList *list;
 	if (!VFLIST(vf)->click_fd) return NULL;
 
 	if (vflist_row_is_selected(vf, VFLIST(vf)->click_fd))
@@ -369,7 +370,37 @@ GList *vflist_pop_menu_file_list(ViewFile *vf)
 		return vf_selection_get_list(vf);
 		}
 
-	return g_list_append(NULL, file_data_ref(VFLIST(vf)->click_fd));
+	list = g_list_append(NULL, file_data_ref(VFLIST(vf)->click_fd));
+
+	if (VFLIST(vf)->click_fd->sidecar_files)
+		{
+		/* check if the row is expanded */
+		GtkTreeModel *store;
+		GtkTreeIter iter;
+		
+		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
+		if (vflist_find_row(vf, VFLIST(vf)->click_fd, &iter) >= 0)
+			{
+			GtkTreePath *tpath;
+
+			tpath = gtk_tree_model_get_path(store, &iter);
+			if (!gtk_tree_view_row_expanded(GTK_TREE_VIEW(vf->listview), tpath))
+				{
+				/* unexpanded - add whole group */
+				GList *work = VFLIST(vf)->click_fd->sidecar_files;
+				while (work)
+					{
+					FileData *sfd = work->data;
+					list = g_list_prepend(list, file_data_ref(sfd));
+					work = work->next;
+					}
+				}
+			gtk_tree_path_free(tpath);
+			}
+		list = g_list_reverse(list);
+		}
+
+	return list;
 }
 
 void vflist_pop_menu_view_cb(GtkWidget *widget, gpointer data)
@@ -1307,6 +1338,18 @@ GList *vflist_selection_get_list(ViewFile *vf)
 		gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &fd, -1);
 
 		list = g_list_prepend(list, file_data_ref(fd));
+		
+		if (!fd->parent && !gtk_tree_view_row_expanded(GTK_TREE_VIEW(vf->listview), tpath))
+			{
+			/* unexpanded - add whole group */
+			GList *work2 = fd->sidecar_files;
+			while (work2)
+				{
+				FileData *sfd = work2->data;
+				list = g_list_prepend(list, file_data_ref(sfd));
+				work2 = work2->next;
+				}
+			}
 
 		work = work->next;
 		}
