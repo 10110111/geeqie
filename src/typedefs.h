@@ -450,6 +450,7 @@ struct _FileDataChangeInfo {
 	gchar *source;
 	gchar *dest;
 	gint error;
+	gboolean regroup_when_finished;
 };
 
 struct _FileData {

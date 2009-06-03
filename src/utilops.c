@@ -1919,24 +1919,41 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 	g_free(message2);
 }
 
+
+static void file_util_mark_ungrouped_files(GList *work)
+{
+	while (work)
+		{
+		FileData *fd = work->data;
+		file_data_set_regroup_when_finished(fd, TRUE);
+		work = work->next;
+		}
+}
+
 static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;
 	GList *flist = filelist_copy(source_list);
+	GList *ungrouped = NULL;
 	
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
 
 	if (!flist) return;
 	
-	flist = file_data_process_groups(flist);
+	flist = file_data_process_groups_in_selection(flist, &ungrouped);
 	
 	if (!file_data_sc_add_ci_delete_list(flist))
 		{
 		file_util_warn_op_in_progress(_("File deletion failed"));
+		file_data_disable_grouping_list(ungrouped, FALSE);
 		filelist_free(flist);
+		filelist_free(ungrouped);
 		return;
 		}
+	
+	file_util_mark_ungrouped_files(ungrouped);
+	filelist_free(ungrouped);
 
 	ud = file_util_data_new(UTILITY_TYPE_DELETE);
 	
@@ -2005,25 +2022,30 @@ static void file_util_write_metadata_full(FileData *source_fd, GList *source_lis
 	file_util_dialog_run(ud);
 }
 
-
 static void file_util_move_full(FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;
 	GList *flist = filelist_copy(source_list);
+	GList *ungrouped = NULL;
 	
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
 
 	if (!flist) return;
 
-	flist = file_data_process_groups(flist);
+	flist = file_data_process_groups_in_selection(flist, &ungrouped);
 
 	if (!file_data_sc_add_ci_move_list(flist, dest_path))
 		{
 		file_util_warn_op_in_progress(_("Move failed"));
+		file_data_disable_grouping_list(ungrouped, FALSE);
 		filelist_free(flist);
+		filelist_free(ungrouped);
 		return;
 		}
+	
+	file_util_mark_ungrouped_files(ungrouped);
+	filelist_free(ungrouped);
 
 	ud = file_util_data_new(UTILITY_TYPE_MOVE);
 
@@ -2051,20 +2073,26 @@ static void file_util_copy_full(FileData *source_fd, GList *source_list, const g
 {
 	UtilityData *ud;
 	GList *flist = filelist_copy(source_list);
+	GList *ungrouped = NULL;
 	
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
 
 	if (!flist) return;
 
-	flist = file_data_process_groups(flist);
+	flist = file_data_process_groups_in_selection(flist, &ungrouped);
 
 	if (!file_data_sc_add_ci_copy_list(flist, dest_path))
 		{
 		file_util_warn_op_in_progress(_("Copy failed"));
+		file_data_disable_grouping_list(ungrouped, FALSE);
 		filelist_free(flist);
+		filelist_free(ungrouped);
 		return;
 		}
+
+	file_util_mark_ungrouped_files(ungrouped);
+	filelist_free(ungrouped);
 
 	ud = file_util_data_new(UTILITY_TYPE_COPY);
 
@@ -2092,20 +2120,26 @@ static void file_util_rename_full(FileData *source_fd, GList *source_list, const
 {
 	UtilityData *ud;
 	GList *flist = filelist_copy(source_list);
+	GList *ungrouped = NULL;
 	
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
 
 	if (!flist) return;
 
-	flist = file_data_process_groups(flist);
+	flist = file_data_process_groups_in_selection(flist, &ungrouped);
 
 	if (!file_data_sc_add_ci_rename_list(flist, dest_path))
 		{
 		file_util_warn_op_in_progress(_("Rename failed"));
+		file_data_disable_grouping_list(ungrouped, FALSE);
 		filelist_free(flist);
+		filelist_free(ungrouped);
 		return;
 		}
+
+	file_util_mark_ungrouped_files(ungrouped);
+	filelist_free(ungrouped);
 
 	ud = file_util_data_new(UTILITY_TYPE_RENAME);
 
@@ -2133,6 +2167,7 @@ static void file_util_start_editor_full(const gchar *key, FileData *source_fd, G
 {
 	UtilityData *ud;
 	GList *flist;
+	GList *ungrouped = NULL;
 	
 	if (editor_no_param(key))
 		{
@@ -2148,14 +2183,19 @@ static void file_util_start_editor_full(const gchar *key, FileData *source_fd, G
 
 	if (!flist) return;
 
-	flist = file_data_process_groups(flist);
+	flist = file_data_process_groups_in_selection(flist, &ungrouped);
 
 	if (!file_data_sc_add_ci_unspecified_list(flist, dest_path))
 		{
 		file_util_warn_op_in_progress(_("Can't run external editor"));
+		file_data_disable_grouping_list(ungrouped, FALSE);
 		filelist_free(flist);
+		filelist_free(ungrouped);
 		return;
 		}
+
+	file_util_mark_ungrouped_files(ungrouped);
+	filelist_free(ungrouped);
 
 	if (editor_is_filter(key))
 		ud = file_util_data_new(UTILITY_TYPE_FILTER);

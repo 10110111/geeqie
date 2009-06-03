@@ -118,6 +118,7 @@ gboolean file_data_apply_ci(FileData *fd);
 void file_data_free_ci(FileData *fd);
 void file_data_free_ci_list(GList *fd_list);
 
+void file_data_set_regroup_when_finished(FileData *fd, gboolean enable);
 
 gint file_data_sc_verify_ci(FileData *fd);
 
@@ -126,7 +127,7 @@ gboolean file_data_sc_apply_ci(FileData *fd);
 void file_data_sc_free_ci(FileData *fd);
 void file_data_sc_free_ci_list(GList *fd_list);
 
-GList *file_data_process_groups(GList *list);
+GList *file_data_process_groups_in_selection(GList *list, GList **ungrouped);
 
 
 typedef void (*FileDataNotifyFunc)(FileData *fd, NotifyType type, gpointer data);

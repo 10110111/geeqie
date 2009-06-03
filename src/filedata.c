@@ -1429,6 +1429,8 @@ void file_data_free_ci(FileData *fd)
 	if (!fdci) return;
 
 	file_data_planned_change_remove(fd);
+	
+	if (fdci->regroup_when_finished) file_data_disable_grouping(fd, FALSE);
 
 	g_free(fdci->source);
 	g_free(fdci->dest);
@@ -1438,6 +1440,12 @@ void file_data_free_ci(FileData *fd)
 	fd->change = NULL;
 }
 
+void file_data_set_regroup_when_finished(FileData *fd, gboolean enable)
+{
+	FileDataChangeInfo *fdci = fd->change;
+	if (!fdci) return;
+	fdci->regroup_when_finished = enable;
+}
 
 static gboolean file_data_sc_add_ci(FileData *fd, FileDataChangeType type)
 {
@@ -2373,7 +2381,7 @@ static gboolean file_data_list_dump(GList *list)
 }
 #endif
 
-GList *file_data_process_groups(GList *list)
+GList *file_data_process_groups_in_selection(GList *list, GList **ungrouped_list)
 {
 	GList *out = NULL;
 	GList *work = list;
@@ -2385,7 +2393,13 @@ GList *file_data_process_groups(GList *list)
 		work = work->next;
 		
 		if (!file_data_list_contains_whole_group(list, fd)) 
+			{
 			file_data_disable_grouping(fd, TRUE);
+			if (ungrouped_list) 
+				{
+				*ungrouped_list = g_list_prepend(*ungrouped_list, file_data_ref(fd));
+				}
+			}
 		}
 	
 	/* remove sidecars from the list, 
