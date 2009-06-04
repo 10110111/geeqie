@@ -485,13 +485,13 @@ static void editor_list_window_create(void)
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(ewl->view), FALSE);
 
 	column = gtk_tree_view_column_new();
-	gtk_tree_view_column_set_title(column, _("Desktop file"));
+	gtk_tree_view_column_set_title(column, _("Name"));
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
-	gtk_tree_view_column_add_attribute(column, renderer, "text", DESKTOP_FILE_COLUMN_KEY);
+	gtk_tree_view_column_add_attribute(column, renderer, "text", DESKTOP_FILE_COLUMN_NAME);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(ewl->view), column);
-	gtk_tree_view_column_set_sort_column_id(column, DESKTOP_FILE_COLUMN_KEY);
+	gtk_tree_view_column_set_sort_column_id(column, DESKTOP_FILE_COLUMN_NAME);
 
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, _("Hidden"));
@@ -507,15 +507,14 @@ static void editor_list_window_create(void)
 	gtk_tree_view_column_set_sort_column_id(column, DESKTOP_FILE_COLUMN_HIDDEN);
 	gtk_tree_view_column_set_alignment(column, 0.5); 
 
-
 	column = gtk_tree_view_column_new();
-	gtk_tree_view_column_set_title(column, _("Name"));
+	gtk_tree_view_column_set_title(column, _("Desktop file"));
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
-	gtk_tree_view_column_add_attribute(column, renderer, "text", DESKTOP_FILE_COLUMN_NAME);
+	gtk_tree_view_column_add_attribute(column, renderer, "text", DESKTOP_FILE_COLUMN_KEY);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(ewl->view), column);
-	gtk_tree_view_column_set_sort_column_id(column, DESKTOP_FILE_COLUMN_NAME);
+	gtk_tree_view_column_set_sort_column_id(column, DESKTOP_FILE_COLUMN_KEY);
 
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, _("Path"));
