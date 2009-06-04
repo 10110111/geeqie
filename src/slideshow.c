@@ -51,7 +51,7 @@ static GList *generate_list(SlideShowData *ss)
 
 	if (ss->from_selection)
 		{
-		list = layout_selection_list_by_index(ss->layout);
+		list = layout_selection_list_by_index(ss->lw);
 		}
 	else
 		{
@@ -159,7 +159,10 @@ gboolean slideshow_should_continue(SlideShowData *ss)
 
 	if (!ss) return FALSE;
 
-	imd_fd = image_get_fd(ss->imd);
+	if (ss->lw)
+		imd_fd = layout_image_get_fd(ss->lw);
+	else
+		imd_fd = image_get_fd(ss->imd);
 
 	if ( ((imd_fd == NULL) != (ss->slide_fd == NULL)) ||
 	    (imd_fd && ss->slide_fd && imd_fd != ss->slide_fd) ) return FALSE;
@@ -174,13 +177,12 @@ gboolean slideshow_should_continue(SlideShowData *ss)
 			return FALSE;
 		}
 
-	if (!ss->layout) return FALSE;
-	dir_fd = ss->layout->dir_fd;
+	dir_fd = ss->lw->dir_fd;
 
 	if (dir_fd && ss->dir_fd && dir_fd == ss->dir_fd)
 		{
-		if (ss->from_selection && ss->slide_count == layout_selection_count(ss->layout, NULL)) return TRUE;
-		if (!ss->from_selection && ss->slide_count == layout_list_count(ss->layout, NULL)) return TRUE;
+		if (ss->from_selection && ss->slide_count == layout_selection_count(ss->lw, NULL)) return TRUE;
+		if (!ss->from_selection && ss->slide_count == layout_list_count(ss->lw, NULL)) return TRUE;
 		}
 
 	return FALSE;
@@ -218,7 +220,10 @@ static gboolean slideshow_step(SlideShowData *ss, gboolean forward)
 	if (ss->filelist)
 		{
 		ss->slide_fd = file_data_ref((FileData *)g_list_nth_data(ss->filelist, row));
-		image_change_fd(ss->imd, ss->slide_fd, image_zoom_get_default(ss->imd));
+		if (ss->lw)
+			layout_set_fd(ss->lw, ss->slide_fd);
+		else
+			image_change_fd(ss->imd, ss->slide_fd, image_zoom_get_default(ss->imd));
 		}
 	else if (ss->cd)
 		{
@@ -227,20 +232,23 @@ static gboolean slideshow_step(SlideShowData *ss, gboolean forward)
 		info = g_list_nth_data(ss->cd->list, row);
 		ss->slide_fd = file_data_ref(info->fd);
 
-		image_change_from_collection(ss->imd, ss->cd, info, image_zoom_get_default(ss->imd));
+		if (ss->lw)
+			image_change_from_collection(ss->lw->image, ss->cd, info, image_zoom_get_default(ss->lw->image));
+		else
+			image_change_from_collection(ss->imd, ss->cd, info, image_zoom_get_default(ss->imd));
 		}
 	else
 		{
-		ss->slide_fd = file_data_ref(layout_list_get_fd(ss->layout, row));
+		ss->slide_fd = file_data_ref(layout_list_get_fd(ss->lw, row));
 
 		if (ss->from_selection)
 			{
-			image_change_fd(ss->imd, ss->slide_fd, image_zoom_get_default(ss->imd));
-			layout_status_update_info(ss->layout, NULL);
+			layout_set_fd(ss->lw, ss->slide_fd);
+			layout_status_update_info(ss->lw, NULL);
 			}
 		else
 			{
-			layout_image_set_index(ss->layout, row);
+			layout_image_set_index(ss->lw, row);
 			}
 		}
 
@@ -255,8 +263,7 @@ static gboolean slideshow_step(SlideShowData *ss, gboolean forward)
 		}
 
 	/* read ahead */
-
-	if (options->image.enable_read_ahead)
+	if (options->image.enable_read_ahead && (!ss->lw || ss->from_selection))
 		{
 		gint r;
 		if (forward)
@@ -282,7 +289,7 @@ static gboolean slideshow_step(SlideShowData *ss, gboolean forward)
 			}
 		else if (ss->from_selection)
 			{
-			image_prebuffer_set(ss->imd, layout_list_get_fd(ss->layout, r));
+			image_prebuffer_set(ss->lw->image, layout_list_get_fd(ss->lw, r));
 			}
 		}
 
@@ -345,7 +352,7 @@ void slideshow_prev(SlideShowData *ss)
 	slideshow_move(ss, FALSE);
 }
 
-static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
+static SlideShowData *real_slideshow_start(LayoutWindow *target_lw, ImageWindow *imd,
 					   GList *filelist, gint start_point,
 					   CollectionData *cd, CollectInfo *start_info,
 					   void (*stop_func)(SlideShowData *, gpointer), gpointer stop_data)
@@ -353,14 +360,14 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 	SlideShowData *ss;
 	gint start_index = -1;
 
-	if (!filelist && !cd && layout_list_count(lw, NULL) < 1) return NULL;
+	if (!filelist && !cd && layout_list_count(target_lw, NULL) < 1) return NULL;
 
 	ss = g_new0(SlideShowData, 1);
 
-	ss->imd = imd;
+	ss->lw = target_lw;
+	ss->imd = imd; /* FIXME: ss->imd is used only for img-view.c and can be dropped with it */
 	ss->filelist = filelist;
 	ss->cd = cd;
-	ss->layout = lw;
 
 	if (ss->filelist)
 		{
@@ -379,11 +386,11 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 		{
 		/* layout method */
 
-		ss->slide_count = layout_selection_count(ss->layout, NULL);
-		ss->dir_fd = file_data_ref(ss->layout->dir_fd);
+		ss->slide_count = layout_selection_count(ss->lw, NULL);
+		ss->dir_fd = file_data_ref(ss->lw->dir_fd);
 		if (ss->slide_count < 2)
 			{
-			ss->slide_count = layout_list_count(ss->layout, NULL);
+			ss->slide_count = layout_list_count(ss->lw, NULL);
 			if (!options->slideshow.random && start_point >= 0 && (guint) start_point < ss->slide_count)
 				{
 				start_index = start_point;
@@ -396,8 +403,12 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 		}
 
 	slideshow_list_init(ss, start_index);
+	
+	if (ss->lw)
+		ss->slide_fd = file_data_ref(layout_image_get_fd(ss->lw));
+	else
+		ss->slide_fd = file_data_ref(image_get_fd(ss->imd));
 
-	ss->slide_fd = file_data_ref(image_get_fd(ss->imd));
 	if (slideshow_step(ss, TRUE))
 		{
 		slideshow_timer_reset(ss);
@@ -414,23 +425,23 @@ static SlideShowData *real_slideshow_start(ImageWindow *imd, LayoutWindow *lw,
 	return ss;
 }
 
-SlideShowData *slideshow_start_from_filelist(ImageWindow *imd, GList *list,
+SlideShowData *slideshow_start_from_filelist(LayoutWindow *target_lw, ImageWindow *imd, GList *list,
 					      void (*stop_func)(SlideShowData *, gpointer), gpointer stop_data)
 {
-	return real_slideshow_start(imd, NULL, list, -1, NULL, NULL, stop_func, stop_data);
+	return real_slideshow_start(target_lw, imd, list, -1, NULL, NULL, stop_func, stop_data);
 }
 
-SlideShowData *slideshow_start_from_collection(ImageWindow *imd, CollectionData *cd,
+SlideShowData *slideshow_start_from_collection(LayoutWindow *target_lw, ImageWindow *imd, CollectionData *cd,
 					       void (*stop_func)(SlideShowData *, gpointer), gpointer stop_data,
 					       CollectInfo *start_info)
 {
-	return real_slideshow_start(imd, NULL, NULL, -1, cd, start_info, stop_func, stop_data);
+	return real_slideshow_start(target_lw, imd, NULL, -1, cd, start_info, stop_func, stop_data);
 }
 
-SlideShowData *slideshow_start(ImageWindow *imd, LayoutWindow *lw, gint start_point,
+SlideShowData *slideshow_start(LayoutWindow *lw, gint start_point,
 			       void (*stop_func)(SlideShowData *, gpointer), gpointer stop_data)
 {
-	return real_slideshow_start(imd, lw, NULL, start_point, NULL, NULL, stop_func, stop_data);
+	return real_slideshow_start(lw, NULL, NULL, start_point, NULL, NULL, stop_func, stop_data);
 }
 
 gboolean slideshow_paused(SlideShowData *ss)

@@ -1530,7 +1530,7 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 
 	/* remember state */
 
-	layout_image_slideshow_stop(lw);
+	/* layout_image_slideshow_stop(lw); slideshow should survive */ 
 	layout_image_full_screen_stop(lw);
 
 	dir_fd = lw->dir_fd;

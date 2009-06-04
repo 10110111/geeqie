@@ -65,11 +65,6 @@ static void layout_image_full_screen_stop_func(FullScreenData *fs, gpointer data
 	/* restore image window */
 	lw->image = fs->normal_imd;
 
-	if (lw->slideshow)
-		{
-		lw->slideshow->imd = lw->image;
-		}
-
 	lw->full_screen = NULL;
 }
 
@@ -84,11 +79,6 @@ void layout_image_full_screen_start(LayoutWindow *lw)
 
 	/* set to new image window */
 	lw->image = lw->full_screen->imd;
-
-	if (lw->slideshow)
-		{
-		lw->slideshow->imd = lw->image;
-		}
 
 	layout_image_set_buttons(lw);
 
@@ -175,12 +165,12 @@ void layout_image_slideshow_start(LayoutWindow *lw)
 
 	if (cd && info)
 		{
-		lw->slideshow = slideshow_start_from_collection(lw->image, cd,
+		lw->slideshow = slideshow_start_from_collection(lw, NULL, cd,
 				layout_image_slideshow_stop_func, lw, info);
 		}
 	else
 		{
-		lw->slideshow = slideshow_start(lw->image, lw,
+		lw->slideshow = slideshow_start(lw,
 				layout_list_get_index(lw, layout_image_get_fd(lw)),
 				layout_image_slideshow_stop_func, lw);
 		}
@@ -199,7 +189,7 @@ void layout_image_slideshow_start_from_list(LayoutWindow *lw, GList *list)
 		return;
 		}
 
-	lw->slideshow = slideshow_start_from_filelist(lw->image, list,
+	lw->slideshow = slideshow_start_from_filelist(lw, NULL, list,
 						       layout_image_slideshow_stop_func, lw);
 
 	layout_status_update_info(lw, NULL);

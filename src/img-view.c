@@ -774,7 +774,7 @@ static void view_slideshow_start(ViewWindow *vw)
 
 		if (vw->list)
 			{
-			vw->ss = slideshow_start_from_filelist(view_window_active_image(vw),
+			vw->ss = slideshow_start_from_filelist(NULL, view_window_active_image(vw),
 								filelist_copy(vw->list),
 								view_slideshow_stop_func, vw);
 			vw->list_pointer = NULL;
@@ -784,7 +784,7 @@ static void view_slideshow_start(ViewWindow *vw)
 		cd = image_get_collection(view_window_active_image(vw), &info);
 		if (cd && info)
 			{
-			vw->ss = slideshow_start_from_collection(view_window_active_image(vw), cd,
+			vw->ss = slideshow_start_from_collection(NULL, view_window_active_image(vw), cd,
 								 view_slideshow_stop_func, vw, info);
 			}
 		}

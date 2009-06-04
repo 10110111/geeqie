@@ -793,12 +793,13 @@ struct _ViewFileInfoIcon
 
 struct _SlideShowData
 {
-	ImageWindow *imd;
+	LayoutWindow *lw;        /* use this window to display the slideshow */
+	ImageWindow *imd;        /* use this window only if lw is not available,
+	                            FIXME: it is probably required only by img-view.c and should be dropped with it */
 
 	GList *filelist;
 	CollectionData *cd;
 	FileData *dir_fd;
-	LayoutWindow *layout;
 
 	GList *list;
 	GList *list_done;

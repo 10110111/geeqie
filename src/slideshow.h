@@ -31,12 +31,12 @@ gboolean slideshow_should_continue(SlideShowData *ss);
 void slideshow_next(SlideShowData *ss);
 void slideshow_prev(SlideShowData *ss);
 
-SlideShowData *slideshow_start_from_filelist(ImageWindow *imd, GList *list,
+SlideShowData *slideshow_start_from_filelist(LayoutWindow *target_lw, ImageWindow *imd, GList *list,
 					      void (*stop_func)(SlideShowData *, gpointer), gpointer stop_data);
-SlideShowData *slideshow_start_from_collection(ImageWindow *imd, CollectionData *cd,
+SlideShowData *slideshow_start_from_collection(LayoutWindow *target_lw, ImageWindow *imd, CollectionData *cd,
 					       void (*stop_func)(SlideShowData *, gpointer), gpointer stop_data,
 					       CollectInfo *start_info);
-SlideShowData *slideshow_start(ImageWindow *imd, LayoutWindow *lw, gint start_point,
+SlideShowData *slideshow_start(LayoutWindow *lw, gint start_point,
 			       void (*stop_func)(SlideShowData *, gpointer), gpointer stop_data);
 
 gboolean slideshow_paused(SlideShowData *ss);
