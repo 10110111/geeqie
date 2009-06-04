@@ -1611,11 +1611,19 @@ void layout_colors_update(void)
 	work = layout_window_list;
 	while (work)
 		{
+		gint i;
 		LayoutWindow *lw = work->data;
 		work = work->next;
-
+		
 		if (!lw->image) continue;
-		image_background_set_color(lw->image, options->image.use_custom_border_color ? &options->image.border_color : NULL);
+
+		for (i = 0; i < MAX_SPLIT_IMAGES; i++)
+			{
+			if (!lw->split_images[i]) continue;
+			image_background_set_color_from_options(lw->split_images[i], !!lw->full_screen);
+			}
+		
+		image_background_set_color_from_options(lw->image, !!lw->full_screen);
 		}
 }
 

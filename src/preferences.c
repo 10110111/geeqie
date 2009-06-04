@@ -314,9 +314,12 @@ static void config_window_apply(void)
 
 	options->image.enable_read_ahead = c_options->image.enable_read_ahead;
 
+	
 	if (options->image.use_custom_border_color != c_options->image.use_custom_border_color
+	    || options->image.custom_border_fullscreen_only != c_options->image.custom_border_fullscreen_only
 	    || !gdk_color_equal(&options->image.border_color, &c_options->image.border_color))
 		{
+		options->image.custom_border_fullscreen_only = c_options->image.custom_border_fullscreen_only;
 		options->image.use_custom_border_color = c_options->image.use_custom_border_color;
 		options->image.border_color = c_options->image.border_color;
 		layout_colors_update();
@@ -1333,6 +1336,9 @@ static void config_tab_image(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Custom border color"),
 			      options->image.use_custom_border_color, &c_options->image.use_custom_border_color);
+	
+	pref_checkbox_new_int(group, _("Apply custom border to fullscreen mode only"),
+			      options->image.custom_border_fullscreen_only, &c_options->image.custom_border_fullscreen_only);
 
 	pref_color_button_new(group, _("Border color"), &options->image.border_color,
 			      G_CALLBACK(pref_color_button_set_cb), &c_options->image.border_color);

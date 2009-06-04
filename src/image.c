@@ -1463,6 +1463,19 @@ void image_background_set_color(ImageWindow *imd, GdkColor *color)
 	pixbuf_renderer_set_color((PixbufRenderer *)imd->pr, color);
 }
 
+void image_background_set_color_from_options(ImageWindow *imd, gboolean fullscreen)
+{
+	GdkColor *color = NULL;
+
+	if (options->image.use_custom_border_color
+	    && (!options->image.custom_border_fullscreen_only || fullscreen))
+		{
+		color = &options->image.border_color;
+		}
+
+	image_background_set_color(imd, color);
+}
+
 void image_color_profile_set(ImageWindow *imd,
 			     gint input_type,
 			     gboolean use_image)

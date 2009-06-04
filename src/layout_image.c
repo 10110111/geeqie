@@ -1610,7 +1610,7 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 		g_signal_connect(G_OBJECT(lw->split_images[i]->pr), "update-pixel",
 				 G_CALLBACK(layout_status_update_pixel_cb), lw);
 
-		image_background_set_color(lw->split_images[i], options->image.use_custom_border_color ? &options->image.border_color : NULL);
+		image_background_set_color_from_options(lw->split_images[i], FALSE);
 
 		image_auto_refresh_enable(lw->split_images[i], TRUE);
 

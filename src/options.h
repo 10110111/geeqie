@@ -68,7 +68,8 @@ struct _ConfOptions
 		guint zoom_quality;
 		gint zoom_increment;	/* 10 is 1.0, 5 is 0.05, 20 is 2.0, etc. */
 
-		gint use_custom_border_color;
+		gboolean custom_border_fullscreen_only;
+		gboolean use_custom_border_color;
 		GdkColor border_color;
 	} image;
 

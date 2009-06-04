@@ -330,6 +330,7 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_BOOL(*options, image.enable_read_ahead);
 	WRITE_NL(); WRITE_BOOL(*options, image.exif_rotate_enable);
 	WRITE_NL(); WRITE_BOOL(*options, image.use_custom_border_color);
+	WRITE_NL(); WRITE_BOOL(*options, image.custom_border_fullscreen_only);
 	WRITE_NL(); WRITE_COLOR(*options, image.border_color);
 
 //	WRITE_SUBTITLE("Thumbnails Options");
@@ -613,6 +614,7 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_BOOL(*options, image.enable_read_ahead)) continue;
 		if (READ_BOOL(*options, image.exif_rotate_enable)) continue;
 		if (READ_BOOL(*options, image.use_custom_border_color)) continue;
+		if (READ_BOOL(*options, image.custom_border_fullscreen_only)) continue;
 		if (READ_COLOR(*options, image.border_color)) continue;
 
 		/* thumbnails options */

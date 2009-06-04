@@ -75,6 +75,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image.tile_cache_max = 10;
 	options->image.image_cache_max = 128; /* 4 x 10MPix */
 	options->image.use_custom_border_color = FALSE;
+	options->image.custom_border_fullscreen_only = FALSE;
 	options->image.zoom_2pass = TRUE;
 	options->image.zoom_increment = 5;
 	options->image.zoom_mode = ZOOM_RESET_NONE;

@@ -102,6 +102,7 @@ void image_top_window_set_sync(ImageWindow *imd, gboolean allow_sync);
 
 /* background of image */
 void image_background_set_color(ImageWindow *imd, GdkColor *color);
+void image_background_set_color_from_options(ImageWindow *imd, gboolean fullscreen);
 
 /* color profiles */
 void image_color_profile_set(ImageWindow *imd,
