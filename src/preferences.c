@@ -1727,7 +1727,7 @@ static void config_tab_color(GtkWidget *notebook)
 		GtkWidget *entry;
 		gchar *buf;
 
-		buf = g_strdup_printf("Input %d:", i + COLOR_PROFILE_FILE);
+		buf = g_strdup_printf(_("Input %d:"), i + COLOR_PROFILE_FILE);
 		pref_table_label(table, 0, i + 1, buf, 1.0);
 		g_free(buf);
 

@@ -2,6 +2,7 @@
 ./src/bar.c
 ./src/bar_comment.c
 ./src/bar_exif.c
+./src/bar_gps.c
 ./src/bar_histogram.c
 ./src/bar_keywords.c
 ./src/bar_sort.c
