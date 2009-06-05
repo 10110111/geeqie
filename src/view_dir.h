@@ -26,7 +26,7 @@ extern GtkRadioActionEntry menu_view_dir_radio_entries[VIEW_DIR_TYPES_COUNT];
 
 ViewDir *vd_new(DirViewType type, FileData *dir_fd);
 
-void vd_set_select_func(ViewDir *vdl, void (*func)(ViewDir *vdl, const gchar *path, gpointer data), gpointer data);
+void vd_set_select_func(ViewDir *vdl, void (*func)(ViewDir *vdl, FileData *fd, gpointer data), gpointer data);
 
 void vd_set_layout(ViewDir *vdl, LayoutWindow *layout);
 

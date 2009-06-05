@@ -676,29 +676,6 @@ static gboolean vdtree_select_cb(GtkTreeSelection *selection, GtkTreeModel *stor
 	return selection_is_ok;
 }
 
-void vdtree_select_row(ViewDir *vd, FileData *fd)
-{
-	GtkTreeSelection *selection;
-	GtkTreeIter iter;
-
-	if (!vd_find_row(vd, fd, &iter)) return;
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vd->view));
-
-	/* hack, such that selection is only allowed to be changed from here */
-	selection_is_ok = TRUE;
-	gtk_tree_selection_select_iter(selection, &iter);
-	selection_is_ok = FALSE;
-
-	if (!vdtree_populate_path_by_iter(vd, &iter, FALSE, vd->dir_fd)) return;
-
-	vdtree_expand_by_iter(vd, &iter, TRUE);
-
-	if (fd && vd->select_func)
-		{
-		vd->select_func(vd, fd->path, vd->select_data);
-		}
-}
-
 gboolean vdtree_set_fd(ViewDir *vd, FileData *dir_fd)
 {
 	FileData *fd;
@@ -718,15 +695,21 @@ gboolean vdtree_set_fd(ViewDir *vd, FileData *dir_fd)
 		{
 		GtkTreeModel *store;
 		GtkTreePath *tpath;
-
-		tree_view_row_make_visible(GTK_TREE_VIEW(vd->view), &iter, TRUE);
+		GtkTreeSelection *selection;
 
 		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
 		tpath = gtk_tree_model_get_path(store, &iter);
 		gtk_tree_view_set_cursor(GTK_TREE_VIEW(vd->view), tpath, NULL, FALSE);
 		gtk_tree_path_free(tpath);
 
-		vdtree_select_row(vd, fd);
+		selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vd->view));
+
+		/* hack, such that selection is only allowed to be changed from here */
+		selection_is_ok = TRUE;
+		gtk_tree_selection_select_iter(selection, &iter);
+		selection_is_ok = FALSE;
+
+		tree_view_row_make_visible(GTK_TREE_VIEW(vd->view), &iter, TRUE);
 		}
 
 	return TRUE;

@@ -687,7 +687,7 @@ struct _ViewDir
 	guint drop_scroll_id; /* event source id */
 
 	/* func list */
-	void (*select_func)(ViewDir *vd, const gchar *path, gpointer data);
+	void (*select_func)(ViewDir *vd, FileData *fd, gpointer data);
 	gpointer select_data;
 
 	void (*dnd_drop_update_func)(ViewDir *vd);

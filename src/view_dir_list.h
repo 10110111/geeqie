@@ -16,8 +16,6 @@
 
 ViewDir *vdlist_new(ViewDir *vd, FileData *dir_fd);
 
-void vdlist_select_row(ViewDir *vd, FileData *fd);
-
 gboolean vdlist_set_fd(ViewDir *vd, FileData *dir_fd);
 void vdlist_refresh(ViewDir *vd);
 

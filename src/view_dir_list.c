@@ -117,18 +117,6 @@ static void vdlist_scroll_to_row(ViewDir *vd, FileData *fd, gfloat y_align)
  *-----------------------------------------------------------------------------
  */
 
-void vdlist_select_row(ViewDir *vd, FileData *fd)
-{
-	if (fd && vd->select_func)
-		{
-		gchar *path;
-
-		path = g_strdup(fd->path);
-		vd->select_func(vd, path, vd->select_data);
-		g_free(path);
-		}
-}
-
 const gchar *vdlist_row_get_path(ViewDir *vd, gint row)
 {
 	FileData *fd;

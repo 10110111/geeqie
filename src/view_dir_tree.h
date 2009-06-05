@@ -24,8 +24,6 @@ struct _NodeData
 
 ViewDir *vdtree_new(ViewDir *vd, FileData *dir_fd);
 
-void vdtree_select_row(ViewDir *vd, FileData *fd);
-
 gboolean vdtree_set_fd(ViewDir *vd, FileData *dir_fd);
 void vdtree_refresh(ViewDir *vd);
 

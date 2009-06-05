@@ -242,11 +242,11 @@ static void layout_path_entry_cb(const gchar *path, gpointer data)
 	g_free(buf);
 }
 
-static void layout_vd_select_cb(ViewDir *vd, const gchar *path, gpointer data)
+static void layout_vd_select_cb(ViewDir *vd, FileData *fd, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	layout_set_path(lw, path);
+	layout_set_fd(lw, fd);
 }
 
 static void layout_path_entry_tab_append_cb(const gchar *path, gpointer data, gint n)

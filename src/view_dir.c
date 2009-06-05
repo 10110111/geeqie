@@ -143,7 +143,7 @@ ViewDir *vd_new(DirViewType type, FileData *dir_fd)
 }
 
 void vd_set_select_func(ViewDir *vd,
-			void (*func)(ViewDir *vd, const gchar *path, gpointer data), gpointer data)
+			void (*func)(ViewDir *vd, FileData *fd, gpointer data), gpointer data)
 {
 	vd->select_func = func;
 	vd->select_data = data;
@@ -193,13 +193,15 @@ const gchar *vd_row_get_path(ViewDir *vd, gint row)
 	return ret;
 }
 
+/* the calling stack is this:
+   vd_select_row -> select_func -> layout_set_fd -> vd_set_fd
+*/
 void vd_select_row(ViewDir *vd, FileData *fd)
 {
-	switch (vd->type)
-	{
-	case DIRVIEW_LIST: vdlist_select_row(vd, fd); break;
-	case DIRVIEW_TREE: vdtree_select_row(vd, fd); break;
-	}
+	if (fd && vd->select_func)
+		{
+		vd->select_func(vd, fd, vd->select_data);
+		}
 }
 
 gboolean vd_find_row(ViewDir *vd, FileData *fd, GtkTreeIter *iter)
@@ -422,7 +424,9 @@ static void vd_pop_menu_up_cb(GtkWidget *widget, gpointer data)
 
 	if (vd->select_func)
 		{
-		vd->select_func(vd, path, vd->select_data);
+		FileData *fd = file_data_new_simple(path);
+		vd->select_func(vd, fd, vd->select_data);
+		file_data_unref(fd);
 		}
 
 	g_free(path);
@@ -1023,7 +1027,7 @@ gboolean vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 
 	if (fd && vd->click_fd == fd)
 		{
-		vdlist_select_row(vd, vd->click_fd);
+		vd_select_row(vd, vd->click_fd);
 		}
 
 	return FALSE;
