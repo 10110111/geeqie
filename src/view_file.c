@@ -711,6 +711,13 @@ static GtkWidget *vf_marks_filter_init(ViewFile *vf)
 	return frame;
 }
 
+void vf_mark_filter_toggle(ViewFile *vf, gint mark)
+{
+	gint n = mark - 1;
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(vf->filter_check[n]),
+				     !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(vf->filter_check[n])));
+}
+
 ViewFile *vf_new(FileViewType type, FileData *dir_fd)
 {
 	ViewFile *vf;

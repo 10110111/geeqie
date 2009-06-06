@@ -814,6 +814,14 @@ void layout_selection_to_mark(LayoutWindow *lw, gint mark, SelectionToMarkMode m
 	layout_status_update_info(lw, NULL); /* osd in fullscreen mode */
 }
 
+void layout_mark_filter_toggle(LayoutWindow *lw, gint mark)
+{
+	if (!layout_valid(&lw)) return;
+
+	if (lw->vf) vf_mark_filter_toggle(lw->vf, mark);
+}
+
+
 /*
  *-----------------------------------------------------------------------------
  * access

@@ -895,6 +895,16 @@ static void layout_menu_sel_mark_minus_cb(GtkAction *action, gpointer data)
 	layout_mark_to_selection(lw, mark, MTS_MODE_MINUS);
 }
 
+static void layout_menu_mark_filter_toggle_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint mark = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "mark_num"));
+	g_assert(mark >= 1 && mark <= FILEDATA_MARKS_SIZE);
+
+	layout_marks_set(lw, TRUE);
+	layout_mark_filter_toggle(lw, mark);
+}
+
 
 /*
  *-----------------------------------------------------------------------------
@@ -1618,6 +1628,7 @@ static void layout_actions_setup_marks(LayoutWindow *lw)
 		layout_actions_setup_mark(lw, mark, "AddMark%d", 	_("_Add mark %d"), 			NULL, 		_("Add mark %d"), G_CALLBACK(layout_menu_sel_mark_or_cb));
 		layout_actions_setup_mark(lw, mark, "IntMark%d", 	_("_Intersection with mark %d"), 	NULL, 		_("Intersection with mark %d"), G_CALLBACK(layout_menu_sel_mark_and_cb));
 		layout_actions_setup_mark(lw, mark, "UnselMark%d", 	_("_Unselect mark %d"), 		NULL, 		_("Unselect mark %d"), G_CALLBACK(layout_menu_sel_mark_minus_cb));
+		layout_actions_setup_mark(lw, mark, "FilterMark%d", 	_("_Filter mark %d"), 			NULL, 		_("Filter mark %d"), G_CALLBACK(layout_menu_mark_filter_toggle_cb));
 
 		g_string_append_printf(desc,
 				"      <menu action='Mark%d'>"
@@ -1629,8 +1640,10 @@ static void layout_actions_setup_marks(LayoutWindow *lw)
 				"        <menuitem action='AddMark%d'/>"
 				"        <menuitem action='IntMark%d'/>"
 				"        <menuitem action='UnselMark%d'/>"
+				"        <separator/>"
+				"        <menuitem action='FilterMark%d'/>"
 				"      </menu>",
-				mark, mark, mark, mark, mark, mark, mark, mark);
+				mark, mark, mark, mark, mark, mark, mark, mark, mark);
 		}
 
 	g_string_append(desc,
