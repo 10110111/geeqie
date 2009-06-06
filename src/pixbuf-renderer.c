@@ -2122,7 +2122,7 @@ static void pr_tile_prepare(PixbufRenderer *pr, ImageTile *it)
 
 static void pr_tile_coords_map_orientation(PixbufRenderer *pr,
 				     gdouble tile_x, gdouble tile_y, /* coordinates of the tile */
-				     gint image_w, gint image_h,
+				     gdouble image_w, gdouble image_h,
 				     gdouble tile_w, gdouble tile_h,
 				     gdouble *res_x, gdouble *res_y)
 {
@@ -2651,15 +2651,30 @@ static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 		scale_x = (gdouble)pr->width / pr->image_width;
 		scale_y = (gdouble)pr->height / pr->image_height;
 
-		pr_tile_coords_map_orientation(pr, it->x / scale_x, it->y /scale_y ,
-					    pr->image_width, pr->image_height,
-					    pr->tile_width / scale_x , pr->tile_height / scale_y,
+		pr_tile_coords_map_orientation(pr, it->x, it->y,
+					    pr->image_width * scale_x, pr->image_height * scale_y,
+					    pr->tile_width, pr->tile_height,
 					    &src_x, &src_y);
 		pr_tile_region_map_orientation(pr, x, y,
 					    pr->tile_width, pr->tile_height,
 					    w, h,
 					    &pb_x, &pb_y,
 					    &pb_w, &pb_h);
+		switch (pr->orientation)
+			{
+			gdouble tmp;
+			case EXIF_ORIENTATION_LEFT_TOP:
+			case EXIF_ORIENTATION_RIGHT_TOP:
+			case EXIF_ORIENTATION_RIGHT_BOTTOM:
+			case EXIF_ORIENTATION_LEFT_BOTTOM:
+				tmp = scale_x;
+				scale_x = scale_y;
+				scale_y = tmp;
+				break;
+			default:
+				/* nothing to do */
+				break;
+			}
 
 		/* HACK: The pixbuf scalers get kinda buggy(crash) with extremely
 		 * small sizes for anything but GDK_INTERP_NEAREST
@@ -2669,16 +2684,16 @@ static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 		if (!has_alpha)
 			{
 			gdk_pixbuf_scale(pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
-					 (gdouble) 0.0 - src_x * scale_x,
-					 (gdouble) 0.0 - src_y * scale_y,
+					 (gdouble) 0.0 - src_x,
+					 (gdouble) 0.0 - src_y,
 					 scale_x, scale_y,
 					 (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality);
 			}
 		else
 			{
 			gdk_pixbuf_composite_color(pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
-					 (gdouble) 0.0 - src_x * scale_x,
-					 (gdouble) 0.0 - src_y * scale_y,
+					 (gdouble) 0.0 - src_x,
+					 (gdouble) 0.0 - src_y,
 					 scale_x, scale_y,
 					 (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality,
 					 255, it->x + pb_x, it->y + pb_y,
