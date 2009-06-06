@@ -40,6 +40,7 @@ struct _PathData
 };
 
 
+static void vdtree_row_expanded(GtkTreeView *treeview, GtkTreeIter *iter, GtkTreePath *tpath, gpointer data);
 
 
 /*
@@ -126,13 +127,19 @@ static void vdtree_expand_by_iter(ViewDir *vd, GtkTreeIter *iter, gboolean expan
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
 	tpath = gtk_tree_model_get_path(store, iter);
+
 	if (expand)
 		{
+		/* block signal handler, icon is set here, the caller of vdtree_expand_by_iter must make sure
+		   that the iter is populated */
+		g_signal_handlers_block_by_func(G_OBJECT(vd->view), vdtree_row_expanded, vd);
 		gtk_tree_view_expand_row(GTK_TREE_VIEW(vd->view), tpath, FALSE);
 		vdtree_icon_set_by_iter(vd, iter, vd->pf->open);
+		g_signal_handlers_unblock_by_func(G_OBJECT(vd->view), vdtree_row_expanded, vd);
 		}
 	else
 		{
+		/* signal handler vdtree_row_collapsed is called, it updates the icon */
 		gtk_tree_view_collapse_row(GTK_TREE_VIEW(vd->view), tpath);
 		}
 	gtk_tree_path_free(tpath);
