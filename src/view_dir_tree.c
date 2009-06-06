@@ -720,6 +720,10 @@ gboolean vdtree_set_fd(ViewDir *vd, FileData *dir_fd)
 			{
 			/* setting the cursor scrolls the view; do not do that unless it is necessary */
 			gtk_tree_view_set_cursor(GTK_TREE_VIEW(vd->view), tpath, NULL, FALSE);
+			
+			/* gtk_tree_view_set_cursor scrolls the window itself, but it sometimes
+			   does not work (switch from dir_list to dir_tree) */
+			tree_view_row_make_visible(GTK_TREE_VIEW(vd->view), &iter, TRUE);
 			}
 		gtk_tree_path_free(tpath);
 		gtk_tree_path_free(old_tpath);
