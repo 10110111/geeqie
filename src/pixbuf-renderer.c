@@ -3961,6 +3961,8 @@ static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, P
 		pr->image_width = 0;
 		pr->image_height = 0;
 		pr->scale = 1.0;
+		pr->zoom = zoom; /* don't throw away the zoom value, it is set by pixbuf_renderer_move, among others,
+				    and used for pixbuf_renderer_zoom_get */
 
 		box = GTK_WIDGET(pr);
 
