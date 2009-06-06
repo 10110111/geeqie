@@ -694,13 +694,10 @@ gboolean vdtree_set_fd(ViewDir *vd, FileData *dir_fd)
 	if (vd_find_row(vd, fd, &iter))
 		{
 		GtkTreeModel *store;
-		GtkTreePath *tpath;
+		GtkTreePath *tpath, *old_tpath;
 		GtkTreeSelection *selection;
 
 		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
-		tpath = gtk_tree_model_get_path(store, &iter);
-		gtk_tree_view_set_cursor(GTK_TREE_VIEW(vd->view), tpath, NULL, FALSE);
-		gtk_tree_path_free(tpath);
 
 		selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vd->view));
 
@@ -709,7 +706,16 @@ gboolean vdtree_set_fd(ViewDir *vd, FileData *dir_fd)
 		gtk_tree_selection_select_iter(selection, &iter);
 		selection_is_ok = FALSE;
 
-		tree_view_row_make_visible(GTK_TREE_VIEW(vd->view), &iter, TRUE);
+		gtk_tree_view_get_cursor(GTK_TREE_VIEW(vd->view), &old_tpath, NULL);
+		tpath = gtk_tree_model_get_path(store, &iter);
+		
+		if (!old_tpath || gtk_tree_path_compare(tpath, old_tpath) != 0)
+			{
+			/* setting the cursor scrolls the view; do not do that unless it is necessary */
+			gtk_tree_view_set_cursor(GTK_TREE_VIEW(vd->view), tpath, NULL, FALSE);
+			}
+		gtk_tree_path_free(tpath);
+		gtk_tree_path_free(old_tpath);
 		}
 
 	return TRUE;
