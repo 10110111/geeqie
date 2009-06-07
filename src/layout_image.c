@@ -1671,7 +1671,7 @@ void layout_image_activate(LayoutWindow *lw, gint i)
 
 static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 {
-	gboolean frame = (n == 1) ? (!lw->options.tools_float && !lw->options.tools_hidden) : 1;
+	gboolean frame = (n > 1) || (!lw->options.tools_float && !lw->options.tools_hidden);
 	gint i;
 
 	for (i = 0; i < n; i++)
@@ -1682,7 +1682,7 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 
 			layout_image_new(lw, i);
 			image_set_frame(lw->split_images[i], frame);
-			image_set_selectable(lw->split_images[i], 1);
+			image_set_selectable(lw->split_images[i], (n > 1));
 			
 			if (lw->image)
 				{
@@ -1725,7 +1725,7 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 		else
 			{
 			image_set_frame(lw->split_images[i], frame);
-			image_set_selectable(lw->split_images[i], 1);
+			image_set_selectable(lw->split_images[i], (n > 1));
 			}
 
 	for (i = n; i < MAX_SPLIT_IMAGES; i++)
