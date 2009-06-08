@@ -263,7 +263,7 @@ static void layout_menu_dir_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	file_util_create_dir(lw->dir_fd, layout_window(lw), NULL, NULL);
+	if (lw->vd) vd_new_folder(lw->vd, lw->dir_fd);
 }
 
 static void layout_menu_copy_cb(GtkAction *action, gpointer data)

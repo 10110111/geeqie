@@ -242,6 +242,23 @@ FileData *vd_get_fd_from_tree_path(ViewDir *vd, GtkTreeView *tview, GtkTreePath 
 	return fd;
 }
 
+static void vd_rename_finished_cb(gboolean success, const gchar *new_path, gpointer data)
+{
+	ViewDir *vd = data;
+	if (success)
+		{
+		FileData *fd = file_data_new_simple(new_path);
+		GtkTreeIter iter;
+
+		if (vd_find_row(vd, fd, &iter))
+			{
+			tree_view_row_make_visible(GTK_TREE_VIEW(vd->view), &iter, TRUE);
+			}
+
+		file_data_unref(fd);
+		}
+}
+
 static gboolean vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, gpointer data)
 {
 	ViewDir *vd = data;
@@ -256,7 +273,7 @@ static gboolean vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *ne
 	new_path = g_build_filename(base, new, NULL);
 	g_free(base);
 
-	file_util_rename_dir(fd, new_path, vd->view);
+	file_util_rename_dir(fd, new_path, vd->view, vd_rename_finished_cb, vd);
 	
 	g_free(new_path);
 
@@ -684,6 +701,11 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 			    G_CALLBACK(vd_pop_menu_refresh_cb), vd);
 
 	return menu;
+}
+
+void vd_new_folder(ViewDir *vd, FileData *dir_fd)
+{
+	file_util_create_dir(dir_fd, vd->widget, vd_pop_menu_new_rename_cb, vd);
 }
 
 /*

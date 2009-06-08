@@ -41,7 +41,7 @@ void file_util_write_metadata(FileData *source_fd, GList *source_list, GtkWidget
 
 void file_util_create_dir(FileData *dir_fd, GtkWidget *parent, FileUtilDoneFunc done_func, gpointer done_data);
 
-void file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget *parent);
+void file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget *parent, FileUtilDoneFunc done_func, gpointer done_data);
 
 /* these avoid the location entry dialog, list must be files only and
  * dest_path must be a valid directory path

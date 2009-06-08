@@ -935,7 +935,8 @@ void file_util_check_ci(UtilityData *ud)
 	gint error = CHANGE_OK;
 	gchar *desc = NULL;
 	
-	if (ud->type != UTILITY_TYPE_CREATE_FOLDER)
+	if (ud->type != UTILITY_TYPE_CREATE_FOLDER &&
+	    ud->type != UTILITY_TYPE_RENAME_FOLDER)
 		{
 		if (ud->dest_path && !isdir(ud->dest_path))
 			{
@@ -2580,7 +2581,7 @@ static gboolean file_util_rename_dir_prepare(UtilityData *ud, const gchar *new_p
 }
 	
 
-static void file_util_rename_dir_full(FileData *fd, const gchar *new_path, GtkWidget *parent, UtilityPhase phase)
+static void file_util_rename_dir_full(FileData *fd, const gchar *new_path, GtkWidget *parent, UtilityPhase phase, FileUtilDoneFunc done_func, gpointer done_data)
 {
 	UtilityData *ud;
 
@@ -2594,6 +2595,10 @@ static void file_util_rename_dir_full(FileData *fd, const gchar *new_path, GtkWi
 	ud->flist = NULL;
 	ud->content_list = NULL;
 	ud->parent = parent;
+
+	ud->done_func = done_func;
+	ud->done_data = done_data;
+	ud->dest_path = g_strdup(new_path);
 	
 	ud->messages.title = _("Rename");
 	ud->messages.question = _("Rename folder?");
@@ -2732,9 +2737,9 @@ void file_util_create_dir(FileData *dir_fd, GtkWidget *parent, FileUtilDoneFunc 
 	file_util_create_dir_full(dir_fd, NULL, parent, UTILITY_PHASE_ENTERING, done_func, done_data);
 }
 
-void file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget *parent)
+void file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget *parent, FileUtilDoneFunc done_func, gpointer done_data)
 {
-	file_util_rename_dir_full(source_fd, new_path, parent, UTILITY_PHASE_ENTERING);
+	file_util_rename_dir_full(source_fd, new_path, parent, UTILITY_PHASE_ENTERING, done_func, done_data);
 }
 
 
