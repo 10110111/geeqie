@@ -351,6 +351,13 @@ static gboolean image_post_process_color(ImageWindow *imd, gint start_row, gbool
 		}
 
 	image_update_util(imd);
+	
+	if (screen_profile)
+		{
+		g_free(screen_profile);
+		screen_profile = NULL;
+		}
+	
 	return !!cm;
 }
 
