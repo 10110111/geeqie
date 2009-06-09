@@ -847,6 +847,10 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 	gtk_container_set_border_width(GTK_CONTAINER(vw->window), 0);
 
 	vw->imd = image_new(FALSE);
+	image_color_profile_set(vw->imd,
+				options->color_profile.input_type,
+				options->color_profile.use_image);
+	image_color_profile_set_use(vw->imd, options->color_profile.enabled);
 
 	image_background_set_color_from_options(vw->imd, FALSE);
 
