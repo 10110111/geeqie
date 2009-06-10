@@ -446,6 +446,14 @@ static void parse_command_line_for_debug_option(gint argc, gchar *argv[])
 
 #define RC_HISTORY_NAME "history"
 
+static void setup_env_path(void)
+{
+	const gchar *old_path = g_getenv("PATH");
+	gchar *path = g_strconcat(GQ_BIN_DIR, ":", old_path, NULL);
+        g_setenv("PATH", path, TRUE);
+	g_free(path);
+}
+
 static void keys_load(void)
 {
 	gchar *path;
@@ -784,6 +792,8 @@ gint main(gint argc, gchar *argv[])
 	mkdir_if_not_exists(get_collections_dir());
 	mkdir_if_not_exists(get_thumbnails_cache_dir());
 	mkdir_if_not_exists(get_metadata_cache_dir());
+
+	setup_env_path();
 
 	keys_load();
 	accel_map_load();

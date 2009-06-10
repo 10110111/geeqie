@@ -222,6 +222,9 @@ AC_SUBST(htmldir)
 eval "eval appdir=${datadir}/${PACKAGE}"
 AC_DEFINE_UNQUOTED([GQ_APP_DIR], "$appdir", [Location of application data])
 
+eval "eval gq_bindir=${prefix}/lib/${PACKAGE}"
+AC_DEFINE_UNQUOTED([GQ_BIN_DIR], "$gq_bindir", [Location of helper scripts and executables])
+
 #  LIRC support
 # ----------------------------------------------------------------------
 
