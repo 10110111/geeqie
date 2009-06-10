@@ -59,6 +59,7 @@ static EditorListWindow *editor_list_window = NULL;
 
 static gboolean editor_window_save(EditorWindow *ew)
 {
+	gchar *dir;
 	gchar *path;
 	gchar *text;
 	GtkTextIter start, end;
@@ -75,9 +76,16 @@ static gboolean editor_window_save(EditorWindow *ew)
 	gtk_text_buffer_get_bounds(ew->buffer, &start, &end);
 	text = gtk_text_buffer_get_text(ew->buffer, &start, &end, FALSE);
 
-	path = g_build_filename(get_rc_dir(), "applications", name, NULL);
+	dir = g_build_filename(get_rc_dir(), "applications", NULL);
+	path = g_build_filename(dir, name, NULL);
 
-	if (!g_file_set_contents(path, text, -1, &error)) 
+	if (!recursive_mkdir_if_not_exists(dir, 0755))
+		{
+		file_util_warning_dialog(_("Can't save"), _("Could not create directory"), GTK_STOCK_DIALOG_ERROR, NULL);
+		ret = FALSE;
+		}
+
+	if (ret && !g_file_set_contents(path, text, -1, &error)) 
 		{
 		file_util_warning_dialog(_("Can't save"), error->message, GTK_STOCK_DIALOG_ERROR, NULL);
 		g_error_free(error);
@@ -85,6 +93,7 @@ static gboolean editor_window_save(EditorWindow *ew)
 		}
 	
 	g_free(path);
+	g_free(dir);
 	g_free(text);
 	layout_editors_reload_all();
 	return ret;
