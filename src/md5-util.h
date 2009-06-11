@@ -46,12 +46,6 @@ void md5_get_digest(const guchar *buffer, gint buffer_size, guchar digest[16]);
 
 /* generate digest from file */
 gboolean md5_get_digest_from_file(const gchar *path, guchar digest[16]);
-gboolean md5_get_digest_from_file_utf8(const gchar *path, guchar digest[16]);
-
-/* generate md5 string from file,
- * on failure returns newly allocated copy of error_text, error_text may be NULL
-  */
-gchar *md5_text_from_file_utf8(const gchar *path, const gchar *error_text);
 
 /* convert digest to/from a NULL terminated text string, in ascii encoding */
 gchar *md5_digest_to_text(guchar digest[16]);

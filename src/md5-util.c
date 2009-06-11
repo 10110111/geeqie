@@ -31,8 +31,6 @@
 #include <string.h>
 #include "md5-util.h"
 
-#include "ui_fileops.h"	/* for utf-8 filename conversion */
-
 
 static void md5_transform(guint32 buf[4], const guint32 in[16]);
 
@@ -359,19 +357,6 @@ gboolean md5_get_digest_from_file(const gchar *path, guchar digest[16])
 	return TRUE;
 }
 
-/* does filename utf8 to filesystem encoding first */
-gboolean md5_get_digest_from_file_utf8(const gchar *path, guchar digest[16])
-{
-	gboolean success;
-	gchar *pathl;
-
-	pathl = path_from_utf8(path);
-	success = md5_get_digest_from_file(pathl, digest);
-	g_free(pathl);
-
-	return success;
-}
-
 /* these to and from text string converters were borrowed from
  * the libgnomeui library, where they are name thumb_digest_to/from_ascii
  *
@@ -410,12 +395,4 @@ gboolean md5_digest_from_text(const gchar *text, guchar digest[16])
 	return TRUE;
 }
 
-gchar *md5_text_from_file_utf8(const gchar *path, const gchar *error_text)
-{
-	guchar digest[16];
-
-	if (!md5_get_digest_from_file_utf8(path, digest)) return g_strdup(error_text);
-
-	return md5_digest_to_text(digest);
-}
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
