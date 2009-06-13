@@ -1474,8 +1474,8 @@ void image_background_set_color_from_options(ImageWindow *imd, gboolean fullscre
 {
 	GdkColor *color = NULL;
 
-	if (options->image.use_custom_border_color
-	    && (!options->image.custom_border_fullscreen_only || fullscreen))
+	if ((options->image.use_custom_border_color && !fullscreen) ||
+	    (options->image.use_custom_border_color_in_fullscreen && fullscreen))
 		{
 		color = &options->image.border_color;
 		}

@@ -316,10 +316,10 @@ static void config_window_apply(void)
 
 	
 	if (options->image.use_custom_border_color != c_options->image.use_custom_border_color
-	    || options->image.custom_border_fullscreen_only != c_options->image.custom_border_fullscreen_only
+	    || options->image.use_custom_border_color_in_fullscreen != c_options->image.use_custom_border_color_in_fullscreen
 	    || !gdk_color_equal(&options->image.border_color, &c_options->image.border_color))
 		{
-		options->image.custom_border_fullscreen_only = c_options->image.custom_border_fullscreen_only;
+		options->image.use_custom_border_color_in_fullscreen = c_options->image.use_custom_border_color_in_fullscreen;
 		options->image.use_custom_border_color = c_options->image.use_custom_border_color;
 		options->image.border_color = c_options->image.border_color;
 		layout_colors_update();
@@ -1334,11 +1334,11 @@ static void config_tab_image(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Appearance"), GTK_ORIENTATION_VERTICAL);
 
-	pref_checkbox_new_int(group, _("Custom border color"),
+	pref_checkbox_new_int(group, _("Use custom border color in window mode"),
 			      options->image.use_custom_border_color, &c_options->image.use_custom_border_color);
 	
-	pref_checkbox_new_int(group, _("Apply custom border to fullscreen mode only"),
-			      options->image.custom_border_fullscreen_only, &c_options->image.custom_border_fullscreen_only);
+	pref_checkbox_new_int(group, _("Use custom border color in fullscreen mode"),
+			      options->image.use_custom_border_color_in_fullscreen, &c_options->image.use_custom_border_color_in_fullscreen);
 
 	pref_color_button_new(group, _("Border color"), &options->image.border_color,
 			      G_CALLBACK(pref_color_button_set_cb), &c_options->image.border_color);
