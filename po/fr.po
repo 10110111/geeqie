@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.0alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-11 20:16+0200\n"
-"PO-Revision-Date: 2009-06-11 20:17+0100\n"
+"POT-Creation-Date: 2009-06-14 10:26+0200\n"
+"PO-Revision-Date: 2009-06-14 10:27+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french <geeqie-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -3779,12 +3779,12 @@ msgid "Appearance"
 msgstr "Apparence"
 
 #: src/preferences.c:1337
-msgid "Custom border color"
-msgstr "Couleur de bordure personnalisée"
+msgid "Use custom border color in window mode"
+msgstr "Utiliser une couleur de bordure personnalisée en mode fenêtré"
 
 #: src/preferences.c:1340
-msgid "Apply custom border to fullscreen mode only"
-msgstr "Appliquer la bordure personnalisée seulement en mode plein écran"
+msgid "Use custom border color in fullscreen mode"
+msgstr "Utiliser une couleur de bordure personnalisée en mode plein écran"
 
 #: src/preferences.c:1343
 msgid "Border color"
