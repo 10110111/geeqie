@@ -1,14 +1,7 @@
 [Desktop Entry]
 Name=Geeqie
 GenericName=Image Viewer
-GenericName[et]=Piltide vaatur
-GenericName[tr]=Resim göstericisi
-GenericName[fr]=Explorateur d'images
-GenericName[hu]=Képnéző
-GenericName[es]=Visor de imágenes
 Comment=View and manage images
-Comment[hu]=Képek megjelenítése és rendszerezése
-Comment[es]=Visualiza y administra imágenes
 Exec=geeqie -r %F
 Icon=geeqie
 Type=Application

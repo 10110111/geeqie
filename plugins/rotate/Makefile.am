@@ -1,7 +1,9 @@
 dist_pkglib_SCRIPTS = geeqie-rotate
 
-qq_desktopdir = $(pkgdatadir)/applications
-qq_desktop_DATA = rotate.desktop
+gq_desktopdir = $(pkgdatadir)/applications
+gq_desktop_in_files = rotate.desktop.in
+gq_desktop_DATA = $(gq_desktop_in_files:.desktop.in=.desktop)
+@INTLTOOL_DESKTOP_RULE@
 
 EXTRA_DIST = $(qq_desktop_DATA)
 

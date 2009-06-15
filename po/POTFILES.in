@@ -1,3 +1,6 @@
+./geeqie.desktop.in
+./plugins/rotate/rotate.desktop.in
+./plugins/symlink/symlink.desktop.in
 ./src/advanced_exif.c
 ./src/bar.c
 ./src/bar_comment.c

@@ -35,6 +35,12 @@ DIE=0
   }
 }
 
+(intltoolize --version) < /dev/null > /dev/null 2>&1 || {
+  echo
+  echo "**Error**: You must have \`intltoolize' installed" 
+  DIE=1
+}
+
 (automake --version) < /dev/null > /dev/null 2>&1 || {
   echo
   echo "**Error**: You must have \`automake' installed."
@@ -99,9 +105,8 @@ do
 	  test -r $dr/aclocal.m4 || touch $dr/aclocal.m4
 	  echo "Running glib-gettextize..."
 	  echo "no" | glib-gettextize --force --copy
-	  if [ -r po/Makefile.in.in.patch ]; then
-		patch po/Makefile.in.in < po/Makefile.in.in.patch
-	  fi
+	  echo "Running intltoolize"
+	  intltoolize --copy --force --automake
 	  echo "Making $dr/aclocal.m4 writable ..."
 	  test -r $dr/aclocal.m4 && chmod u+w $dr/aclocal.m4
         fi

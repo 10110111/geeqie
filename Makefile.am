@@ -11,7 +11,9 @@ readmedir = @readmedir@
 readme_DATA = README COPYING ChangeLog TODO README.lirc
 
 desktopdir = $(datadir)/applications
-desktop_DATA = geeqie.desktop
+desktop_in_files = geeqie.desktop.in
+desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
+@INTLTOOL_DESKTOP_RULE@
 
 icondir = $(datadir)/pixmaps
 icon_DATA = geeqie.png
