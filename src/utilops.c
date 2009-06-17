@@ -2180,7 +2180,13 @@ static void file_util_start_editor_full(const gchar *key, FileData *source_fd, G
 	flist = filelist_copy(source_list);
 	
 	if (source_fd)
+		{
+		/* flist is most probably NULL
+		   operate on source_fd and it's sidecars
+		*/
+		flist = g_list_concat(filelist_copy(source_fd->sidecar_files), flist);
 		flist = g_list_append(flist, file_data_ref(source_fd));
+		}
 
 	if (!flist) return;
 
