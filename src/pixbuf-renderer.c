@@ -79,6 +79,10 @@ typedef enum {
  */
 #define PR_MIN_SCALE_SIZE 8
 
+/* round A up/down to integer count of B */
+#define ROUND_UP(A,B)   ((gint)(((A)+(B)-1)/(B))*(B))
+#define ROUND_DOWN(A,B) ((gint)(((A))/(B))*(B))
+
 typedef enum {
 	TILE_RENDER_NONE = 0,	/* do nothing */
 	TILE_RENDER_AREA,	/* render an area of the tile */
@@ -1468,10 +1472,10 @@ static gboolean pr_source_tile_visible(PixbufRenderer *pr, SourceTile *st)
 
 	if (!st) return FALSE;
 
-	x1 = (pr->x_scroll / pr->tile_width) * pr->tile_width;
-	y1 = (pr->y_scroll / pr->tile_height) * pr->tile_height;
-	x2 = ((pr->x_scroll + pr->vis_width) / pr->tile_width) * pr->tile_width + pr->tile_width;
-	y2 = ((pr->y_scroll + pr->vis_height) / pr->tile_height) * pr->tile_height + pr->tile_height;
+	x1 = ROUND_DOWN(pr->x_scroll, pr->tile_width);
+	y1 = ROUND_DOWN(pr->y_scroll, pr->tile_height);
+	x2 = ROUND_UP(pr->x_scroll + pr->vis_width, pr->tile_width);
+	y2 = ROUND_UP(pr->y_scroll + pr->vis_height, pr->tile_height);
 
 	return !((gdouble)st->x * pr->scale > (gdouble)x2 ||
 		 (gdouble)(st->x + pr->source_tile_width) * pr->scale < (gdouble)x1 ||
@@ -1533,8 +1537,8 @@ static SourceTile *pr_source_tile_new(PixbufRenderer *pr, gint x, gint y)
 					    pr->source_tile_width, pr->source_tile_height);
 		}
 
-	st->x = (x / pr->source_tile_width) * pr->source_tile_width;
-	st->y = (y / pr->source_tile_height) * pr->source_tile_height;
+	st->x = ROUND_DOWN(x, pr->source_tile_width);
+	st->y = ROUND_DOWN(y, pr->source_tile_height);
 	st->blank = TRUE;
 
 	pr->source_tiles = g_list_prepend(pr->source_tiles, st);
@@ -1599,8 +1603,8 @@ static GList *pr_source_tile_compute_region(PixbufRenderer *pr, gint x, gint y, 
 	if (w > pr->image_width) w = pr->image_width;
 	if (h > pr->image_height) h = pr->image_height;
 
-	sx = (x / pr->source_tile_width) * pr->source_tile_width;
-	sy = (y / pr->source_tile_height) * pr->source_tile_height;
+	sx = ROUND_DOWN(x, pr->source_tile_width);
+	sy = ROUND_DOWN(y, pr->source_tile_height);
 
 	for (x1 = sx; x1 < x + w; x1+= pr->source_tile_width)
 		{
@@ -2019,11 +2023,11 @@ static void pr_tile_invalidate_region(PixbufRenderer *pr, gint x, gint y, gint w
 	gint y1, y2;
 	GList *work;
 
-	x1 = (gint)floor(x / pr->tile_width) * pr->tile_width;
-	x2 = (gint)ceil((x + w) / pr->tile_width) * pr->tile_width;
+	x1 = ROUND_DOWN(x, pr->tile_width);
+	x2 = ROUND_UP(x + w, pr->tile_width);
 
-	y1 = (gint)floor(y / pr->tile_height) * pr->tile_height;
-	y2 = (gint)ceil((y + h) / pr->tile_height) * pr->tile_height;
+	y1 = ROUND_DOWN(y, pr->tile_height);
+	y2 = ROUND_UP(y + h, pr->tile_height);
 
 	work = pr->tiles;
 	while (work)
@@ -3015,11 +3019,11 @@ static gboolean pr_queue_to_tiles(PixbufRenderer *pr, gint x, gint y, gint w, gi
 
 	if (clamp && !pr_clamp_to_visible(pr, &x, &y, &w, &h)) return FALSE;
 
-	x1 = (gint)floor(x / pr->tile_width) * pr->tile_width;
-	x2 = (gint)ceil((x + w) / pr->tile_width) * pr->tile_width;
+	x1 = ROUND_DOWN(x, pr->tile_width);
+	x2 = ROUND_UP(x + w, pr->tile_width);
 
-	y1 = (gint)floor(y / pr->tile_height) * pr->tile_height;
-	y2 = (gint)ceil((y + h) / pr->tile_height) * pr->tile_height;
+	y1 = ROUND_DOWN(y, pr->tile_height);
+	y2 = ROUND_UP(y + h, pr->tile_height);
 
 	for (j = y1; j <= y2; j += pr->tile_height)
 		{
