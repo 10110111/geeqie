@@ -1,0 +1,132 @@
+#!/bin/bash
+
+# FIXME TODO:
+# restore XMP in output files from input sidecars
+# getopt, verbosity levels
+# improve the default ufraw configuration
+# localization?
+# help
+
+
+# matches raw file names, used as case insensitive
+RAW_REGEX='.*\.\(arw\)\|\(srf\)\|\(sr2\)\|\(crw\)\|\(cr2\)\|\(kdc\)\|\(dcr\)\|\(k25\)\|\(raf\)\|\(mef\)\|\(mos\)\|\(mrw\)\|\(nef\)\|\(orf\)\|\(pef\)\|\(ptx\)\|\(dng\)\|\(x3f\)\|\(raw\)\|\(r3d\)\|\(3fr\)\|\(erf\)$'
+
+# matches ufraw id file names, used as case sensitive
+ID_REGEX='.*\.ufraw$'
+
+get_output_from_id ()
+{
+    grep "<OutputFilename>.*</OutputFilename>" "$1" |sed -e 's|.*<OutputFilename>\(.*\)</OutputFilename>.*|\1|'
+}
+
+# test if the id file has changed and the output needs to be refreshed
+id_file_changed ()
+{
+    idfile=$1
+    output=`get_output_from_id "$idfile"`
+    [ ! -f "$output" -o "$idfile" -nt "$output" ]
+}
+
+# refresh the output file specified by given id file, if necessary
+process_ufraw_id_file ()
+{
+    idfile=$1
+    if id_file_changed "$idfile" ; then
+        ufraw-batch --overwrite "$idfile"
+    fi
+}
+
+# test for newly added raw files that were never processed
+raw_file_not_processed ()
+{
+    rawfile=$1
+    basename=${rawfile%.*}
+    [ ! -f "$basename.ufraw" ]
+}
+
+# process raw file for the first time
+process_raw_file_default ()
+{
+    rawfile=$1
+    if raw_file_not_processed "$rawfile" ; then
+        ufraw-batch --create-id=also \
+                    --wb=camera \
+                    --exposure=auto \
+                    --out-type=jpeg \
+                    --compression=96 \
+                    "$rawfile"
+    fi
+}
+
+# process all files listed in file $1
+# if $2 is not empty, produce output for zenity --progress
+process_list ()
+{
+    list=$1
+    use_zenity=$2
+    
+    count=`wc -l <$list`
+    n=0
+    [ -n "$use_zenity" ] && echo 0
+
+    if [ "$count" -gt 0 ] ; then
+        while read file; do
+            [ -f "$file" ] || continue
+            if echo "$file"|grep -q -i "$RAW_REGEX" ; then
+                process_raw_file_default "$file" 
+            elif echo "$file"|grep -q "$ID_REGEX" ; then
+                process_ufraw_id_file "$file"
+
+            fi
+
+            n=$((n + 1))
+            
+            # the function can end at the 'echo' command with broken pipe
+            # if it is cancelled via zenity
+            [ -n "$use_zenity" ] && echo $((n * 100 / count))
+
+        done <$list
+    fi
+    [ -n "$use_zenity" ] && echo 100
+}
+
+# process all files in directory $1, including subdirectories
+# processing is controlled by zenity dialogs if $DISPLAY is set
+process_tree ()
+{
+    list=`mktemp /tmp/geeqie-ufraw-list.XXXXXXXXXX` || exit 1
+
+    find "$1" -iregex "$RAW_REGEX" -print | while read rawfile ; do
+        raw_file_not_processed "$rawfile" && echo "$rawfile" 
+    done >>$list
+    
+    #refresh output from changed id files
+    find "$1" -regex "$ID_REGEX" -print | while read idfile ; do
+        id_file_changed "$idfile" && echo "$idfile"
+    done >>$list
+
+    if [ -n "$DISPLAY" ] ; then
+        if [ -s $list ] && \
+           zenity --list --title "Files to proceed" --text "Files to proceed" --column "Files" <$list ; then
+            process_list $list with_zenity | zenity --progress --auto-close
+        fi
+    else 
+        # no DISPLAY
+        process_list $list
+    fi
+    rm $list
+}
+
+
+
+if [ -d "$1" ] ; then
+    # $1 is a directory
+    process_tree "$1"
+else
+    list=`mktemp /tmp/geeqie-ufraw-list.XXXXXXXXXX` || exit 1
+    for file in "$@" ; do
+        echo $file
+    done >>$list
+    process_list $list
+    rm $list
+fi
