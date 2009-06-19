@@ -52,6 +52,7 @@ struct _EditorData {
 	EditorCallback callback;
 	gpointer data;
 	const EditorDescription *editor;
+	gchar *working_directory; /* fallback if no files are given (editor_no_param) */
 };
 
 
@@ -464,6 +465,7 @@ static void editor_verbose_data_free(EditorData *ed)
 static void editor_data_free(EditorData *ed)
 {
 	editor_verbose_data_free(ed);
+	g_free(ed->working_directory);
 	g_free(ed);
 }
 
@@ -963,7 +965,7 @@ static EditorFlags editor_command_one(const EditorDescription *editor, GList *li
 		gchar *args[4];
 		guint n = 0;
 
-		working_directory = fd ? remove_level_from_path(fd->path) : NULL;
+		working_directory = fd ? remove_level_from_path(fd->path) : g_strdup(ed->working_directory);
 		args[n++] = options->shell.path;
 		if (options->shell.options && *options->shell.options)
 			args[n++] = options->shell.options;
@@ -1165,7 +1167,7 @@ void editor_skip(gpointer ed)
 	editor_command_done(ed);
 }
 
-static EditorFlags editor_command_start(const EditorDescription *editor, const gchar *text, GList *list, EditorCallback cb, gpointer data)
+static EditorFlags editor_command_start(const EditorDescription *editor, const gchar *text, GList *list, const gchar *working_directory, EditorCallback cb, gpointer data)
 {
 	EditorData *ed;
 	EditorFlags flags = editor->flags;
@@ -1178,7 +1180,8 @@ static EditorFlags editor_command_start(const EditorDescription *editor, const g
 	ed->editor = editor;
 	ed->total = (flags & (EDITOR_SINGLE_COMMAND | EDITOR_NO_PARAM)) ? 1 : g_list_length(list);
 	ed->callback = cb;
-	ed->data =  data;
+	ed->data = data;
+	ed->working_directory = g_strdup(working_directory);
 
 	if ((flags & EDITOR_VERBOSE_MULTI) && list && list->next)
 		flags |= EDITOR_VERBOSE;
@@ -1197,7 +1200,7 @@ gboolean is_valid_editor_command(const gchar *key)
 	return g_hash_table_lookup(editors, key) != NULL;
 }
 
-EditorFlags start_editor_from_filelist_full(const gchar *key, GList *list, EditorCallback cb, gpointer data)
+EditorFlags start_editor_from_filelist_full(const gchar *key, GList *list, const gchar *working_directory, EditorCallback cb, gpointer data)
 {
 	EditorFlags error;
 	EditorDescription *editor;
@@ -1208,7 +1211,7 @@ EditorFlags start_editor_from_filelist_full(const gchar *key, GList *list, Edito
 	if (!editor) return FALSE;
 	if (!list && !(editor->flags & EDITOR_NO_PARAM)) return FALSE;
 
-	error = editor_command_start(editor, editor->name, list, cb, data);
+	error = editor_command_start(editor, editor->name, list, working_directory, cb, data);
 
 	if (EDITOR_ERRORS(error))
 		{
@@ -1223,7 +1226,7 @@ EditorFlags start_editor_from_filelist_full(const gchar *key, GList *list, Edito
 
 EditorFlags start_editor_from_filelist(const gchar *key, GList *list)
 {
-	return start_editor_from_filelist_full(key, list,  NULL, NULL);
+	return start_editor_from_filelist_full(key, list, NULL, NULL, NULL);
 }
 
 EditorFlags start_editor_from_file_full(const gchar *key, FileData *fd, EditorCallback cb, gpointer data)
@@ -1234,7 +1237,7 @@ EditorFlags start_editor_from_file_full(const gchar *key, FileData *fd, EditorCa
 	if (!fd) return FALSE;
 
 	list = g_list_append(NULL, fd);
-	error = start_editor_from_filelist_full(key, list, cb, data);
+	error = start_editor_from_filelist_full(key, list, NULL, cb, data);
 	g_list_free(list);
 	return error;
 }
@@ -1244,9 +1247,9 @@ EditorFlags start_editor_from_file(const gchar *key, FileData *fd)
 	return start_editor_from_file_full(key, fd, NULL, NULL);
 }
 
-EditorFlags start_editor(const gchar *key)
+EditorFlags start_editor(const gchar *key, const gchar *working_directory)
 {
-	return start_editor_from_filelist_full(key, NULL, NULL, NULL);
+	return start_editor_from_filelist_full(key, NULL, working_directory, NULL, NULL);
 }
 
 gboolean editor_window_flag_set(const gchar *key)

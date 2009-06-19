@@ -51,7 +51,9 @@ void file_util_copy_simple(GList *list, const gchar *dest_path, GtkWidget *paren
 void file_util_rename_simple(FileData *fd, const gchar *dest_path, GtkWidget *parent);
 
 void file_util_start_editor_from_file(const gchar *key, FileData *fd, GtkWidget *parent);
-void file_util_start_editor_from_filelist(const gchar *key, GList *list, GtkWidget *parent);
+
+/* working directory is used only as a fallback when the filelist is empty */
+void file_util_start_editor_from_filelist(const gchar *key, GList *list, const gchar *working_directory, GtkWidget *parent);
 void file_util_start_filter_from_file(const gchar *key, FileData *fd, const gchar *dest_path, GtkWidget *parent);
 void file_util_start_filter_from_filelist(const gchar *key, GList *list, const gchar *dest_path, GtkWidget *parent);
 

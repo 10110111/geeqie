@@ -848,7 +848,7 @@ void file_util_perform_ci(UtilityData *ud)
 			if (editor_blocks_file(ud->external_command))
 				{
 				DEBUG_1("Starting %s and waiting for results", ud->external_command);
-				flags = start_editor_from_filelist_full(ud->external_command, ud->flist, file_util_perform_ci_cb, ud);
+				flags = start_editor_from_filelist_full(ud->external_command, ud->flist, NULL, file_util_perform_ci_cb, ud);
 				}
 			else
 				{
@@ -2164,7 +2164,7 @@ static void file_util_rename_full(FileData *source_fd, GList *source_list, const
 	file_util_dialog_run(ud);
 }
 
-static void file_util_start_editor_full(const gchar *key, FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase)
+static void file_util_start_editor_full(const gchar *key, FileData *source_fd, GList *source_list, const gchar *dest_path, const gchar *working_directory, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;
 	GList *flist;
@@ -2172,8 +2172,21 @@ static void file_util_start_editor_full(const gchar *key, FileData *source_fd, G
 	
 	if (editor_no_param(key))
 		{
+		gchar *file_directory = NULL;
+		if (!working_directory)
+			{
+			/* working directory was not specified, try to extract it from the files */
+			if (source_fd)
+				file_directory = remove_level_from_path(source_fd->path);
+
+			if (!file_directory && source_list)
+				file_directory = remove_level_from_path(((FileData *)source_list->data)->path);
+			working_directory = file_directory;
+			}
+		
 		/* just start the editor, don't care about files */
-		start_editor(key);
+		start_editor(key, working_directory);
+		g_free(file_directory);
 		return;
 		}
 	
@@ -2715,22 +2728,22 @@ void file_util_rename_simple(FileData *fd, const gchar *dest_path, GtkWidget *pa
 
 void file_util_start_editor_from_file(const gchar *key, FileData *fd, GtkWidget *parent)
 {
-	file_util_start_editor_full(key, fd, NULL, NULL, parent, UTILITY_PHASE_ENTERING);
+	file_util_start_editor_full(key, fd, NULL, NULL, NULL, parent, UTILITY_PHASE_ENTERING);
 }
 
-void file_util_start_editor_from_filelist(const gchar *key, GList *list, GtkWidget *parent)
+void file_util_start_editor_from_filelist(const gchar *key, GList *list, const gchar *working_directory, GtkWidget *parent)
 {
-	file_util_start_editor_full(key, NULL, list, NULL, parent, UTILITY_PHASE_ENTERING);
+	file_util_start_editor_full(key, NULL, list, NULL, working_directory, parent, UTILITY_PHASE_ENTERING);
 }
 
 void file_util_start_filter_from_file(const gchar *key, FileData *fd, const gchar *dest_path, GtkWidget *parent)
 {
-	file_util_start_editor_full(key, fd, NULL, dest_path, parent, UTILITY_PHASE_ENTERING);
+	file_util_start_editor_full(key, fd, NULL, dest_path, NULL, parent, UTILITY_PHASE_ENTERING);
 }
 
 void file_util_start_filter_from_filelist(const gchar *key, GList *list, const gchar *dest_path, GtkWidget *parent)
 {
-	file_util_start_editor_full(key, NULL, list, dest_path, parent, UTILITY_PHASE_ENTERING);
+	file_util_start_editor_full(key, NULL, list, dest_path, NULL, parent, UTILITY_PHASE_ENTERING);
 }
 
 void file_util_delete_dir(FileData *fd, GtkWidget *parent)

@@ -2046,7 +2046,7 @@ static void dupe_window_edit_selected(DupeWindow *dw, const gchar *key)
 
 	list = dupe_listview_get_selection(dw, dw->listview);
 
-	file_util_start_editor_from_filelist(key, list, dw->window);
+	file_util_start_editor_from_filelist(key, list, NULL, dw->window);
 
 	filelist_free(list);
 }

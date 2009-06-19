@@ -99,11 +99,11 @@ void editor_skip(gpointer ed);
 
 
 
-EditorFlags start_editor(const gchar *key);
+EditorFlags start_editor(const gchar *key, const gchar *working_directory);
 EditorFlags start_editor_from_file(const gchar *key, FileData *fd);
 EditorFlags start_editor_from_filelist(const gchar *key, GList *list);
 EditorFlags start_editor_from_file_full(const gchar *key, FileData *fd, EditorCallback cb, gpointer data);
-EditorFlags start_editor_from_filelist_full(const gchar *key, GList *list, EditorCallback cb, gpointer data);
+EditorFlags start_editor_from_filelist_full(const gchar *key, GList *list, const gchar *working_directory, EditorCallback cb, gpointer data);
 gboolean editor_window_flag_set(const gchar *key);
 gboolean editor_is_filter(const gchar *key);
 gboolean editor_no_param(const gchar *key);
