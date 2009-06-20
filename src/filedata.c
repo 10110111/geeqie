@@ -467,8 +467,10 @@ static void file_data_check_sidecars(FileData *fd, gboolean stat_sidecars)
 				
 				while (work2)
 					{
+					struct stat nst;
 					FileData *sfd = work2->data;
-					if (g_ascii_strcasecmp(ext, sfd->extension) == 0) 
+					if (g_ascii_strcasecmp(ext, sfd->extension) == 0 &&
+					    stat_utf8(sfd->path, &nst)) /* basename list can contain deleted files */
 						{
 						new_fd = file_data_ref(sfd);
 						break;
