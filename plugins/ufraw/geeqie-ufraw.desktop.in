@@ -7,6 +7,9 @@ _Name=UFRaw Batch
 # - this allows a better controll over processing
 Exec=geeqie-ufraw %f
 
+# show only if ufraw is installed
+TryExec=ufraw
+
 # Desktop files that are usable only in Geeqie should be marked like this:
 Categories=X-Geeqie;
 OnlyShowIn=X-Geeqie;
@@ -18,3 +21,5 @@ X-Geeqie-Menu-Path=EditMenu
 X-Geeqie-Verbose=true
 
 MimeType=application/x-ufraw;image/x-dcraw;
+
+Icon=ufraw
