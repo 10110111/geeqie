@@ -1931,10 +1931,9 @@ static void file_util_mark_ungrouped_files(GList *work)
 		}
 }
 
-static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWidget *parent, UtilityPhase phase)
+static void file_util_delete_full(FileData *source_fd, GList *flist, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;
-	GList *flist = filelist_copy(source_list);
 	GList *ungrouped = NULL;
 	
 	if (source_fd)
@@ -1979,10 +1978,9 @@ static void file_util_delete_full(FileData *source_fd, GList *source_list, GtkWi
 }
 
 
-static void file_util_write_metadata_full(FileData *source_fd, GList *source_list, GtkWidget *parent, UtilityPhase phase, FileUtilDoneFunc done_func, gpointer done_data)
+static void file_util_write_metadata_full(FileData *source_fd, GList *flist, GtkWidget *parent, UtilityPhase phase, FileUtilDoneFunc done_func, gpointer done_data)
 {
 	UtilityData *ud;
-	GList *flist = filelist_copy(source_list);
 	
 	if (source_fd)
 		flist = g_list_append(flist, file_data_ref(source_fd));
@@ -2023,10 +2021,9 @@ static void file_util_write_metadata_full(FileData *source_fd, GList *source_lis
 	file_util_dialog_run(ud);
 }
 
-static void file_util_move_full(FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase)
+static void file_util_move_full(FileData *source_fd, GList *flist, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;
-	GList *flist = filelist_copy(source_list);
 	GList *ungrouped = NULL;
 	
 	if (source_fd)
@@ -2070,10 +2067,9 @@ static void file_util_move_full(FileData *source_fd, GList *source_list, const g
 	file_util_dialog_run(ud);
 }
 
-static void file_util_copy_full(FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase)
+static void file_util_copy_full(FileData *source_fd, GList *flist, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;
-	GList *flist = filelist_copy(source_list);
 	GList *ungrouped = NULL;
 	
 	if (source_fd)
@@ -2117,10 +2113,9 @@ static void file_util_copy_full(FileData *source_fd, GList *source_list, const g
 	file_util_dialog_run(ud);
 }
 
-static void file_util_rename_full(FileData *source_fd, GList *source_list, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase)
+static void file_util_rename_full(FileData *source_fd, GList *flist, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;
-	GList *flist = filelist_copy(source_list);
 	GList *ungrouped = NULL;
 	
 	if (source_fd)
@@ -2164,10 +2159,9 @@ static void file_util_rename_full(FileData *source_fd, GList *source_list, const
 	file_util_dialog_run(ud);
 }
 
-static void file_util_start_editor_full(const gchar *key, FileData *source_fd, GList *source_list, const gchar *dest_path, const gchar *working_directory, GtkWidget *parent, UtilityPhase phase)
+static void file_util_start_editor_full(const gchar *key, FileData *source_fd, GList *flist, const gchar *dest_path, const gchar *working_directory, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;
-	GList *flist;
 	GList *ungrouped = NULL;
 	
 	if (editor_no_param(key))
@@ -2179,18 +2173,18 @@ static void file_util_start_editor_full(const gchar *key, FileData *source_fd, G
 			if (source_fd)
 				file_directory = remove_level_from_path(source_fd->path);
 
-			if (!file_directory && source_list)
-				file_directory = remove_level_from_path(((FileData *)source_list->data)->path);
+			if (!file_directory && flist)
+				file_directory = remove_level_from_path(((FileData *)flist->data)->path);
 			working_directory = file_directory;
 			}
 		
 		/* just start the editor, don't care about files */
 		start_editor(key, working_directory);
 		g_free(file_directory);
+		filelist_free(flist);
 		return;
 		}
 	
-	flist = filelist_copy(source_list);
 	
 	if (source_fd)
 		{
@@ -2794,5 +2788,6 @@ void file_util_copy_path_list_to_clipboard(GList *list)
 	
 	gtk_clipboard_set_text(clipboard, new->str, new->len);
 	g_string_free(new, TRUE);
+	filelist_free(list);
 }
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

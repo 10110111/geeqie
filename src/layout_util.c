@@ -991,15 +991,12 @@ static void layout_menu_home_cb(GtkAction *action, gpointer data)
 static void layout_menu_edit_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	GList *list;
 	const gchar *key = gtk_action_get_name(action);
 	
 	if (!editor_window_flag_set(key))
 		layout_exit_fullscreen(lw);
 
-	list = layout_selection_list(lw);
-	file_util_start_editor_from_filelist(key, list, layout_get_path(lw), lw->window);
-	filelist_free(list);
+	file_util_start_editor_from_filelist(key, layout_selection_list(lw), layout_get_path(lw), lw->window);
 }
 
 #if 0

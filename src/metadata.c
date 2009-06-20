@@ -144,8 +144,6 @@ gboolean metadata_write_queue_confirm(gboolean force_dialog, FileUtilDoneFunc do
 
 	file_util_write_metadata(NULL, to_approve, NULL, force_dialog, done_func, done_data);
 	
-	filelist_free(to_approve);
-	
 	return (metadata_write_queue != NULL);
 }
 

@@ -314,15 +314,12 @@ static void vf_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf;
 	const gchar *key = data;
-	GList *list;
 
 	vf = submenu_item_get_data(widget);
 
 	if (!vf) return;
 
-	list = vf_pop_menu_file_list(vf);
-	file_util_start_editor_from_filelist(key, list, vf->dir_fd->path, vf->listview);
-	filelist_free(list);
+	file_util_start_editor_from_filelist(key, vf_pop_menu_file_list(vf), vf->dir_fd->path, vf->listview);
 }
 
 static void vf_pop_menu_view_cb(GtkWidget *widget, gpointer data)
@@ -579,7 +576,7 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 		g_free(str_sel_mark_minus);
 		}
 
-	vf->editmenu_fd_list = vf_selection_get_list(vf);
+	vf->editmenu_fd_list = vf_pop_menu_file_list(vf);
 	submenu_add_edit(menu, &item, G_CALLBACK(vf_pop_menu_edit_cb), vf, vf->editmenu_fd_list);
 	gtk_widget_set_sensitive(item, active);
 

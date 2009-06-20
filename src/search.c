@@ -662,11 +662,7 @@ static void search_result_remove_selection(SearchData *sd)
 
 static void search_result_edit_selected(SearchData *sd, const gchar *key)
 {
-	GList *list;
-
-	list = search_result_selection_list(sd);
-	file_util_start_editor_from_filelist(key, list, NULL, sd->window);
-	filelist_free(list);
+	file_util_start_editor_from_filelist(key, search_result_selection_list(sd), NULL, sd->window);
 }
 
 static void search_result_collection_from_selection(SearchData *sd)

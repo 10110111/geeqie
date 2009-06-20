@@ -822,11 +822,13 @@ static void vd_dnd_drop_receive(GtkWidget *widget,
 				{
 				file_util_copy_simple(list, fd->path, vd->widget);
 				done = TRUE;
+				list = NULL;
 				}
 			else if (context->actions == GDK_ACTION_MOVE)
 				{
 				file_util_move_simple(list, fd->path, vd->widget);
 				done = TRUE;
+				list = NULL;
 				}
 			}
 

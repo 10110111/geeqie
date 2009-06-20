@@ -2042,13 +2042,7 @@ static void dupe_window_remove_selection(DupeWindow *dw, GtkWidget *listview)
 
 static void dupe_window_edit_selected(DupeWindow *dw, const gchar *key)
 {
-	GList *list;
-
-	list = dupe_listview_get_selection(dw, dw->listview);
-
-	file_util_start_editor_from_filelist(key, list, NULL, dw->window);
-
-	filelist_free(list);
+	file_util_start_editor_from_filelist(key, dupe_listview_get_selection(dw, dw->listview), NULL, dw->window);
 }
 
 static void dupe_window_collection_from_selection(DupeWindow *dw)

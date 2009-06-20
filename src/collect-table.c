@@ -657,18 +657,12 @@ static void collection_table_popup_edit_cb(GtkWidget *widget, gpointer data)
 {
 	CollectTable *ct;
 	const gchar *key = data;
-	GList *list;
 
 	ct = submenu_item_get_data(widget);
 
 	if (!ct) return;
 
-	list = collection_table_popup_file_list(ct);
-	if (list)
-		{
-		file_util_start_editor_from_filelist(key, list, NULL, ct->listview);
-		filelist_free(list);
-		}
+	file_util_start_editor_from_filelist(key, collection_table_popup_file_list(ct), NULL, ct->listview);
 }
 
 static void collection_table_popup_copy_cb(GtkWidget *widget, gpointer data)

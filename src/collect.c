@@ -968,14 +968,6 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 				break;
 			}
 		}
-#if 0
-	if (edit_val != -1)
-		{
-		list = collection_table_selection_get_list(cw->table);
-		file_util_start_editor_from_filelist(edit_val, list, cw->window);
-		filelist_free(list);
-		}
-#endif
 	return stop_signal;
 }
 
