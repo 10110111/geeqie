@@ -1571,6 +1571,8 @@ void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 		gtk_tree_model_get_iter(store, &iter, tpath);
 		gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &fd, -1);
 
+		/* the change has a very limited range and the standard notification would trigger
+		   complete re-read of the directory - try to do only minimal update instead */
 		file_data_unregister_notify_func(vf_notify_cb, vf); /* we don't need the notification */
 
 		switch (mode)
@@ -1591,6 +1593,8 @@ void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 			{
 			/* mark functions can have various side effects - update all columns to be sure */
 			vflist_setup_iter(vf, GTK_TREE_STORE(store), &iter, fd);
+			/* mark functions can change sidecars too */
+			vflist_setup_iter_recursive(vf, GTK_TREE_STORE(store), &iter, fd->sidecar_files, NULL);
 			}
 
 		
@@ -1871,7 +1875,10 @@ static void vflist_listview_mark_toggled_cb(GtkCellRendererToggle *cell, gchar *
 
 	gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, FILE_COLUMN_POINTER, &fd, col_idx, &marked, -1);
 	marked = !marked;
-	file_data_unregister_notify_func(vf_notify_cb, vf); /* we don't need the notification */
+	
+	/* the change has a very limited range and the standard notification would trigger
+	   complete re-read of the directory - try to do only minimal update instead */
+	file_data_unregister_notify_func(vf_notify_cb, vf);
 	file_data_set_mark(fd, col_idx - FILE_COLUMN_MARKS, marked);
 	if (!file_data_filter_marks(fd, vf_marks_get_filter(vf))) /* file no longer matches the filter -> remove it */
 		{
@@ -1881,6 +1888,8 @@ static void vflist_listview_mark_toggled_cb(GtkCellRendererToggle *cell, gchar *
 		{
 		/* mark functions can have various side effects - update all columns to be sure */
 		vflist_setup_iter(vf, GTK_TREE_STORE(store), &iter, fd);
+		/* mark functions can change sidecars too */
+		vflist_setup_iter_recursive(vf, GTK_TREE_STORE(store), &iter, fd->sidecar_files, NULL);
 		}
 	file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
