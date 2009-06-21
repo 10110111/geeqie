@@ -595,7 +595,7 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 	if (i < MAX_SPLIT_IMAGES)
 		{
 		DEBUG_1("dnd image activate %d", i);
-		layout_image_activate(lw, i);
+		layout_image_activate(lw, i, FALSE);
 		}
 
 
@@ -1335,7 +1335,7 @@ static void layout_image_focus_in_cb(ImageWindow *imd, gpointer data)
 	if (i != -1)
 		{
 		DEBUG_1("image activate focus_in %d", i);
-		layout_image_activate(lw, i);
+		layout_image_activate(lw, i, FALSE);
 		}
 }
 
@@ -1377,7 +1377,7 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkEventScroll *event, gpoi
 	if (i != -1)
 		{
 		DEBUG_1("image activate scroll %d", i);
-		layout_image_activate(lw, i);
+		layout_image_activate(lw, i, FALSE);
 		}
 
 
@@ -1467,7 +1467,7 @@ static void layout_image_button_inactive_cb(ImageWindow *imd, GdkEventButton *ev
 
 	if (i != -1)
 		{
-		layout_image_activate(lw, i);
+		layout_image_activate(lw, i, FALSE);
 		}
 
 	switch (event->button)
@@ -1493,7 +1493,7 @@ static void layout_image_drag_inactive_cb(ImageWindow *imd, GdkEventButton *even
 
 	if (i != -1)
 		{
-		layout_image_activate(lw, i);
+		layout_image_activate(lw, i, FALSE);
 		}
 
 	/* continue as with active image */
@@ -1631,12 +1631,13 @@ void layout_image_deactivate(LayoutWindow *lw, gint i)
 	image_select(lw->split_images[i], FALSE);
 }
 
-
-void layout_image_activate(LayoutWindow *lw, gint i)
+/* force should be set after change of lw->split_mode */
+void layout_image_activate(LayoutWindow *lw, gint i, gboolean force)
 {
 	FileData *fd;
 
 	if (!lw->split_images[i]) return;
+	if (!force && lw->active_split_image == i) return;
 
 	/* deactivate currently active */
 	if (lw->active_split_image != i)
@@ -1743,13 +1744,13 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 	
 	if (!lw->image || lw->active_split_image < 0 || lw->active_split_image >= n)
 		{
-		layout_image_activate(lw, 0);
+		layout_image_activate(lw, 0, TRUE);
 		}
 	else
 		{
 		/* this will draw the frame around selected image (image_select)
 		   on switch from single to split images */
-		layout_image_activate(lw, lw->active_split_image);
+		layout_image_activate(lw, lw->active_split_image, TRUE);
 		}
 }
 
