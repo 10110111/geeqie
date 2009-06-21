@@ -1516,7 +1516,7 @@ gchar *exif_get_tag_description_by_key(const gchar *key)
 	i = 0;
 	while (ExifKnownGPSInfoMarkersList[i].tag > 0)
 	{
-	   if (strcmp(key, ExifKnownGPSInfoMarkersList[i].key) == 0) return _(ExifKnownGPSInfoMarkersList[i].description);
+	   if (strcmp(key, ExifKnownGPSInfoMarkersList[i].key) == 0) return g_strdup(_(ExifKnownGPSInfoMarkersList[i].description));
 	   i++;
 	}
 

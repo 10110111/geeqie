@@ -494,7 +494,13 @@ static void bar_pane_exif_edit_ok_cb(GenericDialog *gd, gpointer data)
 		g_free(ee->key);
 		ee->key = g_strdup(gtk_entry_get_text(GTK_ENTRY(cdd->key_entry)));
 		title = gtk_entry_get_text(GTK_ENTRY(cdd->title_entry));
-		if (strcmp(ee->title, title) != 0)
+		if (!title || strlen(title) == 0)
+			{
+			g_free(ee->title);
+			ee->title = exif_get_description_by_key(ee->key);
+			ee->auto_title = TRUE;
+			}
+		else if (!ee->title || strcmp(ee->title, title) != 0)
 			{
 			g_free(ee->title);
 			ee->title = g_strdup(title);
