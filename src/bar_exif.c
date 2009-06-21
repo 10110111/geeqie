@@ -210,7 +210,7 @@ static void bar_pane_exif_entry_update_title(ExifEntry *ee)
 {
 	gchar *markup;
 
-	markup = g_markup_printf_escaped("<span size='small'>%s:</span>", (ee->title) ? ee->title : "fixme");
+	markup = g_markup_printf_escaped("<span size='small'>%s:</span>", (ee->title) ? ee->title : _("<empty label, fixme>"));
 	gtk_label_set_markup(GTK_LABEL(ee->title_label), markup);
 	g_free(markup);
 }
