@@ -752,6 +752,7 @@ struct _ViewFile
 	
 	/* refresh */
 	guint refresh_idle_id; /* event source id */
+	time_t time_refresh_set; /* time when refresh_idle_id was set */
 
 	/* file list for edit menu */
 	GList *editmenu_fd_list;

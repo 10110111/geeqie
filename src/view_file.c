@@ -1010,7 +1010,16 @@ void vf_refresh_idle(ViewFile *vf)
 {
 	if (!vf->refresh_idle_id)
 		{
-		vf->refresh_idle_id = g_idle_add(vf_refresh_idle_cb, vf);
+		vf->time_refresh_set = time(NULL);
+		/* file operations run with G_PRIORITY_DEFAULT_IDLE */
+		vf->refresh_idle_id = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE + 50, vf_refresh_idle_cb, vf, NULL);
+		}
+	else if (time(NULL) - vf->time_refresh_set > 1)
+		{
+		/* more than 1 sec since last update - increase priority */
+		vf_refresh_idle_cancel(vf);
+		vf->time_refresh_set = time(NULL);
+		vf->refresh_idle_id = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE - 50, vf_refresh_idle_cb, vf, NULL);
 		}
 }
 
