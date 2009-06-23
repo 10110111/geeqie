@@ -1672,7 +1672,7 @@ static void config_tab_metadata(GtkWidget *notebook)
 
 
 	group = pref_group_new(vbox, FALSE, _("Miscellaneous"), GTK_ORIENTATION_VERTICAL);
-	pref_checkbox_new_int(group, _("Write the same description tags (keywords, comment, etc.) to all files in a group"),
+	pref_checkbox_new_int(group, _("Write the same description tags (keywords, comment, etc.) to all grouped sidecars"),
 			      options->metadata.sync_grouped_files, &c_options->metadata.sync_grouped_files);
 
 	pref_checkbox_new_int(group, _("Allow keywords to differ only in case"),
