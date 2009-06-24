@@ -994,11 +994,24 @@ static void accel_store_edited_cb(GtkCellRendererAccel *accel, gchar *path_strin
 	GtkTreeModel *model = (GtkTreeModel *)accel_store;
 	GtkTreeIter iter;
 	gchar *acc;
+	gchar *accel_path;
+	GtkAccelKey old_key, key;
 	GtkTreePath *path = gtk_tree_path_new_from_string(path_string);
 
 	gtk_tree_model_get_iter(model, &iter, path);
-	acc = gtk_accelerator_name(accel_key, accel_mods);
+	gtk_tree_model_get(model, &iter, AE_ACCEL, &accel_path, -1);
 
+	/* test if the accelerator can be stored without conflicts*/
+	gtk_accel_map_lookup_entry(accel_path, &old_key);
+
+	/* change the key and read it back (change may fail on keys hardcoded in gtk)*/
+	gtk_accel_map_change_entry(accel_path, accel_key, accel_mods, TRUE); 
+	gtk_accel_map_lookup_entry(accel_path, &key);
+
+	/* restore the original for now, the key will be really changed when the changes are confirmed */
+	gtk_accel_map_change_entry(accel_path, old_key.accel_key, old_key.accel_mods, TRUE); 
+
+	acc = gtk_accelerator_name(key.accel_key, key.accel_mods);
 	gtk_tree_model_foreach(GTK_TREE_MODEL(accel_store), accel_remove_key_cb, acc);
 
 	gtk_tree_store_set(accel_store, &iter, AE_KEY, acc, -1);
