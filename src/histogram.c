@@ -43,7 +43,7 @@ Histogram *histogram_new(void)
 	Histogram *histogram;
 
 	histogram = g_new0(Histogram, 1);
-	histogram->histogram_channel = HCHAN_RGB;
+	histogram->histogram_channel = HCHAN_DEFAULT;
 	histogram->histogram_mode = 0;
 
 	/* grid */

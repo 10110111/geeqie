@@ -125,7 +125,7 @@ static void image_set_osd_data(ImageWindow *imd, OverlayStateData *osd)
  */
 
 
-void image_osd_histogram_chan_toggle(ImageWindow *imd)
+void image_osd_histogram_toggle_channel(ImageWindow *imd)
 {
 	OverlayStateData *osd = image_get_osd_data(imd);
 
@@ -135,7 +135,7 @@ void image_osd_histogram_chan_toggle(ImageWindow *imd)
 	image_osd_update(imd);
 }
 
-void image_osd_histogram_log_toggle(ImageWindow *imd)
+void image_osd_histogram_toggle_mode(ImageWindow *imd)
 {
 	OverlayStateData *osd = image_get_osd_data(imd);
 
@@ -143,6 +143,44 @@ void image_osd_histogram_log_toggle(ImageWindow *imd)
 
 	histogram_toggle_mode(osd->histogram);
 	image_osd_update(imd);
+}
+
+void image_osd_histogram_set_channel(ImageWindow *imd, gint chan)
+{
+	OverlayStateData *osd = image_get_osd_data(imd);
+
+	if (!osd || !osd->histogram) return;
+
+	histogram_set_channel(osd->histogram, chan);
+	image_osd_update(imd);
+}
+
+void image_osd_histogram_set_mode(ImageWindow *imd, gint mode)
+{
+	OverlayStateData *osd = image_get_osd_data(imd);
+
+	if (!osd || !osd->histogram) return;
+
+	histogram_set_mode(osd->histogram, mode);
+	image_osd_update(imd);
+}
+
+gint image_osd_histogram_get_channel(ImageWindow *imd)
+{
+	OverlayStateData *osd = image_get_osd_data(imd);
+
+	if (!osd || !osd->histogram) return HCHAN_DEFAULT;
+
+	return histogram_get_channel(osd->histogram);
+}
+
+gint image_osd_histogram_get_mode(ImageWindow *imd)
+{
+	OverlayStateData *osd = image_get_osd_data(imd);
+
+	if (!osd || !osd->histogram) return 0;
+
+	return histogram_get_mode(osd->histogram);
 }
 
 void image_osd_toggle(ImageWindow *imd)

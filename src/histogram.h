@@ -20,6 +20,7 @@
 #define HCHAN_MAX 3
 #define HCHAN_RGB 4
 #define HCHAN_COUNT 5
+#define HCHAN_DEFAULT HCHAN_RGB
 
 
 Histogram *histogram_new(void);

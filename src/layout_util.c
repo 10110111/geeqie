@@ -27,6 +27,7 @@
 #include "filedata.h"
 #include "history_list.h"
 #include "image-overlay.h"
+#include "histogram.h"
 #include "img-view.h"
 #include "layout_image.h"
 #include "logwindow.h"
@@ -54,6 +55,7 @@
 
 static gboolean layout_bar_enabled(LayoutWindow *lw);
 static gboolean layout_bar_sort_enabled(LayoutWindow *lw);
+static void layout_util_sync_views(LayoutWindow *lw);
 
 /*
  *-----------------------------------------------------------------------------
@@ -647,25 +649,90 @@ static void layout_menu_escape_cb(GtkAction *action, gpointer data)
 #endif
 }
 
-static void layout_menu_overlay_cb(GtkAction *action, gpointer data)
+static void layout_menu_overlay_toggle_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
 	image_osd_toggle(lw->image);
+	layout_util_sync_views(lw);
 }
 
-static void layout_menu_histogram_chan_cb(GtkAction *action, gpointer data)
+
+static void layout_menu_overlay_cb(GtkToggleAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	GtkToggleAction *histogram_action = GTK_TOGGLE_ACTION(gtk_action_group_get_action(lw->action_group, "ImageHistogram"));
+
+	if (gtk_toggle_action_get_active(action))
+		{
+		OsdShowFlags flags = image_osd_get(lw->image);
+		
+		if (flags | OSD_SHOW_INFO | OSD_SHOW_STATUS != flags)
+			image_osd_set(lw->image, flags | OSD_SHOW_INFO | OSD_SHOW_STATUS);
+		}
+	else
+		{
+		image_osd_set(lw->image, OSD_SHOW_NOTHING);
+		gtk_toggle_action_set_active(histogram_action, FALSE); /* this calls layout_menu_histogram_cb */
+		}
+}
+
+static void layout_menu_histogram_cb(GtkToggleAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	GtkToggleAction *overlay_action = GTK_TOGGLE_ACTION(gtk_action_group_get_action(lw->action_group, "ImageOverlay"));
+
+	if (gtk_toggle_action_get_active(action))
+		{
+		image_osd_set(lw->image, OSD_SHOW_INFO | OSD_SHOW_STATUS | OSD_SHOW_HISTOGRAM);
+		gtk_toggle_action_set_active(overlay_action, TRUE); /* this calls layout_menu_overlay_cb */
+		}
+	else
+		{
+		OsdShowFlags flags = image_osd_get(lw->image);
+		if (flags & OSD_SHOW_HISTOGRAM)
+			image_osd_set(lw->image, flags & ~OSD_SHOW_HISTOGRAM);
+		}
+}
+
+static void layout_menu_histogram_toggle_channel_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	image_osd_histogram_chan_toggle(lw->image);
+	image_osd_histogram_toggle_channel(lw->image);
+	layout_util_sync_views(lw);
 }
 
-static void layout_menu_histogram_log_cb(GtkAction *action, gpointer data)
+static void layout_menu_histogram_toggle_mode_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	image_osd_histogram_log_toggle(lw->image);
+	image_osd_histogram_toggle_mode(lw->image);
+	layout_util_sync_views(lw);
+}
+
+static void layout_menu_histogram_channel_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint channel = gtk_radio_action_get_current_value(action);
+	GtkToggleAction *histogram_action = GTK_TOGGLE_ACTION(gtk_action_group_get_action(lw->action_group, "ImageHistogram"));
+
+	if (channel < 0 || channel >= HCHAN_COUNT) return;
+	
+	gtk_toggle_action_set_active(histogram_action, TRUE); /* this calls layout_menu_histogram_cb */
+	image_osd_histogram_set_channel(lw->image, channel);
+}
+
+static void layout_menu_histogram_mode_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint mode = gtk_radio_action_get_current_value(action);
+	GtkToggleAction *histogram_action = GTK_TOGGLE_ACTION(gtk_action_group_get_action(lw->action_group, "ImageHistogram"));
+
+	if (mode < 0 || mode > 1) return;
+	
+	gtk_toggle_action_set_active(histogram_action, TRUE); /* this calls layout_menu_histogram_cb */
+	image_osd_histogram_set_mode(lw->image, mode);
 }
 
 static void layout_menu_refresh_cb(GtkAction *action, gpointer data)
@@ -1229,6 +1296,7 @@ static GtkActionEntry menu_entries[] = {
   { "ColorMenu",	NULL,			N_("Color _Management"),		NULL, 			NULL,					NULL },
   { "ConnectZoomMenu",	NULL,			N_("_Connected Zoom"),			NULL, 			NULL,					NULL },
   { "SplitMenu",	NULL,			N_("_Split"),				NULL, 			NULL,					NULL },
+  { "OverlayMenu",	NULL,			N_("_Image Overlay"),			NULL, 			NULL,					NULL },
   { "HelpMenu",		NULL,			N_("_Help"),				NULL, 			NULL,					NULL },
 
   { "FirstImage",	GTK_STOCK_GOTO_TOP,	N_("_First Image"),			"Home",			N_("First Image"),			CB(layout_menu_image_first_cb) },
@@ -1315,9 +1383,9 @@ static GtkActionEntry menu_entries[] = {
   { "FullScreenAlt2",	GTK_STOCK_FULLSCREEN,	N_("F_ull screen"),			"F11",			N_("Full screen"),			CB(layout_menu_fullscreen_cb) },
   { "Escape",		GTK_STOCK_LEAVE_FULLSCREEN,N_("_Leave full screen"),		"Escape",		N_("Leave full screen"),		CB(layout_menu_escape_cb) },
   { "EscapeAlt1",	GTK_STOCK_LEAVE_FULLSCREEN,N_("_Leave full screen"),		"Q",			N_("Leave full screen"),		CB(layout_menu_escape_cb) },
-  { "ImageOverlay",	NULL,			N_("_Image Overlay"),			"I",			N_("Image Overlay"),			CB(layout_menu_overlay_cb) },
-  { "HistogramChan",	NULL,			N_("Histogram _channels"),		"K",			N_("Histogram channels"),		CB(layout_menu_histogram_chan_cb) },
-  { "HistogramLog",	NULL,			N_("Histogram _log mode"),		"J",			N_("Histogram log mode"),		CB(layout_menu_histogram_log_cb) },
+  { "ImageOverlayCycle",NULL,			N_("_Cycle through overlay modes"),	"I",			N_("Cycle through Overlay modes"),	CB(layout_menu_overlay_toggle_cb) },
+  { "HistogramChanCycle",NULL,			N_("Cycle through histogram _channels"),"K",			N_("Cycle through histogram channels"),	CB(layout_menu_histogram_toggle_channel_cb) },
+  { "HistogramModeCycle",NULL,			N_("Cycle through histogram _modes"),	"J",			N_("Cycle through histogram modes"),	CB(layout_menu_histogram_toggle_mode_cb) },
   { "HideTools",	NULL,			N_("_Hide file list"),			"<control>H",		N_("Hide file list"),			CB(layout_menu_hide_cb) },
   { "SlideShowPause",	GTK_STOCK_MEDIA_PAUSE,	N_("_Pause slideshow"), 		"P",			N_("Pause slideshow"), 			CB(layout_menu_slideshow_pause_cb) },
   { "Refresh",		GTK_STOCK_REFRESH,	N_("_Refresh"),				"R",			N_("Refresh"),				CB(layout_menu_refresh_cb) },
@@ -1342,6 +1410,8 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "UseColorProfiles",	GTK_STOCK_SELECT_COLOR,	N_("Use _color profiles"), 		NULL,			N_("Use color profiles"), 		CB(layout_color_menu_enable_cb), FALSE},
   { "UseImageProfile",	NULL,			N_("Use profile from _image"),		NULL,			N_("Use profile from image"),		CB(layout_color_menu_use_image_cb), FALSE},
   { "Grayscale",	NULL,			N_("Toggle _grayscale"),		"<shift>G",		N_("Toggle grayscale"),			CB(layout_menu_alter_desaturate_cb), FALSE},
+  { "ImageOverlay",	NULL,			N_("_Image Overlay"),			NULL,			N_("Image Overlay"),			CB(layout_menu_overlay_cb),	 FALSE },
+  { "ImageHistogram",	NULL,			N_("_Show Histogram"),			NULL,			N_("Show Histogram"),			CB(layout_menu_histogram_cb),	 FALSE },
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
@@ -1363,6 +1433,19 @@ static GtkRadioActionEntry menu_color_radio_entries[] = {
   { "ColorProfile3",	NULL,			N_("Input _3"),				NULL,			N_("Input 3"),				COLOR_PROFILE_FILE + 1 },
   { "ColorProfile4",	NULL,			N_("Input _4"),				NULL,			N_("Input 4"),				COLOR_PROFILE_FILE + 2 },
   { "ColorProfile5",	NULL,			N_("Input _5"),				NULL,			N_("Input 5"),				COLOR_PROFILE_FILE + 3 }
+};
+
+static GtkRadioActionEntry menu_histogram_channel[] = {
+  { "HistogramChanR",	NULL,			N_("Histogram on _Red"),		NULL,			N_("Histogram on Red"),		HCHAN_R },
+  { "HistogramChanG",	NULL,			N_("Histogram on _Green"),		NULL,			N_("Histogram on Green"),	HCHAN_G },
+  { "HistogramChanB",	NULL,			N_("Histogram on _Blue"),		NULL,			N_("Histogram on Blue"),	HCHAN_B },
+  { "HistogramChanRGB",	NULL,			N_("Histogram on RGB"),			NULL,			N_("Histogram on RGB"),		HCHAN_RGB },
+  { "HistogramChanV",	NULL,			N_("Histogram on Value"),		NULL,			N_("Histogram on Value"),	HCHAN_MAX }
+};
+
+static GtkRadioActionEntry menu_histogram_mode[] = {
+  { "HistogramModeLin",	NULL,			N_("Li_near Histogram"),		NULL,			N_("Linear Histogram"),		0 },
+  { "HistogramModeLog",	NULL,			N_("Lo_g Histogram"),			NULL,			N_("Log Histogram"),		1 },
 };
 
 #undef CB
@@ -1509,9 +1592,22 @@ static const gchar *menu_ui_description =
 "      </menu>"
 "      <placeholder name='DirSection'/>"
 "      <separator/>"
-"      <menuitem action='ImageOverlay'/>"
-"      <menuitem action='HistogramChan'/>"
-"      <menuitem action='HistogramLog'/>"
+"      <menu action='OverlayMenu'>"
+"        <menuitem action='ImageOverlay'/>"
+"        <menuitem action='ImageHistogram'/>"
+"        <menuitem action='ImageOverlayCycle'/>"
+"        <separator/>"
+"        <menuitem action='HistogramChanR'/>"
+"        <menuitem action='HistogramChanG'/>"
+"        <menuitem action='HistogramChanB'/>"
+"        <menuitem action='HistogramChanRGB'/>"
+"        <menuitem action='HistogramChanV'/>"
+"        <menuitem action='HistogramChanCycle'/>"
+"        <separator/>"
+"        <menuitem action='HistogramModeLin'/>"
+"        <menuitem action='HistogramModeLog'/>"
+"        <menuitem action='HistogramModeCycle'/>"
+"      </menu>"
 "      <menuitem action='FullScreen'/>"
 "      <placeholder name='OverlaySection'/>"
 "      <separator/>"
@@ -1832,6 +1928,12 @@ void layout_actions_setup(LayoutWindow *lw)
 	gtk_action_group_add_radio_actions(lw->action_group,
 					   menu_color_radio_entries, COLOR_PROFILE_FILE + COLOR_PROFILE_INPUTS,
 					   0, G_CALLBACK(layout_color_menu_input_cb), lw);
+	gtk_action_group_add_radio_actions(lw->action_group,
+					   menu_histogram_channel, G_N_ELEMENTS(menu_histogram_channel),
+					   0, G_CALLBACK(layout_menu_histogram_channel_cb), lw);
+	gtk_action_group_add_radio_actions(lw->action_group,
+					   menu_histogram_mode, G_N_ELEMENTS(menu_histogram_mode),
+					   0, G_CALLBACK(layout_menu_histogram_mode_cb), lw);
 
 
 	lw->ui_manager = gtk_ui_manager_new();
@@ -2163,6 +2265,7 @@ void layout_util_sync_color(LayoutWindow *lw)
 static void layout_util_sync_views(LayoutWindow *lw)
 {
 	GtkAction *action;
+	OsdShowFlags osd_flags = image_osd_get(lw->image);
 
 	if (!lw->action_group) return;
 
@@ -2195,6 +2298,18 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "SlideShow");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), layout_image_slideshow_active(lw));
+
+	action = gtk_action_group_get_action(lw->action_group, "ImageOverlay");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), osd_flags != OSD_SHOW_NOTHING);
+
+	action = gtk_action_group_get_action(lw->action_group, "ImageHistogram");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), osd_flags & OSD_SHOW_HISTOGRAM);
+
+	action = gtk_action_group_get_action(lw->action_group, "HistogramChanR");
+	radio_action_set_current_value(GTK_RADIO_ACTION(action), image_osd_histogram_get_channel(lw->image));
+
+	action = gtk_action_group_get_action(lw->action_group, "HistogramModeLin");
+	radio_action_set_current_value(GTK_RADIO_ACTION(action), image_osd_histogram_get_mode(lw->image));
 
 	layout_util_sync_color(lw);
 }

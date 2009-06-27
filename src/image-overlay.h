@@ -45,8 +45,12 @@ void image_osd_update(ImageWindow *imd);
 
 void image_osd_icon(ImageWindow *imd, ImageOSDFlag flag, gint duration);
 
-void image_osd_histogram_chan_toggle(ImageWindow *);
-void image_osd_histogram_log_toggle(ImageWindow *);
+void image_osd_histogram_toggle_channel(ImageWindow *imd);
+void image_osd_histogram_toggle_mode(ImageWindow *imd);
+void image_osd_histogram_set_channel(ImageWindow *imd, gint chan);
+void image_osd_histogram_set_mode(ImageWindow *imd, gint mode);
+gint image_osd_histogram_get_channel(ImageWindow *imd);
+gint image_osd_histogram_get_mode(ImageWindow *imd);
 
 void image_osd_toggle(ImageWindow *imd);
 
