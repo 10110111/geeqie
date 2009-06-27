@@ -1,10 +1,9 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-_Name=UFRaw Batch recursive
+_Name=Edit UFRaw ID file
 
-# call the helper script with current directory as an argument
-Exec=geeqie-ufraw --recursive .
+Exec=ufraw --create-id=only %U
 
 # show only if ufraw is installed
 TryExec=ufraw
@@ -18,5 +17,7 @@ X-Geeqie-Menu-Path=EditMenu/EditSection
 
 # It can be made verbose
 # X-Geeqie-Verbose=true
+
+MimeType=application/x-ufraw;image/x-dcraw;
 
 Icon=ufraw

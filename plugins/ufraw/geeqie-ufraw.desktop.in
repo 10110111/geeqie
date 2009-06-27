@@ -15,7 +15,7 @@ Categories=X-Geeqie;
 OnlyShowIn=X-Geeqie;
 
 # Show in menu "Edit"
-X-Geeqie-Menu-Path=EditMenu
+X-Geeqie-Menu-Path=EditMenu/EditSection
 
 # It can be made verbose
 X-Geeqie-Verbose=true
