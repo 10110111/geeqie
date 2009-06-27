@@ -611,7 +611,7 @@ static void layout_menu_list_cb(GtkRadioAction *action, GtkRadioAction *current,
 	LayoutWindow *lw = data;
 	
 	layout_exit_fullscreen(lw);
-	layout_views_set(lw, lw->options.dir_view_type, (gtk_radio_action_get_current_value(action) == 1) ? FILEVIEW_ICON : FILEVIEW_LIST);
+	layout_views_set(lw, lw->options.dir_view_type, (FileViewType) gtk_radio_action_get_current_value(action));
 }
 
 static void layout_menu_view_dir_as_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
@@ -1415,8 +1415,8 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
-  { "ViewList",		NULL,			N_("Image _List"),			"<control>L",		N_("View Images as List"),		0 },
-  { "ViewIcons",	NULL,			N_("I_cons"),				"<control>I",		N_("View Images as Icons"),		1 }
+  { "ViewList",		NULL,			N_("Image _List"),			"<control>L",		N_("View Images as List"),		FILEVIEW_LIST },
+  { "ViewIcons",	NULL,			N_("I_cons"),				"<control>I",		N_("View Images as Icons"),		FILEVIEW_ICON }
 };
 
 static GtkRadioActionEntry menu_view_dir_radio_entries[] = {
@@ -2284,7 +2284,7 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->split_mode);
 
 	action = gtk_action_group_get_action(lw->action_group, "ViewIcons");
-	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.file_view_type);
+	radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->options.file_view_type);
 
 	action = gtk_action_group_get_action(lw->action_group, "FloatTools");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.tools_float);

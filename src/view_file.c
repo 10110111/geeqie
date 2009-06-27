@@ -467,18 +467,10 @@ static void vf_pop_menu_toggle_mark_sel_cb(GtkWidget *widget, gpointer data)
 static void vf_pop_menu_toggle_view_type_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
-	
+	FileViewType new_type = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "menu_item_radio_data"));
 	if (!vf->layout) return;
 
-	switch (vf->type)
-	{
-	case FILEVIEW_LIST:
-		layout_views_set(vf->layout, vf->layout->options.dir_view_type, FILEVIEW_ICON);
-		break;
-	case FILEVIEW_ICON:
-		layout_views_set(vf->layout, vf->layout->options.dir_view_type, FILEVIEW_LIST);
-		break;
-	}
+	layout_views_set(vf->layout, vf->layout->options.dir_view_type, new_type);
 }
 
 static void vf_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
@@ -611,8 +603,11 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 	item = menu_item_add(menu, _("_Sort"), NULL, NULL);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 
-	menu_item_add_check(menu, _("View as _icons"), (vf->type == FILEVIEW_ICON),
-			    G_CALLBACK(vf_pop_menu_toggle_view_type_cb), vf);
+	item = menu_item_add_radio(menu, _("View as _List"), GINT_TO_POINTER(FILEVIEW_LIST), vf->type == FILEVIEW_LIST,
+                                           G_CALLBACK(vf_pop_menu_toggle_view_type_cb), vf);
+
+	item = menu_item_add_radio(menu, _("View as _Icons"), GINT_TO_POINTER(FILEVIEW_ICON), vf->type == FILEVIEW_ICON,
+                                           G_CALLBACK(vf_pop_menu_toggle_view_type_cb), vf);
 
 	switch (vf->type)
 	{
