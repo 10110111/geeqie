@@ -66,11 +66,6 @@ static void folder_icons_free(PixmapFolders *pf)
 
 static void vd_notify_cb(FileData *fd, NotifyType type, gpointer data);
 
-GtkRadioActionEntry menu_view_dir_radio_entries[] = {
-  { "FolderList",	NULL,		N_("_List"),		"<meta>L",	NULL, DIRVIEW_LIST },
-  { "FolderTree",	NULL,		N_("_Tree"),		"<control>T",	NULL, DIRVIEW_TREE },
-};
-
 static void vd_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ViewDir *vd = data;
@@ -101,8 +96,6 @@ static void vd_destroy_cb(GtkWidget *widget, gpointer data)
 
 ViewDir *vd_new(DirViewType type, FileData *dir_fd)
 {
-	g_assert(VIEW_DIR_TYPES_COUNT <= G_N_ELEMENTS(menu_view_dir_radio_entries));
-
 	ViewDir *vd = g_new0(ViewDir, 1);
 
 	vd->widget = gtk_scrolled_window_new(NULL, NULL);
@@ -611,12 +604,10 @@ static void vd_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 {
 	GtkWidget *menu;
-	GtkWidget *submenu;
 	GtkWidget *item;
 	gboolean active;
 	gboolean rename_delete_active = FALSE;
 	gboolean new_folder_active = FALSE;
-	gint i;
 
 	active = (fd != NULL);
 	switch (vd->type)
@@ -682,17 +673,16 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 
 	menu_item_add_divider(menu);
 
-	item = menu_item_add(menu, _("_View as"), NULL, NULL);
-	submenu = gtk_menu_new();
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 
-	for (i = 0; i < VIEW_DIR_TYPES_COUNT; i++)
-		{
-		item = menu_item_add_check(submenu, _(menu_view_dir_radio_entries[i].label),
-					   ((gint) vd->type == menu_view_dir_radio_entries[i].value),
-					   G_CALLBACK(vd_pop_submenu_dir_view_as_cb), vd);
-		g_object_set_data(G_OBJECT(item), VIEW_DIR_AS_SUBMENU_KEY, GINT_TO_POINTER(menu_view_dir_radio_entries[i].value));
-		}
+	item = menu_item_add_check(menu, _("View as _List"), vd->type == DIRVIEW_LIST,
+                                           G_CALLBACK(vd_pop_submenu_dir_view_as_cb), vd);
+	g_object_set_data(G_OBJECT(item), VIEW_DIR_AS_SUBMENU_KEY, GINT_TO_POINTER(DIRVIEW_LIST));
+
+	item = menu_item_add_check(menu, _("View as _Tree"), vd->type == DIRVIEW_TREE,
+                                           G_CALLBACK(vd_pop_submenu_dir_view_as_cb), vd);
+	g_object_set_data(G_OBJECT(item), VIEW_DIR_AS_SUBMENU_KEY, GINT_TO_POINTER(DIRVIEW_TREE));
+
+	menu_item_add_divider(menu);
 
 	menu_item_add_check(menu, _("Show _hidden files"), options->file_filter.show_hidden_files,
 			    G_CALLBACK(vd_toggle_show_hidden_files_cb), vd);

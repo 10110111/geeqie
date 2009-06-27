@@ -667,7 +667,7 @@ static void layout_menu_overlay_cb(GtkToggleAction *action, gpointer data)
 		{
 		OsdShowFlags flags = image_osd_get(lw->image);
 		
-		if (flags | OSD_SHOW_INFO | OSD_SHOW_STATUS != flags)
+		if ((flags | OSD_SHOW_INFO | OSD_SHOW_STATUS) != flags)
 			image_osd_set(lw->image, flags | OSD_SHOW_INFO | OSD_SHOW_STATUS);
 		}
 	else
@@ -1291,7 +1291,7 @@ static GtkActionEntry menu_entries[] = {
   { "OrientationMenu",	NULL,			N_("_Orientation"),			NULL, 			NULL,					NULL },
   { "ExternalMenu",	NULL,			N_("E_xternal Editors"),		NULL, 			NULL,					NULL },
   { "ViewMenu",		NULL,			N_("_View"),				NULL, 			NULL,					NULL },
-  { "DirMenu",          NULL,			N_("_View Directory as"),		NULL, 			NULL,					NULL },
+  { "FileDirMenu",	NULL,			N_("_Files and Folders"),		NULL, 			NULL,					NULL },
   { "ZoomMenu",		NULL,			N_("_Zoom"),				NULL, 			NULL,					NULL },
   { "ColorMenu",	NULL,			N_("Color _Management"),		NULL, 			NULL,					NULL },
   { "ConnectZoomMenu",	NULL,			N_("_Connected Zoom"),			NULL, 			NULL,					NULL },
@@ -1415,8 +1415,13 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
-  { "ViewList",		NULL,			N_("View Images as _List"),		"<control>L",		N_("View Images as List"),		0 },
-  { "ViewIcons",	NULL,			N_("View Images as I_cons"),		"<control>I",		N_("View Images as Icons"),		1 }
+  { "ViewList",		NULL,			N_("Image _List"),			"<control>L",		N_("View Images as List"),		0 },
+  { "ViewIcons",	NULL,			N_("I_cons"),				"<control>I",		N_("View Images as Icons"),		1 }
+};
+
+static GtkRadioActionEntry menu_view_dir_radio_entries[] = {
+  { "FolderList",	NULL,			N_("Folder _List"),			"<meta>L",		N_("View Folders as List"), 		DIRVIEW_LIST },
+  { "FolderTree",	NULL,			N_("Folder _Tree"),			"<control>T",		N_("View Folders as Tree"), 		DIRVIEW_TREE },
 };
 
 static GtkRadioActionEntry menu_split_radio_entries[] = {
@@ -1447,6 +1452,7 @@ static GtkRadioActionEntry menu_histogram_mode[] = {
   { "HistogramModeLin",	NULL,			N_("Li_near Histogram"),		NULL,			N_("Linear Histogram"),		0 },
   { "HistogramModeLog",	NULL,			N_("Lo_g Histogram"),			NULL,			N_("Log Histogram"),		1 },
 };
+
 
 #undef CB
 
@@ -1581,14 +1587,19 @@ static const gchar *menu_ui_description =
 "        <menuitem action='SplitSingle'/>"
 "      </menu>"
 "      <separator/>"
-"      <menuitem action='ViewList'/>"
-"      <menuitem action='ViewIcons'/>"
-"      <menuitem action='Thumbnails'/>"
-"      <placeholder name='ListSection'/>"
-"      <separator/>"
-"      <menu action='DirMenu'>"
+"      <menu action='FileDirMenu'>"
 "        <menuitem action='FolderList'/>"
 "        <menuitem action='FolderTree'/>"
+"        <placeholder name='FolderSection'/>"
+"        <separator/>"
+"        <menuitem action='ViewList'/>"
+"        <menuitem action='ViewIcons'/>"
+"        <menuitem action='Thumbnails'/>"
+"        <placeholder name='ListSection'/>"
+"        <separator/>"
+"        <menuitem action='FloatTools'/>"
+"        <menuitem action='HideTools'/>"
+"        <menuitem action='HideToolbar'/>"
 "      </menu>"
 "      <placeholder name='DirSection'/>"
 "      <separator/>"
@@ -1611,9 +1622,6 @@ static const gchar *menu_ui_description =
 "      <menuitem action='FullScreen'/>"
 "      <placeholder name='OverlaySection'/>"
 "      <separator/>"
-"      <menuitem action='FloatTools'/>"
-"      <menuitem action='HideTools'/>"
-"      <menuitem action='HideToolbar'/>"
 "      <menuitem action='ShowInfoPixel'/>"
 "      <placeholder name='ToolsSection'/>"
 "      <separator/>"
