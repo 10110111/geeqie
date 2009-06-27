@@ -45,6 +45,7 @@
 #include "exif.h"
 #include "histogram.h"
 #include "pixbuf_util.h"
+#include "lua.h"
 
 #ifdef HAVE_LIBCHAMPLAIN
 #ifdef HAVE_LIBCHAMPLAIN_GTK
@@ -755,7 +756,11 @@ gint main(gint argc, gchar *argv[])
 #endif
 
 	exif_init();
-	
+
+#ifdef HAVE_LUA
+	lua_init();
+#endif
+
 	/* setup random seed for random slideshow */
 	srand(time(NULL));
 
