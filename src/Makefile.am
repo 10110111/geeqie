@@ -5,8 +5,8 @@ AM_CFLAGS =				\
 	$(GLIB_CFLAGS) $(GTK_CFLAGS)	\
 	$(LCMS_CFLAGS)			\
 	$(EXIV2_CFLAGS)			\
-	$(LIBCHAMPLAIN_CFLAGS)	\
-	$(LIBCHAMPLAIN_GTK_CFLAGS)
+	$(LIBCHAMPLAIN_CFLAGS)		\
+	$(LIBCHAMPLAIN_GTK_CFLAGS)	\
 	-I$(top_srcdir)			\
 	-I$(top_builddir)
 
@@ -15,8 +15,8 @@ AM_CXXFLAGS =				\
 	$(GLIB_CFLAGS) $(GTK_CFLAGS)	\
 	$(LCMS_CFLAGS)			\
 	$(EXIV2_CFLAGS)			\
-	$(LIBCHAMPLAIN_CFLAGS)	\
-	$(LIBCHAMPLAIN_GTK_CFLAGS)	
+	$(LIBCHAMPLAIN_CFLAGS)		\
+	$(LIBCHAMPLAIN_GTK_CFLAGS)	\
 	-I$(top_srcdir)			\
 	-I$(top_builddir)
 
@@ -60,7 +60,7 @@ ui_icons.h: $(extra_ICONS) Makefile.in
 	 echo '#endif /* UI_ICONS_H */') > $@ || echo "!!! Failed to generate $@ !!!"
 
 ClayRGB1998_icc.h: ClayRGB1998.icc
-	echo "/*" > $@ 
+	echo "/*" > $@
 	echo " * This file was generated from ClayRGB1998.icc, DO NOT EDIT " >> $@
 	echo " * http://www.argyllcms.com/ClayRGB1998.zip " >> $@
 	echo " */ " >> $@
@@ -71,7 +71,7 @@ ui_spinner.o: ui_icons.h
 
 noinst_DATA = ui_icons.h
 CLEANFILES = $(noinst_DATA)
-                                                                                                                     
+
 extra_SLIK = \
 	$(extra_ICONS)
 
