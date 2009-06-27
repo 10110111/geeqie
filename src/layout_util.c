@@ -1290,6 +1290,7 @@ static GtkActionEntry menu_entries[] = {
   { "SelectMenu",	NULL,			N_("_Select"),				NULL, 			NULL,					NULL },
   { "OrientationMenu",	NULL,			N_("_Orientation"),			NULL, 			NULL,					NULL },
   { "ExternalMenu",	NULL,			N_("E_xternal Editors"),		NULL, 			NULL,					NULL },
+  { "PreferencesMenu",	NULL,			N_("P_references"),			NULL, 			NULL,					NULL },
   { "ViewMenu",		NULL,			N_("_View"),				NULL, 			NULL,					NULL },
   { "FileDirMenu",	NULL,			N_("_Files and Folders"),		NULL, 			NULL,					NULL },
   { "ZoomMenu",		NULL,			N_("_Zoom"),				NULL, 			NULL,					NULL },
@@ -1524,10 +1525,12 @@ static const gchar *menu_ui_description =
 "      <menuitem action='SaveMetadata'/>"
 "      <placeholder name='PropertiesSection'/>"
 "      <separator/>"
-"      <menuitem action='Preferences'/>"
-"      <menuitem action='Editors'/>"
-"      <menuitem action='LayoutConfig'/>"
-"      <menuitem action='Maintenance'/>"
+"        <menu action='PreferencesMenu'>"
+"        <menuitem action='Preferences'/>"
+"        <menuitem action='Editors'/>"
+"        <menuitem action='LayoutConfig'/>"
+"        <menuitem action='Maintenance'/>"
+"      </menu>"
 "      <placeholder name='PreferencesSection'/>"
 "      <separator/>"
 "      <menuitem action='Wallpaper'/>"
