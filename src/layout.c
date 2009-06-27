@@ -1396,10 +1396,9 @@ void layout_split_change(LayoutWindow *lw, ImageSplitMode mode)
 
 	image = layout_image_setup_split(lw, mode);
 
-//	gtk_box_pack_start(GTK_BOX(lw->utility_box), image, TRUE, TRUE, 0);
-//	gtk_box_reorder_child(GTK_BOX(lw->utility_box), image, 0);
 	gtk_paned_pack1(GTK_PANED(lw->utility_paned), image, TRUE, FALSE);
 	gtk_widget_show(image);
+	layout_util_sync(lw);
 }
 
 static void layout_grid_setup(LayoutWindow *lw)

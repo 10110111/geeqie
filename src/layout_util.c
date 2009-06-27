@@ -1401,10 +1401,10 @@ static GtkActionEntry menu_entries[] = {
 static GtkToggleActionEntry menu_toggle_entries[] = {
   { "Thumbnails",	PIXBUF_INLINE_ICON_THUMB,N_("Show _Thumbnails"),		"T",			N_("Show Thumbnails"),			CB(layout_menu_thumb_cb),	 FALSE },
   { "ShowMarks",        NULL,			N_("Show _Marks"),			"M",			N_("Show Marks"),			CB(layout_menu_marks_cb),	 FALSE  },
-  { "ShowInfoPixel",	GTK_STOCK_COLOR_PICKER,	N_("Show Pi_xel Info"),			NULL,			N_("Show Pixel Info"),			CB(layout_menu_info_pixel_cb),	 FALSE  },
+  { "ShowInfoPixel",	GTK_STOCK_COLOR_PICKER,	N_("Pi_xel Info"),			NULL,			N_("Show Pixel Info"),			CB(layout_menu_info_pixel_cb),	 FALSE  },
   { "FloatTools",	PIXBUF_INLINE_ICON_FLOAT,N_("_Float file list"),		"L",			N_("Float file list"),			CB(layout_menu_float_cb),	 FALSE  },
   { "HideToolbar",	NULL,			N_("Hide tool_bar"),			NULL,			N_("Hide toolbar"),			CB(layout_menu_toolbar_cb),	 FALSE  },
-  { "SBar",		NULL,			N_("_Info"),				"<control>K",		N_("Info"),				CB(layout_menu_bar_cb),		 FALSE  },
+  { "SBar",		NULL,			N_("_Info sidebar"),			"<control>K",		N_("Info sidebar"),			CB(layout_menu_bar_cb),		 FALSE  },
   { "SBarSort",		NULL,			N_("Sort _manager"),			"<shift>S",		N_("Sort manager"),			CB(layout_menu_bar_sort_cb),	 FALSE  },
   { "SlideShow",	GTK_STOCK_MEDIA_PLAY,	N_("Toggle _slideshow"),		"S",			N_("Toggle slideshow"),			CB(layout_menu_slideshow_cb),	 FALSE  },
   { "UseColorProfiles",	GTK_STOCK_SELECT_COLOR,	N_("Use _color profiles"), 		NULL,			N_("Use color profiles"), 		CB(layout_color_menu_enable_cb), FALSE},
@@ -1536,56 +1536,8 @@ static const gchar *menu_ui_description =
 "    <menu action='ViewMenu'>"
 "      <menuitem action='ViewInNewWindow'/>"
 "      <menuitem action='PanView'/>"
+"      <menuitem action='ExifWin'/>"
 "      <placeholder name='WindowSection'/>"
-"      <separator/>"
-"      <menu action='ColorMenu'>"
-"        <menuitem action='UseColorProfiles'/>"
-"        <menuitem action='UseImageProfile'/>"
-"        <menuitem action='ColorProfile0'/>"
-"        <menuitem action='ColorProfile1'/>"
-"        <menuitem action='ColorProfile2'/>"
-"        <menuitem action='ColorProfile3'/>"
-"        <menuitem action='ColorProfile4'/>"
-"        <menuitem action='ColorProfile5'/>"
-"        <separator/>"
-"        <menuitem action='Grayscale'/>"
-"      </menu>"
-"      <menu action='ZoomMenu'>"
-"        <menuitem action='ZoomIn'/>"
-"        <menuitem action='ZoomOut'/>"
-"        <menuitem action='ZoomFit'/>"
-"        <menuitem action='ZoomFillHor'/>"
-"        <menuitem action='ZoomFillVert'/>"
-"        <menuitem action='Zoom100'/>"
-"        <menuitem action='Zoom200'/>"
-"        <menuitem action='Zoom300'/>"
-"        <menuitem action='Zoom400'/>"
-"        <menuitem action='Zoom50'/>"
-"        <menuitem action='Zoom33'/>"
-"        <menuitem action='Zoom25'/>"
-"      </menu>"
-"      <menu action='ConnectZoomMenu'>"
-"        <menuitem action='ConnectZoomIn'/>"
-"        <menuitem action='ConnectZoomOut'/>"
-"        <menuitem action='ConnectZoomFit'/>"
-"        <menuitem action='ConnectZoomFillHor'/>"
-"        <menuitem action='ConnectZoomFillVert'/>"
-"        <menuitem action='ConnectZoom100'/>"
-"        <menuitem action='ConnectZoom200'/>"
-"        <menuitem action='ConnectZoom300'/>"
-"        <menuitem action='ConnectZoom400'/>"
-"        <menuitem action='ConnectZoom50'/>"
-"        <menuitem action='ConnectZoom33'/>"
-"        <menuitem action='ConnectZoom25'/>"
-"      </menu>"
-"      <placeholder name='ZoomSection'/>"
-"      <separator/>"
-"      <menu action='SplitMenu'>"
-"        <menuitem action='SplitHorizontal'/>"
-"        <menuitem action='SplitVertical'/>"
-"        <menuitem action='SplitQuad'/>"
-"        <menuitem action='SplitSingle'/>"
-"      </menu>"
 "      <separator/>"
 "      <menu action='FileDirMenu'>"
 "        <menuitem action='FolderList'/>"
@@ -1603,6 +1555,52 @@ static const gchar *menu_ui_description =
 "      </menu>"
 "      <placeholder name='DirSection'/>"
 "      <separator/>"
+"      <menu action='ZoomMenu'>"
+"        <menu action='ConnectZoomMenu'>"
+"          <menuitem action='ConnectZoomIn'/>"
+"          <menuitem action='ConnectZoomOut'/>"
+"          <menuitem action='ConnectZoomFit'/>"
+"          <menuitem action='ConnectZoomFillHor'/>"
+"          <menuitem action='ConnectZoomFillVert'/>"
+"          <menuitem action='ConnectZoom100'/>"
+"          <menuitem action='ConnectZoom200'/>"
+"          <menuitem action='ConnectZoom300'/>"
+"          <menuitem action='ConnectZoom400'/>"
+"          <menuitem action='ConnectZoom50'/>"
+"          <menuitem action='ConnectZoom33'/>"
+"          <menuitem action='ConnectZoom25'/>"
+"        </menu>"
+"        <menuitem action='ZoomIn'/>"
+"        <menuitem action='ZoomOut'/>"
+"        <menuitem action='ZoomFit'/>"
+"        <menuitem action='ZoomFillHor'/>"
+"        <menuitem action='ZoomFillVert'/>"
+"        <menuitem action='Zoom100'/>"
+"        <menuitem action='Zoom200'/>"
+"        <menuitem action='Zoom300'/>"
+"        <menuitem action='Zoom400'/>"
+"        <menuitem action='Zoom50'/>"
+"        <menuitem action='Zoom33'/>"
+"        <menuitem action='Zoom25'/>"
+"      </menu>"
+"      <menu action='SplitMenu'>"
+"        <menuitem action='SplitHorizontal'/>"
+"        <menuitem action='SplitVertical'/>"
+"        <menuitem action='SplitQuad'/>"
+"        <menuitem action='SplitSingle'/>"
+"      </menu>"
+"      <menu action='ColorMenu'>"
+"        <menuitem action='UseColorProfiles'/>"
+"        <menuitem action='UseImageProfile'/>"
+"        <menuitem action='ColorProfile0'/>"
+"        <menuitem action='ColorProfile1'/>"
+"        <menuitem action='ColorProfile2'/>"
+"        <menuitem action='ColorProfile3'/>"
+"        <menuitem action='ColorProfile4'/>"
+"        <menuitem action='ColorProfile5'/>"
+"        <separator/>"
+"        <menuitem action='Grayscale'/>"
+"      </menu>"
 "      <menu action='OverlayMenu'>"
 "        <menuitem action='ImageOverlay'/>"
 "        <menuitem action='ImageHistogram'/>"
@@ -1620,15 +1618,12 @@ static const gchar *menu_ui_description =
 "        <menuitem action='HistogramModeCycle'/>"
 "      </menu>"
 "      <menuitem action='FullScreen'/>"
-"      <placeholder name='OverlaySection'/>"
-"      <separator/>"
-"      <menuitem action='ShowInfoPixel'/>"
-"      <placeholder name='ToolsSection'/>"
+"      <placeholder name='ViewSection'/>"
 "      <separator/>"
 "      <menuitem action='SBar'/>"
-"      <menuitem action='ExifWin'/>"
 "      <menuitem action='SBarSort'/>"
-"      <placeholder name='SideBarSection'/>"
+"      <menuitem action='ShowInfoPixel'/>"
+"      <placeholder name='ToolsSection'/>"
 "      <separator/>"
 "      <menuitem action='SlideShow'/>"
 "      <menuitem action='SlideShowPause'/>"
@@ -2313,11 +2308,17 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	action = gtk_action_group_get_action(lw->action_group, "ImageHistogram");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), osd_flags & OSD_SHOW_HISTOGRAM);
 
-	action = gtk_action_group_get_action(lw->action_group, "HistogramChanR");
-	radio_action_set_current_value(GTK_RADIO_ACTION(action), image_osd_histogram_get_channel(lw->image));
+	if (osd_flags & OSD_SHOW_HISTOGRAM)
+		{
+		action = gtk_action_group_get_action(lw->action_group, "HistogramChanR");
+		radio_action_set_current_value(GTK_RADIO_ACTION(action), image_osd_histogram_get_channel(lw->image));
 
-	action = gtk_action_group_get_action(lw->action_group, "HistogramModeLin");
-	radio_action_set_current_value(GTK_RADIO_ACTION(action), image_osd_histogram_get_mode(lw->image));
+		action = gtk_action_group_get_action(lw->action_group, "HistogramModeLin");
+		radio_action_set_current_value(GTK_RADIO_ACTION(action), image_osd_histogram_get_mode(lw->image));
+		}
+
+	action = gtk_action_group_get_action(lw->action_group, "ConnectZoomMenu");
+	gtk_action_set_sensitive(action, lw->split_mode != SPLIT_NONE);
 
 	layout_util_sync_color(lw);
 }
