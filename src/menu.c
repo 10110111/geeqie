@@ -153,7 +153,7 @@ gchar *sort_type_get_text(SortType method)
 	return "";
 }
 
-static GtkWidget *submenu_add_sort_item(GtkWidget *menu, GtkWidget *parent,
+static GtkWidget *submenu_add_sort_item(GtkWidget *menu,
 					GCallback func, SortType type,
 					gboolean show_current, SortType show_type)
 {
@@ -161,8 +161,8 @@ static GtkWidget *submenu_add_sort_item(GtkWidget *menu, GtkWidget *parent,
 
 	if (show_current)
 		{
-		item = menu_item_add_radio(menu, parent,
-					   sort_type_get_text(type), (type == show_type),
+		item = menu_item_add_radio(menu,
+					   sort_type_get_text(type), GINT_TO_POINTER((gint)type), (type == show_type),
 					   func, GINT_TO_POINTER((gint)type));
 		}
 	else
@@ -179,19 +179,18 @@ GtkWidget *submenu_add_sort(GtkWidget *menu, GCallback func, gpointer data,
 			    gboolean show_current, SortType type)
 {
 	GtkWidget *submenu;
-	GtkWidget *parent;
 
 	submenu = gtk_menu_new();
 	g_object_set_data(G_OBJECT(submenu), "submenu_data", data);
 
-	parent = submenu_add_sort_item(submenu, NULL, func, SORT_NAME, show_current, type);
+	submenu_add_sort_item(submenu, func, SORT_NAME, show_current, type);
 #ifdef HAVE_STRVERSCMP
-	submenu_add_sort_item(submenu, parent, func, SORT_NUMBER, show_current, type);
+	submenu_add_sort_item(submenu, func, SORT_NUMBER, show_current, type);
 #endif
-	submenu_add_sort_item(submenu, parent, func, SORT_TIME, show_current, type);
-	submenu_add_sort_item(submenu, parent, func, SORT_SIZE, show_current, type);
-	if (include_path) submenu_add_sort_item(submenu, parent, func, SORT_PATH, show_current, type);
-	if (include_none) submenu_add_sort_item(submenu, parent, func, SORT_NONE, show_current, type);
+	submenu_add_sort_item(submenu, func, SORT_TIME, show_current, type);
+	submenu_add_sort_item(submenu, func, SORT_SIZE, show_current, type);
+	if (include_path) submenu_add_sort_item(submenu, func, SORT_PATH, show_current, type);
+	if (include_none) submenu_add_sort_item(submenu, func, SORT_NONE, show_current, type);
 
 	if (menu)
 		{

@@ -25,8 +25,7 @@ GtkWidget *menu_item_add_stock_sensitive(GtkWidget *menu, const gchar *label, co
 					 GCallback func, gpointer data);
 GtkWidget *menu_item_add_check(GtkWidget *menu, const gchar *label, gboolean active,
 			       GCallback func, gpointer data);
-GtkWidget *menu_item_add_radio(GtkWidget *menu, GtkWidget *parent,
-			       const gchar *label, gboolean active,
+GtkWidget *menu_item_add_radio(GtkWidget *menu, const gchar *label, gpointer item_data, gboolean active,
 			       GCallback func, gpointer data);
 void menu_item_add_divider(GtkWidget *menu);
 

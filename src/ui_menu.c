@@ -97,18 +97,12 @@ GtkWidget *menu_item_add_check(GtkWidget *menu, const gchar *label, gboolean act
 	return item;
 }
 
-GtkWidget *menu_item_add_radio(GtkWidget *menu, GtkWidget *parent,
-			       const gchar *label, gboolean active,
+GtkWidget *menu_item_add_radio(GtkWidget *menu, const gchar *label, gpointer item_data, gboolean active,
 			       GCallback func, gpointer data)
 {
-	GtkWidget *item;
-	GSList *group = NULL;
-
-	if (parent) group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(parent));
-
-	item = gtk_radio_menu_item_new_with_mnemonic(group, label);
-	if (active) gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), active);
-	menu_item_finish(menu, item, func, data);
+	GtkWidget *item = menu_item_add_check(menu, label, active, func, data);
+	g_object_set_data(G_OBJECT(item), "menu_item_radio_data", item_data);
+	g_object_set(G_OBJECT(item), "draw-as-radio", TRUE, NULL);
 
 	return item;
 }

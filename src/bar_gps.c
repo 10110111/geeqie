@@ -384,17 +384,15 @@ static void bar_pane_gps_centre_map_checked_toggle_cb(GtkWidget *menu_widget, gp
 
 static void bar_pane_gps_change_map_cb(GtkWidget *widget, gpointer data)
 {
-	PaneGPSData *pgd;
+	PaneGPSData *pgd = data;
 	gchar *mapsource;
 
 	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
 		return;
 
-	pgd = (PaneGPSData *) submenu_item_get_data(widget);
-
 	if (!pgd) return;
 
-	mapsource = data;
+	mapsource = g_object_get_data(G_OBJECT(widget), "menu_item_radio_data");
 	bar_pane_gps_set_map_source(pgd, mapsource);
 }
 
@@ -554,51 +552,28 @@ const gchar *bar_pane_gps_get_map_id(PaneGPSData *pgd)
 	return map_id;
 }
 
-static GtkWidget *bar_pane_gps_add_radio(GtkWidget *menu, GtkWidget *parent,
-             								const gchar *label, GCallback func, gchar *value,
-               								gboolean show_current, const gchar *current_value)
-{
-	GtkWidget *item;
-
-	if (show_current)
-		{
-		item = menu_item_add_radio(menu, parent,
-		                        	label, (g_strcmp0(value, current_value) == 0), func, value);
-		}
-		else
-		{
-		item = menu_item_add(menu, label, func, value);
-		}
-
-	return item;
-}
-
 static GtkWidget *bar_pane_gps_menu(PaneGPSData *pgd)
 {
 	GtkWidget *menu;
 	GtkWidget *map_centre;
-	static gboolean show_current = TRUE;
 	GtkWidget *parent;
 	ChamplainMapSourceFactory *map_factory;
 	GSList *map_list;
 	ChamplainMapSourceDesc *map_desc;
+	const gchar *current;
 
 	menu = popup_menu_short_lived();
 
 	map_factory = champlain_map_source_factory_get_default();
 	map_list = champlain_map_source_factory_get_list(map_factory);
-	map_desc = (ChamplainMapSourceDesc *)(map_list->data);
-	map_list = g_slist_next(map_list);
-
-	g_object_set_data(G_OBJECT(menu), "submenu_data", pgd);
-
-	parent = bar_pane_gps_add_radio(menu, NULL, (map_desc->name),  G_CALLBACK(bar_pane_gps_change_map_cb), map_desc->id, show_current, bar_pane_gps_get_map_id(pgd));
+	current = bar_pane_gps_get_map_id(pgd);
 
 	while (map_list)
 		{
-	    map_desc = (ChamplainMapSourceDesc *)(map_list->data);
-		bar_pane_gps_add_radio(menu, parent, (map_desc->name), G_CALLBACK(bar_pane_gps_change_map_cb), map_desc->id,
-											show_current, bar_pane_gps_get_map_id(pgd));
+		map_desc = (ChamplainMapSourceDesc *)(map_list->data);
+		
+		menu_item_add_radio(menu, map_desc->name, map_desc->id, strcmp(map_desc->id, current) == 0, G_CALLBACK(bar_pane_gps_change_map_cb), pgd); 
+		
 		map_list = g_slist_next(map_list);
 		}
 		
@@ -717,8 +692,10 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	vbox = gtk_vbox_new(FALSE, 0);
-	view = champlain_view_new();
-	gpswidget = champlain_view_embed_new(CHAMPLAIN_VIEW(view));
+
+	gpswidget = gtk_champlain_embed_new ();
+	view = gtk_champlain_embed_get_view (GTK_CHAMPLAIN_EMBED (gpswidget));
+
 	viewport = gtk_viewport_new(NULL, NULL);
 	
 	gtk_container_add(GTK_CONTAINER(viewport), gpswidget);

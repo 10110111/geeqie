@@ -1384,8 +1384,8 @@ static GtkActionEntry menu_entries[] = {
   { "Escape",		GTK_STOCK_LEAVE_FULLSCREEN,N_("_Leave full screen"),		"Escape",		N_("Leave full screen"),		CB(layout_menu_escape_cb) },
   { "EscapeAlt1",	GTK_STOCK_LEAVE_FULLSCREEN,N_("_Leave full screen"),		"Q",			N_("Leave full screen"),		CB(layout_menu_escape_cb) },
   { "ImageOverlayCycle",NULL,			N_("_Cycle through overlay modes"),	"I",			N_("Cycle through Overlay modes"),	CB(layout_menu_overlay_toggle_cb) },
-  { "HistogramChanCycle",NULL,			N_("Cycle through histogram _channels"),"K",			N_("Cycle through histogram channels"),	CB(layout_menu_histogram_toggle_channel_cb) },
-  { "HistogramModeCycle",NULL,			N_("Cycle through histogram _modes"),	"J",			N_("Cycle through histogram modes"),	CB(layout_menu_histogram_toggle_mode_cb) },
+  { "HistogramChanCycle",NULL,			N_("Cycle through histogram ch_annels"),"K",			N_("Cycle through histogram channels"),	CB(layout_menu_histogram_toggle_channel_cb) },
+  { "HistogramModeCycle",NULL,			N_("Cycle through histogram mo_des"),	"J",			N_("Cycle through histogram modes"),	CB(layout_menu_histogram_toggle_mode_cb) },
   { "HideTools",	NULL,			N_("_Hide file list"),			"<control>H",		N_("Hide file list"),			CB(layout_menu_hide_cb) },
   { "SlideShowPause",	GTK_STOCK_MEDIA_PAUSE,	N_("_Pause slideshow"), 		"P",			N_("Pause slideshow"), 			CB(layout_menu_slideshow_pause_cb) },
   { "Refresh",		GTK_STOCK_REFRESH,	N_("_Refresh"),				"R",			N_("Refresh"),				CB(layout_menu_refresh_cb) },
@@ -1444,13 +1444,13 @@ static GtkRadioActionEntry menu_histogram_channel[] = {
   { "HistogramChanR",	NULL,			N_("Histogram on _Red"),		NULL,			N_("Histogram on Red"),		HCHAN_R },
   { "HistogramChanG",	NULL,			N_("Histogram on _Green"),		NULL,			N_("Histogram on Green"),	HCHAN_G },
   { "HistogramChanB",	NULL,			N_("Histogram on _Blue"),		NULL,			N_("Histogram on Blue"),	HCHAN_B },
-  { "HistogramChanRGB",	NULL,			N_("Histogram on RGB"),			NULL,			N_("Histogram on RGB"),		HCHAN_RGB },
-  { "HistogramChanV",	NULL,			N_("Histogram on Value"),		NULL,			N_("Histogram on Value"),	HCHAN_MAX }
+  { "HistogramChanRGB",	NULL,			N_("_Histogram on RGB"),			NULL,			N_("Histogram on RGB"),		HCHAN_RGB },
+  { "HistogramChanV",	NULL,			N_("Histogram on _Value"),		NULL,			N_("Histogram on Value"),	HCHAN_MAX }
 };
 
 static GtkRadioActionEntry menu_histogram_mode[] = {
   { "HistogramModeLin",	NULL,			N_("Li_near Histogram"),		NULL,			N_("Linear Histogram"),		0 },
-  { "HistogramModeLog",	NULL,			N_("Lo_g Histogram"),			NULL,			N_("Log Histogram"),		1 },
+  { "HistogramModeLog",	NULL,			N_("L_og Histogram"),			NULL,			N_("Log Histogram"),		1 },
 };
 
 
