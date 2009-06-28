@@ -685,7 +685,7 @@ static void layout_menu_histogram_cb(GtkToggleAction *action, gpointer data)
 	if (gtk_toggle_action_get_active(action))
 		{
 		image_osd_set(lw->image, OSD_SHOW_INFO | OSD_SHOW_STATUS | OSD_SHOW_HISTOGRAM);
-		gtk_toggle_action_set_active(overlay_action, TRUE); /* this calls layout_menu_overlay_cb */
+		layout_util_sync_views(lw); /* show the overlay state, default channel and mode in the menu */
 		}
 	else
 		{
