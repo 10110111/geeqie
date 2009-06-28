@@ -157,14 +157,15 @@ typedef enum {
 	CHANGE_WARN_NO_WRITE_PERM      = 1 << 1,
 	CHANGE_WARN_SAME               = 1 << 2,
 	CHANGE_WARN_CHANGED_EXT        = 1 << 3,
-	CHANGE_ERROR_MASK              = (~0) << 4, /* the values below are fatal errors */
-	CHANGE_NO_READ_PERM            = 1 << 4,
-	CHANGE_NO_WRITE_PERM_DIR       = 1 << 5,
-	CHANGE_NO_DEST_DIR             = 1 << 6,
-	CHANGE_NO_WRITE_PERM_DEST_DIR  = 1 << 7,
-	CHANGE_NO_WRITE_PERM_DEST      = 1 << 8,
-	CHANGE_DEST_EXISTS             = 1 << 9,
-	CHANGE_NO_SRC                  = 1 << 10,
+	CHANGE_WARN_UNSAVED_META       = 1 << 4,
+	CHANGE_ERROR_MASK              = (~0) << 8, /* the values below are fatal errors */
+	CHANGE_NO_READ_PERM            = 1 << 8,
+	CHANGE_NO_WRITE_PERM_DIR       = 1 << 9,
+	CHANGE_NO_DEST_DIR             = 1 << 10,
+	CHANGE_NO_WRITE_PERM_DEST_DIR  = 1 << 11,
+	CHANGE_NO_WRITE_PERM_DEST      = 1 << 12,
+	CHANGE_DEST_EXISTS             = 1 << 13,
+	CHANGE_NO_SRC                  = 1 << 14,
 	CHANGE_GENERIC_ERROR           = 1 << 16
 } ChangeError;
 

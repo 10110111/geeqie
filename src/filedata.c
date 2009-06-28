@@ -1863,6 +1863,16 @@ gint file_data_verify_ci(FileData *fd)
 	dir = remove_level_from_path(fd->path);
 	
 	if (fd->change->type != FILEDATA_CHANGE_DELETE &&
+	    fd->change->type != FILEDATA_CHANGE_MOVE && /* the unsaved metadata should survive move and rename operations */
+	    fd->change->type != FILEDATA_CHANGE_RENAME &&
+	    fd->change->type != FILEDATA_CHANGE_WRITE_METADATA &&
+	    fd->modified_xmp)
+		{
+		ret |= CHANGE_WARN_UNSAVED_META;
+		DEBUG_1("Change checked: unsaved metadata: %s", fd->path);
+		}
+	
+	if (fd->change->type != FILEDATA_CHANGE_DELETE &&
 	    fd->change->type != FILEDATA_CHANGE_WRITE_METADATA &&
 	    !access_file(fd->path, R_OK))
 		{
@@ -2135,6 +2145,12 @@ gchar *file_data_get_error_string(gint error)
 		{
 		if (result->len > 0) g_string_append(result, ", ");
 		g_string_append(result, _("source and destination have different extension"));
+		}
+
+	if (error & CHANGE_WARN_UNSAVED_META)
+		{
+		if (result->len > 0) g_string_append(result, ", ");
+		g_string_append(result, _("there are unsaved metadata changes for the file"));
 		}
 
 	return g_string_free(result, FALSE);
