@@ -3,6 +3,9 @@ plugins/rotate/rotate.desktop.in
 plugins/symlink/symlink.desktop.in
 plugins/ufraw/geeqie-ufraw-recursive.desktop.in
 plugins/ufraw/geeqie-ufraw.desktop.in
+plugins/ufraw/geeqie-ufraw-id.desktop.in
+plugins/ufraw/geeqie-import-gqview.desktop.in
+plugins/ufraw/geeqie-import-geeqie.desktop.in
 src/advanced_exif.c
 src/bar.c
 src/bar_comment.c
