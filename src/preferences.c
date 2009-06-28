@@ -168,54 +168,6 @@ void config_entry_to_option(GtkWidget *entry, gchar **option, gchar *(*func)(con
 		}
 }
 
-#if 0
-static void config_parse_editor_entries(GtkWidget **editor_name_entry, GtkWidget **editor_command_entry)
-{
-	gint i;
-	const gchar *buf;
-	GString *errmsg = g_string_new("");
-
-	for (i = 0; i < GQ_EDITOR_SLOTS; i++)
-		{
-		gchar *command = NULL;
-
-		if (i < GQ_EDITOR_GENERIC_SLOTS)
-			{
-			gchar *name = NULL;
-
-			buf = gtk_entry_get_text(GTK_ENTRY(editor_name_entry[i]));
-			if (buf && strlen(buf) > 0) name = g_strdup(buf);
-			editor_set_name(i, name);
-			g_free(name);
-			}
-
-		buf = gtk_entry_get_text(GTK_ENTRY(editor_command_entry[i]));
-		if (buf && strlen(buf) > 0)
-			{
-			gint flags = editor_command_parse(buf, NULL, NULL);
-		
-			if (EDITOR_ERRORS(flags))
-				{
-				if (errmsg->str[0]) g_string_append(errmsg, "\n\n");
-				g_string_append_printf(errmsg, _("%s\n#%d \"%s\":\n%s"), editor_get_error_str(flags),
-						       i+1, options->editor[i].name, buf);
-
-				}
-			command = g_strdup(buf);
-			}
-
-		editor_set_command(i, command);
-		g_free(command);
-		}
-	
-	if (errmsg->str[0])
-		{
-		file_util_warning_dialog(_("Invalid editor command"), errmsg->str, GTK_STOCK_DIALOG_ERROR, NULL);
-		}
-
-	g_string_free(errmsg, TRUE);
-}
-#endif
 
 static gboolean accel_apply_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
@@ -241,9 +193,6 @@ static void config_window_apply(void)
 {
 	gint i;
 	gboolean refresh = FALSE;
-
-//	config_parse_editor_entries(editor_name_entry, editor_command_entry); 
-//	layout_edit_update_all();
 
 	config_entry_to_option(safe_delete_path_entry, &options->file_ops.safe_delete_path, remove_trailing_slash);
 	

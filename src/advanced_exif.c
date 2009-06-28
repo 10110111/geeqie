@@ -165,67 +165,6 @@ void advanced_exif_set_fd(GtkWidget *window, FileData *fd)
 	advanced_exif_update(ew);
 }
 
-#if 0
-static void advanced_exif_row_toggled_cb(GtkCellRendererToggle *toggle, const gchar *path, gpointer data)
-{
-	GtkWidget *listview = data;
-	GtkTreeModel *store;
-	GtkTreeIter iter;
-	GtkTreePath *tpath;
-	gchar *name = NULL;
-	gboolean active;
-
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
-
-	tpath = gtk_tree_path_new_from_string(path);
-	gtk_tree_model_get_iter(store, &iter, tpath);
-	gtk_tree_path_free(tpath);
-
-	gtk_tree_model_get(store, &iter, EXIF_ADVCOL_ENABLED, &active,
-					 EXIF_ADVCOL_NAME, &name, -1);
-	active = (!active);
-
-	if (active &&
-	    g_list_length(history_list_get_by_key("exif_extras")) >= EXIF_BAR_CUSTOM_COUNT)
-		{
-		active = FALSE;
-		}
-
-	gtk_list_store_set(GTK_LIST_STORE(store), &iter, EXIF_ADVCOL_ENABLED, active, -1);
-
-	if (active)
-		{
-		history_list_add_to_key("exif_extras", name, EXIF_BAR_CUSTOM_COUNT);
-		}
-	else
-		{
-		history_list_item_change("exif_extras", name, NULL);
-		}
-
-	g_free(name);
-}
-#endif 
-
-#if 0
-static void advanced_exif_add_column_check(GtkWidget *listview, const gchar *title, gint n)
-{
-	GtkTreeViewColumn *column;
-	GtkCellRenderer *renderer;
-
-	column = gtk_tree_view_column_new();
-	gtk_tree_view_column_set_title(column, title);
-	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
-
-	renderer = gtk_cell_renderer_toggle_new();
-	gtk_tree_view_column_pack_start(column, renderer, TRUE);
-	gtk_tree_view_column_add_attribute(column, renderer, "active", n);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(listview), column);
-
-	g_signal_connect(G_OBJECT(renderer), "toggled",
-			 G_CALLBACK(advanced_exif_row_toggled_cb), listview);
-}
-#endif
-
 static GtkTargetEntry advanced_exif_drag_types[] = {
 	{ "text/plain", 0, TARGET_TEXT_PLAIN }
 };

@@ -1066,63 +1066,6 @@ static void layout_menu_edit_cb(GtkAction *action, gpointer data)
 	file_util_start_editor_from_filelist(key, layout_selection_list(lw), layout_get_path(lw), lw->window);
 }
 
-#if 0
-static void layout_menu_edit_update(LayoutWindow *lw)
-{
-	gint i;
-
-	/* main edit menu */
-
-	if (!lw->action_group) return;
-
-	for (i = 0; i < GQ_EDITOR_GENERIC_SLOTS; i++)
-		{
-		gchar *key;
-		GtkAction *action;
-		const gchar *name;
-	
-		key = g_strdup_printf("Editor%d", i);
-
-		action = gtk_action_group_get_action(lw->action_group, key);
-		g_object_set_data(G_OBJECT(action), "edit_index", GINT_TO_POINTER(i));
-
-		name = editor_get_name(i);
-		if (name)
-			{
-			gchar *text = g_strdup_printf(_("_%d %s..."), i, name);
-
-			g_object_set(action, "label", text,
-					     "sensitive", TRUE, NULL);
-			g_free(text);
-			}
-		else
-			{
-			gchar *text;
-
-			text = g_strdup_printf(_("_%d empty"), i);
-			g_object_set(action, "label", text, "sensitive", FALSE, NULL);
-			g_free(text);
-			}
-
-		g_free(key);
-		}
-}
-
-void layout_edit_update_all(void)
-{
-	GList *work;
-
-	work = layout_window_list;
-	while (work)
-		{
-		LayoutWindow *lw = work->data;
-		work = work->next;
-
-		layout_menu_edit_update(lw);
-		}
-}
-
-#endif
 
 static void layout_menu_metadata_write_cb(GtkAction *action, gpointer data)
 {

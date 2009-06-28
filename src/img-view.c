@@ -430,17 +430,6 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 				stop_signal = FALSE;
 				break;
 			}
-#if 0
-		if (n != -1)
-			{
-			if (!editor_window_flag_set(n))
-				{
-				view_fullscreen_toggle(vw, TRUE);
-				}
-			imd = view_window_active_image(vw);
-			file_util_start_editor_from_file(n, image_get_fd(imd), imd->widget);
-			}
-#endif
 		}
 	else if (event->state & GDK_SHIFT_MASK)
 		{
