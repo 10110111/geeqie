@@ -693,9 +693,13 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	vbox = gtk_vbox_new(FALSE, 0);
 
+#ifdef GTK_CHAMPLAIN_EMBED
 	gpswidget = gtk_champlain_embed_new ();
 	view = gtk_champlain_embed_get_view (GTK_CHAMPLAIN_EMBED (gpswidget));
-
+#else
+	view = champlain_view_new();
+	gpswidget = champlain_view_embed_new(CHAMPLAIN_VIEW(view));
+#endif
 	viewport = gtk_viewport_new(NULL, NULL);
 	
 	gtk_container_add(GTK_CONTAINER(viewport), gpswidget);
