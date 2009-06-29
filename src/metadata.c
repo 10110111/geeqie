@@ -59,6 +59,7 @@ static const gchar *group_keys[] = { /* tags that will be written to all files i
 static gboolean metadata_write_queue_idle_cb(gpointer data);
 static gboolean metadata_legacy_write(FileData *fd);
 static void metadata_legacy_delete(FileData *fd, const gchar *except);
+static gboolean metadata_file_read(gchar *path, GList **keywords, gchar **comment);
 
 
 
@@ -284,12 +285,9 @@ gboolean metadata_write_int(FileData *fd, const gchar *key, guint64 value)
  *-------------------------------------------------------------------
  */
 
-static gboolean metadata_file_write(gchar *path, GHashTable *modified_xmp)
+static gboolean metadata_file_write(gchar *path, const GList *keywords, const gchar *comment)
 {
 	SecureSaveInfo *ssi;
-	GList *keywords = g_hash_table_lookup(modified_xmp, KEYWORD_KEY);
-	GList *comment_l = g_hash_table_lookup(modified_xmp, COMMENT_KEY);
-	gchar *comment = comment_l ? comment_l->data : NULL;
 
 	ssi = secure_open(path);
 	if (!ssi) return FALSE;
@@ -318,17 +316,36 @@ static gboolean metadata_legacy_write(FileData *fd)
 {
 	gboolean success = FALSE;
 	gchar *metadata_pathl;
+	gpointer keywords;
+	gpointer comment_l;
+	gboolean have_keywords;
+	gboolean have_comment;
+	const gchar *comment;
+	GList *orig_keywords = NULL;
+	gchar *orig_comment = NULL;
 
 	g_assert(fd->change && fd->change->dest);
 
 	DEBUG_1("Saving comment: %s", fd->change->dest);
 
+	if (!fd->modified_xmp) return TRUE;
+
 	metadata_pathl = path_from_utf8(fd->change->dest);
 
-	success = metadata_file_write(metadata_pathl, fd->modified_xmp);
+	have_keywords = g_hash_table_lookup_extended(fd->modified_xmp, KEYWORD_KEY, NULL, &keywords);
+	have_comment = g_hash_table_lookup_extended(fd->modified_xmp, COMMENT_KEY, NULL, &comment_l);
+	comment = comment_l ? ((GList *)comment_l)->data : NULL;
+	
+	if (!have_keywords || !have_comment) metadata_file_read(metadata_pathl, &orig_keywords, &orig_comment);
+	
+	success = metadata_file_write(metadata_pathl, 
+				      have_keywords ? (GList *)keywords : orig_keywords,
+				      have_comment ? comment : orig_comment);
 
 	g_free(metadata_pathl);
-
+	g_free(orig_comment);
+	string_list_free(orig_keywords);
+	
 	return success;
 }
 
