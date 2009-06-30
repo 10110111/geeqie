@@ -1949,7 +1949,11 @@ gint file_data_verify_ci(FileData *fd)
 			/* If an existing metadata file exists, we will try writing to
 			 * it's location regardless of the user's preference.
 			 */
-			gchar *metadata_path = cache_find_location(CACHE_TYPE_XMP_METADATA, fd->path);
+			gchar *metadata_path = NULL;
+#ifdef HAVE_EXIV2
+			/* but ignore XMP if we are not able to write it */
+			metadata_path = cache_find_location(CACHE_TYPE_XMP_METADATA, fd->path);
+#endif
 			if (!metadata_path) metadata_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
 			
 			if (metadata_path && !access_file(metadata_path, W_OK))

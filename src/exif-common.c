@@ -619,9 +619,14 @@ ExifData *exif_read_fd(FileData *fd)
 	
 	/* CACHE_TYPE_XMP_METADATA file should exist only if the metadata are
 	 * not writable directly, thus it should contain the most up-to-date version */
+	sidecar_path = NULL;
+
+#ifdef HAVE_EXIV2
+	/* we are not able to handle XMP sidecars without exiv2 */
 	sidecar_path = cache_find_location(CACHE_TYPE_XMP_METADATA, fd->path);
 
 	if (!sidecar_path) sidecar_path = file_data_get_sidecar_path(fd, TRUE);
+#endif
 
 	fd->exif = exif_read(fd->path, sidecar_path, fd->modified_xmp);
 

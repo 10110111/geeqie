@@ -1594,16 +1594,19 @@ static void config_tab_metadata(GtkWidget *notebook)
 
 	vbox = scrolled_notebook_page(notebook, _("Metadata"));
 
-#ifndef HAVE_EXIV2
-	gtk_widget_set_sensitive(vbox, FALSE);
-#endif
 
 	group = pref_group_new(vbox, FALSE, _("Metadata writing process"), GTK_ORIENTATION_VERTICAL);
+#ifndef HAVE_EXIV2
+	label = pref_label_new(group, _("Warning: Geeqie is built without Exiv2. Some options are disabled."));
+#endif
 	label = pref_label_new(group, _("Metadata are written in the following order. The process ends after first success."));
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
 
 	ct_button = pref_checkbox_new_int(group, _("1) Save metadata in image files, resp. sidecar files, according to the XMP standard"),
 			      options->metadata.save_in_image_file, &c_options->metadata.save_in_image_file);
+#ifndef HAVE_EXIV2
+	gtk_widget_set_sensitive(ct_button, FALSE);
+#endif
 
 	pref_checkbox_new_int(group, _("2) Save metadata in '.metadata' folder, local to image folder (non-standard)"),
 			      options->metadata.enable_metadata_dirs, &c_options->metadata.enable_metadata_dirs);
@@ -1614,6 +1617,9 @@ static void config_tab_metadata(GtkWidget *notebook)
 	g_free(text);
 
 	group = pref_group_new(vbox, FALSE, _("Step 1: Write to image files"), GTK_ORIENTATION_VERTICAL);
+#ifndef HAVE_EXIV2
+	gtk_widget_set_sensitive(group, FALSE);
+#endif
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_SPACE);
 	pref_checkbox_link_sensitivity(ct_button, hbox);
@@ -1628,6 +1634,9 @@ static void config_tab_metadata(GtkWidget *notebook)
 			      options->metadata.confirm_write, &c_options->metadata.confirm_write);
 
 	group = pref_group_new(vbox, FALSE, _("Step 2 and 3: write to Geeqie private files"), GTK_ORIENTATION_VERTICAL);
+#ifndef HAVE_EXIV2
+	gtk_widget_set_sensitive(group, FALSE);
+#endif
 
 	pref_checkbox_new_int(group, _("Use GQview legacy metadata format (supports only keywords and comments) instead of XMP"),
 			      options->metadata.save_legacy_format, &c_options->metadata.save_legacy_format);
@@ -1640,8 +1649,11 @@ static void config_tab_metadata(GtkWidget *notebook)
 	pref_checkbox_new_int(group, _("Allow keywords to differ only in case"),
 			      options->metadata.keywords_case_sensitive, &c_options->metadata.keywords_case_sensitive);
 
-	pref_checkbox_new_int(group, _("Write altered image orientation to the metadata"),
+	ct_button = pref_checkbox_new_int(group, _("Write altered image orientation to the metadata"),
 			      options->metadata.write_orientation, &c_options->metadata.write_orientation);
+#ifndef HAVE_EXIV2
+	gtk_widget_set_sensitive(ct_button, FALSE);
+#endif
 
 	group = pref_group_new(vbox, FALSE, _("Auto-save options"), GTK_ORIENTATION_VERTICAL);
 

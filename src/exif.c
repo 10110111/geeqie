@@ -1582,13 +1582,13 @@ void exif_write_data_list(ExifData *exif, FILE *f, gint human_readable_list)
 
 gboolean exif_write(ExifData *exif)
 {
-	log_printf("Not compiled with EXIF write support");
+	log_printf("Not compiled with EXIF write support\n");
 	return FALSE;
 }
 
 gboolean exif_write_sidecar(ExifData *exif, gchar *path)
 {
-	log_printf("Not compiled with EXIF write support");
+	log_printf("Not compiled with EXIF write support\n");
 	return FALSE;
 }
 

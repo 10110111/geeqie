@@ -877,6 +877,14 @@ static void options_parse_global(GQParserData *parser_data, GMarkupParseContext 
 
 static void options_parse_global_end(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, gpointer data, GError **error)
 {
+#ifndef HAVE_EXIV2
+	/* some options do not work without exiv2 */
+	options->metadata.save_in_image_file = FALSE;
+	options->metadata.save_legacy_format = TRUE;
+	options->metadata.write_orientation = FALSE;
+	DEBUG_1("compiled without Exiv2 - disabling XMP write support");
+#endif
+
 	/* on startup there are no layout windows and this just loads the editors */
 	layout_editors_reload_all();
 }
