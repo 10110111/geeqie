@@ -21,6 +21,7 @@ icon_DATA = geeqie.png
 EXTRA_DIST = \
 	$(readme_DATA)	\
 	$(desktop_DATA)	\
+	$(desktop_in_files)	\
 	$(icon_DATA)	\
 	geeqie.spec.in	\
 	geeqie.1	\
