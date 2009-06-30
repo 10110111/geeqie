@@ -442,7 +442,7 @@ static GtkWidget *file_util_dialog_add_list(GtkWidget *box, GList *list, gboolea
 
 	if (full_paths)
 		{
-		file_util_dialog_add_list_column(view, pgettext("filesystem","Location"), FALSE, UTILITY_COLUMN_PATH);
+		file_util_dialog_add_list_column(view, _("Path"), FALSE, UTILITY_COLUMN_PATH);
 		}
 	else
 		{
@@ -1968,7 +1968,7 @@ static void file_util_delete_full(FileData *source_fd, GList *flist, GtkWidget *
 	
 	ud->details_func = file_util_details_dialog;
 
-	ud->messages.title = (gchar *)pgettext("physical","Delete");
+	ud->messages.title = _("Delete");
 	ud->messages.question = _("Delete files?");
 	ud->messages.desc_flist = _("This will delete the following files");
 	ud->messages.desc_source_fd = "";
