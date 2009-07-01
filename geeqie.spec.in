@@ -1,8 +1,8 @@
 # norootforbuild
 
-BuildRequires:  gtk2-devel gcc-c++
+BuildRequires:  gtk2-devel gcc-c++ intltool
 %if 0%{?suse_version}
-BuildRequires:  liblcms-devel
+BuildRequires:  liblcms-devel update-desktop-files
 %define docname	%{name}
 %if %suse_version < 1030
 %define _prefix	    /opt/gnome
@@ -21,7 +21,11 @@ BuildRequires:  libexiv2-devel
 BuildRequires:  exiv2-devel
 %endif
 %if 0%{?mandriva_version} > 2007
+%ifarch x86_64
+BuildRequires:  lib64exiv2-devel
+%else
 BuildRequires:  libexiv2-devel
+%endif
 %endif
 
 
@@ -36,6 +40,9 @@ License:        GNU General Public License version 2 or later (GPL v2 or later)
 Group:          Productivity/Graphics/Viewers
 Source:         geeqie-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+#
+# these are requirements of the plugins
+Requires: exiv2 exiftran ImageMagick ufraw
 
 %description
 Geeqie is a browser for graphics files.
@@ -75,6 +82,10 @@ Supporta anche l'uso di editor grafici esterni.
 %install
 make install DESTDIR=%{buildroot}
 
+%if 0%{?suse_version} > 1100
+%suse_update_desktop_file -n geeqie
+%endif
+
 %__install -m 644 AUTHORS COPYING ChangeLog NEWS README README.lirc "%{buildroot}/%{_docdir}/%{docname}/"
 
 %clean
@@ -89,4 +100,5 @@ make install DESTDIR=%{buildroot}
 %{_datadir}/applications/geeqie.desktop
 %{_datadir}/pixmaps/geeqie.png
 %{_mandir}/man1/geeqie*
+%{_libdir}/geeqie
 
