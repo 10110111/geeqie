@@ -22,7 +22,6 @@ AM_CXXFLAGS =				\
 
 module_SLIK = \
 	intl.h		\
-	gettext.h	\
 	ui_bookmark.c	\
 	ui_bookmark.h	\
 	ui_fileops.c	\
