@@ -3910,7 +3910,6 @@ msgid "Behavior"
 msgstr "Chování"
 
 #: src/preferences.c:1470 src/utilops.c:1952
-msgctxt "physical"
 msgid "Delete"
 msgstr "Smazat"
 
@@ -4806,7 +4805,6 @@ msgid "All files"
 msgstr "Všechny soubory"
 
 #: src/utilops.c:442
-msgctxt "filesystem"
 msgid "Location"
 msgstr "Umístění"
 

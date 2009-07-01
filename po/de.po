@@ -4199,7 +4199,6 @@ msgid "Behavior"
 msgstr "Verhalten"
 
 #: ../src/preferences.c:1807 ../src/utilops.c:1971
-msgctxt "physical"
 msgid "Delete"
 msgstr "Löschen"
 
@@ -5124,7 +5123,6 @@ msgid "All files"
 msgstr "Alle Dateien"
 
 #: ../src/utilops.c:445
-msgctxt "filesystem"
 msgid "Location"
 msgstr "Pfad"
 

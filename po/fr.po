@@ -5522,6 +5522,5 @@ msgstr "Erreur lors du renommage du fichier"
 msgid "Help"
 msgstr "Aide"
 
-#~ msgctxt "filesystem"
 #~ msgid "Location"
 #~ msgstr "Emplacement"
