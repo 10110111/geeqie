@@ -100,5 +100,5 @@ make install DESTDIR=%{buildroot}
 %{_datadir}/applications/geeqie.desktop
 %{_datadir}/pixmaps/geeqie.png
 %{_mandir}/man1/geeqie*
-%{_libdir}/geeqie
+%{_prefix}/lib/geeqie
 
