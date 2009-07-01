@@ -1237,10 +1237,10 @@ static GtkActionEntry menu_entries[] = {
   { "ViewMenu",		NULL,			N_("_View"),				NULL, 			NULL,					NULL },
   { "FileDirMenu",	NULL,			N_("_Files and Folders"),		NULL, 			NULL,					NULL },
   { "ZoomMenu",		NULL,			N_("_Zoom"),				NULL, 			NULL,					NULL },
-  { "ColorMenu",	NULL,			N_("Color _Management"),		NULL, 			NULL,					NULL },
+  { "ColorMenu",	NULL,			N_("_Color Management"),		NULL, 			NULL,					NULL },
   { "ConnectZoomMenu",	NULL,			N_("_Connected Zoom"),			NULL, 			NULL,					NULL },
-  { "SplitMenu",	NULL,			N_("_Split"),				NULL, 			NULL,					NULL },
-  { "OverlayMenu",	NULL,			N_("_Image Overlay"),			NULL, 			NULL,					NULL },
+  { "SplitMenu",	NULL,			N_("Spli_t"),				NULL, 			NULL,					NULL },
+  { "OverlayMenu",	NULL,			N_("Image _Overlay"),			NULL, 			NULL,					NULL },
   { "HelpMenu",		NULL,			N_("_Help"),				NULL, 			NULL,					NULL },
 
   { "FirstImage",	GTK_STOCK_GOTO_TOP,	N_("_First Image"),			"Home",			N_("First Image"),			CB(layout_menu_image_first_cb) },
@@ -1257,10 +1257,10 @@ static GtkActionEntry menu_entries[] = {
   { "NewWindow",	GTK_STOCK_NEW,		N_("New _window"),			"<control>N",		N_("New window"),			CB(layout_menu_new_window_cb) },
   { "NewCollection",	GTK_STOCK_INDEX,	N_("_New collection"),			"C",			N_("New collection"),			CB(layout_menu_new_cb) },
   { "OpenCollection",	GTK_STOCK_OPEN,		N_("_Open collection..."),		"O",			N_("Open collection..."),		CB(layout_menu_open_cb) },
-  { "OpenRecent",	NULL,			N_("Open _recent"),			NULL,			N_("Open recent"),			NULL },
+  { "OpenRecent",	NULL,			N_("Open recen_t"),			NULL,			N_("Open recent"),			NULL },
   { "Search",		GTK_STOCK_FIND,		N_("_Search..."),			"F3",			N_("Search..."),			CB(layout_menu_search_cb) },
   { "FindDupes",	GTK_STOCK_FIND,		N_("_Find duplicates..."),		"D",			N_("Find duplicates..."),		CB(layout_menu_dupes_cb) },
-  { "PanView",		NULL,			N_("Pan _view"),			"<control>J",		N_("Pan view"),				CB(layout_menu_pan_cb) },
+  { "PanView",		NULL,			N_("Pa_n view"),			"<control>J",		N_("Pan view"),				CB(layout_menu_pan_cb) },
   { "Print",		GTK_STOCK_PRINT,	N_("_Print..."),			"<shift>P",		N_("Print..."),				CB(layout_menu_print_cb) },
   { "NewFolder",	GTK_STOCK_DIRECTORY,	N_("N_ew folder..."),			"<control>F",		N_("New folder..."),			CB(layout_menu_dir_cb) },
   { "Copy",		GTK_STOCK_COPY,		N_("_Copy..."),				"<control>C",		N_("Copy..."),				CB(layout_menu_copy_cb) },
@@ -1338,7 +1338,7 @@ static GtkActionEntry menu_entries[] = {
   { "HelpNotes",	NULL,			N_("_Release notes"),			NULL,			N_("Release notes"),			CB(layout_menu_notes_cb) },
   { "About",		GTK_STOCK_ABOUT,	N_("_About"),				NULL,			N_("About"),				CB(layout_menu_about_cb) },
   { "LogWindow",	NULL,			N_("_Log Window"),			NULL,			N_("Log Window"),			CB(layout_menu_log_window_cb) },
-  { "ExifWin",		NULL,			N_("E_xif window"),			"<control>E",		N_("Exif window"),			CB(layout_menu_bar_exif_cb) },
+  { "ExifWin",		NULL,			N_("_Exif window"),			"<control>E",		N_("Exif window"),			CB(layout_menu_bar_exif_cb) },
 
 };
 
@@ -1354,7 +1354,7 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "UseColorProfiles",	GTK_STOCK_SELECT_COLOR,	N_("Use _color profiles"), 		NULL,			N_("Use color profiles"), 		CB(layout_color_menu_enable_cb), FALSE},
   { "UseImageProfile",	NULL,			N_("Use profile from _image"),		NULL,			N_("Use profile from image"),		CB(layout_color_menu_use_image_cb), FALSE},
   { "Grayscale",	NULL,			N_("Toggle _grayscale"),		"<shift>G",		N_("Toggle grayscale"),			CB(layout_menu_alter_desaturate_cb), FALSE},
-  { "ImageOverlay",	NULL,			N_("_Image Overlay"),			NULL,			N_("Image Overlay"),			CB(layout_menu_overlay_cb),	 FALSE },
+  { "ImageOverlay",	NULL,			N_("Image _Overlay"),			NULL,			N_("Image Overlay"),			CB(layout_menu_overlay_cb),	 FALSE },
   { "ImageHistogram",	NULL,			N_("_Show Histogram"),			NULL,			N_("Show Histogram"),			CB(layout_menu_histogram_cb),	 FALSE },
 };
 
@@ -1364,8 +1364,8 @@ static GtkRadioActionEntry menu_radio_entries[] = {
 };
 
 static GtkRadioActionEntry menu_view_dir_radio_entries[] = {
-  { "FolderList",	NULL,			N_("Folder _List"),			"<meta>L",		N_("View Folders as List"), 		DIRVIEW_LIST },
-  { "FolderTree",	NULL,			N_("Folder _Tree"),			"<control>T",		N_("View Folders as Tree"), 		DIRVIEW_TREE },
+  { "FolderList",	NULL,			N_("Folder Li_st"),			"<meta>L",		N_("View Folders as List"), 		DIRVIEW_LIST },
+  { "FolderTree",	NULL,			N_("Folder T_ree"),			"<control>T",		N_("View Folders as Tree"), 		DIRVIEW_TREE },
 };
 
 static GtkRadioActionEntry menu_split_radio_entries[] = {
@@ -1394,7 +1394,7 @@ static GtkRadioActionEntry menu_histogram_channel[] = {
 
 static GtkRadioActionEntry menu_histogram_mode[] = {
   { "HistogramModeLin",	NULL,			N_("Li_near Histogram"),		NULL,			N_("Linear Histogram"),		0 },
-  { "HistogramModeLog",	NULL,			N_("L_og Histogram"),			NULL,			N_("Log Histogram"),		1 },
+  { "HistogramModeLog",	NULL,			N_("_Log Histogram"),			NULL,			N_("Log Histogram"),		1 },
 };
 
 
@@ -1665,7 +1665,7 @@ static void layout_actions_setup_marks(LayoutWindow *lw)
 		layout_actions_setup_mark(lw, mark, "ResetMark%d", 	_("_Reset mark %d"), 			NULL, 		_("Reset mark %d"), G_CALLBACK(layout_menu_res_mark_sel_cb));
 		layout_actions_setup_mark(lw, mark, "ToggleMark%d", 	_("_Toggle mark %d"), 			"%d",  		_("Toggle mark %d"), G_CALLBACK(layout_menu_toggle_mark_sel_cb));
 		layout_actions_setup_mark(lw, mark, "ToggleMark%dAlt1",	_("_Toggle mark %d"), 			"KP_%d", 	_("Toggle mark %d"), G_CALLBACK(layout_menu_toggle_mark_sel_cb));
-		layout_actions_setup_mark(lw, mark, "SelectMark%d", 	_("_Select mark %d"), 			"<control>%d", 	_("Select mark %d"), G_CALLBACK(layout_menu_sel_mark_cb));
+		layout_actions_setup_mark(lw, mark, "SelectMark%d", 	_("Se_lect mark %d"), 			"<control>%d", 	_("Select mark %d"), G_CALLBACK(layout_menu_sel_mark_cb));
 		layout_actions_setup_mark(lw, mark, "SelectMark%dAlt1",	_("_Select mark %d"), 			"<control>KP_%d", _("Select mark %d"), G_CALLBACK(layout_menu_sel_mark_cb));
 		layout_actions_setup_mark(lw, mark, "AddMark%d", 	_("_Add mark %d"), 			NULL, 		_("Add mark %d"), G_CALLBACK(layout_menu_sel_mark_or_cb));
 		layout_actions_setup_mark(lw, mark, "IntMark%d", 	_("_Intersection with mark %d"), 	NULL, 		_("Intersection with mark %d"), G_CALLBACK(layout_menu_sel_mark_and_cb));
