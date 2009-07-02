@@ -1,4 +1,1179 @@
 ------------------------------------------------------------------------
+r1794 | nadvornik | 2009-07-02 19:31:38 +0200 (Thu, 02 Jul 2009) | 2 lines
+
+updated ca.po - submitted by Mecatxis
+
+------------------------------------------------------------------------
+r1793 | nadvornik | 2009-07-01 22:55:37 +0200 (Wed, 01 Jul 2009) | 2 lines
+
+make sure that automake and config.h uses the same installation paths
+
+------------------------------------------------------------------------
+r1792 | nadvornik | 2009-07-01 21:38:17 +0200 (Wed, 01 Jul 2009) | 2 lines
+
+updated version string
+
+------------------------------------------------------------------------
+r1791 | nadvornik | 2009-07-01 21:33:09 +0200 (Wed, 01 Jul 2009) | 2 lines
+
+fixed mnemonic conflicts
+
+------------------------------------------------------------------------
+r1790 | nadvornik | 2009-07-01 20:59:39 +0200 (Wed, 01 Jul 2009) | 2 lines
+
+removed msgctxt keyword, older gettext fails on it
+
+------------------------------------------------------------------------
+r1789 | nadvornik | 2009-07-01 20:32:32 +0200 (Wed, 01 Jul 2009) | 2 lines
+
+removed gettext.h reference
+
+------------------------------------------------------------------------
+r1788 | nadvornik | 2009-07-01 09:04:42 +0200 (Wed, 01 Jul 2009) | 2 lines
+
+updated spec file
+
+------------------------------------------------------------------------
+r1787 | zas_ | 2009-07-01 01:40:37 +0200 (Wed, 01 Jul 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1786 | nadvornik | 2009-06-30 22:15:33 +0200 (Tue, 30 Jun 2009) | 2 lines
+
+fixed an use of uninitialized value
+
+------------------------------------------------------------------------
+r1785 | nadvornik | 2009-06-30 22:12:28 +0200 (Tue, 30 Jun 2009) | 5 lines
+
+fixes for a built without Exiv2
+
+don't try to access XMP metadata if not compiled with Exiv2
+some metadata options are valid without Exiv2, do not disable them
+
+------------------------------------------------------------------------
+r1784 | mow | 2009-06-30 21:53:55 +0200 (Tue, 30 Jun 2009) | 5 lines
+
+Revert "Add pgettext for some ambiguous strings"
+
+Now there should be all ambiguous strings gone. This reverts commit 1628
+
+With that commit also all ambiguous strings should be solved.
+------------------------------------------------------------------------
+r1783 | nadvornik | 2009-06-30 21:12:25 +0200 (Tue, 30 Jun 2009) | 2 lines
+
+add desktop.in files to the tarball
+
+------------------------------------------------------------------------
+r1782 | nadvornik | 2009-06-29 21:48:14 +0200 (Mon, 29 Jun 2009) | 2 lines
+
+fixed writting to gqview legacy format
+
+------------------------------------------------------------------------
+r1781 | zas_ | 2009-06-29 18:32:43 +0200 (Mon, 29 Jun 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1780 | zas_ | 2009-06-29 18:02:28 +0200 (Mon, 29 Jun 2009) | 1 line
+
+Fix POTFILES.in and update regen_potfiles.sh to add .desktop.in files.
+------------------------------------------------------------------------
+r1779 | nadvornik | 2009-06-28 15:41:51 +0200 (Sun, 28 Jun 2009) | 2 lines
+
+added geeqie-import-geeqie.desktop.in
+
+------------------------------------------------------------------------
+r1778 | nadvornik | 2009-06-28 13:55:54 +0200 (Sun, 28 Jun 2009) | 2 lines
+
+libchamplain compatibility fix
+
+------------------------------------------------------------------------
+r1777 | nadvornik | 2009-06-28 11:25:47 +0200 (Sun, 28 Jun 2009) | 2 lines
+
+cleanup: remove some disabled code
+
+------------------------------------------------------------------------
+r1776 | nadvornik | 2009-06-28 11:08:25 +0200 (Sun, 28 Jun 2009) | 2 lines
+
+warn if another operation is performed on a file with unsaved metadata
+
+------------------------------------------------------------------------
+r1775 | nadvornik | 2009-06-28 10:49:28 +0200 (Sun, 28 Jun 2009) | 2 lines
+
+sync histogram state after enabling it from the menu
+
+------------------------------------------------------------------------
+r1774 | nadvornik | 2009-06-28 10:32:27 +0200 (Sun, 28 Jun 2009) | 2 lines
+
+added script for importing GQView and Geeqie-alpha metadata
+
+------------------------------------------------------------------------
+r1773 | nadvornik | 2009-06-28 01:12:52 +0200 (Sun, 28 Jun 2009) | 2 lines
+
+put preferences to separate submenu
+
+------------------------------------------------------------------------
+r1772 | mow | 2009-06-28 00:58:20 +0200 (Sun, 28 Jun 2009) | 1 line
+
+German translation update
+------------------------------------------------------------------------
+r1771 | mow | 2009-06-28 00:57:56 +0200 (Sun, 28 Jun 2009) | 8 lines
+
+Complete commit @1747 (intltool usage)
+
+With using intltool the localisation will fail cause of missing
+desktop.in file. Also the old desktop files are obsoleted by this
+commit.
+
+Also it is not necessary any more to have a './' in front of the files
+in POTFILES.in.
+------------------------------------------------------------------------
+r1770 | mow | 2009-06-28 00:56:50 +0200 (Sun, 28 Jun 2009) | 7 lines
+
+Fix AM_CFLAGS and AM_CXXFLAGS from @1701
+
+The commit 1701 did insert wrong lines for AM_CFLAGS and AM_CXXFLAGS to
+src/Makefile.am.
+
+I also did some minor whitespace fixes and made the internal
+documentation consistent by using \ than @ for doxygen doc.
+------------------------------------------------------------------------
+r1769 | nadvornik | 2009-06-28 00:40:25 +0200 (Sun, 28 Jun 2009) | 2 lines
+
+added command for editing ufraw id file, changed menu location
+
+------------------------------------------------------------------------
+r1768 | nadvornik | 2009-06-27 23:12:07 +0200 (Sat, 27 Jun 2009) | 2 lines
+
+reordered View menu
+
+------------------------------------------------------------------------
+r1767 | nadvornik | 2009-06-27 22:47:17 +0200 (Sat, 27 Jun 2009) | 2 lines
+
+use radio buttons for file and dir mode in popup menu
+
+------------------------------------------------------------------------
+r1766 | nadvornik | 2009-06-27 22:12:56 +0200 (Sat, 27 Jun 2009) | 2 lines
+
+simplified menu_item_add_radio usage
+
+------------------------------------------------------------------------
+r1765 | nadvornik | 2009-06-27 19:54:31 +0200 (Sat, 27 Jun 2009) | 2 lines
+
+created Files and Folders submenu
+
+------------------------------------------------------------------------
+r1764 | nadvornik | 2009-06-27 17:47:50 +0200 (Sat, 27 Jun 2009) | 6 lines
+
+improved overlay menu
+
+- indicate overlay and histogram state in toggle and radio entries in
+  the menu
+- all entries have visible effect in all modes
+
+------------------------------------------------------------------------
+r1763 | nadvornik | 2009-06-24 22:31:30 +0200 (Wed, 24 Jun 2009) | 9 lines
+
+test if an accelerator can be stored
+
+gtk_accel_map_change_entry can't change accelerators 
+to keys like arrows. Test this and show the keys in the list
+only if they can be really changed.
+
+https://sourceforge.net/tracker/?func=detail&aid=2805139&group_id=222125&atid=1054680
+
+
+------------------------------------------------------------------------
+r1762 | nadvornik | 2009-06-23 21:20:48 +0200 (Tue, 23 Jun 2009) | 2 lines
+
+improved description string
+
+------------------------------------------------------------------------
+r1761 | mow | 2009-06-22 00:52:45 +0200 (Mon, 22 Jun 2009) | 1 line
+
+Localizing one string
+------------------------------------------------------------------------
+r1760 | mow | 2009-06-22 00:52:08 +0200 (Mon, 22 Jun 2009) | 11 lines
+
+Fix two memory failures
+
+1. if the description field for a exif information is empty the program
+   dumps core when trying to change this. The reason is a strcmp with a
+   NULL value.
+
+   The fix add the small functionality to set the field to default when
+   it is set empty.
+
+2. There was a g_strdup miss in exif.c which could end in memory
+   corruption.
+------------------------------------------------------------------------
+r1759 | nadvornik | 2009-06-21 22:14:53 +0200 (Sun, 21 Jun 2009) | 5 lines
+
+improved file list update priority
+
+- update list with lower priority than the priority of file operations
+- make sure that it is updated at least once per 2 seconds
+
+------------------------------------------------------------------------
+r1758 | nadvornik | 2009-06-21 15:28:02 +0200 (Sun, 21 Jun 2009) | 2 lines
+
+fixed jumping of filelist on focus_in event
+
+------------------------------------------------------------------------
+r1757 | nadvornik | 2009-06-21 14:39:58 +0200 (Sun, 21 Jun 2009) | 2 lines
+
+fixed updating of marks in sidecars
+
+------------------------------------------------------------------------
+r1756 | nadvornik | 2009-06-21 01:15:11 +0200 (Sun, 21 Jun 2009) | 6 lines
+
+various geeqie-ufraw improvements
+
+- handle xmp sidecars
+- commandline options, help
+
+
+------------------------------------------------------------------------
+r1755 | nadvornik | 2009-06-20 20:42:23 +0200 (Sat, 20 Jun 2009) | 6 lines
+
+fixed leak in file_util_* functions
+
+- file_util_* are changed to take over the filelist and free it when
+  done
+- make sure that these functions are called correctly
+
+------------------------------------------------------------------------
+r1754 | nadvornik | 2009-06-20 18:46:32 +0200 (Sat, 20 Jun 2009) | 5 lines
+
+improved list view
+
+- do the string formatting in the cell_data callback
+- show the sidecar list only in collapsed entries
+
+------------------------------------------------------------------------
+r1753 | nadvornik | 2009-06-20 10:51:07 +0200 (Sat, 20 Jun 2009) | 2 lines
+
+always check for deleted sidecar files
+
+------------------------------------------------------------------------
+r1752 | nadvornik | 2009-06-20 00:37:30 +0200 (Sat, 20 Jun 2009) | 2 lines
+
+fixed regexp usage
+
+------------------------------------------------------------------------
+r1751 | nadvornik | 2009-06-20 00:34:52 +0200 (Sat, 20 Jun 2009) | 2 lines
+
+run external commands from current directory even with no files
+
+------------------------------------------------------------------------
+r1750 | nadvornik | 2009-06-18 22:46:33 +0200 (Thu, 18 Jun 2009) | 8 lines
+
+ufraw-batch script
+
+added a more complicated script that demonstrates advanced
+features of external editors:
+- create a jpeg + ufraw id file for each raw file
+- update the jpeg if the id file was modified
+
+
+------------------------------------------------------------------------
+r1749 | nadvornik | 2009-06-17 20:41:10 +0200 (Wed, 17 Jun 2009) | 2 lines
+
+made file_util_start_editor_from_file consider also sidecars
+
+------------------------------------------------------------------------
+r1748 | nadvornik | 2009-06-17 20:19:11 +0200 (Wed, 17 Jun 2009) | 7 lines
+
+fixed problems with floor/ceil
+
+- introduce macros ROUND_DOWN, ROUND_UP
+- fixed incorrect usage of floor/ceil functions on int arguments
+
+patch by  Yuriy Kaminskiy
+
+------------------------------------------------------------------------
+r1747 | nadvornik | 2009-06-15 22:50:35 +0200 (Mon, 15 Jun 2009) | 6 lines
+
+use intltool for desktop file translation
+
+- desktop files are translated via .po files together with other strings
+- make update-po is replaced with intltool-update [lang]
+
+
+------------------------------------------------------------------------
+r1746 | nadvornik | 2009-06-15 21:13:45 +0200 (Mon, 15 Jun 2009) | 5 lines
+
+improved rotation script
+
+- applies the orientation from metadata
+- uses exiftran for jpeg an ImageMagick for other files
+
+------------------------------------------------------------------------
+r1745 | zas_ | 2009-06-14 10:49:39 +0200 (Sun, 14 Jun 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1744 | mow | 2009-06-14 00:19:57 +0200 (Sun, 14 Jun 2009) | 8 lines
+
+Update documentation
+
+Now it holds a more verbose doxygen description as discussed in mailing
+list.
+
+- Doxygen style description
+- Small visibility changes
+- Commit message change
+------------------------------------------------------------------------
+r1743 | nadvornik | 2009-06-13 21:26:32 +0200 (Sat, 13 Jun 2009) | 2 lines
+
+the options for custom border color were made independent
+
+------------------------------------------------------------------------
+r1742 | zas_ | 2009-06-11 20:18:07 +0200 (Thu, 11 Jun 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1741 | zas_ | 2009-06-11 19:34:37 +0200 (Thu, 11 Jun 2009) | 1 line
+
+Fix up compilation using make -jN: sometimes it fails due to order of headers inclusion.
+------------------------------------------------------------------------
+r1740 | nadvornik | 2009-06-10 22:45:24 +0200 (Wed, 10 Jun 2009) | 2 lines
+
+make sure that a directory exists on saving desktop files
+
+------------------------------------------------------------------------
+r1739 | nadvornik | 2009-06-10 22:26:47 +0200 (Wed, 10 Jun 2009) | 9 lines
+
+do not install helper scripts into /usr/bin 
+
+- install the helper scripts into pkglibdir, that is /usr/lib/geeqie
+- add the directory to $PATH on startup - the Exec line in desktop files
+  does not have to contain full path
+
+fixes
+https://sourceforge.net/tracker/?func=detail&aid=2801121&group_id=222125&atid=1054680
+
+------------------------------------------------------------------------
+r1738 | nadvornik | 2009-06-09 21:12:37 +0200 (Tue, 09 Jun 2009) | 4 lines
+
+enabled color management in img-view
+
+patch by Omari Stephens
+
+------------------------------------------------------------------------
+r1737 | nadvornik | 2009-06-09 21:08:52 +0200 (Tue, 09 Jun 2009) | 4 lines
+
+fixed leak in image_post_process_color
+
+patch by Omari Stephens
+
+------------------------------------------------------------------------
+r1736 | nadvornik | 2009-06-08 21:05:49 +0200 (Mon, 08 Jun 2009) | 4 lines
+
+unify code paths for New directory
+keep the directory visible after rename
+https://sourceforge.net/tracker/?func=detail&aid=1951183&group_id=222125&atid=1054680
+
+------------------------------------------------------------------------
+r1735 | nadvornik | 2009-06-07 12:11:05 +0200 (Sun, 07 Jun 2009) | 4 lines
+
+do not show wide frame in single image mode
+it partially fixes
+https://sourceforge.net/tracker/?func=detail&aid=2797348&group_id=222125&atid=1054683
+
+------------------------------------------------------------------------
+r1734 | nadvornik | 2009-06-07 00:51:55 +0200 (Sun, 07 Jun 2009) | 2 lines
+
+added mark filter to menu - now it is possible to assign hotkeys
+
+------------------------------------------------------------------------
+r1733 | nadvornik | 2009-06-06 21:39:46 +0200 (Sat, 06 Jun 2009) | 3 lines
+
+preserve zoom value on fullscreen startup
+
+
+------------------------------------------------------------------------
+r1732 | nadvornik | 2009-06-06 19:28:16 +0200 (Sat, 06 Jun 2009) | 4 lines
+
+swap x and y scale when scaling rotated images - it fixes tiles that were
+sometimes off by 1 pixel - thanks Petr for reporting,
+code cleanup
+
+------------------------------------------------------------------------
+r1731 | zas_ | 2009-06-06 19:02:21 +0200 (Sat, 06 Jun 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1730 | nadvornik | 2009-06-06 18:14:07 +0200 (Sat, 06 Jun 2009) | 5 lines
+
+better implementation of tree_view_row_get_visibility,
+gtk_tree_view_set_cursor is not sufficient in some cases, call also
+tree_view_row_make_visible
+
+
+------------------------------------------------------------------------
+r1729 | nadvornik | 2009-06-06 17:33:56 +0200 (Sat, 06 Jun 2009) | 3 lines
+
+do not call signal handler from vdtree_row_expanded
+it fixes tree view for user-entered hidden directories
+
+------------------------------------------------------------------------
+r1728 | nadvornik | 2009-06-06 13:15:09 +0200 (Sat, 06 Jun 2009) | 2 lines
+
+reduced jumping of directory tree when user clicks on folders
+
+------------------------------------------------------------------------
+r1727 | nadvornik | 2009-06-05 23:52:37 +0200 (Fri, 05 Jun 2009) | 2 lines
+
+simplified the code around vd_select_row
+
+------------------------------------------------------------------------
+r1726 | nadvornik | 2009-06-04 23:07:03 +0200 (Thu, 04 Jun 2009) | 7 lines
+
+use layout_set_fd() for changing images from a slideshow
+- this updates folder and icon in recursive slideshow mode
+
+preserve slideshow on layout change - fixes
+  https://sourceforge.net/tracker/?func=detail&aid=1998513&group_id=222125&atid=1054680
+
+
+------------------------------------------------------------------------
+r1725 | zas_ | 2009-06-04 21:51:20 +0200 (Thu, 04 Jun 2009) | 1 line
+
+Add an option to Image preferences to restrict custom border to fullscreen mode only. Bug 2798062.
+------------------------------------------------------------------------
+r1724 | mow | 2009-06-04 18:07:41 +0200 (Thu, 04 Jun 2009) | 4 lines
+
+Ongoing translation
+
+Now the most is translated to German language. Just the photographic
+notions are missing.
+------------------------------------------------------------------------
+r1723 | mow | 2009-06-04 18:07:16 +0200 (Thu, 04 Jun 2009) | 1 line
+
+Change the order of columns for editors dialogue
+------------------------------------------------------------------------
+r1722 | nadvornik | 2009-06-03 22:05:19 +0200 (Wed, 03 Jun 2009) | 2 lines
+
+regroup sidecar files when an operation on partial group is finished
+
+------------------------------------------------------------------------
+r1721 | nadvornik | 2009-06-03 00:33:53 +0200 (Wed, 03 Jun 2009) | 11 lines
+
+changed selection behavior as requested at
+http://sourceforge.net/tracker/?func=detail&aid=2789933&group_id=222125&atid=1054680
+
+file view - sidecars are added to the selection if they were expicitly selected
+            or if the entry is collapsed
+icon view - selection always contains sidecars
+
+file operations splits partially selected groups - selected files have
+disabled grouping
+
+
+------------------------------------------------------------------------
+r1720 | zas_ | 2009-06-01 18:37:30 +0200 (Mon, 01 Jun 2009) | 1 line
+
+Minor code cleanup and redundancy reduction.
+------------------------------------------------------------------------
+r1719 | nadvornik | 2009-05-31 16:32:39 +0200 (Sun, 31 May 2009) | 2 lines
+
+fixed incorrect type conversion
+
+------------------------------------------------------------------------
+r1718 | nadvornik | 2009-05-31 15:32:09 +0200 (Sun, 31 May 2009) | 3 lines
+
+do not display menus ("FileMenu" etc.) in accelerator configuration
+improved tooltip texts
+
+------------------------------------------------------------------------
+r1717 | nadvornik | 2009-05-31 13:08:00 +0200 (Sun, 31 May 2009) | 2 lines
+
+do not block the files sent to external editors like gimp
+
+------------------------------------------------------------------------
+r1716 | nadvornik | 2009-05-30 22:18:22 +0200 (Sat, 30 May 2009) | 5 lines
+
+preserve image center over short periods when the "broken image" icon is
+displayed
+http://sourceforge.net/tracker/?func=detail&aid=2793057&group_id=222125&atid=1054680
+
+
+------------------------------------------------------------------------
+r1714 | zas_ | 2009-05-26 21:41:22 +0200 (Tue, 26 May 2009) | 1 line
+
+Add .desktop files to restore lossless jpeg rotation via editors.
+------------------------------------------------------------------------
+r1713 | nadvornik | 2009-05-23 23:23:06 +0200 (Sat, 23 May 2009) | 4 lines
+
+added doxygen.conf
+https://sourceforge.net/tracker/?func=detail&aid=2795068&group_id=222125&atid=1054680
+
+
+------------------------------------------------------------------------
+r1712 | nadvornik | 2009-05-23 23:07:21 +0200 (Sat, 23 May 2009) | 3 lines
+
+enabled PageSize code
+https://bugzilla.redhat.com/show_bug.cgi?id=222639
+
+------------------------------------------------------------------------
+r1711 | zas_ | 2009-05-21 11:54:20 +0200 (Thu, 21 May 2009) | 1 line
+
+Add missing vim modeline.
+------------------------------------------------------------------------
+r1710 | zas_ | 2009-05-21 11:20:48 +0200 (Thu, 21 May 2009) | 1 line
+
+Attempt to use stock gtk icons for directory list and tree views.
+------------------------------------------------------------------------
+r1709 | zas_ | 2009-05-16 13:31:48 +0200 (Sat, 16 May 2009) | 1 line
+
+Fix up too short array, reported by Michael Schwendt.
+------------------------------------------------------------------------
+r1708 | zas_ | 2009-05-16 10:48:21 +0200 (Sat, 16 May 2009) | 11 lines
+
+Fix geeqie.desktop to match spec. Patch by Michael Schwendt.
+
+
+$ desktop-file-validate geeqie.desktop
+geeqie.desktop: warning: value "Application;Graphics;Viewer;" for key
+"Categories" in group "Desktop Entry" contains a deprecated value
+"Application"
+
+http://standards.freedesktop.org/menu-spec/menu-spec-1.0.html
+
+
+------------------------------------------------------------------------
+r1707 | zas_ | 2009-05-14 22:45:34 +0200 (Thu, 14 May 2009) | 1 line
+
+Fix up unused variables warnings.
+------------------------------------------------------------------------
+r1706 | zas_ | 2009-05-14 22:32:14 +0200 (Thu, 14 May 2009) | 1 line
+
+Merge common thumb code from view_file_list and view_file_icon to view_file.
+------------------------------------------------------------------------
+r1704 | nadvornik | 2009-05-12 22:54:58 +0200 (Tue, 12 May 2009) | 2 lines
+
+added some notes to README file
+
+------------------------------------------------------------------------
+r1703 | nadvornik | 2009-05-12 22:38:26 +0200 (Tue, 12 May 2009) | 2 lines
+
+fixed compilation with older gtk
+
+------------------------------------------------------------------------
+r1702 | nadvornik | 2009-05-12 22:17:03 +0200 (Tue, 12 May 2009) | 2 lines
+
+updated TODO list
+
+------------------------------------------------------------------------
+r1701 | nadvornik | 2009-05-12 20:25:18 +0200 (Tue, 12 May 2009) | 2 lines
+
+added GPS map support - patch by Colin Clark 
+
+------------------------------------------------------------------------
+r1700 | zas_ | 2009-05-12 08:54:05 +0200 (Tue, 12 May 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1699 | zas_ | 2009-05-12 08:42:20 +0200 (Tue, 12 May 2009) | 1 line
+
+Fix up tooltip text: Color _Management -> Color Management.
+------------------------------------------------------------------------
+r1698 | nadvornik | 2009-05-11 22:50:13 +0200 (Mon, 11 May 2009) | 5 lines
+
+added keyboard configuration dialog 
+mostly written by Petr Ostadal
+alternate keys are not yet fully configurable - the corresponding code
+is commented out
+
+------------------------------------------------------------------------
+r1697 | zas_ | 2009-05-11 12:10:13 +0200 (Mon, 11 May 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1696 | zas_ | 2009-05-11 11:55:39 +0200 (Mon, 11 May 2009) | 1 line
+
+Include missing header file.
+------------------------------------------------------------------------
+r1695 | nadvornik | 2009-05-09 21:45:24 +0200 (Sat, 09 May 2009) | 2 lines
+
+expose the file grouping flag to the user
+
+------------------------------------------------------------------------
+r1694 | nadvornik | 2009-05-09 21:25:51 +0200 (Sat, 09 May 2009) | 2 lines
+
+extended the list of grouped metadata tags
+
+------------------------------------------------------------------------
+r1693 | nadvornik | 2009-05-09 19:02:35 +0200 (Sat, 09 May 2009) | 2 lines
+
+added some structure to the metadata preferences dialog
+
+------------------------------------------------------------------------
+r1692 | nadvornik | 2009-05-08 20:29:09 +0200 (Fri, 08 May 2009) | 2 lines
+
+better tooltip for disabled lcms
+
+------------------------------------------------------------------------
+r1691 | nadvornik | 2009-05-07 22:24:35 +0200 (Thu, 07 May 2009) | 2 lines
+
+limit metadata details dialog size
+
+------------------------------------------------------------------------
+r1690 | nadvornik | 2009-05-07 21:52:38 +0200 (Thu, 07 May 2009) | 2 lines
+
+fixed keyword tree initialization
+
+------------------------------------------------------------------------
+r1689 | nadvornik | 2009-05-07 21:38:07 +0200 (Thu, 07 May 2009) | 2 lines
+
+updated version string to beta1
+
+------------------------------------------------------------------------
+r1688 | nadvornik | 2009-05-07 21:34:33 +0200 (Thu, 07 May 2009) | 2 lines
+
+enabled XDG directory layout
+
+------------------------------------------------------------------------
+r1687 | nadvornik | 2009-05-07 21:30:15 +0200 (Thu, 07 May 2009) | 2 lines
+
+use "keywords" instead of "tags" in option name, it is more consistent
+
+------------------------------------------------------------------------
+r1686 | zas_ | 2009-05-03 19:54:37 +0200 (Sun, 03 May 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1685 | nadvornik | 2009-05-03 00:34:46 +0200 (Sun, 03 May 2009) | 2 lines
+
+added stock icons for slideshow
+
+------------------------------------------------------------------------
+r1684 | nadvornik | 2009-05-03 00:19:42 +0200 (Sun, 03 May 2009) | 2 lines
+
+updated czech translation
+
+------------------------------------------------------------------------
+r1683 | nadvornik | 2009-05-02 13:14:24 +0200 (Sat, 02 May 2009) | 2 lines
+
+force the metadata dialog if it was triggered by the menu or the button
+
+------------------------------------------------------------------------
+r1682 | nadvornik | 2009-05-02 12:59:36 +0200 (Sat, 02 May 2009) | 2 lines
+
+action table clean up
+
+------------------------------------------------------------------------
+r1681 | nadvornik | 2009-05-02 11:15:56 +0200 (Sat, 02 May 2009) | 3 lines
+
+improved pixel info, changed the menu entry from "Hide" to "Show",
+added it on default status bar
+
+------------------------------------------------------------------------
+r1680 | nadvornik | 2009-05-02 01:40:01 +0200 (Sat, 02 May 2009) | 3 lines
+
+"<control>S" seems to be hardcoded hotkey for GTK_STOCK_SAVE
+use <shift>S for sort manager
+
+------------------------------------------------------------------------
+r1679 | nadvornik | 2009-05-02 01:15:51 +0200 (Sat, 02 May 2009) | 3 lines
+
+- handle color profile and write metadata buttons on statusbar by ui_manager
+- statusbar buttons made configurable
+
+------------------------------------------------------------------------
+r1678 | nadvornik | 2009-05-01 11:49:27 +0200 (Fri, 01 May 2009) | 3 lines
+
+allow external editors without parameters, as long as they are in
+category 'X-Geeqie'
+
+------------------------------------------------------------------------
+r1677 | nadvornik | 2009-04-29 22:28:54 +0200 (Wed, 29 Apr 2009) | 2 lines
+
+updated czech translation, not yet complete
+
+------------------------------------------------------------------------
+r1676 | zas_ | 2009-04-28 23:40:00 +0200 (Tue, 28 Apr 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1675 | zas_ | 2009-04-28 23:38:20 +0200 (Tue, 28 Apr 2009) | 1 line
+
+Update POTFILES.in: cellrenderericon.c removed, color-man.c added.
+------------------------------------------------------------------------
+r1674 | zas_ | 2009-04-28 23:37:27 +0200 (Tue, 28 Apr 2009) | 1 line
+
+Fix up po/Makefile to rebuild geeqie.pot when POTFILES.in was modified. Without this change, new translatable strings in recently added files were not available for translation in various .po files after a make update-po. Makefile.in.in.patch was modified to include this fix plus some minor cleanups.
+------------------------------------------------------------------------
+r1673 | nadvornik | 2009-04-28 22:09:41 +0200 (Tue, 28 Apr 2009) | 2 lines
+
+do not translate internal strings
+
+------------------------------------------------------------------------
+r1672 | nadvornik | 2009-04-28 08:55:56 +0200 (Tue, 28 Apr 2009) | 2 lines
+
+added new files
+
+------------------------------------------------------------------------
+r1671 | nadvornik | 2009-04-28 08:54:59 +0200 (Tue, 28 Apr 2009) | 2 lines
+
+compilation fixes for older glib and gtk
+
+------------------------------------------------------------------------
+r1670 | zas_ | 2009-04-28 01:07:59 +0200 (Tue, 28 Apr 2009) | 1 line
+
+French translation was updated: fix few main menu mnenonics.
+------------------------------------------------------------------------
+r1669 | nadvornik | 2009-04-27 23:39:56 +0200 (Mon, 27 Apr 2009) | 2 lines
+
+compilation fixes
+
+------------------------------------------------------------------------
+r1668 | nadvornik | 2009-04-27 22:19:21 +0200 (Mon, 27 Apr 2009) | 2 lines
+
+"make dist" fixes
+
+------------------------------------------------------------------------
+r1667 | zas_ | 2009-04-26 16:08:44 +0200 (Sun, 26 Apr 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1666 | nadvornik | 2009-04-26 13:38:28 +0200 (Sun, 26 Apr 2009) | 2 lines
+
+small fixes
+
+------------------------------------------------------------------------
+r1665 | nadvornik | 2009-04-26 11:25:52 +0200 (Sun, 26 Apr 2009) | 2 lines
+
+fixed return from metadata_write_revert
+
+------------------------------------------------------------------------
+r1664 | nadvornik | 2009-04-26 11:01:35 +0200 (Sun, 26 Apr 2009) | 2 lines
+
+added an option to write image orientation to the metadata
+
+------------------------------------------------------------------------
+r1663 | nadvornik | 2009-04-26 00:08:09 +0200 (Sun, 26 Apr 2009) | 3 lines
+
+separated Orientation and Grayscale functions
+moved Grayscale to Color management menu
+
+------------------------------------------------------------------------
+r1662 | nadvornik | 2009-04-25 22:55:11 +0200 (Sat, 25 Apr 2009) | 2 lines
+
+added more info to the details dialog
+
+------------------------------------------------------------------------
+r1661 | nadvornik | 2009-04-25 01:26:49 +0200 (Sat, 25 Apr 2009) | 2 lines
+
+added details dialog for other operations too
+
+------------------------------------------------------------------------
+r1660 | nadvornik | 2009-04-25 00:51:00 +0200 (Sat, 25 Apr 2009) | 2 lines
+
+added possibility to exclude individual files
+
+------------------------------------------------------------------------
+r1659 | nadvornik | 2009-04-23 23:15:14 +0200 (Thu, 23 Apr 2009) | 2 lines
+
+fixed writting metadata behavior at exit
+
+------------------------------------------------------------------------
+r1658 | nadvornik | 2009-04-23 23:12:19 +0200 (Thu, 23 Apr 2009) | 2 lines
+
+added an image to the file details dialog
+
+------------------------------------------------------------------------
+r1657 | nadvornik | 2009-04-23 22:48:03 +0200 (Thu, 23 Apr 2009) | 2 lines
+
+differentiate between "Cancel" and "Discard changes"
+
+------------------------------------------------------------------------
+r1656 | zas_ | 2009-04-21 23:47:11 +0200 (Tue, 21 Apr 2009) | 1 line
+
+Fix up few warnings (especially on 64bits platforms).
+------------------------------------------------------------------------
+r1655 | nadvornik | 2009-04-21 23:16:32 +0200 (Tue, 21 Apr 2009) | 2 lines
+
+fixed metadata.confirm_on_dir_change
+
+------------------------------------------------------------------------
+r1654 | nadvornik | 2009-04-21 23:07:28 +0200 (Tue, 21 Apr 2009) | 2 lines
+
+added possibility to show modifiied metadata before write
+
+------------------------------------------------------------------------
+r1653 | nadvornik | 2009-04-20 23:34:16 +0200 (Mon, 20 Apr 2009) | 8 lines
+
+added remote interface for exporting additional info (sidecars,
+destination) to external commands
+
+see the symlink command for an example
+
+http://sourceforge.net/tracker/?func=detail&aid=2488845&group_id=222125&atid=1054680
+
+
+------------------------------------------------------------------------
+r1652 | nadvornik | 2009-04-20 23:07:52 +0200 (Mon, 20 Apr 2009) | 2 lines
+
+write info and debugging messages to stderr
+
+------------------------------------------------------------------------
+r1651 | nadvornik | 2009-04-20 21:44:50 +0200 (Mon, 20 Apr 2009) | 2 lines
+
+improved remote protocol to allow bidirectional communication
+
+------------------------------------------------------------------------
+r1650 | nadvornik | 2009-04-17 22:26:22 +0200 (Fri, 17 Apr 2009) | 2 lines
+
+fixed tests for vd_find_row return value
+
+------------------------------------------------------------------------
+r1649 | mow | 2009-04-14 23:51:29 +0200 (Tue, 14 Apr 2009) | 3 lines
+
+German translation updated
+
+With some help from de.alt.rec.digitalfotografie.
+------------------------------------------------------------------------
+r1648 | zas_ | 2009-04-14 22:54:50 +0200 (Tue, 14 Apr 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1647 | nadvornik | 2009-04-14 00:40:47 +0200 (Tue, 14 Apr 2009) | 2 lines
+
+color profile fixes
+
+------------------------------------------------------------------------
+r1646 | nadvornik | 2009-04-13 16:39:50 +0200 (Mon, 13 Apr 2009) | 2 lines
+
+show color management status on statusbar
+
+------------------------------------------------------------------------
+r1645 | nadvornik | 2009-04-13 12:55:49 +0200 (Mon, 13 Apr 2009) | 3 lines
+
+support X11 screen profile
+http://freedesktop.org/wiki/ICC_Profiles_in_X_Specification_0.3
+
+------------------------------------------------------------------------
+r1644 | nadvornik | 2009-04-13 10:09:56 +0200 (Mon, 13 Apr 2009) | 2 lines
+
+moved color profiles from statusbar to View menu
+
+------------------------------------------------------------------------
+r1643 | mow | 2009-04-12 19:58:55 +0200 (Sun, 12 Apr 2009) | 1 line
+
+German translation updated
+------------------------------------------------------------------------
+r1642 | zas_ | 2009-04-12 17:06:43 +0200 (Sun, 12 Apr 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1641 | mow | 2009-04-12 13:02:03 +0200 (Sun, 12 Apr 2009) | 3 lines
+
+Update POTFILES.in
+
+metadata.c was not in the POTFILES.in.
+------------------------------------------------------------------------
+r1640 | nadvornik | 2009-04-12 10:36:53 +0200 (Sun, 12 Apr 2009) | 2 lines
+
+fixed ambiguous strings
+
+------------------------------------------------------------------------
+r1639 | nadvornik | 2009-04-11 23:28:46 +0200 (Sat, 11 Apr 2009) | 2 lines
+
+improved default keyword tree
+
+------------------------------------------------------------------------
+r1638 | mow | 2009-04-11 22:46:37 +0200 (Sat, 11 Apr 2009) | 4 lines
+
+Fix that the output of msgfmt could be singular
+
+The output of msgfmt could be singular if there is only one translation
+of the given type.
+------------------------------------------------------------------------
+r1636 | mow | 2009-04-11 21:51:03 +0200 (Sat, 11 Apr 2009) | 4 lines
+
+Allow to configure case handling of keywords
+
+Sometimes I use just different case for keywords. This should be
+chooseable.
+------------------------------------------------------------------------
+r1635 | nadvornik | 2009-04-11 21:35:03 +0200 (Sat, 11 Apr 2009) | 2 lines
+
+fixed updating of filelist marks
+
+------------------------------------------------------------------------
+r1634 | mow | 2009-04-11 20:34:12 +0200 (Sat, 11 Apr 2009) | 9 lines
+
+Adding debian packaging informations
+
+Adding debian control directory to create a geeqie debian package.
+
+NOTES: (To be fixed in autoconf)
+   - LIRC must be explicit _enabled_ instead of disable. This is wrong
+     documented.
+   - It might be a good idea to derivate the readmedir and the htmldir
+     from docdir.
+------------------------------------------------------------------------
+r1633 | mow | 2009-04-11 18:34:25 +0200 (Sat, 11 Apr 2009) | 4 lines
+
+Implementing CTRL-W to close advanced exif window
+
+In fact, this implements keypress event handling in the advanced exif
+window to handle CTRL-W event.
+------------------------------------------------------------------------
+r1632 | mow | 2009-04-10 15:54:08 +0200 (Fri, 10 Apr 2009) | 5 lines
+
+Just update the internal sort method
+
+There is no other use of the internal sort method than speeding up the
+sorting of a collection. So setting it to SORT_NONE is the better
+choice.
+------------------------------------------------------------------------
+r1631 | mow | 2009-04-10 15:44:37 +0200 (Fri, 10 Apr 2009) | 4 lines
+
+Implement random sort method for collections
+
+This patch allows to randomize the collections. (Closes: #2497413)
+https://sourceforge.net/tracker/?func=detail&aid=2497413&group_id=222125&atid=1054683
+------------------------------------------------------------------------
+r1630 | mow | 2009-04-10 12:18:42 +0200 (Fri, 10 Apr 2009) | 9 lines
+
+Fix the broken statistic generation
+
+The output of msgfmt has different format if no fuzzy translations (or
+even no translated) are available. I fixed that by parsing the output of
+msgfmt more intelligent.
+
+Drawback of the solution is that the parsing will not work if the output
+of msgfmt use not the strings "translated messages", "fuzzy
+translations" and "untranslated messages".
+------------------------------------------------------------------------
+r1629 | mow | 2009-04-10 11:47:40 +0200 (Fri, 10 Apr 2009) | 4 lines
+
+German translation updated
+
+Also included a update in the README file. Finally I add myself to that
+file. :-)
+------------------------------------------------------------------------
+r1628 | mow | 2009-04-10 11:47:20 +0200 (Fri, 10 Apr 2009) | 8 lines
+
+Add pgettext for some ambiguous strings
+
+There are some strings which are ambiguous to translate. There is the
+pgettext function to solf that problem.
+
+For example, locations can be translated to german by Ortsangaben
+(geographical) or by Pfad (filesystem). I am sure there are also some
+ambiguous in other languages.
+------------------------------------------------------------------------
+r1627 | zas_ | 2009-04-09 22:40:16 +0200 (Thu, 09 Apr 2009) | 1 line
+
+Minor french translations fixes.
+------------------------------------------------------------------------
+r1626 | zas_ | 2009-04-09 22:07:16 +0200 (Thu, 09 Apr 2009) | 1 line
+
+Fix histogram labels in french.
+------------------------------------------------------------------------
+r1625 | zas_ | 2009-04-09 21:58:03 +0200 (Thu, 09 Apr 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1624 | nadvornik | 2009-04-08 21:32:30 +0200 (Wed, 08 Apr 2009) | 4 lines
+
+improved Exiv2 error reporting:
+- use correct charset
+- respect --debug
+
+------------------------------------------------------------------------
+r1623 | mow | 2009-04-07 01:59:54 +0200 (Tue, 07 Apr 2009) | 4 lines
+
+Nest new keywords inside existing
+
+It is boring to first add a bunch of keywords and then move them to the
+new location. It is more natural to add them as child to existing ons.
+------------------------------------------------------------------------
+r1622 | mow | 2009-04-07 01:59:38 +0200 (Tue, 07 Apr 2009) | 4 lines
+
+Fix the is_keyword bug
+
+The is_keyword would be new set when placing the radio buttons. This
+Patch fix it by setting the variable afterwards.
+------------------------------------------------------------------------
+r1621 | mow | 2009-04-07 01:39:27 +0200 (Tue, 07 Apr 2009) | 1 line
+
+Set the focus for new keyword dialog
+------------------------------------------------------------------------
+r1620 | zas_ | 2009-04-07 00:18:13 +0200 (Tue, 07 Apr 2009) | 1 line
+
+Disable unused functions when compiled without threads support, prevents few warnings.
+------------------------------------------------------------------------
+r1619 | zas_ | 2009-04-07 00:13:54 +0200 (Tue, 07 Apr 2009) | 10 lines
+
+Fix up event source ids type: gint -> guint.
+Functions like g_timeout_add() or g_idle_add() return a guint
+greater than 0, but in most places it was wrongly stored as int
+and initialized to -1.
+This broke assertions matching in g_source_remove() for example
+since id was always greater than 0 even when timer was not set
+(-1 was casted to the biggest guint).
+
+
+
+------------------------------------------------------------------------
+r1618 | nadvornik | 2009-04-06 23:52:49 +0200 (Mon, 06 Apr 2009) | 2 lines
+
+re-ordered some options, improved descriptions
+
+------------------------------------------------------------------------
+r1617 | nadvornik | 2009-04-06 22:38:54 +0200 (Mon, 06 Apr 2009) | 2 lines
+
+unconditionally enable fast jpeg thumbnailing
+
+------------------------------------------------------------------------
+r1616 | nadvornik | 2009-04-06 21:53:59 +0200 (Mon, 06 Apr 2009) | 2 lines
+
+added pane_notify_selection to pane API
+
+------------------------------------------------------------------------
+r1615 | zas_ | 2009-04-06 21:13:35 +0200 (Mon, 06 Apr 2009) | 1 line
+
+Remove unused field in IconData.
+------------------------------------------------------------------------
+r1614 | nadvornik | 2009-04-06 21:09:55 +0200 (Mon, 06 Apr 2009) | 2 lines
+
+optimized sidecar file check
+
+------------------------------------------------------------------------
+r1613 | nadvornik | 2009-04-05 11:46:49 +0200 (Sun, 05 Apr 2009) | 2 lines
+
+fixed bug in overlay drawing
+
+------------------------------------------------------------------------
+r1612 | nadvornik | 2009-04-05 11:25:48 +0200 (Sun, 05 Apr 2009) | 2 lines
+
+improved Scroll reset method in preferences dialog
+
+------------------------------------------------------------------------
+r1611 | nadvornik | 2009-04-05 01:12:19 +0200 (Sun, 05 Apr 2009) | 3 lines
+
+disabled 2-pass rendering also affect color correction
+https://sourceforge.net/tracker/?func=detail&aid=2689249&group_id=222125&atid=1054683
+
+------------------------------------------------------------------------
+r1610 | nadvornik | 2009-04-05 00:29:25 +0200 (Sun, 05 Apr 2009) | 2 lines
+
+added option that simplifies saving of multi-window configurations
+
+------------------------------------------------------------------------
+r1609 | nadvornik | 2009-04-05 00:09:50 +0200 (Sun, 05 Apr 2009) | 2 lines
+
+dropped show_copy_path option
+
+------------------------------------------------------------------------
+r1608 | nadvornik | 2009-04-04 23:53:12 +0200 (Sat, 04 Apr 2009) | 2 lines
+
+dropped read_buffer options - they don't have any significant effect
+
+------------------------------------------------------------------------
+r1607 | nadvornik | 2009-04-04 23:14:34 +0200 (Sat, 04 Apr 2009) | 2 lines
+
+startup path options simplified and moved to layout options
+
+------------------------------------------------------------------------
+r1606 | nadvornik | 2009-04-04 22:20:17 +0200 (Sat, 04 Apr 2009) | 4 lines
+
+moved options from Advanced tab to other tabs
+TODO: add Advanced section on each tab
+
+
+------------------------------------------------------------------------
+r1605 | nadvornik | 2009-04-04 21:10:49 +0200 (Sat, 04 Apr 2009) | 2 lines
+
+added metadata_read_GPS_coord
+
+------------------------------------------------------------------------
+r1604 | nadvornik | 2009-04-04 18:42:54 +0200 (Sat, 04 Apr 2009) | 3 lines
+
+set current fd when the bar is shown again
+https://sourceforge.net/tracker/?func=detail&atid=1054680&aid=2729157&group_id=222125
+
+------------------------------------------------------------------------
+r1603 | nadvornik | 2009-04-03 21:35:34 +0200 (Fri, 03 Apr 2009) | 2 lines
+
+convert commandline to utf8
+
+------------------------------------------------------------------------
+r1602 | zas_ | 2009-04-03 01:11:07 +0200 (Fri, 03 Apr 2009) | 1 line
+
+Force thumbnails refreshing when thumbnails dimensions are modified through Preferences.
+------------------------------------------------------------------------
+r1601 | zas_ | 2009-04-02 18:10:12 +0200 (Thu, 02 Apr 2009) | 5 lines
+
+Use full path in genmarshal.
+This allows out of source builds with fakeroot.
+Patch by Lukas Jirkovsky.
+
+
+------------------------------------------------------------------------
+r1600 | zas_ | 2009-04-01 00:23:33 +0200 (Wed, 01 Apr 2009) | 1 line
+
+Cleanup.
+------------------------------------------------------------------------
+r1599 | nadvornik | 2009-03-31 23:33:54 +0200 (Tue, 31 Mar 2009) | 6 lines
+
+improved next/prev operation on sidecar files
+
+all operations with list index seem to be broken but IMHO this fix is
+sufficient for 1.0. Then it definitely needs a better interface.
+
+
+------------------------------------------------------------------------
+r1598 | zas_ | 2009-03-31 22:57:31 +0200 (Tue, 31 Mar 2009) | 1 line
+
+Add and install a template to be used as new editor. Need more work.
+------------------------------------------------------------------------
+r1597 | nadvornik | 2009-03-31 22:53:37 +0200 (Tue, 31 Mar 2009) | 2 lines
+
+fixed vdlist_find_row return value
+
+------------------------------------------------------------------------
+r1596 | nadvornik | 2009-03-31 22:35:04 +0200 (Tue, 31 Mar 2009) | 2 lines
+
+use a better signal
+
+------------------------------------------------------------------------
+r1595 | zas_ | 2009-03-31 22:22:47 +0200 (Tue, 31 Mar 2009) | 1 line
+
+Make desktop window list checkboxes centered and not activatable.
+------------------------------------------------------------------------
+r1594 | nadvornik | 2009-03-31 22:05:16 +0200 (Tue, 31 Mar 2009) | 2 lines
+
+improved debug messages
+
+------------------------------------------------------------------------
+r1593 | nadvornik | 2009-03-31 21:34:39 +0200 (Tue, 31 Mar 2009) | 4 lines
+
+report pixbuf loader errors
+https://sourceforge.net/tracker/?func=detail&aid=2720577&group_id=222125&atid=1054680
+
+
+------------------------------------------------------------------------
+r1592 | zas_ | 2009-03-31 20:45:33 +0200 (Tue, 31 Mar 2009) | 1 line
+
+Allow to delete an editor's desktop file from editors list window.
+------------------------------------------------------------------------
+r1591 | zas_ | 2009-03-30 22:42:06 +0200 (Mon, 30 Mar 2009) | 1 line
+
+Update POTFILES.in and french translation.
+------------------------------------------------------------------------
+r1590 | zas_ | 2009-03-30 22:01:27 +0200 (Mon, 30 Mar 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1589 | zas_ | 2009-03-30 21:57:44 +0200 (Mon, 30 Mar 2009) | 1 line
+
+Update Changelog file.
+------------------------------------------------------------------------
 r1588 | zas_ | 2009-03-30 21:01:09 +0200 (Mon, 30 Mar 2009) | 7 lines
 
 Fixed bug where pixel/color information at x=0 coordinates werent shown:
