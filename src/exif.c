@@ -927,7 +927,7 @@ static gint exif_parse_IFD_entry(ExifData *exif, guchar *tiff, guint offset,
 	if (data_length > 4)
 		{
 		data_offset = data_val;
-		if (size < data_offset + data_length)
+		if (size < data_offset || size < data_offset + data_length)
 			{
 			log_printf("warning: exif tag %s data will overrun end of file, ignored.\n", marker->key);
 			return -1;
