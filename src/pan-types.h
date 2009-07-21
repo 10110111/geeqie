@@ -225,9 +225,6 @@ struct _PanWindow
 	PanItem *search_pi;
 
 	gint idle_id;
-	
-	/* file list for edit menu */
-	GList *editmenu_fd_list;
 };
 
 typedef struct _PanGrid PanGrid;

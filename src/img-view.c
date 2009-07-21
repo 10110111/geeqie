@@ -49,9 +49,6 @@ struct _ViewWindow
 
 	GList *list;
 	GList *list_pointer;
-
-	/* file list for edit menu */
-	GList *editmenu_fd_list;
 };
 
 
@@ -1238,10 +1235,9 @@ static void view_set_layout_path_cb(GtkWidget *widget, gpointer data)
 
 static void view_popup_menu_destroy_cb(GtkWidget *widget, gpointer data)
 {
-	ViewWindow *vw = data;
+	GList *editmenu_fd_list = data;
 
-	filelist_free(vw->editmenu_fd_list);
-	vw->editmenu_fd_list = NULL;
+	filelist_free(editmenu_fd_list);
 }		
 
 static GList *view_window_get_fd_list(ViewWindow *vw)
@@ -1262,11 +1258,10 @@ static GtkWidget *view_popup_menu(ViewWindow *vw)
 {
 	GtkWidget *menu;
 	GtkWidget *item;
+	GList *editmenu_fd_list;
 
 	menu = popup_menu_short_lived();
 
-	g_signal_connect(G_OBJECT(menu), "destroy",
-			 G_CALLBACK(view_popup_menu_destroy_cb), vw);
 
 	menu_item_add_stock(menu, _("Zoom _in"), GTK_STOCK_ZOOM_IN, G_CALLBACK(view_zoom_in_cb), vw);
 	menu_item_add_stock(menu, _("Zoom _out"), GTK_STOCK_ZOOM_OUT, G_CALLBACK(view_zoom_out_cb), vw);
@@ -1274,8 +1269,10 @@ static GtkWidget *view_popup_menu(ViewWindow *vw)
 	menu_item_add_stock(menu, _("Fit image to _window"), GTK_STOCK_ZOOM_FIT, G_CALLBACK(view_zoom_fit_cb), vw);
 	menu_item_add_divider(menu);
 
- 	vw->editmenu_fd_list = view_window_get_fd_list(vw);
-	item = submenu_add_edit(menu, NULL, G_CALLBACK(view_edit_cb), vw, vw->editmenu_fd_list);
+ 	editmenu_fd_list = view_window_get_fd_list(vw);
+	g_signal_connect(G_OBJECT(menu), "destroy",
+			 G_CALLBACK(view_popup_menu_destroy_cb), editmenu_fd_list);
+	item = submenu_add_edit(menu, NULL, G_CALLBACK(view_edit_cb), vw, editmenu_fd_list);
 	menu_item_add_divider(item);
 	menu_item_add(item, _("Set as _wallpaper"), G_CALLBACK(view_wallpaper_cb), vw);
 

@@ -2778,10 +2778,9 @@ static void pan_close_cb(GtkWidget *widget, gpointer data)
 
 static void pan_popup_menu_destroy_cb(GtkWidget *widget, gpointer data)
 {
-	PanWindow *pw = data;
+	GList *editmenu_fd_list = data;
 
-	filelist_free(pw->editmenu_fd_list);
-	pw->editmenu_fd_list = NULL;
+	filelist_free(editmenu_fd_list);
 }
 
 static GList *pan_view_get_fd_list(PanWindow *pw)
@@ -2800,6 +2799,7 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 	GtkWidget *submenu;
 	GtkWidget *item;
 	gboolean active;
+	GList *editmenu_fd_list;
 
 	active = (pw->click_pi != NULL);
 
@@ -2815,8 +2815,11 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 			    G_CALLBACK(pan_zoom_1_1_cb), pw);
 	menu_item_add_divider(menu);
 
-	pw->editmenu_fd_list = pan_view_get_fd_list(pw);
-	submenu_add_edit(menu, &item, G_CALLBACK(pan_edit_cb), pw, pw->editmenu_fd_list);
+	editmenu_fd_list = pan_view_get_fd_list(pw);
+	g_signal_connect(G_OBJECT(menu), "destroy",
+			 G_CALLBACK(pan_popup_menu_destroy_cb), editmenu_fd_list);
+
+	submenu_add_edit(menu, &item, G_CALLBACK(pan_edit_cb), pw, editmenu_fd_list);
 	gtk_widget_set_sensitive(item, active);
 	
 	menu_item_add_stock_sensitive(menu, _("View in _new window"), GTK_STOCK_NEW, active,

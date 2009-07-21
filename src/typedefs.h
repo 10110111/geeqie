@@ -666,9 +666,6 @@ struct _LayoutWindow
 //	gint bar_width;
 
 	GtkWidget *exif_window;
-
-	/* file list for edit menu */
-	GList *editmenu_fd_list;
 };
 
 struct _ViewDir
