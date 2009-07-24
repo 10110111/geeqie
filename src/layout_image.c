@@ -1879,9 +1879,11 @@ static void layout_image_maint_removed(LayoutWindow *lw, FileData *fd)
 				layout_image_set_collection(lw, cd, new);
 				return;
 				}
+			layout_image_set_fd(lw, NULL);
 			}
-
-		layout_image_set_fd(lw, NULL);
+			
+		/* the image will be set to the next image from the list soon,  
+		   setting it to NULL here is not necessary*/
 		}
 }
 

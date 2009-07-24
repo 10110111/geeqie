@@ -1442,6 +1442,8 @@ static void image_notify_cb(FileData *fd, NotifyType type, gpointer data)
 
 	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE)) && fd == imd->image_fd)
 		{
+		if ((type & NOTIFY_CHANGE) && fd->change && fd->change->type == FILEDATA_CHANGE_DELETE)
+			return; /* keep the image displayed, it will be replaced by the next image from the list soon */
 		DEBUG_1("Notify image: %s %04x", fd->path, type);
 		image_reload(imd);
 		}
