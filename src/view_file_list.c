@@ -476,6 +476,7 @@ void vflist_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 
 	vflist_color_set(vf, VFLIST(vf)->click_fd, FALSE);
 	vf_refresh(vf);
+	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(vf->listview));
 }
 
 void vflist_popup_destroy_cb(GtkWidget *widget, gpointer data)
@@ -1714,8 +1715,6 @@ static void vflist_listview_set_columns(GtkWidget *listview, gboolean thumb, gbo
 	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_DATE);
 	if (!column) return;
 	gtk_tree_view_column_set_visible(column, !multiline);
-
-	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(listview));
 }
 
 static gboolean vflist_is_multiline(ViewFile *vf)
@@ -1950,6 +1949,7 @@ static void vflist_listview_add_column_toggle(ViewFile *vf, gint n, const gchar 
 
 gboolean vflist_set_fd(ViewFile *vf, FileData *dir_fd)
 {
+	gboolean ret;
 	if (!dir_fd) return FALSE;
 	if (vf->dir_fd == dir_fd) return TRUE;
 
@@ -1962,7 +1962,9 @@ gboolean vflist_set_fd(ViewFile *vf, FileData *dir_fd)
 	filelist_free(vf->list);
 	vf->list = NULL;
 
-	return vf_refresh(vf);
+	ret = vf_refresh(vf);
+	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(vf->listview));
+	return ret;
 }
 
 void vflist_destroy_cb(GtkWidget *widget, gpointer data)
