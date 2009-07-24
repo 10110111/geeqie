@@ -37,10 +37,12 @@ enum {
 	FILE_COLUMN_POINTER = 0,
 	FILE_COLUMN_VERSION,
 	FILE_COLUMN_THUMB,
+	FILE_COLUMN_FORMATTED,
 	FILE_COLUMN_NAME,
 	FILE_COLUMN_SIDECARS,
 	FILE_COLUMN_SIZE,
 	FILE_COLUMN_DATE,
+	FILE_COLUMN_EXPANDED,
 	FILE_COLUMN_COLOR,
 	FILE_COLUMN_MARKS,
 	FILE_COLUMN_MARKS_LAST = FILE_COLUMN_MARKS + FILEDATA_MARKS_SIZE - 1,
@@ -53,7 +55,7 @@ enum {
 	FILE_VIEW_COLUMN_MARKS = 0,
 	FILE_VIEW_COLUMN_MARKS_LAST = FILE_VIEW_COLUMN_MARKS + FILEDATA_MARKS_SIZE - 1,
 	FILE_VIEW_COLUMN_THUMB,
-	FILE_VIEW_COLUMN_NAME,
+	FILE_VIEW_COLUMN_FORMATTED,
 	FILE_VIEW_COLUMN_SIZE,
 	FILE_VIEW_COLUMN_DATE,
 	FILE_VIEW_COLUMN_COUNT
@@ -65,6 +67,7 @@ static gboolean vflist_row_is_selected(ViewFile *vf, FileData *fd);
 static gboolean vflist_row_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, gpointer data);
 static void vflist_populate_view(ViewFile *vf);
 static gboolean vflist_is_multiline(ViewFile *vf);
+static void vflist_set_expanded(ViewFile *vf, GtkTreeIter *iter, gboolean expanded);
 
 
 /*
@@ -799,6 +802,18 @@ static gboolean vflist_select_cb(GtkTreeSelection *selection, GtkTreeModel *stor
 	return TRUE;
 }
 
+static void vflist_expand_cb(GtkTreeView *tree_view, GtkTreeIter *iter, GtkTreePath *path, gpointer data)
+{
+	ViewFile *vf = data;
+	vflist_set_expanded(vf, iter, TRUE);
+}
+
+static void vflist_collapse_cb(GtkTreeView *tree_view, GtkTreeIter *iter, GtkTreePath *path, gpointer data)
+{
+	ViewFile *vf = data;
+	vflist_set_expanded(vf, iter, FALSE);
+}
+
 /*
  *-----------------------------------------------------------------------------
  * misc
@@ -812,6 +827,52 @@ static gboolean vflist_dummy_select_cb(GtkTreeSelection *selection, GtkTreeModel
 	return TRUE;
 }
 */
+
+static gchar* vflist_get_formatted(ViewFile *vf, const gchar *name, const gchar *sidecars, const gchar *size, const gchar *time, gboolean expanded)
+ {
+	gboolean multiline = vflist_is_multiline(vf);
+	gchar *text;
+
+	if (multiline)
+		{
+		text = g_strdup_printf("%s %s\n%s\n%s", name, expanded ? "" : sidecars, size, time);
+		}
+	else
+		{
+		text = g_strdup_printf("%s %s", name, expanded ? "" : sidecars);
+		}
+	return text;
+}
+
+static void vflist_set_expanded(ViewFile *vf, GtkTreeIter *iter, gboolean expanded)
+{
+	GtkTreeStore *store;
+	gchar *name;
+	gchar *sidecars;
+	gchar *size;
+	gchar *time;
+	gchar *formatted;
+
+	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
+
+	gtk_tree_model_get(GTK_TREE_MODEL(store), iter,
+					FILE_COLUMN_NAME, &name,
+					FILE_COLUMN_SIDECARS, &sidecars,
+					FILE_COLUMN_SIZE, &size,
+					FILE_COLUMN_DATE, &time,
+					-1);
+	formatted = vflist_get_formatted(vf, name, sidecars, size, time, expanded);
+
+	gtk_tree_store_set(store, iter, FILE_COLUMN_FORMATTED, formatted,
+					FILE_COLUMN_EXPANDED, expanded,
+					-1);
+	g_free(time);
+	g_free(size);
+	g_free(sidecars);
+	g_free(name);
+	g_free(formatted);
+}
+
 static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *iter, FileData *fd)
 {
 	gchar *size;
@@ -820,6 +881,13 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 	const gchar *time = text_from_time(fd->date);
 	gchar *link = islink(fd->path) ? GQ_LINK_STR : "";
 	const gchar *disabled_grouping;
+	gchar *formatted;
+	gboolean expanded = FALSE;
+	
+	if (fd->sidecar_files) /* expanded has no effect on files without sidecars */
+		{
+		gtk_tree_model_get(GTK_TREE_MODEL(store), iter, FILE_COLUMN_EXPANDED, &expanded, -1);
+		}
 
 	sidecars = file_data_sc_list_to_string(fd);
 
@@ -827,9 +895,12 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 	name = g_strdup_printf("%s%s%s", link, fd->name, disabled_grouping);
 	size = text_from_size(fd->size);
 	
+	formatted = vflist_get_formatted(vf, name, sidecars, size, time, expanded);
+	
 	gtk_tree_store_set(store, iter, FILE_COLUMN_POINTER, fd,
 					FILE_COLUMN_VERSION, fd->version,
 					FILE_COLUMN_THUMB, fd->thumb_pixbuf,
+					FILE_COLUMN_FORMATTED, formatted,
 					FILE_COLUMN_SIDECARS, sidecars,
 					FILE_COLUMN_NAME, name,
 					FILE_COLUMN_SIZE, size,
@@ -859,6 +930,7 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 	g_free(size);
 	g_free(sidecars);
 	g_free(name);
+	g_free(formatted);
 }
 
 static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *parent_iter, GList *list, GList *selected)
@@ -1631,7 +1703,7 @@ static void vflist_listview_set_columns(GtkWidget *listview, gboolean thumb, gbo
 	g_object_set(G_OBJECT(cell), "height", options->thumbnails.max_height, NULL);
 	gtk_tree_view_column_set_visible(column, thumb);
 
-	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_NAME);
+	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_FORMATTED);
 	if (!column) return;
 	gtk_tree_view_set_expander_column(GTK_TREE_VIEW(listview), column);
 
@@ -1767,54 +1839,7 @@ static void vflist_listview_color_cb(GtkTreeViewColumn *tree_column, GtkCellRend
 		     "cell-background-set", set, NULL);
 }
 
-static void vflist_name_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell,
-				GtkTreeModel *tree_model, GtkTreeIter *iter, gpointer data)
-{
-	ViewFile *vf = data;
-	gboolean multiline = vflist_is_multiline(vf);
-	gchar *text;
-	gboolean expanded;
-	GtkTreePath *tpath;
-
-	tpath = gtk_tree_model_get_path(tree_model, iter);
-	expanded = gtk_tree_view_row_expanded(GTK_TREE_VIEW(vf->listview), tpath);
-	gtk_tree_path_free(tpath);
-
-	if (multiline)
-		{
-		gchar *name, *sidecars, *size, *time;
-		gtk_tree_model_get(tree_model, iter, FILE_COLUMN_SIDECARS, &sidecars,
-						     FILE_COLUMN_NAME, &name,
-						     FILE_COLUMN_SIZE, &size,
-						     FILE_COLUMN_DATE, &time,
-						     -1);
-		text = g_strdup_printf("%s %s\n%s\n%s", name, expanded ? "" : sidecars, size, time);
-		g_free(name);
-		g_free(sidecars);
-		g_free(size);
-		g_free(time);
-		}
-	else
-		{
-		gchar *name, *sidecars;
-		gtk_tree_model_get(tree_model, iter, FILE_COLUMN_SIDECARS, &sidecars,
-						     FILE_COLUMN_NAME, &name,
-						     -1);
-		text = g_strdup_printf("%s %s", name, expanded ? "" : sidecars);
-		g_free(name);
-		g_free(sidecars);
-		}
-
-	g_object_set(cell, "text", text, NULL);
-	g_free(text);
-	
-	/* now call the common cb */
-	vflist_listview_color_cb(tree_column, cell, tree_model, iter, data);
-}
-
-
-static void vflist_listview_add_column(ViewFile *vf, gint n, const gchar *title, gboolean image, gboolean right_justify, 
-				       gboolean expand, GtkTreeCellDataFunc cell_data_func)
+static void vflist_listview_add_column(ViewFile *vf, gint n, const gchar *title, gboolean image, gboolean right_justify, gboolean expand)
 {
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
@@ -1845,10 +1870,7 @@ static void vflist_listview_add_column(ViewFile *vf, gint n, const gchar *title,
 		gtk_tree_view_column_add_attribute(column, renderer, "pixbuf", n);
 		}
 
-	if (cell_data_func) 
-		gtk_tree_view_column_set_cell_data_func(column, renderer, cell_data_func, vf, NULL);
-	else
-		gtk_tree_view_column_set_cell_data_func(column, renderer, vflist_listview_color_cb, vf, NULL);
+	gtk_tree_view_column_set_cell_data_func(column, renderer, vflist_listview_color_cb, vf, NULL);
 	g_object_set_data(G_OBJECT(column), "column_store_idx", GUINT_TO_POINTER(n));
 	g_object_set_data(G_OBJECT(renderer), "column_store_idx", GUINT_TO_POINTER(n));
 
@@ -1969,10 +1991,12 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 	flist_types[FILE_COLUMN_POINTER] = G_TYPE_POINTER;
 	flist_types[FILE_COLUMN_VERSION] = G_TYPE_INT;
 	flist_types[FILE_COLUMN_THUMB] = GDK_TYPE_PIXBUF;
+	flist_types[FILE_COLUMN_FORMATTED] = G_TYPE_STRING;
 	flist_types[FILE_COLUMN_NAME] = G_TYPE_STRING;
 	flist_types[FILE_COLUMN_SIDECARS] = G_TYPE_STRING;
 	flist_types[FILE_COLUMN_SIZE] = G_TYPE_STRING;
 	flist_types[FILE_COLUMN_DATE] = G_TYPE_STRING;
+	flist_types[FILE_COLUMN_EXPANDED] = G_TYPE_BOOLEAN;
 	flist_types[FILE_COLUMN_COLOR] = G_TYPE_BOOLEAN;
 	for (i = FILE_COLUMN_MARKS; i < FILE_COLUMN_MARKS + FILEDATA_MARKS_SIZE; i++)
 		flist_types[i] = G_TYPE_BOOLEAN;
@@ -1981,6 +2005,12 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 
 	vf->listview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
 	g_object_unref(store);
+
+	g_signal_connect(G_OBJECT(vf->listview), "row-expanded",
+			 G_CALLBACK(vflist_expand_cb), vf);
+
+	g_signal_connect(G_OBJECT(vf->listview), "row-collapsed",
+			 G_CALLBACK(vflist_collapse_cb), vf);
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(vf->listview));
 	gtk_tree_selection_set_mode(GTK_TREE_SELECTION(selection), GTK_SELECTION_MULTIPLE);
@@ -1998,19 +2028,19 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 		column++;
 		}
 
-	vflist_listview_add_column(vf, FILE_COLUMN_THUMB, "", TRUE, FALSE, FALSE, NULL);
+	vflist_listview_add_column(vf, FILE_COLUMN_THUMB, "", TRUE, FALSE, FALSE);
 	g_assert(column == FILE_VIEW_COLUMN_THUMB);
 	column++;
 	
-	vflist_listview_add_column(vf, FILE_COLUMN_NAME, _("Name"), FALSE, FALSE, TRUE, vflist_name_cell_data_cb);
-	g_assert(column == FILE_VIEW_COLUMN_NAME);
+	vflist_listview_add_column(vf, FILE_COLUMN_FORMATTED, _("Name"), FALSE, FALSE, TRUE);
+	g_assert(column == FILE_VIEW_COLUMN_FORMATTED);
 	column++;
 
-	vflist_listview_add_column(vf, FILE_COLUMN_SIZE, _("Size"), FALSE, TRUE, FALSE, NULL);
+	vflist_listview_add_column(vf, FILE_COLUMN_SIZE, _("Size"), FALSE, TRUE, FALSE);
 	g_assert(column == FILE_VIEW_COLUMN_SIZE);
 	column++;
 
-	vflist_listview_add_column(vf, FILE_COLUMN_DATE, _("Date"), FALSE, TRUE, FALSE, NULL);
+	vflist_listview_add_column(vf, FILE_COLUMN_DATE, _("Date"), FALSE, TRUE, FALSE);
 	g_assert(column == FILE_VIEW_COLUMN_DATE);
 	column++;
 
