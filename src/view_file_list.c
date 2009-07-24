@@ -65,7 +65,7 @@ enum {
 
 static gboolean vflist_row_is_selected(ViewFile *vf, FileData *fd);
 static gboolean vflist_row_rename_cb(TreeEditData *td, const gchar *old, const gchar *new, gpointer data);
-static void vflist_populate_view(ViewFile *vf);
+static void vflist_populate_view(ViewFile *vf, gboolean force);
 static gboolean vflist_is_multiline(ViewFile *vf);
 static void vflist_set_expanded(ViewFile *vf, GtkTreeIter *iter, gboolean expanded);
 
@@ -934,7 +934,7 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 	g_free(formatted);
 }
 
-static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *parent_iter, GList *list, GList *selected)
+static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *parent_iter, GList *list, GList *selected, gboolean force)
 {
 	GList *work;
 	GtkTreeIter iter;
@@ -1003,7 +1003,7 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 					}
 
 				vflist_setup_iter(vf, store, &new, file_data_ref(fd));
-				vflist_setup_iter_recursive(vf, store, &new, fd->sidecar_files, selected);
+				vflist_setup_iter_recursive(vf, store, &new, fd->sidecar_files, selected, force);
 				
 				if (g_list_find(selected, fd))
 					{
@@ -1022,10 +1022,10 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 				}
 			else
 				{
-				if (fd->version != old_version)
+				if (fd->version != old_version || force)
 					{
 					vflist_setup_iter(vf, store, &iter, fd);
-					vflist_setup_iter_recursive(vf, store, &iter, fd->sidecar_files, selected);
+					vflist_setup_iter_recursive(vf, store, &iter, fd->sidecar_files, selected, force);
 					}
 
 				if (valid) valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter);
@@ -1667,7 +1667,7 @@ void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 			/* mark functions can have various side effects - update all columns to be sure */
 			vflist_setup_iter(vf, GTK_TREE_STORE(store), &iter, fd);
 			/* mark functions can change sidecars too */
-			vflist_setup_iter_recursive(vf, GTK_TREE_STORE(store), &iter, fd->sidecar_files, NULL);
+			vflist_setup_iter_recursive(vf, GTK_TREE_STORE(store), &iter, fd->sidecar_files, NULL, FALSE);
 			}
 
 		
@@ -1723,7 +1723,7 @@ static gboolean vflist_is_multiline(ViewFile *vf)
 }
 
 
-static void vflist_populate_view(ViewFile *vf)
+static void vflist_populate_view(ViewFile *vf, gboolean force)
 {
 	GtkTreeStore *store;
 	GList *selected;
@@ -1743,7 +1743,7 @@ static void vflist_populate_view(ViewFile *vf)
 
 	selected = vflist_selection_get_list(vf);
 	
-	vflist_setup_iter_recursive(vf, store, NULL, vf->list, selected);
+	vflist_setup_iter_recursive(vf, store, NULL, vf->list, selected, force);
 
 	if (selected && vflist_selection_count(vf, NULL) == 0)
 		{
@@ -1780,7 +1780,7 @@ gboolean vflist_refresh(ViewFile *vf)
 
 	DEBUG_1("%s vflist_refresh: populate view", get_exec_time());
 
-	vflist_populate_view(vf);
+	vflist_populate_view(vf, FALSE);
 
 	filelist_free(old_list);
 	DEBUG_1("%s vflist_refresh: done", get_exec_time());
@@ -1910,7 +1910,7 @@ static void vflist_listview_mark_toggled_cb(GtkCellRendererToggle *cell, gchar *
 		/* mark functions can have various side effects - update all columns to be sure */
 		vflist_setup_iter(vf, GTK_TREE_STORE(store), &iter, fd);
 		/* mark functions can change sidecars too */
-		vflist_setup_iter_recursive(vf, GTK_TREE_STORE(store), &iter, fd->sidecar_files, NULL);
+		vflist_setup_iter_recursive(vf, GTK_TREE_STORE(store), &iter, fd->sidecar_files, NULL, FALSE);
 		}
 	file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
@@ -2055,7 +2055,12 @@ void vflist_thumb_set(ViewFile *vf, gboolean enable)
 	if (VFLIST(vf)->thumbs_enabled == enable) return;
 
 	VFLIST(vf)->thumbs_enabled = enable;
-	if (vf->layout) vf_refresh(vf);
+	
+	/* vflist_populate_view is better than vf_refresh:
+	   - no need to re-read the directory
+	   - force update because the formatted string has changed
+	*/
+	if (vf->layout) vflist_populate_view(vf, TRUE); 
 }
 
 void vflist_marks_set(ViewFile *vf, gboolean enable)
