@@ -79,7 +79,7 @@ AC_HELP_STRING([--enable-debug-log], [enable debugging messages [default=yes]])]
 
 if test "x${enable_debug_flags}" != "xno"
 then
-  if test "x${enable_developer}" == "xyes"
+  if test "x${enable_developer}" = "xyes"
   then
     CXXFLAGS="${CXXFLAGS} -Wall"
     CFLAGS="${CFLAGS} -Wstrict-prototypes -Wall"
@@ -342,7 +342,7 @@ AC_ARG_ENABLE([gps],
   AC_HELP_STRING([--enable-gps], [enable GPS map support - experimental]),
     [libgps=$enableval], [libgps=auto])
 
-if test "x${libgps}" == "xyes"; then
+if test "x${libgps}" = "xyes"; then
   PKG_CHECK_MODULES(LIBCHAMPLAIN, [champlain-0.3 >= 0.3],
     [
       HAVE_LIBCHAMPLAIN=yes
@@ -356,7 +356,7 @@ else
   HAVE_LIBCHAMPLAIN=disabled
 fi
 
-if test "x${libgps}" == "xyes"; then
+if test "x${libgps}" = "xyes"; then
   PKG_CHECK_MODULES(LIBCHAMPLAIN_GTK, [champlain-gtk-0.3 >= 0.3],
     [
       HAVE_LIBCHAMPLAIN_GTK=yes
