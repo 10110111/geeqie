@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.0betaX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-01 01:40+0200\n"
-"PO-Revision-Date: 2009-07-01 01:40+0100\n"
+"POT-Creation-Date: 2009-07-25 10:22+0200\n"
+"PO-Revision-Date: 2009-07-25 10:22+0100\n"
 "Last-Translator: Laurent Monin <i18n@norz.org>\n"
 "Language-Team: french <geeqie-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -80,8 +80,8 @@ msgid "Value"
 msgstr "Valeur"
 
 #: ../src/advanced_exif.c:378 ../src/desktop_file.c:497 ../src/dupe.c:2647
-#: ../src/dupe.c:3161 ../src/print.c:3250 ../src/search.c:2844
-#: ../src/utilops.c:449 ../src/view_file_list.c:2005
+#: ../src/dupe.c:3161 ../src/print.c:3250 ../src/search.c:2840
+#: ../src/utilops.c:449 ../src/view_file_list.c:2037
 msgid "Name"
 msgstr "Nom"
 
@@ -106,11 +106,11 @@ msgstr "Histogramme"
 msgid "Title"
 msgstr "Titre"
 
-#: ../src/bar.c:169 ../src/search.c:2767
+#: ../src/bar.c:169 ../src/search.c:2763
 msgid "Keywords"
 msgstr "Mots-clés"
 
-#: ../src/bar.c:170 ../src/search.c:2779
+#: ../src/bar.c:170 ../src/search.c:2775
 msgid "Comment"
 msgstr "Commentaire"
 
@@ -274,7 +274,7 @@ msgstr "Histogramme sur la _valeur"
 msgid "Li_near Histogram"
 msgstr "Histogramme _linéaire"
 
-#: ../src/bar_histogram.c:249 ../src/layout_util.c:1397
+#: ../src/bar_histogram.c:249
 msgid "L_og Histogram"
 msgstr "Histogramme l_ogarithmique"
 
@@ -704,24 +704,24 @@ msgstr "%s, %d images"
 msgid "Empty"
 msgstr "Vide"
 
-#: ../src/collect-table.c:237 ../src/dupe.c:1319 ../src/search.c:324
+#: ../src/collect-table.c:237 ../src/dupe.c:1319 ../src/search.c:320
 #: ../src/view_file.c:822 ../src/view_file.c:925
 msgid "Loading thumbs..."
 msgstr "Chargement des vignettes ..."
 
-#: ../src/collect-table.c:866 ../src/dupe.c:2244 ../src/dupe.c:2555
-#: ../src/layout_util.c:1237 ../src/search.c:1002
+#: ../src/collect-table.c:866 ../src/dupe.c:2242 ../src/dupe.c:2555
+#: ../src/layout_util.c:1237 ../src/search.c:996
 msgid "_View"
 msgstr "_Affichage"
 
-#: ../src/collect-table.c:868 ../src/dupe.c:2246 ../src/dupe.c:2557
-#: ../src/img-view.c:1284 ../src/layout_image.c:498 ../src/pan-view.c:2822
-#: ../src/search.c:1004 ../src/view_file.c:575
+#: ../src/collect-table.c:868 ../src/dupe.c:2244 ../src/dupe.c:2557
+#: ../src/img-view.c:1281 ../src/layout_image.c:498 ../src/pan-view.c:2825
+#: ../src/search.c:998 ../src/view_file.c:575
 msgid "View in _new window"
 msgstr "Voir dans une _nouvelle fenêtre"
 
 #: ../src/collect-table.c:871 ../src/dupe.c:2278 ../src/dupe.c:2565
-#: ../src/search.c:1032
+#: ../src/search.c:1028
 msgid "Rem_ove"
 msgstr "_Enlever"
 
@@ -737,13 +737,13 @@ msgstr "Ajouter à partir de la collection ..."
 msgid "_Selection"
 msgstr "_Sélection"
 
-#: ../src/collect-table.c:882 ../src/dupe.c:2249 ../src/dupe.c:2560
-#: ../src/layout_util.c:1283 ../src/search.c:1007
+#: ../src/collect-table.c:882 ../src/dupe.c:2247 ../src/dupe.c:2560
+#: ../src/layout_util.c:1283 ../src/search.c:1001
 msgid "Select all"
 msgstr "Tout sélectionner"
 
-#: ../src/collect-table.c:884 ../src/dupe.c:2251 ../src/dupe.c:2562
-#: ../src/layout_util.c:1284 ../src/search.c:1009
+#: ../src/collect-table.c:884 ../src/dupe.c:2249 ../src/dupe.c:2562
+#: ../src/layout_util.c:1284 ../src/search.c:1003
 msgid "Select none"
 msgstr "Désélectionner"
 
@@ -751,33 +751,33 @@ msgstr "Désélectionner"
 msgid "Invert selection"
 msgstr "Inverser la sélection"
 
-#: ../src/collect-table.c:898 ../src/dupe.c:2267 ../src/img-view.c:1288
-#: ../src/layout_image.c:506 ../src/layout_util.c:1266 ../src/pan-view.c:2826
-#: ../src/search.c:1021 ../src/view_file.c:579
+#: ../src/collect-table.c:898 ../src/dupe.c:2267 ../src/img-view.c:1285
+#: ../src/layout_image.c:506 ../src/layout_util.c:1266 ../src/pan-view.c:2829
+#: ../src/search.c:1017 ../src/view_file.c:579
 msgid "_Copy..."
 msgstr "_Copier ..."
 
-#: ../src/collect-table.c:900 ../src/dupe.c:2269 ../src/img-view.c:1289
-#: ../src/layout_image.c:508 ../src/layout_util.c:1267 ../src/pan-view.c:2828
-#: ../src/search.c:1023 ../src/view_file.c:581
+#: ../src/collect-table.c:900 ../src/dupe.c:2269 ../src/img-view.c:1286
+#: ../src/layout_image.c:508 ../src/layout_util.c:1267 ../src/pan-view.c:2831
+#: ../src/search.c:1019 ../src/view_file.c:581
 msgid "_Move..."
 msgstr "_Déplacer ..."
 
-#: ../src/collect-table.c:902 ../src/dupe.c:2271 ../src/img-view.c:1290
-#: ../src/layout_image.c:510 ../src/layout_util.c:1268 ../src/pan-view.c:2830
-#: ../src/search.c:1025 ../src/view_dir.c:665 ../src/view_file.c:583
+#: ../src/collect-table.c:902 ../src/dupe.c:2271 ../src/img-view.c:1287
+#: ../src/layout_image.c:510 ../src/layout_util.c:1268 ../src/pan-view.c:2833
+#: ../src/search.c:1021 ../src/view_dir.c:665 ../src/view_file.c:583
 msgid "_Rename..."
 msgstr "_Renommer ..."
 
-#: ../src/collect-table.c:904 ../src/dupe.c:2273 ../src/img-view.c:1291
+#: ../src/collect-table.c:904 ../src/dupe.c:2273 ../src/img-view.c:1288
 #: ../src/layout_image.c:512 ../src/layout_util.c:1269
-#: ../src/layout_util.c:1270 ../src/layout_util.c:1271 ../src/pan-view.c:2832
-#: ../src/search.c:1027 ../src/view_dir.c:667 ../src/view_file.c:585
+#: ../src/layout_util.c:1270 ../src/layout_util.c:1271 ../src/pan-view.c:2835
+#: ../src/search.c:1023 ../src/view_dir.c:667 ../src/view_file.c:585
 msgid "_Delete..."
 msgstr "_Supprimer ..."
 
-#: ../src/collect-table.c:906 ../src/dupe.c:2275 ../src/img-view.c:1292
-#: ../src/layout_image.c:515 ../src/pan-view.c:2834 ../src/search.c:1029
+#: ../src/collect-table.c:906 ../src/dupe.c:2275 ../src/img-view.c:1289
+#: ../src/layout_image.c:515 ../src/pan-view.c:2837 ../src/search.c:1025
 #: ../src/view_dir.c:670 ../src/view_file.c:587
 msgid "_Copy path"
 msgstr "_Copier chemin"
@@ -807,27 +807,27 @@ msgid "_Find duplicates..."
 msgstr "Rechercher les _doublons ..."
 
 #: ../src/collect-table.c:927 ../src/dupe.c:2264 ../src/layout_util.c:1264
-#: ../src/search.c:1018
+#: ../src/search.c:1014
 msgid "Print..."
 msgstr "Imprimer ..."
 
-#: ../src/collect-table.c:2081 ../src/dupe.c:3351 ../src/img-view.c:1446
+#: ../src/collect-table.c:2081 ../src/dupe.c:3351 ../src/img-view.c:1443
 msgid "Dropped list includes folders."
 msgstr "La liste ajoutée contient des dossiers."
 
-#: ../src/collect-table.c:2083 ../src/dupe.c:3353 ../src/img-view.c:1448
+#: ../src/collect-table.c:2083 ../src/dupe.c:3353 ../src/img-view.c:1445
 msgid "_Add contents"
 msgstr "_Ajouter le contenu"
 
-#: ../src/collect-table.c:2085 ../src/dupe.c:3354 ../src/img-view.c:1449
+#: ../src/collect-table.c:2085 ../src/dupe.c:3354 ../src/img-view.c:1446
 msgid "Add contents _recursive"
 msgstr "Ajouter le contenu _récursivement"
 
-#: ../src/collect-table.c:2087 ../src/dupe.c:3355 ../src/img-view.c:1450
+#: ../src/collect-table.c:2087 ../src/dupe.c:3355 ../src/img-view.c:1447
 msgid "_Skip folders"
 msgstr "Omettre les dossier_s"
 
-#: ../src/collect-table.c:2090 ../src/dupe.c:3357 ../src/img-view.c:1452
+#: ../src/collect-table.c:2090 ../src/dupe.c:3357 ../src/img-view.c:1449
 #: ../src/view_dir.c:416
 msgid "Cancel"
 msgstr "Annuler"
@@ -901,7 +901,7 @@ msgid "Hidden"
 msgstr "Caché"
 
 #: ../src/desktop_file.c:529 ../src/dupe.c:2653 ../src/dupe.c:3165
-#: ../src/print.c:3252 ../src/search.c:2848 ../src/ui_pathsel.c:1111
+#: ../src/print.c:3252 ../src/search.c:2844 ../src/ui_pathsel.c:1111
 #: ../src/utilops.c:445
 msgid "Path"
 msgstr "Chemin"
@@ -944,19 +944,19 @@ msgstr "Comparaison ..."
 msgid "Sorting..."
 msgstr "Tri ..."
 
-#: ../src/dupe.c:2253
+#: ../src/dupe.c:2251
 msgid "Select group _1 duplicates"
 msgstr "Sélectionner les doubles du groupe _1"
 
-#: ../src/dupe.c:2255
+#: ../src/dupe.c:2253
 msgid "Select group _2 duplicates"
 msgstr "Sélectionner les doubles du groupe _2"
 
-#: ../src/dupe.c:2262 ../src/search.c:1016
+#: ../src/dupe.c:2262 ../src/search.c:1012
 msgid "Add to new collection"
 msgstr "Ajouter à la nouvelle collection"
 
-#: ../src/dupe.c:2280 ../src/dupe.c:2567 ../src/search.c:1034
+#: ../src/dupe.c:2280 ../src/dupe.c:2567 ../src/search.c:1030
 msgid "C_lear"
 msgstr "_Vider"
 
@@ -974,18 +974,18 @@ msgid "Name case-insensitive"
 msgstr "Nom insensible à la casse"
 
 #: ../src/dupe.c:2649 ../src/dupe.c:3162 ../src/preferences.c:1336
-#: ../src/print.c:3256 ../src/search.c:2845 ../src/view_file_list.c:2009
+#: ../src/print.c:3256 ../src/search.c:2841 ../src/view_file_list.c:2041
 msgid "Size"
 msgstr "Taille"
 
 #: ../src/dupe.c:2650 ../src/dupe.c:3163 ../src/exif.c:341
-#: ../src/exif-common.c:514 ../src/print.c:3254 ../src/search.c:2846
-#: ../src/view_file_list.c:2013
+#: ../src/exif-common.c:514 ../src/print.c:3254 ../src/search.c:2842
+#: ../src/view_file_list.c:2045
 msgid "Date"
 msgstr "Date"
 
 #: ../src/dupe.c:2651 ../src/dupe.c:3164 ../src/print.c:3258
-#: ../src/search.c:2847
+#: ../src/search.c:2843
 msgid "Dimensions"
 msgstr "Dimensions"
 
@@ -1021,7 +1021,7 @@ msgstr "Comparer à :"
 msgid "Compare by:"
 msgstr "Comparer par :"
 
-#: ../src/dupe.c:3218 ../src/preferences.c:1171 ../src/search.c:2861
+#: ../src/dupe.c:3218 ../src/preferences.c:1171 ../src/search.c:2857
 msgid "Thumbnails"
 msgstr "Vignettes"
 
@@ -1952,62 +1952,62 @@ msgstr "Impossible d'écrire l'historique dans : %s\n"
 msgid " (Collection %s)"
 msgstr " (Collection %s)"
 
-#: ../src/img-view.c:1271 ../src/layout_image.c:484 ../src/layout_util.c:1292
+#: ../src/img-view.c:1266 ../src/layout_image.c:482 ../src/layout_util.c:1292
 #: ../src/layout_util.c:1293 ../src/layout_util.c:1308
 #: ../src/layout_util.c:1309 ../src/pan-view.c:2810
 msgid "Zoom _in"
 msgstr "Zoom a_vant"
 
-#: ../src/img-view.c:1272 ../src/layout_image.c:485 ../src/layout_util.c:1294
+#: ../src/img-view.c:1267 ../src/layout_image.c:483 ../src/layout_util.c:1294
 #: ../src/layout_util.c:1295 ../src/layout_util.c:1310
 #: ../src/layout_util.c:1311 ../src/pan-view.c:2812
 msgid "Zoom _out"
 msgstr "Zoom a_rrière"
 
-#: ../src/img-view.c:1273 ../src/layout_image.c:486 ../src/layout_util.c:1296
+#: ../src/img-view.c:1268 ../src/layout_image.c:484 ../src/layout_util.c:1296
 #: ../src/layout_util.c:1297 ../src/layout_util.c:1312
 #: ../src/layout_util.c:1313 ../src/pan-view.c:2814
 msgid "Zoom _1:1"
 msgstr "Taille réelle (_1:1)"
 
-#: ../src/img-view.c:1274 ../src/layout_image.c:487
+#: ../src/img-view.c:1269 ../src/layout_image.c:485
 msgid "Fit image to _window"
 msgstr "Mettre à la taille de la _fenêtre"
 
-#: ../src/img-view.c:1280 ../src/layout_image.c:494 ../src/layout_util.c:1290
+#: ../src/img-view.c:1277 ../src/layout_image.c:494 ../src/layout_util.c:1290
 msgid "Set as _wallpaper"
 msgstr "Utiliser comme _papier peint"
 
-#: ../src/img-view.c:1285 ../src/layout_image.c:501
+#: ../src/img-view.c:1282 ../src/layout_image.c:501
 msgid "_Go to directory view"
 msgstr "_Aller à la vue répertoire"
 
-#: ../src/img-view.c:1298 ../src/layout_image.c:522
+#: ../src/img-view.c:1295 ../src/layout_image.c:522
 msgid "_Stop slideshow"
 msgstr "_Stopper le diaporama"
 
-#: ../src/img-view.c:1301 ../src/layout_image.c:525
+#: ../src/img-view.c:1298 ../src/layout_image.c:525
 msgid "Continue slides_how"
 msgstr "Reprendre le _diaporama"
 
-#: ../src/img-view.c:1306 ../src/img-view.c:1314 ../src/layout_image.c:530
+#: ../src/img-view.c:1303 ../src/img-view.c:1311 ../src/layout_image.c:530
 #: ../src/layout_image.c:537
 msgid "Pause slides_how"
 msgstr "Suspendre le _diaporama"
 
-#: ../src/img-view.c:1312 ../src/layout_image.c:536
+#: ../src/img-view.c:1309 ../src/layout_image.c:536
 msgid "_Start slideshow"
 msgstr "_Lancer le diaporama"
 
-#: ../src/img-view.c:1320 ../src/layout_image.c:547 ../src/pan-view.c:2880
+#: ../src/img-view.c:1317 ../src/layout_image.c:547 ../src/pan-view.c:2883
 msgid "Exit _full screen"
 msgstr "Sortir du mode plein _écran"
 
-#: ../src/img-view.c:1324 ../src/layout_image.c:543 ../src/pan-view.c:2884
+#: ../src/img-view.c:1321 ../src/layout_image.c:543 ../src/pan-view.c:2887
 msgid "_Full screen"
 msgstr "Plein _écran"
 
-#: ../src/img-view.c:1328 ../src/layout_util.c:1275 ../src/pan-view.c:2888
+#: ../src/img-view.c:1325 ../src/layout_util.c:1275 ../src/pan-view.c:2891
 msgid "C_lose window"
 msgstr "Fermer _la fenêtre"
 
@@ -2170,7 +2170,7 @@ msgid "_Zoom"
 msgstr "_Zoom"
 
 #: ../src/layout_util.c:1240
-msgid "Color _Management"
+msgid "_Color Management"
 msgstr "Gestion des _couleurs"
 
 #: ../src/layout_util.c:1241
@@ -2178,12 +2178,12 @@ msgid "_Connected Zoom"
 msgstr "Zo_om lié"
 
 #: ../src/layout_util.c:1242
-msgid "_Split"
+msgid "Spli_t"
 msgstr "_Séparer"
 
 #: ../src/layout_util.c:1243 ../src/layout_util.c:1357
-msgid "_Image Overlay"
-msgstr "Aff_ichage en surimpression"
+msgid "Image _Overlay"
+msgstr "Affichage en surimpressi_on"
 
 #: ../src/layout_util.c:1244
 msgid "_Help"
@@ -2267,8 +2267,8 @@ msgid "Open collection..."
 msgstr "Ouvrir collection ..."
 
 #: ../src/layout_util.c:1260
-msgid "Open _recent"
-msgstr "Ouverts _récemment"
+msgid "Open recen_t"
+msgstr "Ouvrir récen_ts"
 
 #: ../src/layout_util.c:1260
 msgid "Open recent"
@@ -2287,8 +2287,8 @@ msgid "Find duplicates..."
 msgstr "Rechercher les doublons ..."
 
 #: ../src/layout_util.c:1263
-msgid "Pan _view"
-msgstr "Affichage _panoramique"
+msgid "Pa_n view"
+msgstr "Affichage pa_noramique"
 
 #: ../src/layout_util.c:1263
 msgid "Pan view"
@@ -2698,8 +2698,8 @@ msgid "Log Window"
 msgstr "Journal"
 
 #: ../src/layout_util.c:1341
-msgid "E_xif window"
-msgstr "Fenêtre E_xif"
+msgid "_Exif window"
+msgstr "Fenêtre _Exif"
 
 #: ../src/layout_util.c:1341
 msgid "Exif window"
@@ -2822,16 +2822,16 @@ msgid "View Images as Icons"
 msgstr "Images en Icônes"
 
 #: ../src/layout_util.c:1367
-msgid "Folder _List"
-msgstr "_Liste des dossiers"
+msgid "Folder Li_st"
+msgstr "Li_ste des dossiers"
 
 #: ../src/layout_util.c:1367
 msgid "View Folders as List"
 msgstr "Vue des dossiers en liste"
 
 #: ../src/layout_util.c:1368
-msgid "Folder _Tree"
-msgstr "Ar_bre des dossiers"
+msgid "Folder T_ree"
+msgstr "A_rbre des dossiers"
 
 #: ../src/layout_util.c:1368
 msgid "View Folders as Tree"
@@ -2942,6 +2942,10 @@ msgid "Linear Histogram"
 msgstr "Histogramme linéaire"
 
 #: ../src/layout_util.c:1397
+msgid "_Log Histogram"
+msgstr "Histogramme _logarithmique"
+
+#: ../src/layout_util.c:1397
 msgid "Log Histogram"
 msgstr "Histogramme logarithmique"
 
@@ -2980,15 +2984,20 @@ msgstr "_Bascule marque %d"
 msgid "Toggle mark %d"
 msgstr "Bascule marque %d"
 
-#: ../src/layout_util.c:1668 ../src/layout_util.c:1669 ../src/view_file.c:530
+#: ../src/layout_util.c:1668
 #, c-format
-msgid "_Select mark %d"
-msgstr "_Sélectionner la marque %d"
+msgid "Se_lect mark %d"
+msgstr "Sé_lectionner la marque %d"
 
 #: ../src/layout_util.c:1668 ../src/layout_util.c:1669
 #, c-format
 msgid "Select mark %d"
 msgstr "Sélectionner la marque %d"
+
+#: ../src/layout_util.c:1669 ../src/view_file.c:530
+#, c-format
+msgid "_Select mark %d"
+msgstr "_Sélectionner la marque %d"
 
 #: ../src/layout_util.c:1670 ../src/view_file.c:531
 #, c-format
@@ -3543,7 +3552,7 @@ msgstr "correspondance partielle"
 msgid "no match"
 msgstr "pas de correspondance"
 
-#: ../src/pan-view.c:2272 ../src/search.c:2219
+#: ../src/pan-view.c:2272 ../src/search.c:2215
 msgid "Folder not found"
 msgstr "Dossier inexistant"
 
@@ -3591,19 +3600,19 @@ msgstr "Vignettes normales"
 msgid "Large Thumbnails"
 msgstr "Vignettes larges"
 
-#: ../src/pan-view.c:2411 ../src/pan-view.c:2870
+#: ../src/pan-view.c:2411 ../src/pan-view.c:2873
 msgid "1:10 (10%)"
 msgstr "1:10 (10%)"
 
-#: ../src/pan-view.c:2412 ../src/pan-view.c:2866
+#: ../src/pan-view.c:2412 ../src/pan-view.c:2869
 msgid "1:4 (25%)"
 msgstr "1:4 (25%)"
 
-#: ../src/pan-view.c:2413 ../src/pan-view.c:2862
+#: ../src/pan-view.c:2413 ../src/pan-view.c:2865
 msgid "1:3 (33%)"
 msgstr "1:3 (33%)"
 
-#: ../src/pan-view.c:2414 ../src/pan-view.c:2858
+#: ../src/pan-view.c:2414 ../src/pan-view.c:2861
 msgid "1:2 (50%)"
 msgstr "1:2 (50%)"
 
@@ -3654,23 +3663,23 @@ msgstr "Utiliser un cache partagé pour les vignettes"
 msgid "Do not show this dialog again"
 msgstr "Ne plus afficher ce message"
 
-#: ../src/pan-view.c:2838
+#: ../src/pan-view.c:2841
 msgid "Sort by E_xif date"
 msgstr "Trier par date E_xif"
 
-#: ../src/pan-view.c:2844
+#: ../src/pan-view.c:2847
 msgid "_Show Exif information"
 msgstr "_Montrer les infos Exif"
 
-#: ../src/pan-view.c:2846
+#: ../src/pan-view.c:2849
 msgid "Show im_age"
 msgstr "Montrer im_age"
 
-#: ../src/pan-view.c:2850
+#: ../src/pan-view.c:2853
 msgid "_None"
 msgstr "_Aucun"
 
-#: ../src/pan-view.c:2854
+#: ../src/pan-view.c:2857
 msgid "_Full size"
 msgstr "_Pleine taille"
 
@@ -4718,138 +4727,138 @@ msgstr "Pas de %s distant, lancement ..."
 msgid "Remote not available\n"
 msgstr "Commande à distance indisponible\n"
 
-#: ../src/search.c:216
+#: ../src/search.c:212
 msgid "folder"
 msgstr "dossier"
 
-#: ../src/search.c:217
+#: ../src/search.c:213
 msgid "comments"
 msgstr "commentaires"
 
-#: ../src/search.c:218
+#: ../src/search.c:214
 msgid "results"
 msgstr "résultats"
 
-#: ../src/search.c:222 ../src/search.c:247
+#: ../src/search.c:218 ../src/search.c:243
 msgid "contains"
 msgstr "contient"
 
-#: ../src/search.c:223
+#: ../src/search.c:219
 msgid "is"
 msgstr "est"
 
-#: ../src/search.c:227 ../src/search.c:234
+#: ../src/search.c:223 ../src/search.c:230
 msgid "equal to"
 msgstr "égale(s) à"
 
-#: ../src/search.c:228
+#: ../src/search.c:224
 msgid "less than"
 msgstr "moins que"
 
-#: ../src/search.c:229
+#: ../src/search.c:225
 msgid "greater than"
 msgstr "plus que"
 
-#: ../src/search.c:230 ../src/search.c:237
+#: ../src/search.c:226 ../src/search.c:233
 msgid "between"
 msgstr "entre"
 
-#: ../src/search.c:235
+#: ../src/search.c:231
 msgid "before"
 msgstr "avant"
 
-#: ../src/search.c:236
+#: ../src/search.c:232
 msgid "after"
 msgstr "après"
 
-#: ../src/search.c:241
+#: ../src/search.c:237
 msgid "match all"
 msgstr "correspondant à (tous)"
 
-#: ../src/search.c:242
+#: ../src/search.c:238
 msgid "match any"
 msgstr "correspondant à"
 
-#: ../src/search.c:243
+#: ../src/search.c:239
 msgid "exclude"
 msgstr "sauf"
 
-#: ../src/search.c:248
+#: ../src/search.c:244
 msgid "miss"
 msgstr "ne contient pas"
 
-#: ../src/search.c:299
+#: ../src/search.c:295
 #, c-format
 msgid "%s, %d files (%s, %d)"
 msgstr "%s, %d fichiers (%s, %d)"
 
-#: ../src/search.c:304
+#: ../src/search.c:300
 #, c-format
 msgid "%s, %d files"
 msgstr "%s, %d fichiers"
 
-#: ../src/search.c:322
+#: ../src/search.c:318
 msgid "Searching..."
 msgstr "Recherche ..."
 
-#: ../src/search.c:2170
+#: ../src/search.c:2166
 msgid "File not found"
 msgstr "Fichier inexistant"
 
-#: ../src/search.c:2171
+#: ../src/search.c:2167
 msgid "Please enter an existing file for image content."
 msgstr "Sélectionner un fichier existant pour un contenu image."
 
-#: ../src/search.c:2220
+#: ../src/search.c:2216
 msgid "Please enter an existing folder to search."
 msgstr "Sélectionner un dossier existant pour la recherche."
 
-#: ../src/search.c:2638
+#: ../src/search.c:2634
 msgid "Image search"
 msgstr "Recherche d'image"
 
-#: ../src/search.c:2668
+#: ../src/search.c:2664
 msgid "Search:"
 msgstr "Recherche :"
 
-#: ../src/search.c:2682
+#: ../src/search.c:2678
 msgid "Recurse"
 msgstr "Récursivement"
 
-#: ../src/search.c:2687
+#: ../src/search.c:2683
 msgid "File name"
 msgstr "Nom du fichier"
 
-#: ../src/search.c:2693 ../src/search.c:2788
+#: ../src/search.c:2689 ../src/search.c:2784
 msgid "Match case"
 msgstr "Sensible à la casse"
 
-#: ../src/search.c:2698
+#: ../src/search.c:2694
 msgid "File size is"
 msgstr "Taille du fichier est"
 
-#: ../src/search.c:2705 ../src/search.c:2721 ../src/search.c:2740
+#: ../src/search.c:2701 ../src/search.c:2717 ../src/search.c:2736
 msgid "and"
 msgstr "et"
 
-#: ../src/search.c:2711
+#: ../src/search.c:2707
 msgid "File date is"
 msgstr "Date du fichier est"
 
-#: ../src/search.c:2729
+#: ../src/search.c:2725
 msgid "Image dimensions are"
 msgstr "Dimensions de l'image sont"
 
-#: ../src/search.c:2750
+#: ../src/search.c:2746
 msgid "Image content is"
 msgstr "Contenu de l'image est"
 
-#: ../src/search.c:2756
+#: ../src/search.c:2752
 #, no-c-format
 msgid "% similar to"
 msgstr "% similaire à"
 
-#: ../src/search.c:2842
+#: ../src/search.c:2838
 msgid "Rank"
 msgstr "Rang"
 
@@ -5501,11 +5510,11 @@ msgstr "Voir en _Icônes"
 msgid "Show _thumbnails"
 msgstr "Montrer les vigne_ttes"
 
-#: ../src/view_file_icon.c:2171 ../src/view_file_list.c:826
+#: ../src/view_file_icon.c:2171 ../src/view_file_list.c:895
 msgid " [NO GROUPING]"
 msgstr " [DÉGROUPÉ]"
 
-#: ../src/view_file_list.c:504
+#: ../src/view_file_list.c:508
 #, c-format
 msgid ""
 "Invalid file name:\n"
@@ -5514,13 +5523,25 @@ msgstr ""
 "Nom de fichier invalide :\n"
 "%s"
 
-#: ../src/view_file_list.c:505
+#: ../src/view_file_list.c:509
 msgid "Error renaming file"
 msgstr "Erreur lors du renommage du fichier"
 
 #: ../src/window.c:251
 msgid "Help"
 msgstr "Aide"
+
+#~ msgid "_Image Overlay"
+#~ msgstr "Aff_ichage en surimpression"
+
+#~ msgid "Open _recent"
+#~ msgstr "Ouverts _récemment"
+
+#~ msgid "Pan _view"
+#~ msgstr "Affichage _panoramique"
+
+#~ msgid "E_xif window"
+#~ msgstr "Fenêtre E_xif"
 
 #~ msgid "Location"
 #~ msgstr "Emplacement"
