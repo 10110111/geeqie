@@ -227,7 +227,9 @@ static gboolean bar_pane_gps_create_markers_cb(gpointer data)
 		{
 		fd = work->data;
 		pgd->selection_list = g_list_remove(pgd->selection_list, work->data);
-		if (fd != NULL)
+		/* If the file has a parent, it must be a sidecar file. Do not process sidecar files
+		*/
+		if (fd != NULL && fd->parent == NULL)
 			{
 			latitude = metadata_read_GPS_coord(fd, "Xmp.exif.GPSLatitude", 1000);
 			longitude = metadata_read_GPS_coord(fd, "Xmp.exif.GPSLongitude", 1000);
