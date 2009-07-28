@@ -3746,6 +3746,13 @@ static gboolean pr_mouse_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gp
 	PixbufRenderer *pr;
 	gint accel;
 
+	/* This is a hack, but work far the best, at least for single pointer systems.
+	 * See http://bugzilla.gnome.org/show_bug.cgi?id=587714 for more. */
+	gint x, y;
+	gdk_window_get_pointer (bevent->window, &x, &y, NULL);
+	bevent->x = x;
+	bevent->y = y;
+
 	pr = PIXBUF_RENDERER(widget);
 
 	if (pr->scroller_id)
@@ -3787,6 +3794,11 @@ static gboolean pr_mouse_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gp
 	pr->drag_last_x = bevent->x;
 	pr->drag_last_y = bevent->y;
 
+	/* This is recommended by the GTK+ documentation, but does not work properly.
+	 * Use deprecated way until GTK+ gets a solution for correct motion hint handling:
+	 * http://bugzilla.gnome.org/show_bug.cgi?id=587714
+	 */
+	/* gdk_event_request_motions (bevent); */
 	return FALSE;
 }
 
@@ -3819,7 +3831,7 @@ static gboolean pr_mouse_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpo
 			pr->drag_last_y = bevent->y;
 			pr->drag_moved = 0;
 			gdk_pointer_grab(widget->window, FALSE,
-					 GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+					 GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_RELEASE_MASK,
 					 NULL, NULL, bevent->time);
 			gtk_grab_add(widget);
 			break;
@@ -3919,7 +3931,7 @@ static void pr_signals_connect(PixbufRenderer *pr)
 	g_signal_connect(G_OBJECT(pr), "leave_notify_event",
 			 G_CALLBACK(pr_leave_notify_cb), pr);
 
-	gtk_widget_set_events(GTK_WIDGET(pr), GDK_POINTER_MOTION_MASK |
+	gtk_widget_set_events(GTK_WIDGET(pr), GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK |
 					      GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK |
 					      GDK_LEAVE_NOTIFY_MASK);
 
