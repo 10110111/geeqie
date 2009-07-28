@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # FIXME TODO:
 # improve the default ufraw configuration

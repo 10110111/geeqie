@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/sh
 
 # This is a helper script that rotate image files according to the metadata
 # requirements: ImageMagick, exiftran, exiv2
