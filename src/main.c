@@ -10,6 +10,20 @@
  * This software comes with no warranty of any kind, use at your own risk!
  */
 
+#include <gdk/gdkkeysyms.h> /* for keyboard values */
+#ifdef HAVE_LIBCHAMPLAIN
+#ifdef HAVE_LIBCHAMPLAIN_GTK
+#include <clutter-gtk/gtk-clutter-embed.h>
+#endif
+#endif
+
+#include <signal.h>
+#include <sys/mman.h>
+
+#include <math.h>
+#ifdef G_OS_UNIX
+#include <pwd.h>
+#endif
 
 #include "main.h"
 
@@ -36,20 +50,6 @@
 #include "histogram.h"
 #include "pixbuf_util.h"
 
-#include <gdk/gdkkeysyms.h> /* for keyboard values */
-#ifdef HAVE_LIBCHAMPLAIN
-#ifdef HAVE_LIBCHAMPLAIN_GTK
-#include <clutter-gtk/gtk-clutter-embed.h>
-#endif
-#endif
-
-#include <signal.h>
-#include <sys/mman.h>
-
-#include <math.h>
-#ifdef G_OS_UNIX
-#include <pwd.h>
-#endif
 
 gboolean thumb_format_changed = FALSE;
 static RemoteConnection *remote_connection = NULL;
