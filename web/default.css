@@ -1,0 +1,29 @@
+
+
+#header {
+    margin: 0 0 0 0;
+    text-align : center;
+    width : 740px;
+    border: 1px solid #8BA0FF;
+    background: #d0e0ff;
+
+  }
+
+
+#side {
+    float : left;
+    width : 150px;
+    padding-left : 5px;
+  }
+
+#side ul {
+    padding-left : 0.5em;
+    margin-left : 0.5em;
+}
+
+#main {
+    width : 600px;
+    margin-top : 20px;
+    margin-left : 160px;
+  }
+
