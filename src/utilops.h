@@ -18,7 +18,6 @@
 #include "ui_utildlg.h"
 
 void file_maint_renamed(FileData *fd);
-void file_maint_removed(FileData *fd, GList *ignore_list);
 void file_maint_moved(FileData *fd, GList *ignore_list);
 void file_maint_copied(FileData *fd);
 
