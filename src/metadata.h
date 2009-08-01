@@ -39,7 +39,6 @@ gboolean metadata_append_string(FileData *fd, const gchar *key, const char *valu
 gboolean metadata_append_list(FileData *fd, const gchar *key, const GList *values);
 
 GList *string_to_keywords_list(const gchar *text);
-gchar *find_string_in_list_utf8nocase(GList *list, const gchar *string);
 
 gboolean meta_data_get_keyword_mark(FileData *fd, gint n, gpointer data);
 gboolean meta_data_set_keyword_mark(FileData *fd, gint n, gboolean value, gpointer data);

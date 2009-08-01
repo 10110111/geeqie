@@ -659,6 +659,9 @@ gboolean metadata_append_list(FileData *fd, const gchar *key, const GList *value
 		}
 }
 
+/**
+ * \see find_string_in_list
+ */
 gchar *find_string_in_list_utf8nocase(GList *list, const gchar *string)
 {
 	gchar *string_casefold = g_utf8_casefold(string, -1);
@@ -666,7 +669,7 @@ gchar *find_string_in_list_utf8nocase(GList *list, const gchar *string)
 	while (list)
 		{
 		gchar *haystack = list->data;
-		
+
 		if (haystack)
 			{
 			gboolean equal;
@@ -681,14 +684,53 @@ gchar *find_string_in_list_utf8nocase(GList *list, const gchar *string)
 				return haystack;
 				}
 			}
-	
+
 		list = list->next;
 		}
-	
+
 	g_free(string_casefold);
 	return NULL;
 }
 
+/**
+ * \see find_string_in_list
+ */
+gchar *find_string_in_list_utf8case(GList *list, const gchar *string)
+{
+	while (list)
+		{
+		gchar *haystack = list->data;
+
+		if (haystack && strcmp(haystack, string) == 0)
+			return haystack;
+
+		list = list->next;
+		} // while (list)
+
+	return NULL;
+} // gchar *find_string_in_list_utf...
+
+/**
+ * \brief Find a existent string in a list.
+ *
+ * This is a switch between find_string_in_list_utf8case and
+ * find_string_in_list_utf8nocase to search with or without case for the
+ * existence of a string.
+ *
+ * \param list The list to search in
+ * \param string The string to search for
+ * \return The string or NULL
+ *
+ * \see find_string_in_list_utf8case
+ * \see find_string_in_list_utf8nocase
+ */
+gchar *find_string_in_list(GList *list, const gchar *string)
+{
+	if (options->metadata.keywords_case_sensitive)
+		return find_string_in_list_utf8case(list, string);
+	else
+		return find_string_in_list_utf8nocase(list, string);
+}
 
 #define KEYWORDS_SEPARATOR(c) ((c) == ',' || (c) == ';' || (c) == '\n' || (c) == '\r' || (c) == '\b')
 
@@ -719,7 +761,7 @@ GList *string_to_keywords_list(const gchar *text)
 			gchar *keyword = g_strndup(begin, l);
 
 			/* only add if not already in the list */
-			if (!find_string_in_list_utf8nocase(list, keyword))
+			if (!find_string_in_list(list, keyword))
 				list = g_list_append(list, keyword);
 			else
 				g_free(keyword);
@@ -1168,7 +1210,7 @@ void keyword_tree_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList *
 		if (keyword_get_is_keyword(keyword_tree, &iter))
 			{
 			gchar *name = keyword_get_name(keyword_tree, &iter);
-			if (!find_string_in_list_utf8nocase(*kw_list, name))
+			if (!find_string_in_list(*kw_list, name))
 				{
 				*kw_list = g_list_append(*kw_list, name);
 				}
@@ -1190,7 +1232,7 @@ static void keyword_tree_reset1(GtkTreeModel *keyword_tree, GtkTreeIter *iter, G
 	if (!keyword_get_is_keyword(keyword_tree, iter)) return;
 
 	name = keyword_get_name(keyword_tree, iter);
-	found = find_string_in_list_utf8nocase(*kw_list, name);
+	found = find_string_in_list(*kw_list, name);
 
 	if (found)
 		{
