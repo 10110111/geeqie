@@ -303,7 +303,14 @@ public:
 		exifData_ = imageData_->exifData();
 		iptcData_ = imageData_->iptcData();
 #if EXIV2_TEST_VERSION(0,17,0)
-		syncExifWithXmp(exifData_, xmpData_);
+		try
+			{
+			syncExifWithXmp(exifData_, xmpData_);
+			}
+		catch (...)
+			{
+			DEBUG_1("Exiv2: Catching bug\n");
+			}
 #endif
 		if (modified_xmp)
 			{
