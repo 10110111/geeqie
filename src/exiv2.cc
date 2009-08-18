@@ -797,7 +797,7 @@ gchar *exif_item_get_string(ExifItem *item, int idx)
 gint exif_item_get_integer(ExifItem *item, gint *value)
 {
 	try {
-		if (!item) return 0;
+		if (!item || exif_item_get_elements(item) == 0) return 0;
 		*value = ((Exiv2::Metadatum *)item)->toLong();
 		return 1;
 	}
