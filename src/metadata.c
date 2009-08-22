@@ -126,6 +126,18 @@ gboolean metadata_write_queue_remove_list(GList *list)
 	return ret;
 }
 
+void metadata_notify_cb(FileData *fd, NotifyType type, gpointer data)
+{
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE)) && g_list_find(metadata_write_queue, fd)) 
+		{
+		DEBUG_1("Notify metadata: %s %04x", fd->path, type);
+		if (!isname(fd->path))
+			{
+			/* ignore deleted files */
+			metadata_write_queue_remove(fd);
+			}
+		}
+}
 
 gboolean metadata_write_queue_confirm(gboolean force_dialog, FileUtilDoneFunc done_func, gpointer done_data)
 {
@@ -137,6 +149,13 @@ gboolean metadata_write_queue_confirm(gboolean force_dialog, FileUtilDoneFunc do
 		{
 		FileData *fd = work->data;
 		work = work->next;
+		
+		if (!isname(fd->path))
+			{
+			/* ignore deleted files */
+			metadata_write_queue_remove(fd);
+			continue;
+			}
 		
 		if (fd->change) continue; /* another operation in progress, skip this file for now */
 		

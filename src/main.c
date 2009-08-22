@@ -759,6 +759,8 @@ gint main(gint argc, gchar *argv[])
 	file_data_register_notify_func(thumb_notify_cb, NULL, NOTIFY_PRIORITY_HIGH);
 	file_data_register_notify_func(histogram_notify_cb, NULL, NOTIFY_PRIORITY_HIGH);
 	file_data_register_notify_func(collect_manager_notify_cb, NULL, NOTIFY_PRIORITY_LOW);
+	file_data_register_notify_func(metadata_notify_cb, NULL, NOTIFY_PRIORITY_LOW);
+	
 
 	gtkrc_load();
 	 
