@@ -51,8 +51,6 @@ const gchar *get_trash_dir(void);
 
 gboolean stat_utf8(const gchar *s, struct stat *st);
 gboolean lstat_utf8(const gchar *s, struct stat *st);
-gboolean stat_utf8_case_insensitive_ext(GString *base, const gchar *ext, struct stat *st);
-
 
 gboolean isname(const gchar *s);
 gboolean isfile(const gchar *s);

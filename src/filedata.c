@@ -28,6 +28,7 @@ static GHashTable *file_data_planned_change_hash = NULL;
 static GHashTable *file_data_basename_hash = NULL;
 
 static gint sidecar_file_priority(const gchar *path);
+static FileData *file_data_new_local(const gchar *path, struct stat *st, gboolean check_sidecars, gboolean stat_sidecars);
 
 
 /*
@@ -152,6 +153,14 @@ void file_data_increment_version(FileData *fd)
 		}
 }
 
+static gint file_data_sort_by_ext(gconstpointer a, gconstpointer b)
+{
+	const FileData *fda = a;
+	const FileData *fdb = b;
+	
+	return strcmp(fdb->extension, fda->extension);
+}
+
 static void file_data_basename_hash_insert(FileData *fd)
 {
 	GList *list;
@@ -164,7 +173,7 @@ static void file_data_basename_hash_insert(FileData *fd)
 	
 	if (!g_list_find(list, fd))
 		{
-		list = g_list_prepend(list, fd);
+		list = g_list_insert_sorted(list, fd, file_data_sort_by_ext);
 		g_hash_table_insert(file_data_basename_hash, basename, list);
 		}
 	else 
@@ -412,14 +421,52 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	return fd;
 }
 
+/* extension must contain only ASCII characters */
+static GList *check_case_insensitive_ext(gchar *path)
+{
+	gchar *sl;
+	gchar *extl;
+	gint ext_len;
+	GList *list = NULL;
+
+	sl = path_from_utf8(path);
+	
+	extl = strrchr(sl, '.');
+	if (extl)
+		{
+		gint i, j;
+		extl++; /* the first char after . */
+		ext_len = strlen(extl);
+	
+		for (i = 0; i < (1 << ext_len); i++)
+			{
+			struct stat st;
+			for (j = 0; j < ext_len; j++)
+				{
+				if (i & (1 << (ext_len - 1 - j))) 
+					extl[j] = g_ascii_tolower(extl[j]);
+				else
+					extl[j] = g_ascii_toupper(extl[j]);
+				}
+			if (stat(sl, &st) == 0)
+				{
+				list = g_list_prepend(list, file_data_new_local(sl, &st, FALSE, FALSE));
+				}
+			}
+		}
+	g_free(sl);
+
+	return list;
+}
+
 static void file_data_check_sidecars(FileData *fd, gboolean stat_sidecars)
 {
 	gint base_len;
 	GString *fname;
 	FileData *parent_fd = NULL;
 	GList *work;
-	GList *basename_list = NULL;
-
+	const GList *basename_list = NULL;
+	GList *group_list = NULL;
 	if (fd->disable_grouping || !sidecar_file_priority(fd->extension))
 		return;
 
@@ -431,71 +478,72 @@ static void file_data_check_sidecars(FileData *fd, gboolean stat_sidecars)
 		basename_list = g_hash_table_lookup(file_data_basename_hash, fname->str);
 		}
 
-	work = sidecar_ext_get_list();
 
+	/* check for possible sidecar files;
+	   the sidecar files created here are referenced only via fd->sidecar_files or fd->parent,
+	   they have fd->ref set to 0 and file_data unref must chack and free them all together
+	   (using fd->ref would cause loops and leaks)
+	*/
+
+	/* find all possible sidecar files and order them according to sidecar_ext_get_list,
+	   for case-only differences put lowercase first,
+	   put the result to group_list 
+	*/
+	work = sidecar_ext_get_list();
 	while (work)
 		{
-		/* check for possible sidecar files;
-		   the sidecar files created here are referenced only via fd->sidecar_files or fd->parent,
-		   they have fd->ref set to 0 and file_data unref must chack and free them all together
-		   (using fd->ref would cause loops and leaks)
-		*/
-
-		FileData *new_fd;
 		gchar *ext = work->data;
-
 		work = work->next;
 
-		if (g_ascii_strcasecmp(ext, fd->extension) == 0)
+		if (stat_sidecars)
 			{
-			new_fd = fd; /* processing the original file */
+			GList *new_list;
+			g_string_truncate(fname, base_len);
+			g_string_append(fname, ext);
+			new_list = check_case_insensitive_ext(fname->str);
+			group_list = g_list_concat(group_list, new_list);
 			}
 		else
 			{
-			if (stat_sidecars)
+			const GList *work2 = basename_list;
+			
+			while (work2)
 				{
 				struct stat nst;
-				g_string_truncate(fname, base_len);
-				if (!stat_utf8_case_insensitive_ext(fname, ext, &nst))
-					continue;
-				new_fd = file_data_new(fname->str, &nst, FALSE, FALSE);
-				}
-			else
-				{
-				GList *work2 = basename_list;
-				new_fd = NULL;
+				FileData *sfd = work2->data;
 				
-				while (work2)
+				if (g_ascii_strcasecmp(ext, sfd->extension) == 0 &&
+				    stat_utf8(sfd->path, &nst)) /* basename list can contain deleted files */
 					{
-					struct stat nst;
-					FileData *sfd = work2->data;
-					if (g_ascii_strcasecmp(ext, sfd->extension) == 0 &&
-					    stat_utf8(sfd->path, &nst)) /* basename list can contain deleted files */
-						{
-						new_fd = file_data_ref(sfd);
-						break;
-						}
-					work2 = work2->next;
+					group_list = g_list_append(group_list, file_data_ref(sfd));
 					}
-					
-				if (!new_fd) continue;
+				work2 = work2->next;
 				}
-			
-			if (new_fd->disable_grouping)
-				{
-				file_data_unref(new_fd);
-				continue;
-				}
-			
-			new_fd->ref--; /* do not use ref here */
 			}
+		}
+	g_string_free(fname, TRUE);
+
+	/* process the group list - the first one is the parent file, others are sidecars */
+	work = group_list;
+	while (work)
+		{
+		FileData *new_fd = work->data;
+		work = work->next;
+
+		if (new_fd->disable_grouping)
+			{
+			file_data_unref(new_fd);
+			continue;
+			}
+
+		new_fd->ref--; /* do not use ref here */
 
 		if (!parent_fd)
 			parent_fd = new_fd; /* parent is the one with the highest prio, found first */
 		else
 			file_data_merge_sidecar_files(parent_fd, new_fd);
 		}
-	g_string_free(fname, TRUE);
+	g_list_free(group_list);
 }
 
 
