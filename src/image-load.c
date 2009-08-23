@@ -387,9 +387,13 @@ static void image_loader_area_prepared_cb(GdkPixbufLoader *loader, gpointer data
 	guchar *pix;
 	size_t h, rs;
 	
-	/* a workaround for http://bugzilla.gnome.org/show_bug.cgi?id=547669 */
+	/* a workaround for 
+	   http://bugzilla.gnome.org/show_bug.cgi?id=547669 
+	   http://bugzilla.gnome.org/show_bug.cgi?id=589334
+	*/
 	gchar *format = gdk_pixbuf_format_get_name(gdk_pixbuf_loader_get_format(loader));
-	if (strcmp(format, "svg") == 0)
+	if (strcmp(format, "svg") == 0 ||
+	    strcmp(format, "xpm") == 0)
 		{
 		g_free(format);
 		return;
