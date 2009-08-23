@@ -778,8 +778,9 @@ static void thumb_loader_std_thumb_file_validate_done_cb(ThumbLoaderStd *tl, gpo
 	GdkPixbuf *pixbuf;
 	gboolean valid = FALSE;
 
-	/* this function is called on success, so the pixbuf should not be a fallback*/
-	pixbuf = thumb_loader_std_get_pixbuf(tv->tl);
+	/* get the original thumbnail pixbuf (unrotated, with original options) 
+	   this is called from image_loader done callback, so tv->tl->il must exist*/
+	pixbuf = image_loader_get_pixbuf(tv->tl->il); 
 	if (pixbuf)
 		{
 		const gchar *uri;
@@ -820,8 +821,10 @@ static void thumb_loader_std_thumb_file_validate_done_cb(ThumbLoaderStd *tl, gpo
 					}
 				}
 			}
-
-		g_object_unref(pixbuf);
+		else
+			{
+			DEBUG_1("invalid image found in std cache: %s", tv->path);
+			}
 		}
 
 	thumb_loader_std_thumb_file_validate_finish(tv, valid);
@@ -940,8 +943,9 @@ static void thumb_std_maint_move_validate_cb(const gchar *path, gboolean valid, 
 	TMaintMove *tm = data;
 	GdkPixbuf *pixbuf;
 
-	/* this function is called on success, so the pixbuf should not be a fallback*/
-	pixbuf = thumb_loader_std_get_pixbuf(tm->tl);
+	/* get the original thumbnail pixbuf (unrotated, with original options) 
+	   this is called from image_loader done callback, so tm->tl->il must exist*/
+	pixbuf = image_loader_get_pixbuf(tm->tl->il); 
 	if (pixbuf)
 		{
 		const gchar *uri;
@@ -984,7 +988,6 @@ static void thumb_std_maint_move_validate_cb(const gchar *path, gboolean valid, 
 
 		DEBUG_1("thumb move unlink: %s", tm->thumb_path);
 		unlink_file(tm->thumb_path);
-		g_object_unref(pixbuf);
 		}
 
 	thumb_std_maint_move_step(tm);
