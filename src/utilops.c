@@ -36,7 +36,6 @@
 
 #define DIALOG_WIDTH 750
 
-
 static GdkPixbuf *file_util_get_error_icon(FileData *fd, GtkWidget *widget);
 
 /*
@@ -338,6 +337,20 @@ enum {
 	UTILITY_COLUMN_DEST_NAME,
 	UTILITY_COLUMN_COUNT
 };
+
+typedef struct _UtilityDelayData UtilityDelayData;
+
+struct _UtilityDelayData {
+	UtilityType type;
+	UtilityPhase phase;
+	GList *flist;
+	gchar *dest_path;
+	gchar *editor_key;
+	GtkWidget *parent;
+	guint idle_id; /* event source id */
+	};
+
+static gboolean file_util_write_metadata_first(UtilityType type, UtilityPhase phase, GList *flist, const gchar *dest_path, const gchar *editor_key, GtkWidget *parent);
 
 #define UTILITY_LIST_MIN_WIDTH  250
 #define UTILITY_LIST_MIN_HEIGHT 150
@@ -1931,6 +1944,7 @@ static void file_util_mark_ungrouped_files(GList *work)
 		}
 }
 
+
 static void file_util_delete_full(FileData *source_fd, GList *flist, GtkWidget *parent, UtilityPhase phase)
 {
 	UtilityData *ud;
@@ -2077,6 +2091,9 @@ static void file_util_copy_full(FileData *source_fd, GList *flist, const gchar *
 
 	if (!flist) return;
 
+	if (file_util_write_metadata_first(UTILITY_TYPE_COPY, phase, flist, dest_path, NULL, parent))
+		return;
+
 	flist = file_data_process_groups_in_selection(flist, &ungrouped);
 
 	if (!file_data_sc_add_ci_copy_list(flist, dest_path))
@@ -2196,6 +2213,9 @@ static void file_util_start_editor_full(const gchar *key, FileData *source_fd, G
 		}
 
 	if (!flist) return;
+	
+	if (file_util_write_metadata_first(UTILITY_TYPE_FILTER, phase, flist, dest_path, key, parent))
+		return;
 
 	flist = file_data_process_groups_in_selection(flist, &ungrouped);
 
@@ -2668,6 +2688,85 @@ static void file_util_create_dir_full(FileData *fd, const gchar *dest_path, GtkW
 	ud->messages.fail = _("Can't create folder");
 
 	file_util_dialog_run(ud);
+}
+
+
+static gboolean file_util_write_metadata_first_after_done(gpointer data)
+{
+	UtilityDelayData *dd = data;
+	
+	/* start the delayed operation with original arguments */
+	switch (dd->type)
+		{
+		case UTILITY_TYPE_FILTER:
+		case UTILITY_TYPE_EDITOR:
+			file_util_start_editor_full(dd->editor_key, NULL, dd->flist, dd->dest_path, NULL, dd->parent, dd->phase);
+			break;
+		case UTILITY_TYPE_COPY:
+			file_util_copy_full(NULL, dd->flist, dd->dest_path, dd->parent, dd->phase);
+			break;
+		default:
+			g_warning("unsupported type");
+		}
+	g_free(dd->dest_path);
+	g_free(dd->editor_key);
+	g_free(dd);
+	return FALSE;
+}
+
+static void file_util_write_metadata_first_done(gboolean success, const gchar *done_path, gpointer data)
+{
+	UtilityDelayData *dd = data;
+
+	if (success)
+		{
+		dd->idle_id = g_idle_add(file_util_write_metadata_first_after_done, dd);
+		return;
+		}
+	
+	/* the operation was cancelled */
+	filelist_free(dd->flist);
+	g_free(dd->dest_path);
+	g_free(dd->editor_key);
+	g_free(dd);
+}
+
+static gboolean file_util_write_metadata_first(UtilityType type, UtilityPhase phase, GList *flist, const gchar *dest_path, const gchar *editor_key, GtkWidget *parent)
+{
+	GList *unsaved = NULL;
+	UtilityDelayData *dd;
+	
+	GList *work;
+	
+	work = flist;
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		
+		if (fd->change) return FALSE; /* another op. in progress, let the caller handle it */
+		
+		if (fd->modified_xmp) /* has unsaved metadata */
+			{
+			unsaved = g_list_prepend(unsaved, fd);
+			}
+		}
+	
+	if (!unsaved) return FALSE;
+	
+	/* save arguments of the original operation */
+	
+	dd = g_new0(UtilityDelayData, 1);
+	
+	dd->type = type;
+	dd->phase = phase;
+	dd->flist = flist;
+	dd->dest_path = g_strdup(dest_path);
+	dd->editor_key = g_strdup(editor_key);
+	dd->parent = parent;
+	
+	file_util_write_metadata(NULL, unsaved, parent, FALSE, file_util_write_metadata_first_done, dd);
+	return TRUE;
 }
 
 
