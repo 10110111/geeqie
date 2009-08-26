@@ -513,7 +513,8 @@ static void file_data_check_sidecars(FileData *fd, gboolean stat_sidecars)
 				FileData *sfd = work2->data;
 				
 				if (g_ascii_strcasecmp(ext, sfd->extension) == 0 &&
-				    stat_utf8(sfd->path, &nst)) /* basename list can contain deleted files */
+				    (sfd == fd || stat_utf8(sfd->path, &nst))) 
+				    /* basename list can contain deleted files, fd was recently stat'd by caller */
 					{
 					group_list = g_list_append(group_list, file_data_ref(sfd));
 					}
