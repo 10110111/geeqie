@@ -749,7 +749,7 @@ gint main(gint argc, gchar *argv[])
 	srand(time(NULL));
 
 #if 1
-	log_printf("%s %s, This is an alpha release.\n", GQ_APPNAME, VERSION);
+	log_printf("%s %s, This is a beta release.\n", GQ_APPNAME, VERSION);
 #endif
 
 	setup_sigbus_handler();
