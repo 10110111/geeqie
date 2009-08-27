@@ -809,10 +809,11 @@ static void layout_menu_bar_sort_cb(GtkToggleAction *action, gpointer data)
 	layout_bar_sort_toggle(lw);
 }
 
-static void layout_menu_slideshow_cb(GtkAction *action, gpointer data)
+static void layout_menu_slideshow_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
+	if (layout_image_slideshow_active(lw) == gtk_toggle_action_get_active(action)) return;
 	layout_image_slideshow_toggle(lw);
 }
 
