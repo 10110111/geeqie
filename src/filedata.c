@@ -25,10 +25,9 @@
 
 static GHashTable *file_data_pool = NULL;
 static GHashTable *file_data_planned_change_hash = NULL;
-static GHashTable *file_data_basename_hash = NULL;
 
 static gint sidecar_file_priority(const gchar *path);
-static FileData *file_data_new_local(const gchar *path, struct stat *st, gboolean check_sidecars, gboolean stat_sidecars);
+static FileData *file_data_new_local(const gchar *path, struct stat *st, gboolean check_sidecars, GHashTable *basename_hash);
 
 
 /*
@@ -138,7 +137,7 @@ const gchar *text_from_time(time_t t)
  */
 
 FileData *file_data_merge_sidecar_files(FileData *target, FileData *source);
-static void file_data_check_sidecars(FileData *fd, gboolean stat_sidecars);
+static void file_data_check_sidecars(FileData *fd, GHashTable *basename_hash);
 FileData *file_data_disconnect_sidecar_file(FileData *target, FileData *sfd);
 
 
@@ -161,20 +160,23 @@ static gint file_data_sort_by_ext(gconstpointer a, gconstpointer b)
 	return strcmp(fdb->extension, fda->extension);
 }
 
-static void file_data_basename_hash_insert(FileData *fd)
+static GHashTable *file_data_basename_hash_new(void)
+{
+	return g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+}
+
+static void file_data_basename_hash_insert(GHashTable *basename_hash, FileData *fd)
 {
 	GList *list;
     	const gchar *ext = extension_from_path(fd->path);
 	gchar *basename = ext ? g_strndup(fd->path, ext - fd->path) : g_strdup(fd->path);
-	if (!file_data_basename_hash)
-		file_data_basename_hash = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
-	
-	list = g_hash_table_lookup(file_data_basename_hash, basename);
+
+	list = g_hash_table_lookup(basename_hash, basename);
 	
 	if (!g_list_find(list, fd))
 		{
-		list = g_list_insert_sorted(list, fd, file_data_sort_by_ext);
-		g_hash_table_insert(file_data_basename_hash, basename, list);
+		list = g_list_insert_sorted(list, file_data_ref(fd), file_data_sort_by_ext);
+		g_hash_table_insert(basename_hash, basename, list);
 		}
 	else 
 		{
@@ -182,27 +184,39 @@ static void file_data_basename_hash_insert(FileData *fd)
 		}
 }
 
-static void file_data_basename_hash_remove(FileData *fd)
+static void file_data_basename_hash_remove(GHashTable *basename_hash, FileData *fd)
 {
 	GList *list;
 	const gchar *ext = extension_from_path(fd->path);
 	gchar *basename = ext ? g_strndup(fd->path, ext - fd->path) : g_strdup(fd->path);
-	if (!file_data_basename_hash)
-		file_data_basename_hash = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 	
-	list = g_hash_table_lookup(file_data_basename_hash, basename);
+	list = g_hash_table_lookup(basename_hash, basename);
+	
+	if (!g_list_find(list, fd)) return;
 	
 	list = g_list_remove(list, fd);
+	file_data_unref(fd);
 	
 	if (list)
 		{
-		g_hash_table_insert(file_data_basename_hash, basename, list);
+		g_hash_table_insert(basename_hash, basename, list);
 		}
 	else 
 		{
-		g_hash_table_remove(file_data_basename_hash, basename);
+		g_hash_table_remove(basename_hash, basename);
 		g_free(basename);
 		}
+}
+
+static void file_data_basename_hash_remove_list(gpointer key, gpointer value, gpointer data)
+{
+	filelist_free((GList *)value);
+}
+
+static void file_data_basename_hash_free(GHashTable *basename_hash)
+{
+	g_hash_table_foreach(basename_hash, file_data_basename_hash_remove_list, NULL); 
+	g_hash_table_destroy(basename_hash);
 }
 
 static void file_data_set_collate_keys(FileData *fd)
@@ -224,12 +238,12 @@ static void file_data_set_collate_keys(FileData *fd)
 	g_free(caseless_name);
 }
 
-static void file_data_set_path(FileData *fd, const gchar *path)
+static void file_data_set_path(FileData *fd, const gchar *path, GHashTable *basename_hash)
 {
 	g_assert(path /* && *path*/); /* view_dir_tree uses FileData with zero length path */
 	g_assert(file_data_pool);
 
-	if (fd->path) file_data_basename_hash_remove(fd);
+	if (basename_hash && fd->path) file_data_basename_hash_remove(basename_hash, fd);
 	
 	g_free(fd->path);
 
@@ -283,7 +297,7 @@ static void file_data_set_path(FileData *fd, const gchar *path)
 		fd->extension = fd->name + strlen(fd->name);
 		}
 
-	file_data_basename_hash_insert(fd); /* we can ignore the special cases above - they don't have extensions */
+	if (basename_hash) file_data_basename_hash_insert(basename_hash, fd); /* we can ignore the special cases above - they don't have extensions */
 
 	file_data_set_collate_keys(fd);
 }
@@ -364,11 +378,11 @@ gboolean file_data_check_changed_files(FileData *fd)
 	return ret;
 }
 
-static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean check_sidecars, gboolean stat_sidecars)
+static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean check_sidecars, GHashTable *basename_hash)
 {
 	FileData *fd;
 
-	DEBUG_2("file_data_new: '%s' %d %d", path_utf8, check_sidecars, stat_sidecars);
+	DEBUG_2("file_data_new: '%s' %d %d", path_utf8, check_sidecars, !!basename_hash);
 
 	if (!file_data_pool)
 		file_data_pool = g_hash_table_new(g_str_hash, g_str_equal);
@@ -399,7 +413,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 		else
 			changed = file_data_check_changed_files_recursive(fd, st);
 		if (changed && check_sidecars && sidecar_file_priority(fd->extension))
-			file_data_check_sidecars(fd, stat_sidecars);
+			file_data_check_sidecars(fd, basename_hash);
 		DEBUG_2("file_data_pool hit: '%s' %s", fd->path, changed ? "(changed)" : "");
 		
 		return fd;
@@ -413,10 +427,10 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	fd->ref = 1;
 	fd->magick = 0x12345678;
 
-	file_data_set_path(fd, path_utf8); /* set path, name, collate_key_*, original_path */
+	file_data_set_path(fd, path_utf8, basename_hash); /* set path, name, collate_key_*, original_path */
 
 	if (check_sidecars)
-		file_data_check_sidecars(fd, stat_sidecars);
+		file_data_check_sidecars(fd, basename_hash);
 
 	return fd;
 }
@@ -459,7 +473,7 @@ static GList *check_case_insensitive_ext(gchar *path)
 	return list;
 }
 
-static void file_data_check_sidecars(FileData *fd, gboolean stat_sidecars)
+static void file_data_check_sidecars(FileData *fd, GHashTable *basename_hash)
 {
 	gint base_len;
 	GString *fname;
@@ -473,9 +487,9 @@ static void file_data_check_sidecars(FileData *fd, gboolean stat_sidecars)
 	base_len = fd->extension - fd->path;
 	fname = g_string_new_len(fd->path, base_len);
 
-	if (!stat_sidecars)
+	if (basename_hash)
 		{
-		basename_list = g_hash_table_lookup(file_data_basename_hash, fname->str);
+		basename_list = g_hash_table_lookup(basename_hash, fname->str);
 		}
 
 
@@ -495,7 +509,7 @@ static void file_data_check_sidecars(FileData *fd, gboolean stat_sidecars)
 		gchar *ext = work->data;
 		work = work->next;
 
-		if (stat_sidecars)
+		if (!basename_hash)
 			{
 			GList *new_list;
 			g_string_truncate(fname, base_len);
@@ -509,12 +523,9 @@ static void file_data_check_sidecars(FileData *fd, gboolean stat_sidecars)
 			
 			while (work2)
 				{
-				struct stat nst;
 				FileData *sfd = work2->data;
 				
-				if (g_ascii_strcasecmp(ext, sfd->extension) == 0 &&
-				    (sfd == fd || stat_utf8(sfd->path, &nst))) 
-				    /* basename list can contain deleted files, fd was recently stat'd by caller */
+				if (g_ascii_strcasecmp(ext, sfd->extension) == 0) 
 					{
 					group_list = g_list_append(group_list, file_data_ref(sfd));
 					}
@@ -548,10 +559,10 @@ static void file_data_check_sidecars(FileData *fd, gboolean stat_sidecars)
 }
 
 
-static FileData *file_data_new_local(const gchar *path, struct stat *st, gboolean check_sidecars, gboolean stat_sidecars)
+static FileData *file_data_new_local(const gchar *path, struct stat *st, gboolean check_sidecars, GHashTable *basename_hash)
 {
 	gchar *path_utf8 = path_to_utf8(path);
-	FileData *ret = file_data_new(path_utf8, st, check_sidecars, stat_sidecars);
+	FileData *ret = file_data_new(path_utf8, st, check_sidecars, basename_hash);
 
 	g_free(path_utf8);
 	return ret;
@@ -567,7 +578,7 @@ FileData *file_data_new_simple(const gchar *path_utf8)
 		st.st_mtime = 0;
 		}
 
-	return file_data_new(path_utf8, &st, TRUE, TRUE);
+	return file_data_new(path_utf8, &st, TRUE, NULL);
 }
 
 FileData *file_data_add_sidecar_file(FileData *target, FileData *sfd)
@@ -629,7 +640,6 @@ static void file_data_free(FileData *fd)
 	g_assert(fd->magick == 0x12345678);
 	g_assert(fd->ref == 0);
 
-	if (fd->path) file_data_basename_hash_remove(fd);
 	g_hash_table_remove(file_data_pool, fd->original_path);
 
 	g_free(fd->path);
@@ -991,6 +1001,7 @@ static gboolean filelist_read_real(FileData *dir_fd, GList **files, GList **dirs
 	GList *dlist = NULL;
 	GList *flist = NULL;
 	gint (*stat_func)(const gchar *path, struct stat *buf);
+	GHashTable *basename_hash = NULL;
 
 	g_assert(files || dirs);
 
@@ -1006,6 +1017,8 @@ static gboolean filelist_read_real(FileData *dir_fd, GList **files, GList **dirs
 		g_free(pathl);
 		return FALSE;
 		}
+
+	if (files) basename_hash = file_data_basename_hash_new();
 
 	if (follow_symlinks)
 		stat_func = stat;
@@ -1033,14 +1046,14 @@ static gboolean filelist_read_real(FileData *dir_fd, GList **files, GList **dirs
 				    strcmp(name, GQ_CACHE_LOCAL_METADATA) != 0 &&
 				    strcmp(name, THUMB_FOLDER_LOCAL) != 0)
 					{
-					dlist = g_list_prepend(dlist, file_data_new_local(filepath, &ent_sbuf, FALSE, FALSE));
+					dlist = g_list_prepend(dlist, file_data_new_local(filepath, &ent_sbuf, FALSE, NULL));
 					}
 				}
 			else
 				{
 				if (files && filter_name_exists(name))
 					{
-					flist = g_list_prepend(flist, file_data_new_local(filepath, &ent_sbuf, TRUE, FALSE));
+					flist = g_list_prepend(flist, file_data_new_local(filepath, &ent_sbuf, TRUE, basename_hash));
 					}
 				}
 			}
@@ -1050,6 +1063,7 @@ static gboolean filelist_read_real(FileData *dir_fd, GList **files, GList **dirs
 	closedir(dp);
 	
 	g_free(pathl);
+	if (basename_hash) file_data_basename_hash_free(basename_hash);
 
 	if (dirs) *dirs = dlist;
 	if (files) *files = filelist_filter_out_sidecars(flist);
@@ -2384,7 +2398,7 @@ gboolean file_data_apply_ci(FileData *fd)
 			}
 		else
 			{
-			file_data_set_path(fd, fd->change->dest);
+			file_data_set_path(fd, fd->change->dest, NULL);
 			}
 		}
 	file_data_increment_version(fd);
