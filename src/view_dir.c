@@ -126,9 +126,10 @@ ViewDir *vd_new(DirViewType type, FileData *dir_fd)
 	g_signal_connect(G_OBJECT(vd->view), "button_release_event",
 			 G_CALLBACK(vd_release_cb), vd);
 
-	if (dir_fd) vd_set_fd(vd, dir_fd);
-
 	file_data_register_notify_func(vd_notify_cb, vd, NOTIFY_PRIORITY_HIGH);
+
+	/* vd_set_fd expects that vd_notify_cb is already registered */
+	if (dir_fd) vd_set_fd(vd, dir_fd);
 
 	gtk_widget_show(vd->view);
 

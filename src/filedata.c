@@ -2549,6 +2549,19 @@ static gint file_data_notify_sort(gconstpointer a, gconstpointer b)
 gboolean file_data_register_notify_func(FileDataNotifyFunc func, gpointer data, NotifyPriority priority)
 {
 	NotifyData *nd;
+	GList *work = notify_func_list;
+	
+	while (work)
+		{
+		NotifyData *nd = (NotifyData *)work->data;
+	
+		if (nd->func == func && nd->data == data)
+			{
+			g_warning("Notify func already registered");
+			return FALSE;
+			}
+		work = work->next;
+		}
 	
 	nd = g_new(NotifyData, 1);
 	nd->func = func;
@@ -2579,6 +2592,7 @@ gboolean file_data_unregister_notify_func(FileDataNotifyFunc func, gpointer data
 		work = work->next;
 		}
 
+	g_warning("Notify func not found");
 	return FALSE;
 }
 
