@@ -2466,23 +2466,26 @@ static gboolean file_data_list_dump(GList *list)
 }
 #endif
 
-GList *file_data_process_groups_in_selection(GList *list, GList **ungrouped_list)
+GList *file_data_process_groups_in_selection(GList *list, gboolean ungroup, GList **ungrouped_list)
 {
 	GList *out = NULL;
 	GList *work = list;
 
 	/* change partial groups to independent files */
-	while (work)
+	if (ungroup)
 		{
-		FileData *fd = work->data;
-		work = work->next;
-		
-		if (!file_data_list_contains_whole_group(list, fd)) 
+		while (work)
 			{
-			file_data_disable_grouping(fd, TRUE);
-			if (ungrouped_list) 
+			FileData *fd = work->data;
+			work = work->next;
+		
+			if (!file_data_list_contains_whole_group(list, fd)) 
 				{
-				*ungrouped_list = g_list_prepend(*ungrouped_list, file_data_ref(fd));
+				file_data_disable_grouping(fd, TRUE);
+				if (ungrouped_list) 
+					{
+					*ungrouped_list = g_list_prepend(*ungrouped_list, file_data_ref(fd));
+					}
 				}
 			}
 		}
@@ -2495,17 +2498,14 @@ GList *file_data_process_groups_in_selection(GList *list, GList **ungrouped_list
 		FileData *fd = work->data;
 		work = work->next;
 		
-		if (!fd->parent)
+		if (!fd->parent ||
+		    (!ungroup && !file_data_list_contains_whole_group(list, fd)))
 			{
-			out = g_list_prepend(out, fd);
-			}
-		else
-			{
-			file_data_unref(fd);
+			out = g_list_prepend(out, file_data_ref(fd));
 			}
 		}
 		
-	g_list_free(list);
+	filelist_free(list);
 	out = g_list_reverse(out);
 
 	return out;

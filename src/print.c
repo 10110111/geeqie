@@ -3356,7 +3356,7 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 	pw = g_new0(PrintWindow, 1);
 
 	pw->source_fd = file_data_ref(fd);
-	pw->source_selection = selection;
+	pw->source_selection = file_data_process_groups_in_selection(selection, FALSE, NULL);
 	pw->source_list = list;
 
 	pw->source = print_pref_int(PRINT_PREF_SOURCE, PRINT_SOURCE_SELECTION);

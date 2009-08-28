@@ -1955,7 +1955,7 @@ static void file_util_delete_full(FileData *source_fd, GList *flist, GtkWidget *
 
 	if (!flist) return;
 	
-	flist = file_data_process_groups_in_selection(flist, &ungrouped);
+	flist = file_data_process_groups_in_selection(flist, TRUE, &ungrouped);
 	
 	if (!file_data_sc_add_ci_delete_list(flist))
 		{
@@ -2045,7 +2045,7 @@ static void file_util_move_full(FileData *source_fd, GList *flist, const gchar *
 
 	if (!flist) return;
 
-	flist = file_data_process_groups_in_selection(flist, &ungrouped);
+	flist = file_data_process_groups_in_selection(flist, TRUE, &ungrouped);
 
 	if (!file_data_sc_add_ci_move_list(flist, dest_path))
 		{
@@ -2094,7 +2094,7 @@ static void file_util_copy_full(FileData *source_fd, GList *flist, const gchar *
 	if (file_util_write_metadata_first(UTILITY_TYPE_COPY, phase, flist, dest_path, NULL, parent))
 		return;
 
-	flist = file_data_process_groups_in_selection(flist, &ungrouped);
+	flist = file_data_process_groups_in_selection(flist, TRUE, &ungrouped);
 
 	if (!file_data_sc_add_ci_copy_list(flist, dest_path))
 		{
@@ -2140,7 +2140,7 @@ static void file_util_rename_full(FileData *source_fd, GList *flist, const gchar
 
 	if (!flist) return;
 
-	flist = file_data_process_groups_in_selection(flist, &ungrouped);
+	flist = file_data_process_groups_in_selection(flist, TRUE, &ungrouped);
 
 	if (!file_data_sc_add_ci_rename_list(flist, dest_path))
 		{
@@ -2217,7 +2217,7 @@ static void file_util_start_editor_full(const gchar *key, FileData *source_fd, G
 	if (file_util_write_metadata_first(UTILITY_TYPE_FILTER, phase, flist, dest_path, key, parent))
 		return;
 
-	flist = file_data_process_groups_in_selection(flist, &ungrouped);
+	flist = file_data_process_groups_in_selection(flist, TRUE, &ungrouped);
 
 	if (!file_data_sc_add_ci_unspecified_list(flist, dest_path))
 		{
