@@ -445,7 +445,7 @@ void vflist_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 
 			tpath = gtk_tree_model_get_path(store, &iter);
 			tree_edit_by_path(GTK_TREE_VIEW(vf->listview), tpath,
-					  vflist_column_idx(vf, FILE_COLUMN_NAME), VFLIST(vf)->click_fd->name,
+					  FILE_VIEW_COLUMN_FORMATTED, VFLIST(vf)->click_fd->name,
 					  vflist_row_rename_cb, vf);
 			gtk_tree_path_free(tpath);
 			}
