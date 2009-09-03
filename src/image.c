@@ -1440,10 +1440,12 @@ static void image_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	    imd->state == IMAGE_STATE_NONE /* loading not started, no need to reload */
 	    ) return;
 
-	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE)) && fd == imd->image_fd)
+	if ((type & NOTIFY_REREAD) && fd == imd->image_fd)
 		{
-		if ((type & NOTIFY_CHANGE) && fd->change && fd->change->type == FILEDATA_CHANGE_DELETE)
-			return; /* keep the image displayed, it will be replaced by the next image from the list soon */
+		/* there is no need to reload on NOTIFY_CHANGE, 
+		   modified files should be detacted anyway and NOTIFY_REREAD should be recieved 
+		   or they are removed from the filelist completely on "move" and "delete"
+		*/
 		DEBUG_1("Notify image: %s %04x", fd->path, type);
 		image_reload(imd);
 		}
