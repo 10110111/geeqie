@@ -344,7 +344,11 @@ void bar_pane_gps_set_map_source(PaneGPSData *pgd, const gchar *map_id)
 	ChamplainMapSource *map_source;
 	ChamplainMapSourceFactory *map_factory;
 
+#if CHAMPLAIN_CHECK_VERSION(0,3,2)
+	map_factory = champlain_map_source_factory_dup_default();
+#else
 	map_factory = champlain_map_source_factory_get_default();
+#endif
 	map_source = champlain_map_source_factory_create(map_factory, map_id);
 
 	if (map_source != NULL)
@@ -488,8 +492,8 @@ static void bar_pane_gps_write_config(GtkWidget *pane, GString *outstr, gint ind
 }
 
 static void bar_pane_gps_slider_changed_cb(GtkScaleButton *slider,
-													gdouble zoom,
-													gpointer data)
+					   gdouble zoom,
+					   gpointer data)
 {
 	PaneGPSData *pgd = data;
 	GString *message;
@@ -503,8 +507,8 @@ static void bar_pane_gps_slider_changed_cb(GtkScaleButton *slider,
 
 }
 static void bar_pane_gps_view_state_changed_cb(ChamplainView *view,
-           											GParamSpec *gobject,
-           											gpointer data)
+           				       GParamSpec *gobject,
+           				       gpointer data)
 {
 	PaneGPSData *pgd = data;
  	ChamplainState status;
@@ -566,8 +570,13 @@ static GtkWidget *bar_pane_gps_menu(PaneGPSData *pgd)
 
 	menu = popup_menu_short_lived();
 
+#if CHAMPLAIN_CHECK_VERSION(0,3,2)
+	map_factory = champlain_map_source_factory_dup_default();
+	map_list = champlain_map_source_factory_dup_list(map_factory);
+#else
 	map_factory = champlain_map_source_factory_get_default();
 	map_list = champlain_map_source_factory_get_list(map_factory);
+#endif
 	current = bar_pane_gps_get_map_id(pgd);
 
 	while (map_list)
@@ -676,7 +685,7 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	GtkWidget *gpswidget, *viewport;
 	GtkWidget *status, *state, *progress, *slider;
 	ChamplainLayer *layer;
-	ClutterActor *view;
+	ChamplainView *view;
 	const gchar *slider_list[] = {GTK_STOCK_ZOOM_IN, GTK_STOCK_ZOOM_OUT, NULL};
 	const gchar **slider_icons = slider_list;
 
@@ -696,11 +705,11 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	vbox = gtk_vbox_new(FALSE, 0);
 
 #ifdef GTK_CHAMPLAIN_EMBED
-	gpswidget = gtk_champlain_embed_new ();
-	view = gtk_champlain_embed_get_view (GTK_CHAMPLAIN_EMBED (gpswidget));
+	gpswidget = gtk_champlain_embed_new();
+	view = gtk_champlain_embed_get_view(GTK_CHAMPLAIN_EMBED(gpswidget));
 #else
 	view = champlain_view_new();
-	gpswidget = champlain_view_embed_new(CHAMPLAIN_VIEW(view));
+	gpswidget = champlain_view_embed_new(view);
 #endif
 	viewport = gtk_viewport_new(NULL, NULL);
 	
@@ -723,10 +732,10 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	gtk_box_pack_end(GTK_BOX(vbox),GTK_WIDGET(status), FALSE, FALSE, 0);
 	
 	layer = champlain_layer_new();
-	champlain_view_add_layer(CHAMPLAIN_VIEW(view), layer);
+	champlain_view_add_layer(view, layer);
 
 	pgd->icon_layer = layer;
-	pgd->gps_view = view;
+	pgd->gps_view = CLUTTER_ACTOR(view);
 	pgd->widget = scrolled;
 	pgd->progress = progress;
 	pgd->slider = slider;
@@ -734,16 +743,16 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 
 	bar_pane_gps_set_map_source(pgd, map_id);
 	
-	g_object_set(G_OBJECT(CHAMPLAIN_VIEW(view)), "scroll-mode", CHAMPLAIN_SCROLL_MODE_KINETIC,
-												"zoom-level", zoom,
-												"keep-center-on-resize", TRUE,											
-												"decel-rate", 1.0,
-												"show-license", TRUE,
-												"zoom-on-double-click", FALSE,
-												"max-zoom-level", 17,
-												"min-zoom-level", 1,
-												NULL);
-	champlain_view_center_on(CHAMPLAIN_VIEW(view), latitude, longitude);
+	g_object_set(G_OBJECT(view), "scroll-mode", CHAMPLAIN_SCROLL_MODE_KINETIC,
+				     "zoom-level", zoom,
+				     "keep-center-on-resize", TRUE,
+				     "decel-rate", 1.0,
+				     "show-license", TRUE,
+				     "zoom-on-double-click", FALSE,
+				     "max-zoom-level", 17,
+				     "min-zoom-level", 1,
+				     NULL);
+	champlain_view_center_on(view, latitude, longitude);
 	pgd->centre_map_checked = TRUE;
 	g_object_set_data(G_OBJECT(pgd->widget), "pane_data", pgd);
 	g_signal_connect(G_OBJECT(pgd->widget), "destroy", G_CALLBACK(bar_pane_gps_destroy), pgd);

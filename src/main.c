@@ -11,11 +11,6 @@
  */
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
-#ifdef HAVE_LIBCHAMPLAIN
-#ifdef HAVE_LIBCHAMPLAIN_GTK
-#include <clutter-gtk/gtk-clutter-embed.h>
-#endif
-#endif
 
 #include <signal.h>
 #include <sys/mman.h>
@@ -49,6 +44,12 @@
 #include "exif.h"
 #include "histogram.h"
 #include "pixbuf_util.h"
+
+#ifdef HAVE_LIBCHAMPLAIN
+#ifdef HAVE_LIBCHAMPLAIN_GTK
+#include <clutter-gtk/gtk-clutter-embed.h>
+#endif
+#endif
 
 
 gboolean thumb_format_changed = FALSE;
