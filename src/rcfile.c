@@ -1164,7 +1164,7 @@ static void start_element(GMarkupParseContext *context,
 {
 	GQParserData *parser_data = user_data;
 	GQParserFuncData *func = parser_data->parse_func_stack->data; 
-	DEBUG_1("start %s", element_name);
+	DEBUG_2("start %s", element_name);
 	
 	if (func->start_func)
 		func->start_func(parser_data, context, element_name, attribute_names, attribute_values, func->data, error);
@@ -1177,7 +1177,7 @@ static void end_element(GMarkupParseContext *context,
 {
 	GQParserData *parser_data = user_data;
 	GQParserFuncData *func = parser_data->parse_func_stack->data; 
-	DEBUG_1("end %s", element_name);
+	DEBUG_2("end %s", element_name);
 
 	if (func->end_func)
 		func->end_func(parser_data, context, element_name, func->data, error);

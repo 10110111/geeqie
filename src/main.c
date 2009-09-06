@@ -764,7 +764,9 @@ gint main(gint argc, gchar *argv[])
 	
 
 	gtkrc_load();
-	 
+
+	parse_command_line_for_debug_option(argc, argv);
+	DEBUG_1("%s main: gtk_init", get_exec_time());	 
 #ifdef HAVE_LIBCHAMPLAIN
 #ifdef HAVE_LIBCHAMPLAIN_GTK
 	gtk_clutter_init(&argc, &argv);
@@ -785,11 +787,13 @@ gint main(gint argc, gchar *argv[])
 		log_printf("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
 		}
 
+	DEBUG_1("%s main: pixbuf_inline_register_stock_icons", get_exec_time());	 
 	pixbuf_inline_register_stock_icons();
 
-	parse_command_line_for_debug_option(argc, argv);
+	DEBUG_1("%s main: parse_command_line", get_exec_time());	 
 	parse_command_line(argc, argv);
 
+	DEBUG_1("%s main: mkdir_if_not_exists", get_exec_time());	 
 	/* these functions don't depend on config file */
 	mkdir_if_not_exists(get_rc_dir());
 	mkdir_if_not_exists(get_collections_dir());
@@ -806,6 +810,7 @@ gint main(gint argc, gchar *argv[])
 	options = init_options(NULL);
 	setup_default_options(options);
 
+	DEBUG_1("%s main: load_options", get_exec_time());	 
 	if (!load_options(options))
 		{
 		/* load_options calls these functions after it parses global options, we have to call it here if it fails */
@@ -899,6 +904,7 @@ gint main(gint argc, gchar *argv[])
 	remote_connection = remote_server_init(buf, cd);
 	g_free(buf);
 	
+	DEBUG_1("%s main: gtk_main", get_exec_time());	 
 	gtk_main();
 #ifdef HAVE_GTHREAD
 	gdk_threads_leave();

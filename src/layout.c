@@ -2073,6 +2073,7 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 	GdkWindowHints hint_mask;
 	Histogram *histogram;
 
+	DEBUG_1("%s layout_new: start", get_exec_time());
 	lw = g_new0(LayoutWindow, 1);
 
 	if (lop)
@@ -2199,6 +2200,8 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 	layout_window_list = g_list_append(layout_window_list, lw);
 
 	file_data_register_notify_func(layout_image_notify_cb, lw, NOTIFY_PRIORITY_LOW);
+
+	DEBUG_1("%s layout_new: end", get_exec_time());
 
 	return lw;
 }

@@ -1862,6 +1862,7 @@ void layout_actions_setup(LayoutWindow *lw)
 	GError *error;
 	gint i;
 
+	DEBUG_1("%s layout_actions_setup: start", get_exec_time());
 	if (lw->ui_manager) return;
 
 	lw->action_group = gtk_action_group_new("MenuActions");
@@ -1895,6 +1896,7 @@ void layout_actions_setup(LayoutWindow *lw)
 	gtk_ui_manager_set_add_tearoffs(lw->ui_manager, TRUE);
 	gtk_ui_manager_insert_action_group(lw->ui_manager, lw->action_group, 0);
 
+	DEBUG_1("%s layout_actions_setup: add menu", get_exec_time());
 	error = NULL;
 	if (!gtk_ui_manager_add_ui_from_string(lw->ui_manager, menu_ui_description, -1, &error))
 		{
@@ -1903,23 +1905,33 @@ void layout_actions_setup(LayoutWindow *lw)
 		exit(EXIT_FAILURE);
 		}
 	
+	DEBUG_1("%s layout_actions_setup: add toolbar", get_exec_time());
 	for (i = 0; i < TOOLBAR_COUNT; i++)
 		{
 		layout_toolbar_clear(lw, i);
 		layout_toolbar_add_default(lw, i);
 		}
 	
+
+	DEBUG_1("%s layout_actions_setup: marks", get_exec_time());
 	layout_actions_setup_marks(lw);
+
+	DEBUG_1("%s layout_actions_setup: editors", get_exec_time());
 	layout_actions_setup_editors(lw);
 
+	DEBUG_1("%s layout_actions_setup: status_update_write", get_exec_time());
 	layout_util_status_update_write(lw);
 	
+	DEBUG_1("%s layout_actions_setup: actions_add_window", get_exec_time());
 	layout_actions_add_window(lw, lw->window);
+	DEBUG_1("%s layout_actions_setup: end", get_exec_time());
 }
 
 void layout_editors_reload_all(void)
 {
 	GList *work;
+
+	DEBUG_1("%s layout_editors_reload_all: start", get_exec_time());
 
 	work = layout_window_list;
 	while (work)
@@ -1932,8 +1944,10 @@ void layout_editors_reload_all(void)
 		g_object_unref(lw->action_group_editors);
 		}
 	
+	DEBUG_1("%s layout_editors_reload_all: editor_load_descriptions", get_exec_time());
 	editor_load_descriptions();
 	
+	DEBUG_1("%s layout_editors_reload_all: setup_editors", get_exec_time());
 	work = layout_window_list;
 	while (work)
 		{
@@ -1941,6 +1955,7 @@ void layout_editors_reload_all(void)
 		work = work->next;
 		layout_actions_setup_editors(lw);
 		}
+	DEBUG_1("%s layout_editors_reload_all: end", get_exec_time());
 }
 
 void layout_actions_add_window(LayoutWindow *lw, GtkWidget *window)
