@@ -1801,6 +1801,11 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 	GList *old_path;
 	GString *desc;
 	
+	if (lw->action_group_editors)
+		{
+		gtk_ui_manager_remove_action_group(lw->ui_manager, lw->action_group_editors);
+		g_object_unref(lw->action_group_editors);
+		}
 	lw->action_group_editors = gtk_action_group_new("MenuActionsExternal");
 	gtk_ui_manager_insert_action_group(lw->ui_manager, lw->action_group_editors, 1);
 
@@ -1824,7 +1829,7 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 		                         editor->comment ? editor->comment : editor->name,
 		                         G_CALLBACK(layout_menu_edit_cb) };
 		
-		if (editor->icon && register_theme_icon_as_stock(editor->key, editor->icon))
+		if (editor->icon)
 			{
 			entry.stock_id = editor->key;
 			}
@@ -1927,11 +1932,56 @@ void layout_actions_setup(LayoutWindow *lw)
 	DEBUG_1("%s layout_actions_setup: end", get_exec_time());
 }
 
-void layout_editors_reload_all(void)
+static gint layout_editors_reload_idle_id = -1;
+static GList *layout_editors_desktop_files = NULL;
+
+static gboolean layout_editors_reload_idle_cb(gpointer data)
+{
+	if (!layout_editors_desktop_files)
+		{
+		DEBUG_1("%s layout_editors_reload_idle_cb: get_desktop_files", get_exec_time());
+		layout_editors_desktop_files = editor_get_desktop_files();
+		return TRUE;
+		}
+	
+	editor_read_desktop_file(layout_editors_desktop_files->data);
+	g_free(layout_editors_desktop_files->data);
+	layout_editors_desktop_files = g_list_delete_link(layout_editors_desktop_files, layout_editors_desktop_files);
+	
+	
+	if (!layout_editors_desktop_files)
+		{
+		GList *work;
+		DEBUG_1("%s layout_editors_reload_idle_cb: setup_editors", get_exec_time());
+		editor_table_finish();
+
+		work = layout_window_list;
+		while (work)
+			{
+			LayoutWindow *lw = work->data;
+			work = work->next;
+			layout_actions_setup_editors(lw);
+			}
+
+		DEBUG_1("%s layout_editors_reload_idle_cb: setup_editors done", get_exec_time());
+		
+		layout_editors_reload_idle_id = -1;
+		return FALSE;
+		}
+	return TRUE;
+}
+
+void layout_editors_reload_start(void)
 {
 	GList *work;
 
-	DEBUG_1("%s layout_editors_reload_all: start", get_exec_time());
+	DEBUG_1("%s layout_editors_reload_start", get_exec_time());
+
+	if (layout_editors_reload_idle_id != -1)
+		{
+		g_source_remove(layout_editors_reload_idle_id);
+		string_list_free(layout_editors_desktop_files);
+		}
 
 	work = layout_window_list;
 	while (work)
@@ -1942,20 +1992,23 @@ void layout_editors_reload_all(void)
 		gtk_ui_manager_remove_ui(lw->ui_manager, lw->ui_editors_id);
 		gtk_ui_manager_remove_action_group(lw->ui_manager, lw->action_group_editors);
 		g_object_unref(lw->action_group_editors);
+		lw->action_group_editors = NULL;
 		}
+	editor_table_clear();
+	layout_editors_reload_idle_id = g_idle_add(layout_editors_reload_idle_cb, NULL);
+}
 	
-	DEBUG_1("%s layout_editors_reload_all: editor_load_descriptions", get_exec_time());
-	editor_load_descriptions();
-	
-	DEBUG_1("%s layout_editors_reload_all: setup_editors", get_exec_time());
-	work = layout_window_list;
-	while (work)
+void layout_editors_reload_finish(void)
+{
+	if (layout_editors_reload_idle_id != -1)
 		{
-		LayoutWindow *lw = work->data;
-		work = work->next;
-		layout_actions_setup_editors(lw);
+		DEBUG_1("%s layout_editors_reload_finish", get_exec_time());
+		g_source_remove(layout_editors_reload_idle_id);
+		while (layout_editors_reload_idle_id != -1)
+			{
+			layout_editors_reload_idle_cb(NULL);
+			}
 		}
-	DEBUG_1("%s layout_editors_reload_all: end", get_exec_time());
 }
 
 void layout_actions_add_window(LayoutWindow *lw, GtkWidget *window)
@@ -2032,6 +2085,29 @@ void layout_toolbar_add(LayoutWindow *lw, ToolbarType type, const gchar *action)
 			break;
 		}
 	
+	
+	if (g_str_has_suffix(action, ".desktop"))
+		{
+		/* this may be called before the external editors are read
+		   create a dummy action for now */
+		  
+		if (!lw->action_group_editors)
+			{
+			lw->action_group_editors = gtk_action_group_new("MenuActionsExternal");
+			gtk_ui_manager_insert_action_group(lw->ui_manager, lw->action_group_editors, 1);
+			}
+		if (!gtk_action_group_get_action(lw->action_group_editors, action))
+			{
+			GtkActionEntry entry = { action, 
+			                         GTK_STOCK_MISSING_IMAGE,
+			                         action,
+			                         NULL, 
+			                         NULL,
+			                         NULL };
+			DEBUG_1("Creating temporary action %s", action);
+			gtk_action_group_add_actions(lw->action_group_editors, &entry, 1, lw);
+			}
+		}
 	gtk_ui_manager_add_ui(lw->ui_manager, lw->toolbar_merge_id[type], path, action, action, GTK_UI_MANAGER_TOOLITEM, FALSE); 
 	lw->toolbar_actions[type] = g_list_append(lw->toolbar_actions[type], g_strdup(action));
 }

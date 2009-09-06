@@ -17,6 +17,7 @@
 #include "filedata.h"
 #include "filefilter.h"
 #include "misc.h"
+#include "pixbuf_util.h"
 #include "ui_fileops.h"
 #include "ui_spinner.h"
 #include "ui_utildlg.h"
@@ -69,7 +70,7 @@ static EditorFlags editor_command_done(EditorData *ed);
 
 GHashTable *editors = NULL;
 GtkListStore *desktop_file_list;
-
+gboolean editors_finished = FALSE;
 
 #ifdef G_KEY_FILE_DESKTOP_GROUP
 #define DESKTOP_GROUP G_KEY_FILE_DESKTOP_GROUP
@@ -147,7 +148,7 @@ static GList *editor_mime_types_to_extensions(gchar **mime_types)
 	return list;
 }
 
-static gboolean editor_read_desktop_file(const gchar *path)
+gboolean editor_read_desktop_file(const gchar *path)
 {
 	GKeyFile *key_file;
 	EditorDescription *editor;
@@ -283,6 +284,11 @@ static gboolean editor_read_desktop_file(const gchar *path)
 			*ext = '\0';
 			}
 		}
+	if (editor->icon && !register_theme_icon_as_stock(editor->key, editor->icon))
+		{
+		g_free(editor->icon);
+		editor->icon = NULL;
+		}
 
 	editor->exec = g_key_file_get_string(key_file, DESKTOP_GROUP, "Exec", NULL);
 	
@@ -338,44 +344,14 @@ static gboolean editor_remove_desktop_file_cb(gpointer key, gpointer value, gpoi
 	return editor->hidden || editor->ignored;
 }
 
-static void editor_read_desktop_dir(const gchar *path)
+void editor_table_finish(void)
 {
-	DIR *dp;
-	struct dirent *dir;
-	gchar *pathl;
-
-	pathl = path_from_utf8(path);
-	dp = opendir(pathl);
-	g_free(pathl);
-	if (!dp)
-		{
-		/* dir not found */
-		return;
-		}
-	while ((dir = readdir(dp)) != NULL)
-		{
-		gchar *namel = dir->d_name;
-		
-		if (g_str_has_suffix(namel, ".desktop"))
-			{
-			gchar *name = path_to_utf8(namel);
-			gchar *dpath = g_build_filename(path, name, NULL);
-			editor_read_desktop_file(dpath);
-			g_free(dpath);
-			g_free(name);
-			}	
-		}
-	closedir(dp);
+	g_hash_table_foreach_remove(editors, editor_remove_desktop_file_cb, NULL);
+	editors_finished = TRUE;
 }
 
-void editor_load_descriptions(void)
+void editor_table_clear(void)
 {
-	gchar *path;
-	gchar *xdg_data_dirs;
-	gchar *all_dirs;
-	gchar **split_dirs;
-	gint i;
-	
 	if (desktop_file_list)
 		{
 		gtk_list_store_clear(desktop_file_list);
@@ -389,7 +365,48 @@ void editor_load_descriptions(void)
 		g_hash_table_destroy(editors);
 		}
 	editors = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, (GDestroyNotify)editor_description_free);
+	editors_finished = FALSE;
+}
 
+static GList *editor_add_desktop_dir(GList *list, const gchar *path)
+{
+	DIR *dp;
+	struct dirent *dir;
+	gchar *pathl;
+
+	pathl = path_from_utf8(path);
+	dp = opendir(pathl);
+	g_free(pathl);
+	if (!dp)
+		{
+		/* dir not found */
+		return list;
+		}
+	while ((dir = readdir(dp)) != NULL)
+		{
+		gchar *namel = dir->d_name;
+		
+		if (g_str_has_suffix(namel, ".desktop"))
+			{
+			gchar *name = path_to_utf8(namel);
+			gchar *dpath = g_build_filename(path, name, NULL);
+			list = g_list_prepend(list, dpath);
+			g_free(name);
+			}	
+		}
+	closedir(dp);
+	return list;
+}
+
+GList *editor_get_desktop_files(void)
+{
+	gchar *path;
+	gchar *xdg_data_dirs;
+	gchar *all_dirs;
+	gchar **split_dirs;
+	gint i;
+	GList *list = NULL;
+	
 	xdg_data_dirs = getenv("XDG_DATA_DIRS");
 	if (xdg_data_dirs && xdg_data_dirs[0])
 		xdg_data_dirs = path_to_utf8(xdg_data_dirs);
@@ -404,16 +421,16 @@ void editor_load_descriptions(void)
 	
 	g_free(all_dirs);
 
-	for (i = 0; split_dirs[i]; i++)
+	for (i = 0; split_dirs[i]; i++);
+	for (--i; i >= 0; i--)
 		{
 		path = g_build_filename(split_dirs[i], "applications", NULL);
-		editor_read_desktop_dir(path);
+		list = editor_add_desktop_dir(list, path);
 		g_free(path);
 		}
 		
 	g_strfreev(split_dirs);
-	
-	g_hash_table_foreach_remove(editors, editor_remove_desktop_file_cb, NULL);
+	return g_list_reverse(list);
 }
 
 static void editor_list_add_cb(gpointer key, gpointer value, gpointer data)
@@ -446,6 +463,9 @@ static gint editor_sort(gconstpointer a, gconstpointer b)
 GList *editor_list_get(void)
 {
 	GList *editors_list = NULL;
+	
+	if (!editors_finished) return NULL;
+	
 	g_hash_table_foreach(editors, editor_list_add_cb, &editors_list);
 	editors_list = g_list_sort(editors_list, editor_sort);
 

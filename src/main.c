@@ -31,6 +31,7 @@
 #include "image-overlay.h"
 #include "layout.h"
 #include "layout_image.h"
+#include "layout_util.h"
 #include "options.h"
 #include "remote.h"
 #include "secure_save.h"
@@ -605,6 +606,9 @@ static void exit_program_final(void)
 {
 	LayoutWindow *lw = NULL;
 
+	 /* make sure that external editors are loaded, we would save incomplete configuration otherwise */
+	layout_editors_reload_finish();
+
 	remote_close(remote_connection);
 
 	collect_manager_flush();
@@ -816,8 +820,6 @@ gint main(gint argc, gchar *argv[])
 		/* load_options calls these functions after it parses global options, we have to call it here if it fails */
 		filter_add_defaults();
 		filter_rebuild(); 
-
-		editor_load_descriptions();
 		}
 
 	/* handle missing config file and commandline additions*/
@@ -826,6 +828,8 @@ gint main(gint argc, gchar *argv[])
 		/* broken or no config file */
 		layout_new_from_config(NULL, NULL, TRUE);
 		}
+
+	layout_editors_reload_start();
 
 	if (command_line->collection_list && !command_line->startup_command_line_collection)
 		{

@@ -95,7 +95,9 @@ static gboolean editor_window_save(EditorWindow *ew)
 	g_free(path);
 	g_free(dir);
 	g_free(text);
-	layout_editors_reload_all();
+	layout_editors_reload_start();
+	/* idle function is not needed, everything should be cached */
+	layout_editors_reload_finish(); 
 	return ret;
 }
 
@@ -290,7 +292,9 @@ static void editor_list_window_delete_dlg_ok_cb(GenericDialog *gd, gpointer data
 	else
 		{
 		/* refresh list */
-		layout_editors_reload_all();
+		layout_editors_reload_start();
+		/* idle function is not needed, everything should be cached */
+		layout_editors_reload_finish(); 
 		}
 
 	editor_list_window_delete_dlg_cancel(gd, data);
