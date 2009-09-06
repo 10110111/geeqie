@@ -1085,6 +1085,8 @@ static void layout_color_menu_enable_cb(GtkToggleAction *action, gpointer data)
 #ifdef HAVE_LCMS
 	LayoutWindow *lw = data;
 
+	if (layout_image_color_profile_get_use(lw) == gtk_toggle_action_get_active(action)) return;
+
 	layout_image_color_profile_set_use(lw, gtk_toggle_action_get_active(action));
 	layout_util_sync_color(lw);
 	layout_image_refresh(lw);
@@ -1099,6 +1101,7 @@ static void layout_color_menu_use_image_cb(GtkToggleAction *action, gpointer dat
 	gboolean use_image;
 
 	if (!layout_image_color_profile_get(lw, &input, &use_image)) return;
+	if (use_image == gtk_toggle_action_get_active(action)) return;
 	layout_image_color_profile_set(lw, input, gtk_toggle_action_get_active(action));
 	layout_util_sync_color(lw);
 	layout_image_refresh(lw);
