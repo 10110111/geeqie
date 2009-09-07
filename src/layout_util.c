@@ -661,8 +661,7 @@ static void layout_menu_overlay_toggle_cb(GtkAction *action, gpointer data)
 static void layout_menu_overlay_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	GtkToggleAction *histogram_action = GTK_TOGGLE_ACTION(gtk_action_group_get_action(lw->action_group, "ImageHistogram"));
-
+	
 	if (gtk_toggle_action_get_active(action))
 		{
 		OsdShowFlags flags = image_osd_get(lw->image);
@@ -672,6 +671,8 @@ static void layout_menu_overlay_cb(GtkToggleAction *action, gpointer data)
 		}
 	else
 		{
+		GtkToggleAction *histogram_action = GTK_TOGGLE_ACTION(gtk_action_group_get_action(lw->action_group, "ImageHistogram"));
+		
 		image_osd_set(lw->image, OSD_SHOW_NOTHING);
 		gtk_toggle_action_set_active(histogram_action, FALSE); /* this calls layout_menu_histogram_cb */
 		}
@@ -680,7 +681,6 @@ static void layout_menu_overlay_cb(GtkToggleAction *action, gpointer data)
 static void layout_menu_histogram_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	GtkToggleAction *overlay_action = GTK_TOGGLE_ACTION(gtk_action_group_get_action(lw->action_group, "ImageOverlay"));
 
 	if (gtk_toggle_action_get_active(action))
 		{
