@@ -319,7 +319,7 @@ gboolean editor_read_desktop_file(const gchar *path)
 	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "X-Geeqie-Filter", NULL)) editor->flags |= EDITOR_DEST;
 	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "Terminal", NULL)) editor->flags |= EDITOR_TERMINAL;
 	
-	editor->flags |= editor_command_parse(editor, NULL, NULL);
+	editor->flags |= editor_command_parse(editor, NULL, FALSE, NULL);
 
 	if ((editor->flags & EDITOR_NO_PARAM) && !category_geeqie) editor->hidden = TRUE;
 
@@ -639,7 +639,7 @@ typedef enum {
 } PathType;
 
 
-static gchar *editor_command_path_parse(const FileData *fd, PathType type, const EditorDescription *editor)
+static gchar *editor_command_path_parse(const FileData *fd, gboolean consider_sidecars, PathType type, const EditorDescription *editor)
 {
 	GString *string;
 	gchar *pathl;
@@ -668,7 +668,7 @@ static gchar *editor_command_path_parse(const FileData *fd, PathType type, const
 					break;
 					}
 
-				work2 = fd->sidecar_files;
+				work2 = consider_sidecars ? fd->sidecar_files : NULL;
 				while (work2)
 					{
 					FileData *sfd = work2->data;
@@ -741,7 +741,7 @@ static GString *append_quoted(GString *str, const char *s, gboolean single_quote
 }
 
 
-EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, gchar **output)
+EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, gboolean consider_sidecars, gchar **output)
 {
 	EditorFlags flags = 0;
 	const gchar *p;
@@ -818,6 +818,7 @@ EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, g
 							goto err;
 							}
 						pathl = editor_command_path_parse((FileData *)list->data,
+										  consider_sidecars,
 										  (*p == 'f') ? PATH_FILE : PATH_FILE_URL,
 										  editor);
 						if (!pathl)
@@ -851,7 +852,7 @@ EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, g
 						while (work)
 							{
 							FileData *fd = work->data;
-							pathl = editor_command_path_parse(fd, (*p == 'F') ? PATH_FILE : PATH_FILE_URL, editor);
+							pathl = editor_command_path_parse(fd, consider_sidecars, (*p == 'F') ? PATH_FILE : PATH_FILE_URL, editor);
 							if (pathl)
 								{
 								ok = TRUE;
@@ -961,7 +962,7 @@ static EditorFlags editor_command_one(const EditorDescription *editor, GList *li
 
 	ed->pid = -1;
 	ed->flags = editor->flags;
-	ed->flags |= editor_command_parse(editor, list, &command);
+	ed->flags |= editor_command_parse(editor, list, TRUE, &command);
 
 	ok = !EDITOR_ERRORS(ed->flags);
 

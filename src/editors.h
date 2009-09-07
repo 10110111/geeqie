@@ -118,7 +118,7 @@ const gchar *editor_get_name(const gchar *key);
 gboolean is_valid_editor_command(const gchar *key);
 gboolean editor_blocks_file(const gchar *key);
 
-EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, gchar **output);
+EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, gboolean consider_sidecars, gchar **output);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
