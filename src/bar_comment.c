@@ -189,7 +189,7 @@ static void bar_pane_comment_populate_popup(GtkTextView *textview, GtkMenu *menu
 	menu_item_add_stock(GTK_WIDGET(menu), _("Replace existing text in selected files"), GTK_STOCK_CONVERT, G_CALLBACK(bar_pane_comment_sel_replace_cb), data);
 }
 
-
+#if 0
 static void bar_pane_comment_close(GtkWidget *bar)
 {
 	PaneCommentData *pcd;
@@ -199,6 +199,7 @@ static void bar_pane_comment_close(GtkWidget *bar)
 
 	gtk_widget_destroy(pcd->comment_view);
 }
+#endif
 
 static void bar_pane_comment_destroy(GtkWidget *widget, gpointer data)
 {

@@ -219,7 +219,7 @@ static void vflist_move_cursor(ViewFile *vf, GtkTreeIter *iter)
 	gtk_tree_path_free(tpath);
 }
 
-
+#if 0
 static gint vflist_column_idx(ViewFile *vf, gint store_idx)
 {
 	GList *columns, *work;
@@ -239,7 +239,7 @@ static gint vflist_column_idx(ViewFile *vf, gint store_idx)
 	g_list_free(columns);
 	return i;
 }
-
+#endif
 
 /*
  *-----------------------------------------------------------------------------

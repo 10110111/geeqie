@@ -30,7 +30,7 @@
 #include "dnd.h"
 
 
-static void bar_pane_keywords_keyword_update_all(void);
+//static void bar_pane_keywords_keyword_update_all(void);
 static void bar_pane_keywords_changed(GtkTextBuffer *buffer, gpointer data);
 
 /*
@@ -129,7 +129,7 @@ struct _ConfDialogData
 	gboolean edit_existing;
 };
 
-static GList *bar_list = NULL;
+//static GList *bar_list = NULL;
 
 
 static void bar_pane_keywords_write(PaneKeywordsData *pkd)
@@ -194,6 +194,7 @@ static void bar_keyword_tree_sync(PaneKeywordsData *pkd)
 	if (pkd->collapse_unchecked) gtk_tree_model_foreach(model, bar_keyword_tree_collapse_if_unset_cb, pkd);
 }
 
+#if 0
 static void bar_pane_keywords_keyword_update_all(void)
 {
 	GList *work;
@@ -210,6 +211,7 @@ static void bar_pane_keywords_keyword_update_all(void)
 		bar_keyword_tree_sync(pkd);
 		}
 }
+#endif
 
 static void bar_pane_keywords_update(PaneKeywordsData *pkd)
 {

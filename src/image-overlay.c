@@ -1040,12 +1040,14 @@ static void image_osd_free(OverlayStateData *osd)
 	g_free(osd);
 }
 
+#if 0
 static void image_osd_remove(ImageWindow *imd)
 {
 	OverlayStateData *osd = image_get_osd_data(imd);
 
 	if (osd) image_osd_free(osd);
 }
+#endif
 
 static void image_osd_destroy_cb(GtkWidget *widget, gpointer data)
 {
