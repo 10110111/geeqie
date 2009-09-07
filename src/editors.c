@@ -1225,14 +1225,18 @@ EditorFlags start_editor_from_filelist_full(const gchar *key, GList *list, const
 {
 	EditorFlags error;
 	EditorDescription *editor;
-	if (!key) return FALSE;
+	if (!key) return EDITOR_ERROR_EMPTY;
 	
 	editor = g_hash_table_lookup(editors, key);
 
-	if (!editor) return FALSE;
-	if (!list && !(editor->flags & EDITOR_NO_PARAM)) return FALSE;
+	if (!editor) return EDITOR_ERROR_EMPTY;
+	if (!list && !(editor->flags & EDITOR_NO_PARAM)) return EDITOR_ERROR_NO_FILE;
 
-	error = editor_command_start(editor, editor->name, list, working_directory, cb, data);
+	error = editor_command_parse(editor, list, TRUE, NULL);
+
+	if (EDITOR_ERRORS(error)) return error;
+
+	error |= editor_command_start(editor, editor->name, list, working_directory, cb, data);
 
 	if (EDITOR_ERRORS(error))
 		{
@@ -1242,7 +1246,7 @@ EditorFlags start_editor_from_filelist_full(const gchar *key, GList *list, const
 		g_free(text);
 		}
 
-	return error;
+	return EDITOR_ERRORS(error);
 }
 
 EditorFlags start_editor_from_filelist(const gchar *key, GList *list)
