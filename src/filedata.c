@@ -367,7 +367,7 @@ gboolean file_data_check_changed_files(FileData *fd)
 		
 			file_data_disconnect_sidecar_file(fd, sfd);
 			}
-		if (sfd) file_data_check_sidecars(sfd, FALSE); /* this will group the sidecars back together */
+		if (sfd) file_data_check_sidecars(sfd, NULL); /* this will group the sidecars back together */
 		file_data_send_notification(fd, NOTIFY_REREAD);
 		}
 	else
@@ -444,7 +444,7 @@ static GList *check_case_insensitive_ext(gchar *path)
 	GList *list = NULL;
 
 	sl = path_from_utf8(path);
-	
+
 	extl = strrchr(sl, '.');
 	if (extl)
 		{
@@ -455,13 +455,25 @@ static GList *check_case_insensitive_ext(gchar *path)
 		for (i = 0; i < (1 << ext_len); i++)
 			{
 			struct stat st;
+			gboolean skip = FALSE;
 			for (j = 0; j < ext_len; j++)
 				{
 				if (i & (1 << (ext_len - 1 - j))) 
+					{
 					extl[j] = g_ascii_tolower(extl[j]);
+					/* make sure the result does not contain duplicates */
+					if (extl[j] == g_ascii_toupper(extl[j]))
+						{
+						/* no change, probably a number, we have already tested this combination */
+						skip = TRUE;
+						break;
+						}
+					}
 				else
 					extl[j] = g_ascii_toupper(extl[j]);
 				}
+			if (skip) continue;
+
 			if (stat(sl, &st) == 0)
 				{
 				list = g_list_prepend(list, file_data_new_local(sl, &st, FALSE, FALSE));
