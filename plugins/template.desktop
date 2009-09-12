@@ -1,9 +1,14 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
+#
+# The name which appears in the menu:
 Name=Template
 #Name[cs]=
 #Name[fr]=
+
+# Replace "command" with the actual command or script:
+Exec=command %f
 
 # %f	 A single file name, even if multiple files are selected. The
 # system reading the desktop entry should recognize that the program in
@@ -26,18 +31,17 @@ Name=Template
 # the executable program. Local files may either be passed as file: URLs
 # or as file path.
 #
-# "$GEEQIE_DESTINATION" destination set by Geeqie
-Exec=ln -s %f "$GEEQIE_DESTINATION"
 
 # Desktop files that are usable only in Geeqie should be marked like this:
 Categories=X-Geeqie;
 OnlyShowIn=X-Geeqie;
 
 # Show in menu "File"
-X-Geeqie-Menu-Path=FileMenu/FileOpsSection
+# X-Geeqie-Menu-Path=FileMenu/FileOpsSection
 
-# This is a filter - $GEEQIE_DESTINATION is required
-X-Geeqie-Filter=true
+# This is a filter - see symlink.desktop and geeqie-symlink for an example
+# how to use this feature
+# X-Geeqie-Filter=true
 
 # It can be made verbose
 # X-Geeqie-Verbose=true
