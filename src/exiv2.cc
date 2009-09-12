@@ -1009,11 +1009,11 @@ static GList *exif_add_value_to_glist(GList *list, Exiv2::Metadatum &item, Metad
 		else
 			{
 			str = item.toString();
-			if (str.length() > 5 && str.substr(0, 5) == "lang=")
-				{
-				std::string::size_type pos = str.find_first_of(' ');
-				if (pos != std::string::npos) str = str.substr(pos+1);
-				}
+			}
+		if (str.length() > 5 && str.substr(0, 5) == "lang=")
+			{
+			std::string::size_type pos = str.find_first_of(' ');
+			if (pos != std::string::npos) str = str.substr(pos+1);
 			}
 		list = g_list_append(list, utf8_validate_or_convert(str.c_str())); 
 #if EXIV2_TEST_VERSION(0,16,0)
