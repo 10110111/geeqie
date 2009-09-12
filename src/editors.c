@@ -430,7 +430,7 @@ GList *editor_get_desktop_files(void)
 		}
 		
 	g_strfreev(split_dirs);
-	return g_list_reverse(list);
+	return list;
 }
 
 static void editor_list_add_cb(gpointer key, gpointer value, gpointer data)

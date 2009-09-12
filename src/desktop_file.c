@@ -126,6 +126,7 @@ static void editor_window_save_cb(GtkWidget *widget, gpointer data)
 		}
 
 	gtk_widget_set_sensitive(ew->save_button, FALSE);
+	gtk_text_buffer_set_modified(ew->buffer, FALSE);
 	ew->modified = FALSE;
 }
 
