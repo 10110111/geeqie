@@ -1804,6 +1804,11 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 	GList *old_path;
 	GString *desc;
 	
+	if (lw->ui_editors_id)
+		{
+		gtk_ui_manager_remove_ui(lw->ui_manager, lw->ui_editors_id);
+		}
+
 	if (lw->action_group_editors)
 		{
 		gtk_ui_manager_remove_action_group(lw->ui_manager, lw->action_group_editors);
@@ -1988,19 +1993,6 @@ void layout_editors_reload_start(void)
 
 	work = layout_window_list;
 
-#if 0
-/* it should be enough to remove the old editors after the new ones are loaded, in layout_actions_setup_editors */
-	while (work)
-		{
-		LayoutWindow *lw = work->data;
-		work = work->next;
-
-		gtk_ui_manager_remove_ui(lw->ui_manager, lw->ui_editors_id);
-		gtk_ui_manager_remove_action_group(lw->ui_manager, lw->action_group_editors);
-		g_object_unref(lw->action_group_editors);
-		lw->action_group_editors = NULL;
-		}
-#endif
 	editor_table_clear();
 	layout_editors_reload_idle_id = g_idle_add(layout_editors_reload_idle_cb, NULL);
 }
