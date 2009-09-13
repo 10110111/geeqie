@@ -645,6 +645,8 @@ static gchar *editor_command_path_parse(const FileData *fd, gboolean consider_si
 	gchar *pathl;
 	const gchar *p = NULL;
 
+	DEBUG_2("editor_command_path_parse: %s %d %d %s", fd->path, consider_sidecars, type, editor->key);
+
 	string = g_string_new("");
 
 	if (type == PATH_FILE || type == PATH_FILE_URL)
@@ -705,7 +707,8 @@ static gchar *editor_command_path_parse(const FileData *fd, gboolean consider_si
 		g_free(pathl);
 		pathl = NULL;
 		}
-
+	
+	DEBUG_2("editor_command_path_parse: return %s", pathl);
 	return pathl;
 }
 
@@ -749,6 +752,8 @@ EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, g
 	gboolean escape = FALSE;
 	gboolean single_quotes = FALSE;
 	gboolean double_quotes = FALSE;
+
+	DEBUG_2("editor_command_parse: %s %d %d", editor->key, consider_sidecars, !!output);
 
 	if (output)
 		result = g_string_new("");
@@ -821,6 +826,23 @@ EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, g
 										  consider_sidecars,
 										  (*p == 'f') ? PATH_FILE : PATH_FILE_URL,
 										  editor);
+						if (!output)
+							{
+							/* just testing, check also the rest of the list (like with F and U)
+							   any matching file is OK */
+							GList *work = list->next;
+							
+							while (!pathl && work)
+								{
+								FileData *fd = work->data;
+								pathl = editor_command_path_parse(fd,
+												  consider_sidecars,
+												  (*p == 'f') ? PATH_FILE : PATH_FILE_URL,
+												  editor);
+								work = work->next;
+								}
+							}
+							
 						if (!pathl)
 							{
 							flags |= EDITOR_ERROR_NO_FILE;
