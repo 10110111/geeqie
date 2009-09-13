@@ -47,13 +47,23 @@ rotate()
     esac
 }
 
+get_sidecars=
+if [ "x$1" == "x-g" ] ; then
+    get_sidecars=yes
+    shift
+fi
+
 # iterate over files on commandline
 for file in "$@" ; do
-    # we got only one file for each group, typically the main one
-    # get the sidecars:
-    geeqie -r --get-sidecars:"$file" |while read sidecar ; do
-	# the main file is included in the sidecar file list, no special handling is required
-	rotate "$sidecar"
-    done
+    if [ -n "$get_sidecars" ] ; then
+        # we got only one file for each group, typically the main one
+        # get the sidecars:
+        geeqie -r --get-sidecars:"$file" |while read sidecar ; do
+            # the main file is included in the sidecar file list, no special handling is required
+            rotate "$sidecar"
+        done
+    else
+        rotate "$file"
+    fi
 done
 
