@@ -5090,7 +5090,7 @@ msgid ""
 " Continue multiple file operation?"
 msgstr ""
 "\n"
-" Pokračovat ve vícenásobném odstranění souborů?"
+" Pokračovat na dalších souborech?"
 
 #: ../src/utilops.c:541 ../src/utilops.c:976
 msgid "Co_ntinue"
