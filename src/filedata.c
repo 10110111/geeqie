@@ -407,6 +407,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	if (fd)
 		{
 		gboolean changed;
+		if (basename_hash) file_data_basename_hash_insert(basename_hash, fd);
 		
 		if (fd->parent)
 			changed = file_data_check_changed_files(fd);
