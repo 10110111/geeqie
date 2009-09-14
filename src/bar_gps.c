@@ -326,6 +326,7 @@ static void bar_pane_gps_update(PaneGPSData *pgd)
 	 * Use a background process in case the user selects a large number of files.
 	 */
 	list = layout_selection_list(pgd->pane.lw);
+	list = file_data_process_groups_in_selection(list, FALSE, NULL);
 
 	if (list != NULL)
 		{

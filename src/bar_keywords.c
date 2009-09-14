@@ -366,6 +366,8 @@ static void bar_pane_keywords_set_selection(PaneKeywordsData *pkd, gboolean appe
 	keywords = keyword_list_pull(pkd->keyword_view);
 
 	list = layout_selection_list(pkd->pane.lw);
+	list = file_data_process_groups_in_selection(list, FALSE, NULL);
+	
 	work = list;
 	while (work)
 		{

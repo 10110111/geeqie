@@ -83,11 +83,14 @@ static void bar_pane_comment_set_selection(PaneCommentData *pcd, gboolean append
 	comment = text_widget_text_pull(pcd->comment_view);
 
 	list = layout_selection_list(pcd->pane.lw);
+	list = file_data_process_groups_in_selection(list, FALSE, NULL);
+	
 	work = list;
 	while (work)
 		{
 		FileData *fd = work->data;
 		work = work->next;
+		if (fd == pcd->fd) continue;
 
 		if (append)
 			{
