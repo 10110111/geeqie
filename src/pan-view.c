@@ -2788,7 +2788,7 @@ static GList *pan_view_get_fd_list(PanWindow *pw)
 	GList *list = NULL;
 	FileData *fd = pan_menu_click_fd(pw);
 	
-	if (fd) list = g_list_append(NULL, file_data_ref(fd));
+	if (fd) list = g_list_prepend(filelist_copy(fd->sidecar_files), file_data_ref(fd));
 	
 	return list;
 }
@@ -2804,8 +2804,6 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 	active = (pw->click_pi != NULL);
 
 	menu = popup_menu_short_lived();
-	g_signal_connect(G_OBJECT(menu), "destroy",
-			 G_CALLBACK(pan_popup_menu_destroy_cb), pw);
 
 	menu_item_add_stock(menu, _("Zoom _in"), GTK_STOCK_ZOOM_IN,
 			    G_CALLBACK(pan_zoom_in_cb), pw);
