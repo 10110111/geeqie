@@ -823,6 +823,7 @@ static void image_loader_thread_run(gpointer data, gpointer user_data)
 {
 	ImageLoader *il = data;
 	gboolean cont;
+	gboolean err;
 	
 	if (il->idle_priority > G_PRIORITY_DEFAULT_IDLE) 
 		{
@@ -835,9 +836,9 @@ static void image_loader_thread_run(gpointer data, gpointer user_data)
 		image_loader_thread_enter_high();
 		}
 	
-	cont = image_loader_begin(il);
+	err = !image_loader_begin(il);
 	
-	if (!cont && !image_loader_get_pixbuf(il))
+	if (err)
 		{
 		/* 
 		loader failed, we have to send signal 
@@ -846,6 +847,8 @@ static void image_loader_thread_run(gpointer data, gpointer user_data)
 		*/
 		image_loader_emit_error(il);
 		}
+	
+	cont = !err;
 	
 	while (cont && !image_loader_get_is_done(il) && !image_loader_get_stopping(il))
 		{
