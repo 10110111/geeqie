@@ -184,6 +184,7 @@ static void file_data_basename_hash_insert(GHashTable *basename_hash, FileData *
 		}
 }
 
+#if 0
 static void file_data_basename_hash_remove(GHashTable *basename_hash, FileData *fd)
 {
 	GList *list;
@@ -207,6 +208,7 @@ static void file_data_basename_hash_remove(GHashTable *basename_hash, FileData *
 		g_free(basename);
 		}
 }
+#endif
 
 static void file_data_basename_hash_remove_list(gpointer key, gpointer value, gpointer data)
 {
@@ -238,13 +240,11 @@ static void file_data_set_collate_keys(FileData *fd)
 	g_free(caseless_name);
 }
 
-static void file_data_set_path(FileData *fd, const gchar *path, GHashTable *basename_hash)
+static void file_data_set_path(FileData *fd, const gchar *path)
 {
 	g_assert(path /* && *path*/); /* view_dir_tree uses FileData with zero length path */
 	g_assert(file_data_pool);
 
-	if (basename_hash && fd->path) file_data_basename_hash_remove(basename_hash, fd);
-	
 	g_free(fd->path);
 
 	if (fd->original_path)
@@ -296,8 +296,6 @@ static void file_data_set_path(FileData *fd, const gchar *path, GHashTable *base
 		{
 		fd->extension = fd->name + strlen(fd->name);
 		}
-
-	if (basename_hash) file_data_basename_hash_insert(basename_hash, fd); /* we can ignore the special cases above - they don't have extensions */
 
 	file_data_set_collate_keys(fd);
 }
@@ -351,6 +349,7 @@ gboolean file_data_check_changed_files(FileData *fd)
 
 	if (!stat_utf8(fd->path, &st))
 		{
+		GList *sidecars;
 		GList *work;
 		FileData *sfd = NULL;
 
@@ -359,7 +358,10 @@ gboolean file_data_check_changed_files(FileData *fd)
 		fd->size = 0;
 		fd->date = 0;
 		
-		work = fd->sidecar_files;
+		/* file_data_disconnect_sidecar_file might delete the file,
+		   we have to keep the reference to prevent this */
+		sidecars = filelist_copy(fd->sidecar_files);
+		work = sidecars;
 		while (work)
 			{
 			sfd = work->data;
@@ -368,6 +370,8 @@ gboolean file_data_check_changed_files(FileData *fd)
 			file_data_disconnect_sidecar_file(fd, sfd);
 			}
 		if (sfd) file_data_check_sidecars(sfd, NULL); /* this will group the sidecars back together */
+		/* now we can release the sidecars */
+		filelist_free(sidecars);
 		file_data_send_notification(fd, NOTIFY_REREAD);
 		}
 	else
@@ -407,7 +411,12 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	if (fd)
 		{
 		gboolean changed;
-		if (basename_hash) file_data_basename_hash_insert(basename_hash, fd);
+		if (basename_hash) 
+			{
+			file_data_basename_hash_insert(basename_hash, fd);
+			if (check_sidecars)
+				file_data_check_sidecars(fd, basename_hash);
+			}
 		
 		if (fd->parent)
 			changed = file_data_check_changed_files(fd);
@@ -428,7 +437,8 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	fd->ref = 1;
 	fd->magick = 0x12345678;
 
-	file_data_set_path(fd, path_utf8, basename_hash); /* set path, name, collate_key_*, original_path */
+	file_data_set_path(fd, path_utf8); /* set path, name, collate_key_*, original_path */
+	if (basename_hash) file_data_basename_hash_insert(basename_hash, fd);
 
 	if (check_sidecars)
 		file_data_check_sidecars(fd, basename_hash);
@@ -2411,7 +2421,7 @@ gboolean file_data_apply_ci(FileData *fd)
 			}
 		else
 			{
-			file_data_set_path(fd, fd->change->dest, NULL);
+			file_data_set_path(fd, fd->change->dest);
 			}
 		}
 	file_data_increment_version(fd);
