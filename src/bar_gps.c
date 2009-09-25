@@ -25,7 +25,7 @@
 #include "thumb.h"
 #include "ui_menu.h"
 
-#include <clutter-gtk/gtk-clutter-embed.h>
+#include <clutter-gtk/clutter-gtk.h>
 #include <champlain/champlain.h>
 #include <champlain-gtk/champlain-gtk.h>
 
@@ -72,7 +72,7 @@ static void bar_pane_gps_thumb_done_cb(ThumbLoader *tl, gpointer data)
 	if (fd->thumb_pixbuf != NULL)
 		{
 		actor = clutter_texture_new();
-		gtk_clutter_texture_set_from_pixbuf(CLUTTER_TEXTURE(actor), fd->thumb_pixbuf);
+		gtk_clutter_texture_set_from_pixbuf(CLUTTER_TEXTURE(actor), fd->thumb_pixbuf, NULL);
 		champlain_marker_set_image(CHAMPLAIN_MARKER(marker), actor);
 		}
 	thumb_loader_free(tl);
@@ -127,7 +127,7 @@ static gboolean bar_pane_gps_marker_keypress_cb(GtkWidget *widget, ClutterButton
 			 if (fd->thumb_pixbuf != NULL)
 				{
 				actor = clutter_texture_new();
-				gtk_clutter_texture_set_from_pixbuf(CLUTTER_TEXTURE(actor), fd->thumb_pixbuf);
+				gtk_clutter_texture_set_from_pixbuf(CLUTTER_TEXTURE(actor), fd->thumb_pixbuf, NULL);
 				champlain_marker_set_image(CHAMPLAIN_MARKER(marker), actor);
 				}
 			else if (fd->pixbuf != NULL)
@@ -152,7 +152,7 @@ static gboolean bar_pane_gps_marker_keypress_cb(GtkWidget *widget, ClutterButton
 										
 					gtk_clutter_texture_set_from_pixbuf(CLUTTER_TEXTURE(actor),
 										gdk_pixbuf_rotate_simple(gdk_pixbuf_scale_simple(fd->pixbuf, THUMB_SIZE, height * THUMB_SIZE / width,
-										GDK_INTERP_NEAREST), rotate));
+										GDK_INTERP_NEAREST), rotate), NULL);
 					champlain_marker_set_image(CHAMPLAIN_MARKER(marker), actor);
 				}
 			else
@@ -345,11 +345,7 @@ void bar_pane_gps_set_map_source(PaneGPSData *pgd, const gchar *map_id)
 	ChamplainMapSource *map_source;
 	ChamplainMapSourceFactory *map_factory;
 
-#if CHAMPLAIN_CHECK_VERSION(0,3,2)
 	map_factory = champlain_map_source_factory_dup_default();
-#else
-	map_factory = champlain_map_source_factory_get_default();
-#endif
 	map_source = champlain_map_source_factory_create(map_factory, map_id);
 
 	if (map_source != NULL)
@@ -571,13 +567,8 @@ static GtkWidget *bar_pane_gps_menu(PaneGPSData *pgd)
 
 	menu = popup_menu_short_lived();
 
-#if CHAMPLAIN_CHECK_VERSION(0,3,2)
 	map_factory = champlain_map_source_factory_dup_default();
 	map_list = champlain_map_source_factory_dup_list(map_factory);
-#else
-	map_factory = champlain_map_source_factory_get_default();
-	map_list = champlain_map_source_factory_get_list(map_factory);
-#endif
 	current = bar_pane_gps_get_map_id(pgd);
 
 	while (map_list)
@@ -705,13 +696,8 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	vbox = gtk_vbox_new(FALSE, 0);
 
-#ifdef GTK_CHAMPLAIN_EMBED
 	gpswidget = gtk_champlain_embed_new();
 	view = gtk_champlain_embed_get_view(GTK_CHAMPLAIN_EMBED(gpswidget));
-#else
-	view = champlain_view_new();
-	gpswidget = champlain_view_embed_new(view);
-#endif
 	viewport = gtk_viewport_new(NULL, NULL);
 	
 	gtk_container_add(GTK_CONTAINER(viewport), gpswidget);
