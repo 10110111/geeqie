@@ -1336,93 +1336,44 @@ static gboolean print_job_ps_page_image(PrintWindow *pw, GdkPixbuf *pixbuf,
 	return ret;
 }
 
-static const gchar *ps_text_to_hex_array(FILE *f, const gchar *text, gdouble x, gdouble y)
-{
-	static gchar hex_digits[] = "0123456789abcdef";
-	const gchar *p;
-
-	if (!text) return NULL;
-
-	g_fprintf(f, "%f %f moveto\n", x, y);
-	g_fprintf(f, "<");
-
-	/* fixme: convert utf8 to ascii or proper locale string.. */
-
-	p = text;
-	while (*p != '\0' && *p != '\n')
-		{
-		gchar text[3];
-
-		text[0] = hex_digits[*p >> 4];
-		text[1] = hex_digits[*p & 0xf];
-		text[2] = '\0';
-
-		g_fprintf(f, "%s", text);
-
-		p++;
-		}
-
-	g_fprintf(f, ">\n");
-	g_fprintf(f, "dup stringwidth pop 2 div neg 0 rmoveto show\n");
-
-	return p;
-}
-
-static void ps_text_parse(FILE *f, const gchar *text, gdouble x, gdouble y, gdouble point_size)
-{
-	const gchar *p;
-
-	if (!text) return;
-
-	g_fprintf(f, "newpath\n");
-
-	p = text;
-	while (p && *p != '\0')
-		{
-		p = ps_text_to_hex_array(f, p, x, y);
-		if (p && *p == '\n') p++;
-		y -= point_size;
-		}
-
-	g_fprintf(f, "closepath\n");
-}
+static gdouble convert_pango_dpi(gdouble points);
 
 static gboolean print_job_ps_page_text(PrintWindow *pw, const gchar *text, gdouble point_size,
 				       gdouble x, gdouble y, gdouble width,
 				       guint8 r, guint8 g, guint8 b)
 {
-	FILE *f;
-	PipeError *pe;
-	gchar *lc_pointer;
+	PangoLayout *layout;
+	PangoFontDescription *desc;
+	GdkPixbuf *pixbuf;
+	gint lw, lh;
 	gboolean ret;
+	gdouble scale_to_max_dpi = (pw->max_dpi >= PRINT_PS_DPI_MIN) ? pw->max_dpi / 72.0 : 1200.0 / 72.0;
 
-	if (!text) return TRUE;
+	layout = gtk_widget_create_pango_layout(pw->dialog->dialog, NULL);
 
-	f = print_job_ps_fd(pw);
-	if (!f) return FALSE;
+	desc = pango_font_description_new();
+	pango_font_description_set_size(desc, convert_pango_dpi(point_size) * PANGO_SCALE * scale_to_max_dpi);
+	pango_layout_set_font_description(layout, desc);
+	pango_font_description_free(desc);
 
-	lc_pointer = g_strdup(setlocale(LC_NUMERIC, NULL));
-	setlocale(LC_NUMERIC, POSTSCRIPT_LOCALE);
+	pango_layout_set_alignment(layout, PANGO_ALIGN_CENTER);
+	pango_layout_set_text(layout, text, -1);
 
-	pe = pipe_handler_new();
+	pango_layout_get_pixel_size(layout, &lw, &lh);
+	x = x - (gdouble)lw / 2.0 / scale_to_max_dpi;
 
-	g_fprintf(f, "/Sans findfont\n");
-	g_fprintf(f, "%f scalefont\n", point_size);
-	g_fprintf(f, "setfont\n");
+	pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, lw, lh);
+	gdk_pixbuf_fill(pixbuf, 0xffffffff);
+	pixbuf_draw_layout(pixbuf, layout, pw->dialog->dialog, 0, 0, r, g, b, 255);
+	g_object_unref(G_OBJECT(layout));
 
-	g_fprintf(f, "%f %f %f setrgbcolor\n", (gdouble)r / 255.0, (gdouble)g / 255.0, (gdouble)b / 255.0);
-	ps_text_parse(f, text, x, pw->layout_height - y - point_size, point_size);
+	ret = print_job_ps_page_image(pw, pixbuf, x, y, 
+				       /* do not allow rescaling of the pixbuf due to rounding errors */
+	                              ((gdouble)lw + 0.01) / scale_to_max_dpi,
+	                              ((gdouble)lh + 0.01) / scale_to_max_dpi, 
+	                              0, 0);
 
-	ret = !pipe_handler_check(pe);
-	pipe_handler_free(pe);
-
-	if (lc_pointer)
-		{
-		setlocale(LC_NUMERIC, lc_pointer);
-		g_free(lc_pointer);
-		}
-
-	if (!ret) print_job_throw_error(pw, _("SIGPIPE error writing to printer."));
+	g_object_unref(G_OBJECT(pixbuf));
 
 	return ret;
 }
