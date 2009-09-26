@@ -673,7 +673,7 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
             				gboolean expanded, gint height)
 {
 	PaneGPSData *pgd;
-	GtkWidget *vbox, *scrolled;
+	GtkWidget *vbox, *frame;
 	GtkWidget *gpswidget, *viewport;
 	GtkWidget *status, *state, *progress, *slider;
 	ChamplainLayer *layer;
@@ -693,16 +693,14 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	pgd->pane.expanded = expanded;
 	pgd->height = height;
 
-	scrolled = gtk_scrolled_window_new(NULL, NULL);
+	frame = gtk_frame_new(NULL);
 	vbox = gtk_vbox_new(FALSE, 0);
 
 	gpswidget = gtk_champlain_embed_new();
 	view = gtk_champlain_embed_get_view(GTK_CHAMPLAIN_EMBED(gpswidget));
-	viewport = gtk_viewport_new(NULL, NULL);
-	
-	gtk_container_add(GTK_CONTAINER(viewport), gpswidget);
-	gtk_box_pack_start(GTK_BOX(vbox),viewport, TRUE, TRUE, 0);
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled), vbox);
+
+	gtk_box_pack_start(GTK_BOX(vbox), gpswidget, TRUE, TRUE, 0);
+	gtk_container_add(GTK_CONTAINER(frame), vbox);
 
 	status = gtk_hbox_new(FALSE,0);
 	slider = gtk_scale_button_new(GTK_ICON_SIZE_SMALL_TOOLBAR, 1, 17, 1, slider_icons);
@@ -723,7 +721,7 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 
 	pgd->icon_layer = layer;
 	pgd->gps_view = CLUTTER_ACTOR(view);
-	pgd->widget = scrolled;
+	pgd->widget = frame;
 	pgd->progress = progress;
 	pgd->slider = slider;
 	pgd->state = state;
@@ -733,7 +731,9 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	g_object_set(G_OBJECT(view), "scroll-mode", CHAMPLAIN_SCROLL_MODE_KINETIC,
 				     "zoom-level", zoom,
 				     "keep-center-on-resize", TRUE,
+/* This seems to be broken, https://bugzilla.gnome.org/show_bug.cgi?id=596419
 				     "decel-rate", 1.0,
+*/
 				     "show-license", TRUE,
 				     "zoom-on-double-click", FALSE,
 				     "max-zoom-level", 17,
@@ -744,13 +744,12 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	g_object_set_data(G_OBJECT(pgd->widget), "pane_data", pgd);
 	g_signal_connect(G_OBJECT(pgd->widget), "destroy", G_CALLBACK(bar_pane_gps_destroy), pgd);
 
-	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
 
 	gtk_widget_set_size_request(pgd->widget, -1, height);
 
 	clutter_set_motion_events_enabled(TRUE);
-	g_signal_connect(G_OBJECT(vbox), "button_press_event", G_CALLBACK(bar_pane_gps_map_keypress_cb), pgd);
+	g_signal_connect(G_OBJECT(gpswidget), "button_press_event", G_CALLBACK(bar_pane_gps_map_keypress_cb), pgd);
 	g_signal_connect(pgd->gps_view, "notify::state", G_CALLBACK(bar_pane_gps_view_state_changed_cb), pgd);
 	g_signal_connect(pgd->gps_view, "notify::zoom-level", G_CALLBACK(bar_pane_gps_view_state_changed_cb), pgd);
 	g_signal_connect(G_OBJECT(slider), "value-changed", G_CALLBACK(bar_pane_gps_slider_changed_cb), pgd);
