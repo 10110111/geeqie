@@ -419,6 +419,7 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 			if (sw > cache_w || sh > cache_h || shrunk)
 				{
 				gint thumb_w, thumb_h;
+				struct stat st;
 
 				if (pixbuf_scale_aspect(cache_w, cache_h, sw, sh,
 								  &thumb_w, &thumb_h))
@@ -432,7 +433,14 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 					g_object_ref(G_OBJECT(pixbuf_thumb));
 					}
 
-				thumb_loader_std_save(tl, pixbuf_thumb);
+				/* do not save the thumbnail if the source file has changed meanwhile -
+				   the thumbnail is most probably broken */
+				if (stat_utf8(tl->fd->path, &st) && 
+				    tl->source_mtime == st.st_mtime &&
+				    tl->source_size == st.st_size)
+					{
+					thumb_loader_std_save(tl, pixbuf_thumb);
+					}
 				}
 			}
 		else if (tl->cache_hit &&
