@@ -33,6 +33,7 @@
 #include "ui_menu.h"
 #include "uri_utils.h"
 #include "utilops.h"
+#include "view_file.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -460,7 +461,13 @@ static GList *layout_image_get_fd_list(LayoutWindow *lw)
 	FileData *fd = layout_image_get_fd(lw);
 
 	if (fd)
-		list = g_list_append(NULL, file_data_ref(fd));
+		{
+		if (lw->vf)
+			/* optionally include sidecars if the filelist entry is not expanded */
+			list = vf_selection_get_one(lw->vf, fd);
+		else
+			list = g_list_append(NULL, file_data_ref(fd));
+		}
 	
 	return list;
 }

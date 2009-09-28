@@ -32,6 +32,7 @@ void vflist_thumb_set(ViewFile *vf, gboolean enable);
 void vflist_marks_set(ViewFile *vf, gboolean enable);
 void vflist_sort_set(ViewFile *vf, SortType type, gboolean ascend);
 
+GList *vflist_selection_get_one(ViewFile *vf, FileData *fd);
 GList *vflist_pop_menu_file_list(ViewFile *vf);
 void vflist_pop_menu_view_cb(GtkWidget *widget, gpointer data);
 void vflist_pop_menu_rename_cb(GtkWidget *widget, gpointer data);

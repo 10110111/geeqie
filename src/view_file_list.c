@@ -363,26 +363,18 @@ void vflist_dnd_init(ViewFile *vf)
  *-----------------------------------------------------------------------------
  */
 
-GList *vflist_pop_menu_file_list(ViewFile *vf)
+GList *vflist_selection_get_one(ViewFile *vf, FileData *fd)
 {
-	GList *list;
-	if (!VFLIST(vf)->click_fd) return NULL;
+	GList *list = g_list_append(NULL, file_data_ref(fd));
 
-	if (vflist_row_is_selected(vf, VFLIST(vf)->click_fd))
-		{
-		return vf_selection_get_list(vf);
-		}
-
-	list = g_list_append(NULL, file_data_ref(VFLIST(vf)->click_fd));
-
-	if (VFLIST(vf)->click_fd->sidecar_files)
+	if (fd->sidecar_files)
 		{
 		/* check if the row is expanded */
 		GtkTreeModel *store;
 		GtkTreeIter iter;
 		
 		store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
-		if (vflist_find_row(vf, VFLIST(vf)->click_fd, &iter) >= 0)
+		if (vflist_find_row(vf, fd, &iter) >= 0)
 			{
 			GtkTreePath *tpath;
 
@@ -390,7 +382,7 @@ GList *vflist_pop_menu_file_list(ViewFile *vf)
 			if (!gtk_tree_view_row_expanded(GTK_TREE_VIEW(vf->listview), tpath))
 				{
 				/* unexpanded - add whole group */
-				GList *work = VFLIST(vf)->click_fd->sidecar_files;
+				GList *work = fd->sidecar_files;
 				while (work)
 					{
 					FileData *sfd = work->data;
@@ -405,6 +397,18 @@ GList *vflist_pop_menu_file_list(ViewFile *vf)
 
 	return list;
 }
+
+GList *vflist_pop_menu_file_list(ViewFile *vf)
+{
+	if (!VFLIST(vf)->click_fd) return NULL;
+
+	if (vflist_row_is_selected(vf, VFLIST(vf)->click_fd))
+		{
+		return vf_selection_get_list(vf);
+		}
+	return vflist_selection_get_one(vf, VFLIST(vf)->click_fd);
+}
+
 
 void vflist_pop_menu_view_cb(GtkWidget *widget, gpointer data)
 {

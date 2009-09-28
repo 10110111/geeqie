@@ -161,6 +161,11 @@ static void vficon_populate_at_new_size(ViewFile *vf, gint w, gint h, gboolean f
  *-----------------------------------------------------------------------------
  */
 
+GList *vficon_selection_get_one(ViewFile *vf, FileData *fd)
+{
+	return g_list_prepend(filelist_copy(fd->sidecar_files), file_data_ref(fd));
+}
+
 GList *vficon_pop_menu_file_list(ViewFile *vf)
 {
 	if (!VFICON(vf)->click_id) return NULL;
@@ -170,8 +175,7 @@ GList *vficon_pop_menu_file_list(ViewFile *vf)
 		return vf_selection_get_list(vf);
 		}
 
-	
-	return g_list_prepend(filelist_copy(VFICON(vf)->click_id->fd->sidecar_files), file_data_ref(VFICON(vf)->click_id->fd));
+	return vficon_selection_get_one(vf, VFICON(vf)->click_id->fd);
 }
 
 void vficon_pop_menu_view_cb(GtkWidget *widget, gpointer data)

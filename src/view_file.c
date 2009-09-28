@@ -310,6 +310,19 @@ GList *vf_pop_menu_file_list(ViewFile *vf)
 	return ret;
 }
 
+GList *vf_selection_get_one(ViewFile *vf, FileData *fd)
+{
+	GList *ret = NULL;
+
+	switch (vf->type)
+	{
+	case FILEVIEW_LIST: ret = vflist_selection_get_one(vf, fd); break;
+	case FILEVIEW_ICON: ret = vficon_selection_get_one(vf, fd); break;
+	}
+
+	return ret;
+}
+
 static void vf_pop_menu_edit_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf;
