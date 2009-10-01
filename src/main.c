@@ -132,6 +132,9 @@ static void parse_command_line_add_file(const gchar *file_path, gchar **path, gc
 static void parse_command_line_add_dir(const gchar *dir, gchar **path, gchar **file,
 				       GList **list)
 {
+#if 0
+	/* This is broken because file filter is not initialized yet.
+	*/
 	GList *files;
 	gchar *path_parsed;
 	FileData *dir_fd;
@@ -164,6 +167,9 @@ static void parse_command_line_add_dir(const gchar *dir, gchar **path, gchar **f
 
 	g_free(path_parsed);
 	file_data_unref(dir_fd);
+#else
+	DEBUG_1("multiple directories specified, ignoring: %s", dir);
+#endif
 }
 
 static void parse_command_line_process_dir(const gchar *dir, gchar **path, gchar **file,
