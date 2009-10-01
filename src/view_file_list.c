@@ -962,7 +962,6 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 
 			if (valid)
 				{
-				num_ordered++;
 				gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
 						   FILE_COLUMN_POINTER, &old_fd,
 						   FILE_COLUMN_VERSION, &old_version,
@@ -994,6 +993,7 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 
 				if (valid)
 					{
+					num_ordered++;
 					gtk_tree_store_insert_before(store, &new, parent_iter, &iter);
 					}
 				else
@@ -1026,6 +1026,7 @@ static void vflist_setup_iter_recursive(ViewFile *vf, GtkTreeStore *store, GtkTr
 				}
 			else
 				{
+				num_ordered++;
 				if (fd->version != old_version || force)
 					{
 					vflist_setup_iter(vf, store, &iter, fd);
