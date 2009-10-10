@@ -577,6 +577,21 @@ static void bar_destroy(GtkWidget *widget, gpointer data)
 	g_free(bd);
 }
 
+#ifdef HAVE_LIBCHAMPLAIN_GTK
+/* 
+   FIXME: this is an ugly hack that works around this bug:
+   https://bugzilla.gnome.org/show_bug.cgi?id=590692
+   http://bugzilla.openedhand.com/show_bug.cgi?id=1751
+   it should be removed as soon as a better solution exists
+*/
+
+static void bar_unrealize_clutter_fix_cb(GtkWidget *widget, gpointer data)
+{
+	GtkWidget *child = gtk_bin_get_child(GTK_BIN(widget));
+	if (child) gtk_widget_unrealize(child);
+}
+#endif
+
 GtkWidget *bar_new(LayoutWindow *lw)
 {
 	BarData *bd;
@@ -622,7 +637,11 @@ GtkWidget *bar_new(LayoutWindow *lw)
 	bd->vbox = gtk_vbox_new(FALSE, 0);
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled), bd->vbox);
 	gtk_viewport_set_shadow_type(GTK_VIEWPORT(gtk_bin_get_child(GTK_BIN(scrolled))), GTK_SHADOW_NONE);
-	
+
+#ifdef HAVE_LIBCHAMPLAIN_GTK
+	g_signal_connect(G_OBJECT(gtk_bin_get_child(GTK_BIN(scrolled))), "unrealize", G_CALLBACK(bar_unrealize_clutter_fix_cb), NULL); 
+#endif
+
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_NONE);
 	gtk_widget_show(bd->vbox);
 	return bd->widget;
