@@ -383,6 +383,7 @@ static gint editor_list_window_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkT
 		case DESKTOP_FILE_COLUMN_KEY:
 		case DESKTOP_FILE_COLUMN_NAME:
 		case DESKTOP_FILE_COLUMN_PATH:
+		case DESKTOP_FILE_COLUMN_HIDDEN:
 			{
 			gchar *s1, *s2;
 
@@ -404,22 +405,6 @@ static gint editor_list_window_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkT
 			}
 			break;
 	
-		case DESKTOP_FILE_COLUMN_HIDDEN:
-			{
-			gint *v1, *v2;
-
-			gtk_tree_model_get(model, a, n, &v1, -1);
-			gtk_tree_model_get(model, b, n, &v2, -1);
-
-			if (v1 == v2)
-				ret = 0;
-			else if (v1 < v2)
-				ret = 1;
-			else
-				ret = -1;
-			}
-			break;
-
     		default:
        			g_return_val_if_reached(0);
 		}
@@ -510,13 +495,9 @@ static void editor_list_window_create(void)
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, _("Hidden"));
 	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
-	renderer = gtk_cell_renderer_toggle_new();
-	g_object_set(G_OBJECT(renderer),
-		     "activatable", FALSE, 	// not clickable for now
-		     "xalign", 0.5, 		// centered
-		     NULL);
-	gtk_tree_view_column_pack_start(column, renderer, TRUE); // TRUE needed for centering
-	gtk_tree_view_column_add_attribute(column, renderer, "active", DESKTOP_FILE_COLUMN_HIDDEN);
+	renderer = gtk_cell_renderer_text_new();
+	gtk_tree_view_column_pack_start(column, renderer, FALSE);
+	gtk_tree_view_column_add_attribute(column, renderer, "text", DESKTOP_FILE_COLUMN_HIDDEN);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(ewl->view), column);
 	gtk_tree_view_column_set_sort_column_id(column, DESKTOP_FILE_COLUMN_HIDDEN);
 	gtk_tree_view_column_set_alignment(column, 0.5); 

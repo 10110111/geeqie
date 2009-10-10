@@ -331,7 +331,7 @@ gboolean editor_read_desktop_file(const gchar *path)
 	gtk_list_store_set(desktop_file_list, &iter, 
 			   DESKTOP_FILE_COLUMN_KEY, key,
 			   DESKTOP_FILE_COLUMN_NAME, editor->name,
-			   DESKTOP_FILE_COLUMN_HIDDEN, editor->hidden,
+			   DESKTOP_FILE_COLUMN_HIDDEN, editor->hidden ? _("yes") : _("no"),
 			   DESKTOP_FILE_COLUMN_WRITABLE, access_file(path, W_OK),
 			   DESKTOP_FILE_COLUMN_PATH, path, -1);
 	
@@ -358,7 +358,7 @@ void editor_table_clear(void)
 		}
 	else 
 		{
-		desktop_file_list = gtk_list_store_new(DESKTOP_FILE_COLUMN_COUNT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_STRING);
+		desktop_file_list = gtk_list_store_new(DESKTOP_FILE_COLUMN_COUNT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_STRING);
 		}
 	if (editors)
 		{
