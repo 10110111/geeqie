@@ -189,7 +189,11 @@ gboolean tree_edit_by_path(GtkTreeView *tree, GtkTreePath *tpath, gint column, c
 	tcolumn = gtk_tree_view_get_column(tree, column);
 	if (!tcolumn) return FALSE;
 
+#if GTK_CHECK_VERSION(2,18,0)
+	list = gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(tcolumn));
+#else
 	list = gtk_tree_view_column_get_cell_renderers(tcolumn);
+#endif
 	work = list;
 	while (work && !cell)
 		{
@@ -289,7 +293,11 @@ gboolean tree_view_get_cell_origin(GtkTreeView *widget, GtkTreePath *tpath, gint
 		gint cell_x;
 		gint cell_width;
 
+#if GTK_CHECK_VERSION(2,18,0)
+		renderers = gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(tv_column));
+#else
 		renderers = gtk_tree_view_column_get_cell_renderers(tv_column);
+#endif
 		work = renderers;
 		while (work && !cell)
 			{

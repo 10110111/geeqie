@@ -1636,7 +1636,11 @@ static void vficon_populate(ViewFile *vf, gboolean resize, gboolean keep_positio
 			gtk_tree_view_column_set_visible(column, (i < VFICON(vf)->columns));
 			gtk_tree_view_column_set_fixed_width(column, thumb_width + (THUMB_BORDER_PADDING * 6));
 
+#if GTK_CHECK_VERSION(2,18,0)
+			list = gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
+#else
 			list = gtk_tree_view_column_get_cell_renderers(column);
+#endif
 			cell = (list) ? list->data : NULL;
 			g_list_free(list);
 

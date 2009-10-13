@@ -3682,6 +3682,7 @@ void pixbuf_renderer_scroll(PixbufRenderer *pr, gint x, gint y)
 			}
 
 		/* process exposures here, "expose_event" seems to miss a few with obstructed windows */
+#if ! GTK_CHECK_VERSION(2,18,0)
 		while ((event = gdk_event_get_graphics_expose(box->window)) != NULL)
 			{
 			pixbuf_renderer_paint(pr, &event->expose.area);
@@ -3693,6 +3694,7 @@ void pixbuf_renderer_scroll(PixbufRenderer *pr, gint x, gint y)
 				}
 			gdk_event_free(event);
 			}
+#endif
 		}
 }
 

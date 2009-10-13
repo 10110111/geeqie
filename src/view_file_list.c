@@ -1701,7 +1701,11 @@ static void vflist_listview_set_columns(GtkWidget *listview, gboolean thumb, gbo
 
 	gtk_tree_view_column_set_fixed_width(column, options->thumbnails.max_width + 4);
 
+#if GTK_CHECK_VERSION(2,18,0)
+	list = gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
+#else
 	list = gtk_tree_view_column_get_cell_renderers(column);
+#endif
 	if (!list) return;
 	cell = list->data;
 	g_list_free(list);
