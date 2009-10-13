@@ -6,6 +6,7 @@ Type=Application
 Name=Template
 #Name[cs]=
 #Name[fr]=
+#Name[de]=
 
 # Replace "command" with the actual command or script:
 Exec=command %f
