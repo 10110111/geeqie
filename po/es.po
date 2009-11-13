@@ -7,12 +7,13 @@
 # Ariel Fermani <the_end@bbs.frc.utn.edu.ar>, 2009.
 # Redy Rodriguez <redy@users.sf.net>, 2009.
 #
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Geeqie 1.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-07 22:30+0100\n"
-"PO-Revision-Date: 2009-10-29 18:23+0100\n"
+"POT-Creation-Date: 2009-11-13 19:36+0100\n"
+"PO-Revision-Date: 2009-11-03 00:36+0100\n"
 "Last-Translator: Redy Rodríguez <redy@users.sf.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +34,7 @@ msgstr "Visualizar y gestionar imágenes"
 
 #: ../plugins/import/geeqie-import-geeqie.desktop.in.h:1
 msgid "Import Geeqie 1.0alphaX metadata"
-msgstr "Importar metadatos de Geeqie·1.0alphaX"
+msgstr "Importar metadatos de Geeqie 1.0alphaX"
 
 #: ../plugins/import/geeqie-import-gqview.desktop.in.h:1
 msgid "Import GQView metadata"
@@ -49,7 +50,7 @@ msgstr "Enlace simbólico"
 
 #: ../plugins/ufraw/geeqie-ufraw.desktop.in.h:1
 msgid "UFRaw Batch"
-msgstr "UFRaw·Batch"
+msgstr "UFRaw Batch"
 
 #: ../plugins/ufraw/geeqie-ufraw-id.desktop.in.h:1
 msgid "Edit UFRaw ID file"
@@ -57,7 +58,7 @@ msgstr "Editar archivo ID de UFRaw"
 
 #: ../plugins/ufraw/geeqie-ufraw-recursive.desktop.in.h:1
 msgid "UFRaw Batch recursive"
-msgstr "UFRaw·Batch·recursivo"
+msgstr "UFRaw Batch recursivo"
 
 #: ../src/advanced_exif.c:328 ../src/cache_maint.c:1284
 #: ../src/preferences.c:93 ../src/preferences.c:1595
@@ -105,7 +106,7 @@ msgstr "Palabras clave"
 
 #: ../src/bar.c:170 ../src/search.c:2779
 msgid "Comment"
-msgstr "Comentario"
+msgstr "Comentario:"
 
 #: ../src/bar.c:171
 msgid "Exif"
@@ -183,7 +184,7 @@ msgstr "Mostrar solo si está activa"
 
 #: ../src/bar_exif.c:573
 msgid "Editable (supported only for XMP)"
-msgstr "Editable·(soportado·solo·para·XMP)"
+msgstr "Editable (soportado solo para XMP)"
 
 #. for the entry
 #: ../src/bar_exif.c:609
@@ -194,7 +195,7 @@ msgstr "Configurar \"%s\""
 #: ../src/bar_exif.c:610 ../src/bar_keywords.c:1139
 #, c-format
 msgid "Remove \"%s\""
-msgstr "Quitar·\"%s\""
+msgstr "Quitar \"%s\""
 
 #: ../src/bar_exif.c:622
 msgid "Show hidden entries"
@@ -253,23 +254,23 @@ msgstr "Histograma sobre (_G) Verde"
 
 #: ../src/bar_histogram.c:244 ../src/layout_util.c:1394
 msgid "Histogram on _Blue"
-msgstr "Histograma·sobre·(_B)·Azul"
+msgstr "Histograma sobre (_B) Azul"
 
 #: ../src/bar_histogram.c:245 ../src/layout_util.c:1395
 msgid "_Histogram on RGB"
-msgstr "_Histograma·sobre·RGB"
+msgstr "_Histograma sobre RGB"
 
 #: ../src/bar_histogram.c:246 ../src/layout_util.c:1396
 msgid "Histogram on _Value"
-msgstr "Histograma·sobre·_Valor"
+msgstr "Histograma sobre _Valor"
 
 #: ../src/bar_histogram.c:250 ../src/layout_util.c:1400
 msgid "Li_near Histogram"
-msgstr "Histograma·Li_neal"
+msgstr "Histograma Li_neal"
 
 #: ../src/bar_histogram.c:251
 msgid "L_og Histogram"
-msgstr "Histograma·L_ogarítmico"
+msgstr "Histograma L_ogarítmico"
 
 #: ../src/bar_keywords.c:410
 msgid "Add keywords to selected files"
@@ -629,7 +630,7 @@ msgstr "No existe el archivo '%s'."
 #: ../src/collect-dlg.c:132
 #, c-format
 msgid "'%s' is a directory, not a collection file."
-msgstr "'%s'·es un directorio, no un archivo de colección."
+msgstr "'%s' es un directorio, no un archivo de colección."
 
 #: ../src/collect-dlg.c:137
 #, c-format
@@ -680,7 +681,7 @@ msgid ""
 "error: %s\n"
 msgstr ""
 "error al guardar archivo de colección: %s\n"
-"error:·%s\n"
+"error: %s\n"
 
 #: ../src/collect-table.c:211
 #, c-format
@@ -767,7 +768,7 @@ msgstr "_Renombrar..."
 #: ../src/layout_util.c:1274 ../src/layout_util.c:1275 ../src/pan-view.c:2833
 #: ../src/search.c:1027 ../src/view_dir.c:668 ../src/view_file.c:598
 msgid "_Delete..."
-msgstr "_Borrar..."
+msgstr "Borrar..."
 
 #: ../src/collect-table.c:906 ../src/dupe.c:2275 ../src/img-view.c:1289
 #: ../src/layout_image.c:522 ../src/pan-view.c:2835 ../src/search.c:1029
@@ -831,7 +832,7 @@ msgstr "sRGB"
 
 #: ../src/color-man.c:422
 msgid "Adobe RGB compatible"
-msgstr "Compatible Adobe·RGB"
+msgstr "Compatible Adobe RGB"
 
 #: ../src/color-man.c:430
 msgid "Custom profile"
@@ -1294,7 +1295,7 @@ msgstr "D50"
 
 #: ../src/exif.c:218
 msgid "ISO studio tungsten"
-msgstr "ISO·estudio·tungsteno"
+msgstr "ISO estudio tungsteno"
 
 #: ../src/exif.c:226
 msgid "yes, not detected by strobe"
@@ -1310,15 +1311,15 @@ msgstr "sin calibrar"
 
 #: ../src/exif.c:239
 msgid "1 chip color area"
-msgstr "1·chip·color·area"
+msgstr "1 chip color area"
 
 #: ../src/exif.c:240
 msgid "2 chip color area"
-msgstr "2·chip·color·area"
+msgstr "2 chip color area"
 
 #: ../src/exif.c:241
 msgid "3 chip color area"
-msgstr "3·chip·color·area"
+msgstr "3 chip color area"
 
 #: ../src/exif.c:242
 msgid "color sequential area"
@@ -1330,7 +1331,7 @@ msgstr "trilineal"
 
 #: ../src/exif.c:244
 msgid "color sequential linear"
-msgstr "color·secuencial lineal"
+msgstr "color secuencial lineal"
 
 #: ../src/exif.c:249
 msgid "digital still camera"
@@ -1418,7 +1419,7 @@ msgstr "Alto de imagen"
 
 #: ../src/exif.c:331
 msgid "Bits per Sample/Pixel"
-msgstr "Bits·per·Sample/Pixel"
+msgstr "Bits per Sample/Pixel"
 
 #: ../src/exif.c:332
 msgid "Compression"
@@ -1478,7 +1479,7 @@ msgstr "Referencia blanco y negro"
 
 #: ../src/exif.c:348
 msgid "SubIFD Exif offset"
-msgstr "SubIFD·Exif·offset"
+msgstr "SubIFD Exif offset"
 
 #. subIFD follows
 #: ../src/exif.c:350
@@ -1507,7 +1508,7 @@ msgstr "Factor de conversión optoelectríca"
 
 #: ../src/exif.c:356
 msgid "Exif version"
-msgstr "Exif·version"
+msgstr "Exif version"
 
 #: ../src/exif.c:357
 msgid "Date original"
@@ -1583,11 +1584,11 @@ msgstr "Subsecond time"
 
 #: ../src/exif.c:375
 msgid "Subsecond time original"
-msgstr "Subsecond·time·original"
+msgstr "Subsecond time original"
 
 #: ../src/exif.c:376
 msgid "Subsecond time digitized"
-msgstr "Subsecond·time·digitized"
+msgstr "Subsecond time digitized"
 
 #: ../src/exif.c:377
 msgid "FlashPix version"
@@ -1673,7 +1674,7 @@ msgstr "Rango de zoom digital"
 
 #: ../src/exif.c:400
 msgid "Focal length (35mm)"
-msgstr "Longitud focal·(35mm)"
+msgstr "Longitud focal (35mm)"
 
 #: ../src/exif.c:401
 msgid "Scene capture type"
@@ -1763,7 +1764,7 @@ msgstr "Cámara"
 
 #: ../src/exif-common.c:520
 msgid "Focal length 35mm"
-msgstr "Longitud focal·35mm"
+msgstr "Longitud focal 35mm"
 
 #: ../src/exif-common.c:523
 msgid "Resolution"
@@ -1900,23 +1901,23 @@ msgstr "Histograma logarítmico sobre Rojo"
 
 #: ../src/histogram.c:114
 msgid "Log Histogram on Green"
-msgstr "Histograma·logarítmico·sobre·Verde"
+msgstr "Histograma logarítmico sobre Verde"
 
 #: ../src/histogram.c:115
 msgid "Log Histogram on Blue"
-msgstr "Histograma·logarítmico·sobre·Azul"
+msgstr "Histograma logarítmico sobre Azul"
 
 #: ../src/histogram.c:116
 msgid "Log Histogram on RGB"
-msgstr "Histograma·logarítmico·sobre·RGB"
+msgstr "Histograma logarítmico sobre RGB"
 
 #: ../src/histogram.c:117
 msgid "Log Histogram on value"
-msgstr "Histograma·logarítmico·sobre·Valor"
+msgstr "Histograma logarítmico sobre Valor"
 
 #: ../src/histogram.c:122
 msgid "Linear Histogram on Red"
-msgstr "Histograma·lineal·sobre·Rojo"
+msgstr "Histograma lineal sobre Rojo"
 
 #: ../src/histogram.c:123
 msgid "Linear Histogram on Green"
@@ -2059,7 +2060,7 @@ msgstr "Opciones generales"
 
 #: ../src/layout.c:1914
 msgid "Home path (empty to use your home directory)"
-msgstr "Home·path·(vacío para usar tu directorio Home)"
+msgstr "Carpeta inicial (vacío para usar tu directorio Home)"
 
 #: ../src/layout.c:1922
 msgid "Use current"
@@ -2087,7 +2088,7 @@ msgstr "Restaura último path"
 
 #: ../src/layout.c:1939
 msgid "Home path"
-msgstr "Home·path"
+msgstr "Carpeta Inicial"
 
 #: ../src/layout.c:1943 ../src/print.c:3373 ../src/print.c:3380
 msgid "Layout"
@@ -2118,12 +2119,12 @@ msgstr "Esconder _lista de archivos"
 #: ../src/layout_image.c:1559
 #, c-format
 msgid "[%*d,%*d]: RGB(%3d,%3d,%3d)"
-msgstr "[%*d,%*d]:·RGB(%3d,%3d,%3d)"
+msgstr "[%*d,%*d]: RGB(%3d,%3d,%3d)"
 
 #: ../src/layout_image.c:1567
 #, c-format
 msgid "[%*s,%*s]: RGB(---,---,---)"
-msgstr "[%*s,%*s]:·RGB(---,---,---)"
+msgstr "[%*s,%*s]: RGB(---,---,---)"
 
 #: ../src/layout_util.c:1234
 msgid "_File"
@@ -2175,7 +2176,7 @@ msgstr "Par_tir"
 
 #: ../src/layout_util.c:1247 ../src/layout_util.c:1361
 msgid "Image _Overlay"
-msgstr "Image·_Overlay"
+msgstr "Inf_ormación superpuesta"
 
 #: ../src/layout_util.c:1248
 msgid "_Help"
@@ -2244,7 +2245,7 @@ msgstr "Nueva ventana"
 
 #: ../src/layout_util.c:1262
 msgid "_New collection"
-msgstr "Nueva _colección"
+msgstr "Nueva co_lección"
 
 #: ../src/layout_util.c:1262
 msgid "New collection"
@@ -2329,7 +2330,7 @@ msgstr "Desactivar agrupar archivos"
 
 #: ../src/layout_util.c:1277
 msgid "Disable file grouping"
-msgstr "Desactivar·agrupar·archivos"
+msgstr "Desactivar agrupar archivos"
 
 #: ../src/layout_util.c:1278
 msgid "_Copy path to clipboard"
@@ -2494,7 +2495,7 @@ msgstr "Encajar _Verticalmente"
 
 #: ../src/layout_util.c:1305
 msgid "Fit Vertically"
-msgstr "Encajar·Verticalmente"
+msgstr "Encajar Verticalmente"
 
 #: ../src/layout_util.c:1306 ../src/layout_util.c:1322
 msgid "Zoom _2:1"
@@ -2603,11 +2604,11 @@ msgstr "Salir de pantalla completa"
 
 #: ../src/layout_util.c:1334
 msgid "_Cycle through overlay modes"
-msgstr "_Cambiar modo de overlay"
+msgstr "_Cambiar la información superpuesta"
 
 #: ../src/layout_util.c:1334
 msgid "Cycle through Overlay modes"
-msgstr "Cambiar modo de overlay"
+msgstr "Cambiar la información superpuesta"
 
 #: ../src/layout_util.c:1335
 msgid "Cycle through histogram ch_annels"
@@ -2715,11 +2716,11 @@ msgstr "Mostrar Marcas"
 
 #: ../src/layout_util.c:1352
 msgid "Pi_xel Info"
-msgstr "Pi_xel·Info:"
+msgstr "Pi_xel Info:"
 
 #: ../src/layout_util.c:1352
 msgid "Show Pixel Info"
-msgstr "Mostrar Pixel·Info"
+msgstr "Mostrar Pixel Info"
 
 #: ../src/layout_util.c:1353
 msgid "_Float file list"
@@ -2787,7 +2788,7 @@ msgstr "Conmutar escala de grises"
 
 #: ../src/layout_util.c:1361
 msgid "Image Overlay"
-msgstr "Image·Overlay"
+msgstr "Información Superpuesta"
 
 #: ../src/layout_util.c:1362
 msgid "_Show Histogram"
@@ -3060,7 +3061,7 @@ msgstr "Perfiles de color no soportados"
 #: ../src/layout_util.c:2293
 #, c-format
 msgid "Input _%d: %s"
-msgstr "Entrada·_%d:·%s"
+msgstr "Entrada _%d: %s"
 
 #. something went badly wrong
 #: ../src/lirc.c:193
@@ -3125,7 +3126,7 @@ msgstr ""
 
 #: ../src/main.c:328
 msgid "      --geometry=GEOMETRY    set main window location\n"
-msgstr "······--geometry=GEOMETRÏA····localización de la ventana principal\n"
+msgstr "      --geometry=GEOMETRÏA    localización de la ventana principal\n"
 
 #: ../src/main.c:329
 msgid "  -r, --remote               send following commands to open window\n"
@@ -3196,7 +3197,7 @@ msgid ""
 "error: %s\n"
 msgstr ""
 "error al guardar archivo: %s\n"
-"error:·%s\n"
+"error: %s\n"
 
 #: ../src/main.c:670
 msgid "exit"
@@ -3490,7 +3491,7 @@ msgstr "Escritorio"
 #: ../src/pan-view.c:472
 #, c-format
 msgid "%d images, %s"
-msgstr "%d imágenes,·%s"
+msgstr "%d imágenes, %s"
 
 #: ../src/pan-view.c:482
 #, c-format
@@ -3592,23 +3593,23 @@ msgstr "Miniaturas grandes"
 
 #: ../src/pan-view.c:2411 ../src/pan-view.c:2871
 msgid "1:10 (10%)"
-msgstr "1:10·(10%)"
+msgstr "1:10 (10%)"
 
 #: ../src/pan-view.c:2412 ../src/pan-view.c:2867
 msgid "1:4 (25%)"
-msgstr "1:4·(25%)"
+msgstr "1:4 (25%)"
 
 #: ../src/pan-view.c:2413 ../src/pan-view.c:2863
 msgid "1:3 (33%)"
-msgstr "1:3·(33%)"
+msgstr "1:3 (33%)"
 
 #: ../src/pan-view.c:2414 ../src/pan-view.c:2859
 msgid "1:2 (50%)"
-msgstr "1:2·(50%)"
+msgstr "1:2 (50%)"
 
 #: ../src/pan-view.c:2415
 msgid "1:1 (100%)"
-msgstr "1:1·(100%)"
+msgstr "1:1 (100%)"
 
 #: ../src/pan-view.c:2463
 msgid "Find:"
@@ -3734,14 +3735,15 @@ msgstr "Esto borrará el contenido de la carpeta de basura."
 
 #: ../src/preferences.c:836 ../src/preferences.c:839
 msgid "Reset image overlay template string"
-msgstr "Reiniciar la cadena de plantilla de overlay"
+msgstr "Reiniciar la cadena de plantilla de información superpuesta"
 
 #: ../src/preferences.c:840
 msgid ""
 "This will reset the image overlay template string to the default.\n"
 "Continue?"
 msgstr ""
-"Esto reiniciará la plantilla de overlay de imagen a lo predeterminado.\n"
+"Esto reiniciará la plantilla de información superpuesta a la "
+"predeterminado.\n"
 "¿Continuar?"
 
 #: ../src/preferences.c:1169
@@ -3928,11 +3930,11 @@ msgstr "Deshabilitar salvapantalla"
 
 #: ../src/preferences.c:1363
 msgid "Overlay Screen Display"
-msgstr "Mostrar Overlay en pantalla"
+msgstr "Mostrar información superpuesta en pantalla"
 
 #: ../src/preferences.c:1365
 msgid "Image overlay template"
-msgstr "Plantilla de overlay"
+msgstr "Plantilla de información superpuesta"
 
 #: ../src/preferences.c:1379
 msgid ""
@@ -3955,22 +3957,22 @@ msgid ""
 "If a line is empty, it is removed. This allows to add lines that totally "
 "disappear when no data is available.\n"
 msgstr ""
-"<i>%name%</i>·será el nombre del archivo de imagen.\n"
-"También disponible:·<i>%collection%</i>,·<i>%number%</i>,·<i>%total%</i>,·<i>"
+"<i>%name%</i> será el nombre del archivo de imagen.\n"
+"También disponible: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>"
 "%date%</i>,\n"
-"<i>%size%</i>·(filesize),·<i>%width%</i>,·<i>%height%</i>,·<i>%res%</i>·"
+"<i>%size%</i> (filesize), <i>%width%</i>, <i>%height%</i>, <i>%res%</i> "
 "(resolución)\n"
-"Para acceder a los datos exif usar la etiqueta exif,·p.e.·<i>%formatted."
-"Camera%</i>·sería·el contenido del dato exif formatted.Camera,\n"
-"<i>%Exif.Photo.DateTimeOriginal%</i>·la fecha de disparo.\n"
-"<i>%formatted.Camera:20</i>·se truncaría el dato a 20·caracteres añadiendo "
+"Para acceder a los datos exif usar la etiqueta exif, p.e. <i>%formatted."
+"Camera%</i> sería el contenido del dato exif formatted.Camera,\n"
+"<i>%Exif.Photo.DateTimeOriginal%</i> la fecha de disparo.\n"
+"<i>%formatted.Camera:20</i> se truncaría el dato a 20 caracteres añadiendo "
 "puntos suspensivos para indicar el recorte.\n"
-"Si se conectan dos o más variables con signos | en medio se imprimiran·las "
+"Si se conectan dos o más variables con signos | en medio se imprimiran las "
 "variables disponibles con un separador.\n"
 "<i>%formatted.ShutterSpeed%</i>|<i>%formatted.ISOSpeedRating%</i>|<i>%"
-"formatted.FocalLength%</i>·podría mostrar·\"1/20s·-·400·-·80·mm\"\n"
-"o·\"1/200·-·80·mm\",Si no hubiese información ISO·en los datos exif.\n"
-"Las líneas vacías se suprimen.·Esto permite añadir lineas que no se \n"
+"formatted.FocalLength%</i> podría mostrar \"1/20s - 400 - 80 mm\"\n"
+"o \"1/200 - 80 mm\",Si no hubiese información ISO en los datos exif.\n"
+"Las líneas vacías se suprimen. Esto permite añadir lineas que no se \n"
 "mostrarán si no hay datos.\n"
 
 #: ../src/preferences.c:1396 ../src/preferences.c:1569
@@ -4118,7 +4120,7 @@ msgstr "Guardar metadatos después de un tiempo"
 
 #: ../src/preferences.c:1666
 msgid "Timeout (seconds):"
-msgstr "Timeout·(segundos):"
+msgstr "Timeout (segundos):"
 
 #: ../src/preferences.c:1669
 msgid "Write metadata on image change"
@@ -4247,7 +4249,7 @@ msgstr "Debugging"
 
 #: ../src/preferences.c:1842
 msgid "Debug level:"
-msgstr "Debug·level:"
+msgstr "Debug level:"
 
 #: ../src/preferences.c:1861
 msgid "Keyboard"
@@ -4296,7 +4298,7 @@ msgstr ""
 "%s %s\n"
 "\n"
 "Copyright (c) 2006 John Ellis\n"
-"Copyright·(c)·%s·El equipo de·Geeqie\n"
+"Copyright (c) %s El equipo de Geeqie\n"
 "Sitio web: %s\n"
 "E-mail: %s\n"
 "\n"
@@ -4608,7 +4610,7 @@ msgid ""
 "error: %s\n"
 msgstr ""
 "error al guardar archivo de configuración: %s\n"
-"error:·%s\n"
+"error: %s\n"
 
 #. short, long                  callback,               extra, prefer,description
 #: ../src/remote.c:639
@@ -4919,7 +4921,7 @@ msgstr "Borrado por comando externo"
 #: ../src/trash.c:201
 #, c-format
 msgid " (max. %d MB)"
-msgstr "·(max.·%d·MB)"
+msgstr " (max. %d MB)"
 
 #: ../src/trash.c:205
 #, c-format
@@ -5018,12 +5020,12 @@ msgstr "[nombre no reproducible]"
 #: ../src/ui_fileops.c:112
 #, c-format
 msgid "\"%s\" is encoded in valid UTF-8."
-msgstr "\"%s\"·está codificado en·UTF-8 válido."
+msgstr "\"%s\" está codificado en UTF-8 válido."
 
 #: ../src/ui_fileops.c:114
 #, c-format
 msgid "\"%s\" is not encoded in valid UTF-8."
-msgstr "\"%s\"·no está codificado en UTF-8 válido."
+msgstr "\"%s\" no está codificado en UTF-8 válido."
 
 #: ../src/ui_fileops.c:119 ../src/ui_fileops.c:124
 msgid "Filename encoding locale mismatch"
@@ -5231,7 +5233,7 @@ msgid ""
 "Status: "
 msgstr ""
 "\n"
-"Estado:·"
+"Estado: "
 
 #: ../src/utilops.c:1797
 msgid "no problem detected"
@@ -5258,7 +5260,7 @@ msgstr ""
 #, c-format
 msgid "The following metadata tags will be written to the image file itself."
 msgstr ""
-"Las·siguientes·etiquetas·de·metadatos·se·escribirán·en el propio archivo de "
+"Las siguientes etiquetas de metadatos se escribirán en el propio archivo de "
 "imagen."
 
 #: ../src/utilops.c:1986
@@ -5367,7 +5369,7 @@ msgid ""
 "Unable to remove folder %s\n"
 "Permissions do not allow writing to the folder."
 msgstr ""
-"Imposible borrar carpeta·%s\n"
+"Imposible borrar carpeta %s\n"
 "Los permisos no dejan escribir en ella."
 
 #: ../src/utilops.c:2458 ../src/utilops.c:2515
@@ -5428,7 +5430,7 @@ msgstr "Crear carpeta"
 
 #: ../src/utilops.c:2685
 msgid "Create folder?"
-msgstr "¿Crear·carpeta?"
+msgstr "¿Crear carpeta?"
 
 #: ../src/utilops.c:2688
 msgid "Can't create folder"
@@ -5492,7 +5494,7 @@ msgstr "_Mostrar miniaturas"
 
 #: ../src/view_file_icon.c:2179 ../src/view_file_list.c:899
 msgid " [NO GROUPING]"
-msgstr "·[NO·AGRUPAR]"
+msgstr " [NO AGRUPAR]"
 
 #: ../src/view_file_list.c:512
 #, c-format
