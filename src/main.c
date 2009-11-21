@@ -779,7 +779,11 @@ gint main(gint argc, gchar *argv[])
 	DEBUG_1("%s main: gtk_init", get_exec_time());	 
 #ifdef HAVE_LIBCHAMPLAIN
 #ifdef HAVE_LIBCHAMPLAIN_GTK
-	gtk_clutter_init(&argc, &argv);
+	if (gtk_clutter_init(&argc, &argv) != CLUTTER_INIT_SUCCESS)
+		{
+		log_printf("Can't initialize clutter-gtk.\n");
+		exit(1);
+		}
 #else
 	gtk_init(&argc, &argv);
 #endif
