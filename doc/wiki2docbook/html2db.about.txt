@@ -1,0 +1,5 @@
+Credits: Oliver Steele
+http://osteele.com/projects/
+http://osteele.com/software/xslt/html2db/
+
+html2db.xsl converts an XHTML source document into a Docbook output document. It provides features for customizing the generation of the output, so that the output can be tuned by annotating the source, rather than hand-editing the output. This makes it useful in a processing pipeline where the source documents are maintained in HTML, although it can be used as a one-time conversion tool too.

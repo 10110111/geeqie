@@ -1,0 +1,8 @@
+Credits: Filipe Correia
+
+This stylesheet can be applied to xhtml documents. It ensures one one
+h1 element exists per document. If the input document has only one h1 
+element it just copies all nodes to the output, otherwise it adds a 
+new top level (h1) heading and depromotes every existing heading to a
+lower level (ie, h1s turn into h2s, h2s turn into h3s, etc).
+
