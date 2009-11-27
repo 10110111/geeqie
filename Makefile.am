@@ -30,4 +30,4 @@ EXTRA_DIST = \
 dist-hook: geeqie.spec
 	cp $(top_builddir)/geeqie.spec $(distdir)
 
-
+DISTCLEANFILES = config.report
