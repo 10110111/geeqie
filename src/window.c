@@ -175,6 +175,7 @@ static gchar *html_browsers[] =
 	"mozilla",	NULL,
 	"konqueror",	NULL,
 	"netscape",	NULL,
+	"opera",	"!opera --remote 'openURL(%s,new-page)'",
 	NULL,		NULL
 };
 
