@@ -709,7 +709,7 @@ void exit_program(void)
  */
 /* FIXME: this probably needs some better ifdefs. Please report any compilation problems */
 
-#ifdef SIGBUS
+#if defined(SIGBUS) && defined(SA_SIGINFO)
 static void sigbus_handler_cb(int signum, siginfo_t *info, void *context)
 {
 	unsigned long pagesize = sysconf(_SC_PAGE_SIZE);
@@ -720,7 +720,7 @@ static void sigbus_handler_cb(int signum, siginfo_t *info, void *context)
 
 static void setup_sigbus_handler(void)
 {
-#ifdef SIGBUS
+#if defined(SIGBUS) && defined(SA_SIGINFO)
 	struct sigaction sigbus_action;
 	sigfillset(&sigbus_action.sa_mask);
 	sigbus_action.sa_sigaction = sigbus_handler_cb;
