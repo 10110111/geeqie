@@ -46,6 +46,8 @@ struct _EditorListWindow
 	GtkWidget *window;
 	GtkWidget *view;
 	GenericDialog *gd;	/* any open confirm dialogs ? */
+	GtkWidget *delete_button;
+	GtkWidget *edit_button;
 };
 
 typedef struct _EditorWindowDel_Data EditorWindowDel_Data;
@@ -372,6 +374,27 @@ static void editor_list_window_new_cb(GtkWidget *widget, gpointer data)
 	editor_window_new(DESKTOP_FILE_TEMPLATE, _("new.desktop"));
 }
 
+static void editor_list_window_selection_changed_cb(GtkWidget *widget, gpointer data)
+{
+	EditorListWindow *ewl = data;
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view)); 
+	GtkTreeIter iter;
+
+	if (gtk_tree_selection_get_selected(sel, NULL, &iter)) 
+		{
+		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(ewl->view));
+		gchar *path;
+
+		gtk_tree_model_get(store, &iter,
+						   DESKTOP_FILE_COLUMN_PATH, &path,
+						   -1);
+		
+		gtk_widget_set_sensitive(ewl->delete_button, access_file(path, W_OK));
+		gtk_widget_set_sensitive(ewl->edit_button, TRUE);
+		g_free(path);
+		}
+	
+}
 
 static gint editor_list_window_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer data)
 {
@@ -456,13 +479,17 @@ static void editor_list_window_create(void)
 				 G_CALLBACK(editor_list_window_edit_cb), ewl);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
 	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_sensitive(button, FALSE);
 	gtk_widget_show(button);
+	ewl->edit_button = button;
 
 	button = pref_button_new(NULL, GTK_STOCK_DELETE, NULL, FALSE,
 				 G_CALLBACK(editor_list_window_delete_cb), ewl);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
 	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_sensitive(button, FALSE);
 	gtk_widget_show(button);
+	ewl->delete_button = button;
 
 	button = pref_button_new(NULL, GTK_STOCK_CLOSE, NULL, FALSE,
 				 G_CALLBACK(editor_list_window_close_cb), ewl);
@@ -480,6 +507,7 @@ static void editor_list_window_create(void)
 	ewl->view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(desktop_file_list));
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view));
 	gtk_tree_selection_set_mode(GTK_TREE_SELECTION(selection), GTK_SELECTION_SINGLE);
+ 	g_signal_connect(selection, "changed", G_CALLBACK(editor_list_window_selection_changed_cb), ewl);
 
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(ewl->view), FALSE);
 
