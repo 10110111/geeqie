@@ -1098,6 +1098,10 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 
 	menu = popup_menu_short_lived();
 
+	menu_item_add_stock(menu, _("Add keyword"), GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_add_dialog_cb), pkd);
+	
+	menu_item_add_divider(menu);
+
 	if (pkd->click_tpath)
 		{
 		/* for the entry */
@@ -1168,10 +1172,6 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 	menu_item_add_check(submenu, _("Collapse unchecked"), pkd->collapse_unchecked, G_CALLBACK(bar_pane_keywords_collapse_unchecked_toggle_cb), pkd);
 	menu_item_add_check(submenu, _("Hide unchecked"), pkd->hide_unchecked, G_CALLBACK(bar_pane_keywords_hide_unchecked_toggle_cb), pkd);
 
-	menu_item_add_divider(menu);
-
-	menu_item_add_stock(menu, _("Add keyword"), GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_add_dialog_cb), pkd);
-	
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
 }
 
