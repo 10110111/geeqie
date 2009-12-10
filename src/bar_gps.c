@@ -242,7 +242,7 @@ static gboolean bar_pane_gps_create_markers_cb(gpointer data)
 				clutter_container_add(CLUTTER_CONTAINER(pgd->icon_layer), marker, NULL);
 				clutter_actor_set_reactive(marker, TRUE);
 
-				g_signal_connect(G_OBJECT(marker), "button_press_event",
+				g_signal_connect(G_OBJECT(marker), "button_release_event",
 						 				G_CALLBACK(bar_pane_gps_marker_keypress_cb), pgd);
 
 				g_object_set_data(G_OBJECT(marker), "file_fd", fd);

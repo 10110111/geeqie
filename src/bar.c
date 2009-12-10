@@ -517,7 +517,7 @@ void bar_add(GtkWidget *bar, GtkWidget *pane)
 		
 	gtk_box_pack_start(GTK_BOX(bd->vbox), expander, FALSE, TRUE, 0);
 	
-	g_signal_connect(expander, "button_press_event", G_CALLBACK(bar_menu_cb), bd); 
+	g_signal_connect(expander, "button_release_event", G_CALLBACK(bar_menu_cb), bd); 
 	
 	gtk_container_add(GTK_CONTAINER(expander), pane);
 	
@@ -610,7 +610,7 @@ GtkWidget *bar_new(LayoutWindow *lw)
 	g_signal_connect(G_OBJECT(bd->widget), "size-allocate",
 			 G_CALLBACK(bar_size_allocate), bd);
 
-	g_signal_connect(G_OBJECT(bd->widget), "button_press_event", G_CALLBACK(bar_menu_cb), bd); 
+	g_signal_connect(G_OBJECT(bd->widget), "button_release_event", G_CALLBACK(bar_menu_cb), bd); 
 
 	bd->width = SIDEBAR_DEFAULT_WIDTH;
 	gtk_widget_set_size_request(bd->widget, bd->width, -1);

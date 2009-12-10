@@ -1356,7 +1356,7 @@ static GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, con
 	g_signal_connect(G_OBJECT(pkd->keyword_treeview), "drag_motion",
 			 G_CALLBACK(bar_pane_keywords_dnd_motion), pkd);
 
-	g_signal_connect(G_OBJECT(pkd->keyword_treeview), "button_press_event", 
+	g_signal_connect(G_OBJECT(pkd->keyword_treeview), "button_release_event", 
 			 G_CALLBACK(bar_pane_keywords_menu_cb), pkd);
 	
 	gtk_container_add(GTK_CONTAINER(scrolled), pkd->keyword_treeview);

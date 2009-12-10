@@ -176,7 +176,7 @@ static GtkWidget *bar_pane_exif_add_entry(PaneExifData *ped, const gchar *key, c
 	gtk_box_pack_start(GTK_BOX(ped->vbox), ee->ebox, FALSE, FALSE, 0);
 
 	bar_pane_exif_entry_dnd_init(ee->ebox);
-	g_signal_connect(ee->ebox, "button_press_event", G_CALLBACK(bar_pane_exif_menu_cb), ped);
+	g_signal_connect(ee->ebox, "button_release_event", G_CALLBACK(bar_pane_exif_menu_cb), ped);
 	
 	bar_pane_exif_setup_entry_box(ped, ee);
 	 
@@ -746,7 +746,7 @@ static GtkWidget *bar_pane_exif_new(const gchar *id, const gchar *title, gboolea
 			 G_CALLBACK(bar_pane_exif_size_allocate), ped);
 	
 	bar_pane_exif_dnd_init(ped->widget);
-	g_signal_connect(ped->widget, "button_press_event", G_CALLBACK(bar_pane_exif_menu_cb), ped);
+	g_signal_connect(ped->widget, "button_release_event", G_CALLBACK(bar_pane_exif_menu_cb), ped);
 
 	file_data_register_notify_func(bar_pane_exif_notify_cb, ped, NOTIFY_PRIORITY_LOW);
 
