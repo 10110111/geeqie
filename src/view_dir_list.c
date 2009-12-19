@@ -138,11 +138,13 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 	GList *old_list;
 	gboolean ret;
 	FileData *fd;
+	SortType sort_type = SORT_NAME;
+	gboolean sort_ascend = TRUE;
 
 	old_list = VDLIST(vd)->list;
 
 	ret = filelist_read(vd->dir_fd, NULL, &VDLIST(vd)->list);
-	VDLIST(vd)->list = filelist_sort(VDLIST(vd)->list, SORT_NAME, TRUE);
+	VDLIST(vd)->list = filelist_sort(VDLIST(vd)->list, sort_type, sort_ascend);
 
 	/* add . and .. */
 
@@ -215,7 +217,7 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 					}
 				else
 					{
-					match = filelist_sort_compare_filedata_full(fd, old_fd, SORT_NAME, TRUE);
+					match = filelist_sort_compare_filedata_full(fd, old_fd, sort_type, sort_ascend);
 
 					if (match == 0) g_warning("multiple fd for the same path");
 					}
