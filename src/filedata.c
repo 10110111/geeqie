@@ -230,7 +230,7 @@ static void file_data_set_collate_keys(FileData *fd)
 	g_free(fd->collate_key_name);
 	g_free(fd->collate_key_name_nocase);
 
-#if GLIB_CHECK_VERSION(2, 8, 0)
+#if 0 && GLIB_CHECK_VERSION(2, 8, 0)
 	fd->collate_key_name = g_utf8_collate_key_for_filename(fd->name, -1);
 	fd->collate_key_name_nocase = g_utf8_collate_key_for_filename(caseless_name, -1);
 #else
