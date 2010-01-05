@@ -132,6 +132,10 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				{
 				layout_image_zoom_set(lw, 0.0, FALSE);
 				}
+			else if (g_ascii_strcasecmp("FULL_SCREEN", cmd) == 0)
+				{
+				layout_image_full_screen_toggle(lw);
+				}
 			else if (g_ascii_strncasecmp("SET_ZOOM", cmd, 8) == 0)
 				{
 				ptr = cmd + 8;
