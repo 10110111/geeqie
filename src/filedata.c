@@ -22,6 +22,7 @@
 #include "trash.h"
 #include "histogram.h"
 
+#include <errno.h>
 
 static GHashTable *file_data_pool = NULL;
 static GHashTable *file_data_planned_change_hash = NULL;
@@ -1078,6 +1079,13 @@ static gboolean filelist_read_real(FileData *dir_fd, GList **files, GList **dirs
 					{
 					flist = g_list_prepend(flist, file_data_new_local(filepath, &ent_sbuf, TRUE, basename_hash));
 					}
+				}
+			}
+		else
+			{
+			if (errno == EOVERFLOW)
+				{
+				log_printf("stat(): EOVERFLOW, skip '%s'", filepath);
 				}
 			}
 		g_free(filepath);
