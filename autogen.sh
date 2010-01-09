@@ -107,6 +107,10 @@ do
 	  echo "no" | glib-gettextize --force --copy
 	  echo "Running intltoolize"
 	  intltoolize --copy --force --automake
+	  if intltoolize --version | grep -q ' 0.40.6'; then
+		  echo "Workaround intltoolize 0.40.6 bug (LINGUAS)"
+		  sed "s:'\^\$\$lang\$\$':\^\$\$lang\$\$:g" -i po/Makefile.in.in
+	  fi
 	  echo "Making $dr/aclocal.m4 writable ..."
 	  test -r $dr/aclocal.m4 && chmod u+w $dr/aclocal.m4
         fi
