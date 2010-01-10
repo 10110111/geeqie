@@ -520,52 +520,66 @@ gboolean copy_file(const gchar *s, const gchar *t)
 {
 	FILE *fi = NULL;
 	FILE *fo = NULL;
-	gchar *sl, *tl;
-	gchar buf[4096];
+	gchar *sl = NULL;
+	gchar *tl = NULL;
+	gchar *randname = NULL;
+	gchar buf[16384];
 	size_t b;
+	gint ret = FALSE;
+	gint fd = -1;
 
 	sl = path_from_utf8(s);
 	tl = path_from_utf8(t);
 
 	if (hard_linked(sl, tl))
 		{
-		g_free(sl);
-		g_free(tl);
-		return TRUE;
+		ret = TRUE;
+		goto end;
 		}
 
 	fi = fopen(sl, "rb");
-	if (fi)
-		{
-		fo = fopen(tl, "wb");
-		if (!fo)
-			{
-			fclose(fi);
-			fi = NULL;
-			}
-		}
-
-	g_free(sl);
-	g_free(tl);
-
-	if (!fi || !fo) return FALSE;
+	if (!fi) goto end;
+	
+	/* First we write to a temporary file, then we rename it on success,
+	   and attributes from original file are copied */
+	randname = g_strconcat(tl, ".tmp_XXXXXX", NULL);
+	if (!randname) goto end;
+	
+	fd = g_mkstemp(randname);
+	if (fd == -1) goto end;
+	
+	fo = fdopen(fd, "wb");
+	if (!fo) {
+		close(fd);
+		goto end;
+	}
 
 	while ((b = fread(buf, sizeof(gchar), sizeof(buf), fi)) && b != 0)
 		{
 		if (fwrite(buf, sizeof(gchar), b, fo) != b)
 			{
-			fclose(fi);
-			fclose(fo);
-			return FALSE;
+			unlink(randname);
+			goto end;
 			}
 		}
 
-	fclose(fi);
-	fclose(fo);
+	fclose(fi); fi = NULL;
+	fclose(fo); fo = NULL;
 
-	copy_file_attributes(s, t, TRUE, TRUE);
+	if (rename(randname, tl) < 0) {
+		unlink(randname);
+		goto end; 	
+	}
 
-	return TRUE;
+	ret = copy_file_attributes(s, t, TRUE, TRUE);
+
+end:
+	if (fi) fclose(fi);
+	if (fo) fclose(fo);
+	if (sl) g_free(sl);
+	if (tl) g_free(tl);
+	if (randname) g_free(randname);
+	return ret;
 }
 
 gboolean move_file(const gchar *s, const gchar *t)
