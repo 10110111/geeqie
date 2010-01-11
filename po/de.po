@@ -1,8 +1,8 @@
 # geeqie de.po file.
 # Copyright (C) 1999 John Ellis.
-# Copytight (C) 2005 Danny Milosavljevic.
-# Copytight (C) 2006 Ronny Steiner
-# Copytight (C) 2009 Klaus Ethgen
+# Copyright (C) 2005 Danny Milosavljevic.
+# Copyright (C) 2006 Ronny Steiner
+# Copyright (C) 2009 Klaus Ethgen
 # Matthias Warkus <mawa@iname.com>, 1999.
 #
 #
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: geeqie-1.0alpha3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-13 20:59+0100\n"
-"PO-Revision-Date: 2009-10-13 20:57+0100\n"
+"PO-Revision-Date: 2010-01-11 15:09+0100\n"
 "Last-Translator: Klaus Ethgen <Klaus@Ethgen.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
