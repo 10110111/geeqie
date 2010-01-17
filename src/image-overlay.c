@@ -321,7 +321,6 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 		else
 			{
 			data = g_strdup(g_hash_table_lookup(vars, name));
-			if (data && strcmp(name, "zoom") == 0) imd->overlay_show_zoom = TRUE;
 			if (!data)
 				data = metadata_read_string(imd->image_fd, name, METADATA_FORMATTED);
 			}
@@ -864,8 +863,6 @@ static void image_osd_info_hide(OverlayStateData *osd)
 static gboolean image_osd_update_cb(gpointer data)
 {
 	OverlayStateData *osd = data;
-
-	osd->imd->overlay_show_zoom = FALSE;
 
 	if (osd->show & OSD_SHOW_INFO)
 		{

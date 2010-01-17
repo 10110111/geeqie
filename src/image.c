@@ -91,15 +91,6 @@ static void image_update_util(ImageWindow *imd)
 	if (imd->func_update) imd->func_update(imd, imd->data_update);
 }
 
-static void image_zoom_cb(PixbufRenderer *pr, gdouble zoom, gpointer data)
-{
-	ImageWindow *imd = data;
-
-	if (imd->title_show_zoom) image_update_title(imd);
-	if (imd->overlay_show_zoom) image_osd_update(imd);
-
-	image_update_util(imd);
-}
 
 static void image_complete_util(ImageWindow *imd, gboolean preload)
 {
@@ -138,6 +129,15 @@ static void image_state_unset(ImageWindow *imd, ImageState state)
 {
 	imd->state &= ~state;
 	if (imd->func_state) imd->func_state(imd, state, imd->data_state);
+}
+
+static void image_zoom_cb(PixbufRenderer *pr, gdouble zoom, gpointer data)
+{
+	ImageWindow *imd = data;
+
+	if (imd->title_show_zoom) image_update_title(imd);
+	image_state_set(imd, IMAGE_STATE_IMAGE);
+	image_update_util(imd);
 }
 
 /*

@@ -440,8 +440,6 @@ struct _ImageWindow
 	gboolean delay_flip;
 	gint orientation;
 	gboolean desaturate;
-
-	gboolean overlay_show_zoom; /* set to true if overlay is showing zoom ratio */
 };
 
 #define FILEDATA_MARKS_SIZE 6
