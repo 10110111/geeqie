@@ -577,7 +577,7 @@ msgstr "%s - Kolekce - %s"
 
 #: ../src/collect.c:1135 ../src/collect.c:1139
 msgid "Close collection"
-msgstr "Uzavřít sbírku"
+msgstr "Uzavřít kolekci"
 
 #: ../src/collect.c:1140
 msgid ""
@@ -721,7 +721,7 @@ msgstr "Připojit ze seznamu souborů"
 
 #: ../src/collect-table.c:876
 msgid "Append from collection..."
-msgstr "Připojit ze sbírky..."
+msgstr "Připojit z kolekce..."
 
 #: ../src/collect-table.c:880
 msgid "_Selection"
@@ -764,7 +764,7 @@ msgstr "Pře_jmenovat..."
 #: ../src/layout_util.c:1270 ../src/layout_util.c:1271 ../src/pan-view.c:2835
 #: ../src/search.c:1023 ../src/view_dir.c:667 ../src/view_file.c:585
 msgid "_Delete..."
-msgstr "O_dstranit..."
+msgstr "S_mazat..."
 
 #: ../src/collect-table.c:906 ../src/dupe.c:2275 ../src/img-view.c:1289
 #: ../src/layout_image.c:515 ../src/pan-view.c:2837 ../src/search.c:1025
@@ -786,11 +786,11 @@ msgstr "_Zobrazit název souboru"
 
 #: ../src/collect-table.c:920
 msgid "_Save collection"
-msgstr "_Uložit sbírku"
+msgstr "_Uložit kolekci"
 
 #: ../src/collect-table.c:922
 msgid "Save collection _as..."
-msgstr "Uložit sbírku j_ako..."
+msgstr "Uložit kolekci j_ako..."
 
 #: ../src/collect-table.c:925 ../src/layout_util.c:1262
 msgid "_Find duplicates..."
@@ -944,7 +944,7 @@ msgstr "Vybrat skupinu duplikátů _2"
 
 #: ../src/dupe.c:2262 ../src/search.c:1012
 msgid "Add to new collection"
-msgstr "Přidat do nové sbírky"
+msgstr "Přidat do nové kolekce"
 
 #: ../src/dupe.c:2280 ../src/dupe.c:2567 ../src/search.c:1030
 msgid "C_lear"
@@ -3116,7 +3116,7 @@ msgstr "  -s, --slideshow            začít v slideshow režimu\n"
 
 #: ../src/main.c:319
 msgid "  -l, --list                 open collection window for command line\n"
-msgstr "  -l, --list                 otevřít okno sbírky do příkazové řádky\n"
+msgstr "  -l, --list                 otevřít okno kolekce z příkazové řádky\n"
 
 #: ../src/main.c:320
 msgid "      --geometry=GEOMETRY    set main window location\n"
