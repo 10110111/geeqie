@@ -1,18 +1,17 @@
 # Penbwrdd yn Gymraeg.
 # Copyright (C) 2003 Free Software Foundation, Inc.
 # www.kyfieithu.co.uk, www.gyfieithu.co.uk, 2003.
-#
-#
+# angel mompo <mecatxis@ya.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: Geeqie 1.5.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-30 22:37+0200\n"
-"PO-Revision-Date: 2009-07-01 23:31+0200\n"
-"Last-Translator: Jordi Vilalta Prat <jvprat@gmail.com>\n"
-"Language-Team: catux.org <mecatxis@ya.com>\n"
+"POT-Creation-Date: 2010-01-27 20:56+0100\n"
+"PO-Revision-Date: 2010-01-10 18:36+0100\n"
+"Last-Translator: angel mompo <mecatxis@ya.com>\n"
+"Language-Team: catalan <traducció@catux.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../geeqie.desktop.in.h:1
@@ -68,9 +67,9 @@ msgstr "Descripció"
 msgid "Value"
 msgstr "Valor"
 
-#: ../src/advanced_exif.c:378 ../src/desktop_file.c:497 ../src/dupe.c:2647
-#: ../src/dupe.c:3161 ../src/print.c:3250 ../src/search.c:2844
-#: ../src/utilops.c:449 ../src/view_file_list.c:2005
+#: ../src/advanced_exif.c:378 ../src/desktop_file.c:515 ../src/dupe.c:2647
+#: ../src/dupe.c:3165 ../src/print.c:3201 ../src/search.c:2844
+#: ../src/utilops.c:462 ../src/view_file_list.c:2046
 msgid "Name"
 msgstr "Nom"
 
@@ -120,7 +119,7 @@ msgstr "Localització i GPS"
 msgid "Copyright"
 msgstr "Copyright"
 
-#: ../src/bar.c:178 ../src/bar_gps.c:771
+#: ../src/bar.c:178 ../src/bar_gps.c:768
 msgid "GPS Map"
 msgstr "Mapa GPS"
 
@@ -144,11 +143,11 @@ msgstr "Mou a _baix de tot"
 msgid "Remove"
 msgstr "Suprimeix"
 
-#: ../src/bar_comment.c:188
+#: ../src/bar_comment.c:191
 msgid "Add text to selected files"
 msgstr "Afegeix un text als fitxers seleccionats"
 
-#: ../src/bar_comment.c:189
+#: ../src/bar_comment.c:192
 msgid "Replace existing text in selected files"
 msgstr "Reemplaça el text existent als fitxers seleccionats"
 
@@ -187,7 +186,7 @@ msgstr "Editable (només suportat per XMP)"
 msgid "Configure \"%s\""
 msgstr "Configura «%s»"
 
-#: ../src/bar_exif.c:610 ../src/bar_keywords.c:1135
+#: ../src/bar_exif.c:610 ../src/bar_keywords.c:1143
 #, c-format
 msgid "Remove \"%s\""
 msgstr "Suprimeix «%s»"
@@ -196,156 +195,160 @@ msgstr "Suprimeix «%s»"
 msgid "Show hidden entries"
 msgstr "Mostra els registres ocults"
 
-#: ../src/bar_gps.c:496
+#: ../src/bar_gps.c:499
 #, c-format
 msgid "Zoom %i"
 msgstr "Zoom %i"
 
-#: ../src/bar_gps.c:514
+#: ../src/bar_gps.c:517
 #, c-format
 msgid "Zoom level %i"
 msgstr "Nivell de zoom %i"
 
-#: ../src/bar_gps.c:519
+#: ../src/bar_gps.c:522
 msgid "Loading map"
 msgstr "Estic carregant el mapa"
 
-#: ../src/bar_gps.c:581
+#: ../src/bar_gps.c:584
 msgid "Enable markers"
 msgstr "Habilita els marcadors"
 
-#: ../src/bar_gps.c:583
+#: ../src/bar_gps.c:586
 msgid "Centre map on marker"
 msgstr "Centra el mapa al marcador"
 
-#: ../src/bar_gps.c:606
+#: ../src/bar_gps.c:609
 msgid ""
 "Move map centre to marker\n"
 " is disabled"
 msgstr ""
+"Moure el centre del mapa al marcador\n"
+"està deshabilitat"
 
-#: ../src/bar_gps.c:611
+#: ../src/bar_gps.c:614
 msgid ""
 "Move map centre to marker\n"
 " is enabled"
 msgstr ""
+"Moure el centre del mapa al marcador\n"
+"està habilitat"
 
-#: ../src/bar_gps.c:620
+#: ../src/bar_gps.c:623
 msgid "Map Centreing"
-msgstr ""
+msgstr "Centrat del mapa"
 
 #. use the same strings as in layout_util.c
-#: ../src/bar_histogram.c:240 ../src/layout_util.c:1388
+#: ../src/bar_histogram.c:242 ../src/layout_util.c:1392
 msgid "Histogram on _Red"
 msgstr "Histograma del ve_rmell"
 
-#: ../src/bar_histogram.c:241 ../src/layout_util.c:1389
+#: ../src/bar_histogram.c:243 ../src/layout_util.c:1393
 msgid "Histogram on _Green"
 msgstr "Histograma del _verd"
 
-#: ../src/bar_histogram.c:242 ../src/layout_util.c:1390
+#: ../src/bar_histogram.c:244 ../src/layout_util.c:1394
 msgid "Histogram on _Blue"
 msgstr "Histograma del _blau"
 
-#: ../src/bar_histogram.c:243 ../src/layout_util.c:1391
+#: ../src/bar_histogram.c:245 ../src/layout_util.c:1395
 msgid "_Histogram on RGB"
 msgstr "_Histograma del RGB"
 
-#: ../src/bar_histogram.c:244 ../src/layout_util.c:1392
+#: ../src/bar_histogram.c:246 ../src/layout_util.c:1396
 msgid "Histogram on _Value"
 msgstr "Histograma _segons el valor"
 
-#: ../src/bar_histogram.c:248 ../src/layout_util.c:1396
+#: ../src/bar_histogram.c:250 ../src/layout_util.c:1400
 msgid "Li_near Histogram"
 msgstr "Histograma li_neal"
 
-#: ../src/bar_histogram.c:249 ../src/layout_util.c:1397
+#: ../src/bar_histogram.c:251
 msgid "L_og Histogram"
 msgstr "Histograma l_ogarítmic"
 
-#: ../src/bar_keywords.c:406
+#: ../src/bar_keywords.c:410
 msgid "Add keywords to selected files"
 msgstr "Afegeix paraules clau als fitxers seleccionats"
 
-#: ../src/bar_keywords.c:407
+#: ../src/bar_keywords.c:411
 msgid "Replace existing keywords in selected files"
 msgstr "Reemplaça les paraules clau dels fitxers seleccionats"
 
-#: ../src/bar_keywords.c:880
+#: ../src/bar_keywords.c:884
 msgid "Edit keyword"
 msgstr "Edita la paraula clau"
 
-#: ../src/bar_keywords.c:880
+#: ../src/bar_keywords.c:884
 msgid "Add keywords"
 msgstr "Afegeix paraules clau"
 
-#: ../src/bar_keywords.c:887
+#: ../src/bar_keywords.c:891
 msgid "Configure keyword"
 msgstr "Configura la paraula clau"
 
-#: ../src/bar_keywords.c:887 ../src/bar_keywords.c:1169
+#: ../src/bar_keywords.c:891 ../src/bar_keywords.c:1101
 msgid "Add keyword"
 msgstr "Afegeix una paraula clau"
 
-#: ../src/bar_keywords.c:893
+#: ../src/bar_keywords.c:897
 msgid "Keyword:"
 msgstr "Paraula clau:"
 
-#: ../src/bar_keywords.c:902
+#: ../src/bar_keywords.c:906
 msgid "Keyword type:"
 msgstr "Tipus de paraula clau:"
 
-#: ../src/bar_keywords.c:904
+#: ../src/bar_keywords.c:908
 msgid "Active keyword"
 msgstr "Paraula clau activa"
 
-#: ../src/bar_keywords.c:907
+#: ../src/bar_keywords.c:911
 msgid "Helper"
 msgstr "Ajuda"
 
-#: ../src/bar_keywords.c:1113
+#: ../src/bar_keywords.c:1121
 #, c-format
 msgid "Hide \"%s\""
 msgstr "Oculta «%s»"
 
-#: ../src/bar_keywords.c:1120
+#: ../src/bar_keywords.c:1128
 #, c-format
 msgid "Mark %d"
 msgstr "Marca _%d"
 
-#: ../src/bar_keywords.c:1125
+#: ../src/bar_keywords.c:1133
 #, c-format
 msgid "Connect \"%s\" to mark"
 msgstr "Connecta «%s» a la marca"
 
-#: ../src/bar_keywords.c:1132
+#: ../src/bar_keywords.c:1140
 #, c-format
 msgid "Edit \"%s\""
 msgstr "Edita «%s»"
 
-#: ../src/bar_keywords.c:1142
+#: ../src/bar_keywords.c:1150
 #, c-format
 msgid "Disconnect \"%s\" from mark %s"
 msgstr "Desconnecta «%s» de la marca %s"
 
 #. for the pane
-#: ../src/bar_keywords.c:1154 ../src/bar_keywords.c:1163
+#: ../src/bar_keywords.c:1162 ../src/bar_keywords.c:1171
 msgid "Expand checked"
 msgstr "Amplia els seleccionats"
 
-#: ../src/bar_keywords.c:1155 ../src/bar_keywords.c:1164
+#: ../src/bar_keywords.c:1163 ../src/bar_keywords.c:1172
 msgid "Collapse unchecked"
 msgstr "Redueix els seleccionats"
 
-#: ../src/bar_keywords.c:1156 ../src/bar_keywords.c:1165
+#: ../src/bar_keywords.c:1164 ../src/bar_keywords.c:1173
 msgid "Hide unchecked"
 msgstr "Oculta els seleccionats"
 
-#: ../src/bar_keywords.c:1157
+#: ../src/bar_keywords.c:1165
 msgid "Show all"
 msgstr "Mostra'ls tots"
 
-#: ../src/bar_keywords.c:1160
+#: ../src/bar_keywords.c:1168
 msgid "On any change"
 msgstr "Si hi ha algun canvi"
 
@@ -401,11 +404,11 @@ msgstr "Carpetes"
 msgid "Collections"
 msgstr "Col·leccions"
 
-#: ../src/bar_sort.c:615 ../src/utilops.c:2107
+#: ../src/bar_sort.c:615 ../src/utilops.c:2124
 msgid "Copy"
 msgstr "Copia"
 
-#: ../src/bar_sort.c:618 ../src/utilops.c:2061
+#: ../src/bar_sort.c:618 ../src/utilops.c:2075
 msgid "Move"
 msgstr "Mou"
 
@@ -431,7 +434,7 @@ msgstr ""
 "error: %s\n"
 
 #: ../src/cache_maint.c:129 ../src/cache_maint.c:722 ../src/cache_maint.c:938
-#: ../src/editors.c:1133
+#: ../src/editors.c:1176
 msgid "done"
 msgstr "fet"
 
@@ -487,7 +490,7 @@ msgstr "Desa les miniatures al mateix lloc que les imatges originals"
 msgid "click start to begin"
 msgstr "feu clic a inici per començar"
 
-#: ../src/cache_maint.c:1042 ../src/editors.c:1059
+#: ../src/cache_maint.c:1042 ../src/editors.c:1102
 msgid "running..."
 msgstr "executant..."
 
@@ -555,8 +558,8 @@ msgid "Remove orphaned keywords and comments."
 msgstr "Suprimeix les paraules clau i els comentaris orfes."
 
 #. When does this occur ??
-#: ../src/collect.c:366 ../src/image.c:160 ../src/image-overlay.c:513
-#: ../src/image-overlay.c:592
+#: ../src/collect.c:366 ../src/image.c:160 ../src/image-overlay.c:512
+#: ../src/image-overlay.c:591
 msgid "Untitled"
 msgstr "Sense títol"
 
@@ -684,24 +687,24 @@ msgstr "%s, %d imatges (%s, %d)"
 msgid "%s, %d images"
 msgstr "%s, %d imatges"
 
-#: ../src/collect-table.c:223 ../src/layout_util.c:1190
-#: ../src/layout_util.c:2135
+#: ../src/collect-table.c:223 ../src/layout_util.c:1194
+#: ../src/layout_util.c:2231
 msgid "Empty"
 msgstr "Buida"
 
-#: ../src/collect-table.c:237 ../src/dupe.c:1319 ../src/search.c:324
-#: ../src/view_file.c:822 ../src/view_file.c:925
+#: ../src/collect-table.c:237 ../src/dupe.c:1319 ../src/search.c:320
+#: ../src/view_file.c:835 ../src/view_file.c:938
 msgid "Loading thumbs..."
 msgstr "S'estan carregant les miniatures..."
 
-#: ../src/collect-table.c:866 ../src/dupe.c:2244 ../src/dupe.c:2555
-#: ../src/layout_util.c:1237 ../src/search.c:1002
+#: ../src/collect-table.c:866 ../src/dupe.c:2242 ../src/dupe.c:2555
+#: ../src/layout_util.c:1241 ../src/search.c:1000
 msgid "_View"
 msgstr "_Visualitza"
 
-#: ../src/collect-table.c:868 ../src/dupe.c:2246 ../src/dupe.c:2557
-#: ../src/img-view.c:1284 ../src/layout_image.c:498 ../src/pan-view.c:2822
-#: ../src/search.c:1004 ../src/view_file.c:575
+#: ../src/collect-table.c:868 ../src/dupe.c:2244 ../src/dupe.c:2557
+#: ../src/img-view.c:1281 ../src/layout_image.c:505 ../src/pan-view.c:2823
+#: ../src/search.c:1002 ../src/view_file.c:588
 msgid "View in _new window"
 msgstr "Visualitzar en una finestra _nova"
 
@@ -722,13 +725,13 @@ msgstr "Afegeix des de col·lecció..."
 msgid "_Selection"
 msgstr "_Selecciona"
 
-#: ../src/collect-table.c:882 ../src/dupe.c:2249 ../src/dupe.c:2560
-#: ../src/layout_util.c:1283 ../src/search.c:1007
+#: ../src/collect-table.c:882 ../src/dupe.c:2247 ../src/dupe.c:2560
+#: ../src/layout_util.c:1287 ../src/search.c:1005
 msgid "Select all"
 msgstr "Selecciona-ho tot"
 
-#: ../src/collect-table.c:884 ../src/dupe.c:2251 ../src/dupe.c:2562
-#: ../src/layout_util.c:1284 ../src/search.c:1009
+#: ../src/collect-table.c:884 ../src/dupe.c:2249 ../src/dupe.c:2562
+#: ../src/layout_util.c:1288 ../src/search.c:1007
 msgid "Select none"
 msgstr "Desfés la selecció"
 
@@ -736,34 +739,34 @@ msgstr "Desfés la selecció"
 msgid "Invert selection"
 msgstr "Inverteix la selecció"
 
-#: ../src/collect-table.c:898 ../src/dupe.c:2267 ../src/img-view.c:1288
-#: ../src/layout_image.c:506 ../src/layout_util.c:1266 ../src/pan-view.c:2826
-#: ../src/search.c:1021 ../src/view_file.c:579
+#: ../src/collect-table.c:898 ../src/dupe.c:2267 ../src/img-view.c:1285
+#: ../src/layout_image.c:513 ../src/layout_util.c:1270 ../src/pan-view.c:2827
+#: ../src/search.c:1021 ../src/view_file.c:592
 msgid "_Copy..."
 msgstr "_Copia..."
 
-#: ../src/collect-table.c:900 ../src/dupe.c:2269 ../src/img-view.c:1289
-#: ../src/layout_image.c:508 ../src/layout_util.c:1267 ../src/pan-view.c:2828
-#: ../src/search.c:1023 ../src/view_file.c:581
+#: ../src/collect-table.c:900 ../src/dupe.c:2269 ../src/img-view.c:1286
+#: ../src/layout_image.c:515 ../src/layout_util.c:1271 ../src/pan-view.c:2829
+#: ../src/search.c:1023 ../src/view_file.c:594
 msgid "_Move..."
 msgstr "_Mou..."
 
-#: ../src/collect-table.c:902 ../src/dupe.c:2271 ../src/img-view.c:1290
-#: ../src/layout_image.c:510 ../src/layout_util.c:1268 ../src/pan-view.c:2830
-#: ../src/search.c:1025 ../src/view_dir.c:665 ../src/view_file.c:583
+#: ../src/collect-table.c:902 ../src/dupe.c:2271 ../src/img-view.c:1287
+#: ../src/layout_image.c:517 ../src/layout_util.c:1272 ../src/pan-view.c:2831
+#: ../src/search.c:1025 ../src/view_dir.c:666 ../src/view_file.c:596
 msgid "_Rename..."
 msgstr "Can_via el nom..."
 
-#: ../src/collect-table.c:904 ../src/dupe.c:2273 ../src/img-view.c:1291
-#: ../src/layout_image.c:512 ../src/layout_util.c:1269
-#: ../src/layout_util.c:1270 ../src/layout_util.c:1271 ../src/pan-view.c:2832
-#: ../src/search.c:1027 ../src/view_dir.c:667 ../src/view_file.c:585
+#: ../src/collect-table.c:904 ../src/dupe.c:2273 ../src/img-view.c:1288
+#: ../src/layout_image.c:519 ../src/layout_util.c:1273
+#: ../src/layout_util.c:1274 ../src/layout_util.c:1275 ../src/pan-view.c:2833
+#: ../src/search.c:1027 ../src/view_dir.c:668 ../src/view_file.c:598
 msgid "_Delete..."
 msgstr "_Suprimeix..."
 
-#: ../src/collect-table.c:906 ../src/dupe.c:2275 ../src/img-view.c:1292
-#: ../src/layout_image.c:515 ../src/pan-view.c:2834 ../src/search.c:1029
-#: ../src/view_dir.c:670 ../src/view_file.c:587
+#: ../src/collect-table.c:906 ../src/dupe.c:2275 ../src/img-view.c:1289
+#: ../src/layout_image.c:522 ../src/pan-view.c:2835 ../src/search.c:1029
+#: ../src/view_dir.c:671 ../src/view_file.c:600
 msgid "_Copy path"
 msgstr "_Copia el camí"
 
@@ -771,11 +774,11 @@ msgstr "_Copia el camí"
 msgid "Randomize"
 msgstr "Barreja-les"
 
-#: ../src/collect-table.c:914 ../src/view_file.c:603
+#: ../src/collect-table.c:914 ../src/view_file.c:616
 msgid "_Sort"
 msgstr "_Ordena"
 
-#: ../src/collect-table.c:917 ../src/view_file.c:619
+#: ../src/collect-table.c:917 ../src/view_file.c:632
 msgid "Show filename _text"
 msgstr "Mostra el _nom del fitxer"
 
@@ -787,33 +790,33 @@ msgstr "_Desa la col·lecció"
 msgid "Save collection _as..."
 msgstr "_Anomena i desa la col·lecció..."
 
-#: ../src/collect-table.c:925 ../src/layout_util.c:1262
+#: ../src/collect-table.c:925 ../src/layout_util.c:1266
 msgid "_Find duplicates..."
 msgstr "_Cerca imatges duplicades"
 
-#: ../src/collect-table.c:927 ../src/dupe.c:2264 ../src/layout_util.c:1264
+#: ../src/collect-table.c:927 ../src/dupe.c:2264 ../src/layout_util.c:1268
 #: ../src/search.c:1018
 msgid "Print..."
 msgstr "Imprimeix..."
 
-#: ../src/collect-table.c:2081 ../src/dupe.c:3351 ../src/img-view.c:1446
+#: ../src/collect-table.c:2085 ../src/dupe.c:3355 ../src/img-view.c:1443
 msgid "Dropped list includes folders."
 msgstr "La llista deixada inclou carpetes."
 
-#: ../src/collect-table.c:2083 ../src/dupe.c:3353 ../src/img-view.c:1448
+#: ../src/collect-table.c:2087 ../src/dupe.c:3357 ../src/img-view.c:1445
 msgid "_Add contents"
 msgstr "_Afegeix continguts"
 
-#: ../src/collect-table.c:2085 ../src/dupe.c:3354 ../src/img-view.c:1449
+#: ../src/collect-table.c:2089 ../src/dupe.c:3358 ../src/img-view.c:1446
 msgid "Add contents _recursive"
 msgstr "Afegeix continguts _recursivament"
 
-#: ../src/collect-table.c:2087 ../src/dupe.c:3355 ../src/img-view.c:1450
+#: ../src/collect-table.c:2091 ../src/dupe.c:3359 ../src/img-view.c:1447
 msgid "_Skip folders"
 msgstr "_Salta carpetes"
 
-#: ../src/collect-table.c:2090 ../src/dupe.c:3357 ../src/img-view.c:1452
-#: ../src/view_dir.c:416
+#: ../src/collect-table.c:2094 ../src/dupe.c:3361 ../src/img-view.c:1449
+#: ../src/view_dir.c:417
 msgid "Cancel"
 msgstr "Cancel·la"
 
@@ -829,23 +832,23 @@ msgstr "Compatible amb l'RGB d'Adobe"
 msgid "Custom profile"
 msgstr "Perfil personalitzat"
 
-#: ../src/desktop_file.c:72 ../src/desktop_file.c:84 ../src/desktop_file.c:90
+#: ../src/desktop_file.c:74 ../src/desktop_file.c:86 ../src/desktop_file.c:92
 msgid "Can't save"
 msgstr "No es pot desar"
 
-#: ../src/desktop_file.c:72
+#: ../src/desktop_file.c:74
 msgid "Please specify file name."
 msgstr "Especifiqueu un nom de fitxer"
 
-#: ../src/desktop_file.c:84
+#: ../src/desktop_file.c:86
 msgid "Could not create directory"
 msgstr "No es pot crear el directori"
 
-#: ../src/desktop_file.c:177 ../src/desktop_file.c:520
+#: ../src/desktop_file.c:182 ../src/desktop_file.c:534
 msgid "Desktop file"
 msgstr "Fitxer desktop"
 
-#: ../src/desktop_file.c:286 ../src/ui_pathsel.c:494
+#: ../src/desktop_file.c:291 ../src/ui_pathsel.c:494
 #, c-format
 msgid ""
 "Unable to delete file:\n"
@@ -854,17 +857,17 @@ msgstr ""
 "No es pot suprimir el fitxer:\n"
 "%s"
 
-#: ../src/desktop_file.c:287 ../src/ui_pathsel.c:495 ../src/utilops.c:1948
-#: ../src/utilops.c:1975 ../src/utilops.c:2489
+#: ../src/desktop_file.c:292 ../src/ui_pathsel.c:495 ../src/utilops.c:1962
+#: ../src/utilops.c:1989 ../src/utilops.c:2509
 msgid "File deletion failed"
 msgstr "No es pot suprimir el fitxer"
 
-#: ../src/desktop_file.c:329 ../src/desktop_file.c:337 ../src/ui_pathsel.c:537
+#: ../src/desktop_file.c:336 ../src/desktop_file.c:344 ../src/ui_pathsel.c:537
 #: ../src/ui_pathsel.c:545
 msgid "Delete file"
 msgstr "Suprimeix l'arxiu"
 
-#: ../src/desktop_file.c:335 ../src/ui_pathsel.c:543
+#: ../src/desktop_file.c:342 ../src/ui_pathsel.c:543
 #, c-format
 msgid ""
 "About to delete the file:\n"
@@ -873,21 +876,21 @@ msgstr ""
 "Quant a suprimir el fitxer:\n"
 " %s"
 
-#: ../src/desktop_file.c:367
+#: ../src/desktop_file.c:374
 msgid "new.desktop"
 msgstr "nou.desktop"
 
-#: ../src/desktop_file.c:440
+#: ../src/desktop_file.c:453
 msgid "Editors"
 msgstr "Editors"
 
-#: ../src/desktop_file.c:506
+#: ../src/desktop_file.c:524
 msgid "Hidden"
 msgstr "Ocult"
 
-#: ../src/desktop_file.c:529 ../src/dupe.c:2653 ../src/dupe.c:3165
-#: ../src/print.c:3252 ../src/search.c:2848 ../src/ui_pathsel.c:1111
-#: ../src/utilops.c:445
+#: ../src/desktop_file.c:543 ../src/dupe.c:2653 ../src/dupe.c:3169
+#: ../src/print.c:3203 ../src/search.c:2848 ../src/ui_pathsel.c:1111
+#: ../src/utilops.c:458
 msgid "Path"
 msgstr "Camí"
 
@@ -929,11 +932,11 @@ msgstr "S'està comparant..."
 msgid "Sorting..."
 msgstr "S'està ordenant..."
 
-#: ../src/dupe.c:2253
+#: ../src/dupe.c:2251
 msgid "Select group _1 duplicates"
 msgstr "Seleccioneu duplicats del grup _1"
 
-#: ../src/dupe.c:2255
+#: ../src/dupe.c:2253
 msgid "Select group _2 duplicates"
 msgstr "Seleccioneu duplicats del grup_ 2 duplicats"
 
@@ -958,18 +961,18 @@ msgstr "%d fitxers (definiu-ne 2)"
 msgid "Name case-insensitive"
 msgstr "El nom no distingeix entre majúscules i minúscules"
 
-#: ../src/dupe.c:2649 ../src/dupe.c:3162 ../src/preferences.c:1336
-#: ../src/print.c:3256 ../src/search.c:2845 ../src/view_file_list.c:2009
+#: ../src/dupe.c:2649 ../src/dupe.c:3166 ../src/preferences.c:1336
+#: ../src/print.c:3207 ../src/search.c:2845 ../src/view_file_list.c:2050
 msgid "Size"
 msgstr "Mida"
 
-#: ../src/dupe.c:2650 ../src/dupe.c:3163 ../src/exif.c:341
-#: ../src/exif-common.c:514 ../src/print.c:3254 ../src/search.c:2846
-#: ../src/view_file_list.c:2013
+#: ../src/dupe.c:2650 ../src/dupe.c:3167 ../src/exif.c:341
+#: ../src/exif-common.c:514 ../src/print.c:3205 ../src/search.c:2846
+#: ../src/view_file_list.c:2054
 msgid "Date"
 msgstr "Data"
 
-#: ../src/dupe.c:2651 ../src/dupe.c:3164 ../src/print.c:3258
+#: ../src/dupe.c:2651 ../src/dupe.c:3168 ../src/print.c:3209
 #: ../src/search.c:2847
 msgid "Dimensions"
 msgstr "Dimensions"
@@ -994,45 +997,55 @@ msgstr "Semblança (baixa)"
 msgid "Similarity (custom)"
 msgstr "Semblança (personalitzada)"
 
-#: ../src/dupe.c:3115
+#: ../src/dupe.c:3119
 msgid "Find duplicates"
 msgstr "Cerca els duplicats"
 
-#: ../src/dupe.c:3197
+#: ../src/dupe.c:3201
 msgid "Compare to:"
 msgstr "Compara amb:"
 
-#: ../src/dupe.c:3210
+#: ../src/dupe.c:3214
 msgid "Compare by:"
 msgstr "Compara per:"
 
-#: ../src/dupe.c:3218 ../src/preferences.c:1171 ../src/search.c:2861
+#: ../src/dupe.c:3222 ../src/preferences.c:1171 ../src/search.c:2861
 msgid "Thumbnails"
 msgstr "Miniatures"
 
-#: ../src/dupe.c:3225
+#: ../src/dupe.c:3229
 msgid "Compare two file sets"
 msgstr "Compara dos conjunts de fitxers"
 
-#: ../src/editors.c:279
-#, fuzzy, c-format
+#: ../src/editors.c:280
+#, c-format
 msgid "Desktop file '%s' should not include extension in Icon key: '%s'\n"
-msgstr "El fixer desktop '%s'"
+msgstr ""
+"El fixer desktop '%s' no hauria d'incloure extensió a la clau Icon: «%s»\n"
 
-#: ../src/editors.c:486
+#. flash fired (bit 0)
+#: ../src/editors.c:334 ../src/exif.c:225 ../src/exif-common.c:332
+msgid "yes"
+msgstr "sí"
+
+#: ../src/editors.c:334 ../src/exif.c:224 ../src/exif-common.c:332
+msgid "no"
+msgstr "no"
+
+#: ../src/editors.c:506
 msgid "stopping..."
 msgstr "aturant..."
 
-#: ../src/editors.c:507
+#: ../src/editors.c:527
 msgid "Edit command results"
 msgstr "Edita els resultats de la comanda"
 
-#: ../src/editors.c:510
+#: ../src/editors.c:530
 #, c-format
 msgid "Output of %s"
 msgstr "Sortida de %s"
 
-#: ../src/editors.c:1010
+#: ../src/editors.c:1053
 #, c-format
 msgid ""
 "Failed to run command:\n"
@@ -1041,11 +1054,11 @@ msgstr ""
 "No es pot executar la comanda:\n"
 "%s\n"
 
-#: ../src/editors.c:1137
+#: ../src/editors.c:1180
 msgid "stopped by user"
 msgstr "aturat per l'usuari"
 
-#: ../src/editors.c:1218
+#: ../src/editors.c:1265
 #, c-format
 msgid ""
 "%s\n"
@@ -1054,39 +1067,39 @@ msgstr ""
 "%s\n"
 "«%s»"
 
-#: ../src/editors.c:1220
+#: ../src/editors.c:1267
 msgid "Invalid editor command"
 msgstr "comanda invalida del editor"
 
-#: ../src/editors.c:1307
+#: ../src/editors.c:1354
 msgid "Editor template is empty."
 msgstr "La plantilla de l'editor és buida."
 
-#: ../src/editors.c:1308
+#: ../src/editors.c:1355
 msgid "Editor template has incorrect syntax."
 msgstr "La plantilla de l'editor te una sintaxi incorrecta."
 
-#: ../src/editors.c:1309
+#: ../src/editors.c:1356
 msgid "Editor template uses incompatible macros."
 msgstr "La plantilla de l'editor fa servir macros incompatibles."
 
-#: ../src/editors.c:1310
+#: ../src/editors.c:1357
 msgid "Can't find matching file type."
 msgstr "No es troba cap tipus de fitxer coincident."
 
-#: ../src/editors.c:1311
+#: ../src/editors.c:1358
 msgid "Can't execute external editor."
 msgstr "No es pot executar l'editor extern."
 
-#: ../src/editors.c:1312
+#: ../src/editors.c:1359
 msgid "External editor returned error status."
 msgstr "L'editor extern a retornat un error."
 
-#: ../src/editors.c:1313
+#: ../src/editors.c:1360
 msgid "File was skipped."
 msgstr "S'ha omès el fitxer."
 
-#: ../src/editors.c:1314
+#: ../src/editors.c:1361
 msgid "Unknown error."
 msgstr "Error desconegut."
 
@@ -1276,15 +1289,6 @@ msgstr "D50"
 #: ../src/exif.c:218
 msgid "ISO studio tungsten"
 msgstr "ISO tungstè d'estudi"
-
-#: ../src/exif.c:224 ../src/exif-common.c:332
-msgid "no"
-msgstr "no"
-
-#. flash fired (bit 0)
-#: ../src/exif.c:225 ../src/exif-common.c:332
-msgid "yes"
-msgstr "sí"
 
 #: ../src/exif.c:226
 msgid "yes, not detected by strobe"
@@ -1783,76 +1787,76 @@ msgstr "Data del fitxer"
 msgid "File mode"
 msgstr "Mode del fitxer"
 
-#: ../src/filedata.c:90
+#: ../src/filedata.c:91
 #, c-format
 msgid "%d bytes"
 msgstr "%d bytes"
 
-#: ../src/filedata.c:94
+#: ../src/filedata.c:95
 #, c-format
 msgid "%.1f K"
 msgstr "%.1f K"
 
-#: ../src/filedata.c:98
+#: ../src/filedata.c:99
 #, c-format
 msgid "%.1f MB"
 msgstr "%.1f MB"
 
-#: ../src/filedata.c:103
+#: ../src/filedata.c:104
 #, c-format
 msgid "%.1f GB"
 msgstr "%.1f GB"
 
-#: ../src/filedata.c:2091
+#: ../src/filedata.c:2185
 msgid "file or directory does not exist"
 msgstr "el fitxer o el directori no existeix"
 
-#: ../src/filedata.c:2097
+#: ../src/filedata.c:2191
 msgid "destination already exists"
 msgstr "el destí ja existeix"
 
-#: ../src/filedata.c:2103
+#: ../src/filedata.c:2197
 msgid "destination can't be overwritten"
 msgstr "el destí no es pot sobreescriure"
 
-#: ../src/filedata.c:2109
+#: ../src/filedata.c:2203
 msgid "destination directory is not writable"
 msgstr "no es pot escriure al directori destí"
 
-#: ../src/filedata.c:2115
+#: ../src/filedata.c:2209
 msgid "destination directory does not exist"
 msgstr "el directori de destí no existeix"
 
-#: ../src/filedata.c:2121
+#: ../src/filedata.c:2215
 msgid "source directory is not writable"
 msgstr "no es pot escriure al directori font"
 
-#: ../src/filedata.c:2127
+#: ../src/filedata.c:2221
 msgid "no read permission"
 msgstr "no teniu permís de lectura"
 
-#: ../src/filedata.c:2133
+#: ../src/filedata.c:2227
 msgid "file is readonly"
 msgstr "el fitxer és de només lectura"
 
-#: ../src/filedata.c:2139
+#: ../src/filedata.c:2233
 msgid "destination already exists and will be overwritten"
 msgstr "el destí ja existeix i es sobreescriurà"
 
-#: ../src/filedata.c:2145
+#: ../src/filedata.c:2239
 msgid "source and destination are the same"
 msgstr "L'origen i el destí són els mateixos"
 
-#: ../src/filedata.c:2151
+#: ../src/filedata.c:2245
 msgid "source and destination have different extension"
 msgstr "L'origen i el destí tenen extensió diferent"
 
-#: ../src/filedata.c:2157
+#: ../src/filedata.c:2251
 msgid "there are unsaved metadata changes for the file"
 msgstr "hi ha canvis a les metadades del fitxer que no s'han desat"
 
-#: ../src/fullscreen.c:243 ../src/layout_util.c:1325 ../src/layout_util.c:1326
-#: ../src/layout_util.c:1327 ../src/preferences.c:1349
+#: ../src/fullscreen.c:243 ../src/layout_util.c:1329 ../src/layout_util.c:1330
+#: ../src/layout_util.c:1331 ../src/preferences.c:1349
 msgid "Full screen"
 msgstr "Pantalla completa"
 
@@ -1934,66 +1938,66 @@ msgstr "No és possible escriure llistats d'històrics a: %s\n"
 msgid " (Collection %s)"
 msgstr "(Col·leccions %s)"
 
-#: ../src/img-view.c:1271 ../src/layout_image.c:484 ../src/layout_util.c:1292
-#: ../src/layout_util.c:1293 ../src/layout_util.c:1308
-#: ../src/layout_util.c:1309 ../src/pan-view.c:2810
+#: ../src/img-view.c:1266 ../src/layout_image.c:489 ../src/layout_util.c:1296
+#: ../src/layout_util.c:1297 ../src/layout_util.c:1312
+#: ../src/layout_util.c:1313 ../src/pan-view.c:2808
 msgid "Zoom _in"
 msgstr "Apropa"
 
-#: ../src/img-view.c:1272 ../src/layout_image.c:485 ../src/layout_util.c:1294
-#: ../src/layout_util.c:1295 ../src/layout_util.c:1310
-#: ../src/layout_util.c:1311 ../src/pan-view.c:2812
+#: ../src/img-view.c:1267 ../src/layout_image.c:490 ../src/layout_util.c:1298
+#: ../src/layout_util.c:1299 ../src/layout_util.c:1314
+#: ../src/layout_util.c:1315 ../src/pan-view.c:2810
 msgid "Zoom _out"
 msgstr "Allunya"
 
-#: ../src/img-view.c:1273 ../src/layout_image.c:486 ../src/layout_util.c:1296
-#: ../src/layout_util.c:1297 ../src/layout_util.c:1312
-#: ../src/layout_util.c:1313 ../src/pan-view.c:2814
+#: ../src/img-view.c:1268 ../src/layout_image.c:491 ../src/layout_util.c:1300
+#: ../src/layout_util.c:1301 ../src/layout_util.c:1316
+#: ../src/layout_util.c:1317 ../src/pan-view.c:2812
 msgid "Zoom _1:1"
 msgstr "Escala real"
 
-#: ../src/img-view.c:1274 ../src/layout_image.c:487
+#: ../src/img-view.c:1269 ../src/layout_image.c:492
 msgid "Fit image to _window"
 msgstr "Ajusta la imatge a la _finestra"
 
-#: ../src/img-view.c:1280 ../src/layout_image.c:494 ../src/layout_util.c:1290
+#: ../src/img-view.c:1277 ../src/layout_image.c:501 ../src/layout_util.c:1294
 msgid "Set as _wallpaper"
 msgstr "Posa com a _fons d'escriptori"
 
-#: ../src/img-view.c:1285 ../src/layout_image.c:501
+#: ../src/img-view.c:1282 ../src/layout_image.c:508
 msgid "_Go to directory view"
 msgstr "_Ves a la vista de directoris"
 
-#: ../src/img-view.c:1298 ../src/layout_image.c:522
+#: ../src/img-view.c:1295 ../src/layout_image.c:529
 msgid "_Stop slideshow"
 msgstr "_Atura les diapositives"
 
-#: ../src/img-view.c:1301 ../src/layout_image.c:525
+#: ../src/img-view.c:1298 ../src/layout_image.c:532
 msgid "Continue slides_how"
 msgstr "_Continua mostrant diapositives"
 
-#: ../src/img-view.c:1306 ../src/img-view.c:1314 ../src/layout_image.c:530
-#: ../src/layout_image.c:537
+#: ../src/img-view.c:1303 ../src/img-view.c:1311 ../src/layout_image.c:537
+#: ../src/layout_image.c:544
 msgid "Pause slides_how"
 msgstr "_Pausa la seqüència de diapositives"
 
-#: ../src/img-view.c:1312 ../src/layout_image.c:536
+#: ../src/img-view.c:1309 ../src/layout_image.c:543
 msgid "_Start slideshow"
 msgstr "_Inicia la seqüència de diapositives"
 
-#: ../src/img-view.c:1320 ../src/layout_image.c:547 ../src/pan-view.c:2880
+#: ../src/img-view.c:1317 ../src/layout_image.c:554 ../src/pan-view.c:2881
 msgid "Exit _full screen"
 msgstr "Sortir del mode _pantalla completa"
 
-#: ../src/img-view.c:1324 ../src/layout_image.c:543 ../src/pan-view.c:2884
+#: ../src/img-view.c:1321 ../src/layout_image.c:550 ../src/pan-view.c:2885
 msgid "_Full screen"
 msgstr "_Pantalla completa"
 
-#: ../src/img-view.c:1328 ../src/layout_util.c:1275 ../src/pan-view.c:2888
+#: ../src/img-view.c:1325 ../src/layout_util.c:1279 ../src/pan-view.c:2889
 msgid "C_lose window"
 msgstr "_Tanca la finestra"
 
-#: ../src/layout.c:363 ../src/view_file.c:600
+#: ../src/layout.c:363 ../src/view_file.c:613
 msgid "Ascending"
 msgstr "Ascendent"
 
@@ -2079,11 +2083,11 @@ msgstr "Restaura l'últim camí"
 msgid "Home path"
 msgstr "Directori de l'usuari"
 
-#: ../src/layout.c:1943 ../src/print.c:3422 ../src/print.c:3429
+#: ../src/layout.c:1943 ../src/print.c:3373 ../src/print.c:3380
 msgid "Layout"
 msgstr "Format"
 
-#: ../src/layout.c:2186
+#: ../src/layout.c:2187
 msgid "Invalid geometry\n"
 msgstr "Geometria invàlida\n"
 
@@ -2101,927 +2105,936 @@ msgstr "Imatge"
 msgid "(drag to change order)"
 msgstr "(arrossegueu per canviar l'ordre)"
 
-#: ../src/layout_image.c:552
+#: ../src/layout_image.c:559
 msgid "Hide file _list"
 msgstr "Oculta la _llista de fitxers"
 
-#: ../src/layout_image.c:1552
+#: ../src/layout_image.c:1559
 #, c-format
 msgid "[%*d,%*d]: RGB(%3d,%3d,%3d)"
 msgstr "[%*d,%*d]: RGB(%3d,%3d,%3d)"
 
-#: ../src/layout_image.c:1560
+#: ../src/layout_image.c:1567
 #, c-format
 msgid "[%*s,%*s]: RGB(---,---,---)"
 msgstr "[%*s,%*s]: RGB(---,---,---)"
 
-#: ../src/layout_util.c:1230
+#: ../src/layout_util.c:1234
 msgid "_File"
 msgstr "_Fitxer"
 
-#: ../src/layout_util.c:1231
+#: ../src/layout_util.c:1235
 msgid "_Go"
 msgstr "_Ves"
 
-#: ../src/layout_util.c:1232 ../src/menu.c:109
+#: ../src/layout_util.c:1236 ../src/menu.c:109
 msgid "_Edit"
 msgstr "_Edita"
 
-#: ../src/layout_util.c:1233
+#: ../src/layout_util.c:1237
 msgid "_Select"
 msgstr "_Selecció"
 
-#: ../src/layout_util.c:1234 ../src/menu.c:276
+#: ../src/layout_util.c:1238 ../src/menu.c:276
 msgid "_Orientation"
 msgstr "_Orientació"
 
-#: ../src/layout_util.c:1235
+#: ../src/layout_util.c:1239
 msgid "E_xternal Editors"
 msgstr "Editors e_xterns"
 
-#: ../src/layout_util.c:1236
+#: ../src/layout_util.c:1240
 msgid "P_references"
 msgstr "P_referències"
 
-#: ../src/layout_util.c:1238
+#: ../src/layout_util.c:1242
 msgid "_Files and Folders"
 msgstr "_Fitxers i carpetes"
 
-#: ../src/layout_util.c:1239
+#: ../src/layout_util.c:1243
 msgid "_Zoom"
 msgstr "_Lupa"
 
-#: ../src/layout_util.c:1240
-msgid "Color _Management"
-msgstr "_Gestió del color"
+#: ../src/layout_util.c:1244
+msgid "_Color Management"
+msgstr "Gestió del _color"
 
-#: ../src/layout_util.c:1241
+#: ../src/layout_util.c:1245
 msgid "_Connected Zoom"
 msgstr "Ampliació _connectada"
 
-#: ../src/layout_util.c:1242
-msgid "_Split"
+#: ../src/layout_util.c:1246
+msgid "Spli_t"
 msgstr "_Dividir"
 
-#: ../src/layout_util.c:1243 ../src/layout_util.c:1357
-msgid "_Image Overlay"
-msgstr "_Imatge sobreposada"
+#: ../src/layout_util.c:1247 ../src/layout_util.c:1361
+msgid "Image _Overlay"
+msgstr "Imatge _sobreposada"
 
-#: ../src/layout_util.c:1244
+#: ../src/layout_util.c:1248
 msgid "_Help"
 msgstr "_Ajuda"
 
-#: ../src/layout_util.c:1246
+#: ../src/layout_util.c:1250
 msgid "_First Image"
 msgstr "_Primera imatge"
 
-#: ../src/layout_util.c:1246
+#: ../src/layout_util.c:1250
 msgid "First Image"
 msgstr "Primera imatge"
 
-#: ../src/layout_util.c:1247 ../src/layout_util.c:1248
-#: ../src/layout_util.c:1249
+#: ../src/layout_util.c:1251 ../src/layout_util.c:1252
+#: ../src/layout_util.c:1253
 msgid "_Previous Image"
 msgstr "Imatge _anterior"
 
-#: ../src/layout_util.c:1247 ../src/layout_util.c:1248
-#: ../src/layout_util.c:1249
+#: ../src/layout_util.c:1251 ../src/layout_util.c:1252
+#: ../src/layout_util.c:1253
 msgid "Previous Image"
 msgstr "Imatge anterior"
 
-#: ../src/layout_util.c:1250 ../src/layout_util.c:1251
-#: ../src/layout_util.c:1252
+#: ../src/layout_util.c:1254 ../src/layout_util.c:1255
+#: ../src/layout_util.c:1256
 msgid "_Next Image"
 msgstr "Imatge _següent"
 
-#: ../src/layout_util.c:1250 ../src/layout_util.c:1251
-#: ../src/layout_util.c:1252
+#: ../src/layout_util.c:1254 ../src/layout_util.c:1255
+#: ../src/layout_util.c:1256
 msgid "Next Image"
 msgstr "Imatge següent"
 
-#: ../src/layout_util.c:1253
+#: ../src/layout_util.c:1257
 msgid "_Last Image"
 msgstr "_Última imatge"
 
-#: ../src/layout_util.c:1253
+#: ../src/layout_util.c:1257
 msgid "Last Image"
 msgstr "Última imatge"
 
-#: ../src/layout_util.c:1254
+#: ../src/layout_util.c:1258
 msgid "_Back"
 msgstr "_Enrrere"
 
-#: ../src/layout_util.c:1254
+#: ../src/layout_util.c:1258
 msgid "Back"
 msgstr "Enrrere"
 
-#: ../src/layout_util.c:1255
+#: ../src/layout_util.c:1259
 msgid "_Home"
 msgstr "_Directori de l'usuari"
 
-#: ../src/layout_util.c:1255 ../src/options.c:136 ../src/ui_bookmark.c:543
+#: ../src/layout_util.c:1259 ../src/options.c:136 ../src/ui_bookmark.c:543
 #: ../src/ui_pathsel.c:1047
 msgid "Home"
 msgstr "Directori de l'usuari"
 
-#: ../src/layout_util.c:1257
+#: ../src/layout_util.c:1261
 msgid "New _window"
 msgstr "Nova _finestra"
 
-#: ../src/layout_util.c:1257
+#: ../src/layout_util.c:1261
 msgid "New window"
 msgstr "Nova finestra"
 
-#: ../src/layout_util.c:1258
+#: ../src/layout_util.c:1262
 msgid "_New collection"
 msgstr "_Nova col·lecció"
 
-#: ../src/layout_util.c:1258
+#: ../src/layout_util.c:1262
 msgid "New collection"
 msgstr "Nova col·lecció"
 
-#: ../src/layout_util.c:1259
+#: ../src/layout_util.c:1263
 msgid "_Open collection..."
 msgstr "_Obre una col·lecció..."
 
-#: ../src/layout_util.c:1259
+#: ../src/layout_util.c:1263
 msgid "Open collection..."
 msgstr "Obre una col·lecció..."
 
-#: ../src/layout_util.c:1260
-msgid "Open _recent"
-msgstr "Obre _recents"
+#: ../src/layout_util.c:1264
+msgid "Open recen_t"
+msgstr "Obre recen_ts"
 
-#: ../src/layout_util.c:1260
+#: ../src/layout_util.c:1264
 msgid "Open recent"
 msgstr "Obre recents"
 
-#: ../src/layout_util.c:1261
+#: ../src/layout_util.c:1265
 msgid "_Search..."
 msgstr "_Cerca..."
 
-#: ../src/layout_util.c:1261
+#: ../src/layout_util.c:1265
 msgid "Search..."
 msgstr "Cerca..."
 
-#: ../src/layout_util.c:1262
+#: ../src/layout_util.c:1266
 msgid "Find duplicates..."
 msgstr "Cerca imatges duplicades"
 
-#: ../src/layout_util.c:1263
-msgid "Pan _view"
-msgstr "Vista _panoràmica"
+#: ../src/layout_util.c:1267
+msgid "Pa_n view"
+msgstr "Vista pa_noràmica"
 
-#: ../src/layout_util.c:1263
+#: ../src/layout_util.c:1267
 msgid "Pan view"
 msgstr "Vista panoràmica"
 
-#: ../src/layout_util.c:1264
+#: ../src/layout_util.c:1268
 msgid "_Print..."
 msgstr "_Imprimeix..."
 
-#: ../src/layout_util.c:1265
+#: ../src/layout_util.c:1269
 msgid "N_ew folder..."
 msgstr "_Nova carpeta..."
 
-#: ../src/layout_util.c:1265
+#: ../src/layout_util.c:1269
 msgid "New folder..."
 msgstr "Nova carpeta..."
 
-#: ../src/layout_util.c:1266
+#: ../src/layout_util.c:1270
 msgid "Copy..."
 msgstr "Copia..."
 
-#: ../src/layout_util.c:1267
+#: ../src/layout_util.c:1271
 msgid "Move..."
 msgstr "Mou..."
 
-#: ../src/layout_util.c:1268
+#: ../src/layout_util.c:1272
 msgid "Rename..."
 msgstr "Canvia el nom..."
 
-#: ../src/layout_util.c:1269 ../src/layout_util.c:1270
-#: ../src/layout_util.c:1271
+#: ../src/layout_util.c:1273 ../src/layout_util.c:1274
+#: ../src/layout_util.c:1275
 msgid "Delete..."
 msgstr "Suprimeix..."
 
-#: ../src/layout_util.c:1272 ../src/view_file.c:590
+#: ../src/layout_util.c:1276 ../src/view_file.c:603
 msgid "Enable file _grouping"
 msgstr "Habilita els _grups de fitxers"
 
-#: ../src/layout_util.c:1272
+#: ../src/layout_util.c:1276
 msgid "Enable file grouping"
 msgstr "Habilita els grups de fitxers"
 
-#: ../src/layout_util.c:1273 ../src/view_file.c:592
+#: ../src/layout_util.c:1277 ../src/view_file.c:605
 msgid "Disable file groupi_ng"
 msgstr "I_nhabilita els grups de fitxers"
 
-#: ../src/layout_util.c:1273
+#: ../src/layout_util.c:1277
 msgid "Disable file grouping"
 msgstr "Inhabilita els grups de fitxers"
 
-#: ../src/layout_util.c:1274
+#: ../src/layout_util.c:1278
 msgid "_Copy path to clipboard"
 msgstr "_Copia el camí al portapapers"
 
-#: ../src/layout_util.c:1274
+#: ../src/layout_util.c:1278
 msgid "Copy path to clipboard"
 msgstr "Copia el camí al portapapers"
 
-#: ../src/layout_util.c:1275
+#: ../src/layout_util.c:1279
 msgid "Close window"
 msgstr "Tanca la finestra"
 
-#: ../src/layout_util.c:1276
+#: ../src/layout_util.c:1280
 msgid "_Quit"
 msgstr "_Surt"
 
-#: ../src/layout_util.c:1276
+#: ../src/layout_util.c:1280
 msgid "Quit"
 msgstr "Surt"
 
-#: ../src/layout_util.c:1277 ../src/menu.c:218
+#: ../src/layout_util.c:1281 ../src/menu.c:218
 msgid "_Rotate clockwise"
 msgstr "_Gira en sentit horari"
 
-#: ../src/layout_util.c:1277
+#: ../src/layout_util.c:1281
 msgid "Rotate clockwise"
 msgstr "Gira en sentit horari"
 
-#: ../src/layout_util.c:1278 ../src/menu.c:221
+#: ../src/layout_util.c:1282 ../src/menu.c:221
 msgid "Rotate _counterclockwise"
 msgstr "Gira en sentit _antihorari"
 
-#: ../src/layout_util.c:1278
+#: ../src/layout_util.c:1282
 msgid "Rotate counterclockwise"
 msgstr "Gira en sentit antihorari"
 
-#: ../src/layout_util.c:1279
+#: ../src/layout_util.c:1283
 msgid "Rotate 1_80"
 msgstr "Gira 1_80"
 
-#: ../src/layout_util.c:1279
+#: ../src/layout_util.c:1283
 msgid "Rotate 180"
 msgstr "Gira 180"
 
-#: ../src/layout_util.c:1280 ../src/menu.c:227
+#: ../src/layout_util.c:1284 ../src/menu.c:227
 msgid "_Mirror"
 msgstr "_Reflexa"
 
-#: ../src/layout_util.c:1280
+#: ../src/layout_util.c:1284
 msgid "Mirror"
 msgstr "Reflexa"
 
-#: ../src/layout_util.c:1281 ../src/menu.c:230
+#: ../src/layout_util.c:1285 ../src/menu.c:230
 msgid "_Flip"
 msgstr "_Inverteix"
 
-#: ../src/layout_util.c:1281
+#: ../src/layout_util.c:1285
 msgid "Flip"
 msgstr "Inverteix"
 
-#: ../src/layout_util.c:1282 ../src/menu.c:233
+#: ../src/layout_util.c:1286 ../src/menu.c:233
 msgid "_Original state"
 msgstr "Estat _original"
 
-#: ../src/layout_util.c:1282
+#: ../src/layout_util.c:1286
 msgid "Original state"
 msgstr "Estat original"
 
-#: ../src/layout_util.c:1283
+#: ../src/layout_util.c:1287
 msgid "Select _all"
 msgstr "Selecciona-ho _tot"
 
-#: ../src/layout_util.c:1284
+#: ../src/layout_util.c:1288
 msgid "Select _none"
 msgstr "_Desfés la selecció"
 
-#: ../src/layout_util.c:1285
+#: ../src/layout_util.c:1289
 msgid "_Invert Selection"
 msgstr "_Inverteix la Selecció"
 
-#: ../src/layout_util.c:1285
+#: ../src/layout_util.c:1289
 msgid "Invert Selection"
 msgstr "Inverteix la Selecció"
 
-#: ../src/layout_util.c:1286
+#: ../src/layout_util.c:1290
 msgid "P_references..."
 msgstr "P_referències..."
 
-#: ../src/layout_util.c:1286
+#: ../src/layout_util.c:1290
 msgid "Preferences..."
 msgstr "Preferències..."
 
-#: ../src/layout_util.c:1287
+#: ../src/layout_util.c:1291
 msgid "Configure _Editors..."
 msgstr "Configura els _editors..."
 
-#: ../src/layout_util.c:1287
+#: ../src/layout_util.c:1291
 msgid "Configure Editors..."
 msgstr "Configura els editors..."
 
-#: ../src/layout_util.c:1288
+#: ../src/layout_util.c:1292
 msgid "_Configure this window..."
 msgstr "_Configura aquesta finestra..."
 
-#: ../src/layout_util.c:1288
+#: ../src/layout_util.c:1292
 msgid "Configure this window..."
 msgstr "Configura aquesta finestra..."
 
-#: ../src/layout_util.c:1289
+#: ../src/layout_util.c:1293
 msgid "_Thumbnail maintenance..."
 msgstr "Manteniment de les _Miniatures..."
 
-#: ../src/layout_util.c:1289
+#: ../src/layout_util.c:1293
 msgid "Thumbnail maintenance..."
 msgstr "Manteniment de les Miniatures..."
 
-#: ../src/layout_util.c:1290
+#: ../src/layout_util.c:1294
 msgid "Set as wallpaper"
 msgstr "Posa com a fons d'escriptori"
 
-#: ../src/layout_util.c:1291
+#: ../src/layout_util.c:1295
 msgid "_Save metadata"
 msgstr "De_sa les metadades"
 
-#: ../src/layout_util.c:1291
+#: ../src/layout_util.c:1295
 msgid "Save metadata"
 msgstr "Desa les metadades"
 
-#: ../src/layout_util.c:1292 ../src/layout_util.c:1293
+#: ../src/layout_util.c:1296 ../src/layout_util.c:1297
 msgid "Zoom in"
 msgstr "Apropa"
 
-#: ../src/layout_util.c:1294 ../src/layout_util.c:1295
+#: ../src/layout_util.c:1298 ../src/layout_util.c:1299
 msgid "Zoom out"
 msgstr "Allunya"
 
-#: ../src/layout_util.c:1296 ../src/layout_util.c:1297
+#: ../src/layout_util.c:1300 ../src/layout_util.c:1301
 msgid "Zoom 1:1"
 msgstr "Escala real"
 
-#: ../src/layout_util.c:1298 ../src/layout_util.c:1299
-#: ../src/layout_util.c:1314 ../src/layout_util.c:1315
+#: ../src/layout_util.c:1302 ../src/layout_util.c:1303
+#: ../src/layout_util.c:1318 ../src/layout_util.c:1319
 msgid "_Zoom to fit"
 msgstr "_Amplia fins que encaixi"
 
-#: ../src/layout_util.c:1298 ../src/layout_util.c:1299
+#: ../src/layout_util.c:1302 ../src/layout_util.c:1303
 msgid "Zoom to fit"
 msgstr "Amplia fins que encaixi"
 
-#: ../src/layout_util.c:1300 ../src/layout_util.c:1316
+#: ../src/layout_util.c:1304 ../src/layout_util.c:1320
 msgid "Fit _Horizontally"
 msgstr "Ajusta _Horitzontalment"
 
-#: ../src/layout_util.c:1300
+#: ../src/layout_util.c:1304
 msgid "Fit Horizontally"
 msgstr "Ajusta Horitzontalment"
 
-#: ../src/layout_util.c:1301 ../src/layout_util.c:1317
+#: ../src/layout_util.c:1305 ../src/layout_util.c:1321
 msgid "Fit _Vertically"
 msgstr "Ajusta _Verticalment"
 
-#: ../src/layout_util.c:1301
+#: ../src/layout_util.c:1305
 msgid "Fit Vertically"
 msgstr "Ajusta Verticalment"
 
-#: ../src/layout_util.c:1302 ../src/layout_util.c:1318
+#: ../src/layout_util.c:1306 ../src/layout_util.c:1322
 msgid "Zoom _2:1"
 msgstr "Escala _2:1"
 
-#: ../src/layout_util.c:1302
+#: ../src/layout_util.c:1306
 msgid "Zoom 2:1"
 msgstr "Escala 2:1"
 
-#: ../src/layout_util.c:1303 ../src/layout_util.c:1319
+#: ../src/layout_util.c:1307 ../src/layout_util.c:1323
 msgid "Zoom _3:1"
 msgstr "Escala _3:1"
 
-#: ../src/layout_util.c:1303
+#: ../src/layout_util.c:1307
 msgid "Zoom 3:1"
 msgstr "Escala 3:1"
 
-#: ../src/layout_util.c:1304 ../src/layout_util.c:1320
+#: ../src/layout_util.c:1308 ../src/layout_util.c:1324
 msgid "Zoom _4:1"
 msgstr "Escala _4:1"
 
-#: ../src/layout_util.c:1304
+#: ../src/layout_util.c:1308
 msgid "Zoom 4:1"
 msgstr "Escala 4:1"
 
-#: ../src/layout_util.c:1305 ../src/layout_util.c:1321
+#: ../src/layout_util.c:1309 ../src/layout_util.c:1325
 msgid "Zoom 1:2"
 msgstr "Escala 1:2"
 
-#: ../src/layout_util.c:1306 ../src/layout_util.c:1322
+#: ../src/layout_util.c:1310 ../src/layout_util.c:1326
 msgid "Zoom 1:3"
 msgstr "Escala 1:3"
 
-#: ../src/layout_util.c:1307 ../src/layout_util.c:1323
+#: ../src/layout_util.c:1311 ../src/layout_util.c:1327
 msgid "Zoom 1:4"
 msgstr "Escala 1:4"
 
-#: ../src/layout_util.c:1308 ../src/layout_util.c:1309
+#: ../src/layout_util.c:1312 ../src/layout_util.c:1313
 msgid "Connected Zoom in"
 msgstr "Ampliació connectada"
 
-#: ../src/layout_util.c:1310 ../src/layout_util.c:1311
+#: ../src/layout_util.c:1314 ../src/layout_util.c:1315
 msgid "Connected Zoom out"
 msgstr "Reducció connectada"
 
-#: ../src/layout_util.c:1312 ../src/layout_util.c:1313
+#: ../src/layout_util.c:1316 ../src/layout_util.c:1317
 msgid "Connected Zoom 1:1"
 msgstr "Escala real connectada"
 
-#: ../src/layout_util.c:1314 ../src/layout_util.c:1315
+#: ../src/layout_util.c:1318 ../src/layout_util.c:1319
 msgid "Connected Zoom to fit"
 msgstr "Ampliació fins que encaixi connectada"
 
-#: ../src/layout_util.c:1316
+#: ../src/layout_util.c:1320
 msgid "Connected Fit Horizontally"
 msgstr "Ajusta Horitzontalment connectat"
 
-#: ../src/layout_util.c:1317
+#: ../src/layout_util.c:1321
 msgid "Connected Fit Vertically"
 msgstr "Ajusta Verticalment connectat"
 
-#: ../src/layout_util.c:1318
+#: ../src/layout_util.c:1322
 msgid "Connected Zoom 2:1"
 msgstr "Escala 2:1 connectada"
 
-#: ../src/layout_util.c:1319
+#: ../src/layout_util.c:1323
 msgid "Connected Zoom 3:1"
 msgstr "Escala 3:1 connectada"
 
-#: ../src/layout_util.c:1320
+#: ../src/layout_util.c:1324
 msgid "Connected Zoom 4:1"
 msgstr "Escala 4:1 connectada"
 
-#: ../src/layout_util.c:1321
+#: ../src/layout_util.c:1325
 msgid "Connected Zoom 1:2"
 msgstr "Escala 1:2 connectada"
 
-#: ../src/layout_util.c:1322
+#: ../src/layout_util.c:1326
 msgid "Connected Zoom 1:3"
 msgstr "Escala 1:3 connectada"
 
-#: ../src/layout_util.c:1323
+#: ../src/layout_util.c:1327
 msgid "Connected Zoom 1:4"
 msgstr "Escala 1:4 connectada"
 
-#: ../src/layout_util.c:1324
+#: ../src/layout_util.c:1328
 msgid "_View in new window"
 msgstr "_Visualitzar en una finestra nova"
 
-#: ../src/layout_util.c:1324
+#: ../src/layout_util.c:1328
 msgid "View in new window"
 msgstr "Visualitzar en una finestra nova"
 
-#: ../src/layout_util.c:1325 ../src/layout_util.c:1326
-#: ../src/layout_util.c:1327
+#: ../src/layout_util.c:1329 ../src/layout_util.c:1330
+#: ../src/layout_util.c:1331
 msgid "F_ull screen"
 msgstr "_Pantalla completa"
 
-#: ../src/layout_util.c:1328 ../src/layout_util.c:1329
+#: ../src/layout_util.c:1332 ../src/layout_util.c:1333
 msgid "_Leave full screen"
 msgstr "_Surt de la pantalla completa"
 
-#: ../src/layout_util.c:1328 ../src/layout_util.c:1329
+#: ../src/layout_util.c:1332 ../src/layout_util.c:1333
 msgid "Leave full screen"
 msgstr "Surt de la pantalla completa"
 
-#: ../src/layout_util.c:1330
+#: ../src/layout_util.c:1334
 msgid "_Cycle through overlay modes"
 msgstr "_Commuta a través dels modes de capa"
 
-#: ../src/layout_util.c:1330
+#: ../src/layout_util.c:1334
 msgid "Cycle through Overlay modes"
 msgstr "Commuta a través dels modes de capa"
 
-#: ../src/layout_util.c:1331
+#: ../src/layout_util.c:1335
 msgid "Cycle through histogram ch_annels"
 msgstr "Commuta a través dels c_anals  d'histograma"
 
-#: ../src/layout_util.c:1331
+#: ../src/layout_util.c:1335
 msgid "Cycle through histogram channels"
 msgstr "Commuta a través dels canals  d'histograma"
 
-#: ../src/layout_util.c:1332
+#: ../src/layout_util.c:1336
 msgid "Cycle through histogram mo_des"
 msgstr "Commuta a través dels mo_des  d'histograma"
 
-#: ../src/layout_util.c:1332
+#: ../src/layout_util.c:1336
 msgid "Cycle through histogram modes"
 msgstr "Commuta a través dels modes  d'histograma"
 
-#: ../src/layout_util.c:1333
+#: ../src/layout_util.c:1337
 msgid "_Hide file list"
 msgstr "Oculta la _llista de fitxers"
 
-#: ../src/layout_util.c:1333
+#: ../src/layout_util.c:1337
 msgid "Hide file list"
 msgstr "Oculta la llista de fitxers"
 
-#: ../src/layout_util.c:1334
+#: ../src/layout_util.c:1338
 msgid "_Pause slideshow"
 msgstr "_Pausa la seqüència de diapositives"
 
-#: ../src/layout_util.c:1334
+#: ../src/layout_util.c:1338
 msgid "Pause slideshow"
 msgstr "Pausa la seqüència de diapositives"
 
-#: ../src/layout_util.c:1335
+#: ../src/layout_util.c:1339
 msgid "_Refresh"
 msgstr "_Actualitza"
 
-#: ../src/layout_util.c:1335
+#: ../src/layout_util.c:1339
 msgid "Refresh"
 msgstr "Actualitza"
 
-#: ../src/layout_util.c:1336
+#: ../src/layout_util.c:1340
 msgid "_Contents"
 msgstr "C_ontinguts"
 
-#: ../src/layout_util.c:1336
+#: ../src/layout_util.c:1340
 msgid "Contents"
 msgstr "Continguts"
 
-#: ../src/layout_util.c:1337
+#: ../src/layout_util.c:1341
 msgid "_Keyboard shortcuts"
 msgstr "_Tecles de drecera"
 
-#: ../src/layout_util.c:1337
+#: ../src/layout_util.c:1341
 msgid "Keyboard shortcuts"
 msgstr "Tecles de drecera"
 
-#: ../src/layout_util.c:1338
+#: ../src/layout_util.c:1342
 msgid "_Release notes"
 msgstr "_Notes de la versió"
 
-#: ../src/layout_util.c:1338
+#: ../src/layout_util.c:1342
 msgid "Release notes"
 msgstr "Notes de la versió"
 
-#: ../src/layout_util.c:1339
+#: ../src/layout_util.c:1343
 msgid "_About"
 msgstr "_Quant a"
 
-#: ../src/layout_util.c:1339 ../src/preferences.c:2108
+#: ../src/layout_util.c:1343 ../src/preferences.c:2108
 msgid "About"
 msgstr "Quant a"
 
-#: ../src/layout_util.c:1340
+#: ../src/layout_util.c:1344
 msgid "_Log Window"
 msgstr "Finestra de _Registre"
 
-#: ../src/layout_util.c:1340
+#: ../src/layout_util.c:1344
 msgid "Log Window"
 msgstr "Finestra de Registre"
 
-#: ../src/layout_util.c:1341
-msgid "E_xif window"
-msgstr "Finestra E_xif"
+#: ../src/layout_util.c:1345
+msgid "_Exif window"
+msgstr "Finestra _Exif"
 
-#: ../src/layout_util.c:1341
+#: ../src/layout_util.c:1345
 msgid "Exif window"
-msgstr "Finestra E_xif"
+msgstr "Finestra Exif"
 
-#: ../src/layout_util.c:1346
+#: ../src/layout_util.c:1350
 msgid "Show _Thumbnails"
 msgstr "Mostra les _miniatures"
 
-#: ../src/layout_util.c:1346
+#: ../src/layout_util.c:1350
 msgid "Show Thumbnails"
 msgstr "Mostra les miniatures"
 
-#: ../src/layout_util.c:1347
+#: ../src/layout_util.c:1351
 msgid "Show _Marks"
 msgstr "Mostra les _Marques"
 
-#: ../src/layout_util.c:1347
+#: ../src/layout_util.c:1351
 msgid "Show Marks"
 msgstr "Mostra les Marques"
 
-#: ../src/layout_util.c:1348
+#: ../src/layout_util.c:1352
 msgid "Pi_xel Info"
 msgstr "Informació del pí_xel"
 
-#: ../src/layout_util.c:1348
+#: ../src/layout_util.c:1352
 msgid "Show Pixel Info"
 msgstr "Mostra la informació del píxel"
 
-#: ../src/layout_util.c:1349
+#: ../src/layout_util.c:1353
 msgid "_Float file list"
 msgstr "_Llista de fitxers flotant"
 
-#: ../src/layout_util.c:1349
+#: ../src/layout_util.c:1353
 msgid "Float file list"
 msgstr "Llista de fitxers flotant"
 
-#: ../src/layout_util.c:1350
+#: ../src/layout_util.c:1354
 msgid "Hide tool_bar"
 msgstr "Oculta la _barra d'eines"
 
-#: ../src/layout_util.c:1350
+#: ../src/layout_util.c:1354
 msgid "Hide toolbar"
 msgstr "Oculta la barra d'eines"
 
-#: ../src/layout_util.c:1351
+#: ../src/layout_util.c:1355
 msgid "_Info sidebar"
 msgstr "Barra lateral d'_informació"
 
-#: ../src/layout_util.c:1351
+#: ../src/layout_util.c:1355
 msgid "Info sidebar"
 msgstr "Barra lateral d'informació"
 
-#: ../src/layout_util.c:1352
+#: ../src/layout_util.c:1356
 msgid "Sort _manager"
 msgstr "_Gestor d'ordenació"
 
-#: ../src/layout_util.c:1352
+#: ../src/layout_util.c:1356
 msgid "Sort manager"
 msgstr "Gestor d'ordenació"
 
-#: ../src/layout_util.c:1353
+#: ../src/layout_util.c:1357
 msgid "Toggle _slideshow"
 msgstr "_Commuta la projecció de diapositives"
 
-#: ../src/layout_util.c:1353
+#: ../src/layout_util.c:1357
 msgid "Toggle slideshow"
 msgstr "Commuta la projecció de diapositives"
 
-#: ../src/layout_util.c:1354
+#: ../src/layout_util.c:1358
 msgid "Use _color profiles"
 msgstr "Utilitza els perfils de _color"
 
-#: ../src/layout_util.c:1354
+#: ../src/layout_util.c:1358
 msgid "Use color profiles"
 msgstr "Utilitza els perfils de color"
 
-#: ../src/layout_util.c:1355
+#: ../src/layout_util.c:1359
 msgid "Use profile from _image"
 msgstr "Utilitza els perfils de la _imatge"
 
-#: ../src/layout_util.c:1355
+#: ../src/layout_util.c:1359
 msgid "Use profile from image"
 msgstr "Utilitza els perfils de la imatge"
 
-#: ../src/layout_util.c:1356
+#: ../src/layout_util.c:1360
 msgid "Toggle _grayscale"
 msgstr "Commuta l'escala de _grisos"
 
-#: ../src/layout_util.c:1356
+#: ../src/layout_util.c:1360
 msgid "Toggle grayscale"
 msgstr "Commuta l'escala de grisos"
 
-#: ../src/layout_util.c:1357
+#: ../src/layout_util.c:1361
 msgid "Image Overlay"
 msgstr "Imatge sobreposada"
 
-#: ../src/layout_util.c:1358
+#: ../src/layout_util.c:1362
 msgid "_Show Histogram"
 msgstr "_Mostra l'histograma"
 
-#: ../src/layout_util.c:1358
+#: ../src/layout_util.c:1362
 msgid "Show Histogram"
 msgstr "Mostra l'histograma"
 
-#: ../src/layout_util.c:1362
+#: ../src/layout_util.c:1366
 msgid "Image _List"
 msgstr "_Llista d'imatges"
 
-#: ../src/layout_util.c:1362
+#: ../src/layout_util.c:1366
 msgid "View Images as List"
 msgstr "Mostra les imatges en una llista"
 
-#: ../src/layout_util.c:1363
+#: ../src/layout_util.c:1367
 msgid "I_cons"
 msgstr "_Icones"
 
-#: ../src/layout_util.c:1363
+#: ../src/layout_util.c:1367
 msgid "View Images as Icons"
 msgstr "Mostra les imatges com a icones"
 
-#: ../src/layout_util.c:1367
-msgid "Folder _List"
-msgstr "_Lista de carpetes"
+#: ../src/layout_util.c:1371
+msgid "Folder Li_st"
+msgstr "Li_sta de carpetes"
 
-#: ../src/layout_util.c:1367
+#: ../src/layout_util.c:1371
 msgid "View Folders as List"
 msgstr "Mostra les carpetes en una llista"
 
-#: ../src/layout_util.c:1368
-msgid "Folder _Tree"
-msgstr "_Arbre de carpetes"
+#: ../src/layout_util.c:1372
+msgid "Folder T_ree"
+msgstr "A_rbre de carpetes"
 
-#: ../src/layout_util.c:1368
+#: ../src/layout_util.c:1372
 msgid "View Folders as Tree"
 msgstr "Mostra les carpetes en arbre"
 
-#: ../src/layout_util.c:1372
+#: ../src/layout_util.c:1376
 msgid "_Horizontal"
 msgstr "_Horitzontal"
 
-#: ../src/layout_util.c:1372
+#: ../src/layout_util.c:1376
 msgid "Split Horizontal"
 msgstr "Divideix _Horitzontalment"
 
-#: ../src/layout_util.c:1373
+#: ../src/layout_util.c:1377
 msgid "_Vertical"
 msgstr "_Vertical"
 
-#: ../src/layout_util.c:1373
+#: ../src/layout_util.c:1377
 msgid "Split Vertical"
 msgstr "Divideix _Verticalment"
 
-#: ../src/layout_util.c:1374
+#: ../src/layout_util.c:1378
 msgid "_Quad"
 msgstr "_Quatre"
 
-#: ../src/layout_util.c:1374
+#: ../src/layout_util.c:1378
 msgid "Split Quad"
 msgstr "Divideix en quatre"
 
-#: ../src/layout_util.c:1375
+#: ../src/layout_util.c:1379
 msgid "_Single"
 msgstr "Sola"
 
-#: ../src/layout_util.c:1375
+#: ../src/layout_util.c:1379
 msgid "Split Single"
 msgstr "Deixa sola"
 
-#: ../src/layout_util.c:1379
+#: ../src/layout_util.c:1383
 msgid "Input _0: sRGB"
 msgstr "Entrada _0:sRGB"
 
-#: ../src/layout_util.c:1379
+#: ../src/layout_util.c:1383
 msgid "Input 0: sRGB"
 msgstr "Entrada 0:sRGB"
 
-#: ../src/layout_util.c:1380
+#: ../src/layout_util.c:1384
 msgid "Input _1: AdobeRGB compatible"
 msgstr "Entrada_1: Compatible amb AdobeRGB"
 
-#: ../src/layout_util.c:1380
+#: ../src/layout_util.c:1384
 msgid "Input 1: AdobeRGB compatible"
 msgstr "Entrada_1: Compatible amb AdobeRGB"
 
-#: ../src/layout_util.c:1381
+#: ../src/layout_util.c:1385
 msgid "Input _2"
 msgstr "Entrada _2"
 
-#: ../src/layout_util.c:1381
+#: ../src/layout_util.c:1385
 msgid "Input 2"
 msgstr "Entrada 2"
 
-#: ../src/layout_util.c:1382
+#: ../src/layout_util.c:1386
 msgid "Input _3"
 msgstr "Entrada _3"
 
-#: ../src/layout_util.c:1382
+#: ../src/layout_util.c:1386
 msgid "Input 3"
 msgstr "Entrada 3"
 
-#: ../src/layout_util.c:1383
+#: ../src/layout_util.c:1387
 msgid "Input _4"
 msgstr "Entrada _4"
 
-#: ../src/layout_util.c:1383
+#: ../src/layout_util.c:1387
 msgid "Input 4"
 msgstr "Entrada 4"
 
-#: ../src/layout_util.c:1384
+#: ../src/layout_util.c:1388
 msgid "Input _5"
 msgstr "Entrada _5"
 
-#: ../src/layout_util.c:1384
+#: ../src/layout_util.c:1388
 msgid "Input 5"
 msgstr "Entrada 5"
 
-#: ../src/layout_util.c:1388
+#: ../src/layout_util.c:1392
 msgid "Histogram on Red"
 msgstr "Histograma del vermell"
 
-#: ../src/layout_util.c:1389
+#: ../src/layout_util.c:1393
 msgid "Histogram on Green"
 msgstr "Histograma del verd"
 
-#: ../src/layout_util.c:1390
+#: ../src/layout_util.c:1394
 msgid "Histogram on Blue"
 msgstr "Histograma del blau"
 
-#: ../src/layout_util.c:1391
+#: ../src/layout_util.c:1395
 msgid "Histogram on RGB"
 msgstr "Histograma del RGB"
 
-#: ../src/layout_util.c:1392
+#: ../src/layout_util.c:1396
 msgid "Histogram on Value"
 msgstr "histograma segons el valor"
 
-#: ../src/layout_util.c:1396
+#: ../src/layout_util.c:1400
 msgid "Linear Histogram"
 msgstr "histograma lineal"
 
-#: ../src/layout_util.c:1397
+#: ../src/layout_util.c:1401
+msgid "_Log Histogram"
+msgstr "Histograma _logarítmic"
+
+#: ../src/layout_util.c:1401
 msgid "Log Histogram"
 msgstr "Histograma logarítmic"
 
-#: ../src/layout_util.c:1663
+#: ../src/layout_util.c:1667
 #, c-format
 msgid "Mark _%d"
 msgstr "Marca _%d"
 
-#: ../src/layout_util.c:1664 ../src/view_file.c:527
+#: ../src/layout_util.c:1668 ../src/view_file.c:540
 #, c-format
 msgid "_Set mark %d"
 msgstr "_Posa marca %d"
 
-#: ../src/layout_util.c:1664
+#: ../src/layout_util.c:1668
 #, c-format
 msgid "Set mark %d"
 msgstr "Posa marca %d"
 
-#: ../src/layout_util.c:1665 ../src/view_file.c:528
+#: ../src/layout_util.c:1669 ../src/view_file.c:541
 #, c-format
 msgid "_Reset mark %d"
 msgstr "_Esborra marca %d"
 
-#: ../src/layout_util.c:1665
+#: ../src/layout_util.c:1669
 #, c-format
 msgid "Reset mark %d"
 msgstr "Esborra marca %d"
 
-#: ../src/layout_util.c:1666 ../src/layout_util.c:1667 ../src/view_file.c:529
+#: ../src/layout_util.c:1670 ../src/layout_util.c:1671 ../src/view_file.c:542
 #, c-format
 msgid "_Toggle mark %d"
 msgstr "_Commuta la marca %d"
 
-#: ../src/layout_util.c:1666 ../src/layout_util.c:1667
+#: ../src/layout_util.c:1670 ../src/layout_util.c:1671
 #, c-format
 msgid "Toggle mark %d"
 msgstr "Commuta la marca %d"
 
-#: ../src/layout_util.c:1668 ../src/layout_util.c:1669 ../src/view_file.c:530
+#: ../src/layout_util.c:1672
 #, c-format
-msgid "_Select mark %d"
-msgstr "_Selecciona-ho la marca %d"
+msgid "Se_lect mark %d"
+msgstr "Se_lecciona la marca %d"
 
-#: ../src/layout_util.c:1668 ../src/layout_util.c:1669
+#: ../src/layout_util.c:1672 ../src/layout_util.c:1673
 #, c-format
 msgid "Select mark %d"
-msgstr "Selecciona-ho la marca %d"
+msgstr "Selecciona la marca %d"
 
-#: ../src/layout_util.c:1670 ../src/view_file.c:531
+#: ../src/layout_util.c:1673 ../src/view_file.c:543
+#, c-format
+msgid "_Select mark %d"
+msgstr "_Selecciona la marca %d"
+
+#: ../src/layout_util.c:1674 ../src/view_file.c:544
 #, c-format
 msgid "_Add mark %d"
 msgstr "_Afegeix la marca %d"
 
-#: ../src/layout_util.c:1670
+#: ../src/layout_util.c:1674
 #, c-format
 msgid "Add mark %d"
 msgstr "Afegeix la marca %d"
 
-#: ../src/layout_util.c:1671 ../src/view_file.c:532
+#: ../src/layout_util.c:1675 ../src/view_file.c:545
 #, c-format
 msgid "_Intersection with mark %d"
 msgstr "_Intersecció amb la marca %d"
 
-#: ../src/layout_util.c:1671
+#: ../src/layout_util.c:1675
 #, c-format
 msgid "Intersection with mark %d"
 msgstr "Intersecció amb la marca %d"
 
-#: ../src/layout_util.c:1672 ../src/view_file.c:533
+#: ../src/layout_util.c:1676 ../src/view_file.c:546
 #, c-format
 msgid "_Unselect mark %d"
 msgstr "_No seleccionis la marca %d"
 
-#: ../src/layout_util.c:1672
+#: ../src/layout_util.c:1676
 #, c-format
 msgid "Unselect mark %d"
 msgstr "No seleccionis la marca %d"
 
-#: ../src/layout_util.c:1673
+#: ../src/layout_util.c:1677
 #, c-format
 msgid "_Filter mark %d"
 msgstr "_Filtra la marca %d"
 
-#: ../src/layout_util.c:1673
+#: ../src/layout_util.c:1677
 #, c-format
 msgid "Filter mark %d"
 msgstr "Filtra la marca %d"
 
-#: ../src/layout_util.c:2109
+#: ../src/layout_util.c:2205
 #, c-format
 msgid "Number of files with unsaved metadata: %d"
 msgstr "Nombre de fitxers amb medades sense desar: %d"
 
-#: ../src/layout_util.c:2115
+#: ../src/layout_util.c:2211
 msgid "No unsaved metadata"
 msgstr "No hi ha metadades sense desar"
 
-#: ../src/layout_util.c:2162
+#: ../src/layout_util.c:2258
 #, c-format
 msgid ""
 "Image profile: %s\n"
@@ -3030,31 +3043,31 @@ msgstr ""
 "Perfil d'imatge: %s\n"
 "Perfil de pantalla: %s"
 
-#: ../src/layout_util.c:2170
+#: ../src/layout_util.c:2266
 msgid "Click to enable color management"
 msgstr "Fes clic per habilitar la gestió de color"
 
-#: ../src/layout_util.c:2175
+#: ../src/layout_util.c:2271
 msgid "Color profiles not supported"
 msgstr "Perfils de color no suportats"
 
-#: ../src/layout_util.c:2197
+#: ../src/layout_util.c:2293
 #, c-format
 msgid "Input _%d: %s"
 msgstr "Entrada _%d: %s"
 
 #. something went badly wrong
-#: ../src/lirc.c:193
+#: ../src/lirc.c:197
 #, c-format
 msgid "disconnected from LIRC\n"
 msgstr "s'ha desconnectat desde LIRC\n"
 
-#: ../src/lirc.c:208
+#: ../src/lirc.c:212
 #, c-format
 msgid "Could not init LIRC support\n"
 msgstr "No es pot iniciar el suport per LIRC\n"
 
-#: ../src/lirc.c:215
+#: ../src/lirc.c:219
 #, c-format
 msgid ""
 "could not read LIRC config file\n"
@@ -3069,7 +3082,7 @@ msgstr ""
 msgid "Log"
 msgstr "Registre"
 
-#: ../src/main.c:313
+#: ../src/main.c:321
 #, c-format
 msgid ""
 "Usage: %s [options] [path]\n"
@@ -3078,57 +3091,57 @@ msgstr ""
 "Sintaxi: %s [opcions] [camí]\n"
 "\n"
 
-#: ../src/main.c:314
+#: ../src/main.c:322
 msgid "valid options are:\n"
 msgstr "les opcions vàlides són:\n"
 
-#: ../src/main.c:315
+#: ../src/main.c:323
 msgid "  +t, --with-tools           force show of tools\n"
 msgstr "  +t, --with-tools          força a mostrar les eines\n"
 
-#: ../src/main.c:316
+#: ../src/main.c:324
 msgid "  -t, --without-tools        force hide of tools\n"
 msgstr "  -t, --without-tools       força a ocultar les eines\n"
 
-#: ../src/main.c:317
+#: ../src/main.c:325
 msgid "  -f, --fullscreen           start in full screen mode\n"
 msgstr "  -f, --fullscreen          inicia en mode de pantalla completa\n"
 
-#: ../src/main.c:318
+#: ../src/main.c:326
 msgid "  -s, --slideshow            start in slideshow mode\n"
 msgstr ""
 "  -s, --slideshow           inicia en el mode de projecció de diapositives\n"
 
-#: ../src/main.c:319
+#: ../src/main.c:327
 msgid "  -l, --list                 open collection window for command line\n"
 msgstr ""
 "  -l, --list                obre una finestra de col·lecció des d'una línia "
 "de comandes\n"
 
-#: ../src/main.c:320
+#: ../src/main.c:328
 msgid "      --geometry=GEOMETRY    set main window location\n"
 msgstr ""
 "     --geometria=GEOMETRY   configura la situació de la finestra principal\n"
 
-#: ../src/main.c:321
+#: ../src/main.c:329
 msgid "  -r, --remote               send following commands to open window\n"
 msgstr ""
 "  -r, --remote              envia les següents comandes a la finestra "
 "oberta\n"
 
-#: ../src/main.c:322
+#: ../src/main.c:330
 msgid "  -rh,--remote-help          print remote command list\n"
 msgstr "  -rh,--remote-help         mostra la llista de comandes remotes\n"
 
-#: ../src/main.c:324
+#: ../src/main.c:332
 msgid "  --debug[=level]            turn on debug output\n"
 msgstr "  --debug[=nivell]          activa la sortida de depuració\n"
 
-#: ../src/main.c:326
+#: ../src/main.c:334
 msgid "  -v, --version              print version info\n"
 msgstr "  -v, --version             mostra la informació de versió\n"
 
-#: ../src/main.c:327
+#: ../src/main.c:335
 msgid ""
 "  -h, --help                 show this message\n"
 "\n"
@@ -3136,7 +3149,7 @@ msgstr ""
 "  -h, --help                 mostra aquest missatge d'ajuda\n"
 "\n"
 
-#: ../src/main.c:339
+#: ../src/main.c:347
 #, c-format
 msgid ""
 "invalid or ignored: %s\n"
@@ -3145,11 +3158,11 @@ msgstr ""
 "invàlid o ignorat: %s\n"
 "Utilitzeu --help per les opcions\n"
 
-#: ../src/main.c:368
+#: ../src/main.c:376
 msgid "Invalid or ignored remote options: "
 msgstr "Opcions remotes invàlides o ignorades: "
 
-#: ../src/main.c:377
+#: ../src/main.c:385
 msgid ""
 "\n"
 "Use --remote-help for valid remote options.\n"
@@ -3157,22 +3170,22 @@ msgstr ""
 "\n"
 "Utilitzeu --remote-help per veure les opcions remotes vàlides.\n"
 
-#: ../src/main.c:479
+#: ../src/main.c:487
 #, c-format
 msgid "Creating %s dir:%s\n"
 msgstr "S'està creant el directori %s:%s\n"
 
-#: ../src/main.c:483
+#: ../src/main.c:491
 #, c-format
 msgid "Could not create dir:%s\n"
 msgstr "No s'ha pogut crear el directori:%s\n"
 
-#: ../src/main.c:535
+#: ../src/main.c:543
 #, c-format
 msgid "error saving file: %s\n"
 msgstr "s'ha produït un error en desar el fitxer: %s\n"
 
-#: ../src/main.c:554
+#: ../src/main.c:562
 #, c-format
 msgid ""
 "error saving file: %s\n"
@@ -3181,20 +3194,20 @@ msgstr ""
 "s'ha produït un error en desar el fitxer: %s\n"
 "error: %s\n"
 
-#: ../src/main.c:659
+#: ../src/main.c:670
 msgid "exit"
 msgstr "surt"
 
-#: ../src/main.c:664
+#: ../src/main.c:675
 #, c-format
 msgid "Quit %s"
 msgstr "Surt %s"
 
-#: ../src/main.c:666
+#: ../src/main.c:677
 msgid "Collections have been modified. Quit anyway?"
 msgstr "Les col·leccions han estat modificades. Voleu sortir igualment?"
 
-#: ../src/main.c:860 ../src/remote.c:601
+#: ../src/main.c:878 ../src/remote.c:601
 msgid "Command line"
 msgstr "Línia de comandes"
 
@@ -3230,235 +3243,235 @@ msgstr "Ordena"
 msgid "Rotate _180"
 msgstr "Gira _180"
 
-#: ../src/metadata.c:1382
+#: ../src/metadata.c:1443
 msgid "People"
 msgstr "Gent"
 
-#: ../src/metadata.c:1383
+#: ../src/metadata.c:1444
 msgid "Family"
 msgstr "Família"
 
-#: ../src/metadata.c:1384
+#: ../src/metadata.c:1445
 msgid "Free time"
 msgstr "Temps lliure"
 
-#: ../src/metadata.c:1385
+#: ../src/metadata.c:1446
 msgid "Children"
 msgstr "quitxalla"
 
-#: ../src/metadata.c:1386
+#: ../src/metadata.c:1447
 msgid "Sport"
 msgstr "Esport"
 
-#: ../src/metadata.c:1387
+#: ../src/metadata.c:1448
 msgid "Culture"
 msgstr "Cultura"
 
-#: ../src/metadata.c:1388
+#: ../src/metadata.c:1449
 msgid "Festival"
 msgstr "Festival"
 
-#: ../src/metadata.c:1389
+#: ../src/metadata.c:1450
 msgid "Nature"
 msgstr "Natura"
 
-#: ../src/metadata.c:1390
+#: ../src/metadata.c:1451
 msgid "Animal"
 msgstr "Animal"
 
-#: ../src/metadata.c:1391
+#: ../src/metadata.c:1452
 msgid "Bird"
 msgstr "Ocell"
 
-#: ../src/metadata.c:1392
+#: ../src/metadata.c:1453
 msgid "Insect"
 msgstr "Insecte"
 
-#: ../src/metadata.c:1393
+#: ../src/metadata.c:1454
 msgid "Pets"
 msgstr "Domèstic"
 
-#: ../src/metadata.c:1394
+#: ../src/metadata.c:1455
 msgid "Wildlife"
 msgstr "Salvatge"
 
-#: ../src/metadata.c:1395
+#: ../src/metadata.c:1456
 msgid "Zoo"
 msgstr "Zoo"
 
-#: ../src/metadata.c:1396
+#: ../src/metadata.c:1457
 msgid "Plant"
 msgstr "Planta"
 
-#: ../src/metadata.c:1397
+#: ../src/metadata.c:1458
 msgid "Tree"
 msgstr "Arbre"
 
-#: ../src/metadata.c:1398
+#: ../src/metadata.c:1459
 msgid "Flower"
 msgstr "Flor"
 
-#: ../src/metadata.c:1399
+#: ../src/metadata.c:1460
 msgid "Water"
 msgstr "Aigua"
 
-#: ../src/metadata.c:1400
+#: ../src/metadata.c:1461
 msgid "River"
 msgstr "Riu"
 
-#: ../src/metadata.c:1401
+#: ../src/metadata.c:1462
 msgid "Lake"
 msgstr "Llac"
 
-#: ../src/metadata.c:1402
+#: ../src/metadata.c:1463
 msgid "Sea"
 msgstr "Mar"
 
-#: ../src/metadata.c:1403 ../src/print.c:375
+#: ../src/metadata.c:1464 ../src/print.c:375
 msgid "Landscape"
 msgstr "Apaïsat"
 
-#: ../src/metadata.c:1404
+#: ../src/metadata.c:1465
 msgid "Art"
 msgstr "Art"
 
-#: ../src/metadata.c:1405
+#: ../src/metadata.c:1466
 msgid "Statue"
 msgstr "Estatua"
 
-#: ../src/metadata.c:1406
+#: ../src/metadata.c:1467
 msgid "Painting"
 msgstr "Pintura"
 
-#: ../src/metadata.c:1407 ../src/metadata.c:1421
+#: ../src/metadata.c:1468 ../src/metadata.c:1482
 msgid "Historic"
 msgstr "Històric"
 
-#: ../src/metadata.c:1408 ../src/metadata.c:1422
+#: ../src/metadata.c:1469 ../src/metadata.c:1483
 msgid "Modern"
 msgstr "Modern"
 
-#: ../src/metadata.c:1409
+#: ../src/metadata.c:1470
 msgid "City"
 msgstr "Ciutat"
 
-#: ../src/metadata.c:1410
+#: ../src/metadata.c:1471
 msgid "Park"
 msgstr "Parc"
 
-#: ../src/metadata.c:1411
+#: ../src/metadata.c:1472
 msgid "Street"
 msgstr "Carrer"
 
-#: ../src/metadata.c:1412
+#: ../src/metadata.c:1473
 msgid "Square"
 msgstr "Plaça"
 
-#: ../src/metadata.c:1413
+#: ../src/metadata.c:1474
 msgid "Architecture"
 msgstr "Arquitectura"
 
-#: ../src/metadata.c:1414
+#: ../src/metadata.c:1475
 msgid "Buildings"
 msgstr "Edificis"
 
-#: ../src/metadata.c:1415
+#: ../src/metadata.c:1476
 msgid "House"
 msgstr "Casa"
 
-#: ../src/metadata.c:1416
+#: ../src/metadata.c:1477
 msgid "Cathedral"
 msgstr "Catedral"
 
-#: ../src/metadata.c:1417
+#: ../src/metadata.c:1478
 msgid "Palace"
 msgstr "Palau"
 
-#: ../src/metadata.c:1418
+#: ../src/metadata.c:1479
 msgid "Castle"
 msgstr "Castell"
 
-#: ../src/metadata.c:1419
+#: ../src/metadata.c:1480
 msgid "Bridge"
 msgstr "Pont"
 
-#: ../src/metadata.c:1420
+#: ../src/metadata.c:1481
 msgid "Interior"
 msgstr "interior"
 
-#: ../src/metadata.c:1423
+#: ../src/metadata.c:1484
 msgid "Places"
 msgstr "Llocs"
 
-#: ../src/metadata.c:1424
+#: ../src/metadata.c:1485
 msgid "Conditions"
 msgstr "Condicions"
 
-#: ../src/metadata.c:1425
+#: ../src/metadata.c:1486
 msgid "Night"
 msgstr "Nit"
 
-#: ../src/metadata.c:1426
+#: ../src/metadata.c:1487
 msgid "Lights"
 msgstr "Llums"
 
-#: ../src/metadata.c:1427
+#: ../src/metadata.c:1488
 msgid "Reflections"
 msgstr "Reflexes"
 
-#: ../src/metadata.c:1428
+#: ../src/metadata.c:1489
 msgid "Sun"
 msgstr "Sol"
 
-#: ../src/metadata.c:1429
+#: ../src/metadata.c:1490
 msgid "Weather"
 msgstr "Clima"
 
-#: ../src/metadata.c:1430
+#: ../src/metadata.c:1491
 msgid "Fog"
 msgstr "Boira"
 
-#: ../src/metadata.c:1431
+#: ../src/metadata.c:1492
 msgid "Rain"
 msgstr "Pluja"
 
-#: ../src/metadata.c:1432
+#: ../src/metadata.c:1493
 msgid "Clouds"
 msgstr "Núvols"
 
-#: ../src/metadata.c:1433
+#: ../src/metadata.c:1494
 msgid "Snow"
 msgstr "Neu"
 
-#: ../src/metadata.c:1434
+#: ../src/metadata.c:1495
 msgid "Sunny weather"
 msgstr "Assolellat"
 
-#: ../src/metadata.c:1435
+#: ../src/metadata.c:1496
 msgid "Photo"
 msgstr "Foto"
 
-#: ../src/metadata.c:1436
+#: ../src/metadata.c:1497
 msgid "Edited"
 msgstr "Editada"
 
-#: ../src/metadata.c:1437
+#: ../src/metadata.c:1498
 msgid "Detail"
 msgstr "Detall"
 
-#: ../src/metadata.c:1438
+#: ../src/metadata.c:1499
 msgid "Macro"
 msgstr "Macro"
 
-#: ../src/metadata.c:1439 ../src/print.c:374
+#: ../src/metadata.c:1500 ../src/print.c:374
 msgid "Portrait"
 msgstr "Vertical"
 
-#: ../src/metadata.c:1440
+#: ../src/metadata.c:1501
 msgid "Black and White"
 msgstr "Blanc i negre"
 
-#: ../src/metadata.c:1441
+#: ../src/metadata.c:1502
 msgid "Perspective"
 msgstr "Perspectiva"
 
@@ -3488,7 +3501,7 @@ msgstr "S'estan llegint les dades de la imatge..."
 msgid "Sorting images..."
 msgstr "S'estan ordenant les imatges..."
 
-#: ../src/pan-view.c:1546 ../src/print.c:2650
+#: ../src/pan-view.c:1546 ../src/print.c:2601
 msgid "Filename:"
 msgstr "Nom del fitxer:"
 
@@ -3500,8 +3513,8 @@ msgstr "Ubicació:"
 msgid "Date:"
 msgstr "Data:"
 
-#: ../src/pan-view.c:1552 ../src/preferences.c:1174 ../src/print.c:3263
-#: ../src/print.c:3474
+#: ../src/pan-view.c:1552 ../src/preferences.c:1174 ../src/print.c:3214
+#: ../src/print.c:3425
 msgid "Size:"
 msgstr "Mida:"
 
@@ -3569,19 +3582,19 @@ msgstr "Miniatures Normal"
 msgid "Large Thumbnails"
 msgstr "Miniatures Grans"
 
-#: ../src/pan-view.c:2411 ../src/pan-view.c:2870
+#: ../src/pan-view.c:2411 ../src/pan-view.c:2871
 msgid "1:10 (10%)"
 msgstr "1:10 (10%)"
 
-#: ../src/pan-view.c:2412 ../src/pan-view.c:2866
+#: ../src/pan-view.c:2412 ../src/pan-view.c:2867
 msgid "1:4 (25%)"
 msgstr "1:4 (25%)"
 
-#: ../src/pan-view.c:2413 ../src/pan-view.c:2862
+#: ../src/pan-view.c:2413 ../src/pan-view.c:2863
 msgid "1:3 (33%)"
 msgstr "1:3 (33%)"
 
-#: ../src/pan-view.c:2414 ../src/pan-view.c:2858
+#: ../src/pan-view.c:2414 ../src/pan-view.c:2859
 msgid "1:2 (50%)"
 msgstr "1:2 (50%)"
 
@@ -3631,23 +3644,23 @@ msgstr "Utilitza la memòria cau compartida de miniatures"
 msgid "Do not show this dialog again"
 msgstr "No tornis a mostrar aquesta finestra"
 
-#: ../src/pan-view.c:2838
+#: ../src/pan-view.c:2839
 msgid "Sort by E_xif date"
 msgstr "Ordena segons la data de l'Exif"
 
-#: ../src/pan-view.c:2844
+#: ../src/pan-view.c:2845
 msgid "_Show Exif information"
 msgstr "_Mostra la informació de l'Exif"
 
-#: ../src/pan-view.c:2846
+#: ../src/pan-view.c:2847
 msgid "Show im_age"
 msgstr "Mostra la im_atge"
 
-#: ../src/pan-view.c:2850
+#: ../src/pan-view.c:2851
 msgid "_None"
 msgstr "_Cap"
 
-#: ../src/pan-view.c:2854
+#: ../src/pan-view.c:2855
 msgid "_Full size"
 msgstr "_Mida Completa"
 
@@ -4158,7 +4171,7 @@ msgstr "Pantalla:"
 msgid "Behavior"
 msgstr "Comportament"
 
-#: ../src/preferences.c:1768 ../src/utilops.c:1971
+#: ../src/preferences.c:1768 ../src/utilops.c:1985
 msgid "Delete"
 msgstr "Suprimeix"
 
@@ -4259,7 +4272,6 @@ msgid "Reset selected"
 msgstr "Reinicia els seleccionats"
 
 #: ../src/preferences.c:1959
-#, fuzzy
 msgid "Add Alt"
 msgstr "Afegeix Alt"
 
@@ -4336,7 +4348,7 @@ msgstr "jpeg, qualitat normal"
 msgid "jpeg, high quality"
 msgstr "jpeg, qualitat alta"
 
-#: ../src/print.c:365 ../src/print.c:3263
+#: ../src/print.c:365 ../src/print.c:3214
 msgid "points"
 msgstr "punts"
 
@@ -4444,141 +4456,141 @@ msgstr ""
 "No s'ha pogut obrir la canonada per escriure.\n"
 "\"%s\""
 
-#: ../src/print.c:1074 ../src/print.c:1515 ../src/ui_pathsel.c:432
+#: ../src/print.c:1074 ../src/print.c:1466 ../src/ui_pathsel.c:432
 #, c-format
 msgid "A file with name %s already exists."
 msgstr "Ja existeix un fitxer anomenat %s."
 
-#: ../src/print.c:1089 ../src/print.c:1570
+#: ../src/print.c:1089 ../src/print.c:1521
 #, c-format
 msgid "Failure writing to file %s"
 msgstr "Fallida en escriure al fitxer %s"
 
 #: ../src/print.c:1144 ../src/print.c:1181 ../src/print.c:1217
-#: ../src/print.c:1334 ../src/print.c:1425 ../src/print.c:1456
+#: ../src/print.c:1334 ../src/print.c:1407
 msgid "SIGPIPE error writing to printer."
 msgstr "S'ha produït l'error SIGPIPE en escriure a la impressora."
 
-#: ../src/print.c:1991
+#: ../src/print.c:1942
 #, c-format
 msgid "Page %d"
 msgstr "Pàgina %d"
 
-#: ../src/print.c:2013 ../src/print.c:2018
+#: ../src/print.c:1964 ../src/print.c:1969
 msgid "Printing error"
 msgstr "Error d'impressió"
 
-#: ../src/print.c:2017
+#: ../src/print.c:1968
 #, c-format
 msgid "An error occured printing to %s."
 msgstr "S'ha produït un error en imprimir a %s."
 
-#: ../src/print.c:2021
+#: ../src/print.c:1972
 msgid "Details"
 msgstr "Detalls"
 
-#: ../src/print.c:2638 ../src/print.c:3398
+#: ../src/print.c:2589 ../src/print.c:3349
 msgid "Print"
 msgstr "Imprimeix"
 
-#: ../src/print.c:2642
+#: ../src/print.c:2593
 #, c-format
 msgid "Printing %d pages to %s."
 msgstr "Imprimint %d pàgines a %s."
 
-#: ../src/print.c:2742
+#: ../src/print.c:2693
 msgid "Format:"
 msgstr "Format:"
 
-#: ../src/print.c:2817
+#: ../src/print.c:2768
 msgid "Units:"
 msgstr "Unitats:"
 
-#: ../src/print.c:2861
+#: ../src/print.c:2812
 msgid "Orientation:"
 msgstr "Orientació:"
 
-#: ../src/print.c:2993
+#: ../src/print.c:2944
 msgid "Destination:"
 msgstr "Destí:"
 
-#: ../src/print.c:3041
+#: ../src/print.c:2992
 msgid "<printer name>"
 msgstr "<nom de la impressora>"
 
-#: ../src/print.c:3130
+#: ../src/print.c:3081
 msgid "Unlimited"
 msgstr "Sense límit"
 
-#: ../src/print.c:3248
+#: ../src/print.c:3199
 msgid "Show"
 msgstr "Mostra"
 
-#: ../src/print.c:3261
+#: ../src/print.c:3212
 msgid "Font"
 msgstr "Font"
 
-#: ../src/print.c:3425
+#: ../src/print.c:3376
 msgid "Source"
 msgstr "Origen"
 
-#: ../src/print.c:3437
+#: ../src/print.c:3388
 msgid "Image size:"
 msgstr "Mida de la imatge:"
 
-#: ../src/print.c:3441
+#: ../src/print.c:3392
 msgid "Proof size:"
 msgstr "Mida de la prova:"
 
-#: ../src/print.c:3457
+#: ../src/print.c:3408
 msgid "Text"
 msgstr "Text"
 
-#: ../src/print.c:3467
+#: ../src/print.c:3418
 msgid "Paper"
 msgstr "Paper"
 
-#: ../src/print.c:3490
+#: ../src/print.c:3441
 msgid "Margins"
 msgstr "Marges"
 
-#: ../src/print.c:3492
+#: ../src/print.c:3443
 msgid "Left:"
 msgstr "Esquerre:"
 
-#: ../src/print.c:3495
+#: ../src/print.c:3446
 msgid "Right:"
 msgstr "Dret:"
 
-#: ../src/print.c:3498
+#: ../src/print.c:3449
 msgid "Top:"
 msgstr "Superior:"
 
-#: ../src/print.c:3501
+#: ../src/print.c:3452
 msgid "Bottom:"
 msgstr "Inferior:"
 
-#: ../src/print.c:3510
+#: ../src/print.c:3461
 msgid "Printer"
 msgstr "Impressora"
 
-#: ../src/print.c:3516
+#: ../src/print.c:3467
 msgid "Custom printer:"
 msgstr "Impressora personalitzada:"
 
-#: ../src/print.c:3525
+#: ../src/print.c:3476
 msgid "File:"
 msgstr "Fitxer:"
 
-#: ../src/print.c:3534
+#: ../src/print.c:3485
 msgid "File format:"
 msgstr "Format del fitxer:"
 
-#: ../src/print.c:3539
+#: ../src/print.c:3490
 msgid "DPI:"
 msgstr "PPP:"
 
-#: ../src/print.c:3547
+#: ../src/print.c:3498
 msgid "Remember print settings"
 msgstr "Recorda els ajustos d'impressió"
 
@@ -4690,77 +4702,77 @@ msgstr "El %s remot no s'està executant, s'està iniciant..."
 msgid "Remote not available\n"
 msgstr "Geeqie remot no està disponible\n"
 
-#: ../src/search.c:216
+#: ../src/search.c:212
 msgid "folder"
 msgstr "Carpeta"
 
-#: ../src/search.c:217
+#: ../src/search.c:213
 msgid "comments"
 msgstr "comentaris"
 
-#: ../src/search.c:218
+#: ../src/search.c:214
 msgid "results"
 msgstr "resultats"
 
-#: ../src/search.c:222 ../src/search.c:247
+#: ../src/search.c:218 ../src/search.c:243
 msgid "contains"
 msgstr "conté"
 
-#: ../src/search.c:223
+#: ../src/search.c:219
 msgid "is"
 msgstr "és"
 
-#: ../src/search.c:227 ../src/search.c:234
+#: ../src/search.c:223 ../src/search.c:230
 msgid "equal to"
 msgstr "igual que"
 
-#: ../src/search.c:228
+#: ../src/search.c:224
 msgid "less than"
 msgstr "menor que"
 
-#: ../src/search.c:229
+#: ../src/search.c:225
 msgid "greater than"
 msgstr "major que"
 
-#: ../src/search.c:230 ../src/search.c:237
+#: ../src/search.c:226 ../src/search.c:233
 msgid "between"
 msgstr "entre"
 
-#: ../src/search.c:235
+#: ../src/search.c:231
 msgid "before"
 msgstr "abans de"
 
-#: ../src/search.c:236
+#: ../src/search.c:232
 msgid "after"
 msgstr "després de"
 
-#: ../src/search.c:241
+#: ../src/search.c:237
 msgid "match all"
 msgstr "Fes-les coincidir totes"
 
-#: ../src/search.c:242
+#: ../src/search.c:238
 msgid "match any"
 msgstr "Qualsevol ocurrència"
 
-#: ../src/search.c:243
+#: ../src/search.c:239
 msgid "exclude"
 msgstr "exclou"
 
-#: ../src/search.c:248
+#: ../src/search.c:244
 msgid "miss"
 msgstr "perdre"
 
-#: ../src/search.c:299
+#: ../src/search.c:295
 #, c-format
 msgid "%s, %d files (%s, %d)"
 msgstr "%s, %d fitxers (%s, %d)"
 
-#: ../src/search.c:304
+#: ../src/search.c:300
 #, c-format
 msgid "%s, %d files"
 msgstr "%s, %d fitxers"
 
-#: ../src/search.c:322
+#: ../src/search.c:318
 msgid "Searching..."
 msgstr "Cercant..."
 
@@ -4868,8 +4880,8 @@ msgstr ""
 "Ha fallat la càrrega a la memòria cau de la miniatura, intento tornar-la a "
 "crear.\n"
 
-#: ../src/trash.c:80 ../src/utilops.c:2428 ../src/utilops.c:2439
-#: ../src/utilops.c:2496
+#: ../src/trash.c:80 ../src/utilops.c:2448 ../src/utilops.c:2459
+#: ../src/utilops.c:2516
 msgid "Delete failed"
 msgstr "No es pot suprimir"
 
@@ -5023,8 +5035,8 @@ msgstr ""
 "No es pot carregar:\n"
 "%s"
 
-#: ../src/ui_pathsel.c:433 ../src/ui_pathsel.c:439 ../src/utilops.c:2130
-#: ../src/utilops.c:2157 ../src/utilops.c:2620
+#: ../src/ui_pathsel.c:433 ../src/ui_pathsel.c:439 ../src/utilops.c:2147
+#: ../src/utilops.c:2174 ../src/utilops.c:2640
 msgid "Rename failed"
 msgstr "Ha fallat el canvi de nom "
 
@@ -5045,7 +5057,7 @@ msgstr "Afegeix _adreça d'interès"
 msgid "_Delete"
 msgstr "_Suprimeix"
 
-#: ../src/ui_pathsel.c:748 ../src/ui_pathsel.c:1049 ../src/utilops.c:2654
+#: ../src/ui_pathsel.c:748 ../src/ui_pathsel.c:1049 ../src/utilops.c:2674
 msgid "New folder"
 msgstr "Nova carpeta"
 
@@ -5082,7 +5094,7 @@ msgstr "Seleccioneu el camí"
 msgid "All files"
 msgstr "Tots els fitxers"
 
-#: ../src/utilops.c:534
+#: ../src/utilops.c:547
 msgid ""
 "\n"
 " Continue multiple file operation?"
@@ -5090,11 +5102,11 @@ msgstr ""
 "\n"
 " Voleu continuar l'operació sobre múltiples fitxers?"
 
-#: ../src/utilops.c:541 ../src/utilops.c:976
+#: ../src/utilops.c:554 ../src/utilops.c:989
 msgid "Co_ntinue"
 msgstr "Co_ntinua"
 
-#: ../src/utilops.c:718
+#: ../src/utilops.c:731
 #, c-format
 msgid ""
 "Removal of folder contents failed at this file:\n"
@@ -5105,7 +5117,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/utilops.c:864
+#: ../src/utilops.c:877
 #, c-format
 msgid ""
 "%s\n"
@@ -5114,103 +5126,103 @@ msgstr ""
 "%s\n"
 "No es pot iniciar la comanda externa.\n"
 
-#: ../src/utilops.c:944
+#: ../src/utilops.c:957
 #, c-format
 msgid "%s is not a directory"
 msgstr "%s no és un directori"
 
-#: ../src/utilops.c:974
+#: ../src/utilops.c:987
 msgid "Really continue?"
 msgstr "Voleu continuar?"
 
-#: ../src/utilops.c:988
+#: ../src/utilops.c:1001
 msgid "This operation can't continue:"
 msgstr "Aquesta operació no pot continuar:"
 
-#: ../src/utilops.c:1351 ../src/utilops.c:1464 ../src/utilops.c:1848
+#: ../src/utilops.c:1364 ../src/utilops.c:1477 ../src/utilops.c:1861
 msgid "Discard changes"
 msgstr "_Descarta els canvis"
 
-#: ../src/utilops.c:1352 ../src/utilops.c:1465 ../src/utilops.c:1798
-#: ../src/utilops.c:1814
+#: ../src/utilops.c:1365 ../src/utilops.c:1478 ../src/utilops.c:1811
+#: ../src/utilops.c:1827
 msgid "File details"
 msgstr "Detalls del fitxer"
 
-#: ../src/utilops.c:1374 ../src/utilops.c:1472
+#: ../src/utilops.c:1387 ../src/utilops.c:1485
 msgid "Sidecars"
 msgstr "Sidecars"
 
-#: ../src/utilops.c:1376
+#: ../src/utilops.c:1389
 msgid "Write to file"
 msgstr "Escriu al fitxer"
 
-#: ../src/utilops.c:1416
+#: ../src/utilops.c:1429
 msgid "Choose the destination folder."
 msgstr "Seleccioneu la carpeta de destí."
 
-#: ../src/utilops.c:1474
+#: ../src/utilops.c:1487
 msgid "New name"
 msgstr "Nom nou"
 
-#: ../src/utilops.c:1504
+#: ../src/utilops.c:1517
 msgid "Manual rename"
 msgstr "Canviar el nom manualment"
 
-#: ../src/utilops.c:1509
+#: ../src/utilops.c:1522
 msgid "Original name:"
 msgstr "Nom original:"
 
-#: ../src/utilops.c:1512
+#: ../src/utilops.c:1525
 msgid "New name:"
 msgstr "Nou nom:"
 
-#: ../src/utilops.c:1525
+#: ../src/utilops.c:1538
 msgid "Auto rename"
 msgstr "Torna a anomenar automàticament"
 
-#: ../src/utilops.c:1531
+#: ../src/utilops.c:1544
 msgid "Begin text"
 msgstr "Comença un text"
 
-#: ../src/utilops.c:1539 ../src/utilops.c:1571
+#: ../src/utilops.c:1552 ../src/utilops.c:1584
 msgid "Start #"
 msgstr "Inici #"
 
-#: ../src/utilops.c:1545
+#: ../src/utilops.c:1558
 msgid "End text"
 msgstr "Fi del text"
 
-#: ../src/utilops.c:1553
+#: ../src/utilops.c:1566
 msgid "Padding:"
 msgstr "Separació:"
 
-#: ../src/utilops.c:1558
+#: ../src/utilops.c:1571
 msgid "Formatted rename"
 msgstr "Canvi de nom formatat"
 
-#: ../src/utilops.c:1563
+#: ../src/utilops.c:1576
 msgid "Format (* = original name, ## = numbers)"
 msgstr "Format (* = nom original, ## = números)"
 
-#: ../src/utilops.c:1701
+#: ../src/utilops.c:1714
 msgid "Another operation in progress.\n"
 msgstr "Hi ha una altra operació en progrés.\n"
 
-#: ../src/utilops.c:1757
+#: ../src/utilops.c:1770
 #, c-format
 msgid "File: '%s'\n"
 msgstr "Fitxer: '%s'\n"
 
-#: ../src/utilops.c:1762
+#: ../src/utilops.c:1775
 msgid "with sidecar files:\n"
 msgstr "amb fitxers sidecar:\n"
 
-#: ../src/utilops.c:1768
+#: ../src/utilops.c:1781
 #, c-format
 msgid " '%s'\n"
 msgstr "'%s'\n"
 
-#: ../src/utilops.c:1772
+#: ../src/utilops.c:1785
 msgid ""
 "\n"
 "Status: "
@@ -5218,19 +5230,19 @@ msgstr ""
 "\n"
 "Estat: "
 
-#: ../src/utilops.c:1784
+#: ../src/utilops.c:1797
 msgid "no problem detected"
 msgstr "no es detecta cap problema"
 
-#: ../src/utilops.c:1800 ../src/utilops.c:1847
+#: ../src/utilops.c:1813 ../src/utilops.c:1860
 msgid "Exclude file"
 msgstr "Fitxer exclòs"
 
-#: ../src/utilops.c:1845 ../src/utilops.c:1870
+#: ../src/utilops.c:1858 ../src/utilops.c:1883
 msgid "Overview of changed metadata"
 msgstr "Sobrescriptura de les metadades canviades"
 
-#: ../src/utilops.c:1863
+#: ../src/utilops.c:1876
 #, c-format
 msgid ""
 "The following metadata tags will be written to\n"
@@ -5239,100 +5251,100 @@ msgstr ""
 "Les seguents etiquetes de metadades seran escrites amb\n"
 "'%s'."
 
-#: ../src/utilops.c:1867
+#: ../src/utilops.c:1880
 #, c-format
 msgid "The following metadata tags will be written to the image file itself."
 msgstr "Les següents etiquetes de metadades seran escrites al fitxer d'imatge"
 
-#: ../src/utilops.c:1972
+#: ../src/utilops.c:1986
 msgid "Delete files?"
 msgstr "Suprimeix els fitxers?"
 
-#: ../src/utilops.c:1973
+#: ../src/utilops.c:1987
 msgid "This will delete the following files"
 msgstr "Això eliminarà els següents fitxers"
 
-#: ../src/utilops.c:1992
+#: ../src/utilops.c:2006
 msgid "Can't write metadata"
 msgstr "No es pot escriure les metadades"
 
-#: ../src/utilops.c:2015
+#: ../src/utilops.c:2029
 msgid "Write metadata"
 msgstr "Escriu les metadades"
 
-#: ../src/utilops.c:2016
+#: ../src/utilops.c:2030
 msgid "Write metadata?"
 msgstr "Escriu les metadades?"
 
-#: ../src/utilops.c:2017
+#: ../src/utilops.c:2031
 msgid "This will write the changed metadata into the following files"
 msgstr "Això escriurà les metadades modificades als següents fitxers"
 
-#: ../src/utilops.c:2019
+#: ../src/utilops.c:2033
 msgid "Metadata writting failed"
 msgstr "Ha fallat l'escriptura de les metadades"
 
-#: ../src/utilops.c:2038 ../src/utilops.c:2065
+#: ../src/utilops.c:2052 ../src/utilops.c:2079
 msgid "Move failed"
 msgstr "No s'ha pogut moure"
 
-#: ../src/utilops.c:2062
+#: ../src/utilops.c:2076
 msgid "Move files?"
 msgstr "Voleu moure els fitxers?"
 
-#: ../src/utilops.c:2063
+#: ../src/utilops.c:2077
 msgid "This will move the following files"
 msgstr "Això mourà els següents fitxers"
 
-#: ../src/utilops.c:2084 ../src/utilops.c:2111
+#: ../src/utilops.c:2101 ../src/utilops.c:2128
 msgid "Copy failed"
 msgstr "No s'ha pogut copiar"
 
-#: ../src/utilops.c:2108
+#: ../src/utilops.c:2125
 msgid "Copy files?"
 msgstr "Voleu copiar els fitxers?"
 
-#: ../src/utilops.c:2109 ../src/utilops.c:2240
+#: ../src/utilops.c:2126 ../src/utilops.c:2260
 msgid "This will copy the following files"
 msgstr "Aquesta acció copiarà els següents fitxers"
 
-#: ../src/utilops.c:2153 ../src/utilops.c:2616
+#: ../src/utilops.c:2170 ../src/utilops.c:2636
 msgid "Rename"
 msgstr "Torna a anomenar"
 
-#: ../src/utilops.c:2154
+#: ../src/utilops.c:2171
 msgid "Rename files?"
 msgstr "Voleu canviar els noms dels fitxers"
 
-#: ../src/utilops.c:2155
+#: ../src/utilops.c:2172
 msgid "This will rename the following files"
 msgstr "Això canviarà el nom dels següents fitxers"
 
-#: ../src/utilops.c:2204
+#: ../src/utilops.c:2224
 msgid "Can't run external editor"
 msgstr "No es pot executar l'editor extern"
 
-#: ../src/utilops.c:2238
+#: ../src/utilops.c:2258
 msgid "Editor"
 msgstr "Editor"
 
-#: ../src/utilops.c:2239
+#: ../src/utilops.c:2259
 msgid "Run editor?"
 msgstr "Inicia l'editor?"
 
-#: ../src/utilops.c:2242
+#: ../src/utilops.c:2262
 msgid "External command failed"
 msgstr "No s'ha pogut executar la comanda externa"
 
-#: ../src/utilops.c:2411 ../src/utilops.c:2484
+#: ../src/utilops.c:2431 ../src/utilops.c:2504
 msgid "Delete folder"
 msgstr "Elimina la carpeta"
 
-#: ../src/utilops.c:2412
+#: ../src/utilops.c:2432
 msgid "Delete symbolic link?"
 msgstr "Voleu eliminar l'enllaç simbòlic?"
 
-#: ../src/utilops.c:2414
+#: ../src/utilops.c:2434
 msgid ""
 "This will delete the symbolic link.\n"
 "The folder this link points to will not be deleted."
@@ -5340,11 +5352,11 @@ msgstr ""
 "Això esborrarà l'enllaç simbòlic. \n"
 "El contingut de l'enllaç no s'esborrarà."
 
-#: ../src/utilops.c:2416
+#: ../src/utilops.c:2436
 msgid "Link deletion failed"
 msgstr "No es pot suprimir l'enllaç"
 
-#: ../src/utilops.c:2426
+#: ../src/utilops.c:2446
 #, c-format
 msgid ""
 "Unable to remove folder %s\n"
@@ -5353,16 +5365,16 @@ msgstr ""
 "No es pot suprimir la carpeta %s\n"
 "No teniu permisos d'escriptura a la carpeta."
 
-#: ../src/utilops.c:2438 ../src/utilops.c:2495
+#: ../src/utilops.c:2458 ../src/utilops.c:2515
 #, c-format
 msgid "Unable to list contents of folder %s"
 msgstr "No es poden mostrar els continguts de la carpeta %s"
 
-#: ../src/utilops.c:2452 ../src/utilops.c:2460
+#: ../src/utilops.c:2472 ../src/utilops.c:2480
 msgid "Folder contains subfolders"
 msgstr "La carpeta inclou subcarpetes"
 
-#: ../src/utilops.c:2456
+#: ../src/utilops.c:2476
 #, c-format
 msgid ""
 "Unable to delete the folder:\n"
@@ -5378,19 +5390,19 @@ msgstr ""
 "Aquesta carpeta conté subcarpetes que haurien de ser mogudes per poder-la "
 "esborrar."
 
-#: ../src/utilops.c:2464
+#: ../src/utilops.c:2484
 msgid "Subfolders:"
 msgstr "Subcarpetes:"
 
-#: ../src/utilops.c:2485
+#: ../src/utilops.c:2505
 msgid "Delete folder?"
 msgstr "Voleu suprimir la carpeta?"
 
-#: ../src/utilops.c:2486
+#: ../src/utilops.c:2506
 msgid "The folder contains these files:"
 msgstr "La carpeta conté els següents fitxers:"
 
-#: ../src/utilops.c:2487
+#: ../src/utilops.c:2507
 msgid ""
 "This will delete the folder.\n"
 "The contents of this folder will also be deleted."
@@ -5398,87 +5410,87 @@ msgstr ""
 "Això esborrarà la carpeta. \n"
 "El contingut de la carpeta també s'esborrarà."
 
-#: ../src/utilops.c:2617
+#: ../src/utilops.c:2637
 msgid "Rename folder?"
 msgstr "Voleu canviar el nom de la carpeta"
 
-#: ../src/utilops.c:2618
+#: ../src/utilops.c:2638
 msgid "The folder contains the following files"
 msgstr "La carpeta conté els següents fitxers"
 
-#: ../src/utilops.c:2664
+#: ../src/utilops.c:2684
 msgid "Create Folder"
 msgstr "Crea una capreta"
 
-#: ../src/utilops.c:2665
+#: ../src/utilops.c:2685
 msgid "Create folder?"
 msgstr "Voleu crear la carpeta?"
 
-#: ../src/utilops.c:2668
+#: ../src/utilops.c:2688
 msgid "Can't create folder"
 msgstr "No es pot crear la carpeta"
 
-#: ../src/view_dir.c:396
+#: ../src/view_dir.c:397
 msgid "_Copy"
 msgstr "_Copia"
 
-#: ../src/view_dir.c:398
+#: ../src/view_dir.c:399
 msgid "_Move"
 msgstr "_Mou"
 
-#: ../src/view_dir.c:644
+#: ../src/view_dir.c:645
 msgid "_Up to parent"
 msgstr "_Puja una carpeta"
 
-#: ../src/view_dir.c:649
+#: ../src/view_dir.c:650
 msgid "_Slideshow"
 msgstr "Seqüència de _diapositives"
 
-#: ../src/view_dir.c:651
+#: ../src/view_dir.c:652
 msgid "Slideshow recursive"
 msgstr "Seqüència de _diapositives recursiva"
 
-#: ../src/view_dir.c:655
+#: ../src/view_dir.c:656
 msgid "Find _duplicates..."
 msgstr "Busca _duplicats..."
 
-#: ../src/view_dir.c:657
+#: ../src/view_dir.c:658
 msgid "Find duplicates recursive..."
 msgstr "Busca duplicats recursivament..."
 
-#: ../src/view_dir.c:662
+#: ../src/view_dir.c:663
 msgid "_New folder..."
 msgstr "_Nova carpeta..."
 
-#: ../src/view_dir.c:676 ../src/view_file.c:606
+#: ../src/view_dir.c:677 ../src/view_file.c:619
 msgid "View as _List"
 msgstr "Veure com una _Llista"
 
-#: ../src/view_dir.c:679
+#: ../src/view_dir.c:680
 msgid "View as _Tree"
 msgstr "Veure com un _Arbre"
 
-#: ../src/view_dir.c:684
+#: ../src/view_dir.c:685
 msgid "Show _hidden files"
 msgstr "Mostra els fitxers _ocults"
 
-#: ../src/view_dir.c:687 ../src/view_file.c:624
+#: ../src/view_dir.c:688 ../src/view_file.c:637
 msgid "Re_fresh"
 msgstr "Ac_tualitza"
 
-#: ../src/view_file.c:609
+#: ../src/view_file.c:622
 msgid "View as _Icons"
 msgstr "Visualitza com a _icones"
 
-#: ../src/view_file.c:615
+#: ../src/view_file.c:628
 msgid "Show _thumbnails"
 msgstr "Mostra les _miniatures"
 
-#: ../src/view_file_icon.c:2171 ../src/view_file_list.c:826
+#: ../src/view_file_icon.c:2179 ../src/view_file_list.c:899
 msgid " [NO GROUPING]"
 msgstr "[NO S'AGRUPEN]"
 
-#: ../src/view_file_list.c:504
+#: ../src/view_file_list.c:512
 #, c-format
 msgid ""
 "Invalid file name:\n"
@@ -5487,13 +5499,25 @@ msgstr ""
 "Nom de fitxer invàlid:\n"
 "%s"
 
-#: ../src/view_file_list.c:505
+#: ../src/view_file_list.c:513
 msgid "Error renaming file"
 msgstr "Error en canviar el nom del fitxer"
 
-#: ../src/window.c:251
+#: ../src/window.c:252
 msgid "Help"
 msgstr "Ajuda"
+
+#~ msgid "_Image Overlay"
+#~ msgstr "_Imatge sobreposada"
+
+#~ msgid "Open _recent"
+#~ msgstr "Obre _recents"
+
+#~ msgid "Pan _view"
+#~ msgstr "Vista _panoràmica"
+
+#~ msgid "E_xif window"
+#~ msgstr "Finestra E_xif"
 
 #~ msgid "Advanced view"
 #~ msgstr "Vista avançada"
