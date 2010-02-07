@@ -1,7 +1,7 @@
 ###################################################################
-##                          Geeqie 1.0alpha3                     ##
+##                            Geeqie 1.0                         ##
 ##                                                               ##
-##              Copyright (C) 2008 - 2009 The Geeqie Team        ##
+##              Copyright (C) 2008 - 2010 The Geeqie Team        ##
 ##              Copyright (C) 1999 - 2006 John Ellis.            ##
 ##                                                               ##
 ##                      Use at your own risk!                    ##
@@ -62,142 +62,20 @@ minimal. Please report success or  falilures.
         FIXME: minimal version ?
     lirc, for remote control support: http://www.lirc.org/
     	(disable with configure option: '--disable-lirc')
-
+    libchamplain - experimental map support, dissabled by default
+        http://projects.gnome.org/libchamplain/
+        WARNING: this library has a lot of dependencise
+        
 ======== Notes and changes for this release            [section:release_notes]
 
-!!! FIXME Geeqie changes !!!
 See http://geeqie.wiki.sourceforge.net/new_features
 
-The list for Geeqie is quite long - maybe use separate file?
-
-
-  Changes:
-
-    + Add support for color profiles (requires lcms, see Notes).
-    + Add ability to delete a folder and it's contents (with restrictions).
-    - Add support for jpegs embedded in pentax and olympus raw files.
-    - Add icons for image state, enabled with I keyboard shortcut.
-    - For pan view calendar only show months that contain an image.
-    - Make scrolling with overlays (full screen info display) a bit smoother.
-    - Make sort menus display choices as radio group instead of checkbox.
-    - Use white background for transparent images when printing.
-    * Escape filename characters "`$\ before passing them to the system shell
-      when running an editor command.
-    * Fix occasional crash in icon view when removing files.
-    * Always use aligned memory access in EXIF parser, fixes crash
-      with BUS error on sparc.
-    * Fix progress bar warning when removing files while loading thumbnails.
-    * Fix image count in full screen information overlay when in slideshow.
-    * Fix memory leak when unable to start a slideshow.
-
-  Notes:
-
-    For translation status list, see further below.
-
-    Version in parentheses indicates first appearance of feature or change.
-
-
-   	
-    Below are GQView releases:
-    (2.1.5) Add support for color profiles when lcms is installed. To
-    disable color profiles and use of lcms, run configure
-    with '--without-lcms'.
-
-    (2.1.1) Add support for viewing jpeg images and EXIF embedded within
-    raw files for Canon (.crw, .cr2) Fujifilm (.raf), and Nikon (.nef).
-    Note that not all cameras that support a raw format will necessarily
-    save a usable jpeg in the raw file (for example some Nikon cameras only
-    store a tiny thumbnail within the raw .nef file).
-
-    (1.5.6) The "shared thumbnail cache" is a proposal to unify the method
-    of storing thumbnails, so that they are compatible between different
-    applications. Using this option will allow GQview to share it's
-    thumbnails with, and use thumbnails from, other applications. Current
-    releases of GNOME (through nautilus and gthumb) and the gimp use this
-    new thumbnailing system. The latest draft of the thumbnail standard
-    is located on freedesktop.org in the standards section, and links to:
-
-      http://triq.net/~jens/thumbnail-spec/index.html
-
-    The shared thumbnail standard and GQview's classic mechanism can
-    not be used at the same time, enabling the "use shared thumbnail cache"
-    option will disable the use of classic thumbnails and use the new
-    shared thumbnails.
-
-    (1.5.6) Collections contained in $HOME/.gqview/collections are now
-    updated when moving or renaming files, even if the collection is not
-    open at the time.
-
-    (1.5.6) The new option to the keep the full screen window above other
-    windows is only available when using at least GTK+ 2.4.0
-
-    (1.5.5) Dialog buttons are now ordered as recommended by the GNOME HIG.
-    The GNOME Human Interface Guidelines live at:
-       http://developer.gnome.org/projects/gup/hig/
-    To restore the old button order you must be using GTK 2.6 and set
-    the "gtk-alternative-button-order" key to TRUE in the gtkrc file:
-       $HOME/.gtkrc-2.0
-    by changing or adding this line:
-       gtk-alternative-button-order = 1
-
-    (1.5.5) The dithering option is now a hidden option, to change it
-    please refer to section 10.7 of the manual (help -> contents).
-
-    (1.5.0) Keywords and comments can now be entered for a file. Two places
-    allow keyword and comment entry. The first is via the new image details
-    sidebar accessed with (Ctrl-K), and the second is a details tab in the
-    properties dialog. If multiple files are selected, two buttons are
-    available: One allows adding the keywords to the selected files, the
-    other replaces existing keywords with the new keywords.
-
-    Keyword and comment metadata is stored in $(HOME)/.gqview/metadata, and
-    mirrors the existing filesystem tree. Metadata filenames have a suffix
-    of .meta appended. If 'cache into .thumbnails' is enabled, metadata is
-    stored locally to the original file in a hidden subfolder ".metadata".
-    If write permissions do not allow local saving of metadata, GQview falls
-    back to the default $(HOME)/.gqview/metadata location.
-
-    (1.5.0) Search dialog (F3 key) types:
-       Path       searches files in the entered folder.
-       Comments   searches all file metadata stored in ~/.gqview/metadata.
-       Results    searches the current list of results, allowing refinement.
-
-    (1.3.6) Drag and drop has been significantly improved, with a few
-    changes. Button 1 will now initiate a drag, button 2 will still work
-    for this, the difference is button 2 will not change the selection.
-
-    (1.3.6) A middle button click will now toggle selection of clicked item.
-
-    (1.3.5) UTF-8 and filenames: GQview works fine if your filenames
-    correctly match the preferred locale encoding (LANG environment
-    variable), and prints errors on the console when they do not.
-
-    (1.3.3) Safe delete does not include undo, you will need to go to the
-    trash folder and retrieve the file(s) manually. The files can be viewed
-    by clicking the view button near the safe delete option in the preferences
-    window. Files moved to the trash folder are prefixed with a 6 digit
-    number. Lower numbers are older, and deleted (permanently) first when the
-    trash size limit is reached.
-
-    (1.3.2) New in 1.3.2 are sidebars for EXIF data display and a sort
-    manager. EXIF (ctrl + E) should be self explanatory. The Sort manager is a
-    directory list that allows copying or moving the displayed image to that
-    destination with one click of the button - very helpful when visually
-    sorting many images into subdirectories. To edit, reorder, or remove items
-    in the sort list, use the right click menu. The keyboard can also be used
-    by moving the focus to the desired button, then pressing menu/ctrl+f10 key
-    to display the popup menu, or shift+up/shift+down keys to change the
-    button location in the list. Items can also be added to the list by
-    dragging a directory onto the list.
 
   Code hackers:
 
     If you plan on making any major changes to the code that will be offered
     for inclusion to the main source, please contact us first - so that we
-    can avoid duplication of effort. A good example is porting any part of
-    GQview that uses deprecated widgets to GTK2 widgets, there are already
-    several such patches floating around. This is especially true if the
-    change is listed in the TODO!
+    can avoid duplication of effort. 
                                                          The Geeqie Team
 
   Known bugs:
@@ -209,17 +87,6 @@ The list for Geeqie is quite long - maybe use separate file?
   Compilation: ./configure ; make
   General install: make install
   Removal: make uninstall
-
-!!! FIXME !!!
-    - To build an RPM binary:
-
-         on RedHat 6.x, 7.x use 'rpm -tb gqview-x.x.x.tar.gz'.
-         on RedHat 8 and 9 use 'rpmbuild -tb gqview-x.x.x.tar.gz'.
-         on other rpm distros, it depends on which version of rpm is used, if
-         the option fails with the rpm command, try rpmbuild.
-
-      Where the resulting package is placed is distribution specific, for
-      example in RedHat it is placed in /usr/src/redhat/RPMS/{architecture}/
 
 ======== Description / Features
 
@@ -240,8 +107,8 @@ The list for Geeqie is quite long - maybe use separate file?
 
 ======== Documentation (brief)                         [section:documentation]
 
-FIXME: do we need this section? The keyboard configuration dialog should provide
-correct up-to-date list.
+This sections lists default hotkeys. Most of the hotkeys can be redefined 
+in the Preferences dialog.
 
   Keyboard commands:
     [PageDown], [Keypad PageDown]      next image
@@ -269,10 +136,11 @@ correct up-to-date list.
     [Ctrl] - R                         rename file
     [Ctrl] - D, [Delete]               delete file
     [Ctrl] - W                         close window
-    [Ctrl] - Q                         exit GQview
+    [Ctrl] - Q                         exit Geeqie
 
   Edit menu related:
-    [Ctrl] - 1 .. 0                    run external editor
+    1 .. 6                             toggle mark
+    [Ctrl] - 1..6                      select mark
     [Ctrl] - A                         select all files
     [Ctrl] - [Shift] - A               unselect all files
     [Ctrl] - P                         display image properties window
@@ -291,8 +159,6 @@ correct up-to-date list.
     X, [Keypad *]                      zoom to fit within window
     W                                  zoom to fit width of window
     H                                  zoom to fit height of window
-    1, 2, 3, 4                         zoom to Nx (3 = 3x)
-    9, 8, 7                            zoom to -2, -3, -4, respectively
     T                                  toggle thumbnails in list view
     [Ctrl] - L                         display files as list view
     [Ctrl] - I                         display files as icon view
@@ -300,8 +166,8 @@ correct up-to-date list.
     R                                  refresh list
     L                                  (Un)float file selection area
     [ctrl] - H                         (Un)hide file selection area
-    [Ctrl] - K                         toggle Keywords sidebar
-    [Ctrl] - E                         toggle EXIF sidebar
+    [Ctrl] - K                         toggle sidebar with EXIF or keywords
+    [Ctrl] - E                         show EXIF window
     [Ctrl] - S                         toggle sort manager sidebar
     F, V                               toggle full screen
     S                                  toggle slide show
@@ -336,7 +202,6 @@ correct up-to-date list.
 
     [Enter], [Keypad Enter]            view image with focus in main window
     V                                  view image with focus in new window
-    [Ctrl] - 1 .. 0                    open selected image(s) in editor
 
     S                                  save collection
     [Ctrl] - S                         save collection as...
@@ -403,9 +268,7 @@ correct up-to-date list.
 ======== Editor command macros                               [section:editors]
 
 Editors are configured via standard desktop files, see
-http://standards.freedesktop.org/desktop-entry-spec/latest/
-
-FIXME: Geeqie extensions
+https://sourceforge.net/apps/trac/geeqie/wiki/GuideEditorsConfig
 
 
 ======== Overlay Info                                        [section:overlay]
@@ -470,27 +333,6 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
   "%formatted.ISOSpeedRating:ISO *%"      -> ie. "ISO 100"
   "Collection <b>*</b>\n" -> display collection name in bold prefixed by
                              "Collection " and a newline is appended
-
-
-======== Additional comments:
-
-FIXME: here are some changes
-
-  Hidden options:
-    These options are not adjustable in the preferences window, to change
-    them edit $(HOME)/.geeqie/geeqierc while Geeqie is not running. An option
-    becomes 'hidden' when it is removed from the user's visibility, and
-    only remains so that those few users that really want it will not complain
-    about it's removal :)
-
-  lazy_image_sync: false
-    Set true to enable the old behavior of lazy image updates when changing
-    directories. (viewed image will remain until a new file is selected)
-
-  display_dialogs_under_mouse: false
-    Set true to force dialogs to display under the current mouse position,
-    note that this goes against the preference set for the window manager.
-
 
 
 ======== Credits                                             [section:credits]
@@ -678,51 +520,4 @@ FIXME: here are some changes
      And...
          Thanks to the users for finding Geeqie useful.
 
-
-======== Translation status:
-
-   Please send po files/patches in gzipped form to ensure data integrity.
-
-Translations statistics
-Date: Fri, 05 Sep 2008 00:30:54 +0200
-
-Note: completion % in the chart below may not be quite correct
-      when fuzzy translations exist but do not appear in the source.
-      For exact results, run make update-po with up to date POTFILES.in.
-      comp % = trans / (trans + fuzzy + untrans)
-
-Language      Comp(%)  Trans  Fuzzy  Untrans  Total
-fr             100.00    996      0        0    996
-be              82.43    821     77       98    996
-ru              71.99    717    128      151    996
-eu              62.05    618    185      193    996
-eo              61.95    617    186      193    996
-vi              61.85    616    192      188    996
-it              61.65    614    187      195    996
-pt_BR           61.65    614    187      195    996
-zh_TW           60.84    606    183      207    996
-sk              60.34    601    192      203    996
-fi              58.23    580    211      205    996
-nl              58.23    580    214      202    996
-sv              58.03    578    207      211    996
-bg              57.93    577    208      211    996
-ca              57.93    577    208      211    996
-cs              57.93    577    208      211    996
-de              57.93    577    208      211    996
-es              57.93    577    208      211    996
-ja              57.93    577    208      211    996
-pl              55.32    551    180      265    996
-ar              38.86    387    332      277    996
-ro              34.34    342    352      302    996
-hu              32.93    328    342      326    996
-id              17.17    171    412      413    996
-et              16.77    167    411      418    996
-uk              14.86    148    413      435    996
-nb              13.76    137    418      441    996
-zh_CN.GB2312    13.76    137    419      440    996
-th              12.95    129    413      454    996
-sl              12.55    125    422      449    996
-da              11.85    118    406      472    996
-ko              11.04    110     65      821    996
-tr               4.92     49    395      552    996
 
