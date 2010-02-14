@@ -2744,11 +2744,15 @@ static gboolean file_util_write_metadata_first(UtilityType type, UtilityPhase ph
 		FileData *fd = work->data;
 		work = work->next;
 		
-		if (fd->change) return FALSE; /* another op. in progress, let the caller handle it */
+		if (fd->change) 
+			{
+			filelist_free(unsaved);
+			return FALSE; /* another op. in progress, let the caller handle it */
+			}
 		
 		if (fd->modified_xmp) /* has unsaved metadata */
 			{
-			unsaved = g_list_prepend(unsaved, fd);
+			unsaved = g_list_prepend(unsaved, file_data_ref(fd));
 			}
 		}
 	
