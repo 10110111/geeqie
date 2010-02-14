@@ -1458,6 +1458,7 @@ gchar *exif_item_get_data_as_text(ExifItem *item)
 gint exif_item_get_integer(ExifItem *item, gint *value)
 {
 	if (!item) return FALSE;
+	if (!item->elements) return FALSE;
 
 	switch (item->format)
 		{
