@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * Copyright (C) 2008 - 2009 The Geeqie Team
+ * Copyright (C) 2008 - 2010 The Geeqie Team
  *
  * Author: Vladimir Nadvornik
  * based on a patch by Uwe Ohse

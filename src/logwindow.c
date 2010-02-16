@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * Copyright (C) 2008 - 2009 The Geeqie Team
+ * Copyright (C) 2008 - 2010 The Geeqie Team
  *
  * Author: Vladimir Nadvornik, Laurent Monin
  * based on logwindow.[ch] from Sylpheed 2.4.7 (C) Hiroyuki Yamamoto

@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2005 John Ellis
- * Copyright (C) 2008 - 2009 The Geeqie Team
+ * Copyright (C) 2008 - 2010 The Geeqie Team
  *
  * This software is released under the GNU General Public License (GNU GPL).
  * Please read the included file COPYING for more information.
