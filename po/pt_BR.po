@@ -1,8 +1,13 @@
+# geeqie pt_BR.po file.
+#
+# Created by Guilherme M. Schroeder <slump@linuxall.org>, 2001.
+# Updated by Herval Ribeiro de Azevêdo <heraze@gmail.com>, 2005.
+# Updated by Sérgio Cipolla <secipolla@gmail.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: Geeqie 2.1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-02 21:16+0100\n"
+"POT-Creation-Date: 2010-02-16 21:05+0100\n"
 "PO-Revision-Date: 2010-01-31 12:15-0300\n"
 "Last-Translator: Sérgio Cipolla <secipolla@gmail.com>\n"
 "Language-Team: Brazilian Portuguese\n"
