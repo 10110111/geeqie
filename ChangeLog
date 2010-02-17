@@ -1,4 +1,673 @@
 ------------------------------------------------------------------------
+r1907 | nadvornik | 2010-02-16 22:18:03 +0100 (Tue, 16 Feb 2010) | 2 lines
+
+added 2010 to copyright text
+
+------------------------------------------------------------------------
+r1906 | nadvornik | 2010-02-16 22:10:12 +0100 (Tue, 16 Feb 2010) | 2 lines
+
+updated version string
+
+------------------------------------------------------------------------
+r1905 | zas_ | 2010-02-16 21:07:05 +0100 (Tue, 16 Feb 2010) | 1 line
+
+Restore translators list, removed by revision 1899.
+------------------------------------------------------------------------
+r1904 | zas_ | 2010-02-16 20:55:35 +0100 (Tue, 16 Feb 2010) | 1 line
+
+Update russian translation. Thanks to Denis Silakov.
+------------------------------------------------------------------------
+r1903 | nadvornik | 2010-02-14 23:00:23 +0100 (Sun, 14 Feb 2010) | 4 lines
+
+fixed segfault in exif parser
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=2950617&group_id=222125&atid=1054682
+
+------------------------------------------------------------------------
+r1902 | nadvornik | 2010-02-14 22:35:11 +0100 (Sun, 14 Feb 2010) | 6 lines
+
+fixed reference count
+
+there was a bug in reference count on writting unsaved metadata
+before starting an external editor
+
+
+------------------------------------------------------------------------
+r1901 | nadvornik | 2010-02-07 14:16:35 +0100 (Sun, 07 Feb 2010) | 2 lines
+
+test gnome-doc-tool in configure
+
+------------------------------------------------------------------------
+r1900 | nadvornik | 2010-02-07 13:44:55 +0100 (Sun, 07 Feb 2010) | 2 lines
+
+dropped obsolete sections, gqview changelog moved to wiki
+
+------------------------------------------------------------------------
+r1899 | zas_ | 2010-02-02 21:21:11 +0100 (Tue, 02 Feb 2010) | 9 lines
+
+Brazilian Portuguese translation was updated. 
+
+Thanks to Sergio Cipolla.
+
+References:
+http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=567824
+
+
+
+------------------------------------------------------------------------
+r1898 | nadvornik | 2010-01-27 23:27:10 +0100 (Wed, 27 Jan 2010) | 2 lines
+
+czech translation fixes
+
+------------------------------------------------------------------------
+r1897 | zas_ | 2010-01-27 20:58:11 +0100 (Wed, 27 Jan 2010) | 1 line
+
+Update catalan translation, by angel mompo.
+------------------------------------------------------------------------
+r1896 | zas_ | 2010-01-17 14:34:48 +0100 (Sun, 17 Jan 2010) | 1 line
+
+Fix osd zoom level refreshing (it was broken since some times).
+------------------------------------------------------------------------
+r1895 | zas_ | 2010-01-13 20:49:39 +0100 (Wed, 13 Jan 2010) | 5 lines
+
+Update dutch translation. Work in progress.
+
+Patch by Marcel Pol.
+
+
+------------------------------------------------------------------------
+r1894 | mow | 2010-01-11 15:10:49 +0100 (Mon, 11 Jan 2010) | 1 line
+
+Wops, typo...
+------------------------------------------------------------------------
+r1893 | zas_ | 2010-01-10 15:23:29 +0100 (Sun, 10 Jan 2010) | 10 lines
+
+copy_file(): remove incomplete file on error (bug 2890715)
+
+The behavior changed, data is first written to a temporary file,
+which is unlinked in case of error, then the tempfile is renamed
+to the final name.
+Size of buffer was increased from 4k to 16k.
+
+
+
+
+------------------------------------------------------------------------
+r1892 | zas_ | 2010-01-09 12:44:27 +0100 (Sat, 09 Jan 2010) | 1 line
+
+Workaround intltoolize 0.40.6 bug related to LINGUAS, see bug 2817602.
+------------------------------------------------------------------------
+r1891 | zas_ | 2010-01-09 11:37:48 +0100 (Sat, 09 Jan 2010) | 1 line
+
+Log a message when EOVERFLOW error is set by stat() when building files lists. See bug 2876142.
+------------------------------------------------------------------------
+r1890 | zas_ | 2010-01-05 23:28:11 +0100 (Tue, 05 Jan 2010) | 8 lines
+
+Add Serbian translation.
+
+Note there are two *.po files, one for Cyrilic and one for Latin
+letters.
+
+Thanks to Milos Popovic.
+
+
+------------------------------------------------------------------------
+r1889 | zas_ | 2010-01-05 23:26:03 +0100 (Tue, 05 Jan 2010) | 1 line
+
+Update README about translations.
+------------------------------------------------------------------------
+r1888 | zas_ | 2010-01-05 18:49:50 +0100 (Tue, 05 Jan 2010) | 13 lines
+
+Allow to switch to fullscreen mode using LIRC.
+
+Imagine the following situation (which happened to me several times) :
+you want to see photos from your bed or your sofa so you launch geeqie
+and go to the right directory, then you take your remote control and sit
+comfortably far from your keyboard and mouse. And when you want to begin
+to watch photos, you realize you forgot to enable full screen! You have
+to stand up and to go until your computer and come back, whereas you
+could have done it with your remote control.
+
+Patch by Bernard Massot.
+
+
+------------------------------------------------------------------------
+r1887 | zas_ | 2010-01-02 13:38:55 +0100 (Sat, 02 Jan 2010) | 1 line
+
+Get rid of Geeqie version and beta release message. It clutters command line usage, and is not that useful. Suggested by Michal ?\196?\140iha?\197?\153.
+------------------------------------------------------------------------
+r1881 | zas_ | 2009-12-19 13:53:20 +0100 (Sat, 19 Dec 2009) | 9 lines
+
+Fix bug 2917164.
+g_utf8_collate_key_for_filename() don't give sort order one
+may expect. Using g_utf8_collate_key() make things closer
+to many other programs output (ie. ls and gqview).
+
+Thanks to Michael pointing this out.
+
+
+
+------------------------------------------------------------------------
+r1880 | zas_ | 2009-12-19 13:49:19 +0100 (Sat, 19 Dec 2009) | 1 line
+
+Store sort parameters in appropriate variables.
+------------------------------------------------------------------------
+r1879 | zas_ | 2009-12-10 18:48:43 +0100 (Thu, 10 Dec 2009) | 4 lines
+
+Move "Add Keyword" menu item at top of Keywords bar contextual menu.
+
+Suggested by Lars T?\195?\164uber.
+
+------------------------------------------------------------------------
+r1878 | zas_ | 2009-12-10 18:44:31 +0100 (Thu, 10 Dec 2009) | 7 lines
+
+Fix contextual menus in lateral bars.
+
+Use button_release_event instead of button_press_event,
+this makes contextual menus persistent until an option
+is selected or the menu is closed.
+
+
+------------------------------------------------------------------------
+r1877 | zas_ | 2009-12-04 22:01:11 +0100 (Fri, 04 Dec 2009) | 1 line
+
+Some systems do not have SA_SIGINFO (siginfo_t), like GNU/Hurd, so just test if defined or not. Patch by Michal ?\196?\140iha?\197?\153 (Bug ID: 2894271).
+------------------------------------------------------------------------
+r1876 | zas_ | 2009-12-04 21:40:02 +0100 (Fri, 04 Dec 2009) | 1 line
+
+Editors: disable Delete button if a .desktop file is not writeable and disable Edit button when no entry is selected.
+------------------------------------------------------------------------
+r1875 | zas_ | 2009-12-04 20:45:09 +0100 (Fri, 04 Dec 2009) | 1 line
+
+Add Opera to the list of browsers. Patch by Christian Heckendorf (feature request ID: 2908469).
+------------------------------------------------------------------------
+r1874 | nadvornik | 2009-11-28 00:27:35 +0100 (Sat, 28 Nov 2009) | 2 lines
+
+build documentation with gnome-doc-tool in makefile
+
+------------------------------------------------------------------------
+r1873 | nadvornik | 2009-11-22 10:12:22 +0100 (Sun, 22 Nov 2009) | 2 lines
+
+scripts for converting wiki documentation to docbook
+
+------------------------------------------------------------------------
+r1872 | nadvornik | 2009-11-21 21:08:51 +0100 (Sat, 21 Nov 2009) | 5 lines
+
+check gtk_clutter_init return value
+
+https://sourceforge.net/tracker/index.php?func=detail&aid=2899866&group_id=222125&atid=1054680
+
+
+------------------------------------------------------------------------
+r1871 | nadvornik | 2009-11-18 13:34:30 +0100 (Wed, 18 Nov 2009) | 2 lines
+
+changed https to http in wiki links
+
+------------------------------------------------------------------------
+r1870 | zas_ | 2009-11-13 19:37:31 +0100 (Fri, 13 Nov 2009) | 1 line
+
+Spanish translation was updated. Thanks to Redy Rodriguez.
+------------------------------------------------------------------------
+r1869 | zas_ | 2009-11-07 22:31:23 +0100 (Sat, 07 Nov 2009) | 1 line
+
+Updated spanish translation. Thanks to Redy Rodriguez.
+------------------------------------------------------------------------
+r1868 | mow | 2009-10-13 23:49:42 +0200 (Tue, 13 Oct 2009) | 1 line
+
+German translation update
+------------------------------------------------------------------------
+r1867 | mow | 2009-10-13 23:49:21 +0200 (Tue, 13 Oct 2009) | 8 lines
+
+Add compatibility for GTK 2.18
+
+With 2.18 some functions are deprecated. With geeqie that are two at the
+moment.
+- gtk_tree_view_column_get_cell_renderers - which can be replaced by
+  gtk_cell_layout_get_cells
+- gdk_event_get_graphics_expose - I just commented it as there seems to
+  be no replacement in GTK 2.18
+------------------------------------------------------------------------
+r1866 | nadvornik | 2009-10-10 17:01:41 +0200 (Sat, 10 Oct 2009) | 2 lines
+
+added a workaround for https://bugzilla.gnome.org/show_bug.cgi?id=590692
+
+------------------------------------------------------------------------
+r1865 | nadvornik | 2009-10-10 12:15:23 +0200 (Sat, 10 Oct 2009) | 4 lines
+
+use text renderer for editor->hidden
+
+The toggle was too confusing because it was not dirrectly editable.
+
+------------------------------------------------------------------------
+r1864 | nadvornik | 2009-10-01 20:40:34 +0200 (Thu, 01 Oct 2009) | 7 lines
+
+ignored multiple directories specified on commandline
+
+IMHO this was inconsistent - specifying one directory had completely
+different effect than specifying two or more directories. Moreover,
+it segfaulted.
+Now only one directory is allowed.
+
+------------------------------------------------------------------------
+r1863 | nadvornik | 2009-10-01 19:37:51 +0200 (Thu, 01 Oct 2009) | 2 lines
+
+fixed tree_store reordering
+
+------------------------------------------------------------------------
+r1862 | nadvornik | 2009-09-28 14:04:35 +0200 (Mon, 28 Sep 2009) | 2 lines
+
+do not cache incomplete thumbnails
+
+------------------------------------------------------------------------
+r1861 | nadvornik | 2009-09-28 11:57:06 +0200 (Mon, 28 Sep 2009) | 2 lines
+
+consider sidecars in layout_image popup menu
+
+------------------------------------------------------------------------
+r1860 | nadvornik | 2009-09-26 13:37:09 +0200 (Sat, 26 Sep 2009) | 6 lines
+
+bar_gps cleanup
+
+- removed the scrollbar
+- do not set decel-rate,
+  https://bugzilla.gnome.org/show_bug.cgi?id=596419
+
+------------------------------------------------------------------------
+r1859 | nadvornik | 2009-09-26 10:47:28 +0200 (Sat, 26 Sep 2009) | 8 lines
+
+print text using pango renderer
+
+- the text is sent to postscript as a bitmap
+- this fixes printing of non-ascii characters
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=2836135&group_id=222125&atid=1054680
+
+
+------------------------------------------------------------------------
+r1858 | nadvornik | 2009-09-25 22:39:15 +0200 (Fri, 25 Sep 2009) | 8 lines
+
+require libchamplain 0.4
+
+- check for libchamplain 0.4
+- dropped libchamplain 0.3.x support
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=2861847&group_id=222125&atid=1054680
+
+
+------------------------------------------------------------------------
+r1857 | nadvornik | 2009-09-24 23:52:44 +0200 (Thu, 24 Sep 2009) | 2 lines
+
+fixed and simplified sidecar grouping code
+
+------------------------------------------------------------------------
+r1856 | nadvornik | 2009-09-24 20:02:29 +0200 (Thu, 24 Sep 2009) | 2 lines
+
+fixed emitting of error signal from image loader
+
+------------------------------------------------------------------------
+r1855 | nadvornik | 2009-09-21 20:48:32 +0200 (Mon, 21 Sep 2009) | 5 lines
+
+fixed pan-view popup menu
+
+- removed wrong callback
+- consider sidecar files in the editor popup
+
+------------------------------------------------------------------------
+r1854 | nadvornik | 2009-09-14 23:25:10 +0200 (Mon, 14 Sep 2009) | 2 lines
+
+fixed selection handling in sidebar
+
+------------------------------------------------------------------------
+r1853 | nadvornik | 2009-09-13 23:08:40 +0200 (Sun, 13 Sep 2009) | 5 lines
+
+fixed editor list in popup menu
+
+- show an editor if any of selected files matches
+- added debug messages
+
+------------------------------------------------------------------------
+r1852 | nadvornik | 2009-09-13 23:03:17 +0200 (Sun, 13 Sep 2009) | 2 lines
+
+fixed incorrect translation
+
+------------------------------------------------------------------------
+r1851 | nadvornik | 2009-09-13 22:00:08 +0200 (Sun, 13 Sep 2009) | 2 lines
+
+fixed filelist refresh
+
+------------------------------------------------------------------------
+r1850 | nadvornik | 2009-09-13 14:33:11 +0200 (Sun, 13 Sep 2009) | 2 lines
+
+preserve histmap on NOTIFY_CHANGE
+
+------------------------------------------------------------------------
+r1849 | nadvornik | 2009-09-13 11:55:21 +0200 (Sun, 13 Sep 2009) | 2 lines
+
+added possibility to use geeqie-rotate as a standalone script
+
+------------------------------------------------------------------------
+r1848 | nadvornik | 2009-09-12 18:37:05 +0200 (Sat, 12 Sep 2009) | 2 lines
+
+strip the "lang=" prefix from exiv2 in all metadata formats
+
+------------------------------------------------------------------------
+r1847 | nadvornik | 2009-09-12 18:03:09 +0200 (Sat, 12 Sep 2009) | 2 lines
+
+simplified template
+
+------------------------------------------------------------------------
+r1846 | nadvornik | 2009-09-12 17:51:37 +0200 (Sat, 12 Sep 2009) | 5 lines
+
+editor fixes
+
+- fixed editor loading order
+- fixed EditorWindow->modified flag handling
+
+------------------------------------------------------------------------
+r1845 | nadvornik | 2009-09-12 17:31:24 +0200 (Sat, 12 Sep 2009) | 2 lines
+
+fixed reloading of editors
+
+------------------------------------------------------------------------
+r1844 | nadvornik | 2009-09-09 20:16:09 +0200 (Wed, 09 Sep 2009) | 2 lines
+
+advertisment added
+
+------------------------------------------------------------------------
+r1843 | nadvornik | 2009-09-07 22:44:29 +0200 (Mon, 07 Sep 2009) | 5 lines
+
+start_editor_from_filelist_full fixes
+
+fixed return value from start_editor_from_filelist_full()
+call editor_command_parse to detect possible problems early enough
+
+------------------------------------------------------------------------
+r1842 | nadvornik | 2009-09-07 22:04:22 +0200 (Mon, 07 Sep 2009) | 2 lines
+
+fixed list of possible editors in popup menu
+
+------------------------------------------------------------------------
+r1841 | nadvornik | 2009-09-07 21:48:05 +0200 (Mon, 07 Sep 2009) | 5 lines
+
+fixes sidecar file grouping
+
+files with a number in extension were listed twice, it 
+caused problems later
+
+------------------------------------------------------------------------
+r1840 | zas_ | 2009-09-07 10:24:09 +0200 (Mon, 07 Sep 2009) | 1 line
+
+Comment out unused functions, silenting related compilation warnings.
+------------------------------------------------------------------------
+r1839 | zas_ | 2009-09-07 10:18:18 +0200 (Mon, 07 Sep 2009) | 1 line
+
+Remove an unused variable and minor code cleanup.
+------------------------------------------------------------------------
+r1838 | nadvornik | 2009-09-06 16:29:19 +0200 (Sun, 06 Sep 2009) | 2 lines
+
+improved editor loading
+
+------------------------------------------------------------------------
+r1837 | nadvornik | 2009-09-06 16:21:19 +0200 (Sun, 06 Sep 2009) | 2 lines
+
+fixed unnecessary image reloads in color menu
+
+------------------------------------------------------------------------
+r1836 | nadvornik | 2009-09-06 16:01:03 +0200 (Sun, 06 Sep 2009) | 9 lines
+
+load desktop files in idle time
+
+- scanning all desktop files takes a lot of time because of hdd seek
+- this change moves the scanning to idle time
+- the editors appears in the menus some time after startup
+
+https://sourceforge.net/tracker/index.php?func=detail&aid=2852522&group_id=222125&atid=1054680
+
+
+------------------------------------------------------------------------
+r1835 | nadvornik | 2009-09-06 11:08:37 +0200 (Sun, 06 Sep 2009) | 2 lines
+
+added messages for debugging startup time
+
+------------------------------------------------------------------------
+r1834 | zas_ | 2009-09-05 15:48:21 +0200 (Sat, 05 Sep 2009) | 1 line
+
+Update svn ignore lists.
+------------------------------------------------------------------------
+r1833 | zas_ | 2009-09-04 17:53:04 +0200 (Fri, 04 Sep 2009) | 5 lines
+
+Fix up compilation issues related to libchamplain.
+
+See http://sourceforge.net/tracker/index.php?func=detail&aid=2848469&group_id=222125&atid=1054680
+
+
+------------------------------------------------------------------------
+r1832 | nadvornik | 2009-09-03 22:00:40 +0200 (Thu, 03 Sep 2009) | 2 lines
+
+fixed in-place rename
+
+------------------------------------------------------------------------
+r1831 | nadvornik | 2009-09-03 21:18:20 +0200 (Thu, 03 Sep 2009) | 5 lines
+
+do not reload image on copy, move, rename and external editor
+
+changed files should be detected anyway
+http://sourceforge.net/tracker/index.php?func=detail&aid=2848373&group_id=222125&atid=1054680
+
+------------------------------------------------------------------------
+r1830 | nadvornik | 2009-08-29 01:09:05 +0200 (Sat, 29 Aug 2009) | 2 lines
+
+fixed vd_notify_cb leak
+
+------------------------------------------------------------------------
+r1829 | nadvornik | 2009-08-28 23:01:29 +0200 (Fri, 28 Aug 2009) | 2 lines
+
+improved printing of selection
+
+------------------------------------------------------------------------
+r1828 | nadvornik | 2009-08-28 22:18:46 +0200 (Fri, 28 Aug 2009) | 2 lines
+
+improved the sidecar grouping algorithm
+
+------------------------------------------------------------------------
+r1827 | nadvornik | 2009-08-27 22:23:28 +0200 (Thu, 27 Aug 2009) | 4 lines
+
+fixed toggle_slideshow function
+
+https://sourceforge.net/tracker/index.php?func=detail&aid=2844302&group_id=222125&atid=1054680
+
+------------------------------------------------------------------------
+r1826 | nadvornik | 2009-08-26 21:19:06 +0200 (Wed, 26 Aug 2009) | 2 lines
+
+updated version message
+
+------------------------------------------------------------------------
+r1825 | nadvornik | 2009-08-26 21:16:02 +0200 (Wed, 26 Aug 2009) | 2 lines
+
+save one unnecessary call to stat_utf8
+
+------------------------------------------------------------------------
+r1824 | nadvornik | 2009-08-26 00:21:46 +0200 (Wed, 26 Aug 2009) | 4 lines
+
+use name as a tooltip of external editor if comment is missing
+
+the hotkey dialog ignores entries with empty tooltip
+
+------------------------------------------------------------------------
+r1823 | nadvornik | 2009-08-25 23:30:50 +0200 (Tue, 25 Aug 2009) | 7 lines
+
+write metadata before another opeation
+
+- this is implemented for copy and external editor
+- the unsaved metadata should survive operations like move or rename
+- saving metadata before delete is pointless
+
+
+------------------------------------------------------------------------
+r1822 | nadvornik | 2009-08-23 16:10:56 +0200 (Sun, 23 Aug 2009) | 4 lines
+
+workaround for xpm loader
+
+https://sourceforge.net/tracker/?func=detail&aid=2824016&group_id=222125&atid=1054680
+
+------------------------------------------------------------------------
+r1821 | nadvornik | 2009-08-23 15:37:15 +0200 (Sun, 23 Aug 2009) | 4 lines
+
+fixed moving and maintenance of std. thumbnails
+
+https://sourceforge.net/tracker/?func=detail&aid=2836224&group_id=222125&atid=1054680
+
+------------------------------------------------------------------------
+r1820 | nadvornik | 2009-08-22 23:58:49 +0200 (Sat, 22 Aug 2009) | 2 lines
+
+remove deleted files from metadata queue
+
+------------------------------------------------------------------------
+r1819 | nadvornik | 2009-08-22 22:20:19 +0200 (Sat, 22 Aug 2009) | 6 lines
+
+fixed sidecar grouping
+
+this fixes grouping of files which differs only
+in upper/lowercase extension. The old code stopped scanning
+when the first file was found.
+
+------------------------------------------------------------------------
+r1818 | nadvornik | 2009-08-18 22:19:23 +0200 (Tue, 18 Aug 2009) | 2 lines
+
+fixed possible crash in exif_item_get_integer
+
+------------------------------------------------------------------------
+r1817 | nadvornik | 2009-08-03 22:47:14 +0200 (Mon, 03 Aug 2009) | 2 lines
+
+updated links
+
+------------------------------------------------------------------------
+r1816 | mow | 2009-08-03 14:34:57 +0200 (Mon, 03 Aug 2009) | 1 line
+
+Fixing libexiv2 bug
+------------------------------------------------------------------------
+r1815 | mow | 2009-08-02 00:37:57 +0200 (Sun, 02 Aug 2009) | 3 lines
+
+Fix a small problem with casefull keywords
+
+In @1636 I miss one check for keyword case. Now it should be all fixed.
+------------------------------------------------------------------------
+r1814 | mow | 2009-08-02 00:37:37 +0200 (Sun, 02 Aug 2009) | 1 line
+
+This function is never used anymore: file_maint_removed
+------------------------------------------------------------------------
+r1813 | nadvornik | 2009-07-31 22:46:55 +0200 (Fri, 31 Jul 2009) | 2 lines
+
+updated project status
+
+------------------------------------------------------------------------
+r1812 | nadvornik | 2009-07-31 22:31:56 +0200 (Fri, 31 Jul 2009) | 4 lines
+
+added project web page under version control
+
+
+
+------------------------------------------------------------------------
+r1811 | zas_ | 2009-07-30 19:59:20 +0200 (Thu, 30 Jul 2009) | 1 line
+
+Some systems (BSD,MacOsX,HP-UX,...) define MAP_ANON and not MAP_ANONYMOUS. Make each an alias of other to be sure. issue reported by Martin Proetzsch.
+------------------------------------------------------------------------
+r1810 | nadvornik | 2009-07-29 23:03:38 +0200 (Wed, 29 Jul 2009) | 2 lines
+
+updated czech translation
+
+------------------------------------------------------------------------
+r1809 | nadvornik | 2009-07-29 00:27:24 +0200 (Wed, 29 Jul 2009) | 4 lines
+
+improved scroll on slower machines
+
+patch by Stanislav Brabec
+
+------------------------------------------------------------------------
+r1808 | nadvornik | 2009-07-29 00:14:26 +0200 (Wed, 29 Jul 2009) | 4 lines
+
+do not process sidecar files in bar_gps
+
+patch by Colin Clark
+
+------------------------------------------------------------------------
+r1807 | nadvornik | 2009-07-29 00:03:54 +0200 (Wed, 29 Jul 2009) | 2 lines
+
+run the scripts with /bin/sh
+
+------------------------------------------------------------------------
+r1806 | zas_ | 2009-07-25 10:23:23 +0200 (Sat, 25 Jul 2009) | 1 line
+
+French translation was updated.
+------------------------------------------------------------------------
+r1805 | zas_ | 2009-07-25 10:13:13 +0200 (Sat, 25 Jul 2009) | 1 line
+
+Remove some bashisms from configure.in. Patch by Greg Troxel.
+------------------------------------------------------------------------
+r1804 | zas_ | 2009-07-25 10:00:07 +0200 (Sat, 25 Jul 2009) | 1 line
+
+Romanian translation was completed. Thanks to Sabin Iacob.
+------------------------------------------------------------------------
+r1803 | nadvornik | 2009-07-24 16:07:54 +0200 (Fri, 24 Jul 2009) | 2 lines
+
+update column sizes after toggling thumbnails
+
+------------------------------------------------------------------------
+r1802 | nadvornik | 2009-07-24 15:32:37 +0200 (Fri, 24 Jul 2009) | 2 lines
+
+fixed switching of multiline texts
+
+------------------------------------------------------------------------
+r1801 | nadvornik | 2009-07-24 14:56:54 +0200 (Fri, 24 Jul 2009) | 5 lines
+
+do not try to reload deleted image
+
+deleted image is replaced by the next one from the list, keep
+the old image displayed until the new one is set
+
+------------------------------------------------------------------------
+r1800 | nadvornik | 2009-07-24 14:45:42 +0200 (Fri, 24 Jul 2009) | 6 lines
+
+call gtk_tree_view_columns_autosize only when reall needed
+
+gtk_tree_view_columns_autosize is rather expensive, call it only
+afrer directory change or after user-requested refresh
+
+
+------------------------------------------------------------------------
+r1799 | nadvornik | 2009-07-24 14:21:23 +0200 (Fri, 24 Jul 2009) | 5 lines
+
+do not use cell_data_func
+
+cell_data_func is too slow, store formatted string in the tree_store
+instead
+
+------------------------------------------------------------------------
+r1798 | nadvornik | 2009-07-21 16:17:01 +0200 (Tue, 21 Jul 2009) | 10 lines
+
+fixed destroying of menu data
+
+Make sure that menu destroy functions do not access parent widget
+structures that are already destroyed
+There are 2 ways to achieve this:
+- use g_signal_handlers_disconnect_matched() like in vf_destroy_cb()
+- use separate data structure passed to *_popup_menu_destroy_cb()
+  like in img-view.
+
+
+------------------------------------------------------------------------
+r1797 | mow | 2009-07-18 10:16:54 +0200 (Sat, 18 Jul 2009) | 4 lines
+
+Fix a overrun
+
+data_offset + data_length could be bigger than guint which makes the
+calculation overflow to a value smaller then size.
+------------------------------------------------------------------------
+r1795 | nadvornik | 2009-07-02 19:37:05 +0200 (Thu, 02 Jul 2009) | 2 lines
+
+updated ChangeLog file
+
+------------------------------------------------------------------------
 r1794 | nadvornik | 2009-07-02 19:31:38 +0200 (Thu, 02 Jul 2009) | 2 lines
 
 updated ca.po - submitted by Mecatxis
