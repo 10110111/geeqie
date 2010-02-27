@@ -116,7 +116,7 @@ const gchar *text_from_time(time_t t)
 	btime = localtime(&t);
 
 	/* the %x warning about 2 digit years is not an error */
-	buflen = strftime(buf, sizeof(buf), "%x %H:%M", btime);
+	buflen = strftime(buf, sizeof(buf), "%x %X", btime);
 	if (buflen < 1) return "";
 
 	g_free(ret);

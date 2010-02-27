@@ -9,6 +9,8 @@
 #  include "config.h"
 #endif
 
+#define _XOPEN_SOURCE
+
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
@@ -188,6 +190,11 @@ static gchar *exif_build_formatted_DateTime(ExifData *exif)
 {
 	gchar *text = exif_get_data_as_text(exif, "Exif.Photo.DateTimeOriginal");
 	gchar *subsec = NULL;
+	gchar buf[128];
+	gchar *tmp;
+	gint buflen;
+	struct tm tm;
+	GError *error = NULL;
 
 	if (text)
 		{
@@ -198,9 +205,30 @@ static gchar *exif_build_formatted_DateTime(ExifData *exif)
 		text = exif_get_data_as_text(exif, "Exif.Image.DateTime");
 		if (text) subsec = exif_get_data_as_text(exif, "Exif.Photo.SubSecTime");
 		}
+
+	/* Convert the stuff into a tm struct */
+	if (text && strptime(text, "%Y:%m:%d %H:%M:%S", &tm))
+		{
+		buflen = strftime(buf, sizeof(buf), "%x %X", &tm);
+		if (buflen > 0)
+			{
+			tmp = g_locale_to_utf8(buf, buflen, NULL, NULL, &error);
+			if (error)
+				{
+				log_printf("Error converting locale strftime to UTF-8: %s\n", error->message);
+				g_error_free(error);
+				}
+			else
+				{
+				g_free(text);
+				text = g_strdup(tmp);
+				}
+			}
+		}
+
 	if (subsec)
 		{
-		gchar *tmp = text;
+		tmp = text;
 		text = g_strconcat(tmp, ".", subsec, NULL);
 		g_free(tmp);
 		g_free(subsec);
