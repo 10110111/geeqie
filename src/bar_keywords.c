@@ -1085,6 +1085,62 @@ static void bar_pane_keywords_hide_unchecked_toggle_cb(GtkWidget *menu_widget, g
 	bar_keyword_tree_sync(pkd);
 }
 
+/**
+ * \brief Callback for adding selected keyword to all selected images.
+ */
+static void bar_pane_keywords_add_to_selected_cb(GtkWidget *menu_widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+	GtkTreeIter iter; /* This is the iter which initial holds the current keyword */
+	GtkTreeIter child_iter;
+	GtkTreeModel *model;
+	GtkTreeModel *keyword_tree;
+	GList *list, *work;
+	GList *keywords = NULL;
+
+	GtkTextBuffer *keyword_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(pkd->keyword_view));
+
+	/* Aquire selected keyword */
+	if (pkd->click_tpath)
+		{
+		gboolean is_keyword = TRUE;
+
+		model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
+	        if (!gtk_tree_model_get_iter(model, &iter, pkd->click_tpath)) return;
+		gtk_tree_model_get(model, &iter, FILTER_KEYWORD_COLUMN_IS_KEYWORD, &is_keyword, -1);
+		if (!is_keyword) return;
+		}
+	else
+		return;
+
+	keyword_tree = gtk_tree_model_filter_get_model(GTK_TREE_MODEL_FILTER(model));
+	gtk_tree_model_filter_convert_iter_to_child_iter(GTK_TREE_MODEL_FILTER(model), &child_iter, &iter);
+
+	list = keyword_list_pull(pkd->keyword_view); /* Get the left keyword view */
+
+	/* Now set the current image */
+	keyword_tree_set(keyword_tree, &child_iter, &list);
+
+	keyword_list_push(pkd->keyword_view, list); /* Set the left keyword view */
+	string_list_free(list);
+
+	bar_pane_keywords_changed(keyword_buffer, pkd); /* Get list of all keywords in the hierarchy */
+
+	gtk_tree_model_filter_convert_iter_to_child_iter(GTK_TREE_MODEL_FILTER(model), &child_iter, &iter);
+	keywords = keyword_tree_get(keyword_tree, &child_iter);
+
+	list = layout_selection_list(pkd->pane.lw);
+	work = list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		metadata_append_list(fd, KEYWORD_KEY, keywords);
+		}
+	filelist_free(list);
+	string_list_free(keywords);
+}
+
 static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pkd, gint x, gint y)
 {
 	GtkWidget *menu;
@@ -1100,6 +1156,10 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 
 	menu_item_add_stock(menu, _("Add keyword"), GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_add_dialog_cb), pkd);
 	
+	menu_item_add_divider(menu);
+
+	menu_item_add(menu, _("Add keyword to all selected images"), G_CALLBACK(bar_pane_keywords_add_to_selected_cb), pkd);
+
 	menu_item_add_divider(menu);
 
 	if (pkd->click_tpath)

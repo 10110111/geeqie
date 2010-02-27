@@ -77,6 +77,7 @@ gboolean keyword_tree_get_iter(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr
 void keyword_set(GtkTreeStore *keyword_tree, GtkTreeIter *iter, const gchar *name, gboolean is_keyword);
 gboolean keyword_tree_is_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter, GList *kw_list);
 void keyword_tree_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList **kw_list);
+GList *keyword_tree_get(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr);
 void keyword_tree_reset(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList **kw_list);
 
 void keyword_delete(GtkTreeStore *keyword_tree, GtkTreeIter *iter_ptr);

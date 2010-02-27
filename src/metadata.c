@@ -1244,6 +1244,26 @@ void keyword_tree_set(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList *
 		}
 }
 
+GList *keyword_tree_get(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr)
+{
+	GtkTreeIter iter = *iter_ptr;
+	GList *kw_list = NULL;
+
+	while (TRUE)
+		{
+		GtkTreeIter parent;
+
+		if (keyword_get_is_keyword(keyword_tree, &iter))
+			{
+			gchar *name = keyword_get_name(keyword_tree, &iter);
+			kw_list = g_list_append(kw_list, name);
+			}
+
+		if (!gtk_tree_model_iter_parent(keyword_tree, &parent, &iter)) return kw_list;
+		iter = parent;
+		}
+} // GList *keyword_tree_get(GtkTre...
+
 static void keyword_tree_reset1(GtkTreeModel *keyword_tree, GtkTreeIter *iter, GList **kw_list)
 {
 	gchar *found;
