@@ -178,7 +178,7 @@ GtkWidget *generic_dialog_add_message(GenericDialog *gd, const gchar *icon_stock
 	GtkWidget *vbox;
 	GtkWidget *label;
 
-	hbox = pref_box_new(gd->vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+	hbox = pref_box_new(gd->vbox, TRUE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 	if (icon_stock_id)
 		{
 		GtkWidget *image;
