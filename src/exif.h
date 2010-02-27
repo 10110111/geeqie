@@ -27,7 +27,7 @@
 #ifndef __EXIF_H
 #define __EXIF_H
 
-#define EXIF_FORMATTED(x) "formatted."x
+#define EXIF_FORMATTED() "formatted."
 #define EXIF_FORMATTED_LEN (sizeof(EXIF_FORMATTED()) - 1)
 
 /*
