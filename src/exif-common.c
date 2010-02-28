@@ -207,6 +207,7 @@ static gchar *exif_build_formatted_DateTime(ExifData *exif)
 		}
 
 	/* Convert the stuff into a tm struct */
+	memset(&tm, 0, sizeof(tm)); /* Uh, strptime could let garbage in tm! */
 	if (text && strptime(text, "%Y:%m:%d %H:%M:%S", &tm))
 		{
 		buflen = strftime(buf, sizeof(buf), "%x %X", &tm);
