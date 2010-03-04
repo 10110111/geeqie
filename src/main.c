@@ -45,7 +45,7 @@
 #include "exif.h"
 #include "histogram.h"
 #include "pixbuf_util.h"
-#include "lua.h"
+#include "glua.h"
 
 #ifdef HAVE_LIBCHAMPLAIN
 #ifdef HAVE_LIBCHAMPLAIN_GTK

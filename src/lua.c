@@ -24,6 +24,12 @@
 
 #include <lua.h>
 #include <lauxlib.h>
+#include <lualib.h>
+
+#include <stdio.h>
+#include <glib.h>
+
+#include "glua.h"
 
 static lua_State *L; /** The LUA object needed for all operations (NOTE: That is
 		       * a upper-case variable to match the documentation!) */
@@ -35,6 +41,32 @@ void lua_init(void)
 {
 	L = luaL_newstate();
 	luaL_openlibs(L); /* Open all libraries for lua programms */
+}
+
+/**
+ * \brief Call a lua function to get a single value.
+ */
+gchar *lua_callvalue(gchar *file, gchar *function)
+{
+	gint result;
+	gchar *data = NULL;
+
+	if (file[0] == '\0')
+		{
+		result = luaL_dostring(L, function);
+		}
+	else
+		{
+		result = luaL_dofile(L, file);
+		}
+
+	if (result)
+		{
+		data = g_strdup_printf("Error running lua script: %s", lua_tostring(L, -1));
+		return data;
+		}
+	data = g_strdup(lua_tostring(L, -1));
+	return data;
 }
 
 #endif

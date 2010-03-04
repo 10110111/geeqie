@@ -18,12 +18,14 @@
  *  more details.
  */
 
-#ifndef __LUA_H
-#define __LUA_H
+#ifndef __GLUA_H
+#define __GLUA_H
 
 #ifdef HAVE_LUA
 
 void lua_init(void);
+
+gchar *lua_callvalue(gchar *, gchar *);
 
 #endif
 #endif
