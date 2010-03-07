@@ -30,6 +30,7 @@
 #include <glib.h>
 
 #include "glua.h"
+#include "ui_fileops.h"
 
 static lua_State *L; /** The LUA object needed for all operations (NOTE: That is
 		       * a upper-case variable to match the documentation!) */
@@ -50,6 +51,8 @@ gchar *lua_callvalue(gchar *file, gchar *function)
 {
 	gint result;
 	gchar *data = NULL;
+	gchar *dir;
+	gchar *path;
 
 	if (file[0] == '\0')
 		{
@@ -57,7 +60,11 @@ gchar *lua_callvalue(gchar *file, gchar *function)
 		}
 	else
 		{
-		result = luaL_dofile(L, file);
+		dir = g_build_filename(get_rc_dir(), "lua", NULL);
+		path = g_build_filename(dir, file, NULL);
+		result = luaL_dofile(L, path);
+		g_free(path);
+		g_free(dir);
 		}
 
 	if (result)
