@@ -23,9 +23,12 @@
 
 #ifdef HAVE_LUA
 
+#include <glib.h>
+#include "main.h"
+
 void lua_init(void);
 
-gchar *lua_callvalue(gchar *, gchar *);
+gchar *lua_callvalue(FileData *fd, const gchar *file, const gchar *function);
 
 #endif
 #endif

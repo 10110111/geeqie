@@ -327,7 +327,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			if (!tmp)
 				break;
 			*tmp = '\0';
-			data = lua_callvalue(name+4, tmp+1);
+			data = lua_callvalue(imd->image_fd, name+4, tmp+1);
 			}
 #endif
 		else
