@@ -65,6 +65,7 @@ ConfOptions *init_options(ConfOptions *options)
 	memset(&options->image.border_color, 0, sizeof(options->image.border_color));
 	options->image.enable_read_ahead = TRUE;
 	options->image.exif_rotate_enable = TRUE;
+	options->image.exif_proof_rotate_enable = TRUE;
 	options->image.fit_window_to_image = FALSE;
 	options->image.limit_autofit_size = FALSE;
 	options->image.limit_window_size = TRUE;
