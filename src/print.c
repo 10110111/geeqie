@@ -2206,6 +2206,10 @@ static void print_job_render_proof_loader_done(ImageLoader *il, gpointer data)
 
 	pixbuf = image_loader_get_pixbuf(il);
 
+	if (options->image.exif_proof_rotate_enable == TRUE) {
+		pixbuf = pixbuf_apply_orientation(pixbuf, il->fd->exif_orientation);
+	}
+
 	w = gdk_pixbuf_get_width(pixbuf);
 	h = gdk_pixbuf_get_height(pixbuf);
 
