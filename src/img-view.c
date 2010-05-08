@@ -885,6 +885,13 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 		image_change_fd(vw->imd, fd, image_zoom_get_default(NULL));
 		}
 
+	/* Wait until image is loaded otherwise size is not defined */
+	for (int count = 10; count && !w && !h; count++)
+		{
+		image_get_image_size(vw->imd, &w, &h);
+		usleep(100000);
+		}
+
 	if (image_zoom_get(vw->imd) == 0.0)
 		{
 		image_get_image_size(vw->imd, &w, &h);

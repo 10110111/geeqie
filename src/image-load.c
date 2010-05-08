@@ -35,6 +35,7 @@ enum {
 	SIGNAL_ERROR,
 	SIGNAL_DONE,
 	SIGNAL_PERCENT,
+	SIGNAL_SIZE,
 	SIGNAL_COUNT
 };
 
@@ -149,6 +150,17 @@ static void image_loader_class_init(ImageLoaderClass *class)
 			     g_cclosure_marshal_VOID__DOUBLE,
 			     G_TYPE_NONE, 1,
 			     G_TYPE_DOUBLE);
+
+	signals[SIGNAL_SIZE] =
+		g_signal_new("size_prepared",
+			     G_OBJECT_CLASS_TYPE(gobject_class),
+			     G_SIGNAL_RUN_LAST,
+			     G_STRUCT_OFFSET(ImageLoaderClass, area_ready),
+			     NULL, NULL,
+			     gq_marshal_VOID__INT_INT,
+			     G_TYPE_NONE, 2,
+			     G_TYPE_INT,
+			     G_TYPE_INT);
 
 }
 
@@ -424,6 +436,7 @@ static void image_loader_size_cb(GdkPixbufLoader *loader,
 	if (il->requested_width < 1 || il->requested_height < 1) 
 		{
 		g_mutex_unlock(il->data_mutex);
+		g_signal_emit(il, signals[SIGNAL_SIZE], 0, width, height);
 		return;
 		}
 	g_mutex_unlock(il->data_mutex);
@@ -440,13 +453,17 @@ static void image_loader_size_cb(GdkPixbufLoader *loader,
 		}
 	g_strfreev(mime_types);
 
-	if (!scale) return;
+	if (!scale)
+		{
+		g_signal_emit(il, signals[SIGNAL_SIZE], 0, width, height);
+		return;
+		}
 
 	g_mutex_lock(il->data_mutex);
 
+	gint nw, nh;
 	if (width > il->requested_width || height > il->requested_height)
 		{
-		gint nw, nh;
 
 		if (((gdouble)il->requested_width / width) < ((gdouble)il->requested_height / height))
 			{
@@ -466,6 +483,7 @@ static void image_loader_size_cb(GdkPixbufLoader *loader,
 		}
 	g_mutex_unlock(il->data_mutex);
 
+	g_signal_emit(il, signals[SIGNAL_SIZE], 0, nw, nh);
 }
 
 static void image_loader_stop_loader(ImageLoader *il)
