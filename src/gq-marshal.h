@@ -17,6 +17,13 @@ extern void gq_marshal_VOID__INT_INT_INT_INT (GClosure     *closure,
                                               gpointer      invocation_hint,
                                               gpointer      marshal_data);
 
+extern void gq_marshal_VOID__INT_INT (GClosure     *closure,
+		GValue       *return_value,
+		guint         n_param_values,
+		const GValue *param_values,
+		gpointer      invocation_hint,
+		gpointer      marshal_data);
+
 /* VOID:DOUBLE (gq-marshal.list:3) */
 #define gq_marshal_VOID__DOUBLE	g_cclosure_marshal_VOID__DOUBLE
 
