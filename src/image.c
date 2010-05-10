@@ -905,7 +905,11 @@ static gboolean image_focus_expose(GtkWidget *widget, GdkEventExpose *event, gpo
 {
 	ImageWindow *imd = data;
 
+#if GTK_CHECK_VERSION(2,20,0)
+	image_focus_paint(imd, gtk_widget_has_focus(widget), &event->area);
+#else
 	image_focus_paint(imd, GTK_WIDGET_HAS_FOCUS(widget), &event->area);
+#endif
 	return TRUE;
 }
 

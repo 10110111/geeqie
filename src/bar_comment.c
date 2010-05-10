@@ -141,7 +141,11 @@ static gint bar_pane_comment_event(GtkWidget *bar, GdkEvent *event)
 	pcd = g_object_get_data(G_OBJECT(bar), "pane_data");
 	if (!pcd) return FALSE;
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (gtk_widget_has_focus(pcd->comment_view)) return gtk_widget_event(pcd->comment_view, event);
+#else
 	if (GTK_WIDGET_HAS_FOCUS(pcd->comment_view)) return gtk_widget_event(pcd->comment_view, event);
+#endif
 
 	return FALSE;
 }

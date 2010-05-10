@@ -704,9 +704,17 @@ static void pixbuf_renderer_get_property(GObject *object, guint prop_id,
 
 static gboolean pixbuf_renderer_expose(GtkWidget *widget, GdkEventExpose *event)
 {
+#if GTK_CHECK_VERSION(2,20,0)
+	if (gtk_widget_is_drawable(widget))
+#else
 	if (GTK_WIDGET_DRAWABLE(widget))
+#endif
 		{
+#if GTK_CHECK_VERSION(2,20,0)
+		if (gtk_widget_get_has_window(widget))
+#else
 		if (!GTK_WIDGET_NO_WINDOW(widget))
+#endif
 			{
 			if (event->window != widget->window)
 				{
@@ -927,18 +935,30 @@ static void pr_overlay_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
 
 			if (it)
 				{
+#if GTK_CHECK_VERSION(2,20,0)
+				gdk_draw_drawable(pr->overlay_buffer, box->style->fg_gc[gtk_widget_get_state(box)],
+#else
 				gdk_draw_drawable(pr->overlay_buffer, box->style->fg_gc[GTK_WIDGET_STATE(box)],
+#endif
 						  it->pixmap,
 						  rx - (pr->x_offset + (it->x - pr->x_scroll)),
 						  ry - (pr->y_offset + (it->y - pr->y_scroll)),
 						  0, 0, rw, rh);
 				gdk_draw_pixbuf(pr->overlay_buffer,
+#if GTK_CHECK_VERSION(2,20,0)
+						box->style->fg_gc[gtk_widget_get_state(box)],
+#else
 						box->style->fg_gc[GTK_WIDGET_STATE(box)],
+#endif
 						od->pixbuf,
 						rx - px, ry - py,
 						0, 0, rw, rh,
 						pr->dither_quality, rx, ry);
+#if GTK_CHECK_VERSION(2,20,0)
+				gdk_draw_drawable(od->window, box->style->fg_gc[gtk_widget_get_state(box)],
+#else
 				gdk_draw_drawable(od->window, box->style->fg_gc[GTK_WIDGET_STATE(box)],
+#endif
 						  pr->overlay_buffer,
 						  0, 0,
 						  rx - px, ry - py, rw, rh);
@@ -957,15 +977,27 @@ static void pr_overlay_draw(PixbufRenderer *pr, gint x, gint y, gint w, gint h,
 					sh = MIN(ry + rh - sy, pr->tile_height);
 
 					gdk_draw_rectangle(pr->overlay_buffer,
+#if GTK_CHECK_VERSION(2,20,0)
+							   box->style->bg_gc[gtk_widget_get_state(box)], TRUE,
+#else
 							   box->style->bg_gc[GTK_WIDGET_STATE(box)], TRUE,
+#endif
 							   0, 0, sw, sh);
 					gdk_draw_pixbuf(pr->overlay_buffer,
+#if GTK_CHECK_VERSION(2,20,0)
+							box->style->fg_gc[gtk_widget_get_state(box)],
+#else
 							box->style->fg_gc[GTK_WIDGET_STATE(box)],
+#endif
 							od->pixbuf,
 							sx - px, sy - py,
 							0, 0, sw, sh,
 							pr->dither_quality, sx, sy);
+#if GTK_CHECK_VERSION(2,20,0)
+					gdk_draw_drawable(od->window, box->style->fg_gc[gtk_widget_get_state(box)],
+#else
 					gdk_draw_drawable(od->window, box->style->fg_gc[GTK_WIDGET_STATE(box)],
+#endif
 							  pr->overlay_buffer,
 							  0, 0,
 							  sx - px, sy - py, sw, sh);
@@ -1423,7 +1455,11 @@ void pixbuf_renderer_set_color(PixbufRenderer *pr, GdkColor *color)
 
 	gtk_widget_set_style(widget, style);
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (gtk_widget_get_visible(widget)) pr_border_clear(pr);
+#else
 	if (GTK_WIDGET_VISIBLE(widget)) pr_border_clear(pr);
+#endif
 }
 
 
@@ -1690,7 +1726,11 @@ static gboolean pr_source_tile_render(PixbufRenderer *pr, ImageTile *it,
 				else /* (pr->zoom == 1.0 || pr->scale == 1.0) */
 					{
 					gdk_draw_pixbuf(it->pixmap,
+#if GTK_CHECK_VERSION(2,20,0)
+							box->style->fg_gc[gtk_widget_get_state(box)],
+#else
 							box->style->fg_gc[GTK_WIDGET_STATE(box)],
+#endif
 							st->pixbuf,
 							rx - st->x, ry - st->y,
 							rx - it->x, ry - it->y,
@@ -2624,7 +2664,11 @@ static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 				{
 				/* faster, simple, base orientation, no postprocessing */
 				gdk_draw_pixbuf(it->pixmap,
+#if GTK_CHECK_VERSION(2,20,0)
+						box->style->fg_gc[gtk_widget_get_state(box)],
+#else
 						box->style->fg_gc[GTK_WIDGET_STATE(box)],
+#endif
 						pr->pixbuf,
 						it->x + x, it->y + y,
 						x, y,
@@ -2714,7 +2758,11 @@ static void pr_tile_render(PixbufRenderer *pr, ImageTile *it,
 			pr->func_post_process(pr, &it->pixbuf, x, y, w, h, pr->post_process_user_data);
 
 		gdk_draw_pixbuf(it->pixmap,
+#if GTK_CHECK_VERSION(2,20,0)
+				box->style->fg_gc[gtk_widget_get_state(box)],
+#else
 				box->style->fg_gc[GTK_WIDGET_STATE(box)],
+#endif
 				it->pixbuf,
 				x, y,
 				x, y,
@@ -2742,7 +2790,11 @@ static void pr_tile_expose(PixbufRenderer *pr, ImageTile *it,
 
 	box = GTK_WIDGET(pr);
 
+#if GTK_CHECK_VERSION(2,20,0)
+	gdk_draw_drawable(box->window, box->style->fg_gc[gtk_widget_get_state(box)],
+#else
 	gdk_draw_drawable(box->window, box->style->fg_gc[GTK_WIDGET_STATE(box)],
+#endif
 			  it->pixmap, x, y,
 			  pr->x_offset + (it->x - pr->x_scroll) + x, pr->y_offset + (it->y - pr->y_scroll) + y, w, h);
 
@@ -2862,7 +2914,11 @@ static gboolean pr_queue_draw_idle_cb(gpointer data)
 		fast = FALSE;
 		}
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (gtk_widget_get_realized(pr))
+#else
 	if (GTK_WIDGET_REALIZED(pr))
+#endif
 		{
 		if (pr_tile_is_visible(pr, qd->it))
 			{
@@ -3848,7 +3904,11 @@ static gboolean pr_mouse_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpo
 		}
 
 	parent = gtk_widget_get_parent(widget);
+#if GTK_CHECK_VERSION(2,20,0)
+	if (widget && gtk_widget_get_can_focus(parent))
+#else
 	if (widget && GTK_WIDGET_CAN_FOCUS(parent))
+#endif
 		{
 		gtk_widget_grab_focus(parent);
 		}
@@ -3868,7 +3928,11 @@ static gboolean pr_mouse_release_cb(GtkWidget *widget, GdkEventButton *bevent, g
 		return TRUE;
 		}
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (gdk_pointer_is_grabbed() && gtk_widget_has_grab(pr))
+#else
 	if (gdk_pointer_is_grabbed() && GTK_WIDGET_HAS_GRAB(pr))
+#endif
 		{
 		gtk_grab_remove(widget);
 		gdk_pointer_ungrab(bevent->time);
@@ -3984,7 +4048,11 @@ static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, P
 
 		box = GTK_WIDGET(pr);
 
+#if GTK_CHECK_VERSION(2,20,0)
+		if (gtk_widget_get_realized(box))
+#else
 		if (GTK_WIDGET_REALIZED(box))
+#endif
 			{
 			gdk_window_clear(box->window);
 			pr_overlay_draw(pr, 0, 0, pr->window_width, pr->window_height, NULL);

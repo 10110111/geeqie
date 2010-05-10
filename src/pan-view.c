@@ -1212,9 +1212,15 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 	pr = PIXBUF_RENDERER(pw->imd->pr);
 	fd = pan_menu_click_fd(pw);
 
+#if GTK_CHECK_VERSION(2,20,0)
+	focused = (pw->fs || gtk_widget_has_focus(GTK_WIDGET(pw->imd->widget)));
+	on_entry = (gtk_widget_has_focus(pw->path_entry) ||
+		    gtk_widget_has_focus(pw->search_entry));
+#else
 	focused = (pw->fs || GTK_WIDGET_HAS_FOCUS(GTK_WIDGET(pw->imd->widget)));
 	on_entry = (GTK_WIDGET_HAS_FOCUS(pw->path_entry) ||
 		    GTK_WIDGET_HAS_FOCUS(pw->search_entry));
+#endif
 
 	if (focused)
 		{
@@ -1967,7 +1973,11 @@ static void pan_search_toggle_cb(GtkWidget *button, gpointer data)
 	PanWindow *pw = data;
 	gboolean visible;
 
+#if GTK_CHECK_VERSION(2,20,0)
+	visible = gtk_widget_get_visible(pw->search_box);
+#else
 	visible = GTK_WIDGET_VISIBLE(pw->search_box);
+#endif
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button)) == visible) return;
 
 	if (visible)
@@ -1989,7 +1999,11 @@ static void pan_search_toggle_visible(PanWindow *pw, gboolean enable)
 
 	if (enable)
 		{
+#if GTK_CHECK_VERSION(2,20,0)
+		if (gtk_widget_get_visible(pw->search_box))
+#else
 		if (GTK_WIDGET_VISIBLE(pw->search_box))
+#endif
 			{
 			gtk_widget_grab_focus(pw->search_entry);
 			}
@@ -2000,9 +2014,17 @@ static void pan_search_toggle_visible(PanWindow *pw, gboolean enable)
 		}
 	else
 		{
+#if GTK_CHECK_VERSION(2,20,0)
+		if (gtk_widget_get_visible(pw->search_entry))
+#else
 		if (GTK_WIDGET_VISIBLE(pw->search_entry))
+#endif
 			{
+#if GTK_CHECK_VERSION(2,20,0)
+			if (gtk_widget_has_focus(pw->search_entry))
+#else
 			if (GTK_WIDGET_HAS_FOCUS(pw->search_entry))
+#endif
 				{
 				gtk_widget_grab_focus(GTK_WIDGET(pw->imd->widget));
 				}

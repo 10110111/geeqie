@@ -61,7 +61,11 @@ static void bar_pane_histogram_update(PaneHistogramData *phd)
 	/* histmap_get is relatively expensive, run it only when we really need it
 	   and with lower priority than pixbuf_renderer 
 	   FIXME: this does not work for fullscreen*/
+#if GTK_CHECK_VERSION(2,20,0)
+	if (gtk_widget_is_drawable(phd->drawing_area))
+#else
 	if (GTK_WIDGET_DRAWABLE(phd->drawing_area))
+#endif
 		{
 		if (!phd->idle_id)
 			{
@@ -153,7 +157,11 @@ static gboolean bar_pane_histogram_expose_event_cb(GtkWidget *widget, GdkEventEx
 	if (!phd->pixbuf) return TRUE;
 	
 	gdk_draw_pixbuf(widget->window,
+#if GTK_CHECK_VERSION(2,20,0)
+			widget->style->fg_gc[gtk_widget_get_state(widget)],
+#else
 			widget->style->fg_gc[GTK_WIDGET_STATE (widget)],
+#endif
 			phd->pixbuf,
 			0, 0,
 			0, 0,

@@ -301,7 +301,11 @@ gint bar_pane_exif_event(GtkWidget *bar, GdkEvent *event)
 		ExifEntry *ee = g_object_get_data(G_OBJECT(entry), "entry_data");
 		work = work->next;
 
+#if GTK_CHECK_VERSION(2,20,0)
+		if (ee->editable && gtk_widget_has_focus(ee->value_widget)) ret = gtk_widget_event(ee->value_widget, event);
+#else
 		if (ee->editable && GTK_WIDGET_HAS_FOCUS(ee->value_widget)) ret = gtk_widget_event(ee->value_widget, event);
+#endif
 		}
 	g_list_free(list);
 	return ret;
@@ -396,7 +400,11 @@ static void bar_pane_exif_dnd_receive(GtkWidget *pane, GdkDragContext *context,
 		
 		if (entry == new_entry) continue;
 		
+#if GTK_CHECK_VERSION(2,20,0)
+		if (gtk_widget_is_drawable(entry) &&
+#else
 		if (GTK_WIDGET_DRAWABLE(entry) && 
+#endif
 		    gtk_widget_translate_coordinates(pane, entry, x, y, &nx, &ny) &&
 		    ny < entry->allocation.height / 2) break;
 		pos++;

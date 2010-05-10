@@ -62,7 +62,11 @@ static gboolean generic_dialog_default_key_press_cb(GtkWidget *widget, GdkEventK
 {
 	GenericDialog *gd = data;
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (event->keyval == GDK_Return && gtk_widget_has_focus(widget)
+#else
 	if (event->keyval == GDK_Return && GTK_WIDGET_HAS_FOCUS(widget)
+#endif
 	    && gd->default_cb)
 		{
 		gboolean auto_close;
@@ -234,7 +238,11 @@ static void generic_dialog_setup(GenericDialog *gd,
 			GtkWidget *top;
 
 			top = gtk_widget_get_toplevel(parent);
+#if GTK_CHECK_VERSION(2,20,0)
+			if (GTK_IS_WINDOW(top) && gtk_widget_is_toplevel(top)) window = GTK_WINDOW(top);
+#else
 			if (GTK_IS_WINDOW(top) && GTK_WIDGET_TOPLEVEL(top)) window = GTK_WINDOW(top);
+#endif
 			}
 
 		if (window) gtk_window_set_transient_for(GTK_WINDOW(gd->dialog), window);

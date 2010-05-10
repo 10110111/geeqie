@@ -431,7 +431,11 @@ static void tip_show(ViewFile *vf)
 
 	gdk_window_get_pointer(NULL, &x, &y, NULL);
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (!gtk_widget_get_realized(VFICON(vf)->tip_window)) gtk_widget_realize(VFICON(vf)->tip_window);
+#else
 	if (!GTK_WIDGET_REALIZED(VFICON(vf)->tip_window)) gtk_widget_realize(VFICON(vf)->tip_window);
+#endif
 	gtk_window_move(GTK_WINDOW(VFICON(vf)->tip_window), x + 16, y + 16);
 	gtk_widget_show(VFICON(vf)->tip_window);
 }
@@ -451,7 +455,11 @@ static gboolean tip_schedule_cb(gpointer data)
 
 	window = gtk_widget_get_toplevel(vf->listview);
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (gtk_widget_get_sensitive(window) &&
+#else
 	if (GTK_WIDGET_SENSITIVE(window) &&
+#endif
 	    GTK_WINDOW(window)->has_focus)
 		{
 		tip_show(vf);
@@ -1440,7 +1448,11 @@ gboolean vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer dat
 	switch (bevent->button)
 		{
 		case MOUSE_BUTTON_LEFT:
+#if GTK_CHECK_VERSION(2,20,0)
+			if (!gtk_widget_has_focus(vf->listview))
+#else
 			if (!GTK_WIDGET_HAS_FOCUS(vf->listview))
+#endif
 				{
 				gtk_widget_grab_focus(vf->listview);
 				}
@@ -1603,7 +1615,11 @@ static void vficon_populate(ViewFile *vf, gboolean resize, gboolean keep_positio
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (keep_position && gtk_widget_get_realized(vf->listview) &&
+#else
 	if (keep_position && GTK_WIDGET_REALIZED(vf->listview) &&
+#endif
 	    gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(vf->listview), 0, 0, &tpath, NULL, NULL, NULL))
 		{
 		GtkTreeIter iter;
@@ -1654,7 +1670,11 @@ static void vficon_populate(ViewFile *vf, gboolean resize, gboolean keep_positio
 							     NULL);
 				}
 			}
+#if GTK_CHECK_VERSION(2,20,0)
+		if (gtk_widget_get_realized(vf->listview)) gtk_tree_view_columns_autosize(GTK_TREE_VIEW(vf->listview));
+#else
 		if (GTK_WIDGET_REALIZED(vf->listview)) gtk_tree_view_columns_autosize(GTK_TREE_VIEW(vf->listview));
+#endif
 		}
 
 	r = -1;

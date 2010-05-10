@@ -89,7 +89,11 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 	gint x = 0;
 	gint y = 0;
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (lw->path_entry && gtk_widget_has_focus(lw->path_entry))
+#else
 	if (lw->path_entry && GTK_WIDGET_HAS_FOCUS(lw->path_entry))
+#endif
 		{
 		if (event->keyval == GDK_Escape && lw->dir_fd)
 			{
@@ -104,7 +108,11 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 			return TRUE;
 			}
 		}
+#if GTK_CHECK_VERSION(2,20,0)
+	if (lw->vd && lw->options.dir_view_type == DIRVIEW_TREE && gtk_widget_has_focus(lw->vd->view) &&
+#else
 	if (lw->vd && lw->options.dir_view_type == DIRVIEW_TREE && GTK_WIDGET_HAS_FOCUS(lw->vd->view) &&
+#endif
 	    !layout_key_match(event->keyval) &&
 	    gtk_widget_event(lw->vd->view, (GdkEvent *)event))
 		{
@@ -123,7 +131,11 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 */
 
 	if (lw->image &&
+#if GTK_CHECK_VERSION(2,20,0)
+	    (gtk_widget_has_focus(lw->image->widget) || (lw->tools && widget == lw->window) || lw->full_screen) )
+#else
 	    (GTK_WIDGET_HAS_FOCUS(lw->image->widget) || (lw->tools && widget == lw->window) || lw->full_screen) )
+#endif
 		{
 		stop_signal = TRUE;
 		switch (event->keyval)
@@ -2393,7 +2405,11 @@ void layout_util_sync(LayoutWindow *lw)
 
 static gboolean layout_bar_enabled(LayoutWindow *lw)
 {
+#if GTK_CHECK_VERSION(2,20,0)
+	return lw->bar && gtk_widget_get_visible(lw->bar);
+#else
 	return lw->bar && GTK_WIDGET_VISIBLE(lw->bar);
+#endif
 }
 
 static void layout_bar_destroyed(GtkWidget *widget, gpointer data)
@@ -2486,7 +2502,11 @@ static void layout_bar_new_selection(LayoutWindow *lw, gint count)
 
 static gboolean layout_bar_sort_enabled(LayoutWindow *lw)
 {
+#if GTK_CHECK_VERSION(2,20,0)
+	return lw->bar_sort && gtk_widget_get_visible(lw->bar_sort);
+#else
 	return lw->bar_sort && GTK_WIDGET_VISIBLE(lw->bar_sort);
+#endif
 }
 
 

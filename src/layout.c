@@ -1143,7 +1143,11 @@ gboolean layout_geometry_get_tools(LayoutWindow *lw, gint *x, gint *y, gint *w, 
 {
 	if (!layout_valid(&lw)) return FALSE;
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (!lw->tools || !gtk_widget_get_visible(lw->tools))
+#else
 	if (!lw->tools || !GTK_WIDGET_VISIBLE(lw->tools))
+#endif
 		{
 		/* use the stored values (sort of breaks success return value) */
 
@@ -1179,7 +1183,11 @@ static void layout_tools_hide(LayoutWindow *lw, gboolean hide)
 
 	if (hide)
 		{
+#if GTK_CHECK_VERSION(2,20,0)
+		if (gtk_widget_get_visible(lw->tools))
+#else
 		if (GTK_WIDGET_VISIBLE(lw->tools))
+#endif
 			{
 			layout_tools_geometry_sync(lw);
 			gtk_widget_hide(lw->tools);
@@ -1187,7 +1195,11 @@ static void layout_tools_hide(LayoutWindow *lw, gboolean hide)
 		}
 	else
 		{
+#if GTK_CHECK_VERSION(2,20,0)
+		if (!gtk_widget_get_visible(lw->tools))
+#else
 		if (!GTK_WIDGET_VISIBLE(lw->tools))
+#endif
 			{
 			gtk_widget_show(lw->tools);
 			if (lw->vf) vf_refresh(lw->vf);
@@ -1713,11 +1725,19 @@ void layout_toolbar_toggle(LayoutWindow *lw)
 
 	if (lw->options.toolbar_hidden)
 		{
+#if GTK_CHECK_VERSION(2,20,0)
+		if (gtk_widget_get_visible(lw->toolbar[TOOLBAR_MAIN])) gtk_widget_hide(lw->toolbar[TOOLBAR_MAIN]);
+#else
 		if (GTK_WIDGET_VISIBLE(lw->toolbar[TOOLBAR_MAIN])) gtk_widget_hide(lw->toolbar[TOOLBAR_MAIN]);
+#endif
 		}
 	else
 		{
+#if GTK_CHECK_VERSION(2,20,0)
+		if (!gtk_widget_get_visible(lw->toolbar[TOOLBAR_MAIN])) gtk_widget_show(lw->toolbar[TOOLBAR_MAIN]);
+#else
 		if (!GTK_WIDGET_VISIBLE(lw->toolbar[TOOLBAR_MAIN])) gtk_widget_show(lw->toolbar[TOOLBAR_MAIN]);
+#endif
 		}
 }
 

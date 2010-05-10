@@ -537,7 +537,11 @@ static void tip_show(CollectTable *ct)
 
 	gdk_window_get_pointer(NULL, &x, &y, NULL);
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (!gtk_widget_get_realized(ct->tip_window)) gtk_widget_realize(ct->tip_window);
+#else
 	if (!GTK_WIDGET_REALIZED(ct->tip_window)) gtk_widget_realize(ct->tip_window);
+#endif
 	gtk_window_move(GTK_WINDOW(ct->tip_window), x + 16, y + 16);
 	gtk_widget_show(ct->tip_window);
 }
@@ -1550,7 +1554,11 @@ static gboolean collection_table_press_cb(GtkWidget *widget, GdkEventButton *bev
 					layout_image_set_collection(NULL, ct->cd, info);
 					}
 				}
+#if GTK_CHECK_VERSION(2,20,0)
+			else if (!gtk_widget_has_focus(ct->listview))
+#else
 			else if (!GTK_WIDGET_HAS_FOCUS(ct->listview))
+#endif
 				{
 				gtk_widget_grab_focus(ct->listview);
 				}
@@ -1716,7 +1724,11 @@ static void collection_table_populate(CollectTable *ct, gboolean resize)
 							     "show_text", ct->show_text, NULL);
 				}
 			}
+#if GTK_CHECK_VERSION(2,20,0)
+		if (gtk_widget_get_realized(ct->listview)) gtk_tree_view_columns_autosize(GTK_TREE_VIEW(ct->listview));
+#else
 		if (GTK_WIDGET_REALIZED(ct->listview)) gtk_tree_view_columns_autosize(GTK_TREE_VIEW(ct->listview));
+#endif
 		}
 
 	row = -1;

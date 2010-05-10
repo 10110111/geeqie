@@ -268,7 +268,11 @@ void log_window_append(const gchar *str, LogType type)
 
 	log_window_insert_text(buffer, &iter, str, logdefs[type].tag);
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (gtk_widget_get_visible(text))
+#else
 	if (GTK_WIDGET_VISIBLE(text))
+#endif
 		{
 		GtkTextMark *mark;
 		

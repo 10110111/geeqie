@@ -264,7 +264,11 @@ gint bar_pane_keywords_event(GtkWidget *bar, GdkEvent *event)
 	pkd = g_object_get_data(G_OBJECT(bar), "pane_data");
 	if (!pkd) return FALSE;
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (gtk_widget_has_focus(pkd->keyword_view)) return gtk_widget_event(pkd->keyword_view, event);
+#else
 	if (GTK_WIDGET_HAS_FOCUS(pkd->keyword_view)) return gtk_widget_event(pkd->keyword_view, event);
+#endif
 
 	return FALSE;
 }

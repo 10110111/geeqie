@@ -551,7 +551,11 @@ static void pref_link_sensitivity_cb(GtkWidget *watch, GtkStateType prev_state, 
 {
 	GtkWidget *widget = data;
 
+#if GTK_CHECK_VERSION(2,20,0)
+	gtk_widget_set_sensitive(widget, gtk_widget_is_sensitive(watch));
+#else
 	gtk_widget_set_sensitive(widget, GTK_WIDGET_IS_SENSITIVE(watch));
+#endif
 }
 
 void pref_link_sensitivity(GtkWidget *widget, GtkWidget *watch)
@@ -876,7 +880,11 @@ static void date_selection_popup_hide(DateSelection *ds)
 {
 	if (!ds->window) return;
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (gtk_widget_has_grab(ds->window))
+#else
 	if (GTK_WIDGET_HAS_GRAB(ds->window))
+#endif
 		{
 		gtk_grab_remove(ds->window);
 		gdk_keyboard_ungrab(GDK_CURRENT_TIME);
@@ -1289,7 +1297,11 @@ static gboolean sizer_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpoi
 
 	if (bevent->button != MOUSE_BUTTON_LEFT) return FALSE;
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (gdk_pointer_is_grabbed() && gtk_widget_has_grab(sd->sizer))
+#else
 	if (gdk_pointer_is_grabbed() && GTK_WIDGET_HAS_GRAB(sd->sizer))
+#endif
 		{
 		gtk_grab_remove(sd->sizer);
 		gdk_pointer_ungrab(bevent->time);

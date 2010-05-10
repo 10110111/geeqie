@@ -2361,11 +2361,19 @@ static void menu_choice_set_visible(GtkWidget *widget, gboolean visible)
 {
 	if (visible)
 		{
+#if GTK_CHECK_VERSION(2,20,0)
+		if (!gtk_widget_get_visible(widget)) gtk_widget_show(widget);
+#else
 		if (!GTK_WIDGET_VISIBLE(widget)) gtk_widget_show(widget);
+#endif
 		}
 	else
 		{
+#if GTK_CHECK_VERSION(2,20,0)
+		if (gtk_widget_get_visible(widget)) gtk_widget_hide(widget);
+#else
 		if (GTK_WIDGET_VISIBLE(widget)) gtk_widget_hide(widget);
+#endif
 		}
 }
 

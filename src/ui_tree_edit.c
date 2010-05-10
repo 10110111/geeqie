@@ -184,7 +184,11 @@ gboolean tree_edit_by_path(GtkTreeView *tree, GtkTreePath *tpath, gint column, c
 	GList *work;
 
 	if (!edit_func) return FALSE;
+#if GTK_CHECK_VERSION(2,20,0)
+	if (!gtk_widget_get_visible(tree)) return FALSE;
+#else
 	if (!GTK_WIDGET_VISIBLE(tree)) return FALSE;
+#endif
 
 	tcolumn = gtk_tree_view_get_column(tree, column);
 	if (!tcolumn) return FALSE;

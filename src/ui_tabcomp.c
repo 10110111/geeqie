@@ -206,7 +206,11 @@ void tab_completion_iter_menu_items(GtkWidget *widget, gpointer data)
 	TabCompData *td = data;
 	GtkWidget *child;
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (!gtk_widget_get_visible(widget)) return;
+#else
 	if (!GTK_WIDGET_VISIBLE(widget)) return;
+#endif
 
 	child = gtk_bin_get_child(GTK_BIN(widget));
 	if (GTK_IS_LABEL(child)) {
@@ -646,7 +650,11 @@ static void tab_completion_button_pressed(GtkWidget *widget, gpointer data)
 
 	if (!td) return;
 
+#if GTK_CHECK_VERSION(2,20,0)
+	if (!gtk_widget_has_focus(entry))
+#else
 	if (!GTK_WIDGET_HAS_FOCUS(entry))
+#endif
 		{
 		gtk_widget_grab_focus(entry);
 		}
