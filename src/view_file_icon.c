@@ -1014,11 +1014,11 @@ void vficon_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode)
 			{
 			case MTS_MODE_SET: selected = mark_val;
 				break;
-			case MTS_MODE_OR: selected = mark_val | selected;
+			case MTS_MODE_OR: selected = mark_val || selected;
 				break;
-			case MTS_MODE_AND: selected = mark_val & selected;
+			case MTS_MODE_AND: selected = mark_val && selected;
 				break;
-			case MTS_MODE_MINUS: selected = !mark_val & selected;
+			case MTS_MODE_MINUS: selected = !mark_val && selected;
 				break;
 			}
 
