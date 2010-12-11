@@ -1,0 +1,72 @@
+*.o
+*.bak
+Makefile
+Makefile.in
+
+# /
+/aclocal.m4
+/autom4te.cache
+/config.cache
+/config.guess
+/config.h
+/config.h.in
+/config.log
+/config.report
+/config.status
+/config.sub
+/configure
+/configure.scan
+/missing
+/mkinstalldirs
+/COPYING
+/install-sh
+/stamp-h
+/stamp-h.in
+/INSTALL
+/geeqie.spec
+/intl
+/ABOUT-NLS
+/depcomp
+/auxdir
+/stamp-h1
+/geeqie.desktop
+/intltool-extract.in
+/intltool-update.in
+/intltool-merge.in
+
+# /plugins/import/
+/plugins/import/*.desktop
+
+# /plugins/rotate/
+/plugins/rotate/*.desktop
+
+# /plugins/symlink/
+/plugins/symlink/*.desktop
+
+# /plugins/ufraw/
+/plugins/ufraw/*.desktop
+
+# /po/
+/po/Makefile.in.in
+/po/POTFILES
+/po/cat-id-tbl.c
+/po/gqview.pot
+/po/stamp-cat-id
+/po/*.gmo
+/po/geeqie.pot
+/po/*.mo
+/po/stamp-it
+/po/.intltool-merge-cache
+
+# /src/
+/src/.deps
+/src/geeqie
+/src/ui_icons.h
+
+# /src/icons/
+/src/icons/icons_inline.h
+
+/build-stamp
+/debian/geeqie*
+/debian/files
+/doc/html/
