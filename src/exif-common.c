@@ -636,13 +636,19 @@ void exif_release_cb(FileData *fd)
 	fd->exif = NULL;
 }
 
+void exif_init_cache(void)
+{
+	assert(!exif_cache);
+	exif_cache = file_cache_new(exif_release_cb, 4);
+}
+
 ExifData *exif_read_fd(FileData *fd)
 {
 	gchar *sidecar_path;
+	
+	if (!exif_cache) exif_init_cache();
 
 	if (!fd || !is_readable_file(fd->path)) return NULL;
-	
-	if (!exif_cache) exif_cache = file_cache_new(exif_release_cb, 4);
 	
 	if (file_cache_get(exif_cache, fd)) return fd->exif;
 	
