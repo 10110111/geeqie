@@ -3193,7 +3193,7 @@ static void pr_update_signal(PixbufRenderer *pr)
 #if 0
 	log_printf("FIXME: send updated signal\n");
 #endif
-	DEBUG_1("%s pixbuf renderer updated - started drawing %p", get_exec_time(), pr);
+	DEBUG_1("%s pixbuf renderer updated - started drawing %p, img: %dx%d", get_exec_time(), pr, pr->image_width, pr->image_height);
 	pr->debug_updated = TRUE;
 }
 
@@ -4357,7 +4357,7 @@ gboolean pixbuf_renderer_get_image_size(PixbufRenderer *pr, gint *width, gint *h
 	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), FALSE);
 	g_return_val_if_fail(width != NULL && height != NULL, FALSE);
 
-	if (!pr->pixbuf && !pr->source_tiles_enabled)
+	if (!pr->pixbuf && !pr->source_tiles_enabled && (!pr->image_width || !pr->image_height))
 		{
 		*width = 0;
 		*height = 0;
@@ -4374,7 +4374,7 @@ gboolean pixbuf_renderer_get_scaled_size(PixbufRenderer *pr, gint *width, gint *
 	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), FALSE);
 	g_return_val_if_fail(width != NULL && height != NULL, FALSE);
 
-	if (!pr->pixbuf && !pr->source_tiles_enabled)
+	if (!pr->pixbuf && !pr->source_tiles_enabled && (!pr->image_width || !pr->image_height))
 		{
 		*width = 0;
 		*height = 0;
@@ -4428,4 +4428,23 @@ gboolean pixbuf_renderer_get_virtual_rect(PixbufRenderer *pr, GdkRectangle *rect
 	rect->height = pr->vis_height;
 	return TRUE;
 }
+
+void pixbuf_renderer_set_size_early(PixbufRenderer *pr, guint width, guint height)
+{
+	gdouble zoom;
+	gint w, h;
+
+	zoom = pixbuf_renderer_zoom_get(pr);
+	pr->image_width = width;
+	pr->image_height = height;
+
+	pr_zoom_clamp(pr, zoom, PR_ZOOM_FORCE, NULL);
+
+	//w = width;
+	//h = height;
+
+	//pr->width = width;
+	//pr->height = height;
+}
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

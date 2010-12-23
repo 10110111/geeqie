@@ -652,6 +652,14 @@ static void image_load_done_cb(ImageLoader *il, gpointer data)
 	image_read_ahead_start(imd);
 }
 
+static void image_load_size_cb(ImageLoader *il, guint width, guint height, gpointer data)
+{
+	ImageWindow *imd = data;
+
+	DEBUG_1("image_load_size_cb: %dx%d", width, height);
+	pixbuf_renderer_set_size_early((PixbufRenderer *)imd->pr, width, height);
+}
+
 static void image_load_error_cb(ImageLoader *il, gpointer data)
 {
 	DEBUG_1("%s image error", get_exec_time());
@@ -674,6 +682,7 @@ static void image_load_set_signals(ImageWindow *imd, gboolean override_old_signa
 	g_signal_connect(G_OBJECT(imd->il), "area_ready", (GCallback)image_load_area_cb, imd);
 	g_signal_connect(G_OBJECT(imd->il), "error", (GCallback)image_load_error_cb, imd);
 	g_signal_connect(G_OBJECT(imd->il), "done", (GCallback)image_load_done_cb, imd);
+	g_signal_connect(G_OBJECT(imd->il), "size_prepared", (GCallback)image_load_size_cb, imd);
 }
 
 /* this read ahead is located here merely for the callbacks, above */
