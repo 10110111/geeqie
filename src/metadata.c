@@ -409,7 +409,7 @@ gboolean metadata_write_int(FileData *fd, const gchar *key, guint64 value)
 {
 	gchar string[50];
 	
-	g_snprintf(string, sizeof(string), "%ld", value);
+	g_snprintf(string, sizeof(string), "%llu", (unsigned long long) value);
 	return metadata_write_string(fd, key, string);
 }
 
