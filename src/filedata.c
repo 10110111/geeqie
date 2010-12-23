@@ -410,7 +410,8 @@ static FileData *file_data_new_local(const gchar *path, struct stat *st, gboolea
 	return ret;
 }
 
-void init_exif_time_data(GList *files) {
+void init_exif_time_data(GList *files)
+{
 	FileData *file;
 	DEBUG_1("%s init_exif_time_data: ...", get_exec_time());
 	while (files)
@@ -424,47 +425,52 @@ void init_exif_time_data(GList *files) {
 		}
 }
 
-void set_exif_time_data(GList *files) {
-	gchar *tmp;
-	uint year, month, day, hour, min, sec;
-	struct tm time_str;
-	FileData *file;
+void read_exif_time_data(FileData *file)
+{
+	if (file->exifdate > 0)
+		{
+		DEBUG_1("%s set_exif_time_data: Already exists for %s", get_exec_time(), file->path);
+		return;
+		}
+	
+	file->exif = exif_read_fd(file);
+
+	if (file->exif)
+		{
+		gchar *tmp = exif_get_data_as_text(file->exif, "Exif.Photo.DateTimeOriginal");
+		DEBUG_2("%s set_exif_time_data: reading %p %s", get_exec_time(), file, file->path);
+
+		if (tmp)
+			{
+			struct tm time_str;
+			uint year, month, day, hour, min, sec;
+	
+			sscanf(tmp, "%4d:%2d:%2d %2d:%2d:%2d", &year, &month, &day, &hour, &min, &sec);
+			time_str.tm_year  = year - 1900;
+			time_str.tm_mon   = month - 1;
+			time_str.tm_mday  = day;
+			time_str.tm_hour  = hour;
+			time_str.tm_min   = min;
+			time_str.tm_sec   = sec;
+			time_str.tm_isdst = 0;
+	
+			file->exifdate = mktime(&time_str);
+			g_free(tmp);
+			}
+		}
+}
+
+void set_exif_time_data(GList *files)
+{
 	DEBUG_1("%s set_exif_time_data: ...", get_exec_time());
+	
 	while (files)
 		{
-		file = files->data;
-
-		if (file->exifdate > 0)
-			{
-			files = files->next;
-			DEBUG_1("%s set_exif_time_data: Already exists for %s", get_exec_time(), file->path);
-			continue;
-			}
-
-		DEBUG_1("%s set_exif_time_data: Getting exiftime for %s", get_exec_time(), file->path);
-
-		file->exif = exif_read_fd(file);
-
-		if (file->exif)
-			{
-			tmp = exif_get_data_as_text(file->exif, "Exif.Photo.DateTimeOriginal");
-			if (tmp)
-				{
-				sscanf(tmp, "%4d:%2d:%2d %2d:%2d:%2d", &year, &month, &day, &hour, &min, &sec);
-				time_str.tm_year = year - 1900;
-				time_str.tm_mon = month - 1;
-				time_str.tm_mday = day;
-				time_str.tm_hour = hour;
-				time_str.tm_min = min;
-				time_str.tm_sec = sec;
-				time_str.tm_isdst = 0;
-
-				file->exifdate = mktime(&time_str);
-				}
-			}
+		FileData *file = files->data;
+		
+		read_exif_time_data(file);
 		files = files->next;
 		}
-
 }
 
 FileData *file_data_new_no_grouping(const gchar *path_utf8)
@@ -1123,6 +1129,7 @@ static gboolean filelist_read_real(const gchar *dir_path, GList **files, GList *
 	g_free(pathl);
 
 	if (dirs) *dirs = dlist;
+
 	if (files) 
 		{
 		g_hash_table_foreach(basename_hash, file_data_basename_hash_to_sidecars, NULL); 
