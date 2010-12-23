@@ -1592,6 +1592,9 @@ static void config_tab_files(GtkWidget *notebook)
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, _("Description"));
 	gtk_tree_view_column_set_resizable(column, TRUE);
+	gtk_tree_view_column_set_fixed_width(column, 200);
+	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
+	
 	renderer = gtk_cell_renderer_text_new();
 	g_signal_connect(G_OBJECT(renderer), "edited",
 			 G_CALLBACK(filter_store_desc_edit_cb), filter_store);
