@@ -1698,6 +1698,7 @@ static void config_tab_metadata(GtkWidget *notebook)
 	text = g_strdup_printf(_("3) Save metadata in Geeqie private directory '%s'"), get_metadata_cache_dir());
 	label = pref_label_new(group, text);
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 22, 0);
 	g_free(text);
 
 	group = pref_group_new(vbox, FALSE, _("Step 1: Write to image files"), GTK_ORIENTATION_VERTICAL);
