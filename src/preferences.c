@@ -795,12 +795,48 @@ static void filter_set_func(GtkTreeViewColumn *tree_column, GtkCellRenderer *cel
 		}
 }
 
+static gboolean filter_add_scroll(gpointer data)
+{
+	GtkTreePath *path;
+	GList *list_cells;
+	GtkCellRenderer *cell;
+	GtkTreeViewColumn *column;
+	GList *list_columns;
+	const gchar *title;
+	guint i = 0;
+	gint rows;
+
+	rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(filter_store), NULL);
+	path = gtk_tree_path_new_from_indices(rows-1, -1);
+
+	list_columns = gtk_tree_view_get_columns(GTK_TREE_VIEW(data));
+	do {
+		column = g_list_nth(list_columns,i)->data;
+		title = gtk_tree_view_column_get_title(GTK_TREE_VIEW_COLUMN(column));
+		i++;
+		} while (strcmp(title, "Filter") !=0 );
+
+	list_cells = gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
+	cell = g_list_last(list_cells)->data;
+
+	gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(data),
+								path, column, FALSE, 0.0, 0.0 );
+	gtk_tree_view_set_cursor_on_cell(GTK_TREE_VIEW(data),
+								path, column, cell, TRUE);
+
+	gtk_tree_path_free(path);
+	g_list_free(list_cells);
+	g_list_free(list_columns);
+
+	return(FALSE);
+}
+
 static void filter_add_cb(GtkWidget *widget, gpointer data)
 {
 	filter_add_unique("description", ".new", FORMAT_CLASS_IMAGE, TRUE, FALSE, TRUE);
 	filter_store_populate();
 
-	/* FIXME: implement the scroll to/select row stuff for tree view */
+	g_idle_add((GSourceFunc)filter_add_scroll, data);
 }
 
 static void filter_remove_cb(GtkWidget *widget, gpointer data)
@@ -821,12 +857,33 @@ static void filter_remove_cb(GtkWidget *widget, gpointer data)
 	filter_store_populate();
 }
 
+static gboolean filter_default_ok_scroll(GtkTreeView *data)
+{
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	GtkTreeViewColumn *column;
+
+	gtk_tree_model_get_iter_first(GTK_TREE_MODEL(filter_store), &iter);
+	path = gtk_tree_model_get_path(GTK_TREE_MODEL(filter_store), &iter);
+	column = gtk_tree_view_get_column(GTK_TREE_VIEW(data),0);
+
+	gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(data),
+				     path, column,
+				     FALSE, 0.0, 0.0);
+
+	gtk_tree_path_free(path);
+
+	return(FALSE);
+}
+
 static void filter_default_ok_cb(GenericDialog *gd, gpointer data)
 {
 	filter_reset();
 	filter_add_defaults();
 	filter_rebuild();
 	filter_store_populate();
+
+	g_idle_add((GSourceFunc)filter_default_ok_scroll, gd->data);
 }
 
 static void dummy_cancel_cb(GenericDialog *gd, gpointer data)
@@ -840,7 +897,7 @@ static void filter_default_cb(GtkWidget *widget, gpointer data)
 
 	gd = generic_dialog_new(_("Reset filters"),
 				"reset_filter", widget, TRUE,
-				dummy_cancel_cb, NULL);
+				dummy_cancel_cb, data);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset filters"),
 				   _("This will reset the file filters to the defaults.\nContinue?"));
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, filter_default_ok_cb, TRUE);
@@ -1052,11 +1109,30 @@ static void accel_store_edited_cb(GtkCellRendererAccel *accel, gchar *path_strin
 	g_free(acc);
 }
 
+static gboolean accel_default_scroll(GtkTreeView *data)
+{
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	GtkTreeViewColumn *column;
+
+	gtk_tree_model_get_iter_first(GTK_TREE_MODEL(accel_store), &iter);
+	path = gtk_tree_model_get_path(GTK_TREE_MODEL(accel_store), &iter);
+	column = gtk_tree_view_get_column(GTK_TREE_VIEW(data),0);
+
+	gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(data),
+				     path, column,
+				     FALSE, 0.0, 0.0);
+
+	gtk_tree_path_free(path);
+
+	return(FALSE);
+}
+
 static void accel_default_cb(GtkWidget *widget, gpointer data)
 {
 	accel_store_populate();
 
-	/* FIXME: implement the scroll to/select row stuff for tree view */
+	g_idle_add((GSourceFunc)accel_default_scroll, data);
 }
 
 void accel_remove_selection(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
@@ -1651,7 +1727,7 @@ static void config_tab_files(GtkWidget *notebook)
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
 
 	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
-				 G_CALLBACK(filter_default_cb), NULL);
+				 G_CALLBACK(filter_default_cb), filter_view);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 
@@ -1661,7 +1737,7 @@ static void config_tab_files(GtkWidget *notebook)
 	gtk_widget_show(button);
 
 	button = pref_button_new(NULL, GTK_STOCK_ADD, NULL, FALSE,
-				 G_CALLBACK(filter_add_cb), NULL);
+				 G_CALLBACK(filter_add_cb), filter_view);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 }
@@ -2024,7 +2100,7 @@ static void config_tab_accelerators(GtkWidget *notebook)
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
 
 	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
-				 G_CALLBACK(accel_default_cb), NULL);
+				 G_CALLBACK(accel_default_cb), accel_view);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 
