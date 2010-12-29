@@ -174,14 +174,14 @@ static gboolean accel_apply_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIt
 	gchar *accel_path, *accel;
 
 	gtk_tree_model_get(model, iter, AE_ACCEL, &accel_path, AE_KEY, &accel, -1);
-	
+
 	if (accel_path && accel_path[0])
 		{
 		GtkAccelKey key;
 		gtk_accelerator_parse(accel, &key.accel_key, &key.accel_mods);
 		gtk_accel_map_change_entry(accel_path, key.accel_key, key.accel_mods, TRUE);
 		}
-		
+
 	g_free(accel_path);
 	g_free(accel);
 
@@ -195,7 +195,7 @@ static void config_window_apply(void)
 	gboolean refresh = FALSE;
 
 	config_entry_to_option(safe_delete_path_entry, &options->file_ops.safe_delete_path, remove_trailing_slash);
-	
+
 	if (options->file_filter.show_hidden_files != c_options->file_filter.show_hidden_files) refresh = TRUE;
 	if (options->file_filter.show_dot_directory != c_options->file_filter.show_dot_directory) refresh = TRUE;
 	if (options->file_sort.case_sensitive != c_options->file_sort.case_sensitive) refresh = TRUE;
@@ -263,7 +263,7 @@ static void config_window_apply(void)
 
 	options->image.enable_read_ahead = c_options->image.enable_read_ahead;
 
-	
+
 	if (options->image.use_custom_border_color != c_options->image.use_custom_border_color
 	    || options->image.use_custom_border_color_in_fullscreen != c_options->image.use_custom_border_color_in_fullscreen
 	    || !gdk_color_equal(&options->image.border_color, &c_options->image.border_color))
@@ -282,7 +282,7 @@ static void config_window_apply(void)
 	if (c_options->image_overlay.template_string)
 		set_image_overlay_template_string(&options->image_overlay.template_string,
 						  c_options->image_overlay.template_string);
-		
+
 	options->update_on_time_change = c_options->update_on_time_change;
 	options->image.exif_rotate_enable = c_options->image.exif_rotate_enable;
 
@@ -292,7 +292,7 @@ static void config_window_apply(void)
 
 	options->open_recent_list_maxsize = c_options->open_recent_list_maxsize;
 	options->dnd_icon_size = c_options->dnd_icon_size;
-	
+
 	options->metadata.save_in_image_file = c_options->metadata.save_in_image_file;
 	options->metadata.save_legacy_IPTC = c_options->metadata.save_legacy_IPTC;
 	options->metadata.warn_on_write_problems = c_options->metadata.warn_on_write_problems;
@@ -355,7 +355,7 @@ static void config_window_apply(void)
 		filter_rebuild();
 		layout_refresh(NULL);
 		}
-	
+
 	if (accel_store) gtk_tree_model_foreach(GTK_TREE_MODEL(accel_store), accel_apply_cb, NULL);
 }
 
@@ -1020,15 +1020,15 @@ static void accel_store_populate(void)
 					     "label", &label,
 					     NULL);
 
-				if (pango_parse_markup(label, -1, '_', NULL, &label2, NULL, NULL) && label2) 
+				if (pango_parse_markup(label, -1, '_', NULL, &label2, NULL, NULL) && label2)
 					{
 					g_free(label);
 					label = label2;
 					}
 
 				accel = gtk_accelerator_name(key.accel_key, key.accel_mods);
-				
-				if (tooltip) 
+
+				if (tooltip)
 					{
 					gtk_tree_store_append(accel_store, &iter, NULL);
 					gtk_tree_store_set(accel_store, &iter,
@@ -1052,7 +1052,7 @@ static void accel_store_populate(void)
 
 static void accel_store_cleared_cb(GtkCellRendererAccel *accel, gchar *path_string, gpointer user_data)
 {
-    
+
 }
 
 static gboolean accel_remove_key_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
@@ -1063,16 +1063,16 @@ static gboolean accel_remove_key_cb(GtkTreeModel *model, GtkTreePath *path, GtkT
 	GtkAccelKey key2;
 
 	gtk_tree_model_get(model, iter, AE_KEY, &accel2, -1);
-	
+
 	gtk_accelerator_parse(accel1, &key1.accel_key, &key1.accel_mods);
 	gtk_accelerator_parse(accel2, &key2.accel_key, &key2.accel_mods);
-	
+
 	if (key1.accel_key == key2.accel_key && key1.accel_mods == key2.accel_mods)
 		{
 		gtk_tree_store_set(accel_store, iter, AE_KEY, "",  -1);
 		DEBUG_1("accelerator key '%s' is already used, removing.", accel1);
 		}
-	
+
 	g_free(accel2);
 
 	return FALSE;
@@ -1095,11 +1095,11 @@ static void accel_store_edited_cb(GtkCellRendererAccel *accel, gchar *path_strin
 	gtk_accel_map_lookup_entry(accel_path, &old_key);
 
 	/* change the key and read it back (change may fail on keys hardcoded in gtk)*/
-	gtk_accel_map_change_entry(accel_path, accel_key, accel_mods, TRUE); 
+	gtk_accel_map_change_entry(accel_path, accel_key, accel_mods, TRUE);
 	gtk_accel_map_lookup_entry(accel_path, &key);
 
 	/* restore the original for now, the key will be really changed when the changes are confirmed */
-	gtk_accel_map_change_entry(accel_path, old_key.accel_key, old_key.accel_mods, TRUE); 
+	gtk_accel_map_change_entry(accel_path, old_key.accel_key, old_key.accel_mods, TRUE);
 
 	acc = gtk_accelerator_name(key.accel_key, key.accel_mods);
 	gtk_tree_model_foreach(GTK_TREE_MODEL(accel_store), accel_remove_key_cb, acc);
@@ -1137,10 +1137,10 @@ static void accel_default_cb(GtkWidget *widget, gpointer data)
 
 void accel_remove_selection(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
-	gtk_tree_store_set(accel_store, iter, AE_KEY, "", -1);    
+	gtk_tree_store_set(accel_store, iter, AE_KEY, "", -1);
 }
 
-#if 0    
+#if 0
 static void accel_remove_cb(GtkWidget *widget, gpointer data)
 {
 	GtkTreeSelection *selection;
@@ -1195,21 +1195,21 @@ void accel_add_alt_selection(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter
 	GtkAccelMap *map;
 	gchar *accel_path2, *accel;
 	const gchar *accel_path;
-	gint freeduplnum = 1;    
+	gint freeduplnum = 1;
 	gint len;
 	GClosure* closure;
 	GtkAccelGroup *group;
 	GtkAction *action_new, *action_new2;
 	gchar *name, *accel_path_new, *accel_path_new2;
 
- 	if (!accel_store || !layout_window_list || !layout_window_list->data) return;
+	if (!accel_store || !layout_window_list || !layout_window_list->data) return;
 
 	gtk_tree_model_get(model, iter, AE_ACCEL, &accel_path2, -1);
 	len = strlen(accel_path2);
- 
+
 	gtk_tree_store_clear(accel_store);
 	lw = layout_window_list->data;
-    
+
 	g_assert(lw && lw->ui_manager);
 	groups = gtk_ui_manager_get_action_groups(lw->ui_manager);
 	group = gtk_ui_manager_get_accel_group(lw->ui_manager);
@@ -1269,7 +1269,7 @@ void accel_add_alt_selection(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter
 	g_free(accel_path_new2);
 	gtk_action_connect_accelerator(action_new);
 }
-    
+
 static void accel_add_alt_cb(GtkWidget *widget, gpointer data)
 {
 	GtkWidget *accel_view = data;
@@ -1455,7 +1455,7 @@ static void config_tab_image(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Use custom border color in window mode"),
 			      options->image.use_custom_border_color, &c_options->image.use_custom_border_color);
-	
+
 	pref_checkbox_new_int(group, _("Use custom border color in fullscreen mode"),
 			      options->image.use_custom_border_color_in_fullscreen, &c_options->image.use_custom_border_color_in_fullscreen);
 
@@ -1670,7 +1670,7 @@ static void config_tab_files(GtkWidget *notebook)
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_column_set_fixed_width(column, 200);
 	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
-	
+
 	renderer = gtk_cell_renderer_text_new();
 	g_signal_connect(G_OBJECT(renderer), "edited",
 			 G_CALLBACK(filter_store_desc_edit_cb), filter_store);
@@ -1826,7 +1826,7 @@ static void config_tab_metadata(GtkWidget *notebook)
 
 	pref_spin_new_int(hbox, _("Timeout (seconds):"), NULL, 0, 900, 1,
 			      options->metadata.confirm_timeout, &c_options->metadata.confirm_timeout);
-			      
+
 	pref_checkbox_new_int(group, _("Write metadata on image change"),
 			      options->metadata.confirm_on_image_change, &c_options->metadata.confirm_on_image_change);
 
@@ -1980,7 +1980,7 @@ static void config_tab_behavior(GtkWidget *notebook)
 
 	pref_spin_new_int(group, _("Open recent list maximum size"), NULL,
 			  1, 50, 1, options->open_recent_list_maxsize, &c_options->open_recent_list_maxsize);
-	
+
 	pref_spin_new_int(group, _("Drag'n drop icon size"), NULL,
 			  16, 256, 16, options->dnd_icon_size, &c_options->dnd_icon_size);
 
@@ -2041,9 +2041,9 @@ static void config_tab_accelerators(GtkWidget *notebook)
 	renderer = gtk_cell_renderer_text_new();
 
 	column = gtk_tree_view_column_new_with_attributes(_("Action"),
-        	                                      renderer,
-                                                      "text", AE_ACTION,
-                                                      NULL);
+							  renderer,
+							  "text", AE_ACTION,
+							  NULL);
 
 	gtk_tree_view_column_set_sort_column_id(column, AE_ACTION);
 	gtk_tree_view_column_set_resizable(column, TRUE);
@@ -2058,14 +2058,14 @@ static void config_tab_accelerators(GtkWidget *notebook)
 
 
 	g_object_set (renderer,
-                  "editable", TRUE,
-                  "accel-mode", GTK_CELL_RENDERER_ACCEL_MODE_OTHER,
-                  NULL);
-    
+		      "editable", TRUE,
+		      "accel-mode", GTK_CELL_RENDERER_ACCEL_MODE_OTHER,
+		      NULL);
+
 	column = gtk_tree_view_column_new_with_attributes(_("KEY"),
-                                                      renderer,
-                                                      "text", AE_KEY,
-                                                      NULL);
+							  renderer,
+							  "text", AE_KEY,
+							  NULL);
 
 	gtk_tree_view_column_set_sort_column_id(column, AE_KEY);
 	gtk_tree_view_column_set_resizable(column, TRUE);
@@ -2074,9 +2074,9 @@ static void config_tab_accelerators(GtkWidget *notebook)
 	renderer = gtk_cell_renderer_text_new();
 
 	column = gtk_tree_view_column_new_with_attributes(_("Tooltip"),
-                                                      renderer,
-                                                      "text", AE_TOOLTIP,
-                                                      NULL);
+							  renderer,
+							  "text", AE_TOOLTIP,
+							  NULL);
 
 	gtk_tree_view_column_set_sort_column_id(column, AE_TOOLTIP);
 	gtk_tree_view_column_set_resizable(column, TRUE);
@@ -2085,14 +2085,14 @@ static void config_tab_accelerators(GtkWidget *notebook)
 	renderer = gtk_cell_renderer_text_new();
 
 	column = gtk_tree_view_column_new_with_attributes("Accel",
-                                                      renderer,
-                                                      "text", AE_ACCEL,
-                                                      NULL);
- 
+							  renderer,
+							  "text", AE_ACCEL,
+							  NULL);
+
 	gtk_tree_view_column_set_sort_column_id(column, AE_ACCEL);
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(accel_view), column);
-    
+
 	accel_store_populate();
 	gtk_container_add(GTK_CONTAINER(scrolled), accel_view);
 	gtk_widget_show(accel_view);
@@ -2118,7 +2118,7 @@ static void config_tab_accelerators(GtkWidget *notebook)
 
 #if 0
 	button = pref_button_new(NULL, _("Add Alt"), NULL, FALSE,
-                 G_CALLBACK(accel_add_alt_cb), accel_view);
+				 G_CALLBACK(accel_add_alt_cb), accel_view);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 #endif
@@ -2245,7 +2245,7 @@ static void config_window_create(void)
 	gtk_container_add(GTK_CONTAINER(hbox), button);
 	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_show(button);
-	
+
 	button = pref_button_new(NULL, GTK_STOCK_APPLY, NULL, FALSE,
 				 G_CALLBACK(config_window_apply_cb), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
