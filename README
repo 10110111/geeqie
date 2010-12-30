@@ -333,7 +333,7 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
   "%name:<i>*</i>\n%" -> name is displayed in italics ended with a newline
   "%size:\n%"         -> size is displayed with a newline at end
   "%formatted.ISOSpeedRating:ISO *%"      -> ie. "ISO 100"
-  "Collection <b>*</b>\n" -> display collection name in bold prefixed by
+  "%collection: Collection <b>*</b>\n%" -> display collection name in bold prefixed by
                              "Collection " and a newline is appended
 
 
