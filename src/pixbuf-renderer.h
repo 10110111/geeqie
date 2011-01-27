@@ -24,6 +24,24 @@
 #define IS_PIXBUF_RENDERER_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE((klass), TYPE_PIXBUF_RENDERER))
 #define PIXBUF_RENDERER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), TYPE_PIXBUF_RENDERER, PixbufRendererClass))
 
+/* alpha channel checkerboard background (same as gimp) */
+#define PR_ALPHA_CHECK1 0x00999999
+#define PR_ALPHA_CHECK2 0x00666666
+#define PR_ALPHA_CHECK_SIZE 16
+/* when scaling image to below this size, use nearest pixel for scaling
+ * (below about 4, the other scale types become slow generating their conversion tables)
+ */
+#define PR_MIN_SCALE_SIZE 8
+
+/* default size of tile cache (mb) */
+#define PR_CACHE_SIZE_DEFAULT 8
+
+/* round A up/down to integer count of B */
+#define ROUND_UP(A,B)   ((gint)(((A)+(B)-1)/(B))*(B))
+#define ROUND_DOWN(A,B) ((gint)(((A))/(B))*(B))
+
+
+typedef struct _RendererFuncs RendererFuncs;
 
 typedef struct _PixbufRenderer PixbufRenderer;
 typedef struct _PixbufRendererClass PixbufRendererClass;
@@ -44,6 +62,37 @@ typedef enum {
 	PR_SCROLL_RESET_COUNT,
 } PixbufRendererScrollResetType;
 
+typedef enum {
+	TILE_RENDER_NONE = 0,	/* do nothing */
+	TILE_RENDER_AREA,	/* render an area of the tile */
+	TILE_RENDER_ALL		/* render the whole tile */
+} ImageRenderType;
+
+typedef enum {
+	OVL_NORMAL 	= 0,
+	OVL_RELATIVE 	= 1 << 0, /* x,y coordinates are relative, negative values start bottom right */
+	/* OVL_HIDE_ON_SCROLL = 1 << 1*/ /* hide temporarily when scrolling (not yet implemented) */
+} OverlayRendererFlags;
+
+struct _RendererFuncs
+{
+	void (*queue)(void *renderer, gint x, gint y, gint w, gint h,
+                     gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing);
+	void (*queue_clear)(void *renderer);
+	void (*border_draw)(void *renderer, gint x, gint y, gint w, gint h);
+	void (*invalidate_all)(void *renderer);
+	void (*invalidate_region)(void *renderer, gint x, gint y, gint w, gint h);
+	void (*scroll)(void *renderer, gint x_off, gint y_off);
+
+	gint (*overlay_add)(void *renderer, GdkPixbuf *pixbuf, gint x, gint y, OverlayRendererFlags flags);
+	void (*overlay_set)(void *renderer, gint id, GdkPixbuf *pixbuf, gint x, gint y);
+	gboolean (*overlay_get)(void *renderer, gint id, GdkPixbuf **pixbuf, gint *x, gint *y);
+	void (*overlay_update_sizes)(void *renderer);
+	void (*overlay_draw)(void *renderer, gint x, gint y, gint w, gint h);
+
+	void (*free)(void *renderer);
+};
+
 struct _PixbufRenderer
 {
 	GtkEventBox eventbox;
@@ -56,7 +105,10 @@ struct _PixbufRenderer
 	gint window_width;	/* allocated size of window (drawing area) */
 	gint window_height;
 
-	gint x_offset;		/* offset of image start (non-zero when image < window) */
+	gint viewport_width;	/* allocated size of viewport (same as window for normal mode, half of window for SBS mode) */
+	gint viewport_height;
+
+	gint x_offset;		/* offset of image start (non-zero when viewport < window) */
 	gint y_offset;
 	
 	gint x_mouse; /* coordinates of the mouse taken from GtkEvent */
@@ -102,20 +154,8 @@ struct _PixbufRenderer
 	gint autofit_limit_size;
 
 
-	gint tile_cache_max;		/* max mb to use for offscreen buffer */
 
 	/*< private >*/
-
-	gint tile_width;
-	gint tile_height;
-	gint tile_cols;		/* count of tile columns */
-	GList *tiles;		/* list of buffer tiles */
-	gint tile_cache_size;	/* allocated size of pixmaps/pixbufs */
-	GList *draw_queue;	/* list of areas to redraw */
-	GList *draw_queue_2pass;/* list when 2 pass is enabled */
-
-	guint draw_idle_id; /* event source id */
-
 	gboolean in_drag;
 	gint drag_last_x;
 	gint drag_last_y;
@@ -151,12 +191,9 @@ struct _PixbufRenderer
 	gint scroller_xinc;
 	gint scroller_yinc;
 
-	GList *overlay_list;
-	GdkPixmap *overlay_buffer;
-
-	GdkPixbuf *spare_tile;
-
 	gint orientation;
+
+	RendererFuncs *renderer;
 };
 
 struct _PixbufRendererClass
@@ -171,6 +208,8 @@ struct _PixbufRendererClass
 	void (*render_complete)(PixbufRenderer *pr);
 	void (*drag)(PixbufRenderer *pr, GdkEventButton *event);
 };
+
+
 
 
 GType pixbuf_renderer_get_type(void);
@@ -250,11 +289,6 @@ gboolean pixbuf_renderer_get_virtual_rect(PixbufRenderer *pr, GdkRectangle *rect
 void pixbuf_renderer_set_color(PixbufRenderer *pr, GdkColor *color);
 
 /* overlay */
-typedef enum {
-	OVL_NORMAL 	= 0,
-	OVL_RELATIVE 	= 1 << 0, /* x,y coordinates are relative, negative values start bottom right */
-	/* OVL_HIDE_ON_SCROLL = 1 << 1*/ /* hide temporarily when scrolling (not yet implemented) */
-} OverlayRendererFlags;
 
 gint pixbuf_renderer_overlay_add(PixbufRenderer *pr, GdkPixbuf *pixbuf, gint x, gint y,
 				 OverlayRendererFlags flags);
@@ -265,9 +299,45 @@ void pixbuf_renderer_overlay_remove(PixbufRenderer *pr, gint id);
 gboolean pixbuf_renderer_get_mouse_position(PixbufRenderer *pr, gint *x_pixel, gint *y_pixel);
 /* x_pixel and y_pixel are the pixel coordinates \see pixbuf_renderer_get_mouse_position */
 gboolean pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint y_pixel,
-															 				gint *r_mouse, gint *g_mouse, gint *b_mouse);
+	 				gint *r_mouse, gint *g_mouse, gint *b_mouse);
 
 void pixbuf_renderer_set_size_early(PixbufRenderer *pr, guint width, guint height);
 
+/* protected - for renderer use only*/
+
+typedef struct _SourceTile SourceTile;
+struct _SourceTile
+{
+	gint x;
+	gint y;
+	GdkPixbuf *pixbuf;
+	gboolean blank;
+};
+
+
+gboolean pr_clip_region(gint x, gint y, gint w, gint h,
+			       gint clip_x, gint clip_y, gint clip_w, gint clip_h,
+			       gint *rx, gint *ry, gint *rw, gint *rh);
+void pr_render_complete_signal(PixbufRenderer *pr);
+
+void pr_tile_coords_map_orientation(gint orientation,
+				     gdouble tile_x, gdouble tile_y, /* coordinates of the tile */
+				     gdouble image_w, gdouble image_h,
+				     gdouble tile_w, gdouble tile_h,
+				     gdouble *res_x, gdouble *res_y);
+void pr_tile_region_map_orientation(gint orientation,
+				     gint area_x, gint area_y, /* coordinates of the area inside tile */
+				     gint tile_w, gint tile_h,
+				     gint area_w, gint area_h,
+				     gint *res_x, gint *res_y,
+				     gint *res_w, gint *res_h);
+void pr_coords_map_orientation_reverse(gint orientation,
+				     gint area_x, gint area_y,
+				     gint tile_w, gint tile_h,
+				     gint area_w, gint area_h,
+				     gint *res_x, gint *res_y,
+				     gint *res_w, gint *res_h);
+
+GList *pr_source_tile_compute_region(PixbufRenderer *pr, gint x, gint y, gint w, gint h, gboolean request);
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

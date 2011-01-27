@@ -199,6 +199,8 @@ geeqie_SOURCES = \
 	pan-view.h	\
 	pixbuf-renderer.c	\
 	pixbuf-renderer.h	\
+	renderer-tiles.c	\
+	renderer-tiles.h	\
 	pixbuf_util.c	\
 	pixbuf_util.h	\
 	preferences.c	\
