@@ -1305,50 +1305,23 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 		{
 		draw = rt_source_tile_render(rt, it, x, y, w, h, new_data, fast);
 		}
-	else if (pr->zoom == 1.0 || pr->scale == 1.0)
+	else if ((pr->zoom == 1.0 || pr->scale == 1.0) &&
+		 !has_alpha &&
+		 pr->orientation == EXIF_ORIENTATION_TOP_LEFT && 
+		 !(pr->func_post_process && !(pr->post_process_slow && fast)))
 		{
-
-		gdouble src_x, src_y;
-		gint pb_x, pb_y;
-		gint pb_w, pb_h;
-		pr_tile_coords_map_orientation(pr->orientation, it->x, it->y,
-					    pr->image_width, pr->image_height,
-					    rt->tile_width, rt->tile_height,
-					    &src_x, &src_y);
-		pr_tile_region_map_orientation(pr->orientation, x, y,
-					    rt->tile_width, rt->tile_height,
-					    w, h,
-					    &pb_x, &pb_y,
-					    &pb_w, &pb_h);
-
-		if (!has_alpha &&
-		    pr->orientation == EXIF_ORIENTATION_TOP_LEFT && 
-		    !(pr->func_post_process && !(pr->post_process_slow && fast)))
-			{
-			/* faster, simple, base orientation, no postprocessing */
-			gdk_draw_pixbuf(it->pixmap,
+		/* special case: faster, simple, scale 1.0, base orientation, no postprocessing */
+		gdk_draw_pixbuf(it->pixmap,
 #if GTK_CHECK_VERSION(2,20,0)
-					box->style->fg_gc[gtk_widget_get_state(box)],
+				box->style->fg_gc[gtk_widget_get_state(box)],
 #else
-					box->style->fg_gc[GTK_WIDGET_STATE(box)],
+				box->style->fg_gc[GTK_WIDGET_STATE(box)],
 #endif
-					pr->pixbuf,
-					it->x + x + stereo_pixbuf_off, it->y + y,
-					x, y,
-					w, h,
-					pr->dither_quality, it->x + x, it->y + y);
-			}
-		else
-			{
-			rt_tile_get_region(has_alpha,
-					  pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
-					  (gdouble) 0.0 - src_x - stereo_pixbuf_off,
-					  (gdouble) 0.0 - src_y,
-					  1.0, 1.0, GDK_INTERP_NEAREST,
-					  it->x + pb_x, it->y + pb_y);
-			rt_tile_apply_orientation(rt, &it->pixbuf, pb_x, pb_y, pb_w, pb_h);
-			draw = TRUE;
-			}
+				pr->pixbuf,
+				it->x + x + stereo_pixbuf_off, it->y + y,
+				x, y,
+				w, h,
+				pr->dither_quality, it->x + x, it->y + y);
 		}
 	else
 		{
