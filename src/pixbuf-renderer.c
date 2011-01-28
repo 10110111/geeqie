@@ -428,7 +428,12 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 	pr->norm_center_x = 0.5;
 	pr->norm_center_y = 0.5;
 	
-	pr->renderer = (void *)renderer_tiles_new(pr);
+	pr->stereo_mode = PR_STEREO_HORIZ;
+	
+	pr->renderer = (void *)renderer_tiles_new(pr, pr->stereo_mode);
+	
+	pr->renderer2 = (pr->stereo_mode && (PR_STEREO_HORIZ || PR_STEREO_VERT)) ?
+	              (void *)renderer_tiles_new(pr, pr->stereo_mode | PR_STEREO_RIGHT) : NULL;
 
 	gtk_widget_set_double_buffered(box, FALSE);
 	g_signal_connect_after(G_OBJECT(box), "size_allocate",
@@ -444,6 +449,7 @@ static void pixbuf_renderer_finalize(GObject *object)
 	pr = PIXBUF_RENDERER(object);
 
 	pr->renderer->free(pr->renderer);
+	if (pr->renderer2) pr->renderer->free(pr->renderer2);
 
 
 	if (pr->pixbuf) g_object_unref(pr->pixbuf);
@@ -745,22 +751,27 @@ GtkWindow *pixbuf_renderer_get_parent(PixbufRenderer *pr)
 gint pixbuf_renderer_overlay_add(PixbufRenderer *pr, GdkPixbuf *pixbuf, gint x, gint y,
 				 OverlayRendererFlags flags)
 {
+	/* let's assume both renderers returns the same value */
+	if (pr->renderer2) pr->renderer2->overlay_add(pr->renderer2, pixbuf, x, y, flags);
 	return pr->renderer->overlay_add(pr->renderer, pixbuf, x, y, flags);
 }
 
 void pixbuf_renderer_overlay_set(PixbufRenderer *pr, gint id, GdkPixbuf *pixbuf, gint x, gint y)
 {
 	pr->renderer->overlay_set(pr->renderer, id, pixbuf, x, y);
+	if (pr->renderer2) pr->renderer2->overlay_set(pr->renderer2, id, pixbuf, x, y);
 }
 
 gboolean pixbuf_renderer_overlay_get(PixbufRenderer *pr, gint id, GdkPixbuf **pixbuf, gint *x, gint *y)
 {
+	if (pr->renderer2) pr->renderer2->overlay_get(pr->renderer2, id, pixbuf, x, y);
 	return pr->renderer->overlay_get(pr->renderer, id, pixbuf, x, y);
 }
 
 void pixbuf_renderer_overlay_remove(PixbufRenderer *pr, gint id)
 {
 	pr->renderer->overlay_set(pr->renderer, id, NULL, 0, 0);
+	if (pr->renderer2) pr->renderer2->overlay_set(pr->renderer2, id, NULL, 0, 0);
 }
 
 /*
@@ -918,7 +929,8 @@ static void pr_scroller_stop(PixbufRenderer *pr)
 
 static void pr_border_clear(PixbufRenderer *pr)
 {
-	pr->renderer->border_draw(pr->renderer, 0, 0, pr->window_width, pr->window_height);
+	pr->renderer->border_draw(pr->renderer, 0, 0, pr->viewport_width, pr->viewport_height);
+	if (pr->renderer2) pr->renderer2->border_draw(pr->renderer2, 0, 0, pr->viewport_width, pr->viewport_height);
 }
 
 void pixbuf_renderer_set_color(PixbufRenderer *pr, GdkColor *color)
@@ -957,6 +969,10 @@ static void pr_redraw(PixbufRenderer *pr, gboolean new_data)
 {
 	pr->renderer->queue_clear(pr->renderer);
 	pr->renderer->queue(pr->renderer, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, new_data, FALSE);
+	if (pr->renderer2) {
+		pr->renderer2->queue_clear(pr->renderer2);
+		pr->renderer2->queue(pr->renderer2, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, new_data, FALSE);
+	}
 }
 
 /*
@@ -1098,7 +1114,8 @@ static SourceTile *pr_source_tile_request(PixbufRenderer *pr, gint x, gint y)
 
 	pr->renderer->invalidate_region(pr->renderer, st->x * pr->scale, st->y * pr->scale,
 				  pr->source_tile_width * pr->scale, pr->source_tile_height * pr->scale);
-
+	if (pr->renderer2) pr->renderer2->invalidate_region(pr->renderer2, st->x * pr->scale, st->y * pr->scale,
+				  pr->source_tile_width * pr->scale, pr->source_tile_height * pr->scale);
 	return st;
 }
 
@@ -1185,6 +1202,8 @@ static void pr_source_tile_changed(PixbufRenderer *pr, gint x, gint y, gint widt
 				{
 					pr->renderer->invalidate_region(pr->renderer, rx * pr->scale, ry * pr->scale,
 							      rw * pr->scale, rh * pr->scale);
+					if (pr->renderer2) pr->renderer2->invalidate_region(pr->renderer2, rx * pr->scale, ry * pr->scale,
+								rw * pr->scale, rh * pr->scale);
 				}
 			g_object_unref(pixbuf);
 			}
@@ -1543,13 +1562,13 @@ static void pixbuf_renderer_sync_scroll_center(PixbufRenderer *pr)
 	 * of the "broken image" icon.
 	*/
 
-	if (pr->width > pr->window_width)
+	if (pr->width > pr->viewport_width)
 		{
 		src_x = pr->x_scroll + pr->vis_width / 2;
 		pr->norm_center_x = (gdouble)src_x / pr->width;
 		}
 	
-	if (pr->height > pr->window_height)
+	if (pr->height > pr->viewport_height)
 		{
 		src_y = pr->y_scroll + pr->vis_height / 2;
 		pr->norm_center_y = (gdouble)src_y / pr->height;
@@ -1603,25 +1622,25 @@ static gboolean pr_size_clamp(PixbufRenderer *pr)
 	old_vw = pr->vis_width;
 	old_vh = pr->vis_height;
 
-	if (pr->width < pr->window_width)
+	if (pr->width < pr->viewport_width)
 		{
 		pr->vis_width = pr->width;
-		pr->x_offset = (pr->window_width - pr->width) / 2;
+		pr->x_offset = (pr->viewport_width - pr->width) / 2;
 		}
 	else
 		{
-		pr->vis_width = pr->window_width;
+		pr->vis_width = pr->viewport_width;
 		pr->x_offset = 0;
 		}
 
-	if (pr->height < pr->window_height)
+	if (pr->height < pr->viewport_height)
 		{
 		pr->vis_height = pr->height;
-		pr->y_offset = (pr->window_height - pr->height) / 2;
+		pr->y_offset = (pr->viewport_height - pr->height) / 2;
 		}
 	else
 		{
-		pr->vis_height = pr->window_height;
+		pr->vis_height = pr->viewport_height;
 		pr->y_offset = 0;
 		}
 
@@ -1673,8 +1692,8 @@ static gboolean pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
 			}
 		else
 			{
-			max_w = pr->window_width;
-			max_h = pr->window_height;
+			max_w = pr->viewport_width;
+			max_h = pr->viewport_height;
 			}
 
 		if ((pr->zoom_expand && !sizeable) || w > max_w || h > max_h)
@@ -1733,6 +1752,7 @@ static gboolean pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
 	if (invalidate || invalid)
 		{
 		pr->renderer->invalidate_all(pr->renderer);
+		if (pr->renderer2) pr->renderer2->invalidate_all(pr->renderer2);
 		if (!lazy) pr_redraw(pr, TRUE);
 		}
 	if (redrawn) *redrawn = (invalidate || invalid);
@@ -1828,6 +1848,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 	if (lazy)
 		{
 		pr->renderer->queue_clear(pr->renderer);
+		if (pr->renderer2) pr->renderer2->queue_clear(pr->renderer2);
 		}
 	else
 		{
@@ -1843,10 +1864,16 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 {
 	gboolean zoom_changed = FALSE;
 
-	if (pr->window_width == new_width && pr->window_height == new_height) return;
+	gint new_viewport_width = (pr->stereo_mode & PR_STEREO_HORIZ) ? new_width / 2 : new_width;
+	gint new_viewport_height = (pr->stereo_mode & PR_STEREO_VERT) ? new_height / 2 : new_height;
+	
+	if (pr->window_width == new_width && pr->window_height == new_height &&
+	    pr->viewport_width == new_viewport_width && pr->viewport_height == new_viewport_height) return;
 
 	pr->window_width = new_width;
 	pr->window_height = new_height;
+	pr->viewport_width = new_viewport_width;
+	pr->viewport_height = new_viewport_height;
 
 	if (pr->zoom == 0.0)
 		{
@@ -1858,7 +1885,8 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 	pr_size_clamp(pr);
 	pr_scroll_clamp(pr);
 
-	pr->renderer->overlay_update_sizes(pr->renderer);
+	pr->renderer->update_sizes(pr->renderer);
+	if (pr->renderer2) pr->renderer2->update_sizes(pr->renderer2);
 
 	/* ensure scroller remains visible */
 	if (pr->scroller_overlay != -1)
@@ -1912,16 +1940,25 @@ static void pixbuf_renderer_paint(PixbufRenderer *pr, GdkRectangle *area)
 {
 	gint x, y;
 
-	pr->renderer->border_draw(pr->renderer, area->x, area->y, area->width, area->height);
 
 	x = MAX(0, (gint)area->x - pr->x_offset + pr->x_scroll);
 	y = MAX(0, (gint)area->y - pr->y_offset + pr->y_scroll);
 
+	pr->renderer->border_draw(pr->renderer, area->x, area->y, area->width, area->height);
 	pr->renderer->queue(pr->renderer,
 			      x, y,
 			      MIN((gint)area->width, pr->width - x),
 			      MIN((gint)area->height, pr->height - y),
 			      FALSE, TILE_RENDER_ALL, FALSE, FALSE);
+	if (pr->renderer2) 
+		{
+		pr->renderer2->border_draw(pr->renderer2, area->x, area->y, area->width, area->height);
+		pr->renderer2->queue(pr->renderer2,
+			      x, y,
+			      MIN((gint)area->width, pr->width - x),
+			      MIN((gint)area->height, pr->height - y),
+			      FALSE, TILE_RENDER_ALL, FALSE, FALSE);
+		}
 }
 
 /*
@@ -1957,6 +1994,7 @@ void pixbuf_renderer_scroll(PixbufRenderer *pr, gint x, gint y)
 	y_off = pr->y_scroll - old_y;
 	
 	pr->renderer->scroll(pr->renderer, x_off, y_off);
+	if (pr->renderer2) pr->renderer2->scroll(pr->renderer2, x_off, y_off);
 }
 
 void pixbuf_renderer_scroll_to_point(PixbufRenderer *pr, gint x, gint y,
@@ -2216,6 +2254,7 @@ static void pr_signals_connect(PixbufRenderer *pr)
  */
 static void pr_pixbuf_size_sync(PixbufRenderer *pr)
 {
+	pr->stereo_pixbuf_off = 0;
 	if (!pr->pixbuf) return;
 	switch (pr->orientation)
 		{
@@ -2225,10 +2264,21 @@ static void pr_pixbuf_size_sync(PixbufRenderer *pr)
 		case EXIF_ORIENTATION_LEFT_BOTTOM:
 			pr->image_width = gdk_pixbuf_get_height(pr->pixbuf);
 			pr->image_height = gdk_pixbuf_get_width(pr->pixbuf);
+			if (GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pr->pixbuf), "stereo_sbs"))) 
+				{
+				pr->image_height /= 2;
+				pr->stereo_pixbuf_off = pr->image_height;
+				}
+			
 			break;
 		default:
 			pr->image_width = gdk_pixbuf_get_width(pr->pixbuf);
 			pr->image_height = gdk_pixbuf_get_height(pr->pixbuf);
+			if (GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pr->pixbuf), "stereo_sbs"))) 
+				{
+				pr->image_width /= 2;
+				pr->stereo_pixbuf_off = pr->image_width;
+				}
 		}
 }
 
@@ -2258,7 +2308,8 @@ static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, P
 #endif
 			{
 			gdk_window_clear(box->window);
-			pr->renderer->overlay_draw(pr->renderer, 0, 0, pr->window_width, pr->window_height);
+			pr->renderer->overlay_draw(pr->renderer, 0, 0, pr->viewport_width, pr->viewport_height);
+			if (pr->renderer2) pr->renderer2->overlay_draw(pr->renderer2, 0, 0, pr->viewport_width, pr->viewport_height);
 			}
 
 		pr_update_signal(pr);
@@ -2422,6 +2473,7 @@ void pixbuf_renderer_area_changed(PixbufRenderer *pr, gint src_x, gint src_y, gi
 	y2 = (gint)ceil((gdouble)(y + height) * pr->scale);
 
 	pr->renderer->queue(pr->renderer, x1, y1, x2 - x1, y2 - y1, FALSE, TILE_RENDER_AREA, TRUE, TRUE);
+	if (pr->renderer2) pr->renderer2->queue(pr->renderer2, x1, y1, x2 - x1, y2 - y1, FALSE, TILE_RENDER_AREA, TRUE, TRUE);
 }
 
 void pixbuf_renderer_zoom_adjust(PixbufRenderer *pr, gdouble increment)

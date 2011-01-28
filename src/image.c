@@ -1340,11 +1340,11 @@ void image_zoom_set_fill_geometry(ImageWindow *imd, gboolean vertical)
 
 	if (vertical)
 		{
-		zoom = (gdouble)pr->window_height / height;
+		zoom = (gdouble)pr->viewport_height / height;
 		}
 	else
 		{
-		zoom = (gdouble)pr->window_width / width;
+		zoom = (gdouble)pr->viewport_width / width;
 		}
 
 	if (zoom < 1.0)

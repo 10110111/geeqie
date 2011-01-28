@@ -74,6 +74,17 @@ typedef enum {
 	/* OVL_HIDE_ON_SCROLL = 1 << 1*/ /* hide temporarily when scrolling (not yet implemented) */
 } OverlayRendererFlags;
 
+typedef enum {
+	PR_STEREO_NONE     = 0,	  /* do nothing */
+	PR_STEREO_DUAL     = 1 << 0, /* independent stereo buffers, for example nvidia opengl */
+	PR_STEREO_HORIZ    = 1 << 2, /* side by side */
+	PR_STEREO_VERT     = 1 << 3, /* above below */
+	/* flags for renderer: */
+	PR_STEREO_RIGHT    = 1 << 4, /* above below */
+	PR_STEREO_ANAGLYPH = 1 << 5  /* anaglyph */
+	
+} PixbufRendererStereoMode;
+
 struct _RendererFuncs
 {
 	void (*queue)(void *renderer, gint x, gint y, gint w, gint h,
@@ -83,11 +94,11 @@ struct _RendererFuncs
 	void (*invalidate_all)(void *renderer);
 	void (*invalidate_region)(void *renderer, gint x, gint y, gint w, gint h);
 	void (*scroll)(void *renderer, gint x_off, gint y_off);
+	void (*update_sizes)(void *renderer);
 
 	gint (*overlay_add)(void *renderer, GdkPixbuf *pixbuf, gint x, gint y, OverlayRendererFlags flags);
 	void (*overlay_set)(void *renderer, gint id, GdkPixbuf *pixbuf, gint x, gint y);
 	gboolean (*overlay_get)(void *renderer, gint id, GdkPixbuf **pixbuf, gint *x, gint *y);
-	void (*overlay_update_sizes)(void *renderer);
 	void (*overlay_draw)(void *renderer, gint x, gint y, gint w, gint h);
 
 	void (*free)(void *renderer);
@@ -99,6 +110,7 @@ struct _PixbufRenderer
 
 	gint image_width;	/* image actual dimensions (pixels) */
 	gint image_height;
+	gint stereo_pixbuf_off; /* offset of the right part of the stereo image in pixbuf */
 
 	GdkPixbuf *pixbuf;
 
@@ -193,7 +205,10 @@ struct _PixbufRenderer
 
 	gint orientation;
 
+	gint stereo_mode;
+	
 	RendererFuncs *renderer;
+	RendererFuncs *renderer2;
 };
 
 struct _PixbufRendererClass

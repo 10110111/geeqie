@@ -362,6 +362,11 @@ static void image_loader_sync_pixbuf(ImageLoader *il)
 		return;
 		}
 
+	if (g_ascii_strcasecmp(".jps", il->fd->extension) == 0)
+		{
+		g_object_set_data(G_OBJECT(pb), "stereo_sbs", GINT_TO_POINTER(1));
+		}
+
 	if (il->pixbuf) g_object_unref(il->pixbuf);
 
 	il->pixbuf = pb;
