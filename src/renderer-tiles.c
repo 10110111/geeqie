@@ -1263,7 +1263,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 	GtkWidget *box;
 	gboolean has_alpha;
 	gboolean draw = FALSE;
-	gint stereo_pixbuf_off;
+	gint stereo_right_pixbuf_off;
 
 	if (it->render_todo == TILE_RENDER_NONE && it->pixmap && !new_data) return;
 
@@ -1288,7 +1288,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 	rt_tile_prepare(rt, it);
 	has_alpha = (pr->pixbuf && gdk_pixbuf_get_has_alpha(pr->pixbuf));
 
-	stereo_pixbuf_off = (rt->stereo_mode & PR_STEREO_RIGHT) ? pr->stereo_pixbuf_off : 0;
+	stereo_right_pixbuf_off = (rt->stereo_mode & PR_STEREO_RIGHT) ? pr->stereo_pixbuf_off : 0;
 	box = GTK_WIDGET(pr);
 
 	/* FIXME checker colors for alpha should be configurable,
@@ -1308,17 +1308,18 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 	else if ((pr->zoom == 1.0 || pr->scale == 1.0) &&
 		 !has_alpha &&
 		 pr->orientation == EXIF_ORIENTATION_TOP_LEFT && 
-		 !(pr->func_post_process && !(pr->post_process_slow && fast)))
+		 !(pr->func_post_process && !(pr->post_process_slow && fast)) &&
+		 !(rt->stereo_mode & PR_STEREO_ANAGLYPH))
 		{
 		/* special case: faster, simple, scale 1.0, base orientation, no postprocessing */
-		gdk_draw_pixbuf(it->pixmap,
+		gdk_draw_pixbuf(it->pixmap, 
 #if GTK_CHECK_VERSION(2,20,0)
 				box->style->fg_gc[gtk_widget_get_state(box)],
 #else
 				box->style->fg_gc[GTK_WIDGET_STATE(box)],
 #endif
 				pr->pixbuf,
-				it->x + x + stereo_pixbuf_off, it->y + y,
+				it->x + x + stereo_right_pixbuf_off, it->y + y,
 				x, y,
 				w, h,
 				pr->dither_quality, it->x + x, it->y + y);
@@ -1360,7 +1361,6 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 				/* nothing to do */
 				break;
 			}
-		src_x += stereo_pixbuf_off * scale_x;
 		
 		/* HACK: The pixbuf scalers get kinda buggy(crash) with extremely
 		 * small sizes for anything but GDK_INTERP_NEAREST
@@ -1369,11 +1369,24 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 
 		rt_tile_get_region(has_alpha,
 				   pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
-				   (gdouble) 0.0 - src_x,
+				   (gdouble) 0.0 - src_x - stereo_right_pixbuf_off * scale_x,
 				   (gdouble) 0.0 - src_y,
 				   scale_x, scale_y,
 				   (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality,
 				   it->x + pb_x, it->y + pb_y);
+		if (rt->stereo_mode & PR_STEREO_ANAGLYPH && pr->stereo_pixbuf_off > 0)
+			{
+			GdkPixbuf *right_pb = rt_get_spare_tile(rt);
+			rt_tile_get_region(has_alpha,
+					   pr->pixbuf, right_pb, pb_x, pb_y, pb_w, pb_h,
+					   (gdouble) 0.0 - src_x - pr->stereo_pixbuf_off * scale_x,
+					   (gdouble) 0.0 - src_y,
+					   scale_x, scale_y,
+					   (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality,
+					   it->x + pb_x, it->y + pb_y);
+			pr_create_anaglyph(it->pixbuf, right_pb, pb_x, pb_y, pb_w, pb_h);
+			/* do not care about freeing spare_tile, it will be reused */
+			}
 		rt_tile_apply_orientation(rt, &it->pixbuf, pb_x, pb_y, pb_w, pb_h);
 		draw = TRUE;
 		}

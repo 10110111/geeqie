@@ -428,11 +428,11 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 	pr->norm_center_x = 0.5;
 	pr->norm_center_y = 0.5;
 	
-	pr->stereo_mode = PR_STEREO_HORIZ;
+	pr->stereo_mode = PR_STEREO_ANAGLYPH;
 	
 	pr->renderer = (void *)renderer_tiles_new(pr, pr->stereo_mode);
 	
-	pr->renderer2 = (pr->stereo_mode && (PR_STEREO_HORIZ || PR_STEREO_VERT)) ?
+	pr->renderer2 = (pr->stereo_mode & (PR_STEREO_HORIZ | PR_STEREO_VERT)) ?
 	              (void *)renderer_tiles_new(pr, pr->stereo_mode | PR_STEREO_RIGHT) : NULL;
 
 	gtk_widget_set_double_buffered(box, FALSE);
@@ -2246,6 +2246,44 @@ static void pr_signals_connect(PixbufRenderer *pr)
 			 G_CALLBACK(pr_mouse_drag_cb), pr);
 
 }
+
+/*
+ *-------------------------------------------------------------------
+ * stereo support
+ *-------------------------------------------------------------------
+ */
+
+#define COLOR_BYTES 3   /* rgb */
+void pr_create_anaglyph(GdkPixbuf *pixbuf, GdkPixbuf *right, gint x, gint y, gint w, gint h)
+{
+	gint srs, drs;
+	guchar *s_pix, *d_pix;
+	guchar *sp, *dp;
+	guchar *spi, *dpi;
+	gint i, j;
+
+	srs = gdk_pixbuf_get_rowstride(right);
+	s_pix = gdk_pixbuf_get_pixels(right);
+	spi = s_pix + (x * COLOR_BYTES);
+
+	drs = gdk_pixbuf_get_rowstride(pixbuf);
+	d_pix = gdk_pixbuf_get_pixels(pixbuf);
+	dpi =  d_pix + x * COLOR_BYTES;
+
+	for (i = y; i < y + h; i++)
+		{
+		sp = spi + (i * srs);
+		dp = dpi + (i * drs);
+		for (j = 0; j < w; j++)
+			{
+			*dp = *sp; /* copy red channel */
+			sp += COLOR_BYTES;
+			dp += COLOR_BYTES;
+			}
+		}
+}
+ 
+ 
 
 /*
  *-------------------------------------------------------------------
