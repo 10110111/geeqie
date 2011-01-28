@@ -1212,6 +1212,48 @@ static gboolean rt_source_tile_render(RendererTiles *rt, ImageTile *it,
 	return draw;
 }
 
+static void rt_tile_get_region(gboolean has_alpha, 
+                               const GdkPixbuf *src, GdkPixbuf *dest,
+                               int pb_x, int pb_y, int pb_w, int pb_h,
+                               double offset_x, double offset_y, double scale_x, double scale_y,
+                               GdkInterpType interp_type,
+                               int check_x, int check_y)
+{
+	if (!has_alpha)
+		{
+		if (scale_x == 1.0 && scale_y == 1.0)
+			{
+			gdk_pixbuf_copy_area(src,
+					     -offset_x + pb_x, -offset_y + pb_y,
+					     pb_w, pb_h,
+					     dest,
+					     pb_x, pb_y);
+			} 
+		else
+			{
+			gdk_pixbuf_scale(src, dest, 
+					 pb_x, pb_y, pb_w, pb_h,
+					 offset_x,
+					 offset_y,
+					 scale_x, scale_y,
+					 interp_type);
+			}
+		}
+	else
+		{
+		gdk_pixbuf_composite_color(src, dest, 
+					 pb_x, pb_y, pb_w, pb_h,
+					 offset_x,
+					 offset_y,
+					 scale_x, scale_y,
+					 interp_type,
+					 255, check_x, check_y,
+					 PR_ALPHA_CHECK_SIZE, PR_ALPHA_CHECK1, PR_ALPHA_CHECK2);
+		}
+}
+
+
+
 
 static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 			   gint x, gint y, gint w, gint h,
@@ -1278,48 +1320,34 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 					    w, h,
 					    &pb_x, &pb_y,
 					    &pb_w, &pb_h);
-		src_x += stereo_pixbuf_off;
 
-		if (has_alpha)
+		if (!has_alpha &&
+		    pr->orientation == EXIF_ORIENTATION_TOP_LEFT && 
+		    !(pr->func_post_process && !(pr->post_process_slow && fast)))
 			{
-			gdk_pixbuf_composite_color(pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
-					 (gdouble) 0.0 - src_x,
-					 (gdouble) 0.0 - src_y,
-					 1.0, 1.0, GDK_INTERP_NEAREST,
-					 255, it->x + pb_x, it->y + pb_y,
-					 PR_ALPHA_CHECK_SIZE, PR_ALPHA_CHECK1, PR_ALPHA_CHECK2);
-			rt_tile_apply_orientation(rt, &it->pixbuf, pb_x, pb_y, pb_w, pb_h);
-			draw = TRUE;
+			/* faster, simple, base orientation, no postprocessing */
+			gdk_draw_pixbuf(it->pixmap,
+#if GTK_CHECK_VERSION(2,20,0)
+					box->style->fg_gc[gtk_widget_get_state(box)],
+#else
+					box->style->fg_gc[GTK_WIDGET_STATE(box)],
+#endif
+					pr->pixbuf,
+					it->x + x + stereo_pixbuf_off, it->y + y,
+					x, y,
+					w, h,
+					pr->dither_quality, it->x + x, it->y + y);
 			}
 		else
 			{
-
-
-			if (pr->orientation == EXIF_ORIENTATION_TOP_LEFT && !(pr->func_post_process && !(pr->post_process_slow && fast)))
-				{
-				/* faster, simple, base orientation, no postprocessing */
-				gdk_draw_pixbuf(it->pixmap,
-#if GTK_CHECK_VERSION(2,20,0)
-						box->style->fg_gc[gtk_widget_get_state(box)],
-#else
-						box->style->fg_gc[GTK_WIDGET_STATE(box)],
-#endif
-						pr->pixbuf,
-						it->x + x + stereo_pixbuf_off, it->y + y,
-						x, y,
-						w, h,
-						pr->dither_quality, it->x + x, it->y + y);
-				}
-			else
-				{
-				gdk_pixbuf_copy_area(pr->pixbuf,
-						     src_x + pb_x, src_y + pb_y,
-						     pb_w, pb_h,
-						     it->pixbuf,
-						     pb_x, pb_y);
-				rt_tile_apply_orientation(rt, &it->pixbuf, pb_x, pb_y, pb_w, pb_h);
-				draw = TRUE;
-				}
+			rt_tile_get_region(has_alpha,
+					  pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
+					  (gdouble) 0.0 - src_x - stereo_pixbuf_off,
+					  (gdouble) 0.0 - src_y,
+					  1.0, 1.0, GDK_INTERP_NEAREST,
+					  it->x + pb_x, it->y + pb_y);
+			rt_tile_apply_orientation(rt, &it->pixbuf, pb_x, pb_y, pb_w, pb_h);
+			draw = TRUE;
 			}
 		}
 	else
@@ -1366,24 +1394,13 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 		 */
 		if (pr->width < PR_MIN_SCALE_SIZE || pr->height < PR_MIN_SCALE_SIZE) fast = TRUE;
 
-		if (!has_alpha)
-			{
-			gdk_pixbuf_scale(pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
-					 (gdouble) 0.0 - src_x,
-					 (gdouble) 0.0 - src_y,
-					 scale_x, scale_y,
-					 (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality);
-			}
-		else
-			{
-			gdk_pixbuf_composite_color(pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
-					 (gdouble) 0.0 - src_x,
-					 (gdouble) 0.0 - src_y,
-					 scale_x, scale_y,
-					 (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality,
-					 255, it->x + pb_x, it->y + pb_y,
-					 PR_ALPHA_CHECK_SIZE, PR_ALPHA_CHECK1, PR_ALPHA_CHECK2);
-			}
+		rt_tile_get_region(has_alpha,
+				   pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
+				   (gdouble) 0.0 - src_x,
+				   (gdouble) 0.0 - src_y,
+				   scale_x, scale_y,
+				   (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality,
+				   it->x + pb_x, it->y + pb_y);
 		rt_tile_apply_orientation(rt, &it->pixbuf, pb_x, pb_y, pb_w, pb_h);
 		draw = TRUE;
 		}
