@@ -1336,7 +1336,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 		scale_y = (gdouble)pr->height / pr->image_height;
 
 		pr_tile_coords_map_orientation(pr->orientation, it->x, it->y,
-					    pr->image_width * scale_x, pr->image_height * scale_y,
+					    pr->width, pr->height,
 					    rt->tile_width, rt->tile_height,
 					    &src_x, &src_y);
 		pr_tile_region_map_orientation(pr->orientation, x, y,
