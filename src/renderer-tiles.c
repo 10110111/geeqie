@@ -1408,7 +1408,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 				x, y,
 				x, y,
 				w, h,
-				pr->dither_quality, it->x + x + rt->stereo_off_x, it->y + y + rt->stereo_off_y);
+				pr->dither_quality, it->x + x, it->y + y);
 		}
 
 #if 0
@@ -1427,6 +1427,28 @@ static void rt_tile_expose(RendererTiles *rt, ImageTile *it,
 {
 	PixbufRenderer *pr = rt->pr;
 	GtkWidget *box;
+
+	/* clamp to visible */
+	if (it->x + x < pr->x_scroll)
+		{
+		w -= pr->x_scroll - it->x - x;
+		x = pr->x_scroll - it->x;
+		}
+	if (it->x + x + w > pr->x_scroll + pr->vis_width)
+		{
+		w = pr->x_scroll + pr->vis_width - it->x - x; 
+		}
+	if (w < 1) return;
+	if (it->y + y < pr->y_scroll)
+		{
+		h -= pr->y_scroll - it->y - y;
+		y = pr->y_scroll - it->y;
+		}
+	if (it->y + y + h > pr->y_scroll + pr->vis_height)
+		{
+		h = pr->y_scroll + pr->vis_height - it->y - y; 
+		}
+	if (h < 1) return;
 
 	rt_tile_render(rt, it, x, y, w, h, new_data, fast);
 
