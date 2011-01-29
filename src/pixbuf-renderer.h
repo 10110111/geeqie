@@ -146,6 +146,8 @@ struct _PixbufRenderer
 	gdouble zoom;		/* zoom we want (0 is auto) */
 	gdouble scale;		/* zoom we got (should never be 0) */
 
+	gdouble aspect_ratio;   /* screen pixel aspect ratio (2.0 for 3DTV SBS mode) */
+
 	GdkInterpType zoom_quality;
 	gboolean zoom_2pass;
 	gboolean zoom_expand;

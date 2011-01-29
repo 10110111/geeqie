@@ -409,6 +409,7 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 
 	pr->zoom = 1.0;
 	pr->scale = 1.0;
+	pr->aspect_ratio = 2.0;
 
 	pr->dither_quality = GDK_RGB_DITHER_NORMAL;
 
@@ -428,7 +429,7 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 	pr->norm_center_x = 0.5;
 	pr->norm_center_y = 0.5;
 	
-	pr->stereo_mode = PR_STEREO_ANAGLYPH;
+	pr->stereo_mode = PR_STEREO_HORIZ;
 	
 	pr->renderer = (void *)renderer_tiles_new(pr, pr->stereo_mode);
 	
@@ -1698,9 +1699,9 @@ static gboolean pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
 
 		if ((pr->zoom_expand && !sizeable) || w > max_w || h > max_h)
 			{
-			if ((gdouble)max_w / w > (gdouble)max_h / h)
+			if ((gdouble)max_w / w > (gdouble)max_h / h / pr->aspect_ratio)
 				{
-				scale = (gdouble)max_h / h;
+				scale = (gdouble)max_h / h / pr->aspect_ratio;
 				h = max_h;
 				w = w * scale + 0.5;
 				if (w > max_w) w = max_w;
@@ -1709,7 +1710,7 @@ static gboolean pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
 				{
 				scale = (gdouble)max_w / w;
 				w = max_w;
-				h = h * scale + 0.5;
+				h = h * scale * pr->aspect_ratio + 0.5;
 				if (h > max_h) h = max_h;
 				}
 
@@ -1733,13 +1734,13 @@ static gboolean pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
 		{
 		scale = zoom;
 		w = w * scale;
-		h = h * scale;
+		h = h * scale * pr->aspect_ratio;
 		}
 	else /* zoom out */
 		{
 		scale = 1.0 / (0.0 - zoom);
 		w = w * scale;
-		h = h * scale;
+		h = h * scale * pr->aspect_ratio;
 		}
 
 	invalid = (pr->width != w || pr->height != h);
@@ -1807,12 +1808,12 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 			case PR_SCROLL_RESET_NOCHANGE:
 				/* maintain old scroll position */
 				pr->x_scroll = ((gdouble)pr->image_width * old_center_x * pr->scale) - pr->vis_width / 2;
-				pr->y_scroll = ((gdouble)pr->image_height * old_center_y * pr->scale) - pr->vis_height / 2;
+				pr->y_scroll = ((gdouble)pr->image_height * old_center_y * pr->scale * pr->aspect_ratio) - pr->vis_height / 2;
 				break;
 			case PR_SCROLL_RESET_CENTER:
 				/* center new image */
 				pr->x_scroll = ((gdouble)pr->image_width / 2.0 * pr->scale) - pr->vis_width / 2;
-				pr->y_scroll = ((gdouble)pr->image_height / 2.0 * pr->scale) - pr->vis_height / 2;
+				pr->y_scroll = ((gdouble)pr->image_height / 2.0 * pr->scale * pr->aspect_ratio) - pr->vis_height / 2;
 				break;
 			case PR_SCROLL_RESET_TOPLEFT:
 			default:
@@ -1828,12 +1829,12 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 		if (center_point)
 			{
 			pr->x_scroll = old_cx / old_scale * pr->scale - (px - pr->x_offset);
-			pr->y_scroll = old_cy / old_scale * pr->scale - (py - pr->y_offset);
+			pr->y_scroll = old_cy / old_scale * pr->scale * pr->aspect_ratio - (py - pr->y_offset);
 			}
 		else
 			{
 			pr->x_scroll = old_cx / old_scale * pr->scale - (pr->vis_width / 2);
-			pr->y_scroll = old_cy / old_scale * pr->scale - (pr->vis_height / 2);
+			pr->y_scroll = old_cy / old_scale * pr->scale * pr->aspect_ratio - (pr->vis_height / 2);
 			}
 		}
 
@@ -2010,7 +2011,7 @@ void pixbuf_renderer_scroll_to_point(PixbufRenderer *pr, gint x, gint y,
 	ay = (gdouble)pr->vis_height * y_align;
 
 	px = (gdouble)x * pr->scale - (pr->x_scroll + ax);
-	py = (gdouble)y * pr->scale - (pr->y_scroll + ay);
+	py = (gdouble)y * pr->scale * pr->aspect_ratio - (pr->y_scroll + ay);
 
 	pixbuf_renderer_scroll(pr, px, py);
 }
@@ -2506,9 +2507,9 @@ void pixbuf_renderer_area_changed(PixbufRenderer *pr, gint src_x, gint src_y, gi
 		}
 
 	x1 = (gint)floor((gdouble)x * pr->scale);
-	y1 = (gint)floor((gdouble)y * pr->scale);
+	y1 = (gint)floor((gdouble)y * pr->scale * pr->aspect_ratio);
 	x2 = (gint)ceil((gdouble)(x + width) * pr->scale);
-	y2 = (gint)ceil((gdouble)(y + height) * pr->scale);
+	y2 = (gint)ceil((gdouble)(y + height) * pr->scale * pr->aspect_ratio);
 
 	pr->renderer->queue(pr->renderer, x1, y1, x2 - x1, y2 - y1, FALSE, TILE_RENDER_AREA, TRUE, TRUE);
 	if (pr->renderer2) pr->renderer2->queue(pr->renderer2, x1, y1, x2 - x1, y2 - y1, FALSE, TILE_RENDER_AREA, TRUE, TRUE);
@@ -2629,7 +2630,7 @@ gboolean pixbuf_renderer_get_mouse_position(PixbufRenderer *pr, gint *x_pixel_re
 		}
 	
 	x_pixel = floor((gdouble)(pr->x_mouse - pr->x_offset + pr->x_scroll) / pr->scale);
-	y_pixel = floor((gdouble)(pr->y_mouse - pr->y_offset + pr->y_scroll) / pr->scale);
+	y_pixel = floor((gdouble)(pr->y_mouse - pr->y_offset + pr->y_scroll) / pr->scale / pr->aspect_ratio);
 	x_pixel_clamped = CLAMP(x_pixel, 0, pr->image_width - 1);
 	y_pixel_clamped = CLAMP(y_pixel, 0, pr->image_height - 1);
 	
@@ -2695,9 +2696,9 @@ gboolean pixbuf_renderer_get_visible_rect(PixbufRenderer *pr, GdkRectangle *rect
 		}
 
 	rect->x = (gint)((gdouble)pr->x_scroll / pr->scale);
-	rect->y = (gint)((gdouble)pr->y_scroll / pr->scale);
+	rect->y = (gint)((gdouble)pr->y_scroll / pr->scale / pr->aspect_ratio);
 	rect->width = (gint)((gdouble)pr->vis_width / pr->scale);
-	rect->height = (gint)((gdouble)pr->vis_height / pr->scale);
+	rect->height = (gint)((gdouble)pr->vis_height / pr->scale / pr->aspect_ratio);
 	return TRUE;
 }
 

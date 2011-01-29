@@ -1306,6 +1306,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 		draw = rt_source_tile_render(rt, it, x, y, w, h, new_data, fast);
 		}
 	else if ((pr->zoom == 1.0 || pr->scale == 1.0) &&
+		 pr->aspect_ratio == 1.0 &&
 		 !has_alpha &&
 		 pr->orientation == EXIF_ORIENTATION_TOP_LEFT && 
 		 !(pr->func_post_process && !(pr->post_process_slow && fast)) &&
