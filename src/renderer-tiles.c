@@ -692,7 +692,7 @@ static void rt_overlay_update_sizes(RendererTiles *rt)
 			gint x, y, w, h;
 
 			rt_overlay_get_position(rt, od, &x, &y, &w, &h);
-			gdk_window_move_resize(od->window, x, y, w, h);
+			gdk_window_move_resize(od->window, x + rt->stereo_off_x, y + rt->stereo_off_y, w, h);
 			}
 		}
 }
@@ -812,7 +812,7 @@ void renderer_tiles_overlay_set(RendererTiles *rt, gint id, GdkPixbuf *pixbuf, g
 
 		rt_overlay_queue_draw(rt, od, 0, 0, 0, 0);
 		rt_overlay_get_position(rt, od, &px, &py, &pw, &ph);
-		gdk_window_move_resize(od->window, px, py, pw, ph);
+		gdk_window_move_resize(od->window, px + rt->stereo_off_x, py + rt->stereo_off_y, pw, ph);
 		}
 	else
 		{
