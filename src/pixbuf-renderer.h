@@ -81,7 +81,9 @@ typedef enum {
 	PR_STEREO_VERT     = 1 << 3, /* above below */
 	/* flags for renderer: */
 	PR_STEREO_RIGHT    = 1 << 4, /* above below */
-	PR_STEREO_ANAGLYPH = 1 << 5  /* anaglyph */
+	PR_STEREO_ANAGLYPH = 1 << 5, /* anaglyph */
+	PR_STEREO_MIRROR   = 1 << 6, /* anaglyph */
+	PR_STEREO_FLIP     = 1 << 7  /* anaglyph */
 	
 } PixbufRendererStereoMode;
 

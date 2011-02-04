@@ -134,6 +134,10 @@ struct _RendererTiles
 	gint stereo_mode;
 	gint stereo_off_x;
 	gint stereo_off_y;
+	
+	gint x_scroll;  /* allow local adjustment and mirroring */
+	gint y_scroll;
+	
 };
 
 
@@ -158,6 +162,19 @@ static void rt_hierarchy_changed_cb(GtkWidget *widget, GtkWidget *previous_tople
 static void pixbuf_renderer_paint(RendererTiles *rt, GdkRectangle *area);
 static gint rt_queue_draw_idle_cb(gpointer data);
 
+
+static void rt_sync_scroll(RendererTiles *rt)
+{
+	PixbufRenderer *pr = rt->pr;
+	
+	rt->x_scroll = (rt->stereo_mode & PR_STEREO_MIRROR) ? 
+	               pr->width - pr->vis_width - pr->x_scroll 
+	               : pr->x_scroll;
+	
+	rt->y_scroll = (rt->stereo_mode & PR_STEREO_FLIP) ? 
+	               pr->height - pr->vis_height - pr->y_scroll 
+	               : pr->y_scroll;
+}
 
 /*
  *-------------------------------------------------------------------
@@ -574,8 +591,8 @@ static void rt_overlay_draw(RendererTiles *rt, gint x, gint y, gint w, gint h,
 				gdk_draw_drawable(rt->overlay_buffer, box->style->fg_gc[GTK_WIDGET_STATE(box)],
 #endif
 						  it->pixmap,
-						  rx - (pr->x_offset + (it->x - pr->x_scroll)),
-						  ry - (pr->y_offset + (it->y - pr->y_scroll)),
+						  rx - (pr->x_offset + (it->x - rt->x_scroll)),
+						  ry - (pr->y_offset + (it->y - rt->y_scroll)),
 						  0, 0, rw, rh);
 				gdk_draw_pixbuf(rt->overlay_buffer,
 #if GTK_CHECK_VERSION(2,20,0)
@@ -653,8 +670,8 @@ static void rt_overlay_queue_draw(RendererTiles *rt, OverlayData *od, gint x1, g
 	w += x1 + x2;
 	h += y1 + y2;
 	
-	rt_queue(rt, pr->x_scroll - pr->x_offset + x,
-		 pr->y_scroll - pr->y_offset + y,
+	rt_queue(rt, rt->x_scroll - pr->x_offset + x,
+		 rt->y_scroll - pr->y_offset + y,
 		 w, h,
 		 FALSE, TILE_RENDER_ALL, FALSE, FALSE);
 
@@ -1035,10 +1052,9 @@ static void rt_tile_flip_only(RendererTiles *rt, GdkPixbuf **tile, gint x, gint 
 	*tile = dest;
 }
 
-static void rt_tile_apply_orientation(RendererTiles *rt, GdkPixbuf **pixbuf, gint x, gint y, gint w, gint h)
+static void rt_tile_apply_orientation(RendererTiles *rt, gint orientation, GdkPixbuf **pixbuf, gint x, gint y, gint w, gint h)
 {
-	PixbufRenderer *pr = rt->pr;
-	switch (pr->orientation)
+	switch (orientation)
 		{
 		case EXIF_ORIENTATION_TOP_LEFT:
 			/* normal -- nothing to do */
@@ -1264,6 +1280,9 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 	gboolean has_alpha;
 	gboolean draw = FALSE;
 	gint stereo_right_pixbuf_off;
+	gint orientation = pr->orientation;
+	static const gint mirror[]       = {1,   2, 1, 4, 3, 6, 5, 8, 7};
+	static const gint flip[]         = {1,   4, 3, 2, 1, 8, 7, 6, 5};
 
 	if (it->render_todo == TILE_RENDER_NONE && it->pixmap && !new_data) return;
 
@@ -1289,6 +1308,8 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 	has_alpha = (pr->pixbuf && gdk_pixbuf_get_has_alpha(pr->pixbuf));
 
 	stereo_right_pixbuf_off = (rt->stereo_mode & PR_STEREO_RIGHT) ? pr->stereo_pixbuf_off : 0;
+	if (rt->stereo_mode & PR_STEREO_MIRROR) orientation = mirror[orientation];
+	if (rt->stereo_mode & PR_STEREO_FLIP) orientation = flip[orientation];
 	box = GTK_WIDGET(pr);
 
 	/* FIXME checker colors for alpha should be configurable,
@@ -1308,7 +1329,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 	else if ((pr->zoom == 1.0 || pr->scale == 1.0) &&
 		 pr->aspect_ratio == 1.0 &&
 		 !has_alpha &&
-		 pr->orientation == EXIF_ORIENTATION_TOP_LEFT && 
+		 orientation == EXIF_ORIENTATION_TOP_LEFT && 
 		 !(pr->func_post_process && !(pr->post_process_slow && fast)) &&
 		 !(rt->stereo_mode & PR_STEREO_ANAGLYPH))
 		{
@@ -1337,17 +1358,17 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 		scale_x = (gdouble)pr->width / pr->image_width;
 		scale_y = (gdouble)pr->height / pr->image_height;
 
-		pr_tile_coords_map_orientation(pr->orientation, it->x, it->y,
+		pr_tile_coords_map_orientation(orientation, it->x, it->y,
 					    pr->width, pr->height,
 					    rt->tile_width, rt->tile_height,
 					    &src_x, &src_y);
-		pr_tile_region_map_orientation(pr->orientation, x, y,
+		pr_tile_region_map_orientation(orientation, x, y,
 					    rt->tile_width, rt->tile_height,
 					    w, h,
 					    &pb_x, &pb_y,
 					    &pb_w, &pb_h);
-
-		switch (pr->orientation)
+//printf("%d  %d\n", GET_X_SCROLL(rt), src_x);
+		switch (orientation)
 			{
 			gdouble tmp;
 			case EXIF_ORIENTATION_LEFT_TOP:
@@ -1388,7 +1409,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 			pr_create_anaglyph(it->pixbuf, right_pb, pb_x, pb_y, pb_w, pb_h);
 			/* do not care about freeing spare_tile, it will be reused */
 			}
-		rt_tile_apply_orientation(rt, &it->pixbuf, pb_x, pb_y, pb_w, pb_h);
+		rt_tile_apply_orientation(rt, orientation, &it->pixbuf, pb_x, pb_y, pb_w, pb_h);
 		draw = TRUE;
 		}
 
@@ -1429,24 +1450,24 @@ static void rt_tile_expose(RendererTiles *rt, ImageTile *it,
 	GtkWidget *box;
 
 	/* clamp to visible */
-	if (it->x + x < pr->x_scroll)
+	if (it->x + x < rt->x_scroll)
 		{
-		w -= pr->x_scroll - it->x - x;
-		x = pr->x_scroll - it->x;
+		w -= rt->x_scroll - it->x - x;
+		x = rt->x_scroll - it->x;
 		}
-	if (it->x + x + w > pr->x_scroll + pr->vis_width)
+	if (it->x + x + w > rt->x_scroll + pr->vis_width)
 		{
-		w = pr->x_scroll + pr->vis_width - it->x - x; 
+		w = rt->x_scroll + pr->vis_width - it->x - x; 
 		}
 	if (w < 1) return;
-	if (it->y + y < pr->y_scroll)
+	if (it->y + y < rt->y_scroll)
 		{
-		h -= pr->y_scroll - it->y - y;
-		y = pr->y_scroll - it->y;
+		h -= rt->y_scroll - it->y - y;
+		y = rt->y_scroll - it->y;
 		}
-	if (it->y + y + h > pr->y_scroll + pr->vis_height)
+	if (it->y + y + h > rt->y_scroll + pr->vis_height)
 		{
-		h = pr->y_scroll + pr->vis_height - it->y - y; 
+		h = rt->y_scroll + pr->vis_height - it->y - y; 
 		}
 	if (h < 1) return;
 
@@ -1460,12 +1481,12 @@ static void rt_tile_expose(RendererTiles *rt, ImageTile *it,
 	gdk_draw_drawable(box->window, box->style->fg_gc[GTK_WIDGET_STATE(box)],
 #endif
 			  it->pixmap, x, y,
-			  pr->x_offset + (it->x - pr->x_scroll) + x + rt->stereo_off_x, pr->y_offset + (it->y - pr->y_scroll) + y + rt->stereo_off_y, w, h);
+			  pr->x_offset + (it->x - rt->x_scroll) + x + rt->stereo_off_x, pr->y_offset + (it->y - rt->y_scroll) + y + rt->stereo_off_y, w, h);
 
 	if (rt->overlay_list)
 		{
-		rt_overlay_draw(rt, pr->x_offset + (it->x - pr->x_scroll) + x,
-				pr->y_offset + (it->y - pr->y_scroll) + y,
+		rt_overlay_draw(rt, pr->x_offset + (it->x - rt->x_scroll) + x,
+				pr->y_offset + (it->y - rt->y_scroll) + y,
 				w, h,
 				it);
 		}
@@ -1475,8 +1496,8 @@ static void rt_tile_expose(RendererTiles *rt, ImageTile *it,
 static gboolean rt_tile_is_visible(RendererTiles *rt, ImageTile *it)
 {
 	PixbufRenderer *pr = rt->pr;
-	return (it->x + it->w >= pr->x_scroll && it->x < pr->x_scroll + pr->vis_width &&
-		it->y + it->h >= pr->y_scroll && it->y < pr->y_scroll + pr->vis_height);
+	return (it->x + it->w >= rt->x_scroll && it->x < rt->x_scroll + pr->vis_width &&
+		it->y + it->h >= rt->y_scroll && it->y < rt->y_scroll + pr->vis_height);
 }
 
 /*
@@ -1675,6 +1696,7 @@ static void rt_queue_clear(RendererTiles *rt)
 		g_source_remove(rt->draw_idle_id);
 		rt->draw_idle_id = 0;
 		}
+	rt_sync_scroll(rt);
 }
 
 static void rt_queue_merge(QueueData *parent, QueueData *qd)
@@ -1713,8 +1735,8 @@ static gboolean rt_clamp_to_visible(RendererTiles *rt, gint *x, gint *y, gint *w
 	vw = pr->vis_width;
 	vh = pr->vis_height;
 
-	vx = pr->x_scroll;
-	vy = pr->y_scroll;
+	vx = rt->x_scroll;
+	vy = rt->y_scroll;
 
 	if (*x + *w < vx || *x > vx + vw || *y + *h < vy || *y > vy + vh) return FALSE;
 
@@ -1758,10 +1780,10 @@ static gboolean rt_queue_to_tiles(RendererTiles *rt, gint x, gint y, gint w, gin
 
 			it = rt_tile_get(rt, i, j,
 					 (only_existing &&
-					  (i + rt->tile_width < pr->x_scroll ||
-					   i > pr->x_scroll + pr->vis_width ||
-					   j + rt->tile_height < pr->y_scroll ||
-					   j > pr->y_scroll + pr->vis_height)));
+					  (i + rt->tile_width < rt->x_scroll ||
+					   i > rt->x_scroll + pr->vis_width ||
+					   j + rt->tile_height < rt->y_scroll ||
+					   j > rt->y_scroll + pr->vis_height)));
 			if (it)
 				{
 				QueueData *qd;
@@ -1826,6 +1848,8 @@ static void rt_queue(RendererTiles *rt, gint x, gint y, gint w, gint h,
 	PixbufRenderer *pr = rt->pr;
 	gint nx, ny;
 
+	rt_sync_scroll(rt);
+
 	nx = CLAMP(x, 0, pr->width - 1);
 	ny = CLAMP(y, 0, pr->height - 1);
 	w -= (nx - x);
@@ -1858,13 +1882,17 @@ static void rt_scroll(RendererTiles *rt, gint x_off, gint y_off)
 {
 	PixbufRenderer *pr = rt->pr;
 
+	rt_sync_scroll(rt);
+	if (rt->stereo_mode & PR_STEREO_MIRROR) x_off = -x_off;
+	if (rt->stereo_mode & PR_STEREO_FLIP) y_off = -y_off; 
+
 	gint w = pr->vis_width - abs(x_off);
 	gint h = pr->vis_height - abs(y_off);
 
 	if (w < 1 || h < 1)
 		{
 		/* scrolled completely to new material */
-		pr->renderer->queue(pr->renderer, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, FALSE, FALSE);
+		rt_queue(rt, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, FALSE, FALSE);
 		return;
 		}
 	else
@@ -1915,14 +1943,14 @@ static void rt_scroll(RendererTiles *rt, gint x_off, gint y_off)
 		if (w > 0)
 			{
 			rt_queue(rt,
-				    x_off > 0 ? pr->x_scroll + (pr->vis_width - w) : pr->x_scroll, pr->y_scroll,
+				    x_off > 0 ? rt->x_scroll + (pr->vis_width - w) : rt->x_scroll, rt->y_scroll,
 				    w, pr->vis_height, TRUE, TILE_RENDER_ALL, FALSE, FALSE);
 			}
 		if (h > 0)
 			{
 			/* FIXME, to optimize this, remove overlap */
 			rt_queue(rt,
-				    pr->x_scroll, y_off > 0 ? pr->y_scroll + (pr->vis_height - h) : pr->y_scroll,
+				    rt->x_scroll, y_off > 0 ? rt->y_scroll + (pr->vis_height - h) : rt->y_scroll,
 				    pr->vis_width, h, TRUE, TILE_RENDER_ALL, FALSE, FALSE);
 			}
 
@@ -1946,6 +1974,12 @@ static void rt_scroll(RendererTiles *rt, gint x_off, gint y_off)
 static void renderer_queue(void *renderer, gint x, gint y, gint w, gint h,
                      gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing)
 {
+	RendererTiles *rt = (RendererTiles *)renderer;
+	PixbufRenderer *pr = rt->pr;
+
+	if (rt->stereo_mode & PR_STEREO_MIRROR) x = pr->width - w - x;
+	if (rt->stereo_mode & PR_STEREO_FLIP) y = pr->height - h - y; 
+
 	rt_queue((RendererTiles *)renderer, x, y, w, h, clamp, render, new_data, only_existing);
 }
 
@@ -1979,10 +2013,8 @@ static void renderer_update_sizes(void *renderer)
 {
 	RendererTiles *rt = (RendererTiles *)renderer;
 
-	rt_overlay_update_sizes(rt);
-
 	rt->stereo_off_x = 0;
-	rt->stereo_off_x = 0;
+	rt->stereo_off_y = 0;
 	
 	if (rt->stereo_mode & PR_STEREO_RIGHT) 
 		{
@@ -1995,6 +2027,9 @@ static void renderer_update_sizes(void *renderer)
 			rt->stereo_off_y = rt->pr->viewport_height;
 			}
 		}
+	rt_sync_scroll(rt);
+	rt_overlay_update_sizes(rt);
+
 }
 
 static void renderer_free(void *renderer)

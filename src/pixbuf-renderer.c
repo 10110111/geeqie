@@ -409,7 +409,7 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 
 	pr->zoom = 1.0;
 	pr->scale = 1.0;
-	pr->aspect_ratio = 2.0;
+	pr->aspect_ratio = 1.0;
 
 	pr->dither_quality = GDK_RGB_DITHER_NORMAL;
 
