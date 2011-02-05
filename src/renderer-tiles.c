@@ -2041,6 +2041,13 @@ static void renderer_update_sizes(void *renderer)
 
 }
 
+static void renderer_stereo_set(void *renderer, gint stereo_mode)
+{
+	RendererTiles *rt = (RendererTiles *)renderer;
+
+	rt->stereo_mode = stereo_mode;
+}
+
 static void renderer_free(void *renderer)
 {
 	RendererTiles *rt = (RendererTiles *)renderer;
@@ -2055,7 +2062,7 @@ static void renderer_free(void *renderer)
         g_free(rt);
 }
 
-RendererFuncs *renderer_tiles_new(PixbufRenderer *pr, gint stereo_mode)
+RendererFuncs *renderer_tiles_new(PixbufRenderer *pr)
 {
 	RendererTiles *rt = g_new0(RendererTiles, 1);
 	
@@ -2075,6 +2082,8 @@ RendererFuncs *renderer_tiles_new(PixbufRenderer *pr, gint stereo_mode)
 	rt->f.overlay_set = renderer_tiles_overlay_set;
 	rt->f.overlay_get = renderer_tiles_overlay_get;
 	rt->f.overlay_draw = renderer_overlay_draw;
+
+	rt->f.stereo_set = renderer_stereo_set;
 	
 	rt->tile_width = PR_TILE_SIZE;
 	rt->tile_height = PR_TILE_SIZE;
@@ -2086,7 +2095,7 @@ RendererFuncs *renderer_tiles_new(PixbufRenderer *pr, gint stereo_mode)
 
 	rt->draw_idle_id = 0;
 	
-	rt->stereo_mode = stereo_mode;
+	rt->stereo_mode = 0;
 	rt->stereo_off_x = 0;
 	rt->stereo_off_y = 0;
 

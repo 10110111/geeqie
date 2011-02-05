@@ -1424,6 +1424,24 @@ gdouble image_zoom_get_default(ImageWindow *imd)
 	return zoom;
 }
 
+/* stereo */
+gint image_stereo_get(ImageWindow *imd)
+{
+	return pixbuf_renderer_stereo_get((PixbufRenderer *)imd->pr);
+}
+
+void image_stereo_set(ImageWindow *imd, gint stereo_mode)
+{
+	pixbuf_renderer_stereo_set((PixbufRenderer *)imd->pr, stereo_mode);
+}
+
+void image_stereo_swap(ImageWindow *imd)
+{
+	gint stereo_mode = pixbuf_renderer_stereo_get((PixbufRenderer *)imd->pr);
+	stereo_mode ^= PR_STEREO_SWAP;
+	pixbuf_renderer_stereo_set((PixbufRenderer *)imd->pr, stereo_mode);
+}
+
 /* read ahead */
 
 void image_prebuffer_set(ImageWindow *imd, FileData *fd)

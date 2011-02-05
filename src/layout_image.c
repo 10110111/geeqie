@@ -902,7 +902,27 @@ gboolean layout_image_get_desaturate(LayoutWindow *lw)
 	return image_get_desaturate(lw->image);
 }
 
+/* stereo */
+gint layout_image_stereo_get(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return 0;
 
+	return image_stereo_get(lw->image);
+}
+
+void layout_image_stereo_set(LayoutWindow *lw, gint stereo_mode)
+{
+	if (!layout_valid(&lw)) return;
+
+	image_stereo_set(lw->image, stereo_mode);
+}
+
+void layout_image_stereo_swap(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return;
+
+	image_stereo_swap(lw->image);
+}
 
 const gchar *layout_image_get_path(LayoutWindow *lw)
 {

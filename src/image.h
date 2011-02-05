@@ -91,6 +91,11 @@ gdouble image_zoom_get_real(ImageWindow *imd);
 gchar *image_zoom_get_as_text(ImageWindow *imd);
 gdouble image_zoom_get_default(ImageWindow *imd);
 
+/* stereo */
+gint image_stereo_get(ImageWindow *imd);
+void image_stereo_set(ImageWindow *imd, gint stereo_mode);
+void image_stereo_swap(ImageWindow *imd);
+
 /* read ahead, pass NULL to cancel */
 void image_prebuffer_set(ImageWindow *imd, FileData *fd);
 

@@ -74,20 +74,6 @@ typedef enum {
 	/* OVL_HIDE_ON_SCROLL = 1 << 1*/ /* hide temporarily when scrolling (not yet implemented) */
 } OverlayRendererFlags;
 
-typedef enum {
-	PR_STEREO_NONE     = 0,	  /* do nothing */
-	PR_STEREO_DUAL     = 1 << 0, /* independent stereo buffers, for example nvidia opengl */
-	PR_STEREO_HORIZ    = 1 << 2, /* side by side */
-	PR_STEREO_VERT     = 1 << 3, /* above below */
-	/* flags for renderer: */
-	PR_STEREO_RIGHT    = 1 << 4, /* render right buffer */
-	PR_STEREO_ANAGLYPH = 1 << 5, /* anaglyph */
-	PR_STEREO_MIRROR   = 1 << 6, /* mirror */
-	PR_STEREO_FLIP     = 1 << 7, /* flip */
-	PR_STEREO_SWAP     = 1 << 8  /* swap left and right buffers */
-	
-} PixbufRendererStereoMode;
-
 struct _RendererFuncs
 {
 	void (*queue)(void *renderer, gint x, gint y, gint w, gint h,
@@ -103,6 +89,8 @@ struct _RendererFuncs
 	void (*overlay_set)(void *renderer, gint id, GdkPixbuf *pixbuf, gint x, gint y);
 	gboolean (*overlay_get)(void *renderer, gint id, GdkPixbuf **pixbuf, gint *x, gint *y);
 	void (*overlay_draw)(void *renderer, gint x, gint y, gint w, gint h);
+
+	void (*stereo_set)(void *renderer, gint stereo_mode);
 
 	void (*free)(void *renderer);
 };
@@ -322,6 +310,10 @@ gboolean pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint
 	 				gint *r_mouse, gint *g_mouse, gint *b_mouse);
 
 void pixbuf_renderer_set_size_early(PixbufRenderer *pr, guint width, guint height);
+
+/* stereo */
+void pixbuf_renderer_stereo_set(PixbufRenderer *pr, gint stereo_mode);
+gint pixbuf_renderer_stereo_get(PixbufRenderer *pr);
 
 /* protected - for renderer use only*/
 

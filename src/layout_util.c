@@ -836,6 +836,23 @@ static void layout_menu_slideshow_pause_cb(GtkAction *action, gpointer data)
 	layout_image_slideshow_pause_toggle(lw);
 }
 
+static void layout_menu_stereo_swap_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_stereo_swap(lw);
+}
+
+static void layout_menu_stereo_mode_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint mode = gtk_radio_action_get_current_value(action);
+	layout_image_stereo_set(lw, (layout_image_stereo_get(lw) & ~(PR_STEREO_ANAGLYPH | PR_STEREO_HORIZ | PR_STEREO_VERT)) | mode);
+}
+
+
+
+
 static void layout_menu_help_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1256,6 +1273,7 @@ static GtkActionEntry menu_entries[] = {
   { "ColorMenu",	NULL,			N_("_Color Management"),		NULL, 			NULL,					NULL },
   { "ConnectZoomMenu",	NULL,			N_("_Connected Zoom"),			NULL, 			NULL,					NULL },
   { "SplitMenu",	NULL,			N_("Spli_t"),				NULL, 			NULL,					NULL },
+  { "StereoMenu",	NULL,			N_("Stere_o"),				NULL, 			NULL,					NULL },
   { "OverlayMenu",	NULL,			N_("Image _Overlay"),			NULL, 			NULL,					NULL },
   { "HelpMenu",		NULL,			N_("_Help"),				NULL, 			NULL,					NULL },
 
@@ -1372,6 +1390,7 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "Grayscale",	NULL,			N_("Toggle _grayscale"),		"<shift>G",		N_("Toggle grayscale"),			CB(layout_menu_alter_desaturate_cb), FALSE},
   { "ImageOverlay",	NULL,			N_("Image _Overlay"),			NULL,			N_("Image Overlay"),			CB(layout_menu_overlay_cb),	 FALSE },
   { "ImageHistogram",	NULL,			N_("_Show Histogram"),			NULL,			N_("Show Histogram"),			CB(layout_menu_histogram_cb),	 FALSE },
+  { "StereoSwap",	NULL,			N_("Swap stereo images"),		NULL,			N_("Swap stereo images"),		CB(layout_menu_stereo_swap_cb),	 FALSE },
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
@@ -1411,6 +1430,13 @@ static GtkRadioActionEntry menu_histogram_channel[] = {
 static GtkRadioActionEntry menu_histogram_mode[] = {
   { "HistogramModeLin",	NULL,			N_("Li_near Histogram"),		NULL,			N_("Linear Histogram"),		0 },
   { "HistogramModeLog",	NULL,			N_("_Log Histogram"),			NULL,			N_("Log Histogram"),		1 },
+};
+
+static GtkRadioActionEntry menu_stereo_mode_entries[] = {
+  { "StereoNone",	NULL,			N_("_None"),				NULL,			N_("Stereo Off"),		PR_STEREO_NONE },
+  { "StereoAnaglyph",	NULL,			N_("_Anaglyph"),			NULL,			N_("Stereo Anaglyph"),		PR_STEREO_ANAGLYPH },
+  { "StereoHoriz",	NULL,			N_("_Side by Side"),			NULL,			N_("Stereo Side by Side"),	PR_STEREO_HORIZ },
+  { "StereoVert",	NULL,			N_("Above-_Below"),			NULL,			N_("Stereo Above-Below"),	PR_STEREO_VERT }
 };
 
 
@@ -1550,6 +1576,14 @@ static const gchar *menu_ui_description =
 "        <menuitem action='SplitVertical'/>"
 "        <menuitem action='SplitQuad'/>"
 "        <menuitem action='SplitSingle'/>"
+"      </menu>"
+"      <menu action='StereoMenu'>"
+"        <menuitem action='StereoSwap'/>"
+"        <separator/>"
+"        <menuitem action='StereoNone'/>"
+"        <menuitem action='StereoAnaglyph'/>"
+"        <menuitem action='StereoHoriz'/>"
+"        <menuitem action='StereoVert'/>"
 "      </menu>"
 "      <menu action='ColorMenu'>"
 "        <menuitem action='UseColorProfiles'/>"
@@ -1915,6 +1949,9 @@ void layout_actions_setup(LayoutWindow *lw)
 	gtk_action_group_add_radio_actions(lw->action_group,
 					   menu_histogram_mode, G_N_ELEMENTS(menu_histogram_mode),
 					   0, G_CALLBACK(layout_menu_histogram_mode_cb), lw);
+	gtk_action_group_add_radio_actions(lw->action_group,
+					   menu_stereo_mode_entries, G_N_ELEMENTS(menu_stereo_mode_entries),
+					   0, G_CALLBACK(layout_menu_stereo_mode_cb), lw);
 
 
 	lw->ui_manager = gtk_ui_manager_new();

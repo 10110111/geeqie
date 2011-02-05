@@ -55,6 +55,10 @@ void layout_image_alter_orientation(LayoutWindow *lw, AlterType type);
 void layout_image_set_desaturate(LayoutWindow *lw, gboolean desaturate);
 gboolean layout_image_get_desaturate(LayoutWindow *lw);
 
+gint layout_image_stereo_get(LayoutWindow *lw);
+void layout_image_stereo_set(LayoutWindow *lw, gint stereo_mode);
+void layout_image_stereo_swap(LayoutWindow *lw);
+
 void layout_image_next(LayoutWindow *lw);
 void layout_image_prev(LayoutWindow *lw);
 void layout_image_first(LayoutWindow *lw);
