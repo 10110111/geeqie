@@ -80,10 +80,11 @@ typedef enum {
 	PR_STEREO_HORIZ    = 1 << 2, /* side by side */
 	PR_STEREO_VERT     = 1 << 3, /* above below */
 	/* flags for renderer: */
-	PR_STEREO_RIGHT    = 1 << 4, /* above below */
+	PR_STEREO_RIGHT    = 1 << 4, /* render right buffer */
 	PR_STEREO_ANAGLYPH = 1 << 5, /* anaglyph */
-	PR_STEREO_MIRROR   = 1 << 6, /* anaglyph */
-	PR_STEREO_FLIP     = 1 << 7  /* anaglyph */
+	PR_STEREO_MIRROR   = 1 << 6, /* mirror */
+	PR_STEREO_FLIP     = 1 << 7, /* flip */
+	PR_STEREO_SWAP     = 1 << 8  /* swap left and right buffers */
 	
 } PixbufRendererStereoMode;
 
@@ -112,7 +113,7 @@ struct _PixbufRenderer
 
 	gint image_width;	/* image actual dimensions (pixels) */
 	gint image_height;
-	gint stereo_pixbuf_off; /* offset of the right part of the stereo image in pixbuf */
+	gint stereo_pixbuf_offset; /* offset of the right part of the stereo image in pixbuf */
 
 	GdkPixbuf *pixbuf;
 

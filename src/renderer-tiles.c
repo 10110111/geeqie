@@ -141,6 +141,7 @@ struct _RendererTiles
 };
 
 
+
 static void rt_border_draw(RendererTiles *rt, gint x, gint y, gint w, gint h);
 static void rt_overlay_draw(RendererTiles *rt, gint x, gint y, gint w, gint h, ImageTile *it);
 
@@ -161,6 +162,16 @@ static void rt_size_cb(GtkWidget *widget, GtkAllocation *allocation, gpointer da
 static void rt_hierarchy_changed_cb(GtkWidget *widget, GtkWidget *previous_toplevel, gpointer data);
 static void pixbuf_renderer_paint(RendererTiles *rt, GdkRectangle *area);
 static gint rt_queue_draw_idle_cb(gpointer data);
+
+#define GET_RIGHT_PIXBUF_OFFSET(rt) \
+        (( (rt->stereo_mode & PR_STEREO_RIGHT) && !(rt->stereo_mode & PR_STEREO_SWAP)) || \
+         (!(rt->stereo_mode & PR_STEREO_RIGHT) &&  (rt->stereo_mode & PR_STEREO_SWAP)) ?  \
+          rt->pr->stereo_pixbuf_offset : 0 )
+
+#define GET_LEFT_PIXBUF_OFFSET(rt) \
+        ((!(rt->stereo_mode & PR_STEREO_RIGHT) && !(rt->stereo_mode & PR_STEREO_SWAP)) || \
+         ( (rt->stereo_mode & PR_STEREO_RIGHT) &&  (rt->stereo_mode & PR_STEREO_SWAP)) ?  \
+          rt->pr->stereo_pixbuf_offset : 0 )
 
 
 static void rt_sync_scroll(RendererTiles *rt)
@@ -1279,7 +1290,6 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 	GtkWidget *box;
 	gboolean has_alpha;
 	gboolean draw = FALSE;
-	gint stereo_right_pixbuf_off;
 	gint orientation = pr->orientation;
 	static const gint mirror[]       = {1,   2, 1, 4, 3, 6, 5, 8, 7};
 	static const gint flip[]         = {1,   4, 3, 2, 1, 8, 7, 6, 5};
@@ -1307,7 +1317,6 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 	rt_tile_prepare(rt, it);
 	has_alpha = (pr->pixbuf && gdk_pixbuf_get_has_alpha(pr->pixbuf));
 
-	stereo_right_pixbuf_off = (rt->stereo_mode & PR_STEREO_RIGHT) ? pr->stereo_pixbuf_off : 0;
 	if (rt->stereo_mode & PR_STEREO_MIRROR) orientation = mirror[orientation];
 	if (rt->stereo_mode & PR_STEREO_FLIP) orientation = flip[orientation];
 	box = GTK_WIDGET(pr);
@@ -1341,7 +1350,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 				box->style->fg_gc[GTK_WIDGET_STATE(box)],
 #endif
 				pr->pixbuf,
-				it->x + x + stereo_right_pixbuf_off, it->y + y,
+				it->x + x + GET_RIGHT_PIXBUF_OFFSET(rt), it->y + y,
 				x, y,
 				w, h,
 				pr->dither_quality, it->x + x, it->y + y);
@@ -1367,7 +1376,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 					    w, h,
 					    &pb_x, &pb_y,
 					    &pb_w, &pb_h);
-//printf("%d  %d\n", GET_X_SCROLL(rt), src_x);
+
 		switch (orientation)
 			{
 			gdouble tmp;
@@ -1391,17 +1400,17 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 
 		rt_tile_get_region(has_alpha,
 				   pr->pixbuf, it->pixbuf, pb_x, pb_y, pb_w, pb_h,
-				   (gdouble) 0.0 - src_x - stereo_right_pixbuf_off * scale_x,
+				   (gdouble) 0.0 - src_x - GET_RIGHT_PIXBUF_OFFSET(rt) * scale_x,
 				   (gdouble) 0.0 - src_y,
 				   scale_x, scale_y,
 				   (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality,
 				   it->x + pb_x, it->y + pb_y);
-		if (rt->stereo_mode & PR_STEREO_ANAGLYPH && pr->stereo_pixbuf_off > 0)
+		if (rt->stereo_mode & PR_STEREO_ANAGLYPH && pr->stereo_pixbuf_offset > 0)
 			{
 			GdkPixbuf *right_pb = rt_get_spare_tile(rt);
 			rt_tile_get_region(has_alpha,
 					   pr->pixbuf, right_pb, pb_x, pb_y, pb_w, pb_h,
-					   (gdouble) 0.0 - src_x - pr->stereo_pixbuf_off * scale_x,
+					   (gdouble) 0.0 - src_x - GET_LEFT_PIXBUF_OFFSET(rt) * scale_x,
 					   (gdouble) 0.0 - src_y,
 					   scale_x, scale_y,
 					   (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality,

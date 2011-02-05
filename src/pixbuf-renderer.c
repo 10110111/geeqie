@@ -2293,7 +2293,7 @@ void pr_create_anaglyph(GdkPixbuf *pixbuf, GdkPixbuf *right, gint x, gint y, gin
  */
 static void pr_pixbuf_size_sync(PixbufRenderer *pr)
 {
-	pr->stereo_pixbuf_off = 0;
+	pr->stereo_pixbuf_offset = 0;
 	if (!pr->pixbuf) return;
 	switch (pr->orientation)
 		{
@@ -2306,7 +2306,7 @@ static void pr_pixbuf_size_sync(PixbufRenderer *pr)
 			if (GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pr->pixbuf), "stereo_sbs"))) 
 				{
 				pr->image_height /= 2;
-				pr->stereo_pixbuf_off = pr->image_height;
+				pr->stereo_pixbuf_offset = pr->image_height;
 				}
 			
 			break;
@@ -2316,7 +2316,7 @@ static void pr_pixbuf_size_sync(PixbufRenderer *pr)
 			if (GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pr->pixbuf), "stereo_sbs"))) 
 				{
 				pr->image_width /= 2;
-				pr->stereo_pixbuf_off = pr->image_width;
+				pr->stereo_pixbuf_offset = pr->image_width;
 				}
 		}
 }
