@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: geeqie 1.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-14 16:16+0100\n"
-"PO-Revision-Date: 2011-01-17 20:12+0100\n"
+"PO-Revision-Date: 2011-02-14 16:11+0100\n"
 "Last-Translator: Tore Ericsson <tore.ericsson@telia.com>\n"
 "Language-Team: Swedish\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr "Redigera ID-filen till UFRaw"
 
 #: ../plugins/ufraw/geeqie-ufraw-recursive.desktop.in.h:1
 msgid "UFRaw Batch recursive"
-msgstr "UFRaw Batch recursive"
+msgstr "UFRaw batch, rekursivt"
 
 #: ../src/advanced_exif.c:328
 #: ../src/cache_maint.c:1304
@@ -1470,7 +1470,7 @@ msgstr "D50"
 
 #: ../src/exif.c:218
 msgid "ISO studio tungsten"
-msgstr "ISO studio tungsten"
+msgstr "ISO studio-volfram"
 
 #: ../src/exif.c:226
 msgid "yes, not detected by strobe"
@@ -1524,11 +1524,11 @@ msgstr "egendefinierat"
 #: ../src/exif.c:272
 #: ../src/exif-common.c:375
 msgid "auto"
-msgstr "auto"
+msgstr "automatiskt"
 
 #: ../src/exif.c:267
 msgid "auto bracket"
-msgstr "1+exponering+3"
+msgstr "automatisk alternativexponering"
 
 #: ../src/exif.c:278
 msgid "standard"
@@ -1544,19 +1544,19 @@ msgstr "ingen"
 
 #: ../src/exif.c:287
 msgid "low gain up"
-msgstr "öka lågeffekt"
+msgstr "low gain up"
 
 #: ../src/exif.c:288
 msgid "high gain up"
-msgstr ""
+msgstr "high gain up"
 
 #: ../src/exif.c:289
 msgid "low gain down"
-msgstr "minska lågeffekt"
+msgstr "low gain down"
 
 #: ../src/exif.c:290
 msgid "high gain down"
-msgstr ""
+msgstr "high gain down"
 
 #: ../src/exif.c:296
 #: ../src/exif.c:310
@@ -1582,11 +1582,11 @@ msgstr "makro"
 
 #: ../src/exif.c:318
 msgid "close"
-msgstr "stäng"
+msgstr "nära"
 
 #: ../src/exif.c:319
 msgid "distant"
-msgstr "avlägsen"
+msgstr "avlägset"
 
 #: ../src/exif.c:329
 msgid "Image Width"
@@ -1733,7 +1733,7 @@ msgstr "Maximal bländare"
 #: ../src/exif.c:366
 #: ../src/exif-common.c:550
 msgid "Subject distance"
-msgstr "Avstånd till motiv"
+msgstr "Motivavstånd"
 
 #: ../src/exif.c:367
 msgid "Metering mode"
@@ -1767,15 +1767,15 @@ msgstr "Användarkommentar"
 
 #: ../src/exif.c:374
 msgid "Subsecond time"
-msgstr "Subsecond-tid"
+msgstr "Tid, delar av sekunder"
 
 #: ../src/exif.c:375
 msgid "Subsecond time original"
-msgstr "Originaltidpunkt"
+msgstr "Originaltid, delar av sekunder"
 
 #: ../src/exif.c:376
 msgid "Subsecond time digitized"
-msgstr "Digitaliseringstidpunkt"
+msgstr "Digitaliseringstid, delar av sekunder"
 
 #: ../src/exif.c:377
 msgid "FlashPix version"
@@ -1869,7 +1869,7 @@ msgstr "Sceninnehållstyp"
 
 #: ../src/exif.c:402
 msgid "Gain control"
-msgstr "Vinst(?)kontroll"
+msgstr "Förstärkningsinställning"
 
 #: ../src/exif.c:403
 msgid "Contrast"
@@ -1981,7 +1981,7 @@ msgstr "Fildatum"
 
 #: ../src/exif-common.c:558
 msgid "File mode"
-msgstr "Filtyp(?)"
+msgstr "Filtyp"
 
 #: ../src/filedata.c:91
 #, c-format
@@ -3607,7 +3607,7 @@ msgstr "Hav"
 #: ../src/metadata.c:1484
 #: ../src/print.c:375
 msgid "Landscape"
-msgstr "Liggande"
+msgstr "Landskap"
 
 #: ../src/metadata.c:1485
 msgid "Art"
@@ -3645,7 +3645,7 @@ msgstr "Gata"
 
 #: ../src/metadata.c:1493
 msgid "Square"
-msgstr "Fyrkant"
+msgstr "Torg"
 
 #: ../src/metadata.c:1494
 msgid "Architecture"
@@ -3746,7 +3746,7 @@ msgstr "Makro"
 #: ../src/metadata.c:1520
 #: ../src/print.c:374
 msgid "Portrait"
-msgstr "Stående"
+msgstr "Porträtt"
 
 #: ../src/metadata.c:1521
 msgid "Black and White"
@@ -5227,11 +5227,11 @@ msgstr "Ett eller fler filnamn har inte en gällande teckenkodning.\n"
 #: ../src/ui_fileops.c:95
 #, c-format
 msgid "Operations on, and display of these files with %s may not succeed.\n"
-msgstr ""
+msgstr "Risk för att filåtgärder inklusive visning av de här filerna inte fungerar med %s \n"
 
 #: ../src/ui_fileops.c:97
 msgid "If your filenames are not encoded in utf-8, try setting the environment variable G_BROKEN_FILENAMES=1\n"
-msgstr "Om filnamnet inte är kodat i UTF-8: försök sätta miljövariabeln G_BROKEN_FILENAMES=1\n"
+msgstr "Om filnamn inte är kodade i UTF-8: försök sätta miljövariabeln G_BROKEN_FILENAMES=1\n"
 
 #: ../src/ui_fileops.c:99
 #, c-format
@@ -5257,7 +5257,7 @@ msgid ""
 "Preferred encoding appears to be UTF-8, however the file:\n"
 msgstr ""
 "\n"
-"Teckenkodningen ser ut att vara UTF-8, men filen:\n"
+"Gällande teckenkodning ser ut att vara UTF-8, men filen:\n"
 
 #: ../src/ui_fileops.c:109
 #: ../src/ui_fileops.c:112
