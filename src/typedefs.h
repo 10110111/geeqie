@@ -191,6 +191,7 @@ typedef enum {
 	PR_STEREO_DUAL     = 1 << 0, /* independent stereo buffers, for example nvidia opengl */
 	PR_STEREO_HORIZ    = 1 << 2, /* side by side */
 	PR_STEREO_VERT     = 1 << 3, /* above below */
+	PR_STEREO_FIXED    = 1 << 1, /* custom position */
 	/* flags for renderer: */
 	PR_STEREO_RIGHT    = 1 << 4, /* render right buffer */
 	PR_STEREO_ANAGLYPH = 1 << 5, /* anaglyph */

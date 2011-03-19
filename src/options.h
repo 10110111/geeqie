@@ -181,7 +181,17 @@ struct _ConfOptions
 		gboolean keywords_case_sensitive;
 		gboolean write_orientation;
 	} metadata;
-
+	
+	/* Stereo */
+	struct {
+		gint mode;
+		gboolean fallback;
+		gint fsmode;
+		gboolean enable_fsmode;
+		gint fixed_w, fixed_h;
+		gint fixed_x1, fixed_y1;
+		gint fixed_x2, fixed_y2;
+	} stereo;
 };
 
 ConfOptions *options;
