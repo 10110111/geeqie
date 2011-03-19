@@ -134,6 +134,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 static void pr_signals_connect(PixbufRenderer *pr);
 static void pr_size_cb(GtkWidget *widget, GtkAllocation *allocation, gpointer data);
 static void pixbuf_renderer_paint(PixbufRenderer *pr, GdkRectangle *area);
+static void pr_stereo_temp_disable(PixbufRenderer *pr, gboolean disable);
 
 
 /*
@@ -1864,8 +1865,8 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 {
 	gboolean zoom_changed = FALSE;
 
-	gint new_viewport_width = (pr->stereo_mode & PR_STEREO_HORIZ) ? new_width / 2 : new_width;
-	gint new_viewport_height = (pr->stereo_mode & PR_STEREO_VERT) ? new_height / 2 : new_height;
+	gint new_viewport_width = (!pr->stereo_temp_disable && (pr->stereo_mode & PR_STEREO_HORIZ)) ? new_width / 2 : new_width;
+	gint new_viewport_height =(!pr->stereo_temp_disable && (pr->stereo_mode & PR_STEREO_VERT)) ? new_height / 2 : new_height;
 	
 	if (pr->window_width == new_width && pr->window_height == new_height &&
 	    pr->viewport_width == new_viewport_width && pr->viewport_height == new_viewport_height) return;
@@ -2367,6 +2368,12 @@ static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, P
 		return;
 		}
 
+        if (pr->stereo_mode & PR_STEREO_TEMP_DISABLE) 
+        	{
+        	gint disable = !pr->pixbuf || ! GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pr->pixbuf), "stereo_data"));
+        	pr_stereo_temp_disable(pr, disable);
+        	}
+
 	pr_pixbuf_size_sync(pr);
 	pr_zoom_sync(pr, zoom, flags | PR_ZOOM_FORCE | PR_ZOOM_NEW, 0, 0);
 }
@@ -2581,25 +2588,34 @@ void pixbuf_renderer_zoom_set_limits(PixbufRenderer *pr, gdouble min, gdouble ma
 		}
 }
 
-void pixbuf_renderer_stereo_set(PixbufRenderer *pr, gint stereo_mode)
+static void pr_stereo_set(PixbufRenderer *pr)
 {
-	gboolean redraw = !(pr->stereo_mode == stereo_mode);
-	pr->stereo_mode = stereo_mode;
-	
 	if (!pr->renderer) pr->renderer = (void *)renderer_tiles_new(pr);
 	
-	pr->renderer->stereo_set(pr->renderer, pr->stereo_mode);
+	pr->renderer->stereo_set(pr->renderer, pr->stereo_mode & ~PR_STEREO_MIRROR_RIGHT & ~PR_STEREO_FLIP_RIGHT);
 	
 	if (pr->stereo_mode & (PR_STEREO_HORIZ | PR_STEREO_VERT))
 		{
 		if (!pr->renderer2) pr->renderer2 = (void *)renderer_tiles_new(pr);
-		pr->renderer2->stereo_set(pr->renderer2, pr->stereo_mode | PR_STEREO_RIGHT);
+		pr->renderer2->stereo_set(pr->renderer2, pr->stereo_mode & ~PR_STEREO_MIRROR_LEFT & ~PR_STEREO_FLIP_LEFT | PR_STEREO_RIGHT);
 		}
 	else
 		{
 		if (pr->renderer2) pr->renderer2->free(pr->renderer2);
 		pr->renderer2 = NULL;
 		}
+}
+
+void pixbuf_renderer_stereo_set(PixbufRenderer *pr, gint stereo_mode)
+{
+	gboolean redraw = !(pr->stereo_mode == stereo_mode) || pr->stereo_temp_disable;
+	pr->stereo_mode = stereo_mode;
+	if ((stereo_mode & PR_STEREO_TEMP_DISABLE) && pr->stereo_temp_disable) return;
+	
+	pr->stereo_temp_disable = FALSE;
+	
+	pr_stereo_set(pr);
+	
 	if (redraw) 
 		{
 		pr_size_sync(pr, pr->window_width, pr->window_height); /* recalculate new viewport */
@@ -2607,9 +2623,28 @@ void pixbuf_renderer_stereo_set(PixbufRenderer *pr, gint stereo_mode)
 		}
 }
 
+
 gint pixbuf_renderer_stereo_get(PixbufRenderer *pr)
 {
 	return pr->stereo_mode;
+}
+
+static void pr_stereo_temp_disable(PixbufRenderer *pr, gboolean disable)
+{
+	if (pr->stereo_temp_disable == disable) return;
+	pr->stereo_temp_disable = disable;
+	if (disable)
+		{
+		if (!pr->renderer) pr->renderer = (void *)renderer_tiles_new(pr);
+		pr->renderer->stereo_set(pr->renderer, PR_STEREO_NONE);
+		if (pr->renderer2) pr->renderer2->free(pr->renderer2);
+		pr->renderer2 = NULL;
+		}
+	else
+		{
+		pr_stereo_set(pr);
+		}
+	pr_size_sync(pr, pr->window_width, pr->window_height); /* recalculate new viewport */
 }
 
 gboolean pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint y_pixel, 

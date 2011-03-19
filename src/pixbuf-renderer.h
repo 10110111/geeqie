@@ -200,6 +200,7 @@ struct _PixbufRenderer
 	gint orientation;
 
 	gint stereo_mode;
+	gboolean stereo_temp_disable;
 	
 	RendererFuncs *renderer;
 	RendererFuncs *renderer2;

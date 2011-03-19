@@ -2039,7 +2039,6 @@ static void renderer_update_sizes(void *renderer)
 		}
 	rt_sync_scroll(rt);
 	rt_overlay_update_sizes(rt);
-
 }
 
 static void renderer_stereo_set(void *renderer, gint stereo_mode)
