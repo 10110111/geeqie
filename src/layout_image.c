@@ -917,13 +917,13 @@ void layout_image_stereo_set(LayoutWindow *lw, gint stereo_mode)
 
 	image_stereo_set(lw->image, stereo_mode);
 }
-*/
 void layout_image_stereo_swap(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return;
 
 	image_stereo_swap(lw->image);
 }
+*/
 
 gint layout_image_stereo_pixbuf_get(LayoutWindow *lw)
 {
