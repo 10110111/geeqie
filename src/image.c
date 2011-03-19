@@ -1124,6 +1124,11 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboo
 			}
 		}
 
+	if (pixbuf && imd->user_stereo)
+		{
+		g_object_set_data(G_OBJECT(pixbuf), "stereo_data", GINT_TO_POINTER(imd->user_stereo));
+		}
+
 	pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, NULL, NULL, FALSE);
 	if (imd->cm)
 		{
@@ -1441,6 +1446,17 @@ void image_stereo_swap(ImageWindow *imd)
 	gint stereo_mode = pixbuf_renderer_stereo_get((PixbufRenderer *)imd->pr);
 	stereo_mode ^= PR_STEREO_SWAP;
 	pixbuf_renderer_stereo_set((PixbufRenderer *)imd->pr, stereo_mode);
+}
+
+StereoPixbufData image_stereo_pixbuf_get(ImageWindow *imd)
+{
+	return imd->user_stereo;
+}
+
+void image_stereo_pixbuf_set(ImageWindow *imd, StereoPixbufData stereo_mode)
+{
+	imd->user_stereo = stereo_mode;
+	image_reload(imd);
 }
 
 /* read ahead */

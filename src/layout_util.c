@@ -847,11 +847,8 @@ static void layout_menu_stereo_mode_cb(GtkRadioAction *action, GtkRadioAction *c
 {
 	LayoutWindow *lw = data;
 	gint mode = gtk_radio_action_get_current_value(action);
-	layout_image_stereo_set(lw, (layout_image_stereo_get(lw) & ~(PR_STEREO_ANAGLYPH | PR_STEREO_HORIZ | PR_STEREO_VERT)) | mode);
+	layout_image_stereo_pixbuf_set(lw, mode);
 }
-
-
-
 
 static void layout_menu_help_cb(GtkAction *action, gpointer data)
 {
@@ -1433,10 +1430,10 @@ static GtkRadioActionEntry menu_histogram_mode[] = {
 };
 
 static GtkRadioActionEntry menu_stereo_mode_entries[] = {
-  { "StereoNone",	NULL,			N_("_None"),				NULL,			N_("Stereo Off"),		PR_STEREO_NONE },
-  { "StereoAnaglyph",	NULL,			N_("_Anaglyph"),			NULL,			N_("Stereo Anaglyph"),		PR_STEREO_ANAGLYPH },
-  { "StereoHoriz",	NULL,			N_("_Side by Side"),			NULL,			N_("Stereo Side by Side"),	PR_STEREO_HORIZ },
-  { "StereoVert",	NULL,			N_("Above-_Below"),			NULL,			N_("Stereo Above-Below"),	PR_STEREO_VERT }
+  { "StereoAuto",	NULL,			N_("_Auto"),				NULL,			N_("Stereo Auto"),		STEREO_PIXBUF_DEFAULT },
+  { "StereoSBS",	NULL,			N_("_Side by Side"),			NULL,			N_("Stereo Side by Side"),	STEREO_PIXBUF_SBS },
+  { "StereoCross",	NULL,			N_("_Cross"),				NULL,			N_("Stereo Cross"),		STEREO_PIXBUF_CROSS },
+  { "StereoOff",	NULL,			N_("_Off"),				NULL,			N_("Stereo Off"),		STEREO_PIXBUF_NONE }
 };
 
 
@@ -1580,10 +1577,10 @@ static const gchar *menu_ui_description =
 "      <menu action='StereoMenu'>"
 "        <menuitem action='StereoSwap'/>"
 "        <separator/>"
-"        <menuitem action='StereoNone'/>"
-"        <menuitem action='StereoAnaglyph'/>"
-"        <menuitem action='StereoHoriz'/>"
-"        <menuitem action='StereoVert'/>"
+"        <menuitem action='StereoAuto'/>"
+"        <menuitem action='StereoSBS'/>"
+"        <menuitem action='StereoCross'/>"
+"        <menuitem action='StereoOff'/>"
 "      </menu>"
 "      <menu action='ColorMenu'>"
 "        <menuitem action='UseColorProfiles'/>"
@@ -2410,6 +2407,9 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "ConnectZoomMenu");
 	gtk_action_set_sensitive(action, lw->split_mode != SPLIT_NONE);
+
+	action = gtk_action_group_get_action(lw->action_group, "StereoAuto");
+	radio_action_set_current_value(GTK_RADIO_ACTION(action), layout_image_stereo_pixbuf_get(lw));
 
 	layout_util_sync_color(lw);
 }

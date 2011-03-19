@@ -166,12 +166,12 @@ static gint rt_queue_draw_idle_cb(gpointer data);
 #define GET_RIGHT_PIXBUF_OFFSET(rt) \
         (( (rt->stereo_mode & PR_STEREO_RIGHT) && !(rt->stereo_mode & PR_STEREO_SWAP)) || \
          (!(rt->stereo_mode & PR_STEREO_RIGHT) &&  (rt->stereo_mode & PR_STEREO_SWAP)) ?  \
-          rt->pr->stereo_pixbuf_offset : 0 )
+          rt->pr->stereo_pixbuf_offset_right : rt->pr->stereo_pixbuf_offset_left )
 
 #define GET_LEFT_PIXBUF_OFFSET(rt) \
         ((!(rt->stereo_mode & PR_STEREO_RIGHT) && !(rt->stereo_mode & PR_STEREO_SWAP)) || \
          ( (rt->stereo_mode & PR_STEREO_RIGHT) &&  (rt->stereo_mode & PR_STEREO_SWAP)) ?  \
-          rt->pr->stereo_pixbuf_offset : 0 )
+          rt->pr->stereo_pixbuf_offset_right : rt->pr->stereo_pixbuf_offset_left )
 
 
 static void rt_sync_scroll(RendererTiles *rt)
@@ -1405,7 +1405,8 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 				   scale_x, scale_y,
 				   (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality,
 				   it->x + pb_x, it->y + pb_y);
-		if (rt->stereo_mode & PR_STEREO_ANAGLYPH && pr->stereo_pixbuf_offset > 0)
+		if (rt->stereo_mode & PR_STEREO_ANAGLYPH && 
+		    (pr->stereo_pixbuf_offset_right > 0 || pr->stereo_pixbuf_offset_left > 0))
 			{
 			GdkPixbuf *right_pb = rt_get_spare_tile(rt);
 			rt_tile_get_region(has_alpha,

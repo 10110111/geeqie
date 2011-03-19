@@ -101,7 +101,8 @@ struct _PixbufRenderer
 
 	gint image_width;	/* image actual dimensions (pixels) */
 	gint image_height;
-	gint stereo_pixbuf_offset; /* offset of the right part of the stereo image in pixbuf */
+	gint stereo_pixbuf_offset_right; /* offset of the right part of the stereo image in pixbuf */
+	gint stereo_pixbuf_offset_left; /* offset of the left part of the stereo image in pixbuf */
 
 	GdkPixbuf *pixbuf;
 

@@ -2292,8 +2292,10 @@ void pr_create_anaglyph(GdkPixbuf *pixbuf, GdkPixbuf *right, gint x, gint y, gin
  */
 static void pr_pixbuf_size_sync(PixbufRenderer *pr)
 {
-	pr->stereo_pixbuf_offset = 0;
+	pr->stereo_pixbuf_offset_left = 0;
+	pr->stereo_pixbuf_offset_right = 0;
 	if (!pr->pixbuf) return;
+	gint stereo_data = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pr->pixbuf), "stereo_data"));
 	switch (pr->orientation)
 		{
 		case EXIF_ORIENTATION_LEFT_TOP:
@@ -2302,20 +2304,30 @@ static void pr_pixbuf_size_sync(PixbufRenderer *pr)
 		case EXIF_ORIENTATION_LEFT_BOTTOM:
 			pr->image_width = gdk_pixbuf_get_height(pr->pixbuf);
 			pr->image_height = gdk_pixbuf_get_width(pr->pixbuf);
-			if (GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pr->pixbuf), "stereo_sbs"))) 
+			if (stereo_data == STEREO_PIXBUF_SBS) 
 				{
 				pr->image_height /= 2;
-				pr->stereo_pixbuf_offset = pr->image_height;
+				pr->stereo_pixbuf_offset_right = pr->image_height;
+				}
+			else if (stereo_data == STEREO_PIXBUF_CROSS) 
+				{
+				pr->image_height /= 2;
+				pr->stereo_pixbuf_offset_left = pr->image_height;
 				}
 			
 			break;
 		default:
 			pr->image_width = gdk_pixbuf_get_width(pr->pixbuf);
 			pr->image_height = gdk_pixbuf_get_height(pr->pixbuf);
-			if (GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pr->pixbuf), "stereo_sbs"))) 
+			if (stereo_data == STEREO_PIXBUF_SBS) 
 				{
 				pr->image_width /= 2;
-				pr->stereo_pixbuf_offset = pr->image_width;
+				pr->stereo_pixbuf_offset_right = pr->image_width;
+				}
+			else if (stereo_data == STEREO_PIXBUF_CROSS) 
+				{
+				pr->image_width /= 2;
+				pr->stereo_pixbuf_offset_left = pr->image_width;
 				}
 		}
 }

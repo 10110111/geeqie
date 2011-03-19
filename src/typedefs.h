@@ -201,6 +201,12 @@ typedef enum {
 	
 } PixbufRendererStereoMode;
 
+typedef enum {
+	STEREO_PIXBUF_DEFAULT  = 0,
+	STEREO_PIXBUF_SBS      = 1,
+	STEREO_PIXBUF_CROSS    = 2,
+	STEREO_PIXBUF_NONE     = 3
+} StereoPixbufData;
 
 #define MAX_SPLIT_IMAGES 4
 
@@ -456,6 +462,7 @@ struct _ImageWindow
 	gboolean delay_flip;
 	gint orientation;
 	gboolean desaturate;
+	gint user_stereo;
 };
 
 #define FILEDATA_MARKS_SIZE 6
