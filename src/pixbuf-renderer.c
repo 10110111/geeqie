@@ -1872,7 +1872,7 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 		{
 		if (pr->stereo_mode & PR_STEREO_HORIZ)
 			{
-			new_viewport_width = new_width;
+			new_viewport_width = new_width / 2;
 			}
 		else if (pr->stereo_mode & PR_STEREO_VERT)
 			{
