@@ -1865,9 +1865,26 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 {
 	gboolean zoom_changed = FALSE;
 
-	gint new_viewport_width = (!pr->stereo_temp_disable && (pr->stereo_mode & PR_STEREO_HORIZ)) ? new_width / 2 : new_width;
-	gint new_viewport_height =(!pr->stereo_temp_disable && (pr->stereo_mode & PR_STEREO_VERT)) ? new_height / 2 : new_height;
-	
+	gint new_viewport_width = new_width;
+	gint new_viewport_height = new_height;
+
+	if (!pr->stereo_temp_disable)
+		{
+		if (pr->stereo_mode & PR_STEREO_HORIZ)
+			{
+			new_viewport_width = new_width;
+			}
+		else if (pr->stereo_mode & PR_STEREO_VERT)
+			{
+			new_viewport_height = new_height / 2;
+			}
+		else if (pr->stereo_mode & PR_STEREO_FIXED)
+			{
+			new_viewport_width = pr->stereo_fixed_width;
+			new_viewport_height = pr->stereo_fixed_height;
+			}
+		}
+		
 	if (pr->window_width == new_width && pr->window_height == new_height &&
 	    pr->viewport_width == new_viewport_width && pr->viewport_height == new_viewport_height) return;
 
@@ -2594,10 +2611,10 @@ static void pr_stereo_set(PixbufRenderer *pr)
 	
 	pr->renderer->stereo_set(pr->renderer, pr->stereo_mode & ~PR_STEREO_MIRROR_RIGHT & ~PR_STEREO_FLIP_RIGHT);
 	
-	if (pr->stereo_mode & (PR_STEREO_HORIZ | PR_STEREO_VERT))
+	if (pr->stereo_mode & (PR_STEREO_HORIZ | PR_STEREO_VERT | PR_STEREO_FIXED))
 		{
 		if (!pr->renderer2) pr->renderer2 = (void *)renderer_tiles_new(pr);
-		pr->renderer2->stereo_set(pr->renderer2, pr->stereo_mode & ~PR_STEREO_MIRROR_LEFT & ~PR_STEREO_FLIP_LEFT | PR_STEREO_RIGHT);
+		pr->renderer2->stereo_set(pr->renderer2, (pr->stereo_mode & ~PR_STEREO_MIRROR_LEFT & ~PR_STEREO_FLIP_LEFT) | PR_STEREO_RIGHT);
 		}
 	else
 		{
@@ -2623,6 +2640,15 @@ void pixbuf_renderer_stereo_set(PixbufRenderer *pr, gint stereo_mode)
 		}
 }
 
+void pixbuf_renderer_stereo_fixed_set(PixbufRenderer *pr, gint width, gint height, gint x1, gint y1, gint x2, gint y2)
+{
+	pr->stereo_fixed_width = width;
+	pr->stereo_fixed_height = height;
+	pr->stereo_fixed_x_left = x1;
+	pr->stereo_fixed_y_left = y1;
+	pr->stereo_fixed_x_right = x2;
+	pr->stereo_fixed_y_right = y2;
+}
 
 gint pixbuf_renderer_stereo_get(PixbufRenderer *pr)
 {

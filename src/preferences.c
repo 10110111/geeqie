@@ -2054,7 +2054,9 @@ static void config_tab_stereo(GtkWidget *notebook)
 {
 	GtkWidget *vbox;
 	GtkWidget *group;
+	GtkWidget *group2;
 	GtkWidget *table;
+	GtkWidget *fs_button;
 	vbox = scrolled_notebook_page(notebook, _("Stereo"));
 
 	group = pref_group_new(vbox, FALSE, _("Windowed stereo mode"), GTK_ORIENTATION_VERTICAL);
@@ -2076,8 +2078,9 @@ static void config_tab_stereo(GtkWidget *notebook)
 			      options->stereo.mode & PR_STEREO_TEMP_DISABLE, &c_options->stereo.tmp.temp_disable);
 
 	group = pref_group_new(vbox, FALSE, _("Fullscreen stereo mode"), GTK_ORIENTATION_VERTICAL);
-	pref_checkbox_new_int(group, _("Use different settings for fullscreen"),
+	fs_button = pref_checkbox_new_int(group, _("Use different settings for fullscreen"),
 			      options->stereo.enable_fsmode, &c_options->stereo.enable_fsmode);
+	pref_checkbox_link_sensitivity(fs_button, group);
 	table = pref_table_new(group, 2, 1, FALSE, FALSE);
 	add_stereo_mode_menu(table, 0, 0, _("Fullscreen stereo mode"), options->stereo.fsmode, &c_options->stereo.fsmode, TRUE);
 	pref_checkbox_new_int(group, _("Mirror left image"),
@@ -2092,6 +2095,20 @@ static void config_tab_stereo(GtkWidget *notebook)
 			      options->stereo.fsmode & PR_STEREO_SWAP, &c_options->stereo.tmp.fs_swap);
 	pref_checkbox_new_int(group, _("Disable stereo mode on single image source"),
 			      options->stereo.fsmode & PR_STEREO_TEMP_DISABLE, &c_options->stereo.tmp.fs_temp_disable);
+
+	group2 = pref_group_new(group, FALSE, _("Fixed mode"), GTK_ORIENTATION_VERTICAL);
+	pref_spin_new_int(group2, _("Width"), NULL,
+			  1, 5000, 1, options->stereo.fixed_w, &c_options->stereo.fixed_w);
+	pref_spin_new_int(group2, _("Height"), NULL,
+			  1, 5000, 1, options->stereo.fixed_h, &c_options->stereo.fixed_h);
+	pref_spin_new_int(group2, _("Left X"), NULL,
+			  0, 5000, 1, options->stereo.fixed_x1, &c_options->stereo.fixed_x1);
+	pref_spin_new_int(group2, _("Left Y"), NULL,
+			  0, 5000, 1, options->stereo.fixed_y1, &c_options->stereo.fixed_y1);
+	pref_spin_new_int(group2, _("Right X"), NULL,
+			  0, 5000, 1, options->stereo.fixed_x2, &c_options->stereo.fixed_x2);
+	pref_spin_new_int(group2, _("Right Y"), NULL,
+			  0, 5000, 1, options->stereo.fixed_y2, &c_options->stereo.fixed_y2);
 
 }
 

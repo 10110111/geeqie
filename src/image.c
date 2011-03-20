@@ -1708,6 +1708,10 @@ static void image_options_set(ImageWindow *imd)
 	pixbuf_renderer_set_parent((PixbufRenderer *)imd->pr, (GtkWindow *)imd->top_window);
 	
 	image_stereo_set(imd, options->stereo.mode);
+	pixbuf_renderer_stereo_fixed_set((PixbufRenderer *)imd->pr, 
+					options->stereo.fixed_w, options->stereo.fixed_h, 
+					options->stereo.fixed_x1, options->stereo.fixed_y1,
+					options->stereo.fixed_x2, options->stereo.fixed_y2);
 }
 
 void image_options_sync(void)
