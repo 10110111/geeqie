@@ -146,6 +146,12 @@ static void slideshow_delay_cb(GtkWidget *spin, gpointer data)
 				   (gdouble)SLIDESHOW_SUBSECOND_PRECISION + 0.01);
 }
 
+static void pref_spin_int_cb(GtkWidget *widget, gpointer data)
+{
+        gint *var = data;
+        *var = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(widget));
+}
+
 /*
  *-----------------------------------------------------------------------------
  * sync progam to config window routine (private)
@@ -2056,6 +2062,8 @@ static void config_tab_stereo(GtkWidget *notebook)
 	GtkWidget *group;
 	GtkWidget *group2;
 	GtkWidget *table;
+	GtkWidget *box;
+	GtkWidget *box2;
 	GtkWidget *fs_button;
 	vbox = scrolled_notebook_page(notebook, _("Stereo"));
 
@@ -2064,13 +2072,18 @@ static void config_tab_stereo(GtkWidget *notebook)
 	table = pref_table_new(group, 2, 1, FALSE, FALSE);
 	add_stereo_mode_menu(table, 0, 0, _("Windowed stereo mode"), options->stereo.mode, &c_options->stereo.mode, FALSE);
 
-	pref_checkbox_new_int(group, _("Mirror left image"),
+	table = pref_table_new(group, 2, 2, TRUE, FALSE);
+	box = pref_table_box(table, 0, 0, GTK_ORIENTATION_HORIZONTAL, NULL);
+	pref_checkbox_new_int(box, _("Mirror left image"),
 			      options->stereo.mode & PR_STEREO_MIRROR_LEFT, &c_options->stereo.tmp.mirror_left);
-	pref_checkbox_new_int(group, _("Flip left image"),
+	box = pref_table_box(table, 1, 0, GTK_ORIENTATION_HORIZONTAL, NULL);
+	pref_checkbox_new_int(box, _("Flip left image"),
 			      options->stereo.mode & PR_STEREO_FLIP_LEFT, &c_options->stereo.tmp.flip_left);
-	pref_checkbox_new_int(group, _("Mirror right image"),
+	box = pref_table_box(table, 0, 1, GTK_ORIENTATION_HORIZONTAL, NULL);
+	pref_checkbox_new_int(box, _("Mirror right image"),
 			      options->stereo.mode & PR_STEREO_MIRROR_RIGHT, &c_options->stereo.tmp.mirror_right);
-	pref_checkbox_new_int(group, _("Flip right image"),
+	box = pref_table_box(table, 1, 1, GTK_ORIENTATION_HORIZONTAL, NULL);
+	pref_checkbox_new_int(box, _("Flip right image"),
 			      options->stereo.mode & PR_STEREO_FLIP_RIGHT, &c_options->stereo.tmp.flip_right);
 	pref_checkbox_new_int(group, _("Swap left and right images"),
 			      options->stereo.mode & PR_STEREO_SWAP, &c_options->stereo.tmp.swap);
@@ -2080,35 +2093,42 @@ static void config_tab_stereo(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Fullscreen stereo mode"), GTK_ORIENTATION_VERTICAL);
 	fs_button = pref_checkbox_new_int(group, _("Use different settings for fullscreen"),
 			      options->stereo.enable_fsmode, &c_options->stereo.enable_fsmode);
-	pref_checkbox_link_sensitivity(fs_button, group);
-	table = pref_table_new(group, 2, 1, FALSE, FALSE);
+	box2 = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_SPACE);
+	pref_checkbox_link_sensitivity(fs_button, box2);
+	table = pref_table_new(box2, 2, 1, FALSE, FALSE);
 	add_stereo_mode_menu(table, 0, 0, _("Fullscreen stereo mode"), options->stereo.fsmode, &c_options->stereo.fsmode, TRUE);
-	pref_checkbox_new_int(group, _("Mirror left image"),
+	table = pref_table_new(box2, 2, 2, TRUE, FALSE);
+	box = pref_table_box(table, 0, 0, GTK_ORIENTATION_HORIZONTAL, NULL);
+	pref_checkbox_new_int(box, _("Mirror left image"),
 			      options->stereo.fsmode & PR_STEREO_MIRROR_LEFT, &c_options->stereo.tmp.fs_mirror_left);
-	pref_checkbox_new_int(group, _("Flip left image"),
+	box = pref_table_box(table, 1, 0, GTK_ORIENTATION_HORIZONTAL, NULL);
+	pref_checkbox_new_int(box, _("Flip left image"),
 			      options->stereo.fsmode & PR_STEREO_FLIP_LEFT, &c_options->stereo.tmp.fs_flip_left);
-	pref_checkbox_new_int(group, _("Mirror right image"),
+	box = pref_table_box(table, 0, 1, GTK_ORIENTATION_HORIZONTAL, NULL);
+	pref_checkbox_new_int(box, _("Mirror right image"),
 			      options->stereo.fsmode & PR_STEREO_MIRROR_RIGHT, &c_options->stereo.tmp.fs_mirror_right);
-	pref_checkbox_new_int(group, _("Flip right image"),
+	box = pref_table_box(table, 1, 1, GTK_ORIENTATION_HORIZONTAL, NULL);
+	pref_checkbox_new_int(box, _("Flip right image"),
 			      options->stereo.fsmode & PR_STEREO_FLIP_RIGHT, &c_options->stereo.tmp.fs_flip_right);
-	pref_checkbox_new_int(group, _("Swap left and right images"),
+	pref_checkbox_new_int(box2, _("Swap left and right images"),
 			      options->stereo.fsmode & PR_STEREO_SWAP, &c_options->stereo.tmp.fs_swap);
-	pref_checkbox_new_int(group, _("Disable stereo mode on single image source"),
+	pref_checkbox_new_int(box2, _("Disable stereo mode on single image source"),
 			      options->stereo.fsmode & PR_STEREO_TEMP_DISABLE, &c_options->stereo.tmp.fs_temp_disable);
 
-	group2 = pref_group_new(group, FALSE, _("Fixed mode"), GTK_ORIENTATION_VERTICAL);
-	pref_spin_new_int(group2, _("Width"), NULL,
-			  1, 5000, 1, options->stereo.fixed_w, &c_options->stereo.fixed_w);
-	pref_spin_new_int(group2, _("Height"), NULL,
-			  1, 5000, 1, options->stereo.fixed_h, &c_options->stereo.fixed_h);
-	pref_spin_new_int(group2, _("Left X"), NULL,
-			  0, 5000, 1, options->stereo.fixed_x1, &c_options->stereo.fixed_x1);
-	pref_spin_new_int(group2, _("Left Y"), NULL,
-			  0, 5000, 1, options->stereo.fixed_y1, &c_options->stereo.fixed_y1);
-	pref_spin_new_int(group2, _("Right X"), NULL,
-			  0, 5000, 1, options->stereo.fixed_x2, &c_options->stereo.fixed_x2);
-	pref_spin_new_int(group2, _("Right Y"), NULL,
-			  0, 5000, 1, options->stereo.fixed_y2, &c_options->stereo.fixed_y2);
+	group2 = pref_group_new(box2, FALSE, _("Fixed position"), GTK_ORIENTATION_VERTICAL);
+	table = pref_table_new(group2, 5, 3, FALSE, FALSE);
+	pref_table_spin(table, 0, 0, _("Width"), NULL,
+			  1, 5000, 1, 0, options->stereo.fixed_w, G_CALLBACK(pref_spin_int_cb), &c_options->stereo.fixed_w);
+	pref_table_spin(table, 3, 0,  _("Height"), NULL,
+			  1, 5000, 1, 0, options->stereo.fixed_h, G_CALLBACK(pref_spin_int_cb), &c_options->stereo.fixed_h);
+	pref_table_spin(table, 0, 1,  _("Left X"), NULL,
+			  0, 5000, 1, 0, options->stereo.fixed_x1, G_CALLBACK(pref_spin_int_cb), &c_options->stereo.fixed_x1);
+	pref_table_spin(table, 3, 1,  _("Left Y"), NULL,
+			  0, 5000, 1, 0, options->stereo.fixed_y1, G_CALLBACK(pref_spin_int_cb), &c_options->stereo.fixed_y1);
+	pref_table_spin(table, 0, 2,  _("Right X"), NULL,
+			  0, 5000, 1, 0, options->stereo.fixed_x2, G_CALLBACK(pref_spin_int_cb), &c_options->stereo.fixed_x2);
+	pref_table_spin(table, 3, 2,  _("Right Y"), NULL,
+			  0, 5000, 1, 0, options->stereo.fixed_y2, G_CALLBACK(pref_spin_int_cb), &c_options->stereo.fixed_y2);
 
 }
 
