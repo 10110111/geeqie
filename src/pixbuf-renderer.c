@@ -2621,6 +2621,16 @@ static void pr_stereo_set(PixbufRenderer *pr)
 		if (pr->renderer2) pr->renderer2->free(pr->renderer2);
 		pr->renderer2 = NULL;
 		}
+	if (pr->stereo_mode & PR_STEREO_HALF)
+		{
+		if (pr->stereo_mode & PR_STEREO_HORIZ) pr->aspect_ratio = 2.0;
+		else if (pr->stereo_mode & PR_STEREO_VERT) pr->aspect_ratio = 0.5;
+		else pr->aspect_ratio = 1.0;
+		}
+	else
+		{
+		pr->aspect_ratio = 1.0;
+		}
 }
 
 void pixbuf_renderer_stereo_set(PixbufRenderer *pr, gint stereo_mode)
@@ -2665,6 +2675,7 @@ static void pr_stereo_temp_disable(PixbufRenderer *pr, gboolean disable)
 		pr->renderer->stereo_set(pr->renderer, PR_STEREO_NONE);
 		if (pr->renderer2) pr->renderer2->free(pr->renderer2);
 		pr->renderer2 = NULL;
+		pr->aspect_ratio = 1.0;
 		}
 	else
 		{

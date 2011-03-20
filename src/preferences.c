@@ -311,14 +311,14 @@ static void config_window_apply(void)
 	options->metadata.confirm_on_dir_change = c_options->metadata.confirm_on_dir_change;
 	options->metadata.keywords_case_sensitive = c_options->metadata.keywords_case_sensitive;
 	options->metadata.write_orientation = c_options->metadata.write_orientation;
-	options->stereo.mode = (c_options->stereo.mode & (PR_STEREO_HORIZ | PR_STEREO_VERT | PR_STEREO_FIXED | PR_STEREO_ANAGLYPH)) |
+	options->stereo.mode = (c_options->stereo.mode & (PR_STEREO_HORIZ | PR_STEREO_VERT | PR_STEREO_FIXED | PR_STEREO_ANAGLYPH | PR_STEREO_HALF)) |
 	                       (c_options->stereo.tmp.mirror_right ? PR_STEREO_MIRROR_RIGHT : 0) |
 	                       (c_options->stereo.tmp.flip_right   ? PR_STEREO_FLIP_RIGHT : 0) |
 	                       (c_options->stereo.tmp.mirror_left  ? PR_STEREO_MIRROR_LEFT : 0) |
 	                       (c_options->stereo.tmp.flip_left    ? PR_STEREO_FLIP_LEFT : 0) |
 	                       (c_options->stereo.tmp.swap         ? PR_STEREO_SWAP : 0) |
 	                       (c_options->stereo.tmp.temp_disable ? PR_STEREO_TEMP_DISABLE : 0);
-	options->stereo.fsmode = (c_options->stereo.fsmode & (PR_STEREO_HORIZ | PR_STEREO_VERT | PR_STEREO_FIXED | PR_STEREO_ANAGLYPH)) |
+	options->stereo.fsmode = (c_options->stereo.fsmode & (PR_STEREO_HORIZ | PR_STEREO_VERT | PR_STEREO_FIXED | PR_STEREO_ANAGLYPH | PR_STEREO_HALF)) |
 	                       (c_options->stereo.tmp.fs_mirror_right ? PR_STEREO_MIRROR_RIGHT : 0) |
 	                       (c_options->stereo.tmp.fs_flip_right   ? PR_STEREO_FLIP_RIGHT : 0) |
 	                       (c_options->stereo.tmp.fs_mirror_left  ? PR_STEREO_MIRROR_LEFT : 0) |
@@ -572,9 +572,15 @@ static void stereo_mode_menu_cb(GtkWidget *combo, gpointer data)
 			*option = PR_STEREO_HORIZ;
 			break;
 		case 3:
-			*option = PR_STEREO_VERT;
+			*option = PR_STEREO_HORIZ | PR_STEREO_HALF;
 			break;
 		case 4:
+			*option = PR_STEREO_VERT;
+			break;
+		case 5:
+			*option = PR_STEREO_VERT | PR_STEREO_HALF;
+			break;
+		case 6:
 			*option = PR_STEREO_FIXED;
 			break;
 		}
@@ -598,15 +604,25 @@ static void add_stereo_mode_menu(GtkWidget *table, gint column, gint row, const 
 	if (option & PR_STEREO_ANAGLYPH) current = 1;
 
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Side by Side"));
-	if (option & PR_STEREO_HORIZ) current = 2;
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Side by Side Half size"));
+	if (option & PR_STEREO_HORIZ) 
+		{
+		current = 2;
+		if (option & PR_STEREO_HALF) current = 3;
+		}
 
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Above - below"));
-	if (option & PR_STEREO_VERT) current = 3;
-	
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Top - Bottom"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Top - Bottom Half size"));
+	if (option & PR_STEREO_VERT) 
+		{
+		current = 4;
+		if (option & PR_STEREO_HALF) current = 5;
+		}
+		
 	if (add_fixed)
 		{
 		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Fixed position"));
-		if (option & PR_STEREO_FIXED) current = 4;
+		if (option & PR_STEREO_FIXED) current = 6;
 		}
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), current);
