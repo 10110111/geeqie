@@ -193,19 +193,22 @@ typedef enum {
 	PR_STEREO_HORIZ          = 1 << 2, /* side by side */
 	PR_STEREO_VERT           = 1 << 3, /* above below */
 	PR_STEREO_RIGHT          = 1 << 4, /* render right buffer */
-	PR_STEREO_ANAGLYPH       = 1 << 5, /* anaglyph */
+	PR_STEREO_ANAGLYPH_RC    = 1 << 5, /* anaglyph red-cyan */
+	PR_STEREO_ANAGLYPH_GRAY  = 1 << 6, /* anaglyph gray red-cyan*/
+	PR_STEREO_ANAGLYPH_DB    = 1 << 7, /* anaglyph dubois*/
+	PR_STEREO_ANAGLYPH       = PR_STEREO_ANAGLYPH_RC | PR_STEREO_ANAGLYPH_GRAY | PR_STEREO_ANAGLYPH_DB, /* anaglyph mask */
 
-	PR_STEREO_MIRROR_LEFT    = 1 << 6, /* mirror */
-	PR_STEREO_FLIP_LEFT      = 1 << 7, /* flip */
+	PR_STEREO_MIRROR_LEFT    = 1 << 8, /* mirror */
+	PR_STEREO_FLIP_LEFT      = 1 << 9, /* flip */
 
-	PR_STEREO_MIRROR_RIGHT   = 1 << 8, /* mirror */
-	PR_STEREO_FLIP_RIGHT     = 1 << 9, /* flip */
+	PR_STEREO_MIRROR_RIGHT   = 1 << 10, /* mirror */
+	PR_STEREO_FLIP_RIGHT     = 1 << 11, /* flip */
 
 	PR_STEREO_MIRROR         = PR_STEREO_MIRROR_LEFT | PR_STEREO_MIRROR_RIGHT, /* mirror mask*/
 	PR_STEREO_FLIP           = PR_STEREO_FLIP_LEFT | PR_STEREO_FLIP_RIGHT, /* flip mask*/
-	PR_STEREO_SWAP           = 1 << 10,  /* swap left and right buffers */
-	PR_STEREO_TEMP_DISABLE   = 1 << 11,  /* temporarily disable stereo mode if source image is not stereo */
-	PR_STEREO_HALF           = 1 << 12
+	PR_STEREO_SWAP           = 1 << 12,  /* swap left and right buffers */
+	PR_STEREO_TEMP_DISABLE   = 1 << 13,  /* temporarily disable stereo mode if source image is not stereo */
+	PR_STEREO_HALF           = 1 << 14
 } PixbufRendererStereoMode;
 
 typedef enum {

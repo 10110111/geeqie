@@ -1416,7 +1416,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 					   scale_x, scale_y,
 					   (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality,
 					   it->x + pb_x, it->y + pb_y);
-			pr_create_anaglyph(it->pixbuf, right_pb, pb_x, pb_y, pb_w, pb_h);
+			pr_create_anaglyph(rt->stereo_mode, it->pixbuf, right_pb, pb_x, pb_y, pb_w, pb_h);
 			/* do not care about freeing spare_tile, it will be reused */
 			}
 		rt_tile_apply_orientation(rt, orientation, &it->pixbuf, pb_x, pb_y, pb_w, pb_h);

@@ -566,21 +566,27 @@ static void stereo_mode_menu_cb(GtkWidget *combo, gpointer data)
 			*option = PR_STEREO_NONE;
 			break;
 		case 1:
-			*option = PR_STEREO_ANAGLYPH;
+			*option = PR_STEREO_ANAGLYPH_RC;
 			break;
 		case 2:
-			*option = PR_STEREO_HORIZ;
+			*option = PR_STEREO_ANAGLYPH_GRAY;
 			break;
 		case 3:
-			*option = PR_STEREO_HORIZ | PR_STEREO_HALF;
+			*option = PR_STEREO_ANAGLYPH_DB;
 			break;
 		case 4:
-			*option = PR_STEREO_VERT;
+			*option = PR_STEREO_HORIZ;
 			break;
 		case 5:
-			*option = PR_STEREO_VERT | PR_STEREO_HALF;
+			*option = PR_STEREO_HORIZ | PR_STEREO_HALF;
 			break;
 		case 6:
+			*option = PR_STEREO_VERT;
+			break;
+		case 7:
+			*option = PR_STEREO_VERT | PR_STEREO_HALF;
+			break;
+		case 8:
 			*option = PR_STEREO_FIXED;
 			break;
 		}
@@ -600,29 +606,33 @@ static void add_stereo_mode_menu(GtkWidget *table, gint column, gint row, const 
 
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Single image"));
 
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Anaglyph"));
-	if (option & PR_STEREO_ANAGLYPH) current = 1;
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Anaglyph Red-Cyan"));
+	if (option & PR_STEREO_ANAGLYPH_RC) current = 1;
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Anaglyph Gray Red-Cyan"));
+	if (option & PR_STEREO_ANAGLYPH_GRAY) current = 2;
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Anaglyph Dubois"));
+	if (option & PR_STEREO_ANAGLYPH_DB) current = 3;
 
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Side by Side"));
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Side by Side Half size"));
 	if (option & PR_STEREO_HORIZ) 
 		{
-		current = 2;
-		if (option & PR_STEREO_HALF) current = 3;
+		current = 4;
+		if (option & PR_STEREO_HALF) current = 5;
 		}
 
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Top - Bottom"));
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Top - Bottom Half size"));
 	if (option & PR_STEREO_VERT) 
 		{
-		current = 4;
-		if (option & PR_STEREO_HALF) current = 5;
+		current = 6;
+		if (option & PR_STEREO_HALF) current = 7;
 		}
 		
 	if (add_fixed)
 		{
 		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Fixed position"));
-		if (option & PR_STEREO_FIXED) current = 6;
+		if (option & PR_STEREO_FIXED) current = 8;
 		}
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), current);
