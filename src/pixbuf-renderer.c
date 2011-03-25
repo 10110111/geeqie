@@ -969,10 +969,10 @@ void pixbuf_renderer_set_color(PixbufRenderer *pr, GdkColor *color)
 static void pr_redraw(PixbufRenderer *pr, gboolean new_data)
 {
 	pr->renderer->queue_clear(pr->renderer);
-	pr->renderer->queue(pr->renderer, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, new_data, FALSE);
+	pr->renderer->redraw(pr->renderer, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, new_data, FALSE);
 	if (pr->renderer2) {
 		pr->renderer2->queue_clear(pr->renderer2);
-		pr->renderer2->queue(pr->renderer2, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, new_data, FALSE);
+		pr->renderer2->redraw(pr->renderer2, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, new_data, FALSE);
 	}
 }
 
@@ -1958,23 +1958,11 @@ static void pixbuf_renderer_paint(PixbufRenderer *pr, GdkRectangle *area)
 {
 	gint x, y;
 
-
-	x = MAX(0, (gint)area->x - pr->x_offset + pr->x_scroll);
-	y = MAX(0, (gint)area->y - pr->y_offset + pr->y_scroll);
-
-	pr->renderer->border_draw(pr->renderer, area->x, area->y, area->width, area->height);
-	pr->renderer->queue(pr->renderer,
-			      x, y,
-			      MIN((gint)area->width, pr->width - x),
-			      MIN((gint)area->height, pr->height - y),
+	pr->renderer->redraw(pr->renderer, area->x, area->y, area->width, area->height,
 			      FALSE, TILE_RENDER_ALL, FALSE, FALSE);
 	if (pr->renderer2) 
 		{
-		pr->renderer2->border_draw(pr->renderer2, area->x, area->y, area->width, area->height);
-		pr->renderer2->queue(pr->renderer2,
-			      x, y,
-			      MIN((gint)area->width, pr->width - x),
-			      MIN((gint)area->height, pr->height - y),
+		pr->renderer2->redraw(pr->renderer2, area->x, area->y, area->width, area->height,
 			      FALSE, TILE_RENDER_ALL, FALSE, FALSE);
 		}
 }

@@ -76,7 +76,7 @@ typedef enum {
 
 struct _RendererFuncs
 {
-	void (*queue)(void *renderer, gint x, gint y, gint w, gint h,
+	void (*redraw)(void *renderer, gint x, gint y, gint w, gint h,
                      gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing);
         void (*area_changed)(void *renderer, gint src_x, gint src_y, gint src_w, gint src_h);
 	void (*queue_clear)(void *renderer);

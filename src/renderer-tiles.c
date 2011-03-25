@@ -2018,16 +2018,25 @@ static void renderer_area_changed(void *renderer, gint src_x, gint src_y, gint s
 	rt_queue(rt, x1, y1, x2 - x1, y2 - y1, FALSE, TILE_RENDER_AREA, TRUE, TRUE);
 }
 
-static void renderer_queue(void *renderer, gint x, gint y, gint w, gint h,
+static void renderer_redraw(void *renderer, gint x, gint y, gint w, gint h,
                      gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing)
 {
 	RendererTiles *rt = (RendererTiles *)renderer;
 	PixbufRenderer *pr = rt->pr;
 
-	if (rt->stereo_mode & PR_STEREO_MIRROR) x = pr->width - w - x;
-	if (rt->stereo_mode & PR_STEREO_FLIP) y = pr->height - h - y; 
+	x -= rt->stereo_off_x;
+	y -= rt->stereo_off_y;
+	
+	rt_border_draw(rt, x, y, w, h);
 
-	rt_queue((RendererTiles *)renderer, x, y, w, h, clamp, render, new_data, only_existing);
+	x = MAX(0, x - pr->x_offset + pr->x_scroll);
+	y = MAX(0, y - pr->y_offset + pr->y_scroll);
+
+	rt_queue(rt,
+		 x, y,
+		 MIN(w, pr->width - x),
+		 MIN(h, pr->height - y),
+		 clamp, render, new_data, only_existing);
 }
 
 static void renderer_queue_clear(void *renderer)
@@ -2037,6 +2046,7 @@ static void renderer_queue_clear(void *renderer)
 
 static void renderer_border_draw(void *renderer, gint x, gint y, gint w, gint h)
 {
+	RendererTiles *rt = (RendererTiles *)renderer;
 	rt_border_draw((RendererTiles *)renderer, x, y, w, h);
 }
 
@@ -2119,7 +2129,7 @@ RendererFuncs *renderer_tiles_new(PixbufRenderer *pr)
 	
 	rt->pr = pr;
 	
-	rt->f.queue = renderer_queue;
+	rt->f.redraw = renderer_redraw;
 	rt->f.area_changed = renderer_area_changed;
 	rt->f.queue_clear = renderer_queue_clear;
 	rt->f.border_draw = renderer_border_draw;
