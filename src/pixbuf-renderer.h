@@ -80,7 +80,7 @@ struct _RendererFuncs
                      gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing);
         void (*area_changed)(void *renderer, gint src_x, gint src_y, gint src_w, gint src_h);
 	void (*queue_clear)(void *renderer);
-	void (*border_draw)(void *renderer, gint x, gint y, gint w, gint h);
+	void (*border_clear)(void *renderer);
 	void (*invalidate_all)(void *renderer);
 	void (*invalidate_region)(void *renderer, gint x, gint y, gint w, gint h);
 	void (*scroll)(void *renderer, gint x_off, gint y_off);

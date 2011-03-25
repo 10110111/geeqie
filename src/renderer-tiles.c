@@ -154,13 +154,7 @@ static void rt_queue_merge(QueueData *parent, QueueData *qd);
 static void rt_queue(RendererTiles *rt, gint x, gint y, gint w, gint h,
 		     gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing);
 
-static void rt_redraw(RendererTiles *rt, gboolean new_data);
-
-
-static void rt_signals_connect(RendererTiles *rt);
-static void rt_size_cb(GtkWidget *widget, GtkAllocation *allocation, gpointer data);
 static void rt_hierarchy_changed_cb(GtkWidget *widget, GtkWidget *previous_toplevel, gpointer data);
-static void pixbuf_renderer_paint(RendererTiles *rt, GdkRectangle *area);
 static gint rt_queue_draw_idle_cb(gpointer data);
 
 #define GET_RIGHT_PIXBUF_OFFSET(rt) \
@@ -1888,14 +1882,6 @@ static void rt_queue(RendererTiles *rt, gint x, gint y, gint w, gint h,
 		}
 }
 
-static void rt_redraw(RendererTiles *rt, gboolean new_data)
-{
-	PixbufRenderer *pr = rt->pr;
-	rt_queue_clear(rt);
-	rt_queue(rt, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, new_data, FALSE);
-}
-
-
 static void rt_scroll(RendererTiles *rt, gint x_off, gint y_off)
 {
 	PixbufRenderer *pr = rt->pr;
@@ -2044,10 +2030,9 @@ static void renderer_queue_clear(void *renderer)
 	rt_queue_clear((RendererTiles *)renderer);
 }
 
-static void renderer_border_draw(void *renderer, gint x, gint y, gint w, gint h)
+static void renderer_border_clear(void *renderer)
 {
-	RendererTiles *rt = (RendererTiles *)renderer;
-	rt_border_draw((RendererTiles *)renderer, x, y, w, h);
+	rt_border_clear((RendererTiles *)renderer);
 }
 
 
@@ -2132,7 +2117,7 @@ RendererFuncs *renderer_tiles_new(PixbufRenderer *pr)
 	rt->f.redraw = renderer_redraw;
 	rt->f.area_changed = renderer_area_changed;
 	rt->f.queue_clear = renderer_queue_clear;
-	rt->f.border_draw = renderer_border_draw;
+	rt->f.border_clear = renderer_border_clear;
 	rt->f.free = renderer_free;
 	rt->f.invalidate_all = renderer_invalidate_all;
 	rt->f.invalidate_region = renderer_invalidate_region;

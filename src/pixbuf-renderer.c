@@ -930,8 +930,8 @@ static void pr_scroller_stop(PixbufRenderer *pr)
 
 static void pr_border_clear(PixbufRenderer *pr)
 {
-	pr->renderer->border_draw(pr->renderer, 0, 0, pr->viewport_width, pr->viewport_height);
-	if (pr->renderer2) pr->renderer2->border_draw(pr->renderer2, 0, 0, pr->viewport_width, pr->viewport_height);
+	pr->renderer->border_clear(pr->renderer);
+	if (pr->renderer2) pr->renderer2->border_clear(pr->renderer2);
 }
 
 void pixbuf_renderer_set_color(PixbufRenderer *pr, GdkColor *color)
