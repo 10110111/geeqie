@@ -1280,6 +1280,18 @@ static void rt_tile_get_region(gboolean has_alpha,
 }
 
 
+static gint rt_get_orientation(RendererTiles *rt)
+{
+	PixbufRenderer *pr = rt->pr;
+
+	gint orientation = pr->orientation;
+	static const gint mirror[]       = {1,   2, 1, 4, 3, 6, 5, 8, 7};
+	static const gint flip[]         = {1,   4, 3, 2, 1, 8, 7, 6, 5};
+
+	if (rt->stereo_mode & PR_STEREO_MIRROR) orientation = mirror[orientation];
+	if (rt->stereo_mode & PR_STEREO_FLIP) orientation = flip[orientation];
+        return orientation;
+}
 
 
 static void rt_tile_render(RendererTiles *rt, ImageTile *it,
@@ -1290,9 +1302,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 	GtkWidget *box;
 	gboolean has_alpha;
 	gboolean draw = FALSE;
-	gint orientation = pr->orientation;
-	static const gint mirror[]       = {1,   2, 1, 4, 3, 6, 5, 8, 7};
-	static const gint flip[]         = {1,   4, 3, 2, 1, 8, 7, 6, 5};
+	gint orientation = rt_get_orientation(rt);
 
 	if (it->render_todo == TILE_RENDER_NONE && it->pixmap && !new_data) return;
 
@@ -1317,8 +1327,6 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 	rt_tile_prepare(rt, it);
 	has_alpha = (pr->pixbuf && gdk_pixbuf_get_has_alpha(pr->pixbuf));
 
-	if (rt->stereo_mode & PR_STEREO_MIRROR) orientation = mirror[orientation];
-	if (rt->stereo_mode & PR_STEREO_FLIP) orientation = flip[orientation];
 	box = GTK_WIDGET(pr);
 
 	/* FIXME checker colors for alpha should be configurable,
@@ -1981,6 +1989,35 @@ static void rt_scroll(RendererTiles *rt, gint x_off, gint y_off)
 		}
 }
 
+static void renderer_area_changed(void *renderer, gint src_x, gint src_y, gint src_w, gint src_h)
+{
+	RendererTiles *rt = (RendererTiles *)renderer;
+	PixbufRenderer *pr = rt->pr;
+	gint x, y, width, height,  x1, y1, x2, y2;
+
+	gint orientation = rt_get_orientation(rt);
+	pr_coords_map_orientation_reverse(orientation,
+				     src_x - GET_RIGHT_PIXBUF_OFFSET(rt), src_y,
+				     pr->image_width, pr->image_height,
+				     src_w, src_h,
+				     &x, &y,
+				     &width, &height);
+
+	if (pr->scale != 1.0 && pr->zoom_quality != GDK_INTERP_NEAREST)
+		{
+		/* increase region when using a zoom quality that may access surrounding pixels */
+		y -= 1;
+		height += 2;
+		}
+
+	x1 = (gint)floor((gdouble)x * pr->scale);
+	y1 = (gint)floor((gdouble)y * pr->scale * pr->aspect_ratio);
+	x2 = (gint)ceil((gdouble)(x + width) * pr->scale);
+	y2 = (gint)ceil((gdouble)(y + height) * pr->scale * pr->aspect_ratio);
+
+	rt_queue(rt, x1, y1, x2 - x1, y2 - y1, FALSE, TILE_RENDER_AREA, TRUE, TRUE);
+}
+
 static void renderer_queue(void *renderer, gint x, gint y, gint w, gint h,
                      gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing)
 {
@@ -2083,6 +2120,7 @@ RendererFuncs *renderer_tiles_new(PixbufRenderer *pr)
 	rt->pr = pr;
 	
 	rt->f.queue = renderer_queue;
+	rt->f.area_changed = renderer_area_changed;
 	rt->f.queue_clear = renderer_queue_clear;
 	rt->f.border_draw = renderer_border_draw;
 	rt->f.free = renderer_free;

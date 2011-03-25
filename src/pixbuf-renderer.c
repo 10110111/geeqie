@@ -2603,38 +2603,17 @@ void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source)
 //	pr_tile_free_all(source);
 }
 
-void pixbuf_renderer_area_changed(PixbufRenderer *pr, gint src_x, gint src_y, gint src_w, gint src_h)
+void pixbuf_renderer_area_changed(PixbufRenderer *pr, gint x, gint y, gint w, gint h)
 {
-	gint x, y, width, height,  x1, y1, x2, y2;
-
 	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
-
-	pr_coords_map_orientation_reverse(pr->orientation,
-				     src_x, src_y,
-				     pr->image_width, pr->image_height,
-				     src_w, src_h,
-				     &x, &y,
-				     &width, &height);
 
 	if (pr->source_tiles_enabled)
 		{
-		pr_source_tile_changed(pr, x, y, width, height);
+		pr_source_tile_changed(pr, x, y, w, h);
 		}
 
-	if (pr->scale != 1.0 && pr->zoom_quality != GDK_INTERP_NEAREST)
-		{
-		/* increase region when using a zoom quality that may access surrounding pixels */
-		y -= 1;
-		height += 2;
-		}
-
-	x1 = (gint)floor((gdouble)x * pr->scale);
-	y1 = (gint)floor((gdouble)y * pr->scale * pr->aspect_ratio);
-	x2 = (gint)ceil((gdouble)(x + width) * pr->scale);
-	y2 = (gint)ceil((gdouble)(y + height) * pr->scale * pr->aspect_ratio);
-
-	pr->renderer->queue(pr->renderer, x1, y1, x2 - x1, y2 - y1, FALSE, TILE_RENDER_AREA, TRUE, TRUE);
-	if (pr->renderer2) pr->renderer2->queue(pr->renderer2, x1, y1, x2 - x1, y2 - y1, FALSE, TILE_RENDER_AREA, TRUE, TRUE);
+	pr->renderer->area_changed(pr->renderer, x, y, w, h);
+	if (pr->renderer2) pr->renderer2->area_changed(pr->renderer2, x, y, w, h);
 }
 
 void pixbuf_renderer_zoom_adjust(PixbufRenderer *pr, gdouble increment)
