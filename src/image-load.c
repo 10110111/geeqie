@@ -13,6 +13,7 @@
 
 #include "main.h"
 #include "image-load.h"
+#include "image_load_gdk.h"
 
 #include "exif.h"
 #include "filedata.h"
@@ -354,7 +355,7 @@ static void image_loader_sync_pixbuf(ImageLoader *il)
 		return;
 		}
 
-	pb = gdk_pixbuf_loader_get_pixbuf(il->loader);
+	pb = il->backend.get_pixbuf(il->loader);
 
 	if (pb == il->pixbuf)
 		{
@@ -375,7 +376,7 @@ static void image_loader_sync_pixbuf(ImageLoader *il)
 	g_mutex_unlock(il->data_mutex);
 }
 
-static void image_loader_area_updated_cb(GdkPixbufLoader *loader,
+static void image_loader_area_updated_cb(gpointer loader,
 				 guint x, guint y, guint w, guint h,
 				 gpointer data)
 {
@@ -398,8 +399,9 @@ static void image_loader_area_updated_cb(GdkPixbufLoader *loader,
 	g_mutex_unlock(il->data_mutex);
 }
 
-static void image_loader_area_prepared_cb(GdkPixbufLoader *loader, gpointer data)
+static void image_loader_area_prepared_cb(gpointer loader, gpointer data)
 {
+	ImageLoader *il = data;
 	GdkPixbuf *pb;
 	guchar *pix;
 	size_t h, rs;
@@ -408,7 +410,7 @@ static void image_loader_area_prepared_cb(GdkPixbufLoader *loader, gpointer data
 	   http://bugzilla.gnome.org/show_bug.cgi?id=547669 
 	   http://bugzilla.gnome.org/show_bug.cgi?id=589334
 	*/
-	gchar *format = gdk_pixbuf_format_get_name(gdk_pixbuf_loader_get_format(loader));
+	gchar *format = il->backend.get_format_name(loader);
 	if (strcmp(format, "svg") == 0 ||
 	    strcmp(format, "xpm") == 0)
 		{
@@ -418,7 +420,7 @@ static void image_loader_area_prepared_cb(GdkPixbufLoader *loader, gpointer data
 	
 	g_free(format);
 
-	pb = gdk_pixbuf_loader_get_pixbuf(loader);
+	pb = il->backend.get_pixbuf(loader);
 	
 	h = gdk_pixbuf_get_height(pb);
 	rs = gdk_pixbuf_get_rowstride(pb);
@@ -428,11 +430,10 @@ static void image_loader_area_prepared_cb(GdkPixbufLoader *loader, gpointer data
 
 }
 
-static void image_loader_size_cb(GdkPixbufLoader *loader,
+static void image_loader_size_cb(gpointer loader,
 				 gint width, gint height, gpointer data)
 {
 	ImageLoader *il = data;
-	GdkPixbufFormat *format;
 	gchar **mime_types;
 	gboolean scale = FALSE;
 	gint n;
@@ -446,10 +447,7 @@ static void image_loader_size_cb(GdkPixbufLoader *loader,
 		}
 	g_mutex_unlock(il->data_mutex);
 
-	format = gdk_pixbuf_loader_get_format(loader);
-	if (!format) return;
-
-	mime_types = gdk_pixbuf_format_get_mime_types(format);
+	mime_types = il->backend.get_format_mime_types(loader);
 	n = 0;
 	while (mime_types[n])
 		{
@@ -483,7 +481,7 @@ static void image_loader_size_cb(GdkPixbufLoader *loader,
 			if (nw < 1) nw = 1;
 			}
 
-		gdk_pixbuf_loader_set_size(loader, nw, nh);
+		il->backend.set_size(loader, nw, nh);
 		il->shrunk = TRUE;
 		}
 	g_mutex_unlock(il->data_mutex);
@@ -498,7 +496,7 @@ static void image_loader_stop_loader(ImageLoader *il)
 	if (il->loader)
 		{
 		/* some loaders do not have a pixbuf till close, order is important here */
-		gdk_pixbuf_loader_close(il->loader, il->error ? NULL : &il->error); /* we are interested in the first error only */
+		il->backend.close(il->loader, il->error ? NULL : &il->error); /* we are interested in the first error only */
 		image_loader_sync_pixbuf(il);
 		g_object_unref(G_OBJECT(il->loader));
 		il->loader = NULL;
@@ -511,14 +509,8 @@ static void image_loader_stop_loader(ImageLoader *il)
 static void image_loader_setup_loader(ImageLoader *il)
 {
 	g_mutex_lock(il->data_mutex);
-	il->loader = gdk_pixbuf_loader_new();
-
-	g_signal_connect(G_OBJECT(il->loader), "area_updated",
-			 G_CALLBACK(image_loader_area_updated_cb), il);
-	g_signal_connect(G_OBJECT(il->loader), "size_prepared",
-			 G_CALLBACK(image_loader_size_cb), il);
-	g_signal_connect(G_OBJECT(il->loader), "area_prepared",
-			 G_CALLBACK(image_loader_area_prepared_cb), il);
+	image_loader_backend_set_default(&il->backend);
+	il->loader = il->backend.loader_new(G_CALLBACK(image_loader_area_updated_cb), G_CALLBACK(image_loader_size_cb), G_CALLBACK(image_loader_area_prepared_cb), il);
 	g_mutex_unlock(il->data_mutex);
 }
 
@@ -557,7 +549,7 @@ static gboolean image_loader_continue(ImageLoader *il)
 			return FALSE;
 			}
 
-		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, il->mapped_file + il->bytes_read, b, &il->error)))
+		if (b < 0 || (b > 0 && !il->backend.write(il->loader, il->mapped_file + il->bytes_read, b, &il->error)))
 			{
 			image_loader_error(il);
 			return FALSE;
@@ -587,7 +579,7 @@ static gboolean image_loader_begin(ImageLoader *il)
 
 	image_loader_setup_loader(il);
 
-	if (!gdk_pixbuf_loader_write(il->loader, il->mapped_file + il->bytes_read, b, &il->error))
+	if (!il->backend.write(il->loader, il->mapped_file + il->bytes_read, b, &il->error))
 		{
 		image_loader_stop_loader(il);
 		return FALSE;
@@ -596,10 +588,10 @@ static gboolean image_loader_begin(ImageLoader *il)
 	il->bytes_read += b;
 
 	/* read until size is known */
-	while (il->loader && !gdk_pixbuf_loader_get_pixbuf(il->loader) && b > 0 && !image_loader_get_stopping(il))
+	while (il->loader && !il->backend.get_pixbuf(il->loader) && b > 0 && !image_loader_get_stopping(il))
 		{
 		b = MIN(il->read_buffer_size, il->bytes_total - il->bytes_read);
-		if (b < 0 || (b > 0 && !gdk_pixbuf_loader_write(il->loader, il->mapped_file + il->bytes_read, b, &il->error)))
+		if (b < 0 || (b > 0 && !il->backend.write(il->loader, il->mapped_file + il->bytes_read, b, &il->error)))
 			{
 			image_loader_stop_loader(il);
 			return FALSE;
@@ -957,16 +949,12 @@ GdkPixbuf *image_loader_get_pixbuf(ImageLoader *il)
 
 gchar *image_loader_get_format(ImageLoader *il)
 {
-	GdkPixbufFormat *format;
 	gchar **mimev;
 	gchar *mime;
 
 	if (!il || !il->loader) return NULL;
 
-	format = gdk_pixbuf_loader_get_format(il->loader);
-	if (!format) return NULL;
-
-	mimev = gdk_pixbuf_format_get_mime_types(format);
+	mimev = il->backend.get_format_mime_types(il->loader);
 	if (!mimev) return NULL;
 
 	/* return first member of mimev, as GdkPixbufLoader has no way to tell us which exact one ? */

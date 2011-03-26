@@ -1268,6 +1268,8 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	imd->orientation = source->orientation;
 	imd->desaturate = source->desaturate;
 
+	imd->user_stereo = source->user_stereo;
+
 	pixbuf_renderer_move(PIXBUF_RENDERER(imd->pr), PIXBUF_RENDERER(source->pr));
 
 	if (imd->cm || imd->desaturate)

@@ -16,6 +16,21 @@
 
 #define TYPE_IMAGE_LOADER		(image_loader_get_type())
 
+
+typedef struct _ImageLoaderBackend ImageLoaderBackend;
+struct _ImageLoaderBackend
+{
+	gpointer (*loader_new)(GCallback area_updated_cb, GCallback size_cb, GCallback area_prepared_cb, gpointer data);
+	void (*set_size)(gpointer loader, int width, int height);
+	gboolean (*write)(gpointer loader, const guchar *buf, gsize count, GError **error);
+	GdkPixbuf* (*get_pixbuf)(gpointer loader);
+	gboolean (*close)(gpointer loader, GError **error);
+
+	gchar* (*get_format_name)(gpointer loader);
+	gchar** (*get_format_mime_types)(gpointer loader);
+};
+
+
 //typedef struct _ImageLoader ImageLoader;
 typedef struct _ImageLoaderClass ImageLoaderClass;
 
@@ -41,8 +56,9 @@ struct _ImageLoader
 	guint idle_id; /* event source id */
 	gint idle_priority;
 
-	GdkPixbufLoader *loader;
+	gpointer *loader;
 	GError *error;
+	ImageLoaderBackend backend;
 
 	guint idle_done_id; /* event source id */
 	GList *area_param_list;

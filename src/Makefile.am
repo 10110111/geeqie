@@ -160,6 +160,8 @@ geeqie_SOURCES = \
 	image.h		\
 	image-load.c	\
 	image-load.h	\
+	image_load_gdk.c\
+	image_load_gdk.h\
 	image-overlay.c	\
 	image-overlay.h	\
 	img-view.c	\
