@@ -43,6 +43,7 @@
 #include "format_raw.h"
 #include "ui_fileops.h"
 #include "cache.h"
+#include "jpeg_parser.h"
 
 
 static gdouble exif_rational_to_double(ExifRational *r, gint sign)
@@ -680,64 +681,6 @@ void exif_free_fd(FileData *fd, ExifData *exif)
 
 /* embedded icc in jpeg */
 
-
-#define JPEG_MARKER		0xFF
-#define JPEG_MARKER_SOI		0xD8
-#define JPEG_MARKER_EOI		0xD9
-#define JPEG_MARKER_APP1	0xE1
-#define JPEG_MARKER_APP2	0xE2
-
-/* jpeg container format:
-     all data markers start with 0XFF
-     2 byte long file start and end markers: 0xFFD8(SOI) and 0XFFD9(EOI)
-     4 byte long data segment markers in format: 0xFFTTSSSSNNN...
-       FF:   1 byte standard marker identifier
-       TT:   1 byte data type
-       SSSS: 2 bytes in Motorola byte alignment for length of the data.
-	     This value includes these 2 bytes in the count, making actual
-	     length of NN... == SSSS - 2.
-       NNN.: the data in this segment
- */
-
-gboolean exif_jpeg_segment_find(guchar *data, guint size,
-			    guchar app_marker, const gchar *magic, guint magic_len,
-			    guint *seg_offset, guint *seg_length)
-{
-	guchar marker = 0;
-	guint offset = 0;
-	guint length = 0;
-
-	while (marker != app_marker &&
-	       marker != JPEG_MARKER_EOI)
-		{
-		offset += length;
-		length = 2;
-
-		if (offset + 2 >= size ||
-		    data[offset] != JPEG_MARKER) return FALSE;
-
-		marker = data[offset + 1];
-		if (marker != JPEG_MARKER_SOI &&
-		    marker != JPEG_MARKER_EOI)
-			{
-			if (offset + 4 >= size) return FALSE;
-			length += ((guint)data[offset + 2] << 8) + data[offset + 3];
-			}
-		}
-
-	if (marker == app_marker &&
-	    offset + length < size &&
-	    length >= 4 + magic_len &&
-	    memcmp(data + offset + 4, magic, magic_len) == 0)
-		{
-		*seg_offset = offset + 4;
-		*seg_length = length - 4;
-		return TRUE;
-		}
-
-	return FALSE;
-}
-
 gboolean exif_jpeg_parse_color(ExifData *exif, guchar *data, guint size)
 {
 	guint seg_offset = 0;
@@ -752,7 +695,7 @@ gboolean exif_jpeg_parse_color(ExifData *exif, guchar *data, guint size)
 	   TT = total number of ICC segments (TT in each ICC segment should match)
 	 */
 
-	while (exif_jpeg_segment_find(data + seg_offset + seg_length,
+	while (jpeg_segment_find(data + seg_offset + seg_length,
 				      size - seg_offset - seg_length,
 				      JPEG_MARKER_APP2,
 				      "ICC_PROFILE\x00", 12,

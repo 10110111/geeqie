@@ -168,6 +168,8 @@ geeqie_SOURCES = \
 	image-overlay.h	\
 	img-view.c	\
 	img-view.h	\
+	jpeg_parser.c	\
+	jpeg_parser.h	\
 	layout.c	\
 	layout.h	\
 	layout_config.c	\
