@@ -291,6 +291,26 @@ AM_CONDITIONAL(HAVE_LCMS, [test "x$HAVE_LCMS" = xyes])
 AC_SUBST(LCMS_CFLAGS)
 AC_SUBST(LCMS_LIBS)
 
+#  libjpeg support
+# ----------------------------------------------------------------------
+
+AC_ARG_ENABLE([jpeg],
+  AC_HELP_STRING([--disable-jpeg], [disable direct jpeg support]),
+    [libjpeg=$enableval], [libjpeg=auto])
+
+if test "x${libjpeg}" != "xno"; then
+  AC_CHECK_LIB(jpeg, jpeg_destroy_decompress,
+      HAVE_JPEG=yes
+      JPEG_LIBS=-ljpeg,
+      HAVE_JPEG=no)
+else
+  HAVE_JPEG=disabled
+fi
+
+AM_CONDITIONAL(HAVE_JPEG, [test "x$HAVE_JPEG" = xyes])
+AC_SUBST(JPEG_CFLAGS)
+AC_SUBST(JPEG_LIBS)
+
 
 #  Exiv2 support
 # ----------------------------------------------------------------------
@@ -449,7 +469,7 @@ Flags:
   Gtk:           $GTK_CFLAGS
   Glib:          $GLIB_CFLAGS
   Thread:        $GTHREAD_LIBS
-  Others:	 $LCMS_LIBS $EXIV2_LIBS $LIBCHAMPLAIN_LIBS $LIBCHAMPLAIN_GTK_LIBS
+  Others:	 $JPEG_LIBS $LCMS_LIBS $EXIV2_LIBS $LIBCHAMPLAIN_LIBS $LIBCHAMPLAIN_GTK_LIBS
 
 Localization:
   NLS support:   $USE_NLS

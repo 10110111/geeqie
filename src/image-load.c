@@ -14,6 +14,7 @@
 #include "main.h"
 #include "image-load.h"
 #include "image_load_gdk.h"
+#include "image_load_jpeg.h"
 
 #include "exif.h"
 #include "filedata.h"
@@ -316,7 +317,7 @@ static void image_loader_emit_area_ready(ImageLoader *il, guint x, guint y, guin
 /* the following functions may be executed in separate thread */
 
 /* this function expects that il->data_mutex is locked by caller */
-static void image_loader_queue_delayed_erea_ready(ImageLoader *il, guint x, guint y, guint w, guint h)
+static void image_loader_queue_delayed_area_ready(ImageLoader *il, guint x, guint y, guint w, guint h)
 {
 	ImageLoaderAreaParam *par = g_new0(ImageLoaderAreaParam, 1);
 	par->il = il;
@@ -393,9 +394,12 @@ static void image_loader_area_updated_cb(gpointer loader,
 
 	g_mutex_lock(il->data_mutex);
 	if (il->delay_area_ready)
-		image_loader_queue_delayed_erea_ready(il, x, y, w, h);
+		image_loader_queue_delayed_area_ready(il, x, y, w, h);
 	else
 		image_loader_emit_area_ready(il, x, y, w, h);
+	
+	if (il->stopping) il->backend.abort(il->loader);
+
 	g_mutex_unlock(il->data_mutex);
 }
 
@@ -498,7 +502,7 @@ static void image_loader_stop_loader(ImageLoader *il)
 		/* some loaders do not have a pixbuf till close, order is important here */
 		il->backend.close(il->loader, il->error ? NULL : &il->error); /* we are interested in the first error only */
 		image_loader_sync_pixbuf(il);
-		g_object_unref(G_OBJECT(il->loader));
+		il->backend.free(il->loader);
 		il->loader = NULL;
 		}
 	g_mutex_lock(il->data_mutex);
@@ -509,8 +513,15 @@ static void image_loader_stop_loader(ImageLoader *il)
 static void image_loader_setup_loader(ImageLoader *il)
 {
 	g_mutex_lock(il->data_mutex);
-	image_loader_backend_set_default(&il->backend);
-	il->loader = il->backend.loader_new(G_CALLBACK(image_loader_area_updated_cb), G_CALLBACK(image_loader_size_cb), G_CALLBACK(image_loader_area_prepared_cb), il);
+	if (il->bytes_total >= 2 && il->mapped_file[0] == 0xff && il->mapped_file[1] == 0xd8)
+		{
+		DEBUG_1("Using custom jpeg loader");
+		image_loader_backend_set_jpeg(&il->backend);
+		}
+	else
+		image_loader_backend_set_default(&il->backend);
+
+	il->loader = il->backend.loader_new(image_loader_area_updated_cb, image_loader_size_cb, image_loader_area_prepared_cb, il);
 	g_mutex_unlock(il->data_mutex);
 }
 
@@ -578,8 +589,17 @@ static gboolean image_loader_begin(ImageLoader *il)
 	if (b < 1) return FALSE;
 
 	image_loader_setup_loader(il);
-
-	if (!il->backend.write(il->loader, il->mapped_file + il->bytes_read, b, &il->error))
+	
+	g_assert(il->bytes_read == 0);
+	if (il->backend.load) {
+		b = il->bytes_total;
+		if (!il->backend.load(il->loader, il->mapped_file, b, &il->error))
+			{
+			image_loader_stop_loader(il);
+			return FALSE;
+			}
+	}
+	else if (!il->backend.write(il->loader, il->mapped_file, b, &il->error))
 		{
 		image_loader_stop_loader(il);
 		return FALSE;
