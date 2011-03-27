@@ -148,19 +148,54 @@ output_message_handler (j_common_ptr cinfo)
   /* do nothing */
 }
 
+
+void image_loader_jpeg_read_scanline(struct jpeg_decompress_struct *cinfo, guchar **dptr, guint rowstride)
+{
+	guchar *lines[4];
+	guchar **lptr;
+	gint i;
+
+	lptr = lines;
+	for (i = 0; i < cinfo->rec_outbuf_height; i++) 
+		{
+		*lptr++ = *dptr;
+		*dptr += rowstride;
+		}
+
+	jpeg_read_scanlines (cinfo, lines, cinfo->rec_outbuf_height);
+
+	switch (cinfo->out_color_space) 
+		{
+		    case JCS_GRAYSCALE:
+		      explode_gray_into_buf (cinfo, lines);
+		      break;
+		    case JCS_RGB:
+		      /* do nothing */
+		      break;
+		    case JCS_CMYK:
+		      convert_cmyk_to_rgb (cinfo, lines);
+		      break;
+		    default:
+		      break;
+		}
+}
+
 static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsize count, GError **error)
 {
 	ImageLoaderJpeg *lj = (ImageLoaderJpeg *) loader;
 	struct jpeg_decompress_struct cinfo;
-	guchar *dptr;
+	struct jpeg_decompress_struct cinfo2;
+	guchar *dptr, *dptr2;
 	guint rowstride;
 
 	struct error_handler_data jerr;
 //	stdio_src_ptr src;
 	MPOData *mpo = jpeg_get_mpo_data(buf, count);
+	gboolean stereo = (mpo && mpo->num_images > 1);
 
 	/* setup error handler */
 	cinfo.err = jpeg_std_error (&jerr.pub);
+	if (stereo) cinfo2.err = jpeg_std_error (&jerr.pub);
 	jerr.pub.error_exit = fatal_error_handler;
         jerr.pub.output_message = output_message_handler;
 
@@ -173,6 +208,7 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 		 * We need to clean up the JPEG object, close the input file, and return.
 		*/
 		jpeg_destroy_decompress(&cinfo);
+		if (stereo) jpeg_destroy_decompress(&cinfo2);
 		return FALSE;
 		}
 	
@@ -182,72 +218,102 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 
 
 	jpeg_read_header(&cinfo, TRUE);
+	
+	if (stereo)
+		{
+		printf("decoding stereo");
+		jpeg_create_decompress(&cinfo2);
+		jpeg_mem_src(&cinfo2, (unsigned char *)buf + mpo->images[1].offset, mpo->images[1].length);
+		jpeg_read_header(&cinfo2, TRUE);
+		
+		if (cinfo.image_width != cinfo2.image_width ||
+		    cinfo.image_height != cinfo2.image_height) 
+			{
+			DEBUG_1("stereo data with different size");
+			jpeg_destroy_decompress(&cinfo2);
+			stereo = FALSE;
+			}
+		}
 
-	lj->requested_width = cinfo.image_width;
+		    
+
+	lj->requested_width = stereo ? cinfo.image_width * 2: cinfo.image_width;
 	lj->requested_height = cinfo.image_height;
-	lj->size_cb(loader, cinfo.image_width, cinfo.image_height, lj->data);
+	lj->size_cb(loader, lj->requested_width, lj->requested_height, lj->data);
 			
 	cinfo.scale_num = 1;
 	for (cinfo.scale_denom = 2; cinfo.scale_denom <= 8; cinfo.scale_denom *= 2) {
 		jpeg_calc_output_dimensions(&cinfo);
-		if (cinfo.output_width < lj->requested_width || cinfo.output_height < lj->requested_height) {
+		if (cinfo.output_width < (stereo ? lj->requested_width / 2 : lj->requested_width) || cinfo.output_height < lj->requested_height) {
 			cinfo.scale_denom /= 2;
 			break;
 		}
 	}
 	jpeg_calc_output_dimensions(&cinfo);
+	if (stereo)
+		{
+		cinfo2.scale_num = cinfo.scale_num;
+		cinfo2.scale_denom = cinfo.scale_denom;
+		jpeg_calc_output_dimensions(&cinfo2);
+		jpeg_start_decompress(&cinfo2);
+		}
+		
 
 	jpeg_start_decompress(&cinfo);
 	
+
+	if (stereo)
+		{
+		if (cinfo.output_width != cinfo2.output_width ||
+		    cinfo.output_height != cinfo2.output_height ||
+		    cinfo.out_color_components != cinfo2.out_color_components) 
+			{
+			DEBUG_1("stereo data with different output size");
+			jpeg_destroy_decompress(&cinfo2);
+			stereo = FALSE;
+			}
+		}
+	
+	
 	lj->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 
 				     cinfo.out_color_components == 4 ? TRUE : FALSE, 
-				     8, cinfo.output_width, cinfo.output_height);
+				     8, stereo ? cinfo.output_width * 2: cinfo.output_width, cinfo.output_height);
 
-	lj->area_prepared_cb(loader, lj->data);
-	rowstride = gdk_pixbuf_get_rowstride(lj->pixbuf);
-	dptr = gdk_pixbuf_get_pixels(lj->pixbuf);
-	      
 	if (!lj->pixbuf) 
 		{
 		jpeg_destroy_decompress (&cinfo);
+		if (stereo) jpeg_destroy_decompress (&cinfo2);
 		return 0;
 		}
+	if (stereo) g_object_set_data(G_OBJECT(lj->pixbuf), "stereo_data", GINT_TO_POINTER(STEREO_PIXBUF_CROSS));
+	lj->area_prepared_cb(loader, lj->data);
+
+	rowstride = gdk_pixbuf_get_rowstride(lj->pixbuf);
+	dptr = gdk_pixbuf_get_pixels(lj->pixbuf);
+	dptr2 = gdk_pixbuf_get_pixels(lj->pixbuf) + ((cinfo.out_color_components == 4) ? 4 * cinfo.output_width : 3 * cinfo.output_width);
+	
 
 	while (cinfo.output_scanline < cinfo.output_height && !lj->abort) 
 		{
-		guchar *lines[4];
-		guchar **lptr;
-		gint i;
 		guint scanline = cinfo.output_scanline;
-
-		lptr = lines;
-		for (i = 0; i < cinfo.rec_outbuf_height; i++) 
-			{
-			*lptr++ = dptr;
-			dptr += rowstride;
-			}
-
-		jpeg_read_scanlines (&cinfo, lines, cinfo.rec_outbuf_height);
-
-		switch (cinfo.out_color_space) 
-			{
-			    case JCS_GRAYSCALE:
-			      explode_gray_into_buf (&cinfo, lines);
-			      break;
-			    case JCS_RGB:
-			      /* do nothing */
-			      break;
-			    case JCS_CMYK:
-			      convert_cmyk_to_rgb (&cinfo, lines);
-			      break;
-			    default:
-			      break;
-			}
+		image_loader_jpeg_read_scanline(&cinfo, &dptr, rowstride);
 		lj->area_updated_cb(loader, 0, scanline, cinfo.output_width, cinfo.rec_outbuf_height, lj->data);
+		if (stereo)
+			{
+			guint scanline = cinfo2.output_scanline;
+			image_loader_jpeg_read_scanline(&cinfo2, &dptr2, rowstride);
+			lj->area_updated_cb(loader, cinfo.output_width, scanline, cinfo2.output_width, cinfo2.rec_outbuf_height, lj->data);
+			}
 		}
 
 	jpeg_finish_decompress(&cinfo);
 	jpeg_destroy_decompress(&cinfo);
+	if (stereo)
+		{
+		jpeg_finish_decompress(&cinfo);
+		jpeg_destroy_decompress(&cinfo);
+		}
+
 	return TRUE;
 }
 
