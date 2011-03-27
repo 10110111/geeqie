@@ -450,7 +450,7 @@ static void pixbuf_renderer_finalize(GObject *object)
 	pr = PIXBUF_RENDERER(object);
 
 	pr->renderer->free(pr->renderer);
-	if (pr->renderer2) pr->renderer->free(pr->renderer2);
+	if (pr->renderer2) pr->renderer2->free(pr->renderer2);
 
 
 	if (pr->pixbuf) g_object_unref(pr->pixbuf);
