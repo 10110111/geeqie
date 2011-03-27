@@ -21,6 +21,7 @@ struct _ImageLoaderJpeg {
 	guint requested_height;
 	
 	gboolean abort;
+	gboolean stereo;
 	
 };
 
@@ -191,11 +192,11 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 	struct error_handler_data jerr;
 //	stdio_src_ptr src;
 	MPOData *mpo = jpeg_get_mpo_data(buf, count);
-	gboolean stereo = (mpo && mpo->num_images > 1);
+	lj->stereo = (mpo && mpo->num_images > 1);
 
 	/* setup error handler */
 	cinfo.err = jpeg_std_error (&jerr.pub);
-	if (stereo) cinfo2.err = jpeg_std_error (&jerr.pub);
+	if (lj->stereo) cinfo2.err = jpeg_std_error (&jerr.pub);
 	jerr.pub.error_exit = fatal_error_handler;
         jerr.pub.output_message = output_message_handler;
 
@@ -208,7 +209,7 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 		 * We need to clean up the JPEG object, close the input file, and return.
 		*/
 		jpeg_destroy_decompress(&cinfo);
-		if (stereo) jpeg_destroy_decompress(&cinfo2);
+		if (lj->stereo) jpeg_destroy_decompress(&cinfo2);
 		return FALSE;
 		}
 	
@@ -219,9 +220,8 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 
 	jpeg_read_header(&cinfo, TRUE);
 	
-	if (stereo)
+	if (lj->stereo)
 		{
-		printf("decoding stereo");
 		jpeg_create_decompress(&cinfo2);
 		jpeg_mem_src(&cinfo2, (unsigned char *)buf + mpo->images[1].offset, mpo->images[1].length);
 		jpeg_read_header(&cinfo2, TRUE);
@@ -231,26 +231,26 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 			{
 			DEBUG_1("stereo data with different size");
 			jpeg_destroy_decompress(&cinfo2);
-			stereo = FALSE;
+			lj->stereo = FALSE;
 			}
 		}
 
 		    
 
-	lj->requested_width = stereo ? cinfo.image_width * 2: cinfo.image_width;
+	lj->requested_width = lj->stereo ? cinfo.image_width * 2: cinfo.image_width;
 	lj->requested_height = cinfo.image_height;
 	lj->size_cb(loader, lj->requested_width, lj->requested_height, lj->data);
 			
 	cinfo.scale_num = 1;
 	for (cinfo.scale_denom = 2; cinfo.scale_denom <= 8; cinfo.scale_denom *= 2) {
 		jpeg_calc_output_dimensions(&cinfo);
-		if (cinfo.output_width < (stereo ? lj->requested_width / 2 : lj->requested_width) || cinfo.output_height < lj->requested_height) {
+		if (cinfo.output_width < (lj->stereo ? lj->requested_width / 2 : lj->requested_width) || cinfo.output_height < lj->requested_height) {
 			cinfo.scale_denom /= 2;
 			break;
 		}
 	}
 	jpeg_calc_output_dimensions(&cinfo);
-	if (stereo)
+	if (lj->stereo)
 		{
 		cinfo2.scale_num = cinfo.scale_num;
 		cinfo2.scale_denom = cinfo.scale_denom;
@@ -262,7 +262,7 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 	jpeg_start_decompress(&cinfo);
 	
 
-	if (stereo)
+	if (lj->stereo)
 		{
 		if (cinfo.output_width != cinfo2.output_width ||
 		    cinfo.output_height != cinfo2.output_height ||
@@ -270,22 +270,22 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 			{
 			DEBUG_1("stereo data with different output size");
 			jpeg_destroy_decompress(&cinfo2);
-			stereo = FALSE;
+			lj->stereo = FALSE;
 			}
 		}
 	
 	
 	lj->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 
 				     cinfo.out_color_components == 4 ? TRUE : FALSE, 
-				     8, stereo ? cinfo.output_width * 2: cinfo.output_width, cinfo.output_height);
+				     8, lj->stereo ? cinfo.output_width * 2: cinfo.output_width, cinfo.output_height);
 
 	if (!lj->pixbuf) 
 		{
 		jpeg_destroy_decompress (&cinfo);
-		if (stereo) jpeg_destroy_decompress (&cinfo2);
+		if (lj->stereo) jpeg_destroy_decompress (&cinfo2);
 		return 0;
 		}
-	if (stereo) g_object_set_data(G_OBJECT(lj->pixbuf), "stereo_data", GINT_TO_POINTER(STEREO_PIXBUF_CROSS));
+	if (lj->stereo) g_object_set_data(G_OBJECT(lj->pixbuf), "stereo_data", GINT_TO_POINTER(STEREO_PIXBUF_CROSS));
 	lj->area_prepared_cb(loader, lj->data);
 
 	rowstride = gdk_pixbuf_get_rowstride(lj->pixbuf);
@@ -298,7 +298,7 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 		guint scanline = cinfo.output_scanline;
 		image_loader_jpeg_read_scanline(&cinfo, &dptr, rowstride);
 		lj->area_updated_cb(loader, 0, scanline, cinfo.output_width, cinfo.rec_outbuf_height, lj->data);
-		if (stereo)
+		if (lj->stereo)
 			{
 			guint scanline = cinfo2.output_scanline;
 			image_loader_jpeg_read_scanline(&cinfo2, &dptr2, rowstride);
@@ -308,7 +308,7 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 
 	jpeg_finish_decompress(&cinfo);
 	jpeg_destroy_decompress(&cinfo);
-	if (stereo)
+	if (lj->stereo)
 		{
 		jpeg_finish_decompress(&cinfo);
 		jpeg_destroy_decompress(&cinfo);
