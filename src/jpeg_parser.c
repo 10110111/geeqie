@@ -10,8 +10,7 @@ gboolean jpeg_segment_find(guchar *data, guint size,
 	guint offset = 0;
 	guint length = 0;
 
-	while (marker != app_marker &&
-	       marker != JPEG_MARKER_EOI)
+	while (marker != JPEG_MARKER_EOI)
 		{
 		offset += length;
 		length = 2;
@@ -25,19 +24,18 @@ gboolean jpeg_segment_find(guchar *data, guint size,
 			{
 			if (offset + 4 >= size) return FALSE;
 			length += ((guint)data[offset + 2] << 8) + data[offset + 3];
+
+			if (marker == app_marker &&
+			    offset + length < size &&
+			    length >= 4 + magic_len &&
+			    memcmp(data + offset + 4, magic, magic_len) == 0)
+				{
+				*seg_offset = offset + 4;
+				*seg_length = length - 4;
+				return TRUE;
+				}
 			}
 		}
-
-	if (marker == app_marker &&
-	    offset + length < size &&
-	    length >= 4 + magic_len &&
-	    memcmp(data + offset + 4, magic, magic_len) == 0)
-		{
-		*seg_offset = offset + 4;
-		*seg_length = length - 4;
-		return TRUE;
-		}
-
 	return FALSE;
 }
 
