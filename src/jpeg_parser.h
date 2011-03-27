@@ -23,4 +23,29 @@ gboolean jpeg_segment_find(guchar *data, guint size,
 			    guchar app_marker, const gchar *magic, guint magic_len,
 			    guint *seg_offset, guint *seg_length);
 
+
+typedef struct _MPOData MPOData;
+typedef struct _MPOEntry MPOEntry;
+
+struct _MPOEntry {
+	guint type_code;
+	gboolean representative;
+	gboolean dependent_child;
+	gboolean dependent_parent;
+	guint offset;
+	guint length;
+	guint dep1;
+	guint dep2;
+};
+
+
+struct _MPOData {
+        guint mpo_offset;
+
+	guint version;
+	guint num_images;
+	MPOEntry *images;
+};
+
+MPOData* jpeg_get_mpo_data(guchar *data, guint size);
 #endif

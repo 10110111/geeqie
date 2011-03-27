@@ -2,6 +2,7 @@
 #include "main.h"
 #include "image-load.h"
 #include "image_load_jpeg.h"
+#include "jpeg_parser.h"
 
 #include <setjmp.h>
 #include <jpeglib.h>
@@ -156,6 +157,7 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 
 	struct error_handler_data jerr;
 //	stdio_src_ptr src;
+	MPOData *mpo = jpeg_get_mpo_data(buf, count);
 
 	/* setup error handler */
 	cinfo.err = jpeg_std_error (&jerr.pub);
