@@ -491,14 +491,11 @@ static void rt_tile_prepare(RendererTiles *rt, ImageTile *it)
 		rt->tile_cache_size += size;
 		}
 
-	if ((pr->zoom != 1.0 || pr->source_tiles_enabled || (pr->pixbuf && gdk_pixbuf_get_has_alpha(pr->pixbuf)) ||
-	     pr->orientation != EXIF_ORIENTATION_TOP_LEFT || pr->func_post_process) && !it->pixbuf)
+	if (!it->pixbuf)
 		{
 		GdkPixbuf *pixbuf;
 		guint size;
-			{
-			pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, rt->tile_width, rt->tile_height);
-			}
+		pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, rt->tile_width, rt->tile_height);
 
 		size = gdk_pixbuf_get_rowstride(pixbuf) * rt->tile_height;
 		rt_tile_free_space(rt, size, it);
