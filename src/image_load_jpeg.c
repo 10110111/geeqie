@@ -188,11 +188,21 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 	struct jpeg_decompress_struct cinfo2;
 	guchar *dptr, *dptr2;
 	guint rowstride;
+	guchar *stereo_buf2 = NULL;
+	guint stereo_length = 0;
 
 	struct error_handler_data jerr;
-//	stdio_src_ptr src;
+	
+	lj->stereo = FALSE;
+
 	MPOData *mpo = jpeg_get_mpo_data(buf, count);
-	lj->stereo = (mpo && mpo->num_images > 1);
+	if (mpo && mpo->num_images > 1)
+		{
+		lj->stereo = TRUE;
+		stereo_buf2 = (unsigned char *)buf + mpo->images[1].offset;
+		stereo_length = mpo->images[1].length;
+		}
+	jpeg_mpo_data_free(mpo);
 
 	/* setup error handler */
 	cinfo.err = jpeg_std_error (&jerr.pub);
@@ -223,7 +233,7 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 	if (lj->stereo)
 		{
 		jpeg_create_decompress(&cinfo2);
-		jpeg_mem_src(&cinfo2, (unsigned char *)buf + mpo->images[1].offset, mpo->images[1].length);
+		jpeg_mem_src(&cinfo2, stereo_buf2, stereo_length);
 		jpeg_read_header(&cinfo2, TRUE);
 		
 		if (cinfo.image_width != cinfo2.image_width ||

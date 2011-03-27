@@ -48,4 +48,6 @@ struct _MPOData {
 };
 
 MPOData* jpeg_get_mpo_data(guchar *data, guint size);
+void jpeg_mpo_data_free(MPOData *mpo);
+
 #endif

@@ -279,3 +279,12 @@ MPOData *jpeg_get_mpo_data(guchar *data, guint size)
 		}
 	return NULL;
 }
+
+void jpeg_mpo_data_free(MPOData *mpo)
+{
+	if (mpo)
+		{
+		if (mpo->images) g_free(mpo->images);
+		g_free(mpo);
+		}
+}
