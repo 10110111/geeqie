@@ -168,7 +168,6 @@ gint tiff_parse_IFD_table(guchar *tiff, guint offset,
 
 	count = tiff_byte_get_int16(tiff + offset, bo);
 	offset += 2;
-printf("count %d\n", count);
 	/* Entries and next IFD offset must be readable */
 	if (size < offset + count * TIFF_TIFD_SIZE + 4) return -1;
 
@@ -178,7 +177,6 @@ printf("count %d\n", count);
 		}
 	
 	next = tiff_byte_get_int32(tiff + offset + count * TIFF_TIFD_SIZE, bo);
-printf("next %d\n", next);
 	if (next_offset) *next_offset = next;
 	
 	return 0;
@@ -201,15 +199,17 @@ static gint mpo_parse_Index_IFD_entry(guchar *tiff, guint offset,
 	format = tiff_byte_get_int16(tiff + offset + TIFF_TIFD_OFFSET_FORMAT, bo);
 	count = tiff_byte_get_int32(tiff + offset + TIFF_TIFD_OFFSET_COUNT, bo);
 	data_val = tiff_byte_get_int32(tiff + offset + TIFF_TIFD_OFFSET_DATA, bo);
-printf("tag %x format %x count %x data_val %x\n", tag, format, count, data_val);
+	DEBUG_1("   tag %x format %x count %x data_val %x", tag, format, count, data_val);
 
         if (tag == 0xb000)
         	{
         	mpo->version = data_val;
+		DEBUG_1("    mpo version %x", mpo->version);
         	}
         else if (tag == 0xb001)
         	{
         	mpo->num_images = data_val;
+		DEBUG_1("    num images %x", mpo->num_images);
         	}
 	else if (tag == 0xb002)
 		{
@@ -247,8 +247,64 @@ printf("tag %x format %x count %x data_val %x\n", tag, format, count, data_val);
 			 	mpo->images[i].offset += mpo->mpo_offset;
 			 	}
 			 	
-			printf("img %x %x %x\n", image_attr, mpo->images[i].length, mpo->images[i].offset);
+			DEBUG_1("   image %x %x %x", image_attr, mpo->images[i].length, mpo->images[i].offset);
 			}
+		}
+
+	return 0;
+}
+
+static gint mpo_parse_Attributes_IFD_entry(guchar *tiff, guint offset,
+				 guint size, TiffByteOrder bo,
+				 gpointer data)
+{
+	guint tag;
+	guint format;
+	guint count;
+	guint data_val;
+	guint data_offset;
+	guint data_length;
+
+	MPOEntry *mpe = data;
+
+	tag = tiff_byte_get_int16(tiff + offset + TIFF_TIFD_OFFSET_TAG, bo);
+	format = tiff_byte_get_int16(tiff + offset + TIFF_TIFD_OFFSET_FORMAT, bo);
+	count = tiff_byte_get_int32(tiff + offset + TIFF_TIFD_OFFSET_COUNT, bo);
+	data_val = tiff_byte_get_int32(tiff + offset + TIFF_TIFD_OFFSET_DATA, bo);
+	DEBUG_1("   tag %x format %x count %x data_val %x", tag, format, count, data_val);
+
+        switch (tag) 
+        	{
+        	case 0xb000: 
+        		mpe->MPFVersion = data_val;
+			DEBUG_1("    mpo version %x", data_val);
+        		break;
+        	case 0xb101: 
+        		mpe->MPIndividualNum = data_val;
+			DEBUG_1("    Individual Image Number %x", mpe->MPIndividualNum);
+        		break;
+        	case 0xb201: 
+        		mpe->PanOrientation = data_val;
+        		break;
+/*
+
+FIXME:
+Panorama Scanning Orientation PanOrientation 45569 B201 LONG 1
+Panorama Horizontal Overlap PanOverlap_H 45570 B202 RATIONAL 1
+Panorama Vertical Overlap PanOverlap_V 45571 B203 RATIONAL 1
+Base Viewpoint Number BaseViewpointNum 45572 B204 LONG 1
+Convergence Angle ConvergenceAngle 45573 B205 SRATIONAL 1
+Baseline Length BaselineLength 45574 B206 RATIONAL 1
+Divergence Angle VerticalDivergence 45575 B207 SRATIONAL 1
+Horizontal Axis Distance AxisDistance_X 45576 B208 SRATIONAL 1
+Vertical Axis Distance AxisDistance_Y 45577 B209 SRATIONAL 1
+Collimation Axis Distance AxisDistance_Z 45578 B20A SRATIONAL 1
+Yaw Angle YawAngle 45579 B20B SRATIONAL 1
+Pitch Angle PitchAngle 45580 B20C SRATIONAL 1
+Roll Angle RollAngle 45581 B20D 
+  */      	
+		default: 
+			break;
 		}
 
 	return 0;
@@ -261,31 +317,60 @@ MPOData *jpeg_get_mpo_data(guchar *data, guint size)
 	if (jpeg_segment_find(data, size, JPEG_MARKER_APP2, "MPF\x00", 4, &seg_offset, &seg_size) && seg_size >16)
 		{
 		guint offset;
+		guint next_offset;
 		TiffByteOrder bo;
 		MPOData *mpo;
 		guint i;
 
-		printf("mpo signature found at %x\n", seg_offset); 
-		data += seg_offset + 4;
+		DEBUG_1("mpo signature found at %x", seg_offset); 
+		seg_offset += 4;
 		seg_size -= 4;
 		
-		if (!tiff_directory_offset(data, seg_size, &offset, &bo)) return NULL;
+		if (!tiff_directory_offset(data + seg_offset, seg_size, &offset, &bo)) return NULL;
 
 		mpo = g_new0(MPOData, 1);
-		mpo->mpo_offset = seg_offset + 4;
+		mpo->mpo_offset = seg_offset;
 		
-		tiff_parse_IFD_table(data,  offset , seg_size, bo, NULL, mpo_parse_Index_IFD_entry, (gpointer)mpo);
+		tiff_parse_IFD_table(data + seg_offset,  offset , seg_size, bo, &next_offset, mpo_parse_Index_IFD_entry, (gpointer)mpo);
 		if (!mpo->images) mpo->num_images = 0;
 		
+	
 		for (i = 0; i < mpo->num_images; i++)
 			{
 			if (mpo->images[i].offset + mpo->images[i].length > size)
 				{
 				mpo->num_images = i;
-				DEBUG_1("MPO file truncated to %d valid images", i);
+				DEBUG_1("MPO file truncated to %d valid images, %d %d", i, mpo->images[i].offset + mpo->images[i].length, size);
 				break;
 				}
 			}
+		
+		for (i = 0; i < mpo->num_images; i++)
+			{
+			if (i == 0) 
+				{
+				offset = next_offset;
+				}
+			else
+				{
+				if (!jpeg_segment_find(data + mpo->images[i].offset, mpo->images[i].length, JPEG_MARKER_APP2, "MPF\x00", 4, &seg_offset, &seg_size) || seg_size <=16)
+					{
+					DEBUG_1("MPO image %d: MPO signature not found", i);
+					continue;
+					}
+				
+				seg_offset += 4;
+				seg_size -= 4;
+				if (!tiff_directory_offset(data + mpo->images[i].offset + seg_offset, seg_size, &offset, &bo)) 
+					{
+					DEBUG_1("MPO image %d: invalid directory offset", i);
+					continue;
+					}
+
+				}
+			tiff_parse_IFD_table(data + mpo->images[i].offset + seg_offset,  offset , seg_size, bo, NULL, mpo_parse_Attributes_IFD_entry, (gpointer)&mpo->images[i]);
+			}
+		
 		return mpo;
 		}
 	return NULL;

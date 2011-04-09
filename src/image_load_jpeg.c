@@ -276,9 +276,34 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 	MPOData *mpo = jpeg_get_mpo_data(buf, count);
 	if (mpo && mpo->num_images > 1)
 		{
-		lj->stereo = TRUE;
-		stereo_buf2 = (unsigned char *)buf + mpo->images[1].offset;
-		stereo_length = mpo->images[1].length;
+		guint i;
+		gint idx1 = -1, idx2 = -1;
+		guint num2 = 1;
+		
+		for (i = 0; i < mpo->num_images; i++)
+			{
+			if (mpo->images[i].type_code == 0x20002)
+				{
+				if (mpo->images[i].MPIndividualNum == 1)
+					{
+					idx1 = i;
+					}
+				else if (mpo->images[i].MPIndividualNum > num2)
+					{
+					idx2 = i;
+					num2 = mpo->images[i].MPIndividualNum;
+					}
+				}
+			}
+			
+		if (idx1 >= 0 && idx2 >= 0)
+			{
+			lj->stereo = TRUE;
+			stereo_buf2 = (unsigned char *)buf + mpo->images[idx2].offset;
+			stereo_length = mpo->images[idx2].length;
+			buf = (unsigned char *)buf + mpo->images[idx1].offset;
+			count = mpo->images[idx1].length;
+			}
 		}
 	jpeg_mpo_data_free(mpo);
 
