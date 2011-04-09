@@ -740,7 +740,10 @@ static void dest_new_dir_cb(GtkWidget *widget, gpointer data)
 	tmp = gtk_entry_get_text(GTK_ENTRY(dd->entry));
 	if (!isname(tmp))
 		{
-		path = g_strdup(tmp);
+		buf = remove_trailing_slash(tmp);
+		path = g_strdup(buf);
+		g_free(buf);
+		buf = remove_level_from_path(path);
 		from_text = TRUE;
 		}
 	else
@@ -765,7 +768,11 @@ static void dest_new_dir_cb(GtkWidget *widget, gpointer data)
 		GtkListStore *store;
 		const gchar *text;
 
-		if (from_text) gtk_entry_set_text(GTK_ENTRY(dd->entry), dd->path);
+		if (from_text)
+			{
+			dest_populate(dd, buf);
+			g_free(buf);
+			}
 
 		store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(dd->d_view)));
 
