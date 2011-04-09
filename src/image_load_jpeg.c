@@ -39,9 +39,12 @@
 
 
 #include "main.h"
+
 #include "image-load.h"
 #include "image_load_jpeg.h"
 #include "jpeg_parser.h"
+
+#ifdef HAVE_JPEG
 
 #include <setjmp.h>
 #include <jpeglib.h>
@@ -489,3 +492,4 @@ void image_loader_backend_set_jpeg(ImageLoaderBackend *funcs)
 
 
 
+#endif

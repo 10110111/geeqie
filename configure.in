@@ -301,7 +301,8 @@ AC_ARG_ENABLE([jpeg],
 if test "x${libjpeg}" != "xno"; then
   AC_CHECK_LIB(jpeg, jpeg_destroy_decompress,
       HAVE_JPEG=yes
-      JPEG_LIBS=-ljpeg,
+      JPEG_LIBS=-ljpeg
+      AC_DEFINE(HAVE_JPEG, 1, [define to enable use of custom jpeg loader]),
       HAVE_JPEG=no)
 else
   HAVE_JPEG=disabled

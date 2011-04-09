@@ -513,12 +513,14 @@ static void image_loader_stop_loader(ImageLoader *il)
 static void image_loader_setup_loader(ImageLoader *il)
 {
 	g_mutex_lock(il->data_mutex);
+#ifdef HAVE_JPEG
 	if (il->bytes_total >= 2 && il->mapped_file[0] == 0xff && il->mapped_file[1] == 0xd8)
 		{
 		DEBUG_1("Using custom jpeg loader");
 		image_loader_backend_set_jpeg(&il->backend);
 		}
 	else
+#endif
 		image_loader_backend_set_default(&il->backend);
 
 	il->loader = il->backend.loader_new(image_loader_area_updated_cb, image_loader_size_cb, image_loader_area_prepared_cb, il);
