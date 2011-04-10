@@ -161,9 +161,6 @@ guchar *exif_get_color_profile(ExifData *exif, guint *data_len);
 void exif_add_jpeg_color_profile(ExifData *exif, guchar *cp_data, guint cp_length);
 
 
-gboolean exif_jpeg_segment_find(guchar *data, guint size,
-                                guchar app_marker, const gchar *magic, guint magic_len,
-                                guint *seg_offset, guint *seg_length);
 gboolean exif_jpeg_parse_color(ExifData *exif, guchar *data, guint size);
 
 /*raw support */
