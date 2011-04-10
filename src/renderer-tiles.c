@@ -157,6 +157,8 @@ static void rt_queue(RendererTiles *rt, gint x, gint y, gint w, gint h,
 
 static void rt_hierarchy_changed_cb(GtkWidget *widget, GtkWidget *previous_toplevel, gpointer data);
 static gint rt_queue_draw_idle_cb(gpointer data);
+static void renderer_redraw(void *renderer, gint x, gint y, gint w, gint h,
+                     gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing);
 
 #define GET_RIGHT_PIXBUF_OFFSET(rt) \
         (( (rt->stereo_mode & PR_STEREO_RIGHT) && !(rt->stereo_mode & PR_STEREO_SWAP)) || \
@@ -1960,8 +1962,9 @@ static void rt_scroll(RendererTiles *rt, gint x_off, gint y_off)
 #if ! GTK_CHECK_VERSION(2,18,0)
 		while ((event = gdk_event_get_graphics_expose(box->window)) != NULL)
 			{
-			pixbuf_renderer_paint(pr, &event->expose.area);
-
+        		renderer_redraw((void *) rt, event->expose.area.x, event->expose.area.y, event->expose.area.width, event->expose.area.height,
+                              FALSE, TILE_RENDER_ALL, FALSE, FALSE);
+ 
 			if (event->expose.count == 0)
 				{
 				gdk_event_free(event);

@@ -228,6 +228,7 @@ static void init_source (j_decompress_ptr cinfo) {}
 static boolean fill_input_buffer (j_decompress_ptr cinfo)
 {
 	ERREXIT(cinfo, JERR_INPUT_EMPTY);
+	return TRUE;
 }
 static void skip_input_data (j_decompress_ptr cinfo, long num_bytes)
 {
