@@ -1116,7 +1116,7 @@ static gboolean dupe_match(DupeItem *a, DupeItem *b, DupeMatchType mask, gdouble
 {
 	*rank = 0.0;
 
-	if (a == b) return FALSE;
+	if (a->fd->path == b->fd->path) return FALSE;
 
 	if (mask & DUPE_MATCH_PATH)
 		{
