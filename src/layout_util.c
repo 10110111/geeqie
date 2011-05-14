@@ -836,14 +836,25 @@ static void layout_menu_slideshow_pause_cb(GtkAction *action, gpointer data)
 	layout_image_slideshow_pause_toggle(lw);
 }
 
-/*
-static void layout_menu_stereo_swap_cb(GtkAction *action, gpointer data)
+
+static void layout_menu_stereo_mode_next_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
+	gint mode = layout_image_stereo_pixbuf_get(lw);
+	
+	/* 0->1, 1->2, 2->3, 3->1 - disable auto, then cycle */
+	mode = mode % 3 + 1;
+	
+	GtkAction *radio = gtk_action_group_get_action(lw->action_group, "StereoAuto");
+	radio_action_set_current_value(GTK_RADIO_ACTION(radio), mode);
+	
+	/*
+	this is called via fallback in layout_menu_stereo_mode_cb
+	layout_image_stereo_pixbuf_set(lw, mode);
+	*/
 
-	layout_image_stereo_swap(lw);
 }
-*/
+
 static void layout_menu_stereo_mode_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1371,6 +1382,7 @@ static GtkActionEntry menu_entries[] = {
   { "About",		GTK_STOCK_ABOUT,	N_("_About"),				NULL,			N_("About"),				CB(layout_menu_about_cb) },
   { "LogWindow",	NULL,			N_("_Log Window"),			NULL,			N_("Log Window"),			CB(layout_menu_log_window_cb) },
   { "ExifWin",		NULL,			N_("_Exif window"),			"<control>E",		N_("Exif window"),			CB(layout_menu_bar_exif_cb) },
+  { "StereoCycle",	NULL,			N_("_Cycle through stereo modes"),	NULL,			N_("Cycle through stereo modes"),	CB(layout_menu_stereo_mode_next_cb) },
 
 };
 
@@ -1388,9 +1400,6 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "Grayscale",	NULL,			N_("Toggle _grayscale"),		"<shift>G",		N_("Toggle grayscale"),			CB(layout_menu_alter_desaturate_cb), FALSE},
   { "ImageOverlay",	NULL,			N_("Image _Overlay"),			NULL,			N_("Image Overlay"),			CB(layout_menu_overlay_cb),	 FALSE },
   { "ImageHistogram",	NULL,			N_("_Show Histogram"),			NULL,			N_("Show Histogram"),			CB(layout_menu_histogram_cb),	 FALSE },
-/*
-  { "StereoSwap",	NULL,			N_("Swap stereo images"),		NULL,			N_("Swap stereo images"),		CB(layout_menu_stereo_swap_cb),	 FALSE },
-*/
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
@@ -1582,6 +1591,8 @@ static const gchar *menu_ui_description =
 "        <menuitem action='StereoSBS'/>"
 "        <menuitem action='StereoCross'/>"
 "        <menuitem action='StereoOff'/>"
+"        <separator/>"
+"        <menuitem action='StereoCycle'/>"
 "      </menu>"
 "      <menu action='ColorMenu'>"
 "        <menuitem action='UseColorProfiles'/>"
