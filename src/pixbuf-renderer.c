@@ -2388,7 +2388,6 @@ static void pr_pixbuf_size_sync(PixbufRenderer *pr)
 	pr->stereo_pixbuf_offset_left = 0;
 	pr->stereo_pixbuf_offset_right = 0;
 	if (!pr->pixbuf) return;
-	gint stereo_data = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pr->pixbuf), "stereo_data"));
 	switch (pr->orientation)
 		{
 		case EXIF_ORIENTATION_LEFT_TOP:
@@ -2397,12 +2396,12 @@ static void pr_pixbuf_size_sync(PixbufRenderer *pr)
 		case EXIF_ORIENTATION_LEFT_BOTTOM:
 			pr->image_width = gdk_pixbuf_get_height(pr->pixbuf);
 			pr->image_height = gdk_pixbuf_get_width(pr->pixbuf);
-			if (stereo_data == STEREO_PIXBUF_SBS) 
+			if (pr->stereo_data == STEREO_PIXBUF_SBS) 
 				{
 				pr->image_height /= 2;
 				pr->stereo_pixbuf_offset_right = pr->image_height;
 				}
-			else if (stereo_data == STEREO_PIXBUF_CROSS) 
+			else if (pr->stereo_data == STEREO_PIXBUF_CROSS) 
 				{
 				pr->image_height /= 2;
 				pr->stereo_pixbuf_offset_left = pr->image_height;
@@ -2412,12 +2411,12 @@ static void pr_pixbuf_size_sync(PixbufRenderer *pr)
 		default:
 			pr->image_width = gdk_pixbuf_get_width(pr->pixbuf);
 			pr->image_height = gdk_pixbuf_get_height(pr->pixbuf);
-			if (stereo_data == STEREO_PIXBUF_SBS) 
+			if (pr->stereo_data == STEREO_PIXBUF_SBS) 
 				{
 				pr->image_width /= 2;
 				pr->stereo_pixbuf_offset_right = pr->image_width;
 				}
-			else if (stereo_data == STEREO_PIXBUF_CROSS) 
+			else if (pr->stereo_data == STEREO_PIXBUF_CROSS) 
 				{
 				pr->image_width /= 2;
 				pr->stereo_pixbuf_offset_left = pr->image_width;
@@ -2462,7 +2461,7 @@ static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, P
 
         if (pr->stereo_mode & PR_STEREO_TEMP_DISABLE) 
         	{
-        	gint disable = !pr->pixbuf || ! GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pr->pixbuf), "stereo_data"));
+        	gint disable = !pr->pixbuf || ! pr->stereo_data;
         	pr_stereo_temp_disable(pr, disable);
         	}
 
@@ -2481,13 +2480,14 @@ void pixbuf_renderer_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble z
 	pr_update_signal(pr);
 }
 
-void pixbuf_renderer_set_pixbuf_lazy(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, gint orientation)
+void pixbuf_renderer_set_pixbuf_lazy(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, gint orientation, StereoPixbufData stereo_data)
 {
 	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
 
 	pr_source_tile_unset(pr);
 
 	pr->orientation = orientation;
+	pr->stereo_data = stereo_data;
 	pr_set_pixbuf(pr, pixbuf, zoom, PR_ZOOM_LAZY);
 
 	pr_update_signal(pr);
@@ -2514,6 +2514,16 @@ gint pixbuf_renderer_get_orientation(PixbufRenderer *pr)
 {
 	if (!pr) return 1;
 	return pr->orientation;
+}
+
+void pixbuf_renderer_set_stereo_data(PixbufRenderer *pr, StereoPixbufData stereo_data)
+{
+	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
+
+	pr->stereo_data = stereo_data;
+
+	pr_pixbuf_size_sync(pr);
+	pr_zoom_sync(pr, pr->zoom, PR_ZOOM_FORCE, 0, 0);
 }
 
 void pixbuf_renderer_set_post_process_func(PixbufRenderer *pr, PixbufRendererPostProcessFunc func, gpointer user_data, gboolean slow)
@@ -2557,6 +2567,7 @@ void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source)
 	pr->post_process_user_data = source->post_process_user_data;
 	pr->post_process_slow = source->post_process_slow;
 	pr->orientation = source->orientation;
+	pr->stereo_data = source->stereo_data;
 
 	if (source->source_tiles_enabled)
 		{

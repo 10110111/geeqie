@@ -1105,7 +1105,7 @@ GdkPixbuf *image_get_pixbuf(ImageWindow *imd)
 
 void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboolean lazy)
 {
-
+	StereoPixbufData stereo_data = STEREO_PIXBUF_DEFAULT;
 	/* read_exif and similar functions can actually notice that the file has changed and trigger
 	   a notification that removes the pixbuf from cache and unrefs it. Therefore we must ref it
 	   here before it is taken over by the renderer. */
@@ -1124,9 +1124,13 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboo
 			}
 		}
 
-	if (pixbuf && imd->user_stereo)
+	if (pixbuf)
 		{
-		g_object_set_data(G_OBJECT(pixbuf), "stereo_data", GINT_TO_POINTER(imd->user_stereo));
+		stereo_data = imd->user_stereo;
+		if (stereo_data == STEREO_PIXBUF_DEFAULT)
+			{
+			stereo_data = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pixbuf), "stereo_data"));
+			}
 		}
 
 	pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, NULL, NULL, FALSE);
@@ -1138,12 +1142,13 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboo
 
 	if (lazy)
 		{
-		pixbuf_renderer_set_pixbuf_lazy((PixbufRenderer *)imd->pr, pixbuf, zoom, imd->orientation);
+		pixbuf_renderer_set_pixbuf_lazy((PixbufRenderer *)imd->pr, pixbuf, zoom, imd->orientation, stereo_data);
 		}
 	else
 		{
 		pixbuf_renderer_set_pixbuf((PixbufRenderer *)imd->pr, pixbuf, zoom);
 		pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, imd->orientation);
+		pixbuf_renderer_set_stereo_data((PixbufRenderer *)imd->pr, stereo_data);
 		}
 
 	if (pixbuf) g_object_unref(pixbuf);

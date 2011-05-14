@@ -201,6 +201,8 @@ struct _PixbufRenderer
 	gint orientation;
 
 	gint stereo_mode;
+	
+	StereoPixbufData stereo_data;
 	gboolean stereo_temp_disable;
 	gint stereo_fixed_width;
 	gint stereo_fixed_height;
@@ -241,13 +243,16 @@ GtkWindow *pixbuf_renderer_get_parent(PixbufRenderer *pr);
 void pixbuf_renderer_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom);
 
 /* same as pixbuf_renderer_set_pixbuf but waits with redrawing for pixbuf_renderer_area_changed */
-void pixbuf_renderer_set_pixbuf_lazy(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, gint orientation);
+void pixbuf_renderer_set_pixbuf_lazy(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, gint orientation, StereoPixbufData stereo_data);
 
 
 GdkPixbuf *pixbuf_renderer_get_pixbuf(PixbufRenderer *pr);
 
 void pixbuf_renderer_set_orientation(PixbufRenderer *pr, gint orientation);
 gint pixbuf_renderer_get_orientation(PixbufRenderer *pr);
+
+/* sets the format of stereo data in the input pixbuf */
+void pixbuf_renderer_set_stereo_data(PixbufRenderer *pr, StereoPixbufData stereo_data);
 
 void pixbuf_renderer_set_post_process_func(PixbufRenderer *pr, PixbufRendererPostProcessFunc func, gpointer user_data, gboolean slow);
 
