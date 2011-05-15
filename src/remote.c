@@ -736,6 +736,7 @@ void remote_help(void)
 			}
 		i++;
 		}
+	printf_term(N_("\n  All other command line parameters are used as plain files if they exists.\n"));
 }
 
 GList *remote_build_list(GList *list, gint argc, gchar *argv[], GList **errors)
@@ -752,7 +753,7 @@ GList *remote_build_list(GList *list, gint argc, gchar *argv[], GList **errors)
 			{
 			list = g_list_append(list, argv[i]);
 			}
-		else if (errors)
+		else if (errors && !isfile(argv[i]))
 			{
 			*errors = g_list_append(*errors, argv[i]);
 			}
@@ -762,6 +763,13 @@ GList *remote_build_list(GList *list, gint argc, gchar *argv[], GList **errors)
 	return list;
 }
 
+/**
+ * \param arg_exec Binary (argv0)
+ * \param remote_list Evaluated and recognized remote commands
+ * \param path The current path
+ * \param cmd_list List of all non collections in Path
+ * \param collection_list List of all collections in argv
+ */
 void remote_control(const gchar *arg_exec, GList *remote_list, const gchar *path,
 		    GList *cmd_list, GList *collection_list)
 {
