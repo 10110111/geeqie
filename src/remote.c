@@ -736,7 +736,7 @@ void remote_help(void)
 			}
 		i++;
 		}
-	printf_term(N_"\n  All other command line parameters are used as plain files if they exists.\n");
+	printf_term(N_("\n  All other command line parameters are used as plain files if they exists.\n"));
 }
 
 GList *remote_build_list(GList *list, gint argc, gchar *argv[], GList **errors)
