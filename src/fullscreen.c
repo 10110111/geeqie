@@ -215,6 +215,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	gint x, y;
 	gint w, h;
 	GdkGeometry geometry;
+	GdkWindow *gdkwin;
 
 	if (!window || !imd) return NULL;
 
@@ -244,15 +245,14 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 		 */
 		gtk_window_fullscreen(GTK_WINDOW(fs->window));
 		}
-	else if (options->fullscreen.above)
+	else
 		{
-		/* request to be above other windows */
-		gtk_window_set_keep_above(GTK_WINDOW(fs->window), TRUE);
+		gtk_window_set_screen(GTK_WINDOW(fs->window), screen);
+		if (options->fullscreen.above)
+			gtk_window_set_keep_above(GTK_WINDOW(fs->window), TRUE);
 		}
 
 	gtk_window_set_resizable(GTK_WINDOW(fs->window), FALSE);
-
-	gtk_window_set_screen(GTK_WINDOW(fs->window), screen);
 	gtk_container_set_border_width(GTK_CONTAINER(fs->window), 0);
 	g_signal_connect(G_OBJECT(fs->window), "delete_event",
 			 G_CALLBACK(fullscreen_delete_cb), fs);
@@ -278,6 +278,11 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 
 	gtk_window_set_default_size(GTK_WINDOW(fs->window), w, h);
 	gtk_window_move(GTK_WINDOW(fs->window), x, y);
+
+	gtk_widget_realize(fs->window);
+	gdkwin = gtk_widget_get_window(fs->window);
+	if (gdkwin != NULL)
+		gdk_window_set_override_redirect(gdkwin, TRUE);
 
 	fs->imd = image_new(FALSE);
 
