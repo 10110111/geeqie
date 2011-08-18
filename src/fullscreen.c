@@ -399,7 +399,11 @@ GList *fullscreen_prefs_list(void)
 			else
 				{
 				gdk_screen_get_monitor_geometry(screen, j, &rect);
-				subname = g_strdup_printf("%s %d", _("Monitor"), j + 1);
+				subname = gdk_screen_get_monitor_plug_name(screen, j);
+				if (subname == NULL)
+					{
+					subname = g_strdup_printf("%s %d", _("Monitor"), j + 1);
+					}
 				}
 
 			sd = g_new0(ScreenData, 1);
