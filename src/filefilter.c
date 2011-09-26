@@ -188,6 +188,14 @@ void filter_add_defaults(void)
 		work = work->next;
 
 		name = gdk_pixbuf_format_get_name(format);
+		
+		if (strcmp(name, "Digital camera RAW") == 0) 
+			{
+			DEBUG_1("Skipped '%s' from loader", name);
+			g_free(name);
+			continue;
+			}
+		
 		desc = gdk_pixbuf_format_get_description(format);
 		extensions = gdk_pixbuf_format_get_extensions(format);
 
