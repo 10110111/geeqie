@@ -125,12 +125,12 @@ ConfOptions *init_options(ConfOptions *options)
 	options->tree_descend_subdirs = FALSE;
 	options->update_on_time_change = TRUE;
 	
-	options->stereo.fixed_w = 640;
-	options->stereo.fixed_h = 200;
+	options->stereo.fixed_w = 1920;
+	options->stereo.fixed_h = 1080;
 	options->stereo.fixed_x1 = 0;
-	options->stereo.fixed_y1 = 20;
+	options->stereo.fixed_y1 = 0;
 	options->stereo.fixed_x2 = 0;
-	options->stereo.fixed_y2 = 260;
+	options->stereo.fixed_y2 = 1125;
 
 	return options;
 }
