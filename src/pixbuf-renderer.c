@@ -2459,11 +2459,11 @@ static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, P
 		return;
 		}
 
-        if (pr->stereo_mode & PR_STEREO_TEMP_DISABLE) 
-        	{
-        	gint disable = !pr->pixbuf || ! pr->stereo_data;
-        	pr_stereo_temp_disable(pr, disable);
-        	}
+	if (pr->stereo_mode & PR_STEREO_TEMP_DISABLE) 
+		{
+		gint disable = !pr->pixbuf || ! pr->stereo_data;
+		pr_stereo_temp_disable(pr, disable);
+		}
 
 	pr_pixbuf_size_sync(pr);
 	pr_zoom_sync(pr, zoom, flags | PR_ZOOM_FORCE | PR_ZOOM_NEW, 0, 0);
@@ -2522,6 +2522,11 @@ void pixbuf_renderer_set_stereo_data(PixbufRenderer *pr, StereoPixbufData stereo
 
 	pr->stereo_data = stereo_data;
 
+	if (pr->stereo_mode & PR_STEREO_TEMP_DISABLE) 
+		{
+		gint disable = !pr->pixbuf || ! pr->stereo_data;
+		pr_stereo_temp_disable(pr, disable);
+		}
 	pr_pixbuf_size_sync(pr);
 	pr_zoom_sync(pr, pr->zoom, PR_ZOOM_FORCE, 0, 0);
 }
