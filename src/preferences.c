@@ -146,12 +146,6 @@ static void slideshow_delay_cb(GtkWidget *spin, gpointer data)
 				   (gdouble)SLIDESHOW_SUBSECOND_PRECISION + 0.01);
 }
 
-static void pref_spin_int_cb(GtkWidget *widget, gpointer data)
-{
-        gint *var = data;
-        *var = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(widget));
-}
-
 /*
  *-----------------------------------------------------------------------------
  * sync progam to config window routine (private)
@@ -2143,18 +2137,18 @@ static void config_tab_stereo(GtkWidget *notebook)
 
 	group2 = pref_group_new(box2, FALSE, _("Fixed position"), GTK_ORIENTATION_VERTICAL);
 	table = pref_table_new(group2, 5, 3, FALSE, FALSE);
-	pref_table_spin(table, 0, 0, _("Width"), NULL,
-			  1, 5000, 1, 0, options->stereo.fixed_w, G_CALLBACK(pref_spin_int_cb), &c_options->stereo.fixed_w);
-	pref_table_spin(table, 3, 0,  _("Height"), NULL,
-			  1, 5000, 1, 0, options->stereo.fixed_h, G_CALLBACK(pref_spin_int_cb), &c_options->stereo.fixed_h);
-	pref_table_spin(table, 0, 1,  _("Left X"), NULL,
-			  0, 5000, 1, 0, options->stereo.fixed_x1, G_CALLBACK(pref_spin_int_cb), &c_options->stereo.fixed_x1);
-	pref_table_spin(table, 3, 1,  _("Left Y"), NULL,
-			  0, 5000, 1, 0, options->stereo.fixed_y1, G_CALLBACK(pref_spin_int_cb), &c_options->stereo.fixed_y1);
-	pref_table_spin(table, 0, 2,  _("Right X"), NULL,
-			  0, 5000, 1, 0, options->stereo.fixed_x2, G_CALLBACK(pref_spin_int_cb), &c_options->stereo.fixed_x2);
-	pref_table_spin(table, 3, 2,  _("Right Y"), NULL,
-			  0, 5000, 1, 0, options->stereo.fixed_y2, G_CALLBACK(pref_spin_int_cb), &c_options->stereo.fixed_y2);
+	pref_table_spin_new_int(table, 0, 0, _("Width"), NULL,
+			  1, 5000, 1, options->stereo.fixed_w, &c_options->stereo.fixed_w);
+	pref_table_spin_new_int(table, 3, 0,  _("Height"), NULL,
+			  1, 5000, 1, options->stereo.fixed_h, &c_options->stereo.fixed_h);
+	pref_table_spin_new_int(table, 0, 1,  _("Left X"), NULL,
+			  0, 5000, 1, options->stereo.fixed_x1, &c_options->stereo.fixed_x1);
+	pref_table_spin_new_int(table, 3, 1,  _("Left Y"), NULL,
+			  0, 5000, 1, options->stereo.fixed_y1, &c_options->stereo.fixed_y1);
+	pref_table_spin_new_int(table, 0, 2,  _("Right X"), NULL,
+			  0, 5000, 1, options->stereo.fixed_x2, &c_options->stereo.fixed_x2);
+	pref_table_spin_new_int(table, 3, 2,  _("Right Y"), NULL,
+			  0, 5000, 1, options->stereo.fixed_y2, &c_options->stereo.fixed_y2);
 
 }
 

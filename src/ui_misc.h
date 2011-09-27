@@ -136,6 +136,11 @@ GtkWidget *pref_table_spin(GtkWidget *table, gint column, gint row,
 			   gdouble value,
 			   GCallback func, gpointer data);
 
+GtkWidget *pref_table_spin_new_int(GtkWidget *table, gint column, gint row,
+				   const gchar *text, const gchar *suffix,
+				   gint min, gint max, gint step,
+				   gint value, gint *value_var);
+
 
 GtkWidget *pref_toolbar_new(GtkWidget *parent_box, GtkToolbarStyle style);
 GtkWidget *pref_toolbar_button(GtkWidget *toolbar,
