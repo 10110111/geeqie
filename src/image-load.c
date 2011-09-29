@@ -15,6 +15,7 @@
 #include "image-load.h"
 #include "image_load_gdk.h"
 #include "image_load_jpeg.h"
+#include "image_load_tiff.h"
 
 #include "exif.h"
 #include "filedata.h"
@@ -518,6 +519,16 @@ static void image_loader_setup_loader(ImageLoader *il)
 		{
 		DEBUG_1("Using custom jpeg loader");
 		image_loader_backend_set_jpeg(&il->backend);
+		}
+	else
+#endif
+#ifdef HAVE_TIFF
+	if (il->bytes_total >= 10 &&
+	    (memcmp(il->mapped_file, "MM\0*", 4) == 0 ||
+	     memcmp(il->mapped_file, "II*\0", 4) == 0))
+	     	{
+		DEBUG_1("Using custom tiff loader");
+		image_loader_backend_set_tiff(&il->backend);
 		}
 	else
 #endif

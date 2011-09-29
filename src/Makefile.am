@@ -164,6 +164,8 @@ geeqie_SOURCES = \
 	image_load_gdk.h\
 	image_load_jpeg.c\
 	image_load_jpeg.h\
+	image_load_tiff.c\
+	image_load_tiff.h\
 	image-overlay.c	\
 	image-overlay.h	\
 	img-view.c	\
@@ -251,7 +253,7 @@ geeqie_SOURCES = \
 	window.c	\
 	window.h
 
-geeqie_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(INTLLIBS) $(JPEG_LIBS) $(LCMS_LIBS) $(EXIV2_LIBS) $(LIBCHAMPLAIN_LIBS) $(LIBCHAMPLAIN_GTK_LIBS)
+geeqie_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(INTLLIBS) $(JPEG_LIBS) $(TIFF_LIBS) $(LCMS_LIBS) $(EXIV2_LIBS) $(LIBCHAMPLAIN_LIBS) $(LIBCHAMPLAIN_GTK_LIBS)
 
 EXTRA_DIST = \
 	$(extra_SLIK)
