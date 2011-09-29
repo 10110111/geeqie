@@ -664,6 +664,7 @@ static void file_data_free(FileData *fd)
 	g_assert(fd->magick == 0x12345678);
 	g_assert(fd->ref == 0);
 
+	metadata_cache_free(fd);
 	g_hash_table_remove(file_data_pool, fd->original_path);
 
 	g_free(fd->path);

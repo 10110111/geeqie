@@ -521,6 +521,7 @@ struct _FileData {
 	
 	ExifData *exif;
 	GHashTable *modified_xmp; // hash table which contains unwritten xmp metadata in format: key->list of string values
+	GList *cached_metadata;
 };
 
 struct _LayoutOptions
