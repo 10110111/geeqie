@@ -159,7 +159,7 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 	if (strcmp(vd->dir_fd->path, G_DIR_SEPARATOR_S) != 0)
 		{
 		filepath = g_build_filename(vd->dir_fd->path, "..", NULL);
-		fd = file_data_new_simple(filepath);
+		fd = file_data_new_dir(filepath);
 		VDLIST(vd)->list = g_list_prepend(VDLIST(vd)->list, fd);
 		g_free(filepath);
 		}
@@ -167,7 +167,7 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 	if (options->file_filter.show_dot_directory)
 		{
 		filepath = g_build_filename(vd->dir_fd->path, ".", NULL);
-		fd = file_data_new_simple(filepath);
+		fd = file_data_new_dir(filepath);
 		VDLIST(vd)->list = g_list_prepend(VDLIST(vd)->list, fd);
 		g_free(filepath);
 	}

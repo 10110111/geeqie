@@ -495,16 +495,15 @@ gboolean vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gboolean f
 		if (target_fd->path[n] == G_DIR_SEPARATOR && target_fd->path[n+1] == '.')
 			{
 			gchar *name8;
-			struct stat sbuf;
 
 			n++;
 
 			while (target_fd->path[n] != '\0' && target_fd->path[n] != G_DIR_SEPARATOR) n++;
 			name8 = g_strndup(target_fd->path, n);
 
-			if (stat_utf8(name8, &sbuf))
+			if (isdir(name8))
 				{
-				list = g_list_prepend(list, file_data_new_simple(name8));
+				list = g_list_prepend(list, file_data_new_dir(name8));
 				}
 
 			g_free(name8);
@@ -926,7 +925,7 @@ static void vdtree_setup_root(ViewDir *vd)
 	FileData *fd;
 
 
-	fd = file_data_new_simple(path);
+	fd = file_data_new_dir(path);
 	vdtree_add_by_data(vd, fd, NULL);
 
 	vdtree_expand_by_data(vd, fd, TRUE);

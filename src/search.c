@@ -2006,7 +2006,7 @@ static gboolean search_step_cb(gpointer data)
 			path = fd->path + strlen(sd->search_dir_fd->path);
 			if (path != fd->path)
 				{
-				FileData *dir_fd = file_data_new_simple(path);
+				FileData *dir_fd = file_data_new_dir(path);
 				success = filelist_read(dir_fd, &list, NULL);
 				file_data_unref(dir_fd);
 				}
@@ -2208,7 +2208,7 @@ static void search_start_cb(GtkWidget *widget, gpointer data)
 		if (isdir(path))
 			{
 			file_data_unref(sd->search_dir_fd);
-			sd->search_dir_fd = file_data_new_simple(path);
+			sd->search_dir_fd = file_data_new_dir(path);
 
 			tab_completion_append_to_history(sd->path_entry, sd->search_dir_fd->path);
 
@@ -2227,7 +2227,7 @@ static void search_start_cb(GtkWidget *widget, gpointer data)
 		{
 		/* search metadata */
 		file_data_unref(sd->search_dir_fd);
-		sd->search_dir_fd = file_data_new_simple(get_metadata_cache_dir());
+		sd->search_dir_fd = file_data_new_dir(get_metadata_cache_dir());
 		search_start(sd);
 		}
 	else if (sd->search_type == SEARCH_MATCH_CONTAINS)

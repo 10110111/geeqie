@@ -383,11 +383,13 @@ gboolean file_data_check_changed_files(FileData *fd)
 	return ret;
 }
 
-static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean check_sidecars, GHashTable *basename_hash)
+static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean disable_sidecars, GHashTable *basename_hash)
 {
 	FileData *fd;
 
-	DEBUG_2("file_data_new: '%s' %d %d", path_utf8, check_sidecars, !!basename_hash);
+	DEBUG_2("file_data_new: '%s' %d %d", path_utf8, disable_sidecars, !!basename_hash);
+
+	if (S_ISDIR(st->st_mode)) disable_sidecars = TRUE; 
 
 	if (!file_data_pool)
 		file_data_pool = g_hash_table_new(g_str_hash, g_str_equal);
@@ -412,10 +414,13 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	if (fd)
 		{
 		gboolean changed;
+		
+		if (disable_sidecars) file_data_disable_grouping(fd, TRUE);
+		
 		if (basename_hash) 
 			{
 			file_data_basename_hash_insert(basename_hash, fd);
-			if (check_sidecars)
+			if (!disable_sidecars)
 				file_data_check_sidecars(fd, basename_hash);
 			}
 		
@@ -423,7 +428,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 			changed = file_data_check_changed_files(fd);
 		else
 			changed = file_data_check_changed_files_recursive(fd, st);
-		if (changed && check_sidecars && sidecar_file_priority(fd->extension))
+		if (changed && !disable_sidecars && sidecar_file_priority(fd->extension))
 			file_data_check_sidecars(fd, basename_hash);
 		DEBUG_2("file_data_pool hit: '%s' %s", fd->path, changed ? "(changed)" : "");
 		
@@ -437,65 +442,21 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	fd->mode = st->st_mode;
 	fd->ref = 1;
 	fd->magick = 0x12345678;
+	
+	if (disable_sidecars) fd->disable_grouping = TRUE;
 
 	file_data_set_path(fd, path_utf8); /* set path, name, collate_key_*, original_path */
 	if (basename_hash) file_data_basename_hash_insert(basename_hash, fd);
 
-	if (check_sidecars)
+	if (!disable_sidecars)
+		{
+		g_assert(basename_hash);
 		file_data_check_sidecars(fd, basename_hash);
+		}
 
 	return fd;
 }
 
-/* extension must contain only ASCII characters */
-static GList *check_case_insensitive_ext(gchar *path)
-{
-	gchar *sl;
-	gchar *extl;
-	gint ext_len;
-	GList *list = NULL;
-
-	sl = path_from_utf8(path);
-
-	extl = strrchr(sl, '.');
-	if (extl)
-		{
-		gint i, j;
-		extl++; /* the first char after . */
-		ext_len = strlen(extl);
-	
-		for (i = 0; i < (1 << ext_len); i++)
-			{
-			struct stat st;
-			gboolean skip = FALSE;
-			for (j = 0; j < ext_len; j++)
-				{
-				if (i & (1 << (ext_len - 1 - j))) 
-					{
-					extl[j] = g_ascii_tolower(extl[j]);
-					/* make sure the result does not contain duplicates */
-					if (extl[j] == g_ascii_toupper(extl[j]))
-						{
-						/* no change, probably a number, we have already tested this combination */
-						skip = TRUE;
-						break;
-						}
-					}
-				else
-					extl[j] = g_ascii_toupper(extl[j]);
-				}
-			if (skip) continue;
-
-			if (stat(sl, &st) == 0)
-				{
-				list = g_list_prepend(list, file_data_new_local(sl, &st, FALSE, FALSE));
-				}
-			}
-		}
-	g_free(sl);
-
-	return list;
-}
 
 static void file_data_check_sidecars(FileData *fd, GHashTable *basename_hash)
 {
@@ -511,10 +472,7 @@ static void file_data_check_sidecars(FileData *fd, GHashTable *basename_hash)
 	base_len = fd->extension - fd->path;
 	fname = g_string_new_len(fd->path, base_len);
 
-	if (basename_hash)
-		{
-		basename_list = g_hash_table_lookup(basename_hash, fname->str);
-		}
+	basename_list = g_hash_table_lookup(basename_hash, fname->str);
 
 
 	/* check for possible sidecar files;
@@ -533,28 +491,17 @@ static void file_data_check_sidecars(FileData *fd, GHashTable *basename_hash)
 		gchar *ext = work->data;
 		work = work->next;
 
-		if (!basename_hash)
-			{
-			GList *new_list;
-			g_string_truncate(fname, base_len);
-			g_string_append(fname, ext);
-			new_list = check_case_insensitive_ext(fname->str);
-			group_list = g_list_concat(group_list, new_list);
-			}
-		else
-			{
-			const GList *work2 = basename_list;
+		const GList *work2 = basename_list;
 			
-			while (work2)
+		while (work2)
+			{
+			FileData *sfd = work2->data;
+			
+			if (g_ascii_strcasecmp(ext, sfd->extension) == 0) 
 				{
-				FileData *sfd = work2->data;
-				
-				if (g_ascii_strcasecmp(ext, sfd->extension) == 0) 
-					{
-					group_list = g_list_append(group_list, file_data_ref(sfd));
-					}
-				work2 = work2->next;
+				group_list = g_list_append(group_list, file_data_ref(sfd));
 				}
+			work2 = work2->next;
 			}
 		}
 	g_string_free(fname, TRUE);
@@ -583,26 +530,13 @@ static void file_data_check_sidecars(FileData *fd, GHashTable *basename_hash)
 }
 
 
-static FileData *file_data_new_local(const gchar *path, struct stat *st, gboolean check_sidecars, GHashTable *basename_hash)
+static FileData *file_data_new_local(const gchar *path, struct stat *st, gboolean disable_sidecars, GHashTable *basename_hash)
 {
 	gchar *path_utf8 = path_to_utf8(path);
-	FileData *ret = file_data_new(path_utf8, st, check_sidecars, basename_hash);
+	FileData *ret = file_data_new(path_utf8, st, disable_sidecars, basename_hash);
 
 	g_free(path_utf8);
 	return ret;
-}
-
-FileData *file_data_new_simple(const gchar *path_utf8)
-{
-	struct stat st;
-
-	if (!stat_utf8(path_utf8, &st))
-		{
-		st.st_size = 0;
-		st.st_mtime = 0;
-		}
-
-	return file_data_new(path_utf8, &st, TRUE, NULL);
 }
 
 FileData *file_data_add_sidecar_file(FileData *target, FileData *sfd)
@@ -1018,7 +952,7 @@ static gboolean is_hidden_file(const gchar *name)
 	return TRUE;
 }
 
-static gboolean filelist_read_real(FileData *dir_fd, GList **files, GList **dirs, gboolean follow_symlinks)
+static gboolean filelist_read_real(const gchar *dir_path, GList **files, GList **dirs, gboolean follow_symlinks)
 {
 	DIR *dp;
 	struct dirent *dir;
@@ -1033,7 +967,7 @@ static gboolean filelist_read_real(FileData *dir_fd, GList **files, GList **dirs
 	if (files) *files = NULL;
 	if (dirs) *dirs = NULL;
 
-	pathl = path_from_utf8(dir_fd->path);
+	pathl = path_from_utf8(dir_path);
 	if (!pathl) return FALSE;
 
 	dp = opendir(pathl);
@@ -1071,14 +1005,14 @@ static gboolean filelist_read_real(FileData *dir_fd, GList **files, GList **dirs
 				    strcmp(name, GQ_CACHE_LOCAL_METADATA) != 0 &&
 				    strcmp(name, THUMB_FOLDER_LOCAL) != 0)
 					{
-					dlist = g_list_prepend(dlist, file_data_new_local(filepath, &ent_sbuf, FALSE, NULL));
+					dlist = g_list_prepend(dlist, file_data_new_local(filepath, &ent_sbuf, TRUE, NULL));
 					}
 				}
 			else
 				{
 				if (files && filter_name_exists(name))
 					{
-					flist = g_list_prepend(flist, file_data_new_local(filepath, &ent_sbuf, TRUE, basename_hash));
+					flist = g_list_prepend(flist, file_data_new_local(filepath, &ent_sbuf, FALSE, basename_hash));
 					}
 				}
 			}
@@ -1105,12 +1039,68 @@ static gboolean filelist_read_real(FileData *dir_fd, GList **files, GList **dirs
 
 gboolean filelist_read(FileData *dir_fd, GList **files, GList **dirs)
 {
-	return filelist_read_real(dir_fd, files, dirs, TRUE);
+	return filelist_read_real(dir_fd->path, files, dirs, TRUE);
 }
 
 gboolean filelist_read_lstat(FileData *dir_fd, GList **files, GList **dirs)
 {
-	return filelist_read_real(dir_fd, files, dirs, FALSE);
+	return filelist_read_real(dir_fd->path, files, dirs, FALSE);
+}
+
+FileData *file_data_new_simple(const gchar *path_utf8)
+{
+	gchar *dir;
+	struct stat st;
+	FileData *fd;
+	GList *files;
+
+	if (!stat_utf8(path_utf8, &st))
+		{
+		st.st_size = 0;
+		st.st_mtime = 0;
+		}
+
+	if (S_ISDIR(st.st_mode))
+		return file_data_new(path_utf8, &st, TRUE, NULL);
+	
+	dir = remove_level_from_path(path_utf8);
+	
+	filelist_read_real(dir, &files, NULL, TRUE);
+	
+	fd = g_hash_table_lookup(file_data_pool, path_utf8);
+	g_assert(fd);
+	file_data_ref(fd);
+	
+	filelist_free(files);
+	g_free(dir);
+	return fd;
+}
+
+FileData *file_data_new_no_grouping(const gchar *path_utf8)
+{
+	struct stat st;
+
+	if (!stat_utf8(path_utf8, &st))
+		{
+		st.st_size = 0;
+		st.st_mtime = 0;
+		}
+
+	return file_data_new(path_utf8, &st, TRUE, NULL);
+}
+
+FileData *file_data_new_dir(const gchar *path_utf8)
+{
+	struct stat st;
+
+	if (!stat_utf8(path_utf8, &st))
+		{
+		st.st_size = 0;
+		st.st_mtime = 0;
+		}
+
+	g_assert(S_ISDIR(st.st_mode));
+	return file_data_new(path_utf8, &st, TRUE, NULL);
 }
 
 void filelist_free(GList *list)

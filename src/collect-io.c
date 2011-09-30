@@ -673,7 +673,7 @@ static void collect_manager_refresh(void)
 	GList *work;
 	FileData *dir_fd;
 
-	dir_fd = file_data_new_simple(get_collections_dir());
+	dir_fd = file_data_new_dir(get_collections_dir());
 	filelist_read(dir_fd, &list, NULL);
 	file_data_unref(dir_fd);
 

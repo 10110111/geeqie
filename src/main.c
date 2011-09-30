@@ -141,7 +141,7 @@ static void parse_command_line_add_dir(const gchar *dir, gchar **path, gchar **f
 
 	path_parsed = g_strdup(dir);
 	parse_out_relatives(path_parsed);
-	dir_fd = file_data_new_simple(path_parsed);
+	dir_fd = file_data_new_dir(path_parsed);
 	
 
 	if (filelist_read(dir_fd, &files, NULL))

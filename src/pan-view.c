@@ -2297,7 +2297,7 @@ static void pan_window_entry_activate_cb(const gchar *new_text, gpointer data)
 		}
 	else
 		{
-		FileData *dir_fd = file_data_new_simple(path);
+		FileData *dir_fd = file_data_new_dir(path);
 		tab_completion_append_to_history(pw->path_entry, path);
 
 		pan_layout_set_fd(pw, dir_fd);

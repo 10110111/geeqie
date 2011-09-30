@@ -411,7 +411,7 @@ static void gr_fullscreen_stop(const gchar *text, GIOChannel *channel, gpointer 
 static void gr_slideshow_start_rec(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	GList *list;
-	FileData *dir_fd = file_data_new_simple(text);
+	FileData *dir_fd = file_data_new_dir(text);
 	list = filelist_recursive(dir_fd);
 	file_data_unref(dir_fd);
 	if (!list) return;

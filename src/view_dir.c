@@ -241,7 +241,7 @@ static void vd_rename_finished_cb(gboolean success, const gchar *new_path, gpoin
 	ViewDir *vd = data;
 	if (success)
 		{
-		FileData *fd = file_data_new_simple(new_path);
+		FileData *fd = file_data_new_dir(new_path);
 		GtkTreeIter iter;
 
 		if (vd_find_row(vd, fd, &iter))
@@ -435,7 +435,7 @@ static void vd_pop_menu_up_cb(GtkWidget *widget, gpointer data)
 
 	if (vd->select_func)
 		{
-		FileData *fd = file_data_new_simple(path);
+		FileData *fd = file_data_new_dir(path);
 		vd->select_func(vd, fd, vd->select_data);
 		file_data_unref(fd);
 		}
@@ -561,7 +561,7 @@ static void vd_pop_menu_new_rename_cb(gboolean success, const gchar *new_path, g
 			break;
 		case DIRVIEW_TREE:
 			{
-			FileData *new_fd = file_data_new_simple(new_path);
+			FileData *new_fd = file_data_new_dir(new_path);
 			fd = vdtree_populate_path(vd, new_fd, TRUE, TRUE);
 			file_data_unref(new_fd);
 			}
@@ -1117,7 +1117,7 @@ static void vd_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	if (vd->type == DIRVIEW_TREE)
 		{
 		GtkTreeIter iter;
-		FileData *base_fd = file_data_new_simple(base);
+		FileData *base_fd = file_data_new_dir(base);
 
 		if (vd_find_row(vd, base_fd, &iter))
 			{

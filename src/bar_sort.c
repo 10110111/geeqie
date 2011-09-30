@@ -99,7 +99,7 @@ static void bar_sort_collection_list_build(GtkWidget *bookmarks)
 	history_list_free_key(SORT_KEY_COLLECTIONS);
 	bookmark_list_set_key(bookmarks, SORT_KEY_COLLECTIONS);
 
-	dir_fd = file_data_new_simple(get_collections_dir());
+	dir_fd = file_data_new_dir(get_collections_dir());
 	filelist_read(dir_fd, &list, NULL);
 	file_data_unref(dir_fd);
 

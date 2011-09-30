@@ -1064,7 +1064,7 @@ static void layout_menu_back_cb(GtkAction *action, gpointer data)
 	if (!path) return;
 	
 	/* Open previous path */
-	dir_fd = file_data_new_simple(path);
+	dir_fd = file_data_new_dir(path);
 	layout_set_fd(lw, dir_fd);
 	file_data_unref(dir_fd);
 }
@@ -1081,7 +1081,7 @@ static void layout_menu_home_cb(GtkAction *action, gpointer data)
 
 	if (path)
 		{
-		FileData *dir_fd = file_data_new_simple(path);
+		FileData *dir_fd = file_data_new_dir(path);
 		layout_set_fd(lw, dir_fd);
 		file_data_unref(dir_fd);
 		}

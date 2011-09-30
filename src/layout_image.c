@@ -634,7 +634,7 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 				FileData *dir_fd;
 
 				base = remove_level_from_path(fd->path);
-				dir_fd = file_data_new_simple(base);
+				dir_fd = file_data_new_dir(base);
 				if (dir_fd != lw->dir_fd)
 					{
 					layout_set_fd(lw, dir_fd);
