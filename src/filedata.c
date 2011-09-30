@@ -852,6 +852,7 @@ static gboolean filelist_sort_ascend = TRUE;
 
 gint filelist_sort_compare_filedata(FileData *fa, FileData *fb)
 {
+	gint ret;
 	if (!filelist_sort_ascend)
 		{
 		FileData *tmp = fa;
@@ -875,7 +876,8 @@ gint filelist_sort_compare_filedata(FileData *fa, FileData *fb)
 			break;
 #ifdef HAVE_STRVERSCMP
 		case SORT_NUMBER:
-			return strverscmp(fa->name, fb->name);
+			ret = strverscmp(fa->name, fb->name);
+			if (ret != 0) return ret;
 			break;
 #endif
 		default:
@@ -883,9 +885,16 @@ gint filelist_sort_compare_filedata(FileData *fa, FileData *fb)
 		}
 
 	if (options->file_sort.case_sensitive)
-		return strcmp(fa->collate_key_name, fb->collate_key_name);
+		ret = strcmp(fa->collate_key_name, fb->collate_key_name);
 	else
-		return strcmp(fa->collate_key_name_nocase, fb->collate_key_name_nocase);
+		ret = strcmp(fa->collate_key_name_nocase, fb->collate_key_name_nocase);
+
+	if (ret != 0) return ret;
+	
+	/* do not return 0 unless the files are really the same 
+	   file_data_pool ensures that original_path is unique 
+	*/
+	return strcmp(fa->original_path, fb->original_path);
 }
 
 gint filelist_sort_compare_filedata_full(FileData *fa, FileData *fb, SortType method, gboolean ascend)
