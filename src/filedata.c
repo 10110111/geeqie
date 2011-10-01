@@ -300,9 +300,8 @@ static void file_data_set_path(FileData *fd, const gchar *path)
 	file_data_set_collate_keys(fd);
 }
 
-static gboolean file_data_check_changed_files_recursive(FileData *fd, struct stat *st)
+static gboolean file_data_check_changed(FileData *fd, struct stat *st)
 {
-	gboolean ret = FALSE;
 	GList *work;
 	
 	if (fd->size != st->st_size ||
@@ -315,8 +314,17 @@ static gboolean file_data_check_changed_files_recursive(FileData *fd, struct sta
 		fd->thumb_pixbuf = NULL;
 		file_data_increment_version(fd);
 		file_data_send_notification(fd, NOTIFY_REREAD);
-		ret = TRUE;
+		return TRUE;
 		}
+	return FALSE;
+}
+
+static gboolean file_data_check_changed_files_recursive(FileData *fd, struct stat *st)
+{
+	gboolean ret = FALSE;
+	GList *work;
+	
+	ret = file_data_check_changed(fd, st);
 
 	work = fd->sidecar_files;
 	while (work)
