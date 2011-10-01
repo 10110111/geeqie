@@ -169,8 +169,7 @@ static GHashTable *file_data_basename_hash_new(void)
 static GList * file_data_basename_hash_insert(GHashTable *basename_hash, FileData *fd)
 {
 	GList *list;
-    	const gchar *ext = extension_from_path(fd->path);
-	gchar *basename = ext ? g_strndup(fd->path, ext - fd->path) : g_strdup(fd->path);
+	gchar *basename = g_strndup(fd->path, fd->extension - fd->path);
 
 	list = g_hash_table_lookup(basename_hash, basename);
 	
@@ -190,8 +189,7 @@ static GList * file_data_basename_hash_insert(GHashTable *basename_hash, FileDat
 static void file_data_basename_hash_remove(GHashTable *basename_hash, FileData *fd)
 {
 	GList *list;
-	const gchar *ext = extension_from_path(fd->path);
-	gchar *basename = ext ? g_strndup(fd->path, ext - fd->path) : g_strdup(fd->path);
+	gchar *basename = g_strndup(fd->path, fd->extension - fd->path);
 	
 	list = g_hash_table_lookup(basename_hash, basename);
 	
@@ -788,7 +786,7 @@ gchar *file_data_get_sidecar_path(FileData *fd, gboolean existing_only)
 	
 	if (!existing_only && !sidecar_path)
 		{
-		gchar *base = remove_extension_from_path(fd->path);
+		gchar *base = g_strndup(fd->path, fd->extension - fd->path);
 		sidecar_path = g_strconcat(base, ".xmp", NULL);
 		g_free(base);
 		}
