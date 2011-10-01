@@ -138,7 +138,7 @@ const gchar *text_from_time(time_t t)
  */
 
 FileData *file_data_merge_sidecar_files(FileData *target, FileData *source);
-static void file_data_check_sidecars(FileData *fd, GHashTable *basename_hash);
+static void file_data_check_sidecars(const GList *basename_list);
 FileData *file_data_disconnect_sidecar_file(FileData *target, FileData *sfd);
 
 
@@ -166,7 +166,7 @@ static GHashTable *file_data_basename_hash_new(void)
 	return g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 }
 
-static void file_data_basename_hash_insert(GHashTable *basename_hash, FileData *fd)
+static GList * file_data_basename_hash_insert(GHashTable *basename_hash, FileData *fd)
 {
 	GList *list;
     	const gchar *ext = extension_from_path(fd->path);
@@ -183,6 +183,7 @@ static void file_data_basename_hash_insert(GHashTable *basename_hash, FileData *
 		{
 		g_free(basename);
 		}
+	return list;
 }
 
 #if 0
@@ -370,7 +371,7 @@ gboolean file_data_check_changed_files(FileData *fd)
 		
 			file_data_disconnect_sidecar_file(fd, sfd);
 			}
-		if (sfd) file_data_check_sidecars(sfd, NULL); /* this will group the sidecars back together */
+		file_data_check_sidecars(sidecars); /* this will group the sidecars back together */
 		/* now we can release the sidecars */
 		filelist_free(sidecars);
 		file_data_send_notification(fd, NOTIFY_REREAD);
@@ -417,19 +418,18 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 		
 		if (disable_sidecars) file_data_disable_grouping(fd, TRUE);
 		
-		if (basename_hash) 
-			{
-			file_data_basename_hash_insert(basename_hash, fd);
-			if (!disable_sidecars)
-				file_data_check_sidecars(fd, basename_hash);
-			}
 		
 		if (fd->parent)
 			changed = file_data_check_changed_files(fd);
 		else
 			changed = file_data_check_changed_files_recursive(fd, st);
-		if (changed && !disable_sidecars && sidecar_file_priority(fd->extension))
-			file_data_check_sidecars(fd, basename_hash);
+
+		if (basename_hash) 
+			{
+			GList *list = file_data_basename_hash_insert(basename_hash, fd);
+			if (!disable_sidecars)
+				file_data_check_sidecars(list);
+			}
 		DEBUG_2("file_data_pool hit: '%s' %s", fd->path, changed ? "(changed)" : "");
 		
 		return fd;
@@ -446,34 +446,22 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	if (disable_sidecars) fd->disable_grouping = TRUE;
 
 	file_data_set_path(fd, path_utf8); /* set path, name, collate_key_*, original_path */
-	if (basename_hash) file_data_basename_hash_insert(basename_hash, fd);
 
-	if (!disable_sidecars)
+	if (!disable_sidecars && !fd->disable_grouping && sidecar_file_priority(fd->extension))
 		{
-		g_assert(basename_hash);
-		file_data_check_sidecars(fd, basename_hash);
+		GList *list = file_data_basename_hash_insert(basename_hash, fd);
+		file_data_check_sidecars(list);
 		}
 
 	return fd;
 }
 
 
-static void file_data_check_sidecars(FileData *fd, GHashTable *basename_hash)
+static void file_data_check_sidecars(const GList *basename_list)
 {
-	gint base_len;
-	GString *fname;
 	FileData *parent_fd = NULL;
 	GList *work;
-	const GList *basename_list = NULL;
 	GList *group_list = NULL;
-	if (fd->disable_grouping || !sidecar_file_priority(fd->extension))
-		return;
-
-	base_len = fd->extension - fd->path;
-	fname = g_string_new_len(fd->path, base_len);
-
-	basename_list = g_hash_table_lookup(basename_hash, fname->str);
-
 
 	/* check for possible sidecar files;
 	   the sidecar files created here are referenced only via fd->sidecar_files or fd->parent,
@@ -504,7 +492,6 @@ static void file_data_check_sidecars(FileData *fd, GHashTable *basename_hash)
 			work2 = work2->next;
 			}
 		}
-	g_string_free(fname, TRUE);
 
 	/* process the group list - the first one is the parent file, others are sidecars */
 	work = group_list;
@@ -713,7 +700,7 @@ void file_data_disable_grouping(FileData *fd, gboolean disable)
 				file_data_disconnect_sidecar_file(fd, sfd);
 				file_data_send_notification(sfd, NOTIFY_GROUPING);
 				}
-			file_data_check_sidecars((FileData *)sidecar_files->data, FALSE); /* this will group the sidecars back together */
+			file_data_check_sidecars(sidecar_files); /* this will group the sidecars back together */
 			filelist_free(sidecar_files);
 			}
 		else
@@ -724,7 +711,7 @@ void file_data_disable_grouping(FileData *fd, gboolean disable)
 	else
 		{
 		file_data_increment_version(fd);
-		file_data_check_sidecars(fd, FALSE);
+		/* file_data_check_sidecars call is not necessary - the file will be re-grouped on next dir read */
 		}
 	file_data_send_notification(fd, NOTIFY_GROUPING);
 }
