@@ -294,7 +294,7 @@ static void file_data_set_path(FileData *fd, const gchar *path)
 		return;
 		}
 
-	fd->extension = extension_from_path(fd->path);
+	fd->extension = registered_extension_from_path(fd->path);
 	if (fd->extension == NULL)
 		{
 		fd->extension = fd->name + strlen(fd->name);
