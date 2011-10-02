@@ -27,7 +27,7 @@
 static GHashTable *file_data_pool = NULL;
 static GHashTable *file_data_planned_change_hash = NULL;
 
-static gint sidecar_file_priority(const gchar *path);
+static gint sidecar_file_priority(const gchar *extension);
 static FileData *file_data_new_local(const gchar *path, struct stat *st, gboolean disable_sidecars);
 
 
@@ -770,9 +770,8 @@ gchar *file_data_get_sidecar_path(FileData *fd, gboolean existing_only)
 
 
 
-static gint sidecar_file_priority(const gchar *path)
+static gint sidecar_file_priority(const gchar *extension)
 {
-	const gchar *extension = extension_from_path(path);
 	gint i = 1;
 	GList *work;
 
