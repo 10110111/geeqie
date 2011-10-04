@@ -1604,7 +1604,7 @@ static void pan_info_update(PanWindow *pw, PanItem *pi)
 						PAN_POPUP_BORDER_COLOR, PAN_POPUP_ALPHA);
 			pan_item_set_key(pbox, "info");
 
-			p = pan_item_image_new(pw, file_data_new_simple(pi->fd->path),
+			p = pan_item_image_new(pw, file_data_new_group(pi->fd->path),
 					       pbox->x + PREF_PAD_BORDER, pbox->y + PREF_PAD_BORDER, iw, ih);
 			pan_item_set_key(p, "info");
 			pan_item_size_by_item(pbox, p, PREF_PAD_BORDER);

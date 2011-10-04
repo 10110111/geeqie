@@ -532,7 +532,7 @@ static void gr_config_load(const gchar *text, GIOChannel *channel, gpointer data
 static void gr_get_sidecars(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *filename = expand_tilde(text);
-	FileData *fd = file_data_new_simple(filename);
+	FileData *fd = file_data_new_group(filename);
 	
 	GList *work;
 	if (fd->parent) fd = fd->parent;
@@ -555,7 +555,7 @@ static void gr_get_sidecars(const gchar *text, GIOChannel *channel, gpointer dat
 static void gr_get_destination(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *filename = expand_tilde(text);
-	FileData *fd = file_data_new_simple(filename);
+	FileData *fd = file_data_new_group(filename);
 	
 	if (fd->change && fd->change->dest)
 		{
@@ -569,7 +569,7 @@ static void gr_file_view(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *filename = expand_tilde(text);
 
-	view_window_new(file_data_new_simple(filename));
+	view_window_new(file_data_new_group(filename));
 	g_free(filename);
 }
 
@@ -607,7 +607,7 @@ static void gr_list_add(const gchar *text, GIOChannel *channel, gpointer data)
 		new = (!collection_get_first(remote_data->command_collection));
 		}
 
-	if (collection_add(remote_data->command_collection, file_data_new_simple(text), FALSE) && new)
+	if (collection_add(remote_data->command_collection, file_data_new_group(text), FALSE) && new)
 		{
 		layout_image_set_collection(NULL, remote_data->command_collection,
 					    collection_get_first(remote_data->command_collection));

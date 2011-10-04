@@ -983,7 +983,7 @@ static void thumb_std_maint_move_validate_cb(const gchar *path, gboolean valid, 
 			tm->tl->cache_hit = FALSE;
 			tm->tl->cache_local = FALSE;
 			file_data_unref(tm->tl->fd);
-			tm->tl->fd = file_data_new_simple(tm->dest);
+			tm->tl->fd = file_data_new_group(tm->dest);
 			tm->tl->source_mtime = strtol(mtime_str, NULL, 10);
 
 			pathl = path_from_utf8(tm->tl->fd->path);

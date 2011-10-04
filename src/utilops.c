@@ -1074,7 +1074,7 @@ static void file_util_dest_folder_update_path(UtilityData *ud)
 			break;
 		case UTILITY_TYPE_CREATE_FOLDER:
 			file_data_unref(ud->dir_fd);
-			ud->dir_fd = file_data_new_simple(ud->dest_path);
+			ud->dir_fd = file_data_new_dir(ud->dest_path);
 			break;
 		case UTILITY_TYPE_DELETE:
 		case UTILITY_TYPE_DELETE_LINK:
@@ -2676,7 +2676,7 @@ static void file_util_create_dir_full(FileData *fd, const gchar *dest_path, GtkW
 		g_free(buf);
 		}
 	
-	ud->dir_fd = file_data_new_simple(ud->dest_path);
+	ud->dir_fd = file_data_new_dir(ud->dest_path);
 
 	ud->done_func = done_func;
 	ud->done_data = done_data;

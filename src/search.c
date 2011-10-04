@@ -2124,7 +2124,7 @@ static void search_start(SearchData *sd)
 				sd->search_similarity_cd = cache_sim_data_new();
 				}
 
-			sd->img_loader = image_loader_new(file_data_new_simple(sd->search_similarity_path));
+			sd->img_loader = image_loader_new(file_data_new_group(sd->search_similarity_path));
 			g_signal_connect(G_OBJECT(sd->img_loader), "error", (GCallback)search_similarity_load_done_cb, sd);
 			g_signal_connect(G_OBJECT(sd->img_loader), "done", (GCallback)search_similarity_load_done_cb, sd);
 			if (image_loader_start(sd->img_loader))

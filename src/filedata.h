@@ -23,7 +23,7 @@ gchar *text_from_size_abrev(gint64 size);
 const gchar *text_from_time(time_t t);
 
 /* scan for sidecar files - expensive */
-FileData *file_data_new_simple(const gchar *path_utf8);
+FileData *file_data_new_group(const gchar *path_utf8);
 
 /* should be used on helper files which can't have sidecars */
 FileData *file_data_new_no_grouping(const gchar *path_utf8);

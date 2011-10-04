@@ -205,18 +205,18 @@ static void bar_sort_undo_folder(SortData *sd, GtkWidget *button)
 			GList *list;
 			gchar *src_dir;
 
-			list = g_list_append(NULL, file_data_new_simple(sd->undo_dest));
+			list = g_list_append(NULL, file_data_new_group(sd->undo_dest));
 			src_dir = remove_level_from_path(sd->undo_src);
 			file_util_move_simple(list, src_dir, sd->lw->window);
 			g_free(src_dir);
 			}
 			break;
 		case BAR_SORT_COPY:
-			file_util_delete(file_data_new_simple(sd->undo_dest), NULL, button);
+			file_util_delete(file_data_new_group(sd->undo_dest), NULL, button);
 			break;
 		default:
 			/* undo external command */
-			file_util_delete(file_data_new_simple(sd->undo_dest), NULL, button);
+			file_util_delete(file_data_new_group(sd->undo_dest), NULL, button);
 			break;
 		}
 
@@ -224,7 +224,7 @@ static void bar_sort_undo_folder(SortData *sd, GtkWidget *button)
 
 	if (isfile(sd->undo_src))
 		{
-		layout_image_set_fd(sd->lw, file_data_new_simple(sd->undo_src));
+		layout_image_set_fd(sd->lw, file_data_new_group(sd->undo_src));
 		}
 
 	bar_sort_undo_set(sd, NULL, NULL, NULL);
@@ -241,7 +241,7 @@ static void bar_sort_undo_collection(SortData *sd)
 
 		source = work->data;
 		work = work->next;
-		collect_manager_remove(file_data_new_simple(source), sd->undo_dest);
+		collect_manager_remove(file_data_new_group(source), sd->undo_dest);
 		}
 
 	bar_sort_undo_set(sd, NULL, NULL, NULL);

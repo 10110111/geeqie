@@ -851,7 +851,7 @@ gboolean layout_set_path(LayoutWindow *lw, const gchar *path)
 
 	if (!path) return FALSE;
 	
-	fd = file_data_new_simple(path);
+	fd = file_data_new_group(path);
 	ret = layout_set_fd(lw, fd);
 	file_data_unref(fd);
 	return ret;
