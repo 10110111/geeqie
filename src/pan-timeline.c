@@ -91,7 +91,7 @@ void pan_timeline_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 				g_free(buf);
 				y += pi->height;
 
-				pi_month = pan_item_box_new(pw, file_data_new_simple(fd->path),
+				pi_month = pan_item_box_new(pw, file_data_ref(fd),
 							    x, y, 0, 0,
 							    PAN_BOX_OUTLINE_THICKNESS,
 							    PAN_BOX_COLOR, PAN_BOX_ALPHA,
@@ -133,7 +133,7 @@ void pan_timeline_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 
 			y += pi->height;
 
-			pi_day = pan_item_box_new(pw, file_data_new_simple(fd->path), x, y, 0, 0,
+			pi_day = pan_item_box_new(pw, file_data_ref(fd), x, y, 0, 0,
 						  PAN_BOX_OUTLINE_THICKNESS,
 						  PAN_BOX_COLOR, PAN_BOX_ALPHA,
 						  PAN_BOX_OUTLINE_COLOR, PAN_BOX_OUTLINE_ALPHA);

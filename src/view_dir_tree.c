@@ -159,7 +159,7 @@ static void vdtree_node_free(NodeData *nd)
 {
 	if (!nd) return;
 
-	file_data_unref(nd->fd);
+	if (nd->fd) file_data_unref(nd->fd);
 	g_free(nd);
 }
 
@@ -281,7 +281,7 @@ static GList *parts_list_add_node_points(ViewDir *vd, GList *list)
 			NodeData *nd;
 
 			gtk_tree_model_get(store, &iter, DIR_COLUMN_POINTER, &nd, -1);
-			if (strcmp(nd->fd->name, pd->name) == 0)
+			if (nd->fd && strcmp(nd->fd->name, pd->name) == 0)
 				{
 				fd = nd->fd;
 				}
@@ -419,7 +419,7 @@ static void vdtree_add_by_data(ViewDir *vd, FileData *fd, GtkTreeIter *parent)
 	/* all nodes are created with an "empty" node, so that the expander is shown
 	 * this is removed when the child is populated */
 	end = g_new0(NodeData, 1);
-	end->fd = file_data_new_simple("");
+	end->fd = NULL;
 	end->expanded = TRUE;
 
 	gtk_tree_store_append(store, &empty, &child);
@@ -462,7 +462,7 @@ gboolean vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gboolean f
 
 	if (nd->expanded)
 		{
-		if (!isdir(nd->fd->path))
+		if (!nd->fd || !isdir(nd->fd->path))
 			{
 			if (vd->click_fd == nd->fd) vd->click_fd = NULL;
 			if (vd->drop_fd == nd->fd) vd->drop_fd = NULL;
@@ -495,16 +495,15 @@ gboolean vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gboolean f
 		if (target_fd->path[n] == G_DIR_SEPARATOR && target_fd->path[n+1] == '.')
 			{
 			gchar *name8;
-			struct stat sbuf;
 
 			n++;
 
 			while (target_fd->path[n] != '\0' && target_fd->path[n] != G_DIR_SEPARATOR) n++;
 			name8 = g_strndup(target_fd->path, n);
 
-			if (stat_utf8(name8, &sbuf))
+			if (isdir(name8))
 				{
-				list = g_list_prepend(list, file_data_new_simple(name8));
+				list = g_list_prepend(list, file_data_new_dir(name8));
 				}
 
 			g_free(name8);
@@ -904,6 +903,10 @@ static gint vdtree_sort_cb(GtkTreeModel *store, GtkTreeIter *a, GtkTreeIter *b, 
 	gtk_tree_model_get(store, a, DIR_COLUMN_POINTER, &nda, -1);
 	gtk_tree_model_get(store, b, DIR_COLUMN_POINTER, &ndb, -1);
 
+	if (!nda->fd && !ndb->fd) return 0;
+	if (!nda->fd) return 1;
+	if (!ndb->fd) return -1;
+
 	if (options->file_sort.case_sensitive)
 		return strcmp(nda->fd->collate_key_name, ndb->fd->collate_key_name);
 	else
@@ -922,7 +925,7 @@ static void vdtree_setup_root(ViewDir *vd)
 	FileData *fd;
 
 
-	fd = file_data_new_simple(path);
+	fd = file_data_new_dir(path);
 	vdtree_add_by_data(vd, fd, NULL);
 
 	vdtree_expand_by_data(vd, fd, TRUE);

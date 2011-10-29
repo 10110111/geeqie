@@ -722,6 +722,20 @@ GtkWidget *pref_table_spin(GtkWidget *table, gint column, gint row,
 	return spin;
 }
 
+GtkWidget *pref_table_spin_new_int(GtkWidget *table, gint column, gint row,
+				   const gchar *text, const gchar *suffix,
+				   gint min, gint max, gint step,
+				   gint value, gint *value_var)
+{
+	*value_var = value;
+	return pref_table_spin(table, column, row,
+			       text, suffix,
+			       (gdouble)min, (gdouble)max, (gdouble)step, 0,
+			       value,
+			       G_CALLBACK(pref_spin_int_cb), value_var);
+}
+
+
 #if ! GTK_CHECK_VERSION(2,12,0)
 
 static void pref_toolbar_destroy_cb(GtkWidget *widget, gpointer data)

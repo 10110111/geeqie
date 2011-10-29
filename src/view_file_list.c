@@ -516,7 +516,7 @@ static gboolean vflist_row_rename_cb(TreeEditData *td, const gchar *old, const g
 	else
 		{
 		gchar *old_path = g_build_filename(vf->dir_fd->path, old, NULL);
-		FileData *fd = file_data_new_simple(old_path); /* get the fd from cache */
+		FileData *fd = file_data_new_group(old_path); /* get the fd from cache */
 		file_util_rename_simple(fd, new_path, vf->listview);
 		file_data_unref(fd);
 		g_free(old_path);

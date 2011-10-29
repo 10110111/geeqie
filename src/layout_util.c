@@ -836,6 +836,32 @@ static void layout_menu_slideshow_pause_cb(GtkAction *action, gpointer data)
 	layout_image_slideshow_pause_toggle(lw);
 }
 
+
+static void layout_menu_stereo_mode_next_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint mode = layout_image_stereo_pixbuf_get(lw);
+	
+	/* 0->1, 1->2, 2->3, 3->1 - disable auto, then cycle */
+	mode = mode % 3 + 1;
+	
+	GtkAction *radio = gtk_action_group_get_action(lw->action_group, "StereoAuto");
+	radio_action_set_current_value(GTK_RADIO_ACTION(radio), mode);
+	
+	/*
+	this is called via fallback in layout_menu_stereo_mode_cb
+	layout_image_stereo_pixbuf_set(lw, mode);
+	*/
+
+}
+
+static void layout_menu_stereo_mode_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint mode = gtk_radio_action_get_current_value(action);
+	layout_image_stereo_pixbuf_set(lw, mode);
+}
+
 static void layout_menu_help_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1038,7 +1064,7 @@ static void layout_menu_back_cb(GtkAction *action, gpointer data)
 	if (!path) return;
 	
 	/* Open previous path */
-	dir_fd = file_data_new_simple(path);
+	dir_fd = file_data_new_dir(path);
 	layout_set_fd(lw, dir_fd);
 	file_data_unref(dir_fd);
 }
@@ -1055,7 +1081,7 @@ static void layout_menu_home_cb(GtkAction *action, gpointer data)
 
 	if (path)
 		{
-		FileData *dir_fd = file_data_new_simple(path);
+		FileData *dir_fd = file_data_new_dir(path);
 		layout_set_fd(lw, dir_fd);
 		file_data_unref(dir_fd);
 		}
@@ -1256,6 +1282,7 @@ static GtkActionEntry menu_entries[] = {
   { "ColorMenu",	NULL,			N_("_Color Management"),		NULL, 			NULL,					NULL },
   { "ConnectZoomMenu",	NULL,			N_("_Connected Zoom"),			NULL, 			NULL,					NULL },
   { "SplitMenu",	NULL,			N_("Spli_t"),				NULL, 			NULL,					NULL },
+  { "StereoMenu",	NULL,			N_("Stere_o"),				NULL, 			NULL,					NULL },
   { "OverlayMenu",	NULL,			N_("Image _Overlay"),			NULL, 			NULL,					NULL },
   { "HelpMenu",		NULL,			N_("_Help"),				NULL, 			NULL,					NULL },
 
@@ -1355,6 +1382,7 @@ static GtkActionEntry menu_entries[] = {
   { "About",		GTK_STOCK_ABOUT,	N_("_About"),				NULL,			N_("About"),				CB(layout_menu_about_cb) },
   { "LogWindow",	NULL,			N_("_Log Window"),			NULL,			N_("Log Window"),			CB(layout_menu_log_window_cb) },
   { "ExifWin",		NULL,			N_("_Exif window"),			"<control>E",		N_("Exif window"),			CB(layout_menu_bar_exif_cb) },
+  { "StereoCycle",	NULL,			N_("_Cycle through stereo modes"),	NULL,			N_("Cycle through stereo modes"),	CB(layout_menu_stereo_mode_next_cb) },
 
 };
 
@@ -1411,6 +1439,13 @@ static GtkRadioActionEntry menu_histogram_channel[] = {
 static GtkRadioActionEntry menu_histogram_mode[] = {
   { "HistogramModeLin",	NULL,			N_("Li_near Histogram"),		NULL,			N_("Linear Histogram"),		0 },
   { "HistogramModeLog",	NULL,			N_("_Log Histogram"),			NULL,			N_("Log Histogram"),		1 },
+};
+
+static GtkRadioActionEntry menu_stereo_mode_entries[] = {
+  { "StereoAuto",	NULL,			N_("_Auto"),				NULL,			N_("Stereo Auto"),		STEREO_PIXBUF_DEFAULT },
+  { "StereoSBS",	NULL,			N_("_Side by Side"),			NULL,			N_("Stereo Side by Side"),	STEREO_PIXBUF_SBS },
+  { "StereoCross",	NULL,			N_("_Cross"),				NULL,			N_("Stereo Cross"),		STEREO_PIXBUF_CROSS },
+  { "StereoOff",	NULL,			N_("_Off"),				NULL,			N_("Stereo Off"),		STEREO_PIXBUF_NONE }
 };
 
 
@@ -1550,6 +1585,14 @@ static const gchar *menu_ui_description =
 "        <menuitem action='SplitVertical'/>"
 "        <menuitem action='SplitQuad'/>"
 "        <menuitem action='SplitSingle'/>"
+"      </menu>"
+"      <menu action='StereoMenu'>"
+"        <menuitem action='StereoAuto'/>"
+"        <menuitem action='StereoSBS'/>"
+"        <menuitem action='StereoCross'/>"
+"        <menuitem action='StereoOff'/>"
+"        <separator/>"
+"        <menuitem action='StereoCycle'/>"
 "      </menu>"
 "      <menu action='ColorMenu'>"
 "        <menuitem action='UseColorProfiles'/>"
@@ -1915,6 +1958,9 @@ void layout_actions_setup(LayoutWindow *lw)
 	gtk_action_group_add_radio_actions(lw->action_group,
 					   menu_histogram_mode, G_N_ELEMENTS(menu_histogram_mode),
 					   0, G_CALLBACK(layout_menu_histogram_mode_cb), lw);
+	gtk_action_group_add_radio_actions(lw->action_group,
+					   menu_stereo_mode_entries, G_N_ELEMENTS(menu_stereo_mode_entries),
+					   0, G_CALLBACK(layout_menu_stereo_mode_cb), lw);
 
 
 	lw->ui_manager = gtk_ui_manager_new();
@@ -2373,6 +2419,9 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "ConnectZoomMenu");
 	gtk_action_set_sensitive(action, lw->split_mode != SPLIT_NONE);
+
+	action = gtk_action_group_get_action(lw->action_group, "StereoAuto");
+	radio_action_set_current_value(GTK_RADIO_ACTION(action), layout_image_stereo_pixbuf_get(lw));
 
 	layout_util_sync_color(lw);
 }

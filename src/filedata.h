@@ -22,8 +22,14 @@ gchar *text_from_size(gint64 size);
 gchar *text_from_size_abrev(gint64 size);
 const gchar *text_from_time(time_t t);
 
-/* this expects a utf-8 path */
-FileData *file_data_new_simple(const gchar *path_utf8);
+/* scan for sidecar files - expensive */
+FileData *file_data_new_group(const gchar *path_utf8);
+
+/* should be used on helper files which can't have sidecars */
+FileData *file_data_new_no_grouping(const gchar *path_utf8);
+
+/* should be used on dirs */
+FileData *file_data_new_dir(const gchar *path_utf8);
 
 #ifdef DEBUG_FILEDATA
 FileData *file_data_ref_debug(const gchar *file, gint line, FileData *fd);

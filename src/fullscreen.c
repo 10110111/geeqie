@@ -294,7 +294,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	image_background_set_color_from_options(fs->imd, TRUE);
 	image_set_delay_flip(fs->imd, options->fullscreen.clean_flip);
 	image_auto_refresh_enable(fs->imd, fs->normal_imd->auto_refresh);
-
+	
 	if (options->fullscreen.clean_flip)
 		{
 		image_set_update_func(fs->imd, fullscreen_image_update_cb, fs);
@@ -304,6 +304,10 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	gtk_widget_show(fs->imd->widget);
 
 	image_change_from_image(fs->imd, fs->normal_imd);
+
+	if (options->stereo.enable_fsmode) {
+		image_stereo_set(fs->imd, options->stereo.fsmode);
+	}
 
 	gtk_widget_show(fs->window);
 
@@ -337,6 +341,11 @@ void fullscreen_stop(FullScreenData *fs)
 	gdk_keyboard_ungrab(GDK_CURRENT_TIME);
 
 	image_change_from_image(fs->normal_imd, fs->imd);
+
+	if (options->stereo.enable_fsmode) {
+		image_stereo_set(fs->normal_imd, options->stereo.mode);
+	}
+
 #ifdef HIDE_WINDOW_IN_FULLSCREEN
 	gtk_widget_show(fs->normal_window);
 #endif

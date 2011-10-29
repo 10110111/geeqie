@@ -188,6 +188,14 @@ void filter_add_defaults(void)
 		work = work->next;
 
 		name = gdk_pixbuf_format_get_name(format);
+		
+		if (strcmp(name, "Digital camera RAW") == 0) 
+			{
+			DEBUG_1("Skipped '%s' from loader", name);
+			g_free(name);
+			continue;
+			}
+		
 		desc = gdk_pixbuf_format_get_description(format);
 		extensions = gdk_pixbuf_format_get_extensions(format);
 
@@ -230,11 +238,16 @@ void filter_add_defaults(void)
 	filter_add_if_missing("ico", "Icon file", ".ico;.cur", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
 	filter_add_if_missing("ras", "Raster", ".ras", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
 	filter_add_if_missing("svg", "Scalable Vector Graphics", ".svg", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
-
+	
+	/* special formats for stereo */
+	filter_add_if_missing("jps", "Stereo side-by-side jpeg", ".jps", FORMAT_CLASS_IMAGE, TRUE, FALSE, TRUE);
+	filter_add_if_missing("mpo", "Stereo multi-image jpeg", ".mpo", FORMAT_CLASS_IMAGE, FALSE, TRUE, TRUE);
+	
 	/* non-image files that might be desirable to show */
 	filter_add_if_missing("xmp", "XMP sidecar", ".xmp", FORMAT_CLASS_META, TRUE, FALSE, TRUE);
 	filter_add_if_missing("gqv", GQ_APPNAME " image collection", GQ_COLLECTION_EXT, FORMAT_CLASS_META, FALSE, FALSE, TRUE);
 	filter_add_if_missing("ufraw", "UFRaw ID file", ".ufraw", FORMAT_CLASS_META, FALSE, FALSE, TRUE);
+	filter_add_if_missing("pto", "Panorama script file", ".pto", FORMAT_CLASS_META, FALSE, FALSE, TRUE);
 
 	/* These are the raw camera formats with embedded jpeg/exif.
 	 * (see format_raw.c and/or exiv2.cc)
@@ -301,6 +314,20 @@ GList *filter_to_list(const gchar *extensions)
 	return list;
 }
 
+static gint filter_sort_ext_len_cb(gconstpointer a, gconstpointer b)
+{
+	gchar *sa = (gchar *)a;
+	gchar *sb = (gchar *)b;
+	
+	gint len_a = strlen(sa);
+	gint len_b = strlen(sb);
+	
+	if (len_a > len_b) return -1;
+	if (len_a < len_b) return 1;
+	return 0;
+}
+ 
+
 void filter_rebuild(void)
 {
 	GList *work;
@@ -361,10 +388,13 @@ void filter_rebuild(void)
 			}
 		}
 
+	/* make sure registered_extension_from_path finds the longer match first */
+	extension_list = g_list_sort(extension_list, filter_sort_ext_len_cb);
 	sidecar_ext_parse(options->sidecar.ext); /* this must be updated after changed file extensions */
 }
 
-static gboolean filter_name_find(GList *filter, const gchar *name)
+/* return the extension part of the name or NULL */
+static const gchar *filter_name_find(GList *filter, const gchar *name)
 {
 	GList *work;
 	guint ln;
@@ -379,20 +409,23 @@ static gboolean filter_name_find(GList *filter, const gchar *name)
 		if (ln >= lf)
 			{
 			/* FIXME: utf8 */
-			if (g_ascii_strncasecmp(name + ln - lf, filter, lf) == 0) return TRUE;
+			if (g_ascii_strncasecmp(name + ln - lf, filter, lf) == 0) return name + ln - lf;
 			}
 		work = work->next;
 		}
 
-	return FALSE;
+	return NULL;
 }
-
+const gchar *registered_extension_from_path(const gchar *name)
+{
+	return filter_name_find(extension_list, name);
+}
 
 gboolean filter_name_exists(const gchar *name)
 {
 	if (!extension_list || options->file_filter.disable) return TRUE;
 
-	return filter_name_find(extension_list, name);
+	return !!filter_name_find(extension_list, name);
 }
 
 gboolean filter_file_class(const gchar *name, FileFormatClass file_class)
@@ -403,17 +436,17 @@ gboolean filter_file_class(const gchar *name, FileFormatClass file_class)
 		return FALSE;
 		}
 
-	return filter_name_find(file_class_extension_list[file_class], name);
+	return !!filter_name_find(file_class_extension_list[file_class], name);
 }
 
 gboolean filter_name_is_writable(const gchar *name)
 {
-	return filter_name_find(file_writable_list, name);
+	return !!filter_name_find(file_writable_list, name);
 }
 
 gboolean filter_name_allow_sidecar(const gchar *name)
 {
-	return filter_name_find(file_sidecar_list, name);
+	return !!filter_name_find(file_sidecar_list, name);
 }
 
 void filter_write_list(GString *outstr, gint indent)

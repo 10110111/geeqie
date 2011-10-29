@@ -186,6 +186,38 @@ typedef enum {
 	TOOLBAR_COUNT
 } ToolbarType;
 
+typedef enum {
+	PR_STEREO_NONE           = 0,	  /* do nothing */
+	PR_STEREO_DUAL           = 1 << 0, /* independent stereo buffers, for example nvidia opengl */
+	PR_STEREO_FIXED          = 1 << 1, /* custom position */
+	PR_STEREO_HORIZ          = 1 << 2, /* side by side */
+	PR_STEREO_VERT           = 1 << 3, /* above below */
+	PR_STEREO_RIGHT          = 1 << 4, /* render right buffer */
+	PR_STEREO_ANAGLYPH_RC    = 1 << 5, /* anaglyph red-cyan */
+	PR_STEREO_ANAGLYPH_GRAY  = 1 << 6, /* anaglyph gray red-cyan*/
+	PR_STEREO_ANAGLYPH_DB    = 1 << 7, /* anaglyph dubois*/
+	PR_STEREO_ANAGLYPH       = PR_STEREO_ANAGLYPH_RC | PR_STEREO_ANAGLYPH_GRAY | PR_STEREO_ANAGLYPH_DB, /* anaglyph mask */
+
+	PR_STEREO_MIRROR_LEFT    = 1 << 8, /* mirror */
+	PR_STEREO_FLIP_LEFT      = 1 << 9, /* flip */
+
+	PR_STEREO_MIRROR_RIGHT   = 1 << 10, /* mirror */
+	PR_STEREO_FLIP_RIGHT     = 1 << 11, /* flip */
+
+	PR_STEREO_MIRROR         = PR_STEREO_MIRROR_LEFT | PR_STEREO_MIRROR_RIGHT, /* mirror mask*/
+	PR_STEREO_FLIP           = PR_STEREO_FLIP_LEFT | PR_STEREO_FLIP_RIGHT, /* flip mask*/
+	PR_STEREO_SWAP           = 1 << 12,  /* swap left and right buffers */
+	PR_STEREO_TEMP_DISABLE   = 1 << 13,  /* temporarily disable stereo mode if source image is not stereo */
+	PR_STEREO_HALF           = 1 << 14
+} PixbufRendererStereoMode;
+
+typedef enum {
+	STEREO_PIXBUF_DEFAULT  = 0,
+	STEREO_PIXBUF_SBS      = 1,
+	STEREO_PIXBUF_CROSS    = 2,
+	STEREO_PIXBUF_NONE     = 3
+} StereoPixbufData;
+
 #define MAX_SPLIT_IMAGES 4
 
 typedef struct _ImageLoader ImageLoader;
@@ -440,6 +472,7 @@ struct _ImageWindow
 	gboolean delay_flip;
 	gint orientation;
 	gboolean desaturate;
+	gint user_stereo;
 };
 
 #define FILEDATA_MARKS_SIZE 6
@@ -464,6 +497,7 @@ struct _FileData {
 	gint64 size;
 	time_t date;
 	mode_t mode; /* this is needed at least for notification in view_dir because it is preserved after the file/directory is deleted */
+	gint sidecar_priority;
 	
 	guint marks; /* each bit represents one mark */
 	guint valid_marks; /* zero bit means that the corresponding mark needs to be reread */
@@ -488,6 +522,7 @@ struct _FileData {
 	
 	ExifData *exif;
 	GHashTable *modified_xmp; // hash table which contains unwritten xmp metadata in format: key->list of string values
+	GList *cached_metadata;
 };
 
 struct _LayoutOptions

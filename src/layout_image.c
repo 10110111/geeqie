@@ -634,7 +634,7 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 				FileData *dir_fd;
 
 				base = remove_level_from_path(fd->path);
-				dir_fd = file_data_new_simple(base);
+				dir_fd = file_data_new_dir(base);
 				if (dir_fd != lw->dir_fd)
 					{
 					layout_set_fd(lw, dir_fd);
@@ -902,7 +902,42 @@ gboolean layout_image_get_desaturate(LayoutWindow *lw)
 	return image_get_desaturate(lw->image);
 }
 
+/* stereo */
+/*
+gint layout_image_stereo_get(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return 0;
 
+	return image_stereo_get(lw->image);
+}
+
+void layout_image_stereo_set(LayoutWindow *lw, gint stereo_mode)
+{
+	if (!layout_valid(&lw)) return;
+
+	image_stereo_set(lw->image, stereo_mode);
+}
+void layout_image_stereo_swap(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return;
+
+	image_stereo_swap(lw->image);
+}
+*/
+
+gint layout_image_stereo_pixbuf_get(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return 0;
+
+	return image_stereo_pixbuf_get(lw->image);
+}
+
+void layout_image_stereo_pixbuf_set(LayoutWindow *lw, gint stereo_mode)
+{
+	if (!layout_valid(&lw)) return;
+
+	image_stereo_pixbuf_set(lw->image, stereo_mode);
+}
 
 const gchar *layout_image_get_path(LayoutWindow *lw)
 {

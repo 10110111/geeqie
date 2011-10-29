@@ -17,7 +17,7 @@
 
 #include <glib/gprintf.h>
 
-
+GMutex *debug_mutex;
 /*
  * Logging functions
  */

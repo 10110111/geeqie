@@ -16,6 +16,37 @@
 
 #define TYPE_IMAGE_LOADER		(image_loader_get_type())
 
+typedef void (*ImageLoaderBackendCbAreaPrepared)(gpointer loader, gpointer data);
+typedef void (*ImageLoaderBackendCbSize)(gpointer loader, gint width, gint height, gpointer data);
+typedef void (*ImageLoaderBackendCbAreaUpdated)(gpointer loader, guint x, guint y, guint w, guint h, gpointer data);
+
+typedef gpointer (*ImageLoaderBackendFuncLoaderNew)(ImageLoaderBackendCbAreaUpdated, ImageLoaderBackendCbSize, ImageLoaderBackendCbAreaPrepared, gpointer data);
+typedef void (*ImageLoaderBackendFuncSetSize)(gpointer loader, int width, int height);
+typedef gboolean (*ImageLoaderBackendFuncLoad)(gpointer loader, const guchar *buf, gsize count, GError **error); /* optional, load whole image at once */
+typedef gboolean (*ImageLoaderBackendFuncWrite)(gpointer loader, const guchar *buf, gsize count, GError **error);
+typedef GdkPixbuf* (*ImageLoaderBackendFuncGetPixbuf)(gpointer loader);
+typedef gboolean (*ImageLoaderBackendFuncClose)(gpointer loader, GError **error);
+typedef void (*ImageLoaderBackendFuncAbort)(gpointer loader);
+typedef void (*ImageLoaderBackendFuncFree)(gpointer loader);
+typedef gchar* (*ImageLoaderBackendFuncGetFormatName)(gpointer loader);
+typedef gchar** (*ImageLoaderBackendFuncGetFormatMimeTypes)(gpointer loader);
+
+typedef struct _ImageLoaderBackend ImageLoaderBackend;
+struct _ImageLoaderBackend
+{
+	ImageLoaderBackendFuncLoaderNew loader_new;
+	ImageLoaderBackendFuncSetSize set_size;
+	ImageLoaderBackendFuncLoad load;
+	ImageLoaderBackendFuncWrite write;
+	ImageLoaderBackendFuncGetPixbuf get_pixbuf;
+	ImageLoaderBackendFuncClose close;
+	ImageLoaderBackendFuncAbort abort;
+	ImageLoaderBackendFuncFree free;
+	ImageLoaderBackendFuncGetFormatName get_format_name;
+	ImageLoaderBackendFuncGetFormatMimeTypes get_format_mime_types;
+};
+
+
 //typedef struct _ImageLoader ImageLoader;
 typedef struct _ImageLoaderClass ImageLoaderClass;
 
@@ -41,8 +72,9 @@ struct _ImageLoader
 	guint idle_id; /* event source id */
 	gint idle_priority;
 
-	GdkPixbufLoader *loader;
+	gpointer *loader;
 	GError *error;
+	ImageLoaderBackend backend;
 
 	guint idle_done_id; /* event source id */
 	GList *area_param_list;

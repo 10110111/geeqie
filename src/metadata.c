@@ -62,6 +62,113 @@ static void metadata_legacy_delete(FileData *fd, const gchar *except);
 static gboolean metadata_file_read(gchar *path, GList **keywords, gchar **comment);
 
 
+/*
+ *-------------------------------------------------------------------
+ * long-term cache - keep keywords from whole dir in memory
+ *-------------------------------------------------------------------
+ */
+
+/* fd->cached metadata list of lists
+   each particular list contains key as a first entry, then the values
+*/
+
+static void metadata_cache_update(FileData *fd, const gchar *key, const GList *values)
+{
+	GList *work;
+	
+	work = fd->cached_metadata;
+	while (work)
+		{
+		GList *entry = work->data;
+		gchar *entry_key = entry->data;
+		
+		if (strcmp(entry_key, key) == 0) 
+			{
+			/* key found - just replace values */
+			GList *old_values = entry->next;
+			entry->next = NULL;
+			old_values->prev = NULL;
+			string_list_free(old_values);
+			work->data = g_list_append(entry, string_list_copy(values));
+			DEBUG_1("updated %s %s\n", key, fd->path);
+			return;
+			}
+		work = work->next;
+		}
+	
+	/* key not found - prepend new entry */
+	fd->cached_metadata = g_list_prepend(fd->cached_metadata, 
+				g_list_prepend(string_list_copy(values), g_strdup(key)));
+	DEBUG_1("added %s %s\n", key, fd->path);
+
+}
+
+static const GList *metadata_cache_get(FileData *fd, const gchar *key)
+{
+	GList *work;
+	
+	work = fd->cached_metadata;
+	while (work)
+		{
+		GList *entry = work->data;
+		gchar *entry_key = entry->data;
+		
+		if (strcmp(entry_key, key) == 0) 
+			{
+			/* key found */
+			DEBUG_1("found %s %s\n", key, fd->path);
+			return entry;
+			}
+		work = work->next;
+		}
+	return NULL;
+	DEBUG_1("not found %s %s\n", key, fd->path);
+}
+
+static void metadata_cache_remove(FileData *fd, const gchar *key)
+{
+	GList *work;
+	
+	work = fd->cached_metadata;
+	while (work)
+		{
+		GList *entry = work->data;
+		gchar *entry_key = entry->data;
+		
+		if (strcmp(entry_key, key) == 0) 
+			{
+			/* key found */
+			string_list_free(entry);
+			fd->cached_metadata = g_list_delete_link(fd->cached_metadata, work);
+			DEBUG_1("removed %s %s\n", key, fd->path);
+			return;
+			}
+		work = work->next;
+		}
+	DEBUG_1("not removed %s %s\n", key, fd->path);
+}
+
+void metadata_cache_free(FileData *fd)
+{
+	GList *work;
+	if (fd->cached_metadata) DEBUG_1("freed %s\n", fd->path);
+	
+	work = fd->cached_metadata;
+	while (work)
+		{
+		GList *entry = work->data;
+		string_list_free(entry);
+		
+		work = work->next;
+		}
+	g_list_free(fd->cached_metadata);
+	fd->cached_metadata = NULL;
+}
+
+
+
+
+
 
 /*
  *-------------------------------------------------------------------
@@ -128,13 +235,18 @@ gboolean metadata_write_queue_remove_list(GList *list)
 
 void metadata_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
-	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE)) && g_list_find(metadata_write_queue, fd)) 
+	if (type & (NOTIFY_REREAD | NOTIFY_CHANGE))
 		{
-		DEBUG_1("Notify metadata: %s %04x", fd->path, type);
-		if (!isname(fd->path))
+		metadata_cache_free(fd);
+		
+		if (g_list_find(metadata_write_queue, fd)) 
 			{
-			/* ignore deleted files */
-			metadata_write_queue_remove(fd);
+			DEBUG_1("Notify metadata: %s %04x", fd->path, type);
+			if (!isname(fd->path))
+				{
+				/* ignore deleted files */
+				metadata_write_queue_remove(fd);
+				}
 			}
 		}
 }
@@ -206,7 +318,7 @@ gboolean metadata_write_perform(FileData *fd)
 		    store the metadata in the cache)
 		    FIXME: this does not catch new sidecars created by independent external programs
 		*/
-		file_data_unref(file_data_new_simple(fd->change->dest)); 
+		file_data_unref(file_data_new_group(fd->change->dest)); 
 		
 	if (success) metadata_legacy_delete(fd, fd->change->dest);
 	return success;
@@ -255,6 +367,9 @@ gboolean metadata_write_list(FileData *fd, const gchar *key, const GList *values
 		fd->modified_xmp = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GDestroyNotify)string_list_free);
 		}
 	g_hash_table_insert(fd->modified_xmp, g_strdup(key), string_list_copy((GList *)values));
+	
+	metadata_cache_remove(fd, key);
+	
 	if (fd->exif)
 		{
 		exif_update_metadata(fd->exif, key, values);
@@ -540,6 +655,7 @@ GList *metadata_read_list(FileData *fd, const gchar *key, MetadataFormat format)
 {
 	ExifData *exif;
 	GList *list = NULL;
+	const GList *cache_entry;
 	if (!fd) return NULL;
 
 	/* unwritten data overide everything */
@@ -547,6 +663,13 @@ GList *metadata_read_list(FileData *fd, const gchar *key, MetadataFormat format)
 		{
 	        list = g_hash_table_lookup(fd->modified_xmp, key);
 		if (list) return string_list_copy(list);
+		}
+
+
+	if (format == METADATA_PLAIN && strcmp(key, KEYWORD_KEY) == 0 
+	    && (cache_entry = metadata_cache_get(fd, key)))
+		{
+		return string_list_copy(cache_entry->next);
 		}
 
 	/* 
@@ -558,8 +681,15 @@ GList *metadata_read_list(FileData *fd, const gchar *key, MetadataFormat format)
 	*/
 	if (strcmp(key, KEYWORD_KEY) == 0)
 		{
-	        if (metadata_legacy_read(fd, &list, NULL)) return list;
-	        }
+		if (metadata_legacy_read(fd, &list, NULL)) 
+			{
+			if (format == METADATA_PLAIN) 
+				{
+				metadata_cache_update(fd, key, list);
+				}
+			return list;
+			}
+		}
 	else if (strcmp(key, COMMENT_KEY) == 0)
 		{
 		gchar *comment = NULL;
@@ -574,6 +704,12 @@ GList *metadata_read_list(FileData *fd, const gchar *key, MetadataFormat format)
 	if (!exif) return NULL;
 	list = exif_get_metadata(exif, key, format);
 	exif_free_fd(fd, exif);
+	
+	if (format == METADATA_PLAIN && strcmp(key, KEYWORD_KEY) == 0)
+		{
+		metadata_cache_update(fd, key, list);
+		}
+		
 	return list;
 }
 

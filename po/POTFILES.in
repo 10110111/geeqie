@@ -46,6 +46,7 @@ src/history_list.c
 src/image.c
 src/image-load.c
 src/image-overlay.c
+src/image_load_jpeg.c
 src/img-view.c
 src/layout.c
 src/layout_config.c
