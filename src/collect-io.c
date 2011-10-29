@@ -160,7 +160,7 @@ static gboolean collection_load_private(CollectionData *cd, const gchar *path, C
 			if (!flush)
 				changed |= collect_manager_process_action(entry, &buf);
 
-			valid = (buf[0] == G_DIR_SEPARATOR && collection_add_check(cd, file_data_new_simple(buf), FALSE, TRUE));
+			valid = (buf[0] == G_DIR_SEPARATOR && collection_add_check(cd, file_data_new_group(buf), FALSE, TRUE));
 			if (!valid) DEBUG_1("collection invalid file: %s", buf);
 
 			total++;
@@ -190,7 +190,7 @@ static gboolean collection_load_private(CollectionData *cd, const gchar *path, C
 		gchar *buf = NULL;
 		while (collect_manager_process_action(entry, &buf))
 			{
-			collection_add_check(cd, file_data_new_simple(buf), FALSE, TRUE);
+			collection_add_check(cd, file_data_new_group(buf), FALSE, TRUE);
 			changed = TRUE;
 			g_free(buf);
 			buf = NULL;
@@ -673,7 +673,7 @@ static void collect_manager_refresh(void)
 	GList *work;
 	FileData *dir_fd;
 
-	dir_fd = file_data_new_simple(get_collections_dir());
+	dir_fd = file_data_new_dir(get_collections_dir());
 	filelist_read(dir_fd, &list, NULL);
 	file_data_unref(dir_fd);
 

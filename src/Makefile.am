@@ -162,10 +162,18 @@ geeqie_SOURCES = \
 	image.h		\
 	image-load.c	\
 	image-load.h	\
+	image_load_gdk.c\
+	image_load_gdk.h\
+	image_load_jpeg.c\
+	image_load_jpeg.h\
+	image_load_tiff.c\
+	image_load_tiff.h\
 	image-overlay.c	\
 	image-overlay.h	\
 	img-view.c	\
 	img-view.h	\
+	jpeg_parser.c	\
+	jpeg_parser.h	\
 	layout.c	\
 	layout.h	\
 	layout_config.c	\
@@ -201,6 +209,8 @@ geeqie_SOURCES = \
 	pan-view.h	\
 	pixbuf-renderer.c	\
 	pixbuf-renderer.h	\
+	renderer-tiles.c	\
+	renderer-tiles.h	\
 	pixbuf_util.c	\
 	pixbuf_util.h	\
 	preferences.c	\
@@ -246,7 +256,7 @@ geeqie_SOURCES = \
 	window.h	\
 	lua.c
 
-geeqie_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(INTLLIBS) $(LCMS_LIBS) $(EXIV2_LIBS) $(LIBCHAMPLAIN_LIBS) $(LIBCHAMPLAIN_GTK_LIBS) $(LUA_LIBS)
+geeqie_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(INTLLIBS) $(JPEG_LIBS) $(TIFF_LIBS) $(LCMS_LIBS) $(EXIV2_LIBS) $(LIBCHAMPLAIN_LIBS) $(LIBCHAMPLAIN_GTK_LIBS) $(LUA_LIBS)
 
 EXTRA_DIST = \
 	$(extra_SLIK)

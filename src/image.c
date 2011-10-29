@@ -1105,7 +1105,7 @@ GdkPixbuf *image_get_pixbuf(ImageWindow *imd)
 
 void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboolean lazy)
 {
-
+	StereoPixbufData stereo_data = STEREO_PIXBUF_DEFAULT;
 	/* read_exif and similar functions can actually notice that the file has changed and trigger
 	   a notification that removes the pixbuf from cache and unrefs it. Therefore we must ref it
 	   here before it is taken over by the renderer. */
@@ -1124,6 +1124,15 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboo
 			}
 		}
 
+	if (pixbuf)
+		{
+		stereo_data = imd->user_stereo;
+		if (stereo_data == STEREO_PIXBUF_DEFAULT)
+			{
+			stereo_data = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pixbuf), "stereo_data"));
+			}
+		}
+
 	pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, NULL, NULL, FALSE);
 	if (imd->cm)
 		{
@@ -1133,12 +1142,13 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboo
 
 	if (lazy)
 		{
-		pixbuf_renderer_set_pixbuf_lazy((PixbufRenderer *)imd->pr, pixbuf, zoom, imd->orientation);
+		pixbuf_renderer_set_pixbuf_lazy((PixbufRenderer *)imd->pr, pixbuf, zoom, imd->orientation, stereo_data);
 		}
 	else
 		{
 		pixbuf_renderer_set_pixbuf((PixbufRenderer *)imd->pr, pixbuf, zoom);
 		pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, imd->orientation);
+		pixbuf_renderer_set_stereo_data((PixbufRenderer *)imd->pr, stereo_data);
 		}
 
 	if (pixbuf) g_object_unref(pixbuf);
@@ -1263,6 +1273,8 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 	imd->orientation = source->orientation;
 	imd->desaturate = source->desaturate;
 
+	imd->user_stereo = source->user_stereo;
+
 	pixbuf_renderer_move(PIXBUF_RENDERER(imd->pr), PIXBUF_RENDERER(source->pr));
 
 	if (imd->cm || imd->desaturate)
@@ -1340,11 +1352,11 @@ void image_zoom_set_fill_geometry(ImageWindow *imd, gboolean vertical)
 
 	if (vertical)
 		{
-		zoom = (gdouble)pr->window_height / height;
+		zoom = (gdouble)pr->viewport_height / height;
 		}
 	else
 		{
-		zoom = (gdouble)pr->window_width / width;
+		zoom = (gdouble)pr->viewport_width / width;
 		}
 
 	if (zoom < 1.0)
@@ -1422,6 +1434,36 @@ gdouble image_zoom_get_default(ImageWindow *imd)
 	}
 
 	return zoom;
+}
+
+/* stereo */
+gint image_stereo_get(ImageWindow *imd)
+{
+	return pixbuf_renderer_stereo_get((PixbufRenderer *)imd->pr);
+}
+
+void image_stereo_set(ImageWindow *imd, gint stereo_mode)
+{
+	DEBUG_1("Setting stereo mode %04x for imd %p", stereo_mode, imd);  
+	pixbuf_renderer_stereo_set((PixbufRenderer *)imd->pr, stereo_mode);
+}
+
+void image_stereo_swap(ImageWindow *imd)
+{
+	gint stereo_mode = pixbuf_renderer_stereo_get((PixbufRenderer *)imd->pr);
+	stereo_mode ^= PR_STEREO_SWAP;
+	pixbuf_renderer_stereo_set((PixbufRenderer *)imd->pr, stereo_mode);
+}
+
+StereoPixbufData image_stereo_pixbuf_get(ImageWindow *imd)
+{
+	return imd->user_stereo;
+}
+
+void image_stereo_pixbuf_set(ImageWindow *imd, StereoPixbufData stereo_mode)
+{
+	imd->user_stereo = stereo_mode;
+	image_reload(imd);
 }
 
 /* read ahead */
@@ -1671,6 +1713,12 @@ static void image_options_set(ImageWindow *imd)
 					NULL);
 
 	pixbuf_renderer_set_parent((PixbufRenderer *)imd->pr, (GtkWindow *)imd->top_window);
+	
+	image_stereo_set(imd, options->stereo.mode);
+	pixbuf_renderer_stereo_fixed_set((PixbufRenderer *)imd->pr, 
+					options->stereo.fixed_w, options->stereo.fixed_h, 
+					options->stereo.fixed_x1, options->stereo.fixed_y1,
+					options->stereo.fixed_x2, options->stereo.fixed_y2);
 }
 
 void image_options_sync(void)

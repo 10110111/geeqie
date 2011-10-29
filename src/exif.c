@@ -73,6 +73,7 @@
 
 #include "main.h"
 #include "exif-int.h"
+#include "jpeg_parser.h"
 
 #include "format_raw.h"
 #include "ui_fileops.h"
@@ -1086,7 +1087,7 @@ static gint exif_jpeg_parse(ExifData *exif,
 		return -2;
 		}
 
-	if (exif_jpeg_segment_find(data, size, JPEG_MARKER_APP1,
+	if (jpeg_segment_find(data, size, JPEG_MARKER_APP1,
 				   "Exif\x00\x00", 6,
 				   &seg_offset, &seg_length))
 		{

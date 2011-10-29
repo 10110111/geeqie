@@ -135,6 +135,7 @@ static GList *editor_mime_types_to_extensions(gchar **mime_types)
 		{"image/x-xcf",		".xcf"},
 		{"image/x-xpixmap",	".xpm"},
 		{"image/x-x3f",		".x3f"},
+		{"application/x-ptoptimizer-script",	".pto"},
 		{NULL, NULL}};
 	
 	gint i, j;

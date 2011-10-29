@@ -27,7 +27,7 @@
 
 
 static void thumb_loader_error_cb(ImageLoader *il, gpointer data);
-static void thumb_loader_setup(ThumbLoader *tl, const gchar *path);
+static void thumb_loader_setup(ThumbLoader *tl, FileData *fd);
 
 static GdkPixbuf *get_xv_thumbnail(gchar *thumb_filename, gint max_w, gint max_h);
 
@@ -161,7 +161,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 		DEBUG_1("thumbnail size mismatch, regenerating: %s", tl->fd->path);
 		tl->cache_hit = FALSE;
 
-		thumb_loader_setup(tl, tl->fd->path);
+		thumb_loader_setup(tl, tl->fd);
 	
 		g_signal_connect(G_OBJECT(tl->il), "done", (GCallback)thumb_loader_done_cb, tl);
 
@@ -262,12 +262,10 @@ static void thumb_loader_delay_done(ThumbLoader *tl)
 	if (!tl->idle_done_id) tl->idle_done_id = g_idle_add(thumb_loader_done_delay_cb, tl);
 }
 
-static void thumb_loader_setup(ThumbLoader *tl, const gchar *path)
+static void thumb_loader_setup(ThumbLoader *tl, FileData *fd)
 {
-	FileData *fd = file_data_new_simple(path);
 	image_loader_free(tl->il);
 	tl->il = image_loader_new(fd);
-	file_data_unref(fd);
 	image_loader_set_priority(tl->il, G_PRIORITY_LOW);
 
 	/* this will speed up jpegs by up to 3x in some cases */
@@ -377,13 +375,15 @@ gboolean thumb_loader_start(ThumbLoader *tl, FileData *fd)
 
 	if (cache_path)
 		{
-		thumb_loader_setup(tl, cache_path);
+		FileData *fd = file_data_new_no_grouping(cache_path);
+		thumb_loader_setup(tl, fd);
+		file_data_unref(fd);
 		g_free(cache_path);
 		tl->cache_hit = TRUE;
 		}
 	else
 		{
-		thumb_loader_setup(tl, tl->fd->path);
+		thumb_loader_setup(tl, tl->fd);
 		}
 
 	g_signal_connect(G_OBJECT(tl->il), "done", (GCallback)thumb_loader_done_cb, tl);
@@ -395,7 +395,7 @@ gboolean thumb_loader_start(ThumbLoader *tl, FileData *fd)
 			tl->cache_hit = FALSE;
 			log_printf("%s", _("Thumbnail image in cache failed to load, trying to recreate.\n"));
 
-			thumb_loader_setup(tl, tl->fd->path);
+			thumb_loader_setup(tl, tl->fd);
 			g_signal_connect(G_OBJECT(tl->il), "done", (GCallback)thumb_loader_done_cb, tl);
 			if (image_loader_start(tl->il)) return TRUE;
 			}

@@ -37,6 +37,7 @@ void filter_reset(void);
 void filter_rebuild(void);
 GList *filter_to_list(const gchar *extensions);
 
+const gchar *registered_extension_from_path(const gchar *name);
 gboolean filter_name_exists(const gchar *name);
 gboolean filter_file_class(const gchar *name, FileFormatClass file_class);
 gboolean filter_name_is_writable(const gchar *name);

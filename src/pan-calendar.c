@@ -333,7 +333,7 @@ void pan_calendar_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 			 */
 
 			g_snprintf(fake_path, sizeof(fake_path), "//%04d-%02d-%02d", year, month, day);
-			fd = file_data_new_simple(fake_path);
+			fd = file_data_new_no_grouping(fake_path);
 			fd->date = dt;
 			pi_day = pan_item_box_new(pw, fd, x, y, PAN_CAL_DAY_WIDTH, PAN_CAL_DAY_HEIGHT,
 						  PAN_CAL_DAY_BORDER,

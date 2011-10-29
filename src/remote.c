@@ -411,7 +411,7 @@ static void gr_fullscreen_stop(const gchar *text, GIOChannel *channel, gpointer 
 static void gr_slideshow_start_rec(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	GList *list;
-	FileData *dir_fd = file_data_new_simple(text);
+	FileData *dir_fd = file_data_new_dir(text);
 	list = filelist_recursive(dir_fd);
 	file_data_unref(dir_fd);
 	if (!list) return;
@@ -532,7 +532,7 @@ static void gr_config_load(const gchar *text, GIOChannel *channel, gpointer data
 static void gr_get_sidecars(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *filename = expand_tilde(text);
-	FileData *fd = file_data_new_simple(filename);
+	FileData *fd = file_data_new_group(filename);
 	
 	GList *work;
 	if (fd->parent) fd = fd->parent;
@@ -555,7 +555,7 @@ static void gr_get_sidecars(const gchar *text, GIOChannel *channel, gpointer dat
 static void gr_get_destination(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *filename = expand_tilde(text);
-	FileData *fd = file_data_new_simple(filename);
+	FileData *fd = file_data_new_group(filename);
 	
 	if (fd->change && fd->change->dest)
 		{
@@ -569,7 +569,7 @@ static void gr_file_view(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *filename = expand_tilde(text);
 
-	view_window_new(file_data_new_simple(filename));
+	view_window_new(file_data_new_group(filename));
 	g_free(filename);
 }
 
@@ -607,7 +607,7 @@ static void gr_list_add(const gchar *text, GIOChannel *channel, gpointer data)
 		new = (!collection_get_first(remote_data->command_collection));
 		}
 
-	if (collection_add(remote_data->command_collection, file_data_new_simple(text), FALSE) && new)
+	if (collection_add(remote_data->command_collection, file_data_new_group(text), FALSE) && new)
 		{
 		layout_image_set_collection(NULL, remote_data->command_collection,
 					    collection_get_first(remote_data->command_collection));
@@ -736,6 +736,7 @@ void remote_help(void)
 			}
 		i++;
 		}
+	printf_term(N_("\n  All other command line parameters are used as plain files if they exists.\n"));
 }
 
 GList *remote_build_list(GList *list, gint argc, gchar *argv[], GList **errors)
@@ -752,7 +753,7 @@ GList *remote_build_list(GList *list, gint argc, gchar *argv[], GList **errors)
 			{
 			list = g_list_append(list, argv[i]);
 			}
-		else if (errors)
+		else if (errors && !isfile(argv[i]))
 			{
 			*errors = g_list_append(*errors, argv[i]);
 			}
@@ -762,6 +763,13 @@ GList *remote_build_list(GList *list, gint argc, gchar *argv[], GList **errors)
 	return list;
 }
 
+/**
+ * \param arg_exec Binary (argv0)
+ * \param remote_list Evaluated and recognized remote commands
+ * \param path The current path
+ * \param cmd_list List of all non collections in Path
+ * \param collection_list List of all collections in argv
+ */
 void remote_control(const gchar *arg_exec, GList *remote_list, const gchar *path,
 		    GList *cmd_list, GList *collection_list)
 {

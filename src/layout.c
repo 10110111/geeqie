@@ -851,7 +851,7 @@ gboolean layout_set_path(LayoutWindow *lw, const gchar *path)
 
 	if (!path) return FALSE;
 	
-	fd = file_data_new_simple(path);
+	fd = file_data_new_group(path);
 	ret = layout_set_fd(lw, fd);
 	file_data_unref(fd);
 	return ret;
@@ -898,7 +898,7 @@ gboolean layout_set_fd(LayoutWindow *lw, FileData *fd)
 				file_data_unregister_real_time_monitor(lw->dir_fd);
 				file_data_unref(lw->dir_fd);
 				}
-			lw->dir_fd = file_data_new_simple(base);
+			lw->dir_fd = file_data_new_dir(base);
 			file_data_register_real_time_monitor(lw->dir_fd);
 			g_free(base);
 			}

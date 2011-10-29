@@ -291,7 +291,7 @@ void cache_maintain_home(gboolean metadata, gboolean clear, GtkWidget *parent)
 		cache_folder = get_thumbnails_cache_dir();
 		}
 
-	dir_fd = file_data_new_simple(cache_folder);
+	dir_fd = file_data_new_dir(cache_folder);
 	if (!filelist_read(dir_fd, NULL, &dlist))
 		{
 		file_data_unref(dir_fd);
@@ -370,7 +370,7 @@ gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear)
 
 	base_length = strlen(homedir()) + strlen("/") + strlen(GQ_CACHE_RC_THUMB);
 	base = g_strconcat(homedir(), "/", GQ_CACHE_RC_THUMB, dir, NULL);
-	dir_fd = file_data_new_simple(base);
+	dir_fd = file_data_new_dir(base);
 	g_free(base);
 
 	if (filelist_read(dir_fd, &flist, &dlist))
@@ -442,7 +442,7 @@ gint cache_maintain_dir(FileData *dir_fd, gint recursive, gint clear)
 	GList *work;
 
 	cachedir = g_build_filename(dir, GQ_CACHE_LOCAL_THUMB, NULL);
-	cachedir_fd = file_data_new_simple(cachedir);
+	cachedir_fd = file_data_new_dir(cachedir);
 	g_free(cachedir);
 
 	filelist_read(cachedir_fd, &list, NULL);
@@ -856,7 +856,7 @@ static void cache_manager_render_start_cb(GenericDialog *fd, gpointer data)
 
 		spinner_set_interval(cd->spinner, SPINNER_SPEED);
 
-		dir_fd = file_data_new_simple(path);
+		dir_fd = file_data_new_dir(path);
 		cache_manager_render_folder(cd, dir_fd);
 		file_data_unref(dir_fd);
 		while (cache_manager_render_file(cd));
@@ -1062,21 +1062,21 @@ static void cache_manager_standard_clean_start_cb(GenericDialog *gd, gpointer da
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(cd->progress), _("running..."));
 
 	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_NORMAL, NULL);
-	dir_fd = file_data_new_simple(path);
+	dir_fd = file_data_new_dir(path);
 	filelist_read(dir_fd, &list, NULL);
 	cd->list = list;
 	file_data_unref(dir_fd);
 	g_free(path);
 
 	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_LARGE, NULL);
-	dir_fd = file_data_new_simple(path);
+	dir_fd = file_data_new_dir(path);
 	filelist_read(dir_fd, &list, NULL);
 	cd->list = g_list_concat(cd->list, list);
 	file_data_unref(dir_fd);
 	g_free(path);
 
 	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_FAIL, NULL);
-	dir_fd = file_data_new_simple(path);
+	dir_fd = file_data_new_dir(path);
 	filelist_read(dir_fd, &list, NULL);
 	cd->list = g_list_concat(cd->list, list);
 	file_data_unref(dir_fd);

@@ -66,7 +66,6 @@
 
 static void thumb_loader_std_error_cb(ImageLoader *il, gpointer data);
 static gint thumb_loader_std_setup(ThumbLoaderStd *tl, FileData *fd);
-static gint thumb_loader_std_setup_path(ThumbLoaderStd *tl, const gchar *path);
 
 
 ThumbLoaderStd *thumb_loader_std_new(gint width, gint height)
@@ -514,10 +513,16 @@ static gboolean thumb_loader_std_next_source(ThumbLoaderStd *tl, gboolean remove
 		if (!tl->thumb_path_local)
 			{
 			tl->thumb_path = thumb_loader_std_cache_path(tl, TRUE, NULL, FALSE);
-			if (isfile(tl->thumb_path) && thumb_loader_std_setup_path(tl, tl->thumb_path))
+			if (isfile(tl->thumb_path))
 				{
-				tl->thumb_path_local = TRUE;
-				return TRUE;
+				FileData *fd = file_data_new_no_grouping(tl->thumb_path);
+				if (thumb_loader_std_setup(tl, fd))
+					{
+					file_data_unref(fd);
+					tl->thumb_path_local = TRUE;
+					return TRUE;
+					}
+				file_data_unref(fd);
 				}
 
 			g_free(tl->thumb_path);
@@ -629,14 +634,6 @@ static gboolean thumb_loader_std_setup(ThumbLoaderStd *tl, FileData *fd)
 	return FALSE;
 }
 
-static gboolean thumb_loader_std_setup_path(ThumbLoaderStd *tl, const gchar *path)
-{
-	FileData *fd = file_data_new_simple(path);
-	gboolean ret = thumb_loader_std_setup(tl, fd);
-	file_data_unref(fd);
-	return ret;
-}
-
 /*
  * Note: Currently local_cache only specifies where to save a _new_ thumb, if
  *       a valid existing thumb is found anywhere the local thumb will not be created.
@@ -689,7 +686,16 @@ gboolean thumb_loader_std_start(ThumbLoaderStd *tl, FileData *fd)
 		tl->thumb_path_local = FALSE;
 
 		found = isfile(tl->thumb_path);
-		if (found && thumb_loader_std_setup_path(tl, tl->thumb_path)) return TRUE;
+		if (found)
+			{
+			FileData *fd = file_data_new_no_grouping(tl->thumb_path);
+			if (thumb_loader_std_setup(tl, fd))
+				{
+				file_data_unref(fd);
+				return TRUE;
+				}
+			file_data_unref(fd);
+			}
 
 		if (thumb_loader_std_fail_check(tl) ||
 		    !thumb_loader_std_next_source(tl, found))
@@ -876,7 +882,8 @@ ThumbLoaderStd *thumb_loader_std_thumb_file_validate(const gchar *thumb_path, gi
 	tv->func_valid = func_valid;
 	tv->data = data;
 
-	if (!thumb_loader_std_setup_path(tv->tl, thumb_path))
+	FileData *fd = file_data_new_no_grouping(thumb_path);
+	if (!thumb_loader_std_setup(tv->tl, fd))
 		{
 		tv->idle_id = g_idle_add(thumb_loader_std_thumb_file_validate_idle_cb, tv);
 		}
@@ -885,6 +892,7 @@ ThumbLoaderStd *thumb_loader_std_thumb_file_validate(const gchar *thumb_path, gi
 		tv->idle_id = 0;
 		}
 
+	file_data_unref(fd);
 	return tv->tl;
 }
 
@@ -974,9 +982,8 @@ static void thumb_std_maint_move_validate_cb(const gchar *path, gboolean valid, 
 			tm->tl->cache_enable = TRUE;
 			tm->tl->cache_hit = FALSE;
 			tm->tl->cache_local = FALSE;
-
 			file_data_unref(tm->tl->fd);
-			tm->tl->fd = file_data_new_simple(tm->dest);
+			tm->tl->fd = file_data_new_group(tm->dest);
 			tm->tl->source_mtime = strtol(mtime_str, NULL, 10);
 
 			pathl = path_from_utf8(tm->tl->fd->path);

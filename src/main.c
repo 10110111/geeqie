@@ -126,7 +126,7 @@ static void parse_command_line_add_file(const gchar *file_path, gchar **path, gc
 		{
 		if (!*path) *path = remove_level_from_path(path_parsed);
 		if (!*file) *file = g_strdup(path_parsed);
-		*list = g_list_prepend(*list, file_data_new_simple(path_parsed));
+		*list = g_list_prepend(*list, file_data_new_group(path_parsed));
 		}
 }
 
@@ -142,7 +142,7 @@ static void parse_command_line_add_dir(const gchar *dir, gchar **path, gchar **f
 
 	path_parsed = g_strdup(dir);
 	parse_out_relatives(path_parsed);
-	dir_fd = file_data_new_simple(path_parsed);
+	dir_fd = file_data_new_dir(path_parsed);
 	
 
 	if (filelist_read(dir_fd, &files, NULL))
@@ -741,6 +741,8 @@ gint main(gint argc, gchar *argv[])
 	g_thread_init(NULL);
 	gdk_threads_init();
 	gdk_threads_enter();
+	debug_mutex = g_mutex_new();
+
 #endif
 	
 	/* init execution time counter (debug only) */
