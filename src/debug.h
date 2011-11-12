@@ -17,9 +17,7 @@
 #define DOMAIN_DEBUG "debug"
 #define DOMAIN_INFO  "info"
 
-extern GMutex *debug_mutex;
-
-gint log_domain_printf(const gchar *domain, const gchar *format, ...) G_GNUC_PRINTF(2, 3);
+void log_domain_printf(const gchar *domain, const gchar *format, ...) G_GNUC_PRINTF(2, 3);
 #define log_printf(...) log_domain_printf(DOMAIN_INFO, __VA_ARGS__)
 
 #ifdef DEBUG
@@ -39,11 +37,9 @@ void init_exec_time(void);
 				gint debug_level = get_debug_level(); \
 				if (debug_level >= (n)) 	\
 					{ 		\
-					g_mutex_lock(debug_mutex); \
 					if (debug_level != 1) log_domain_printf(DOMAIN_DEBUG, "%s:%d: ", __FILE__, __LINE__); \
 					log_domain_printf(DOMAIN_DEBUG, __VA_ARGS__); \
 					log_domain_printf(DOMAIN_DEBUG, "\n"); \
-					g_mutex_unlock(debug_mutex); \
 					} \
 				} while (0)
 
