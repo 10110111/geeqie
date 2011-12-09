@@ -17,30 +17,42 @@
 
 #include <glib/gprintf.h>
 
-GMutex *debug_mutex;
 /*
  * Logging functions
  */
 
-gint log_domain_printf(const gchar *domain, const gchar *format, ...)
+static gboolean log_msg_cb(gpointer data)
+{
+	gchar *buf = data;
+	log_window_append(buf, LOG_MSG);
+	g_free(buf);
+	return FALSE;
+}
+
+static gboolean log_normal_cb(gpointer data)
+{
+	gchar *buf = data;
+	log_window_append(buf, LOG_NORMAL);
+	g_free(buf);
+	return FALSE;
+}
+
+void log_domain_printf(const gchar *domain, const gchar *format, ...)
 {
 	va_list ap;
-	gchar buf[4096];
-	gint ret;
+	gchar *buf;
 
 	va_start(ap, format);
-	ret = g_vsnprintf(buf, sizeof(buf), format, ap);
+	buf = g_strdup_vprintf(format, ap);
 	va_end(ap);
 
 	print_term(buf);
 	if (strcmp(domain, DOMAIN_INFO) == 0)
-		log_window_append(buf, LOG_NORMAL);
+		g_idle_add(log_normal_cb, buf);
 	else
-		log_window_append(buf, LOG_MSG);
+		g_idle_add(log_msg_cb, buf);
 
-	return ret;
 }
-
 
 /*
  * Debugging only functions
