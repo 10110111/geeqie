@@ -741,7 +741,6 @@ gint main(gint argc, gchar *argv[])
 	g_thread_init(NULL);
 	gdk_threads_init();
 	gdk_threads_enter();
-	debug_mutex = g_mutex_new();
 
 #endif
 	

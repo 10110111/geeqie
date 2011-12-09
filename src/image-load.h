@@ -66,6 +66,10 @@ struct _ImageLoader
 
 	gint requested_width;
 	gint requested_height;
+
+	gint actual_width;
+	gint actual_height;
+
 	gboolean shrunk;
 
 	gboolean done;

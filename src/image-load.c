@@ -92,6 +92,8 @@ static void image_loader_init(GTypeInstance *instance, gpointer g_class)
 
 	il->requested_width = 0;
 	il->requested_height = 0;
+	il->actual_width = 0;
+	il->actual_height = 0;
 	il->shrunk = FALSE;
 
 	il->can_destroy = TRUE;
@@ -280,6 +282,19 @@ static gboolean image_loader_emit_percent_cb(gpointer data)
 	return FALSE;
 }
 
+static gboolean image_loader_emit_size_cb(gpointer data)
+{
+	gint width, height;
+	ImageLoader *il = data;
+	g_mutex_lock(il->data_mutex);
+	width = il->actual_width;
+	height = il->actual_height;
+	g_mutex_unlock(il->data_mutex);
+	g_signal_emit(il, signals[SIGNAL_SIZE], 0, width, height);
+	return FALSE;
+}
+
+
 /* DONE and ERROR are emited only once, thus they can have normal priority
    PERCENT and AREA_READY should be processed ASAP
 */
@@ -297,6 +312,11 @@ static void image_loader_emit_error(ImageLoader *il)
 static void image_loader_emit_percent(ImageLoader *il)
 {
 	g_idle_add_full(G_PRIORITY_HIGH, image_loader_emit_percent_cb, il, NULL);
+}
+
+static void image_loader_emit_size(ImageLoader *il)
+{
+	g_idle_add_full(G_PRIORITY_HIGH, image_loader_emit_size_cb, il, NULL);
 }
 
 /* this function expects that il->data_mutex is locked by caller */
@@ -444,10 +464,12 @@ static void image_loader_size_cb(gpointer loader,
 	gint n;
 
 	g_mutex_lock(il->data_mutex);
+	il->actual_width = width;
+	il->actual_height = height;
 	if (il->requested_width < 1 || il->requested_height < 1) 
 		{
 		g_mutex_unlock(il->data_mutex);
-		g_signal_emit(il, signals[SIGNAL_SIZE], 0, width, height);
+		image_loader_emit_size(il);
 		return;
 		}
 	g_mutex_unlock(il->data_mutex);
@@ -463,7 +485,7 @@ static void image_loader_size_cb(gpointer loader,
 
 	if (!scale)
 		{
-		g_signal_emit(il, signals[SIGNAL_SIZE], 0, width, height);
+		image_loader_emit_size(il);
 		return;
 		}
 
@@ -486,12 +508,14 @@ static void image_loader_size_cb(gpointer loader,
 			if (nw < 1) nw = 1;
 			}
 
+		il->actual_width = nw;
+		il->actual_height = nh;
 		il->backend.set_size(loader, nw, nh);
 		il->shrunk = TRUE;
 		}
-	g_mutex_unlock(il->data_mutex);
 
-	g_signal_emit(il, signals[SIGNAL_SIZE], 0, nw, nh);
+	g_mutex_unlock(il->data_mutex);
+	image_loader_emit_size(il);
 }
 
 static void image_loader_stop_loader(ImageLoader *il)
