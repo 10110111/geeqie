@@ -2368,7 +2368,7 @@ static void pr_create_anaglyph_dubois(GdkPixbuf *pixbuf, GdkPixbuf *right, gint 
 			double res[3];
 			for (k = 0; k < 3; k++) 
 				{
-				double *m = pr_dubois_matrix[k];
+				const double *m = pr_dubois_matrix[k];
 				res[k] = sp[0] * m[0] + sp[1] * m[1] + sp[2] * m[2] + dp[0] * m[3] + dp[1] * m[4] + dp[2] * m[5];
 				if (res[k] < 0.0) res[k] = 0;
 				if (res[k] > 255.0) res[k] = 255.0;
