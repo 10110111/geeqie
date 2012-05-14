@@ -31,7 +31,7 @@
        NNN.: the data in this segment
  */
 
-gboolean jpeg_segment_find(guchar *data, guint size,
+gboolean jpeg_segment_find(const guchar *data, guint size,
 			    guchar app_marker, const gchar *magic, guint magic_len,
 			    guint *seg_offset, guint *seg_length);
 
@@ -76,7 +76,7 @@ struct _MPOData {
 	MPOEntry *images;
 };
 
-MPOData* jpeg_get_mpo_data(guchar *data, guint size);
+MPOData* jpeg_get_mpo_data(const guchar *data, guint size);
 void jpeg_mpo_data_free(MPOData *mpo);
 
 #endif

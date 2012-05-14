@@ -13,7 +13,7 @@
 #include "main.h" 
 #include "jpeg_parser.h"
 
-gboolean jpeg_segment_find(guchar *data, guint size,
+gboolean jpeg_segment_find(const guchar *data, guint size,
 			    guchar app_marker, const gchar *magic, guint magic_len,
 			    guint *seg_offset, guint *seg_length)
 {
@@ -64,7 +64,7 @@ typedef enum {
 
 
 
-guint16 tiff_byte_get_int16(guchar *f, TiffByteOrder bo)
+guint16 tiff_byte_get_int16(const guchar *f, TiffByteOrder bo)
 {
 	guint16 align_buf;
 
@@ -76,7 +76,7 @@ guint16 tiff_byte_get_int16(guchar *f, TiffByteOrder bo)
 		return GUINT16_FROM_BE(align_buf);
 }
 
-guint32 tiff_byte_get_int32(guchar *f, TiffByteOrder bo)
+guint32 tiff_byte_get_int32(const guchar *f, TiffByteOrder bo)
 {
 	guint32 align_buf;
 
@@ -120,7 +120,7 @@ void tiff_byte_put_int32(guchar *f, guint32 n, TiffByteOrder bo)
 	memcpy(f, &align_buf, sizeof(guint32));
 }
 
-gint tiff_directory_offset(guchar *data, const guint len,
+gint tiff_directory_offset(const guchar *data, const guint len,
 				guint *offset, TiffByteOrder *bo)
 {
 	if (len < 8) return FALSE;
@@ -148,12 +148,12 @@ gint tiff_directory_offset(guchar *data, const guint len,
 	return (*offset < len);
 }
 
-typedef gint (* FuncParseIFDEntry)(guchar *tiff, guint offset,
+typedef gint (* FuncParseIFDEntry)(const guchar *tiff, guint offset,
 				 guint size, TiffByteOrder bo,
 				 gpointer data);
 
 
-gint tiff_parse_IFD_table(guchar *tiff, guint offset,
+gint tiff_parse_IFD_table(const guchar *tiff, guint offset,
 			  guint size, TiffByteOrder bo,
 			  guint *next_offset,
 			  FuncParseIFDEntry parse_entry, gpointer data)
@@ -182,7 +182,7 @@ gint tiff_parse_IFD_table(guchar *tiff, guint offset,
 	return 0;
 }
 
-static gint mpo_parse_Index_IFD_entry(guchar *tiff, guint offset,
+static gint mpo_parse_Index_IFD_entry(const guchar *tiff, guint offset,
 				 guint size, TiffByteOrder bo,
 				 gpointer data)
 {
@@ -254,7 +254,7 @@ static gint mpo_parse_Index_IFD_entry(guchar *tiff, guint offset,
 	return 0;
 }
 
-static gint mpo_parse_Attributes_IFD_entry(guchar *tiff, guint offset,
+static gint mpo_parse_Attributes_IFD_entry(const guchar *tiff, guint offset,
 				 guint size, TiffByteOrder bo,
 				 gpointer data)
 {
@@ -310,7 +310,7 @@ Roll Angle RollAngle 45581 B20D
 	return 0;
 }
 
-MPOData *jpeg_get_mpo_data(guchar *data, guint size)
+MPOData *jpeg_get_mpo_data(const guchar *data, guint size)
 {
 	guint seg_offset;
 	guint seg_size;
