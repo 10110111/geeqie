@@ -285,6 +285,7 @@ static void config_window_apply(void)
 		
 	options->update_on_time_change = c_options->update_on_time_change;
 	options->image.exif_rotate_enable = c_options->image.exif_rotate_enable;
+	options->image.exif_proof_rotate_enable = c_options->image.exif_proof_rotate_enable;
 
 	options->duplicates_similarity_threshold = c_options->duplicates_similarity_threshold;
 
@@ -1420,6 +1421,9 @@ static void config_tab_image(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Auto rotate image using Exif information"),
 			      options->image.exif_rotate_enable, &c_options->image.exif_rotate_enable);
+
+	pref_checkbox_new_int(group, _("Auto rotate proofs using Exif information"),
+			      options->image.exif_proof_rotate_enable, &c_options->image.exif_proof_rotate_enable);
 }
 
 /* windows tab */
