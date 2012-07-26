@@ -801,6 +801,10 @@ gint main(gint argc, gchar *argv[])
 	DEBUG_1("%s main: pixbuf_inline_register_stock_icons", get_exec_time());	 
 	pixbuf_inline_register_stock_icons();
 
+	DEBUG_1("%s main: setting default options before commandline handling", get_exec_time());	 
+	options = init_options(NULL);
+	setup_default_options(options);
+
 	DEBUG_1("%s main: parse_command_line", get_exec_time());	 
 	parse_command_line(argc, argv);
 
@@ -818,8 +822,6 @@ gint main(gint argc, gchar *argv[])
 
 	/* restore session from the config file */
 
-	options = init_options(NULL);
-	setup_default_options(options);
 
 	DEBUG_1("%s main: load_options", get_exec_time());	 
 	if (!load_options(options))
