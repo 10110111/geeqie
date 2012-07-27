@@ -2116,7 +2116,7 @@ gint file_data_verify_ci(FileData *fd)
 			}
 		else if (!access_file(dest_dir, W_OK))
 			{
-			ret |= CHANGE_NO_WRITE_PERM_DEST_DIR;
+			ret |= CHANGE_WARN_NO_WRITE_PERM_DEST_DIR;
 			DEBUG_1("Change checked: destination dir is readonly: %s -> %s", fd->path, fd->change->dest);
 			}
 		else if (!same)
@@ -2193,7 +2193,7 @@ gchar *file_data_get_error_string(gint error)
 		g_string_append(result, _("destination can't be overwritten"));
 		}
 
-	if (error & CHANGE_NO_WRITE_PERM_DEST_DIR)
+	if (error & CHANGE_WARN_NO_WRITE_PERM_DEST_DIR)
 		{
 		if (result->len > 0) g_string_append(result, ", ");
 		g_string_append(result, _("destination directory is not writable"));
