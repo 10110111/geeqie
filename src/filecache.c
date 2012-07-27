@@ -32,6 +32,7 @@ struct _FileCacheEntry {
 };
 
 static void file_cache_notify_cb(FileData *fd, NotifyType type, gpointer data);
+static void file_cache_remove_fd(FileCacheData *fc, FileData *fd);
 
 FileCacheData *file_cache_new(FileCacheReleaseFunc release, gulong max_size)
 {
@@ -67,9 +68,11 @@ gboolean file_cache_get(FileCacheData *fc, FileData *fd)
 			fc->list = g_list_remove_link(fc->list, work);
 			fc->list = g_list_concat(work, fc->list);
 			
-			if (file_data_check_changed_files(fd)) /* this will eventually remove changed files from cache via file_cache_notify_cb */
+			if (file_data_check_changed_files(fd)) {
+				/* file has been changed, cance entry is no longer valid */
+				file_cache_remove_fd(fc, fd); 
 				return FALSE;
-				
+			}
 			if (debug_file_cache) file_cache_dump(fc);
 			return TRUE;
 			}
