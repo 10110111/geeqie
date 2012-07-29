@@ -1709,6 +1709,7 @@ void layout_image_activate(LayoutWindow *lw, gint i, gboolean force)
 //		layout_list_sync_path(lw, path);
 		layout_set_fd(lw, fd);
 		}
+	layout_status_update_image(lw);
 }
 
 
