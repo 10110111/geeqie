@@ -475,6 +475,7 @@ gboolean vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gboolean f
 			DEBUG_1("Too frequent update of %s", nd->fd->path);
 			return TRUE;
 			}
+		file_data_check_changed_files(nd->fd); /* make sure we have recent info */
 		if (nd->fd->version == nd->version) return TRUE;
 		}
 
