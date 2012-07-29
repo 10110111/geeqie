@@ -484,6 +484,7 @@ void layout_status_update_image(LayoutWindow *lw)
 	guint64 n;
 	
 	if (!layout_valid(&lw) || !lw->image) return;
+	if (!lw->info_zoom || !lw->info_details) return; /*called from layout_style_set */
 
 	n = layout_list_count(lw, NULL);
 	
