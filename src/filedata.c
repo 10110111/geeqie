@@ -247,19 +247,22 @@ gboolean file_data_check_changed_files(FileData *fd)
 static void file_data_set_collate_keys(FileData *fd)
 {
 	gchar *caseless_name;
+	gchar *valid_name;
 
-	caseless_name = g_utf8_casefold(fd->name, -1);
+	valid_name = g_filename_display_name(fd->name);
+	caseless_name = g_utf8_casefold(valid_name, -1);
 
 	g_free(fd->collate_key_name);
 	g_free(fd->collate_key_name_nocase);
 
 #if 0 && GLIB_CHECK_VERSION(2, 8, 0)
-	fd->collate_key_name = g_utf8_collate_key_for_filename(fd->name, -1);
+	fd->collate_key_name = g_utf8_collate_key_for_filename(valid_name, -1);
 	fd->collate_key_name_nocase = g_utf8_collate_key_for_filename(caseless_name, -1);
 #else
-	fd->collate_key_name = g_utf8_collate_key(fd->name, -1);
+	fd->collate_key_name = g_utf8_collate_key(valid_name, -1);
 	fd->collate_key_name_nocase = g_utf8_collate_key(caseless_name, -1);
 #endif
+	g_free(valid_name);
 	g_free(caseless_name);
 }
 
