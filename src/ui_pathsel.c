@@ -360,8 +360,7 @@ static void dest_dnd_set_data(GtkWidget *view,
 
 	if (!uri_text) return;
 
-	gtk_selection_data_set(selection_data, selection_data->target,
-			       8, (guchar *)uri_text, length);
+	gtk_selection_data_set_text(selection_data, uri_text, length);
 	g_free(uri_text);
 }
 
@@ -905,7 +904,7 @@ static void dest_filter_list_sync(Dest_Data *dd)
 
 	if (!dd->filter_list || !dd->filter_combo) return;
 
-	entry = GTK_BIN(dd->filter_combo)->child;
+	entry = gtk_bin_get_child(GTK_BIN(dd->filter_combo));
 	old_text = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry)));
 
 	store = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(dd->filter_combo)));
@@ -972,7 +971,7 @@ static void dest_filter_add(Dest_Data *dd, const gchar *filter, const gchar *des
 		}
 	dd->filter_text_list = uig_list_insert_link(dd->filter_text_list, g_list_last(dd->filter_text_list), buf);
 
-	if (set) gtk_entry_set_text(GTK_ENTRY(GTK_BIN(dd->filter_combo)->child), filter);
+	if (set) gtk_entry_set_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(dd->filter_combo))), filter);
 	dest_filter_list_sync(dd);
 }
 
@@ -994,7 +993,7 @@ static void dest_filter_changed_cb(GtkEditable *editable, gpointer data)
 	const gchar *buf;
 	gchar *path;
 
-	entry = GTK_BIN(dd->filter_combo)->child;
+	entry = gtk_bin_get_child(GTK_BIN(dd->filter_combo));
 	buf = gtk_entry_get_text(GTK_ENTRY(entry));
 
 	g_free(dd->filter);
@@ -1144,8 +1143,7 @@ GtkWidget *path_selection_new_with_files(GtkWidget *entry, const gchar *path,
 
 		store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
 
-		dd->filter_combo = gtk_combo_box_entry_new_with_model(GTK_TREE_MODEL(store),
-								      FILTER_COLUMN_FILTER);
+		dd->filter_combo = gtk_combo_box_new_with_model_and_entry(GTK_TREE_MODEL(store));
 		g_object_unref(store);
 		gtk_cell_layout_clear(GTK_CELL_LAYOUT(dd->filter_combo));
 		renderer = gtk_cell_renderer_text_new();
@@ -1208,7 +1206,7 @@ GtkWidget *path_selection_new_with_files(GtkWidget *entry, const gchar *path,
 		dest_filter_clear(dd);
 		dest_filter_add(dd, filter, filter_desc, TRUE);
 
-		dd->filter = g_strdup(gtk_entry_get_text(GTK_ENTRY(GTK_BIN(dd->filter_combo)->child)));
+		dd->filter = g_strdup(gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(dd->filter_combo)))));
 		}
 
 	if (path && path[0] == G_DIR_SEPARATOR && isdir(path))
@@ -1235,7 +1233,7 @@ GtkWidget *path_selection_new_with_files(GtkWidget *entry, const gchar *path,
 
 	if (dd->filter_combo)
 		{
-		g_signal_connect(G_OBJECT(GTK_BIN(dd->filter_combo)->child), "changed",
+		g_signal_connect(G_OBJECT(gtk_bin_get_child(GTK_BIN(dd->filter_combo))), "changed",
 				 G_CALLBACK(dest_filter_changed_cb), dd);
 		}
 	g_signal_connect(G_OBJECT(dd->entry), "changed",

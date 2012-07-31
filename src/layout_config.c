@@ -222,7 +222,7 @@ static void layout_config_table_button(GtkWidget *table, LayoutLocation l, const
 
 	button = gtk_button_new_with_label(text);
 	gtk_widget_set_sensitive(button, FALSE);
-	GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(button, FALSE);
 	gtk_table_attach_defaults(GTK_TABLE(table), button, x1, x2, y1, y2);
 	gtk_widget_show(button);
 }

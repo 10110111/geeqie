@@ -744,8 +744,7 @@ static void vd_dnd_get(GtkWidget *widget, GdkDragContext *context,
 		}
 	if (uritext)
 		{
-		gtk_selection_data_set(selection_data, selection_data->target,
-				       8, (guchar *)uritext, length);
+		gtk_selection_data_set_text(selection_data, uritext, length);
 		g_free(uritext);
 		}
 }
@@ -764,7 +763,7 @@ static void vd_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer data
 
 	vd_color_set(vd, vd->click_fd, FALSE);
 
-	if (vd->type == DIRVIEW_LIST && context->action == GDK_ACTION_MOVE)
+	if (vd->type == DIRVIEW_LIST && gdk_drag_context_get_selected_action(context) == GDK_ACTION_MOVE)
 		{
 		vd_refresh(vd);
 		}
@@ -797,7 +796,7 @@ static void vd_dnd_drop_receive(GtkWidget *widget,
 		gint active;
 		gboolean done = FALSE;
 
-		list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
+		list = uri_filelist_from_text((gchar *)gtk_selection_data_get_data(selection_data), TRUE);
 		if (!list) return;
 
 		active = access_file(fd->path, W_OK | X_OK);
@@ -806,13 +805,13 @@ static void vd_dnd_drop_receive(GtkWidget *widget,
 
 		if (active)
 			{
-			if (context->actions == GDK_ACTION_COPY)
+			if (gdk_drag_context_get_actions(context) == GDK_ACTION_COPY)
 				{
 				file_util_copy_simple(list, fd->path, vd->widget);
 				done = TRUE;
 				list = NULL;
 				}
-			else if (context->actions == GDK_ACTION_MOVE)
+			else if (gdk_drag_context_get_actions(context) == GDK_ACTION_MOVE)
 				{
 				file_util_move_simple(list, fd->path, vd->widget);
 				done = TRUE;
@@ -872,9 +871,10 @@ static gboolean vd_auto_scroll_idle_cb(gpointer data)
 		gint x, y;
 		gint w, h;
 
-		window = vd->view->window;
+		window = gtk_widget_get_window(vd->view);
 		gdk_window_get_pointer(window, &x, &y, NULL);
-		gdk_drawable_get_size(window, &w, &h);
+		w = gdk_window_get_width(window);
+		h = gdk_window_get_height(window);
 		if (x >= 0 && x < w && y >= 0 && y < h)
 			{
 			vd_dnd_drop_update(vd, x, y);
@@ -911,7 +911,7 @@ static gboolean vd_dnd_drop_motion(GtkWidget *widget, GdkDragContext *context,
 		}
 	else
 		{
-		gdk_drag_status(context, context->suggested_action, time);
+		gdk_drag_status(context, gdk_drag_context_get_suggested_action(context), time);
 		}
 
 	vd_dnd_drop_update(vd, x, y);

@@ -284,9 +284,9 @@ static void bar_menu_popup(GtkWidget *widget)
 	else
 		{
 		expander = widget;
-		bar = widget->parent;
+		bar = gtk_widget_get_parent(widget);
 		while (bar && !g_object_get_data(G_OBJECT(bar), "bar_data"))
-			bar = bar->parent;
+			bar = gtk_widget_get_parent(bar);
 		if (!bar) return;
 		}
  
@@ -496,7 +496,7 @@ void bar_update_expander(GtkWidget *pane)
 	
 	if (!pd) return;
 
-	expander = pane->parent;
+	expander = gtk_widget_get_parent(pane);
 	
 	gtk_expander_set_expanded(GTK_EXPANDER(expander), pd->expanded);
 }

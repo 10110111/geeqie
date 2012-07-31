@@ -599,12 +599,12 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
 	gtk_box_pack_start(GTK_BOX(sd->vbox), label, FALSE, FALSE, 0);
 	gtk_widget_show(label);
 
-	combo = gtk_combo_box_new_text();
+	combo = gtk_combo_box_text_new();
 	gtk_box_pack_start(GTK_BOX(sd->vbox), combo, FALSE, FALSE, 0);
 	gtk_widget_show(combo);
 
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Folders"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Collections"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Folders"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Collections"));
 
 	g_signal_connect(G_OBJECT(combo), "changed",
 			 G_CALLBACK(bar_sort_mode_cb), sd);

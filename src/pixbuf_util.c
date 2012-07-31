@@ -780,32 +780,36 @@ void pixbuf_draw_layout(GdkPixbuf *pixbuf, PangoLayout *layout, GtkWidget *widge
 			gint x, gint y,
 			guint8 r, guint8 g, guint8 b, guint8 a)
 {
-	GdkPixmap *pixmap;
 	GdkPixbuf *buffer;
 	gint w, h;
 	GdkGC *gc;
 	gint sx, sy;
 	gint dw, dh;
-
-	if (!widget || !widget->window) return;
+	cairo_surface_t *source;
+	cairo_t *cr;
 
 	pango_layout_get_pixel_size(layout, &w, &h);
 	if (w < 1 || h < 1) return;
 
-	pixmap = gdk_pixmap_new(widget->window, w, h, -1);
+	source = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, w, h);
 
-	gc = gdk_gc_new(widget->window);
-	gdk_gc_copy(gc, widget->style->black_gc);
-	gdk_draw_rectangle(pixmap, gc, TRUE, 0, 0, w, h);
-	gdk_gc_copy(gc, widget->style->white_gc);
-	gdk_draw_layout(pixmap, gc, 0, 0, layout);
-	g_object_unref(gc);
+	cr = cairo_create (source);
+	cairo_set_source_rgb(cr, 0, 0, 0);
+	cairo_rectangle (cr, 0, 0, w, h);
+	cairo_fill (cr);
+	cairo_set_source_rgb(cr, 1, 1, 1);
+	pango_cairo_show_layout (cr, layout);
+	cairo_destroy (cr);
 
-	buffer = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, w, h);
-	gdk_pixbuf_get_from_drawable(buffer, pixmap,
-				     gdk_drawable_get_colormap(widget->window),
-				     0, 0, 0, 0, w, h);
-	g_object_unref(pixmap);
+	buffer = gdk_pixbuf_new_from_data (cairo_image_surface_get_data (source),
+	                                   GDK_COLORSPACE_RGB,
+	                                   cairo_image_surface_get_format (source) == CAIRO_FORMAT_ARGB32,
+	                                   8,
+	                                   cairo_image_surface_get_width (source),
+	                                   cairo_image_surface_get_height (source),
+	                                   cairo_image_surface_get_stride (source),
+	                                   NULL,
+	                                   NULL);
 
 	sx = 0;
 	sy = 0;
@@ -834,6 +838,7 @@ void pixbuf_draw_layout(GdkPixbuf *pixbuf, PangoLayout *layout, GtkWidget *widge
 			 r, g, b, a);
 
 	g_object_unref(buffer);
+	cairo_surface_destroy(source);
 }
 
 /*

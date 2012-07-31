@@ -156,17 +156,11 @@ static gboolean bar_pane_histogram_expose_event_cb(GtkWidget *widget, GdkEventEx
 	
 	if (!phd->pixbuf) return TRUE;
 	
-	gdk_draw_pixbuf(widget->window,
-#if GTK_CHECK_VERSION(2,20,0)
-			widget->style->fg_gc[gtk_widget_get_state(widget)],
-#else
-			widget->style->fg_gc[GTK_WIDGET_STATE (widget)],
-#endif
-			phd->pixbuf,
-			0, 0,
-			0, 0,
-			-1, -1,
-			GDK_RGB_DITHER_NORMAL, 0, 0);
+	cairo_t *cr = gdk_cairo_create(gtk_widget_get_window(widget));
+	gdk_cairo_set_source_pixbuf (cr, phd->pixbuf, 0, 0);
+	cairo_paint (cr);
+	cairo_destroy (cr);
+
 	return TRUE;
 }
 

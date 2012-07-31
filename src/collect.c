@@ -979,12 +979,15 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 static void collection_window_get_geometry(CollectWindow *cw)
 {
 	CollectionData *cd;
+	GdkWindow *window;
 
 	if (!cw) return;
 
 	cd = cw->cd;
-	gdk_window_get_position(cw->window->window, &cd->window_x, &cd->window_y);
-	gdk_drawable_get_size(cw->window->window, &cd->window_w, &cd->window_h);
+	window = gtk_widget_get_window(cw->window);
+	gdk_window_get_position(window, &cd->window_x, &cd->window_y);
+	cd->window_w = gdk_window_get_width(window);
+	cd->window_h = gdk_window_get_height(window);
 	cd->window_read = TRUE;
 }
 

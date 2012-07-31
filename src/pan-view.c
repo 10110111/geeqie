@@ -1193,7 +1193,7 @@ static void pan_window_menu_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolean *pu
 {
 	PanWindow *pw = data;
 
-	gdk_window_get_origin(pw->imd->pr->window, x, y);
+	gdk_window_get_origin(gtk_widget_get_window(pw->imd->pr), x, y);
 	popup_menu_position_clamp(menu, x, y, 0);
 }
 
@@ -2199,12 +2199,12 @@ static void pan_window_image_scroll_notify_cb(PixbufRenderer *pr, gpointer data)
 	pixbuf_renderer_get_image_size(pr, &width, &height);
 
 	adj = gtk_range_get_adjustment(GTK_RANGE(pw->scrollbar_h));
-	adj->page_size = (gdouble)rect.width;
-	adj->page_increment = adj->page_size / 2.0;
-	adj->step_increment = 48.0 / pr->scale;
-	adj->lower = 0.0;
-	adj->upper = MAX((gdouble)width, 1.0);
-	adj->value = (gdouble)rect.x;
+	gtk_adjustment_set_page_size(adj, rect.width);
+	gtk_adjustment_set_page_increment(adj, gtk_adjustment_get_page_size(adj) / 2.0);
+	gtk_adjustment_set_step_increment(adj, 48.0 / pr->scale);
+	gtk_adjustment_set_lower(adj, 0.0);
+	gtk_adjustment_set_upper(adj, MAX((gdouble)width, 1.0));
+	gtk_adjustment_set_value(adj, (gdouble)rect.x);
 
 	pref_signal_block_data(pw->scrollbar_h, pw);
 	gtk_adjustment_changed(adj);
@@ -2212,12 +2212,12 @@ static void pan_window_image_scroll_notify_cb(PixbufRenderer *pr, gpointer data)
 	pref_signal_unblock_data(pw->scrollbar_h, pw);
 
 	adj = gtk_range_get_adjustment(GTK_RANGE(pw->scrollbar_v));
-	adj->page_size = (gdouble)rect.height;
-	adj->page_increment = adj->page_size / 2.0;
-	adj->step_increment = 48.0 / pr->scale;
-	adj->lower = 0.0;
-	adj->upper = MAX((gdouble)height, 1.0);
-	adj->value = (gdouble)rect.y;
+	gtk_adjustment_set_page_size(adj, rect.height);
+	gtk_adjustment_set_page_increment(adj, gtk_adjustment_get_page_size(adj) / 2.0);
+	gtk_adjustment_set_step_increment(adj, 48.0 / pr->scale);
+	gtk_adjustment_set_lower(adj, 0.0);
+	gtk_adjustment_set_upper(adj, MAX((gdouble)height, 1.0));
+	gtk_adjustment_set_value(adj, (gdouble)rect.y);
 
 	pref_signal_block_data(pw->scrollbar_v, pw);
 	gtk_adjustment_changed(adj);
@@ -2406,17 +2406,17 @@ static void pan_window_new_real(FileData *dir_fd)
 	pref_label_new(box, _("Location:"));
 	combo = tab_completion_new_with_history(&pw->path_entry, dir_fd->path, "pan_view_path", -1,
 						pan_window_entry_activate_cb, pw);
-	g_signal_connect(G_OBJECT(pw->path_entry->parent), "changed",
+	g_signal_connect(G_OBJECT(gtk_widget_get_parent(pw->path_entry)), "changed",
 			 G_CALLBACK(pan_window_entry_change_cb), pw);
 	gtk_box_pack_start(GTK_BOX(box), combo, TRUE, TRUE, 0);
 	gtk_widget_show(combo);
 
-	combo = gtk_combo_box_new_text();
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Timeline"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Calendar"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Folders"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Folders (flower)"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Grid"));
+	combo = gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Timeline"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Calendar"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Folders"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Folders (flower)"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Grid"));
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), pw->layout);
 	g_signal_connect(G_OBJECT(combo), "changed",
@@ -2424,17 +2424,17 @@ static void pan_window_new_real(FileData *dir_fd)
 	gtk_box_pack_start(GTK_BOX(box), combo, FALSE, FALSE, 0);
 	gtk_widget_show(combo);
 
-	combo = gtk_combo_box_new_text();
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Dots"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("No Images"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Small Thumbnails"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Normal Thumbnails"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Large Thumbnails"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("1:10 (10%)"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("1:4 (25%)"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("1:3 (33%)"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("1:2 (50%)"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("1:1 (100%)"));
+	combo = gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Dots"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("No Images"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Small Thumbnails"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Normal Thumbnails"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Large Thumbnails"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("1:10 (10%)"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("1:4 (25%)"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("1:3 (33%)"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("1:2 (50%)"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("1:1 (100%)"));
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), pw->size);
 	g_signal_connect(G_OBJECT(combo), "changed",
@@ -2933,7 +2933,7 @@ static void pan_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 		{
 		GList *list;
 
-		list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
+		list = uri_filelist_from_text((gchar *)gtk_selection_data_get_data(selection_data), TRUE);
 		if (list && isdir(((FileData *)list->data)->path))
 			{
 			FileData *fd = list->data;
@@ -2975,14 +2975,13 @@ static void pan_window_set_dnd_data(GtkWidget *widget, GdkDragContext *context,
 		g_list_free(list);
 		if (text)
 			{
-			gtk_selection_data_set(selection_data, selection_data->target,
-					       8, (guchar *)text, len);
+			gtk_selection_data_set_text(selection_data, text, len);
 			g_free(text);
 			}
 		}
 	else
 		{
-		gtk_selection_data_set(selection_data, selection_data->target,
+		gtk_selection_data_set(selection_data, gtk_selection_data_get_target(selection_data),
 				       8, NULL, 0);
 		}
 }

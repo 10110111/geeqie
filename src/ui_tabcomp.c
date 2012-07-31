@@ -300,11 +300,13 @@ static void tab_completion_popup_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolea
 	GdkScreen *screen;
 	gint monitor_num;
 	GdkRectangle monitor;
+	GtkRequisition requisition;
+	GtkAllocation allocation;
 
-	gdk_window_get_origin(td->entry->window, x, y);
+	gdk_window_get_origin(gtk_widget_get_window(GTK_WIDGET(td->entry)), x, y);
 
 	screen = gtk_widget_get_screen(GTK_WIDGET(menu));
-	monitor_num = gdk_screen_get_monitor_at_window(screen, td->entry->window);
+	monitor_num = gdk_screen_get_monitor_at_window(screen, gtk_widget_get_window(GTK_WIDGET(td->entry)));
 	gdk_screen_get_monitor_geometry(screen, monitor_num, &monitor);
 
 	gtk_widget_size_request(GTK_WIDGET(menu), &req);
@@ -317,7 +319,10 @@ static void tab_completion_popup_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolea
 
 	*x += strong_pos.x / PANGO_SCALE + xoffset;
 
-	height = MIN(td->entry->requisition.height, td->entry->allocation.height);
+	gtk_widget_get_requisition(td->entry, &requisition);
+	gtk_widget_get_allocation(td->entry, &allocation);
+	
+	height = MIN(requisition.height, allocation.height);
 
 	if (req.height > monitor.y + monitor.height - *y - height &&
 	    *y - monitor.y >  monitor.y + monitor.height - *y)
@@ -668,15 +673,17 @@ static void tab_completion_button_pressed(GtkWidget *widget, gpointer data)
 static void tab_completion_button_size_allocate(GtkWidget *button, GtkAllocation *allocation, gpointer data)
 {
 	GtkWidget *parent = data;
+	GtkAllocation parent_allocation;
+	gtk_widget_get_allocation(parent, &parent_allocation);
 
-	if (allocation->height > parent->allocation.height)
+	if (allocation->height > parent_allocation.height)
 		{
 		GtkAllocation button_allocation;
 
-		button_allocation = button->allocation;
-		button_allocation.height = parent->allocation.height;
-		button_allocation.y = parent->allocation.y +
-			(parent->allocation.height - parent->allocation.height) / 2;
+		gtk_widget_get_allocation(button, &button_allocation);
+		button_allocation.height = parent_allocation.height;
+		button_allocation.y = parent_allocation.y +
+			(parent_allocation.height - parent_allocation.height) / 2;
 		gtk_widget_size_allocate(button, &button_allocation);
 		}
 }
@@ -688,7 +695,7 @@ static GtkWidget *tab_completion_create_complete_button(GtkWidget *entry, GtkWid
 	GdkPixbuf *pixbuf;
 
 	button = gtk_button_new();
-	GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(button, FALSE);
 	g_signal_connect(G_OBJECT(button), "size_allocate",
 			 G_CALLBACK(tab_completion_button_size_allocate), parent);
 	g_signal_connect(G_OBJECT(button), "clicked",
@@ -724,11 +731,11 @@ GtkWidget *tab_completion_new_with_history(GtkWidget **entry, const gchar *text,
 
 	box = gtk_hbox_new(FALSE, 0);
 
-	combo = gtk_combo_box_entry_new_text();
+	combo = gtk_combo_box_text_new_with_entry();
 	gtk_box_pack_start(GTK_BOX(box), combo, TRUE, TRUE, 0);
 	gtk_widget_show(combo);
 
-	combo_entry = GTK_BIN(combo)->child;
+	combo_entry = gtk_bin_get_child(GTK_BIN(combo));
 #if 0
 	gtk_combo_set_case_sensitive(GTK_COMBO(combo), TRUE);
 	gtk_combo_set_use_arrows(GTK_COMBO(combo), FALSE);
@@ -753,7 +760,7 @@ GtkWidget *tab_completion_new_with_history(GtkWidget **entry, const gchar *text,
 	work = history_list_get_by_key(history_key);
 	while (work)
 		{
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), (gchar *)work->data);
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), (gchar *)work->data);
 		work = work->next;
 		n++;
 		}
@@ -810,7 +817,7 @@ void tab_completion_append_to_history(GtkWidget *entry, const gchar *path)
 	work = history_list_get_by_key(td->history_key);
 	while (work)
 		{
-		gtk_combo_box_append_text(GTK_COMBO_BOX(td->combo), (gchar *)work->data);
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(td->combo), (gchar *)work->data);
 		work = work->next;
 		n++;
 		}

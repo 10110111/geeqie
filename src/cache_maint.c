@@ -338,7 +338,7 @@ void cache_maintain_home(gboolean metadata, gboolean clear, GtkWidget *parent)
 	gtk_widget_show(hbox);
 
 	cm->entry = gtk_entry_new();
-	GTK_WIDGET_UNSET_FLAGS(cm->entry, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(cm->entry, FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(cm->entry), FALSE);
 	gtk_box_pack_start(GTK_BOX(hbox), cm->entry, TRUE, TRUE, 0);
 	gtk_widget_show(cm->entry);
@@ -910,7 +910,7 @@ static void cache_manager_render_dialog(GtkWidget *widget, const gchar *path)
 	hbox = pref_box_new(cd->gd->vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 
 	cd->progress = gtk_entry_new();
-	GTK_WIDGET_UNSET_FLAGS(cd->progress, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(cd->progress, FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(cd->progress), FALSE);
 	gtk_entry_set_text(GTK_ENTRY(cd->progress), _("click start to begin"));
 	gtk_box_pack_start(GTK_BOX(hbox), cd->progress, TRUE, TRUE, 0);

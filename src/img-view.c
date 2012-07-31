@@ -322,7 +322,7 @@ static void view_window_menu_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolean *p
 	ImageWindow *imd;
 
 	imd = view_window_active_image(vw);
-	gdk_window_get_origin(imd->pr->window, x, y);
+	gdk_window_get_origin(gtk_widget_get_window(imd->pr), x, y);
 	popup_menu_position_clamp(menu, x, y, 0);
 }
 
@@ -1487,7 +1487,7 @@ static void view_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 			{
 			GList *work;
 
-			list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
+			list = uri_filelist_from_text((gchar *)gtk_selection_data_get_data(selection_data), TRUE);
 
 			work = list;
 			while (work)
@@ -1510,7 +1510,7 @@ static void view_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 			}
 		else
 			{
-			source = collection_from_dnd_data((gchar *)selection_data->data, &list, &info_list);
+			source = collection_from_dnd_data((gchar *)gtk_selection_data_get_data(selection_data), &list, &info_list);
 			}
 
 		if (list)
@@ -1576,14 +1576,13 @@ static void view_window_set_dnd_data(GtkWidget *widget, GdkDragContext *context,
 		g_list_free(list);
 		if (text)
 			{
-			gtk_selection_data_set(selection_data, selection_data->target,
-					       8, (guchar *)text, len);
+			gtk_selection_data_set_text(selection_data, text, len);
 			g_free(text);
 			}
 		}
 	else
 		{
-		gtk_selection_data_set(selection_data, selection_data->target,
+		gtk_selection_data_set(selection_data, gtk_selection_data_get_target(selection_data),
 				       8, NULL, 0);
 		}
 }

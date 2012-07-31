@@ -892,21 +892,24 @@ static void image_focus_paint(ImageWindow *imd, gboolean has_focus, GdkRectangle
 	GtkWidget *widget;
 
 	widget = imd->widget;
-	if (!widget->window) return;
+	if (!gtk_widget_get_window(widget)) return;
+
+	GtkAllocation allocation;
+	gtk_widget_get_allocation(widget, &allocation);
 
 	if (has_focus)
 		{
-		gtk_paint_focus(widget->style, widget->window, GTK_STATE_ACTIVE,
+		gtk_paint_focus(gtk_widget_get_style(widget), gtk_widget_get_window(widget), GTK_STATE_ACTIVE,
 				area, widget, "image_window",
-				widget->allocation.x, widget->allocation.y,
-				widget->allocation.width - 1, widget->allocation.height - 1);
+				allocation.x, allocation.y,
+				allocation.width - 1, allocation.height - 1);
 		}
 	else
 		{
-		gtk_paint_shadow(widget->style, widget->window, GTK_STATE_NORMAL, GTK_SHADOW_IN,
+		gtk_paint_shadow(gtk_widget_get_style(widget), gtk_widget_get_window(widget), GTK_STATE_NORMAL, GTK_SHADOW_IN,
 				 area, widget, "image_window",
-				 widget->allocation.x, widget->allocation.y,
-				 widget->allocation.width - 1, widget->allocation.height - 1);
+				 allocation.x, allocation.y,
+				 allocation.width - 1, allocation.height - 1);
 		}
 }
 
@@ -926,7 +929,7 @@ static gboolean image_focus_in_cb(GtkWidget *widget, GdkEventFocus *event, gpoin
 {
 	ImageWindow *imd = data;
 
-	GTK_WIDGET_SET_FLAGS(imd->widget, GTK_HAS_FOCUS);
+	gtk_widget_grab_focus(imd->widget);
 	image_focus_paint(imd, TRUE, NULL);
 
 	if (imd->func_focus_in)
@@ -941,7 +944,7 @@ static gboolean image_focus_out_cb(GtkWidget *widget, GdkEventFocus *event, gpoi
 {
 	ImageWindow *imd = data;
 
-	GTK_WIDGET_UNSET_FLAGS(imd->widget, GTK_HAS_FOCUS);
+//	GTK_WIDGET_UNSET_FLAGS(imd->widget, GTK_HAS_FOCUS);
 	image_focus_paint(imd, FALSE, NULL);
 
 	return TRUE;
@@ -1770,15 +1773,18 @@ static void image_destroy_cb(GtkObject *widget, gpointer data)
 
 gboolean selectable_frame_expose_cb(GtkWidget *widget, GdkEventExpose *event, gpointer data)
 {
-	gtk_paint_flat_box(widget->style,
-			   widget->window,
-			   widget->state,
-			   (GTK_FRAME(widget))->shadow_type,
+	GtkAllocation allocation;
+	gtk_widget_get_allocation(widget, &allocation);
+	
+	gtk_paint_flat_box(gtk_widget_get_style(widget),
+			   gtk_widget_get_window(widget),
+			   gtk_widget_get_state(widget),
+			   gtk_frame_get_shadow_type(GTK_FRAME(widget)),
 			   NULL,
 			   widget,
 			   NULL,
-			   widget->allocation.x + 3, widget->allocation.y + 3,
-			   widget->allocation.width - 6, widget->allocation.height - 6);
+			   allocation.x + 3, allocation.y + 3,
+			   allocation.width - 6, allocation.height - 6);
 
 
 	return FALSE;
@@ -1812,7 +1818,7 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 		g_signal_connect(G_OBJECT(imd->frame), "expose_event",
 		    		 G_CALLBACK(selectable_frame_expose_cb), NULL);
 
-		GTK_WIDGET_SET_FLAGS(imd->frame, GTK_CAN_FOCUS);
+		gtk_widget_set_can_focus(imd->frame, TRUE);
 		g_signal_connect(G_OBJECT(imd->frame), "focus_in_event",
 				 G_CALLBACK(image_focus_in_cb), imd);
 		g_signal_connect(G_OBJECT(imd->frame), "focus_out_event",

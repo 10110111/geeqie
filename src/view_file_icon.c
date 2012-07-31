@@ -267,10 +267,12 @@ static void vficon_send_layout_select(ViewFile *vf, IconData *id)
 
 static void vficon_toggle_filenames(ViewFile *vf)
 {
+	GtkAllocation allocation;
 	VFICON(vf)->show_text = !VFICON(vf)->show_text;
 	options->show_icon_names = VFICON(vf)->show_text;
 
-	vficon_populate_at_new_size(vf, vf->listview->allocation.width, vf->listview->allocation.height, TRUE);
+	gtk_widget_get_allocation(vf->listview, &allocation);
+	vficon_populate_at_new_size(vf, allocation.width, allocation.height, TRUE);
 }
 
 static gint vficon_get_icon_width(ViewFile *vf)
@@ -460,7 +462,7 @@ static gboolean tip_schedule_cb(gpointer data)
 #else
 	if (GTK_WIDGET_SENSITIVE(window) &&
 #endif
-	    GTK_WINDOW(window)->has_focus)
+	    gtk_window_has_toplevel_focus(GTK_WINDOW(window)))
 		{
 		tip_show(vf);
 		}
@@ -560,8 +562,7 @@ static void vficon_dnd_get(GtkWidget *widget, GdkDragContext *context,
 
 	DEBUG_1("%s", uri_text);
 
-	gtk_selection_data_set(selection_data, selection_data->target,
-			       8, (guchar *)uri_text, total);
+	gtk_selection_data_set_text(selection_data, uri_text, total);
 	g_free(uri_text);
 }
 
@@ -577,7 +578,7 @@ static void vficon_drag_data_received(GtkWidget *entry_widget, GdkDragContext *c
 		if (id && id->fd) {
 			/* Add keywords to file */
 			FileData *fd = id->fd;
-			gchar *str = g_strndup((gchar *)selection->data, selection->length);
+			gchar *str = gtk_selection_data_get_text(selection);
 			GList *kw_list = string_to_keywords_list(str);
 			
 			metadata_append_list(fd, KEYWORD_KEY, kw_list);
@@ -618,7 +619,7 @@ static void vficon_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer 
 
 	vficon_selection_remove(vf, VFICON(vf)->click_id, SELECTION_PRELIGHT, NULL);
 
-	if (context->action == GDK_ACTION_MOVE)
+	if (gdk_drag_context_get_selected_action(context) == GDK_ACTION_MOVE)
 		{
 		vf_refresh(vf);
 		}
@@ -696,7 +697,9 @@ static void vficon_selection_remove(ViewFile *vf, IconData *id, SelectionType ma
 
 void vficon_marks_set(ViewFile *vf, gint enable)
 {
-	vficon_populate_at_new_size(vf, vf->listview->allocation.width, vf->listview->allocation.height, TRUE);
+	GtkAllocation allocation;
+	gtk_widget_get_allocation(vf->listview, &allocation);
+	vficon_populate_at_new_size(vf, allocation.width, allocation.height, TRUE);
 }
 
 /*
@@ -1251,7 +1254,7 @@ static gint page_height(ViewFile *vf)
 	gint ret;
 
 	adj = gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(vf->listview));
-	page_size = (gint)adj->page_increment;
+	page_size = (gint)gtk_adjustment_get_page_increment(adj);
 
 	row_height = options->thumbnails.max_height + THUMB_BORDER_PADDING * 2;
 	if (VFICON(vf)->show_text) row_height += options->thumbnails.max_height / 3;

@@ -217,7 +217,7 @@ static void widget_set_cursor(GtkWidget *widget, gint icon)
 {
 	GdkCursor *cursor;
 
-	if (!widget->window) return;
+	if (!gtk_widget_get_window(widget)) return;
 
 	if (icon == -1)
 		{
@@ -228,7 +228,7 @@ static void widget_set_cursor(GtkWidget *widget, gint icon)
 		cursor = gdk_cursor_new(icon);
 		}
 
-	gdk_window_set_cursor(widget->window, cursor);
+	gdk_window_set_cursor(gtk_widget_get_window(widget), cursor);
 
 	if (cursor) gdk_cursor_unref(cursor);
 }
@@ -2581,7 +2581,7 @@ static void dupe_second_set_toggle_cb(GtkWidget *widget, gpointer data)
 {
 	DupeWindow *dw = data;
 
-	dw->second_set = GTK_TOGGLE_BUTTON(widget)->active;
+	dw->second_set = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
 	if (dw->second_set)
 		{
@@ -2797,7 +2797,7 @@ static void dupe_window_show_thumb_cb(GtkWidget *widget, gpointer data)
 {
 	DupeWindow *dw = data;
 
-	dw->show_thumbs = GTK_TOGGLE_BUTTON(widget)->active;
+	dw->show_thumbs = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
 	if (dw->show_thumbs)
 		{
@@ -3412,8 +3412,7 @@ static void dupe_dnd_data_set(GtkWidget *widget, GdkDragContext *context,
 			break;
 		}
 
-	if (uri_text) gtk_selection_data_set(selection_data, selection_data->target,
-					     8, (guchar *)uri_text, length);
+	if (uri_text) gtk_selection_data_set_text(selection_data, uri_text, length);
 	g_free(uri_text);
 }
 
@@ -3435,10 +3434,10 @@ static void dupe_dnd_data_get(GtkWidget *widget, GdkDragContext *context,
 	switch (info)
 		{
 		case TARGET_APP_COLLECTION_MEMBER:
-			collection_from_dnd_data((gchar *)selection_data->data, &list, NULL);
+			collection_from_dnd_data((gchar *)gtk_selection_data_get_data(selection_data), &list, NULL);
 			break;
 		case TARGET_URI_LIST:
-			list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
+			list = uri_filelist_from_text((gchar *)gtk_selection_data_get_data(selection_data), TRUE);
 			work = list;
 			while (work)
 				{

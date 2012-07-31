@@ -69,9 +69,9 @@ gboolean window_maximized(GtkWidget *window)
 {
 	GdkWindowState state;
 
-	if (!window || !window->window) return FALSE;
+	if (!window || !gtk_widget_get_window(window)) return FALSE;
 
-	state = gdk_window_get_state(window->window);
+	state = gdk_window_get_state(gtk_widget_get_window(window));
 	return !!(state & GDK_WINDOW_STATE_MAXIMIZED);
 }
 

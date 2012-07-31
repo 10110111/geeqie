@@ -274,8 +274,7 @@ static void vflist_dnd_get(GtkWidget *widget, GdkDragContext *context,
 
 	DEBUG_1("%s", uri_text);
 
-	gtk_selection_data_set(selection_data, selection_data->target,
-			       8, (guchar *)uri_text, total);
+	gtk_selection_data_set_text(selection_data, uri_text, total);
 	g_free(uri_text);
 }
 
@@ -305,7 +304,7 @@ static void vflist_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer 
 
 	vflist_color_set(vf, VFLIST(vf)->click_fd, FALSE);
 
-	if (context->action == GDK_ACTION_MOVE)
+	if (gdk_drag_context_get_selected_action(context) == GDK_ACTION_MOVE)
 		{
 		vf_refresh(vf);
 		}
@@ -322,7 +321,7 @@ static void vflist_drag_data_received(GtkWidget *entry_widget, GdkDragContext *c
 
 		if (fd) {
 			/* Add keywords to file */
-			gchar *str = g_strndup((gchar *)selection->data, selection->length);
+			gchar *str = gtk_selection_data_get_text(selection);
 			GList *kw_list = string_to_keywords_list(str);
 			
 			metadata_append_list(fd, KEYWORD_KEY, kw_list);

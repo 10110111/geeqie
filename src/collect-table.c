@@ -244,10 +244,12 @@ static void collection_table_update_extras(CollectTable *ct, gboolean loading, g
 
 static void collection_table_toggle_filenames(CollectTable *ct)
 {
+	GtkAllocation allocation;
 	ct->show_text = !ct->show_text;
 	options->show_icon_names = ct->show_text;
 
-	collection_table_populate_at_new_size(ct, ct->listview->allocation.width, ct->listview->allocation.height, TRUE);
+	gtk_widget_get_allocation(ct->listview, &allocation);
+	collection_table_populate_at_new_size(ct, allocation.width, allocation.height, TRUE);
 }
 
 static gint collection_table_get_icon_width(CollectTable *ct)
@@ -520,7 +522,7 @@ static void tip_show(CollectTable *ct)
 
 	if (ct->tip_window) return;
 
-	gdk_window_get_pointer(ct->listview->window, &x, &y, NULL);
+	gdk_window_get_pointer(gtk_widget_get_window(ct->listview), &x, &y, NULL);
 
 	ct->tip_info = collection_table_find_data_by_coord(ct, x, y, NULL);
 	if (!ct->tip_info) return;
@@ -1103,7 +1105,7 @@ static gint page_height(CollectTable *ct)
 	gint ret;
 
 	adj = gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(ct->listview));
-	page_size = (gint)adj->page_increment;
+	page_size = (gint)gtk_adjustment_get_page_increment(adj);
 
 	row_height = options->thumbnails.max_height + THUMB_BORDER_PADDING * 2;
 	if (ct->show_text) row_height += options->thumbnails.max_height / 3;
@@ -1267,7 +1269,7 @@ static CollectInfo *collection_table_insert_find(CollectTable *ct, CollectInfo *
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(ct->listview));
 
-	if (!use_coord) gdk_window_get_pointer(ct->listview->window, &x, &y, NULL);
+	if (!use_coord) gdk_window_get_pointer(gtk_widget_get_window(ct->listview), &x, &y, NULL);
 
 	if (source)
 		{
@@ -1395,7 +1397,7 @@ static void collection_table_insert_marker(CollectTable *ct, CollectInfo *info, 
 		gdk_pixbuf_render_pixmap_and_mask(pb, &pixmap, &mask, 128);
 		g_object_unref(pb);
 
-		gdk_drawable_get_size(pixmap, &w, &h);
+		gdk_pixmap_get_size(pixmap, &w, &h);
 
 		attributes.window_type = GDK_WINDOW_CHILD;
 		attributes.wclass = GDK_INPUT_OUTPUT;
@@ -1417,7 +1419,8 @@ static void collection_table_insert_marker(CollectTable *ct, CollectInfo *info, 
 		gint x, y;
 		gint w, h;
 
-		gdk_drawable_get_size(ct->marker_window, &w, &h);
+		w = gdk_window_get_width(ct->marker_window);
+		h = gdk_window_get_height(ct->marker_window);
 
 		if (!after)
 			{
@@ -1472,9 +1475,10 @@ static gboolean collection_table_auto_scroll_idle_cb(gpointer data)
 
 	if (!ct->drop_idle_id) return FALSE;
 
-	window = ct->listview->window;
+	window = gtk_widget_get_window(ct->listview);
 	gdk_window_get_pointer(window, &x, &y, NULL);
-	gdk_drawable_get_size(window, &w, &h);
+	w = gdk_window_get_width(window);
+	h = gdk_window_get_height(window);
 	if (x >= 0 && x < w && y >= 0 && y < h)
 		{
 		collection_table_motion_update(ct, x, y, TRUE);
@@ -2174,8 +2178,7 @@ static void collection_table_dnd_get(GtkWidget *widget, GdkDragContext *context,
 			break;
 		}
 
-	gtk_selection_data_set(selection_data, selection_data->target,
-			       8, (guchar *)uri_text, total);
+	gtk_selection_data_set_text(selection_data, uri_text, total);
 	g_free(uri_text);
 }
 
@@ -2192,7 +2195,7 @@ static void collection_table_dnd_receive(GtkWidget *widget, GdkDragContext *cont
 	CollectInfo *drop_info;
 	GList *work;
 
-	DEBUG_1("%s", selection_data->data);
+	DEBUG_1("%s", gtk_selection_data_get_data(selection_data));
 
 	collection_table_scroll(ct, FALSE);
 	collection_table_insert_marker(ct, NULL, FALSE);
@@ -2202,7 +2205,7 @@ static void collection_table_dnd_receive(GtkWidget *widget, GdkDragContext *cont
 	switch (info)
 		{
 		case TARGET_APP_COLLECTION_MEMBER:
-			source = collection_from_dnd_data((gchar *)selection_data->data, &list, &info_list);
+			source = collection_from_dnd_data((gchar *)gtk_selection_data_get_data(selection_data), &list, &info_list);
 			if (source)
 				{
 				if (source == ct->cd)
@@ -2226,7 +2229,7 @@ static void collection_table_dnd_receive(GtkWidget *widget, GdkDragContext *cont
 				else
 					{
 					/* it is a move/copy across collections */
-					if (context->action == GDK_ACTION_MOVE)
+					if (gdk_drag_context_get_selected_action(context) == GDK_ACTION_MOVE)
 						{
 						collection_remove_by_info_list(source, info_list);
 						}
@@ -2235,7 +2238,7 @@ static void collection_table_dnd_receive(GtkWidget *widget, GdkDragContext *cont
 				}
 			break;
 		case TARGET_URI_LIST:
-			list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
+			list = uri_filelist_from_text((gchar *)gtk_selection_data_get_data(selection_data), TRUE);
 			work = list;
 			while (work)
 				{

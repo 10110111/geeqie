@@ -611,7 +611,7 @@ static gboolean pixbuf_renderer_expose(GtkWidget *widget, GdkEventExpose *event)
 		if (!GTK_WIDGET_NO_WINDOW(widget))
 #endif
 			{
-			if (event->window != widget->window)
+			if (event->window != gtk_widget_get_window(widget))
 				{
 				GdkRectangle area;
 
@@ -643,7 +643,7 @@ static void widget_set_cursor(GtkWidget *widget, gint icon)
 {
 	GdkCursor *cursor;
 
-	if (!widget->window) return;
+	if (!gtk_widget_get_window(widget)) return;
 
 	if (icon == -1)
 		{
@@ -654,7 +654,7 @@ static void widget_set_cursor(GtkWidget *widget, gint icon)
 		cursor = gdk_cursor_new(icon);
 		}
 
-	gdk_window_set_cursor(widget->window, cursor);
+	gdk_window_set_cursor(gtk_widget_get_window(widget), cursor);
 
 	if (cursor) gdk_cursor_unref(cursor);
 }
@@ -686,10 +686,10 @@ static gboolean pr_parent_window_sizable(PixbufRenderer *pr)
 
 	if (!pr->parent_window) return FALSE;
 	if (!pr->window_fit) return FALSE;
-	if (!GTK_WIDGET(pr)->window) return FALSE;
+	if (!gtk_widget_get_window(GTK_WIDGET(pr))) return FALSE;
 
-	if (!pr->parent_window->window) return FALSE;
-	state = gdk_window_get_state(pr->parent_window->window);
+	if (!gtk_widget_get_window(pr->parent_window)) return FALSE;
+	state = gdk_window_get_state(gtk_widget_get_window(pr->parent_window));
 	if (state & GDK_WINDOW_STATE_MAXIMIZED) return FALSE;
 
 	return TRUE;
@@ -700,6 +700,8 @@ static gboolean pr_parent_window_resize(PixbufRenderer *pr, gint w, gint h)
 	GtkWidget *widget;
 	GtkWidget *parent;
 	gint ww, wh;
+	GtkAllocation widget_allocation;
+	GtkAllocation parent_allocation;
 
 	if (!pr_parent_window_sizable(pr)) return FALSE;
 
@@ -715,13 +717,17 @@ static gboolean pr_parent_window_resize(PixbufRenderer *pr, gint w, gint h)
 	widget = GTK_WIDGET(pr);
 	parent = GTK_WIDGET(pr->parent_window);
 
-	w += (parent->allocation.width - widget->allocation.width);
-	h += (parent->allocation.height - widget->allocation.height);
+	gtk_widget_get_allocation(widget, &widget_allocation);
+	gtk_widget_get_allocation(parent, &parent_allocation);
 
-	gdk_drawable_get_size(parent->window, &ww, &wh);
+	w += (parent_allocation.width - widget_allocation.width);
+	h += (parent_allocation.height - widget_allocation.height);
+
+	ww = gdk_window_get_width(gtk_widget_get_window(parent));
+	wh = gdk_window_get_height(gtk_widget_get_window(parent));
 	if (w == ww && h == wh) return FALSE;
 
-	gdk_window_resize(parent->window, w, h);
+	gdk_window_resize(gtk_widget_get_window(parent), w, h);
 
 	return TRUE;
 }
@@ -2137,7 +2143,7 @@ static gboolean pr_mouse_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpo
 			pr->drag_last_x = bevent->x;
 			pr->drag_last_y = bevent->y;
 			pr->drag_moved = 0;
-			gdk_pointer_grab(widget->window, FALSE,
+			gdk_pointer_grab(gtk_widget_get_window(widget), FALSE,
 					 GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_RELEASE_MASK,
 					 NULL, NULL, bevent->time);
 			gtk_grab_add(widget);
@@ -2449,7 +2455,7 @@ static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, P
 		if (GTK_WIDGET_REALIZED(box))
 #endif
 			{
-			gdk_window_clear(box->window);
+			gdk_window_clear(gtk_widget_get_window(box));
 			pr->renderer->overlay_draw(pr->renderer, 0, 0, pr->viewport_width, pr->viewport_height);
 			if (pr->renderer2) pr->renderer2->overlay_draw(pr->renderer2, 0, 0, pr->viewport_width, pr->viewport_height);
 			}

@@ -167,7 +167,7 @@ void help_window_set_key(GtkWidget *window, const gchar *key)
 	text = g_object_get_data(G_OBJECT(window), "text_widget");
 	if (!text) return;
 
-	gdk_window_raise(window->window);
+	gdk_window_raise(gtk_widget_get_window(window));
 
 	if (key) help_window_scroll(text, key);
 }
@@ -181,7 +181,7 @@ void help_window_set_file(GtkWidget *window, const gchar *path, const gchar *key
 	text = g_object_get_data(G_OBJECT(window), "text_widget");
 	if (!text) return;
 
-	gdk_window_raise(window->window);
+	gdk_window_raise(gtk_widget_get_window(window));
 
 	help_window_load_text(text, path);
 	help_window_scroll(text, key);
@@ -249,7 +249,7 @@ GtkWidget *help_window_new(const gchar *title,
 	g_signal_connect(G_OBJECT(button), "clicked",
 			 G_CALLBACK(help_window_close), window);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_grab_default(button);
 	gtk_widget_show(button);
 

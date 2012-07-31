@@ -125,13 +125,13 @@ static GtkWidget *sidecar_ext_entry;
 
 static void zoom_mode_cb(GtkWidget *widget, gpointer data)
 {
-	if (GTK_TOGGLE_BUTTON (widget)->active)
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
 		c_options->image.zoom_mode = GPOINTER_TO_INT(data);
 }
 
 static void scroll_reset_cb(GtkWidget *widget, gpointer data)
 {
-	if (GTK_TOGGLE_BUTTON (widget)->active)
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
 		c_options->image.scroll_reset_method = GPOINTER_TO_INT(data);
 }
 
@@ -433,15 +433,15 @@ static void add_quality_menu(GtkWidget *table, gint column, gint row, const gcha
 
 	pref_table_label(table, column, row, text, 0.0);
 
-	combo = gtk_combo_box_new_text();
+	combo = gtk_combo_box_text_new();
 
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Nearest (worst, but fastest)"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Nearest (worst, but fastest)"));
 	if (option == GDK_INTERP_NEAREST) current = 0;
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Tiles"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Tiles"));
 	if (option == GDK_INTERP_TILES) current = 1;
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Bilinear"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Bilinear"));
 	if (option == GDK_INTERP_BILINEAR) current = 2;
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Hyper (best, but slowest)"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Hyper (best, but slowest)"));
 	if (option == GDK_INTERP_HYPER) current = 3;
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), current);
@@ -511,7 +511,7 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 
 	pref_table_label(table, column, row, text, 0.0);
 
-	combo = gtk_combo_box_new_text();
+	combo = gtk_combo_box_text_new();
 
 	current = -1;
 	for (i = 0; (guint) i < sizeof(thumb_size_list) / sizeof(ThumbSize); i++)
@@ -523,7 +523,7 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 		h = thumb_size_list[i].h;
 
 		buf = g_strdup_printf("%d x %d", w, h);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), buf);
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), buf);
 		g_free(buf);
 
 		if (w == options->thumbnails.max_width && h == options->thumbnails.max_height) current = i;
@@ -534,7 +534,7 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 		gchar *buf;
 
 		buf = g_strdup_printf("%s %d x %d", _("Custom"), options->thumbnails.max_width, options->thumbnails.max_height);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), buf);
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), buf);
 		g_free(buf);
 
 		current = i;
@@ -596,27 +596,27 @@ static void add_stereo_mode_menu(GtkWidget *table, gint column, gint row, const 
 
 	pref_table_label(table, column, row, text, 0.0);
 
-	combo = gtk_combo_box_new_text();
+	combo = gtk_combo_box_text_new();
 
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Single image"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Single image"));
 
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Anaglyph Red-Cyan"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Red-Cyan"));
 	if (option & PR_STEREO_ANAGLYPH_RC) current = 1;
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Anaglyph Gray Red-Cyan"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Gray Red-Cyan"));
 	if (option & PR_STEREO_ANAGLYPH_GRAY) current = 2;
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Anaglyph Dubois"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Dubois"));
 	if (option & PR_STEREO_ANAGLYPH_DB) current = 3;
 
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Side by Side"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Side by Side Half size"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Side by Side"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Side by Side Half size"));
 	if (option & PR_STEREO_HORIZ) 
 		{
 		current = 4;
 		if (option & PR_STEREO_HALF) current = 5;
 		}
 
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Top - Bottom"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Top - Bottom Half size"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Top - Bottom"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Top - Bottom Half size"));
 	if (option & PR_STEREO_VERT) 
 		{
 		current = 6;
@@ -625,7 +625,7 @@ static void add_stereo_mode_menu(GtkWidget *table, gint column, gint row, const 
 		
 	if (add_fixed)
 		{
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Fixed position"));
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Fixed position"));
 		if (option & PR_STEREO_FIXED) current = 8;
 		}
 
@@ -903,7 +903,7 @@ static void safe_delete_clear_cb(GtkWidget *widget, gpointer data)
 				    _("This will remove the trash contents."));
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, safe_delete_clear_ok_cb, TRUE);
 	entry = gtk_entry_new();
-	GTK_WIDGET_UNSET_FLAGS(entry, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(entry, FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(entry), FALSE);
 	if (options->file_ops.safe_delete_path) gtk_entry_set_text(GTK_ENTRY(entry), options->file_ops.safe_delete_path);
 	gtk_box_pack_start(GTK_BOX(gd->vbox), entry, FALSE, FALSE, 0);
@@ -2184,7 +2184,7 @@ static void config_window_create(void)
 	button = pref_button_new(NULL, GTK_STOCK_OK, NULL, FALSE,
 				 G_CALLBACK(config_window_ok_cb), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_grab_default(button);
 	gtk_widget_show(button);
 
@@ -2193,19 +2193,19 @@ static void config_window_create(void)
 	button = pref_button_new(NULL, GTK_STOCK_SAVE, NULL, FALSE,
 				 G_CALLBACK(config_window_save_cb), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_show(button);
 	
 	button = pref_button_new(NULL, GTK_STOCK_APPLY, NULL, FALSE,
 				 G_CALLBACK(config_window_apply_cb), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_show(button);
 
 	button = pref_button_new(NULL, GTK_STOCK_CANCEL, NULL, FALSE,
 				 G_CALLBACK(config_window_close_cb), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_show(button);
 
 	if (!generic_dialog_get_alternative_button_order(configwindow))
@@ -2333,13 +2333,13 @@ void show_about_window(void)
 	button = pref_button_new(NULL, NULL, _("Credits..."), FALSE,
 				 G_CALLBACK(about_credits_cb), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_show(button);
 
 	button = pref_button_new(NULL, GTK_STOCK_CLOSE, NULL, FALSE,
 				 G_CALLBACK(about_window_close), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_grab_default(button);
 	gtk_widget_show(button);
 

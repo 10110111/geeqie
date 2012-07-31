@@ -350,7 +350,7 @@ static void bar_pane_exif_entry_dnd_get(GtkWidget *entry, GdkDragContext *contex
 	switch (info)
 		{
 		case TARGET_APP_EXIF_ENTRY:
-			gtk_selection_data_set(selection_data, selection_data->target,
+			gtk_selection_data_set(selection_data, gtk_selection_data_get_target(selection_data),
 					       8, (gpointer) &entry, sizeof(entry));
 			break;
 
@@ -378,14 +378,14 @@ static void bar_pane_exif_dnd_receive(GtkWidget *pane, GdkDragContext *context,
 	switch (info)
 		{
 		case TARGET_APP_EXIF_ENTRY:
-			new_entry = *(gpointer *)selection_data->data;
+			new_entry = *(gpointer *)gtk_selection_data_get_data(selection_data);
 			
-			if (new_entry->parent && new_entry->parent != ped->vbox) bar_pane_exif_reparent_entry(new_entry, pane);
+			if (gtk_widget_get_parent(new_entry) && gtk_widget_get_parent(new_entry) != ped->vbox) bar_pane_exif_reparent_entry(new_entry, pane);
 			
 			break;
 		default:
 			/* FIXME: this needs a check for valid exif keys */
-			new_entry = bar_pane_exif_add_entry(ped, (gchar *)selection_data->data, NULL, TRUE, FALSE);
+			new_entry = bar_pane_exif_add_entry(ped, (gchar *)gtk_selection_data_get_data(selection_data), NULL, TRUE, FALSE);
 			break;
 		}
 
@@ -396,9 +396,12 @@ static void bar_pane_exif_dnd_receive(GtkWidget *pane, GdkDragContext *context,
 		{
 		gint nx, ny;
 		GtkWidget *entry = work->data;
+		GtkAllocation allocation;
 		work = work->next;
 		
 		if (entry == new_entry) continue;
+		
+		gtk_widget_get_allocation(entry, &allocation);
 		
 #if GTK_CHECK_VERSION(2,20,0)
 		if (gtk_widget_is_drawable(entry) &&
@@ -406,7 +409,7 @@ static void bar_pane_exif_dnd_receive(GtkWidget *pane, GdkDragContext *context,
 		if (GTK_WIDGET_DRAWABLE(entry) && 
 #endif
 		    gtk_widget_translate_coordinates(pane, entry, x, y, &nx, &ny) &&
-		    ny < entry->allocation.height / 2) break;
+		    ny < allocation.height / 2) break;
 		pos++;
 		}
 	g_list_free(list);
@@ -488,13 +491,13 @@ static void bar_pane_exif_edit_ok_cb(GenericDialog *gd, gpointer data)
 	if (ee)
 		{
 		const gchar *title;
-		GtkWidget *pane = cdd->widget->parent;
+		GtkWidget *pane = gtk_widget_get_parent(cdd->widget);
 		
 		while (pane)
 			{
 			ped = g_object_get_data(G_OBJECT(pane), "pane_data");
 			if (ped) break;
-			pane = pane->parent;
+			pane = gtk_widget_get_parent(pane);
 			}
 		
 		if (!pane) return;

@@ -54,9 +54,9 @@ static GtkWidget *add_menu_item(GtkWidget *menu, gchar *label, GtkAccelGroup *ac
 
 gpointer submenu_item_get_data(GtkWidget *menu)
 {
-	if (!menu->parent || !GTK_IS_MENU(menu->parent)) return NULL;
+	if (!gtk_widget_get_parent(menu) || !GTK_IS_MENU(gtk_widget_get_parent(menu))) return NULL;
 
-	return g_object_get_data(G_OBJECT(menu->parent), "submenu_data");
+	return g_object_get_data(G_OBJECT(gtk_widget_get_parent(menu)), "submenu_data");
 }
 
 /*

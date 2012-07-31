@@ -127,7 +127,7 @@ static void log_window_init(LogWindow *logwin)
 		memcpy(&logwin->colors[i], &logwin->colors[LOG_NORMAL], sizeof(GdkColor));
 		}
 
-	colormap = gdk_drawable_get_colormap(logwin->window->window);
+	colormap = gdk_drawable_get_colormap(gtk_widget_get_window(logwin->window));
 	gdk_colormap_alloc_colors(colormap, logwin->colors, LOG_COUNT, FALSE, TRUE, success);
 
 	for (i = LOG_NORMAL; i < LOG_COUNT; i++)

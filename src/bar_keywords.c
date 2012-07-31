@@ -490,7 +490,7 @@ static void bar_pane_keywords_dnd_get(GtkWidget *tree_view, GdkDragContext *cont
 		case TARGET_APP_KEYWORD_PATH:
 			{
 			GList *path = keyword_tree_get_path(keyword_tree, &child_iter);
-			gtk_selection_data_set(selection_data, selection_data->target,
+			gtk_selection_data_set(selection_data, gtk_selection_data_get_target(selection_data),
 					       8, (gpointer) &path, sizeof(path));
 			break;
 			}
@@ -611,13 +611,13 @@ static void bar_pane_keywords_dnd_receive(GtkWidget *tree_view, GdkDragContext *
 		{
 		case TARGET_APP_KEYWORD_PATH:
 			{
-			GList *path = *(gpointer *)selection_data->data;
+			GList *path = *(gpointer *)gtk_selection_data_get_data(selection_data);
 			src_valid = keyword_tree_get_iter(keyword_tree, &src_kw_iter, path);
 			string_list_free(path);
 			break;
 			}
 		default:
-			new_keywords = string_to_keywords_list((gchar *)selection_data->data);
+			new_keywords = string_to_keywords_list((gchar *)gtk_selection_data_get_data(selection_data));
 			break;
 		}
 

@@ -614,13 +614,13 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 
 		if (info == TARGET_URI_LIST)
 			{
-			list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
+			list = uri_filelist_from_text((gchar *)gtk_selection_data_get_data(selection_data), TRUE);
 			source = NULL;
 			info_list = NULL;
 			}
 		else
 			{
-			source = collection_from_dnd_data((gchar *)selection_data->data, &list, &info_list);
+			source = collection_from_dnd_data((gchar *)gtk_selection_data_get_data(selection_data), &list, &info_list);
 			}
 
 		if (list)
@@ -712,14 +712,13 @@ static void layout_image_dnd_get(GtkWidget *widget, GdkDragContext *context,
 		g_list_free(list);
 		if (text)
 			{
-			gtk_selection_data_set(selection_data, selection_data->target,
-					       8, (guchar *)text, len);
+			gtk_selection_data_set_text(selection_data, text, len);
 			g_free(text);
 			}
 		}
 	else
 		{
-		gtk_selection_data_set(selection_data, selection_data->target,
+		gtk_selection_data_set(selection_data, gtk_selection_data_get_target(selection_data),
 				       8, NULL, 0);
 		}
 }
@@ -727,7 +726,7 @@ static void layout_image_dnd_get(GtkWidget *widget, GdkDragContext *context,
 static void layout_image_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer data)
 {
 	LayoutWindow *lw = data;
-	if (context->action == GDK_ACTION_MOVE)
+	if (gdk_drag_context_get_selected_action(context) == GDK_ACTION_MOVE)
 		{
 		FileData *fd;
 		gint row;

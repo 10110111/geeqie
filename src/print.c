@@ -2668,11 +2668,11 @@ static GtkWidget *print_combo_menu(const gchar *text[], gint count, gint preferr
 	GtkWidget *combo;
 	gint i;
 
-	combo = gtk_combo_box_new_text();
+	combo = gtk_combo_box_text_new();
 
 	for (i = 0 ; i < count; i++)
 		{
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _(text[i]));
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _(text[i]));
 		}
 
 	if (preferred >= 0 && preferred < count)
@@ -2700,12 +2700,12 @@ static GtkWidget *print_paper_menu(GtkWidget *table, gint column, gint row,
 
 	pref_table_label(table, column, row, (_("Format:")), 1.0);
 
-	combo = gtk_combo_box_new_text();
+	combo = gtk_combo_box_text_new();
 
 	i = 0;
 	while (print_paper_sizes[i].description)
 		{
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _(print_paper_sizes[i].description));
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _(print_paper_sizes[i].description));
 		i++;
 		}
 
@@ -2981,7 +2981,7 @@ static void print_custom_entry_set(PrintWindow *pw, GtkWidget *combo)
 		work = work->next;
 
 		buf = g_strdup_printf(PRINT_LPR_CUSTOM, name);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), buf);
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), buf);
 		g_free(buf);
 		}
 	string_list_free(list);

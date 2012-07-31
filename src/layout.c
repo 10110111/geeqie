@@ -284,7 +284,7 @@ static GtkWidget *layout_tool_setup(LayoutWindow *lw)
 	gtk_box_pack_start(GTK_BOX(box), tabcomp, FALSE, FALSE, 0);
 	gtk_widget_show(tabcomp);
 
-	g_signal_connect(G_OBJECT(lw->path_entry->parent), "changed",
+	g_signal_connect(G_OBJECT(gtk_widget_get_parent(lw->path_entry)), "changed",
 			 G_CALLBACK(layout_path_entry_changed_cb), lw);
 
 	lw->vd = vd_new(lw->options.dir_view_type, lw->dir_fd);
@@ -1008,7 +1008,7 @@ void layout_sort_set(LayoutWindow *lw, SortType type, gboolean ascend)
 	lw->sort_method = type;
 	lw->sort_ascend = ascend;
 
-	if (lw->info_sort) gtk_label_set_text(GTK_LABEL(GTK_BIN(lw->info_sort)->child),
+	if (lw->info_sort) gtk_label_set_text(GTK_LABEL(gtk_bin_get_child(GTK_BIN(lw->info_sort))),
 					      sort_type_get_text(type));
 	layout_list_sync_sort(lw);
 }
@@ -1025,10 +1025,13 @@ gboolean layout_sort_get(LayoutWindow *lw, SortType *type, gboolean *ascend)
 
 gboolean layout_geometry_get(LayoutWindow *lw, gint *x, gint *y, gint *w, gint *h)
 {
+	GdkWindow *window;
 	if (!layout_valid(&lw)) return FALSE;
-
-	gdk_window_get_root_origin(lw->window->window, x, y);
-	gdk_drawable_get_size(lw->window->window, w, h);
+	
+	window = gtk_widget_get_window(lw->window);
+	gdk_window_get_root_origin(window, x, y);
+	*w = gdk_window_get_width(window);
+	*h = gdk_window_get_height(window);
 
 	return TRUE;
 }
@@ -1037,18 +1040,18 @@ gboolean layout_geometry_get_dividers(LayoutWindow *lw, gint *h, gint *v)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
-	if (lw->h_pane && GTK_PANED(lw->h_pane)->child1->allocation.x >= 0)
+	if (lw->h_pane && gtk_paned_get_child1(GTK_PANED(lw->h_pane))->allocation.x >= 0)
 		{
-		*h = GTK_PANED(lw->h_pane)->child1->allocation.width;
+		*h = gtk_paned_get_child1(GTK_PANED(lw->h_pane))->allocation.width;
 		}
 	else if (h != &lw->options.main_window.hdivider_pos)
 		{
 		*h = lw->options.main_window.hdivider_pos;
 		}
 
-	if (lw->v_pane && GTK_PANED(lw->v_pane)->child1->allocation.x >= 0)
+	if (lw->v_pane && gtk_paned_get_child1(GTK_PANED(lw->v_pane))->allocation.x >= 0)
 		{
-		*v = GTK_PANED(lw->v_pane)->child1->allocation.height;
+		*v = gtk_paned_get_child1(GTK_PANED(lw->v_pane))->allocation.height;
 		}
 	else if (v != &lw->options.main_window.vdivider_pos)
 		{
@@ -1142,6 +1145,7 @@ static void layout_location_compute(LayoutLocation l1, LayoutLocation l2,
 
 gboolean layout_geometry_get_tools(LayoutWindow *lw, gint *x, gint *y, gint *w, gint *h, gint *divider_pos)
 {
+	GdkWindow *window;
 	if (!layout_valid(&lw)) return FALSE;
 
 #if GTK_CHECK_VERSION(2,20,0)
@@ -1157,16 +1161,18 @@ gboolean layout_geometry_get_tools(LayoutWindow *lw, gint *x, gint *y, gint *w, 
 		return FALSE;
 		}
 
-	gdk_window_get_root_origin(lw->tools->window, x, y);
-	gdk_drawable_get_size(lw->tools->window, w, h);
+	window = gtk_widget_get_window(lw->window);
+	gdk_window_get_root_origin(window, x, y);
+	*w = gdk_window_get_width(window);
+	*h = gdk_window_get_height(window);
 
 	if (GTK_IS_VPANED(lw->tools_pane))
 		{
-		*divider_pos = GTK_PANED(lw->tools_pane)->child1->allocation.height;
+		*divider_pos = gtk_paned_get_child1(GTK_PANED(lw->tools_pane))->allocation.height;
 		}
 	else
 		{
-		*divider_pos = GTK_PANED(lw->tools_pane)->child1->allocation.width;
+		*divider_pos = gtk_paned_get_child1(GTK_PANED(lw->tools_pane))->allocation.width;
 		}
 
 	return TRUE;
@@ -1272,7 +1278,7 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 		{
 		layout_tools_geometry_sync(lw);
 		/* dump the contents */
-		gtk_widget_destroy(GTK_BIN(lw->tools)->child);
+		gtk_widget_destroy(gtk_bin_get_child(GTK_BIN(lw->tools)));
 		}
 
 	layout_actions_add_window(lw, lw->tools);
@@ -1401,8 +1407,8 @@ void layout_split_change(LayoutWindow *lw, ImageSplitMode mode)
 		if (lw->split_images[i])
 			{
 			gtk_widget_hide(lw->split_images[i]->widget);
-			if (lw->split_images[i]->widget->parent != lw->utility_paned)
-				gtk_container_remove(GTK_CONTAINER(lw->split_images[i]->widget->parent), lw->split_images[i]->widget);
+			if (gtk_widget_get_parent(lw->split_images[i]->widget) != lw->utility_paned)
+				gtk_container_remove(GTK_CONTAINER(gtk_widget_get_parent(lw->split_images[i]->widget)), lw->split_images[i]->widget);
 			}
 		}
 	gtk_container_remove(GTK_CONTAINER(lw->utility_paned), lw->split_image_widget);
@@ -1561,10 +1567,10 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 
 	/* preserve utility_box (image + sidebars), menu_bar and toolbars to be reused later in layout_grid_setup */
 	/* lw->image is preserved together with lw->utility_box */
-	if (lw->utility_box) gtk_container_remove(GTK_CONTAINER(lw->utility_box->parent), lw->utility_box);
-	if (lw->menu_bar) gtk_container_remove(GTK_CONTAINER(lw->menu_bar->parent), lw->menu_bar);
+	if (lw->utility_box) gtk_container_remove(GTK_CONTAINER(gtk_widget_get_parent(lw->utility_box)), lw->utility_box);
+	if (lw->menu_bar) gtk_container_remove(GTK_CONTAINER(gtk_widget_get_parent(lw->menu_bar)), lw->menu_bar);
 	for (i = 0; i < TOOLBAR_COUNT; i++)
-		if (lw->toolbar[i]) gtk_container_remove(GTK_CONTAINER(lw->toolbar[i]->parent), lw->toolbar[i]);
+		if (lw->toolbar[i]) gtk_container_remove(GTK_CONTAINER(gtk_widget_get_parent(lw->toolbar[i])), lw->toolbar[i]);
 
 	/* clear it all */
 
@@ -1894,7 +1900,7 @@ void layout_show_config_window(LayoutWindow *lw)
 	button = pref_button_new(NULL, GTK_STOCK_OK, NULL, FALSE,
 				 G_CALLBACK(layout_config_ok_cb), lc);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_grab_default(button);
 	gtk_widget_show(button);
 
@@ -1909,13 +1915,13 @@ void layout_show_config_window(LayoutWindow *lw)
 	button = pref_button_new(NULL, GTK_STOCK_APPLY, NULL, FALSE,
 				 G_CALLBACK(layout_config_apply_cb), lc);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_show(button);
 
 	button = pref_button_new(NULL, GTK_STOCK_CANCEL, NULL, FALSE,
 				 G_CALLBACK(layout_config_close_cb), lc);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_show(button);
 
 	if (!generic_dialog_get_alternative_button_order(lc->configwindow))

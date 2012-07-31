@@ -747,7 +747,7 @@ gint main(gint argc, gchar *argv[])
 	init_exec_time();
 
 	/* setup locale, i18n */
-	gtk_set_locale();
+	setlocale(LC_ALL, "");
 
 #ifdef ENABLE_NLS
 	bindtextdomain(PACKAGE, GQ_LOCALEDIR);

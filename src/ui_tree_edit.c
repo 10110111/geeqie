@@ -74,6 +74,7 @@ static gboolean tree_edit_click_end_cb(GtkWidget *widget, GdkEventButton *event,
 static gboolean tree_edit_click_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	TreeEditData *ted = data;
+	GdkWindow *window = gtk_widget_get_window(ted->window);
 
 	gint x, y;
 	gint w, h;
@@ -83,8 +84,9 @@ static gboolean tree_edit_click_cb(GtkWidget *widget, GdkEventButton *event, gpo
 	xr = (gint)event->x_root;
 	yr = (gint)event->y_root;
 
-	gdk_window_get_origin(ted->window->window, &x, &y);
-	gdk_drawable_get_size(ted->window->window, &w, &h);
+	gdk_window_get_origin(window, &x, &y);
+	w = gdk_window_get_width(window);
+	h = gdk_window_get_height(window);
 
 	if (xr < x || yr < y || xr > x + w || yr > y + h)
 		{
@@ -164,12 +166,12 @@ static gboolean tree_edit_by_path_idle_cb(gpointer data)
 	/* explicitely set the focus flag for the entry, for some reason on popup windows this
 	 * is not set, and causes no edit cursor to appear ( popups not allowed focus? )
 	 */
-	GTK_WIDGET_SET_FLAGS(ted->entry, GTK_HAS_FOCUS);
+	gtk_widget_grab_focus(ted->entry);
 	gtk_grab_add(ted->window);
-	gdk_pointer_grab(ted->window->window, TRUE,
+	gdk_pointer_grab(gtk_widget_get_window(ted->window), TRUE,
 			 GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_MOTION_MASK,
 			 NULL, NULL, GDK_CURRENT_TIME);
-	gdk_keyboard_grab(ted->window->window, TRUE, GDK_CURRENT_TIME);
+	gdk_keyboard_grab(gtk_widget_get_window(ted->window), TRUE, GDK_CURRENT_TIME);
 
 	return FALSE;
 }
@@ -185,7 +187,7 @@ gboolean tree_edit_by_path(GtkTreeView *tree, GtkTreePath *tpath, gint column, c
 
 	if (!edit_func) return FALSE;
 #if GTK_CHECK_VERSION(2,20,0)
-	if (!gtk_widget_get_visible(tree)) return FALSE;
+	if (!gtk_widget_get_visible(GTK_WIDGET(tree))) return FALSE;
 #else
 	if (!GTK_WIDGET_VISIBLE(tree)) return FALSE;
 #endif
@@ -278,11 +280,13 @@ gboolean tree_view_get_cell_origin(GtkTreeView *widget, GtkTreePath *tpath, gint
 #else
 	gtk_tree_view_tree_to_widget_coords(widget, 0, 0, &x_offset, &y_offset);
 #endif
-	gdk_window_get_origin(GTK_WIDGET(widget)->window, &x_origin, &y_origin);
+	gdk_window_get_origin(gtk_widget_get_window(GTK_WIDGET(widget)), &x_origin, &y_origin);
 
 	if (gtk_tree_view_get_headers_visible(widget))
 		{
-		header_size = tv_column->button->allocation.height;
+		GtkAllocation allocation;
+		gtk_widget_get_allocation(tv_column->button, &allocation);
+		header_size = allocation.height;
 		}
 	else
 		{
@@ -337,9 +341,12 @@ void tree_view_get_cell_clamped(GtkTreeView *widget, GtkTreePath *tpath, gint co
 	gint wx, wy, ww, wh;
 	GdkWindow *window;
 
-	window = GTK_WIDGET(widget)->window;
+	window = gtk_widget_get_window(GTK_WIDGET(widget));
 	gdk_window_get_origin(window, &wx, &wy);
-	gdk_drawable_get_size(window, &ww, &wh);
+
+	ww = gdk_window_get_width(window);
+	wh = gdk_window_get_height(window);
+
 	if (!tree_view_get_cell_origin(widget, tpath, column, text_cell_only, x,  y, width, height))
 		{
 		*x = wx;
@@ -617,9 +624,10 @@ static gboolean widget_auto_scroll_cb(gpointer data)
 		sd->max_step = MIN(sd->region_size, sd->max_step + 2);
 		}
 
-	window = sd->widget->window;
+	window = gtk_widget_get_window(sd->widget);
 	gdk_window_get_pointer(window, &x, &y, NULL);
-	gdk_drawable_get_size(window, &w, &h);
+	w = gdk_window_get_width(window);
+	h = gdk_window_get_height(window);
 
 	if (x < 0 || x >= w || y < 0 || y >= h)
 		{
@@ -649,7 +657,7 @@ static gboolean widget_auto_scroll_cb(gpointer data)
 		{
 		amt = CLAMP(amt, 0 - sd->max_step, sd->max_step);
 
-		if (sd->adj->value != CLAMP(sd->adj->value + amt, sd->adj->lower, sd->adj->upper - sd->adj->page_size))
+		if (gtk_adjustment_get_value(sd->adj) != CLAMP(gtk_adjustment_get_value(sd->adj) + amt, gtk_adjustment_get_lower(sd->adj), gtk_adjustment_get_upper(sd->adj) - gtk_adjustment_get_page_size(sd->adj)))
 			{
 			/* only notify when scrolling is needed */
 			if (sd->notify_func && !sd->notify_func(sd->widget, x, y, sd->notify_data))
@@ -660,7 +668,7 @@ static gboolean widget_auto_scroll_cb(gpointer data)
 				}
 
 			gtk_adjustment_set_value(sd->adj,
-				CLAMP(sd->adj->value + amt, sd->adj->lower, sd->adj->upper - sd->adj->page_size));
+				CLAMP(gtk_adjustment_get_value(sd->adj) + amt, gtk_adjustment_get_lower(sd->adj), gtk_adjustment_get_upper(sd->adj) - gtk_adjustment_get_page_size(sd->adj)));
 			}
 		}
 
