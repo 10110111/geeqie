@@ -4,12 +4,6 @@ BuildRequires:  gtk2-devel gcc-c++ intltool gnome-doc-utils libjpeg-devel libtif
 %if 0%{?suse_version}
 BuildRequires:  liblcms-devel update-desktop-files
 %define docname	%{name}
-%if %suse_version < 1030
-%define _prefix	    /opt/gnome
-%define _sysconfdir /etc%{prefix}
-# workaround for gtk2 include conflicts on older SUSE versions:
-%define _includedir %{_usr}
-%endif
 %else
 BuildRequires:  lcms-devel
 %define docname	%{name}-%{version}
@@ -29,7 +23,7 @@ BuildRequires:  libexiv2-devel
 %endif
 
 
-Summary:        Graphics file browser utility.
+Summary:        Graphics file browser utility
 Summary(fr):    Explorateur de fichiers graphiques
 Summary(es):    Navegador de archivos gráficos
 Summary(it):    Visualizzatore di archivi grafici
@@ -40,6 +34,7 @@ License:        GNU General Public License version 2 or later (GPL v2 or later)
 Group:          Productivity/Graphics/Viewers
 Source:         geeqie-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+URL:            http://geeqie.sourceforge.net/
 #
 # these are requirements of the plugins
 Requires: exiv2 exiftran ImageMagick ufraw
