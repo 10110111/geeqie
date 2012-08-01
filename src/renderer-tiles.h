@@ -13,9 +13,6 @@
 #ifndef RENDERER_TILES_H
 #define RENDERER_TILES_H
 
-#include <gtk/gtkeventbox.h>
-#include <gtk/gtkwindow.h>
-
 #include <pixbuf-renderer.h>
 
 

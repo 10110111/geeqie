@@ -121,7 +121,11 @@ static void pixbuf_renderer_set_property(GObject *object, guint prop_id,
 					 const GValue *value, GParamSpec *pspec);
 static void pixbuf_renderer_get_property(GObject *object, guint prop_id,
 					 GValue *value, GParamSpec *pspec);
+#if GTK_CHECK_VERSION(3,0,0)
+static gboolean pixbuf_renderer_draw(GtkWidget *widget, cairo_t *cr);
+#else
 static gboolean pixbuf_renderer_expose(GtkWidget *widget, GdkEventExpose *event);
+#endif
 
 static void pr_scroller_timer_set(PixbufRenderer *pr, gboolean start);
 
@@ -182,7 +186,11 @@ static void pixbuf_renderer_class_init(PixbufRendererClass *class)
 
 	gobject_class->finalize = pixbuf_renderer_finalize;
 
-	widget_class->expose_event = pixbuf_renderer_expose;
+#if GTK_CHECK_VERSION(3,0,0)
+	widget_class->draw = pixbuf_renderer_draw;
+#else
+  	widget_class->expose_event = pixbuf_renderer_expose;
+#endif
 
 	g_object_class_install_property(gobject_class,
 					PROP_ZOOM_MIN,
@@ -229,7 +237,7 @@ static void pixbuf_renderer_class_init(PixbufRendererClass *class)
 							     NULL,
 							     FALSE,
 							     G_PARAM_READABLE | G_PARAM_WRITABLE));
-
+#if !GTK_CHECK_VERSION(3,0,0)
 	g_object_class_install_property(gobject_class,
 					PROP_DITHER_QUALITY,
 					g_param_spec_uint("dither_quality",
@@ -239,7 +247,7 @@ static void pixbuf_renderer_class_init(PixbufRendererClass *class)
 							  GDK_RGB_DITHER_MAX,
 							  GDK_RGB_DITHER_NORMAL,
 							  G_PARAM_READABLE | G_PARAM_WRITABLE));
-
+#endif
 	g_object_class_install_property(gobject_class,
 					PROP_SCROLL_RESET,
 					g_param_spec_uint("scroll_reset",
@@ -412,7 +420,9 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 	pr->scale = 1.0;
 	pr->aspect_ratio = 1.0;
 
+#if !GTK_CHECK_VERSION(3,0,0)
 	pr->dither_quality = GDK_RGB_DITHER_NORMAL;
+#endif
 
 	pr->scroll_reset = PR_SCROLL_RESET_TOPLEFT;
 
@@ -489,9 +499,11 @@ static void pixbuf_renderer_set_property(GObject *object, guint prop_id,
 		case PROP_ZOOM_EXPAND:
 			pr->zoom_expand = g_value_get_boolean(value);
 			break;
+#if !GTK_CHECK_VERSION(3,0,0)
 		case PROP_DITHER_QUALITY:
 			pr->dither_quality = g_value_get_uint(value);
 			break;
+#endif
 		case PROP_SCROLL_RESET:
 			pr->scroll_reset = g_value_get_uint(value);
 			break;
@@ -555,9 +567,11 @@ static void pixbuf_renderer_get_property(GObject *object, guint prop_id,
 		case PROP_ZOOM_EXPAND:
 			g_value_set_boolean(value, pr->zoom_expand);
 			break;
+#if !GTK_CHECK_VERSION(3,0,0)
 		case PROP_DITHER_QUALITY:
 			g_value_set_uint(value, pr->dither_quality);
 			break;
+#endif
 		case PROP_SCROLL_RESET:
 			g_value_set_uint(value, pr->scroll_reset);
 			break;
@@ -597,6 +611,26 @@ static void pixbuf_renderer_get_property(GObject *object, guint prop_id,
 		}
 }
 
+#if GTK_CHECK_VERSION(3,0,0)
+
+static gboolean pixbuf_renderer_draw(GtkWidget *widget, cairo_t *cr)
+{
+	if (gtk_widget_is_drawable(widget))
+		{
+		if (gtk_widget_get_has_window(widget))
+			{
+			GdkRectangle area;
+			if (gdk_cairo_get_clip_rectangle(cr, &area))
+				{
+				pixbuf_renderer_paint(PIXBUF_RENDERER(widget), &area);
+				}
+			}
+		}
+
+	return FALSE;
+}
+
+#else
 static gboolean pixbuf_renderer_expose(GtkWidget *widget, GdkEventExpose *event)
 {
 #if GTK_CHECK_VERSION(2,20,0)
@@ -616,7 +650,6 @@ static gboolean pixbuf_renderer_expose(GtkWidget *widget, GdkEventExpose *event)
 				GdkRectangle area;
 
 				gdk_window_get_position(event->window, &area.x, &area.y);
-
 				area.x += event->area.x;
 				area.y += event->area.y;
 				area.width = event->area.width;
@@ -632,6 +665,7 @@ static gboolean pixbuf_renderer_expose(GtkWidget *widget, GdkEventExpose *event)
 
 	return FALSE;
 }
+#endif
 
 /*
  *-------------------------------------------------------------------
@@ -2455,7 +2489,9 @@ static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, P
 		if (GTK_WIDGET_REALIZED(box))
 #endif
 			{
+#if !GTK_CHECK_VERSION(3,0,0)
 			gdk_window_clear(gtk_widget_get_window(box));
+#endif
 			pr->renderer->overlay_draw(pr->renderer, 0, 0, pr->viewport_width, pr->viewport_height);
 			if (pr->renderer2) pr->renderer2->overlay_draw(pr->renderer2, 0, 0, pr->viewport_width, pr->viewport_height);
 			}

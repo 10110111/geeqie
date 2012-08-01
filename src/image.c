@@ -896,7 +896,7 @@ static void image_focus_paint(ImageWindow *imd, gboolean has_focus, GdkRectangle
 
 	GtkAllocation allocation;
 	gtk_widget_get_allocation(widget, &allocation);
-
+#if !GTK_CHECK_VERSION(3,0,0)
 	if (has_focus)
 		{
 		gtk_paint_focus(gtk_widget_get_style(widget), gtk_widget_get_window(widget), GTK_STATE_ACTIVE,
@@ -911,6 +911,7 @@ static void image_focus_paint(ImageWindow *imd, gboolean has_focus, GdkRectangle
 				 allocation.x, allocation.y,
 				 allocation.width - 1, allocation.height - 1);
 		}
+#endif
 }
 
 static gboolean image_focus_expose(GtkWidget *widget, GdkEventExpose *event, gpointer data)
@@ -1622,6 +1623,7 @@ void image_set_delay_flip(ImageWindow *imd, gboolean delay)
 
 void image_to_root_window(ImageWindow *imd, gboolean scaled)
 {
+#if !GTK_CHECK_VERSION(3,0,0)
 	GdkScreen *screen;
 	GdkWindow *rootwindow;
 	GdkPixmap *pixmap;
@@ -1636,7 +1638,7 @@ void image_to_root_window(ImageWindow *imd, gboolean scaled)
 
 	screen = gtk_widget_get_screen(imd->widget);
 	rootwindow = gdk_screen_get_root_window(screen);
-	if (gdk_drawable_get_visual(rootwindow) != gdk_visual_get_system()) return;
+	if (gdk_window_get_visual(rootwindow) != gdk_visual_get_system()) return;
 
 	if (scaled)
 		{
@@ -1657,6 +1659,7 @@ void image_to_root_window(ImageWindow *imd, gboolean scaled)
 	g_object_unref(pixmap);
 
 	gdk_flush();
+#endif
 }
 
 void image_select(ImageWindow *imd, gboolean select)
@@ -1765,7 +1768,7 @@ static void image_free(ImageWindow *imd)
 	g_free(imd);
 }
 
-static void image_destroy_cb(GtkObject *widget, gpointer data)
+static void image_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	ImageWindow *imd = data;
 	image_free(imd);
@@ -1775,7 +1778,7 @@ gboolean selectable_frame_expose_cb(GtkWidget *widget, GdkEventExpose *event, gp
 {
 	GtkAllocation allocation;
 	gtk_widget_get_allocation(widget, &allocation);
-	
+#if !GTK_CHECK_VERSION(3,0,0)	
 	gtk_paint_flat_box(gtk_widget_get_style(widget),
 			   gtk_widget_get_window(widget),
 			   gtk_widget_get_state(widget),
@@ -1786,7 +1789,7 @@ gboolean selectable_frame_expose_cb(GtkWidget *widget, GdkEventExpose *event, gp
 			   allocation.x + 3, allocation.y + 3,
 			   allocation.width - 6, allocation.height - 6);
 
-
+#endif
 	return FALSE;
 }
 

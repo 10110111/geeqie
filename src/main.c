@@ -19,6 +19,7 @@
 #ifdef G_OS_UNIX
 #include <pwd.h>
 #endif
+#include <locale.h>
 
 #include "main.h"
 

@@ -17,6 +17,7 @@
 #include "collect.h"
 #include "image.h"
 #include "ui_fileops.h"
+#include "pixbuf_util.h"
 
 
 GtkTargetEntry dnd_file_drag_types[] = {
@@ -72,6 +73,7 @@ static void pixbuf_draw_border(GdkPixbuf *pixbuf, gint w, gint h)
 		}
 }
 
+/*
 static void pixbuf_draw_rect(GdkPixbuf *pixbuf, gint x, gint y, gint w, gint h, guint8 val)
 {
 	gboolean alpha;
@@ -96,7 +98,7 @@ static void pixbuf_draw_rect(GdkPixbuf *pixbuf, gint x, gint y, gint w, gint h, 
 			}
 		}
 }
-
+*/
 void dnd_set_drag_icon(GtkWidget *widget, GdkDragContext *context, GdkPixbuf *pixbuf, gint items)
 {
 	GdkPixbuf *dest;
@@ -146,7 +148,7 @@ void dnd_set_drag_icon(GtkWidget *widget, GdkDragContext *context, GdkPixbuf *pi
 		lw = CLAMP(lw, 0, w - x - 1);
 		lh = CLAMP(lh, 0, h - y - 1);
 
-		pixbuf_draw_rect(dest, x, y, lw, lh, 128);
+		pixbuf_draw_rect_fill(dest, x, y, lw, lh, 128, 128, 128, 255);
 		}
 
 	if (layout)

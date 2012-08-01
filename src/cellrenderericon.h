@@ -22,8 +22,6 @@
 #ifndef __GQV_CELL_RENDERER_ICON_H__
 #define __GQV_CELL_RENDERER_ICON_H__
 
-#include <gtk/gtkcellrenderer.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */

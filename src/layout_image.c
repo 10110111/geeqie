@@ -567,7 +567,7 @@ static void layout_image_menu_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolean *
 {
 	LayoutWindow *lw = data;
 
-	gdk_window_get_origin(lw->image->pr->window, x, y);
+	gdk_window_get_origin(gtk_widget_get_window(lw->image->pr), x, y);
 	popup_menu_position_clamp(menu, x, y, 0);
 }
 

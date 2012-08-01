@@ -618,7 +618,9 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_INT(*options, image.tile_cache_max)) continue;
 		if (READ_INT(*options, image.image_cache_max)) continue;
 		if (READ_UINT_CLAMP(*options, image.zoom_quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER)) continue;
+#if !GTK_CHECK_VERSION(3,0,0)
 		if (READ_UINT_CLAMP(*options, image.dither_quality, GDK_RGB_DITHER_NONE, GDK_RGB_DITHER_MAX)) continue;
+#endif
 		if (READ_INT(*options, image.zoom_increment)) continue;
 		if (READ_BOOL(*options, image.enable_read_ahead)) continue;
 		if (READ_BOOL(*options, image.exif_rotate_enable)) continue;

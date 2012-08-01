@@ -1383,21 +1383,12 @@ static void collection_table_insert_marker(CollectTable *ct, CollectInfo *info, 
 
 	if (!ct->marker_window)
 		{
-		GdkWindow *parent;
+		GdkWindow *parent = gtk_tree_view_get_bin_window(GTK_TREE_VIEW(ct->listview));
 		GdkWindowAttr attributes;
 		gint attributes_mask;
-		GdkPixmap *pixmap;
-		GdkBitmap *mask;
-		GdkPixbuf *pb;
-		gint w, h;
-
-		parent = gtk_tree_view_get_bin_window(GTK_TREE_VIEW(ct->listview));
-
-		pb = gdk_pixbuf_new_from_xpm_data((const gchar **)marker_xpm);
-		gdk_pixbuf_render_pixmap_and_mask(pb, &pixmap, &mask, 128);
-		g_object_unref(pb);
-
-		gdk_pixmap_get_size(pixmap, &w, &h);
+		GdkPixbuf *pb = gdk_pixbuf_new_from_xpm_data((const gchar **)marker_xpm);
+		gint w = gdk_pixbuf_get_width(pb);
+		gint h = gdk_pixbuf_get_height(pb);
 
 		attributes.window_type = GDK_WINDOW_CHILD;
 		attributes.wclass = GDK_INPUT_OUTPUT;
@@ -1407,11 +1398,34 @@ static void collection_table_insert_marker(CollectTable *ct, CollectInfo *info, 
 		attributes_mask = 0;
 
 		ct->marker_window = gdk_window_new(parent, &attributes, attributes_mask);
+
+#if GTK_CHECK_VERSION(3,0,0)
+		cairo_region_t *mask;
+		cairo_pattern_t *pattern;
+		cairo_surface_t *img = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, w, h);
+		cairo_t *cr = cairo_create(img);
+		gdk_cairo_set_source_pixbuf(cr, pb, 0, 0);
+		cairo_paint(cr);
+		pattern = cairo_pattern_create_for_surface(img);
+		mask = gdk_cairo_region_create_from_surface(img);
+		gdk_window_shape_combine_region(ct->marker_window, mask, 0, 0);
+		gdk_window_set_background_pattern(ct->marker_window, pattern);
+		cairo_region_destroy(mask);
+		cairo_pattern_destroy(pattern);
+		cairo_destroy(cr);
+		cairo_surface_destroy(img);
+#else
+		GdkPixmap *pixmap;
+		GdkBitmap *mask;
+		gdk_pixbuf_render_pixmap_and_mask(pb, &pixmap, &mask, 128);
+
 		gdk_window_set_back_pixmap(ct->marker_window, pixmap, FALSE);
 		gdk_window_shape_combine_mask(ct->marker_window, mask, 0, 0);
 
 		g_object_unref(pixmap);
 		if (mask) g_object_unref(mask);
+#endif
+		g_object_unref(pb);
 		}
 
 	if (info)
@@ -1434,7 +1448,9 @@ static void collection_table_insert_marker(CollectTable *ct, CollectInfo *info, 
 		y = cell.y + (cell.height / 2) - (h / 2);
 
 		gdk_window_move(ct->marker_window, x, y);
+#if !GTK_CHECK_VERSION(3,0,0)
 		gdk_window_clear(ct->marker_window);
+#endif
 		if (!gdk_window_is_visible(ct->marker_window)) gdk_window_show(ct->marker_window);
 		}
 	else
@@ -2448,7 +2464,7 @@ static void collection_table_destroy(GtkWidget *widget, gpointer data)
 
 	if (ct->popup)
 		{
-		g_signal_handlers_disconnect_matched(GTK_OBJECT(ct->popup), G_SIGNAL_MATCH_DATA,
+		g_signal_handlers_disconnect_matched(G_OBJECT(ct->popup), G_SIGNAL_MATCH_DATA,
 						     0, 0, 0, NULL, ct);
 		gtk_widget_destroy(ct->popup);
 		}

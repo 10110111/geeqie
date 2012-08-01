@@ -285,7 +285,11 @@ gboolean tree_view_get_cell_origin(GtkTreeView *widget, GtkTreePath *tpath, gint
 	if (gtk_tree_view_get_headers_visible(widget))
 		{
 		GtkAllocation allocation;
+#if GTK_CHECK_VERSION(3,0,0)
+		gtk_widget_get_allocation(gtk_tree_view_column_get_button(tv_column), &allocation);
+#else
 		gtk_widget_get_allocation(tv_column->button, &allocation);
+#endif
 		header_size = allocation.height;
 		}
 	else

@@ -1038,20 +1038,35 @@ gboolean layout_geometry_get(LayoutWindow *lw, gint *x, gint *y, gint *w, gint *
 
 gboolean layout_geometry_get_dividers(LayoutWindow *lw, gint *h, gint *v)
 {
+	GtkAllocation h_allocation;
+	GtkAllocation v_allocation;
+	
 	if (!layout_valid(&lw)) return FALSE;
-
-	if (lw->h_pane && gtk_paned_get_child1(GTK_PANED(lw->h_pane))->allocation.x >= 0)
+	
+	if (lw->h_pane)
 		{
-		*h = gtk_paned_get_child1(GTK_PANED(lw->h_pane))->allocation.width;
+		GtkWidget *child = gtk_paned_get_child1(GTK_PANED(lw->h_pane));
+		gtk_widget_get_allocation(child, &h_allocation);
+		}
+
+	if (lw->v_pane)
+		{
+		GtkWidget *child = gtk_paned_get_child1(GTK_PANED(lw->v_pane));
+		gtk_widget_get_allocation(child, &v_allocation);
+		}
+
+	if (lw->h_pane && h_allocation.x >= 0)
+		{
+		*h = h_allocation.width;
 		}
 	else if (h != &lw->options.main_window.hdivider_pos)
 		{
 		*h = lw->options.main_window.hdivider_pos;
 		}
 
-	if (lw->v_pane && gtk_paned_get_child1(GTK_PANED(lw->v_pane))->allocation.x >= 0)
+	if (lw->v_pane && v_allocation.x >= 0)
 		{
-		*v = gtk_paned_get_child1(GTK_PANED(lw->v_pane))->allocation.height;
+		*v = v_allocation.height;
 		}
 	else if (v != &lw->options.main_window.vdivider_pos)
 		{
@@ -1146,6 +1161,7 @@ static void layout_location_compute(LayoutLocation l1, LayoutLocation l2,
 gboolean layout_geometry_get_tools(LayoutWindow *lw, gint *x, gint *y, gint *w, gint *h, gint *divider_pos)
 {
 	GdkWindow *window;
+	GtkAllocation allocation;
 	if (!layout_valid(&lw)) return FALSE;
 
 #if GTK_CHECK_VERSION(2,20,0)
@@ -1165,14 +1181,15 @@ gboolean layout_geometry_get_tools(LayoutWindow *lw, gint *x, gint *y, gint *w, 
 	gdk_window_get_root_origin(window, x, y);
 	*w = gdk_window_get_width(window);
 	*h = gdk_window_get_height(window);
+	gtk_widget_get_allocation(gtk_paned_get_child1(GTK_PANED(lw->tools_pane)), &allocation);
 
 	if (GTK_IS_VPANED(lw->tools_pane))
 		{
-		*divider_pos = gtk_paned_get_child1(GTK_PANED(lw->tools_pane))->allocation.height;
+		*divider_pos = allocation.height;
 		}
 	else
 		{
-		*divider_pos = gtk_paned_get_child1(GTK_PANED(lw->tools_pane))->allocation.width;
+		*divider_pos = allocation.width;
 		}
 
 	return TRUE;

@@ -1387,7 +1387,6 @@ static gboolean sizer_expose_cb(GtkWidget *widget, GdkEventExpose *event, gpoint
 	GtkStateType state;
 	GtkAllocation allocation;
 
-	gdk_region_get_clipbox(event->region, &clip);
 
 	if (sd->position & SIZER_POS_LEFT || sd->position & SIZER_POS_RIGHT)
 		{
@@ -1408,11 +1407,21 @@ static gboolean sizer_expose_cb(GtkWidget *widget, GdkEventExpose *event, gpoint
 		}
 
 	gtk_widget_get_allocation(widget, &allocation);
+#if GTK_CHECK_VERSION(3,0,0)
+	cairo_t *cr = gdk_cairo_create(gtk_widget_get_window(widget));
+
+	gtk_render_handle (gtk_widget_get_style_context (widget),
+	                   cr, allocation.x, allocation.y, allocation.width, allocation.height);    
+	cairo_destroy(cr);
+#else
+	gdk_region_get_clipbox(event->region, &clip);
+
 	gtk_paint_handle(gtk_widget_get_style(widget), gtk_widget_get_window(widget), state,
 			 GTK_SHADOW_NONE, &clip, widget, "paned",
 			 0, 0,
 			 allocation.width, allocation.height,
 			 orientation);
+#endif
 
 	return TRUE;
 }

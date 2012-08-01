@@ -782,7 +782,6 @@ void pixbuf_draw_layout(GdkPixbuf *pixbuf, PangoLayout *layout, GtkWidget *widge
 {
 	GdkPixbuf *buffer;
 	gint w, h;
-	GdkGC *gc;
 	gint sx, sy;
 	gint dw, dh;
 	cairo_surface_t *source;
