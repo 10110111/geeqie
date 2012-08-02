@@ -236,8 +236,8 @@ static gboolean tab_completion_popup_key_press(GtkWidget *widget, GdkEventKey *e
 {
 	TabCompData *td = data;
 
-	if (event->keyval == GDK_Tab ||
-	    event->keyval == GDK_BackSpace ||
+	if (event->keyval == GDK_KEY_Tab ||
+	    event->keyval == GDK_KEY_BackSpace ||
 	    (event->keyval >= 0x20 && event->keyval <= 0xFF) )
 		{
 		if (event->keyval >= 0x20 && event->keyval <= 0xFF)
@@ -615,7 +615,7 @@ static gboolean tab_completion_key_pressed(GtkWidget *widget, GdkEventKey *event
 
 	switch (event->keyval)
 		{
-		case GDK_Tab:
+		case GDK_KEY_Tab:
 			if (!(event->state & GDK_CONTROL_MASK))
 				{
 				if (tab_completion_do(td))
@@ -625,7 +625,7 @@ static gboolean tab_completion_key_pressed(GtkWidget *widget, GdkEventKey *event
 				stop_signal = TRUE;
 				}
 			break;
-		case GDK_Return: case GDK_KP_Enter:
+		case GDK_KEY_Return: case GDK_KEY_KP_Enter:
 			if (td->fd_button &&
 			    (event->state & GDK_CONTROL_MASK))
 				{

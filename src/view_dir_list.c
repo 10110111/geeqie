@@ -361,7 +361,7 @@ gboolean vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 	ViewDir *vd = data;
 	GtkTreePath *tpath;
 
-	if (event->keyval != GDK_Menu) return FALSE;
+	if (event->keyval != GDK_KEY_Menu) return FALSE;
 
 	gtk_tree_view_get_cursor(GTK_TREE_VIEW(vd->view), &tpath, NULL);
 	if (tpath)

@@ -1276,7 +1276,7 @@ static gboolean search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event,
 					gtk_tree_selection_select_all(selection);
 					}
 				break;
-			case GDK_Delete: case GDK_KP_Delete:
+			case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 				search_result_clear(sd);
 				break;
 			default:
@@ -1295,7 +1295,7 @@ static gboolean search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event,
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
-			case GDK_Return: case GDK_KP_Enter:
+			case GDK_KEY_Return: case GDK_KEY_KP_Enter:
 				if (mfd) layout_set_fd(NULL, mfd->fd);
 				break;
 			case 'V': case 'v':
@@ -1307,14 +1307,14 @@ static gboolean search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event,
 				filelist_free(list);
 				}
 				break;
-			case GDK_Delete: case GDK_KP_Delete:
+			case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 				search_result_remove_selection(sd);
 				break;
 			case 'C': case 'c':
 				search_result_collection_from_selection(sd);
 				break;
-			case GDK_Menu:
-			case GDK_F10:
+			case GDK_KEY_Menu:
+			case GDK_KEY_F10:
 				{
 				GtkWidget *menu;
 

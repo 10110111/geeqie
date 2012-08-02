@@ -780,7 +780,7 @@ gboolean vdtree_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 
 	switch (event->keyval)
 		{
-		case GDK_Menu:
+		case GDK_KEY_Menu:
 			vd->click_fd = fd;
 			vd_color_set(vd, vd->click_fd, TRUE);
 
@@ -789,9 +789,9 @@ gboolean vdtree_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 
 			return TRUE;
 			break;
-		case GDK_plus:
-		case GDK_Right:
-		case GDK_KP_Add:
+		case GDK_KEY_plus:
+		case GDK_KEY_Right:
+		case GDK_KEY_KP_Add:
 			if (fd)
 				{
 				vdtree_populate_path_by_iter(vd, &iter, FALSE, vd->dir_fd);

@@ -967,14 +967,14 @@ static gboolean date_selection_popup_keypress_cb(GtkWidget *widget, GdkEventKey 
 
 	switch (event->keyval)
 		{
-		case GDK_Return:
-		case GDK_KP_Enter:
-		case GDK_Tab:
-		case GDK_ISO_Left_Tab:
+		case GDK_KEY_Return:
+		case GDK_KEY_KP_Enter:
+		case GDK_KEY_Tab:
+		case GDK_KEY_ISO_Left_Tab:
 			date_selection_popup_sync(ds);
 			date_selection_popup_hide(ds);
 			break;
-		case GDK_Escape:
+		case GDK_KEY_Escape:
 			date_selection_popup_hide(ds);
 			break;
 		default:

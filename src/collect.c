@@ -901,7 +901,7 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
-			case GDK_Return: case GDK_KP_Enter:
+			case GDK_KEY_Return: case GDK_KEY_KP_Enter:
 				layout_image_set_collection(NULL, cw->cd,
 					collection_table_get_focus_info(cw->table));
 				break;
@@ -951,7 +951,7 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 					collection_set_sort_method(cw->cd, SORT_PATH);
 					}
 				break;
-			case GDK_Delete: case GDK_KP_Delete:
+			case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 				list = g_list_copy(cw->table->selection);
 				if (list)
 					{

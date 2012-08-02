@@ -439,20 +439,20 @@ static gboolean bookmark_keypress_cb(GtkWidget *button, GdkEventKey *event, gpoi
 
 	switch (event->keyval)
 		{
-		case GDK_F10:
+		case GDK_KEY_F10:
 			if (!(event->state & GDK_CONTROL_MASK)) return FALSE;
-		case GDK_Menu:
+		case GDK_KEY_Menu:
 			bookmark_menu_popup(bm, button, 0, event->time, TRUE);
 			return TRUE;
 			break;
-		case GDK_Up:
+		case GDK_KEY_Up:
 			if (event->state & GDK_SHIFT_MASK)
 				{
 				bookmark_move(bm, button, -1);
 				return TRUE;
 				}
 			break;
-		case GDK_Down:
+		case GDK_KEY_Down:
 			if (event->state & GDK_SHIFT_MASK)
 				{
 				bookmark_move(bm, button, 1);

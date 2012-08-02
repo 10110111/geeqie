@@ -1227,28 +1227,28 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
-			case GDK_Left: case GDK_KP_Left:
+			case GDK_KEY_Left: case GDK_KEY_KP_Left:
 				x -= 1;
 				break;
-			case GDK_Right: case GDK_KP_Right:
+			case GDK_KEY_Right: case GDK_KEY_KP_Right:
 				x += 1;
 				break;
-			case GDK_Up: case GDK_KP_Up:
+			case GDK_KEY_Up: case GDK_KEY_KP_Up:
 				y -= 1;
 				break;
-			case GDK_Down: case GDK_KP_Down:
+			case GDK_KEY_Down: case GDK_KEY_KP_Down:
 				y += 1;
 				break;
-			case GDK_Page_Up: case GDK_KP_Page_Up:
+			case GDK_KEY_Page_Up: case GDK_KEY_KP_Page_Up:
 				pixbuf_renderer_scroll(pr, 0, 0 - pr->vis_height / 2);
 				break;
-			case GDK_Page_Down: case GDK_KP_Page_Down:
+			case GDK_KEY_Page_Down: case GDK_KEY_KP_Page_Down:
 				pixbuf_renderer_scroll(pr, 0, pr->vis_height / 2);
 				break;
-			case GDK_Home: case GDK_KP_Home:
+			case GDK_KEY_Home: case GDK_KEY_KP_Home:
 				pixbuf_renderer_scroll(pr, 0 - pr->vis_width / 2, 0);
 				break;
-			case GDK_End: case GDK_KP_End:
+			case GDK_KEY_End: case GDK_KEY_KP_End:
 				pixbuf_renderer_scroll(pr, pr->vis_width / 2, 0);
 				break;
 			default:
@@ -1348,7 +1348,7 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
-			case GDK_Escape:
+			case GDK_KEY_Escape:
 				if (pw->fs)
 					{
 					pan_fullscreen_toggle(pw, TRUE);
@@ -1370,13 +1370,13 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 			stop_signal = TRUE;
 			switch (event->keyval)
 				{
-				case '+': case '=': case GDK_KP_Add:
+				case '+': case '=': case GDK_KEY_KP_Add:
 					pixbuf_renderer_zoom_adjust(pr, ZOOM_INCREMENT);
 					break;
-				case '-': case GDK_KP_Subtract:
+				case '-': case GDK_KEY_KP_Subtract:
 					pixbuf_renderer_zoom_adjust(pr, -ZOOM_INCREMENT);
 					break;
-				case 'Z': case 'z': case GDK_KP_Divide: case '1':
+				case 'Z': case 'z': case GDK_KEY_KP_Divide: case '1':
 					pixbuf_renderer_zoom_set(pr, 1.0);
 					break;
 				case '2':
@@ -1399,7 +1399,7 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 					break;
 				case 'F': case 'f':
 				case 'V': case 'v':
-				case GDK_F11:
+				case GDK_KEY_F11:
 					pan_fullscreen_toggle(pw, FALSE);
 					break;
 				case 'I': case 'i':
@@ -1407,10 +1407,10 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 					pan_overlay_toggle(pw);
 #endif
 					break;
-				case GDK_Delete: case GDK_KP_Delete:
+				case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 					break;
-				case GDK_Menu:
-				case GDK_F10:
+				case GDK_KEY_Menu:
+				case GDK_KEY_F10:
 					menu = pan_popup_menu(pw);
 					gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
 						       pan_window_menu_pos_cb, pw, 0, GDK_CURRENT_TIME);

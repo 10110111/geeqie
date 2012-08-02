@@ -1300,33 +1300,33 @@ gboolean vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 	stop_signal = TRUE;
 	switch (event->keyval)
 		{
-		case GDK_Left: case GDK_KP_Left:
+		case GDK_KEY_Left: case GDK_KEY_KP_Left:
 			focus_col = -1;
 			break;
-		case GDK_Right: case GDK_KP_Right:
+		case GDK_KEY_Right: case GDK_KEY_KP_Right:
 			focus_col = 1;
 			break;
-		case GDK_Up: case GDK_KP_Up:
+		case GDK_KEY_Up: case GDK_KEY_KP_Up:
 			focus_row = -1;
 			break;
-		case GDK_Down: case GDK_KP_Down:
+		case GDK_KEY_Down: case GDK_KEY_KP_Down:
 			focus_row = 1;
 			break;
-		case GDK_Page_Up: case GDK_KP_Page_Up:
+		case GDK_KEY_Page_Up: case GDK_KEY_KP_Page_Up:
 			focus_row = -page_height(vf);
 			break;
-		case GDK_Page_Down: case GDK_KP_Page_Down:
+		case GDK_KEY_Page_Down: case GDK_KEY_KP_Page_Down:
 			focus_row = page_height(vf);
 			break;
-		case GDK_Home: case GDK_KP_Home:
+		case GDK_KEY_Home: case GDK_KEY_KP_Home:
 			focus_row = -VFICON(vf)->focus_row;
 			focus_col = -VFICON(vf)->focus_column;
 			break;
-		case GDK_End: case GDK_KP_End:
+		case GDK_KEY_End: case GDK_KEY_KP_End:
 			focus_row = VFICON(vf)->rows - 1 - VFICON(vf)->focus_row;
 			focus_col = VFICON(vf)->columns - 1 - VFICON(vf)->focus_column;
 			break;
-		case GDK_space:
+		case GDK_KEY_space:
 			id = vficon_find_data(vf, VFICON(vf)->focus_row, VFICON(vf)->focus_column, NULL);
 			if (id)
 				{
@@ -1354,7 +1354,7 @@ gboolean vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 					}
 				}
 			break;
-		case GDK_Menu:
+		case GDK_KEY_Menu:
 			id = vficon_find_data(vf, VFICON(vf)->focus_row, VFICON(vf)->focus_column, NULL);
 			VFICON(vf)->click_id = id;
 

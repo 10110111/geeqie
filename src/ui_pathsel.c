@@ -695,9 +695,9 @@ static gboolean dest_keypress_cb(GtkWidget *view, GdkEventKey *event, gpointer d
 
 	switch (event->keyval)
 		{
-		case GDK_F10:
+		case GDK_KEY_F10:
 			if (!(event->state & GDK_CONTROL_MASK)) return FALSE;
-		case GDK_Menu:
+		case GDK_KEY_Menu:
 			dest_view_store_selection(dd, GTK_TREE_VIEW(view));
 			dest_popup_menu(dd, GTK_TREE_VIEW(view), 0, event->time, TRUE);
 			return TRUE;
@@ -710,7 +710,7 @@ static gboolean dest_keypress_cb(GtkWidget *view, GdkEventKey *event, gpointer d
 				return TRUE;
 				}
 			break;
-		case GDK_Delete:
+		case GDK_KEY_Delete:
 			dest_view_store_selection(dd, GTK_TREE_VIEW(view));
 			dest_view_delete(dd, GTK_TREE_VIEW(view));
 			return TRUE;

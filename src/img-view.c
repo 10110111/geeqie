@@ -340,16 +340,16 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 	stop_signal = TRUE;
 	switch (event->keyval)
 		{
-		case GDK_Left: case GDK_KP_Left:
+		case GDK_KEY_Left: case GDK_KEY_KP_Left:
 			x -= 1;
 			break;
-		case GDK_Right: case GDK_KP_Right:
+		case GDK_KEY_Right: case GDK_KEY_KP_Right:
 			x += 1;
 			break;
-		case GDK_Up: case GDK_KP_Up:
+		case GDK_KEY_Up: case GDK_KEY_KP_Up:
 			y -= 1;
 			break;
-		case GDK_Down: case GDK_KP_Down:
+		case GDK_KEY_Down: case GDK_KEY_KP_Down:
 			y += 1;
 			break;
 		default:
@@ -467,32 +467,32 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
-			case GDK_Page_Up: case GDK_KP_Page_Up:
-			case GDK_BackSpace:
+			case GDK_KEY_Page_Up: case GDK_KEY_KP_Page_Up:
+			case GDK_KEY_BackSpace:
 			case 'B': case 'b':
 				view_step_prev(vw);
 				break;
-			case GDK_Page_Down: case GDK_KP_Page_Down:
-			case GDK_space:
+			case GDK_KEY_Page_Down: case GDK_KEY_KP_Page_Down:
+			case GDK_KEY_space:
 			case 'N': case 'n':
 				view_step_next(vw);
 				break;
-			case GDK_Home: case GDK_KP_Home:
+			case GDK_KEY_Home: case GDK_KEY_KP_Home:
 				view_step_to_end(vw, FALSE);
 				break;
-			case GDK_End: case GDK_KP_End:
+			case GDK_KEY_End: case GDK_KEY_KP_End:
 				view_step_to_end(vw, TRUE);
 				break;
-			case '+': case '=': case GDK_KP_Add:
+			case '+': case '=': case GDK_KEY_KP_Add:
 				image_zoom_adjust(imd, get_zoom_increment());
 				break;
-			case '-': case GDK_KP_Subtract:
+			case '-': case GDK_KEY_KP_Subtract:
 				image_zoom_adjust(imd, -get_zoom_increment());
 				break;
-			case 'X': case 'x': case GDK_KP_Multiply:
+			case 'X': case 'x': case GDK_KEY_KP_Multiply:
 				image_zoom_set(imd, 0.0);
 				break;
-			case 'Z': case 'z': case GDK_KP_Divide: case '1':
+			case 'Z': case 'z': case GDK_KEY_KP_Divide: case '1':
 				image_zoom_set(imd, 1.0);
 				break;
 			case '2':
@@ -537,7 +537,7 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 				break;
 			case 'F': case 'f':
 			case 'V': case 'v':
-			case GDK_F11:
+			case GDK_KEY_F11:
 				view_fullscreen_toggle(vw, FALSE);
 				break;
 			case 'I': case 'i':
@@ -549,13 +549,13 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 			case '[':
 				image_alter_orientation(imd, ALTER_ROTATE_90_CC);
 				break;
-			case GDK_Delete: case GDK_KP_Delete:
+			case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 				if (options->file_ops.enable_delete_key)
 					{
 					file_util_delete(image_get_fd(imd), NULL, imd->widget);
 					}
 				break;
-			case GDK_Escape:
+			case GDK_KEY_Escape:
 				if (vw->fs)
 					{
 					view_fullscreen_toggle(vw, TRUE);
@@ -565,8 +565,8 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 					view_window_close(vw);
 					}
 				break;
-			case GDK_Menu:
-			case GDK_F10:
+			case GDK_KEY_Menu:
+			case GDK_KEY_F10:
 				menu = view_popup_menu(vw);
 				gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
 					       view_window_menu_pos_cb, vw, 0, GDK_CURRENT_TIME);

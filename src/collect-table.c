@@ -1144,33 +1144,33 @@ static gboolean collection_table_press_key_cb(GtkWidget *widget, GdkEventKey *ev
 
 	switch (event->keyval)
 		{
-		case GDK_Left: case GDK_KP_Left:
+		case GDK_KEY_Left: case GDK_KEY_KP_Left:
 			focus_col = -1;
 			break;
-		case GDK_Right: case GDK_KP_Right:
+		case GDK_KEY_Right: case GDK_KEY_KP_Right:
 			focus_col = 1;
 			break;
-		case GDK_Up: case GDK_KP_Up:
+		case GDK_KEY_Up: case GDK_KEY_KP_Up:
 			focus_row = -1;
 			break;
-		case GDK_Down: case GDK_KP_Down:
+		case GDK_KEY_Down: case GDK_KEY_KP_Down:
 			focus_row = 1;
 			break;
-		case GDK_Page_Up: case GDK_KP_Page_Up:
+		case GDK_KEY_Page_Up: case GDK_KEY_KP_Page_Up:
 			focus_row = -page_height(ct);
 			break;
-		case GDK_Page_Down: case GDK_KP_Page_Down:
+		case GDK_KEY_Page_Down: case GDK_KEY_KP_Page_Down:
 			focus_row = page_height(ct);
 			break;
-		case GDK_Home: case GDK_KP_Home:
+		case GDK_KEY_Home: case GDK_KEY_KP_Home:
 			focus_row = -ct->focus_row;
 			focus_col = -ct->focus_column;
 			break;
-		case GDK_End: case GDK_KP_End:
+		case GDK_KEY_End: case GDK_KEY_KP_End:
 			focus_row = ct->rows - 1 - ct->focus_row;
 			focus_col = ct->columns - 1 - ct->focus_column;
 			break;
-		case GDK_space:
+		case GDK_KEY_space:
 			info = collection_table_find_data(ct, ct->focus_row, ct->focus_column, NULL);
 			if (info)
 				{
@@ -1189,8 +1189,8 @@ static gboolean collection_table_press_key_cb(GtkWidget *widget, GdkEventKey *ev
 		case 'T': case 't':
 			if (event->state & GDK_CONTROL_MASK) collection_table_toggle_filenames(ct);
 			break;
-		case GDK_Menu:
-		case GDK_F10:
+		case GDK_KEY_Menu:
+		case GDK_KEY_F10:
 			info = collection_table_find_data(ct, ct->focus_row, ct->focus_column, NULL);
 			ct->click_info = info;
 

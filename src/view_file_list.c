@@ -548,7 +548,7 @@ gboolean vflist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 	ViewFile *vf = data;
 	GtkTreePath *tpath;
 
-	if (event->keyval != GDK_Menu) return FALSE;
+	if (event->keyval != GDK_KEY_Menu) return FALSE;
 
 	gtk_tree_view_get_cursor(GTK_TREE_VIEW(vf->listview), &tpath, NULL);
 	if (tpath)

@@ -2971,7 +2971,7 @@ static gboolean dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, g
 						gtk_tree_selection_select_all(selection);
 						}
 					break;
-				case GDK_Delete: case GDK_KP_Delete:
+				case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 					if (on_second)
 						{
 						dupe_second_clear(dw);
@@ -3009,13 +3009,13 @@ static gboolean dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, g
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
-			case GDK_Return: case GDK_KP_Enter:
+			case GDK_KEY_Return: case GDK_KEY_KP_Enter:
 				dupe_menu_view(dw, di, listview, FALSE);
 				break;
 			case 'V': case 'v':
 				dupe_menu_view(dw, di, listview, TRUE);
 				break;
-			case GDK_Delete: case GDK_KP_Delete:
+			case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 				dupe_window_remove_selection(dw, listview);
 				break;
 			case 'C': case 'c':
@@ -3030,8 +3030,8 @@ static gboolean dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, g
 			case '2':
 				dupe_listview_select_dupes(dw, FALSE);
 				break;
-			case GDK_Menu:
-			case GDK_F10:
+			case GDK_KEY_Menu:
+			case GDK_KEY_F10:
 				if (!on_second)
 					{
 					GtkWidget *menu;

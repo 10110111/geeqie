@@ -57,7 +57,7 @@ static void hide_cb(GtkWidget *widget, LogWindow *logwin)
 static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event,
 			    LogWindow *logwin)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		gtk_widget_hide(logwin->window);
 	return FALSE;
 }

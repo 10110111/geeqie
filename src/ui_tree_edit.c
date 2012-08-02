@@ -104,21 +104,21 @@ static gboolean tree_edit_key_press_cb(GtkWidget *widget, GdkEventKey *event, gp
 
 	switch (event->keyval)
 		{
-		case GDK_Return:
-		case GDK_KP_Enter:
-		case GDK_Tab: 		/* ok, we are going to intercept the focus change
+		case GDK_KEY_Return:
+		case GDK_KEY_KP_Enter:
+		case GDK_KEY_Tab: 		/* ok, we are going to intercept the focus change
 					   from keyboard and act like return was hit */
-		case GDK_ISO_Left_Tab:
-		case GDK_Up:
-		case GDK_Down:
-		case GDK_KP_Up:
-		case GDK_KP_Down:
-		case GDK_KP_Left:
-		case GDK_KP_Right:
+		case GDK_KEY_ISO_Left_Tab:
+		case GDK_KEY_Up:
+		case GDK_KEY_Down:
+		case GDK_KEY_KP_Up:
+		case GDK_KEY_KP_Down:
+		case GDK_KEY_KP_Left:
+		case GDK_KEY_KP_Right:
 			tree_edit_do(ted);
 			tree_edit_close(ted);
 			break;
-		case GDK_Escape:
+		case GDK_KEY_Escape:
 			tree_edit_close(ted);
 			break;
 		default:

@@ -64,10 +64,10 @@ static void layout_util_sync_views(LayoutWindow *lw);
  */
 
 static guint tree_key_overrides[] = {
-	GDK_Page_Up,	GDK_KP_Page_Up,
-	GDK_Page_Down,	GDK_KP_Page_Down,
-	GDK_Home,	GDK_KP_Home,
-	GDK_End,	GDK_KP_End
+	GDK_KEY_Page_Up,	GDK_KEY_KP_Page_Up,
+	GDK_KEY_Page_Down,	GDK_KEY_KP_Page_Down,
+	GDK_KEY_Home,	GDK_KEY_KP_Home,
+	GDK_KEY_End,	GDK_KEY_KP_End
 };
 
 static gboolean layout_key_match(guint keyval)
@@ -95,7 +95,7 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 	if (lw->path_entry && GTK_WIDGET_HAS_FOCUS(lw->path_entry))
 #endif
 		{
-		if (event->keyval == GDK_Escape && lw->dir_fd)
+		if (event->keyval == GDK_KEY_Escape && lw->dir_fd)
 			{
 			gtk_entry_set_text(GTK_ENTRY(lw->path_entry), lw->dir_fd->path);
 			}
@@ -140,16 +140,16 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
-			case GDK_Left: case GDK_KP_Left:
+			case GDK_KEY_Left: case GDK_KEY_KP_Left:
 				x -= 1;
 				break;
-			case GDK_Right: case GDK_KP_Right:
+			case GDK_KEY_Right: case GDK_KEY_KP_Right:
 				x += 1;
 				break;
-			case GDK_Up: case GDK_KP_Up:
+			case GDK_KEY_Up: case GDK_KEY_KP_Up:
 				y -= 1;
 				break;
-			case GDK_Down: case GDK_KP_Down:
+			case GDK_KEY_Down: case GDK_KEY_KP_Down:
 				y += 1;
 				break;
 			default:
@@ -163,7 +163,7 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 			stop_signal = TRUE;
 			switch (event->keyval)
 				{
-				case GDK_Menu:
+				case GDK_KEY_Menu:
 					layout_image_menu_popup(lw);
 					break;
 				default:

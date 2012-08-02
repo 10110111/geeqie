@@ -63,9 +63,9 @@ static gboolean generic_dialog_default_key_press_cb(GtkWidget *widget, GdkEventK
 	GenericDialog *gd = data;
 
 #if GTK_CHECK_VERSION(2,20,0)
-	if (event->keyval == GDK_Return && gtk_widget_has_focus(widget)
+	if (event->keyval == GDK_KEY_Return && gtk_widget_has_focus(widget)
 #else
-	if (event->keyval == GDK_Return && GTK_WIDGET_HAS_FOCUS(widget)
+	if (event->keyval == GDK_KEY_Return && GTK_WIDGET_HAS_FOCUS(widget)
 #endif
 	    && gd->default_cb)
 		{
@@ -91,7 +91,7 @@ static gboolean generic_dialog_key_press_cb(GtkWidget *widget, GdkEventKey *even
 {
 	GenericDialog *gd = data;
 
-	if (event->keyval == GDK_Escape)
+	if (event->keyval == GDK_KEY_Escape)
 		{
 		if (gd->cancel_cb) gd->cancel_cb(gd, gd->data);
 		if (gd->auto_close) generic_dialog_click_cb(widget, data);
