@@ -1707,7 +1707,9 @@ static void image_options_set(ImageWindow *imd)
 	g_object_set(G_OBJECT(imd->pr), "zoom_quality", options->image.zoom_quality,
 					"zoom_2pass", options->image.zoom_2pass,
 					"zoom_expand", options->image.zoom_to_fit_allow_expand,
+#if !GTK_CHECK_VERSION(3,0,0)
 					"dither_quality", options->image.dither_quality,
+#endif
 					"scroll_reset", options->image.scroll_reset_method,
 					"cache_display", options->image.tile_cache_max,
 					"window_fit", (imd->top_window_sync && options->image.fit_window_to_image),
