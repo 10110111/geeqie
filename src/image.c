@@ -887,66 +887,14 @@ static void image_change_real(ImageWindow *imd, FileData *fd,
  *-------------------------------------------------------------------
  */
 
-static void image_focus_paint(ImageWindow *imd, gboolean has_focus, GdkRectangle *area)
-{
-	GtkWidget *widget;
-
-	widget = imd->widget;
-	if (!gtk_widget_get_window(widget)) return;
-
-	GtkAllocation allocation;
-	gtk_widget_get_allocation(widget, &allocation);
-#if !GTK_CHECK_VERSION(3,0,0)
-	if (has_focus)
-		{
-		gtk_paint_focus(gtk_widget_get_style(widget), gtk_widget_get_window(widget), GTK_STATE_ACTIVE,
-				area, widget, "image_window",
-				allocation.x, allocation.y,
-				allocation.width - 1, allocation.height - 1);
-		}
-	else
-		{
-		gtk_paint_shadow(gtk_widget_get_style(widget), gtk_widget_get_window(widget), GTK_STATE_NORMAL, GTK_SHADOW_IN,
-				 area, widget, "image_window",
-				 allocation.x, allocation.y,
-				 allocation.width - 1, allocation.height - 1);
-		}
-#endif
-}
-
-static gboolean image_focus_expose(GtkWidget *widget, GdkEventExpose *event, gpointer data)
-{
-	ImageWindow *imd = data;
-
-#if GTK_CHECK_VERSION(2,20,0)
-	image_focus_paint(imd, gtk_widget_has_focus(widget), &event->area);
-#else
-	image_focus_paint(imd, GTK_WIDGET_HAS_FOCUS(widget), &event->area);
-#endif
-	return TRUE;
-}
-
 static gboolean image_focus_in_cb(GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
 	ImageWindow *imd = data;
-
-	gtk_widget_grab_focus(imd->widget);
-	image_focus_paint(imd, TRUE, NULL);
 
 	if (imd->func_focus_in)
 		{
 		imd->func_focus_in(imd, imd->data_focus_in);
 		}
-
-	return TRUE;
-}
-
-static gboolean image_focus_out_cb(GtkWidget *widget, GdkEventFocus *event, gpointer data)
-{
-	ImageWindow *imd = data;
-
-//	GTK_WIDGET_UNSET_FLAGS(imd->widget, GTK_HAS_FOCUS);
-	image_focus_paint(imd, FALSE, NULL);
 
 	return TRUE;
 }
@@ -1791,6 +1739,20 @@ gboolean selectable_frame_expose_cb(GtkWidget *widget, GdkEventExpose *event, gp
 			   allocation.x + 3, allocation.y + 3,
 			   allocation.width - 6, allocation.height - 6);
 
+	if (gtk_widget_has_focus(widget))
+		{
+		gtk_paint_focus(gtk_widget_get_style(widget), gtk_widget_get_window(widget), GTK_STATE_ACTIVE,
+				&event->area, widget, "image_window",
+				allocation.x, allocation.y,
+				allocation.width - 1, allocation.height - 1);
+		}
+	else
+		{
+		gtk_paint_shadow(gtk_widget_get_style(widget), gtk_widget_get_window(widget), GTK_STATE_NORMAL, GTK_SHADOW_IN,
+				 &event->area, widget, "image_window",
+				 allocation.x, allocation.y,
+				 allocation.width - 1, allocation.height - 1);
+		}
 #endif
 	return FALSE;
 }
@@ -1820,17 +1782,14 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 #else
         	gtk_widget_unref(imd->pr);
 #endif
-		g_signal_connect(G_OBJECT(imd->frame), "expose_event",
-		    		 G_CALLBACK(selectable_frame_expose_cb), NULL);
-
 		gtk_widget_set_can_focus(imd->frame, TRUE);
+		gtk_widget_set_app_paintable(imd->frame, TRUE);
+		
+		g_signal_connect(G_OBJECT(imd->frame), "expose_event",
+				 G_CALLBACK(selectable_frame_expose_cb), NULL);
+
 		g_signal_connect(G_OBJECT(imd->frame), "focus_in_event",
 				 G_CALLBACK(image_focus_in_cb), imd);
-		g_signal_connect(G_OBJECT(imd->frame), "focus_out_event",
-				 G_CALLBACK(image_focus_out_cb), imd);
-
-		g_signal_connect_after(G_OBJECT(imd->frame), "expose_event",
-				       G_CALLBACK(image_focus_expose), imd);
 
 #if GTK_CHECK_VERSION(2,14,0)
         	gtk_box_pack_start(GTK_BOX(imd->widget), imd->frame, TRUE, TRUE, 0);
