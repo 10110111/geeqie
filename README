@@ -17,8 +17,8 @@ possible to contact gqview author and the only maintainer.
 Geeqie projects goal is to move the development forward and 
 also integrate the existing patches.
 
-Geeqie is currently in beta state. All planed features for 1.0 are implemented,
-but there are bugs. Please report any crash or odd behavior to the bugtracker:
+Geeqie is currently considered stable. 
+Please report any crash or odd behavior to the bugtracker:
 https://sourceforge.net/tracker/?group_id=222125&atid=1054680
 
 For more info see:
@@ -104,6 +104,11 @@ See http://geeqie.wiki.sourceforge.net/new_features
     - Comparison of images to find duplicates by name, size, date,
       dimensions, or image content similarity.
     - EXIF support.
+    
+  Geeqie 1.1:
+    - support for stereoscopic images
+      - input: side-by-side (JPS) and MPO format
+      - output: single image, anaglyph, SBS, mirror, SBS half size (3DTV)
 
 ======== Documentation (brief)                         [section:documentation]
 
