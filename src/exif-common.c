@@ -639,7 +639,7 @@ void exif_release_cb(FileData *fd)
 
 void exif_init_cache(void)
 {
-	assert(!exif_cache);
+	g_assert(!exif_cache);
 	exif_cache = file_cache_new(exif_release_cb, 4);
 }
 
