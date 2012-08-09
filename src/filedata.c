@@ -29,7 +29,7 @@ static GHashTable *file_data_planned_change_hash = NULL;
 
 static gint sidecar_file_priority(const gchar *extension);
 static void file_data_check_sidecars(const GList *basename_list);
-static FileData *file_data_disconnect_sidecar_file(FileData *target, FileData *sfd);
+static void file_data_disconnect_sidecar_file(FileData *target, FileData *sfd);
 
 
 
@@ -570,86 +570,134 @@ static gint sidecar_file_priority(const gchar *extension)
 	return 0;
 }
 
-static FileData *file_data_add_sidecar_file(FileData *target, FileData *sfd)
-{
-	sfd->parent = target;
-	if (!g_list_find(target->sidecar_files, sfd))
-		target->sidecar_files = g_list_insert_sorted(target->sidecar_files, sfd, file_data_sort_by_ext);
-	file_data_increment_version(sfd); /* increments both sfd and target */
-	return target;
-}
-
-
-static FileData *file_data_merge_sidecar_files(FileData *target, FileData *source)
-{
-	GList *work;
-	
-	file_data_add_sidecar_file(target, source);
-
-	work = source->sidecar_files;
-	while (work)
-		{
-		FileData *sfd = work->data;
-		file_data_add_sidecar_file(target, sfd);
-		work = work->next;
-		}
-
-	g_list_free(source->sidecar_files);
-	source->sidecar_files = NULL;
-
-	return target;
-}
-
 static void file_data_check_sidecars(const GList *basename_list)
 {
-	GList *work;
-	FileData *parent_fd;
-	if (!basename_list) return;
-	/* process the group list - the first one is the parent file, others are sidecars */
-	parent_fd = basename_list->data;
-	work = basename_list->next;
-	while (work)
-		{
-		FileData *sfd = work->data;
-		work = work->next;
+	/* basename_list contains the new group - first is the parent, then sorted sidecars */
+	/* all files in the list have ref count > 0 */ 
 
-		file_data_merge_sidecar_files(parent_fd, sfd);
+	const GList *work;
+	GList *s_work, *new_sidecars;
+	FileData *parent_fd;
+
+	if (!basename_list) return;
+
+
+	DEBUG_2("basename start");
+	work = basename_list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		g_assert(fd->magick == 0x12345678);
+		DEBUG_2("basename: %p %s", fd, fd->name);
+		if (fd->parent) 
+			{
+			g_assert(fd->parent->magick == 0x12345678);
+			DEBUG_2("                  parent: %p", fd->parent);
+			}
+		s_work = fd->sidecar_files;
+		while (s_work)
+			{
+			FileData *sfd = s_work->data;
+			s_work = s_work->next;
+			g_assert(sfd->magick == 0x12345678);
+			DEBUG_2("                  sidecar: %p %s", sfd, sfd->name);
+			}
+		
+		g_assert(fd->parent == NULL || fd->sidecar_files == NULL);
+		}
+
+	parent_fd = basename_list->data;
+
+	/* check if the second and next entries of basename_list are already connected
+	   as sidecars of the first entry (parent_fd) */
+	work = basename_list->next;
+	s_work = parent_fd->sidecar_files;
+	
+	while (work && s_work)
+		{
+		if (work->data != s_work->data) break;
+		work = work->next;
+		s_work = s_work->next;
 		}
 		
-	/* there may be some sidecars that are already deleted - disconnect them */
-	work = parent_fd->sidecar_files;
+	if (!work && !s_work) 
+		{
+		DEBUG_2("basename no change");
+		return; /* no change in grouping */
+		}
+	
+	/* we have to regroup it */
+	
+	/* first, disconnect everything and send notification*/
+
+	work = basename_list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		g_assert(fd->parent == NULL || fd->sidecar_files == NULL);
+		
+		if (fd->parent)
+			{
+			FileData *old_parent = fd->parent;
+			g_assert(old_parent->parent == NULL || old_parent->sidecar_files == NULL);
+			file_data_ref(old_parent);
+			file_data_disconnect_sidecar_file(old_parent, fd);
+			file_data_send_notification(old_parent, NOTIFY_REREAD);
+			file_data_unref(old_parent);
+			}
+		
+		while (fd->sidecar_files)
+			{
+			FileData *sfd = fd->sidecar_files->data;
+			g_assert(sfd->parent == NULL || sfd->sidecar_files == NULL);
+			file_data_ref(sfd);
+			file_data_disconnect_sidecar_file(fd, sfd);
+			file_data_send_notification(sfd, NOTIFY_REREAD);
+			file_data_unref(sfd);
+			}
+		file_data_send_notification(fd, NOTIFY_GROUPING);
+		
+		g_assert(fd->parent == NULL && fd->sidecar_files == NULL);
+		}
+
+	/* now we can form the new group */
+	work = basename_list->next;
+	new_sidecars = NULL;
 	while (work)
 		{
 		FileData *sfd = work->data;
+		g_assert(sfd->magick == 0x12345678);
+		g_assert(sfd->parent == NULL && sfd->sidecar_files == NULL);
+		sfd->parent = parent_fd;
+		new_sidecars = g_list_prepend(new_sidecars, sfd);
 		work = work->next;
-		
-		if (!g_list_find((GList *)basename_list, sfd)) 
-			{
-			printf("removing unknown %s: %s \n", parent_fd->path, sfd->path);
-			file_data_disconnect_sidecar_file(parent_fd, sfd);
-			file_data_send_notification(sfd, NOTIFY_REREAD);
-			file_data_send_notification(parent_fd, NOTIFY_REREAD);
-			}
 		}
+	g_assert(parent_fd->sidecar_files == NULL);
+	parent_fd->sidecar_files = g_list_reverse(new_sidecars);
+	DEBUG_1("basename group changed for %s", parent_fd->path);
 }
 
-static FileData *file_data_disconnect_sidecar_file(FileData *target, FileData *sfd)
+
+static void file_data_disconnect_sidecar_file(FileData *target, FileData *sfd)
 {
-	sfd->parent = target;
+	g_assert(target->magick == 0x12345678);
+	g_assert(sfd->magick == 0x12345678);
 	g_assert(g_list_find(target->sidecar_files, sfd));
+
+	file_data_ref(target);
+	file_data_ref(sfd);
+
+	g_assert(sfd->parent == target);
 	
 	file_data_increment_version(sfd); /* increments both sfd and target */
 
 	target->sidecar_files = g_list_remove(target->sidecar_files, sfd);
 	sfd->parent = NULL;
 
-	if (sfd->ref == 0)
-		{
-		file_data_free(sfd);
-		return NULL;
-		}
-
-	return sfd;
+	file_data_unref(target);
+	file_data_unref(sfd);
 }
 
 /* disables / enables grouping for particular file, sends UPDATE notification */
