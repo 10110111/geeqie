@@ -649,7 +649,7 @@ ExifData *exif_read_fd(FileData *fd)
 	
 	if (!exif_cache) exif_init_cache();
 
-	if (!fd || !is_readable_file(fd->path)) return NULL;
+	if (!fd) return NULL;
 	
 	if (file_cache_get(exif_cache, fd)) return fd->exif;
 	g_assert(fd->exif == NULL);
@@ -668,6 +668,7 @@ ExifData *exif_read_fd(FileData *fd)
 	fd->exif = exif_read(fd->path, sidecar_path, fd->modified_xmp);
 
 	g_free(sidecar_path);
+	file_cache_put(exif_cache, fd, 1);
 	return fd->exif;
 }
 
@@ -676,8 +677,6 @@ void exif_free_fd(FileData *fd, ExifData *exif)
 {
 	if (!fd) return;
 	g_assert(fd->exif == exif);
-	
-	file_cache_put(exif_cache, fd, 1);
 }
 
 /* embedded icc in jpeg */
