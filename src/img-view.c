@@ -1487,7 +1487,7 @@ static void view_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 			{
 			GList *work;
 
-			list = uri_filelist_from_text((gchar *)gtk_selection_data_get_data(selection_data), TRUE);
+			list = uri_filelist_from_gtk_selection_data(selection_data);
 
 			work = list;
 			while (work)
@@ -1558,27 +1558,11 @@ static void view_window_set_dnd_data(GtkWidget *widget, GdkDragContext *context,
 		{
 		gchar *text = NULL;
 		gint len;
-		gboolean plain_text;
 		GList *list;
 
-		switch (info)
-			{
-			case TARGET_URI_LIST:
-				plain_text = FALSE;
-				break;
-			case TARGET_TEXT_PLAIN:
-			default:
-				plain_text = TRUE;
-				break;
-			}
 		list = g_list_append(NULL, fd);
-		text = uri_text_from_filelist(list, &len, plain_text);
+		uri_selection_data_set_uris_from_filelist(selection_data, list);
 		g_list_free(list);
-		if (text)
-			{
-			gtk_selection_data_set_text(selection_data, text, len);
-			g_free(text);
-			}
 		}
 	else
 		{

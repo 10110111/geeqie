@@ -2175,6 +2175,9 @@ static void collection_table_dnd_get(GtkWidget *widget, GdkDragContext *context,
 				uri_text = collection_info_list_to_dnd_data(ct->cd, list, &total);
 				g_list_free(list);
 				}
+			gtk_selection_data_set(selection_data, gtk_selection_data_get_target(selection_data),
+						8, (guchar *)uri_text, total);
+			g_free(uri_text);
 			break;
 		case TARGET_URI_LIST:
 		case TARGET_TEXT_PLAIN:
@@ -2189,13 +2192,10 @@ static void collection_table_dnd_get(GtkWidget *widget, GdkDragContext *context,
 				}
 			if (!list) return;
 
-			uri_text = uri_text_from_filelist(list, &total, (info == TARGET_TEXT_PLAIN));
+			uri_selection_data_set_uris_from_filelist(selection_data, list);
 			filelist_free(list);
 			break;
 		}
-
-	gtk_selection_data_set_text(selection_data, uri_text, total);
-	g_free(uri_text);
 }
 
 
@@ -2254,7 +2254,7 @@ static void collection_table_dnd_receive(GtkWidget *widget, GdkDragContext *cont
 				}
 			break;
 		case TARGET_URI_LIST:
-			list = uri_filelist_from_text((gchar *)gtk_selection_data_get_data(selection_data), TRUE);
+			list = uri_filelist_from_gtk_selection_data(selection_data);
 			work = list;
 			while (work)
 				{

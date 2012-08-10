@@ -470,33 +470,30 @@ static void bookmark_drag_set_data(GtkWidget *button,
 {
 	BookMarkData *bm = data;
 	BookButtonData *b;
-	gchar *uri_text = NULL;
-	gint length = 0;
 	GList *list = NULL;
 
-//	if (context->dest_window == bm->widget->window) return;
+#if GTK_CHECK_VERSION(3,0,0)
+	if (gdk_drag_context_get_dest_window(context) == gtk_widget_get_window(bm->widget)) return;
+#else
+	if (context->dest_window == bm->widget->window) return;
+#endif
 
 	b = g_object_get_data(G_OBJECT(button), "bookbuttondata");
 	if (!b) return;
 
 	list = g_list_append(list, b->path);
 
-	switch (info)
+	gchar **uris = uris_from_filelist(list);
+	gboolean ret = gtk_selection_data_set_uris(selection_data, uris);
+	if (!ret) 
 		{
-		case TARGET_URI_LIST:
-			uri_text = uri_text_from_list(list, &length, FALSE);
-			break;
-		case TARGET_TEXT_PLAIN:
-			uri_text = uri_text_from_list(list, &length, TRUE);
-			break;
+		char *str = g_strjoinv("\r\n", uris);
+		ret = gtk_selection_data_set_text(selection_data, str, -1);
+		g_free(str);
 		}
 
+	g_strfreev(uris);
 	g_list_free(list);
-
-	if (!uri_text) return;
-
-	gtk_selection_data_set_text(selection_data, uri_text, length);
-	g_free(uri_text);
 }
 
 static void bookmark_drag_begin(GtkWidget *button, GdkDragContext *context, gpointer data)
@@ -686,16 +683,13 @@ static void bookmark_dnd_get_data(GtkWidget *widget,
 	BookMarkData *bm = data;
 	GList *list = NULL;
 	GList *work;
+	gchar **uris;
 
 	if (!bm->editable) return;
 
-	switch (info)
-		{
-		case TARGET_URI_LIST:
-		case TARGET_X_URL:
-			list = uri_list_from_text((gchar *)gtk_selection_data_get_data(selection_data), FALSE);
-			break;
-		}
+	uris = gtk_selection_data_get_uris(selection_data);
+	list = uri_filelist_from_uris(uris);
+	g_strfreev(uris);
 
 	work = list;
 	while (work)

@@ -3404,16 +3404,13 @@ static void dupe_dnd_data_set(GtkWidget *widget, GdkDragContext *context,
 		case TARGET_TEXT_PLAIN:
 			list = dupe_listview_get_selection(dw, widget);
 			if (!list) return;
-			uri_text = uri_text_from_filelist(list, &length, (info == TARGET_TEXT_PLAIN));
+			uri_selection_data_set_uris_from_filelist(selection_data, list);
 			filelist_free(list);
 			break;
 		default:
 			uri_text = NULL;
 			break;
 		}
-
-	if (uri_text) gtk_selection_data_set_text(selection_data, uri_text, length);
-	g_free(uri_text);
 }
 
 static void dupe_dnd_data_get(GtkWidget *widget, GdkDragContext *context,
@@ -3437,7 +3434,7 @@ static void dupe_dnd_data_get(GtkWidget *widget, GdkDragContext *context,
 			collection_from_dnd_data((gchar *)gtk_selection_data_get_data(selection_data), &list, NULL);
 			break;
 		case TARGET_URI_LIST:
-			list = uri_filelist_from_text((gchar *)gtk_selection_data_get_data(selection_data), TRUE);
+			list = uri_filelist_from_gtk_selection_data(selection_data);
 			work = list;
 			while (work)
 				{

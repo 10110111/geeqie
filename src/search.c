@@ -1376,26 +1376,13 @@ static void search_dnd_data_set(GtkWidget *widget, GdkDragContext *context,
 				guint time, gpointer data)
 {
 	SearchData *sd = data;
-	gchar *uri_text;
-	gint length;
 	GList *list;
 
-	switch (info)
-		{
-		case TARGET_URI_LIST:
-		case TARGET_TEXT_PLAIN:
-			list = search_result_selection_list(sd);
-			if (!list) return;
-			uri_text = uri_text_from_filelist(list, &length, (info == TARGET_TEXT_PLAIN));
-			filelist_free(list);
-			break;
-		default:
-			uri_text = NULL;
-			break;
-		}
+	list = search_result_selection_list(sd);
+	if (!list) return;
 
-	if (uri_text) gtk_selection_data_set_text(selection_data, uri_text, length);
-	g_free(uri_text);
+	uri_selection_data_set_uris_from_filelist(selection_data, list);
+	filelist_free(list);
 }
 
 static void search_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointer data)

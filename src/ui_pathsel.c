@@ -331,9 +331,7 @@ static void dest_dnd_set_data(GtkWidget *view,
 			      guint info, guint time, gpointer data)
 {
 	gchar *path = NULL;
-	gchar *uri_text = NULL;
 	GList *list = NULL;
-	gint length = 0;
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
@@ -346,22 +344,16 @@ static void dest_dnd_set_data(GtkWidget *view,
 
 	list = g_list_append(list, path);
 
-	switch (info)
+	gchar **uris = uris_from_filelist(list);
+	gboolean ret = gtk_selection_data_set_uris(selection_data, uris);
+	if (!ret) 
 		{
-		case TARGET_URI_LIST:
-			uri_text = uri_text_from_list(list, &length, FALSE);
-			break;
-		case TARGET_TEXT_PLAIN:
-			uri_text = uri_text_from_list(list, &length, TRUE);
-			break;
+		char *str = g_strjoinv("\r\n", uris);
+		ret = gtk_selection_data_set_text(selection_data, str, -1);
+		g_free(str);
 		}
 
 	string_list_free(list);
-
-	if (!uri_text) return;
-
-	gtk_selection_data_set_text(selection_data, uri_text, length);
-	g_free(uri_text);
 }
 
 static void dest_dnd_init(Dest_Data *dd)
