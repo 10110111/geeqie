@@ -185,8 +185,12 @@ static gboolean file_data_check_changed_files_recursive(FileData *fd, struct sta
 			{
 			fd->size = 0;
 			fd->date = 0;
+			file_data_ref(sfd);
 			file_data_disconnect_sidecar_file(fd, sfd);
 			ret = TRUE;
+			file_data_increment_version(sfd);
+			file_data_send_notification(sfd, NOTIFY_REREAD);
+			file_data_unref(sfd);
 			continue;
 			}
 
@@ -217,6 +221,7 @@ gboolean file_data_check_changed_files(FileData *fd)
 		/* file_data_disconnect_sidecar_file might delete the file,
 		   we have to keep the reference to prevent this */
 		sidecars = filelist_copy(fd->sidecar_files);
+		file_data_ref(fd);
 		work = sidecars;
 		while (work)
 			{
@@ -228,7 +233,9 @@ gboolean file_data_check_changed_files(FileData *fd)
 		file_data_check_sidecars(sidecars); /* this will group the sidecars back together */
 		/* now we can release the sidecars */
 		filelist_free(sidecars);
+		file_data_increment_version(fd);
 		file_data_send_notification(fd, NOTIFY_REREAD);
+		file_data_unref(fd);
 		}
 	else
 		{
