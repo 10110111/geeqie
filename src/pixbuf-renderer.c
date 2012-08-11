@@ -122,12 +122,6 @@ static void pixbuf_renderer_set_property(GObject *object, guint prop_id,
 					 const GValue *value, GParamSpec *pspec);
 static void pixbuf_renderer_get_property(GObject *object, guint prop_id,
 					 GValue *value, GParamSpec *pspec);
-#if GTK_CHECK_VERSION(3,0,0)
-static gboolean pixbuf_renderer_draw(GtkWidget *widget, cairo_t *cr);
-#else
-static gboolean pixbuf_renderer_expose(GtkWidget *widget, GdkEventExpose *event);
-#endif
-
 static void pr_scroller_timer_set(PixbufRenderer *pr, gboolean start);
 
 
@@ -138,7 +132,6 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 
 static void pr_signals_connect(PixbufRenderer *pr);
 static void pr_size_cb(GtkWidget *widget, GtkAllocation *allocation, gpointer data);
-static void pixbuf_renderer_paint(PixbufRenderer *pr, GdkRectangle *area);
 static void pr_stereo_temp_disable(PixbufRenderer *pr, gboolean disable);
 
 
@@ -178,7 +171,6 @@ GType pixbuf_renderer_get_type(void)
 static void pixbuf_renderer_class_init(PixbufRendererClass *class)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS(class);
-	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(class);
 
 	parent_class = g_type_class_peek_parent(class);
 
@@ -186,12 +178,6 @@ static void pixbuf_renderer_class_init(PixbufRendererClass *class)
 	gobject_class->get_property = pixbuf_renderer_get_property;
 
 	gobject_class->finalize = pixbuf_renderer_finalize;
-
-#if GTK_CHECK_VERSION(3,0,0)
-	widget_class->draw = pixbuf_renderer_draw;
-#else
-  	widget_class->expose_event = pixbuf_renderer_expose;
-#endif
 
 	g_object_class_install_property(gobject_class,
 					PROP_ZOOM_MIN,
@@ -587,61 +573,6 @@ static void pixbuf_renderer_get_property(GObject *object, guint prop_id,
 		}
 }
 
-#if GTK_CHECK_VERSION(3,0,0)
-
-static gboolean pixbuf_renderer_draw(GtkWidget *widget, cairo_t *cr)
-{
-	if (gtk_widget_is_drawable(widget))
-		{
-		if (gtk_widget_get_has_window(widget))
-			{
-			GdkRectangle area;
-			if (gdk_cairo_get_clip_rectangle(cr, &area))
-				{
-				pixbuf_renderer_paint(PIXBUF_RENDERER(widget), &area);
-				}
-			}
-		}
-
-	return FALSE;
-}
-
-#else
-static gboolean pixbuf_renderer_expose(GtkWidget *widget, GdkEventExpose *event)
-{
-#if GTK_CHECK_VERSION(2,20,0)
-	if (gtk_widget_is_drawable(widget))
-#else
-	if (GTK_WIDGET_DRAWABLE(widget))
-#endif
-		{
-#if GTK_CHECK_VERSION(2,20,0)
-		if (gtk_widget_get_has_window(widget))
-#else
-		if (!GTK_WIDGET_NO_WINDOW(widget))
-#endif
-			{
-			if (event->window != gtk_widget_get_window(widget))
-				{
-				GdkRectangle area;
-
-				gdk_window_get_position(event->window, &area.x, &area.y);
-				area.x += event->area.x;
-				area.y += event->area.y;
-				area.width = event->area.width;
-				area.height = event->area.height;
-				pixbuf_renderer_paint(PIXBUF_RENDERER(widget), &area);
-				}
-			else
-				{
-				pixbuf_renderer_paint(PIXBUF_RENDERER(widget), &event->area);
-				}
-			}
-		}
-
-	return FALSE;
-}
-#endif
 
 /*
  *-------------------------------------------------------------------
@@ -1944,19 +1875,6 @@ static void pr_size_cb(GtkWidget *widget, GtkAllocation *allocation, gpointer da
 	PixbufRenderer *pr = data;
 
 	pr_size_sync(pr, allocation->width, allocation->height);
-}
-
-static void pixbuf_renderer_paint(PixbufRenderer *pr, GdkRectangle *area)
-{
-	gint x, y;
-
-	pr->renderer->redraw(pr->renderer, area->x, area->y, area->width, area->height,
-			      FALSE, TILE_RENDER_ALL, FALSE, FALSE);
-	if (pr->renderer2) 
-		{
-		pr->renderer2->redraw(pr->renderer2, area->x, area->y, area->width, area->height,
-			      FALSE, TILE_RENDER_ALL, FALSE, FALSE);
-		}
 }
 
 /*

@@ -72,8 +72,8 @@ typedef enum {
 
 struct _RendererFuncs
 {
-	void (*redraw)(void *renderer, gint x, gint y, gint w, gint h,
-                     gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing);
+//	void (*redraw)(void *renderer, gint x, gint y, gint w, gint h,
+  //                   gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing);
         void (*area_changed)(void *renderer, gint src_x, gint src_y, gint src_w, gint src_h); /* pixbuf area changed */
 	void (*invalidate_region)(void *renderer, gint x, gint y, gint w, gint h);
 	void (*scroll)(void *renderer, gint x_off, gint y_off); /* scroll */

@@ -263,13 +263,6 @@ static void renderer_area_changed(void *renderer, gint src_x, gint src_y, gint s
 
 }
 
-static void renderer_redraw(void *renderer, gint x, gint y, gint w, gint h,
-                     gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing)
-{
-	RendererClutter *rc = (RendererClutter *)renderer;
-	PixbufRenderer *pr = rc->pr;
-}
-
 static void renderer_update_pixbuf(void *renderer, gboolean lazy)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
@@ -421,7 +414,6 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
 	
 	rc->pr = pr;
 	
-	rc->f.redraw = renderer_redraw;
 	rc->f.area_changed = renderer_area_changed;
 	rc->f.update_pixbuf = renderer_update_pixbuf;
 	rc->f.free = renderer_free;

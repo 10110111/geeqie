@@ -157,8 +157,6 @@ static void rt_queue(RendererTiles *rt, gint x, gint y, gint w, gint h,
 
 static void rt_hierarchy_changed_cb(GtkWidget *widget, GtkWidget *previous_toplevel, gpointer data);
 static gint rt_queue_draw_idle_cb(gpointer data);
-static void renderer_redraw(void *renderer, gint x, gint y, gint w, gint h,
-                     gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing);
 
 #define GET_RIGHT_PIXBUF_OFFSET(rt) \
         (( (rt->stereo_mode & PR_STEREO_RIGHT) && !(rt->stereo_mode & PR_STEREO_SWAP)) || \
@@ -2031,10 +2029,9 @@ static void renderer_area_changed(void *renderer, gint src_x, gint src_y, gint s
 	rt_queue(rt, x1, y1, x2 - x1, y2 - y1, FALSE, TILE_RENDER_AREA, TRUE, TRUE);
 }
 
-static void renderer_redraw(void *renderer, gint x, gint y, gint w, gint h,
+static void renderer_redraw(RendererTiles *rt, gint x, gint y, gint w, gint h,
                      gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing)
 {
-	RendererTiles *rt = (RendererTiles *)renderer;
 	PixbufRenderer *pr = rt->pr;
 
 	x -= rt->stereo_off_x;
@@ -2067,6 +2064,7 @@ static void renderer_update_zoom(void *renderer, gboolean lazy)
 		{
 		renderer_redraw(renderer, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, TRUE, FALSE);
 		}
+	rt_border_clear(rt);
 }
 
 static void renderer_invalidate_region(void *renderer, gint x, gint y, gint w, gint h)
@@ -2137,13 +2135,75 @@ static void renderer_free(void *renderer)
         g_free(rt);
 }
 
+#if GTK_CHECK_VERSION(3,0,0)
+
+static gboolean rt_draw_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
+{
+	RendererTiles *rt = (RendererTiles *)data;
+	if (gtk_widget_is_drawable(widget))
+		{
+		if (gtk_widget_get_has_window(widget))
+			{
+			GdkRectangle area;
+			if (gdk_cairo_get_clip_rectangle(cr, &area))
+				{
+				renderer_redraw(rt, area.x, area.y, area.width, area.height,
+						FALSE, TILE_RENDER_ALL, FALSE, FALSE);
+				}
+			}
+		}
+
+	return FALSE;
+}
+
+#else
+static gboolean rt_expose_cb(GtkWidget *widget, GdkEventExpose *event, gpointer data)
+{
+	RendererTiles *rt = (RendererTiles *)data;
+#if GTK_CHECK_VERSION(2,20,0)
+	if (gtk_widget_is_drawable(widget))
+#else
+	if (GTK_WIDGET_DRAWABLE(widget))
+#endif
+		{
+#if GTK_CHECK_VERSION(2,20,0)
+		if (gtk_widget_get_has_window(widget))
+#else
+		if (!GTK_WIDGET_NO_WINDOW(widget))
+#endif
+			{
+			if (event->window != gtk_widget_get_window(widget))
+				{
+				GdkRectangle area;
+
+				gdk_window_get_position(event->window, &area.x, &area.y);
+				area.x += event->area.x;
+				area.y += event->area.y;
+				area.width = event->area.width;
+				area.height = event->area.height;
+				renderer_redraw(rt, area.x, area.y, area.width, area.height,
+						FALSE, TILE_RENDER_ALL, FALSE, FALSE);
+
+				}
+			else
+				{
+				renderer_redraw(rt, event->area.x, event->area.y, event->area.width, event->area.height,
+						FALSE, TILE_RENDER_ALL, FALSE, FALSE);
+				}
+			}
+		}
+
+	return FALSE;
+}
+#endif
+
+
 RendererFuncs *renderer_tiles_new(PixbufRenderer *pr)
 {
 	RendererTiles *rt = g_new0(RendererTiles, 1);
 	
 	rt->pr = pr;
 	
-	rt->f.redraw = renderer_redraw;
 	rt->f.area_changed = renderer_area_changed;
 	rt->f.update_pixbuf = renderer_update_pixbuf;
 	rt->f.free = renderer_free;
@@ -2177,6 +2237,13 @@ RendererFuncs *renderer_tiles_new(PixbufRenderer *pr)
 	g_signal_connect(G_OBJECT(pr), "hierarchy-changed",
 			 G_CALLBACK(rt_hierarchy_changed_cb), rt);
 
+#if GTK_CHECK_VERSION(3,0,0)
+	g_signal_connect(G_OBJECT(pr), "draw",
+	                 G_CALLBACK(rt_draw_cb), rt);
+#else
+	g_signal_connect(G_OBJECT(pr), "expose_event",
+	                 G_CALLBACK(rt_expose_cb), NULL);
+#endif
 	return (RendererFuncs *) rt;
 }
 
