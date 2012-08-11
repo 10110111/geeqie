@@ -1203,7 +1203,7 @@ static gboolean rt_source_tile_render(RendererTiles *rt, ImageTile *it,
 				{
 				cairo_t *cr;
 				cr = cairo_create(it->surface);
-				cairo_rectangle (cr, rx - st->x, ry - st->y, rw, rh);
+				cairo_rectangle (cr, rx - it->x, ry - it->y, rw, rh);
 
 				if (st->blank)
 					{
@@ -1215,7 +1215,7 @@ static gboolean rt_source_tile_render(RendererTiles *rt, ImageTile *it,
 					}
 				else /* (pr->zoom == 1.0 || pr->scale == 1.0) */
 					{
-					gdk_cairo_set_source_pixbuf(cr, st->pixbuf, it->x + st->x, it->y + st->y);
+					gdk_cairo_set_source_pixbuf(cr, st->pixbuf, -it->x + st->x, -it->y + st->y);
 #if 0
 					gdk_draw_pixbuf(it->pixmap,
 #if GTK_CHECK_VERSION(2,20,0)
