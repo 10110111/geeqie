@@ -2052,20 +2052,21 @@ static void renderer_redraw(void *renderer, gint x, gint y, gint w, gint h,
 		 clamp, render, new_data, only_existing);
 }
 
-static void renderer_queue_clear(void *renderer)
+static void renderer_update_pixbuf(void *renderer, gboolean lazy)
 {
 	rt_queue_clear((RendererTiles *)renderer);
 }
 
-static void renderer_border_clear(void *renderer)
+static void renderer_update_zoom(void *renderer, gboolean lazy)
 {
-	rt_border_clear((RendererTiles *)renderer);
-}
+	RendererTiles *rt = (RendererTiles *)renderer;
+	PixbufRenderer *pr = rt->pr;
 
-
-static void renderer_invalidate_all(void *renderer)
-{
 	rt_tile_invalidate_all((RendererTiles *)renderer);
+	if (!lazy)
+		{
+		renderer_redraw(renderer, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, TRUE, FALSE);
+		}
 }
 
 static void renderer_invalidate_region(void *renderer, gint x, gint y, gint w, gint h)
@@ -2112,6 +2113,7 @@ static void renderer_update_sizes(void *renderer)
         DEBUG_1("update size: %p  %d %d   %d %d", rt, rt->stereo_off_x, rt->stereo_off_y, rt->pr->viewport_width, rt->pr->viewport_height);
 	rt_sync_scroll(rt);
 	rt_overlay_update_sizes(rt);
+	rt_border_clear(rt);
 }
 
 static void renderer_stereo_set(void *renderer, gint stereo_mode)
@@ -2143,10 +2145,9 @@ RendererFuncs *renderer_tiles_new(PixbufRenderer *pr)
 	
 	rt->f.redraw = renderer_redraw;
 	rt->f.area_changed = renderer_area_changed;
-	rt->f.queue_clear = renderer_queue_clear;
-	rt->f.border_clear = renderer_border_clear;
+	rt->f.update_pixbuf = renderer_update_pixbuf;
 	rt->f.free = renderer_free;
-	rt->f.invalidate_all = renderer_invalidate_all;
+	rt->f.update_zoom = renderer_update_zoom;
 	rt->f.invalidate_region = renderer_invalidate_region;
 	rt->f.scroll = rt_scroll;
 	rt->f.update_sizes = renderer_update_sizes;

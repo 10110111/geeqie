@@ -74,20 +74,19 @@ struct _RendererFuncs
 {
 	void (*redraw)(void *renderer, gint x, gint y, gint w, gint h,
                      gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing);
-        void (*area_changed)(void *renderer, gint src_x, gint src_y, gint src_w, gint src_h);
-	void (*queue_clear)(void *renderer);
-	void (*border_clear)(void *renderer);
-	void (*invalidate_all)(void *renderer);
+        void (*area_changed)(void *renderer, gint src_x, gint src_y, gint src_w, gint src_h); /* pixbuf area changed */
 	void (*invalidate_region)(void *renderer, gint x, gint y, gint w, gint h);
-	void (*scroll)(void *renderer, gint x_off, gint y_off);
-	void (*update_sizes)(void *renderer);
+	void (*scroll)(void *renderer, gint x_off, gint y_off); /* scroll */
+	void (*update_sizes)(void *renderer); /* window / wiewport / borders / border color has changed */
+	void (*update_pixbuf)(void *renderer, gboolean lazy); /* pixbuf has changed */
+	void (*update_zoom)(void *renderer, gboolean lazy); /* zoom has changed */
 
 	gint (*overlay_add)(void *renderer, GdkPixbuf *pixbuf, gint x, gint y, OverlayRendererFlags flags);
 	void (*overlay_set)(void *renderer, gint id, GdkPixbuf *pixbuf, gint x, gint y);
 	gboolean (*overlay_get)(void *renderer, gint id, GdkPixbuf **pixbuf, gint *x, gint *y);
 	void (*overlay_draw)(void *renderer, gint x, gint y, gint w, gint h);
 
-	void (*stereo_set)(void *renderer, gint stereo_mode);
+	void (*stereo_set)(void *renderer, gint stereo_mode); /* set stereo mode */
 
 	void (*free)(void *renderer);
 };

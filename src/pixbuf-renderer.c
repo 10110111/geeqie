@@ -18,12 +18,14 @@
 #include "main.h"
 #include "pixbuf-renderer.h"
 #include "renderer-tiles.h"
+#include "renderer-clutter.h"
 
 #include "intl.h"
 #include "layout.h"
 
 #include <gtk/gtk.h>
 
+#define RENDERER_NEW(pr) renderer_clutter_new(pr)
 
 /* comment this out if not using this from within Geeqie
  * defining GQ_BUILD does these things:
@@ -426,7 +428,7 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 	
 	pr->stereo_mode = PR_STEREO_NONE;
 	
-	pr->renderer = (void *)renderer_tiles_new(pr);
+	pr->renderer = RENDERER_NEW(pr);
 	
 	pr->renderer2 = NULL;
 
@@ -942,12 +944,6 @@ static void pr_scroller_stop(PixbufRenderer *pr)
  *-------------------------------------------------------------------
  */
 
-static void pr_border_clear(PixbufRenderer *pr)
-{
-	pr->renderer->border_clear(pr->renderer);
-	if (pr->renderer2) pr->renderer2->border_clear(pr->renderer2);
-}
-
 void pixbuf_renderer_set_color(PixbufRenderer *pr, GdkColor *color)
 {
 	GtkStyle *style;
@@ -973,21 +969,8 @@ void pixbuf_renderer_set_color(PixbufRenderer *pr, GdkColor *color)
 
 	gtk_widget_set_style(widget, style);
 
-#if GTK_CHECK_VERSION(2,20,0)
-	if (gtk_widget_get_visible(widget)) pr_border_clear(pr);
-#else
-	if (GTK_WIDGET_VISIBLE(widget)) pr_border_clear(pr);
-#endif
-}
-
-static void pr_redraw(PixbufRenderer *pr, gboolean new_data)
-{
-	pr->renderer->queue_clear(pr->renderer);
-	pr->renderer->redraw(pr->renderer, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, new_data, FALSE);
-	if (pr->renderer2) {
-		pr->renderer2->queue_clear(pr->renderer2);
-		pr->renderer2->redraw(pr->renderer2, 0, 0, pr->width, pr->height, TRUE, TILE_RENDER_ALL, new_data, FALSE);
-	}
+	pr->renderer->update_sizes(pr->renderer);
+	if (pr->renderer2) pr->renderer2->update_sizes(pr->renderer2);
 }
 
 /*
@@ -1257,7 +1240,6 @@ void pixbuf_renderer_set_tiles(PixbufRenderer *pr, gint width, gint height,
 	pr->func_tile_data = user_data;
 
 	pr_zoom_sync(pr, zoom, PR_ZOOM_FORCE | PR_ZOOM_NEW, 0, 0);
-	pr_redraw(pr, TRUE);
 }
 
 void pixbuf_renderer_set_tiles_size(PixbufRenderer *pr, gint width, gint height)
@@ -1766,9 +1748,9 @@ static gboolean pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
 
 	if (invalidate || invalid)
 		{
-		pr->renderer->invalidate_all(pr->renderer);
-		if (pr->renderer2) pr->renderer2->invalidate_all(pr->renderer2);
-		if (!lazy) pr_redraw(pr, TRUE);
+		pr->renderer->update_zoom(pr->renderer, lazy);
+		if (pr->renderer2) pr->renderer2->update_zoom(pr->renderer2, lazy);
+//		if (!lazy) pr_redraw(pr, TRUE);
 		}
 	if (redrawn) *redrawn = (invalidate || invalid);
 
@@ -1854,12 +1836,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 
 	pr_scroll_clamp(pr);
 
-	/* If the window was not sized, redraw the image - we know there will be no size/expose signal.
-	 * But even if a size is claimed, there is no guarantee that the window manager will allow it,
-	 * so redraw the window anyway :/
-	 */
-	if (sized || clamped) pr_border_clear(pr);
-	
+#if 0	
 	if (lazy)
 		{
 		pr->renderer->queue_clear(pr->renderer);
@@ -1869,6 +1846,9 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 		{
 		pr_redraw(pr, redrawn);
 		}
+#endif
+	pr->renderer->update_zoom(pr->renderer, lazy);
+	if (pr->renderer2) pr->renderer2->update_zoom(pr->renderer2, lazy);
 
 	pr_scroll_notify_signal(pr);
 	pr_zoom_signal(pr);
@@ -1953,8 +1933,6 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 				}
 			}
 		}
-
-	pr_border_clear(pr);
 
 	pr_scroll_notify_signal(pr);
 	if (zoom_changed) pr_zoom_signal(pr);
@@ -2482,6 +2460,8 @@ static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, P
 		}
 
 	pr_pixbuf_size_sync(pr);
+	pr->renderer->update_pixbuf(pr->renderer, flags & PR_ZOOM_LAZY);
+	if (pr->renderer2) pr->renderer2->update_pixbuf(pr->renderer2, flags & PR_ZOOM_LAZY);
 	pr_zoom_sync(pr, zoom, flags | PR_ZOOM_FORCE | PR_ZOOM_NEW, 0, 0);
 }
 
@@ -2523,7 +2503,15 @@ void pixbuf_renderer_set_orientation(PixbufRenderer *pr, gint orientation)
 	pr->orientation = orientation;
 
 	pr_pixbuf_size_sync(pr);
+	if (0)
+		{
+		pr->renderer->update_pixbuf(pr->renderer, FALSE);
+		if (pr->renderer2) pr->renderer2->update_pixbuf(pr->renderer2, FALSE);
+		}
 	pr_zoom_sync(pr, pr->zoom, PR_ZOOM_FORCE, 0, 0);
+
+	pr->renderer->update_sizes(pr->renderer);
+	if (pr->renderer2) pr->renderer2->update_sizes(pr->renderer2);
 }
 
 gint pixbuf_renderer_get_orientation(PixbufRenderer *pr)
@@ -2544,6 +2532,8 @@ void pixbuf_renderer_set_stereo_data(PixbufRenderer *pr, StereoPixbufData stereo
 		pr_stereo_temp_disable(pr, disable);
 		}
 	pr_pixbuf_size_sync(pr);
+	pr->renderer->update_pixbuf(pr->renderer, FALSE);
+	if (pr->renderer2) pr->renderer2->update_pixbuf(pr->renderer2, FALSE);
 	pr_zoom_sync(pr, pr->zoom, PR_ZOOM_FORCE, 0, 0);
 }
 
@@ -2609,7 +2599,6 @@ void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source)
 		source->source_tiles = NULL;
 
 		pr_zoom_sync(pr, source->zoom, PR_ZOOM_FORCE | PR_ZOOM_NEW, 0, 0);
-		pr_redraw(pr, TRUE);
 		}
 	else
 		{
@@ -2693,13 +2682,13 @@ void pixbuf_renderer_zoom_set_limits(PixbufRenderer *pr, gdouble min, gdouble ma
 
 static void pr_stereo_set(PixbufRenderer *pr)
 {
-	if (!pr->renderer) pr->renderer = (void *)renderer_tiles_new(pr);
+	if (!pr->renderer) pr->renderer = RENDERER_NEW(pr);
 	
 	pr->renderer->stereo_set(pr->renderer, pr->stereo_mode & ~PR_STEREO_MIRROR_RIGHT & ~PR_STEREO_FLIP_RIGHT);
 	
 	if (pr->stereo_mode & (PR_STEREO_HORIZ | PR_STEREO_VERT | PR_STEREO_FIXED))
 		{
-		if (!pr->renderer2) pr->renderer2 = (void *)renderer_tiles_new(pr);
+		if (!pr->renderer2) pr->renderer2 = RENDERER_NEW(pr);
 		pr->renderer2->stereo_set(pr->renderer2, (pr->stereo_mode & ~PR_STEREO_MIRROR_LEFT & ~PR_STEREO_FLIP_LEFT) | PR_STEREO_RIGHT);
 		}
 	else
@@ -2757,7 +2746,7 @@ static void pr_stereo_temp_disable(PixbufRenderer *pr, gboolean disable)
 	pr->stereo_temp_disable = disable;
 	if (disable)
 		{
-		if (!pr->renderer) pr->renderer = (void *)renderer_tiles_new(pr);
+		if (!pr->renderer) pr->renderer = RENDERER_NEW(pr);
 		pr->renderer->stereo_set(pr->renderer, PR_STEREO_NONE);
 		if (pr->renderer2) pr->renderer2->free(pr->renderer2);
 		pr->renderer2 = NULL;

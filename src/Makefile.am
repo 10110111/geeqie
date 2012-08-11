@@ -209,6 +209,8 @@ geeqie_SOURCES = \
 	pixbuf-renderer.h	\
 	renderer-tiles.c	\
 	renderer-tiles.h	\
+	renderer-clutter.c	\
+	renderer-clutter.h	\
 	pixbuf_util.c	\
 	pixbuf_util.h	\
 	preferences.c	\
