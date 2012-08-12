@@ -86,47 +86,18 @@ struct _RendererClutter
 	ClutterActor *group;
 };
 
-static void rc_sync_scroll(RendererClutter *rc)
-{
-	PixbufRenderer *pr = rc->pr;
-	
-	rc->x_scroll = (rc->stereo_mode & PR_STEREO_MIRROR) ? 
-	               pr->width - pr->vis_width - pr->x_scroll 
-	               : pr->x_scroll;
-	
-	rc->y_scroll = (rc->stereo_mode & PR_STEREO_FLIP) ? 
-	               pr->height - pr->vis_height - pr->y_scroll 
-	               : pr->y_scroll;
-}
-
-static gint rc_get_orientation(RendererClutter *rc)
-{
-	PixbufRenderer *pr = rc->pr;
-
-	gint orientation = pr->orientation;
-	static const gint mirror[]       = {1,   2, 1, 4, 3, 6, 5, 8, 7};
-	static const gint flip[]         = {1,   4, 3, 2, 1, 8, 7, 6, 5};
-
-	if (rc->stereo_mode & PR_STEREO_MIRROR) orientation = mirror[orientation];
-	if (rc->stereo_mode & PR_STEREO_FLIP) orientation = flip[orientation];
-        return orientation;
-}
-
-
 static void rc_sync_actor(RendererClutter *rc)
 {
 	PixbufRenderer *pr = rc->pr;
 	gint anchor_x = 0;
 	gint anchor_y = 0;
 	
-	rc_sync_scroll(rc);
-	
 	clutter_actor_set_anchor_point(CLUTTER_ACTOR(rc->texture), 0, 0);
 
 	printf("scale %d %d\n", rc->pr->width, rc->pr->height);
 	printf("pos   %d %d        %d %d\n", rc->pr->x_offset, rc->pr->y_offset, rc->x_scroll, rc->y_scroll);
 	
-	switch (rc_get_orientation(rc))
+	switch (pr->orientation)
 		{
 		case EXIF_ORIENTATION_TOP_LEFT:
 			/* normal  */
@@ -228,8 +199,8 @@ static void rc_sync_actor(RendererClutter *rc)
 		}
 	
 	clutter_actor_set_position(CLUTTER_ACTOR(rc->texture), 
-				pr->x_offset - rc->x_scroll + anchor_x, 
-				pr->y_offset - rc->y_scroll + anchor_y);
+				pr->x_offset - pr->x_scroll + anchor_x, 
+				pr->y_offset - pr->y_scroll + anchor_y);
 
 }
 
@@ -366,6 +337,17 @@ static void renderer_update_sizes(void *renderer)
 
 	clutter_actor_set_size(rc->group, rc->pr->viewport_width, rc->pr->viewport_height);
 	clutter_actor_set_position(rc->group, rc->stereo_off_x, rc->stereo_off_y);
+	
+	clutter_actor_set_rotation(CLUTTER_ACTOR(rc->group),
+						CLUTTER_Y_AXIS,
+						(rc->stereo_mode & PR_STEREO_MIRROR) ? 180 : 0, 
+						rc->pr->viewport_width / 2.0, 0, 0);
+
+	clutter_actor_set_rotation(CLUTTER_ACTOR(rc->group),
+						CLUTTER_X_AXIS,
+						(rc->stereo_mode & PR_STEREO_FLIP) ? 180 : 0,
+						0, rc->pr->viewport_height / 2.0, 0);
+
 	rc_sync_actor(rc);
 }
 
