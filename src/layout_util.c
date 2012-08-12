@@ -85,6 +85,7 @@ static gboolean layout_key_match(guint keyval)
 gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	LayoutWindow *lw = data;
+	GtkWidget *focused;
 	gboolean stop_signal = FALSE;
 	gint x = 0;
 	gint y = 0;
@@ -130,11 +131,12 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 		return TRUE;
 */
 
+	focused = gtk_container_get_focus_child(GTK_CONTAINER(lw->image->widget));
 	if (lw->image &&
 #if GTK_CHECK_VERSION(2,20,0)
-	    (gtk_widget_has_focus(lw->image->widget) || (lw->tools && widget == lw->window) || lw->full_screen) )
+	    (focused && gtk_widget_has_focus(focused) || (lw->tools && widget == lw->window) || lw->full_screen) )
 #else
-	    (GTK_WIDGET_HAS_FOCUS(lw->image->widget) || (lw->tools && widget == lw->window) || lw->full_screen) )
+	    (focused && GTK_WIDGET_HAS_FOCUS(focused) || (lw->tools && widget == lw->window) || lw->full_screen) )
 #endif
 		{
 		stop_signal = TRUE;

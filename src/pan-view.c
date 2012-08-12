@@ -1204,6 +1204,7 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 	FileData *fd;
 	gboolean stop_signal = FALSE;
 	GtkWidget *menu;
+	GtkWidget *imd_widget;
 	gint x = 0;
 	gint y = 0;
 	gint focused;
@@ -1211,13 +1212,14 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 
 	pr = PIXBUF_RENDERER(pw->imd->pr);
 	fd = pan_menu_click_fd(pw);
-
+	
+	imd_widget = gtk_container_get_focus_child(GTK_CONTAINER(pw->imd->widget));
 #if GTK_CHECK_VERSION(2,20,0)
-	focused = (pw->fs || gtk_widget_has_focus(GTK_WIDGET(pw->imd->widget)));
+	focused = (pw->fs || imd_widget && gtk_widget_has_focus(imd_widget));
 	on_entry = (gtk_widget_has_focus(pw->path_entry) ||
 		    gtk_widget_has_focus(pw->search_entry));
 #else
-	focused = (pw->fs || GTK_WIDGET_HAS_FOCUS(GTK_WIDGET(pw->imd->widget)));
+	focused = (pw->fs || imd_widget && GTK_WIDGET_HAS_FOCUS(imd_widget));
 	on_entry = (GTK_WIDGET_HAS_FOCUS(pw->path_entry) ||
 		    GTK_WIDGET_HAS_FOCUS(pw->search_entry));
 #endif
