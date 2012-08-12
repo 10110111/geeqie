@@ -24,6 +24,9 @@
 #include "layout.h"
 
 #include <gtk/gtk.h>
+
+#ifdef HAVE_CLUTTER
+
 #include <clutter/clutter.h>
 
 #include <clutter-gtk/clutter-gtk.h>
@@ -450,5 +453,5 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
 	return (RendererFuncs *) rc;
 }
 
-
+#endif 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

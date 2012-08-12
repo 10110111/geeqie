@@ -25,7 +25,12 @@
 
 #include <gtk/gtk.h>
 
+#ifdef HAVE_CLUTTER
+/* FIXME: make this configurable */
 #define RENDERER_NEW(pr) renderer_clutter_new(pr)
+#else
+#define RENDERER_NEW(pr) renderer_tiles_new(pr)
+#endif
 
 /* comment this out if not using this from within Geeqie
  * defining GQ_BUILD does these things:

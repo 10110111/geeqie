@@ -396,14 +396,49 @@ AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
 
+#  clutter support - experimental
+# ----------------------------------------------------------------------
+
+AC_ARG_ENABLE([clutter],
+  AC_HELP_STRING([--enable-clutter], [enable clutter support - experimental]),
+    [libclutter=$enableval], [libclutter=auto])
+
+if test "x${libclutter}" = "xyes" -o "x${libgps}" = "xyes"; then
+  PKG_CHECK_MODULES(CLUTTER, [clutter-1.0 >= 1.0],
+    [
+      PKG_CHECK_MODULES(CLUTTER_GTK, [clutter-gtk-1.0 >= 1.0],
+        [
+          HAVE_CLUTTER=yes
+          AC_DEFINE(HAVE_CLUTTER, 1, [define to enable use of clutter library])
+        ],
+        [
+          HAVE_CLUTTER=no
+          AC_MSG_WARN([$CLUTTER_GTK_PKG_ERRORS])
+        ])
+        
+    ],
+    [
+      HAVE_CLUTTER=no
+      AC_MSG_WARN([$CLUTTER_PKG_ERRORS])
+    ])
+else
+  HAVE_CLUTTER=disabled
+fi
+
+AC_SUBST(CLUTTER_CFLAGS)
+AC_SUBST(CLUTTER_LIBS)
+AC_SUBST(CLUTTER_GTK_CFLAGS)
+AC_SUBST(CLUTTER_GTK_LIBS)
+
+
 #  Libchamplain support - used for GPS map facility - experimental
 # ----------------------------------------------------------------------
 
 AC_ARG_ENABLE([gps],
   AC_HELP_STRING([--enable-gps], [enable GPS map support - experimental]),
-    [libgps=$enableval], [libgps=auto])
+    [libgps=$enableval], [libgps=yes])
 
-if test "x${libgps}" = "xyes"; then
+if test "x${libgps}" = "xyes" -a "x${HAVE_CLUTTER}" = "xyes" ; then
   PKG_CHECK_MODULES(LIBCHAMPLAIN, [champlain-0.12 >= 0.12],
     [
       HAVE_LIBCHAMPLAIN=yes
@@ -417,7 +452,7 @@ else
   HAVE_LIBCHAMPLAIN=disabled
 fi
 
-if test "x${libgps}" = "xyes"; then
+if test "x${libgps}" = "xyes" -a "x${HAVE_LIBCHAMPLAIN}" = "xyes" ; then
   PKG_CHECK_MODULES(LIBCHAMPLAIN_GTK, [champlain-gtk-0.12 >= 0.12],
     [
       HAVE_LIBCHAMPLAIN_GTK=yes
@@ -508,7 +543,7 @@ Flags:
   Gtk:           $GTK_CFLAGS
   Glib:          $GLIB_CFLAGS
   Thread:        $GTHREAD_LIBS
-  Others:	 $JPEG_LIBS $TIFF_LIBS $LCMS_LIBS $EXIV2_LIBS $LIBCHAMPLAIN_LIBS $LIBCHAMPLAIN_GTK_LIBS
+  Others:	 $JPEG_LIBS $TIFF_LIBS $LCMS_LIBS $EXIV2_LIBS $CLUTTER_LIBS $CLUTTER_GTK_LIBS $LIBCHAMPLAIN_LIBS $LIBCHAMPLAIN_GTK_LIBS
 
 Localization:
   NLS support:   $USE_NLS
@@ -524,6 +559,7 @@ Support:
   LCMS:          $HAVE_LCMS
   Exiv2:	 $HAVE_EXIV2
   Lirc:          $HAVE_LIRC
+  Clutter:       $HAVE_CLUTTER
   Libchamplain:		$HAVE_LIBCHAMPLAIN
   Libchamplain-gtk:	$HAVE_LIBCHAMPLAIN_GTK
 

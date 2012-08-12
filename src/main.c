@@ -47,10 +47,8 @@
 #include "histogram.h"
 #include "pixbuf_util.h"
 
-#ifdef HAVE_LIBCHAMPLAIN
-#ifdef HAVE_LIBCHAMPLAIN_GTK
+#ifdef HAVE_CLUTTER
 #include <clutter-gtk/clutter-gtk.h>
-#endif
 #endif
 
 
@@ -775,16 +773,12 @@ gint main(gint argc, gchar *argv[])
 
 	parse_command_line_for_debug_option(argc, argv);
 	DEBUG_1("%s main: gtk_init", get_exec_time());	 
-#ifdef HAVE_LIBCHAMPLAIN
-#ifdef HAVE_LIBCHAMPLAIN_GTK
+#ifdef HAVE_CLUTTER
 	if (gtk_clutter_init(&argc, &argv) != CLUTTER_INIT_SUCCESS)
 		{
 		log_printf("Can't initialize clutter-gtk.\n");
 		exit(1);
 		}
-#else
-	gtk_init(&argc, &argv);
-#endif
 #else
 	gtk_init(&argc, &argv);
 #endif
