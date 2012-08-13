@@ -454,33 +454,6 @@ static void add_quality_menu(GtkWidget *table, gint column, gint row, const gcha
 	gtk_widget_show(combo);
 }
 
-#if 0
-static void add_dither_menu(gint option, gint *option_c, gchar *text, GtkWidget *box)
-{
-	GtkWidget *hbox;
-	GtkWidget *omenu;
-	GtkWidget *menu;
-
-	*option_c = option;
-
-	hbox = pref_box_new(box, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
-	pref_label_new(hbox, text);
-
-	omenu = gtk_option_menu_new();
-	menu = gtk_menu_new();
-
-	add_menu_item(menu, _("None"), option_c, (gint)GDK_RGB_DITHER_NONE);
-	add_menu_item(menu, _("Normal"), option_c, (gint)GDK_RGB_DITHER_NORMAL);
-	add_menu_item(menu, _("Best"), option_c, (gint)GDK_RGB_DITHER_MAX);
-
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(omenu), menu);
-	gtk_option_menu_set_history(GTK_OPTION_MENU(omenu), *option_c);
-
-	gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
-	gtk_widget_show(omenu);
-}
-#endif
-
 static void thumb_size_menu_cb(GtkWidget *combo, gpointer data)
 {
 	gint n;
@@ -1352,9 +1325,6 @@ static void config_tab_image(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Zoom"), GTK_ORIENTATION_VERTICAL);
 
-#if 0
-	add_dither_menu(dither_quality, &c_options->image.dither_quality, _("Dithering method:"), group);
-#endif
 	table = pref_table_new(group, 2, 1, FALSE, FALSE);
 	add_quality_menu(table, 0, 0, _("Quality:"), options->image.zoom_quality, &c_options->image.zoom_quality);
 

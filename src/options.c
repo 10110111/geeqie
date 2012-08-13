@@ -63,7 +63,6 @@ ConfOptions *init_options(ConfOptions *options)
 	options->fullscreen.screen = -1;
 
 	memset(&options->image.border_color, 0, sizeof(options->image.border_color));
-//	options->image.dither_quality = GDK_RGB_DITHER_NORMAL;
 	options->image.enable_read_ahead = TRUE;
 	options->image.exif_rotate_enable = TRUE;
 	options->image.fit_window_to_image = FALSE;

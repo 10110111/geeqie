@@ -86,7 +86,6 @@ enum {
 	PROP_ZOOM_QUALITY,
 	PROP_ZOOM_2PASS,
 	PROP_ZOOM_EXPAND,
-	PROP_DITHER_QUALITY,
 	PROP_SCROLL_RESET,
 	PROP_DELAY_FLIP,
 	PROP_LOADING,
@@ -237,17 +236,6 @@ static void pixbuf_renderer_class_init(PixbufRendererClass *class)
 							     NULL,
 							     FALSE,
 							     G_PARAM_READABLE | G_PARAM_WRITABLE));
-#if !GTK_CHECK_VERSION(3,0,0)
-	g_object_class_install_property(gobject_class,
-					PROP_DITHER_QUALITY,
-					g_param_spec_uint("dither_quality",
-							  "Dither quality",
-							  NULL,
-							  GDK_RGB_DITHER_NONE,
-							  GDK_RGB_DITHER_MAX,
-							  GDK_RGB_DITHER_NORMAL,
-							  G_PARAM_READABLE | G_PARAM_WRITABLE));
-#endif
 	g_object_class_install_property(gobject_class,
 					PROP_SCROLL_RESET,
 					g_param_spec_uint("scroll_reset",
@@ -420,10 +408,6 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 	pr->scale = 1.0;
 	pr->aspect_ratio = 1.0;
 
-#if !GTK_CHECK_VERSION(3,0,0)
-	pr->dither_quality = GDK_RGB_DITHER_NORMAL;
-#endif
-
 	pr->scroll_reset = PR_SCROLL_RESET_TOPLEFT;
 
 	pr->scroller_id = 0;
@@ -499,11 +483,6 @@ static void pixbuf_renderer_set_property(GObject *object, guint prop_id,
 		case PROP_ZOOM_EXPAND:
 			pr->zoom_expand = g_value_get_boolean(value);
 			break;
-#if !GTK_CHECK_VERSION(3,0,0)
-		case PROP_DITHER_QUALITY:
-			pr->dither_quality = g_value_get_uint(value);
-			break;
-#endif
 		case PROP_SCROLL_RESET:
 			pr->scroll_reset = g_value_get_uint(value);
 			break;
@@ -567,11 +546,6 @@ static void pixbuf_renderer_get_property(GObject *object, guint prop_id,
 		case PROP_ZOOM_EXPAND:
 			g_value_set_boolean(value, pr->zoom_expand);
 			break;
-#if !GTK_CHECK_VERSION(3,0,0)
-		case PROP_DITHER_QUALITY:
-			g_value_set_uint(value, pr->dither_quality);
-			break;
-#endif
 		case PROP_SCROLL_RESET:
 			g_value_set_uint(value, pr->scroll_reset);
 			break;

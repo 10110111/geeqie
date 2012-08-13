@@ -59,7 +59,6 @@ struct _ConfOptions
 
 		gint tile_cache_max;	/* in megabytes */
 		gint image_cache_max;   /* in megabytes */
-		guint dither_quality;
 		gboolean enable_read_ahead;
 
 		ZoomMode zoom_mode;

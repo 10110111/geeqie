@@ -141,10 +141,6 @@ struct _PixbufRenderer
 	gboolean zoom_2pass;
 	gboolean zoom_expand;
 
-#if !GTK_CHECK_VERSION(3,0,0)
-	GdkRgbDither dither_quality;
-#endif
-
 	PixbufRendererScrollResetType scroll_reset;
 
 	gboolean has_frame;

@@ -736,19 +736,6 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 					draw_rect.height);
 
 			cairo_fill (cr);
-/*			
-			gdk_draw_pixbuf(window,
-					widget->style->black_gc,
-					pixbuf,
-					draw_rect.x - pix_rect.x,
-					draw_rect.y - pix_rect.y,
-					draw_rect.x,
-					draw_rect.y,
-					draw_rect.width,
-					draw_rect.height,
-					GDK_RGB_DITHER_NORMAL,
-					0, 0);
-*/
 			}
 		}
 

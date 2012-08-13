@@ -628,38 +628,6 @@ static void rt_overlay_draw(RendererTiles *rt, gint x, gint y, gint w, gint h,
 				cairo_rectangle (cr, rx - px, ry - py, rw, rh);
 				cairo_fill (cr);
 				cairo_destroy (cr);
-
-#if 0
-				
-				
-#if GTK_CHECK_VERSION(2,20,0)
-				gdk_draw_drawable(rt->overlay_buffer, box->style->fg_gc[gtk_widget_get_state(box)],
-#else
-				gdk_draw_drawable(rt->overlay_buffer, box->style->fg_gc[GTK_WIDGET_STATE(box)],
-#endif
-						  it->pixmap,
-						  rx - (pr->x_offset + (it->x - rt->x_scroll)),
-						  ry - (pr->y_offset + (it->y - rt->y_scroll)),
-						  0, 0, rw, rh);
-				gdk_draw_pixbuf(rt->overlay_buffer,
-#if GTK_CHECK_VERSION(2,20,0)
-						box->style->fg_gc[gtk_widget_get_state(box)],
-#else
-						box->style->fg_gc[GTK_WIDGET_STATE(box)],
-#endif
-						od->pixbuf,
-						rx - px, ry - py,
-						0, 0, rw, rh,
-						pr->dither_quality, rx, ry);
-#if GTK_CHECK_VERSION(2,20,0)
-				gdk_draw_drawable(od->window, box->style->fg_gc[gtk_widget_get_state(box)],
-#else
-				gdk_draw_drawable(od->window, box->style->fg_gc[GTK_WIDGET_STATE(box)],
-#endif
-						  rt->overlay_buffer,
-						  0, 0,
-						  rx - px, ry - py, rw, rh);
-#endif
 				}
 			else
 				{
@@ -689,34 +657,6 @@ static void rt_overlay_draw(RendererTiles *rt, gint x, gint y, gint w, gint h,
 					cairo_rectangle (cr, sx - px, sy - py, sw, sh);
 					cairo_fill(cr);
 					cairo_destroy(cr);
-
-#if 0
-					gdk_draw_rectangle(rt->overlay_buffer,
-#if GTK_CHECK_VERSION(2,20,0)
-							   box->style->bg_gc[gtk_widget_get_state(box)], TRUE,
-#else
-							   box->style->bg_gc[GTK_WIDGET_STATE(box)], TRUE,
-#endif
-							   0, 0, sw, sh);
-					gdk_draw_pixbuf(rt->overlay_buffer,
-#if GTK_CHECK_VERSION(2,20,0)
-							box->style->fg_gc[gtk_widget_get_state(box)],
-#else
-							box->style->fg_gc[GTK_WIDGET_STATE(box)],
-#endif
-							od->pixbuf,
-							sx - px, sy - py,
-							0, 0, sw, sh,
-							pr->dither_quality, sx, sy);
-#if GTK_CHECK_VERSION(2,20,0)
-					gdk_draw_drawable(od->window, box->style->fg_gc[gtk_widget_get_state(box)],
-#else
-					gdk_draw_drawable(od->window, box->style->fg_gc[GTK_WIDGET_STATE(box)],
-#endif
-							  rt->overlay_buffer,
-							  0, 0,
-							  sx - px, sy - py, sw, sh);
-#endif
 					}
 				}
 			}
@@ -1208,27 +1148,10 @@ static gboolean rt_source_tile_render(RendererTiles *rt, ImageTile *it,
 				if (st->blank)
 					{
 					cairo_set_source_rgb(cr, 0, 0, 0);
-#if 0
-					gdk_draw_rectangle(it->pixmap, box->style->black_gc, TRUE,
-							   rx - st->x, ry - st->y, rw, rh);
-#endif
 					}
 				else /* (pr->zoom == 1.0 || pr->scale == 1.0) */
 					{
 					gdk_cairo_set_source_pixbuf(cr, st->pixbuf, -it->x + st->x, -it->y + st->y);
-#if 0
-					gdk_draw_pixbuf(it->pixmap,
-#if GTK_CHECK_VERSION(2,20,0)
-							box->style->fg_gc[gtk_widget_get_state(box)],
-#else
-							box->style->fg_gc[GTK_WIDGET_STATE(box)],
-#endif
-							st->pixbuf,
-							rx - st->x, ry - st->y,
-							rx - it->x, ry - it->y,
-							rw, rh,
-							pr->dither_quality, rx, ry);
-#endif
 					}
 				cairo_fill (cr);
 				cairo_destroy (cr);
@@ -1285,10 +1208,6 @@ static gboolean rt_source_tile_render(RendererTiles *rt, ImageTile *it,
 					cairo_set_source_rgb(cr, 0, 0, 0);
 					cairo_fill (cr);
 					cairo_destroy (cr);
-#if 0					
-					gdk_draw_rectangle(it->pixmap, box->style->black_gc, TRUE,
-							   rx - st->x, ry - st->y, rw, rh);
-#endif
 					}
 				else
 					{
@@ -1441,20 +1360,6 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 		gdk_cairo_set_source_pixbuf(cr, pr->pixbuf, -it->x - GET_RIGHT_PIXBUF_OFFSET(rt), -it->y);
 		cairo_fill (cr);
 		cairo_destroy (cr);
-
-#if 0
-		gdk_draw_pixbuf(it->pixmap, 
-#if GTK_CHECK_VERSION(2,20,0)
-				box->style->fg_gc[gtk_widget_get_state(box)],
-#else
-				box->style->fg_gc[GTK_WIDGET_STATE(box)],
-#endif
-				pr->pixbuf,
-				it->x + x + GET_RIGHT_PIXBUF_OFFSET(rt), it->y + y,
-				x, y,
-				w, h,
-				pr->dither_quality, it->x + x, it->y + y);
-#endif
 		}
 	else
 		{
@@ -1536,28 +1441,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 		gdk_cairo_set_source_pixbuf(cr, it->pixbuf, 0, 0);
 		cairo_fill (cr);
 		cairo_destroy (cr);
-#if 0
-		gdk_draw_pixbuf(it->pixmap,
-#if GTK_CHECK_VERSION(2,20,0)
-				box->style->fg_gc[gtk_widget_get_state(box)],
-#else
-				box->style->fg_gc[GTK_WIDGET_STATE(box)],
-#endif
-				it->pixbuf,
-				x, y,
-				x, y,
-				w, h,
-				pr->dither_quality, it->x + x, it->y + y);
-#endif
 		}
-
-#if 0
-	/* enable this line for debugging the edges of tiles */
-	gdk_draw_rectangle(it->pixmap, box->style->white_gc,
-			   FALSE, 0, 0, it->w, it->h);
-	gdk_draw_rectangle(it->pixmap, box->style->white_gc,
-			   FALSE, x, y, w, h);
-#endif
 }
 
 
