@@ -244,22 +244,32 @@ static void renderer_update_pixbuf(void *renderer, gboolean lazy)
 	
 	if (pr->pixbuf)
 		{
-		printf("renderer_update_pixbuf\n");
+		gint width = gdk_pixbuf_get_width(pr->pixbuf);
+		gint height = gdk_pixbuf_get_height(pr->pixbuf);
 		
-		/* FIXME use CoglMaterial with multiple textures for background, color management, anaglyph, ... */
-		CoglHandle texture = cogl_texture_new_with_size(gdk_pixbuf_get_width(pr->pixbuf),
-								gdk_pixbuf_get_height(pr->pixbuf),
-								COGL_TEXTURE_NONE,
-								gdk_pixbuf_get_has_alpha(pr->pixbuf) ? COGL_PIXEL_FORMAT_RGBA_8888 : COGL_PIXEL_FORMAT_RGB_888);
-
-		if (texture != COGL_INVALID_HANDLE)
+		gint prev_width, prev_height;
+		
+		printf("renderer_update_pixbuf\n");
+		clutter_texture_get_base_size(CLUTTER_TEXTURE(rc->texture), &prev_width, &prev_height);
+		printf("change from %d %d to %d %d\n", prev_width, prev_height, width, height);
+		
+		if (width != prev_width || height != prev_height)
 			{
-			clutter_texture_set_cogl_texture(CLUTTER_TEXTURE(rc->texture), texture);
-			cogl_handle_unref(texture);
+			/* FIXME use CoglMaterial with multiple textures for background, color management, anaglyph, ... */
+			CoglHandle texture = cogl_texture_new_with_size(width,
+									height,
+									COGL_TEXTURE_NONE,
+									gdk_pixbuf_get_has_alpha(pr->pixbuf) ? COGL_PIXEL_FORMAT_RGBA_8888 : COGL_PIXEL_FORMAT_RGB_888);
+
+			if (texture != COGL_INVALID_HANDLE)
+				{
+				clutter_texture_set_cogl_texture(CLUTTER_TEXTURE(rc->texture), texture);
+				cogl_handle_unref(texture);
+				}
 			}
 		if (!lazy)
 			{
-			renderer_area_changed(renderer, 0, 0, gdk_pixbuf_get_width(pr->pixbuf), gdk_pixbuf_get_height(pr->pixbuf));
+			renderer_area_changed(renderer, 0, 0, width, height);
 			}
 		}
 
