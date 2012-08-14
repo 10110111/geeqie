@@ -17,6 +17,7 @@
 
 void write_indent(GString *str, gint indent);
 void write_char_option(GString *str, gint indent, const gchar *label, const gchar *text);
+gboolean read_dummy_option(const gchar *option, const gchar *label, const gchar *message);
 gboolean read_char_option(const gchar *option, const gchar *label, const gchar *value, gchar **text);
 void write_color_option(GString *str, gint indent, gchar *label, GdkColor *color);
 gboolean read_color_option(const gchar *option, const gchar *label, const gchar *value, GdkColor *color);
@@ -60,8 +61,7 @@ gboolean read_bool_option(const gchar *option, const gchar *label, const gchar *
 #define READ_CHAR_FULL(_name_, _target_) read_char_option(option, _name_, value, &(_target_))
 #define READ_COLOR_FULL(_name_, _target_) read_color_option(option, _name_, value, &(_target_))
 
-
-
+#define READ_DUMMY(_target_, _name_, _msg_) read_dummy_option(option, #_name_, _msg_)
 
 typedef struct _GQParserFuncData GQParserFuncData;
 typedef struct _GQParserData GQParserData;

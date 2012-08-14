@@ -74,6 +74,15 @@ void write_char_option(GString *str, gint indent, const gchar *label, const gcha
 	g_free(escval1);
 }
 
+/* dummy read for old/obsolete/futur/deprecated/unused options */
+gboolean read_dummy_option(const gchar *option, const gchar *label, const gchar *message)
+{
+	if (g_ascii_strcasecmp(option, label) != 0) return FALSE;
+	log_printf(_("Option %s ignored: %s\n"), option, message);
+	return TRUE;
+}
+
+
 gboolean read_char_option(const gchar *option, const gchar *label, const gchar *value, gchar **text)
 {
 	if (g_ascii_strcasecmp(option, label) != 0) return FALSE;
@@ -720,6 +729,10 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_UINT(*options, stereo.fixed_x2)) continue;
 		if (READ_UINT(*options, stereo.fixed_y2)) continue;
 
+		/* dummy options */
+		if (READ_DUMMY(*options, image.dither_quality, "deprecated since 2012-08-13")) continue;
+
+		/* unknown options */
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 
