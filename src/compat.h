@@ -28,7 +28,7 @@ GList* hash_table_get_keys(GHashTable *hash_table);
 #define	MAP_ANON	MAP_ANONYMOUS
 #endif
 
-#ifndef GDK_KEY_Up
+#if !GTK_CHECK_VERSION(2,22,0)
 #define GDK_KEY_BackSpace	GDK_BackSpace
 #define GDK_KEY_Delete		GDK_Delete
 #define GDK_KEY_Down		GDK_Down
@@ -78,7 +78,7 @@ gint compat_gdk_window_get_height(GdkWindow *window);
 
 #endif
 
-#if !GTK_CHECK_VERSION(2,24,0)
+#if !GTK_CHECK_VERSION(2,22,0)
 #define gdk_window_create_similar_surface(window, content, width, height) compat_gdk_window_create_similar_surface(window, content, width, height)
 cairo_surface_t *compat_gdk_window_create_similar_surface (GdkWindow *window, cairo_content_t content, gint width, gint height);
 
