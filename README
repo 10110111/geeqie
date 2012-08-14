@@ -48,10 +48,7 @@ geeqie-devel@lists.sourceforge.net
 ======== Requirements
 
   Required libraries:
-    GTK+ 2.??.x: ftp://ftp.gtk.org/pub/gtk
-FIXME: determine realistic requirements.
-It compiles with GTK 2.10, but some features are disabled and the testing was
-minimal. Please report success or  falilures.
+    GTK+ 2.20: ftp://ftp.gtk.org/pub/gtk
 
   Optional libraries:
     lcms, for color management support: http://www.littlecms.com

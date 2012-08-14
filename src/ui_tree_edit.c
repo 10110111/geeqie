@@ -22,6 +22,8 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "compat.h"
+
 #include "ui_tree_edit.h"
 
 /*
