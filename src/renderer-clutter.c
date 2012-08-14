@@ -80,14 +80,25 @@ struct _RendererClutter
 	gint stereo_off_x;
 	gint stereo_off_y;
 	
-	gint x_scroll;  /* allow local adjustment and mirroring */
-	gint y_scroll;
+	
+	GList *pending_updates;
+	gint idle_update;
 	
 	GtkWidget *widget; /* widget and stage may be shared with other renderers */
 	ClutterActor *stage;
 	ClutterActor *texture;
 	ClutterActor *group;
 };
+
+typedef struct _RendererClutterAreaParam RendererClutterAreaParam;
+struct _RendererClutterAreaParam {
+	RendererClutter *rc;
+	gint x;
+	gint y;
+	gint w;
+	gint h;
+};
+
 
 static void rc_sync_actor(RendererClutter *rc)
 {
@@ -98,7 +109,7 @@ static void rc_sync_actor(RendererClutter *rc)
 	clutter_actor_set_anchor_point(CLUTTER_ACTOR(rc->texture), 0, 0);
 
 	printf("scale %d %d\n", rc->pr->width, rc->pr->height);
-	printf("pos   %d %d        %d %d\n", rc->pr->x_offset, rc->pr->y_offset, rc->x_scroll, rc->y_scroll);
+	printf("pos   %d %d\n", rc->pr->x_offset, rc->pr->y_offset);
 	
 	switch (pr->orientation)
 		{
@@ -207,40 +218,93 @@ static void rc_sync_actor(RendererClutter *rc)
 
 }
 
+#define MAX_REGION_AREA (8192 * 1024)
+
+static gboolean renderer_area_changed_cb(gpointer data)
+{
+	RendererClutter *rc = (RendererClutter *)data;
+	PixbufRenderer *pr = rc->pr;
+	
+	RendererClutterAreaParam *par = rc->pending_updates->data;
+	
+	gint h = MAX_REGION_AREA / par->w;
+	if (h == 0) h = 1;
+	if (h > par->h) h = par->h;
+	
+	
+	printf("renderer_area_changed_cb %d %d %d %d  (%d)\n", par->x, par->y, par->w, h, par->h);
+	if (pr->pixbuf)
+		{
+		CoglHandle texture = clutter_texture_get_cogl_texture(CLUTTER_TEXTURE(rc->texture));
+		
+		cogl_texture_set_region(texture,
+					par->x,
+					par->y,
+					par->x,
+					par->y,
+					par->w,
+					h,
+					par->w,
+					h,
+					gdk_pixbuf_get_has_alpha(pr->pixbuf) ? COGL_PIXEL_FORMAT_RGBA_8888 : COGL_PIXEL_FORMAT_RGB_888,
+					gdk_pixbuf_get_rowstride(pr->pixbuf),
+					gdk_pixbuf_get_pixels(pr->pixbuf));
+		}
+		
+	par->y += h;
+	par->h -= h;
+	
+	if (par->h == 0)
+		{
+		rc->pending_updates = g_list_remove(rc->pending_updates, par);
+		g_free(par);
+		}
+	if (!rc->pending_updates)
+		{
+		clutter_actor_queue_redraw(CLUTTER_ACTOR(rc->texture));
+		rc->idle_update = 0;
+		return FALSE;
+		}
+	return TRUE;
+}
+
 
 static void renderer_area_changed(void *renderer, gint src_x, gint src_y, gint src_w, gint src_h)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
 	PixbufRenderer *pr = rc->pr;
 	
-	
-	
-	printf("renderer_area_changed %d %d %d %d\n", src_x, src_y, src_w, src_h);
-	if (pr->pixbuf)
+	RendererClutterAreaParam *par = g_new0(RendererClutterAreaParam, 1);
+	par->rc = rc;
+	par->x = src_x;
+	par->y = src_y;
+	par->w = src_w;
+	par->h = src_h;
+	rc->pending_updates = g_list_append(rc->pending_updates, par);
+	if (!rc->idle_update) 
 		{
-		CoglHandle texture = clutter_texture_get_cogl_texture(CLUTTER_TEXTURE(rc->texture));
-		
-		cogl_texture_set_region(texture,
-					src_x,
-					src_y,
-					src_x,
-					src_y,
-					src_w,
-					src_h,
-					src_w,
-					src_h,
-					gdk_pixbuf_get_has_alpha(pr->pixbuf) ? COGL_PIXEL_FORMAT_RGBA_8888 : COGL_PIXEL_FORMAT_RGB_888,
-					gdk_pixbuf_get_rowstride(pr->pixbuf),
-					gdk_pixbuf_get_pixels(pr->pixbuf));
-		clutter_actor_queue_redraw(CLUTTER_ACTOR(rc->texture));
+		rc->idle_update = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE, renderer_area_changed_cb, rc, NULL);
 		}
+}
 
+static void renderer_remove_pending_updates(RendererClutter *rc)
+{
+	if (rc->idle_update) g_idle_remove_by_data(rc);
+	rc->idle_update = 0;
+	while (rc->pending_updates)
+		{
+		RendererClutterAreaParam *par = rc->pending_updates->data;
+		rc->pending_updates = g_list_remove(rc->pending_updates, par);
+		g_free(par);
+		}
 }
 
 static void renderer_update_pixbuf(void *renderer, gboolean lazy)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
 	PixbufRenderer *pr = rc->pr;
+	
+	renderer_remove_pending_updates(rc);
 	
 	if (pr->pixbuf)
 		{
@@ -383,6 +447,8 @@ static void renderer_stereo_set(void *renderer, gint stereo_mode)
 static void renderer_free(void *renderer)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
+	renderer_remove_pending_updates(rc);
+	
 	GtkWidget *widget = gtk_bin_get_child(GTK_BIN(rc->pr));
 	if (widget)
 		{
@@ -430,6 +496,8 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
 	rc->stereo_off_x = 0;
 	rc->stereo_off_y = 0;
 
+	rc->idle_update = 0;
+	rc->pending_updates = NULL;
 
   	rc->widget = gtk_bin_get_child(GTK_BIN(rc->pr));
   	
