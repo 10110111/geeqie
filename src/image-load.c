@@ -252,11 +252,17 @@ static gboolean image_loader_emit_area_ready_cb(gpointer data)
 {
 	ImageLoaderAreaParam *par = data;
 	ImageLoader *il = par->il;
-	g_signal_emit(il, signals[SIGNAL_AREA_READY], 0, par->x, par->y, par->w, par->h);
+	guint x, y, w, h;
 	g_mutex_lock(il->data_mutex);
 	il->area_param_list = g_list_remove(il->area_param_list, par);
+	x = par->x;
+	y = par->y;
+	w = par->w;
+	h = par->h;
 	g_free(par);
 	g_mutex_unlock(il->data_mutex);
+
+	g_signal_emit(il, signals[SIGNAL_AREA_READY], 0, x, y, w, h);
 	
 	return FALSE;
 }
@@ -319,9 +325,43 @@ static void image_loader_emit_size(ImageLoader *il)
 	g_idle_add_full(G_PRIORITY_HIGH, image_loader_emit_size_cb, il, NULL);
 }
 
-/* this function expects that il->data_mutex is locked by caller */
-static void image_loader_emit_area_ready(ImageLoader *il, guint x, guint y, guint w, guint h)
+static ImageLoaderAreaParam *image_loader_queue_area_ready(ImageLoader *il, GList **list, guint x, guint y, guint w, guint h)
 {
+	if (*list) 
+		{
+		ImageLoaderAreaParam *prev_par = (*list)->data;
+		if (prev_par->x == x && prev_par->w == w &&
+		    prev_par->y + prev_par->h == y)
+			{
+			/* we can merge the notifications */
+			prev_par->h += h;
+			return NULL;
+			}
+		if (prev_par->x == x && prev_par->w == w &&
+		    y + h == prev_par->y)
+			{
+			/* we can merge the notifications */
+			prev_par->h += h;
+			prev_par->y = y;
+			return NULL;
+			}
+		if (prev_par->y == y && prev_par->h == h &&
+		    prev_par->x + prev_par->w == x)
+			{
+			/* we can merge the notifications */
+			prev_par->w += w;
+			return NULL;
+			}
+		if (prev_par->y == y && prev_par->h == h &&
+		    x + w == prev_par->x)
+			{
+			/* we can merge the notifications */
+			prev_par->w += w;
+			prev_par->x = x;
+			return NULL;
+			}
+		}
+	
 	ImageLoaderAreaParam *par = g_new0(ImageLoaderAreaParam, 1);
 	par->il = il;
 	par->x = x;
@@ -329,9 +369,19 @@ static void image_loader_emit_area_ready(ImageLoader *il, guint x, guint y, guin
 	par->w = w;
 	par->h = h;
 	
-	il->area_param_list = g_list_prepend(il->area_param_list, par);
+	*list = g_list_prepend(*list, par);
+	return par;
+}
+
+/* this function expects that il->data_mutex is locked by caller */
+static void image_loader_emit_area_ready(ImageLoader *il, guint x, guint y, guint w, guint h)
+{
+	ImageLoaderAreaParam *par = image_loader_queue_area_ready(il, &il->area_param_list, x, y, w, h);
 	
-	g_idle_add_full(G_PRIORITY_HIGH, image_loader_emit_area_ready_cb, par, NULL);
+	if (par)
+		{
+		g_idle_add_full(G_PRIORITY_HIGH, image_loader_emit_area_ready_cb, par, NULL);
+		}
 }
 
 /**************************************************************************************/
@@ -340,14 +390,7 @@ static void image_loader_emit_area_ready(ImageLoader *il, guint x, guint y, guin
 /* this function expects that il->data_mutex is locked by caller */
 static void image_loader_queue_delayed_area_ready(ImageLoader *il, guint x, guint y, guint w, guint h)
 {
-	ImageLoaderAreaParam *par = g_new0(ImageLoaderAreaParam, 1);
-	par->il = il;
-	par->x = x;
-	par->y = y;
-	par->w = w;
-	par->h = h;
-	
-	il->area_param_delayed_list = g_list_prepend(il->area_param_delayed_list, par);
+	image_loader_queue_area_ready(il, &il->area_param_delayed_list, x, y, w, h);
 }
 
 
