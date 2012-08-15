@@ -5305,7 +5305,7 @@ msgid "This will write the changed metadata into the following files"
 msgstr "Cela écrira les méta-données modifiées dans les fichiers suivants"
 
 #: ../src/utilops.c:2019
-msgid "Metadata writting failed"
+msgid "Metadata writing failed"
 msgstr "Échec de l'écriture des méta-données"
 
 #: ../src/utilops.c:2038 ../src/utilops.c:2065

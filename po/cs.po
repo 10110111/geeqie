@@ -5271,7 +5271,7 @@ msgid "This will write the changed metadata into the following files"
 msgstr "Tímto zapíšete změněná metadata do následujících souborů"
 
 #: ../src/utilops.c:2019
-msgid "Metadata writting failed"
+msgid "Metadata writing failed"
 msgstr "Zápis metadat selhal"
 
 #: ../src/utilops.c:2038 ../src/utilops.c:2065

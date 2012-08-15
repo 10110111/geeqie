@@ -5272,7 +5272,7 @@ msgid "This will write the changed metadata into the following files"
 msgstr "Metadatele modificate vor fi scrise în următoarele fișiere"
 
 #: ../src/utilops.c:2019
-msgid "Metadata writting failed"
+msgid "Metadata writing failed"
 msgstr "Scrierea metadatelor a eșuat"
 
 #: ../src/utilops.c:2038 ../src/utilops.c:2065
