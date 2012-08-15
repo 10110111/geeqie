@@ -1466,7 +1466,7 @@ static void config_tab_windows(GtkWidget *notebook)
 	  "If two or more variables are connected with the |-sign, it prints available variables with a separator.\n"
 	  "<i>%formatted.ShutterSpeed%</i>|<i>%formatted.ISOSpeedRating%</i>|<i>%formatted.FocalLength%</i> could show \"1/20s - 400 - 80 mm\" or \"1/200 - 80 mm\",\n"
 	  "if there's no ISO information in the Exif data.\n"
-	  "If a line is empty, it is removed. This allows to add lines that totally disappear when no data is available.\n"
+	  "If a line is empty, it is removed. This allows one to add lines that totally disappear when no data is available.\n"
 ));
 #endif
 	gtk_container_add(GTK_CONTAINER(scrolled), image_overlay_template_view);
