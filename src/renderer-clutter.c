@@ -53,6 +53,16 @@ typedef enum {
 } ExifOrientationType;
 #endif
 
+#define GET_RIGHT_PIXBUF_OFFSET(rc) \
+        (( (rc->stereo_mode & PR_STEREO_RIGHT) && !(rc->stereo_mode & PR_STEREO_SWAP)) || \
+         (!(rc->stereo_mode & PR_STEREO_RIGHT) &&  (rc->stereo_mode & PR_STEREO_SWAP)) ?  \
+          rc->pr->stereo_pixbuf_offset_right : rc->pr->stereo_pixbuf_offset_left )
+
+#define GET_LEFT_PIXBUF_OFFSET(rc) \
+        ((!(rc->stereo_mode & PR_STEREO_RIGHT) && !(rc->stereo_mode & PR_STEREO_SWAP)) || \
+         ( (rc->stereo_mode & PR_STEREO_RIGHT) &&  (rc->stereo_mode & PR_STEREO_SWAP)) ?  \
+          rc->pr->stereo_pixbuf_offset_right : rc->pr->stereo_pixbuf_offset_left )
+
 
 typedef struct _OverlayData OverlayData;
 struct _OverlayData
@@ -60,7 +70,7 @@ struct _OverlayData
 	gint id;
 
 	GdkPixbuf *pixbuf;
-	GdkWindow *window;
+	ClutterActor *actor;
 
 	gint x;
 	gint y;
@@ -83,6 +93,8 @@ struct _RendererClutter
 	
 	GList *pending_updates;
 	gint idle_update;
+	
+	GList *overlay_list;
 	
 	GtkWidget *widget; /* widget and stage may be shared with other renderers */
 	ClutterActor *stage;
@@ -238,7 +250,7 @@ static gboolean renderer_area_changed_cb(gpointer data)
 		CoglHandle texture = clutter_texture_get_cogl_texture(CLUTTER_TEXTURE(rc->texture));
 		
 		cogl_texture_set_region(texture,
-					par->x,
+					par->x + GET_RIGHT_PIXBUF_OFFSET(rc),
 					par->y,
 					par->x,
 					par->y,
@@ -273,10 +285,23 @@ static void renderer_area_changed(void *renderer, gint src_x, gint src_y, gint s
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
 	PixbufRenderer *pr = rc->pr;
+	RendererClutterAreaParam *par;
+
+	gint width = gdk_pixbuf_get_width(pr->pixbuf);
+	gint height = gdk_pixbuf_get_height(pr->pixbuf);
+		
+	if (pr->stereo_data == STEREO_PIXBUF_SBS || pr->stereo_data == STEREO_PIXBUF_CROSS) 
+			{
+			width /= 2;
+			}
 	
-	RendererClutterAreaParam *par = g_new0(RendererClutterAreaParam, 1);
+	if (!pr_clip_region(src_x, src_y, src_w, src_h,
+                            GET_RIGHT_PIXBUF_OFFSET(rc), 0, width, height,
+                            &src_x, &src_y, &src_w, &src_h)) return;
+	
+	par = g_new0(RendererClutterAreaParam, 1);
 	par->rc = rc;
-	par->x = src_x;
+	par->x = src_x - GET_RIGHT_PIXBUF_OFFSET(rc);
 	par->y = src_y;
 	par->w = src_w;
 	par->h = src_h;
@@ -313,6 +338,12 @@ static void renderer_update_pixbuf(void *renderer, gboolean lazy)
 		
 		gint prev_width, prev_height;
 		
+		if (pr->stereo_data == STEREO_PIXBUF_SBS || pr->stereo_data == STEREO_PIXBUF_CROSS) 
+			{
+			width /= 2;
+			}
+
+		
 		printf("renderer_update_pixbuf\n");
 		clutter_texture_get_base_size(CLUTTER_TEXTURE(rc->texture), &prev_width, &prev_height);
 		printf("change from %d %d to %d %d\n", prev_width, prev_height, width, height);
@@ -333,7 +364,7 @@ static void renderer_update_pixbuf(void *renderer, gboolean lazy)
 			}
 		if (!lazy)
 			{
-			renderer_area_changed(renderer, 0, 0, width, height);
+			renderer_area_changed(renderer, GET_RIGHT_PIXBUF_OFFSET(rc), 0, width, height);
 			}
 		}
 
@@ -357,21 +388,168 @@ static void renderer_invalidate_region(void *renderer, gint x, gint y, gint w, g
 {
 }
 
+static OverlayData *rc_overlay_find(RendererClutter *rc, gint id)
+{
+	GList *work;
+
+	work = rc->overlay_list;
+	while (work)
+		{
+		OverlayData *od = work->data;
+		work = work->next;
+
+		if (od->id == id) return od;
+		}
+
+	return NULL;
+}
+
+static void rc_overlay_actor_destroy_cb(ClutterActor *actor, gpointer user_data)
+{
+	OverlayData *od = user_data;
+	od->actor = NULL;
+}
+
+static void rc_overlay_free(RendererClutter *rc, OverlayData *od)
+{
+	rc->overlay_list = g_list_remove(rc->overlay_list, od);
+
+	if (od->pixbuf) g_object_unref(G_OBJECT(od->pixbuf));
+	if (od->actor) clutter_actor_destroy(od->actor);
+	g_free(od);
+}
+
+static void rc_overlay_update_position(RendererClutter *rc, OverlayData *od)
+{
+	gint px, py, pw, ph;
+
+	pw = gdk_pixbuf_get_width(od->pixbuf);
+	ph = gdk_pixbuf_get_height(od->pixbuf);
+	px = od->x;
+	py = od->y;
+
+	if (od->flags & OVL_RELATIVE)
+		{
+		if (px < 0) px = rc->pr->viewport_width - pw + px;
+		if (py < 0) py = rc->pr->viewport_height - ph + py;
+		}
+	if (od->actor) clutter_actor_set_position(od->actor, px, py);
+}
+
+static void rc_overlay_update_positions(RendererClutter *rc)
+{
+	GList *work;
+
+	work = rc->overlay_list;
+	while (work)
+		{
+		OverlayData *od = work->data;
+		work = work->next;
+
+		rc_overlay_update_position(rc, od);
+		}
+}
+
+static void rc_overlay_free_all(RendererClutter *rc)
+{
+	GList *work;
+
+	work = rc->overlay_list;
+	while (work)
+		{
+		OverlayData *od = work->data;
+		work = work->next;
+
+		rc_overlay_free(rc, od);
+		}
+}
+
+
 static void renderer_overlay_draw(void *renderer, gint x, gint y, gint w, gint h)
 {
 }
 
-static void renderer_overlay_add(void *renderer, gint x, gint y, gint w, gint h)
+static gint renderer_overlay_add(void *renderer, GdkPixbuf *pixbuf, gint x, gint y, OverlayRendererFlags flags)
 {
+	RendererClutter *rc = (RendererClutter *)renderer;
+	PixbufRenderer *pr = rc->pr;
+	OverlayData *od;
+	gint id;
+
+	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), -1);
+	g_return_val_if_fail(pixbuf != NULL, -1);
+
+	id = 1;
+	while (rc_overlay_find(rc, id)) id++;
+
+	od = g_new0(OverlayData, 1);
+	od->id = id;
+	od->pixbuf = pixbuf;
+	g_object_ref(G_OBJECT(od->pixbuf));
+	od->x = x;
+	od->y = y;
+	od->flags = flags;
+	
+	od->actor = gtk_clutter_texture_new();
+	g_signal_connect (od->actor, "destroy", G_CALLBACK(rc_overlay_actor_destroy_cb), od);
+	
+	gtk_clutter_texture_set_from_pixbuf(GTK_CLUTTER_TEXTURE (od->actor), pixbuf, NULL);
+  	clutter_container_add_actor(CLUTTER_CONTAINER(rc->group), od->actor);
+
+	rc->overlay_list = g_list_append(rc->overlay_list, od);
+	rc_overlay_update_position(rc, od);
+
+	return od->id;
 }
 
-static void renderer_overlay_set(void *renderer, gint x, gint y, gint w, gint h)
+static void renderer_overlay_set(void *renderer, gint id, GdkPixbuf *pixbuf, gint x, gint y)
 {
+	RendererClutter *rc = (RendererClutter *)renderer;
+	PixbufRenderer *pr = rc->pr;
+	OverlayData *od;
+
+	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
+
+	od = rc_overlay_find(rc, id);
+	if (!od) return;
+
+	if (pixbuf)
+		{
+		g_object_ref(G_OBJECT(pixbuf));
+		g_object_unref(G_OBJECT(od->pixbuf));
+		od->pixbuf = pixbuf;
+
+		od->x = x;
+		od->y = y;
+
+		if (od->actor) gtk_clutter_texture_set_from_pixbuf(GTK_CLUTTER_TEXTURE(od->actor), pixbuf, NULL);
+		rc_overlay_update_position(rc, od);
+		}
+	else
+		{
+		rc_overlay_free(rc, od);
+		}
 }
 
-static void renderer_overlay_get(void *renderer, gint x, gint y, gint w, gint h)
+static gboolean renderer_overlay_get(void *renderer, gint id, GdkPixbuf **pixbuf, gint *x, gint *y)
 {
+	RendererClutter *rc = (RendererClutter *)renderer;
+
+	PixbufRenderer *pr = rc->pr;
+	OverlayData *od;
+
+	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), FALSE);
+
+	od = rc_overlay_find(rc, id);
+	if (!od) return FALSE;
+
+	if (pixbuf) *pixbuf = od->pixbuf;
+	if (x) *x = od->x;
+	if (y) *y = od->y;
+
+	return TRUE;
 }
+
 
 static void renderer_update_sizes(void *renderer)
 {
@@ -426,6 +604,7 @@ static void renderer_update_sizes(void *renderer)
 						0, rc->pr->viewport_height / 2.0, 0);
 
 	rc_sync_actor(rc);
+	rc_overlay_update_positions(rc);
 }
 
 static void renderer_scroll(void *renderer, gint x_off, gint y_off)
@@ -447,9 +626,12 @@ static void renderer_stereo_set(void *renderer, gint stereo_mode)
 static void renderer_free(void *renderer)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
-	renderer_remove_pending_updates(rc);
-	
 	GtkWidget *widget = gtk_bin_get_child(GTK_BIN(rc->pr));
+
+	renderer_remove_pending_updates(rc);
+
+	rc_overlay_free_all(rc);
+	
 	if (widget)
 		{
 		/* widget still exists */
@@ -523,7 +705,7 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
   	clutter_container_add_actor(CLUTTER_CONTAINER(rc->stage), rc->group);
   	clutter_actor_set_clip_to_allocation(CLUTTER_ACTOR(rc->group), TRUE);
   
-  	rc->texture = gtk_clutter_texture_new ();
+  	rc->texture = clutter_texture_new ();
   	clutter_container_add_actor(CLUTTER_CONTAINER(rc->group), rc->texture);
   	g_object_ref(G_OBJECT(rc->widget));
   
