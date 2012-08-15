@@ -123,6 +123,10 @@ static void rc_sync_actor(RendererClutter *rc)
 	printf("scale %d %d\n", rc->pr->width, rc->pr->height);
 	printf("pos   %d %d\n", rc->pr->x_offset, rc->pr->y_offset);
 	
+	clutter_actor_set_scale(CLUTTER_ACTOR(rc->texture), 
+			        (gfloat)pr->width / pr->image_width,
+			        (gfloat)pr->height / pr->image_height);
+			        
 	switch (pr->orientation)
 		{
 		case EXIF_ORIENTATION_TOP_LEFT:
@@ -133,7 +137,6 @@ static void rc_sync_actor(RendererClutter *rc)
 			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
 						CLUTTER_Y_AXIS,
 						0, 0, 0, 0);
-			clutter_actor_set_size(CLUTTER_ACTOR(rc->texture), pr->width, pr->height);
 			anchor_x = 0;
 			anchor_y = 0;
 			break;
@@ -145,7 +148,6 @@ static void rc_sync_actor(RendererClutter *rc)
 			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
 						CLUTTER_Y_AXIS,
 						180, 0, 0, 0);
-			clutter_actor_set_size(CLUTTER_ACTOR(rc->texture), pr->width, pr->height);
 			anchor_x = pr->width;
 			anchor_y = 0;
 			break;
@@ -157,7 +159,6 @@ static void rc_sync_actor(RendererClutter *rc)
 			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
 						CLUTTER_Y_AXIS,
 						0, 0, 0, 0);
-			clutter_actor_set_size(CLUTTER_ACTOR(rc->texture), pr->width, pr->height);
 			anchor_x = pr->width;
 			anchor_y = pr->height;
 			break;
@@ -169,7 +170,6 @@ static void rc_sync_actor(RendererClutter *rc)
 			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
 						CLUTTER_Y_AXIS,
 						180, 0, 0, 0);
-			clutter_actor_set_size(CLUTTER_ACTOR(rc->texture), pr->width, pr->height);
 			anchor_x = 0;
 			anchor_y = pr->height;
 			break;
@@ -180,7 +180,6 @@ static void rc_sync_actor(RendererClutter *rc)
 			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
 						CLUTTER_Y_AXIS,
 						180, 0, 0, 0);
-			clutter_actor_set_size(CLUTTER_ACTOR(rc->texture), pr->height, pr->width);
 			anchor_x = 0;
 			anchor_y = 0;
 			break;
@@ -192,7 +191,6 @@ static void rc_sync_actor(RendererClutter *rc)
 			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
 						CLUTTER_Y_AXIS,
 						0, 0, 0, 0);
-			clutter_actor_set_size(CLUTTER_ACTOR(rc->texture), pr->height, pr->width);
 			anchor_x = 0;
 			anchor_y = pr->height;
 			break;
@@ -203,7 +201,6 @@ static void rc_sync_actor(RendererClutter *rc)
 			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
 						CLUTTER_Y_AXIS,
 						180, 0, 0, 0);
-			clutter_actor_set_size(CLUTTER_ACTOR(rc->texture), pr->height, pr->width);
 			anchor_x = pr->width;
 			anchor_y = pr->height;
 			break;
@@ -215,7 +212,6 @@ static void rc_sync_actor(RendererClutter *rc)
 			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
 						CLUTTER_Y_AXIS,
 						0, 0, 0, 0);
-			clutter_actor_set_size(CLUTTER_ACTOR(rc->texture), pr->height, pr->width);
 			anchor_x = pr->width;
 			anchor_y = 0;
 			break;
@@ -230,7 +226,34 @@ static void rc_sync_actor(RendererClutter *rc)
 
 }
 
-#define MAX_REGION_AREA (8192 * 1024)
+
+static void renderer_area_clip_add(RendererClutter *rc, gfloat x, gfloat y, gfloat w, gfloat h)
+{
+	PixbufRenderer *pr = rc->pr;
+	gfloat x2, y2;
+	gfloat clip_x, clip_y, clip_w, clip_h, clip_x2, clip_y2;
+	
+	x2 = x + w;
+	y2 = y + h;
+	
+	clutter_actor_get_clip(rc->texture, &clip_x, &clip_y, &clip_w, &clip_h);
+	
+	clip_x2 = clip_x + clip_w;
+	clip_y2 = clip_y + clip_h;
+	
+	if (clip_x > x) clip_x = x;
+	if (clip_x2 < x2) clip_x2 = x2;
+	if (clip_y > y) clip_y = y;
+	if (clip_y2 < y2) clip_y2 = y2;
+	
+	clip_w = clip_x2 - clip_x;
+	clip_h = clip_y2 - clip_y;
+	
+	printf("clip %f %f %f %f\n", clip_x, clip_y, clip_w, clip_h);
+	clutter_actor_set_clip(rc->texture, clip_x, clip_y, clip_w, clip_h);
+}
+
+#define MAX_REGION_AREA (32768 * 1024)
 
 static gboolean renderer_area_changed_cb(gpointer data)
 {
@@ -262,6 +285,8 @@ static gboolean renderer_area_changed_cb(gpointer data)
 					gdk_pixbuf_get_rowstride(pr->pixbuf),
 					gdk_pixbuf_get_pixels(pr->pixbuf));
 		}
+	renderer_area_clip_add(rc, par->x, par->y, par->w, h);
+
 		
 	par->y += h;
 	par->h -= h;
@@ -362,6 +387,7 @@ static void renderer_update_pixbuf(void *renderer, gboolean lazy)
 				cogl_handle_unref(texture);
 				}
 			}
+		clutter_actor_set_clip(rc->texture, 0, 0, 0, 0); /* visible area is extended as area_changed events arrive */
 		if (!lazy)
 			{
 			renderer_area_changed(renderer, GET_RIGHT_PIXBUF_OFFSET(rc), 0, width, height);
