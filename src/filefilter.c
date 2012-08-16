@@ -267,6 +267,8 @@ void filter_add_defaults(void)
 	filter_add_if_missing("r3d", "Red raw format", ".r3d", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
 	filter_add_if_missing("3fr", "Hasselblad raw format", ".3fr", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
 	filter_add_if_missing("erf", "Epson raw format", ".erf", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("srw", "Samsung raw format", ".srw", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
+	filter_add_if_missing("rw2", "Panasonic raw format", ".rw2", FORMAT_CLASS_RAWIMAGE, FALSE, TRUE, TRUE);
 }
 
 GList *filter_to_list(const gchar *extensions)
