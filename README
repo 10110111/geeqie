@@ -321,7 +321,7 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
     "1/200 - 80 mm" if there's no ISO information in the Exif data.
 
   If a line is empty, it is removed.
-  This allows one to add lines that totally disappear when no data is available.
+  This allows to add lines that totally disappear when no data is available.
 
   Extra string uses special character '*' to mark the position of the data.
   If no '*' is present, then extra string is just appended to data.

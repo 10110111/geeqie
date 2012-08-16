@@ -48,7 +48,7 @@
         Limit image size when autofitting
       </term><listitem><para/></listitem></varlistentry></variablelist>
     <para>
-      This percentage will affect the size of the image when Fit image to window is set, instead of using 100% of the window, it will use the specified percentage. It allows one to keep a border around the image (values lower than 100%) or to auto zoom the image (values greater than 100%). It affects fullscreen mode too.
+      This percentage will affect the size of the image when Fit image to window is set, instead of using 100% of the window, it will use the specified percentage. It allows to keep a border around the image (values lower than 100%) or to auto zoom the image (values greater than 100%). It affects fullscreen mode too.
     </para>
     <variablelist><varlistentry><term>
         Zoom increment

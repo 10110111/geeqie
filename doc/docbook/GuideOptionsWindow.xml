@@ -226,7 +226,7 @@
       "1/200 - 80 mm" if there's no ISO information in the Exif data.<?db2html element="br"?>
     </para>
     <para>
-      If a line is empty, it is removed. This allows one to add lines that totally disappear when no data is available.
+      If a line is empty, it is removed. This allows to add lines that totally disappear when no data is available.
     </para>
     <para>
       Extra string uses special character '*' to mark the position of the data. If no '*' is present, then extra string is just appended to data. Any "\n" is replaced by a newline on display. Pango mark up is accepted in left and right parts. If data is empty, nothing will be displayed.
