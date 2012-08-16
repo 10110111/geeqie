@@ -111,6 +111,47 @@ struct _RendererClutterAreaParam {
 	gint h;
 };
 
+static void rc_set_shader(CoglHandle material)
+{
+  CoglHandle shader;
+  CoglHandle program;
+
+  shader = cogl_create_shader (COGL_SHADER_TYPE_FRAGMENT);
+  cogl_shader_source (shader,
+  "vec3 checker(vec2 texc, vec3 color0, vec3 color1)"
+  "{"
+  "  if (mod(int(floor(texc.x) + floor(texc.y)), 2) == 0)"
+  "    return color0;"
+  "  else"
+  "    return color1;"
+  "}"
+  
+  "uniform sampler2D tex;"
+  "void main(void)"
+  "{"
+  "    vec3 bg = checker(gl_FragCoord.xy / 16, vec3(0.6, 0.6, 0.6), vec3(0.4, 0.4, 0.4));"
+  "    vec4 img4 = texture2D(tex, gl_TexCoord[0].xy);"
+  "    vec3 img3 = img4.rgb;"
+  "    gl_FragColor = vec4(img3 * img4.a + bg * (1.0 - img4.a), 1.0);"
+  "}"
+  );
+  cogl_shader_compile(shader);
+  gchar *err = cogl_shader_get_info_log(shader);
+  printf("%s\n",err);
+  g_free(err);
+
+  program = cogl_create_program ();
+  cogl_program_attach_shader (program, shader);
+  cogl_handle_unref (shader);
+  cogl_program_link (program);
+
+  gint uniform_no = cogl_program_get_uniform_location (program, "tex");
+  cogl_program_set_uniform_1i (program, uniform_no, 0);
+
+  cogl_material_set_user_program (material, program);
+  cogl_handle_unref (program);
+}
+
 
 static void rc_sync_actor(RendererClutter *rc)
 {
@@ -268,6 +309,7 @@ static gboolean renderer_area_changed_cb(gpointer data)
 	
 	
 	printf("renderer_area_changed_cb %d %d %d %d  (%d)\n", par->x, par->y, par->w, h, par->h);
+	DEBUG_0("%s upload start", get_exec_time());
 	if (pr->pixbuf)
 		{
 		CoglHandle texture = clutter_texture_get_cogl_texture(CLUTTER_TEXTURE(rc->texture));
@@ -285,6 +327,7 @@ static gboolean renderer_area_changed_cb(gpointer data)
 					gdk_pixbuf_get_rowstride(pr->pixbuf),
 					gdk_pixbuf_get_pixels(pr->pixbuf));
 		}
+	DEBUG_0("%s upload end", get_exec_time());
 	renderer_area_clip_add(rc, par->x, par->y, par->w, h);
 
 		
@@ -378,7 +421,7 @@ static void renderer_update_pixbuf(void *renderer, gboolean lazy)
 			/* FIXME use CoglMaterial with multiple textures for background, color management, anaglyph, ... */
 			CoglHandle texture = cogl_texture_new_with_size(width,
 									height,
-									COGL_TEXTURE_NONE,
+									COGL_TEXTURE_NO_AUTO_MIPMAP,
 									gdk_pixbuf_get_has_alpha(pr->pixbuf) ? COGL_PIXEL_FORMAT_RGBA_8888 : COGL_PIXEL_FORMAT_RGB_888);
 
 			if (texture != COGL_INVALID_HANDLE)
@@ -733,6 +776,7 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
   
   	rc->texture = clutter_texture_new ();
   	clutter_container_add_actor(CLUTTER_CONTAINER(rc->group), rc->texture);
+  	rc_set_shader(clutter_texture_get_cogl_material(rc->texture));
   	g_object_ref(G_OBJECT(rc->widget));
   
 	gtk_widget_show(rc->widget);
