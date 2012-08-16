@@ -5393,7 +5393,7 @@ msgstr ""
 "Doorgaan?"
 
 #: ../src/utilops.c:2033
-msgid "Metadata writing failed"
+msgid "Metadata writting failed"
 msgstr ""
 
 #: ../src/utilops.c:2052 ../src/utilops.c:2079

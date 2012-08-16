@@ -5294,7 +5294,7 @@ msgid "This will write the changed metadata into the following files"
 msgstr "Измененные метаданные будут записаны в следующие файлы"
 
 #: ../src/utilops.c:2033
-msgid "Metadata writing failed"
+msgid "Metadata writting failed"
 msgstr "Не удалось записать метаданные"
 
 #: ../src/utilops.c:2052 ../src/utilops.c:2079

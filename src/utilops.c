@@ -2030,7 +2030,7 @@ static void file_util_write_metadata_full(FileData *source_fd, GList *flist, Gtk
 	ud->messages.question = _("Write metadata?");
 	ud->messages.desc_flist = _("This will write the changed metadata into the following files");
 	ud->messages.desc_source_fd = "";
-	ud->messages.fail = _("Metadata writing failed");
+	ud->messages.fail = _("Metadata writting failed");
 
 	file_util_dialog_run(ud);
 }

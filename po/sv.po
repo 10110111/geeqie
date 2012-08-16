@@ -5549,7 +5549,7 @@ msgid "This will write the changed metadata into the following files"
 msgstr "Ändrade metadata kommer nu att skrivas in i följande filer"
 
 #: ../src/utilops.c:2033
-msgid "Metadata writing failed"
+msgid "Metadata writting failed"
 msgstr "Metadata-skrivningen misslyckades"
 
 #: ../src/utilops.c:2052
