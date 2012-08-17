@@ -25,13 +25,6 @@
 
 #include <gtk/gtk.h>
 
-#ifdef HAVE_CLUTTER
-/* FIXME: make this configurable */
-#define RENDERER_NEW(pr) renderer_clutter_new(pr)
-#else
-#define RENDERER_NEW(pr) renderer_tiles_new(pr)
-#endif
-
 /* comment this out if not using this from within Geeqie
  * defining GQ_BUILD does these things:
  *   - Sets the shift-click scroller pixbuf to a nice icon instead of a black box
@@ -386,6 +379,20 @@ static void pixbuf_renderer_class_init(PixbufRendererClass *class)
 			     G_TYPE_NONE, 0);
 }
 
+static RendererFuncs *pr_backend_renderer_new(PixbufRenderer *pr)
+{
+	if (options->image.use_clutter_renderer)
+		{
+#ifdef HAVE_CLUTTER
+		return renderer_clutter_new(pr);
+#else
+		DEBUG_0("Geeqie is built without clutter renderer support");
+#endif
+		}
+	return renderer_tiles_new(pr);
+}	
+
+
 static void pixbuf_renderer_init(PixbufRenderer *pr)
 {
 	GtkWidget *box;
@@ -419,7 +426,7 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 	
 	pr->stereo_mode = PR_STEREO_NONE;
 	
-	pr->renderer = RENDERER_NEW(pr);
+	pr->renderer = pr_backend_renderer_new(pr);
 	
 	pr->renderer2 = NULL;
 
@@ -2605,13 +2612,13 @@ void pixbuf_renderer_zoom_set_limits(PixbufRenderer *pr, gdouble min, gdouble ma
 
 static void pr_stereo_set(PixbufRenderer *pr)
 {
-	if (!pr->renderer) pr->renderer = RENDERER_NEW(pr);
+	if (!pr->renderer) pr->renderer = pr_backend_renderer_new(pr);
 	
 	pr->renderer->stereo_set(pr->renderer, pr->stereo_mode & ~PR_STEREO_MIRROR_RIGHT & ~PR_STEREO_FLIP_RIGHT);
 	
 	if (pr->stereo_mode & (PR_STEREO_HORIZ | PR_STEREO_VERT | PR_STEREO_FIXED))
 		{
-		if (!pr->renderer2) pr->renderer2 = RENDERER_NEW(pr);
+		if (!pr->renderer2) pr->renderer2 = pr_backend_renderer_new(pr);
 		pr->renderer2->stereo_set(pr->renderer2, (pr->stereo_mode & ~PR_STEREO_MIRROR_LEFT & ~PR_STEREO_FLIP_LEFT) | PR_STEREO_RIGHT);
 		}
 	else
@@ -2669,7 +2676,7 @@ static void pr_stereo_temp_disable(PixbufRenderer *pr, gboolean disable)
 	pr->stereo_temp_disable = disable;
 	if (disable)
 		{
-		if (!pr->renderer) pr->renderer = RENDERER_NEW(pr);
+		if (!pr->renderer) pr->renderer = pr_backend_renderer_new(pr);
 		pr->renderer->stereo_set(pr->renderer, PR_STEREO_NONE);
 		if (pr->renderer2) pr->renderer2->free(pr->renderer2);
 		pr->renderer2 = NULL;
