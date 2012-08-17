@@ -27,6 +27,9 @@
 
 #ifdef HAVE_CLUTTER
 
+/* for 3d texture */
+#define COGL_ENABLE_EXPERIMENTAL_API
+
 #include <clutter/clutter.h>
 
 #include <clutter-gtk/clutter-gtk.h>
@@ -100,6 +103,8 @@ struct _RendererClutter
 	ClutterActor *stage;
 	ClutterActor *texture;
 	ClutterActor *group;
+	
+	gboolean clut_updated;
 };
 
 typedef struct _RendererClutterAreaParam RendererClutterAreaParam;
@@ -111,29 +116,38 @@ struct _RendererClutterAreaParam {
 	gint h;
 };
 
+#define CLUT_SIZE	32
+
 static void rc_set_shader(CoglHandle material)
 {
   CoglHandle shader;
   CoglHandle program;
-
+  gint uniform_no;
   shader = cogl_create_shader (COGL_SHADER_TYPE_FRAGMENT);
   cogl_shader_source (shader,
-  "vec3 checker(vec2 texc, vec3 color0, vec3 color1)"
-  "{"
-  "  if (mod(int(floor(texc.x) + floor(texc.y)), 2) == 0)"
-  "    return color0;"
-  "  else"
-  "    return color1;"
-  "}"
-  
-  "uniform sampler2D tex;"
-  "void main(void)"
-  "{"
-  "    vec3 bg = checker(gl_FragCoord.xy / 16, vec3(0.6, 0.6, 0.6), vec3(0.4, 0.4, 0.4));"
-  "    vec4 img4 = texture2D(tex, gl_TexCoord[0].xy);"
-  "    vec3 img3 = img4.rgb;"
-  "    gl_FragColor = vec4(img3 * img4.a + bg * (1.0 - img4.a), 1.0);"
-  "}"
+  "vec3 checker(vec2 texc, vec3 color0, vec3 color1)						\n"
+  "{												\n"
+  "  if (mod(int(floor(texc.x) + floor(texc.y)), 2) == 0)					\n"
+  "    return color0;										\n"
+  "  else											\n"
+  "    return color1;										\n"
+  "}												\n"
+  "												\n"
+  "uniform sampler2D tex;									\n"
+  "uniform sampler3D clut;									\n"
+  "uniform float scale;										\n"
+  "uniform float offset;									\n"
+  "												\n"
+  "void main(void)										\n"
+  "{												\n"
+  "    vec3 bg = checker(gl_FragCoord.xy / 16, vec3(0.6, 0.6, 0.6), vec3(0.4, 0.4, 0.4));	\n"
+  "    vec4 img4 = texture2D(tex, gl_TexCoord[0].xy);						\n"
+  "    vec3 img3 = img4.rgb;									\n"
+  "    img3 = img3 * scale + offset;								\n"
+  "    img3 = texture3D(clut, img3);								\n"
+  "												\n"
+  "    gl_FragColor = vec4(img3 * img4.a + bg * (1.0 - img4.a), 1.0);				\n"
+  "}												\n"
   );
   cogl_shader_compile(shader);
   gchar *err = cogl_shader_get_info_log(shader);
@@ -145,12 +159,75 @@ static void rc_set_shader(CoglHandle material)
   cogl_handle_unref (shader);
   cogl_program_link (program);
 
-  gint uniform_no = cogl_program_get_uniform_location (program, "tex");
+  uniform_no = cogl_program_get_uniform_location (program, "tex");
   cogl_program_set_uniform_1i (program, uniform_no, 0);
+
+  uniform_no = cogl_program_get_uniform_location (program, "clut");
+  cogl_program_set_uniform_1i (program, uniform_no, 1);
+
+  uniform_no = cogl_program_get_uniform_location (program, "scale");
+  cogl_program_set_uniform_1f (program, uniform_no, (double) (CLUT_SIZE - 1) / CLUT_SIZE);
+
+  uniform_no = cogl_program_get_uniform_location (program, "offset");
+  cogl_program_set_uniform_1f (program, uniform_no, 1.0 / (2 * CLUT_SIZE));
 
   cogl_material_set_user_program (material, program);
   cogl_handle_unref (program);
 }
+
+
+static void rc_prepare_post_process_lut(RendererClutter *rc)
+{
+	PixbufRenderer *pr = rc->pr;
+	static guchar clut[CLUT_SIZE * CLUT_SIZE * CLUT_SIZE * 3];
+	guint r, g, b;
+	GdkPixbuf *tmp_pixbuf;
+	CoglHandle material;
+	CoglHandle tex3d;
+	
+	DEBUG_0("%s clut start", get_exec_time());
+
+	for (r = 0; r < CLUT_SIZE; r++) 
+		{
+		for (g = 0; g < CLUT_SIZE; g++) 
+			{
+			for (b = 0; b < CLUT_SIZE; b++) 
+				{
+				guchar *ptr = clut + ((b * CLUT_SIZE + g) * CLUT_SIZE + r) * 3;
+				ptr[0] = floor ((double) r / (CLUT_SIZE - 1) * 255.0 + 0.5);
+				ptr[1] = floor ((double) g / (CLUT_SIZE - 1) * 255.0 + 0.5);
+				ptr[2] = floor ((double) b / (CLUT_SIZE - 1) * 255.0 + 0.5);
+				}
+			}
+		}
+	tmp_pixbuf = gdk_pixbuf_new_from_data(clut, GDK_COLORSPACE_RGB, FALSE, 8,
+					      CLUT_SIZE * CLUT_SIZE,
+					      CLUT_SIZE,
+					      CLUT_SIZE * CLUT_SIZE * 3,
+					      NULL, NULL);
+	if (pr->func_post_process)
+		{
+		pr->func_post_process(pr, &tmp_pixbuf, 0, 0, CLUT_SIZE * CLUT_SIZE, CLUT_SIZE, pr->post_process_user_data);
+		}
+	g_object_unref(tmp_pixbuf);
+
+	DEBUG_0("%s clut upload start", get_exec_time());
+	
+	tex3d = cogl_texture_3d_new_from_data(CLUT_SIZE, CLUT_SIZE, CLUT_SIZE,
+					      COGL_TEXTURE_NONE,
+					      COGL_PIXEL_FORMAT_RGB_888,
+					      COGL_PIXEL_FORMAT_RGB_888,
+					      CLUT_SIZE * 3,
+					      CLUT_SIZE * CLUT_SIZE * 3,
+					      clut,
+					      NULL);
+	material = clutter_texture_get_cogl_material(rc->texture);
+	cogl_material_set_layer(material, 1, tex3d);
+	cogl_handle_unref(tex3d);
+	DEBUG_0("%s clut end", get_exec_time());
+	rc->clut_updated = TRUE;
+}
+
 
 
 static void rc_sync_actor(RendererClutter *rc)
@@ -343,6 +420,10 @@ static gboolean renderer_area_changed_cb(gpointer data)
 		{
 		clutter_actor_queue_redraw(CLUTTER_ACTOR(rc->texture));
 		rc->idle_update = 0;
+
+		/* FIXME: find a better place for this */
+		if (!rc->clut_updated) rc_prepare_post_process_lut(rc);
+
 		return FALSE;
 		}
 	return TRUE;
@@ -437,7 +518,7 @@ static void renderer_update_pixbuf(void *renderer, gboolean lazy)
 			}
 		}
 
-
+	rc->clut_updated = FALSE;
 	printf("renderer_update_pixbuf\n");
 	rc_sync_actor(rc);
 }
