@@ -1183,6 +1183,7 @@ void pixbuf_renderer_set_tiles(PixbufRenderer *pr, gint width, gint height,
 	pr->func_tile_dispose = func_dispose;
 	pr->func_tile_data = user_data;
 
+	pr_stereo_temp_disable(pr, TRUE);
 	pr_zoom_sync(pr, zoom, PR_ZOOM_FORCE | PR_ZOOM_NEW, 0, 0);
 }
 
