@@ -1590,15 +1590,12 @@ static gboolean pr_size_clamp(PixbufRenderer *pr)
 }
 
 static gboolean pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
-			      PrZoomFlags flags, gboolean *redrawn)
+			      PrZoomFlags flags)
 {
 	gint w, h;
 	gdouble scale;
-	gboolean invalid;
 	gboolean force = !!(flags & PR_ZOOM_FORCE);
 	gboolean new = !!(flags & PR_ZOOM_NEW);
-	gboolean invalidate = !!(flags & PR_ZOOM_INVALIDATE);
-	gboolean lazy = !!(flags & PR_ZOOM_LAZY);
 
 	zoom = CLAMP(zoom, pr->zoom_min, pr->zoom_max);
 
@@ -1682,22 +1679,10 @@ static gboolean pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
 		h = h * scale * pr->aspect_ratio;
 		}
 
-	invalid = (pr->width != w || pr->height != h);
-
 	pr->zoom = zoom;
 	pr->width = w;
 	pr->height = h;
 	pr->scale = scale;
-
-	if (invalidate || invalid)
-		{
-		pr->renderer->update_zoom(pr->renderer, lazy);
-		if (pr->renderer2) pr->renderer2->update_zoom(pr->renderer2, lazy);
-//		if (!lazy) pr_redraw(pr, TRUE);
-		}
-	if (redrawn) *redrawn = (invalidate || invalid);
-
-	pixbuf_renderer_sync_scroll_center(pr);
 
 	return TRUE;
 }
@@ -1709,7 +1694,6 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 	gint old_cx, old_cy;
 	gboolean clamped;
 	gboolean sized;
-	gboolean redrawn = FALSE;
 	gboolean center_point = !!(flags & PR_ZOOM_CENTER);
 	gboolean force = !!(flags & PR_ZOOM_FORCE);
 	gboolean new = !!(flags & PR_ZOOM_NEW);
@@ -1734,8 +1718,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 		}
 
 	if (force) clamp_flags |= PR_ZOOM_INVALIDATE;
-	if (lazy) clamp_flags |= PR_ZOOM_LAZY;
-	if (!pr_zoom_clamp(pr, zoom, clamp_flags, &redrawn)) return;
+	if (!pr_zoom_clamp(pr, zoom, clamp_flags)) return;
 
 	clamped = pr_size_clamp(pr);
 	sized = pr_parent_window_resize(pr, pr->width, pr->height);
@@ -1779,17 +1762,6 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 
 	pr_scroll_clamp(pr);
 
-#if 0	
-	if (lazy)
-		{
-		pr->renderer->queue_clear(pr->renderer);
-		if (pr->renderer2) pr->renderer2->queue_clear(pr->renderer2);
-		}
-	else
-		{
-		pr_redraw(pr, redrawn);
-		}
-#endif
 	pr->renderer->update_zoom(pr->renderer, lazy);
 	if (pr->renderer2) pr->renderer2->update_zoom(pr->renderer2, lazy);
 
@@ -1833,15 +1805,22 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 	if (pr->zoom == 0.0)
 		{
 		gdouble old_scale = pr->scale;
-		pr_zoom_clamp(pr, 0.0, PR_ZOOM_FORCE, NULL);
+		pr_zoom_clamp(pr, 0.0, PR_ZOOM_FORCE);
 		zoom_changed = (old_scale != pr->scale);
 		}
 
 	pr_size_clamp(pr);
 	pr_scroll_clamp(pr);
 
+	if (zoom_changed)
+		{
+		pr->renderer->update_zoom(pr->renderer, FALSE);
+		if (pr->renderer2) pr->renderer2->update_zoom(pr->renderer2, FALSE);
+		}
+
 	pr->renderer->update_sizes(pr->renderer);
 	if (pr->renderer2) pr->renderer2->update_sizes(pr->renderer2);
+
 
 	/* ensure scroller remains visible */
 	if (pr->scroller_overlay != -1)
