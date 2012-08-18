@@ -431,6 +431,7 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 	pr->renderer2 = NULL;
 
 	gtk_widget_set_double_buffered(box, FALSE);
+	gtk_widget_set_app_paintable(box, TRUE);
 	g_signal_connect_after(G_OBJECT(box), "size_allocate",
 			       G_CALLBACK(pr_size_cb), pr);
 
