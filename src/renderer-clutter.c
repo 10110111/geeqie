@@ -105,6 +105,7 @@ struct _RendererClutter
 	ClutterActor *group;
 	
 	gboolean clut_updated;
+	gint64 last_pixbuf_change;
 };
 
 typedef struct _RendererClutterAreaParam RendererClutterAreaParam;
@@ -373,6 +374,23 @@ static void renderer_area_clip_add(RendererClutter *rc, gfloat x, gfloat y, gflo
 
 #define MAX_REGION_AREA (32768 * 1024)
 
+static gboolean renderer_area_changed_cb(gpointer data);
+
+static void rc_schedule_texture_upload(RendererClutter *rc)
+{
+	if (g_get_monotonic_time() - rc->last_pixbuf_change < 50000)
+		{
+		/* delay clutter redraw until the texture has some data 
+		   set priority between gtk redraw and clutter redraw */
+		rc->idle_update = g_idle_add_full(CLUTTER_PRIORITY_REDRAW - 10, renderer_area_changed_cb, rc, NULL);
+		}
+	else
+		{
+		/* higher prio than histogram */
+		rc->idle_update = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE - 5, renderer_area_changed_cb, rc, NULL);
+		}
+}
+
 static gboolean renderer_area_changed_cb(gpointer data)
 {
 	RendererClutter *rc = (RendererClutter *)data;
@@ -426,7 +444,10 @@ static gboolean renderer_area_changed_cb(gpointer data)
 
 		return FALSE;
 		}
-	return TRUE;
+
+	rc_schedule_texture_upload(rc);
+
+	return FALSE; /* it was rescheduled, possibly with different prio */
 }
 
 
@@ -457,7 +478,7 @@ static void renderer_area_changed(void *renderer, gint src_x, gint src_y, gint s
 	rc->pending_updates = g_list_append(rc->pending_updates, par);
 	if (!rc->idle_update) 
 		{
-		rc->idle_update = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE, renderer_area_changed_cb, rc, NULL);
+		rc_schedule_texture_upload(rc);
 		}
 }
 
@@ -519,6 +540,7 @@ static void renderer_update_pixbuf(void *renderer, gboolean lazy)
 		}
 
 	rc->clut_updated = FALSE;
+	rc->last_pixbuf_change = g_get_monotonic_time();
 	printf("renderer_update_pixbuf\n");
 	rc_sync_actor(rc);
 }
