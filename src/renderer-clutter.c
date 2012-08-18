@@ -143,7 +143,7 @@ static void rc_set_shader(CoglHandle material)
   "{												\n"
   "    vec3 bg = checker(gl_FragCoord.xy / 16, vec3(0.6, 0.6, 0.6), vec3(0.4, 0.4, 0.4));	\n"
   "    vec4 img4 = texture2D(tex, gl_TexCoord[0].xy);						\n"
-  "    vec3 img3 = img4.rgb;									\n"
+  "    vec3 img3 = img4.bgr;									\n"
   "    img3 = img3 * scale + offset;								\n"
   "    img3 = texture3D(clut, img3);								\n"
   "												\n"
@@ -380,11 +380,14 @@ static void rc_schedule_texture_upload(RendererClutter *rc)
 		{
 		/* delay clutter redraw until the texture has some data 
 		   set priority between gtk redraw and clutter redraw */
+		DEBUG_0("%s tex upload high prio", get_exec_time());
 		rc->idle_update = g_idle_add_full(CLUTTER_PRIORITY_REDRAW - 10, rc_area_changed_cb, rc, NULL);
 		}
 	else
 		{
 		/* higher prio than histogram */
+		DEBUG_0("%s tex upload low prio", get_exec_time());
+
 		rc->idle_update = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE - 5, rc_area_changed_cb, rc, NULL);
 		}
 }
@@ -415,7 +418,7 @@ static gboolean rc_area_changed_cb(gpointer data)
 					h,
 					par->w,
 					h,
-					gdk_pixbuf_get_has_alpha(pr->pixbuf) ? COGL_PIXEL_FORMAT_RGBA_8888 : COGL_PIXEL_FORMAT_RGB_888,
+					gdk_pixbuf_get_has_alpha(pr->pixbuf) ? COGL_PIXEL_FORMAT_BGRA_8888 : COGL_PIXEL_FORMAT_BGR_888,
 					gdk_pixbuf_get_rowstride(pr->pixbuf),
 					gdk_pixbuf_get_pixels(pr->pixbuf));
 		}
@@ -499,11 +502,16 @@ static void rc_update_pixbuf(void *renderer, gboolean lazy)
 	DEBUG_0("rc_update_pixbuf");
 
 	rc_remove_pending_updates(rc);
+
+	rc->last_pixbuf_change = g_get_monotonic_time();
+	DEBUG_0("%s change time reset", get_exec_time());
 	
 	if (pr->pixbuf)
 		{
 		gint width = gdk_pixbuf_get_width(pr->pixbuf);
 		gint height = gdk_pixbuf_get_height(pr->pixbuf);
+
+		DEBUG_0("pixbuf size %d x %d (%d)", width, height, gdk_pixbuf_get_has_alpha(pr->pixbuf) ? 32 : 24);
 		
 		gint prev_width, prev_height;
 		
@@ -521,7 +529,7 @@ static void rc_update_pixbuf(void *renderer, gboolean lazy)
 			CoglHandle texture = cogl_texture_new_with_size(width,
 									height,
 									COGL_TEXTURE_NO_AUTO_MIPMAP,
-									gdk_pixbuf_get_has_alpha(pr->pixbuf) ? COGL_PIXEL_FORMAT_RGBA_8888 : COGL_PIXEL_FORMAT_RGB_888);
+									gdk_pixbuf_get_has_alpha(pr->pixbuf) ? COGL_PIXEL_FORMAT_BGRA_8888 : COGL_PIXEL_FORMAT_BGR_888);
 
 			if (texture != COGL_INVALID_HANDLE)
 				{
@@ -537,8 +545,6 @@ static void rc_update_pixbuf(void *renderer, gboolean lazy)
 		}
 
 	rc->clut_updated = FALSE;
-	rc->last_pixbuf_change = g_get_monotonic_time();
-	rc_sync_actor(rc);
 }
 
 
