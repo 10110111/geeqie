@@ -152,7 +152,7 @@ static void rc_set_shader(CoglHandle material)
   );
   cogl_shader_compile(shader);
   gchar *err = cogl_shader_get_info_log(shader);
-  printf("%s\n",err);
+  DEBUG_0("%s\n",err);
   g_free(err);
 
   program = cogl_create_program ();
@@ -222,7 +222,7 @@ static void rc_prepare_post_process_lut(RendererClutter *rc)
 					      CLUT_SIZE * CLUT_SIZE * 3,
 					      clut,
 					      NULL);
-	material = clutter_texture_get_cogl_material(rc->texture);
+	material = clutter_texture_get_cogl_material(CLUTTER_TEXTURE(rc->texture));
 	cogl_material_set_layer(material, 1, tex3d);
 	cogl_handle_unref(tex3d);
 	DEBUG_0("%s clut end", get_exec_time());
@@ -239,8 +239,8 @@ static void rc_sync_actor(RendererClutter *rc)
 	
 	clutter_actor_set_anchor_point(CLUTTER_ACTOR(rc->texture), 0, 0);
 
-	printf("scale %d %d\n", rc->pr->width, rc->pr->height);
-	printf("pos   %d %d\n", rc->pr->x_offset, rc->pr->y_offset);
+	DEBUG_0("scale %d %d", rc->pr->width, rc->pr->height);
+	DEBUG_0("pos   %d %d", rc->pr->x_offset, rc->pr->y_offset);
 	
 	clutter_actor_set_scale(CLUTTER_ACTOR(rc->texture), 
 			        (gfloat)pr->width / pr->image_width,
@@ -346,9 +346,8 @@ static void rc_sync_actor(RendererClutter *rc)
 }
 
 
-static void renderer_area_clip_add(RendererClutter *rc, gfloat x, gfloat y, gfloat w, gfloat h)
+static void rc_area_clip_add(RendererClutter *rc, gfloat x, gfloat y, gfloat w, gfloat h)
 {
-	PixbufRenderer *pr = rc->pr;
 	gfloat x2, y2;
 	gfloat clip_x, clip_y, clip_w, clip_h, clip_x2, clip_y2;
 	
@@ -368,13 +367,12 @@ static void renderer_area_clip_add(RendererClutter *rc, gfloat x, gfloat y, gflo
 	clip_w = clip_x2 - clip_x;
 	clip_h = clip_y2 - clip_y;
 	
-	printf("clip %f %f %f %f\n", clip_x, clip_y, clip_w, clip_h);
 	clutter_actor_set_clip(rc->texture, clip_x, clip_y, clip_w, clip_h);
 }
 
 #define MAX_REGION_AREA (32768 * 1024)
 
-static gboolean renderer_area_changed_cb(gpointer data);
+static gboolean rc_area_changed_cb(gpointer data);
 
 static void rc_schedule_texture_upload(RendererClutter *rc)
 {
@@ -382,16 +380,16 @@ static void rc_schedule_texture_upload(RendererClutter *rc)
 		{
 		/* delay clutter redraw until the texture has some data 
 		   set priority between gtk redraw and clutter redraw */
-		rc->idle_update = g_idle_add_full(CLUTTER_PRIORITY_REDRAW - 10, renderer_area_changed_cb, rc, NULL);
+		rc->idle_update = g_idle_add_full(CLUTTER_PRIORITY_REDRAW - 10, rc_area_changed_cb, rc, NULL);
 		}
 	else
 		{
 		/* higher prio than histogram */
-		rc->idle_update = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE - 5, renderer_area_changed_cb, rc, NULL);
+		rc->idle_update = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE - 5, rc_area_changed_cb, rc, NULL);
 		}
 }
 
-static gboolean renderer_area_changed_cb(gpointer data)
+static gboolean rc_area_changed_cb(gpointer data)
 {
 	RendererClutter *rc = (RendererClutter *)data;
 	PixbufRenderer *pr = rc->pr;
@@ -403,7 +401,6 @@ static gboolean renderer_area_changed_cb(gpointer data)
 	if (h > par->h) h = par->h;
 	
 	
-	printf("renderer_area_changed_cb %d %d %d %d  (%d)\n", par->x, par->y, par->w, h, par->h);
 	DEBUG_0("%s upload start", get_exec_time());
 	if (pr->pixbuf)
 		{
@@ -423,7 +420,7 @@ static gboolean renderer_area_changed_cb(gpointer data)
 					gdk_pixbuf_get_pixels(pr->pixbuf));
 		}
 	DEBUG_0("%s upload end", get_exec_time());
-	renderer_area_clip_add(rc, par->x, par->y, par->w, h);
+	rc_area_clip_add(rc, par->x, par->y, par->w, h);
 
 		
 	par->y += h;
@@ -451,7 +448,7 @@ static gboolean renderer_area_changed_cb(gpointer data)
 }
 
 
-static void renderer_area_changed(void *renderer, gint src_x, gint src_y, gint src_w, gint src_h)
+static void rc_area_changed(void *renderer, gint src_x, gint src_y, gint src_w, gint src_h)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
 	PixbufRenderer *pr = rc->pr;
@@ -482,7 +479,7 @@ static void renderer_area_changed(void *renderer, gint src_x, gint src_y, gint s
 		}
 }
 
-static void renderer_remove_pending_updates(RendererClutter *rc)
+static void rc_remove_pending_updates(RendererClutter *rc)
 {
 	if (rc->idle_update) g_idle_remove_by_data(rc);
 	rc->idle_update = 0;
@@ -494,12 +491,14 @@ static void renderer_remove_pending_updates(RendererClutter *rc)
 		}
 }
 
-static void renderer_update_pixbuf(void *renderer, gboolean lazy)
+static void rc_update_pixbuf(void *renderer, gboolean lazy)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
 	PixbufRenderer *pr = rc->pr;
 	
-	renderer_remove_pending_updates(rc);
+	DEBUG_0("rc_update_pixbuf");
+
+	rc_remove_pending_updates(rc);
 	
 	if (pr->pixbuf)
 		{
@@ -514,9 +513,7 @@ static void renderer_update_pixbuf(void *renderer, gboolean lazy)
 			}
 
 		
-		printf("renderer_update_pixbuf\n");
 		clutter_texture_get_base_size(CLUTTER_TEXTURE(rc->texture), &prev_width, &prev_height);
-		printf("change from %d %d to %d %d\n", prev_width, prev_height, width, height);
 		
 		if (width != prev_width || height != prev_height)
 			{
@@ -535,28 +532,26 @@ static void renderer_update_pixbuf(void *renderer, gboolean lazy)
 		clutter_actor_set_clip(rc->texture, 0, 0, 0, 0); /* visible area is extended as area_changed events arrive */
 		if (!lazy)
 			{
-			renderer_area_changed(renderer, GET_RIGHT_PIXBUF_OFFSET(rc), 0, width, height);
+			rc_area_changed(renderer, GET_RIGHT_PIXBUF_OFFSET(rc), 0, width, height);
 			}
 		}
 
 	rc->clut_updated = FALSE;
 	rc->last_pixbuf_change = g_get_monotonic_time();
-	printf("renderer_update_pixbuf\n");
 	rc_sync_actor(rc);
 }
 
 
 
-static void renderer_update_zoom(void *renderer, gboolean lazy)
+static void rc_update_zoom(void *renderer, gboolean lazy)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
-	PixbufRenderer *pr = rc->pr;
 
-	printf("renderer_update_zoom\n");
+	DEBUG_0("rc_update_zoom");
 	rc_sync_actor(rc);
 }
 
-static void renderer_invalidate_region(void *renderer, gint x, gint y, gint w, gint h)
+static void rc_invalidate_region(void *renderer, gint x, gint y, gint w, gint h)
 {
 }
 
@@ -637,11 +632,11 @@ static void rc_overlay_free_all(RendererClutter *rc)
 }
 
 
-static void renderer_overlay_draw(void *renderer, gint x, gint y, gint w, gint h)
+static void rc_overlay_draw(void *renderer, gint x, gint y, gint w, gint h)
 {
 }
 
-static gint renderer_overlay_add(void *renderer, GdkPixbuf *pixbuf, gint x, gint y, OverlayRendererFlags flags)
+static gint rc_overlay_add(void *renderer, GdkPixbuf *pixbuf, gint x, gint y, OverlayRendererFlags flags)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
 	PixbufRenderer *pr = rc->pr;
@@ -674,7 +669,7 @@ static gint renderer_overlay_add(void *renderer, GdkPixbuf *pixbuf, gint x, gint
 	return od->id;
 }
 
-static void renderer_overlay_set(void *renderer, gint id, GdkPixbuf *pixbuf, gint x, gint y)
+static void rc_overlay_set(void *renderer, gint id, GdkPixbuf *pixbuf, gint x, gint y)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
 	PixbufRenderer *pr = rc->pr;
@@ -703,7 +698,7 @@ static void renderer_overlay_set(void *renderer, gint id, GdkPixbuf *pixbuf, gin
 		}
 }
 
-static gboolean renderer_overlay_get(void *renderer, gint id, GdkPixbuf **pixbuf, gint *x, gint *y)
+static gboolean rc_overlay_get(void *renderer, gint id, GdkPixbuf **pixbuf, gint *x, gint *y)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
 
@@ -723,7 +718,7 @@ static gboolean renderer_overlay_get(void *renderer, gint id, GdkPixbuf **pixbuf
 }
 
 
-static void renderer_update_sizes(void *renderer)
+static void rc_update_sizes(void *renderer)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
 	ClutterColor stage_color = { 0x00, 0x00, 0x00, 0xff }; 
@@ -755,9 +750,7 @@ static void renderer_update_sizes(void *renderer)
 			rc->stereo_off_y = rc->pr->stereo_fixed_y_left;
 			}
 		}
-        DEBUG_1("update size: %p  %d %d   %d %d", rc, rc->stereo_off_x, rc->stereo_off_y, rc->pr->viewport_width, rc->pr->viewport_height);
-
-	printf("renderer_update_sizes  scale %d %d\n", rc->pr->width, rc->pr->height);
+	DEBUG_0("rc_update_sizes  scale %d %d", rc->pr->width, rc->pr->height);
 
         clutter_stage_set_color(CLUTTER_STAGE(rc->stage), &stage_color);
 
@@ -779,28 +772,27 @@ static void renderer_update_sizes(void *renderer)
 	rc_overlay_update_positions(rc);
 }
 
-static void renderer_scroll(void *renderer, gint x_off, gint y_off)
+static void rc_scroll(void *renderer, gint x_off, gint y_off)
 {
-	printf("renderer_scroll\n");
+	DEBUG_0("rc_scroll");
 	RendererClutter *rc = (RendererClutter *)renderer;
-	PixbufRenderer *pr = rc->pr;
 
 	rc_sync_actor(rc);
 }
 
-static void renderer_stereo_set(void *renderer, gint stereo_mode)
+static void rc_stereo_set(void *renderer, gint stereo_mode)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
 
 	rc->stereo_mode = stereo_mode;
 }
 
-static void renderer_free(void *renderer)
+static void rc_free(void *renderer)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
 	GtkWidget *widget = gtk_bin_get_child(GTK_BIN(rc->pr));
 
-	renderer_remove_pending_updates(rc);
+	rc_remove_pending_updates(rc);
 
 	rc_overlay_free_all(rc);
 	
@@ -810,13 +802,13 @@ static void renderer_free(void *renderer)
 		clutter_actor_destroy(rc->group);
 		if (clutter_group_get_n_children(CLUTTER_GROUP(rc->stage)) == 0)
 			{
-			printf("destroy %p\n", rc->widget);
+			DEBUG_1("destroy %p", rc->widget);
 			/* this was the last user */
 			gtk_widget_destroy(rc->widget);
 			}
 		else
 			{
-			printf("keep %p\n", rc->widget);
+			DEBUG_1("keep %p", rc->widget);
 			g_object_unref(G_OBJECT(rc->widget));
 			}
 		}
@@ -829,21 +821,21 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
 	
 	rc->pr = pr;
 	
-	rc->f.area_changed = renderer_area_changed;
-	rc->f.update_pixbuf = renderer_update_pixbuf;
-	rc->f.free = renderer_free;
-	rc->f.update_zoom = renderer_update_zoom;
-	rc->f.invalidate_region = renderer_invalidate_region;
-	rc->f.scroll = renderer_scroll;
-	rc->f.update_sizes = renderer_update_sizes;
+	rc->f.area_changed = rc_area_changed;
+	rc->f.update_pixbuf = rc_update_pixbuf;
+	rc->f.free = rc_free;
+	rc->f.update_zoom = rc_update_zoom;
+	rc->f.invalidate_region = rc_invalidate_region;
+	rc->f.scroll = rc_scroll;
+	rc->f.update_sizes = rc_update_sizes;
 
 
-	rc->f.overlay_add = renderer_overlay_add;
-	rc->f.overlay_set = renderer_overlay_set;
-	rc->f.overlay_get = renderer_overlay_get;
-	rc->f.overlay_draw = renderer_overlay_draw;
+	rc->f.overlay_add = rc_overlay_add;
+	rc->f.overlay_set = rc_overlay_set;
+	rc->f.overlay_get = rc_overlay_get;
+	rc->f.overlay_draw = rc_overlay_draw;
 
-	rc->f.stereo_set = renderer_stereo_set;
+	rc->f.stereo_set = rc_stereo_set;
 	
 	
 	rc->stereo_mode = 0;
@@ -879,7 +871,7 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
   
   	rc->texture = clutter_texture_new ();
   	clutter_container_add_actor(CLUTTER_CONTAINER(rc->group), rc->texture);
-  	rc_set_shader(clutter_texture_get_cogl_material(rc->texture));
+  	rc_set_shader(clutter_texture_get_cogl_material(CLUTTER_TEXTURE(rc->texture)));
   	g_object_ref(G_OBJECT(rc->widget));
   
 	gtk_widget_show(rc->widget);
