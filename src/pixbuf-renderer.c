@@ -2433,11 +2433,6 @@ void pixbuf_renderer_set_orientation(PixbufRenderer *pr, gint orientation)
 	pr->orientation = orientation;
 
 	pr_pixbuf_size_sync(pr);
-	if (0)
-		{
-		pr->renderer->update_pixbuf(pr->renderer, FALSE);
-		if (pr->renderer2) pr->renderer2->update_pixbuf(pr->renderer2, FALSE);
-		}
 	pr_zoom_sync(pr, pr->zoom, PR_ZOOM_FORCE, 0, 0);
 
 	pr->renderer->update_sizes(pr->renderer);
@@ -2453,6 +2448,8 @@ gint pixbuf_renderer_get_orientation(PixbufRenderer *pr)
 void pixbuf_renderer_set_stereo_data(PixbufRenderer *pr, StereoPixbufData stereo_data)
 {
 	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
+	if (pr->stereo_data == stereo_data) return;
+
 
 	pr->stereo_data = stereo_data;
 
@@ -2844,6 +2841,9 @@ gboolean pixbuf_renderer_get_virtual_rect(PixbufRenderer *pr, GdkRectangle *rect
 
 void pixbuf_renderer_set_size_early(PixbufRenderer *pr, guint width, guint height)
 {
+#if 0
+	/* FIXME: this function does not consider the image orientation, 
+	so it probably only breaks something */
 	gdouble zoom;
 	gint w, h;
 
@@ -2858,6 +2858,7 @@ void pixbuf_renderer_set_size_early(PixbufRenderer *pr, guint width, guint heigh
 
 	//pr->width = width;
 	//pr->height = height;
+#endif
 }
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
