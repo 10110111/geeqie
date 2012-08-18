@@ -912,8 +912,8 @@ void pixbuf_renderer_set_color(PixbufRenderer *pr, GdkColor *color)
 
 	gtk_widget_set_style(widget, style);
 
-	pr->renderer->update_sizes(pr->renderer);
-	if (pr->renderer2) pr->renderer2->update_sizes(pr->renderer2);
+	pr->renderer->update_viewport(pr->renderer);
+	if (pr->renderer2) pr->renderer2->update_viewport(pr->renderer2);
 }
 
 /*
@@ -1818,8 +1818,8 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 		if (pr->renderer2) pr->renderer2->update_zoom(pr->renderer2, FALSE);
 		}
 
-	pr->renderer->update_sizes(pr->renderer);
-	if (pr->renderer2) pr->renderer2->update_sizes(pr->renderer2);
+	pr->renderer->update_viewport(pr->renderer);
+	if (pr->renderer2) pr->renderer2->update_viewport(pr->renderer2);
 
 
 	/* ensure scroller remains visible */
@@ -2413,9 +2413,6 @@ void pixbuf_renderer_set_orientation(PixbufRenderer *pr, gint orientation)
 
 	pr_pixbuf_size_sync(pr);
 	pr_zoom_sync(pr, pr->zoom, PR_ZOOM_FORCE, 0, 0);
-
-	pr->renderer->update_sizes(pr->renderer);
-	if (pr->renderer2) pr->renderer2->update_sizes(pr->renderer2);
 }
 
 gint pixbuf_renderer_get_orientation(PixbufRenderer *pr)

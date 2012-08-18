@@ -718,7 +718,7 @@ static gboolean rc_overlay_get(void *renderer, gint id, GdkPixbuf **pixbuf, gint
 }
 
 
-static void rc_update_sizes(void *renderer)
+static void rc_update_viewport(void *renderer)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
 	ClutterColor stage_color = { 0x00, 0x00, 0x00, 0xff }; 
@@ -750,7 +750,7 @@ static void rc_update_sizes(void *renderer)
 			rc->stereo_off_y = rc->pr->stereo_fixed_y_left;
 			}
 		}
-	DEBUG_0("rc_update_sizes  scale %d %d", rc->pr->width, rc->pr->height);
+	DEBUG_0("rc_update_viewport  scale %d %d", rc->pr->width, rc->pr->height);
 
         clutter_stage_set_color(CLUTTER_STAGE(rc->stage), &stage_color);
 
@@ -827,7 +827,7 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
 	rc->f.update_zoom = rc_update_zoom;
 	rc->f.invalidate_region = rc_invalidate_region;
 	rc->f.scroll = rc_scroll;
-	rc->f.update_sizes = rc_update_sizes;
+	rc->f.update_viewport = rc_update_viewport;
 
 
 	rc->f.overlay_add = rc_overlay_add;

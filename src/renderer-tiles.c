@@ -2077,7 +2077,7 @@ static void renderer_overlay_draw(void *renderer, gint x, gint y, gint w, gint h
 	rt_overlay_draw((RendererTiles *)renderer, x, y, w, h, NULL);
 }
 
-static void renderer_update_sizes(void *renderer)
+static void renderer_update_viewport(void *renderer)
 {
 	RendererTiles *rt = (RendererTiles *)renderer;
 
@@ -2210,7 +2210,7 @@ RendererFuncs *renderer_tiles_new(PixbufRenderer *pr)
 	rt->f.update_zoom = renderer_update_zoom;
 	rt->f.invalidate_region = renderer_invalidate_region;
 	rt->f.scroll = rt_scroll;
-	rt->f.update_sizes = renderer_update_sizes;
+	rt->f.update_viewport = renderer_update_viewport;
 
 
 	rt->f.overlay_add = renderer_tiles_overlay_add;
