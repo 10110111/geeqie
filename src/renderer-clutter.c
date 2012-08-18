@@ -631,11 +631,6 @@ static void rc_overlay_free_all(RendererClutter *rc)
 		}
 }
 
-
-static void rc_overlay_draw(void *renderer, gint x, gint y, gint w, gint h)
-{
-}
-
 static gint rc_overlay_add(void *renderer, GdkPixbuf *pixbuf, gint x, gint y, OverlayRendererFlags flags)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
@@ -833,7 +828,6 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
 	rc->f.overlay_add = rc_overlay_add;
 	rc->f.overlay_set = rc_overlay_set;
 	rc->f.overlay_get = rc_overlay_get;
-	rc->f.overlay_draw = rc_overlay_draw;
 
 	rc->f.stereo_set = rc_stereo_set;
 	

@@ -84,7 +84,6 @@ struct _RendererFuncs
 	gint (*overlay_add)(void *renderer, GdkPixbuf *pixbuf, gint x, gint y, OverlayRendererFlags flags);
 	void (*overlay_set)(void *renderer, gint id, GdkPixbuf *pixbuf, gint x, gint y);
 	gboolean (*overlay_get)(void *renderer, gint id, GdkPixbuf **pixbuf, gint *x, gint *y);
-	void (*overlay_draw)(void *renderer, gint x, gint y, gint w, gint h);
 
 	void (*stereo_set)(void *renderer, gint stereo_mode); /* set stereo mode */
 

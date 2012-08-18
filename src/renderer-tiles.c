@@ -2072,11 +2072,6 @@ static void renderer_invalidate_region(void *renderer, gint x, gint y, gint w, g
 	rt_tile_invalidate_region((RendererTiles *)renderer, x, y, w, h);
 }
 
-static void renderer_overlay_draw(void *renderer, gint x, gint y, gint w, gint h)
-{
-	rt_overlay_draw((RendererTiles *)renderer, x, y, w, h, NULL);
-}
-
 static void renderer_update_viewport(void *renderer)
 {
 	RendererTiles *rt = (RendererTiles *)renderer;
@@ -2216,7 +2211,6 @@ RendererFuncs *renderer_tiles_new(PixbufRenderer *pr)
 	rt->f.overlay_add = renderer_tiles_overlay_add;
 	rt->f.overlay_set = renderer_tiles_overlay_set;
 	rt->f.overlay_get = renderer_tiles_overlay_get;
-	rt->f.overlay_draw = renderer_overlay_draw;
 
 	rt->f.stereo_set = renderer_stereo_set;
 	

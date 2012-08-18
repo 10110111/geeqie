@@ -2344,18 +2344,8 @@ static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, P
 
 		box = GTK_WIDGET(pr);
 
-#if GTK_CHECK_VERSION(2,20,0)
-		if (gtk_widget_get_realized(box))
-#else
-		if (GTK_WIDGET_REALIZED(box))
-#endif
-			{
-#if !GTK_CHECK_VERSION(3,0,0)
-			gdk_window_clear(gtk_widget_get_window(box));
-#endif
-			pr->renderer->overlay_draw(pr->renderer, 0, 0, pr->viewport_width, pr->viewport_height);
-			if (pr->renderer2) pr->renderer2->overlay_draw(pr->renderer2, 0, 0, pr->viewport_width, pr->viewport_height);
-			}
+		pr->renderer->update_pixbuf(pr->renderer, flags & PR_ZOOM_LAZY);
+		if (pr->renderer2) pr->renderer2->update_pixbuf(pr->renderer2, flags & PR_ZOOM_LAZY);
 
 		pr_update_signal(pr);
 
