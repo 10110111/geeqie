@@ -2189,7 +2189,7 @@ RendererFuncs *renderer_tiles_new(PixbufRenderer *pr)
 	                 G_CALLBACK(rt_draw_cb), rt);
 #else
 	g_signal_connect(G_OBJECT(pr), "expose_event",
-	                 G_CALLBACK(rt_expose_cb), NULL);
+	                 G_CALLBACK(rt_expose_cb), rt);
 #endif
 	return (RendererFuncs *) rt;
 }
