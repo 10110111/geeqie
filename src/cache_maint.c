@@ -256,11 +256,7 @@ static void cache_maintain_home_close_cb(GenericDialog *gd, gpointer data)
 {
 	CMData *cm = data;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (!gtk_widget_get_sensitive(cm->button_close)) return;
-#else
-	if (!GTK_WIDGET_SENSITIVE(cm->button_close)) return;
-#endif
 
 	cache_maintain_home_close(cm);
 }
@@ -712,11 +708,7 @@ static void cache_manager_render_close_cb(GenericDialog *fd, gpointer data)
 {
 	CleanData *cd = data;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (!gtk_widget_get_sensitive(cd->button_close)) return;
-#else
-	if (!GTK_WIDGET_SENSITIVE(cd->button_close)) return;
-#endif
 
 	cache_manager_render_reset(cd);
 	generic_dialog_close(cd->gd);
@@ -831,11 +823,7 @@ static void cache_manager_render_start_cb(GenericDialog *fd, gpointer data)
 	CleanData *cd = data;
 	gchar *path;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (cd->list || !gtk_widget_get_sensitive(cd->button_start)) return;
-#else
-	if (cd->list || !GTK_WIDGET_SENSITIVE(cd->button_start)) return;
-#endif
 
 	path = remove_trailing_slash((gtk_entry_get_text(GTK_ENTRY(cd->entry))));
 	parse_out_relatives(path);
@@ -932,11 +920,7 @@ static void cache_manager_standard_clean_close_cb(GenericDialog *gd, gpointer da
 {
 	CleanData *cd = data;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (!gtk_widget_get_sensitive(cd->button_close)) return;
-#else
-	if (!GTK_WIDGET_SENSITIVE(cd->button_close)) return;
-#endif
 
 	generic_dialog_close(cd->gd);
 
@@ -1049,11 +1033,7 @@ static void cache_manager_standard_clean_start_cb(GenericDialog *gd, gpointer da
 	gchar *path;
 	FileData *dir_fd;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (cd->list || !gtk_widget_get_sensitive(cd->button_start)) return;
-#else
-	if (cd->list || !GTK_WIDGET_SENSITIVE(cd->button_start)) return;
-#endif
 
 	gtk_widget_set_sensitive(cd->button_start, FALSE);
 	gtk_widget_set_sensitive(cd->button_stop, TRUE);

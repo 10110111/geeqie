@@ -457,11 +457,7 @@ void bar_write_config(GtkWidget *bar, GString *outstr, gint indent)
 	if (!bd) return;
 
 	WRITE_NL(); WRITE_STRING("<bar ");
-#if GTK_CHECK_VERSION(2,20,0)
 	write_bool_option(outstr, indent, "enabled", gtk_widget_get_visible(bar));
-#else
-	write_bool_option(outstr, indent, "enabled", GTK_WIDGET_VISIBLE(bar));
-#endif
 	write_uint_option(outstr, indent, "width", bd->width);
 	WRITE_STRING(">");
 	

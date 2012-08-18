@@ -824,11 +824,7 @@ static void search_result_thumb_height(SearchData *sd)
 
 	gtk_tree_view_column_set_fixed_width(column, (sd->thumb_enable) ? options->thumbnails.max_width : 4);
 
-#if GTK_CHECK_VERSION(2,18,0)
 	list = gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
-#else
-	list = gtk_tree_view_column_get_cell_renderers(column);
-#endif
 	if (!list) return;
 	cell = list->data;
 	g_list_free(list);
@@ -2347,19 +2343,11 @@ static void menu_choice_set_visible(GtkWidget *widget, gboolean visible)
 {
 	if (visible)
 		{
-#if GTK_CHECK_VERSION(2,20,0)
 		if (!gtk_widget_get_visible(widget)) gtk_widget_show(widget);
-#else
-		if (!GTK_WIDGET_VISIBLE(widget)) gtk_widget_show(widget);
-#endif
 		}
 	else
 		{
-#if GTK_CHECK_VERSION(2,20,0)
 		if (gtk_widget_get_visible(widget)) gtk_widget_hide(widget);
-#else
-		if (GTK_WIDGET_VISIBLE(widget)) gtk_widget_hide(widget);
-#endif
 		}
 }
 

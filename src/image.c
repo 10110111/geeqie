@@ -1796,19 +1796,11 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 	if (frame)
 		{
 		imd->frame = gtk_frame_new(NULL);
-#if GTK_CHECK_VERSION(2,12,0)
         	g_object_ref(imd->pr);
-#else
-        	gtk_widget_ref(imd->pr);
-#endif
 		if (imd->has_frame != -1) gtk_container_remove(GTK_CONTAINER(imd->widget), imd->pr);
 		gtk_container_add(GTK_CONTAINER(imd->frame), imd->pr);
 
-#if GTK_CHECK_VERSION(2,12,0)
         	g_object_unref(imd->pr);
-#else
-        	gtk_widget_unref(imd->pr);
-#endif
 		gtk_widget_set_can_focus(imd->frame, TRUE);
 		gtk_widget_set_app_paintable(imd->frame, TRUE);
 		
@@ -1822,37 +1814,21 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 		g_signal_connect(G_OBJECT(imd->frame), "focus_in_event",
 				 G_CALLBACK(image_focus_in_cb), imd);
 
-#if GTK_CHECK_VERSION(2,14,0)
         	gtk_box_pack_start(GTK_BOX(imd->widget), imd->frame, TRUE, TRUE, 0);
-#else
-        	gtk_box_pack_start_defaults(GTK_BOX(imd->widget), imd->frame);
-#endif
         	gtk_widget_show(imd->frame);
 		}
 	else
 		{
-#if GTK_CHECK_VERSION(2,12,0)
 		g_object_ref(imd->pr);
-#else
-		gtk_widget_ref(imd->pr);
-#endif
 		if (imd->frame)
 			{
 			gtk_container_remove(GTK_CONTAINER(imd->frame), imd->pr);
 			gtk_widget_destroy(imd->frame);
 			imd->frame = NULL;
 			}
-#if GTK_CHECK_VERSION(2,14,0)
         	gtk_box_pack_start(GTK_BOX(imd->widget), imd->pr, TRUE, TRUE, 0);
-#else
-		gtk_box_pack_start_defaults(GTK_BOX(imd->widget), imd->pr);
-#endif
 
-#if GTK_CHECK_VERSION(2,12,0)
 		g_object_unref(imd->pr);
-#else
-		gtk_widget_unref(imd->pr);
-#endif
 		}
 
 	gtk_widget_show(imd->pr);

@@ -2056,11 +2056,7 @@ static gboolean pr_mouse_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpo
 		}
 
 	parent = gtk_widget_get_parent(widget);
-#if GTK_CHECK_VERSION(2,20,0)
 	if (widget && gtk_widget_get_can_focus(parent))
-#else
-	if (widget && GTK_WIDGET_CAN_FOCUS(parent))
-#endif
 		{
 		gtk_widget_grab_focus(parent);
 		}
@@ -2080,11 +2076,7 @@ static gboolean pr_mouse_release_cb(GtkWidget *widget, GdkEventButton *bevent, g
 		return TRUE;
 		}
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (gdk_pointer_is_grabbed() && gtk_widget_has_grab(GTK_WIDGET(pr)))
-#else
-	if (gdk_pointer_is_grabbed() && GTK_WIDGET_HAS_GRAB(pr))
-#endif
 		{
 		gtk_grab_remove(widget);
 		gdk_pointer_ungrab(bevent->time);

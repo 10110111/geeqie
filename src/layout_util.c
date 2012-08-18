@@ -90,11 +90,7 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 	gint x = 0;
 	gint y = 0;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (lw->path_entry && gtk_widget_has_focus(lw->path_entry))
-#else
-	if (lw->path_entry && GTK_WIDGET_HAS_FOCUS(lw->path_entry))
-#endif
 		{
 		if (event->keyval == GDK_KEY_Escape && lw->dir_fd)
 			{
@@ -109,11 +105,7 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 			return TRUE;
 			}
 		}
-#if GTK_CHECK_VERSION(2,20,0)
 	if (lw->vd && lw->options.dir_view_type == DIRVIEW_TREE && gtk_widget_has_focus(lw->vd->view) &&
-#else
-	if (lw->vd && lw->options.dir_view_type == DIRVIEW_TREE && GTK_WIDGET_HAS_FOCUS(lw->vd->view) &&
-#endif
 	    !layout_key_match(event->keyval) &&
 	    gtk_widget_event(lw->vd->view, (GdkEvent *)event))
 		{
@@ -133,11 +125,7 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 
 	focused = gtk_container_get_focus_child(GTK_CONTAINER(lw->image->widget));
 	if (lw->image &&
-#if GTK_CHECK_VERSION(2,20,0)
 	    (focused && gtk_widget_has_focus(focused) || (lw->tools && widget == lw->window) || lw->full_screen) )
-#else
-	    (focused && GTK_WIDGET_HAS_FOCUS(focused) || (lw->tools && widget == lw->window) || lw->full_screen) )
-#endif
 		{
 		stop_signal = TRUE;
 		switch (event->keyval)
@@ -848,7 +836,7 @@ static void layout_menu_stereo_mode_next_cb(GtkAction *action, gpointer data)
 	mode = mode % 3 + 1;
 	
 	GtkAction *radio = gtk_action_group_get_action(lw->action_group, "StereoAuto");
-	radio_action_set_current_value(GTK_RADIO_ACTION(radio), mode);
+	gtk_radio_action_set_current_value(GTK_RADIO_ACTION(radio), mode);
 	
 	/*
 	this is called via fallback in layout_menu_stereo_mode_cb
@@ -2375,13 +2363,13 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	if (!lw->action_group) return;
 
 	action = gtk_action_group_get_action(lw->action_group, "FolderTree");
-	radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->options.dir_view_type);
+	gtk_radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->options.dir_view_type);
 
 	action = gtk_action_group_get_action(lw->action_group, "SplitSingle");
-	radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->split_mode);
+	gtk_radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->split_mode);
 
 	action = gtk_action_group_get_action(lw->action_group, "ViewIcons");
-	radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->options.file_view_type);
+	gtk_radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->options.file_view_type);
 
 	action = gtk_action_group_get_action(lw->action_group, "FloatTools");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.tools_float);
@@ -2413,17 +2401,17 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	if (osd_flags & OSD_SHOW_HISTOGRAM)
 		{
 		action = gtk_action_group_get_action(lw->action_group, "HistogramChanR");
-		radio_action_set_current_value(GTK_RADIO_ACTION(action), image_osd_histogram_get_channel(lw->image));
+		gtk_radio_action_set_current_value(GTK_RADIO_ACTION(action), image_osd_histogram_get_channel(lw->image));
 
 		action = gtk_action_group_get_action(lw->action_group, "HistogramModeLin");
-		radio_action_set_current_value(GTK_RADIO_ACTION(action), image_osd_histogram_get_mode(lw->image));
+		gtk_radio_action_set_current_value(GTK_RADIO_ACTION(action), image_osd_histogram_get_mode(lw->image));
 		}
 
 	action = gtk_action_group_get_action(lw->action_group, "ConnectZoomMenu");
 	gtk_action_set_sensitive(action, lw->split_mode != SPLIT_NONE);
 
 	action = gtk_action_group_get_action(lw->action_group, "StereoAuto");
-	radio_action_set_current_value(GTK_RADIO_ACTION(action), layout_image_stereo_pixbuf_get(lw));
+	gtk_radio_action_set_current_value(GTK_RADIO_ACTION(action), layout_image_stereo_pixbuf_get(lw));
 
 	layout_util_sync_color(lw);
 }
@@ -2456,11 +2444,7 @@ void layout_util_sync(LayoutWindow *lw)
 
 static gboolean layout_bar_enabled(LayoutWindow *lw)
 {
-#if GTK_CHECK_VERSION(2,20,0)
 	return lw->bar && gtk_widget_get_visible(lw->bar);
-#else
-	return lw->bar && GTK_WIDGET_VISIBLE(lw->bar);
-#endif
 }
 
 static void layout_bar_destroyed(GtkWidget *widget, gpointer data)
@@ -2553,11 +2537,7 @@ static void layout_bar_new_selection(LayoutWindow *lw, gint count)
 
 static gboolean layout_bar_sort_enabled(LayoutWindow *lw)
 {
-#if GTK_CHECK_VERSION(2,20,0)
 	return lw->bar_sort && gtk_widget_get_visible(lw->bar_sort);
-#else
-	return lw->bar_sort && GTK_WIDGET_VISIBLE(lw->bar_sort);
-#endif
 }
 
 

@@ -1959,11 +1959,7 @@ static void print_job_throw_error(PrintWindow *pw, const gchar *message)
 	GtkWidget *label;
 	gchar *buf;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (gtk_widget_get_visible(pw->dialog->dialog)) parent = pw->dialog->dialog;
-#else
-	if (GTK_WIDGET_VISIBLE(pw->dialog->dialog)) parent = pw->dialog->dialog;
-#endif
 
 	gd = generic_dialog_new(_("Printing error"), "print_warning",
 				parent, TRUE, NULL, NULL);
@@ -2489,11 +2485,7 @@ static void print_job_close(PrintWindow *pw, gint error)
 		pw->job_pixbuf = NULL;
 		}
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (pw->dialog && !gtk_widget_get_visible(pw->dialog->dialog))
-#else
-	if (pw->dialog && !GTK_WIDGET_VISIBLE(pw->dialog->dialog))
-#endif
 		{
 		g_idle_add_full(G_PRIORITY_HIGH_IDLE, print_job_close_finish_cb, pw, NULL);
 		}

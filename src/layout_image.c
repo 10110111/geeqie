@@ -1616,11 +1616,7 @@ GtkWidget *layout_image_new(LayoutWindow *lw, gint i)
 		{
 		lw->split_images[i] = image_new(TRUE);
 
-#if GTK_CHECK_VERSION(2,12,0)
 		g_object_ref(lw->split_images[i]->widget);
-#else
-		gtk_widget_ref(lw->split_images[i]->widget);
-#endif
 
 		g_signal_connect(G_OBJECT(lw->split_images[i]->pr), "update-pixel",
 				 G_CALLBACK(layout_status_update_pixel_cb), lw);
@@ -1759,11 +1755,7 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 		{
 		if (lw->split_images[i])
 			{
-#if GTK_CHECK_VERSION(2,12,0)
 			g_object_unref(lw->split_images[i]->widget);
-#else
-			gtk_widget_unref(lw->split_images[i]->widget);
-#endif
 			lw->split_images[i] = NULL;
 			}
 		}

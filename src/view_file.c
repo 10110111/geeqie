@@ -878,11 +878,7 @@ static gboolean vf_thumb_next(ViewFile *vf)
 {
 	FileData *fd = NULL;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (!gtk_widget_get_realized(vf->listview))
-#else
-	if (!GTK_WIDGET_REALIZED(vf->listview))
-#endif
 		{
 		vf_thumb_status(vf, 0.0, NULL);
 		return FALSE;

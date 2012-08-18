@@ -96,11 +96,7 @@ static void vdlist_scroll_to_row(ViewDir *vd, FileData *fd, gfloat y_align)
 {
 	GtkTreeIter iter;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (gtk_widget_get_realized(vd->view) && vd_find_row(vd, fd, &iter))
-#else
-	if (GTK_WIDGET_REALIZED(vd->view) && vd_find_row(vd, fd, &iter))
-#endif
 		{
 		GtkTreeModel *store;
 		GtkTreePath *tpath;
@@ -111,11 +107,7 @@ static void vdlist_scroll_to_row(ViewDir *vd, FileData *fd, gfloat y_align)
 		gtk_tree_view_set_cursor(GTK_TREE_VIEW(vd->view), tpath, NULL, FALSE);
 		gtk_tree_path_free(tpath);
 
-#if GTK_CHECK_VERSION(2,20,0)
 		if (!gtk_widget_has_focus(vd->view)) gtk_widget_grab_focus(vd->view);
-#else
-		if (!GTK_WIDGET_HAS_FOCUS(vd->view)) gtk_widget_grab_focus(vd->view);
-#endif
 		}
 }
 
@@ -339,11 +331,7 @@ gboolean vdlist_set_fd(ViewDir *vd, FileData *dir_fd)
 		return ret;
 		}
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (gtk_widget_get_realized(vd->view))
-#else
-	if (GTK_WIDGET_REALIZED(vd->view))
-#endif
 		{
 		gtk_tree_view_scroll_to_point(GTK_TREE_VIEW(vd->view), 0, 0);
 		}

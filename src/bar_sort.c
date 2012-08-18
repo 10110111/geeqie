@@ -724,11 +724,7 @@ void bar_sort_write_config(GtkWidget *bar, GString *outstr, gint indent)
 	if (!sd) return;
 
 	WRITE_NL(); WRITE_STRING("<bar_sort ");
-#if GTK_CHECK_VERSION(2,20,0)
 	write_bool_option(outstr, indent, "enabled", gtk_widget_get_visible(bar));
-#else
-	write_bool_option(outstr, indent, "enabled", GTK_WIDGET_VISIBLE(bar));
-#endif
 	WRITE_INT(*sd, mode);
 	WRITE_INT(*sd, action);
 	WRITE_INT(*sd, selection);

@@ -188,20 +188,12 @@ gboolean tree_edit_by_path(GtkTreeView *tree, GtkTreePath *tpath, gint column, c
 	GList *work;
 
 	if (!edit_func) return FALSE;
-#if GTK_CHECK_VERSION(2,20,0)
 	if (!gtk_widget_get_visible(GTK_WIDGET(tree))) return FALSE;
-#else
-	if (!GTK_WIDGET_VISIBLE(tree)) return FALSE;
-#endif
 
 	tcolumn = gtk_tree_view_get_column(tree, column);
 	if (!tcolumn) return FALSE;
 
-#if GTK_CHECK_VERSION(2,18,0)
 	list = gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(tcolumn));
-#else
-	list = gtk_tree_view_column_get_cell_renderers(tcolumn);
-#endif
 	work = list;
 	while (work && !cell)
 		{
@@ -277,11 +269,7 @@ gboolean tree_view_get_cell_origin(GtkTreeView *widget, GtkTreePath *tpath, gint
 	 * use x_offset instead for X scroll (sigh)
 	 */
 	gtk_tree_view_get_cell_area(widget, tpath, tv_column, &rect);
-#if GTK_CHECK_VERSION(2,12,0)
 	gtk_tree_view_convert_tree_to_widget_coords(widget, 0, 0, &x_offset, &y_offset);
-#else
-	gtk_tree_view_tree_to_widget_coords(widget, 0, 0, &x_offset, &y_offset);
-#endif
 	gdk_window_get_origin(gtk_widget_get_window(GTK_WIDGET(widget)), &x_origin, &y_origin);
 
 	if (gtk_tree_view_get_headers_visible(widget))
@@ -307,11 +295,7 @@ gboolean tree_view_get_cell_origin(GtkTreeView *widget, GtkTreePath *tpath, gint
 		gint cell_x;
 		gint cell_width;
 
-#if GTK_CHECK_VERSION(2,18,0)
 		renderers = gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(tv_column));
-#else
-		renderers = gtk_tree_view_column_get_cell_renderers(tv_column);
-#endif
 		work = renderers;
 		while (work && !cell)
 			{
@@ -368,7 +352,6 @@ void tree_view_get_cell_clamped(GtkTreeView *widget, GtkTreePath *tpath, gint co
 	*height = MIN(*height, wy + wh - (*y));
 }
 
-#if GTK_CHECK_VERSION(2,8,0)
 /* an implementation that uses gtk_tree_view_get_visible_range */
 gint tree_view_row_get_visibility(GtkTreeView *widget, GtkTreeIter *iter, gboolean fully_visible)
 {
@@ -409,47 +392,6 @@ gint tree_view_row_get_visibility(GtkTreeView *widget, GtkTreeIter *iter, gboole
 	gtk_tree_path_free(end_path);
 	return ret;
 }
-
-#else 
-/* an implementation that uses gtk_tree_view_get_visible_rect, it seems to be more error prone than the variant above */
-
-gint tree_view_row_get_visibility(GtkTreeView *widget, GtkTreeIter *iter, gboolean fully_visible)
-{
-	GtkTreeModel *store;
-	GtkTreePath *tpath;
-	gint cx, cy;
-
-	GdkRectangle vrect;
-	GdkRectangle crect;
-
-	if (!GTK_WIDGET_REALIZED(GTK_WIDGET(widget))) return -1; /* we will most probably scroll down, needed for tree_view_row_make_visible */
-
-	store = gtk_tree_view_get_model(widget);
-	tpath = gtk_tree_model_get_path(store, iter);
-
-	gtk_tree_view_get_visible_rect(widget, &vrect);
-	gtk_tree_view_get_cell_area(widget, tpath, NULL, &crect);
-	gtk_tree_path_free(tpath);
-
-
-#if GTK_CHECK_VERSION(2,12,0)
-	gtk_tree_view_convert_widget_to_tree_coords(widget, crect.x, crect.y, &cx, &cy);
-#else
-	gtk_tree_view_widget_to_tree_coords(widget, crect.x, crect.y, &cx, &cy);
-#endif
-
-	if (fully_visible)
-		{
-		if (cy < vrect.y) return -1;
-		if (cy + crect.height > vrect.y + vrect.height) return 1;
-		return 0;
-		}
-
-	if (cy + crect.height < vrect.y) return -1;
-	if (cy > vrect.y + vrect.height) return 1;
-	return 0;
-}
-#endif
 
 gint tree_view_row_make_visible(GtkTreeView *widget, GtkTreeIter *iter, gboolean center)
 {

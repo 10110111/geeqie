@@ -678,22 +678,14 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 
 	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)
 		{
-#if GTK_CHECK_VERSION(2,20,0)
 		if (gtk_widget_has_focus(widget))
-#else
-		if (GTK_WIDGET_HAS_FOCUS(widget))
-#endif
 			state = GTK_STATE_SELECTED;
 		else
 			state = GTK_STATE_ACTIVE;
 		}
 	else
 		{
-#if GTK_CHECK_VERSION(2,20,0)
 		if (gtk_widget_get_state(widget) == GTK_STATE_INSENSITIVE)
-#else
-		if (GTK_WIDGET_STATE(widget) == GTK_STATE_INSENSITIVE)
-#endif
 			state = GTK_STATE_INSENSITIVE;
 		else
 			state = GTK_STATE_NORMAL;
@@ -836,11 +828,7 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 			}
                 }
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (cellicon->focused && gtk_widget_has_focus(widget))
-#else
-	if (cellicon->focused && GTK_WIDGET_HAS_FOCUS(widget))
-#endif
 		{
 #if GTK_CHECK_VERSION(3,0,0)
 #else

@@ -1849,7 +1849,7 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 	
 	if (fd && fd->modified_xmp)
 		{
-		keys = hash_table_get_keys(fd->modified_xmp);
+		keys = g_hash_table_get_keys(fd->modified_xmp);
 		}
 	
 	g_assert(keys);

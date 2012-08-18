@@ -990,7 +990,6 @@ static void image_overlay_help_cb(GtkWidget *widget, gpointer data)
 	help_window_show("overlay");
 }
 
-#if GTK_CHECK_VERSION(2, 10, 0)
 static void accel_store_populate(void)
 {
 	LayoutWindow *lw;
@@ -1288,7 +1287,6 @@ static void accel_default_ok_cb(GenericDialog *gd, gpointer data)
 }
 
 #endif
-#endif
 
 static GtkWidget *scrolled_notebook_page(GtkWidget *notebook, const gchar *title)
 {
@@ -1541,7 +1539,6 @@ static void config_tab_windows(GtkWidget *notebook)
 
 	image_overlay_template_view = gtk_text_view_new();
 
-#if GTK_CHECK_VERSION(2,12,0)
 	gtk_widget_set_tooltip_markup(image_overlay_template_view,
 	_("<i>%name%</i> results in the filename of the picture.\n"
 	  "Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>%date%</i>,\n"
@@ -1553,8 +1550,7 @@ static void config_tab_windows(GtkWidget *notebook)
 	  "<i>%formatted.ShutterSpeed%</i>|<i>%formatted.ISOSpeedRating%</i>|<i>%formatted.FocalLength%</i> could show \"1/20s - 400 - 80 mm\" or \"1/200 - 80 mm\",\n"
 	  "if there's no ISO information in the Exif data.\n"
 	  "If a line is empty, it is removed. This allows one to add lines that totally disappear when no data is available.\n"
-));
-#endif
+	));
 	gtk_container_add(GTK_CONTAINER(scrolled), image_overlay_template_view);
 	gtk_widget_show(image_overlay_template_view);
 
@@ -1963,9 +1959,7 @@ static void config_tab_behavior(GtkWidget *notebook)
 	pref_spacer(hbox, PREF_PAD_INDENT - PREF_PAD_GAP);
 	spin = pref_spin_new_int(hbox, _("Maximum size:"), _("MB"),
 				 0, 2048, 1, options->file_ops.safe_delete_folder_maxsize, &c_options->file_ops.safe_delete_folder_maxsize);
-#if GTK_CHECK_VERSION(2,12,0)
 	gtk_widget_set_tooltip_markup(spin, _("Set to 0 for unlimited size"));
-#endif
 	button = pref_button_new(NULL, NULL, _("View"), FALSE,
 				 G_CALLBACK(safe_delete_view_cb), NULL);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
@@ -2018,7 +2012,6 @@ static void config_tab_behavior(GtkWidget *notebook)
 /* accelerators tab */
 static void config_tab_accelerators(GtkWidget *notebook)
 {
-#if GTK_CHECK_VERSION(2, 10, 0)
 	GtkWidget *hbox;
 	GtkWidget *vbox;
 	GtkWidget *group;
@@ -2131,7 +2124,6 @@ static void config_tab_accelerators(GtkWidget *notebook)
 				 G_CALLBACK(accel_add_alt_cb), accel_view);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
-#endif
 #endif
 }
 

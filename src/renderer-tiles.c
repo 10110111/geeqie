@@ -1488,16 +1488,6 @@ static void rt_tile_expose(RendererTiles *rt, ImageTile *it,
 	cairo_fill (cr);
 	cairo_destroy (cr);
 
-#if 0
-#if GTK_CHECK_VERSION(2,20,0)
-	gdk_draw_drawable(window, box->style->fg_gc[gtk_widget_get_state(box)],
-#else
-	gdk_draw_drawable(window, box->style->fg_gc[GTK_WIDGET_STATE(box)],
-#endif
-			  it->pixmap, x, y,
-			  pr->x_offset + (it->x - rt->x_scroll) + x + rt->stereo_off_x, pr->y_offset + (it->y - rt->y_scroll) + y + rt->stereo_off_y, w, h);
-#endif
-
 	if (rt->overlay_list)
 		{
 		rt_overlay_draw(rt, pr->x_offset + (it->x - rt->x_scroll) + x,
@@ -1617,11 +1607,7 @@ static gboolean rt_queue_draw_idle_cb(gpointer data)
 		fast = FALSE;
 		}
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (gtk_widget_get_realized(pr))
-#else
-	if (GTK_WIDGET_REALIZED(pr))
-#endif
 		{
 		if (rt_tile_is_visible(rt, qd->it))
 			{
@@ -1953,15 +1939,6 @@ static void rt_scroll(void *renderer, gint x_off, gint y_off)
 		cairo_pop_group_to_source(cr);
 		cairo_paint(cr);
 		cairo_destroy(cr);
-#if 0
-		gc = gdk_gc_new(window);
-		gdk_gc_set_exposures(gc, TRUE);
-		gdk_draw_drawable(window, gc,
-				  window,
-				  x2 + pr->x_offset + rt->stereo_off_x, y2 + pr->y_offset + rt->stereo_off_y,
-				  x1 + pr->x_offset + rt->stereo_off_x, y1 + pr->y_offset + rt->stereo_off_y, w, h);
-		g_object_unref(gc);
-#endif
 
 		rt_overlay_queue_all(rt, x2, y2, x1, y1);
 
@@ -1981,22 +1958,6 @@ static void rt_scroll(void *renderer, gint x_off, gint y_off)
 				    rt->x_scroll, y_off > 0 ? rt->y_scroll + (pr->vis_height - h) : rt->y_scroll,
 				    pr->vis_width, h, TRUE, TILE_RENDER_ALL, FALSE, FALSE);
 			}
-
-		/* process exposures here, "expose_event" seems to miss a few with obstructed windows */
-#if ! GTK_CHECK_VERSION(2,18,0)
-		while ((event = gdk_event_get_graphics_expose(window)) != NULL)
-			{
-        		renderer_redraw((void *) rt, event->expose.area.x, event->expose.area.y, event->expose.area.width, event->expose.area.height,
-                              FALSE, TILE_RENDER_ALL, FALSE, FALSE);
- 
-			if (event->expose.count == 0)
-				{
-				gdk_event_free(event);
-				break;
-				}
-			gdk_event_free(event);
-			}
-#endif
 		}
 }
 
@@ -2155,17 +2116,9 @@ static gboolean rt_draw_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 static gboolean rt_expose_cb(GtkWidget *widget, GdkEventExpose *event, gpointer data)
 {
 	RendererTiles *rt = (RendererTiles *)data;
-#if GTK_CHECK_VERSION(2,20,0)
 	if (gtk_widget_is_drawable(widget))
-#else
-	if (GTK_WIDGET_DRAWABLE(widget))
-#endif
 		{
-#if GTK_CHECK_VERSION(2,20,0)
 		if (gtk_widget_get_has_window(widget))
-#else
-		if (!GTK_WIDGET_NO_WINDOW(widget))
-#endif
 			{
 			if (event->window != gtk_widget_get_window(widget))
 				{
