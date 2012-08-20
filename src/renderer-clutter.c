@@ -29,6 +29,7 @@
 
 /* for 3d texture */
 #define COGL_ENABLE_EXPERIMENTAL_API
+#define CLUTTER_ENABLE_EXPERIMENTAL_API
 
 #include <clutter/clutter.h>
 
@@ -128,7 +129,7 @@ static void rc_set_shader(CoglHandle material)
   cogl_shader_source (shader,
   "vec3 checker(vec2 texc, vec3 color0, vec3 color1)						\n"
   "{												\n"
-  "  if (mod(int(floor(texc.x) + floor(texc.y)), 2) == 0)					\n"
+  "  if (mod(floor(texc.x) + floor(texc.y), 2.0) == 0.0)					\n"
   "    return color0;										\n"
   "  else											\n"
   "    return color1;										\n"
@@ -141,11 +142,11 @@ static void rc_set_shader(CoglHandle material)
   "												\n"
   "void main(void)										\n"
   "{												\n"
-  "    vec3 bg = checker(gl_FragCoord.xy / 16, vec3(0.6, 0.6, 0.6), vec3(0.4, 0.4, 0.4));	\n"
+  "    vec3 bg = checker(gl_FragCoord.xy / 16.0, vec3(0.6, 0.6, 0.6), vec3(0.4, 0.4, 0.4));	\n"
   "    vec4 img4 = texture2D(tex, gl_TexCoord[0].xy);						\n"
   "    vec3 img3 = img4.bgr;									\n"
   "    img3 = img3 * scale + offset;								\n"
-  "    img3 = texture3D(clut, img3);								\n"
+  "    img3 = texture3D(clut, img3).rgb;								\n"
   "												\n"
   "    gl_FragColor = vec4(img3 * img4.a + bg * (1.0 - img4.a), 1.0);				\n"
   "}												\n"
@@ -213,7 +214,20 @@ static void rc_prepare_post_process_lut(RendererClutter *rc)
 	g_object_unref(tmp_pixbuf);
 
 	DEBUG_0("%s clut upload start", get_exec_time());
-	
+#if CLUTTER_CHECK_VERSION(1,10,0)
+	{
+	CoglContext *ctx = clutter_backend_get_cogl_context(clutter_get_default_backend ());
+
+	tex3d = cogl_texture_3d_new_from_data(ctx,
+					      CLUT_SIZE, CLUT_SIZE, CLUT_SIZE,
+					      COGL_PIXEL_FORMAT_RGB_888,
+					      COGL_PIXEL_FORMAT_RGB_888,
+					      CLUT_SIZE * 3,
+					      CLUT_SIZE * CLUT_SIZE * 3,
+					      clut,
+					      NULL);
+	}
+#else
 	tex3d = cogl_texture_3d_new_from_data(CLUT_SIZE, CLUT_SIZE, CLUT_SIZE,
 					      COGL_TEXTURE_NONE,
 					      COGL_PIXEL_FORMAT_RGB_888,
@@ -222,6 +236,7 @@ static void rc_prepare_post_process_lut(RendererClutter *rc)
 					      CLUT_SIZE * CLUT_SIZE * 3,
 					      clut,
 					      NULL);
+#endif
 	material = clutter_texture_get_cogl_material(CLUTTER_TEXTURE(rc->texture));
 	cogl_material_set_layer(material, 1, tex3d);
 	cogl_handle_unref(tex3d);
@@ -528,7 +543,7 @@ static void rc_update_pixbuf(void *renderer, gboolean lazy)
 			/* FIXME use CoglMaterial with multiple textures for background, color management, anaglyph, ... */
 			CoglHandle texture = cogl_texture_new_with_size(width,
 									height,
-									COGL_TEXTURE_NO_AUTO_MIPMAP,
+									COGL_TEXTURE_NO_AUTO_MIPMAP | COGL_TEXTURE_NO_SLICING,
 									gdk_pixbuf_get_has_alpha(pr->pixbuf) ? COGL_PIXEL_FORMAT_BGRA_8888 : COGL_PIXEL_FORMAT_BGR_888);
 
 			if (texture != COGL_INVALID_HANDLE)
