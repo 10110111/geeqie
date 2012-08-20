@@ -505,9 +505,13 @@ static void bookmark_drag_begin(GtkWidget *button, GdkDragContext *context, gpoi
 	
 	gtk_widget_get_allocation(button, &allocation);
 
+#if GTK_CHECK_VERSION(3,0,0)
+	pixbuf = gdk_pixbuf_get_from_window(gtk_widget_get_window(button),
+					    allocation.x, allocation.y,
+					    allocation.width, allocation.height);
+#else
 	pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8,
 				allocation.width, allocation.height);
-#if !GTK_CHECK_VERSION(3,0,0)
 	gdk_pixbuf_get_from_drawable(pixbuf, gtk_widget_get_window(button), NULL,
 				     allocation.x, allocation.y,
 				     0, 0, allocation.width, allocation.height);
