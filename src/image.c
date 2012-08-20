@@ -1166,7 +1166,7 @@ static void image_loader_sync_data(ImageLoader *il, gpointer old_data, gpointer 
 /* this is more like a move function
  * it moves most data from source to imd
  */
-void image_change_from_image(ImageWindow *imd, ImageWindow *source)
+void image_move_from_image(ImageWindow *imd, ImageWindow *source)
 {
 	if (imd == source) return;
 
@@ -1191,6 +1191,60 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 		imd->delay_alter_type = source->delay_alter_type;
 		source->delay_alter_type = ALTER_NONE;
 		}
+
+	imd->color_profile_enable = source->color_profile_enable;
+	imd->color_profile_input = source->color_profile_input;
+	imd->color_profile_use_image = source->color_profile_use_image;
+	color_man_free((ColorMan *)imd->cm);
+	imd->cm = NULL;
+#if 0
+	if (source->cm)
+		{
+		ColorMan *cm;
+
+		imd->cm = source->cm;
+		source->cm = NULL;
+
+		cm = (ColorMan *)imd->cm;
+		cm->imd = imd;
+		cm->func_done_data = imd;
+		}
+#endif
+
+	file_data_unref(imd->read_ahead_fd);
+	source->read_ahead_fd = NULL;
+
+	imd->orientation = source->orientation;
+	imd->desaturate = source->desaturate;
+
+	imd->user_stereo = source->user_stereo;
+
+	pixbuf_renderer_move(PIXBUF_RENDERER(imd->pr), PIXBUF_RENDERER(source->pr));
+
+	if (imd->cm || imd->desaturate)
+		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, image_post_process_tile_color_cb, (gpointer) imd, (imd->cm != NULL) );
+	else
+		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, NULL, NULL, TRUE);
+
+}
+
+/* this is  a copy function
+ * source stays unchanged
+ */
+void image_copy_from_image(ImageWindow *imd, ImageWindow *source)
+{
+	if (imd == source) return;
+
+	imd->unknown = source->unknown;
+
+	imd->collection = source->collection;
+	imd->collection_info = source->collection_info;
+
+	image_loader_free(imd->il);
+	imd->il = NULL;
+
+	image_set_fd(imd, image_get_fd(source));
+
 
 	imd->color_profile_enable = source->color_profile_enable;
 	imd->color_profile_input = source->color_profile_input;
@@ -1227,7 +1281,7 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 
 	imd->user_stereo = source->user_stereo;
 
-	pixbuf_renderer_move(PIXBUF_RENDERER(imd->pr), PIXBUF_RENDERER(source->pr));
+	pixbuf_renderer_copy(PIXBUF_RENDERER(imd->pr), PIXBUF_RENDERER(source->pr));
 
 	if (imd->cm || imd->desaturate)
 		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, image_post_process_tile_color_cb, (gpointer) imd, (imd->cm != NULL) );
@@ -1235,6 +1289,7 @@ void image_change_from_image(ImageWindow *imd, ImageWindow *source)
 		pixbuf_renderer_set_post_process_func((PixbufRenderer *)imd->pr, NULL, NULL, TRUE);
 
 }
+
 
 /* manipulation */
 

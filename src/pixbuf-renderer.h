@@ -262,6 +262,7 @@ gint pixbuf_renderer_get_tiles(PixbufRenderer *pr);
 /* move image data from source to pr, source is then set to NULL image */
 
 void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source);
+void pixbuf_renderer_copy(PixbufRenderer *pr, PixbufRenderer *source);
 
 /* update region of existing image */
 

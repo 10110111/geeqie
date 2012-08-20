@@ -211,7 +211,6 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 {
 	FullScreenData *fs;
 	GdkScreen *screen;
-	gboolean same;
 	gint x, y;
 	gint w, h;
 	GdkGeometry geometry;
@@ -231,7 +230,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 
 	DEBUG_1("full screen requests screen %d", options->fullscreen.screen);
 	fullscreen_prefs_get_geometry(options->fullscreen.screen, window, &x, &y, &w, &h,
-				      &screen, &same);
+				      &screen, &fs->same_region);
 
 	fs->window = window_new(GTK_WINDOW_TOPLEVEL, "fullscreen", NULL, NULL, _("Full screen"));
 
@@ -300,7 +299,16 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 
 	gtk_widget_show(fs->imd->widget);
 
-	image_change_from_image(fs->imd, fs->normal_imd);
+	if (fs->same_region)
+		{
+		DEBUG_0("Original vindow is not visible, enabling std. fullscreen mode");
+		image_move_from_image(fs->imd, fs->normal_imd);
+		}
+	else
+		{
+		DEBUG_0("Original vindow is still visible, enabling presentation fullscreen mode");
+		image_copy_from_image(fs->imd, fs->normal_imd);
+		}
 
 	if (options->stereo.enable_fsmode) {
 		image_stereo_set(fs->imd, options->stereo.fsmode);
@@ -319,10 +327,13 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	/* hide normal window
 	 * FIXME: properly restore this window on show
 	 */
+	if (fs->same_region)
+		{
 #ifdef HIDE_WINDOW_IN_FULLSCREEN
-	gtk_widget_hide(fs->normal_window);
+		gtk_widget_hide(fs->normal_window);
 #endif
-	image_change_fd(fs->normal_imd, NULL, image_zoom_get(fs->normal_imd));
+		image_change_fd(fs->normal_imd, NULL, image_zoom_get(fs->normal_imd));
+		}
 
 	return fs;
 }
@@ -337,15 +348,19 @@ void fullscreen_stop(FullScreenData *fs)
 	fullscreen_busy_mouse_disable(fs);
 	gdk_keyboard_ungrab(GDK_CURRENT_TIME);
 
-	image_change_from_image(fs->normal_imd, fs->imd);
-
-	if (options->stereo.enable_fsmode) {
-		image_stereo_set(fs->normal_imd, options->stereo.mode);
-	}
-
+	if (fs->same_region)
+		{
+		image_move_from_image(fs->normal_imd, fs->imd);
 #ifdef HIDE_WINDOW_IN_FULLSCREEN
-	gtk_widget_show(fs->normal_window);
+		gtk_widget_show(fs->normal_window);
 #endif
+		if (options->stereo.enable_fsmode) 
+			{
+			image_stereo_set(fs->normal_imd, options->stereo.mode);
+			}
+		}
+
+
 	if (fs->stop_func) fs->stop_func(fs, fs->stop_data);
 
 	gtk_widget_destroy(fs->window);

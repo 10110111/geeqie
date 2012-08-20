@@ -868,6 +868,8 @@ struct _FullScreenData
 
 	void (*stop_func)(FullScreenData *, gpointer);
 	gpointer stop_data;
+	
+	gboolean same_region; /* the returned region will overlap the current location of widget. */
 };
 
 struct _PixmapFolders

@@ -2495,8 +2495,61 @@ void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source)
 	pr->scroll_reset = scroll_reset;
 
 	pixbuf_renderer_set_pixbuf(source, NULL, source->zoom);
-//	pr_queue_clear(source);
-//	pr_tile_free_all(source);
+}
+
+void pixbuf_renderer_copy(PixbufRenderer *pr, PixbufRenderer *source)
+{
+	GObject *object;
+	PixbufRendererScrollResetType scroll_reset;
+
+	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
+	g_return_if_fail(IS_PIXBUF_RENDERER(source));
+
+	if (pr == source) return;
+
+	object = G_OBJECT(pr);
+
+	g_object_set(object, "zoom_min", source->zoom_min, NULL);
+	g_object_set(object, "zoom_max", source->zoom_max, NULL);
+	g_object_set(object, "loading", source->loading, NULL);
+
+	pr->complete = source->complete;
+
+	pr->x_scroll = source->x_scroll;
+	pr->y_scroll = source->y_scroll;
+	pr->x_mouse  = source->x_mouse;
+	pr->y_mouse  = source->y_mouse;
+
+	scroll_reset = pr->scroll_reset;
+	pr->scroll_reset = PR_SCROLL_RESET_NOCHANGE;
+
+	pr->orientation = source->orientation;
+	pr->stereo_data = source->stereo_data;
+
+	if (source->source_tiles_enabled)
+		{
+		pr->source_tiles_enabled = source->source_tiles_enabled;
+		pr->source_tiles_cache_size = source->source_tiles_cache_size;
+		pr->source_tile_width = source->source_tile_width;
+		pr->source_tile_height = source->source_tile_height;
+		pr->image_width = source->image_width;
+		pr->image_height = source->image_height;
+
+		pr->func_tile_request = source->func_tile_request;
+		pr->func_tile_dispose = source->func_tile_dispose;
+		pr->func_tile_data = source->func_tile_data;
+
+		pr->source_tiles = source->source_tiles;
+		source->source_tiles = NULL;
+
+		pr_zoom_sync(pr, source->zoom, PR_ZOOM_FORCE | PR_ZOOM_NEW, 0, 0);
+		}
+	else
+		{
+		pixbuf_renderer_set_pixbuf(pr, source->pixbuf, source->zoom);
+		}
+
+	pr->scroll_reset = scroll_reset;
 }
 
 void pixbuf_renderer_area_changed(PixbufRenderer *pr, gint x, gint y, gint w, gint h)

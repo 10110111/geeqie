@@ -64,7 +64,8 @@ static void layout_image_full_screen_stop_func(FullScreenData *fs, gpointer data
 	LayoutWindow *lw = data;
 
 	/* restore image window */
-	lw->image = fs->normal_imd;
+	if (lw->image == fs->imd)
+		lw->image = fs->normal_imd;
 
 	lw->full_screen = NULL;
 }
@@ -79,7 +80,8 @@ void layout_image_full_screen_start(LayoutWindow *lw)
 					   layout_image_full_screen_stop_func, lw);
 
 	/* set to new image window */
-	lw->image = lw->full_screen->imd;
+	if (lw->full_screen->same_region)
+		lw->image = lw->full_screen->imd;
 
 	layout_image_set_buttons(lw);
 
@@ -100,7 +102,8 @@ void layout_image_full_screen_stop(LayoutWindow *lw)
 	if (!layout_valid(&lw)) return;
 	if (!lw->full_screen) return;
 
-	image_osd_copy_status(lw->image, lw->full_screen->normal_imd);
+	if (lw->image == lw->full_screen->imd)
+		image_osd_copy_status(lw->image, lw->full_screen->normal_imd);
 
 	fullscreen_stop(lw->full_screen);
 
@@ -780,6 +783,11 @@ void layout_image_scroll(LayoutWindow *lw, gint x, gint y, gboolean connect_scro
 
 	image_scroll(lw->image, x, y);
 
+	if (lw->full_screen && lw->image != lw->full_screen->imd)
+		{
+		image_scroll(lw->full_screen->imd, x, y); 
+		}
+
 	if (!connect_scroll) return;
 
 	image_get_image_size(lw->image, &width, &height);
@@ -807,6 +815,11 @@ void layout_image_zoom_adjust(LayoutWindow *lw, gdouble increment, gboolean conn
 
 	image_zoom_adjust(lw->image, increment);
 
+	if (lw->full_screen && lw->image != lw->full_screen->imd)
+		{
+		image_zoom_adjust(lw->full_screen->imd, increment); 
+		}
+
 	if (!connect_zoom) return;
 
 	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
@@ -822,6 +835,11 @@ void layout_image_zoom_adjust_at_point(LayoutWindow *lw, gdouble increment, gint
 	if (!layout_valid(&lw)) return;
 
 	image_zoom_adjust_at_point(lw->image, increment, x, y);
+
+	if (lw->full_screen && lw->image != lw->full_screen->imd)
+		{
+		image_zoom_adjust_at_point(lw->full_screen->imd, increment, x, y); 
+		}
 
 	if (!connect_zoom) return;
 
@@ -839,6 +857,11 @@ void layout_image_zoom_set(LayoutWindow *lw, gdouble zoom, gboolean connect_zoom
 
 	image_zoom_set(lw->image, zoom);
 
+	if (lw->full_screen && lw->image != lw->full_screen->imd)
+		{
+		image_zoom_set(lw->full_screen->imd, zoom); 
+		}
+
 	if (!connect_zoom) return;
 
 	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
@@ -854,6 +877,11 @@ void layout_image_zoom_set_fill_geometry(LayoutWindow *lw, gboolean vertical, gb
 	if (!layout_valid(&lw)) return;
 
 	image_zoom_set_fill_geometry(lw->image, vertical);
+
+	if (lw->full_screen && lw->image != lw->full_screen->imd)
+		{
+		image_zoom_set_fill_geometry(lw->full_screen->imd, vertical); 
+		}
 
 	if (!connect_zoom) return;
 
@@ -966,6 +994,12 @@ void layout_image_set_fd(LayoutWindow *lw, FileData *fd)
 	if (!layout_valid(&lw)) return;
 
 	image_change_fd(lw->image, fd, image_zoom_get_default(lw->image));
+
+	if (lw->full_screen && lw->image != lw->full_screen->imd)
+		{
+		image_change_fd(lw->full_screen->imd, fd, image_zoom_get_default(lw->full_screen->imd));
+		}
+
 
 	layout_list_sync_fd(lw, fd);
 	layout_image_slideshow_continue_check(lw);
@@ -1460,6 +1494,22 @@ static void layout_image_drag_cb(ImageWindow *imd, GdkEventButton *event, gdoubl
 {
 	gint i;
 	LayoutWindow *lw = data;
+	gdouble sx, sy;
+
+	if (lw->full_screen && lw->image != lw->full_screen->imd)
+		{
+		if (event->state & GDK_CONTROL_MASK)
+			{
+			image_get_scroll_center(imd, &sx, &sy);
+			}
+		else
+			{
+			image_get_scroll_center(lw->split_images[i], &sx, &sy);
+			sx += dx;
+			sy += dy;
+			}
+		image_set_scroll_center(lw->full_screen->imd, sx, sy);
+		}
 
 	if (!(event->state & GDK_SHIFT_MASK)) return;
 
@@ -1467,7 +1517,6 @@ static void layout_image_drag_cb(ImageWindow *imd, GdkEventButton *event, gdoubl
 		{
 		if (lw->split_images[i] && lw->split_images[i] != imd)
 			{
-			gdouble sx, sy;
 
 			if (event->state & GDK_CONTROL_MASK)
 				{
