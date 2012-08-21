@@ -454,7 +454,7 @@ gboolean color_man_get_status(ColorMan *cm, gchar **image_profile, gchar **scree
 	if (!cm) return FALSE;
 
 	cc = cm->profile;
-	
+
 	if (image_profile) *image_profile = color_man_get_profile_name(cc->profile_in_type, cc->profile_in);
 	if (screen_profile) *screen_profile = color_man_get_profile_name(cc->profile_out_type, cc->profile_out);
 	return TRUE;
