@@ -216,17 +216,33 @@ static void bar_pane_keywords_keyword_update_all(void)
 static void bar_pane_keywords_update(PaneKeywordsData *pkd)
 {
 	GList *keywords = NULL;
+	GList *orig_keywords = NULL;
+	GList *work1, *work2;
 	GtkTextBuffer *keyword_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(pkd->keyword_view));
 
-	g_signal_handlers_block_by_func(keyword_buffer, bar_pane_keywords_changed, pkd);
-
 	keywords = metadata_read_list(pkd->fd, KEYWORD_KEY, METADATA_PLAIN);
-	keyword_list_push(pkd->keyword_view, keywords);
-	bar_keyword_tree_sync(pkd);
-	string_list_free(keywords);
-	
-	g_signal_handlers_unblock_by_func(keyword_buffer, bar_pane_keywords_changed, pkd);
+	orig_keywords = keyword_list_pull(pkd->keyword_view);
 
+	/* compare the lists */
+	work1 = keywords;
+	work2 = orig_keywords;
+	
+	while (work1 && work2)
+		{
+		if (strcmp(work1->data, work2->data) != 0) break;
+		work1 = work1->next;
+		work2 = work2->next;
+		}
+	
+	if (work1 || work2) /* lists differs */
+		{
+		g_signal_handlers_block_by_func(keyword_buffer, bar_pane_keywords_changed, pkd);
+		keyword_list_push(pkd->keyword_view, keywords);
+		bar_keyword_tree_sync(pkd);
+		g_signal_handlers_unblock_by_func(keyword_buffer, bar_pane_keywords_changed, pkd);
+		}
+	string_list_free(keywords);
+	string_list_free(orig_keywords);
 }
 
 void bar_pane_keywords_set_fd(GtkWidget *pane, FileData *fd)
@@ -426,10 +442,8 @@ static gboolean bar_pane_keywords_changed_idle_cb(gpointer data)
 {
 	PaneKeywordsData *pkd = data;
 
-	file_data_unregister_notify_func(bar_pane_keywords_notify_cb, pkd);
 	bar_pane_keywords_write(pkd);
 	bar_keyword_tree_sync(pkd);
-	file_data_register_notify_func(bar_pane_keywords_notify_cb, pkd, NOTIFY_PRIORITY_LOW);
 	pkd->idle_id = 0;
 	return FALSE;
 }
@@ -962,12 +976,7 @@ static void bar_pane_keywords_connect_mark_cb(GtkWidget *menu_widget, gpointer d
 
 	gtk_tree_model_filter_convert_iter_to_child_iter(GTK_TREE_MODEL_FILTER(model), &kw_iter, &iter);
 
-	file_data_unregister_notify_func(bar_pane_keywords_notify_cb, pkd);
-
 	meta_data_connect_mark_with_keyword(keyword_tree, &kw_iter, mark);
-
-	file_data_register_notify_func(bar_pane_keywords_notify_cb, pkd, NOTIFY_PRIORITY_LOW);
-//	bar_pane_keywords_update(pkd);
 }
 
 

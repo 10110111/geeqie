@@ -60,16 +60,22 @@ static void bar_pane_comment_write(PaneCommentData *pcd)
 static void bar_pane_comment_update(PaneCommentData *pcd)
 {
 	gchar *comment = NULL;
+	gchar *orig_comment = NULL;
+	gchar *comment_not_null;
 	GtkTextBuffer *comment_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(pcd->comment_view));
 
-	g_signal_handlers_block_by_func(comment_buffer, bar_pane_comment_changed, pcd);
-
+	orig_comment = text_widget_text_pull(pcd->comment_view);
 	comment = metadata_read_string(pcd->fd, pcd->key, METADATA_PLAIN);
-	gtk_text_buffer_set_text(comment_buffer,
-				 (comment) ? comment : "", -1);
-	g_free(comment);
+	comment_not_null = (comment) ? comment : "";
 	
-	g_signal_handlers_unblock_by_func(comment_buffer, bar_pane_comment_changed, pcd);
+	if (strcmp(orig_comment, comment_not_null) != 0)
+		{
+		g_signal_handlers_block_by_func(comment_buffer, bar_pane_comment_changed, pcd);
+		gtk_text_buffer_set_text(comment_buffer, comment_not_null, -1);
+		g_signal_handlers_unblock_by_func(comment_buffer, bar_pane_comment_changed, pcd);
+		}
+	g_free(comment);
+	g_free(orig_comment);
 
 	gtk_widget_set_sensitive(pcd->comment_view, (pcd->fd != NULL));
 }
@@ -177,9 +183,7 @@ static void bar_pane_comment_changed(GtkTextBuffer *buffer, gpointer data)
 {
 	PaneCommentData *pcd = data;
 
-	file_data_unregister_notify_func(bar_pane_comment_notify_cb, pcd);
 	bar_pane_comment_write(pcd);
-	file_data_register_notify_func(bar_pane_comment_notify_cb, pcd, NOTIFY_PRIORITY_LOW);
 }
 
 
