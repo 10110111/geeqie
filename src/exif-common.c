@@ -23,10 +23,10 @@
 #ifdef HAVE_LCMS
 /*** color support enabled ***/
 
-#ifdef HAVE_LCMS_LCMS_H
-  #include <lcms/lcms.h>
+#ifdef HAVE_LCMS2
+#include <lcms2.h>
 #else
-  #include <lcms.h>
+#include <lcms.h>
 #endif
 #endif
 
@@ -413,6 +413,9 @@ static gchar *exif_build_formatted_Resolution(ExifData *exif)
 
 static gchar *exif_build_formatted_ColorProfile(ExifData *exif)
 {
+#ifdef HAVE_LCMS2
+	cmsUInt8Number profileID[17];
+#endif
 	const gchar *name = "";
 	const gchar *source = "";
 	guchar *profile_data;
@@ -452,7 +455,13 @@ static gchar *exif_build_formatted_ColorProfile(ExifData *exif)
 			profile = cmsOpenProfileFromMem(profile_data, profile_len);
 			if (profile)
 				{
+#ifdef HAVE_LCMS2
+				profileID[16] = '\0';
+				cmsGetHeaderProfileID(profile, profileID);
+				name = profileID;
+#else
 				name = cmsTakeProductName(profile);
+#endif
 				cmsCloseProfile(profile);
 				}
 			g_free(profile_data);

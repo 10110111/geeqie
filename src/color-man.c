@@ -21,7 +21,11 @@
 #ifdef HAVE_LCMS
 /*** color support enabled ***/
 
+#ifdef HAVE_LCMS2
+#include <lcms2.h>
+#else
 #include <lcms.h>
+#endif
 
 
 typedef struct _ColorManCache ColorManCache;
@@ -52,7 +56,9 @@ static void color_man_lib_init(void)
 	if (init_done) return;
 	init_done = TRUE;
 
+#ifndef HAVE_LCMS2
 	cmsErrorAction(LCMS_ERROR_IGNORE);
+#endif
 }
 
 static cmsHPROFILE color_man_create_adobe_comp(void)
@@ -425,7 +431,14 @@ static gchar *color_man_get_profile_name(ColorManProfileType type, cmsHPROFILE p
 		case COLOR_PROFILE_FILE:
 			if (profile)
 				{
+#ifdef HAVE_LCMS2
+				cmsUInt8Number profileID[17];
+				profileID[16] = '\0';
+				cmsGetHeaderProfileID(profile, profileID);
+				return g_strdup(profileID);
+#else
 				return g_strdup(cmsTakeProductName(profile));
+#endif
 				}
 			return g_strdup(_("Custom profile"));
 			break;
