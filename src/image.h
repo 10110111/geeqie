@@ -64,7 +64,7 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboo
 void image_change_from_collection(ImageWindow *imd, CollectionData *cd, CollectInfo *info, gdouble zoom);
 CollectionData *image_get_collection(ImageWindow *imd, CollectInfo **info);
 void image_copy_from_image(ImageWindow *imd, ImageWindow *source);
-void image_movee_from_image(ImageWindow *imd, ImageWindow *source);
+void image_move_from_image(ImageWindow *imd, ImageWindow *source);
 
 gboolean image_get_image_size(ImageWindow *imd, gint *width, gint *height);
 GdkPixbuf *image_get_pixbuf(ImageWindow *imd);
