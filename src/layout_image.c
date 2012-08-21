@@ -1496,7 +1496,8 @@ static void layout_image_drag_cb(ImageWindow *imd, GdkEventButton *event, gdoubl
 	LayoutWindow *lw = data;
 	gdouble sx, sy;
 
-	if (lw->full_screen && lw->image != lw->full_screen->imd)
+	if (lw->full_screen && lw->image != lw->full_screen->imd && 
+	    imd != lw->full_screen->imd)
 		{
 		if (event->state & GDK_CONTROL_MASK)
 			{
@@ -1504,7 +1505,7 @@ static void layout_image_drag_cb(ImageWindow *imd, GdkEventButton *event, gdoubl
 			}
 		else
 			{
-			image_get_scroll_center(lw->split_images[i], &sx, &sy);
+			image_get_scroll_center(lw->full_screen->imd, &sx, &sy);
 			sx += dx;
 			sy += dy;
 			}
