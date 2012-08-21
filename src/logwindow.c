@@ -270,7 +270,7 @@ void log_window_append(const gchar *str, LogType type)
 
 	log_window_insert_text(buffer, &iter, str, logdefs[type].tag);
 
-	if (gtk_widget_get_visible(text))
+	if (gtk_widget_get_visible(GTK_WIDGET(text)))
 		{
 		GtkTextMark *mark;
 		

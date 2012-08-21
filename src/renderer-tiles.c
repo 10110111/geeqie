@@ -1607,7 +1607,7 @@ static gboolean rt_queue_draw_idle_cb(gpointer data)
 		fast = FALSE;
 		}
 
-	if (gtk_widget_get_realized(pr))
+	if (gtk_widget_get_realized(GTK_WIDGET(pr)))
 		{
 		if (rt_tile_is_visible(rt, qd->it))
 			{
