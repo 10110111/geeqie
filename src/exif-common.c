@@ -23,10 +23,10 @@
 #ifdef HAVE_LCMS
 /*** color support enabled ***/
 
-#ifdef HAVE_LCMS_LCMS_H
-  #include <lcms/lcms.h>
+#ifdef HAVE_LCMS2
+#include <lcms2.h>
 #else
-  #include <lcms.h>
+#include <lcms.h>
 #endif
 #endif
 
@@ -125,13 +125,13 @@ static gdouble get_crop_factor(ExifData *exif)
 static gboolean remove_suffix(gchar *str, const gchar *suffix, gint suffix_len)
 {
 	gint str_len = strlen(str);
-	
+
 	if (suffix_len < 0) suffix_len = strlen(suffix);
 	if (str_len < suffix_len) return FALSE;
-	
+
 	if (strcmp(str + str_len - suffix_len, suffix) != 0) return FALSE;
 	str[str_len - suffix_len] = '\0';
-	
+
 	return TRUE;
 }
 
@@ -161,7 +161,7 @@ static gchar *exif_build_formatted_Camera(ExifData *exif)
 		gint i, j;
 
 		g_strstrip(software);
-		
+
 		/* remove superfluous spaces (pentax K100D) */
 		for (i = 0, j = 0; software[i]; i++, j++)
 			{
@@ -413,6 +413,9 @@ static gchar *exif_build_formatted_Resolution(ExifData *exif)
 
 static gchar *exif_build_formatted_ColorProfile(ExifData *exif)
 {
+#ifdef HAVE_LCMS2
+	cmsUInt8Number profileID[17];
+#endif
 	const gchar *name = "";
 	const gchar *source = "";
 	guchar *profile_data;
@@ -452,7 +455,13 @@ static gchar *exif_build_formatted_ColorProfile(ExifData *exif)
 			profile = cmsOpenProfileFromMem(profile_data, profile_len);
 			if (profile)
 				{
+#ifdef HAVE_LCMS2
+				profileID[16] = '\0';
+				cmsGetHeaderProfileID(profile, profileID);
+				name = profileID;
+#else
 				name = cmsTakeProductName(profile);
+#endif
 				cmsCloseProfile(profile);
 				}
 			g_free(profile_data);
@@ -646,14 +655,14 @@ void exif_init_cache(void)
 ExifData *exif_read_fd(FileData *fd)
 {
 	gchar *sidecar_path;
-	
+
 	if (!exif_cache) exif_init_cache();
 
 	if (!fd) return NULL;
-	
+
 	if (file_cache_get(exif_cache, fd)) return fd->exif;
 	g_assert(fd->exif == NULL);
-	
+
 	/* CACHE_TYPE_XMP_METADATA file should exist only if the metadata are
 	 * not writable directly, thus it should contain the most up-to-date version */
 	sidecar_path = NULL;
