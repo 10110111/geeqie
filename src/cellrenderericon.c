@@ -44,7 +44,7 @@ static void gqv_cell_renderer_icon_class_init(GQvCellRendererIconClass *class);
 static void gqv_cell_renderer_icon_finalize(GObject *object);
 static void gqv_cell_renderer_icon_get_size(GtkCellRenderer	*cell,
 					    GtkWidget		*widget,
-					    GdkRectangle	*rectangle,
+					    const GdkRectangle	*rectangle,
 					    gint		*x_offset,
 					    gint		*y_offset,
 					    gint		*width,
@@ -67,12 +67,12 @@ static void gqv_cell_renderer_icon_render(GtkCellRenderer	*cell,
 #endif
 
 
-static gint gqv_cell_renderer_icon_activate(GtkCellRenderer      *cell,
+static gboolean gqv_cell_renderer_icon_activate(GtkCellRenderer      *cell,
 					    GdkEvent             *event,
 					    GtkWidget            *widget,
 					    const gchar          *path,
-					    GdkRectangle         *background_area,
-					    GdkRectangle         *cell_area,
+					    const GdkRectangle   *background_area,
+					    const GdkRectangle   *cell_area,
 					    GtkCellRendererState  flags);
 
 enum {
@@ -553,7 +553,7 @@ gqv_cell_renderer_icon_new(void)
 static void
 gqv_cell_renderer_icon_get_size(GtkCellRenderer *cell,
 				GtkWidget	*widget,
-				GdkRectangle	*cell_area,
+				const GdkRectangle	*cell_area,
 				gint		*x_offset,
 				gint		*y_offset,
 				gint		*width,
@@ -845,13 +845,13 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 #endif
 }
 
-static gint
+static gboolean
 gqv_cell_renderer_icon_activate(GtkCellRenderer      *cell,
 			 	GdkEvent             *event,
 				GtkWidget            *widget,
 				const gchar          *path,
-				GdkRectangle         *background_area,
-				GdkRectangle         *cell_area,
+				const GdkRectangle   *background_area,
+				const GdkRectangle   *cell_area,
 				GtkCellRendererState  flags)
 {
 	GQvCellRendererIcon *cellicon = (GQvCellRendererIcon *) cell;
