@@ -1557,6 +1557,10 @@ static gboolean vficon_destroy_node_cb(GtkTreeModel *store, GtkTreePath *tpath, 
 	GList *list;
 
 	gtk_tree_model_get(store, iter, FILE_COLUMN_POINTER, &list, -1);
+	
+	/* it seems that gtk_list_store_clear may call some callbacks
+	   that use the column. Set the pointer to NULL to be safe. */
+	gtk_list_store_set(GTK_LIST_STORE(store), iter, FILE_COLUMN_POINTER, NULL, -1);
 	g_list_free(list);
 
 	return FALSE;
