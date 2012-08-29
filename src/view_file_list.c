@@ -185,6 +185,10 @@ static gboolean vflist_store_clear_cb(GtkTreeModel *model, GtkTreePath *path, Gt
 {
 	FileData *fd;
 	gtk_tree_model_get(model, iter, FILE_COLUMN_POINTER, &fd, -1);
+
+	/* it seems that gtk_tree_store_clear may call some callbacks
+	   that use the column. Set the pointer to NULL to be safe. */
+	gtk_tree_store_set(GTK_TREE_STORE(model), iter, FILE_COLUMN_POINTER, NULL, -1);
 	file_data_unref(fd);
 	return FALSE;
 }
