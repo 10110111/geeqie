@@ -515,17 +515,19 @@ FileData *file_data_ref(FileData *fd)
 #endif
 {
 	if (fd == NULL) return NULL;
-#ifdef DEBUG_FILEDATA
 	if (fd->magick != 0x12345678)
-		DEBUG_0("fd magick mismatch at %s:%d", file, line);
+#ifdef DEBUG_FILEDATA
+		DEBUG_0("fd magick mismatch @ %s:%d  fd=%p", file, line, fd);
+#else
+		DEBUG_0("fd magick mismatch fd=%p", fd);
 #endif
 	g_assert(fd->magick == 0x12345678);
 	fd->ref++;
 
 #ifdef DEBUG_FILEDATA
-	DEBUG_2("file_data_ref (%d): '%s' @ %s:%d", fd->ref, fd->path, file, line);
+	DEBUG_2("file_data_ref fd=%p (%d): '%s' @ %s:%d", fd, fd->ref, fd->path, file, line);
 #else
-	DEBUG_2("file_data_ref (%d): '%s'", fd->ref, fd->path);
+	DEBUG_2("file_data_ref fd=%p (%d): '%s'", fd, fd->ref, fd->path);
 #endif
 	return fd;
 }
@@ -558,17 +560,19 @@ void file_data_unref(FileData *fd)
 #endif
 {
 	if (fd == NULL) return;
-#ifdef DEBUG_FILEDATA
 	if (fd->magick != 0x12345678)
-		DEBUG_0("fd magick mismatch @ %s:%d", file, line);
+#ifdef DEBUG_FILEDATA
+		DEBUG_0("fd magick mismatch @ %s:%d  fd=%p", file, line, fd);
+#else
+		DEBUG_0("fd magick mismatch fd=%p", fd);
 #endif
 	g_assert(fd->magick == 0x12345678);
 	
 	fd->ref--;
 #ifdef DEBUG_FILEDATA
-	DEBUG_2("file_data_unref (%d): '%s' @ %s:%d", fd->ref, fd->path, file, line);
+	DEBUG_2("file_data_unref fd=%p (%d): '%s' @ %s:%d", fd, fd->ref, fd->path, file, line);
 #else
-	DEBUG_2("file_data_unref (%d): '%s'", fd->ref, fd->path);
+	DEBUG_2("file_data_unref fd=%p (%d): '%s'", fd, fd->ref, fd->path);
 #endif
 	if (fd->ref == 0)
 		{
