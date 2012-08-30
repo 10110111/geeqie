@@ -1281,11 +1281,6 @@ ExifData *exif_read(gchar *path, gchar *sidecar_path, GHashTable *modified_xmp)
 
 	if (exif) exif->items = g_list_reverse(exif->items);
 
-#if 0
-	exif_write_data_list(exif, stdout, TRUE);
-	exif_write_data_list(exif, stdout, FALSE);
-#endif
-
 	return exif;
 }
 
