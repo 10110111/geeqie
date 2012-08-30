@@ -153,8 +153,6 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 	TIFF *tiff;
 	guchar *pixels = NULL;
 	gint width, height, rowstride, bytes;
-	uint16 orientation = 0;
-	uint16 transform = 0;
 	uint32 rowsperstrip;
 
 	lt->buffer = buf;
@@ -235,36 +233,6 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 		TIFFClose(tiff);
 		return FALSE;
 		}
-
-	/* Set the "orientation" key associated with this image. libtiff 
-	   orientation handling is odd, so further processing is required
-	   by higher-level functions based on this tag. If the embedded
-	   orientation tag is 1-4, libtiff flips/mirrors the image as
-	   required, and no client processing is required - so we report 
-	   no orientation. Orientations 5-8 require rotations which would 
-	   swap the width and height of the image. libtiff does not do this. 
-	   Instead it interprets orientations 5-8 the same as 1-4. 
-	   See http://bugzilla.remotesensing.org/show_bug.cgi?id=1548.
-	   To correct for this, the client must apply the transform normally
-	   used for orientation 5 to both orientations 5 and 7, and apply
-	   the transform normally used for orientation 7 for both
-	   orientations 6 and 8. Then everythings works out OK! */
-	
-	TIFFGetField (tiff, TIFFTAG_ORIENTATION, &orientation);
-
-	switch (orientation) {
-		case 5:
-		case 7:
-			transform = 5;
-			break;
-		case 6:
-		case 8:
-			transform = 7;
-			break;
-		default:
-			transform = 0;
-			break;
-	}
 
 	lt->area_prepared_cb(loader, lt->data);
 
