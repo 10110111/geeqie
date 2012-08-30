@@ -435,7 +435,7 @@ static gchar *color_man_get_profile_name(ColorManProfileType type, cmsHPROFILE p
 				cmsUInt8Number profileID[17];
 				profileID[16] = '\0';
 				cmsGetHeaderProfileID(profile, profileID);
-				return g_strdup(profileID);
+				return g_strdup((gchar *) profileID);
 #else
 				return g_strdup(cmsTakeProductName(profile));
 #endif

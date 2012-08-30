@@ -458,9 +458,9 @@ static gchar *exif_build_formatted_ColorProfile(ExifData *exif)
 #ifdef HAVE_LCMS2
 				profileID[16] = '\0';
 				cmsGetHeaderProfileID(profile, profileID);
-				name = profileID;
+				name = (gchar *) profileID;
 #else
-				name = cmsTakeProductName(profile);
+				name = (gchar *) cmsTakeProductName(profile);
 #endif
 				cmsCloseProfile(profile);
 				}
