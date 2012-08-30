@@ -695,8 +695,6 @@ static void layout_image_dnd_get(GtkWidget *widget, GdkDragContext *context,
 
 	if (fd)
 		{
-		gchar *text = NULL;
-		gint len;
 		GList *list;
 
 		list = g_list_append(NULL, fd);
