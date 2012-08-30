@@ -70,7 +70,7 @@ gboolean file_cache_get(FileCacheData *fc, FileData *fd)
 			
 			if (file_data_check_changed_files(fd)) {
 				/* file has been changed, cance entry is no longer valid */
-				file_cache_remove_fd(fc, fd); 
+				file_cache_remove_fd(fc, fd);
 				return FALSE;
 			}
 			if (debug_file_cache) file_cache_dump(fc);

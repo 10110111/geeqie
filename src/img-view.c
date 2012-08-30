@@ -1225,7 +1225,7 @@ static void view_popup_menu_destroy_cb(GtkWidget *widget, gpointer data)
 	GList *editmenu_fd_list = data;
 
 	filelist_free(editmenu_fd_list);
-}		
+}
 
 static GList *view_window_get_fd_list(ViewWindow *vw)
 {

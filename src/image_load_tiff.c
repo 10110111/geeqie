@@ -223,7 +223,7 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 		return FALSE;
 		}
 
-	lt->pixbuf = gdk_pixbuf_new_from_data (pixels, GDK_COLORSPACE_RGB, TRUE, 8, 
+	lt->pixbuf = gdk_pixbuf_new_from_data (pixels, GDK_COLORSPACE_RGB, TRUE, 8,
 										   width, height, rowstride,
 										   free_buffer, NULL);
 	if (!lt->pixbuf)
@@ -272,7 +272,7 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 				guchar *top_line, *bottom_line;
 
 				top_line = pixels + (row + i_row) * rowstride;
-				bottom_line = pixels + (row + rows_to_write - i_row - 1) * rowstride; 
+				bottom_line = pixels + (row + rows_to_write - i_row - 1) * rowstride;
 
 				memcpy(wrk_line, top_line, 4*width);
 				memcpy(top_line, bottom_line, 4*width);
@@ -285,7 +285,7 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 	else
 		{
 		/* fallback, tiled tiff */
-		if (!TIFFReadRGBAImageOriented (tiff, width, height, (uint32 *)pixels, ORIENTATION_TOPLEFT, 1)) 
+		if (!TIFFReadRGBAImageOriented (tiff, width, height, (uint32 *)pixels, ORIENTATION_TOPLEFT, 1))
 			{
 			TIFFClose(tiff);
 			return FALSE;
@@ -295,7 +295,7 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 		/* Turns out that the packing used by TIFFRGBAImage depends on
 		 * the host byte order...
 		 */
-		while (pixels < lt->pixbuf->pixels + bytes) 
+		while (pixels < lt->pixbuf->pixels + bytes)
 			{
 			uint32 pixel = *(uint32 *)pixels;
 			int r = TIFFGetR(pixel);

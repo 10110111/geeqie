@@ -788,7 +788,7 @@ static gboolean image_load_begin(ImageWindow *imd, FileData *fd)
 		{
 		image_change_pixbuf(imd, image_loader_get_pixbuf(imd->il), image_zoom_get(imd), TRUE);
 		}
-*/	
+*/
 	return TRUE;
 }
 
@@ -1058,7 +1058,7 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboo
 	/* read_exif and similar functions can actually notice that the file has changed and trigger
 	   a notification that removes the pixbuf from cache and unrefs it. Therefore we must ref it
 	   here before it is taken over by the renderer. */
-	if (pixbuf) g_object_ref(pixbuf); 
+	if (pixbuf) g_object_ref(pixbuf);
 	
 	if (imd->image_fd)
 		{
@@ -1149,7 +1149,7 @@ static void image_loader_sync_read_ahead_data(ImageLoader *il, gpointer old_data
 }
 
 static void image_loader_sync_data(ImageLoader *il, gpointer old_data, gpointer data)
-{		
+{
 	if (g_signal_handlers_disconnect_by_func(G_OBJECT(il), (GCallback)image_load_area_cb, old_data))
 		g_signal_connect(G_OBJECT(il), "area_ready", (GCallback)image_load_area_cb, data);
 
@@ -1435,7 +1435,7 @@ gint image_stereo_get(ImageWindow *imd)
 
 void image_stereo_set(ImageWindow *imd, gint stereo_mode)
 {
-	DEBUG_1("Setting stereo mode %04x for imd %p", stereo_mode, imd);  
+	DEBUG_1("Setting stereo mode %04x for imd %p", stereo_mode, imd);
 	pixbuf_renderer_stereo_set((PixbufRenderer *)imd->pr, stereo_mode);
 }
 
@@ -1488,8 +1488,8 @@ static void image_notify_cb(FileData *fd, NotifyType type, gpointer data)
 
 	if ((type & NOTIFY_REREAD) && fd == imd->image_fd)
 		{
-		/* there is no need to reload on NOTIFY_CHANGE, 
-		   modified files should be detacted anyway and NOTIFY_REREAD should be recieved 
+		/* there is no need to reload on NOTIFY_CHANGE,
+		   modified files should be detacted anyway and NOTIFY_REREAD should be recieved
 		   or they are removed from the filelist completely on "move" and "delete"
 		*/
 		DEBUG_1("Notify image: %s %04x", fd->path, type);
@@ -1707,8 +1707,8 @@ static void image_options_set(ImageWindow *imd)
 	pixbuf_renderer_set_parent((PixbufRenderer *)imd->pr, (GtkWindow *)imd->top_window);
 	
 	image_stereo_set(imd, options->stereo.mode);
-	pixbuf_renderer_stereo_fixed_set((PixbufRenderer *)imd->pr, 
-					options->stereo.fixed_w, options->stereo.fixed_h, 
+	pixbuf_renderer_stereo_fixed_set((PixbufRenderer *)imd->pr,
+					options->stereo.fixed_w, options->stereo.fixed_h,
 					options->stereo.fixed_x1, options->stereo.fixed_y1,
 					options->stereo.fixed_x2, options->stereo.fixed_y2);
 }
@@ -1759,7 +1759,7 @@ static void image_destroy_cb(GtkWidget *widget, gpointer data)
 	ImageWindow *imd = data;
 	image_free(imd);
 }
-#if GTK_CHECK_VERSION(3,0,0)	
+#if GTK_CHECK_VERSION(3,0,0)
 gboolean selectable_frame_draw_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
 	GtkAllocation allocation;
@@ -1843,7 +1843,7 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 		gtk_widget_set_can_focus(imd->frame, TRUE);
 		gtk_widget_set_app_paintable(imd->frame, TRUE);
 		
-#if GTK_CHECK_VERSION(3,0,0)	
+#if GTK_CHECK_VERSION(3,0,0)
 		g_signal_connect(G_OBJECT(imd->frame), "draw",
 				 G_CALLBACK(selectable_frame_draw_cb), NULL);
 #else

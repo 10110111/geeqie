@@ -10,7 +10,7 @@
  * This software comes with no warranty of any kind, use at your own risk!
  */
 
-#include "main.h" 
+#include "main.h"
 #include "jpeg_parser.h"
 
 gboolean jpeg_segment_find(const guchar *data, guint size,
@@ -238,7 +238,7 @@ static gint mpo_parse_Index_IFD_entry(const guchar *tiff, guint offset,
 			mpo->images[i].dep1 = tiff_byte_get_int16(tiff + data_offset + i * 16 + 12, bo);
 			mpo->images[i].dep2 = tiff_byte_get_int16(tiff + data_offset + i * 16 + 14, bo);
 			
-			if (i == 0) 
+			if (i == 0)
 				{
 				mpo->images[i].offset = 0;
 				}
@@ -320,7 +320,7 @@ MPOData *jpeg_get_mpo_data(const guchar *data, guint size)
 		MPOData *mpo;
 		guint i;
 
-		DEBUG_1("mpo signature found at %x", seg_offset); 
+		DEBUG_1("mpo signature found at %x", seg_offset);
 		seg_offset += 4;
 		seg_size -= 4;
 		
@@ -345,7 +345,7 @@ MPOData *jpeg_get_mpo_data(const guchar *data, guint size)
 		
 		for (i = 0; i < mpo->num_images; i++)
 			{
-			if (i == 0) 
+			if (i == 0)
 				{
 				offset = next_offset;
 				}
@@ -359,7 +359,7 @@ MPOData *jpeg_get_mpo_data(const guchar *data, guint size)
 				
 				seg_offset += 4;
 				seg_size -= 4;
-				if (!tiff_directory_offset(data + mpo->images[i].offset + seg_offset, seg_size, &offset, &bo)) 
+				if (!tiff_directory_offset(data + mpo->images[i].offset + seg_offset, seg_size, &offset, &bo))
 					{
 					DEBUG_1("MPO image %d: invalid directory offset", i);
 					continue;

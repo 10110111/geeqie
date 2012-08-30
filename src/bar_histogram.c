@@ -59,7 +59,7 @@ static void bar_pane_histogram_update(PaneHistogramData *phd)
 	if (!phd->histogram_width || !phd->histogram_height || !phd->fd) return;
 
 	/* histmap_get is relatively expensive, run it only when we really need it
-	   and with lower priority than pixbuf_renderer 
+	   and with lower priority than pixbuf_renderer
 	   FIXME: this does not work for fullscreen*/
 	if (gtk_widget_is_drawable(phd->drawing_area))
 		{
@@ -87,7 +87,7 @@ static gboolean bar_pane_histogram_update_cb(gpointer data)
 	if (phd->fd == NULL) return FALSE;
 	histmap = histmap_get(phd->fd);
 	
-	if (!histmap) 
+	if (!histmap)
 		{
 		histmap_start_idle(phd->fd);
 		return FALSE;
@@ -133,7 +133,7 @@ static void bar_pane_histogram_write_config(GtkWidget *pane, GString *outstr, gi
 static void bar_pane_histogram_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneHistogramData *phd = data;
-	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_HISTMAP | NOTIFY_PIXBUF)) && fd == phd->fd) 
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_HISTMAP | NOTIFY_PIXBUF)) && fd == phd->fd)
 		{
 		DEBUG_1("Notify pane_histogram: %s %04x", fd->path, type);
 		bar_pane_histogram_update(phd);
@@ -310,10 +310,10 @@ static GtkWidget *bar_pane_histogram_new(const gchar *id, const gchar *title, gi
                                G_CALLBACK(bar_pane_histogram_size_cb), phd);
 
 #if GTK_CHECK_VERSION(3,0,0)
-	g_signal_connect(G_OBJECT(phd->drawing_area), "draw",  
+	g_signal_connect(G_OBJECT(phd->drawing_area), "draw",
 			 G_CALLBACK(bar_pane_histogram_draw_cb), phd);
 #else
-	g_signal_connect(G_OBJECT(phd->drawing_area), "expose_event",  
+	g_signal_connect(G_OBJECT(phd->drawing_area), "expose_event",
 			 G_CALLBACK(bar_pane_histogram_expose_event_cb), phd);
 #endif
 			 

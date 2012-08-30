@@ -187,7 +187,7 @@ static void help_browser_run(void)
 	gchar *result = NULL;
 	gint i;
 
-	i = 0;	
+	i = 0;
 	while (!result)
 		{
 		if ((name && *name) || (cmd && *cmd)) {

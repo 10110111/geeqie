@@ -1550,7 +1550,7 @@ void layout_style_set(LayoutWindow *lw, gint style, const gchar *order)
 
 	/* remember state */
 
-	/* layout_image_slideshow_stop(lw); slideshow should survive */ 
+	/* layout_image_slideshow_stop(lw); slideshow should survive */
 	layout_image_full_screen_stop(lw);
 
 	dir_fd = lw->dir_fd;
@@ -1897,7 +1897,7 @@ void layout_show_config_window(LayoutWindow *lw)
 	gtk_container_add(GTK_CONTAINER(hbox), button);
 	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
 	gtk_widget_show(button);
-*/	
+*/
 	button = pref_button_new(NULL, GTK_STOCK_APPLY, NULL, FALSE,
 				 G_CALLBACK(layout_config_apply_cb), lc);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
@@ -2365,7 +2365,7 @@ static void layout_config_startup_path(LayoutOptions *lop, gchar **path)
 			*path = get_current_dir();
 			break;
 		}
-}	
+}
 
 
 static void layout_config_commandline(LayoutOptions *lop, gchar **path)
@@ -2409,7 +2409,7 @@ LayoutWindow *layout_new_from_config(const gchar **attribute_names, const gchar 
 		{
 		layout_config_commandline(&lop, &path);
 		}
-	else 
+	else
 		{
 		layout_config_startup_path(&lop, &path);
 		}

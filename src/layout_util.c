@@ -1754,7 +1754,7 @@ static GList *layout_actions_editor_menu_path(EditorDescription *editor)
 	gint i = 0;
 	GList *ret = NULL;
 	
-	if (split[0] == NULL) 
+	if (split[0] == NULL)
 		{
 		g_strfreev(split);
 		return NULL;
@@ -1864,10 +1864,10 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 		{
 		GList *path;
 		EditorDescription *editor = work->data;
-		GtkActionEntry entry = { editor->key, 
+		GtkActionEntry entry = { editor->key,
 		                         NULL,
 		                         editor->name,
-		                         editor->hotkey, 
+		                         editor->hotkey,
 		                         editor->comment ? editor->comment : editor->name,
 		                         G_CALLBACK(layout_menu_edit_cb) };
 		
@@ -2086,7 +2086,7 @@ GtkWidget *layout_actions_toolbar(LayoutWindow *lw, ToolbarType type)
 
 void layout_toolbar_clear(LayoutWindow *lw, ToolbarType type)
 {
-	if (lw->toolbar_merge_id[type]) 
+	if (lw->toolbar_merge_id[type])
 		{
 		gtk_ui_manager_remove_ui(lw->ui_manager, lw->toolbar_merge_id[type]);
 		gtk_ui_manager_ensure_update(lw->ui_manager);
@@ -2130,17 +2130,17 @@ void layout_toolbar_add(LayoutWindow *lw, ToolbarType type, const gchar *action)
 			}
 		if (!gtk_action_group_get_action(lw->action_group_editors, action))
 			{
-			GtkActionEntry entry = { action, 
+			GtkActionEntry entry = { action,
 			                         GTK_STOCK_MISSING_IMAGE,
 			                         action,
-			                         NULL, 
+			                         NULL,
 			                         NULL,
 			                         NULL };
 			DEBUG_1("Creating temporary action %s", action);
 			gtk_action_group_add_actions(lw->action_group_editors, &entry, 1, lw);
 			}
 		}
-	gtk_ui_manager_add_ui(lw->ui_manager, lw->toolbar_merge_id[type], path, action, action, GTK_UI_MANAGER_TOOLITEM, FALSE); 
+	gtk_ui_manager_add_ui(lw->ui_manager, lw->toolbar_merge_id[type], path, action, action, GTK_UI_MANAGER_TOOLITEM, FALSE);
 	lw->toolbar_actions[type] = g_list_append(lw->toolbar_actions[type], g_strdup(action));
 }
 
@@ -2218,7 +2218,7 @@ void layout_toolbar_add_from_config(LayoutWindow *lw, ToolbarType type, const gc
 		}
 
 	layout_toolbar_add(lw, type, action);
-	g_free(action);	
+	g_free(action);
 }
 
 /*
@@ -2437,7 +2437,7 @@ static void layout_bar_destroyed(GtkWidget *widget, gpointer data)
 	LayoutWindow *lw = data;
 
 	lw->bar = NULL;
-/* 
+/*
     do not call layout_util_sync_views(lw) here
     this is called either when whole layout is destroyed - no need for update
     or when the bar is replaced - sync is called by upper function at the end of whole operation
@@ -2482,7 +2482,7 @@ void layout_bar_set(LayoutWindow *lw, GtkWidget *bar)
 
 
 //	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->bar, FALSE, FALSE, 0);
-	gtk_paned_pack2(GTK_PANED(lw->utility_paned), lw->bar, FALSE, TRUE); 
+	gtk_paned_pack2(GTK_PANED(lw->utility_paned), lw->bar, FALSE, TRUE);
 
 	bar_set_fd(lw->bar, layout_image_get_fd(lw));
 }
@@ -2532,7 +2532,7 @@ static void layout_bar_sort_destroyed(GtkWidget *widget, gpointer data)
 
 	lw->bar_sort = NULL;
 
-/* 
+/*
     do not call layout_util_sync_views(lw) here
     this is called either when whole layout is destroyed - no need for update
     or when the bar is replaced - sync is called by upper function at the end of whole operation
@@ -2615,7 +2615,7 @@ GtkWidget *layout_bars_prepare(LayoutWindow *lw, GtkWidget *image)
 	lw->utility_paned = gtk_hpaned_new();
 	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->utility_paned, TRUE, TRUE, 0);
 
-	gtk_paned_pack1(GTK_PANED(lw->utility_paned), image, TRUE, FALSE); 
+	gtk_paned_pack1(GTK_PANED(lw->utility_paned), image, TRUE, FALSE);
 	gtk_widget_show(lw->utility_paned);
 	
 	gtk_widget_show(image);
@@ -2638,7 +2638,7 @@ static void layout_exif_window_destroy(GtkWidget *widget, gpointer data)
 
 void layout_exif_window_new(LayoutWindow *lw)
 {
-	if (lw->exif_window) return; 
+	if (lw->exif_window) return;
 	
 	lw->exif_window = advanced_exif_new();
 	if (!lw->exif_window) return;

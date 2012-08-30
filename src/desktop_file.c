@@ -69,7 +69,7 @@ static gboolean editor_window_save(EditorWindow *ew)
 	gboolean ret = TRUE;
 	const gchar *name = gtk_entry_get_text(GTK_ENTRY(ew->entry));
 	
-	if (!name || !name[0]) 
+	if (!name || !name[0])
 		{
 		file_util_warning_dialog(_("Can't save"), _("Please specify file name."), GTK_STOCK_DIALOG_ERROR, NULL);
 		return FALSE;
@@ -87,7 +87,7 @@ static gboolean editor_window_save(EditorWindow *ew)
 		ret = FALSE;
 		}
 
-	if (ret && !g_file_set_contents(path, text, -1, &error)) 
+	if (ret && !g_file_set_contents(path, text, -1, &error))
 		{
 		file_util_warning_dialog(_("Can't save"), error->message, GTK_STOCK_DIALOG_ERROR, NULL);
 		g_error_free(error);
@@ -99,7 +99,7 @@ static gboolean editor_window_save(EditorWindow *ew)
 	g_free(text);
 	layout_editors_reload_start();
 	/* idle function is not needed, everything should be cached */
-	layout_editors_reload_finish(); 
+	layout_editors_reload_finish();
 	return ret;
 }
 
@@ -297,7 +297,7 @@ static void editor_list_window_delete_dlg_ok_cb(GenericDialog *gd, gpointer data
 		/* refresh list */
 		layout_editors_reload_start();
 		/* idle function is not needed, everything should be cached */
-		layout_editors_reload_finish(); 
+		layout_editors_reload_finish();
 		}
 
 	editor_list_window_delete_dlg_cancel(gd, data);
@@ -306,10 +306,10 @@ static void editor_list_window_delete_dlg_ok_cb(GenericDialog *gd, gpointer data
 static void editor_list_window_delete_cb(GtkWidget *widget, gpointer data)
 {
 	EditorListWindow *ewl = data;
-	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view)); 
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view));
 	GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected(sel, NULL, &iter)) 
+	if (gtk_tree_selection_get_selected(sel, NULL, &iter))
 		{
 		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(ewl->view));
 		gchar *path;
@@ -351,10 +351,10 @@ static void editor_list_window_delete_cb(GtkWidget *widget, gpointer data)
 static void editor_list_window_edit_cb(GtkWidget *widget, gpointer data)
 {
 	EditorListWindow *ewl = data;
-	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view)); 
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view));
 	GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected(sel, NULL, &iter)) 
+	if (gtk_tree_selection_get_selected(sel, NULL, &iter))
 		{
 		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(ewl->view));
 		gchar *path;
@@ -363,7 +363,7 @@ static void editor_list_window_edit_cb(GtkWidget *widget, gpointer data)
 		gtk_tree_model_get(store, &iter,
 				   DESKTOP_FILE_COLUMN_PATH, &path,
 				   DESKTOP_FILE_COLUMN_KEY, &key, -1);
-		editor_window_new(path, key);	
+		editor_window_new(path, key);
 		g_free(key);
 		g_free(path);
 		}
@@ -377,10 +377,10 @@ static void editor_list_window_new_cb(GtkWidget *widget, gpointer data)
 static void editor_list_window_selection_changed_cb(GtkWidget *widget, gpointer data)
 {
 	EditorListWindow *ewl = data;
-	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view)); 
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view));
 	GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected(sel, NULL, &iter)) 
+	if (gtk_tree_selection_get_selected(sel, NULL, &iter))
 		{
 		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(ewl->view));
 		gchar *path;
@@ -528,7 +528,7 @@ static void editor_list_window_create(void)
 	gtk_tree_view_column_add_attribute(column, renderer, "text", DESKTOP_FILE_COLUMN_HIDDEN);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(ewl->view), column);
 	gtk_tree_view_column_set_sort_column_id(column, DESKTOP_FILE_COLUMN_HIDDEN);
-	gtk_tree_view_column_set_alignment(column, 0.5); 
+	gtk_tree_view_column_set_alignment(column, 0.5);
 
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, _("Desktop file"));

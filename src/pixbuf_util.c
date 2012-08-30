@@ -175,7 +175,7 @@ gboolean register_theme_icon_as_stock(const gchar *key, const gchar *icon)
                            64, /* size */
                            0,  /* flags */
                            &error);
-	if (!pixbuf) 
+	if (!pixbuf)
 		{
 		if (error)
 			{

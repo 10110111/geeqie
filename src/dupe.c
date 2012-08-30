@@ -2210,7 +2210,7 @@ static void dupe_menu_popup_destroy_cb(GtkWidget *widget, gpointer data)
 	GList *editmenu_fd_list = data;
 
 	filelist_free(editmenu_fd_list);
-}	
+}
 
 static GList *dupe_window_get_fd_list(DupeWindow *dw)
 {

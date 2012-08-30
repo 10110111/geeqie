@@ -204,7 +204,7 @@ struct _ConfOptions
 			gboolean fs_flip_left;
 			gboolean fs_swap;
 			gboolean fs_temp_disable;
-		} tmp; 
+		} tmp;
 	} stereo;
 };
 

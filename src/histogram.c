@@ -184,7 +184,7 @@ static gboolean histmap_read(HistMap *histmap, gboolean whole)
 			}
 		}
 	histmap->y = end_line;
-	return end_line >= h;	
+	return end_line >= h;
 }
 
 const HistMap *histmap_get(FileData *fd)
@@ -320,7 +320,7 @@ gboolean histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf 
 		for (j = 0; j < num_chan; j++)
 			{
 			gint chanmax;
-			if (histogram->histogram_channel == HCHAN_RGB) 
+			if (histogram->histogram_channel == HCHAN_RGB)
 				{
 				chanmax = HCHAN_R;
 				if (v[HCHAN_G] > v[HCHAN_R]) chanmax = HCHAN_G;

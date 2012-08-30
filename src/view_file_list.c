@@ -1160,7 +1160,7 @@ gint vflist_index_by_fd(ViewFile *vf, FileData *fd)
 		while (work2)
 			{
 			/* FIXME: return the same index also for sidecars
-			   it is sufficient for next/prev navigation but it should be rewritten 
+			   it is sufficient for next/prev navigation but it should be rewritten
 			   without using indexes at all
 			*/
 			FileData *sidecar_fd = work2->data;
@@ -1971,7 +1971,7 @@ void vflist_thumb_set(ViewFile *vf, gboolean enable)
 	   - no need to re-read the directory
 	   - force update because the formatted string has changed
 	*/
-	if (vf->layout) 
+	if (vf->layout)
 		{
 		vflist_populate_view(vf, TRUE);
 		gtk_tree_view_columns_autosize(GTK_TREE_VIEW(vf->listview));

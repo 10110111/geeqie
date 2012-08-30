@@ -811,7 +811,7 @@ static gdouble vf_thumb_progress(ViewFile *vf)
 }
 
 static void vf_set_thumb_fd(ViewFile *vf, FileData *fd)
-{	
+{
 	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_set_thumb_fd(vf, fd); break;

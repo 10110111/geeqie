@@ -774,7 +774,7 @@ void layout_image_scroll(LayoutWindow *lw, gint x, gint y, gboolean connect_scro
 
 	if (lw->full_screen && lw->image != lw->full_screen->imd)
 		{
-		image_scroll(lw->full_screen->imd, x, y); 
+		image_scroll(lw->full_screen->imd, x, y);
 		}
 
 	if (!connect_scroll) return;
@@ -806,7 +806,7 @@ void layout_image_zoom_adjust(LayoutWindow *lw, gdouble increment, gboolean conn
 
 	if (lw->full_screen && lw->image != lw->full_screen->imd)
 		{
-		image_zoom_adjust(lw->full_screen->imd, increment); 
+		image_zoom_adjust(lw->full_screen->imd, increment);
 		}
 
 	if (!connect_zoom) return;
@@ -827,7 +827,7 @@ void layout_image_zoom_adjust_at_point(LayoutWindow *lw, gdouble increment, gint
 
 	if (lw->full_screen && lw->image != lw->full_screen->imd)
 		{
-		image_zoom_adjust_at_point(lw->full_screen->imd, increment, x, y); 
+		image_zoom_adjust_at_point(lw->full_screen->imd, increment, x, y);
 		}
 
 	if (!connect_zoom) return;
@@ -848,7 +848,7 @@ void layout_image_zoom_set(LayoutWindow *lw, gdouble zoom, gboolean connect_zoom
 
 	if (lw->full_screen && lw->image != lw->full_screen->imd)
 		{
-		image_zoom_set(lw->full_screen->imd, zoom); 
+		image_zoom_set(lw->full_screen->imd, zoom);
 		}
 
 	if (!connect_zoom) return;
@@ -869,7 +869,7 @@ void layout_image_zoom_set_fill_geometry(LayoutWindow *lw, gboolean vertical, gb
 
 	if (lw->full_screen && lw->image != lw->full_screen->imd)
 		{
-		image_zoom_set_fill_geometry(lw->full_screen->imd, vertical); 
+		image_zoom_set_fill_geometry(lw->full_screen->imd, vertical);
 		}
 
 	if (!connect_zoom) return;
@@ -1485,7 +1485,7 @@ static void layout_image_drag_cb(ImageWindow *imd, GdkEventButton *event, gdoubl
 	LayoutWindow *lw = data;
 	gdouble sx, sy;
 
-	if (lw->full_screen && lw->image != lw->full_screen->imd && 
+	if (lw->full_screen && lw->image != lw->full_screen->imd &&
 	    imd != lw->full_screen->imd)
 		{
 		if (event->state & GDK_CONTROL_MASK)
@@ -1611,7 +1611,7 @@ void layout_status_update_pixel_cb(PixbufRenderer *pr, gpointer data)
 		gint r_mouse, g_mouse, b_mouse;
 			
 		pixbuf_renderer_get_pixel_colors(pr, x_pixel, y_pixel,
-						 &r_mouse, &g_mouse, &b_mouse);			
+						 &r_mouse, &g_mouse, &b_mouse);
 		
 		text = g_strdup_printf(_("[%*d,%*d]: RGB(%3d,%3d,%3d)"),
 					 num_length(width - 1), x_pixel,
@@ -1939,7 +1939,7 @@ static void layout_image_maint_removed(LayoutWindow *lw, FileData *fd)
 			layout_image_set_fd(lw, NULL);
 			}
 			
-		/* the image will be set to the next image from the list soon,  
+		/* the image will be set to the next image from the list soon,
 		   setting it to NULL here is not necessary*/
 		}
 }

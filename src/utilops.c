@@ -571,7 +571,7 @@ static gint file_util_perform_ci_cb(gpointer resume_data, EditorFlags flags, GLi
 
 		if (!EDITOR_ERRORS(flags)) /* files were successfully deleted, call the maint functions */
 			{
-			if (ud->with_sidecars) 
+			if (ud->with_sidecars)
 				file_data_sc_apply_ci(fd);
 			else
 				file_data_apply_ci(fd);
@@ -584,7 +584,7 @@ static gint file_util_perform_ci_cb(gpointer resume_data, EditorFlags flags, GLi
 			ud->finalize_func(fd);
 			}
 
-		if (ud->with_sidecars) 
+		if (ud->with_sidecars)
 			file_data_sc_free_ci(fd);
 		else
 			file_data_free_ci(fd);
@@ -611,7 +611,7 @@ static gboolean file_util_perform_ci_internal(gpointer data)
 {
 	UtilityData *ud = data;
 
-	if (!ud->perform_idle_id) 
+	if (!ud->perform_idle_id)
 		{
 		/* this function was called directly
 		   just setup idle callback and wait until we are called again
@@ -633,7 +633,7 @@ static gboolean file_util_perform_ci_internal(gpointer data)
 		gboolean last = !ud->flist->next;
 		EditorFlags status = EDITOR_ERROR_STATUS;
 	
-		if (ud->with_sidecars ? file_data_sc_perform_ci(single_entry->data) 
+		if (ud->with_sidecars ? file_data_sc_perform_ci(single_entry->data)
 		                      : file_data_perform_ci(single_entry->data))
 			status = 0; /* OK */
 		
@@ -1741,7 +1741,7 @@ static void file_util_details_dialog_exclude(GenericDialog *gd, gpointer data, g
 	if (discard && ud->discard_func) ud->discard_func(fd);
 	
 	/* all files were excluded, this has the same effect as pressing the cancel button in the confirmation dialog*/
-	if (!ud->flist) 
+	if (!ud->flist)
 		{
 		/* both dialogs will be closed anyway, the signals would cause duplicate calls */
 		g_signal_handlers_disconnect_by_func(ud->gd->dialog, G_CALLBACK(file_util_details_dialog_close_cb), gd->dialog);
@@ -2619,7 +2619,7 @@ static void file_util_rename_dir_full(FileData *fd, const gchar *new_path, GtkWi
 	ud = file_util_data_new(UTILITY_TYPE_RENAME_FOLDER);
 
 	ud->phase = phase;
-	ud->with_sidecars = TRUE; /* does not matter, the directory should not have sidecars 
+	ud->with_sidecars = TRUE; /* does not matter, the directory should not have sidecars
 	                            and the content must be handled including sidecars */
 
 	ud->dir_fd = file_data_ref(fd);
@@ -2651,7 +2651,7 @@ static void file_util_rename_dir_full(FileData *fd, const gchar *new_path, GtkWi
 
 static void file_util_create_dir_full(FileData *fd, const gchar *dest_path, GtkWidget *parent, UtilityPhase phase, FileUtilDoneFunc done_func, gpointer done_data)
 {
-	UtilityData *ud; 
+	UtilityData *ud;
 
 	ud = file_util_data_new(UTILITY_TYPE_CREATE_FOLDER);
 
@@ -2742,7 +2742,7 @@ static gboolean file_util_write_metadata_first(UtilityType type, UtilityPhase ph
 		FileData *fd = work->data;
 		work = work->next;
 		
-		if (fd->change) 
+		if (fd->change)
 			{
 			filelist_free(unsaved);
 			return FALSE; /* another op. in progress, let the caller handle it */
@@ -2782,7 +2782,7 @@ void file_util_delete(FileData *source_fd, GList *source_list, GtkWidget *parent
 
 void file_util_write_metadata(FileData *source_fd, GList *source_list, GtkWidget *parent, gboolean force_dialog, FileUtilDoneFunc done_func, gpointer done_data)
 {
-	file_util_write_metadata_full(source_fd, source_list, parent, 
+	file_util_write_metadata_full(source_fd, source_list, parent,
 	                              ((options->metadata.save_in_image_file && options->metadata.confirm_write) || force_dialog) ? UTILITY_PHASE_START : UTILITY_PHASE_ENTERING,
 	                              done_func, done_data);
 }

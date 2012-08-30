@@ -592,7 +592,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	if (with_hist)
 		{
 		histmap = histmap_get(imd->image_fd);
-		if (!histmap) 
+		if (!histmap)
 			{
 			histmap_start_idle(imd->image_fd);
 			with_hist = FALSE;
@@ -856,7 +856,7 @@ static gboolean image_osd_update_cb(gpointer data)
 
 	if (osd->show & OSD_SHOW_INFO)
 		{
-		/* redraw when the image was changed, 
+		/* redraw when the image was changed,
 		   with histogram we have to redraw also when loading is finished */
 		if (osd->changed_states & IMAGE_STATE_IMAGE ||
 		    (osd->changed_states & IMAGE_STATE_LOADING && osd->show & OSD_SHOW_HISTOGRAM) ||

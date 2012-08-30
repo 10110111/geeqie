@@ -698,7 +698,7 @@ void exit_program(void)
 	exit_program_final();
 }
 
-/* This code is supposed to handle situation when a file mmaped by image_loader 
+/* This code is supposed to handle situation when a file mmaped by image_loader
  * or by exif loader is truncated by some other process.
  * This is probably not completely correct according to posix, because
  * mmap is not in the list of calls that can be used safely in signal handler,
@@ -772,7 +772,7 @@ gint main(gint argc, gchar *argv[])
 	gtkrc_load();
 
 	parse_command_line_for_debug_option(argc, argv);
-	DEBUG_1("%s main: gtk_init", get_exec_time());	 
+	DEBUG_1("%s main: gtk_init", get_exec_time());
 #ifdef HAVE_CLUTTER
 	if (gtk_clutter_init(&argc, &argv) != CLUTTER_INIT_SUCCESS)
 		{
@@ -793,17 +793,17 @@ gint main(gint argc, gchar *argv[])
 		log_printf("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
 		}
 
-	DEBUG_1("%s main: pixbuf_inline_register_stock_icons", get_exec_time());	 
+	DEBUG_1("%s main: pixbuf_inline_register_stock_icons", get_exec_time());
 	pixbuf_inline_register_stock_icons();
 
-	DEBUG_1("%s main: setting default options before commandline handling", get_exec_time());	 
+	DEBUG_1("%s main: setting default options before commandline handling", get_exec_time());
 	options = init_options(NULL);
 	setup_default_options(options);
 
-	DEBUG_1("%s main: parse_command_line", get_exec_time());	 
+	DEBUG_1("%s main: parse_command_line", get_exec_time());
 	parse_command_line(argc, argv);
 
-	DEBUG_1("%s main: mkdir_if_not_exists", get_exec_time());	 
+	DEBUG_1("%s main: mkdir_if_not_exists", get_exec_time());
 	/* these functions don't depend on config file */
 	mkdir_if_not_exists(get_rc_dir());
 	mkdir_if_not_exists(get_collections_dir());
@@ -818,16 +818,16 @@ gint main(gint argc, gchar *argv[])
 	/* restore session from the config file */
 
 
-	DEBUG_1("%s main: load_options", get_exec_time());	 
+	DEBUG_1("%s main: load_options", get_exec_time());
 	if (!load_options(options))
 		{
 		/* load_options calls these functions after it parses global options, we have to call it here if it fails */
 		filter_add_defaults();
-		filter_rebuild(); 
+		filter_rebuild();
 		}
 
 	/* handle missing config file and commandline additions*/
-	if (!layout_window_list) 
+	if (!layout_window_list)
 		{
 		/* broken or no config file */
 		layout_new_from_config(NULL, NULL, TRUE);
@@ -912,7 +912,7 @@ gint main(gint argc, gchar *argv[])
 	remote_connection = remote_server_init(buf, cd);
 	g_free(buf);
 	
-	DEBUG_1("%s main: gtk_main", get_exec_time());	 
+	DEBUG_1("%s main: gtk_main", get_exec_time());
 	gtk_main();
 #ifdef HAVE_GTHREAD
 	gdk_threads_leave();

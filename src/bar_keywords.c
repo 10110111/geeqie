@@ -110,7 +110,7 @@ struct _PaneKeywordsData
 	gboolean collapse_unchecked;
 	gboolean hide_unchecked;
 
-	guint idle_id; /* event source id */	
+	guint idle_id; /* event source id */
 	FileData *fd;
 	gchar *key;
 };
@@ -291,7 +291,7 @@ static void bar_pane_keywords_keyword_toggle(GtkCellRendererToggle *toggle, cons
 	gtk_tree_model_filter_convert_iter_to_child_iter(GTK_TREE_MODEL_FILTER(model), &child_iter, &iter);
 
 	list = keyword_list_pull(pkd->keyword_view);
-	if (active) 
+	if (active)
 		keyword_tree_set(keyword_tree, &child_iter, &list);
 	else
 		keyword_tree_reset(keyword_tree, &child_iter, &list);
@@ -406,7 +406,7 @@ static void bar_pane_keywords_populate_popup_cb(GtkTextView *textview, GtkMenu *
 static void bar_pane_keywords_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneKeywordsData *pkd = data;
-	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == pkd->fd) 
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == pkd->fd)
 		{
 		DEBUG_1("Notify pane_keywords: %s %04x", fd->path, type);
 		bar_pane_keywords_update(pkd);
@@ -463,7 +463,7 @@ static void bar_pane_keywords_dnd_get(GtkWidget *tree_view, GdkDragContext *cont
 	GtkTreeIter child_iter;
 	GtkTreeModel *keyword_tree;
 
-	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view)); 
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 
         if (!gtk_tree_selection_get_selected(sel, &model, &iter)) return;
 
@@ -499,7 +499,7 @@ static void bar_pane_keywords_dnd_begin(GtkWidget *tree_view, GdkDragContext *co
 	GtkTreeModel *keyword_tree;
 	gchar *name;
 
-	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view)); 
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 
         if (!gtk_tree_selection_get_selected(sel, &model, &iter)) return;
 
@@ -523,7 +523,7 @@ static gboolean bar_pane_keywords_dnd_can_move(GtkTreeModel *keyword_tree, GtkTr
 	gchar *src_name;
 	GtkTreeIter parent;
 	
-	if (dest_kw_iter && keyword_same_parent(keyword_tree, src_kw_iter, dest_kw_iter)) 
+	if (dest_kw_iter && keyword_same_parent(keyword_tree, src_kw_iter, dest_kw_iter))
 		{
 		return TRUE; /* reordering of siblings is ok */
 		}
@@ -1220,8 +1220,8 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 }
 
 
-static gboolean bar_pane_keywords_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data) 
-{ 
+static gboolean bar_pane_keywords_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+{
 	PaneKeywordsData *pkd = data;
 	if (bevent->button == MOUSE_BUTTON_RIGHT)
 		{
@@ -1229,7 +1229,7 @@ static gboolean bar_pane_keywords_menu_cb(GtkWidget *widget, GdkEventButton *bev
 		return TRUE;
 		}
 	return FALSE;
-} 
+}
 
 /*
  *-------------------------------------------------------------------
@@ -1400,7 +1400,7 @@ static GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, con
 	g_signal_connect(G_OBJECT(pkd->keyword_treeview), "drag_motion",
 			 G_CALLBACK(bar_pane_keywords_dnd_motion), pkd);
 
-	g_signal_connect(G_OBJECT(pkd->keyword_treeview), "button_release_event", 
+	g_signal_connect(G_OBJECT(pkd->keyword_treeview), "button_release_event",
 			 G_CALLBACK(bar_pane_keywords_menu_cb), pkd);
 	
 	gtk_container_add(GTK_CONTAINER(scrolled), pkd->keyword_treeview);

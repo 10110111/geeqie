@@ -40,7 +40,7 @@ struct _KnownPanes
 	const gchar *config;
 };
 
-static const gchar default_config_histogram[] = 
+static const gchar default_config_histogram[] =
 "<gq>"
 "    <layout id = '_current_'>"
 "        <bar>"
@@ -49,7 +49,7 @@ static const gchar default_config_histogram[] =
 "    </layout>"
 "</gq>";
 
-static const gchar default_config_title[] = 
+static const gchar default_config_title[] =
 "<gq>"
 "    <layout id = '_current_'>"
 "        <bar>"
@@ -58,7 +58,7 @@ static const gchar default_config_title[] =
 "    </layout>"
 "</gq>";
 
-static const gchar default_config_keywords[] = 
+static const gchar default_config_keywords[] =
 "<gq>"
 "    <layout id = '_current_'>"
 "        <bar>"
@@ -67,7 +67,7 @@ static const gchar default_config_keywords[] =
 "    </layout>"
 "</gq>";
 
-static const gchar default_config_comment[] = 
+static const gchar default_config_comment[] =
 "<gq>"
 "    <layout id = '_current_'>"
 "        <bar>"
@@ -76,7 +76,7 @@ static const gchar default_config_comment[] =
 "    </layout>"
 "</gq>";
 
-static const gchar default_config_exif[] = 
+static const gchar default_config_exif[] =
 "<gq>"
 "    <layout id = '_current_'>"
 "        <bar>"
@@ -102,7 +102,7 @@ static const gchar default_config_exif[] =
 "    </layout>"
 "</gq>";
 
-static const gchar default_config_file_info[] = 
+static const gchar default_config_file_info[] =
 "<gq>"
 "    <layout id = '_current_'>"
 "        <bar>"
@@ -115,7 +115,7 @@ static const gchar default_config_file_info[] =
 "    </layout>"
 "</gq>";
 
-static const gchar default_config_location[] = 
+static const gchar default_config_location[] =
 "<gq>"
 "    <layout id = '_current_'>"
 "        <bar>"
@@ -132,7 +132,7 @@ static const gchar default_config_location[] =
 "    </layout>"
 "</gq>";
 
-static const gchar default_config_copyright[] = 
+static const gchar default_config_copyright[] =
 "<gq>"
 "    <layout id = '_current_'>"
 "        <bar>"
@@ -147,7 +147,7 @@ static const gchar default_config_copyright[] =
 
 #ifdef HAVE_LIBCHAMPLAIN
 #ifdef HAVE_LIBCHAMPLAIN_GTK
-static const gchar default_config_gps[] = 
+static const gchar default_config_gps[] =
 "<gq>"
 "    <layout id = '_current_'>"
 "        <bar>"
@@ -276,10 +276,10 @@ static void bar_menu_popup(GtkWidget *widget)
 	BarData *bd;
 
 	bd = g_object_get_data(G_OBJECT(widget), "bar_data");
-	if (bd) 
+	if (bd)
 		{
 		expander = NULL;
-		bar = widget; 
+		bar = widget;
 		}
 	else
 		{
@@ -315,15 +315,15 @@ static void bar_menu_popup(GtkWidget *widget)
 }
 
 
-static gboolean bar_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data) 
-{ 
+static gboolean bar_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+{
 	if (bevent->button == MOUSE_BUTTON_RIGHT)
 		{
 		bar_menu_popup(widget);
 		return TRUE;
 		}
 	return FALSE;
-} 
+}
 
 
 static void bar_pane_set_fd_cb(GtkWidget *expander, gpointer data)
@@ -464,7 +464,7 @@ void bar_write_config(GtkWidget *bar, GString *outstr, gint indent)
 	indent++;
 	WRITE_NL(); WRITE_STRING("<clear/>");
 
-	list = gtk_container_get_children(GTK_CONTAINER(bd->vbox));	
+	list = gtk_container_get_children(GTK_CONTAINER(bd->vbox));
 	work = list;
 	while (work)
 		{
@@ -517,7 +517,7 @@ void bar_add(GtkWidget *bar, GtkWidget *pane)
 		
 	gtk_box_pack_start(GTK_BOX(bd->vbox), expander, FALSE, TRUE, 0);
 	
-	g_signal_connect(expander, "button_release_event", G_CALLBACK(bar_menu_cb), bd); 
+	g_signal_connect(expander, "button_release_event", G_CALLBACK(bar_menu_cb), bd);
 	
 	gtk_container_add(GTK_CONTAINER(expander), pane);
 	
@@ -578,7 +578,7 @@ static void bar_destroy(GtkWidget *widget, gpointer data)
 }
 
 #ifdef HAVE_LIBCHAMPLAIN_GTK
-/* 
+/*
    FIXME: this is an ugly hack that works around this bug:
    https://bugzilla.gnome.org/show_bug.cgi?id=590692
    http://bugzilla.openedhand.com/show_bug.cgi?id=1751
@@ -610,7 +610,7 @@ GtkWidget *bar_new(LayoutWindow *lw)
 	g_signal_connect(G_OBJECT(bd->widget), "size-allocate",
 			 G_CALLBACK(bar_size_allocate), bd);
 
-	g_signal_connect(G_OBJECT(bd->widget), "button_release_event", G_CALLBACK(bar_menu_cb), bd); 
+	g_signal_connect(G_OBJECT(bd->widget), "button_release_event", G_CALLBACK(bar_menu_cb), bd);
 
 	bd->width = SIDEBAR_DEFAULT_WIDTH;
 	gtk_widget_set_size_request(bd->widget, bd->width, -1);
@@ -639,7 +639,7 @@ GtkWidget *bar_new(LayoutWindow *lw)
 	gtk_viewport_set_shadow_type(GTK_VIEWPORT(gtk_bin_get_child(GTK_BIN(scrolled))), GTK_SHADOW_NONE);
 
 #ifdef HAVE_LIBCHAMPLAIN_GTK
-	g_signal_connect(G_OBJECT(gtk_bin_get_child(GTK_BIN(scrolled))), "unrealize", G_CALLBACK(bar_unrealize_clutter_fix_cb), NULL); 
+	g_signal_connect(G_OBJECT(gtk_bin_get_child(GTK_BIN(scrolled))), "unrealize", G_CALLBACK(bar_unrealize_clutter_fix_cb), NULL);
 #endif
 
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_NONE);
@@ -666,7 +666,7 @@ GtkWidget *bar_update_from_config(GtkWidget *bar, const gchar **attribute_names,
 		}
 	
 	gtk_widget_set_size_request(bar, width, -1);
-	if (enabled) 
+	if (enabled)
 		{
 		gtk_widget_show(bar);
 		}

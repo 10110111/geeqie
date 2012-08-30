@@ -257,7 +257,7 @@ static void bar_pane_exif_update(PaneExifData *ped)
 
 	ped->all_hidden = TRUE;
 
-	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));	
+	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));
 	work = list;
 	while (work)
 		{
@@ -293,7 +293,7 @@ gint bar_pane_exif_event(GtkWidget *bar, GdkEvent *event)
 	ped = g_object_get_data(G_OBJECT(bar), "pane_data");
 	if (!ped) return FALSE;
 
-	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));	
+	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));
 	work = list;
 	while (!ret && work)
 		{
@@ -310,7 +310,7 @@ gint bar_pane_exif_event(GtkWidget *bar, GdkEvent *event)
 static void bar_pane_exif_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneExifData *ped = data;
-	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == ped->fd) 
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == ped->fd)
 		{
 		DEBUG_1("Notify pane_exif: %s %04x", fd->path, type);
 		bar_pane_exif_update(ped);
@@ -385,7 +385,7 @@ static void bar_pane_exif_dnd_receive(GtkWidget *pane, GdkDragContext *context,
 			break;
 		}
 
-	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));	
+	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));
 	work = list;
 	pos = 0;
 	while (work)
@@ -474,7 +474,7 @@ static void bar_pane_exif_edit_ok_cb(GenericDialog *gd, gpointer data)
 
 	if (ped)
 		{
-		bar_pane_exif_add_entry(ped, 
+		bar_pane_exif_add_entry(ped,
 					gtk_entry_get_text(GTK_ENTRY(cdd->key_entry)),
 					gtk_entry_get_text(GTK_ENTRY(cdd->title_entry)),
 					cdd->if_set, cdd->editable);
@@ -627,8 +627,8 @@ static void bar_pane_exif_menu_popup(GtkWidget *widget, PaneExifData *ped)
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
 }
 
-static gboolean bar_pane_exif_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data) 
-{ 
+static gboolean bar_pane_exif_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+{
 	PaneExifData *ped = data;
 	if (bevent->button == MOUSE_BUTTON_RIGHT)
 		{
@@ -636,7 +636,7 @@ static gboolean bar_pane_exif_menu_cb(GtkWidget *widget, GdkEventButton *bevent,
 		return TRUE;
 		}
 	return FALSE;
-} 
+}
 
 
 
@@ -668,7 +668,7 @@ static void bar_pane_exif_write_config(GtkWidget *pane, GString *outstr, gint in
 	WRITE_STRING(">");
 	indent++;
 	
-	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));	
+	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));
 	work = list;
 	while (work)
 		{

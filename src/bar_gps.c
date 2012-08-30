@@ -294,7 +294,7 @@ static void bar_pane_gps_update(PaneGPSData *pgd)
 		else
 			{
 			return;
-			}		
+			}
 		}
 
 	/* Delete any markers currently displayed
@@ -522,8 +522,8 @@ static void bar_pane_gps_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneGPSData *pgd = data;
 	
-	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && 
-	    g_list_find(pgd->selection_list, fd)) 
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) &&
+	    g_list_find(pgd->selection_list, fd))
 		{
 		bar_pane_gps_update(pgd);
 		}
@@ -562,11 +562,11 @@ static GtkWidget *bar_pane_gps_menu(PaneGPSData *pgd)
 		{
 		map_desc = (ChamplainMapSourceDesc *)(map_list->data);
 		
-		menu_item_add_radio(menu, 
+		menu_item_add_radio(menu,
 		                    champlain_map_source_desc_get_name(map_desc),
-		                    (gpointer)champlain_map_source_desc_get_id(map_desc), 
-		                    strcmp(champlain_map_source_desc_get_id(map_desc), current) == 0, 
-		                    G_CALLBACK(bar_pane_gps_change_map_cb), pgd); 
+		                    (gpointer)champlain_map_source_desc_get_id(map_desc),
+		                    strcmp(champlain_map_source_desc_get_id(map_desc), current) == 0,
+		                    G_CALLBACK(bar_pane_gps_change_map_cb), pgd);
 		
 		map_list = g_slist_next(map_list);
 		}

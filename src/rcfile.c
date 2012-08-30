@@ -49,7 +49,7 @@ void write_indent(GString *str, gint indent)
 
 void write_char_option(GString *str, gint indent, const gchar *label, const gchar *text)
 {
-	/* this is needed for overlay string, because g_markup_escape_text does not handle \n and such, 
+	/* this is needed for overlay string, because g_markup_escape_text does not handle \n and such,
 	   ideas for improvement are welcome
 	*/
 	static const unsigned char no_quote_utf[] = {
@@ -67,7 +67,7 @@ void write_char_option(GString *str, gint indent, const gchar *label, const gcha
 		'"',  0 /* '"' is handled in g_markup_escape_text */
 	};
 
-	gchar *escval1 = g_strescape(text ? text : "", (gchar *) no_quote_utf); 
+	gchar *escval1 = g_strescape(text ? text : "", (gchar *) no_quote_utf);
 	gchar *escval2 = g_markup_escape_text(escval1, -1);
 	g_string_append_printf(str, "%s = \"%s\" ", label, escval2);
 	g_free(escval2);
@@ -381,7 +381,7 @@ static void write_global_attributes(GString *outstr, gint indent)
 
 	/* Metadata Options */
 	WRITE_NL(); WRITE_BOOL(*options, metadata.enable_metadata_dirs);
-	WRITE_NL(); WRITE_BOOL(*options, metadata.save_in_image_file); 
+	WRITE_NL(); WRITE_BOOL(*options, metadata.save_in_image_file);
 	WRITE_NL(); WRITE_BOOL(*options, metadata.save_legacy_IPTC);
 	WRITE_NL(); WRITE_BOOL(*options, metadata.warn_on_write_problems);
 	WRITE_NL(); WRITE_BOOL(*options, metadata.save_legacy_format);
@@ -772,7 +772,7 @@ static void options_parse_filter(GQParserData *parser_data, GMarkupParseContext 
 static void options_parse_filter_end(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, gpointer data, GError **error)
 {
 	if (parser_data->startup) filter_add_defaults();
-	filter_rebuild(); 
+	filter_rebuild();
 }
 
 static void options_parse_keyword_end(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, gpointer data, GError **error)
@@ -1055,7 +1055,7 @@ static void options_parse_toplevel(GQParserData *parser_data, GMarkupParseContex
 		{
 		LayoutWindow *lw;
 		lw = layout_find_by_layout_id(options_get_id(attribute_names, attribute_values));
-		if (lw) 
+		if (lw)
 			{
 			layout_update_from_config(lw, attribute_names, attribute_values);
 			}
@@ -1118,10 +1118,10 @@ static void start_element(GMarkupParseContext *context,
 			  const gchar **attribute_names,
 			  const gchar **attribute_values,
 			  gpointer user_data,
-			  GError **error) 
+			  GError **error)
 {
 	GQParserData *parser_data = user_data;
-	GQParserFuncData *func = parser_data->parse_func_stack->data; 
+	GQParserFuncData *func = parser_data->parse_func_stack->data;
 	DEBUG_2("start %s", element_name);
 	
 	if (func->start_func)
@@ -1131,10 +1131,10 @@ static void start_element(GMarkupParseContext *context,
 static void end_element(GMarkupParseContext *context,
 			  const gchar *element_name,
 			  gpointer user_data,
-			  GError **error) 
+			  GError **error)
 {
 	GQParserData *parser_data = user_data;
-	GQParserFuncData *func = parser_data->parse_func_stack->data; 
+	GQParserFuncData *func = parser_data->parse_func_stack->data;
 	DEBUG_2("end %s", element_name);
 
 	if (func->end_func)
@@ -1188,7 +1188,7 @@ gboolean load_config_from_file(const gchar *utf8_path, gboolean startup)
 	gchar *buf;
 	gboolean ret = TRUE;
 
-	if (g_file_get_contents(utf8_path, &buf, &size, NULL) == FALSE) 
+	if (g_file_get_contents(utf8_path, &buf, &size, NULL) == FALSE)
 		{
 		return FALSE;
 		}

@@ -189,11 +189,11 @@ static void rc_prepare_post_process_lut(RendererClutter *rc)
 	
 	DEBUG_0("%s clut start", get_exec_time());
 
-	for (r = 0; r < CLUT_SIZE; r++) 
+	for (r = 0; r < CLUT_SIZE; r++)
 		{
-		for (g = 0; g < CLUT_SIZE; g++) 
+		for (g = 0; g < CLUT_SIZE; g++)
 			{
-			for (b = 0; b < CLUT_SIZE; b++) 
+			for (b = 0; b < CLUT_SIZE; b++)
 				{
 				guchar *ptr = clut + ((b * CLUT_SIZE + g) * CLUT_SIZE + r) * 3;
 				ptr[0] = floor ((double) r / (CLUT_SIZE - 1) * 255.0 + 0.5);
@@ -257,7 +257,7 @@ static void rc_sync_actor(RendererClutter *rc)
 	DEBUG_0("scale %d %d", rc->pr->width, rc->pr->height);
 	DEBUG_0("pos   %d %d", rc->pr->x_offset, rc->pr->y_offset);
 	
-	clutter_actor_set_scale(CLUTTER_ACTOR(rc->texture), 
+	clutter_actor_set_scale(CLUTTER_ACTOR(rc->texture),
 			        (gfloat)pr->width / pr->image_width,
 			        (gfloat)pr->height / pr->image_height);
 			        
@@ -354,8 +354,8 @@ static void rc_sync_actor(RendererClutter *rc)
 			break;
 		}
 	
-	clutter_actor_set_position(CLUTTER_ACTOR(rc->texture), 
-				pr->x_offset - pr->x_scroll + anchor_x, 
+	clutter_actor_set_position(CLUTTER_ACTOR(rc->texture),
+				pr->x_offset - pr->x_scroll + anchor_x,
 				pr->y_offset - pr->y_scroll + anchor_y);
 
 }
@@ -393,7 +393,7 @@ static void rc_schedule_texture_upload(RendererClutter *rc)
 {
 	if (g_get_monotonic_time() - rc->last_pixbuf_change < 50000)
 		{
-		/* delay clutter redraw until the texture has some data 
+		/* delay clutter redraw until the texture has some data
 		   set priority between gtk redraw and clutter redraw */
 		DEBUG_0("%s tex upload high prio", get_exec_time());
 		rc->idle_update = g_idle_add_full(CLUTTER_PRIORITY_REDRAW - 10, rc_area_changed_cb, rc, NULL);
@@ -475,7 +475,7 @@ static void rc_area_changed(void *renderer, gint src_x, gint src_y, gint src_w, 
 	gint width = gdk_pixbuf_get_width(pr->pixbuf);
 	gint height = gdk_pixbuf_get_height(pr->pixbuf);
 		
-	if (pr->stereo_data == STEREO_PIXBUF_SBS || pr->stereo_data == STEREO_PIXBUF_CROSS) 
+	if (pr->stereo_data == STEREO_PIXBUF_SBS || pr->stereo_data == STEREO_PIXBUF_CROSS)
 			{
 			width /= 2;
 			}
@@ -491,7 +491,7 @@ static void rc_area_changed(void *renderer, gint src_x, gint src_y, gint src_w, 
 	par->w = src_w;
 	par->h = src_h;
 	rc->pending_updates = g_list_append(rc->pending_updates, par);
-	if (!rc->idle_update) 
+	if (!rc->idle_update)
 		{
 		rc_schedule_texture_upload(rc);
 		}
@@ -530,7 +530,7 @@ static void rc_update_pixbuf(void *renderer, gboolean lazy)
 		
 		gint prev_width, prev_height;
 		
-		if (pr->stereo_data == STEREO_PIXBUF_SBS || pr->stereo_data == STEREO_PIXBUF_CROSS) 
+		if (pr->stereo_data == STEREO_PIXBUF_SBS || pr->stereo_data == STEREO_PIXBUF_CROSS)
 			{
 			width /= 2;
 			}
@@ -737,22 +737,22 @@ static gboolean rc_overlay_get(void *renderer, gint id, GdkPixbuf **pixbuf, gint
 static void rc_update_viewport(void *renderer)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
-	ClutterColor stage_color = { 0x00, 0x00, 0x00, 0xff }; 
+	ClutterColor stage_color = { 0x00, 0x00, 0x00, 0xff };
 
 	rc->stereo_off_x = 0;
 	rc->stereo_off_y = 0;
 	
-	if (rc->stereo_mode & PR_STEREO_RIGHT) 
+	if (rc->stereo_mode & PR_STEREO_RIGHT)
 		{
-		if (rc->stereo_mode & PR_STEREO_HORIZ) 
+		if (rc->stereo_mode & PR_STEREO_HORIZ)
 			{
 			rc->stereo_off_x = rc->pr->viewport_width;
 			}
-		else if (rc->stereo_mode & PR_STEREO_VERT) 
+		else if (rc->stereo_mode & PR_STEREO_VERT)
 			{
 			rc->stereo_off_y = rc->pr->viewport_height;
 			}
-		else if (rc->stereo_mode & PR_STEREO_FIXED) 
+		else if (rc->stereo_mode & PR_STEREO_FIXED)
 			{
 			rc->stereo_off_x = rc->pr->stereo_fixed_x_right;
 			rc->stereo_off_y = rc->pr->stereo_fixed_y_right;
@@ -760,7 +760,7 @@ static void rc_update_viewport(void *renderer)
 		}
 	else
 		{
-		if (rc->stereo_mode & PR_STEREO_FIXED) 
+		if (rc->stereo_mode & PR_STEREO_FIXED)
 			{
 			rc->stereo_off_x = rc->pr->stereo_fixed_x_left;
 			rc->stereo_off_y = rc->pr->stereo_fixed_y_left;
@@ -776,7 +776,7 @@ static void rc_update_viewport(void *renderer)
 	
 	clutter_actor_set_rotation(CLUTTER_ACTOR(rc->group),
 						CLUTTER_Y_AXIS,
-						(rc->stereo_mode & PR_STEREO_MIRROR) ? 180 : 0, 
+						(rc->stereo_mode & PR_STEREO_MIRROR) ? 180 : 0,
 						rc->pr->viewport_width / 2.0, 0, 0);
 
 	clutter_actor_set_rotation(CLUTTER_ACTOR(rc->group),
@@ -871,7 +871,7 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
   			return NULL;
   			}
   		}
-  	else 
+  	else
   		{
   		rc->widget = gtk_clutter_embed_new();
 		gtk_container_add(GTK_CONTAINER(rc->pr), rc->widget);
@@ -893,5 +893,5 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
 	return (RendererFuncs *) rc;
 }
 
-#endif 
+#endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

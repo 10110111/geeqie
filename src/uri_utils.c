@@ -51,7 +51,7 @@ gboolean uri_selection_data_set_uris_from_filelist(GtkSelectionData *selection_d
 {
 	gchar **uris = uris_from_filelist(list);
 	gboolean ret = gtk_selection_data_set_uris(selection_data, uris);
-	if (!ret) 
+	if (!ret)
 		{
 		char *str = g_strjoinv("\r\n", uris);
 		ret = gtk_selection_data_set_text(selection_data, str, -1);

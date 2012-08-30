@@ -32,7 +32,7 @@ gint compat_gdk_window_get_height(GdkWindow *window)
 cairo_surface_t *compat_gdk_window_create_similar_surface (GdkWindow *window, cairo_content_t content, gint width, gint height)
 {
 	cairo_t *cr = gdk_cairo_create(window);
-	cairo_surface_t *ws = cairo_get_target(cr); 
+	cairo_surface_t *ws = cairo_get_target(cr);
 	cairo_surface_t *ret = cairo_surface_create_similar(ws, content, width, height);
 	cairo_destroy(cr);
 	return ret;

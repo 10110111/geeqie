@@ -164,14 +164,14 @@ static void bar_pane_comment_write_config(GtkWidget *pane, GString *outstr, gint
 	write_char_option(outstr, indent, "title", gtk_label_get_text(GTK_LABEL(pcd->pane.title)));
 	WRITE_BOOL(pcd->pane, expanded);
 	WRITE_CHAR(*pcd, key);
-	WRITE_INT(*pcd, height); 
+	WRITE_INT(*pcd, height);
 	WRITE_STRING("/>");
 }
 
 static void bar_pane_comment_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneCommentData *pcd = data;
-	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == pcd->fd) 
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == pcd->fd)
 		{
 		DEBUG_1("Notify pane_comment: %s %04x", fd->path, type);
 

@@ -547,7 +547,7 @@ gboolean copy_file(const gchar *s, const gchar *t)
 
 	if (rename(randname, tl) < 0) {
 		unlink(randname);
-		goto end; 	
+		goto end;
 	}
 
 	ret = copy_file_attributes(s, t, TRUE, TRUE);

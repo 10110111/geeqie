@@ -390,7 +390,7 @@ static RendererFuncs *pr_backend_renderer_new(PixbufRenderer *pr)
 #endif
 		}
 	return renderer_tiles_new(pr);
-}	
+}
 
 
 static void pixbuf_renderer_init(PixbufRenderer *pr)
@@ -1495,7 +1495,7 @@ static void pixbuf_renderer_sync_scroll_center(PixbufRenderer *pr)
 	gint src_x, src_y;
 	if (!pr->width || !pr->height) return;
 
-	/* 
+	/*
 	 * Update norm_center only if the image is bigger than the window.
 	 * With this condition the stored center survives also a temporary display
 	 * of the "broken image" icon.
@@ -2217,7 +2217,7 @@ const double pr_dubois_matrix[3][6] = {
 	{ 0.456,  0.500,  0.176, -0.043, -0.088, -0.002},
 	{-0.040, -0.038, -0.016,  0.378,  0.734, -0.018},
 	{-0.015, -0.021, -0.005, -0.072, -0.113,  1.226}
-	}; 
+	};
 
 static void pr_create_anaglyph_dubois(GdkPixbuf *pixbuf, GdkPixbuf *right, gint x, gint y, gint w, gint h)
 {
@@ -2242,7 +2242,7 @@ static void pr_create_anaglyph_dubois(GdkPixbuf *pixbuf, GdkPixbuf *right, gint 
 		for (j = 0; j < w; j++)
 			{
 			double res[3];
-			for (k = 0; k < 3; k++) 
+			for (k = 0; k < 3; k++)
 				{
 				const double *m = pr_dubois_matrix[k];
 				res[k] = sp[0] * m[0] + sp[1] * m[1] + sp[2] * m[2] + dp[0] * m[3] + dp[1] * m[4] + dp[2] * m[5];
@@ -2286,12 +2286,12 @@ static void pr_pixbuf_size_sync(PixbufRenderer *pr)
 		case EXIF_ORIENTATION_LEFT_BOTTOM:
 			pr->image_width = gdk_pixbuf_get_height(pr->pixbuf);
 			pr->image_height = gdk_pixbuf_get_width(pr->pixbuf);
-			if (pr->stereo_data == STEREO_PIXBUF_SBS) 
+			if (pr->stereo_data == STEREO_PIXBUF_SBS)
 				{
 				pr->image_height /= 2;
 				pr->stereo_pixbuf_offset_right = pr->image_height;
 				}
-			else if (pr->stereo_data == STEREO_PIXBUF_CROSS) 
+			else if (pr->stereo_data == STEREO_PIXBUF_CROSS)
 				{
 				pr->image_height /= 2;
 				pr->stereo_pixbuf_offset_left = pr->image_height;
@@ -2301,12 +2301,12 @@ static void pr_pixbuf_size_sync(PixbufRenderer *pr)
 		default:
 			pr->image_width = gdk_pixbuf_get_width(pr->pixbuf);
 			pr->image_height = gdk_pixbuf_get_height(pr->pixbuf);
-			if (pr->stereo_data == STEREO_PIXBUF_SBS) 
+			if (pr->stereo_data == STEREO_PIXBUF_SBS)
 				{
 				pr->image_width /= 2;
 				pr->stereo_pixbuf_offset_right = pr->image_width;
 				}
-			else if (pr->stereo_data == STEREO_PIXBUF_CROSS) 
+			else if (pr->stereo_data == STEREO_PIXBUF_CROSS)
 				{
 				pr->image_width /= 2;
 				pr->stereo_pixbuf_offset_left = pr->image_width;
@@ -2337,7 +2337,7 @@ static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, P
 		return;
 		}
 
-	if (pr->stereo_mode & PR_STEREO_TEMP_DISABLE) 
+	if (pr->stereo_mode & PR_STEREO_TEMP_DISABLE)
 		{
 		gint disable = !pr->pixbuf || ! pr->stereo_data;
 		pr_stereo_temp_disable(pr, disable);
@@ -2404,7 +2404,7 @@ void pixbuf_renderer_set_stereo_data(PixbufRenderer *pr, StereoPixbufData stereo
 
 	pr->stereo_data = stereo_data;
 
-	if (pr->stereo_mode & PR_STEREO_TEMP_DISABLE) 
+	if (pr->stereo_mode & PR_STEREO_TEMP_DISABLE)
 		{
 		gint disable = !pr->pixbuf || ! pr->stereo_data;
 		pr_stereo_temp_disable(pr, disable);
@@ -2649,7 +2649,7 @@ void pixbuf_renderer_stereo_set(PixbufRenderer *pr, gint stereo_mode)
 	
 	pr_stereo_set(pr);
 	
-	if (redraw) 
+	if (redraw)
 		{
 		pr_size_sync(pr, pr->window_width, pr->window_height); /* recalculate new viewport */
 		pr_zoom_sync(pr, pr->zoom, PR_ZOOM_FORCE | PR_ZOOM_NEW, 0, 0);
@@ -2690,7 +2690,7 @@ static void pr_stereo_temp_disable(PixbufRenderer *pr, gboolean disable)
 	pr_size_sync(pr, pr->window_width, pr->window_height); /* recalculate new viewport */
 }
 
-gboolean pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint y_pixel, 
+gboolean pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint y_pixel,
                                           gint *r_mouse, gint *g_mouse, gint *b_mouse)
 {
 	GdkPixbuf *pb = pr->pixbuf;
@@ -2846,7 +2846,7 @@ gboolean pixbuf_renderer_get_virtual_rect(PixbufRenderer *pr, GdkRectangle *rect
 void pixbuf_renderer_set_size_early(PixbufRenderer *pr, guint width, guint height)
 {
 #if 0
-	/* FIXME: this function does not consider the image orientation, 
+	/* FIXME: this function does not consider the image orientation,
 	so it probably only breaks something */
 	gdouble zoom;
 	gint w, h;

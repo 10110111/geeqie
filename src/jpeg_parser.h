@@ -50,11 +50,11 @@ struct _MPOEntry {
 	guint dep2;
 
 	guint MPFVersion;
-	guint MPIndividualNum;  
-	guint PanOrientation;   
-	double PanOverlap_H;    
-	double PanOverlap_V;    
-	guint BaseViewpointNum; 
+	guint MPIndividualNum;
+	guint PanOrientation;
+	double PanOverlap_H;
+	double PanOverlap_V;
+	guint BaseViewpointNum;
 	double ConvergenceAngle;
 	double BaselineLength;
 	double VerticalDivergence;

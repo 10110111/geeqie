@@ -109,7 +109,7 @@ static GList *editor_mime_types_to_extensions(gchar **mime_types)
 		{"image/png",		".png"},
 		{"image/svg",		".svg"},
 		{"image/svg+xml",	".svg"},
-		{"image/svg+xml-compressed", 	".svg"},	
+		{"image/svg+xml-compressed", 	".svg"},
 		{"image/tiff",		".tiff;.tif"},
 		{"image/x-bmp",		".bmp"},
 		{"image/x-canon-crw",	".crw"},
@@ -123,7 +123,7 @@ static GList *editor_mime_types_to_extensions(gchar **mime_types)
 		{"image/x-pcx",		".pcx"},
 		{"image/xpm",		".xpm"},
 		{"image/x-png",		".png"},
-		{"image/x-portable-anymap",	".pam"},	
+		{"image/x-portable-anymap",	".pam"},
 		{"image/x-portable-bitmap",	".pbm"},
 		{"image/x-portable-graymap",	".pgm"},
 		{"image/x-portable-pixmap",	".ppm"},
@@ -141,7 +141,7 @@ static GList *editor_mime_types_to_extensions(gchar **mime_types)
 	gint i, j;
 	GList *list = NULL;
 	
-	for (i = 0; mime_types[i]; i++) 
+	for (i = 0; mime_types[i]; i++)
 		for (j = 0; conv_table[j][0]; j++)
 			if (strcmp(mime_types[i], conv_table[j][0]) == 0)
 				list = g_list_concat(list, filter_to_list(conv_table[j][1]));
@@ -198,14 +198,14 @@ gboolean editor_read_desktop_file(const gchar *path)
 		{
 		gboolean found = FALSE;
 		gint i;
-		for (i = 0; categories[i]; i++) 
+		for (i = 0; categories[i]; i++)
 			{
 			/* IMHO "Graphics" is exactly the category that we are interested in, so this does not have to be configurable */
 			if (strcmp(categories[i], "Graphics") == 0)
 				{
 				found = TRUE;
 				}
-			if (strcmp(categories[i], "X-Geeqie") == 0) 
+			if (strcmp(categories[i], "X-Geeqie") == 0)
 				{
 				found = TRUE;
 				category_geeqie = TRUE;
@@ -225,7 +225,7 @@ gboolean editor_read_desktop_file(const gchar *path)
 		{
 		gboolean found = FALSE;
 		gint i;
-		for (i = 0; only_show_in[i]; i++) 
+		for (i = 0; only_show_in[i]; i++)
 			if (strcmp(only_show_in[i], "X-Geeqie") == 0)
 				{
 				found = TRUE;
@@ -240,7 +240,7 @@ gboolean editor_read_desktop_file(const gchar *path)
 		{
 		gboolean found = FALSE;
 		gint i;
-		for (i = 0; not_show_in[i]; i++) 
+		for (i = 0; not_show_in[i]; i++)
 			if (strcmp(not_show_in[i], "X-Geeqie") == 0)
 				{
 				found = TRUE;
@@ -260,7 +260,7 @@ gboolean editor_read_desktop_file(const gchar *path)
 		g_free(try_exec);
 		}
 
-	if (editor->ignored) 
+	if (editor->ignored)
 		{
 		/* ignored editors will be deleted, no need to parse the rest */
 		g_key_file_free(key_file);
@@ -275,7 +275,7 @@ gboolean editor_read_desktop_file(const gchar *path)
 		{
 		gchar *ext = strrchr(editor->icon, '.');
 		
-		if (ext && strlen(ext) == 4 && 
+		if (ext && strlen(ext) == 4 &&
 		    (!strcmp(ext, ".png") || !strcmp(ext, ".xpm") || !strcmp(ext, ".svg")))
 			{
 			log_printf(_("Desktop file '%s' should not include extension in Icon key: '%s'\n"),
@@ -310,7 +310,7 @@ gboolean editor_read_desktop_file(const gchar *path)
 			{
 			editor->ext_list = editor_mime_types_to_extensions(mime_types);
 			g_strfreev(mime_types);
-			if (!editor->ext_list) editor->hidden = TRUE; 
+			if (!editor->ext_list) editor->hidden = TRUE;
 			}
 		}
 		
@@ -329,14 +329,14 @@ gboolean editor_read_desktop_file(const gchar *path)
 	if (editor->ignored) return TRUE;
 	
 	gtk_list_store_append(desktop_file_list, &iter);
-	gtk_list_store_set(desktop_file_list, &iter, 
+	gtk_list_store_set(desktop_file_list, &iter,
 			   DESKTOP_FILE_COLUMN_KEY, key,
 			   DESKTOP_FILE_COLUMN_NAME, editor->name,
 			   DESKTOP_FILE_COLUMN_HIDDEN, editor->hidden ? _("yes") : _("no"),
 			   DESKTOP_FILE_COLUMN_WRITABLE, access_file(path, W_OK),
 			   DESKTOP_FILE_COLUMN_PATH, path, -1);
 	
-	return TRUE;	
+	return TRUE;
 }
 
 static gboolean editor_remove_desktop_file_cb(gpointer key, gpointer value, gpointer user_data)
@@ -357,7 +357,7 @@ void editor_table_clear(void)
 		{
 		gtk_list_store_clear(desktop_file_list);
 		}
-	else 
+	else
 		{
 		desktop_file_list = gtk_list_store_new(DESKTOP_FILE_COLUMN_COUNT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_STRING);
 		}
@@ -393,7 +393,7 @@ static GList *editor_add_desktop_dir(GList *list, const gchar *path)
 			gchar *dpath = g_build_filename(path, name, NULL);
 			list = g_list_prepend(list, dpath);
 			g_free(name);
-			}	
+			}
 		}
 	closedir(dp);
 	return list;
@@ -439,9 +439,9 @@ static void editor_list_add_cb(gpointer key, gpointer value, gpointer data)
 	GList **listp = data;
 	EditorDescription *editor = value;
 	
-	/* do not show the special commands in any list, they are called explicitly */ 
+	/* do not show the special commands in any list, they are called explicitly */
 	if (strcmp(editor->key, CMD_COPY) == 0 ||
-	    strcmp(editor->key, CMD_MOVE) == 0 ||  
+	    strcmp(editor->key, CMD_MOVE) == 0 ||
 	    strcmp(editor->key, CMD_RENAME) == 0 ||
 	    strcmp(editor->key, CMD_DELETE) == 0 ||
 	    strcmp(editor->key, CMD_FOLDER) == 0) return;

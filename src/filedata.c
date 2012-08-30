@@ -139,7 +139,7 @@ const gchar *text_from_time(time_t t)
 
 /*
  *-----------------------------------------------------------------------------
- * changed files detection and notification 
+ * changed files detection and notification
  *-----------------------------------------------------------------------------
  */
 
@@ -147,7 +147,7 @@ void file_data_increment_version(FileData *fd)
 {
 	fd->version++;
 	fd->valid_marks = 0;
-	if (fd->parent) 
+	if (fd->parent)
 		{
 		fd->parent->version++;
 		fd->parent->valid_marks = 0;
@@ -251,7 +251,7 @@ gboolean file_data_check_changed_files(FileData *fd)
 
 /*
  *-----------------------------------------------------------------------------
- * file name, extension, sorting, ... 
+ * file name, extension, sorting, ...
  *-----------------------------------------------------------------------------
  */
 
@@ -346,7 +346,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 
 	DEBUG_2("file_data_new: '%s' %d", path_utf8, disable_sidecars);
 
-	if (S_ISDIR(st->st_mode)) disable_sidecars = TRUE; 
+	if (S_ISDIR(st->st_mode)) disable_sidecars = TRUE;
 
 	if (!file_data_pool)
 		file_data_pool = g_hash_table_new(g_str_hash, g_str_equal);
@@ -647,7 +647,7 @@ static gint sidecar_file_priority(const gchar *extension)
 static void file_data_check_sidecars(const GList *basename_list)
 {
 	/* basename_list contains the new group - first is the parent, then sorted sidecars */
-	/* all files in the list have ref count > 0 */ 
+	/* all files in the list have ref count > 0 */
 
 	const GList *work;
 	GList *s_work, *new_sidecars;
@@ -664,7 +664,7 @@ static void file_data_check_sidecars(const GList *basename_list)
 		work = work->next;
 		g_assert(fd->magick == FD_MAGICK);
 		DEBUG_2("basename: %p %s", fd, fd->name);
-		if (fd->parent) 
+		if (fd->parent)
 			{
 			g_assert(fd->parent->magick == FD_MAGICK);
 			DEBUG_2("                  parent: %p", fd->parent);
@@ -695,7 +695,7 @@ static void file_data_check_sidecars(const GList *basename_list)
 		s_work = s_work->next;
 		}
 		
-	if (!work && !s_work) 
+	if (!work && !s_work)
 		{
 		DEBUG_2("basename no change");
 		return; /* no change in grouping */
@@ -886,8 +886,8 @@ gint filelist_sort_compare_filedata(FileData *fa, FileData *fb)
 
 	if (ret != 0) return ret;
 	
-	/* do not return 0 unless the files are really the same 
-	   file_data_pool ensures that original_path is unique 
+	/* do not return 0 unless the files are really the same
+	   file_data_pool ensures that original_path is unique
 	*/
 	return strcmp(fa->original_path, fb->original_path);
 }
@@ -956,7 +956,7 @@ static GList * file_data_basename_hash_insert(GHashTable *basename_hash, FileDat
 		list = g_list_insert_sorted(list, file_data_ref(fd), file_data_sort_by_ext);
 		g_hash_table_insert(basename_hash, basename, list);
 		}
-	else 
+	else
 		{
 		g_free(basename);
 		}
@@ -970,7 +970,7 @@ static void file_data_basename_hash_remove_list(gpointer key, gpointer value, gp
 
 static void file_data_basename_hash_free(GHashTable *basename_hash)
 {
-	g_hash_table_foreach(basename_hash, file_data_basename_hash_remove_list, NULL); 
+	g_hash_table_foreach(basename_hash, file_data_basename_hash_remove_list, NULL);
 	g_hash_table_destroy(basename_hash);
 }
 
@@ -1082,7 +1082,7 @@ static gboolean filelist_read_real(const gchar *dir_path, GList **files, GList *
 					{
 					FileData *fd = file_data_new_local(filepath, &ent_sbuf, FALSE);
 					flist = g_list_prepend(flist, fd);
-					if (fd->sidecar_priority && !fd->disable_grouping) 
+					if (fd->sidecar_priority && !fd->disable_grouping)
 						{
 						file_data_basename_hash_insert(basename_hash, fd);
 						}
@@ -1105,9 +1105,9 @@ static gboolean filelist_read_real(const gchar *dir_path, GList **files, GList *
 
 	if (dirs) *dirs = dlist;
 
-	if (files) 
+	if (files)
 		{
-		g_hash_table_foreach(basename_hash, file_data_basename_hash_to_sidecars, NULL); 
+		g_hash_table_foreach(basename_hash, file_data_basename_hash_to_sidecars, NULL);
 
 		*files = filelist_filter_out_sidecars(flist);
 		}
@@ -1394,12 +1394,12 @@ gboolean file_data_get_mark(FileData *fd, gint n)
 {
 	gboolean valid = (fd->valid_marks & (1 << n));
 	
-	if (file_data_get_mark_func[n] && !valid) 
+	if (file_data_get_mark_func[n] && !valid)
 		{
 		guint old = fd->marks;
 		gboolean value = (file_data_get_mark_func[n])(fd, n, file_data_mark_func_data[n]);
 		
-		if (!value != !(fd->marks & (1 << n))) 
+		if (!value != !(fd->marks & (1 << n)))
 			{
 			fd->marks = fd->marks ^ (1 << n);
 			}
@@ -1430,7 +1430,7 @@ void file_data_set_mark(FileData *fd, gint n, gboolean value)
 	guint old;
 	if (!value == !file_data_get_mark(fd, n)) return;
 	
-	if (file_data_set_mark_func[n]) 
+	if (file_data_set_mark_func[n])
 		{
 		(file_data_set_mark_func[n])(fd, n, value, file_data_mark_func_data[n]);
 		}
@@ -2105,7 +2105,7 @@ gint file_data_verify_ci(FileData *fd)
 		
 		if (options->metadata.save_in_image_file)
 			{
-			if (file_data_can_write_directly(fd)) 
+			if (file_data_can_write_directly(fd))
 				{
 				/* we can write the file directly */
 				if (access_file(fd->path, W_OK))
@@ -2121,7 +2121,7 @@ gint file_data_verify_ci(FileData *fd)
 						}
 					}
 				}
-			else if (file_data_can_write_sidecar(fd)) 
+			else if (file_data_can_write_sidecar(fd))
 				{
 				/* we can write sidecar */
 				gchar *sidecar = file_data_get_sidecar_path(fd, FALSE);
@@ -2593,10 +2593,10 @@ GList *file_data_process_groups_in_selection(GList *list, gboolean ungroup, GLis
 			FileData *fd = work->data;
 			work = work->next;
 		
-			if (!file_data_list_contains_whole_group(list, fd)) 
+			if (!file_data_list_contains_whole_group(list, fd))
 				{
 				file_data_disable_grouping(fd, TRUE);
-				if (ungrouped_list) 
+				if (ungrouped_list)
 					{
 					*ungrouped_list = g_list_prepend(*ungrouped_list, file_data_ref(fd));
 					}
@@ -2604,7 +2604,7 @@ GList *file_data_process_groups_in_selection(GList *list, gboolean ungroup, GLis
 			}
 		}
 	
-	/* remove sidecars from the list, 
+	/* remove sidecars from the list,
 	   they can be still acessed via main_fd->sidecar_files */
 	work = list;
 	while (work)

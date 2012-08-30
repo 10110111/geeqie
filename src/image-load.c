@@ -52,7 +52,7 @@ static void image_loader_stop(ImageLoader *il);
 GType image_loader_get_type(void)
 {
 	static GType type = 0;
-	if (type == 0) 
+	if (type == 0)
 		{
 		static const GTypeInfo info = {
 			sizeof(ImageLoaderClass),
@@ -185,12 +185,12 @@ static void image_loader_finalize(GObject *object)
 		il->idle_done_id = 0;
 		}
 
-	while (g_source_remove_by_user_data(il)) 
+	while (g_source_remove_by_user_data(il))
 		{
 		DEBUG_2("pending signals detected");
 		}
 	
-	while (il->area_param_list) 
+	while (il->area_param_list)
 		{
 		DEBUG_1("pending area_ready signals detected");
 		while (g_source_remove_by_user_data(il->area_param_list->data)) {}
@@ -198,7 +198,7 @@ static void image_loader_finalize(GObject *object)
 		il->area_param_list = g_list_delete_link(il->area_param_list, il->area_param_list);
 		}
 
-	while (il->area_param_delayed_list) 
+	while (il->area_param_delayed_list)
 		{
 		g_free(il->area_param_delayed_list->data);
 		il->area_param_delayed_list = g_list_delete_link(il->area_param_delayed_list, il->area_param_delayed_list);
@@ -327,7 +327,7 @@ static void image_loader_emit_size(ImageLoader *il)
 
 static ImageLoaderAreaParam *image_loader_queue_area_ready(ImageLoader *il, GList **list, guint x, guint y, guint w, guint h)
 {
-	if (*list) 
+	if (*list)
 		{
 		ImageLoaderAreaParam *prev_par = (*list)->data;
 		if (prev_par->x == x && prev_par->w == w &&
@@ -414,7 +414,7 @@ static void image_loader_sync_pixbuf(ImageLoader *il)
 	
 	g_mutex_lock(il->data_mutex);
 	
-	if (!il->loader) 
+	if (!il->loader)
 		{
 		g_mutex_unlock(il->data_mutex);
 		return;
@@ -474,8 +474,8 @@ static void image_loader_area_prepared_cb(gpointer loader, gpointer data)
 	guchar *pix;
 	size_t h, rs;
 	
-	/* a workaround for 
-	   http://bugzilla.gnome.org/show_bug.cgi?id=547669 
+	/* a workaround for
+	   http://bugzilla.gnome.org/show_bug.cgi?id=547669
 	   http://bugzilla.gnome.org/show_bug.cgi?id=589334
 	*/
 	gchar *format = il->backend.get_format_name(loader);
@@ -509,7 +509,7 @@ static void image_loader_size_cb(gpointer loader,
 	g_mutex_lock(il->data_mutex);
 	il->actual_width = width;
 	il->actual_height = height;
-	if (il->requested_width < 1 || il->requested_height < 1) 
+	if (il->requested_width < 1 || il->requested_height < 1)
 		{
 		g_mutex_unlock(il->data_mutex);
 		image_loader_emit_size(il);
@@ -925,7 +925,7 @@ static void image_loader_thread_leave_high(void)
 static void image_loader_thread_wait_high(void)
 {
 	g_mutex_lock(image_loader_prio_mutex);
-	while (image_loader_prio_num) 
+	while (image_loader_prio_num)
 		{
 		g_cond_wait(image_loader_prio_cond, image_loader_prio_mutex);
 		}
@@ -940,7 +940,7 @@ static void image_loader_thread_run(gpointer data, gpointer user_data)
 	gboolean cont;
 	gboolean err;
 	
-	if (il->idle_priority > G_PRIORITY_DEFAULT_IDLE) 
+	if (il->idle_priority > G_PRIORITY_DEFAULT_IDLE)
 		{
 		/* low prio, wait untill high prio tasks finishes */
 		image_loader_thread_wait_high();
@@ -955,8 +955,8 @@ static void image_loader_thread_run(gpointer data, gpointer user_data)
 	
 	if (err)
 		{
-		/* 
-		loader failed, we have to send signal 
+		/*
+		loader failed, we have to send signal
 		(idle mode returns the image_loader_begin return value directly)
 		(success is always reported indirectly from image_loader_begin)
 		*/
@@ -967,7 +967,7 @@ static void image_loader_thread_run(gpointer data, gpointer user_data)
 	
 	while (cont && !image_loader_get_is_done(il) && !image_loader_get_stopping(il))
 		{
-		if (il->idle_priority > G_PRIORITY_DEFAULT_IDLE) 
+		if (il->idle_priority > G_PRIORITY_DEFAULT_IDLE)
 			{
 			/* low prio, wait untill high prio tasks finishes */
 			image_loader_thread_wait_high();
@@ -976,7 +976,7 @@ static void image_loader_thread_run(gpointer data, gpointer user_data)
 		}
 	image_loader_stop_loader(il);
 
-	if (il->idle_priority <= G_PRIORITY_DEFAULT_IDLE) 
+	if (il->idle_priority <= G_PRIORITY_DEFAULT_IDLE)
 		{
 		/* high prio */
 		image_loader_thread_leave_high();
@@ -1000,7 +1000,7 @@ static gboolean image_loader_start_thread(ImageLoader *il)
 	
 	if (!image_loader_setup_source(il)) return FALSE;
 
-        if (!image_loader_thread_pool) 
+        if (!image_loader_thread_pool)
 		{
 		image_loader_thread_pool = g_thread_pool_new(image_loader_thread_run, NULL, -1, FALSE, NULL);
 		image_loader_prio_cond = g_cond_new();
@@ -1098,7 +1098,7 @@ gdouble image_loader_get_percent(ImageLoader *il)
 	if (!il) return 0.0;
 	
 	g_mutex_lock(il->data_mutex);
-	if (il->bytes_total == 0) 
+	if (il->bytes_total == 0)
 		{
 		ret = 0.0;
 		}

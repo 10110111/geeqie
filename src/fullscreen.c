@@ -354,7 +354,7 @@ void fullscreen_stop(FullScreenData *fs)
 #ifdef HIDE_WINDOW_IN_FULLSCREEN
 		gtk_widget_show(fs->normal_window);
 #endif
-		if (options->stereo.enable_fsmode) 
+		if (options->stereo.enable_fsmode)
 			{
 			image_stereo_set(fs->normal_imd, options->stereo.mode);
 			}

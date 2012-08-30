@@ -38,7 +38,7 @@ static GList *file_sidecar_list = NULL; /* files with allowed sidecar */
 
 
 static FilterEntry *filter_entry_new(const gchar *key, const gchar *description,
-				     const gchar *extensions, FileFormatClass file_class, 
+				     const gchar *extensions, FileFormatClass file_class,
 				     gboolean writable, gboolean allow_sidecar, gboolean enabled)
 {
 	FilterEntry *fe;
@@ -189,7 +189,7 @@ void filter_add_defaults(void)
 
 		name = gdk_pixbuf_format_get_name(format);
 		
-		if (strcmp(name, "Digital camera RAW") == 0) 
+		if (strcmp(name, "Digital camera RAW") == 0)
 			{
 			DEBUG_1("Skipped '%s' from loader", name);
 			g_free(name);
@@ -300,7 +300,7 @@ GList *filter_to_list(const gchar *extensions)
 		else if (g_ascii_strcasecmp(ext, "%meta") == 0) file_class = FORMAT_CLASS_META;
 		else if (g_ascii_strcasecmp(ext, "%unknown") == 0) file_class = FORMAT_CLASS_UNKNOWN;
 		
-		if (file_class == -1) 
+		if (file_class == -1)
 			{
 			list = g_list_append(list, ext);
 			}

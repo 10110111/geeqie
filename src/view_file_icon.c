@@ -1966,7 +1966,7 @@ static gboolean vficon_refresh_real(ViewFile *vf, gboolean keep_position)
 				/* not changed, go to next */
 				work = work->next;
 				work_fd = work_fd->next;
-				if (id->selected & SELECTION_SELECTED) 
+				if (id->selected & SELECTION_SELECTED)
 					{
 					VFICON(vf)->selection = g_list_prepend(VFICON(vf)->selection, id);
 					}

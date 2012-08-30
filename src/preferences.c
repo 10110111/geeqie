@@ -574,7 +574,7 @@ static void add_stereo_mode_menu(GtkWidget *table, gint column, gint row, const 
 
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Side by Side"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Side by Side Half size"));
-	if (option & PR_STEREO_HORIZ) 
+	if (option & PR_STEREO_HORIZ)
 		{
 		current = 4;
 		if (option & PR_STEREO_HALF) current = 5;
@@ -582,7 +582,7 @@ static void add_stereo_mode_menu(GtkWidget *table, gint column, gint row, const 
 
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Top - Bottom"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Top - Bottom Half size"));
-	if (option & PR_STEREO_VERT) 
+	if (option & PR_STEREO_VERT)
 		{
 		current = 6;
 		if (option & PR_STEREO_HALF) current = 7;

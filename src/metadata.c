@@ -82,7 +82,7 @@ static void metadata_cache_update(FileData *fd, const gchar *key, const GList *v
 		GList *entry = work->data;
 		gchar *entry_key = entry->data;
 		
-		if (strcmp(entry_key, key) == 0) 
+		if (strcmp(entry_key, key) == 0)
 			{
 			/* key found - just replace values */
 			GList *old_values = entry->next;
@@ -97,7 +97,7 @@ static void metadata_cache_update(FileData *fd, const gchar *key, const GList *v
 		}
 	
 	/* key not found - prepend new entry */
-	fd->cached_metadata = g_list_prepend(fd->cached_metadata, 
+	fd->cached_metadata = g_list_prepend(fd->cached_metadata,
 				g_list_prepend(string_list_copy(values), g_strdup(key)));
 	DEBUG_1("added %s %s\n", key, fd->path);
 
@@ -113,7 +113,7 @@ static const GList *metadata_cache_get(FileData *fd, const gchar *key)
 		GList *entry = work->data;
 		gchar *entry_key = entry->data;
 		
-		if (strcmp(entry_key, key) == 0) 
+		if (strcmp(entry_key, key) == 0)
 			{
 			/* key found */
 			DEBUG_1("found %s %s\n", key, fd->path);
@@ -135,7 +135,7 @@ static void metadata_cache_remove(FileData *fd, const gchar *key)
 		GList *entry = work->data;
 		gchar *entry_key = entry->data;
 		
-		if (strcmp(entry_key, key) == 0) 
+		if (strcmp(entry_key, key) == 0)
 			{
 			/* key found */
 			string_list_free(entry);
@@ -189,7 +189,7 @@ static void metadata_write_queue_add(FileData *fd)
 		layout_util_status_update_write_all();
 		}
 
-	if (metadata_write_idle_id) 
+	if (metadata_write_idle_id)
 		{
 		g_source_remove(metadata_write_idle_id);
 		metadata_write_idle_id = 0;
@@ -239,7 +239,7 @@ void metadata_notify_cb(FileData *fd, NotifyType type, gpointer data)
 		{
 		metadata_cache_free(fd);
 		
-		if (g_list_find(metadata_write_queue, fd)) 
+		if (g_list_find(metadata_write_queue, fd))
 			{
 			DEBUG_1("Notify metadata: %s %04x", fd->path, type);
 			if (!isname(fd->path))
@@ -293,7 +293,7 @@ gboolean metadata_write_perform(FileData *fd)
 	
 	g_assert(fd->change);
 	
-	if (fd->change->dest && 
+	if (fd->change->dest &&
 	    strcmp(extension_from_path(fd->change->dest), GQ_CACHE_EXT_METADATA) == 0)
 		{
 		success = metadata_legacy_write(fd);
@@ -302,23 +302,23 @@ gboolean metadata_write_perform(FileData *fd)
 		}
 
 	/* write via exiv2 */
-	/*  we can either use cached metadata which have fd->modified_xmp already applied 
+	/*  we can either use cached metadata which have fd->modified_xmp already applied
 	                             or read metadata from file and apply fd->modified_xmp
 	    metadata are read also if the file was modified meanwhile */
-	exif = exif_read_fd(fd); 
+	exif = exif_read_fd(fd);
 	if (!exif) return FALSE;
 
 	success = (fd->change->dest) ? exif_write_sidecar(exif, fd->change->dest) : exif_write(exif); /* write modified metadata */
 	exif_free_fd(fd, exif);
 
 	if (fd->change->dest)
-		/* this will create a FileData for the sidecar and link it to the main file 
+		/* this will create a FileData for the sidecar and link it to the main file
 		   (we can't wait until the sidecar is discovered by directory scanning because
-		    exif_read_fd is called before that and it would read the main file only and 
+		    exif_read_fd is called before that and it would read the main file only and
 		    store the metadata in the cache)
 		    FIXME: this does not catch new sidecars created by independent external programs
 		*/
-		file_data_unref(file_data_new_group(fd->change->dest)); 
+		file_data_unref(file_data_new_group(fd->change->dest));
 		
 	if (success) metadata_legacy_delete(fd, fd->change->dest);
 	return success;
@@ -387,7 +387,7 @@ gboolean metadata_write_list(FileData *fd, const gchar *key, const GList *values
 			FileData *sfd = work->data;
 			work = work->next;
 			
-			if (filter_file_class(sfd->extension, FORMAT_CLASS_META)) continue; 
+			if (filter_file_class(sfd->extension, FORMAT_CLASS_META)) continue;
 
 			metadata_write_list(sfd, key, values);
 			}
@@ -472,7 +472,7 @@ static gboolean metadata_legacy_write(FileData *fd)
 	
 	if (!have_keywords || !have_comment) metadata_file_read(metadata_pathl, &orig_keywords, &orig_comment);
 	
-	success = metadata_file_write(metadata_pathl, 
+	success = metadata_file_write(metadata_pathl,
 				      have_keywords ? (GList *)keywords : orig_keywords,
 				      have_comment ? comment : orig_comment);
 
@@ -542,7 +542,7 @@ static gboolean metadata_file_read(gchar *path, GList **keywords, gchar **commen
 	
 	fclose(f);
 
-	if (keywords) 
+	if (keywords)
 		{
 		*keywords = g_list_reverse(list);
 		}
@@ -584,7 +584,7 @@ static void metadata_legacy_delete(FileData *fd, const gchar *except)
 	if (!fd) return;
 
 	metadata_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
-	if (metadata_path && (!except || strcmp(metadata_path, except) != 0)) 
+	if (metadata_path && (!except || strcmp(metadata_path, except) != 0))
 		{
 		metadata_pathl = path_from_utf8(metadata_path);
 		unlink(metadata_pathl);
@@ -593,10 +593,10 @@ static void metadata_legacy_delete(FileData *fd, const gchar *except)
 		}
 
 #ifdef HAVE_EXIV2
-	/* without exiv2: do not delete xmp metadata because we are not able to convert it, 
+	/* without exiv2: do not delete xmp metadata because we are not able to convert it,
 	   just ignore it */
 	metadata_path = cache_find_location(CACHE_TYPE_XMP_METADATA, fd->path);
-	if (metadata_path && (!except || strcmp(metadata_path, except) != 0)) 
+	if (metadata_path && (!except || strcmp(metadata_path, except) != 0))
 		{
 		metadata_pathl = path_from_utf8(metadata_path);
 		unlink(metadata_pathl);
@@ -666,13 +666,13 @@ GList *metadata_read_list(FileData *fd, const gchar *key, MetadataFormat format)
 		}
 
 
-	if (format == METADATA_PLAIN && strcmp(key, KEYWORD_KEY) == 0 
+	if (format == METADATA_PLAIN && strcmp(key, KEYWORD_KEY) == 0
 	    && (cache_entry = metadata_cache_get(fd, key)))
 		{
 		return string_list_copy(cache_entry->next);
 		}
 
-	/* 
+	/*
 	    Legacy metadata file is the primary source if it exists.
 	    Merging the lists does not make much sense, because the existence of
 	    legacy metadata file indicates that the other metadata sources are not
@@ -681,9 +681,9 @@ GList *metadata_read_list(FileData *fd, const gchar *key, MetadataFormat format)
 	*/
 	if (strcmp(key, KEYWORD_KEY) == 0)
 		{
-		if (metadata_legacy_read(fd, &list, NULL)) 
+		if (metadata_legacy_read(fd, &list, NULL))
 			{
-			if (format == METADATA_PLAIN) 
+			if (format == METADATA_PLAIN)
 				{
 				metadata_cache_update(fd, key, list);
 				}
@@ -754,11 +754,11 @@ gdouble metadata_read_GPS_coord(FileData *fd, const gchar *key, gdouble fallback
 		min = g_ascii_strtod(endptr + 1, &endptr);
 		if (*endptr == ',')
 			sec = g_ascii_strtod(endptr + 1, &endptr);
-		else 
+		else
 			sec = 0.0;
 		
 		
-		if (*endptr == 'S' || *endptr == 'W' || *endptr == 'N' || *endptr == 'E') 
+		if (*endptr == 'S' || *endptr == 'W' || *endptr == 'N' || *endptr == 'E')
 			{
 			coord = deg + min /60.0 + sec / 3600.0;
 			ok = TRUE;
@@ -780,7 +780,7 @@ gboolean metadata_append_string(FileData *fd, const gchar *key, const char *valu
 {
 	gchar *str = metadata_read_string(fd, key, METADATA_PLAIN);
 	
-	if (!str) 
+	if (!str)
 		{
 		return metadata_write_string(fd, key, value);
 		}
@@ -798,7 +798,7 @@ gboolean metadata_append_list(FileData *fd, const gchar *key, const GList *value
 {
 	GList *list = metadata_read_list(fd, key, METADATA_PLAIN);
 	
-	if (!list) 
+	if (!list)
 		{
 		return metadata_write_list(fd, key, values);
 		}
@@ -961,7 +961,7 @@ gboolean meta_data_set_keyword_mark(FileData *fd, gint n, gboolean value, gpoint
 
 	if (!!keyword_tree_is_set(GTK_TREE_MODEL(keyword_tree), &iter, keywords) != !!value)
 		{
-		if (value) 
+		if (value)
 			{
 			keyword_tree_set(GTK_TREE_MODEL(keyword_tree), &iter, &keywords);
 			}
@@ -990,12 +990,12 @@ void meta_data_connect_mark_with_keyword(GtkTreeModel *keyword_tree, GtkTreeIter
 	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
 		{
 		file_data_get_registered_mark_func(i, &get_mark_func, &set_mark_func, &mark_func_data);
-		if (get_mark_func == meta_data_get_keyword_mark) 
+		if (get_mark_func == meta_data_get_keyword_mark)
 			{
 			GtkTreeIter old_kw_iter;
 			GList *old_path = mark_func_data;
 			
-			if (keyword_tree_get_iter(keyword_tree, &old_kw_iter, old_path) && 
+			if (keyword_tree_get_iter(keyword_tree, &old_kw_iter, old_path) &&
 			    (i == mark || /* release any previous connection of given mark */
 			     keyword_compare(keyword_tree, &old_kw_iter, kw_iter) == 0)) /* or given keyword */
 				{
@@ -1132,7 +1132,7 @@ gboolean keyword_exists(GtkTreeModel *keyword_tree, GtkTreeIter *parent_ptr, Gtk
 				g_free(iter_casefold);
 				} // if (options->metadata.tags_cas...
 			}
-		if (ret) 
+		if (ret)
 			{
 			if (result) *result = iter;
 			break;
@@ -1220,7 +1220,7 @@ gboolean keyword_tree_get_iter(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr
 			if (!gtk_tree_model_iter_next(keyword_tree, &iter)) return FALSE;
 			}
 		path = path->next;
-		if (!path) 
+		if (!path)
 			{
 			*iter_ptr = iter;
 			return TRUE;
@@ -1240,7 +1240,7 @@ static gboolean keyword_tree_is_set_casefold(GtkTreeModel *keyword_tree, GtkTree
 		{
 		/* for the purpose of expanding and hiding, a helper is set if it has any children set */
 		GtkTreeIter child;
-		if (!gtk_tree_model_iter_children(keyword_tree, &child, &iter)) 
+		if (!gtk_tree_model_iter_children(keyword_tree, &child, &iter))
 			return FALSE; /* this should happen only on empty helpers */
 
 		while (TRUE)
@@ -1435,7 +1435,7 @@ static gboolean keyword_tree_check_empty_children(GtkTreeModel *keyword_tree, Gt
 {
 	GtkTreeIter iter;
 	
-	if (!gtk_tree_model_iter_children(keyword_tree, &iter, parent)) 
+	if (!gtk_tree_model_iter_children(keyword_tree, &iter, parent))
 		return TRUE; /* this should happen only on empty helpers */
 
 	while (TRUE)
@@ -1531,7 +1531,7 @@ static void keyword_hide_unset_in_recursive(GtkTreeStore *keyword_tree, GtkTreeI
 		else
 			{
 			GtkTreeIter child;
-			if (gtk_tree_model_iter_children(GTK_TREE_MODEL(keyword_tree), &child, &iter)) 
+			if (gtk_tree_model_iter_children(GTK_TREE_MODEL(keyword_tree), &child, &iter))
 				{
 				keyword_hide_unset_in_recursive(keyword_tree, &child, id, keywords);
 				}
@@ -1672,7 +1672,7 @@ static void keyword_tree_node_write_config(GtkTreeModel *keyword_tree, GtkTreeIt
 		write_char_option(outstr, indent, "name", name);
 		g_free(name);
 		write_bool_option(outstr, indent, "kw", keyword_get_is_keyword(keyword_tree, &iter));
-		if (gtk_tree_model_iter_children(keyword_tree, &children, &iter)) 
+		if (gtk_tree_model_iter_children(keyword_tree, &children, &iter))
 			{
 			WRITE_STRING(">");
 			indent++;
@@ -1680,7 +1680,7 @@ static void keyword_tree_node_write_config(GtkTreeModel *keyword_tree, GtkTreeIt
 			indent--;
 			WRITE_NL(); WRITE_STRING("</keyword>");
 			}
-		else 
+		else
 			{
 			WRITE_STRING("/>");
 			}
@@ -1717,7 +1717,7 @@ GtkTreeIter *keyword_add_from_config(GtkTreeStore *keyword_tree, GtkTreeIter *pa
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
-	if (name && name[0]) 
+	if (name && name[0])
 		{
 		GtkTreeIter iter;
 		/* re-use existing keyword if any */

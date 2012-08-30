@@ -173,12 +173,12 @@ static void rt_sync_scroll(RendererTiles *rt)
 {
 	PixbufRenderer *pr = rt->pr;
 	
-	rt->x_scroll = (rt->stereo_mode & PR_STEREO_MIRROR) ? 
-	               pr->width - pr->vis_width - pr->x_scroll 
+	rt->x_scroll = (rt->stereo_mode & PR_STEREO_MIRROR) ?
+	               pr->width - pr->vis_width - pr->x_scroll
 	               : pr->x_scroll;
 	
-	rt->y_scroll = (rt->stereo_mode & PR_STEREO_FLIP) ? 
-	               pr->height - pr->vis_height - pr->y_scroll 
+	rt->y_scroll = (rt->stereo_mode & PR_STEREO_FLIP) ?
+	               pr->height - pr->vis_height - pr->y_scroll
 	               : pr->y_scroll;
 }
 
@@ -1228,7 +1228,7 @@ static gboolean rt_source_tile_render(RendererTiles *rt, ImageTile *it,
 	return draw;
 }
 
-static void rt_tile_get_region(gboolean has_alpha, 
+static void rt_tile_get_region(gboolean has_alpha,
                                const GdkPixbuf *src, GdkPixbuf *dest,
                                int pb_x, int pb_y, int pb_w, int pb_h,
                                double offset_x, double offset_y, double scale_x, double scale_y,
@@ -1244,10 +1244,10 @@ static void rt_tile_get_region(gboolean has_alpha,
 					     pb_w, pb_h,
 					     dest,
 					     pb_x, pb_y);
-			} 
+			}
 		else
 			{
-			gdk_pixbuf_scale(src, dest, 
+			gdk_pixbuf_scale(src, dest,
 					 pb_x, pb_y, pb_w, pb_h,
 					 offset_x,
 					 offset_y,
@@ -1257,7 +1257,7 @@ static void rt_tile_get_region(gboolean has_alpha,
 		}
 	else
 		{
-		gdk_pixbuf_composite_color(src, dest, 
+		gdk_pixbuf_composite_color(src, dest,
 					 pb_x, pb_y, pb_w, pb_h,
 					 offset_x,
 					 offset_y,
@@ -1336,7 +1336,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 	else if ((pr->zoom == 1.0 || pr->scale == 1.0) &&
 		 pr->aspect_ratio == 1.0 &&
 		 !has_alpha &&
-		 orientation == EXIF_ORIENTATION_TOP_LEFT && 
+		 orientation == EXIF_ORIENTATION_TOP_LEFT &&
 		 !(pr->func_post_process && !(pr->post_process_slow && fast)) &&
 		 !(rt->stereo_mode & PR_STEREO_ANAGLYPH))
 		{
@@ -1398,7 +1398,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 				   scale_x, scale_y,
 				   (fast) ? GDK_INTERP_NEAREST : pr->zoom_quality,
 				   it->x + pb_x, it->y + pb_y);
-		if (rt->stereo_mode & PR_STEREO_ANAGLYPH && 
+		if (rt->stereo_mode & PR_STEREO_ANAGLYPH &&
 		    (pr->stereo_pixbuf_offset_right > 0 || pr->stereo_pixbuf_offset_left > 0))
 			{
 			GdkPixbuf *right_pb = rt_get_spare_tile(rt);
@@ -1449,7 +1449,7 @@ static void rt_tile_expose(RendererTiles *rt, ImageTile *it,
 		}
 	if (it->x + x + w > rt->x_scroll + pr->vis_width)
 		{
-		w = rt->x_scroll + pr->vis_width - it->x - x; 
+		w = rt->x_scroll + pr->vis_width - it->x - x;
 		}
 	if (w < 1) return;
 	if (it->y + y < rt->y_scroll)
@@ -1459,7 +1459,7 @@ static void rt_tile_expose(RendererTiles *rt, ImageTile *it,
 		}
 	if (it->y + y + h > rt->y_scroll + pr->vis_height)
 		{
-		h = rt->y_scroll + pr->vis_height - it->y - y; 
+		h = rt->y_scroll + pr->vis_height - it->y - y;
 		}
 	if (h < 1) return;
 
@@ -1501,7 +1501,7 @@ static gint rt_get_queued_area(GList *work)
 {
 	gint area = 0;
 	
-	while (work) 
+	while (work)
 		{
 		QueueData *qd = work->data;
 		area += qd->w * qd->h;
@@ -1519,7 +1519,7 @@ static gboolean rt_queue_schedule_next_draw(RendererTiles *rt, gboolean force_se
 	
 	if (!pr->loading)
 		{
-		/* 2pass prio */ 
+		/* 2pass prio */
 		DEBUG_2("redraw priority: 2pass");
 		rt->draw_idle_id = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE, rt_queue_draw_idle_cb, rt, NULL);
 		return FALSE;
@@ -1864,7 +1864,7 @@ static void rt_scroll(void *renderer, gint x_off, gint y_off)
 
 	rt_sync_scroll(rt);
 	if (rt->stereo_mode & PR_STEREO_MIRROR) x_off = -x_off;
-	if (rt->stereo_mode & PR_STEREO_FLIP) y_off = -y_off; 
+	if (rt->stereo_mode & PR_STEREO_FLIP) y_off = -y_off;
 
 	gint w = pr->vis_width - abs(x_off);
 	gint h = pr->vis_height - abs(y_off);
@@ -2024,17 +2024,17 @@ static void renderer_update_viewport(void *renderer)
 	rt->stereo_off_x = 0;
 	rt->stereo_off_y = 0;
 	
-	if (rt->stereo_mode & PR_STEREO_RIGHT) 
+	if (rt->stereo_mode & PR_STEREO_RIGHT)
 		{
-		if (rt->stereo_mode & PR_STEREO_HORIZ) 
+		if (rt->stereo_mode & PR_STEREO_HORIZ)
 			{
 			rt->stereo_off_x = rt->pr->viewport_width;
 			}
-		else if (rt->stereo_mode & PR_STEREO_VERT) 
+		else if (rt->stereo_mode & PR_STEREO_VERT)
 			{
 			rt->stereo_off_y = rt->pr->viewport_height;
 			}
-		else if (rt->stereo_mode & PR_STEREO_FIXED) 
+		else if (rt->stereo_mode & PR_STEREO_FIXED)
 			{
 			rt->stereo_off_x = rt->pr->stereo_fixed_x_right;
 			rt->stereo_off_y = rt->pr->stereo_fixed_y_right;
@@ -2042,7 +2042,7 @@ static void renderer_update_viewport(void *renderer)
 		}
 	else
 		{
-		if (rt->stereo_mode & PR_STEREO_FIXED) 
+		if (rt->stereo_mode & PR_STEREO_FIXED)
 			{
 			rt->stereo_off_x = rt->pr->stereo_fixed_x_left;
 			rt->stereo_off_y = rt->pr->stereo_fixed_y_left;

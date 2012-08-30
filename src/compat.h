@@ -62,7 +62,7 @@
 #define gtk_combo_box_text_append_text gtk_combo_box_append_text
 #define gtk_combo_box_text_new_with_entry gtk_combo_box_entry_new_text
 #define gtk_combo_box_new_with_model_and_entry(model) gtk_combo_box_entry_new_with_model(model, FILTER_COLUMN_FILTER)
-#define GTK_COMBO_BOX_TEXT(combo) GTK_COMBO_BOX(combo) 
+#define GTK_COMBO_BOX_TEXT(combo) GTK_COMBO_BOX(combo)
 #define gdk_window_get_width(window) compat_gdk_window_get_width(window)
 #define gdk_window_get_height(window) compat_gdk_window_get_height(window)
 
