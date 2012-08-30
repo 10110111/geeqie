@@ -748,9 +748,6 @@ static void pan_grid_build(PanWindow *pw, gint width, gint height, gint grid_siz
 	gint col, row;
 	gint cw, ch;
 	gint l;
-	gdouble total;
-	gdouble s;
-	gdouble aw, ah;
 	gint i, j;
 
 	pan_grid_clear(pw);
@@ -758,12 +755,6 @@ static void pan_grid_build(PanWindow *pw, gint width, gint height, gint grid_siz
 	l = g_list_length(pw->list);
 
 	if (l < 1) return;
-
-	total = (gdouble)width * (gdouble)height / (gdouble)l;
-	s = sqrt(total);
-
-	aw = (gdouble)width / s;
-	ah = (gdouble)height / s;
 
 	col = (gint)(sqrt((gdouble)l / grid_size) * width / height + 0.999);
 	col = CLAMP(col, 1, l / grid_size + 1);
@@ -1214,7 +1205,7 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 	fd = pan_menu_click_fd(pw);
 	
 	imd_widget = gtk_container_get_focus_child(GTK_CONTAINER(pw->imd->widget));
-	focused = (pw->fs || imd_widget && gtk_widget_has_focus(imd_widget));
+	focused = (pw->fs || (imd_widget && gtk_widget_has_focus(imd_widget)));
 	on_entry = (gtk_widget_has_focus(pw->path_entry) ||
 		    gtk_widget_has_focus(pw->search_entry));
 
@@ -1268,40 +1259,19 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 
 	if (event->state & GDK_CONTROL_MASK)
 		{
-		gint n = -1;
-
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
 			case '1':
-				n = 0;
-				break;
 			case '2':
-				n = 1;
-				break;
 			case '3':
-				n = 2;
-				break;
 			case '4':
-				n = 3;
-				break;
 			case '5':
-				n = 4;
-				break;
 			case '6':
-				n = 5;
-				break;
 			case '7':
-				n = 6;
-				break;
 			case '8':
-				n = 7;
-				break;
 			case '9':
-				n = 8;
-				break;
 			case '0':
-				n = 9;
 				break;
 			case 'C': case 'c':
 				if (fd) file_util_copy(fd, NULL, NULL, GTK_WIDGET(pr));
@@ -2935,8 +2905,6 @@ static void pan_window_set_dnd_data(GtkWidget *widget, GdkDragContext *context,
 	fd = pan_menu_click_fd(pw);
 	if (fd)
 		{
-		gchar *text = NULL;
-		gint len;
 		GList *list;
 
 		list = g_list_append(NULL, fd);
