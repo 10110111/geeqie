@@ -89,10 +89,6 @@ void layout_image_full_screen_start(LayoutWindow *lw)
 			 G_CALLBACK(layout_key_press_cb), lw);
 
 	layout_actions_add_window(lw, lw->full_screen->window);
-#if 0
-	gtk_widget_set_sensitive(lw->window, FALSE);
-	if (lw->tools) gtk_widget_set_sensitive(lw->tools, FALSE);
-#endif
 
 	image_osd_copy_status(lw->full_screen->normal_imd, lw->image);
 }
@@ -106,11 +102,6 @@ void layout_image_full_screen_stop(LayoutWindow *lw)
 		image_osd_copy_status(lw->image, lw->full_screen->normal_imd);
 
 	fullscreen_stop(lw->full_screen);
-
-#if 0
-	gtk_widget_set_sensitive(lw->window, TRUE);
-	if (lw->tools) gtk_widget_set_sensitive(lw->tools, TRUE);
-#endif
 }
 
 void layout_image_full_screen_toggle(LayoutWindow *lw)
