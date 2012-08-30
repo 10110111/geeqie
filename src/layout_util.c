@@ -638,11 +638,6 @@ static void layout_menu_escape_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 
 	layout_exit_fullscreen(lw);
-
-	/* FIXME:interrupting thumbs no longer allowed */
-#if 0
-	interrupt_thumbs();
-#endif
 }
 
 static void layout_menu_overlay_toggle_cb(GtkAction *action, gpointer data)
