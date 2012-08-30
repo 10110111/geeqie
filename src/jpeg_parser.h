@@ -80,3 +80,5 @@ MPOData* jpeg_get_mpo_data(const guchar *data, guint size);
 void jpeg_mpo_data_free(MPOData *mpo);
 
 #endif
+
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
