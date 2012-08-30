@@ -487,7 +487,7 @@ struct _FileDataChangeInfo {
 };
 
 struct _FileData {
-	gint magick;
+	guint magick;
 	gint type;
 	gchar *original_path; /* key to file_data_pool hash table */
 	gchar *path;

@@ -392,7 +392,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	fd->date = st->st_mtime;
 	fd->mode = st->st_mode;
 	fd->ref = 1;
-	fd->magick = 0x12345678;
+	fd->magick = FD_MAGICK;
 	
 	if (disable_sidecars) fd->disable_grouping = TRUE;
 
@@ -515,13 +515,13 @@ FileData *file_data_ref(FileData *fd)
 #endif
 {
 	if (fd == NULL) return NULL;
-	if (fd->magick != 0x12345678)
+	if (fd->magick != FD_MAGICK)
 #ifdef DEBUG_FILEDATA
 		DEBUG_0("fd magick mismatch @ %s:%d  fd=%p", file, line, fd);
 #else
 		DEBUG_0("fd magick mismatch fd=%p", fd);
 #endif
-	g_assert(fd->magick == 0x12345678);
+	g_assert(fd->magick == FD_MAGICK);
 	fd->ref++;
 
 #ifdef DEBUG_FILEDATA
@@ -534,7 +534,7 @@ FileData *file_data_ref(FileData *fd)
 
 static void file_data_free(FileData *fd)
 {
-	g_assert(fd->magick == 0x12345678);
+	g_assert(fd->magick == FD_MAGICK);
 	g_assert(fd->ref == 0);
 
 	metadata_cache_free(fd);
@@ -560,13 +560,13 @@ void file_data_unref(FileData *fd)
 #endif
 {
 	if (fd == NULL) return;
-	if (fd->magick != 0x12345678)
+	if (fd->magick != FD_MAGICK)
 #ifdef DEBUG_FILEDATA
 		DEBUG_0("fd magick mismatch @ %s:%d  fd=%p", file, line, fd);
 #else
 		DEBUG_0("fd magick mismatch fd=%p", fd);
 #endif
-	g_assert(fd->magick == 0x12345678);
+	g_assert(fd->magick == FD_MAGICK);
 	
 	fd->ref--;
 #ifdef DEBUG_FILEDATA
@@ -666,11 +666,11 @@ static void file_data_check_sidecars(const GList *basename_list)
 		{
 		FileData *fd = work->data;
 		work = work->next;
-		g_assert(fd->magick == 0x12345678);
+		g_assert(fd->magick == FD_MAGICK);
 		DEBUG_2("basename: %p %s", fd, fd->name);
 		if (fd->parent) 
 			{
-			g_assert(fd->parent->magick == 0x12345678);
+			g_assert(fd->parent->magick == FD_MAGICK);
 			DEBUG_2("                  parent: %p", fd->parent);
 			}
 		s_work = fd->sidecar_files;
@@ -678,7 +678,7 @@ static void file_data_check_sidecars(const GList *basename_list)
 			{
 			FileData *sfd = s_work->data;
 			s_work = s_work->next;
-			g_assert(sfd->magick == 0x12345678);
+			g_assert(sfd->magick == FD_MAGICK);
 			DEBUG_2("                  sidecar: %p %s", sfd, sfd->name);
 			}
 		
@@ -746,7 +746,7 @@ static void file_data_check_sidecars(const GList *basename_list)
 	while (work)
 		{
 		FileData *sfd = work->data;
-		g_assert(sfd->magick == 0x12345678);
+		g_assert(sfd->magick == FD_MAGICK);
 		g_assert(sfd->parent == NULL && sfd->sidecar_files == NULL);
 		sfd->parent = parent_fd;
 		new_sidecars = g_list_prepend(new_sidecars, sfd);
@@ -760,8 +760,8 @@ static void file_data_check_sidecars(const GList *basename_list)
 
 static void file_data_disconnect_sidecar_file(FileData *target, FileData *sfd)
 {
-	g_assert(target->magick == 0x12345678);
-	g_assert(sfd->magick == 0x12345678);
+	g_assert(target->magick == FD_MAGICK);
+	g_assert(sfd->magick == FD_MAGICK);
 	g_assert(g_list_find(target->sidecar_files, sfd));
 
 	file_data_ref(target);

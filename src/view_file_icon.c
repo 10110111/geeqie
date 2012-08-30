@@ -99,7 +99,7 @@ static gint iconlist_read(FileData *dir_fd, GList **list)
 		IconData *id;
 
 		fd = work->data;
-		g_assert(fd->magick == 0x12345678);
+		g_assert(fd->magick == FD_MAGICK);
 		id = g_new0(IconData, 1);
 
 		id->selected = SELECTION_NONE;
@@ -895,7 +895,7 @@ guint vficon_selection_count(ViewFile *vf, gint64 *bytes)
 			{
 			IconData *id = work->data;
 			FileData *fd = id->fd;
-			g_assert(fd->magick == 0x12345678);
+			g_assert(fd->magick == FD_MAGICK);
 			b += fd->size;
 
 			work = work->next;
@@ -917,7 +917,7 @@ GList *vficon_selection_get_list(ViewFile *vf)
 		{
 		IconData *id = work->data;
 		FileData *fd = id->fd;
-		g_assert(fd->magick == 0x12345678);
+		g_assert(fd->magick == FD_MAGICK);
 
 		list = g_list_prepend(list, file_data_ref(fd));
 		
@@ -995,7 +995,7 @@ void vficon_mark_to_selection(ViewFile *vf, gint mark, MarkToSelectionMode mode)
 		FileData *fd = id->fd;
 		gboolean mark_val, selected;
 
-		g_assert(fd->magick == 0x12345678);
+		g_assert(fd->magick == FD_MAGICK);
 
 		mark_val = file_data_get_mark(fd, n);
 		selected = (id->selected & SELECTION_SELECTED);
@@ -2163,7 +2163,7 @@ static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer 
 		gchar *link;
 		GtkStateType state = GTK_STATE_NORMAL;
 
-		g_assert(id->fd->magick == 0x12345678);
+		g_assert(id->fd->magick == FD_MAGICK);
 
 		link = islink(id->fd->path) ? GQ_LINK_STR : "";
 		if (id->fd->sidecar_files)

@@ -18,6 +18,8 @@
 #define DEBUG_FILEDATA
 #endif
 
+#define FD_MAGICK 0x12345678u
+
 gchar *text_from_size(gint64 size);
 gchar *text_from_size_abrev(gint64 size);
 const gchar *text_from_time(time_t t);
