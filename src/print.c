@@ -3212,12 +3212,6 @@ static void print_text_menu(GtkWidget *box, PrintWindow *pw)
 	pref_spin_new(group, _("Size:"), _("points"),
 		      8.0, 100.0, 1.0, 0, pw->text_points,
 		      G_CALLBACK(print_text_cb_points), pw);
-
-#if 0
-	button = color_selection_new();
-	gtk_box_pack_start(GTK_BOX(group), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
-#endif
 }
 
 /*
