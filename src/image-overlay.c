@@ -762,13 +762,6 @@ static void image_overlay_set(ImageWindow *imd, gint id, GdkPixbuf *pixbuf, gint
 	pixbuf_renderer_overlay_set((PixbufRenderer *)imd->pr, id, pixbuf, x, y);
 }
 
-#if 0 /* unused for now */
-static gint image_overlay_get(ImageWindow *imd, gint id, GdkPixbuf **pixbuf, gint *x, gint *y)
-{
-	return pixbuf_renderer_overlay_get((PixbufRenderer *)imd->pr, id, pixbuf, x, y);
-}
-#endif
-
 static void image_overlay_remove(ImageWindow *imd, gint id)
 {
 	pixbuf_renderer_overlay_remove((PixbufRenderer *)imd->pr, id);
@@ -1033,15 +1026,6 @@ static void image_osd_free(OverlayStateData *osd)
 
 	g_free(osd);
 }
-
-#if 0
-static void image_osd_remove(ImageWindow *imd)
-{
-	OverlayStateData *osd = image_get_osd_data(imd);
-
-	if (osd) image_osd_free(osd);
-}
-#endif
 
 static void image_osd_destroy_cb(GtkWidget *widget, gpointer data)
 {
