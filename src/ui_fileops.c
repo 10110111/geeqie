@@ -49,25 +49,6 @@ void print_term(const gchar *text_utf8)
 	g_free(text_l);
 }
 
-static void encoding_dialog(const gchar *path);
-
-static gboolean encoding_dialog_idle(gpointer data)
-{
-	gchar *path = data;
-
-	encoding_dialog(path);
-	g_free(path);
-
-	return FALSE;
-}
-
-static gint encoding_dialog_delay(gpointer data)
-{
-	g_idle_add(encoding_dialog_idle, data);
-
-	return 0;
-}
-
 static void encoding_dialog(const gchar *path)
 {
 	static gboolean warned_user = FALSE;
@@ -75,14 +56,6 @@ static void encoding_dialog(const gchar *path)
 	GString *string;
 	const gchar *lc;
 	const gchar *bf;
-
-	/* check that gtk is initialized (loop is level > 0) */
-//	if (gtk_main_level() == 0)
-//		{
-		/* gtk not initialized */
-//		gtk_init_add(encoding_dialog_delay, g_strdup(path));
-//		return;
-//		}
 
 	if (warned_user) return;
 	warned_user = TRUE;
