@@ -1262,9 +1262,6 @@ static void pr_zoom_adjust_real(PixbufRenderer *pr, gdouble increment,
 
 static void pr_update_signal(PixbufRenderer *pr)
 {
-#if 0
-	log_printf("FIXME: send updated signal\n");
-#endif
 	DEBUG_1("%s pixbuf renderer updated - started drawing %p, img: %dx%d", get_exec_time(), pr, pr->image_width, pr->image_height);
 	pr->debug_updated = TRUE;
 }
