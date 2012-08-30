@@ -1357,7 +1357,6 @@ static CollectInfo *collection_table_insert_point(CollectTable *ct, gint x, gint
 
 static void collection_table_insert_marker(CollectTable *ct, CollectInfo *info, gboolean enable)
 {
-	gint row, col;
 	gboolean after = FALSE;
 	GdkRectangle cell;
 
@@ -1373,9 +1372,6 @@ static void collection_table_insert_marker(CollectTable *ct, CollectInfo *info, 
 
 	/* this setting does not take into account (after), but since it is not really used... */
 	ct->marker_info = info;
-
-	row = -1;
-	col = -1;
 
 	if (!ct->marker_window)
 		{
