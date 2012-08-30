@@ -2057,7 +2057,6 @@ static void print_job_render_image_loader_done(ImageLoader *il, gpointer data)
 		gdouble sw, sh;
 		gdouble dw, dh;
 		gdouble x, y, w, h;
-		gdouble scale;
 		gdouble offx, offy;
 
 		sw = (gdouble)gdk_pixbuf_get_width(pixbuf);
@@ -2070,13 +2069,11 @@ static void print_job_render_image_loader_done(ImageLoader *il, gpointer data)
 			{
 			w = dw;
 			h = dw / sw * sh;
-			scale = w / sw;
 			}
 		else
 			{
 			h = dh;
 			w = dh / sh *sw;
-			scale = h / sh;
 			}
 
 		if (pw->image_scale >= 5.0)
@@ -2187,7 +2184,6 @@ static void print_job_render_proof_loader_done(ImageLoader *il, gpointer data)
 	gdouble w, h;
 	gdouble proof_w, proof_h;
 	gdouble icon_w, icon_h;
-	gdouble scale;
 	gboolean success = TRUE;
 
 	if (pw->proof_columns < 1 || pw->proof_rows < 1)
@@ -2213,13 +2209,11 @@ static void print_job_render_proof_loader_done(ImageLoader *il, gpointer data)
 		{
 		icon_w = pw->proof_width;
 		icon_h = pw->proof_width / w * h;
-		scale = icon_w / w;
 		}
 	else
 		{
 		icon_h = pw->proof_height;
 		icon_w = pw->proof_height / h * w;
-		scale = icon_h / h;
 		}
 
 	y = pw->proof_position / pw->proof_columns;
