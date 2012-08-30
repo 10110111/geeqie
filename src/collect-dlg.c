@@ -234,21 +234,6 @@ static void collection_save_or_load_dialog(const gchar *path,
 
 void collection_dialog_save_as(gchar *path, CollectionData *cd)
 {
-#if 0
-	if (!cd->list)
-		{
-		GtkWidget *parent = NULL;
-		CollectWindow *cw;
-
-		cw = collection_window_find(cd);
-		if (cw) parent = cw->window;
-		file_util_warning_dialog(_("Collection empty"),
-					 _("The current collection is empty, save aborted."),
-					 GTK_STOCK_DIALOG_INFO, parent);
-		return;
-		}
-#endif
-
 	if (!path) path = cd->path;
 	if (!path) path = cd->name;
 
