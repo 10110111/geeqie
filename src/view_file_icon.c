@@ -534,8 +534,6 @@ static void vficon_dnd_get(GtkWidget *widget, GdkDragContext *context,
 {
 	ViewFile *vf = data;
 	GList *list = NULL;
-	gchar *uri_text = NULL;
-	gint total;
 
 	if (!VFICON(vf)->click_id) return;
 
