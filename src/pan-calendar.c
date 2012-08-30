@@ -86,21 +86,10 @@ void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 			}
 		}
 
-#if 0
-	if (!list) return;
-#endif
-
 	grid = (gint)(sqrt(g_list_length(list)) + 0.5);
 
 	x = pi_day->x + pi_day->width + 4;
 	y = pi_day->y;
-
-#if 0
-	if (y + grid * (PAN_THUMB_SIZE + PAN_THUMB_GAP) + PAN_BOX_BORDER * 4 > pw->pr->image_height)
-		{
-		y = pw->pr->image_height - (grid * (PAN_THUMB_SIZE + PAN_THUMB_GAP) + PAN_BOX_BORDER * 4);
-		}
-#endif
 
 	pbox = pan_item_box_new(pw, NULL, x, y, PAN_BOX_BORDER, PAN_BOX_BORDER,
 				PAN_CAL_POPUP_BORDER,
