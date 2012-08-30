@@ -345,9 +345,6 @@ static gboolean image_post_process_color(ImageWindow *imd, gint start_row, gbool
 			}
 
 		imd->cm = (gpointer)cm;
-#if 0
-		if (run_in_bg) color_man_start_bg(imd->cm, image_post_process_color_cb, imd);
-#endif
 		}
 
 	image_update_util(imd);
@@ -1197,19 +1194,6 @@ void image_move_from_image(ImageWindow *imd, ImageWindow *source)
 	imd->color_profile_use_image = source->color_profile_use_image;
 	color_man_free((ColorMan *)imd->cm);
 	imd->cm = NULL;
-#if 0
-	if (source->cm)
-		{
-		ColorMan *cm;
-
-		imd->cm = source->cm;
-		source->cm = NULL;
-
-		cm = (ColorMan *)imd->cm;
-		cm->imd = imd;
-		cm->func_done_data = imd;
-		}
-#endif
 
 	file_data_unref(imd->read_ahead_fd);
 	source->read_ahead_fd = NULL;
