@@ -1258,12 +1258,6 @@ static gboolean search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event,
 				stop_signal = FALSE;
 				break;
 			}
-#if 0
-		if (edit_val >= 0)
-			{
-			search_result_edit_selected(sd, edit_val);
-			}
-#endif
 		}
 	else
 		{
@@ -1401,11 +1395,6 @@ static void search_dnd_init(SearchData *sd)
 			 G_CALLBACK(search_dnd_data_set), sd);
 	g_signal_connect(G_OBJECT(sd->result_view), "drag_begin",
 			 G_CALLBACK(search_dnd_begin), sd);
-#if 0
-	g_signal_connect(G_OBJECT(sd->result_view), "drag_end",
-			 G_CALLBACK(search_dnd_end), sd);
-#endif
-
 }
 
 /*
@@ -2795,10 +2784,6 @@ void search_new(FileData *dir_fd, FileData *example_file)
 
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(sd->result_view), TRUE);
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(sd->result_view), FALSE);
-
-#if 0
-	gtk_tree_view_set_search_column(GTK_TREE_VIEW(sd->result_view), SEARCH_COLUMN_NAME);
-#endif
 
 	search_result_add_column(sd, SEARCH_COLUMN_RANK, _("Rank"), FALSE, FALSE);
 	search_result_add_column(sd, SEARCH_COLUMN_THUMB, "", TRUE, FALSE);
