@@ -113,8 +113,8 @@ static void log_window_init(LogWindow *logwin)
 	GtkTextBuffer *buffer;
 #if !GTK_CHECK_VERSION(3,0,0)
 	GdkColormap *colormap;
-#endif
 	gboolean success[LOG_COUNT];
+#endif
 	gint i;
 
 	g_assert(logwin != NULL);
