@@ -262,8 +262,6 @@ static gint mpo_parse_Attributes_IFD_entry(const guchar *tiff, guint offset,
 	guint format;
 	guint count;
 	guint data_val;
-	guint data_offset;
-	guint data_length;
 
 	MPOEntry *mpe = data;
 
