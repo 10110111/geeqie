@@ -190,18 +190,6 @@ static void bar_pane_histogram_size_cb(GtkWidget *widget, GtkAllocation *allocat
 	bar_pane_histogram_update(phd);
 }
 
-#if 0
-static void bar_pane_histogram_close(GtkWidget *pane)
-{
-	PaneHistogramData *phd;
-
-	phd = g_object_get_data(G_OBJECT(pane), "pane_data");
-	if (!phd) return;
-
-	gtk_widget_destroy(phd->widget);
-}
-#endif
-
 static void bar_pane_histogram_destroy(GtkWidget *widget, gpointer data)
 {
 	PaneHistogramData *phd = data;
