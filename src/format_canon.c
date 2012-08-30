@@ -466,62 +466,6 @@ static ExifMarker CanonSet2[] = {
 EXIF_MARKER_LIST_END
 };
 
-#if 0
-
-static ExifTextList CanonCustomEnable[] = {
-	{ 0,	"off" },
-	{ 1,	"on" },
-	EXIF_TEXT_LIST_END
-};
-
-static ExifTextList CanonCustomEnableInvert[] = {
-	{ 0,	"on" },
-	{ 1,	"off" },
-	EXIF_TEXT_LIST_END
-};
-
-static ExifTextList CanonCustomExposureLevel[] = {
-	{ 0,	"1/2 stop" },
-	{ 1,	"1/3 stop" },
-	EXIF_TEXT_LIST_END
-};
-
-static ExifTextList CanonCustomAVShutterSpeed[] = {
-	{ 0,	"auto" },
-	{ 1,	"1/200 (fixed)" },
-	EXIF_TEXT_LIST_END
-};
-
-static ExifTextList CanonCustomShutterCurtainSync[] = {
-	{ 0,	"1st" },
-	{ 1,	"2nd" },
-	EXIF_TEXT_LIST_END
-};
-
-static ExifMarker CanonCustom[] = {
-{ 1,	EXIF_FORMAT_SHORT_UNSIGNED, 1,	"MkN.Canon.NoiseReduction", "Noise reduction",	CanonCustomEnable },
-/*{ 2,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.BtnFuncShutter",
-						"Shutter/Auto exposure button function",CanonCustomBTNShutter }, */
-{ 3,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.MirrorLockup", "Mirror lockup",	CanonCustomEnable },
-{ 4,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.TvAvExposureLevel",
-							"Tv/Av and exposure level",	CanonCustomExposureLevel },
-{ 5,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.AFAssistLight", "AF assist light",	CanonCustomEnableInvert },
-{ 6,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.AvShutterSpeed",
-							"Shutter speed in Av mode",	CanonCustomAVShutterSpeed },
-/*{ 7,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.AutoBracket",
-				"Auto-Exposure bracketting sequence/auto cancellation",	CanonCustom }, */
-{ 8,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.ShutterSync", "Shutter sync",	CanonCustomShutterCurtainSync },
-/* { 9,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.BtnFuncAF",	"AF button function",	CanonCustom }, */
-{ 10,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.FillFlashReduction",
-							"Fill flash auto reduction",	CanonCustomEnableInvert },
-/*{ 11,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.BtnFuncMenu",
-							"Menu button function",		CanonCustom }, */
-/*{ 12,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.BtnFuncSet", "Set button function",	CanonCustom }, */
-{ 13,	EXIF_FORMAT_SHORT_UNSIGNED, 1,  "MkN.Canon.SensorCleaning", "Sensor cleaning",	CanonCustomEnable },
-EXIF_MARKER_LIST_END
-};
-
-#endif
 
 static ExifMarker CanonExifMarkersList[] = {
 	{ 1,	EXIF_FORMAT_SHORT_UNSIGNED, -1, "MkN.Canon.Settings1",		NULL, NULL },
@@ -557,49 +501,6 @@ static void canon_mknote_parse_settings(ExifData *exif,
 		}
 }
 
-#if 0
-static void canon_mknote_parse_convert(ExifData *exif)
-{
-	gint value;
-	ExifItem *result;
-
-	/* seems we need more than only this value for distance */
-	if (exif_get_integer(exif, "MkN.Canon.SubjectDistance", &value))
-		{
-		static ExifMarker marker= { 0x9206, EXIF_FORMAT_RATIONAL_UNSIGNED, 1,
-					    "SubjectDistance", "Subject distance", NULL };
-		ExifItem *item;
-		ExifRational *rational;
-
-		item = exif_item_new(marker.format, marker.tag, 1, &marker);
-		rational = item->data;
-		rational->num = value;
-		rational->den = 100;
-
-		exif->items = g_list_prepend(exif->items, item);
-		}
-
-	result = exif_get_item(exif, "MkN.Canon.SerialNumber");
-	if (result && result->format == EXIF_FORMAT_LONG_UNSIGNED && result->data_len == 4)
-		{
-		static ExifMarker marker= { 12, EXIF_FORMAT_STRING, -1,
-					    "SerialNumber", "Camera serial number", NULL };
-		ExifItem *item;
-		gchar *text;
-		gint l;
-		guint32 n;
-
-		n = (guint32)((guint32 *)(result->data))[0];
-		text = g_strdup_printf("%04X%05d", n & 0xffff0000 >> 8, n & 0x0000ffff);
-		l = strlen(text) + 1;
-		item = exif_item_new(marker.format, marker.tag, l, &marker);
-		memcpy(item->data, text, l);
-		g_free(text);
-
-		exif->items = g_list_prepend(exif->items, item);
-		}
-}
-#endif
 
 gboolean format_canon_makernote(ExifData *exif, guchar *tiff, guint offset,
 			        guint size, ExifByteOrder bo)
@@ -622,10 +523,6 @@ gboolean format_canon_makernote(ExifData *exif, guchar *tiff, guint offset,
 		{
 		canon_mknote_parse_settings(exif, item->data, item->data_len, bo, CanonSet2);
 		}
-
-#if 0
-	canon_mknote_parse_convert(exif);
-#endif
 
 	return TRUE;
 }
