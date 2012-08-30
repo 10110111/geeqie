@@ -144,14 +144,6 @@ static ExifTextList FujiTagNoYes[]= {
 	EXIF_TEXT_LIST_END
 };
 
-#if 0
-static ExifTextList FujiTag[]= {
-	{ ,	"" },
-	{ ,	"" },
-	EXIF_TEXT_LIST_END
-};
-#endif
-
 
 static ExifMarker FujiExifMarkersList[] = {
 { 0x1000,	EXIF_FORMAT_STRING, 8,		"Fuji.Quality",		"Quality",	NULL },
