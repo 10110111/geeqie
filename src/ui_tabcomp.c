@@ -724,10 +724,6 @@ GtkWidget *tab_completion_new_with_history(GtkWidget **entry, const gchar *text,
 	gtk_widget_show(combo);
 
 	combo_entry = gtk_bin_get_child(GTK_BIN(combo));
-#if 0
-	gtk_combo_set_case_sensitive(GTK_COMBO(combo), TRUE);
-	gtk_combo_set_use_arrows(GTK_COMBO(combo), FALSE);
-#endif
 
 	button = tab_completion_create_complete_button(combo_entry, combo);
 	gtk_box_pack_start(GTK_BOX(box), button, FALSE, FALSE, 0);
