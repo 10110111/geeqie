@@ -683,9 +683,6 @@ static void layout_list_sync_marks(LayoutWindow *lw)
 static void layout_list_scroll_to_subpart(LayoutWindow *lw, const gchar *needle)
 {
 	if (!lw) return;
-#if 0
-	if (lw->vf) vf_scroll_to_subpart(lw->vf, needle);
-#endif
 }
 
 GList *layout_list(LayoutWindow *lw)
@@ -1235,10 +1232,6 @@ static void layout_tools_setup(LayoutWindow *lw, GtkWidget *tools, GtkWidget *fi
 
 	vertical = (layout_location_single(lw->image_location) && !layout_location_vertical(lw->image_location)) ||
 		   (!layout_location_single(lw->image_location) && layout_location_vertical(layout_grid_compass(lw)));
-#if 0
-	layout_location_compute(lw->dir_location, lw->file_location,
-				tools, files, &w1, &w2);
-#endif
 	/* for now, tools/dir are always first in order */
 	w1 = tools;
 	w2 = files;
