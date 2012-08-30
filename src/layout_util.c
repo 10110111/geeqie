@@ -117,12 +117,6 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 		return TRUE;
 		}
 
-/*
-	if (event->type == GDK_KEY_PRESS && lw->full_screen &&
-	    gtk_accel_groups_activate(G_OBJECT(lw->window), event->keyval, event->state))
-		return TRUE;
-*/
-
 	focused = gtk_container_get_focus_child(GTK_CONTAINER(lw->image->widget));
 	if (lw->image &&
 	    ((focused && gtk_widget_has_focus(focused)) || (lw->tools && widget == lw->window) || lw->full_screen) )
