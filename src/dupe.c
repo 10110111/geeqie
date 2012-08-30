@@ -2887,42 +2887,21 @@ static gboolean dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, g
 
 	if (event->state & GDK_CONTROL_MASK)
 		{
-		gint edit_val = -1;
-
 		if (!on_second)
 			{
 			stop_signal = TRUE;
 			switch (event->keyval)
 				{
 				case '1':
-					edit_val = 0;
-					break;
 				case '2':
-					edit_val = 1;
-					break;
 				case '3':
-					edit_val = 2;
-					break;
 				case '4':
-					edit_val = 3;
-					break;
 				case '5':
-					edit_val = 4;
-					break;
 				case '6':
-					edit_val = 5;
-					break;
 				case '7':
-					edit_val = 6;
-					break;
 				case '8':
-					edit_val = 7;
-					break;
 				case '9':
-					edit_val = 8;
-					break;
 				case '0':
-					edit_val = 9;
 					break;
 				case 'C': case 'c':
 					file_util_copy(NULL, dupe_listview_get_selection(dw, listview),
@@ -2985,12 +2964,6 @@ static gboolean dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, g
 					break;
 				}
 			}
-#if 0
-		if (edit_val >= 0)
-			{
-			dupe_window_edit_selected(dw, edit_val);
-			}
-#endif
 		}
 	else
 		{
