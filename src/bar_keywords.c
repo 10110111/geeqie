@@ -129,8 +129,6 @@ struct _ConfDialogData
 	gboolean edit_existing;
 };
 
-//static GList *bar_list = NULL;
-
 
 static void bar_pane_keywords_write(PaneKeywordsData *pkd)
 {
@@ -193,25 +191,6 @@ static void bar_keyword_tree_sync(PaneKeywordsData *pkd)
 	if (pkd->expand_checked) gtk_tree_model_foreach(model, bar_keyword_tree_expand_if_set_cb, pkd);
 	if (pkd->collapse_unchecked) gtk_tree_model_foreach(model, bar_keyword_tree_collapse_if_unset_cb, pkd);
 }
-
-#if 0
-static void bar_pane_keywords_keyword_update_all(void)
-{
-	GList *work;
-
-	work = bar_list;
-	while (work)
-		{
-		PaneKeywordsData *pkd;
-//		GList *keywords;
-
-		pkd = work->data;
-		work = work->next;
-
-		bar_keyword_tree_sync(pkd);
-		}
-}
-#endif
 
 static void bar_pane_keywords_update(PaneKeywordsData *pkd)
 {
@@ -324,10 +303,6 @@ static void bar_pane_keywords_keyword_toggle(GtkCellRendererToggle *toggle, cons
 
 	/* call this just once in the end */
 	bar_pane_keywords_changed(keyword_buffer, pkd);
-	/*
-	  bar_pane_keywords_change calls bar_keyword_tree_sync, no need to do it again
-	bar_keyword_tree_sync(pkd);
-	*/
 }
 
 void bar_pane_keywords_filter_modify(GtkTreeModel *model, GtkTreeIter *iter, GValue *value, gint column, gpointer data)
