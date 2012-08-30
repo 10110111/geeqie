@@ -264,21 +264,6 @@ static GtkWidget *layout_config_widget(GtkWidget *group, GtkWidget *box, gint st
 	return group;
 }
 
-#if 0
-static void layout_config_row_move(GtkWidget *clist, gint source_row, gint dest_row, gpointer data)
-{
-	gchar *text;
-	gint i;
-
-	for (i = 0; i < 3; i++)
-		{
-		text = g_strdup_printf("%d", i + 1);
-		gtk_clist_set_text(GTK_CLIST(clist), i, 0, text);
-		g_free(text);
-		}
-}
-#endif
-
 static void layout_config_number_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell,
 				    GtkTreeModel *store, GtkTreeIter *iter, gpointer data)
 {
