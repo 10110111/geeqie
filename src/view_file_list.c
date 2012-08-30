@@ -136,51 +136,6 @@ static FileData *vflist_find_data_by_coord(ViewFile *vf, gint x, gint y, GtkTree
 	return NULL;
 }
 
-#if 0
-static gint vflist_find_sidecar_list_idx(GList *work, FileData *fd)
-{
-	gint i = 0;
-	while (work)
-		{
-		FileData *fd_p = work->data;
-		if (fd == fd_p) return i;
-
-		i++;
-
-		GList *work2 = fd_p->sidecar_files;
-		while (work2)
-			{
-			fd_p = work2->data;
-			if (fd == fd_p) return i;
-
-			i++;
-			work2 = work2->next;
-			}
-		work = work->next;
-		}
-	return -1;
-}
-
-static gint vflist_sidecar_list_count(GList *work)
-{
-	gint i = 0;
-	while (work)
-		{
-		FileData *fd = work->data;
-		i++;
-
-		GList *work2 = fd->sidecar_files;
-		while (work2)
-			{
-			i++;
-			work2 = work2->next;
-			}
-		work = work->next;
-		}
-	return i;
-}
-#endif
-
 static gboolean vflist_store_clear_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
 	FileData *fd;
@@ -223,27 +178,6 @@ static void vflist_move_cursor(ViewFile *vf, GtkTreeIter *iter)
 	gtk_tree_path_free(tpath);
 }
 
-#if 0
-static gint vflist_column_idx(ViewFile *vf, gint store_idx)
-{
-	GList *columns, *work;
-	gint i = 0;
-
-	columns = gtk_tree_view_get_columns(GTK_TREE_VIEW(vf->listview));
-	work = columns;
-	while (work)
-		{
-		GtkTreeViewColumn *column = work->data;
-		if (store_idx == GPOINTER_TO_INT(g_object_get_data(G_OBJECT(column), "column_store_idx")))
-			break;
-		work = work->next;
-		i++;
-		}
-
-	g_list_free(columns);
-	return i;
-}
-#endif
 
 /*
  *-----------------------------------------------------------------------------
@@ -323,12 +257,6 @@ static void vflist_drag_data_received(GtkWidget *entry_widget, GdkDragContext *c
 			metadata_append_list(fd, KEYWORD_KEY, kw_list);
 			string_list_free(kw_list);
 			g_free(str);
-/*
-file notification should handle this automatically
-			if (vf->layout && vf->layout->bar_info) {
-				bar_set_fd(vf->layout->bar_info, fd);
-			}
-*/
 		}
 	}
 }
@@ -595,9 +523,6 @@ gboolean vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer dat
 
 		gtk_tree_model_get_iter(store, &iter, tpath);
 		gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &fd, -1);
-#if 0
-		gtk_tree_view_set_cursor(GTK_TREE_VIEW(widget), tpath, NULL, FALSE);
-#endif
 		gtk_tree_path_free(tpath);
 		}
 
@@ -641,12 +566,10 @@ gboolean vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer dat
 		return (gtk_tree_selection_count_selected_rows(selection) > 1);
 		}
 
-#if 1
 	if (bevent->button == MOUSE_BUTTON_LEFT && bevent->type == GDK_2BUTTON_PRESS)
 		{
 		if (vf->layout) layout_image_full_screen_start(vf->layout);
 		}
-#endif
 
 	return FALSE;
 }
@@ -710,7 +633,6 @@ gboolean vflist_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer d
 		gtk_tree_selection_unselect_all(selection);
 		gtk_tree_selection_select_iter(selection, &iter);
 		vflist_move_cursor(vf, &iter);
-//		return TRUE;// FIXME - expand
 		}
 
 	return FALSE;
@@ -820,13 +742,6 @@ static void vflist_collapse_cb(GtkTreeView *tree_view, GtkTreeIter *iter, GtkTre
  *-----------------------------------------------------------------------------
  */
 
-/*
-static gboolean vflist_dummy_select_cb(GtkTreeSelection *selection, GtkTreeModel *store, GtkTreePath *tpath,
-					gboolean path_currently_selected, gpointer data)
-{
-	return TRUE;
-}
-*/
 
 static gchar* vflist_get_formatted(ViewFile *vf, const gchar *name, const gchar *sidecars, const gchar *size, const gchar *time, gboolean expanded)
  {
@@ -2085,7 +2000,6 @@ void vflist_marks_set(ViewFile *vf, gboolean enable)
 		}
 
 	g_list_free(columns);
-	//vf_refresh(vf);
 }
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
