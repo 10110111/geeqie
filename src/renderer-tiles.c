@@ -581,10 +581,7 @@ static void rt_overlay_draw(RendererTiles *rt, gint x, gint y, gint w, gint h,
 			    ImageTile *it)
 {
 	PixbufRenderer *pr = rt->pr;
-	GtkWidget *box;
 	GList *work;
-
-	box = GTK_WIDGET(pr);
 
 	work = rt->overlay_list;
 	while (work)
@@ -998,14 +995,13 @@ static void rt_tile_mirror_and_flip(RendererTiles *rt, GdkPixbuf **tile, gint x,
 	gint srs, drs;
 	guchar *s_pix, *d_pix;
 	guchar *sp, *dp;
-	guchar *spi, *dpi;
+	guchar *dpi;
 	gint i, j;
 	gint tw = rt->tile_width;
 	gint th = rt->tile_height;
 
 	srs = gdk_pixbuf_get_rowstride(src);
 	s_pix = gdk_pixbuf_get_pixels(src);
-	spi = s_pix + (x * COLOR_BYTES);
 
 	dest = rt_get_spare_tile(rt);
 	drs = gdk_pixbuf_get_rowstride(dest);
@@ -1119,12 +1115,9 @@ static gboolean rt_source_tile_render(RendererTiles *rt, ImageTile *it,
 				      gboolean new_data, gboolean fast)
 {
 	PixbufRenderer *pr = rt->pr;
-	GtkWidget *box;
 	GList *list;
 	GList *work;
 	gboolean draw = FALSE;
-
-	box = GTK_WIDGET(pr);
 
 	if (pr->zoom == 1.0 || pr->scale == 1.0)
 		{
@@ -1295,7 +1288,6 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 			   gboolean new_data, gboolean fast)
 {
 	PixbufRenderer *pr = rt->pr;
-	GtkWidget *box;
 	gboolean has_alpha;
 	gboolean draw = FALSE;
 	gint orientation = rt_get_orientation(rt);
@@ -1322,8 +1314,6 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 
 	rt_tile_prepare(rt, it);
 	has_alpha = (pr->pixbuf && gdk_pixbuf_get_has_alpha(pr->pixbuf));
-
-	box = GTK_WIDGET(pr);
 
 	/* FIXME checker colors for alpha should be configurable,
 	 * also should be drawn for blank = TRUE

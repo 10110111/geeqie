@@ -552,7 +552,7 @@ static void stereo_mode_menu_cb(GtkWidget *combo, gpointer data)
 }
 
 static void add_stereo_mode_menu(GtkWidget *table, gint column, gint row, const gchar *text,
-			     guint option, guint *option_c, gboolean add_fixed)
+			     gint option, gint *option_c, gboolean add_fixed)
 {
 	GtkWidget *combo;
 	gint current = 0;

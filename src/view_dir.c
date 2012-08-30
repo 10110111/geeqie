@@ -604,7 +604,6 @@ static void vd_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 {
 	GtkWidget *menu;
-	GtkWidget *item;
 	gboolean active;
 	gboolean rename_delete_active = FALSE;
 	gboolean new_folder_active = FALSE;
@@ -674,11 +673,11 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 	menu_item_add_divider(menu);
 
 
-	item = menu_item_add_radio(menu, _("View as _List"), GINT_TO_POINTER(DIRVIEW_LIST), vd->type == DIRVIEW_LIST,
-                                           G_CALLBACK(vd_pop_submenu_dir_view_as_cb), vd);
+	menu_item_add_radio(menu, _("View as _List"), GINT_TO_POINTER(DIRVIEW_LIST), vd->type == DIRVIEW_LIST,
+                        G_CALLBACK(vd_pop_submenu_dir_view_as_cb), vd);
 
-	item = menu_item_add_radio(menu, _("View as _Tree"), GINT_TO_POINTER(DIRVIEW_TREE), vd->type == DIRVIEW_TREE,
-                                           G_CALLBACK(vd_pop_submenu_dir_view_as_cb), vd);
+	menu_item_add_radio(menu, _("View as _Tree"), GINT_TO_POINTER(DIRVIEW_TREE), vd->type == DIRVIEW_TREE,
+                        G_CALLBACK(vd_pop_submenu_dir_view_as_cb), vd);
 
 	menu_item_add_divider(menu);
 

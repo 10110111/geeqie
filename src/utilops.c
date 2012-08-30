@@ -773,10 +773,9 @@ static void file_util_perform_ci_dir(UtilityData *ud, gboolean internal, gboolea
 			if (fail)
 				{
 				gchar *text;
-				GenericDialog *gd;
 
 				text = g_strdup_printf("%s:\n\n%s", ud->messages.fail, ud->dir_fd->path);
-				gd = file_util_warning_dialog(ud->messages.fail, text, GTK_STOCK_DIALOG_ERROR, NULL);
+				(void) file_util_warning_dialog(ud->messages.fail, text, GTK_STOCK_DIALOG_ERROR, NULL);
 				g_free(text);
 
 				file_data_unref(fail);
@@ -793,10 +792,9 @@ static void file_util_perform_ci_dir(UtilityData *ud, gboolean internal, gboolea
 			else
 				{
 				gchar *text;
-				GenericDialog *gd;
 
 				text = g_strdup_printf("%s:\n\n%s", ud->messages.fail, ud->dir_fd->path);
-				gd = file_util_warning_dialog(ud->messages.fail, text, GTK_STOCK_DIALOG_ERROR, NULL);
+				(void) file_util_warning_dialog(ud->messages.fail, text, GTK_STOCK_DIALOG_ERROR, NULL);
 				g_free(text);
 				}
 			

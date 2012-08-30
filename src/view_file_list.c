@@ -251,7 +251,7 @@ static void vflist_drag_data_received(GtkWidget *entry_widget, GdkDragContext *c
 
 		if (fd) {
 			/* Add keywords to file */
-			gchar *str = gtk_selection_data_get_text(selection);
+			gchar *str = (gchar *) gtk_selection_data_get_text(selection);
 			GList *kw_list = string_to_keywords_list(str);
 			
 			metadata_append_list(fd, KEYWORD_KEY, kw_list);
@@ -1836,10 +1836,6 @@ static void vflist_listview_add_column_toggle(ViewFile *vf, gint n, const gchar 
 {
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
-	GtkTreeStore *store;
-	gint index;
-
-	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
 
 	renderer = gtk_cell_renderer_toggle_new();
 	column = gtk_tree_view_column_new_with_attributes(title, renderer, "active", n, NULL);
@@ -1848,7 +1844,7 @@ static void vflist_listview_add_column_toggle(ViewFile *vf, gint n, const gchar 
 	g_object_set_data(G_OBJECT(column), "column_store_idx", GUINT_TO_POINTER(n));
 	g_object_set_data(G_OBJECT(renderer), "column_store_idx", GUINT_TO_POINTER(n));
 
-	index = gtk_tree_view_append_column(GTK_TREE_VIEW(vf->listview), column);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(vf->listview), column);
 	gtk_tree_view_column_set_fixed_width(column, 22);
 	gtk_tree_view_column_set_visible(column, vf->marks_enabled);
 

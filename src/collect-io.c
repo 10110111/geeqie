@@ -784,12 +784,11 @@ static void collect_manager_process_actions(gint max)
 static gboolean collect_manager_process_entry(CollectManagerEntry *entry)
 {
 	CollectionData *cd;
-	gboolean success;
 
 	if (entry->empty) return FALSE;
 
 	cd = collection_new(entry->path);
-	success = collection_load_private(cd, entry->path, COLLECTION_LOAD_NONE);
+	(void) collection_load_private(cd, entry->path, COLLECTION_LOAD_NONE);
 
 	collection_unref(cd);
 

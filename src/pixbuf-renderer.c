@@ -1691,8 +1691,6 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 {
 	gdouble old_scale;
 	gint old_cx, old_cy;
-	gboolean clamped;
-	gboolean sized;
 	gboolean center_point = !!(flags & PR_ZOOM_CENTER);
 	gboolean force = !!(flags & PR_ZOOM_FORCE);
 	gboolean new = !!(flags & PR_ZOOM_NEW);
@@ -1700,7 +1698,7 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 	PrZoomFlags clamp_flags = flags;
 	gdouble old_center_x = pr->norm_center_x;
 	gdouble old_center_y = pr->norm_center_y;
-	
+
 	old_scale = pr->scale;
 	if (center_point)
 		{
@@ -1719,8 +1717,8 @@ static void pr_zoom_sync(PixbufRenderer *pr, gdouble zoom,
 	if (force) clamp_flags |= PR_ZOOM_INVALIDATE;
 	if (!pr_zoom_clamp(pr, zoom, clamp_flags)) return;
 
-	clamped = pr_size_clamp(pr);
-	sized = pr_parent_window_resize(pr, pr->width, pr->height);
+	(void) pr_size_clamp(pr);
+	(void) pr_parent_window_resize(pr, pr->width, pr->height);
 
 	if (force && new)
 		{
