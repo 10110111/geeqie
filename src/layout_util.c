@@ -125,7 +125,7 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 
 	focused = gtk_container_get_focus_child(GTK_CONTAINER(lw->image->widget));
 	if (lw->image &&
-	    (focused && gtk_widget_has_focus(focused) || (lw->tools && widget == lw->window) || lw->full_screen) )
+	    ((focused && gtk_widget_has_focus(focused)) || (lw->tools && widget == lw->window) || lw->full_screen) )
 		{
 		stop_signal = TRUE;
 		switch (event->keyval)
