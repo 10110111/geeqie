@@ -875,10 +875,6 @@ GtkWidget *history_combo_new(GtkWidget **entry, const gchar *text,
 	hc->history_levels = max_levels;
 
 	hc->combo = gtk_combo_box_text_new_with_entry();
-#if 0
-	gtk_combo_set_case_sensitive(GTK_COMBO(hc->combo), TRUE);
-	gtk_combo_set_use_arrows(GTK_COMBO(hc->combo), FALSE);
-#endif
 
 	hc->entry = gtk_bin_get_child(GTK_BIN(hc->combo));
 
