@@ -2023,8 +2023,6 @@ static gboolean layout_editors_reload_idle_cb(gpointer data)
 
 void layout_editors_reload_start(void)
 {
-	GList *work;
-
 	DEBUG_1("%s layout_editors_reload_start", get_exec_time());
 
 	if (layout_editors_reload_idle_id != -1)
@@ -2032,8 +2030,6 @@ void layout_editors_reload_start(void)
 		g_source_remove(layout_editors_reload_idle_id);
 		string_list_free(layout_editors_desktop_files);
 		}
-
-	work = layout_window_list;
 
 	editor_table_clear();
 	layout_editors_reload_idle_id = g_idle_add(layout_editors_reload_idle_cb, NULL);
