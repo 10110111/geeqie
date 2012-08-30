@@ -2324,16 +2324,12 @@ static void pr_set_pixbuf(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdouble zoom, P
 
 	if (!pr->pixbuf)
 		{
-		GtkWidget *box;
-
 		/* no pixbuf so just clear the window */
 		pr->image_width = 0;
 		pr->image_height = 0;
 		pr->scale = 1.0;
 		pr->zoom = zoom; /* don't throw away the zoom value, it is set by pixbuf_renderer_move, among others,
 				    and used for pixbuf_renderer_zoom_get */
-
-		box = GTK_WIDGET(pr);
 
 		pr->renderer->update_pixbuf(pr->renderer, flags & PR_ZOOM_LAZY);
 		if (pr->renderer2) pr->renderer2->update_pixbuf(pr->renderer2, flags & PR_ZOOM_LAZY);
