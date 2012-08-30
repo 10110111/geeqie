@@ -102,14 +102,6 @@ gboolean collection_info_load_thumb(CollectInfo *ci)
 
 	log_printf("collection_info_load_thumb not implemented!\n(because an instant thumb loader not implemented)");
 	return FALSE;
-#if 0
-	if (create_thumbnail(ci->fd->path, &ci->pixmap, &ci->mask) < 0) return FALSE;
-
-	if (ci->pixmap) gdk_pixmap_ref(ci->pixmap);
-	if (ci->mask) gdk_bitmap_ref(ci->mask);
-
-	return TRUE;
-#endif
 }
 
 void collection_list_free(GList *list)
@@ -253,38 +245,6 @@ CollectInfo *collection_list_find_fd(GList *list, FileData *fd)
 
 	return NULL;
 }
-
-#if 0
-static GList *collection_list_find_link(GList *list, gchar *path)
-{
-	GList *work = list;
-
-	while (work)
-		{
-		CollectInfo *ci = work->data;
-		if (strcmp(ci->fd->path, path) == 0) return work;
-		work = work->next;
-		}
-
-	return NULL;
-}
-
-static gint collection_list_find_index(GList *list, gchar *path)
-{
-	gint c = 0;
-	GList *work = list;
-
-	while (work)
-		{
-		CollectInfo *ci = work->data;
-		if (strcmp(ci->fd->path, path) == 0) return c;
-		work = work->next;
-		c++;
-		}
-
-	return -1;
-}
-#endif
 
 GList *collection_list_to_filelist(GList *list)
 {
@@ -1025,13 +985,6 @@ static void collection_window_insert(CollectWindow *cw, CollectInfo *ci)
 	collection_table_file_insert(cw->table, ci);
 	if (!cw) return;
 }
-
-#if 0
-static void collection_window_move(CollectWindow *cw, CollectInfo *ci)
-{
-	if (!cw) return;
-}
-#endif
 
 static void collection_window_remove(CollectWindow *cw, CollectInfo *ci)
 {
