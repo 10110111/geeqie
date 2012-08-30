@@ -817,7 +817,6 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 {
 	CollectWindow *cw = data;
 	gboolean stop_signal = FALSE;
-	gint edit_val = -1;
 	GList *list;
 
 	if (event->state & GDK_CONTROL_MASK)
@@ -826,34 +825,15 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 		switch (event->keyval)
 			{
 			case '1':
-				edit_val = 0;
-				break;
 			case '2':
-				edit_val = 1;
-				break;
 			case '3':
-				edit_val = 2;
-				break;
 			case '4':
-				edit_val = 3;
-				break;
 			case '5':
-				edit_val = 4;
-				break;
 			case '6':
-				edit_val = 5;
-				break;
 			case '7':
-				edit_val = 6;
-				break;
 			case '8':
-				edit_val = 7;
-				break;
 			case '9':
-				edit_val = 8;
-				break;
 			case '0':
-				edit_val = 9;
 				break;
 			case 'A': case 'a':
 				if (event->state & GDK_SHIFT_MASK)
