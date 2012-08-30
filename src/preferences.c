@@ -587,7 +587,7 @@ static void add_stereo_mode_menu(GtkWidget *table, gint column, gint row, const 
 		current = 6;
 		if (option & PR_STEREO_HALF) current = 7;
 		}
-		
+
 	if (add_fixed)
 		{
 		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Fixed position"));

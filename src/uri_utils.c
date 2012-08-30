@@ -30,7 +30,7 @@ gchar **uris_from_pathlist(GList *list)
 		gchar *local_path = path_from_utf8(path);
 		uris[i] = g_filename_to_uri(local_path, NULL, NULL);
 		g_free(local_path);
-		
+
 		i++;
 		work = work->next;
 		}

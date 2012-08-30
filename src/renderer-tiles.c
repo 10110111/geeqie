@@ -127,18 +127,18 @@ struct _RendererTiles
 
 	GList *overlay_list;
 	cairo_surface_t *overlay_buffer;
-	
+
 	guint draw_idle_id; /* event source id */
 
 	GdkPixbuf *spare_tile;
-	
+
 	gint stereo_mode;
 	gint stereo_off_x;
 	gint stereo_off_y;
-	
+
 	gint x_scroll;  /* allow local adjustment and mirroring */
 	gint y_scroll;
-	
+
 };
 
 
@@ -172,11 +172,11 @@ static gint rt_queue_draw_idle_cb(gpointer data);
 static void rt_sync_scroll(RendererTiles *rt)
 {
 	PixbufRenderer *pr = rt->pr;
-	
+
 	rt->x_scroll = (rt->stereo_mode & PR_STEREO_MIRROR) ?
 	               pr->width - pr->vis_width - pr->x_scroll
 	               : pr->x_scroll;
-	
+
 	rt->y_scroll = (rt->stereo_mode & PR_STEREO_FLIP) ?
 	               pr->height - pr->vis_height - pr->y_scroll
 	               : pr->y_scroll;
@@ -594,7 +594,7 @@ static void rt_overlay_draw(RendererTiles *rt, gint x, gint y, gint w, gint h,
 		work = work->next;
 
 		if (!od->window) rt_overlay_init_window(rt, od);
-		
+
 		rt_overlay_get_position(rt, od, &px, &py, &pw, &ph);
 		if (pr_clip_region(x, y, w, h, px, py, pw, ph, &rx, &ry, &rw, &rh))
 			{
@@ -613,11 +613,11 @@ static void rt_overlay_draw(RendererTiles *rt, gint x, gint y, gint w, gint h,
 				cairo_set_source_surface(cr, it->surface, (pr->x_offset + (it->x - rt->x_scroll)) - rx, (pr->y_offset + (it->y - rt->y_scroll)) - ry);
 				cairo_rectangle(cr, 0, 0, rw, rh);
 				cairo_fill_preserve(cr);
-				
+
 				gdk_cairo_set_source_pixbuf(cr, od->pixbuf, px - rx, py - ry);
 				cairo_fill (cr);
 				cairo_destroy (cr);
-				
+
 				cr = gdk_cairo_create(od->window);
 				cairo_set_source_surface(cr, rt->overlay_buffer, rx - px, ry - py);
 				cairo_rectangle (cr, rx - px, ry - py, rw, rh);
@@ -642,11 +642,11 @@ static void rt_overlay_draw(RendererTiles *rt, gint x, gint y, gint w, gint h,
 					cairo_set_source_rgb(cr, 0, 0, 0);
 					cairo_rectangle(cr, 0, 0, sw, sh);
 					cairo_fill_preserve(cr);
-				
+
 					gdk_cairo_set_source_pixbuf(cr, od->pixbuf, px - sx, py - sy);
 					cairo_fill (cr);
 					cairo_destroy (cr);
-				
+
 					cr = gdk_cairo_create(od->window);
 					cairo_set_source_surface(cr, rt->overlay_buffer, sx - px, sy - py);
 					cairo_rectangle (cr, sx - px, sy - py, sw, sh);
@@ -664,13 +664,13 @@ static void rt_overlay_queue_draw(RendererTiles *rt, OverlayData *od, gint x1, g
 	gint x, y, w, h;
 
 	rt_overlay_get_position(rt, od, &x, &y, &w, &h);
-	
+
 	/* add borders */
 	x -= x1;
 	y -= y1;
 	w += x1 + x2;
 	h += y1 + y2;
-	
+
 	rt_queue(rt, rt->x_scroll - pr->x_offset + x,
 		 rt->y_scroll - pr->y_offset + y,
 		 w, h,
@@ -702,9 +702,9 @@ static void rt_overlay_update_sizes(RendererTiles *rt)
 		{
 		OverlayData *od = work->data;
 		work = work->next;
-		
+
 		if (!od->window) rt_overlay_init_window(rt, od);
-		
+
 		if (od->flags & OVL_RELATIVE)
 			{
 			gint x, y, w, h;
@@ -755,7 +755,7 @@ gint renderer_tiles_overlay_add(void *renderer, GdkPixbuf *pixbuf, gint x, gint 
 	od->flags = flags;
 
 	rt_overlay_init_window(rt, od);
-	
+
 	rt->overlay_list = g_list_append(rt->overlay_list, od);
 
 	rt_overlay_queue_draw(rt, od, 0, 0, 0, 0);
@@ -1385,7 +1385,7 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 				/* nothing to do */
 				break;
 			}
-		
+
 		/* HACK: The pixbuf scalers get kinda buggy(crash) with extremely
 		 * small sizes for anything but GDK_INTERP_NEAREST
 		 */
@@ -1500,7 +1500,7 @@ static gboolean rt_tile_is_visible(RendererTiles *rt, ImageTile *it)
 static gint rt_get_queued_area(GList *work)
 {
 	gint area = 0;
-	
+
 	while (work)
 		{
 		QueueData *qd = work->data;
@@ -1516,7 +1516,7 @@ static gboolean rt_queue_schedule_next_draw(RendererTiles *rt, gboolean force_se
 	PixbufRenderer *pr = rt->pr;
 	gfloat percent;
 	gint visible_area = pr->vis_width * pr->vis_height;
-	
+
 	if (!pr->loading)
 		{
 		/* 2pass prio */
@@ -1524,7 +1524,7 @@ static gboolean rt_queue_schedule_next_draw(RendererTiles *rt, gboolean force_se
 		rt->draw_idle_id = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE, rt_queue_draw_idle_cb, rt, NULL);
 		return FALSE;
 		}
-	
+
 	if (visible_area == 0)
 		{
 		/* not known yet */
@@ -1534,7 +1534,7 @@ static gboolean rt_queue_schedule_next_draw(RendererTiles *rt, gboolean force_se
 		{
 		percent = 100.0 * rt_get_queued_area(rt->draw_queue) / visible_area;
 		}
-	
+
 	if (percent > 10.0)
 		{
 		/* we have enough data for starting intensive redrawing */
@@ -1542,7 +1542,7 @@ static gboolean rt_queue_schedule_next_draw(RendererTiles *rt, gboolean force_se
 		rt->draw_idle_id = g_idle_add_full(GDK_PRIORITY_REDRAW, rt_queue_draw_idle_cb, rt, NULL);
 		return FALSE;
 		}
-	
+
 	if (percent < 1.0 || force_set)
 		{
 		/* queue is (almost) empty, wait  50 ms*/
@@ -1550,12 +1550,12 @@ static gboolean rt_queue_schedule_next_draw(RendererTiles *rt, gboolean force_se
 		rt->draw_idle_id = g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE, 50, rt_queue_draw_idle_cb, rt, NULL);
 		return FALSE;
 		}
-	
+
 	/* keep the same priority as before */
 	DEBUG_2("redraw priority: no change %.2f %%", percent);
 	return TRUE;
 }
-		
+
 
 static gboolean rt_queue_draw_idle_cb(gpointer data)
 {
@@ -1981,7 +1981,7 @@ static void renderer_redraw(RendererTiles *rt, gint x, gint y, gint w, gint h,
 
 	x -= rt->stereo_off_x;
 	y -= rt->stereo_off_y;
-	
+
 	rt_border_draw(rt, x, y, w, h);
 
 	x = MAX(0, x - pr->x_offset + pr->x_scroll);
@@ -2023,7 +2023,7 @@ static void renderer_update_viewport(void *renderer)
 
 	rt->stereo_off_x = 0;
 	rt->stereo_off_y = 0;
-	
+
 	if (rt->stereo_mode & PR_STEREO_RIGHT)
 		{
 		if (rt->stereo_mode & PR_STEREO_HORIZ)
@@ -2133,9 +2133,9 @@ static gboolean rt_expose_cb(GtkWidget *widget, GdkEventExpose *event, gpointer 
 RendererFuncs *renderer_tiles_new(PixbufRenderer *pr)
 {
 	RendererTiles *rt = g_new0(RendererTiles, 1);
-	
+
 	rt->pr = pr;
-	
+
 	rt->f.area_changed = renderer_area_changed;
 	rt->f.update_pixbuf = renderer_update_pixbuf;
 	rt->f.free = renderer_free;
@@ -2150,7 +2150,7 @@ RendererFuncs *renderer_tiles_new(PixbufRenderer *pr)
 	rt->f.overlay_get = renderer_tiles_overlay_get;
 
 	rt->f.stereo_set = renderer_stereo_set;
-	
+
 	rt->tile_width = PR_TILE_SIZE;
 	rt->tile_height = PR_TILE_SIZE;
 
@@ -2160,7 +2160,7 @@ RendererFuncs *renderer_tiles_new(PixbufRenderer *pr)
 	rt->tile_cache_max = PR_CACHE_SIZE_DEFAULT;
 
 	rt->draw_idle_id = 0;
-	
+
 	rt->stereo_mode = 0;
 	rt->stereo_off_x = 0;
 	rt->stereo_off_y = 0;

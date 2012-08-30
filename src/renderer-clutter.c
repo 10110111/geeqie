@@ -89,22 +89,22 @@ struct _RendererClutter
 	RendererFuncs f;
 	PixbufRenderer *pr;
 
-	
+
 	gint stereo_mode;
 	gint stereo_off_x;
 	gint stereo_off_y;
-	
-	
+
+
 	GList *pending_updates;
 	gint idle_update;
-	
+
 	GList *overlay_list;
-	
+
 	GtkWidget *widget; /* widget and stage may be shared with other renderers */
 	ClutterActor *stage;
 	ClutterActor *texture;
 	ClutterActor *group;
-	
+
 	gboolean clut_updated;
 	gint64 last_pixbuf_change;
 };
@@ -186,7 +186,7 @@ static void rc_prepare_post_process_lut(RendererClutter *rc)
 	GdkPixbuf *tmp_pixbuf;
 	CoglHandle material;
 	CoglHandle tex3d;
-	
+
 	DEBUG_0("%s clut start", get_exec_time());
 
 	for (r = 0; r < CLUT_SIZE; r++)
@@ -251,16 +251,16 @@ static void rc_sync_actor(RendererClutter *rc)
 	PixbufRenderer *pr = rc->pr;
 	gint anchor_x = 0;
 	gint anchor_y = 0;
-	
+
 	clutter_actor_set_anchor_point(CLUTTER_ACTOR(rc->texture), 0, 0);
 
 	DEBUG_0("scale %d %d", rc->pr->width, rc->pr->height);
 	DEBUG_0("pos   %d %d", rc->pr->x_offset, rc->pr->y_offset);
-	
+
 	clutter_actor_set_scale(CLUTTER_ACTOR(rc->texture),
 			        (gfloat)pr->width / pr->image_width,
 			        (gfloat)pr->height / pr->image_height);
-			        
+
 	switch (pr->orientation)
 		{
 		case EXIF_ORIENTATION_TOP_LEFT:
@@ -353,7 +353,7 @@ static void rc_sync_actor(RendererClutter *rc)
 			/* The other values are out of range */
 			break;
 		}
-	
+
 	clutter_actor_set_position(CLUTTER_ACTOR(rc->texture),
 				pr->x_offset - pr->x_scroll + anchor_x,
 				pr->y_offset - pr->y_scroll + anchor_y);
@@ -365,23 +365,23 @@ static void rc_area_clip_add(RendererClutter *rc, gfloat x, gfloat y, gfloat w, 
 {
 	gfloat x2, y2;
 	gfloat clip_x, clip_y, clip_w, clip_h, clip_x2, clip_y2;
-	
+
 	x2 = x + w;
 	y2 = y + h;
-	
+
 	clutter_actor_get_clip(rc->texture, &clip_x, &clip_y, &clip_w, &clip_h);
-	
+
 	clip_x2 = clip_x + clip_w;
 	clip_y2 = clip_y + clip_h;
-	
+
 	if (clip_x > x) clip_x = x;
 	if (clip_x2 < x2) clip_x2 = x2;
 	if (clip_y > y) clip_y = y;
 	if (clip_y2 < y2) clip_y2 = y2;
-	
+
 	clip_w = clip_x2 - clip_x;
 	clip_h = clip_y2 - clip_y;
-	
+
 	clutter_actor_set_clip(rc->texture, clip_x, clip_y, clip_w, clip_h);
 }
 
@@ -411,19 +411,19 @@ static gboolean rc_area_changed_cb(gpointer data)
 {
 	RendererClutter *rc = (RendererClutter *)data;
 	PixbufRenderer *pr = rc->pr;
-	
+
 	RendererClutterAreaParam *par = rc->pending_updates->data;
-	
+
 	gint h = MAX_REGION_AREA / par->w;
 	if (h == 0) h = 1;
 	if (h > par->h) h = par->h;
-	
-	
+
+
 	DEBUG_0("%s upload start", get_exec_time());
 	if (pr->pixbuf)
 		{
 		CoglHandle texture = clutter_texture_get_cogl_texture(CLUTTER_TEXTURE(rc->texture));
-		
+
 		cogl_texture_set_region(texture,
 					par->x + GET_RIGHT_PIXBUF_OFFSET(rc),
 					par->y,
@@ -440,10 +440,10 @@ static gboolean rc_area_changed_cb(gpointer data)
 	DEBUG_0("%s upload end", get_exec_time());
 	rc_area_clip_add(rc, par->x, par->y, par->w, h);
 
-		
+
 	par->y += h;
 	par->h -= h;
-	
+
 	if (par->h == 0)
 		{
 		rc->pending_updates = g_list_remove(rc->pending_updates, par);
@@ -474,16 +474,16 @@ static void rc_area_changed(void *renderer, gint src_x, gint src_y, gint src_w, 
 
 	gint width = gdk_pixbuf_get_width(pr->pixbuf);
 	gint height = gdk_pixbuf_get_height(pr->pixbuf);
-		
+
 	if (pr->stereo_data == STEREO_PIXBUF_SBS || pr->stereo_data == STEREO_PIXBUF_CROSS)
 			{
 			width /= 2;
 			}
-	
+
 	if (!pr_clip_region(src_x, src_y, src_w, src_h,
                             GET_RIGHT_PIXBUF_OFFSET(rc), 0, width, height,
                             &src_x, &src_y, &src_w, &src_h)) return;
-	
+
 	par = g_new0(RendererClutterAreaParam, 1);
 	par->rc = rc;
 	par->x = src_x - GET_RIGHT_PIXBUF_OFFSET(rc);
@@ -513,31 +513,31 @@ static void rc_update_pixbuf(void *renderer, gboolean lazy)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
 	PixbufRenderer *pr = rc->pr;
-	
+
 	DEBUG_0("rc_update_pixbuf");
 
 	rc_remove_pending_updates(rc);
 
 	rc->last_pixbuf_change = g_get_monotonic_time();
 	DEBUG_0("%s change time reset", get_exec_time());
-	
+
 	if (pr->pixbuf)
 		{
 		gint width = gdk_pixbuf_get_width(pr->pixbuf);
 		gint height = gdk_pixbuf_get_height(pr->pixbuf);
 
 		DEBUG_0("pixbuf size %d x %d (%d)", width, height, gdk_pixbuf_get_has_alpha(pr->pixbuf) ? 32 : 24);
-		
+
 		gint prev_width, prev_height;
-		
+
 		if (pr->stereo_data == STEREO_PIXBUF_SBS || pr->stereo_data == STEREO_PIXBUF_CROSS)
 			{
 			width /= 2;
 			}
 
-		
+
 		clutter_texture_get_base_size(CLUTTER_TEXTURE(rc->texture), &prev_width, &prev_height);
-		
+
 		if (width != prev_width || height != prev_height)
 			{
 			/* FIXME use CoglMaterial with multiple textures for background, color management, anaglyph, ... */
@@ -672,10 +672,10 @@ static gint rc_overlay_add(void *renderer, GdkPixbuf *pixbuf, gint x, gint y, Ov
 	od->x = x;
 	od->y = y;
 	od->flags = flags;
-	
+
 	od->actor = gtk_clutter_texture_new();
 	g_signal_connect (od->actor, "destroy", G_CALLBACK(rc_overlay_actor_destroy_cb), od);
-	
+
 	gtk_clutter_texture_set_from_pixbuf(GTK_CLUTTER_TEXTURE (od->actor), pixbuf, NULL);
   	clutter_container_add_actor(CLUTTER_CONTAINER(rc->group), od->actor);
 
@@ -741,7 +741,7 @@ static void rc_update_viewport(void *renderer)
 
 	rc->stereo_off_x = 0;
 	rc->stereo_off_y = 0;
-	
+
 	if (rc->stereo_mode & PR_STEREO_RIGHT)
 		{
 		if (rc->stereo_mode & PR_STEREO_HORIZ)
@@ -773,7 +773,7 @@ static void rc_update_viewport(void *renderer)
 
 	clutter_actor_set_size(rc->group, rc->pr->viewport_width, rc->pr->viewport_height);
 	clutter_actor_set_position(rc->group, rc->stereo_off_x, rc->stereo_off_y);
-	
+
 	clutter_actor_set_rotation(CLUTTER_ACTOR(rc->group),
 						CLUTTER_Y_AXIS,
 						(rc->stereo_mode & PR_STEREO_MIRROR) ? 180 : 0,
@@ -811,7 +811,7 @@ static void rc_free(void *renderer)
 	rc_remove_pending_updates(rc);
 
 	rc_overlay_free_all(rc);
-	
+
 	if (widget)
 		{
 		/* widget still exists */
@@ -834,9 +834,9 @@ static void rc_free(void *renderer)
 RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
 {
 	RendererClutter *rc = g_new0(RendererClutter, 1);
-	
+
 	rc->pr = pr;
-	
+
 	rc->f.area_changed = rc_area_changed;
 	rc->f.update_pixbuf = rc_update_pixbuf;
 	rc->f.free = rc_free;
@@ -851,8 +851,8 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
 	rc->f.overlay_get = rc_overlay_get;
 
 	rc->f.stereo_set = rc_stereo_set;
-	
-	
+
+
 	rc->stereo_mode = 0;
 	rc->stereo_off_x = 0;
 	rc->stereo_off_y = 0;
@@ -861,7 +861,7 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
 	rc->pending_updates = NULL;
 
   	rc->widget = gtk_bin_get_child(GTK_BIN(rc->pr));
-  	
+
   	if (rc->widget)
   		{
   		if (!GTK_CLUTTER_IS_EMBED(rc->widget))
@@ -876,19 +876,19 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
   		rc->widget = gtk_clutter_embed_new();
 		gtk_container_add(GTK_CONTAINER(rc->pr), rc->widget);
   		}
-  		
+
 	gtk_event_box_set_above_child (GTK_EVENT_BOX(rc->pr), TRUE);
         rc->stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (rc->widget));
-        
+
         rc->group = clutter_group_new();
   	clutter_container_add_actor(CLUTTER_CONTAINER(rc->stage), rc->group);
   	clutter_actor_set_clip_to_allocation(CLUTTER_ACTOR(rc->group), TRUE);
-  
+
   	rc->texture = clutter_texture_new ();
   	clutter_container_add_actor(CLUTTER_CONTAINER(rc->group), rc->texture);
   	rc_set_shader(clutter_texture_get_cogl_material(CLUTTER_TEXTURE(rc->texture)));
   	g_object_ref(G_OBJECT(rc->widget));
-  
+
 	gtk_widget_show(rc->widget);
 	return (RendererFuncs *) rc;
 }

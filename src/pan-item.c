@@ -450,7 +450,7 @@ PanItem *pan_item_thumb_new(PanWindow *pw, FileData *fd, gint x, gint y)
 	PanItem *pi;
 
 	pi = g_new0(PanItem, 1);
-	
+
 	pi->type = PAN_ITEM_THUMB;
 	pi->fd = fd;
 	pi->x = x;

@@ -337,7 +337,7 @@ CollectionData *collection_new(const gchar *path)
 
 
 	collection_list = g_list_append(collection_list, cd);
-	
+
 	return cd;
 }
 
@@ -349,7 +349,7 @@ void collection_free(CollectionData *cd)
 
 	collection_load_stop(cd);
 	collection_list_free(cd->list);
-	
+
 	file_data_unregister_notify_func(collection_notify_cb, cd);
 
 	collection_list = g_list_remove(collection_list, cd);
@@ -406,15 +406,15 @@ CollectionData *collection_from_dnd_data(const gchar *data, GList **list, GList 
 	if (info_list) *info_list = NULL;
 
 	if (strncmp(data, "COLLECTION:", 11) != 0) return NULL;
-	
+
 	ptr = data + 11;
-		
+
 	collection_number = atoi(ptr);
 	cd = collection_from_number(collection_number);
 	if (!cd) return NULL;
 
 	if (!list && !info_list) return cd;
-	
+
 	while (*ptr != '\0' && *ptr != '\n' ) ptr++;
 	if (*ptr == '\0') return cd;
 	ptr++;
@@ -423,7 +423,7 @@ CollectionData *collection_from_dnd_data(const gchar *data, GList **list, GList 
 		{
 		guint item_number;
 		CollectInfo *info;
-		
+
 		item_number = (guint) atoi(ptr);
 		while (*ptr != '\n' && *ptr != '\0') ptr++;
 		if (*ptr == '\0')
@@ -437,7 +437,7 @@ CollectionData *collection_from_dnd_data(const gchar *data, GList **list, GList 
 		if (list) *list = g_list_append(*list, file_data_ref(info->fd));
 		if (info_list) *info_list = g_list_append(*info_list, info);
 		}
-	
+
 	return cd;
 }
 
@@ -468,7 +468,7 @@ gchar *collection_info_list_to_dnd_data(CollectionData *cd, GList *list, gint *l
 		work = work->next;
 
 		if (item_number < 0) continue;
-		
+
 		text = g_strdup_printf("%d\n", item_number);
 		temp = g_list_prepend(temp, text);
 		*length += strlen(text);
@@ -747,7 +747,7 @@ static void collection_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
 
 	DEBUG_1("Notify collection: %s %04x", fd->path, type);
-	
+
 	switch (fd->change->type)
 		{
 		case FILEDATA_CHANGE_MOVE:

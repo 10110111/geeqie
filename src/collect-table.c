@@ -890,7 +890,7 @@ static GtkWidget *collection_table_popup_menu(CollectTable *ct, gboolean over_ic
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 	menu_item_add_divider(menu);
 
-	
+
 	ct->editmenu_fd_list = collection_table_selection_get_list(ct);
 	submenu_add_edit(menu, &item,
 			G_CALLBACK(collection_table_popup_edit_cb), ct, ct->editmenu_fd_list);
@@ -2466,7 +2466,7 @@ CollectTable *collection_table_new(CollectionData *cd)
 	gint i;
 
 	ct = g_new0(CollectTable, 1);
-	
+
 	ct->cd = cd;
 	ct->show_text = options->show_icon_names;
 

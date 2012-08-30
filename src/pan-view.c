@@ -1114,7 +1114,7 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 
 	pr = PIXBUF_RENDERER(pw->imd->pr);
 	fd = pan_menu_click_fd(pw);
-	
+
 	imd_widget = gtk_container_get_focus_child(GTK_CONTAINER(pw->imd->widget));
 	focused = (pw->fs || (imd_widget && gtk_widget_has_focus(imd_widget)));
 	on_entry = (gtk_widget_has_focus(pw->path_entry) ||
@@ -2581,9 +2581,9 @@ static GList *pan_view_get_fd_list(PanWindow *pw)
 {
 	GList *list = NULL;
 	FileData *fd = pan_menu_click_fd(pw);
-	
+
 	if (fd) list = g_list_prepend(filelist_copy(fd->sidecar_files), file_data_ref(fd));
-	
+
 	return list;
 }
 
@@ -2613,7 +2613,7 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 
 	submenu_add_edit(menu, &item, G_CALLBACK(pan_edit_cb), pw, editmenu_fd_list);
 	gtk_widget_set_sensitive(item, active);
-	
+
 	menu_item_add_stock_sensitive(menu, _("View in _new window"), GTK_STOCK_NEW, active,
 				      G_CALLBACK(pan_new_window_cb), pw);
 

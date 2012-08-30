@@ -136,13 +136,13 @@ static void register_stock_icon(const gchar *key, GdkPixbuf *pixbuf)
 {
 	static GtkIconFactory *icon_factory = NULL;
 	GtkIconSet *icon_set;
-	
+
 	if (!icon_factory)
 		{
 		icon_factory = gtk_icon_factory_new();
 		gtk_icon_factory_add_default(icon_factory);
 		}
-	
+
 	icon_set = gtk_icon_set_new_from_pixbuf(pixbuf);
 	gtk_icon_factory_add(icon_factory, key, icon_set);
 }
@@ -167,7 +167,7 @@ gboolean register_theme_icon_as_stock(const gchar *key, const gchar *icon)
 	GError *error = NULL;
 
 	icon_theme = gtk_icon_theme_get_default();
-	
+
 	if (gtk_icon_theme_has_icon(icon_theme, key)) return FALSE;
 
 	pixbuf = gtk_icon_theme_load_icon(icon_theme,
@@ -183,7 +183,7 @@ gboolean register_theme_icon_as_stock(const gchar *key, const gchar *icon)
 			g_error_free(error);
 			error = NULL;
 			}
-			
+
 		if (strchr(icon, '.'))
 			{
 			/* try again without extension */
@@ -203,7 +203,7 @@ gboolean register_theme_icon_as_stock(const gchar *key, const gchar *icon)
 		}
 
 	if (!pixbuf) return FALSE;
-	
+
 	register_stock_icon(key, pixbuf);
 	return TRUE;
 }
@@ -231,7 +231,7 @@ gboolean pixbuf_scale_aspect(gint req_w, gint req_h,
 GdkPixbuf *pixbuf_fallback(FileData *fd, gint requested_width, gint requested_height)
 {
 	GdkPixbuf *pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN); /* FIXME use different images according to FORMAT_CLASS */
-	
+
 	if (requested_width && requested_height)
 		{
 		gint w = gdk_pixbuf_get_width(pixbuf);
@@ -508,7 +508,7 @@ GdkPixbuf *pixbuf_apply_orientation(GdkPixbuf *pixbuf, gint orientation)
 {
 	GdkPixbuf *dest;
 	GdkPixbuf *tmp = NULL;
-	
+
 	switch (orientation)
 		{
 		case EXIF_ORIENTATION_TOP_LEFT:

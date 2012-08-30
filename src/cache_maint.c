@@ -449,7 +449,7 @@ static void cache_maint_copied(FileData *fd)
 void cache_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
-	
+
 	DEBUG_1("Notify cache_maint: %s %04x", fd->path, type);
 	switch (fd->change->type)
 		{
@@ -1032,7 +1032,7 @@ static GtkWidget *cache_manager_location_label(GtkWidget *group, const gchar *su
 	label = pref_label_new(group, buf);
 	g_free(buf);
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-	
+
 	return label;
 }
 

@@ -291,7 +291,7 @@ static void dest_change_dir(Dest_Data *dd, const gchar *path, gboolean retain_na
 		new_directory = g_path_get_dirname(full_path);
 	else
 		new_directory = g_strdup(full_path);
-	
+
 	gtk_entry_set_text(GTK_ENTRY(dd->entry), full_path);
 
 	dest_populate(dd, new_directory);

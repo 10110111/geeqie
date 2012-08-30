@@ -663,7 +663,7 @@ static void view_fullscreen_toggle(ViewWindow *vw, gboolean force_off)
 		{
 		if (image_osd_get(vw->imd) & OSD_SHOW_INFO)
 			image_osd_set(vw->imd, image_osd_get(vw->fs->imd));
-		
+
 		fullscreen_stop(vw->fs);
 		}
 	else
@@ -689,7 +689,7 @@ static void view_overlay_toggle(ViewWindow *vw)
 	ImageWindow *imd;
 
 	imd = view_window_active_image(vw);
-	
+
 	image_osd_toggle(imd);
 }
 
@@ -979,7 +979,7 @@ void view_window_colors_update(void)
 		{
 		ViewWindow *vw = work->data;
 		work = work->next;
-		
+
 		image_background_set_color_from_options(vw->imd, !!vw->fs);
 		}
 }
@@ -1237,7 +1237,7 @@ static GList *view_window_get_fd_list(ViewWindow *vw)
 		FileData *fd = image_get_fd(imd);
 		if (fd) list = g_list_append(NULL, file_data_ref(fd));
 		}
-	
+
 	return list;
 }
 
@@ -1660,7 +1660,7 @@ static void view_window_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	ViewWindow *vw = data;
 
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
-	
+
 	DEBUG_1("Notify view_window: %s %04x", fd->path, type);
 
 	switch (fd->change->type)

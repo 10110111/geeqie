@@ -109,7 +109,7 @@ struct _PixbufRenderer
 
 	gint x_offset;		/* offset of image start (non-zero when viewport < window) */
 	gint y_offset;
-	
+
 	gint x_mouse; /* coordinates of the mouse taken from GtkEvent */
 	gint y_mouse;
 
@@ -124,7 +124,7 @@ struct _PixbufRenderer
 
 	gdouble norm_center_x;	/* coordinates of viewport center in the image, in range 0.0 - 1.0 */
 	gdouble norm_center_y;  /* these coordinates are used for PR_SCROLL_RESET_NOCHANGE and should be preserved over periods with NULL pixbuf */
-	
+
 	gdouble subpixel_x_scroll; /* subpixel scroll alignment, used to prevent acumulation of rounding errors */
 	gdouble subpixel_y_scroll;
 
@@ -193,7 +193,7 @@ struct _PixbufRenderer
 	gint orientation;
 
 	gint stereo_mode;
-	
+
 	StereoPixbufData stereo_data;
 	gboolean stereo_temp_disable;
 	gint stereo_fixed_width;
@@ -202,7 +202,7 @@ struct _PixbufRenderer
 	gint stereo_fixed_y_left;
 	gint stereo_fixed_x_right;
 	gint stereo_fixed_y_right;
-	
+
 	RendererFuncs *renderer;
 	RendererFuncs *renderer2;
 };

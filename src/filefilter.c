@@ -140,7 +140,7 @@ static void filter_add_if_missing(const gchar *key, const gchar *description, co
 			{
 			if (fe->file_class == FORMAT_CLASS_UNKNOWN)
 				fe->file_class = file_class;	/* for compatibility */
-				
+
 			if (fe->writable && fe->allow_sidecar)
 				{
 				fe->writable = writable;
@@ -188,14 +188,14 @@ void filter_add_defaults(void)
 		work = work->next;
 
 		name = gdk_pixbuf_format_get_name(format);
-		
+
 		if (strcmp(name, "Digital camera RAW") == 0)
 			{
 			DEBUG_1("Skipped '%s' from loader", name);
 			g_free(name);
 			continue;
 			}
-		
+
 		desc = gdk_pixbuf_format_get_description(format);
 		extensions = gdk_pixbuf_format_get_extensions(format);
 
@@ -238,11 +238,11 @@ void filter_add_defaults(void)
 	filter_add_if_missing("ico", "Icon file", ".ico;.cur", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
 	filter_add_if_missing("ras", "Raster", ".ras", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
 	filter_add_if_missing("svg", "Scalable Vector Graphics", ".svg", FORMAT_CLASS_IMAGE, TRUE, FALSE, FALSE);
-	
+
 	/* special formats for stereo */
 	filter_add_if_missing("jps", "Stereo side-by-side jpeg", ".jps", FORMAT_CLASS_IMAGE, TRUE, FALSE, TRUE);
 	filter_add_if_missing("mpo", "Stereo multi-image jpeg", ".mpo", FORMAT_CLASS_IMAGE, FALSE, TRUE, TRUE);
-	
+
 	/* non-image files that might be desirable to show */
 	filter_add_if_missing("xmp", "XMP sidecar", ".xmp", FORMAT_CLASS_META, TRUE, FALSE, TRUE);
 	filter_add_if_missing("gqv", GQ_APPNAME " image collection", GQ_COLLECTION_EXT, FORMAT_CLASS_META, FALSE, FALSE, TRUE);
@@ -292,14 +292,14 @@ GList *filter_to_list(const gchar *extensions)
 			p++;
 			l++;
 			}
-		
+
 		ext = g_strndup(b, l);
-		
+
 		if (g_ascii_strcasecmp(ext, "%image") == 0) file_class = FORMAT_CLASS_IMAGE;
 		else if (g_ascii_strcasecmp(ext, "%raw") == 0) file_class = FORMAT_CLASS_RAWIMAGE;
 		else if (g_ascii_strcasecmp(ext, "%meta") == 0) file_class = FORMAT_CLASS_META;
 		else if (g_ascii_strcasecmp(ext, "%unknown") == 0) file_class = FORMAT_CLASS_UNKNOWN;
-		
+
 		if (file_class == -1)
 			{
 			list = g_list_append(list, ext);
@@ -309,7 +309,7 @@ GList *filter_to_list(const gchar *extensions)
 			list = g_list_concat(list, string_list_copy(file_class_extension_list[file_class]));
 			g_free(ext);
 			}
-			
+
 		if (*p == ';') p++;
 		}
 
@@ -320,15 +320,15 @@ static gint filter_sort_ext_len_cb(gconstpointer a, gconstpointer b)
 {
 	gchar *sa = (gchar *)a;
 	gchar *sb = (gchar *)b;
-	
+
 	gint len_a = strlen(sa);
 	gint len_b = strlen(sb);
-	
+
 	if (len_a > len_b) return -1;
 	if (len_a < len_b) return 1;
 	return 0;
 }
- 
+
 
 void filter_rebuild(void)
 {
@@ -374,7 +374,7 @@ void filter_rebuild(void)
 				{
 				log_printf("WARNING: invalid file class %d\n", fe->file_class);
 				}
-				
+
 			if (fe->writable)
 				{
 				ext = filter_to_list(fe->extensions);
@@ -386,7 +386,7 @@ void filter_rebuild(void)
 				ext = filter_to_list(fe->extensions);
 				if (ext) file_sidecar_list = g_list_concat(file_sidecar_list, ext);
 				}
-			
+
 			}
 		}
 
@@ -499,7 +499,7 @@ void filter_load_file_type(const gchar **attribute_names, const gchar **attribut
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	if (fe.file_class >= FILE_FORMAT_CLASSES) fe.file_class = FORMAT_CLASS_UNKNOWN;
-	
+
 	if (fe.key && fe.key[0] != 0)
 		{
 		old_fe = filter_get_by_key(fe.key);

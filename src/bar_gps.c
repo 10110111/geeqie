@@ -114,7 +114,7 @@ static gboolean bar_pane_gps_marker_keypress_cb(GtkWidget *widget, ClutterButton
 			clutter_actor_destroy(CLUTTER_ACTOR(current_image));
 		 	champlain_label_set_image(CHAMPLAIN_LABEL(marker), NULL);
 			}
-			
+
 		current_text = g_strdup(champlain_label_get_text(CHAMPLAIN_LABEL(marker)));
 
 		/* If the marker is showing only the text character, replace it with a
@@ -151,7 +151,7 @@ static gboolean bar_pane_gps_marker_keypress_cb(GtkWidget *widget, ClutterButton
 					default:
 						rotate = GDK_PIXBUF_ROTATE_NONE;
 					}
-										
+
 					gtk_clutter_texture_set_from_pixbuf(GTK_CLUTTER_TEXTURE(actor),
 										gdk_pixbuf_rotate_simple(gdk_pixbuf_scale_simple(fd->pixbuf, THUMB_SIZE, height * THUMB_SIZE / width,
 										GDK_INTERP_NEAREST), rotate), NULL);
@@ -167,7 +167,7 @@ static gboolean bar_pane_gps_marker_keypress_cb(GtkWidget *widget, ClutterButton
 											marker);
 				thumb_loader_start(tl, fd);
 				}
-				
+
 			text = g_string_new(fd->name);
 			g_string_append(text, "\n");
 			g_string_append(text, text_from_time(fd->date));
@@ -197,7 +197,7 @@ static gboolean bar_pane_gps_marker_keypress_cb(GtkWidget *widget, ClutterButton
 			}
 
 		g_free(current_text);
-		
+
 		return TRUE;
 		}
 	return TRUE;
@@ -217,13 +217,13 @@ static gboolean bar_pane_gps_create_markers_cb(gpointer data)
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pgd->progress),
 							(gdouble)(pgd->selection_count - g_list_length(pgd->not_added)) /
 							(gdouble)pgd->selection_count);
-							
+
 	message = g_string_new("");
 	g_string_printf(message, "%i/%i", (pgd->selection_count - g_list_length(pgd->not_added)),
 																			pgd->selection_count);
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(pgd->progress), message->str);
 	g_string_free(message, TRUE);
-	
+
 	if(pgd->not_added)
 		{
 		fd = pgd->not_added->data;
@@ -235,7 +235,7 @@ static gboolean bar_pane_gps_create_markers_cb(gpointer data)
 		if ((latitude != 1000) && (longitude != 1000))
 			{
 			pgd->num_added++;
-			
+
 			marker = champlain_label_new_with_text("i","courier 5", &marker_colour, &marker_colour);
 
 			champlain_location_set_location(CHAMPLAIN_LOCATION(marker), latitude, longitude);
@@ -251,7 +251,7 @@ static gboolean bar_pane_gps_create_markers_cb(gpointer data)
 			}
 		return TRUE;
 		}
-		
+
 	if (pgd->centre_map_checked)
 		{
 		if (pgd->num_added == 1)
@@ -299,7 +299,7 @@ static void bar_pane_gps_update(PaneGPSData *pgd)
 
 	/* Delete any markers currently displayed
 	 */
-	 
+
 	champlain_marker_layer_remove_all(pgd->icon_layer);
 
 	if (!pgd->enable_markers_checked)
@@ -313,7 +313,7 @@ static void bar_pane_gps_update(PaneGPSData *pgd)
 	 */
 	filelist_free(pgd->selection_list);
 	if (pgd->bbox) champlain_bounding_box_free(pgd->bbox);
-	 
+
 	list = layout_selection_list(pgd->pane.lw);
 	list = file_data_process_groups_in_selection(list, FALSE, NULL);
 
@@ -511,7 +511,7 @@ static void bar_pane_gps_view_state_changed_cb(ChamplainView *view,
 		{
 		gtk_label_set_text(GTK_LABEL(pgd->state), message->str);
 		}
-		
+
 	gtk_widget_set_tooltip_text(GTK_WIDGET(pgd->slider), message->str);
 	gtk_scale_button_set_value(GTK_SCALE_BUTTON(pgd->slider), (gdouble)zoom);
 
@@ -521,7 +521,7 @@ static void bar_pane_gps_view_state_changed_cb(ChamplainView *view,
 static void bar_pane_gps_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneGPSData *pgd = data;
-	
+
 	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) &&
 	    g_list_find(pgd->selection_list, fd))
 		{
@@ -561,16 +561,16 @@ static GtkWidget *bar_pane_gps_menu(PaneGPSData *pgd)
 	while (map_list)
 		{
 		map_desc = (ChamplainMapSourceDesc *)(map_list->data);
-		
+
 		menu_item_add_radio(menu,
 		                    champlain_map_source_desc_get_name(map_desc),
 		                    (gpointer)champlain_map_source_desc_get_id(map_desc),
 		                    strcmp(champlain_map_source_desc_get_id(map_desc), current) == 0,
 		                    G_CALLBACK(bar_pane_gps_change_map_cb), pgd);
-		
+
 		map_list = g_slist_next(map_list);
 		}
-		
+
 	menu_item_add_divider(menu);
 	menu_item_add_check(menu, _("Enable markers"), pgd->enable_markers_checked,
 	                    G_CALLBACK(bar_pane_gps_enable_markers_checked_toggle_cb), pgd);
@@ -605,7 +605,7 @@ void bar_pane_gps_map_centreing(PaneGPSData *pgd)
 		message = g_string_append(message, _("Move map centre to marker\n is enabled"));
 		pgd->centre_map_checked = TRUE;
 		}
-		
+
 	dialog = gtk_message_dialog_new(NULL,
 							  GTK_DIALOG_DESTROY_WITH_PARENT,
 							  GTK_MESSAGE_INFO,
@@ -614,7 +614,7 @@ void bar_pane_gps_map_centreing(PaneGPSData *pgd)
 	gtk_window_set_title(GTK_WINDOW(dialog), _("Map Centreing"));
 	gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
 	gtk_dialog_run(GTK_DIALOG(dialog));
-	
+
 	gtk_widget_destroy(dialog);
 	g_string_free(message, TRUE);
 }
@@ -706,12 +706,12 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	progress = gtk_progress_bar_new();
 	state = gtk_label_new("");
 	gtk_label_set_justify(GTK_LABEL(state), GTK_JUSTIFY_CENTER);
-	
+
 	gtk_box_pack_start(GTK_BOX(status), GTK_WIDGET(slider), FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(status), GTK_WIDGET(state), FALSE, FALSE, 5);
 	gtk_box_pack_end(GTK_BOX(status), GTK_WIDGET(progress), FALSE, FALSE, 0);
 	gtk_box_pack_end(GTK_BOX(vbox),GTK_WIDGET(status), FALSE, FALSE, 0);
-	
+
 	layer = champlain_marker_layer_new();
 	champlain_view_add_layer(view, CHAMPLAIN_LAYER(layer));
 
@@ -723,7 +723,7 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	pgd->state = state;
 
 	bar_pane_gps_set_map_source(pgd, map_id);
-	
+
 	g_object_set(G_OBJECT(view), "kinetic-mode", TRUE,
 				     "zoom-level", zoom,
 				     "keep-center-on-resize", TRUE,
@@ -754,7 +754,7 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	pgd->create_markers_id = 0;
 	pgd->enable_markers_checked = TRUE;
 	pgd->centre_map_checked = TRUE;
-	
+
 	return pgd->widget;
 }
 

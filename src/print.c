@@ -3304,9 +3304,9 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 
 	pw->source = print_pref_int(PRINT_PREF_SOURCE, PRINT_SOURCE_SELECTION);
 	pw->layout = print_pref_int(PRINT_PREF_LAYOUT, PRINT_LAYOUT_IMAGE);
-	
+
 	pw->image_scale = print_pref_double(PRINT_PREF_IMAGE_SCALE, 100.0);
-	
+
 	pw->output = print_pref_int(PRINT_PREF_OUTPUT, PRINT_OUTPUT_PS_LPR);
 	pw->output_format = print_pref_int(PRINT_PREF_FORMAT, PRINT_FILE_JPG_NORMAL);
 

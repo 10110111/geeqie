@@ -169,7 +169,7 @@ gboolean read_uint_option(const gchar *option, const gchar *label, const gchar *
 		else
 			*n = 0;
 		}
-	
+
 	return TRUE;
 }
 
@@ -239,7 +239,7 @@ gboolean read_int_unit_option(const gchar *option, const gchar *label, const gch
 
 	*n = l * subunits + r;
 	g_free(buf);
-	
+
 	return TRUE;
 }
 
@@ -447,7 +447,7 @@ gboolean save_config_to_file(const gchar *utf8_path, ConfOptions *options)
 	GString *outstr;
 	gint indent = 0;
 	GList *work;
-	
+
 	rc_pathl = path_from_utf8(utf8_path);
 	ssi = secure_open(rc_pathl);
 	g_free(rc_pathl);
@@ -472,7 +472,7 @@ gboolean save_config_to_file(const gchar *utf8_path, ConfOptions *options)
 
 	WRITE_STRING("<gq>\n");
 	indent++;
-	
+
 	WRITE_NL(); WRITE_STRING("<global\n");
 	indent++;
 	write_global_attributes(outstr, indent + 1);
@@ -727,7 +727,7 @@ static const gchar *options_get_id(const gchar **attribute_names, const gchar **
 		{
 		const gchar *option = *attribute_names++;
 		const gchar *value = *attribute_values++;
-		
+
 		if (strcmp(option, "id") == 0) return value;
 
 		}
@@ -1006,7 +1006,7 @@ static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext 
 			{
 			bar_update_from_config(lw->bar, attribute_names, attribute_values);
 			}
-			
+
 		options_parse_func_push(parser_data, options_parse_bar, NULL, lw->bar);
 		}
 	else if (g_ascii_strcasecmp(element_name, "bar_sort") == 0)
@@ -1050,7 +1050,7 @@ static void options_parse_toplevel(GQParserData *parser_data, GMarkupParseContex
 		options_parse_func_push(parser_data, options_parse_global, options_parse_global_end, NULL);
 		return;
 		}
-	
+
 	if (g_ascii_strcasecmp(element_name, "layout") == 0)
 		{
 		LayoutWindow *lw;
@@ -1096,7 +1096,7 @@ void options_parse_func_push(GQParserData *parser_data, GQParserStartFunc start_
 	func_data->start_func = start_func;
 	func_data->end_func = end_func;
 	func_data->data = data;
-	
+
 	parser_data->parse_func_stack = g_list_prepend(parser_data->parse_func_stack, func_data);
 }
 
@@ -1123,7 +1123,7 @@ static void start_element(GMarkupParseContext *context,
 	GQParserData *parser_data = user_data;
 	GQParserFuncData *func = parser_data->parse_func_stack->data;
 	DEBUG_2("start %s", element_name);
-	
+
 	if (func->start_func)
 		func->start_func(parser_data, context, element_name, attribute_names, attribute_values, func->data, error);
 }
@@ -1164,10 +1164,10 @@ gboolean load_config_from_buf(const gchar *buf, gsize size, gboolean startup)
 	GQParserData *parser_data;
 
 	parser_data = g_new0(GQParserData, 1);
-	
+
 	parser_data->startup = startup;
 	options_parse_func_push(parser_data, options_parse_toplevel, NULL, NULL);
-	
+
 	context = g_markup_parse_context_new(&parser, 0, parser_data, NULL);
 
 	if (g_markup_parse_context_parse(context, buf, size, NULL) == FALSE)
@@ -1175,7 +1175,7 @@ gboolean load_config_from_buf(const gchar *buf, gsize size, gboolean startup)
 		ret = FALSE;
 		DEBUG_1("Parse failed");
 		}
-		
+
 	g_free(parser_data);
 
 	g_markup_parse_context_free(context);
@@ -1196,7 +1196,7 @@ gboolean load_config_from_file(const gchar *utf8_path, gboolean startup)
 	g_free(buf);
 	return ret;
 }
-	
+
 
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

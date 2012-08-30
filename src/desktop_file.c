@@ -68,13 +68,13 @@ static gboolean editor_window_save(EditorWindow *ew)
 	GError *error = NULL;
 	gboolean ret = TRUE;
 	const gchar *name = gtk_entry_get_text(GTK_ENTRY(ew->entry));
-	
+
 	if (!name || !name[0])
 		{
 		file_util_warning_dialog(_("Can't save"), _("Please specify file name."), GTK_STOCK_DIALOG_ERROR, NULL);
 		return FALSE;
 		}
-	
+
 	gtk_text_buffer_get_bounds(ew->buffer, &start, &end);
 	text = gtk_text_buffer_get_text(ew->buffer, &start, &end, FALSE);
 
@@ -93,7 +93,7 @@ static gboolean editor_window_save(EditorWindow *ew)
 		g_error_free(error);
 		ret = FALSE;
 		}
-	
+
 	g_free(path);
 	g_free(dir);
 	g_free(text);
@@ -135,7 +135,7 @@ static void editor_window_save_cb(GtkWidget *widget, gpointer data)
 static void editor_window_text_modified_cb(GtkWidget *widget, gpointer data)
 {
 	EditorWindow *ew = data;
-	
+
 	if (gtk_text_buffer_get_modified(ew->buffer))
 		{
 		gtk_widget_set_sensitive(ew->save_button, TRUE);
@@ -158,7 +158,7 @@ static void editor_window_entry_changed_cb(GtkWidget *widget, gpointer data)
 		{
 		modified = strcmp(ew->desktop_name, content);
 		}
-	
+
 	gtk_widget_set_sensitive(ew->save_button, modified);
 	ew->modified = modified;
 }
@@ -325,7 +325,7 @@ static void editor_list_window_delete_cb(GtkWidget *widget, gpointer data)
 		ewdl = g_new(EditorWindowDel_Data, 1);
 		ewdl->ewl = ewl;
 		ewdl->path = path;
-	
+
 		if (ewl->gd)
 			{
 			GenericDialog *gd = ewl->gd;
@@ -388,12 +388,12 @@ static void editor_list_window_selection_changed_cb(GtkWidget *widget, gpointer 
 		gtk_tree_model_get(store, &iter,
 						   DESKTOP_FILE_COLUMN_PATH, &path,
 						   -1);
-		
+
 		gtk_widget_set_sensitive(ewl->delete_button, access_file(path, W_OK));
 		gtk_widget_set_sensitive(ewl->edit_button, TRUE);
 		g_free(path);
 		}
-	
+
 }
 
 static gint editor_list_window_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer data)
@@ -427,7 +427,7 @@ static gint editor_list_window_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkT
 			g_free(s2);
 			}
 			break;
-	
+
     		default:
        			g_return_val_if_reached(0);
 		}
@@ -449,7 +449,7 @@ static void editor_list_window_create(void)
 	EditorListWindow *ewl;
 
 	editor_list_window = ewl = g_new0(EditorListWindow, 1);
-	
+
 	ewl->window = window_new(GTK_WINDOW_TOPLEVEL, "editors", PIXBUF_INLINE_ICON_CONFIG, NULL, _("Editors"));
 	gtk_window_set_type_hint(GTK_WINDOW(ewl->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	g_signal_connect(G_OBJECT(ewl->window), "delete_event",

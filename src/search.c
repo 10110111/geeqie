@@ -286,7 +286,7 @@ static void search_status_update(SearchData *sd)
 
 	t = search_result_count(sd, &t_bytes);
 	s = search_result_selection_count(sd, &s_bytes);
-	
+
 	tt = text_from_size_abrev(t_bytes);
 
 	if (s > 0)
@@ -2579,7 +2579,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->match_name_enable = TRUE;
 
 	sd->search_similarity = 95;
-	
+
 	if (example_file)
 		{
 		sd->search_similarity_path = g_strdup(example_file->path);
@@ -2889,7 +2889,7 @@ static void search_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
 
 	DEBUG_1("Notify search: %s %04x", fd->path, type);
-	
+
 	switch (fd->change->type)
 		{
 		case FILEDATA_CHANGE_MOVE:

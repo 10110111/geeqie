@@ -27,7 +27,7 @@ static gchar** image_loader_gdk_get_format_mime_types(gpointer loader)
 static gpointer image_loader_gdk_new(ImageLoaderBackendCbAreaUpdated area_updated_cb, ImageLoaderBackendCbSize size_cb, ImageLoaderBackendCbAreaPrepared area_prepared_cb, gpointer data)
 {
         GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
-        
+
 	g_signal_connect(G_OBJECT(loader), "area_updated", G_CALLBACK(area_updated_cb), data);
 	g_signal_connect(G_OBJECT(loader), "size_prepared", G_CALLBACK(size_cb), data);
 	g_signal_connect(G_OBJECT(loader), "area_prepared", G_CALLBACK(area_prepared_cb), data);
@@ -53,7 +53,7 @@ void image_loader_backend_set_default(ImageLoaderBackend *funcs)
 	funcs->close = (ImageLoaderBackendFuncClose) gdk_pixbuf_loader_close;
 	funcs->abort = image_loader_gdk_abort;
 	funcs->free = image_loader_gdk_free;
-	
+
 	funcs->get_format_name = image_loader_gdk_get_format_name;
 	funcs->get_format_mime_types = image_loader_gdk_get_format_mime_types;
 }

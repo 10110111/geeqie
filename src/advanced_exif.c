@@ -85,11 +85,11 @@ static void advanced_exif_update(ExifWin *ew)
 	ExifItem *item;
 
 	exif = exif_read_fd(ew->fd);
-	
+
 	gtk_widget_set_sensitive(ew->scrolled, !!exif);
 
 	if (!exif) return;
-	
+
 	exif_original = exif_get_original(exif);
 
 	store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(ew->listview)));
@@ -230,7 +230,7 @@ static void advanced_exif_add_column(GtkWidget *listview, const gchar *title, gi
 		{
 		gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 		}
-	
+
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_column_set_sort_column_id(column, n);
 
@@ -379,7 +379,7 @@ GtkWidget *advanced_exif_new(void)
 	advanced_exif_add_column(ew->listview, _("Tag"), EXIF_ADVCOL_TAG, FALSE);
 	advanced_exif_add_column(ew->listview, _("Format"), EXIF_ADVCOL_FORMAT, FALSE);
 	advanced_exif_add_column(ew->listview, _("Elements"), EXIF_ADVCOL_ELEMENTS, FALSE);
-	
+
 
 	gtk_drag_source_set(ew->listview,
 			   GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,

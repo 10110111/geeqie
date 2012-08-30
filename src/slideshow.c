@@ -88,7 +88,7 @@ static GPtrArray *generate_ptr_array_from_list(GList *src_list)
 static void swap(GPtrArray *array, guint index1, guint index2)
 {
 	gpointer temp = g_ptr_array_index(array, index1);
-	
+
 	g_ptr_array_index(array, index1) = g_ptr_array_index(array, index2);
 	g_ptr_array_index(array, index2) = temp;
 }
@@ -116,7 +116,7 @@ static GList *generate_random_list(SlideShowData *ss)
 	ptr_array_random_shuffle(src_array);
 	g_ptr_array_foreach(src_array, (GFunc) list_prepend, &list);
 	g_ptr_array_free(src_array, TRUE);
-	
+
 	return list;
 }
 
@@ -403,7 +403,7 @@ static SlideShowData *real_slideshow_start(LayoutWindow *target_lw, ImageWindow 
 		}
 
 	slideshow_list_init(ss, start_index);
-	
+
 	if (ss->lw)
 		ss->slide_fd = file_data_ref(layout_image_get_fd(ss->lw));
 	else

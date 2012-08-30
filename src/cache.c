@@ -129,7 +129,7 @@ static gboolean cache_sim_write_similarity(SecureSaveInfo *ssi, CacheData *cd)
 		guint8 *avg_g = &cd->sim->avg_g[s];
 		guint8 *avg_b = &cd->sim->avg_b[s];
 		guint n = 0;
-			
+
 		for (x = 0; x < 32; x++)
 			{
 			buf[n++] = avg_r[x];
@@ -658,7 +658,7 @@ static gchar *cache_build_path_local(const gchar *source, const gchar *cache_loc
 	path = g_build_filename(base, cache_local, name, NULL);
 	g_free(name);
 	g_free(base);
-	
+
 	return path;
 }
 

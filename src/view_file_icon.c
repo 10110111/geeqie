@@ -533,7 +533,7 @@ static void vficon_drag_data_received(GtkWidget *entry_widget, GdkDragContext *c
 			FileData *fd = id->fd;
 			gchar *str = (gchar *) gtk_selection_data_get_text(selection);
 			GList *kw_list = string_to_keywords_list(str);
-			
+
 			metadata_append_list(fd, KEYWORD_KEY, kw_list);
 			string_list_free(kw_list);
 			g_free(str);
@@ -683,7 +683,7 @@ void vficon_select_all(ViewFile *vf)
 		{
 		IconData *id = work->data;
 		work = work->next;
-		
+
 		VFICON(vf)->selection = g_list_append(VFICON(vf)->selection, id);
 		vficon_selection_add(vf, id, SELECTION_SELECTED, NULL);
 		}
@@ -880,7 +880,7 @@ GList *vficon_selection_get_list(ViewFile *vf)
 		g_assert(fd->magick == FD_MAGICK);
 
 		list = g_list_prepend(list, file_data_ref(fd));
-		
+
 		work2 = fd->sidecar_files;
 		while (work2)
 			{
@@ -1010,24 +1010,24 @@ static void vficon_select_closest(ViewFile *vf, FileData *sel_fd)
 {
 	GList *work;
 	IconData *id = NULL;
-	
+
 	if (sel_fd->parent) sel_fd = sel_fd->parent;
 	work = vf->list;
-	
+
 	while (work)
 		{
 		gint match;
 		FileData *fd;
-		
+
 		id = work->data;
 		fd = id->fd;
 		work = work->next;
 
 		match = filelist_sort_compare_filedata_full(fd, sel_fd, vf->sort_method, vf->sort_ascend);
-		
+
 		if (match >= 0) break;
 		}
-	
+
 	if (id)
 		{
 		vficon_select(vf, id);
@@ -1492,7 +1492,7 @@ static gboolean vficon_destroy_node_cb(GtkTreeModel *store, GtkTreePath *tpath, 
 	GList *list;
 
 	gtk_tree_model_get(store, iter, FILE_COLUMN_POINTER, &list, -1);
-	
+
 	/* it seems that gtk_list_store_clear may call some callbacks
 	   that use the column. Set the pointer to NULL to be safe. */
 	gtk_list_store_set(GTK_LIST_STORE(store), iter, FILE_COLUMN_POINTER, NULL, -1);
@@ -1558,7 +1558,7 @@ static void vficon_populate(ViewFile *vf, gboolean resize, gboolean keep_positio
 		{
 		gint i;
 		gint thumb_width;
-		
+
 		vficon_clear_store(vf);
 
 		thumb_width = vficon_get_icon_width(vf);
@@ -1940,7 +1940,7 @@ static gboolean vficon_refresh_real(ViewFile *vf, gboolean keep_position)
 		file_data_ref(first_selected);
 		g_list_free(VFICON(vf)->selection);
 		VFICON(vf)->selection = NULL;
-		
+
 
 		}
 
@@ -1953,14 +1953,14 @@ static gboolean vficon_refresh_real(ViewFile *vf, gboolean keep_position)
 		FileData *fd = NULL;
 		FileData *new_fd = NULL;
 		gint match;
-		
+
 		if (work && work_fd)
 			{
 			id = work->data;
 			fd = id->fd;
-			
+
 			new_fd = work_fd->data;
-			
+
 			if (fd == new_fd)
 				{
 				/* not changed, go to next */
@@ -1972,7 +1972,7 @@ static gboolean vficon_refresh_real(ViewFile *vf, gboolean keep_position)
 					}
 				continue;
 				}
-			
+
 			match = filelist_sort_compare_filedata_full(fd, new_fd, vf->sort_method, vf->sort_ascend);
 			if (match == 0) g_warning("multiple fd for the same path");
 			}
@@ -1987,7 +1987,7 @@ static gboolean vficon_refresh_real(ViewFile *vf, gboolean keep_position)
 			new_fd = work_fd->data;
 			match = 1;
 			}
-		
+
 		if (match < 0)
 			{
 			/* file no longer exists, delete from vf->list */
@@ -2010,7 +2010,7 @@ static gboolean vficon_refresh_real(ViewFile *vf, gboolean keep_position)
 				vf->list = g_list_insert_before(vf->list, work, id);
 			else
 				new_iconlist = g_list_prepend(new_iconlist, id); /* it is faster to append all new entries together later */
-				
+
 			work_fd = work_fd->next;
 			}
 
@@ -2020,7 +2020,7 @@ static gboolean vficon_refresh_real(ViewFile *vf, gboolean keep_position)
 		{
 		vf->list = g_list_concat(vf->list, g_list_reverse(new_iconlist));
 		}
-	
+
 	VFICON(vf)->selection = g_list_reverse(VFICON(vf)->selection);
 
 	filelist_free(new_filelist);
@@ -2033,7 +2033,7 @@ static gboolean vficon_refresh_real(ViewFile *vf, gboolean keep_position)
 		vficon_select_closest(vf, first_selected);
 		}
 	file_data_unref(first_selected);
-	
+
 	/* attempt to keep focus on same icon when refreshing */
 	if (focus_id && g_list_find(vf->list, focus_id))
 		{
@@ -2074,7 +2074,7 @@ static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer 
 	gtk_tree_model_get(tree_model, iter, FILE_COLUMN_POINTER, &list, -1);
 
 	id = g_list_nth_data(list, cd->number);
-	
+
 	if (id)
 		{
 		GdkColor color_fg;
@@ -2098,13 +2098,13 @@ static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer 
 			gchar *disabled_grouping = id->fd->disable_grouping ? _(" [NO GROUPING]") : "";
 			name_sidecars = g_strdup_printf("%s%s%s", link, id->fd->name, disabled_grouping);
 			}
-		
+
 		style = gtk_widget_get_style(vf->listview);
 		if (id->selected & SELECTION_SELECTED)
 			{
 			state = GTK_STATE_SELECTED;
 			}
-		
+
 		memcpy(&color_fg, &style->text[state], sizeof(color_fg));
 		memcpy(&color_bg, &style->base[state], sizeof(color_bg));
 
@@ -2112,7 +2112,7 @@ static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer 
 			{
 			shift_color(&color_bg, -1, 0);
 			}
-		
+
 		g_object_set(cell,	"pixbuf", id->fd->thumb_pixbuf,
 					"text", name_sidecars,
 					"marks", file_data_get_marks(id->fd),
@@ -2162,7 +2162,7 @@ static void vficon_append_column(ViewFile *vf, gint n)
 	gtk_tree_view_column_set_cell_data_func(column, renderer, vficon_cell_data_cb, cd, g_free);
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(vf->listview), column);
-	
+
 	g_signal_connect(G_OBJECT(renderer), "toggled", G_CALLBACK(vficon_mark_toggled_cb), vf);
 }
 
@@ -2202,7 +2202,7 @@ void vficon_destroy_cb(GtkWidget *widget, gpointer data)
 	ViewFile *vf = data;
 
 	vf_refresh_idle_cancel(vf);
-	
+
 	file_data_unregister_notify_func(vf_notify_cb, vf);
 
 	tip_unschedule(vf);

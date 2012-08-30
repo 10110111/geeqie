@@ -80,7 +80,7 @@ static void encoding_dialog(const gchar *path)
 		name = g_convert(path, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
 		string = g_string_append(string, _("\nPreferred encoding appears to be UTF-8, however the file:\n"));
 		g_string_append_printf(string, "\"%s\"\n", (name) ? name : _("[name not displayable]"));
-		
+
 		if (g_utf8_validate(path, -1, NULL))
 			g_string_append_printf(string, _("\"%s\" is encoded in valid UTF-8."), (name) ? name : _("[name not displayable]"));
 		else
@@ -169,7 +169,7 @@ const gchar *homedir(void)
 
 	if (!home)
 		home = path_to_utf8(getenv("HOME"));
-	
+
 	if (!home)
 		home = path_to_utf8(g_get_home_dir());
 
@@ -184,7 +184,7 @@ static gchar *xdg_dir_get(const gchar *key, const gchar *fallback)
 		{
     		return g_build_filename(homedir(), fallback, NULL);
     		}
-	
+
 	return path_to_utf8(dir);
 }
 
@@ -193,7 +193,7 @@ const gchar *xdg_data_home_get(void)
 	static const gchar *xdg_data_home = NULL;
 
 	if (xdg_data_home) return xdg_data_home;
-    	
+
 	xdg_data_home = xdg_dir_get("XDG_DATA_HOME", ".local/share");
 
 	return xdg_data_home;
@@ -204,7 +204,7 @@ const gchar *xdg_config_home_get(void)
 	static const gchar *xdg_config_home = NULL;
 
 	if (xdg_config_home) return xdg_config_home;
-    	
+
 	xdg_config_home = xdg_dir_get("XDG_CONFIG_HOME", ".config");
 
 	return xdg_config_home;
@@ -215,7 +215,7 @@ const gchar *xdg_cache_home_get(void)
 	static const gchar *xdg_cache_home = NULL;
 
 	if (xdg_cache_home) return xdg_cache_home;
-    	
+
 	xdg_cache_home = xdg_dir_get("XDG_CACHE_HOME", ".cache");
 
 	return xdg_cache_home;
@@ -224,7 +224,7 @@ const gchar *xdg_cache_home_get(void)
 const gchar *get_rc_dir(void)
 {
 	static gchar *rc_dir = NULL;
-	
+
 	if (rc_dir) return rc_dir;
 
 	if (USE_XDG)
@@ -262,7 +262,7 @@ const gchar *get_trash_dir(void)
 	static gchar *trash_dir = NULL;
 
 	if (trash_dir) return trash_dir;
-	
+
 	if (USE_XDG)
 		{
 		trash_dir = g_build_filename(xdg_data_home_get(), GQ_APPNAME_LC, GQ_TRASH_DIR, NULL);
@@ -518,15 +518,15 @@ gboolean copy_file(const gchar *s, const gchar *t)
 
 	fi = fopen(sl, "rb");
 	if (!fi) goto end;
-	
+
 	/* First we write to a temporary file, then we rename it on success,
 	   and attributes from original file are copied */
 	randname = g_strconcat(tl, ".tmp_XXXXXX", NULL);
 	if (!randname) goto end;
-	
+
 	fd = g_mkstemp(randname);
 	if (fd == -1) goto end;
-	
+
 	fo = fdopen(fd, "wb");
 	if (!fo) {
 		close(fd);
@@ -801,7 +801,7 @@ void parse_out_relatives(gchar *path)
 				continue;
 				}
 			}
-	
+
 		if (s != t) path[t] = path[s];
 		t++;
 		s++;
@@ -865,7 +865,7 @@ gboolean recursive_mkdir_if_not_exists(const gchar *path, mode_t mode)
 					p[0] = '\0';
 					end = FALSE;
 					}
-				
+
 				if (!isdir(npath))
 					{
 					DEBUG_1("creating sub dir:%s", npath);
@@ -876,7 +876,7 @@ gboolean recursive_mkdir_if_not_exists(const gchar *path, mode_t mode)
 						return FALSE;
 						}
 					}
-				
+
 				if (!end) p[0] = G_DIR_SEPARATOR;
 				}
 			}

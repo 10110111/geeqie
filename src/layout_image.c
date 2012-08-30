@@ -462,7 +462,7 @@ static GList *layout_image_get_fd_list(LayoutWindow *lw)
 		else
 			list = g_list_append(NULL, file_data_ref(fd));
 		}
-	
+
 	return list;
 }
 
@@ -512,7 +512,7 @@ static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 	if (!path) gtk_widget_set_sensitive(item, FALSE);
 	item = menu_item_add_stock(menu, _("_Delete..."), GTK_STOCK_DELETE, G_CALLBACK(li_pop_menu_delete_cb), lw);
 	if (!path) gtk_widget_set_sensitive(item, FALSE);
-	
+
 	item = menu_item_add(menu, _("_Copy path"), G_CALLBACK(li_pop_menu_copy_path_cb), lw);
 	if (!path) gtk_widget_set_sensitive(item, FALSE);
 
@@ -782,7 +782,7 @@ void layout_image_scroll(LayoutWindow *lw, gint x, gint y, gboolean connect_scro
 	image_get_image_size(lw->image, &width, &height);
 	dx = (gdouble) x / width;
 	dy = (gdouble) y / height;
-	
+
 	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
 		{
 		if (lw->split_images[i] && lw->split_images[i] != lw->image)
@@ -1605,19 +1605,19 @@ void layout_status_update_pixel_cb(PixbufRenderer *pr, gpointer data)
 	if (width < 1 || height < 1) return;
 
 	pixbuf_renderer_get_mouse_position(pr, &x_pixel, &y_pixel);
-	
+
 	if(x_pixel >= 0 && y_pixel >= 0)
 		{
 		gint r_mouse, g_mouse, b_mouse;
-			
+
 		pixbuf_renderer_get_pixel_colors(pr, x_pixel, y_pixel,
 						 &r_mouse, &g_mouse, &b_mouse);
-		
+
 		text = g_strdup_printf(_("[%*d,%*d]: RGB(%3d,%3d,%3d)"),
 					 num_length(width - 1), x_pixel,
 					 num_length(height - 1), y_pixel,
 					 r_mouse, g_mouse, b_mouse);
-		
+
 		}
 	else
 		{
@@ -1745,7 +1745,7 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 			layout_image_new(lw, i);
 			image_set_frame(lw->split_images[i], frame);
 			image_set_selectable(lw->split_images[i], (n > 1));
-			
+
 			if (lw->image)
 				{
 				image_osd_copy_status(lw->image, lw->split_images[i]);
@@ -1755,14 +1755,14 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 				{
 				GList *work = g_list_last(layout_selection_list(lw));
 				gint j = 0;
-				
+
 				if (work) work = work->prev;
 
 				while (work && j < i)
 					{
 					FileData *fd = work->data;
 					work = work->prev;
-					
+
 					j++;
 					if (!fd || !*fd->path) continue;
 					img_fd = fd;
@@ -1798,7 +1798,7 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 			lw->split_images[i] = NULL;
 			}
 		}
-	
+
 	if (!lw->image || lw->active_split_image < 0 || lw->active_split_image >= n)
 		{
 		layout_image_activate(lw, 0, TRUE);
@@ -1814,7 +1814,7 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
 {
 	lw->split_mode = SPLIT_NONE;
-	
+
 	layout_image_setup_split_common(lw, 1);
 
 	lw->split_image_widget = lw->split_images[0]->widget;
@@ -1826,7 +1826,7 @@ GtkWidget *layout_image_setup_split_none(LayoutWindow *lw)
 GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 {
 	GtkWidget *paned;
-	
+
 	lw->split_mode = horizontal ? SPLIT_HOR : SPLIT_VERT;
 
 	layout_image_setup_split_common(lw, 2);
@@ -1938,7 +1938,7 @@ static void layout_image_maint_removed(LayoutWindow *lw, FileData *fd)
 				}
 			layout_image_set_fd(lw, NULL);
 			}
-			
+
 		/* the image will be set to the next image from the list soon,
 		   setting it to NULL here is not necessary*/
 		}
@@ -1952,7 +1952,7 @@ void layout_image_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
 
 	DEBUG_1("Notify layout_image: %s %04x", fd->path, type);
-	
+
 	switch (fd->change->type)
 		{
 		case FILEDATA_CHANGE_MOVE:

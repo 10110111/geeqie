@@ -389,7 +389,7 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 			{
 			tl->fd->exif_orientation = metadata_read_int(tl->fd, ORIENTATION_KEY, EXIF_ORIENTATION_TOP_LEFT);
 			}
-		
+
 		if (tl->fd->exif_orientation != EXIF_ORIENTATION_TOP_LEFT)
 			{
 			rotated = pixbuf_apply_orientation(pixbuf, tl->fd->exif_orientation);
@@ -581,14 +581,14 @@ static void thumb_loader_std_error_cb(ImageLoader *il, gpointer data)
 		thumb_loader_std_done_cb(il, data);
 		return;
 		}
-	
+
 	DEBUG_1("thumb image error: %s", tl->fd->path);
 	DEBUG_1("             from: %s", image_loader_get_fd(tl->il)->path);
 
 	if (thumb_loader_std_next_source(tl, TRUE)) return;
 
 	thumb_loader_std_set_fallback(tl);
-	
+
 	if (tl->func_error) tl->func_error(tl, tl->data);
 }
 

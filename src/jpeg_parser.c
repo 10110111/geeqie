@@ -175,10 +175,10 @@ gint tiff_parse_IFD_table(const guchar *tiff, guint offset,
 		{
 		parse_entry(tiff, offset + i * TIFF_TIFD_SIZE, size, bo, data);
 		}
-	
+
 	next = tiff_byte_get_int32(tiff + offset + count * TIFF_TIFD_SIZE, bo);
 	if (next_offset) *next_offset = next;
-	
+
 	return 0;
 }
 
@@ -224,9 +224,9 @@ static gint mpo_parse_Index_IFD_entry(const guchar *tiff, guint offset,
 			{
 			return -1;
 			}
-		
+
 		mpo->images = g_new0(MPOEntry, mpo->num_images);
-			
+
 		for (i = 0; i < mpo->num_images; i++) {
 			guint image_attr = tiff_byte_get_int32(tiff + data_offset + i * 16, bo);
 			mpo->images[i].type_code = image_attr & 0xffffff;
@@ -237,7 +237,7 @@ static gint mpo_parse_Index_IFD_entry(const guchar *tiff, guint offset,
 			mpo->images[i].offset = tiff_byte_get_int32(tiff + data_offset + i * 16 + 8, bo);
 			mpo->images[i].dep1 = tiff_byte_get_int16(tiff + data_offset + i * 16 + 12, bo);
 			mpo->images[i].dep2 = tiff_byte_get_int16(tiff + data_offset + i * 16 + 14, bo);
-			
+
 			if (i == 0)
 				{
 				mpo->images[i].offset = 0;
@@ -246,7 +246,7 @@ static gint mpo_parse_Index_IFD_entry(const guchar *tiff, guint offset,
 				{
 				mpo->images[i].offset += mpo->mpo_offset;
 				}
-			 	
+
 			DEBUG_1("   image %x %x %x", image_attr, mpo->images[i].length, mpo->images[i].offset);
 			}
 		}
@@ -323,16 +323,16 @@ MPOData *jpeg_get_mpo_data(const guchar *data, guint size)
 		DEBUG_1("mpo signature found at %x", seg_offset);
 		seg_offset += 4;
 		seg_size -= 4;
-		
+
 		if (!tiff_directory_offset(data + seg_offset, seg_size, &offset, &bo)) return NULL;
 
 		mpo = g_new0(MPOData, 1);
 		mpo->mpo_offset = seg_offset;
-		
+
 		tiff_parse_IFD_table(data + seg_offset,  offset , seg_size, bo, &next_offset, mpo_parse_Index_IFD_entry, (gpointer)mpo);
 		if (!mpo->images) mpo->num_images = 0;
-		
-	
+
+
 		for (i = 0; i < mpo->num_images; i++)
 			{
 			if (mpo->images[i].offset + mpo->images[i].length > size)
@@ -342,7 +342,7 @@ MPOData *jpeg_get_mpo_data(const guchar *data, guint size)
 				break;
 				}
 			}
-		
+
 		for (i = 0; i < mpo->num_images; i++)
 			{
 			if (i == 0)
@@ -356,7 +356,7 @@ MPOData *jpeg_get_mpo_data(const guchar *data, guint size)
 					DEBUG_1("MPO image %d: MPO signature not found", i);
 					continue;
 					}
-				
+
 				seg_offset += 4;
 				seg_size -= 4;
 				if (!tiff_directory_offset(data + mpo->images[i].offset + seg_offset, seg_size, &offset, &bo))
@@ -368,7 +368,7 @@ MPOData *jpeg_get_mpo_data(const guchar *data, guint size)
 				}
 			tiff_parse_IFD_table(data + mpo->images[i].offset + seg_offset,  offset , seg_size, bo, NULL, mpo_parse_Attributes_IFD_entry, (gpointer)&mpo->images[i]);
 			}
-		
+
 		return mpo;
 		}
 	return NULL;

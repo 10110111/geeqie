@@ -141,7 +141,7 @@ static void parse_command_line_add_dir(const gchar *dir, gchar **path, gchar **f
 	path_parsed = g_strdup(dir);
 	parse_out_relatives(path_parsed);
 	dir_fd = file_data_new_dir(path_parsed);
-	
+
 
 	if (filelist_read(dir_fd, &files, NULL))
 		{
@@ -211,9 +211,9 @@ static void parse_command_line(gint argc, gchar *argv[])
 	GList *remote_errors = NULL;
 	gboolean remote_do = FALSE;
 	gchar *first_dir = NULL;
-	
+
 	command_line = g_new0(CommandLine, 1);
-	
+
 	command_line->argc = argc;
 	command_line->argv = argv;
 
@@ -371,12 +371,12 @@ static void parse_command_line(gint argc, gchar *argv[])
 		if (remote_errors)
 			{
 			GList *work = remote_errors;
-			
+
 			printf_term(_("Invalid or ignored remote options: "));
 			while (work)
 				{
 				gchar *opt = work->data;
-						
+
 				printf_term("%s%s", (work == remote_errors) ? "" : ", ", opt);
 				work = work->next;
 				}
@@ -542,7 +542,7 @@ static gboolean gq_accel_map_save(const gchar *path)
 		log_printf(_("error saving file: %s\n"), path);
 		return FALSE;
 		}
-	
+
 	gstring = g_string_new("; ");
 	if (g_get_prgname())
 		g_string_append(gstring, g_get_prgname());
@@ -741,7 +741,7 @@ gint main(gint argc, gchar *argv[])
 	gdk_threads_enter();
 
 #endif
-	
+
 	/* init execution time counter (debug only) */
 	init_exec_time();
 
@@ -755,7 +755,7 @@ gint main(gint argc, gchar *argv[])
 #endif
 
 	exif_init();
-	
+
 	/* setup random seed for random slideshow */
 	srand(time(NULL));
 
@@ -767,7 +767,7 @@ gint main(gint argc, gchar *argv[])
 	file_data_register_notify_func(histogram_notify_cb, NULL, NOTIFY_PRIORITY_HIGH);
 	file_data_register_notify_func(collect_manager_notify_cb, NULL, NOTIFY_PRIORITY_LOW);
 	file_data_register_notify_func(metadata_notify_cb, NULL, NOTIFY_PRIORITY_LOW);
-	
+
 
 	gtkrc_load();
 
@@ -911,7 +911,7 @@ gint main(gint argc, gchar *argv[])
 	buf = g_build_filename(get_rc_dir(), ".command", NULL);
 	remote_connection = remote_server_init(buf, cd);
 	g_free(buf);
-	
+
 	DEBUG_1("%s main: gtk_main", get_exec_time());
 	gtk_main();
 #ifdef HAVE_GTHREAD

@@ -96,7 +96,7 @@ static void add_edit_items(GtkWidget *menu, GCallback func, GList *fd_list)
 			g_signal_connect(G_OBJECT(item), "destroy", G_CALLBACK(edit_item_destroy_cb), key);
 			}
 		}
-	
+
 	g_list_free(editors_list);
 }
 

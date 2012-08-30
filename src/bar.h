@@ -35,7 +35,7 @@ struct _PaneData {
 	gboolean expanded;
 	gchar *id;
 	PaneType type;
-	
+
 	/* filled in by bar */
 	GtkWidget *bar;
 	LayoutWindow *lw;

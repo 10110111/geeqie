@@ -68,7 +68,7 @@ struct _TabCompData
 	gpointer enter_data;
 	gpointer tab_data;
 	gpointer tab_append_data;
-	
+
 	GtkWidget *combo;
 	gboolean has_history;
 	gchar *history_key;
@@ -214,7 +214,7 @@ void tab_completion_iter_menu_items(GtkWidget *widget, gpointer data)
 		const gchar *entry_text = gtk_entry_get_text(GTK_ENTRY(td->entry));
 		const gchar *prefix = filename_from_path(entry_text);
 		guint prefix_len = strlen(prefix);
-		
+
 		if (strlen(text) < prefix_len || strncmp(text, prefix, prefix_len))
 			{
 			/* Hide menu items not matching */
@@ -245,14 +245,14 @@ static gboolean tab_completion_popup_key_press(GtkWidget *widget, GdkEventKey *e
 			buf[1] = '\0';
 			gtk_editable_insert_text(GTK_EDITABLE(td->entry), buf, 1, &p);
 			gtk_editable_set_position(GTK_EDITABLE(td->entry), -1);
-		
+
 			/* Reduce the number of entries in the menu */
 			td->choices = 0;
 			gtk_container_foreach(GTK_CONTAINER(widget), tab_completion_iter_menu_items, (gpointer) td);
 			if (td->choices > 1) return TRUE; /* multiple choices */
 			if (td->choices > 0) tab_completion_do(td); /* one choice */
 			}
-		
+
 		/* close the menu */
 		gtk_menu_popdown(GTK_MENU(widget));
 		/* doing this does not emit the "selection done" signal, unref it ourselves */
@@ -313,7 +313,7 @@ static void tab_completion_popup_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolea
 
 	gtk_widget_get_requisition(td->entry, &requisition);
 	gtk_widget_get_allocation(td->entry, &allocation);
-	
+
 	height = MIN(requisition.height, allocation.height);
 
 	if (req.height > monitor.y + monitor.height - *y - height &&
@@ -501,7 +501,7 @@ static gboolean tab_completion_do(TabCompData *td)
 	ptr = (gchar *)filename_from_path(entry_dir);
 	if (ptr > entry_dir) ptr--;
 	ptr[0] = '\0';
-	
+
 	if (strlen(entry_dir) == 0)
 		{
 		g_free(entry_dir);

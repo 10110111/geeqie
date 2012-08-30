@@ -605,7 +605,7 @@ static void layout_menu_thumb_cb(GtkToggleAction *action, gpointer data)
 static void layout_menu_list_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
 {
 	LayoutWindow *lw = data;
-	
+
 	layout_exit_fullscreen(lw);
 	layout_views_set(lw, lw->options.dir_view_type, (FileViewType) gtk_radio_action_get_current_value(action));
 }
@@ -652,18 +652,18 @@ static void layout_menu_overlay_toggle_cb(GtkAction *action, gpointer data)
 static void layout_menu_overlay_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	
+
 	if (gtk_toggle_action_get_active(action))
 		{
 		OsdShowFlags flags = image_osd_get(lw->image);
-		
+
 		if ((flags | OSD_SHOW_INFO | OSD_SHOW_STATUS) != flags)
 			image_osd_set(lw->image, flags | OSD_SHOW_INFO | OSD_SHOW_STATUS);
 		}
 	else
 		{
 		GtkToggleAction *histogram_action = GTK_TOGGLE_ACTION(gtk_action_group_get_action(lw->action_group, "ImageHistogram"));
-		
+
 		image_osd_set(lw->image, OSD_SHOW_NOTHING);
 		gtk_toggle_action_set_active(histogram_action, FALSE); /* this calls layout_menu_histogram_cb */
 		}
@@ -709,7 +709,7 @@ static void layout_menu_histogram_channel_cb(GtkRadioAction *action, GtkRadioAct
 	GtkToggleAction *histogram_action = GTK_TOGGLE_ACTION(gtk_action_group_get_action(lw->action_group, "ImageHistogram"));
 
 	if (channel < 0 || channel >= HCHAN_COUNT) return;
-	
+
 	gtk_toggle_action_set_active(histogram_action, TRUE); /* this calls layout_menu_histogram_cb */
 	image_osd_histogram_set_channel(lw->image, channel);
 }
@@ -721,7 +721,7 @@ static void layout_menu_histogram_mode_cb(GtkRadioAction *action, GtkRadioAction
 	GtkToggleAction *histogram_action = GTK_TOGGLE_ACTION(gtk_action_group_get_action(lw->action_group, "ImageHistogram"));
 
 	if (mode < 0 || mode > 1) return;
-	
+
 	gtk_toggle_action_set_active(histogram_action, TRUE); /* this calls layout_menu_histogram_cb */
 	image_osd_histogram_set_mode(lw->image, mode);
 }
@@ -736,7 +736,7 @@ static void layout_menu_refresh_cb(GtkAction *action, gpointer data)
 static void layout_menu_bar_exif_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	
+
 	layout_exit_fullscreen(lw);
 	layout_exif_window_new(lw);
 }
@@ -820,13 +820,13 @@ static void layout_menu_stereo_mode_next_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 	gint mode = layout_image_stereo_pixbuf_get(lw);
-	
+
 	/* 0->1, 1->2, 2->3, 3->1 - disable auto, then cycle */
 	mode = mode % 3 + 1;
-	
+
 	GtkAction *radio = gtk_action_group_get_action(lw->action_group, "StereoAuto");
 	gtk_radio_action_set_current_value(GTK_RADIO_ACTION(radio), mode);
-	
+
 	/*
 	this is called via fallback in layout_menu_stereo_mode_cb
 	layout_image_stereo_pixbuf_set(lw, mode);
@@ -860,7 +860,7 @@ static void layout_menu_help_keys_cb(GtkAction *action, gpointer data)
 static void layout_menu_notes_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
-	
+
 	layout_exit_fullscreen(lw);
 	help_window_show("release_notes");
 }
@@ -1041,7 +1041,7 @@ static void layout_menu_back_cb(GtkAction *action, gpointer data)
 		}
 
 	if (!path) return;
-	
+
 	/* Open previous path */
 	dir_fd = file_data_new_dir(path);
 	layout_set_fd(lw, dir_fd);
@@ -1052,7 +1052,7 @@ static void layout_menu_home_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 	const gchar *path;
-	
+
 	if (lw->options.home_path && *lw->options.home_path)
 		path = lw->options.home_path;
 	else
@@ -1077,7 +1077,7 @@ static void layout_menu_edit_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 	const gchar *key = gtk_action_get_name(action);
-	
+
 	if (!editor_window_flag_set(key))
 		layout_exit_fullscreen(lw);
 
@@ -1671,7 +1671,7 @@ static void layout_actions_setup_mark(LayoutWindow *lw, gint mark, gchar *name_t
 
 	g_snprintf(name, sizeof(name), name_tmpl, mark);
 	g_snprintf(label, sizeof(label), label_tmpl, mark);
-		
+
 	if (accel_tmpl)
 		g_snprintf(accel, sizeof(accel), accel_tmpl, mark % 10);
 	else
@@ -1681,7 +1681,7 @@ static void layout_actions_setup_mark(LayoutWindow *lw, gint mark, gchar *name_t
 		g_snprintf(tooltip, sizeof(tooltip), tooltip_tmpl, mark);
 	else
 		entry.tooltip = NULL;
-		
+
 	gtk_action_group_add_actions(lw->action_group, &entry, 1, lw);
 	action = gtk_action_group_get_action(lw->action_group, name);
 	g_object_set_data(G_OBJECT(action), "mark_num", GINT_TO_POINTER(mark));
@@ -1753,23 +1753,23 @@ static GList *layout_actions_editor_menu_path(EditorDescription *editor)
 	gchar **split = g_strsplit(editor->menu_path, "/", 0);
 	gint i = 0;
 	GList *ret = NULL;
-	
+
 	if (split[0] == NULL)
 		{
 		g_strfreev(split);
 		return NULL;
 		}
-	
+
 	while (split[i])
 		{
 		ret = g_list_prepend(ret, g_strdup(split[i]));
 		i++;
 		}
-	
+
 	g_strfreev(split);
-	
+
 	ret = g_list_prepend(ret, g_strdup(editor->key));
-	
+
 	return g_list_reverse(ret);
 }
 
@@ -1783,13 +1783,13 @@ static void layout_actions_editor_add(GString *desc, GList *path, GList *old_pat
 		}
 	to_open = g_list_length(path) - 1;
 	to_close = g_list_length(old_path) - 1;
-	
+
 	if (to_close > 0)
 		{
 		old_path = g_list_last(old_path);
 		old_path = old_path->prev;
 		}
-	
+
 	for (i =  0; i < to_close; i++)
 		{
 		gchar *name = old_path->data;
@@ -1825,7 +1825,7 @@ static void layout_actions_editor_add(GString *desc, GList *path, GList *old_pat
 			}
 		path = path->next;
 		}
-	
+
 	if (path)
 		g_string_append_printf(desc, "      <menuitem action='%s'/>", (gchar *)path->data);
 }
@@ -1837,7 +1837,7 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 	GList *work;
 	GList *old_path;
 	GString *desc;
-	
+
 	if (lw->ui_editors_id)
 		{
 		gtk_ui_manager_remove_ui(lw->ui_manager, lw->ui_editors_id);
@@ -1857,7 +1857,7 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 				"  <menubar name='MainMenu'>");
 
 	editors_list = editor_list_get();
-	
+
 	old_path = NULL;
 	work = editors_list;
 	while (work)
@@ -1870,16 +1870,16 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 		                         editor->hotkey,
 		                         editor->comment ? editor->comment : editor->name,
 		                         G_CALLBACK(layout_menu_edit_cb) };
-		
+
 		if (editor->icon)
 			{
 			entry.stock_id = editor->key;
 			}
 		gtk_action_group_add_actions(lw->action_group_editors, &entry, 1, lw);
-		
+
 		path = layout_actions_editor_menu_path(editor);
 		layout_actions_editor_add(desc, path, old_path);
-		
+
 		string_list_free(old_path);
 		old_path = path;
 		work = work->next;
@@ -1892,7 +1892,7 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 				"</ui>" );
 
 	error = NULL;
-	
+
 	lw->ui_editors_id = gtk_ui_manager_add_ui_from_string(lw->ui_manager, desc->str, -1, &error);
 	if (!lw->ui_editors_id)
 		{
@@ -1954,14 +1954,14 @@ void layout_actions_setup(LayoutWindow *lw)
 		g_error_free(error);
 		exit(EXIT_FAILURE);
 		}
-	
+
 	DEBUG_1("%s layout_actions_setup: add toolbar", get_exec_time());
 	for (i = 0; i < TOOLBAR_COUNT; i++)
 		{
 		layout_toolbar_clear(lw, i);
 		layout_toolbar_add_default(lw, i);
 		}
-	
+
 
 	DEBUG_1("%s layout_actions_setup: marks", get_exec_time());
 	layout_actions_setup_marks(lw);
@@ -1971,7 +1971,7 @@ void layout_actions_setup(LayoutWindow *lw)
 
 	DEBUG_1("%s layout_actions_setup: status_update_write", get_exec_time());
 	layout_util_status_update_write(lw);
-	
+
 	DEBUG_1("%s layout_actions_setup: actions_add_window", get_exec_time());
 	layout_actions_add_window(lw, lw->window);
 	DEBUG_1("%s layout_actions_setup: end", get_exec_time());
@@ -1988,12 +1988,12 @@ static gboolean layout_editors_reload_idle_cb(gpointer data)
 		layout_editors_desktop_files = editor_get_desktop_files();
 		return TRUE;
 		}
-	
+
 	editor_read_desktop_file(layout_editors_desktop_files->data);
 	g_free(layout_editors_desktop_files->data);
 	layout_editors_desktop_files = g_list_delete_link(layout_editors_desktop_files, layout_editors_desktop_files);
-	
-	
+
+
 	if (!layout_editors_desktop_files)
 		{
 		GList *work;
@@ -2009,7 +2009,7 @@ static gboolean layout_editors_reload_idle_cb(gpointer data)
 			}
 
 		DEBUG_1("%s layout_editors_reload_idle_cb: setup_editors done", get_exec_time());
-		
+
 		layout_editors_reload_idle_id = -1;
 		return FALSE;
 		}
@@ -2029,7 +2029,7 @@ void layout_editors_reload_start(void)
 	editor_table_clear();
 	layout_editors_reload_idle_id = g_idle_add(layout_editors_reload_idle_cb, NULL);
 }
-	
+
 void layout_editors_reload_finish(void)
 {
 	if (layout_editors_reload_idle_id != -1)
@@ -2093,16 +2093,16 @@ void layout_toolbar_clear(LayoutWindow *lw, ToolbarType type)
 		}
 	string_list_free(lw->toolbar_actions[type]);
 	lw->toolbar_actions[type] = NULL;
-	
+
 	lw->toolbar_merge_id[type] = gtk_ui_manager_new_merge_id(lw->ui_manager);
 }
-	
+
 
 void layout_toolbar_add(LayoutWindow *lw, ToolbarType type, const gchar *action)
 {
 	const gchar *path = NULL;
 	if (!action || !lw->ui_manager) return;
-	
+
 	if (g_list_find_custom(lw->toolbar_actions[type], action, (GCompareFunc)strcmp)) return;
 
 	switch (type)
@@ -2116,13 +2116,13 @@ void layout_toolbar_add(LayoutWindow *lw, ToolbarType type, const gchar *action)
 		default:
 			break;
 		}
-	
-	
+
+
 	if (g_str_has_suffix(action, ".desktop"))
 		{
 		/* this may be called before the external editors are read
 		   create a dummy action for now */
-		  
+
 		if (!lw->action_group_editors)
 			{
 			lw->action_group_editors = gtk_action_group_new("MenuActionsExternal");
@@ -2206,7 +2206,7 @@ void layout_toolbar_write_config(LayoutWindow *lw, ToolbarType type, GString *ou
 void layout_toolbar_add_from_config(LayoutWindow *lw, ToolbarType type, const gchar **attribute_names, const gchar **attribute_values)
 {
 	gchar *action = NULL;
-	
+
 	while (*attribute_names)
 		{
 		const gchar *option = *attribute_names++;
@@ -2279,7 +2279,7 @@ void layout_util_sync_color(LayoutWindow *lw)
 
 	if (!lw->action_group) return;
 	if (!layout_image_color_profile_get(lw, &input, &use_image)) return;
-	
+
 	use_color = layout_image_color_profile_get_use(lw);
 
 	action = gtk_action_group_get_action(lw->action_group, "UseColorProfiles");
@@ -2312,7 +2312,7 @@ void layout_util_sync_color(LayoutWindow *lw)
 		{
 		sprintf(action_name, "ColorProfile%d", i);
 		action = gtk_action_group_get_action(lw->action_group, action_name);
-		
+
 		if (i >= COLOR_PROFILE_FILE)
 			{
 			const gchar *name = options->color_profile.input_name[i - COLOR_PROFILE_FILE];
@@ -2367,7 +2367,7 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "HideToolbar");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.toolbar_hidden);
-	
+
 	action = gtk_action_group_get_action(lw->action_group, "ShowInfoPixel");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.show_info_pixel);
 
@@ -2448,13 +2448,13 @@ static void layout_bar_destroyed(GtkWidget *widget, gpointer data)
 static void layout_bar_set_default(LayoutWindow *lw)
 {
 	GtkWidget *bar;
-	
+
 	if (!lw->utility_box) return;
 
 	bar = bar_new(lw);
-	
+
 	layout_bar_set(lw, bar);
-	
+
 	bar_populate_default(bar);
 }
 
@@ -2543,11 +2543,11 @@ static void layout_bar_sort_destroyed(GtkWidget *widget, gpointer data)
 static void layout_bar_sort_set_default(LayoutWindow *lw)
 {
 	GtkWidget *bar;
-	
+
 	if (!lw->utility_box) return;
 
 	bar = bar_sort_new_default(lw);
-	
+
 	layout_bar_sort_set(lw, bar);
 }
 
@@ -2617,7 +2617,7 @@ GtkWidget *layout_bars_prepare(LayoutWindow *lw, GtkWidget *image)
 
 	gtk_paned_pack1(GTK_PANED(lw->utility_paned), image, TRUE, FALSE);
 	gtk_widget_show(lw->utility_paned);
-	
+
 	gtk_widget_show(image);
 
 	g_object_ref(lw->utility_box);
@@ -2639,7 +2639,7 @@ static void layout_exif_window_destroy(GtkWidget *widget, gpointer data)
 void layout_exif_window_new(LayoutWindow *lw)
 {
 	if (lw->exif_window) return;
-	
+
 	lw->exif_window = advanced_exif_new();
 	if (!lw->exif_window) return;
 	g_signal_connect(G_OBJECT(lw->exif_window), "destroy",

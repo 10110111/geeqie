@@ -51,7 +51,7 @@ FileCacheData *file_cache_new(FileCacheReleaseFunc release, gulong max_size)
 gboolean file_cache_get(FileCacheData *fc, FileData *fd)
 {
 	GList *work;
-	
+
 	g_assert(fc && fd);
 
 	work = fc->list;
@@ -67,7 +67,7 @@ gboolean file_cache_get(FileCacheData *fc, FileData *fd)
 			DEBUG_2("cache move to front: fc=%p %s", fc, fd->path);
 			fc->list = g_list_remove_link(fc->list, work);
 			fc->list = g_list_concat(work, fc->list);
-			
+
 			if (file_data_check_changed_files(fd)) {
 				/* file has been changed, cance entry is no longer valid */
 				file_cache_remove_fd(fc, fd);
@@ -97,7 +97,7 @@ void file_cache_set_size(FileCacheData *fc, gulong size)
 		prev = work->prev;
 		fc->list = g_list_delete_link(fc->list, work);
 		work = prev;
-		
+
 		DEBUG_2("file changed - cache remove: fc=%p %s", fc, last_fe->fd->path);
 		fc->size -= last_fe->size;
 		fc->release(last_fe->fd);
@@ -111,14 +111,14 @@ void file_cache_put(FileCacheData *fc, FileData *fd, gulong size)
 	FileCacheEntry *fe;
 
 	if (file_cache_get(fc, fd)) return;
-	
+
 	DEBUG_2("cache add: fc=%p %s", fc, fd->path);
 	fe = g_new(FileCacheEntry, 1);
 	fe->fd = file_data_ref(fd);
 	fe->size = size;
 	fc->list = g_list_prepend(fc->list, fe);
 	fc->size += size;
-	
+
 	file_cache_set_size(fc, fc->max_size);
 }
 
@@ -155,7 +155,7 @@ static void file_cache_remove_fd(FileCacheData *fc, FileData *fd)
 		if (fe->fd == fd)
 			{
 			fc->list = g_list_delete_link(fc->list, current);
-		
+
 			DEBUG_1("cache remove: fc=%p %s", fc, fe->fd->path);
 			fc->size -= fe->size;
 			fc->release(fe->fd);
@@ -171,7 +171,7 @@ void file_cache_dump(FileCacheData *fc)
 	gulong n = 0;
 
 	DEBUG_1("cache dump: fc=%p max size:%ld size:%ld", fc, fc->max_size, fc->size);
-		
+
 	while (work)
 		{
 		FileCacheEntry *fe = work->data;

@@ -220,7 +220,7 @@ static gboolean image_post_process_color(ImageWindow *imd, gint start_row, gbool
 	    imd->color_profile_input <  COLOR_PROFILE_FILE + COLOR_PROFILE_INPUTS)
 		{
 		const gchar *file = options->color_profile.input_file[imd->color_profile_input - COLOR_PROFILE_FILE];
-	
+
 		if (!is_readable_file(file)) return FALSE;
 
 		input_type = COLOR_PROFILE_FILE;
@@ -259,7 +259,7 @@ static gboolean image_post_process_color(ImageWindow *imd, gint start_row, gbool
 	imd->color_profile_from_image = COLOR_PROFILE_NONE;
 
 	exif = exif_read_fd(imd->image_fd);
-		
+
 	if (exif)
 		{
 		profile = exif_get_color_profile(exif, &profile_len);
@@ -320,7 +320,7 @@ static gboolean image_post_process_color(ImageWindow *imd, gint start_row, gbool
 
 		exif_free_fd(imd->image_fd, exif);
 		}
-	
+
 
 	if (profile)
 		{
@@ -348,13 +348,13 @@ static gboolean image_post_process_color(ImageWindow *imd, gint start_row, gbool
 		}
 
 	image_update_util(imd);
-	
+
 	if (screen_profile)
 		{
 		g_free(screen_profile);
 		screen_profile = NULL;
 		}
-	
+
 	return !!cm;
 }
 
@@ -509,7 +509,7 @@ static void image_read_ahead_start(ImageWindow *imd)
 	DEBUG_1("%s read ahead started for :%s", get_exec_time(), imd->read_ahead_fd->path);
 
 	imd->read_ahead_il = image_loader_new(imd->read_ahead_fd);
-	
+
 	image_loader_delay_area_ready(imd->read_ahead_il, TRUE); /* we will need the area_ready signals later */
 
 	g_signal_connect(G_OBJECT(imd->read_ahead_il), "error", (GCallback)image_read_ahead_error_cb, imd);
@@ -573,7 +573,7 @@ static gint image_cache_get(ImageWindow *imd)
 		g_assert(imd->image_fd->pixbuf);
 		image_change_pixbuf(imd, imd->image_fd->pixbuf, image_zoom_get(imd), FALSE);
 		}
-	
+
 //	file_cache_dump(image_get_cache());
 	return success;
 }
@@ -832,7 +832,7 @@ static void image_change_complete(ImageWindow *imd, gdouble zoom)
 		if (is_readable_file(imd->image_fd->path))
 			{
 			PixbufRenderer *pr;
-	
+
 			pr = PIXBUF_RENDERER(imd->pr);
 			pr->zoom = zoom;	/* store the zoom, needed by the loader */
 
@@ -845,7 +845,7 @@ static void image_change_complete(ImageWindow *imd, gdouble zoom)
 		if (imd->unknown == TRUE)
 			{
 			GdkPixbuf *pixbuf;
-	
+
 			pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
 			image_change_pixbuf(imd, pixbuf, zoom, FALSE);
 			g_object_unref(pixbuf);
@@ -1059,7 +1059,7 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboo
 	   a notification that removes the pixbuf from cache and unrefs it. Therefore we must ref it
 	   here before it is taken over by the renderer. */
 	if (pixbuf) g_object_ref(pixbuf);
-	
+
 	if (imd->image_fd)
 		{
 		if (imd->image_fd->user_orientation)
@@ -1580,7 +1580,7 @@ gboolean image_color_profile_get_status(ImageWindow *imd, gchar **image_profile,
 {
 	ColorMan *cm;
 	if (!imd) return FALSE;
-	
+
 	cm = imd->cm;
 	if (!cm) return FALSE;
 	return color_man_get_status(cm, image_profile, screen_profile);
@@ -1652,7 +1652,7 @@ void image_to_root_window(ImageWindow *imd, gboolean scaled)
 void image_select(ImageWindow *imd, gboolean select)
 {
 	if (!imd->has_frame) return;
-	
+
 	if (select)
 		{
 		gtk_widget_set_state(imd->widget, GTK_STATE_SELECTED);
@@ -1665,7 +1665,7 @@ void image_select(ImageWindow *imd, gboolean select)
 void image_set_selectable(ImageWindow *imd, gboolean selectable)
 {
 	if (!imd->has_frame) return;
-	
+
 	gtk_frame_set_shadow_type(GTK_FRAME(imd->frame), GTK_SHADOW_NONE);
 	gtk_container_set_border_width(GTK_CONTAINER(imd->frame), selectable ? 4 : 0);
 }
@@ -1705,7 +1705,7 @@ static void image_options_set(ImageWindow *imd)
 					NULL);
 
 	pixbuf_renderer_set_parent((PixbufRenderer *)imd->pr, (GtkWindow *)imd->top_window);
-	
+
 	image_stereo_set(imd, options->stereo.mode);
 	pixbuf_renderer_stereo_fixed_set((PixbufRenderer *)imd->pr,
 					options->stereo.fixed_w, options->stereo.fixed_h,
@@ -1842,7 +1842,7 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
         	g_object_unref(imd->pr);
 		gtk_widget_set_can_focus(imd->frame, TRUE);
 		gtk_widget_set_app_paintable(imd->frame, TRUE);
-		
+
 #if GTK_CHECK_VERSION(3,0,0)
 		g_signal_connect(G_OBJECT(imd->frame), "draw",
 				 G_CALLBACK(selectable_frame_draw_cb), NULL);

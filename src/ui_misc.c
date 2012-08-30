@@ -712,7 +712,7 @@ GtkWidget *pref_table_spin_new_int(GtkWidget *table, gint column, gint row,
 GtkWidget *pref_toolbar_new(GtkWidget *parent_box, GtkToolbarStyle style)
 {
 	GtkWidget *tbar;
-	
+
 	tbar = gtk_toolbar_new();
 	gtk_toolbar_set_style(GTK_TOOLBAR(tbar), style);
 
@@ -953,7 +953,7 @@ static void date_selection_popup(DateSelection *ds)
 
 	gtk_widget_get_allocation(ds->button, &button_allocation);
 	gtk_widget_get_allocation(ds->window, &window_allocation);
-	
+
 	x = wx + button_allocation.x + button_allocation.width - window_allocation.width;
 	y = wy + button_allocation.y + button_allocation.height;
 

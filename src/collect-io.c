@@ -725,7 +725,7 @@ static void collect_manager_refresh(void)
 static void collect_manager_process_actions(gint max)
 {
 	if (collection_manager_action_list) DEBUG_1("collection manager processing actions");
-	
+
 	while (collection_manager_action_list != NULL && max > 0)
 		{
 		CollectManagerAction *action;
@@ -934,7 +934,7 @@ void collect_manager_flush(void)
 void collect_manager_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
-	
+
 	DEBUG_1("Notify collect_manager: %s %04x", fd->path, type);
 	switch (fd->change->type)
 		{

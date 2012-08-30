@@ -176,7 +176,7 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 		GdkPixbuf *pixbuf;
 		const gchar *date = "";
 		gboolean done = FALSE;
-		
+
 		fd = work->data;
 
 		if (access_file(fd->path, R_OK | X_OK) && fd->name)
@@ -221,7 +221,7 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 
 					if (match == 0) g_warning("multiple fd for the same path");
 					}
-					
+
 				}
 			else
 				{
@@ -277,7 +277,7 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 
 		valid = gtk_list_store_remove(store, &iter);
 		}
-		
+
 
 	vd->click_fd = NULL;
 	vd->drop_fd = NULL;

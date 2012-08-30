@@ -144,7 +144,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 			{
 			tl->fd->exif_orientation = metadata_read_int(tl->fd, ORIENTATION_KEY, EXIF_ORIENTATION_TOP_LEFT);
 			}
-		
+
 		if (tl->fd->exif_orientation != EXIF_ORIENTATION_TOP_LEFT)
 			{
 			rotated = pixbuf_apply_orientation(pixbuf, tl->fd->exif_orientation);
@@ -162,7 +162,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 		tl->cache_hit = FALSE;
 
 		thumb_loader_setup(tl, tl->fd);
-	
+
 		g_signal_connect(G_OBJECT(tl->il), "done", (GCallback)thumb_loader_done_cb, tl);
 
 		if (!image_loader_start(tl->il))
@@ -194,7 +194,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 			w = (gdouble)h / ph * pw;
 			if (w < 1) w = 1;
 			}
-		
+
 		if (tl->fd)
 			{
 			if (tl->fd->thumb_pixbuf) g_object_unref(tl->fd->thumb_pixbuf);
@@ -215,7 +215,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 		}
 
 	if (rotated) g_object_unref(rotated);
-	
+
 	/* save it ? */
 	if (tl->cache_enable && save)
 		{
@@ -242,7 +242,7 @@ static void thumb_loader_error_cb(ImageLoader *il, gpointer data)
 	tl->il = NULL;
 
 	thumb_loader_set_fallback(tl);
-	
+
 	if (tl->func_error) tl->func_error(tl, tl->data);
 }
 
@@ -446,7 +446,7 @@ ThumbLoader *thumb_loader_new(gint width, gint height)
 		}
 
 	tl = g_new0(ThumbLoader, 1);
-	
+
 	tl->cache_enable = options->thumbnails.enable_caching;
 	tl->percent_done = 0.0;
 	tl->max_w = width;
@@ -520,7 +520,7 @@ static guchar *load_xv_thumbnail(gchar *filename, gint *widthp, gint *heightp)
 		if (sscanf(buffer, "%d %d %d", &width, &height, &depth) == 3)
 			{
 			gsize size = width * height;
-			
+
 			data = g_new(guchar, size);
 			if (data && fread(data, 1, size, file) == size)
 				{
@@ -552,9 +552,9 @@ static GdkPixbuf *get_xv_thumbnail(gchar *thumb_filename, gint max_w, gint max_h
 	path = path_from_utf8(thumb_filename);
 	directory = g_path_get_dirname(path);
 	name = g_path_get_basename(path);
-	
+
 	thumb_name = g_build_filename(directory, ".xvpics", name, NULL);
-	
+
 	g_free(name);
 	g_free(directory);
 	g_free(path);

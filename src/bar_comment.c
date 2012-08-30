@@ -67,7 +67,7 @@ static void bar_pane_comment_update(PaneCommentData *pcd)
 	orig_comment = text_widget_text_pull(pcd->comment_view);
 	comment = metadata_read_string(pcd->fd, pcd->key, METADATA_PLAIN);
 	comment_not_null = (comment) ? comment : "";
-	
+
 	if (strcmp(orig_comment, comment_not_null) != 0)
 		{
 		g_signal_handlers_block_by_func(comment_buffer, bar_pane_comment_changed, pcd);
@@ -90,7 +90,7 @@ static void bar_pane_comment_set_selection(PaneCommentData *pcd, gboolean append
 
 	list = layout_selection_list(pcd->pane.lw);
 	list = file_data_process_groups_in_selection(list, FALSE, NULL);
-	
+
 	work = list;
 	while (work)
 		{
@@ -218,7 +218,7 @@ static GtkWidget *bar_pane_comment_new(const gchar *id, const gchar *title, cons
 	GtkTextBuffer *buffer;
 
 	pcd = g_new0(PaneCommentData, 1);
-	
+
 	pcd->pane.pane_set_fd = bar_pane_comment_set_fd;
 	pcd->pane.pane_event = bar_pane_comment_event;
 	pcd->pane.pane_write_config = bar_pane_comment_write_config;
@@ -227,17 +227,17 @@ static GtkWidget *bar_pane_comment_new(const gchar *id, const gchar *title, cons
 	pcd->pane.type = PANE_COMMENT;
 
 	pcd->pane.expanded = expanded;
-	
+
 	pcd->key = g_strdup(key);
 	pcd->height = height;
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
-	
+
 	pcd->widget = scrolled;
 	g_object_set_data(G_OBJECT(pcd->widget), "pane_data", pcd);
 	g_signal_connect(G_OBJECT(pcd->widget), "destroy",
 			 G_CALLBACK(bar_pane_comment_destroy), pcd);
-	
+
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -281,11 +281,11 @@ GtkWidget *bar_pane_comment_new_from_config(const gchar **attribute_names, const
 		if (READ_BOOL_FULL("expanded", expanded)) continue;
 		if (READ_INT_FULL("height", height)) continue;
 		if (READ_CHAR_FULL("id", id)) continue;
-		
+
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
-	
+
 	bar_pane_translate_title(PANE_COMMENT, id, &title);
 	ret = bar_pane_comment_new(id, title, key, expanded, height);
 	g_free(title);
@@ -313,7 +313,7 @@ void bar_pane_comment_update_from_config(GtkWidget *pane, const gchar **attribut
 		if (READ_BOOL_FULL("expanded", pcd->pane.expanded)) continue;
 		if (READ_INT_FULL("height", pcd->height)) continue;
 		if (READ_CHAR_FULL("id", pcd->pane.id)) continue;
-		
+
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}

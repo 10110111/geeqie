@@ -368,7 +368,7 @@ static void pixbuf_renderer_class_init(PixbufRendererClass *class)
 			     g_cclosure_marshal_VOID__BOXED,
 			     G_TYPE_NONE, 1,
 			     GDK_TYPE_EVENT);
-			     
+
 	signals[SIGNAL_UPDATE_PIXEL] =
 		g_signal_new("update-pixel",
 			     G_OBJECT_CLASS_TYPE(gobject_class),
@@ -412,7 +412,7 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 
 	pr->scroller_id = 0;
 	pr->scroller_overlay = -1;
-	
+
 	pr->x_mouse = -1;
 	pr->y_mouse = -1;
 
@@ -423,11 +423,11 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 
 	pr->norm_center_x = 0.5;
 	pr->norm_center_y = 0.5;
-	
+
 	pr->stereo_mode = PR_STEREO_NONE;
-	
+
 	pr->renderer = pr_backend_renderer_new(pr);
-	
+
 	pr->renderer2 = NULL;
 
 	gtk_widget_set_double_buffered(box, FALSE);
@@ -1506,7 +1506,7 @@ static void pixbuf_renderer_sync_scroll_center(PixbufRenderer *pr)
 		src_x = pr->x_scroll + pr->vis_width / 2;
 		pr->norm_center_x = (gdouble)src_x / pr->width;
 		}
-	
+
 	if (pr->height > pr->viewport_height)
 		{
 		src_y = pr->y_scroll + pr->vis_height / 2;
@@ -1790,7 +1790,7 @@ static void pr_size_sync(PixbufRenderer *pr, gint new_width, gint new_height)
 			new_viewport_height = pr->stereo_fixed_height;
 			}
 		}
-		
+
 	if (pr->window_width == new_width && pr->window_height == new_height &&
 	    pr->viewport_width == new_viewport_width && pr->viewport_height == new_viewport_height) return;
 
@@ -1887,16 +1887,16 @@ void pixbuf_renderer_scroll(PixbufRenderer *pr, gint x, gint y)
 	pr->y_scroll += y;
 
 	pr_scroll_clamp(pr);
-	
+
 	pixbuf_renderer_sync_scroll_center(pr);
-	
+
 	if (pr->x_scroll == old_x && pr->y_scroll == old_y) return;
 
 	pr_scroll_notify_signal(pr);
 
 	x_off = pr->x_scroll - old_x;
 	y_off = pr->y_scroll - old_y;
-	
+
 	pr->renderer->scroll(pr->renderer, x_off, y_off);
 	if (pr->renderer2) pr->renderer2->scroll(pr->renderer2, x_off, y_off);
 }
@@ -1965,11 +1965,11 @@ static gboolean pr_mouse_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gp
 		pr->scroller_xpos = bevent->x;
 		pr->scroller_ypos = bevent->y;
 		}
-	
+
 	pr->x_mouse = bevent->x;
 	pr->y_mouse = bevent->y;
 	pr_update_pixel_signal(pr);
-	
+
 	if (!pr->in_drag || !gdk_pointer_is_grabbed()) return FALSE;
 
 	if (pr->drag_moved < PR_DRAG_SCROLL_THRESHHOLD)
@@ -2257,7 +2257,7 @@ static void pr_create_anaglyph_dubois(GdkPixbuf *pixbuf, GdkPixbuf *right, gint 
 			}
 		}
 }
- 
+
 void pr_create_anaglyph(guint mode, GdkPixbuf *pixbuf, GdkPixbuf *right, gint x, gint y, gint w, gint h)
 {
 	if (mode & PR_STEREO_ANAGLYPH_RC)
@@ -2296,7 +2296,7 @@ static void pr_pixbuf_size_sync(PixbufRenderer *pr)
 				pr->image_height /= 2;
 				pr->stereo_pixbuf_offset_left = pr->image_height;
 				}
-			
+
 			break;
 		default:
 			pr->image_width = gdk_pixbuf_get_width(pr->pixbuf);
@@ -2614,9 +2614,9 @@ void pixbuf_renderer_zoom_set_limits(PixbufRenderer *pr, gdouble min, gdouble ma
 static void pr_stereo_set(PixbufRenderer *pr)
 {
 	if (!pr->renderer) pr->renderer = pr_backend_renderer_new(pr);
-	
+
 	pr->renderer->stereo_set(pr->renderer, pr->stereo_mode & ~PR_STEREO_MIRROR_RIGHT & ~PR_STEREO_FLIP_RIGHT);
-	
+
 	if (pr->stereo_mode & (PR_STEREO_HORIZ | PR_STEREO_VERT | PR_STEREO_FIXED))
 		{
 		if (!pr->renderer2) pr->renderer2 = pr_backend_renderer_new(pr);
@@ -2644,11 +2644,11 @@ void pixbuf_renderer_stereo_set(PixbufRenderer *pr, gint stereo_mode)
 	gboolean redraw = !(pr->stereo_mode == stereo_mode) || pr->stereo_temp_disable;
 	pr->stereo_mode = stereo_mode;
 	if ((stereo_mode & PR_STEREO_TEMP_DISABLE) && pr->stereo_temp_disable) return;
-	
+
 	pr->stereo_temp_disable = FALSE;
-	
+
 	pr_stereo_set(pr);
-	
+
 	if (redraw)
 		{
 		pr_size_sync(pr, pr->window_width, pr->window_height); /* recalculate new viewport */
@@ -2697,7 +2697,7 @@ gboolean pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint
 	gint p_alpha, prs;
 	guchar *p_pix, *pp;
 	gint map_x, map_y, map_w, map_h;
-	
+
 	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), FALSE);
 	g_return_val_if_fail(r_mouse != NULL && g_mouse != NULL && b_mouse != NULL, FALSE);
 
@@ -2708,7 +2708,7 @@ gboolean pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint
 		*b_mouse = -1;
 		return FALSE;
 		}
-	
+
 	if (!pb) return FALSE;
 
 	pr_tile_region_map_orientation(pr->orientation,
@@ -2720,7 +2720,7 @@ gboolean pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint
 
 	if (map_x < 0 || map_x > gdk_pixbuf_get_width(pr->pixbuf) - 1) return  FALSE;
 	if (map_y < 0 || map_y > gdk_pixbuf_get_height(pr->pixbuf) - 1) return  FALSE;
-	
+
 	p_alpha = gdk_pixbuf_get_has_alpha(pb);
 	prs = gdk_pixbuf_get_rowstride(pb);
 	p_pix = gdk_pixbuf_get_pixels(pb);
@@ -2731,14 +2731,14 @@ gboolean pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint
 	*g_mouse = *pp;
 	pp++;
 	*b_mouse = *pp;
-	
+
 	return TRUE;
 }
 
 gboolean pixbuf_renderer_get_mouse_position(PixbufRenderer *pr, gint *x_pixel_return, gint *y_pixel_return)
 {
 	gint x_pixel, y_pixel, x_pixel_clamped, y_pixel_clamped;
-	     
+
 	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), FALSE);
 	g_return_val_if_fail(x_pixel_return != NULL && y_pixel_return != NULL, FALSE);
 
@@ -2748,12 +2748,12 @@ gboolean pixbuf_renderer_get_mouse_position(PixbufRenderer *pr, gint *x_pixel_re
 		*y_pixel_return = -1;
 		return FALSE;
 		}
-	
+
 	x_pixel = floor((gdouble)(pr->x_mouse - pr->x_offset + pr->x_scroll) / pr->scale);
 	y_pixel = floor((gdouble)(pr->y_mouse - pr->y_offset + pr->y_scroll) / pr->scale / pr->aspect_ratio);
 	x_pixel_clamped = CLAMP(x_pixel, 0, pr->image_width - 1);
 	y_pixel_clamped = CLAMP(y_pixel, 0, pr->image_height - 1);
-	
+
 	if(x_pixel != x_pixel_clamped || y_pixel != y_pixel_clamped)
 		{
 		/* mouse is not on pr */
@@ -2762,7 +2762,7 @@ gboolean pixbuf_renderer_get_mouse_position(PixbufRenderer *pr, gint *x_pixel_re
 
 	*x_pixel_return = x_pixel;
 	*y_pixel_return = y_pixel;
-	
+
 	return TRUE;
 }
 

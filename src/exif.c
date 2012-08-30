@@ -1599,12 +1599,12 @@ GList *exif_get_metadata(ExifData *exif, const gchar *key, MetadataFormat format
 {
 	gchar *str;
 	ExifItem *item;
-	
+
 	if (!key) return NULL;
-	
+
 	/* convert xmp key to exif key */
 	if (strcmp(key, "Xmp.tiff.Orientation") == 0) key = "Exif.Image.Orientation";
-	
+
 	if (format == METADATA_FORMATTED)
 		{
 		gchar *text;
@@ -1615,11 +1615,11 @@ GList *exif_get_metadata(ExifData *exif, const gchar *key, MetadataFormat format
 
 	item = exif_get_item(exif, key);
 	if (!item) return NULL;
-	
+
 	str = exif_item_get_data_as_text_full(item, format);
-	
+
 	if (!str) return NULL;
-	
+
 	return g_list_append(NULL, str);
 }
 
@@ -1641,13 +1641,13 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 	guchar *map_data;
 	size_t map_len;
 	int fd;
-	
+
 	if (!exif) return NULL;
 	path = exif->path;
 
 	fd = open(path, O_RDONLY);
-		
-		
+
+
 	if (fd == -1)
 		{
 		return 0;
@@ -1678,7 +1678,7 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 		ud->ptr = map_data + offset;
 		ud->map_data = map_data;
 		ud->map_len = map_len;
-		
+
 		exif_unmap_list = g_list_prepend(exif_unmap_list, ud);
 		return ud->ptr;
 		}
@@ -1691,7 +1691,7 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 void exif_free_preview(guchar *buf)
 {
 	GList *work = exif_unmap_list;
-	
+
 	while (work)
 		{
 		UnmapData *ud = (UnmapData *)work->data;

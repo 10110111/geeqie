@@ -2253,7 +2253,7 @@ static GtkWidget *dupe_menu_popup_main(DupeWindow *dw, DupeItem *di)
 	menu_item_add_sensitive(menu, _("Select group _2 duplicates"), (dw->dupes != NULL),
 				G_CALLBACK(dupe_menu_select_dupes_set2_cb), dw);
 	menu_item_add_divider(menu);
-	
+
 	editmenu_fd_list = dupe_window_get_fd_list(dw);
 	g_signal_connect(G_OBJECT(menu), "destroy",
 			 G_CALLBACK(dupe_menu_popup_destroy_cb), editmenu_fd_list);
@@ -3526,7 +3526,7 @@ static void dupe_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
 
 	DEBUG_1("Notify dupe: %s %04x", fd->path, type);
-	
+
 	switch (fd->change->type)
 		{
 		case FILEDATA_CHANGE_MOVE:

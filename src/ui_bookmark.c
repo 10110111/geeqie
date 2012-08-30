@@ -502,7 +502,7 @@ static void bookmark_drag_begin(GtkWidget *button, GdkDragContext *context, gpoi
 	GdkModifierType mask;
 	gint x, y;
 	GtkAllocation allocation;
-	
+
 	gtk_widget_get_allocation(button, &allocation);
 
 #if GTK_CHECK_VERSION(3,0,0)

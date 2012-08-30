@@ -55,7 +55,7 @@ static void clear_mouse_cursor(GtkWidget *widget, gint state)
 	else
 		{
 		GdkCursor *cursor;
-		
+
 		cursor = gdk_cursor_new(GDK_BLANK_CURSOR);
 		gdk_window_set_cursor(window, cursor);
 		gdk_cursor_unref(cursor);
@@ -290,7 +290,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	image_background_set_color_from_options(fs->imd, TRUE);
 	image_set_delay_flip(fs->imd, options->fullscreen.clean_flip);
 	image_auto_refresh_enable(fs->imd, fs->normal_imd->auto_refresh);
-	
+
 	if (options->fullscreen.clean_flip)
 		{
 		image_set_update_func(fs->imd, fullscreen_image_update_cb, fs);

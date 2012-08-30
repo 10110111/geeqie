@@ -31,7 +31,7 @@
 static PixmapFolders *folder_icons_new(GtkWidget *widget)
 {
 	PixmapFolders *pf = g_new0(PixmapFolders, 1);
-	
+
 #if 1
 	GtkIconSize size = GTK_ICON_SIZE_MENU;
 
@@ -268,7 +268,7 @@ static gboolean vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *ne
 	g_free(base);
 
 	file_util_rename_dir(fd, new_path, vd->view, vd_rename_finished_cb, vd);
-	
+
 	g_free(new_path);
 
 	return FALSE;
@@ -366,9 +366,9 @@ static void vd_drop_menu_filter_cb(GtkWidget *widget, gpointer data)
 	const gchar *path;
 	GList *list;
 	const gchar *key;
-	
+
 	if (!vd->drop_fd) return;
-	
+
 	key = g_object_get_data(G_OBJECT(widget), "filter_key");
 
 	path = vd->drop_fd->path;
@@ -404,13 +404,13 @@ GtkWidget *vd_drop_menu(ViewDir *vd, gint active)
 		const EditorDescription *editor = work->data;
 		gchar *key;
 		work = work->next;
-		
+
 		if (!editor_is_filter(editor->key)) continue;
 		key = g_strdup(editor->key);
 		item = menu_item_add_sensitive(menu, editor->name, active, G_CALLBACK(vd_drop_menu_filter_cb), vd);
 		g_object_set_data_full(G_OBJECT(item), "filter_key", key, vd_drop_menu_edit_item_free);
 		}
-	
+
 	g_list_free(editors_list);
 
 	menu_item_add_divider(menu);
@@ -1102,7 +1102,7 @@ static void vd_notify_cb(FileData *fd, NotifyType type, gpointer data)
 				g_free(source_base);
 				}
 			}
-		
+
 		if (refresh) vd_refresh(vd);
 		}
 

@@ -96,7 +96,7 @@ struct _ConfOptions
 	struct {
 		gchar *ext;
 	} sidecar;
-	
+
 	/* collections */
 	struct {
 		gboolean rectangular_selection;
@@ -107,7 +107,7 @@ struct _ConfOptions
 		gchar *path;
 		gchar *options;
 	} shell;
-	
+
 	/* file sorting */
 	struct {
 		SortType method;
@@ -171,9 +171,9 @@ struct _ConfOptions
 		gboolean warn_on_write_problems;
 
 		gboolean save_legacy_format;
-		
+
 		gboolean sync_grouped_files;
-		
+
 		gboolean confirm_write;
 		gint confirm_timeout;
 		gboolean confirm_after_timeout;
@@ -182,7 +182,7 @@ struct _ConfOptions
 		gboolean keywords_case_sensitive;
 		gboolean write_orientation;
 	} metadata;
-	
+
 	/* Stereo */
 	struct {
 		gint mode;;

@@ -50,13 +50,13 @@ struct _ImageLoaderTiff {
 	ImageLoaderBackendCbAreaUpdated area_updated_cb;
 	ImageLoaderBackendCbSize size_cb;
 	ImageLoaderBackendCbAreaPrepared area_prepared_cb;
-	
+
 	gpointer data;
 
 	GdkPixbuf *pixbuf;
 	guint requested_width;
 	guint requested_height;
-	
+
 	gboolean abort;
 
 	const guchar *buffer;
@@ -245,7 +245,7 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 		for (row = 0; row < height; row += rowsperstrip)
 			{
 			int rows_to_write, i_row;
-			
+
 			if (lt->abort) {
 				break;
 			}
@@ -381,7 +381,7 @@ void image_loader_backend_set_tiff(ImageLoaderBackend *funcs)
 	funcs->close = image_loader_tiff_close;
 	funcs->abort = image_loader_tiff_abort;
 	funcs->free = image_loader_tiff_free;
-	
+
 	funcs->get_format_name = image_loader_tiff_get_format_name;
 	funcs->get_format_mime_types = image_loader_tiff_get_format_mime_types;
 }

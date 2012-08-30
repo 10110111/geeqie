@@ -197,7 +197,7 @@ static void help_browser_run(void)
 			if (result)
 				{
 				int ret = help_browser_command(result, path);
-				
+
 				if (ret == 0) break;
 				g_free(result);
 				result = NULL;

@@ -53,7 +53,7 @@ typedef struct _ImageLoaderClass ImageLoaderClass;
 struct _ImageLoader
 {
 	GObject parent;
-	
+
 	/*< private >*/
 	GdkPixbuf *pixbuf;
 	FileData *fd;
@@ -83,9 +83,9 @@ struct _ImageLoader
 	guint idle_done_id; /* event source id */
 	GList *area_param_list;
 	GList *area_param_delayed_list;
-	
+
 	gboolean delay_area_ready;
-	
+
 	GMutex *data_mutex;
 	gboolean stopping;
 	gboolean can_destroy;
@@ -99,7 +99,7 @@ struct _ImageLoader
 
 struct _ImageLoaderClass {
 	GObjectClass parent;
-	
+
 	/* class members */
 	void (*area_ready)(ImageLoader *, guint x, guint y, guint w, guint h, gpointer);
 	void (*error)(ImageLoader *, gpointer);

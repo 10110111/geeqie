@@ -564,7 +564,7 @@ gqv_cell_renderer_icon_get_size(GtkCellRenderer *cell,
 	gint calc_height;
 	gint xpad, ypad;
 	gfloat xalign, yalign;
-	
+
 	gtk_cell_renderer_get_padding(cell, &xpad, &ypad);
 	gtk_cell_renderer_get_alignment(cell, &xalign, &yalign);
 
@@ -658,7 +658,7 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 	GdkRectangle cell_rect;
 	GtkStateType state;
 	gint xpad, ypad;
-	
+
 
 	pixbuf = cellicon->pixbuf;
 	text = cellicon->text;
@@ -744,7 +744,7 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 		pix_rect.height = text_rect.height;
 		pix_rect.x = cell_area->x + xpad + (cell_rect.width - text_rect.width + 1) / 2;
 		pix_rect.y = cell_area->y + ypad + (cell_rect.height - text_rect.height);
-		
+
 		if (cellicon->show_marks)
 			{
 			pix_rect.y -= TOGGLE_SPACING;
@@ -781,7 +781,7 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 		pix_rect.height = TOGGLE_SPACING;
 		pix_rect.x = cell_area->x + xpad + (cell_rect.width - pix_rect.width + 1) / 2 + (TOGGLE_SPACING - TOGGLE_WIDTH) / 2;
 		pix_rect.y = cell_area->y + ypad + (cell_rect.height - pix_rect.height) + (TOGGLE_SPACING - TOGGLE_WIDTH) / 2;
-		
+
 		if (gdk_rectangle_intersect(cell_area, &pix_rect, &draw_rect)
 #if !GTK_CHECK_VERSION(3,0,0)
 		    && gdk_rectangle_intersect(expose_area, &draw_rect, &draw_rect)
@@ -868,7 +868,7 @@ gqv_cell_renderer_icon_activate(GtkCellRenderer      *cell,
 		gint xpad, ypad;
 
 		gtk_cell_renderer_get_padding(cell, &xpad, &ypad);
-		
+
 		gqv_cell_renderer_icon_get_size(cell, widget, cell_area,
 						&cell_rect.x, &cell_rect.y,
 						&cell_rect.width, &cell_rect.height);
@@ -884,7 +884,7 @@ gqv_cell_renderer_icon_activate(GtkCellRenderer      *cell,
 		for (i = 0; i < cellicon->num_marks; i++)
 			{
 			rect.x = cell_area->x + xpad + (cell_rect.width - TOGGLE_SPACING * cellicon->num_marks + 1) / 2 + i * TOGGLE_SPACING;
-			
+
 			if (bevent->x >= rect.x && bevent->x < rect.x + rect.width &&
 			    bevent->y >= rect.y && bevent->y < rect.y + rect.height)
 				{
