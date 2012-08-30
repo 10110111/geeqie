@@ -201,16 +201,16 @@ static gint mpo_parse_Index_IFD_entry(const guchar *tiff, guint offset,
 	data_val = tiff_byte_get_int32(tiff + offset + TIFF_TIFD_OFFSET_DATA, bo);
 	DEBUG_1("   tag %x format %x count %x data_val %x", tag, format, count, data_val);
 
-        if (tag == 0xb000)
-        	{
-        	mpo->version = data_val;
+	if (tag == 0xb000)
+		{
+		mpo->version = data_val;
 		DEBUG_1("    mpo version %x", mpo->version);
-        	}
-        else if (tag == 0xb001)
-        	{
-        	mpo->num_images = data_val;
+		}
+	else if (tag == 0xb001)
+		{
+		mpo->num_images = data_val;
 		DEBUG_1("    num images %x", mpo->num_images);
-        	}
+		}
 	else if (tag == 0xb002)
 		{
 		guint i;
@@ -244,8 +244,8 @@ static gint mpo_parse_Index_IFD_entry(const guchar *tiff, guint offset,
 				}
 			else
 				{
-			 	mpo->images[i].offset += mpo->mpo_offset;
-			 	}
+				mpo->images[i].offset += mpo->mpo_offset;
+				}
 			 	
 			DEBUG_1("   image %x %x %x", image_attr, mpo->images[i].length, mpo->images[i].offset);
 			}
@@ -271,19 +271,19 @@ static gint mpo_parse_Attributes_IFD_entry(const guchar *tiff, guint offset,
 	data_val = tiff_byte_get_int32(tiff + offset + TIFF_TIFD_OFFSET_DATA, bo);
 	DEBUG_1("   tag %x format %x count %x data_val %x", tag, format, count, data_val);
 
-        switch (tag) 
-        	{
-        	case 0xb000: 
-        		mpe->MPFVersion = data_val;
+	switch (tag)
+		{
+		case 0xb000:
+			mpe->MPFVersion = data_val;
 			DEBUG_1("    mpo version %x", data_val);
-        		break;
-        	case 0xb101: 
-        		mpe->MPIndividualNum = data_val;
+			break;
+		case 0xb101:
+			mpe->MPIndividualNum = data_val;
 			DEBUG_1("    Individual Image Number %x", mpe->MPIndividualNum);
-        		break;
-        	case 0xb201: 
-        		mpe->PanOrientation = data_val;
-        		break;
+			break;
+		case 0xb201:
+			mpe->PanOrientation = data_val;
+			break;
 /*
 
 FIXME:
@@ -299,9 +299,9 @@ Vertical Axis Distance AxisDistance_Y 45577 B209 SRATIONAL 1
 Collimation Axis Distance AxisDistance_Z 45578 B20A SRATIONAL 1
 Yaw Angle YawAngle 45579 B20B SRATIONAL 1
 Pitch Angle PitchAngle 45580 B20C SRATIONAL 1
-Roll Angle RollAngle 45581 B20D 
-  */      	
-		default: 
+Roll Angle RollAngle 45581 B20D
+  */
+		default:
 			break;
 		}
 
@@ -382,3 +382,6 @@ void jpeg_mpo_data_free(MPOData *mpo)
 		g_free(mpo);
 		}
 }
+
+
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
