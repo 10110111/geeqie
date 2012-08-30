@@ -1338,10 +1338,6 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 		cairo_set_source_rgb(cr, 0, 0, 0);
 		cairo_fill (cr);
 		cairo_destroy (cr);
-#if 0
-		gdk_draw_rectangle(it->pixmap, box->style->black_gc, TRUE,
-				   0, 0, it->w, it->h);
-#endif
 		}
 	else if (pr->source_tiles_enabled)
 		{
