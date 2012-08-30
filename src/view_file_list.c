@@ -257,8 +257,6 @@ static void vflist_dnd_get(GtkWidget *widget, GdkDragContext *context,
 {
 	ViewFile *vf = data;
 	GList *list = NULL;
-	gchar *uri_text = NULL;
-	gint total;
 
 	if (!VFLIST(vf)->click_fd) return;
 
