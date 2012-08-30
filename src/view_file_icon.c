@@ -83,38 +83,6 @@ static IconData *vficon_icon_data(ViewFile *vf, FileData *fd)
 	return id;
 }
 
-#if 0
-/* not used */
-static gint iconlist_read(FileData *dir_fd, GList **list)
-{
-	GList *temp;
-	GList *work;
-
-	if (!filelist_read(dir_fd, &temp, NULL)) return FALSE;
-
-	work = temp;
-	while (work)
-		{
-		FileData *fd;
-		IconData *id;
-
-		fd = work->data;
-		g_assert(fd->magick == FD_MAGICK);
-		id = g_new0(IconData, 1);
-
-		id->selected = SELECTION_NONE;
-		id->fd = fd;
-
-		work->data = id;
-		work = work->next;
-		}
-
-	*list = temp;
-
-	return TRUE;
-}
-#endif
-
 static void iconlist_free(GList *list)
 {
 	GList *work = list;
@@ -569,12 +537,6 @@ static void vficon_drag_data_received(GtkWidget *entry_widget, GdkDragContext *c
 			metadata_append_list(fd, KEYWORD_KEY, kw_list);
 			string_list_free(kw_list);
 			g_free(str);
-/*
-file notification should handle this automatically			
-			if (vf->layout && vf->layout->bar_info) {
-				bar_set_fd(vf->layout->bar_info, id->fd);
-			}
-*/
 		}
 	}
 }
@@ -1209,27 +1171,6 @@ static void vficon_set_focus(ViewFile *vf, IconData *id)
 		}
 }
 
-#if 0
-static void vficon_update_focus(ViewFile *vf)
-{
-	gint new_row = 0;
-	gint new_col = 0;
-
-	if (VFICON(vf)->focus_id && vficon_find_position(vf, VFICON(vf)->focus_id, &new_row, &new_col))
-		{
-		/* first find the old focus, if it exists and is valid */
-		}
-	else
-		{
-		/* (try to) stay where we were */
-		new_row = VFICON(vf)->focus_row;
-		new_col = VFICON(vf)->focus_column;
-		}
-
-	vficon_move_focus(vf, new_row, new_col, FALSE);
-}
-#endif
-
 /* used to figure the page up/down distances */
 static gint page_height(ViewFile *vf)
 {
@@ -1394,9 +1335,6 @@ gboolean vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 
 	if (stop_signal)
 		{
-#if 0
-		g_signal_stop_emission_by_name(GTK_OBJECT(widget), "key_press_event");
-#endif
 		tip_unschedule(vf);
 		}
 
@@ -1440,14 +1378,13 @@ gboolean vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer dat
 				{
 				gtk_widget_grab_focus(vf->listview);
 				}
-#if 1
+
 			if (bevent->type == GDK_2BUTTON_PRESS &&
 			    vf->layout)
 				{
 				vficon_selection_remove(vf, VFICON(vf)->click_id, SELECTION_PRELIGHT, &iter);
 				layout_image_full_screen_start(vf->layout);
 				}
-#endif
 			break;
 		case MOUSE_BUTTON_RIGHT:
 			vf->popup = vf_pop_menu(vf);
@@ -1747,20 +1684,6 @@ static void vficon_populate_at_new_size(ViewFile *vf, gint w, gint h, gboolean f
 
 	DEBUG_1("col tab pop cols=%d rows=%d", VFICON(vf)->columns, VFICON(vf)->rows);
 }
-
-
-#if 0
-static void vficon_sync_idle(ViewFile *vf)
-{
-	if (VFICON(vf)->sync_idle_id == -1)
-		{
-		/* high priority, the view needs to be resynced before a redraw
-		 * may contain invalid pointers at this time
-		 */
-		VFICON(vf)->sync_idle_id = g_idle_add_full(G_PRIORITY_HIGH, vficon_sync_idle_cb, vf, NULL);
-		}
-}
-#endif
 
 static void vficon_sized_cb(GtkWidget *widget, GtkAllocation *allocation, gpointer data)
 {
